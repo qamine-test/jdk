@@ -1,337 +1,337 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth.kerberos;
+pbdkbgf jbvbx.sfdurity.buti.kfrbfros;
 
-import java.util.Arrays;
-import javax.crypto.SecretKey;
-import javax.security.auth.DestroyFailedException;
+import jbvb.util.Arrbys;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.sfdurity.buti.DfstroyFbilfdExdfption;
 
 /**
- * This class encapsulates a long term secret key for a Kerberos
- * principal.<p>
+ * Tiis dlbss fndbpsulbtfs b long tfrm sfdrft kfy for b Kfrbfros
+ * prindipbl.<p>
  *
- * A {@code KerberosKey} object includes an EncryptionKey, a
- * {@link KerberosPrincipal} as its owner, and the version number
- * of the key.<p>
+ * A {@dodf KfrbfrosKfy} objfdt indludfs bn EndryptionKfy, b
+ * {@link KfrbfrosPrindipbl} bs its ownfr, bnd tif vfrsion numbfr
+ * of tif kfy.<p>
  *
- * An EncryptionKey is defined in Section 4.2.9 of the Kerberos Protocol
- * Specification (<a href=http://www.ietf.org/rfc/rfc4120.txt>RFC 4120</a>) as:
- * <pre>
- *     EncryptionKey   ::= SEQUENCE {
- *             keytype         [0] Int32 -- actually encryption type --,
- *             keyvalue        [1] OCTET STRING
+ * An EndryptionKfy is dffinfd in Sfdtion 4.2.9 of tif Kfrbfros Protodol
+ * Spfdifidbtion (<b irff=ittp://www.iftf.org/rfd/rfd4120.txt>RFC 4120</b>) bs:
+ * <prf>
+ *     EndryptionKfy   ::= SEQUENCE {
+ *             kfytypf         [0] Int32 -- bdtublly fndryption typf --,
+ *             kfyvbluf        [1] OCTET STRING
  *     }
- * </pre>
- * The key material of a {@code KerberosKey} is defined as the value
- * of the {@code keyValue} above.<p>
+ * </prf>
+ * Tif kfy mbtfribl of b {@dodf KfrbfrosKfy} is dffinfd bs tif vbluf
+ * of tif {@dodf kfyVbluf} bbovf.<p>
  *
- * All Kerberos JAAS login modules that obtain a principal's password and
- * generate the secret key from it should use this class.
- * Sometimes, such as when authenticating a server in
- * the absence of user-to-user authentication, the login module will store
- * an instance of this class in the private credential set of a
- * {@link javax.security.auth.Subject Subject} during the commit phase of the
- * authentication process.<p>
+ * All Kfrbfros JAAS login modulfs tibt obtbin b prindipbl's pbssword bnd
+ * gfnfrbtf tif sfdrft kfy from it siould usf tiis dlbss.
+ * Somftimfs, sudi bs wifn butifntidbting b sfrvfr in
+ * tif bbsfndf of usfr-to-usfr butifntidbtion, tif login modulf will storf
+ * bn instbndf of tiis dlbss in tif privbtf drfdfntibl sft of b
+ * {@link jbvbx.sfdurity.buti.Subjfdt Subjfdt} during tif dommit pibsf of tif
+ * butifntidbtion prodfss.<p>
  *
- * A Kerberos service using a keytab to read secret keys should use
- * the {@link KeyTab} class, where latest keys can be read when needed.<p>
+ * A Kfrbfros sfrvidf using b kfytbb to rfbd sfdrft kfys siould usf
+ * tif {@link KfyTbb} dlbss, wifrf lbtfst kfys dbn bf rfbd wifn nffdfd.<p>
  *
- * It might be necessary for the application to be granted a
- * {@link javax.security.auth.PrivateCredentialPermission
- * PrivateCredentialPermission} if it needs to access the KerberosKey
- * instance from a Subject. This permission is not needed when the
- * application depends on the default JGSS Kerberos mechanism to access the
- * KerberosKey. In that case, however, the application will need an
- * appropriate
- * {@link javax.security.auth.kerberos.ServicePermission ServicePermission}.<p>
+ * It migit bf nfdfssbry for tif bpplidbtion to bf grbntfd b
+ * {@link jbvbx.sfdurity.buti.PrivbtfCrfdfntiblPfrmission
+ * PrivbtfCrfdfntiblPfrmission} if it nffds to bddfss tif KfrbfrosKfy
+ * instbndf from b Subjfdt. Tiis pfrmission is not nffdfd wifn tif
+ * bpplidbtion dfpfnds on tif dffbult JGSS Kfrbfros mfdibnism to bddfss tif
+ * KfrbfrosKfy. In tibt dbsf, iowfvfr, tif bpplidbtion will nffd bn
+ * bppropribtf
+ * {@link jbvbx.sfdurity.buti.kfrbfros.SfrvidfPfrmission SfrvidfPfrmission}.<p>
  *
- * When creating a {@code KerberosKey} using the
- * {@link #KerberosKey(KerberosPrincipal, char[], String)} constructor,
- * an implementation may accept non-IANA algorithm names (For example,
- * "ArcFourMac" for "rc4-hmac"), but the {@link #getAlgorithm} method
- * must always return the IANA algorithm name.<p>
+ * Wifn drfbting b {@dodf KfrbfrosKfy} using tif
+ * {@link #KfrbfrosKfy(KfrbfrosPrindipbl, dibr[], String)} donstrudtor,
+ * bn implfmfntbtion mby bddfpt non-IANA blgoritim nbmfs (For fxbmplf,
+ * "ArdFourMbd" for "rd4-imbd"), but tif {@link #gftAlgoritim} mftiod
+ * must blwbys rfturn tif IANA blgoritim nbmf.<p>
  *
- * @implNote Old algorithm names used before JDK 9 are supported in the
- * {@link #KerberosKey(KerberosPrincipal, char[], String)} constructor in this
- * implementation for compatibility reasons, which are "DES" (and null) for
- * "des-cbc-md5", "DESede" for "des3-cbc-sha1-kd", "ArcFourHmac" for "rc4-hmac",
- * "AES128" for "aes128-cts-hmac-sha1-96", and "AES256" for
- * "aes256-cts-hmac-sha1-96".
+ * @implNotf Old blgoritim nbmfs usfd bfforf JDK 9 brf supportfd in tif
+ * {@link #KfrbfrosKfy(KfrbfrosPrindipbl, dibr[], String)} donstrudtor in tiis
+ * implfmfntbtion for dompbtibility rfbsons, wiidi brf "DES" (bnd null) for
+ * "dfs-dbd-md5", "DESfdf" for "dfs3-dbd-sib1-kd", "ArdFourHmbd" for "rd4-imbd",
+ * "AES128" for "bfs128-dts-imbd-sib1-96", bnd "AES256" for
+ * "bfs256-dts-imbd-sib1-96".
  *
- * @author Mayank Upadhyay
- * @since 1.4
+ * @butior Mbybnk Upbdiyby
+ * @sindf 1.4
  */
-public class KerberosKey implements SecretKey {
+publid dlbss KfrbfrosKfy implfmfnts SfdrftKfy {
 
-    private static final long serialVersionUID = -4625402278148246993L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -4625402278148246993L;
 
    /**
-     * The principal that this secret key belongs to.
+     * Tif prindipbl tibt tiis sfdrft kfy bflongs to.
      *
-     * @serial
+     * @sfribl
      */
-    private KerberosPrincipal principal;
+    privbtf KfrbfrosPrindipbl prindipbl;
 
    /**
-     * the version number of this secret key
+     * tif vfrsion numbfr of tiis sfdrft kfy
      *
-     * @serial
+     * @sfribl
      */
-    private final int versionNum;
+    privbtf finbl int vfrsionNum;
 
    /**
-    * {@code KeyImpl} is serialized by writing out the ASN.1 encoded bytes
-    * of the encryption key.
+    * {@dodf KfyImpl} is sfriblizfd by writing out tif ASN.1 fndodfd bytfs
+    * of tif fndryption kfy.
     *
-    * @serial
+    * @sfribl
     */
 
-    private KeyImpl key;
-    private transient boolean destroyed = false;
+    privbtf KfyImpl kfy;
+    privbtf trbnsifnt boolfbn dfstroyfd = fblsf;
 
     /**
-     * Constructs a KerberosKey from the given bytes when the key type and
-     * key version number are known. This can be used when reading the secret
-     * key information from a Kerberos "keytab".
+     * Construdts b KfrbfrosKfy from tif givfn bytfs wifn tif kfy typf bnd
+     * kfy vfrsion numbfr brf known. Tiis dbn bf usfd wifn rfbding tif sfdrft
+     * kfy informbtion from b Kfrbfros "kfytbb".
      *
-     * @param principal the principal that this secret key belongs to
-     * @param keyBytes the key material for the secret key
-     * @param keyType the key type for the secret key as defined by the
-     * Kerberos protocol specification.
-     * @param versionNum the version number of this secret key
+     * @pbrbm prindipbl tif prindipbl tibt tiis sfdrft kfy bflongs to
+     * @pbrbm kfyBytfs tif kfy mbtfribl for tif sfdrft kfy
+     * @pbrbm kfyTypf tif kfy typf for tif sfdrft kfy bs dffinfd by tif
+     * Kfrbfros protodol spfdifidbtion.
+     * @pbrbm vfrsionNum tif vfrsion numbfr of tiis sfdrft kfy
      */
-    public KerberosKey(KerberosPrincipal principal,
-                       byte[] keyBytes,
-                       int keyType,
-                       int versionNum) {
-        this.principal = principal;
-        this.versionNum = versionNum;
-        key = new KeyImpl(keyBytes, keyType);
+    publid KfrbfrosKfy(KfrbfrosPrindipbl prindipbl,
+                       bytf[] kfyBytfs,
+                       int kfyTypf,
+                       int vfrsionNum) {
+        tiis.prindipbl = prindipbl;
+        tiis.vfrsionNum = vfrsionNum;
+        kfy = nfw KfyImpl(kfyBytfs, kfyTypf);
     }
 
     /**
-     * Constructs a KerberosKey from a principal's password using the specified
-     * algorithm name. The algorithm name (case insensitive) should be provided
-     * as the encryption type string defined on the IANA
-     * <a href="https://www.iana.org/assignments/kerberos-parameters/kerberos-parameters.xhtml#kerberos-parameters-1">Kerberos Encryption Type Numbers</a>
-     * page. The version number of the key generated will be 0.
+     * Construdts b KfrbfrosKfy from b prindipbl's pbssword using tif spfdififd
+     * blgoritim nbmf. Tif blgoritim nbmf (dbsf insfnsitivf) siould bf providfd
+     * bs tif fndryption typf string dffinfd on tif IANA
+     * <b irff="ittps://www.ibnb.org/bssignmfnts/kfrbfros-pbrbmftfrs/kfrbfros-pbrbmftfrs.xitml#kfrbfros-pbrbmftfrs-1">Kfrbfros Endryption Typf Numbfrs</b>
+     * pbgf. Tif vfrsion numbfr of tif kfy gfnfrbtfd will bf 0.
      *
-     * @param principal the principal that this password belongs to
-     * @param password the password that should be used to compute the key
-     * @param algorithm the name for the algorithm that this key will be
-     * used for
-     * @throws IllegalArgumentException if the name of the
-     * algorithm passed is unsupported.
+     * @pbrbm prindipbl tif prindipbl tibt tiis pbssword bflongs to
+     * @pbrbm pbssword tif pbssword tibt siould bf usfd to domputf tif kfy
+     * @pbrbm blgoritim tif nbmf for tif blgoritim tibt tiis kfy will bf
+     * usfd for
+     * @tirows IllfgblArgumfntExdfption if tif nbmf of tif
+     * blgoritim pbssfd is unsupportfd.
      */
-    public KerberosKey(KerberosPrincipal principal,
-                       char[] password,
-                       String algorithm) {
+    publid KfrbfrosKfy(KfrbfrosPrindipbl prindipbl,
+                       dibr[] pbssword,
+                       String blgoritim) {
 
-        this.principal = principal;
-        this.versionNum = 0;
-        // Pass principal in for salt
-        key = new KeyImpl(principal, password, algorithm);
+        tiis.prindipbl = prindipbl;
+        tiis.vfrsionNum = 0;
+        // Pbss prindipbl in for sblt
+        kfy = nfw KfyImpl(prindipbl, pbssword, blgoritim);
     }
 
     /**
-     * Returns the principal that this key belongs to.
+     * Rfturns tif prindipbl tibt tiis kfy bflongs to.
      *
-     * @return the principal this key belongs to.
-     * @throws IllegalStateException if the key is destroyed
+     * @rfturn tif prindipbl tiis kfy bflongs to.
+     * @tirows IllfgblStbtfExdfption if tif kfy is dfstroyfd
      */
-    public final KerberosPrincipal getPrincipal() {
-        if (destroyed) {
-            throw new IllegalStateException("This key is no longer valid");
+    publid finbl KfrbfrosPrindipbl gftPrindipbl() {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis kfy is no longfr vblid");
         }
-        return principal;
+        rfturn prindipbl;
     }
 
     /**
-     * Returns the key version number.
+     * Rfturns tif kfy vfrsion numbfr.
      *
-     * @return the key version number.
-     * @throws IllegalStateException if the key is destroyed
+     * @rfturn tif kfy vfrsion numbfr.
+     * @tirows IllfgblStbtfExdfption if tif kfy is dfstroyfd
      */
-    public final int getVersionNumber() {
-        if (destroyed) {
-            throw new IllegalStateException("This key is no longer valid");
+    publid finbl int gftVfrsionNumbfr() {
+        if (dfstroyfd) {
+            tirow nfw IllfgblStbtfExdfption("Tiis kfy is no longfr vblid");
         }
-        return versionNum;
+        rfturn vfrsionNum;
     }
 
     /**
-     * Returns the key type for this long-term key.
+     * Rfturns tif kfy typf for tiis long-tfrm kfy.
      *
-     * @return the key type.
-     * @throws IllegalStateException if the key is destroyed
+     * @rfturn tif kfy typf.
+     * @tirows IllfgblStbtfExdfption if tif kfy is dfstroyfd
      */
-    public final int getKeyType() {
-        // KeyImpl already checked if destroyed
-        return key.getKeyType();
+    publid finbl int gftKfyTypf() {
+        // KfyImpl blrfbdy difdkfd if dfstroyfd
+        rfturn kfy.gftKfyTypf();
     }
 
     /*
-     * Methods from java.security.Key
+     * Mftiods from jbvb.sfdurity.Kfy
      */
 
     /**
-     * Returns the standard algorithm name for this key. The algorithm names
-     * are the encryption type string defined on the IANA
-     * <a href="https://www.iana.org/assignments/kerberos-parameters/kerberos-parameters.xhtml#kerberos-parameters-1">Kerberos Encryption Type Numbers</a>
-     * page.
+     * Rfturns tif stbndbrd blgoritim nbmf for tiis kfy. Tif blgoritim nbmfs
+     * brf tif fndryption typf string dffinfd on tif IANA
+     * <b irff="ittps://www.ibnb.org/bssignmfnts/kfrbfros-pbrbmftfrs/kfrbfros-pbrbmftfrs.xitml#kfrbfros-pbrbmftfrs-1">Kfrbfros Endryption Typf Numbfrs</b>
+     * pbgf.
      * <p>
-     * This method can return the following value not defined on the IANA page:
+     * Tiis mftiod dbn rfturn tif following vbluf not dffinfd on tif IANA pbgf:
      * <ol>
-     *     <li>none: for etype equal to 0</li>
-     *     <li>unknown: for etype greater than 0 but unsupported by
-     *         the implementation</li>
-     *     <li>private: for etype smaller than 0</li>
+     *     <li>nonf: for ftypf fqubl to 0</li>
+     *     <li>unknown: for ftypf grfbtfr tibn 0 but unsupportfd by
+     *         tif implfmfntbtion</li>
+     *     <li>privbtf: for ftypf smbllfr tibn 0</li>
      * </ol>
      *
-     * @return the name of the algorithm associated with this key.
-     * @throws IllegalStateException if the key is destroyed
+     * @rfturn tif nbmf of tif blgoritim bssodibtfd witi tiis kfy.
+     * @tirows IllfgblStbtfExdfption if tif kfy is dfstroyfd
      */
-    public final String getAlgorithm() {
-        // KeyImpl already checked if destroyed
-        return key.getAlgorithm();
+    publid finbl String gftAlgoritim() {
+        // KfyImpl blrfbdy difdkfd if dfstroyfd
+        rfturn kfy.gftAlgoritim();
     }
 
     /**
-     * Returns the name of the encoding format for this secret key.
+     * Rfturns tif nbmf of tif fndoding formbt for tiis sfdrft kfy.
      *
-     * @return the String "RAW"
-     * @throws IllegalStateException if the key is destroyed
+     * @rfturn tif String "RAW"
+     * @tirows IllfgblStbtfExdfption if tif kfy is dfstroyfd
      */
-    public final String getFormat() {
-        // KeyImpl already checked if destroyed
-        return key.getFormat();
+    publid finbl String gftFormbt() {
+        // KfyImpl blrfbdy difdkfd if dfstroyfd
+        rfturn kfy.gftFormbt();
     }
 
     /**
-     * Returns the key material of this secret key.
+     * Rfturns tif kfy mbtfribl of tiis sfdrft kfy.
      *
-     * @return the key material
-     * @throws IllegalStateException if the key is destroyed
+     * @rfturn tif kfy mbtfribl
+     * @tirows IllfgblStbtfExdfption if tif kfy is dfstroyfd
      */
-    public final byte[] getEncoded() {
-        // KeyImpl already checked if destroyed
-        return key.getEncoded();
+    publid finbl bytf[] gftEndodfd() {
+        // KfyImpl blrfbdy difdkfd if dfstroyfd
+        rfturn kfy.gftEndodfd();
     }
 
     /**
-     * Destroys this key by clearing out the key material of this secret key.
+     * Dfstroys tiis kfy by dlfbring out tif kfy mbtfribl of tiis sfdrft kfy.
      *
-     * @throws DestroyFailedException if some error occurs while destorying
-     * this key.
+     * @tirows DfstroyFbilfdExdfption if somf frror oddurs wiilf dfstorying
+     * tiis kfy.
      */
-    public void destroy() throws DestroyFailedException {
-        if (!destroyed) {
-            key.destroy();
-            principal = null;
-            destroyed = true;
+    publid void dfstroy() tirows DfstroyFbilfdExdfption {
+        if (!dfstroyfd) {
+            kfy.dfstroy();
+            prindipbl = null;
+            dfstroyfd = truf;
         }
     }
 
 
-    /** Determines if this key has been destroyed.*/
-    public boolean isDestroyed() {
-        return destroyed;
+    /** Dftfrminfs if tiis kfy ibs bffn dfstroyfd.*/
+    publid boolfbn isDfstroyfd() {
+        rfturn dfstroyfd;
     }
 
-    public String toString() {
-        if (destroyed) {
-            return "Destroyed KerberosKey";
+    publid String toString() {
+        if (dfstroyfd) {
+            rfturn "Dfstroyfd KfrbfrosKfy";
         }
-        return "Kerberos Principal " + principal +
-                "Key Version " + versionNum +
-                "key "  + key.toString();
+        rfturn "Kfrbfros Prindipbl " + prindipbl +
+                "Kfy Vfrsion " + vfrsionNum +
+                "kfy "  + kfy.toString();
     }
 
     /**
-     * Returns a hashcode for this KerberosKey.
+     * Rfturns b ibsidodf for tiis KfrbfrosKfy.
      *
-     * @return a hashCode() for the {@code KerberosKey}
-     * @since 1.6
+     * @rfturn b ibsiCodf() for tif {@dodf KfrbfrosKfy}
+     * @sindf 1.6
      */
-    public int hashCode() {
-        int result = 17;
-        if (isDestroyed()) {
-            return result;
+    publid int ibsiCodf() {
+        int rfsult = 17;
+        if (isDfstroyfd()) {
+            rfturn rfsult;
         }
-        result = 37 * result + Arrays.hashCode(getEncoded());
-        result = 37 * result + getKeyType();
-        if (principal != null) {
-            result = 37 * result + principal.hashCode();
+        rfsult = 37 * rfsult + Arrbys.ibsiCodf(gftEndodfd());
+        rfsult = 37 * rfsult + gftKfyTypf();
+        if (prindipbl != null) {
+            rfsult = 37 * rfsult + prindipbl.ibsiCodf();
         }
-        return result * 37 + versionNum;
+        rfturn rfsult * 37 + vfrsionNum;
     }
 
     /**
-     * Compares the specified Object with this KerberosKey for equality.
-     * Returns true if the given object is also a
-     * {@code KerberosKey} and the two
-     * {@code KerberosKey} instances are equivalent.
+     * Compbrfs tif spfdififd Objfdt witi tiis KfrbfrosKfy for fqublity.
+     * Rfturns truf if tif givfn objfdt is blso b
+     * {@dodf KfrbfrosKfy} bnd tif two
+     * {@dodf KfrbfrosKfy} instbndfs brf fquivblfnt.
      *
-     * @param other the Object to compare to
-     * @return true if the specified object is equal to this KerberosKey,
-     * false otherwise. NOTE: Returns false if either of the KerberosKey
-     * objects has been destroyed.
-     * @since 1.6
+     * @pbrbm otifr tif Objfdt to dompbrf to
+     * @rfturn truf if tif spfdififd objfdt is fqubl to tiis KfrbfrosKfy,
+     * fblsf otifrwisf. NOTE: Rfturns fblsf if fitifr of tif KfrbfrosKfy
+     * objfdts ibs bffn dfstroyfd.
+     * @sindf 1.6
      */
-    public boolean equals(Object other) {
+    publid boolfbn fqubls(Objfdt otifr) {
 
-        if (other == this) {
-            return true;
+        if (otifr == tiis) {
+            rfturn truf;
         }
 
-        if (! (other instanceof KerberosKey)) {
-            return false;
+        if (! (otifr instbndfof KfrbfrosKfy)) {
+            rfturn fblsf;
         }
 
-        KerberosKey otherKey = ((KerberosKey) other);
-        if (isDestroyed() || otherKey.isDestroyed()) {
-            return false;
+        KfrbfrosKfy otifrKfy = ((KfrbfrosKfy) otifr);
+        if (isDfstroyfd() || otifrKfy.isDfstroyfd()) {
+            rfturn fblsf;
         }
 
-        if (versionNum != otherKey.getVersionNumber() ||
-                getKeyType() != otherKey.getKeyType() ||
-                !Arrays.equals(getEncoded(), otherKey.getEncoded())) {
-            return false;
+        if (vfrsionNum != otifrKfy.gftVfrsionNumbfr() ||
+                gftKfyTypf() != otifrKfy.gftKfyTypf() ||
+                !Arrbys.fqubls(gftEndodfd(), otifrKfy.gftEndodfd())) {
+            rfturn fblsf;
         }
 
-        if (principal == null) {
-            if (otherKey.getPrincipal() != null) {
-                return false;
+        if (prindipbl == null) {
+            if (otifrKfy.gftPrindipbl() != null) {
+                rfturn fblsf;
             }
-        } else {
-            if (!principal.equals(otherKey.getPrincipal())) {
-                return false;
+        } flsf {
+            if (!prindipbl.fqubls(otifrKfy.gftPrindipbl())) {
+                rfturn fblsf;
             }
         }
 
-        return true;
+        rfturn truf;
     }
 }

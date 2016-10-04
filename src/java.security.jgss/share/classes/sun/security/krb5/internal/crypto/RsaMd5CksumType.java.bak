@@ -1,104 +1,104 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.crypto;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto;
 
-import sun.security.krb5.Checksum;
-import sun.security.krb5.KrbCryptoException;
-import sun.security.krb5.internal.*;
-import java.security.MessageDigest;
-import java.security.Provider;
-import java.security.Security;
+import sun.sfdurity.krb5.Cifdksum;
+import sun.sfdurity.krb5.KrbCryptoExdfption;
+import sun.sfdurity.krb5.intfrnbl.*;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Sfdurity;
 
-public final class RsaMd5CksumType extends CksumType {
+publid finbl dlbss RsbMd5CksumTypf fxtfnds CksumTypf {
 
-    public RsaMd5CksumType() {
+    publid RsbMd5CksumTypf() {
     }
 
-    public int confounderSize() {
-        return 0;
+    publid int donfoundfrSizf() {
+        rfturn 0;
     }
 
-    public int cksumType() {
-        return Checksum.CKSUMTYPE_RSA_MD5;
+    publid int dksumTypf() {
+        rfturn Cifdksum.CKSUMTYPE_RSA_MD5;
     }
 
-    public boolean isSafe() {
-        return false;
+    publid boolfbn isSbff() {
+        rfturn fblsf;
     }
 
-    public int cksumSize() {
-        return 16;
+    publid int dksumSizf() {
+        rfturn 16;
     }
 
-    public int keyType() {
-        return Krb5.KEYTYPE_NULL;
+    publid int kfyTypf() {
+        rfturn Krb5.KEYTYPE_NULL;
     }
 
-    public int keySize() {
-        return 0;
+    publid int kfySizf() {
+        rfturn 0;
     }
 
     /**
-     * Calculates checksum using MD5.
-     * @param data the data used to generate the checksum.
-     * @param size length of the data.
-     * @return the checksum.
+     * Cbldulbtfs difdksum using MD5.
+     * @pbrbm dbtb tif dbtb usfd to gfnfrbtf tif difdksum.
+     * @pbrbm sizf lfngti of tif dbtb.
+     * @rfturn tif difdksum.
      *
-     * @modified by Yanni Zhang, 12/08/99.
+     * @modififd by Ybnni Zibng, 12/08/99.
      */
 
-    public byte[] calculateChecksum(byte[] data, int size) throws KrbCryptoException{
-        MessageDigest md5;
-        byte[] result = null;
+    publid bytf[] dbldulbtfCifdksum(bytf[] dbtb, int sizf) tirows KrbCryptoExdfption{
+        MfssbgfDigfst md5;
+        bytf[] rfsult = null;
         try {
-            md5 = MessageDigest.getInstance("MD5");
-        } catch (Exception e) {
-            throw new KrbCryptoException("JCE provider may not be installed. " + e.getMessage());
+            md5 = MfssbgfDigfst.gftInstbndf("MD5");
+        } dbtdi (Exdfption f) {
+            tirow nfw KrbCryptoExdfption("JCE providfr mby not bf instbllfd. " + f.gftMfssbgf());
         }
         try {
-            md5.update(data);
-            result = md5.digest();
-        } catch (Exception e) {
-            throw new KrbCryptoException(e.getMessage());
+            md5.updbtf(dbtb);
+            rfsult = md5.digfst();
+        } dbtdi (Exdfption f) {
+            tirow nfw KrbCryptoExdfption(f.gftMfssbgf());
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public byte[] calculateKeyedChecksum(byte[] data, int size,
-        byte[] key, int usage) throws KrbCryptoException {
-                                             return null;
+    publid bytf[] dbldulbtfKfyfdCifdksum(bytf[] dbtb, int sizf,
+        bytf[] kfy, int usbgf) tirows KrbCryptoExdfption {
+                                             rfturn null;
                                          }
 
-    public boolean verifyKeyedChecksum(byte[] data, int size,
-        byte[] key, byte[] checksum, int usage) throws KrbCryptoException {
-        return false;
+    publid boolfbn vfrifyKfyfdCifdksum(bytf[] dbtb, int sizf,
+        bytf[] kfy, bytf[] difdksum, int usbgf) tirows KrbCryptoExdfption {
+        rfturn fblsf;
     }
 
 }

@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,95 +56,95 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
 
 /**
- * Information about an exception handler block.
+ * Informbtion bbout bn fxdfption ibndlfr blodk.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-class Handler {
+dlbss Hbndlfr {
 
     /**
-     * Beginning of the exception handler's scope (inclusive).
+     * Bfginning of tif fxdfption ibndlfr's sdopf (indlusivf).
      */
-    Label start;
+    Lbbfl stbrt;
 
     /**
-     * End of the exception handler's scope (exclusive).
+     * End of tif fxdfption ibndlfr's sdopf (fxdlusivf).
      */
-    Label end;
+    Lbbfl fnd;
 
     /**
-     * Beginning of the exception handler's code.
+     * Bfginning of tif fxdfption ibndlfr's dodf.
      */
-    Label handler;
+    Lbbfl ibndlfr;
 
     /**
-     * Internal name of the type of exceptions handled by this handler, or
-     * <tt>null</tt> to catch any exceptions.
+     * Intfrnbl nbmf of tif typf of fxdfptions ibndlfd by tiis ibndlfr, or
+     * <tt>null</tt> to dbtdi bny fxdfptions.
      */
-    String desc;
+    String dfsd;
 
     /**
-     * Constant pool index of the internal name of the type of exceptions
-     * handled by this handler, or 0 to catch any exceptions.
+     * Constbnt pool indfx of tif intfrnbl nbmf of tif typf of fxdfptions
+     * ibndlfd by tiis ibndlfr, or 0 to dbtdi bny fxdfptions.
      */
-    int type;
+    int typf;
 
     /**
-     * Next exception handler block info.
+     * Nfxt fxdfption ibndlfr blodk info.
      */
-    Handler next;
+    Hbndlfr nfxt;
 
     /**
-     * Removes the range between start and end from the given exception
-     * handlers.
+     * Rfmovfs tif rbngf bftwffn stbrt bnd fnd from tif givfn fxdfption
+     * ibndlfrs.
      *
-     * @param h
-     *            an exception handler list.
-     * @param start
-     *            the start of the range to be removed.
-     * @param end
-     *            the end of the range to be removed. Maybe null.
-     * @return the exception handler list with the start-end range removed.
+     * @pbrbm i
+     *            bn fxdfption ibndlfr list.
+     * @pbrbm stbrt
+     *            tif stbrt of tif rbngf to bf rfmovfd.
+     * @pbrbm fnd
+     *            tif fnd of tif rbngf to bf rfmovfd. Mbybf null.
+     * @rfturn tif fxdfption ibndlfr list witi tif stbrt-fnd rbngf rfmovfd.
      */
-    static Handler remove(Handler h, Label start, Label end) {
-        if (h == null) {
-            return null;
-        } else {
-            h.next = remove(h.next, start, end);
+    stbtid Hbndlfr rfmovf(Hbndlfr i, Lbbfl stbrt, Lbbfl fnd) {
+        if (i == null) {
+            rfturn null;
+        } flsf {
+            i.nfxt = rfmovf(i.nfxt, stbrt, fnd);
         }
-        int hstart = h.start.position;
-        int hend = h.end.position;
-        int s = start.position;
-        int e = end == null ? Integer.MAX_VALUE : end.position;
-        // if [hstart,hend[ and [s,e[ intervals intersect...
-        if (s < hend && e > hstart) {
-            if (s <= hstart) {
-                if (e >= hend) {
-                    // [hstart,hend[ fully included in [s,e[, h removed
-                    h = h.next;
-                } else {
-                    // [hstart,hend[ minus [s,e[ = [e,hend[
-                    h.start = end;
+        int istbrt = i.stbrt.position;
+        int ifnd = i.fnd.position;
+        int s = stbrt.position;
+        int f = fnd == null ? Intfgfr.MAX_VALUE : fnd.position;
+        // if [istbrt,ifnd[ bnd [s,f[ intfrvbls intfrsfdt...
+        if (s < ifnd && f > istbrt) {
+            if (s <= istbrt) {
+                if (f >= ifnd) {
+                    // [istbrt,ifnd[ fully indludfd in [s,f[, i rfmovfd
+                    i = i.nfxt;
+                } flsf {
+                    // [istbrt,ifnd[ minus [s,f[ = [f,ifnd[
+                    i.stbrt = fnd;
                 }
-            } else if (e >= hend) {
-                // [hstart,hend[ minus [s,e[ = [hstart,s[
-                h.end = start;
-            } else {
-                // [hstart,hend[ minus [s,e[ = [hstart,s[ + [e,hend[
-                Handler g = new Handler();
-                g.start = end;
-                g.end = h.end;
-                g.handler = h.handler;
-                g.desc = h.desc;
-                g.type = h.type;
-                g.next = h.next;
-                h.end = start;
-                h.next = g;
+            } flsf if (f >= ifnd) {
+                // [istbrt,ifnd[ minus [s,f[ = [istbrt,s[
+                i.fnd = stbrt;
+            } flsf {
+                // [istbrt,ifnd[ minus [s,f[ = [istbrt,s[ + [f,ifnd[
+                Hbndlfr g = nfw Hbndlfr();
+                g.stbrt = fnd;
+                g.fnd = i.fnd;
+                g.ibndlfr = i.ibndlfr;
+                g.dfsd = i.dfsd;
+                g.typf = i.typf;
+                g.nfxt = i.nfxt;
+                i.fnd = stbrt;
+                i.nfxt = g;
             }
         }
-        return h;
+        rfturn i;
     }
 }

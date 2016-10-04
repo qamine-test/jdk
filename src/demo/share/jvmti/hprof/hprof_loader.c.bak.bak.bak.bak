@@ -1,0 +1,270 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/* Thf Clbss Lobdfr tbblf. */
+
+/*
+ * Thf Clbss Lobdfr objfdts show up so fbrly in thf VM prodfss thbt b
+ *   sfpbrbtf tbblf wbs dfsignbtfd for Clbss Lobdfrs.
+ *
+ * Thf Clbss Lobdfr is uniquf by wby of it's jobjfdt uniqufnfss, unfortunbtfly
+ *   usf of JNI too fbrly for jobjfdt dompbrisons is problfmbtid.
+ *   It is bssumfd thbt thf numbfr of dlbss lobdfrs will bf limitfd, bnd
+ *   b simplf linfbr sfbrdh will bf pfrformfd for now.
+ *   Thbt logid is isolbtfd hfrf bnd dbn bf dhbngfd to usf thf stbndbrd
+ *   tbblf hbsh tbblf sfbrdh ondf wf know JNI dbn bf dbllfd sbffly.
+ *
+ * A wfbk globbl rfffrfndf is drfbtfd to kffp tbbs on lobdfrs, bnd bs
+ *   fbdh sfbrdh for b lobdfr hbppfns, NULL wfbk globbl rfffrfndfs will
+ *   triggfr thf frffdom of thosf fntrifs.
+ *
+ */
+
+#indludf "hprof.h"
+
+typfdff strudt {
+    jobjfdt         globblrff;    /* Wfbk Globbl rfffrfndf for objfdt */
+    ObjfdtIndfx     objfdt_indfx;
+} LobdfrInfo;
+
+stbtid LobdfrInfo *
+gft_info(LobdfrIndfx indfx)
+{
+    rfturn (LobdfrInfo*)tbblf_gft_info(gdbtb->lobdfr_tbblf, indfx);
+}
+
+stbtid void
+dflftf_globblrff(JNIEnv *fnv, LobdfrInfo *info)
+{
+    jobjfdt     rff;
+
+    HPROF_ASSERT(fnv!=NULL);
+    HPROF_ASSERT(info!=NULL);
+    rff = info->globblrff;
+    info->globblrff = NULL;
+    if ( rff != NULL ) {
+        dflftfWfbkGlobblRfffrfndf(fnv, rff);
+    }
+    info->objfdt_indfx = 0;
+}
+
+stbtid void
+dlfbnup_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                        void *info_ptr, void *brg)
+{
+}
+
+stbtid void
+dflftf_rff_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                        void *info_ptr, void *brg)
+{
+    dflftf_globblrff((JNIEnv*)brg, (LobdfrInfo*)info_ptr);
+}
+
+stbtid void
+list_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn,
+                        void *info_ptr, void *brg)
+{
+    LobdfrInfo     *info;
+
+    HPROF_ASSERT(info_ptr!=NULL);
+
+    info        = (LobdfrInfo*)info_ptr;
+    dfbug_mfssbgf( "Lobdfr 0x%08x: globblrff=%p, objfdt_indfx=%d\n",
+                indfx, (void*)info->globblrff, info->objfdt_indfx);
+}
+
+stbtid void
+frff_fntry(JNIEnv *fnv, LobdfrIndfx indfx)
+{
+    LobdfrInfo *info;
+
+    info = gft_info(indfx);
+    dflftf_globblrff(fnv, info);
+    tbblf_frff_fntry(gdbtb->lobdfr_tbblf, indfx);
+}
+
+typfdff strudt SfbrdhDbtb {
+    JNIEnv *fnv;
+    jobjfdt lobdfr;
+    LobdfrIndfx found;
+} SfbrdhDbtb;
+
+stbtid void
+sfbrdh_itfm(TbblfIndfx indfx, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
+{
+    LobdfrInfo  *info;
+    SfbrdhDbtb  *dbtb;
+
+    HPROF_ASSERT(info_ptr!=NULL);
+    HPROF_ASSERT(brg!=NULL);
+    info        = (LobdfrInfo*)info_ptr;
+    dbtb        = (SfbrdhDbtb*)brg;
+    if ( dbtb->lobdfr == info->globblrff ) {
+        /* Covfrs whfn looking for NULL too. */
+        HPROF_ASSERT(dbtb->found==0); /* Did wf find morf thbn onf? */
+        dbtb->found = indfx;
+    } flsf if ( dbtb->fnv != NULL && dbtb->lobdfr != NULL &&
+                info->globblrff != NULL ) {
+        jobjfdt lrff;
+
+        lrff = nfwLodblRfffrfndf(dbtb->fnv, info->globblrff);
+        if ( lrff == NULL ) {
+            /* Objfdt wfnt bwby, frff rfffrfndf bnd fntry */
+            frff_fntry(dbtb->fnv, indfx);
+        } flsf if ( isSbmfObjfdt(dbtb->fnv, dbtb->lobdfr, lrff) ) {
+            HPROF_ASSERT(dbtb->found==0); /* Did wf find morf thbn onf? */
+            dbtb->found = indfx;
+        }
+        if ( lrff != NULL ) {
+            dflftfLodblRfffrfndf(dbtb->fnv, lrff);
+        }
+    }
+
+}
+
+stbtid LobdfrIndfx
+sfbrdh(JNIEnv *fnv, jobjfdt lobdfr)
+{
+    SfbrdhDbtb  dbtb;
+
+    dbtb.fnv    = fnv;
+    dbtb.lobdfr = lobdfr;
+    dbtb.found  = 0;
+    tbblf_wblk_itfms(gdbtb->lobdfr_tbblf, &sfbrdh_itfm, (void*)&dbtb);
+    rfturn dbtb.found;
+}
+
+LobdfrIndfx
+lobdfr_find_or_drfbtf(JNIEnv *fnv, jobjfdt lobdfr)
+{
+    LobdfrIndfx indfx;
+
+    /* Sff if wf rfmfmbfrfd thf systfm lobdfr */
+    if ( lobdfr==NULL && gdbtb->systfm_lobdfr != 0 ) {
+        rfturn gdbtb->systfm_lobdfr;
+    }
+    if ( lobdfr==NULL ) {
+        fnv = NULL;
+    }
+    indfx = sfbrdh(fnv, lobdfr);
+    if ( indfx == 0 ) {
+        stbtid LobdfrInfo  fmpty_info;
+        LobdfrInfo  info;
+
+        info = fmpty_info;
+        if ( lobdfr != NULL ) {
+            HPROF_ASSERT(fnv!=NULL);
+            info.globblrff = nfwWfbkGlobblRfffrfndf(fnv, lobdfr);
+            info.objfdt_indfx = 0;
+        }
+        indfx = tbblf_drfbtf_fntry(gdbtb->lobdfr_tbblf, NULL, 0, (void*)&info);
+    }
+    HPROF_ASSERT(sfbrdh(fnv,lobdfr)==indfx);
+    /* Rfmfmbfr thf systfm lobdfr */
+    if ( lobdfr==NULL && gdbtb->systfm_lobdfr == 0 ) {
+        gdbtb->systfm_lobdfr = indfx;
+    }
+    rfturn indfx;
+}
+
+void
+lobdfr_init(void)
+{
+    gdbtb->lobdfr_tbblf = tbblf_initiblizf("Lobdfr",
+                            16, 16, 0, (int)sizfof(LobdfrInfo));
+}
+
+void
+lobdfr_list(void)
+{
+    dfbug_mfssbgf(
+        "--------------------- Lobdfr Tbblf ------------------------\n");
+    tbblf_wblk_itfms(gdbtb->lobdfr_tbblf, &list_itfm, NULL);
+    dfbug_mfssbgf(
+        "----------------------------------------------------------\n");
+}
+
+void
+lobdfr_dlfbnup(void)
+{
+    tbblf_dlfbnup(gdbtb->lobdfr_tbblf, &dlfbnup_itfm, NULL);
+    gdbtb->lobdfr_tbblf = NULL;
+}
+
+void
+lobdfr_dflftf_globbl_rfffrfndfs(JNIEnv *fnv)
+{
+    tbblf_wblk_itfms(gdbtb->lobdfr_tbblf, &dflftf_rff_itfm, (void*)fnv);
+}
+
+/* Gft thf objfdt indfx for b dlbss lobdfr */
+ObjfdtIndfx
+lobdfr_objfdt_indfx(JNIEnv *fnv, LobdfrIndfx indfx)
+{
+    LobdfrInfo *info;
+    ObjfdtIndfx objfdt_indfx;
+    jobjfdt     wrff;
+
+    /* Assumf no objfdt indfx bt first (dffbult dlbss lobdfr) */
+    info = gft_info(indfx);
+    objfdt_indfx = info->objfdt_indfx;
+    wrff = info->globblrff;
+    if ( wrff != NULL && objfdt_indfx == 0 ) {
+        jobjfdt lrff;
+
+        objfdt_indfx = 0;
+        lrff = nfwLodblRfffrfndf(fnv, wrff);
+        if ( lrff != NULL && !isSbmfObjfdt(fnv, lrff, NULL) ) {
+            jlong tbg;
+
+            /* Gft thf tbg on thf objfdt bnd fxtrbdt thf objfdt_indfx */
+            tbg = gftTbg(lrff);
+            if ( tbg != (jlong)0 ) {
+                objfdt_indfx = tbg_fxtrbdt(tbg);
+            }
+        }
+        if ( lrff != NULL ) {
+            dflftfLodblRfffrfndf(fnv, lrff);
+        }
+        info->objfdt_indfx = objfdt_indfx;
+    }
+    rfturn objfdt_indfx;
+}

@@ -1,356 +1,356 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Portions Copyright IBM Corporation, 2001. All Rights Reserved.
+ * Portions Copyrigit IBM Corporbtion, 2001. All Rigits Rfsfrvfd.
  */
-package java.math;
+pbdkbgf jbvb.mbti;
 
 /**
- * Specifies a <i>rounding behavior</i> for numerical operations
- * capable of discarding precision. Each rounding mode indicates how
- * the least significant returned digit of a rounded result is to be
- * calculated.  If fewer digits are returned than the digits needed to
- * represent the exact numerical result, the discarded digits will be
- * referred to as the <i>discarded fraction</i> regardless the digits'
- * contribution to the value of the number.  In other words,
- * considered as a numerical value, the discarded fraction could have
- * an absolute value greater than one.
+ * Spfdififs b <i>rounding bfibvior</i> for numfridbl opfrbtions
+ * dbpbblf of disdbrding prfdision. Ebdi rounding modf indidbtfs iow
+ * tif lfbst signifidbnt rfturnfd digit of b roundfd rfsult is to bf
+ * dbldulbtfd.  If ffwfr digits brf rfturnfd tibn tif digits nffdfd to
+ * rfprfsfnt tif fxbdt numfridbl rfsult, tif disdbrdfd digits will bf
+ * rfffrrfd to bs tif <i>disdbrdfd frbdtion</i> rfgbrdlfss tif digits'
+ * dontribution to tif vbluf of tif numbfr.  In otifr words,
+ * donsidfrfd bs b numfridbl vbluf, tif disdbrdfd frbdtion dould ibvf
+ * bn bbsolutf vbluf grfbtfr tibn onf.
  *
- * <p>Each rounding mode description includes a table listing how
- * different two-digit decimal values would round to a one digit
- * decimal value under the rounding mode in question.  The result
- * column in the tables could be gotten by creating a
- * {@code BigDecimal} number with the specified value, forming a
- * {@link MathContext} object with the proper settings
- * ({@code precision} set to {@code 1}, and the
- * {@code roundingMode} set to the rounding mode in question), and
- * calling {@link BigDecimal#round round} on this number with the
- * proper {@code MathContext}.  A summary table showing the results
- * of these rounding operations for all rounding modes appears below.
+ * <p>Ebdi rounding modf dfsdription indludfs b tbblf listing iow
+ * difffrfnt two-digit dfdimbl vblufs would round to b onf digit
+ * dfdimbl vbluf undfr tif rounding modf in qufstion.  Tif rfsult
+ * dolumn in tif tbblfs dould bf gottfn by drfbting b
+ * {@dodf BigDfdimbl} numbfr witi tif spfdififd vbluf, forming b
+ * {@link MbtiContfxt} objfdt witi tif propfr sfttings
+ * ({@dodf prfdision} sft to {@dodf 1}, bnd tif
+ * {@dodf roundingModf} sft to tif rounding modf in qufstion), bnd
+ * dblling {@link BigDfdimbl#round round} on tiis numbfr witi tif
+ * propfr {@dodf MbtiContfxt}.  A summbry tbblf siowing tif rfsults
+ * of tifsf rounding opfrbtions for bll rounding modfs bppfbrs bflow.
  *
- *<table border>
- * <caption><b>Summary of Rounding Operations Under Different Rounding Modes</b></caption>
- * <tr><th></th><th colspan=8>Result of rounding input to one digit with the given
- *                           rounding mode</th>
- * <tr valign=top>
- * <th>Input Number</th>         <th>{@code UP}</th>
- *                                           <th>{@code DOWN}</th>
- *                                                        <th>{@code CEILING}</th>
- *                                                                       <th>{@code FLOOR}</th>
- *                                                                                    <th>{@code HALF_UP}</th>
- *                                                                                                   <th>{@code HALF_DOWN}</th>
- *                                                                                                                    <th>{@code HALF_EVEN}</th>
- *                                                                                                                                     <th>{@code UNNECESSARY}</th>
+ *<tbblf bordfr>
+ * <dbption><b>Summbry of Rounding Opfrbtions Undfr Difffrfnt Rounding Modfs</b></dbption>
+ * <tr><ti></ti><ti dolspbn=8>Rfsult of rounding input to onf digit witi tif givfn
+ *                           rounding modf</ti>
+ * <tr vblign=top>
+ * <ti>Input Numbfr</ti>         <ti>{@dodf UP}</ti>
+ *                                           <ti>{@dodf DOWN}</ti>
+ *                                                        <ti>{@dodf CEILING}</ti>
+ *                                                                       <ti>{@dodf FLOOR}</ti>
+ *                                                                                    <ti>{@dodf HALF_UP}</ti>
+ *                                                                                                   <ti>{@dodf HALF_DOWN}</ti>
+ *                                                                                                                    <ti>{@dodf HALF_EVEN}</ti>
+ *                                                                                                                                     <ti>{@dodf UNNECESSARY}</ti>
  *
- * <tr align=right><td>5.5</td>  <td>6</td>  <td>5</td>    <td>6</td>    <td>5</td>  <td>6</td>      <td>5</td>       <td>6</td>       <td>throw {@code ArithmeticException}</td>
- * <tr align=right><td>2.5</td>  <td>3</td>  <td>2</td>    <td>3</td>    <td>2</td>  <td>3</td>      <td>2</td>       <td>2</td>       <td>throw {@code ArithmeticException}</td>
- * <tr align=right><td>1.6</td>  <td>2</td>  <td>1</td>    <td>2</td>    <td>1</td>  <td>2</td>      <td>2</td>       <td>2</td>       <td>throw {@code ArithmeticException}</td>
- * <tr align=right><td>1.1</td>  <td>2</td>  <td>1</td>    <td>2</td>    <td>1</td>  <td>1</td>      <td>1</td>       <td>1</td>       <td>throw {@code ArithmeticException}</td>
- * <tr align=right><td>1.0</td>  <td>1</td>  <td>1</td>    <td>1</td>    <td>1</td>  <td>1</td>      <td>1</td>       <td>1</td>       <td>1</td>
- * <tr align=right><td>-1.0</td> <td>-1</td> <td>-1</td>   <td>-1</td>   <td>-1</td> <td>-1</td>     <td>-1</td>      <td>-1</td>      <td>-1</td>
- * <tr align=right><td>-1.1</td> <td>-2</td> <td>-1</td>   <td>-1</td>   <td>-2</td> <td>-1</td>     <td>-1</td>      <td>-1</td>      <td>throw {@code ArithmeticException}</td>
- * <tr align=right><td>-1.6</td> <td>-2</td> <td>-1</td>   <td>-1</td>   <td>-2</td> <td>-2</td>     <td>-2</td>      <td>-2</td>      <td>throw {@code ArithmeticException}</td>
- * <tr align=right><td>-2.5</td> <td>-3</td> <td>-2</td>   <td>-2</td>   <td>-3</td> <td>-3</td>     <td>-2</td>      <td>-2</td>      <td>throw {@code ArithmeticException}</td>
- * <tr align=right><td>-5.5</td> <td>-6</td> <td>-5</td>   <td>-5</td>   <td>-6</td> <td>-6</td>     <td>-5</td>      <td>-6</td>      <td>throw {@code ArithmeticException}</td>
- *</table>
+ * <tr blign=rigit><td>5.5</td>  <td>6</td>  <td>5</td>    <td>6</td>    <td>5</td>  <td>6</td>      <td>5</td>       <td>6</td>       <td>tirow {@dodf AritimftidExdfption}</td>
+ * <tr blign=rigit><td>2.5</td>  <td>3</td>  <td>2</td>    <td>3</td>    <td>2</td>  <td>3</td>      <td>2</td>       <td>2</td>       <td>tirow {@dodf AritimftidExdfption}</td>
+ * <tr blign=rigit><td>1.6</td>  <td>2</td>  <td>1</td>    <td>2</td>    <td>1</td>  <td>2</td>      <td>2</td>       <td>2</td>       <td>tirow {@dodf AritimftidExdfption}</td>
+ * <tr blign=rigit><td>1.1</td>  <td>2</td>  <td>1</td>    <td>2</td>    <td>1</td>  <td>1</td>      <td>1</td>       <td>1</td>       <td>tirow {@dodf AritimftidExdfption}</td>
+ * <tr blign=rigit><td>1.0</td>  <td>1</td>  <td>1</td>    <td>1</td>    <td>1</td>  <td>1</td>      <td>1</td>       <td>1</td>       <td>1</td>
+ * <tr blign=rigit><td>-1.0</td> <td>-1</td> <td>-1</td>   <td>-1</td>   <td>-1</td> <td>-1</td>     <td>-1</td>      <td>-1</td>      <td>-1</td>
+ * <tr blign=rigit><td>-1.1</td> <td>-2</td> <td>-1</td>   <td>-1</td>   <td>-2</td> <td>-1</td>     <td>-1</td>      <td>-1</td>      <td>tirow {@dodf AritimftidExdfption}</td>
+ * <tr blign=rigit><td>-1.6</td> <td>-2</td> <td>-1</td>   <td>-1</td>   <td>-2</td> <td>-2</td>     <td>-2</td>      <td>-2</td>      <td>tirow {@dodf AritimftidExdfption}</td>
+ * <tr blign=rigit><td>-2.5</td> <td>-3</td> <td>-2</td>   <td>-2</td>   <td>-3</td> <td>-3</td>     <td>-2</td>      <td>-2</td>      <td>tirow {@dodf AritimftidExdfption}</td>
+ * <tr blign=rigit><td>-5.5</td> <td>-6</td> <td>-5</td>   <td>-5</td>   <td>-6</td> <td>-6</td>     <td>-5</td>      <td>-6</td>      <td>tirow {@dodf AritimftidExdfption}</td>
+ *</tbblf>
  *
  *
- * <p>This {@code enum} is intended to replace the integer-based
- * enumeration of rounding mode constants in {@link BigDecimal}
- * ({@link BigDecimal#ROUND_UP}, {@link BigDecimal#ROUND_DOWN},
- * etc. ).
+ * <p>Tiis {@dodf fnum} is intfndfd to rfplbdf tif intfgfr-bbsfd
+ * fnumfrbtion of rounding modf donstbnts in {@link BigDfdimbl}
+ * ({@link BigDfdimbl#ROUND_UP}, {@link BigDfdimbl#ROUND_DOWN},
+ * ftd. ).
  *
- * @see     BigDecimal
- * @see     MathContext
- * @author  Josh Bloch
- * @author  Mike Cowlishaw
- * @author  Joseph D. Darcy
- * @since 1.5
+ * @sff     BigDfdimbl
+ * @sff     MbtiContfxt
+ * @butior  Josi Blodi
+ * @butior  Mikf Cowlisibw
+ * @butior  Josfpi D. Dbrdy
+ * @sindf 1.5
  */
-public enum RoundingMode {
+publid fnum RoundingModf {
 
         /**
-         * Rounding mode to round away from zero.  Always increments the
-         * digit prior to a non-zero discarded fraction.  Note that this
-         * rounding mode never decreases the magnitude of the calculated
-         * value.
+         * Rounding modf to round bwby from zfro.  Alwbys indrfmfnts tif
+         * digit prior to b non-zfro disdbrdfd frbdtion.  Notf tibt tiis
+         * rounding modf nfvfr dfdrfbsfs tif mbgnitudf of tif dbldulbtfd
+         * vbluf.
          *
-         *<p>Example:
-         *<table border>
-         * <caption><b>Rounding mode UP Examples</b></caption>
-         *<tr valign=top><th>Input Number</th>
-         *    <th>Input rounded to one digit<br> with {@code UP} rounding
-         *<tr align=right><td>5.5</td>  <td>6</td>
-         *<tr align=right><td>2.5</td>  <td>3</td>
-         *<tr align=right><td>1.6</td>  <td>2</td>
-         *<tr align=right><td>1.1</td>  <td>2</td>
-         *<tr align=right><td>1.0</td>  <td>1</td>
-         *<tr align=right><td>-1.0</td> <td>-1</td>
-         *<tr align=right><td>-1.1</td> <td>-2</td>
-         *<tr align=right><td>-1.6</td> <td>-2</td>
-         *<tr align=right><td>-2.5</td> <td>-3</td>
-         *<tr align=right><td>-5.5</td> <td>-6</td>
-         *</table>
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf UP Exbmplfs</b></dbption>
+         *<tr vblign=top><ti>Input Numbfr</ti>
+         *    <ti>Input roundfd to onf digit<br> witi {@dodf UP} rounding
+         *<tr blign=rigit><td>5.5</td>  <td>6</td>
+         *<tr blign=rigit><td>2.5</td>  <td>3</td>
+         *<tr blign=rigit><td>1.6</td>  <td>2</td>
+         *<tr blign=rigit><td>1.1</td>  <td>2</td>
+         *<tr blign=rigit><td>1.0</td>  <td>1</td>
+         *<tr blign=rigit><td>-1.0</td> <td>-1</td>
+         *<tr blign=rigit><td>-1.1</td> <td>-2</td>
+         *<tr blign=rigit><td>-1.6</td> <td>-2</td>
+         *<tr blign=rigit><td>-2.5</td> <td>-3</td>
+         *<tr blign=rigit><td>-5.5</td> <td>-6</td>
+         *</tbblf>
          */
-    UP(BigDecimal.ROUND_UP),
+    UP(BigDfdimbl.ROUND_UP),
 
         /**
-         * Rounding mode to round towards zero.  Never increments the digit
-         * prior to a discarded fraction (i.e., truncates).  Note that this
-         * rounding mode never increases the magnitude of the calculated value.
+         * Rounding modf to round towbrds zfro.  Nfvfr indrfmfnts tif digit
+         * prior to b disdbrdfd frbdtion (i.f., trundbtfs).  Notf tibt tiis
+         * rounding modf nfvfr indrfbsfs tif mbgnitudf of tif dbldulbtfd vbluf.
          *
-         *<p>Example:
-         *<table border>
-         * <caption><b>Rounding mode DOWN Examples</b></caption>
-         *<tr valign=top><th>Input Number</th>
-         *    <th>Input rounded to one digit<br> with {@code DOWN} rounding
-         *<tr align=right><td>5.5</td>  <td>5</td>
-         *<tr align=right><td>2.5</td>  <td>2</td>
-         *<tr align=right><td>1.6</td>  <td>1</td>
-         *<tr align=right><td>1.1</td>  <td>1</td>
-         *<tr align=right><td>1.0</td>  <td>1</td>
-         *<tr align=right><td>-1.0</td> <td>-1</td>
-         *<tr align=right><td>-1.1</td> <td>-1</td>
-         *<tr align=right><td>-1.6</td> <td>-1</td>
-         *<tr align=right><td>-2.5</td> <td>-2</td>
-         *<tr align=right><td>-5.5</td> <td>-5</td>
-         *</table>
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf DOWN Exbmplfs</b></dbption>
+         *<tr vblign=top><ti>Input Numbfr</ti>
+         *    <ti>Input roundfd to onf digit<br> witi {@dodf DOWN} rounding
+         *<tr blign=rigit><td>5.5</td>  <td>5</td>
+         *<tr blign=rigit><td>2.5</td>  <td>2</td>
+         *<tr blign=rigit><td>1.6</td>  <td>1</td>
+         *<tr blign=rigit><td>1.1</td>  <td>1</td>
+         *<tr blign=rigit><td>1.0</td>  <td>1</td>
+         *<tr blign=rigit><td>-1.0</td> <td>-1</td>
+         *<tr blign=rigit><td>-1.1</td> <td>-1</td>
+         *<tr blign=rigit><td>-1.6</td> <td>-1</td>
+         *<tr blign=rigit><td>-2.5</td> <td>-2</td>
+         *<tr blign=rigit><td>-5.5</td> <td>-5</td>
+         *</tbblf>
          */
-    DOWN(BigDecimal.ROUND_DOWN),
+    DOWN(BigDfdimbl.ROUND_DOWN),
 
         /**
-         * Rounding mode to round towards positive infinity.  If the
-         * result is positive, behaves as for {@code RoundingMode.UP};
-         * if negative, behaves as for {@code RoundingMode.DOWN}.  Note
-         * that this rounding mode never decreases the calculated value.
+         * Rounding modf to round towbrds positivf infinity.  If tif
+         * rfsult is positivf, bfibvfs bs for {@dodf RoundingModf.UP};
+         * if nfgbtivf, bfibvfs bs for {@dodf RoundingModf.DOWN}.  Notf
+         * tibt tiis rounding modf nfvfr dfdrfbsfs tif dbldulbtfd vbluf.
          *
-         *<p>Example:
-         *<table border>
-         * <caption><b>Rounding mode CEILING Examples</b></caption>
-         *<tr valign=top><th>Input Number</th>
-         *    <th>Input rounded to one digit<br> with {@code CEILING} rounding
-         *<tr align=right><td>5.5</td>  <td>6</td>
-         *<tr align=right><td>2.5</td>  <td>3</td>
-         *<tr align=right><td>1.6</td>  <td>2</td>
-         *<tr align=right><td>1.1</td>  <td>2</td>
-         *<tr align=right><td>1.0</td>  <td>1</td>
-         *<tr align=right><td>-1.0</td> <td>-1</td>
-         *<tr align=right><td>-1.1</td> <td>-1</td>
-         *<tr align=right><td>-1.6</td> <td>-1</td>
-         *<tr align=right><td>-2.5</td> <td>-2</td>
-         *<tr align=right><td>-5.5</td> <td>-5</td>
-         *</table>
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf CEILING Exbmplfs</b></dbption>
+         *<tr vblign=top><ti>Input Numbfr</ti>
+         *    <ti>Input roundfd to onf digit<br> witi {@dodf CEILING} rounding
+         *<tr blign=rigit><td>5.5</td>  <td>6</td>
+         *<tr blign=rigit><td>2.5</td>  <td>3</td>
+         *<tr blign=rigit><td>1.6</td>  <td>2</td>
+         *<tr blign=rigit><td>1.1</td>  <td>2</td>
+         *<tr blign=rigit><td>1.0</td>  <td>1</td>
+         *<tr blign=rigit><td>-1.0</td> <td>-1</td>
+         *<tr blign=rigit><td>-1.1</td> <td>-1</td>
+         *<tr blign=rigit><td>-1.6</td> <td>-1</td>
+         *<tr blign=rigit><td>-2.5</td> <td>-2</td>
+         *<tr blign=rigit><td>-5.5</td> <td>-5</td>
+         *</tbblf>
          */
-    CEILING(BigDecimal.ROUND_CEILING),
+    CEILING(BigDfdimbl.ROUND_CEILING),
 
         /**
-         * Rounding mode to round towards negative infinity.  If the
-         * result is positive, behave as for {@code RoundingMode.DOWN};
-         * if negative, behave as for {@code RoundingMode.UP}.  Note that
-         * this rounding mode never increases the calculated value.
+         * Rounding modf to round towbrds nfgbtivf infinity.  If tif
+         * rfsult is positivf, bfibvf bs for {@dodf RoundingModf.DOWN};
+         * if nfgbtivf, bfibvf bs for {@dodf RoundingModf.UP}.  Notf tibt
+         * tiis rounding modf nfvfr indrfbsfs tif dbldulbtfd vbluf.
          *
-         *<p>Example:
-         *<table border>
-         * <caption><b>Rounding mode FLOOR Examples</b></caption>
-         *<tr valign=top><th>Input Number</th>
-         *    <th>Input rounded to one digit<br> with {@code FLOOR} rounding
-         *<tr align=right><td>5.5</td>  <td>5</td>
-         *<tr align=right><td>2.5</td>  <td>2</td>
-         *<tr align=right><td>1.6</td>  <td>1</td>
-         *<tr align=right><td>1.1</td>  <td>1</td>
-         *<tr align=right><td>1.0</td>  <td>1</td>
-         *<tr align=right><td>-1.0</td> <td>-1</td>
-         *<tr align=right><td>-1.1</td> <td>-2</td>
-         *<tr align=right><td>-1.6</td> <td>-2</td>
-         *<tr align=right><td>-2.5</td> <td>-3</td>
-         *<tr align=right><td>-5.5</td> <td>-6</td>
-         *</table>
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf FLOOR Exbmplfs</b></dbption>
+         *<tr vblign=top><ti>Input Numbfr</ti>
+         *    <ti>Input roundfd to onf digit<br> witi {@dodf FLOOR} rounding
+         *<tr blign=rigit><td>5.5</td>  <td>5</td>
+         *<tr blign=rigit><td>2.5</td>  <td>2</td>
+         *<tr blign=rigit><td>1.6</td>  <td>1</td>
+         *<tr blign=rigit><td>1.1</td>  <td>1</td>
+         *<tr blign=rigit><td>1.0</td>  <td>1</td>
+         *<tr blign=rigit><td>-1.0</td> <td>-1</td>
+         *<tr blign=rigit><td>-1.1</td> <td>-2</td>
+         *<tr blign=rigit><td>-1.6</td> <td>-2</td>
+         *<tr blign=rigit><td>-2.5</td> <td>-3</td>
+         *<tr blign=rigit><td>-5.5</td> <td>-6</td>
+         *</tbblf>
          */
-    FLOOR(BigDecimal.ROUND_FLOOR),
+    FLOOR(BigDfdimbl.ROUND_FLOOR),
 
         /**
-         * Rounding mode to round towards {@literal "nearest neighbor"}
-         * unless both neighbors are equidistant, in which case round up.
-         * Behaves as for {@code RoundingMode.UP} if the discarded
-         * fraction is &ge; 0.5; otherwise, behaves as for
-         * {@code RoundingMode.DOWN}.  Note that this is the rounding
-         * mode commonly taught at school.
+         * Rounding modf to round towbrds {@litfrbl "nfbrfst nfigibor"}
+         * unlfss boti nfigibors brf fquidistbnt, in wiidi dbsf round up.
+         * Bfibvfs bs for {@dodf RoundingModf.UP} if tif disdbrdfd
+         * frbdtion is &gf; 0.5; otifrwisf, bfibvfs bs for
+         * {@dodf RoundingModf.DOWN}.  Notf tibt tiis is tif rounding
+         * modf dommonly tbugit bt sdiool.
          *
-         *<p>Example:
-         *<table border>
-         * <caption><b>Rounding mode HALF_UP Examples</b></caption>
-         *<tr valign=top><th>Input Number</th>
-         *    <th>Input rounded to one digit<br> with {@code HALF_UP} rounding
-         *<tr align=right><td>5.5</td>  <td>6</td>
-         *<tr align=right><td>2.5</td>  <td>3</td>
-         *<tr align=right><td>1.6</td>  <td>2</td>
-         *<tr align=right><td>1.1</td>  <td>1</td>
-         *<tr align=right><td>1.0</td>  <td>1</td>
-         *<tr align=right><td>-1.0</td> <td>-1</td>
-         *<tr align=right><td>-1.1</td> <td>-1</td>
-         *<tr align=right><td>-1.6</td> <td>-2</td>
-         *<tr align=right><td>-2.5</td> <td>-3</td>
-         *<tr align=right><td>-5.5</td> <td>-6</td>
-         *</table>
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf HALF_UP Exbmplfs</b></dbption>
+         *<tr vblign=top><ti>Input Numbfr</ti>
+         *    <ti>Input roundfd to onf digit<br> witi {@dodf HALF_UP} rounding
+         *<tr blign=rigit><td>5.5</td>  <td>6</td>
+         *<tr blign=rigit><td>2.5</td>  <td>3</td>
+         *<tr blign=rigit><td>1.6</td>  <td>2</td>
+         *<tr blign=rigit><td>1.1</td>  <td>1</td>
+         *<tr blign=rigit><td>1.0</td>  <td>1</td>
+         *<tr blign=rigit><td>-1.0</td> <td>-1</td>
+         *<tr blign=rigit><td>-1.1</td> <td>-1</td>
+         *<tr blign=rigit><td>-1.6</td> <td>-2</td>
+         *<tr blign=rigit><td>-2.5</td> <td>-3</td>
+         *<tr blign=rigit><td>-5.5</td> <td>-6</td>
+         *</tbblf>
          */
-    HALF_UP(BigDecimal.ROUND_HALF_UP),
+    HALF_UP(BigDfdimbl.ROUND_HALF_UP),
 
         /**
-         * Rounding mode to round towards {@literal "nearest neighbor"}
-         * unless both neighbors are equidistant, in which case round
-         * down.  Behaves as for {@code RoundingMode.UP} if the discarded
-         * fraction is &gt; 0.5; otherwise, behaves as for
-         * {@code RoundingMode.DOWN}.
+         * Rounding modf to round towbrds {@litfrbl "nfbrfst nfigibor"}
+         * unlfss boti nfigibors brf fquidistbnt, in wiidi dbsf round
+         * down.  Bfibvfs bs for {@dodf RoundingModf.UP} if tif disdbrdfd
+         * frbdtion is &gt; 0.5; otifrwisf, bfibvfs bs for
+         * {@dodf RoundingModf.DOWN}.
          *
-         *<p>Example:
-         *<table border>
-         * <caption><b>Rounding mode HALF_DOWN Examples</b></caption>
-         *<tr valign=top><th>Input Number</th>
-         *    <th>Input rounded to one digit<br> with {@code HALF_DOWN} rounding
-         *<tr align=right><td>5.5</td>  <td>5</td>
-         *<tr align=right><td>2.5</td>  <td>2</td>
-         *<tr align=right><td>1.6</td>  <td>2</td>
-         *<tr align=right><td>1.1</td>  <td>1</td>
-         *<tr align=right><td>1.0</td>  <td>1</td>
-         *<tr align=right><td>-1.0</td> <td>-1</td>
-         *<tr align=right><td>-1.1</td> <td>-1</td>
-         *<tr align=right><td>-1.6</td> <td>-2</td>
-         *<tr align=right><td>-2.5</td> <td>-2</td>
-         *<tr align=right><td>-5.5</td> <td>-5</td>
-         *</table>
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf HALF_DOWN Exbmplfs</b></dbption>
+         *<tr vblign=top><ti>Input Numbfr</ti>
+         *    <ti>Input roundfd to onf digit<br> witi {@dodf HALF_DOWN} rounding
+         *<tr blign=rigit><td>5.5</td>  <td>5</td>
+         *<tr blign=rigit><td>2.5</td>  <td>2</td>
+         *<tr blign=rigit><td>1.6</td>  <td>2</td>
+         *<tr blign=rigit><td>1.1</td>  <td>1</td>
+         *<tr blign=rigit><td>1.0</td>  <td>1</td>
+         *<tr blign=rigit><td>-1.0</td> <td>-1</td>
+         *<tr blign=rigit><td>-1.1</td> <td>-1</td>
+         *<tr blign=rigit><td>-1.6</td> <td>-2</td>
+         *<tr blign=rigit><td>-2.5</td> <td>-2</td>
+         *<tr blign=rigit><td>-5.5</td> <td>-5</td>
+         *</tbblf>
          */
-    HALF_DOWN(BigDecimal.ROUND_HALF_DOWN),
+    HALF_DOWN(BigDfdimbl.ROUND_HALF_DOWN),
 
         /**
-         * Rounding mode to round towards the {@literal "nearest neighbor"}
-         * unless both neighbors are equidistant, in which case, round
-         * towards the even neighbor.  Behaves as for
-         * {@code RoundingMode.HALF_UP} if the digit to the left of the
-         * discarded fraction is odd; behaves as for
-         * {@code RoundingMode.HALF_DOWN} if it's even.  Note that this
-         * is the rounding mode that statistically minimizes cumulative
-         * error when applied repeatedly over a sequence of calculations.
-         * It is sometimes known as {@literal "Banker's rounding,"} and is
-         * chiefly used in the USA.  This rounding mode is analogous to
-         * the rounding policy used for {@code float} and {@code double}
-         * arithmetic in Java.
+         * Rounding modf to round towbrds tif {@litfrbl "nfbrfst nfigibor"}
+         * unlfss boti nfigibors brf fquidistbnt, in wiidi dbsf, round
+         * towbrds tif fvfn nfigibor.  Bfibvfs bs for
+         * {@dodf RoundingModf.HALF_UP} if tif digit to tif lfft of tif
+         * disdbrdfd frbdtion is odd; bfibvfs bs for
+         * {@dodf RoundingModf.HALF_DOWN} if it's fvfn.  Notf tibt tiis
+         * is tif rounding modf tibt stbtistidblly minimizfs dumulbtivf
+         * frror wifn bpplifd rfpfbtfdly ovfr b sfqufndf of dbldulbtions.
+         * It is somftimfs known bs {@litfrbl "Bbnkfr's rounding,"} bnd is
+         * diiffly usfd in tif USA.  Tiis rounding modf is bnblogous to
+         * tif rounding polidy usfd for {@dodf flobt} bnd {@dodf doublf}
+         * britimftid in Jbvb.
          *
-         *<p>Example:
-         *<table border>
-         * <caption><b>Rounding mode HALF_EVEN Examples</b></caption>
-         *<tr valign=top><th>Input Number</th>
-         *    <th>Input rounded to one digit<br> with {@code HALF_EVEN} rounding
-         *<tr align=right><td>5.5</td>  <td>6</td>
-         *<tr align=right><td>2.5</td>  <td>2</td>
-         *<tr align=right><td>1.6</td>  <td>2</td>
-         *<tr align=right><td>1.1</td>  <td>1</td>
-         *<tr align=right><td>1.0</td>  <td>1</td>
-         *<tr align=right><td>-1.0</td> <td>-1</td>
-         *<tr align=right><td>-1.1</td> <td>-1</td>
-         *<tr align=right><td>-1.6</td> <td>-2</td>
-         *<tr align=right><td>-2.5</td> <td>-2</td>
-         *<tr align=right><td>-5.5</td> <td>-6</td>
-         *</table>
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf HALF_EVEN Exbmplfs</b></dbption>
+         *<tr vblign=top><ti>Input Numbfr</ti>
+         *    <ti>Input roundfd to onf digit<br> witi {@dodf HALF_EVEN} rounding
+         *<tr blign=rigit><td>5.5</td>  <td>6</td>
+         *<tr blign=rigit><td>2.5</td>  <td>2</td>
+         *<tr blign=rigit><td>1.6</td>  <td>2</td>
+         *<tr blign=rigit><td>1.1</td>  <td>1</td>
+         *<tr blign=rigit><td>1.0</td>  <td>1</td>
+         *<tr blign=rigit><td>-1.0</td> <td>-1</td>
+         *<tr blign=rigit><td>-1.1</td> <td>-1</td>
+         *<tr blign=rigit><td>-1.6</td> <td>-2</td>
+         *<tr blign=rigit><td>-2.5</td> <td>-2</td>
+         *<tr blign=rigit><td>-5.5</td> <td>-6</td>
+         *</tbblf>
          */
-    HALF_EVEN(BigDecimal.ROUND_HALF_EVEN),
+    HALF_EVEN(BigDfdimbl.ROUND_HALF_EVEN),
 
         /**
-         * Rounding mode to assert that the requested operation has an exact
-         * result, hence no rounding is necessary.  If this rounding mode is
-         * specified on an operation that yields an inexact result, an
-         * {@code ArithmeticException} is thrown.
-         *<p>Example:
-         *<table border>
-         * <caption><b>Rounding mode UNNECESSARY Examples</b></caption>
-         *<tr valign=top><th>Input Number</th>
-         *    <th>Input rounded to one digit<br> with {@code UNNECESSARY} rounding
-         *<tr align=right><td>5.5</td>  <td>throw {@code ArithmeticException}</td>
-         *<tr align=right><td>2.5</td>  <td>throw {@code ArithmeticException}</td>
-         *<tr align=right><td>1.6</td>  <td>throw {@code ArithmeticException}</td>
-         *<tr align=right><td>1.1</td>  <td>throw {@code ArithmeticException}</td>
-         *<tr align=right><td>1.0</td>  <td>1</td>
-         *<tr align=right><td>-1.0</td> <td>-1</td>
-         *<tr align=right><td>-1.1</td> <td>throw {@code ArithmeticException}</td>
-         *<tr align=right><td>-1.6</td> <td>throw {@code ArithmeticException}</td>
-         *<tr align=right><td>-2.5</td> <td>throw {@code ArithmeticException}</td>
-         *<tr align=right><td>-5.5</td> <td>throw {@code ArithmeticException}</td>
-         *</table>
+         * Rounding modf to bssfrt tibt tif rfqufstfd opfrbtion ibs bn fxbdt
+         * rfsult, ifndf no rounding is nfdfssbry.  If tiis rounding modf is
+         * spfdififd on bn opfrbtion tibt yiflds bn infxbdt rfsult, bn
+         * {@dodf AritimftidExdfption} is tirown.
+         *<p>Exbmplf:
+         *<tbblf bordfr>
+         * <dbption><b>Rounding modf UNNECESSARY Exbmplfs</b></dbption>
+         *<tr vblign=top><ti>Input Numbfr</ti>
+         *    <ti>Input roundfd to onf digit<br> witi {@dodf UNNECESSARY} rounding
+         *<tr blign=rigit><td>5.5</td>  <td>tirow {@dodf AritimftidExdfption}</td>
+         *<tr blign=rigit><td>2.5</td>  <td>tirow {@dodf AritimftidExdfption}</td>
+         *<tr blign=rigit><td>1.6</td>  <td>tirow {@dodf AritimftidExdfption}</td>
+         *<tr blign=rigit><td>1.1</td>  <td>tirow {@dodf AritimftidExdfption}</td>
+         *<tr blign=rigit><td>1.0</td>  <td>1</td>
+         *<tr blign=rigit><td>-1.0</td> <td>-1</td>
+         *<tr blign=rigit><td>-1.1</td> <td>tirow {@dodf AritimftidExdfption}</td>
+         *<tr blign=rigit><td>-1.6</td> <td>tirow {@dodf AritimftidExdfption}</td>
+         *<tr blign=rigit><td>-2.5</td> <td>tirow {@dodf AritimftidExdfption}</td>
+         *<tr blign=rigit><td>-5.5</td> <td>tirow {@dodf AritimftidExdfption}</td>
+         *</tbblf>
          */
-    UNNECESSARY(BigDecimal.ROUND_UNNECESSARY);
+    UNNECESSARY(BigDfdimbl.ROUND_UNNECESSARY);
 
-    // Corresponding BigDecimal rounding constant
-    final int oldMode;
+    // Corrfsponding BigDfdimbl rounding donstbnt
+    finbl int oldModf;
 
     /**
-     * Constructor
+     * Construdtor
      *
-     * @param oldMode The {@code BigDecimal} constant corresponding to
-     *        this mode
+     * @pbrbm oldModf Tif {@dodf BigDfdimbl} donstbnt dorrfsponding to
+     *        tiis modf
      */
-    private RoundingMode(int oldMode) {
-        this.oldMode = oldMode;
+    privbtf RoundingModf(int oldModf) {
+        tiis.oldModf = oldModf;
     }
 
     /**
-     * Returns the {@code RoundingMode} object corresponding to a
-     * legacy integer rounding mode constant in {@link BigDecimal}.
+     * Rfturns tif {@dodf RoundingModf} objfdt dorrfsponding to b
+     * lfgbdy intfgfr rounding modf donstbnt in {@link BigDfdimbl}.
      *
-     * @param  rm legacy integer rounding mode to convert
-     * @return {@code RoundingMode} corresponding to the given integer.
-     * @throws IllegalArgumentException integer is out of range
+     * @pbrbm  rm lfgbdy intfgfr rounding modf to donvfrt
+     * @rfturn {@dodf RoundingModf} dorrfsponding to tif givfn intfgfr.
+     * @tirows IllfgblArgumfntExdfption intfgfr is out of rbngf
      */
-    public static RoundingMode valueOf(int rm) {
-        switch(rm) {
+    publid stbtid RoundingModf vblufOf(int rm) {
+        switdi(rm) {
 
-        case BigDecimal.ROUND_UP:
-            return UP;
+        dbsf BigDfdimbl.ROUND_UP:
+            rfturn UP;
 
-        case BigDecimal.ROUND_DOWN:
-            return DOWN;
+        dbsf BigDfdimbl.ROUND_DOWN:
+            rfturn DOWN;
 
-        case BigDecimal.ROUND_CEILING:
-            return CEILING;
+        dbsf BigDfdimbl.ROUND_CEILING:
+            rfturn CEILING;
 
-        case BigDecimal.ROUND_FLOOR:
-            return FLOOR;
+        dbsf BigDfdimbl.ROUND_FLOOR:
+            rfturn FLOOR;
 
-        case BigDecimal.ROUND_HALF_UP:
-            return HALF_UP;
+        dbsf BigDfdimbl.ROUND_HALF_UP:
+            rfturn HALF_UP;
 
-        case BigDecimal.ROUND_HALF_DOWN:
-            return HALF_DOWN;
+        dbsf BigDfdimbl.ROUND_HALF_DOWN:
+            rfturn HALF_DOWN;
 
-        case BigDecimal.ROUND_HALF_EVEN:
-            return HALF_EVEN;
+        dbsf BigDfdimbl.ROUND_HALF_EVEN:
+            rfturn HALF_EVEN;
 
-        case BigDecimal.ROUND_UNNECESSARY:
-            return UNNECESSARY;
+        dbsf BigDfdimbl.ROUND_UNNECESSARY:
+            rfturn UNNECESSARY;
 
-        default:
-            throw new IllegalArgumentException("argument out of range");
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("brgumfnt out of rbngf");
         }
     }
 }

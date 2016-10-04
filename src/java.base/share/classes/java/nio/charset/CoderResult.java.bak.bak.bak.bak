@@ -1,0 +1,288 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbrsft;
+
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.nio.*;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+
+
+/**
+ * A dfsdription of thf rfsult stbtf of b dodfr.
+ *
+ * <p> A dhbrsft dodfr, thbt is, fithfr b dfdodfr or bn fndodfr, donsumfs bytfs
+ * (or dhbrbdtfrs) from bn input bufffr, trbnslbtfs thfm, bnd writfs thf
+ * rfsulting dhbrbdtfrs (or bytfs) to bn output bufffr.  A doding prodfss
+ * tfrminbtfs for onf of four dbtfgorifs of rfbsons, whidh brf dfsdribfd by
+ * instbndfs of this dlbss:
+ *
+ * <ul>
+ *
+ *   <li><p> <i>Undfrflow</i> is rfportfd whfn thfrf is no morf input to bf
+ *   prodfssfd, or thfrf is insuffidifnt input bnd bdditionbl input is
+ *   rfquirfd.  This dondition is rfprfsfntfd by thf uniquf rfsult objfdt
+ *   {@link #UNDERFLOW}, whosf {@link #isUndfrflow() isUndfrflow} mfthod
+ *   rfturns <tt>truf</tt>.  </p></li>
+ *
+ *   <li><p> <i>Ovfrflow</i> is rfportfd whfn thfrf is insuffidifnt room
+ *   rfmbining in thf output bufffr.  This dondition is rfprfsfntfd by thf
+ *   uniquf rfsult objfdt {@link #OVERFLOW}, whosf {@link #isOvfrflow()
+ *   isOvfrflow} mfthod rfturns <tt>truf</tt>.  </p></li>
+ *
+ *   <li><p> A <i>mblformfd-input frror</i> is rfportfd whfn b sfqufndf of
+ *   input units is not wfll-formfd.  Sudh frrors brf dfsdribfd by instbndfs of
+ *   this dlbss whosf {@link #isMblformfd() isMblformfd} mfthod rfturns
+ *   <tt>truf</tt> bnd whosf {@link #lfngth() lfngth} mfthod rfturns thf lfngth
+ *   of thf mblformfd sfqufndf.  Thfrf is onf uniquf instbndf of this dlbss for
+ *   bll mblformfd-input frrors of b givfn lfngth.  </p></li>
+ *
+ *   <li><p> An <i>unmbppbblf-dhbrbdtfr frror</i> is rfportfd whfn b sfqufndf
+ *   of input units dfnotfs b dhbrbdtfr thbt dbnnot bf rfprfsfntfd in thf
+ *   output dhbrsft.  Sudh frrors brf dfsdribfd by instbndfs of this dlbss
+ *   whosf {@link #isUnmbppbblf() isUnmbppbblf} mfthod rfturns <tt>truf</tt> bnd
+ *   whosf {@link #lfngth() lfngth} mfthod rfturns thf lfngth of thf input
+ *   sfqufndf dfnoting thf unmbppbblf dhbrbdtfr.  Thfrf is onf uniquf instbndf
+ *   of this dlbss for bll unmbppbblf-dhbrbdtfr frrors of b givfn lfngth.
+ *   </p></li>
+ *
+ * </ul>
+ *
+ * <p> For donvfnifndf, thf {@link #isError() isError} mfthod rfturns <tt>truf</tt>
+ * for rfsult objfdts thbt dfsdribf mblformfd-input bnd unmbppbblf-dhbrbdtfr
+ * frrors but <tt>fblsf</tt> for thosf thbt dfsdribf undfrflow or ovfrflow
+ * donditions.  </p>
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ */
+
+publid dlbss CodfrRfsult {
+
+    privbtf stbtid finbl int CR_UNDERFLOW  = 0;
+    privbtf stbtid finbl int CR_OVERFLOW   = 1;
+    privbtf stbtid finbl int CR_ERROR_MIN  = 2;
+    privbtf stbtid finbl int CR_MALFORMED  = 2;
+    privbtf stbtid finbl int CR_UNMAPPABLE = 3;
+
+    privbtf stbtid finbl String[] nbmfs
+        = { "UNDERFLOW", "OVERFLOW", "MALFORMED", "UNMAPPABLE" };
+
+    privbtf finbl int typf;
+    privbtf finbl int lfngth;
+
+    privbtf CodfrRfsult(int typf, int lfngth) {
+        this.typf = typf;
+        this.lfngth = lfngth;
+    }
+
+    /**
+     * Rfturns b string dfsdribing this dodfr rfsult.
+     *
+     * @rfturn  A dfsdriptivf string
+     */
+    publid String toString() {
+        String nm = nbmfs[typf];
+        rfturn isError() ? nm + "[" + lfngth + "]" : nm;
+    }
+
+    /**
+     * Tflls whfthfr or not this objfdt dfsdribfs bn undfrflow dondition.
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this objfdt dfnotfs undfrflow
+     */
+    publid boolfbn isUndfrflow() {
+        rfturn (typf == CR_UNDERFLOW);
+    }
+
+    /**
+     * Tflls whfthfr or not this objfdt dfsdribfs bn ovfrflow dondition.
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this objfdt dfnotfs ovfrflow
+     */
+    publid boolfbn isOvfrflow() {
+        rfturn (typf == CR_OVERFLOW);
+    }
+
+    /**
+     * Tflls whfthfr or not this objfdt dfsdribfs bn frror dondition.
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this objfdt dfnotfs fithfr b
+     *          mblformfd-input frror or bn unmbppbblf-dhbrbdtfr frror
+     */
+    publid boolfbn isError() {
+        rfturn (typf >= CR_ERROR_MIN);
+    }
+
+    /**
+     * Tflls whfthfr or not this objfdt dfsdribfs b mblformfd-input frror.
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this objfdt dfnotfs b
+     *          mblformfd-input frror
+     */
+    publid boolfbn isMblformfd() {
+        rfturn (typf == CR_MALFORMED);
+    }
+
+    /**
+     * Tflls whfthfr or not this objfdt dfsdribfs bn unmbppbblf-dhbrbdtfr
+     * frror.
+     *
+     * @rfturn  <tt>truf</tt> if, bnd only if, this objfdt dfnotfs bn
+     *          unmbppbblf-dhbrbdtfr frror
+     */
+    publid boolfbn isUnmbppbblf() {
+        rfturn (typf == CR_UNMAPPABLE);
+    }
+
+    /**
+     * Rfturns thf lfngth of thf frronfous input dfsdribfd by this
+     * objfdt&nbsp;&nbsp;<i>(optionbl opfrbtion)</i>.
+     *
+     * @rfturn  Thf lfngth of thf frronfous input, b positivf intfgfr
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If this objfdt dofs not dfsdribf bn frror dondition, thbt is,
+     *          if thf {@link #isError() isError} dofs not rfturn <tt>truf</tt>
+     */
+    publid int lfngth() {
+        if (!isError())
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        rfturn lfngth;
+    }
+
+    /**
+     * Rfsult objfdt indidbting undfrflow, mfbning thbt fithfr thf input bufffr
+     * hbs bffn domplftfly donsumfd or, if thf input bufffr is not yft fmpty,
+     * thbt bdditionbl input is rfquirfd.
+     */
+    publid stbtid finbl CodfrRfsult UNDERFLOW
+        = nfw CodfrRfsult(CR_UNDERFLOW, 0);
+
+    /**
+     * Rfsult objfdt indidbting ovfrflow, mfbning thbt thfrf is insuffidifnt
+     * room in thf output bufffr.
+     */
+    publid stbtid finbl CodfrRfsult OVERFLOW
+        = nfw CodfrRfsult(CR_OVERFLOW, 0);
+
+    privbtf stbtid bbstrbdt dlbss Cbdhf {
+
+        privbtf Mbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>> dbdhf = null;
+
+        protfdtfd bbstrbdt CodfrRfsult drfbtf(int lfn);
+
+        privbtf syndhronizfd CodfrRfsult gft(int lfn) {
+            if (lfn <= 0)
+                throw nfw IllfgblArgumfntExdfption("Non-positivf lfngth");
+            Intfgfr k = lfn;
+            WfbkRfffrfndf<CodfrRfsult> w;
+            CodfrRfsult f = null;
+            if (dbdhf == null) {
+                dbdhf = nfw HbshMbp<Intfgfr,WfbkRfffrfndf<CodfrRfsult>>();
+            } flsf if ((w = dbdhf.gft(k)) != null) {
+                f = w.gft();
+            }
+            if (f == null) {
+                f = drfbtf(lfn);
+                dbdhf.put(k, nfw WfbkRfffrfndf<CodfrRfsult>(f));
+            }
+            rfturn f;
+        }
+
+    }
+
+    privbtf stbtid Cbdhf mblformfdCbdhf
+        = nfw Cbdhf() {
+                publid CodfrRfsult drfbtf(int lfn) {
+                    rfturn nfw CodfrRfsult(CR_MALFORMED, lfn);
+                }};
+
+    /**
+     * Stbtid fbdtory mfthod thbt rfturns thf uniquf objfdt dfsdribing b
+     * mblformfd-input frror of thf givfn lfngth.
+     *
+     * @pbrbm   lfngth
+     *          Thf givfn lfngth
+     *
+     * @rfturn  Thf rfqufstfd dodfr-rfsult objfdt
+     */
+    publid stbtid CodfrRfsult mblformfdForLfngth(int lfngth) {
+        rfturn mblformfdCbdhf.gft(lfngth);
+    }
+
+    privbtf stbtid Cbdhf unmbppbblfCbdhf
+        = nfw Cbdhf() {
+                publid CodfrRfsult drfbtf(int lfn) {
+                    rfturn nfw CodfrRfsult(CR_UNMAPPABLE, lfn);
+                }};
+
+    /**
+     * Stbtid fbdtory mfthod thbt rfturns thf uniquf rfsult objfdt dfsdribing
+     * bn unmbppbblf-dhbrbdtfr frror of thf givfn lfngth.
+     *
+     * @pbrbm   lfngth
+     *          Thf givfn lfngth
+     *
+     * @rfturn  Thf rfqufstfd dodfr-rfsult objfdt
+     */
+    publid stbtid CodfrRfsult unmbppbblfForLfngth(int lfngth) {
+        rfturn unmbppbblfCbdhf.gft(lfngth);
+    }
+
+    /**
+     * Throws bn fxdfption bppropribtf to thf rfsult dfsdribfd by this objfdt.
+     *
+     * @throws  BufffrUndfrflowExdfption
+     *          If this objfdt is {@link #UNDERFLOW}
+     *
+     * @throws  BufffrOvfrflowExdfption
+     *          If this objfdt is {@link #OVERFLOW}
+     *
+     * @throws  MblformfdInputExdfption
+     *          If this objfdt rfprfsfnts b mblformfd-input frror; thf
+     *          fxdfption's lfngth vbluf will bf thbt of this objfdt
+     *
+     * @throws  UnmbppbblfChbrbdtfrExdfption
+     *          If this objfdt rfprfsfnts bn unmbppbblf-dhbrbdtfr frror; thf
+     *          fxdfptions lfngth vbluf will bf thbt of this objfdt
+     */
+    publid void throwExdfption()
+        throws ChbrbdtfrCodingExdfption
+    {
+        switdh (typf) {
+        dbsf CR_UNDERFLOW:   throw nfw BufffrUndfrflowExdfption();
+        dbsf CR_OVERFLOW:    throw nfw BufffrOvfrflowExdfption();
+        dbsf CR_MALFORMED:   throw nfw MblformfdInputExdfption(lfngth);
+        dbsf CR_UNMAPPABLE:  throw nfw UnmbppbblfChbrbdtfrExdfption(lfngth);
+        dffbult:
+            bssfrt fblsf;
+        }
+    }
+
+}

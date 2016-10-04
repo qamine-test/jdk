@@ -1,53 +1,53 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 /**
- * Instances of classes that implement this interface are used to
- * filter filenames. These instances are used to filter directory
- * listings in the <code>list</code> method of class
- * <code>File</code>, and by the Abstract Window Toolkit's file
- * dialog component.
+ * Instbndfs of dlbssfs tibt implfmfnt tiis intfrfbdf brf usfd to
+ * filtfr filfnbmfs. Tifsf instbndfs brf usfd to filtfr dirfdtory
+ * listings in tif <dodf>list</dodf> mftiod of dlbss
+ * <dodf>Filf</dodf>, bnd by tif Abstrbdt Window Toolkit's filf
+ * diblog domponfnt.
  *
- * @author  Arthur van Hoff
- * @author  Jonathan Payne
- * @see     java.awt.FileDialog#setFilenameFilter(java.io.FilenameFilter)
- * @see     java.io.File
- * @see     java.io.File#list(java.io.FilenameFilter)
- * @since   1.0
+ * @butior  Artiur vbn Hoff
+ * @butior  Jonbtibn Pbynf
+ * @sff     jbvb.bwt.FilfDiblog#sftFilfnbmfFiltfr(jbvb.io.FilfnbmfFiltfr)
+ * @sff     jbvb.io.Filf
+ * @sff     jbvb.io.Filf#list(jbvb.io.FilfnbmfFiltfr)
+ * @sindf   1.0
  */
-@FunctionalInterface
-public interface FilenameFilter {
+@FundtionblIntfrfbdf
+publid intfrfbdf FilfnbmfFiltfr {
     /**
-     * Tests if a specified file should be included in a file list.
+     * Tfsts if b spfdififd filf siould bf indludfd in b filf list.
      *
-     * @param   dir    the directory in which the file was found.
-     * @param   name   the name of the file.
-     * @return  <code>true</code> if and only if the name should be
-     * included in the file list; <code>false</code> otherwise.
+     * @pbrbm   dir    tif dirfdtory in wiidi tif filf wbs found.
+     * @pbrbm   nbmf   tif nbmf of tif filf.
+     * @rfturn  <dodf>truf</dodf> if bnd only if tif nbmf siould bf
+     * indludfd in tif filf list; <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean accept(File dir, String name);
+    boolfbn bddfpt(Filf dir, String nbmf);
 }

@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+/**
+ * Thrown whfn thf Sfriblizbtion runtimf dftfdts onf of thf following
+ * problfms with b Clbss.
+ * <UL>
+ * <LI> Thf sfribl vfrsion of thf dlbss dofs not mbtdh thbt of thf dlbss
+ *      dfsdriptor rfbd from thf strfbm
+ * <LI> Thf dlbss dontbins unknown dbtbtypfs
+ * <LI> Thf dlbss dofs not hbvf bn bddfssiblf no-brg donstrudtor
+ * </UL>
+ *
+ * @buthor  unbsdribfd
+ * @sindf   1.1
+ */
+publid dlbss InvblidClbssExdfption fxtfnds ObjfdtStrfbmExdfption {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -4333316296251054416L;
+
+    /**
+     * Nbmf of thf invblid dlbss.
+     *
+     * @sfribl Nbmf of thf invblid dlbss.
+     */
+    publid String dlbssnbmf;
+
+    /**
+     * Rfport bn InvblidClbssExdfption for thf rfbson spfdififd.
+     *
+     * @pbrbm rfbson  String dfsdribing thf rfbson for thf fxdfption.
+     */
+    publid InvblidClbssExdfption(String rfbson) {
+        supfr(rfbson);
+    }
+
+    /**
+     * Construdts bn InvblidClbssExdfption objfdt.
+     *
+     * @pbrbm dnbmf   b String nbming thf invblid dlbss.
+     * @pbrbm rfbson  b String dfsdribing thf rfbson for thf fxdfption.
+     */
+    publid InvblidClbssExdfption(String dnbmf, String rfbson) {
+        supfr(rfbson);
+        dlbssnbmf = dnbmf;
+    }
+
+    /**
+     * Produdf thf mfssbgf bnd indludf thf dlbssnbmf, if prfsfnt.
+     */
+    publid String gftMfssbgf() {
+        if (dlbssnbmf == null)
+            rfturn supfr.gftMfssbgf();
+        flsf
+            rfturn dlbssnbmf + "; " + supfr.gftMfssbgf();
+    }
+}

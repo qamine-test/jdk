@@ -1,169 +1,169 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.util.Vector;
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.*;
-import javax.naming.ldap.*;
-import javax.naming.ldap.LdapName;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Vfdtor;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.*;
+import jbvbx.nbming.ldbp.*;
+import jbvbx.nbming.ldbp.LdbpNbmf;
 
-import com.sun.jndi.toolkit.ctx.Continuation;
+import dom.sun.jndi.toolkit.dtx.Continubtion;
 
-final class LdapSearchEnumeration
-        extends AbstractLdapNamingEnumeration<SearchResult> {
+finbl dlbss LdbpSfbrdiEnumfrbtion
+        fxtfnds AbstrbdtLdbpNbmingEnumfrbtion<SfbrdiRfsult> {
 
-    private Name startName;             // prefix of names of search results
-    private LdapCtx.SearchArgs searchArgs = null;
+    privbtf Nbmf stbrtNbmf;             // prffix of nbmfs of sfbrdi rfsults
+    privbtf LdbpCtx.SfbrdiArgs sfbrdiArgs = null;
 
-    private final AccessControlContext acc = AccessController.getContext();
+    privbtf finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
 
-    LdapSearchEnumeration(LdapCtx homeCtx, LdapResult search_results,
-        String starter, LdapCtx.SearchArgs args, Continuation cont)
-        throws NamingException {
+    LdbpSfbrdiEnumfrbtion(LdbpCtx iomfCtx, LdbpRfsult sfbrdi_rfsults,
+        String stbrtfr, LdbpCtx.SfbrdiArgs brgs, Continubtion dont)
+        tirows NbmingExdfption {
 
-        super(homeCtx, search_results,
-              args.name, /* listArg */
-              cont);
+        supfr(iomfCtx, sfbrdi_rfsults,
+              brgs.nbmf, /* listArg */
+              dont);
 
-        // fully qualified name of starting context of search
-        startName = new LdapName(starter);
-        searchArgs = args;
+        // fully qublififd nbmf of stbrting dontfxt of sfbrdi
+        stbrtNbmf = nfw LdbpNbmf(stbrtfr);
+        sfbrdiArgs = brgs;
     }
 
-    @Override
-    protected SearchResult createItem(String dn, Attributes attrs,
-                                      Vector<Control> respCtls)
-            throws NamingException {
+    @Ovfrridf
+    protfdtfd SfbrdiRfsult drfbtfItfm(String dn, Attributfs bttrs,
+                                      Vfdtor<Control> rfspCtls)
+            tirows NbmingExdfption {
 
-        Object obj = null;
+        Objfdt obj = null;
 
-        String relStart;         // name relative to starting search context
-        String relHome;          // name relative to homeCtx.currentDN
-        boolean relative = true; // whether relative to currentDN
+        String rflStbrt;         // nbmf rflbtivf to stbrting sfbrdi dontfxt
+        String rflHomf;          // nbmf rflbtivf to iomfCtx.durrfntDN
+        boolfbn rflbtivf = truf; // wiftifr rflbtivf to durrfntDN
 
-        // need to strip off all but lowest component of dn
-        // so that is relative to current context (currentDN)
+        // nffd to strip off bll but lowfst domponfnt of dn
+        // so tibt is rflbtivf to durrfnt dontfxt (durrfntDN)
 
         try {
-            Name parsed = new LdapName(dn);
-            // System.err.println("dn string: " + dn);
-            // System.err.println("dn name: " + parsed);
+            Nbmf pbrsfd = nfw LdbpNbmf(dn);
+            // Systfm.frr.println("dn string: " + dn);
+            // Systfm.frr.println("dn nbmf: " + pbrsfd);
 
-            if (startName != null && parsed.startsWith(startName)) {
-                relStart = parsed.getSuffix(startName.size()).toString();
-                relHome = parsed.getSuffix(homeCtx.currentParsedDN.size()).toString();
-            } else {
-                relative = false;
-                relHome = relStart =
-                    LdapURL.toUrlString(homeCtx.hostname, homeCtx.port_number,
-                    dn, homeCtx.hasLdapsScheme);
+            if (stbrtNbmf != null && pbrsfd.stbrtsWiti(stbrtNbmf)) {
+                rflStbrt = pbrsfd.gftSuffix(stbrtNbmf.sizf()).toString();
+                rflHomf = pbrsfd.gftSuffix(iomfCtx.durrfntPbrsfdDN.sizf()).toString();
+            } flsf {
+                rflbtivf = fblsf;
+                rflHomf = rflStbrt =
+                    LdbpURL.toUrlString(iomfCtx.iostnbmf, iomfCtx.port_numbfr,
+                    dn, iomfCtx.ibsLdbpsSdifmf);
             }
-        } catch (NamingException e) {
-            // could not parse name
-            relative = false;
-            relHome = relStart =
-                LdapURL.toUrlString(homeCtx.hostname, homeCtx.port_number,
-                dn, homeCtx.hasLdapsScheme);
+        } dbtdi (NbmingExdfption f) {
+            // dould not pbrsf nbmf
+            rflbtivf = fblsf;
+            rflHomf = rflStbrt =
+                LdbpURL.toUrlString(iomfCtx.iostnbmf, iomfCtx.port_numbfr,
+                dn, iomfCtx.ibsLdbpsSdifmf);
         }
 
-        // Name relative to search context
-        CompositeName cn = new CompositeName();
-        if (!relStart.equals("")) {
-            cn.add(relStart);
+        // Nbmf rflbtivf to sfbrdi dontfxt
+        CompositfNbmf dn = nfw CompositfNbmf();
+        if (!rflStbrt.fqubls("")) {
+            dn.bdd(rflStbrt);
         }
 
-        // Name relative to homeCtx
-        CompositeName rcn = new CompositeName();
-        if (!relHome.equals("")) {
-            rcn.add(relHome);
+        // Nbmf rflbtivf to iomfCtx
+        CompositfNbmf rdn = nfw CompositfNbmf();
+        if (!rflHomf.fqubls("")) {
+            rdn.bdd(rflHomf);
         }
-        //System.err.println("relStart: " + cn);
-        //System.err.println("relHome: " + rcn);
+        //Systfm.frr.println("rflStbrt: " + dn);
+        //Systfm.frr.println("rflHomf: " + rdn);
 
-        // Fix attributes to be able to get schema
-        homeCtx.setParents(attrs, rcn);
+        // Fix bttributfs to bf bblf to gft sdifmb
+        iomfCtx.sftPbrfnts(bttrs, rdn);
 
-        // only generate object when requested
-        if (searchArgs.cons.getReturningObjFlag()) {
+        // only gfnfrbtf objfdt wifn rfqufstfd
+        if (sfbrdiArgs.dons.gftRfturningObjFlbg()) {
 
-            if (attrs.get(Obj.JAVA_ATTRIBUTES[Obj.CLASSNAME]) != null) {
-                // Entry contains Java-object attributes (ser/ref object)
-                // serialized object or object reference
+            if (bttrs.gft(Obj.JAVA_ATTRIBUTES[Obj.CLASSNAME]) != null) {
+                // Entry dontbins Jbvb-objfdt bttributfs (sfr/rff objfdt)
+                // sfriblizfd objfdt or objfdt rfffrfndf
                 try {
-                    obj = AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
-                        @Override
-                        public Object run() throws NamingException {
-                            return Obj.decodeObject(attrs);
+                    obj = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Objfdt>() {
+                        @Ovfrridf
+                        publid Objfdt run() tirows NbmingExdfption {
+                            rfturn Obj.dfdodfObjfdt(bttrs);
                         }
-                    }, acc);
-                } catch (PrivilegedActionException e) {
-                    throw (NamingException)e.getException();
+                    }, bdd);
+                } dbtdi (PrivilfgfdAdtionExdfption f) {
+                    tirow (NbmingExdfption)f.gftExdfption();
                 }
             }
             if (obj == null) {
-                obj = new LdapCtx(homeCtx, dn);
+                obj = nfw LdbpCtx(iomfCtx, dn);
             }
 
-            // Call getObjectInstance before removing unrequested attributes
+            // Cbll gftObjfdtInstbndf bfforf rfmoving unrfqufstfd bttributfs
             try {
-                // rcn is either relative to homeCtx or a fully qualified DN
-                obj = DirectoryManager.getObjectInstance(
-                    obj, rcn, (relative ? homeCtx : null),
-                    homeCtx.envprops, attrs);
-            } catch (NamingException e) {
-                throw e;
-            } catch (Exception e) {
-                NamingException ne =
-                    new NamingException(
-                            "problem generating object using object factory");
-                ne.setRootCause(e);
-                throw ne;
+                // rdn is fitifr rflbtivf to iomfCtx or b fully qublififd DN
+                obj = DirfdtoryMbnbgfr.gftObjfdtInstbndf(
+                    obj, rdn, (rflbtivf ? iomfCtx : null),
+                    iomfCtx.fnvprops, bttrs);
+            } dbtdi (NbmingExdfption f) {
+                tirow f;
+            } dbtdi (Exdfption f) {
+                NbmingExdfption nf =
+                    nfw NbmingExdfption(
+                            "problfm gfnfrbting objfdt using objfdt fbdtory");
+                nf.sftRootCbusf(f);
+                tirow nf;
             }
 
-            // remove Java attributes from result, if necessary
-            // Even if CLASSNAME attr not there, there might be some
-            // residual attributes
+            // rfmovf Jbvb bttributfs from rfsult, if nfdfssbry
+            // Evfn if CLASSNAME bttr not tifrf, tifrf migit bf somf
+            // rfsidubl bttributfs
 
-            String[] reqAttrs;
-            if ((reqAttrs = searchArgs.reqAttrs) != null) {
-                // create an attribute set for those requested
-                Attributes rattrs = new BasicAttributes(true); // ignore case
-                for (int i = 0; i < reqAttrs.length; i++) {
-                    rattrs.put(reqAttrs[i], null);
+            String[] rfqAttrs;
+            if ((rfqAttrs = sfbrdiArgs.rfqAttrs) != null) {
+                // drfbtf bn bttributf sft for tiosf rfqufstfd
+                Attributfs rbttrs = nfw BbsidAttributfs(truf); // ignorf dbsf
+                for (int i = 0; i < rfqAttrs.lfngti; i++) {
+                    rbttrs.put(rfqAttrs[i], null);
                 }
-                for (int i = 0; i < Obj.JAVA_ATTRIBUTES.length; i++) {
-                    // Remove Java-object attributes if not requested
-                    if (rattrs.get(Obj.JAVA_ATTRIBUTES[i]) == null) {
-                        attrs.remove(Obj.JAVA_ATTRIBUTES[i]);
+                for (int i = 0; i < Obj.JAVA_ATTRIBUTES.lfngti; i++) {
+                    // Rfmovf Jbvb-objfdt bttributfs if not rfqufstfd
+                    if (rbttrs.gft(Obj.JAVA_ATTRIBUTES[i]) == null) {
+                        bttrs.rfmovf(Obj.JAVA_ATTRIBUTES[i]);
                     }
                 }
             }
@@ -171,51 +171,51 @@ final class LdapSearchEnumeration
         }
 
         /*
-         * name in search result is either the stringified composite name
-         * relative to the search context that can be passed directly to
-         * methods of the search context, or the fully qualified DN
-         * which can be used with the initial context.
+         * nbmf in sfbrdi rfsult is fitifr tif stringififd dompositf nbmf
+         * rflbtivf to tif sfbrdi dontfxt tibt dbn bf pbssfd dirfdtly to
+         * mftiods of tif sfbrdi dontfxt, or tif fully qublififd DN
+         * wiidi dbn bf usfd witi tif initibl dontfxt.
          */
-        SearchResult sr;
-        if (respCtls != null) {
-            sr = new SearchResultWithControls(
-                (relative ? cn.toString() : relStart), obj, attrs,
-                relative, homeCtx.convertControls(respCtls));
-        } else {
-            sr = new SearchResult(
-                (relative ? cn.toString() : relStart),
-                obj, attrs, relative);
+        SfbrdiRfsult sr;
+        if (rfspCtls != null) {
+            sr = nfw SfbrdiRfsultWitiControls(
+                (rflbtivf ? dn.toString() : rflStbrt), obj, bttrs,
+                rflbtivf, iomfCtx.donvfrtControls(rfspCtls));
+        } flsf {
+            sr = nfw SfbrdiRfsult(
+                (rflbtivf ? dn.toString() : rflStbrt),
+                obj, bttrs, rflbtivf);
         }
-        sr.setNameInNamespace(dn);
-        return sr;
+        sr.sftNbmfInNbmfspbdf(dn);
+        rfturn sr;
     }
 
-    @Override
-    public void appendUnprocessedReferrals(LdapReferralException ex) {
+    @Ovfrridf
+    publid void bppfndUnprodfssfdRfffrrbls(LdbpRfffrrblExdfption fx) {
 
-        // a referral has been followed so do not create relative names
-        startName = null;
-        super.appendUnprocessedReferrals(ex);
+        // b rfffrrbl ibs bffn followfd so do not drfbtf rflbtivf nbmfs
+        stbrtNbmf = null;
+        supfr.bppfndUnprodfssfdRfffrrbls(fx);
     }
 
-    @Override
-    protected LdapSearchEnumeration getReferredResults(
-            LdapReferralContext refCtx) throws NamingException {
-        // repeat the original operation at the new context
-        return (LdapSearchEnumeration)refCtx.search(
-                searchArgs.name, searchArgs.filter, searchArgs.cons);
+    @Ovfrridf
+    protfdtfd LdbpSfbrdiEnumfrbtion gftRfffrrfdRfsults(
+            LdbpRfffrrblContfxt rffCtx) tirows NbmingExdfption {
+        // rfpfbt tif originbl opfrbtion bt tif nfw dontfxt
+        rfturn (LdbpSfbrdiEnumfrbtion)rffCtx.sfbrdi(
+                sfbrdiArgs.nbmf, sfbrdiArgs.filtfr, sfbrdiArgs.dons);
     }
 
-    @Override
-    protected void update(AbstractLdapNamingEnumeration<SearchResult> ne) {
-        super.update(ne);
+    @Ovfrridf
+    protfdtfd void updbtf(AbstrbdtLdbpNbmingEnumfrbtion<SfbrdiRfsult> nf) {
+        supfr.updbtf(nf);
 
-        // Update search-specific variables
-        LdapSearchEnumeration se = (LdapSearchEnumeration)ne;
-        startName = se.startName;
+        // Updbtf sfbrdi-spfdifid vbribblfs
+        LdbpSfbrdiEnumfrbtion sf = (LdbpSfbrdiEnumfrbtion)nf;
+        stbrtNbmf = sf.stbrtNbmf;
     }
 
-    void setStartName(Name nm) {
-        startName = nm;
+    void sftStbrtNbmf(Nbmf nm) {
+        stbrtNbmf = nm;
     }
 }

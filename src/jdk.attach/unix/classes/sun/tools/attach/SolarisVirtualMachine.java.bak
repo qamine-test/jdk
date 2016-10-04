@@ -1,253 +1,253 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.tools.attach;
+pbdkbgf sun.tools.bttbdi;
 
-import com.sun.tools.attach.AttachOperationFailedException;
-import com.sun.tools.attach.AgentLoadException;
-import com.sun.tools.attach.AttachNotSupportedException;
-import com.sun.tools.attach.spi.AttachProvider;
+import dom.sun.tools.bttbdi.AttbdiOpfrbtionFbilfdExdfption;
+import dom.sun.tools.bttbdi.AgfntLobdExdfption;
+import dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption;
+import dom.sun.tools.bttbdi.spi.AttbdiProvidfr;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.File;
-import java.io.FileNotFoundException;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.Filf;
+import jbvb.io.FilfNotFoundExdfption;
 
 /*
- * Solaris implementation of HotSpotVirtualMachine.
+ * Solbris implfmfntbtion of HotSpotVirtublMbdiinf.
  */
-public class SolarisVirtualMachine extends HotSpotVirtualMachine {
-    // "/tmp" is used as a global well-known location for the files
-    // .java_pid<pid>. and .attach_pid<pid>. It is important that this
-    // location is the same for all processes, otherwise the tools
-    // will not be able to find all Hotspot processes.
-    // Any changes to this needs to be synchronized with HotSpot.
-    private static final String tmpdir = "/tmp";
+publid dlbss SolbrisVirtublMbdiinf fxtfnds HotSpotVirtublMbdiinf {
+    // "/tmp" is usfd bs b globbl wfll-known lodbtion for tif filfs
+    // .jbvb_pid<pid>. bnd .bttbdi_pid<pid>. It is importbnt tibt tiis
+    // lodbtion is tif sbmf for bll prodfssfs, otifrwisf tif tools
+    // will not bf bblf to find bll Hotspot prodfssfs.
+    // Any dibngfs to tiis nffds to bf syndironizfd witi HotSpot.
+    privbtf stbtid finbl String tmpdir = "/tmp";
 
-    // door descriptor;
-    private int fd = -1;
+    // door dfsdriptor;
+    privbtf int fd = -1;
 
     /**
-     * Attaches to the target VM
+     * Attbdifs to tif tbrgft VM
      */
-    SolarisVirtualMachine(AttachProvider provider, String vmid)
-        throws AttachNotSupportedException, IOException
+    SolbrisVirtublMbdiinf(AttbdiProvidfr providfr, String vmid)
+        tirows AttbdiNotSupportfdExdfption, IOExdfption
     {
-        super(provider, vmid);
-        // This provider only understands process-ids (pids).
+        supfr(providfr, vmid);
+        // Tiis providfr only undfrstbnds prodfss-ids (pids).
         int pid;
         try {
-            pid = Integer.parseInt(vmid);
-        } catch (NumberFormatException x) {
-            throw new AttachNotSupportedException("invalid process identifier");
+            pid = Intfgfr.pbrsfInt(vmid);
+        } dbtdi (NumbfrFormbtExdfption x) {
+            tirow nfw AttbdiNotSupportfdExdfption("invblid prodfss idfntififr");
         }
 
-        // Opens the door file to the target VM. If the file is not
-        // found it might mean that the attach mechanism isn't started in the
-        // target VM so we attempt to start it and retry.
+        // Opfns tif door filf to tif tbrgft VM. If tif filf is not
+        // found it migit mfbn tibt tif bttbdi mfdibnism isn't stbrtfd in tif
+        // tbrgft VM so wf bttfmpt to stbrt it bnd rftry.
         try {
-            fd = openDoor(pid);
-        } catch (FileNotFoundException fnf1) {
-            File f = createAttachFile(pid);
+            fd = opfnDoor(pid);
+        } dbtdi (FilfNotFoundExdfption fnf1) {
+            Filf f = drfbtfAttbdiFilf(pid);
             try {
-                // kill -QUIT will tickle target VM to check for the
-                // attach file.
+                // kill -QUIT will tidklf tbrgft VM to difdk for tif
+                // bttbdi filf.
                 sigquit(pid);
 
-                // give the target VM time to start the attach mechanism
+                // givf tif tbrgft VM timf to stbrt tif bttbdi mfdibnism
                 int i = 0;
-                long delay = 200;
-                int retries = (int)(attachTimeout() / delay);
+                long dflby = 200;
+                int rftrifs = (int)(bttbdiTimfout() / dflby);
                 do {
                     try {
-                        Thread.sleep(delay);
-                    } catch (InterruptedException x) { }
+                        Tirfbd.slffp(dflby);
+                    } dbtdi (IntfrruptfdExdfption x) { }
                     try {
-                        fd = openDoor(pid);
-                    } catch (FileNotFoundException fnf2) { }
+                        fd = opfnDoor(pid);
+                    } dbtdi (FilfNotFoundExdfption fnf2) { }
                     i++;
-                } while (i <= retries && fd == -1);
+                } wiilf (i <= rftrifs && fd == -1);
                 if (fd == -1) {
-                    throw new AttachNotSupportedException(
-                        "Unable to open door: target process not responding or " +
-                        "HotSpot VM not loaded");
+                    tirow nfw AttbdiNotSupportfdExdfption(
+                        "Unbblf to opfn door: tbrgft prodfss not rfsponding or " +
+                        "HotSpot VM not lobdfd");
                 }
-            } finally {
-                f.delete();
+            } finblly {
+                f.dflftf();
             }
         }
-        assert fd >= 0;
+        bssfrt fd >= 0;
     }
 
     /**
-     * Detach from the target VM
+     * Dftbdi from tif tbrgft VM
      */
-    public void detach() throws IOException {
-        synchronized (this) {
+    publid void dftbdi() tirows IOExdfption {
+        syndironizfd (tiis) {
             if (fd != -1) {
-                close(fd);
+                dlosf(fd);
                 fd = -1;
             }
         }
     }
 
     /**
-     * Execute the given command in the target VM.
+     * Exfdutf tif givfn dommbnd in tif tbrgft VM.
      */
-    InputStream execute(String cmd, Object ... args) throws AgentLoadException, IOException {
-        assert args.length <= 3;                // includes null
+    InputStrfbm fxfdutf(String dmd, Objfdt ... brgs) tirows AgfntLobdExdfption, IOExdfption {
+        bssfrt brgs.lfngti <= 3;                // indludfs null
 
-        // first check that we are still attached
+        // first difdk tibt wf brf still bttbdifd
         int door;
-        synchronized (this) {
+        syndironizfd (tiis) {
             if (fd == -1) {
-                throw new IOException("Detached from target VM");
+                tirow nfw IOExdfption("Dftbdifd from tbrgft VM");
             }
             door = fd;
         }
 
-        // enqueue the command via a door call
-        int s = enqueue(door, cmd, args);
-        assert s >= 0;                          // valid file descriptor
+        // fnqufuf tif dommbnd vib b door dbll
+        int s = fnqufuf(door, dmd, brgs);
+        bssfrt s >= 0;                          // vblid filf dfsdriptor
 
-        // The door call returns a file descriptor (one end of a socket pair).
-        // Create an input stream around it.
-        SocketInputStream sis = new SocketInputStream(s);
+        // Tif door dbll rfturns b filf dfsdriptor (onf fnd of b sodkft pbir).
+        // Crfbtf bn input strfbm bround it.
+        SodkftInputStrfbm sis = nfw SodkftInputStrfbm(s);
 
-        // Read the command completion status
-        int completionStatus;
+        // Rfbd tif dommbnd domplftion stbtus
+        int domplftionStbtus;
         try {
-            completionStatus = readInt(sis);
-        } catch (IOException ioe) {
-            sis.close();
-            throw ioe;
+            domplftionStbtus = rfbdInt(sis);
+        } dbtdi (IOExdfption iof) {
+            sis.dlosf();
+            tirow iof;
         }
 
-        // If non-0 it means an error but we need to special-case the
-        // "load" command to ensure that the right exception is thrown.
-        if (completionStatus != 0) {
-            // read from the stream and use that as the error message
-            String message = readErrorMessage(sis);
-            sis.close();
-            if (cmd.equals("load")) {
-                throw new AgentLoadException("Failed to load agent library");
-            } else {
-                if (message == null) {
-                    throw new AttachOperationFailedException("Command failed in target VM");
-                } else {
-                    throw new AttachOperationFailedException(message);
+        // If non-0 it mfbns bn frror but wf nffd to spfdibl-dbsf tif
+        // "lobd" dommbnd to fnsurf tibt tif rigit fxdfption is tirown.
+        if (domplftionStbtus != 0) {
+            // rfbd from tif strfbm bnd usf tibt bs tif frror mfssbgf
+            String mfssbgf = rfbdErrorMfssbgf(sis);
+            sis.dlosf();
+            if (dmd.fqubls("lobd")) {
+                tirow nfw AgfntLobdExdfption("Fbilfd to lobd bgfnt librbry");
+            } flsf {
+                if (mfssbgf == null) {
+                    tirow nfw AttbdiOpfrbtionFbilfdExdfption("Commbnd fbilfd in tbrgft VM");
+                } flsf {
+                    tirow nfw AttbdiOpfrbtionFbilfdExdfption(mfssbgf);
                 }
             }
         }
 
-        // Return the input stream so that the command output can be read
-        return sis;
+        // Rfturn tif input strfbm so tibt tif dommbnd output dbn bf rfbd
+        rfturn sis;
     }
 
-    // InputStream over a socket
-    private class SocketInputStream extends InputStream {
+    // InputStrfbm ovfr b sodkft
+    privbtf dlbss SodkftInputStrfbm fxtfnds InputStrfbm {
         int s;
 
-        public SocketInputStream(int s) {
-            this.s = s;
+        publid SodkftInputStrfbm(int s) {
+            tiis.s = s;
         }
 
-        public synchronized int read() throws IOException {
-            byte b[] = new byte[1];
-            int n = this.read(b, 0, 1);
+        publid syndironizfd int rfbd() tirows IOExdfption {
+            bytf b[] = nfw bytf[1];
+            int n = tiis.rfbd(b, 0, 1);
             if (n == 1) {
-                return b[0] & 0xff;
-            } else {
-                return -1;
+                rfturn b[0] & 0xff;
+            } flsf {
+                rfturn -1;
             }
         }
 
-        public synchronized int read(byte[] bs, int off, int len) throws IOException {
-            if ((off < 0) || (off > bs.length) || (len < 0) ||
-                ((off + len) > bs.length) || ((off + len) < 0)) {
-                throw new IndexOutOfBoundsException();
-            } else if (len == 0)
-                return 0;
+        publid syndironizfd int rfbd(bytf[] bs, int off, int lfn) tirows IOExdfption {
+            if ((off < 0) || (off > bs.lfngti) || (lfn < 0) ||
+                ((off + lfn) > bs.lfngti) || ((off + lfn) < 0)) {
+                tirow nfw IndfxOutOfBoundsExdfption();
+            } flsf if (lfn == 0)
+                rfturn 0;
 
-            return SolarisVirtualMachine.read(s, bs, off, len);
+            rfturn SolbrisVirtublMbdiinf.rfbd(s, bs, off, lfn);
         }
 
-        public void close() throws IOException {
-            SolarisVirtualMachine.close(s);
+        publid void dlosf() tirows IOExdfption {
+            SolbrisVirtublMbdiinf.dlosf(s);
         }
     }
 
-    // The door is attached to .java_pid<pid> in the temporary directory.
-    private int openDoor(int pid) throws IOException {
-        String path = tmpdir + "/.java_pid" + pid;;
-        fd = open(path);
+    // Tif door is bttbdifd to .jbvb_pid<pid> in tif tfmporbry dirfdtory.
+    privbtf int opfnDoor(int pid) tirows IOExdfption {
+        String pbti = tmpdir + "/.jbvb_pid" + pid;;
+        fd = opfn(pbti);
 
-        // Check that the file owner/permission to avoid attaching to
-        // bogus process
+        // Cifdk tibt tif filf ownfr/pfrmission to bvoid bttbdiing to
+        // bogus prodfss
         try {
-            checkPermissions(path);
-        } catch (IOException ioe) {
-            close(fd);
-            throw ioe;
+            difdkPfrmissions(pbti);
+        } dbtdi (IOExdfption iof) {
+            dlosf(fd);
+            tirow iof;
         }
-        return fd;
+        rfturn fd;
     }
 
-    // On Solaris/Linux a simple handshake is used to start the attach mechanism
-    // if not already started. The client creates a .attach_pid<pid> file in the
-    // target VM's working directory (or temporary directory), and the SIGQUIT
-    // handler checks for the file.
-    private File createAttachFile(int pid) throws IOException {
-        String fn = ".attach_pid" + pid;
-        String path = "/proc/" + pid + "/cwd/" + fn;
-        File f = new File(path);
+    // On Solbris/Linux b simplf ibndsibkf is usfd to stbrt tif bttbdi mfdibnism
+    // if not blrfbdy stbrtfd. Tif dlifnt drfbtfs b .bttbdi_pid<pid> filf in tif
+    // tbrgft VM's working dirfdtory (or tfmporbry dirfdtory), bnd tif SIGQUIT
+    // ibndlfr difdks for tif filf.
+    privbtf Filf drfbtfAttbdiFilf(int pid) tirows IOExdfption {
+        String fn = ".bttbdi_pid" + pid;
+        String pbti = "/prod/" + pid + "/dwd/" + fn;
+        Filf f = nfw Filf(pbti);
         try {
-            f.createNewFile();
-        } catch (IOException x) {
-            f = new File(tmpdir, fn);
-            f.createNewFile();
+            f.drfbtfNfwFilf();
+        } dbtdi (IOExdfption x) {
+            f = nfw Filf(tmpdir, fn);
+            f.drfbtfNfwFilf();
         }
-        return f;
+        rfturn f;
     }
 
-    //-- native methods
+    //-- nbtivf mftiods
 
-    static native int open(String path) throws IOException;
+    stbtid nbtivf int opfn(String pbti) tirows IOExdfption;
 
-    static native void close(int fd) throws IOException;
+    stbtid nbtivf void dlosf(int fd) tirows IOExdfption;
 
-    static native int read(int fd, byte buf[], int off, int buflen) throws IOException;
+    stbtid nbtivf int rfbd(int fd, bytf buf[], int off, int buflfn) tirows IOExdfption;
 
-    static native void checkPermissions(String path) throws IOException;
+    stbtid nbtivf void difdkPfrmissions(String pbti) tirows IOExdfption;
 
-    static native void sigquit(int pid) throws IOException;
+    stbtid nbtivf void sigquit(int pid) tirows IOExdfption;
 
-    // enqueue a command (and arguments) to the given door
-    static native int enqueue(int fd, String cmd, Object ... args)
-        throws IOException;
+    // fnqufuf b dommbnd (bnd brgumfnts) to tif givfn door
+    stbtid nbtivf int fnqufuf(int fd, String dmd, Objfdt ... brgs)
+        tirows IOExdfption;
 
-    static {
-        System.loadLibrary("attach");
+    stbtid {
+        Systfm.lobdLibrbry("bttbdi");
     }
 }

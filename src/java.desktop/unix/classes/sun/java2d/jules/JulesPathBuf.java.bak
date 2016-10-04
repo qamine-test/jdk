@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.jules;
+pbdkbgf sun.jbvb2d.julfs;
 
-import java.awt.*;
-import java.awt.geom.*;
-import sun.awt.X11GraphicsEnvironment;
-import sun.java2d.pipe.*;
-import sun.java2d.xr.*;
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.*;
+import sun.bwt.X11GrbpiidsEnvironmfnt;
+import sun.jbvb2d.pipf.*;
+import sun.jbvb2d.xr.*;
 
-public class JulesPathBuf {
-    static final double[] emptyDash = new double[0];
+publid dlbss JulfsPbtiBuf {
+    stbtid finbl doublf[] fmptyDbsi = nfw doublf[0];
 
-    private static final byte CAIRO_PATH_OP_MOVE_TO = 0;
-    private static final byte CAIRO_PATH_OP_LINE_TO = 1;
-    private static final byte CAIRO_PATH_OP_CURVE_TO = 2;
-    private static final byte CAIRO_PATH_OP_CLOSE_PATH = 3;
+    privbtf stbtid finbl bytf CAIRO_PATH_OP_MOVE_TO = 0;
+    privbtf stbtid finbl bytf CAIRO_PATH_OP_LINE_TO = 1;
+    privbtf stbtid finbl bytf CAIRO_PATH_OP_CURVE_TO = 2;
+    privbtf stbtid finbl bytf CAIRO_PATH_OP_CLOSE_PATH = 3;
 
-    private static final int  CAIRO_FILL_RULE_WINDING = 0;
-    private static final int CAIRO_FILL_RULE_EVEN_ODD = 1;
+    privbtf stbtid finbl int  CAIRO_FILL_RULE_WINDING = 0;
+    privbtf stbtid finbl int CAIRO_FILL_RULE_EVEN_ODD = 1;
 
-    GrowablePointArray points = new GrowablePointArray(128);
-    GrowableByteArray ops = new GrowableByteArray(1, 128);
-    int[] xTrapArray = new int[512];
+    GrowbblfPointArrby points = nfw GrowbblfPointArrby(128);
+    GrowbblfBytfArrby ops = nfw GrowbblfBytfArrby(1, 128);
+    int[] xTrbpArrby = nfw int[512];
 
-    private static final boolean isCairoAvailable;
+    privbtf stbtid finbl boolfbn isCbiroAvbilbblf;
 
-    static {
-        isCairoAvailable =
-           java.security.AccessController.doPrivileged(
-                          new java.security.PrivilegedAction<Boolean>() {
-            public Boolean run() {
-                boolean loadSuccess = false;
-                if (X11GraphicsEnvironment.isXRenderAvailable()) {
+    stbtid {
+        isCbiroAvbilbblf =
+           jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                          nfw jbvb.sfdurity.PrivilfgfdAdtion<Boolfbn>() {
+            publid Boolfbn run() {
+                boolfbn lobdSuddfss = fblsf;
+                if (X11GrbpiidsEnvironmfnt.isXRfndfrAvbilbblf()) {
                     try {
-                        System.loadLibrary("jules");
-                        loadSuccess = true;
-                        if (X11GraphicsEnvironment.isXRenderVerbose()) {
-                            System.out.println(
-                                       "Xrender: INFO: Jules library loaded");
+                        Systfm.lobdLibrbry("julfs");
+                        lobdSuddfss = truf;
+                        if (X11GrbpiidsEnvironmfnt.isXRfndfrVfrbosf()) {
+                            Systfm.out.println(
+                                       "Xrfndfr: INFO: Julfs librbry lobdfd");
                         }
-                    } catch (UnsatisfiedLinkError ex) {
-                        loadSuccess = false;
-                        if (X11GraphicsEnvironment.isXRenderVerbose()) {
-                            System.out.println(
-                                "Xrender: INFO: Jules library not installed.");
+                    } dbtdi (UnsbtisfifdLinkError fx) {
+                        lobdSuddfss = fblsf;
+                        if (X11GrbpiidsEnvironmfnt.isXRfndfrVfrbosf()) {
+                            Systfm.out.println(
+                                "Xrfndfr: INFO: Julfs librbry not instbllfd.");
                         }
                     }
                 }
-                return Boolean.valueOf(loadSuccess);
+                rfturn Boolfbn.vblufOf(lobdSuddfss);
             }
         });
     }
 
-    public static boolean isCairoAvailable() {
-        return isCairoAvailable;
+    publid stbtid boolfbn isCbiroAvbilbblf() {
+        rfturn isCbiroAvbilbblf;
     }
 
-    public TrapezoidList tesselateFill(Shape s, AffineTransform at, Region clip) {
-        int windingRule = convertPathData(s, at);
-        xTrapArray[0] = 0;
+    publid TrbpfzoidList tfssflbtfFill(Sibpf s, AffinfTrbnsform bt, Rfgion dlip) {
+        int windingRulf = donvfrtPbtiDbtb(s, bt);
+        xTrbpArrby[0] = 0;
 
-        xTrapArray = tesselateFillNative(points.getArray(), ops.getArray(),
-                                         points.getSize(), ops.getSize(),
-                                         xTrapArray, xTrapArray.length,
-                                         getCairoWindingRule(windingRule),
-                                         clip.getLoX(), clip.getLoY(),
-                                         clip.getHiX(), clip.getHiY());
+        xTrbpArrby = tfssflbtfFillNbtivf(points.gftArrby(), ops.gftArrby(),
+                                         points.gftSizf(), ops.gftSizf(),
+                                         xTrbpArrby, xTrbpArrby.lfngti,
+                                         gftCbiroWindingRulf(windingRulf),
+                                         dlip.gftLoX(), dlip.gftLoY(),
+                                         dlip.gftHiX(), dlip.gftHiY());
 
-        return new TrapezoidList(xTrapArray);
+        rfturn nfw TrbpfzoidList(xTrbpArrby);
     }
 
-    public TrapezoidList tesselateStroke(Shape s, BasicStroke bs, boolean thin,
-                                         boolean adjust, boolean antialias,
-                                         AffineTransform at, Region clip) {
+    publid TrbpfzoidList tfssflbtfStrokf(Sibpf s, BbsidStrokf bs, boolfbn tiin,
+                                         boolfbn bdjust, boolfbn bntiblibs,
+                                         AffinfTrbnsform bt, Rfgion dlip) {
 
-        float lw;
-        if (thin) {
-            if (antialias) {
+        flobt lw;
+        if (tiin) {
+            if (bntiblibs) {
                 lw = 0.5f;
-            } else {
+            } flsf {
                 lw = 1.0f;
             }
-        } else {
-            lw = bs.getLineWidth();
+        } flsf {
+            lw = bs.gftLinfWidti();
         }
 
-        convertPathData(s, at);
+        donvfrtPbtiDbtb(s, bt);
 
-        double[] dashArray = floatToDoubleArray(bs.getDashArray());
-        xTrapArray[0] = 0;
+        doublf[] dbsiArrby = flobtToDoublfArrby(bs.gftDbsiArrby());
+        xTrbpArrby[0] = 0;
 
-        xTrapArray =
-             tesselateStrokeNative(points.getArray(), ops.getArray(),
-                                   points.getSize(), ops.getSize(),
-                                   xTrapArray, xTrapArray.length, lw,
-                                   bs.getEndCap(), bs.getLineJoin(),
-                                   bs.getMiterLimit(), dashArray,
-                                   dashArray.length, bs.getDashPhase(),
+        xTrbpArrby =
+             tfssflbtfStrokfNbtivf(points.gftArrby(), ops.gftArrby(),
+                                   points.gftSizf(), ops.gftSizf(),
+                                   xTrbpArrby, xTrbpArrby.lfngti, lw,
+                                   bs.gftEndCbp(), bs.gftLinfJoin(),
+                                   bs.gftMitfrLimit(), dbsiArrby,
+                                   dbsiArrby.lfngti, bs.gftDbsiPibsf(),
                                    1, 0, 0, 0, 1, 0,
-                                   clip.getLoX(), clip.getLoY(),
-                                   clip.getHiX(), clip.getHiY());
+                                   dlip.gftLoX(), dlip.gftLoY(),
+                                   dlip.gftHiX(), dlip.gftHiY());
 
-        return new TrapezoidList(xTrapArray);
+        rfturn nfw TrbpfzoidList(xTrbpArrby);
     }
 
-    protected double[] floatToDoubleArray(float[] dashArrayFloat) {
-        double[] dashArrayDouble = emptyDash;
-        if (dashArrayFloat != null) {
-            dashArrayDouble = new double[dashArrayFloat.length];
+    protfdtfd doublf[] flobtToDoublfArrby(flobt[] dbsiArrbyFlobt) {
+        doublf[] dbsiArrbyDoublf = fmptyDbsi;
+        if (dbsiArrbyFlobt != null) {
+            dbsiArrbyDoublf = nfw doublf[dbsiArrbyFlobt.lfngti];
 
-            for (int i = 0; i < dashArrayFloat.length; i++) {
-                dashArrayDouble[i] = dashArrayFloat[i];
+            for (int i = 0; i < dbsiArrbyFlobt.lfngti; i++) {
+                dbsiArrbyDoublf[i] = dbsiArrbyFlobt[i];
             }
         }
 
-        return dashArrayDouble;
+        rfturn dbsiArrbyDoublf;
     }
 
-    protected int convertPathData(Shape s, AffineTransform at) {
-        PathIterator pi = s.getPathIterator(at);
+    protfdtfd int donvfrtPbtiDbtb(Sibpf s, AffinfTrbnsform bt) {
+        PbtiItfrbtor pi = s.gftPbtiItfrbtor(bt);
 
-        double[] coords = new double[6];
-        double currX = 0;
-        double currY = 0;
+        doublf[] doords = nfw doublf[6];
+        doublf durrX = 0;
+        doublf durrY = 0;
 
-        while (!pi.isDone()) {
-            int curOp = pi.currentSegment(coords);
+        wiilf (!pi.isDonf()) {
+            int durOp = pi.durrfntSfgmfnt(doords);
 
-            int pointIndex;
-            switch (curOp) {
+            int pointIndfx;
+            switdi (durOp) {
 
-            case PathIterator.SEG_MOVETO:
-                ops.addByte(CAIRO_PATH_OP_MOVE_TO);
-                pointIndex = points.getNextIndex();
-                points.setX(pointIndex, DoubleToCairoFixed(coords[0]));
-                points.setY(pointIndex, DoubleToCairoFixed(coords[1]));
-                currX = coords[0];
-                currY = coords[1];
-                break;
+            dbsf PbtiItfrbtor.SEG_MOVETO:
+                ops.bddBytf(CAIRO_PATH_OP_MOVE_TO);
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(doords[0]));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(doords[1]));
+                durrX = doords[0];
+                durrY = doords[1];
+                brfbk;
 
-            case PathIterator.SEG_LINETO:
-                ops.addByte(CAIRO_PATH_OP_LINE_TO);
-                pointIndex = points.getNextIndex();
-                points.setX(pointIndex, DoubleToCairoFixed(coords[0]));
-                points.setY(pointIndex, DoubleToCairoFixed(coords[1]));
-                currX = coords[0];
-                currY = coords[1];
-                break;
+            dbsf PbtiItfrbtor.SEG_LINETO:
+                ops.bddBytf(CAIRO_PATH_OP_LINE_TO);
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(doords[0]));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(doords[1]));
+                durrX = doords[0];
+                durrY = doords[1];
+                brfbk;
 
                 /**
                  *    q0 = p0
@@ -177,95 +177,95 @@ public class JulesPathBuf {
                  *    q2 = (p2+2*p1)/3
                  *    q3 = p2
                  */
-            case PathIterator.SEG_QUADTO:
-                double x1 = coords[0];
-                double y1 = coords[1];
-                double x2, y2;
-                double x3 = coords[2];
-                double y3 = coords[3];
+            dbsf PbtiItfrbtor.SEG_QUADTO:
+                doublf x1 = doords[0];
+                doublf y1 = doords[1];
+                doublf x2, y2;
+                doublf x3 = doords[2];
+                doublf y3 = doords[3];
 
                 x2 = x1 + (x3 - x1) / 3;
                 y2 = y1 + (y3 - y1) / 3;
-                x1 = currX + 2 * (x1 - currX) / 3;
-                y1 =currY + 2 * (y1 - currY) / 3;
+                x1 = durrX + 2 * (x1 - durrX) / 3;
+                y1 =durrY + 2 * (y1 - durrY) / 3;
 
-                ops.addByte(CAIRO_PATH_OP_CURVE_TO);
-                pointIndex = points.getNextIndex();
-                points.setX(pointIndex, DoubleToCairoFixed(x1));
-                points.setY(pointIndex, DoubleToCairoFixed(y1));
-                pointIndex = points.getNextIndex();
-                points.setX(pointIndex, DoubleToCairoFixed(x2));
-                points.setY(pointIndex, DoubleToCairoFixed(y2));
-                pointIndex = points.getNextIndex();
-                points.setX(pointIndex, DoubleToCairoFixed(x3));
-                points.setY(pointIndex, DoubleToCairoFixed(y3));
-                currX = x3;
-                currY = y3;
-                break;
+                ops.bddBytf(CAIRO_PATH_OP_CURVE_TO);
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(x1));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(y1));
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(x2));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(y2));
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(x3));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(y3));
+                durrX = x3;
+                durrY = y3;
+                brfbk;
 
-            case PathIterator.SEG_CUBICTO:
-                ops.addByte(CAIRO_PATH_OP_CURVE_TO);
-                pointIndex = points.getNextIndex();
-                points.setX(pointIndex, DoubleToCairoFixed(coords[0]));
-                points.setY(pointIndex, DoubleToCairoFixed(coords[1]));
-                pointIndex = points.getNextIndex();
-                points.setX(pointIndex, DoubleToCairoFixed(coords[2]));
-                points.setY(pointIndex, DoubleToCairoFixed(coords[3]));
-                pointIndex = points.getNextIndex();
-                points.setX(pointIndex, DoubleToCairoFixed(coords[4]));
-                points.setY(pointIndex, DoubleToCairoFixed(coords[5]));
-                currX = coords[4];
-                currY = coords[5];
-                break;
+            dbsf PbtiItfrbtor.SEG_CUBICTO:
+                ops.bddBytf(CAIRO_PATH_OP_CURVE_TO);
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(doords[0]));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(doords[1]));
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(doords[2]));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(doords[3]));
+                pointIndfx = points.gftNfxtIndfx();
+                points.sftX(pointIndfx, DoublfToCbiroFixfd(doords[4]));
+                points.sftY(pointIndfx, DoublfToCbiroFixfd(doords[5]));
+                durrX = doords[4];
+                durrY = doords[5];
+                brfbk;
 
-            case PathIterator.SEG_CLOSE:
-                ops.addByte(CAIRO_PATH_OP_CLOSE_PATH);
-                break;
+            dbsf PbtiItfrbtor.SEG_CLOSE:
+                ops.bddBytf(CAIRO_PATH_OP_CLOSE_PATH);
+                brfbk;
             }
 
-            pi.next();
+            pi.nfxt();
         }
 
-        return pi.getWindingRule();
+        rfturn pi.gftWindingRulf();
     }
 
-    private static native int[]
-         tesselateStrokeNative(int[] pointArray, byte[] ops,
+    privbtf stbtid nbtivf int[]
+         tfssflbtfStrokfNbtivf(int[] pointArrby, bytf[] ops,
                                int pointCnt, int opCnt,
-                               int[] xTrapArray, int xTrapArrayLength,
-                               double lineWidth, int lineCap, int lineJoin,
-                               double miterLimit, double[] dashArray,
-                               int dashCnt, double offset,
-                               double m00, double m01, double m02,
-                               double m10, double m11, double m12,
-                               int clipLowX, int clipLowY,
-                               int clipWidth, int clipHeight);
+                               int[] xTrbpArrby, int xTrbpArrbyLfngti,
+                               doublf linfWidti, int linfCbp, int linfJoin,
+                               doublf mitfrLimit, doublf[] dbsiArrby,
+                               int dbsiCnt, doublf offsft,
+                               doublf m00, doublf m01, doublf m02,
+                               doublf m10, doublf m11, doublf m12,
+                               int dlipLowX, int dlipLowY,
+                               int dlipWidti, int dlipHfigit);
 
-    private static native int[]
-        tesselateFillNative(int[] pointArray, byte[] ops, int pointCnt,
-                            int opCnt, int[] xTrapArray, int xTrapArrayLength,
-                            int windingRule, int clipLowX, int clipLowY,                                    int clipWidth, int clipHeight);
+    privbtf stbtid nbtivf int[]
+        tfssflbtfFillNbtivf(int[] pointArrby, bytf[] ops, int pointCnt,
+                            int opCnt, int[] xTrbpArrby, int xTrbpArrbyLfngti,
+                            int windingRulf, int dlipLowX, int dlipLowY,                                    int dlipWidti, int dlipHfigit);
 
-    public void clear() {
-        points.clear();
-        ops.clear();
-        xTrapArray[0] = 0;
+    publid void dlfbr() {
+        points.dlfbr();
+        ops.dlfbr();
+        xTrbpArrby[0] = 0;
     }
 
-    private static int DoubleToCairoFixed(double dbl) {
-        return (int) (dbl * 256);
+    privbtf stbtid int DoublfToCbiroFixfd(doublf dbl) {
+        rfturn (int) (dbl * 256);
     }
 
-    private static int getCairoWindingRule(int j2dWindingRule) {
-        switch(j2dWindingRule) {
-        case PathIterator.WIND_EVEN_ODD:
-            return CAIRO_FILL_RULE_EVEN_ODD;
+    privbtf stbtid int gftCbiroWindingRulf(int j2dWindingRulf) {
+        switdi(j2dWindingRulf) {
+        dbsf PbtiItfrbtor.WIND_EVEN_ODD:
+            rfturn CAIRO_FILL_RULE_EVEN_ODD;
 
-        case PathIterator.WIND_NON_ZERO:
-            return CAIRO_FILL_RULE_WINDING;
+        dbsf PbtiItfrbtor.WIND_NON_ZERO:
+            rfturn CAIRO_FILL_RULE_WINDING;
 
-            default:
-                throw new IllegalArgumentException("Illegal Java2D winding rule specified");
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption("Illfgbl Jbvb2D winding rulf spfdififd");
         }
     }
 }

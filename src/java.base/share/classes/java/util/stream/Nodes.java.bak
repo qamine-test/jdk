@@ -1,2226 +1,2226 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.util.ArrayDeque;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Deque;
-import java.util.List;
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.concurrent.CountedCompleter;
-import java.util.function.BinaryOperator;
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.IntConsumer;
-import java.util.function.IntFunction;
-import java.util.function.LongConsumer;
-import java.util.function.LongFunction;
+import jbvb.util.ArrbyDfquf;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+import jbvb.util.Dfquf;
+import jbvb.util.List;
+import jbvb.util.Objfdts;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtors;
+import jbvb.util.dondurrfnt.CountfdComplftfr;
+import jbvb.util.fundtion.BinbryOpfrbtor;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.IntFundtion;
+import jbvb.util.fundtion.LongConsumfr;
+import jbvb.util.fundtion.LongFundtion;
 
 /**
- * Factory methods for constructing implementations of {@link Node} and
- * {@link Node.Builder} and their primitive specializations.  Fork/Join tasks
- * for collecting output from a {@link PipelineHelper} to a {@link Node} and
- * flattening {@link Node}s.
+ * Fbdtory mftiods for donstrudting implfmfntbtions of {@link Nodf} bnd
+ * {@link Nodf.Buildfr} bnd tifir primitivf spfdiblizbtions.  Fork/Join tbsks
+ * for dollfdting output from b {@link PipflinfHflpfr} to b {@link Nodf} bnd
+ * flbttfning {@link Nodf}s.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-final class Nodes {
+finbl dlbss Nodfs {
 
-    private Nodes() {
-        throw new Error("no instances");
+    privbtf Nodfs() {
+        tirow nfw Error("no instbndfs");
     }
 
     /**
-     * The maximum size of an array that can be allocated.
+     * Tif mbximum sizf of bn brrby tibt dbn bf bllodbtfd.
      */
-    static final long MAX_ARRAY_SIZE = Integer.MAX_VALUE - 8;
+    stbtid finbl long MAX_ARRAY_SIZE = Intfgfr.MAX_VALUE - 8;
 
-    // IllegalArgumentException messages
-    static final String BAD_SIZE = "Stream size exceeds max array size";
+    // IllfgblArgumfntExdfption mfssbgfs
+    stbtid finbl String BAD_SIZE = "Strfbm sizf fxdffds mbx brrby sizf";
 
-    @SuppressWarnings("rawtypes")
-    private static final Node EMPTY_NODE = new EmptyNode.OfRef();
-    private static final Node.OfInt EMPTY_INT_NODE = new EmptyNode.OfInt();
-    private static final Node.OfLong EMPTY_LONG_NODE = new EmptyNode.OfLong();
-    private static final Node.OfDouble EMPTY_DOUBLE_NODE = new EmptyNode.OfDouble();
+    @SupprfssWbrnings("rbwtypfs")
+    privbtf stbtid finbl Nodf EMPTY_NODE = nfw EmptyNodf.OfRff();
+    privbtf stbtid finbl Nodf.OfInt EMPTY_INT_NODE = nfw EmptyNodf.OfInt();
+    privbtf stbtid finbl Nodf.OfLong EMPTY_LONG_NODE = nfw EmptyNodf.OfLong();
+    privbtf stbtid finbl Nodf.OfDoublf EMPTY_DOUBLE_NODE = nfw EmptyNodf.OfDoublf();
 
-    // General shape-based node creation methods
+    // Gfnfrbl sibpf-bbsfd nodf drfbtion mftiods
 
     /**
-     * Produces an empty node whose count is zero, has no children and no content.
+     * Produdfs bn fmpty nodf wiosf dount is zfro, ibs no diildrfn bnd no dontfnt.
      *
-     * @param <T> the type of elements of the created node
-     * @param shape the shape of the node to be created
-     * @return an empty node.
+     * @pbrbm <T> tif typf of flfmfnts of tif drfbtfd nodf
+     * @pbrbm sibpf tif sibpf of tif nodf to bf drfbtfd
+     * @rfturn bn fmpty nodf.
      */
-    @SuppressWarnings("unchecked")
-    static <T> Node<T> emptyNode(StreamShape shape) {
-        switch (shape) {
-            case REFERENCE:    return (Node<T>) EMPTY_NODE;
-            case INT_VALUE:    return (Node<T>) EMPTY_INT_NODE;
-            case LONG_VALUE:   return (Node<T>) EMPTY_LONG_NODE;
-            case DOUBLE_VALUE: return (Node<T>) EMPTY_DOUBLE_NODE;
-            default:
-                throw new IllegalStateException("Unknown shape " + shape);
+    @SupprfssWbrnings("undifdkfd")
+    stbtid <T> Nodf<T> fmptyNodf(StrfbmSibpf sibpf) {
+        switdi (sibpf) {
+            dbsf REFERENCE:    rfturn (Nodf<T>) EMPTY_NODE;
+            dbsf INT_VALUE:    rfturn (Nodf<T>) EMPTY_INT_NODE;
+            dbsf LONG_VALUE:   rfturn (Nodf<T>) EMPTY_LONG_NODE;
+            dbsf DOUBLE_VALUE: rfturn (Nodf<T>) EMPTY_DOUBLE_NODE;
+            dffbult:
+                tirow nfw IllfgblStbtfExdfption("Unknown sibpf " + sibpf);
         }
     }
 
     /**
-     * Produces a concatenated {@link Node} that has two or more children.
-     * <p>The count of the concatenated node is equal to the sum of the count
-     * of each child. Traversal of the concatenated node traverses the content
-     * of each child in encounter order of the list of children. Splitting a
-     * spliterator obtained from the concatenated node preserves the encounter
-     * order of the list of children.
+     * Produdfs b dondbtfnbtfd {@link Nodf} tibt ibs two or morf diildrfn.
+     * <p>Tif dount of tif dondbtfnbtfd nodf is fqubl to tif sum of tif dount
+     * of fbdi diild. Trbvfrsbl of tif dondbtfnbtfd nodf trbvfrsfs tif dontfnt
+     * of fbdi diild in fndountfr ordfr of tif list of diildrfn. Splitting b
+     * splitfrbtor obtbinfd from tif dondbtfnbtfd nodf prfsfrvfs tif fndountfr
+     * ordfr of tif list of diildrfn.
      *
-     * <p>The result may be a concatenated node, the input sole node if the size
-     * of the list is 1, or an empty node.
+     * <p>Tif rfsult mby bf b dondbtfnbtfd nodf, tif input solf nodf if tif sizf
+     * of tif list is 1, or bn fmpty nodf.
      *
-     * @param <T> the type of elements of the concatenated node
-     * @param shape the shape of the concatenated node to be created
-     * @param left the left input node
-     * @param right the right input node
-     * @return a {@code Node} covering the elements of the input nodes
-     * @throws IllegalStateException if all {@link Node} elements of the list
-     * are an not instance of type supported by this factory.
+     * @pbrbm <T> tif typf of flfmfnts of tif dondbtfnbtfd nodf
+     * @pbrbm sibpf tif sibpf of tif dondbtfnbtfd nodf to bf drfbtfd
+     * @pbrbm lfft tif lfft input nodf
+     * @pbrbm rigit tif rigit input nodf
+     * @rfturn b {@dodf Nodf} dovfring tif flfmfnts of tif input nodfs
+     * @tirows IllfgblStbtfExdfption if bll {@link Nodf} flfmfnts of tif list
+     * brf bn not instbndf of typf supportfd by tiis fbdtory.
      */
-    @SuppressWarnings("unchecked")
-    static <T> Node<T> conc(StreamShape shape, Node<T> left, Node<T> right) {
-        switch (shape) {
-            case REFERENCE:
-                return new ConcNode<>(left, right);
-            case INT_VALUE:
-                return (Node<T>) new ConcNode.OfInt((Node.OfInt) left, (Node.OfInt) right);
-            case LONG_VALUE:
-                return (Node<T>) new ConcNode.OfLong((Node.OfLong) left, (Node.OfLong) right);
-            case DOUBLE_VALUE:
-                return (Node<T>) new ConcNode.OfDouble((Node.OfDouble) left, (Node.OfDouble) right);
-            default:
-                throw new IllegalStateException("Unknown shape " + shape);
+    @SupprfssWbrnings("undifdkfd")
+    stbtid <T> Nodf<T> dond(StrfbmSibpf sibpf, Nodf<T> lfft, Nodf<T> rigit) {
+        switdi (sibpf) {
+            dbsf REFERENCE:
+                rfturn nfw CondNodf<>(lfft, rigit);
+            dbsf INT_VALUE:
+                rfturn (Nodf<T>) nfw CondNodf.OfInt((Nodf.OfInt) lfft, (Nodf.OfInt) rigit);
+            dbsf LONG_VALUE:
+                rfturn (Nodf<T>) nfw CondNodf.OfLong((Nodf.OfLong) lfft, (Nodf.OfLong) rigit);
+            dbsf DOUBLE_VALUE:
+                rfturn (Nodf<T>) nfw CondNodf.OfDoublf((Nodf.OfDoublf) lfft, (Nodf.OfDoublf) rigit);
+            dffbult:
+                tirow nfw IllfgblStbtfExdfption("Unknown sibpf " + sibpf);
         }
     }
 
-    // Reference-based node methods
+    // Rfffrfndf-bbsfd nodf mftiods
 
     /**
-     * Produces a {@link Node} describing an array.
+     * Produdfs b {@link Nodf} dfsdribing bn brrby.
      *
-     * <p>The node will hold a reference to the array and will not make a copy.
+     * <p>Tif nodf will iold b rfffrfndf to tif brrby bnd will not mbkf b dopy.
      *
-     * @param <T> the type of elements held by the node
-     * @param array the array
-     * @return a node holding an array
+     * @pbrbm <T> tif typf of flfmfnts ifld by tif nodf
+     * @pbrbm brrby tif brrby
+     * @rfturn b nodf iolding bn brrby
      */
-    static <T> Node<T> node(T[] array) {
-        return new ArrayNode<>(array);
+    stbtid <T> Nodf<T> nodf(T[] brrby) {
+        rfturn nfw ArrbyNodf<>(brrby);
     }
 
     /**
-     * Produces a {@link Node} describing a {@link Collection}.
+     * Produdfs b {@link Nodf} dfsdribing b {@link Collfdtion}.
      * <p>
-     * The node will hold a reference to the collection and will not make a copy.
+     * Tif nodf will iold b rfffrfndf to tif dollfdtion bnd will not mbkf b dopy.
      *
-     * @param <T> the type of elements held by the node
-     * @param c the collection
-     * @return a node holding a collection
+     * @pbrbm <T> tif typf of flfmfnts ifld by tif nodf
+     * @pbrbm d tif dollfdtion
+     * @rfturn b nodf iolding b dollfdtion
      */
-    static <T> Node<T> node(Collection<T> c) {
-        return new CollectionNode<>(c);
+    stbtid <T> Nodf<T> nodf(Collfdtion<T> d) {
+        rfturn nfw CollfdtionNodf<>(d);
     }
 
     /**
-     * Produces a {@link Node.Builder}.
+     * Produdfs b {@link Nodf.Buildfr}.
      *
-     * @param exactSizeIfKnown -1 if a variable size builder is requested,
-     * otherwise the exact capacity desired.  A fixed capacity builder will
-     * fail if the wrong number of elements are added to the builder.
-     * @param generator the array factory
-     * @param <T> the type of elements of the node builder
-     * @return a {@code Node.Builder}
+     * @pbrbm fxbdtSizfIfKnown -1 if b vbribblf sizf buildfr is rfqufstfd,
+     * otifrwisf tif fxbdt dbpbdity dfsirfd.  A fixfd dbpbdity buildfr will
+     * fbil if tif wrong numbfr of flfmfnts brf bddfd to tif buildfr.
+     * @pbrbm gfnfrbtor tif brrby fbdtory
+     * @pbrbm <T> tif typf of flfmfnts of tif nodf buildfr
+     * @rfturn b {@dodf Nodf.Buildfr}
      */
-    static <T> Node.Builder<T> builder(long exactSizeIfKnown, IntFunction<T[]> generator) {
-        return (exactSizeIfKnown >= 0 && exactSizeIfKnown < MAX_ARRAY_SIZE)
-               ? new FixedNodeBuilder<>(exactSizeIfKnown, generator)
-               : builder();
+    stbtid <T> Nodf.Buildfr<T> buildfr(long fxbdtSizfIfKnown, IntFundtion<T[]> gfnfrbtor) {
+        rfturn (fxbdtSizfIfKnown >= 0 && fxbdtSizfIfKnown < MAX_ARRAY_SIZE)
+               ? nfw FixfdNodfBuildfr<>(fxbdtSizfIfKnown, gfnfrbtor)
+               : buildfr();
     }
 
     /**
-     * Produces a variable size @{link Node.Builder}.
+     * Produdfs b vbribblf sizf @{link Nodf.Buildfr}.
      *
-     * @param <T> the type of elements of the node builder
-     * @return a {@code Node.Builder}
+     * @pbrbm <T> tif typf of flfmfnts of tif nodf buildfr
+     * @rfturn b {@dodf Nodf.Buildfr}
      */
-    static <T> Node.Builder<T> builder() {
-        return new SpinedNodeBuilder<>();
+    stbtid <T> Nodf.Buildfr<T> buildfr() {
+        rfturn nfw SpinfdNodfBuildfr<>();
     }
 
-    // Int nodes
+    // Int nodfs
 
     /**
-     * Produces a {@link Node.OfInt} describing an int[] array.
+     * Produdfs b {@link Nodf.OfInt} dfsdribing bn int[] brrby.
      *
-     * <p>The node will hold a reference to the array and will not make a copy.
+     * <p>Tif nodf will iold b rfffrfndf to tif brrby bnd will not mbkf b dopy.
      *
-     * @param array the array
-     * @return a node holding an array
+     * @pbrbm brrby tif brrby
+     * @rfturn b nodf iolding bn brrby
      */
-    static Node.OfInt node(int[] array) {
-        return new IntArrayNode(array);
-    }
-
-    /**
-     * Produces a {@link Node.Builder.OfInt}.
-     *
-     * @param exactSizeIfKnown -1 if a variable size builder is requested,
-     * otherwise the exact capacity desired.  A fixed capacity builder will
-     * fail if the wrong number of elements are added to the builder.
-     * @return a {@code Node.Builder.OfInt}
-     */
-    static Node.Builder.OfInt intBuilder(long exactSizeIfKnown) {
-        return (exactSizeIfKnown >= 0 && exactSizeIfKnown < MAX_ARRAY_SIZE)
-               ? new IntFixedNodeBuilder(exactSizeIfKnown)
-               : intBuilder();
+    stbtid Nodf.OfInt nodf(int[] brrby) {
+        rfturn nfw IntArrbyNodf(brrby);
     }
 
     /**
-     * Produces a variable size @{link Node.Builder.OfInt}.
+     * Produdfs b {@link Nodf.Buildfr.OfInt}.
      *
-     * @return a {@code Node.Builder.OfInt}
+     * @pbrbm fxbdtSizfIfKnown -1 if b vbribblf sizf buildfr is rfqufstfd,
+     * otifrwisf tif fxbdt dbpbdity dfsirfd.  A fixfd dbpbdity buildfr will
+     * fbil if tif wrong numbfr of flfmfnts brf bddfd to tif buildfr.
+     * @rfturn b {@dodf Nodf.Buildfr.OfInt}
      */
-    static Node.Builder.OfInt intBuilder() {
-        return new IntSpinedNodeBuilder();
+    stbtid Nodf.Buildfr.OfInt intBuildfr(long fxbdtSizfIfKnown) {
+        rfturn (fxbdtSizfIfKnown >= 0 && fxbdtSizfIfKnown < MAX_ARRAY_SIZE)
+               ? nfw IntFixfdNodfBuildfr(fxbdtSizfIfKnown)
+               : intBuildfr();
     }
 
-    // Long nodes
+    /**
+     * Produdfs b vbribblf sizf @{link Nodf.Buildfr.OfInt}.
+     *
+     * @rfturn b {@dodf Nodf.Buildfr.OfInt}
+     */
+    stbtid Nodf.Buildfr.OfInt intBuildfr() {
+        rfturn nfw IntSpinfdNodfBuildfr();
+    }
+
+    // Long nodfs
 
     /**
-     * Produces a {@link Node.OfLong} describing a long[] array.
+     * Produdfs b {@link Nodf.OfLong} dfsdribing b long[] brrby.
      * <p>
-     * The node will hold a reference to the array and will not make a copy.
+     * Tif nodf will iold b rfffrfndf to tif brrby bnd will not mbkf b dopy.
      *
-     * @param array the array
-     * @return a node holding an array
+     * @pbrbm brrby tif brrby
+     * @rfturn b nodf iolding bn brrby
      */
-    static Node.OfLong node(final long[] array) {
-        return new LongArrayNode(array);
+    stbtid Nodf.OfLong nodf(finbl long[] brrby) {
+        rfturn nfw LongArrbyNodf(brrby);
     }
 
     /**
-     * Produces a {@link Node.Builder.OfLong}.
+     * Produdfs b {@link Nodf.Buildfr.OfLong}.
      *
-     * @param exactSizeIfKnown -1 if a variable size builder is requested,
-     * otherwise the exact capacity desired.  A fixed capacity builder will
-     * fail if the wrong number of elements are added to the builder.
-     * @return a {@code Node.Builder.OfLong}
+     * @pbrbm fxbdtSizfIfKnown -1 if b vbribblf sizf buildfr is rfqufstfd,
+     * otifrwisf tif fxbdt dbpbdity dfsirfd.  A fixfd dbpbdity buildfr will
+     * fbil if tif wrong numbfr of flfmfnts brf bddfd to tif buildfr.
+     * @rfturn b {@dodf Nodf.Buildfr.OfLong}
      */
-    static Node.Builder.OfLong longBuilder(long exactSizeIfKnown) {
-        return (exactSizeIfKnown >= 0 && exactSizeIfKnown < MAX_ARRAY_SIZE)
-               ? new LongFixedNodeBuilder(exactSizeIfKnown)
-               : longBuilder();
+    stbtid Nodf.Buildfr.OfLong longBuildfr(long fxbdtSizfIfKnown) {
+        rfturn (fxbdtSizfIfKnown >= 0 && fxbdtSizfIfKnown < MAX_ARRAY_SIZE)
+               ? nfw LongFixfdNodfBuildfr(fxbdtSizfIfKnown)
+               : longBuildfr();
     }
 
     /**
-     * Produces a variable size @{link Node.Builder.OfLong}.
+     * Produdfs b vbribblf sizf @{link Nodf.Buildfr.OfLong}.
      *
-     * @return a {@code Node.Builder.OfLong}
+     * @rfturn b {@dodf Nodf.Buildfr.OfLong}
      */
-    static Node.Builder.OfLong longBuilder() {
-        return new LongSpinedNodeBuilder();
+    stbtid Nodf.Buildfr.OfLong longBuildfr() {
+        rfturn nfw LongSpinfdNodfBuildfr();
     }
 
-    // Double nodes
+    // Doublf nodfs
 
     /**
-     * Produces a {@link Node.OfDouble} describing a double[] array.
+     * Produdfs b {@link Nodf.OfDoublf} dfsdribing b doublf[] brrby.
      *
-     * <p>The node will hold a reference to the array and will not make a copy.
+     * <p>Tif nodf will iold b rfffrfndf to tif brrby bnd will not mbkf b dopy.
      *
-     * @param array the array
-     * @return a node holding an array
+     * @pbrbm brrby tif brrby
+     * @rfturn b nodf iolding bn brrby
      */
-    static Node.OfDouble node(final double[] array) {
-        return new DoubleArrayNode(array);
-    }
-
-    /**
-     * Produces a {@link Node.Builder.OfDouble}.
-     *
-     * @param exactSizeIfKnown -1 if a variable size builder is requested,
-     * otherwise the exact capacity desired.  A fixed capacity builder will
-     * fail if the wrong number of elements are added to the builder.
-     * @return a {@code Node.Builder.OfDouble}
-     */
-    static Node.Builder.OfDouble doubleBuilder(long exactSizeIfKnown) {
-        return (exactSizeIfKnown >= 0 && exactSizeIfKnown < MAX_ARRAY_SIZE)
-               ? new DoubleFixedNodeBuilder(exactSizeIfKnown)
-               : doubleBuilder();
+    stbtid Nodf.OfDoublf nodf(finbl doublf[] brrby) {
+        rfturn nfw DoublfArrbyNodf(brrby);
     }
 
     /**
-     * Produces a variable size @{link Node.Builder.OfDouble}.
+     * Produdfs b {@link Nodf.Buildfr.OfDoublf}.
      *
-     * @return a {@code Node.Builder.OfDouble}
+     * @pbrbm fxbdtSizfIfKnown -1 if b vbribblf sizf buildfr is rfqufstfd,
+     * otifrwisf tif fxbdt dbpbdity dfsirfd.  A fixfd dbpbdity buildfr will
+     * fbil if tif wrong numbfr of flfmfnts brf bddfd to tif buildfr.
+     * @rfturn b {@dodf Nodf.Buildfr.OfDoublf}
      */
-    static Node.Builder.OfDouble doubleBuilder() {
-        return new DoubleSpinedNodeBuilder();
+    stbtid Nodf.Buildfr.OfDoublf doublfBuildfr(long fxbdtSizfIfKnown) {
+        rfturn (fxbdtSizfIfKnown >= 0 && fxbdtSizfIfKnown < MAX_ARRAY_SIZE)
+               ? nfw DoublfFixfdNodfBuildfr(fxbdtSizfIfKnown)
+               : doublfBuildfr();
     }
 
-    // Parallel evaluation of pipelines to nodes
+    /**
+     * Produdfs b vbribblf sizf @{link Nodf.Buildfr.OfDoublf}.
+     *
+     * @rfturn b {@dodf Nodf.Buildfr.OfDoublf}
+     */
+    stbtid Nodf.Buildfr.OfDoublf doublfBuildfr() {
+        rfturn nfw DoublfSpinfdNodfBuildfr();
+    }
+
+    // Pbrbllfl fvblubtion of pipflinfs to nodfs
 
     /**
-     * Collect, in parallel, elements output from a pipeline and describe those
-     * elements with a {@link Node}.
+     * Collfdt, in pbrbllfl, flfmfnts output from b pipflinf bnd dfsdribf tiosf
+     * flfmfnts witi b {@link Nodf}.
      *
-     * @implSpec
-     * If the exact size of the output from the pipeline is known and the source
-     * {@link Spliterator} has the {@link Spliterator#SUBSIZED} characteristic,
-     * then a flat {@link Node} will be returned whose content is an array,
-     * since the size is known the array can be constructed in advance and
-     * output elements can be placed into the array concurrently by leaf
-     * tasks at the correct offsets.  If the exact size is not known, output
-     * elements are collected into a conc-node whose shape mirrors that
-     * of the computation. This conc-node can then be flattened in
-     * parallel to produce a flat {@code Node} if desired.
+     * @implSpfd
+     * If tif fxbdt sizf of tif output from tif pipflinf is known bnd tif sourdf
+     * {@link Splitfrbtor} ibs tif {@link Splitfrbtor#SUBSIZED} dibrbdtfristid,
+     * tifn b flbt {@link Nodf} will bf rfturnfd wiosf dontfnt is bn brrby,
+     * sindf tif sizf is known tif brrby dbn bf donstrudtfd in bdvbndf bnd
+     * output flfmfnts dbn bf plbdfd into tif brrby dondurrfntly by lfbf
+     * tbsks bt tif dorrfdt offsfts.  If tif fxbdt sizf is not known, output
+     * flfmfnts brf dollfdtfd into b dond-nodf wiosf sibpf mirrors tibt
+     * of tif domputbtion. Tiis dond-nodf dbn tifn bf flbttfnfd in
+     * pbrbllfl to produdf b flbt {@dodf Nodf} if dfsirfd.
      *
-     * @param helper the pipeline helper describing the pipeline
-     * @param flattenTree whether a conc node should be flattened into a node
-     *                    describing an array before returning
-     * @param generator the array generator
-     * @return a {@link Node} describing the output elements
+     * @pbrbm iflpfr tif pipflinf iflpfr dfsdribing tif pipflinf
+     * @pbrbm flbttfnTrff wiftifr b dond nodf siould bf flbttfnfd into b nodf
+     *                    dfsdribing bn brrby bfforf rfturning
+     * @pbrbm gfnfrbtor tif brrby gfnfrbtor
+     * @rfturn b {@link Nodf} dfsdribing tif output flfmfnts
      */
-    public static <P_IN, P_OUT> Node<P_OUT> collect(PipelineHelper<P_OUT> helper,
-                                                    Spliterator<P_IN> spliterator,
-                                                    boolean flattenTree,
-                                                    IntFunction<P_OUT[]> generator) {
-        long size = helper.exactOutputSizeIfKnown(spliterator);
-        if (size >= 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-            if (size >= MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(BAD_SIZE);
-            P_OUT[] array = generator.apply((int) size);
-            new SizedCollectorTask.OfRef<>(spliterator, helper, array).invoke();
-            return node(array);
-        } else {
-            Node<P_OUT> node = new CollectorTask.OfRef<>(helper, generator, spliterator).invoke();
-            return flattenTree ? flatten(node, generator) : node;
+    publid stbtid <P_IN, P_OUT> Nodf<P_OUT> dollfdt(PipflinfHflpfr<P_OUT> iflpfr,
+                                                    Splitfrbtor<P_IN> splitfrbtor,
+                                                    boolfbn flbttfnTrff,
+                                                    IntFundtion<P_OUT[]> gfnfrbtor) {
+        long sizf = iflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+        if (sizf >= 0 && splitfrbtor.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED)) {
+            if (sizf >= MAX_ARRAY_SIZE)
+                tirow nfw IllfgblArgumfntExdfption(BAD_SIZE);
+            P_OUT[] brrby = gfnfrbtor.bpply((int) sizf);
+            nfw SizfdCollfdtorTbsk.OfRff<>(splitfrbtor, iflpfr, brrby).invokf();
+            rfturn nodf(brrby);
+        } flsf {
+            Nodf<P_OUT> nodf = nfw CollfdtorTbsk.OfRff<>(iflpfr, gfnfrbtor, splitfrbtor).invokf();
+            rfturn flbttfnTrff ? flbttfn(nodf, gfnfrbtor) : nodf;
         }
     }
 
     /**
-     * Collect, in parallel, elements output from an int-valued pipeline and
-     * describe those elements with a {@link Node.OfInt}.
+     * Collfdt, in pbrbllfl, flfmfnts output from bn int-vblufd pipflinf bnd
+     * dfsdribf tiosf flfmfnts witi b {@link Nodf.OfInt}.
      *
-     * @implSpec
-     * If the exact size of the output from the pipeline is known and the source
-     * {@link Spliterator} has the {@link Spliterator#SUBSIZED} characteristic,
-     * then a flat {@link Node} will be returned whose content is an array,
-     * since the size is known the array can be constructed in advance and
-     * output elements can be placed into the array concurrently by leaf
-     * tasks at the correct offsets.  If the exact size is not known, output
-     * elements are collected into a conc-node whose shape mirrors that
-     * of the computation. This conc-node can then be flattened in
-     * parallel to produce a flat {@code Node.OfInt} if desired.
+     * @implSpfd
+     * If tif fxbdt sizf of tif output from tif pipflinf is known bnd tif sourdf
+     * {@link Splitfrbtor} ibs tif {@link Splitfrbtor#SUBSIZED} dibrbdtfristid,
+     * tifn b flbt {@link Nodf} will bf rfturnfd wiosf dontfnt is bn brrby,
+     * sindf tif sizf is known tif brrby dbn bf donstrudtfd in bdvbndf bnd
+     * output flfmfnts dbn bf plbdfd into tif brrby dondurrfntly by lfbf
+     * tbsks bt tif dorrfdt offsfts.  If tif fxbdt sizf is not known, output
+     * flfmfnts brf dollfdtfd into b dond-nodf wiosf sibpf mirrors tibt
+     * of tif domputbtion. Tiis dond-nodf dbn tifn bf flbttfnfd in
+     * pbrbllfl to produdf b flbt {@dodf Nodf.OfInt} if dfsirfd.
      *
-     * @param <P_IN> the type of elements from the source Spliterator
-     * @param helper the pipeline helper describing the pipeline
-     * @param flattenTree whether a conc node should be flattened into a node
-     *                    describing an array before returning
-     * @return a {@link Node.OfInt} describing the output elements
+     * @pbrbm <P_IN> tif typf of flfmfnts from tif sourdf Splitfrbtor
+     * @pbrbm iflpfr tif pipflinf iflpfr dfsdribing tif pipflinf
+     * @pbrbm flbttfnTrff wiftifr b dond nodf siould bf flbttfnfd into b nodf
+     *                    dfsdribing bn brrby bfforf rfturning
+     * @rfturn b {@link Nodf.OfInt} dfsdribing tif output flfmfnts
      */
-    public static <P_IN> Node.OfInt collectInt(PipelineHelper<Integer> helper,
-                                               Spliterator<P_IN> spliterator,
-                                               boolean flattenTree) {
-        long size = helper.exactOutputSizeIfKnown(spliterator);
-        if (size >= 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-            if (size >= MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(BAD_SIZE);
-            int[] array = new int[(int) size];
-            new SizedCollectorTask.OfInt<>(spliterator, helper, array).invoke();
-            return node(array);
+    publid stbtid <P_IN> Nodf.OfInt dollfdtInt(PipflinfHflpfr<Intfgfr> iflpfr,
+                                               Splitfrbtor<P_IN> splitfrbtor,
+                                               boolfbn flbttfnTrff) {
+        long sizf = iflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+        if (sizf >= 0 && splitfrbtor.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED)) {
+            if (sizf >= MAX_ARRAY_SIZE)
+                tirow nfw IllfgblArgumfntExdfption(BAD_SIZE);
+            int[] brrby = nfw int[(int) sizf];
+            nfw SizfdCollfdtorTbsk.OfInt<>(splitfrbtor, iflpfr, brrby).invokf();
+            rfturn nodf(brrby);
         }
-        else {
-            Node.OfInt node = new CollectorTask.OfInt<>(helper, spliterator).invoke();
-            return flattenTree ? flattenInt(node) : node;
+        flsf {
+            Nodf.OfInt nodf = nfw CollfdtorTbsk.OfInt<>(iflpfr, splitfrbtor).invokf();
+            rfturn flbttfnTrff ? flbttfnInt(nodf) : nodf;
         }
     }
 
     /**
-     * Collect, in parallel, elements output from a long-valued pipeline and
-     * describe those elements with a {@link Node.OfLong}.
+     * Collfdt, in pbrbllfl, flfmfnts output from b long-vblufd pipflinf bnd
+     * dfsdribf tiosf flfmfnts witi b {@link Nodf.OfLong}.
      *
-     * @implSpec
-     * If the exact size of the output from the pipeline is known and the source
-     * {@link Spliterator} has the {@link Spliterator#SUBSIZED} characteristic,
-     * then a flat {@link Node} will be returned whose content is an array,
-     * since the size is known the array can be constructed in advance and
-     * output elements can be placed into the array concurrently by leaf
-     * tasks at the correct offsets.  If the exact size is not known, output
-     * elements are collected into a conc-node whose shape mirrors that
-     * of the computation. This conc-node can then be flattened in
-     * parallel to produce a flat {@code Node.OfLong} if desired.
+     * @implSpfd
+     * If tif fxbdt sizf of tif output from tif pipflinf is known bnd tif sourdf
+     * {@link Splitfrbtor} ibs tif {@link Splitfrbtor#SUBSIZED} dibrbdtfristid,
+     * tifn b flbt {@link Nodf} will bf rfturnfd wiosf dontfnt is bn brrby,
+     * sindf tif sizf is known tif brrby dbn bf donstrudtfd in bdvbndf bnd
+     * output flfmfnts dbn bf plbdfd into tif brrby dondurrfntly by lfbf
+     * tbsks bt tif dorrfdt offsfts.  If tif fxbdt sizf is not known, output
+     * flfmfnts brf dollfdtfd into b dond-nodf wiosf sibpf mirrors tibt
+     * of tif domputbtion. Tiis dond-nodf dbn tifn bf flbttfnfd in
+     * pbrbllfl to produdf b flbt {@dodf Nodf.OfLong} if dfsirfd.
      *
-     * @param <P_IN> the type of elements from the source Spliterator
-     * @param helper the pipeline helper describing the pipeline
-     * @param flattenTree whether a conc node should be flattened into a node
-     *                    describing an array before returning
-     * @return a {@link Node.OfLong} describing the output elements
+     * @pbrbm <P_IN> tif typf of flfmfnts from tif sourdf Splitfrbtor
+     * @pbrbm iflpfr tif pipflinf iflpfr dfsdribing tif pipflinf
+     * @pbrbm flbttfnTrff wiftifr b dond nodf siould bf flbttfnfd into b nodf
+     *                    dfsdribing bn brrby bfforf rfturning
+     * @rfturn b {@link Nodf.OfLong} dfsdribing tif output flfmfnts
      */
-    public static <P_IN> Node.OfLong collectLong(PipelineHelper<Long> helper,
-                                                 Spliterator<P_IN> spliterator,
-                                                 boolean flattenTree) {
-        long size = helper.exactOutputSizeIfKnown(spliterator);
-        if (size >= 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-            if (size >= MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(BAD_SIZE);
-            long[] array = new long[(int) size];
-            new SizedCollectorTask.OfLong<>(spliterator, helper, array).invoke();
-            return node(array);
+    publid stbtid <P_IN> Nodf.OfLong dollfdtLong(PipflinfHflpfr<Long> iflpfr,
+                                                 Splitfrbtor<P_IN> splitfrbtor,
+                                                 boolfbn flbttfnTrff) {
+        long sizf = iflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+        if (sizf >= 0 && splitfrbtor.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED)) {
+            if (sizf >= MAX_ARRAY_SIZE)
+                tirow nfw IllfgblArgumfntExdfption(BAD_SIZE);
+            long[] brrby = nfw long[(int) sizf];
+            nfw SizfdCollfdtorTbsk.OfLong<>(splitfrbtor, iflpfr, brrby).invokf();
+            rfturn nodf(brrby);
         }
-        else {
-            Node.OfLong node = new CollectorTask.OfLong<>(helper, spliterator).invoke();
-            return flattenTree ? flattenLong(node) : node;
+        flsf {
+            Nodf.OfLong nodf = nfw CollfdtorTbsk.OfLong<>(iflpfr, splitfrbtor).invokf();
+            rfturn flbttfnTrff ? flbttfnLong(nodf) : nodf;
         }
     }
 
     /**
-     * Collect, in parallel, elements output from n double-valued pipeline and
-     * describe those elements with a {@link Node.OfDouble}.
+     * Collfdt, in pbrbllfl, flfmfnts output from n doublf-vblufd pipflinf bnd
+     * dfsdribf tiosf flfmfnts witi b {@link Nodf.OfDoublf}.
      *
-     * @implSpec
-     * If the exact size of the output from the pipeline is known and the source
-     * {@link Spliterator} has the {@link Spliterator#SUBSIZED} characteristic,
-     * then a flat {@link Node} will be returned whose content is an array,
-     * since the size is known the array can be constructed in advance and
-     * output elements can be placed into the array concurrently by leaf
-     * tasks at the correct offsets.  If the exact size is not known, output
-     * elements are collected into a conc-node whose shape mirrors that
-     * of the computation. This conc-node can then be flattened in
-     * parallel to produce a flat {@code Node.OfDouble} if desired.
+     * @implSpfd
+     * If tif fxbdt sizf of tif output from tif pipflinf is known bnd tif sourdf
+     * {@link Splitfrbtor} ibs tif {@link Splitfrbtor#SUBSIZED} dibrbdtfristid,
+     * tifn b flbt {@link Nodf} will bf rfturnfd wiosf dontfnt is bn brrby,
+     * sindf tif sizf is known tif brrby dbn bf donstrudtfd in bdvbndf bnd
+     * output flfmfnts dbn bf plbdfd into tif brrby dondurrfntly by lfbf
+     * tbsks bt tif dorrfdt offsfts.  If tif fxbdt sizf is not known, output
+     * flfmfnts brf dollfdtfd into b dond-nodf wiosf sibpf mirrors tibt
+     * of tif domputbtion. Tiis dond-nodf dbn tifn bf flbttfnfd in
+     * pbrbllfl to produdf b flbt {@dodf Nodf.OfDoublf} if dfsirfd.
      *
-     * @param <P_IN> the type of elements from the source Spliterator
-     * @param helper the pipeline helper describing the pipeline
-     * @param flattenTree whether a conc node should be flattened into a node
-     *                    describing an array before returning
-     * @return a {@link Node.OfDouble} describing the output elements
+     * @pbrbm <P_IN> tif typf of flfmfnts from tif sourdf Splitfrbtor
+     * @pbrbm iflpfr tif pipflinf iflpfr dfsdribing tif pipflinf
+     * @pbrbm flbttfnTrff wiftifr b dond nodf siould bf flbttfnfd into b nodf
+     *                    dfsdribing bn brrby bfforf rfturning
+     * @rfturn b {@link Nodf.OfDoublf} dfsdribing tif output flfmfnts
      */
-    public static <P_IN> Node.OfDouble collectDouble(PipelineHelper<Double> helper,
-                                                     Spliterator<P_IN> spliterator,
-                                                     boolean flattenTree) {
-        long size = helper.exactOutputSizeIfKnown(spliterator);
-        if (size >= 0 && spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
-            if (size >= MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(BAD_SIZE);
-            double[] array = new double[(int) size];
-            new SizedCollectorTask.OfDouble<>(spliterator, helper, array).invoke();
-            return node(array);
+    publid stbtid <P_IN> Nodf.OfDoublf dollfdtDoublf(PipflinfHflpfr<Doublf> iflpfr,
+                                                     Splitfrbtor<P_IN> splitfrbtor,
+                                                     boolfbn flbttfnTrff) {
+        long sizf = iflpfr.fxbdtOutputSizfIfKnown(splitfrbtor);
+        if (sizf >= 0 && splitfrbtor.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED)) {
+            if (sizf >= MAX_ARRAY_SIZE)
+                tirow nfw IllfgblArgumfntExdfption(BAD_SIZE);
+            doublf[] brrby = nfw doublf[(int) sizf];
+            nfw SizfdCollfdtorTbsk.OfDoublf<>(splitfrbtor, iflpfr, brrby).invokf();
+            rfturn nodf(brrby);
         }
-        else {
-            Node.OfDouble node = new CollectorTask.OfDouble<>(helper, spliterator).invoke();
-            return flattenTree ? flattenDouble(node) : node;
-        }
-    }
-
-    // Parallel flattening of nodes
-
-    /**
-     * Flatten, in parallel, a {@link Node}.  A flattened node is one that has
-     * no children.  If the node is already flat, it is simply returned.
-     *
-     * @implSpec
-     * If a new node is to be created, the generator is used to create an array
-     * whose length is {@link Node#count()}.  Then the node tree is traversed
-     * and leaf node elements are placed in the array concurrently by leaf tasks
-     * at the correct offsets.
-     *
-     * @param <T> type of elements contained by the node
-     * @param node the node to flatten
-     * @param generator the array factory used to create array instances
-     * @return a flat {@code Node}
-     */
-    public static <T> Node<T> flatten(Node<T> node, IntFunction<T[]> generator) {
-        if (node.getChildCount() > 0) {
-            long size = node.count();
-            if (size >= MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(BAD_SIZE);
-            T[] array = generator.apply((int) size);
-            new ToArrayTask.OfRef<>(node, array, 0).invoke();
-            return node(array);
-        } else {
-            return node;
+        flsf {
+            Nodf.OfDoublf nodf = nfw CollfdtorTbsk.OfDoublf<>(iflpfr, splitfrbtor).invokf();
+            rfturn flbttfnTrff ? flbttfnDoublf(nodf) : nodf;
         }
     }
 
+    // Pbrbllfl flbttfning of nodfs
+
     /**
-     * Flatten, in parallel, a {@link Node.OfInt}.  A flattened node is one that
-     * has no children.  If the node is already flat, it is simply returned.
+     * Flbttfn, in pbrbllfl, b {@link Nodf}.  A flbttfnfd nodf is onf tibt ibs
+     * no diildrfn.  If tif nodf is blrfbdy flbt, it is simply rfturnfd.
      *
-     * @implSpec
-     * If a new node is to be created, a new int[] array is created whose length
-     * is {@link Node#count()}.  Then the node tree is traversed and leaf node
-     * elements are placed in the array concurrently by leaf tasks at the
-     * correct offsets.
+     * @implSpfd
+     * If b nfw nodf is to bf drfbtfd, tif gfnfrbtor is usfd to drfbtf bn brrby
+     * wiosf lfngti is {@link Nodf#dount()}.  Tifn tif nodf trff is trbvfrsfd
+     * bnd lfbf nodf flfmfnts brf plbdfd in tif brrby dondurrfntly by lfbf tbsks
+     * bt tif dorrfdt offsfts.
      *
-     * @param node the node to flatten
-     * @return a flat {@code Node.OfInt}
+     * @pbrbm <T> typf of flfmfnts dontbinfd by tif nodf
+     * @pbrbm nodf tif nodf to flbttfn
+     * @pbrbm gfnfrbtor tif brrby fbdtory usfd to drfbtf brrby instbndfs
+     * @rfturn b flbt {@dodf Nodf}
      */
-    public static Node.OfInt flattenInt(Node.OfInt node) {
-        if (node.getChildCount() > 0) {
-            long size = node.count();
-            if (size >= MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(BAD_SIZE);
-            int[] array = new int[(int) size];
-            new ToArrayTask.OfInt(node, array, 0).invoke();
-            return node(array);
-        } else {
-            return node;
+    publid stbtid <T> Nodf<T> flbttfn(Nodf<T> nodf, IntFundtion<T[]> gfnfrbtor) {
+        if (nodf.gftCiildCount() > 0) {
+            long sizf = nodf.dount();
+            if (sizf >= MAX_ARRAY_SIZE)
+                tirow nfw IllfgblArgumfntExdfption(BAD_SIZE);
+            T[] brrby = gfnfrbtor.bpply((int) sizf);
+            nfw ToArrbyTbsk.OfRff<>(nodf, brrby, 0).invokf();
+            rfturn nodf(brrby);
+        } flsf {
+            rfturn nodf;
         }
     }
 
     /**
-     * Flatten, in parallel, a {@link Node.OfLong}.  A flattened node is one that
-     * has no children.  If the node is already flat, it is simply returned.
+     * Flbttfn, in pbrbllfl, b {@link Nodf.OfInt}.  A flbttfnfd nodf is onf tibt
+     * ibs no diildrfn.  If tif nodf is blrfbdy flbt, it is simply rfturnfd.
      *
-     * @implSpec
-     * If a new node is to be created, a new long[] array is created whose length
-     * is {@link Node#count()}.  Then the node tree is traversed and leaf node
-     * elements are placed in the array concurrently by leaf tasks at the
-     * correct offsets.
+     * @implSpfd
+     * If b nfw nodf is to bf drfbtfd, b nfw int[] brrby is drfbtfd wiosf lfngti
+     * is {@link Nodf#dount()}.  Tifn tif nodf trff is trbvfrsfd bnd lfbf nodf
+     * flfmfnts brf plbdfd in tif brrby dondurrfntly by lfbf tbsks bt tif
+     * dorrfdt offsfts.
      *
-     * @param node the node to flatten
-     * @return a flat {@code Node.OfLong}
+     * @pbrbm nodf tif nodf to flbttfn
+     * @rfturn b flbt {@dodf Nodf.OfInt}
      */
-    public static Node.OfLong flattenLong(Node.OfLong node) {
-        if (node.getChildCount() > 0) {
-            long size = node.count();
-            if (size >= MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(BAD_SIZE);
-            long[] array = new long[(int) size];
-            new ToArrayTask.OfLong(node, array, 0).invoke();
-            return node(array);
-        } else {
-            return node;
+    publid stbtid Nodf.OfInt flbttfnInt(Nodf.OfInt nodf) {
+        if (nodf.gftCiildCount() > 0) {
+            long sizf = nodf.dount();
+            if (sizf >= MAX_ARRAY_SIZE)
+                tirow nfw IllfgblArgumfntExdfption(BAD_SIZE);
+            int[] brrby = nfw int[(int) sizf];
+            nfw ToArrbyTbsk.OfInt(nodf, brrby, 0).invokf();
+            rfturn nodf(brrby);
+        } flsf {
+            rfturn nodf;
         }
     }
 
     /**
-     * Flatten, in parallel, a {@link Node.OfDouble}.  A flattened node is one that
-     * has no children.  If the node is already flat, it is simply returned.
+     * Flbttfn, in pbrbllfl, b {@link Nodf.OfLong}.  A flbttfnfd nodf is onf tibt
+     * ibs no diildrfn.  If tif nodf is blrfbdy flbt, it is simply rfturnfd.
      *
-     * @implSpec
-     * If a new node is to be created, a new double[] array is created whose length
-     * is {@link Node#count()}.  Then the node tree is traversed and leaf node
-     * elements are placed in the array concurrently by leaf tasks at the
-     * correct offsets.
+     * @implSpfd
+     * If b nfw nodf is to bf drfbtfd, b nfw long[] brrby is drfbtfd wiosf lfngti
+     * is {@link Nodf#dount()}.  Tifn tif nodf trff is trbvfrsfd bnd lfbf nodf
+     * flfmfnts brf plbdfd in tif brrby dondurrfntly by lfbf tbsks bt tif
+     * dorrfdt offsfts.
      *
-     * @param node the node to flatten
-     * @return a flat {@code Node.OfDouble}
+     * @pbrbm nodf tif nodf to flbttfn
+     * @rfturn b flbt {@dodf Nodf.OfLong}
      */
-    public static Node.OfDouble flattenDouble(Node.OfDouble node) {
-        if (node.getChildCount() > 0) {
-            long size = node.count();
-            if (size >= MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(BAD_SIZE);
-            double[] array = new double[(int) size];
-            new ToArrayTask.OfDouble(node, array, 0).invoke();
-            return node(array);
-        } else {
-            return node;
+    publid stbtid Nodf.OfLong flbttfnLong(Nodf.OfLong nodf) {
+        if (nodf.gftCiildCount() > 0) {
+            long sizf = nodf.dount();
+            if (sizf >= MAX_ARRAY_SIZE)
+                tirow nfw IllfgblArgumfntExdfption(BAD_SIZE);
+            long[] brrby = nfw long[(int) sizf];
+            nfw ToArrbyTbsk.OfLong(nodf, brrby, 0).invokf();
+            rfturn nodf(brrby);
+        } flsf {
+            rfturn nodf;
         }
     }
 
-    // Implementations
+    /**
+     * Flbttfn, in pbrbllfl, b {@link Nodf.OfDoublf}.  A flbttfnfd nodf is onf tibt
+     * ibs no diildrfn.  If tif nodf is blrfbdy flbt, it is simply rfturnfd.
+     *
+     * @implSpfd
+     * If b nfw nodf is to bf drfbtfd, b nfw doublf[] brrby is drfbtfd wiosf lfngti
+     * is {@link Nodf#dount()}.  Tifn tif nodf trff is trbvfrsfd bnd lfbf nodf
+     * flfmfnts brf plbdfd in tif brrby dondurrfntly by lfbf tbsks bt tif
+     * dorrfdt offsfts.
+     *
+     * @pbrbm nodf tif nodf to flbttfn
+     * @rfturn b flbt {@dodf Nodf.OfDoublf}
+     */
+    publid stbtid Nodf.OfDoublf flbttfnDoublf(Nodf.OfDoublf nodf) {
+        if (nodf.gftCiildCount() > 0) {
+            long sizf = nodf.dount();
+            if (sizf >= MAX_ARRAY_SIZE)
+                tirow nfw IllfgblArgumfntExdfption(BAD_SIZE);
+            doublf[] brrby = nfw doublf[(int) sizf];
+            nfw ToArrbyTbsk.OfDoublf(nodf, brrby, 0).invokf();
+            rfturn nodf(brrby);
+        } flsf {
+            rfturn nodf;
+        }
+    }
 
-    private static abstract class EmptyNode<T, T_ARR, T_CONS> implements Node<T> {
-        EmptyNode() { }
+    // Implfmfntbtions
 
-        @Override
-        public T[] asArray(IntFunction<T[]> generator) {
-            return generator.apply(0);
+    privbtf stbtid bbstrbdt dlbss EmptyNodf<T, T_ARR, T_CONS> implfmfnts Nodf<T> {
+        EmptyNodf() { }
+
+        @Ovfrridf
+        publid T[] bsArrby(IntFundtion<T[]> gfnfrbtor) {
+            rfturn gfnfrbtor.bpply(0);
         }
 
-        public void copyInto(T_ARR array, int offset) { }
+        publid void dopyInto(T_ARR brrby, int offsft) { }
 
-        @Override
-        public long count() {
-            return 0;
+        @Ovfrridf
+        publid long dount() {
+            rfturn 0;
         }
 
-        public void forEach(T_CONS consumer) { }
+        publid void forEbdi(T_CONS donsumfr) { }
 
-        private static class OfRef<T> extends EmptyNode<T, T[], Consumer<? super T>> {
-            private OfRef() {
-                super();
+        privbtf stbtid dlbss OfRff<T> fxtfnds EmptyNodf<T, T[], Consumfr<? supfr T>> {
+            privbtf OfRff() {
+                supfr();
             }
 
-            @Override
-            public Spliterator<T> spliterator() {
-                return Spliterators.emptySpliterator();
-            }
-        }
-
-        private static final class OfInt
-                extends EmptyNode<Integer, int[], IntConsumer>
-                implements Node.OfInt {
-
-            OfInt() { } // Avoid creation of special accessor
-
-            @Override
-            public Spliterator.OfInt spliterator() {
-                return Spliterators.emptyIntSpliterator();
-            }
-
-            @Override
-            public int[] asPrimitiveArray() {
-                return EMPTY_INT_ARRAY;
+            @Ovfrridf
+            publid Splitfrbtor<T> splitfrbtor() {
+                rfturn Splitfrbtors.fmptySplitfrbtor();
             }
         }
 
-        private static final class OfLong
-                extends EmptyNode<Long, long[], LongConsumer>
-                implements Node.OfLong {
+        privbtf stbtid finbl dlbss OfInt
+                fxtfnds EmptyNodf<Intfgfr, int[], IntConsumfr>
+                implfmfnts Nodf.OfInt {
 
-            OfLong() { } // Avoid creation of special accessor
+            OfInt() { } // Avoid drfbtion of spfdibl bddfssor
 
-            @Override
-            public Spliterator.OfLong spliterator() {
-                return Spliterators.emptyLongSpliterator();
+            @Ovfrridf
+            publid Splitfrbtor.OfInt splitfrbtor() {
+                rfturn Splitfrbtors.fmptyIntSplitfrbtor();
             }
 
-            @Override
-            public long[] asPrimitiveArray() {
-                return EMPTY_LONG_ARRAY;
+            @Ovfrridf
+            publid int[] bsPrimitivfArrby() {
+                rfturn EMPTY_INT_ARRAY;
             }
         }
 
-        private static final class OfDouble
-                extends EmptyNode<Double, double[], DoubleConsumer>
-                implements Node.OfDouble {
+        privbtf stbtid finbl dlbss OfLong
+                fxtfnds EmptyNodf<Long, long[], LongConsumfr>
+                implfmfnts Nodf.OfLong {
 
-            OfDouble() { } // Avoid creation of special accessor
+            OfLong() { } // Avoid drfbtion of spfdibl bddfssor
 
-            @Override
-            public Spliterator.OfDouble spliterator() {
-                return Spliterators.emptyDoubleSpliterator();
+            @Ovfrridf
+            publid Splitfrbtor.OfLong splitfrbtor() {
+                rfturn Splitfrbtors.fmptyLongSplitfrbtor();
             }
 
-            @Override
-            public double[] asPrimitiveArray() {
-                return EMPTY_DOUBLE_ARRAY;
+            @Ovfrridf
+            publid long[] bsPrimitivfArrby() {
+                rfturn EMPTY_LONG_ARRAY;
+            }
+        }
+
+        privbtf stbtid finbl dlbss OfDoublf
+                fxtfnds EmptyNodf<Doublf, doublf[], DoublfConsumfr>
+                implfmfnts Nodf.OfDoublf {
+
+            OfDoublf() { } // Avoid drfbtion of spfdibl bddfssor
+
+            @Ovfrridf
+            publid Splitfrbtor.OfDoublf splitfrbtor() {
+                rfturn Splitfrbtors.fmptyDoublfSplitfrbtor();
+            }
+
+            @Ovfrridf
+            publid doublf[] bsPrimitivfArrby() {
+                rfturn EMPTY_DOUBLE_ARRAY;
             }
         }
     }
 
-    /** Node class for a reference array */
-    private static class ArrayNode<T> implements Node<T> {
-        final T[] array;
-        int curSize;
+    /** Nodf dlbss for b rfffrfndf brrby */
+    privbtf stbtid dlbss ArrbyNodf<T> implfmfnts Nodf<T> {
+        finbl T[] brrby;
+        int durSizf;
 
-        @SuppressWarnings("unchecked")
-        ArrayNode(long size, IntFunction<T[]> generator) {
-            if (size >= MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(BAD_SIZE);
-            this.array = generator.apply((int) size);
-            this.curSize = 0;
+        @SupprfssWbrnings("undifdkfd")
+        ArrbyNodf(long sizf, IntFundtion<T[]> gfnfrbtor) {
+            if (sizf >= MAX_ARRAY_SIZE)
+                tirow nfw IllfgblArgumfntExdfption(BAD_SIZE);
+            tiis.brrby = gfnfrbtor.bpply((int) sizf);
+            tiis.durSizf = 0;
         }
 
-        ArrayNode(T[] array) {
-            this.array = array;
-            this.curSize = array.length;
+        ArrbyNodf(T[] brrby) {
+            tiis.brrby = brrby;
+            tiis.durSizf = brrby.lfngti;
         }
 
-        // Node
+        // Nodf
 
-        @Override
-        public Spliterator<T> spliterator() {
-            return Arrays.spliterator(array, 0, curSize);
+        @Ovfrridf
+        publid Splitfrbtor<T> splitfrbtor() {
+            rfturn Arrbys.splitfrbtor(brrby, 0, durSizf);
         }
 
-        @Override
-        public void copyInto(T[] dest, int destOffset) {
-            System.arraycopy(array, 0, dest, destOffset, curSize);
+        @Ovfrridf
+        publid void dopyInto(T[] dfst, int dfstOffsft) {
+            Systfm.brrbydopy(brrby, 0, dfst, dfstOffsft, durSizf);
         }
 
-        @Override
-        public T[] asArray(IntFunction<T[]> generator) {
-            if (array.length == curSize) {
-                return array;
-            } else {
-                throw new IllegalStateException();
+        @Ovfrridf
+        publid T[] bsArrby(IntFundtion<T[]> gfnfrbtor) {
+            if (brrby.lfngti == durSizf) {
+                rfturn brrby;
+            } flsf {
+                tirow nfw IllfgblStbtfExdfption();
             }
         }
 
-        @Override
-        public long count() {
-            return curSize;
+        @Ovfrridf
+        publid long dount() {
+            rfturn durSizf;
         }
 
-        @Override
-        public void forEach(Consumer<? super T> consumer) {
-            for (int i = 0; i < curSize; i++) {
-                consumer.accept(array[i]);
+        @Ovfrridf
+        publid void forEbdi(Consumfr<? supfr T> donsumfr) {
+            for (int i = 0; i < durSizf; i++) {
+                donsumfr.bddfpt(brrby[i]);
             }
         }
 
         //
 
-        @Override
-        public String toString() {
-            return String.format("ArrayNode[%d][%s]",
-                                 array.length - curSize, Arrays.toString(array));
+        @Ovfrridf
+        publid String toString() {
+            rfturn String.formbt("ArrbyNodf[%d][%s]",
+                                 brrby.lfngti - durSizf, Arrbys.toString(brrby));
         }
     }
 
-    /** Node class for a Collection */
-    private static final class CollectionNode<T> implements Node<T> {
-        private final Collection<T> c;
+    /** Nodf dlbss for b Collfdtion */
+    privbtf stbtid finbl dlbss CollfdtionNodf<T> implfmfnts Nodf<T> {
+        privbtf finbl Collfdtion<T> d;
 
-        CollectionNode(Collection<T> c) {
-            this.c = c;
+        CollfdtionNodf(Collfdtion<T> d) {
+            tiis.d = d;
         }
 
-        // Node
+        // Nodf
 
-        @Override
-        public Spliterator<T> spliterator() {
-            return c.stream().spliterator();
+        @Ovfrridf
+        publid Splitfrbtor<T> splitfrbtor() {
+            rfturn d.strfbm().splitfrbtor();
         }
 
-        @Override
-        public void copyInto(T[] array, int offset) {
-            for (T t : c)
-                array[offset++] = t;
+        @Ovfrridf
+        publid void dopyInto(T[] brrby, int offsft) {
+            for (T t : d)
+                brrby[offsft++] = t;
         }
 
-        @Override
-        @SuppressWarnings("unchecked")
-        public T[] asArray(IntFunction<T[]> generator) {
-            return c.toArray(generator.apply(c.size()));
+        @Ovfrridf
+        @SupprfssWbrnings("undifdkfd")
+        publid T[] bsArrby(IntFundtion<T[]> gfnfrbtor) {
+            rfturn d.toArrby(gfnfrbtor.bpply(d.sizf()));
         }
 
-        @Override
-        public long count() {
-            return c.size();
+        @Ovfrridf
+        publid long dount() {
+            rfturn d.sizf();
         }
 
-        @Override
-        public void forEach(Consumer<? super T> consumer) {
-            c.forEach(consumer);
+        @Ovfrridf
+        publid void forEbdi(Consumfr<? supfr T> donsumfr) {
+            d.forEbdi(donsumfr);
         }
 
         //
 
-        @Override
-        public String toString() {
-            return String.format("CollectionNode[%d][%s]", c.size(), c);
+        @Ovfrridf
+        publid String toString() {
+            rfturn String.formbt("CollfdtionNodf[%d][%s]", d.sizf(), d);
         }
     }
 
     /**
-     * Node class for an internal node with two or more children
+     * Nodf dlbss for bn intfrnbl nodf witi two or morf diildrfn
      */
-    private static abstract class AbstractConcNode<T, T_NODE extends Node<T>> implements Node<T> {
-        protected final T_NODE left;
-        protected final T_NODE right;
-        private final long size;
+    privbtf stbtid bbstrbdt dlbss AbstrbdtCondNodf<T, T_NODE fxtfnds Nodf<T>> implfmfnts Nodf<T> {
+        protfdtfd finbl T_NODE lfft;
+        protfdtfd finbl T_NODE rigit;
+        privbtf finbl long sizf;
 
-        AbstractConcNode(T_NODE left, T_NODE right) {
-            this.left = left;
-            this.right = right;
-            // The Node count will be required when the Node spliterator is
-            // obtained and it is cheaper to aggressively calculate bottom up
-            // as the tree is built rather than later on from the top down
-            // traversing the tree
-            this.size = left.count() + right.count();
+        AbstrbdtCondNodf(T_NODE lfft, T_NODE rigit) {
+            tiis.lfft = lfft;
+            tiis.rigit = rigit;
+            // Tif Nodf dount will bf rfquirfd wifn tif Nodf splitfrbtor is
+            // obtbinfd bnd it is difbpfr to bggrfssivfly dbldulbtf bottom up
+            // bs tif trff is built rbtifr tibn lbtfr on from tif top down
+            // trbvfrsing tif trff
+            tiis.sizf = lfft.dount() + rigit.dount();
         }
 
-        @Override
-        public int getChildCount() {
-            return 2;
+        @Ovfrridf
+        publid int gftCiildCount() {
+            rfturn 2;
         }
 
-        @Override
-        public T_NODE getChild(int i) {
-            if (i == 0) return left;
-            if (i == 1) return right;
-            throw new IndexOutOfBoundsException();
+        @Ovfrridf
+        publid T_NODE gftCiild(int i) {
+            if (i == 0) rfturn lfft;
+            if (i == 1) rfturn rigit;
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
 
-        @Override
-        public long count() {
-            return size;
-        }
-    }
-
-    static final class ConcNode<T>
-            extends AbstractConcNode<T, Node<T>>
-            implements Node<T> {
-
-        ConcNode(Node<T> left, Node<T> right) {
-            super(left, right);
-        }
-
-        @Override
-        public Spliterator<T> spliterator() {
-            return new Nodes.InternalNodeSpliterator.OfRef<>(this);
-        }
-
-        @Override
-        public void copyInto(T[] array, int offset) {
-            Objects.requireNonNull(array);
-            left.copyInto(array, offset);
-            // Cast to int is safe since it is the callers responsibility to
-            // ensure that there is sufficient room in the array
-            right.copyInto(array, offset + (int) left.count());
-        }
-
-        @Override
-        public T[] asArray(IntFunction<T[]> generator) {
-            long size = count();
-            if (size >= MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(BAD_SIZE);
-            T[] array = generator.apply((int) size);
-            copyInto(array, 0);
-            return array;
-        }
-
-        @Override
-        public void forEach(Consumer<? super T> consumer) {
-            left.forEach(consumer);
-            right.forEach(consumer);
-        }
-
-        @Override
-        public Node<T> truncate(long from, long to, IntFunction<T[]> generator) {
-            if (from == 0 && to == count())
-                return this;
-            long leftCount = left.count();
-            if (from >= leftCount)
-                return right.truncate(from - leftCount, to - leftCount, generator);
-            else if (to <= leftCount)
-                return left.truncate(from, to, generator);
-            else {
-                return Nodes.conc(getShape(), left.truncate(from, leftCount, generator),
-                                  right.truncate(0, to - leftCount, generator));
-            }
-        }
-
-        @Override
-        public String toString() {
-            if (count() < 32) {
-                return String.format("ConcNode[%s.%s]", left, right);
-            } else {
-                return String.format("ConcNode[size=%d]", count());
-            }
-        }
-
-        private abstract static class OfPrimitive<E, T_CONS, T_ARR,
-                                                  T_SPLITR extends Spliterator.OfPrimitive<E, T_CONS, T_SPLITR>,
-                                                  T_NODE extends Node.OfPrimitive<E, T_CONS, T_ARR, T_SPLITR, T_NODE>>
-                extends AbstractConcNode<E, T_NODE>
-                implements Node.OfPrimitive<E, T_CONS, T_ARR, T_SPLITR, T_NODE> {
-
-            OfPrimitive(T_NODE left, T_NODE right) {
-                super(left, right);
-            }
-
-            @Override
-            public void forEach(T_CONS consumer) {
-                left.forEach(consumer);
-                right.forEach(consumer);
-            }
-
-            @Override
-            public void copyInto(T_ARR array, int offset) {
-                left.copyInto(array, offset);
-                // Cast to int is safe since it is the callers responsibility to
-                // ensure that there is sufficient room in the array
-                right.copyInto(array, offset + (int) left.count());
-            }
-
-            @Override
-            public T_ARR asPrimitiveArray() {
-                long size = count();
-                if (size >= MAX_ARRAY_SIZE)
-                    throw new IllegalArgumentException(BAD_SIZE);
-                T_ARR array = newArray((int) size);
-                copyInto(array, 0);
-                return array;
-            }
-
-            @Override
-            public String toString() {
-                if (count() < 32)
-                    return String.format("%s[%s.%s]", this.getClass().getName(), left, right);
-                else
-                    return String.format("%s[size=%d]", this.getClass().getName(), count());
-            }
-        }
-
-        static final class OfInt
-                extends ConcNode.OfPrimitive<Integer, IntConsumer, int[], Spliterator.OfInt, Node.OfInt>
-                implements Node.OfInt {
-
-            OfInt(Node.OfInt left, Node.OfInt right) {
-                super(left, right);
-            }
-
-            @Override
-            public Spliterator.OfInt spliterator() {
-                return new InternalNodeSpliterator.OfInt(this);
-            }
-        }
-
-        static final class OfLong
-                extends ConcNode.OfPrimitive<Long, LongConsumer, long[], Spliterator.OfLong, Node.OfLong>
-                implements Node.OfLong {
-
-            OfLong(Node.OfLong left, Node.OfLong right) {
-                super(left, right);
-            }
-
-            @Override
-            public Spliterator.OfLong spliterator() {
-                return new InternalNodeSpliterator.OfLong(this);
-            }
-        }
-
-        static final class OfDouble
-                extends ConcNode.OfPrimitive<Double, DoubleConsumer, double[], Spliterator.OfDouble, Node.OfDouble>
-                implements Node.OfDouble {
-
-            OfDouble(Node.OfDouble left, Node.OfDouble right) {
-                super(left, right);
-            }
-
-            @Override
-            public Spliterator.OfDouble spliterator() {
-                return new InternalNodeSpliterator.OfDouble(this);
-            }
+        @Ovfrridf
+        publid long dount() {
+            rfturn sizf;
         }
     }
 
-    /** Abstract class for spliterator for all internal node classes */
-    private static abstract class InternalNodeSpliterator<T,
-                                                          S extends Spliterator<T>,
-                                                          N extends Node<T>>
-            implements Spliterator<T> {
-        // Node we are pointing to
-        // null if full traversal has occurred
-        N curNode;
+    stbtid finbl dlbss CondNodf<T>
+            fxtfnds AbstrbdtCondNodf<T, Nodf<T>>
+            implfmfnts Nodf<T> {
 
-        // next child of curNode to consume
-        int curChildIndex;
+        CondNodf(Nodf<T> lfft, Nodf<T> rigit) {
+            supfr(lfft, rigit);
+        }
 
-        // The spliterator of the curNode if that node is last and has no children.
-        // This spliterator will be delegated to for splitting and traversing.
-        // null if curNode has children
-        S lastNodeSpliterator;
+        @Ovfrridf
+        publid Splitfrbtor<T> splitfrbtor() {
+            rfturn nfw Nodfs.IntfrnblNodfSplitfrbtor.OfRff<>(tiis);
+        }
 
-        // spliterator used while traversing with tryAdvance
-        // null if no partial traversal has occurred
-        S tryAdvanceSpliterator;
+        @Ovfrridf
+        publid void dopyInto(T[] brrby, int offsft) {
+            Objfdts.rfquirfNonNull(brrby);
+            lfft.dopyInto(brrby, offsft);
+            // Cbst to int is sbff sindf it is tif dbllfrs rfsponsibility to
+            // fnsurf tibt tifrf is suffidifnt room in tif brrby
+            rigit.dopyInto(brrby, offsft + (int) lfft.dount());
+        }
 
-        // node stack used when traversing to search and find leaf nodes
-        // null if no partial traversal has occurred
-        Deque<N> tryAdvanceStack;
+        @Ovfrridf
+        publid T[] bsArrby(IntFundtion<T[]> gfnfrbtor) {
+            long sizf = dount();
+            if (sizf >= MAX_ARRAY_SIZE)
+                tirow nfw IllfgblArgumfntExdfption(BAD_SIZE);
+            T[] brrby = gfnfrbtor.bpply((int) sizf);
+            dopyInto(brrby, 0);
+            rfturn brrby;
+        }
 
-        InternalNodeSpliterator(N curNode) {
-            this.curNode = curNode;
+        @Ovfrridf
+        publid void forEbdi(Consumfr<? supfr T> donsumfr) {
+            lfft.forEbdi(donsumfr);
+            rigit.forEbdi(donsumfr);
+        }
+
+        @Ovfrridf
+        publid Nodf<T> trundbtf(long from, long to, IntFundtion<T[]> gfnfrbtor) {
+            if (from == 0 && to == dount())
+                rfturn tiis;
+            long lfftCount = lfft.dount();
+            if (from >= lfftCount)
+                rfturn rigit.trundbtf(from - lfftCount, to - lfftCount, gfnfrbtor);
+            flsf if (to <= lfftCount)
+                rfturn lfft.trundbtf(from, to, gfnfrbtor);
+            flsf {
+                rfturn Nodfs.dond(gftSibpf(), lfft.trundbtf(from, lfftCount, gfnfrbtor),
+                                  rigit.trundbtf(0, to - lfftCount, gfnfrbtor));
+            }
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            if (dount() < 32) {
+                rfturn String.formbt("CondNodf[%s.%s]", lfft, rigit);
+            } flsf {
+                rfturn String.formbt("CondNodf[sizf=%d]", dount());
+            }
+        }
+
+        privbtf bbstrbdt stbtid dlbss OfPrimitivf<E, T_CONS, T_ARR,
+                                                  T_SPLITR fxtfnds Splitfrbtor.OfPrimitivf<E, T_CONS, T_SPLITR>,
+                                                  T_NODE fxtfnds Nodf.OfPrimitivf<E, T_CONS, T_ARR, T_SPLITR, T_NODE>>
+                fxtfnds AbstrbdtCondNodf<E, T_NODE>
+                implfmfnts Nodf.OfPrimitivf<E, T_CONS, T_ARR, T_SPLITR, T_NODE> {
+
+            OfPrimitivf(T_NODE lfft, T_NODE rigit) {
+                supfr(lfft, rigit);
+            }
+
+            @Ovfrridf
+            publid void forEbdi(T_CONS donsumfr) {
+                lfft.forEbdi(donsumfr);
+                rigit.forEbdi(donsumfr);
+            }
+
+            @Ovfrridf
+            publid void dopyInto(T_ARR brrby, int offsft) {
+                lfft.dopyInto(brrby, offsft);
+                // Cbst to int is sbff sindf it is tif dbllfrs rfsponsibility to
+                // fnsurf tibt tifrf is suffidifnt room in tif brrby
+                rigit.dopyInto(brrby, offsft + (int) lfft.dount());
+            }
+
+            @Ovfrridf
+            publid T_ARR bsPrimitivfArrby() {
+                long sizf = dount();
+                if (sizf >= MAX_ARRAY_SIZE)
+                    tirow nfw IllfgblArgumfntExdfption(BAD_SIZE);
+                T_ARR brrby = nfwArrby((int) sizf);
+                dopyInto(brrby, 0);
+                rfturn brrby;
+            }
+
+            @Ovfrridf
+            publid String toString() {
+                if (dount() < 32)
+                    rfturn String.formbt("%s[%s.%s]", tiis.gftClbss().gftNbmf(), lfft, rigit);
+                flsf
+                    rfturn String.formbt("%s[sizf=%d]", tiis.gftClbss().gftNbmf(), dount());
+            }
+        }
+
+        stbtid finbl dlbss OfInt
+                fxtfnds CondNodf.OfPrimitivf<Intfgfr, IntConsumfr, int[], Splitfrbtor.OfInt, Nodf.OfInt>
+                implfmfnts Nodf.OfInt {
+
+            OfInt(Nodf.OfInt lfft, Nodf.OfInt rigit) {
+                supfr(lfft, rigit);
+            }
+
+            @Ovfrridf
+            publid Splitfrbtor.OfInt splitfrbtor() {
+                rfturn nfw IntfrnblNodfSplitfrbtor.OfInt(tiis);
+            }
+        }
+
+        stbtid finbl dlbss OfLong
+                fxtfnds CondNodf.OfPrimitivf<Long, LongConsumfr, long[], Splitfrbtor.OfLong, Nodf.OfLong>
+                implfmfnts Nodf.OfLong {
+
+            OfLong(Nodf.OfLong lfft, Nodf.OfLong rigit) {
+                supfr(lfft, rigit);
+            }
+
+            @Ovfrridf
+            publid Splitfrbtor.OfLong splitfrbtor() {
+                rfturn nfw IntfrnblNodfSplitfrbtor.OfLong(tiis);
+            }
+        }
+
+        stbtid finbl dlbss OfDoublf
+                fxtfnds CondNodf.OfPrimitivf<Doublf, DoublfConsumfr, doublf[], Splitfrbtor.OfDoublf, Nodf.OfDoublf>
+                implfmfnts Nodf.OfDoublf {
+
+            OfDoublf(Nodf.OfDoublf lfft, Nodf.OfDoublf rigit) {
+                supfr(lfft, rigit);
+            }
+
+            @Ovfrridf
+            publid Splitfrbtor.OfDoublf splitfrbtor() {
+                rfturn nfw IntfrnblNodfSplitfrbtor.OfDoublf(tiis);
+            }
+        }
+    }
+
+    /** Abstrbdt dlbss for splitfrbtor for bll intfrnbl nodf dlbssfs */
+    privbtf stbtid bbstrbdt dlbss IntfrnblNodfSplitfrbtor<T,
+                                                          S fxtfnds Splitfrbtor<T>,
+                                                          N fxtfnds Nodf<T>>
+            implfmfnts Splitfrbtor<T> {
+        // Nodf wf brf pointing to
+        // null if full trbvfrsbl ibs oddurrfd
+        N durNodf;
+
+        // nfxt diild of durNodf to donsumf
+        int durCiildIndfx;
+
+        // Tif splitfrbtor of tif durNodf if tibt nodf is lbst bnd ibs no diildrfn.
+        // Tiis splitfrbtor will bf dflfgbtfd to for splitting bnd trbvfrsing.
+        // null if durNodf ibs diildrfn
+        S lbstNodfSplitfrbtor;
+
+        // splitfrbtor usfd wiilf trbvfrsing witi tryAdvbndf
+        // null if no pbrtibl trbvfrsbl ibs oddurrfd
+        S tryAdvbndfSplitfrbtor;
+
+        // nodf stbdk usfd wifn trbvfrsing to sfbrdi bnd find lfbf nodfs
+        // null if no pbrtibl trbvfrsbl ibs oddurrfd
+        Dfquf<N> tryAdvbndfStbdk;
+
+        IntfrnblNodfSplitfrbtor(N durNodf) {
+            tiis.durNodf = durNodf;
         }
 
         /**
-         * Initiate a stack containing, in left-to-right order, the child nodes
-         * covered by this spliterator
+         * Initibtf b stbdk dontbining, in lfft-to-rigit ordfr, tif diild nodfs
+         * dovfrfd by tiis splitfrbtor
          */
-        @SuppressWarnings("unchecked")
-        protected final Deque<N> initStack() {
-            // Bias size to the case where leaf nodes are close to this node
-            // 8 is the minimum initial capacity for the ArrayDeque implementation
-            Deque<N> stack = new ArrayDeque<>(8);
-            for (int i = curNode.getChildCount() - 1; i >= curChildIndex; i--)
-                stack.addFirst((N) curNode.getChild(i));
-            return stack;
+        @SupprfssWbrnings("undifdkfd")
+        protfdtfd finbl Dfquf<N> initStbdk() {
+            // Bibs sizf to tif dbsf wifrf lfbf nodfs brf dlosf to tiis nodf
+            // 8 is tif minimum initibl dbpbdity for tif ArrbyDfquf implfmfntbtion
+            Dfquf<N> stbdk = nfw ArrbyDfquf<>(8);
+            for (int i = durNodf.gftCiildCount() - 1; i >= durCiildIndfx; i--)
+                stbdk.bddFirst((N) durNodf.gftCiild(i));
+            rfturn stbdk;
         }
 
         /**
-         * Depth first search, in left-to-right order, of the node tree, using
-         * an explicit stack, to find the next non-empty leaf node.
+         * Dfpti first sfbrdi, in lfft-to-rigit ordfr, of tif nodf trff, using
+         * bn fxplidit stbdk, to find tif nfxt non-fmpty lfbf nodf.
          */
-        @SuppressWarnings("unchecked")
-        protected final N findNextLeafNode(Deque<N> stack) {
+        @SupprfssWbrnings("undifdkfd")
+        protfdtfd finbl N findNfxtLfbfNodf(Dfquf<N> stbdk) {
             N n = null;
-            while ((n = stack.pollFirst()) != null) {
-                if (n.getChildCount() == 0) {
-                    if (n.count() > 0)
-                        return n;
-                } else {
-                    for (int i = n.getChildCount() - 1; i >= 0; i--)
-                        stack.addFirst((N) n.getChild(i));
+            wiilf ((n = stbdk.pollFirst()) != null) {
+                if (n.gftCiildCount() == 0) {
+                    if (n.dount() > 0)
+                        rfturn n;
+                } flsf {
+                    for (int i = n.gftCiildCount() - 1; i >= 0; i--)
+                        stbdk.bddFirst((N) n.gftCiild(i));
                 }
             }
 
-            return null;
+            rfturn null;
         }
 
-        @SuppressWarnings("unchecked")
-        protected final boolean initTryAdvance() {
-            if (curNode == null)
-                return false;
+        @SupprfssWbrnings("undifdkfd")
+        protfdtfd finbl boolfbn initTryAdvbndf() {
+            if (durNodf == null)
+                rfturn fblsf;
 
-            if (tryAdvanceSpliterator == null) {
-                if (lastNodeSpliterator == null) {
-                    // Initiate the node stack
-                    tryAdvanceStack = initStack();
-                    N leaf = findNextLeafNode(tryAdvanceStack);
-                    if (leaf != null)
-                        tryAdvanceSpliterator = (S) leaf.spliterator();
-                    else {
-                        // A non-empty leaf node was not found
-                        // No elements to traverse
-                        curNode = null;
-                        return false;
+            if (tryAdvbndfSplitfrbtor == null) {
+                if (lbstNodfSplitfrbtor == null) {
+                    // Initibtf tif nodf stbdk
+                    tryAdvbndfStbdk = initStbdk();
+                    N lfbf = findNfxtLfbfNodf(tryAdvbndfStbdk);
+                    if (lfbf != null)
+                        tryAdvbndfSplitfrbtor = (S) lfbf.splitfrbtor();
+                    flsf {
+                        // A non-fmpty lfbf nodf wbs not found
+                        // No flfmfnts to trbvfrsf
+                        durNodf = null;
+                        rfturn fblsf;
                     }
                 }
-                else
-                    tryAdvanceSpliterator = lastNodeSpliterator;
+                flsf
+                    tryAdvbndfSplitfrbtor = lbstNodfSplitfrbtor;
             }
-            return true;
+            rfturn truf;
         }
 
-        @Override
-        @SuppressWarnings("unchecked")
-        public final S trySplit() {
-            if (curNode == null || tryAdvanceSpliterator != null)
-                return null; // Cannot split if fully or partially traversed
-            else if (lastNodeSpliterator != null)
-                return (S) lastNodeSpliterator.trySplit();
-            else if (curChildIndex < curNode.getChildCount() - 1)
-                return (S) curNode.getChild(curChildIndex++).spliterator();
-            else {
-                curNode = (N) curNode.getChild(curChildIndex);
-                if (curNode.getChildCount() == 0) {
-                    lastNodeSpliterator = (S) curNode.spliterator();
-                    return (S) lastNodeSpliterator.trySplit();
+        @Ovfrridf
+        @SupprfssWbrnings("undifdkfd")
+        publid finbl S trySplit() {
+            if (durNodf == null || tryAdvbndfSplitfrbtor != null)
+                rfturn null; // Cbnnot split if fully or pbrtiblly trbvfrsfd
+            flsf if (lbstNodfSplitfrbtor != null)
+                rfturn (S) lbstNodfSplitfrbtor.trySplit();
+            flsf if (durCiildIndfx < durNodf.gftCiildCount() - 1)
+                rfturn (S) durNodf.gftCiild(durCiildIndfx++).splitfrbtor();
+            flsf {
+                durNodf = (N) durNodf.gftCiild(durCiildIndfx);
+                if (durNodf.gftCiildCount() == 0) {
+                    lbstNodfSplitfrbtor = (S) durNodf.splitfrbtor();
+                    rfturn (S) lbstNodfSplitfrbtor.trySplit();
                 }
-                else {
-                    curChildIndex = 0;
-                    return (S) curNode.getChild(curChildIndex++).spliterator();
+                flsf {
+                    durCiildIndfx = 0;
+                    rfturn (S) durNodf.gftCiild(durCiildIndfx++).splitfrbtor();
                 }
             }
         }
 
-        @Override
-        public final long estimateSize() {
-            if (curNode == null)
-                return 0;
+        @Ovfrridf
+        publid finbl long fstimbtfSizf() {
+            if (durNodf == null)
+                rfturn 0;
 
-            // Will not reflect the effects of partial traversal.
-            // This is compliant with the specification
-            if (lastNodeSpliterator != null)
-                return lastNodeSpliterator.estimateSize();
-            else {
-                long size = 0;
-                for (int i = curChildIndex; i < curNode.getChildCount(); i++)
-                    size += curNode.getChild(i).count();
-                return size;
+            // Will not rfflfdt tif ffffdts of pbrtibl trbvfrsbl.
+            // Tiis is domplibnt witi tif spfdifidbtion
+            if (lbstNodfSplitfrbtor != null)
+                rfturn lbstNodfSplitfrbtor.fstimbtfSizf();
+            flsf {
+                long sizf = 0;
+                for (int i = durCiildIndfx; i < durNodf.gftCiildCount(); i++)
+                    sizf += durNodf.gftCiild(i).dount();
+                rfturn sizf;
             }
         }
 
-        @Override
-        public final int characteristics() {
-            return Spliterator.SIZED;
+        @Ovfrridf
+        publid finbl int dibrbdtfristids() {
+            rfturn Splitfrbtor.SIZED;
         }
 
-        private static final class OfRef<T>
-                extends InternalNodeSpliterator<T, Spliterator<T>, Node<T>> {
+        privbtf stbtid finbl dlbss OfRff<T>
+                fxtfnds IntfrnblNodfSplitfrbtor<T, Splitfrbtor<T>, Nodf<T>> {
 
-            OfRef(Node<T> curNode) {
-                super(curNode);
+            OfRff(Nodf<T> durNodf) {
+                supfr(durNodf);
             }
 
-            @Override
-            public boolean tryAdvance(Consumer<? super T> consumer) {
-                if (!initTryAdvance())
-                    return false;
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(Consumfr<? supfr T> donsumfr) {
+                if (!initTryAdvbndf())
+                    rfturn fblsf;
 
-                boolean hasNext = tryAdvanceSpliterator.tryAdvance(consumer);
-                if (!hasNext) {
-                    if (lastNodeSpliterator == null) {
-                        // Advance to the spliterator of the next non-empty leaf node
-                        Node<T> leaf = findNextLeafNode(tryAdvanceStack);
-                        if (leaf != null) {
-                            tryAdvanceSpliterator = leaf.spliterator();
-                            // Since the node is not-empty the spliterator can be advanced
-                            return tryAdvanceSpliterator.tryAdvance(consumer);
+                boolfbn ibsNfxt = tryAdvbndfSplitfrbtor.tryAdvbndf(donsumfr);
+                if (!ibsNfxt) {
+                    if (lbstNodfSplitfrbtor == null) {
+                        // Advbndf to tif splitfrbtor of tif nfxt non-fmpty lfbf nodf
+                        Nodf<T> lfbf = findNfxtLfbfNodf(tryAdvbndfStbdk);
+                        if (lfbf != null) {
+                            tryAdvbndfSplitfrbtor = lfbf.splitfrbtor();
+                            // Sindf tif nodf is not-fmpty tif splitfrbtor dbn bf bdvbndfd
+                            rfturn tryAdvbndfSplitfrbtor.tryAdvbndf(donsumfr);
                         }
                     }
-                    // No more elements to traverse
-                    curNode = null;
+                    // No morf flfmfnts to trbvfrsf
+                    durNodf = null;
                 }
-                return hasNext;
+                rfturn ibsNfxt;
             }
 
-            @Override
-            public void forEachRemaining(Consumer<? super T> consumer) {
-                if (curNode == null)
-                    return;
+            @Ovfrridf
+            publid void forEbdiRfmbining(Consumfr<? supfr T> donsumfr) {
+                if (durNodf == null)
+                    rfturn;
 
-                if (tryAdvanceSpliterator == null) {
-                    if (lastNodeSpliterator == null) {
-                        Deque<Node<T>> stack = initStack();
-                        Node<T> leaf;
-                        while ((leaf = findNextLeafNode(stack)) != null) {
-                            leaf.forEach(consumer);
+                if (tryAdvbndfSplitfrbtor == null) {
+                    if (lbstNodfSplitfrbtor == null) {
+                        Dfquf<Nodf<T>> stbdk = initStbdk();
+                        Nodf<T> lfbf;
+                        wiilf ((lfbf = findNfxtLfbfNodf(stbdk)) != null) {
+                            lfbf.forEbdi(donsumfr);
                         }
-                        curNode = null;
+                        durNodf = null;
                     }
-                    else
-                        lastNodeSpliterator.forEachRemaining(consumer);
+                    flsf
+                        lbstNodfSplitfrbtor.forEbdiRfmbining(donsumfr);
                 }
-                else
-                    while(tryAdvance(consumer)) { }
+                flsf
+                    wiilf(tryAdvbndf(donsumfr)) { }
             }
         }
 
-        private static abstract class OfPrimitive<T, T_CONS, T_ARR,
-                                                  T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>,
-                                                  N extends Node.OfPrimitive<T, T_CONS, T_ARR, T_SPLITR, N>>
-                extends InternalNodeSpliterator<T, T_SPLITR, N>
-                implements Spliterator.OfPrimitive<T, T_CONS, T_SPLITR> {
+        privbtf stbtid bbstrbdt dlbss OfPrimitivf<T, T_CONS, T_ARR,
+                                                  T_SPLITR fxtfnds Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR>,
+                                                  N fxtfnds Nodf.OfPrimitivf<T, T_CONS, T_ARR, T_SPLITR, N>>
+                fxtfnds IntfrnblNodfSplitfrbtor<T, T_SPLITR, N>
+                implfmfnts Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR> {
 
-            OfPrimitive(N cur) {
-                super(cur);
+            OfPrimitivf(N dur) {
+                supfr(dur);
             }
 
-            @Override
-            public boolean tryAdvance(T_CONS consumer) {
-                if (!initTryAdvance())
-                    return false;
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(T_CONS donsumfr) {
+                if (!initTryAdvbndf())
+                    rfturn fblsf;
 
-                boolean hasNext = tryAdvanceSpliterator.tryAdvance(consumer);
-                if (!hasNext) {
-                    if (lastNodeSpliterator == null) {
-                        // Advance to the spliterator of the next non-empty leaf node
-                        N leaf = findNextLeafNode(tryAdvanceStack);
-                        if (leaf != null) {
-                            tryAdvanceSpliterator = leaf.spliterator();
-                            // Since the node is not-empty the spliterator can be advanced
-                            return tryAdvanceSpliterator.tryAdvance(consumer);
+                boolfbn ibsNfxt = tryAdvbndfSplitfrbtor.tryAdvbndf(donsumfr);
+                if (!ibsNfxt) {
+                    if (lbstNodfSplitfrbtor == null) {
+                        // Advbndf to tif splitfrbtor of tif nfxt non-fmpty lfbf nodf
+                        N lfbf = findNfxtLfbfNodf(tryAdvbndfStbdk);
+                        if (lfbf != null) {
+                            tryAdvbndfSplitfrbtor = lfbf.splitfrbtor();
+                            // Sindf tif nodf is not-fmpty tif splitfrbtor dbn bf bdvbndfd
+                            rfturn tryAdvbndfSplitfrbtor.tryAdvbndf(donsumfr);
                         }
                     }
-                    // No more elements to traverse
-                    curNode = null;
+                    // No morf flfmfnts to trbvfrsf
+                    durNodf = null;
                 }
-                return hasNext;
+                rfturn ibsNfxt;
             }
 
-            @Override
-            public void forEachRemaining(T_CONS consumer) {
-                if (curNode == null)
-                    return;
+            @Ovfrridf
+            publid void forEbdiRfmbining(T_CONS donsumfr) {
+                if (durNodf == null)
+                    rfturn;
 
-                if (tryAdvanceSpliterator == null) {
-                    if (lastNodeSpliterator == null) {
-                        Deque<N> stack = initStack();
-                        N leaf;
-                        while ((leaf = findNextLeafNode(stack)) != null) {
-                            leaf.forEach(consumer);
+                if (tryAdvbndfSplitfrbtor == null) {
+                    if (lbstNodfSplitfrbtor == null) {
+                        Dfquf<N> stbdk = initStbdk();
+                        N lfbf;
+                        wiilf ((lfbf = findNfxtLfbfNodf(stbdk)) != null) {
+                            lfbf.forEbdi(donsumfr);
                         }
-                        curNode = null;
+                        durNodf = null;
                     }
-                    else
-                        lastNodeSpliterator.forEachRemaining(consumer);
+                    flsf
+                        lbstNodfSplitfrbtor.forEbdiRfmbining(donsumfr);
                 }
-                else
-                    while(tryAdvance(consumer)) { }
+                flsf
+                    wiilf(tryAdvbndf(donsumfr)) { }
             }
         }
 
-        private static final class OfInt
-                extends OfPrimitive<Integer, IntConsumer, int[], Spliterator.OfInt, Node.OfInt>
-                implements Spliterator.OfInt {
+        privbtf stbtid finbl dlbss OfInt
+                fxtfnds OfPrimitivf<Intfgfr, IntConsumfr, int[], Splitfrbtor.OfInt, Nodf.OfInt>
+                implfmfnts Splitfrbtor.OfInt {
 
-            OfInt(Node.OfInt cur) {
-                super(cur);
+            OfInt(Nodf.OfInt dur) {
+                supfr(dur);
             }
         }
 
-        private static final class OfLong
-                extends OfPrimitive<Long, LongConsumer, long[], Spliterator.OfLong, Node.OfLong>
-                implements Spliterator.OfLong {
+        privbtf stbtid finbl dlbss OfLong
+                fxtfnds OfPrimitivf<Long, LongConsumfr, long[], Splitfrbtor.OfLong, Nodf.OfLong>
+                implfmfnts Splitfrbtor.OfLong {
 
-            OfLong(Node.OfLong cur) {
-                super(cur);
+            OfLong(Nodf.OfLong dur) {
+                supfr(dur);
             }
         }
 
-        private static final class OfDouble
-                extends OfPrimitive<Double, DoubleConsumer, double[], Spliterator.OfDouble, Node.OfDouble>
-                implements Spliterator.OfDouble {
+        privbtf stbtid finbl dlbss OfDoublf
+                fxtfnds OfPrimitivf<Doublf, DoublfConsumfr, doublf[], Splitfrbtor.OfDoublf, Nodf.OfDoublf>
+                implfmfnts Splitfrbtor.OfDoublf {
 
-            OfDouble(Node.OfDouble cur) {
-                super(cur);
+            OfDoublf(Nodf.OfDoublf dur) {
+                supfr(dur);
             }
         }
     }
 
     /**
-     * Fixed-sized builder class for reference nodes
+     * Fixfd-sizfd buildfr dlbss for rfffrfndf nodfs
      */
-    private static final class FixedNodeBuilder<T>
-            extends ArrayNode<T>
-            implements Node.Builder<T> {
+    privbtf stbtid finbl dlbss FixfdNodfBuildfr<T>
+            fxtfnds ArrbyNodf<T>
+            implfmfnts Nodf.Buildfr<T> {
 
-        FixedNodeBuilder(long size, IntFunction<T[]> generator) {
-            super(size, generator);
-            assert size < MAX_ARRAY_SIZE;
+        FixfdNodfBuildfr(long sizf, IntFundtion<T[]> gfnfrbtor) {
+            supfr(sizf, gfnfrbtor);
+            bssfrt sizf < MAX_ARRAY_SIZE;
         }
 
-        @Override
-        public Node<T> build() {
-            if (curSize < array.length)
-                throw new IllegalStateException(String.format("Current size %d is less than fixed size %d",
-                                                              curSize, array.length));
-            return this;
+        @Ovfrridf
+        publid Nodf<T> build() {
+            if (durSizf < brrby.lfngti)
+                tirow nfw IllfgblStbtfExdfption(String.formbt("Currfnt sizf %d is lfss tibn fixfd sizf %d",
+                                                              durSizf, brrby.lfngti));
+            rfturn tiis;
         }
 
-        @Override
-        public void begin(long size) {
-            if (size != array.length)
-                throw new IllegalStateException(String.format("Begin size %d is not equal to fixed size %d",
-                                                              size, array.length));
-            curSize = 0;
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            if (sizf != brrby.lfngti)
+                tirow nfw IllfgblStbtfExdfption(String.formbt("Bfgin sizf %d is not fqubl to fixfd sizf %d",
+                                                              sizf, brrby.lfngti));
+            durSizf = 0;
         }
 
-        @Override
-        public void accept(T t) {
-            if (curSize < array.length) {
-                array[curSize++] = t;
-            } else {
-                throw new IllegalStateException(String.format("Accept exceeded fixed size of %d",
-                                                              array.length));
+        @Ovfrridf
+        publid void bddfpt(T t) {
+            if (durSizf < brrby.lfngti) {
+                brrby[durSizf++] = t;
+            } flsf {
+                tirow nfw IllfgblStbtfExdfption(String.formbt("Addfpt fxdffdfd fixfd sizf of %d",
+                                                              brrby.lfngti));
             }
         }
 
-        @Override
-        public void end() {
-            if (curSize < array.length)
-                throw new IllegalStateException(String.format("End size %d is less than fixed size %d",
-                                                              curSize, array.length));
+        @Ovfrridf
+        publid void fnd() {
+            if (durSizf < brrby.lfngti)
+                tirow nfw IllfgblStbtfExdfption(String.formbt("End sizf %d is lfss tibn fixfd sizf %d",
+                                                              durSizf, brrby.lfngti));
         }
 
-        @Override
-        public String toString() {
-            return String.format("FixedNodeBuilder[%d][%s]",
-                                 array.length - curSize, Arrays.toString(array));
+        @Ovfrridf
+        publid String toString() {
+            rfturn String.formbt("FixfdNodfBuildfr[%d][%s]",
+                                 brrby.lfngti - durSizf, Arrbys.toString(brrby));
         }
     }
 
     /**
-     * Variable-sized builder class for reference nodes
+     * Vbribblf-sizfd buildfr dlbss for rfffrfndf nodfs
      */
-    private static final class SpinedNodeBuilder<T>
-            extends SpinedBuffer<T>
-            implements Node<T>, Node.Builder<T> {
-        private boolean building = false;
+    privbtf stbtid finbl dlbss SpinfdNodfBuildfr<T>
+            fxtfnds SpinfdBufffr<T>
+            implfmfnts Nodf<T>, Nodf.Buildfr<T> {
+        privbtf boolfbn building = fblsf;
 
-        SpinedNodeBuilder() {} // Avoid creation of special accessor
+        SpinfdNodfBuildfr() {} // Avoid drfbtion of spfdibl bddfssor
 
-        @Override
-        public Spliterator<T> spliterator() {
-            assert !building : "during building";
-            return super.spliterator();
+        @Ovfrridf
+        publid Splitfrbtor<T> splitfrbtor() {
+            bssfrt !building : "during building";
+            rfturn supfr.splitfrbtor();
         }
 
-        @Override
-        public void forEach(Consumer<? super T> consumer) {
-            assert !building : "during building";
-            super.forEach(consumer);
+        @Ovfrridf
+        publid void forEbdi(Consumfr<? supfr T> donsumfr) {
+            bssfrt !building : "during building";
+            supfr.forEbdi(donsumfr);
         }
 
         //
-        @Override
-        public void begin(long size) {
-            assert !building : "was already building";
-            building = true;
-            clear();
-            ensureCapacity(size);
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            bssfrt !building : "wbs blrfbdy building";
+            building = truf;
+            dlfbr();
+            fnsurfCbpbdity(sizf);
         }
 
-        @Override
-        public void accept(T t) {
-            assert building : "not building";
-            super.accept(t);
+        @Ovfrridf
+        publid void bddfpt(T t) {
+            bssfrt building : "not building";
+            supfr.bddfpt(t);
         }
 
-        @Override
-        public void end() {
-            assert building : "was not building";
-            building = false;
-            // @@@ check begin(size) and size
+        @Ovfrridf
+        publid void fnd() {
+            bssfrt building : "wbs not building";
+            building = fblsf;
+            // @@@ difdk bfgin(sizf) bnd sizf
         }
 
-        @Override
-        public void copyInto(T[] array, int offset) {
-            assert !building : "during building";
-            super.copyInto(array, offset);
+        @Ovfrridf
+        publid void dopyInto(T[] brrby, int offsft) {
+            bssfrt !building : "during building";
+            supfr.dopyInto(brrby, offsft);
         }
 
-        @Override
-        public T[] asArray(IntFunction<T[]> arrayFactory) {
-            assert !building : "during building";
-            return super.asArray(arrayFactory);
+        @Ovfrridf
+        publid T[] bsArrby(IntFundtion<T[]> brrbyFbdtory) {
+            bssfrt !building : "during building";
+            rfturn supfr.bsArrby(brrbyFbdtory);
         }
 
-        @Override
-        public Node<T> build() {
-            assert !building : "during building";
-            return this;
+        @Ovfrridf
+        publid Nodf<T> build() {
+            bssfrt !building : "during building";
+            rfturn tiis;
         }
     }
 
     //
 
-    private static final int[] EMPTY_INT_ARRAY = new int[0];
-    private static final long[] EMPTY_LONG_ARRAY = new long[0];
-    private static final double[] EMPTY_DOUBLE_ARRAY = new double[0];
+    privbtf stbtid finbl int[] EMPTY_INT_ARRAY = nfw int[0];
+    privbtf stbtid finbl long[] EMPTY_LONG_ARRAY = nfw long[0];
+    privbtf stbtid finbl doublf[] EMPTY_DOUBLE_ARRAY = nfw doublf[0];
 
-    private static class IntArrayNode implements Node.OfInt {
-        final int[] array;
-        int curSize;
+    privbtf stbtid dlbss IntArrbyNodf implfmfnts Nodf.OfInt {
+        finbl int[] brrby;
+        int durSizf;
 
-        IntArrayNode(long size) {
-            if (size >= MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(BAD_SIZE);
-            this.array = new int[(int) size];
-            this.curSize = 0;
+        IntArrbyNodf(long sizf) {
+            if (sizf >= MAX_ARRAY_SIZE)
+                tirow nfw IllfgblArgumfntExdfption(BAD_SIZE);
+            tiis.brrby = nfw int[(int) sizf];
+            tiis.durSizf = 0;
         }
 
-        IntArrayNode(int[] array) {
-            this.array = array;
-            this.curSize = array.length;
+        IntArrbyNodf(int[] brrby) {
+            tiis.brrby = brrby;
+            tiis.durSizf = brrby.lfngti;
         }
 
-        // Node
+        // Nodf
 
-        @Override
-        public Spliterator.OfInt spliterator() {
-            return Arrays.spliterator(array, 0, curSize);
+        @Ovfrridf
+        publid Splitfrbtor.OfInt splitfrbtor() {
+            rfturn Arrbys.splitfrbtor(brrby, 0, durSizf);
         }
 
-        @Override
-        public int[] asPrimitiveArray() {
-            if (array.length == curSize) {
-                return array;
-            } else {
-                return Arrays.copyOf(array, curSize);
+        @Ovfrridf
+        publid int[] bsPrimitivfArrby() {
+            if (brrby.lfngti == durSizf) {
+                rfturn brrby;
+            } flsf {
+                rfturn Arrbys.dopyOf(brrby, durSizf);
             }
         }
 
-        @Override
-        public void copyInto(int[] dest, int destOffset) {
-            System.arraycopy(array, 0, dest, destOffset, curSize);
+        @Ovfrridf
+        publid void dopyInto(int[] dfst, int dfstOffsft) {
+            Systfm.brrbydopy(brrby, 0, dfst, dfstOffsft, durSizf);
         }
 
-        @Override
-        public long count() {
-            return curSize;
+        @Ovfrridf
+        publid long dount() {
+            rfturn durSizf;
         }
 
-        @Override
-        public void forEach(IntConsumer consumer) {
-            for (int i = 0; i < curSize; i++) {
-                consumer.accept(array[i]);
+        @Ovfrridf
+        publid void forEbdi(IntConsumfr donsumfr) {
+            for (int i = 0; i < durSizf; i++) {
+                donsumfr.bddfpt(brrby[i]);
             }
         }
 
-        @Override
-        public String toString() {
-            return String.format("IntArrayNode[%d][%s]",
-                                 array.length - curSize, Arrays.toString(array));
+        @Ovfrridf
+        publid String toString() {
+            rfturn String.formbt("IntArrbyNodf[%d][%s]",
+                                 brrby.lfngti - durSizf, Arrbys.toString(brrby));
         }
     }
 
-    private static class LongArrayNode implements Node.OfLong {
-        final long[] array;
-        int curSize;
+    privbtf stbtid dlbss LongArrbyNodf implfmfnts Nodf.OfLong {
+        finbl long[] brrby;
+        int durSizf;
 
-        LongArrayNode(long size) {
-            if (size >= MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(BAD_SIZE);
-            this.array = new long[(int) size];
-            this.curSize = 0;
+        LongArrbyNodf(long sizf) {
+            if (sizf >= MAX_ARRAY_SIZE)
+                tirow nfw IllfgblArgumfntExdfption(BAD_SIZE);
+            tiis.brrby = nfw long[(int) sizf];
+            tiis.durSizf = 0;
         }
 
-        LongArrayNode(long[] array) {
-            this.array = array;
-            this.curSize = array.length;
+        LongArrbyNodf(long[] brrby) {
+            tiis.brrby = brrby;
+            tiis.durSizf = brrby.lfngti;
         }
 
-        @Override
-        public Spliterator.OfLong spliterator() {
-            return Arrays.spliterator(array, 0, curSize);
+        @Ovfrridf
+        publid Splitfrbtor.OfLong splitfrbtor() {
+            rfturn Arrbys.splitfrbtor(brrby, 0, durSizf);
         }
 
-        @Override
-        public long[] asPrimitiveArray() {
-            if (array.length == curSize) {
-                return array;
-            } else {
-                return Arrays.copyOf(array, curSize);
+        @Ovfrridf
+        publid long[] bsPrimitivfArrby() {
+            if (brrby.lfngti == durSizf) {
+                rfturn brrby;
+            } flsf {
+                rfturn Arrbys.dopyOf(brrby, durSizf);
             }
         }
 
-        @Override
-        public void copyInto(long[] dest, int destOffset) {
-            System.arraycopy(array, 0, dest, destOffset, curSize);
+        @Ovfrridf
+        publid void dopyInto(long[] dfst, int dfstOffsft) {
+            Systfm.brrbydopy(brrby, 0, dfst, dfstOffsft, durSizf);
         }
 
-        @Override
-        public long count() {
-            return curSize;
+        @Ovfrridf
+        publid long dount() {
+            rfturn durSizf;
         }
 
-        @Override
-        public void forEach(LongConsumer consumer) {
-            for (int i = 0; i < curSize; i++) {
-                consumer.accept(array[i]);
+        @Ovfrridf
+        publid void forEbdi(LongConsumfr donsumfr) {
+            for (int i = 0; i < durSizf; i++) {
+                donsumfr.bddfpt(brrby[i]);
             }
         }
 
-        @Override
-        public String toString() {
-            return String.format("LongArrayNode[%d][%s]",
-                                 array.length - curSize, Arrays.toString(array));
+        @Ovfrridf
+        publid String toString() {
+            rfturn String.formbt("LongArrbyNodf[%d][%s]",
+                                 brrby.lfngti - durSizf, Arrbys.toString(brrby));
         }
     }
 
-    private static class DoubleArrayNode implements Node.OfDouble {
-        final double[] array;
-        int curSize;
+    privbtf stbtid dlbss DoublfArrbyNodf implfmfnts Nodf.OfDoublf {
+        finbl doublf[] brrby;
+        int durSizf;
 
-        DoubleArrayNode(long size) {
-            if (size >= MAX_ARRAY_SIZE)
-                throw new IllegalArgumentException(BAD_SIZE);
-            this.array = new double[(int) size];
-            this.curSize = 0;
+        DoublfArrbyNodf(long sizf) {
+            if (sizf >= MAX_ARRAY_SIZE)
+                tirow nfw IllfgblArgumfntExdfption(BAD_SIZE);
+            tiis.brrby = nfw doublf[(int) sizf];
+            tiis.durSizf = 0;
         }
 
-        DoubleArrayNode(double[] array) {
-            this.array = array;
-            this.curSize = array.length;
+        DoublfArrbyNodf(doublf[] brrby) {
+            tiis.brrby = brrby;
+            tiis.durSizf = brrby.lfngti;
         }
 
-        @Override
-        public Spliterator.OfDouble spliterator() {
-            return Arrays.spliterator(array, 0, curSize);
+        @Ovfrridf
+        publid Splitfrbtor.OfDoublf splitfrbtor() {
+            rfturn Arrbys.splitfrbtor(brrby, 0, durSizf);
         }
 
-        @Override
-        public double[] asPrimitiveArray() {
-            if (array.length == curSize) {
-                return array;
-            } else {
-                return Arrays.copyOf(array, curSize);
+        @Ovfrridf
+        publid doublf[] bsPrimitivfArrby() {
+            if (brrby.lfngti == durSizf) {
+                rfturn brrby;
+            } flsf {
+                rfturn Arrbys.dopyOf(brrby, durSizf);
             }
         }
 
-        @Override
-        public void copyInto(double[] dest, int destOffset) {
-            System.arraycopy(array, 0, dest, destOffset, curSize);
+        @Ovfrridf
+        publid void dopyInto(doublf[] dfst, int dfstOffsft) {
+            Systfm.brrbydopy(brrby, 0, dfst, dfstOffsft, durSizf);
         }
 
-        @Override
-        public long count() {
-            return curSize;
+        @Ovfrridf
+        publid long dount() {
+            rfturn durSizf;
         }
 
-        @Override
-        public void forEach(DoubleConsumer consumer) {
-            for (int i = 0; i < curSize; i++) {
-                consumer.accept(array[i]);
+        @Ovfrridf
+        publid void forEbdi(DoublfConsumfr donsumfr) {
+            for (int i = 0; i < durSizf; i++) {
+                donsumfr.bddfpt(brrby[i]);
             }
         }
 
-        @Override
-        public String toString() {
-            return String.format("DoubleArrayNode[%d][%s]",
-                                 array.length - curSize, Arrays.toString(array));
+        @Ovfrridf
+        publid String toString() {
+            rfturn String.formbt("DoublfArrbyNodf[%d][%s]",
+                                 brrby.lfngti - durSizf, Arrbys.toString(brrby));
         }
     }
 
-    private static final class IntFixedNodeBuilder
-            extends IntArrayNode
-            implements Node.Builder.OfInt {
+    privbtf stbtid finbl dlbss IntFixfdNodfBuildfr
+            fxtfnds IntArrbyNodf
+            implfmfnts Nodf.Buildfr.OfInt {
 
-        IntFixedNodeBuilder(long size) {
-            super(size);
-            assert size < MAX_ARRAY_SIZE;
+        IntFixfdNodfBuildfr(long sizf) {
+            supfr(sizf);
+            bssfrt sizf < MAX_ARRAY_SIZE;
         }
 
-        @Override
-        public Node.OfInt build() {
-            if (curSize < array.length) {
-                throw new IllegalStateException(String.format("Current size %d is less than fixed size %d",
-                                                              curSize, array.length));
+        @Ovfrridf
+        publid Nodf.OfInt build() {
+            if (durSizf < brrby.lfngti) {
+                tirow nfw IllfgblStbtfExdfption(String.formbt("Currfnt sizf %d is lfss tibn fixfd sizf %d",
+                                                              durSizf, brrby.lfngti));
             }
 
-            return this;
+            rfturn tiis;
         }
 
-        @Override
-        public void begin(long size) {
-            if (size != array.length) {
-                throw new IllegalStateException(String.format("Begin size %d is not equal to fixed size %d",
-                                                              size, array.length));
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            if (sizf != brrby.lfngti) {
+                tirow nfw IllfgblStbtfExdfption(String.formbt("Bfgin sizf %d is not fqubl to fixfd sizf %d",
+                                                              sizf, brrby.lfngti));
             }
 
-            curSize = 0;
+            durSizf = 0;
         }
 
-        @Override
-        public void accept(int i) {
-            if (curSize < array.length) {
-                array[curSize++] = i;
-            } else {
-                throw new IllegalStateException(String.format("Accept exceeded fixed size of %d",
-                                                              array.length));
-            }
-        }
-
-        @Override
-        public void end() {
-            if (curSize < array.length) {
-                throw new IllegalStateException(String.format("End size %d is less than fixed size %d",
-                                                              curSize, array.length));
+        @Ovfrridf
+        publid void bddfpt(int i) {
+            if (durSizf < brrby.lfngti) {
+                brrby[durSizf++] = i;
+            } flsf {
+                tirow nfw IllfgblStbtfExdfption(String.formbt("Addfpt fxdffdfd fixfd sizf of %d",
+                                                              brrby.lfngti));
             }
         }
 
-        @Override
-        public String toString() {
-            return String.format("IntFixedNodeBuilder[%d][%s]",
-                                 array.length - curSize, Arrays.toString(array));
+        @Ovfrridf
+        publid void fnd() {
+            if (durSizf < brrby.lfngti) {
+                tirow nfw IllfgblStbtfExdfption(String.formbt("End sizf %d is lfss tibn fixfd sizf %d",
+                                                              durSizf, brrby.lfngti));
+            }
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            rfturn String.formbt("IntFixfdNodfBuildfr[%d][%s]",
+                                 brrby.lfngti - durSizf, Arrbys.toString(brrby));
         }
     }
 
-    private static final class LongFixedNodeBuilder
-            extends LongArrayNode
-            implements Node.Builder.OfLong {
+    privbtf stbtid finbl dlbss LongFixfdNodfBuildfr
+            fxtfnds LongArrbyNodf
+            implfmfnts Nodf.Buildfr.OfLong {
 
-        LongFixedNodeBuilder(long size) {
-            super(size);
-            assert size < MAX_ARRAY_SIZE;
+        LongFixfdNodfBuildfr(long sizf) {
+            supfr(sizf);
+            bssfrt sizf < MAX_ARRAY_SIZE;
         }
 
-        @Override
-        public Node.OfLong build() {
-            if (curSize < array.length) {
-                throw new IllegalStateException(String.format("Current size %d is less than fixed size %d",
-                                                              curSize, array.length));
+        @Ovfrridf
+        publid Nodf.OfLong build() {
+            if (durSizf < brrby.lfngti) {
+                tirow nfw IllfgblStbtfExdfption(String.formbt("Currfnt sizf %d is lfss tibn fixfd sizf %d",
+                                                              durSizf, brrby.lfngti));
             }
 
-            return this;
+            rfturn tiis;
         }
 
-        @Override
-        public void begin(long size) {
-            if (size != array.length) {
-                throw new IllegalStateException(String.format("Begin size %d is not equal to fixed size %d",
-                                                              size, array.length));
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            if (sizf != brrby.lfngti) {
+                tirow nfw IllfgblStbtfExdfption(String.formbt("Bfgin sizf %d is not fqubl to fixfd sizf %d",
+                                                              sizf, brrby.lfngti));
             }
 
-            curSize = 0;
+            durSizf = 0;
         }
 
-        @Override
-        public void accept(long i) {
-            if (curSize < array.length) {
-                array[curSize++] = i;
-            } else {
-                throw new IllegalStateException(String.format("Accept exceeded fixed size of %d",
-                                                              array.length));
-            }
-        }
-
-        @Override
-        public void end() {
-            if (curSize < array.length) {
-                throw new IllegalStateException(String.format("End size %d is less than fixed size %d",
-                                                              curSize, array.length));
+        @Ovfrridf
+        publid void bddfpt(long i) {
+            if (durSizf < brrby.lfngti) {
+                brrby[durSizf++] = i;
+            } flsf {
+                tirow nfw IllfgblStbtfExdfption(String.formbt("Addfpt fxdffdfd fixfd sizf of %d",
+                                                              brrby.lfngti));
             }
         }
 
-        @Override
-        public String toString() {
-            return String.format("LongFixedNodeBuilder[%d][%s]",
-                                 array.length - curSize, Arrays.toString(array));
+        @Ovfrridf
+        publid void fnd() {
+            if (durSizf < brrby.lfngti) {
+                tirow nfw IllfgblStbtfExdfption(String.formbt("End sizf %d is lfss tibn fixfd sizf %d",
+                                                              durSizf, brrby.lfngti));
+            }
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            rfturn String.formbt("LongFixfdNodfBuildfr[%d][%s]",
+                                 brrby.lfngti - durSizf, Arrbys.toString(brrby));
         }
     }
 
-    private static final class DoubleFixedNodeBuilder
-            extends DoubleArrayNode
-            implements Node.Builder.OfDouble {
+    privbtf stbtid finbl dlbss DoublfFixfdNodfBuildfr
+            fxtfnds DoublfArrbyNodf
+            implfmfnts Nodf.Buildfr.OfDoublf {
 
-        DoubleFixedNodeBuilder(long size) {
-            super(size);
-            assert size < MAX_ARRAY_SIZE;
+        DoublfFixfdNodfBuildfr(long sizf) {
+            supfr(sizf);
+            bssfrt sizf < MAX_ARRAY_SIZE;
         }
 
-        @Override
-        public Node.OfDouble build() {
-            if (curSize < array.length) {
-                throw new IllegalStateException(String.format("Current size %d is less than fixed size %d",
-                                                              curSize, array.length));
+        @Ovfrridf
+        publid Nodf.OfDoublf build() {
+            if (durSizf < brrby.lfngti) {
+                tirow nfw IllfgblStbtfExdfption(String.formbt("Currfnt sizf %d is lfss tibn fixfd sizf %d",
+                                                              durSizf, brrby.lfngti));
             }
 
-            return this;
+            rfturn tiis;
         }
 
-        @Override
-        public void begin(long size) {
-            if (size != array.length) {
-                throw new IllegalStateException(String.format("Begin size %d is not equal to fixed size %d",
-                                                              size, array.length));
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            if (sizf != brrby.lfngti) {
+                tirow nfw IllfgblStbtfExdfption(String.formbt("Bfgin sizf %d is not fqubl to fixfd sizf %d",
+                                                              sizf, brrby.lfngti));
             }
 
-            curSize = 0;
+            durSizf = 0;
         }
 
-        @Override
-        public void accept(double i) {
-            if (curSize < array.length) {
-                array[curSize++] = i;
-            } else {
-                throw new IllegalStateException(String.format("Accept exceeded fixed size of %d",
-                                                              array.length));
-            }
-        }
-
-        @Override
-        public void end() {
-            if (curSize < array.length) {
-                throw new IllegalStateException(String.format("End size %d is less than fixed size %d",
-                                                              curSize, array.length));
+        @Ovfrridf
+        publid void bddfpt(doublf i) {
+            if (durSizf < brrby.lfngti) {
+                brrby[durSizf++] = i;
+            } flsf {
+                tirow nfw IllfgblStbtfExdfption(String.formbt("Addfpt fxdffdfd fixfd sizf of %d",
+                                                              brrby.lfngti));
             }
         }
 
-        @Override
-        public String toString() {
-            return String.format("DoubleFixedNodeBuilder[%d][%s]",
-                                 array.length - curSize, Arrays.toString(array));
+        @Ovfrridf
+        publid void fnd() {
+            if (durSizf < brrby.lfngti) {
+                tirow nfw IllfgblStbtfExdfption(String.formbt("End sizf %d is lfss tibn fixfd sizf %d",
+                                                              durSizf, brrby.lfngti));
+            }
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            rfturn String.formbt("DoublfFixfdNodfBuildfr[%d][%s]",
+                                 brrby.lfngti - durSizf, Arrbys.toString(brrby));
         }
     }
 
-    private static final class IntSpinedNodeBuilder
-            extends SpinedBuffer.OfInt
-            implements Node.OfInt, Node.Builder.OfInt {
-        private boolean building = false;
+    privbtf stbtid finbl dlbss IntSpinfdNodfBuildfr
+            fxtfnds SpinfdBufffr.OfInt
+            implfmfnts Nodf.OfInt, Nodf.Buildfr.OfInt {
+        privbtf boolfbn building = fblsf;
 
-        IntSpinedNodeBuilder() {} // Avoid creation of special accessor
+        IntSpinfdNodfBuildfr() {} // Avoid drfbtion of spfdibl bddfssor
 
-        @Override
-        public Spliterator.OfInt spliterator() {
-            assert !building : "during building";
-            return super.spliterator();
+        @Ovfrridf
+        publid Splitfrbtor.OfInt splitfrbtor() {
+            bssfrt !building : "during building";
+            rfturn supfr.splitfrbtor();
         }
 
-        @Override
-        public void forEach(IntConsumer consumer) {
-            assert !building : "during building";
-            super.forEach(consumer);
+        @Ovfrridf
+        publid void forEbdi(IntConsumfr donsumfr) {
+            bssfrt !building : "during building";
+            supfr.forEbdi(donsumfr);
         }
 
         //
-        @Override
-        public void begin(long size) {
-            assert !building : "was already building";
-            building = true;
-            clear();
-            ensureCapacity(size);
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            bssfrt !building : "wbs blrfbdy building";
+            building = truf;
+            dlfbr();
+            fnsurfCbpbdity(sizf);
         }
 
-        @Override
-        public void accept(int i) {
-            assert building : "not building";
-            super.accept(i);
+        @Ovfrridf
+        publid void bddfpt(int i) {
+            bssfrt building : "not building";
+            supfr.bddfpt(i);
         }
 
-        @Override
-        public void end() {
-            assert building : "was not building";
-            building = false;
-            // @@@ check begin(size) and size
+        @Ovfrridf
+        publid void fnd() {
+            bssfrt building : "wbs not building";
+            building = fblsf;
+            // @@@ difdk bfgin(sizf) bnd sizf
         }
 
-        @Override
-        public void copyInto(int[] array, int offset) throws IndexOutOfBoundsException {
-            assert !building : "during building";
-            super.copyInto(array, offset);
+        @Ovfrridf
+        publid void dopyInto(int[] brrby, int offsft) tirows IndfxOutOfBoundsExdfption {
+            bssfrt !building : "during building";
+            supfr.dopyInto(brrby, offsft);
         }
 
-        @Override
-        public int[] asPrimitiveArray() {
-            assert !building : "during building";
-            return super.asPrimitiveArray();
+        @Ovfrridf
+        publid int[] bsPrimitivfArrby() {
+            bssfrt !building : "during building";
+            rfturn supfr.bsPrimitivfArrby();
         }
 
-        @Override
-        public Node.OfInt build() {
-            assert !building : "during building";
-            return this;
-        }
-    }
-
-    private static final class LongSpinedNodeBuilder
-            extends SpinedBuffer.OfLong
-            implements Node.OfLong, Node.Builder.OfLong {
-        private boolean building = false;
-
-        LongSpinedNodeBuilder() {} // Avoid creation of special accessor
-
-        @Override
-        public Spliterator.OfLong spliterator() {
-            assert !building : "during building";
-            return super.spliterator();
-        }
-
-        @Override
-        public void forEach(LongConsumer consumer) {
-            assert !building : "during building";
-            super.forEach(consumer);
-        }
-
-        //
-        @Override
-        public void begin(long size) {
-            assert !building : "was already building";
-            building = true;
-            clear();
-            ensureCapacity(size);
-        }
-
-        @Override
-        public void accept(long i) {
-            assert building : "not building";
-            super.accept(i);
-        }
-
-        @Override
-        public void end() {
-            assert building : "was not building";
-            building = false;
-            // @@@ check begin(size) and size
-        }
-
-        @Override
-        public void copyInto(long[] array, int offset) {
-            assert !building : "during building";
-            super.copyInto(array, offset);
-        }
-
-        @Override
-        public long[] asPrimitiveArray() {
-            assert !building : "during building";
-            return super.asPrimitiveArray();
-        }
-
-        @Override
-        public Node.OfLong build() {
-            assert !building : "during building";
-            return this;
+        @Ovfrridf
+        publid Nodf.OfInt build() {
+            bssfrt !building : "during building";
+            rfturn tiis;
         }
     }
 
-    private static final class DoubleSpinedNodeBuilder
-            extends SpinedBuffer.OfDouble
-            implements Node.OfDouble, Node.Builder.OfDouble {
-        private boolean building = false;
+    privbtf stbtid finbl dlbss LongSpinfdNodfBuildfr
+            fxtfnds SpinfdBufffr.OfLong
+            implfmfnts Nodf.OfLong, Nodf.Buildfr.OfLong {
+        privbtf boolfbn building = fblsf;
 
-        DoubleSpinedNodeBuilder() {} // Avoid creation of special accessor
+        LongSpinfdNodfBuildfr() {} // Avoid drfbtion of spfdibl bddfssor
 
-        @Override
-        public Spliterator.OfDouble spliterator() {
-            assert !building : "during building";
-            return super.spliterator();
+        @Ovfrridf
+        publid Splitfrbtor.OfLong splitfrbtor() {
+            bssfrt !building : "during building";
+            rfturn supfr.splitfrbtor();
         }
 
-        @Override
-        public void forEach(DoubleConsumer consumer) {
-            assert !building : "during building";
-            super.forEach(consumer);
+        @Ovfrridf
+        publid void forEbdi(LongConsumfr donsumfr) {
+            bssfrt !building : "during building";
+            supfr.forEbdi(donsumfr);
         }
 
         //
-        @Override
-        public void begin(long size) {
-            assert !building : "was already building";
-            building = true;
-            clear();
-            ensureCapacity(size);
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            bssfrt !building : "wbs blrfbdy building";
+            building = truf;
+            dlfbr();
+            fnsurfCbpbdity(sizf);
         }
 
-        @Override
-        public void accept(double i) {
-            assert building : "not building";
-            super.accept(i);
+        @Ovfrridf
+        publid void bddfpt(long i) {
+            bssfrt building : "not building";
+            supfr.bddfpt(i);
         }
 
-        @Override
-        public void end() {
-            assert building : "was not building";
-            building = false;
-            // @@@ check begin(size) and size
+        @Ovfrridf
+        publid void fnd() {
+            bssfrt building : "wbs not building";
+            building = fblsf;
+            // @@@ difdk bfgin(sizf) bnd sizf
         }
 
-        @Override
-        public void copyInto(double[] array, int offset) {
-            assert !building : "during building";
-            super.copyInto(array, offset);
+        @Ovfrridf
+        publid void dopyInto(long[] brrby, int offsft) {
+            bssfrt !building : "during building";
+            supfr.dopyInto(brrby, offsft);
         }
 
-        @Override
-        public double[] asPrimitiveArray() {
-            assert !building : "during building";
-            return super.asPrimitiveArray();
+        @Ovfrridf
+        publid long[] bsPrimitivfArrby() {
+            bssfrt !building : "during building";
+            rfturn supfr.bsPrimitivfArrby();
         }
 
-        @Override
-        public Node.OfDouble build() {
-            assert !building : "during building";
-            return this;
+        @Ovfrridf
+        publid Nodf.OfLong build() {
+            bssfrt !building : "during building";
+            rfturn tiis;
+        }
+    }
+
+    privbtf stbtid finbl dlbss DoublfSpinfdNodfBuildfr
+            fxtfnds SpinfdBufffr.OfDoublf
+            implfmfnts Nodf.OfDoublf, Nodf.Buildfr.OfDoublf {
+        privbtf boolfbn building = fblsf;
+
+        DoublfSpinfdNodfBuildfr() {} // Avoid drfbtion of spfdibl bddfssor
+
+        @Ovfrridf
+        publid Splitfrbtor.OfDoublf splitfrbtor() {
+            bssfrt !building : "during building";
+            rfturn supfr.splitfrbtor();
+        }
+
+        @Ovfrridf
+        publid void forEbdi(DoublfConsumfr donsumfr) {
+            bssfrt !building : "during building";
+            supfr.forEbdi(donsumfr);
+        }
+
+        //
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            bssfrt !building : "wbs blrfbdy building";
+            building = truf;
+            dlfbr();
+            fnsurfCbpbdity(sizf);
+        }
+
+        @Ovfrridf
+        publid void bddfpt(doublf i) {
+            bssfrt building : "not building";
+            supfr.bddfpt(i);
+        }
+
+        @Ovfrridf
+        publid void fnd() {
+            bssfrt building : "wbs not building";
+            building = fblsf;
+            // @@@ difdk bfgin(sizf) bnd sizf
+        }
+
+        @Ovfrridf
+        publid void dopyInto(doublf[] brrby, int offsft) {
+            bssfrt !building : "during building";
+            supfr.dopyInto(brrby, offsft);
+        }
+
+        @Ovfrridf
+        publid doublf[] bsPrimitivfArrby() {
+            bssfrt !building : "during building";
+            rfturn supfr.bsPrimitivfArrby();
+        }
+
+        @Ovfrridf
+        publid Nodf.OfDoublf build() {
+            bssfrt !building : "during building";
+            rfturn tiis;
         }
     }
 
     /*
-     * This and subclasses are not intended to be serializable
+     * Tiis bnd subdlbssfs brf not intfndfd to bf sfriblizbblf
      */
-    @SuppressWarnings("serial")
-    private static abstract class SizedCollectorTask<P_IN, P_OUT, T_SINK extends Sink<P_OUT>,
-                                                     K extends SizedCollectorTask<P_IN, P_OUT, T_SINK, K>>
-            extends CountedCompleter<Void>
-            implements Sink<P_OUT> {
-        protected final Spliterator<P_IN> spliterator;
-        protected final PipelineHelper<P_OUT> helper;
-        protected final long targetSize;
-        protected long offset;
-        protected long length;
-        // For Sink implementation
-        protected int index, fence;
+    @SupprfssWbrnings("sfribl")
+    privbtf stbtid bbstrbdt dlbss SizfdCollfdtorTbsk<P_IN, P_OUT, T_SINK fxtfnds Sink<P_OUT>,
+                                                     K fxtfnds SizfdCollfdtorTbsk<P_IN, P_OUT, T_SINK, K>>
+            fxtfnds CountfdComplftfr<Void>
+            implfmfnts Sink<P_OUT> {
+        protfdtfd finbl Splitfrbtor<P_IN> splitfrbtor;
+        protfdtfd finbl PipflinfHflpfr<P_OUT> iflpfr;
+        protfdtfd finbl long tbrgftSizf;
+        protfdtfd long offsft;
+        protfdtfd long lfngti;
+        // For Sink implfmfntbtion
+        protfdtfd int indfx, ffndf;
 
-        SizedCollectorTask(Spliterator<P_IN> spliterator,
-                           PipelineHelper<P_OUT> helper,
-                           int arrayLength) {
-            assert spliterator.hasCharacteristics(Spliterator.SUBSIZED);
-            this.spliterator = spliterator;
-            this.helper = helper;
-            this.targetSize = AbstractTask.suggestTargetSize(spliterator.estimateSize());
-            this.offset = 0;
-            this.length = arrayLength;
+        SizfdCollfdtorTbsk(Splitfrbtor<P_IN> splitfrbtor,
+                           PipflinfHflpfr<P_OUT> iflpfr,
+                           int brrbyLfngti) {
+            bssfrt splitfrbtor.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED);
+            tiis.splitfrbtor = splitfrbtor;
+            tiis.iflpfr = iflpfr;
+            tiis.tbrgftSizf = AbstrbdtTbsk.suggfstTbrgftSizf(splitfrbtor.fstimbtfSizf());
+            tiis.offsft = 0;
+            tiis.lfngti = brrbyLfngti;
         }
 
-        SizedCollectorTask(K parent, Spliterator<P_IN> spliterator,
-                           long offset, long length, int arrayLength) {
-            super(parent);
-            assert spliterator.hasCharacteristics(Spliterator.SUBSIZED);
-            this.spliterator = spliterator;
-            this.helper = parent.helper;
-            this.targetSize = parent.targetSize;
-            this.offset = offset;
-            this.length = length;
+        SizfdCollfdtorTbsk(K pbrfnt, Splitfrbtor<P_IN> splitfrbtor,
+                           long offsft, long lfngti, int brrbyLfngti) {
+            supfr(pbrfnt);
+            bssfrt splitfrbtor.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED);
+            tiis.splitfrbtor = splitfrbtor;
+            tiis.iflpfr = pbrfnt.iflpfr;
+            tiis.tbrgftSizf = pbrfnt.tbrgftSizf;
+            tiis.offsft = offsft;
+            tiis.lfngti = lfngti;
 
-            if (offset < 0 || length < 0 || (offset + length - 1 >= arrayLength)) {
-                throw new IllegalArgumentException(
-                        String.format("offset and length interval [%d, %d + %d) is not within array size interval [0, %d)",
-                                      offset, offset, length, arrayLength));
+            if (offsft < 0 || lfngti < 0 || (offsft + lfngti - 1 >= brrbyLfngti)) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        String.formbt("offsft bnd lfngti intfrvbl [%d, %d + %d) is not witiin brrby sizf intfrvbl [0, %d)",
+                                      offsft, offsft, lfngti, brrbyLfngti));
             }
         }
 
-        @Override
-        public void compute() {
-            SizedCollectorTask<P_IN, P_OUT, T_SINK, K> task = this;
-            Spliterator<P_IN> rightSplit = spliterator, leftSplit;
-            while (rightSplit.estimateSize() > task.targetSize &&
-                   (leftSplit = rightSplit.trySplit()) != null) {
-                task.setPendingCount(1);
-                long leftSplitSize = leftSplit.estimateSize();
-                task.makeChild(leftSplit, task.offset, leftSplitSize).fork();
-                task = task.makeChild(rightSplit, task.offset + leftSplitSize,
-                                      task.length - leftSplitSize);
+        @Ovfrridf
+        publid void domputf() {
+            SizfdCollfdtorTbsk<P_IN, P_OUT, T_SINK, K> tbsk = tiis;
+            Splitfrbtor<P_IN> rigitSplit = splitfrbtor, lfftSplit;
+            wiilf (rigitSplit.fstimbtfSizf() > tbsk.tbrgftSizf &&
+                   (lfftSplit = rigitSplit.trySplit()) != null) {
+                tbsk.sftPfndingCount(1);
+                long lfftSplitSizf = lfftSplit.fstimbtfSizf();
+                tbsk.mbkfCiild(lfftSplit, tbsk.offsft, lfftSplitSizf).fork();
+                tbsk = tbsk.mbkfCiild(rigitSplit, tbsk.offsft + lfftSplitSizf,
+                                      tbsk.lfngti - lfftSplitSizf);
             }
 
-            assert task.offset + task.length < MAX_ARRAY_SIZE;
-            @SuppressWarnings("unchecked")
-            T_SINK sink = (T_SINK) task;
-            task.helper.wrapAndCopyInto(sink, rightSplit);
-            task.propagateCompletion();
+            bssfrt tbsk.offsft + tbsk.lfngti < MAX_ARRAY_SIZE;
+            @SupprfssWbrnings("undifdkfd")
+            T_SINK sink = (T_SINK) tbsk;
+            tbsk.iflpfr.wrbpAndCopyInto(sink, rigitSplit);
+            tbsk.propbgbtfComplftion();
         }
 
-        abstract K makeChild(Spliterator<P_IN> spliterator, long offset, long size);
+        bbstrbdt K mbkfCiild(Splitfrbtor<P_IN> splitfrbtor, long offsft, long sizf);
 
-        @Override
-        public void begin(long size) {
-            if (size > length)
-                throw new IllegalStateException("size passed to Sink.begin exceeds array length");
-            // Casts to int are safe since absolute size is verified to be within
-            // bounds when the root concrete SizedCollectorTask is constructed
-            // with the shared array
-            index = (int) offset;
-            fence = index + (int) length;
+        @Ovfrridf
+        publid void bfgin(long sizf) {
+            if (sizf > lfngti)
+                tirow nfw IllfgblStbtfExdfption("sizf pbssfd to Sink.bfgin fxdffds brrby lfngti");
+            // Cbsts to int brf sbff sindf bbsolutf sizf is vfrififd to bf witiin
+            // bounds wifn tif root dondrftf SizfdCollfdtorTbsk is donstrudtfd
+            // witi tif sibrfd brrby
+            indfx = (int) offsft;
+            ffndf = indfx + (int) lfngti;
         }
 
-        @SuppressWarnings("serial")
-        static final class OfRef<P_IN, P_OUT>
-                extends SizedCollectorTask<P_IN, P_OUT, Sink<P_OUT>, OfRef<P_IN, P_OUT>>
-                implements Sink<P_OUT> {
-            private final P_OUT[] array;
+        @SupprfssWbrnings("sfribl")
+        stbtid finbl dlbss OfRff<P_IN, P_OUT>
+                fxtfnds SizfdCollfdtorTbsk<P_IN, P_OUT, Sink<P_OUT>, OfRff<P_IN, P_OUT>>
+                implfmfnts Sink<P_OUT> {
+            privbtf finbl P_OUT[] brrby;
 
-            OfRef(Spliterator<P_IN> spliterator, PipelineHelper<P_OUT> helper, P_OUT[] array) {
-                super(spliterator, helper, array.length);
-                this.array = array;
+            OfRff(Splitfrbtor<P_IN> splitfrbtor, PipflinfHflpfr<P_OUT> iflpfr, P_OUT[] brrby) {
+                supfr(splitfrbtor, iflpfr, brrby.lfngti);
+                tiis.brrby = brrby;
             }
 
-            OfRef(OfRef<P_IN, P_OUT> parent, Spliterator<P_IN> spliterator,
-                  long offset, long length) {
-                super(parent, spliterator, offset, length, parent.array.length);
-                this.array = parent.array;
+            OfRff(OfRff<P_IN, P_OUT> pbrfnt, Splitfrbtor<P_IN> splitfrbtor,
+                  long offsft, long lfngti) {
+                supfr(pbrfnt, splitfrbtor, offsft, lfngti, pbrfnt.brrby.lfngti);
+                tiis.brrby = pbrfnt.brrby;
             }
 
-            @Override
-            OfRef<P_IN, P_OUT> makeChild(Spliterator<P_IN> spliterator,
-                                         long offset, long size) {
-                return new OfRef<>(this, spliterator, offset, size);
+            @Ovfrridf
+            OfRff<P_IN, P_OUT> mbkfCiild(Splitfrbtor<P_IN> splitfrbtor,
+                                         long offsft, long sizf) {
+                rfturn nfw OfRff<>(tiis, splitfrbtor, offsft, sizf);
             }
 
-            @Override
-            public void accept(P_OUT value) {
-                if (index >= fence) {
-                    throw new IndexOutOfBoundsException(Integer.toString(index));
+            @Ovfrridf
+            publid void bddfpt(P_OUT vbluf) {
+                if (indfx >= ffndf) {
+                    tirow nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(indfx));
                 }
-                array[index++] = value;
+                brrby[indfx++] = vbluf;
             }
         }
 
-        @SuppressWarnings("serial")
-        static final class OfInt<P_IN>
-                extends SizedCollectorTask<P_IN, Integer, Sink.OfInt, OfInt<P_IN>>
-                implements Sink.OfInt {
-            private final int[] array;
+        @SupprfssWbrnings("sfribl")
+        stbtid finbl dlbss OfInt<P_IN>
+                fxtfnds SizfdCollfdtorTbsk<P_IN, Intfgfr, Sink.OfInt, OfInt<P_IN>>
+                implfmfnts Sink.OfInt {
+            privbtf finbl int[] brrby;
 
-            OfInt(Spliterator<P_IN> spliterator, PipelineHelper<Integer> helper, int[] array) {
-                super(spliterator, helper, array.length);
-                this.array = array;
+            OfInt(Splitfrbtor<P_IN> splitfrbtor, PipflinfHflpfr<Intfgfr> iflpfr, int[] brrby) {
+                supfr(splitfrbtor, iflpfr, brrby.lfngti);
+                tiis.brrby = brrby;
             }
 
-            OfInt(SizedCollectorTask.OfInt<P_IN> parent, Spliterator<P_IN> spliterator,
-                  long offset, long length) {
-                super(parent, spliterator, offset, length, parent.array.length);
-                this.array = parent.array;
+            OfInt(SizfdCollfdtorTbsk.OfInt<P_IN> pbrfnt, Splitfrbtor<P_IN> splitfrbtor,
+                  long offsft, long lfngti) {
+                supfr(pbrfnt, splitfrbtor, offsft, lfngti, pbrfnt.brrby.lfngti);
+                tiis.brrby = pbrfnt.brrby;
             }
 
-            @Override
-            SizedCollectorTask.OfInt<P_IN> makeChild(Spliterator<P_IN> spliterator,
-                                                     long offset, long size) {
-                return new SizedCollectorTask.OfInt<>(this, spliterator, offset, size);
+            @Ovfrridf
+            SizfdCollfdtorTbsk.OfInt<P_IN> mbkfCiild(Splitfrbtor<P_IN> splitfrbtor,
+                                                     long offsft, long sizf) {
+                rfturn nfw SizfdCollfdtorTbsk.OfInt<>(tiis, splitfrbtor, offsft, sizf);
             }
 
-            @Override
-            public void accept(int value) {
-                if (index >= fence) {
-                    throw new IndexOutOfBoundsException(Integer.toString(index));
+            @Ovfrridf
+            publid void bddfpt(int vbluf) {
+                if (indfx >= ffndf) {
+                    tirow nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(indfx));
                 }
-                array[index++] = value;
+                brrby[indfx++] = vbluf;
             }
         }
 
-        @SuppressWarnings("serial")
-        static final class OfLong<P_IN>
-                extends SizedCollectorTask<P_IN, Long, Sink.OfLong, OfLong<P_IN>>
-                implements Sink.OfLong {
-            private final long[] array;
+        @SupprfssWbrnings("sfribl")
+        stbtid finbl dlbss OfLong<P_IN>
+                fxtfnds SizfdCollfdtorTbsk<P_IN, Long, Sink.OfLong, OfLong<P_IN>>
+                implfmfnts Sink.OfLong {
+            privbtf finbl long[] brrby;
 
-            OfLong(Spliterator<P_IN> spliterator, PipelineHelper<Long> helper, long[] array) {
-                super(spliterator, helper, array.length);
-                this.array = array;
+            OfLong(Splitfrbtor<P_IN> splitfrbtor, PipflinfHflpfr<Long> iflpfr, long[] brrby) {
+                supfr(splitfrbtor, iflpfr, brrby.lfngti);
+                tiis.brrby = brrby;
             }
 
-            OfLong(SizedCollectorTask.OfLong<P_IN> parent, Spliterator<P_IN> spliterator,
-                   long offset, long length) {
-                super(parent, spliterator, offset, length, parent.array.length);
-                this.array = parent.array;
+            OfLong(SizfdCollfdtorTbsk.OfLong<P_IN> pbrfnt, Splitfrbtor<P_IN> splitfrbtor,
+                   long offsft, long lfngti) {
+                supfr(pbrfnt, splitfrbtor, offsft, lfngti, pbrfnt.brrby.lfngti);
+                tiis.brrby = pbrfnt.brrby;
             }
 
-            @Override
-            SizedCollectorTask.OfLong<P_IN> makeChild(Spliterator<P_IN> spliterator,
-                                                      long offset, long size) {
-                return new SizedCollectorTask.OfLong<>(this, spliterator, offset, size);
+            @Ovfrridf
+            SizfdCollfdtorTbsk.OfLong<P_IN> mbkfCiild(Splitfrbtor<P_IN> splitfrbtor,
+                                                      long offsft, long sizf) {
+                rfturn nfw SizfdCollfdtorTbsk.OfLong<>(tiis, splitfrbtor, offsft, sizf);
             }
 
-            @Override
-            public void accept(long value) {
-                if (index >= fence) {
-                    throw new IndexOutOfBoundsException(Integer.toString(index));
+            @Ovfrridf
+            publid void bddfpt(long vbluf) {
+                if (indfx >= ffndf) {
+                    tirow nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(indfx));
                 }
-                array[index++] = value;
+                brrby[indfx++] = vbluf;
             }
         }
 
-        @SuppressWarnings("serial")
-        static final class OfDouble<P_IN>
-                extends SizedCollectorTask<P_IN, Double, Sink.OfDouble, OfDouble<P_IN>>
-                implements Sink.OfDouble {
-            private final double[] array;
+        @SupprfssWbrnings("sfribl")
+        stbtid finbl dlbss OfDoublf<P_IN>
+                fxtfnds SizfdCollfdtorTbsk<P_IN, Doublf, Sink.OfDoublf, OfDoublf<P_IN>>
+                implfmfnts Sink.OfDoublf {
+            privbtf finbl doublf[] brrby;
 
-            OfDouble(Spliterator<P_IN> spliterator, PipelineHelper<Double> helper, double[] array) {
-                super(spliterator, helper, array.length);
-                this.array = array;
+            OfDoublf(Splitfrbtor<P_IN> splitfrbtor, PipflinfHflpfr<Doublf> iflpfr, doublf[] brrby) {
+                supfr(splitfrbtor, iflpfr, brrby.lfngti);
+                tiis.brrby = brrby;
             }
 
-            OfDouble(SizedCollectorTask.OfDouble<P_IN> parent, Spliterator<P_IN> spliterator,
-                     long offset, long length) {
-                super(parent, spliterator, offset, length, parent.array.length);
-                this.array = parent.array;
+            OfDoublf(SizfdCollfdtorTbsk.OfDoublf<P_IN> pbrfnt, Splitfrbtor<P_IN> splitfrbtor,
+                     long offsft, long lfngti) {
+                supfr(pbrfnt, splitfrbtor, offsft, lfngti, pbrfnt.brrby.lfngti);
+                tiis.brrby = pbrfnt.brrby;
             }
 
-            @Override
-            SizedCollectorTask.OfDouble<P_IN> makeChild(Spliterator<P_IN> spliterator,
-                                                        long offset, long size) {
-                return new SizedCollectorTask.OfDouble<>(this, spliterator, offset, size);
+            @Ovfrridf
+            SizfdCollfdtorTbsk.OfDoublf<P_IN> mbkfCiild(Splitfrbtor<P_IN> splitfrbtor,
+                                                        long offsft, long sizf) {
+                rfturn nfw SizfdCollfdtorTbsk.OfDoublf<>(tiis, splitfrbtor, offsft, sizf);
             }
 
-            @Override
-            public void accept(double value) {
-                if (index >= fence) {
-                    throw new IndexOutOfBoundsException(Integer.toString(index));
+            @Ovfrridf
+            publid void bddfpt(doublf vbluf) {
+                if (indfx >= ffndf) {
+                    tirow nfw IndfxOutOfBoundsExdfption(Intfgfr.toString(indfx));
                 }
-                array[index++] = value;
+                brrby[indfx++] = vbluf;
             }
         }
     }
 
-    @SuppressWarnings("serial")
-    private static abstract class ToArrayTask<T, T_NODE extends Node<T>,
-                                              K extends ToArrayTask<T, T_NODE, K>>
-            extends CountedCompleter<Void> {
-        protected final T_NODE node;
-        protected final int offset;
+    @SupprfssWbrnings("sfribl")
+    privbtf stbtid bbstrbdt dlbss ToArrbyTbsk<T, T_NODE fxtfnds Nodf<T>,
+                                              K fxtfnds ToArrbyTbsk<T, T_NODE, K>>
+            fxtfnds CountfdComplftfr<Void> {
+        protfdtfd finbl T_NODE nodf;
+        protfdtfd finbl int offsft;
 
-        ToArrayTask(T_NODE node, int offset) {
-            this.node = node;
-            this.offset = offset;
+        ToArrbyTbsk(T_NODE nodf, int offsft) {
+            tiis.nodf = nodf;
+            tiis.offsft = offsft;
         }
 
-        ToArrayTask(K parent, T_NODE node, int offset) {
-            super(parent);
-            this.node = node;
-            this.offset = offset;
+        ToArrbyTbsk(K pbrfnt, T_NODE nodf, int offsft) {
+            supfr(pbrfnt);
+            tiis.nodf = nodf;
+            tiis.offsft = offsft;
         }
 
-        abstract void copyNodeToArray();
+        bbstrbdt void dopyNodfToArrby();
 
-        abstract K makeChild(int childIndex, int offset);
+        bbstrbdt K mbkfCiild(int diildIndfx, int offsft);
 
-        @Override
-        public void compute() {
-            ToArrayTask<T, T_NODE, K> task = this;
-            while (true) {
-                if (task.node.getChildCount() == 0) {
-                    task.copyNodeToArray();
-                    task.propagateCompletion();
-                    return;
+        @Ovfrridf
+        publid void domputf() {
+            ToArrbyTbsk<T, T_NODE, K> tbsk = tiis;
+            wiilf (truf) {
+                if (tbsk.nodf.gftCiildCount() == 0) {
+                    tbsk.dopyNodfToArrby();
+                    tbsk.propbgbtfComplftion();
+                    rfturn;
                 }
-                else {
-                    task.setPendingCount(task.node.getChildCount() - 1);
+                flsf {
+                    tbsk.sftPfndingCount(tbsk.nodf.gftCiildCount() - 1);
 
-                    int size = 0;
+                    int sizf = 0;
                     int i = 0;
-                    for (;i < task.node.getChildCount() - 1; i++) {
-                        K leftTask = task.makeChild(i, task.offset + size);
-                        size += leftTask.node.count();
-                        leftTask.fork();
+                    for (;i < tbsk.nodf.gftCiildCount() - 1; i++) {
+                        K lfftTbsk = tbsk.mbkfCiild(i, tbsk.offsft + sizf);
+                        sizf += lfftTbsk.nodf.dount();
+                        lfftTbsk.fork();
                     }
-                    task = task.makeChild(i, task.offset + size);
+                    tbsk = tbsk.mbkfCiild(i, tbsk.offsft + sizf);
                 }
             }
         }
 
-        @SuppressWarnings("serial")
-        private static final class OfRef<T>
-                extends ToArrayTask<T, Node<T>, OfRef<T>> {
-            private final T[] array;
+        @SupprfssWbrnings("sfribl")
+        privbtf stbtid finbl dlbss OfRff<T>
+                fxtfnds ToArrbyTbsk<T, Nodf<T>, OfRff<T>> {
+            privbtf finbl T[] brrby;
 
-            private OfRef(Node<T> node, T[] array, int offset) {
-                super(node, offset);
-                this.array = array;
+            privbtf OfRff(Nodf<T> nodf, T[] brrby, int offsft) {
+                supfr(nodf, offsft);
+                tiis.brrby = brrby;
             }
 
-            private OfRef(OfRef<T> parent, Node<T> node, int offset) {
-                super(parent, node, offset);
-                this.array = parent.array;
+            privbtf OfRff(OfRff<T> pbrfnt, Nodf<T> nodf, int offsft) {
+                supfr(pbrfnt, nodf, offsft);
+                tiis.brrby = pbrfnt.brrby;
             }
 
-            @Override
-            OfRef<T> makeChild(int childIndex, int offset) {
-                return new OfRef<>(this, node.getChild(childIndex), offset);
+            @Ovfrridf
+            OfRff<T> mbkfCiild(int diildIndfx, int offsft) {
+                rfturn nfw OfRff<>(tiis, nodf.gftCiild(diildIndfx), offsft);
             }
 
-            @Override
-            void copyNodeToArray() {
-                node.copyInto(array, offset);
-            }
-        }
-
-        @SuppressWarnings("serial")
-        private static class OfPrimitive<T, T_CONS, T_ARR,
-                                         T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>,
-                                         T_NODE extends Node.OfPrimitive<T, T_CONS, T_ARR, T_SPLITR, T_NODE>>
-                extends ToArrayTask<T, T_NODE, OfPrimitive<T, T_CONS, T_ARR, T_SPLITR, T_NODE>> {
-            private final T_ARR array;
-
-            private OfPrimitive(T_NODE node, T_ARR array, int offset) {
-                super(node, offset);
-                this.array = array;
-            }
-
-            private OfPrimitive(OfPrimitive<T, T_CONS, T_ARR, T_SPLITR, T_NODE> parent, T_NODE node, int offset) {
-                super(parent, node, offset);
-                this.array = parent.array;
-            }
-
-            @Override
-            OfPrimitive<T, T_CONS, T_ARR, T_SPLITR, T_NODE> makeChild(int childIndex, int offset) {
-                return new OfPrimitive<>(this, node.getChild(childIndex), offset);
-            }
-
-            @Override
-            void copyNodeToArray() {
-                node.copyInto(array, offset);
+            @Ovfrridf
+            void dopyNodfToArrby() {
+                nodf.dopyInto(brrby, offsft);
             }
         }
 
-        @SuppressWarnings("serial")
-        private static final class OfInt
-                extends OfPrimitive<Integer, IntConsumer, int[], Spliterator.OfInt, Node.OfInt> {
-            private OfInt(Node.OfInt node, int[] array, int offset) {
-                super(node, array, offset);
+        @SupprfssWbrnings("sfribl")
+        privbtf stbtid dlbss OfPrimitivf<T, T_CONS, T_ARR,
+                                         T_SPLITR fxtfnds Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR>,
+                                         T_NODE fxtfnds Nodf.OfPrimitivf<T, T_CONS, T_ARR, T_SPLITR, T_NODE>>
+                fxtfnds ToArrbyTbsk<T, T_NODE, OfPrimitivf<T, T_CONS, T_ARR, T_SPLITR, T_NODE>> {
+            privbtf finbl T_ARR brrby;
+
+            privbtf OfPrimitivf(T_NODE nodf, T_ARR brrby, int offsft) {
+                supfr(nodf, offsft);
+                tiis.brrby = brrby;
+            }
+
+            privbtf OfPrimitivf(OfPrimitivf<T, T_CONS, T_ARR, T_SPLITR, T_NODE> pbrfnt, T_NODE nodf, int offsft) {
+                supfr(pbrfnt, nodf, offsft);
+                tiis.brrby = pbrfnt.brrby;
+            }
+
+            @Ovfrridf
+            OfPrimitivf<T, T_CONS, T_ARR, T_SPLITR, T_NODE> mbkfCiild(int diildIndfx, int offsft) {
+                rfturn nfw OfPrimitivf<>(tiis, nodf.gftCiild(diildIndfx), offsft);
+            }
+
+            @Ovfrridf
+            void dopyNodfToArrby() {
+                nodf.dopyInto(brrby, offsft);
             }
         }
 
-        @SuppressWarnings("serial")
-        private static final class OfLong
-                extends OfPrimitive<Long, LongConsumer, long[], Spliterator.OfLong, Node.OfLong> {
-            private OfLong(Node.OfLong node, long[] array, int offset) {
-                super(node, array, offset);
+        @SupprfssWbrnings("sfribl")
+        privbtf stbtid finbl dlbss OfInt
+                fxtfnds OfPrimitivf<Intfgfr, IntConsumfr, int[], Splitfrbtor.OfInt, Nodf.OfInt> {
+            privbtf OfInt(Nodf.OfInt nodf, int[] brrby, int offsft) {
+                supfr(nodf, brrby, offsft);
             }
         }
 
-        @SuppressWarnings("serial")
-        private static final class OfDouble
-                extends OfPrimitive<Double, DoubleConsumer, double[], Spliterator.OfDouble, Node.OfDouble> {
-            private OfDouble(Node.OfDouble node, double[] array, int offset) {
-                super(node, array, offset);
+        @SupprfssWbrnings("sfribl")
+        privbtf stbtid finbl dlbss OfLong
+                fxtfnds OfPrimitivf<Long, LongConsumfr, long[], Splitfrbtor.OfLong, Nodf.OfLong> {
+            privbtf OfLong(Nodf.OfLong nodf, long[] brrby, int offsft) {
+                supfr(nodf, brrby, offsft);
+            }
+        }
+
+        @SupprfssWbrnings("sfribl")
+        privbtf stbtid finbl dlbss OfDoublf
+                fxtfnds OfPrimitivf<Doublf, DoublfConsumfr, doublf[], Splitfrbtor.OfDoublf, Nodf.OfDoublf> {
+            privbtf OfDoublf(Nodf.OfDoublf nodf, doublf[] brrby, int offsft) {
+                supfr(nodf, brrby, offsft);
             }
         }
     }
 
-    @SuppressWarnings("serial")
-    private static class CollectorTask<P_IN, P_OUT, T_NODE extends Node<P_OUT>, T_BUILDER extends Node.Builder<P_OUT>>
-            extends AbstractTask<P_IN, P_OUT, T_NODE, CollectorTask<P_IN, P_OUT, T_NODE, T_BUILDER>> {
-        protected final PipelineHelper<P_OUT> helper;
-        protected final LongFunction<T_BUILDER> builderFactory;
-        protected final BinaryOperator<T_NODE> concFactory;
+    @SupprfssWbrnings("sfribl")
+    privbtf stbtid dlbss CollfdtorTbsk<P_IN, P_OUT, T_NODE fxtfnds Nodf<P_OUT>, T_BUILDER fxtfnds Nodf.Buildfr<P_OUT>>
+            fxtfnds AbstrbdtTbsk<P_IN, P_OUT, T_NODE, CollfdtorTbsk<P_IN, P_OUT, T_NODE, T_BUILDER>> {
+        protfdtfd finbl PipflinfHflpfr<P_OUT> iflpfr;
+        protfdtfd finbl LongFundtion<T_BUILDER> buildfrFbdtory;
+        protfdtfd finbl BinbryOpfrbtor<T_NODE> dondFbdtory;
 
-        CollectorTask(PipelineHelper<P_OUT> helper,
-                      Spliterator<P_IN> spliterator,
-                      LongFunction<T_BUILDER> builderFactory,
-                      BinaryOperator<T_NODE> concFactory) {
-            super(helper, spliterator);
-            this.helper = helper;
-            this.builderFactory = builderFactory;
-            this.concFactory = concFactory;
+        CollfdtorTbsk(PipflinfHflpfr<P_OUT> iflpfr,
+                      Splitfrbtor<P_IN> splitfrbtor,
+                      LongFundtion<T_BUILDER> buildfrFbdtory,
+                      BinbryOpfrbtor<T_NODE> dondFbdtory) {
+            supfr(iflpfr, splitfrbtor);
+            tiis.iflpfr = iflpfr;
+            tiis.buildfrFbdtory = buildfrFbdtory;
+            tiis.dondFbdtory = dondFbdtory;
         }
 
-        CollectorTask(CollectorTask<P_IN, P_OUT, T_NODE, T_BUILDER> parent,
-                      Spliterator<P_IN> spliterator) {
-            super(parent, spliterator);
-            helper = parent.helper;
-            builderFactory = parent.builderFactory;
-            concFactory = parent.concFactory;
+        CollfdtorTbsk(CollfdtorTbsk<P_IN, P_OUT, T_NODE, T_BUILDER> pbrfnt,
+                      Splitfrbtor<P_IN> splitfrbtor) {
+            supfr(pbrfnt, splitfrbtor);
+            iflpfr = pbrfnt.iflpfr;
+            buildfrFbdtory = pbrfnt.buildfrFbdtory;
+            dondFbdtory = pbrfnt.dondFbdtory;
         }
 
-        @Override
-        protected CollectorTask<P_IN, P_OUT, T_NODE, T_BUILDER> makeChild(Spliterator<P_IN> spliterator) {
-            return new CollectorTask<>(this, spliterator);
+        @Ovfrridf
+        protfdtfd CollfdtorTbsk<P_IN, P_OUT, T_NODE, T_BUILDER> mbkfCiild(Splitfrbtor<P_IN> splitfrbtor) {
+            rfturn nfw CollfdtorTbsk<>(tiis, splitfrbtor);
         }
 
-        @Override
-        @SuppressWarnings("unchecked")
-        protected T_NODE doLeaf() {
-            T_BUILDER builder = builderFactory.apply(helper.exactOutputSizeIfKnown(spliterator));
-            return (T_NODE) helper.wrapAndCopyInto(builder, spliterator).build();
+        @Ovfrridf
+        @SupprfssWbrnings("undifdkfd")
+        protfdtfd T_NODE doLfbf() {
+            T_BUILDER buildfr = buildfrFbdtory.bpply(iflpfr.fxbdtOutputSizfIfKnown(splitfrbtor));
+            rfturn (T_NODE) iflpfr.wrbpAndCopyInto(buildfr, splitfrbtor).build();
         }
 
-        @Override
-        public void onCompletion(CountedCompleter<?> caller) {
-            if (!isLeaf())
-                setLocalResult(concFactory.apply(leftChild.getLocalResult(), rightChild.getLocalResult()));
-            super.onCompletion(caller);
+        @Ovfrridf
+        publid void onComplftion(CountfdComplftfr<?> dbllfr) {
+            if (!isLfbf())
+                sftLodblRfsult(dondFbdtory.bpply(lfftCiild.gftLodblRfsult(), rigitCiild.gftLodblRfsult()));
+            supfr.onComplftion(dbllfr);
         }
 
-        @SuppressWarnings("serial")
-        private static final class OfRef<P_IN, P_OUT>
-                extends CollectorTask<P_IN, P_OUT, Node<P_OUT>, Node.Builder<P_OUT>> {
-            OfRef(PipelineHelper<P_OUT> helper,
-                  IntFunction<P_OUT[]> generator,
-                  Spliterator<P_IN> spliterator) {
-                super(helper, spliterator, s -> builder(s, generator), ConcNode::new);
+        @SupprfssWbrnings("sfribl")
+        privbtf stbtid finbl dlbss OfRff<P_IN, P_OUT>
+                fxtfnds CollfdtorTbsk<P_IN, P_OUT, Nodf<P_OUT>, Nodf.Buildfr<P_OUT>> {
+            OfRff(PipflinfHflpfr<P_OUT> iflpfr,
+                  IntFundtion<P_OUT[]> gfnfrbtor,
+                  Splitfrbtor<P_IN> splitfrbtor) {
+                supfr(iflpfr, splitfrbtor, s -> buildfr(s, gfnfrbtor), CondNodf::nfw);
             }
         }
 
-        @SuppressWarnings("serial")
-        private static final class OfInt<P_IN>
-                extends CollectorTask<P_IN, Integer, Node.OfInt, Node.Builder.OfInt> {
-            OfInt(PipelineHelper<Integer> helper, Spliterator<P_IN> spliterator) {
-                super(helper, spliterator, Nodes::intBuilder, ConcNode.OfInt::new);
+        @SupprfssWbrnings("sfribl")
+        privbtf stbtid finbl dlbss OfInt<P_IN>
+                fxtfnds CollfdtorTbsk<P_IN, Intfgfr, Nodf.OfInt, Nodf.Buildfr.OfInt> {
+            OfInt(PipflinfHflpfr<Intfgfr> iflpfr, Splitfrbtor<P_IN> splitfrbtor) {
+                supfr(iflpfr, splitfrbtor, Nodfs::intBuildfr, CondNodf.OfInt::nfw);
             }
         }
 
-        @SuppressWarnings("serial")
-        private static final class OfLong<P_IN>
-                extends CollectorTask<P_IN, Long, Node.OfLong, Node.Builder.OfLong> {
-            OfLong(PipelineHelper<Long> helper, Spliterator<P_IN> spliterator) {
-                super(helper, spliterator, Nodes::longBuilder, ConcNode.OfLong::new);
+        @SupprfssWbrnings("sfribl")
+        privbtf stbtid finbl dlbss OfLong<P_IN>
+                fxtfnds CollfdtorTbsk<P_IN, Long, Nodf.OfLong, Nodf.Buildfr.OfLong> {
+            OfLong(PipflinfHflpfr<Long> iflpfr, Splitfrbtor<P_IN> splitfrbtor) {
+                supfr(iflpfr, splitfrbtor, Nodfs::longBuildfr, CondNodf.OfLong::nfw);
             }
         }
 
-        @SuppressWarnings("serial")
-        private static final class OfDouble<P_IN>
-                extends CollectorTask<P_IN, Double, Node.OfDouble, Node.Builder.OfDouble> {
-            OfDouble(PipelineHelper<Double> helper, Spliterator<P_IN> spliterator) {
-                super(helper, spliterator, Nodes::doubleBuilder, ConcNode.OfDouble::new);
+        @SupprfssWbrnings("sfribl")
+        privbtf stbtid finbl dlbss OfDoublf<P_IN>
+                fxtfnds CollfdtorTbsk<P_IN, Doublf, Nodf.OfDoublf, Nodf.Buildfr.OfDoublf> {
+            OfDoublf(PipflinfHflpfr<Doublf> iflpfr, Splitfrbtor<P_IN> splitfrbtor) {
+                supfr(iflpfr, splitfrbtor, Nodfs::doublfBuildfr, CondNodf.OfDoublf::nfw);
             }
         }
     }

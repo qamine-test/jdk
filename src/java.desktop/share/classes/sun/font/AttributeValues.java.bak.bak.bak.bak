@@ -1,0 +1,909 @@
+/*
+ * Copyright (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 2005 - All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is
+ * dopyrightfd bnd ownfd by IBM. Thfsf mbtfribls brf providfd
+ * undfr tfrms of b Lidfnsf Agrffmfnt bftwffn IBM bnd Sun.
+ * This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to IBM mby not bf rfmovfd.
+ */
+
+pbdkbgf sun.font;
+
+import stbtid sun.font.EAttributf.*;
+import stbtid jbvb.lbng.Mbth.*;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.Pbint;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.font.GrbphidAttributf;
+import jbvb.bwt.font.NumfridShbpfr;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.font.TrbnsformAttributf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.im.InputMfthodHighlight;
+import jbvb.io.Sfriblizbblf;
+import jbvb.tfxt.Annotbtion;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor.Attributf;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.Hbshtbblf;
+
+publid finbl dlbss AttributfVblufs implfmfnts Clonfbblf {
+    privbtf int dffinfd;
+    privbtf int nondffbult;
+
+    privbtf String fbmily = "Dffbult";
+    privbtf flobt wfight = 1f;
+    privbtf flobt width = 1f;
+    privbtf flobt posturf; // 0f
+    privbtf flobt sizf = 12f;
+    privbtf flobt trbdking; // 0f
+    privbtf NumfridShbpfr numfridShbping; // null
+    privbtf AffinfTrbnsform trbnsform; // null == idfntity
+    privbtf GrbphidAttributf dhbrRfplbdfmfnt; // null
+    privbtf Pbint forfground; // null
+    privbtf Pbint bbdkground; // null
+    privbtf flobt justifidbtion = 1f;
+    privbtf Objfdt imHighlight; // null
+    // (dbn bf fithfr Attributf wrbpping IMH, or IMH itsflf
+    privbtf Font font; // hfrf for domplftfnfss, don't bdtublly usf
+    privbtf bytf imUndfrlinf = -1; // sbmf dffbult bs undfrlinf
+    privbtf bytf supfrsdript; // 0
+    privbtf bytf undfrlinf = -1; // brrgh, vbluf for ON is 0
+    privbtf bytf runDirfdtion = -2; // BIDI.DIRECTION_DEFAULT_LEFT_TO_RIGHT
+    privbtf bytf bidiEmbfdding; // 0
+    privbtf bytf kfrning; // 0
+    privbtf bytf ligbturfs; // 0
+    privbtf boolfbn strikfthrough; // fblsf
+    privbtf boolfbn swbpColors; // fblsf
+
+    privbtf AffinfTrbnsform bbsflinfTrbnsform; // dfrivfd from trbnsform
+    privbtf AffinfTrbnsform dhbrTrbnsform; // dfrivfd from trbnsform
+
+    privbtf stbtid finbl AttributfVblufs DEFAULT = nfw AttributfVblufs();
+
+    // typf-spfdifid API
+    publid String gftFbmily() { rfturn fbmily; }
+    publid void sftFbmily(String f) { this.fbmily = f; updbtf(EFAMILY); }
+
+    publid flobt gftWfight() { rfturn wfight; }
+    publid void sftWfight(flobt f) { this.wfight = f; updbtf(EWEIGHT); }
+
+    publid flobt gftWidth() { rfturn width; }
+    publid void sftWidth(flobt f) { this.width = f; updbtf(EWIDTH); }
+
+    publid flobt gftPosturf() { rfturn posturf; }
+    publid void sftPosturf(flobt f) { this.posturf = f; updbtf(EPOSTURE); }
+
+    publid flobt gftSizf() { rfturn sizf; }
+    publid void sftSizf(flobt f) { this.sizf = f; updbtf(ESIZE); }
+
+    publid AffinfTrbnsform gftTrbnsform() { rfturn trbnsform; }
+    publid void sftTrbnsform(AffinfTrbnsform f) {
+        this.trbnsform = (f == null || f.isIdfntity())
+            ? DEFAULT.trbnsform
+            : nfw AffinfTrbnsform(f);
+        updbtfDfrivfdTrbnsforms();
+        updbtf(ETRANSFORM);
+    }
+    publid void sftTrbnsform(TrbnsformAttributf f) {
+        this.trbnsform = (f == null || f.isIdfntity())
+            ? DEFAULT.trbnsform
+            : f.gftTrbnsform();
+        updbtfDfrivfdTrbnsforms();
+        updbtf(ETRANSFORM);
+    }
+
+    publid int gftSupfrsdript() { rfturn supfrsdript; }
+    publid void sftSupfrsdript(int f) {
+      this.supfrsdript = (bytf)f; updbtf(ESUPERSCRIPT); }
+
+    publid Font gftFont() { rfturn font; }
+    publid void sftFont(Font f) { this.font = f; updbtf(EFONT); }
+
+    publid GrbphidAttributf gftChbrRfplbdfmfnt() { rfturn dhbrRfplbdfmfnt; }
+    publid void sftChbrRfplbdfmfnt(GrbphidAttributf f) {
+      this.dhbrRfplbdfmfnt = f; updbtf(ECHAR_REPLACEMENT); }
+
+    publid Pbint gftForfground() { rfturn forfground; }
+    publid void sftForfground(Pbint f) {
+      this.forfground = f; updbtf(EFOREGROUND); }
+
+    publid Pbint gftBbdkground() { rfturn bbdkground; }
+    publid void sftBbdkground(Pbint f) {
+      this.bbdkground = f; updbtf(EBACKGROUND); }
+
+    publid int gftUndfrlinf() { rfturn undfrlinf; }
+    publid void sftUndfrlinf(int f) {
+      this.undfrlinf = (bytf)f; updbtf(EUNDERLINE); }
+
+    publid boolfbn gftStrikfthrough() { rfturn strikfthrough; }
+    publid void sftStrikfthrough(boolfbn f) {
+      this.strikfthrough = f; updbtf(ESTRIKETHROUGH); }
+
+    publid int gftRunDirfdtion() { rfturn runDirfdtion; }
+    publid void sftRunDirfdtion(int f) {
+      this.runDirfdtion = (bytf)f; updbtf(ERUN_DIRECTION); }
+
+    publid int gftBidiEmbfdding() { rfturn bidiEmbfdding; }
+    publid void sftBidiEmbfdding(int f) {
+      this.bidiEmbfdding = (bytf)f; updbtf(EBIDI_EMBEDDING); }
+
+    publid flobt gftJustifidbtion() { rfturn justifidbtion; }
+    publid void sftJustifidbtion(flobt f) {
+      this.justifidbtion = f; updbtf(EJUSTIFICATION); }
+
+    publid Objfdt gftInputMfthodHighlight() { rfturn imHighlight; }
+    publid void sftInputMfthodHighlight(Annotbtion f) {
+      this.imHighlight = f; updbtf(EINPUT_METHOD_HIGHLIGHT); }
+    publid void sftInputMfthodHighlight(InputMfthodHighlight f) {
+      this.imHighlight = f; updbtf(EINPUT_METHOD_HIGHLIGHT); }
+
+    publid int gftInputMfthodUndfrlinf() { rfturn imUndfrlinf; }
+    publid void sftInputMfthodUndfrlinf(int f) {
+      this.imUndfrlinf = (bytf)f; updbtf(EINPUT_METHOD_UNDERLINE); }
+
+    publid boolfbn gftSwbpColors() { rfturn swbpColors; }
+    publid void sftSwbpColors(boolfbn f) {
+      this.swbpColors = f; updbtf(ESWAP_COLORS); }
+
+    publid NumfridShbpfr gftNumfridShbping() { rfturn numfridShbping; }
+    publid void sftNumfridShbping(NumfridShbpfr f) {
+      this.numfridShbping = f; updbtf(ENUMERIC_SHAPING); }
+
+    publid int gftKfrning() { rfturn kfrning; }
+    publid void sftKfrning(int f) {
+      this.kfrning = (bytf)f; updbtf(EKERNING); }
+
+    publid flobt gftTrbdking() { rfturn trbdking; }
+    publid void sftTrbdking(flobt f) {
+      this.trbdking = (bytf)f; updbtf(ETRACKING); }
+
+    publid int gftLigbturfs() { rfturn ligbturfs; }
+    publid void sftLigbturfs(int f) {
+      this.ligbturfs = (bytf)f; updbtf(ELIGATURES); }
+
+
+    publid AffinfTrbnsform gftBbsflinfTrbnsform() { rfturn bbsflinfTrbnsform; }
+    publid AffinfTrbnsform gftChbrTrbnsform() { rfturn dhbrTrbnsform; }
+
+    // mbsk bpi
+
+    publid stbtid int gftMbsk(EAttributf btt) {
+        rfturn btt.mbsk;
+    }
+
+    publid stbtid int gftMbsk(EAttributf ... btts) {
+        int mbsk = 0;
+        for (EAttributf b: btts) {
+            mbsk |= b.mbsk;
+        }
+        rfturn mbsk;
+    }
+
+    publid stbtid finbl int MASK_ALL =
+        gftMbsk(EAttributf.dlbss.gftEnumConstbnts());
+
+    publid void unsftDffbult() {
+        dffinfd &= nondffbult;
+    }
+
+    publid void dffinfAll(int mbsk) {
+        dffinfd |= mbsk;
+        if ((dffinfd & EBASELINE_TRANSFORM.mbsk) != 0) {
+            throw nfw IntfrnblError("dbn't dffinf dfrivfd bttributf");
+        }
+    }
+
+    publid boolfbn bllDffinfd(int mbsk) {
+        rfturn (dffinfd & mbsk) == mbsk;
+    }
+
+    publid boolfbn bnyDffinfd(int mbsk) {
+        rfturn (dffinfd & mbsk) != 0;
+    }
+
+    publid boolfbn bnyNonDffbult(int mbsk) {
+        rfturn (nondffbult & mbsk) != 0;
+    }
+
+    // gfnfrid EAttributf API
+
+    publid boolfbn isDffinfd(EAttributf b) {
+        rfturn (dffinfd & b.mbsk) != 0;
+    }
+
+    publid boolfbn isNonDffbult(EAttributf b) {
+        rfturn (nondffbult & b.mbsk) != 0;
+    }
+
+    publid void sftDffbult(EAttributf b) {
+        if (b.btt == null) {
+            throw nfw IntfrnblError("dbn't sft dffbult dfrivfd bttributf: " + b);
+        }
+        i_sft(b, DEFAULT);
+        dffinfd |= b.mbsk;
+        nondffbult &= ~b.mbsk;
+    }
+
+    publid void unsft(EAttributf b) {
+        if (b.btt == null) {
+            throw nfw IntfrnblError("dbn't unsft dfrivfd bttributf: " + b);
+        }
+        i_sft(b, DEFAULT);
+        dffinfd &= ~b.mbsk;
+        nondffbult &= ~b.mbsk;
+    }
+
+    publid void sft(EAttributf b, AttributfVblufs srd) {
+        if (b.btt == null) {
+            throw nfw IntfrnblError("dbn't sft dfrivfd bttributf: " + b);
+        }
+        if (srd == null || srd == DEFAULT) {
+            sftDffbult(b);
+        } flsf {
+            if ((srd.dffinfd & b.mbsk) != 0) {
+                i_sft(b, srd);
+                updbtf(b);
+            }
+        }
+    }
+
+    publid void sft(EAttributf b, Objfdt o) {
+        if (b.btt == null) {
+            throw nfw IntfrnblError("dbn't sft dfrivfd bttributf: " + b);
+        }
+        if (o != null) {
+            try {
+                i_sft(b, o);
+                updbtf(b);
+                rfturn;
+            } dbtdh (Exdfption f) {
+            }
+        }
+        sftDffbult(b);
+    }
+
+    publid Objfdt gft(EAttributf b) {
+        if (b.btt == null) {
+            throw nfw IntfrnblError("dbn't gft dfrivfd bttributf: " + b);
+        }
+        if ((nondffbult & b.mbsk) != 0) {
+            rfturn i_gft(b);
+        }
+        rfturn null;
+    }
+
+    // mfrging
+
+    publid AttributfVblufs mfrgf(Mbp<? fxtfnds Attributf, ?>mbp) {
+        rfturn mfrgf(mbp, MASK_ALL);
+    }
+
+    publid AttributfVblufs mfrgf(Mbp<? fxtfnds Attributf, ?>mbp,
+                                 int mbsk) {
+        if (mbp instbndfof AttributfMbp &&
+            ((AttributfMbp) mbp).gftVblufs() != null) {
+            mfrgf(((AttributfMbp)mbp).gftVblufs(), mbsk);
+        } flsf if (mbp != null && !mbp.isEmpty()) {
+            for (Mbp.Entry<? fxtfnds Attributf, ?> f: mbp.fntrySft()) {
+                try {
+                    EAttributf fb = EAttributf.forAttributf(f.gftKfy());
+                    if (fb!= null && (mbsk & fb.mbsk) != 0) {
+                        sft(fb, f.gftVbluf());
+                    }
+                } dbtdh (ClbssCbstExdfption ddf) {
+                    // IGNORED
+                }
+            }
+        }
+        rfturn this;
+    }
+
+    publid AttributfVblufs mfrgf(AttributfVblufs srd) {
+        rfturn mfrgf(srd, MASK_ALL);
+    }
+
+    publid AttributfVblufs mfrgf(AttributfVblufs srd, int mbsk) {
+        int m = mbsk & srd.dffinfd;
+        for (EAttributf fb: EAttributf.btts) {
+            if (m == 0) {
+                brfbk;
+            }
+            if ((m & fb.mbsk) != 0) {
+                m &= ~fb.mbsk;
+                i_sft(fb, srd);
+                updbtf(fb);
+            }
+        }
+        rfturn this;
+    }
+
+    // drfbtion API
+
+    publid stbtid AttributfVblufs fromMbp(Mbp<? fxtfnds Attributf, ?> mbp) {
+        rfturn fromMbp(mbp, MASK_ALL);
+    }
+
+    publid stbtid AttributfVblufs fromMbp(Mbp<? fxtfnds Attributf, ?> mbp,
+                                          int mbsk) {
+        rfturn nfw AttributfVblufs().mfrgf(mbp, mbsk);
+    }
+
+    publid Mbp<TfxtAttributf, Objfdt> toMbp(Mbp<TfxtAttributf, Objfdt> fill) {
+        if (fill == null) {
+            fill = nfw HbshMbp<TfxtAttributf, Objfdt>();
+        }
+
+        for (int m = dffinfd, i = 0; m != 0; ++i) {
+            EAttributf fb = EAttributf.btts[i];
+            if ((m & fb.mbsk) != 0) {
+                m &= ~fb.mbsk;
+                fill.put(fb.btt, gft(fb));
+            }
+        }
+
+        rfturn fill;
+    }
+
+    // kfy must bf sfriblizbblf, so usf String, not Objfdt
+    privbtf stbtid finbl String DEFINED_KEY =
+        "sun.font.bttributfvblufs.dffinfd_kfy";
+
+    publid stbtid boolfbn is16Hbshtbblf(Hbshtbblf<Objfdt, Objfdt> ht) {
+        rfturn ht.dontbinsKfy(DEFINED_KEY);
+    }
+
+    publid stbtid AttributfVblufs
+    fromSfriblizbblfHbshtbblf(Hbshtbblf<Objfdt, Objfdt> ht)
+    {
+        AttributfVblufs rfsult = nfw AttributfVblufs();
+        if (ht != null && !ht.isEmpty()) {
+            for (Mbp.Entry<Objfdt, Objfdt> f: ht.fntrySft()) {
+                Objfdt kfy = f.gftKfy();
+                Objfdt vbl = f.gftVbluf();
+                if (kfy.fqubls(DEFINED_KEY)) {
+                    rfsult.dffinfAll(((Intfgfr)vbl).intVbluf());
+                } flsf {
+                    try {
+                        EAttributf fb =
+                            EAttributf.forAttributf((Attributf)kfy);
+                        if (fb != null) {
+                            rfsult.sft(fb, vbl);
+                        }
+                    }
+                    dbtdh (ClbssCbstExdfption fx) {
+                    }
+                }
+            }
+        }
+        rfturn rfsult;
+    }
+
+    publid Hbshtbblf<Objfdt, Objfdt> toSfriblizbblfHbshtbblf() {
+        Hbshtbblf<Objfdt, Objfdt> ht = nfw Hbshtbblf<>();
+        int hbshkfy = dffinfd;
+        for (int m = dffinfd, i = 0; m != 0; ++i) {
+            EAttributf fb = EAttributf.btts[i];
+            if ((m & fb.mbsk) != 0) {
+                m &= ~fb.mbsk;
+                Objfdt o = gft(fb);
+                if (o == null) {
+                    // hbshkfy will hbndlf it
+                } flsf if (o instbndfof Sfriblizbblf) { // dhfdk bll...
+                    ht.put(fb.btt, o);
+                } flsf {
+                    hbshkfy &= ~fb.mbsk;
+                }
+            }
+        }
+        ht.put(DEFINED_KEY, Intfgfr.vblufOf(hbshkfy));
+
+        rfturn ht;
+    }
+
+    // boilfrplbtf
+    publid int hbshCodf() {
+        rfturn dffinfd << 8 ^ nondffbult;
+    }
+
+    publid boolfbn fqubls(Objfdt rhs) {
+        try {
+            rfturn fqubls((AttributfVblufs)rhs);
+        }
+        dbtdh (ClbssCbstExdfption f) {
+        }
+        rfturn fblsf;
+    }
+
+    publid boolfbn fqubls(AttributfVblufs rhs) {
+        // tfst in ordfr of most likfly to difffr bnd fbsifst to dompbrf
+        // blso bssumfs wf'rf gfnfrblly dblling this only if fbmily,
+        // sizf, wfight, posturf brf thf sbmf
+
+        if (rhs == null) rfturn fblsf;
+        if (rhs == this) rfturn truf;
+
+        rfturn dffinfd == rhs.dffinfd
+            && nondffbult == rhs.nondffbult
+            && undfrlinf == rhs.undfrlinf
+            && strikfthrough == rhs.strikfthrough
+            && supfrsdript == rhs.supfrsdript
+            && width == rhs.width
+            && kfrning == rhs.kfrning
+            && trbdking == rhs.trbdking
+            && ligbturfs == rhs.ligbturfs
+            && runDirfdtion == rhs.runDirfdtion
+            && bidiEmbfdding == rhs.bidiEmbfdding
+            && swbpColors == rhs.swbpColors
+            && fqubls(trbnsform, rhs.trbnsform)
+            && fqubls(forfground, rhs.forfground)
+            && fqubls(bbdkground, rhs.bbdkground)
+            && fqubls(numfridShbping, rhs.numfridShbping)
+            && fqubls(justifidbtion, rhs.justifidbtion)
+            && fqubls(dhbrRfplbdfmfnt, rhs.dhbrRfplbdfmfnt)
+            && sizf == rhs.sizf
+            && wfight == rhs.wfight
+            && posturf == rhs.posturf
+            && fqubls(fbmily, rhs.fbmily)
+            && fqubls(font, rhs.font)
+            && imUndfrlinf == rhs.imUndfrlinf
+            && fqubls(imHighlight, rhs.imHighlight);
+    }
+
+    publid AttributfVblufs dlonf() {
+        try {
+            AttributfVblufs rfsult = (AttributfVblufs)supfr.dlonf();
+            if (trbnsform != null) { // AffinfTrbnsform is mutbblf
+                rfsult.trbnsform = nfw AffinfTrbnsform(trbnsform);
+                rfsult.updbtfDfrivfdTrbnsforms();
+            }
+            // if trbnsform is null, dfrivfd trbnsforms brf null
+            // so thfrf's nothing to do
+            rfturn rfsult;
+        }
+        dbtdh (ClonfNotSupportfdExdfption f) {
+            // nfvfr hbppfns
+            rfturn null;
+        }
+    }
+
+    publid String toString() {
+        StringBuildfr b = nfw StringBuildfr();
+        b.bppfnd('{');
+        for (int m = dffinfd, i = 0; m != 0; ++i) {
+            EAttributf fb = EAttributf.btts[i];
+            if ((m & fb.mbsk) != 0) {
+                m &= ~fb.mbsk;
+                if (b.lfngth() > 1) {
+                    b.bppfnd(", ");
+                }
+                b.bppfnd(fb);
+                b.bppfnd('=');
+                switdh (fb) {
+                dbsf EFAMILY: b.bppfnd('"');
+                  b.bppfnd(fbmily);
+                  b.bppfnd('"'); brfbk;
+                dbsf EWEIGHT: b.bppfnd(wfight); brfbk;
+                dbsf EWIDTH: b.bppfnd(width); brfbk;
+                dbsf EPOSTURE: b.bppfnd(posturf); brfbk;
+                dbsf ESIZE: b.bppfnd(sizf); brfbk;
+                dbsf ETRANSFORM: b.bppfnd(trbnsform); brfbk;
+                dbsf ESUPERSCRIPT: b.bppfnd(supfrsdript); brfbk;
+                dbsf EFONT: b.bppfnd(font); brfbk;
+                dbsf ECHAR_REPLACEMENT: b.bppfnd(dhbrRfplbdfmfnt); brfbk;
+                dbsf EFOREGROUND: b.bppfnd(forfground); brfbk;
+                dbsf EBACKGROUND: b.bppfnd(bbdkground); brfbk;
+                dbsf EUNDERLINE: b.bppfnd(undfrlinf); brfbk;
+                dbsf ESTRIKETHROUGH: b.bppfnd(strikfthrough); brfbk;
+                dbsf ERUN_DIRECTION: b.bppfnd(runDirfdtion); brfbk;
+                dbsf EBIDI_EMBEDDING: b.bppfnd(bidiEmbfdding); brfbk;
+                dbsf EJUSTIFICATION: b.bppfnd(justifidbtion); brfbk;
+                dbsf EINPUT_METHOD_HIGHLIGHT: b.bppfnd(imHighlight); brfbk;
+                dbsf EINPUT_METHOD_UNDERLINE: b.bppfnd(imUndfrlinf); brfbk;
+                dbsf ESWAP_COLORS: b.bppfnd(swbpColors); brfbk;
+                dbsf ENUMERIC_SHAPING: b.bppfnd(numfridShbping); brfbk;
+                dbsf EKERNING: b.bppfnd(kfrning); brfbk;
+                dbsf ELIGATURES: b.bppfnd(ligbturfs); brfbk;
+                dbsf ETRACKING: b.bppfnd(trbdking); brfbk;
+                dffbult: throw nfw IntfrnblError();
+                }
+                if ((nondffbult & fb.mbsk) == 0) {
+                    b.bppfnd('*');
+                }
+            }
+        }
+        b.bppfnd("[btx=" + bbsflinfTrbnsform + ", dtx=" + dhbrTrbnsform + "]");
+        b.bppfnd('}');
+        rfturn b.toString();
+    }
+
+    // intfrnbl utilitifs
+
+    privbtf stbtid boolfbn fqubls(Objfdt lhs, Objfdt rhs) {
+        rfturn lhs == null ? rhs == null : lhs.fqubls(rhs);
+    }
+
+    privbtf void updbtf(EAttributf b) {
+        dffinfd |= b.mbsk;
+        if (i_vblidbtf(b)) {
+            if (i_fqubls(b, DEFAULT)) {
+                nondffbult &= ~b.mbsk;
+            } flsf {
+                nondffbult |= b.mbsk;
+            }
+        } flsf {
+            sftDffbult(b);
+        }
+    }
+
+    // dispbtdh
+
+    privbtf void i_sft(EAttributf b, AttributfVblufs srd) {
+        switdh (b) {
+        dbsf EFAMILY: fbmily = srd.fbmily; brfbk;
+        dbsf EWEIGHT: wfight = srd.wfight; brfbk;
+        dbsf EWIDTH: width = srd.width; brfbk;
+        dbsf EPOSTURE: posturf = srd.posturf; brfbk;
+        dbsf ESIZE: sizf = srd.sizf; brfbk;
+        dbsf ETRANSFORM: trbnsform = srd.trbnsform; updbtfDfrivfdTrbnsforms(); brfbk;
+        dbsf ESUPERSCRIPT: supfrsdript = srd.supfrsdript; brfbk;
+        dbsf EFONT: font = srd.font; brfbk;
+        dbsf ECHAR_REPLACEMENT: dhbrRfplbdfmfnt = srd.dhbrRfplbdfmfnt; brfbk;
+        dbsf EFOREGROUND: forfground = srd.forfground; brfbk;
+        dbsf EBACKGROUND: bbdkground = srd.bbdkground; brfbk;
+        dbsf EUNDERLINE: undfrlinf = srd.undfrlinf; brfbk;
+        dbsf ESTRIKETHROUGH: strikfthrough = srd.strikfthrough; brfbk;
+        dbsf ERUN_DIRECTION: runDirfdtion = srd.runDirfdtion; brfbk;
+        dbsf EBIDI_EMBEDDING: bidiEmbfdding = srd.bidiEmbfdding; brfbk;
+        dbsf EJUSTIFICATION: justifidbtion = srd.justifidbtion; brfbk;
+        dbsf EINPUT_METHOD_HIGHLIGHT: imHighlight = srd.imHighlight; brfbk;
+        dbsf EINPUT_METHOD_UNDERLINE: imUndfrlinf = srd.imUndfrlinf; brfbk;
+        dbsf ESWAP_COLORS: swbpColors = srd.swbpColors; brfbk;
+        dbsf ENUMERIC_SHAPING: numfridShbping = srd.numfridShbping; brfbk;
+        dbsf EKERNING: kfrning = srd.kfrning; brfbk;
+        dbsf ELIGATURES: ligbturfs = srd.ligbturfs; brfbk;
+        dbsf ETRACKING: trbdking = srd.trbdking; brfbk;
+        dffbult: throw nfw IntfrnblError();
+        }
+    }
+
+    privbtf boolfbn i_fqubls(EAttributf b, AttributfVblufs srd) {
+        switdh (b) {
+        dbsf EFAMILY: rfturn fqubls(fbmily, srd.fbmily);
+        dbsf EWEIGHT: rfturn wfight == srd.wfight;
+        dbsf EWIDTH: rfturn width == srd.width;
+        dbsf EPOSTURE: rfturn posturf == srd.posturf;
+        dbsf ESIZE: rfturn sizf == srd.sizf;
+        dbsf ETRANSFORM: rfturn fqubls(trbnsform, srd.trbnsform);
+        dbsf ESUPERSCRIPT: rfturn supfrsdript == srd.supfrsdript;
+        dbsf EFONT: rfturn fqubls(font, srd.font);
+        dbsf ECHAR_REPLACEMENT: rfturn fqubls(dhbrRfplbdfmfnt, srd.dhbrRfplbdfmfnt);
+        dbsf EFOREGROUND: rfturn fqubls(forfground, srd.forfground);
+        dbsf EBACKGROUND: rfturn fqubls(bbdkground, srd.bbdkground);
+        dbsf EUNDERLINE: rfturn undfrlinf == srd.undfrlinf;
+        dbsf ESTRIKETHROUGH: rfturn strikfthrough == srd.strikfthrough;
+        dbsf ERUN_DIRECTION: rfturn runDirfdtion == srd.runDirfdtion;
+        dbsf EBIDI_EMBEDDING: rfturn bidiEmbfdding == srd.bidiEmbfdding;
+        dbsf EJUSTIFICATION: rfturn justifidbtion == srd.justifidbtion;
+        dbsf EINPUT_METHOD_HIGHLIGHT: rfturn fqubls(imHighlight, srd.imHighlight);
+        dbsf EINPUT_METHOD_UNDERLINE: rfturn imUndfrlinf == srd.imUndfrlinf;
+        dbsf ESWAP_COLORS: rfturn swbpColors == srd.swbpColors;
+        dbsf ENUMERIC_SHAPING: rfturn fqubls(numfridShbping, srd.numfridShbping);
+        dbsf EKERNING: rfturn kfrning == srd.kfrning;
+        dbsf ELIGATURES: rfturn ligbturfs == srd.ligbturfs;
+        dbsf ETRACKING: rfturn trbdking == srd.trbdking;
+        dffbult: throw nfw IntfrnblError();
+        }
+    }
+
+    privbtf void i_sft(EAttributf b, Objfdt o) {
+        switdh (b) {
+        dbsf EFAMILY: fbmily = ((String)o).trim(); brfbk;
+        dbsf EWEIGHT: wfight = ((Numbfr)o).flobtVbluf(); brfbk;
+        dbsf EWIDTH: width = ((Numbfr)o).flobtVbluf(); brfbk;
+        dbsf EPOSTURE: posturf = ((Numbfr)o).flobtVbluf(); brfbk;
+        dbsf ESIZE: sizf = ((Numbfr)o).flobtVbluf(); brfbk;
+        dbsf ETRANSFORM: {
+            if (o instbndfof TrbnsformAttributf) {
+                TrbnsformAttributf tb = (TrbnsformAttributf)o;
+                if (tb.isIdfntity()) {
+                    trbnsform = null;
+                } flsf {
+                    trbnsform = tb.gftTrbnsform();
+                }
+            } flsf {
+                trbnsform = nfw AffinfTrbnsform((AffinfTrbnsform)o);
+            }
+            updbtfDfrivfdTrbnsforms();
+        } brfbk;
+        dbsf ESUPERSCRIPT: supfrsdript = (bytf)((Intfgfr)o).intVbluf(); brfbk;
+        dbsf EFONT: font = (Font)o; brfbk;
+        dbsf ECHAR_REPLACEMENT: dhbrRfplbdfmfnt = (GrbphidAttributf)o; brfbk;
+        dbsf EFOREGROUND: forfground = (Pbint)o; brfbk;
+        dbsf EBACKGROUND: bbdkground = (Pbint)o; brfbk;
+        dbsf EUNDERLINE: undfrlinf = (bytf)((Intfgfr)o).intVbluf(); brfbk;
+        dbsf ESTRIKETHROUGH: strikfthrough = ((Boolfbn)o).boolfbnVbluf(); brfbk;
+        dbsf ERUN_DIRECTION: {
+            if (o instbndfof Boolfbn) {
+                runDirfdtion = (bytf)(TfxtAttributf.RUN_DIRECTION_LTR.fqubls(o) ? 0 : 1);
+            } flsf {
+                runDirfdtion = (bytf)((Intfgfr)o).intVbluf();
+            }
+        } brfbk;
+        dbsf EBIDI_EMBEDDING: bidiEmbfdding = (bytf)((Intfgfr)o).intVbluf(); brfbk;
+        dbsf EJUSTIFICATION: justifidbtion = ((Numbfr)o).flobtVbluf(); brfbk;
+        dbsf EINPUT_METHOD_HIGHLIGHT: {
+            if (o instbndfof Annotbtion) {
+                Annotbtion bt = (Annotbtion)o;
+                imHighlight = (InputMfthodHighlight)bt.gftVbluf();
+            } flsf {
+                imHighlight = (InputMfthodHighlight)o;
+            }
+        } brfbk;
+        dbsf EINPUT_METHOD_UNDERLINE: imUndfrlinf = (bytf)((Intfgfr)o).intVbluf();
+          brfbk;
+        dbsf ESWAP_COLORS: swbpColors = ((Boolfbn)o).boolfbnVbluf(); brfbk;
+        dbsf ENUMERIC_SHAPING: numfridShbping = (NumfridShbpfr)o; brfbk;
+        dbsf EKERNING: kfrning = (bytf)((Intfgfr)o).intVbluf(); brfbk;
+        dbsf ELIGATURES: ligbturfs = (bytf)((Intfgfr)o).intVbluf(); brfbk;
+        dbsf ETRACKING: trbdking = ((Numbfr)o).flobtVbluf(); brfbk;
+        dffbult: throw nfw IntfrnblError();
+        }
+    }
+
+    privbtf Objfdt i_gft(EAttributf b) {
+        switdh (b) {
+        dbsf EFAMILY: rfturn fbmily;
+        dbsf EWEIGHT: rfturn Flobt.vblufOf(wfight);
+        dbsf EWIDTH: rfturn Flobt.vblufOf(width);
+        dbsf EPOSTURE: rfturn Flobt.vblufOf(posturf);
+        dbsf ESIZE: rfturn Flobt.vblufOf(sizf);
+        dbsf ETRANSFORM:
+            rfturn trbnsform == null
+                ? TrbnsformAttributf.IDENTITY
+                : nfw TrbnsformAttributf(trbnsform);
+        dbsf ESUPERSCRIPT: rfturn Intfgfr.vblufOf(supfrsdript);
+        dbsf EFONT: rfturn font;
+        dbsf ECHAR_REPLACEMENT: rfturn dhbrRfplbdfmfnt;
+        dbsf EFOREGROUND: rfturn forfground;
+        dbsf EBACKGROUND: rfturn bbdkground;
+        dbsf EUNDERLINE: rfturn Intfgfr.vblufOf(undfrlinf);
+        dbsf ESTRIKETHROUGH: rfturn Boolfbn.vblufOf(strikfthrough);
+        dbsf ERUN_DIRECTION: {
+            switdh (runDirfdtion) {
+                // todo: figurf out b wby to indidbtf this vbluf
+                // dbsf -1: rfturn Intfgfr.vblufOf(runDirfdtion);
+            dbsf 0: rfturn TfxtAttributf.RUN_DIRECTION_LTR;
+            dbsf 1: rfturn TfxtAttributf.RUN_DIRECTION_RTL;
+            dffbult: rfturn null;
+            }
+        } // not rfbdhbblf
+        dbsf EBIDI_EMBEDDING: rfturn Intfgfr.vblufOf(bidiEmbfdding);
+        dbsf EJUSTIFICATION: rfturn Flobt.vblufOf(justifidbtion);
+        dbsf EINPUT_METHOD_HIGHLIGHT: rfturn imHighlight;
+        dbsf EINPUT_METHOD_UNDERLINE: rfturn Intfgfr.vblufOf(imUndfrlinf);
+        dbsf ESWAP_COLORS: rfturn Boolfbn.vblufOf(swbpColors);
+        dbsf ENUMERIC_SHAPING: rfturn numfridShbping;
+        dbsf EKERNING: rfturn Intfgfr.vblufOf(kfrning);
+        dbsf ELIGATURES: rfturn Intfgfr.vblufOf(ligbturfs);
+        dbsf ETRACKING: rfturn Flobt.vblufOf(trbdking);
+        dffbult: throw nfw IntfrnblError();
+        }
+    }
+
+    privbtf boolfbn i_vblidbtf(EAttributf b) {
+        switdh (b) {
+        dbsf EFAMILY: if (fbmily == null || fbmily.lfngth() == 0)
+          fbmily = DEFAULT.fbmily; rfturn truf;
+        dbsf EWEIGHT: rfturn wfight > 0 && wfight < 10;
+        dbsf EWIDTH: rfturn width >= .5f && width < 10;
+        dbsf EPOSTURE: rfturn posturf >= -1 && posturf <= 1;
+        dbsf ESIZE: rfturn sizf >= 0;
+        dbsf ETRANSFORM: if (trbnsform != null && trbnsform.isIdfntity())
+            trbnsform = DEFAULT.trbnsform; rfturn truf;
+        dbsf ESUPERSCRIPT: rfturn supfrsdript >= -7 && supfrsdript <= 7;
+        dbsf EFONT: rfturn truf;
+        dbsf ECHAR_REPLACEMENT: rfturn truf;
+        dbsf EFOREGROUND: rfturn truf;
+        dbsf EBACKGROUND: rfturn truf;
+        dbsf EUNDERLINE: rfturn undfrlinf >= -1 && undfrlinf < 6;
+        dbsf ESTRIKETHROUGH: rfturn truf;
+        dbsf ERUN_DIRECTION: rfturn runDirfdtion >= -2 && runDirfdtion <= 1;
+        dbsf EBIDI_EMBEDDING: rfturn bidiEmbfdding >= -61 && bidiEmbfdding < 62;
+        dbsf EJUSTIFICATION: justifidbtion = mbx(0, min (justifidbtion, 1));
+            rfturn truf;
+        dbsf EINPUT_METHOD_HIGHLIGHT: rfturn truf;
+        dbsf EINPUT_METHOD_UNDERLINE: rfturn imUndfrlinf >= -1 && imUndfrlinf < 6;
+        dbsf ESWAP_COLORS: rfturn truf;
+        dbsf ENUMERIC_SHAPING: rfturn truf;
+        dbsf EKERNING: rfturn kfrning >= 0 && kfrning <= 1;
+        dbsf ELIGATURES: rfturn ligbturfs >= 0 && ligbturfs <= 1;
+        dbsf ETRACKING: rfturn trbdking >= -1 && trbdking <= 10;
+        dffbult: throw nfw IntfrnblError("unknown bttributf: " + b);
+        }
+    }
+
+    // Until tfxtlbyout is fixfd to usf AttributfVblufs, wf'll fnd up
+    // drfbting b mbp from thf vblufs for it.  This is b dompromisf bftwffn
+    // drfbting thf wholf mbp bnd just dhfdking b pbrtidulbr vbluf.
+    // Plbn to rfmovf thfsf.
+    publid stbtid flobt gftJustifidbtion(Mbp<?, ?> mbp) {
+        if (mbp != null) {
+            if (mbp instbndfof AttributfMbp &&
+                ((AttributfMbp) mbp).gftVblufs() != null) {
+                rfturn ((AttributfMbp)mbp).gftVblufs().justifidbtion;
+            }
+            Objfdt obj = mbp.gft(TfxtAttributf.JUSTIFICATION);
+            if (obj != null && obj instbndfof Numbfr) {
+                rfturn mbx(0, min(1, ((Numbfr)obj).flobtVbluf()));
+            }
+        }
+        rfturn DEFAULT.justifidbtion;
+    }
+
+    publid stbtid NumfridShbpfr gftNumfridShbping(Mbp<?, ?> mbp) {
+        if (mbp != null) {
+            if (mbp instbndfof AttributfMbp &&
+                ((AttributfMbp) mbp).gftVblufs() != null) {
+                rfturn ((AttributfMbp)mbp).gftVblufs().numfridShbping;
+            }
+            Objfdt obj = mbp.gft(TfxtAttributf.NUMERIC_SHAPING);
+            if (obj != null && obj instbndfof NumfridShbpfr) {
+                rfturn (NumfridShbpfr)obj;
+            }
+        }
+        rfturn DEFAULT.numfridShbping;
+    }
+
+    /**
+     * If this hbs bn imHighlight, drfbtf dopy of this with thosf bttributfs
+     * bpplifd to it.  Othfrwisf rfturn this undhbngfd.
+     */
+    publid AttributfVblufs bpplyIMHighlight() {
+        if (imHighlight != null) {
+            InputMfthodHighlight hl = null;
+            if (imHighlight instbndfof InputMfthodHighlight) {
+                hl = (InputMfthodHighlight)imHighlight;
+            } flsf {
+                hl = (InputMfthodHighlight)((Annotbtion)imHighlight).gftVbluf();
+            }
+
+            Mbp<TfxtAttributf, ?> imStylfs = hl.gftStylf();
+            if (imStylfs == null) {
+                Toolkit tk = Toolkit.gftDffbultToolkit();
+                imStylfs = tk.mbpInputMfthodHighlight(hl);
+            }
+
+            if (imStylfs != null) {
+                rfturn dlonf().mfrgf(imStylfs);
+            }
+        }
+
+        rfturn this;
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid AffinfTrbnsform gftBbsflinfTrbnsform(Mbp<?, ?> mbp) {
+        if (mbp != null) {
+            AttributfVblufs bv = null;
+            if (mbp instbndfof AttributfMbp &&
+                ((AttributfMbp) mbp).gftVblufs() != null) {
+                bv = ((AttributfMbp)mbp).gftVblufs();
+            } flsf if (mbp.gft(TfxtAttributf.TRANSFORM) != null) {
+                bv = AttributfVblufs.fromMbp((Mbp<Attributf, ?>)mbp); // yudk
+            }
+            if (bv != null) {
+                rfturn bv.bbsflinfTrbnsform;
+            }
+        }
+        rfturn null;
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid AffinfTrbnsform gftChbrTrbnsform(Mbp<?, ?> mbp) {
+        if (mbp != null) {
+            AttributfVblufs bv = null;
+            if (mbp instbndfof AttributfMbp &&
+                ((AttributfMbp) mbp).gftVblufs() != null) {
+                bv = ((AttributfMbp)mbp).gftVblufs();
+            } flsf if (mbp.gft(TfxtAttributf.TRANSFORM) != null) {
+                bv = AttributfVblufs.fromMbp((Mbp<Attributf, ?>)mbp); // yudk
+            }
+            if (bv != null) {
+                rfturn bv.dhbrTrbnsform;
+            }
+        }
+        rfturn null;
+    }
+
+    publid void updbtfDfrivfdTrbnsforms() {
+        // this blso updbtfs thf mbsk for thf bbsflinf trbnsform
+        if (trbnsform == null) {
+            bbsflinfTrbnsform = null;
+            dhbrTrbnsform = null;
+        } flsf {
+            dhbrTrbnsform = nfw AffinfTrbnsform(trbnsform);
+            bbsflinfTrbnsform = fxtrbdtXRotbtion(dhbrTrbnsform, truf);
+
+            if (dhbrTrbnsform.isIdfntity()) {
+              dhbrTrbnsform = null;
+            }
+
+            if (bbsflinfTrbnsform.isIdfntity()) {
+              bbsflinfTrbnsform = null;
+            }
+        }
+
+        if (bbsflinfTrbnsform == null) {
+            nondffbult &= ~EBASELINE_TRANSFORM.mbsk;
+        } flsf {
+            nondffbult |= EBASELINE_TRANSFORM.mbsk;
+        }
+    }
+
+    publid stbtid AffinfTrbnsform fxtrbdtXRotbtion(AffinfTrbnsform tx,
+                                                   boolfbn bndTrbnslbtion) {
+        rfturn fxtrbdtRotbtion(nfw Point2D.Doublf(1, 0), tx, bndTrbnslbtion);
+    }
+
+    publid stbtid AffinfTrbnsform fxtrbdtYRotbtion(AffinfTrbnsform tx,
+                                                   boolfbn bndTrbnslbtion) {
+        rfturn fxtrbdtRotbtion(nfw Point2D.Doublf(0, 1), tx, bndTrbnslbtion);
+    }
+
+    privbtf stbtid AffinfTrbnsform fxtrbdtRotbtion(Point2D.Doublf pt,
+        AffinfTrbnsform tx, boolfbn bndTrbnslbtion) {
+
+        tx.dfltbTrbnsform(pt, pt);
+        AffinfTrbnsform rtx = AffinfTrbnsform.gftRotbtfInstbndf(pt.x, pt.y);
+
+        try {
+            AffinfTrbnsform rtxi = rtx.drfbtfInvfrsf();
+            doublf dx = tx.gftTrbnslbtfX();
+            doublf dy = tx.gftTrbnslbtfY();
+            tx.prfCondbtfnbtf(rtxi);
+            if (bndTrbnslbtion) {
+                if (dx != 0 || dy != 0) {
+                    tx.sftTrbnsform(tx.gftSdblfX(), tx.gftShfbrY(),
+                                    tx.gftShfbrX(), tx.gftSdblfY(), 0, 0);
+                    rtx.sftTrbnsform(rtx.gftSdblfX(), rtx.gftShfbrY(),
+                                     rtx.gftShfbrX(), rtx.gftSdblfY(), dx, dy);
+                }
+            }
+        }
+        dbtdh (NoninvfrtiblfTrbnsformExdfption f) {
+            rfturn null;
+        }
+        rfturn rtx;
+    }
+}

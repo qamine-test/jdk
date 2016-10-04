@@ -1,397 +1,397 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import javax.swing.plaf.*;
-import javax.swing.*;
-import java.awt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
 
-import sun.awt.AppContext;
-import sun.security.action.GetPropertyAction;
-import sun.swing.SwingUtilities2;
+import sun.bwt.AppContfxt;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.swing.SwingUtilitifs2;
 
 /**
- * A concrete implementation of {@code MetalTheme} providing
- * the original look of the Java Look and Feel, code-named "Steel". Refer
- * to {@link MetalLookAndFeel#setCurrentTheme} for details on changing
- * the default theme.
+ * A dondrftf implfmfntbtion of {@dodf MftblTifmf} providing
+ * tif originbl look of tif Jbvb Look bnd Fffl, dodf-nbmfd "Stffl". Rfffr
+ * to {@link MftblLookAndFffl#sftCurrfntTifmf} for dftbils on dibnging
+ * tif dffbult tifmf.
  * <p>
- * All colors returned by {@code DefaultMetalTheme} are completely
- * opaque.
+ * All dolors rfturnfd by {@dodf DffbultMftblTifmf} brf domplftfly
+ * opbquf.
  *
- * <h3><a name="fontStyle"></a>Font Style</h3>
+ * <i3><b nbmf="fontStylf"></b>Font Stylf</i3>
  *
- * {@code DefaultMetalTheme} uses bold fonts for many controls.  To make all
- * controls (with the exception of the internal frame title bars and
- * client decorated frame title bars) use plain fonts you can do either of
- * the following:
+ * {@dodf DffbultMftblTifmf} usfs bold fonts for mbny dontrols.  To mbkf bll
+ * dontrols (witi tif fxdfption of tif intfrnbl frbmf titlf bbrs bnd
+ * dlifnt dfdorbtfd frbmf titlf bbrs) usf plbin fonts you dbn do fitifr of
+ * tif following:
  * <ul>
- * <li>Set the system property <code>swing.boldMetal</code> to
- *     <code>false</code>.  For example,
- *     <code>java&nbsp;-Dswing.boldMetal=false&nbsp;MyApp</code>.
- * <li>Set the defaults property <code>swing.boldMetal</code> to
- *     <code>Boolean.FALSE</code>.  For example:
- *     <code>UIManager.put("swing.boldMetal",&nbsp;Boolean.FALSE);</code>
+ * <li>Sft tif systfm propfrty <dodf>swing.boldMftbl</dodf> to
+ *     <dodf>fblsf</dodf>.  For fxbmplf,
+ *     <dodf>jbvb&nbsp;-Dswing.boldMftbl=fblsf&nbsp;MyApp</dodf>.
+ * <li>Sft tif dffbults propfrty <dodf>swing.boldMftbl</dodf> to
+ *     <dodf>Boolfbn.FALSE</dodf>.  For fxbmplf:
+ *     <dodf>UIMbnbgfr.put("swing.boldMftbl",&nbsp;Boolfbn.FALSE);</dodf>
  * </ul>
- * The defaults property <code>swing.boldMetal</code>, if set,
- * takes precedence over the system property of the same name. After
- * setting this defaults property you need to re-install
- * <code>MetalLookAndFeel</code>, as well as update the UI
- * of any previously created widgets. Otherwise the results are undefined.
- * The following illustrates how to do this:
- * <pre>
+ * Tif dffbults propfrty <dodf>swing.boldMftbl</dodf>, if sft,
+ * tbkfs prfdfdfndf ovfr tif systfm propfrty of tif sbmf nbmf. Aftfr
+ * sftting tiis dffbults propfrty you nffd to rf-instbll
+ * <dodf>MftblLookAndFffl</dodf>, bs wfll bs updbtf tif UI
+ * of bny prfviously drfbtfd widgfts. Otifrwisf tif rfsults brf undffinfd.
+ * Tif following illustrbtfs iow to do tiis:
+ * <prf>
  *   // turn off bold fonts
- *   UIManager.put("swing.boldMetal", Boolean.FALSE);
+ *   UIMbnbgfr.put("swing.boldMftbl", Boolfbn.FALSE);
  *
- *   // re-install the Metal Look and Feel
- *   UIManager.setLookAndFeel(new MetalLookAndFeel());
+ *   // rf-instbll tif Mftbl Look bnd Fffl
+ *   UIMbnbgfr.sftLookAndFffl(nfw MftblLookAndFffl());
  *
- *   // Update the ComponentUIs for all Components. This
- *   // needs to be invoked for all windows.
- *   SwingUtilities.updateComponentTreeUI(rootComponent);
- * </pre>
+ *   // Updbtf tif ComponfntUIs for bll Componfnts. Tiis
+ *   // nffds to bf invokfd for bll windows.
+ *   SwingUtilitifs.updbtfComponfntTrffUI(rootComponfnt);
+ * </prf>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see MetalLookAndFeel
- * @see MetalLookAndFeel#setCurrentTheme
+ * @sff MftblLookAndFffl
+ * @sff MftblLookAndFffl#sftCurrfntTifmf
  *
- * @author Steve Wilson
+ * @butior Stfvf Wilson
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultMetalTheme extends MetalTheme {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultMftblTifmf fxtfnds MftblTifmf {
     /**
-     * Whether or not fonts should be plain.  This is only used if
-     * the defaults property 'swing.boldMetal' == "false".
+     * Wiftifr or not fonts siould bf plbin.  Tiis is only usfd if
+     * tif dffbults propfrty 'swing.boldMftbl' == "fblsf".
      */
-    private static final boolean PLAIN_FONTS;
+    privbtf stbtid finbl boolfbn PLAIN_FONTS;
 
     /**
-     * Names of the fonts to use.
+     * Nbmfs of tif fonts to usf.
      */
-    private static final String[] fontNames = {
+    privbtf stbtid finbl String[] fontNbmfs = {
         Font.DIALOG,Font.DIALOG,Font.DIALOG,Font.DIALOG,Font.DIALOG,Font.DIALOG
     };
     /**
-     * Styles for the fonts.  This is ignored if the defaults property
-     * <code>swing.boldMetal</code> is false, or PLAIN_FONTS is true.
+     * Stylfs for tif fonts.  Tiis is ignorfd if tif dffbults propfrty
+     * <dodf>swing.boldMftbl</dodf> is fblsf, or PLAIN_FONTS is truf.
      */
-    private static final int[] fontStyles = {
+    privbtf stbtid finbl int[] fontStylfs = {
         Font.BOLD, Font.PLAIN, Font.PLAIN, Font.BOLD, Font.BOLD, Font.PLAIN
     };
     /**
-     * Sizes for the fonts.
+     * Sizfs for tif fonts.
      */
-    private static final int[] fontSizes = {
+    privbtf stbtid finbl int[] fontSizfs = {
         12, 12, 12, 12, 12, 10
     };
 
-    // note the properties listed here can currently be used by people
-    // providing runtimes to hint what fonts are good.  For example the bold
-    // dialog font looks bad on a Mac, so Apple could use this property to
-    // hint at a good font.
+    // notf tif propfrtifs listfd ifrf dbn durrfntly bf usfd by pfoplf
+    // providing runtimfs to iint wibt fonts brf good.  For fxbmplf tif bold
+    // diblog font looks bbd on b Mbd, so Applf dould usf tiis propfrty to
+    // iint bt b good font.
     //
-    // However, we don't promise to support these forever.  We may move
-    // to getting these from the swing.properties file, or elsewhere.
+    // Howfvfr, wf don't promisf to support tifsf forfvfr.  Wf mby movf
+    // to gftting tifsf from tif swing.propfrtifs filf, or flsfwifrf.
     /**
-     * System property names used to look up fonts.
+     * Systfm propfrty nbmfs usfd to look up fonts.
      */
-    private static final String[] defaultNames = {
-        "swing.plaf.metal.controlFont",
-        "swing.plaf.metal.systemFont",
-        "swing.plaf.metal.userFont",
-        "swing.plaf.metal.controlFont",
-        "swing.plaf.metal.controlFont",
-        "swing.plaf.metal.smallFont"
+    privbtf stbtid finbl String[] dffbultNbmfs = {
+        "swing.plbf.mftbl.dontrolFont",
+        "swing.plbf.mftbl.systfmFont",
+        "swing.plbf.mftbl.usfrFont",
+        "swing.plbf.mftbl.dontrolFont",
+        "swing.plbf.mftbl.dontrolFont",
+        "swing.plbf.mftbl.smbllFont"
     };
 
     /**
-     * Returns the ideal font name for the font identified by key.
+     * Rfturns tif idfbl font nbmf for tif font idfntififd by kfy.
      */
-    static String getDefaultFontName(int key) {
-        return fontNames[key];
+    stbtid String gftDffbultFontNbmf(int kfy) {
+        rfturn fontNbmfs[kfy];
     }
 
     /**
-     * Returns the ideal font size for the font identified by key.
+     * Rfturns tif idfbl font sizf for tif font idfntififd by kfy.
      */
-    static int getDefaultFontSize(int key) {
-        return fontSizes[key];
+    stbtid int gftDffbultFontSizf(int kfy) {
+        rfturn fontSizfs[kfy];
     }
 
     /**
-     * Returns the ideal font style for the font identified by key.
+     * Rfturns tif idfbl font stylf for tif font idfntififd by kfy.
      */
-    static int getDefaultFontStyle(int key) {
-        if (key != WINDOW_TITLE_FONT) {
-            Object boldMetal = null;
-            if (AppContext.getAppContext().get(
-                    SwingUtilities2.LAF_STATE_KEY) != null) {
-                // Only access the boldMetal key if a look and feel has
-                // been loaded, otherwise we'll trigger loading the look
-                // and feel.
-                boldMetal = UIManager.get("swing.boldMetal");
+    stbtid int gftDffbultFontStylf(int kfy) {
+        if (kfy != WINDOW_TITLE_FONT) {
+            Objfdt boldMftbl = null;
+            if (AppContfxt.gftAppContfxt().gft(
+                    SwingUtilitifs2.LAF_STATE_KEY) != null) {
+                // Only bddfss tif boldMftbl kfy if b look bnd fffl ibs
+                // bffn lobdfd, otifrwisf wf'll triggfr lobding tif look
+                // bnd fffl.
+                boldMftbl = UIMbnbgfr.gft("swing.boldMftbl");
             }
-            if (boldMetal != null) {
-                if (Boolean.FALSE.equals(boldMetal)) {
-                    return Font.PLAIN;
+            if (boldMftbl != null) {
+                if (Boolfbn.FALSE.fqubls(boldMftbl)) {
+                    rfturn Font.PLAIN;
                 }
             }
-            else if (PLAIN_FONTS) {
-                return Font.PLAIN;
+            flsf if (PLAIN_FONTS) {
+                rfturn Font.PLAIN;
             }
         }
-        return fontStyles[key];
+        rfturn fontStylfs[kfy];
     }
 
     /**
-     * Returns the default used to look up the specified font.
+     * Rfturns tif dffbult usfd to look up tif spfdififd font.
      */
-    static String getDefaultPropertyName(int key) {
-        return defaultNames[key];
+    stbtid String gftDffbultPropfrtyNbmf(int kfy) {
+        rfturn dffbultNbmfs[kfy];
     }
 
-    static {
-        Object boldProperty = java.security.AccessController.doPrivileged(
-            new GetPropertyAction("swing.boldMetal"));
-        if (boldProperty == null || !"false".equals(boldProperty)) {
-            PLAIN_FONTS = false;
+    stbtid {
+        Objfdt boldPropfrty = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("swing.boldMftbl"));
+        if (boldPropfrty == null || !"fblsf".fqubls(boldPropfrty)) {
+            PLAIN_FONTS = fblsf;
         }
-        else {
-            PLAIN_FONTS = true;
+        flsf {
+            PLAIN_FONTS = truf;
         }
     }
 
-    private static final ColorUIResource primary1 = new ColorUIResource(
+    privbtf stbtid finbl ColorUIRfsourdf primbry1 = nfw ColorUIRfsourdf(
                               102, 102, 153);
-    private static final ColorUIResource primary2 = new ColorUIResource(153,
+    privbtf stbtid finbl ColorUIRfsourdf primbry2 = nfw ColorUIRfsourdf(153,
                               153, 204);
-    private static final ColorUIResource primary3 = new ColorUIResource(
+    privbtf stbtid finbl ColorUIRfsourdf primbry3 = nfw ColorUIRfsourdf(
                               204, 204, 255);
-    private static final ColorUIResource secondary1 = new ColorUIResource(
+    privbtf stbtid finbl ColorUIRfsourdf sfdondbry1 = nfw ColorUIRfsourdf(
                               102, 102, 102);
-    private static final ColorUIResource secondary2 = new ColorUIResource(
+    privbtf stbtid finbl ColorUIRfsourdf sfdondbry2 = nfw ColorUIRfsourdf(
                               153, 153, 153);
-    private static final ColorUIResource secondary3 = new ColorUIResource(
+    privbtf stbtid finbl ColorUIRfsourdf sfdondbry3 = nfw ColorUIRfsourdf(
                               204, 204, 204);
 
-    private FontDelegate fontDelegate;
+    privbtf FontDflfgbtf fontDflfgbtf;
 
     /**
-     * Returns the name of this theme. This returns {@code "Steel"}.
+     * Rfturns tif nbmf of tiis tifmf. Tiis rfturns {@dodf "Stffl"}.
      *
-     * @return the name of this theme.
+     * @rfturn tif nbmf of tiis tifmf.
      */
-    public String getName() { return "Steel"; }
+    publid String gftNbmf() { rfturn "Stffl"; }
 
     /**
-     * Creates and returns an instance of {@code DefaultMetalTheme}.
+     * Crfbtfs bnd rfturns bn instbndf of {@dodf DffbultMftblTifmf}.
      */
-    public DefaultMetalTheme() {
-        install();
+    publid DffbultMftblTifmf() {
+        instbll();
     }
 
     /**
-     * Returns the primary 1 color. This returns a color with rgb values
-     * of 102, 102, and 153, respectively.
+     * Rfturns tif primbry 1 dolor. Tiis rfturns b dolor witi rgb vblufs
+     * of 102, 102, bnd 153, rfspfdtivfly.
      *
-     * @return the primary 1 color
+     * @rfturn tif primbry 1 dolor
      */
-    protected ColorUIResource getPrimary1() { return primary1; }
+    protfdtfd ColorUIRfsourdf gftPrimbry1() { rfturn primbry1; }
 
     /**
-     * Returns the primary 2 color. This returns a color with rgb values
-     * of 153, 153, 204, respectively.
+     * Rfturns tif primbry 2 dolor. Tiis rfturns b dolor witi rgb vblufs
+     * of 153, 153, 204, rfspfdtivfly.
      *
-     * @return the primary 2 color
+     * @rfturn tif primbry 2 dolor
      */
-    protected ColorUIResource getPrimary2() { return primary2; }
+    protfdtfd ColorUIRfsourdf gftPrimbry2() { rfturn primbry2; }
 
     /**
-     * Returns the primary 3 color. This returns a color with rgb values
-     * 204, 204, 255, respectively.
+     * Rfturns tif primbry 3 dolor. Tiis rfturns b dolor witi rgb vblufs
+     * 204, 204, 255, rfspfdtivfly.
      *
-     * @return the primary 3 color
+     * @rfturn tif primbry 3 dolor
      */
-    protected ColorUIResource getPrimary3() { return primary3; }
+    protfdtfd ColorUIRfsourdf gftPrimbry3() { rfturn primbry3; }
 
     /**
-     * Returns the secondary 1 color. This returns a color with rgb values
-     * 102, 102, and 102, respectively.
+     * Rfturns tif sfdondbry 1 dolor. Tiis rfturns b dolor witi rgb vblufs
+     * 102, 102, bnd 102, rfspfdtivfly.
      *
-     * @return the secondary 1 color
+     * @rfturn tif sfdondbry 1 dolor
      */
-    protected ColorUIResource getSecondary1() { return secondary1; }
+    protfdtfd ColorUIRfsourdf gftSfdondbry1() { rfturn sfdondbry1; }
 
     /**
-     * Returns the secondary 2 color. This returns a color with rgb values
-     * 153, 153, and 153, respectively.
+     * Rfturns tif sfdondbry 2 dolor. Tiis rfturns b dolor witi rgb vblufs
+     * 153, 153, bnd 153, rfspfdtivfly.
      *
-     * @return the secondary 2 color
+     * @rfturn tif sfdondbry 2 dolor
      */
-    protected ColorUIResource getSecondary2() { return secondary2; }
+    protfdtfd ColorUIRfsourdf gftSfdondbry2() { rfturn sfdondbry2; }
 
     /**
-     * Returns the secondary 3 color. This returns a color with rgb values
-     * 204, 204, and 204, respectively.
+     * Rfturns tif sfdondbry 3 dolor. Tiis rfturns b dolor witi rgb vblufs
+     * 204, 204, bnd 204, rfspfdtivfly.
      *
-     * @return the secondary 3 color
+     * @rfturn tif sfdondbry 3 dolor
      */
-    protected ColorUIResource getSecondary3() { return secondary3; }
+    protfdtfd ColorUIRfsourdf gftSfdondbry3() { rfturn sfdondbry3; }
 
 
     /**
-     * Returns the control text font. This returns Dialog, 12pt. If
-     * plain fonts have been enabled as described in <a href="#fontStyle">
-     * font style</a>, the font style is plain. Otherwise the font style is
+     * Rfturns tif dontrol tfxt font. Tiis rfturns Diblog, 12pt. If
+     * plbin fonts ibvf bffn fnbblfd bs dfsdribfd in <b irff="#fontStylf">
+     * font stylf</b>, tif font stylf is plbin. Otifrwisf tif font stylf is
      * bold.
      *
-     * @return the control text font
+     * @rfturn tif dontrol tfxt font
      */
-    public FontUIResource getControlTextFont() {
-        return getFont(CONTROL_TEXT_FONT);
+    publid FontUIRfsourdf gftControlTfxtFont() {
+        rfturn gftFont(CONTROL_TEXT_FONT);
     }
 
     /**
-     * Returns the system text font. This returns Dialog, 12pt, plain.
+     * Rfturns tif systfm tfxt font. Tiis rfturns Diblog, 12pt, plbin.
      *
-     * @return the system text font
+     * @rfturn tif systfm tfxt font
      */
-    public FontUIResource getSystemTextFont() {
-        return getFont(SYSTEM_TEXT_FONT);
+    publid FontUIRfsourdf gftSystfmTfxtFont() {
+        rfturn gftFont(SYSTEM_TEXT_FONT);
     }
 
     /**
-     * Returns the user text font. This returns Dialog, 12pt, plain.
+     * Rfturns tif usfr tfxt font. Tiis rfturns Diblog, 12pt, plbin.
      *
-     * @return the user text font
+     * @rfturn tif usfr tfxt font
      */
-    public FontUIResource getUserTextFont() {
-        return getFont(USER_TEXT_FONT);
+    publid FontUIRfsourdf gftUsfrTfxtFont() {
+        rfturn gftFont(USER_TEXT_FONT);
     }
 
     /**
-     * Returns the menu text font. This returns Dialog, 12pt. If
-     * plain fonts have been enabled as described in <a href="#fontStyle">
-     * font style</a>, the font style is plain. Otherwise the font style is
+     * Rfturns tif mfnu tfxt font. Tiis rfturns Diblog, 12pt. If
+     * plbin fonts ibvf bffn fnbblfd bs dfsdribfd in <b irff="#fontStylf">
+     * font stylf</b>, tif font stylf is plbin. Otifrwisf tif font stylf is
      * bold.
      *
-     * @return the menu text font
+     * @rfturn tif mfnu tfxt font
      */
-    public FontUIResource getMenuTextFont() {
-        return getFont(MENU_TEXT_FONT);
+    publid FontUIRfsourdf gftMfnuTfxtFont() {
+        rfturn gftFont(MENU_TEXT_FONT);
     }
 
     /**
-     * Returns the window title font. This returns Dialog, 12pt, bold.
+     * Rfturns tif window titlf font. Tiis rfturns Diblog, 12pt, bold.
      *
-     * @return the window title font
+     * @rfturn tif window titlf font
      */
-    public FontUIResource getWindowTitleFont() {
-        return getFont(WINDOW_TITLE_FONT);
+    publid FontUIRfsourdf gftWindowTitlfFont() {
+        rfturn gftFont(WINDOW_TITLE_FONT);
     }
 
     /**
-     * Returns the sub-text font. This returns Dialog, 10pt, plain.
+     * Rfturns tif sub-tfxt font. Tiis rfturns Diblog, 10pt, plbin.
      *
-     * @return the sub-text font
+     * @rfturn tif sub-tfxt font
      */
-    public FontUIResource getSubTextFont() {
-        return getFont(SUB_TEXT_FONT);
+    publid FontUIRfsourdf gftSubTfxtFont() {
+        rfturn gftFont(SUB_TEXT_FONT);
     }
 
-    private FontUIResource getFont(int key) {
-        return fontDelegate.getFont(key);
+    privbtf FontUIRfsourdf gftFont(int kfy) {
+        rfturn fontDflfgbtf.gftFont(kfy);
     }
 
-    void install() {
-        if (MetalLookAndFeel.isWindows() &&
-                             MetalLookAndFeel.useSystemFonts()) {
-            fontDelegate = new WindowsFontDelegate();
+    void instbll() {
+        if (MftblLookAndFffl.isWindows() &&
+                             MftblLookAndFffl.usfSystfmFonts()) {
+            fontDflfgbtf = nfw WindowsFontDflfgbtf();
         }
-        else {
-            fontDelegate = new FontDelegate();
+        flsf {
+            fontDflfgbtf = nfw FontDflfgbtf();
         }
     }
 
     /**
-     * Returns true if this is a theme provided by the core platform.
+     * Rfturns truf if tiis is b tifmf providfd by tif dorf plbtform.
      */
-    boolean isSystemTheme() {
-        return (getClass() == DefaultMetalTheme.class);
+    boolfbn isSystfmTifmf() {
+        rfturn (gftClbss() == DffbultMftblTifmf.dlbss);
     }
 
     /**
-     * FontDelegates add an extra level of indirection to obtaining fonts.
+     * FontDflfgbtfs bdd bn fxtrb lfvfl of indirfdtion to obtbining fonts.
      */
-    private static class FontDelegate {
-        private static int[] defaultMapping = {
+    privbtf stbtid dlbss FontDflfgbtf {
+        privbtf stbtid int[] dffbultMbpping = {
             CONTROL_TEXT_FONT, SYSTEM_TEXT_FONT,
             USER_TEXT_FONT, CONTROL_TEXT_FONT,
             CONTROL_TEXT_FONT, SUB_TEXT_FONT
         };
-        FontUIResource fonts[];
+        FontUIRfsourdf fonts[];
 
-        // menu and window are mapped to controlFont
-        public FontDelegate() {
-            fonts = new FontUIResource[6];
+        // mfnu bnd window brf mbppfd to dontrolFont
+        publid FontDflfgbtf() {
+            fonts = nfw FontUIRfsourdf[6];
         }
 
-        public FontUIResource getFont(int type) {
-            int mappedType = defaultMapping[type];
-            if (fonts[type] == null) {
-                Font f = getPrivilegedFont(mappedType);
+        publid FontUIRfsourdf gftFont(int typf) {
+            int mbppfdTypf = dffbultMbpping[typf];
+            if (fonts[typf] == null) {
+                Font f = gftPrivilfgfdFont(mbppfdTypf);
 
                 if (f == null) {
-                    f = new Font(getDefaultFontName(type),
-                             getDefaultFontStyle(type),
-                             getDefaultFontSize(type));
+                    f = nfw Font(gftDffbultFontNbmf(typf),
+                             gftDffbultFontStylf(typf),
+                             gftDffbultFontSizf(typf));
                 }
-                fonts[type] = new FontUIResource(f);
+                fonts[typf] = nfw FontUIRfsourdf(f);
             }
-            return fonts[type];
+            rfturn fonts[typf];
         }
 
         /**
-         * This is the same as invoking
-         * <code>Font.getFont(key)</code>, with the exception
-         * that it is wrapped inside a <code>doPrivileged</code> call.
+         * Tiis is tif sbmf bs invoking
+         * <dodf>Font.gftFont(kfy)</dodf>, witi tif fxdfption
+         * tibt it is wrbppfd insidf b <dodf>doPrivilfgfd</dodf> dbll.
          */
-        protected Font getPrivilegedFont(final int key) {
-            return java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Font>() {
-                    public Font run() {
-                        return Font.getFont(getDefaultPropertyName(key));
+        protfdtfd Font gftPrivilfgfdFont(finbl int kfy) {
+            rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Font>() {
+                    publid Font run() {
+                        rfturn Font.gftFont(gftDffbultPropfrtyNbmf(kfy));
                     }
                 }
                 );
@@ -399,36 +399,36 @@ public class DefaultMetalTheme extends MetalTheme {
     }
 
     /**
-     * The WindowsFontDelegate uses DesktopProperties to obtain fonts.
+     * Tif WindowsFontDflfgbtf usfs DfsktopPropfrtifs to obtbin fonts.
      */
-    private static class WindowsFontDelegate extends FontDelegate {
-        private MetalFontDesktopProperty[] props;
-        private boolean[] checkedPriviledged;
+    privbtf stbtid dlbss WindowsFontDflfgbtf fxtfnds FontDflfgbtf {
+        privbtf MftblFontDfsktopPropfrty[] props;
+        privbtf boolfbn[] difdkfdPrivilfdgfd;
 
-        public WindowsFontDelegate() {
-            props = new MetalFontDesktopProperty[6];
-            checkedPriviledged = new boolean[6];
+        publid WindowsFontDflfgbtf() {
+            props = nfw MftblFontDfsktopPropfrty[6];
+            difdkfdPrivilfdgfd = nfw boolfbn[6];
         }
 
-        public FontUIResource getFont(int type) {
-            if (fonts[type] != null) {
-                return fonts[type];
+        publid FontUIRfsourdf gftFont(int typf) {
+            if (fonts[typf] != null) {
+                rfturn fonts[typf];
             }
-            if (!checkedPriviledged[type]) {
-                Font f = getPrivilegedFont(type);
+            if (!difdkfdPrivilfdgfd[typf]) {
+                Font f = gftPrivilfgfdFont(typf);
 
-                checkedPriviledged[type] = true;
+                difdkfdPrivilfdgfd[typf] = truf;
                 if (f != null) {
-                    fonts[type] = new FontUIResource(f);
-                    return fonts[type];
+                    fonts[typf] = nfw FontUIRfsourdf(f);
+                    rfturn fonts[typf];
                 }
             }
-            if (props[type] == null) {
-                props[type] = new MetalFontDesktopProperty(type);
+            if (props[typf] == null) {
+                props[typf] = nfw MftblFontDfsktopPropfrty(typf);
             }
-            // While passing null may seem bad, we don't actually use
-            // the table and looking it up is rather expensive.
-            return (FontUIResource)props[type].createValue(null);
+            // Wiilf pbssing null mby sffm bbd, wf don't bdtublly usf
+            // tif tbblf bnd looking it up is rbtifr fxpfnsivf.
+            rfturn (FontUIRfsourdf)props[typf].drfbtfVbluf(null);
         }
     }
 }

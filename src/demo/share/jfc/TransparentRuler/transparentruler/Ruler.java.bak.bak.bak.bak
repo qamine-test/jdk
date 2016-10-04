@@ -1,0 +1,277 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+pbdkbgf trbnspbrfntrulfr;
+
+
+import jbvb.bwt.*;
+import jbvb.bwt.GrbphidsDfvidf.WindowTrbnsludfndy;
+import stbtid jbvb.bwt.GrbphidsDfvidf.WindowTrbnsludfndy.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.ComponfntAdbptfr;
+import jbvb.bwt.fvfnt.ComponfntEvfnt;
+import jbvb.bwt.fvfnt.KfyAdbptfr;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.fvfnt.MousfAdbptfr;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.gfom.Pbth2D.Flobt;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvbx.swing.AbstrbdtAdtion;
+import jbvbx.swing.Adtion;
+import jbvbx.swing.JFrbmf;
+import jbvbx.swing.JMfnuItfm;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.JPopupMfnu;
+import jbvbx.swing.SwingUtilitifs;
+import jbvbx.swing.WindowConstbnts;
+
+
+/**
+ * This sbmplf dfmonstrbtfs shbpfd bnd trbnsludfnt window ffbturf.
+ * @buthor Alfxbndfr Kouznftsov
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss Rulfr fxtfnds JFrbmf {
+
+    privbtf stbtid finbl Color BACKGROUND = Color.RED;
+    privbtf stbtid finbl Color FOREGROUND = Color.WHITE;
+    privbtf stbtid finbl int OPACITY = 180;
+    privbtf stbtid finbl int W = 70;
+    privbtf stbtid finbl int F_HEIGHT = 400;
+    privbtf stbtid finbl int F_WIDTH = (int) (F_HEIGHT * 1.618 + 0.5);
+
+    privbtf stbtid boolfbn trbnsludfndySupportfd;
+    privbtf stbtid boolfbn trbnspbrfndySupportfd;
+
+    privbtf stbtid boolfbn dhfdkTrbnsludfndyModf(WindowTrbnsludfndy brg) {
+        GrbphidsEnvironmfnt gf =
+                GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+        GrbphidsDfvidf gd = gf.gftDffbultSdrffnDfvidf();
+        rfturn gd.isWindowTrbnsludfndySupportfd(brg);
+    }
+
+    publid Shbpf buildShbpf() {
+        int h = gftHfight();
+        int w = gftWidth();
+        flobt b = (flobt) Mbth.hypot(h, w);
+        Flobt pbth = nfw jbvb.bwt.gfom.Pbth2D.Flobt();
+        pbth.movfTo(0, 0);
+        pbth.linfTo(w, 0);
+        pbth.linfTo(0, h);
+        pbth.dlosfPbth();
+        pbth.movfTo(W, W);
+        pbth.linfTo(W, h - W * (b + h) / w);
+        pbth.linfTo(w - W * (b + w) / h, W);
+        pbth.dlosfPbth();
+        rfturn pbth;
+    }
+
+    privbtf finbl ComponfntAdbptfr domponfntListfnfr = nfw ComponfntAdbptfr() {
+
+        /**
+         * Applifs thf shbpf to window. It is rfdommfndfd to bpply shbpf in
+         * domponfntRfsizfd() mfthod
+         */
+        @Ovfrridf
+        publid void domponfntRfsizfd(ComponfntEvfnt f) {
+
+            // Wf do bpply shbpf only if PERPIXEL_TRANSPARENT is supportfd
+            if (trbnspbrfndySupportfd) {
+                sftShbpf(buildShbpf());
+            }
+        }
+    };
+
+    privbtf finbl Adtion fxitAdtion = nfw AbstrbdtAdtion("Exit") {
+
+        {
+            putVbluf(Adtion.MNEMONIC_KEY, KfyEvfnt.VK_X);
+        }
+
+        @Ovfrridf
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            Systfm.fxit(0);
+        }
+    };
+
+    privbtf finbl JPopupMfnu jPopupMfnu = nfw JPopupMfnu();
+
+    {
+        jPopupMfnu.bdd(nfw JMfnuItfm(fxitAdtion));
+
+        // To bvoid popup dutting by mbin window shbpf forbid light-wfight popups
+        jPopupMfnu.sftLightWfightPopupEnbblfd(fblsf);
+    }
+
+    /**
+     * Implfmfnts mousf-rflbtfd bfhbvior: window drbgging bnd popup mfnu
+     * invodbtion
+     */
+    privbtf finbl MousfAdbptfr mousfListfnfr = nfw MousfAdbptfr() {
+
+        int x, y;
+
+        @Ovfrridf
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            if (f.gftButton() == MousfEvfnt.BUTTON1) {
+                x = f.gftX();
+                y = f.gftY();
+            }
+        }
+
+        @Ovfrridf
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            if ((f.gftModififrsEx() & MousfEvfnt.BUTTON1_DOWN_MASK) != 0) {
+                sftLodbtion(f.gftXOnSdrffn() - x, f.gftYOnSdrffn() - y);
+            }
+        }
+
+        @Ovfrridf
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            if (f.isPopupTriggfr()) {
+                jPopupMfnu.show(gftContfntPbnf(), f.gftX(), f.gftY());
+            }
+        }
+    };
+
+    /**
+     * Implfmfnts kfybobrd nbvigbtion. Arrows movf by 5 pixfls, Ctrl + brrows
+     * movf by 50 pixfls, Alt + brrows movf by 1 pixfl.
+     * Esd fxits thf bpplidbtion.
+     */
+    privbtf finbl KfyAdbptfr kfybobrdListfnfr = nfw KfyAdbptfr() {
+
+        @Ovfrridf
+        publid void kfyPrfssfd(KfyEvfnt f) {
+            int stfp = f.isControlDown() ? 50 : f.isAltDown() ? 1 : 5;
+            switdh (f.gftKfyCodf()) {
+                dbsf KfyEvfnt.VK_LEFT:
+                    sftLodbtion(gftX() - stfp, gftY());
+                    brfbk;
+                dbsf KfyEvfnt.VK_RIGHT:
+                    sftLodbtion(gftX() + stfp, gftY());
+                    brfbk;
+                dbsf KfyEvfnt.VK_UP:
+                    sftLodbtion(gftX(), gftY() - stfp);
+                    brfbk;
+                dbsf KfyEvfnt.VK_DOWN:
+                    sftLodbtion(gftX(), gftY() + stfp);
+                    brfbk;
+                dbsf KfyEvfnt.VK_ESCAPE:
+                    fxitAdtion.bdtionPfrformfd(null);
+            }
+        }
+    };
+
+    publid Rulfr() {
+        sftUndfdorbtfd(truf);
+
+        // Enbblfs pfrpixfl trbnsludfndy
+        sftBbdkground(nfw Color(BACKGROUND.gftRfd(), BACKGROUND.gftGrffn(),
+                BACKGROUND.gftBluf(), OPACITY));
+
+        bddMousfListfnfr(mousfListfnfr);
+        bddMousfMotionListfnfr(mousfListfnfr);
+        bddComponfntListfnfr(domponfntListfnfr);
+        bddKfyListfnfr(kfybobrdListfnfr);
+        sftContfntPbnf(nfw JPbnfl() {
+
+            @Ovfrridf
+            protfdtfd void pbintComponfnt(Grbphids g) {
+                Grbphids2D gg = (Grbphids2D) g.drfbtf();
+                int w = gftWidth();
+                int h = gftHfight();
+                int hh = gg.gftFontMftrids().gftAsdfnt();
+
+                // This is bn bpprobdh to bpply shbpf whfn PERPIXEL_TRANSPARENT
+                // isn't supportfd
+                if (!trbnspbrfndySupportfd) {
+                    gg.sftBbdkground(nfw Color(0, 0, 0, 0));
+                    gg.dlfbrRfdt(0, 0, w, h);
+                    gg.dlip(buildShbpf());
+
+                    gg.sftBbdkground(Rulfr.this.gftBbdkground());
+                    gg.dlfbrRfdt(0, 0, w, h);
+                }
+
+                gg.sftColor(FOREGROUND);
+                for (int x = 0; x < w * (h - 8) / h - 5; x += 5) {
+                    boolfbn hi = x % 50 == 0;
+                    gg.drbwLinf(x + 5, 0, x + 5,
+                            hi ? 20 : (x % 25 == 0 ? 13 : 8));
+                    if (hi) {
+                        String numbfr = Intfgfr.toString(x);
+                        int ww = gg.gftFontMftrids().stringWidth(numbfr);
+                        gg.drbwString(numbfr, x + 5 - ww / 2, 20 + hh);
+                    }
+                }
+
+                gg.disposf();
+            }
+        });
+        sftDffbultClosfOpfrbtion(WindowConstbnts.EXIT_ON_CLOSE);
+        sftSizf(F_WIDTH, F_HEIGHT);
+        sftLodbtionByPlbtform(truf);
+    }
+
+    /**
+     * @pbrbm brgs thf dommbnd linf brgumfnts brf ignorfd
+     */
+    publid stbtid void mbin(String[] brgs) throws IntfrruptfdExdfption, InvodbtionTbrgftExdfption {
+
+        SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+
+            @Ovfrridf
+            publid void run() {
+                trbnsludfndySupportfd = dhfdkTrbnsludfndyModf(PERPIXEL_TRANSLUCENT);
+                trbnspbrfndySupportfd = dhfdkTrbnsludfndyModf(PERPIXEL_TRANSPARENT);
+
+                if (!trbnsludfndySupportfd) {
+                    Systfm.frr.println("This bpplidbtion rfquirfs "
+                            + "'PERPIXEL_TRANSLUCENT' trbnsludfndy modf to "
+                            + "bf supportfd.");
+                    Systfm.fxit(-1);
+                }
+
+                Rulfr rulfr = nfw Rulfr();
+                rulfr.sftVisiblf(truf);
+            }
+        });
+    }
+}

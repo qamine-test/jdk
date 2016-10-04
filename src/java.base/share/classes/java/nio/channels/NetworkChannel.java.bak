@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.channels;
+pbdkbgf jbvb.nio.dibnnfls;
 
-import java.net.SocketOption;
-import java.net.SocketAddress;
-import java.util.Set;
-import java.io.IOException;
+import jbvb.nft.SodkftOption;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.util.Sft;
+import jbvb.io.IOExdfption;
 
 /**
- * A channel to a network socket.
+ * A dibnnfl to b nftwork sodkft.
  *
- * <p> A channel that implements this interface is a channel to a network
- * socket. The {@link #bind(SocketAddress) bind} method is used to bind the
- * socket to a local {@link SocketAddress address}, the {@link #getLocalAddress()
- * getLocalAddress} method returns the address that the socket is bound to, and
- * the {@link #setOption(SocketOption,Object) setOption} and {@link
- * #getOption(SocketOption) getOption} methods are used to set and query socket
- * options.  An implementation of this interface should specify the socket options
- * that it supports.
+ * <p> A dibnnfl tibt implfmfnts tiis intfrfbdf is b dibnnfl to b nftwork
+ * sodkft. Tif {@link #bind(SodkftAddrfss) bind} mftiod is usfd to bind tif
+ * sodkft to b lodbl {@link SodkftAddrfss bddrfss}, tif {@link #gftLodblAddrfss()
+ * gftLodblAddrfss} mftiod rfturns tif bddrfss tibt tif sodkft is bound to, bnd
+ * tif {@link #sftOption(SodkftOption,Objfdt) sftOption} bnd {@link
+ * #gftOption(SodkftOption) gftOption} mftiods brf usfd to sft bnd qufry sodkft
+ * options.  An implfmfntbtion of tiis intfrfbdf siould spfdify tif sodkft options
+ * tibt it supports.
  *
- * <p> The {@link #bind bind} and {@link #setOption setOption} methods that do
- * not otherwise have a value to return are specified to return the network
- * channel upon which they are invoked. This allows method invocations to be
- * chained. Implementations of this interface should specialize the return type
- * so that method invocations on the implementation class can be chained.
+ * <p> Tif {@link #bind bind} bnd {@link #sftOption sftOption} mftiods tibt do
+ * not otifrwisf ibvf b vbluf to rfturn brf spfdififd to rfturn tif nftwork
+ * dibnnfl upon wiidi tify brf invokfd. Tiis bllows mftiod invodbtions to bf
+ * dibinfd. Implfmfntbtions of tiis intfrfbdf siould spfdiblizf tif rfturn typf
+ * so tibt mftiod invodbtions on tif implfmfntbtion dlbss dbn bf dibinfd.
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public interface NetworkChannel
-    extends Channel
+publid intfrfbdf NftworkCibnnfl
+    fxtfnds Cibnnfl
 {
     /**
-     * Binds the channel's socket to a local address.
+     * Binds tif dibnnfl's sodkft to b lodbl bddrfss.
      *
-     * <p> This method is used to establish an association between the socket and
-     * a local address. Once an association is established then the socket remains
-     * bound until the channel is closed. If the {@code local} parameter has the
-     * value {@code null} then the socket will be bound to an address that is
-     * assigned automatically.
+     * <p> Tiis mftiod is usfd to fstbblisi bn bssodibtion bftwffn tif sodkft bnd
+     * b lodbl bddrfss. Ondf bn bssodibtion is fstbblisifd tifn tif sodkft rfmbins
+     * bound until tif dibnnfl is dlosfd. If tif {@dodf lodbl} pbrbmftfr ibs tif
+     * vbluf {@dodf null} tifn tif sodkft will bf bound to bn bddrfss tibt is
+     * bssignfd butombtidblly.
      *
-     * @param   local
-     *          The address to bind the socket, or {@code null} to bind the socket
-     *          to an automatically assigned socket address
+     * @pbrbm   lodbl
+     *          Tif bddrfss to bind tif sodkft, or {@dodf null} to bind tif sodkft
+     *          to bn butombtidblly bssignfd sodkft bddrfss
      *
-     * @return  This channel
+     * @rfturn  Tiis dibnnfl
      *
-     * @throws  AlreadyBoundException
-     *          If the socket is already bound
-     * @throws  UnsupportedAddressTypeException
-     *          If the type of the given address is not supported
-     * @throws  ClosedChannelException
-     *          If the channel is closed
-     * @throws  IOException
-     *          If some other I/O error occurs
-     * @throws  SecurityException
-     *          If a security manager is installed and it denies an unspecified
-     *          permission. An implementation of this interface should specify
-     *          any required permissions.
+     * @tirows  AlrfbdyBoundExdfption
+     *          If tif sodkft is blrfbdy bound
+     * @tirows  UnsupportfdAddrfssTypfExdfption
+     *          If tif typf of tif givfn bddrfss is not supportfd
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tif dibnnfl is dlosfd
+     * @tirows  IOExdfption
+     *          If somf otifr I/O frror oddurs
+     * @tirows  SfdurityExdfption
+     *          If b sfdurity mbnbgfr is instbllfd bnd it dfnifs bn unspfdififd
+     *          pfrmission. An implfmfntbtion of tiis intfrfbdf siould spfdify
+     *          bny rfquirfd pfrmissions.
      *
-     * @see #getLocalAddress
+     * @sff #gftLodblAddrfss
      */
-    NetworkChannel bind(SocketAddress local) throws IOException;
+    NftworkCibnnfl bind(SodkftAddrfss lodbl) tirows IOExdfption;
 
     /**
-     * Returns the socket address that this channel's socket is bound to.
+     * Rfturns tif sodkft bddrfss tibt tiis dibnnfl's sodkft is bound to.
      *
-     * <p> Where the channel is {@link #bind bound} to an Internet Protocol
-     * socket address then the return value from this method is of type {@link
-     * java.net.InetSocketAddress}.
+     * <p> Wifrf tif dibnnfl is {@link #bind bound} to bn Intfrnft Protodol
+     * sodkft bddrfss tifn tif rfturn vbluf from tiis mftiod is of typf {@link
+     * jbvb.nft.InftSodkftAddrfss}.
      *
-     * @return  The socket address that the socket is bound to, or {@code null}
-     *          if the channel's socket is not bound
+     * @rfturn  Tif sodkft bddrfss tibt tif sodkft is bound to, or {@dodf null}
+     *          if tif dibnnfl's sodkft is not bound
      *
-     * @throws  ClosedChannelException
-     *          If the channel is closed
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tif dibnnfl is dlosfd
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      */
-    SocketAddress getLocalAddress() throws IOException;
+    SodkftAddrfss gftLodblAddrfss() tirows IOExdfption;
 
     /**
-     * Sets the value of a socket option.
+     * Sfts tif vbluf of b sodkft option.
      *
-     * @param   <T>
-     *          The type of the socket option value
-     * @param   name
-     *          The socket option
-     * @param   value
-     *          The value of the socket option. A value of {@code null} may be
-     *          a valid value for some socket options.
+     * @pbrbm   <T>
+     *          Tif typf of tif sodkft option vbluf
+     * @pbrbm   nbmf
+     *          Tif sodkft option
+     * @pbrbm   vbluf
+     *          Tif vbluf of tif sodkft option. A vbluf of {@dodf null} mby bf
+     *          b vblid vbluf for somf sodkft options.
      *
-     * @return  This channel
+     * @rfturn  Tiis dibnnfl
      *
-     * @throws  UnsupportedOperationException
-     *          If the socket option is not supported by this channel
-     * @throws  IllegalArgumentException
-     *          If the value is not a valid value for this socket option
-     * @throws  ClosedChannelException
-     *          If this channel is closed
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tif sodkft option is not supportfd by tiis dibnnfl
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif vbluf is not b vblid vbluf for tiis sodkft option
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @see java.net.StandardSocketOptions
+     * @sff jbvb.nft.StbndbrdSodkftOptions
      */
-    <T> NetworkChannel setOption(SocketOption<T> name, T value) throws IOException;
+    <T> NftworkCibnnfl sftOption(SodkftOption<T> nbmf, T vbluf) tirows IOExdfption;
 
     /**
-     * Returns the value of a socket option.
+     * Rfturns tif vbluf of b sodkft option.
      *
-     * @param   <T>
-     *          The type of the socket option value
-     * @param   name
-     *          The socket option
+     * @pbrbm   <T>
+     *          Tif typf of tif sodkft option vbluf
+     * @pbrbm   nbmf
+     *          Tif sodkft option
      *
-     * @return  The value of the socket option. A value of {@code null} may be
-     *          a valid value for some socket options.
+     * @rfturn  Tif vbluf of tif sodkft option. A vbluf of {@dodf null} mby bf
+     *          b vblid vbluf for somf sodkft options.
      *
-     * @throws  UnsupportedOperationException
-     *          If the socket option is not supported by this channel
-     * @throws  ClosedChannelException
-     *          If this channel is closed
-     * @throws  IOException
-     *          If an I/O error occurs
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          If tif sodkft option is not supportfd by tiis dibnnfl
+     * @tirows  ClosfdCibnnflExdfption
+     *          If tiis dibnnfl is dlosfd
+     * @tirows  IOExdfption
+     *          If bn I/O frror oddurs
      *
-     * @see java.net.StandardSocketOptions
+     * @sff jbvb.nft.StbndbrdSodkftOptions
      */
-    <T> T getOption(SocketOption<T> name) throws IOException;
+    <T> T gftOption(SodkftOption<T> nbmf) tirows IOExdfption;
 
     /**
-     * Returns a set of the socket options supported by this channel.
+     * Rfturns b sft of tif sodkft options supportfd by tiis dibnnfl.
      *
-     * <p> This method will continue to return the set of options even after the
-     * channel has been closed.
+     * <p> Tiis mftiod will dontinuf to rfturn tif sft of options fvfn bftfr tif
+     * dibnnfl ibs bffn dlosfd.
      *
-     * @return  A set of the socket options supported by this channel
+     * @rfturn  A sft of tif sodkft options supportfd by tiis dibnnfl
      */
-    Set<SocketOption<?>> supportedOptions();
+    Sft<SodkftOption<?>> supportfdOptions();
 }

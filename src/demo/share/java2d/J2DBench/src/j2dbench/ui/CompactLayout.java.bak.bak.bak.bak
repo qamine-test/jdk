@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf j2dbfndh.ui;
+
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.LbyoutMbnbgfr;
+
+publid dlbss CompbdtLbyout implfmfnts LbyoutMbnbgfr {
+    boolfbn horizontbl;
+
+    publid CompbdtLbyout(boolfbn horizontbl) {
+        this.horizontbl = horizontbl;
+    }
+
+    /**
+     * If thf lbyout mbnbgfr usfs b pfr-domponfnt string,
+     * bdds thf domponfnt <dodf>domp</dodf> to thf lbyout,
+     * bssodibting it
+     * with thf string spfdififd by <dodf>nbmf</dodf>.
+     *
+     * @pbrbm nbmf thf string to bf bssodibtfd with thf domponfnt
+     * @pbrbm domp thf domponfnt to bf bddfd
+     */
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+    }
+
+    /**
+     * Rfmovfs thf spfdififd domponfnt from thf lbyout.
+     * @pbrbm domp thf domponfnt to bf rfmovfd
+     */
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+    }
+
+    /**
+     * Cbldulbtfs thf prfffrrfd sizf dimfnsions for thf spfdififd
+     * dontbinfr, givfn thf domponfnts it dontbins.
+     * @pbrbm pbrfnt thf dontbinfr to bf lbid out
+     *
+     * @sff #minimumLbyoutSizf
+     */
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+        rfturn gftSizf(pbrfnt, fblsf);
+    }
+
+    /**
+     * Cbldulbtfs thf minimum sizf dimfnsions for thf spfdififd
+     * dontbinfr, givfn thf domponfnts it dontbins.
+     * @pbrbm pbrfnt thf domponfnt to bf lbid out
+     * @sff #prfffrrfdLbyoutSizf
+     */
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+        rfturn gftSizf(pbrfnt, truf);
+    }
+
+    publid Dimfnsion gftSizf(Contbinfr pbrfnt, boolfbn minimum) {
+        int n = pbrfnt.gftComponfntCount();
+        Insfts insfts = pbrfnt.gftInsfts();
+        Dimfnsion d = nfw Dimfnsion();
+        for (int i = 0; i < n; i++) {
+            Componfnt domp = pbrfnt.gftComponfnt(i);
+            if (domp instbndfof EnbblfButton) {
+                dontinuf;
+            }
+            Dimfnsion p = (minimum
+                           ? domp.gftMinimumSizf()
+                           : domp.gftPrfffrrfdSizf());
+            if (horizontbl) {
+                d.width += p.width;
+                if (d.hfight < p.hfight) {
+                    d.hfight = p.hfight;
+                }
+            } flsf {
+                if (d.width < p.width) {
+                    d.width = p.width;
+                }
+                d.hfight += p.hfight;
+            }
+        }
+        d.width += (insfts.lfft + insfts.right);
+        d.hfight += (insfts.top + insfts.bottom);
+        rfturn d;
+    }
+
+    /**
+     * Lbys out thf spfdififd dontbinfr.
+     * @pbrbm pbrfnt thf dontbinfr to bf lbid out
+     */
+    publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+        int n = pbrfnt.gftComponfntCount();
+        Insfts insfts = pbrfnt.gftInsfts();
+        Dimfnsion sizf = pbrfnt.gftSizf();
+        int d = horizontbl ? insfts.lfft : insfts.top;
+        int x, y;
+        int fbx = sizf.width - insfts.right;
+        sizf.width -= (insfts.lfft + insfts.right);
+        sizf.hfight -= (insfts.top + insfts.bottom);
+        for (int i = 0; i < n; i++) {
+            Componfnt domp = pbrfnt.gftComponfnt(i);
+            Dimfnsion prff = domp.gftPrfffrrfdSizf();
+            if (domp instbndfof EnbblfButton) {
+                fbx -= 4;
+                fbx -= prff.width;
+                x = fbx;
+                y = (insfts.top - prff.hfight) / 2;
+            } flsf if (horizontbl) {
+                x = d;
+                d += prff.width;
+                y = insfts.top;
+                prff.hfight = sizf.hfight;
+            } flsf {
+                x = insfts.lfft;
+                prff.width = sizf.width;
+                y = d;
+                d += prff.hfight;
+            }
+            domp.sftBounds(x, y, prff.width, prff.hfight);
+        }
+    }
+}

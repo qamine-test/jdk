@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import java.util.Locale;
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
+import jbvb.util.Lodblf;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
 
 /**
- * Class MediaName is a subclass of Media, a printing attribute class (an
- * enumeration) that specifies the media for a print job as a name.
+ * Clbss MfdibNbmf is b subdlbss of Mfdib, b printing bttributf dlbss (bn
+ * fnumfrbtion) tibt spfdififs tif mfdib for b print job bs b nbmf.
  * <P>
- * This attribute can be used instead of specifying MediaSize or MediaTray.
+ * Tiis bttributf dbn bf usfd instfbd of spfdifying MfdibSizf or MfdibTrby.
  * <p>
- * Class MediaName currently declares a few standard media names.
- * Implementation- or site-defined names for a media name attribute may also
- * be created by defining a subclass of class MediaName.
+ * Clbss MfdibNbmf durrfntly dfdlbrfs b ffw stbndbrd mfdib nbmfs.
+ * Implfmfntbtion- or sitf-dffinfd nbmfs for b mfdib nbmf bttributf mby blso
+ * bf drfbtfd by dffining b subdlbss of dlbss MfdibNbmf.
  * <P>
- * <B>IPP Compatibility:</B> MediaName is a representation class for
- * values of the IPP "media" attribute which names media.
+ * <B>IPP Compbtibility:</B> MfdibNbmf is b rfprfsfntbtion dlbss for
+ * vblufs of tif IPP "mfdib" bttributf wiidi nbmfs mfdib.
  *
  */
-public class MediaName extends Media implements Attribute {
+publid dlbss MfdibNbmf fxtfnds Mfdib implfmfnts Attributf {
 
-    private static final long serialVersionUID = 4653117714524155448L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 4653117714524155448L;
 
     /**
-     *  white letter paper.
+     *  wiitf lfttfr pbpfr.
      */
-    public static final MediaName NA_LETTER_WHITE = new MediaName(0);
+    publid stbtid finbl MfdibNbmf NA_LETTER_WHITE = nfw MfdibNbmf(0);
 
     /**
-     *  letter transparency.
+     *  lfttfr trbnspbrfndy.
      */
-    public static final MediaName NA_LETTER_TRANSPARENT = new MediaName(1);
+    publid stbtid finbl MfdibNbmf NA_LETTER_TRANSPARENT = nfw MfdibNbmf(1);
 
     /**
-     * white A4 paper.
+     * wiitf A4 pbpfr.
      */
-    public static final MediaName ISO_A4_WHITE = new MediaName(2);
+    publid stbtid finbl MfdibNbmf ISO_A4_WHITE = nfw MfdibNbmf(2);
 
 
     /**
-     *  A4 transparency.
+     *  A4 trbnspbrfndy.
      */
-    public static final MediaName ISO_A4_TRANSPARENT= new MediaName(3);
+    publid stbtid finbl MfdibNbmf ISO_A4_TRANSPARENT= nfw MfdibNbmf(3);
 
 
     /**
-     * Constructs a new media name enumeration value with the given integer
-     * value.
+     * Construdts b nfw mfdib nbmf fnumfrbtion vbluf witi tif givfn intfgfr
+     * vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      */
-    protected MediaName(int value) {
-        super (value);
+    protfdtfd MfdibNbmf(int vbluf) {
+        supfr (vbluf);
     }
 
-    private static final String[] myStringTable = {
-        "na-letter-white",
-        "na-letter-transparent",
-        "iso-a4-white",
-        "iso-a4-transparent"
+    privbtf stbtid finbl String[] myStringTbblf = {
+        "nb-lfttfr-wiitf",
+        "nb-lfttfr-trbnspbrfnt",
+        "iso-b4-wiitf",
+        "iso-b4-trbnspbrfnt"
     };
 
-    private static final MediaName[] myEnumValueTable = {
+    privbtf stbtid finbl MfdibNbmf[] myEnumVblufTbblf = {
         NA_LETTER_WHITE,
         NA_LETTER_TRANSPARENT,
         ISO_A4_WHITE,
@@ -93,20 +93,20 @@ public class MediaName extends Media implements Attribute {
     };
 
     /**
-     * Returns the string table for class MediaTray.
-     * @return the String table.
+     * Rfturns tif string tbblf for dlbss MfdibTrby.
+     * @rfturn tif String tbblf.
      */
-    protected String[] getStringTable()
+    protfdtfd String[] gftStringTbblf()
     {
-        return myStringTable.clone();
+        rfturn myStringTbblf.dlonf();
     }
 
     /**
-     * Returns the enumeration value table for class MediaTray.
-     * @return the enumeration value table.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss MfdibTrby.
+     * @rfturn tif fnumfrbtion vbluf tbblf.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn (EnumSyntbx[])myEnumVblufTbblf.dlonf();
     }
 
 }

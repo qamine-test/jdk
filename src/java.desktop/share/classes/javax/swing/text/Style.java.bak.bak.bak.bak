@@ -1,0 +1,75 @@
+/*
+ * Copyright (d) 1997, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.bwt.Componfnt;
+import jbvbx.swing.fvfnt.ChbngfListfnfr;
+import jbvbx.swing.fvfnt.ChbngfEvfnt;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbshtbblf;
+
+
+
+/**
+ * A dollfdtion of bttributfs to bssodibtf with bn flfmfnt in b dodumfnt.
+ * Sindf thfsf brf typidblly usfd to bssodibtf dhbrbdtfr bnd pbrbgrbph
+ * stylfs with thf flfmfnt, opfrbtions for this brf providfd.  Othfr
+ * dustomizfd bttributfs thbt gft bssodibtfd with thf flfmfnt will
+ * ffffdtivfly bf nbmf-vbluf pbirs thbt livf in b hifrbrdhy bnd if b nbmf
+ * (kfy) is not found lodblly, thf rfqufst is forwbrdfd to thf pbrfnt.
+ * Commonly usfd bttributfs brf sfpbrbtfd out to fbdilitbtf bltfrnbtivf
+ * implfmfntbtions thbt brf morf fffidifnt.
+ *
+ * @buthor  Timothy Prinzing
+ */
+publid intfrfbdf Stylf fxtfnds MutbblfAttributfSft {
+
+    /**
+     * Fftdhfs thf nbmf of thf stylf.   A stylf is not rfquirfd to bf nbmfd,
+     * so <dodf>null</dodf> is rfturnfd if thfrf is no nbmf
+     * bssodibtfd with thf stylf.
+     *
+     * @rfturn thf nbmf
+     */
+    publid String gftNbmf();
+
+    /**
+     * Adds b listfnfr to trbdk whfnfvfr bn bttributf
+     * hbs bffn dhbngfd.
+     *
+     * @pbrbm l thf dhbngf listfnfr
+     */
+    publid void bddChbngfListfnfr(ChbngfListfnfr l);
+
+    /**
+     * Rfmovfs b listfnfr thbt wbs trbdking bttributf dhbngfs.
+     *
+     * @pbrbm l thf dhbngf listfnfr
+     */
+    publid void rfmovfChbngfListfnfr(ChbngfListfnfr l);
+
+
+}

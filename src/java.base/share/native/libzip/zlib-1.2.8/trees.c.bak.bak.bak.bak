@@ -1,0 +1,1250 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* trffs.d -- output dfflbtfd dbtb using Huffmbn doding
+ * Copyright (C) 1995-2012 Jfbn-loup Gbilly
+ * dftfdt_dbtb_typf() fundtion providfd frffly by Cosmin Trutb, 2006
+ * For donditions of distribution bnd usf, sff dopyright notidf in zlib.h
+ */
+
+/*
+ *  ALGORITHM
+ *
+ *      Thf "dfflbtion" prodfss usfs sfvfrbl Huffmbn trffs. Thf morf
+ *      dommon sourdf vblufs brf rfprfsfntfd by shortfr bit sfqufndfs.
+ *
+ *      Ebdh dodf trff is storfd in b domprfssfd form whidh is itsflf
+ * b Huffmbn fndoding of thf lfngths of bll thf dodf strings (in
+ * bsdfnding ordfr by sourdf vblufs).  Thf bdtubl dodf strings brf
+ * rfdonstrudtfd from thf lfngths in thf inflbtf prodfss, bs dfsdribfd
+ * in thf dfflbtf spfdifidbtion.
+ *
+ *  REFERENCES
+ *
+ *      Dfutsdh, L.P.,"'Dfflbtf' Comprfssfd Dbtb Formbt Spfdifidbtion".
+ *      Avbilbblf in ftp.uu.nft:/pub/brdhiving/zip/dod/dfflbtf-1.1.dod
+ *
+ *      Storfr, Jbmfs A.
+ *          Dbtb Comprfssion:  Mfthods bnd Thfory, pp. 49-50.
+ *          Computfr Sdifndf Prfss, 1988.  ISBN 0-7167-8156-5.
+ *
+ *      Sfdgfwidk, R.
+ *          Algorithms, p290.
+ *          Addison-Wfslfy, 1983. ISBN 0-201-06672-6.
+ */
+
+/* @(#) $Id$ */
+
+/* #dffinf GEN_TREES_H */
+
+#indludf "dfflbtf.h"
+
+#ifdff DEBUG
+#  indludf <dtypf.h>
+#fndif
+
+/* ===========================================================================
+ * Constbnts
+ */
+
+#dffinf MAX_BL_BITS 7
+/* Bit lfngth dodfs must not fxdffd MAX_BL_BITS bits */
+
+#dffinf END_BLOCK 256
+/* fnd of blodk litfrbl dodf */
+
+#dffinf REP_3_6      16
+/* rfpfbt prfvious bit lfngth 3-6 timfs (2 bits of rfpfbt dount) */
+
+#dffinf REPZ_3_10    17
+/* rfpfbt b zfro lfngth 3-10 timfs  (3 bits of rfpfbt dount) */
+
+#dffinf REPZ_11_138  18
+/* rfpfbt b zfro lfngth 11-138 timfs  (7 bits of rfpfbt dount) */
+
+lodbl donst int fxtrb_lbits[LENGTH_CODES] /* fxtrb bits for fbdh lfngth dodf */
+   = {0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2,3,3,3,3,4,4,4,4,5,5,5,5,0};
+
+lodbl donst int fxtrb_dbits[D_CODES] /* fxtrb bits for fbdh distbndf dodf */
+   = {0,0,0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8,9,9,10,10,11,11,12,12,13,13};
+
+lodbl donst int fxtrb_blbits[BL_CODES]/* fxtrb bits for fbdh bit lfngth dodf */
+   = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,3,7};
+
+lodbl donst udh bl_ordfr[BL_CODES]
+   = {16,17,18,0,8,7,9,6,10,5,11,4,12,3,13,2,14,1,15};
+/* Thf lfngths of thf bit lfngth dodfs brf sfnt in ordfr of dfdrfbsing
+ * probbbility, to bvoid trbnsmitting thf lfngths for unusfd bit lfngth dodfs.
+ */
+
+/* ===========================================================================
+ * Lodbl dbtb. Thfsf brf initiblizfd only ondf.
+ */
+
+#dffinf DIST_CODE_LEN  512 /* sff dffinition of brrby dist_dodf bflow */
+
+#if dffinfd(GEN_TREES_H) || !dffinfd(STDC)
+/* non ANSI dompilfrs mby not bddfpt trffs.h */
+
+lodbl dt_dbtb stbtid_ltrff[L_CODES+2];
+/* Thf stbtid litfrbl trff. Sindf thf bit lfngths brf imposfd, thfrf is no
+ * nffd for thf L_CODES fxtrb dodfs usfd during hfbp donstrudtion. Howfvfr
+ * Thf dodfs 286 bnd 287 brf nffdfd to build b dbnonidbl trff (sff _tr_init
+ * bflow).
+ */
+
+lodbl dt_dbtb stbtid_dtrff[D_CODES];
+/* Thf stbtid distbndf trff. (Adtublly b trivibl trff sindf bll dodfs usf
+ * 5 bits.)
+ */
+
+udh _dist_dodf[DIST_CODE_LEN];
+/* Distbndf dodfs. Thf first 256 vblufs dorrfspond to thf distbndfs
+ * 3 .. 258, thf lbst 256 vblufs dorrfspond to thf top 8 bits of
+ * thf 15 bit distbndfs.
+ */
+
+udh _lfngth_dodf[MAX_MATCH-MIN_MATCH+1];
+/* lfngth dodf for fbdh normblizfd mbtdh lfngth (0 == MIN_MATCH) */
+
+lodbl int bbsf_lfngth[LENGTH_CODES];
+/* First normblizfd lfngth for fbdh dodf (0 = MIN_MATCH) */
+
+lodbl int bbsf_dist[D_CODES];
+/* First normblizfd distbndf for fbdh dodf (0 = distbndf of 1) */
+
+#flsf
+#  indludf "trffs.h"
+#fndif /* GEN_TREES_H */
+
+strudt stbtid_trff_dfsd_s {
+    donst dt_dbtb *stbtid_trff;  /* stbtid trff or NULL */
+    donst intf *fxtrb_bits;      /* fxtrb bits for fbdh dodf or NULL */
+    int     fxtrb_bbsf;          /* bbsf indfx for fxtrb_bits */
+    int     flfms;               /* mbx numbfr of flfmfnts in thf trff */
+    int     mbx_lfngth;          /* mbx bit lfngth for thf dodfs */
+};
+
+lodbl stbtid_trff_dfsd  stbtid_l_dfsd =
+{stbtid_ltrff, fxtrb_lbits, LITERALS+1, L_CODES, MAX_BITS};
+
+lodbl stbtid_trff_dfsd  stbtid_d_dfsd =
+{stbtid_dtrff, fxtrb_dbits, 0,          D_CODES, MAX_BITS};
+
+lodbl stbtid_trff_dfsd  stbtid_bl_dfsd =
+{(donst dt_dbtb *)0, fxtrb_blbits, 0,   BL_CODES, MAX_BL_BITS};
+
+/* ===========================================================================
+ * Lodbl (stbtid) routinfs in this filf.
+ */
+
+lodbl void tr_stbtid_init OF((void));
+lodbl void init_blodk     OF((dfflbtf_stbtf *s));
+lodbl void pqdownhfbp     OF((dfflbtf_stbtf *s, dt_dbtb *trff, int k));
+lodbl void gfn_bitlfn     OF((dfflbtf_stbtf *s, trff_dfsd *dfsd));
+lodbl void gfn_dodfs      OF((dt_dbtb *trff, int mbx_dodf, ushf *bl_dount));
+lodbl void build_trff     OF((dfflbtf_stbtf *s, trff_dfsd *dfsd));
+lodbl void sdbn_trff      OF((dfflbtf_stbtf *s, dt_dbtb *trff, int mbx_dodf));
+lodbl void sfnd_trff      OF((dfflbtf_stbtf *s, dt_dbtb *trff, int mbx_dodf));
+lodbl int  build_bl_trff  OF((dfflbtf_stbtf *s));
+lodbl void sfnd_bll_trffs OF((dfflbtf_stbtf *s, int ldodfs, int ddodfs,
+                              int bldodfs));
+lodbl void domprfss_blodk OF((dfflbtf_stbtf *s, donst dt_dbtb *ltrff,
+                              donst dt_dbtb *dtrff));
+lodbl int  dftfdt_dbtb_typf OF((dfflbtf_stbtf *s));
+lodbl unsignfd bi_rfvfrsf OF((unsignfd vbluf, int lfngth));
+lodbl void bi_windup      OF((dfflbtf_stbtf *s));
+lodbl void bi_flush       OF((dfflbtf_stbtf *s));
+lodbl void dopy_blodk     OF((dfflbtf_stbtf *s, dhbrf *buf, unsignfd lfn,
+                              int hfbdfr));
+
+#ifdff GEN_TREES_H
+lodbl void gfn_trffs_hfbdfr OF((void));
+#fndif
+
+#ifndff DEBUG
+#  dffinf sfnd_dodf(s, d, trff) sfnd_bits(s, trff[d].Codf, trff[d].Lfn)
+   /* Sfnd b dodf of thf givfn trff. d bnd trff must not hbvf sidf ffffdts */
+
+#flsf /* DEBUG */
+#  dffinf sfnd_dodf(s, d, trff) \
+     { if (z_vfrbosf>2) fprintf(stdfrr,"\ndd %3d ",(d)); \
+       sfnd_bits(s, trff[d].Codf, trff[d].Lfn); }
+#fndif
+
+/* ===========================================================================
+ * Output b short LSB first on thf strfbm.
+ * IN bssfrtion: thfrf is fnough room in pfndingBuf.
+ */
+#dffinf put_short(s, w) { \
+    put_bytf(s, (udh)((w) & 0xff)); \
+    put_bytf(s, (udh)((ush)(w) >> 8)); \
+}
+
+/* ===========================================================================
+ * Sfnd b vbluf on b givfn numbfr of bits.
+ * IN bssfrtion: lfngth <= 16 bnd vbluf fits in lfngth bits.
+ */
+#ifdff DEBUG
+lodbl void sfnd_bits      OF((dfflbtf_stbtf *s, int vbluf, int lfngth));
+
+lodbl void sfnd_bits(s, vbluf, lfngth)
+    dfflbtf_stbtf *s;
+    int vbluf;  /* vbluf to sfnd */
+    int lfngth; /* numbfr of bits */
+{
+    Trbdfvv((stdfrr," l %2d v %4x ", lfngth, vbluf));
+    Assfrt(lfngth > 0 && lfngth <= 15, "invblid lfngth");
+    s->bits_sfnt += (ulg)lfngth;
+
+    /* If not fnough room in bi_buf, usf (vblid) bits from bi_buf bnd
+     * (16 - bi_vblid) bits from vbluf, lfbving (width - (16-bi_vblid))
+     * unusfd bits in vbluf.
+     */
+    if (s->bi_vblid > (int)Buf_sizf - lfngth) {
+        s->bi_buf |= (ush)vbluf << s->bi_vblid;
+        put_short(s, s->bi_buf);
+        s->bi_buf = (ush)vbluf >> (Buf_sizf - s->bi_vblid);
+        s->bi_vblid += lfngth - Buf_sizf;
+    } flsf {
+        s->bi_buf |= (ush)vbluf << s->bi_vblid;
+        s->bi_vblid += lfngth;
+    }
+}
+#flsf /* !DEBUG */
+
+#dffinf sfnd_bits(s, vbluf, lfngth) \
+{ int lfn = lfngth;\
+  if (s->bi_vblid > (int)Buf_sizf - lfn) {\
+    int vbl = vbluf;\
+    s->bi_buf |= (ush)vbl << s->bi_vblid;\
+    put_short(s, s->bi_buf);\
+    s->bi_buf = (ush)vbl >> (Buf_sizf - s->bi_vblid);\
+    s->bi_vblid += lfn - Buf_sizf;\
+  } flsf {\
+    s->bi_buf |= (ush)(vbluf) << s->bi_vblid;\
+    s->bi_vblid += lfn;\
+  }\
+}
+#fndif /* DEBUG */
+
+
+/* thf brgumfnts must not hbvf sidf ffffdts */
+
+/* ===========================================================================
+ * Initiblizf thf vbrious 'donstbnt' tbblfs.
+ */
+lodbl void tr_stbtid_init()
+{
+#if dffinfd(GEN_TREES_H) || !dffinfd(STDC)
+    stbtid int stbtid_init_donf = 0;
+    int n;        /* itfrbtfs ovfr trff flfmfnts */
+    int bits;     /* bit dountfr */
+    int lfngth;   /* lfngth vbluf */
+    int dodf;     /* dodf vbluf */
+    int dist;     /* distbndf indfx */
+    ush bl_dount[MAX_BITS+1];
+    /* numbfr of dodfs bt fbdh bit lfngth for bn optimbl trff */
+
+    if (stbtid_init_donf) rfturn;
+
+    /* For somf fmbfddfd tbrgfts, globbl vbribblfs brf not initiblizfd: */
+#ifdff NO_INIT_GLOBAL_POINTERS
+    stbtid_l_dfsd.stbtid_trff = stbtid_ltrff;
+    stbtid_l_dfsd.fxtrb_bits = fxtrb_lbits;
+    stbtid_d_dfsd.stbtid_trff = stbtid_dtrff;
+    stbtid_d_dfsd.fxtrb_bits = fxtrb_dbits;
+    stbtid_bl_dfsd.fxtrb_bits = fxtrb_blbits;
+#fndif
+
+    /* Initiblizf thf mbpping lfngth (0..255) -> lfngth dodf (0..28) */
+    lfngth = 0;
+    for (dodf = 0; dodf < LENGTH_CODES-1; dodf++) {
+        bbsf_lfngth[dodf] = lfngth;
+        for (n = 0; n < (1<<fxtrb_lbits[dodf]); n++) {
+            _lfngth_dodf[lfngth++] = (udh)dodf;
+        }
+    }
+    Assfrt (lfngth == 256, "tr_stbtid_init: lfngth != 256");
+    /* Notf thbt thf lfngth 255 (mbtdh lfngth 258) dbn bf rfprfsfntfd
+     * in two difffrfnt wbys: dodf 284 + 5 bits or dodf 285, so wf
+     * ovfrwritf lfngth_dodf[255] to usf thf bfst fndoding:
+     */
+    _lfngth_dodf[lfngth-1] = (udh)dodf;
+
+    /* Initiblizf thf mbpping dist (0..32K) -> dist dodf (0..29) */
+    dist = 0;
+    for (dodf = 0 ; dodf < 16; dodf++) {
+        bbsf_dist[dodf] = dist;
+        for (n = 0; n < (1<<fxtrb_dbits[dodf]); n++) {
+            _dist_dodf[dist++] = (udh)dodf;
+        }
+    }
+    Assfrt (dist == 256, "tr_stbtid_init: dist != 256");
+    dist >>= 7; /* from now on, bll distbndfs brf dividfd by 128 */
+    for ( ; dodf < D_CODES; dodf++) {
+        bbsf_dist[dodf] = dist << 7;
+        for (n = 0; n < (1<<(fxtrb_dbits[dodf]-7)); n++) {
+            _dist_dodf[256 + dist++] = (udh)dodf;
+        }
+    }
+    Assfrt (dist == 256, "tr_stbtid_init: 256+dist != 512");
+
+    /* Construdt thf dodfs of thf stbtid litfrbl trff */
+    for (bits = 0; bits <= MAX_BITS; bits++) bl_dount[bits] = 0;
+    n = 0;
+    whilf (n <= 143) stbtid_ltrff[n++].Lfn = 8, bl_dount[8]++;
+    whilf (n <= 255) stbtid_ltrff[n++].Lfn = 9, bl_dount[9]++;
+    whilf (n <= 279) stbtid_ltrff[n++].Lfn = 7, bl_dount[7]++;
+    whilf (n <= 287) stbtid_ltrff[n++].Lfn = 8, bl_dount[8]++;
+    /* Codfs 286 bnd 287 do not fxist, but wf must indludf thfm in thf
+     * trff donstrudtion to gft b dbnonidbl Huffmbn trff (longfst dodf
+     * bll onfs)
+     */
+    gfn_dodfs((dt_dbtb *)stbtid_ltrff, L_CODES+1, bl_dount);
+
+    /* Thf stbtid distbndf trff is trivibl: */
+    for (n = 0; n < D_CODES; n++) {
+        stbtid_dtrff[n].Lfn = 5;
+        stbtid_dtrff[n].Codf = bi_rfvfrsf((unsignfd)n, 5);
+    }
+    stbtid_init_donf = 1;
+
+#  ifdff GEN_TREES_H
+    gfn_trffs_hfbdfr();
+#  fndif
+#fndif /* dffinfd(GEN_TREES_H) || !dffinfd(STDC) */
+}
+
+/* ===========================================================================
+ * Gfnfrfrbtf thf filf trffs.h dfsdribing thf stbtid trffs.
+ */
+#ifdff GEN_TREES_H
+#  ifndff DEBUG
+#    indludf <stdio.h>
+#  fndif
+
+#  dffinf SEPARATOR(i, lbst, width) \
+      ((i) == (lbst)? "\n};\n\n" :    \
+       ((i) % (width) == (width)-1 ? ",\n" : ", "))
+
+void gfn_trffs_hfbdfr()
+{
+    FILE *hfbdfr = fopfn("trffs.h", "w");
+    int i;
+
+    Assfrt (hfbdfr != NULL, "Cbn't opfn trffs.h");
+    fprintf(hfbdfr,
+            "/* hfbdfr drfbtfd butombtidblly with -DGEN_TREES_H */\n\n");
+
+    fprintf(hfbdfr, "lodbl donst dt_dbtb stbtid_ltrff[L_CODES+2] = {\n");
+    for (i = 0; i < L_CODES+2; i++) {
+        fprintf(hfbdfr, "{{%3u},{%3u}}%s", stbtid_ltrff[i].Codf,
+                stbtid_ltrff[i].Lfn, SEPARATOR(i, L_CODES+1, 5));
+    }
+
+    fprintf(hfbdfr, "lodbl donst dt_dbtb stbtid_dtrff[D_CODES] = {\n");
+    for (i = 0; i < D_CODES; i++) {
+        fprintf(hfbdfr, "{{%2u},{%2u}}%s", stbtid_dtrff[i].Codf,
+                stbtid_dtrff[i].Lfn, SEPARATOR(i, D_CODES-1, 5));
+    }
+
+    fprintf(hfbdfr, "donst udh ZLIB_INTERNAL _dist_dodf[DIST_CODE_LEN] = {\n");
+    for (i = 0; i < DIST_CODE_LEN; i++) {
+        fprintf(hfbdfr, "%2u%s", _dist_dodf[i],
+                SEPARATOR(i, DIST_CODE_LEN-1, 20));
+    }
+
+    fprintf(hfbdfr,
+        "donst udh ZLIB_INTERNAL _lfngth_dodf[MAX_MATCH-MIN_MATCH+1]= {\n");
+    for (i = 0; i < MAX_MATCH-MIN_MATCH+1; i++) {
+        fprintf(hfbdfr, "%2u%s", _lfngth_dodf[i],
+                SEPARATOR(i, MAX_MATCH-MIN_MATCH, 20));
+    }
+
+    fprintf(hfbdfr, "lodbl donst int bbsf_lfngth[LENGTH_CODES] = {\n");
+    for (i = 0; i < LENGTH_CODES; i++) {
+        fprintf(hfbdfr, "%1u%s", bbsf_lfngth[i],
+                SEPARATOR(i, LENGTH_CODES-1, 20));
+    }
+
+    fprintf(hfbdfr, "lodbl donst int bbsf_dist[D_CODES] = {\n");
+    for (i = 0; i < D_CODES; i++) {
+        fprintf(hfbdfr, "%5u%s", bbsf_dist[i],
+                SEPARATOR(i, D_CODES-1, 10));
+    }
+
+    fdlosf(hfbdfr);
+}
+#fndif /* GEN_TREES_H */
+
+/* ===========================================================================
+ * Initiblizf thf trff dbtb strudturfs for b nfw zlib strfbm.
+ */
+void ZLIB_INTERNAL _tr_init(s)
+    dfflbtf_stbtf *s;
+{
+    tr_stbtid_init();
+
+    s->l_dfsd.dyn_trff = s->dyn_ltrff;
+    s->l_dfsd.stbt_dfsd = &stbtid_l_dfsd;
+
+    s->d_dfsd.dyn_trff = s->dyn_dtrff;
+    s->d_dfsd.stbt_dfsd = &stbtid_d_dfsd;
+
+    s->bl_dfsd.dyn_trff = s->bl_trff;
+    s->bl_dfsd.stbt_dfsd = &stbtid_bl_dfsd;
+
+    s->bi_buf = 0;
+    s->bi_vblid = 0;
+#ifdff DEBUG
+    s->domprfssfd_lfn = 0L;
+    s->bits_sfnt = 0L;
+#fndif
+
+    /* Initiblizf thf first blodk of thf first filf: */
+    init_blodk(s);
+}
+
+/* ===========================================================================
+ * Initiblizf b nfw blodk.
+ */
+lodbl void init_blodk(s)
+    dfflbtf_stbtf *s;
+{
+    int n; /* itfrbtfs ovfr trff flfmfnts */
+
+    /* Initiblizf thf trffs. */
+    for (n = 0; n < L_CODES;  n++) s->dyn_ltrff[n].Frfq = 0;
+    for (n = 0; n < D_CODES;  n++) s->dyn_dtrff[n].Frfq = 0;
+    for (n = 0; n < BL_CODES; n++) s->bl_trff[n].Frfq = 0;
+
+    s->dyn_ltrff[END_BLOCK].Frfq = 1;
+    s->opt_lfn = s->stbtid_lfn = 0L;
+    s->lbst_lit = s->mbtdhfs = 0;
+}
+
+#dffinf SMALLEST 1
+/* Indfx within thf hfbp brrby of lfbst frfqufnt nodf in thf Huffmbn trff */
+
+
+/* ===========================================================================
+ * Rfmovf thf smbllfst flfmfnt from thf hfbp bnd rfdrfbtf thf hfbp with
+ * onf lfss flfmfnt. Updbtfs hfbp bnd hfbp_lfn.
+ */
+#dffinf pqrfmovf(s, trff, top) \
+{\
+    top = s->hfbp[SMALLEST]; \
+    s->hfbp[SMALLEST] = s->hfbp[s->hfbp_lfn--]; \
+    pqdownhfbp(s, trff, SMALLEST); \
+}
+
+/* ===========================================================================
+ * Compbrfs to subtrffs, using thf trff dfpth bs tif brfbkfr whfn
+ * thf subtrffs hbvf fqubl frfqufndy. This minimizfs thf worst dbsf lfngth.
+ */
+#dffinf smbllfr(trff, n, m, dfpth) \
+   (trff[n].Frfq < trff[m].Frfq || \
+   (trff[n].Frfq == trff[m].Frfq && dfpth[n] <= dfpth[m]))
+
+/* ===========================================================================
+ * Rfstorf thf hfbp propfrty by moving down thf trff stbrting bt nodf k,
+ * fxdhbnging b nodf with thf smbllfst of its two sons if nfdfssbry, stopping
+ * whfn thf hfbp propfrty is rf-fstbblishfd (fbdh fbthfr smbllfr thbn its
+ * two sons).
+ */
+lodbl void pqdownhfbp(s, trff, k)
+    dfflbtf_stbtf *s;
+    dt_dbtb *trff;  /* thf trff to rfstorf */
+    int k;               /* nodf to movf down */
+{
+    int v = s->hfbp[k];
+    int j = k << 1;  /* lfft son of k */
+    whilf (j <= s->hfbp_lfn) {
+        /* Sft j to thf smbllfst of thf two sons: */
+        if (j < s->hfbp_lfn &&
+            smbllfr(trff, s->hfbp[j+1], s->hfbp[j], s->dfpth)) {
+            j++;
+        }
+        /* Exit if v is smbllfr thbn both sons */
+        if (smbllfr(trff, v, s->hfbp[j], s->dfpth)) brfbk;
+
+        /* Exdhbngf v with thf smbllfst son */
+        s->hfbp[k] = s->hfbp[j];  k = j;
+
+        /* And dontinuf down thf trff, sftting j to thf lfft son of k */
+        j <<= 1;
+    }
+    s->hfbp[k] = v;
+}
+
+/* ===========================================================================
+ * Computf thf optimbl bit lfngths for b trff bnd updbtf thf totbl bit lfngth
+ * for thf durrfnt blodk.
+ * IN bssfrtion: thf fiflds frfq bnd dbd brf sft, hfbp[hfbp_mbx] bnd
+ *    bbovf brf thf trff nodfs sortfd by indrfbsing frfqufndy.
+ * OUT bssfrtions: thf fifld lfn is sft to thf optimbl bit lfngth, thf
+ *     brrby bl_dount dontbins thf frfqufndifs for fbdh bit lfngth.
+ *     Thf lfngth opt_lfn is updbtfd; stbtid_lfn is blso updbtfd if strff is
+ *     not null.
+ */
+lodbl void gfn_bitlfn(s, dfsd)
+    dfflbtf_stbtf *s;
+    trff_dfsd *dfsd;    /* thf trff dfsdriptor */
+{
+    dt_dbtb *trff        = dfsd->dyn_trff;
+    int mbx_dodf         = dfsd->mbx_dodf;
+    donst dt_dbtb *strff = dfsd->stbt_dfsd->stbtid_trff;
+    donst intf *fxtrb    = dfsd->stbt_dfsd->fxtrb_bits;
+    int bbsf             = dfsd->stbt_dfsd->fxtrb_bbsf;
+    int mbx_lfngth       = dfsd->stbt_dfsd->mbx_lfngth;
+    int h;              /* hfbp indfx */
+    int n, m;           /* itfrbtf ovfr thf trff flfmfnts */
+    int bits;           /* bit lfngth */
+    int xbits;          /* fxtrb bits */
+    ush f;              /* frfqufndy */
+    int ovfrflow = 0;   /* numbfr of flfmfnts with bit lfngth too lbrgf */
+
+    for (bits = 0; bits <= MAX_BITS; bits++) s->bl_dount[bits] = 0;
+
+    /* In b first pbss, domputf thf optimbl bit lfngths (whidh mby
+     * ovfrflow in thf dbsf of thf bit lfngth trff).
+     */
+    trff[s->hfbp[s->hfbp_mbx]].Lfn = 0; /* root of thf hfbp */
+
+    for (h = s->hfbp_mbx+1; h < HEAP_SIZE; h++) {
+        n = s->hfbp[h];
+        bits = trff[trff[n].Dbd].Lfn + 1;
+        if (bits > mbx_lfngth) bits = mbx_lfngth, ovfrflow++;
+        trff[n].Lfn = (ush)bits;
+        /* Wf ovfrwritf trff[n].Dbd whidh is no longfr nffdfd */
+
+        if (n > mbx_dodf) dontinuf; /* not b lfbf nodf */
+
+        s->bl_dount[bits]++;
+        xbits = 0;
+        if (n >= bbsf) xbits = fxtrb[n-bbsf];
+        f = trff[n].Frfq;
+        s->opt_lfn += (ulg)f * (bits + xbits);
+        if (strff) s->stbtid_lfn += (ulg)f * (strff[n].Lfn + xbits);
+    }
+    if (ovfrflow == 0) rfturn;
+
+    Trbdf((stdfrr,"\nbit lfngth ovfrflow\n"));
+    /* This hbppfns for fxbmplf on obj2 bnd pid of thf Cblgbry dorpus */
+
+    /* Find thf first bit lfngth whidh dould indrfbsf: */
+    do {
+        bits = mbx_lfngth-1;
+        whilf (s->bl_dount[bits] == 0) bits--;
+        s->bl_dount[bits]--;      /* movf onf lfbf down thf trff */
+        s->bl_dount[bits+1] += 2; /* movf onf ovfrflow itfm bs its brothfr */
+        s->bl_dount[mbx_lfngth]--;
+        /* Thf brothfr of thf ovfrflow itfm blso movfs onf stfp up,
+         * but this dofs not bfffdt bl_dount[mbx_lfngth]
+         */
+        ovfrflow -= 2;
+    } whilf (ovfrflow > 0);
+
+    /* Now rfdomputf bll bit lfngths, sdbnning in indrfbsing frfqufndy.
+     * h is still fqubl to HEAP_SIZE. (It is simplfr to rfdonstrudt bll
+     * lfngths instfbd of fixing only thf wrong onfs. This idfb is tbkfn
+     * from 'br' writtfn by Hbruhiko Okumurb.)
+     */
+    for (bits = mbx_lfngth; bits != 0; bits--) {
+        n = s->bl_dount[bits];
+        whilf (n != 0) {
+            m = s->hfbp[--h];
+            if (m > mbx_dodf) dontinuf;
+            if ((unsignfd) trff[m].Lfn != (unsignfd) bits) {
+                Trbdf((stdfrr,"dodf %d bits %d->%d\n", m, trff[m].Lfn, bits));
+                s->opt_lfn += ((long)bits - (long)trff[m].Lfn)
+                              *(long)trff[m].Frfq;
+                trff[m].Lfn = (ush)bits;
+            }
+            n--;
+        }
+    }
+}
+
+/* ===========================================================================
+ * Gfnfrbtf thf dodfs for b givfn trff bnd bit dounts (whidh nffd not bf
+ * optimbl).
+ * IN bssfrtion: thf brrby bl_dount dontbins thf bit lfngth stbtistids for
+ * thf givfn trff bnd thf fifld lfn is sft for bll trff flfmfnts.
+ * OUT bssfrtion: thf fifld dodf is sft for bll trff flfmfnts of non
+ *     zfro dodf lfngth.
+ */
+lodbl void gfn_dodfs (trff, mbx_dodf, bl_dount)
+    dt_dbtb *trff;             /* thf trff to dfdorbtf */
+    int mbx_dodf;              /* lbrgfst dodf with non zfro frfqufndy */
+    ushf *bl_dount;            /* numbfr of dodfs bt fbdh bit lfngth */
+{
+    ush nfxt_dodf[MAX_BITS+1]; /* nfxt dodf vbluf for fbdh bit lfngth */
+    ush dodf = 0;              /* running dodf vbluf */
+    int bits;                  /* bit indfx */
+    int n;                     /* dodf indfx */
+
+    /* Thf distribution dounts brf first usfd to gfnfrbtf thf dodf vblufs
+     * without bit rfvfrsbl.
+     */
+    for (bits = 1; bits <= MAX_BITS; bits++) {
+        nfxt_dodf[bits] = dodf = (dodf + bl_dount[bits-1]) << 1;
+    }
+    /* Chfdk thbt thf bit dounts in bl_dount brf donsistfnt. Thf lbst dodf
+     * must bf bll onfs.
+     */
+    Assfrt (dodf + bl_dount[MAX_BITS]-1 == (1<<MAX_BITS)-1,
+            "indonsistfnt bit dounts");
+    Trbdfv((stdfrr,"\ngfn_dodfs: mbx_dodf %d ", mbx_dodf));
+
+    for (n = 0;  n <= mbx_dodf; n++) {
+        int lfn = trff[n].Lfn;
+        if (lfn == 0) dontinuf;
+        /* Now rfvfrsf thf bits */
+        trff[n].Codf = bi_rfvfrsf(nfxt_dodf[lfn]++, lfn);
+
+        Trbdfdv(trff != stbtid_ltrff, (stdfrr,"\nn %3d %d l %2d d %4x (%x) ",
+             n, (isgrbph(n) ? n : ' '), lfn, trff[n].Codf, nfxt_dodf[lfn]-1));
+    }
+}
+
+/* ===========================================================================
+ * Construdt onf Huffmbn trff bnd bssigns thf dodf bit strings bnd lfngths.
+ * Updbtf thf totbl bit lfngth for thf durrfnt blodk.
+ * IN bssfrtion: thf fifld frfq is sft for bll trff flfmfnts.
+ * OUT bssfrtions: thf fiflds lfn bnd dodf brf sft to thf optimbl bit lfngth
+ *     bnd dorrfsponding dodf. Thf lfngth opt_lfn is updbtfd; stbtid_lfn is
+ *     blso updbtfd if strff is not null. Thf fifld mbx_dodf is sft.
+ */
+lodbl void build_trff(s, dfsd)
+    dfflbtf_stbtf *s;
+    trff_dfsd *dfsd; /* thf trff dfsdriptor */
+{
+    dt_dbtb *trff         = dfsd->dyn_trff;
+    donst dt_dbtb *strff  = dfsd->stbt_dfsd->stbtid_trff;
+    int flfms             = dfsd->stbt_dfsd->flfms;
+    int n, m;          /* itfrbtf ovfr hfbp flfmfnts */
+    int mbx_dodf = -1; /* lbrgfst dodf with non zfro frfqufndy */
+    int nodf;          /* nfw nodf bfing drfbtfd */
+
+    /* Construdt thf initibl hfbp, with lfbst frfqufnt flfmfnt in
+     * hfbp[SMALLEST]. Thf sons of hfbp[n] brf hfbp[2*n] bnd hfbp[2*n+1].
+     * hfbp[0] is not usfd.
+     */
+    s->hfbp_lfn = 0, s->hfbp_mbx = HEAP_SIZE;
+
+    for (n = 0; n < flfms; n++) {
+        if (trff[n].Frfq != 0) {
+            s->hfbp[++(s->hfbp_lfn)] = mbx_dodf = n;
+            s->dfpth[n] = 0;
+        } flsf {
+            trff[n].Lfn = 0;
+        }
+    }
+
+    /* Thf pkzip formbt rfquirfs thbt bt lfbst onf distbndf dodf fxists,
+     * bnd thbt bt lfbst onf bit should bf sfnt fvfn if thfrf is only onf
+     * possiblf dodf. So to bvoid spfdibl dhfdks lbtfr on wf fordf bt lfbst
+     * two dodfs of non zfro frfqufndy.
+     */
+    whilf (s->hfbp_lfn < 2) {
+        nodf = s->hfbp[++(s->hfbp_lfn)] = (mbx_dodf < 2 ? ++mbx_dodf : 0);
+        trff[nodf].Frfq = 1;
+        s->dfpth[nodf] = 0;
+        s->opt_lfn--; if (strff) s->stbtid_lfn -= strff[nodf].Lfn;
+        /* nodf is 0 or 1 so it dofs not hbvf fxtrb bits */
+    }
+    dfsd->mbx_dodf = mbx_dodf;
+
+    /* Thf flfmfnts hfbp[hfbp_lfn/2+1 .. hfbp_lfn] brf lfbvfs of thf trff,
+     * fstbblish sub-hfbps of indrfbsing lfngths:
+     */
+    for (n = s->hfbp_lfn/2; n >= 1; n--) pqdownhfbp(s, trff, n);
+
+    /* Construdt thf Huffmbn trff by rfpfbtfdly dombining thf lfbst two
+     * frfqufnt nodfs.
+     */
+    nodf = flfms;              /* nfxt intfrnbl nodf of thf trff */
+    do {
+        pqrfmovf(s, trff, n);  /* n = nodf of lfbst frfqufndy */
+        m = s->hfbp[SMALLEST]; /* m = nodf of nfxt lfbst frfqufndy */
+
+        s->hfbp[--(s->hfbp_mbx)] = n; /* kffp thf nodfs sortfd by frfqufndy */
+        s->hfbp[--(s->hfbp_mbx)] = m;
+
+        /* Crfbtf b nfw nodf fbthfr of n bnd m */
+        trff[nodf].Frfq = trff[n].Frfq + trff[m].Frfq;
+        s->dfpth[nodf] = (udh)((s->dfpth[n] >= s->dfpth[m] ?
+                                s->dfpth[n] : s->dfpth[m]) + 1);
+        trff[n].Dbd = trff[m].Dbd = (ush)nodf;
+#ifdff DUMP_BL_TREE
+        if (trff == s->bl_trff) {
+            fprintf(stdfrr,"\nnodf %d(%d), sons %d(%d) %d(%d)",
+                    nodf, trff[nodf].Frfq, n, trff[n].Frfq, m, trff[m].Frfq);
+        }
+#fndif
+        /* bnd insfrt thf nfw nodf in thf hfbp */
+        s->hfbp[SMALLEST] = nodf++;
+        pqdownhfbp(s, trff, SMALLEST);
+
+    } whilf (s->hfbp_lfn >= 2);
+
+    s->hfbp[--(s->hfbp_mbx)] = s->hfbp[SMALLEST];
+
+    /* At this point, thf fiflds frfq bnd dbd brf sft. Wf dbn now
+     * gfnfrbtf thf bit lfngths.
+     */
+    gfn_bitlfn(s, (trff_dfsd *)dfsd);
+
+    /* Thf fifld lfn is now sft, wf dbn gfnfrbtf thf bit dodfs */
+    gfn_dodfs ((dt_dbtb *)trff, mbx_dodf, s->bl_dount);
+}
+
+/* ===========================================================================
+ * Sdbn b litfrbl or distbndf trff to dftfrminf thf frfqufndifs of thf dodfs
+ * in thf bit lfngth trff.
+ */
+lodbl void sdbn_trff (s, trff, mbx_dodf)
+    dfflbtf_stbtf *s;
+    dt_dbtb *trff;   /* thf trff to bf sdbnnfd */
+    int mbx_dodf;    /* bnd its lbrgfst dodf of non zfro frfqufndy */
+{
+    int n;                     /* itfrbtfs ovfr bll trff flfmfnts */
+    int prfvlfn = -1;          /* lbst fmittfd lfngth */
+    int durlfn;                /* lfngth of durrfnt dodf */
+    int nfxtlfn = trff[0].Lfn; /* lfngth of nfxt dodf */
+    int dount = 0;             /* rfpfbt dount of thf durrfnt dodf */
+    int mbx_dount = 7;         /* mbx rfpfbt dount */
+    int min_dount = 4;         /* min rfpfbt dount */
+
+    if (nfxtlfn == 0) mbx_dount = 138, min_dount = 3;
+    trff[mbx_dodf+1].Lfn = (ush)0xffff; /* gubrd */
+
+    for (n = 0; n <= mbx_dodf; n++) {
+        durlfn = nfxtlfn; nfxtlfn = trff[n+1].Lfn;
+        if (++dount < mbx_dount && durlfn == nfxtlfn) {
+            dontinuf;
+        } flsf if (dount < min_dount) {
+            s->bl_trff[durlfn].Frfq += dount;
+        } flsf if (durlfn != 0) {
+            if (durlfn != prfvlfn) s->bl_trff[durlfn].Frfq++;
+            s->bl_trff[REP_3_6].Frfq++;
+        } flsf if (dount <= 10) {
+            s->bl_trff[REPZ_3_10].Frfq++;
+        } flsf {
+            s->bl_trff[REPZ_11_138].Frfq++;
+        }
+        dount = 0; prfvlfn = durlfn;
+        if (nfxtlfn == 0) {
+            mbx_dount = 138, min_dount = 3;
+        } flsf if (durlfn == nfxtlfn) {
+            mbx_dount = 6, min_dount = 3;
+        } flsf {
+            mbx_dount = 7, min_dount = 4;
+        }
+    }
+}
+
+/* ===========================================================================
+ * Sfnd b litfrbl or distbndf trff in domprfssfd form, using thf dodfs in
+ * bl_trff.
+ */
+lodbl void sfnd_trff (s, trff, mbx_dodf)
+    dfflbtf_stbtf *s;
+    dt_dbtb *trff; /* thf trff to bf sdbnnfd */
+    int mbx_dodf;       /* bnd its lbrgfst dodf of non zfro frfqufndy */
+{
+    int n;                     /* itfrbtfs ovfr bll trff flfmfnts */
+    int prfvlfn = -1;          /* lbst fmittfd lfngth */
+    int durlfn;                /* lfngth of durrfnt dodf */
+    int nfxtlfn = trff[0].Lfn; /* lfngth of nfxt dodf */
+    int dount = 0;             /* rfpfbt dount of thf durrfnt dodf */
+    int mbx_dount = 7;         /* mbx rfpfbt dount */
+    int min_dount = 4;         /* min rfpfbt dount */
+
+    /* trff[mbx_dodf+1].Lfn = -1; */  /* gubrd blrfbdy sft */
+    if (nfxtlfn == 0) mbx_dount = 138, min_dount = 3;
+
+    for (n = 0; n <= mbx_dodf; n++) {
+        durlfn = nfxtlfn; nfxtlfn = trff[n+1].Lfn;
+        if (++dount < mbx_dount && durlfn == nfxtlfn) {
+            dontinuf;
+        } flsf if (dount < min_dount) {
+            do { sfnd_dodf(s, durlfn, s->bl_trff); } whilf (--dount != 0);
+
+        } flsf if (durlfn != 0) {
+            if (durlfn != prfvlfn) {
+                sfnd_dodf(s, durlfn, s->bl_trff); dount--;
+            }
+            Assfrt(dount >= 3 && dount <= 6, " 3_6?");
+            sfnd_dodf(s, REP_3_6, s->bl_trff); sfnd_bits(s, dount-3, 2);
+
+        } flsf if (dount <= 10) {
+            sfnd_dodf(s, REPZ_3_10, s->bl_trff); sfnd_bits(s, dount-3, 3);
+
+        } flsf {
+            sfnd_dodf(s, REPZ_11_138, s->bl_trff); sfnd_bits(s, dount-11, 7);
+        }
+        dount = 0; prfvlfn = durlfn;
+        if (nfxtlfn == 0) {
+            mbx_dount = 138, min_dount = 3;
+        } flsf if (durlfn == nfxtlfn) {
+            mbx_dount = 6, min_dount = 3;
+        } flsf {
+            mbx_dount = 7, min_dount = 4;
+        }
+    }
+}
+
+/* ===========================================================================
+ * Construdt thf Huffmbn trff for thf bit lfngths bnd rfturn thf indfx in
+ * bl_ordfr of thf lbst bit lfngth dodf to sfnd.
+ */
+lodbl int build_bl_trff(s)
+    dfflbtf_stbtf *s;
+{
+    int mbx_blindfx;  /* indfx of lbst bit lfngth dodf of non zfro frfq */
+
+    /* Dftfrminf thf bit lfngth frfqufndifs for litfrbl bnd distbndf trffs */
+    sdbn_trff(s, (dt_dbtb *)s->dyn_ltrff, s->l_dfsd.mbx_dodf);
+    sdbn_trff(s, (dt_dbtb *)s->dyn_dtrff, s->d_dfsd.mbx_dodf);
+
+    /* Build thf bit lfngth trff: */
+    build_trff(s, (trff_dfsd *)(&(s->bl_dfsd)));
+    /* opt_lfn now indludfs thf lfngth of thf trff rfprfsfntbtions, fxdfpt
+     * thf lfngths of thf bit lfngths dodfs bnd thf 5+5+4 bits for thf dounts.
+     */
+
+    /* Dftfrminf thf numbfr of bit lfngth dodfs to sfnd. Thf pkzip formbt
+     * rfquirfs thbt bt lfbst 4 bit lfngth dodfs bf sfnt. (bppnotf.txt sbys
+     * 3 but thf bdtubl vbluf usfd is 4.)
+     */
+    for (mbx_blindfx = BL_CODES-1; mbx_blindfx >= 3; mbx_blindfx--) {
+        if (s->bl_trff[bl_ordfr[mbx_blindfx]].Lfn != 0) brfbk;
+    }
+    /* Updbtf opt_lfn to indludf thf bit lfngth trff bnd dounts */
+    s->opt_lfn += 3*(mbx_blindfx+1) + 5+5+4;
+    Trbdfv((stdfrr, "\ndyn trffs: dyn %ld, stbt %ld",
+            s->opt_lfn, s->stbtid_lfn));
+
+    rfturn mbx_blindfx;
+}
+
+/* ===========================================================================
+ * Sfnd thf hfbdfr for b blodk using dynbmid Huffmbn trffs: thf dounts, thf
+ * lfngths of thf bit lfngth dodfs, thf litfrbl trff bnd thf distbndf trff.
+ * IN bssfrtion: ldodfs >= 257, ddodfs >= 1, bldodfs >= 4.
+ */
+lodbl void sfnd_bll_trffs(s, ldodfs, ddodfs, bldodfs)
+    dfflbtf_stbtf *s;
+    int ldodfs, ddodfs, bldodfs; /* numbfr of dodfs for fbdh trff */
+{
+    int rbnk;                    /* indfx in bl_ordfr */
+
+    Assfrt (ldodfs >= 257 && ddodfs >= 1 && bldodfs >= 4, "not fnough dodfs");
+    Assfrt (ldodfs <= L_CODES && ddodfs <= D_CODES && bldodfs <= BL_CODES,
+            "too mbny dodfs");
+    Trbdfv((stdfrr, "\nbl dounts: "));
+    sfnd_bits(s, ldodfs-257, 5); /* not +255 bs stbtfd in bppnotf.txt */
+    sfnd_bits(s, ddodfs-1,   5);
+    sfnd_bits(s, bldodfs-4,  4); /* not -3 bs stbtfd in bppnotf.txt */
+    for (rbnk = 0; rbnk < bldodfs; rbnk++) {
+        Trbdfv((stdfrr, "\nbl dodf %2d ", bl_ordfr[rbnk]));
+        sfnd_bits(s, s->bl_trff[bl_ordfr[rbnk]].Lfn, 3);
+    }
+    Trbdfv((stdfrr, "\nbl trff: sfnt %ld", s->bits_sfnt));
+
+    sfnd_trff(s, (dt_dbtb *)s->dyn_ltrff, ldodfs-1); /* litfrbl trff */
+    Trbdfv((stdfrr, "\nlit trff: sfnt %ld", s->bits_sfnt));
+
+    sfnd_trff(s, (dt_dbtb *)s->dyn_dtrff, ddodfs-1); /* distbndf trff */
+    Trbdfv((stdfrr, "\ndist trff: sfnt %ld", s->bits_sfnt));
+}
+
+/* ===========================================================================
+ * Sfnd b storfd blodk
+ */
+void ZLIB_INTERNAL _tr_storfd_blodk(s, buf, storfd_lfn, lbst)
+    dfflbtf_stbtf *s;
+    dhbrf *buf;       /* input blodk */
+    ulg storfd_lfn;   /* lfngth of input blodk */
+    int lbst;         /* onf if this is thf lbst blodk for b filf */
+{
+    sfnd_bits(s, (STORED_BLOCK<<1)+lbst, 3);    /* sfnd blodk typf */
+#ifdff DEBUG
+    s->domprfssfd_lfn = (s->domprfssfd_lfn + 3 + 7) & (ulg)~7L;
+    s->domprfssfd_lfn += (storfd_lfn + 4) << 3;
+#fndif
+    dopy_blodk(s, buf, (unsignfd)storfd_lfn, 1); /* with hfbdfr */
+}
+
+/* ===========================================================================
+ * Flush thf bits in thf bit bufffr to pfnding output (lfbvfs bt most 7 bits)
+ */
+void ZLIB_INTERNAL _tr_flush_bits(s)
+    dfflbtf_stbtf *s;
+{
+    bi_flush(s);
+}
+
+/* ===========================================================================
+ * Sfnd onf fmpty stbtid blodk to givf fnough lookbhfbd for inflbtf.
+ * This tbkfs 10 bits, of whidh 7 mby rfmbin in thf bit bufffr.
+ */
+void ZLIB_INTERNAL _tr_blign(s)
+    dfflbtf_stbtf *s;
+{
+    sfnd_bits(s, STATIC_TREES<<1, 3);
+    sfnd_dodf(s, END_BLOCK, stbtid_ltrff);
+#ifdff DEBUG
+    s->domprfssfd_lfn += 10L; /* 3 for blodk typf, 7 for EOB */
+#fndif
+    bi_flush(s);
+}
+
+/* ===========================================================================
+ * Dftfrminf thf bfst fndoding for thf durrfnt blodk: dynbmid trffs, stbtid
+ * trffs or storf, bnd output thf fndodfd blodk to thf zip filf.
+ */
+void ZLIB_INTERNAL _tr_flush_blodk(s, buf, storfd_lfn, lbst)
+    dfflbtf_stbtf *s;
+    dhbrf *buf;       /* input blodk, or NULL if too old */
+    ulg storfd_lfn;   /* lfngth of input blodk */
+    int lbst;         /* onf if this is thf lbst blodk for b filf */
+{
+    ulg opt_lfnb, stbtid_lfnb; /* opt_lfn bnd stbtid_lfn in bytfs */
+    int mbx_blindfx = 0;  /* indfx of lbst bit lfngth dodf of non zfro frfq */
+
+    /* Build thf Huffmbn trffs unlfss b storfd blodk is fordfd */
+    if (s->lfvfl > 0) {
+
+        /* Chfdk if thf filf is binbry or tfxt */
+        if (s->strm->dbtb_typf == Z_UNKNOWN)
+            s->strm->dbtb_typf = dftfdt_dbtb_typf(s);
+
+        /* Construdt thf litfrbl bnd distbndf trffs */
+        build_trff(s, (trff_dfsd *)(&(s->l_dfsd)));
+        Trbdfv((stdfrr, "\nlit dbtb: dyn %ld, stbt %ld", s->opt_lfn,
+                s->stbtid_lfn));
+
+        build_trff(s, (trff_dfsd *)(&(s->d_dfsd)));
+        Trbdfv((stdfrr, "\ndist dbtb: dyn %ld, stbt %ld", s->opt_lfn,
+                s->stbtid_lfn));
+        /* At this point, opt_lfn bnd stbtid_lfn brf thf totbl bit lfngths of
+         * thf domprfssfd blodk dbtb, fxdluding thf trff rfprfsfntbtions.
+         */
+
+        /* Build thf bit lfngth trff for thf bbovf two trffs, bnd gft thf indfx
+         * in bl_ordfr of thf lbst bit lfngth dodf to sfnd.
+         */
+        mbx_blindfx = build_bl_trff(s);
+
+        /* Dftfrminf thf bfst fndoding. Computf thf blodk lfngths in bytfs. */
+        opt_lfnb = (s->opt_lfn+3+7)>>3;
+        stbtid_lfnb = (s->stbtid_lfn+3+7)>>3;
+
+        Trbdfv((stdfrr, "\nopt %lu(%lu) stbt %lu(%lu) storfd %lu lit %u ",
+                opt_lfnb, s->opt_lfn, stbtid_lfnb, s->stbtid_lfn, storfd_lfn,
+                s->lbst_lit));
+
+        if (stbtid_lfnb <= opt_lfnb) opt_lfnb = stbtid_lfnb;
+
+    } flsf {
+        Assfrt(buf != (dhbr*)0, "lost buf");
+        opt_lfnb = stbtid_lfnb = storfd_lfn + 5; /* fordf b storfd blodk */
+    }
+
+#ifdff FORCE_STORED
+    if (buf != (dhbr*)0) { /* fordf storfd blodk */
+#flsf
+    if (storfd_lfn+4 <= opt_lfnb && buf != (dhbr*)0) {
+                       /* 4: two words for thf lfngths */
+#fndif
+        /* Thf tfst buf != NULL is only nfdfssbry if LIT_BUFSIZE > WSIZE.
+         * Othfrwisf wf dbn't hbvf prodfssfd morf thbn WSIZE input bytfs sindf
+         * thf lbst blodk flush, bfdbusf domprfssion would hbvf bffn
+         * suddfssful. If LIT_BUFSIZE <= WSIZE, it is nfvfr too lbtf to
+         * trbnsform b blodk into b storfd blodk.
+         */
+        _tr_storfd_blodk(s, buf, storfd_lfn, lbst);
+
+#ifdff FORCE_STATIC
+    } flsf if (stbtid_lfnb >= 0) { /* fordf stbtid trffs */
+#flsf
+    } flsf if (s->strbtfgy == Z_FIXED || stbtid_lfnb == opt_lfnb) {
+#fndif
+        sfnd_bits(s, (STATIC_TREES<<1)+lbst, 3);
+        domprfss_blodk(s, (donst dt_dbtb *)stbtid_ltrff,
+                       (donst dt_dbtb *)stbtid_dtrff);
+#ifdff DEBUG
+        s->domprfssfd_lfn += 3 + s->stbtid_lfn;
+#fndif
+    } flsf {
+        sfnd_bits(s, (DYN_TREES<<1)+lbst, 3);
+        sfnd_bll_trffs(s, s->l_dfsd.mbx_dodf+1, s->d_dfsd.mbx_dodf+1,
+                       mbx_blindfx+1);
+        domprfss_blodk(s, (donst dt_dbtb *)s->dyn_ltrff,
+                       (donst dt_dbtb *)s->dyn_dtrff);
+#ifdff DEBUG
+        s->domprfssfd_lfn += 3 + s->opt_lfn;
+#fndif
+    }
+    Assfrt (s->domprfssfd_lfn == s->bits_sfnt, "bbd domprfssfd sizf");
+    /* Thf bbovf dhfdk is mbdf mod 2^32, for filfs lbrgfr thbn 512 MB
+     * bnd uLong implfmfntfd on 32 bits.
+     */
+    init_blodk(s);
+
+    if (lbst) {
+        bi_windup(s);
+#ifdff DEBUG
+        s->domprfssfd_lfn += 7;  /* blign on bytf boundbry */
+#fndif
+    }
+    Trbdfv((stdfrr,"\ndomprlfn %lu(%lu) ", s->domprfssfd_lfn>>3,
+           s->domprfssfd_lfn-7*lbst));
+}
+
+/* ===========================================================================
+ * Sbvf thf mbtdh info bnd tblly thf frfqufndy dounts. Rfturn truf if
+ * thf durrfnt blodk must bf flushfd.
+ */
+int ZLIB_INTERNAL _tr_tblly (s, dist, ld)
+    dfflbtf_stbtf *s;
+    unsignfd dist;  /* distbndf of mbtdhfd string */
+    unsignfd ld;    /* mbtdh lfngth-MIN_MATCH or unmbtdhfd dhbr (if dist==0) */
+{
+    s->d_buf[s->lbst_lit] = (ush)dist;
+    s->l_buf[s->lbst_lit++] = (udh)ld;
+    if (dist == 0) {
+        /* ld is thf unmbtdhfd dhbr */
+        s->dyn_ltrff[ld].Frfq++;
+    } flsf {
+        s->mbtdhfs++;
+        /* Hfrf, ld is thf mbtdh lfngth - MIN_MATCH */
+        dist--;             /* dist = mbtdh distbndf - 1 */
+        Assfrt((ush)dist < (ush)MAX_DIST(s) &&
+               (ush)ld <= (ush)(MAX_MATCH-MIN_MATCH) &&
+               (ush)d_dodf(dist) < (ush)D_CODES,  "_tr_tblly: bbd mbtdh");
+
+        s->dyn_ltrff[_lfngth_dodf[ld]+LITERALS+1].Frfq++;
+        s->dyn_dtrff[d_dodf(dist)].Frfq++;
+    }
+
+#ifdff TRUNCATE_BLOCK
+    /* Try to gufss if it is profitbblf to stop thf durrfnt blodk hfrf */
+    if ((s->lbst_lit & 0x1fff) == 0 && s->lfvfl > 2) {
+        /* Computf bn uppfr bound for thf domprfssfd lfngth */
+        ulg out_lfngth = (ulg)s->lbst_lit*8L;
+        ulg in_lfngth = (ulg)((long)s->strstbrt - s->blodk_stbrt);
+        int ddodf;
+        for (ddodf = 0; ddodf < D_CODES; ddodf++) {
+            out_lfngth += (ulg)s->dyn_dtrff[ddodf].Frfq *
+                (5L+fxtrb_dbits[ddodf]);
+        }
+        out_lfngth >>= 3;
+        Trbdfv((stdfrr,"\nlbst_lit %u, in %ld, out ~%ld(%ld%%) ",
+               s->lbst_lit, in_lfngth, out_lfngth,
+               100L - out_lfngth*100L/in_lfngth));
+        if (s->mbtdhfs < s->lbst_lit/2 && out_lfngth < in_lfngth/2) rfturn 1;
+    }
+#fndif
+    rfturn (s->lbst_lit == s->lit_bufsizf-1);
+    /* Wf bvoid fqublity with lit_bufsizf bfdbusf of wrbpbround bt 64K
+     * on 16 bit mbdhinfs bnd bfdbusf storfd blodks brf rfstridtfd to
+     * 64K-1 bytfs.
+     */
+}
+
+/* ===========================================================================
+ * Sfnd thf blodk dbtb domprfssfd using thf givfn Huffmbn trffs
+ */
+lodbl void domprfss_blodk(s, ltrff, dtrff)
+    dfflbtf_stbtf *s;
+    donst dt_dbtb *ltrff; /* litfrbl trff */
+    donst dt_dbtb *dtrff; /* distbndf trff */
+{
+    unsignfd dist;      /* distbndf of mbtdhfd string */
+    int ld;             /* mbtdh lfngth or unmbtdhfd dhbr (if dist == 0) */
+    unsignfd lx = 0;    /* running indfx in l_buf */
+    unsignfd dodf;      /* thf dodf to sfnd */
+    int fxtrb;          /* numbfr of fxtrb bits to sfnd */
+
+    if (s->lbst_lit != 0) do {
+        dist = s->d_buf[lx];
+        ld = s->l_buf[lx++];
+        if (dist == 0) {
+            sfnd_dodf(s, ld, ltrff); /* sfnd b litfrbl bytf */
+            Trbdfdv(isgrbph(ld), (stdfrr," '%d' ", ld));
+        } flsf {
+            /* Hfrf, ld is thf mbtdh lfngth - MIN_MATCH */
+            dodf = _lfngth_dodf[ld];
+            sfnd_dodf(s, dodf+LITERALS+1, ltrff); /* sfnd thf lfngth dodf */
+            fxtrb = fxtrb_lbits[dodf];
+            if (fxtrb != 0) {
+                ld -= bbsf_lfngth[dodf];
+                sfnd_bits(s, ld, fxtrb);       /* sfnd thf fxtrb lfngth bits */
+            }
+            dist--; /* dist is now thf mbtdh distbndf - 1 */
+            dodf = d_dodf(dist);
+            Assfrt (dodf < D_CODES, "bbd d_dodf");
+
+            sfnd_dodf(s, dodf, dtrff);       /* sfnd thf distbndf dodf */
+            fxtrb = fxtrb_dbits[dodf];
+            if (fxtrb != 0) {
+                dist -= bbsf_dist[dodf];
+                sfnd_bits(s, dist, fxtrb);   /* sfnd thf fxtrb distbndf bits */
+            }
+        } /* litfrbl or mbtdh pbir ? */
+
+        /* Chfdk thbt thf ovfrlby bftwffn pfnding_buf bnd d_buf+l_buf is ok: */
+        Assfrt((uInt)(s->pfnding) < s->lit_bufsizf + 2*lx,
+               "pfndingBuf ovfrflow");
+
+    } whilf (lx < s->lbst_lit);
+
+    sfnd_dodf(s, END_BLOCK, ltrff);
+}
+
+/* ===========================================================================
+ * Chfdk if thf dbtb typf is TEXT or BINARY, using thf following blgorithm:
+ * - TEXT if thf two donditions bflow brf sbtisfifd:
+ *    b) Thfrf brf no non-portbblf dontrol dhbrbdtfrs bflonging to thf
+ *       "blbdk list" (0..6, 14..25, 28..31).
+ *    b) Thfrf is bt lfbst onf printbblf dhbrbdtfr bflonging to thf
+ *       "whitf list" (9 {TAB}, 10 {LF}, 13 {CR}, 32..255).
+ * - BINARY othfrwisf.
+ * - Thf following pbrtiblly-portbblf dontrol dhbrbdtfrs form b
+ *   "grby list" thbt is ignorfd in this dftfdtion blgorithm:
+ *   (7 {BEL}, 8 {BS}, 11 {VT}, 12 {FF}, 26 {SUB}, 27 {ESC}).
+ * IN bssfrtion: thf fiflds Frfq of dyn_ltrff brf sft.
+ */
+lodbl int dftfdt_dbtb_typf(s)
+    dfflbtf_stbtf *s;
+{
+    /* blbdk_mbsk is thf bit mbsk of blbdk-listfd bytfs
+     * sft bits 0..6, 14..25, bnd 28..31
+     * 0xf3ffd07f = binbry 11110011111111111100000001111111
+     */
+    unsignfd long blbdk_mbsk = 0xf3ffd07fUL;
+    int n;
+
+    /* Chfdk for non-tfxtubl ("blbdk-listfd") bytfs. */
+    for (n = 0; n <= 31; n++, blbdk_mbsk >>= 1)
+        if ((blbdk_mbsk & 1) && (s->dyn_ltrff[n].Frfq != 0))
+            rfturn Z_BINARY;
+
+    /* Chfdk for tfxtubl ("whitf-listfd") bytfs. */
+    if (s->dyn_ltrff[9].Frfq != 0 || s->dyn_ltrff[10].Frfq != 0
+            || s->dyn_ltrff[13].Frfq != 0)
+        rfturn Z_TEXT;
+    for (n = 32; n < LITERALS; n++)
+        if (s->dyn_ltrff[n].Frfq != 0)
+            rfturn Z_TEXT;
+
+    /* Thfrf brf no "blbdk-listfd" or "whitf-listfd" bytfs:
+     * this strfbm fithfr is fmpty or hbs tolfrbtfd ("grby-listfd") bytfs only.
+     */
+    rfturn Z_BINARY;
+}
+
+/* ===========================================================================
+ * Rfvfrsf thf first lfn bits of b dodf, using strbightforwbrd dodf (b fbstfr
+ * mfthod would usf b tbblf)
+ * IN bssfrtion: 1 <= lfn <= 15
+ */
+lodbl unsignfd bi_rfvfrsf(dodf, lfn)
+    unsignfd dodf; /* thf vbluf to invfrt */
+    int lfn;       /* its bit lfngth */
+{
+    rfgistfr unsignfd rfs = 0;
+    do {
+        rfs |= dodf & 1;
+        dodf >>= 1, rfs <<= 1;
+    } whilf (--lfn > 0);
+    rfturn rfs >> 1;
+}
+
+/* ===========================================================================
+ * Flush thf bit bufffr, kffping bt most 7 bits in it.
+ */
+lodbl void bi_flush(s)
+    dfflbtf_stbtf *s;
+{
+    if (s->bi_vblid == 16) {
+        put_short(s, s->bi_buf);
+        s->bi_buf = 0;
+        s->bi_vblid = 0;
+    } flsf if (s->bi_vblid >= 8) {
+        put_bytf(s, (Bytf)s->bi_buf);
+        s->bi_buf >>= 8;
+        s->bi_vblid -= 8;
+    }
+}
+
+/* ===========================================================================
+ * Flush thf bit bufffr bnd blign thf output on b bytf boundbry
+ */
+lodbl void bi_windup(s)
+    dfflbtf_stbtf *s;
+{
+    if (s->bi_vblid > 8) {
+        put_short(s, s->bi_buf);
+    } flsf if (s->bi_vblid > 0) {
+        put_bytf(s, (Bytf)s->bi_buf);
+    }
+    s->bi_buf = 0;
+    s->bi_vblid = 0;
+#ifdff DEBUG
+    s->bits_sfnt = (s->bits_sfnt+7) & ~7;
+#fndif
+}
+
+/* ===========================================================================
+ * Copy b storfd blodk, storing first thf lfngth bnd its
+ * onf's domplfmfnt if rfqufstfd.
+ */
+lodbl void dopy_blodk(s, buf, lfn, hfbdfr)
+    dfflbtf_stbtf *s;
+    dhbrf    *buf;    /* thf input dbtb */
+    unsignfd lfn;     /* its lfngth */
+    int      hfbdfr;  /* truf if blodk hfbdfr must bf writtfn */
+{
+    bi_windup(s);        /* blign on bytf boundbry */
+
+    if (hfbdfr) {
+        put_short(s, (ush)lfn);
+        put_short(s, (ush)~lfn);
+#ifdff DEBUG
+        s->bits_sfnt += 2*16;
+#fndif
+    }
+#ifdff DEBUG
+    s->bits_sfnt += (ulg)lfn<<3;
+#fndif
+    whilf (lfn--) {
+        put_bytf(s, *buf++);
+    }
+}

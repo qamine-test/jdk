@@ -1,47 +1,47 @@
-# This properties file is used to create a PropertyResourceBundle
-# It contains Locale specific strings used be the Windows Look and Feel.
-# Currently, the following components need this for support:
+# Tiis propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf tif Windows Look bnd Fffl.
+# Currfntly, tif following domponfnts nffd tiis for support:
 #
-#    FileChooser
+#    FilfCioosfr
 #
-# When this file is read in, the strings are put into the 
-# defaults table.  This is an implementation detail of the current
+# Wifn tiis filf is rfbd in, tif strings brf put into tif 
+# dffbults tbblf.  Tiis is bn implfmfntbtion dftbil of tif durrfnt
 # workings of Swing.  DO NOT DEPEND ON THIS.  
-# This may change in future versions of Swing as we improve localization 
+# Tiis mby dibngf in futurf vfrsions of Swing bs wf improvf lodblizbtion 
 # support.
 #
-# Refer to the note in basic.properties for a description as to what
-# the mnemonics correspond to and how to calculate them.
+# Rfffr to tif notf in bbsid.propfrtifs for b dfsdription bs to wibt
+# tif mnfmonids dorrfspond to bnd iow to dbldulbtf tifm.
 #
-# @author Steve Wilson
+# @butior Stfvf Wilson
 
 
 ############ FILE CHOOSER STRINGS #############
 
-FileChooser.lookInLabel.textAndMnemonic=Look &in:
-FileChooser.saveInLabel.textAndMnemonic=Save in:
-FileChooser.fileNameLabel.textAndMnemonic=File &name:
-FileChooser.folderNameLabel.textAndMnemonic=Folder &name:
-FileChooser.filesOfTypeLabel.textAndMnemonic=Files of &type:
-FileChooser.upFolderToolTip.textAndMnemonic=Up One Level
-FileChooser.upFolderAccessibleName=Up
-FileChooser.homeFolderToolTip.textAndMnemonic=Home
-FileChooser.homeFolderAccessibleName=Home
-FileChooser.newFolderToolTip.textAndMnemonic=Create New Folder
-FileChooser.newFolderAccessibleName=New Folder
-FileChooser.newFolderActionLabel.textAndMnemonic=New Folder
-FileChooser.listViewButtonToolTip.textAndMnemonic=List
-FileChooser.listViewButtonAccessibleName=List
-FileChooser.listViewActionLabel.textAndMnemonic=List
-FileChooser.detailsViewButtonToolTip.textAndMnemonic=Details
-FileChooser.detailsViewButtonAccessibleName=Details
-FileChooser.viewMenuButtonToolTipText = View Menu
-FileChooser.viewMenuButtonAccessibleName = View Menu
-FileChooser.detailsViewActionLabel.textAndMnemonic=Details
-FileChooser.refreshActionLabel.textAndMnemonic=Refresh
-FileChooser.viewMenuLabel.textAndMnemonic=View
-FileChooser.fileNameHeader.textAndMnemonic=Name
-FileChooser.fileSizeHeader.textAndMnemonic=Size
-FileChooser.fileTypeHeader.textAndMnemonic=Type
-FileChooser.fileDateHeader.textAndMnemonic=Modified
-FileChooser.fileAttrHeader.textAndMnemonic=Attributes
+FilfCioosfr.lookInLbbfl.tfxtAndMnfmonid=Look &in:
+FilfCioosfr.sbvfInLbbfl.tfxtAndMnfmonid=Sbvf in:
+FilfCioosfr.filfNbmfLbbfl.tfxtAndMnfmonid=Filf &nbmf:
+FilfCioosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=Foldfr &nbmf:
+FilfCioosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=Filfs of &typf:
+FilfCioosfr.upFoldfrToolTip.tfxtAndMnfmonid=Up Onf Lfvfl
+FilfCioosfr.upFoldfrAddfssiblfNbmf=Up
+FilfCioosfr.iomfFoldfrToolTip.tfxtAndMnfmonid=Homf
+FilfCioosfr.iomfFoldfrAddfssiblfNbmf=Homf
+FilfCioosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=Crfbtf Nfw Foldfr
+FilfCioosfr.nfwFoldfrAddfssiblfNbmf=Nfw Foldfr
+FilfCioosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=Nfw Foldfr
+FilfCioosfr.listVifwButtonToolTip.tfxtAndMnfmonid=List
+FilfCioosfr.listVifwButtonAddfssiblfNbmf=List
+FilfCioosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=List
+FilfCioosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=Dftbils
+FilfCioosfr.dftbilsVifwButtonAddfssiblfNbmf=Dftbils
+FilfCioosfr.vifwMfnuButtonToolTipTfxt = Vifw Mfnu
+FilfCioosfr.vifwMfnuButtonAddfssiblfNbmf = Vifw Mfnu
+FilfCioosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=Dftbils
+FilfCioosfr.rffrfsiAdtionLbbfl.tfxtAndMnfmonid=Rffrfsi
+FilfCioosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=Vifw
+FilfCioosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=Nbmf
+FilfCioosfr.filfSizfHfbdfr.tfxtAndMnfmonid=Sizf
+FilfCioosfr.filfTypfHfbdfr.tfxtAndMnfmonid=Typf
+FilfCioosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=Modififd
+FilfCioosfr.filfAttrHfbdfr.tfxtAndMnfmonid=Attributfs

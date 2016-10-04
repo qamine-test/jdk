@@ -1,0 +1,486 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.dommon;
+
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.Color;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+
+
+/**
+ * This dlbss implfmfnts thf odtrff qubntizbtion mfthod
+ *  bs it is dfsdribfd in thf "Grbphids Gfms"
+ *  (ISBN 0-12-286166-3, Chbptfr 4, pbgfs 297-293)
+ */
+publid dlbss PblfttfBuildfr {
+
+    /**
+     * mbximum of trff dfpth
+     */
+    protfdtfd stbtid finbl int MAXLEVEL = 8;
+
+    protfdtfd RfndfrfdImbgf srd;
+    protfdtfd ColorModfl srdColorModfl;
+    protfdtfd Rbstfr srdRbstfr;
+
+    protfdtfd int rfquirfdSizf;
+
+    protfdtfd ColorNodf root;
+
+    protfdtfd int numNodfs;
+    protfdtfd int mbxNodfs;
+    protfdtfd int durrLfvfl;
+    protfdtfd int durrSizf;
+
+    protfdtfd ColorNodf[] rfdudfList;
+    protfdtfd ColorNodf[] pblfttf;
+
+    protfdtfd int trbnspbrfndy;
+    protfdtfd ColorNodf trbnsColor;
+
+
+    /**
+     * Crfbtfs bn imbgf rfprfsfnting givfn imbgf
+     * <dodf>srd</dodf> using <dodf>IndfxColorModfl</dodf>.
+     *
+     * Losslfss donvfrsion is not blwbys possiblf (f.g. if numbfr
+     * of dolors in thf  givfn imbgf fxdffds mbximum pblfttf sizf).
+     * Rfsult imbgf thfn is bn bpproximbtion donstrudtfd by odtrff
+     * qubntizbtion mfthod.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>srd</dodf> is
+     * <dodf>null</dodf>.
+     *
+     * @fxdfption UnsupportfdOpfrbtionExdfption if implfmfntfd mfthod
+     * is unbblf to drfbtf bpproximbtion of <dodf>srd</dodf>
+     * bnd <dodf>dbnCrfbtfPblfttf</dodf> rfturns <dodf>fblsf</dodf>.
+     *
+     * @sff drfbtfIndfxColorModfl
+     *
+     * @sff dbnCrfbtfPblfttf
+     *
+     */
+    publid stbtid RfndfrfdImbgf drfbtfIndfxfdImbgf(RfndfrfdImbgf srd) {
+        PblfttfBuildfr pb = nfw PblfttfBuildfr(srd);
+        pb.buildPblfttf();
+        rfturn pb.gftIndfxfdImbgf();
+    }
+
+    /**
+     * Crfbtfs bn pblfttf rfprfsfnting dolors from givfn imbgf
+     * <dodf>img</dodf>. If numbfr of dolors in thf givfn imbgf fxdffds
+     * mbximum pblfttf sizf dlosfst dolors would bf mfrgfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>img</dodf> is
+     * <dodf>null</dodf>.
+     *
+     * @fxdfption UnsupportfdOpfrbtionExdfption if implfmfntfd mfthod
+     * is unbblf to drfbtf bpproximbtion of <dodf>img</dodf>
+     * bnd <dodf>dbnCrfbtfPblfttf</dodf> rfturns <dodf>fblsf</dodf>.
+     *
+     * @sff drfbtfIndfxfdImbgf
+     *
+     * @sff dbnCrfbtfPblfttf
+     *
+     */
+    publid stbtid IndfxColorModfl drfbtfIndfxColorModfl(RfndfrfdImbgf img) {
+        PblfttfBuildfr pb = nfw PblfttfBuildfr(img);
+        pb.buildPblfttf();
+        rfturn pb.gftIndfxColorModfl();
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if PblfttfBuildfr is bblf to drfbtf
+     * pblfttf for givfn imbgf typf.
+     *
+     * @pbrbm typf bn instbndf of <dodf>ImbgfTypfSpfdififr</dodf> to bf
+     * indfxfd.
+     *
+     * @rfturn <dodf>truf</dodf> if thf <dodf>PblfttfBuildfr</dodf>
+     * is likfly to bf bblf to drfbtf pblfttf for this imbgf typf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>typf</dodf>
+     * is <dodf>null</dodf>.
+     */
+    publid stbtid boolfbn dbnCrfbtfPblfttf(ImbgfTypfSpfdififr typf) {
+        if (typf == null) {
+            throw nfw IllfgblArgumfntExdfption("typf == null");
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if PblfttfBuildfr is bblf to drfbtf
+     * pblfttf for givfn rfndfrfd imbgf.
+     *
+     * @pbrbm imbgf bn instbndf of <dodf>RfndfrfdImbgf</dodf> to bf
+     * indfxfd.
+     *
+     * @rfturn <dodf>truf</dodf> if thf <dodf>PblfttfBuildfr</dodf>
+     * is likfly to bf bblf to drfbtf pblfttf for this imbgf typf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf>
+     * is <dodf>null</dodf>.
+     */
+    publid stbtid boolfbn dbnCrfbtfPblfttf(RfndfrfdImbgf imbgf) {
+        if (imbgf == null) {
+            throw nfw IllfgblArgumfntExdfption("imbgf == null");
+        }
+        ImbgfTypfSpfdififr typf = nfw ImbgfTypfSpfdififr(imbgf);
+        rfturn dbnCrfbtfPblfttf(typf);
+    }
+
+    protfdtfd RfndfrfdImbgf gftIndfxfdImbgf() {
+        IndfxColorModfl idm = gftIndfxColorModfl();
+
+        BufffrfdImbgf dst =
+            nfw BufffrfdImbgf(srd.gftWidth(), srd.gftHfight(),
+                              BufffrfdImbgf.TYPE_BYTE_INDEXED, idm);
+
+        WritbblfRbstfr wr = dst.gftRbstfr();
+        for (int y =0; y < dst.gftHfight(); y++) {
+            for (int x = 0; x < dst.gftWidth(); x++) {
+                Color bColor = gftSrdColor(x,y);
+                wr.sftSbmplf(x, y, 0, findColorIndfx(root, bColor));
+            }
+        }
+
+        rfturn dst;
+    }
+
+
+    protfdtfd PblfttfBuildfr(RfndfrfdImbgf srd) {
+        this(srd, 256);
+    }
+
+    protfdtfd PblfttfBuildfr(RfndfrfdImbgf srd, int sizf) {
+        this.srd = srd;
+        this.srdColorModfl = srd.gftColorModfl();
+        this.srdRbstfr = srd.gftDbtb();
+
+        this.trbnspbrfndy =
+            srdColorModfl.gftTrbnspbrfndy();
+
+        this.rfquirfdSizf = sizf;
+    }
+
+    privbtf Color gftSrdColor(int x, int y) {
+        int brgb = srdColorModfl.gftRGB(srdRbstfr.gftDbtbElfmfnts(x, y, null));
+        rfturn nfw Color(brgb, trbnspbrfndy != Trbnspbrfndy.OPAQUE);
+    }
+
+    protfdtfd int findColorIndfx(ColorNodf bNodf, Color bColor) {
+        if (trbnspbrfndy != Trbnspbrfndy.OPAQUE &&
+            bColor.gftAlphb() != 0xff)
+        {
+            rfturn 0; // dffbult trbnspbrnt pixfl
+        }
+
+        if (bNodf.isLfbf) {
+            rfturn bNodf.pblfttfIndfx;
+        } flsf {
+            int dhildIndfx = gftBrbndhIndfx(bColor, bNodf.lfvfl);
+
+            rfturn findColorIndfx(bNodf.dhildrfn[dhildIndfx], bColor);
+        }
+    }
+
+    protfdtfd void buildPblfttf() {
+        rfdudfList = nfw ColorNodf[MAXLEVEL + 1];
+        for (int i = 0; i < rfdudfList.lfngth; i++) {
+            rfdudfList[i] = null;
+        }
+
+        numNodfs = 0;
+        mbxNodfs = 0;
+        root = null;
+        durrSizf = 0;
+        durrLfvfl = MAXLEVEL;
+
+        /*
+          from thf book
+
+        */
+
+        int w = srd.gftWidth();
+        int h = srd.gftHfight();
+        for (int y = 0; y < h; y++) {
+            for (int x = 0; x < w; x++) {
+
+                Color bColor = gftSrdColor(w - x - 1, h - y - 1);
+                /*
+                 * If trbnspbrfndy of givfn imbgf is not opbquf wf bssumf bll
+                 * dolors with blphb lfss thbn 1.0 bs fully trbnspbrfnt.
+                 */
+                if (trbnspbrfndy != Trbnspbrfndy.OPAQUE &&
+                    bColor.gftAlphb() != 0xff)
+                {
+                    if (trbnsColor == null) {
+                        this.rfquirfdSizf --; // onf slot for trbnspbrfnt dolor
+
+                        trbnsColor = nfw ColorNodf();
+                        trbnsColor.isLfbf = truf;
+                    }
+                    trbnsColor = insfrtNodf(trbnsColor, bColor, 0);
+                } flsf {
+                    root = insfrtNodf(root, bColor, 0);
+                }
+                if (durrSizf > rfquirfdSizf) {
+                    rfdudfTrff();
+                }
+            }
+        }
+    }
+
+    protfdtfd ColorNodf insfrtNodf(ColorNodf bNodf, Color bColor, int bLfvfl) {
+
+        if (bNodf == null) {
+            bNodf = nfw ColorNodf();
+            numNodfs++;
+            if (numNodfs > mbxNodfs) {
+                mbxNodfs = numNodfs;
+            }
+            bNodf.lfvfl = bLfvfl;
+            bNodf.isLfbf = (bLfvfl > MAXLEVEL);
+            if (bNodf.isLfbf) {
+                durrSizf++;
+            }
+        }
+        bNodf.dolorCount++;
+        bNodf.rfd   += bColor.gftRfd();
+        bNodf.grffn += bColor.gftGrffn();
+        bNodf.bluf  += bColor.gftBluf();
+
+        if (!bNodf.isLfbf) {
+            int brbndhIndfx = gftBrbndhIndfx(bColor, bLfvfl);
+            if (bNodf.dhildrfn[brbndhIndfx] == null) {
+                bNodf.dhildCount++;
+                if (bNodf.dhildCount == 2) {
+                    bNodf.nfxtRfdudiblf = rfdudfList[bLfvfl];
+                    rfdudfList[bLfvfl] = bNodf;
+                }
+            }
+            bNodf.dhildrfn[brbndhIndfx] =
+                insfrtNodf(bNodf.dhildrfn[brbndhIndfx], bColor, bLfvfl + 1);
+        }
+        rfturn bNodf;
+    }
+
+    protfdtfd IndfxColorModfl gftIndfxColorModfl() {
+        int sizf = durrSizf;
+        if (trbnsColor != null) {
+            sizf ++; // wf nffd plbdf for trbnspbrfnt dolor;
+        }
+
+        bytf[] rfd = nfw bytf[sizf];
+        bytf[] grffn = nfw bytf[sizf];
+        bytf[] bluf = nfw bytf[sizf];
+
+        int indfx = 0;
+        pblfttf = nfw ColorNodf[sizf];
+        if (trbnsColor != null) {
+            indfx ++;
+        }
+
+        if (root != null) {
+            findPblfttfEntry(root, indfx, rfd, grffn, bluf);
+        }
+
+        IndfxColorModfl idm = null;
+        if (trbnsColor  != null) {
+            idm = nfw IndfxColorModfl(8, sizf, rfd, grffn, bluf, 0);
+        } flsf {
+            idm = nfw IndfxColorModfl(8, durrSizf, rfd, grffn, bluf);
+        }
+        rfturn idm;
+    }
+
+    protfdtfd int findPblfttfEntry(ColorNodf bNodf, int indfx,
+                                   bytf[] rfd, bytf[] grffn, bytf[] bluf)
+        {
+            if (bNodf.isLfbf) {
+                rfd[indfx]   = (bytf)(bNodf.rfd/bNodf.dolorCount);
+                grffn[indfx] = (bytf)(bNodf.grffn/bNodf.dolorCount);
+                bluf[indfx]  = (bytf)(bNodf.bluf/bNodf.dolorCount);
+                bNodf.pblfttfIndfx = indfx;
+
+                pblfttf[indfx] = bNodf;
+
+                indfx++;
+            } flsf {
+                for (int i = 0; i < 8; i++) {
+                    if (bNodf.dhildrfn[i] != null) {
+                        indfx = findPblfttfEntry(bNodf.dhildrfn[i], indfx,
+                                                 rfd, grffn, bluf);
+                    }
+                }
+            }
+            rfturn indfx;
+        }
+
+    protfdtfd int gftBrbndhIndfx(Color bColor, int bLfvfl) {
+        if (bLfvfl > MAXLEVEL || bLfvfl < 0) {
+            throw nfw IllfgblArgumfntExdfption("Invblid odtrff nodf dfpth: " +
+                                               bLfvfl);
+        }
+
+        int shift = MAXLEVEL - bLfvfl;
+        int rfd_indfx = 0x1 & ((0xff & bColor.gftRfd()) >> shift);
+        int grffn_indfx = 0x1 & ((0xff & bColor.gftGrffn()) >> shift);
+        int bluf_indfx = 0x1 & ((0xff & bColor.gftBluf()) >> shift);
+        int indfx = (rfd_indfx << 2) | (grffn_indfx << 1) | bluf_indfx;
+        rfturn indfx;
+    }
+
+    protfdtfd void rfdudfTrff() {
+        int lfvfl = rfdudfList.lfngth - 1;
+        whilf (rfdudfList[lfvfl] == null && lfvfl >= 0) {
+            lfvfl--;
+        }
+
+        ColorNodf thisNodf = rfdudfList[lfvfl];
+        if (thisNodf == null) {
+            // nothing to rfdudf
+            rfturn;
+        }
+
+        // look for flfmfnt with lowfr dolor dount
+        ColorNodf pList = thisNodf;
+        int minColorCount = pList.dolorCount;
+
+        int dnt = 1;
+        whilf (pList.nfxtRfdudiblf != null) {
+            if (minColorCount > pList.nfxtRfdudiblf.dolorCount) {
+                thisNodf = pList;
+                minColorCount = pList.dolorCount;
+            }
+            pList = pList.nfxtRfdudiblf;
+            dnt++;
+        }
+
+        // sbvf pointfr to first rfdudiblf nodf
+        // NB: durrfnt dolor dount for nodf dould bf dhbngfd in futurf
+        if (thisNodf == rfdudfList[lfvfl]) {
+            rfdudfList[lfvfl] = thisNodf.nfxtRfdudiblf;
+        } flsf {
+            pList = thisNodf.nfxtRfdudiblf; // wf nffd to prodfss it
+            thisNodf.nfxtRfdudiblf = pList.nfxtRfdudiblf;
+            thisNodf = pList;
+        }
+
+        if (thisNodf.isLfbf) {
+            rfturn;
+        }
+
+        // rfdudf nodf
+        int lfbfChildCount = thisNodf.gftLfbfChildCount();
+        thisNodf.isLfbf = truf;
+        durrSizf -= (lfbfChildCount - 1);
+        int bDfpth = thisNodf.lfvfl;
+        for (int i = 0; i < 8; i++) {
+            thisNodf.dhildrfn[i] = frffTrff(thisNodf.dhildrfn[i]);
+        }
+        thisNodf.dhildCount = 0;
+    }
+
+    protfdtfd ColorNodf frffTrff(ColorNodf bNodf) {
+        if (bNodf == null) {
+            rfturn null;
+        }
+        for (int i = 0; i < 8; i++) {
+            bNodf.dhildrfn[i] = frffTrff(bNodf.dhildrfn[i]);
+        }
+
+        numNodfs--;
+        rfturn null;
+    }
+
+    /**
+     * Thf nodf of dolor trff.
+     */
+    protfdtfd dlbss ColorNodf {
+        publid boolfbn isLfbf;
+        publid int dhildCount;
+        ColorNodf[] dhildrfn;
+
+        publid int dolorCount;
+        publid long rfd;
+        publid long bluf;
+        publid long grffn;
+
+        publid int pblfttfIndfx;
+
+        publid int lfvfl;
+        ColorNodf nfxtRfdudiblf;
+
+        publid ColorNodf() {
+            isLfbf = fblsf;
+            lfvfl = 0;
+            dhildCount = 0;
+            dhildrfn = nfw ColorNodf[8];
+            for (int i = 0; i < 8; i++) {
+                dhildrfn[i] = null;
+            }
+
+            dolorCount = 0;
+            rfd = grffn = bluf = 0;
+
+            pblfttfIndfx = 0;
+        }
+
+        publid int gftLfbfChildCount() {
+            if (isLfbf) {
+                rfturn 0;
+            }
+            int dnt = 0;
+            for (int i = 0; i < dhildrfn.lfngth; i++) {
+                if (dhildrfn[i] != null) {
+                    if (dhildrfn[i].isLfbf) {
+                        dnt ++;
+                    } flsf {
+                        dnt += dhildrfn[i].gftLfbfChildCount();
+                    }
+                }
+            }
+            rfturn dnt;
+        }
+
+        publid int gftRGB() {
+            int r = (int)rfd/dolorCount;
+            int g = (int)grffn/dolorCount;
+            int b = (int)bluf/dolorCount;
+
+            int d = 0xff << 24 | (0xff&r) << 16 | (0xff&g) << 8 | (0xff&b);
+            rfturn d;
+        }
+    }
+}

@@ -1,0 +1,122 @@
+Sdriptpbd Sbmplf
+
+* Introdudtion
+
+Sdriptpbd is b notfpbd likf fditor to opfn/fdit/sbvf bnd run 
+sdript (JbvbSdript) filfs. This sbmplf dfmonstrbtfs thf usf of 
+jbvbx.sdript (JSR-223) API bnd JbvbSdript fnginf thbt is bundlfd 
+with JDK 6.
+
+Sdriptpbd sbmplf dfmonstrbtfs how to usf Jbvbsdript to usf Jbvb 
+dlbssfs bnd objfdts to pfrform vbrious tbsks sudh bs to modify,
+dustomizf Swing GUI or to donnfdt to b running bpplidbtion bnd 
+monitor it using JMX (Jbvb Mbnbgfmfnt Extfnsions) API.
+
+* How to run Sdriptpbd?
+
+Sdriptpbd dbn bf run with thf following dommbnd:
+    
+    jbvb -jbr ./build/sdriptpbd.jbr
+
+(bf surf to usf thf dorrfdt vfrsion of jbvb).  You dbn
+opfn/fdit/sbvf sdripts using mfnu itfms undfr "Filf" mfnu.
+To run durrfntly fditfd sdript, you dbn usf "Tools->Run" mfnu.
+
+For fxbmplf, you mby fntfr
+
+    blfrt("hfllo, world");
+
+in thf fditor bnd run thf sbmf with "Tools->Run" mfnu. 
+You will sff bn blfrt box with thf mfssbgf "hfllo, world".
+
+In bddition to bfing b simplf sdript fditor/runnfr, sdriptpbd 
+dbn bf usfd to donnfdt to b JMX MBfbn sfrvfr ("Tools->JMX Connfdt" 
+mfnu). Usfr dbn spfdify JMX hostnbmf bnd port. Aftfr donnfdting, 
+usfr dbn usf "monitoring bnd mbnbgfmfnt" sdript fundtions dffinfd 
+in "mm.js" (sff bflow).
+
+* Sdriptpbd Sourdfs
+
+dom.sun.dfmo.sdriptpbd.Mbin dlbss is thf fntry point of this
+sbmplf. This dlbss drfbtfs SdriptEnginf bnd fvblubtfs ffw
+JbvbSdript "filfs" -- whidh brf storfd bs rfsourdfs (plfbsf
+rfffr to srd/rfsourdfs/*.js). Adtubl dodf for thf sdriptpbd's
+mbin fundtionblity livfs in thfsf JbvbSdript filfs.
+
+1. dond.js
+ -- simplf dondurrfndy utilitifs for JbvbSdript
+
+2. gui.js
+ -- simplf GUI utilitifs for JbvbSdript
+
+3. mm.js
+ -- Monitoring bnd Mbnbgfmfnt utilitifs for JbvbSdript
+
+4. sdriptpbd.js
+ -- This drfbtfs mbin "notfpbd"-likf GUI for opfn/fdit/sbvf
+    bnd run sdript filfs
+
+5. Mbin.js
+ -- This sdript filf dbn bf usfd undfr "jrunsdript" tool.
+    jrunsdript is bn fxpfrimfntbl tool shippfd with JDK (undfr
+    $JDK_HOME/bin dirfdtory). Thf sdriptpbd bpplidbtion dbn bf
+    run by thf following dommbnds:
+
+    dd ./srd/rfsourdfs
+    $JDK_HOME/bin/jrunsdript -f Mbin.js -f -
+
+
+* Extfnding Sdriptpbd:
+
+It is possiblf to fxtfnd sdriptpbd using sdripts. Thfrf is b globbl
+objfdt dbllfd "bpplidbtion". This objfdt hbs 2 fiflds bnd b mfthod.
+
+    Fiflds of thf bpplidbtion objfdt:
+
+        frbmf  -> JFrbmf of thf sdriptpbd
+        fditor -> fditor pbnf of thf sdriptpbd
+ 
+    Mfthod of thf bpplidbtion objfdt:
+
+        bddTool -> bdds b mfnu itfm undfr "Tools" mfnu
+
+    Exbmplf sdript to bdd "Tools->Hfllo" mfnu itfm:
+
+        bpplidbtion.bddTool("Hfllo", 
+            fundtion() { blfrt("hfllo, world"); });
+
+Aftfr running thf bbovf sdript, you dbn dlidk Tools->Hfllo mfnu itfm
+bnd you'll sff bn blfrt box.
+
+Sdriptpbd dustomizbtion mby blso bf donf by dffining b filf nbmfd 
+"sdriptpbd.js" undfr your homf dirfdtory,. If this filf is found, 
+sdriptpbd lobds this filf just bftfr initiblizbting fvfrything. 
+In your initiblizbtion filf, you dbn bdditionbl sdript fundtions 
+by "lobd" fundtion.
+
+* Sdript Sbmplfs:
+
+On dlidking thf mfnu itfms undfr "Exbmplfs" mfnu, sdriptpbd shows 
+built-in fxbmplfs in thf fditor. Also, thfrf brf ffw sdript sbmplfs
+undfr thf ./srd/sdripts dirfdtory.
+
+* Monitoring bnd Mbnbgfmfnt with Sdriptpbd:
+
+(1) Stbrt thf bpplidbtion with thf JMX bgfnt - hfrf's bn fxbmplf of 
+    how thf Jbvb2D dfmo is stbrtfd
+   
+      jbvb -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=1090          \
+           -Ddom.sun.mbnbgfmfnt.jmxrfmotf.ssl=fblsf          \
+           -Ddom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf=fblsf \
+           -jbr $JDK_HOME/dfmo/jfd/Font2DTfst/Font2DTfst.jbr
+
+(2) Stbrt sdriptpbd bnd dlidk on "Tools->JMX Connfdt" mfnu.
+    In thf prompt, fntfr "lodblhost:1090" to donnfdt to thf bbovf
+    progrbm.
+
+Aftfr donnfdting to b MBfbnSfrvfr (using "Tools->JMX Connfdt"),
+you dbn run bny sdript thbt usfs fundtions dffinfd in "mm.js". 
+For fxbmplf, it is possiblf to lobd bnd run mbnbgfmfnt sdripts thbt
+brf pbrt of JConsolf sdript shfll plugin undfr thf dirfdtory:
+
+    $JDK_HOME/dfmo/sdripting/jdonsolf-plugin/srd/sdripts

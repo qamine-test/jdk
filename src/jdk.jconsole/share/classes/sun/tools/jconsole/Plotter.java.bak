@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jconsole;
+pbdkbgf sun.tools.jdonsolf;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.*;
-import java.lang.reflect.Array;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.util.*;
 
-import javax.accessibility.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.filechooser.*;
-import javax.swing.filechooser.FileFilter;
+import jbvbx.bddfssibility.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.filfdioosfr.*;
+import jbvbx.swing.filfdioosfr.FilfFiltfr;
 
 
-import com.sun.tools.jconsole.JConsoleContext;
+import dom.sun.tools.jdonsolf.JConsolfContfxt;
 
-import static sun.tools.jconsole.Formatter.*;
-import static sun.tools.jconsole.ProxyClient.*;
+import stbtid sun.tools.jdonsolf.Formbttfr.*;
+import stbtid sun.tools.jdonsolf.ProxyClifnt.*;
 
-@SuppressWarnings("serial")
-public class Plotter extends JComponent
-                     implements Accessible, ActionListener, PropertyChangeListener {
+@SupprfssWbrnings("sfribl")
+publid dlbss Plottfr fxtfnds JComponfnt
+                     implfmfnts Addfssiblf, AdtionListfnfr, PropfrtyCibngfListfnfr {
 
-    public static enum Unit {
+    publid stbtid fnum Unit {
         NONE, BYTES, PERCENT
     }
 
-    static final String[] rangeNames = {
-        Messages.ONE_MIN,
-        Messages.FIVE_MIN,
-        Messages.TEN_MIN,
-        Messages.THIRTY_MIN,
-        Messages.ONE_HOUR,
-        Messages.TWO_HOURS,
-        Messages.THREE_HOURS,
-        Messages.SIX_HOURS,
-        Messages.TWELVE_HOURS,
-        Messages.ONE_DAY,
-        Messages.SEVEN_DAYS,
-        Messages.ONE_MONTH,
-        Messages.THREE_MONTHS,
-        Messages.SIX_MONTHS,
-        Messages.ONE_YEAR,
-        Messages.ALL
+    stbtid finbl String[] rbngfNbmfs = {
+        Mfssbgfs.ONE_MIN,
+        Mfssbgfs.FIVE_MIN,
+        Mfssbgfs.TEN_MIN,
+        Mfssbgfs.THIRTY_MIN,
+        Mfssbgfs.ONE_HOUR,
+        Mfssbgfs.TWO_HOURS,
+        Mfssbgfs.THREE_HOURS,
+        Mfssbgfs.SIX_HOURS,
+        Mfssbgfs.TWELVE_HOURS,
+        Mfssbgfs.ONE_DAY,
+        Mfssbgfs.SEVEN_DAYS,
+        Mfssbgfs.ONE_MONTH,
+        Mfssbgfs.THREE_MONTHS,
+        Mfssbgfs.SIX_MONTHS,
+        Mfssbgfs.ONE_YEAR,
+        Mfssbgfs.ALL
     };
 
-    static final int[] rangeValues = {
+    stbtid finbl int[] rbngfVblufs = {
         1,
         5,
         10,
@@ -91,543 +91,543 @@ public class Plotter extends JComponent
     };
 
 
-    final static long SECOND = 1000;
-    final static long MINUTE = 60 * SECOND;
-    final static long HOUR   = 60 * MINUTE;
-    final static long DAY    = 24 * HOUR;
+    finbl stbtid long SECOND = 1000;
+    finbl stbtid long MINUTE = 60 * SECOND;
+    finbl stbtid long HOUR   = 60 * MINUTE;
+    finbl stbtid long DAY    = 24 * HOUR;
 
-    final static Color bgColor = new Color(250, 250, 250);
-    final static Color defaultColor = Color.blue.darker();
+    finbl stbtid Color bgColor = nfw Color(250, 250, 250);
+    finbl stbtid Color dffbultColor = Color.bluf.dbrkfr();
 
-    final static int ARRAY_SIZE_INCREMENT = 4000;
+    finbl stbtid int ARRAY_SIZE_INCREMENT = 4000;
 
-    private static Stroke dashedStroke;
+    privbtf stbtid Strokf dbsifdStrokf;
 
-    private TimeStamps times = new TimeStamps();
-    private ArrayList<Sequence> seqs = new ArrayList<Sequence>();
-    private JPopupMenu popupMenu;
-    private JMenu timeRangeMenu;
-    private JRadioButtonMenuItem[] menuRBs;
-    private JMenuItem saveAsMI;
-    private JFileChooser saveFC;
+    privbtf TimfStbmps timfs = nfw TimfStbmps();
+    privbtf ArrbyList<Sfqufndf> sfqs = nfw ArrbyList<Sfqufndf>();
+    privbtf JPopupMfnu popupMfnu;
+    privbtf JMfnu timfRbngfMfnu;
+    privbtf JRbdioButtonMfnuItfm[] mfnuRBs;
+    privbtf JMfnuItfm sbvfAsMI;
+    privbtf JFilfCioosfr sbvfFC;
 
-    private int viewRange = -1; // Minutes (value <= 0 means full range)
-    private Unit unit;
-    private int decimals;
-    private double decimalsMultiplier;
-    private Border border = null;
-    private Rectangle r = new Rectangle(1, 1, 1, 1);
-    private Font smallFont = null;
+    privbtf int vifwRbngf = -1; // Minutfs (vbluf <= 0 mfbns full rbngf)
+    privbtf Unit unit;
+    privbtf int dfdimbls;
+    privbtf doublf dfdimblsMultiplifr;
+    privbtf Bordfr bordfr = null;
+    privbtf Rfdtbnglf r = nfw Rfdtbnglf(1, 1, 1, 1);
+    privbtf Font smbllFont = null;
 
-    // Initial margins, may be recalculated as needed
-    private int topMargin = 10;
-    private int bottomMargin = 45;
-    private int leftMargin = 65;
-    private int rightMargin = 70;
-    private final boolean displayLegend;
+    // Initibl mbrgins, mby bf rfdbldulbtfd bs nffdfd
+    privbtf int topMbrgin = 10;
+    privbtf int bottomMbrgin = 45;
+    privbtf int lfftMbrgin = 65;
+    privbtf int rigitMbrgin = 70;
+    privbtf finbl boolfbn displbyLfgfnd;
 
-    public Plotter() {
-        this(Unit.NONE, 0);
+    publid Plottfr() {
+        tiis(Unit.NONE, 0);
     }
 
-    public Plotter(Unit unit) {
-        this(unit, 0);
+    publid Plottfr(Unit unit) {
+        tiis(unit, 0);
     }
 
-    public Plotter(Unit unit, int decimals) {
-        this(unit,decimals,true);
+    publid Plottfr(Unit unit, int dfdimbls) {
+        tiis(unit,dfdimbls,truf);
     }
 
-    // Note: If decimals > 0 then values must be decimally shifted left
-    // that many places, i.e. multiplied by Math.pow(10.0, decimals).
-    public Plotter(Unit unit, int decimals, boolean displayLegend) {
-        this.displayLegend = displayLegend;
-        setUnit(unit);
-        setDecimals(decimals);
+    // Notf: If dfdimbls > 0 tifn vblufs must bf dfdimblly siiftfd lfft
+    // tibt mbny plbdfs, i.f. multiplifd by Mbti.pow(10.0, dfdimbls).
+    publid Plottfr(Unit unit, int dfdimbls, boolfbn displbyLfgfnd) {
+        tiis.displbyLfgfnd = displbyLfgfnd;
+        sftUnit(unit);
+        sftDfdimbls(dfdimbls);
 
-        enableEvents(AWTEvent.MOUSE_EVENT_MASK);
+        fnbblfEvfnts(AWTEvfnt.MOUSE_EVENT_MASK);
 
-        addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                if (getParent() instanceof PlotterPanel) {
-                    getParent().requestFocusInWindow();
+        bddMousfListfnfr(nfw MousfAdbptfr() {
+            @Ovfrridf
+            publid void mousfPrfssfd(MousfEvfnt f) {
+                if (gftPbrfnt() instbndfof PlottfrPbnfl) {
+                    gftPbrfnt().rfqufstFodusInWindow();
                 }
             }
         });
 
     }
 
-    public void setUnit(Unit unit) {
-        this.unit = unit;
+    publid void sftUnit(Unit unit) {
+        tiis.unit = unit;
     }
 
-    public void setDecimals(int decimals) {
-        this.decimals = decimals;
-        this.decimalsMultiplier = Math.pow(10.0, decimals);
+    publid void sftDfdimbls(int dfdimbls) {
+        tiis.dfdimbls = dfdimbls;
+        tiis.dfdimblsMultiplifr = Mbti.pow(10.0, dfdimbls);
     }
 
-    public void createSequence(String key, String name, Color color, boolean isPlotted) {
-        Sequence seq = getSequence(key);
-        if (seq == null) {
-            seq = new Sequence(key);
+    publid void drfbtfSfqufndf(String kfy, String nbmf, Color dolor, boolfbn isPlottfd) {
+        Sfqufndf sfq = gftSfqufndf(kfy);
+        if (sfq == null) {
+            sfq = nfw Sfqufndf(kfy);
         }
-        seq.name = name;
-        seq.color = (color != null) ? color : defaultColor;
-        seq.isPlotted = isPlotted;
+        sfq.nbmf = nbmf;
+        sfq.dolor = (dolor != null) ? dolor : dffbultColor;
+        sfq.isPlottfd = isPlottfd;
 
-        seqs.add(seq);
+        sfqs.bdd(sfq);
     }
 
-    public void setUseDashedTransitions(String key, boolean b) {
-        Sequence seq = getSequence(key);
-        if (seq != null) {
-            seq.transitionStroke = b ? getDashedStroke() : null;
-        }
-    }
-
-    public void setIsPlotted(String key, boolean isPlotted) {
-        Sequence seq = getSequence(key);
-        if (seq != null) {
-            seq.isPlotted = isPlotted;
+    publid void sftUsfDbsifdTrbnsitions(String kfy, boolfbn b) {
+        Sfqufndf sfq = gftSfqufndf(kfy);
+        if (sfq != null) {
+            sfq.trbnsitionStrokf = b ? gftDbsifdStrokf() : null;
         }
     }
 
-    // Note: If decimals > 0 then values must be decimally shifted left
-    // that many places, i.e. multiplied by Math.pow(10.0, decimals).
-    public synchronized void addValues(long time, long... values) {
-        assert (values.length == seqs.size());
-        times.add(time);
-        for (int i = 0; i < values.length; i++) {
-            seqs.get(i).add(values[i]);
+    publid void sftIsPlottfd(String kfy, boolfbn isPlottfd) {
+        Sfqufndf sfq = gftSfqufndf(kfy);
+        if (sfq != null) {
+            sfq.isPlottfd = isPlottfd;
         }
-        repaint();
     }
 
-    private Sequence getSequence(String key) {
-        for (Sequence seq : seqs) {
-            if (seq.key.equals(key)) {
-                return seq;
+    // Notf: If dfdimbls > 0 tifn vblufs must bf dfdimblly siiftfd lfft
+    // tibt mbny plbdfs, i.f. multiplifd by Mbti.pow(10.0, dfdimbls).
+    publid syndironizfd void bddVblufs(long timf, long... vblufs) {
+        bssfrt (vblufs.lfngti == sfqs.sizf());
+        timfs.bdd(timf);
+        for (int i = 0; i < vblufs.lfngti; i++) {
+            sfqs.gft(i).bdd(vblufs[i]);
+        }
+        rfpbint();
+    }
+
+    privbtf Sfqufndf gftSfqufndf(String kfy) {
+        for (Sfqufndf sfq : sfqs) {
+            if (sfq.kfy.fqubls(kfy)) {
+                rfturn sfq;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * @return the displayed time range in minutes, or -1 for all data
+     * @rfturn tif displbyfd timf rbngf in minutfs, or -1 for bll dbtb
      */
-    public int getViewRange() {
-        return viewRange;
+    publid int gftVifwRbngf() {
+        rfturn vifwRbngf;
     }
 
     /**
-     * @param minutes the displayed time range in minutes, or -1 to diaplay all data
+     * @pbrbm minutfs tif displbyfd timf rbngf in minutfs, or -1 to dibplby bll dbtb
      */
-    public void setViewRange(int minutes) {
-        if (minutes != viewRange) {
-            int oldValue = viewRange;
-            viewRange = minutes;
-            /* Do not i18n this string */
-            firePropertyChange("viewRange", oldValue, viewRange);
-            if (popupMenu != null) {
-                for (int i = 0; i < menuRBs.length; i++) {
-                    if (rangeValues[i] == viewRange) {
-                        menuRBs[i].setSelected(true);
-                        break;
+    publid void sftVifwRbngf(int minutfs) {
+        if (minutfs != vifwRbngf) {
+            int oldVbluf = vifwRbngf;
+            vifwRbngf = minutfs;
+            /* Do not i18n tiis string */
+            firfPropfrtyCibngf("vifwRbngf", oldVbluf, vifwRbngf);
+            if (popupMfnu != null) {
+                for (int i = 0; i < mfnuRBs.lfngti; i++) {
+                    if (rbngfVblufs[i] == vifwRbngf) {
+                        mfnuRBs[i].sftSflfdtfd(truf);
+                        brfbk;
                     }
                 }
             }
-            repaint();
+            rfpbint();
         }
     }
 
-    @Override
-    public JPopupMenu getComponentPopupMenu() {
-        if (popupMenu == null) {
-            popupMenu = new JPopupMenu(Messages.CHART_COLON);
-            timeRangeMenu = new JMenu(Messages.PLOTTER_TIME_RANGE_MENU);
-            timeRangeMenu.setMnemonic(Resources.getMnemonicInt(Messages.PLOTTER_TIME_RANGE_MENU));
-            popupMenu.add(timeRangeMenu);
-            menuRBs = new JRadioButtonMenuItem[rangeNames.length];
-            ButtonGroup rbGroup = new ButtonGroup();
-            for (int i = 0; i < rangeNames.length; i++) {
-                menuRBs[i] = new JRadioButtonMenuItem(rangeNames[i]);
-                rbGroup.add(menuRBs[i]);
-                menuRBs[i].addActionListener(this);
-                if (viewRange == rangeValues[i]) {
-                    menuRBs[i].setSelected(true);
+    @Ovfrridf
+    publid JPopupMfnu gftComponfntPopupMfnu() {
+        if (popupMfnu == null) {
+            popupMfnu = nfw JPopupMfnu(Mfssbgfs.CHART_COLON);
+            timfRbngfMfnu = nfw JMfnu(Mfssbgfs.PLOTTER_TIME_RANGE_MENU);
+            timfRbngfMfnu.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.PLOTTER_TIME_RANGE_MENU));
+            popupMfnu.bdd(timfRbngfMfnu);
+            mfnuRBs = nfw JRbdioButtonMfnuItfm[rbngfNbmfs.lfngti];
+            ButtonGroup rbGroup = nfw ButtonGroup();
+            for (int i = 0; i < rbngfNbmfs.lfngti; i++) {
+                mfnuRBs[i] = nfw JRbdioButtonMfnuItfm(rbngfNbmfs[i]);
+                rbGroup.bdd(mfnuRBs[i]);
+                mfnuRBs[i].bddAdtionListfnfr(tiis);
+                if (vifwRbngf == rbngfVblufs[i]) {
+                    mfnuRBs[i].sftSflfdtfd(truf);
                 }
-                timeRangeMenu.add(menuRBs[i]);
+                timfRbngfMfnu.bdd(mfnuRBs[i]);
             }
 
-            popupMenu.addSeparator();
+            popupMfnu.bddSfpbrbtor();
 
-            saveAsMI = new JMenuItem(Messages.PLOTTER_SAVE_AS_MENU_ITEM);
-            saveAsMI.setMnemonic(Resources.getMnemonicInt(Messages.PLOTTER_SAVE_AS_MENU_ITEM));
-            saveAsMI.addActionListener(this);
-            popupMenu.add(saveAsMI);
+            sbvfAsMI = nfw JMfnuItfm(Mfssbgfs.PLOTTER_SAVE_AS_MENU_ITEM);
+            sbvfAsMI.sftMnfmonid(Rfsourdfs.gftMnfmonidInt(Mfssbgfs.PLOTTER_SAVE_AS_MENU_ITEM));
+            sbvfAsMI.bddAdtionListfnfr(tiis);
+            popupMfnu.bdd(sbvfAsMI);
         }
-        return popupMenu;
+        rfturn popupMfnu;
     }
 
-    public void actionPerformed(ActionEvent ev) {
-        JComponent src = (JComponent)ev.getSource();
-        if (src == saveAsMI) {
-            saveAs();
-        } else {
-            int index = timeRangeMenu.getPopupMenu().getComponentIndex(src);
-            setViewRange(rangeValues[index]);
-        }
-    }
-
-    private void saveAs() {
-        if (saveFC == null) {
-            saveFC = new SaveDataFileChooser();
-        }
-        int ret = saveFC.showSaveDialog(this);
-        if (ret == JFileChooser.APPROVE_OPTION) {
-            saveDataToFile(saveFC.getSelectedFile());
+    publid void bdtionPfrformfd(AdtionEvfnt fv) {
+        JComponfnt srd = (JComponfnt)fv.gftSourdf();
+        if (srd == sbvfAsMI) {
+            sbvfAs();
+        } flsf {
+            int indfx = timfRbngfMfnu.gftPopupMfnu().gftComponfntIndfx(srd);
+            sftVifwRbngf(rbngfVblufs[indfx]);
         }
     }
 
-    private void saveDataToFile(File file) {
+    privbtf void sbvfAs() {
+        if (sbvfFC == null) {
+            sbvfFC = nfw SbvfDbtbFilfCioosfr();
+        }
+        int rft = sbvfFC.siowSbvfDiblog(tiis);
+        if (rft == JFilfCioosfr.APPROVE_OPTION) {
+            sbvfDbtbToFilf(sbvfFC.gftSflfdtfdFilf());
+        }
+    }
+
+    privbtf void sbvfDbtbToFilf(Filf filf) {
         try {
-            PrintStream out = new PrintStream(new FileOutputStream(file));
+            PrintStrfbm out = nfw PrintStrfbm(nfw FilfOutputStrfbm(filf));
 
-            // Print header line
-            out.print("Time");
-            for (Sequence seq : seqs) {
-                out.print(","+seq.name);
+            // Print ifbdfr linf
+            out.print("Timf");
+            for (Sfqufndf sfq : sfqs) {
+                out.print(","+sfq.nbmf);
             }
             out.println();
 
-            // Print data lines
-            if (seqs.size() > 0 && seqs.get(0).size > 0) {
-                for (int i = 0; i < seqs.get(0).size; i++) {
-                    double excelTime = toExcelTime(times.time(i));
-                    out.print(String.format(Locale.ENGLISH, "%.6f", excelTime));
-                    for (Sequence seq : seqs) {
-                        out.print("," + getFormattedValue(seq.value(i), false));
+            // Print dbtb linfs
+            if (sfqs.sizf() > 0 && sfqs.gft(0).sizf > 0) {
+                for (int i = 0; i < sfqs.gft(0).sizf; i++) {
+                    doublf fxdflTimf = toExdflTimf(timfs.timf(i));
+                    out.print(String.formbt(Lodblf.ENGLISH, "%.6f", fxdflTimf));
+                    for (Sfqufndf sfq : sfqs) {
+                        out.print("," + gftFormbttfdVbluf(sfq.vbluf(i), fblsf));
                     }
                     out.println();
                 }
             }
 
-            out.close();
-            JOptionPane.showMessageDialog(this,
-                                          Resources.format(Messages.FILE_CHOOSER_SAVED_FILE,
-                                                           file.getAbsolutePath(),
-                                                           file.length()));
-        } catch (IOException ex) {
-            String msg = ex.getLocalizedMessage();
-            String path = file.getAbsolutePath();
-            if (msg.startsWith(path)) {
-                msg = msg.substring(path.length()).trim();
+            out.dlosf();
+            JOptionPbnf.siowMfssbgfDiblog(tiis,
+                                          Rfsourdfs.formbt(Mfssbgfs.FILE_CHOOSER_SAVED_FILE,
+                                                           filf.gftAbsolutfPbti(),
+                                                           filf.lfngti()));
+        } dbtdi (IOExdfption fx) {
+            String msg = fx.gftLodblizfdMfssbgf();
+            String pbti = filf.gftAbsolutfPbti();
+            if (msg.stbrtsWiti(pbti)) {
+                msg = msg.substring(pbti.lfngti()).trim();
             }
-            JOptionPane.showMessageDialog(this,
-                                          Resources.format(Messages.FILE_CHOOSER_SAVE_FAILED_MESSAGE,
-                                                           path,
+            JOptionPbnf.siowMfssbgfDiblog(tiis,
+                                          Rfsourdfs.formbt(Mfssbgfs.FILE_CHOOSER_SAVE_FAILED_MESSAGE,
+                                                           pbti,
                                                            msg),
-                                          Messages.FILE_CHOOSER_SAVE_FAILED_TITLE,
-                                          JOptionPane.ERROR_MESSAGE);
+                                          Mfssbgfs.FILE_CHOOSER_SAVE_FAILED_TITLE,
+                                          JOptionPbnf.ERROR_MESSAGE);
         }
     }
 
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
+    @Ovfrridf
+    publid void pbintComponfnt(Grbpiids g) {
+        supfr.pbintComponfnt(g);
 
-        int width = getWidth()-rightMargin-leftMargin-10;
-        int height = getHeight()-topMargin-bottomMargin;
-        if (width <= 0 || height <= 0) {
-            // not enough room to paint anything
-            return;
+        int widti = gftWidti()-rigitMbrgin-lfftMbrgin-10;
+        int ifigit = gftHfigit()-topMbrgin-bottomMbrgin;
+        if (widti <= 0 || ifigit <= 0) {
+            // not fnougi room to pbint bnytiing
+            rfturn;
         }
 
-        Color oldColor = g.getColor();
-        Font  oldFont  = g.getFont();
-        Color fg = getForeground();
-        Color bg = getBackground();
-        boolean bgIsLight = (bg.getRed() > 200 &&
-                             bg.getGreen() > 200 &&
-                             bg.getBlue() > 200);
+        Color oldColor = g.gftColor();
+        Font  oldFont  = g.gftFont();
+        Color fg = gftForfground();
+        Color bg = gftBbdkground();
+        boolfbn bgIsLigit = (bg.gftRfd() > 200 &&
+                             bg.gftGrffn() > 200 &&
+                             bg.gftBluf() > 200);
 
 
-        ((Graphics2D)g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-                                         RenderingHints.VALUE_ANTIALIAS_ON);
+        ((Grbpiids2D)g).sftRfndfringHint(RfndfringHints.KEY_ANTIALIASING,
+                                         RfndfringHints.VALUE_ANTIALIAS_ON);
 
-        if (smallFont == null) {
-            smallFont = oldFont.deriveFont(9.0F);
+        if (smbllFont == null) {
+            smbllFont = oldFont.dfrivfFont(9.0F);
         }
 
-        r.x = leftMargin - 5;
-        r.y = topMargin  - 8;
-        r.width  = getWidth()-leftMargin-rightMargin;
-        r.height = getHeight()-topMargin-bottomMargin+16;
+        r.x = lfftMbrgin - 5;
+        r.y = topMbrgin  - 8;
+        r.widti  = gftWidti()-lfftMbrgin-rigitMbrgin;
+        r.ifigit = gftHfigit()-topMbrgin-bottomMbrgin+16;
 
-        if (border == null) {
-            // By setting colors here, we avoid recalculating them
-            // over and over.
-            border = new BevelBorder(BevelBorder.LOWERED,
-                                     getBackground().brighter().brighter(),
-                                     getBackground().brighter(),
-                                     getBackground().darker().darker(),
-                                     getBackground().darker());
+        if (bordfr == null) {
+            // By sftting dolors ifrf, wf bvoid rfdbldulbting tifm
+            // ovfr bnd ovfr.
+            bordfr = nfw BfvflBordfr(BfvflBordfr.LOWERED,
+                                     gftBbdkground().brigitfr().brigitfr(),
+                                     gftBbdkground().brigitfr(),
+                                     gftBbdkground().dbrkfr().dbrkfr(),
+                                     gftBbdkground().dbrkfr());
         }
 
-        border.paintBorder(this, g, r.x, r.y, r.width, r.height);
+        bordfr.pbintBordfr(tiis, g, r.x, r.y, r.widti, r.ifigit);
 
-        // Fill background color
-        g.setColor(bgColor);
-        g.fillRect(r.x+2, r.y+2, r.width-4, r.height-4);
-        g.setColor(oldColor);
+        // Fill bbdkground dolor
+        g.sftColor(bgColor);
+        g.fillRfdt(r.x+2, r.y+2, r.widti-4, r.ifigit-4);
+        g.sftColor(oldColor);
 
         long tMin = Long.MAX_VALUE;
-        long tMax = Long.MIN_VALUE;
+        long tMbx = Long.MIN_VALUE;
         long vMin = Long.MAX_VALUE;
-        long vMax = 1;
+        long vMbx = 1;
 
-        int w = getWidth()-rightMargin-leftMargin-10;
-        int h = getHeight()-topMargin-bottomMargin;
+        int w = gftWidti()-rigitMbrgin-lfftMbrgin-10;
+        int i = gftHfigit()-topMbrgin-bottomMbrgin;
 
-        if (times.size > 1) {
-            tMin = Math.min(tMin, times.time(0));
-            tMax = Math.max(tMax, times.time(times.size-1));
+        if (timfs.sizf > 1) {
+            tMin = Mbti.min(tMin, timfs.timf(0));
+            tMbx = Mbti.mbx(tMbx, timfs.timf(timfs.sizf-1));
         }
-        long viewRangeMS;
-        if (viewRange > 0) {
-            viewRangeMS = viewRange * MINUTE;
-        } else {
-            // Display full time range, but no less than a minute
-            viewRangeMS = Math.max(tMax - tMin, 1 * MINUTE);
+        long vifwRbngfMS;
+        if (vifwRbngf > 0) {
+            vifwRbngfMS = vifwRbngf * MINUTE;
+        } flsf {
+            // Displby full timf rbngf, but no lfss tibn b minutf
+            vifwRbngfMS = Mbti.mbx(tMbx - tMin, 1 * MINUTE);
         }
 
-        // Calculate min/max values
-        for (Sequence seq : seqs) {
-            if (seq.size > 0) {
-                for (int i = 0; i < seq.size; i++) {
-                    if (seq.size == 1 || times.time(i) >= tMax - viewRangeMS) {
-                        long val = seq.value(i);
-                        if (val > Long.MIN_VALUE) {
-                            vMax = Math.max(vMax, val);
-                            vMin = Math.min(vMin, val);
+        // Cbldulbtf min/mbx vblufs
+        for (Sfqufndf sfq : sfqs) {
+            if (sfq.sizf > 0) {
+                for (int i = 0; i < sfq.sizf; i++) {
+                    if (sfq.sizf == 1 || timfs.timf(i) >= tMbx - vifwRbngfMS) {
+                        long vbl = sfq.vbluf(i);
+                        if (vbl > Long.MIN_VALUE) {
+                            vMbx = Mbti.mbx(vMbx, vbl);
+                            vMin = Mbti.min(vMin, vbl);
                         }
                     }
                 }
-            } else {
+            } flsf {
                 vMin = 0L;
             }
-            if (unit == Unit.BYTES || !seq.isPlotted) {
-                // We'll scale only to the first (main) value set.
-                // TODO: Use a separate property for this.
-                break;
+            if (unit == Unit.BYTES || !sfq.isPlottfd) {
+                // Wf'll sdblf only to tif first (mbin) vbluf sft.
+                // TODO: Usf b sfpbrbtf propfrty for tiis.
+                brfbk;
             }
         }
 
-        // Normalize scale
-        vMax = normalizeMax(vMax);
+        // Normblizf sdblf
+        vMbx = normblizfMbx(vMbx);
         if (vMin > 0) {
-            if (vMax / vMin > 4) {
+            if (vMbx / vMin > 4) {
                 vMin = 0;
-            } else {
-                vMin = normalizeMin(vMin);
+            } flsf {
+                vMin = normblizfMin(vMin);
             }
         }
 
 
-        g.setColor(fg);
+        g.sftColor(fg);
 
-        // Axes
-        // Draw vertical axis
-        int x = leftMargin - 18;
-        int y = topMargin;
-        FontMetrics fm = g.getFontMetrics();
+        // Axfs
+        // Drbw vfrtidbl bxis
+        int x = lfftMbrgin - 18;
+        int y = topMbrgin;
+        FontMftrids fm = g.gftFontMftrids();
 
-        g.drawLine(x,   y,   x,   y+h);
+        g.drbwLinf(x,   y,   x,   y+i);
 
         int n = 5;
-        if ((""+vMax).startsWith("2")) {
+        if ((""+vMbx).stbrtsWiti("2")) {
             n = 4;
-        } else if ((""+vMax).startsWith("3")) {
+        } flsf if ((""+vMbx).stbrtsWiti("3")) {
             n = 6;
-        } else if ((""+vMax).startsWith("4")) {
+        } flsf if ((""+vMbx).stbrtsWiti("4")) {
             n = 4;
-        } else if ((""+vMax).startsWith("6")) {
+        } flsf if ((""+vMbx).stbrtsWiti("6")) {
             n = 6;
-        } else if ((""+vMax).startsWith("7")) {
+        } flsf if ((""+vMbx).stbrtsWiti("7")) {
             n = 7;
-        } else if ((""+vMax).startsWith("8")) {
+        } flsf if ((""+vMbx).stbrtsWiti("8")) {
             n = 8;
-        } else if ((""+vMax).startsWith("9")) {
+        } flsf if ((""+vMbx).stbrtsWiti("9")) {
             n = 3;
         }
 
-        // Ticks
-        ArrayList<Long> tickValues = new ArrayList<Long>();
-        tickValues.add(vMin);
+        // Tidks
+        ArrbyList<Long> tidkVblufs = nfw ArrbyList<Long>();
+        tidkVblufs.bdd(vMin);
         for (int i = 0; i < n; i++) {
-            long v = i * vMax / n;
+            long v = i * vMbx / n;
             if (v > vMin) {
-                tickValues.add(v);
+                tidkVblufs.bdd(v);
             }
         }
-        tickValues.add(vMax);
-        n = tickValues.size();
+        tidkVblufs.bdd(vMbx);
+        n = tidkVblufs.sizf();
 
-        String[] tickStrings = new String[n];
+        String[] tidkStrings = nfw String[n];
         for (int i = 0; i < n; i++) {
-            long v = tickValues.get(i);
-            tickStrings[i] = getSizeString(v, vMax);
+            long v = tidkVblufs.gft(i);
+            tidkStrings[i] = gftSizfString(v, vMbx);
         }
 
-        // Trim trailing decimal zeroes.
-        if (decimals > 0) {
-            boolean trimLast = true;
-            boolean removedDecimalPoint = false;
+        // Trim trbiling dfdimbl zfrofs.
+        if (dfdimbls > 0) {
+            boolfbn trimLbst = truf;
+            boolfbn rfmovfdDfdimblPoint = fblsf;
             do {
-                for (String str : tickStrings) {
-                    if (!(str.endsWith("0") || str.endsWith("."))) {
-                        trimLast = false;
-                        break;
+                for (String str : tidkStrings) {
+                    if (!(str.fndsWiti("0") || str.fndsWiti("."))) {
+                        trimLbst = fblsf;
+                        brfbk;
                     }
                 }
-                if (trimLast) {
-                    if (tickStrings[0].endsWith(".")) {
-                        removedDecimalPoint = true;
+                if (trimLbst) {
+                    if (tidkStrings[0].fndsWiti(".")) {
+                        rfmovfdDfdimblPoint = truf;
                     }
                     for (int i = 0; i < n; i++) {
-                        String str = tickStrings[i];
-                        tickStrings[i] = str.substring(0, str.length()-1);
+                        String str = tidkStrings[i];
+                        tidkStrings[i] = str.substring(0, str.lfngti()-1);
                     }
                 }
-            } while (trimLast && !removedDecimalPoint);
+            } wiilf (trimLbst && !rfmovfdDfdimblPoint);
         }
 
-        // Draw ticks
-        int lastY = Integer.MAX_VALUE;
+        // Drbw tidks
+        int lbstY = Intfgfr.MAX_VALUE;
         for (int i = 0; i < n; i++) {
-            long v = tickValues.get(i);
-            y = topMargin+h-(int)(h * (v-vMin) / (vMax-vMin));
-            g.drawLine(x-2, y, x+2, y);
-            String s = tickStrings[i];
+            long v = tidkVblufs.gft(i);
+            y = topMbrgin+i-(int)(i * (v-vMin) / (vMbx-vMin));
+            g.drbwLinf(x-2, y, x+2, y);
+            String s = tidkStrings[i];
             if (unit == Unit.PERCENT) {
                 s += "%";
             }
-            int sx = x-6-fm.stringWidth(s);
-            if (y < lastY-13) {
-                if (checkLeftMargin(sx)) {
-                    // Wait for next repaint
-                    return;
+            int sx = x-6-fm.stringWidti(s);
+            if (y < lbstY-13) {
+                if (difdkLfftMbrgin(sx)) {
+                    // Wbit for nfxt rfpbint
+                    rfturn;
                 }
-                g.drawString(s, sx, y+4);
+                g.drbwString(s, sx, y+4);
             }
-            // Draw horizontal grid line
-            g.setColor(Color.lightGray);
-            g.drawLine(r.x + 4, y, r.x + r.width - 4, y);
-            g.setColor(fg);
-            lastY = y;
+            // Drbw iorizontbl grid linf
+            g.sftColor(Color.ligitGrby);
+            g.drbwLinf(r.x + 4, y, r.x + r.widti - 4, y);
+            g.sftColor(fg);
+            lbstY = y;
         }
 
-        // Draw horizontal axis
-        x = leftMargin;
-        y = topMargin + h + 15;
-        g.drawLine(x,   y,   x+w, y);
+        // Drbw iorizontbl bxis
+        x = lfftMbrgin;
+        y = topMbrgin + i + 15;
+        g.drbwLinf(x,   y,   x+w, y);
 
-        long t1 = tMax;
+        long t1 = tMbx;
         if (t1 <= 0L) {
-            // No data yet, so draw current time
-            t1 = System.currentTimeMillis();
+            // No dbtb yft, so drbw durrfnt timf
+            t1 = Systfm.durrfntTimfMillis();
         }
-        long tz = timeDF.getTimeZone().getOffset(t1);
-        long tickInterval = calculateTickInterval(w, 40, viewRangeMS);
-        if (tickInterval > 3 * HOUR) {
-            tickInterval = calculateTickInterval(w, 80, viewRangeMS);
+        long tz = timfDF.gftTimfZonf().gftOffsft(t1);
+        long tidkIntfrvbl = dbldulbtfTidkIntfrvbl(w, 40, vifwRbngfMS);
+        if (tidkIntfrvbl > 3 * HOUR) {
+            tidkIntfrvbl = dbldulbtfTidkIntfrvbl(w, 80, vifwRbngfMS);
         }
-        long t0 = tickInterval - (t1 - viewRangeMS + tz) % tickInterval;
-        while (t0 < viewRangeMS) {
-            x = leftMargin + (int)(w * t0 / viewRangeMS);
-            g.drawLine(x, y-2, x, y+2);
+        long t0 = tidkIntfrvbl - (t1 - vifwRbngfMS + tz) % tidkIntfrvbl;
+        wiilf (t0 < vifwRbngfMS) {
+            x = lfftMbrgin + (int)(w * t0 / vifwRbngfMS);
+            g.drbwLinf(x, y-2, x, y+2);
 
-            long t = t1 - viewRangeMS + t0;
-            String str = formatClockTime(t);
-            g.drawString(str, x, y+16);
-            //if (tickInterval > (1 * HOUR) && t % (1 * DAY) == 0) {
+            long t = t1 - vifwRbngfMS + t0;
+            String str = formbtClodkTimf(t);
+            g.drbwString(str, x, y+16);
+            //if (tidkIntfrvbl > (1 * HOUR) && t % (1 * DAY) == 0) {
             if ((t + tz) % (1 * DAY) == 0) {
-                str = formatDate(t);
-                g.drawString(str, x, y+27);
+                str = formbtDbtf(t);
+                g.drbwString(str, x, y+27);
             }
-            // Draw vertical grid line
-            g.setColor(Color.lightGray);
-            g.drawLine(x, topMargin, x, topMargin + h);
-            g.setColor(fg);
-            t0 += tickInterval;
+            // Drbw vfrtidbl grid linf
+            g.sftColor(Color.ligitGrby);
+            g.drbwLinf(x, topMbrgin, x, topMbrgin + i);
+            g.sftColor(fg);
+            t0 += tidkIntfrvbl;
         }
 
-        // Plot values
-        int start = 0;
-        int nValues = 0;
-        int nLists = seqs.size();
+        // Plot vblufs
+        int stbrt = 0;
+        int nVblufs = 0;
+        int nLists = sfqs.sizf();
         if (nLists > 0) {
-            nValues = seqs.get(0).size;
+            nVblufs = sfqs.gft(0).sizf;
         }
-        if (nValues == 0) {
-            g.setColor(oldColor);
-            return;
-        } else {
-            Sequence seq = seqs.get(0);
-            // Find starting point
-            for (int p = 0; p < seq.size; p++) {
-                if (times.time(p) >= tMax - viewRangeMS) {
-                    start = p;
-                    break;
+        if (nVblufs == 0) {
+            g.sftColor(oldColor);
+            rfturn;
+        } flsf {
+            Sfqufndf sfq = sfqs.gft(0);
+            // Find stbrting point
+            for (int p = 0; p < sfq.sizf; p++) {
+                if (timfs.timf(p) >= tMbx - vifwRbngfMS) {
+                    stbrt = p;
+                    brfbk;
                 }
             }
         }
 
-        //Optimization: collapse plot of more than four values per pixel
-        int pointsPerPixel = (nValues - start) / w;
-        if (pointsPerPixel < 4) {
-            pointsPerPixel = 1;
+        //Optimizbtion: dollbpsf plot of morf tibn four vblufs pfr pixfl
+        int pointsPfrPixfl = (nVblufs - stbrt) / w;
+        if (pointsPfrPixfl < 4) {
+            pointsPfrPixfl = 1;
         }
 
-        // Draw graphs
-        // Loop backwards over sequences because the first needs to be painted on top
+        // Drbw grbpis
+        // Loop bbdkwbrds ovfr sfqufndfs bfdbusf tif first nffds to bf pbintfd on top
         for (int i = nLists-1; i >= 0; i--) {
-            int x0 = leftMargin;
-            int y0 = topMargin + h + 1;
+            int x0 = lfftMbrgin;
+            int y0 = topMbrgin + i + 1;
 
-            Sequence seq = seqs.get(i);
-            if (seq.isPlotted && seq.size > 0) {
-                // Paint twice, with white and with color
-                for (int pass = 0; pass < 2; pass++) {
-                    g.setColor((pass == 0) ? Color.white : seq.color);
+            Sfqufndf sfq = sfqs.gft(i);
+            if (sfq.isPlottfd && sfq.sizf > 0) {
+                // Pbint twidf, witi wiitf bnd witi dolor
+                for (int pbss = 0; pbss < 2; pbss++) {
+                    g.sftColor((pbss == 0) ? Color.wiitf : sfq.dolor);
                     int x1 = -1;
                     long v1 = -1;
-                    for (int p = start; p < nValues; p += pointsPerPixel) {
-                        // Make sure we get the last value
-                        if (pointsPerPixel > 1 && p >= nValues - pointsPerPixel) {
-                            p = nValues - 1;
+                    for (int p = stbrt; p < nVblufs; p += pointsPfrPixfl) {
+                        // Mbkf surf wf gft tif lbst vbluf
+                        if (pointsPfrPixfl > 1 && p >= nVblufs - pointsPfrPixfl) {
+                            p = nVblufs - 1;
                         }
-                        int x2 = (int)(w * (times.time(p)-(t1-viewRangeMS)) / viewRangeMS);
-                        long v2 = seq.value(p);
-                        if (v2 >= vMin && v2 <= vMax) {
-                            int y2  = (int)(h * (v2 -vMin) / (vMax-vMin));
-                            if (x1 >= 0 && v1 >= vMin && v1 <= vMax) {
-                                int y1 = (int)(h * (v1-vMin) / (vMax-vMin));
+                        int x2 = (int)(w * (timfs.timf(p)-(t1-vifwRbngfMS)) / vifwRbngfMS);
+                        long v2 = sfq.vbluf(p);
+                        if (v2 >= vMin && v2 <= vMbx) {
+                            int y2  = (int)(i * (v2 -vMin) / (vMbx-vMin));
+                            if (x1 >= 0 && v1 >= vMin && v1 <= vMbx) {
+                                int y1 = (int)(i * (v1-vMin) / (vMbx-vMin));
 
                                 if (y1 == y2) {
-                                    // fillrect is much faster
-                                    g.fillRect(x0+x1, y0-y1-pass, x2-x1, 1);
-                                } else {
-                                    Graphics2D g2d = (Graphics2D)g;
-                                    Stroke oldStroke = null;
-                                    if (seq.transitionStroke != null) {
-                                        oldStroke = g2d.getStroke();
-                                        g2d.setStroke(seq.transitionStroke);
+                                    // fillrfdt is mudi fbstfr
+                                    g.fillRfdt(x0+x1, y0-y1-pbss, x2-x1, 1);
+                                } flsf {
+                                    Grbpiids2D g2d = (Grbpiids2D)g;
+                                    Strokf oldStrokf = null;
+                                    if (sfq.trbnsitionStrokf != null) {
+                                        oldStrokf = g2d.gftStrokf();
+                                        g2d.sftStrokf(sfq.trbnsitionStrokf);
                                     }
-                                    g.drawLine(x0+x1, y0-y1-pass, x0+x2, y0-y2-pass);
-                                    if (oldStroke != null) {
-                                        g2d.setStroke(oldStroke);
+                                    g.drbwLinf(x0+x1, y0-y1-pbss, x0+x2, y0-y2-pbss);
+                                    if (oldStrokf != null) {
+                                        g2d.sftStrokf(oldStrokf);
                                     }
                                 }
                             }
@@ -637,464 +637,464 @@ public class Plotter extends JComponent
                     }
                 }
 
-                // Current value
-                long v = seq.value(seq.size - 1);
-                if (v >= vMin && v <= vMax) {
-                    if (bgIsLight) {
-                        g.setColor(seq.color);
-                    } else {
-                        g.setColor(fg);
+                // Currfnt vbluf
+                long v = sfq.vbluf(sfq.sizf - 1);
+                if (v >= vMin && v <= vMbx) {
+                    if (bgIsLigit) {
+                        g.sftColor(sfq.dolor);
+                    } flsf {
+                        g.sftColor(fg);
                     }
-                    x = r.x + r.width + 2;
-                    y = topMargin+h-(int)(h * (v-vMin) / (vMax-vMin));
-                    // a small triangle/arrow
-                    g.fillPolygon(new int[] { x+2, x+6, x+6 },
-                                  new int[] { y,   y+3, y-3 },
+                    x = r.x + r.widti + 2;
+                    y = topMbrgin+i-(int)(i * (v-vMin) / (vMbx-vMin));
+                    // b smbll tribnglf/brrow
+                    g.fillPolygon(nfw int[] { x+2, x+6, x+6 },
+                                  nfw int[] { y,   y+3, y-3 },
                                   3);
                 }
-                g.setColor(fg);
+                g.sftColor(fg);
             }
         }
 
-        int[] valueStringSlots = new int[nLists];
-        for (int i = 0; i < nLists; i++) valueStringSlots[i] = -1;
+        int[] vblufStringSlots = nfw int[nLists];
+        for (int i = 0; i < nLists; i++) vblufStringSlots[i] = -1;
         for (int i = 0; i < nLists; i++) {
-            Sequence seq = seqs.get(i);
-            if (seq.isPlotted && seq.size > 0) {
-                // Draw current value
+            Sfqufndf sfq = sfqs.gft(i);
+            if (sfq.isPlottfd && sfq.sizf > 0) {
+                // Drbw durrfnt vbluf
 
-                // TODO: collapse values if pointsPerPixel >= 4
+                // TODO: dollbpsf vblufs if pointsPfrPixfl >= 4
 
-                long v = seq.value(seq.size - 1);
-                if (v >= vMin && v <= vMax) {
-                    x = r.x + r.width + 2;
-                    y = topMargin+h-(int)(h * (v-vMin) / (vMax-vMin));
-                    int y2 = getValueStringSlot(valueStringSlots, y, 2*10, i);
-                    g.setFont(smallFont);
-                    if (bgIsLight) {
-                        g.setColor(seq.color);
-                    } else {
-                        g.setColor(fg);
+                long v = sfq.vbluf(sfq.sizf - 1);
+                if (v >= vMin && v <= vMbx) {
+                    x = r.x + r.widti + 2;
+                    y = topMbrgin+i-(int)(i * (v-vMin) / (vMbx-vMin));
+                    int y2 = gftVblufStringSlot(vblufStringSlots, y, 2*10, i);
+                    g.sftFont(smbllFont);
+                    if (bgIsLigit) {
+                        g.sftColor(sfq.dolor);
+                    } flsf {
+                        g.sftColor(fg);
                     }
-                    String curValue = getFormattedValue(v, true);
+                    String durVbluf = gftFormbttfdVbluf(v, truf);
                     if (unit == Unit.PERCENT) {
-                        curValue += "%";
+                        durVbluf += "%";
                     }
-                    int valWidth = fm.stringWidth(curValue);
-                    String legend = (displayLegend?seq.name:"");
-                    int legendWidth = fm.stringWidth(legend);
-                    if (checkRightMargin(valWidth) || checkRightMargin(legendWidth)) {
-                        // Wait for next repaint
-                        return;
+                    int vblWidti = fm.stringWidti(durVbluf);
+                    String lfgfnd = (displbyLfgfnd?sfq.nbmf:"");
+                    int lfgfndWidti = fm.stringWidti(lfgfnd);
+                    if (difdkRigitMbrgin(vblWidti) || difdkRigitMbrgin(lfgfndWidti)) {
+                        // Wbit for nfxt rfpbint
+                        rfturn;
                     }
-                    g.drawString(legend  , x + 17, Math.min(topMargin+h,      y2 + 3 - 10));
-                    g.drawString(curValue, x + 17, Math.min(topMargin+h + 10, y2 + 3));
+                    g.drbwString(lfgfnd  , x + 17, Mbti.min(topMbrgin+i,      y2 + 3 - 10));
+                    g.drbwString(durVbluf, x + 17, Mbti.min(topMbrgin+i + 10, y2 + 3));
 
-                    // Maybe draw a short line to value
+                    // Mbybf drbw b siort linf to vbluf
                     if (y2 > y + 3) {
-                        g.drawLine(x + 9, y + 2, x + 14, y2);
-                    } else if (y2 < y - 3) {
-                        g.drawLine(x + 9, y - 2, x + 14, y2);
+                        g.drbwLinf(x + 9, y + 2, x + 14, y2);
+                    } flsf if (y2 < y - 3) {
+                        g.drbwLinf(x + 9, y - 2, x + 14, y2);
                     }
                 }
-                g.setFont(oldFont);
-                g.setColor(fg);
+                g.sftFont(oldFont);
+                g.sftColor(fg);
 
             }
         }
-        g.setColor(oldColor);
+        g.sftColor(oldColor);
     }
 
-    private boolean checkLeftMargin(int x) {
-        // Make sure leftMargin has at least 2 pixels over
+    privbtf boolfbn difdkLfftMbrgin(int x) {
+        // Mbkf surf lfftMbrgin ibs bt lfbst 2 pixfls ovfr
         if (x < 2) {
-            leftMargin += (2 - x);
-            // Repaint from top (above any cell renderers)
-            SwingUtilities.getWindowAncestor(this).repaint();
-            return true;
+            lfftMbrgin += (2 - x);
+            // Rfpbint from top (bbovf bny dfll rfndfrfrs)
+            SwingUtilitifs.gftWindowAndfstor(tiis).rfpbint();
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private boolean checkRightMargin(int w) {
-        // Make sure rightMargin has at least 2 pixels over
-        if (w + 2 > rightMargin) {
-            rightMargin = (w + 2);
-            // Repaint from top (above any cell renderers)
-            SwingUtilities.getWindowAncestor(this).repaint();
-            return true;
+    privbtf boolfbn difdkRigitMbrgin(int w) {
+        // Mbkf surf rigitMbrgin ibs bt lfbst 2 pixfls ovfr
+        if (w + 2 > rigitMbrgin) {
+            rigitMbrgin = (w + 2);
+            // Rfpbint from top (bbovf bny dfll rfndfrfrs)
+            SwingUtilitifs.gftWindowAndfstor(tiis).rfpbint();
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private int getValueStringSlot(int[] slots, int y, int h, int i) {
-        for (int s = 0; s < slots.length; s++) {
-            if (slots[s] >= y && slots[s] < y + h) {
-                // collide below us
-                if (slots[s] > h) {
-                    return getValueStringSlot(slots, slots[s]-h, h, i);
-                } else {
-                    return getValueStringSlot(slots, slots[s]+h, h, i);
+    privbtf int gftVblufStringSlot(int[] slots, int y, int i, int i) {
+        for (int s = 0; s < slots.lfngti; s++) {
+            if (slots[s] >= y && slots[s] < y + i) {
+                // dollidf bflow us
+                if (slots[s] > i) {
+                    rfturn gftVblufStringSlot(slots, slots[s]-i, i, i);
+                } flsf {
+                    rfturn gftVblufStringSlot(slots, slots[s]+i, i, i);
                 }
-            } else if (y >= h && slots[s] > y - h && slots[s] < y) {
-                // collide above us
-                return getValueStringSlot(slots, slots[s]+h, h, i);
+            } flsf if (y >= i && slots[s] > y - i && slots[s] < y) {
+                // dollidf bbovf us
+                rfturn gftVblufStringSlot(slots, slots[s]+i, i, i);
             }
         }
         slots[i] = y;
-        return y;
+        rfturn y;
     }
 
-    private long calculateTickInterval(int w, int hGap, long viewRangeMS) {
-        long tickInterval = viewRangeMS * hGap / w;
-        if (tickInterval < 1 * MINUTE) {
-            tickInterval = 1 * MINUTE;
-        } else if (tickInterval < 5 * MINUTE) {
-            tickInterval = 5 * MINUTE;
-        } else if (tickInterval < 10 * MINUTE) {
-            tickInterval = 10 * MINUTE;
-        } else if (tickInterval < 30 * MINUTE) {
-            tickInterval = 30 * MINUTE;
-        } else if (tickInterval < 1 * HOUR) {
-            tickInterval = 1 * HOUR;
-        } else if (tickInterval < 3 * HOUR) {
-            tickInterval = 3 * HOUR;
-        } else if (tickInterval < 6 * HOUR) {
-            tickInterval = 6 * HOUR;
-        } else if (tickInterval < 12 * HOUR) {
-            tickInterval = 12 * HOUR;
-        } else if (tickInterval < 1 * DAY) {
-            tickInterval = 1 * DAY;
-        } else {
-            tickInterval = normalizeMax(tickInterval / DAY) * DAY;
+    privbtf long dbldulbtfTidkIntfrvbl(int w, int iGbp, long vifwRbngfMS) {
+        long tidkIntfrvbl = vifwRbngfMS * iGbp / w;
+        if (tidkIntfrvbl < 1 * MINUTE) {
+            tidkIntfrvbl = 1 * MINUTE;
+        } flsf if (tidkIntfrvbl < 5 * MINUTE) {
+            tidkIntfrvbl = 5 * MINUTE;
+        } flsf if (tidkIntfrvbl < 10 * MINUTE) {
+            tidkIntfrvbl = 10 * MINUTE;
+        } flsf if (tidkIntfrvbl < 30 * MINUTE) {
+            tidkIntfrvbl = 30 * MINUTE;
+        } flsf if (tidkIntfrvbl < 1 * HOUR) {
+            tidkIntfrvbl = 1 * HOUR;
+        } flsf if (tidkIntfrvbl < 3 * HOUR) {
+            tidkIntfrvbl = 3 * HOUR;
+        } flsf if (tidkIntfrvbl < 6 * HOUR) {
+            tidkIntfrvbl = 6 * HOUR;
+        } flsf if (tidkIntfrvbl < 12 * HOUR) {
+            tidkIntfrvbl = 12 * HOUR;
+        } flsf if (tidkIntfrvbl < 1 * DAY) {
+            tidkIntfrvbl = 1 * DAY;
+        } flsf {
+            tidkIntfrvbl = normblizfMbx(tidkIntfrvbl / DAY) * DAY;
         }
-        return tickInterval;
+        rfturn tidkIntfrvbl;
     }
 
-    private long normalizeMin(long l) {
-        int exp = (int)Math.log10((double)l);
-        long multiple = (long)Math.pow(10.0, exp);
-        int i = (int)(l / multiple);
-        return i * multiple;
+    privbtf long normblizfMin(long l) {
+        int fxp = (int)Mbti.log10((doublf)l);
+        long multiplf = (long)Mbti.pow(10.0, fxp);
+        int i = (int)(l / multiplf);
+        rfturn i * multiplf;
     }
 
-    private long normalizeMax(long l) {
-        int exp = (int)Math.log10((double)l);
-        long multiple = (long)Math.pow(10.0, exp);
-        int i = (int)(l / multiple);
-        l = (i+1)*multiple;
-        return l;
+    privbtf long normblizfMbx(long l) {
+        int fxp = (int)Mbti.log10((doublf)l);
+        long multiplf = (long)Mbti.pow(10.0, fxp);
+        int i = (int)(l / multiplf);
+        l = (i+1)*multiplf;
+        rfturn l;
     }
 
-    private String getFormattedValue(long v, boolean groupDigits) {
+    privbtf String gftFormbttfdVbluf(long v, boolfbn groupDigits) {
         String str;
         String fmt = "%";
         if (groupDigits) {
             fmt += ",";
         }
-        if (decimals > 0) {
-            fmt += "." + decimals + "f";
-            str = String.format(fmt, v / decimalsMultiplier);
-        } else {
+        if (dfdimbls > 0) {
+            fmt += "." + dfdimbls + "f";
+            str = String.formbt(fmt, v / dfdimblsMultiplifr);
+        } flsf {
             fmt += "d";
-            str = String.format(fmt, v);
+            str = String.formbt(fmt, v);
         }
-        return str;
+        rfturn str;
     }
 
-    private String getSizeString(long v, long vMax) {
+    privbtf String gftSizfString(long v, long vMbx) {
         String s;
 
-        if (unit == Unit.BYTES && decimals == 0) {
-            s = formatBytes(v, vMax);
-        } else {
-            s = getFormattedValue(v, true);
+        if (unit == Unit.BYTES && dfdimbls == 0) {
+            s = formbtBytfs(v, vMbx);
+        } flsf {
+            s = gftFormbttfdVbluf(v, truf);
         }
-        return s;
+        rfturn s;
     }
 
-    private static synchronized Stroke getDashedStroke() {
-        if (dashedStroke == null) {
-            dashedStroke = new BasicStroke(1.0f,
-                                           BasicStroke.CAP_BUTT,
-                                           BasicStroke.JOIN_MITER,
+    privbtf stbtid syndironizfd Strokf gftDbsifdStrokf() {
+        if (dbsifdStrokf == null) {
+            dbsifdStrokf = nfw BbsidStrokf(1.0f,
+                                           BbsidStrokf.CAP_BUTT,
+                                           BbsidStrokf.JOIN_MITER,
                                            10.0f,
-                                           new float[] { 2.0f, 3.0f },
+                                           nfw flobt[] { 2.0f, 3.0f },
                                            0.0f);
         }
-        return dashedStroke;
+        rfturn dbsifdStrokf;
     }
 
-    private static Object extendArray(Object a1) {
-        int n = Array.getLength(a1);
-        Object a2 =
-            Array.newInstance(a1.getClass().getComponentType(),
+    privbtf stbtid Objfdt fxtfndArrby(Objfdt b1) {
+        int n = Arrby.gftLfngti(b1);
+        Objfdt b2 =
+            Arrby.nfwInstbndf(b1.gftClbss().gftComponfntTypf(),
                               n + ARRAY_SIZE_INCREMENT);
-        System.arraycopy(a1, 0, a2, 0, n);
-        return a2;
+        Systfm.brrbydopy(b1, 0, b2, 0, n);
+        rfturn b2;
     }
 
 
-    private static class TimeStamps {
-        // Time stamps (long) are split into offsets (long) and a
-        // series of times from the offsets (int). A new offset is
-        // stored when the the time value doesn't fit in an int
-        // (approx every 24 days).  An array of indices is used to
-        // define the starting point for each offset in the times
-        // array.
-        long[] offsets = new long[0];
-        int[] indices = new int[0];
-        int[] rtimes = new int[ARRAY_SIZE_INCREMENT];
+    privbtf stbtid dlbss TimfStbmps {
+        // Timf stbmps (long) brf split into offsfts (long) bnd b
+        // sfrifs of timfs from tif offsfts (int). A nfw offsft is
+        // storfd wifn tif tif timf vbluf dofsn't fit in bn int
+        // (bpprox fvfry 24 dbys).  An brrby of indidfs is usfd to
+        // dffinf tif stbrting point for fbdi offsft in tif timfs
+        // brrby.
+        long[] offsfts = nfw long[0];
+        int[] indidfs = nfw int[0];
+        int[] rtimfs = nfw int[ARRAY_SIZE_INCREMENT];
 
-        // Number of stored timestamps
-        int size = 0;
+        // Numbfr of storfd timfstbmps
+        int sizf = 0;
 
         /**
-         * Returns the time stamp for index i
+         * Rfturns tif timf stbmp for indfx i
          */
-        public long time(int i) {
-            long offset = 0;
-            for (int j = indices.length - 1; j >= 0; j--) {
-                if (i >= indices[j]) {
-                    offset = offsets[j];
-                    break;
+        publid long timf(int i) {
+            long offsft = 0;
+            for (int j = indidfs.lfngti - 1; j >= 0; j--) {
+                if (i >= indidfs[j]) {
+                    offsft = offsfts[j];
+                    brfbk;
                 }
             }
-            return offset + rtimes[i];
+            rfturn offsft + rtimfs[i];
         }
 
-        public void add(long time) {
-            // May need to store a new time offset
-            int n = offsets.length;
-            if (n == 0 || time - offsets[n - 1] > Integer.MAX_VALUE) {
-                // Grow offset and indices arrays and store new offset
-                offsets = Arrays.copyOf(offsets, n + 1);
-                offsets[n] = time;
-                indices = Arrays.copyOf(indices, n + 1);
-                indices[n] = size;
+        publid void bdd(long timf) {
+            // Mby nffd to storf b nfw timf offsft
+            int n = offsfts.lfngti;
+            if (n == 0 || timf - offsfts[n - 1] > Intfgfr.MAX_VALUE) {
+                // Grow offsft bnd indidfs brrbys bnd storf nfw offsft
+                offsfts = Arrbys.dopyOf(offsfts, n + 1);
+                offsfts[n] = timf;
+                indidfs = Arrbys.dopyOf(indidfs, n + 1);
+                indidfs[n] = sizf;
             }
 
-            // May need to extend the array size
-            if (rtimes.length == size) {
-                rtimes = (int[])extendArray(rtimes);
+            // Mby nffd to fxtfnd tif brrby sizf
+            if (rtimfs.lfngti == sizf) {
+                rtimfs = (int[])fxtfndArrby(rtimfs);
             }
 
-            // Store the time
-            rtimes[size]  = (int)(time - offsets[offsets.length - 1]);
-            size++;
+            // Storf tif timf
+            rtimfs[sizf]  = (int)(timf - offsfts[offsfts.lfngti - 1]);
+            sizf++;
         }
     }
 
-    private static class Sequence {
-        String key;
-        String name;
-        Color color;
-        boolean isPlotted;
-        Stroke transitionStroke = null;
+    privbtf stbtid dlbss Sfqufndf {
+        String kfy;
+        String nbmf;
+        Color dolor;
+        boolfbn isPlottfd;
+        Strokf trbnsitionStrokf = null;
 
-        // Values are stored in an int[] if all values will fit,
-        // otherwise in a long[]. An int can represent up to 2 GB.
-        // Use a random start size, so all arrays won't need to
-        // be grown during the same update interval
-        Object values =
-            new byte[ARRAY_SIZE_INCREMENT + (int)(Math.random() * 100)];
+        // Vblufs brf storfd in bn int[] if bll vblufs will fit,
+        // otifrwisf in b long[]. An int dbn rfprfsfnt up to 2 GB.
+        // Usf b rbndom stbrt sizf, so bll brrbys won't nffd to
+        // bf grown during tif sbmf updbtf intfrvbl
+        Objfdt vblufs =
+            nfw bytf[ARRAY_SIZE_INCREMENT + (int)(Mbti.rbndom() * 100)];
 
-        // Number of stored values
-        int size = 0;
+        // Numbfr of storfd vblufs
+        int sizf = 0;
 
-        public Sequence(String key) {
-            this.key = key;
+        publid Sfqufndf(String kfy) {
+            tiis.kfy = kfy;
         }
 
         /**
-         * Returns the value at index i
+         * Rfturns tif vbluf bt indfx i
          */
-        public long value(int i) {
-            return Array.getLong(values, i);
+        publid long vbluf(int i) {
+            rfturn Arrby.gftLong(vblufs, i);
         }
 
-        public void add(long value) {
-            // May need to switch to a larger array type
-            if ((values instanceof byte[] ||
-                 values instanceof short[] ||
-                 values instanceof int[]) &&
-                       value > Integer.MAX_VALUE) {
-                long[] la = new long[Array.getLength(values)];
-                for (int i = 0; i < size; i++) {
-                    la[i] = Array.getLong(values, i);
+        publid void bdd(long vbluf) {
+            // Mby nffd to switdi to b lbrgfr brrby typf
+            if ((vblufs instbndfof bytf[] ||
+                 vblufs instbndfof siort[] ||
+                 vblufs instbndfof int[]) &&
+                       vbluf > Intfgfr.MAX_VALUE) {
+                long[] lb = nfw long[Arrby.gftLfngti(vblufs)];
+                for (int i = 0; i < sizf; i++) {
+                    lb[i] = Arrby.gftLong(vblufs, i);
                 }
-                values = la;
-            } else if ((values instanceof byte[] ||
-                        values instanceof short[]) &&
-                       value > Short.MAX_VALUE) {
-                int[] ia = new int[Array.getLength(values)];
-                for (int i = 0; i < size; i++) {
-                    ia[i] = Array.getInt(values, i);
+                vblufs = lb;
+            } flsf if ((vblufs instbndfof bytf[] ||
+                        vblufs instbndfof siort[]) &&
+                       vbluf > Siort.MAX_VALUE) {
+                int[] ib = nfw int[Arrby.gftLfngti(vblufs)];
+                for (int i = 0; i < sizf; i++) {
+                    ib[i] = Arrby.gftInt(vblufs, i);
                 }
-                values = ia;
-            } else if (values instanceof byte[] &&
-                       value > Byte.MAX_VALUE) {
-                short[] sa = new short[Array.getLength(values)];
-                for (int i = 0; i < size; i++) {
-                    sa[i] = Array.getShort(values, i);
+                vblufs = ib;
+            } flsf if (vblufs instbndfof bytf[] &&
+                       vbluf > Bytf.MAX_VALUE) {
+                siort[] sb = nfw siort[Arrby.gftLfngti(vblufs)];
+                for (int i = 0; i < sizf; i++) {
+                    sb[i] = Arrby.gftSiort(vblufs, i);
                 }
-                values = sa;
+                vblufs = sb;
             }
 
-            // May need to extend the array size
-            if (Array.getLength(values) == size) {
-                values = extendArray(values);
+            // Mby nffd to fxtfnd tif brrby sizf
+            if (Arrby.gftLfngti(vblufs) == sizf) {
+                vblufs = fxtfndArrby(vblufs);
             }
 
-            // Store the value
-            if (values instanceof long[]) {
-                ((long[])values)[size] = value;
-            } else if (values instanceof int[]) {
-                ((int[])values)[size] = (int)value;
-            } else if (values instanceof short[]) {
-                ((short[])values)[size] = (short)value;
-            } else {
-                ((byte[])values)[size] = (byte)value;
+            // Storf tif vbluf
+            if (vblufs instbndfof long[]) {
+                ((long[])vblufs)[sizf] = vbluf;
+            } flsf if (vblufs instbndfof int[]) {
+                ((int[])vblufs)[sizf] = (int)vbluf;
+            } flsf if (vblufs instbndfof siort[]) {
+                ((siort[])vblufs)[sizf] = (siort)vbluf;
+            } flsf {
+                ((bytf[])vblufs)[sizf] = (bytf)vbluf;
             }
-            size++;
+            sizf++;
         }
     }
 
-    // Can be overridden by subclasses
-    long getValue() {
-        return 0;
+    // Cbn bf ovfrriddfn by subdlbssfs
+    long gftVbluf() {
+        rfturn 0;
     }
 
-    long getLastTimeStamp() {
-        return times.time(times.size - 1);
+    long gftLbstTimfStbmp() {
+        rfturn timfs.timf(timfs.sizf - 1);
     }
 
-    long getLastValue(String key) {
-        Sequence seq = getSequence(key);
-        return (seq != null && seq.size > 0) ? seq.value(seq.size - 1) : 0L;
+    long gftLbstVbluf(String kfy) {
+        Sfqufndf sfq = gftSfqufndf(kfy);
+        rfturn (sfq != null && sfq.sizf > 0) ? sfq.vbluf(sfq.sizf - 1) : 0L;
     }
 
 
-    // Called on EDT
-    public void propertyChange(PropertyChangeEvent ev) {
-        String prop = ev.getPropertyName();
+    // Cbllfd on EDT
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fv) {
+        String prop = fv.gftPropfrtyNbmf();
 
-        if (prop == JConsoleContext.CONNECTION_STATE_PROPERTY) {
-            ConnectionState newState = (ConnectionState)ev.getNewValue();
+        if (prop == JConsolfContfxt.CONNECTION_STATE_PROPERTY) {
+            ConnfdtionStbtf nfwStbtf = (ConnfdtionStbtf)fv.gftNfwVbluf();
 
-            switch (newState) {
-              case DISCONNECTED:
-                synchronized(this) {
-                    long time = System.currentTimeMillis();
-                    times.add(time);
-                    for (Sequence seq : seqs) {
-                        seq.add(Long.MIN_VALUE);
+            switdi (nfwStbtf) {
+              dbsf DISCONNECTED:
+                syndironizfd(tiis) {
+                    long timf = Systfm.durrfntTimfMillis();
+                    timfs.bdd(timf);
+                    for (Sfqufndf sfq : sfqs) {
+                        sfq.bdd(Long.MIN_VALUE);
                     }
                 }
-                break;
+                brfbk;
             }
         }
     }
 
-    private static class SaveDataFileChooser extends JFileChooser {
-        private static final long serialVersionUID = -5182890922369369669L;
-        SaveDataFileChooser() {
-            setFileFilter(new FileNameExtensionFilter("CSV file", "csv"));
+    privbtf stbtid dlbss SbvfDbtbFilfCioosfr fxtfnds JFilfCioosfr {
+        privbtf stbtid finbl long sfriblVfrsionUID = -5182890922369369669L;
+        SbvfDbtbFilfCioosfr() {
+            sftFilfFiltfr(nfw FilfNbmfExtfnsionFiltfr("CSV filf", "dsv"));
         }
 
-        @Override
-        public void approveSelection() {
-            File file = getSelectedFile();
-            if (file != null) {
-                FileFilter filter = getFileFilter();
-                if (filter != null && filter instanceof FileNameExtensionFilter) {
-                    String[] extensions =
-                        ((FileNameExtensionFilter)filter).getExtensions();
+        @Ovfrridf
+        publid void bpprovfSflfdtion() {
+            Filf filf = gftSflfdtfdFilf();
+            if (filf != null) {
+                FilfFiltfr filtfr = gftFilfFiltfr();
+                if (filtfr != null && filtfr instbndfof FilfNbmfExtfnsionFiltfr) {
+                    String[] fxtfnsions =
+                        ((FilfNbmfExtfnsionFiltfr)filtfr).gftExtfnsions();
 
-                    boolean goodExt = false;
-                    for (String ext : extensions) {
-                        if (file.getName().toLowerCase().endsWith("." + ext.toLowerCase())) {
-                            goodExt = true;
-                            break;
+                    boolfbn goodExt = fblsf;
+                    for (String fxt : fxtfnsions) {
+                        if (filf.gftNbmf().toLowfrCbsf().fndsWiti("." + fxt.toLowfrCbsf())) {
+                            goodExt = truf;
+                            brfbk;
                         }
                     }
                     if (!goodExt) {
-                        file = new File(file.getParent(),
-                                        file.getName() + "." + extensions[0]);
+                        filf = nfw Filf(filf.gftPbrfnt(),
+                                        filf.gftNbmf() + "." + fxtfnsions[0]);
                     }
                 }
 
-                if (file.exists()) {
-                    String okStr = Messages.FILE_CHOOSER_FILE_EXISTS_OK_OPTION;
-                    String cancelStr = Messages.FILE_CHOOSER_FILE_EXISTS_CANCEL_OPTION;
-                    int ret =
-                        JOptionPane.showOptionDialog(this,
-                                                     Resources.format(Messages.FILE_CHOOSER_FILE_EXISTS_MESSAGE,
-                                                                      file.getName()),
-                                                     Messages.FILE_CHOOSER_FILE_EXISTS_TITLE,
-                                                     JOptionPane.OK_CANCEL_OPTION,
-                                                     JOptionPane.WARNING_MESSAGE,
+                if (filf.fxists()) {
+                    String okStr = Mfssbgfs.FILE_CHOOSER_FILE_EXISTS_OK_OPTION;
+                    String dbndflStr = Mfssbgfs.FILE_CHOOSER_FILE_EXISTS_CANCEL_OPTION;
+                    int rft =
+                        JOptionPbnf.siowOptionDiblog(tiis,
+                                                     Rfsourdfs.formbt(Mfssbgfs.FILE_CHOOSER_FILE_EXISTS_MESSAGE,
+                                                                      filf.gftNbmf()),
+                                                     Mfssbgfs.FILE_CHOOSER_FILE_EXISTS_TITLE,
+                                                     JOptionPbnf.OK_CANCEL_OPTION,
+                                                     JOptionPbnf.WARNING_MESSAGE,
                                                      null,
-                                                     new Object[] { okStr, cancelStr },
+                                                     nfw Objfdt[] { okStr, dbndflStr },
                                                      okStr);
-                    if (ret != JOptionPane.OK_OPTION) {
-                        return;
+                    if (rft != JOptionPbnf.OK_OPTION) {
+                        rfturn;
                     }
                 }
-                setSelectedFile(file);
+                sftSflfdtfdFilf(filf);
             }
-            super.approveSelection();
+            supfr.bpprovfSflfdtion();
         }
     }
 
-    @Override
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessiblePlotter();
+    @Ovfrridf
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfPlottfr();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
-    protected class AccessiblePlotter extends AccessibleJComponent {
-        private static final long serialVersionUID = -3847205410473510922L;
-        protected AccessiblePlotter() {
-            setAccessibleName(Messages.PLOTTER_ACCESSIBLE_NAME);
+    protfdtfd dlbss AddfssiblfPlottfr fxtfnds AddfssiblfJComponfnt {
+        privbtf stbtid finbl long sfriblVfrsionUID = -3847205410473510922L;
+        protfdtfd AddfssiblfPlottfr() {
+            sftAddfssiblfNbmf(Mfssbgfs.PLOTTER_ACCESSIBLE_NAME);
         }
 
-        @Override
-        public String getAccessibleName() {
-            String name = super.getAccessibleName();
+        @Ovfrridf
+        publid String gftAddfssiblfNbmf() {
+            String nbmf = supfr.gftAddfssiblfNbmf();
 
-            if (seqs.size() > 0 && seqs.get(0).size > 0) {
-                String keyValueList = "";
-                for (Sequence seq : seqs) {
-                    if (seq.isPlotted) {
-                        String value = "null";
-                        if (seq.size > 0) {
+            if (sfqs.sizf() > 0 && sfqs.gft(0).sizf > 0) {
+                String kfyVblufList = "";
+                for (Sfqufndf sfq : sfqs) {
+                    if (sfq.isPlottfd) {
+                        String vbluf = "null";
+                        if (sfq.sizf > 0) {
                             if (unit == Unit.BYTES) {
-                                value = Resources.format(Messages.SIZE_BYTES, seq.value(seq.size - 1));
-                            } else {
-                                value =
-                                    getFormattedValue(seq.value(seq.size - 1), false) +
+                                vbluf = Rfsourdfs.formbt(Mfssbgfs.SIZE_BYTES, sfq.vbluf(sfq.sizf - 1));
+                            } flsf {
+                                vbluf =
+                                    gftFormbttfdVbluf(sfq.vbluf(sfq.sizf - 1), fblsf) +
                                     ((unit == Unit.PERCENT) ? "%" : "");
                             }
                         }
-                        // Assume format string ends with newline
-                        keyValueList +=
-                            Resources.format(Messages.PLOTTER_ACCESSIBLE_NAME_KEY_AND_VALUE,
-                                    seq.key, value);
+                        // Assumf formbt string fnds witi nfwlinf
+                        kfyVblufList +=
+                            Rfsourdfs.formbt(Mfssbgfs.PLOTTER_ACCESSIBLE_NAME_KEY_AND_VALUE,
+                                    sfq.kfy, vbluf);
                     }
                 }
-                name += "\n" + keyValueList + ".";
-            } else {
-                name += "\n" + Messages.PLOTTER_ACCESSIBLE_NAME_NO_DATA;
+                nbmf += "\n" + kfyVblufList + ".";
+            } flsf {
+                nbmf += "\n" + Mfssbgfs.PLOTTER_ACCESSIBLE_NAME_NO_DATA;
             }
-            return name;
+            rfturn nbmf;
         }
 
-        @Override
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.CANVAS;
+        @Ovfrridf
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.CANVAS;
         }
     }
 }

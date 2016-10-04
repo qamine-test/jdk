@@ -1,285 +1,285 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import java.beans.*;
-import java.lang.ref.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvb.lbng.rff.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
 
 /**
- * Wrapper for a value from the desktop. The value is lazily looked up, and
- * can be accessed using the <code>UIManager.ActiveValue</code> method
- * <code>createValue</code>. If the underlying desktop property changes this
- * will force the UIs to update all known Frames. You can invoke
- * <code>invalidate</code> to force the value to be fetched again.
+ * Wrbppfr for b vbluf from tif dfsktop. Tif vbluf is lbzily lookfd up, bnd
+ * dbn bf bddfssfd using tif <dodf>UIMbnbgfr.AdtivfVbluf</dodf> mftiod
+ * <dodf>drfbtfVbluf</dodf>. If tif undfrlying dfsktop propfrty dibngfs tiis
+ * will fordf tif UIs to updbtf bll known Frbmfs. You dbn invokf
+ * <dodf>invblidbtf</dodf> to fordf tif vbluf to bf fftdifd bgbin.
  *
  */
-// NOTE: Don't rely on this class staying in this location. It is likely
-// to move to a different package in the future.
-public class DesktopProperty implements UIDefaults.ActiveValue {
+// NOTE: Don't rfly on tiis dlbss stbying in tiis lodbtion. It is likfly
+// to movf to b difffrfnt pbdkbgf in tif futurf.
+publid dlbss DfsktopPropfrty implfmfnts UIDffbults.AdtivfVbluf {
     /**
-     * Indicates if an updateUI call is pending.
+     * Indidbtfs if bn updbtfUI dbll is pfnding.
      */
-    private static boolean updatePending;
+    privbtf stbtid boolfbn updbtfPfnding;
 
     /**
-     * ReferenceQueue of unreferenced WeakPCLs.
+     * RfffrfndfQufuf of unrfffrfndfd WfbkPCLs.
      */
-    private static final ReferenceQueue<DesktopProperty> queue = new ReferenceQueue<DesktopProperty>();
+    privbtf stbtid finbl RfffrfndfQufuf<DfsktopPropfrty> qufuf = nfw RfffrfndfQufuf<DfsktopPropfrty>();
 
     /**
-     * PropertyChangeListener attached to the Toolkit.
+     * PropfrtyCibngfListfnfr bttbdifd to tif Toolkit.
      */
-    private WeakPCL pcl;
+    privbtf WfbkPCL pdl;
     /**
-     * Key used to lookup value from desktop.
+     * Kfy usfd to lookup vbluf from dfsktop.
      */
-    private final String key;
+    privbtf finbl String kfy;
     /**
-     * Value to return.
+     * Vbluf to rfturn.
      */
-    private Object value;
+    privbtf Objfdt vbluf;
     /**
-     * Fallback value in case we get null from desktop.
+     * Fbllbbdk vbluf in dbsf wf gft null from dfsktop.
      */
-    private final Object fallback;
+    privbtf finbl Objfdt fbllbbdk;
 
 
     /**
-     * Cleans up any lingering state held by unrefeernced
-     * DesktopProperties.
+     * Clfbns up bny lingfring stbtf ifld by unrffffrndfd
+     * DfsktopPropfrtifs.
      */
-    static void flushUnreferencedProperties() {
-        WeakPCL pcl;
+    stbtid void flusiUnrfffrfndfdPropfrtifs() {
+        WfbkPCL pdl;
 
-        while ((pcl = (WeakPCL)queue.poll()) != null) {
-            pcl.dispose();
+        wiilf ((pdl = (WfbkPCL)qufuf.poll()) != null) {
+            pdl.disposf();
         }
     }
 
 
     /**
-     * Sets whether or not an updateUI call is pending.
+     * Sfts wiftifr or not bn updbtfUI dbll is pfnding.
      */
-    private static synchronized void setUpdatePending(boolean update) {
-        updatePending = update;
+    privbtf stbtid syndironizfd void sftUpdbtfPfnding(boolfbn updbtf) {
+        updbtfPfnding = updbtf;
     }
 
     /**
-     * Returns true if a UI update is pending.
+     * Rfturns truf if b UI updbtf is pfnding.
      */
-    private static synchronized boolean isUpdatePending() {
-        return updatePending;
+    privbtf stbtid syndironizfd boolfbn isUpdbtfPfnding() {
+        rfturn updbtfPfnding;
     }
 
     /**
-     * Updates the UIs of all the known Frames.
+     * Updbtfs tif UIs of bll tif known Frbmfs.
      */
-    private static void updateAllUIs() {
-        // Check if the current UI is WindowsLookAndfeel and flush the XP style map.
-        // Note: Change the package test if this class is moved to a different package.
-        Class<?> uiClass = UIManager.getLookAndFeel().getClass();
-        if (uiClass.getPackage().equals(DesktopProperty.class.getPackage())) {
-            XPStyle.invalidateStyle();
+    privbtf stbtid void updbtfAllUIs() {
+        // Cifdk if tif durrfnt UI is WindowsLookAndfffl bnd flusi tif XP stylf mbp.
+        // Notf: Cibngf tif pbdkbgf tfst if tiis dlbss is movfd to b difffrfnt pbdkbgf.
+        Clbss<?> uiClbss = UIMbnbgfr.gftLookAndFffl().gftClbss();
+        if (uiClbss.gftPbdkbgf().fqubls(DfsktopPropfrty.dlbss.gftPbdkbgf())) {
+            XPStylf.invblidbtfStylf();
         }
-        Frame appFrames[] = Frame.getFrames();
-        for (Frame appFrame : appFrames) {
-            updateWindowUI(appFrame);
-        }
-    }
-
-    /**
-     * Updates the UI of the passed in window and all its children.
-     */
-    private static void updateWindowUI(Window window) {
-        SwingUtilities.updateComponentTreeUI(window);
-        Window ownedWins[] = window.getOwnedWindows();
-        for (Window ownedWin : ownedWins) {
-            updateWindowUI(ownedWin);
+        Frbmf bppFrbmfs[] = Frbmf.gftFrbmfs();
+        for (Frbmf bppFrbmf : bppFrbmfs) {
+            updbtfWindowUI(bppFrbmf);
         }
     }
 
+    /**
+     * Updbtfs tif UI of tif pbssfd in window bnd bll its diildrfn.
+     */
+    privbtf stbtid void updbtfWindowUI(Window window) {
+        SwingUtilitifs.updbtfComponfntTrffUI(window);
+        Window ownfdWins[] = window.gftOwnfdWindows();
+        for (Window ownfdWin : ownfdWins) {
+            updbtfWindowUI(ownfdWin);
+        }
+    }
+
 
     /**
-     * Creates a DesktopProperty.
+     * Crfbtfs b DfsktopPropfrty.
      *
-     * @param key Key used in looking up desktop value.
-     * @param fallback Value used if desktop property is null.
+     * @pbrbm kfy Kfy usfd in looking up dfsktop vbluf.
+     * @pbrbm fbllbbdk Vbluf usfd if dfsktop propfrty is null.
      */
-    public DesktopProperty(String key, Object fallback) {
-        this.key = key;
-        this.fallback = fallback;
-        // The only sure fire way to clear our references is to create a
-        // Thread and wait for a reference to be added to the queue.
-        // Because it is so rare that you will actually change the look
-        // and feel, this stepped is forgoed and a middle ground of
-        // flushing references from the constructor is instead done.
-        // The implication is that once one DesktopProperty is created
-        // there will most likely be n (number of DesktopProperties created
-        // by the LookAndFeel) WeakPCLs around, but this number will not
-        // grow past n.
-        flushUnreferencedProperties();
+    publid DfsktopPropfrty(String kfy, Objfdt fbllbbdk) {
+        tiis.kfy = kfy;
+        tiis.fbllbbdk = fbllbbdk;
+        // Tif only surf firf wby to dlfbr our rfffrfndfs is to drfbtf b
+        // Tirfbd bnd wbit for b rfffrfndf to bf bddfd to tif qufuf.
+        // Bfdbusf it is so rbrf tibt you will bdtublly dibngf tif look
+        // bnd fffl, tiis stfppfd is forgofd bnd b middlf ground of
+        // flusiing rfffrfndfs from tif donstrudtor is instfbd donf.
+        // Tif implidbtion is tibt ondf onf DfsktopPropfrty is drfbtfd
+        // tifrf will most likfly bf n (numbfr of DfsktopPropfrtifs drfbtfd
+        // by tif LookAndFffl) WfbkPCLs bround, but tiis numbfr will not
+        // grow pbst n.
+        flusiUnrfffrfndfdPropfrtifs();
     }
 
     /**
-     * UIManager.LazyValue method, returns the value from the desktop
-     * or the fallback value if the desktop value is null.
+     * UIMbnbgfr.LbzyVbluf mftiod, rfturns tif vbluf from tif dfsktop
+     * or tif fbllbbdk vbluf if tif dfsktop vbluf is null.
      */
-    public Object createValue(UIDefaults table) {
-        if (value == null) {
-            value = configureValue(getValueFromDesktop());
-            if (value == null) {
-                value = configureValue(getDefaultValue());
+    publid Objfdt drfbtfVbluf(UIDffbults tbblf) {
+        if (vbluf == null) {
+            vbluf = donfigurfVbluf(gftVblufFromDfsktop());
+            if (vbluf == null) {
+                vbluf = donfigurfVbluf(gftDffbultVbluf());
             }
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Returns the value from the desktop.
+     * Rfturns tif vbluf from tif dfsktop.
      */
-    protected Object getValueFromDesktop() {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
+    protfdtfd Objfdt gftVblufFromDfsktop() {
+        Toolkit toolkit = Toolkit.gftDffbultToolkit();
 
-        if (pcl == null) {
-            pcl = new WeakPCL(this, getKey(), UIManager.getLookAndFeel());
-            toolkit.addPropertyChangeListener(getKey(), pcl);
+        if (pdl == null) {
+            pdl = nfw WfbkPCL(tiis, gftKfy(), UIMbnbgfr.gftLookAndFffl());
+            toolkit.bddPropfrtyCibngfListfnfr(gftKfy(), pdl);
         }
 
-        return toolkit.getDesktopProperty(getKey());
+        rfturn toolkit.gftDfsktopPropfrty(gftKfy());
     }
 
     /**
-     * Returns the value to use if the desktop property is null.
+     * Rfturns tif vbluf to usf if tif dfsktop propfrty is null.
      */
-    protected Object getDefaultValue() {
-        return fallback;
+    protfdtfd Objfdt gftDffbultVbluf() {
+        rfturn fbllbbdk;
     }
 
     /**
-     * Invalidates the current value.
+     * Invblidbtfs tif durrfnt vbluf.
      *
-     * @param laf the LookAndFeel this DesktopProperty was created with
+     * @pbrbm lbf tif LookAndFffl tiis DfsktopPropfrty wbs drfbtfd witi
      */
-    public void invalidate(LookAndFeel laf) {
-        invalidate();
+    publid void invblidbtf(LookAndFffl lbf) {
+        invblidbtf();
     }
 
     /**
-     * Invalides the current value so that the next invocation of
-     * <code>createValue</code> will ask for the property again.
+     * Invblidfs tif durrfnt vbluf so tibt tif nfxt invodbtion of
+     * <dodf>drfbtfVbluf</dodf> will bsk for tif propfrty bgbin.
      */
-    public void invalidate() {
-        value = null;
+    publid void invblidbtf() {
+        vbluf = null;
     }
 
     /**
-     * Requests that all components in the GUI hierarchy be updated
-     * to reflect dynamic changes in this look&feel.  This update occurs
-     * by uninstalling and re-installing the UI objects. Requests are
-     * batched and collapsed into a single update pass because often
-     * many desktop properties will change at once.
+     * Rfqufsts tibt bll domponfnts in tif GUI iifrbrdiy bf updbtfd
+     * to rfflfdt dynbmid dibngfs in tiis look&fffl.  Tiis updbtf oddurs
+     * by uninstblling bnd rf-instblling tif UI objfdts. Rfqufsts brf
+     * bbtdifd bnd dollbpsfd into b singlf updbtf pbss bfdbusf oftfn
+     * mbny dfsktop propfrtifs will dibngf bt ondf.
      */
-    protected void updateUI() {
-        if (!isUpdatePending()) {
-            setUpdatePending(true);
-            Runnable uiUpdater = new Runnable() {
-                public void run() {
-                    updateAllUIs();
-                    setUpdatePending(false);
+    protfdtfd void updbtfUI() {
+        if (!isUpdbtfPfnding()) {
+            sftUpdbtfPfnding(truf);
+            Runnbblf uiUpdbtfr = nfw Runnbblf() {
+                publid void run() {
+                    updbtfAllUIs();
+                    sftUpdbtfPfnding(fblsf);
                 }
             };
-            SwingUtilities.invokeLater(uiUpdater);
+            SwingUtilitifs.invokfLbtfr(uiUpdbtfr);
         }
     }
 
     /**
-     * Configures the value as appropriate for a defaults property in
-     * the UIDefaults table.
+     * Configurfs tif vbluf bs bppropribtf for b dffbults propfrty in
+     * tif UIDffbults tbblf.
      */
-    protected Object configureValue(Object value) {
-        if (value != null) {
-            if (value instanceof Color) {
-                return new ColorUIResource((Color)value);
+    protfdtfd Objfdt donfigurfVbluf(Objfdt vbluf) {
+        if (vbluf != null) {
+            if (vbluf instbndfof Color) {
+                rfturn nfw ColorUIRfsourdf((Color)vbluf);
             }
-            else if (value instanceof Font) {
-                return new FontUIResource((Font)value);
+            flsf if (vbluf instbndfof Font) {
+                rfturn nfw FontUIRfsourdf((Font)vbluf);
             }
-            else if (value instanceof UIDefaults.LazyValue) {
-                value = ((UIDefaults.LazyValue)value).createValue(null);
+            flsf if (vbluf instbndfof UIDffbults.LbzyVbluf) {
+                vbluf = ((UIDffbults.LbzyVbluf)vbluf).drfbtfVbluf(null);
             }
-            else if (value instanceof UIDefaults.ActiveValue) {
-                value = ((UIDefaults.ActiveValue)value).createValue(null);
+            flsf if (vbluf instbndfof UIDffbults.AdtivfVbluf) {
+                vbluf = ((UIDffbults.AdtivfVbluf)vbluf).drfbtfVbluf(null);
             }
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Returns the key used to lookup the desktop properties value.
+     * Rfturns tif kfy usfd to lookup tif dfsktop propfrtifs vbluf.
      */
-    protected String getKey() {
-        return key;
+    protfdtfd String gftKfy() {
+        rfturn kfy;
     }
 
 
 
     /**
-     * As there is typically only one Toolkit, the PropertyChangeListener
-     * is handled via a WeakReference so as not to pin down the
-     * DesktopProperty.
+     * As tifrf is typidblly only onf Toolkit, tif PropfrtyCibngfListfnfr
+     * is ibndlfd vib b WfbkRfffrfndf so bs not to pin down tif
+     * DfsktopPropfrty.
      */
-    private static class WeakPCL extends WeakReference<DesktopProperty>
-                               implements PropertyChangeListener {
-        private String key;
-        private LookAndFeel laf;
+    privbtf stbtid dlbss WfbkPCL fxtfnds WfbkRfffrfndf<DfsktopPropfrty>
+                               implfmfnts PropfrtyCibngfListfnfr {
+        privbtf String kfy;
+        privbtf LookAndFffl lbf;
 
-        WeakPCL(DesktopProperty target, String key, LookAndFeel laf) {
-            super(target, queue);
-            this.key = key;
-            this.laf = laf;
+        WfbkPCL(DfsktopPropfrty tbrgft, String kfy, LookAndFffl lbf) {
+            supfr(tbrgft, qufuf);
+            tiis.kfy = kfy;
+            tiis.lbf = lbf;
         }
 
-        public void propertyChange(PropertyChangeEvent pce) {
-            DesktopProperty property = get();
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt pdf) {
+            DfsktopPropfrty propfrty = gft();
 
-            if (property == null || laf != UIManager.getLookAndFeel()) {
-                // The property was GC'ed, we're no longer interested in
-                // PropertyChanges, remove the listener.
-                dispose();
+            if (propfrty == null || lbf != UIMbnbgfr.gftLookAndFffl()) {
+                // Tif propfrty wbs GC'fd, wf'rf no longfr intfrfstfd in
+                // PropfrtyCibngfs, rfmovf tif listfnfr.
+                disposf();
             }
-            else {
-                property.invalidate(laf);
-                property.updateUI();
+            flsf {
+                propfrty.invblidbtf(lbf);
+                propfrty.updbtfUI();
             }
         }
 
-        void dispose() {
-            Toolkit.getDefaultToolkit().removePropertyChangeListener(key, this);
+        void disposf() {
+            Toolkit.gftDffbultToolkit().rfmovfPropfrtyCibngfListfnfr(kfy, tiis);
         }
     }
 }

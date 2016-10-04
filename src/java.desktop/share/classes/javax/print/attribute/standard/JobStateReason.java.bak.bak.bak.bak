@@ -1,0 +1,460 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.Attributf;
+
+/**
+ * Clbss JobStbtfRfbson is b printing bttributf dlbss, bn fnumfrbtion, thbt
+ * providfs bdditionbl informbtion bbout thf job's durrfnt stbtf, i.f.,
+ * informbtion thbt bugmfnts thf vbluf of thf job's {@link JobStbtf JobStbtf}
+ * bttributf. Clbss JobStbtfRfbson dffinfs stbndbrd job stbtf rfbson vblufs. A
+ * Print Sfrvidf implfmfntbtion only nffds to rfport thosf job stbtf
+ * rfbsons whidh brf bppropribtf for thf pbrtidulbr implfmfntbtion; it dofs not
+ * hbvf to rfport fvfry dffinfd job stbtf rfbson.
+ * <P>
+ * Instbndfs of JobStbtfRfbson do not bppfbr in b Print Job's bttributf sft
+ * dirfdtly. Rbthfr, b {@link JobStbtfRfbsons JobStbtfRfbsons} bttributf bppfbrs
+ * in thf Print Job's bttributf sft. Thf {@link JobStbtfRfbsons JobStbtfRfbsons}
+ * bttributf dontbins zfro, onf, or morf thbn onf JobStbtfRfbson objfdts whidh
+ * pfrtbin to thf Print Job's stbtus. Thf printfr bdds b JobStbtfRfbson objfdt
+ * to thf Print Job's {@link JobStbtfRfbsons JobStbtfRfbsons} bttributf whfn thf
+ * dorrfsponding dondition bfdomfs truf of thf Print Job, bnd thf printfr
+ * rfmovfs thf JobStbtfRfbson objfdt bgbin whfn thf dorrfsponding dondition
+ * bfdomfs fblsf, rfgbrdlfss of whfthfr thf Print Job's ovfrbll {@link JobStbtf
+ * JobStbtf} blso dhbngfd.
+ * <P>
+ * <B>IPP Compbtibility:</B> Thf dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> is thf IPP bttributf nbmf.  Thf fnumfrbtion's
+ * intfgfr vbluf is thf IPP fnum vbluf.  Thf <dodf>toString()</dodf> mfthod
+ * rfturns thf IPP string rfprfsfntbtion of thf bttributf vbluf.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid dlbss JobStbtfRfbson fxtfnds EnumSyntbx implfmfnts Attributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -8765894420449009168L;
+
+    /**
+     * Thf printfr hbs drfbtfd thf Print Job, but thf printfr hbs not finishfd
+     * bddfssing or bddfpting bll thf print dbtb yft.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        JOB_INCOMING = nfw JobStbtfRfbson(0);
+
+    /**
+     * Thf printfr hbs drfbtfd thf Print Job, but thf printfr is fxpfdting
+     * bdditionbl print dbtb bfforf it dbn movf thf job into thf PROCESSING
+     * stbtf. If b printfr stbrts prodfssing bfforf it hbs rfdfivfd bll dbtb,
+     * thf printfr rfmovfs thf JOB_DATA_INSUFFICIENT rfbson, but thf
+     * JOB_INCOMING rfbson rfmbins. If b printfr stbrts prodfssing bftfr it
+     * hbs rfdfivfd bll dbtb, thf printfr rfmovfs thf JOB_DATA_INSUFFICIENT
+     * bnd JOB_INCOMING rfbsons bt thf sbmf timf.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        JOB_DATA_INSUFFICIENT = nfw JobStbtfRfbson(1);
+
+    /**
+     * Thf Printfr dould not bddfss onf or morf dodumfnts pbssfd by rfffrfndf
+     * (i.f., thf print dbtb rfprfsfntbtion objfdt is b URL). This rfbson is
+     * intfndfd to dovfr bny filf bddfss problfm,indluding filf dofs not fxist
+     * bnd bddfss dfnifd bfdbusf of bn bddfss dontrol problfm. Whfthfr thf
+     * printfr bborts thf job bnd movfs thf job to thf ABORTED job stbtf or
+     * prints bll dodumfnts thbt brf bddfssiblf bnd movfs thf job to thf
+     * COMPLETED job stbtf bnd bdds thf COMPLETED_WITH_ERRORS rfbson to thf
+     * job's {@link JobStbtfRfbsons JobStbtfRfbsons} bttributf dfpfnds on
+     * implfmfntbtion bnd/or sitf polidy. This vbluf should bf supportfd if
+     * thf printfr supports dod flbvors with URL print dbtb rfprfsfntbtion
+     * objfdts.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        DOCUMENT_ACCESS_ERROR = nfw JobStbtfRfbson(2);
+
+    /**
+     * Thf job wbs not domplftfly submittfd for somf unforfsffn rfbson.
+     * Possibilitifs indludf (1) thf printfr hbs drbshfd bfforf thf job wbs
+     * fully submittfd by thf dlifnt, (2) thf printfr or thf dodumfnt trbnsffr
+     * mfthod hbs drbshfd in somf non-rfdovfrbblf wby bfforf thf dodumfnt dbtb
+     * wbs fntirfly trbnsffrrfd to thf printfr, (3) thf dlifnt drbshfd bfforf
+     * thf job wbs fully submittfd.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        SUBMISSION_INTERRUPTED = nfw JobStbtfRfbson(3);
+
+    /**
+     * Thf printfr is trbnsmitting thf job to thf output dfvidf.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        JOB_OUTGOING = nfw JobStbtfRfbson(4);
+
+    /**
+     * Thf vbluf of thf job's {@link JobHoldUntil JobHoldUntil} bttributf wbs
+     * spfdififd with b dbtf-timf thbt is still in thf futurf. Thf job must
+     * not bf b dbndidbtf for prodfssing until this rfbson is rfmovfd bnd
+     * thfrf brf
+     * no othfr rfbsons to hold thf job. This vbluf should bf supportfd if thf
+     * {@link JobHoldUntil JobHoldUntil} job tfmplbtf bttributf is supportfd.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        JOB_HOLD_UNTIL_SPECIFIED = nfw JobStbtfRfbson(5);
+
+    /**
+     * At lfbst onf of thf rfsourdfs nffdfd by thf job, sudh bs mfdib, fonts,
+     * rfsourdf objfdts, ftd., is not rfbdy on bny of thf physidbl printfrs
+     * for whidh thf job is b dbndidbtf. This dondition mby bf dftfdtfd
+     * whfn thf job is bddfptfd, or subsfqufntly whilf thf job is pfnding
+     * or prodfssing, dfpfnding on implfmfntbtion.
+     * Thf job mby rfmbin in its durrfnt stbtf or
+     * bf movfd to thf PENDING_HELD stbtf, dfpfnding on implfmfntbtion bnd/or
+     * job sdhfduling polidy.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        RESOURCES_ARE_NOT_READY = nfw JobStbtfRfbson(6);
+
+    /**
+     * Thf vbluf of thf printfr's {@link PrintfrStbtfRfbsons
+     * PrintfrStbtfRfbsons} bttributf dontbins b {@link PrintfrStbtfRfbson
+     * PrintfrStbtfRfbson} vbluf of STOPPED_PARTLY.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        PRINTER_STOPPED_PARTLY = nfw JobStbtfRfbson(7);
+
+    /**
+     * Thf vbluf of thf printfr's {@link PrintfrStbtf PrintfrStbtf} bttributf
+     * ib STOPPED.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        PRINTER_STOPPED = nfw JobStbtfRfbson(8);
+
+    /**
+     * Thf job is in thf PROCESSING stbtf, but morf spfdifidblly, thf printfr
+     * ib intfrprfting thf dodumfnt dbtb.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        JOB_INTERPRETING = nfw JobStbtfRfbson(9);
+
+    /**
+     * Thf job is in thf PROCESSING stbtf, but morf spfdifidblly, thf printfr
+     * hbs qufufd thf dodumfnt dbtb.
+     */
+    publid stbtid finbl JobStbtfRfbson JOB_QUEUED = nfw JobStbtfRfbson(10);
+
+    /**
+     * Thf job is in thf PROCESSING stbtf, but morf spfdifidblly, thf printfr
+     * is intfrprfting dodumfnt dbtb bnd produding bnothfr flfdtronid
+     * rfprfsfntbtion.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        JOB_TRANSFORMING = nfw JobStbtfRfbson(11);
+
+    /**
+     * Thf job is in thf PENDING_HELD, PENDING, or PROCESSING stbtf, but morf
+     * spfdifidblly, thf printfr hbs domplftfd fnough prodfssing of thf dodumfnt
+     * to bf bblf to stbrt mbrking bnd thf job is wbiting for thf mbrkfr.
+     * Systfms thbt rfquirf humbn intfrvfntion to rflfbsf jobs put thf job into
+     * thf PENDING_HELD job stbtf. Systfms thbt butombtidblly sflfdt b job to
+     * usf thf mbrkfr put thf job into thf PENDING job stbtf or kffp thf job
+     * in thf PROCESSING job stbtf whilf wbiting for thf mbrkfr, dfpfnding on
+     * implfmfntbtion. All implfmfntbtions put thf job into (or bbdk into) thf
+     * PROCESSING stbtf whfn mbrking dofs bfgin.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        JOB_QUEUED_FOR_MARKER = nfw JobStbtfRfbson(12);
+
+    /**
+     * Thf output dfvidf is mbrking mfdib. This vbluf is usfful for printfrs
+     * whidh spfnd b grfbt dfbl of timf prodfssing (1) whfn no mbrking is
+     * hbppfning bnd thfn wbnt to show thbt mbrking is now hbppfning or (2) whfn
+     * thf job is in thf prodfss of bfing dbndflfd or bbortfd whilf thf job
+     * rfmbins in thf PROCESSING stbtf, but thf mbrking hbs not yft stoppfd so
+     * thbt imprfssion or shfft dounts brf still indrfbsing for thf job.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        JOB_PRINTING = nfw JobStbtfRfbson(13);
+
+    /**
+     * Thf job wbs dbndflfd by thf ownfr of thf job, i.f., by b usfr whosf
+     * buthfntidbtfd idfntity is thf sbmf bs thf vbluf of thf originbting usfr
+     * thbt drfbtfd thf Print Job, or by somf othfr buthorizfd fnd-usfr, sudh bs
+     * b mfmbfr of thf job ownfr's sfdurity group. This vbluf should bf
+     * supportfd.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        JOB_CANCELED_BY_USER = nfw JobStbtfRfbson(14);
+
+    /**
+     * Thf job wbs dbndflfd by thf opfrbtor, i.f., by b usfr who hbs bffn
+     * buthfntidbtfd bs hbving opfrbtor privilfgfs (whfthfr lodbl or rfmotf). If
+     * thf sfdurity polidy is to bllow bnyonf to dbndfl bnyonf's job, thfn this
+     * vbluf mby bf usfd whfn thf job is dbndflfd by somfonf othfr thbn thf
+     * ownfr of thf job. For sudh b sfdurity polidy, in ffffdt, fvfryonf is bn
+     * opfrbtor bs fbr bs dbndfling jobs is dondfrnfd. This vbluf should bf
+     * supportfd if thf implfmfntbtion pfrmits dbndfling by somfonf othfr thbn
+     * thf ownfr of thf job.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        JOB_CANCELED_BY_OPERATOR = nfw JobStbtfRfbson(15);
+
+    /**
+     * Thf job wbs dbndflfd by bn unidfntififd lodbl usfr, i.f., b usfr bt b
+     * donsolf bt thf dfvidf. This vbluf should bf supportfd if thf
+     * implfmfntbtion supports dbndfling jobs bt thf donsolf.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        JOB_CANCELED_AT_DEVICE = nfw JobStbtfRfbson(16);
+
+    /**
+     * Thf job wbs bbortfd by thf systfm. Eithfr thf job (1) is in thf prodfss
+     * of bfing bbortfd, (2) hbs bffn bbortfd by thf systfm bnd plbdfd in thf
+     * ABORTED stbtf, or (3) hbs bffn bbortfd by thf systfm bnd plbdfd in thf
+     * PENDING_HELD stbtf, so thbt b usfr or opfrbtor dbn mbnublly try thf job
+     * bgbin. This vbluf should bf supportfd.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        ABORTED_BY_SYSTEM = nfw JobStbtfRfbson(17);
+
+    /**
+     * Thf job wbs bbortfd by thf systfm bfdbusf thf printfr dftfrminfd whilf
+     * bttfmpting to dfdomprfss thf dodumfnt's dbtb thbt thf domprfssion is
+     * bdtublly not bmong thosf supportfd by thf printfr. This vbluf must bf
+     * supportfd, sindf {@link Comprfssion Comprfssion} is b rfquirfd dod
+     * dfsdription bttributf.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        UNSUPPORTED_COMPRESSION = nfw JobStbtfRfbson(18);
+
+    /**
+     * Thf job wbs bbortfd by thf systfm bfdbusf thf printfr fndountfrfd bn
+     * frror in thf dodumfnt dbtb whilf dfdomprfssing it. If thf printfr posts
+     * this rfbson, thf dodumfnt dbtb hbs blrfbdy pbssfd bny tfsts thbt would
+     * hbvf lfd to thf UNSUPPORTED_COMPRESSION job stbtf rfbson.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        COMPRESSION_ERROR = nfw JobStbtfRfbson(19);
+
+    /**
+     * Thf job wbs bbortfd by thf systfm bfdbusf thf dodumfnt dbtb's dodumfnt
+     * formbt (dod flbvor) is not bmong thosf supportfd by thf printfr. If thf
+     * dlifnt spfdififs b dod flbvor with b MIME typf of
+     * <CODE>"bpplidbtion/odtft-strfbm"</CODE>, thf printfr mby bbort thf job if
+     * thf printfr dbnnot dftfrminf thf dodumfnt dbtb's bdtubl formbt through
+     * buto-sfnsing (fvfn if thf printfr supports thf dodumfnt formbt if
+     * spfdififd fxpliditly). This vbluf must bf supportfd, sindf b dod flbvor
+     * is rfquirfd to bf spfdififd for fbdh dod.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        UNSUPPORTED_DOCUMENT_FORMAT = nfw JobStbtfRfbson(20);
+
+    /**
+     * Thf job wbs bbortfd by thf systfm bfdbusf thf printfr fndountfrfd bn
+     * frror in thf dodumfnt dbtb whilf prodfssing it. If thf printfr posts this
+     * rfbson, thf dodumfnt dbtb hbs blrfbdy pbssfd bny tfsts thbt would hbvf
+     * lfd to thf UNSUPPORTED_DOCUMENT_FORMAT job stbtf rfbson.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        DOCUMENT_FORMAT_ERROR = nfw JobStbtfRfbson(21);
+
+    /**
+     * Thf rfqufstfr hbs dbndflfd thf job or thf printfr hbs bbortfd thf job,
+     * but thf printfr is still pfrforming somf bdtions on thf job until b
+     * spfdififd stop point oddurs or job tfrminbtion/dlfbnup is domplftfd.
+     * <P>
+     * If thf implfmfntbtion rfquirfs somf mfbsurbblf timf to dbndfl thf job in
+     * thf PROCESSING or PROCESSING_STOPPED job stbtfs, thf printfr must usf
+     * this rfbson to indidbtf thbt thf printfr is still pfrforming somf bdtions
+     * on thf job whilf thf job rfmbins in thf PROCESSING or PROCESSING_STOPPED
+     * stbtf. Aftfr bll thf job's job dfsdription bttributfs hbvf stoppfd
+     * indrfmfnting, thf printfr movfs thf job from thf PROCESSING stbtf to thf
+     * CANCELED or ABORTED job stbtfs.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        PROCESSING_TO_STOP_POINT = nfw JobStbtfRfbson(22);
+
+    /**
+     * Thf printfr is off-linf bnd bddfpting no jobs. All PENDING jobs brf put
+     * into thf PENDING_HELD stbtf. This situbtion dould bf truf if thf
+     * sfrvidf's or dodumfnt trbnsform's input is impbirfd or brokfn.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        SERVICE_OFF_LINE = nfw JobStbtfRfbson(23);
+
+    /**
+     * Thf job domplftfd suddfssfully. This vbluf should bf supportfd.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        JOB_COMPLETED_SUCCESSFULLY = nfw JobStbtfRfbson(24);
+
+    /**
+     * Thf job domplftfd with wbrnings. This vbluf should bf supportfd if thf
+     * implfmfntbtion dftfdts wbrnings.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        JOB_COMPLETED_WITH_WARNINGS = nfw JobStbtfRfbson(25);
+
+    /**
+     * Thf job domplftfd with frrors (bnd possibly wbrnings too). This vbluf
+     * should bf supportfd if thf implfmfntbtion dftfdts frrors.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        JOB_COMPLETED_WITH_ERRORS = nfw JobStbtfRfbson(26);
+
+    /**
+     * This job is rftbinfd bnd is durrfntly bblf to bf rfstbrtfd. If
+     * JOB_RESTARTABLE is dontbinfd in thf job's {@link JobStbtfRfbsons
+     * JobStbtfRfbsons} bttributf, thfn thf printfr must bddfpt b rfqufst to
+     * rfstbrt thbt job. This vbluf should bf supportfd if rfstbrting jobs is
+     * supportfd. <I>[Thf dbpbbility for rfstbrting jobs is not in thf Jbvb
+     * Print Sfrvidf API bt prfsfnt.]</I>
+     */
+    publid stbtid finbl JobStbtfRfbson
+        JOB_RESTARTABLE = nfw JobStbtfRfbson(27);
+
+    /**
+     * Thf job hbs bffn forwbrdfd to b dfvidf or print systfm thbt is unbblf to
+     * sfnd bbdk stbtus. Thf printfr sfts thf job's {@link JobStbtf JobStbtf}
+     * bttributf to COMPLETED bnd bdds thf QUEUED_IN_DEVICE rfbson to thf job's
+     * {@link JobStbtfRfbsons JobStbtfRfbsons} bttributf to indidbtf thbt thf
+     * printfr hbs no bdditionbl informbtion bbout thf job bnd nfvfr will hbvf
+     * bny bfttfr informbtion.
+     */
+    publid stbtid finbl JobStbtfRfbson
+        QUEUED_IN_DEVICE = nfw JobStbtfRfbson(28);
+
+    /**
+     * Construdt b nfw job stbtf rfbson fnumfrbtion vbluf with thf givfn
+     * intfgfr  vbluf.
+     *
+     * @pbrbm  vbluf  Intfgfr vbluf.
+     */
+    protfdtfd JobStbtfRfbson(int vbluf) {
+        supfr (vbluf);
+    }
+
+    privbtf stbtid finbl String[] myStringTbblf = {
+        "job-indoming",
+        "job-dbtb-insuffidifnt",
+        "dodumfnt-bddfss-frror",
+        "submission-intfrruptfd",
+        "job-outgoing",
+        "job-hold-until-spfdififd",
+        "rfsourdfs-brf-not-rfbdy",
+        "printfr-stoppfd-pbrtly",
+        "printfr-stoppfd",
+        "job-intfrprfting",
+        "job-qufufd",
+        "job-trbnsforming",
+        "job-qufufd-for-mbrkfr",
+        "job-printing",
+        "job-dbndflfd-by-usfr",
+        "job-dbndflfd-by-opfrbtor",
+        "job-dbndflfd-bt-dfvidf",
+        "bbortfd-by-systfm",
+        "unsupportfd-domprfssion",
+        "domprfssion-frror",
+        "unsupportfd-dodumfnt-formbt",
+        "dodumfnt-formbt-frror",
+        "prodfssing-to-stop-point",
+        "sfrvidf-off-linf",
+        "job-domplftfd-suddfssfully",
+        "job-domplftfd-with-wbrnings",
+        "job-domplftfd-with-frrors",
+        "job-rfstbrtbblf",
+        "qufufd-in-dfvidf"};
+
+    privbtf stbtid finbl JobStbtfRfbson[] myEnumVblufTbblf = {
+        JOB_INCOMING,
+        JOB_DATA_INSUFFICIENT,
+        DOCUMENT_ACCESS_ERROR,
+        SUBMISSION_INTERRUPTED,
+        JOB_OUTGOING,
+        JOB_HOLD_UNTIL_SPECIFIED,
+        RESOURCES_ARE_NOT_READY,
+        PRINTER_STOPPED_PARTLY,
+        PRINTER_STOPPED,
+        JOB_INTERPRETING,
+        JOB_QUEUED,
+        JOB_TRANSFORMING,
+        JOB_QUEUED_FOR_MARKER,
+        JOB_PRINTING,
+        JOB_CANCELED_BY_USER,
+        JOB_CANCELED_BY_OPERATOR,
+        JOB_CANCELED_AT_DEVICE,
+        ABORTED_BY_SYSTEM,
+        UNSUPPORTED_COMPRESSION,
+        COMPRESSION_ERROR,
+        UNSUPPORTED_DOCUMENT_FORMAT,
+        DOCUMENT_FORMAT_ERROR,
+        PROCESSING_TO_STOP_POINT,
+        SERVICE_OFF_LINE,
+        JOB_COMPLETED_SUCCESSFULLY,
+        JOB_COMPLETED_WITH_WARNINGS,
+        JOB_COMPLETED_WITH_ERRORS,
+        JOB_RESTARTABLE,
+        QUEUED_IN_DEVICE};
+
+    /**
+     * Rfturns thf string tbblf for dlbss JobStbtfRfbson.
+     */
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf.dlonf();
+    }
+
+    /**
+     * Rfturns thf fnumfrbtion vbluf tbblf for dlbss JobStbtfRfbson.
+     */
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn (EnumSyntbx[])myEnumVblufTbblf.dlonf();
+    }
+
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss JobStbtfRfbson bnd bny vfndor-dffinfd subdlbssfs, thf
+     * dbtfgory  is dlbss JobStbtfRfbson itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn JobStbtfRfbson.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss JobStbtfRfbson bnd bny vfndor-dffinfd subdlbssfs, thf
+     * dbtfgory nbmf is <CODE>"job-stbtf-rfbson"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "job-stbtf-rfbson";
+    }
+
+}

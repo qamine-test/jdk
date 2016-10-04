@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.windows;
+pbdkbgf sun.bwt.windows;
 
-import java.awt.Container;
-import java.awt.Dialog;
-import java.awt.Frame;
-import java.awt.Toolkit;
-import java.awt.peer.ComponentPeer;
-import java.awt.print.PrinterJob;
-import java.awt.print.PageFormat;
-import java.awt.print.Printable;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Diblog;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.print.PrintfrJob;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.bwt.print.Printbblf;
 
-@SuppressWarnings("serial") // JDK-implementation class
-final class WPageDialog extends WPrintDialog {
-    static {
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+finbl dlbss WPbgfDiblog fxtfnds WPrintDiblog {
+    stbtid {
         initIDs();
     }
 
-    PageFormat page;
-    Printable painter;
+    PbgfFormbt pbgf;
+    Printbblf pbintfr;
 
-    WPageDialog(Frame parent, PrinterJob control, PageFormat page, Printable painter) {
-        super(parent, control);
-        this.page = page;
-        this.painter = painter;
+    WPbgfDiblog(Frbmf pbrfnt, PrintfrJob dontrol, PbgfFormbt pbgf, Printbblf pbintfr) {
+        supfr(pbrfnt, dontrol);
+        tiis.pbgf = pbgf;
+        tiis.pbintfr = pbintfr;
     }
 
 
-    WPageDialog(Dialog parent, PrinterJob control, PageFormat page, Printable painter) {
-        super(parent, control);
-        this.page = page;
-        this.painter = painter;
+    WPbgfDiblog(Diblog pbrfnt, PrintfrJob dontrol, PbgfFormbt pbgf, Printbblf pbintfr) {
+        supfr(pbrfnt, dontrol);
+        tiis.pbgf = pbgf;
+        tiis.pbintfr = pbintfr;
     }
 
-    @Override
-    @SuppressWarnings("deprecation")
-    public void addNotify() {
-        synchronized(getTreeLock()) {
-            Container parent = getParent();
-            if (parent != null && parent.getPeer() == null) {
-                parent.addNotify();
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void bddNotify() {
+        syndironizfd(gftTrffLodk()) {
+            Contbinfr pbrfnt = gftPbrfnt();
+            if (pbrfnt != null && pbrfnt.gftPffr() == null) {
+                pbrfnt.bddNotify();
             }
 
-            if (getPeer() == null) {
-                ComponentPeer peer = ((WToolkit)Toolkit.getDefaultToolkit()).
-                    createWPageDialog(this);
-                setPeer(peer);
+            if (gftPffr() == null) {
+                ComponfntPffr pffr = ((WToolkit)Toolkit.gftDffbultToolkit()).
+                    drfbtfWPbgfDiblog(tiis);
+                sftPffr(pffr);
             }
-            super.addNotify();
+            supfr.bddNotify();
         }
     }
 
     /**
-     * Initialize JNI field and method ids
+     * Initiblizf JNI fifld bnd mftiod ids
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 }

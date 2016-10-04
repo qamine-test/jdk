@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.action;
+pbdkbgf sun.sfdurity.bdtion;
 
 /**
- * A convenience class for retrieving the string value of a system
- * property as a privileged action.
+ * A donvfnifndf dlbss for rftrifving tif string vbluf of b systfm
+ * propfrty bs b privilfgfd bdtion.
  *
- * <p>An instance of this class can be used as the argument of
- * <code>AccessController.doPrivileged</code>.
+ * <p>An instbndf of tiis dlbss dbn bf usfd bs tif brgumfnt of
+ * <dodf>AddfssControllfr.doPrivilfgfd</dodf>.
  *
- * <p>The following code retrieves the value of the system
- * property named <code>"prop"</code> as a privileged action: <p>
+ * <p>Tif following dodf rftrifvfs tif vbluf of tif systfm
+ * propfrty nbmfd <dodf>"prop"</dodf> bs b privilfgfd bdtion: <p>
  *
- * <pre>
- * String s = java.security.AccessController.doPrivileged
- *                      (new GetPropertyAction("prop"));
- * </pre>
+ * <prf>
+ * String s = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+ *                      (nfw GftPropfrtyAdtion("prop"));
+ * </prf>
  *
- * @author Roland Schemers
- * @see java.security.PrivilegedAction
- * @see java.security.AccessController
- * @since 1.2
+ * @butior Rolbnd Sdifmfrs
+ * @sff jbvb.sfdurity.PrivilfgfdAdtion
+ * @sff jbvb.sfdurity.AddfssControllfr
+ * @sindf 1.2
  */
 
-public class GetPropertyAction
-        implements java.security.PrivilegedAction<String> {
-    private String theProp;
-    private String defaultVal;
+publid dlbss GftPropfrtyAdtion
+        implfmfnts jbvb.sfdurity.PrivilfgfdAdtion<String> {
+    privbtf String tifProp;
+    privbtf String dffbultVbl;
 
     /**
-     * Constructor that takes the name of the system property whose
-     * string value needs to be determined.
+     * Construdtor tibt tbkfs tif nbmf of tif systfm propfrty wiosf
+     * string vbluf nffds to bf dftfrminfd.
      *
-     * @param theProp the name of the system property.
+     * @pbrbm tifProp tif nbmf of tif systfm propfrty.
      */
-    public GetPropertyAction(String theProp) {
-        this.theProp = theProp;
+    publid GftPropfrtyAdtion(String tifProp) {
+        tiis.tifProp = tifProp;
     }
 
     /**
-     * Constructor that takes the name of the system property and the default
-     * value of that property.
+     * Construdtor tibt tbkfs tif nbmf of tif systfm propfrty bnd tif dffbult
+     * vbluf of tibt propfrty.
      *
-     * @param theProp the name of the system property.
-     * @param defaulVal the default value.
+     * @pbrbm tifProp tif nbmf of tif systfm propfrty.
+     * @pbrbm dffbulVbl tif dffbult vbluf.
      */
-    public GetPropertyAction(String theProp, String defaultVal) {
-        this.theProp = theProp;
-        this.defaultVal = defaultVal;
+    publid GftPropfrtyAdtion(String tifProp, String dffbultVbl) {
+        tiis.tifProp = tifProp;
+        tiis.dffbultVbl = dffbultVbl;
     }
 
     /**
-     * Determines the string value of the system property whose
-     * name was specified in the constructor.
+     * Dftfrminfs tif string vbluf of tif systfm propfrty wiosf
+     * nbmf wbs spfdififd in tif donstrudtor.
      *
-     * @return the string value of the system property,
-     *         or the default value if there is no property with that key.
+     * @rfturn tif string vbluf of tif systfm propfrty,
+     *         or tif dffbult vbluf if tifrf is no propfrty witi tibt kfy.
      */
-    public String run() {
-        String value = System.getProperty(theProp);
-        return (value == null) ? defaultVal : value;
+    publid String run() {
+        String vbluf = Systfm.gftPropfrty(tifProp);
+        rfturn (vbluf == null) ? dffbultVbl : vbluf;
     }
 }

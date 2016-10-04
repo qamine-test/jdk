@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicTextAreaUI;
-import java.awt.*;
-import java.awt.event.FocusListener;
-import java.awt.event.FocusEvent;
-import java.beans.PropertyChangeEvent;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidTfxtArfbUI;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.FodusListfnfr;
+import jbvb.bwt.fvfnt.FodusEvfnt;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
 
 /**
- * Provides the look and feel for a plain text editor in the
- * Synth look and feel. In this implementation the default UI
- * is extended to act as a simple view factory.
+ * Providfs tif look bnd fffl for b plbin tfxt fditor in tif
+ * Synti look bnd fffl. In tiis implfmfntbtion tif dffbult UI
+ * is fxtfndfd to bdt bs b simplf vifw fbdtory.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author  Shannon Hickey
- * @since 1.7
+ * @butior  Sibnnon Hidkfy
+ * @sindf 1.7
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class SynthTextAreaUI extends BasicTextAreaUI implements SynthUI {
-    private Handler handler = new Handler();
-    private SynthStyle style;
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss SyntiTfxtArfbUI fxtfnds BbsidTfxtArfbUI implfmfnts SyntiUI {
+    privbtf Hbndlfr ibndlfr = nfw Hbndlfr();
+    privbtf SyntiStylf stylf;
 
     /**
-     * Creates a UI object for a JTextArea.
+     * Crfbtfs b UI objfdt for b JTfxtArfb.
      *
-     * @param ta a text area
-     * @return the UI object
+     * @pbrbm tb b tfxt brfb
+     * @rfturn tif UI objfdt
      */
-    public static ComponentUI createUI(JComponent ta) {
-        return new SynthTextAreaUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt tb) {
+        rfturn nfw SyntiTfxtArfbUI();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installDefaults() {
-        // Installs the text cursor on the component
-        super.installDefaults();
-        updateStyle(getComponent());
-        getComponent().addFocusListener(handler);
+    @Ovfrridf
+    protfdtfd void instbllDffbults() {
+        // Instblls tif tfxt dursor on tif domponfnt
+        supfr.instbllDffbults();
+        updbtfStylf(gftComponfnt());
+        gftComponfnt().bddFodusListfnfr(ibndlfr);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallDefaults() {
-        SynthContext context = getContext(getComponent(), ENABLED);
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults() {
+        SyntiContfxt dontfxt = gftContfxt(gftComponfnt(), ENABLED);
 
-        getComponent().putClientProperty("caretAspectRatio", null);
-        getComponent().removeFocusListener(handler);
+        gftComponfnt().putClifntPropfrty("dbrftAspfdtRbtio", null);
+        gftComponfnt().rfmovfFodusListfnfr(ibndlfr);
 
-        style.uninstallDefaults(context);
-        context.dispose();
-        style = null;
-        super.uninstallDefaults();
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
+        supfr.uninstbllDffbults();
     }
 
-    private void updateStyle(JTextComponent comp) {
-        SynthContext context = getContext(comp, ENABLED);
-        SynthStyle oldStyle = style;
+    privbtf void updbtfStylf(JTfxtComponfnt domp) {
+        SyntiContfxt dontfxt = gftContfxt(domp, ENABLED);
+        SyntiStylf oldStylf = stylf;
 
-        style = SynthLookAndFeel.updateStyle(context, this);
+        stylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
 
-        if (style != oldStyle) {
-            SynthTextFieldUI.updateStyle(comp, context, getPropertyPrefix());
+        if (stylf != oldStylf) {
+            SyntiTfxtFifldUI.updbtfStylf(domp, dontfxt, gftPropfrtyPrffix());
 
-            if (oldStyle != null) {
-                uninstallKeyboardActions();
-                installKeyboardActions();
+            if (oldStylf != null) {
+                uninstbllKfybobrdAdtions();
+                instbllKfybobrdAdtions();
             }
         }
-        context.dispose();
+        dontfxt.disposf();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public SynthContext getContext(JComponent c) {
-        return getContext(c, SynthLookAndFeel.getComponentState(c));
+    @Ovfrridf
+    publid SyntiContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, SyntiLookAndFffl.gftComponfntStbtf(d));
     }
 
-    private SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    privbtf SyntiContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, stylf, stbtf);
     }
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notififs tiis UI dflfgbtf to rfpbint tif spfdififd domponfnt.
+     * Tiis mftiod pbints tif domponfnt bbdkground, tifn dblls
+     * tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In gfnfrbl, tiis mftiod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf siould rfsidf in tif {@dodf pbint} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void update(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        SynthLookAndFeel.update(context, g);
-        context.getPainter().paintTextAreaBackground(context,
-                          g, 0, 0, c.getWidth(), c.getHeight());
-        paint(context, g);
-        context.dispose();
+        SyntiLookAndFffl.updbtf(dontfxt, g);
+        dontfxt.gftPbintfr().pbintTfxtArfbBbdkground(dontfxt,
+                          g, 0, 0, d.gftWidti(), d.gftHfigit());
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints tif spfdififd domponfnt.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm dontfxt dontfxt for tif domponfnt bfing pbintfd
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbpiids,JComponfnt)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        super.paint(g, getComponent());
+    protfdtfd void pbint(SyntiContfxt dontfxt, Grbpiids g) {
+        supfr.pbint(g, gftComponfnt());
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * Overridden to do nothing.
+     * Ovfrriddfn to do notiing.
      */
-    @Override
-    protected void paintBackground(Graphics g) {
-        // Overriden to do nothing, all our painting is done from update/paint.
+    @Ovfrridf
+    protfdtfd void pbintBbdkground(Grbpiids g) {
+        // Ovfrridfn to do notiing, bll our pbinting is donf from updbtf/pbint.
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
-        context.getPainter().paintTextAreaBorder(context, g, x, y, w, h);
+    @Ovfrridf
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
+        dontfxt.gftPbintfr().pbintTfxtArfbBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * This method gets called when a bound property is changed
-     * on the associated JTextComponent.  This is a hook
-     * which UI implementations may change to reflect how the
-     * UI displays bound properties of JTextComponent subclasses.
-     * This is implemented to rebuild the View when the
-     * <em>WrapLine</em> or the <em>WrapStyleWord</em> property changes.
+     * Tiis mftiod gfts dbllfd wifn b bound propfrty is dibngfd
+     * on tif bssodibtfd JTfxtComponfnt.  Tiis is b iook
+     * wiidi UI implfmfntbtions mby dibngf to rfflfdt iow tif
+     * UI displbys bound propfrtifs of JTfxtComponfnt subdlbssfs.
+     * Tiis is implfmfntfd to rfbuild tif Vifw wifn tif
+     * <fm>WrbpLinf</fm> or tif <fm>WrbpStylfWord</fm> propfrty dibngfs.
      *
-     * @param evt the property change event
+     * @pbrbm fvt tif propfrty dibngf fvfnt
      */
-    @Override
-    protected void propertyChange(PropertyChangeEvent evt) {
-        if (SynthLookAndFeel.shouldUpdateStyle(evt)) {
-            updateStyle((JTextComponent)evt.getSource());
+    @Ovfrridf
+    protfdtfd void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+        if (SyntiLookAndFffl.siouldUpdbtfStylf(fvt)) {
+            updbtfStylf((JTfxtComponfnt)fvt.gftSourdf());
         }
-        super.propertyChange(evt);
+        supfr.propfrtyCibngf(fvt);
     }
 
-    private final class Handler implements FocusListener {
-        public void focusGained(FocusEvent e) {
-            getComponent().repaint();
+    privbtf finbl dlbss Hbndlfr implfmfnts FodusListfnfr {
+        publid void fodusGbinfd(FodusEvfnt f) {
+            gftComponfnt().rfpbint();
         }
 
-        public void focusLost(FocusEvent e) {
-            getComponent().repaint();
+        publid void fodusLost(FodusEvfnt f) {
+            gftComponfnt().rfpbint();
         }
     }
 }

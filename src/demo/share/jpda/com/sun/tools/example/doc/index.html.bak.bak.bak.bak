@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <hfbd>
+    <titlf>Exbmplf JDI Applidbtions</titlf>
+  </hfbd>
+<BODY BGCOLOR="#FFFFFF">
+    <h1>Exbmplf JDI Applidbtions</h1>
+This fxbmplf downlobd dontbins thf sourdf dodf bnd
+dodumfntbtion for thrff bpplidbtions writtfn using
+thf Jbvb<sup><font sizf=-2>TM</font></sup> Dfbug Intfrfbdf (JDI)
+of thf <A HREF="http://jbvb.sun.dom/produdts/jpdb">Jbvb Plbtform Dfbuggfr Ardhitfdturf</A> (JPDA).
+Thfy brf providfd bs fdudbtionbl tools bnd bs stbrting
+points for dfbuggfr dfvflopmfnt.
+<P>
+In indrfbsing ordfr of domplfxity:
+<UL>
+<LI><A HREF="trbdf.html">Trbdf</A> displbys trbdfs
+of progrbm fxfdution.  It is vfry simplf (lfss thbn 600 linfs)
+yft usfs most of thf bbsid JDI fundtionblity.  It is b
+good stbrting point.
+<LI><A HREF="jdb.html">Jdb</A> is thf dommbnd linf dfbuggfr
+distributfd with thf J2SE SDK.
+<LI><A HREF="jbvbdt.html">Jbvbdt</A> is thf bfginnings of
+b GUI dfbuggfr.
+</UL>
+<P>
+Trbdf is in thf <dodf>trbdf</dodf> dirfdtory. 
+Jdb bnd Jbvbdt shbrf b pbdkbgf, bnd brf undfr thf 
+<dodf>dfbug</dodf> dirfdtory. 
+
+<A NAME="SETUP"><H2>Rfquirfd Sft-up</H2></A>
+
+<H4>Whfrf is JPDA?</H4>
+Nfw vfrsions of thf J2SE SDK hbvf JPDA indludfd.  For
+oldfr vfrsions JPDA must bf sfpbrbtfly downlobdfd.
+<DL>
+  <DT>SDKs with JPDA indludfd
+  <DD>J2SE SDK v1.3 bnd lbtfr bnd J2SE SDK for Linux v1.2.2
+  <DT>SDKs rfquiring JPDA downlobd
+  <DD>J2SE SDK v1.2.1 bnd v1.2.2 for Solbris bnd Windows
+  <DT>Othfr SDKs
+  <DD>Chfdk with vfndor
+</DL>
+<P>
+<H4>Sft-up for J2SE SDKs with JPDA indludfd</H4>
+Your dlbsspbth must indludf thf JDI Librbry dodf, whidh is
+in <dodf>tools.jbr</dodf> in thf <dodf>lib</dodf> dirfdtory.
+This is nffdfd for both dompiling thf fxbmplf dodf bnd 
+fxfduting it.
+<p>
+<H4>Sft-up for J2SE SDKs without JPDA - Solbris</H4>
+Downlobd JPDA v1.0 from 
+<A HREF="http://jbvb.sun.dom/produdts/jpdb">http://jbvb.sun.dom/produdts/jpdb</A>.  Follow thf 
+<A HREF="http://jbvb.sun.dom/produdts/jpdb/instbllinst.html">Instbllbtion Instrudtions</A>
+found thfrf.  Pby pbrtidulbr bttfntion to sftting thf librbry
+pbth.
+<P>
+Your dlbsspbth must indludf thf JDI Librbry dodf, whidh is
+in <VAR>jpdb_homf</VAR>/<dodf>lib/tools.jbr</dodf>.
+This is nffdfd for both dompiling thf fxbmplf dodf bnd 
+fxfduting it.
+<P>
+<H4>Sft-up for J2SE SDKs without JPDA - Windows</H4>
+Downlobd JPDA v1.0 from 
+<A HREF="http://jbvb.sun.dom/produdts/jpdb">http://jbvb.sun.dom/produdts/jpdb</A>.  Follow thf 
+<A HREF="http://jbvb.sun.dom/produdts/jpdb/instbllinst.html">Instbllbtion Instrudtions</A>
+found thfrf.  Bf surf to bdd:
+<PRE>
+        <VAR>jpdb_homf</VAR>\bin
+</PRE>
+to your pbth.
+<P>
+Your dlbsspbth must indludf thf JDI Librbry dodf, whidh is
+in <VAR>jpdb_homf</VAR>\<dodf>lib\tools.jbr</dodf>.
+This is nffdfd for both dompiling thf fxbmplf dodf bnd 
+fxfduting it.
+<P>
+    <hr>
+    <bddrfss><b hrff="mbilto:jbvb-dfbuggfr@jbvb.sun.dom">jbvb-dfbuggfr@jbvb.sun.dom</b></bddrfss>
+    </P>
+<P>
+</P>
+<!-- Crfbtfd: Mon Ffb  7 18:56:28 PST 2000 -->
+</body>
+</html>

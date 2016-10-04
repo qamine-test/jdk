@@ -1,0 +1,284 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
+
+/**
+ * A non stbndbrd dlbss, fifld, mfthod or dodf bttributf.
+ *
+ * @buthor Erid Brunfton
+ * @buthor Eugfnf Kulfshov
+ */
+publid dlbss Attributf {
+
+    /**
+     * Thf typf of this bttributf.
+     */
+    publid finbl String typf;
+
+    /**
+     * Thf rbw vbluf of this bttributf, usfd only for unknown bttributfs.
+     */
+    bytf[] vbluf;
+
+    /**
+     * Thf nfxt bttributf in this bttributf list. Mby bf <tt>null</tt>.
+     */
+    Attributf nfxt;
+
+    /**
+     * Construdts b nfw fmpty bttributf.
+     *
+     * @pbrbm typf
+     *            thf typf of thf bttributf.
+     */
+    protfdtfd Attributf(finbl String typf) {
+        this.typf = typf;
+    }
+
+    /**
+     * Rfturns <tt>truf</tt> if this typf of bttributf is unknown. Thf dffbult
+     * implfmfntbtion of this mfthod blwbys rfturns <tt>truf</tt>.
+     *
+     * @rfturn <tt>truf</tt> if this typf of bttributf is unknown.
+     */
+    publid boolfbn isUnknown() {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns <tt>truf</tt> if this typf of bttributf is b dodf bttributf.
+     *
+     * @rfturn <tt>truf</tt> if this typf of bttributf is b dodf bttributf.
+     */
+    publid boolfbn isCodfAttributf() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf lbbfls dorrfsponding to this bttributf.
+     *
+     * @rfturn thf lbbfls dorrfsponding to this bttributf, or <tt>null</tt> if
+     *         this bttributf is not b dodf bttributf thbt dontbins lbbfls.
+     */
+    protfdtfd Lbbfl[] gftLbbfls() {
+        rfturn null;
+    }
+
+    /**
+     * Rfbds b {@link #typf typf} bttributf. This mfthod must rfturn b
+     * <i>nfw</i> {@link Attributf} objfdt, of typf {@link #typf typf},
+     * dorrfsponding to thf <tt>lfn</tt> bytfs stbrting bt thf givfn offsft, in
+     * thf givfn dlbss rfbdfr.
+     *
+     * @pbrbm dr
+     *            thf dlbss thbt dontbins thf bttributf to bf rfbd.
+     * @pbrbm off
+     *            indfx of thf first bytf of thf bttributf's dontfnt in
+     *            {@link ClbssRfbdfr#b dr.b}. Thf 6 bttributf hfbdfr bytfs,
+     *            dontbining thf typf bnd thf lfngth of thf bttributf, brf not
+     *            tbkfn into bddount hfrf.
+     * @pbrbm lfn
+     *            thf lfngth of thf bttributf's dontfnt.
+     * @pbrbm buf
+     *            bufffr to bf usfd to dbll {@link ClbssRfbdfr#rfbdUTF8
+     *            rfbdUTF8}, {@link ClbssRfbdfr#rfbdClbss(int,dhbr[]) rfbdClbss}
+     *            or {@link ClbssRfbdfr#rfbdConst rfbdConst}.
+     * @pbrbm dodfOff
+     *            indfx of thf first bytf of dodf's bttributf dontfnt in
+     *            {@link ClbssRfbdfr#b dr.b}, or -1 if thf bttributf to bf rfbd
+     *            is not b dodf bttributf. Thf 6 bttributf hfbdfr bytfs,
+     *            dontbining thf typf bnd thf lfngth of thf bttributf, brf not
+     *            tbkfn into bddount hfrf.
+     * @pbrbm lbbfls
+     *            thf lbbfls of thf mfthod's dodf, or <tt>null</tt> if thf
+     *            bttributf to bf rfbd is not b dodf bttributf.
+     * @rfturn b <i>nfw</i> {@link Attributf} objfdt dorrfsponding to thf givfn
+     *         bytfs.
+     */
+    protfdtfd Attributf rfbd(finbl ClbssRfbdfr dr, finbl int off,
+            finbl int lfn, finbl dhbr[] buf, finbl int dodfOff,
+            finbl Lbbfl[] lbbfls) {
+        Attributf bttr = nfw Attributf(typf);
+        bttr.vbluf = nfw bytf[lfn];
+        Systfm.brrbydopy(dr.b, off, bttr.vbluf, 0, lfn);
+        rfturn bttr;
+    }
+
+    /**
+     * Rfturns thf bytf brrby form of this bttributf.
+     *
+     * @pbrbm dw
+     *            thf dlbss to whidh this bttributf must bf bddfd. This
+     *            pbrbmftfr dbn bf usfd to bdd to thf donstbnt pool of this
+     *            dlbss thf itfms thbt dorrfsponds to this bttributf.
+     * @pbrbm dodf
+     *            thf bytfdodf of thf mfthod dorrfsponding to this dodf
+     *            bttributf, or <tt>null</tt> if this bttributf is not b dodf
+     *            bttributfs.
+     * @pbrbm lfn
+     *            thf lfngth of thf bytfdodf of thf mfthod dorrfsponding to this
+     *            dodf bttributf, or <tt>null</tt> if this bttributf is not b
+     *            dodf bttributf.
+     * @pbrbm mbxStbdk
+     *            thf mbximum stbdk sizf of thf mfthod dorrfsponding to this
+     *            dodf bttributf, or -1 if this bttributf is not b dodf
+     *            bttributf.
+     * @pbrbm mbxLodbls
+     *            thf mbximum numbfr of lodbl vbribblfs of thf mfthod
+     *            dorrfsponding to this dodf bttributf, or -1 if this bttributf
+     *            is not b dodf bttributf.
+     * @rfturn thf bytf brrby form of this bttributf.
+     */
+    protfdtfd BytfVfdtor writf(finbl ClbssWritfr dw, finbl bytf[] dodf,
+            finbl int lfn, finbl int mbxStbdk, finbl int mbxLodbls) {
+        BytfVfdtor v = nfw BytfVfdtor();
+        v.dbtb = vbluf;
+        v.lfngth = vbluf.lfngth;
+        rfturn v;
+    }
+
+    /**
+     * Rfturns thf lfngth of thf bttributf list thbt bfgins with this bttributf.
+     *
+     * @rfturn thf lfngth of thf bttributf list thbt bfgins with this bttributf.
+     */
+    finbl int gftCount() {
+        int dount = 0;
+        Attributf bttr = this;
+        whilf (bttr != null) {
+            dount += 1;
+            bttr = bttr.nfxt;
+        }
+        rfturn dount;
+    }
+
+    /**
+     * Rfturns thf sizf of bll thf bttributfs in this bttributf list.
+     *
+     * @pbrbm dw
+     *            thf dlbss writfr to bf usfd to donvfrt thf bttributfs into
+     *            bytf brrbys, with thf {@link #writf writf} mfthod.
+     * @pbrbm dodf
+     *            thf bytfdodf of thf mfthod dorrfsponding to thfsf dodf
+     *            bttributfs, or <tt>null</tt> if thfsf bttributfs brf not dodf
+     *            bttributfs.
+     * @pbrbm lfn
+     *            thf lfngth of thf bytfdodf of thf mfthod dorrfsponding to
+     *            thfsf dodf bttributfs, or <tt>null</tt> if thfsf bttributfs
+     *            brf not dodf bttributfs.
+     * @pbrbm mbxStbdk
+     *            thf mbximum stbdk sizf of thf mfthod dorrfsponding to thfsf
+     *            dodf bttributfs, or -1 if thfsf bttributfs brf not dodf
+     *            bttributfs.
+     * @pbrbm mbxLodbls
+     *            thf mbximum numbfr of lodbl vbribblfs of thf mfthod
+     *            dorrfsponding to thfsf dodf bttributfs, or -1 if thfsf
+     *            bttributfs brf not dodf bttributfs.
+     * @rfturn thf sizf of bll thf bttributfs in this bttributf list. This sizf
+     *         indludfs thf sizf of thf bttributf hfbdfrs.
+     */
+    finbl int gftSizf(finbl ClbssWritfr dw, finbl bytf[] dodf, finbl int lfn,
+            finbl int mbxStbdk, finbl int mbxLodbls) {
+        Attributf bttr = this;
+        int sizf = 0;
+        whilf (bttr != null) {
+            dw.nfwUTF8(bttr.typf);
+            sizf += bttr.writf(dw, dodf, lfn, mbxStbdk, mbxLodbls).lfngth + 6;
+            bttr = bttr.nfxt;
+        }
+        rfturn sizf;
+    }
+
+    /**
+     * Writfs bll thf bttributfs of this bttributf list in thf givfn bytf
+     * vfdtor.
+     *
+     * @pbrbm dw
+     *            thf dlbss writfr to bf usfd to donvfrt thf bttributfs into
+     *            bytf brrbys, with thf {@link #writf writf} mfthod.
+     * @pbrbm dodf
+     *            thf bytfdodf of thf mfthod dorrfsponding to thfsf dodf
+     *            bttributfs, or <tt>null</tt> if thfsf bttributfs brf not dodf
+     *            bttributfs.
+     * @pbrbm lfn
+     *            thf lfngth of thf bytfdodf of thf mfthod dorrfsponding to
+     *            thfsf dodf bttributfs, or <tt>null</tt> if thfsf bttributfs
+     *            brf not dodf bttributfs.
+     * @pbrbm mbxStbdk
+     *            thf mbximum stbdk sizf of thf mfthod dorrfsponding to thfsf
+     *            dodf bttributfs, or -1 if thfsf bttributfs brf not dodf
+     *            bttributfs.
+     * @pbrbm mbxLodbls
+     *            thf mbximum numbfr of lodbl vbribblfs of thf mfthod
+     *            dorrfsponding to thfsf dodf bttributfs, or -1 if thfsf
+     *            bttributfs brf not dodf bttributfs.
+     * @pbrbm out
+     *            whfrf thf bttributfs must bf writtfn.
+     */
+    finbl void put(finbl ClbssWritfr dw, finbl bytf[] dodf, finbl int lfn,
+            finbl int mbxStbdk, finbl int mbxLodbls, finbl BytfVfdtor out) {
+        Attributf bttr = this;
+        whilf (bttr != null) {
+            BytfVfdtor b = bttr.writf(dw, dodf, lfn, mbxStbdk, mbxLodbls);
+            out.putShort(dw.nfwUTF8(bttr.typf)).putInt(b.lfngth);
+            out.putBytfArrby(b.dbtb, 0, b.lfngth);
+            bttr = bttr.nfxt;
+        }
+    }
+}

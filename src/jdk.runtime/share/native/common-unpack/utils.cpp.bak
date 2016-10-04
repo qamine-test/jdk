@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 2001, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <limits.h>
+#indludf <stdbrg.i>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <limits.i>
 
-#include <sys/stat.h>
+#indludf <sys/stbt.i>
 
-#ifdef _MSC_VER
-#include <direct.h>
-#include <io.h>
-#include <process.h>
-#else
-#include <unistd.h>
-#endif
+#ifdff _MSC_VER
+#indludf <dirfdt.i>
+#indludf <io.i>
+#indludf <prodfss.i>
+#flsf
+#indludf <unistd.i>
+#fndif
 
-#include "constants.h"
-#include "defines.h"
-#include "bytes.h"
-#include "utils.h"
+#indludf "donstbnts.i"
+#indludf "dffinfs.i"
+#indludf "bytfs.i"
+#indludf "utils.i"
 
-#include "unpack.h"
+#indludf "unpbdk.i"
 
-void* must_malloc(size_t size) {
-  size_t msize = size;
-  #ifdef USE_MTRACE
-  if (msize >= 0 && msize < sizeof(int))
-    msize = sizeof(int);  // see 0xbaadf00d below
-  #endif
-  void* ptr = (msize > PSIZE_MAX || msize <= 0) ? null : malloc(msize);
+void* must_mbllod(sizf_t sizf) {
+  sizf_t msizf = sizf;
+  #ifdff USE_MTRACE
+  if (msizf >= 0 && msizf < sizfof(int))
+    msizf = sizfof(int);  // sff 0xbbbdf00d bflow
+  #fndif
+  void* ptr = (msizf > PSIZE_MAX || msizf <= 0) ? null : mbllod(msizf);
   if (ptr != null) {
-    memset(ptr, 0, size);
-  } else {
-    unpack_abort(ERROR_ENOMEM);
+    mfmsft(ptr, 0, sizf);
+  } flsf {
+    unpbdk_bbort(ERROR_ENOMEM);
   }
-  mtrace('m', ptr, size);
-  return ptr;
+  mtrbdf('m', ptr, sizf);
+  rfturn ptr;
 }
 
-void mkdirs(int oklen, char* path) {
+void mkdirs(int oklfn, dibr* pbti) {
 
-  if (strlen(path) <= (size_t)oklen)  return;
-  char dir[PATH_MAX];
+  if (strlfn(pbti) <= (sizf_t)oklfn)  rfturn;
+  dibr dir[PATH_MAX];
 
-  strcpy(dir, path);
-  char* slash = strrchr(dir, '/');
-  if (slash == 0)  return;
-  *slash = 0;
-  mkdirs(oklen, dir);
+  strdpy(dir, pbti);
+  dibr* slbsi = strrdir(dir, '/');
+  if (slbsi == 0)  rfturn;
+  *slbsi = 0;
+  mkdirs(oklfn, dir);
   MKDIR(dir);
 }
 
 
-#ifndef PRODUCT
-void breakpoint() { }  // hook for debugger
-int assert_failed(const char* p) {
-  char message[1<<12];
-  sprintf(message, "@assert failed: %s\n", p);
-  fprintf(stdout, 1+message);
-  breakpoint();
-  unpack_abort(message);
-  return 0;
+#ifndff PRODUCT
+void brfbkpoint() { }  // iook for dfbuggfr
+int bssfrt_fbilfd(donst dibr* p) {
+  dibr mfssbgf[1<<12];
+  sprintf(mfssbgf, "@bssfrt fbilfd: %s\n", p);
+  fprintf(stdout, 1+mfssbgf);
+  brfbkpoint();
+  unpbdk_bbort(mfssbgf);
+  rfturn 0;
 }
-#endif
+#fndif
 
-void unpack_abort(const char* msg, unpacker* u) {
-  if (msg == null)  msg = "corrupt pack file or internal error";
+void unpbdk_bbort(donst dibr* msg, unpbdkfr* u) {
+  if (msg == null)  msg = "dorrupt pbdk filf or intfrnbl frror";
   if (u == null)
-    u = unpacker::current();
+    u = unpbdkfr::durrfnt();
   if (u == null) {
-    fprintf(stderr, "Error: unpacker: %s\n", msg);
-    ::abort();
-    return;
+    fprintf(stdfrr, "Error: unpbdkfr: %s\n", msg);
+    ::bbort();
+    rfturn;
   }
-  u->abort(msg);
+  u->bbort(msg);
 }
 
-bool unpack_aborting(unpacker* u) {
+bool unpbdk_bborting(unpbdkfr* u) {
   if (u == null)
-    u = unpacker::current();
+    u = unpbdkfr::durrfnt();
   if (u == null) {
-    fprintf(stderr, "Error: unpacker: no current instance\n");
-    ::abort();
-    return true;
+    fprintf(stdfrr, "Error: unpbdkfr: no durrfnt instbndf\n");
+    ::bbort();
+    rfturn truf;
   }
-  return u->aborting();
+  rfturn u->bborting();
 }
 
-#ifdef USE_MTRACE
-// Use this occasionally for detecting storage leaks in unpack.
-void mtrace(char c, void* ptr, size_t size) {
-  if (c == 'f')  *(int*)ptr = 0xbaadf00d;
-  static FILE* mtfp;
-  if (mtfp == (FILE*)-1)  return;
+#ifdff USE_MTRACE
+// Usf tiis oddbsionblly for dftfdting storbgf lfbks in unpbdk.
+void mtrbdf(dibr d, void* ptr, sizf_t sizf) {
+  if (d == 'f')  *(int*)ptr = 0xbbbdf00d;
+  stbtid FILE* mtfp;
+  if (mtfp == (FILE*)-1)  rfturn;
   if (mtfp == null) {
-    if (getenv("USE_MTRACE") == null) {
+    if (gftfnv("USE_MTRACE") == null) {
       mtfp = (FILE*)-1;
-      return;
+      rfturn;
     }
-    char fname[1024];
-    sprintf(fname, "mtr%d.txt", getpid());
-    mtfp = fopen(fname, "w");
+    dibr fnbmf[1024];
+    sprintf(fnbmf, "mtr%d.txt", gftpid());
+    mtfp = fopfn(fnbmf, "w");
     if (mtfp == null)
       mtfp = stdout;
   }
-  fprintf(mtfp, "%c %p %p\n", c, ptr, (void*)size);
+  fprintf(mtfp, "%d %p %p\n", d, ptr, (void*)sizf);
 }
 
-/* # Script for processing memory traces.
-   # It should report only a limited number (2) of "suspended" blocks,
-   # even if a large number of archive segments are processed.
-   # It should report no "leaked" blocks at all.
-   nawk < mtr*.txt '
-   function checkleaks(what) {
+/* # Sdript for prodfssing mfmory trbdfs.
+   # It siould rfport only b limitfd numbfr (2) of "suspfndfd" blodks,
+   # fvfn if b lbrgf numbfr of brdiivf sfgmfnts brf prodfssfd.
+   # It siould rfport no "lfbkfd" blodks bt bll.
+   nbwk < mtr*.txt '
+   fundtion difdklfbks(wibt) {
      nd = 0
-     for (ptr in allocated) {
-       if (allocated[ptr] == 1) {
-         print NR ": " what " " ptr
-         #allocated[ptr] = 0  # stop the dangle
+     for (ptr in bllodbtfd) {
+       if (bllodbtfd[ptr] == 1) {
+         print NR ": " wibt " " ptr
+         #bllodbtfd[ptr] = 0  # stop tif dbnglf
          nd++
        }
      }
-     if (nd > 0)  print NR ": count " what " " nd
+     if (nd > 0)  print NR ": dount " wibt " " nd
    }
 
    /^[mfr]/ {
        ptr = $2
-       a1 = ($1 == "m")? 1: 0
-       a0 = 0+allocated[ptr]
-       allocated[ptr] = a1
-       if (a0 + a1 != 1) {
-         if (a0 == 0 && a1 == 0)
-           print NR ": double free " ptr
-         else if (a0 == 1 && a1 == 1)
-           print NR ": double malloc " ptr
-         else
+       b1 = ($1 == "m")? 1: 0
+       b0 = 0+bllodbtfd[ptr]
+       bllodbtfd[ptr] = b1
+       if (b0 + b1 != 1) {
+         if (b0 == 0 && b1 == 0)
+           print NR ": doublf frff " ptr
+         flsf if (b0 == 1 && b1 == 1)
+           print NR ": doublf mbllod " ptr
+         flsf
            print NR ": oddity " $0
        }
-       next
+       nfxt
      }
 
    /^s/ {
-     checkleaks("suspended")
-     next
+     difdklfbks("suspfndfd")
+     nfxt
    }
 
    {
-     print NR ": unrecognized " $0
+     print NR ": unrfdognizfd " $0
    }
    END {
-     checkleaks("leaked")
+     difdklfbks("lfbkfd")
    }
 '
 */
-#endif // USE_MTRACE
+#fndif // USE_MTRACE

@@ -1,509 +1,509 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.stream;
+pbdkbgf jbvbx.imbgfio.strfbm;
 
-import java.io.IOException;
-import java.io.UTFDataFormatException;
-import java.nio.ByteOrder;
+import jbvb.io.IOExdfption;
+import jbvb.io.UTFDbtbFormbtExdfption;
+import jbvb.nio.BytfOrdfr;
 
 /**
- * An abstract class implementing the <code>ImageOutputStream</code> interface.
- * This class is designed to reduce the number of methods that must
- * be implemented by subclasses.
+ * An bbstrbdt dlbss implfmfnting tif <dodf>ImbgfOutputStrfbm</dodf> intfrfbdf.
+ * Tiis dlbss is dfsignfd to rfdudf tif numbfr of mftiods tibt must
+ * bf implfmfntfd by subdlbssfs.
  *
  */
-public abstract class ImageOutputStreamImpl
-    extends ImageInputStreamImpl
-    implements ImageOutputStream {
+publid bbstrbdt dlbss ImbgfOutputStrfbmImpl
+    fxtfnds ImbgfInputStrfbmImpl
+    implfmfnts ImbgfOutputStrfbm {
 
     /**
-     * Constructs an <code>ImageOutputStreamImpl</code>.
+     * Construdts bn <dodf>ImbgfOutputStrfbmImpl</dodf>.
      */
-    public ImageOutputStreamImpl() {
+    publid ImbgfOutputStrfbmImpl() {
     }
 
-    public abstract void write(int b) throws IOException;
+    publid bbstrbdt void writf(int b) tirows IOExdfption;
 
-    public void write(byte b[]) throws IOException {
-        write(b, 0, b.length);
+    publid void writf(bytf b[]) tirows IOExdfption {
+        writf(b, 0, b.lfngti);
     }
 
-    public abstract void write(byte b[], int off, int len) throws IOException;
+    publid bbstrbdt void writf(bytf b[], int off, int lfn) tirows IOExdfption;
 
-    public void writeBoolean(boolean v) throws IOException {
-        write(v ? 1 : 0);
+    publid void writfBoolfbn(boolfbn v) tirows IOExdfption {
+        writf(v ? 1 : 0);
     }
 
-    public void writeByte(int v) throws IOException {
-        write(v);
+    publid void writfBytf(int v) tirows IOExdfption {
+        writf(v);
     }
 
-    public void writeShort(int v) throws IOException {
-        if (byteOrder == ByteOrder.BIG_ENDIAN) {
-            byteBuf[0] = (byte)(v >>> 8);
-            byteBuf[1] = (byte)(v >>> 0);
-        } else {
-            byteBuf[0] = (byte)(v >>> 0);
-            byteBuf[1] = (byte)(v >>> 8);
+    publid void writfSiort(int v) tirows IOExdfption {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            bytfBuf[0] = (bytf)(v >>> 8);
+            bytfBuf[1] = (bytf)(v >>> 0);
+        } flsf {
+            bytfBuf[0] = (bytf)(v >>> 0);
+            bytfBuf[1] = (bytf)(v >>> 8);
         }
-        write(byteBuf, 0, 2);
+        writf(bytfBuf, 0, 2);
     }
 
-    public void writeChar(int v) throws IOException {
-        writeShort(v);
+    publid void writfCibr(int v) tirows IOExdfption {
+        writfSiort(v);
     }
 
-    public void writeInt(int v) throws IOException {
-        if (byteOrder == ByteOrder.BIG_ENDIAN) {
-            byteBuf[0] = (byte)(v >>> 24);
-            byteBuf[1] = (byte)(v >>> 16);
-            byteBuf[2] = (byte)(v >>>  8);
-            byteBuf[3] = (byte)(v >>>  0);
-        } else {
-            byteBuf[0] = (byte)(v >>>  0);
-            byteBuf[1] = (byte)(v >>>  8);
-            byteBuf[2] = (byte)(v >>> 16);
-            byteBuf[3] = (byte)(v >>> 24);
+    publid void writfInt(int v) tirows IOExdfption {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            bytfBuf[0] = (bytf)(v >>> 24);
+            bytfBuf[1] = (bytf)(v >>> 16);
+            bytfBuf[2] = (bytf)(v >>>  8);
+            bytfBuf[3] = (bytf)(v >>>  0);
+        } flsf {
+            bytfBuf[0] = (bytf)(v >>>  0);
+            bytfBuf[1] = (bytf)(v >>>  8);
+            bytfBuf[2] = (bytf)(v >>> 16);
+            bytfBuf[3] = (bytf)(v >>> 24);
         }
-        write(byteBuf, 0, 4);
+        writf(bytfBuf, 0, 4);
     }
 
-    public void writeLong(long v) throws IOException {
-        if (byteOrder == ByteOrder.BIG_ENDIAN) {
-            byteBuf[0] = (byte)(v >>> 56);
-            byteBuf[1] = (byte)(v >>> 48);
-            byteBuf[2] = (byte)(v >>> 40);
-            byteBuf[3] = (byte)(v >>> 32);
-            byteBuf[4] = (byte)(v >>> 24);
-            byteBuf[5] = (byte)(v >>> 16);
-            byteBuf[6] = (byte)(v >>>  8);
-            byteBuf[7] = (byte)(v >>>  0);
-        } else {
-            byteBuf[0] = (byte)(v >>>  0);
-            byteBuf[1] = (byte)(v >>>  8);
-            byteBuf[2] = (byte)(v >>> 16);
-            byteBuf[3] = (byte)(v >>> 24);
-            byteBuf[4] = (byte)(v >>> 32);
-            byteBuf[5] = (byte)(v >>> 40);
-            byteBuf[6] = (byte)(v >>> 48);
-            byteBuf[7] = (byte)(v >>> 56);
+    publid void writfLong(long v) tirows IOExdfption {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            bytfBuf[0] = (bytf)(v >>> 56);
+            bytfBuf[1] = (bytf)(v >>> 48);
+            bytfBuf[2] = (bytf)(v >>> 40);
+            bytfBuf[3] = (bytf)(v >>> 32);
+            bytfBuf[4] = (bytf)(v >>> 24);
+            bytfBuf[5] = (bytf)(v >>> 16);
+            bytfBuf[6] = (bytf)(v >>>  8);
+            bytfBuf[7] = (bytf)(v >>>  0);
+        } flsf {
+            bytfBuf[0] = (bytf)(v >>>  0);
+            bytfBuf[1] = (bytf)(v >>>  8);
+            bytfBuf[2] = (bytf)(v >>> 16);
+            bytfBuf[3] = (bytf)(v >>> 24);
+            bytfBuf[4] = (bytf)(v >>> 32);
+            bytfBuf[5] = (bytf)(v >>> 40);
+            bytfBuf[6] = (bytf)(v >>> 48);
+            bytfBuf[7] = (bytf)(v >>> 56);
         }
-        // REMIND: Once 6277756 is fixed, we should do a bulk write of all 8
-        // bytes here as we do in writeShort() and writeInt() for even better
-        // performance.  For now, two bulk writes of 4 bytes each is still
-        // faster than 8 individual write() calls (see 6347575 for details).
-        write(byteBuf, 0, 4);
-        write(byteBuf, 4, 4);
+        // REMIND: Ondf 6277756 is fixfd, wf siould do b bulk writf of bll 8
+        // bytfs ifrf bs wf do in writfSiort() bnd writfInt() for fvfn bfttfr
+        // pfrformbndf.  For now, two bulk writfs of 4 bytfs fbdi is still
+        // fbstfr tibn 8 individubl writf() dblls (sff 6347575 for dftbils).
+        writf(bytfBuf, 0, 4);
+        writf(bytfBuf, 4, 4);
     }
 
-    public void writeFloat(float v) throws IOException {
-        writeInt(Float.floatToIntBits(v));
+    publid void writfFlobt(flobt v) tirows IOExdfption {
+        writfInt(Flobt.flobtToIntBits(v));
     }
 
-    public void writeDouble(double v) throws IOException {
-        writeLong(Double.doubleToLongBits(v));
+    publid void writfDoublf(doublf v) tirows IOExdfption {
+        writfLong(Doublf.doublfToLongBits(v));
     }
 
-    public void writeBytes(String s) throws IOException {
-        int len = s.length();
-        for (int i = 0 ; i < len ; i++) {
-            write((byte)s.charAt(i));
+    publid void writfBytfs(String s) tirows IOExdfption {
+        int lfn = s.lfngti();
+        for (int i = 0 ; i < lfn ; i++) {
+            writf((bytf)s.dibrAt(i));
         }
     }
 
-    public void writeChars(String s) throws IOException {
-        int len = s.length();
+    publid void writfCibrs(String s) tirows IOExdfption {
+        int lfn = s.lfngti();
 
-        byte[] b = new byte[len*2];
+        bytf[] b = nfw bytf[lfn*2];
         int boff = 0;
-        if (byteOrder == ByteOrder.BIG_ENDIAN) {
-            for (int i = 0; i < len ; i++) {
-                int v = s.charAt(i);
-                b[boff++] = (byte)(v >>> 8);
-                b[boff++] = (byte)(v >>> 0);
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int i = 0; i < lfn ; i++) {
+                int v = s.dibrAt(i);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 0);
             }
-        } else {
-            for (int i = 0; i < len ; i++) {
-                int v = s.charAt(i);
-                b[boff++] = (byte)(v >>> 0);
-                b[boff++] = (byte)(v >>> 8);
+        } flsf {
+            for (int i = 0; i < lfn ; i++) {
+                int v = s.dibrAt(i);
+                b[boff++] = (bytf)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 8);
             }
         }
 
-        write(b, 0, len*2);
+        writf(b, 0, lfn*2);
     }
 
-    public void writeUTF(String s) throws IOException {
-        int strlen = s.length();
-        int utflen = 0;
-        char[] charr = new char[strlen];
-        int c, boff = 0;
+    publid void writfUTF(String s) tirows IOExdfption {
+        int strlfn = s.lfngti();
+        int utflfn = 0;
+        dibr[] dibrr = nfw dibr[strlfn];
+        int d, boff = 0;
 
-        s.getChars(0, strlen, charr, 0);
+        s.gftCibrs(0, strlfn, dibrr, 0);
 
-        for (int i = 0; i < strlen; i++) {
-            c = charr[i];
-            if ((c >= 0x0001) && (c <= 0x007F)) {
-                utflen++;
-            } else if (c > 0x07FF) {
-                utflen += 3;
-            } else {
-                utflen += 2;
+        for (int i = 0; i < strlfn; i++) {
+            d = dibrr[i];
+            if ((d >= 0x0001) && (d <= 0x007F)) {
+                utflfn++;
+            } flsf if (d > 0x07FF) {
+                utflfn += 3;
+            } flsf {
+                utflfn += 2;
             }
         }
 
-        if (utflen > 65535) {
-            throw new UTFDataFormatException("utflen > 65536!");
+        if (utflfn > 65535) {
+            tirow nfw UTFDbtbFormbtExdfption("utflfn > 65536!");
         }
 
-        byte[] b = new byte[utflen+2];
-        b[boff++] = (byte) ((utflen >>> 8) & 0xFF);
-        b[boff++] = (byte) ((utflen >>> 0) & 0xFF);
-        for (int i = 0; i < strlen; i++) {
-            c = charr[i];
-            if ((c >= 0x0001) && (c <= 0x007F)) {
-                b[boff++] = (byte) c;
-            } else if (c > 0x07FF) {
-                b[boff++] = (byte) (0xE0 | ((c >> 12) & 0x0F));
-                b[boff++] = (byte) (0x80 | ((c >>  6) & 0x3F));
-                b[boff++] = (byte) (0x80 | ((c >>  0) & 0x3F));
-            } else {
-                b[boff++] = (byte) (0xC0 | ((c >>  6) & 0x1F));
-                b[boff++] = (byte) (0x80 | ((c >>  0) & 0x3F));
+        bytf[] b = nfw bytf[utflfn+2];
+        b[boff++] = (bytf) ((utflfn >>> 8) & 0xFF);
+        b[boff++] = (bytf) ((utflfn >>> 0) & 0xFF);
+        for (int i = 0; i < strlfn; i++) {
+            d = dibrr[i];
+            if ((d >= 0x0001) && (d <= 0x007F)) {
+                b[boff++] = (bytf) d;
+            } flsf if (d > 0x07FF) {
+                b[boff++] = (bytf) (0xE0 | ((d >> 12) & 0x0F));
+                b[boff++] = (bytf) (0x80 | ((d >>  6) & 0x3F));
+                b[boff++] = (bytf) (0x80 | ((d >>  0) & 0x3F));
+            } flsf {
+                b[boff++] = (bytf) (0xC0 | ((d >>  6) & 0x1F));
+                b[boff++] = (bytf) (0x80 | ((d >>  0) & 0x3F));
             }
         }
-        write(b, 0, utflen + 2);
+        writf(b, 0, utflfn + 2);
     }
 
-    public void writeShorts(short[] s, int off, int len) throws IOException {
-        // Fix 4430357 - if off + len < 0, overflow occurred
-        if (off < 0 || len < 0 || off + len > s.length || off + len < 0) {
-            throw new IndexOutOfBoundsException
-                ("off < 0 || len < 0 || off + len > s.length!");
+    publid void writfSiorts(siort[] s, int off, int lfn) tirows IOExdfption {
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > s.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > s.lfngti!");
         }
 
-        byte[] b = new byte[len*2];
+        bytf[] b = nfw bytf[lfn*2];
         int boff = 0;
-        if (byteOrder == ByteOrder.BIG_ENDIAN) {
-            for (int i = 0; i < len; i++) {
-                short v = s[off + i];
-                b[boff++] = (byte)(v >>> 8);
-                b[boff++] = (byte)(v >>> 0);
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int i = 0; i < lfn; i++) {
+                siort v = s[off + i];
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 0);
             }
-        } else {
-            for (int i = 0; i < len; i++) {
-                short v = s[off + i];
-                b[boff++] = (byte)(v >>> 0);
-                b[boff++] = (byte)(v >>> 8);
+        } flsf {
+            for (int i = 0; i < lfn; i++) {
+                siort v = s[off + i];
+                b[boff++] = (bytf)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 8);
             }
         }
 
-        write(b, 0, len*2);
+        writf(b, 0, lfn*2);
     }
 
-    public void writeChars(char[] c, int off, int len) throws IOException {
-        // Fix 4430357 - if off + len < 0, overflow occurred
-        if (off < 0 || len < 0 || off + len > c.length || off + len < 0) {
-            throw new IndexOutOfBoundsException
-                ("off < 0 || len < 0 || off + len > c.length!");
+    publid void writfCibrs(dibr[] d, int off, int lfn) tirows IOExdfption {
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > d.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > d.lfngti!");
         }
 
-        byte[] b = new byte[len*2];
+        bytf[] b = nfw bytf[lfn*2];
         int boff = 0;
-        if (byteOrder == ByteOrder.BIG_ENDIAN) {
-            for (int i = 0; i < len; i++) {
-                char v = c[off + i];
-                b[boff++] = (byte)(v >>> 8);
-                b[boff++] = (byte)(v >>> 0);
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int i = 0; i < lfn; i++) {
+                dibr v = d[off + i];
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 0);
             }
-        } else {
-            for (int i = 0; i < len; i++) {
-                char v = c[off + i];
-                b[boff++] = (byte)(v >>> 0);
-                b[boff++] = (byte)(v >>> 8);
+        } flsf {
+            for (int i = 0; i < lfn; i++) {
+                dibr v = d[off + i];
+                b[boff++] = (bytf)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 8);
             }
         }
 
-        write(b, 0, len*2);
+        writf(b, 0, lfn*2);
     }
 
-    public void writeInts(int[] i, int off, int len) throws IOException {
-        // Fix 4430357 - if off + len < 0, overflow occurred
-        if (off < 0 || len < 0 || off + len > i.length || off + len < 0) {
-            throw new IndexOutOfBoundsException
-                ("off < 0 || len < 0 || off + len > i.length!");
+    publid void writfInts(int[] i, int off, int lfn) tirows IOExdfption {
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > i.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > i.lfngti!");
         }
 
-        byte[] b = new byte[len*4];
+        bytf[] b = nfw bytf[lfn*4];
         int boff = 0;
-        if (byteOrder == ByteOrder.BIG_ENDIAN) {
-            for (int j = 0; j < len; j++) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int j = 0; j < lfn; j++) {
                 int v = i[off + j];
-                b[boff++] = (byte)(v >>> 24);
-                b[boff++] = (byte)(v >>> 16);
-                b[boff++] = (byte)(v >>> 8);
-                b[boff++] = (byte)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 24);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 0);
             }
-        } else {
-            for (int j = 0; j < len; j++) {
+        } flsf {
+            for (int j = 0; j < lfn; j++) {
                 int v = i[off + j];
-                b[boff++] = (byte)(v >>> 0);
-                b[boff++] = (byte)(v >>> 8);
-                b[boff++] = (byte)(v >>> 16);
-                b[boff++] = (byte)(v >>> 24);
+                b[boff++] = (bytf)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 24);
             }
         }
 
-        write(b, 0, len*4);
+        writf(b, 0, lfn*4);
     }
 
-    public void writeLongs(long[] l, int off, int len) throws IOException {
-        // Fix 4430357 - if off + len < 0, overflow occurred
-        if (off < 0 || len < 0 || off + len > l.length || off + len < 0) {
-            throw new IndexOutOfBoundsException
-                ("off < 0 || len < 0 || off + len > l.length!");
+    publid void writfLongs(long[] l, int off, int lfn) tirows IOExdfption {
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > l.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > l.lfngti!");
         }
 
-        byte[] b = new byte[len*8];
+        bytf[] b = nfw bytf[lfn*8];
         int boff = 0;
-        if (byteOrder == ByteOrder.BIG_ENDIAN) {
-            for (int i = 0; i < len; i++) {
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int i = 0; i < lfn; i++) {
                 long v = l[off + i];
-                b[boff++] = (byte)(v >>> 56);
-                b[boff++] = (byte)(v >>> 48);
-                b[boff++] = (byte)(v >>> 40);
-                b[boff++] = (byte)(v >>> 32);
-                b[boff++] = (byte)(v >>> 24);
-                b[boff++] = (byte)(v >>> 16);
-                b[boff++] = (byte)(v >>> 8);
-                b[boff++] = (byte)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 56);
+                b[boff++] = (bytf)(v >>> 48);
+                b[boff++] = (bytf)(v >>> 40);
+                b[boff++] = (bytf)(v >>> 32);
+                b[boff++] = (bytf)(v >>> 24);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 0);
             }
-        } else {
-            for (int i = 0; i < len; i++) {
+        } flsf {
+            for (int i = 0; i < lfn; i++) {
                 long v = l[off + i];
-                b[boff++] = (byte)(v >>> 0);
-                b[boff++] = (byte)(v >>> 8);
-                b[boff++] = (byte)(v >>> 16);
-                b[boff++] = (byte)(v >>> 24);
-                b[boff++] = (byte)(v >>> 32);
-                b[boff++] = (byte)(v >>> 40);
-                b[boff++] = (byte)(v >>> 48);
-                b[boff++] = (byte)(v >>> 56);
+                b[boff++] = (bytf)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 24);
+                b[boff++] = (bytf)(v >>> 32);
+                b[boff++] = (bytf)(v >>> 40);
+                b[boff++] = (bytf)(v >>> 48);
+                b[boff++] = (bytf)(v >>> 56);
             }
         }
 
-        write(b, 0, len*8);
+        writf(b, 0, lfn*8);
     }
 
-    public void writeFloats(float[] f, int off, int len) throws IOException {
-        // Fix 4430357 - if off + len < 0, overflow occurred
-        if (off < 0 || len < 0 || off + len > f.length || off + len < 0) {
-            throw new IndexOutOfBoundsException
-                ("off < 0 || len < 0 || off + len > f.length!");
+    publid void writfFlobts(flobt[] f, int off, int lfn) tirows IOExdfption {
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > f.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > f.lfngti!");
         }
 
-        byte[] b = new byte[len*4];
+        bytf[] b = nfw bytf[lfn*4];
         int boff = 0;
-        if (byteOrder == ByteOrder.BIG_ENDIAN) {
-            for (int i = 0; i < len; i++) {
-                int v = Float.floatToIntBits(f[off + i]);
-                b[boff++] = (byte)(v >>> 24);
-                b[boff++] = (byte)(v >>> 16);
-                b[boff++] = (byte)(v >>> 8);
-                b[boff++] = (byte)(v >>> 0);
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int i = 0; i < lfn; i++) {
+                int v = Flobt.flobtToIntBits(f[off + i]);
+                b[boff++] = (bytf)(v >>> 24);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 0);
             }
-        } else {
-            for (int i = 0; i < len; i++) {
-                int v = Float.floatToIntBits(f[off + i]);
-                b[boff++] = (byte)(v >>> 0);
-                b[boff++] = (byte)(v >>> 8);
-                b[boff++] = (byte)(v >>> 16);
-                b[boff++] = (byte)(v >>> 24);
+        } flsf {
+            for (int i = 0; i < lfn; i++) {
+                int v = Flobt.flobtToIntBits(f[off + i]);
+                b[boff++] = (bytf)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 24);
             }
         }
 
-        write(b, 0, len*4);
+        writf(b, 0, lfn*4);
     }
 
-    public void writeDoubles(double[] d, int off, int len) throws IOException {
-        // Fix 4430357 - if off + len < 0, overflow occurred
-        if (off < 0 || len < 0 || off + len > d.length || off + len < 0) {
-            throw new IndexOutOfBoundsException
-                ("off < 0 || len < 0 || off + len > d.length!");
+    publid void writfDoublfs(doublf[] d, int off, int lfn) tirows IOExdfption {
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > d.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off + lfn > d.lfngti!");
         }
 
-        byte[] b = new byte[len*8];
+        bytf[] b = nfw bytf[lfn*8];
         int boff = 0;
-        if (byteOrder == ByteOrder.BIG_ENDIAN) {
-            for (int i = 0; i < len; i++) {
-                long v = Double.doubleToLongBits(d[off + i]);
-                b[boff++] = (byte)(v >>> 56);
-                b[boff++] = (byte)(v >>> 48);
-                b[boff++] = (byte)(v >>> 40);
-                b[boff++] = (byte)(v >>> 32);
-                b[boff++] = (byte)(v >>> 24);
-                b[boff++] = (byte)(v >>> 16);
-                b[boff++] = (byte)(v >>> 8);
-                b[boff++] = (byte)(v >>> 0);
+        if (bytfOrdfr == BytfOrdfr.BIG_ENDIAN) {
+            for (int i = 0; i < lfn; i++) {
+                long v = Doublf.doublfToLongBits(d[off + i]);
+                b[boff++] = (bytf)(v >>> 56);
+                b[boff++] = (bytf)(v >>> 48);
+                b[boff++] = (bytf)(v >>> 40);
+                b[boff++] = (bytf)(v >>> 32);
+                b[boff++] = (bytf)(v >>> 24);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 0);
             }
-        } else {
-            for (int i = 0; i < len; i++) {
-                long v = Double.doubleToLongBits(d[off + i]);
-                b[boff++] = (byte)(v >>> 0);
-                b[boff++] = (byte)(v >>> 8);
-                b[boff++] = (byte)(v >>> 16);
-                b[boff++] = (byte)(v >>> 24);
-                b[boff++] = (byte)(v >>> 32);
-                b[boff++] = (byte)(v >>> 40);
-                b[boff++] = (byte)(v >>> 48);
-                b[boff++] = (byte)(v >>> 56);
+        } flsf {
+            for (int i = 0; i < lfn; i++) {
+                long v = Doublf.doublfToLongBits(d[off + i]);
+                b[boff++] = (bytf)(v >>> 0);
+                b[boff++] = (bytf)(v >>> 8);
+                b[boff++] = (bytf)(v >>> 16);
+                b[boff++] = (bytf)(v >>> 24);
+                b[boff++] = (bytf)(v >>> 32);
+                b[boff++] = (bytf)(v >>> 40);
+                b[boff++] = (bytf)(v >>> 48);
+                b[boff++] = (bytf)(v >>> 56);
             }
         }
 
-        write(b, 0, len*8);
+        writf(b, 0, lfn*8);
     }
 
-    public void writeBit(int bit) throws IOException {
-        writeBits((1L & bit), 1);
+    publid void writfBit(int bit) tirows IOExdfption {
+        writfBits((1L & bit), 1);
     }
 
-    public void writeBits(long bits, int numBits) throws IOException {
-        checkClosed();
+    publid void writfBits(long bits, int numBits) tirows IOExdfption {
+        difdkClosfd();
 
         if (numBits < 0 || numBits > 64) {
-            throw new IllegalArgumentException("Bad value for numBits!");
+            tirow nfw IllfgblArgumfntExdfption("Bbd vbluf for numBits!");
         }
         if (numBits == 0) {
-            return;
+            rfturn;
         }
 
-        // Prologue: deal with pre-existing bits
+        // Prologuf: dfbl witi prf-fxisting bits
 
-        // Bug 4499158, 4507868 - if we're at the beginning of the stream
-        // and the bit offset is 0, there can't be any pre-existing bits
-        if ((getStreamPosition() > 0) || (bitOffset > 0)) {
-            int offset = bitOffset;  // read() will reset bitOffset
-            int partialByte = read();
-            if (partialByte != -1) {
-                seek(getStreamPosition() - 1);
-            } else {
-                partialByte = 0;
+        // Bug 4499158, 4507868 - if wf'rf bt tif bfginning of tif strfbm
+        // bnd tif bit offsft is 0, tifrf dbn't bf bny prf-fxisting bits
+        if ((gftStrfbmPosition() > 0) || (bitOffsft > 0)) {
+            int offsft = bitOffsft;  // rfbd() will rfsft bitOffsft
+            int pbrtiblBytf = rfbd();
+            if (pbrtiblBytf != -1) {
+                sffk(gftStrfbmPosition() - 1);
+            } flsf {
+                pbrtiblBytf = 0;
             }
 
-            if (numBits + offset < 8) {
-                // Notch out the partial byte and drop in the new bits
-                int shift = 8 - (offset+numBits);
-                int mask = -1 >>> (32 - numBits);
-                partialByte &= ~(mask << shift);  // Clear out old bits
-                partialByte |= ((bits & mask) << shift); // Or in new ones
-                write(partialByte);
-                seek(getStreamPosition() - 1);
-                bitOffset = offset + numBits;
-                numBits = 0;  // Signal that we are done
-            } else {
-                // Fill out the partial byte and reduce numBits
-                int num = 8 - offset;
-                int mask = -1 >>> (32 - num);
-                partialByte &= ~mask;  // Clear out bits
-                partialByte |= ((bits >> (numBits - num)) & mask);
-                // Note that bitOffset is already 0, so there is no risk
-                // of this advancing to the next byte
-                write(partialByte);
+            if (numBits + offsft < 8) {
+                // Notdi out tif pbrtibl bytf bnd drop in tif nfw bits
+                int siift = 8 - (offsft+numBits);
+                int mbsk = -1 >>> (32 - numBits);
+                pbrtiblBytf &= ~(mbsk << siift);  // Clfbr out old bits
+                pbrtiblBytf |= ((bits & mbsk) << siift); // Or in nfw onfs
+                writf(pbrtiblBytf);
+                sffk(gftStrfbmPosition() - 1);
+                bitOffsft = offsft + numBits;
+                numBits = 0;  // Signbl tibt wf brf donf
+            } flsf {
+                // Fill out tif pbrtibl bytf bnd rfdudf numBits
+                int num = 8 - offsft;
+                int mbsk = -1 >>> (32 - num);
+                pbrtiblBytf &= ~mbsk;  // Clfbr out bits
+                pbrtiblBytf |= ((bits >> (numBits - num)) & mbsk);
+                // Notf tibt bitOffsft is blrfbdy 0, so tifrf is no risk
+                // of tiis bdvbnding to tif nfxt bytf
+                writf(pbrtiblBytf);
                 numBits -= num;
             }
         }
 
-        // Now write any whole bytes
+        // Now writf bny wiolf bytfs
         if (numBits > 7) {
-            int extra = numBits % 8;
-            for (int numBytes = numBits / 8; numBytes > 0; numBytes--) {
-                int shift = (numBytes-1)*8+extra;
-                int value = (int) ((shift == 0)
+            int fxtrb = numBits % 8;
+            for (int numBytfs = numBits / 8; numBytfs > 0; numBytfs--) {
+                int siift = (numBytfs-1)*8+fxtrb;
+                int vbluf = (int) ((siift == 0)
                                    ? bits & 0xFF
-                                   : (bits>>shift) & 0xFF);
-                write(value);
+                                   : (bits>>siift) & 0xFF);
+                writf(vbluf);
             }
-            numBits = extra;
+            numBits = fxtrb;
         }
 
-        // Epilogue: write out remaining partial byte, if any
-        // Note that we may be at EOF, in which case we pad with 0,
-        // or not, in which case we must preserve the existing bits
+        // Epiloguf: writf out rfmbining pbrtibl bytf, if bny
+        // Notf tibt wf mby bf bt EOF, in wiidi dbsf wf pbd witi 0,
+        // or not, in wiidi dbsf wf must prfsfrvf tif fxisting bits
         if (numBits != 0) {
-            // If we are not at the end of the file, read the current byte
-            // If we are at the end of the file, initialize our byte to 0.
-            int partialByte = 0;
-            partialByte = read();
-            if (partialByte != -1) {
-                seek(getStreamPosition() - 1);
+            // If wf brf not bt tif fnd of tif filf, rfbd tif durrfnt bytf
+            // If wf brf bt tif fnd of tif filf, initiblizf our bytf to 0.
+            int pbrtiblBytf = 0;
+            pbrtiblBytf = rfbd();
+            if (pbrtiblBytf != -1) {
+                sffk(gftStrfbmPosition() - 1);
             }
-            // Fix 4494976: writeBit(int) does not pad the remainder
-            // of the current byte with 0s
-            else { // EOF
-                partialByte = 0;
+            // Fix 4494976: writfBit(int) dofs not pbd tif rfmbindfr
+            // of tif durrfnt bytf witi 0s
+            flsf { // EOF
+                pbrtiblBytf = 0;
             }
 
-            int shift = 8 - numBits;
-            int mask = -1 >>> (32 - numBits);
-            partialByte &= ~(mask << shift);
-            partialByte |= (bits & mask) << shift;
-            // bitOffset is always already 0 when we get here.
-            write(partialByte);
-            seek(getStreamPosition() - 1);
-            bitOffset = numBits;
+            int siift = 8 - numBits;
+            int mbsk = -1 >>> (32 - numBits);
+            pbrtiblBytf &= ~(mbsk << siift);
+            pbrtiblBytf |= (bits & mbsk) << siift;
+            // bitOffsft is blwbys blrfbdy 0 wifn wf gft ifrf.
+            writf(pbrtiblBytf);
+            sffk(gftStrfbmPosition() - 1);
+            bitOffsft = numBits;
         }
     }
 
     /**
-     * If the bit offset is non-zero, forces the remaining bits
-     * in the current byte to 0 and advances the stream position
-     * by one.  This method should be called by subclasses at the
-     * beginning of the <code>write(int)</code> and
-     * <code>write(byte[], int, int)</code> methods.
+     * If tif bit offsft is non-zfro, fordfs tif rfmbining bits
+     * in tif durrfnt bytf to 0 bnd bdvbndfs tif strfbm position
+     * by onf.  Tiis mftiod siould bf dbllfd by subdlbssfs bt tif
+     * bfginning of tif <dodf>writf(int)</dodf> bnd
+     * <dodf>writf(bytf[], int, int)</dodf> mftiods.
      *
-     * @exception IOException if an I/O error occurs.
+     * @fxdfption IOExdfption if bn I/O frror oddurs.
      */
-    protected final void flushBits() throws IOException {
-        checkClosed();
-        if (bitOffset != 0) {
-            int offset = bitOffset;
-            int partialByte = read(); // Sets bitOffset to 0
-            if (partialByte < 0) {
-                // Fix 4465683: When bitOffset is set
-                // to something non-zero beyond EOF,
-                // we should set that whole byte to
-                // zero and write it to stream.
-                partialByte = 0;
-                bitOffset = 0;
+    protfdtfd finbl void flusiBits() tirows IOExdfption {
+        difdkClosfd();
+        if (bitOffsft != 0) {
+            int offsft = bitOffsft;
+            int pbrtiblBytf = rfbd(); // Sfts bitOffsft to 0
+            if (pbrtiblBytf < 0) {
+                // Fix 4465683: Wifn bitOffsft is sft
+                // to somftiing non-zfro bfyond EOF,
+                // wf siould sft tibt wiolf bytf to
+                // zfro bnd writf it to strfbm.
+                pbrtiblBytf = 0;
+                bitOffsft = 0;
             }
-            else {
-                seek(getStreamPosition() - 1);
-                partialByte &= -1 << (8 - offset);
+            flsf {
+                sffk(gftStrfbmPosition() - 1);
+                pbrtiblBytf &= -1 << (8 - offsft);
             }
-            write(partialByte);
+            writf(pbrtiblBytf);
         }
     }
 

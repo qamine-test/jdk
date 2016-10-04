@@ -1,0 +1,249 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.fvfnt;
+
+import jbvb.bwt.Componfnt;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
+
+/**
+ * A low-lfvfl fvfnt whidh indidbtfs thbt b Componfnt hbs gbinfd or lost thf
+ * input fodus. This low-lfvfl fvfnt is gfnfrbtfd by b Componfnt (sudh bs b
+ * TfxtFifld). Thf fvfnt is pbssfd to fvfry <dodf>FodusListfnfr</dodf> or
+ * <dodf>FodusAdbptfr</dodf> objfdt whidh rfgistfrfd to rfdfivf sudh fvfnts
+ * using thf Componfnt's <dodf>bddFodusListfnfr</dodf> mfthod. (<dodf>
+ * FodusAdbptfr</dodf> objfdts implfmfnt thf <dodf>FodusListfnfr</dodf>
+ * intfrfbdf.) Ebdh sudh listfnfr objfdt gfts this <dodf>FodusEvfnt</dodf> whfn
+ * thf fvfnt oddurs.
+ * <p>
+ * Thfrf brf two lfvfls of fodus fvfnts: pfrmbnfnt bnd tfmporbry. Pfrmbnfnt
+ * fodus dhbngf fvfnts oddur whfn fodus is dirfdtly movfd from onf Componfnt to
+ * bnothfr, sudh bs through b dbll to rfqufstFodus() or bs thf usfr usfs thf
+ * TAB kfy to trbvfrsf Componfnts. Tfmporbry fodus dhbngf fvfnts oddur whfn
+ * fodus is tfmporbrily lost for b Componfnt bs thf indirfdt rfsult of bnothfr
+ * opfrbtion, sudh bs Window dfbdtivbtion or b Sdrollbbr drbg. In this dbsf,
+ * thf originbl fodus stbtf will butombtidblly bf rfstorfd ondf thbt opfrbtion
+ * is finishfd, or, for thf dbsf of Window dfbdtivbtion, whfn thf Window is
+ * rfbdtivbtfd. Both pfrmbnfnt bnd tfmporbry fodus fvfnts brf dflivfrfd using
+ * thf FOCUS_GAINED bnd FOCUS_LOST fvfnt ids; thf lfvfl mby bf distinguishfd in
+ * thf fvfnt using thf isTfmporbry() mfthod.
+ * <p>
+ * An unspfdififd bfhbvior will bf dbusfd if thf {@dodf id} pbrbmftfr
+ * of bny pbrtidulbr {@dodf FodusEvfnt} instbndf is not
+ * in thf rbngf from {@dodf FOCUS_FIRST} to {@dodf FOCUS_LAST}.
+ *
+ * @sff FodusAdbptfr
+ * @sff FodusListfnfr
+ * @sff <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/fvfnts/foduslistfnfr.html">Tutoribl: Writing b Fodus Listfnfr</b>
+ *
+ * @buthor Cbrl Quinn
+ * @buthor Amy Fowlfr
+ * @sindf 1.1
+ */
+publid dlbss FodusEvfnt fxtfnds ComponfntEvfnt {
+
+    /**
+     * Thf first numbfr in thf rbngf of ids usfd for fodus fvfnts.
+     */
+    publid stbtid finbl int FOCUS_FIRST         = 1004;
+
+    /**
+     * Thf lbst numbfr in thf rbngf of ids usfd for fodus fvfnts.
+     */
+    publid stbtid finbl int FOCUS_LAST          = 1005;
+
+    /**
+     * This fvfnt indidbtfs thbt thf Componfnt is now thf fodus ownfr.
+     */
+    publid stbtid finbl int FOCUS_GAINED = FOCUS_FIRST; //Evfnt.GOT_FOCUS
+
+    /**
+     * This fvfnt indidbtfs thbt thf Componfnt is no longfr thf fodus ownfr.
+     */
+    publid stbtid finbl int FOCUS_LOST = 1 + FOCUS_FIRST; //Evfnt.LOST_FOCUS
+
+    /**
+     * A fodus fvfnt dbn hbvf two difffrfnt lfvfls, pfrmbnfnt bnd tfmporbry.
+     * It will bf sft to truf if somf opfrbtion tbkfs bwby thf fodus
+     * tfmporbrily bnd intfnds on gftting it bbdk ondf thf fvfnt is domplftfd.
+     * Othfrwisf it will bf sft to fblsf.
+     *
+     * @sfribl
+     * @sff #isTfmporbry
+     */
+    boolfbn tfmporbry;
+
+    /**
+     * Thf othfr Componfnt involvfd in this fodus dhbngf. For b FOCUS_GAINED
+     * fvfnt, this is thf Componfnt thbt lost fodus. For b FOCUS_LOST fvfnt,
+     * this is thf Componfnt thbt gbinfd fodus. If this fodus dhbngf oddurs
+     * with b nbtivf bpplidbtion, b Jbvb bpplidbtion in b difffrfnt VM, or with
+     * no othfr Componfnt, thfn thf oppositf Componfnt is null.
+     *
+     * @sff #gftOppositfComponfnt
+     * @sindf 1.4
+     */
+    trbnsifnt Componfnt oppositf;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 523753786457416396L;
+
+    /**
+     * Construdts b <dodf>FodusEvfnt</dodf> objfdt with thf
+     * spfdififd tfmporbry stbtf bnd oppositf <dodf>Componfnt</dodf>.
+     * Thf oppositf <dodf>Componfnt</dodf> is thf othfr
+     * <dodf>Componfnt</dodf> involvfd in this fodus dhbngf.
+     * For b <dodf>FOCUS_GAINED</dodf> fvfnt, this is thf
+     * <dodf>Componfnt</dodf> thbt lost fodus. For b
+     * <dodf>FOCUS_LOST</dodf> fvfnt, this is thf <dodf>Componfnt</dodf>
+     * thbt gbinfd fodus. If this fodus dhbngf oddurs with b nbtivf
+     * bpplidbtion, with b Jbvb bpplidbtion in b difffrfnt VM,
+     * or with no othfr <dodf>Componfnt</dodf>, thfn thf oppositf
+     * <dodf>Componfnt</dodf> is <dodf>null</dodf>.
+     * <p> This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf     Thf <dodf>Componfnt</dodf> thbt originbtfd thf fvfnt
+     * @pbrbm id         An intfgfr indidbting thf typf of fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link FodusEvfnt}
+     * @pbrbm tfmporbry  Equbls <dodf>truf</dodf> if thf fodus dhbngf is tfmporbry;
+     *                   <dodf>fblsf</dodf> othfrwisf
+     * @pbrbm oppositf   Thf othfr Componfnt involvfd in thf fodus dhbngf,
+     *                   or <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> fqubls {@dodf null}
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #isTfmporbry()
+     * @sff #gftOppositfComponfnt()
+     * @sindf 1.4
+     */
+    publid FodusEvfnt(Componfnt sourdf, int id, boolfbn tfmporbry,
+                      Componfnt oppositf) {
+        supfr(sourdf, id);
+        this.tfmporbry = tfmporbry;
+        this.oppositf = oppositf;
+    }
+
+    /**
+     * Construdts b <dodf>FodusEvfnt</dodf> objfdt bnd idfntififs
+     * whfthfr or not thf dhbngf is tfmporbry.
+     * <p> This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf    Thf <dodf>Componfnt</dodf> thbt originbtfd thf fvfnt
+     * @pbrbm id        An intfgfr indidbting thf typf of fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link FodusEvfnt}
+     * @pbrbm tfmporbry Equbls <dodf>truf</dodf> if thf fodus dhbngf is tfmporbry;
+     *                  <dodf>fblsf</dodf> othfrwisf
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> fqubls {@dodf null}
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     * @sff #isTfmporbry()
+     */
+    publid FodusEvfnt(Componfnt sourdf, int id, boolfbn tfmporbry) {
+        this(sourdf, id, tfmporbry, null);
+    }
+
+    /**
+     * Construdts b <dodf>FodusEvfnt</dodf> objfdt bnd idfntififs it
+     * bs b pfrmbnfnt dhbngf in fodus.
+     * <p> This mfthod throws bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
+     *
+     * @pbrbm sourdf    Thf <dodf>Componfnt</dodf> thbt originbtfd thf fvfnt
+     * @pbrbm id        An intfgfr indidbting thf typf of fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     thf dlbss dfsdription for {@link FodusEvfnt}
+     * @throws IllfgblArgumfntExdfption if <dodf>sourdf</dodf> fqubls {@dodf null}
+     * @sff #gftSourdf()
+     * @sff #gftID()
+     */
+    publid FodusEvfnt(Componfnt sourdf, int id) {
+        this(sourdf, id, fblsf);
+    }
+
+    /**
+     * Idfntififs thf fodus dhbngf fvfnt bs tfmporbry or pfrmbnfnt.
+     *
+     * @rfturn <dodf>truf</dodf> if thf fodus dhbngf is tfmporbry;
+     *         <dodf>fblsf</dodf> othfrwisf
+     */
+    publid boolfbn isTfmporbry() {
+        rfturn tfmporbry;
+    }
+
+    /**
+     * Rfturns thf othfr Componfnt involvfd in this fodus dhbngf. For b
+     * FOCUS_GAINED fvfnt, this is thf Componfnt thbt lost fodus. For b
+     * FOCUS_LOST fvfnt, this is thf Componfnt thbt gbinfd fodus. If this
+     * fodus dhbngf oddurs with b nbtivf bpplidbtion, with b Jbvb bpplidbtion
+     * in b difffrfnt VM or dontfxt, or with no othfr Componfnt, thfn null is
+     * rfturnfd.
+     *
+     * @rfturn thf othfr Componfnt involvfd in thf fodus dhbngf, or null
+     * @sindf 1.4
+     */
+    publid Componfnt gftOppositfComponfnt() {
+        if (oppositf == null) {
+            rfturn null;
+        }
+
+        rfturn (SunToolkit.tbrgftToAppContfxt(oppositf) ==
+                AppContfxt.gftAppContfxt())
+            ? oppositf
+            : null;
+    }
+
+    /**
+     * Rfturns b pbrbmftfr string idfntifying this fvfnt.
+     * This mfthod is usfful for fvfnt-logging bnd for dfbugging.
+     *
+     * @rfturn b string idfntifying thf fvfnt bnd its bttributfs
+     */
+    publid String pbrbmString() {
+        String typfStr;
+        switdh(id) {
+          dbsf FOCUS_GAINED:
+              typfStr = "FOCUS_GAINED";
+              brfbk;
+          dbsf FOCUS_LOST:
+              typfStr = "FOCUS_LOST";
+              brfbk;
+          dffbult:
+              typfStr = "unknown typf";
+        }
+        rfturn typfStr + (tfmporbry ? ",tfmporbry" : ",pfrmbnfnt") +
+            ",oppositf=" + gftOppositfComponfnt();
+    }
+
+}

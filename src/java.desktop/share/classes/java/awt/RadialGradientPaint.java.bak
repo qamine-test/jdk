@@ -1,646 +1,646 @@
 /*
- * Copyright (c) 2006, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.awt.image.ColorModel;
-import java.beans.ConstructorProperties;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
 
 /**
- * The {@code RadialGradientPaint} class provides a way to fill a shape with
- * a circular radial color gradient pattern. The user may specify 2 or more
- * gradient colors, and this paint will provide an interpolation between
- * each color.
+ * Tif {@dodf RbdiblGrbdifntPbint} dlbss providfs b wby to fill b sibpf witi
+ * b dirdulbr rbdibl dolor grbdifnt pbttfrn. Tif usfr mby spfdify 2 or morf
+ * grbdifnt dolors, bnd tiis pbint will providf bn intfrpolbtion bftwffn
+ * fbdi dolor.
  * <p>
- * The user must specify the circle controlling the gradient pattern,
- * which is described by a center point and a radius.  The user can also
- * specify a separate focus point within that circle, which controls the
- * location of the first color of the gradient.  By default the focus is
- * set to be the center of the circle.
+ * Tif usfr must spfdify tif dirdlf dontrolling tif grbdifnt pbttfrn,
+ * wiidi is dfsdribfd by b dfntfr point bnd b rbdius.  Tif usfr dbn blso
+ * spfdify b sfpbrbtf fodus point witiin tibt dirdlf, wiidi dontrols tif
+ * lodbtion of tif first dolor of tif grbdifnt.  By dffbult tif fodus is
+ * sft to bf tif dfntfr of tif dirdlf.
  * <p>
- * This paint will map the first color of the gradient to the focus point,
- * and the last color to the perimeter of the circle, interpolating
- * smoothly for any in-between colors specified by the user.  Any line drawn
- * from the focus point to the circumference will thus span all the gradient
- * colors.
+ * Tiis pbint will mbp tif first dolor of tif grbdifnt to tif fodus point,
+ * bnd tif lbst dolor to tif pfrimftfr of tif dirdlf, intfrpolbting
+ * smootily for bny in-bftwffn dolors spfdififd by tif usfr.  Any linf drbwn
+ * from tif fodus point to tif dirdumffrfndf will tius spbn bll tif grbdifnt
+ * dolors.
  * <p>
- * Specifying a focus point outside of the radius of the circle will cause
- * the rings of the gradient pattern to be centered on the point just inside
- * the edge of the circle in the direction of the focus point.
- * The rendering will internally use this modified location as if it were
- * the specified focus point.
+ * Spfdifying b fodus point outsidf of tif rbdius of tif dirdlf will dbusf
+ * tif rings of tif grbdifnt pbttfrn to bf dfntfrfd on tif point just insidf
+ * tif fdgf of tif dirdlf in tif dirfdtion of tif fodus point.
+ * Tif rfndfring will intfrnblly usf tiis modififd lodbtion bs if it wfrf
+ * tif spfdififd fodus point.
  * <p>
- * The user must provide an array of floats specifying how to distribute the
- * colors along the gradient.  These values should range from 0.0 to 1.0 and
- * act like keyframes along the gradient (they mark where the gradient should
- * be exactly a particular color).
+ * Tif usfr must providf bn brrby of flobts spfdifying iow to distributf tif
+ * dolors blong tif grbdifnt.  Tifsf vblufs siould rbngf from 0.0 to 1.0 bnd
+ * bdt likf kfyfrbmfs blong tif grbdifnt (tify mbrk wifrf tif grbdifnt siould
+ * bf fxbdtly b pbrtidulbr dolor).
  * <p>
- * In the event that the user does not set the first keyframe value equal
- * to 0 and/or the last keyframe value equal to 1, keyframes will be created
- * at these positions and the first and last colors will be replicated there.
- * So, if a user specifies the following arrays to construct a gradient:<br>
- * <pre>
+ * In tif fvfnt tibt tif usfr dofs not sft tif first kfyfrbmf vbluf fqubl
+ * to 0 bnd/or tif lbst kfyfrbmf vbluf fqubl to 1, kfyfrbmfs will bf drfbtfd
+ * bt tifsf positions bnd tif first bnd lbst dolors will bf rfplidbtfd tifrf.
+ * So, if b usfr spfdififs tif following brrbys to donstrudt b grbdifnt:<br>
+ * <prf>
  *     {Color.BLUE, Color.RED}, {.3f, .7f}
- * </pre>
- * this will be converted to a gradient with the following keyframes:<br>
- * <pre>
+ * </prf>
+ * tiis will bf donvfrtfd to b grbdifnt witi tif following kfyfrbmfs:<br>
+ * <prf>
  *     {Color.BLUE, Color.BLUE, Color.RED, Color.RED}, {0f, .3f, .7f, 1f}
- * </pre>
+ * </prf>
  *
  * <p>
- * The user may also select what action the {@code RadialGradientPaint} object
- * takes when it is filling the space outside the circle's radius by
- * setting {@code CycleMethod} to either {@code REFLECTION} or {@code REPEAT}.
- * The gradient color proportions are equal for any particular line drawn
- * from the focus point. The following figure shows that the distance AB
- * is equal to the distance BC, and the distance AD is equal to the distance DE.
- * <center>
- * <img src = "doc-files/RadialGradientPaint-3.png" alt="image showing the
- * distance AB=BC, and AD=DE">
- * </center>
- * If the gradient and graphics rendering transforms are uniformly scaled and
- * the user sets the focus so that it coincides with the center of the circle,
- * the gradient color proportions are equal for any line drawn from the center.
- * The following figure shows the distances AB, BC, AD, and DE. They are all equal.
- * <center>
- * <img src = "doc-files/RadialGradientPaint-4.png" alt="image showing the
- * distance of AB, BC, AD, and DE are all equal">
- * </center>
- * Note that some minor variations in distances may occur due to sampling at
- * the granularity of a pixel.
- * If no cycle method is specified, {@code NO_CYCLE} will be chosen by
- * default, which means the the last keyframe color will be used to fill the
- * remaining area.
+ * Tif usfr mby blso sflfdt wibt bdtion tif {@dodf RbdiblGrbdifntPbint} objfdt
+ * tbkfs wifn it is filling tif spbdf outsidf tif dirdlf's rbdius by
+ * sftting {@dodf CydlfMftiod} to fitifr {@dodf REFLECTION} or {@dodf REPEAT}.
+ * Tif grbdifnt dolor proportions brf fqubl for bny pbrtidulbr linf drbwn
+ * from tif fodus point. Tif following figurf siows tibt tif distbndf AB
+ * is fqubl to tif distbndf BC, bnd tif distbndf AD is fqubl to tif distbndf DE.
+ * <dfntfr>
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-3.png" blt="imbgf siowing tif
+ * distbndf AB=BC, bnd AD=DE">
+ * </dfntfr>
+ * If tif grbdifnt bnd grbpiids rfndfring trbnsforms brf uniformly sdblfd bnd
+ * tif usfr sfts tif fodus so tibt it doindidfs witi tif dfntfr of tif dirdlf,
+ * tif grbdifnt dolor proportions brf fqubl for bny linf drbwn from tif dfntfr.
+ * Tif following figurf siows tif distbndfs AB, BC, AD, bnd DE. Tify brf bll fqubl.
+ * <dfntfr>
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-4.png" blt="imbgf siowing tif
+ * distbndf of AB, BC, AD, bnd DE brf bll fqubl">
+ * </dfntfr>
+ * Notf tibt somf minor vbribtions in distbndfs mby oddur duf to sbmpling bt
+ * tif grbnulbrity of b pixfl.
+ * If no dydlf mftiod is spfdififd, {@dodf NO_CYCLE} will bf diosfn by
+ * dffbult, wiidi mfbns tif tif lbst kfyfrbmf dolor will bf usfd to fill tif
+ * rfmbining brfb.
  * <p>
- * The colorSpace parameter allows the user to specify in which colorspace
- * the interpolation should be performed, default sRGB or linearized RGB.
+ * Tif dolorSpbdf pbrbmftfr bllows tif usfr to spfdify in wiidi dolorspbdf
+ * tif intfrpolbtion siould bf pfrformfd, dffbult sRGB or linfbrizfd RGB.
  *
  * <p>
- * The following code demonstrates typical usage of
- * {@code RadialGradientPaint}, where the center and focus points are
- * the same:
- * <pre>
- *     Point2D center = new Point2D.Float(50, 50);
- *     float radius = 25;
- *     float[] dist = {0.0f, 0.2f, 1.0f};
- *     Color[] colors = {Color.RED, Color.WHITE, Color.BLUE};
- *     RadialGradientPaint p =
- *         new RadialGradientPaint(center, radius, dist, colors);
- * </pre>
+ * Tif following dodf dfmonstrbtfs typidbl usbgf of
+ * {@dodf RbdiblGrbdifntPbint}, wifrf tif dfntfr bnd fodus points brf
+ * tif sbmf:
+ * <prf>
+ *     Point2D dfntfr = nfw Point2D.Flobt(50, 50);
+ *     flobt rbdius = 25;
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
+ *     Color[] dolors = {Color.RED, Color.WHITE, Color.BLUE};
+ *     RbdiblGrbdifntPbint p =
+ *         nfw RbdiblGrbdifntPbint(dfntfr, rbdius, dist, dolors);
+ * </prf>
  *
  * <p>
- * This image demonstrates the example code above, with default
- * (centered) focus for each of the three cycle methods:
- * <center>
- * <img src = "doc-files/RadialGradientPaint-1.png" alt="image showing the
- * output of the sameple code">
- * </center>
+ * Tiis imbgf dfmonstrbtfs tif fxbmplf dodf bbovf, witi dffbult
+ * (dfntfrfd) fodus for fbdi of tif tirff dydlf mftiods:
+ * <dfntfr>
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-1.png" blt="imbgf siowing tif
+ * output of tif sbmfplf dodf">
+ * </dfntfr>
  *
  * <p>
- * It is also possible to specify a non-centered focus point, as
- * in the following code:
- * <pre>
- *     Point2D center = new Point2D.Float(50, 50);
- *     float radius = 25;
- *     Point2D focus = new Point2D.Float(40, 40);
- *     float[] dist = {0.0f, 0.2f, 1.0f};
- *     Color[] colors = {Color.RED, Color.WHITE, Color.BLUE};
- *     RadialGradientPaint p =
- *         new RadialGradientPaint(center, radius, focus,
- *                                 dist, colors,
- *                                 CycleMethod.NO_CYCLE);
- * </pre>
+ * It is blso possiblf to spfdify b non-dfntfrfd fodus point, bs
+ * in tif following dodf:
+ * <prf>
+ *     Point2D dfntfr = nfw Point2D.Flobt(50, 50);
+ *     flobt rbdius = 25;
+ *     Point2D fodus = nfw Point2D.Flobt(40, 40);
+ *     flobt[] dist = {0.0f, 0.2f, 1.0f};
+ *     Color[] dolors = {Color.RED, Color.WHITE, Color.BLUE};
+ *     RbdiblGrbdifntPbint p =
+ *         nfw RbdiblGrbdifntPbint(dfntfr, rbdius, fodus,
+ *                                 dist, dolors,
+ *                                 CydlfMftiod.NO_CYCLE);
+ * </prf>
  *
  * <p>
- * This image demonstrates the previous example code, with non-centered
- * focus for each of the three cycle methods:
- * <center>
- * <img src = "doc-files/RadialGradientPaint-2.png" alt="image showing the
- * output of the sample code">
- * </center>
+ * Tiis imbgf dfmonstrbtfs tif prfvious fxbmplf dodf, witi non-dfntfrfd
+ * fodus for fbdi of tif tirff dydlf mftiods:
+ * <dfntfr>
+ * <img srd = "dod-filfs/RbdiblGrbdifntPbint-2.png" blt="imbgf siowing tif
+ * output of tif sbmplf dodf">
+ * </dfntfr>
  *
- * @see java.awt.Paint
- * @see java.awt.Graphics2D#setPaint
- * @author Nicholas Talian, Vincent Hardy, Jim Graham, Jerry Evans
- * @since 1.6
+ * @sff jbvb.bwt.Pbint
+ * @sff jbvb.bwt.Grbpiids2D#sftPbint
+ * @butior Nidiolbs Tblibn, Vindfnt Hbrdy, Jim Grbibm, Jfrry Evbns
+ * @sindf 1.6
  */
-public final class RadialGradientPaint extends MultipleGradientPaint {
+publid finbl dlbss RbdiblGrbdifntPbint fxtfnds MultiplfGrbdifntPbint {
 
-    /** Focus point which defines the 0% gradient stop X coordinate. */
-    private final Point2D focus;
+    /** Fodus point wiidi dffinfs tif 0% grbdifnt stop X doordinbtf. */
+    privbtf finbl Point2D fodus;
 
-    /** Center of the circle defining the 100% gradient stop X coordinate. */
-    private final Point2D center;
+    /** Cfntfr of tif dirdlf dffining tif 100% grbdifnt stop X doordinbtf. */
+    privbtf finbl Point2D dfntfr;
 
-    /** Radius of the outermost circle defining the 100% gradient stop. */
-    private final float radius;
+    /** Rbdius of tif outfrmost dirdlf dffining tif 100% grbdifnt stop. */
+    privbtf finbl flobt rbdius;
 
     /**
-     * Constructs a {@code RadialGradientPaint} with a default
-     * {@code NO_CYCLE} repeating method and {@code SRGB} color space,
-     * using the center as the focus point.
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * {@dodf NO_CYCLE} rfpfbting mftiod bnd {@dodf SRGB} dolor spbdf,
+     * using tif dfntfr bs tif fodus point.
      *
-     * @param cx the X coordinate in user space of the center point of the
-     *           circle defining the gradient.  The last color of the
-     *           gradient is mapped to the perimeter of this circle.
-     * @param cy the Y coordinate in user space of the center point of the
-     *           circle defining the gradient.  The last color of the
-     *           gradient is mapped to the perimeter of this circle.
-     * @param radius the radius of the circle defining the extents of the
-     *               color gradient
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient.  The first color
-     *               is used at the focus point, the last color around the
-     *               perimeter of the circle.
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     *               dolor grbdifnt
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
      *
-     * @throws NullPointerException
-     * if {@code fractions} array is null,
-     * or {@code colors} array is null
-     * @throws IllegalArgumentException
-     * if {@code radius} is non-positive,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @tirows NullPointfrExdfption
+     * if {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null
+     * @tirows IllfgblArgumfntExdfption
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
-    public RadialGradientPaint(float cx, float cy, float radius,
-                               float[] fractions, Color[] colors)
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+                               flobt[] frbdtions, Color[] dolors)
     {
-        this(cx, cy,
-             radius,
-             cx, cy,
-             fractions,
-             colors,
-             CycleMethod.NO_CYCLE);
+        tiis(dx, dy,
+             rbdius,
+             dx, dy,
+             frbdtions,
+             dolors,
+             CydlfMftiod.NO_CYCLE);
     }
 
     /**
-     * Constructs a {@code RadialGradientPaint} with a default
-     * {@code NO_CYCLE} repeating method and {@code SRGB} color space,
-     * using the center as the focus point.
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * {@dodf NO_CYCLE} rfpfbting mftiod bnd {@dodf SRGB} dolor spbdf,
+     * using tif dfntfr bs tif fodus point.
      *
-     * @param center the center point, in user space, of the circle defining
-     *               the gradient
-     * @param radius the radius of the circle defining the extents of the
-     *               color gradient
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient.  The first color
-     *               is used at the focus point, the last color around the
-     *               perimeter of the circle.
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     *               tif grbdifnt
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     *               dolor grbdifnt
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
      *
-     * @throws NullPointerException
-     * if {@code center} point is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null
-     * @throws IllegalArgumentException
-     * if {@code radius} is non-positive,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @tirows NullPointfrExdfption
+     * if {@dodf dfntfr} point is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null
+     * @tirows IllfgblArgumfntExdfption
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
-    public RadialGradientPaint(Point2D center, float radius,
-                               float[] fractions, Color[] colors)
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+                               flobt[] frbdtions, Color[] dolors)
     {
-        this(center,
-             radius,
-             center,
-             fractions,
-             colors,
-             CycleMethod.NO_CYCLE);
+        tiis(dfntfr,
+             rbdius,
+             dfntfr,
+             frbdtions,
+             dolors,
+             CydlfMftiod.NO_CYCLE);
     }
 
     /**
-     * Constructs a {@code RadialGradientPaint} with a default
-     * {@code SRGB} color space, using the center as the focus point.
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * {@dodf SRGB} dolor spbdf, using tif dfntfr bs tif fodus point.
      *
-     * @param cx the X coordinate in user space of the center point of the
-     *           circle defining the gradient.  The last color of the
-     *           gradient is mapped to the perimeter of this circle.
-     * @param cy the Y coordinate in user space of the center point of the
-     *           circle defining the gradient.  The last color of the
-     *           gradient is mapped to the perimeter of this circle.
-     * @param radius the radius of the circle defining the extents of the
-     *               color gradient
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient.  The first color
-     *               is used at the focus point, the last color around the
-     *               perimeter of the circle.
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
-     *                    or {@code REPEAT}
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     *               dolor grbdifnt
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
      *
-     * @throws NullPointerException
-     * if {@code fractions} array is null,
-     * or {@code colors} array is null,
-     * or {@code cycleMethod} is null
-     * @throws IllegalArgumentException
-     * if {@code radius} is non-positive,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @tirows NullPointfrExdfption
+     * if {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMftiod} is null
+     * @tirows IllfgblArgumfntExdfption
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
-    public RadialGradientPaint(float cx, float cy, float radius,
-                               float[] fractions, Color[] colors,
-                               CycleMethod cycleMethod)
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMftiod dydlfMftiod)
     {
-        this(cx, cy,
-             radius,
-             cx, cy,
-             fractions,
-             colors,
-             cycleMethod);
+        tiis(dx, dy,
+             rbdius,
+             dx, dy,
+             frbdtions,
+             dolors,
+             dydlfMftiod);
     }
 
     /**
-     * Constructs a {@code RadialGradientPaint} with a default
-     * {@code SRGB} color space, using the center as the focus point.
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * {@dodf SRGB} dolor spbdf, using tif dfntfr bs tif fodus point.
      *
-     * @param center the center point, in user space, of the circle defining
-     *               the gradient
-     * @param radius the radius of the circle defining the extents of the
-     *               color gradient
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient.  The first color
-     *               is used at the focus point, the last color around the
-     *               perimeter of the circle.
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
-     *                    or {@code REPEAT}
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     *               tif grbdifnt
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     *               dolor grbdifnt
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
      *
-     * @throws NullPointerException
-     * if {@code center} point is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null,
-     * or {@code cycleMethod} is null
-     * @throws IllegalArgumentException
-     * if {@code radius} is non-positive,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @tirows NullPointfrExdfption
+     * if {@dodf dfntfr} point is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMftiod} is null
+     * @tirows IllfgblArgumfntExdfption
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
-    public RadialGradientPaint(Point2D center, float radius,
-                               float[] fractions, Color[] colors,
-                               CycleMethod cycleMethod)
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMftiod dydlfMftiod)
     {
-        this(center,
-             radius,
-             center,
-             fractions,
-             colors,
-             cycleMethod);
+        tiis(dfntfr,
+             rbdius,
+             dfntfr,
+             frbdtions,
+             dolors,
+             dydlfMftiod);
     }
 
     /**
-     * Constructs a {@code RadialGradientPaint} with a default
-     * {@code SRGB} color space.
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * {@dodf SRGB} dolor spbdf.
      *
-     * @param cx the X coordinate in user space of the center point of the
-     *           circle defining the gradient.  The last color of the
-     *           gradient is mapped to the perimeter of this circle.
-     * @param cy the Y coordinate in user space of the center point of the
-     *           circle defining the gradient.  The last color of the
-     *           gradient is mapped to the perimeter of this circle.
-     * @param radius the radius of the circle defining the extents of the
-     *               color gradient
-     * @param fx the X coordinate of the point in user space to which the
-     *           first color is mapped
-     * @param fy the Y coordinate of the point in user space to which the
-     *           first color is mapped
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient.  The first color
-     *               is used at the focus point, the last color around the
-     *               perimeter of the circle.
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
-     *                    or {@code REPEAT}
+     * @pbrbm dx tif X doordinbtf in usfr spbdf of tif dfntfr point of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     * @pbrbm dy tif Y doordinbtf in usfr spbdf of tif dfntfr point of tif
+     *           dirdlf dffining tif grbdifnt.  Tif lbst dolor of tif
+     *           grbdifnt is mbppfd to tif pfrimftfr of tiis dirdlf.
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     *               dolor grbdifnt
+     * @pbrbm fx tif X doordinbtf of tif point in usfr spbdf to wiidi tif
+     *           first dolor is mbppfd
+     * @pbrbm fy tif Y doordinbtf of tif point in usfr spbdf to wiidi tif
+     *           first dolor is mbppfd
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
      *
-     * @throws NullPointerException
-     * if {@code fractions} array is null,
-     * or {@code colors} array is null,
-     * or {@code cycleMethod} is null
-     * @throws IllegalArgumentException
-     * if {@code radius} is non-positive,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @tirows NullPointfrExdfption
+     * if {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMftiod} is null
+     * @tirows IllfgblArgumfntExdfption
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
-    public RadialGradientPaint(float cx, float cy, float radius,
-                               float fx, float fy,
-                               float[] fractions, Color[] colors,
-                               CycleMethod cycleMethod)
+    publid RbdiblGrbdifntPbint(flobt dx, flobt dy, flobt rbdius,
+                               flobt fx, flobt fy,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMftiod dydlfMftiod)
     {
-        this(new Point2D.Float(cx, cy),
-             radius,
-             new Point2D.Float(fx, fy),
-             fractions,
-             colors,
-             cycleMethod);
+        tiis(nfw Point2D.Flobt(dx, dy),
+             rbdius,
+             nfw Point2D.Flobt(fx, fy),
+             frbdtions,
+             dolors,
+             dydlfMftiod);
     }
 
     /**
-     * Constructs a {@code RadialGradientPaint} with a default
-     * {@code SRGB} color space.
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * {@dodf SRGB} dolor spbdf.
      *
-     * @param center the center point, in user space, of the circle defining
-     *               the gradient.  The last color of the gradient is mapped
-     *               to the perimeter of this circle.
-     * @param radius the radius of the circle defining the extents of the color
-     *               gradient
-     * @param focus the point in user space to which the first color is mapped
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient. The first color
-     *               is used at the focus point, the last color around the
-     *               perimeter of the circle.
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
-     *                    or {@code REPEAT}
+     * @pbrbm dfntfr tif dfntfr point, in usfr spbdf, of tif dirdlf dffining
+     *               tif grbdifnt.  Tif lbst dolor of tif grbdifnt is mbppfd
+     *               to tif pfrimftfr of tiis dirdlf.
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif dolor
+     *               grbdifnt
+     * @pbrbm fodus tif point in usfr spbdf to wiidi tif first dolor is mbppfd
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt. Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
      *
-     * @throws NullPointerException
-     * if one of the points is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null,
-     * or {@code cycleMethod} is null
-     * @throws IllegalArgumentException
-     * if {@code radius} is non-positive,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @tirows NullPointfrExdfption
+     * if onf of tif points is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMftiod} is null
+     * @tirows IllfgblArgumfntExdfption
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
-    public RadialGradientPaint(Point2D center, float radius,
-                               Point2D focus,
-                               float[] fractions, Color[] colors,
-                               CycleMethod cycleMethod)
+    publid RbdiblGrbdifntPbint(Point2D dfntfr, flobt rbdius,
+                               Point2D fodus,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMftiod dydlfMftiod)
     {
-        this(center,
-             radius,
-             focus,
-             fractions,
-             colors,
-             cycleMethod,
-             ColorSpaceType.SRGB,
-             new AffineTransform());
+        tiis(dfntfr,
+             rbdius,
+             fodus,
+             frbdtions,
+             dolors,
+             dydlfMftiod,
+             ColorSpbdfTypf.SRGB,
+             nfw AffinfTrbnsform());
     }
 
     /**
-     * Constructs a {@code RadialGradientPaint}.
+     * Construdts b {@dodf RbdiblGrbdifntPbint}.
      *
-     * @param center the center point in user space of the circle defining the
-     *               gradient.  The last color of the gradient is mapped to
-     *               the perimeter of this circle.
-     * @param radius the radius of the circle defining the extents of the
-     *               color gradient
-     * @param focus the point in user space to which the first color is mapped
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient.  The first color
-     *               is used at the focus point, the last color around the
-     *               perimeter of the circle.
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
-     *                    or {@code REPEAT}
-     * @param colorSpace which color space to use for interpolation,
-     *                   either {@code SRGB} or {@code LINEAR_RGB}
-     * @param gradientTransform transform to apply to the gradient
+     * @pbrbm dfntfr tif dfntfr point in usfr spbdf of tif dirdlf dffining tif
+     *               grbdifnt.  Tif lbst dolor of tif grbdifnt is mbppfd to
+     *               tif pfrimftfr of tiis dirdlf.
+     * @pbrbm rbdius tif rbdius of tif dirdlf dffining tif fxtfnts of tif
+     *               dolor grbdifnt
+     * @pbrbm fodus tif point in usfr spbdf to wiidi tif first dolor is mbppfd
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
+     * @pbrbm dolorSpbdf wiidi dolor spbdf to usf for intfrpolbtion,
+     *                   fitifr {@dodf SRGB} or {@dodf LINEAR_RGB}
+     * @pbrbm grbdifntTrbnsform trbnsform to bpply to tif grbdifnt
      *
-     * @throws NullPointerException
-     * if one of the points is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null,
-     * or {@code cycleMethod} is null,
-     * or {@code colorSpace} is null,
-     * or {@code gradientTransform} is null
-     * @throws IllegalArgumentException
-     * if {@code radius} is non-positive,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @tirows NullPointfrExdfption
+     * if onf of tif points is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMftiod} is null,
+     * or {@dodf dolorSpbdf} is null,
+     * or {@dodf grbdifntTrbnsform} is null
+     * @tirows IllfgblArgumfntExdfption
+     * if {@dodf rbdius} is non-positivf,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
-    @ConstructorProperties({ "centerPoint", "radius", "focusPoint", "fractions", "colors", "cycleMethod", "colorSpace", "transform" })
-    public RadialGradientPaint(Point2D center,
-                               float radius,
-                               Point2D focus,
-                               float[] fractions, Color[] colors,
-                               CycleMethod cycleMethod,
-                               ColorSpaceType colorSpace,
-                               AffineTransform gradientTransform)
+    @ConstrudtorPropfrtifs({ "dfntfrPoint", "rbdius", "fodusPoint", "frbdtions", "dolors", "dydlfMftiod", "dolorSpbdf", "trbnsform" })
+    publid RbdiblGrbdifntPbint(Point2D dfntfr,
+                               flobt rbdius,
+                               Point2D fodus,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMftiod dydlfMftiod,
+                               ColorSpbdfTypf dolorSpbdf,
+                               AffinfTrbnsform grbdifntTrbnsform)
     {
-        super(fractions, colors, cycleMethod, colorSpace, gradientTransform);
+        supfr(frbdtions, dolors, dydlfMftiod, dolorSpbdf, grbdifntTrbnsform);
 
-        // check input arguments
-        if (center == null) {
-            throw new NullPointerException("Center point must be non-null");
+        // difdk input brgumfnts
+        if (dfntfr == null) {
+            tirow nfw NullPointfrExdfption("Cfntfr point must bf non-null");
         }
 
-        if (focus == null) {
-            throw new NullPointerException("Focus point must be non-null");
+        if (fodus == null) {
+            tirow nfw NullPointfrExdfption("Fodus point must bf non-null");
         }
 
-        if (radius <= 0) {
-            throw new IllegalArgumentException("Radius must be greater " +
-                                               "than zero");
+        if (rbdius <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("Rbdius must bf grfbtfr " +
+                                               "tibn zfro");
         }
 
-        // copy parameters
-        this.center = new Point2D.Double(center.getX(), center.getY());
-        this.focus = new Point2D.Double(focus.getX(), focus.getY());
-        this.radius = radius;
+        // dopy pbrbmftfrs
+        tiis.dfntfr = nfw Point2D.Doublf(dfntfr.gftX(), dfntfr.gftY());
+        tiis.fodus = nfw Point2D.Doublf(fodus.gftX(), fodus.gftY());
+        tiis.rbdius = rbdius;
     }
 
     /**
-     * Constructs a {@code RadialGradientPaint} with a default
-     * {@code SRGB} color space.
-     * The gradient circle of the {@code RadialGradientPaint} is defined
-     * by the given bounding box.
+     * Construdts b {@dodf RbdiblGrbdifntPbint} witi b dffbult
+     * {@dodf SRGB} dolor spbdf.
+     * Tif grbdifnt dirdlf of tif {@dodf RbdiblGrbdifntPbint} is dffinfd
+     * by tif givfn bounding box.
      * <p>
-     * This constructor is a more convenient way to express the
-     * following (equivalent) code:<br>
+     * Tiis donstrudtor is b morf donvfnifnt wby to fxprfss tif
+     * following (fquivblfnt) dodf:<br>
      *
-     * <pre>
-     *     double gw = gradientBounds.getWidth();
-     *     double gh = gradientBounds.getHeight();
-     *     double cx = gradientBounds.getCenterX();
-     *     double cy = gradientBounds.getCenterY();
-     *     Point2D center = new Point2D.Double(cx, cy);
+     * <prf>
+     *     doublf gw = grbdifntBounds.gftWidti();
+     *     doublf gi = grbdifntBounds.gftHfigit();
+     *     doublf dx = grbdifntBounds.gftCfntfrX();
+     *     doublf dy = grbdifntBounds.gftCfntfrY();
+     *     Point2D dfntfr = nfw Point2D.Doublf(dx, dy);
      *
-     *     AffineTransform gradientTransform = new AffineTransform();
-     *     gradientTransform.translate(cx, cy);
-     *     gradientTransform.scale(gw / 2, gh / 2);
-     *     gradientTransform.translate(-cx, -cy);
+     *     AffinfTrbnsform grbdifntTrbnsform = nfw AffinfTrbnsform();
+     *     grbdifntTrbnsform.trbnslbtf(dx, dy);
+     *     grbdifntTrbnsform.sdblf(gw / 2, gi / 2);
+     *     grbdifntTrbnsform.trbnslbtf(-dx, -dy);
      *
-     *     RadialGradientPaint gp =
-     *         new RadialGradientPaint(center, 1.0f, center,
-     *                                 fractions, colors,
-     *                                 cycleMethod,
-     *                                 ColorSpaceType.SRGB,
-     *                                 gradientTransform);
-     * </pre>
+     *     RbdiblGrbdifntPbint gp =
+     *         nfw RbdiblGrbdifntPbint(dfntfr, 1.0f, dfntfr,
+     *                                 frbdtions, dolors,
+     *                                 dydlfMftiod,
+     *                                 ColorSpbdfTypf.SRGB,
+     *                                 grbdifntTrbnsform);
+     * </prf>
      *
-     * @param gradientBounds the bounding box, in user space, of the circle
-     *                       defining the outermost extent of the gradient
-     * @param fractions numbers ranging from 0.0 to 1.0 specifying the
-     *                  distribution of colors along the gradient
-     * @param colors array of colors to use in the gradient.  The first color
-     *               is used at the focus point, the last color around the
-     *               perimeter of the circle.
-     * @param cycleMethod either {@code NO_CYCLE}, {@code REFLECT},
-     *                    or {@code REPEAT}
+     * @pbrbm grbdifntBounds tif bounding box, in usfr spbdf, of tif dirdlf
+     *                       dffining tif outfrmost fxtfnt of tif grbdifnt
+     * @pbrbm frbdtions numbfrs rbnging from 0.0 to 1.0 spfdifying tif
+     *                  distribution of dolors blong tif grbdifnt
+     * @pbrbm dolors brrby of dolors to usf in tif grbdifnt.  Tif first dolor
+     *               is usfd bt tif fodus point, tif lbst dolor bround tif
+     *               pfrimftfr of tif dirdlf.
+     * @pbrbm dydlfMftiod fitifr {@dodf NO_CYCLE}, {@dodf REFLECT},
+     *                    or {@dodf REPEAT}
      *
-     * @throws NullPointerException
-     * if {@code gradientBounds} is null,
-     * or {@code fractions} array is null,
-     * or {@code colors} array is null,
-     * or {@code cycleMethod} is null
-     * @throws IllegalArgumentException
-     * if {@code gradientBounds} is empty,
-     * or {@code fractions.length != colors.length},
-     * or {@code colors} is less than 2 in size,
-     * or a {@code fractions} value is less than 0.0 or greater than 1.0,
-     * or the {@code fractions} are not provided in strictly increasing order
+     * @tirows NullPointfrExdfption
+     * if {@dodf grbdifntBounds} is null,
+     * or {@dodf frbdtions} brrby is null,
+     * or {@dodf dolors} brrby is null,
+     * or {@dodf dydlfMftiod} is null
+     * @tirows IllfgblArgumfntExdfption
+     * if {@dodf grbdifntBounds} is fmpty,
+     * or {@dodf frbdtions.lfngti != dolors.lfngti},
+     * or {@dodf dolors} is lfss tibn 2 in sizf,
+     * or b {@dodf frbdtions} vbluf is lfss tibn 0.0 or grfbtfr tibn 1.0,
+     * or tif {@dodf frbdtions} brf not providfd in stridtly indrfbsing ordfr
      */
-    public RadialGradientPaint(Rectangle2D gradientBounds,
-                               float[] fractions, Color[] colors,
-                               CycleMethod cycleMethod)
+    publid RbdiblGrbdifntPbint(Rfdtbnglf2D grbdifntBounds,
+                               flobt[] frbdtions, Color[] dolors,
+                               CydlfMftiod dydlfMftiod)
     {
-        // gradient center/focal point is the center of the bounding box,
-        // radius is set to 1.0, and then we set a scale transform
-        // to achieve an elliptical gradient defined by the bounding box
-        this(new Point2D.Double(gradientBounds.getCenterX(),
-                                gradientBounds.getCenterY()),
+        // grbdifnt dfntfr/fodbl point is tif dfntfr of tif bounding box,
+        // rbdius is sft to 1.0, bnd tifn wf sft b sdblf trbnsform
+        // to bdiifvf bn flliptidbl grbdifnt dffinfd by tif bounding box
+        tiis(nfw Point2D.Doublf(grbdifntBounds.gftCfntfrX(),
+                                grbdifntBounds.gftCfntfrY()),
              1.0f,
-             new Point2D.Double(gradientBounds.getCenterX(),
-                                gradientBounds.getCenterY()),
-             fractions,
-             colors,
-             cycleMethod,
-             ColorSpaceType.SRGB,
-             createGradientTransform(gradientBounds));
+             nfw Point2D.Doublf(grbdifntBounds.gftCfntfrX(),
+                                grbdifntBounds.gftCfntfrY()),
+             frbdtions,
+             dolors,
+             dydlfMftiod,
+             ColorSpbdfTypf.SRGB,
+             drfbtfGrbdifntTrbnsform(grbdifntBounds));
 
-        if (gradientBounds.isEmpty()) {
-            throw new IllegalArgumentException("Gradient bounds must be " +
-                                               "non-empty");
+        if (grbdifntBounds.isEmpty()) {
+            tirow nfw IllfgblArgumfntExdfption("Grbdifnt bounds must bf " +
+                                               "non-fmpty");
         }
     }
 
-    private static AffineTransform createGradientTransform(Rectangle2D r) {
-        double cx = r.getCenterX();
-        double cy = r.getCenterY();
-        AffineTransform xform = AffineTransform.getTranslateInstance(cx, cy);
-        xform.scale(r.getWidth()/2, r.getHeight()/2);
-        xform.translate(-cx, -cy);
-        return xform;
+    privbtf stbtid AffinfTrbnsform drfbtfGrbdifntTrbnsform(Rfdtbnglf2D r) {
+        doublf dx = r.gftCfntfrX();
+        doublf dy = r.gftCfntfrY();
+        AffinfTrbnsform xform = AffinfTrbnsform.gftTrbnslbtfInstbndf(dx, dy);
+        xform.sdblf(r.gftWidti()/2, r.gftHfigit()/2);
+        xform.trbnslbtf(-dx, -dy);
+        rfturn xform;
     }
 
     /**
-     * Creates and returns a {@link PaintContext} used to
-     * generate a circular radial color gradient pattern.
-     * See the description of the {@link Paint#createContext createContext} method
-     * for information on null parameter handling.
+     * Crfbtfs bnd rfturns b {@link PbintContfxt} usfd to
+     * gfnfrbtf b dirdulbr rbdibl dolor grbdifnt pbttfrn.
+     * Sff tif dfsdription of tif {@link Pbint#drfbtfContfxt drfbtfContfxt} mftiod
+     * for informbtion on null pbrbmftfr ibndling.
      *
-     * @param cm the preferred {@link ColorModel} which represents the most convenient
-     *           format for the caller to receive the pixel data, or {@code null}
-     *           if there is no preference.
-     * @param deviceBounds the device space bounding box
-     *                     of the graphics primitive being rendered.
-     * @param userBounds the user space bounding box
-     *                   of the graphics primitive being rendered.
-     * @param transform the {@link AffineTransform} from user
-     *              space into device space.
-     * @param hints the set of hints that the context object can use to
-     *              choose between rendering alternatives.
-     * @return the {@code PaintContext} for
-     *         generating color patterns.
-     * @see Paint
-     * @see PaintContext
-     * @see ColorModel
-     * @see Rectangle
-     * @see Rectangle2D
-     * @see AffineTransform
-     * @see RenderingHints
+     * @pbrbm dm tif prfffrrfd {@link ColorModfl} wiidi rfprfsfnts tif most donvfnifnt
+     *           formbt for tif dbllfr to rfdfivf tif pixfl dbtb, or {@dodf null}
+     *           if tifrf is no prfffrfndf.
+     * @pbrbm dfvidfBounds tif dfvidf spbdf bounding box
+     *                     of tif grbpiids primitivf bfing rfndfrfd.
+     * @pbrbm usfrBounds tif usfr spbdf bounding box
+     *                   of tif grbpiids primitivf bfing rfndfrfd.
+     * @pbrbm trbnsform tif {@link AffinfTrbnsform} from usfr
+     *              spbdf into dfvidf spbdf.
+     * @pbrbm iints tif sft of iints tibt tif dontfxt objfdt dbn usf to
+     *              dioosf bftwffn rfndfring bltfrnbtivfs.
+     * @rfturn tif {@dodf PbintContfxt} for
+     *         gfnfrbting dolor pbttfrns.
+     * @sff Pbint
+     * @sff PbintContfxt
+     * @sff ColorModfl
+     * @sff Rfdtbnglf
+     * @sff Rfdtbnglf2D
+     * @sff AffinfTrbnsform
+     * @sff RfndfringHints
      */
-    public PaintContext createContext(ColorModel cm,
-                                      Rectangle deviceBounds,
-                                      Rectangle2D userBounds,
-                                      AffineTransform transform,
-                                      RenderingHints hints)
+    publid PbintContfxt drfbtfContfxt(ColorModfl dm,
+                                      Rfdtbnglf dfvidfBounds,
+                                      Rfdtbnglf2D usfrBounds,
+                                      AffinfTrbnsform trbnsform,
+                                      RfndfringHints iints)
     {
-        // avoid modifying the user's transform...
-        transform = new AffineTransform(transform);
-        // incorporate the gradient transform
-        transform.concatenate(gradientTransform);
+        // bvoid modifying tif usfr's trbnsform...
+        trbnsform = nfw AffinfTrbnsform(trbnsform);
+        // indorporbtf tif grbdifnt trbnsform
+        trbnsform.dondbtfnbtf(grbdifntTrbnsform);
 
-        return new RadialGradientPaintContext(this, cm,
-                                              deviceBounds, userBounds,
-                                              transform, hints,
-                                              (float)center.getX(),
-                                              (float)center.getY(),
-                                              radius,
-                                              (float)focus.getX(),
-                                              (float)focus.getY(),
-                                              fractions, colors,
-                                              cycleMethod, colorSpace);
+        rfturn nfw RbdiblGrbdifntPbintContfxt(tiis, dm,
+                                              dfvidfBounds, usfrBounds,
+                                              trbnsform, iints,
+                                              (flobt)dfntfr.gftX(),
+                                              (flobt)dfntfr.gftY(),
+                                              rbdius,
+                                              (flobt)fodus.gftX(),
+                                              (flobt)fodus.gftY(),
+                                              frbdtions, dolors,
+                                              dydlfMftiod, dolorSpbdf);
     }
 
     /**
-     * Returns a copy of the center point of the radial gradient.
+     * Rfturns b dopy of tif dfntfr point of tif rbdibl grbdifnt.
      *
-     * @return a {@code Point2D} object that is a copy of the center point
+     * @rfturn b {@dodf Point2D} objfdt tibt is b dopy of tif dfntfr point
      */
-    public Point2D getCenterPoint() {
-        return new Point2D.Double(center.getX(), center.getY());
+    publid Point2D gftCfntfrPoint() {
+        rfturn nfw Point2D.Doublf(dfntfr.gftX(), dfntfr.gftY());
     }
 
     /**
-     * Returns a copy of the focus point of the radial gradient.
-     * Note that if the focus point specified when the radial gradient
-     * was constructed lies outside of the radius of the circle, this
-     * method will still return the original focus point even though
-     * the rendering may center the rings of color on a different
-     * point that lies inside the radius.
+     * Rfturns b dopy of tif fodus point of tif rbdibl grbdifnt.
+     * Notf tibt if tif fodus point spfdififd wifn tif rbdibl grbdifnt
+     * wbs donstrudtfd lifs outsidf of tif rbdius of tif dirdlf, tiis
+     * mftiod will still rfturn tif originbl fodus point fvfn tiougi
+     * tif rfndfring mby dfntfr tif rings of dolor on b difffrfnt
+     * point tibt lifs insidf tif rbdius.
      *
-     * @return a {@code Point2D} object that is a copy of the focus point
+     * @rfturn b {@dodf Point2D} objfdt tibt is b dopy of tif fodus point
      */
-    public Point2D getFocusPoint() {
-        return new Point2D.Double(focus.getX(), focus.getY());
+    publid Point2D gftFodusPoint() {
+        rfturn nfw Point2D.Doublf(fodus.gftX(), fodus.gftY());
     }
 
     /**
-     * Returns the radius of the circle defining the radial gradient.
+     * Rfturns tif rbdius of tif dirdlf dffining tif rbdibl grbdifnt.
      *
-     * @return the radius of the circle defining the radial gradient
+     * @rfturn tif rbdius of tif dirdlf dffining tif rbdibl grbdifnt
      */
-    public float getRadius() {
-        return radius;
+    publid flobt gftRbdius() {
+        rfturn rbdius;
     }
 }

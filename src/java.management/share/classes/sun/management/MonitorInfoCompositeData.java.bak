@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import java.lang.management.MonitorInfo;
-import javax.management.openmbean.CompositeType;
-import javax.management.openmbean.CompositeData;
-import javax.management.openmbean.CompositeDataSupport;
-import javax.management.openmbean.OpenDataException;
-import java.util.Set;
+import jbvb.lbng.mbnbgfmfnt.MonitorInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfTypf;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtbSupport;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnDbtbExdfption;
+import jbvb.util.Sft;
 
 /**
- * A CompositeData for MonitorInfo for the local management support.
- * This class avoids the performance penalty paid to the
- * construction of a CompositeData use in the local case.
+ * A CompositfDbtb for MonitorInfo for tif lodbl mbnbgfmfnt support.
+ * Tiis dlbss bvoids tif pfrformbndf pfnblty pbid to tif
+ * donstrudtion of b CompositfDbtb usf in tif lodbl dbsf.
  */
-public class MonitorInfoCompositeData extends LazyCompositeData {
-    private final MonitorInfo lock;
+publid dlbss MonitorInfoCompositfDbtb fxtfnds LbzyCompositfDbtb {
+    privbtf finbl MonitorInfo lodk;
 
-    private MonitorInfoCompositeData(MonitorInfo mi) {
-        this.lock = mi;
+    privbtf MonitorInfoCompositfDbtb(MonitorInfo mi) {
+        tiis.lodk = mi;
     }
 
-    public MonitorInfo getMonitorInfo() {
-        return lock;
+    publid MonitorInfo gftMonitorInfo() {
+        rfturn lodk;
     }
 
-    public static CompositeData toCompositeData(MonitorInfo mi) {
-        MonitorInfoCompositeData micd = new MonitorInfoCompositeData(mi);
-        return micd.getCompositeData();
+    publid stbtid CompositfDbtb toCompositfDbtb(MonitorInfo mi) {
+        MonitorInfoCompositfDbtb midd = nfw MonitorInfoCompositfDbtb(mi);
+        rfturn midd.gftCompositfDbtb();
     }
 
-    protected CompositeData getCompositeData() {
+    protfdtfd CompositfDbtb gftCompositfDbtb() {
         // CONTENTS OF THIS ARRAY MUST BE SYNCHRONIZED WITH
-        // monitorInfoItemNames!
+        // monitorInfoItfmNbmfs!
 
-        int len = monitorInfoItemNames.length;
-        Object[] values = new Object[len];
-        CompositeData li = LockInfoCompositeData.toCompositeData(lock);
+        int lfn = monitorInfoItfmNbmfs.lfngti;
+        Objfdt[] vblufs = nfw Objfdt[lfn];
+        CompositfDbtb li = LodkInfoCompositfDbtb.toCompositfDbtb(lodk);
 
-        for (int i = 0; i < len; i++) {
-            String item = monitorInfoItemNames[i];
-            if (item.equals(LOCKED_STACK_FRAME)) {
-                StackTraceElement ste = lock.getLockedStackFrame();
-                values[i] = (ste != null ? StackTraceElementCompositeData.
-                                               toCompositeData(ste)
+        for (int i = 0; i < lfn; i++) {
+            String itfm = monitorInfoItfmNbmfs[i];
+            if (itfm.fqubls(LOCKED_STACK_FRAME)) {
+                StbdkTrbdfElfmfnt stf = lodk.gftLodkfdStbdkFrbmf();
+                vblufs[i] = (stf != null ? StbdkTrbdfElfmfntCompositfDbtb.
+                                               toCompositfDbtb(stf)
                                          : null);
-            } else if (item.equals(LOCKED_STACK_DEPTH)) {
-                values[i] = lock.getLockedStackDepth();
-            } else {
-                values[i] = li.get(item);
+            } flsf if (itfm.fqubls(LOCKED_STACK_DEPTH)) {
+                vblufs[i] = lodk.gftLodkfdStbdkDfpti();
+            } flsf {
+                vblufs[i] = li.gft(itfm);
             }
         }
 
         try {
-            return new CompositeDataSupport(monitorInfoCompositeType,
-                                            monitorInfoItemNames,
-                                            values);
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            rfturn nfw CompositfDbtbSupport(monitorInfoCompositfTypf,
+                                            monitorInfoItfmNbmfs,
+                                            vblufs);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
     }
 
-    private static final CompositeType monitorInfoCompositeType;
-    private static final String[] monitorInfoItemNames;
-    static {
+    privbtf stbtid finbl CompositfTypf monitorInfoCompositfTypf;
+    privbtf stbtid finbl String[] monitorInfoItfmNbmfs;
+    stbtid {
         try {
-            monitorInfoCompositeType = (CompositeType)
-                MappedMXBeanType.toOpenType(MonitorInfo.class);
-            Set<String> s = monitorInfoCompositeType.keySet();
-            monitorInfoItemNames =  s.toArray(new String[0]);
-        } catch (OpenDataException e) {
-            // Should never reach here
-            throw new AssertionError(e);
+            monitorInfoCompositfTypf = (CompositfTypf)
+                MbppfdMXBfbnTypf.toOpfnTypf(MonitorInfo.dlbss);
+            Sft<String> s = monitorInfoCompositfTypf.kfySft();
+            monitorInfoItfmNbmfs =  s.toArrby(nfw String[0]);
+        } dbtdi (OpfnDbtbExdfption f) {
+            // Siould nfvfr rfbdi ifrf
+            tirow nfw AssfrtionError(f);
         }
     }
 
-    static CompositeType getMonitorInfoCompositeType() {
-        return monitorInfoCompositeType;
+    stbtid CompositfTypf gftMonitorInfoCompositfTypf() {
+        rfturn monitorInfoCompositfTypf;
     }
 
-    private static final String CLASS_NAME         = "className";
-    private static final String IDENTITY_HASH_CODE = "identityHashCode";
-    private static final String LOCKED_STACK_FRAME = "lockedStackFrame";
-    private static final String LOCKED_STACK_DEPTH = "lockedStackDepth";
+    privbtf stbtid finbl String CLASS_NAME         = "dlbssNbmf";
+    privbtf stbtid finbl String IDENTITY_HASH_CODE = "idfntityHbsiCodf";
+    privbtf stbtid finbl String LOCKED_STACK_FRAME = "lodkfdStbdkFrbmf";
+    privbtf stbtid finbl String LOCKED_STACK_DEPTH = "lodkfdStbdkDfpti";
 
-    public static String getClassName(CompositeData cd) {
-        return getString(cd, CLASS_NAME);
+    publid stbtid String gftClbssNbmf(CompositfDbtb dd) {
+        rfturn gftString(dd, CLASS_NAME);
     }
 
-    public static int getIdentityHashCode(CompositeData cd) {
-        return getInt(cd, IDENTITY_HASH_CODE);
+    publid stbtid int gftIdfntityHbsiCodf(CompositfDbtb dd) {
+        rfturn gftInt(dd, IDENTITY_HASH_CODE);
     }
 
-    public static StackTraceElement getLockedStackFrame(CompositeData cd) {
-        CompositeData ste = (CompositeData) cd.get(LOCKED_STACK_FRAME);
-        if (ste != null) {
-            return StackTraceElementCompositeData.from(ste);
-        } else {
-            return null;
+    publid stbtid StbdkTrbdfElfmfnt gftLodkfdStbdkFrbmf(CompositfDbtb dd) {
+        CompositfDbtb stf = (CompositfDbtb) dd.gft(LOCKED_STACK_FRAME);
+        if (stf != null) {
+            rfturn StbdkTrbdfElfmfntCompositfDbtb.from(stf);
+        } flsf {
+            rfturn null;
         }
     }
 
-    public static int getLockedStackDepth(CompositeData cd) {
-        return getInt(cd, LOCKED_STACK_DEPTH);
+    publid stbtid int gftLodkfdStbdkDfpti(CompositfDbtb dd) {
+        rfturn gftInt(dd, LOCKED_STACK_DEPTH);
     }
 
-    /** Validate if the input CompositeData has the expected
-     * CompositeType (i.e. contain all attributes with expected
-     * names and types).
+    /** Vblidbtf if tif input CompositfDbtb ibs tif fxpfdtfd
+     * CompositfTypf (i.f. dontbin bll bttributfs witi fxpfdtfd
+     * nbmfs bnd typfs).
      */
-    public static void validateCompositeData(CompositeData cd) {
-        if (cd == null) {
-            throw new NullPointerException("Null CompositeData");
+    publid stbtid void vblidbtfCompositfDbtb(CompositfDbtb dd) {
+        if (dd == null) {
+            tirow nfw NullPointfrExdfption("Null CompositfDbtb");
         }
 
-        if (!isTypeMatched(monitorInfoCompositeType, cd.getCompositeType())) {
-            throw new IllegalArgumentException(
-                "Unexpected composite type for MonitorInfo");
+        if (!isTypfMbtdifd(monitorInfoCompositfTypf, dd.gftCompositfTypf())) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Unfxpfdtfd dompositf typf for MonitorInfo");
         }
     }
 
-    private static final long serialVersionUID = -5825215591822908529L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5825215591822908529L;
 }

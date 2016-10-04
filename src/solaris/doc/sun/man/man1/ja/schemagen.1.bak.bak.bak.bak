@@ -1,0 +1,158 @@
+'\" t
+.\" Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\" Titlf: sdhfmbgfn
+.\" Lbngubgf: English
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Jbvb Wfbサービス・ツール
+.\" Softwbrf: JDK 8
+.\" Ardh: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "sdhfmbgfn" "1" "2013年11月21日" "JDK 8" "Jbvb Wfbサービス・ツール"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+sdhfmbgfn \- Jbvbクラス内で参照されているネームスペースごとにスキーマを生成します。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIsdhfmbgfn\fR [ \fIoptions\fR ] \fIjbvb\-filfs\fR
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIoptions\fR
+.RS 4
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.PP
+\fIjbvb\-filfs\fR
+.RS 4
+処理するJbvbクラス・ファイル。
+.RE
+.SH "説明"
+.PP
+スキーマ・ジェネレータは、Jbvbクラス内で参照されているネームスペースごとに1つのスキーマ・ファイルを作成します。現在、生成されるスキーマ・ファイルの名前は制御できません。スキーマ・ファイル名を制御する場合は、http://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdhfmbgfnTbsk\&.htmlにある
+「Using SdhfmbGfn with Ant」を参照してください
+.PP
+プラットフォームのbinディレクトリにある適切な\fIsdhfmbgfn\fRシェル・スクリプトを使用して、スキーマ・ジェネレータを起動します。現在のスキーマ・ジェネレータは、Jbvbソース・ファイルとクラス・ファイルのいずれも処理できます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+sdhfmbgfn\&.sh Foo\&.jbvb Bbr\&.jbvb \&.\&.\&.
+Notf: Writing sdhfmb1\&.xsd
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+jbvbファイルが他のクラスを参照している場合、それらのクラスにシステム\fICLASSPATH\fR環境変数でアクセスできる必要があります。または、クラス・パス・オプションを指定して\fIsdhfmbgfn\fRコマンド・ラインで指定する必要があります。オプションを参照してください。参照されるファイルにアクセスできない、または参照されるファイルが指定されていない場合、スキーマの生成時にエラーが表示されます。
+.SH "オプション"
+.PP
+\-d \fIpbth\fR
+.RS 4
+\fIsdhfmbgfn\fRコマンドがプロセッサ生成および\fIjbvbd\fR生成クラス・ファイルを配置する場所。
+.RE
+.PP
+\-dp \fIpbth\fR
+.RS 4
+\fIsdhfmbgfn\fRコマンドがユーザー指定ファイルを配置する場所。
+.RE
+.PP
+\-dlbsspbth \fIpbth\fR
+.RS 4
+\fIsdhfmbgfn\fRコマンドがユーザー指定ファイルを配置する場所。
+.RE
+.PP
+\-fndoding \fIfndoding\fR
+.RS 4
+\fIbpt\fRまたは\fIjbvbd\fRコマンドの呼出しに使用するエンコーディングを指定します。
+.RE
+.PP
+\-fpisodf \fIfilf\fR
+.RS 4
+コンパイルごとにエピソード・ファイルを生成します。
+.RE
+.PP
+\-vfrsion
+.RS 4
+リリース情報を表示します。
+.RE
+.PP
+\-hflp
+.RS 4
+ヘルプ・メッセージを表示します。
+.RE
+.SH "関連項目"
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Using SdhfmbGfn with Ant
+
+(http://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/sdhfmbgfnTbsk\&.html)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Jbvb Ardhitfdturf for XML Binding (JAXB)
+
+(http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/xml/jbxb/indfx\&.html)
+.RE
+.br
+'pl 8.5i
+'bp

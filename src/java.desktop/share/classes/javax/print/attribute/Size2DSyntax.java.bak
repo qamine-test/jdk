@@ -1,342 +1,342 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.print.attribute;
+pbdkbgf jbvbx.print.bttributf;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * Class Size2DSyntax is an abstract base class providing the common
- * implementation of all attributes denoting a size in two dimensions.
+ * Clbss Sizf2DSyntbx is bn bbstrbdt bbsf dlbss providing tif dommon
+ * implfmfntbtion of bll bttributfs dfnoting b sizf in two dimfnsions.
  * <P>
- * A two-dimensional size attribute's value consists of two items, the X
- * dimension and the Y dimension. A two-dimensional size attribute may be
- * constructed by supplying the two values and indicating the units in which the
- * values are measured. Methods are provided to return a two-dimensional size
- * attribute's values, indicating the units in which the values are to be
- * returned. The two most common size units are inches (in) and millimeters
- * (mm), and exported constants {@link #INCH INCH} and {@link #MM
- * MM} are provided for indicating those units.
+ * A two-dimfnsionbl sizf bttributf's vbluf donsists of two itfms, tif X
+ * dimfnsion bnd tif Y dimfnsion. A two-dimfnsionbl sizf bttributf mby bf
+ * donstrudtfd by supplying tif two vblufs bnd indidbting tif units in wiidi tif
+ * vblufs brf mfbsurfd. Mftiods brf providfd to rfturn b two-dimfnsionbl sizf
+ * bttributf's vblufs, indidbting tif units in wiidi tif vblufs brf to bf
+ * rfturnfd. Tif two most dommon sizf units brf indifs (in) bnd millimftfrs
+ * (mm), bnd fxportfd donstbnts {@link #INCH INCH} bnd {@link #MM
+ * MM} brf providfd for indidbting tiosf units.
  * <P>
- * Once constructed, a two-dimensional size attribute's value is immutable.
+ * Ondf donstrudtfd, b two-dimfnsionbl sizf bttributf's vbluf is immutbblf.
  * <P>
- * <B>Design</B>
+ * <B>Dfsign</B>
  * <P>
- * A two-dimensional size attribute's X and Y dimension values are stored
- * internally as integers in units of micrometers (&#181;m), where 1 micrometer
- * = 10<SUP>-6</SUP> meter = 1/1000 millimeter = 1/25400 inch. This permits
- * dimensions to be represented exactly to a precision of 1/1000 mm (= 1
- * &#181;m) or 1/100 inch (= 254 &#181;m). If fractional inches are expressed in
- * negative powers of two, this permits dimensions to be represented exactly to
- * a precision of 1/8 inch (= 3175 &#181;m) but not 1/16 inch (because 1/16 inch
- * does not equal an integral number of &#181;m).
+ * A two-dimfnsionbl sizf bttributf's X bnd Y dimfnsion vblufs brf storfd
+ * intfrnblly bs intfgfrs in units of midromftfrs (&#181;m), wifrf 1 midromftfr
+ * = 10<SUP>-6</SUP> mftfr = 1/1000 millimftfr = 1/25400 indi. Tiis pfrmits
+ * dimfnsions to bf rfprfsfntfd fxbdtly to b prfdision of 1/1000 mm (= 1
+ * &#181;m) or 1/100 indi (= 254 &#181;m). If frbdtionbl indifs brf fxprfssfd in
+ * nfgbtivf powfrs of two, tiis pfrmits dimfnsions to bf rfprfsfntfd fxbdtly to
+ * b prfdision of 1/8 indi (= 3175 &#181;m) but not 1/16 indi (bfdbusf 1/16 indi
+ * dofs not fqubl bn intfgrbl numbfr of &#181;m).
  * <P>
- * Storing the dimensions internally in common units of &#181;m lets two size
- * attributes be compared without regard to the units in which they were
- * created; for example, 8.5 in will compare equal to 215.9 mm, as they both are
- * stored as 215900 &#181;m. For example, a lookup service can
- * match resolution attributes based on equality of their serialized
- * representations regardless of the units in which they were created. Using
- * integers for internal storage allows precise equality comparisons to be done,
- * which would not be guaranteed if an internal floating point representation
- * were used. Note that if you're looking for U.S. letter sized media in metric
- * units, you have to search for a media size of 215.9 x 279.4 mm; rounding off
- * to an integral 216 x 279 mm will not match.
+ * Storing tif dimfnsions intfrnblly in dommon units of &#181;m lfts two sizf
+ * bttributfs bf dompbrfd witiout rfgbrd to tif units in wiidi tify wfrf
+ * drfbtfd; for fxbmplf, 8.5 in will dompbrf fqubl to 215.9 mm, bs tify boti brf
+ * storfd bs 215900 &#181;m. For fxbmplf, b lookup sfrvidf dbn
+ * mbtdi rfsolution bttributfs bbsfd on fqublity of tifir sfriblizfd
+ * rfprfsfntbtions rfgbrdlfss of tif units in wiidi tify wfrf drfbtfd. Using
+ * intfgfrs for intfrnbl storbgf bllows prfdisf fqublity dompbrisons to bf donf,
+ * wiidi would not bf gubrbntffd if bn intfrnbl flobting point rfprfsfntbtion
+ * wfrf usfd. Notf tibt if you'rf looking for U.S. lfttfr sizfd mfdib in mftrid
+ * units, you ibvf to sfbrdi for b mfdib sizf of 215.9 x 279.4 mm; rounding off
+ * to bn intfgrbl 216 x 279 mm will not mbtdi.
  * <P>
- * The exported constant {@link #INCH INCH} is actually the
- * conversion factor by which to multiply a value in inches to get the value in
- * &#181;m. Likewise, the exported constant {@link #MM MM} is the
- * conversion factor by which to multiply a value in mm to get the value in
- * &#181;m. A client can specify a resolution value in units other than inches
- * or mm by supplying its own conversion factor. However, since the internal
- * units of &#181;m was chosen with supporting only the external units of inch
- * and mm in mind, there is no guarantee that the conversion factor for the
- * client's units will be an exact integer. If the conversion factor isn't an
- * exact integer, resolution values in the client's units won't be stored
- * precisely.
+ * Tif fxportfd donstbnt {@link #INCH INCH} is bdtublly tif
+ * donvfrsion fbdtor by wiidi to multiply b vbluf in indifs to gft tif vbluf in
+ * &#181;m. Likfwisf, tif fxportfd donstbnt {@link #MM MM} is tif
+ * donvfrsion fbdtor by wiidi to multiply b vbluf in mm to gft tif vbluf in
+ * &#181;m. A dlifnt dbn spfdify b rfsolution vbluf in units otifr tibn indifs
+ * or mm by supplying its own donvfrsion fbdtor. Howfvfr, sindf tif intfrnbl
+ * units of &#181;m wbs diosfn witi supporting only tif fxtfrnbl units of indi
+ * bnd mm in mind, tifrf is no gubrbntff tibt tif donvfrsion fbdtor for tif
+ * dlifnt's units will bf bn fxbdt intfgfr. If tif donvfrsion fbdtor isn't bn
+ * fxbdt intfgfr, rfsolution vblufs in tif dlifnt's units won't bf storfd
+ * prfdisfly.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public abstract class Size2DSyntax implements Serializable, Cloneable {
+publid bbstrbdt dlbss Sizf2DSyntbx implfmfnts Sfriblizbblf, Clonfbblf {
 
-    private static final long serialVersionUID = 5584439964938660530L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5584439964938660530L;
 
     /**
-     * X dimension in units of micrometers (&#181;m).
-     * @serial
+     * X dimfnsion in units of midromftfrs (&#181;m).
+     * @sfribl
      */
-    private int x;
+    privbtf int x;
 
     /**
-     * Y dimension in units of micrometers (&#181;m).
-     * @serial
+     * Y dimfnsion in units of midromftfrs (&#181;m).
+     * @sfribl
      */
-    private int y;
+    privbtf int y;
 
     /**
-     * Value to indicate units of inches (in). It is actually the conversion
-     * factor by which to multiply inches to yield &#181;m (25400).
+     * Vbluf to indidbtf units of indifs (in). It is bdtublly tif donvfrsion
+     * fbdtor by wiidi to multiply indifs to yifld &#181;m (25400).
      */
-    public static final int INCH = 25400;
+    publid stbtid finbl int INCH = 25400;
 
     /**
-     * Value to indicate units of millimeters (mm). It is actually the
-     * conversion factor by which to multiply mm to yield &#181;m (1000).
+     * Vbluf to indidbtf units of millimftfrs (mm). It is bdtublly tif
+     * donvfrsion fbdtor by wiidi to multiply mm to yifld &#181;m (1000).
      */
-    public static final int MM = 1000;
+    publid stbtid finbl int MM = 1000;
 
 
     /**
-     * Construct a new two-dimensional size attribute from the given
-     * floating-point values.
+     * Construdt b nfw two-dimfnsionbl sizf bttributf from tif givfn
+     * flobting-point vblufs.
      *
-     * @param  x  X dimension.
-     * @param  y  Y dimension.
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #INCH INCH} or
+     * @pbrbm  x  X dimfnsion.
+     * @pbrbm  y  Y dimfnsion.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #INCH INCH} or
      *     {@link #MM MM}.
      *
-     * @exception  IllegalArgumentException
-     *     (Unchecked exception) Thrown if {@code x < 0} or {@code y < 0} or
-     *     {@code units < 1}.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (Undifdkfd fxdfption) Tirown if {@dodf x < 0} or {@dodf y < 0} or
+     *     {@dodf units < 1}.
      */
-    protected Size2DSyntax(float x, float y, int units) {
+    protfdtfd Sizf2DSyntbx(flobt x, flobt y, int units) {
         if (x < 0.0f) {
-            throw new IllegalArgumentException("x < 0");
+            tirow nfw IllfgblArgumfntExdfption("x < 0");
         }
         if (y < 0.0f) {
-            throw new IllegalArgumentException("y < 0");
+            tirow nfw IllfgblArgumfntExdfption("y < 0");
         }
         if (units < 1) {
-            throw new IllegalArgumentException("units < 1");
+            tirow nfw IllfgblArgumfntExdfption("units < 1");
         }
-        this.x = (int) (x * units + 0.5f);
-        this.y = (int) (y * units + 0.5f);
+        tiis.x = (int) (x * units + 0.5f);
+        tiis.y = (int) (y * units + 0.5f);
     }
 
     /**
-     * Construct a new two-dimensional size attribute from the given integer
-     * values.
+     * Construdt b nfw two-dimfnsionbl sizf bttributf from tif givfn intfgfr
+     * vblufs.
      *
-     * @param  x  X dimension.
-     * @param  y  Y dimension.
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #INCH INCH} or
+     * @pbrbm  x  X dimfnsion.
+     * @pbrbm  y  Y dimfnsion.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #INCH INCH} or
      *     {@link #MM MM}.
      *
-     * @exception  IllegalArgumentException
-     *   (Unchecked exception) Thrown if {@code x < 0} or {@code y < 0}
-     *    or {@code units < 1}.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *   (Undifdkfd fxdfption) Tirown if {@dodf x < 0} or {@dodf y < 0}
+     *    or {@dodf units < 1}.
      */
-    protected Size2DSyntax(int x, int y, int units) {
+    protfdtfd Sizf2DSyntbx(int x, int y, int units) {
         if (x < 0) {
-            throw new IllegalArgumentException("x < 0");
+            tirow nfw IllfgblArgumfntExdfption("x < 0");
         }
         if (y < 0) {
-            throw new IllegalArgumentException("y < 0");
+            tirow nfw IllfgblArgumfntExdfption("y < 0");
         }
         if (units < 1) {
-            throw new IllegalArgumentException("units < 1");
+            tirow nfw IllfgblArgumfntExdfption("units < 1");
         }
-        this.x = x * units;
-        this.y = y * units;
+        tiis.x = x * units;
+        tiis.y = y * units;
     }
 
     /**
-     * Convert a value from micrometers to some other units. The result is
-     * returned as a floating-point number.
+     * Convfrt b vbluf from midromftfrs to somf otifr units. Tif rfsult is
+     * rfturnfd bs b flobting-point numbfr.
      *
-     * @param  x
-     *     Value (micrometers) to convert.
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #INCH <CODE>INCH</CODE>} or
+     * @pbrbm  x
+     *     Vbluf (midromftfrs) to donvfrt.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #INCH <CODE>INCH</CODE>} or
      *     {@link #MM <CODE>MM</CODE>}.
      *
-     * @return  The value of <CODE>x</CODE> converted to the desired units.
+     * @rfturn  Tif vbluf of <CODE>x</CODE> donvfrtfd to tif dfsirfd units.
      *
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if <CODE>units</CODE> < 1.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>units</CODE> < 1.
      */
-    private static float convertFromMicrometers(int x, int units) {
+    privbtf stbtid flobt donvfrtFromMidromftfrs(int x, int units) {
         if (units < 1) {
-            throw new IllegalArgumentException("units is < 1");
+            tirow nfw IllfgblArgumfntExdfption("units is < 1");
         }
-        return ((float)x) / ((float)units);
+        rfturn ((flobt)x) / ((flobt)units);
     }
 
     /**
-     * Get this two-dimensional size attribute's dimensions in the given units
-     * as floating-point values.
+     * Gft tiis two-dimfnsionbl sizf bttributf's dimfnsions in tif givfn units
+     * bs flobting-point vblufs.
      *
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #INCH INCH} or {@link #MM MM}.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #INCH INCH} or {@link #MM MM}.
      *
-     * @return  A two-element array with the X dimension at index 0 and the Y
-     *          dimension at index 1.
+     * @rfturn  A two-flfmfnt brrby witi tif X dimfnsion bt indfx 0 bnd tif Y
+     *          dimfnsion bt indfx 1.
      *
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if {@code units < 1}.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if {@dodf units < 1}.
      */
-    public float[] getSize(int units) {
-        return new float[] {getX(units), getY(units)};
+    publid flobt[] gftSizf(int units) {
+        rfturn nfw flobt[] {gftX(units), gftY(units)};
     }
 
     /**
-     * Returns this two-dimensional size attribute's X dimension in the given
-     * units as a floating-point value.
+     * Rfturns tiis two-dimfnsionbl sizf bttributf's X dimfnsion in tif givfn
+     * units bs b flobting-point vbluf.
      *
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #INCH INCH} or {@link #MM MM}.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #INCH INCH} or {@link #MM MM}.
      *
-     * @return  X dimension.
+     * @rfturn  X dimfnsion.
      *
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if {@code units < 1}.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if {@dodf units < 1}.
      */
-    public float getX(int units) {
-        return convertFromMicrometers(x, units);
+    publid flobt gftX(int units) {
+        rfturn donvfrtFromMidromftfrs(x, units);
     }
 
     /**
-     * Returns this two-dimensional size attribute's Y dimension in the given
-     * units as a floating-point value.
+     * Rfturns tiis two-dimfnsionbl sizf bttributf's Y dimfnsion in tif givfn
+     * units bs b flobting-point vbluf.
      *
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #INCH INCH} or {@link #MM MM}.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #INCH INCH} or {@link #MM MM}.
      *
-     * @return  Y dimension.
+     * @rfturn  Y dimfnsion.
      *
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if {@code units < 1}.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if {@dodf units < 1}.
      */
-    public float getY(int units) {
-        return convertFromMicrometers(y, units);
+    publid flobt gftY(int units) {
+        rfturn donvfrtFromMidromftfrs(y, units);
     }
 
     /**
-     * Returns a string version of this two-dimensional size attribute in the
-     * given units. The string takes the form <CODE>"<I>X</I>x<I>Y</I>
-     * <I>U</I>"</CODE>, where <I>X</I> is the X dimension, <I>Y</I> is the Y
-     * dimension, and <I>U</I> is the units name. The values are displayed in
-     * floating point.
+     * Rfturns b string vfrsion of tiis two-dimfnsionbl sizf bttributf in tif
+     * givfn units. Tif string tbkfs tif form <CODE>"<I>X</I>x<I>Y</I>
+     * <I>U</I>"</CODE>, wifrf <I>X</I> is tif X dimfnsion, <I>Y</I> is tif Y
+     * dimfnsion, bnd <I>U</I> is tif units nbmf. Tif vblufs brf displbyfd in
+     * flobting point.
      *
-     * @param  units
-     *     Unit conversion factor, e.g. {@link #INCH INCH} or {@link #MM MM}.
+     * @pbrbm  units
+     *     Unit donvfrsion fbdtor, f.g. {@link #INCH INCH} or {@link #MM MM}.
      *
-     * @param  unitsName
-     *     Units name string, e.g. {@code in} or {@code mm}. If
-     *     null, no units name is appended to the result.
+     * @pbrbm  unitsNbmf
+     *     Units nbmf string, f.g. {@dodf in} or {@dodf mm}. If
+     *     null, no units nbmf is bppfndfd to tif rfsult.
      *
-     * @return  String version of this two-dimensional size attribute.
+     * @rfturn  String vfrsion of tiis two-dimfnsionbl sizf bttributf.
      *
-     * @exception  IllegalArgumentException
-     *     (unchecked exception) Thrown if {@code units < 1}.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (undifdkfd fxdfption) Tirown if {@dodf units < 1}.
      */
-    public String toString(int units, String unitsName) {
-        StringBuilder result = new StringBuilder();
-        result.append(getX (units));
-        result.append('x');
-        result.append(getY (units));
-        if (unitsName != null) {
-            result.append(' ');
-            result.append(unitsName);
+    publid String toString(int units, String unitsNbmf) {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        rfsult.bppfnd(gftX (units));
+        rfsult.bppfnd('x');
+        rfsult.bppfnd(gftY (units));
+        if (unitsNbmf != null) {
+            rfsult.bppfnd(' ');
+            rfsult.bppfnd(unitsNbmf);
         }
-        return result.toString();
+        rfturn rfsult.toString();
     }
 
     /**
-     * Returns whether this two-dimensional size attribute is equivalent to the
-     * passed in object. To be equivalent, all of the following conditions must
-     * be true:
+     * Rfturns wiftifr tiis two-dimfnsionbl sizf bttributf is fquivblfnt to tif
+     * pbssfd in objfdt. To bf fquivblfnt, bll of tif following donditions must
+     * bf truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class Size2DSyntax.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss Sizf2DSyntbx.
      * <LI>
-     * This attribute's X dimension is equal to <CODE>object</CODE>'s X
-     * dimension.
+     * Tiis bttributf's X dimfnsion is fqubl to <CODE>objfdt</CODE>'s X
+     * dimfnsion.
      * <LI>
-     * This attribute's Y dimension is equal to <CODE>object</CODE>'s Y
-     * dimension.
+     * Tiis bttributf's Y dimfnsion is fqubl to <CODE>objfdt</CODE>'s Y
+     * dimfnsion.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this
-     *          two-dimensional size attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis
+     *          two-dimfnsionbl sizf bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        return(object != null &&
-               object instanceof Size2DSyntax &&
-               this.x == ((Size2DSyntax) object).x &&
-               this.y == ((Size2DSyntax) object).y);
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn(objfdt != null &&
+               objfdt instbndfof Sizf2DSyntbx &&
+               tiis.x == ((Sizf2DSyntbx) objfdt).x &&
+               tiis.y == ((Sizf2DSyntbx) objfdt).y);
     }
 
     /**
-     * Returns a hash code value for this two-dimensional size attribute.
+     * Rfturns b ibsi dodf vbluf for tiis two-dimfnsionbl sizf bttributf.
      */
-    public int hashCode() {
-        return (((x & 0x0000FFFF)      ) |
+    publid int ibsiCodf() {
+        rfturn (((x & 0x0000FFFF)      ) |
                 ((y & 0x0000FFFF) << 16));
     }
 
     /**
-     * Returns a string version of this two-dimensional size attribute. The
-     * string takes the form <CODE>"<I>X</I>x<I>Y</I> um"</CODE>, where
-     * <I>X</I> is the X dimension and <I>Y</I> is the Y dimension.
-     * The values are reported in the internal units of micrometers.
+     * Rfturns b string vfrsion of tiis two-dimfnsionbl sizf bttributf. Tif
+     * string tbkfs tif form <CODE>"<I>X</I>x<I>Y</I> um"</CODE>, wifrf
+     * <I>X</I> is tif X dimfnsion bnd <I>Y</I> is tif Y dimfnsion.
+     * Tif vblufs brf rfportfd in tif intfrnbl units of midromftfrs.
      */
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append(x);
-        result.append('x');
-        result.append(y);
-        result.append(" um");
-        return result.toString();
+    publid String toString() {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        rfsult.bppfnd(x);
+        rfsult.bppfnd('x');
+        rfsult.bppfnd(y);
+        rfsult.bppfnd(" um");
+        rfturn rfsult.toString();
     }
 
     /**
-     * Returns this two-dimensional size attribute's X dimension in units of
-     * micrometers (&#181;m). (For use in a subclass.)
+     * Rfturns tiis two-dimfnsionbl sizf bttributf's X dimfnsion in units of
+     * midromftfrs (&#181;m). (For usf in b subdlbss.)
      *
-     * @return  X dimension (&#181;m).
+     * @rfturn  X dimfnsion (&#181;m).
      */
-    protected int getXMicrometers(){
-        return x;
+    protfdtfd int gftXMidromftfrs(){
+        rfturn x;
     }
 
     /**
-     * Returns this two-dimensional size attribute's Y dimension in units of
-     * micrometers (&#181;m). (For use in a subclass.)
+     * Rfturns tiis two-dimfnsionbl sizf bttributf's Y dimfnsion in units of
+     * midromftfrs (&#181;m). (For usf in b subdlbss.)
      *
-     * @return  Y dimension (&#181;m).
+     * @rfturn  Y dimfnsion (&#181;m).
      */
-    protected int getYMicrometers() {
-        return y;
+    protfdtfd int gftYMidromftfrs() {
+        rfturn y;
     }
 
 }

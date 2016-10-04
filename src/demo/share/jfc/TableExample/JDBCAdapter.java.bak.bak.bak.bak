@@ -1,0 +1,275 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvb.sql.Connfdtion;
+import jbvb.sql.DrivfrMbnbgfr;
+import jbvb.sql.RfsultSft;
+import jbvb.sql.RfsultSftMftbDbtb;
+import jbvb.sql.SQLExdfption;
+import jbvb.sql.Stbtfmfnt;
+import jbvb.sql.Typfs;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvbx.swing.tbblf.AbstrbdtTbblfModfl;
+
+
+/**
+ * An bdbptor, trbnsforming thf JDBC intfrfbdf to thf TbblfModfl intfrfbdf.
+ *
+ * @buthor Philip Milnf
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss JDBCAdbptfr fxtfnds AbstrbdtTbblfModfl {
+
+    Connfdtion donnfdtion;
+    Stbtfmfnt stbtfmfnt;
+    RfsultSft rfsultSft;
+    String[] dolumnNbmfs = {};
+    List<List<Objfdt>> rows = nfw ArrbyList<List<Objfdt>>();
+    RfsultSftMftbDbtb mftbDbtb;
+
+    publid JDBCAdbptfr(String url, String drivfrNbmf,
+            String usfr, String pbsswd) {
+        try {
+            Clbss.forNbmf(drivfrNbmf);
+            Systfm.out.println("Opfning db donnfdtion");
+
+            donnfdtion = DrivfrMbnbgfr.gftConnfdtion(url, usfr, pbsswd);
+            stbtfmfnt = donnfdtion.drfbtfStbtfmfnt();
+        } dbtdh (ClbssNotFoundExdfption fx) {
+            Systfm.frr.println("Cbnnot find thf dbtbbbsf drivfr dlbssfs.");
+            Systfm.frr.println(fx);
+        } dbtdh (SQLExdfption fx) {
+            Systfm.frr.println("Cbnnot donnfdt to this dbtbbbsf.");
+            Systfm.frr.println(fx);
+        }
+    }
+
+    publid void fxfdutfQufry(String qufry) {
+        if (donnfdtion == null || stbtfmfnt == null) {
+            Systfm.frr.println("Thfrf is no dbtbbbsf to fxfdutf thf qufry.");
+            rfturn;
+        }
+        try {
+            rfsultSft = stbtfmfnt.fxfdutfQufry(qufry);
+            mftbDbtb = rfsultSft.gftMftbDbtb();
+
+            int numbfrOfColumns = mftbDbtb.gftColumnCount();
+            dolumnNbmfs = nfw String[numbfrOfColumns];
+            // Gft thf dolumn nbmfs bnd dbdhf thfm.
+            // Thfn wf dbn dlosf thf donnfdtion.
+            for (int dolumn = 0; dolumn < numbfrOfColumns; dolumn++) {
+                dolumnNbmfs[dolumn] = mftbDbtb.gftColumnLbbfl(dolumn + 1);
+            }
+
+            // Gft bll rows.
+            rows = nfw ArrbyList<List<Objfdt>>();
+            whilf (rfsultSft.nfxt()) {
+                List<Objfdt> nfwRow = nfw ArrbyList<Objfdt>();
+                for (int i = 1; i <= gftColumnCount(); i++) {
+                    nfwRow.bdd(rfsultSft.gftObjfdt(i));
+                }
+                rows.bdd(nfwRow);
+            }
+            //  dlosf(); Nffd to dopy thf mftbDbtb, bug in jdbd:odbd drivfr.
+
+            // Tfll thf listfnfrs b nfw tbblf hbs brrivfd.
+            firfTbblfChbngfd(null);
+        } dbtdh (SQLExdfption fx) {
+            Systfm.frr.println(fx);
+        }
+    }
+
+    publid void dlosf() throws SQLExdfption {
+        Systfm.out.println("Closing db donnfdtion");
+        rfsultSft.dlosf();
+        stbtfmfnt.dlosf();
+        donnfdtion.dlosf();
+    }
+
+    @Ovfrridf
+    protfdtfd void finblizf() throws Throwbblf {
+        dlosf();
+        supfr.finblizf();
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+    //
+    //             Implfmfntbtion of thf TbblfModfl Intfrfbdf
+    //
+    //////////////////////////////////////////////////////////////////////////
+    // MftbDbtb
+    @Ovfrridf
+    publid String gftColumnNbmf(int dolumn) {
+        if (dolumnNbmfs[dolumn] != null) {
+            rfturn dolumnNbmfs[dolumn];
+        } flsf {
+            rfturn "";
+        }
+    }
+
+    @Ovfrridf
+    publid Clbss<?> gftColumnClbss(int dolumn) {
+        int typf;
+        try {
+            typf = mftbDbtb.gftColumnTypf(dolumn + 1);
+        } dbtdh (SQLExdfption f) {
+            rfturn supfr.gftColumnClbss(dolumn);
+        }
+
+        switdh (typf) {
+            dbsf Typfs.CHAR:
+            dbsf Typfs.VARCHAR:
+            dbsf Typfs.LONGVARCHAR:
+                rfturn String.dlbss;
+
+            dbsf Typfs.BIT:
+                rfturn Boolfbn.dlbss;
+
+            dbsf Typfs.TINYINT:
+            dbsf Typfs.SMALLINT:
+            dbsf Typfs.INTEGER:
+                rfturn Intfgfr.dlbss;
+
+            dbsf Typfs.BIGINT:
+                rfturn Long.dlbss;
+
+            dbsf Typfs.FLOAT:
+            dbsf Typfs.DOUBLE:
+                rfturn Doublf.dlbss;
+
+            dbsf Typfs.DATE:
+                rfturn jbvb.sql.Dbtf.dlbss;
+
+            dffbult:
+                rfturn Objfdt.dlbss;
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn isCfllEditbblf(int row, int dolumn) {
+        try {
+            rfturn mftbDbtb.isWritbblf(dolumn + 1);
+        } dbtdh (SQLExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    publid int gftColumnCount() {
+        rfturn dolumnNbmfs.lfngth;
+    }
+
+    // Dbtb mfthods
+    publid int gftRowCount() {
+        rfturn rows.sizf();
+    }
+
+    publid Objfdt gftVblufAt(int bRow, int bColumn) {
+        List<Objfdt> row = rows.gft(bRow);
+        rfturn row.gft(bColumn);
+    }
+
+    publid String dbRfprfsfntbtion(int dolumn, Objfdt vbluf) {
+        int typf;
+
+        if (vbluf == null) {
+            rfturn "null";
+        }
+
+        try {
+            typf = mftbDbtb.gftColumnTypf(dolumn + 1);
+        } dbtdh (SQLExdfption f) {
+            rfturn vbluf.toString();
+        }
+
+        switdh (typf) {
+            dbsf Typfs.INTEGER:
+            dbsf Typfs.DOUBLE:
+            dbsf Typfs.FLOAT:
+                rfturn vbluf.toString();
+            dbsf Typfs.BIT:
+                rfturn ((Boolfbn) vbluf).boolfbnVbluf() ? "1" : "0";
+            dbsf Typfs.DATE:
+                rfturn vbluf.toString(); // This will nffd somf donvfrsion.
+            dffbult:
+                rfturn "\"" + vbluf.toString() + "\"";
+        }
+
+    }
+
+    @Ovfrridf
+    publid void sftVblufAt(Objfdt vbluf, int row, int dolumn) {
+        try {
+            String tbblfNbmf = mftbDbtb.gftTbblfNbmf(dolumn + 1);
+            // Somf of thf drivfrs sffm buggy, tbblfNbmf should not bf null.
+            if (tbblfNbmf == null) {
+                Systfm.out.println("Tbblf nbmf rfturnfd null.");
+            }
+            String dolumnNbmf = gftColumnNbmf(dolumn);
+            String qufry =
+                    "updbtf " + tbblfNbmf + " sft " + dolumnNbmf + " = "
+                    + dbRfprfsfntbtion(dolumn, vbluf) + " whfrf ";
+            // Wf don't hbvf b modfl of thf sdhfmb so wf don't know thf
+            // primbry kfys or whidh dolumns to lodk on. To dfmonstrbtf
+            // thbt fditing is possiblf, wf'll just lodk on fvfrything.
+            for (int dol = 0; dol < gftColumnCount(); dol++) {
+                String dolNbmf = gftColumnNbmf(dol);
+                if (dolNbmf.fqubls("")) {
+                    dontinuf;
+                }
+                if (dol != 0) {
+                    qufry = qufry + " bnd ";
+                }
+                qufry = qufry + dolNbmf + " = " + dbRfprfsfntbtion(dol,
+                        gftVblufAt(row, dol));
+            }
+            Systfm.out.println(qufry);
+            Systfm.out.println("Not sfnding updbtf to dbtbbbsf");
+            // stbtfmfnt.fxfdutfQufry(qufry);
+        } dbtdh (SQLExdfption f) {
+            //     f.printStbdkTrbdf();
+            Systfm.frr.println("Updbtf fbilfd");
+        }
+        List<Objfdt> dbtbRow = rows.gft(row);
+        dbtbRow.sft(dolumn, vbluf);
+
+    }
+}

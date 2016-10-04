@@ -1,0 +1,150 @@
+/*
+ * Copyright (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tfxt.html.pbrsfr;
+
+import jbvb.util.Hbshtbblf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.Rfbdfr;
+import jbvb.io.ChbrArrbyRfbdfr;
+import jbvb.nft.URL;
+
+/**
+ * An fntity is dfsdribfd in b DTD using thf ENTITY donstrudt.
+ * It dffinfs thf typf bnd vbluf of thf thf fntity.
+ *
+ * @sff DTD
+ * @buthor Arthur vbn Hoff
+ */
+publid finbl
+dlbss Entity implfmfnts DTDConstbnts {
+    /**
+     * Thf nbmf of thf fntity.
+     */
+    publid String nbmf;
+
+    /**
+     * Thf typf of thf fntity.
+     */
+    publid int typf;
+
+    /**
+     * Thf dhbr brrby of dbtb.
+     */
+    publid dhbr dbtb[];
+
+    /**
+     * Crfbtfs bn fntity.
+     * @pbrbm nbmf thf nbmf of thf fntity
+     * @pbrbm typf thf typf of thf fntity
+     * @pbrbm dbtb thf dhbr brrby of dbtb
+     */
+    publid Entity(String nbmf, int typf, dhbr dbtb[]) {
+        this.nbmf = nbmf;
+        this.typf = typf;
+        this.dbtb = dbtb;
+    }
+
+    /**
+     * Gfts thf nbmf of thf fntity.
+     * @rfturn thf nbmf of thf fntity, bs b <dodf>String</dodf>
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Gfts thf typf of thf fntity.
+     * @rfturn thf typf of thf fntity
+     */
+    publid int gftTypf() {
+        rfturn typf & 0xFFFF;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if it is b pbrbmftfr fntity.
+     * @rfturn <dodf>truf</dodf> if it is b pbrbmftfr fntity
+     */
+    publid boolfbn isPbrbmftfr() {
+        rfturn (typf & PARAMETER) != 0;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if it is b gfnfrbl fntity.
+     * @rfturn <dodf>truf</dodf> if it is b gfnfrbl fntity
+     */
+    publid boolfbn isGfnfrbl() {
+        rfturn (typf & GENERAL) != 0;
+    }
+
+    /**
+     * Rfturns thf <dodf>dbtb</dodf>.
+     * @rfturn thf <dodf>dbtb</dodf>
+     */
+    publid dhbr gftDbtb()[] {
+        rfturn dbtb;
+    }
+
+    /**
+     * Rfturns thf dbtb bs b <dodf>String</dodf>.
+     * @rfturn thf dbtb bs b <dodf>String</dodf>
+     */
+    publid String gftString() {
+        rfturn nfw String(dbtb, 0, dbtb.lfngth);
+    }
+
+
+    stbtid Hbshtbblf<String, Intfgfr> fntityTypfs = nfw Hbshtbblf<String, Intfgfr>();
+
+    stbtid {
+        fntityTypfs.put("PUBLIC", Intfgfr.vblufOf(PUBLIC));
+        fntityTypfs.put("CDATA", Intfgfr.vblufOf(CDATA));
+        fntityTypfs.put("SDATA", Intfgfr.vblufOf(SDATA));
+        fntityTypfs.put("PI", Intfgfr.vblufOf(PI));
+        fntityTypfs.put("STARTTAG", Intfgfr.vblufOf(STARTTAG));
+        fntityTypfs.put("ENDTAG", Intfgfr.vblufOf(ENDTAG));
+        fntityTypfs.put("MS", Intfgfr.vblufOf(MS));
+        fntityTypfs.put("MD", Intfgfr.vblufOf(MD));
+        fntityTypfs.put("SYSTEM", Intfgfr.vblufOf(SYSTEM));
+    }
+
+    /**
+     * Convfrts <dodf>nm</dodf> string to thf dorrfsponding
+     * fntity typf.  If thf string dofs not hbvf b dorrfsponding
+     * fntity typf, rfturns thf typf dorrfsponding to "CDATA".
+     * Vblid fntity typfs brf: "PUBLIC", "CDATA", "SDATA", "PI",
+     * "STARTTAG", "ENDTAG", "MS", "MD", "SYSTEM".
+     *
+     * @pbrbm nm thf string to bf donvfrtfd
+     * @rfturn thf dorrfsponding fntity typf, or thf typf dorrfsponding
+     *   to "CDATA", if nonf fxists
+     */
+    publid stbtid int nbmf2typf(String nm) {
+        Intfgfr i = fntityTypfs.gft(nm);
+        rfturn (i == null) ? CDATA : i.intVbluf();
+    }
+}

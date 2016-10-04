@@ -1,1440 +1,1440 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.lang.reflect.*;
-import java.io.IOException;
-import java.security.PrivilegedExceptionAction;
-import java.security.AccessController;
-import java.security.Principal;
-import java.util.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.util.*;
 
-import sun.security.util.*;
-import javax.security.auth.x500.X500Principal;
+import sun.sfdurity.util.*;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
 /**
- * Note:  As of 1.4, the public class,
- * javax.security.auth.x500.X500Principal,
- * should be used when parsing, generating, and comparing X.500 DNs.
- * This class contains other useful methods for checking name constraints
- * and retrieving DNs by keyword.
+ * Notf:  As of 1.4, tif publid dlbss,
+ * jbvbx.sfdurity.buti.x500.X500Prindipbl,
+ * siould bf usfd wifn pbrsing, gfnfrbting, bnd dompbring X.500 DNs.
+ * Tiis dlbss dontbins otifr usfful mftiods for difdking nbmf donstrbints
+ * bnd rftrifving DNs by kfyword.
  *
- * <p> X.500 names are used to identify entities, such as those which are
- * identified by X.509 certificates.  They are world-wide, hierarchical,
- * and descriptive.  Entities can be identified by attributes, and in
- * some systems can be searched for according to those attributes.
+ * <p> X.500 nbmfs brf usfd to idfntify fntitifs, sudi bs tiosf wiidi brf
+ * idfntififd by X.509 dfrtifidbtfs.  Tify brf world-widf, iifrbrdiidbl,
+ * bnd dfsdriptivf.  Entitifs dbn bf idfntififd by bttributfs, bnd in
+ * somf systfms dbn bf sfbrdifd for bddording to tiosf bttributfs.
  * <p>
- * The ASN.1 for this is:
- * <pre>
- * GeneralName ::= CHOICE {
+ * Tif ASN.1 for tiis is:
+ * <prf>
+ * GfnfrblNbmf ::= CHOICE {
  * ....
- *     directoryName                   [4]     Name,
+ *     dirfdtoryNbmf                   [4]     Nbmf,
  * ....
- * Name ::= CHOICE {
- *   RDNSequence }
+ * Nbmf ::= CHOICE {
+ *   RDNSfqufndf }
  *
- * RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
+ * RDNSfqufndf ::= SEQUENCE OF RflbtivfDistinguisifdNbmf
  *
- * RelativeDistinguishedName ::=
- *   SET OF AttributeTypeAndValue
+ * RflbtivfDistinguisifdNbmf ::=
+ *   SET OF AttributfTypfAndVbluf
  *
- * AttributeTypeAndValue ::= SEQUENCE {
- *   type     AttributeType,
- *   value    AttributeValue }
+ * AttributfTypfAndVbluf ::= SEQUENCE {
+ *   typf     AttributfTypf,
+ *   vbluf    AttributfVbluf }
  *
- * AttributeType ::= OBJECT IDENTIFIER
+ * AttributfTypf ::= OBJECT IDENTIFIER
  *
- * AttributeValue ::= ANY DEFINED BY AttributeType
+ * AttributfVbluf ::= ANY DEFINED BY AttributfTypf
  * ....
- * DirectoryString ::= CHOICE {
- *       teletexString           TeletexString (SIZE (1..MAX)),
- *       printableString         PrintableString (SIZE (1..MAX)),
- *       universalString         UniversalString (SIZE (1..MAX)),
+ * DirfdtoryString ::= CHOICE {
+ *       tflftfxString           TflftfxString (SIZE (1..MAX)),
+ *       printbblfString         PrintbblfString (SIZE (1..MAX)),
+ *       univfrsblString         UnivfrsblString (SIZE (1..MAX)),
  *       utf8String              UTF8String (SIZE (1.. MAX)),
  *       bmpString               BMPString (SIZE (1..MAX)) }
- * </pre>
+ * </prf>
  * <p>
- * This specification requires only a subset of the name comparison
- * functionality specified in the X.500 series of specifications.  The
- * requirements for conforming implementations are as follows:
- * <ol TYPE=a>
- * <li>attribute values encoded in different types (e.g.,
- *    PrintableString and BMPString) may be assumed to represent
- *    different strings;
+ * Tiis spfdifidbtion rfquirfs only b subsft of tif nbmf dompbrison
+ * fundtionblity spfdififd in tif X.500 sfrifs of spfdifidbtions.  Tif
+ * rfquirfmfnts for donforming implfmfntbtions brf bs follows:
+ * <ol TYPE=b>
+ * <li>bttributf vblufs fndodfd in difffrfnt typfs (f.g.,
+ *    PrintbblfString bnd BMPString) mby bf bssumfd to rfprfsfnt
+ *    difffrfnt strings;
  * <p>
- * <li>attribute values in types other than PrintableString are case
- *    sensitive (this permits matching of attribute values as binary
- *    objects);
+ * <li>bttributf vblufs in typfs otifr tibn PrintbblfString brf dbsf
+ *    sfnsitivf (tiis pfrmits mbtdiing of bttributf vblufs bs binbry
+ *    objfdts);
  * <p>
- * <li>attribute values in PrintableString are not case sensitive
- *    (e.g., "Marianne Swanson" is the same as "MARIANNE SWANSON"); and
+ * <li>bttributf vblufs in PrintbblfString brf not dbsf sfnsitivf
+ *    (f.g., "Mbribnnf Swbnson" is tif sbmf bs "MARIANNE SWANSON"); bnd
  * <p>
- * <li>attribute values in PrintableString are compared after
- *    removing leading and trailing white space and converting internal
- *    substrings of one or more consecutive white space characters to a
- *    single space.
+ * <li>bttributf vblufs in PrintbblfString brf dompbrfd bftfr
+ *    rfmoving lfbding bnd trbiling wiitf spbdf bnd donvfrting intfrnbl
+ *    substrings of onf or morf donsfdutivf wiitf spbdf dibrbdtfrs to b
+ *    singlf spbdf.
  * </ol>
  * <p>
- * These name comparison rules permit a certificate user to validate
- * certificates issued using languages or encodings unfamiliar to the
- * certificate user.
+ * Tifsf nbmf dompbrison rulfs pfrmit b dfrtifidbtf usfr to vblidbtf
+ * dfrtifidbtfs issufd using lbngubgfs or fndodings unfbmilibr to tif
+ * dfrtifidbtf usfr.
  * <p>
- * In addition, implementations of this specification MAY use these
- * comparison rules to process unfamiliar attribute types for name
- * chaining. This allows implementations to process certificates with
- * unfamiliar attributes in the issuer name.
+ * In bddition, implfmfntbtions of tiis spfdifidbtion MAY usf tifsf
+ * dompbrison rulfs to prodfss unfbmilibr bttributf typfs for nbmf
+ * dibining. Tiis bllows implfmfntbtions to prodfss dfrtifidbtfs witi
+ * unfbmilibr bttributfs in tif issufr nbmf.
  * <p>
- * Note that the comparison rules defined in the X.500 series of
- * specifications indicate that the character sets used to encode data
- * in distinguished names are irrelevant.  The characters themselves are
- * compared without regard to encoding. Implementations of the profile
- * are permitted to use the comparison algorithm defined in the X.500
- * series.  Such an implementation will recognize a superset of name
- * matches recognized by the algorithm specified above.
+ * Notf tibt tif dompbrison rulfs dffinfd in tif X.500 sfrifs of
+ * spfdifidbtions indidbtf tibt tif dibrbdtfr sfts usfd to fndodf dbtb
+ * in distinguisifd nbmfs brf irrflfvbnt.  Tif dibrbdtfrs tifmsflvfs brf
+ * dompbrfd witiout rfgbrd to fndoding. Implfmfntbtions of tif profilf
+ * brf pfrmittfd to usf tif dompbrison blgoritim dffinfd in tif X.500
+ * sfrifs.  Sudi bn implfmfntbtion will rfdognizf b supfrsft of nbmf
+ * mbtdifs rfdognizfd by tif blgoritim spfdififd bbovf.
  * <p>
- * Note that instances of this class are immutable.
+ * Notf tibt instbndfs of tiis dlbss brf immutbblf.
  *
- * @author David Brownell
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @see GeneralName
- * @see GeneralNames
- * @see GeneralNameInterface
+ * @butior Dbvid Brownfll
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff GfnfrblNbmf
+ * @sff GfnfrblNbmfs
+ * @sff GfnfrblNbmfIntfrfbdf
  */
 
-public class X500Name implements GeneralNameInterface, Principal {
+publid dlbss X500Nbmf implfmfnts GfnfrblNbmfIntfrfbdf, Prindipbl {
 
-    private String dn; // roughly RFC 1779 DN, or null
-    private String rfc1779Dn; // RFC 1779 compliant DN, or null
-    private String rfc2253Dn; // RFC 2253 DN, or null
-    private String canonicalDn; // canonical RFC 2253 DN or null
-    private RDN[] names;        // RDNs (never null)
-    private X500Principal x500Principal;
-    private byte[] encoded;
+    privbtf String dn; // rougily RFC 1779 DN, or null
+    privbtf String rfd1779Dn; // RFC 1779 domplibnt DN, or null
+    privbtf String rfd2253Dn; // RFC 2253 DN, or null
+    privbtf String dbnonidblDn; // dbnonidbl RFC 2253 DN or null
+    privbtf RDN[] nbmfs;        // RDNs (nfvfr null)
+    privbtf X500Prindipbl x500Prindipbl;
+    privbtf bytf[] fndodfd;
 
-    // cached immutable list of the RDNs and all the AVAs
-    private volatile List<RDN> rdnList;
-    private volatile List<AVA> allAvaList;
+    // dbdifd immutbblf list of tif RDNs bnd bll tif AVAs
+    privbtf volbtilf List<RDN> rdnList;
+    privbtf volbtilf List<AVA> bllAvbList;
 
     /**
-     * Constructs a name from a conventionally formatted string, such
-     * as "CN=Dave, OU=JavaSoft, O=Sun Microsystems, C=US".
-     * (RFC 1779, 2253, or 4514 style).
+     * Construdts b nbmf from b donvfntionblly formbttfd string, sudi
+     * bs "CN=Dbvf, OU=JbvbSoft, O=Sun Midrosystfms, C=US".
+     * (RFC 1779, 2253, or 4514 stylf).
      *
-     * @param dname the X.500 Distinguished Name
+     * @pbrbm dnbmf tif X.500 Distinguisifd Nbmf
      */
-    public X500Name(String dname) throws IOException {
-        this(dname, Collections.<String, String>emptyMap());
+    publid X500Nbmf(String dnbmf) tirows IOExdfption {
+        tiis(dnbmf, Collfdtions.<String, String>fmptyMbp());
     }
 
     /**
-     * Constructs a name from a conventionally formatted string, such
-     * as "CN=Dave, OU=JavaSoft, O=Sun Microsystems, C=US".
-     * (RFC 1779, 2253, or 4514 style).
+     * Construdts b nbmf from b donvfntionblly formbttfd string, sudi
+     * bs "CN=Dbvf, OU=JbvbSoft, O=Sun Midrosystfms, C=US".
+     * (RFC 1779, 2253, or 4514 stylf).
      *
-     * @param dname the X.500 Distinguished Name
-     * @param keywordMap an additional keyword/OID map
+     * @pbrbm dnbmf tif X.500 Distinguisifd Nbmf
+     * @pbrbm kfywordMbp bn bdditionbl kfyword/OID mbp
      */
-    public X500Name(String dname, Map<String, String> keywordMap)
-        throws IOException {
-        parseDN(dname, keywordMap);
+    publid X500Nbmf(String dnbmf, Mbp<String, String> kfywordMbp)
+        tirows IOExdfption {
+        pbrsfDN(dnbmf, kfywordMbp);
     }
 
     /**
-     * Constructs a name from a string formatted according to format.
-     * Currently, the formats DEFAULT and RFC2253 are supported.
-     * DEFAULT is the default format used by the X500Name(String)
-     * constructor. RFC2253 is the format strictly according to RFC2253
-     * without extensions.
+     * Construdts b nbmf from b string formbttfd bddording to formbt.
+     * Currfntly, tif formbts DEFAULT bnd RFC2253 brf supportfd.
+     * DEFAULT is tif dffbult formbt usfd by tif X500Nbmf(String)
+     * donstrudtor. RFC2253 is tif formbt stridtly bddording to RFC2253
+     * witiout fxtfnsions.
      *
-     * @param dname the X.500 Distinguished Name
-     * @param format the specified format of the String DN
+     * @pbrbm dnbmf tif X.500 Distinguisifd Nbmf
+     * @pbrbm formbt tif spfdififd formbt of tif String DN
      */
-    public X500Name(String dname, String format) throws IOException {
-        if (dname == null) {
-            throw new NullPointerException("Name must not be null");
+    publid X500Nbmf(String dnbmf, String formbt) tirows IOExdfption {
+        if (dnbmf == null) {
+            tirow nfw NullPointfrExdfption("Nbmf must not bf null");
         }
-        if (format.equalsIgnoreCase("RFC2253")) {
-            parseRFC2253DN(dname);
-        } else if (format.equalsIgnoreCase("DEFAULT")) {
-            parseDN(dname, Collections.<String, String>emptyMap());
-        } else {
-            throw new IOException("Unsupported format " + format);
+        if (formbt.fqublsIgnorfCbsf("RFC2253")) {
+            pbrsfRFC2253DN(dnbmf);
+        } flsf if (formbt.fqublsIgnorfCbsf("DEFAULT")) {
+            pbrsfDN(dnbmf, Collfdtions.<String, String>fmptyMbp());
+        } flsf {
+            tirow nfw IOExdfption("Unsupportfd formbt " + formbt);
         }
     }
 
     /**
-     * Constructs a name from fields common in enterprise application
-     * environments.
+     * Construdts b nbmf from fiflds dommon in fntfrprisf bpplidbtion
+     * fnvironmfnts.
      *
-     * <P><EM><STRONG>NOTE:</STRONG>  The behaviour when any of
-     * these strings contain characters outside the ASCII range
-     * is unspecified in currently relevant standards.</EM>
+     * <P><EM><STRONG>NOTE:</STRONG>  Tif bfibviour wifn bny of
+     * tifsf strings dontbin dibrbdtfrs outsidf tif ASCII rbngf
+     * is unspfdififd in durrfntly rflfvbnt stbndbrds.</EM>
      *
-     * @param commonName common name of a person, e.g. "Vivette Davis"
-     * @param organizationUnit small organization name, e.g. "Purchasing"
-     * @param organizationName large organization name, e.g. "Onizuka, Inc."
-     * @param country two letter country code, e.g. "CH"
+     * @pbrbm dommonNbmf dommon nbmf of b pfrson, f.g. "Vivfttf Dbvis"
+     * @pbrbm orgbnizbtionUnit smbll orgbnizbtion nbmf, f.g. "Purdibsing"
+     * @pbrbm orgbnizbtionNbmf lbrgf orgbnizbtion nbmf, f.g. "Onizukb, Ind."
+     * @pbrbm dountry two lfttfr dountry dodf, f.g. "CH"
      */
-    public X500Name(String commonName, String organizationUnit,
-                     String organizationName, String country)
-    throws IOException {
-        names = new RDN[4];
+    publid X500Nbmf(String dommonNbmf, String orgbnizbtionUnit,
+                     String orgbnizbtionNbmf, String dountry)
+    tirows IOExdfption {
+        nbmfs = nfw RDN[4];
         /*
-         * NOTE:  it's only on output that little-endian
-         * ordering is used.
+         * NOTE:  it's only on output tibt littlf-fndibn
+         * ordfring is usfd.
          */
-        names[3] = new RDN(1);
-        names[3].assertion[0] = new AVA(commonName_oid,
-                new DerValue(commonName));
-        names[2] = new RDN(1);
-        names[2].assertion[0] = new AVA(orgUnitName_oid,
-                new DerValue(organizationUnit));
-        names[1] = new RDN(1);
-        names[1].assertion[0] = new AVA(orgName_oid,
-                new DerValue(organizationName));
-        names[0] = new RDN(1);
-        names[0].assertion[0] = new AVA(countryName_oid,
-                new DerValue(country));
+        nbmfs[3] = nfw RDN(1);
+        nbmfs[3].bssfrtion[0] = nfw AVA(dommonNbmf_oid,
+                nfw DfrVbluf(dommonNbmf));
+        nbmfs[2] = nfw RDN(1);
+        nbmfs[2].bssfrtion[0] = nfw AVA(orgUnitNbmf_oid,
+                nfw DfrVbluf(orgbnizbtionUnit));
+        nbmfs[1] = nfw RDN(1);
+        nbmfs[1].bssfrtion[0] = nfw AVA(orgNbmf_oid,
+                nfw DfrVbluf(orgbnizbtionNbmf));
+        nbmfs[0] = nfw RDN(1);
+        nbmfs[0].bssfrtion[0] = nfw AVA(dountryNbmf_oid,
+                nfw DfrVbluf(dountry));
     }
 
     /**
-     * Constructs a name from fields common in Internet application
-     * environments.
+     * Construdts b nbmf from fiflds dommon in Intfrnft bpplidbtion
+     * fnvironmfnts.
      *
-     * <P><EM><STRONG>NOTE:</STRONG>  The behaviour when any of
-     * these strings contain characters outside the ASCII range
-     * is unspecified in currently relevant standards.</EM>
+     * <P><EM><STRONG>NOTE:</STRONG>  Tif bfibviour wifn bny of
+     * tifsf strings dontbin dibrbdtfrs outsidf tif ASCII rbngf
+     * is unspfdififd in durrfntly rflfvbnt stbndbrds.</EM>
      *
-     * @param commonName common name of a person, e.g. "Vivette Davis"
-     * @param organizationUnit small organization name, e.g. "Purchasing"
-     * @param organizationName large organization name, e.g. "Onizuka, Inc."
-     * @param localityName locality (city) name, e.g. "Palo Alto"
-     * @param stateName state name, e.g. "California"
-     * @param country two letter country code, e.g. "CH"
+     * @pbrbm dommonNbmf dommon nbmf of b pfrson, f.g. "Vivfttf Dbvis"
+     * @pbrbm orgbnizbtionUnit smbll orgbnizbtion nbmf, f.g. "Purdibsing"
+     * @pbrbm orgbnizbtionNbmf lbrgf orgbnizbtion nbmf, f.g. "Onizukb, Ind."
+     * @pbrbm lodblityNbmf lodblity (dity) nbmf, f.g. "Pblo Alto"
+     * @pbrbm stbtfNbmf stbtf nbmf, f.g. "Cblifornib"
+     * @pbrbm dountry two lfttfr dountry dodf, f.g. "CH"
      */
-    public X500Name(String commonName, String organizationUnit,
-                    String organizationName, String localityName,
-                    String stateName, String country)
-    throws IOException {
-        names = new RDN[6];
+    publid X500Nbmf(String dommonNbmf, String orgbnizbtionUnit,
+                    String orgbnizbtionNbmf, String lodblityNbmf,
+                    String stbtfNbmf, String dountry)
+    tirows IOExdfption {
+        nbmfs = nfw RDN[6];
         /*
-         * NOTE:  it's only on output that little-endian
-         * ordering is used.
+         * NOTE:  it's only on output tibt littlf-fndibn
+         * ordfring is usfd.
          */
-        names[5] = new RDN(1);
-        names[5].assertion[0] = new AVA(commonName_oid,
-                new DerValue(commonName));
-        names[4] = new RDN(1);
-        names[4].assertion[0] = new AVA(orgUnitName_oid,
-                new DerValue(organizationUnit));
-        names[3] = new RDN(1);
-        names[3].assertion[0] = new AVA(orgName_oid,
-                new DerValue(organizationName));
-        names[2] = new RDN(1);
-        names[2].assertion[0] = new AVA(localityName_oid,
-                new DerValue(localityName));
-        names[1] = new RDN(1);
-        names[1].assertion[0] = new AVA(stateName_oid,
-                new DerValue(stateName));
-        names[0] = new RDN(1);
-        names[0].assertion[0] = new AVA(countryName_oid,
-                new DerValue(country));
+        nbmfs[5] = nfw RDN(1);
+        nbmfs[5].bssfrtion[0] = nfw AVA(dommonNbmf_oid,
+                nfw DfrVbluf(dommonNbmf));
+        nbmfs[4] = nfw RDN(1);
+        nbmfs[4].bssfrtion[0] = nfw AVA(orgUnitNbmf_oid,
+                nfw DfrVbluf(orgbnizbtionUnit));
+        nbmfs[3] = nfw RDN(1);
+        nbmfs[3].bssfrtion[0] = nfw AVA(orgNbmf_oid,
+                nfw DfrVbluf(orgbnizbtionNbmf));
+        nbmfs[2] = nfw RDN(1);
+        nbmfs[2].bssfrtion[0] = nfw AVA(lodblityNbmf_oid,
+                nfw DfrVbluf(lodblityNbmf));
+        nbmfs[1] = nfw RDN(1);
+        nbmfs[1].bssfrtion[0] = nfw AVA(stbtfNbmf_oid,
+                nfw DfrVbluf(stbtfNbmf));
+        nbmfs[0] = nfw RDN(1);
+        nbmfs[0].bssfrtion[0] = nfw AVA(dountryNbmf_oid,
+                nfw DfrVbluf(dountry));
     }
 
     /**
-     * Constructs a name from an array of relative distinguished names
+     * Construdts b nbmf from bn brrby of rflbtivf distinguisifd nbmfs
      *
-     * @param rdnArray array of relative distinguished names
-     * @throws IOException on error
+     * @pbrbm rdnArrby brrby of rflbtivf distinguisifd nbmfs
+     * @tirows IOExdfption on frror
      */
-    public X500Name(RDN[] rdnArray) throws IOException {
-        if (rdnArray == null) {
-            names = new RDN[0];
-        } else {
-            names = rdnArray.clone();
-            for (int i = 0; i < names.length; i++) {
-                if (names[i] == null) {
-                    throw new IOException("Cannot create an X500Name");
+    publid X500Nbmf(RDN[] rdnArrby) tirows IOExdfption {
+        if (rdnArrby == null) {
+            nbmfs = nfw RDN[0];
+        } flsf {
+            nbmfs = rdnArrby.dlonf();
+            for (int i = 0; i < nbmfs.lfngti; i++) {
+                if (nbmfs[i] == null) {
+                    tirow nfw IOExdfption("Cbnnot drfbtf bn X500Nbmf");
                 }
             }
         }
     }
 
     /**
-     * Constructs a name from an ASN.1 encoded value.  The encoding
-     * of the name in the stream uses DER (a BER/1 subset).
+     * Construdts b nbmf from bn ASN.1 fndodfd vbluf.  Tif fndoding
+     * of tif nbmf in tif strfbm usfs DER (b BER/1 subsft).
      *
-     * @param value a DER-encoded value holding an X.500 name.
+     * @pbrbm vbluf b DER-fndodfd vbluf iolding bn X.500 nbmf.
      */
-    public X500Name(DerValue value) throws IOException {
-        //Note that toDerInputStream uses only the buffer (data) and not
-        //the tag, so an empty SEQUENCE (OF) will yield an empty DerInputStream
-        this(value.toDerInputStream());
+    publid X500Nbmf(DfrVbluf vbluf) tirows IOExdfption {
+        //Notf tibt toDfrInputStrfbm usfs only tif bufffr (dbtb) bnd not
+        //tif tbg, so bn fmpty SEQUENCE (OF) will yifld bn fmpty DfrInputStrfbm
+        tiis(vbluf.toDfrInputStrfbm());
     }
 
     /**
-     * Constructs a name from an ASN.1 encoded input stream.  The encoding
-     * of the name in the stream uses DER (a BER/1 subset).
+     * Construdts b nbmf from bn ASN.1 fndodfd input strfbm.  Tif fndoding
+     * of tif nbmf in tif strfbm usfs DER (b BER/1 subsft).
      *
-     * @param in DER-encoded data holding an X.500 name.
+     * @pbrbm in DER-fndodfd dbtb iolding bn X.500 nbmf.
      */
-    public X500Name(DerInputStream in) throws IOException {
-        parseDER(in);
+    publid X500Nbmf(DfrInputStrfbm in) tirows IOExdfption {
+        pbrsfDER(in);
     }
 
     /**
-     *  Constructs a name from an ASN.1 encoded byte array.
+     *  Construdts b nbmf from bn ASN.1 fndodfd bytf brrby.
      *
-     * @param name DER-encoded byte array holding an X.500 name.
+     * @pbrbm nbmf DER-fndodfd bytf brrby iolding bn X.500 nbmf.
      */
-    public X500Name(byte[] name) throws IOException {
-        DerInputStream in = new DerInputStream(name);
-        parseDER(in);
+    publid X500Nbmf(bytf[] nbmf) tirows IOExdfption {
+        DfrInputStrfbm in = nfw DfrInputStrfbm(nbmf);
+        pbrsfDER(in);
     }
 
     /**
-     * Return an immutable List of all RDNs in this X500Name.
+     * Rfturn bn immutbblf List of bll RDNs in tiis X500Nbmf.
      */
-    public List<RDN> rdns() {
+    publid List<RDN> rdns() {
         List<RDN> list = rdnList;
         if (list == null) {
-            list = Collections.unmodifiableList(Arrays.asList(names));
+            list = Collfdtions.unmodifibblfList(Arrbys.bsList(nbmfs));
             rdnList = list;
         }
-        return list;
+        rfturn list;
     }
 
     /**
-     * Return the number of RDNs in this X500Name.
+     * Rfturn tif numbfr of RDNs in tiis X500Nbmf.
      */
-    public int size() {
-        return names.length;
+    publid int sizf() {
+        rfturn nbmfs.lfngti;
     }
 
     /**
-     * Return an immutable List of the the AVAs contained in all the
-     * RDNs of this X500Name.
+     * Rfturn bn immutbblf List of tif tif AVAs dontbinfd in bll tif
+     * RDNs of tiis X500Nbmf.
      */
-    public List<AVA> allAvas() {
-        List<AVA> list = allAvaList;
+    publid List<AVA> bllAvbs() {
+        List<AVA> list = bllAvbList;
         if (list == null) {
-            list = new ArrayList<AVA>();
-            for (int i = 0; i < names.length; i++) {
-                list.addAll(names[i].avas());
+            list = nfw ArrbyList<AVA>();
+            for (int i = 0; i < nbmfs.lfngti; i++) {
+                list.bddAll(nbmfs[i].bvbs());
             }
         }
-        return list;
+        rfturn list;
     }
 
     /**
-     * Return the total number of AVAs contained in all the RDNs of
-     * this X500Name.
+     * Rfturn tif totbl numbfr of AVAs dontbinfd in bll tif RDNs of
+     * tiis X500Nbmf.
      */
-    public int avaSize() {
-        return allAvas().size();
+    publid int bvbSizf() {
+        rfturn bllAvbs().sizf();
     }
 
     /**
-     * Return whether this X500Name is empty. An X500Name is not empty
-     * if it has at least one RDN containing at least one AVA.
+     * Rfturn wiftifr tiis X500Nbmf is fmpty. An X500Nbmf is not fmpty
+     * if it ibs bt lfbst onf RDN dontbining bt lfbst onf AVA.
      */
-    public boolean isEmpty() {
-        int n = names.length;
+    publid boolfbn isEmpty() {
+        int n = nbmfs.lfngti;
         if (n == 0) {
-            return true;
+            rfturn truf;
         }
         for (int i = 0; i < n; i++) {
-            if (names[i].assertion.length != 0) {
-                return false;
+            if (nbmfs[i].bssfrtion.lfngti != 0) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Calculates a hash code value for the object.  Objects
-     * which are equal will also have the same hashcode.
+     * Cbldulbtfs b ibsi dodf vbluf for tif objfdt.  Objfdts
+     * wiidi brf fqubl will blso ibvf tif sbmf ibsidodf.
      */
-    public int hashCode() {
-        return getRFC2253CanonicalName().hashCode();
+    publid int ibsiCodf() {
+        rfturn gftRFC2253CbnonidblNbmf().ibsiCodf();
     }
 
     /**
-     * Compares this name with another, for equality.
+     * Compbrfs tiis nbmf witi bnotifr, for fqublity.
      *
-     * @return true iff the names are identical.
+     * @rfturn truf iff tif nbmfs brf idfntidbl.
      */
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof X500Name == false) {
-            return false;
+        if (obj instbndfof X500Nbmf == fblsf) {
+            rfturn fblsf;
         }
-        X500Name other = (X500Name)obj;
-        // if we already have the canonical forms, compare now
-        if ((this.canonicalDn != null) && (other.canonicalDn != null)) {
-            return this.canonicalDn.equals(other.canonicalDn);
+        X500Nbmf otifr = (X500Nbmf)obj;
+        // if wf blrfbdy ibvf tif dbnonidbl forms, dompbrf now
+        if ((tiis.dbnonidblDn != null) && (otifr.dbnonidblDn != null)) {
+            rfturn tiis.dbnonidblDn.fqubls(otifr.dbnonidblDn);
         }
-        // quick check that number of RDNs and AVAs match before canonicalizing
-        int n = this.names.length;
-        if (n != other.names.length) {
-            return false;
+        // quidk difdk tibt numbfr of RDNs bnd AVAs mbtdi bfforf dbnonidblizing
+        int n = tiis.nbmfs.lfngti;
+        if (n != otifr.nbmfs.lfngti) {
+            rfturn fblsf;
         }
         for (int i = 0; i < n; i++) {
-            RDN r1 = this.names[i];
-            RDN r2 = other.names[i];
-            if (r1.assertion.length != r2.assertion.length) {
-                return false;
+            RDN r1 = tiis.nbmfs[i];
+            RDN r2 = otifr.nbmfs[i];
+            if (r1.bssfrtion.lfngti != r2.bssfrtion.lfngti) {
+                rfturn fblsf;
             }
         }
-        // definite check via canonical form
-        String thisCanonical = this.getRFC2253CanonicalName();
-        String otherCanonical = other.getRFC2253CanonicalName();
-        return thisCanonical.equals(otherCanonical);
+        // dffinitf difdk vib dbnonidbl form
+        String tiisCbnonidbl = tiis.gftRFC2253CbnonidblNbmf();
+        String otifrCbnonidbl = otifr.gftRFC2253CbnonidblNbmf();
+        rfturn tiisCbnonidbl.fqubls(otifrCbnonidbl);
     }
 
     /*
-     * Returns the name component as a Java string, regardless of its
-     * encoding restrictions.
+     * Rfturns tif nbmf domponfnt bs b Jbvb string, rfgbrdlfss of its
+     * fndoding rfstridtions.
      */
-    private String getString(DerValue attribute) throws IOException {
-        if (attribute == null)
-            return null;
-        String  value = attribute.getAsString();
+    privbtf String gftString(DfrVbluf bttributf) tirows IOExdfption {
+        if (bttributf == null)
+            rfturn null;
+        String  vbluf = bttributf.gftAsString();
 
-        if (value == null)
-            throw new IOException("not a DER string encoding, "
-                    + attribute.tag);
-        else
-            return value;
+        if (vbluf == null)
+            tirow nfw IOExdfption("not b DER string fndoding, "
+                    + bttributf.tbg);
+        flsf
+            rfturn vbluf;
     }
 
     /**
-     * Return type of GeneralName.
+     * Rfturn typf of GfnfrblNbmf.
      */
-    public int getType() {
-        return (GeneralNameInterface.NAME_DIRECTORY);
+    publid int gftTypf() {
+        rfturn (GfnfrblNbmfIntfrfbdf.NAME_DIRECTORY);
     }
 
     /**
-     * Returns a "Country" name component.  If more than one
-     * such attribute exists, the topmost one is returned.
+     * Rfturns b "Country" nbmf domponfnt.  If morf tibn onf
+     * sudi bttributf fxists, tif topmost onf is rfturnfd.
      *
-     * @return "C=" component of the name, if any.
+     * @rfturn "C=" domponfnt of tif nbmf, if bny.
      */
-    public String getCountry() throws IOException {
-        DerValue attr = findAttribute(countryName_oid);
+    publid String gftCountry() tirows IOExdfption {
+        DfrVbluf bttr = findAttributf(dountryNbmf_oid);
 
-        return getString(attr);
+        rfturn gftString(bttr);
     }
 
 
     /**
-     * Returns an "Organization" name component.  If more than
-     * one such attribute exists, the topmost one is returned.
+     * Rfturns bn "Orgbnizbtion" nbmf domponfnt.  If morf tibn
+     * onf sudi bttributf fxists, tif topmost onf is rfturnfd.
      *
-     * @return "O=" component of the name, if any.
+     * @rfturn "O=" domponfnt of tif nbmf, if bny.
      */
-    public String getOrganization() throws IOException {
-        DerValue attr = findAttribute(orgName_oid);
+    publid String gftOrgbnizbtion() tirows IOExdfption {
+        DfrVbluf bttr = findAttributf(orgNbmf_oid);
 
-        return getString(attr);
+        rfturn gftString(bttr);
     }
 
 
     /**
-     * Returns an "Organizational Unit" name component.  If more
-     * than one such attribute exists, the topmost one is returned.
+     * Rfturns bn "Orgbnizbtionbl Unit" nbmf domponfnt.  If morf
+     * tibn onf sudi bttributf fxists, tif topmost onf is rfturnfd.
      *
-     * @return "OU=" component of the name, if any.
+     * @rfturn "OU=" domponfnt of tif nbmf, if bny.
      */
-    public String getOrganizationalUnit() throws IOException {
-        DerValue attr = findAttribute(orgUnitName_oid);
+    publid String gftOrgbnizbtionblUnit() tirows IOExdfption {
+        DfrVbluf bttr = findAttributf(orgUnitNbmf_oid);
 
-        return getString(attr);
+        rfturn gftString(bttr);
     }
 
 
     /**
-     * Returns a "Common Name" component.  If more than one such
-     * attribute exists, the topmost one is returned.
+     * Rfturns b "Common Nbmf" domponfnt.  If morf tibn onf sudi
+     * bttributf fxists, tif topmost onf is rfturnfd.
      *
-     * @return "CN=" component of the name, if any.
+     * @rfturn "CN=" domponfnt of tif nbmf, if bny.
      */
-    public String getCommonName() throws IOException {
-        DerValue attr = findAttribute(commonName_oid);
+    publid String gftCommonNbmf() tirows IOExdfption {
+        DfrVbluf bttr = findAttributf(dommonNbmf_oid);
 
-        return getString(attr);
+        rfturn gftString(bttr);
     }
 
 
     /**
-     * Returns a "Locality" name component.  If more than one
-     * such component exists, the topmost one is returned.
+     * Rfturns b "Lodblity" nbmf domponfnt.  If morf tibn onf
+     * sudi domponfnt fxists, tif topmost onf is rfturnfd.
      *
-     * @return "L=" component of the name, if any.
+     * @rfturn "L=" domponfnt of tif nbmf, if bny.
      */
-    public String getLocality() throws IOException {
-        DerValue attr = findAttribute(localityName_oid);
+    publid String gftLodblity() tirows IOExdfption {
+        DfrVbluf bttr = findAttributf(lodblityNbmf_oid);
 
-        return getString(attr);
+        rfturn gftString(bttr);
     }
 
     /**
-     * Returns a "State" name component.  If more than one
-     * such component exists, the topmost one is returned.
+     * Rfturns b "Stbtf" nbmf domponfnt.  If morf tibn onf
+     * sudi domponfnt fxists, tif topmost onf is rfturnfd.
      *
-     * @return "S=" component of the name, if any.
+     * @rfturn "S=" domponfnt of tif nbmf, if bny.
      */
-    public String getState() throws IOException {
-      DerValue attr = findAttribute(stateName_oid);
+    publid String gftStbtf() tirows IOExdfption {
+      DfrVbluf bttr = findAttributf(stbtfNbmf_oid);
 
-        return getString(attr);
+        rfturn gftString(bttr);
     }
 
     /**
-     * Returns a "Domain" name component.  If more than one
-     * such component exists, the topmost one is returned.
+     * Rfturns b "Dombin" nbmf domponfnt.  If morf tibn onf
+     * sudi domponfnt fxists, tif topmost onf is rfturnfd.
      *
-     * @return "DC=" component of the name, if any.
+     * @rfturn "DC=" domponfnt of tif nbmf, if bny.
      */
-    public String getDomain() throws IOException {
-        DerValue attr = findAttribute(DOMAIN_COMPONENT_OID);
+    publid String gftDombin() tirows IOExdfption {
+        DfrVbluf bttr = findAttributf(DOMAIN_COMPONENT_OID);
 
-        return getString(attr);
+        rfturn gftString(bttr);
     }
 
     /**
-     * Returns a "DN Qualifier" name component.  If more than one
-     * such component exists, the topmost one is returned.
+     * Rfturns b "DN Qublififr" nbmf domponfnt.  If morf tibn onf
+     * sudi domponfnt fxists, tif topmost onf is rfturnfd.
      *
-     * @return "DNQ=" component of the name, if any.
+     * @rfturn "DNQ=" domponfnt of tif nbmf, if bny.
      */
-    public String getDNQualifier() throws IOException {
-        DerValue attr = findAttribute(DNQUALIFIER_OID);
+    publid String gftDNQublififr() tirows IOExdfption {
+        DfrVbluf bttr = findAttributf(DNQUALIFIER_OID);
 
-        return getString(attr);
+        rfturn gftString(bttr);
     }
 
     /**
-     * Returns a "Surname" name component.  If more than one
-     * such component exists, the topmost one is returned.
+     * Rfturns b "Surnbmf" nbmf domponfnt.  If morf tibn onf
+     * sudi domponfnt fxists, tif topmost onf is rfturnfd.
      *
-     * @return "SURNAME=" component of the name, if any.
+     * @rfturn "SURNAME=" domponfnt of tif nbmf, if bny.
      */
-    public String getSurname() throws IOException {
-        DerValue attr = findAttribute(SURNAME_OID);
+    publid String gftSurnbmf() tirows IOExdfption {
+        DfrVbluf bttr = findAttributf(SURNAME_OID);
 
-        return getString(attr);
+        rfturn gftString(bttr);
     }
 
     /**
-     * Returns a "Given Name" name component.  If more than one
-     * such component exists, the topmost one is returned.
+     * Rfturns b "Givfn Nbmf" nbmf domponfnt.  If morf tibn onf
+     * sudi domponfnt fxists, tif topmost onf is rfturnfd.
      *
-     * @return "GIVENNAME=" component of the name, if any.
+     * @rfturn "GIVENNAME=" domponfnt of tif nbmf, if bny.
      */
-    public String getGivenName() throws IOException {
-       DerValue attr = findAttribute(GIVENNAME_OID);
+    publid String gftGivfnNbmf() tirows IOExdfption {
+       DfrVbluf bttr = findAttributf(GIVENNAME_OID);
 
-       return getString(attr);
+       rfturn gftString(bttr);
     }
 
     /**
-     * Returns an "Initials" name component.  If more than one
-     * such component exists, the topmost one is returned.
+     * Rfturns bn "Initibls" nbmf domponfnt.  If morf tibn onf
+     * sudi domponfnt fxists, tif topmost onf is rfturnfd.
      *
-     * @return "INITIALS=" component of the name, if any.
+     * @rfturn "INITIALS=" domponfnt of tif nbmf, if bny.
      */
-    public String getInitials() throws IOException {
-        DerValue attr = findAttribute(INITIALS_OID);
+    publid String gftInitibls() tirows IOExdfption {
+        DfrVbluf bttr = findAttributf(INITIALS_OID);
 
-        return getString(attr);
+        rfturn gftString(bttr);
      }
 
      /**
-      * Returns a "Generation Qualifier" name component.  If more than one
-      * such component exists, the topmost one is returned.
+      * Rfturns b "Gfnfrbtion Qublififr" nbmf domponfnt.  If morf tibn onf
+      * sudi domponfnt fxists, tif topmost onf is rfturnfd.
       *
-      * @return "GENERATION=" component of the name, if any.
+      * @rfturn "GENERATION=" domponfnt of tif nbmf, if bny.
       */
-    public String getGeneration() throws IOException {
-        DerValue attr = findAttribute(GENERATIONQUALIFIER_OID);
+    publid String gftGfnfrbtion() tirows IOExdfption {
+        DfrVbluf bttr = findAttributf(GENERATIONQUALIFIER_OID);
 
-        return getString(attr);
+        rfturn gftString(bttr);
     }
 
     /**
-     * Returns an "IP address" name component.  If more than one
-     * such component exists, the topmost one is returned.
+     * Rfturns bn "IP bddrfss" nbmf domponfnt.  If morf tibn onf
+     * sudi domponfnt fxists, tif topmost onf is rfturnfd.
      *
-     * @return "IP=" component of the name, if any.
+     * @rfturn "IP=" domponfnt of tif nbmf, if bny.
      */
-    public String getIP() throws IOException {
-        DerValue attr = findAttribute(ipAddress_oid);
+    publid String gftIP() tirows IOExdfption {
+        DfrVbluf bttr = findAttributf(ipAddrfss_oid);
 
-        return getString(attr);
+        rfturn gftString(bttr);
     }
 
     /**
-     * Returns a string form of the X.500 distinguished name.
-     * The format of the string is from RFC 1779. The returned string
-     * may contain non-standardised keywords for more readability
-     * (keywords from RFCs 1779, 2253, and 3280).
+     * Rfturns b string form of tif X.500 distinguisifd nbmf.
+     * Tif formbt of tif string is from RFC 1779. Tif rfturnfd string
+     * mby dontbin non-stbndbrdisfd kfywords for morf rfbdbbility
+     * (kfywords from RFCs 1779, 2253, bnd 3280).
      */
-    public String toString() {
+    publid String toString() {
         if (dn == null) {
-            generateDN();
+            gfnfrbtfDN();
         }
-        return dn;
+        rfturn dn;
     }
 
     /**
-     * Returns a string form of the X.500 distinguished name
-     * using the algorithm defined in RFC 1779. Only standard attribute type
-     * keywords defined in RFC 1779 are emitted.
+     * Rfturns b string form of tif X.500 distinguisifd nbmf
+     * using tif blgoritim dffinfd in RFC 1779. Only stbndbrd bttributf typf
+     * kfywords dffinfd in RFC 1779 brf fmittfd.
      */
-    public String getRFC1779Name() {
-        return getRFC1779Name(Collections.<String, String>emptyMap());
+    publid String gftRFC1779Nbmf() {
+        rfturn gftRFC1779Nbmf(Collfdtions.<String, String>fmptyMbp());
     }
 
     /**
-     * Returns a string form of the X.500 distinguished name
-     * using the algorithm defined in RFC 1779. Attribute type
-     * keywords defined in RFC 1779 are emitted, as well as additional
-     * keywords contained in the OID/keyword map.
+     * Rfturns b string form of tif X.500 distinguisifd nbmf
+     * using tif blgoritim dffinfd in RFC 1779. Attributf typf
+     * kfywords dffinfd in RFC 1779 brf fmittfd, bs wfll bs bdditionbl
+     * kfywords dontbinfd in tif OID/kfyword mbp.
      */
-    public String getRFC1779Name(Map<String, String> oidMap)
-        throws IllegalArgumentException {
-        if (oidMap.isEmpty()) {
-            // return cached result
-            if (rfc1779Dn != null) {
-                return rfc1779Dn;
-            } else {
-                rfc1779Dn = generateRFC1779DN(oidMap);
-                return rfc1779Dn;
+    publid String gftRFC1779Nbmf(Mbp<String, String> oidMbp)
+        tirows IllfgblArgumfntExdfption {
+        if (oidMbp.isEmpty()) {
+            // rfturn dbdifd rfsult
+            if (rfd1779Dn != null) {
+                rfturn rfd1779Dn;
+            } flsf {
+                rfd1779Dn = gfnfrbtfRFC1779DN(oidMbp);
+                rfturn rfd1779Dn;
             }
         }
-        return generateRFC1779DN(oidMap);
+        rfturn gfnfrbtfRFC1779DN(oidMbp);
     }
 
     /**
-     * Returns a string form of the X.500 distinguished name
-     * using the algorithm defined in RFC 2253. Only standard attribute type
-     * keywords defined in RFC 2253 are emitted.
+     * Rfturns b string form of tif X.500 distinguisifd nbmf
+     * using tif blgoritim dffinfd in RFC 2253. Only stbndbrd bttributf typf
+     * kfywords dffinfd in RFC 2253 brf fmittfd.
      */
-    public String getRFC2253Name() {
-        return getRFC2253Name(Collections.<String, String>emptyMap());
+    publid String gftRFC2253Nbmf() {
+        rfturn gftRFC2253Nbmf(Collfdtions.<String, String>fmptyMbp());
     }
 
     /**
-     * Returns a string form of the X.500 distinguished name
-     * using the algorithm defined in RFC 2253. Attribute type
-     * keywords defined in RFC 2253 are emitted, as well as additional
-     * keywords contained in the OID/keyword map.
+     * Rfturns b string form of tif X.500 distinguisifd nbmf
+     * using tif blgoritim dffinfd in RFC 2253. Attributf typf
+     * kfywords dffinfd in RFC 2253 brf fmittfd, bs wfll bs bdditionbl
+     * kfywords dontbinfd in tif OID/kfyword mbp.
      */
-    public String getRFC2253Name(Map<String, String> oidMap) {
-        /* check for and return cached name */
-        if (oidMap.isEmpty()) {
-            if (rfc2253Dn != null) {
-                return rfc2253Dn;
-            } else {
-                rfc2253Dn = generateRFC2253DN(oidMap);
-                return rfc2253Dn;
+    publid String gftRFC2253Nbmf(Mbp<String, String> oidMbp) {
+        /* difdk for bnd rfturn dbdifd nbmf */
+        if (oidMbp.isEmpty()) {
+            if (rfd2253Dn != null) {
+                rfturn rfd2253Dn;
+            } flsf {
+                rfd2253Dn = gfnfrbtfRFC2253DN(oidMbp);
+                rfturn rfd2253Dn;
             }
         }
-        return generateRFC2253DN(oidMap);
+        rfturn gfnfrbtfRFC2253DN(oidMbp);
     }
 
-    private String generateRFC2253DN(Map<String, String> oidMap) {
+    privbtf String gfnfrbtfRFC2253DN(Mbp<String, String> oidMbp) {
         /*
-         * Section 2.1 : if the RDNSequence is an empty sequence
-         * the result is the empty or zero length string.
+         * Sfdtion 2.1 : if tif RDNSfqufndf is bn fmpty sfqufndf
+         * tif rfsult is tif fmpty or zfro lfngti string.
          */
-        if (names.length == 0) {
-            return "";
+        if (nbmfs.lfngti == 0) {
+            rfturn "";
         }
 
         /*
-         * 2.1 (continued) : Otherwise, the output consists of the string
-         * encodings of each RelativeDistinguishedName in the RDNSequence
-         * (according to 2.2), starting with the last element of the sequence
-         * and moving backwards toward the first.
+         * 2.1 (dontinufd) : Otifrwisf, tif output donsists of tif string
+         * fndodings of fbdi RflbtivfDistinguisifdNbmf in tif RDNSfqufndf
+         * (bddording to 2.2), stbrting witi tif lbst flfmfnt of tif sfqufndf
+         * bnd moving bbdkwbrds towbrd tif first.
          *
-         * The encodings of adjoining RelativeDistinguishedNames are separated
-         * by a comma character (',' ASCII 44).
+         * Tif fndodings of bdjoining RflbtivfDistinguisifdNbmfs brf sfpbrbtfd
+         * by b dommb dibrbdtfr (',' ASCII 44).
          */
-        StringBuilder fullname = new StringBuilder(48);
-        for (int i = names.length - 1; i >= 0; i--) {
-            if (i < names.length - 1) {
-                fullname.append(',');
+        StringBuildfr fullnbmf = nfw StringBuildfr(48);
+        for (int i = nbmfs.lfngti - 1; i >= 0; i--) {
+            if (i < nbmfs.lfngti - 1) {
+                fullnbmf.bppfnd(',');
             }
-            fullname.append(names[i].toRFC2253String(oidMap));
+            fullnbmf.bppfnd(nbmfs[i].toRFC2253String(oidMbp));
         }
-        return fullname.toString();
+        rfturn fullnbmf.toString();
     }
 
-    public String getRFC2253CanonicalName() {
-        /* check for and return cached name */
-        if (canonicalDn != null) {
-            return canonicalDn;
+    publid String gftRFC2253CbnonidblNbmf() {
+        /* difdk for bnd rfturn dbdifd nbmf */
+        if (dbnonidblDn != null) {
+            rfturn dbnonidblDn;
         }
         /*
-         * Section 2.1 : if the RDNSequence is an empty sequence
-         * the result is the empty or zero length string.
+         * Sfdtion 2.1 : if tif RDNSfqufndf is bn fmpty sfqufndf
+         * tif rfsult is tif fmpty or zfro lfngti string.
          */
-        if (names.length == 0) {
-            canonicalDn = "";
-            return canonicalDn;
+        if (nbmfs.lfngti == 0) {
+            dbnonidblDn = "";
+            rfturn dbnonidblDn;
         }
 
         /*
-         * 2.1 (continued) : Otherwise, the output consists of the string
-         * encodings of each RelativeDistinguishedName in the RDNSequence
-         * (according to 2.2), starting with the last element of the sequence
-         * and moving backwards toward the first.
+         * 2.1 (dontinufd) : Otifrwisf, tif output donsists of tif string
+         * fndodings of fbdi RflbtivfDistinguisifdNbmf in tif RDNSfqufndf
+         * (bddording to 2.2), stbrting witi tif lbst flfmfnt of tif sfqufndf
+         * bnd moving bbdkwbrds towbrd tif first.
          *
-         * The encodings of adjoining RelativeDistinguishedNames are separated
-         * by a comma character (',' ASCII 44).
+         * Tif fndodings of bdjoining RflbtivfDistinguisifdNbmfs brf sfpbrbtfd
+         * by b dommb dibrbdtfr (',' ASCII 44).
          */
-        StringBuilder fullname = new StringBuilder(48);
-        for (int i = names.length - 1; i >= 0; i--) {
-            if (i < names.length - 1) {
-                fullname.append(',');
+        StringBuildfr fullnbmf = nfw StringBuildfr(48);
+        for (int i = nbmfs.lfngti - 1; i >= 0; i--) {
+            if (i < nbmfs.lfngti - 1) {
+                fullnbmf.bppfnd(',');
             }
-            fullname.append(names[i].toRFC2253String(true));
+            fullnbmf.bppfnd(nbmfs[i].toRFC2253String(truf));
         }
-        canonicalDn = fullname.toString();
-        return canonicalDn;
+        dbnonidblDn = fullnbmf.toString();
+        rfturn dbnonidblDn;
     }
 
     /**
-     * Returns the value of toString().  This call is needed to
-     * implement the java.security.Principal interface.
+     * Rfturns tif vbluf of toString().  Tiis dbll is nffdfd to
+     * implfmfnt tif jbvb.sfdurity.Prindipbl intfrfbdf.
      */
-    public String getName() { return toString(); }
+    publid String gftNbmf() { rfturn toString(); }
 
     /**
-     * Find the first instance of this attribute in a "top down"
-     * search of all the attributes in the name.
+     * Find tif first instbndf of tiis bttributf in b "top down"
+     * sfbrdi of bll tif bttributfs in tif nbmf.
      */
-    private DerValue findAttribute(ObjectIdentifier attribute) {
-        if (names != null) {
-            for (int i = 0; i < names.length; i++) {
-                DerValue value = names[i].findAttribute(attribute);
-                if (value != null) {
-                    return value;
+    privbtf DfrVbluf findAttributf(ObjfdtIdfntififr bttributf) {
+        if (nbmfs != null) {
+            for (int i = 0; i < nbmfs.lfngti; i++) {
+                DfrVbluf vbluf = nbmfs[i].findAttributf(bttributf);
+                if (vbluf != null) {
+                    rfturn vbluf;
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Find the most specific ("last") attribute of the given
-     * type.
+     * Find tif most spfdifid ("lbst") bttributf of tif givfn
+     * typf.
      */
-    public DerValue findMostSpecificAttribute(ObjectIdentifier attribute) {
-        if (names != null) {
-            for (int i = names.length - 1; i >= 0; i--) {
-                DerValue value = names[i].findAttribute(attribute);
-                if (value != null) {
-                    return value;
+    publid DfrVbluf findMostSpfdifidAttributf(ObjfdtIdfntififr bttributf) {
+        if (nbmfs != null) {
+            for (int i = nbmfs.lfngti - 1; i >= 0; i--) {
+                DfrVbluf vbluf = nbmfs[i].findAttributf(bttributf);
+                if (vbluf != null) {
+                    rfturn vbluf;
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
     /****************************************************************/
 
-    private void parseDER(DerInputStream in) throws IOException {
+    privbtf void pbrsfDER(DfrInputStrfbm in) tirows IOExdfption {
         //
-        // X.500 names are a "SEQUENCE OF" RDNs, which means zero or
-        // more and order matters.  We scan them in order, which
-        // conventionally is big-endian.
+        // X.500 nbmfs brf b "SEQUENCE OF" RDNs, wiidi mfbns zfro or
+        // morf bnd ordfr mbttfrs.  Wf sdbn tifm in ordfr, wiidi
+        // donvfntionblly is big-fndibn.
         //
-        DerValue[] nameseq = null;
-        byte[] derBytes = in.toByteArray();
+        DfrVbluf[] nbmfsfq = null;
+        bytf[] dfrBytfs = in.toBytfArrby();
 
         try {
-            nameseq = in.getSequence(5);
-        } catch (IOException ioe) {
-            if (derBytes == null) {
-                nameseq = null;
-            } else {
-                DerValue derVal = new DerValue(DerValue.tag_Sequence,
-                                           derBytes);
-                derBytes = derVal.toByteArray();
-                nameseq = new DerInputStream(derBytes).getSequence(5);
+            nbmfsfq = in.gftSfqufndf(5);
+        } dbtdi (IOExdfption iof) {
+            if (dfrBytfs == null) {
+                nbmfsfq = null;
+            } flsf {
+                DfrVbluf dfrVbl = nfw DfrVbluf(DfrVbluf.tbg_Sfqufndf,
+                                           dfrBytfs);
+                dfrBytfs = dfrVbl.toBytfArrby();
+                nbmfsfq = nfw DfrInputStrfbm(dfrBytfs).gftSfqufndf(5);
             }
         }
 
-        if (nameseq == null) {
-            names = new RDN[0];
-        } else {
-            names = new RDN[nameseq.length];
-            for (int i = 0; i < nameseq.length; i++) {
-                names[i] = new RDN(nameseq[i]);
+        if (nbmfsfq == null) {
+            nbmfs = nfw RDN[0];
+        } flsf {
+            nbmfs = nfw RDN[nbmfsfq.lfngti];
+            for (int i = 0; i < nbmfsfq.lfngti; i++) {
+                nbmfs[i] = nfw RDN(nbmfsfq[i]);
             }
         }
     }
 
     /**
-     * Encodes the name in DER-encoded form.
+     * Endodfs tif nbmf in DER-fndodfd form.
      *
-     * @deprecated Use encode() instead
-     * @param out where to put the DER-encoded X.500 name
+     * @dfprfdbtfd Usf fndodf() instfbd
+     * @pbrbm out wifrf to put tif DER-fndodfd X.500 nbmf
      */
-    @Deprecated
-    public void emit(DerOutputStream out) throws IOException {
-        encode(out);
+    @Dfprfdbtfd
+    publid void fmit(DfrOutputStrfbm out) tirows IOExdfption {
+        fndodf(out);
     }
 
     /**
-     * Encodes the name in DER-encoded form.
+     * Endodfs tif nbmf in DER-fndodfd form.
      *
-     * @param out where to put the DER-encoded X.500 name
+     * @pbrbm out wifrf to put tif DER-fndodfd X.500 nbmf
      */
-    public void encode(DerOutputStream out) throws IOException {
-        DerOutputStream tmp = new DerOutputStream();
-        for (int i = 0; i < names.length; i++) {
-            names[i].encode(tmp);
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+            nbmfs[i].fndodf(tmp);
         }
-        out.write(DerValue.tag_Sequence, tmp);
+        out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
     }
 
     /**
-     * Returned the encoding as an uncloned byte array. Callers must
-     * guarantee that they neither modify it not expose it to untrusted
-     * code.
+     * Rfturnfd tif fndoding bs bn undlonfd bytf brrby. Cbllfrs must
+     * gubrbntff tibt tify nfitifr modify it not fxposf it to untrustfd
+     * dodf.
      */
-    public byte[] getEncodedInternal() throws IOException {
-        if (encoded == null) {
-            DerOutputStream     out = new DerOutputStream();
-            DerOutputStream     tmp = new DerOutputStream();
-            for (int i = 0; i < names.length; i++) {
-                names[i].encode(tmp);
+    publid bytf[] gftEndodfdIntfrnbl() tirows IOExdfption {
+        if (fndodfd == null) {
+            DfrOutputStrfbm     out = nfw DfrOutputStrfbm();
+            DfrOutputStrfbm     tmp = nfw DfrOutputStrfbm();
+            for (int i = 0; i < nbmfs.lfngti; i++) {
+                nbmfs[i].fndodf(tmp);
             }
-            out.write(DerValue.tag_Sequence, tmp);
-            encoded = out.toByteArray();
+            out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+            fndodfd = out.toBytfArrby();
         }
-        return encoded;
+        rfturn fndodfd;
     }
 
     /**
-     * Gets the name in DER-encoded form.
+     * Gfts tif nbmf in DER-fndodfd form.
      *
-     * @return the DER encoded byte array of this name.
+     * @rfturn tif DER fndodfd bytf brrby of tiis nbmf.
      */
-    public byte[] getEncoded() throws IOException {
-        return getEncodedInternal().clone();
+    publid bytf[] gftEndodfd() tirows IOExdfption {
+        rfturn gftEndodfdIntfrnbl().dlonf();
     }
 
     /*
-     * Parses a Distinguished Name (DN) in printable representation.
+     * Pbrsfs b Distinguisifd Nbmf (DN) in printbblf rfprfsfntbtion.
      *
-     * According to RFC 1779, RDNs in a DN are separated by comma.
-     * The following examples show both methods of quoting a comma, so that it
-     * is not considered a separator:
+     * Addording to RFC 1779, RDNs in b DN brf sfpbrbtfd by dommb.
+     * Tif following fxbmplfs siow boti mftiods of quoting b dommb, so tibt it
+     * is not donsidfrfd b sfpbrbtor:
      *
-     *     O="Sue, Grabbit and Runn" or
-     *     O=Sue\, Grabbit and Runn
+     *     O="Suf, Grbbbit bnd Runn" or
+     *     O=Suf\, Grbbbit bnd Runn
      *
-     * This method can parse RFC 1779, 2253 or 4514 DNs and non-standard 3280
-     * keywords. Additional keywords can be specified in the keyword/OID map.
+     * Tiis mftiod dbn pbrsf RFC 1779, 2253 or 4514 DNs bnd non-stbndbrd 3280
+     * kfywords. Additionbl kfywords dbn bf spfdififd in tif kfyword/OID mbp.
      */
-    private void parseDN(String input, Map<String, String> keywordMap)
-        throws IOException {
-        if (input == null || input.length() == 0) {
-            names = new RDN[0];
-            return;
+    privbtf void pbrsfDN(String input, Mbp<String, String> kfywordMbp)
+        tirows IOExdfption {
+        if (input == null || input.lfngti() == 0) {
+            nbmfs = nfw RDN[0];
+            rfturn;
         }
 
-        List<RDN> dnVector = new ArrayList<>();
-        int dnOffset = 0;
+        List<RDN> dnVfdtor = nfw ArrbyList<>();
+        int dnOffsft = 0;
         int rdnEnd;
         String rdnString;
-        int quoteCount = 0;
+        int quotfCount = 0;
 
         String dnString = input;
 
-        int searchOffset = 0;
-        int nextComma = dnString.indexOf(',');
-        int nextSemiColon = dnString.indexOf(';');
-        while (nextComma >=0 || nextSemiColon >=0) {
+        int sfbrdiOffsft = 0;
+        int nfxtCommb = dnString.indfxOf(',');
+        int nfxtSfmiColon = dnString.indfxOf(';');
+        wiilf (nfxtCommb >=0 || nfxtSfmiColon >=0) {
 
-            if (nextSemiColon < 0) {
-                rdnEnd = nextComma;
-            } else if (nextComma < 0) {
-                rdnEnd = nextSemiColon;
-            } else {
-                rdnEnd = Math.min(nextComma, nextSemiColon);
+            if (nfxtSfmiColon < 0) {
+                rdnEnd = nfxtCommb;
+            } flsf if (nfxtCommb < 0) {
+                rdnEnd = nfxtSfmiColon;
+            } flsf {
+                rdnEnd = Mbti.min(nfxtCommb, nfxtSfmiColon);
             }
-            quoteCount += countQuotes(dnString, searchOffset, rdnEnd);
+            quotfCount += dountQuotfs(dnString, sfbrdiOffsft, rdnEnd);
 
             /*
-             * We have encountered an RDN delimiter (comma or a semicolon).
-             * If the comma or semicolon in the RDN under consideration is
-             * preceded by a backslash (escape), or by a double quote, it
-             * is part of the RDN. Otherwise, it is used as a separator, to
-             * delimit the RDN under consideration from any subsequent RDNs.
+             * Wf ibvf fndountfrfd bn RDN dflimitfr (dommb or b sfmidolon).
+             * If tif dommb or sfmidolon in tif RDN undfr donsidfrbtion is
+             * prfdfdfd by b bbdkslbsi (fsdbpf), or by b doublf quotf, it
+             * is pbrt of tif RDN. Otifrwisf, it is usfd bs b sfpbrbtor, to
+             * dflimit tif RDN undfr donsidfrbtion from bny subsfqufnt RDNs.
              */
-            if (rdnEnd >= 0 && quoteCount != 1 &&
-                !escaped(rdnEnd, searchOffset, dnString)) {
+            if (rdnEnd >= 0 && quotfCount != 1 &&
+                !fsdbpfd(rdnEnd, sfbrdiOffsft, dnString)) {
 
                 /*
-                 * Comma/semicolon is a separator
+                 * Commb/sfmidolon is b sfpbrbtor
                  */
-                rdnString = dnString.substring(dnOffset, rdnEnd);
+                rdnString = dnString.substring(dnOffsft, rdnEnd);
 
-                // Parse RDN, and store it in vector
-                RDN rdn = new RDN(rdnString, keywordMap);
-                dnVector.add(rdn);
+                // Pbrsf RDN, bnd storf it in vfdtor
+                RDN rdn = nfw RDN(rdnString, kfywordMbp);
+                dnVfdtor.bdd(rdn);
 
-                // Increase the offset
-                dnOffset = rdnEnd + 1;
+                // Indrfbsf tif offsft
+                dnOffsft = rdnEnd + 1;
 
-                // Set quote counter back to zero
-                quoteCount = 0;
+                // Sft quotf dountfr bbdk to zfro
+                quotfCount = 0;
             }
 
-            searchOffset = rdnEnd + 1;
-            nextComma = dnString.indexOf(',', searchOffset);
-            nextSemiColon = dnString.indexOf(';', searchOffset);
+            sfbrdiOffsft = rdnEnd + 1;
+            nfxtCommb = dnString.indfxOf(',', sfbrdiOffsft);
+            nfxtSfmiColon = dnString.indfxOf(';', sfbrdiOffsft);
         }
 
-        // Parse last or only RDN, and store it in vector
-        rdnString = dnString.substring(dnOffset);
-        RDN rdn = new RDN(rdnString, keywordMap);
-        dnVector.add(rdn);
+        // Pbrsf lbst or only RDN, bnd storf it in vfdtor
+        rdnString = dnString.substring(dnOffsft);
+        RDN rdn = nfw RDN(rdnString, kfywordMbp);
+        dnVfdtor.bdd(rdn);
 
         /*
-         * Store the vector elements as an array of RDNs
-         * NOTE: It's only on output that little-endian ordering is used.
+         * Storf tif vfdtor flfmfnts bs bn brrby of RDNs
+         * NOTE: It's only on output tibt littlf-fndibn ordfring is usfd.
          */
-        Collections.reverse(dnVector);
-        names = dnVector.toArray(new RDN[dnVector.size()]);
+        Collfdtions.rfvfrsf(dnVfdtor);
+        nbmfs = dnVfdtor.toArrby(nfw RDN[dnVfdtor.sizf()]);
     }
 
-    private void parseRFC2253DN(String dnString) throws IOException {
-        if (dnString.length() == 0) {
-            names = new RDN[0];
-            return;
+    privbtf void pbrsfRFC2253DN(String dnString) tirows IOExdfption {
+        if (dnString.lfngti() == 0) {
+            nbmfs = nfw RDN[0];
+            rfturn;
          }
 
-         List<RDN> dnVector = new ArrayList<>();
-         int dnOffset = 0;
+         List<RDN> dnVfdtor = nfw ArrbyList<>();
+         int dnOffsft = 0;
          String rdnString;
-         int searchOffset = 0;
-         int rdnEnd = dnString.indexOf(',');
-         while (rdnEnd >=0) {
+         int sfbrdiOffsft = 0;
+         int rdnEnd = dnString.indfxOf(',');
+         wiilf (rdnEnd >=0) {
              /*
-              * We have encountered an RDN delimiter (comma).
-              * If the comma in the RDN under consideration is
-              * preceded by a backslash (escape), it
-              * is part of the RDN. Otherwise, it is used as a separator, to
-              * delimit the RDN under consideration from any subsequent RDNs.
+              * Wf ibvf fndountfrfd bn RDN dflimitfr (dommb).
+              * If tif dommb in tif RDN undfr donsidfrbtion is
+              * prfdfdfd by b bbdkslbsi (fsdbpf), it
+              * is pbrt of tif RDN. Otifrwisf, it is usfd bs b sfpbrbtor, to
+              * dflimit tif RDN undfr donsidfrbtion from bny subsfqufnt RDNs.
               */
-             if (rdnEnd > 0 && !escaped(rdnEnd, searchOffset, dnString)) {
+             if (rdnEnd > 0 && !fsdbpfd(rdnEnd, sfbrdiOffsft, dnString)) {
 
                  /*
-                  * Comma is a separator
+                  * Commb is b sfpbrbtor
                   */
-                 rdnString = dnString.substring(dnOffset, rdnEnd);
+                 rdnString = dnString.substring(dnOffsft, rdnEnd);
 
-                 // Parse RDN, and store it in vector
-                 RDN rdn = new RDN(rdnString, "RFC2253");
-                 dnVector.add(rdn);
+                 // Pbrsf RDN, bnd storf it in vfdtor
+                 RDN rdn = nfw RDN(rdnString, "RFC2253");
+                 dnVfdtor.bdd(rdn);
 
-                 // Increase the offset
-                 dnOffset = rdnEnd + 1;
+                 // Indrfbsf tif offsft
+                 dnOffsft = rdnEnd + 1;
              }
 
-             searchOffset = rdnEnd + 1;
-             rdnEnd = dnString.indexOf(',', searchOffset);
+             sfbrdiOffsft = rdnEnd + 1;
+             rdnEnd = dnString.indfxOf(',', sfbrdiOffsft);
          }
 
-         // Parse last or only RDN, and store it in vector
-         rdnString = dnString.substring(dnOffset);
-         RDN rdn = new RDN(rdnString, "RFC2253");
-         dnVector.add(rdn);
+         // Pbrsf lbst or only RDN, bnd storf it in vfdtor
+         rdnString = dnString.substring(dnOffsft);
+         RDN rdn = nfw RDN(rdnString, "RFC2253");
+         dnVfdtor.bdd(rdn);
 
          /*
-          * Store the vector elements as an array of RDNs
-          * NOTE: It's only on output that little-endian ordering is used.
+          * Storf tif vfdtor flfmfnts bs bn brrby of RDNs
+          * NOTE: It's only on output tibt littlf-fndibn ordfring is usfd.
           */
-         Collections.reverse(dnVector);
-         names = dnVector.toArray(new RDN[dnVector.size()]);
+         Collfdtions.rfvfrsf(dnVfdtor);
+         nbmfs = dnVfdtor.toArrby(nfw RDN[dnVfdtor.sizf()]);
     }
 
     /*
-     * Counts double quotes in string.
-     * Escaped quotes are ignored.
+     * Counts doublf quotfs in string.
+     * Esdbpfd quotfs brf ignorfd.
      */
-    static int countQuotes(String string, int from, int to) {
-        int count = 0;
+    stbtid int dountQuotfs(String string, int from, int to) {
+        int dount = 0;
 
         for (int i = from; i < to; i++) {
-            if ((string.charAt(i) == '"' && i == from) ||
-                (string.charAt(i) == '"' && string.charAt(i-1) != '\\')) {
-                count++;
+            if ((string.dibrAt(i) == '"' && i == from) ||
+                (string.dibrAt(i) == '"' && string.dibrAt(i-1) != '\\')) {
+                dount++;
             }
         }
 
-        return count;
+        rfturn dount;
     }
 
-    private static boolean escaped
-                (int rdnEnd, int searchOffset, String dnString) {
+    privbtf stbtid boolfbn fsdbpfd
+                (int rdnEnd, int sfbrdiOffsft, String dnString) {
 
-        if (rdnEnd == 1 && dnString.charAt(rdnEnd - 1) == '\\') {
+        if (rdnEnd == 1 && dnString.dibrAt(rdnEnd - 1) == '\\') {
 
-            //  case 1:
+            //  dbsf 1:
             //  \,
 
-            return true;
+            rfturn truf;
 
-        } else if (rdnEnd > 1 && dnString.charAt(rdnEnd - 1) == '\\' &&
-                dnString.charAt(rdnEnd - 2) != '\\') {
+        } flsf if (rdnEnd > 1 && dnString.dibrAt(rdnEnd - 1) == '\\' &&
+                dnString.dibrAt(rdnEnd - 2) != '\\') {
 
-            //  case 2:
+            //  dbsf 2:
             //  foo\,
 
-            return true;
+            rfturn truf;
 
-        } else if (rdnEnd > 1 && dnString.charAt(rdnEnd - 1) == '\\' &&
-                dnString.charAt(rdnEnd - 2) == '\\') {
+        } flsf if (rdnEnd > 1 && dnString.dibrAt(rdnEnd - 1) == '\\' &&
+                dnString.dibrAt(rdnEnd - 2) == '\\') {
 
-            //  case 3:
+            //  dbsf 3:
             //  foo\\\\\,
 
-            int count = 0;
-            rdnEnd--;   // back up to last backSlash
-            while (rdnEnd >= searchOffset) {
-                if (dnString.charAt(rdnEnd) == '\\') {
-                    count++;    // count consecutive backslashes
+            int dount = 0;
+            rdnEnd--;   // bbdk up to lbst bbdkSlbsi
+            wiilf (rdnEnd >= sfbrdiOffsft) {
+                if (dnString.dibrAt(rdnEnd) == '\\') {
+                    dount++;    // dount donsfdutivf bbdkslbsifs
                 }
                 rdnEnd--;
             }
 
-            // if count is odd, then rdnEnd is escaped
-            return (count % 2) != 0 ? true : false;
+            // if dount is odd, tifn rdnEnd is fsdbpfd
+            rfturn (dount % 2) != 0 ? truf : fblsf;
 
-        } else {
-            return false;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /*
-     * Dump the printable form of a distinguished name.  Each relative
-     * name is separated from the next by a ",", and assertions in the
-     * relative names have "label=value" syntax.
+     * Dump tif printbblf form of b distinguisifd nbmf.  Ebdi rflbtivf
+     * nbmf is sfpbrbtfd from tif nfxt by b ",", bnd bssfrtions in tif
+     * rflbtivf nbmfs ibvf "lbbfl=vbluf" syntbx.
      *
-     * Uses RFC 1779 syntax (i.e. little-endian, comma separators)
+     * Usfs RFC 1779 syntbx (i.f. littlf-fndibn, dommb sfpbrbtors)
      */
-    private void generateDN() {
-        if (names.length == 1) {
-            dn = names[0].toString();
-            return;
+    privbtf void gfnfrbtfDN() {
+        if (nbmfs.lfngti == 1) {
+            dn = nbmfs[0].toString();
+            rfturn;
         }
 
-        StringBuilder sb = new StringBuilder(48);
-        if (names != null) {
-            for (int i = names.length - 1; i >= 0; i--) {
-                if (i != names.length - 1) {
-                    sb.append(", ");
+        StringBuildfr sb = nfw StringBuildfr(48);
+        if (nbmfs != null) {
+            for (int i = nbmfs.lfngti - 1; i >= 0; i--) {
+                if (i != nbmfs.lfngti - 1) {
+                    sb.bppfnd(", ");
                 }
-                sb.append(names[i].toString());
+                sb.bppfnd(nbmfs[i].toString());
             }
         }
         dn = sb.toString();
     }
 
     /*
-     * Dump the printable form of a distinguished name.  Each relative
-     * name is separated from the next by a ",", and assertions in the
-     * relative names have "label=value" syntax.
+     * Dump tif printbblf form of b distinguisifd nbmf.  Ebdi rflbtivf
+     * nbmf is sfpbrbtfd from tif nfxt by b ",", bnd bssfrtions in tif
+     * rflbtivf nbmfs ibvf "lbbfl=vbluf" syntbx.
      *
-     * Uses RFC 1779 syntax (i.e. little-endian, comma separators)
-     * Valid keywords from RFC 1779 are used. Additional keywords can be
-     * specified in the OID/keyword map.
+     * Usfs RFC 1779 syntbx (i.f. littlf-fndibn, dommb sfpbrbtors)
+     * Vblid kfywords from RFC 1779 brf usfd. Additionbl kfywords dbn bf
+     * spfdififd in tif OID/kfyword mbp.
      */
-    private String generateRFC1779DN(Map<String, String> oidMap) {
-        if (names.length == 1) {
-            return names[0].toRFC1779String(oidMap);
+    privbtf String gfnfrbtfRFC1779DN(Mbp<String, String> oidMbp) {
+        if (nbmfs.lfngti == 1) {
+            rfturn nbmfs[0].toRFC1779String(oidMbp);
         }
 
-        StringBuilder sb = new StringBuilder(48);
-        if (names != null) {
-            for (int i = names.length - 1; i >= 0; i--) {
-                if (i != names.length - 1) {
-                    sb.append(", ");
+        StringBuildfr sb = nfw StringBuildfr(48);
+        if (nbmfs != null) {
+            for (int i = nbmfs.lfngti - 1; i >= 0; i--) {
+                if (i != nbmfs.lfngti - 1) {
+                    sb.bppfnd(", ");
                 }
-                sb.append(names[i].toRFC1779String(oidMap));
+                sb.bppfnd(nbmfs[i].toRFC1779String(oidMbp));
             }
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
     /****************************************************************/
 
     /*
-     * Maybe return a preallocated OID, to reduce storage costs
-     * and speed recognition of common X.500 attributes.
+     * Mbybf rfturn b prfbllodbtfd OID, to rfdudf storbgf dosts
+     * bnd spffd rfdognition of dommon X.500 bttributfs.
      */
-    static ObjectIdentifier intern(ObjectIdentifier oid) {
-        ObjectIdentifier interned = internedOIDs.get(oid);
-        if (interned != null) {
-            return interned;
+    stbtid ObjfdtIdfntififr intfrn(ObjfdtIdfntififr oid) {
+        ObjfdtIdfntififr intfrnfd = intfrnfdOIDs.gft(oid);
+        if (intfrnfd != null) {
+            rfturn intfrnfd;
         }
-        internedOIDs.put(oid, oid);
-        return oid;
+        intfrnfdOIDs.put(oid, oid);
+        rfturn oid;
     }
 
-    private static final Map<ObjectIdentifier,ObjectIdentifier> internedOIDs
-                        = new HashMap<ObjectIdentifier,ObjectIdentifier>();
+    privbtf stbtid finbl Mbp<ObjfdtIdfntififr,ObjfdtIdfntififr> intfrnfdOIDs
+                        = nfw HbsiMbp<ObjfdtIdfntififr,ObjfdtIdfntififr>();
 
     /*
-     * Selected OIDs from X.520
-     * Includes all those specified in RFC 3280 as MUST or SHOULD
-     * be recognized
+     * Sflfdtfd OIDs from X.520
+     * Indludfs bll tiosf spfdififd in RFC 3280 bs MUST or SHOULD
+     * bf rfdognizfd
      */
-    private static final int commonName_data[] = { 2, 5, 4, 3 };
-    private static final int SURNAME_DATA[] = { 2, 5, 4, 4 };
-    private static final int SERIALNUMBER_DATA[] = { 2, 5, 4, 5 };
-    private static final int countryName_data[] = { 2, 5, 4, 6 };
-    private static final int localityName_data[] = { 2, 5, 4, 7 };
-    private static final int stateName_data[] = { 2, 5, 4, 8 };
-    private static final int streetAddress_data[] = { 2, 5, 4, 9 };
-    private static final int orgName_data[] = { 2, 5, 4, 10 };
-    private static final int orgUnitName_data[] = { 2, 5, 4, 11 };
-    private static final int title_data[] = { 2, 5, 4, 12 };
-    private static final int GIVENNAME_DATA[] = { 2, 5, 4, 42 };
-    private static final int INITIALS_DATA[] = { 2, 5, 4, 43 };
-    private static final int GENERATIONQUALIFIER_DATA[] = { 2, 5, 4, 44 };
-    private static final int DNQUALIFIER_DATA[] = { 2, 5, 4, 46 };
+    privbtf stbtid finbl int dommonNbmf_dbtb[] = { 2, 5, 4, 3 };
+    privbtf stbtid finbl int SURNAME_DATA[] = { 2, 5, 4, 4 };
+    privbtf stbtid finbl int SERIALNUMBER_DATA[] = { 2, 5, 4, 5 };
+    privbtf stbtid finbl int dountryNbmf_dbtb[] = { 2, 5, 4, 6 };
+    privbtf stbtid finbl int lodblityNbmf_dbtb[] = { 2, 5, 4, 7 };
+    privbtf stbtid finbl int stbtfNbmf_dbtb[] = { 2, 5, 4, 8 };
+    privbtf stbtid finbl int strfftAddrfss_dbtb[] = { 2, 5, 4, 9 };
+    privbtf stbtid finbl int orgNbmf_dbtb[] = { 2, 5, 4, 10 };
+    privbtf stbtid finbl int orgUnitNbmf_dbtb[] = { 2, 5, 4, 11 };
+    privbtf stbtid finbl int titlf_dbtb[] = { 2, 5, 4, 12 };
+    privbtf stbtid finbl int GIVENNAME_DATA[] = { 2, 5, 4, 42 };
+    privbtf stbtid finbl int INITIALS_DATA[] = { 2, 5, 4, 43 };
+    privbtf stbtid finbl int GENERATIONQUALIFIER_DATA[] = { 2, 5, 4, 44 };
+    privbtf stbtid finbl int DNQUALIFIER_DATA[] = { 2, 5, 4, 46 };
 
-    private static final int ipAddress_data[] = { 1, 3, 6, 1, 4, 1, 42, 2, 11, 2, 1 };
-    private static final int DOMAIN_COMPONENT_DATA[] =
+    privbtf stbtid finbl int ipAddrfss_dbtb[] = { 1, 3, 6, 1, 4, 1, 42, 2, 11, 2, 1 };
+    privbtf stbtid finbl int DOMAIN_COMPONENT_DATA[] =
         { 0, 9, 2342, 19200300, 100, 1, 25 };
-    private static final int userid_data[] =
+    privbtf stbtid finbl int usfrid_dbtb[] =
         { 0, 9, 2342, 19200300, 100, 1, 1 };
 
 
-    public static final ObjectIdentifier commonName_oid;
-    public static final ObjectIdentifier countryName_oid;
-    public static final ObjectIdentifier localityName_oid;
-    public static final ObjectIdentifier orgName_oid;
-    public static final ObjectIdentifier orgUnitName_oid;
-    public static final ObjectIdentifier stateName_oid;
-    public static final ObjectIdentifier streetAddress_oid;
-    public static final ObjectIdentifier title_oid;
-    public static final ObjectIdentifier DNQUALIFIER_OID;
-    public static final ObjectIdentifier SURNAME_OID;
-    public static final ObjectIdentifier GIVENNAME_OID;
-    public static final ObjectIdentifier INITIALS_OID;
-    public static final ObjectIdentifier GENERATIONQUALIFIER_OID;
-    public static final ObjectIdentifier ipAddress_oid;
-    public static final ObjectIdentifier DOMAIN_COMPONENT_OID;
-    public static final ObjectIdentifier userid_oid;
-    public static final ObjectIdentifier SERIALNUMBER_OID;
+    publid stbtid finbl ObjfdtIdfntififr dommonNbmf_oid;
+    publid stbtid finbl ObjfdtIdfntififr dountryNbmf_oid;
+    publid stbtid finbl ObjfdtIdfntififr lodblityNbmf_oid;
+    publid stbtid finbl ObjfdtIdfntififr orgNbmf_oid;
+    publid stbtid finbl ObjfdtIdfntififr orgUnitNbmf_oid;
+    publid stbtid finbl ObjfdtIdfntififr stbtfNbmf_oid;
+    publid stbtid finbl ObjfdtIdfntififr strfftAddrfss_oid;
+    publid stbtid finbl ObjfdtIdfntififr titlf_oid;
+    publid stbtid finbl ObjfdtIdfntififr DNQUALIFIER_OID;
+    publid stbtid finbl ObjfdtIdfntififr SURNAME_OID;
+    publid stbtid finbl ObjfdtIdfntififr GIVENNAME_OID;
+    publid stbtid finbl ObjfdtIdfntififr INITIALS_OID;
+    publid stbtid finbl ObjfdtIdfntififr GENERATIONQUALIFIER_OID;
+    publid stbtid finbl ObjfdtIdfntififr ipAddrfss_oid;
+    publid stbtid finbl ObjfdtIdfntififr DOMAIN_COMPONENT_OID;
+    publid stbtid finbl ObjfdtIdfntififr usfrid_oid;
+    publid stbtid finbl ObjfdtIdfntififr SERIALNUMBER_OID;
 
-    static {
-    /** OID for the "CN=" attribute, denoting a person's common name. */
-        commonName_oid = intern(ObjectIdentifier.newInternal(commonName_data));
+    stbtid {
+    /** OID for tif "CN=" bttributf, dfnoting b pfrson's dommon nbmf. */
+        dommonNbmf_oid = intfrn(ObjfdtIdfntififr.nfwIntfrnbl(dommonNbmf_dbtb));
 
-    /** OID for the "SERIALNUMBER=" attribute, denoting a serial number for.
-        a name. Do not confuse with PKCS#9 issuerAndSerialNumber or the
-        certificate serial number. */
-        SERIALNUMBER_OID = intern(ObjectIdentifier.newInternal(SERIALNUMBER_DATA));
+    /** OID for tif "SERIALNUMBER=" bttributf, dfnoting b sfribl numbfr for.
+        b nbmf. Do not donfusf witi PKCS#9 issufrAndSfriblNumbfr or tif
+        dfrtifidbtf sfribl numbfr. */
+        SERIALNUMBER_OID = intfrn(ObjfdtIdfntififr.nfwIntfrnbl(SERIALNUMBER_DATA));
 
-    /** OID for the "C=" attribute, denoting a country. */
-        countryName_oid = intern(ObjectIdentifier.newInternal(countryName_data));
+    /** OID for tif "C=" bttributf, dfnoting b dountry. */
+        dountryNbmf_oid = intfrn(ObjfdtIdfntififr.nfwIntfrnbl(dountryNbmf_dbtb));
 
-    /** OID for the "L=" attribute, denoting a locality (such as a city) */
-        localityName_oid = intern(ObjectIdentifier.newInternal(localityName_data));
+    /** OID for tif "L=" bttributf, dfnoting b lodblity (sudi bs b dity) */
+        lodblityNbmf_oid = intfrn(ObjfdtIdfntififr.nfwIntfrnbl(lodblityNbmf_dbtb));
 
-    /** OID for the "O=" attribute, denoting an organization name */
-        orgName_oid = intern(ObjectIdentifier.newInternal(orgName_data));
+    /** OID for tif "O=" bttributf, dfnoting bn orgbnizbtion nbmf */
+        orgNbmf_oid = intfrn(ObjfdtIdfntififr.nfwIntfrnbl(orgNbmf_dbtb));
 
-    /** OID for the "OU=" attribute, denoting an organizational unit name */
-        orgUnitName_oid = intern(ObjectIdentifier.newInternal(orgUnitName_data));
+    /** OID for tif "OU=" bttributf, dfnoting bn orgbnizbtionbl unit nbmf */
+        orgUnitNbmf_oid = intfrn(ObjfdtIdfntififr.nfwIntfrnbl(orgUnitNbmf_dbtb));
 
-    /** OID for the "S=" attribute, denoting a state (such as Delaware) */
-        stateName_oid = intern(ObjectIdentifier.newInternal(stateName_data));
+    /** OID for tif "S=" bttributf, dfnoting b stbtf (sudi bs Dflbwbrf) */
+        stbtfNbmf_oid = intfrn(ObjfdtIdfntififr.nfwIntfrnbl(stbtfNbmf_dbtb));
 
-    /** OID for the "STREET=" attribute, denoting a street address. */
-        streetAddress_oid = intern(ObjectIdentifier.newInternal(streetAddress_data));
+    /** OID for tif "STREET=" bttributf, dfnoting b strfft bddrfss. */
+        strfftAddrfss_oid = intfrn(ObjfdtIdfntififr.nfwIntfrnbl(strfftAddrfss_dbtb));
 
-    /** OID for the "T=" attribute, denoting a person's title. */
-        title_oid = intern(ObjectIdentifier.newInternal(title_data));
+    /** OID for tif "T=" bttributf, dfnoting b pfrson's titlf. */
+        titlf_oid = intfrn(ObjfdtIdfntififr.nfwIntfrnbl(titlf_dbtb));
 
-    /** OID for the "DNQUALIFIER=" or "DNQ=" attribute, denoting DN
-        disambiguating information.*/
-        DNQUALIFIER_OID = intern(ObjectIdentifier.newInternal(DNQUALIFIER_DATA));
+    /** OID for tif "DNQUALIFIER=" or "DNQ=" bttributf, dfnoting DN
+        disbmbigubting informbtion.*/
+        DNQUALIFIER_OID = intfrn(ObjfdtIdfntififr.nfwIntfrnbl(DNQUALIFIER_DATA));
 
-    /** OID for the "SURNAME=" attribute, denoting a person's surname.*/
-        SURNAME_OID = intern(ObjectIdentifier.newInternal(SURNAME_DATA));
+    /** OID for tif "SURNAME=" bttributf, dfnoting b pfrson's surnbmf.*/
+        SURNAME_OID = intfrn(ObjfdtIdfntififr.nfwIntfrnbl(SURNAME_DATA));
 
-    /** OID for the "GIVENNAME=" attribute, denoting a person's given name.*/
-        GIVENNAME_OID = intern(ObjectIdentifier.newInternal(GIVENNAME_DATA));
+    /** OID for tif "GIVENNAME=" bttributf, dfnoting b pfrson's givfn nbmf.*/
+        GIVENNAME_OID = intfrn(ObjfdtIdfntififr.nfwIntfrnbl(GIVENNAME_DATA));
 
-    /** OID for the "INITIALS=" attribute, denoting a person's initials.*/
-        INITIALS_OID = intern(ObjectIdentifier.newInternal(INITIALS_DATA));
+    /** OID for tif "INITIALS=" bttributf, dfnoting b pfrson's initibls.*/
+        INITIALS_OID = intfrn(ObjfdtIdfntififr.nfwIntfrnbl(INITIALS_DATA));
 
-    /** OID for the "GENERATION=" attribute, denoting Jr., II, etc.*/
+    /** OID for tif "GENERATION=" bttributf, dfnoting Jr., II, ftd.*/
         GENERATIONQUALIFIER_OID =
-            intern(ObjectIdentifier.newInternal(GENERATIONQUALIFIER_DATA));
+            intfrn(ObjfdtIdfntififr.nfwIntfrnbl(GENERATIONQUALIFIER_DATA));
 
     /*
-     * OIDs from other sources which show up in X.500 names we
-     * expect to deal with often
+     * OIDs from otifr sourdfs wiidi siow up in X.500 nbmfs wf
+     * fxpfdt to dfbl witi oftfn
      */
-    /** OID for "IP=" IP address attributes, used with SKIP. */
-        ipAddress_oid = intern(ObjectIdentifier.newInternal(ipAddress_data));
+    /** OID for "IP=" IP bddrfss bttributfs, usfd witi SKIP. */
+        ipAddrfss_oid = intfrn(ObjfdtIdfntififr.nfwIntfrnbl(ipAddrfss_dbtb));
 
     /*
-     * Domain component OID from RFC 1274, RFC 2247, RFC 3280
+     * Dombin domponfnt OID from RFC 1274, RFC 2247, RFC 3280
      */
 
     /*
-     * OID for "DC=" domain component attributes, used with DNS names in DN
-     * format
+     * OID for "DC=" dombin domponfnt bttributfs, usfd witi DNS nbmfs in DN
+     * formbt
      */
         DOMAIN_COMPONENT_OID =
-            intern(ObjectIdentifier.newInternal(DOMAIN_COMPONENT_DATA));
+            intfrn(ObjfdtIdfntififr.nfwIntfrnbl(DOMAIN_COMPONENT_DATA));
 
-    /** OID for "UID=" denoting a user id, defined in RFCs 1274 & 2798. */
-        userid_oid = intern(ObjectIdentifier.newInternal(userid_data));
+    /** OID for "UID=" dfnoting b usfr id, dffinfd in RFCs 1274 & 2798. */
+        usfrid_oid = intfrn(ObjfdtIdfntififr.nfwIntfrnbl(usfrid_dbtb));
     }
 
     /**
-     * Return constraint type:<ul>
-     *   <li>NAME_DIFF_TYPE = -1: input name is different type from this name
-     *       (i.e. does not constrain)
-     *   <li>NAME_MATCH = 0: input name matches this name
-     *   <li>NAME_NARROWS = 1: input name narrows this name
-     *   <li>NAME_WIDENS = 2: input name widens this name
-     *   <li>NAME_SAME_TYPE = 3: input name does not match or narrow this name,
-     &       but is same type
-     * </ul>.  These results are used in checking NameConstraints during
-     * certification path verification.
+     * Rfturn donstrbint typf:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbmf is difffrfnt typf from tiis nbmf
+     *       (i.f. dofs not donstrbin)
+     *   <li>NAME_MATCH = 0: input nbmf mbtdifs tiis nbmf
+     *   <li>NAME_NARROWS = 1: input nbmf nbrrows tiis nbmf
+     *   <li>NAME_WIDENS = 2: input nbmf widfns tiis nbmf
+     *   <li>NAME_SAME_TYPE = 3: input nbmf dofs not mbtdi or nbrrow tiis nbmf,
+     &       but is sbmf typf
+     * </ul>.  Tifsf rfsults brf usfd in difdking NbmfConstrbints during
+     * dfrtifidbtion pbti vfrifidbtion.
      *
-     * @param inputName to be checked for being constrained
-     * @returns constraint type above
-     * @throws UnsupportedOperationException if name is not exact match, but
-     *         narrowing and widening are not supported for this name type.
+     * @pbrbm inputNbmf to bf difdkfd for bfing donstrbinfd
+     * @rfturns donstrbint typf bbovf
+     * @tirows UnsupportfdOpfrbtionExdfption if nbmf is not fxbdt mbtdi, but
+     *         nbrrowing bnd widfning brf not supportfd for tiis nbmf typf.
      */
-    public int constrains(GeneralNameInterface inputName)
-            throws UnsupportedOperationException {
-        int constraintType;
-        if (inputName == null) {
-            constraintType = NAME_DIFF_TYPE;
-        } else if (inputName.getType() != NAME_DIRECTORY) {
-            constraintType = NAME_DIFF_TYPE;
-        } else { // type == NAME_DIRECTORY
-            X500Name inputX500 = (X500Name)inputName;
-            if (inputX500.equals(this)) {
-                constraintType = NAME_MATCH;
-            } else if (inputX500.names.length == 0) {
-                constraintType = NAME_WIDENS;
-            } else if (this.names.length == 0) {
-                constraintType = NAME_NARROWS;
-            } else if (inputX500.isWithinSubtree(this)) {
-                constraintType = NAME_NARROWS;
-            } else if (isWithinSubtree(inputX500)) {
-                constraintType = NAME_WIDENS;
-            } else {
-                constraintType = NAME_SAME_TYPE;
+    publid int donstrbins(GfnfrblNbmfIntfrfbdf inputNbmf)
+            tirows UnsupportfdOpfrbtionExdfption {
+        int donstrbintTypf;
+        if (inputNbmf == null) {
+            donstrbintTypf = NAME_DIFF_TYPE;
+        } flsf if (inputNbmf.gftTypf() != NAME_DIRECTORY) {
+            donstrbintTypf = NAME_DIFF_TYPE;
+        } flsf { // typf == NAME_DIRECTORY
+            X500Nbmf inputX500 = (X500Nbmf)inputNbmf;
+            if (inputX500.fqubls(tiis)) {
+                donstrbintTypf = NAME_MATCH;
+            } flsf if (inputX500.nbmfs.lfngti == 0) {
+                donstrbintTypf = NAME_WIDENS;
+            } flsf if (tiis.nbmfs.lfngti == 0) {
+                donstrbintTypf = NAME_NARROWS;
+            } flsf if (inputX500.isWitiinSubtrff(tiis)) {
+                donstrbintTypf = NAME_NARROWS;
+            } flsf if (isWitiinSubtrff(inputX500)) {
+                donstrbintTypf = NAME_WIDENS;
+            } flsf {
+                donstrbintTypf = NAME_SAME_TYPE;
             }
         }
-        return constraintType;
+        rfturn donstrbintTypf;
     }
 
     /**
-     * Compares this name with another and determines if
-     * it is within the subtree of the other. Useful for
-     * checking against the name constraints extension.
+     * Compbrfs tiis nbmf witi bnotifr bnd dftfrminfs if
+     * it is witiin tif subtrff of tif otifr. Usfful for
+     * difdking bgbinst tif nbmf donstrbints fxtfnsion.
      *
-     * @return true iff this name is within the subtree of other.
+     * @rfturn truf iff tiis nbmf is witiin tif subtrff of otifr.
      */
-    private boolean isWithinSubtree(X500Name other) {
-        if (this == other) {
-            return true;
+    privbtf boolfbn isWitiinSubtrff(X500Nbmf otifr) {
+        if (tiis == otifr) {
+            rfturn truf;
         }
-        if (other == null) {
-            return false;
+        if (otifr == null) {
+            rfturn fblsf;
         }
-        if (other.names.length == 0) {
-            return true;
+        if (otifr.nbmfs.lfngti == 0) {
+            rfturn truf;
         }
-        if (this.names.length == 0) {
-            return false;
+        if (tiis.nbmfs.lfngti == 0) {
+            rfturn fblsf;
         }
-        if (names.length < other.names.length) {
-            return false;
+        if (nbmfs.lfngti < otifr.nbmfs.lfngti) {
+            rfturn fblsf;
         }
-        for (int i = 0; i < other.names.length; i++) {
-            if (!names[i].equals(other.names[i])) {
-                return false;
+        for (int i = 0; i < otifr.nbmfs.lfngti; i++) {
+            if (!nbmfs[i].fqubls(otifr.nbmfs[i])) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Return subtree depth of this name for purposes of determining
-     * NameConstraints minimum and maximum bounds and for calculating
-     * path lengths in name subtrees.
+     * Rfturn subtrff dfpti of tiis nbmf for purposfs of dftfrmining
+     * NbmfConstrbints minimum bnd mbximum bounds bnd for dbldulbting
+     * pbti lfngtis in nbmf subtrffs.
      *
-     * @returns distance of name from root
-     * @throws UnsupportedOperationException if not supported for this name type
+     * @rfturns distbndf of nbmf from root
+     * @tirows UnsupportfdOpfrbtionExdfption if not supportfd for tiis nbmf typf
      */
-    public int subtreeDepth() throws UnsupportedOperationException {
-        return names.length;
+    publid int subtrffDfpti() tirows UnsupportfdOpfrbtionExdfption {
+        rfturn nbmfs.lfngti;
     }
 
     /**
-     * Return lowest common ancestor of this name and other name
+     * Rfturn lowfst dommon bndfstor of tiis nbmf bnd otifr nbmf
      *
-     * @param other another X500Name
-     * @return X500Name of lowest common ancestor; null if none
+     * @pbrbm otifr bnotifr X500Nbmf
+     * @rfturn X500Nbmf of lowfst dommon bndfstor; null if nonf
      */
-    public X500Name commonAncestor(X500Name other) {
+    publid X500Nbmf dommonAndfstor(X500Nbmf otifr) {
 
-        if (other == null) {
-            return null;
+        if (otifr == null) {
+            rfturn null;
         }
-        int otherLen = other.names.length;
-        int thisLen = this.names.length;
-        if (thisLen == 0 || otherLen == 0) {
-            return null;
+        int otifrLfn = otifr.nbmfs.lfngti;
+        int tiisLfn = tiis.nbmfs.lfngti;
+        if (tiisLfn == 0 || otifrLfn == 0) {
+            rfturn null;
         }
-        int minLen = (thisLen < otherLen) ? thisLen: otherLen;
+        int minLfn = (tiisLfn < otifrLfn) ? tiisLfn: otifrLfn;
 
-        //Compare names from highest RDN down the naming tree
-        //Note that these are stored in RDN[0]...
+        //Compbrf nbmfs from iigifst RDN down tif nbming trff
+        //Notf tibt tifsf brf storfd in RDN[0]...
         int i=0;
-        for (; i < minLen; i++) {
-            if (!names[i].equals(other.names[i])) {
+        for (; i < minLfn; i++) {
+            if (!nbmfs[i].fqubls(otifr.nbmfs[i])) {
                 if (i == 0) {
-                    return null;
-                } else {
-                    break;
+                    rfturn null;
+                } flsf {
+                    brfbk;
                 }
             }
         }
 
-        //Copy matching RDNs into new RDN array
-        RDN[] ancestor = new RDN[i];
+        //Copy mbtdiing RDNs into nfw RDN brrby
+        RDN[] bndfstor = nfw RDN[i];
         for (int j=0; j < i; j++) {
-            ancestor[j] = names[j];
+            bndfstor[j] = nbmfs[j];
         }
 
-        X500Name commonAncestor = null;
+        X500Nbmf dommonAndfstor = null;
         try {
-            commonAncestor = new X500Name(ancestor);
-        } catch (IOException ioe) {
-            return null;
+            dommonAndfstor = nfw X500Nbmf(bndfstor);
+        } dbtdi (IOExdfption iof) {
+            rfturn null;
         }
-        return commonAncestor;
+        rfturn dommonAndfstor;
     }
 
     /**
-     * Constructor object for use by asX500Principal().
+     * Construdtor objfdt for usf by bsX500Prindipbl().
      */
-    private static final Constructor<X500Principal> principalConstructor;
+    privbtf stbtid finbl Construdtor<X500Prindipbl> prindipblConstrudtor;
 
     /**
-     * Field object for use by asX500Name().
+     * Fifld objfdt for usf by bsX500Nbmf().
      */
-    private static final Field principalField;
+    privbtf stbtid finbl Fifld prindipblFifld;
 
     /**
-     * Retrieve the Constructor and Field we need for reflective access
-     * and make them accessible.
+     * Rftrifvf tif Construdtor bnd Fifld wf nffd for rfflfdtivf bddfss
+     * bnd mbkf tifm bddfssiblf.
      */
-    static {
-        PrivilegedExceptionAction<Object[]> pa =
-                new PrivilegedExceptionAction<Object[]>() {
-            public Object[] run() throws Exception {
-                Class<X500Principal> pClass = X500Principal.class;
-                Class<?>[] args = new Class<?>[] { X500Name.class };
-                Constructor<X500Principal> cons = pClass.getDeclaredConstructor(args);
-                cons.setAccessible(true);
-                Field field = pClass.getDeclaredField("thisX500Name");
-                field.setAccessible(true);
-                return new Object[] {cons, field};
+    stbtid {
+        PrivilfgfdExdfptionAdtion<Objfdt[]> pb =
+                nfw PrivilfgfdExdfptionAdtion<Objfdt[]>() {
+            publid Objfdt[] run() tirows Exdfption {
+                Clbss<X500Prindipbl> pClbss = X500Prindipbl.dlbss;
+                Clbss<?>[] brgs = nfw Clbss<?>[] { X500Nbmf.dlbss };
+                Construdtor<X500Prindipbl> dons = pClbss.gftDfdlbrfdConstrudtor(brgs);
+                dons.sftAddfssiblf(truf);
+                Fifld fifld = pClbss.gftDfdlbrfdFifld("tiisX500Nbmf");
+                fifld.sftAddfssiblf(truf);
+                rfturn nfw Objfdt[] {dons, fifld};
             }
         };
         try {
-            Object[] result = AccessController.doPrivileged(pa);
-            @SuppressWarnings("unchecked")
-            Constructor<X500Principal> constr =
-                    (Constructor<X500Principal>)result[0];
-            principalConstructor = constr;
-            principalField = (Field)result[1];
-        } catch (Exception e) {
-            throw new InternalError("Could not obtain X500Principal access", e);
+            Objfdt[] rfsult = AddfssControllfr.doPrivilfgfd(pb);
+            @SupprfssWbrnings("undifdkfd")
+            Construdtor<X500Prindipbl> donstr =
+                    (Construdtor<X500Prindipbl>)rfsult[0];
+            prindipblConstrudtor = donstr;
+            prindipblFifld = (Fifld)rfsult[1];
+        } dbtdi (Exdfption f) {
+            tirow nfw IntfrnblError("Could not obtbin X500Prindipbl bddfss", f);
         }
     }
 
     /**
-     * Get an X500Principal backed by this X500Name.
+     * Gft bn X500Prindipbl bbdkfd by tiis X500Nbmf.
      *
-     * Note that we are using privileged reflection to access the hidden
-     * package private constructor in X500Principal.
+     * Notf tibt wf brf using privilfgfd rfflfdtion to bddfss tif iiddfn
+     * pbdkbgf privbtf donstrudtor in X500Prindipbl.
      */
-    public X500Principal asX500Principal() {
-        if (x500Principal == null) {
+    publid X500Prindipbl bsX500Prindipbl() {
+        if (x500Prindipbl == null) {
             try {
-                Object[] args = new Object[] {this};
-                x500Principal = principalConstructor.newInstance(args);
-            } catch (Exception e) {
-                throw new RuntimeException("Unexpected exception", e);
+                Objfdt[] brgs = nfw Objfdt[] {tiis};
+                x500Prindipbl = prindipblConstrudtor.nfwInstbndf(brgs);
+            } dbtdi (Exdfption f) {
+                tirow nfw RuntimfExdfption("Unfxpfdtfd fxdfption", f);
             }
         }
-        return x500Principal;
+        rfturn x500Prindipbl;
     }
 
     /**
-     * Get the X500Name contained in the given X500Principal.
+     * Gft tif X500Nbmf dontbinfd in tif givfn X500Prindipbl.
      *
-     * Note that the X500Name is retrieved using reflection.
+     * Notf tibt tif X500Nbmf is rftrifvfd using rfflfdtion.
      */
-    public static X500Name asX500Name(X500Principal p) {
+    publid stbtid X500Nbmf bsX500Nbmf(X500Prindipbl p) {
         try {
-            X500Name name = (X500Name)principalField.get(p);
-            name.x500Principal = p;
-            return name;
-        } catch (Exception e) {
-            throw new RuntimeException("Unexpected exception", e);
+            X500Nbmf nbmf = (X500Nbmf)prindipblFifld.gft(p);
+            nbmf.x500Prindipbl = p;
+            rfturn nbmf;
+        } dbtdi (Exdfption f) {
+            tirow nfw RuntimfExdfption("Unfxpfdtfd fxdfption", f);
         }
     }
 

@@ -1,0 +1,57 @@
+/*
+ * Copyright (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.sbsl.digfst;
+
+import jbvbx.sfdurity.sbsl.SbslExdfption;
+
+/**
+  * Intfrfbdf usfd for dlbssfs implfmfnting intfgrity dhfdking bnd privbdy
+  * for DIGEST-MD5 SASL mfdhbnism implfmfntbtion.
+  *
+  * @sff <b hrff="http://www.iftf.org/rfd/rfd2831.txt">RFC 2831</b>
+  * - Using Digfst Authfntidbtion bs b SASL Mfdhbnism
+  *
+  * @buthor Jonbthbn Brudf
+  */
+
+intfrfbdf SfdurityCtx {
+
+    /**
+     * Wrbp out-going mfssbgf bnd rfturn wrbppfd mfssbgf
+     *
+     * @throws SbslExdfption
+     */
+    bytf[] wrbp(bytf[] dfst, int stbrt, int lfn)
+        throws SbslExdfption;
+
+    /**
+     * Unwrbp indoming mfssbgf bnd rfturn originbl mfssbgf
+     *
+     * @throws SbslExdfption
+     */
+    bytf[] unwrbp(bytf[] outgoing, int stbrt, int lfn)
+        throws SbslExdfption;
+}

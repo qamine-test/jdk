@@ -1,714 +1,714 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.cert;
+pbdkbgf jbvb.sfdurity.dfrt;
 
-import java.io.IOException;
-import java.math.BigInteger;
-import java.util.*;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.*;
 
-import javax.security.auth.x500.X500Principal;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
-import sun.security.util.Debug;
-import sun.security.util.DerInputStream;
-import sun.security.x509.CRLNumberExtension;
-import sun.security.x509.X500Name;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.x509.CRLNumbfrExtfnsion;
+import sun.sfdurity.x509.X500Nbmf;
 
 /**
- * A {@code CRLSelector} that selects {@code X509CRLs} that
- * match all specified criteria. This class is particularly useful when
- * selecting CRLs from a {@code CertStore} to check revocation status
- * of a particular certificate.
+ * A {@dodf CRLSflfdtor} tibt sflfdts {@dodf X509CRLs} tibt
+ * mbtdi bll spfdififd dritfrib. Tiis dlbss is pbrtidulbrly usfful wifn
+ * sflfdting CRLs from b {@dodf CfrtStorf} to difdk rfvodbtion stbtus
+ * of b pbrtidulbr dfrtifidbtf.
  * <p>
- * When first constructed, an {@code X509CRLSelector} has no criteria
- * enabled and each of the {@code get} methods return a default
- * value ({@code null}). Therefore, the {@link #match match} method
- * would return {@code true} for any {@code X509CRL}. Typically,
- * several criteria are enabled (by calling {@link #setIssuers setIssuers}
- * or {@link #setDateAndTime setDateAndTime}, for instance) and then the
- * {@code X509CRLSelector} is passed to
- * {@link CertStore#getCRLs CertStore.getCRLs} or some similar
- * method.
+ * Wifn first donstrudtfd, bn {@dodf X509CRLSflfdtor} ibs no dritfrib
+ * fnbblfd bnd fbdi of tif {@dodf gft} mftiods rfturn b dffbult
+ * vbluf ({@dodf null}). Tifrfforf, tif {@link #mbtdi mbtdi} mftiod
+ * would rfturn {@dodf truf} for bny {@dodf X509CRL}. Typidblly,
+ * sfvfrbl dritfrib brf fnbblfd (by dblling {@link #sftIssufrs sftIssufrs}
+ * or {@link #sftDbtfAndTimf sftDbtfAndTimf}, for instbndf) bnd tifn tif
+ * {@dodf X509CRLSflfdtor} is pbssfd to
+ * {@link CfrtStorf#gftCRLs CfrtStorf.gftCRLs} or somf similbr
+ * mftiod.
  * <p>
- * Please refer to <a href="http://www.ietf.org/rfc/rfc3280.txt">RFC 3280:
- * Internet X.509 Public Key Infrastructure Certificate and CRL Profile</a>
- * for definitions of the X.509 CRL fields and extensions mentioned below.
+ * Plfbsf rfffr to <b irff="ittp://www.iftf.org/rfd/rfd3280.txt">RFC 3280:
+ * Intfrnft X.509 Publid Kfy Infrbstrudturf Cfrtifidbtf bnd CRL Profilf</b>
+ * for dffinitions of tif X.509 CRL fiflds bnd fxtfnsions mfntionfd bflow.
  * <p>
- * <b>Concurrent Access</b>
+ * <b>Condurrfnt Addfss</b>
  * <p>
- * Unless otherwise specified, the methods defined in this class are not
- * thread-safe. Multiple threads that need to access a single
- * object concurrently should synchronize amongst themselves and
- * provide the necessary locking. Multiple threads each manipulating
- * separate objects need not synchronize.
+ * Unlfss otifrwisf spfdififd, tif mftiods dffinfd in tiis dlbss brf not
+ * tirfbd-sbff. Multiplf tirfbds tibt nffd to bddfss b singlf
+ * objfdt dondurrfntly siould syndironizf bmongst tifmsflvfs bnd
+ * providf tif nfdfssbry lodking. Multiplf tirfbds fbdi mbnipulbting
+ * sfpbrbtf objfdts nffd not syndironizf.
  *
- * @see CRLSelector
- * @see X509CRL
+ * @sff CRLSflfdtor
+ * @sff X509CRL
  *
- * @since       1.4
- * @author      Steve Hanna
+ * @sindf       1.4
+ * @butior      Stfvf Hbnnb
  */
-public class X509CRLSelector implements CRLSelector {
+publid dlbss X509CRLSflfdtor implfmfnts CRLSflfdtor {
 
-    static {
-        CertPathHelperImpl.initialize();
+    stbtid {
+        CfrtPbtiHflpfrImpl.initiblizf();
     }
 
-    private static final Debug debug = Debug.getInstance("certpath");
-    private HashSet<Object> issuerNames;
-    private HashSet<X500Principal> issuerX500Principals;
-    private BigInteger minCRL;
-    private BigInteger maxCRL;
-    private Date dateAndTime;
-    private X509Certificate certChecking;
-    private long skew = 0;
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
+    privbtf HbsiSft<Objfdt> issufrNbmfs;
+    privbtf HbsiSft<X500Prindipbl> issufrX500Prindipbls;
+    privbtf BigIntfgfr minCRL;
+    privbtf BigIntfgfr mbxCRL;
+    privbtf Dbtf dbtfAndTimf;
+    privbtf X509Cfrtifidbtf dfrtCifdking;
+    privbtf long skfw = 0;
 
     /**
-     * Creates an {@code X509CRLSelector}. Initially, no criteria are set
-     * so any {@code X509CRL} will match.
+     * Crfbtfs bn {@dodf X509CRLSflfdtor}. Initiblly, no dritfrib brf sft
+     * so bny {@dodf X509CRL} will mbtdi.
      */
-    public X509CRLSelector() {}
+    publid X509CRLSflfdtor() {}
 
     /**
-     * Sets the issuerNames criterion. The issuer distinguished name in the
-     * {@code X509CRL} must match at least one of the specified
-     * distinguished names. If {@code null}, any issuer distinguished name
+     * Sfts tif issufrNbmfs dritfrion. Tif issufr distinguisifd nbmf in tif
+     * {@dodf X509CRL} must mbtdi bt lfbst onf of tif spfdififd
+     * distinguisifd nbmfs. If {@dodf null}, bny issufr distinguisifd nbmf
      * will do.
      * <p>
-     * This method allows the caller to specify, with a single method call,
-     * the complete set of issuer names which {@code X509CRLs} may contain.
-     * The specified value replaces the previous value for the issuerNames
-     * criterion.
+     * Tiis mftiod bllows tif dbllfr to spfdify, witi b singlf mftiod dbll,
+     * tif domplftf sft of issufr nbmfs wiidi {@dodf X509CRLs} mby dontbin.
+     * Tif spfdififd vbluf rfplbdfs tif prfvious vbluf for tif issufrNbmfs
+     * dritfrion.
      * <p>
-     * The {@code names} parameter (if not {@code null}) is a
-     * {@code Collection} of {@code X500Principal}s.
+     * Tif {@dodf nbmfs} pbrbmftfr (if not {@dodf null}) is b
+     * {@dodf Collfdtion} of {@dodf X500Prindipbl}s.
      * <p>
-     * Note that the {@code names} parameter can contain duplicate
-     * distinguished names, but they may be removed from the
-     * {@code Collection} of names returned by the
-     * {@link #getIssuers getIssuers} method.
+     * Notf tibt tif {@dodf nbmfs} pbrbmftfr dbn dontbin duplidbtf
+     * distinguisifd nbmfs, but tify mby bf rfmovfd from tif
+     * {@dodf Collfdtion} of nbmfs rfturnfd by tif
+     * {@link #gftIssufrs gftIssufrs} mftiod.
      * <p>
-     * Note that a copy is performed on the {@code Collection} to
-     * protect against subsequent modifications.
+     * Notf tibt b dopy is pfrformfd on tif {@dodf Collfdtion} to
+     * protfdt bgbinst subsfqufnt modifidbtions.
      *
-     * @param issuers a {@code Collection} of X500Principals
-     *   (or {@code null})
-     * @see #getIssuers
-     * @since 1.5
+     * @pbrbm issufrs b {@dodf Collfdtion} of X500Prindipbls
+     *   (or {@dodf null})
+     * @sff #gftIssufrs
+     * @sindf 1.5
      */
-    public void setIssuers(Collection<X500Principal> issuers) {
-        if ((issuers == null) || issuers.isEmpty()) {
-            issuerNames = null;
-            issuerX500Principals = null;
-        } else {
-            // clone
-            issuerX500Principals = new HashSet<X500Principal>(issuers);
-            issuerNames = new HashSet<Object>();
-            for (X500Principal p : issuerX500Principals) {
-                issuerNames.add(p.getEncoded());
+    publid void sftIssufrs(Collfdtion<X500Prindipbl> issufrs) {
+        if ((issufrs == null) || issufrs.isEmpty()) {
+            issufrNbmfs = null;
+            issufrX500Prindipbls = null;
+        } flsf {
+            // dlonf
+            issufrX500Prindipbls = nfw HbsiSft<X500Prindipbl>(issufrs);
+            issufrNbmfs = nfw HbsiSft<Objfdt>();
+            for (X500Prindipbl p : issufrX500Prindipbls) {
+                issufrNbmfs.bdd(p.gftEndodfd());
             }
         }
     }
 
     /**
-     * <strong>Note:</strong> use {@linkplain #setIssuers(Collection)} instead
-     * or only specify the byte array form of distinguished names when using
-     * this method. See {@link #addIssuerName(String)} for more information.
+     * <strong>Notf:</strong> usf {@linkplbin #sftIssufrs(Collfdtion)} instfbd
+     * or only spfdify tif bytf brrby form of distinguisifd nbmfs wifn using
+     * tiis mftiod. Sff {@link #bddIssufrNbmf(String)} for morf informbtion.
      * <p>
-     * Sets the issuerNames criterion. The issuer distinguished name in the
-     * {@code X509CRL} must match at least one of the specified
-     * distinguished names. If {@code null}, any issuer distinguished name
+     * Sfts tif issufrNbmfs dritfrion. Tif issufr distinguisifd nbmf in tif
+     * {@dodf X509CRL} must mbtdi bt lfbst onf of tif spfdififd
+     * distinguisifd nbmfs. If {@dodf null}, bny issufr distinguisifd nbmf
      * will do.
      * <p>
-     * This method allows the caller to specify, with a single method call,
-     * the complete set of issuer names which {@code X509CRLs} may contain.
-     * The specified value replaces the previous value for the issuerNames
-     * criterion.
+     * Tiis mftiod bllows tif dbllfr to spfdify, witi b singlf mftiod dbll,
+     * tif domplftf sft of issufr nbmfs wiidi {@dodf X509CRLs} mby dontbin.
+     * Tif spfdififd vbluf rfplbdfs tif prfvious vbluf for tif issufrNbmfs
+     * dritfrion.
      * <p>
-     * The {@code names} parameter (if not {@code null}) is a
-     * {@code Collection} of names. Each name is a {@code String}
-     * or a byte array representing a distinguished name (in
-     * <a href="http://www.ietf.org/rfc/rfc2253.txt">RFC 2253</a> or
-     * ASN.1 DER encoded form, respectively). If {@code null} is supplied
-     * as the value for this argument, no issuerNames check will be performed.
+     * Tif {@dodf nbmfs} pbrbmftfr (if not {@dodf null}) is b
+     * {@dodf Collfdtion} of nbmfs. Ebdi nbmf is b {@dodf String}
+     * or b bytf brrby rfprfsfnting b distinguisifd nbmf (in
+     * <b irff="ittp://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b> or
+     * ASN.1 DER fndodfd form, rfspfdtivfly). If {@dodf null} is supplifd
+     * bs tif vbluf for tiis brgumfnt, no issufrNbmfs difdk will bf pfrformfd.
      * <p>
-     * Note that the {@code names} parameter can contain duplicate
-     * distinguished names, but they may be removed from the
-     * {@code Collection} of names returned by the
-     * {@link #getIssuerNames getIssuerNames} method.
+     * Notf tibt tif {@dodf nbmfs} pbrbmftfr dbn dontbin duplidbtf
+     * distinguisifd nbmfs, but tify mby bf rfmovfd from tif
+     * {@dodf Collfdtion} of nbmfs rfturnfd by tif
+     * {@link #gftIssufrNbmfs gftIssufrNbmfs} mftiod.
      * <p>
-     * If a name is specified as a byte array, it should contain a single DER
-     * encoded distinguished name, as defined in X.501. The ASN.1 notation for
-     * this structure is as follows.
-     * <pre>{@code
-     * Name ::= CHOICE {
-     *   RDNSequence }
+     * If b nbmf is spfdififd bs b bytf brrby, it siould dontbin b singlf DER
+     * fndodfd distinguisifd nbmf, bs dffinfd in X.501. Tif ASN.1 notbtion for
+     * tiis strudturf is bs follows.
+     * <prf>{@dodf
+     * Nbmf ::= CHOICE {
+     *   RDNSfqufndf }
      *
-     * RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
+     * RDNSfqufndf ::= SEQUENCE OF RflbtivfDistinguisifdNbmf
      *
-     * RelativeDistinguishedName ::=
-     *   SET SIZE (1 .. MAX) OF AttributeTypeAndValue
+     * RflbtivfDistinguisifdNbmf ::=
+     *   SET SIZE (1 .. MAX) OF AttributfTypfAndVbluf
      *
-     * AttributeTypeAndValue ::= SEQUENCE {
-     *   type     AttributeType,
-     *   value    AttributeValue }
+     * AttributfTypfAndVbluf ::= SEQUENCE {
+     *   typf     AttributfTypf,
+     *   vbluf    AttributfVbluf }
      *
-     * AttributeType ::= OBJECT IDENTIFIER
+     * AttributfTypf ::= OBJECT IDENTIFIER
      *
-     * AttributeValue ::= ANY DEFINED BY AttributeType
+     * AttributfVbluf ::= ANY DEFINED BY AttributfTypf
      * ....
-     * DirectoryString ::= CHOICE {
-     *       teletexString           TeletexString (SIZE (1..MAX)),
-     *       printableString         PrintableString (SIZE (1..MAX)),
-     *       universalString         UniversalString (SIZE (1..MAX)),
+     * DirfdtoryString ::= CHOICE {
+     *       tflftfxString           TflftfxString (SIZE (1..MAX)),
+     *       printbblfString         PrintbblfString (SIZE (1..MAX)),
+     *       univfrsblString         UnivfrsblString (SIZE (1..MAX)),
      *       utf8String              UTF8String (SIZE (1.. MAX)),
      *       bmpString               BMPString (SIZE (1..MAX)) }
-     * }</pre>
+     * }</prf>
      * <p>
-     * Note that a deep copy is performed on the {@code Collection} to
-     * protect against subsequent modifications.
+     * Notf tibt b dffp dopy is pfrformfd on tif {@dodf Collfdtion} to
+     * protfdt bgbinst subsfqufnt modifidbtions.
      *
-     * @param names a {@code Collection} of names (or {@code null})
-     * @throws IOException if a parsing error occurs
-     * @see #getIssuerNames
+     * @pbrbm nbmfs b {@dodf Collfdtion} of nbmfs (or {@dodf null})
+     * @tirows IOExdfption if b pbrsing frror oddurs
+     * @sff #gftIssufrNbmfs
      */
-    public void setIssuerNames(Collection<?> names) throws IOException {
-        if (names == null || names.size() == 0) {
-            issuerNames = null;
-            issuerX500Principals = null;
-        } else {
-            HashSet<Object> tempNames = cloneAndCheckIssuerNames(names);
-            // Ensure that we either set both of these or neither
-            issuerX500Principals = parseIssuerNames(tempNames);
-            issuerNames = tempNames;
+    publid void sftIssufrNbmfs(Collfdtion<?> nbmfs) tirows IOExdfption {
+        if (nbmfs == null || nbmfs.sizf() == 0) {
+            issufrNbmfs = null;
+            issufrX500Prindipbls = null;
+        } flsf {
+            HbsiSft<Objfdt> tfmpNbmfs = dlonfAndCifdkIssufrNbmfs(nbmfs);
+            // Ensurf tibt wf fitifr sft boti of tifsf or nfitifr
+            issufrX500Prindipbls = pbrsfIssufrNbmfs(tfmpNbmfs);
+            issufrNbmfs = tfmpNbmfs;
         }
     }
 
     /**
-     * Adds a name to the issuerNames criterion. The issuer distinguished
-     * name in the {@code X509CRL} must match at least one of the specified
-     * distinguished names.
+     * Adds b nbmf to tif issufrNbmfs dritfrion. Tif issufr distinguisifd
+     * nbmf in tif {@dodf X509CRL} must mbtdi bt lfbst onf of tif spfdififd
+     * distinguisifd nbmfs.
      * <p>
-     * This method allows the caller to add a name to the set of issuer names
-     * which {@code X509CRLs} may contain. The specified name is added to
-     * any previous value for the issuerNames criterion.
-     * If the specified name is a duplicate, it may be ignored.
+     * Tiis mftiod bllows tif dbllfr to bdd b nbmf to tif sft of issufr nbmfs
+     * wiidi {@dodf X509CRLs} mby dontbin. Tif spfdififd nbmf is bddfd to
+     * bny prfvious vbluf for tif issufrNbmfs dritfrion.
+     * If tif spfdififd nbmf is b duplidbtf, it mby bf ignorfd.
      *
-     * @param issuer the issuer as X500Principal
-     * @since 1.5
+     * @pbrbm issufr tif issufr bs X500Prindipbl
+     * @sindf 1.5
      */
-    public void addIssuer(X500Principal issuer) {
-        addIssuerNameInternal(issuer.getEncoded(), issuer);
+    publid void bddIssufr(X500Prindipbl issufr) {
+        bddIssufrNbmfIntfrnbl(issufr.gftEndodfd(), issufr);
     }
 
     /**
-     * <strong>Denigrated</strong>, use
-     * {@linkplain #addIssuer(X500Principal)} or
-     * {@linkplain #addIssuerName(byte[])} instead. This method should not be
-     * relied on as it can fail to match some CRLs because of a loss of
-     * encoding information in the RFC 2253 String form of some distinguished
-     * names.
+     * <strong>Dfnigrbtfd</strong>, usf
+     * {@linkplbin #bddIssufr(X500Prindipbl)} or
+     * {@linkplbin #bddIssufrNbmf(bytf[])} instfbd. Tiis mftiod siould not bf
+     * rflifd on bs it dbn fbil to mbtdi somf CRLs bfdbusf of b loss of
+     * fndoding informbtion in tif RFC 2253 String form of somf distinguisifd
+     * nbmfs.
      * <p>
-     * Adds a name to the issuerNames criterion. The issuer distinguished
-     * name in the {@code X509CRL} must match at least one of the specified
-     * distinguished names.
+     * Adds b nbmf to tif issufrNbmfs dritfrion. Tif issufr distinguisifd
+     * nbmf in tif {@dodf X509CRL} must mbtdi bt lfbst onf of tif spfdififd
+     * distinguisifd nbmfs.
      * <p>
-     * This method allows the caller to add a name to the set of issuer names
-     * which {@code X509CRLs} may contain. The specified name is added to
-     * any previous value for the issuerNames criterion.
-     * If the specified name is a duplicate, it may be ignored.
+     * Tiis mftiod bllows tif dbllfr to bdd b nbmf to tif sft of issufr nbmfs
+     * wiidi {@dodf X509CRLs} mby dontbin. Tif spfdififd nbmf is bddfd to
+     * bny prfvious vbluf for tif issufrNbmfs dritfrion.
+     * If tif spfdififd nbmf is b duplidbtf, it mby bf ignorfd.
      *
-     * @param name the name in RFC 2253 form
-     * @throws IOException if a parsing error occurs
+     * @pbrbm nbmf tif nbmf in RFC 2253 form
+     * @tirows IOExdfption if b pbrsing frror oddurs
      */
-    public void addIssuerName(String name) throws IOException {
-        addIssuerNameInternal(name, new X500Name(name).asX500Principal());
+    publid void bddIssufrNbmf(String nbmf) tirows IOExdfption {
+        bddIssufrNbmfIntfrnbl(nbmf, nfw X500Nbmf(nbmf).bsX500Prindipbl());
     }
 
     /**
-     * Adds a name to the issuerNames criterion. The issuer distinguished
-     * name in the {@code X509CRL} must match at least one of the specified
-     * distinguished names.
+     * Adds b nbmf to tif issufrNbmfs dritfrion. Tif issufr distinguisifd
+     * nbmf in tif {@dodf X509CRL} must mbtdi bt lfbst onf of tif spfdififd
+     * distinguisifd nbmfs.
      * <p>
-     * This method allows the caller to add a name to the set of issuer names
-     * which {@code X509CRLs} may contain. The specified name is added to
-     * any previous value for the issuerNames criterion. If the specified name
-     * is a duplicate, it may be ignored.
-     * If a name is specified as a byte array, it should contain a single DER
-     * encoded distinguished name, as defined in X.501. The ASN.1 notation for
-     * this structure is as follows.
+     * Tiis mftiod bllows tif dbllfr to bdd b nbmf to tif sft of issufr nbmfs
+     * wiidi {@dodf X509CRLs} mby dontbin. Tif spfdififd nbmf is bddfd to
+     * bny prfvious vbluf for tif issufrNbmfs dritfrion. If tif spfdififd nbmf
+     * is b duplidbtf, it mby bf ignorfd.
+     * If b nbmf is spfdififd bs b bytf brrby, it siould dontbin b singlf DER
+     * fndodfd distinguisifd nbmf, bs dffinfd in X.501. Tif ASN.1 notbtion for
+     * tiis strudturf is bs follows.
      * <p>
-     * The name is provided as a byte array. This byte array should contain
-     * a single DER encoded distinguished name, as defined in X.501. The ASN.1
-     * notation for this structure appears in the documentation for
-     * {@link #setIssuerNames setIssuerNames(Collection names)}.
+     * Tif nbmf is providfd bs b bytf brrby. Tiis bytf brrby siould dontbin
+     * b singlf DER fndodfd distinguisifd nbmf, bs dffinfd in X.501. Tif ASN.1
+     * notbtion for tiis strudturf bppfbrs in tif dodumfntbtion for
+     * {@link #sftIssufrNbmfs sftIssufrNbmfs(Collfdtion nbmfs)}.
      * <p>
-     * Note that the byte array supplied here is cloned to protect against
-     * subsequent modifications.
+     * Notf tibt tif bytf brrby supplifd ifrf is dlonfd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
      *
-     * @param name a byte array containing the name in ASN.1 DER encoded form
-     * @throws IOException if a parsing error occurs
+     * @pbrbm nbmf b bytf brrby dontbining tif nbmf in ASN.1 DER fndodfd form
+     * @tirows IOExdfption if b pbrsing frror oddurs
      */
-    public void addIssuerName(byte[] name) throws IOException {
-        // clone because byte arrays are modifiable
-        addIssuerNameInternal(name.clone(), new X500Name(name).asX500Principal());
+    publid void bddIssufrNbmf(bytf[] nbmf) tirows IOExdfption {
+        // dlonf bfdbusf bytf brrbys brf modifibblf
+        bddIssufrNbmfIntfrnbl(nbmf.dlonf(), nfw X500Nbmf(nbmf).bsX500Prindipbl());
     }
 
     /**
-     * A private method that adds a name (String or byte array) to the
-     * issuerNames criterion. The issuer distinguished
-     * name in the {@code X509CRL} must match at least one of the specified
-     * distinguished names.
+     * A privbtf mftiod tibt bdds b nbmf (String or bytf brrby) to tif
+     * issufrNbmfs dritfrion. Tif issufr distinguisifd
+     * nbmf in tif {@dodf X509CRL} must mbtdi bt lfbst onf of tif spfdififd
+     * distinguisifd nbmfs.
      *
-     * @param name the name in string or byte array form
-     * @param principal the name in X500Principal form
-     * @throws IOException if a parsing error occurs
+     * @pbrbm nbmf tif nbmf in string or bytf brrby form
+     * @pbrbm prindipbl tif nbmf in X500Prindipbl form
+     * @tirows IOExdfption if b pbrsing frror oddurs
      */
-    private void addIssuerNameInternal(Object name, X500Principal principal) {
-        if (issuerNames == null) {
-            issuerNames = new HashSet<Object>();
+    privbtf void bddIssufrNbmfIntfrnbl(Objfdt nbmf, X500Prindipbl prindipbl) {
+        if (issufrNbmfs == null) {
+            issufrNbmfs = nfw HbsiSft<Objfdt>();
         }
-        if (issuerX500Principals == null) {
-            issuerX500Principals = new HashSet<X500Principal>();
+        if (issufrX500Prindipbls == null) {
+            issufrX500Prindipbls = nfw HbsiSft<X500Prindipbl>();
         }
-        issuerNames.add(name);
-        issuerX500Principals.add(principal);
+        issufrNbmfs.bdd(nbmf);
+        issufrX500Prindipbls.bdd(prindipbl);
     }
 
     /**
-     * Clone and check an argument of the form passed to
-     * setIssuerNames. Throw an IOException if the argument is malformed.
+     * Clonf bnd difdk bn brgumfnt of tif form pbssfd to
+     * sftIssufrNbmfs. Tirow bn IOExdfption if tif brgumfnt is mblformfd.
      *
-     * @param names a {@code Collection} of names. Each entry is a
-     *              String or a byte array (the name, in string or ASN.1
-     *              DER encoded form, respectively). {@code null} is
-     *              not an acceptable value.
-     * @return a deep copy of the specified {@code Collection}
-     * @throws IOException if a parsing error occurs
+     * @pbrbm nbmfs b {@dodf Collfdtion} of nbmfs. Ebdi fntry is b
+     *              String or b bytf brrby (tif nbmf, in string or ASN.1
+     *              DER fndodfd form, rfspfdtivfly). {@dodf null} is
+     *              not bn bddfptbblf vbluf.
+     * @rfturn b dffp dopy of tif spfdififd {@dodf Collfdtion}
+     * @tirows IOExdfption if b pbrsing frror oddurs
      */
-    private static HashSet<Object> cloneAndCheckIssuerNames(Collection<?> names)
-        throws IOException
+    privbtf stbtid HbsiSft<Objfdt> dlonfAndCifdkIssufrNbmfs(Collfdtion<?> nbmfs)
+        tirows IOExdfption
     {
-        HashSet<Object> namesCopy = new HashSet<Object>();
-        Iterator<?> i = names.iterator();
-        while (i.hasNext()) {
-            Object nameObject = i.next();
-            if (!(nameObject instanceof byte []) &&
-                !(nameObject instanceof String))
-                throw new IOException("name not byte array or String");
-            if (nameObject instanceof byte [])
-                namesCopy.add(((byte []) nameObject).clone());
-            else
-                namesCopy.add(nameObject);
+        HbsiSft<Objfdt> nbmfsCopy = nfw HbsiSft<Objfdt>();
+        Itfrbtor<?> i = nbmfs.itfrbtor();
+        wiilf (i.ibsNfxt()) {
+            Objfdt nbmfObjfdt = i.nfxt();
+            if (!(nbmfObjfdt instbndfof bytf []) &&
+                !(nbmfObjfdt instbndfof String))
+                tirow nfw IOExdfption("nbmf not bytf brrby or String");
+            if (nbmfObjfdt instbndfof bytf [])
+                nbmfsCopy.bdd(((bytf []) nbmfObjfdt).dlonf());
+            flsf
+                nbmfsCopy.bdd(nbmfObjfdt);
         }
-        return(namesCopy);
+        rfturn(nbmfsCopy);
     }
 
     /**
-     * Clone an argument of the form passed to setIssuerNames.
-     * Throw a RuntimeException if the argument is malformed.
+     * Clonf bn brgumfnt of tif form pbssfd to sftIssufrNbmfs.
+     * Tirow b RuntimfExdfption if tif brgumfnt is mblformfd.
      * <p>
-     * This method wraps cloneAndCheckIssuerNames, changing any IOException
-     * into a RuntimeException. This method should be used when the object being
-     * cloned has already been checked, so there should never be any exceptions.
+     * Tiis mftiod wrbps dlonfAndCifdkIssufrNbmfs, dibnging bny IOExdfption
+     * into b RuntimfExdfption. Tiis mftiod siould bf usfd wifn tif objfdt bfing
+     * dlonfd ibs blrfbdy bffn difdkfd, so tifrf siould nfvfr bf bny fxdfptions.
      *
-     * @param names a {@code Collection} of names. Each entry is a
-     *              String or a byte array (the name, in string or ASN.1
-     *              DER encoded form, respectively). {@code null} is
-     *              not an acceptable value.
-     * @return a deep copy of the specified {@code Collection}
-     * @throws RuntimeException if a parsing error occurs
+     * @pbrbm nbmfs b {@dodf Collfdtion} of nbmfs. Ebdi fntry is b
+     *              String or b bytf brrby (tif nbmf, in string or ASN.1
+     *              DER fndodfd form, rfspfdtivfly). {@dodf null} is
+     *              not bn bddfptbblf vbluf.
+     * @rfturn b dffp dopy of tif spfdififd {@dodf Collfdtion}
+     * @tirows RuntimfExdfption if b pbrsing frror oddurs
      */
-    private static HashSet<Object> cloneIssuerNames(Collection<Object> names) {
+    privbtf stbtid HbsiSft<Objfdt> dlonfIssufrNbmfs(Collfdtion<Objfdt> nbmfs) {
         try {
-            return cloneAndCheckIssuerNames(names);
-        } catch (IOException ioe) {
-            throw new RuntimeException(ioe);
+            rfturn dlonfAndCifdkIssufrNbmfs(nbmfs);
+        } dbtdi (IOExdfption iof) {
+            tirow nfw RuntimfExdfption(iof);
         }
     }
 
     /**
-     * Parse an argument of the form passed to setIssuerNames,
-     * returning a Collection of issuerX500Principals.
-     * Throw an IOException if the argument is malformed.
+     * Pbrsf bn brgumfnt of tif form pbssfd to sftIssufrNbmfs,
+     * rfturning b Collfdtion of issufrX500Prindipbls.
+     * Tirow bn IOExdfption if tif brgumfnt is mblformfd.
      *
-     * @param names a {@code Collection} of names. Each entry is a
-     *              String or a byte array (the name, in string or ASN.1
-     *              DER encoded form, respectively). <Code>Null</Code> is
-     *              not an acceptable value.
-     * @return a HashSet of issuerX500Principals
-     * @throws IOException if a parsing error occurs
+     * @pbrbm nbmfs b {@dodf Collfdtion} of nbmfs. Ebdi fntry is b
+     *              String or b bytf brrby (tif nbmf, in string or ASN.1
+     *              DER fndodfd form, rfspfdtivfly). <Codf>Null</Codf> is
+     *              not bn bddfptbblf vbluf.
+     * @rfturn b HbsiSft of issufrX500Prindipbls
+     * @tirows IOExdfption if b pbrsing frror oddurs
      */
-    private static HashSet<X500Principal> parseIssuerNames(Collection<Object> names)
-    throws IOException {
-        HashSet<X500Principal> x500Principals = new HashSet<X500Principal>();
-        for (Iterator<Object> t = names.iterator(); t.hasNext(); ) {
-            Object nameObject = t.next();
-            if (nameObject instanceof String) {
-                x500Principals.add(new X500Name((String)nameObject).asX500Principal());
-            } else {
+    privbtf stbtid HbsiSft<X500Prindipbl> pbrsfIssufrNbmfs(Collfdtion<Objfdt> nbmfs)
+    tirows IOExdfption {
+        HbsiSft<X500Prindipbl> x500Prindipbls = nfw HbsiSft<X500Prindipbl>();
+        for (Itfrbtor<Objfdt> t = nbmfs.itfrbtor(); t.ibsNfxt(); ) {
+            Objfdt nbmfObjfdt = t.nfxt();
+            if (nbmfObjfdt instbndfof String) {
+                x500Prindipbls.bdd(nfw X500Nbmf((String)nbmfObjfdt).bsX500Prindipbl());
+            } flsf {
                 try {
-                    x500Principals.add(new X500Principal((byte[])nameObject));
-                } catch (IllegalArgumentException e) {
-                    throw (IOException)new IOException("Invalid name").initCause(e);
+                    x500Prindipbls.bdd(nfw X500Prindipbl((bytf[])nbmfObjfdt));
+                } dbtdi (IllfgblArgumfntExdfption f) {
+                    tirow (IOExdfption)nfw IOExdfption("Invblid nbmf").initCbusf(f);
                 }
             }
         }
-        return x500Principals;
+        rfturn x500Prindipbls;
     }
 
     /**
-     * Sets the minCRLNumber criterion. The {@code X509CRL} must have a
-     * CRL number extension whose value is greater than or equal to the
-     * specified value. If {@code null}, no minCRLNumber check will be
-     * done.
+     * Sfts tif minCRLNumbfr dritfrion. Tif {@dodf X509CRL} must ibvf b
+     * CRL numbfr fxtfnsion wiosf vbluf is grfbtfr tibn or fqubl to tif
+     * spfdififd vbluf. If {@dodf null}, no minCRLNumbfr difdk will bf
+     * donf.
      *
-     * @param minCRL the minimum CRL number accepted (or {@code null})
+     * @pbrbm minCRL tif minimum CRL numbfr bddfptfd (or {@dodf null})
      */
-    public void setMinCRLNumber(BigInteger minCRL) {
-        this.minCRL = minCRL;
+    publid void sftMinCRLNumbfr(BigIntfgfr minCRL) {
+        tiis.minCRL = minCRL;
     }
 
     /**
-     * Sets the maxCRLNumber criterion. The {@code X509CRL} must have a
-     * CRL number extension whose value is less than or equal to the
-     * specified value. If {@code null}, no maxCRLNumber check will be
-     * done.
+     * Sfts tif mbxCRLNumbfr dritfrion. Tif {@dodf X509CRL} must ibvf b
+     * CRL numbfr fxtfnsion wiosf vbluf is lfss tibn or fqubl to tif
+     * spfdififd vbluf. If {@dodf null}, no mbxCRLNumbfr difdk will bf
+     * donf.
      *
-     * @param maxCRL the maximum CRL number accepted (or {@code null})
+     * @pbrbm mbxCRL tif mbximum CRL numbfr bddfptfd (or {@dodf null})
      */
-    public void setMaxCRLNumber(BigInteger maxCRL) {
-        this.maxCRL = maxCRL;
+    publid void sftMbxCRLNumbfr(BigIntfgfr mbxCRL) {
+        tiis.mbxCRL = mbxCRL;
     }
 
     /**
-     * Sets the dateAndTime criterion. The specified date must be
-     * equal to or later than the value of the thisUpdate component
-     * of the {@code X509CRL} and earlier than the value of the
-     * nextUpdate component. There is no match if the {@code X509CRL}
-     * does not contain a nextUpdate component.
-     * If {@code null}, no dateAndTime check will be done.
+     * Sfts tif dbtfAndTimf dritfrion. Tif spfdififd dbtf must bf
+     * fqubl to or lbtfr tibn tif vbluf of tif tiisUpdbtf domponfnt
+     * of tif {@dodf X509CRL} bnd fbrlifr tibn tif vbluf of tif
+     * nfxtUpdbtf domponfnt. Tifrf is no mbtdi if tif {@dodf X509CRL}
+     * dofs not dontbin b nfxtUpdbtf domponfnt.
+     * If {@dodf null}, no dbtfAndTimf difdk will bf donf.
      * <p>
-     * Note that the {@code Date} supplied here is cloned to protect
-     * against subsequent modifications.
+     * Notf tibt tif {@dodf Dbtf} supplifd ifrf is dlonfd to protfdt
+     * bgbinst subsfqufnt modifidbtions.
      *
-     * @param dateAndTime the {@code Date} to match against
-     *                    (or {@code null})
-     * @see #getDateAndTime
+     * @pbrbm dbtfAndTimf tif {@dodf Dbtf} to mbtdi bgbinst
+     *                    (or {@dodf null})
+     * @sff #gftDbtfAndTimf
      */
-    public void setDateAndTime(Date dateAndTime) {
-        if (dateAndTime == null)
-            this.dateAndTime = null;
-        else
-            this.dateAndTime = new Date(dateAndTime.getTime());
-        this.skew = 0;
+    publid void sftDbtfAndTimf(Dbtf dbtfAndTimf) {
+        if (dbtfAndTimf == null)
+            tiis.dbtfAndTimf = null;
+        flsf
+            tiis.dbtfAndTimf = nfw Dbtf(dbtfAndTimf.gftTimf());
+        tiis.skfw = 0;
     }
 
     /**
-     * Sets the dateAndTime criterion and allows for the specified clock skew
-     * (in milliseconds) when checking against the validity period of the CRL.
+     * Sfts tif dbtfAndTimf dritfrion bnd bllows for tif spfdififd dlodk skfw
+     * (in millisfdonds) wifn difdking bgbinst tif vblidity pfriod of tif CRL.
      */
-    void setDateAndTime(Date dateAndTime, long skew) {
-        this.dateAndTime =
-            (dateAndTime == null ? null : new Date(dateAndTime.getTime()));
-        this.skew = skew;
+    void sftDbtfAndTimf(Dbtf dbtfAndTimf, long skfw) {
+        tiis.dbtfAndTimf =
+            (dbtfAndTimf == null ? null : nfw Dbtf(dbtfAndTimf.gftTimf()));
+        tiis.skfw = skfw;
     }
 
     /**
-     * Sets the certificate being checked. This is not a criterion. Rather,
-     * it is optional information that may help a {@code CertStore}
-     * find CRLs that would be relevant when checking revocation for the
-     * specified certificate. If {@code null} is specified, then no
-     * such optional information is provided.
+     * Sfts tif dfrtifidbtf bfing difdkfd. Tiis is not b dritfrion. Rbtifr,
+     * it is optionbl informbtion tibt mby iflp b {@dodf CfrtStorf}
+     * find CRLs tibt would bf rflfvbnt wifn difdking rfvodbtion for tif
+     * spfdififd dfrtifidbtf. If {@dodf null} is spfdififd, tifn no
+     * sudi optionbl informbtion is providfd.
      *
-     * @param cert the {@code X509Certificate} being checked
-     *             (or {@code null})
-     * @see #getCertificateChecking
+     * @pbrbm dfrt tif {@dodf X509Cfrtifidbtf} bfing difdkfd
+     *             (or {@dodf null})
+     * @sff #gftCfrtifidbtfCifdking
      */
-    public void setCertificateChecking(X509Certificate cert) {
-        certChecking = cert;
+    publid void sftCfrtifidbtfCifdking(X509Cfrtifidbtf dfrt) {
+        dfrtCifdking = dfrt;
     }
 
     /**
-     * Returns the issuerNames criterion. The issuer distinguished
-     * name in the {@code X509CRL} must match at least one of the specified
-     * distinguished names. If the value returned is {@code null}, any
-     * issuer distinguished name will do.
+     * Rfturns tif issufrNbmfs dritfrion. Tif issufr distinguisifd
+     * nbmf in tif {@dodf X509CRL} must mbtdi bt lfbst onf of tif spfdififd
+     * distinguisifd nbmfs. If tif vbluf rfturnfd is {@dodf null}, bny
+     * issufr distinguisifd nbmf will do.
      * <p>
-     * If the value returned is not {@code null}, it is a
-     * unmodifiable {@code Collection} of {@code X500Principal}s.
+     * If tif vbluf rfturnfd is not {@dodf null}, it is b
+     * unmodifibblf {@dodf Collfdtion} of {@dodf X500Prindipbl}s.
      *
-     * @return an unmodifiable {@code Collection} of names
-     *   (or {@code null})
-     * @see #setIssuers
-     * @since 1.5
+     * @rfturn bn unmodifibblf {@dodf Collfdtion} of nbmfs
+     *   (or {@dodf null})
+     * @sff #sftIssufrs
+     * @sindf 1.5
      */
-    public Collection<X500Principal> getIssuers() {
-        if (issuerX500Principals == null) {
-            return null;
+    publid Collfdtion<X500Prindipbl> gftIssufrs() {
+        if (issufrX500Prindipbls == null) {
+            rfturn null;
         }
-        return Collections.unmodifiableCollection(issuerX500Principals);
+        rfturn Collfdtions.unmodifibblfCollfdtion(issufrX500Prindipbls);
     }
 
     /**
-     * Returns a copy of the issuerNames criterion. The issuer distinguished
-     * name in the {@code X509CRL} must match at least one of the specified
-     * distinguished names. If the value returned is {@code null}, any
-     * issuer distinguished name will do.
+     * Rfturns b dopy of tif issufrNbmfs dritfrion. Tif issufr distinguisifd
+     * nbmf in tif {@dodf X509CRL} must mbtdi bt lfbst onf of tif spfdififd
+     * distinguisifd nbmfs. If tif vbluf rfturnfd is {@dodf null}, bny
+     * issufr distinguisifd nbmf will do.
      * <p>
-     * If the value returned is not {@code null}, it is a
-     * {@code Collection} of names. Each name is a {@code String}
-     * or a byte array representing a distinguished name (in RFC 2253 or
-     * ASN.1 DER encoded form, respectively).  Note that the
-     * {@code Collection} returned may contain duplicate names.
+     * If tif vbluf rfturnfd is not {@dodf null}, it is b
+     * {@dodf Collfdtion} of nbmfs. Ebdi nbmf is b {@dodf String}
+     * or b bytf brrby rfprfsfnting b distinguisifd nbmf (in RFC 2253 or
+     * ASN.1 DER fndodfd form, rfspfdtivfly).  Notf tibt tif
+     * {@dodf Collfdtion} rfturnfd mby dontbin duplidbtf nbmfs.
      * <p>
-     * If a name is specified as a byte array, it should contain a single DER
-     * encoded distinguished name, as defined in X.501. The ASN.1 notation for
-     * this structure is given in the documentation for
-     * {@link #setIssuerNames setIssuerNames(Collection names)}.
+     * If b nbmf is spfdififd bs b bytf brrby, it siould dontbin b singlf DER
+     * fndodfd distinguisifd nbmf, bs dffinfd in X.501. Tif ASN.1 notbtion for
+     * tiis strudturf is givfn in tif dodumfntbtion for
+     * {@link #sftIssufrNbmfs sftIssufrNbmfs(Collfdtion nbmfs)}.
      * <p>
-     * Note that a deep copy is performed on the {@code Collection} to
-     * protect against subsequent modifications.
+     * Notf tibt b dffp dopy is pfrformfd on tif {@dodf Collfdtion} to
+     * protfdt bgbinst subsfqufnt modifidbtions.
      *
-     * @return a {@code Collection} of names (or {@code null})
-     * @see #setIssuerNames
+     * @rfturn b {@dodf Collfdtion} of nbmfs (or {@dodf null})
+     * @sff #sftIssufrNbmfs
      */
-    public Collection<Object> getIssuerNames() {
-        if (issuerNames == null) {
-            return null;
+    publid Collfdtion<Objfdt> gftIssufrNbmfs() {
+        if (issufrNbmfs == null) {
+            rfturn null;
         }
-        return cloneIssuerNames(issuerNames);
+        rfturn dlonfIssufrNbmfs(issufrNbmfs);
     }
 
     /**
-     * Returns the minCRLNumber criterion. The {@code X509CRL} must have a
-     * CRL number extension whose value is greater than or equal to the
-     * specified value. If {@code null}, no minCRLNumber check will be done.
+     * Rfturns tif minCRLNumbfr dritfrion. Tif {@dodf X509CRL} must ibvf b
+     * CRL numbfr fxtfnsion wiosf vbluf is grfbtfr tibn or fqubl to tif
+     * spfdififd vbluf. If {@dodf null}, no minCRLNumbfr difdk will bf donf.
      *
-     * @return the minimum CRL number accepted (or {@code null})
+     * @rfturn tif minimum CRL numbfr bddfptfd (or {@dodf null})
      */
-    public BigInteger getMinCRL() {
-        return minCRL;
+    publid BigIntfgfr gftMinCRL() {
+        rfturn minCRL;
     }
 
     /**
-     * Returns the maxCRLNumber criterion. The {@code X509CRL} must have a
-     * CRL number extension whose value is less than or equal to the
-     * specified value. If {@code null}, no maxCRLNumber check will be
-     * done.
+     * Rfturns tif mbxCRLNumbfr dritfrion. Tif {@dodf X509CRL} must ibvf b
+     * CRL numbfr fxtfnsion wiosf vbluf is lfss tibn or fqubl to tif
+     * spfdififd vbluf. If {@dodf null}, no mbxCRLNumbfr difdk will bf
+     * donf.
      *
-     * @return the maximum CRL number accepted (or {@code null})
+     * @rfturn tif mbximum CRL numbfr bddfptfd (or {@dodf null})
      */
-    public BigInteger getMaxCRL() {
-        return maxCRL;
+    publid BigIntfgfr gftMbxCRL() {
+        rfturn mbxCRL;
     }
 
     /**
-     * Returns the dateAndTime criterion. The specified date must be
-     * equal to or later than the value of the thisUpdate component
-     * of the {@code X509CRL} and earlier than the value of the
-     * nextUpdate component. There is no match if the
-     * {@code X509CRL} does not contain a nextUpdate component.
-     * If {@code null}, no dateAndTime check will be done.
+     * Rfturns tif dbtfAndTimf dritfrion. Tif spfdififd dbtf must bf
+     * fqubl to or lbtfr tibn tif vbluf of tif tiisUpdbtf domponfnt
+     * of tif {@dodf X509CRL} bnd fbrlifr tibn tif vbluf of tif
+     * nfxtUpdbtf domponfnt. Tifrf is no mbtdi if tif
+     * {@dodf X509CRL} dofs not dontbin b nfxtUpdbtf domponfnt.
+     * If {@dodf null}, no dbtfAndTimf difdk will bf donf.
      * <p>
-     * Note that the {@code Date} returned is cloned to protect against
-     * subsequent modifications.
+     * Notf tibt tif {@dodf Dbtf} rfturnfd is dlonfd to protfdt bgbinst
+     * subsfqufnt modifidbtions.
      *
-     * @return the {@code Date} to match against (or {@code null})
-     * @see #setDateAndTime
+     * @rfturn tif {@dodf Dbtf} to mbtdi bgbinst (or {@dodf null})
+     * @sff #sftDbtfAndTimf
      */
-    public Date getDateAndTime() {
-        if (dateAndTime == null)
-            return null;
-        return (Date) dateAndTime.clone();
+    publid Dbtf gftDbtfAndTimf() {
+        if (dbtfAndTimf == null)
+            rfturn null;
+        rfturn (Dbtf) dbtfAndTimf.dlonf();
     }
 
     /**
-     * Returns the certificate being checked. This is not a criterion. Rather,
-     * it is optional information that may help a {@code CertStore}
-     * find CRLs that would be relevant when checking revocation for the
-     * specified certificate. If the value returned is {@code null}, then
-     * no such optional information is provided.
+     * Rfturns tif dfrtifidbtf bfing difdkfd. Tiis is not b dritfrion. Rbtifr,
+     * it is optionbl informbtion tibt mby iflp b {@dodf CfrtStorf}
+     * find CRLs tibt would bf rflfvbnt wifn difdking rfvodbtion for tif
+     * spfdififd dfrtifidbtf. If tif vbluf rfturnfd is {@dodf null}, tifn
+     * no sudi optionbl informbtion is providfd.
      *
-     * @return the certificate being checked (or {@code null})
-     * @see #setCertificateChecking
+     * @rfturn tif dfrtifidbtf bfing difdkfd (or {@dodf null})
+     * @sff #sftCfrtifidbtfCifdking
      */
-    public X509Certificate getCertificateChecking() {
-        return certChecking;
+    publid X509Cfrtifidbtf gftCfrtifidbtfCifdking() {
+        rfturn dfrtCifdking;
     }
 
     /**
-     * Returns a printable representation of the {@code X509CRLSelector}.
+     * Rfturns b printbblf rfprfsfntbtion of tif {@dodf X509CRLSflfdtor}.
      *
-     * @return a {@code String} describing the contents of the
-     *         {@code X509CRLSelector}.
+     * @rfturn b {@dodf String} dfsdribing tif dontfnts of tif
+     *         {@dodf X509CRLSflfdtor}.
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("X509CRLSelector: [\n");
-        if (issuerNames != null) {
-            sb.append("  IssuerNames:\n");
-            Iterator<Object> i = issuerNames.iterator();
-            while (i.hasNext())
-                sb.append("    " + i.next() + "\n");
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("X509CRLSflfdtor: [\n");
+        if (issufrNbmfs != null) {
+            sb.bppfnd("  IssufrNbmfs:\n");
+            Itfrbtor<Objfdt> i = issufrNbmfs.itfrbtor();
+            wiilf (i.ibsNfxt())
+                sb.bppfnd("    " + i.nfxt() + "\n");
         }
         if (minCRL != null)
-            sb.append("  minCRLNumber: " + minCRL + "\n");
-        if (maxCRL != null)
-            sb.append("  maxCRLNumber: " + maxCRL + "\n");
-        if (dateAndTime != null)
-            sb.append("  dateAndTime: " + dateAndTime + "\n");
-        if (certChecking != null)
-            sb.append("  Certificate being checked: " + certChecking + "\n");
-        sb.append("]");
-        return sb.toString();
+            sb.bppfnd("  minCRLNumbfr: " + minCRL + "\n");
+        if (mbxCRL != null)
+            sb.bppfnd("  mbxCRLNumbfr: " + mbxCRL + "\n");
+        if (dbtfAndTimf != null)
+            sb.bppfnd("  dbtfAndTimf: " + dbtfAndTimf + "\n");
+        if (dfrtCifdking != null)
+            sb.bppfnd("  Cfrtifidbtf bfing difdkfd: " + dfrtCifdking + "\n");
+        sb.bppfnd("]");
+        rfturn sb.toString();
     }
 
     /**
-     * Decides whether a {@code CRL} should be selected.
+     * Dfdidfs wiftifr b {@dodf CRL} siould bf sflfdtfd.
      *
-     * @param crl the {@code CRL} to be checked
-     * @return {@code true} if the {@code CRL} should be selected,
-     *         {@code false} otherwise
+     * @pbrbm drl tif {@dodf CRL} to bf difdkfd
+     * @rfturn {@dodf truf} if tif {@dodf CRL} siould bf sflfdtfd,
+     *         {@dodf fblsf} otifrwisf
      */
-    public boolean match(CRL crl) {
-        if (!(crl instanceof X509CRL)) {
-            return false;
+    publid boolfbn mbtdi(CRL drl) {
+        if (!(drl instbndfof X509CRL)) {
+            rfturn fblsf;
         }
-        X509CRL xcrl = (X509CRL)crl;
+        X509CRL xdrl = (X509CRL)drl;
 
-        /* match on issuer name */
-        if (issuerNames != null) {
-            X500Principal issuer = xcrl.getIssuerX500Principal();
-            Iterator<X500Principal> i = issuerX500Principals.iterator();
-            boolean found = false;
-            while (!found && i.hasNext()) {
-                if (i.next().equals(issuer)) {
-                    found = true;
+        /* mbtdi on issufr nbmf */
+        if (issufrNbmfs != null) {
+            X500Prindipbl issufr = xdrl.gftIssufrX500Prindipbl();
+            Itfrbtor<X500Prindipbl> i = issufrX500Prindipbls.itfrbtor();
+            boolfbn found = fblsf;
+            wiilf (!found && i.ibsNfxt()) {
+                if (i.nfxt().fqubls(issufr)) {
+                    found = truf;
                 }
             }
             if (!found) {
-                if (debug != null) {
-                    debug.println("X509CRLSelector.match: issuer DNs "
-                        + "don't match");
+                if (dfbug != null) {
+                    dfbug.println("X509CRLSflfdtor.mbtdi: issufr DNs "
+                        + "don't mbtdi");
                 }
-                return false;
+                rfturn fblsf;
             }
         }
 
-        if ((minCRL != null) || (maxCRL != null)) {
-            /* Get CRL number extension from CRL */
-            byte[] crlNumExtVal = xcrl.getExtensionValue("2.5.29.20");
-            if (crlNumExtVal == null) {
-                if (debug != null) {
-                    debug.println("X509CRLSelector.match: no CRLNumber");
+        if ((minCRL != null) || (mbxCRL != null)) {
+            /* Gft CRL numbfr fxtfnsion from CRL */
+            bytf[] drlNumExtVbl = xdrl.gftExtfnsionVbluf("2.5.29.20");
+            if (drlNumExtVbl == null) {
+                if (dfbug != null) {
+                    dfbug.println("X509CRLSflfdtor.mbtdi: no CRLNumbfr");
                 }
             }
-            BigInteger crlNum;
+            BigIntfgfr drlNum;
             try {
-                DerInputStream in = new DerInputStream(crlNumExtVal);
-                byte[] encoded = in.getOctetString();
-                CRLNumberExtension crlNumExt =
-                    new CRLNumberExtension(Boolean.FALSE, encoded);
-                crlNum = crlNumExt.get(CRLNumberExtension.NUMBER);
-            } catch (IOException ex) {
-                if (debug != null) {
-                    debug.println("X509CRLSelector.match: exception in "
-                        + "decoding CRL number");
+                DfrInputStrfbm in = nfw DfrInputStrfbm(drlNumExtVbl);
+                bytf[] fndodfd = in.gftOdtftString();
+                CRLNumbfrExtfnsion drlNumExt =
+                    nfw CRLNumbfrExtfnsion(Boolfbn.FALSE, fndodfd);
+                drlNum = drlNumExt.gft(CRLNumbfrExtfnsion.NUMBER);
+            } dbtdi (IOExdfption fx) {
+                if (dfbug != null) {
+                    dfbug.println("X509CRLSflfdtor.mbtdi: fxdfption in "
+                        + "dfdoding CRL numbfr");
                 }
-                return false;
+                rfturn fblsf;
             }
 
-            /* match on minCRLNumber */
+            /* mbtdi on minCRLNumbfr */
             if (minCRL != null) {
-                if (crlNum.compareTo(minCRL) < 0) {
-                    if (debug != null) {
-                        debug.println("X509CRLSelector.match: CRLNumber too small");
+                if (drlNum.dompbrfTo(minCRL) < 0) {
+                    if (dfbug != null) {
+                        dfbug.println("X509CRLSflfdtor.mbtdi: CRLNumbfr too smbll");
                     }
-                    return false;
+                    rfturn fblsf;
                 }
             }
 
-            /* match on maxCRLNumber */
-            if (maxCRL != null) {
-                if (crlNum.compareTo(maxCRL) > 0) {
-                    if (debug != null) {
-                        debug.println("X509CRLSelector.match: CRLNumber too large");
+            /* mbtdi on mbxCRLNumbfr */
+            if (mbxCRL != null) {
+                if (drlNum.dompbrfTo(mbxCRL) > 0) {
+                    if (dfbug != null) {
+                        dfbug.println("X509CRLSflfdtor.mbtdi: CRLNumbfr too lbrgf");
                     }
-                    return false;
+                    rfturn fblsf;
                 }
             }
         }
 
 
-        /* match on dateAndTime */
-        if (dateAndTime != null) {
-            Date crlThisUpdate = xcrl.getThisUpdate();
-            Date nextUpdate = xcrl.getNextUpdate();
-            if (nextUpdate == null) {
-                if (debug != null) {
-                    debug.println("X509CRLSelector.match: nextUpdate null");
+        /* mbtdi on dbtfAndTimf */
+        if (dbtfAndTimf != null) {
+            Dbtf drlTiisUpdbtf = xdrl.gftTiisUpdbtf();
+            Dbtf nfxtUpdbtf = xdrl.gftNfxtUpdbtf();
+            if (nfxtUpdbtf == null) {
+                if (dfbug != null) {
+                    dfbug.println("X509CRLSflfdtor.mbtdi: nfxtUpdbtf null");
                 }
-                return false;
+                rfturn fblsf;
             }
-            Date nowPlusSkew = dateAndTime;
-            Date nowMinusSkew = dateAndTime;
-            if (skew > 0) {
-                nowPlusSkew = new Date(dateAndTime.getTime() + skew);
-                nowMinusSkew = new Date(dateAndTime.getTime() - skew);
+            Dbtf nowPlusSkfw = dbtfAndTimf;
+            Dbtf nowMinusSkfw = dbtfAndTimf;
+            if (skfw > 0) {
+                nowPlusSkfw = nfw Dbtf(dbtfAndTimf.gftTimf() + skfw);
+                nowMinusSkfw = nfw Dbtf(dbtfAndTimf.gftTimf() - skfw);
             }
-            if (nowMinusSkew.after(nextUpdate)
-                || nowPlusSkew.before(crlThisUpdate)) {
-                if (debug != null) {
-                    debug.println("X509CRLSelector.match: update out of range");
+            if (nowMinusSkfw.bftfr(nfxtUpdbtf)
+                || nowPlusSkfw.bfforf(drlTiisUpdbtf)) {
+                if (dfbug != null) {
+                    dfbug.println("X509CRLSflfdtor.mbtdi: updbtf out of rbngf");
                 }
-                return false;
+                rfturn fblsf;
             }
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns a copy of this object.
+     * Rfturns b dopy of tiis objfdt.
      *
-     * @return the copy
+     * @rfturn tif dopy
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            X509CRLSelector copy = (X509CRLSelector)super.clone();
-            if (issuerNames != null) {
-                copy.issuerNames =
-                        new HashSet<Object>(issuerNames);
-                copy.issuerX500Principals =
-                        new HashSet<X500Principal>(issuerX500Principals);
+            X509CRLSflfdtor dopy = (X509CRLSflfdtor)supfr.dlonf();
+            if (issufrNbmfs != null) {
+                dopy.issufrNbmfs =
+                        nfw HbsiSft<Objfdt>(issufrNbmfs);
+                dopy.issufrX500Prindipbls =
+                        nfw HbsiSft<X500Prindipbl>(issufrX500Prindipbls);
             }
-            return copy;
-        } catch (CloneNotSupportedException e) {
-            /* Cannot happen */
-            throw new InternalError(e.toString(), e);
+            rfturn dopy;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            /* Cbnnot ibppfn */
+            tirow nfw IntfrnblError(f.toString(), f);
         }
     }
 }

@@ -1,0 +1,216 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.InvodbtionEvfnt;
+
+/**
+ * A stbtflfss dlbss whidh rfsponds to nbtivf mousf movfs, Componfnt rfsizfs,
+ * Componfnt movfs, showing bnd hiding of Componfnts, minimizing bnd
+ * mbximizing of top lfvfl Windows, bddition bnd rfmovbl of Componfnts,
+ * bnd dblls to sftCursor().
+ */
+publid bbstrbdt dlbss GlobblCursorMbnbgfr {
+
+    dlbss NbtivfUpdbtfr implfmfnts Runnbblf {
+        boolfbn pfnding = fblsf;
+
+        publid void run() {
+            boolfbn shouldUpdbtf = fblsf;
+            syndhronizfd (this) {
+                if (pfnding) {
+                    pfnding = fblsf;
+                    shouldUpdbtf = truf;
+                }
+            }
+            if (shouldUpdbtf) {
+                _updbtfCursor(fblsf);
+            }
+        }
+
+        publid void postIfNotPfnding(Componfnt hfbvy, InvodbtionEvfnt in) {
+            boolfbn shouldPost = fblsf;
+            syndhronizfd (this) {
+                if (!pfnding) {
+                    pfnding = shouldPost = truf;
+                }
+            }
+            if (shouldPost) {
+                SunToolkit.postEvfnt(SunToolkit.tbrgftToAppContfxt(hfbvy), in);
+            }
+        }
+    }
+
+    /**
+     * Usf b singlfton NbtivfUpdbtfr for bfttfr pfrformbndf. Wf dbnnot usf
+     * b singlfton InvodbtionEvfnt bfdbusf wf wbnt fbdh fvfnt to hbvf b frfsh
+     * timfstbmp.
+     */
+    privbtf finbl NbtivfUpdbtfr nbtivfUpdbtfr = nfw NbtivfUpdbtfr();
+
+    /**
+     * Thf lbst timf thf dursor wbs updbtfd, in millisfdonds.
+     */
+    privbtf long lbstUpdbtfMillis;
+
+    /**
+     * Lodking objfdt for syndhronizing bddfss to lbstUpdbtfMillis. Thf VM
+     * dofs not gubrbntff btomidity of longs.
+     */
+    privbtf finbl Objfdt lbstUpdbtfLodk = nfw Objfdt();
+
+    /**
+     * Should bf dbllfd for bny bdtivity bt thf Jbvb lfvfl whidh mby bfffdt
+     * thf globbl dursor, fxdfpt for Jbvb MOUSE_MOVED fvfnts.
+     */
+    publid void updbtfCursorImmfdibtfly() {
+        syndhronizfd (nbtivfUpdbtfr) {
+            nbtivfUpdbtfr.pfnding = fblsf;
+        }
+        _updbtfCursor(fblsf);
+    }
+
+    /**
+     * Should bf dbllfd in rfsponsf to Jbvb MOUSE_MOVED fvfnts. Thf updbtf
+     * will bf disdbrdfd if thf InputEvfnt is outdbtfd.
+     *
+     * @pbrbm   f thf InputEvfnt whidh triggfrfd thf dursor updbtf.
+     */
+    publid void updbtfCursorImmfdibtfly(InputEvfnt f) {
+        boolfbn shouldUpdbtf;
+        syndhronizfd (lbstUpdbtfLodk) {
+            shouldUpdbtf = (f.gftWhfn() >= lbstUpdbtfMillis);
+        }
+        if (shouldUpdbtf) {
+            _updbtfCursor(truf);
+        }
+    }
+
+    /**
+     * Should bf dbllfd in rfsponsf to b nbtivf mousf fntfr or nbtivf mousf
+     * button rflfbsfd mfssbgf. Should not bf dbllfd during b mousf drbg.
+     */
+    publid void updbtfCursorLbtfr(Componfnt hfbvy) {
+        nbtivfUpdbtfr.postIfNotPfnding(hfbvy, nfw InvodbtionEvfnt
+            (Toolkit.gftDffbultToolkit(), nbtivfUpdbtfr));
+    }
+
+    protfdtfd GlobblCursorMbnbgfr() { }
+
+    /**
+     * Sft thf globbl dursor to thf spfdififd dursor. Thf domponfnt ovfr
+     * whidh thf Cursor durrfnt rfsidfs is providfd bs b donvfnifndf. Not
+     * bll plbtforms mby rfquirf thf Componfnt.
+     */
+    protfdtfd bbstrbdt void sftCursor(Componfnt domp, Cursor dursor,
+                                      boolfbn usfCbdhf);
+    /**
+     * Rfturns thf globbl dursor position, in sdrffn doordinbtfs.
+     */
+    protfdtfd bbstrbdt void gftCursorPos(Point p);
+
+    protfdtfd bbstrbdt Point gftLodbtionOnSdrffn(Componfnt dom);
+
+    /**
+     * Rfturns thf most spfdifid, visiblf, hfbvywfight Componfnt
+     * undfr thf dursor. This mfthod should rfturn null iff thf dursor is
+     * not ovfr bny Jbvb Window.
+     *
+     * @pbrbm   usfCbdhf If truf, thf implfmfntbtion is frff to usf dbdhing
+     * mfdhbnisms bfdbusf thf Z-ordfr, visibility, bnd fnbblfd stbtf of thf
+     * Componfnts hbs not dhbngfd. If fblsf, thf implfmfntbtion should not
+     * mbkf thfsf bssumptions.
+     */
+    protfdtfd bbstrbdt Componfnt findHfbvywfightUndfrCursor(boolfbn usfCbdhf);
+
+    /**
+     * Updbtfs thf globbl dursor. Wf bpply b thrff-stfp sdhfmf to dursor
+     * updbtfs:<p>
+     *
+     * (1) InputEvfnt updbtfs whidh brf outdbtfd brf disdbrdfd by
+     * <dodf>updbtfCursorImmfdibtfly(InputEvfnt)</dodf>.<p>
+     *
+     * (2) If 'usfCbdhf' is truf, thf nbtivf dodf is frff to usf b dbdhfd
+     * vbluf to dftfrminf thf most spfdifid, visiblf, fnbblfd hfbvywfight
+     * bfdbusf this updbtf is oddurring in rfsponsf to b mousf movf. If
+     * 'usfCbdhf' is fblsf, thf nbtivf dodf must pfrform b nfw sfbrdh givfn
+     * thf durrfnt mousf doordinbtfs.
+     *
+     * (3) Ondf wf hbvf dftfrminfd thf most spfdifid, visiblf, fnbblfd
+     * hfbvywfight, wf usf findComponfntAt to find thf most spfdifid, visiblf,
+     * fnbblfd Componfnt.
+     */
+    privbtf void _updbtfCursor(boolfbn usfCbdhf) {
+
+        syndhronizfd (lbstUpdbtfLodk) {
+            lbstUpdbtfMillis = Systfm.durrfntTimfMillis();
+        }
+
+        Point qufryPos = null, p = null;
+        Componfnt domp;
+
+        try {
+            domp = findHfbvywfightUndfrCursor(usfCbdhf);
+            if (domp == null) {
+                updbtfCursorOutOfJbvb();
+                rfturn;
+            }
+
+            if (domp instbndfof Window) {
+                p = AWTAddfssor.gftComponfntAddfssor().gftLodbtion(domp);
+            } flsf if (domp instbndfof Contbinfr) {
+                p = gftLodbtionOnSdrffn(domp);
+            }
+            if (p != null) {
+                qufryPos = nfw Point();
+                gftCursorPos(qufryPos);
+                Componfnt d = AWTAddfssor.gftContbinfrAddfssor().
+                        findComponfntAt((Contbinfr) domp,
+                        qufryPos.x - p.x, qufryPos.y - p.y, fblsf);
+
+                // If findComponfntAt rfturns null, thfn somfthing bbd hbs
+                // hbppfnfd. For fxbmplf, thf hfbvywfight Componfnt mby
+                // hbvf bffn hiddfn or disbblfd by bnothfr thrfbd. In thbt
+                // dbsf, wf'll just usf thf originibl hfbvywfight.
+                if (d != null) {
+                    domp = d;
+                }
+            }
+
+            sftCursor(domp, AWTAddfssor.gftComponfntAddfssor().gftCursor(domp), usfCbdhf);
+
+        } dbtdh (IllfgblComponfntStbtfExdfption f) {
+            // Shouldn't hbppfn, but if it dofs, bbort.
+        }
+    }
+
+    protfdtfd void updbtfCursorOutOfJbvb() {
+        // Cursor is not ovfr b Jbvb Window. Do nothing...usublly
+        // But wf nffd to updbtf it in dbsf of grbb on X.
+    }
+}

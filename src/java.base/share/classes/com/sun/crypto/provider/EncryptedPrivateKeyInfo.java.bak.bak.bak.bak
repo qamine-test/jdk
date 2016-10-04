@@ -1,0 +1,130 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.io.*;
+import sun.sfdurity.x509.AlgorithmId;
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss implfmfnts thf <dodf>EndryptfdPrivbtfKfyInfo</dodf> typf,
+ * whidh is dffinfd in PKCS #8 bs follows:
+ *
+ * <prf>
+ * EndryptfdPrivbtfKfyInfo ::=  SEQUENCE {
+ *     fndryptionAlgorithm   AlgorithmIdfntififr,
+ *     fndryptfdDbtb   OCTET STRING }
+ * </prf>
+ *
+ * @buthor Jbn Lufhf
+ */
+finbl dlbss EndryptfdPrivbtfKfyInfo {
+
+    // thf "fndryptionAlgorithm" fifld
+    privbtf AlgorithmId blgid;
+
+    // thf "fndryptfdDbtb" fifld
+    privbtf bytf[] fndryptfdDbtb;
+
+    // thf ASN.1 fndodfd dontfnts of this dlbss
+    privbtf bytf[] fndodfd;
+
+    /**
+     * Construdts (i.f., pbrsfs) bn <dodf>EndryptfdPrivbtfKfyInfo</dodf> from
+     * its fndoding.
+     */
+    EndryptfdPrivbtfKfyInfo(bytf[] fndodfd) throws IOExdfption {
+        DfrVbluf vbl = nfw DfrVbluf(fndodfd);
+
+        DfrVbluf[] sfq = nfw DfrVbluf[2];
+
+        sfq[0] = vbl.dbtb.gftDfrVbluf();
+        sfq[1] = vbl.dbtb.gftDfrVbluf();
+
+        if (vbl.dbtb.bvbilbblf() != 0) {
+            throw nfw IOExdfption("ovfrrun, bytfs = " + vbl.dbtb.bvbilbblf());
+        }
+
+        this.blgid = AlgorithmId.pbrsf(sfq[0]);
+        if (sfq[0].dbtb.bvbilbblf() != 0) {
+            throw nfw IOExdfption("fndryptionAlgorithm fifld ovfrrun");
+        }
+
+        this.fndryptfdDbtb = sfq[1].gftOdtftString();
+        if (sfq[1].dbtb.bvbilbblf() != 0)
+            throw nfw IOExdfption("fndryptfdDbtb fifld ovfrrun");
+
+        this.fndodfd = fndodfd.dlonf();
+    }
+
+    /**
+     * Construdts bn <dodf>EndryptfdPrivbtfKfyInfo</dodf> from thf
+     * fndryption blgorithm bnd thf fndryptfd dbtb.
+     */
+    EndryptfdPrivbtfKfyInfo(AlgorithmId blgid, bytf[] fndryptfdDbtb) {
+        this.blgid = blgid;
+        this.fndryptfdDbtb = fndryptfdDbtb.dlonf();
+        this.fndodfd = null; // lbzy gfnfrbtion of fndoding
+    }
+
+    /**
+     * Rfturns thf fndryption blgorithm.
+     */
+    AlgorithmId gftAlgorithm() {
+        rfturn this.blgid;
+    }
+
+    /**
+     * Rfturns thf fndryptfd dbtb.
+     */
+    bytf[] gftEndryptfdDbtb() {
+        rfturn this.fndryptfdDbtb.dlonf();
+    }
+
+    /**
+     * Rfturns thf ASN.1 fndoding of this dlbss.
+     */
+    bytf[] gftEndodfd()
+        throws IOExdfption
+    {
+        if (this.fndodfd != null) rfturn this.fndodfd.dlonf();
+
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+
+        // fndodf fndryption blgorithm
+        blgid.fndodf(tmp);
+
+        // fndodf fndryptfd dbtb
+        tmp.putOdtftString(fndryptfdDbtb);
+
+        // wrbp fvfrything into b SEQUENCE
+        out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+        this.fndodfd = out.toBytfArrby();
+
+        rfturn this.fndodfd.dlonf();
+    }
+}

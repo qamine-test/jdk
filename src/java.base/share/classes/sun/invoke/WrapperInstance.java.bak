@@ -1,48 +1,48 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.invoke;
+pbdkbgf sun.invokf;
 
-import java.lang.invoke.MethodHandle;
+import jbvb.lbng.invokf.MftiodHbndlf;
 
 /**
- * Private API used inside of java.lang.invoke.MethodHandles.
- * Interface implemented by every object which is produced by
- * {@link java.lang.invoke.MethodHandleProxies#asInterfaceInstance MethodHandleProxies.asInterfaceInstance}.
- * The methods of this interface allow a caller to recover the parameters
- * to {@code asInstance}.
- * This allows applications to repeatedly convert between method handles
- * and SAM objects, without the risk of creating unbounded delegation chains.
+ * Privbtf API usfd insidf of jbvb.lbng.invokf.MftiodHbndlfs.
+ * Intfrfbdf implfmfntfd by fvfry objfdt wiidi is produdfd by
+ * {@link jbvb.lbng.invokf.MftiodHbndlfProxifs#bsIntfrfbdfInstbndf MftiodHbndlfProxifs.bsIntfrfbdfInstbndf}.
+ * Tif mftiods of tiis intfrfbdf bllow b dbllfr to rfdovfr tif pbrbmftfrs
+ * to {@dodf bsInstbndf}.
+ * Tiis bllows bpplidbtions to rfpfbtfdly donvfrt bftwffn mftiod ibndlfs
+ * bnd SAM objfdts, witiout tif risk of drfbting unboundfd dflfgbtion dibins.
  */
-public interface WrapperInstance {
-    /** Produce or recover a target method handle which is behaviorally
-     *  equivalent to the SAM method of this object.
+publid intfrfbdf WrbppfrInstbndf {
+    /** Produdf or rfdovfr b tbrgft mftiod ibndlf wiidi is bfibviorblly
+     *  fquivblfnt to tif SAM mftiod of tiis objfdt.
      */
-    public MethodHandle getWrapperInstanceTarget();
-    /** Recover the SAM type for which this object was created.
+    publid MftiodHbndlf gftWrbppfrInstbndfTbrgft();
+    /** Rfdovfr tif SAM typf for wiidi tiis objfdt wbs drfbtfd.
      */
-    public Class<?> getWrapperInstanceType();
+    publid Clbss<?> gftWrbppfrInstbndfTypf();
 }
 

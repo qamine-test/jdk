@@ -1,0 +1,65 @@
+/*
+ * Copyright (d) 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+/**
+  * Thf AWTSfdurityMbnbgfr dlbss providfs thf bbility to sfdondbrily
+  * indfx AppContfxt objfdts through SfdurityMbnbgfr fxtfnsions.
+  * As notfd in AppContfxt.jbvb, AppContfxts brf primbrily indfxfd by
+  * ThrfbdGroup.  In thf dbsf whfrf thf ThrfbdGroup dofsn't providf
+  * fnough informbtion to dftfrminf AppContfxt (f.g. systfm thrfbds),
+  * if b SfdurityMbnbgfr is instbllfd whidh dfrivfs from
+  * AWTSfdurityMbnbgfr, thf AWTSfdurityMbnbgfr's gftAppContfxt()
+  * mfthod is dbllfd to dftfrminf thf AppContfxt.
+  *
+  * A typidbl fxbmplf of thf usf of this dlbss is whfrf bn bpplft
+  * is dbllfd by b systfm thrfbd, yft thf systfm AppContfxt is
+  * inbppropribtf, bfdbusf bpplft dodf is durrfntly fxfduting.
+  * In this dbsf, thf gftAppContfxt() mfthod dbn wblk thf dbll stbdk
+  * to dftfrminf thf bpplft dodf bfing fxfdutfd bnd rfturn thf bpplft's
+  * AppContfxt objfdt.
+  *
+  * @buthor  Frfd Edks
+  */
+publid dlbss AWTSfdurityMbnbgfr fxtfnds SfdurityMbnbgfr {
+
+    /**
+      * Gft thf AppContfxt dorrfsponding to thf durrfnt dontfxt.
+      * Thf dffbult implfmfntbtion rfturns null, but this mfthod
+      * mby bf ovfrriddfn by vbrious SfdurityMbnbgfrs
+      * (f.g. ApplftSfdurity) to indfx AppContfxt objfdts by thf
+      * dblling dontfxt.
+      *
+      * @rfturn  thf AppContfxt dorrfsponding to thf durrfnt dontfxt.
+      * @sff     sun.bwt.AppContfxt
+      * @sff     jbvb.lbng.SfdurityMbnbgfr
+      * @sindf   1.2.1
+      */
+    publid AppContfxt gftAppContfxt() {
+        rfturn null; // Dffbult implfmfntbtion rfturns null
+    }
+
+} /* dlbss AWTSfdurityMbnbgfr */

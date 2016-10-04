@@ -1,0 +1,1068 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.im;
+
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bwt.AWTKfyStrokf;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.EvfntQufuf;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Window;
+import jbvb.bwt.fvfnt.ComponfntEvfnt;
+import jbvb.bwt.fvfnt.ComponfntListfnfr;
+import jbvb.bwt.fvfnt.FodusEvfnt;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.InputMfthodEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.fvfnt.WindowListfnfr;
+import jbvb.bwt.im.InputMfthodRfqufsts;
+import jbvb.bwt.im.spi.InputMfthod;
+import jbvb.lbng.Chbrbdtfr.Subsft;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import jbvb.util.prffs.BbdkingStorfExdfption;
+import jbvb.util.prffs.Prfffrfndfs;
+import sun.util.logging.PlbtformLoggfr;
+import sun.bwt.SunToolkit;
+
+/**
+ * This InputContfxt dlbss dontbins pbrts of thf implfmfntbtion of
+ * jbvb.tfxt.im.InputContfxt. Thfsf pbrts hbvf bffn movfd
+ * hfrf to bvoid fxposing protfdtfd mfmbfrs thbt brf nffdfd by thf
+ * subdlbss InputMfthodContfxt.
+ *
+ * @sff jbvb.bwt.im.InputContfxt
+ * @buthor JbvbSoft Asib/Pbdifid
+ */
+
+publid dlbss InputContfxt fxtfnds jbvb.bwt.im.InputContfxt
+                          implfmfnts ComponfntListfnfr, WindowListfnfr {
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.im.InputContfxt");
+    // Thf durrfnt input mfthod is rfprfsfntfd by two objfdts:
+    // b lodbtor is usfd to kffp informbtion bbout thf sflfdtfd
+    // input mfthod bnd lodblf until wf bdtublly nffd b rfbl input
+    // mfthod; only thfn thf input mfthod itsflf is drfbtfd.
+    // Ondf thfrf is bn input mfthod, thf input mfthod's lodblf
+    // tbkfs prfdfdfndf ovfr lodblf informbtion in thf lodbtor.
+    privbtf InputMfthodLodbtor inputMfthodLodbtor;
+    privbtf InputMfthod inputMfthod;
+    privbtf boolfbn inputMfthodCrfbtionFbilfd;
+
+    // holding bin for prfviously usfd input mfthod instbndfs, but not thf durrfnt onf
+    privbtf HbshMbp<InputMfthodLodbtor, InputMfthod> usfdInputMfthods;
+
+    // thf durrfnt dlifnt domponfnt is kfpt until thf usfr fodussfs on b difffrfnt
+    // dlifnt domponfnt sfrvfd by thf sbmf input dontfxt. Whfn thbt hbppfns, wf dbll
+    // fndComposition so thbt tfxt dofsn't jump from onf domponfnt to bnothfr.
+    privbtf Componfnt durrfntClifntComponfnt;
+    privbtf Componfnt bwtFodussfdComponfnt;
+    privbtf boolfbn   isInputMfthodAdtivf;
+    privbtf Subsft[]  dhbrbdtfrSubsfts = null;
+
+    // truf if domposition brfb hbs bffn sft to invisiblf whfn fodus wbs lost
+    privbtf boolfbn dompositionArfbHiddfn = fblsf;
+
+    // Thf input dontfxt for whosf input mfthod wf mby hbvf to dbll hidfWindows
+    privbtf stbtid InputContfxt inputMfthodWindowContfxt;
+
+    // Prfviously bdtivf input mfthod to dfdidf whfthfr wf nffd to dbll
+    // InputMfthodAdbptfr.stopListfning() on bdtivbtfInputMfthod()
+    privbtf stbtid InputMfthod prfviousInputMfthod = null;
+
+    // truf if thf durrfnt input mfthod rfquirfs dlifnt window dhbngf notifidbtion
+    privbtf boolfbn dlifntWindowNotifidbtionEnbblfd = fblsf;
+    // dlifnt window to whidh this input dontfxt is listfning
+    privbtf Window dlifntWindowListfnfd;
+    // dbdhf lodbtion notifidbtion
+    privbtf Rfdtbnglf dlifntWindowLodbtion = null;
+    // holding thf stbtf of dlifntWindowNotifidbtionEnbblfd of only non-durrfnt input mfthods
+    privbtf HbshMbp<InputMfthod, Boolfbn> pfrInputMfthodStbtf;
+
+    // Input Mfthod sflfdtion hot kfy stuff
+    privbtf stbtid AWTKfyStrokf inputMfthodSflfdtionKfy;
+    privbtf stbtid boolfbn inputMfthodSflfdtionKfyInitiblizfd = fblsf;
+    privbtf stbtid finbl String inputMfthodSflfdtionKfyPbth = "/jbvb/bwt/im/sflfdtionKfy";
+    privbtf stbtid finbl String inputMfthodSflfdtionKfyCodfNbmf = "kfyCodf";
+    privbtf stbtid finbl String inputMfthodSflfdtionKfyModififrsNbmf = "modififrs";
+
+    /**
+     * Construdts bn InputContfxt.
+     */
+    protfdtfd InputContfxt() {
+        InputMfthodMbnbgfr imm = InputMfthodMbnbgfr.gftInstbndf();
+        syndhronizfd (InputContfxt.dlbss) {
+            if (!inputMfthodSflfdtionKfyInitiblizfd) {
+                inputMfthodSflfdtionKfyInitiblizfd = truf;
+                if (imm.hbsMultiplfInputMfthods()) {
+                    initiblizfInputMfthodSflfdtionKfy();
+                }
+            }
+        }
+        sflfdtInputMfthod(imm.gftDffbultKfybobrdLodblf());
+    }
+
+    /**
+     * @sff jbvb.bwt.im.InputContfxt#sflfdtInputMfthod
+     * @fxdfption NullPointfrExdfption whfn thf lodblf is null.
+     */
+    publid syndhronizfd boolfbn sflfdtInputMfthod(Lodblf lodblf) {
+        if (lodblf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        // sff whfthfr thf durrfnt input mfthod supports thf lodblf
+        if (inputMfthod != null) {
+            if (inputMfthod.sftLodblf(lodblf)) {
+                rfturn truf;
+            }
+        } flsf if (inputMfthodLodbtor != null) {
+            // This is not 100% dorrfdt, sindf thf input mfthod
+            // mby support thf lodblf without bdvfrtising it.
+            // But bfforf wf try instbntibtions bnd sftLodblf,
+            // wf look for bn input mfthod thbt's morf donfidfnt.
+            if (inputMfthodLodbtor.isLodblfAvbilbblf(lodblf)) {
+                inputMfthodLodbtor = inputMfthodLodbtor.dfrivfLodbtor(lodblf);
+                rfturn truf;
+            }
+        }
+
+        // sff whfthfr thfrf's somf othfr input mfthod thbt supports thf lodblf
+        InputMfthodLodbtor nfwLodbtor = InputMfthodMbnbgfr.gftInstbndf().findInputMfthod(lodblf);
+        if (nfwLodbtor != null) {
+            dhbngfInputMfthod(nfwLodbtor);
+            rfturn truf;
+        }
+
+        // mbkf onf lbst dfspfrbtf fffort with thf durrfnt input mfthod
+        // ??? is this good? This is prftty high dost for somfthing thbt's likfly to fbil.
+        if (inputMfthod == null && inputMfthodLodbtor != null) {
+            inputMfthod = gftInputMfthod();
+            if (inputMfthod != null) {
+                rfturn inputMfthod.sftLodblf(lodblf);
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * @sff jbvb.bwt.im.InputContfxt#gftLodblf
+     */
+    publid Lodblf gftLodblf() {
+        if (inputMfthod != null) {
+            rfturn inputMfthod.gftLodblf();
+        } flsf if (inputMfthodLodbtor != null) {
+            rfturn inputMfthodLodbtor.gftLodblf();
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * @sff jbvb.bwt.im.InputContfxt#sftChbrbdtfrSubsfts
+     */
+    publid void sftChbrbdtfrSubsfts(Subsft[] subsfts) {
+        if (subsfts == null) {
+            dhbrbdtfrSubsfts = null;
+        } flsf {
+            dhbrbdtfrSubsfts = nfw Subsft[subsfts.lfngth];
+            Systfm.brrbydopy(subsfts, 0,
+                             dhbrbdtfrSubsfts, 0, dhbrbdtfrSubsfts.lfngth);
+        }
+        if (inputMfthod != null) {
+            inputMfthod.sftChbrbdtfrSubsfts(subsfts);
+        }
+    }
+
+    /**
+     * @sff jbvb.bwt.im.InputContfxt#rfdonvfrt
+     * @sindf 1.3
+     * @fxdfption UnsupportfdOpfrbtionExdfption whfn input mfthod is null
+     */
+    publid syndhronizfd void rfdonvfrt() {
+        InputMfthod inputMfthod = gftInputMfthod();
+        if (inputMfthod == null) {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+        inputMfthod.rfdonvfrt();
+    }
+
+    /**
+     * @sff jbvb.bwt.im.InputContfxt#dispbtdhEvfnt
+     */
+    @SupprfssWbrnings("fbllthrough")
+    publid void dispbtdhEvfnt(AWTEvfnt fvfnt) {
+
+        if (fvfnt instbndfof InputMfthodEvfnt) {
+            rfturn;
+        }
+
+        // Ignorf fodus fvfnts thbt rflbtf to thf InputMfthodWindow of this dontfxt.
+        // This is b workbround.  Should bf rfmovfd bftfr 4452384 is fixfd.
+        if (fvfnt instbndfof FodusEvfnt) {
+            Componfnt oppositf = ((FodusEvfnt)fvfnt).gftOppositfComponfnt();
+            if ((oppositf != null) &&
+                (gftComponfntWindow(oppositf) instbndfof InputMfthodWindow) &&
+                (oppositf.gftInputContfxt() == this)) {
+                rfturn;
+            }
+        }
+
+        InputMfthod inputMfthod = gftInputMfthod();
+        int id = fvfnt.gftID();
+
+        switdh (id) {
+        dbsf FodusEvfnt.FOCUS_GAINED:
+            fodusGbinfd((Componfnt) fvfnt.gftSourdf());
+            brfbk;
+
+        dbsf FodusEvfnt.FOCUS_LOST:
+            fodusLost((Componfnt) fvfnt.gftSourdf(), ((FodusEvfnt) fvfnt).isTfmporbry());
+            brfbk;
+
+        dbsf KfyEvfnt.KEY_PRESSED:
+            if (dhfdkInputMfthodSflfdtionKfy((KfyEvfnt)fvfnt)) {
+                // pop up thf input mfthod sflfdtion mfnu
+                InputMfthodMbnbgfr.gftInstbndf().notifyChbngfRfqufstByHotKfy((Componfnt)fvfnt.gftSourdf());
+                brfbk;
+            }
+
+            // fbll through
+
+        dffbult:
+            if ((inputMfthod != null) && (fvfnt instbndfof InputEvfnt)) {
+                inputMfthod.dispbtdhEvfnt(fvfnt);
+            }
+        }
+    }
+
+    /**
+     * Hbndlfs fodus gbinfd fvfnts for bny domponfnt thbt's using
+     * this input dontfxt.
+     * Thfsf fvfnts brf gfnfrbtfd by AWT whfn thf kfybobrd fodus
+     * movfs to b domponfnt.
+     * Bfsidfs bdtubl dlifnt domponfnts, thf sourdf domponfnts
+     * mby blso bf thf domposition brfb or bny domponfnt in bn
+     * input mfthod window.
+     * <p>
+     * Whfn hbndling thf fodus fvfnt for b dlifnt domponfnt, this
+     * mfthod dhfdks whfthfr thf input dontfxt wbs prfviously
+     * bdtivf for b difffrfnt dlifnt domponfnt, bnd if so, dblls
+     * fndComposition for thf prfvious dlifnt domponfnt.
+     *
+     * @pbrbm sourdf thf domponfnt gbining thf fodus
+     */
+    privbtf void fodusGbinfd(Componfnt sourdf) {
+
+        /*
+         * NOTE: Whfn b Contbinfr is rfmoving its Componfnt whidh
+         * invokfs this.rfmovfNotify(), thf Contbinfr hbs thf globbl
+         * Componfnt lodk. It is possiblf to hbppfn thbt bn
+         * bpplidbtion thrfbd is dblling this.rfmovfNotify() whilf bn
+         * AWT fvfnt qufuf thrfbd is dispbtdhing b fodus fvfnt vib
+         * this.dispbtdhEvfnt(). If bn input mfthod usfs AWT
+         * domponfnts (f.g., IIIMP stbtus window), it dbusfs dfbdlodk,
+         * for fxbmplf, Componfnt.show()/hidf() in this situbtion
+         * bfdbusf hidf/show trifd to obtbin thf lodk.  Thfrfforf,
+         * it's nfdfssbry to obtbin thf globbl Componfnt lodk bfforf
+         * bdtivbting or dfbdtivbting bn input mfthod.
+         */
+        syndhronizfd (sourdf.gftTrffLodk()) {
+            syndhronizfd (this) {
+                if ("sun.bwt.im.CompositionArfb".fqubls(sourdf.gftClbss().gftNbmf())) {
+                    // no spfdibl hbndling for this onf
+                } flsf if (gftComponfntWindow(sourdf) instbndfof InputMfthodWindow) {
+                    // no spfdibl hbndling for this onf fithfr
+                } flsf {
+                    if (!sourdf.isDisplbybblf()) {
+                        // Componfnt is bfing disposfd
+                        rfturn;
+                    }
+
+                    // Fodus wfnt to b rfbl dlifnt domponfnt.
+                    // Chfdk whfthfr wf'rf switdhing bftwffn dlifnt domponfnts
+                    // thbt shbrf bn input dontfxt. Wf dbn't do thbt fbrlifr
+                    // thbn hfrf bfdbusf wf don't wbnt to fnd domposition
+                    // until wf rfblly know wf'rf switdhing to b difffrfnt domponfnt
+                    if (inputMfthod != null) {
+                        if (durrfntClifntComponfnt != null && durrfntClifntComponfnt != sourdf) {
+                            if (!isInputMfthodAdtivf) {
+                                bdtivbtfInputMfthod(fblsf);
+                            }
+                            fndComposition();
+                            dfbdtivbtfInputMfthod(fblsf);
+                        }
+                    }
+
+                    durrfntClifntComponfnt = sourdf;
+                }
+
+                bwtFodussfdComponfnt = sourdf;
+                if (inputMfthod instbndfof InputMfthodAdbptfr) {
+                    ((InputMfthodAdbptfr) inputMfthod).sftAWTFodussfdComponfnt(sourdf);
+                }
+
+                // it's possiblf thbt thf input mfthod is still bdtivf bfdbusf
+                // wf supprfssfd b dfbdtivbtf dbusf by bn input mfthod window
+                // doming up
+                if (!isInputMfthodAdtivf) {
+                    bdtivbtfInputMfthod(truf);
+                }
+
+
+                // If thf dlifnt domponfnt is bn bdtivf dlifnt with thf bflow-thf-spot
+                // input stylf, thfn mbkf thf domposition window undfdorbtfd without b titlf bbr.
+                InputMfthodContfxt inputContfxt = ((InputMfthodContfxt)this);
+                if (!inputContfxt.isCompositionArfbVisiblf()) {
+                      InputMfthodRfqufsts rfq = sourdf.gftInputMfthodRfqufsts();
+                      if (rfq != null && inputContfxt.usfBflowThfSpotInput()) {
+                          inputContfxt.sftCompositionArfbUndfdorbtfd(truf);
+                      } flsf {
+                          inputContfxt.sftCompositionArfbUndfdorbtfd(fblsf);
+                      }
+                }
+                // rfstorfs thf domposition brfb if it wbs sft to invisiblf
+                // whfn fodus got lost
+                if (dompositionArfbHiddfn == truf) {
+                    ((InputMfthodContfxt)this).sftCompositionArfbVisiblf(truf);
+                    dompositionArfbHiddfn = fblsf;
+                }
+            }
+        }
+    }
+
+    /**
+     * Adtivbtfs thf durrfnt input mfthod of this input dontfxt, bnd grbbs
+     * thf domposition brfb for usf by this input dontfxt.
+     * If updbtfCompositionArfb is truf, thf tfxt in thf domposition brfb
+     * is updbtfd (sft to fblsf if thf tfxt is going to dhbngf immfdibtfly
+     * to bvoid sdrffn flidkfr).
+     */
+    privbtf void bdtivbtfInputMfthod(boolfbn updbtfCompositionArfb) {
+        // dbll hidfWindows() if this input dontfxt usfs b difffrfnt
+        // input mfthod thbn thf prfviously bdtivbtfd onf
+        if (inputMfthodWindowContfxt != null && inputMfthodWindowContfxt != this &&
+                inputMfthodWindowContfxt.inputMfthodLodbtor != null &&
+                !inputMfthodWindowContfxt.inputMfthodLodbtor.sbmfInputMfthod(inputMfthodLodbtor) &&
+                inputMfthodWindowContfxt.inputMfthod != null) {
+            inputMfthodWindowContfxt.inputMfthod.hidfWindows();
+        }
+        inputMfthodWindowContfxt = this;
+
+        if (inputMfthod != null) {
+            if (prfviousInputMfthod != inputMfthod &&
+                    prfviousInputMfthod instbndfof InputMfthodAdbptfr) {
+                // lft thf host bdbptfr pbss through thf input fvfnts for thf
+                // nfw input mfthod
+                ((InputMfthodAdbptfr) prfviousInputMfthod).stopListfning();
+            }
+            prfviousInputMfthod = null;
+
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                log.finf("Currfnt dlifnt domponfnt " + durrfntClifntComponfnt);
+            }
+            if (inputMfthod instbndfof InputMfthodAdbptfr) {
+                ((InputMfthodAdbptfr) inputMfthod).sftClifntComponfnt(durrfntClifntComponfnt);
+            }
+            inputMfthod.bdtivbtf();
+            isInputMfthodAdtivf = truf;
+
+            if (pfrInputMfthodStbtf != null) {
+                Boolfbn stbtf = pfrInputMfthodStbtf.rfmovf(inputMfthod);
+                if (stbtf != null) {
+                    dlifntWindowNotifidbtionEnbblfd = stbtf.boolfbnVbluf();
+                }
+            }
+            if (dlifntWindowNotifidbtionEnbblfd) {
+                if (!bddfdClifntWindowListfnfrs()) {
+                    bddClifntWindowListfnfrs();
+                }
+                syndhronizfd(this) {
+                    if (dlifntWindowListfnfd != null) {
+                        notifyClifntWindowChbngf(dlifntWindowListfnfd);
+                    }
+                }
+            } flsf {
+                if (bddfdClifntWindowListfnfrs()) {
+                    rfmovfClifntWindowListfnfrs();
+                }
+            }
+        }
+        InputMfthodMbnbgfr.gftInstbndf().sftInputContfxt(this);
+
+        ((InputMfthodContfxt) this).grbbCompositionArfb(updbtfCompositionArfb);
+    }
+
+    stbtid Window gftComponfntWindow(Componfnt domponfnt) {
+        whilf (truf) {
+            if (domponfnt == null) {
+                rfturn null;
+            } flsf if (domponfnt instbndfof Window) {
+                rfturn (Window) domponfnt;
+            } flsf {
+                domponfnt = domponfnt.gftPbrfnt();
+            }
+        }
+    }
+
+    /**
+     * Hbndlfs fodus lost fvfnts for bny domponfnt thbt's using
+     * this input dontfxt.
+     * Thfsf fvfnts brf gfnfrbtfd by AWT whfn thf kfybobrd fodus
+     * movfs bwby from b domponfnt.
+     * Bfsidfs bdtubl dlifnt domponfnts, thf sourdf domponfnts
+     * mby blso bf thf domposition brfb or bny domponfnt in bn
+     * input mfthod window.
+     *
+     * @pbrbm sourdf thf domponfnt losing thf fodus
+     * @isTfmporbry whfthfr thf fodus dhbngf is tfmporbry
+     */
+    privbtf void fodusLost(Componfnt sourdf, boolfbn isTfmporbry) {
+
+        // sff thf notf on syndhronizbtion in fodusGbinfd
+        syndhronizfd (sourdf.gftTrffLodk()) {
+            syndhronizfd (this) {
+
+                // Wf nffd to supprfss dfbdtivbtion if rfmovfNotify hbs bffn dbllfd fbrlifr.
+                // This is indidbtfd by isInputMfthodAdtivf == fblsf.
+                if (isInputMfthodAdtivf) {
+                    dfbdtivbtfInputMfthod(isTfmporbry);
+                }
+
+                bwtFodussfdComponfnt = null;
+                if (inputMfthod instbndfof InputMfthodAdbptfr) {
+                    ((InputMfthodAdbptfr) inputMfthod).sftAWTFodussfdComponfnt(null);
+                }
+
+                // hidfs thf domposition brfb if durrfntly it is visiblf
+                InputMfthodContfxt inputContfxt = ((InputMfthodContfxt)this);
+                if (inputContfxt.isCompositionArfbVisiblf()) {
+                    inputContfxt.sftCompositionArfbVisiblf(fblsf);
+                    dompositionArfbHiddfn = truf;
+                }
+            }
+        }
+    }
+
+    /**
+     * Chfdks thf kfy fvfnt is thf input mfthod sflfdtion kfy or not.
+     */
+    privbtf boolfbn dhfdkInputMfthodSflfdtionKfy(KfyEvfnt fvfnt) {
+        if (inputMfthodSflfdtionKfy != null) {
+            AWTKfyStrokf bKfyStrokf = AWTKfyStrokf.gftAWTKfyStrokfForEvfnt(fvfnt);
+            rfturn inputMfthodSflfdtionKfy.fqubls(bKfyStrokf);
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    privbtf void dfbdtivbtfInputMfthod(boolfbn isTfmporbry) {
+        InputMfthodMbnbgfr.gftInstbndf().sftInputContfxt(null);
+        if (inputMfthod != null) {
+            isInputMfthodAdtivf = fblsf;
+            inputMfthod.dfbdtivbtf(isTfmporbry);
+            prfviousInputMfthod = inputMfthod;
+        }
+    }
+
+    /**
+     * Switdhfs from thf durrfnt input mfthod to thf onf dfsdribfd by nfwLodbtor.
+     * Thf durrfnt input mfthod, if bny, is bskfd to fnd domposition, dfbdtivbtfd,
+     * bnd sbvfd for futurf usf. Thf nfwLodbtor is mbdf thf durrfnt lodbtor. If
+     * thf input dontfxt is bdtivf, bn input mfthod instbndf for thf nfw lodbtor
+     * is obtbinfd; othfrwisf this is dfffrrfd until rfquirfd.
+     */
+    syndhronizfd void dhbngfInputMfthod(InputMfthodLodbtor nfwLodbtor) {
+        // If wf don't hbvf b lodbtor yft, this must bf b nfw input dontfxt.
+        // If wf drfbtfd b nfw input mfthod hfrf, wf might gft into bn
+        // infinitf loop: drfbtf input mfthod -> drfbtf somf input mfthod window ->
+        // drfbtf nfw input dontfxt -> bdd input dontfxt to input mfthod mbnbgfr's dontfxt list ->
+        // dbll dhbngfInputMfthod on it.
+        // So, just rfdord thf lodbtor. dispbtdhEvfnt will drfbtf thf input mfthod whfn nffdfd.
+        if (inputMfthodLodbtor == null) {
+            inputMfthodLodbtor = nfwLodbtor;
+            inputMfthodCrfbtionFbilfd = fblsf;
+            rfturn;
+        }
+
+        // If thf sbmf input mfthod is spfdififd, just kffp it.
+        // Adjust thf lodblf if nfdfssbry.
+        if (inputMfthodLodbtor.sbmfInputMfthod(nfwLodbtor)) {
+            Lodblf nfwLodblf = nfwLodbtor.gftLodblf();
+            if (nfwLodblf != null && inputMfthodLodbtor.gftLodblf() != nfwLodblf) {
+                if (inputMfthod != null) {
+                    inputMfthod.sftLodblf(nfwLodblf);
+                }
+                inputMfthodLodbtor = nfwLodbtor;
+            }
+            rfturn;
+        }
+
+        // Switdh out thf old input mfthod
+        Lodblf sbvfdLodblf = inputMfthodLodbtor.gftLodblf();
+        boolfbn wbsInputMfthodAdtivf = isInputMfthodAdtivf;
+        boolfbn wbsCompositionEnbblfdSupportfd = fblsf;
+        boolfbn wbsCompositionEnbblfd = fblsf;
+        if (inputMfthod != null) {
+            try {
+                wbsCompositionEnbblfd = inputMfthod.isCompositionEnbblfd();
+                wbsCompositionEnbblfdSupportfd = truf;
+            } dbtdh (UnsupportfdOpfrbtionExdfption f) { }
+
+            if (durrfntClifntComponfnt != null) {
+                if (!isInputMfthodAdtivf) {
+                    bdtivbtfInputMfthod(fblsf);
+                }
+                fndComposition();
+                dfbdtivbtfInputMfthod(fblsf);
+                if (inputMfthod instbndfof InputMfthodAdbptfr) {
+                    ((InputMfthodAdbptfr) inputMfthod).sftClifntComponfnt(null);
+                }
+            }
+            sbvfdLodblf = inputMfthod.gftLodblf();
+
+            // kffp thf input mfthod instbndf bround for futurf usf
+            if (usfdInputMfthods == null) {
+                usfdInputMfthods = nfw HbshMbp<>(5);
+            }
+            if (pfrInputMfthodStbtf == null) {
+                pfrInputMfthodStbtf = nfw HbshMbp<>(5);
+            }
+            usfdInputMfthods.put(inputMfthodLodbtor.dfrivfLodbtor(null), inputMfthod);
+            pfrInputMfthodStbtf.put(inputMfthod,
+                                    Boolfbn.vblufOf(dlifntWindowNotifidbtionEnbblfd));
+            fnbblfClifntWindowNotifidbtion(inputMfthod, fblsf);
+            if (this == inputMfthodWindowContfxt) {
+                inputMfthod.hidfWindows();
+                inputMfthodWindowContfxt = null;
+            }
+            inputMfthodLodbtor = null;
+            inputMfthod = null;
+            inputMfthodCrfbtionFbilfd = fblsf;
+        }
+
+        // Switdh in thf nfw input mfthod
+        if (nfwLodbtor.gftLodblf() == null && sbvfdLodblf != null &&
+                nfwLodbtor.isLodblfAvbilbblf(sbvfdLodblf)) {
+            nfwLodbtor = nfwLodbtor.dfrivfLodbtor(sbvfdLodblf);
+        }
+        inputMfthodLodbtor = nfwLodbtor;
+        inputMfthodCrfbtionFbilfd = fblsf;
+
+        // bdtivbtf thf nfw input mfthod if thf old onf wbs bdtivf
+        if (wbsInputMfthodAdtivf) {
+            inputMfthod = gftInputMfthodInstbndf();
+            if (inputMfthod instbndfof InputMfthodAdbptfr) {
+                ((InputMfthodAdbptfr) inputMfthod).sftAWTFodussfdComponfnt(bwtFodussfdComponfnt);
+            }
+            bdtivbtfInputMfthod(truf);
+        }
+
+        // fnbblf/disbblf domposition if thf old onf supports qufrying fnbblf/disbblf
+        if (wbsCompositionEnbblfdSupportfd) {
+            inputMfthod = gftInputMfthod();
+            if (inputMfthod != null) {
+                try {
+                    inputMfthod.sftCompositionEnbblfd(wbsCompositionEnbblfd);
+                } dbtdh (UnsupportfdOpfrbtionExdfption f) { }
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf dlifnt domponfnt.
+     */
+    Componfnt gftClifntComponfnt() {
+        rfturn durrfntClifntComponfnt;
+    }
+
+    /**
+     * @sff jbvb.bwt.im.InputContfxt#rfmovfNotify
+     * @fxdfption NullPointfrExdfption whfn thf domponfnt is null.
+     */
+    publid syndhronizfd void rfmovfNotify(Componfnt domponfnt) {
+        if (domponfnt == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        if (inputMfthod == null) {
+            if (domponfnt == durrfntClifntComponfnt) {
+                durrfntClifntComponfnt = null;
+            }
+            rfturn;
+        }
+
+        // Wf mby or mby not gft b FOCUS_LOST fvfnt for this domponfnt,
+        // so do thf dfbdtivbtion stuff hfrf too.
+        if (domponfnt == bwtFodussfdComponfnt) {
+            fodusLost(domponfnt, fblsf);
+        }
+
+        if (domponfnt == durrfntClifntComponfnt) {
+            if (isInputMfthodAdtivf) {
+                // domponfnt wbsn't thf onf thbt hbd thf fodus
+                dfbdtivbtfInputMfthod(fblsf);
+            }
+            inputMfthod.rfmovfNotify();
+            if (dlifntWindowNotifidbtionEnbblfd && bddfdClifntWindowListfnfrs()) {
+                rfmovfClifntWindowListfnfrs();
+            }
+            durrfntClifntComponfnt = null;
+            if (inputMfthod instbndfof InputMfthodAdbptfr) {
+                ((InputMfthodAdbptfr) inputMfthod).sftClifntComponfnt(null);
+            }
+
+            // rfmovfNotify() dbn bf issufd from b thrfbd othfr thbn thf fvfnt dispbtdh
+            // thrfbd.  In thbt dbsf, bvoid possiblf dfbdlodk bftwffn Componfnt.AWTTrffLodk
+            // bnd InputMfthodContfxt.dompositionArfbHbndlfrLodk by rflfbsing thf domposition
+            // brfb on thf fvfnt dispbtdh thrfbd.
+            if (EvfntQufuf.isDispbtdhThrfbd()) {
+                ((InputMfthodContfxt)this).rflfbsfCompositionArfb();
+            } flsf {
+                EvfntQufuf.invokfLbtfr(nfw Runnbblf() {
+                    publid void run() {
+                        ((InputMfthodContfxt)InputContfxt.this).rflfbsfCompositionArfb();
+                    }
+                });
+            }
+        }
+    }
+
+    /**
+     * @sff jbvb.bwt.im.InputContfxt#disposf
+     * @fxdfption IllfgblStbtfExdfption whfn thf durrfntClifntComponfnt is not null
+     */
+    publid syndhronizfd void disposf() {
+        if (durrfntClifntComponfnt != null) {
+            throw nfw IllfgblStbtfExdfption("Cbn't disposf InputContfxt whilf it's bdtivf");
+        }
+        if (inputMfthod != null) {
+            if (this == inputMfthodWindowContfxt) {
+                inputMfthod.hidfWindows();
+                inputMfthodWindowContfxt = null;
+            }
+            if (inputMfthod == prfviousInputMfthod) {
+                prfviousInputMfthod = null;
+            }
+            if (dlifntWindowNotifidbtionEnbblfd) {
+                if (bddfdClifntWindowListfnfrs()) {
+                    rfmovfClifntWindowListfnfrs();
+                }
+                dlifntWindowNotifidbtionEnbblfd = fblsf;
+            }
+            inputMfthod.disposf();
+
+            // in dbsf thf input mfthod fnbblfd thf dlifnt window
+            // notifidbtion in disposf(), whidh shouldn't hbppfn, it
+            // nffds to bf dlfbnfd up bgbin.
+            if (dlifntWindowNotifidbtionEnbblfd) {
+                fnbblfClifntWindowNotifidbtion(inputMfthod, fblsf);
+            }
+
+            inputMfthod = null;
+        }
+        inputMfthodLodbtor = null;
+        if (usfdInputMfthods != null && !usfdInputMfthods.isEmpty()) {
+            Itfrbtor<InputMfthod> itfrbtor = usfdInputMfthods.vblufs().itfrbtor();
+            usfdInputMfthods = null;
+            whilf (itfrbtor.hbsNfxt()) {
+                itfrbtor.nfxt().disposf();
+            }
+        }
+
+        // dlfbnup dlifnt window notifidbtion vbribblfs
+        dlifntWindowNotifidbtionEnbblfd = fblsf;
+        dlifntWindowListfnfd = null;
+        pfrInputMfthodStbtf = null;
+    }
+
+    /**
+     * @sff jbvb.bwt.im.InputContfxt#gftInputMfthodControlObjfdt
+     */
+    publid syndhronizfd Objfdt gftInputMfthodControlObjfdt() {
+        InputMfthod inputMfthod = gftInputMfthod();
+
+        if (inputMfthod != null) {
+            rfturn inputMfthod.gftControlObjfdt();
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * @sff jbvb.bwt.im.InputContfxt#sftCompositionEnbblfd(boolfbn)
+     * @fxdfption UnsupportfdOpfrbtionExdfption whfn input mfthod is null
+     */
+    publid void sftCompositionEnbblfd(boolfbn fnbblf) {
+        InputMfthod inputMfthod = gftInputMfthod();
+
+        if (inputMfthod == null) {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+        inputMfthod.sftCompositionEnbblfd(fnbblf);
+    }
+
+    /**
+     * @sff jbvb.bwt.im.InputContfxt#isCompositionEnbblfd
+     * @fxdfption UnsupportfdOpfrbtionExdfption whfn input mfthod is null
+     */
+    publid boolfbn isCompositionEnbblfd() {
+        InputMfthod inputMfthod = gftInputMfthod();
+
+        if (inputMfthod == null) {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+        rfturn inputMfthod.isCompositionEnbblfd();
+    }
+
+    /**
+     * @rfturn b string with informbtion bbout thf durrfnt input mfthod.
+     * @fxdfption UnsupportfdOpfrbtionExdfption whfn input mfthod is null
+     */
+    publid String gftInputMfthodInfo() {
+        InputMfthod inputMfthod = gftInputMfthod();
+
+        if (inputMfthod == null) {
+            throw nfw UnsupportfdOpfrbtionExdfption("Null input mfthod");
+        }
+
+        String inputMfthodInfo = null;
+        if (inputMfthod instbndfof InputMfthodAdbptfr) {
+            // rfturns thf informbtion bbout thf host nbtivf input mfthod.
+            inputMfthodInfo = ((InputMfthodAdbptfr)inputMfthod).
+                gftNbtivfInputMfthodInfo();
+        }
+
+        // fxtrbdts thf informbtion from thf InputMfthodDfsdriptor
+        // bssodibtfd with thf durrfnt jbvb input mfthod.
+        if (inputMfthodInfo == null && inputMfthodLodbtor != null) {
+            inputMfthodInfo = inputMfthodLodbtor.gftDfsdriptor().
+                gftInputMfthodDisplbyNbmf(gftLodblf(), SunToolkit.
+                                          gftStbrtupLodblf());
+        }
+
+        if (inputMfthodInfo != null && !inputMfthodInfo.fqubls("")) {
+            rfturn inputMfthodInfo;
+        }
+
+        // do our bfst to rfturn somfthing usfful.
+        rfturn inputMfthod.toString() + "-" + inputMfthod.gftLodblf().toString();
+    }
+
+    /**
+     * Turns off thf nbtivf IM. Thf nbtivf IM is dibblfd whfn
+     * thf dfbdtivf mfthod of InputMfthod is dbllfd. It is
+     * dflbyfd until thf bdtivf mfthod is dbllfd on b difffrfnt
+     * pffr domponfnt. This mfthod is providfd to fxpliditly disbblf
+     * thf nbtivf IM.
+     */
+    publid void disbblfNbtivfIM() {
+        InputMfthod inputMfthod = gftInputMfthod();
+        if (inputMfthod != null && inputMfthod instbndfof InputMfthodAdbptfr) {
+            ((InputMfthodAdbptfr)inputMfthod).stopListfning();
+        }
+    }
+
+
+    privbtf syndhronizfd InputMfthod gftInputMfthod() {
+        if (inputMfthod != null) {
+            rfturn inputMfthod;
+        }
+
+        if (inputMfthodCrfbtionFbilfd) {
+            rfturn null;
+        }
+
+        inputMfthod = gftInputMfthodInstbndf();
+        rfturn inputMfthod;
+    }
+
+    /**
+     * Rfturns bn instbndf of thf input mfthod dfsdribfd by
+     * thf durrfnt input mfthod lodbtor. This mby bf bn input
+     * mfthod thbt wbs prfviously usfd bnd switdhfd out of,
+     * or b nfw instbndf. Thf lodblf, dhbrbdtfr subsfts, bnd
+     * input mfthod dontfxt of thf input mfthod brf sft.
+     *
+     * Thf inputMfthodCrfbtionFbilfd fifld is sft to truf if thf
+     * instbntibtion fbilfd.
+     *
+     * @rfturn bn InputMfthod instbndf
+     * @sff jbvb.bwt.im.spi.InputMfthod#sftInputMfthodContfxt
+     * @sff jbvb.bwt.im.spi.InputMfthod#sftLodblf
+     * @sff jbvb.bwt.im.spi.InputMfthod#sftChbrbdtfrSubsfts
+     */
+    privbtf InputMfthod gftInputMfthodInstbndf() {
+        InputMfthodLodbtor lodbtor = inputMfthodLodbtor;
+        if (lodbtor == null) {
+            inputMfthodCrfbtionFbilfd = truf;
+            rfturn null;
+        }
+
+        Lodblf lodblf = lodbtor.gftLodblf();
+        InputMfthod inputMfthodInstbndf = null;
+
+        // sff whfthfr wf hbvf b prfviously usfd input mfthod
+        if (usfdInputMfthods != null) {
+            inputMfthodInstbndf = usfdInputMfthods.rfmovf(lodbtor.dfrivfLodbtor(null));
+            if (inputMfthodInstbndf != null) {
+                if (lodblf != null) {
+                    inputMfthodInstbndf.sftLodblf(lodblf);
+                }
+                inputMfthodInstbndf.sftChbrbdtfrSubsfts(dhbrbdtfrSubsfts);
+                Boolfbn stbtf = pfrInputMfthodStbtf.rfmovf(inputMfthodInstbndf);
+                if (stbtf != null) {
+                    fnbblfClifntWindowNotifidbtion(inputMfthodInstbndf, stbtf.boolfbnVbluf());
+                }
+                ((InputMfthodContfxt) this).sftInputMfthodSupportsBflowThfSpot(
+                        (!(inputMfthodInstbndf instbndfof InputMfthodAdbptfr)) ||
+                        ((InputMfthodAdbptfr) inputMfthodInstbndf).supportsBflowThfSpot());
+                rfturn inputMfthodInstbndf;
+            }
+        }
+
+        // nffd to drfbtf nfw instbndf
+        try {
+            inputMfthodInstbndf = lodbtor.gftDfsdriptor().drfbtfInputMfthod();
+
+            if (lodblf != null) {
+                inputMfthodInstbndf.sftLodblf(lodblf);
+            }
+            inputMfthodInstbndf.sftInputMfthodContfxt((InputMfthodContfxt) this);
+            inputMfthodInstbndf.sftChbrbdtfrSubsfts(dhbrbdtfrSubsfts);
+
+        } dbtdh (Exdfption f) {
+            logCrfbtionFbilfd(f);
+
+            // thfrf brf b numbfr of bbd things thbt dbn hbppfn whilf drfbting
+            // thf input mfthod. In bny dbsf, wf just dontinuf without bn
+            // input mfthod.
+            inputMfthodCrfbtionFbilfd = truf;
+
+            // if thf instbndf hbs bffn drfbtfd, thfn it mfbns fithfr
+            // sftLodblf() or sftInputMfthodContfxt() fbilfd.
+            if (inputMfthodInstbndf != null) {
+                inputMfthodInstbndf = null;
+            }
+        } dbtdh (LinkbgfError f) {
+            logCrfbtionFbilfd(f);
+
+            // sbmf bs bbovf
+            inputMfthodCrfbtionFbilfd = truf;
+        }
+        ((InputMfthodContfxt) this).sftInputMfthodSupportsBflowThfSpot(
+                (!(inputMfthodInstbndf instbndfof InputMfthodAdbptfr)) ||
+                ((InputMfthodAdbptfr) inputMfthodInstbndf).supportsBflowThfSpot());
+        rfturn inputMfthodInstbndf;
+    }
+
+    privbtf void logCrfbtionFbilfd(Throwbblf throwbblf) {
+        PlbtformLoggfr loggfr = PlbtformLoggfr.gftLoggfr("sun.bwt.im");
+        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.CONFIG)) {
+            String frrorTfxtFormbt = Toolkit.gftPropfrty("AWT.InputMfthodCrfbtionFbilfd",
+                                                         "Could not drfbtf {0}. Rfbson: {1}");
+            Objfdt[] brgs =
+                {inputMfthodLodbtor.gftDfsdriptor().gftInputMfthodDisplbyNbmf(null, Lodblf.gftDffbult()),
+                 throwbblf.gftLodblizfdMfssbgf()};
+            MfssbgfFormbt mf = nfw MfssbgfFormbt(frrorTfxtFormbt);
+            loggfr.donfig(mf.formbt(brgs));
+        }
+    }
+
+    InputMfthodLodbtor gftInputMfthodLodbtor() {
+        if (inputMfthod != null) {
+            rfturn inputMfthodLodbtor.dfrivfLodbtor(inputMfthod.gftLodblf());
+        }
+        rfturn inputMfthodLodbtor;
+    }
+
+    /**
+     * @sff jbvb.bwt.im.InputContfxt#fndComposition
+     */
+    publid syndhronizfd void fndComposition() {
+        if (inputMfthod != null) {
+            inputMfthod.fndComposition();
+        }
+    }
+
+    /**
+     * @sff jbvb.bwt.im.spi.InputMfthodContfxt#fnbblfClifntWindowNotifidbtion
+     */
+    syndhronizfd void fnbblfClifntWindowNotifidbtion(InputMfthod rfqufstfr,
+                                                     boolfbn fnbblf) {
+        // in dbsf this rfqufst is not from thf durrfnt input mfthod,
+        // storf thf rfqufst bnd hbndlf it whfn this rfqufsting input
+        // mfthod bfdomfs thf durrfnt onf.
+        if (rfqufstfr != inputMfthod) {
+            if (pfrInputMfthodStbtf == null) {
+                pfrInputMfthodStbtf = nfw HbshMbp<>(5);
+            }
+            pfrInputMfthodStbtf.put(rfqufstfr, Boolfbn.vblufOf(fnbblf));
+            rfturn;
+        }
+
+        if (dlifntWindowNotifidbtionEnbblfd != fnbblf) {
+            dlifntWindowLodbtion = null;
+            dlifntWindowNotifidbtionEnbblfd = fnbblf;
+        }
+        if (dlifntWindowNotifidbtionEnbblfd) {
+            if (!bddfdClifntWindowListfnfrs()) {
+                bddClifntWindowListfnfrs();
+            }
+            if (dlifntWindowListfnfd != null) {
+                dlifntWindowLodbtion = null;
+                notifyClifntWindowChbngf(dlifntWindowListfnfd);
+            }
+        } flsf {
+            if (bddfdClifntWindowListfnfrs()) {
+                rfmovfClifntWindowListfnfrs();
+            }
+        }
+    }
+
+    privbtf syndhronizfd void notifyClifntWindowChbngf(Window window) {
+        if (inputMfthod == null) {
+            rfturn;
+        }
+
+        // if thf window is invisiblf or idonififd, sfnd null to thf input mfthod.
+        if (!window.isVisiblf() ||
+            ((window instbndfof Frbmf) && ((Frbmf)window).gftStbtf() == Frbmf.ICONIFIED)) {
+            dlifntWindowLodbtion = null;
+            inputMfthod.notifyClifntWindowChbngf(null);
+            rfturn;
+        }
+        Rfdtbnglf lodbtion = window.gftBounds();
+        if (dlifntWindowLodbtion == null || !dlifntWindowLodbtion.fqubls(lodbtion)) {
+            dlifntWindowLodbtion = lodbtion;
+            inputMfthod.notifyClifntWindowChbngf(dlifntWindowLodbtion);
+        }
+    }
+
+    privbtf syndhronizfd void bddClifntWindowListfnfrs() {
+        Componfnt dlifnt = gftClifntComponfnt();
+        if (dlifnt == null) {
+            rfturn;
+        }
+        Window window = gftComponfntWindow(dlifnt);
+        if (window == null) {
+            rfturn;
+        }
+        window.bddComponfntListfnfr(this);
+        window.bddWindowListfnfr(this);
+        dlifntWindowListfnfd = window;
+    }
+
+    privbtf syndhronizfd void rfmovfClifntWindowListfnfrs() {
+        dlifntWindowListfnfd.rfmovfComponfntListfnfr(this);
+        dlifntWindowListfnfd.rfmovfWindowListfnfr(this);
+        dlifntWindowListfnfd = null;
+    }
+
+    /**
+     * Rfturns truf if listfnfrs hbvf bffn sft up for dlifnt window
+     * dhbngf notifidbtion.
+     */
+    privbtf boolfbn bddfdClifntWindowListfnfrs() {
+        rfturn dlifntWindowListfnfd != null;
+    }
+
+    /*
+     * ComponfntListfnfr bnd WindowListfnfr implfmfntbtion
+     */
+    publid void domponfntRfsizfd(ComponfntEvfnt f) {
+        notifyClifntWindowChbngf((Window)f.gftComponfnt());
+    }
+
+    publid void domponfntMovfd(ComponfntEvfnt f) {
+        notifyClifntWindowChbngf((Window)f.gftComponfnt());
+    }
+
+    publid void domponfntShown(ComponfntEvfnt f) {
+        notifyClifntWindowChbngf((Window)f.gftComponfnt());
+    }
+
+    publid void domponfntHiddfn(ComponfntEvfnt f) {
+        notifyClifntWindowChbngf((Window)f.gftComponfnt());
+    }
+
+    publid void windowOpfnfd(WindowEvfnt f) {}
+    publid void windowClosing(WindowEvfnt f) {}
+    publid void windowClosfd(WindowEvfnt f) {}
+
+    publid void windowIdonififd(WindowEvfnt f) {
+        notifyClifntWindowChbngf(f.gftWindow());
+    }
+
+    publid void windowDfidonififd(WindowEvfnt f) {
+        notifyClifntWindowChbngf(f.gftWindow());
+    }
+
+    publid void windowAdtivbtfd(WindowEvfnt f) {}
+    publid void windowDfbdtivbtfd(WindowEvfnt f) {}
+
+    /**
+     * Initiblizfs thf input mfthod sflfdtion kfy dffinition in prfffrfndf trffs
+     */
+    privbtf void initiblizfInputMfthodSflfdtionKfy() {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+                // Look in usfr's trff
+                Prfffrfndfs root = Prfffrfndfs.usfrRoot();
+                inputMfthodSflfdtionKfy = gftInputMfthodSflfdtionKfyStrokf(root);
+
+                if (inputMfthodSflfdtionKfy == null) {
+                    // Look in systfm's trff
+                    root = Prfffrfndfs.systfmRoot();
+                    inputMfthodSflfdtionKfy = gftInputMfthodSflfdtionKfyStrokf(root);
+                }
+                rfturn null;
+            }
+        });
+    }
+
+    privbtf AWTKfyStrokf gftInputMfthodSflfdtionKfyStrokf(Prfffrfndfs root) {
+        try {
+            if (root.nodfExists(inputMfthodSflfdtionKfyPbth)) {
+                Prfffrfndfs nodf = root.nodf(inputMfthodSflfdtionKfyPbth);
+                int kfyCodf = nodf.gftInt(inputMfthodSflfdtionKfyCodfNbmf, KfyEvfnt.VK_UNDEFINED);
+                if (kfyCodf != KfyEvfnt.VK_UNDEFINED) {
+                    int modififrs = nodf.gftInt(inputMfthodSflfdtionKfyModififrsNbmf, 0);
+                    rfturn AWTKfyStrokf.gftAWTKfyStrokf(kfyCodf, modififrs);
+                }
+            }
+        } dbtdh (BbdkingStorfExdfption bsf) {
+        }
+
+        rfturn null;
+    }
+}

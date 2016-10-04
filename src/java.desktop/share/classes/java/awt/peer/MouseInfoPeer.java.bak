@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.peer;
+pbdkbgf jbvb.bwt.pffr;
 
-import java.awt.Window;
-import java.awt.Point;
+import jbvb.bwt.Window;
+import jbvb.bwt.Point;
 
 /**
- * Peer interface for {@link java.awt.MouseInfo}. This is used to get
- * some additional information about the mouse.
+ * Pffr intfrfbdf for {@link jbvb.bwt.MousfInfo}. Tiis is usfd to gft
+ * somf bdditionbl informbtion bbout tif mousf.
  *
- * The peer interfaces are intended only for use in porting
- * the AWT. They are not intended for use by application
- * developers, and developers should not implement peers
- * nor invoke any of the peer methods directly on the peer
- * instances.
+ * Tif pffr intfrfbdfs brf intfndfd only for usf in porting
+ * tif AWT. Tify brf not intfndfd for usf by bpplidbtion
+ * dfvflopfrs, bnd dfvflopfrs siould not implfmfnt pffrs
+ * nor invokf bny of tif pffr mftiods dirfdtly on tif pffr
+ * instbndfs.
  */
-public interface MouseInfoPeer {
+publid intfrfbdf MousfInfoPffr {
 
     /**
-     * This method does two things: it fills the point fields with
-     * the current coordinates of the mouse cursor and returns the
-     * number of the screen device where the pointer is located.
-     * The number of the screen device is only returned for independent
-     * devices (which are not parts of a virtual screen device).
-     * For virtual screen devices, 0 is returned.
-     * Mouse coordinates are also calculated depending on whether
-     * or not the screen device is virtual. For virtual screen
-     * devices, pointer coordinates are calculated in the virtual
-     * coordinate system. Otherwise, coordinates are calculated in
-     * the coordinate system of the screen device where the pointer
-     * is located.
-     * See java.awt.GraphicsConfiguration documentation for more
-     * details about virtual screen devices.
-     * @param point holder for the current coordinates of the mouse
-     * cursor
-     * @return the number of the screen device where the pointer is
-     * located
+     * Tiis mftiod dofs two tiings: it fills tif point fiflds witi
+     * tif durrfnt doordinbtfs of tif mousf dursor bnd rfturns tif
+     * numbfr of tif sdrffn dfvidf wifrf tif pointfr is lodbtfd.
+     * Tif numbfr of tif sdrffn dfvidf is only rfturnfd for indfpfndfnt
+     * dfvidfs (wiidi brf not pbrts of b virtubl sdrffn dfvidf).
+     * For virtubl sdrffn dfvidfs, 0 is rfturnfd.
+     * Mousf doordinbtfs brf blso dbldulbtfd dfpfnding on wiftifr
+     * or not tif sdrffn dfvidf is virtubl. For virtubl sdrffn
+     * dfvidfs, pointfr doordinbtfs brf dbldulbtfd in tif virtubl
+     * doordinbtf systfm. Otifrwisf, doordinbtfs brf dbldulbtfd in
+     * tif doordinbtf systfm of tif sdrffn dfvidf wifrf tif pointfr
+     * is lodbtfd.
+     * Sff jbvb.bwt.GrbpiidsConfigurbtion dodumfntbtion for morf
+     * dftbils bbout virtubl sdrffn dfvidfs.
+     * @pbrbm point ioldfr for tif durrfnt doordinbtfs of tif mousf
+     * dursor
+     * @rfturn tif numbfr of tif sdrffn dfvidf wifrf tif pointfr is
+     * lodbtfd
      */
-    int fillPointWithCoords(Point point);
+    int fillPointWitiCoords(Point point);
 
     /**
-     * Returns whether or not the window is located under the mouse
-     * pointer. The window is considered to be under the mouse pointer
-     * if it is showing on the screen, and the mouse pointer is above
-     * the part of the window that is not obscured by any other windows.
-     * @param w the window to check
-     * @return whether or not the window is located under the mouse
-     * pointer
+     * Rfturns wiftifr or not tif window is lodbtfd undfr tif mousf
+     * pointfr. Tif window is donsidfrfd to bf undfr tif mousf pointfr
+     * if it is siowing on tif sdrffn, bnd tif mousf pointfr is bbovf
+     * tif pbrt of tif window tibt is not obsdurfd by bny otifr windows.
+     * @pbrbm w tif window to difdk
+     * @rfturn wiftifr or not tif window is lodbtfd undfr tif mousf
+     * pointfr
      */
-    boolean isWindowUnderMouse(Window w);
+    boolfbn isWindowUndfrMousf(Window w);
 
 }

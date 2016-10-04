@@ -1,0 +1,583 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.pffr.FilfDiblogPffr;
+import jbvb.io.FilfnbmfFiltfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Filf;
+import sun.bwt.AWTAddfssor;
+
+/**
+ * Thf <dodf>FilfDiblog</dodf> dlbss displbys b diblog window
+ * from whidh thf usfr dbn sflfdt b filf.
+ * <p>
+ * Sindf it is b modbl diblog, whfn thf bpplidbtion dblls
+ * its <dodf>show</dodf> mfthod to displby thf diblog,
+ * it blodks thf rfst of thf bpplidbtion until thf usfr hbs
+ * dhosfn b filf.
+ *
+ * @sff Window#show
+ *
+ * @buthor      Sbmi Shbio
+ * @buthor      Arthur vbn Hoff
+ * @sindf       1.0
+ */
+publid dlbss FilfDiblog fxtfnds Diblog {
+
+    /**
+     * This donstbnt vbluf indidbtfs thbt thf purposf of thf filf
+     * diblog window is to lodbtf b filf from whidh to rfbd.
+     */
+    publid stbtid finbl int LOAD = 0;
+
+    /**
+     * This donstbnt vbluf indidbtfs thbt thf purposf of thf filf
+     * diblog window is to lodbtf b filf to whidh to writf.
+     */
+    publid stbtid finbl int SAVE = 1;
+
+    /*
+     * Thfrf brf two <dodf>FilfDiblog</dodf> modfs: <dodf>LOAD</dodf> bnd
+     * <dodf>SAVE</dodf>.
+     * This intfgfr will rfprfsfnt onf or thf othfr.
+     * If thf modf is not spfdififd it will dffbult to <dodf>LOAD</dodf>.
+     *
+     * @sfribl
+     * @sff gftModf()
+     * @sff sftModf()
+     * @sff jbvb.bwt.FilfDiblog#LOAD
+     * @sff jbvb.bwt.FilfDiblog#SAVE
+     */
+    int modf;
+
+    /*
+     * Thf string spfdifying thf dirfdtory to displby
+     * in thf filf diblog.  This vbribblf mby bf <dodf>null</dodf>.
+     *
+     * @sfribl
+     * @sff gftDirfdtory()
+     * @sff sftDirfdtory()
+     */
+    String dir;
+
+    /*
+     * Thf string spfdifying thf initibl vbluf of thf
+     * filfnbmf tfxt fifld in thf filf diblog.
+     * This vbribblf mby bf <dodf>null</dodf>.
+     *
+     * @sfribl
+     * @sff gftFilf()
+     * @sff sftFilf()
+     */
+    String filf;
+
+    /**
+     * Contbins thf Filf instbndfs for bll thf filfs thbt thf usfr sflfdts.
+     *
+     * @sfribl
+     * @sff #gftFilfs
+     * @sindf 1.7
+     */
+    privbtf Filf[] filfs;
+
+    /**
+     * Rfprfsfnts whfthfr thf filf diblog bllows thf multiplf filf sflfdtion.
+     *
+     * @sfribl
+     * @sff #sftMultiplfModf
+     * @sff #isMultiplfModf
+     * @sindf 1.7
+     */
+    privbtf boolfbn multiplfModf = fblsf;
+
+    /*
+     * Thf filtfr usfd bs thf filf diblog's filfnbmf filtfr.
+     * Thf filf diblog will only bf displbying filfs whosf
+     * nbmfs brf bddfptfd by this filtfr.
+     * This vbribblf mby bf <dodf>null</dodf>.
+     *
+     * @sfribl
+     * @sff #gftFilfnbmfFiltfr()
+     * @sff #sftFilfnbmfFiltfr()
+     * @sff FilfNbmfFiltfr
+     */
+    FilfnbmfFiltfr filtfr;
+
+    privbtf stbtid finbl String bbsf = "filfdlg";
+    privbtf stbtid int nbmfCountfr = 0;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = 5035145889651310422L;
+
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+    }
+
+    stbtid {
+        AWTAddfssor.sftFilfDiblogAddfssor(
+            nfw AWTAddfssor.FilfDiblogAddfssor() {
+                publid void sftFilfs(FilfDiblog filfDiblog, Filf filfs[]) {
+                    filfDiblog.sftFilfs(filfs);
+                }
+                publid void sftFilf(FilfDiblog filfDiblog, String filf) {
+                    filfDiblog.filf = ("".fqubls(filf)) ? null : filf;
+                }
+                publid void sftDirfdtory(FilfDiblog filfDiblog, String dirfdtory) {
+                    filfDiblog.dir = ("".fqubls(dirfdtory)) ? null : dirfdtory;
+                }
+                publid boolfbn isMultiplfModf(FilfDiblog filfDiblog) {
+                    syndhronizfd (filfDiblog.gftObjfdtLodk()) {
+                        rfturn filfDiblog.multiplfModf;
+                    }
+                }
+            });
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs for fiflds thbt mby bf
+       bddfssfd from C.
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    /**
+     * Crfbtfs b filf diblog for lobding b filf.  Thf titlf of thf
+     * filf diblog is initiblly fmpty.  This is b donvfnifndf mfthod for
+     * <dodf>FilfDiblog(pbrfnt, "", LOAD)</dodf>.
+     *
+     * @pbrbm pbrfnt thf ownfr of thf diblog
+     * @sindf 1.1
+     */
+    publid FilfDiblog(Frbmf pbrfnt) {
+        this(pbrfnt, "", LOAD);
+    }
+
+    /**
+     * Crfbtfs b filf diblog window with thf spfdififd titlf for lobding
+     * b filf. Thf filfs shown brf thosf in thf durrfnt dirfdtory.
+     * This is b donvfnifndf mfthod for
+     * <dodf>FilfDiblog(pbrfnt, titlf, LOAD)</dodf>.
+     *
+     * @pbrbm     pbrfnt   thf ownfr of thf diblog
+     * @pbrbm     titlf    thf titlf of thf diblog
+     */
+    publid FilfDiblog(Frbmf pbrfnt, String titlf) {
+        this(pbrfnt, titlf, LOAD);
+    }
+
+    /**
+     * Crfbtfs b filf diblog window with thf spfdififd titlf for lobding
+     * or sbving b filf.
+     * <p>
+     * If thf vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, thfn thf
+     * filf diblog is finding b filf to rfbd, bnd thf filfs shown brf thosf
+     * in thf durrfnt dirfdtory.   If thf vbluf of
+     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, thf filf diblog is finding
+     * b plbdf to writf b filf.
+     *
+     * @pbrbm     pbrfnt   thf ownfr of thf diblog
+     * @pbrbm     titlf   thf titlf of thf diblog
+     * @pbrbm     modf   thf modf of thf diblog; fithfr
+     *          <dodf>FilfDiblog.LOAD</dodf> or <dodf>FilfDiblog.SAVE</dodf>
+     * @fxdfption  IllfgblArgumfntExdfption if bn illfgbl filf
+     *                 diblog modf is supplifd
+     * @sff       jbvb.bwt.FilfDiblog#LOAD
+     * @sff       jbvb.bwt.FilfDiblog#SAVE
+     */
+    publid FilfDiblog(Frbmf pbrfnt, String titlf, int modf) {
+        supfr(pbrfnt, titlf, truf);
+        this.sftModf(modf);
+        sftLbyout(null);
+    }
+
+    /**
+     * Crfbtfs b filf diblog for lobding b filf.  Thf titlf of thf
+     * filf diblog is initiblly fmpty.  This is b donvfnifndf mfthod for
+     * <dodf>FilfDiblog(pbrfnt, "", LOAD)</dodf>.
+     *
+     * @pbrbm     pbrfnt   thf ownfr of thf diblog
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>pbrfnt</dodf>'s
+     *            <dodf>GrbphidsConfigurbtion</dodf>
+     *            is not from b sdrffn dfvidf;
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     *            is <dodf>null</dodf>; this fxdfption is blwbys thrown whfn
+     *            <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf>
+     *            rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.5
+     */
+    publid FilfDiblog(Diblog pbrfnt) {
+        this(pbrfnt, "", LOAD);
+    }
+
+    /**
+     * Crfbtfs b filf diblog window with thf spfdififd titlf for lobding
+     * b filf. Thf filfs shown brf thosf in thf durrfnt dirfdtory.
+     * This is b donvfnifndf mfthod for
+     * <dodf>FilfDiblog(pbrfnt, titlf, LOAD)</dodf>.
+     *
+     * @pbrbm     pbrfnt   thf ownfr of thf diblog
+     * @pbrbm     titlf    thf titlf of thf diblog; b <dodf>null</dodf> vbluf
+     *                     will bf bddfptfd without dbusing b
+     *                     <dodf>NullPointfrExdfption</dodf> to bf thrown
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>pbrfnt</dodf>'s
+     *            <dodf>GrbphidsConfigurbtion</dodf>
+     *            is not from b sdrffn dfvidf;
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     *            is <dodf>null</dodf>; this fxdfption is blwbys thrown whfn
+     *            <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf>
+     *            rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sindf     1.5
+     */
+    publid FilfDiblog(Diblog pbrfnt, String titlf) {
+        this(pbrfnt, titlf, LOAD);
+    }
+
+    /**
+     * Crfbtfs b filf diblog window with thf spfdififd titlf for lobding
+     * or sbving b filf.
+     * <p>
+     * If thf vbluf of <dodf>modf</dodf> is <dodf>LOAD</dodf>, thfn thf
+     * filf diblog is finding b filf to rfbd, bnd thf filfs shown brf thosf
+     * in thf durrfnt dirfdtory.   If thf vbluf of
+     * <dodf>modf</dodf> is <dodf>SAVE</dodf>, thf filf diblog is finding
+     * b plbdf to writf b filf.
+     *
+     * @pbrbm     pbrfnt   thf ownfr of thf diblog
+     * @pbrbm     titlf    thf titlf of thf diblog; b <dodf>null</dodf> vbluf
+     *                     will bf bddfptfd without dbusing b
+     *                     <dodf>NullPointfrExdfption</dodf> to bf thrown
+     * @pbrbm     modf     thf modf of thf diblog; fithfr
+     *                     <dodf>FilfDiblog.LOAD</dodf> or <dodf>FilfDiblog.SAVE</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if bn illfgbl
+     *            filf diblog modf is supplifd;
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf <dodf>pbrfnt</dodf>'s
+     *            <dodf>GrbphidsConfigurbtion</dodf>
+     *            is not from b sdrffn dfvidf;
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>pbrfnt</dodf>
+     *            is <dodf>null</dodf>; this fxdfption is blwbys thrown whfn
+     *            <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf>
+     *            rfturns <dodf>truf</dodf>
+     * @sff       jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     * @sff       jbvb.bwt.FilfDiblog#LOAD
+     * @sff       jbvb.bwt.FilfDiblog#SAVE
+     * @sindf     1.5
+     */
+    publid FilfDiblog(Diblog pbrfnt, String titlf, int modf) {
+        supfr(pbrfnt, titlf, truf);
+        this.sftModf(modf);
+        sftLbyout(null);
+    }
+
+    /**
+     * Construdts b nbmf for this domponfnt. Cbllfd by <dodf>gftNbmf()</dodf>
+     * whfn thf nbmf is <dodf>null</dodf>.
+     */
+    String donstrudtComponfntNbmf() {
+        syndhronizfd (FilfDiblog.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
+        }
+    }
+
+    /**
+     * Crfbtfs thf filf diblog's pffr.  Thf pffr bllows us to dhbngf thf look
+     * of thf filf diblog without dhbnging its fundtionblity.
+     */
+    publid void bddNotify() {
+        syndhronizfd(gftTrffLodk()) {
+            if (pbrfnt != null && pbrfnt.gftPffr() == null) {
+                pbrfnt.bddNotify();
+            }
+            if (pffr == null)
+                pffr = gftToolkit().drfbtfFilfDiblog(this);
+            supfr.bddNotify();
+        }
+    }
+
+    /**
+     * Indidbtfs whfthfr this filf diblog box is for lobding from b filf
+     * or for sbving to b filf.
+     *
+     * @rfturn   thf modf of this filf diblog window, fithfr
+     *               <dodf>FilfDiblog.LOAD</dodf> or
+     *               <dodf>FilfDiblog.SAVE</dodf>
+     * @sff      jbvb.bwt.FilfDiblog#LOAD
+     * @sff      jbvb.bwt.FilfDiblog#SAVE
+     * @sff      jbvb.bwt.FilfDiblog#sftModf
+     */
+    publid int gftModf() {
+        rfturn modf;
+    }
+
+    /**
+     * Sfts thf modf of thf filf diblog.  If <dodf>modf</dodf> is not
+     * b lfgbl vbluf, bn fxdfption will bf thrown bnd <dodf>modf</dodf>
+     * will not bf sft.
+     *
+     * @pbrbm      modf  thf modf for this filf diblog, fithfr
+     *                 <dodf>FilfDiblog.LOAD</dodf> or
+     *                 <dodf>FilfDiblog.SAVE</dodf>
+     * @sff        jbvb.bwt.FilfDiblog#LOAD
+     * @sff        jbvb.bwt.FilfDiblog#SAVE
+     * @sff        jbvb.bwt.FilfDiblog#gftModf
+     * @fxdfption  IllfgblArgumfntExdfption if bn illfgbl filf
+     *                 diblog modf is supplifd
+     * @sindf      1.1
+     */
+    publid void sftModf(int modf) {
+        switdh (modf) {
+          dbsf LOAD:
+          dbsf SAVE:
+            this.modf = modf;
+            brfbk;
+          dffbult:
+            throw nfw IllfgblArgumfntExdfption("illfgbl filf diblog modf");
+        }
+    }
+
+    /**
+     * Gfts thf dirfdtory of this filf diblog.
+     *
+     * @rfturn  thf (potfntiblly <dodf>null</dodf> or invblid)
+     *          dirfdtory of this <dodf>FilfDiblog</dodf>
+     * @sff       jbvb.bwt.FilfDiblog#sftDirfdtory
+     */
+    publid String gftDirfdtory() {
+        rfturn dir;
+    }
+
+    /**
+     * Sfts thf dirfdtory of this filf diblog window to bf thf
+     * spfdififd dirfdtory. Spfdifying b <dodf>null</dodf> or bn
+     * invblid dirfdtory implifs bn implfmfntbtion-dffinfd dffbult.
+     * This dffbult will not bf rfblizfd, howfvfr, until thf usfr
+     * hbs sflfdtfd b filf. Until this point, <dodf>gftDirfdtory()</dodf>
+     * will rfturn thf vbluf pbssfd into this mfthod.
+     * <p>
+     * Spfdifying "" bs thf dirfdtory is fxbdtly fquivblfnt to
+     * spfdifying <dodf>null</dodf> bs thf dirfdtory.
+     *
+     * @pbrbm     dir   thf spfdififd dirfdtory
+     * @sff       jbvb.bwt.FilfDiblog#gftDirfdtory
+     */
+    publid void sftDirfdtory(String dir) {
+        this.dir = (dir != null && dir.fqubls("")) ? null : dir;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)this.pffr;
+        if (pffr != null) {
+            pffr.sftDirfdtory(this.dir);
+        }
+    }
+
+    /**
+     * Gfts thf sflfdtfd filf of this filf diblog.  If thf usfr
+     * sflfdtfd <dodf>CANCEL</dodf>, thf rfturnfd filf is <dodf>null</dodf>.
+     *
+     * @rfturn    thf durrfntly sflfdtfd filf of this filf diblog window,
+     *                or <dodf>null</dodf> if nonf is sflfdtfd
+     * @sff       jbvb.bwt.FilfDiblog#sftFilf
+     */
+    publid String gftFilf() {
+        rfturn filf;
+    }
+
+    /**
+     * Rfturns filfs thbt thf usfr sflfdts.
+     * <p>
+     * If thf usfr dbndfls thf filf diblog,
+     * thfn thf mfthod rfturns bn fmpty brrby.
+     *
+     * @rfturn    filfs thbt thf usfr sflfdts or bn fmpty brrby
+     *            if thf usfr dbndfls thf filf diblog.
+     * @sff       #sftFilf(String)
+     * @sff       #gftFilf
+     * @sindf 1.7
+     */
+    publid Filf[] gftFilfs() {
+        syndhronizfd (gftObjfdtLodk()) {
+            if (filfs != null) {
+                rfturn filfs.dlonf();
+            } flsf {
+                rfturn nfw Filf[0];
+            }
+        }
+    }
+
+    /**
+     * Storfs thf nbmfs of bll thf filfs thbt thf usfr sflfdts.
+     *
+     * Notf thbt thf mfthod is privbtf bnd it's intfndfd to bf usfd
+     * by thf pffrs through thf AWTAddfssor API.
+     *
+     * @pbrbm filfs     thf brrby thbt dontbins thf short nbmfs of
+     *                  bll thf filfs thbt thf usfr sflfdts.
+     *
+     * @sff #gftFilfs
+     * @sindf 1.7
+     */
+    privbtf void sftFilfs(Filf filfs[]) {
+        syndhronizfd (gftObjfdtLodk()) {
+            this.filfs = filfs;
+        }
+    }
+
+    /**
+     * Sfts thf sflfdtfd filf for this filf diblog window to bf thf
+     * spfdififd filf. This filf bfdomfs thf dffbult filf if it is sft
+     * bfforf thf filf diblog window is first shown.
+     * <p>
+     * Whfn thf diblog is shown, thf spfdififd filf is sflfdtfd. Thf kind of
+     * sflfdtion dfpfnds on thf filf fxistfndf, thf diblog typf, bnd thf nbtivf
+     * plbtform. E.g., thf filf dould bf highlightfd in thf filf list, or b
+     * filf nbmf fditbox dould bf populbtfd with thf filf nbmf.
+     * <p>
+     * This mfthod bddfpts fithfr b full filf pbth, or b filf nbmf with bn
+     * fxtfnsion if usfd togfthfr with thf {@dodf sftDirfdtory} mfthod.
+     * <p>
+     * Spfdifying "" bs thf filf is fxbdtly fquivblfnt to spfdifying
+     * {@dodf null} bs thf filf.
+     *
+     * @pbrbm    filf   thf filf bfing sft
+     * @sff      #gftFilf
+     * @sff      #gftFilfs
+     */
+    publid void sftFilf(String filf) {
+        this.filf = (filf != null && filf.fqubls("")) ? null : filf;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)this.pffr;
+        if (pffr != null) {
+            pffr.sftFilf(this.filf);
+        }
+    }
+
+    /**
+     * Enbblfs or disbblfs multiplf filf sflfdtion for thf filf diblog.
+     *
+     * @pbrbm fnbblf    if {@dodf truf}, multiplf filf sflfdtion is fnbblfd;
+     *                  {@dodf fblsf} - disbblfd.
+     * @sff #isMultiplfModf
+     * @sindf 1.7
+     */
+    publid void sftMultiplfModf(boolfbn fnbblf) {
+        syndhronizfd (gftObjfdtLodk()) {
+            this.multiplfModf = fnbblf;
+        }
+    }
+
+    /**
+     * Rfturns whfthfr thf filf diblog bllows thf multiplf filf sflfdtion.
+     *
+     * @rfturn          {@dodf truf} if thf filf diblog bllows thf multiplf
+     *                  filf sflfdtion; {@dodf fblsf} othfrwisf.
+     * @sff #sftMultiplfModf
+     * @sindf 1.7
+     */
+    publid boolfbn isMultiplfModf() {
+        syndhronizfd (gftObjfdtLodk()) {
+            rfturn multiplfModf;
+        }
+    }
+
+    /**
+     * Dftfrminfs this filf diblog's filfnbmf filtfr. A filfnbmf filtfr
+     * bllows thf usfr to spfdify whidh filfs bppfbr in thf filf diblog
+     * window.  Filfnbmf filtfrs do not fundtion in Sun's rfffrfndf
+     * implfmfntbtion for Midrosoft Windows.
+     *
+     * @rfturn    this filf diblog's filfnbmf filtfr
+     * @sff       jbvb.io.FilfnbmfFiltfr
+     * @sff       jbvb.bwt.FilfDiblog#sftFilfnbmfFiltfr
+     */
+    publid FilfnbmfFiltfr gftFilfnbmfFiltfr() {
+        rfturn filtfr;
+    }
+
+    /**
+     * Sfts thf filfnbmf filtfr for this filf diblog window to thf
+     * spfdififd filtfr.
+     * Filfnbmf filtfrs do not fundtion in Sun's rfffrfndf
+     * implfmfntbtion for Midrosoft Windows.
+     *
+     * @pbrbm   filtfr   thf spfdififd filtfr
+     * @sff     jbvb.io.FilfnbmfFiltfr
+     * @sff     jbvb.bwt.FilfDiblog#gftFilfnbmfFiltfr
+     */
+    publid syndhronizfd void sftFilfnbmfFiltfr(FilfnbmfFiltfr filtfr) {
+        this.filtfr = filtfr;
+        FilfDiblogPffr pffr = (FilfDiblogPffr)this.pffr;
+        if (pffr != null) {
+            pffr.sftFilfnbmfFiltfr(filtfr);
+        }
+    }
+
+    /**
+     * Rfbds thf <dodf>ObjfdtInputStrfbm</dodf> bnd pfrforms
+     * b bbdkwbrds dompbtibility dhfdk by donvfrting
+     * fithfr b <dodf>dir</dodf> or b <dodf>filf</dodf>
+     * fqubl to bn fmpty string to <dodf>null</dodf>.
+     *
+     * @pbrbm s thf <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws ClbssNotFoundExdfption, IOExdfption
+    {
+        s.dffbultRfbdObjfdt();
+
+        // 1.1 Compbtibility: "" is not donvfrtfd to null in 1.1
+        if (dir != null && dir.fqubls("")) {
+            dir = null;
+        }
+        if (filf != null && filf.fqubls("")) {
+            filf = null;
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfnting thf stbtf of this <dodf>FilfDiblog</dodf>
+     * window. This mfthod is intfndfd to bf usfd only for dfbugging purposfs,
+     * bnd thf dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
+     *
+     * @rfturn  thf pbrbmftfr string of this filf diblog window
+     */
+    protfdtfd String pbrbmString() {
+        String str = supfr.pbrbmString();
+        str += ",dir= " + dir;
+        str += ",filf= " + filf;
+        rfturn str + ((modf == LOAD) ? ",lobd" : ",sbvf");
+    }
+
+    boolfbn postsOldMousfEvfnts() {
+        rfturn fblsf;
+    }
+}

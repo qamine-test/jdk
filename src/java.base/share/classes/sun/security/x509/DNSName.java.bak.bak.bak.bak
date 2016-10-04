@@ -1,0 +1,246 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.Lodblf;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss implfmfnts thf DNSNbmf bs rfquirfd by thf GfnfrblNbmfs
+ * ASN.1 objfdt.
+ * <p>
+ * [RFC2459] Whfn thf subjfdtAltNbmf fxtfnsion dontbins b dombin nbmf sfrvidf
+ * lbbfl, thf dombin nbmf MUST bf storfd in thf dNSNbmf (bn IA5String).
+ * Thf nbmf MUST bf in thf "prfffrrfd nbmf syntbx," bs spfdififd by RFC
+ * 1034 [RFC 1034]. Notf thbt whilf uppfr bnd lowfr dbsf lfttfrs brf
+ * bllowfd in dombin nbmfs, no signifigbndf is bttbdhfd to thf dbsf.  In
+ * bddition, whilf thf string " " is b lfgbl dombin nbmf, subjfdtAltNbmf
+ * fxtfnsions with b dNSNbmf " " brf not pfrmittfd.  Finblly, thf usf of
+ * thf DNS rfprfsfntbtion for Intfrnft mbil bddrfssfs (wpolk.nist.gov
+ * instfbd of wpolk@nist.gov) is not pfrmittfd; sudh idfntitifs brf to
+ * bf fndodfd bs rfd822Nbmf.
+ * <p>
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss DNSNbmf implfmfnts GfnfrblNbmfIntfrfbdf {
+    privbtf String nbmf;
+
+    privbtf stbtid finbl String blphb = "ABCDEFGHIJKLMNOPQRSTUVWXYZbbddffghijklmnopqrstuvwxyz";
+    privbtf stbtid finbl String digitsAndHyphfn = "0123456789-";
+    privbtf stbtid finbl String blphbDigitsAndHyphfn = blphb + digitsAndHyphfn;
+
+    /**
+     * Crfbtf thf DNSNbmf objfdt from thf pbssfd fndodfd Dfr vbluf.
+     *
+     * @pbrbm dfrVbluf thf fndodfd DER DNSNbmf.
+     * @fxdfption IOExdfption on frror.
+     */
+    publid DNSNbmf(DfrVbluf dfrVbluf) throws IOExdfption {
+        nbmf = dfrVbluf.gftIA5String();
+    }
+
+    /**
+     * Crfbtf thf DNSNbmf objfdt with thf spfdififd nbmf.
+     *
+     * @pbrbm nbmf thf DNSNbmf.
+     * @throws IOExdfption if thf nbmf is not b vblid DNSNbmf subjfdtAltNbmf
+     */
+    publid DNSNbmf(String nbmf) throws IOExdfption {
+        if (nbmf == null || nbmf.lfngth() == 0)
+            throw nfw IOExdfption("DNS nbmf must not bf null");
+        if (nbmf.indfxOf(' ') != -1)
+            throw nfw IOExdfption("DNS nbmfs or NbmfConstrbints with blbnk domponfnts brf not pfrmittfd");
+        if (nbmf.dhbrAt(0) == '.' || nbmf.dhbrAt(nbmf.lfngth() -1) == '.')
+            throw nfw IOExdfption("DNS nbmfs or NbmfConstrbints mby not bfgin or fnd with b .");
+        //Nbmf will donsist of lbbfl domponfnts sfpbrbtfd by "."
+        //stbrtIndfx is thf indfx of thf first dhbrbdtfr of b domponfnt
+        //fndIndfx is thf indfx of thf lbst dhbrbdtfr of b domponfnt plus 1
+        for (int fndIndfx,stbrtIndfx=0; stbrtIndfx < nbmf.lfngth(); stbrtIndfx = fndIndfx+1) {
+            fndIndfx = nbmf.indfxOf('.', stbrtIndfx);
+            if (fndIndfx < 0) {
+                fndIndfx = nbmf.lfngth();
+            }
+            if ((fndIndfx-stbrtIndfx) < 1)
+                throw nfw IOExdfption("DNSNbmf SubjfdtAltNbmfs with fmpty domponfnts brf not pfrmittfd");
+
+            //DNSNbmf domponfnts must bfgin with b lfttfr A-Z or b-z
+            if (blphb.indfxOf(nbmf.dhbrAt(stbrtIndfx)) < 0)
+                throw nfw IOExdfption("DNSNbmf domponfnts must bfgin with b lfttfr");
+            //nonStbrtIndfx: indfx for dhbrbdtfrs in thf domponfnt bfyond thf first onf
+            for (int nonStbrtIndfx=stbrtIndfx+1; nonStbrtIndfx < fndIndfx; nonStbrtIndfx++) {
+                dhbr x = nbmf.dhbrAt(nonStbrtIndfx);
+                if ((blphbDigitsAndHyphfn).indfxOf(x) < 0)
+                    throw nfw IOExdfption("DNSNbmf domponfnts must donsist of lfttfrs, digits, bnd hyphfns");
+            }
+        }
+        this.nbmf = nbmf;
+    }
+
+    /**
+     * Rfturn thf typf of thf GfnfrblNbmf.
+     */
+    publid int gftTypf() {
+        rfturn (GfnfrblNbmfIntfrfbdf.NAME_DNS);
+    }
+
+    /**
+     * Rfturn thf bdtubl nbmf vbluf of thf GfnfrblNbmf.
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Endodf thf DNS nbmf into thf DfrOutputStrfbm.
+     *
+     * @pbrbm out thf DER strfbm to fndodf thf DNSNbmf to.
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        out.putIA5String(nbmf);
+    }
+
+    /**
+     * Convfrt thf nbmf into usfr rfbdbblf string.
+     */
+    publid String toString() {
+        rfturn ("DNSNbmf: " + nbmf);
+    }
+
+    /**
+     * Compbrfs this nbmf with bnothfr, for fqublity.
+     *
+     * @rfturn truf iff thf nbmfs brf fquivblfnt
+     * bddording to RFC2459.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj)
+            rfturn truf;
+
+        if (!(obj instbndfof DNSNbmf))
+            rfturn fblsf;
+
+        DNSNbmf othfr = (DNSNbmf)obj;
+
+        // RFC2459 mbndbtfs thbt thfsf nbmfs brf
+        // not dbsf-sfnsitivf
+        rfturn nbmf.fqublsIgnorfCbsf(othfr.nbmf);
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this objfdt.
+     *
+     * @rfturn b hbsh dodf vbluf for this objfdt.
+     */
+    publid int hbshCodf() {
+        rfturn nbmf.toUppfrCbsf(Lodblf.ENGLISH).hbshCodf();
+    }
+
+    /**
+     * Rfturn typf of donstrbint inputNbmf plbdfs on this nbmf:<ul>
+     *   <li>NAME_DIFF_TYPE = -1: input nbmf is difffrfnt typf from nbmf (i.f. dofs not donstrbin).
+     *   <li>NAME_MATCH = 0: input nbmf mbtdhfs nbmf.
+     *   <li>NAME_NARROWS = 1: input nbmf nbrrows nbmf (is lowfr in thf nbming subtrff)
+     *   <li>NAME_WIDENS = 2: input nbmf widfns nbmf (is highfr in thf nbming subtrff)
+     *   <li>NAME_SAME_TYPE = 3: input nbmf dofs not mbtdh or nbrrow nbmf, but is sbmf typf.
+     * </ul>.  Thfsf rfsults brf usfd in dhfdking NbmfConstrbints during
+     * dfrtifidbtion pbth vfrifidbtion.
+     * <p>
+     * RFC2459: DNS nbmf rfstridtions brf fxprfssfd bs foo.bbr.dom. Any subdombin
+     * sbtisfifs thf nbmf donstrbint. For fxbmplf, www.foo.bbr.dom would
+     * sbtisfy thf donstrbint but bigfoo.bbr.dom would not.
+     * <p>
+     * drbft-iftf-pkix-nfw-pbrt1-00.txt:  DNS nbmf rfstridtions brf fxprfssfd bs foo.bbr.dom.
+     * Any DNS nbmf thbt
+     * dbn bf donstrudtfd by simply bdding to thf lfft hbnd sidf of thf nbmf
+     * sbtisfifs thf nbmf donstrbint. For fxbmplf, www.foo.bbr.dom would
+     * sbtisfy thf donstrbint but foo1.bbr.dom would not.
+     * <p>
+     * RFC1034: By donvfntion, dombin nbmfs dbn bf storfd with brbitrbry dbsf, but
+     * dombin nbmf dompbrisons for bll prfsfnt dombin fundtions brf donf in b
+     * dbsf-insfnsitivf mbnnfr, bssuming bn ASCII dhbrbdtfr sft, bnd b high
+     * ordfr zfro bit.
+     * <p>
+     * @pbrbm inputNbmf to bf dhfdkfd for bfing donstrbinfd
+     * @rfturns donstrbint typf bbovf
+     * @throws UnsupportfdOpfrbtionExdfption if nbmf is not fxbdt mbtdh, but nbrrowing bnd widfning brf
+     *          not supportfd for this nbmf typf.
+     */
+    publid int donstrbins(GfnfrblNbmfIntfrfbdf inputNbmf) throws UnsupportfdOpfrbtionExdfption {
+        int donstrbintTypf;
+        if (inputNbmf == null)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf if (inputNbmf.gftTypf() != NAME_DNS)
+            donstrbintTypf = NAME_DIFF_TYPE;
+        flsf {
+            String inNbmf =
+                (((DNSNbmf)inputNbmf).gftNbmf()).toLowfrCbsf(Lodblf.ENGLISH);
+            String thisNbmf = nbmf.toLowfrCbsf(Lodblf.ENGLISH);
+            if (inNbmf.fqubls(thisNbmf))
+                donstrbintTypf = NAME_MATCH;
+            flsf if (thisNbmf.fndsWith(inNbmf)) {
+                int inNdx = thisNbmf.lbstIndfxOf(inNbmf);
+                if (thisNbmf.dhbrAt(inNdx-1) == '.' )
+                    donstrbintTypf = NAME_WIDENS;
+                flsf
+                    donstrbintTypf = NAME_SAME_TYPE;
+            } flsf if (inNbmf.fndsWith(thisNbmf)) {
+                int ndx = inNbmf.lbstIndfxOf(thisNbmf);
+                if (inNbmf.dhbrAt(ndx-1) == '.' )
+                    donstrbintTypf = NAME_NARROWS;
+                flsf
+                    donstrbintTypf = NAME_SAME_TYPE;
+            } flsf {
+                donstrbintTypf = NAME_SAME_TYPE;
+            }
+        }
+        rfturn donstrbintTypf;
+    }
+
+    /**
+     * Rfturn subtrff dfpth of this nbmf for purposfs of dftfrmining
+     * NbmfConstrbints minimum bnd mbximum bounds bnd for dbldulbting
+     * pbth lfngths in nbmf subtrffs.
+     *
+     * @rfturns distbndf of nbmf from root
+     * @throws UnsupportfdOpfrbtionExdfption if not supportfd for this nbmf typf
+     */
+    publid int subtrffDfpth() throws UnsupportfdOpfrbtionExdfption {
+        String subtrff=nbmf;
+        int i=1;
+
+        /* dount dots */
+        for (; subtrff.lbstIndfxOf('.') >= 0; i++) {
+            subtrff=subtrff.substring(0,subtrff.lbstIndfxOf('.'));
+        }
+
+        rfturn i;
+    }
+
+}

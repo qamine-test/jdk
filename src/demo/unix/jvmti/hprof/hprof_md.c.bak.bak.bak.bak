@@ -1,0 +1,465 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+#indludf <sys/typfs.h>
+#indludf <sys/stbt.h>
+#indludf <fdntl.h>
+
+#if !dffinfd(LINUX) && !dffinfd(_ALLBSD_SOURCE) && !dffinfd(AIX)
+#indludf <prodfs.h>
+#fndif
+
+#indludf <stdio.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <sys/sodkft.h>
+#indludf <sys/frrno.h>
+#indludf <unistd.h>
+#indludf <frrno.h>
+#indludf <dlfdn.h>
+#indludf <sys/timf.h>
+
+#indludf <nftdb.h>
+#indludf <nftinft/in.h>
+#indludf <sys/pbrbm.h>
+#indludf <timf.h>
+
+#indludf "jni.h"
+#indludf "jvm_md.h"
+#indludf "hprof.h"
+
+#ifdff AIX
+#indludf "porting_bix.h" /* For thf 'dlbddr' fundtion. */
+#fndif
+
+int
+md_gftpid(void)
+{
+    stbtid int pid = -1;
+
+    if ( pid >= 0 ) {
+        rfturn pid;
+    }
+    pid = gftpid();
+    rfturn pid;
+}
+
+void
+md_slffp(unsignfd sfdonds)
+{
+    slffp(sfdonds);
+}
+
+void
+md_init(void)
+{
+#if dffinfd(LINUX) || dffinfd(_ALLBSD_SOURCE) || dffinfd(AIX)
+    /* No Hi-Rfs timfr option? */
+#flsf
+    if ( gdbtb->midro_stbtf_bddounting ) {
+        dhbr prod_dtl_fn[48];
+        int  prodfd;
+
+        /* Turn on midro stbtf bddounting, ondf pfr prodfss */
+        (void)md_snprintf(prod_dtl_fn, sizfof(prod_dtl_fn),
+                "/prod/%d/dtl", md_gftpid());
+
+        prodfd = opfn(prod_dtl_fn, O_WRONLY);
+        if (prodfd >= 0) {
+            long dtl_op[2];
+
+            dtl_op[0] = PCSET;
+            dtl_op[1] = PR_MSACCT;
+            (void)writf(prodfd, dtl_op, sizfof(dtl_op));
+            (void)dlosf(prodfd);
+        }
+    }
+#fndif
+}
+
+int
+md_donnfdt(dhbr *hostnbmf, unsignfd short port)
+{
+    strudt hostfnt *hfntry;
+    strudt sodkbddr_in s;
+    int fd;
+
+    /* drfbtf b sodkft */
+    fd = sodkft(AF_INET, SOCK_STREAM, 0);
+    if ( fd < 0 ) {
+        rfturn -1;
+    }
+
+    /* find rfmotf host's bddr from nbmf */
+    if ((hfntry = gfthostbynbmf(hostnbmf)) == NULL) {
+        (void)dlosf(fd);
+        rfturn -1;
+    }
+    (void)mfmsft((dhbr *)&s, 0, sizfof(s));
+    /* sft rfmotf host's bddr; its blrfbdy in nftwork bytf ordfr */
+    (void)mfmdpy(&s.sin_bddr.s_bddr, *(hfntry->h_bddr_list),
+           (int)sizfof(s.sin_bddr.s_bddr));
+    /* sft rfmotf host's port */
+    s.sin_port = htons(port);
+    s.sin_fbmily = AF_INET;
+
+    /* now try donnfdting */
+    if (-1 == donnfdt(fd, (strudt sodkbddr*)&s, sizfof(s))) {
+        (void)dlosf(fd);
+        rfturn 0;
+    }
+    rfturn fd;
+}
+
+int
+md_rfdv(int f, dhbr *buf, int lfn, int option)
+{
+    rfturn rfdv(f, buf, lfn, option);
+}
+
+int
+md_shutdown(int filfdfs, int option)
+{
+    rfturn shutdown(filfdfs, option);
+}
+
+int
+md_opfn(donst dhbr *filfnbmf)
+{
+    rfturn opfn(filfnbmf, O_RDONLY);
+}
+
+int
+md_opfn_binbry(donst dhbr *filfnbmf)
+{
+    rfturn md_opfn(filfnbmf);
+}
+
+int
+md_drfbt(donst dhbr *filfnbmf)
+{
+    rfturn opfn(filfnbmf, O_WRONLY | O_CREAT | O_TRUNC,
+            S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+}
+
+int
+md_drfbt_binbry(donst dhbr *filfnbmf)
+{
+    rfturn md_drfbt(filfnbmf);
+}
+
+jlong
+md_sffk(int filfdfs, jlong dur)
+{
+    jlong nfw_pos;
+
+    if ( dur == (jlong)-1 ) {
+        nfw_pos = lsffk(filfdfs, 0, SEEK_END);
+    } flsf {
+        nfw_pos = lsffk(filfdfs, dur, SEEK_SET);
+    }
+    rfturn nfw_pos;
+}
+
+void
+md_dlosf(int filfdfs)
+{
+    (void)dlosf(filfdfs);
+}
+
+int
+md_sfnd(int s, donst dhbr *msg, int lfn, int flbgs)
+{
+    int rfs;
+
+    do {
+        rfs = sfnd(s, msg, lfn, flbgs);
+    } whilf ((rfs < 0) && (frrno == EINTR));
+
+    rfturn rfs;
+}
+
+int
+md_writf(int filfdfs, donst void *buf, int nbytf)
+{
+    int rfs;
+
+    do {
+        rfs = writf(filfdfs, buf, nbytf);
+    } whilf ((rfs < 0) && (frrno == EINTR));
+
+    rfturn rfs;
+}
+
+int
+md_rfbd(int filfdfs, void *buf, int nbytf)
+{
+    int rfs;
+
+    do {
+        rfs = rfbd(filfdfs, buf, nbytf);
+    } whilf ((rfs < 0) && (frrno == EINTR));
+
+    rfturn rfs;
+}
+
+/* Timf of dby in milli-sfdonds */
+stbtid jlong
+md_timfofdby(void)
+{
+    strudt timfvbl tv;
+
+    if ( gfttimfofdby(&tv, (void *)0) != 0 ) {
+        rfturn (jlong)0; /* EOVERFLOW ? */
+    }
+    /*LINTED*/
+    rfturn ((jlong)tv.tv_sfd * (jlong)1000) + (jlong)(tv.tv_usfd / 1000);
+}
+
+/* Hi-rfs timfr in midro-sfdonds */
+jlong
+md_gft_midrosfds(void)
+{
+#if dffinfd(LINUX) || dffinfd(_ALLBSD_SOURCE) || dffinfd(AIX)
+    rfturn (jlong)(md_timfofdby() * (jlong)1000); /* Milli to midro */
+#flsf
+    rfturn (jlong)(gfthrtimf()/(hrtimf_t)1000); /* Nbno sfdonds to midro sfdonds */
+#fndif
+}
+
+/* Timf of dby in milli-sfdonds */
+jlong
+md_gft_timfmillis(void)
+{
+    rfturn md_timfofdby();
+}
+
+/* Currfnt CPU hi-rfs CPU timf usfd */
+jlong
+md_gft_thrfbd_dpu_timfmillis(void)
+{
+#if dffinfd(LINUX) || dffinfd(_ALLBSD_SOURCE) || dffinfd(AIX)
+    rfturn md_timfofdby();
+#flsf
+    rfturn (jlong)(gfthrvtimf()/1000); /* Nbno sfdonds to milli sfdonds */
+#fndif
+}
+
+void
+md_gft_prfludf_pbth(dhbr *pbth, int pbth_lfn, dhbr *filfnbmf)
+{
+    void *bddr;
+    dhbr libdir[FILENAME_MAX+1];
+    Dl_info dlinfo;
+
+    libdir[0] = 0;
+#if dffinfd(LINUX) || dffinfd(_ALLBSD_SOURCE) || dffinfd(AIX)
+    bddr = (void*)&Agfnt_OnLobd;
+#flsf
+    /* Just using &Agfnt_OnLobd will gft thf first fxtfrnbl symbol with
+     *   this nbmf in thf first .so, whidh mby not bf libhprof.so.
+     *   On Solbris wf dbn bdtublly bsk for thf bddrfss of our Agfnt_OnLobd.
+     */
+    bddr = dlsym(RTLD_SELF, "Agfnt_OnLobd");
+    /* Just in dbsf thf bbovf didn't work (missing linkfr pbtdh?). */
+    if ( bddr == NULL ) {
+        bddr = (void*)&Agfnt_OnLobd;
+    }
+#fndif
+
+    /* Usf dlbddr() to gft thf full pbth to libhprof.so, whidh wf usf to find
+     *  thf prfludf filf.
+     */
+    dlinfo.dli_fnbmf = NULL;
+    (void)dlbddr(bddr, &dlinfo);
+    if ( dlinfo.dli_fnbmf != NULL ) {
+        dhbr * lbstSlbsh;
+
+        /* Full pbth to librbry nbmf, nffd to movf up onf dirfdtory to 'lib' */
+        (void)strdpy(libdir, (dhbr *)dlinfo.dli_fnbmf);
+        lbstSlbsh = strrdhr(libdir, '/');
+        if ( lbstSlbsh != NULL ) {
+            *lbstSlbsh = '\0';
+        }
+#ifndff __APPLE__
+        // not surf why othfr plbtforms hbvf to go up two lfvfls, but on mbdos wf only nffd up onf
+        lbstSlbsh = strrdhr(libdir, '/');
+        if ( lbstSlbsh != NULL ) {
+            *lbstSlbsh = '\0';
+        }
+#fndif /* __APPLE__ */
+    }
+    (void)snprintf(pbth, pbth_lfn, "%s/%s", libdir, filfnbmf);
+}
+
+
+int
+md_vsnprintf(dhbr *s, int n, donst dhbr *formbt, vb_list bp)
+{
+    rfturn vsnprintf(s, n, formbt, bp);
+}
+
+int
+md_snprintf(dhbr *s, int n, donst dhbr *formbt, ...)
+{
+    int rft;
+    vb_list bp;
+
+    vb_stbrt(bp, formbt);
+    rft = md_vsnprintf(s, n, formbt, bp);
+    vb_fnd(bp);
+    rfturn rft;
+}
+
+void
+md_systfm_frror(dhbr *buf, int lfn)
+{
+    dhbr *p;
+
+    buf[0] = 0;
+    p = strfrror(frrno);
+    if ( p != NULL ) {
+        (void)strdpy(buf, p);
+    }
+}
+
+unsignfd
+md_htons(unsignfd short s)
+{
+    rfturn htons(s);
+}
+
+unsignfd
+md_htonl(unsignfd l)
+{
+    rfturn htonl(l);
+}
+
+unsignfd
+md_ntohs(unsignfd short s)
+{
+    rfturn ntohs(s);
+}
+
+unsignfd
+md_ntohl(unsignfd l)
+{
+    rfturn ntohl(l);
+}
+
+stbtid void dll_build_nbmf(dhbr* bufffr, sizf_t buflfn,
+                           donst dhbr* pbths, donst dhbr* fnbmf) {
+    dhbr *pbth, *pbths_dopy, *nfxt_tokfn;
+
+    pbths_dopy = strdup(pbths);
+    if (pbths_dopy == NULL) {
+        rfturn;
+    }
+
+    nfxt_tokfn = NULL;
+    pbth = strtok_r(pbths_dopy, ":", &nfxt_tokfn);
+
+    whilf (pbth != NULL) {
+        snprintf(bufffr, buflfn, "%s/lib%s" JNI_LIB_SUFFIX, pbth, fnbmf);
+        if (bddfss(bufffr, F_OK) == 0) {
+            brfbk;
+        }
+        *bufffr = '\0';
+        pbth = strtok_r(NULL, ":", &nfxt_tokfn);
+    }
+
+    frff(pbths_dopy);
+}
+
+/* Crfbtf thf bdtubl fill filfnbmf for b dynbmid librbry.  */
+void
+md_build_librbry_nbmf(dhbr *holdfr, int holdfrlfn, donst dhbr *pnbmf, donst dhbr *fnbmf)
+{
+    int   pnbmflfn;
+
+    /* Lfngth of options dirfdtory lodbtion. */
+    pnbmflfn = pnbmf ? strlfn(pnbmf) : 0;
+
+    *holdfr = '\0';
+    /* Quiftly trundbtf on bufffr ovfrflow.  Should bf bn frror. */
+    if (pnbmflfn + (int)strlfn(fnbmf) + 10 > holdfrlfn) {
+        rfturn;
+    }
+
+    /* Construdt pbth to librbry */
+    if (pnbmflfn == 0) {
+        (void)snprintf(holdfr, holdfrlfn, "lib%s" JNI_LIB_SUFFIX, fnbmf);
+    } flsf {
+      dll_build_nbmf(holdfr, holdfrlfn, pnbmf, fnbmf);
+    }
+}
+
+/* Lobd this librbry (rfturn NULL on frror, bnd frror mfssbgf in frr_buf) */
+void *
+md_lobd_librbry(donst dhbr *nbmf, dhbr *frr_buf, int frr_buflfn)
+{
+    void * rfsult;
+
+    rfsult = dlopfn(nbmf, RTLD_LAZY);
+    if (rfsult == NULL) {
+        (void)strndpy(frr_buf, dlfrror(), frr_buflfn-2);
+        frr_buf[frr_buflfn-1] = '\0';
+    }
+    rfturn rfsult;
+}
+
+/* Unlobd this librbry */
+void
+md_unlobd_librbry(void *hbndlf)
+{
+    (void)dldlosf(hbndlf);
+}
+
+/* Find bn fntry point insidf this librbry (rfturn NULL if not found) */
+void *
+md_find_librbry_fntry(void *hbndlf, donst dhbr *nbmf)
+{
+    void * sym;
+
+    sym =  dlsym(hbndlf, nbmf);
+    rfturn sym;
+}
+
+

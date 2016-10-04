@@ -1,54 +1,54 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.attribute.*;
-import java.util.*;
-import java.io.IOException;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
 
 /**
- * Base implementation of BasicFileAttributeView
+ * Bbsf implfmfntbtion of BbsidFilfAttributfVifw
  */
 
-abstract class AbstractBasicFileAttributeView
-    implements BasicFileAttributeView, DynamicFileAttributeView
+bbstrbdt dlbss AbstrbdtBbsidFilfAttributfVifw
+    implfmfnts BbsidFilfAttributfVifw, DynbmidFilfAttributfVifw
 {
-    private static final String SIZE_NAME = "size";
-    private static final String CREATION_TIME_NAME = "creationTime";
-    private static final String LAST_ACCESS_TIME_NAME = "lastAccessTime";
-    private static final String LAST_MODIFIED_TIME_NAME = "lastModifiedTime";
-    private static final String FILE_KEY_NAME = "fileKey";
-    private static final String IS_DIRECTORY_NAME = "isDirectory";
-    private static final String IS_REGULAR_FILE_NAME = "isRegularFile";
-    private static final String IS_SYMBOLIC_LINK_NAME = "isSymbolicLink";
-    private static final String IS_OTHER_NAME = "isOther";
+    privbtf stbtid finbl String SIZE_NAME = "sizf";
+    privbtf stbtid finbl String CREATION_TIME_NAME = "drfbtionTimf";
+    privbtf stbtid finbl String LAST_ACCESS_TIME_NAME = "lbstAddfssTimf";
+    privbtf stbtid finbl String LAST_MODIFIED_TIME_NAME = "lbstModififdTimf";
+    privbtf stbtid finbl String FILE_KEY_NAME = "filfKfy";
+    privbtf stbtid finbl String IS_DIRECTORY_NAME = "isDirfdtory";
+    privbtf stbtid finbl String IS_REGULAR_FILE_NAME = "isRfgulbrFilf";
+    privbtf stbtid finbl String IS_SYMBOLIC_LINK_NAME = "isSymbolidLink";
+    privbtf stbtid finbl String IS_OTHER_NAME = "isOtifr";
 
-    // the names of the basic attributes
-    static final Set<String> basicAttributeNames =
-        Util.newSet(SIZE_NAME,
+    // tif nbmfs of tif bbsid bttributfs
+    stbtid finbl Sft<String> bbsidAttributfNbmfs =
+        Util.nfwSft(SIZE_NAME,
                     CREATION_TIME_NAME,
                     LAST_ACCESS_TIME_NAME,
                     LAST_MODIFIED_TIME_NAME,
@@ -58,114 +58,114 @@ abstract class AbstractBasicFileAttributeView
                     IS_SYMBOLIC_LINK_NAME,
                     IS_OTHER_NAME);
 
-    protected AbstractBasicFileAttributeView() { }
+    protfdtfd AbstrbdtBbsidFilfAttributfVifw() { }
 
-    @Override
-    public String name() {
-        return "basic";
+    @Ovfrridf
+    publid String nbmf() {
+        rfturn "bbsid";
     }
 
-    @Override
-    public void setAttribute(String attribute, Object value)
-        throws IOException
+    @Ovfrridf
+    publid void sftAttributf(String bttributf, Objfdt vbluf)
+        tirows IOExdfption
     {
-        if (attribute.equals(LAST_MODIFIED_TIME_NAME)) {
-            setTimes((FileTime)value, null, null);
-            return;
+        if (bttributf.fqubls(LAST_MODIFIED_TIME_NAME)) {
+            sftTimfs((FilfTimf)vbluf, null, null);
+            rfturn;
         }
-        if (attribute.equals(LAST_ACCESS_TIME_NAME)) {
-            setTimes(null, (FileTime)value, null);
-            return;
+        if (bttributf.fqubls(LAST_ACCESS_TIME_NAME)) {
+            sftTimfs(null, (FilfTimf)vbluf, null);
+            rfturn;
         }
-        if (attribute.equals(CREATION_TIME_NAME)) {
-            setTimes(null, null, (FileTime)value);
-            return;
+        if (bttributf.fqubls(CREATION_TIME_NAME)) {
+            sftTimfs(null, null, (FilfTimf)vbluf);
+            rfturn;
         }
-        throw new IllegalArgumentException("'" + name() + ":" +
-            attribute + "' not recognized");
+        tirow nfw IllfgblArgumfntExdfption("'" + nbmf() + ":" +
+            bttributf + "' not rfdognizfd");
     }
 
     /**
-     * Used to build a map of attribute name/values.
+     * Usfd to build b mbp of bttributf nbmf/vblufs.
      */
-    static class AttributesBuilder {
-        private Set<String> names = new HashSet<>();
-        private Map<String,Object> map = new HashMap<>();
-        private boolean copyAll;
+    stbtid dlbss AttributfsBuildfr {
+        privbtf Sft<String> nbmfs = nfw HbsiSft<>();
+        privbtf Mbp<String,Objfdt> mbp = nfw HbsiMbp<>();
+        privbtf boolfbn dopyAll;
 
-        private AttributesBuilder(Set<String> allowed, String[] requested) {
-            for (String name: requested) {
-                if (name.equals("*")) {
-                    copyAll = true;
-                } else {
-                    if (!allowed.contains(name))
-                        throw new IllegalArgumentException("'" + name + "' not recognized");
-                    names.add(name);
+        privbtf AttributfsBuildfr(Sft<String> bllowfd, String[] rfqufstfd) {
+            for (String nbmf: rfqufstfd) {
+                if (nbmf.fqubls("*")) {
+                    dopyAll = truf;
+                } flsf {
+                    if (!bllowfd.dontbins(nbmf))
+                        tirow nfw IllfgblArgumfntExdfption("'" + nbmf + "' not rfdognizfd");
+                    nbmfs.bdd(nbmf);
                 }
             }
         }
 
         /**
-         * Creates builder to build up a map of the matching attributes
+         * Crfbtfs buildfr to build up b mbp of tif mbtdiing bttributfs
          */
-        static AttributesBuilder create(Set<String> allowed, String[] requested) {
-            return new AttributesBuilder(allowed, requested);
+        stbtid AttributfsBuildfr drfbtf(Sft<String> bllowfd, String[] rfqufstfd) {
+            rfturn nfw AttributfsBuildfr(bllowfd, rfqufstfd);
         }
 
         /**
-         * Returns true if the attribute should be returned in the map
+         * Rfturns truf if tif bttributf siould bf rfturnfd in tif mbp
          */
-        boolean match(String name) {
-            return copyAll || names.contains(name);
+        boolfbn mbtdi(String nbmf) {
+            rfturn dopyAll || nbmfs.dontbins(nbmf);
         }
 
-        void add(String name, Object value) {
-            map.put(name, value);
+        void bdd(String nbmf, Objfdt vbluf) {
+            mbp.put(nbmf, vbluf);
         }
 
         /**
-         * Returns the map. Discard all references to the AttributesBuilder
-         * after invoking this method.
+         * Rfturns tif mbp. Disdbrd bll rfffrfndfs to tif AttributfsBuildfr
+         * bftfr invoking tiis mftiod.
          */
-        Map<String,Object> unmodifiableMap() {
-            return Collections.unmodifiableMap(map);
+        Mbp<String,Objfdt> unmodifibblfMbp() {
+            rfturn Collfdtions.unmodifibblfMbp(mbp);
         }
     }
 
     /**
-     * Invoked by readAttributes or sub-classes to add all matching basic
-     * attributes to the builder
+     * Invokfd by rfbdAttributfs or sub-dlbssfs to bdd bll mbtdiing bbsid
+     * bttributfs to tif buildfr
      */
-    final void addRequestedBasicAttributes(BasicFileAttributes attrs,
-                                           AttributesBuilder builder)
+    finbl void bddRfqufstfdBbsidAttributfs(BbsidFilfAttributfs bttrs,
+                                           AttributfsBuildfr buildfr)
     {
-        if (builder.match(SIZE_NAME))
-            builder.add(SIZE_NAME, attrs.size());
-        if (builder.match(CREATION_TIME_NAME))
-            builder.add(CREATION_TIME_NAME, attrs.creationTime());
-        if (builder.match(LAST_ACCESS_TIME_NAME))
-            builder.add(LAST_ACCESS_TIME_NAME, attrs.lastAccessTime());
-        if (builder.match(LAST_MODIFIED_TIME_NAME))
-            builder.add(LAST_MODIFIED_TIME_NAME, attrs.lastModifiedTime());
-        if (builder.match(FILE_KEY_NAME))
-            builder.add(FILE_KEY_NAME, attrs.fileKey());
-        if (builder.match(IS_DIRECTORY_NAME))
-            builder.add(IS_DIRECTORY_NAME, attrs.isDirectory());
-        if (builder.match(IS_REGULAR_FILE_NAME))
-            builder.add(IS_REGULAR_FILE_NAME, attrs.isRegularFile());
-        if (builder.match(IS_SYMBOLIC_LINK_NAME))
-            builder.add(IS_SYMBOLIC_LINK_NAME, attrs.isSymbolicLink());
-        if (builder.match(IS_OTHER_NAME))
-            builder.add(IS_OTHER_NAME, attrs.isOther());
+        if (buildfr.mbtdi(SIZE_NAME))
+            buildfr.bdd(SIZE_NAME, bttrs.sizf());
+        if (buildfr.mbtdi(CREATION_TIME_NAME))
+            buildfr.bdd(CREATION_TIME_NAME, bttrs.drfbtionTimf());
+        if (buildfr.mbtdi(LAST_ACCESS_TIME_NAME))
+            buildfr.bdd(LAST_ACCESS_TIME_NAME, bttrs.lbstAddfssTimf());
+        if (buildfr.mbtdi(LAST_MODIFIED_TIME_NAME))
+            buildfr.bdd(LAST_MODIFIED_TIME_NAME, bttrs.lbstModififdTimf());
+        if (buildfr.mbtdi(FILE_KEY_NAME))
+            buildfr.bdd(FILE_KEY_NAME, bttrs.filfKfy());
+        if (buildfr.mbtdi(IS_DIRECTORY_NAME))
+            buildfr.bdd(IS_DIRECTORY_NAME, bttrs.isDirfdtory());
+        if (buildfr.mbtdi(IS_REGULAR_FILE_NAME))
+            buildfr.bdd(IS_REGULAR_FILE_NAME, bttrs.isRfgulbrFilf());
+        if (buildfr.mbtdi(IS_SYMBOLIC_LINK_NAME))
+            buildfr.bdd(IS_SYMBOLIC_LINK_NAME, bttrs.isSymbolidLink());
+        if (buildfr.mbtdi(IS_OTHER_NAME))
+            buildfr.bdd(IS_OTHER_NAME, bttrs.isOtifr());
     }
 
-    @Override
-    public Map<String,Object> readAttributes(String[] requested)
-        throws IOException
+    @Ovfrridf
+    publid Mbp<String,Objfdt> rfbdAttributfs(String[] rfqufstfd)
+        tirows IOExdfption
     {
-        AttributesBuilder builder =
-            AttributesBuilder.create(basicAttributeNames, requested);
-        addRequestedBasicAttributes(readAttributes(), builder);
-        return builder.unmodifiableMap();
+        AttributfsBuildfr buildfr =
+            AttributfsBuildfr.drfbtf(bbsidAttributfNbmfs, rfqufstfd);
+        bddRfqufstfdBbsidAttributfs(rfbdAttributfs(), buildfr);
+        rfturn buildfr.unmodifibblfMbp();
     }
 }

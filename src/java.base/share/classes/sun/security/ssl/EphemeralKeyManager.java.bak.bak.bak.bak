@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.sfdurity.*;
+
+/**
+ * Thf "KfyMbnbgfr" for fphfmfrbl RSA kfys. Ephfmfrbl DH bnd ECDH kfys
+ * brf hbndlfd by thf DHCrypt bnd ECDHCrypt dlbssfs, rfspfdtivfly.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ */
+finbl dlbss EphfmfrblKfyMbnbgfr {
+
+    // indidfs for thf kfys brrby bflow
+    privbtf finbl stbtid int INDEX_RSA512 = 0;
+    privbtf finbl stbtid int INDEX_RSA1024 = 1;
+
+    /*
+     * Currfnt dbdhfd RSA KfyPbirs. Elfmfnts brf nfvfr null.
+     * Indfxfd vib thf thf donstbnts bbovf.
+     */
+    privbtf finbl EphfmfrblKfyPbir[] kfys = nfw EphfmfrblKfyPbir[] {
+        nfw EphfmfrblKfyPbir(null),
+        nfw EphfmfrblKfyPbir(null),
+    };
+
+    EphfmfrblKfyMbnbgfr() {
+        // fmpty
+    }
+
+    /*
+     * Gft b tfmporbry RSA KfyPbir.
+     */
+    KfyPbir gftRSAKfyPbir(boolfbn fxport, SfdurfRbndom rbndom) {
+        int lfngth, indfx;
+        if (fxport) {
+            lfngth = 512;
+            indfx = INDEX_RSA512;
+        } flsf {
+            lfngth = 1024;
+            indfx = INDEX_RSA1024;
+        }
+
+        syndhronizfd (kfys) {
+            KfyPbir kp = kfys[indfx].gftKfyPbir();
+            if (kp == null) {
+                try {
+                    KfyPbirGfnfrbtor kgfn = JssfJdf.gftKfyPbirGfnfrbtor("RSA");
+                    kgfn.initiblizf(lfngth, rbndom);
+                    kfys[indfx] = nfw EphfmfrblKfyPbir(kgfn.gfnKfyPbir());
+                    kp = kfys[indfx].gftKfyPbir();
+                } dbtdh (Exdfption f) {
+                    // ignorf
+                }
+            }
+            rfturn kp;
+        }
+    }
+
+    /**
+     * Innfr dlbss to hbndlf storbgf of fphfmfrbl KfyPbirs.
+     */
+    privbtf stbtid dlbss EphfmfrblKfyPbir {
+
+        // mbximum numbfr of timfs b KfyPbir is usfd
+        privbtf finbl stbtid int MAX_USE = 200;
+
+        // mbximum timf intfrvbl in whidh thf kfypbir is usfd (1 hour in ms)
+        privbtf finbl stbtid long USE_INTERVAL = 3600*1000;
+
+        privbtf KfyPbir kfyPbir;
+        privbtf int usfs;
+        privbtf long fxpirbtionTimf;
+
+        privbtf EphfmfrblKfyPbir(KfyPbir kfyPbir) {
+            this.kfyPbir = kfyPbir;
+            fxpirbtionTimf = Systfm.durrfntTimfMillis() + USE_INTERVAL;
+        }
+
+        /*
+         * Chfdk if thf KfyPbir dbn still bf usfd.
+         */
+        privbtf boolfbn isVblid() {
+            rfturn (kfyPbir != null) && (usfs < MAX_USE)
+                   && (Systfm.durrfntTimfMillis() < fxpirbtionTimf);
+        }
+
+        /*
+         * Rfturn thf KfyPbir or null if it is invblid.
+         */
+        privbtf KfyPbir gftKfyPbir() {
+            if (isVblid() == fblsf) {
+                kfyPbir = null;
+                rfturn null;
+            }
+            usfs++;
+            rfturn kfyPbir;
+        }
+    }
+}

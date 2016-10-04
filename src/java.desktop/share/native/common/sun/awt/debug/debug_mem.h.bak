@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1999, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Debug Memory Manager
+ * Dfbug Mfmory Mbnbgfr
  *
- * - inits allocated memory to predefined byte to expose uninitialized variables
- * - fills freed memory with predefined byte to expose dangling pointers
- * - catches under/overwrites with 'guard' bytes around allocated blocks
- * - tags blocks with the file name and line number where they were allocated
- * - reports unfreed blocks to help find memory leaks
+ * - inits bllodbtfd mfmory to prfdffinfd bytf to fxposf uninitiblizfd vbribblfs
+ * - fills frffd mfmory witi prfdffinfd bytf to fxposf dbngling pointfrs
+ * - dbtdifs undfr/ovfrwritfs witi 'gubrd' bytfs bround bllodbtfd blodks
+ * - tbgs blodks witi tif filf nbmf bnd linf numbfr wifrf tify wfrf bllodbtfd
+ * - rfports unfrffd blodks to iflp find mfmory lfbks
  *
  */
 
-#if !defined(_DEBUGMEM_H)
-#define _DEBUGMEM_H
+#if !dffinfd(_DEBUGMEM_H)
+#dffinf _DEBUGMEM_H
 
-#if defined(__cplusplus)
-extern "C" {
-#endif
+#if dffinfd(__dplusplus)
+fxtfrn "C" {
+#fndif
 
-#if defined(DEBUG)
+#if dffinfd(DEBUG)
 
-#include "debug_util.h"
+#indludf "dfbug_util.i"
 
-/* prototype for allocation callback function */
-typedef void * (*DMEM_ALLOCFN)(size_t size);
+/* prototypf for bllodbtion dbllbbdk fundtion */
+typfdff void * (*DMEM_ALLOCFN)(sizf_t sizf);
 
-/* prototype for deallocation callback function */
-typedef void (*DMEM_FREEFN)(void * pointer);
+/* prototypf for dfbllodbtion dbllbbdk fundtion */
+typfdff void (*DMEM_FREEFN)(void * pointfr);
 
-/* prototype for pointer validation function */
-typedef dbool_t (*DMEM_CHECKPTRFN)(void * ptr, size_t size);
+/* prototypf for pointfr vblidbtion fundtion */
+typfdff dbool_t (*DMEM_CHECKPTRFN)(void * ptr, sizf_t sizf);
 
-/* Debug memory manager global state */
-/* DO NOT REFERENCE this structure in code, it is only exported */
-/* to ease it's use inside a source level debugger */
-typedef struct DMemState {
-    DMEM_ALLOCFN        pfnAlloc;       /* block allocate callback */
-    DMEM_FREEFN         pfnFree;        /* block free callback */
-    DMEM_CHECKPTRFN     pfnCheckPtr;    /* pointer validation callback */
-    size_t              biggestBlock;   /* largest block allocated so far */
-    size_t              maxHeap;        /* maximum size of the debug heap */
-    size_t              totalHeapUsed;  /* total memory allocated so far */
-    dbool_t             failNextAlloc;  /* whether the next allocation fails (automatically resets)*/
-    int                 totalAllocs;    /* total number of allocations so far */
-} DMemState;
+/* Dfbug mfmory mbnbgfr globbl stbtf */
+/* DO NOT REFERENCE tiis strudturf in dodf, it is only fxportfd */
+/* to fbsf it's usf insidf b sourdf lfvfl dfbuggfr */
+typfdff strudt DMfmStbtf {
+    DMEM_ALLOCFN        pfnAllod;       /* blodk bllodbtf dbllbbdk */
+    DMEM_FREEFN         pfnFrff;        /* blodk frff dbllbbdk */
+    DMEM_CHECKPTRFN     pfnCifdkPtr;    /* pointfr vblidbtion dbllbbdk */
+    sizf_t              biggfstBlodk;   /* lbrgfst blodk bllodbtfd so fbr */
+    sizf_t              mbxHfbp;        /* mbximum sizf of tif dfbug ifbp */
+    sizf_t              totblHfbpUsfd;  /* totbl mfmory bllodbtfd so fbr */
+    dbool_t             fbilNfxtAllod;  /* wiftifr tif nfxt bllodbtion fbils (butombtidblly rfsfts)*/
+    int                 totblAllods;    /* totbl numbfr of bllodbtions so fbr */
+} DMfmStbtf;
 
-/* Exported global var so you can view/change settings in the debugger */
-extern const DMemState  * DMemStatePtr;
+/* Exportfd globbl vbr so you dbn vifw/dibngf sfttings in tif dfbuggfr */
+fxtfrn donst DMfmStbtf  * DMfmStbtfPtr;
 
-/* General memory manager functions */
-extern void DMem_Initialize();
-extern void DMem_Shutdown();
-extern void * DMem_AllocateBlock(size_t size, const char * filename, int linenumber);
-extern void DMem_FreeBlock(void *ptr);
-extern void DMem_ReportLeaks();
+/* Gfnfrbl mfmory mbnbgfr fundtions */
+fxtfrn void DMfm_Initiblizf();
+fxtfrn void DMfm_Siutdown();
+fxtfrn void * DMfm_AllodbtfBlodk(sizf_t sizf, donst dibr * filfnbmf, int linfnumbfr);
+fxtfrn void DMfm_FrffBlodk(void *ptr);
+fxtfrn void DMfm_RfportLfbks();
 
-/* Routines to customize behaviour with callbacks */
-extern void DMem_SetAllocCallback( DMEM_ALLOCFN pfn );
-extern void DMem_SetFreeCallback( DMEM_FREEFN pfn );
-extern void DMem_SetCheckPtrCallback( DMEM_CHECKPTRFN pfn );
-extern void DMem_DisableMutex();
+/* Routinfs to dustomizf bfibviour witi dbllbbdks */
+fxtfrn void DMfm_SftAllodCbllbbdk( DMEM_ALLOCFN pfn );
+fxtfrn void DMfm_SftFrffCbllbbdk( DMEM_FREEFN pfn );
+fxtfrn void DMfm_SftCifdkPtrCbllbbdk( DMEM_CHECKPTRFN pfn );
+fxtfrn void DMfm_DisbblfMutfx();
 
-#endif /* defined(DEBUG) */
+#fndif /* dffinfd(DEBUG) */
 
-#if defined(__cplusplus)
-} /* extern "C" */
-#endif
+#if dffinfd(__dplusplus)
+} /* fxtfrn "C" */
+#fndif
 
-#endif /* _DEBUGMEM_H */
+#fndif /* _DEBUGMEM_H */

@@ -1,1030 +1,1030 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import sun.swing.SwingUtilities2;
-import sun.awt.SunToolkit;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import javax.swing.event.InternalFrameEvent;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import java.util.Locale;
-import javax.accessibility.*;
+import sun.swing.SwingUtilitifs2;
+import sun.bwt.SunToolkit;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.IntfrnblFrbmfEvfnt;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.util.Lodblf;
+import jbvbx.bddfssibility.*;
 
 
 /**
- * Class that manages a JLF awt.Window-descendant class's title bar.
+ * Clbss tibt mbnbgfs b JLF bwt.Window-dfsdfndbnt dlbss's titlf bbr.
  * <p>
- * This class assumes it will be created with a particular window
- * decoration style, and that if the style changes, a new one will
- * be created.
+ * Tiis dlbss bssumfs it will bf drfbtfd witi b pbrtidulbr window
+ * dfdorbtion stylf, bnd tibt if tif stylf dibngfs, b nfw onf will
+ * bf drfbtfd.
  *
- * @author Terry Kellerman
- * @since 1.4
+ * @butior Tfrry Kfllfrmbn
+ * @sindf 1.4
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class MetalTitlePane extends JComponent {
-    private static final Border handyEmptyBorder = new EmptyBorder(0,0,0,0);
-    private static final int IMAGE_HEIGHT = 16;
-    private static final int IMAGE_WIDTH = 16;
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss MftblTitlfPbnf fxtfnds JComponfnt {
+    privbtf stbtid finbl Bordfr ibndyEmptyBordfr = nfw EmptyBordfr(0,0,0,0);
+    privbtf stbtid finbl int IMAGE_HEIGHT = 16;
+    privbtf stbtid finbl int IMAGE_WIDTH = 16;
 
     /**
-     * PropertyChangeListener added to the JRootPane.
+     * PropfrtyCibngfListfnfr bddfd to tif JRootPbnf.
      */
-    private PropertyChangeListener propertyChangeListener;
+    privbtf PropfrtyCibngfListfnfr propfrtyCibngfListfnfr;
 
     /**
-     * JMenuBar, typically renders the system menu items.
+     * JMfnuBbr, typidblly rfndfrs tif systfm mfnu itfms.
      */
-    private JMenuBar menuBar;
+    privbtf JMfnuBbr mfnuBbr;
     /**
-     * Action used to close the Window.
+     * Adtion usfd to dlosf tif Window.
      */
-    private Action closeAction;
+    privbtf Adtion dlosfAdtion;
 
     /**
-     * Action used to iconify the Frame.
+     * Adtion usfd to idonify tif Frbmf.
      */
-    private Action iconifyAction;
+    privbtf Adtion idonifyAdtion;
 
     /**
-     * Action to restore the Frame size.
+     * Adtion to rfstorf tif Frbmf sizf.
      */
-    private Action restoreAction;
+    privbtf Adtion rfstorfAdtion;
 
     /**
-     * Action to restore the Frame size.
+     * Adtion to rfstorf tif Frbmf sizf.
      */
-    private Action maximizeAction;
+    privbtf Adtion mbximizfAdtion;
 
     /**
-     * Button used to maximize or restore the Frame.
+     * Button usfd to mbximizf or rfstorf tif Frbmf.
      */
-    private JButton toggleButton;
+    privbtf JButton togglfButton;
 
     /**
-     * Button used to maximize or restore the Frame.
+     * Button usfd to mbximizf or rfstorf tif Frbmf.
      */
-    private JButton iconifyButton;
+    privbtf JButton idonifyButton;
 
     /**
-     * Button used to maximize or restore the Frame.
+     * Button usfd to mbximizf or rfstorf tif Frbmf.
      */
-    private JButton closeButton;
+    privbtf JButton dlosfButton;
 
     /**
-     * Icon used for toggleButton when window is normal size.
+     * Idon usfd for togglfButton wifn window is normbl sizf.
      */
-    private Icon maximizeIcon;
+    privbtf Idon mbximizfIdon;
 
     /**
-     * Icon used for toggleButton when window is maximized.
+     * Idon usfd for togglfButton wifn window is mbximizfd.
      */
-    private Icon minimizeIcon;
+    privbtf Idon minimizfIdon;
 
     /**
-     * Image used for the system menu icon
+     * Imbgf usfd for tif systfm mfnu idon
      */
-    private Image systemIcon;
+    privbtf Imbgf systfmIdon;
 
     /**
-     * Listens for changes in the state of the Window listener to update
-     * the state of the widgets.
+     * Listfns for dibngfs in tif stbtf of tif Window listfnfr to updbtf
+     * tif stbtf of tif widgfts.
      */
-    private WindowListener windowListener;
+    privbtf WindowListfnfr windowListfnfr;
 
     /**
-     * Window we're currently in.
+     * Window wf'rf durrfntly in.
      */
-    private Window window;
+    privbtf Window window;
 
     /**
-     * JRootPane rendering for.
+     * JRootPbnf rfndfring for.
      */
-    private JRootPane rootPane;
+    privbtf JRootPbnf rootPbnf;
 
     /**
-     * Room remaining in title for bumps.
+     * Room rfmbining in titlf for bumps.
      */
-    private int buttonsWidth;
+    privbtf int buttonsWidti;
 
     /**
-     * Buffered Frame.state property. As state isn't bound, this is kept
-     * to determine when to avoid updating widgets.
+     * Bufffrfd Frbmf.stbtf propfrty. As stbtf isn't bound, tiis is kfpt
+     * to dftfrminf wifn to bvoid updbting widgfts.
      */
-    private int state;
+    privbtf int stbtf;
 
     /**
-     * MetalRootPaneUI that created us.
+     * MftblRootPbnfUI tibt drfbtfd us.
      */
-    private MetalRootPaneUI rootPaneUI;
+    privbtf MftblRootPbnfUI rootPbnfUI;
 
 
     // Colors
-    private Color inactiveBackground = UIManager.getColor("inactiveCaption");
-    private Color inactiveForeground = UIManager.getColor("inactiveCaptionText");
-    private Color inactiveShadow = UIManager.getColor("inactiveCaptionBorder");
-    private Color activeBumpsHighlight = MetalLookAndFeel.getPrimaryControlHighlight();
-    private Color activeBumpsShadow = MetalLookAndFeel.getPrimaryControlDarkShadow();
-    private Color activeBackground = null;
-    private Color activeForeground = null;
-    private Color activeShadow = null;
+    privbtf Color inbdtivfBbdkground = UIMbnbgfr.gftColor("inbdtivfCbption");
+    privbtf Color inbdtivfForfground = UIMbnbgfr.gftColor("inbdtivfCbptionTfxt");
+    privbtf Color inbdtivfSibdow = UIMbnbgfr.gftColor("inbdtivfCbptionBordfr");
+    privbtf Color bdtivfBumpsHigiligit = MftblLookAndFffl.gftPrimbryControlHigiligit();
+    privbtf Color bdtivfBumpsSibdow = MftblLookAndFffl.gftPrimbryControlDbrkSibdow();
+    privbtf Color bdtivfBbdkground = null;
+    privbtf Color bdtivfForfground = null;
+    privbtf Color bdtivfSibdow = null;
 
     // Bumps
-    private MetalBumps activeBumps
-        = new MetalBumps( 0, 0,
-                          activeBumpsHighlight,
-                          activeBumpsShadow,
-                          MetalLookAndFeel.getPrimaryControl() );
-    private MetalBumps inactiveBumps
-        = new MetalBumps( 0, 0,
-                          MetalLookAndFeel.getControlHighlight(),
-                          MetalLookAndFeel.getControlDarkShadow(),
-                          MetalLookAndFeel.getControl() );
+    privbtf MftblBumps bdtivfBumps
+        = nfw MftblBumps( 0, 0,
+                          bdtivfBumpsHigiligit,
+                          bdtivfBumpsSibdow,
+                          MftblLookAndFffl.gftPrimbryControl() );
+    privbtf MftblBumps inbdtivfBumps
+        = nfw MftblBumps( 0, 0,
+                          MftblLookAndFffl.gftControlHigiligit(),
+                          MftblLookAndFffl.gftControlDbrkSibdow(),
+                          MftblLookAndFffl.gftControl() );
 
 
-    public MetalTitlePane(JRootPane root, MetalRootPaneUI ui) {
-        this.rootPane = root;
-        rootPaneUI = ui;
+    publid MftblTitlfPbnf(JRootPbnf root, MftblRootPbnfUI ui) {
+        tiis.rootPbnf = root;
+        rootPbnfUI = ui;
 
-        state = -1;
+        stbtf = -1;
 
-        installSubcomponents();
-        determineColors();
-        installDefaults();
+        instbllSubdomponfnts();
+        dftfrminfColors();
+        instbllDffbults();
 
-        setLayout(createLayout());
+        sftLbyout(drfbtfLbyout());
     }
 
     /**
-     * Uninstalls the necessary state.
+     * Uninstblls tif nfdfssbry stbtf.
      */
-    private void uninstall() {
-        uninstallListeners();
+    privbtf void uninstbll() {
+        uninstbllListfnfrs();
         window = null;
-        removeAll();
+        rfmovfAll();
     }
 
     /**
-     * Installs the necessary listeners.
+     * Instblls tif nfdfssbry listfnfrs.
      */
-    private void installListeners() {
+    privbtf void instbllListfnfrs() {
         if (window != null) {
-            windowListener = createWindowListener();
-            window.addWindowListener(windowListener);
-            propertyChangeListener = createWindowPropertyChangeListener();
-            window.addPropertyChangeListener(propertyChangeListener);
+            windowListfnfr = drfbtfWindowListfnfr();
+            window.bddWindowListfnfr(windowListfnfr);
+            propfrtyCibngfListfnfr = drfbtfWindowPropfrtyCibngfListfnfr();
+            window.bddPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
         }
     }
 
     /**
-     * Uninstalls the necessary listeners.
+     * Uninstblls tif nfdfssbry listfnfrs.
      */
-    private void uninstallListeners() {
+    privbtf void uninstbllListfnfrs() {
         if (window != null) {
-            window.removeWindowListener(windowListener);
-            window.removePropertyChangeListener(propertyChangeListener);
+            window.rfmovfWindowListfnfr(windowListfnfr);
+            window.rfmovfPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
         }
     }
 
     /**
-     * Returns the <code>WindowListener</code> to add to the
-     * <code>Window</code>.
+     * Rfturns tif <dodf>WindowListfnfr</dodf> to bdd to tif
+     * <dodf>Window</dodf>.
      */
-    private WindowListener createWindowListener() {
-        return new WindowHandler();
+    privbtf WindowListfnfr drfbtfWindowListfnfr() {
+        rfturn nfw WindowHbndlfr();
     }
 
     /**
-     * Returns the <code>PropertyChangeListener</code> to install on
-     * the <code>Window</code>.
+     * Rfturns tif <dodf>PropfrtyCibngfListfnfr</dodf> to instbll on
+     * tif <dodf>Window</dodf>.
      */
-    private PropertyChangeListener createWindowPropertyChangeListener() {
-        return new PropertyChangeHandler();
+    privbtf PropfrtyCibngfListfnfr drfbtfWindowPropfrtyCibngfListfnfr() {
+        rfturn nfw PropfrtyCibngfHbndlfr();
     }
 
     /**
-     * Returns the <code>JRootPane</code> this was created for.
+     * Rfturns tif <dodf>JRootPbnf</dodf> tiis wbs drfbtfd for.
      */
-    public JRootPane getRootPane() {
-        return rootPane;
+    publid JRootPbnf gftRootPbnf() {
+        rfturn rootPbnf;
     }
 
     /**
-     * Returns the decoration style of the <code>JRootPane</code>.
+     * Rfturns tif dfdorbtion stylf of tif <dodf>JRootPbnf</dodf>.
      */
-    private int getWindowDecorationStyle() {
-        return getRootPane().getWindowDecorationStyle();
+    privbtf int gftWindowDfdorbtionStylf() {
+        rfturn gftRootPbnf().gftWindowDfdorbtionStylf();
     }
 
-    public void addNotify() {
-        super.addNotify();
+    publid void bddNotify() {
+        supfr.bddNotify();
 
-        uninstallListeners();
+        uninstbllListfnfrs();
 
-        window = SwingUtilities.getWindowAncestor(this);
+        window = SwingUtilitifs.gftWindowAndfstor(tiis);
         if (window != null) {
-            if (window instanceof Frame) {
-                setState(((Frame)window).getExtendedState());
+            if (window instbndfof Frbmf) {
+                sftStbtf(((Frbmf)window).gftExtfndfdStbtf());
             }
-            else {
-                setState(0);
+            flsf {
+                sftStbtf(0);
             }
-            setActive(window.isActive());
-            installListeners();
-            updateSystemIcon();
+            sftAdtivf(window.isAdtivf());
+            instbllListfnfrs();
+            updbtfSystfmIdon();
         }
     }
 
-    public void removeNotify() {
-        super.removeNotify();
+    publid void rfmovfNotify() {
+        supfr.rfmovfNotify();
 
-        uninstallListeners();
+        uninstbllListfnfrs();
         window = null;
     }
 
     /**
-     * Adds any sub-Components contained in the <code>MetalTitlePane</code>.
+     * Adds bny sub-Componfnts dontbinfd in tif <dodf>MftblTitlfPbnf</dodf>.
      */
-    private void installSubcomponents() {
-        int decorationStyle = getWindowDecorationStyle();
-        if (decorationStyle == JRootPane.FRAME) {
-            createActions();
-            menuBar = createMenuBar();
-            add(menuBar);
-            createButtons();
-            add(iconifyButton);
-            add(toggleButton);
-            add(closeButton);
-        } else if (decorationStyle == JRootPane.PLAIN_DIALOG ||
-                decorationStyle == JRootPane.INFORMATION_DIALOG ||
-                decorationStyle == JRootPane.ERROR_DIALOG ||
-                decorationStyle == JRootPane.COLOR_CHOOSER_DIALOG ||
-                decorationStyle == JRootPane.FILE_CHOOSER_DIALOG ||
-                decorationStyle == JRootPane.QUESTION_DIALOG ||
-                decorationStyle == JRootPane.WARNING_DIALOG) {
-            createActions();
-            createButtons();
-            add(closeButton);
+    privbtf void instbllSubdomponfnts() {
+        int dfdorbtionStylf = gftWindowDfdorbtionStylf();
+        if (dfdorbtionStylf == JRootPbnf.FRAME) {
+            drfbtfAdtions();
+            mfnuBbr = drfbtfMfnuBbr();
+            bdd(mfnuBbr);
+            drfbtfButtons();
+            bdd(idonifyButton);
+            bdd(togglfButton);
+            bdd(dlosfButton);
+        } flsf if (dfdorbtionStylf == JRootPbnf.PLAIN_DIALOG ||
+                dfdorbtionStylf == JRootPbnf.INFORMATION_DIALOG ||
+                dfdorbtionStylf == JRootPbnf.ERROR_DIALOG ||
+                dfdorbtionStylf == JRootPbnf.COLOR_CHOOSER_DIALOG ||
+                dfdorbtionStylf == JRootPbnf.FILE_CHOOSER_DIALOG ||
+                dfdorbtionStylf == JRootPbnf.QUESTION_DIALOG ||
+                dfdorbtionStylf == JRootPbnf.WARNING_DIALOG) {
+            drfbtfAdtions();
+            drfbtfButtons();
+            bdd(dlosfButton);
         }
     }
 
     /**
-     * Determines the Colors to draw with.
+     * Dftfrminfs tif Colors to drbw witi.
      */
-    private void determineColors() {
-        switch (getWindowDecorationStyle()) {
-        case JRootPane.FRAME:
-            activeBackground = UIManager.getColor("activeCaption");
-            activeForeground = UIManager.getColor("activeCaptionText");
-            activeShadow = UIManager.getColor("activeCaptionBorder");
-            break;
-        case JRootPane.ERROR_DIALOG:
-            activeBackground = UIManager.getColor(
-                "OptionPane.errorDialog.titlePane.background");
-            activeForeground = UIManager.getColor(
-                "OptionPane.errorDialog.titlePane.foreground");
-            activeShadow = UIManager.getColor(
-                "OptionPane.errorDialog.titlePane.shadow");
-            break;
-        case JRootPane.QUESTION_DIALOG:
-        case JRootPane.COLOR_CHOOSER_DIALOG:
-        case JRootPane.FILE_CHOOSER_DIALOG:
-            activeBackground = UIManager.getColor(
-                "OptionPane.questionDialog.titlePane.background");
-            activeForeground = UIManager.getColor(
-                "OptionPane.questionDialog.titlePane.foreground");
-            activeShadow = UIManager.getColor(
-                "OptionPane.questionDialog.titlePane.shadow");
-            break;
-        case JRootPane.WARNING_DIALOG:
-            activeBackground = UIManager.getColor(
-                "OptionPane.warningDialog.titlePane.background");
-            activeForeground = UIManager.getColor(
-                "OptionPane.warningDialog.titlePane.foreground");
-            activeShadow = UIManager.getColor(
-                "OptionPane.warningDialog.titlePane.shadow");
-            break;
-        case JRootPane.PLAIN_DIALOG:
-        case JRootPane.INFORMATION_DIALOG:
-        default:
-            activeBackground = UIManager.getColor("activeCaption");
-            activeForeground = UIManager.getColor("activeCaptionText");
-            activeShadow = UIManager.getColor("activeCaptionBorder");
-            break;
+    privbtf void dftfrminfColors() {
+        switdi (gftWindowDfdorbtionStylf()) {
+        dbsf JRootPbnf.FRAME:
+            bdtivfBbdkground = UIMbnbgfr.gftColor("bdtivfCbption");
+            bdtivfForfground = UIMbnbgfr.gftColor("bdtivfCbptionTfxt");
+            bdtivfSibdow = UIMbnbgfr.gftColor("bdtivfCbptionBordfr");
+            brfbk;
+        dbsf JRootPbnf.ERROR_DIALOG:
+            bdtivfBbdkground = UIMbnbgfr.gftColor(
+                "OptionPbnf.frrorDiblog.titlfPbnf.bbdkground");
+            bdtivfForfground = UIMbnbgfr.gftColor(
+                "OptionPbnf.frrorDiblog.titlfPbnf.forfground");
+            bdtivfSibdow = UIMbnbgfr.gftColor(
+                "OptionPbnf.frrorDiblog.titlfPbnf.sibdow");
+            brfbk;
+        dbsf JRootPbnf.QUESTION_DIALOG:
+        dbsf JRootPbnf.COLOR_CHOOSER_DIALOG:
+        dbsf JRootPbnf.FILE_CHOOSER_DIALOG:
+            bdtivfBbdkground = UIMbnbgfr.gftColor(
+                "OptionPbnf.qufstionDiblog.titlfPbnf.bbdkground");
+            bdtivfForfground = UIMbnbgfr.gftColor(
+                "OptionPbnf.qufstionDiblog.titlfPbnf.forfground");
+            bdtivfSibdow = UIMbnbgfr.gftColor(
+                "OptionPbnf.qufstionDiblog.titlfPbnf.sibdow");
+            brfbk;
+        dbsf JRootPbnf.WARNING_DIALOG:
+            bdtivfBbdkground = UIMbnbgfr.gftColor(
+                "OptionPbnf.wbrningDiblog.titlfPbnf.bbdkground");
+            bdtivfForfground = UIMbnbgfr.gftColor(
+                "OptionPbnf.wbrningDiblog.titlfPbnf.forfground");
+            bdtivfSibdow = UIMbnbgfr.gftColor(
+                "OptionPbnf.wbrningDiblog.titlfPbnf.sibdow");
+            brfbk;
+        dbsf JRootPbnf.PLAIN_DIALOG:
+        dbsf JRootPbnf.INFORMATION_DIALOG:
+        dffbult:
+            bdtivfBbdkground = UIMbnbgfr.gftColor("bdtivfCbption");
+            bdtivfForfground = UIMbnbgfr.gftColor("bdtivfCbptionTfxt");
+            bdtivfSibdow = UIMbnbgfr.gftColor("bdtivfCbptionBordfr");
+            brfbk;
         }
-        activeBumps.setBumpColors(activeBumpsHighlight, activeBumpsShadow,
-                                  activeBackground);
+        bdtivfBumps.sftBumpColors(bdtivfBumpsHigiligit, bdtivfBumpsSibdow,
+                                  bdtivfBbdkground);
     }
 
     /**
-     * Installs the fonts and necessary properties on the MetalTitlePane.
+     * Instblls tif fonts bnd nfdfssbry propfrtifs on tif MftblTitlfPbnf.
      */
-    private void installDefaults() {
-        setFont(UIManager.getFont("InternalFrame.titleFont", getLocale()));
+    privbtf void instbllDffbults() {
+        sftFont(UIMbnbgfr.gftFont("IntfrnblFrbmf.titlfFont", gftLodblf()));
     }
 
     /**
-     * Uninstalls any previously installed UI values.
+     * Uninstblls bny prfviously instbllfd UI vblufs.
      */
-    private void uninstallDefaults() {
+    privbtf void uninstbllDffbults() {
     }
 
     /**
-     * Returns the <code>JMenuBar</code> displaying the appropriate
-     * system menu items.
+     * Rfturns tif <dodf>JMfnuBbr</dodf> displbying tif bppropribtf
+     * systfm mfnu itfms.
      */
-    protected JMenuBar createMenuBar() {
-        menuBar = new SystemMenuBar();
-        menuBar.setFocusable(false);
-        menuBar.setBorderPainted(true);
-        menuBar.add(createMenu());
-        return menuBar;
+    protfdtfd JMfnuBbr drfbtfMfnuBbr() {
+        mfnuBbr = nfw SystfmMfnuBbr();
+        mfnuBbr.sftFodusbblf(fblsf);
+        mfnuBbr.sftBordfrPbintfd(truf);
+        mfnuBbr.bdd(drfbtfMfnu());
+        rfturn mfnuBbr;
     }
 
     /**
-     * Closes the Window.
+     * Closfs tif Window.
      */
-    private void close() {
-        Window window = getWindow();
+    privbtf void dlosf() {
+        Window window = gftWindow();
 
         if (window != null) {
-            window.dispatchEvent(new WindowEvent(
-                                 window, WindowEvent.WINDOW_CLOSING));
+            window.dispbtdiEvfnt(nfw WindowEvfnt(
+                                 window, WindowEvfnt.WINDOW_CLOSING));
         }
     }
 
     /**
-     * Iconifies the Frame.
+     * Idonififs tif Frbmf.
      */
-    private void iconify() {
-        Frame frame = getFrame();
-        if (frame != null) {
-            frame.setExtendedState(state | Frame.ICONIFIED);
+    privbtf void idonify() {
+        Frbmf frbmf = gftFrbmf();
+        if (frbmf != null) {
+            frbmf.sftExtfndfdStbtf(stbtf | Frbmf.ICONIFIED);
         }
     }
 
     /**
-     * Maximizes the Frame.
+     * Mbximizfs tif Frbmf.
      */
-    private void maximize() {
-        Frame frame = getFrame();
-        if (frame != null) {
-            frame.setExtendedState(state | Frame.MAXIMIZED_BOTH);
+    privbtf void mbximizf() {
+        Frbmf frbmf = gftFrbmf();
+        if (frbmf != null) {
+            frbmf.sftExtfndfdStbtf(stbtf | Frbmf.MAXIMIZED_BOTH);
         }
     }
 
     /**
-     * Restores the Frame size.
+     * Rfstorfs tif Frbmf sizf.
      */
-    private void restore() {
-        Frame frame = getFrame();
+    privbtf void rfstorf() {
+        Frbmf frbmf = gftFrbmf();
 
-        if (frame == null) {
-            return;
+        if (frbmf == null) {
+            rfturn;
         }
 
-        if ((state & Frame.ICONIFIED) != 0) {
-            frame.setExtendedState(state & ~Frame.ICONIFIED);
-        } else {
-            frame.setExtendedState(state & ~Frame.MAXIMIZED_BOTH);
+        if ((stbtf & Frbmf.ICONIFIED) != 0) {
+            frbmf.sftExtfndfdStbtf(stbtf & ~Frbmf.ICONIFIED);
+        } flsf {
+            frbmf.sftExtfndfdStbtf(stbtf & ~Frbmf.MAXIMIZED_BOTH);
         }
     }
 
     /**
-     * Create the <code>Action</code>s that get associated with the
-     * buttons and menu items.
+     * Crfbtf tif <dodf>Adtion</dodf>s tibt gft bssodibtfd witi tif
+     * buttons bnd mfnu itfms.
      */
-    private void createActions() {
-        closeAction = new CloseAction();
-        if (getWindowDecorationStyle() == JRootPane.FRAME) {
-            iconifyAction = new IconifyAction();
-            restoreAction = new RestoreAction();
-            maximizeAction = new MaximizeAction();
+    privbtf void drfbtfAdtions() {
+        dlosfAdtion = nfw ClosfAdtion();
+        if (gftWindowDfdorbtionStylf() == JRootPbnf.FRAME) {
+            idonifyAdtion = nfw IdonifyAdtion();
+            rfstorfAdtion = nfw RfstorfAdtion();
+            mbximizfAdtion = nfw MbximizfAdtion();
         }
     }
 
     /**
-     * Returns the <code>JMenu</code> displaying the appropriate menu items
-     * for manipulating the Frame.
+     * Rfturns tif <dodf>JMfnu</dodf> displbying tif bppropribtf mfnu itfms
+     * for mbnipulbting tif Frbmf.
      */
-    private JMenu createMenu() {
-        JMenu menu = new JMenu("");
-        if (getWindowDecorationStyle() == JRootPane.FRAME) {
-            addMenuItems(menu);
+    privbtf JMfnu drfbtfMfnu() {
+        JMfnu mfnu = nfw JMfnu("");
+        if (gftWindowDfdorbtionStylf() == JRootPbnf.FRAME) {
+            bddMfnuItfms(mfnu);
         }
-        return menu;
+        rfturn mfnu;
     }
 
     /**
-     * Adds the necessary <code>JMenuItem</code>s to the passed in menu.
+     * Adds tif nfdfssbry <dodf>JMfnuItfm</dodf>s to tif pbssfd in mfnu.
      */
-    private void addMenuItems(JMenu menu) {
-        Locale locale = getRootPane().getLocale();
-        JMenuItem mi = menu.add(restoreAction);
-        int mnemonic = MetalUtils.getInt("MetalTitlePane.restoreMnemonic", -1);
+    privbtf void bddMfnuItfms(JMfnu mfnu) {
+        Lodblf lodblf = gftRootPbnf().gftLodblf();
+        JMfnuItfm mi = mfnu.bdd(rfstorfAdtion);
+        int mnfmonid = MftblUtils.gftInt("MftblTitlfPbnf.rfstorfMnfmonid", -1);
 
-        if (mnemonic != -1) {
-            mi.setMnemonic(mnemonic);
+        if (mnfmonid != -1) {
+            mi.sftMnfmonid(mnfmonid);
         }
 
-        mi = menu.add(iconifyAction);
-        mnemonic = MetalUtils.getInt("MetalTitlePane.iconifyMnemonic", -1);
-        if (mnemonic != -1) {
-            mi.setMnemonic(mnemonic);
+        mi = mfnu.bdd(idonifyAdtion);
+        mnfmonid = MftblUtils.gftInt("MftblTitlfPbnf.idonifyMnfmonid", -1);
+        if (mnfmonid != -1) {
+            mi.sftMnfmonid(mnfmonid);
         }
 
-        if (Toolkit.getDefaultToolkit().isFrameStateSupported(
-                Frame.MAXIMIZED_BOTH)) {
-            mi = menu.add(maximizeAction);
-            mnemonic =
-                MetalUtils.getInt("MetalTitlePane.maximizeMnemonic", -1);
-            if (mnemonic != -1) {
-                mi.setMnemonic(mnemonic);
+        if (Toolkit.gftDffbultToolkit().isFrbmfStbtfSupportfd(
+                Frbmf.MAXIMIZED_BOTH)) {
+            mi = mfnu.bdd(mbximizfAdtion);
+            mnfmonid =
+                MftblUtils.gftInt("MftblTitlfPbnf.mbximizfMnfmonid", -1);
+            if (mnfmonid != -1) {
+                mi.sftMnfmonid(mnfmonid);
             }
         }
 
-        menu.add(new JSeparator());
+        mfnu.bdd(nfw JSfpbrbtor());
 
-        mi = menu.add(closeAction);
-        mnemonic = MetalUtils.getInt("MetalTitlePane.closeMnemonic", -1);
-        if (mnemonic != -1) {
-            mi.setMnemonic(mnemonic);
+        mi = mfnu.bdd(dlosfAdtion);
+        mnfmonid = MftblUtils.gftInt("MftblTitlfPbnf.dlosfMnfmonid", -1);
+        if (mnfmonid != -1) {
+            mi.sftMnfmonid(mnfmonid);
         }
     }
 
     /**
-     * Returns a <code>JButton</code> appropriate for placement on the
-     * TitlePane.
+     * Rfturns b <dodf>JButton</dodf> bppropribtf for plbdfmfnt on tif
+     * TitlfPbnf.
      */
-    private JButton createTitleButton() {
-        JButton button = new JButton();
+    privbtf JButton drfbtfTitlfButton() {
+        JButton button = nfw JButton();
 
-        button.setFocusPainted(false);
-        button.setFocusable(false);
-        button.setOpaque(true);
-        return button;
+        button.sftFodusPbintfd(fblsf);
+        button.sftFodusbblf(fblsf);
+        button.sftOpbquf(truf);
+        rfturn button;
     }
 
     /**
-     * Creates the Buttons that will be placed on the TitlePane.
+     * Crfbtfs tif Buttons tibt will bf plbdfd on tif TitlfPbnf.
      */
-    private void createButtons() {
-        closeButton = createTitleButton();
-        closeButton.setAction(closeAction);
-        closeButton.setText(null);
-        closeButton.putClientProperty("paintActive", Boolean.TRUE);
-        closeButton.setBorder(handyEmptyBorder);
-        closeButton.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY,
-                                      "Close");
-        closeButton.setIcon(UIManager.getIcon("InternalFrame.closeIcon"));
+    privbtf void drfbtfButtons() {
+        dlosfButton = drfbtfTitlfButton();
+        dlosfButton.sftAdtion(dlosfAdtion);
+        dlosfButton.sftTfxt(null);
+        dlosfButton.putClifntPropfrty("pbintAdtivf", Boolfbn.TRUE);
+        dlosfButton.sftBordfr(ibndyEmptyBordfr);
+        dlosfButton.putClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_NAME_PROPERTY,
+                                      "Closf");
+        dlosfButton.sftIdon(UIMbnbgfr.gftIdon("IntfrnblFrbmf.dlosfIdon"));
 
-        if (getWindowDecorationStyle() == JRootPane.FRAME) {
-            maximizeIcon = UIManager.getIcon("InternalFrame.maximizeIcon");
-            minimizeIcon = UIManager.getIcon("InternalFrame.minimizeIcon");
+        if (gftWindowDfdorbtionStylf() == JRootPbnf.FRAME) {
+            mbximizfIdon = UIMbnbgfr.gftIdon("IntfrnblFrbmf.mbximizfIdon");
+            minimizfIdon = UIMbnbgfr.gftIdon("IntfrnblFrbmf.minimizfIdon");
 
-            iconifyButton = createTitleButton();
-            iconifyButton.setAction(iconifyAction);
-            iconifyButton.setText(null);
-            iconifyButton.putClientProperty("paintActive", Boolean.TRUE);
-            iconifyButton.setBorder(handyEmptyBorder);
-            iconifyButton.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY,
-                                            "Iconify");
-            iconifyButton.setIcon(UIManager.getIcon("InternalFrame.iconifyIcon"));
+            idonifyButton = drfbtfTitlfButton();
+            idonifyButton.sftAdtion(idonifyAdtion);
+            idonifyButton.sftTfxt(null);
+            idonifyButton.putClifntPropfrty("pbintAdtivf", Boolfbn.TRUE);
+            idonifyButton.sftBordfr(ibndyEmptyBordfr);
+            idonifyButton.putClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_NAME_PROPERTY,
+                                            "Idonify");
+            idonifyButton.sftIdon(UIMbnbgfr.gftIdon("IntfrnblFrbmf.idonifyIdon"));
 
-            toggleButton = createTitleButton();
-            toggleButton.setAction(restoreAction);
-            toggleButton.putClientProperty("paintActive", Boolean.TRUE);
-            toggleButton.setBorder(handyEmptyBorder);
-            toggleButton.putClientProperty(AccessibleContext.ACCESSIBLE_NAME_PROPERTY,
-                                           "Maximize");
-            toggleButton.setIcon(maximizeIcon);
+            togglfButton = drfbtfTitlfButton();
+            togglfButton.sftAdtion(rfstorfAdtion);
+            togglfButton.putClifntPropfrty("pbintAdtivf", Boolfbn.TRUE);
+            togglfButton.sftBordfr(ibndyEmptyBordfr);
+            togglfButton.putClifntPropfrty(AddfssiblfContfxt.ACCESSIBLE_NAME_PROPERTY,
+                                           "Mbximizf");
+            togglfButton.sftIdon(mbximizfIdon);
         }
     }
 
     /**
-     * Returns the <code>LayoutManager</code> that should be installed on
-     * the <code>MetalTitlePane</code>.
+     * Rfturns tif <dodf>LbyoutMbnbgfr</dodf> tibt siould bf instbllfd on
+     * tif <dodf>MftblTitlfPbnf</dodf>.
      */
-    private LayoutManager createLayout() {
-        return new TitlePaneLayout();
+    privbtf LbyoutMbnbgfr drfbtfLbyout() {
+        rfturn nfw TitlfPbnfLbyout();
     }
 
     /**
-     * Updates state dependant upon the Window's active state.
+     * Updbtfs stbtf dfpfndbnt upon tif Window's bdtivf stbtf.
      */
-    private void setActive(boolean isActive) {
-        Boolean activeB = isActive ? Boolean.TRUE : Boolean.FALSE;
+    privbtf void sftAdtivf(boolfbn isAdtivf) {
+        Boolfbn bdtivfB = isAdtivf ? Boolfbn.TRUE : Boolfbn.FALSE;
 
-        closeButton.putClientProperty("paintActive", activeB);
-        if (getWindowDecorationStyle() == JRootPane.FRAME) {
-            iconifyButton.putClientProperty("paintActive", activeB);
-            toggleButton.putClientProperty("paintActive", activeB);
+        dlosfButton.putClifntPropfrty("pbintAdtivf", bdtivfB);
+        if (gftWindowDfdorbtionStylf() == JRootPbnf.FRAME) {
+            idonifyButton.putClifntPropfrty("pbintAdtivf", bdtivfB);
+            togglfButton.putClifntPropfrty("pbintAdtivf", bdtivfB);
         }
-        // Repaint the whole thing as the Borders that are used have
-        // different colors for active vs inactive
-        getRootPane().repaint();
+        // Rfpbint tif wiolf tiing bs tif Bordfrs tibt brf usfd ibvf
+        // difffrfnt dolors for bdtivf vs inbdtivf
+        gftRootPbnf().rfpbint();
     }
 
     /**
-     * Sets the state of the Window.
+     * Sfts tif stbtf of tif Window.
      */
-    private void setState(int state) {
-        setState(state, false);
+    privbtf void sftStbtf(int stbtf) {
+        sftStbtf(stbtf, fblsf);
     }
 
     /**
-     * Sets the state of the window. If <code>updateRegardless</code> is
-     * true and the state has not changed, this will update anyway.
+     * Sfts tif stbtf of tif window. If <dodf>updbtfRfgbrdlfss</dodf> is
+     * truf bnd tif stbtf ibs not dibngfd, tiis will updbtf bnywby.
      */
-    private void setState(int state, boolean updateRegardless) {
-        Window w = getWindow();
+    privbtf void sftStbtf(int stbtf, boolfbn updbtfRfgbrdlfss) {
+        Window w = gftWindow();
 
-        if (w != null && getWindowDecorationStyle() == JRootPane.FRAME) {
-            if (this.state == state && !updateRegardless) {
-                return;
+        if (w != null && gftWindowDfdorbtionStylf() == JRootPbnf.FRAME) {
+            if (tiis.stbtf == stbtf && !updbtfRfgbrdlfss) {
+                rfturn;
             }
-            Frame frame = getFrame();
+            Frbmf frbmf = gftFrbmf();
 
-            if (frame != null) {
-                JRootPane rootPane = getRootPane();
+            if (frbmf != null) {
+                JRootPbnf rootPbnf = gftRootPbnf();
 
-                if (((state & Frame.MAXIMIZED_BOTH) != 0) &&
-                        (rootPane.getBorder() == null ||
-                        (rootPane.getBorder() instanceof UIResource)) &&
-                            frame.isShowing()) {
-                    rootPane.setBorder(null);
+                if (((stbtf & Frbmf.MAXIMIZED_BOTH) != 0) &&
+                        (rootPbnf.gftBordfr() == null ||
+                        (rootPbnf.gftBordfr() instbndfof UIRfsourdf)) &&
+                            frbmf.isSiowing()) {
+                    rootPbnf.sftBordfr(null);
                 }
-                else if ((state & Frame.MAXIMIZED_BOTH) == 0) {
-                    // This is a croak, if state becomes bound, this can
-                    // be nuked.
-                    rootPaneUI.installBorder(rootPane);
+                flsf if ((stbtf & Frbmf.MAXIMIZED_BOTH) == 0) {
+                    // Tiis is b drobk, if stbtf bfdomfs bound, tiis dbn
+                    // bf nukfd.
+                    rootPbnfUI.instbllBordfr(rootPbnf);
                 }
-                if (frame.isResizable()) {
-                    if ((state & Frame.MAXIMIZED_BOTH) != 0) {
-                        updateToggleButton(restoreAction, minimizeIcon);
-                        maximizeAction.setEnabled(false);
-                        restoreAction.setEnabled(true);
+                if (frbmf.isRfsizbblf()) {
+                    if ((stbtf & Frbmf.MAXIMIZED_BOTH) != 0) {
+                        updbtfTogglfButton(rfstorfAdtion, minimizfIdon);
+                        mbximizfAdtion.sftEnbblfd(fblsf);
+                        rfstorfAdtion.sftEnbblfd(truf);
                     }
-                    else {
-                        updateToggleButton(maximizeAction, maximizeIcon);
-                        maximizeAction.setEnabled(true);
-                        restoreAction.setEnabled(false);
+                    flsf {
+                        updbtfTogglfButton(mbximizfAdtion, mbximizfIdon);
+                        mbximizfAdtion.sftEnbblfd(truf);
+                        rfstorfAdtion.sftEnbblfd(fblsf);
                     }
-                    if (toggleButton.getParent() == null ||
-                        iconifyButton.getParent() == null) {
-                        add(toggleButton);
-                        add(iconifyButton);
-                        revalidate();
-                        repaint();
+                    if (togglfButton.gftPbrfnt() == null ||
+                        idonifyButton.gftPbrfnt() == null) {
+                        bdd(togglfButton);
+                        bdd(idonifyButton);
+                        rfvblidbtf();
+                        rfpbint();
                     }
-                    toggleButton.setText(null);
+                    togglfButton.sftTfxt(null);
                 }
-                else {
-                    maximizeAction.setEnabled(false);
-                    restoreAction.setEnabled(false);
-                    if (toggleButton.getParent() != null) {
-                        remove(toggleButton);
-                        revalidate();
-                        repaint();
+                flsf {
+                    mbximizfAdtion.sftEnbblfd(fblsf);
+                    rfstorfAdtion.sftEnbblfd(fblsf);
+                    if (togglfButton.gftPbrfnt() != null) {
+                        rfmovf(togglfButton);
+                        rfvblidbtf();
+                        rfpbint();
                     }
                 }
             }
-            else {
-                // Not contained in a Frame
-                maximizeAction.setEnabled(false);
-                restoreAction.setEnabled(false);
-                iconifyAction.setEnabled(false);
-                remove(toggleButton);
-                remove(iconifyButton);
-                revalidate();
-                repaint();
+            flsf {
+                // Not dontbinfd in b Frbmf
+                mbximizfAdtion.sftEnbblfd(fblsf);
+                rfstorfAdtion.sftEnbblfd(fblsf);
+                idonifyAdtion.sftEnbblfd(fblsf);
+                rfmovf(togglfButton);
+                rfmovf(idonifyButton);
+                rfvblidbtf();
+                rfpbint();
             }
-            closeAction.setEnabled(true);
-            this.state = state;
+            dlosfAdtion.sftEnbblfd(truf);
+            tiis.stbtf = stbtf;
         }
     }
 
     /**
-     * Updates the toggle button to contain the Icon <code>icon</code>, and
-     * Action <code>action</code>.
+     * Updbtfs tif togglf button to dontbin tif Idon <dodf>idon</dodf>, bnd
+     * Adtion <dodf>bdtion</dodf>.
      */
-    private void updateToggleButton(Action action, Icon icon) {
-        toggleButton.setAction(action);
-        toggleButton.setIcon(icon);
-        toggleButton.setText(null);
+    privbtf void updbtfTogglfButton(Adtion bdtion, Idon idon) {
+        togglfButton.sftAdtion(bdtion);
+        togglfButton.sftIdon(idon);
+        togglfButton.sftTfxt(null);
     }
 
     /**
-     * Returns the Frame rendering in. This will return null if the
-     * <code>JRootPane</code> is not contained in a <code>Frame</code>.
+     * Rfturns tif Frbmf rfndfring in. Tiis will rfturn null if tif
+     * <dodf>JRootPbnf</dodf> is not dontbinfd in b <dodf>Frbmf</dodf>.
      */
-    private Frame getFrame() {
-        Window window = getWindow();
+    privbtf Frbmf gftFrbmf() {
+        Window window = gftWindow();
 
-        if (window instanceof Frame) {
-            return (Frame)window;
+        if (window instbndfof Frbmf) {
+            rfturn (Frbmf)window;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the <code>Window</code> the <code>JRootPane</code> is
-     * contained in. This will return null if there is no parent ancestor
-     * of the <code>JRootPane</code>.
+     * Rfturns tif <dodf>Window</dodf> tif <dodf>JRootPbnf</dodf> is
+     * dontbinfd in. Tiis will rfturn null if tifrf is no pbrfnt bndfstor
+     * of tif <dodf>JRootPbnf</dodf>.
      */
-    private Window getWindow() {
-        return window;
+    privbtf Window gftWindow() {
+        rfturn window;
     }
 
     /**
-     * Returns the String to display as the title.
+     * Rfturns tif String to displby bs tif titlf.
      */
-    private String getTitle() {
-        Window w = getWindow();
+    privbtf String gftTitlf() {
+        Window w = gftWindow();
 
-        if (w instanceof Frame) {
-            return ((Frame)w).getTitle();
+        if (w instbndfof Frbmf) {
+            rfturn ((Frbmf)w).gftTitlf();
         }
-        else if (w instanceof Dialog) {
-            return ((Dialog)w).getTitle();
+        flsf if (w instbndfof Diblog) {
+            rfturn ((Diblog)w).gftTitlf();
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Renders the TitlePane.
+     * Rfndfrs tif TitlfPbnf.
      */
-    public void paintComponent(Graphics g)  {
-        // As state isn't bound, we need a convenience place to check
-        // if it has changed. Changing the state typically changes the
-        if (getFrame() != null) {
-            setState(getFrame().getExtendedState());
+    publid void pbintComponfnt(Grbpiids g)  {
+        // As stbtf isn't bound, wf nffd b donvfnifndf plbdf to difdk
+        // if it ibs dibngfd. Cibnging tif stbtf typidblly dibngfs tif
+        if (gftFrbmf() != null) {
+            sftStbtf(gftFrbmf().gftExtfndfdStbtf());
         }
-        JRootPane rootPane = getRootPane();
-        Window window = getWindow();
-        boolean leftToRight = (window == null) ?
-                               rootPane.getComponentOrientation().isLeftToRight() :
-                               window.getComponentOrientation().isLeftToRight();
-        boolean isSelected = (window == null) ? true : window.isActive();
-        int width = getWidth();
-        int height = getHeight();
+        JRootPbnf rootPbnf = gftRootPbnf();
+        Window window = gftWindow();
+        boolfbn lfftToRigit = (window == null) ?
+                               rootPbnf.gftComponfntOrifntbtion().isLfftToRigit() :
+                               window.gftComponfntOrifntbtion().isLfftToRigit();
+        boolfbn isSflfdtfd = (window == null) ? truf : window.isAdtivf();
+        int widti = gftWidti();
+        int ifigit = gftHfigit();
 
-        Color background;
-        Color foreground;
-        Color darkShadow;
+        Color bbdkground;
+        Color forfground;
+        Color dbrkSibdow;
 
-        MetalBumps bumps;
+        MftblBumps bumps;
 
-        if (isSelected) {
-            background = activeBackground;
-            foreground = activeForeground;
-            darkShadow = activeShadow;
-            bumps = activeBumps;
-        } else {
-            background = inactiveBackground;
-            foreground = inactiveForeground;
-            darkShadow = inactiveShadow;
-            bumps = inactiveBumps;
-        }
-
-        g.setColor(background);
-        g.fillRect(0, 0, width, height);
-
-        g.setColor( darkShadow );
-        g.drawLine ( 0, height - 1, width, height -1);
-        g.drawLine ( 0, 0, 0 ,0);
-        g.drawLine ( width - 1, 0 , width -1, 0);
-
-        int xOffset = leftToRight ? 5 : width - 5;
-
-        if (getWindowDecorationStyle() == JRootPane.FRAME) {
-            xOffset += leftToRight ? IMAGE_WIDTH + 5 : - IMAGE_WIDTH - 5;
+        if (isSflfdtfd) {
+            bbdkground = bdtivfBbdkground;
+            forfground = bdtivfForfground;
+            dbrkSibdow = bdtivfSibdow;
+            bumps = bdtivfBumps;
+        } flsf {
+            bbdkground = inbdtivfBbdkground;
+            forfground = inbdtivfForfground;
+            dbrkSibdow = inbdtivfSibdow;
+            bumps = inbdtivfBumps;
         }
 
-        String theTitle = getTitle();
-        if (theTitle != null) {
-            FontMetrics fm = SwingUtilities2.getFontMetrics(rootPane, g);
+        g.sftColor(bbdkground);
+        g.fillRfdt(0, 0, widti, ifigit);
 
-            g.setColor(foreground);
+        g.sftColor( dbrkSibdow );
+        g.drbwLinf ( 0, ifigit - 1, widti, ifigit -1);
+        g.drbwLinf ( 0, 0, 0 ,0);
+        g.drbwLinf ( widti - 1, 0 , widti -1, 0);
 
-            int yOffset = ( (height - fm.getHeight() ) / 2 ) + fm.getAscent();
+        int xOffsft = lfftToRigit ? 5 : widti - 5;
 
-            Rectangle rect = new Rectangle(0, 0, 0, 0);
-            if (iconifyButton != null && iconifyButton.getParent() != null) {
-                rect = iconifyButton.getBounds();
+        if (gftWindowDfdorbtionStylf() == JRootPbnf.FRAME) {
+            xOffsft += lfftToRigit ? IMAGE_WIDTH + 5 : - IMAGE_WIDTH - 5;
+        }
+
+        String tifTitlf = gftTitlf();
+        if (tifTitlf != null) {
+            FontMftrids fm = SwingUtilitifs2.gftFontMftrids(rootPbnf, g);
+
+            g.sftColor(forfground);
+
+            int yOffsft = ( (ifigit - fm.gftHfigit() ) / 2 ) + fm.gftAsdfnt();
+
+            Rfdtbnglf rfdt = nfw Rfdtbnglf(0, 0, 0, 0);
+            if (idonifyButton != null && idonifyButton.gftPbrfnt() != null) {
+                rfdt = idonifyButton.gftBounds();
             }
-            int titleW;
+            int titlfW;
 
-            if( leftToRight ) {
-                if (rect.x == 0) {
-                    rect.x = window.getWidth() - window.getInsets().right-2;
+            if( lfftToRigit ) {
+                if (rfdt.x == 0) {
+                    rfdt.x = window.gftWidti() - window.gftInsfts().rigit-2;
                 }
-                titleW = rect.x - xOffset - 4;
-                theTitle = SwingUtilities2.clipStringIfNecessary(
-                                rootPane, fm, theTitle, titleW);
-            } else {
-                titleW = xOffset - rect.x - rect.width - 4;
-                theTitle = SwingUtilities2.clipStringIfNecessary(
-                                rootPane, fm, theTitle, titleW);
-                xOffset -= SwingUtilities2.stringWidth(rootPane, fm,
-                                                       theTitle);
+                titlfW = rfdt.x - xOffsft - 4;
+                tifTitlf = SwingUtilitifs2.dlipStringIfNfdfssbry(
+                                rootPbnf, fm, tifTitlf, titlfW);
+            } flsf {
+                titlfW = xOffsft - rfdt.x - rfdt.widti - 4;
+                tifTitlf = SwingUtilitifs2.dlipStringIfNfdfssbry(
+                                rootPbnf, fm, tifTitlf, titlfW);
+                xOffsft -= SwingUtilitifs2.stringWidti(rootPbnf, fm,
+                                                       tifTitlf);
             }
-            int titleLength = SwingUtilities2.stringWidth(rootPane, fm,
-                                                          theTitle);
-            SwingUtilities2.drawString(rootPane, g, theTitle, xOffset,
-                                       yOffset );
-            xOffset += leftToRight ? titleLength + 5  : -5;
+            int titlfLfngti = SwingUtilitifs2.stringWidti(rootPbnf, fm,
+                                                          tifTitlf);
+            SwingUtilitifs2.drbwString(rootPbnf, g, tifTitlf, xOffsft,
+                                       yOffsft );
+            xOffsft += lfftToRigit ? titlfLfngti + 5  : -5;
         }
 
-        int bumpXOffset;
-        int bumpLength;
-        if( leftToRight ) {
-            bumpLength = width - buttonsWidth - xOffset - 5;
-            bumpXOffset = xOffset;
-        } else {
-            bumpLength = xOffset - buttonsWidth - 5;
-            bumpXOffset = buttonsWidth + 5;
+        int bumpXOffsft;
+        int bumpLfngti;
+        if( lfftToRigit ) {
+            bumpLfngti = widti - buttonsWidti - xOffsft - 5;
+            bumpXOffsft = xOffsft;
+        } flsf {
+            bumpLfngti = xOffsft - buttonsWidti - 5;
+            bumpXOffsft = buttonsWidti + 5;
         }
-        int bumpYOffset = 3;
-        int bumpHeight = getHeight() - (2 * bumpYOffset);
-        bumps.setBumpArea( bumpLength, bumpHeight );
-        bumps.paintIcon(this, g, bumpXOffset, bumpYOffset);
+        int bumpYOffsft = 3;
+        int bumpHfigit = gftHfigit() - (2 * bumpYOffsft);
+        bumps.sftBumpArfb( bumpLfngti, bumpHfigit );
+        bumps.pbintIdon(tiis, g, bumpXOffsft, bumpYOffsft);
     }
 
     /**
-     * Actions used to <code>close</code> the <code>Window</code>.
+     * Adtions usfd to <dodf>dlosf</dodf> tif <dodf>Window</dodf>.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class CloseAction extends AbstractAction {
-        public CloseAction() {
-            super(UIManager.getString("MetalTitlePane.closeTitle",
-                                      getLocale()));
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss ClosfAdtion fxtfnds AbstrbdtAdtion {
+        publid ClosfAdtion() {
+            supfr(UIMbnbgfr.gftString("MftblTitlfPbnf.dlosfTitlf",
+                                      gftLodblf()));
         }
 
-        public void actionPerformed(ActionEvent e) {
-            close();
-        }
-    }
-
-
-    /**
-     * Actions used to <code>iconfiy</code> the <code>Frame</code>.
-     */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class IconifyAction extends AbstractAction {
-        public IconifyAction() {
-            super(UIManager.getString("MetalTitlePane.iconifyTitle",
-                                      getLocale()));
-        }
-
-        public void actionPerformed(ActionEvent e) {
-            iconify();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            dlosf();
         }
     }
 
 
     /**
-     * Actions used to <code>restore</code> the <code>Frame</code>.
+     * Adtions usfd to <dodf>idonfiy</dodf> tif <dodf>Frbmf</dodf>.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class RestoreAction extends AbstractAction {
-        public RestoreAction() {
-            super(UIManager.getString
-                  ("MetalTitlePane.restoreTitle", getLocale()));
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss IdonifyAdtion fxtfnds AbstrbdtAdtion {
+        publid IdonifyAdtion() {
+            supfr(UIMbnbgfr.gftString("MftblTitlfPbnf.idonifyTitlf",
+                                      gftLodblf()));
         }
 
-        public void actionPerformed(ActionEvent e) {
-            restore();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            idonify();
         }
     }
 
 
     /**
-     * Actions used to <code>restore</code> the <code>Frame</code>.
+     * Adtions usfd to <dodf>rfstorf</dodf> tif <dodf>Frbmf</dodf>.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class MaximizeAction extends AbstractAction {
-        public MaximizeAction() {
-            super(UIManager.getString("MetalTitlePane.maximizeTitle",
-                                      getLocale()));
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss RfstorfAdtion fxtfnds AbstrbdtAdtion {
+        publid RfstorfAdtion() {
+            supfr(UIMbnbgfr.gftString
+                  ("MftblTitlfPbnf.rfstorfTitlf", gftLodblf()));
         }
 
-        public void actionPerformed(ActionEvent e) {
-            maximize();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            rfstorf();
         }
     }
 
 
     /**
-     * Class responsible for drawing the system menu. Looks up the
-     * image to draw from the Frame associated with the
-     * <code>JRootPane</code>.
+     * Adtions usfd to <dodf>rfstorf</dodf> tif <dodf>Frbmf</dodf>.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private class SystemMenuBar extends JMenuBar {
-        public void paint(Graphics g) {
-            if (isOpaque()) {
-                g.setColor(getBackground());
-                g.fillRect(0, 0, getWidth(), getHeight());
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss MbximizfAdtion fxtfnds AbstrbdtAdtion {
+        publid MbximizfAdtion() {
+            supfr(UIMbnbgfr.gftString("MftblTitlfPbnf.mbximizfTitlf",
+                                      gftLodblf()));
+        }
+
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            mbximizf();
+        }
+    }
+
+
+    /**
+     * Clbss rfsponsiblf for drbwing tif systfm mfnu. Looks up tif
+     * imbgf to drbw from tif Frbmf bssodibtfd witi tif
+     * <dodf>JRootPbnf</dodf>.
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss SystfmMfnuBbr fxtfnds JMfnuBbr {
+        publid void pbint(Grbpiids g) {
+            if (isOpbquf()) {
+                g.sftColor(gftBbdkground());
+                g.fillRfdt(0, 0, gftWidti(), gftHfigit());
             }
 
-            if (systemIcon != null) {
-                g.drawImage(systemIcon, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT, null);
-            } else {
-                Icon icon = UIManager.getIcon("InternalFrame.icon");
+            if (systfmIdon != null) {
+                g.drbwImbgf(systfmIdon, 0, 0, IMAGE_WIDTH, IMAGE_HEIGHT, null);
+            } flsf {
+                Idon idon = UIMbnbgfr.gftIdon("IntfrnblFrbmf.idon");
 
-                if (icon != null) {
-                    icon.paintIcon(this, g, 0, 0);
+                if (idon != null) {
+                    idon.pbintIdon(tiis, g, 0, 0);
                 }
             }
         }
-        public Dimension getMinimumSize() {
-            return getPreferredSize();
+        publid Dimfnsion gftMinimumSizf() {
+            rfturn gftPrfffrrfdSizf();
         }
-        public Dimension getPreferredSize() {
-            Dimension size = super.getPreferredSize();
+        publid Dimfnsion gftPrfffrrfdSizf() {
+            Dimfnsion sizf = supfr.gftPrfffrrfdSizf();
 
-            return new Dimension(Math.max(IMAGE_WIDTH, size.width),
-                                 Math.max(size.height, IMAGE_HEIGHT));
+            rfturn nfw Dimfnsion(Mbti.mbx(IMAGE_WIDTH, sizf.widti),
+                                 Mbti.mbx(sizf.ifigit, IMAGE_HEIGHT));
         }
     }
 
-    private class TitlePaneLayout implements LayoutManager {
-        public void addLayoutComponent(String name, Component c) {}
-        public void removeLayoutComponent(Component c) {}
-        public Dimension preferredLayoutSize(Container c)  {
-            int height = computeHeight();
-            return new Dimension(height, height);
+    privbtf dlbss TitlfPbnfLbyout implfmfnts LbyoutMbnbgfr {
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt d) {}
+        publid void rfmovfLbyoutComponfnt(Componfnt d) {}
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d)  {
+            int ifigit = domputfHfigit();
+            rfturn nfw Dimfnsion(ifigit, ifigit);
         }
 
-        public Dimension minimumLayoutSize(Container c) {
-            return preferredLayoutSize(c);
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+            rfturn prfffrrfdLbyoutSizf(d);
         }
 
-        private int computeHeight() {
-            FontMetrics fm = rootPane.getFontMetrics(getFont());
-            int fontHeight = fm.getHeight();
-            fontHeight += 7;
-            int iconHeight = 0;
-            if (getWindowDecorationStyle() == JRootPane.FRAME) {
-                iconHeight = IMAGE_HEIGHT;
+        privbtf int domputfHfigit() {
+            FontMftrids fm = rootPbnf.gftFontMftrids(gftFont());
+            int fontHfigit = fm.gftHfigit();
+            fontHfigit += 7;
+            int idonHfigit = 0;
+            if (gftWindowDfdorbtionStylf() == JRootPbnf.FRAME) {
+                idonHfigit = IMAGE_HEIGHT;
             }
 
-            int finalHeight = Math.max( fontHeight, iconHeight );
-            return finalHeight;
+            int finblHfigit = Mbti.mbx( fontHfigit, idonHfigit );
+            rfturn finblHfigit;
         }
 
-        public void layoutContainer(Container c) {
-            boolean leftToRight = (window == null) ?
-                getRootPane().getComponentOrientation().isLeftToRight() :
-                window.getComponentOrientation().isLeftToRight();
+        publid void lbyoutContbinfr(Contbinfr d) {
+            boolfbn lfftToRigit = (window == null) ?
+                gftRootPbnf().gftComponfntOrifntbtion().isLfftToRigit() :
+                window.gftComponfntOrifntbtion().isLfftToRigit();
 
-            int w = getWidth();
+            int w = gftWidti();
             int x;
             int y = 3;
-            int spacing;
-            int buttonHeight;
-            int buttonWidth;
+            int spbding;
+            int buttonHfigit;
+            int buttonWidti;
 
-            if (closeButton != null && closeButton.getIcon() != null) {
-                buttonHeight = closeButton.getIcon().getIconHeight();
-                buttonWidth = closeButton.getIcon().getIconWidth();
+            if (dlosfButton != null && dlosfButton.gftIdon() != null) {
+                buttonHfigit = dlosfButton.gftIdon().gftIdonHfigit();
+                buttonWidti = dlosfButton.gftIdon().gftIdonWidti();
             }
-            else {
-                buttonHeight = IMAGE_HEIGHT;
-                buttonWidth = IMAGE_WIDTH;
-            }
-
-            // assumes all buttons have the same dimensions
-            // these dimensions include the borders
-
-            x = leftToRight ? w : 0;
-
-            spacing = 5;
-            x = leftToRight ? spacing : w - buttonWidth - spacing;
-            if (menuBar != null) {
-                menuBar.setBounds(x, y, buttonWidth, buttonHeight);
+            flsf {
+                buttonHfigit = IMAGE_HEIGHT;
+                buttonWidti = IMAGE_WIDTH;
             }
 
-            x = leftToRight ? w : 0;
-            spacing = 4;
-            x += leftToRight ? -spacing -buttonWidth : spacing;
-            if (closeButton != null) {
-                closeButton.setBounds(x, y, buttonWidth, buttonHeight);
+            // bssumfs bll buttons ibvf tif sbmf dimfnsions
+            // tifsf dimfnsions indludf tif bordfrs
+
+            x = lfftToRigit ? w : 0;
+
+            spbding = 5;
+            x = lfftToRigit ? spbding : w - buttonWidti - spbding;
+            if (mfnuBbr != null) {
+                mfnuBbr.sftBounds(x, y, buttonWidti, buttonHfigit);
             }
 
-            if( !leftToRight ) x += buttonWidth;
+            x = lfftToRigit ? w : 0;
+            spbding = 4;
+            x += lfftToRigit ? -spbding -buttonWidti : spbding;
+            if (dlosfButton != null) {
+                dlosfButton.sftBounds(x, y, buttonWidti, buttonHfigit);
+            }
 
-            if (getWindowDecorationStyle() == JRootPane.FRAME) {
-                if (Toolkit.getDefaultToolkit().isFrameStateSupported(
-                        Frame.MAXIMIZED_BOTH)) {
-                    if (toggleButton.getParent() != null) {
-                        spacing = 10;
-                        x += leftToRight ? -spacing -buttonWidth : spacing;
-                        toggleButton.setBounds(x, y, buttonWidth, buttonHeight);
-                        if (!leftToRight) {
-                            x += buttonWidth;
+            if( !lfftToRigit ) x += buttonWidti;
+
+            if (gftWindowDfdorbtionStylf() == JRootPbnf.FRAME) {
+                if (Toolkit.gftDffbultToolkit().isFrbmfStbtfSupportfd(
+                        Frbmf.MAXIMIZED_BOTH)) {
+                    if (togglfButton.gftPbrfnt() != null) {
+                        spbding = 10;
+                        x += lfftToRigit ? -spbding -buttonWidti : spbding;
+                        togglfButton.sftBounds(x, y, buttonWidti, buttonHfigit);
+                        if (!lfftToRigit) {
+                            x += buttonWidti;
                         }
                     }
                 }
 
-                if (iconifyButton != null && iconifyButton.getParent() != null) {
-                    spacing = 2;
-                    x += leftToRight ? -spacing -buttonWidth : spacing;
-                    iconifyButton.setBounds(x, y, buttonWidth, buttonHeight);
-                    if (!leftToRight) {
-                        x += buttonWidth;
+                if (idonifyButton != null && idonifyButton.gftPbrfnt() != null) {
+                    spbding = 2;
+                    x += lfftToRigit ? -spbding -buttonWidti : spbding;
+                    idonifyButton.sftBounds(x, y, buttonWidti, buttonHfigit);
+                    if (!lfftToRigit) {
+                        x += buttonWidti;
                     }
                 }
             }
-            buttonsWidth = leftToRight ? w - x : x;
+            buttonsWidti = lfftToRigit ? w - x : x;
         }
     }
 
 
 
     /**
-     * PropertyChangeListener installed on the Window. Updates the necessary
-     * state as the state of the Window changes.
+     * PropfrtyCibngfListfnfr instbllfd on tif Window. Updbtfs tif nfdfssbry
+     * stbtf bs tif stbtf of tif Window dibngfs.
      */
-    private class PropertyChangeHandler implements PropertyChangeListener {
-        public void propertyChange(PropertyChangeEvent pce) {
-            String name = pce.getPropertyName();
+    privbtf dlbss PropfrtyCibngfHbndlfr implfmfnts PropfrtyCibngfListfnfr {
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt pdf) {
+            String nbmf = pdf.gftPropfrtyNbmf();
 
-            // Frame.state isn't currently bound.
-            if ("resizable".equals(name) || "state".equals(name)) {
-                Frame frame = getFrame();
+            // Frbmf.stbtf isn't durrfntly bound.
+            if ("rfsizbblf".fqubls(nbmf) || "stbtf".fqubls(nbmf)) {
+                Frbmf frbmf = gftFrbmf();
 
-                if (frame != null) {
-                    setState(frame.getExtendedState(), true);
+                if (frbmf != null) {
+                    sftStbtf(frbmf.gftExtfndfdStbtf(), truf);
                 }
-                if ("resizable".equals(name)) {
-                    getRootPane().repaint();
+                if ("rfsizbblf".fqubls(nbmf)) {
+                    gftRootPbnf().rfpbint();
                 }
             }
-            else if ("title".equals(name)) {
-                repaint();
+            flsf if ("titlf".fqubls(nbmf)) {
+                rfpbint();
             }
-            else if ("componentOrientation" == name) {
-                revalidate();
-                repaint();
+            flsf if ("domponfntOrifntbtion" == nbmf) {
+                rfvblidbtf();
+                rfpbint();
             }
-            else if ("iconImage" == name) {
-                updateSystemIcon();
-                revalidate();
-                repaint();
+            flsf if ("idonImbgf" == nbmf) {
+                updbtfSystfmIdon();
+                rfvblidbtf();
+                rfpbint();
             }
         }
     }
 
     /**
-     * Update the image used for the system icon
+     * Updbtf tif imbgf usfd for tif systfm idon
      */
-    private void updateSystemIcon() {
-        Window window = getWindow();
+    privbtf void updbtfSystfmIdon() {
+        Window window = gftWindow();
         if (window == null) {
-            systemIcon = null;
-            return;
+            systfmIdon = null;
+            rfturn;
         }
-        java.util.List<Image> icons = window.getIconImages();
-        assert icons != null;
+        jbvb.util.List<Imbgf> idons = window.gftIdonImbgfs();
+        bssfrt idons != null;
 
-        if (icons.size() == 0) {
-            systemIcon = null;
+        if (idons.sizf() == 0) {
+            systfmIdon = null;
         }
-        else if (icons.size() == 1) {
-            systemIcon = icons.get(0);
+        flsf if (idons.sizf() == 1) {
+            systfmIdon = idons.gft(0);
         }
-        else {
-            systemIcon = SunToolkit.getScaledIconImage(icons,
+        flsf {
+            systfmIdon = SunToolkit.gftSdblfdIdonImbgf(idons,
                                                        IMAGE_WIDTH,
                                                        IMAGE_HEIGHT);
         }
@@ -1032,15 +1032,15 @@ class MetalTitlePane extends JComponent {
 
 
     /**
-     * WindowListener installed on the Window, updates the state as necessary.
+     * WindowListfnfr instbllfd on tif Window, updbtfs tif stbtf bs nfdfssbry.
      */
-    private class WindowHandler extends WindowAdapter {
-        public void windowActivated(WindowEvent ev) {
-            setActive(true);
+    privbtf dlbss WindowHbndlfr fxtfnds WindowAdbptfr {
+        publid void windowAdtivbtfd(WindowEvfnt fv) {
+            sftAdtivf(truf);
         }
 
-        public void windowDeactivated(WindowEvent ev) {
-            setActive(false);
+        publid void windowDfbdtivbtfd(WindowEvfnt fv) {
+            sftAdtivf(fblsf);
         }
     }
 }

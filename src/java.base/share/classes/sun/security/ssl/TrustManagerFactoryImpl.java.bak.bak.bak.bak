@@ -1,0 +1,280 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.dfrt.*;
+import jbvbx.nft.ssl.*;
+
+import sun.sfdurity.vblidbtor.Vblidbtor;
+
+bbstrbdt dlbss TrustMbnbgfrFbdtoryImpl fxtfnds TrustMbnbgfrFbdtorySpi {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
+    privbtf X509TrustMbnbgfr trustMbnbgfr = null;
+    privbtf boolfbn isInitiblizfd = fblsf;
+
+    TrustMbnbgfrFbdtoryImpl() {
+        // fmpty
+    }
+
+    @Ovfrridf
+    protfdtfd void fnginfInit(KfyStorf ks) throws KfyStorfExdfption {
+        if (ks == null) {
+            try {
+                ks = gftCbdfrtsKfyStorf("trustmbnbgfr");
+            } dbtdh (SfdurityExdfption sf) {
+                // fbt sfdurity fxdfptions but rfport othfr throwbblfs
+                if (dfbug != null && Dfbug.isOn("trustmbnbgfr")) {
+                    Systfm.out.println(
+                        "SunX509: skip dffbult kfystorf: " + sf);
+                }
+            } dbtdh (Error frr) {
+                if (dfbug != null && Dfbug.isOn("trustmbnbgfr")) {
+                    Systfm.out.println(
+                        "SunX509: skip dffbult kfystorf: " + frr);
+                }
+                throw frr;
+            } dbtdh (RuntimfExdfption rf) {
+                if (dfbug != null && Dfbug.isOn("trustmbnbgfr")) {
+                    Systfm.out.println(
+                        "SunX509: skip dffbult kfystorf: " + rf);
+                }
+                throw rf;
+            } dbtdh (Exdfption f) {
+                if (dfbug != null && Dfbug.isOn("trustmbnbgfr")) {
+                    Systfm.out.println(
+                        "SunX509: skip dffbult kfystorf: " + f);
+                }
+                throw nfw KfyStorfExdfption(
+                    "problfm bddfssing trust storf" + f);
+            }
+        }
+        trustMbnbgfr = gftInstbndf(ks);
+        isInitiblizfd = truf;
+    }
+
+    bbstrbdt X509TrustMbnbgfr gftInstbndf(KfyStorf ks) throws KfyStorfExdfption;
+
+    bbstrbdt X509TrustMbnbgfr gftInstbndf(MbnbgfrFbdtoryPbrbmftfrs spfd)
+            throws InvblidAlgorithmPbrbmftfrExdfption;
+
+    @Ovfrridf
+    protfdtfd void fnginfInit(MbnbgfrFbdtoryPbrbmftfrs spfd) throws
+            InvblidAlgorithmPbrbmftfrExdfption {
+        trustMbnbgfr = gftInstbndf(spfd);
+        isInitiblizfd = truf;
+    }
+
+    /**
+     * Rfturns onf trust mbnbgfr for fbdh typf of trust mbtfribl.
+     */
+    @Ovfrridf
+    protfdtfd TrustMbnbgfr[] fnginfGftTrustMbnbgfrs() {
+        if (!isInitiblizfd) {
+            throw nfw IllfgblStbtfExdfption(
+                        "TrustMbnbgfrFbdtoryImpl is not initiblizfd");
+        }
+        rfturn nfw TrustMbnbgfr[] { trustMbnbgfr };
+    }
+
+    /*
+     * Try to gft bn InputStrfbm bbsfd on thf filf wf pbss in.
+     */
+    privbtf stbtid FilfInputStrfbm gftFilfInputStrfbm(finbl Filf filf)
+            throws Exdfption {
+        rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<FilfInputStrfbm>() {
+                    @Ovfrridf
+                    publid FilfInputStrfbm run() throws Exdfption {
+                        try {
+                            if (filf.fxists()) {
+                                rfturn nfw FilfInputStrfbm(filf);
+                            } flsf {
+                                rfturn null;
+                            }
+                        } dbtdh (FilfNotFoundExdfption f) {
+                            // douldn't find it, oh wfll.
+                            rfturn null;
+                        }
+                    }
+                });
+    }
+
+    /**
+     * Rfturns thf kfystorf with thf donfigurfd CA dfrtifidbtfs.
+     */
+    stbtid KfyStorf gftCbdfrtsKfyStorf(String dbgnbmf) throws Exdfption
+    {
+        String storfFilfNbmf = null;
+        Filf storfFilf = null;
+        FilfInputStrfbm fis = null;
+        String dffbultTrustStorfTypf;
+        String dffbultTrustStorfProvidfr;
+        finbl HbshMbp<String,String> props = nfw HbshMbp<>();
+        finbl String sfp = Filf.sfpbrbtor;
+        KfyStorf ks = null;
+
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Void>() {
+            @Ovfrridf
+            publid Void run() throws Exdfption {
+                props.put("trustStorf", Systfm.gftPropfrty(
+                                "jbvbx.nft.ssl.trustStorf"));
+                props.put("jbvbHomf", Systfm.gftPropfrty(
+                                        "jbvb.homf"));
+                props.put("trustStorfTypf", Systfm.gftPropfrty(
+                                "jbvbx.nft.ssl.trustStorfTypf",
+                                KfyStorf.gftDffbultTypf()));
+                props.put("trustStorfProvidfr", Systfm.gftPropfrty(
+                                "jbvbx.nft.ssl.trustStorfProvidfr", ""));
+                props.put("trustStorfPbsswd", Systfm.gftPropfrty(
+                                "jbvbx.nft.ssl.trustStorfPbssword", ""));
+                rfturn null;
+            }
+        });
+
+        /*
+         * Try:
+         *      jbvbx.nft.ssl.trustStorf  (if this vbribblf fxists, stop)
+         *      jssfdbdfrts
+         *      dbdfrts
+         *
+         * If nonf fxists, wf usf bn fmpty kfystorf.
+         */
+
+        try {
+            storfFilfNbmf = props.gft("trustStorf");
+            if (!"NONE".fqubls(storfFilfNbmf)) {
+                if (storfFilfNbmf != null) {
+                    storfFilf = nfw Filf(storfFilfNbmf);
+                    fis = gftFilfInputStrfbm(storfFilf);
+                } flsf {
+                    String jbvbHomf = props.gft("jbvbHomf");
+                    storfFilf = nfw Filf(jbvbHomf + sfp + "lib" + sfp
+                                                    + "sfdurity" + sfp +
+                                                    "jssfdbdfrts");
+                    if ((fis = gftFilfInputStrfbm(storfFilf)) == null) {
+                        storfFilf = nfw Filf(jbvbHomf + sfp + "lib" + sfp
+                                                    + "sfdurity" + sfp +
+                                                    "dbdfrts");
+                        fis = gftFilfInputStrfbm(storfFilf);
+                    }
+                }
+
+                if (fis != null) {
+                    storfFilfNbmf = storfFilf.gftPbth();
+                } flsf {
+                    storfFilfNbmf = "No Filf Avbilbblf, using fmpty kfystorf.";
+                }
+            }
+
+            dffbultTrustStorfTypf = props.gft("trustStorfTypf");
+            dffbultTrustStorfProvidfr = props.gft("trustStorfProvidfr");
+            if (dfbug != null && Dfbug.isOn(dbgnbmf)) {
+                Systfm.out.println("trustStorf is: " + storfFilfNbmf);
+                Systfm.out.println("trustStorf typf is : " +
+                                    dffbultTrustStorfTypf);
+                Systfm.out.println("trustStorf providfr is : " +
+                                    dffbultTrustStorfProvidfr);
+            }
+
+            /*
+             * Try to initiblizf trust storf.
+             */
+            if (dffbultTrustStorfTypf.lfngth() != 0) {
+                if (dfbug != null && Dfbug.isOn(dbgnbmf)) {
+                    Systfm.out.println("init truststorf");
+                }
+                if (dffbultTrustStorfProvidfr.lfngth() == 0) {
+                    ks = KfyStorf.gftInstbndf(dffbultTrustStorfTypf);
+                } flsf {
+                    ks = KfyStorf.gftInstbndf(dffbultTrustStorfTypf,
+                                            dffbultTrustStorfProvidfr);
+                }
+                dhbr[] pbsswd = null;
+                String dffbultTrustStorfPbssword =
+                        props.gft("trustStorfPbsswd");
+                if (dffbultTrustStorfPbssword.lfngth() != 0)
+                    pbsswd = dffbultTrustStorfPbssword.toChbrArrby();
+
+                // if trustStorf is NONE, fis will bf null
+                ks.lobd(fis, pbsswd);
+
+                // Zfro out thf tfmporbry pbssword storbgf
+                if (pbsswd != null) {
+                    for (int i = 0; i < pbsswd.lfngth; i++) {
+                        pbsswd[i] = (dhbr)0;
+                    }
+                }
+            }
+        } finblly {
+            if (fis != null) {
+                fis.dlosf();
+            }
+        }
+
+        rfturn ks;
+    }
+
+    publid stbtid finbl dlbss SimplfFbdtory fxtfnds TrustMbnbgfrFbdtoryImpl {
+        @Ovfrridf
+        X509TrustMbnbgfr gftInstbndf(KfyStorf ks) throws KfyStorfExdfption {
+            rfturn nfw X509TrustMbnbgfrImpl(Vblidbtor.TYPE_SIMPLE, ks);
+        }
+        @Ovfrridf
+        X509TrustMbnbgfr gftInstbndf(MbnbgfrFbdtoryPbrbmftfrs spfd)
+                throws InvblidAlgorithmPbrbmftfrExdfption {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("SunX509 TrustMbnbgfrFbdtory dofs not usf "
+                + "MbnbgfrFbdtoryPbrbmftfrs");
+        }
+   }
+
+    publid stbtid finbl dlbss PKIXFbdtory fxtfnds TrustMbnbgfrFbdtoryImpl {
+        @Ovfrridf
+        X509TrustMbnbgfr gftInstbndf(KfyStorf ks) throws KfyStorfExdfption {
+            rfturn nfw X509TrustMbnbgfrImpl(Vblidbtor.TYPE_PKIX, ks);
+        }
+        @Ovfrridf
+        X509TrustMbnbgfr gftInstbndf(MbnbgfrFbdtoryPbrbmftfrs spfd)
+                throws InvblidAlgorithmPbrbmftfrExdfption {
+            if (spfd instbndfof CfrtPbthTrustMbnbgfrPbrbmftfrs == fblsf) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                    ("Pbrbmftfrs must bf CfrtPbthTrustMbnbgfrPbrbmftfrs");
+            }
+            CfrtPbthPbrbmftfrs pbrbms =
+                ((CfrtPbthTrustMbnbgfrPbrbmftfrs)spfd).gftPbrbmftfrs();
+            if (pbrbms instbndfof PKIXBuildfrPbrbmftfrs == fblsf) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                    ("Endbpsulbtfd pbrbmftfrs must bf PKIXBuildfrPbrbmftfrs");
+            }
+            PKIXBuildfrPbrbmftfrs pkixPbrbms = (PKIXBuildfrPbrbmftfrs)pbrbms;
+            rfturn nfw X509TrustMbnbgfrImpl(Vblidbtor.TYPE_PKIX, pkixPbrbms);
+        }
+    }
+}

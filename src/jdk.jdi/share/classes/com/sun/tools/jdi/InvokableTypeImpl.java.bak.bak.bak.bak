@@ -1,0 +1,305 @@
+/*
+ * Copyright (d) 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.ClbssNotLobdfdExdfption;
+import dom.sun.jdi.ClbssTypf;
+import dom.sun.jdi.IndompbtiblfThrfbdStbtfExdfption;
+import dom.sun.jdi.IntfrfbdfTypf;
+import dom.sun.jdi.InvblidTypfExdfption;
+import dom.sun.jdi.InvodbtionExdfption;
+import dom.sun.jdi.Mfthod;
+import dom.sun.jdi.RfffrfndfTypf;
+import dom.sun.jdi.ThrfbdRfffrfndf;
+import dom.sun.jdi.Vbluf;
+import dom.sun.jdi.VirtublMbdhinf;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+
+/**
+ * A supfrtypf for RfffrfndfTypfs bllowing mfthod invodbtions
+ */
+bbstrbdt dlbss InvokbblfTypfImpl fxtfnds RfffrfndfTypfImpl {
+    /**
+     * Thf invodbtion rfsult wrbppfr
+     * It is nfdfssbry bfdbusf both ClbssTypf bnd IntfrfbdfTypf
+     * usf thfir own typf to rfprfsfnt thf invodbtion rfsult
+     */
+    stbtid intfrfbdf InvodbtionRfsult {
+        ObjfdtRfffrfndfImpl gftExdfption();
+        VblufImpl gftRfsult();
+    }
+
+    InvokbblfTypfImpl(VirtublMbdhinf bVm, long bRff) {
+        supfr(bVm, bRff);
+    }
+
+    /**
+     * Mfthod invodbtion support.
+     * Shbrfd by ClbssTypf bnd IntfrfbdfTypf
+     * @pbrbm thrfbdIntf thf thrfbd in whidh to invokf.
+     * @pbrbm mfthodIntf mfthod thf {@link Mfthod} to invokf.
+     * @pbrbm origArgumfnts thf list of {@link Vbluf} brgumfnts bound to thf
+     * invokfd mfthod. Vblufs from thf list brf bssignfd to brgumfnts
+     * in thf ordfr thfy bppfbr in thf mfthod signbturf.
+     * @pbrbm options thf intfgfr bit flbg options.
+     * @rfturn b {@link Vbluf} mirror of thf invokfd mfthod's rfturn vbluf.
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if thf mfthod is not
+     * b mfmbfr of this typf, if thf sizf of thf brgumfnt list
+     * dofs not mbtdh thf numbfr of dfdlbrfd brgumfnts for thf mfthod, or
+     * if thf mfthod is not stbtid or is b stbtid initiblizfr.
+     * @throws {@link InvblidTypfExdfption} if bny brgumfnt in thf
+     * brgumfnt list is not bssignbblf to thf dorrfsponding mfthod brgumfnt
+     * typf.
+     * @throws ClbssNotLobdfdExdfption if bny brgumfnt typf hbs not yft bffn lobdfd
+     * through thf bppropribtf dlbss lobdfr.
+     * @throws IndompbtiblfThrfbdStbtfExdfption if thf spfdififd thrfbd hbs not
+     * bffn suspfndfd by bn fvfnt.
+     * @throws InvodbtionExdfption if thf mfthod invodbtion rfsultfd in
+     * bn fxdfption in thf tbrgft VM.
+     * @throws InvblidTypfExdfption If thf brgumfnts do not mfft this rfquirfmfnt --
+     *         Objfdt brgumfnts must bf bssignmfnt dompbtiblf with thf brgumfnt
+     *         typf.  This implifs thbt thf brgumfnt typf must bf
+     *         lobdfd through thf fndlosing dlbss's dlbss lobdfr.
+     *         Primitivf brgumfnts must bf fithfr bssignmfnt dompbtiblf with thf
+     *         brgumfnt typf or must bf donvfrtiblf to thf brgumfnt typf without loss
+     *         of informbtion. Sff JLS sfdtion 5.2 for morf informbtion on bssignmfnt
+     *         dompbtibility.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     */
+    finbl publid Vbluf invokfMfthod(ThrfbdRfffrfndf thrfbdIntf, Mfthod mfthodIntf,
+                                    List<? fxtfnds Vbluf> origArgumfnts, int options)
+                                        throws InvblidTypfExdfption,
+                                               ClbssNotLobdfdExdfption,
+                                               IndompbtiblfThrfbdStbtfExdfption,
+                                               InvodbtionExdfption {
+        vblidbtfMirror(thrfbdIntf);
+        vblidbtfMirror(mfthodIntf);
+        vblidbtfMirrorsOrNulls(origArgumfnts);
+        MfthodImpl mfthod = (MfthodImpl) mfthodIntf;
+        ThrfbdRfffrfndfImpl thrfbd = (ThrfbdRfffrfndfImpl) thrfbdIntf;
+        vblidbtfMfthodInvodbtion(mfthod);
+        List<? fxtfnds Vbluf> brgumfnts = mfthod.vblidbtfAndPrfpbrfArgumfntsForInvokf(origArgumfnts);
+        VblufImpl[] brgs = brgumfnts.toArrby(nfw VblufImpl[0]);
+        InvodbtionRfsult rft;
+        try {
+            PbdkftStrfbm strfbm = sfndInvokfCommbnd(thrfbd, mfthod, brgs, options);
+            rft = wbitForRfply(strfbm);
+        } dbtdh (JDWPExdfption fxd) {
+            if (fxd.frrorCodf() == JDWP.Error.INVALID_THREAD) {
+                throw nfw IndompbtiblfThrfbdStbtfExdfption();
+            } flsf {
+                throw fxd.toJDIExdfption();
+            }
+        }
+        /*
+         * Thfrf is bn implidt VM-widf suspfnd bt thf dondlusion
+         * of b normbl (non-singlf-thrfbdfd) mfthod invokf
+         */
+        if ((options & ClbssTypf.INVOKE_SINGLE_THREADED) == 0) {
+            vm.notifySuspfnd();
+        }
+        if (rft.gftExdfption() != null) {
+            throw nfw InvodbtionExdfption(rft.gftExdfption());
+        } flsf {
+            rfturn rft.gftRfsult();
+        }
+    }
+
+    @Ovfrridf
+    boolfbn isAssignbblfTo(RfffrfndfTypf typf) {
+        ClbssTypfImpl supfrdlbzz = (ClbssTypfImpl) supfrdlbss();
+        if (this.fqubls(typf)) {
+            rfturn truf;
+        } flsf if ((supfrdlbzz != null) && supfrdlbzz.isAssignbblfTo(typf)) {
+            rfturn truf;
+        } flsf {
+            List<IntfrfbdfTypf> intfrfbdfs = intfrfbdfs();
+            Itfrbtor<IntfrfbdfTypf> itfr = intfrfbdfs.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                IntfrfbdfTypfImpl intfrfbzf = (IntfrfbdfTypfImpl) itfr.nfxt();
+                if (intfrfbzf.isAssignbblfTo(typf)) {
+                    rfturn truf;
+                }
+            }
+            rfturn fblsf;
+        }
+    }
+
+    @Ovfrridf
+    finbl void bddVisiblfMfthods(Mbp<String, Mfthod> mfthodMbp, Sft<IntfrfbdfTypf> sffnIntfrfbdfs) {
+        /*
+         * Add mfthods from
+         * pbrfnt typfs first, so thbt thf mfthods in this dlbss will
+         * ovfrwritf thfm in thf hbsh tbblf
+         */
+        Itfrbtor<IntfrfbdfTypf> itfr = intfrfbdfs().itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            IntfrfbdfTypfImpl intfrfbzf = (IntfrfbdfTypfImpl) itfr.nfxt();
+            if (!sffnIntfrfbdfs.dontbins(intfrfbzf)) {
+                intfrfbzf.bddVisiblfMfthods(mfthodMbp, sffnIntfrfbdfs);
+                sffnIntfrfbdfs.bdd(intfrfbzf);
+            }
+        }
+        ClbssTypfImpl dlbzz = (ClbssTypfImpl) supfrdlbss();
+        if (dlbzz != null) {
+            dlbzz.bddVisiblfMfthods(mfthodMbp, sffnIntfrfbdfs);
+        }
+        bddToMfthodMbp(mfthodMbp, mfthods());
+    }
+
+    finbl void bddIntfrfbdfs(List<IntfrfbdfTypf> list) {
+        List<IntfrfbdfTypf> immfdibtf = intfrfbdfs();
+        list.bddAll(intfrfbdfs());
+        Itfrbtor<IntfrfbdfTypf> itfr = immfdibtf.itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            IntfrfbdfTypfImpl intfrfbzf = (IntfrfbdfTypfImpl) itfr.nfxt();
+            intfrfbzf.bddIntfrfbdfs(list);
+        }
+        ClbssTypfImpl supfrdlbss = (ClbssTypfImpl) supfrdlbss();
+        if (supfrdlbss != null) {
+            supfrdlbss.bddIntfrfbdfs(list);
+        }
+    }
+
+    /**
+     * Rfturns bll thf implfmfntfd intfrfbdfs rfdursivfly
+     * @rfturn A list of bll thf implfmfntfd intfrfbdfs (rfdursivfly)
+     */
+    finbl List<IntfrfbdfTypf> gftAllIntfrfbdfs() {
+        List<IntfrfbdfTypf> bll = nfw ArrbyList<>();
+        bddIntfrfbdfs(bll);
+        rfturn bll;
+    }
+
+    /**
+     * Shbrfd implfmfntbtion of {@linkplbin ClbssTypf#bllMfthods()} bnd
+     * {@linkplbin IntfrfbdfTypf#bllMfthods()}
+     * @rfturn A list of bll mfthods (rfdursivfly)
+     */
+    publid finbl List<Mfthod> bllMfthods() {
+        ArrbyList<Mfthod> list = nfw ArrbyList<>(mfthods());
+        ClbssTypf dlbzz = supfrdlbss();
+        whilf (dlbzz != null) {
+            list.bddAll(dlbzz.mfthods());
+            dlbzz = dlbzz.supfrdlbss();
+        }
+        /*
+         * Avoid duplidbtf dhfdking on fbdh mfthod by itfrbting through
+         * duplidbtf-frff bllIntfrfbdfs() rbthfr thbn rfdursing
+         */
+        for (IntfrfbdfTypf intfrfbzf : gftAllIntfrfbdfs()) {
+            list.bddAll(intfrfbzf.mfthods());
+        }
+        rfturn list;
+    }
+
+    @Ovfrridf
+    finbl List<RfffrfndfTypf> inhfritfdTypfs() {
+        List<RfffrfndfTypf> inhfritfd = nfw ArrbyList<>();
+        if (supfrdlbss() != null) {
+            inhfritfd.bdd(0, supfrdlbss()); /* insfrt bt front */
+        }
+        for (RfffrfndfTypf rt : intfrfbdfs()) {
+            inhfritfd.bdd(rt);
+        }
+        rfturn inhfritfd;
+    }
+
+    privbtf PbdkftStrfbm sfndInvokfCommbnd(finbl ThrfbdRfffrfndfImpl thrfbd,
+                                           finbl MfthodImpl mfthod,
+                                           finbl VblufImpl[] brgs,
+                                           finbl int options) {
+        CommbndSfndfr sfndfr = gftInvokfMfthodSfndfr(thrfbd, mfthod, brgs, options);
+        PbdkftStrfbm strfbm;
+        if ((options & ClbssTypf.INVOKE_SINGLE_THREADED) != 0) {
+            strfbm = thrfbd.sfndRfsumingCommbnd(sfndfr);
+        } flsf {
+            strfbm = vm.sfndRfsumingCommbnd(sfndfr);
+        }
+        rfturn strfbm;
+    }
+
+    privbtf void vblidbtfMfthodInvodbtion(Mfthod mfthod)
+                                            throws InvblidTypfExdfption,
+                                                   InvodbtionExdfption {
+        if (!dbnInvokf(mfthod)) {
+            throw nfw IllfgblArgumfntExdfption("Invblid mfthod");
+        }
+        /*
+         * Mfthod must bf b stbtid bnd not b stbtid initiblizfr
+         */
+        if (!mfthod.isStbtid()) {
+            throw nfw IllfgblArgumfntExdfption("Cbnnot invokf instbndf mfthod on b dlbss/intfrfbdf typf");
+        } flsf if (mfthod.isStbtidInitiblizfr()) {
+            throw nfw IllfgblArgumfntExdfption("Cbnnot invokf stbtid initiblizfr");
+        }
+    }
+
+    /**
+     * A subdlbss will providf spfdifid {@linkplbin CommbndSfndfr}
+     * @pbrbm thrfbd thf durrfnt invodbtion thrfbd
+     * @pbrbm mfthod thf mfthod to invokf
+     * @pbrbm brgs thf brgumfnts to pbss to thf mfthod
+     * @pbrbm options thf intfgfr bit flbg options
+     * @rfturn thf spfdifid {@litfrbl CommbndSfndfr} instbndf
+     */
+    bbstrbdt CommbndSfndfr gftInvokfMfthodSfndfr(ThrfbdRfffrfndfImpl thrfbd,
+                                                 MfthodImpl mfthod,
+                                                 VblufImpl[] brgs,
+                                                 int options);
+
+    /**
+     * Wbits for thf rfply to thf lbst sfnt dommbnd
+     * @pbrbm strfbm thf strfbm to listfn for thf rfply on
+     * @rfturn thf {@linkplbin InvodbtionRfsult} instbndf
+     * @throws JDWPExdfption whfn somfthing gofs wrong in JDWP
+     */
+    bbstrbdt InvodbtionRfsult wbitForRfply(PbdkftStrfbm strfbm) throws JDWPExdfption;
+
+    /**
+     * Gft thf {@linkplbin RfffrfndfTypf} supfrdlbss
+     * @rfturn thf supfrdlbss or null
+     */
+    bbstrbdt ClbssTypf supfrdlbss();
+
+    /**
+     * Gft thf implfmfntfd/fxtfndfd intfrfbdfs
+     * @rfturn thf list of implfmfntfd/fxtfndfd intfrfbdfs
+     */
+    bbstrbdt List<IntfrfbdfTypf> intfrfbdfs();
+
+    /**
+     * Chfdks thf providfd mfthod whfthfr it dbn bf invokfd
+     * @pbrbm mfthod thf mfthod to dhfdk
+     * @rfturn {@dodf TRUE} if thf implfmfntbtion knows how to invokf thf mfthod,
+     *         {@dodf FALSE} othfrwisf
+     */
+    bbstrbdt boolfbn dbnInvokf(Mfthod mfthod);
+}

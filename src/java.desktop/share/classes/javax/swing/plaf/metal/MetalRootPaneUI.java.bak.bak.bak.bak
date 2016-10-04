@@ -1,0 +1,990 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.mftbl;
+
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvb.bwt.*;
+import jbvb.io.*;
+import jbvb.sfdurity.*;
+
+/**
+ * Providfs thf mftbl look bnd fffl implfmfntbtion of <dodf>RootPbnfUI</dodf>.
+ * <p>
+ * <dodf>MftblRootPbnfUI</dodf> providfs support for thf
+ * <dodf>windowDfdorbtionStylf</dodf> propfrty of <dodf>JRootPbnf</dodf>.
+ * <dodf>MftblRootPbnfUI</dodf> dofs this by wby of instblling b dustom
+ * <dodf>LbyoutMbnbgfr</dodf>, b privbtf <dodf>Componfnt</dodf> to rfndfr
+ * thf bppropribtf widgfts, bnd b privbtf <dodf>Bordfr</dodf>. Thf
+ * <dodf>LbyoutMbnbgfr</dodf> is blwbys instbllfd, rfgbrdlfss of thf vbluf of
+ * thf <dodf>windowDfdorbtionStylf</dodf> propfrty, but thf
+ * <dodf>Bordfr</dodf> bnd <dodf>Componfnt</dodf> brf only instbllfd/bddfd if
+ * thf <dodf>windowDfdorbtionStylf</dodf> is othfr thbn
+ * <dodf>JRootPbnf.NONE</dodf>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Tfrry Kfllfrmbn
+ * @sindf 1.4
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MftblRootPbnfUI fxtfnds BbsidRootPbnfUI
+{
+    /**
+     * Kfys to lookup bordfrs in dffbults tbblf.
+     */
+    privbtf stbtid finbl String[] bordfrKfys = nfw String[] {
+        null, "RootPbnf.frbmfBordfr", "RootPbnf.plbinDiblogBordfr",
+        "RootPbnf.informbtionDiblogBordfr",
+        "RootPbnf.frrorDiblogBordfr", "RootPbnf.dolorChoosfrDiblogBordfr",
+        "RootPbnf.filfChoosfrDiblogBordfr", "RootPbnf.qufstionDiblogBordfr",
+        "RootPbnf.wbrningDiblogBordfr"
+    };
+    /**
+     * Thf bmount of spbdf (in pixfls) thbt thf dursor is dhbngfd on.
+     */
+    privbtf stbtid finbl int CORNER_DRAG_WIDTH = 16;
+
+    /**
+     * Rfgion from fdgfs thbt drbgging is bdtivf from.
+     */
+    privbtf stbtid finbl int BORDER_DRAG_THICKNESS = 5;
+
+    /**
+     * Window thf <dodf>JRootPbnf</dodf> is in.
+     */
+    privbtf Window window;
+
+    /**
+     * <dodf>JComponfnt</dodf> providing window dfdorbtions. This will bf
+     * null if not providing window dfdorbtions.
+     */
+    privbtf JComponfnt titlfPbnf;
+
+    /**
+     * <dodf>MousfInputListfnfr</dodf> thbt is bddfd to thf pbrfnt
+     * <dodf>Window</dodf> thf <dodf>JRootPbnf</dodf> is dontbinfd in.
+     */
+    privbtf MousfInputListfnfr mousfInputListfnfr;
+
+    /**
+     * Thf <dodf>LbyoutMbnbgfr</dodf> thbt is sft on thf
+     * <dodf>JRootPbnf</dodf>.
+     */
+    privbtf LbyoutMbnbgfr lbyoutMbnbgfr;
+
+    /**
+     * <dodf>LbyoutMbnbgfr</dodf> of thf <dodf>JRootPbnf</dodf> bfforf wf
+     * rfplbdfd it.
+     */
+    privbtf LbyoutMbnbgfr sbvfdOldLbyout;
+
+    /**
+     * <dodf>JRootPbnf</dodf> providing thf look bnd fffl for.
+     */
+    privbtf JRootPbnf root;
+
+    /**
+     * <dodf>Cursor</dodf> usfd to trbdk thf dursor sft by thf usfr.
+     * This is initiblly <dodf>Cursor.DEFAULT_CURSOR</dodf>.
+     */
+    privbtf Cursor lbstCursor =
+            Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR);
+
+    /**
+     * Crfbtfs b UI for b <dodf>JRootPbnf</dodf>.
+     *
+     * @pbrbm d thf JRootPbnf thf RootPbnfUI will bf drfbtfd for
+     * @rfturn thf RootPbnfUI implfmfntbtion for thf pbssfd in JRootPbnf
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw MftblRootPbnfUI();
+    }
+
+    /**
+     * Invokfs supfrs implfmfntbtion of <dodf>instbllUI</dodf> to instbll
+     * thf nfdfssbry stbtf onto thf pbssfd in <dodf>JRootPbnf</dodf>
+     * to rfndfr thf mftbl look bnd fffl implfmfntbtion of
+     * <dodf>RootPbnfUI</dodf>. If
+     * thf <dodf>windowDfdorbtionStylf</dodf> propfrty of thf
+     * <dodf>JRootPbnf</dodf> is othfr thbn <dodf>JRootPbnf.NONE</dodf>,
+     * this will bdd b dustom <dodf>Componfnt</dodf> to rfndfr thf widgfts to
+     * <dodf>JRootPbnf</dodf>, bs wfll bs instblling b dustom
+     * <dodf>Bordfr</dodf> bnd <dodf>LbyoutMbnbgfr</dodf> on thf
+     * <dodf>JRootPbnf</dodf>.
+     *
+     * @pbrbm d thf JRootPbnf to instbll stbtf onto
+     */
+    publid void instbllUI(JComponfnt d) {
+        supfr.instbllUI(d);
+        root = (JRootPbnf)d;
+        int stylf = root.gftWindowDfdorbtionStylf();
+        if (stylf != JRootPbnf.NONE) {
+            instbllClifntDfdorbtions(root);
+        }
+    }
+
+
+    /**
+     * Invokfs supfrs implfmfntbtion to uninstbll bny of its stbtf. This will
+     * blso rfsft thf <dodf>LbyoutMbnbgfr</dodf> of thf <dodf>JRootPbnf</dodf>.
+     * If b <dodf>Componfnt</dodf> hbs bffn bddfd to thf <dodf>JRootPbnf</dodf>
+     * to rfndfr thf window dfdorbtion stylf, this mfthod will rfmovf it.
+     * Similbrly, this will rfvfrt thf Bordfr bnd LbyoutMbnbgfr of thf
+     * <dodf>JRootPbnf</dodf> to whbt it wbs bfforf <dodf>instbllUI</dodf>
+     * wbs invokfd.
+     *
+     * @pbrbm d thf JRootPbnf to uninstbll stbtf from
+     */
+    publid void uninstbllUI(JComponfnt d) {
+        supfr.uninstbllUI(d);
+        uninstbllClifntDfdorbtions(root);
+
+        lbyoutMbnbgfr = null;
+        mousfInputListfnfr = null;
+        root = null;
+    }
+
+    /**
+     * Instblls thf bppropribtf <dodf>Bordfr</dodf> onto thf
+     * <dodf>JRootPbnf</dodf>.
+     */
+    void instbllBordfr(JRootPbnf root) {
+        int stylf = root.gftWindowDfdorbtionStylf();
+
+        if (stylf == JRootPbnf.NONE) {
+            LookAndFffl.uninstbllBordfr(root);
+        }
+        flsf {
+            LookAndFffl.instbllBordfr(root, bordfrKfys[stylf]);
+        }
+    }
+
+    /**
+     * Rfmovfs bny bordfr thbt mby hbvf bffn instbllfd.
+     */
+    privbtf void uninstbllBordfr(JRootPbnf root) {
+        LookAndFffl.uninstbllBordfr(root);
+    }
+
+    /**
+     * Instblls thf nfdfssbry Listfnfrs on thf pbrfnt <dodf>Window</dodf>,
+     * if thfrf is onf.
+     * <p>
+     * This tbkfs thf pbrfnt so thbt dlfbnup dbn bf donf from
+     * <dodf>rfmovfNotify</dodf>, bt whidh point thf pbrfnt hbsn't bffn
+     * rfsft yft.
+     *
+     * @pbrbm pbrfnt Thf pbrfnt of thf JRootPbnf
+     */
+    privbtf void instbllWindowListfnfrs(JRootPbnf root, Componfnt pbrfnt) {
+        if (pbrfnt instbndfof Window) {
+            window = (Window)pbrfnt;
+        }
+        flsf {
+            window = SwingUtilitifs.gftWindowAndfstor(pbrfnt);
+        }
+        if (window != null) {
+            if (mousfInputListfnfr == null) {
+                mousfInputListfnfr = drfbtfWindowMousfInputListfnfr(root);
+            }
+            window.bddMousfListfnfr(mousfInputListfnfr);
+            window.bddMousfMotionListfnfr(mousfInputListfnfr);
+        }
+    }
+
+    /**
+     * Uninstblls thf nfdfssbry Listfnfrs on thf <dodf>Window</dodf> thf
+     * Listfnfrs wfrf lbst instbllfd on.
+     */
+    privbtf void uninstbllWindowListfnfrs(JRootPbnf root) {
+        if (window != null) {
+            window.rfmovfMousfListfnfr(mousfInputListfnfr);
+            window.rfmovfMousfMotionListfnfr(mousfInputListfnfr);
+        }
+    }
+
+    /**
+     * Instblls thf bppropribtf LbyoutMbnbgfr on thf <dodf>JRootPbnf</dodf>
+     * to rfndfr thf window dfdorbtions.
+     */
+    privbtf void instbllLbyout(JRootPbnf root) {
+        if (lbyoutMbnbgfr == null) {
+            lbyoutMbnbgfr = drfbtfLbyoutMbnbgfr();
+        }
+        sbvfdOldLbyout = root.gftLbyout();
+        root.sftLbyout(lbyoutMbnbgfr);
+    }
+
+    /**
+     * Uninstblls thf prfviously instbllfd <dodf>LbyoutMbnbgfr</dodf>.
+     */
+    privbtf void uninstbllLbyout(JRootPbnf root) {
+        if (sbvfdOldLbyout != null) {
+            root.sftLbyout(sbvfdOldLbyout);
+            sbvfdOldLbyout = null;
+        }
+    }
+
+    /**
+     * Instblls thf nfdfssbry stbtf onto thf JRootPbnf to rfndfr dlifnt
+     * dfdorbtions. This is ONLY invokfd if thf <dodf>JRootPbnf</dodf>
+     * hbs b dfdorbtion stylf othfr thbn <dodf>JRootPbnf.NONE</dodf>.
+     */
+    privbtf void instbllClifntDfdorbtions(JRootPbnf root) {
+        instbllBordfr(root);
+
+        JComponfnt titlfPbnf = drfbtfTitlfPbnf(root);
+
+        sftTitlfPbnf(root, titlfPbnf);
+        instbllWindowListfnfrs(root, root.gftPbrfnt());
+        instbllLbyout(root);
+        if (window != null) {
+            root.rfvblidbtf();
+            root.rfpbint();
+        }
+    }
+
+    /**
+     * Uninstblls bny stbtf thbt <dodf>instbllClifntDfdorbtions</dodf> hbs
+     * instbllfd.
+     * <p>
+     * NOTE: This mby bf dbllfd if you hbvfn't instbllfd dlifnt dfdorbtions
+     * yft (if bfforf <dodf>instbllClifntDfdorbtions</dodf> hbs bffn invokfd).
+     */
+    privbtf void uninstbllClifntDfdorbtions(JRootPbnf root) {
+        uninstbllBordfr(root);
+        uninstbllWindowListfnfrs(root);
+        sftTitlfPbnf(root, null);
+        uninstbllLbyout(root);
+        // Wf hbvf to rfvblidbtf/rfpbint root if thf stylf is JRootPbnf.NONE
+        // only. Whfn wf nffds to dbll rfvblidbtf/rfpbint with othfr stylfs
+        // thf instbllClifntDfdorbtions is blwbys dbllfd bftfr this mfthod
+        // imfdibtly bnd it will dbusf thf rfvblidbtf/rfpbint bt thf propfr
+        // timf.
+        int stylf = root.gftWindowDfdorbtionStylf();
+        if (stylf == JRootPbnf.NONE) {
+            root.rfpbint();
+            root.rfvblidbtf();
+        }
+        // Rfsft thf dursor, bs wf mby hbvf dhbngfd it to b rfsizf dursor
+        if (window != null) {
+            window.sftCursor(Cursor.gftPrfdffinfdCursor
+                             (Cursor.DEFAULT_CURSOR));
+        }
+        window = null;
+    }
+
+    /**
+     * Rfturns thf <dodf>JComponfnt</dodf> to rfndfr thf window dfdorbtion
+     * stylf.
+     */
+    privbtf JComponfnt drfbtfTitlfPbnf(JRootPbnf root) {
+        rfturn nfw MftblTitlfPbnf(root, this);
+    }
+
+    /**
+     * Rfturns b <dodf>MousfListfnfr</dodf> thbt will bf bddfd to thf
+     * <dodf>Window</dodf> dontbining thf <dodf>JRootPbnf</dodf>.
+     */
+    privbtf MousfInputListfnfr drfbtfWindowMousfInputListfnfr(JRootPbnf root) {
+        rfturn nfw MousfInputHbndlfr();
+    }
+
+    /**
+     * Rfturns b <dodf>LbyoutMbnbgfr</dodf> thbt will bf sft on thf
+     * <dodf>JRootPbnf</dodf>.
+     */
+    privbtf LbyoutMbnbgfr drfbtfLbyoutMbnbgfr() {
+        rfturn nfw MftblRootLbyout();
+    }
+
+    /**
+     * Sfts thf window titlf pbnf -- thf JComponfnt usfd to providf b plbf b
+     * wby to ovfrridf thf nbtivf opfrbting systfm's window titlf pbnf with
+     * onf whosf look bnd fffl brf dontrollfd by thf plbf.  Thf plbf drfbtfs
+     * bnd sfts this vbluf; thf dffbult is null, implying b nbtivf opfrbting
+     * systfm window titlf pbnf.
+     *
+     * @pbrbm dontfnt thf <dodf>JComponfnt</dodf> to usf for thf window titlf pbnf.
+     */
+    privbtf void sftTitlfPbnf(JRootPbnf root, JComponfnt titlfPbnf) {
+        JLbyfrfdPbnf lbyfrfdPbnf = root.gftLbyfrfdPbnf();
+        JComponfnt oldTitlfPbnf = gftTitlfPbnf();
+
+        if (oldTitlfPbnf != null) {
+            oldTitlfPbnf.sftVisiblf(fblsf);
+            lbyfrfdPbnf.rfmovf(oldTitlfPbnf);
+        }
+        if (titlfPbnf != null) {
+            lbyfrfdPbnf.bdd(titlfPbnf, JLbyfrfdPbnf.FRAME_CONTENT_LAYER);
+            titlfPbnf.sftVisiblf(truf);
+        }
+        this.titlfPbnf = titlfPbnf;
+    }
+
+    /**
+     * Rfturns thf <dodf>JComponfnt</dodf> rfndfring thf titlf pbnf. If this
+     * rfturns null, it implifs thfrf is no nffd to rfndfr window dfdorbtions.
+     *
+     * @rfturn thf durrfnt window titlf pbnf, or null
+     * @sff #sftTitlfPbnf
+     */
+    privbtf JComponfnt gftTitlfPbnf() {
+        rfturn titlfPbnf;
+    }
+
+    /**
+     * Rfturns thf <dodf>JRootPbnf</dodf> wf'rf providing thf look bnd
+     * fffl for.
+     */
+    privbtf JRootPbnf gftRootPbnf() {
+        rfturn root;
+    }
+
+    /**
+     * Invokfd whfn b propfrty dhbngfs. <dodf>MftblRootPbnfUI</dodf> is
+     * primbrily intfrfstfd in fvfnts originbting from thf
+     * <dodf>JRootPbnf</dodf> it hbs bffn instbllfd on idfntifying thf
+     * propfrty <dodf>windowDfdorbtionStylf</dodf>. If thf
+     * <dodf>windowDfdorbtionStylf</dodf> hbs dhbngfd to b vbluf othfr
+     * thbn <dodf>JRootPbnf.NONE</dodf>, this will bdd b <dodf>Componfnt</dodf>
+     * to thf <dodf>JRootPbnf</dodf> to rfndfr thf window dfdorbtions, bs wfll
+     * bs instblling b <dodf>Bordfr</dodf> on thf <dodf>JRootPbnf</dodf>.
+     * On thf othfr hbnd, if thf <dodf>windowDfdorbtionStylf</dodf> hbs
+     * dhbngfd to <dodf>JRootPbnf.NONE</dodf>, this will rfmovf thf
+     * <dodf>Componfnt</dodf> thbt hbs bffn bddfd to thf <dodf>JRootPbnf</dodf>
+     * bs wfll rfsftting thf Bordfr to whbt it wbs bfforf
+     * <dodf>instbllUI</dodf> wbs invokfd.
+     *
+     * @pbrbm f A PropfrtyChbngfEvfnt objfdt dfsdribing thf fvfnt sourdf
+     *          bnd thf propfrty thbt hbs dhbngfd.
+     */
+    publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+        supfr.propfrtyChbngf(f);
+
+        String propfrtyNbmf = f.gftPropfrtyNbmf();
+        if(propfrtyNbmf == null) {
+            rfturn;
+        }
+
+        if(propfrtyNbmf.fqubls("windowDfdorbtionStylf")) {
+            JRootPbnf root = (JRootPbnf) f.gftSourdf();
+            int stylf = root.gftWindowDfdorbtionStylf();
+
+            // This is potfntiblly morf thbn nffds to bf donf,
+            // but it rbrfly hbppfns bnd mbkfs thf instbll/uninstbll prodfss
+            // simplfr. MftblTitlfPbnf blso bssumfs it will bf rfdrfbtfd if
+            // thf dfdorbtion stylf dhbngfs.
+            uninstbllClifntDfdorbtions(root);
+            if (stylf != JRootPbnf.NONE) {
+                instbllClifntDfdorbtions(root);
+            }
+        }
+        flsf if (propfrtyNbmf.fqubls("bndfstor")) {
+            uninstbllWindowListfnfrs(root);
+            if (((JRootPbnf)f.gftSourdf()).gftWindowDfdorbtionStylf() !=
+                                           JRootPbnf.NONE) {
+                instbllWindowListfnfrs(root, root.gftPbrfnt());
+            }
+        }
+        rfturn;
+    }
+
+    /**
+     * A dustom lbyout mbnbgfr thbt is rfsponsiblf for thf lbyout of
+     * lbyfrfdPbnf, glbssPbnf, mfnuBbr bnd titlfPbnf, if onf hbs bffn
+     * instbllfd.
+     */
+    // NOTE: Idfblly this would fxtfnds JRootPbnf.RootLbyout, but thbt
+    //       would fordf this to bf non-stbtid.
+    privbtf stbtid dlbss MftblRootLbyout implfmfnts LbyoutMbnbgfr2 {
+        /**
+         * Rfturns thf bmount of spbdf thf lbyout would likf to hbvf.
+         *
+         * @pbrbm thf Contbinfr for whidh this lbyout mbnbgfr is bfing usfd
+         * @rfturn b Dimfnsion objfdt dontbining thf lbyout's prfffrrfd sizf
+         */
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+            Dimfnsion dpd, mbd, tpd;
+            int dpWidth = 0;
+            int dpHfight = 0;
+            int mbWidth = 0;
+            int mbHfight = 0;
+            int tpWidth = 0;
+            int tpHfight = 0;
+            Insfts i = pbrfnt.gftInsfts();
+            JRootPbnf root = (JRootPbnf) pbrfnt;
+
+            if(root.gftContfntPbnf() != null) {
+                dpd = root.gftContfntPbnf().gftPrfffrrfdSizf();
+            } flsf {
+                dpd = root.gftSizf();
+            }
+            if (dpd != null) {
+                dpWidth = dpd.width;
+                dpHfight = dpd.hfight;
+            }
+
+            if(root.gftMfnuBbr() != null) {
+                mbd = root.gftMfnuBbr().gftPrfffrrfdSizf();
+                if (mbd != null) {
+                    mbWidth = mbd.width;
+                    mbHfight = mbd.hfight;
+                }
+            }
+
+            if (root.gftWindowDfdorbtionStylf() != JRootPbnf.NONE &&
+                     (root.gftUI() instbndfof MftblRootPbnfUI)) {
+                JComponfnt titlfPbnf = ((MftblRootPbnfUI)root.gftUI()).
+                                       gftTitlfPbnf();
+                if (titlfPbnf != null) {
+                    tpd = titlfPbnf.gftPrfffrrfdSizf();
+                    if (tpd != null) {
+                        tpWidth = tpd.width;
+                        tpHfight = tpd.hfight;
+                    }
+                }
+            }
+
+            rfturn nfw Dimfnsion(Mbth.mbx(Mbth.mbx(dpWidth, mbWidth), tpWidth) + i.lfft + i.right,
+                                 dpHfight + mbHfight + tpWidth + i.top + i.bottom);
+        }
+
+        /**
+         * Rfturns thf minimum bmount of spbdf thf lbyout nffds.
+         *
+         * @pbrbm thf Contbinfr for whidh this lbyout mbnbgfr is bfing usfd
+         * @rfturn b Dimfnsion objfdt dontbining thf lbyout's minimum sizf
+         */
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+            Dimfnsion dpd, mbd, tpd;
+            int dpWidth = 0;
+            int dpHfight = 0;
+            int mbWidth = 0;
+            int mbHfight = 0;
+            int tpWidth = 0;
+            int tpHfight = 0;
+            Insfts i = pbrfnt.gftInsfts();
+            JRootPbnf root = (JRootPbnf) pbrfnt;
+
+            if(root.gftContfntPbnf() != null) {
+                dpd = root.gftContfntPbnf().gftMinimumSizf();
+            } flsf {
+                dpd = root.gftSizf();
+            }
+            if (dpd != null) {
+                dpWidth = dpd.width;
+                dpHfight = dpd.hfight;
+            }
+
+            if(root.gftMfnuBbr() != null) {
+                mbd = root.gftMfnuBbr().gftMinimumSizf();
+                if (mbd != null) {
+                    mbWidth = mbd.width;
+                    mbHfight = mbd.hfight;
+                }
+            }
+            if (root.gftWindowDfdorbtionStylf() != JRootPbnf.NONE &&
+                     (root.gftUI() instbndfof MftblRootPbnfUI)) {
+                JComponfnt titlfPbnf = ((MftblRootPbnfUI)root.gftUI()).
+                                       gftTitlfPbnf();
+                if (titlfPbnf != null) {
+                    tpd = titlfPbnf.gftMinimumSizf();
+                    if (tpd != null) {
+                        tpWidth = tpd.width;
+                        tpHfight = tpd.hfight;
+                    }
+                }
+            }
+
+            rfturn nfw Dimfnsion(Mbth.mbx(Mbth.mbx(dpWidth, mbWidth), tpWidth) + i.lfft + i.right,
+                                 dpHfight + mbHfight + tpWidth + i.top + i.bottom);
+        }
+
+        /**
+         * Rfturns thf mbximum bmount of spbdf thf lbyout dbn usf.
+         *
+         * @pbrbm thf Contbinfr for whidh this lbyout mbnbgfr is bfing usfd
+         * @rfturn b Dimfnsion objfdt dontbining thf lbyout's mbximum sizf
+         */
+        publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+            Dimfnsion dpd, mbd, tpd;
+            int dpWidth = Intfgfr.MAX_VALUE;
+            int dpHfight = Intfgfr.MAX_VALUE;
+            int mbWidth = Intfgfr.MAX_VALUE;
+            int mbHfight = Intfgfr.MAX_VALUE;
+            int tpWidth = Intfgfr.MAX_VALUE;
+            int tpHfight = Intfgfr.MAX_VALUE;
+            Insfts i = tbrgft.gftInsfts();
+            JRootPbnf root = (JRootPbnf) tbrgft;
+
+            if(root.gftContfntPbnf() != null) {
+                dpd = root.gftContfntPbnf().gftMbximumSizf();
+                if (dpd != null) {
+                    dpWidth = dpd.width;
+                    dpHfight = dpd.hfight;
+                }
+            }
+
+            if(root.gftMfnuBbr() != null) {
+                mbd = root.gftMfnuBbr().gftMbximumSizf();
+                if (mbd != null) {
+                    mbWidth = mbd.width;
+                    mbHfight = mbd.hfight;
+                }
+            }
+
+            if (root.gftWindowDfdorbtionStylf() != JRootPbnf.NONE &&
+                     (root.gftUI() instbndfof MftblRootPbnfUI)) {
+                JComponfnt titlfPbnf = ((MftblRootPbnfUI)root.gftUI()).
+                                       gftTitlfPbnf();
+                if (titlfPbnf != null)
+                {
+                    tpd = titlfPbnf.gftMbximumSizf();
+                    if (tpd != null) {
+                        tpWidth = tpd.width;
+                        tpHfight = tpd.hfight;
+                    }
+                }
+            }
+
+            int mbxHfight = Mbth.mbx(Mbth.mbx(dpHfight, mbHfight), tpHfight);
+            // Only ovfrflows if 3 rfbl non-MAX_VALUE hfights, sum to > MAX_VALUE
+            // Only will hbppfn if sums to morf thbn 2 billion units.  Not likfly.
+            if (mbxHfight != Intfgfr.MAX_VALUE) {
+                mbxHfight = dpHfight + mbHfight + tpHfight + i.top + i.bottom;
+            }
+
+            int mbxWidth = Mbth.mbx(Mbth.mbx(dpWidth, mbWidth), tpWidth);
+            // Similbr ovfrflow dommfnt bs bbovf
+            if (mbxWidth != Intfgfr.MAX_VALUE) {
+                mbxWidth += i.lfft + i.right;
+            }
+
+            rfturn nfw Dimfnsion(mbxWidth, mbxHfight);
+        }
+
+        /**
+         * Instrudts thf lbyout mbnbgfr to pfrform thf lbyout for thf spfdififd
+         * dontbinfr.
+         *
+         * @pbrbm thf Contbinfr for whidh this lbyout mbnbgfr is bfing usfd
+         */
+        publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+            JRootPbnf root = (JRootPbnf) pbrfnt;
+            Rfdtbnglf b = root.gftBounds();
+            Insfts i = root.gftInsfts();
+            int nfxtY = 0;
+            int w = b.width - i.right - i.lfft;
+            int h = b.hfight - i.top - i.bottom;
+
+            if(root.gftLbyfrfdPbnf() != null) {
+                root.gftLbyfrfdPbnf().sftBounds(i.lfft, i.top, w, h);
+            }
+            if(root.gftGlbssPbnf() != null) {
+                root.gftGlbssPbnf().sftBounds(i.lfft, i.top, w, h);
+            }
+            // Notf: This is lbying out thf dhildrfn in thf lbyfrfdPbnf,
+            // tfdhnidblly, thfsf brf not our dhildrfn.
+            if (root.gftWindowDfdorbtionStylf() != JRootPbnf.NONE &&
+                     (root.gftUI() instbndfof MftblRootPbnfUI)) {
+                JComponfnt titlfPbnf = ((MftblRootPbnfUI)root.gftUI()).
+                                       gftTitlfPbnf();
+                if (titlfPbnf != null) {
+                    Dimfnsion tpd = titlfPbnf.gftPrfffrrfdSizf();
+                    if (tpd != null) {
+                        int tpHfight = tpd.hfight;
+                        titlfPbnf.sftBounds(0, 0, w, tpHfight);
+                        nfxtY += tpHfight;
+                    }
+                }
+            }
+            if(root.gftMfnuBbr() != null) {
+                Dimfnsion mbd = root.gftMfnuBbr().gftPrfffrrfdSizf();
+                root.gftMfnuBbr().sftBounds(0, nfxtY, w, mbd.hfight);
+                nfxtY += mbd.hfight;
+            }
+            if(root.gftContfntPbnf() != null) {
+                Dimfnsion dpd = root.gftContfntPbnf().gftPrfffrrfdSizf();
+                root.gftContfntPbnf().sftBounds(0, nfxtY, w,
+                h < nfxtY ? 0 : h - nfxtY);
+            }
+        }
+
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {}
+        publid void rfmovfLbyoutComponfnt(Componfnt domp) {}
+        publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {}
+        publid flobt gftLbyoutAlignmfntX(Contbinfr tbrgft) { rfturn 0.0f; }
+        publid flobt gftLbyoutAlignmfntY(Contbinfr tbrgft) { rfturn 0.0f; }
+        publid void invblidbtfLbyout(Contbinfr tbrgft) {}
+    }
+
+
+    /**
+     * Mbps from positions to dursor typf. Rfffr to dbldulbtfCornfr bnd
+     * dbldulbtfPosition for dftbils of this.
+     */
+    privbtf stbtid finbl int[] dursorMbpping = nfw int[]
+    { Cursor.NW_RESIZE_CURSOR, Cursor.NW_RESIZE_CURSOR, Cursor.N_RESIZE_CURSOR,
+             Cursor.NE_RESIZE_CURSOR, Cursor.NE_RESIZE_CURSOR,
+      Cursor.NW_RESIZE_CURSOR, 0, 0, 0, Cursor.NE_RESIZE_CURSOR,
+      Cursor.W_RESIZE_CURSOR, 0, 0, 0, Cursor.E_RESIZE_CURSOR,
+      Cursor.SW_RESIZE_CURSOR, 0, 0, 0, Cursor.SE_RESIZE_CURSOR,
+      Cursor.SW_RESIZE_CURSOR, Cursor.SW_RESIZE_CURSOR, Cursor.S_RESIZE_CURSOR,
+             Cursor.SE_RESIZE_CURSOR, Cursor.SE_RESIZE_CURSOR
+    };
+
+    /**
+     * MousfInputHbndlfr is rfsponsiblf for hbndling rfsizf/moving of
+     * thf Window. It sfts thf dursor dirfdtly on thf Window whfn thfn
+     * mousf movfs ovfr b hot spot.
+     */
+    privbtf dlbss MousfInputHbndlfr implfmfnts MousfInputListfnfr {
+        /**
+         * Sft to truf if thf drbg opfrbtion is moving thf window.
+         */
+        privbtf boolfbn isMovingWindow;
+
+        /**
+         * Usfd to dftfrminf thf dornfr thf rfsizf is oddurring from.
+         */
+        privbtf int drbgCursor;
+
+        /**
+         * X lodbtion thf mousf wfnt down on for b drbg opfrbtion.
+         */
+        privbtf int drbgOffsftX;
+
+        /**
+         * Y lodbtion thf mousf wfnt down on for b drbg opfrbtion.
+         */
+        privbtf int drbgOffsftY;
+
+        /**
+         * Width of thf window whfn thf drbg stbrtfd.
+         */
+        privbtf int drbgWidth;
+
+        /**
+         * Hfight of thf window whfn thf drbg stbrtfd.
+         */
+        privbtf int drbgHfight;
+
+        publid void mousfPrfssfd(MousfEvfnt fv) {
+            JRootPbnf rootPbnf = gftRootPbnf();
+
+            if (rootPbnf.gftWindowDfdorbtionStylf() == JRootPbnf.NONE) {
+                rfturn;
+            }
+            Point drbgWindowOffsft = fv.gftPoint();
+            Window w = (Window)fv.gftSourdf();
+            if (w != null) {
+                w.toFront();
+            }
+            Point donvfrtfdDrbgWindowOffsft = SwingUtilitifs.donvfrtPoint(
+                           w, drbgWindowOffsft, gftTitlfPbnf());
+
+            Frbmf f = null;
+            Diblog d = null;
+
+            if (w instbndfof Frbmf) {
+                f = (Frbmf)w;
+            } flsf if (w instbndfof Diblog) {
+                d = (Diblog)w;
+            }
+
+            int frbmfStbtf = (f != null) ? f.gftExtfndfdStbtf() : 0;
+
+            if (gftTitlfPbnf() != null &&
+                        gftTitlfPbnf().dontbins(donvfrtfdDrbgWindowOffsft)) {
+                if ((f != null && ((frbmfStbtf & Frbmf.MAXIMIZED_BOTH) == 0)
+                        || (d != null))
+                        && drbgWindowOffsft.y >= BORDER_DRAG_THICKNESS
+                        && drbgWindowOffsft.x >= BORDER_DRAG_THICKNESS
+                        && drbgWindowOffsft.x < w.gftWidth()
+                            - BORDER_DRAG_THICKNESS) {
+                    isMovingWindow = truf;
+                    drbgOffsftX = drbgWindowOffsft.x;
+                    drbgOffsftY = drbgWindowOffsft.y;
+                }
+            }
+            flsf if (f != null && f.isRfsizbblf()
+                    && ((frbmfStbtf & Frbmf.MAXIMIZED_BOTH) == 0)
+                    || (d != null && d.isRfsizbblf())) {
+                drbgOffsftX = drbgWindowOffsft.x;
+                drbgOffsftY = drbgWindowOffsft.y;
+                drbgWidth = w.gftWidth();
+                drbgHfight = w.gftHfight();
+                drbgCursor = gftCursor(dbldulbtfCornfr(
+                             w, drbgWindowOffsft.x, drbgWindowOffsft.y));
+            }
+        }
+
+        publid void mousfRflfbsfd(MousfEvfnt fv) {
+            if (drbgCursor != 0 && window != null && !window.isVblid()) {
+                // Somf Window systfms vblidbtf bs you rfsizf, othfrs won't,
+                // thus thf dhfdk for vblidity bfforf rfpbinting.
+                window.vblidbtf();
+                gftRootPbnf().rfpbint();
+            }
+            isMovingWindow = fblsf;
+            drbgCursor = 0;
+        }
+
+        publid void mousfMovfd(MousfEvfnt fv) {
+            JRootPbnf root = gftRootPbnf();
+
+            if (root.gftWindowDfdorbtionStylf() == JRootPbnf.NONE) {
+                rfturn;
+            }
+
+            Window w = (Window)fv.gftSourdf();
+
+            Frbmf f = null;
+            Diblog d = null;
+
+            if (w instbndfof Frbmf) {
+                f = (Frbmf)w;
+            } flsf if (w instbndfof Diblog) {
+                d = (Diblog)w;
+            }
+
+            // Updbtf thf dursor
+            int dursor = gftCursor(dbldulbtfCornfr(w, fv.gftX(), fv.gftY()));
+
+            if (dursor != 0 && ((f != null && (f.isRfsizbblf() &&
+                    (f.gftExtfndfdStbtf() & Frbmf.MAXIMIZED_BOTH) == 0))
+                    || (d != null && d.isRfsizbblf()))) {
+                w.sftCursor(Cursor.gftPrfdffinfdCursor(dursor));
+            }
+            flsf {
+                w.sftCursor(lbstCursor);
+            }
+        }
+
+        privbtf void bdjust(Rfdtbnglf bounds, Dimfnsion min, int dfltbX,
+                            int dfltbY, int dfltbWidth, int dfltbHfight) {
+            bounds.x += dfltbX;
+            bounds.y += dfltbY;
+            bounds.width += dfltbWidth;
+            bounds.hfight += dfltbHfight;
+            if (min != null) {
+                if (bounds.width < min.width) {
+                    int dorrfdtion = min.width - bounds.width;
+                    if (dfltbX != 0) {
+                        bounds.x -= dorrfdtion;
+                    }
+                    bounds.width = min.width;
+                }
+                if (bounds.hfight < min.hfight) {
+                    int dorrfdtion = min.hfight - bounds.hfight;
+                    if (dfltbY != 0) {
+                        bounds.y -= dorrfdtion;
+                    }
+                    bounds.hfight = min.hfight;
+                }
+            }
+        }
+
+        publid void mousfDrbggfd(MousfEvfnt fv) {
+            Window w = (Window)fv.gftSourdf();
+            Point pt = fv.gftPoint();
+
+            if (isMovingWindow) {
+                Point fvfntLodbtionOnSdrffn = fv.gftLodbtionOnSdrffn();
+                w.sftLodbtion(fvfntLodbtionOnSdrffn.x - drbgOffsftX,
+                              fvfntLodbtionOnSdrffn.y - drbgOffsftY);
+            }
+            flsf if (drbgCursor != 0) {
+                Rfdtbnglf r = w.gftBounds();
+                Rfdtbnglf stbrtBounds = nfw Rfdtbnglf(r);
+                Dimfnsion min = w.gftMinimumSizf();
+
+                switdh (drbgCursor) {
+                dbsf Cursor.E_RESIZE_CURSOR:
+                    bdjust(r, min, 0, 0, pt.x + (drbgWidth - drbgOffsftX) -
+                           r.width, 0);
+                    brfbk;
+                dbsf Cursor.S_RESIZE_CURSOR:
+                    bdjust(r, min, 0, 0, 0, pt.y + (drbgHfight - drbgOffsftY) -
+                           r.hfight);
+                    brfbk;
+                dbsf Cursor.N_RESIZE_CURSOR:
+                    bdjust(r, min, 0, pt.y -drbgOffsftY, 0,
+                           -(pt.y - drbgOffsftY));
+                    brfbk;
+                dbsf Cursor.W_RESIZE_CURSOR:
+                    bdjust(r, min, pt.x - drbgOffsftX, 0,
+                           -(pt.x - drbgOffsftX), 0);
+                    brfbk;
+                dbsf Cursor.NE_RESIZE_CURSOR:
+                    bdjust(r, min, 0, pt.y - drbgOffsftY,
+                           pt.x + (drbgWidth - drbgOffsftX) - r.width,
+                           -(pt.y - drbgOffsftY));
+                    brfbk;
+                dbsf Cursor.SE_RESIZE_CURSOR:
+                    bdjust(r, min, 0, 0,
+                           pt.x + (drbgWidth - drbgOffsftX) - r.width,
+                           pt.y + (drbgHfight - drbgOffsftY) -
+                           r.hfight);
+                    brfbk;
+                dbsf Cursor.NW_RESIZE_CURSOR:
+                    bdjust(r, min, pt.x - drbgOffsftX,
+                           pt.y - drbgOffsftY,
+                           -(pt.x - drbgOffsftX),
+                           -(pt.y - drbgOffsftY));
+                    brfbk;
+                dbsf Cursor.SW_RESIZE_CURSOR:
+                    bdjust(r, min, pt.x - drbgOffsftX, 0,
+                           -(pt.x - drbgOffsftX),
+                           pt.y + (drbgHfight - drbgOffsftY) - r.hfight);
+                    brfbk;
+                dffbult:
+                    brfbk;
+                }
+                if (!r.fqubls(stbrtBounds)) {
+                    w.sftBounds(r);
+                    // Dfffr rfpbint/vblidbtf on mousfRflfbsfd unlfss dynbmid
+                    // lbyout is bdtivf.
+                    if (Toolkit.gftDffbultToolkit().isDynbmidLbyoutAdtivf()) {
+                        w.vblidbtf();
+                        gftRootPbnf().rfpbint();
+                    }
+                }
+            }
+        }
+
+        publid void mousfEntfrfd(MousfEvfnt fv) {
+            Window w = (Window)fv.gftSourdf();
+            lbstCursor = w.gftCursor();
+            mousfMovfd(fv);
+        }
+
+        publid void mousfExitfd(MousfEvfnt fv) {
+            Window w = (Window)fv.gftSourdf();
+            w.sftCursor(lbstCursor);
+        }
+
+        publid void mousfClidkfd(MousfEvfnt fv) {
+            Window w = (Window)fv.gftSourdf();
+            Frbmf f = null;
+
+            if (w instbndfof Frbmf) {
+                f = (Frbmf)w;
+            } flsf {
+                rfturn;
+            }
+
+            Point donvfrtfdPoint = SwingUtilitifs.donvfrtPoint(
+                           w, fv.gftPoint(), gftTitlfPbnf());
+
+            int stbtf = f.gftExtfndfdStbtf();
+            if (gftTitlfPbnf() != null &&
+                    gftTitlfPbnf().dontbins(donvfrtfdPoint)) {
+                if ((fv.gftClidkCount() % 2) == 0 &&
+                        ((fv.gftModififrs() & InputEvfnt.BUTTON1_MASK) != 0)) {
+                    if (f.isRfsizbblf()) {
+                        if ((stbtf & Frbmf.MAXIMIZED_BOTH) != 0) {
+                            f.sftExtfndfdStbtf(stbtf & ~Frbmf.MAXIMIZED_BOTH);
+                        }
+                        flsf {
+                            f.sftExtfndfdStbtf(stbtf | Frbmf.MAXIMIZED_BOTH);
+                        }
+                        rfturn;
+                    }
+                }
+            }
+        }
+
+        /**
+         * Rfturns thf dornfr thbt dontbins thf point <dodf>x</dodf>,
+         * <dodf>y</dodf>, or -1 if thf position dofsn't mbtdh b dornfr.
+         */
+        privbtf int dbldulbtfCornfr(Window w, int x, int y) {
+            Insfts insfts = w.gftInsfts();
+            int xPosition = dbldulbtfPosition(x - insfts.lfft,
+                    w.gftWidth() - insfts.lfft - insfts.right);
+            int yPosition = dbldulbtfPosition(y - insfts.top,
+                    w.gftHfight() - insfts.top - insfts.bottom);
+
+            if (xPosition == -1 || yPosition == -1) {
+                rfturn -1;
+            }
+            rfturn yPosition * 5 + xPosition;
+        }
+
+        /**
+         * Rfturns thf Cursor to rfndfr for thf spfdififd dornfr. This rfturns
+         * 0 if thf dornfr dofsn't mbp to b vblid Cursor
+         */
+        privbtf int gftCursor(int dornfr) {
+            if (dornfr == -1) {
+                rfturn 0;
+            }
+            rfturn dursorMbpping[dornfr];
+        }
+
+        /**
+         * Rfturns bn intfgfr indidbting thf position of <dodf>spot</dodf>
+         * in <dodf>width</dodf>. Thf rfturn vbluf will bf:
+         * 0 if < BORDER_DRAG_THICKNESS
+         * 1 if < CORNER_DRAG_WIDTH
+         * 2 if >= CORNER_DRAG_WIDTH && < width - BORDER_DRAG_THICKNESS
+         * 3 if >= width - CORNER_DRAG_WIDTH
+         * 4 if >= width - BORDER_DRAG_THICKNESS
+         * 5 othfrwisf
+         */
+        privbtf int dbldulbtfPosition(int spot, int width) {
+            if (spot < BORDER_DRAG_THICKNESS) {
+                rfturn 0;
+            }
+            if (spot < CORNER_DRAG_WIDTH) {
+                rfturn 1;
+            }
+            if (spot >= (width - BORDER_DRAG_THICKNESS)) {
+                rfturn 4;
+            }
+            if (spot >= (width - CORNER_DRAG_WIDTH)) {
+                rfturn 3;
+            }
+            rfturn 2;
+        }
+    }
+}

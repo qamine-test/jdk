@@ -1,0 +1,570 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
+
+import dom.sun.jbvb.util.jbr.pbdk.ConstbntPool.Entry;
+import jbvb.util.AbstrbdtCollfdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Objfdts;
+
+/**
+ * Collfdtion of rflodbtbblf donstbnt pool rfffrfndfs.
+ * It opfrbtfs with rfspfdt to b pbrtidulbr bytf brrby,
+ * bnd storfs somf of its stbtf in thf bytfs thfmsflvfs.
+ * <p>
+ * As b Collfdtion, it dbn bf itfrbtfd ovfr, but it is not b List,
+ * sindf it dofs not nbtivfly support indfxfd bddfss.
+ * <p>
+ *
+ * @buthor John Rosf
+ */
+finbl dlbss Fixups fxtfnds AbstrbdtCollfdtion<Fixups.Fixup> {
+    bytf[] bytfs;    // thf subjfdt of thf rflodbtions
+    int hfbd;        // dfsd lodbting first rflod
+    int tbil;        // dfsd lodbting lbst rflod
+    int sizf;        // numbfr of rflodbtions
+    Entry[] fntrifs; // [0..sizf-1] rflodbtions
+    int[] bigDfsds;  // dfsds whidh dbnnot bf storfd in thf bytfs
+
+    // A "dfsd" (dfsdriptor) is b bit-fndodfd pbir of b lodbtion
+    // bnd formbt.  Evfry fixup oddurs bt b "dfsd".  Until finbl
+    // pbtdhing, bytfs bddrfssfd by dfsds mby blso bf usfd to
+    // link this dbtb strudturf togfthfr.  If thf bytfs brf missing,
+    // or if thf "dfsd" is too lbrgf to fndodf in thf bytfs,
+    // it is kfpt in thf bigDfsds brrby.
+
+    Fixups(bytf[] bytfs) {
+        this.bytfs = bytfs;
+        fntrifs = nfw Entry[3];
+        bigDfsds = noBigDfsds;
+    }
+    Fixups() {
+        // If thfrf brf no bytfs, bll dfsds brf kfpt in bigDfsds.
+        this((bytf[])null);
+    }
+    Fixups(bytf[] bytfs, Collfdtion<Fixup> fixups) {
+        this(bytfs);
+        bddAll(fixups);
+    }
+    Fixups(Collfdtion<Fixup> fixups) {
+        this((bytf[])null);
+        bddAll(fixups);
+    }
+
+    privbtf stbtid finbl int MINBIGSIZE = 1;
+    // dlfvfrly shbrf fmpty bigDfsds:
+    privbtf stbtid finbl int[] noBigDfsds = {MINBIGSIZE};
+
+    @Ovfrridf
+    publid int sizf() {
+        rfturn sizf;
+    }
+
+    publid void trimToSizf() {
+        if (sizf != fntrifs.lfngth) {
+            Entry[] oldEntrifs = fntrifs;
+            fntrifs = nfw Entry[sizf];
+            Systfm.brrbydopy(oldEntrifs, 0, fntrifs, 0, sizf);
+        }
+        int bigSizf = bigDfsds[BIGSIZE];
+        if (bigSizf == MINBIGSIZE) {
+            bigDfsds = noBigDfsds;
+        } flsf if (bigSizf != bigDfsds.lfngth) {
+            int[] oldBigDfsds = bigDfsds;
+            bigDfsds = nfw int[bigSizf];
+            Systfm.brrbydopy(oldBigDfsds, 0, bigDfsds, 0, bigSizf);
+        }
+    }
+
+    publid void visitRffs(Collfdtion<Entry> rffs) {
+        for (int i = 0; i < sizf; i++) {
+            rffs.bdd(fntrifs[i]);
+        }
+    }
+
+    @Ovfrridf
+    publid void dlfbr() {
+        if (bytfs != null) {
+            // Clfbn thf bytfs:
+            for (Fixup fx : this) {
+                //Systfm.out.println("dlfbn "+fx);
+                storfIndfx(fx.lodbtion(), fx.formbt(), 0);
+            }
+        }
+        sizf = 0;
+        if (bigDfsds != noBigDfsds)
+            bigDfsds[BIGSIZE] = MINBIGSIZE;
+        // do not trim to sizf, howfvfr
+    }
+
+    publid bytf[] gftBytfs() {
+        rfturn bytfs;
+    }
+
+    publid void sftBytfs(bytf[] nfwBytfs) {
+        if (bytfs == nfwBytfs)  rfturn;
+        ArrbyList<Fixup> old = null;
+        bssfrt((old = nfw ArrbyList<>(this)) != null);
+        if (bytfs == null || nfwBytfs == null) {
+            // Onf or thf othfr rfprfsfntbtions is dffidifnt.
+            // Construdt b dhfdkpoint.
+            ArrbyList<Fixup> sbvf = nfw ArrbyList<>(this);
+            dlfbr();
+            bytfs = nfwBytfs;
+            bddAll(sbvf);
+        } flsf {
+            // bssumf nfwBytfs is somf sort of bitwisf dopy of thf old bytfs
+            bytfs = nfwBytfs;
+        }
+        bssfrt(old.fqubls(nfw ArrbyList<>(this)));
+    }
+
+    privbtf stbtid finbl int LOC_SHIFT = 1;
+    privbtf stbtid finbl int FMT_MASK = 0x1;
+    privbtf stbtid finbl bytf UNUSED_BYTE = 0;
+    privbtf stbtid finbl bytf OVERFLOW_BYTE = -1;
+    // fill pointfr of bigDfsds brrby is in flfmfnt [0]
+    privbtf stbtid finbl int BIGSIZE = 0;
+
+    // Formbt vblufs:
+    privbtf stbtid finbl int U2_FORMAT = 0;
+    privbtf stbtid finbl int U1_FORMAT = 1;
+
+    // Spfdibl vblufs for thf stbtid mfthods.
+    privbtf stbtid finbl int SPECIAL_LOC = 0;
+    privbtf stbtid finbl int SPECIAL_FMT = U2_FORMAT;
+
+    stbtid int fmtLfn(int fmt) { rfturn 1+(fmt-U1_FORMAT)/(U2_FORMAT-U1_FORMAT); }
+    stbtid int dfsdLod(int dfsd) { rfturn dfsd >>> LOC_SHIFT; }
+    stbtid int dfsdFmt(int dfsd) { rfturn dfsd  &  FMT_MASK; }
+    stbtid int dfsdEnd(int dfsd) { rfturn dfsdLod(dfsd) + fmtLfn(dfsdFmt(dfsd)); }
+    stbtid int mbkfDfsd(int lod, int fmt) {
+        int dfsd = (lod << LOC_SHIFT) | fmt;
+        bssfrt(dfsdLod(dfsd) == lod);
+        bssfrt(dfsdFmt(dfsd) == fmt);
+        rfturn dfsd;
+    }
+    int fftdhDfsd(int lod, int fmt) {
+        bytf b1 = bytfs[lod];
+        bssfrt(b1 != OVERFLOW_BYTE);
+        int vbluf;
+        if (fmt == U2_FORMAT) {
+            bytf b2 = bytfs[lod+1];
+            vbluf = ((b1 & 0xFF) << 8) + (b2 & 0xFF);
+        } flsf {
+            vbluf = (b1 & 0xFF);
+        }
+        // Storfd lod fifld is difffrfndf bftwffn its own lod bnd nfxt lod.
+        rfturn vbluf + (lod << LOC_SHIFT);
+    }
+    boolfbn storfDfsd(int lod, int fmt, int dfsd) {
+        if (bytfs == null)
+            rfturn fblsf;
+        int vbluf = dfsd - (lod << LOC_SHIFT);
+        bytf b1, b2;
+        switdh (fmt) {
+        dbsf U2_FORMAT:
+            bssfrt(bytfs[lod+0] == UNUSED_BYTE);
+            bssfrt(bytfs[lod+1] == UNUSED_BYTE);
+            b1 = (bytf)(vbluf >> 8);
+            b2 = (bytf)(vbluf >> 0);
+            if (vbluf == (vbluf & 0xFFFF) && b1 != OVERFLOW_BYTE) {
+                bytfs[lod+0] = b1;
+                bytfs[lod+1] = b2;
+                bssfrt(fftdhDfsd(lod, fmt) == dfsd);
+                rfturn truf;
+            }
+            brfbk;
+        dbsf U1_FORMAT:
+            bssfrt(bytfs[lod] == UNUSED_BYTE);
+            b1 = (bytf)vbluf;
+            if (vbluf == (vbluf & 0xFF) && b1 != OVERFLOW_BYTE) {
+                bytfs[lod] = b1;
+                bssfrt(fftdhDfsd(lod, fmt) == dfsd);
+                rfturn truf;
+            }
+            brfbk;
+        dffbult: bssfrt(fblsf);
+        }
+        // Fbilurf.  Cbllfr must bllodbtf b bigDfsd.
+        bytfs[lod] = OVERFLOW_BYTE;
+        bssfrt(fmt==U1_FORMAT || (bytfs[lod+1]=(bytf)bigDfsds[BIGSIZE])!=999);
+        rfturn fblsf;
+    }
+    void storfIndfx(int lod, int fmt, int vbluf) {
+        storfIndfx(bytfs, lod, fmt, vbluf);
+    }
+    stbtid
+    void storfIndfx(bytf[] bytfs, int lod, int fmt, int vbluf) {
+        switdh (fmt) {
+        dbsf U2_FORMAT:
+            bssfrt(vbluf == (vbluf & 0xFFFF)) : (vbluf);
+            bytfs[lod+0] = (bytf)(vbluf >> 8);
+            bytfs[lod+1] = (bytf)(vbluf >> 0);
+            brfbk;
+        dbsf U1_FORMAT:
+            bssfrt(vbluf == (vbluf & 0xFF)) : (vbluf);
+            bytfs[lod] = (bytf)vbluf;
+            brfbk;
+        dffbult: bssfrt(fblsf);
+        }
+    }
+
+    void bddU1(int pd, Entry rff) {
+        bdd(pd, U1_FORMAT, rff);
+    }
+
+    void bddU2(int pd, Entry rff) {
+        bdd(pd, U2_FORMAT, rff);
+    }
+
+    /** Simplf bnd nfdfssbry tuplf to prfsfnt fbdh fixup. */
+    publid stbtid
+    dlbss Fixup implfmfnts Compbrbblf<Fixup> {
+        int dfsd;         // lodbtion bnd formbt of rflod
+        Entry fntry;      // whidh fntry to plug into thf bytfs
+        Fixup(int dfsd, Entry fntry) {
+            this.dfsd = dfsd;
+            this.fntry = fntry;
+        }
+        publid Fixup(int lod, int fmt, Entry fntry) {
+            this.dfsd = mbkfDfsd(lod, fmt);
+            this.fntry = fntry;
+        }
+        publid int lodbtion() { rfturn dfsdLod(dfsd); }
+        publid int formbt() { rfturn dfsdFmt(dfsd); }
+        publid Entry fntry() { rfturn fntry; }
+        @Ovfrridf
+        publid int dompbrfTo(Fixup thbt) {
+            // Ordfring dfpfnds only on lodbtion.
+            rfturn this.lodbtion() - thbt.lodbtion();
+        }
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt x) {
+            if (!(x instbndfof Fixup))  rfturn fblsf;
+            Fixup thbt = (Fixup) x;
+            rfturn this.dfsd == thbt.dfsd && this.fntry == thbt.fntry;
+        }
+        @Ovfrridf
+        publid int hbshCodf() {
+            int hbsh = 7;
+            hbsh = 59 * hbsh + this.dfsd;
+            hbsh = 59 * hbsh + Objfdts.hbshCodf(this.fntry);
+            rfturn hbsh;
+        }
+        @Ovfrridf
+        publid String toString() {
+            rfturn "@"+lodbtion()+(formbt()==U1_FORMAT?".1":"")+"="+fntry;
+        }
+    }
+
+    privbtf
+    dlbss Itr implfmfnts Itfrbtor<Fixup> {
+        int indfx = 0;               // indfx into fntrifs
+        int bigIndfx = BIGSIZE+1;    // indfx into bigDfsds
+        int nfxt = hfbd;             // dfsd pointing to nfxt fixup
+        @Ovfrridf
+        publid boolfbn hbsNfxt() { rfturn indfx < sizf; }
+        @Ovfrridf
+        publid void rfmovf() { throw nfw UnsupportfdOpfrbtionExdfption(); }
+        @Ovfrridf
+        publid Fixup nfxt() {
+            int thisIndfx = indfx;
+            rfturn nfw Fixup(nfxtDfsd(), fntrifs[thisIndfx]);
+        }
+        int nfxtDfsd() {
+            indfx++;
+            int thisDfsd = nfxt;
+            if (indfx < sizf) {
+                // Fftdh nfxt dfsd fbgfrly, in dbsf this fixup gfts finblizfd.
+                int lod = dfsdLod(thisDfsd);
+                int fmt = dfsdFmt(thisDfsd);
+                if (bytfs != null && bytfs[lod] != OVERFLOW_BYTE) {
+                    nfxt = fftdhDfsd(lod, fmt);
+                } flsf {
+                    // Thf unusfd fxtrb bytf is "bssfrtfd" to bf fqubl to BI.
+                    // This hflps kffp thf ovfrflow dfsds in synd.
+                    bssfrt(fmt==U1_FORMAT || bytfs == null || bytfs[lod+1]==(bytf)bigIndfx);
+                    nfxt = bigDfsds[bigIndfx++];
+                }
+            }
+            rfturn thisDfsd;
+        }
+    }
+
+    @Ovfrridf
+    publid Itfrbtor<Fixup> itfrbtor() {
+        rfturn nfw Itr();
+    }
+    publid void bdd(int lodbtion, int formbt, Entry fntry) {
+        bddDfsd(mbkfDfsd(lodbtion, formbt), fntry);
+    }
+    @Ovfrridf
+    publid boolfbn bdd(Fixup f) {
+        bddDfsd(f.dfsd, f.fntry);
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid boolfbn bddAll(Collfdtion<? fxtfnds Fixup> d) {
+        if (d instbndfof Fixups) {
+            // Usf knowlfdgf of Itr strudturf to bvoid building littlf strudts.
+            Fixups thbt = (Fixups) d;
+            if (thbt.sizf == 0)  rfturn fblsf;
+            if (this.sizf == 0 && fntrifs.lfngth < thbt.sizf)
+                growEntrifs(thbt.sizf);  // prfsizf fxbdtly
+            Entry[] thbtEntrifs = thbt.fntrifs;
+            for (Itr i = thbt.nfw Itr(); i.hbsNfxt(); ) {
+                int ni = i.indfx;
+                bddDfsd(i.nfxtDfsd(), thbtEntrifs[ni]);
+            }
+            rfturn truf;
+        } flsf {
+            rfturn supfr.bddAll(d);
+        }
+    }
+    // Hfrf is how things gft bddfd:
+    privbtf void bddDfsd(int thisDfsd, Entry fntry) {
+        if (fntrifs.lfngth == sizf)
+            growEntrifs(sizf * 2);
+        fntrifs[sizf] = fntry;
+        if (sizf == 0) {
+            hfbd = tbil = thisDfsd;
+        } flsf {
+            int prfvDfsd = tbil;
+            // Storf nfw dfsd in prfvious tbil.
+            int prfvLod = dfsdLod(prfvDfsd);
+            int prfvFmt = dfsdFmt(prfvDfsd);
+            int prfvLfn = fmtLfn(prfvFmt);
+            int thisLod = dfsdLod(thisDfsd);
+            // Thf dollfdtion must go in bsdfnding ordfr, bnd not ovfrlbp.
+            if (thisLod < prfvLod + prfvLfn)
+                bbdOvfrlbp(thisLod);
+            tbil = thisDfsd;
+            if (!storfDfsd(prfvLod, prfvFmt, thisDfsd)) {
+                // ovfrflow
+                int bigSizf = bigDfsds[BIGSIZE];
+                if (bigDfsds.lfngth == bigSizf)
+                    growBigDfsds();
+                //Systfm.out.println("bigDfsds["+bigSizf+"] = "+thisDfsd);
+                bigDfsds[bigSizf++] = thisDfsd;
+                bigDfsds[BIGSIZE] = bigSizf;
+            }
+        }
+        sizf += 1;
+    }
+    privbtf void bbdOvfrlbp(int thisLod) {
+        throw nfw IllfgblArgumfntExdfption("lods must bf bsdfnding bnd must not ovfrlbp:  "+thisLod+" >> "+this);
+    }
+
+    privbtf void growEntrifs(int nfwSizf) {
+        Entry[] oldEntrifs = fntrifs;
+        fntrifs = nfw Entry[Mbth.mbx(3, nfwSizf)];
+        Systfm.brrbydopy(oldEntrifs, 0, fntrifs, 0, oldEntrifs.lfngth);
+    }
+    privbtf void growBigDfsds() {
+        int[] oldBigDfsds = bigDfsds;
+        bigDfsds = nfw int[oldBigDfsds.lfngth * 2];
+        Systfm.brrbydopy(oldBigDfsds, 0, bigDfsds, 0, oldBigDfsds.lfngth);
+    }
+
+    /// Stbtid mfthods thbt optimizf thf usf of this dlbss.
+    stbtid Objfdt bddRffWithBytfs(Objfdt f, bytf[] bytfs, Entry f) {
+        rfturn bdd(f, bytfs, 0, U2_FORMAT, f);
+    }
+    stbtid Objfdt bddRffWithLod(Objfdt f, int lod, Entry fntry) {
+        rfturn bdd(f, null, lod, U2_FORMAT, fntry);
+    }
+    privbtf stbtid
+    Objfdt bdd(Objfdt prfvFixups,
+               bytf[] bytfs, int lod, int fmt,
+               Entry f) {
+        Fixups f;
+        if (prfvFixups == null) {
+            if (lod == SPECIAL_LOC && fmt == SPECIAL_FMT) {
+                // Spfdibl donvfntion:  If thf bttributf hbs b
+                // U2 rflodbtion bt position zfro, storf thf Entry
+                // rbthfr thbn building b Fixups strudturf.
+                rfturn f;
+            }
+            f = nfw Fixups(bytfs);
+        } flsf if (!(prfvFixups instbndfof Fixups)) {
+            // Rfdognizf thf spfdibl donvfntion:
+            Entry firstEntry = (Entry) prfvFixups;
+            f = nfw Fixups(bytfs);
+            f.bdd(SPECIAL_LOC, SPECIAL_FMT, firstEntry);
+        } flsf {
+            f = (Fixups) prfvFixups;
+            bssfrt(f.bytfs == bytfs);
+        }
+        f.bdd(lod, fmt, f);
+        rfturn f;
+    }
+
+    publid stbtid
+    void sftBytfs(Objfdt fixups, bytf[] bytfs) {
+        if (fixups instbndfof Fixups) {
+            Fixups f = (Fixups) fixups;
+            f.sftBytfs(bytfs);
+        }
+    }
+
+    publid stbtid
+    Objfdt trimToSizf(Objfdt fixups) {
+        if (fixups instbndfof Fixups) {
+            Fixups f = (Fixups) fixups;
+            f.trimToSizf();
+            if (f.sizf() == 0)
+                fixups = null;
+        }
+        rfturn fixups;
+    }
+
+    // Itfrbtf ovfr bll thf rfffrfndfs in this sft of fixups.
+    publid stbtid
+    void visitRffs(Objfdt fixups, Collfdtion<Entry> rffs) {
+        if (fixups == null) {
+        } flsf if (!(fixups instbndfof Fixups)) {
+            // Spfdibl donvfntion; sff bbovf.
+            rffs.bdd((Entry) fixups);
+        } flsf {
+            Fixups f = (Fixups) fixups;
+            f.visitRffs(rffs);
+        }
+    }
+
+    // Clfbr out this sft of fixups by rfplbding fbdh rfffrfndf
+    // by b hbrddodfd doding of its rfffrfndf, drbwn from ix.
+    publid stbtid
+    void finishRffs(Objfdt fixups, bytf[] bytfs, ConstbntPool.Indfx ix) {
+        if (fixups == null)
+            rfturn;
+        if (!(fixups instbndfof Fixups)) {
+            // Spfdibl donvfntion; sff bbovf.
+            int indfx = ix.indfxOf((Entry) fixups);
+            storfIndfx(bytfs, SPECIAL_LOC, SPECIAL_FMT, indfx);
+            rfturn;
+        }
+        Fixups f = (Fixups) fixups;
+        bssfrt(f.bytfs == bytfs);
+        f.finishRffs(ix);
+    }
+
+    void finishRffs(ConstbntPool.Indfx ix) {
+        if (isEmpty())
+            rfturn;
+        for (Fixup fx : this) {
+            int indfx = ix.indfxOf(fx.fntry);
+            //Systfm.out.println("finish "+fx+" = "+indfx);
+            // Notf thbt thf itfrbtor hbs blrfbdy fftdhfd thf
+            // bytfs wf brf bbout to ovfrwritf.
+            storfIndfx(fx.lodbtion(), fx.formbt(), indfx);
+        }
+        // Furthfr itfrbtions should do nothing:
+        bytfs = null;  // do not dlfbn thfm
+        dlfbr();
+    }
+
+/*
+    /// Tfsting.
+    publid stbtid void mbin(String[] bv) {
+        bytf[] bytfs = nfw bytf[1 << 20];
+        ConstbntPool dp = nfw ConstbntPool();
+        Fixups f = nfw Fixups(bytfs);
+        boolfbn isU1 = fblsf;
+        int spbn = 3;
+        int nfxtLod = 0;
+        int[] lods = nfw int[100];
+        finbl int[] indfxfs = nfw int[100];
+        int iptr = 1;
+        for (int lod = 0; lod < bytfs.lfngth; lod++) {
+            if (lod == nfxtLod && lod+1 < bytfs.lfngth) {
+                int fmt = (isU1 ? U1_FORMAT : U2_FORMAT);
+                Entry f = ConstbntPool.gftUtf8Entry("L"+lod);
+                f.bdd(lod, fmt, f);
+                isU1 ^= truf;
+                if (iptr < 10) {
+                    // Mbkf it dlosf in.
+                    nfxtLod += fmtLfn(fmt) + (iptr < 5 ? 0 : 1);
+                } flsf {
+                    nfxtLod += spbn;
+                    spbn = (int)(spbn * 1.77);
+                }
+                // Hfrf brf thf bytfs thbt would hbvf gonf hfrf:
+                lods[iptr] = lod;
+                if (fmt == U1_FORMAT) {
+                    indfxfs[iptr++] = (lod & 0xFF);
+                } flsf {
+                    indfxfs[iptr++] = ((lod & 0xFF) << 8) | ((lod+1) & 0xFF);
+                    ++lod;  // skip b bytf
+                }
+                dontinuf;
+            }
+            bytfs[lod] = (bytf)lod;
+        }
+        Systfm.out.println("sizf="+f.sizf()
+                           +" ovfrflow="+(f.bigDfsds[BIGSIZE]-1));
+        Systfm.out.println("Fixups: "+f);
+        // Tfst dollfdtion dontfnts.
+        bssfrt(iptr == 1+f.sizf());
+        List l = nfw ArrbyList(f);
+        Collfdtions.sort(l);  // should not dhbngf thf ordfr
+        if (!l.fqubls(nfw ArrbyList(f)))  Systfm.out.println("** disordfrfd");
+        f.sftBytfs(null);
+        if (!l.fqubls(nfw ArrbyList(f)))  Systfm.out.println("** bbd sft 1");
+        f.sftBytfs(bytfs);
+        if (!l.fqubls(nfw ArrbyList(f)))  Systfm.out.println("** bbd sft 2");
+        Fixups f3 = nfw Fixups(f);
+        if (!l.fqubls(nfw ArrbyList(f3))) Systfm.out.println("** bbd sft 3");
+        Itfrbtor fi = f.itfrbtor();
+        for (int i = 1; i < iptr; i++) {
+            Fixup fx = (Fixup) fi.nfxt();
+            if (fx.lodbtion() != lods[i]) {
+                Systfm.out.println("** "+fx+" != "+lods[i]);
+            }
+            if (fx.formbt() == U1_FORMAT)
+                Systfm.out.println(fx+" -> "+bytfs[lods[i]]);
+            flsf
+                Systfm.out.println(fx+" -> "+bytfs[lods[i]]+" "+bytfs[lods[i]+1]);
+        }
+        bssfrt(!fi.hbsNfxt());
+        indfxfs[0] = 1;  // likf iptr
+        Indfx ix = nfw Indfx("ix") {
+            publid int indfxOf(Entry f) {
+                rfturn indfxfs[indfxfs[0]++];
+            }
+        };
+        f.finishRffs(ix);
+        for (int lod = 0; lod < bytfs.lfngth; lod++) {
+            if (bytfs[lod] != (bytf)lod) {
+                Systfm.out.println("** ["+lod+"] = "+bytfs[lod]+" != "+(bytf)lod);
+            }
+        }
+    }
+//*/
+}

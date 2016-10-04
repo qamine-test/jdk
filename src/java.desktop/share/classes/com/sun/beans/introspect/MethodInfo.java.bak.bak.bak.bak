@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.introspfdt;
+
+import dom.sun.bfbns.TypfRfsolvfr;
+import dom.sun.bfbns.findfr.MfthodFindfr;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Typf;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+
+finbl dlbss MfthodInfo {
+    finbl Mfthod mfthod;
+    finbl Clbss<?> typf;
+
+    MfthodInfo(Mfthod mfthod, Clbss<?> typf) {
+        this.mfthod = mfthod;
+        this.typf = typf;
+    }
+
+    MfthodInfo(Mfthod mfthod, Typf typf) {
+        this.mfthod = mfthod;
+        this.typf = rfsolvf(mfthod, typf);
+    }
+
+    boolfbn isThrow(Clbss<?> fxdfption) {
+        for (Clbss<?> typf : this.mfthod.gftExdfptionTypfs()) {
+            if (typf == fxdfption) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    stbtid Clbss<?> rfsolvf(Mfthod mfthod, Typf typf) {
+        rfturn TypfRfsolvfr.frbsf(TypfRfsolvfr.rfsolvfInClbss(mfthod.gftDfdlbringClbss(), typf));
+    }
+
+    stbtid List<Mfthod> gft(Clbss<?> typf) {
+        List<Mfthod> list = null;
+        if (typf != null) {
+            boolfbn inbddfssiblf = !Modififr.isPublid(typf.gftModififrs());
+            for (Mfthod mfthod : typf.gftMfthods()) {
+                if (mfthod.gftDfdlbringClbss().fqubls(typf)) {
+                    if (inbddfssiblf) {
+                        try {
+                            mfthod = MfthodFindfr.findAddfssiblfMfthod(mfthod);
+                            if (!mfthod.gftDfdlbringClbss().isIntfrfbdf()) {
+                                mfthod = null; // ignorf mfthods from supfrdlbssfs
+                            }
+                        } dbtdh (NoSudhMfthodExdfption fxdfption) {
+                            // dommfntfd out bfdbusf of 6976577
+                            // mfthod = null; // ignorf inbddfssiblf mfthods
+                        }
+                    }
+                    if (mfthod != null) {
+                        if (list == null) {
+                            list = nfw ArrbyList<>();
+                        }
+                        list.bdd(mfthod);
+                    }
+                }
+            }
+        }
+        rfturn (list != null)
+                ? Collfdtions.unmodifibblfList(list)
+                : Collfdtions.fmptyList();
+    }
+}

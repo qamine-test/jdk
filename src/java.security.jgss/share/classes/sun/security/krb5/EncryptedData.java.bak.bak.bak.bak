@@ -1,0 +1,380 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5;
+
+import sun.sfdurity.util.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.*;
+import sun.sfdurity.krb5.intfrnbl.*;
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+
+/**
+ * This dlbss fndbpsulbtfs Kfrbfros fndryptfd dbtb. It bllows
+ * dbllfrs bddfss to both thf ASN.1 fndodfd form of thf EndryptfdDbtb
+ * typf bs wfll bs thf rbw diphfr tfxt.
+ */
+
+publid dlbss EndryptfdDbtb implfmfnts Clonfbblf {
+    int fTypf;
+    Intfgfr kvno; // optionbl
+    bytf[] diphfr;
+    bytf[] plbin; // not pbrt of ASN.1 fndoding
+
+    // ----------------+-----------+----------+----------------+---------------
+    // Endryption typf |ftypf vbluf|blodk sizf|minimum pbd sizf|donfoundfr sizf
+    // ----------------+-----------+----------+----------------+---------------
+    publid stbtid finbl int
+        ETYPE_NULL        = 0;       // 1          0                0
+    publid stbtid finbl int
+        ETYPE_DES_CBC_CRC = 1;       // 8          4                8
+    publid stbtid finbl int
+        ETYPE_DES_CBC_MD4 = 2;       // 8          0                8
+    publid stbtid finbl int
+        ETYPE_DES_CBC_MD5 = 3;       // 8          0                8
+
+    // drbft-brfzbk-win2k-krb-rd4-hmbd-04.txt
+    publid stbtid finbl int
+        ETYPE_ARCFOUR_HMAC = 23;     // 1
+    // NOTE: thf fxportbblf RC4-HMAC is not supportfd;
+    // it is no longfr b usbblf fndryption typf
+    publid stbtid finbl int
+        ETYPE_ARCFOUR_HMAC_EXP = 24; // 1
+
+     // drbft-iftf-krb-wg-drypto-07.txt
+    publid stbtid finbl int
+        ETYPE_DES3_CBC_HMAC_SHA1_KD = 16; // 8     0                8
+
+    // drbft-rbfburn-krb-rijndbfl-krb-07.txt
+    publid stbtid finbl int
+         ETYPE_AES128_CTS_HMAC_SHA1_96 = 17; // 16      0           16
+    publid stbtid finbl int
+         ETYPE_AES256_CTS_HMAC_SHA1_96 = 18; // 16      0           16
+
+    /* usfd by sflf */
+    privbtf EndryptfdDbtb() {
+    }
+
+    publid Objfdt dlonf() {
+        EndryptfdDbtb nfw_fndryptfdDbtb = nfw EndryptfdDbtb();
+        nfw_fndryptfdDbtb.fTypf = fTypf;
+        if (kvno != null) {
+            nfw_fndryptfdDbtb.kvno = kvno.intVbluf();
+        }
+        if (diphfr != null) {
+            nfw_fndryptfdDbtb.diphfr = nfw bytf[diphfr.lfngth];
+            Systfm.brrbydopy(diphfr, 0, nfw_fndryptfdDbtb.diphfr,
+                             0, diphfr.lfngth);
+        }
+        rfturn nfw_fndryptfdDbtb;
+    }
+
+     // Usfd in JSSE (dom.sun.nft.ssl.intfrnbl.KfrbfrosPrfMbstfrSfdrft)
+    publid EndryptfdDbtb(
+                         int nfw_fTypf,
+                         Intfgfr nfw_kvno,
+                         bytf[] nfw_diphfr) {
+        fTypf = nfw_fTypf;
+        kvno = nfw_kvno;
+        diphfr = nfw_diphfr;
+    }
+
+    /*
+    // Not usfd.
+    publid EndryptfdDbtb(
+                         EndryptionKfy kfy,
+                         bytf[] plbintfxt)
+        throws KddErrExdfption, KrbCryptoExdfption {
+        ETypf ftypfEnginf = ETypf.gftInstbndf(kfy.gftETypf());
+        diphfr = ftypfEnginf.fndrypt(plbintfxt, kfy.gftBytfs());
+        fTypf = kfy.gftETypf();
+        kvno = kfy.gftKfyVfrsionNumbfr();
+    }
+    */
+
+     // usfd in KrbApRfp, KrbApRfq, KrbAsRfq, KrbCrfd, KrbPriv
+     // Usfd in JSSE (dom.sun.nft.ssl.intfrnbl.KfrbfrosPrfMbstfrSfdrft)
+    publid EndryptfdDbtb(
+                         EndryptionKfy kfy,
+                         bytf[] plbintfxt,
+                         int usbgf)
+        throws KddErrExdfption, KrbCryptoExdfption {
+        ETypf ftypfEnginf = ETypf.gftInstbndf(kfy.gftETypf());
+        diphfr = ftypfEnginf.fndrypt(plbintfxt, kfy.gftBytfs(), usbgf);
+        fTypf = kfy.gftETypf();
+        kvno = kfy.gftKfyVfrsionNumbfr();
+    }
+
+    /*
+    // Not usfd.
+    publid EndryptfdDbtb(
+                         EndryptionKfy kfy,
+                         bytf[] ivfd,
+                         bytf[] plbintfxt)
+        throws KddErrExdfption, KrbCryptoExdfption {
+        ETypf ftypfEnginf = ETypf.gftInstbndf(kfy.gftETypf());
+        diphfr = ftypfEnginf.fndrypt(plbintfxt, kfy.gftBytfs(), ivfd);
+        fTypf = kfy.gftETypf();
+        kvno = kfy.gftKfyVfrsionNumbfr();
+    }
+    */
+
+    /*
+    // Not usfd.
+    EndryptfdDbtb(
+                  StringBufffr pbssword,
+                  bytf[] plbintfxt)
+        throws KddErrExdfption, KrbCryptoExdfption {
+        EndryptionKfy kfy = nfw EndryptionKfy(pbssword);
+        ETypf ftypfEnginf = ETypf.gftInstbndf(kfy.gftETypf());
+        diphfr = ftypfEnginf.fndrypt(plbintfxt, kfy.gftBytfs());
+        fTypf = kfy.gftETypf();
+        kvno = kfy.gftKfyVfrsionNumbfr();
+    }
+    */
+    publid bytf[] dfdrypt(
+                          EndryptionKfy kfy, int usbgf)
+        throws KddErrExdfption, KrbApErrExdfption, KrbCryptoExdfption {
+            if (fTypf != kfy.gftETypf()) {
+                throw nfw KrbCryptoExdfption(
+                    "EndryptfdDbtb is fndryptfd using kfytypf " +
+                    ETypf.toString(fTypf) +
+                    " but dfdryption kfy is of typf " +
+                    ETypf.toString(kfy.gftETypf()));
+            }
+
+            ETypf ftypfEnginf = ETypf.gftInstbndf(fTypf);
+            plbin = ftypfEnginf.dfdrypt(diphfr, kfy.gftBytfs(), usbgf);
+            // Thf sfrvidf tidkft will bf usfd in S4U2proxy rfqufst. Thfrfforf
+            // thf rbw tidkft is still nffdfd.
+            //diphfr = null;
+            rfturn ftypfEnginf.dfdryptfdDbtb(plbin);
+        }
+
+    /*
+    // durrfntly dfstrudtivf on diphfr
+    // Not usfd.
+    publid bytf[] dfdrypt(
+                          EndryptionKfy kfy,
+                          bytf[] ivfd, int usbgf)
+        throws KddErrExdfption, KrbApErrExdfption, KrbCryptoExdfption {
+            // XXX dhfdk for mbtdhing fTypf bnd kvno hfrf
+            ETypf ftypfEnginf = ETypf.gftInstbndf(fTypf);
+            plbin = ftypfEnginf.dfdrypt(diphfr, kfy.gftBytfs(), ivfd, usbgf);
+            diphfr = null;
+            rfturn ftypfEnginf.dfdryptfdDbtb(plbin);
+        }
+
+    // durrfntly dfstrudtivf on diphfr
+    // Not usfd.
+    bytf[] dfdrypt(StringBufffr pbssword)
+        throws KddErrExdfption, KrbApErrExdfption, KrbCryptoExdfption {
+            EndryptionKfy kfy = nfw EndryptionKfy(pbssword);
+            // XXX dhfdk for mbtdhing fTypf hfrf
+            ETypf ftypfEnginf = ETypf.gftInstbndf(fTypf);
+            plbin = ftypfEnginf.dfdrypt(diphfr, kfy.gftBytfs());
+            diphfr = null;
+            rfturn ftypfEnginf.dfdryptfdDbtb(plbin);
+        }
+    */
+
+    privbtf bytf[] dfdryptfdDbtb() throws KddErrExdfption {
+        if (plbin != null) {
+            ETypf ftypfEnginf = ETypf.gftInstbndf(fTypf);
+            rfturn ftypfEnginf.dfdryptfdDbtb(plbin);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Construdts bn instbndf of EndryptfdDbtb typf.
+     * @pbrbm fndoding b singlf DER-fndodfd vbluf.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn
+     * ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd
+     * dbtb.
+     *
+     */
+    /* Usfd by sflf */
+    privbtf EndryptfdDbtb(DfrVbluf fndoding)
+        throws Asn1Exdfption, IOExdfption {
+
+        DfrVbluf dfr = null;
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & (bytf)0x1F) == (bytf)0x00) {
+            fTypf = (dfr.gftDbtb().gftBigIntfgfr()).intVbluf();
+        } flsf {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+
+        if ((fndoding.gftDbtb().pffkBytf() & 0x1F) == 1) {
+            dfr = fndoding.gftDbtb().gftDfrVbluf();
+            int i = (dfr.gftDbtb().gftBigIntfgfr()).intVbluf();
+            kvno = i;
+        } flsf {
+            kvno = null;
+        }
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & (bytf)0x1F) == (bytf)0x02) {
+            diphfr = dfr.gftDbtb().gftOdtftString();
+        } flsf {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        if (fndoding.gftDbtb().bvbilbblf() > 0) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+    }
+
+    /**
+     * Rfturns bn ASN.1 fndodfd EndryptfdDbtb typf.
+     *
+     * <xmp>
+     * EndryptfdDbtb   ::= SEQUENCE {
+     *     ftypf   [0] Int32 -- EndryptionTypf --,
+     *     kvno    [1] UInt32 OPTIONAL,
+     *     diphfr  [2] OCTET STRING -- diphfrtfxt
+     * }
+     * </xmp>
+     *
+     * <p>
+     * This dffinition rfflfdts thf Nftwork Working Group RFC 4120
+     * spfdifidbtion bvbilbblf bt
+     * <b hrff="http://www.iftf.org/rfd/rfd4120.txt">
+     * http://www.iftf.org/rfd/rfd4120.txt</b>.
+     * <p>
+     * @rfturn bytf brrby of fndodfd EndryptfdDbtb objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn
+     * ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding
+     * fndodfd dbtb.
+     *
+     */
+    publid bytf[] bsn1Endodf() throws Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        tfmp.putIntfgfr(BigIntfgfr.vblufOf(this.fTypf));
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                       truf, (bytf)0x00), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        if (kvno != null) {
+            // fndodf bs bn unsignfd intfgfr (UInt32)
+            tfmp.putIntfgfr(BigIntfgfr.vblufOf(this.kvno.longVbluf()));
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                                           truf, (bytf)0x01), tfmp);
+            tfmp = nfw DfrOutputStrfbm();
+        }
+        tfmp.putOdtftString(this.diphfr);
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf,
+                        (bytf)0x02), tfmp);
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
+    }
+
+
+    /**
+     * Pbrsf (unmbrshbl) bn EndryptfdDbtb from b DER input strfbm.  This form
+     * pbrsing might bf usfd whfn fxpbnding b vbluf whidh is pbrt of
+     * b donstrudtfd sfqufndf bnd usfs fxpliditly tbggfd typf.
+     *
+     * @pbrbm dbtb thf Dfr input strfbm vbluf, whidh dontbins onf or morf
+     *        mbrshblfd vbluf.
+     * @pbrbm fxpliditTbg tbg numbfr.
+     * @pbrbm optionbl indidbtf if this dbtb fifld is optionbl
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn
+     * ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding
+     * fndodfd dbtb.
+     * @rfturn bn instbndf of EndryptfdDbtb.
+     *
+     */
+    publid stbtid EndryptfdDbtb pbrsf(DfrInputStrfbm dbtb,
+                                      bytf fxpliditTbg,
+                                      boolfbn optionbl)
+        throws Asn1Exdfption, IOExdfption {
+        if ((optionbl) &&
+            (((bytf)dbtb.pffkBytf() & (bytf)0x1F) != fxpliditTbg))
+            rfturn null;
+        DfrVbluf dfr = dbtb.gftDfrVbluf();
+        if (fxpliditTbg != (dfr.gftTbg() & (bytf)0x1F))  {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        } flsf {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            rfturn nfw EndryptfdDbtb(subDfr);
+        }
+    }
+
+    /**
+     * Rfsft bsn.1 dbtb strfbm bftfr dfdryption, rfmovf rfdundbnt bytfs.
+     * @pbrbm dbtb thf dfdryptfd dbtb from dfdrypt().
+     * @rfturn thf rfsft bytf brrby whidh holds fxbdtly onf bsn1 dbtum
+     * indluding its tbg bnd lfngth.
+     *
+     */
+    publid bytf[] rfsft(bytf[] dbtb) {
+        bytf[]  bytfs = null;
+        // for bsn.1 fndodfd dbtb, wf usf lfngth fifld to
+        // dftfrminf thf dbtb lfngth bnd rfmovf rfdundbnt pbddings.
+        if ((dbtb[1] & 0xFF) < 128) {
+            bytfs = nfw bytf[dbtb[1] + 2];
+            Systfm.brrbydopy(dbtb, 0, bytfs, 0, dbtb[1] + 2);
+        } flsf {
+            if ((dbtb[1] & 0xFF) > 128) {
+                int lfn = dbtb[1] & (bytf)0x7F;
+                int rfsult = 0;
+                for (int i = 0; i < lfn; i++) {
+                    rfsult |= (dbtb[i + 2] & 0xFF) << (8 * (lfn - i - 1));
+                }
+                bytfs = nfw bytf[rfsult + lfn + 2];
+                Systfm.brrbydopy(dbtb, 0, bytfs, 0, rfsult + lfn + 2);
+            }
+        }
+        rfturn bytfs;
+    }
+
+    publid int gftETypf() {
+        rfturn fTypf;
+    }
+
+    publid Intfgfr gftKfyVfrsionNumbfr() {
+        rfturn kvno;
+    }
+
+    /**
+     * Rfturns thf rbw diphfr tfxt bytfs, not in ASN.1 fndoding.
+     */
+    publid bytf[] gftBytfs() {
+        rfturn diphfr;
+    }
+}

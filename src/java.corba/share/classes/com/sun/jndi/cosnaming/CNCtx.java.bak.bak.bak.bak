@@ -1,0 +1,1158 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.dosnbming;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.NbmingMbnbgfr;
+import jbvbx.nbming.spi.RfsolvfRfsult;
+
+import jbvb.util.Hbshtbblf;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URL;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.IOExdfption;
+
+import org.omg.CosNbming.*;
+import org.omg.CosNbming.NbmingContfxtPbdkbgf.*;
+import org.omg.CORBA.*;
+
+import dom.sun.jndi.toolkit.dorbb.CorbbUtils;
+
+// Nffdfd for drfbting dffbult ORB
+import jbvb.bpplft.Applft;
+
+/**
+  * Providfs b bridgf to thf CosNbming sfrvfr providfd by
+  * JbvbIDL. This dlbss providfs thf InitiblContfxt from CosNbming.
+  *
+  * @buthor Rbj Krishnbmurthy
+  * @buthor Rosbnnb Lff
+  */
+
+publid dlbss CNCtx implfmfnts jbvbx.nbming.Contfxt {
+
+    privbtf finbl stbtid boolfbn dfbug = fblsf;
+
+    /*
+     * Implfmfnt onf shbrfd ORB bmong bll CNCtx.  Howfvfr, thfrf is b publid donstrudtor
+     * bddfpting bn ORB, so wf nffd thf option of using b givfn ORB.
+     */
+    privbtf stbtid ORB _dffbultOrb;
+    ORB _orb;                   // usfd by ExdfptionMbppfr bnd RMI/IIOP fbdtory
+    publid NbmingContfxt _nd;   // publid for bddfssing undfrlying NbmingContfxt
+
+    privbtf syndhronizfd stbtid ORB gftDffbultOrb() {
+        if (_dffbultOrb == null) {
+            _dffbultOrb = CorbbUtils.gftOrb(null, -1,
+               nfw Hbshtbblf<String, jbvb.lbng.Objfdt>());
+        }
+        rfturn _dffbultOrb;
+    }
+
+    privbtf NbmfComponfnt[] _nbmf = null;
+
+    Hbshtbblf<String, jbvb.lbng.Objfdt> _fnv; // usfd by ExdfptionMbppfr
+    stbtid finbl CNNbmfPbrsfr pbrsfr = nfw CNNbmfPbrsfr();
+
+    privbtf stbtid finbl String FED_PROP = "dom.sun.jndi.dosnbming.ffdfrbtion";
+    boolfbn ffdfrbtion = fblsf;
+
+    // Rfffrfndf dountfr for trbdking _orb rfffrfndfs
+    OrbRfusfTrbdkfr orbTrbdkfr = null;
+    int fnumCount;
+    boolfbn isClosfCbllfd = fblsf;
+
+    /**
+      * Crfbtf b CNCtx objfdt. Gfts thf initibl nbming
+      * rfffrfndf for thf COS Nbming Sfrvidf from thf ORB.
+      * Thf ORB dbn bf pbssfd in vib thf jbvb.nbming.dorbb.orb propfrty
+      * or bf drfbtfd using propfrtifs in thf fnvironmfnt propfrtifs.
+      * @pbrbm fnv Environmfnt propfrtifs for initiblizing nbmf sfrvidf.
+      * @fxdfption NbmingExdfption Cbnnot initiblizf ORB or nbming dontfxt.
+      */
+    @SupprfssWbrnings("undhfdkfd")
+    CNCtx(Hbshtbblf<?,?> fnv) throws NbmingExdfption {
+        if (fnv != null) {
+            fnv = (Hbshtbblf<?,?>)fnv.dlonf();
+        }
+        _fnv = (Hbshtbblf<String, jbvb.lbng.Objfdt>)fnv;
+        ffdfrbtion = "truf".fqubls(fnv != null ? fnv.gft(FED_PROP) : null);
+        initOrbAndRootContfxt(fnv);
+    }
+
+    privbtf CNCtx() {
+    }
+
+    /**
+     * This mfthod is usfd by thf iiop bnd iiopnbmf URL Contfxt fbdtorifs.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    publid stbtid RfsolvfRfsult drfbtfUsingURL(String url, Hbshtbblf<?,?> fnv)
+    throws NbmingExdfption {
+        CNCtx dtx = nfw CNCtx();
+        if (fnv != null) {
+            fnv = (Hbshtbblf<?,?>) fnv.dlonf();
+        }
+        dtx._fnv = (Hbshtbblf<String, jbvb.lbng.Objfdt>)fnv;
+        String rfst = dtx.initUsingUrl(
+            fnv != null ?
+                (org.omg.CORBA.ORB) fnv.gft("jbvb.nbming.dorbb.orb")
+                : null,
+            url, fnv);
+
+        // rfst is thf INS nbmf
+        // Rfturn thf pbrsfd form to prfvfnt subsfqufnt lookup
+        // from pbrsing thf string bs b dompositf nbmf
+        // Thf dbllfr should bf bwbrf thbt b toString() of thf nbmf,
+        // whidh dbmf from thf fnvironmfnt will yifld its INS syntbx,
+        // rbthfr thbn b dompositf syntbx
+        rfturn nfw RfsolvfRfsult(dtx, pbrsfr.pbrsf(rfst));
+    }
+
+    /**
+      * Crfbtfs b CNCtx objfdt whidh supports thf jbvbx.nbming
+      * bpis givfn b COS Nbming Contfxt objfdt.
+      * @pbrbm orb Thf ORB usfd by this dontfxt
+      * @pbrbm trbdkfr Thf ORB rfusf trbdkfr for trbdking rfffrfndfs to thf
+      *  orb objfdt
+      * @pbrbm ndtx Thf COS NbmingContfxt objfdt bssodibtfd with this dontfxt
+      * @pbrbm nbmf Thf nbmf of this dontfxt rflbtivf to thf root
+      */
+
+    CNCtx(ORB orb, OrbRfusfTrbdkfr trbdkfr, NbmingContfxt ndtx,
+          Hbshtbblf<String, jbvb.lbng.Objfdt> fnv, NbmfComponfnt[]nbmf)
+        throws NbmingExdfption {
+            if (orb == null || ndtx == null)
+                throw nfw ConfigurbtionExdfption(
+                    "Must supply ORB or NbmingContfxt");
+            if (orb != null) {
+                _orb = orb;
+            } flsf {
+                _orb = gftDffbultOrb();
+            }
+            _nd = ndtx;
+            _fnv = fnv;
+            _nbmf = nbmf;
+            ffdfrbtion = "truf".fqubls(fnv != null ? fnv.gft(FED_PROP) : null);
+    }
+
+    NbmfComponfnt[] mbkfFullNbmf(NbmfComponfnt[] dhild) {
+        if (_nbmf == null || _nbmf.lfngth == 0) {
+            rfturn dhild;
+        }
+        NbmfComponfnt[] bnswfr = nfw NbmfComponfnt[_nbmf.lfngth+dhild.lfngth];
+
+        // pbrfnt
+        Systfm.brrbydopy(_nbmf, 0, bnswfr, 0, _nbmf.lfngth);
+
+        // dhild
+        Systfm.brrbydopy(dhild, 0, bnswfr, _nbmf.lfngth, dhild.lfngth);
+        rfturn bnswfr;
+    }
+
+
+    publid String gftNbmfInNbmfspbdf() throws NbmingExdfption {
+        if (_nbmf == null || _nbmf.lfngth == 0) {
+            rfturn "";
+        }
+        rfturn CNNbmfPbrsfr.dosNbmfToInsString(_nbmf);
+    }
+
+    /**
+     * Thfsf brf thf URL sdhfmfs thbt nffd to bf prodfssfd.
+     * IOR bnd dorbblod URLs dbn bf pbssfd dirfdtly to ORB.string_to_objfdt()
+     */
+    privbtf stbtid boolfbn isCorbbUrl(String url) {
+        rfturn url.stbrtsWith("iiop://")
+            || url.stbrtsWith("iiopnbmf://")
+            || url.stbrtsWith("dorbbnbmf:")
+            ;
+    }
+
+    /**
+      * Initiblizfs thf COS Nbming Sfrvidf.
+      * This mfthod initiblizfs thf thrff instbndf fiflds:
+      * _nd : Thf root nbming dontfxt.
+      * _orb: Thf ORB to usf for donnfdting RMI/IIOP stubs bnd for
+      *       gftting thf nbming dontfxt (_nd) if onf wbs not spfdififd
+      *       fxpliditly vib PROVIDER_URL.
+      * _nbmf: Thf nbmf of thf root nbming dontfxt.
+      *<p>
+      * _orb is obtbinfd from jbvb.nbming.dorbb.orb if it hbs bffn sft.
+      * Othfrwisf, _orb is drfbtfd using thf host/port from PROVIDER_URL
+      * (if it dontbins bn "iiop" or "iiopnbmf" URL), or from initiblizbtion
+      * propfrtifs spfdififd in fnv.
+      *<p>
+      * _nd is obtbinfd from thf IOR storfd in PROVIDER_URL if it hbs bffn
+      * sft bnd dofs not dontbin bn "iiop" or "iiopnbmf" URL. It dbn bf
+      * b stringififd IOR, "dorbblod" URL, "dorbbnbmf" URL,
+      * or b URL (sudh bs filf/http/ftp) to b lodbtion
+      * dontbining b stringififd IOR. If PROVIDER_URL hbs not bffn
+      * sft in this wby, it is obtbinfd from thf rfsult of
+      *     ORB.rfsolvf_initibl_rfffrfndf("NbmfSfrvidf");
+      *<p>
+      * _nbmf is obtbinfd from thf "iiop", "iiopnbmf", or "dorbbnbmf" URL.
+      * It is thf fmpty nbmf by dffbult.
+      *
+      * @pbrbm fnv Environmfnt Thf possibly null fnvironmfnt.
+      * @fxdfption NbmingExdfption Whfn bn frror oddurs whilf initiblizing thf
+      * ORB or thf nbming dontfxt.
+      */
+    privbtf void initOrbAndRootContfxt(Hbshtbblf<?,?> fnv) throws NbmingExdfption {
+        org.omg.CORBA.ORB inOrb = null;
+        String ndIor = null;
+
+        if (inOrb == null && fnv != null) {
+            inOrb = (org.omg.CORBA.ORB) fnv.gft("jbvb.nbming.dorbb.orb");
+        }
+
+        if (inOrb == null)
+            inOrb = gftDffbultOrb(); // will drfbtf b dffbult ORB if nonf fxists
+
+        // Extrbdt PROVIDER_URL from fnvironmfnt
+        String provUrl = null;
+        if (fnv != null) {
+            provUrl = (String)fnv.gft(jbvbx.nbming.Contfxt.PROVIDER_URL);
+        }
+
+        if (provUrl != null && !isCorbbUrl(provUrl)) {
+            // Initiblizf thf root nbming dontfxt by using thf IOR supplifd
+            // in thf PROVIDER_URL
+            ndIor = gftStringififdIor(provUrl);
+            sftOrbAndRootContfxt(inOrb, ndIor);
+        } flsf if (provUrl != null) {
+            // Initiblizf thf root nbming dontfxt by using thf URL supplifd
+            // in thf PROVIDER_URL
+            String insNbmf = initUsingUrl(inOrb, provUrl, fnv);
+
+            // If nbmf supplifd in URL, rfsolvf it to b NbmingContfxt
+            if (insNbmf.lfngth() > 0) {
+                _nbmf = CNNbmfPbrsfr.nbmfToCosNbmf(pbrsfr.pbrsf(insNbmf));
+                try {
+                    org.omg.CORBA.Objfdt obj = _nd.rfsolvf(_nbmf);
+                    _nd = NbmingContfxtHflpfr.nbrrow(obj);
+                    if (_nd == null) {
+                        throw nfw ConfigurbtionExdfption(insNbmf +
+                            " dofs not nbmf b NbmingContfxt");
+                    }
+                } dbtdh (org.omg.CORBA.BAD_PARAM f) {
+                    throw nfw ConfigurbtionExdfption(insNbmf +
+                        " dofs not nbmf b NbmingContfxt");
+                } dbtdh (Exdfption f) {
+                    throw ExdfptionMbppfr.mbpExdfption(f, this, _nbmf);
+                }
+            }
+        } flsf {
+            // No PROVIDER_URL supplifd; initiblizf using dffbults
+            if (dfbug) {
+                Systfm.frr.println("Gftting dffbult ORB: " + inOrb + fnv);
+            }
+            sftOrbAndRootContfxt(inOrb, (String)null);
+        }
+    }
+
+
+    privbtf String initUsingUrl(ORB orb, String url, Hbshtbblf<?,?> fnv)
+        throws NbmingExdfption {
+        if (url.stbrtsWith("iiop://") || url.stbrtsWith("iiopnbmf://")) {
+            rfturn initUsingIiopUrl(orb, url, fnv);
+        } flsf {
+            rfturn initUsingCorbbnbmfUrl(orb, url, fnv);
+        }
+    }
+
+    /**
+     * Hbndlfs "iiop" bnd "iiopnbmf" URLs (INS 98-10-11)
+     */
+    privbtf String initUsingIiopUrl(ORB dffOrb, String url, Hbshtbblf<?,?> fnv)
+        throws NbmingExdfption {
+
+        if (dffOrb == null)
+            dffOrb = gftDffbultOrb();
+
+        try {
+            IiopUrl pbrsfdUrl = nfw IiopUrl(url);
+
+            NbmingExdfption sbvfdExdfption = null;
+
+            for (IiopUrl.Addrfss bddr : pbrsfdUrl.gftAddrfssfs()) {
+
+                try {
+                    try {
+                        String tmpUrl = "dorbblod:iiop:" + bddr.host
+                            + ":" + bddr.port + "/NbmfSfrvidf";
+                        if (dfbug) {
+                            Systfm.frr.println("Using url: " + tmpUrl);
+                        }
+                        org.omg.CORBA.Objfdt rootCtx =
+                            dffOrb.string_to_objfdt(tmpUrl);
+                        sftOrbAndRootContfxt(dffOrb, rootCtx);
+                        rfturn pbrsfdUrl.gftStringNbmf();
+                    } dbtdh (Exdfption f) {} // kffp going
+
+                    // Gft ORB
+                    if (dfbug) {
+                        Systfm.frr.println("Gftting ORB for " + bddr.host
+                            + " bnd port " + bddr.port);
+                    }
+
+                    // Assign to fiflds
+                    sftOrbAndRootContfxt(dffOrb, (String)null);
+                    rfturn pbrsfdUrl.gftStringNbmf();
+
+                } dbtdh (NbmingExdfption nf) {
+                    sbvfdExdfption = nf;
+                }
+            }
+            if (sbvfdExdfption != null) {
+                throw sbvfdExdfption;
+            } flsf {
+                throw nfw ConfigurbtionExdfption("Problfm with URL: " + url);
+            }
+        } dbtdh (MblformfdURLExdfption f) {
+            throw nfw ConfigurbtionExdfption(f.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Initiblizfs using "dorbbnbmf" URL (INS 99-12-03)
+     */
+    privbtf String initUsingCorbbnbmfUrl(ORB orb, String url, Hbshtbblf<?,?> fnv)
+        throws NbmingExdfption {
+
+        if (orb == null)
+                orb = gftDffbultOrb();
+
+        try {
+            CorbbnbmfUrl pbrsfdUrl = nfw CorbbnbmfUrl(url);
+
+            String dorbblod = pbrsfdUrl.gftLodbtion();
+            String dosNbmf = pbrsfdUrl.gftStringNbmf();
+
+            sftOrbAndRootContfxt(orb, dorbblod);
+
+            rfturn pbrsfdUrl.gftStringNbmf();
+        } dbtdh (MblformfdURLExdfption f) {
+            throw nfw ConfigurbtionExdfption(f.gftMfssbgf());
+        }
+    }
+
+    privbtf void sftOrbAndRootContfxt(ORB orb, String ndIor)
+        throws NbmingExdfption {
+        _orb = orb;
+        try {
+            org.omg.CORBA.Objfdt ndRff;
+            if (ndIor != null) {
+                if (dfbug) {
+                    Systfm.frr.println("Pbssing to string_to_objfdt: " + ndIor);
+                }
+                ndRff = _orb.string_to_objfdt(ndIor);
+            } flsf {
+                ndRff = _orb.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf");
+            }
+            if (dfbug) {
+                Systfm.frr.println("Nbming Contfxt Rff: " + ndRff);
+            }
+            _nd = NbmingContfxtHflpfr.nbrrow(ndRff);
+            if (_nd == null) {
+                if (ndIor != null) {
+                    throw nfw ConfigurbtionExdfption(
+                        "Cbnnot donvfrt IOR to b NbmingContfxt: " + ndIor);
+                } flsf {
+                    throw nfw ConfigurbtionExdfption(
+"ORB.rfsolvf_initibl_rfffrfndfs(\"NbmfSfrvidf\") dofs not rfturn b NbmingContfxt");
+                }
+            }
+        } dbtdh (org.omg.CORBA.ORBPbdkbgf.InvblidNbmf in) {
+            NbmingExdfption nf =
+                nfw ConfigurbtionExdfption(
+"COS Nbmf Sfrvidf not rfgistfrfd with ORB undfr thf nbmf 'NbmfSfrvidf'");
+            nf.sftRootCbusf(in);
+            throw nf;
+        } dbtdh (org.omg.CORBA.COMM_FAILURE f) {
+            NbmingExdfption nf =
+                nfw CommunidbtionExdfption("Cbnnot donnfdt to ORB");
+            nf.sftRootCbusf(f);
+            throw nf;
+        } dbtdh (org.omg.CORBA.BAD_PARAM f) {
+            NbmingExdfption nf = nfw ConfigurbtionExdfption(
+                "Invblid URL or IOR: " + ndIor);
+            nf.sftRootCbusf(f);
+            throw nf;
+        } dbtdh (org.omg.CORBA.INV_OBJREF f) {
+            NbmingExdfption nf = nfw ConfigurbtionExdfption(
+                "Invblid objfdt rfffrfndf: " + ndIor);
+            nf.sftRootCbusf(f);
+            throw nf;
+        }
+    }
+
+    privbtf void sftOrbAndRootContfxt(ORB orb, org.omg.CORBA.Objfdt ndRff)
+        throws NbmingExdfption {
+        _orb = orb;
+        try {
+            _nd = NbmingContfxtHflpfr.nbrrow(ndRff);
+            if (_nd == null) {
+                throw nfw ConfigurbtionExdfption(
+                    "Cbnnot donvfrt objfdt rfffrfndf to NbmingContfxt: " + ndRff);
+            }
+        } dbtdh (org.omg.CORBA.COMM_FAILURE f) {
+            NbmingExdfption nf =
+                nfw CommunidbtionExdfption("Cbnnot donnfdt to ORB");
+            nf.sftRootCbusf(f);
+            throw nf;
+        }
+    }
+
+    privbtf String gftStringififdIor(String url) throws NbmingExdfption {
+        if (url.stbrtsWith("IOR:") || url.stbrtsWith("dorbblod:")) {
+            rfturn url;
+        } flsf {
+            InputStrfbm in = null;
+            try {
+                URL u = nfw URL(url);
+                in = u.opfnStrfbm();
+                if (in != null) {
+                    BufffrfdRfbdfr bufin =
+                        nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(in, "8859_1"));
+                    String str;
+                    whilf ((str = bufin.rfbdLinf()) != null) {
+                        if (str.stbrtsWith("IOR:")) {
+                            rfturn str;
+                        }
+                    }
+                }
+            } dbtdh (IOExdfption f) {
+                NbmingExdfption nf =
+                    nfw ConfigurbtionExdfption("Invblid URL: " + url);
+                nf.sftRootCbusf(f);
+                throw nf;
+            } finblly {
+                try {
+                    if (in != null) {
+                        in.dlosf();
+                    }
+                } dbtdh (IOExdfption f) {
+                    NbmingExdfption nf =
+                        nfw ConfigurbtionExdfption("Invblid URL: " + url);
+                    nf.sftRootCbusf(f);
+                    throw nf;
+                }
+            }
+            throw nfw ConfigurbtionExdfption(url + " dofs not dontbin bn IOR");
+        }
+    }
+
+
+    /**
+      * Dofs thf job of dblling thf COS Nbming API,
+      * rfsolvf, bnd pfrforms thf fxdfption mbpping. If thf rfsolvfd
+      * objfdt is b COS Nbming Contfxt (sub-dontfxt), thfn this fundtion
+      * rfturns b nfw JNDI nbming dontfxt objfdt.
+      * @pbrbm pbth thf NbmfComponfnt[] objfdt.
+      * @fxdfption NotFound No objfdts undfr thf nbmf.
+      * @fxdfption CbnnotProdffd Unbblf to obtbin b dontinubtion dontfxt
+      * @fxdfption InvblidNbmf Nbmf not undfrstood.
+      * @rfturn Rfsolvfd objfdt rfturnfd by thf COS Nbmf Sfrvfr.
+      */
+    jbvb.lbng.Objfdt dbllRfsolvf(NbmfComponfnt[] pbth)
+        throws NbmingExdfption {
+            try {
+                org.omg.CORBA.Objfdt obj = _nd.rfsolvf(pbth);
+                try {
+                    NbmingContfxt nd =
+                        NbmingContfxtHflpfr.nbrrow(obj);
+                    if (nd != null) {
+                        rfturn nfw CNCtx(_orb, orbTrbdkfr, nd, _fnv,
+                                        mbkfFullNbmf(pbth));
+                    } flsf {
+                        rfturn obj;
+                    }
+                } dbtdh (org.omg.CORBA.SystfmExdfption f) {
+                    rfturn obj;
+                }
+            } dbtdh (Exdfption f) {
+                throw ExdfptionMbppfr.mbpExdfption(f, this, pbth);
+            }
+    }
+
+    /**
+      * Convfrts thf "String" nbmf into b CompositfNbmf
+      * rfturns thf objfdt rfsolvfd by thf COS Nbming bpi,
+      * rfsolvf. Rfturns thf durrfnt dontfxt if thf nbmf is fmpty.
+      * Rfturns fithfr bn org.omg.CORBA.Objfdt or jbvbx.nbming.Contfxt objfdt.
+      * @pbrbm nbmf string usfd to rfsolvf thf objfdt.
+      * @fxdfption NbmingExdfption Sff dbllRfsolvf.
+      * @rfturn thf rfsolvfd objfdt
+      */
+    publid jbvb.lbng.Objfdt lookup(String nbmf) throws NbmingExdfption {
+        if (dfbug) {
+            Systfm.out.println("Looking up: " + nbmf);
+        }
+        rfturn lookup(nfw CompositfNbmf(nbmf));
+    }
+
+    /**
+      * Convfrts thf "Nbmf" nbmf into b NbmfComponfnt[] objfdt bnd
+      * rfturns thf objfdt rfsolvfd by thf COS Nbming bpi,
+      * rfsolvf. Rfturns thf durrfnt dontfxt if thf nbmf is fmpty.
+      * Rfturns fithfr bn org.omg.CORBA.Objfdt or jbvbx.nbming.Contfxt objfdt.
+      * @pbrbm nbmf JNDI Nbmf usfd to rfsolvf thf objfdt.
+      * @fxdfption NbmingExdfption Sff dbllRfsolvf.
+      * @rfturn thf rfsolvfd objfdt
+      */
+    publid jbvb.lbng.Objfdt lookup(Nbmf nbmf)
+        throws NbmingExdfption {
+            if (_nd == null)
+                throw nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not hbvf b dorrfsponding NbmingContfxt");
+            if (nbmf.sizf() == 0 )
+                rfturn this; // %%% should dlonf() so thbt fnv dbn bf dhbngfd
+            NbmfComponfnt[] pbth = CNNbmfPbrsfr.nbmfToCosNbmf(nbmf);
+
+            try {
+                jbvb.lbng.Objfdt bnswfr = dbllRfsolvf(pbth);
+
+                try {
+                    rfturn NbmingMbnbgfr.gftObjfdtInstbndf(bnswfr, nbmf, this, _fnv);
+                } dbtdh (NbmingExdfption f) {
+                    throw f;
+                } dbtdh (Exdfption f) {
+                    NbmingExdfption nf = nfw NbmingExdfption(
+                        "problfm gfnfrbting objfdt using objfdt fbdtory");
+                    nf.sftRootCbusf(f);
+                    throw nf;
+                }
+            } dbtdh (CbnnotProdffdExdfption dpf) {
+                jbvbx.nbming.Contfxt ddtx = gftContinubtionContfxt(dpf);
+                rfturn ddtx.lookup(dpf.gftRfmbiningNbmf());
+            }
+    }
+
+    /**
+      * Pfrforms bind or rfbind in thf dontfxt dfpfnding on whfthfr thf
+      * flbg rfbind is sft. Thf only objfdts bllowfd to bf bound brf of
+      * typfs org.omg.CORBA.Objfdt, org.omg.CosNbming.NbmingContfxt.
+      * You dbn usf b stbtf fbdtory to turn othfr objfdts (sudh bs
+      * Rfmotf) into thfsf bddfptbblf forms.
+      *
+      * Usfs thf COS Nbming bpis bind/rfbind or
+      * bind_dontfxt/rfbind_dontfxt.
+      * @pbrbm pth NbmfComponfnt[] objfdt
+      * @pbrbm obj Objfdt to bf bound.
+      * @pbrbm rfbind pfrform rfbind ? if truf pfrforms b rfbind.
+      * @fxdfption NotFound No objfdts undfr thf nbmf.
+      * @fxdfption CbnnotProdffd Unbblf to obtbin b dontinubtion dontfxt
+      * @fxdfption AlrfbdyBound An objfdt is blrfbdy bound to this nbmf.
+      */
+    privbtf void dbllBindOrRfbind(NbmfComponfnt[] pth, Nbmf nbmf,
+        jbvb.lbng.Objfdt obj, boolfbn rfbind) throws NbmingExdfption {
+            if (_nd == null)
+                throw nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not hbvf b dorrfsponding NbmingContfxt");
+            try {
+                // Cbll stbtf fbdtorifs to donvfrt
+                obj = NbmingMbnbgfr.gftStbtfToBind(obj, nbmf, this, _fnv);
+
+                if (obj instbndfof CNCtx) {
+                    // Usf nbming dontfxt objfdt rfffrfndf
+                    obj = ((CNCtx)obj)._nd;
+                }
+
+                if ( obj instbndfof org.omg.CosNbming.NbmingContfxt) {
+                    NbmingContfxt nobj =
+                        NbmingContfxtHflpfr.nbrrow((org.omg.CORBA.Objfdt)obj);
+                    if (rfbind)
+                        _nd.rfbind_dontfxt(pth,nobj);
+                    flsf
+                        _nd.bind_dontfxt(pth,nobj);
+
+                } flsf if (obj instbndfof org.omg.CORBA.Objfdt) {
+                    if (rfbind)
+                        _nd.rfbind(pth,(org.omg.CORBA.Objfdt)obj);
+                    flsf
+                        _nd.bind(pth,(org.omg.CORBA.Objfdt)obj);
+                }
+                flsf
+                    throw nfw IllfgblArgumfntExdfption(
+                "Only instbndfs of org.omg.CORBA.Objfdt dbn bf bound");
+            } dbtdh (BAD_PARAM f) {
+                // probbbly nbrrow() fbilfd?
+                NbmingExdfption nf = nfw NotContfxtExdfption(nbmf.toString());
+                nf.sftRootCbusf(f);
+                throw nf;
+            } dbtdh (Exdfption f) {
+                throw ExdfptionMbppfr.mbpExdfption(f, this, pth);
+            }
+    }
+
+    /**
+      * Convfrts thf "Nbmf" nbmf into b NbmfComponfnt[] objfdt bnd
+      * pfrforms thf bind opfrbtion. Usfs dbllBindOrRfbind. Throws bn
+      * invblid nbmf fxdfption if thf nbmf is fmpty. Wf nffd b nbmf to
+      * bind thf objfdt fvfn whfn wf work within thf durrfnt dontfxt.
+      * @pbrbm nbmf JNDI Nbmf objfdt
+      * @pbrbm obj Objfdt to bf bound.
+      * @fxdfption NbmingExdfption Sff dbllBindOrRfbind
+      */
+    publid  void bind(Nbmf nbmf, jbvb.lbng.Objfdt obj)
+        throws NbmingExdfption {
+            if (nbmf.sizf() == 0 ) {
+                throw nfw InvblidNbmfExdfption("Nbmf is fmpty");
+            }
+
+            if (dfbug) {
+                Systfm.out.println("Bind: " + nbmf);
+            }
+            NbmfComponfnt[] pbth = CNNbmfPbrsfr.nbmfToCosNbmf(nbmf);
+
+            try {
+                dbllBindOrRfbind(pbth, nbmf, obj, fblsf);
+            } dbtdh (CbnnotProdffdExdfption f) {
+                jbvbx.nbming.Contfxt ddtx = gftContinubtionContfxt(f);
+                ddtx.bind(f.gftRfmbiningNbmf(), obj);
+            }
+    }
+
+    stbtid privbtf jbvbx.nbming.Contfxt
+        gftContinubtionContfxt(CbnnotProdffdExdfption dpf)
+        throws NbmingExdfption {
+        try {
+            rfturn NbmingMbnbgfr.gftContinubtionContfxt(dpf);
+        } dbtdh (CbnnotProdffdExdfption f) {
+            jbvb.lbng.Objfdt rfsObj = f.gftRfsolvfdObj();
+            if (rfsObj instbndfof Rfffrfndf) {
+                Rfffrfndf rff = (Rfffrfndf)rfsObj;
+                RffAddr bddr = rff.gft("nns");
+                if (bddr.gftContfnt() instbndfof jbvbx.nbming.Contfxt) {
+                    NbmingExdfption nf = nfw NbmfNotFoundExdfption(
+                        "No objfdt rfffrfndf bound for spfdififd nbmf");
+                    nf.sftRootCbusf(dpf.gftRootCbusf());
+                    nf.sftRfmbiningNbmf(dpf.gftRfmbiningNbmf());
+                    throw nf;
+                }
+            }
+            throw f;
+        }
+    }
+
+    /**
+      * Convfrts thf "String" nbmf into b CompositfNbmf objfdt bnd
+      * pfrforms thf bind opfrbtion. Usfs dbllBindOrRfbind. Throws bn
+      * invblid nbmf fxdfption if thf nbmf is fmpty.
+      * @pbrbm nbmf string
+      * @pbrbm obj Objfdt to bf bound.
+      * @fxdfption NbmingExdfption Sff dbllBindOrRfbind
+      */
+    publid void bind(String nbmf, jbvb.lbng.Objfdt obj) throws NbmingExdfption {
+        bind(nfw CompositfNbmf(nbmf), obj);
+    }
+
+    /**
+      * Convfrts thf "Nbmf" nbmf into b NbmfComponfnt[] objfdt bnd
+      * pfrforms thf rfbind opfrbtion. Usfs dbllBindOrRfbind. Throws bn
+      * invblid nbmf fxdfption if thf nbmf is fmpty. Wf must hbvf b nbmf
+      * to rfbind thf objfdt to fvfn if wf brf working within thf durrfnt
+      * dontfxt.
+      * @pbrbm nbmf string
+      * @pbrbm obj Objfdt to bf bound.
+      * @fxdfption NbmingExdfption Sff dbllBindOrRfbind
+      */
+    publid  void rfbind(Nbmf nbmf, jbvb.lbng.Objfdt obj)
+        throws NbmingExdfption {
+            if (nbmf.sizf() == 0 ) {
+                throw nfw InvblidNbmfExdfption("Nbmf is fmpty");
+            }
+            NbmfComponfnt[] pbth = CNNbmfPbrsfr.nbmfToCosNbmf(nbmf);
+            try {
+                dbllBindOrRfbind(pbth, nbmf, obj, truf);
+            } dbtdh (CbnnotProdffdExdfption f) {
+                jbvbx.nbming.Contfxt ddtx = gftContinubtionContfxt(f);
+                ddtx.rfbind(f.gftRfmbiningNbmf(), obj);
+            }
+    }
+
+    /**
+      * Convfrts thf "String" nbmf into b CompositfNbmf objfdt bnd
+      * pfrforms thf rfbind opfrbtion. Usfs dbllBindOrRfbind. Throws bn
+      * invblid nbmf fxdfption if thf nbmf is bn fmpty string.
+      * @pbrbm nbmf string
+      * @pbrbm obj Objfdt to bf bound.
+      * @fxdfption NbmingExdfption Sff dbllBindOrRfbind
+      */
+    publid  void rfbind(String nbmf, jbvb.lbng.Objfdt obj)
+        throws NbmingExdfption {
+            rfbind(nfw CompositfNbmf(nbmf), obj);
+    }
+
+    /**
+      * Cblls thf unbind bpi of COS Nbming bnd usfs thf fxdfption mbppfr
+      * dlbss  to mbp thf fxdfptions
+      * @pbrbm pbth NbmfComponfnt[] objfdt
+      * @fxdfption NotFound No objfdts undfr thf nbmf. If lfbf
+      * is not found, thbt's OK bddording to thf JNDI spfd
+      * @fxdfption CbnnotProdffd Unbblf to obtbin b dontinubtion dontfxt
+      * @fxdfption InvblidNbmf Nbmf not undfrstood.
+      */
+    privbtf void dbllUnbind(NbmfComponfnt[] pbth) throws NbmingExdfption {
+            if (_nd == null)
+                throw nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not hbvf b dorrfsponding NbmingContfxt");
+            try {
+                _nd.unbind(pbth);
+            } dbtdh (NotFound f) {
+                // If lfbf is thf onf missing, rfturn suddfss
+                // bs pfr JNDI spfd
+
+                if (lfbfNotFound(f, pbth[pbth.lfngth-1])) {
+                    // do nothing
+                } flsf {
+                    throw ExdfptionMbppfr.mbpExdfption(f, this, pbth);
+                }
+            } dbtdh (Exdfption f) {
+                throw ExdfptionMbppfr.mbpExdfption(f, this, pbth);
+            }
+    }
+
+    privbtf boolfbn lfbfNotFound(NotFound f, NbmfComponfnt lfbf) {
+
+        // This tfst is not foolproof bfdbusf somf nbmf sfrvfrs
+        // blwbys just rfturn onf domponfnt in rfst_of_nbmf
+        // so you might not bf bblf to tfll whfthfr thbt is
+        // thf lfbf (f.g. bb/bb/bb, whidh onf is missing?)
+
+        NbmfComponfnt rfst;
+        rfturn f.why.vbluf() == NotFoundRfbson._missing_nodf &&
+            f.rfst_of_nbmf.lfngth == 1 &&
+            (rfst=f.rfst_of_nbmf[0]).id.fqubls(lfbf.id) &&
+            (rfst.kind == lfbf.kind ||
+             (rfst.kind != null && rfst.kind.fqubls(lfbf.kind)));
+    }
+
+    /**
+      * Convfrts thf "String" nbmf into b CompositfNbmf objfdt bnd
+      * pfrforms thf unbind opfrbtion. Usfs dbllUnbind. If thf nbmf is
+      * fmpty, throws bn invblid nbmf fxdfption. Do wf unbind thf
+      * durrfnt dontfxt (JNDI spfd sbys work with thf durrfnt dontfxt if
+      * thf nbmf is fmpty) ?
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption Sff dbllUnbind
+      */
+    publid  void unbind(String nbmf) throws NbmingExdfption {
+        unbind(nfw CompositfNbmf(nbmf));
+    }
+
+    /**
+      * Convfrts thf "Nbmf" nbmf into b NbmfComponfnt[] objfdt bnd
+      * pfrforms thf unbind opfrbtion. Usfs dbllUnbind. Throws bn
+      * invblid nbmf fxdfption if thf nbmf is fmpty.
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption Sff dbllUnbind
+      */
+    publid  void unbind(Nbmf nbmf)
+        throws NbmingExdfption {
+            if (nbmf.sizf() == 0 )
+                throw nfw InvblidNbmfExdfption("Nbmf is fmpty");
+            NbmfComponfnt[] pbth = CNNbmfPbrsfr.nbmfToCosNbmf(nbmf);
+            try {
+                dbllUnbind(pbth);
+            } dbtdh (CbnnotProdffdExdfption f) {
+                jbvbx.nbming.Contfxt ddtx = gftContinubtionContfxt(f);
+                ddtx.unbind(f.gftRfmbiningNbmf());
+            }
+    }
+
+    /**
+      * Rfnbmfs bn objfdt. Sindf COS Nbming dofs not support b rfnbmf
+      * bpi, this mfthod unbinds thf objfdt with thf "oldNbmf" bnd
+      * drfbtfs b nfw binding.
+      * @pbrbm oldNbmf string, fxisting nbmf for thf binding.
+      * @pbrbm nfwNbmf string, nbmf usfd to rfplbdf.
+      * @fxdfption NbmingExdfption Sff bind
+      */
+    publid  void rfnbmf(String oldNbmf,String nfwNbmf)
+        throws NbmingExdfption {
+            rfnbmf(nfw CompositfNbmf(oldNbmf), nfw CompositfNbmf(nfwNbmf));
+    }
+
+    /**
+      * Rfnbmfs bn objfdt. Sindf COS Nbming dofs not support b rfnbmf
+      * bpi, this mfthod unbinds thf objfdt with thf "oldNbmf" bnd
+      * drfbtfs b nfw binding.
+      * @pbrbm oldNbmf JNDI Nbmf, fxisting nbmf for thf binding.
+      * @pbrbm nfwNbmf JNDI Nbmf, nbmf usfd to rfplbdf.
+      * @fxdfption NbmingExdfption Sff bind
+      */
+    publid  void rfnbmf(Nbmf oldNbmf,Nbmf nfwNbmf)
+        throws NbmingExdfption {
+            if (_nd == null)
+                throw nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not hbvf b dorrfsponding NbmingContfxt");
+            if (oldNbmf.sizf() == 0 || nfwNbmf.sizf() == 0)
+                throw nfw InvblidNbmfExdfption("Onf or both nbmfs fmpty");
+            jbvb.lbng.Objfdt obj = lookup(oldNbmf);
+            bind(nfwNbmf,obj);
+            unbind(oldNbmf);
+    }
+
+    /**
+      * Rfturns b NbmfClbssEnumfrbtion objfdt whidh hbs b list of nbmf
+      * dlbss pbirs. Lists thf durrfnt dontfxt if thf nbmf is fmpty.
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption All fxdfptions thrown by lookup
+      * with b non-null brgumfnt
+      * @rfturn b list of nbmf-dlbss objfdts bs b NbmfClbssEnumfrbtion.
+      */
+    publid  NbmingEnumfrbtion<NbmfClbssPbir> list(String nbmf) throws NbmingExdfption {
+            rfturn list(nfw CompositfNbmf(nbmf));
+    }
+
+    /**
+      * Rfturns b NbmfClbssEnumfrbtion objfdt whidh hbs b list of nbmf
+      * dlbss pbirs. Lists thf durrfnt dontfxt if thf nbmf is fmpty.
+      * @pbrbm nbmf JNDI Nbmf
+      * @fxdfption NbmingExdfption All fxdfptions thrown by lookup
+      * @rfturn b list of nbmf-dlbss objfdts bs b NbmfClbssEnumfrbtion.
+      */
+    @SupprfssWbrnings("undhfdkfd")
+    publid  NbmingEnumfrbtion<NbmfClbssPbir> list(Nbmf nbmf)
+        throws NbmingExdfption {
+            rfturn (NbmingEnumfrbtion)listBindings(nbmf);
+    }
+
+    /**
+      * Rfturns b BindingEnumfrbtion objfdt whidh hbs b list of nbmf
+      * objfdt pbirs. Lists thf durrfnt dontfxt if thf nbmf is fmpty.
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption bll fxdfptions rfturnfd by lookup
+      * @rfturn b list of bindings bs b BindingEnumfrbtion.
+      */
+    publid  NbmingEnumfrbtion<jbvbx.nbming.Binding> listBindings(String nbmf)
+        throws NbmingExdfption {
+            rfturn listBindings(nfw CompositfNbmf(nbmf));
+    }
+
+    /**
+      * Rfturns b BindingEnumfrbtion objfdt whidh hbs b list of nbmf
+      * dlbss pbirs. Lists thf durrfnt dontfxt if thf nbmf is fmpty.
+      * @pbrbm nbmf JNDI Nbmf
+      * @fxdfption NbmingExdfption bll fxdfptions rfturnfd by lookup.
+      * @rfturn b list of bindings bs b BindingEnumfrbtion.
+      */
+    publid  NbmingEnumfrbtion<jbvbx.nbming.Binding> listBindings(Nbmf nbmf)
+        throws NbmingExdfption {
+            if (_nd == null)
+                throw nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not hbvf b dorrfsponding NbmingContfxt");
+            if (nbmf.sizf() > 0) {
+                try {
+                    jbvb.lbng.Objfdt obj = lookup(nbmf);
+                    if (obj instbndfof CNCtx) {
+                        rfturn nfw CNBindingEnumfrbtion(
+                                        (CNCtx) obj, truf, _fnv);
+                    } flsf {
+                        throw nfw NotContfxtExdfption(nbmf.toString());
+                    }
+                } dbtdh (NbmingExdfption nf) {
+                    throw nf;
+                } dbtdh (BAD_PARAM f) {
+                    NbmingExdfption nf =
+                        nfw NotContfxtExdfption(nbmf.toString());
+                    nf.sftRootCbusf(f);
+                    throw nf;
+                }
+            }
+            rfturn nfw CNBindingEnumfrbtion(this, fblsf, _fnv);
+    }
+
+    /**
+      * Cblls thf dfstroy on thf COS Nbming Sfrvfr
+      * @pbrbm nd Thf NbmingContfxt objfdt to usf.
+      * @fxdfption NotEmpty whfn thf dontfxt is not fmpty bnd dbnnot bf dfstroyfd.
+      */
+    privbtf void dbllDfstroy(NbmingContfxt nd)
+        throws NbmingExdfption {
+            if (_nd == null)
+                throw nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not hbvf b dorrfsponding NbmingContfxt");
+            try {
+                nd.dfstroy();
+            } dbtdh (Exdfption f) {
+                throw ExdfptionMbppfr.mbpExdfption(f, this, null);
+            }
+    }
+
+    /**
+      * Usfs thf dbllDfstroy fundtion to dfstroy thf dontfxt. If nbmf is
+      * fmpty dfstroys thf durrfnt dontfxt.
+      * @pbrbm nbmf string
+      * @fxdfption OpfrbtionNotSupportfdExdfption whfn list is invokfd
+      * with b non-null brgumfnt
+      */
+    publid  void dfstroySubdontfxt(String nbmf) throws NbmingExdfption {
+        dfstroySubdontfxt(nfw CompositfNbmf(nbmf));
+    }
+
+    /**
+      * Usfs thf dbllDfstroy fundtion to dfstroy thf dontfxt. Dfstroys
+      * thf durrfnt dontfxt if nbmf is fmpty.
+      * @pbrbm nbmf JNDI Nbmf
+      * @fxdfption OpfrbtionNotSupportfdExdfption whfn list is invokfd
+      * with b non-null brgumfnt
+      */
+    publid  void dfstroySubdontfxt(Nbmf nbmf)
+        throws NbmingExdfption {
+            if (_nd == null)
+                throw nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not hbvf b dorrfsponding NbmingContfxt");
+            NbmingContfxt thf_nd = _nd;
+            NbmfComponfnt[] pbth = CNNbmfPbrsfr.nbmfToCosNbmf(nbmf);
+            if ( nbmf.sizf() > 0) {
+                try {
+                    jbvbx.nbming.Contfxt dtx =
+                        (jbvbx.nbming.Contfxt) dbllRfsolvf(pbth);
+                    CNCtx dnd = (CNCtx)dtx;
+                    thf_nd = dnd._nd;
+                    dnd.dlosf(); //rfmovf thf rfffrfndf to thf dontfxt
+                } dbtdh (ClbssCbstExdfption f) {
+                    throw nfw NotContfxtExdfption(nbmf.toString());
+                } dbtdh (CbnnotProdffdExdfption f) {
+                    jbvbx.nbming.Contfxt ddtx = gftContinubtionContfxt(f);
+                    ddtx.dfstroySubdontfxt(f.gftRfmbiningNbmf());
+                    rfturn;
+                } dbtdh (NbmfNotFoundExdfption f) {
+                    // If lfbf is thf onf missing, rfturn suddfss
+                    // bs pfr JNDI spfd
+
+                    if (f.gftRootCbusf() instbndfof NotFound &&
+                        lfbfNotFound((NotFound)f.gftRootCbusf(),
+                            pbth[pbth.lfngth-1])) {
+                        rfturn; // lfbf missing OK
+                    }
+                    throw f;
+                } dbtdh (NbmingExdfption f) {
+                    throw f;
+                }
+            }
+            dbllDfstroy(thf_nd);
+            dbllUnbind(pbth);
+    }
+
+    /**
+      * Cblls thf bind_nfw_dontfxt COS nbming bpi to drfbtf b nfw subdontfxt.
+      * @pbrbm pbth NbmfComponfnt[] objfdt
+      * @fxdfption NotFound No objfdts undfr thf nbmf.
+      * @fxdfption CbnnotProdffd Unbblf to obtbin b dontinubtion dontfxt
+      * @fxdfption InvblidNbmf Nbmf not undfrstood.
+      * @fxdfption AlrfbdyBound An objfdt is blrfbdy bound to this nbmf.
+      * @rfturn thf nfw dontfxt objfdt.
+      */
+    privbtf jbvbx.nbming.Contfxt dbllBindNfwContfxt(NbmfComponfnt[] pbth)
+        throws NbmingExdfption {
+            if (_nd == null)
+                throw nfw ConfigurbtionExdfption(
+                    "Contfxt dofs not hbvf b dorrfsponding NbmingContfxt");
+            try {
+                NbmingContfxt ndtx = _nd.bind_nfw_dontfxt(pbth);
+                rfturn nfw CNCtx(_orb, orbTrbdkfr, ndtx, _fnv,
+                                        mbkfFullNbmf(pbth));
+            } dbtdh (Exdfption f) {
+                throw ExdfptionMbppfr.mbpExdfption(f, this, pbth);
+            }
+    }
+
+    /**
+      * Usfs thf dbllBindNfwContfxt donvfnifndf fundtion to drfbtf b nfw
+      * dontfxt. Throws bn invblid nbmf fxdfption if thf nbmf is fmpty.
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption Sff dbllBindNfwContfxt
+      * @rfturn thf nfw dontfxt objfdt.
+      */
+    publid  jbvbx.nbming.Contfxt drfbtfSubdontfxt(String nbmf)
+        throws NbmingExdfption {
+            rfturn drfbtfSubdontfxt(nfw CompositfNbmf(nbmf));
+    }
+
+    /**
+      * Usfs thf dbllBindNfwContfxt donvfnifndf fundtion to drfbtf b nfw
+      * dontfxt. Throws bn invblid nbmf fxdfption if thf nbmf is fmpty.
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption Sff dbllBindNfwContfxt
+      * @rfturn thf nfw dontfxt objfdt.
+      */
+    publid  jbvbx.nbming.Contfxt drfbtfSubdontfxt(Nbmf nbmf)
+        throws NbmingExdfption {
+            if (nbmf.sizf() == 0 )
+                throw nfw InvblidNbmfExdfption("Nbmf is fmpty");
+            NbmfComponfnt[] pbth = CNNbmfPbrsfr.nbmfToCosNbmf(nbmf);
+            try {
+                rfturn dbllBindNfwContfxt(pbth);
+            } dbtdh (CbnnotProdffdExdfption f) {
+                jbvbx.nbming.Contfxt ddtx = gftContinubtionContfxt(f);
+                rfturn ddtx.drfbtfSubdontfxt(f.gftRfmbiningNbmf());
+            }
+    }
+
+    /**
+      * Is mbppfd to rfsolvf in thf COS Nbming bpi.
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption Sff lookup.
+      * @rfturn thf rfsolvfd objfdt.
+      */
+    publid  jbvb.lbng.Objfdt lookupLink(String nbmf) throws NbmingExdfption {
+            rfturn lookupLink(nfw CompositfNbmf(nbmf));
+    }
+
+    /**
+      * Is mbppfd to rfsolvf in thf COS Nbming bpi.
+      * @pbrbm nbmf string
+      * @fxdfption NbmingExdfption Sff lookup.
+      * @rfturn thf rfsolvfd objfdt.
+      */
+    publid  jbvb.lbng.Objfdt lookupLink(Nbmf nbmf) throws NbmingExdfption {
+            rfturn lookup(nbmf);
+    }
+
+    /**
+      * Allow bddfss to thf nbmf pbrsfr objfdt.
+      * @pbrbm String JNDI nbmf, is ignorfd sindf thfrf is only onf Nbmf
+      * Pbrsfr objfdt.
+      * @fxdfption NbmingExdfption --
+      * @rfturn NbmfPbrsfr objfdt
+      */
+    publid  NbmfPbrsfr gftNbmfPbrsfr(String nbmf) throws NbmingExdfption {
+        rfturn pbrsfr;
+    }
+
+    /**
+      * Allow bddfss to thf nbmf pbrsfr objfdt.
+      * @pbrbm Nbmf JNDI nbmf, is ignorfd sindf thfrf is only onf Nbmf
+      * Pbrsfr objfdt.
+      * @fxdfption NbmingExdfption --
+      * @rfturn NbmfPbrsfr objfdt
+      */
+    publid  NbmfPbrsfr gftNbmfPbrsfr(Nbmf nbmf) throws NbmingExdfption {
+        rfturn pbrsfr;
+    }
+
+    /**
+      * Rfturns thf durrfnt fnvironmfnt.
+      * @rfturn Environmfnt.
+      */
+    @SupprfssWbrnings("undhfdkfd")
+    publid  Hbshtbblf<String, jbvb.lbng.Objfdt> gftEnvironmfnt() throws NbmingExdfption {
+        if (_fnv == null) {
+            rfturn nfw Hbshtbblf<>(5, 0.75f);
+        } flsf {
+            rfturn (Hbshtbblf<String, jbvb.lbng.Objfdt>)_fnv.dlonf();
+        }
+    }
+
+    publid String domposfNbmf(String nbmf, String prffix) throws NbmingExdfption {
+        rfturn domposfNbmf(nfw CompositfNbmf(nbmf),
+            nfw CompositfNbmf(prffix)).toString();
+    }
+
+    publid Nbmf domposfNbmf(Nbmf nbmf, Nbmf prffix) throws NbmingExdfption {
+        Nbmf rfsult = (Nbmf)prffix.dlonf();
+        rfturn rfsult.bddAll(nbmf);
+    }
+
+    /**
+      * Adds to thf fnvironmfnt for thf durrfnt dontfxt.
+      * Rfdord dhbngf but do not rfinitiblizf ORB.
+      *
+      * @pbrbm propNbmf Thf propfrty nbmf.
+      * @pbrbm propVbl  Thf ORB.
+      * @rfturn thf prfvious vbluf of this propfrty if bny.
+      */
+    @SupprfssWbrnings("undhfdkfd")
+    publid jbvb.lbng.Objfdt bddToEnvironmfnt(String propNbmf,
+        jbvb.lbng.Objfdt propVbluf)
+        throws NbmingExdfption {
+            if (_fnv == null) {
+                _fnv = nfw Hbshtbblf<>(7, 0.75f);
+            } flsf {
+                // dopy-on-writf
+                _fnv = (Hbshtbblf<String, jbvb.lbng.Objfdt>)_fnv.dlonf();
+            }
+
+            rfturn _fnv.put(propNbmf, propVbluf);
+    }
+
+    // Rfdord dhbngf but do not rfinitiblizf ORB
+    @SupprfssWbrnings("undhfdkfd")
+    publid jbvb.lbng.Objfdt rfmovfFromEnvironmfnt(String propNbmf)
+        throws NbmingExdfption {
+            if (_fnv != null  && _fnv.gft(propNbmf) != null) {
+                // dopy-on-writf
+                _fnv = (Hbshtbblf<String, jbvb.lbng.Objfdt>)_fnv.dlonf();
+                rfturn _fnv.rfmovf(propNbmf);
+            }
+            rfturn null;
+    }
+
+    syndhronizfd publid void indEnumCount() {
+        fnumCount++;
+        if (dfbug) {
+            Systfm.out.println("indEnumCount, nfw dount:" + fnumCount);
+        }
+    }
+
+    syndhronizfd publid void dfdEnumCount()
+            throws NbmingExdfption {
+        fnumCount--;
+        if (dfbug) {
+            Systfm.out.println("dfdEnumCount, nfw dount:" + fnumCount +
+                        "    isClosfCbllfd:" + isClosfCbllfd);
+        }
+        if ((fnumCount == 0) && isClosfCbllfd) {
+            dlosf();
+        }
+    }
+
+    syndhronizfd publid void dlosf() throws NbmingExdfption {
+
+        if (fnumCount > 0) {
+            isClosfCbllfd = truf;
+            rfturn;
+        }
+
+        // Nfvfr dfstroy bn orb in CNCtx.
+        // Thf orb wf hbvf is fithfr thf shbrfd/dffbult orb, or onf pbssfd in to b donstrudtor
+        // from flsfwhfrf, so thbt orb is somfbody flsf's rfsponsibility.
+    }
+
+    protfdtfd void finblizf() {
+        try {
+            dlosf();
+        } dbtdh (NbmingExdfption f) {
+            // ignorf fbilurfs
+        }
+    }
+}

@@ -1,0 +1,437 @@
+/*
+ * Copyright (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.sfdurity.AlgorithmConstrbints;
+import jbvb.sfdurity.CryptoPrimitivf;
+import jbvb.sfdurity.PrivbtfKfy;
+
+import jbvb.util.Sft;
+import jbvb.util.HbshSft;
+import jbvb.util.Mbp;
+import jbvb.util.EnumSft;
+import jbvb.util.TrffMbp;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.ArrbyList;
+
+import sun.sfdurity.util.KfyUtil;
+
+/**
+ * Signbturf bnd hbsh blgorithm.
+ *
+ * [RFC5246] Thf dlifnt usfs thf "signbturf_blgorithms" fxtfnsion to
+ * indidbtf to thf sfrvfr whidh signbturf/hbsh blgorithm pbirs mby bf
+ * usfd in digitbl signbturfs.  Thf "fxtfnsion_dbtb" fifld of this
+ * fxtfnsion dontbins b "supportfd_signbturf_blgorithms" vbluf.
+ *
+ *     fnum {
+ *         nonf(0), md5(1), shb1(2), shb224(3), shb256(4), shb384(5),
+ *         shb512(6), (255)
+ *     } HbshAlgorithm;
+ *
+ *     fnum { bnonymous(0), rsb(1), dsb(2), fddsb(3), (255) }
+ *       SignbturfAlgorithm;
+ *
+ *     strudt {
+ *           HbshAlgorithm hbsh;
+ *           SignbturfAlgorithm signbturf;
+ *     } SignbturfAndHbshAlgorithm;
+ */
+finbl dlbss SignbturfAndHbshAlgorithm {
+
+    // minimum priority for dffbult fnbblfd blgorithms
+    finbl stbtid int SUPPORTED_ALG_PRIORITY_MAX_NUM = 0x00F0;
+
+    // pfrformbndf optimizbtion
+    privbtf finbl stbtid Sft<CryptoPrimitivf> SIGNATURE_PRIMITIVE_SET =
+        Collfdtions.unmodifibblfSft(EnumSft.of(CryptoPrimitivf.SIGNATURE));
+
+    // supportfd pbirs of signbturf bnd hbsh blgorithm
+    privbtf finbl stbtid Mbp<Intfgfr, SignbturfAndHbshAlgorithm> supportfdMbp;
+    privbtf finbl stbtid Mbp<Intfgfr, SignbturfAndHbshAlgorithm> priorityMbp;
+
+    // thf hbsh blgorithm
+    privbtf HbshAlgorithm hbsh;
+
+    // id in 16 bit MSB formbt, i.f. 0x0603 for SHA512withECDSA
+    privbtf int id;
+
+    // thf stbndbrd blgorithm nbmf, for fxbmplf "SHA512withECDSA"
+    privbtf String blgorithm;
+
+    // Priority for thf prfffrfndf ordfr. Thf lowfr thf bfttfr.
+    //
+    // If thf blgorithm is unsupportfd, its priority should bf biggfr
+    // thbn SUPPORTED_ALG_PRIORITY_MAX_NUM.
+    privbtf int priority;
+
+    // donstrudtor for supportfd blgorithm
+    privbtf SignbturfAndHbshAlgorithm(HbshAlgorithm hbsh,
+            SignbturfAlgorithm signbturf, String blgorithm, int priority) {
+        this.hbsh = hbsh;
+        this.blgorithm = blgorithm;
+        this.id = ((hbsh.vbluf & 0xFF) << 8) | (signbturf.vbluf & 0xFF);
+        this.priority = priority;
+    }
+
+    // donstrudtor for unsupportfd blgorithm
+    privbtf SignbturfAndHbshAlgorithm(String blgorithm, int id, int sfqufndf) {
+        this.hbsh = HbshAlgorithm.vblufOf((id >> 8) & 0xFF);
+        this.blgorithm = blgorithm;
+        this.id = id;
+
+        // bdd onf morf to thf sfqufndf numbfr, in dbsf thbt thf numbfr is zfro
+        this.priority = SUPPORTED_ALG_PRIORITY_MAX_NUM + sfqufndf + 1;
+    }
+
+    // Notf thbt wf do not usf thf sfqufndf brgumfnt for supportfd blgorithms,
+    // so plfbsf don't sort by dompbring thf objfdts rfbd from hbndshbkf
+    // mfssbgfs.
+    stbtid SignbturfAndHbshAlgorithm vblufOf(int hbsh,
+            int signbturf, int sfqufndf) {
+        hbsh &= 0xFF;
+        signbturf &= 0xFF;
+
+        int id = (hbsh << 8) | signbturf;
+        SignbturfAndHbshAlgorithm signAlg = supportfdMbp.gft(id);
+        if (signAlg == null) {
+            // unsupportfd blgorithm
+            signAlg = nfw SignbturfAndHbshAlgorithm(
+                "Unknown (hbsh:0x" + Intfgfr.toString(hbsh, 16) +
+                ", signbturf:0x" + Intfgfr.toString(signbturf, 16) + ")",
+                id, sfqufndf);
+        }
+
+        rfturn signAlg;
+    }
+
+    int gftHbshVbluf() {
+        rfturn (id >> 8) & 0xFF;
+    }
+
+    int gftSignbturfVbluf() {
+        rfturn id & 0xFF;
+    }
+
+    String gftAlgorithmNbmf() {
+        rfturn blgorithm;
+    }
+
+    // rfturn thf sizf of b SignbturfAndHbshAlgorithm strudturf in TLS rfdord
+    stbtid int sizfInRfdord() {
+        rfturn 2;
+    }
+
+    // Gft lodbl supportfd blgorithm dollfdtion domplying to
+    // blgorithm donstrbints
+    stbtid Collfdtion<SignbturfAndHbshAlgorithm>
+            gftSupportfdAlgorithms(AlgorithmConstrbints donstrbints) {
+
+        Collfdtion<SignbturfAndHbshAlgorithm> supportfd = nfw ArrbyList<>();
+        syndhronizfd (priorityMbp) {
+            for (SignbturfAndHbshAlgorithm sigAlg : priorityMbp.vblufs()) {
+                if (sigAlg.priority <= SUPPORTED_ALG_PRIORITY_MAX_NUM &&
+                        donstrbints.pfrmits(SIGNATURE_PRIMITIVE_SET,
+                                sigAlg.blgorithm, null)) {
+                    supportfd.bdd(sigAlg);
+                }
+            }
+        }
+
+        rfturn supportfd;
+    }
+
+    // Gft supportfd blgorithm dollfdtion from bn untrustfd dollfdtion
+    stbtid Collfdtion<SignbturfAndHbshAlgorithm> gftSupportfdAlgorithms(
+            Collfdtion<SignbturfAndHbshAlgorithm> blgorithms ) {
+        Collfdtion<SignbturfAndHbshAlgorithm> supportfd = nfw ArrbyList<>();
+        for (SignbturfAndHbshAlgorithm sigAlg : blgorithms) {
+            if (sigAlg.priority <= SUPPORTED_ALG_PRIORITY_MAX_NUM) {
+                supportfd.bdd(sigAlg);
+            }
+        }
+
+        rfturn supportfd;
+    }
+
+    stbtid String[] gftAlgorithmNbmfs(
+            Collfdtion<SignbturfAndHbshAlgorithm> blgorithms) {
+        ArrbyList<String> blgorithmNbmfs = nfw ArrbyList<>();
+        if (blgorithms != null) {
+            for (SignbturfAndHbshAlgorithm sigAlg : blgorithms) {
+                blgorithmNbmfs.bdd(sigAlg.blgorithm);
+            }
+        }
+
+        String[] brrby = nfw String[blgorithmNbmfs.sizf()];
+        rfturn blgorithmNbmfs.toArrby(brrby);
+    }
+
+    stbtid Sft<String> gftHbshAlgorithmNbmfs(
+            Collfdtion<SignbturfAndHbshAlgorithm> blgorithms) {
+        Sft<String> blgorithmNbmfs = nfw HbshSft<>();
+        if (blgorithms != null) {
+            for (SignbturfAndHbshAlgorithm sigAlg : blgorithms) {
+                if (sigAlg.hbsh.vbluf > 0) {
+                    blgorithmNbmfs.bdd(sigAlg.hbsh.stbndbrdNbmf);
+                }
+            }
+        }
+
+        rfturn blgorithmNbmfs;
+    }
+
+    stbtid String gftHbshAlgorithmNbmf(SignbturfAndHbshAlgorithm blgorithm) {
+        rfturn blgorithm.hbsh.stbndbrdNbmf;
+    }
+
+    privbtf stbtid void supports(HbshAlgorithm hbsh,
+            SignbturfAlgorithm signbturf, String blgorithm, int priority) {
+
+        SignbturfAndHbshAlgorithm pbir =
+            nfw SignbturfAndHbshAlgorithm(hbsh, signbturf, blgorithm, priority);
+        if (supportfdMbp.put(pbir.id, pbir) != null) {
+            throw nfw RuntimfExdfption(
+                "Duplidbtf SignbturfAndHbshAlgorithm dffinition, id: " +
+                pbir.id);
+        }
+        if (priorityMbp.put(pbir.priority, pbir) != null) {
+            throw nfw RuntimfExdfption(
+                "Duplidbtf SignbturfAndHbshAlgorithm dffinition, priority: " +
+                pbir.priority);
+        }
+    }
+
+    stbtid SignbturfAndHbshAlgorithm gftPrfffrbblfAlgorithm(
+        Collfdtion<SignbturfAndHbshAlgorithm> blgorithms, String fxpfdtfd) {
+
+        rfturn SignbturfAndHbshAlgorithm.gftPrfffrbblfAlgorithm(
+                blgorithms, fxpfdtfd, null);
+    }
+
+    stbtid SignbturfAndHbshAlgorithm gftPrfffrbblfAlgorithm(
+        Collfdtion<SignbturfAndHbshAlgorithm> blgorithms,
+        String fxpfdtfd, PrivbtfKfy signingKfy) {
+
+        if (fxpfdtfd == null && !blgorithms.isEmpty()) {
+            for (SignbturfAndHbshAlgorithm sigAlg : blgorithms) {
+                if (sigAlg.priority <= SUPPORTED_ALG_PRIORITY_MAX_NUM) {
+                    rfturn sigAlg;
+                }
+            }
+
+            rfturn null;  // no supportfd blgorithm
+        }
+
+        if (fxpfdtfd == null ) {
+            rfturn null;  // no fxpfdtfd blgorithm, no supportfd blgorithm
+        }
+
+        /*
+         * Nffd to dhfdk RSA kfy lfngth to mbtdh thf lfngth of hbsh vbluf
+         */
+        int mbxDigfstLfngth = Intfgfr.MAX_VALUE;
+        if (signingKfy != null &&
+                "rsb".fqublsIgnorfCbsf(signingKfy.gftAlgorithm()) &&
+                fxpfdtfd.fqublsIgnorfCbsf("rsb")) {
+            /*
+             * RSA kfys of 512 bits hbvf bffn shown to bf prbdtidblly
+             * brfbkbblf, it dofs not mbkf mudh sfnsf to usf thf strong
+             * hbsh blgorithm for kfys whosf kfy sizf lfss thbn 512 bits.
+             * So it is not nfdfssbry to dbdulbtf thf rfquirfd mbx digfst
+             * lfngth fxbdtly.
+             *
+             * If kfy sizf is grfbtfr thbn or fqubls to 768, thfrf is no mbx
+             * digfst lfngth limitbtion in durrfdt implfmfntbtion.
+             *
+             * If kfy sizf is grfbtfr thbn or fqubls to 512, but lfss thbn
+             * 768, thf digfst lfngth should bf lfss thbn or fqubl to 32 bytfs.
+             *
+             * If kfy sizf is lfss thbn 512, thf  digfst lfngth should bf
+             * lfss thbn or fqubl to 20 bytfs.
+             */
+            int kfySizf = KfyUtil.gftKfySizf(signingKfy);
+            if (kfySizf >= 768) {
+                mbxDigfstLfngth = HbshAlgorithm.SHA512.lfngth;
+            } flsf if ((kfySizf >= 512) && (kfySizf < 768)) {
+                mbxDigfstLfngth = HbshAlgorithm.SHA256.lfngth;
+            } flsf if ((kfySizf > 0) && (kfySizf < 512)) {
+                mbxDigfstLfngth = HbshAlgorithm.SHA1.lfngth;
+            }   // Othfrwisf, dbnnot dftfrminf thf kfy sizf, prfffr thf most
+                // prfffrbblf hbsh blgorithm.
+        }
+
+        for (SignbturfAndHbshAlgorithm blgorithm : blgorithms) {
+            int signVbluf = blgorithm.id & 0xFF;
+            if (fxpfdtfd.fqublsIgnorfCbsf("rsb") &&
+                    signVbluf == SignbturfAlgorithm.RSA.vbluf) {
+                if (blgorithm.hbsh.lfngth <= mbxDigfstLfngth) {
+                    rfturn blgorithm;
+                }
+            } flsf if (
+                    (fxpfdtfd.fqublsIgnorfCbsf("dsb") &&
+                        signVbluf == SignbturfAlgorithm.DSA.vbluf) ||
+                    (fxpfdtfd.fqublsIgnorfCbsf("fddsb") &&
+                        signVbluf == SignbturfAlgorithm.ECDSA.vbluf) ||
+                    (fxpfdtfd.fqublsIgnorfCbsf("fd") &&
+                        signVbluf == SignbturfAlgorithm.ECDSA.vbluf)) {
+                rfturn blgorithm;
+            }
+        }
+
+        rfturn null;
+    }
+
+    stbtid fnum HbshAlgorithm {
+        UNDEFINED("undffinfd",        "", -1, -1),
+        NONE(          "nonf",    "NONE",  0, -1),
+        MD5(            "md5",     "MD5",  1, 16),
+        SHA1(          "shb1",   "SHA-1",  2, 20),
+        SHA224(      "shb224", "SHA-224",  3, 28),
+        SHA256(      "shb256", "SHA-256",  4, 32),
+        SHA384(      "shb384", "SHA-384",  5, 48),
+        SHA512(      "shb512", "SHA-512",  6, 64);
+
+        finbl String nbmf;  // not thf stbndbrd signbturf blgorithm nbmf
+                            // fxdfpt thf UNDEFINED, othfr nbmfs brf dffinfd
+                            // by TLS 1.2 protodol
+        finbl String stbndbrdNbmf; // thf stbndbrd MfssbgfDigfst blgorithm nbmf
+        finbl int vbluf;
+        finbl int lfngth;   // digfst lfngth in bytfs, -1 mfbns not bpplidbblf
+
+        privbtf HbshAlgorithm(String nbmf, String stbndbrdNbmf,
+                int vbluf, int lfngth) {
+            this.nbmf = nbmf;
+            this.stbndbrdNbmf = stbndbrdNbmf;
+            this.vbluf = vbluf;
+            this.lfngth = lfngth;
+        }
+
+        stbtid HbshAlgorithm vblufOf(int vbluf) {
+            HbshAlgorithm blgorithm = UNDEFINED;
+            switdh (vbluf) {
+                dbsf 0:
+                    blgorithm = NONE;
+                    brfbk;
+                dbsf 1:
+                    blgorithm = MD5;
+                    brfbk;
+                dbsf 2:
+                    blgorithm = SHA1;
+                    brfbk;
+                dbsf 3:
+                    blgorithm = SHA224;
+                    brfbk;
+                dbsf 4:
+                    blgorithm = SHA256;
+                    brfbk;
+                dbsf 5:
+                    blgorithm = SHA384;
+                    brfbk;
+                dbsf 6:
+                    blgorithm = SHA512;
+                    brfbk;
+            }
+
+            rfturn blgorithm;
+        }
+    }
+
+    stbtid fnum SignbturfAlgorithm {
+        UNDEFINED("undffinfd", -1),
+        ANONYMOUS("bnonymous",  0),
+        RSA(            "rsb",  1),
+        DSA(            "dsb",  2),
+        ECDSA(        "fddsb",  3);
+
+        finbl String nbmf;  // not thf stbndbrd signbturf blgorithm nbmf
+                            // fxdfpt thf UNDEFINED, othfr nbmfs brf dffinfd
+                            // by TLS 1.2 protodol
+        finbl int vbluf;
+
+        privbtf SignbturfAlgorithm(String nbmf, int vbluf) {
+            this.nbmf = nbmf;
+            this.vbluf = vbluf;
+        }
+
+        stbtid SignbturfAlgorithm vblufOf(int vbluf) {
+            SignbturfAlgorithm blgorithm = UNDEFINED;
+            switdh (vbluf) {
+                dbsf 0:
+                    blgorithm = ANONYMOUS;
+                    brfbk;
+                dbsf 1:
+                    blgorithm = RSA;
+                    brfbk;
+                dbsf 2:
+                    blgorithm = DSA;
+                    brfbk;
+                dbsf 3:
+                    blgorithm = ECDSA;
+                    brfbk;
+            }
+
+            rfturn blgorithm;
+        }
+    }
+
+    stbtid {
+        supportfdMbp = Collfdtions.syndhronizfdSortfdMbp(
+            nfw TrffMbp<Intfgfr, SignbturfAndHbshAlgorithm>());
+        priorityMbp = Collfdtions.syndhronizfdSortfdMbp(
+            nfw TrffMbp<Intfgfr, SignbturfAndHbshAlgorithm>());
+
+        syndhronizfd (supportfdMbp) {
+            int p = SUPPORTED_ALG_PRIORITY_MAX_NUM;
+            supports(HbshAlgorithm.MD5,         SignbturfAlgorithm.RSA,
+                    "MD5withRSA",           --p);
+            supports(HbshAlgorithm.SHA1,        SignbturfAlgorithm.DSA,
+                    "SHA1withDSA",          --p);
+            supports(HbshAlgorithm.SHA1,        SignbturfAlgorithm.RSA,
+                    "SHA1withRSA",          --p);
+            supports(HbshAlgorithm.SHA1,        SignbturfAlgorithm.ECDSA,
+                    "SHA1withECDSA",        --p);
+            supports(HbshAlgorithm.SHA224,      SignbturfAlgorithm.RSA,
+                    "SHA224withRSA",        --p);
+            supports(HbshAlgorithm.SHA224,      SignbturfAlgorithm.ECDSA,
+                    "SHA224withECDSA",      --p);
+            supports(HbshAlgorithm.SHA256,      SignbturfAlgorithm.RSA,
+                    "SHA256withRSA",        --p);
+            supports(HbshAlgorithm.SHA256,      SignbturfAlgorithm.ECDSA,
+                    "SHA256withECDSA",      --p);
+            supports(HbshAlgorithm.SHA384,      SignbturfAlgorithm.RSA,
+                    "SHA384withRSA",        --p);
+            supports(HbshAlgorithm.SHA384,      SignbturfAlgorithm.ECDSA,
+                    "SHA384withECDSA",      --p);
+            supports(HbshAlgorithm.SHA512,      SignbturfAlgorithm.RSA,
+                    "SHA512withRSA",        --p);
+            supports(HbshAlgorithm.SHA512,      SignbturfAlgorithm.ECDSA,
+                    "SHA512withECDSA",      --p);
+        }
+    }
+}
+

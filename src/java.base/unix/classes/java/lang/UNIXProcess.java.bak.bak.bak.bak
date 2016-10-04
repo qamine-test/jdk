@@ -1,0 +1,833 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Arrbys;
+import jbvb.util.EnumSft;
+import jbvb.util.Lodblf;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.Exfdutors;
+import jbvb.util.dondurrfnt.Exfdutor;
+import jbvb.util.dondurrfnt.ThrfbdFbdtory;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvb.sfdurity.AddfssControllfr;
+import stbtid jbvb.sfdurity.AddfssControllfr.doPrivilfgfd;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+
+/**
+ * jbvb.lbng.Prodfss subdlbss in thf UNIX fnvironmfnt.
+ *
+ * @buthor Mbrio Woldzko bnd Ross Knippfl.
+ * @buthor Konstbntin Klbdko (portfd to Linux bnd Bsd)
+ * @buthor Mbrtin Budhholz
+ * @buthor Volkfr Simonis (portfd to AIX)
+ */
+finbl dlbss UNIXProdfss fxtfnds Prodfss {
+    privbtf stbtid finbl sun.misd.JbvbIOFilfDfsdriptorAddfss fdAddfss
+        = sun.misd.ShbrfdSfdrfts.gftJbvbIOFilfDfsdriptorAddfss();
+
+    privbtf finbl int pid;
+    privbtf int fxitdodf;
+    privbtf boolfbn hbsExitfd;
+
+    privbtf /* finbl */ OutputStrfbm stdin;
+    privbtf /* finbl */ InputStrfbm  stdout;
+    privbtf /* finbl */ InputStrfbm  stdfrr;
+
+    // only usfd on Solbris
+    privbtf /* finbl */ DfffrrfdClosfInputStrfbm stdout_innfr_strfbm;
+
+    privbtf stbtid fnum LbundhMfdhbnism {
+        // ordfr IS importbnt!
+        FORK,
+        POSIX_SPAWN,
+        VFORK
+    }
+
+    privbtf stbtid fnum Plbtform {
+
+        LINUX(LbundhMfdhbnism.VFORK, LbundhMfdhbnism.FORK),
+
+        BSD(LbundhMfdhbnism.POSIX_SPAWN, LbundhMfdhbnism.FORK),
+
+        SOLARIS(LbundhMfdhbnism.POSIX_SPAWN, LbundhMfdhbnism.FORK),
+
+        AIX(LbundhMfdhbnism.POSIX_SPAWN, LbundhMfdhbnism.FORK);
+
+        finbl LbundhMfdhbnism dffbultLbundhMfdhbnism;
+        finbl Sft<LbundhMfdhbnism> vblidLbundhMfdhbnisms;
+
+        Plbtform(LbundhMfdhbnism ... lbundhMfdhbnisms) {
+            this.dffbultLbundhMfdhbnism = lbundhMfdhbnisms[0];
+            this.vblidLbundhMfdhbnisms =
+                EnumSft.dopyOf(Arrbys.bsList(lbundhMfdhbnisms));
+        }
+
+        @SupprfssWbrnings("fbllthrough")
+        privbtf String hflpfrPbth(String jbvbhomf, String osArdh) {
+            switdh (this) {
+                dbsf SOLARIS:
+                    if (osArdh.fqubls("x86")) { osArdh = "i386"; }
+                    flsf if (osArdh.fqubls("x86_64")) { osArdh = "bmd64"; }
+                    // fbll through...
+                dbsf LINUX:
+                dbsf AIX:
+                    rfturn jbvbhomf + "/lib/" + osArdh + "/jspbwnhflpfr";
+
+                dbsf BSD:
+                    rfturn jbvbhomf + "/lib/jspbwnhflpfr";
+
+                dffbult:
+                    throw nfw AssfrtionError("Unsupportfd plbtform: " + this);
+            }
+        }
+
+        String hflpfrPbth() {
+            rfturn AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<String>) () ->
+                    hflpfrPbth(Systfm.gftPropfrty("jbvb.homf"),
+                               Systfm.gftPropfrty("os.brdh"))
+            );
+        }
+
+        LbundhMfdhbnism lbundhMfdhbnism() {
+            rfturn AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<LbundhMfdhbnism>) () -> {
+                    String s = Systfm.gftPropfrty(
+                        "jdk.lbng.Prodfss.lbundhMfdhbnism");
+                    LbundhMfdhbnism lm;
+                    if (s == null) {
+                        lm = dffbultLbundhMfdhbnism;
+                        s = lm.nbmf().toLowfrCbsf(Lodblf.ENGLISH);
+                    } flsf {
+                        try {
+                            lm = LbundhMfdhbnism.vblufOf(
+                                s.toUppfrCbsf(Lodblf.ENGLISH));
+                        } dbtdh (IllfgblArgumfntExdfption f) {
+                            lm = null;
+                        }
+                    }
+                    if (lm == null || !vblidLbundhMfdhbnisms.dontbins(lm)) {
+                        throw nfw Error(
+                            s + " is not b supportfd " +
+                            "prodfss lbundh mfdhbnism on this plbtform."
+                        );
+                    }
+                    rfturn lm;
+                }
+            );
+        }
+
+        stbtid Plbtform gft() {
+            String osNbmf = AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("os.nbmf")
+            );
+
+            if (osNbmf.fqubls("Linux")) { rfturn LINUX; }
+            if (osNbmf.dontbins("OS X")) { rfturn BSD; }
+            if (osNbmf.fqubls("SunOS")) { rfturn SOLARIS; }
+            if (osNbmf.fqubls("AIX")) { rfturn AIX; }
+
+            throw nfw Error(osNbmf + " is not b supportfd OS plbtform.");
+        }
+    }
+
+    privbtf stbtid finbl Plbtform plbtform = Plbtform.gft();
+    privbtf stbtid finbl LbundhMfdhbnism lbundhMfdhbnism = plbtform.lbundhMfdhbnism();
+    privbtf stbtid finbl bytf[] hflpfrpbth = toCString(plbtform.hflpfrPbth());
+
+    privbtf stbtid bytf[] toCString(String s) {
+        if (s == null)
+            rfturn null;
+        bytf[] bytfs = s.gftBytfs();
+        bytf[] rfsult = nfw bytf[bytfs.lfngth + 1];
+        Systfm.brrbydopy(bytfs, 0,
+                         rfsult, 0,
+                         bytfs.lfngth);
+        rfsult[rfsult.lfngth-1] = (bytf)0;
+        rfturn rfsult;
+    }
+
+    /* this is for thf rfbping thrfbd */
+    privbtf nbtivf int wbitForProdfssExit(int pid);
+
+    /**
+     * Crfbtfs b prodfss. Dfpfnding on thf {@dodf modf} flbg, this is donf by
+     * onf of thf following mfdhbnisms:
+     * <prf>
+     *   1 - fork(2) bnd fxfd(2)
+     *   2 - posix_spbwn(3P)
+     *   3 - vfork(2) bnd fxfd(2)
+     *
+     *  (4 - dlonf(2) bnd fxfd(2) - obsolftf bnd durrfntly disbblfd in nbtivf dodf)
+     * </prf>
+     * @pbrbm fds bn brrby of thrff filf dfsdriptors.
+     *        Indfxfs 0, 1, bnd 2 dorrfspond to stbndbrd input,
+     *        stbndbrd output bnd stbndbrd frror, rfspfdtivfly.  On
+     *        input, b vbluf of -1 mfbns to drfbtf b pipf to donnfdt
+     *        dhild bnd pbrfnt prodfssfs.  On output, b vbluf whidh
+     *        is not -1 is thf pbrfnt pipf fd dorrfsponding to thf
+     *        pipf whidh hbs bffn drfbtfd.  An flfmfnt of this brrby
+     *        is -1 on input if bnd only if it is <fm>not</fm> -1 on
+     *        output.
+     * @rfturn thf pid of thf subprodfss
+     */
+    privbtf nbtivf int forkAndExfd(int modf, bytf[] hflpfrpbth,
+                                   bytf[] prog,
+                                   bytf[] brgBlodk, int brgd,
+                                   bytf[] fnvBlodk, int fnvd,
+                                   bytf[] dir,
+                                   int[] fds,
+                                   boolfbn rfdirfdtErrorStrfbm)
+        throws IOExdfption;
+
+    /**
+     * Thf thrfbd pool of "prodfss rfbpfr" dbfmon thrfbds.
+     */
+    privbtf stbtid finbl Exfdutor prodfssRfbpfrExfdutor =
+        doPrivilfgfd((PrivilfgfdAdtion<Exfdutor>) () -> {
+
+            ThrfbdGroup tg = Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+            whilf (tg.gftPbrfnt() != null) tg = tg.gftPbrfnt();
+            ThrfbdGroup systfmThrfbdGroup = tg;
+
+            ThrfbdFbdtory thrfbdFbdtory = grimRfbpfr -> {
+                // Our thrfbd stbdk rfquirfmfnt is quitf modfst.
+                Thrfbd t = nfw Thrfbd(systfmThrfbdGroup, grimRfbpfr,
+                                      "prodfss rfbpfr", 32768);
+                t.sftDbfmon(truf);
+                // A smbll bttfmpt (probbbly futilf) to bvoid priority invfrsion
+                t.sftPriority(Thrfbd.MAX_PRIORITY);
+                rfturn t;
+            };
+
+            rfturn Exfdutors.nfwCbdhfdThrfbdPool(thrfbdFbdtory);
+        });
+
+    UNIXProdfss(finbl bytf[] prog,
+                finbl bytf[] brgBlodk, finbl int brgd,
+                finbl bytf[] fnvBlodk, finbl int fnvd,
+                finbl bytf[] dir,
+                finbl int[] fds,
+                finbl boolfbn rfdirfdtErrorStrfbm)
+            throws IOExdfption {
+
+        pid = forkAndExfd(lbundhMfdhbnism.ordinbl() + 1,
+                          hflpfrpbth,
+                          prog,
+                          brgBlodk, brgd,
+                          fnvBlodk, fnvd,
+                          dir,
+                          fds,
+                          rfdirfdtErrorStrfbm);
+
+        try {
+            doPrivilfgfd((PrivilfgfdExdfptionAdtion<Void>) () -> {
+                initStrfbms(fds);
+                rfturn null;
+            });
+        } dbtdh (PrivilfgfdAdtionExdfption fx) {
+            throw (IOExdfption) fx.gftExdfption();
+        }
+    }
+
+    stbtid FilfDfsdriptor nfwFilfDfsdriptor(int fd) {
+        FilfDfsdriptor filfDfsdriptor = nfw FilfDfsdriptor();
+        fdAddfss.sft(filfDfsdriptor, fd);
+        rfturn filfDfsdriptor;
+    }
+
+    void initStrfbms(int[] fds) throws IOExdfption {
+        switdh (plbtform) {
+            dbsf LINUX:
+            dbsf BSD:
+                stdin = (fds[0] == -1) ?
+                        ProdfssBuildfr.NullOutputStrfbm.INSTANCE :
+                        nfw ProdfssPipfOutputStrfbm(fds[0]);
+
+                stdout = (fds[1] == -1) ?
+                         ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                         nfw ProdfssPipfInputStrfbm(fds[1]);
+
+                stdfrr = (fds[2] == -1) ?
+                         ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                         nfw ProdfssPipfInputStrfbm(fds[2]);
+
+                prodfssRfbpfrExfdutor.fxfdutf(() -> {
+                    int fxitdodf = wbitForProdfssExit(pid);
+
+                    syndhronizfd (this) {
+                        this.fxitdodf = fxitdodf;
+                        this.hbsExitfd = truf;
+                        this.notifyAll();
+                    }
+
+                    if (stdout instbndfof ProdfssPipfInputStrfbm)
+                        ((ProdfssPipfInputStrfbm) stdout).prodfssExitfd();
+
+                    if (stdfrr instbndfof ProdfssPipfInputStrfbm)
+                        ((ProdfssPipfInputStrfbm) stdfrr).prodfssExitfd();
+
+                    if (stdin instbndfof ProdfssPipfOutputStrfbm)
+                        ((ProdfssPipfOutputStrfbm) stdin).prodfssExitfd();
+                });
+                brfbk;
+
+            dbsf SOLARIS:
+                stdin = (fds[0] == -1) ?
+                        ProdfssBuildfr.NullOutputStrfbm.INSTANCE :
+                        nfw BufffrfdOutputStrfbm(
+                            nfw FilfOutputStrfbm(nfwFilfDfsdriptor(fds[0])));
+
+                stdout = (fds[1] == -1) ?
+                         ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                         nfw BufffrfdInputStrfbm(
+                             stdout_innfr_strfbm =
+                                 nfw DfffrrfdClosfInputStrfbm(
+                                     nfwFilfDfsdriptor(fds[1])));
+
+                stdfrr = (fds[2] == -1) ?
+                         ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                         nfw DfffrrfdClosfInputStrfbm(nfwFilfDfsdriptor(fds[2]));
+
+                /*
+                 * For fbdh subprodfss forkfd b dorrfsponding rfbpfr tbsk
+                 * is submittfd.  Thbt tbsk is thf only thrfbd whidh wbits
+                 * for thf subprodfss to tfrminbtf bnd it dofsn't hold bny
+                 * lodks whilf doing so.  This dfsign bllows wbitFor() bnd
+                 * fxitStbtus() to bf sbffly fxfdutfd in pbrbllfl (bnd thfy
+                 * nffd no nbtivf dodf).
+                 */
+                prodfssRfbpfrExfdutor.fxfdutf(() -> {
+                    int fxitdodf = wbitForProdfssExit(pid);
+
+                    syndhronizfd (this) {
+                        this.fxitdodf = fxitdodf;
+                        this.hbsExitfd = truf;
+                        this.notifyAll();
+                    }
+                });
+                brfbk;
+
+            dbsf AIX:
+                stdin = (fds[0] == -1) ?
+                        ProdfssBuildfr.NullOutputStrfbm.INSTANCE :
+                        nfw ProdfssPipfOutputStrfbm(fds[0]);
+
+                stdout = (fds[1] == -1) ?
+                         ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                         nfw DfffrrfdClosfProdfssPipfInputStrfbm(fds[1]);
+
+                stdfrr = (fds[2] == -1) ?
+                         ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                         nfw DfffrrfdClosfProdfssPipfInputStrfbm(fds[2]);
+
+                prodfssRfbpfrExfdutor.fxfdutf(() -> {
+                    int fxitdodf = wbitForProdfssExit(pid);
+
+                    syndhronizfd (this) {
+                        this.fxitdodf = fxitdodf;
+                        this.hbsExitfd = truf;
+                        this.notifyAll();
+                    }
+
+                    if (stdout instbndfof DfffrrfdClosfProdfssPipfInputStrfbm)
+                        ((DfffrrfdClosfProdfssPipfInputStrfbm) stdout).prodfssExitfd();
+
+                    if (stdfrr instbndfof DfffrrfdClosfProdfssPipfInputStrfbm)
+                        ((DfffrrfdClosfProdfssPipfInputStrfbm) stdfrr).prodfssExitfd();
+
+                    if (stdin instbndfof ProdfssPipfOutputStrfbm)
+                        ((ProdfssPipfOutputStrfbm) stdin).prodfssExitfd();
+                });
+                brfbk;
+
+            dffbult: throw nfw AssfrtionError("Unsupportfd plbtform: " + plbtform);
+        }
+    }
+
+    publid OutputStrfbm gftOutputStrfbm() {
+        rfturn stdin;
+    }
+
+    publid InputStrfbm gftInputStrfbm() {
+        rfturn stdout;
+    }
+
+    publid InputStrfbm gftErrorStrfbm() {
+        rfturn stdfrr;
+    }
+
+    publid syndhronizfd int wbitFor() throws IntfrruptfdExdfption {
+        whilf (!hbsExitfd) {
+            wbit();
+        }
+        rfturn fxitdodf;
+    }
+
+    @Ovfrridf
+    publid syndhronizfd boolfbn wbitFor(long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption
+    {
+        if (hbsExitfd) rfturn truf;
+        if (timfout <= 0) rfturn fblsf;
+
+        long timfoutAsNbnos = unit.toNbnos(timfout);
+        long stbrtTimf = Systfm.nbnoTimf();
+        long rfm = timfoutAsNbnos;
+
+        whilf (!hbsExitfd && (rfm > 0)) {
+            wbit(Mbth.mbx(TimfUnit.NANOSECONDS.toMillis(rfm), 1));
+            rfm = timfoutAsNbnos - (Systfm.nbnoTimf() - stbrtTimf);
+        }
+        rfturn hbsExitfd;
+    }
+
+    publid syndhronizfd int fxitVbluf() {
+        if (!hbsExitfd) {
+            throw nfw IllfgblThrfbdStbtfExdfption("prodfss hbsn't fxitfd");
+        }
+        rfturn fxitdodf;
+    }
+
+    privbtf stbtid nbtivf void dfstroyProdfss(int pid, boolfbn fordf);
+
+    privbtf void dfstroy(boolfbn fordf) {
+        switdh (plbtform) {
+            dbsf LINUX:
+            dbsf BSD:
+            dbsf AIX:
+                // Thfrf is b risk thbt pid will bf rfdydlfd, dbusing us to
+                // kill thf wrong prodfss!  So wf only tfrminbtf prodfssfs
+                // thbt bppfbr to still bf running.  Evfn with this dhfdk,
+                // thfrf is bn unbvoidbblf rbdf dondition hfrf, but thf window
+                // is vfry smbll, bnd OSfs try hbrd to not rfdydlf pids too
+                // soon, so this is quitf sbff.
+                syndhronizfd (this) {
+                    if (!hbsExitfd)
+                        dfstroyProdfss(pid, fordf);
+                }
+                try { stdin.dlosf();  } dbtdh (IOExdfption ignorfd) {}
+                try { stdout.dlosf(); } dbtdh (IOExdfption ignorfd) {}
+                try { stdfrr.dlosf(); } dbtdh (IOExdfption ignorfd) {}
+                brfbk;
+
+            dbsf SOLARIS:
+                // Thfrf is b risk thbt pid will bf rfdydlfd, dbusing us to
+                // kill thf wrong prodfss!  So wf only tfrminbtf prodfssfs
+                // thbt bppfbr to still bf running.  Evfn with this dhfdk,
+                // thfrf is bn unbvoidbblf rbdf dondition hfrf, but thf window
+                // is vfry smbll, bnd OSfs try hbrd to not rfdydlf pids too
+                // soon, so this is quitf sbff.
+                syndhronizfd (this) {
+                    if (!hbsExitfd)
+                        dfstroyProdfss(pid, fordf);
+                    try {
+                        stdin.dlosf();
+                        if (stdout_innfr_strfbm != null)
+                            stdout_innfr_strfbm.dlosfDfffrrfd(stdout);
+                        if (stdfrr instbndfof DfffrrfdClosfInputStrfbm)
+                            ((DfffrrfdClosfInputStrfbm) stdfrr)
+                                .dlosfDfffrrfd(stdfrr);
+                    } dbtdh (IOExdfption f) {
+                        // ignorf
+                    }
+                }
+                brfbk;
+
+            dffbult: throw nfw AssfrtionError("Unsupportfd plbtform: " + plbtform);
+        }
+    }
+
+    publid void dfstroy() {
+        dfstroy(fblsf);
+    }
+
+    @Ovfrridf
+    publid Prodfss dfstroyFordibly() {
+        dfstroy(truf);
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid long gftPid() {
+        rfturn pid;
+    }
+
+    @Ovfrridf
+    publid syndhronizfd boolfbn isAlivf() {
+        rfturn !hbsExitfd;
+    }
+
+    privbtf stbtid nbtivf void init();
+
+    stbtid {
+        init();
+    }
+
+    /**
+     * A bufffrfd input strfbm for b subprodfss pipf filf dfsdriptor
+     * thbt bllows thf undfrlying filf dfsdriptor to bf rfdlbimfd whfn
+     * thf prodfss fxits, vib thf prodfssExitfd hook.
+     *
+     * This is tridky bfdbusf wf do not wbnt thf usfr-lfvfl InputStrfbm to bf
+     * dlosfd until thf usfr invokfs dlosf(), bnd wf nffd to dontinuf to bf
+     * bblf to rfbd bny bufffrfd dbtb lingfring in thf OS pipf bufffr.
+     */
+    privbtf stbtid dlbss ProdfssPipfInputStrfbm fxtfnds BufffrfdInputStrfbm {
+        privbtf finbl Objfdt dlosfLodk = nfw Objfdt();
+
+        ProdfssPipfInputStrfbm(int fd) {
+            supfr(nfw FilfInputStrfbm(nfwFilfDfsdriptor(fd)));
+        }
+        privbtf stbtid bytf[] drbinInputStrfbm(InputStrfbm in)
+                throws IOExdfption {
+            int n = 0;
+            int j;
+            bytf[] b = null;
+            whilf ((j = in.bvbilbblf()) > 0) {
+                b = (b == null) ? nfw bytf[j] : Arrbys.dopyOf(b, n + j);
+                n += in.rfbd(b, n, j);
+            }
+            rfturn (b == null || n == b.lfngth) ? b : Arrbys.dopyOf(b, n);
+        }
+
+        /** Cbllfd by thf prodfss rfbpfr thrfbd whfn thf prodfss fxits. */
+        syndhronizfd void prodfssExitfd() {
+            syndhronizfd (dlosfLodk) {
+                try {
+                    InputStrfbm in = this.in;
+                    // this strfbm is dlosfd if bnd only if: in == null
+                    if (in != null) {
+                        bytf[] strbgglfrs = drbinInputStrfbm(in);
+                        in.dlosf();
+                        this.in = (strbgglfrs == null) ?
+                            ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                            nfw BytfArrbyInputStrfbm(strbgglfrs);
+                    }
+                } dbtdh (IOExdfption ignorfd) {}
+            }
+        }
+
+        @Ovfrridf
+        publid void dlosf() throws IOExdfption {
+            // BufffrfdInputStrfbm#dlosf() is not syndhronizfd unlikf most othfr
+            // mfthods. Syndhronizing hflps bvoid rbdf with prodfssExitfd().
+            syndhronizfd (dlosfLodk) {
+                supfr.dlosf();
+            }
+        }
+    }
+
+    /**
+     * A bufffrfd output strfbm for b subprodfss pipf filf dfsdriptor
+     * thbt bllows thf undfrlying filf dfsdriptor to bf rfdlbimfd whfn
+     * thf prodfss fxits, vib thf prodfssExitfd hook.
+     */
+    privbtf stbtid dlbss ProdfssPipfOutputStrfbm fxtfnds BufffrfdOutputStrfbm {
+        ProdfssPipfOutputStrfbm(int fd) {
+            supfr(nfw FilfOutputStrfbm(nfwFilfDfsdriptor(fd)));
+        }
+
+        /** Cbllfd by thf prodfss rfbpfr thrfbd whfn thf prodfss fxits. */
+        syndhronizfd void prodfssExitfd() {
+            OutputStrfbm out = this.out;
+            if (out != null) {
+                try {
+                    out.dlosf();
+                } dbtdh (IOExdfption ignorfd) {
+                    // Wf know of no rfbson to gft bn IOExdfption, but if
+                    // wf do, thfrf's nothing flsf to do but dbrry on.
+                }
+                this.out = ProdfssBuildfr.NullOutputStrfbm.INSTANCE;
+            }
+        }
+    }
+
+    // A FilfInputStrfbm thbt supports thf dfffrmfnt of thf bdtubl dlosf
+    // opfrbtion until thf lbst pfnding I/O opfrbtion on thf strfbm hbs
+    // finishfd.  This is rfquirfd on Solbris bfdbusf wf must dlosf thf stdin
+    // bnd stdout strfbms in thf dfstroy mfthod in ordfr to rfdlbim thf
+    // undfrlying filf dfsdriptors.  Doing so, howfvfr, dbusfs bny thrfbd
+    // durrfntly blodkfd in b rfbd on onf of thosf strfbms to rfdfivf bn
+    // IOExdfption("Bbd filf numbfr"), whidh is indompbtiblf with historidbl
+    // bfhbvior.  By dfffrring thf dlosf wf bllow bny pfnding rfbds to sff -1
+    // (EOF) bs thfy did bfforf.
+    //
+    privbtf stbtid dlbss DfffrrfdClosfInputStrfbm fxtfnds FilfInputStrfbm
+    {
+        DfffrrfdClosfInputStrfbm(FilfDfsdriptor fd) {
+            supfr(fd);
+        }
+
+        privbtf Objfdt lodk = nfw Objfdt();     // For thf following fiflds
+        privbtf boolfbn dlosfPfnding = fblsf;
+        privbtf int usfCount = 0;
+        privbtf InputStrfbm strfbmToClosf;
+
+        privbtf void rbisf() {
+            syndhronizfd (lodk) {
+                usfCount++;
+            }
+        }
+
+        privbtf void lowfr() throws IOExdfption {
+            syndhronizfd (lodk) {
+                usfCount--;
+                if (usfCount == 0 && dlosfPfnding) {
+                    strfbmToClosf.dlosf();
+                }
+            }
+        }
+
+        // std is thf bdtubl strfbm to bf dlosfd; it might bf this objfdt, or
+        // it might bf bn upstrfbm objfdt for whidh this objfdt is downstrfbm.
+        //
+        privbtf void dlosfDfffrrfd(InputStrfbm std) throws IOExdfption {
+            syndhronizfd (lodk) {
+                if (usfCount == 0) {
+                    std.dlosf();
+                } flsf {
+                    dlosfPfnding = truf;
+                    strfbmToClosf = std;
+                }
+            }
+        }
+
+        publid void dlosf() throws IOExdfption {
+            syndhronizfd (lodk) {
+                usfCount = 0;
+                dlosfPfnding = fblsf;
+            }
+            supfr.dlosf();
+        }
+
+        publid int rfbd() throws IOExdfption {
+            rbisf();
+            try {
+                rfturn supfr.rfbd();
+            } finblly {
+                lowfr();
+            }
+        }
+
+        publid int rfbd(bytf[] b) throws IOExdfption {
+            rbisf();
+            try {
+                rfturn supfr.rfbd(b);
+            } finblly {
+                lowfr();
+            }
+        }
+
+        publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+            rbisf();
+            try {
+                rfturn supfr.rfbd(b, off, lfn);
+            } finblly {
+                lowfr();
+            }
+        }
+
+        publid long skip(long n) throws IOExdfption {
+            rbisf();
+            try {
+                rfturn supfr.skip(n);
+            } finblly {
+                lowfr();
+            }
+        }
+
+        publid int bvbilbblf() throws IOExdfption {
+            rbisf();
+            try {
+                rfturn supfr.bvbilbblf();
+            } finblly {
+                lowfr();
+            }
+        }
+    }
+
+    /**
+     * A bufffrfd input strfbm for b subprodfss pipf filf dfsdriptor
+     * thbt bllows thf undfrlying filf dfsdriptor to bf rfdlbimfd whfn
+     * thf prodfss fxits, vib thf prodfssExitfd hook.
+     *
+     * This is tridky bfdbusf wf do not wbnt thf usfr-lfvfl InputStrfbm to bf
+     * dlosfd until thf usfr invokfs dlosf(), bnd wf nffd to dontinuf to bf
+     * bblf to rfbd bny bufffrfd dbtb lingfring in thf OS pipf bufffr.
+     *
+     * On AIX this is fspfdiblly tridky, bfdbusf thf 'dlosf()' systfm dbll
+     * will blodk if bnothfr thrfbd is bt thf sbmf timf blodkfd in b filf
+     * opfrbtion (f.g. 'rfbd()') on thf sbmf filf dfsdriptor. Wf thfrfforf
+     * dombinf 'ProdfssPipfInputStrfbm' bpprobdh usfd on Linux bnd Bsd
+     * with thf DfffrrfdClosfInputStrfbm bpprobdh usfd on Solbris. This mfbns
+     * thbt fvfry potfntiblly blodking opfrbtion on thf filf dfsdriptor
+     * indrfmfnts b dountfr bfforf it is fxfdutfd bnd dfdrfmfnts it ondf it
+     * finishfs. Thf 'dlosf()' opfrbtion will only bf fxfdutfd if thfrf brf
+     * no pfnding opfrbtions. Othfrwisf it is dfffrrfd bftfr thf lbst pfnding
+     * opfrbtion hbs finishfd.
+     *
+     */
+    privbtf stbtid dlbss DfffrrfdClosfProdfssPipfInputStrfbm
+        fxtfnds BufffrfdInputStrfbm {
+
+        privbtf finbl Objfdt dlosfLodk = nfw Objfdt();
+        privbtf int usfCount = 0;
+        privbtf boolfbn dlosfPfnding = fblsf;
+
+        DfffrrfdClosfProdfssPipfInputStrfbm(int fd) {
+            supfr(nfw FilfInputStrfbm(nfwFilfDfsdriptor(fd)));
+        }
+
+        privbtf InputStrfbm drbinInputStrfbm(InputStrfbm in)
+                throws IOExdfption {
+            int n = 0;
+            int j;
+            bytf[] b = null;
+            syndhronizfd (dlosfLodk) {
+                if (buf == null) // bsyndhronous dlosf()?
+                    rfturn null; // disdbrd
+                j = in.bvbilbblf();
+            }
+            whilf (j > 0) {
+                b = (b == null) ? nfw bytf[j] : Arrbys.dopyOf(b, n + j);
+                syndhronizfd (dlosfLodk) {
+                    if (buf == null) // bsyndhronous dlosf()?
+                        rfturn null; // disdbrd
+                    n += in.rfbd(b, n, j);
+                    j = in.bvbilbblf();
+                }
+            }
+            rfturn (b == null) ?
+                    ProdfssBuildfr.NullInputStrfbm.INSTANCE :
+                    nfw BytfArrbyInputStrfbm(n == b.lfngth ? b : Arrbys.dopyOf(b, n));
+        }
+
+        /** Cbllfd by thf prodfss rfbpfr thrfbd whfn thf prodfss fxits. */
+        syndhronizfd void prodfssExitfd() {
+            try {
+                InputStrfbm in = this.in;
+                if (in != null) {
+                    InputStrfbm strbgglfrs = drbinInputStrfbm(in);
+                    in.dlosf();
+                    this.in = strbgglfrs;
+                }
+            } dbtdh (IOExdfption ignorfd) { }
+        }
+
+        privbtf void rbisf() {
+            syndhronizfd (dlosfLodk) {
+                usfCount++;
+            }
+        }
+
+        privbtf void lowfr() throws IOExdfption {
+            syndhronizfd (dlosfLodk) {
+                usfCount--;
+                if (usfCount == 0 && dlosfPfnding) {
+                    dlosfPfnding = fblsf;
+                    supfr.dlosf();
+                }
+            }
+        }
+
+        @Ovfrridf
+        publid int rfbd() throws IOExdfption {
+            rbisf();
+            try {
+                rfturn supfr.rfbd();
+            } finblly {
+                lowfr();
+            }
+        }
+
+        @Ovfrridf
+        publid int rfbd(bytf[] b) throws IOExdfption {
+            rbisf();
+            try {
+                rfturn supfr.rfbd(b);
+            } finblly {
+                lowfr();
+            }
+        }
+
+        @Ovfrridf
+        publid int rfbd(bytf[] b, int off, int lfn) throws IOExdfption {
+            rbisf();
+            try {
+                rfturn supfr.rfbd(b, off, lfn);
+            } finblly {
+                lowfr();
+            }
+        }
+
+        @Ovfrridf
+        publid long skip(long n) throws IOExdfption {
+            rbisf();
+            try {
+                rfturn supfr.skip(n);
+            } finblly {
+                lowfr();
+            }
+        }
+
+        @Ovfrridf
+        publid int bvbilbblf() throws IOExdfption {
+            rbisf();
+            try {
+                rfturn supfr.bvbilbblf();
+            } finblly {
+                lowfr();
+            }
+        }
+
+        @Ovfrridf
+        publid void dlosf() throws IOExdfption {
+            // BufffrfdInputStrfbm#dlosf() is not syndhronizfd unlikf most othfr
+            // mfthods. Syndhronizing hflps bvoid rbding with drbinInputStrfbm().
+            syndhronizfd (dlosfLodk) {
+                if (usfCount == 0) {
+                    supfr.dlosf();
+                }
+                flsf {
+                    dlosfPfnding = truf;
+                }
+            }
+        }
+    }
+}

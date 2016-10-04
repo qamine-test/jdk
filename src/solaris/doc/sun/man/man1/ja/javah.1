@@ -1,62 +1,62 @@
 '\" t
-.\" Copyright (c) 1994, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
-.\" Title: jbvbh
-.\" Lbngubge: English
-.\" Dbte: 2013年11月21日
-.\" SectDesc: 基本ツール
-.\" Softwbre: JDK 8
-.\" Arch: 汎用
+.\" Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jbvbi
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: 基本ツール
+.\" Softwbrf: JDK 8
+.\" Ardi: 汎用
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
 .pl 99999
-.TH "jbvbh" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.TH "jbvbi" "1" "2013年11月21日" "JDK 8" "基本ツール"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 .SH "NAME"
-jbvbh \- JbvbクラスからCヘッダーとソース・ファイルを生成します。
+jbvbi \- JbvbクラスからCヘッダーとソース・ファイルを生成します。
 .SH "概要"
 .sp
 .if n \{\
 .RS 4
 .\}
 .nf
-\fIjbvbh\fR [ \fIoptions\fR ] f\fIully\-qublified\-clbss\-nbme \&.\&.\&.\fR
+\fIjbvbi\fR [ \fIoptions\fR ] f\fIully\-qublififd\-dlbss\-nbmf \&.\&.\&.\fR
 .fi
 .if n \{\
 .RE
@@ -67,82 +67,82 @@ jbvbh \- JbvbクラスからCヘッダーとソース・ファイルを生成します。
 コマンドライン・オプション。オプションを参照してください。
 .RE
 .PP
-\fIfully\-qublified\-clbss\-nbme\fR
+\fIfully\-qublififd\-dlbss\-nbmf\fR
 .RS 4
 Cヘッダーとソース・ファイルに変換されるクラスの完全修飾された場所。
 .RE
 .SH "説明"
 .PP
-\fIjbvbh\fRコマンドは、ネイティブ・メソッドを実装するために必要なCヘッダーとソース・ファイルを生成します。作成されたヘッダーとソース・ファイルは、ネイティブ・ソース・コードからオブジェクトのインスタンス変数を参照するためにCプログラムによって使用されます。\fI\&.h\fRファイルは、対応するクラスと一致する配置を持つ\fIstruct\fR定義を含みます。\fIstruct\fRのフィールドは、クラスのインスタンス変数に対応します。
+\fIjbvbi\fRコマンドは、ネイティブ・メソッドを実装するために必要なCヘッダーとソース・ファイルを生成します。作成されたヘッダーとソース・ファイルは、ネイティブ・ソース・コードからオブジェクトのインスタンス変数を参照するためにCプログラムによって使用されます。\fI\&.i\fRファイルは、対応するクラスと一致する配置を持つ\fIstrudt\fR定義を含みます。\fIstrudt\fRのフィールドは、クラスのインスタンス変数に対応します。
 .PP
-ヘッダー・ファイルとその中で宣言される構造体の名前はクラスの名前から派生します。\fIjbvbh\fRコマンドに渡されるクラスがパッケージの中にある場合、パッケージ名はヘッダー・ファイル名と構造体名の両方の先頭に付加されます。下線(_)が名前の区切り文字として使用されます。
+ヘッダー・ファイルとその中で宣言される構造体の名前はクラスの名前から派生します。\fIjbvbi\fRコマンドに渡されるクラスがパッケージの中にある場合、パッケージ名はヘッダー・ファイル名と構造体名の両方の先頭に付加されます。下線(_)が名前の区切り文字として使用されます。
 .PP
-デフォルトでは\fIjbvbh\fRコマンドは、コマンドラインにリストされる各クラスのヘッダー・ファイルを作成し、現在のディレクトリにファイルを置きます。ソース・ファイルを作成するには、\fI\-stubs\fRオプションを使用してください。1つのファイルの中に、リストされたすべてのクラスの結果を連結するには、\fI\-o\fRオプションを使用してください。
+デフォルトでは\fIjbvbi\fRコマンドは、コマンドラインにリストされる各クラスのヘッダー・ファイルを作成し、現在のディレクトリにファイルを置きます。ソース・ファイルを作成するには、\fI\-stubs\fRオプションを使用してください。1つのファイルの中に、リストされたすべてのクラスの結果を連結するには、\fI\-o\fRオプションを使用してください。
 .PP
-Jbvb Nbtive Interfbce (JNI)はヘッダー情報またはスタブ・ファイルを必要としません。\fIjbvbh\fRコマンドは引き続きJNI形式のネイティブ・メソッドに必要なネイティブ・メソッド関数プロトタイプの生成に使用できます。\fIjbvbh\fRコマンドはデフォルトでJNI形式の出力を生成し、その結果を\fI\&.h\fRファイルに格納します。
+Jbvb Nbtivf Intfrfbdf (JNI)はヘッダー情報またはスタブ・ファイルを必要としません。\fIjbvbi\fRコマンドは引き続きJNI形式のネイティブ・メソッドに必要なネイティブ・メソッド関数プロトタイプの生成に使用できます。\fIjbvbi\fRコマンドはデフォルトでJNI形式の出力を生成し、その結果を\fI\&.i\fRファイルに格納します。
 .SH "オプション"
 .PP
-\-o \fIoutputfile\fR
+\-o \fIoutputfilf\fR
 .RS 4
 コマンドラインにリストされたすべてのクラスに対して、結果のヘッダーまたはソース・ファイルを連結して出力ファイルに格納します。\fI\-o\fRまたは\fI\-d\fRのどちらかのみ使用できます。
 .RE
 .PP
-\-d \fIdirectory\fR
+\-d \fIdirfdtory\fR
 .RS 4
-\fIjbvbh\fRがヘッダー・ファイルまたはスタブ・ファイルを保存する、ディレクトリを設定します。\fI\-d\fRまたは\fI\-o\fRのどちらかのみ使用できます。
+\fIjbvbi\fRがヘッダー・ファイルまたはスタブ・ファイルを保存する、ディレクトリを設定します。\fI\-d\fRまたは\fI\-o\fRのどちらかのみ使用できます。
 .RE
 .PP
 \-stubs
 .RS 4
-\fIjbvbh\fRコマンドが、Jbvbオブジェクト・ファイルからC宣言を生成します。
+\fIjbvbi\fRコマンドが、Jbvbオブジェクト・ファイルからC宣言を生成します。
 .RE
 .PP
-\-verbose
+\-vfrbosf
 .RS 4
-詳細出力を指定し、作成ファイルの状態に関するメッセージを、\fIjbvbh\fRコマンドが\fI標準出力\fRに出力します。
+詳細出力を指定し、作成ファイルの状態に関するメッセージを、\fIjbvbi\fRコマンドが\fI標準出力\fRに出力します。
 .RE
 .PP
-\-help
+\-iflp
 .RS 4
-\fIjbvbh\fRの使用方法についてのヘルプ・メッセージを出力します。
+\fIjbvbi\fRの使用方法についてのヘルプ・メッセージを出力します。
 .RE
 .PP
-\-version
+\-vfrsion
 .RS 4
-\fIjbvbh\fRコマンドのリリース情報を出力します。
+\fIjbvbi\fRコマンドのリリース情報を出力します。
 .RE
 .PP
 \-jni
 .RS 4
-JNI形式のネイティブ・メソッド機能プロトタイプを含む出力ファイルを、\fIjbvbh\fRコマンドが作成します。これは標準出力であるため、\fI\-jni\fRの使用はオプションです。
+JNI形式のネイティブ・メソッド機能プロトタイプを含む出力ファイルを、\fIjbvbi\fRコマンドが作成します。これは標準出力であるため、\fI\-jni\fRの使用はオプションです。
 .RE
 .PP
-\-clbsspbth \fIpbth\fR
+\-dlbsspbti \fIpbti\fR
 .RS 4
-クラスを探すために\fIjbvbh\fRコマンドが使用するパスを指定します。デフォルトまたは\fICLASSPATH\fR環境変数の設定をオーバーライドします。ディレクトリはOrbcle Solbrisの場合はコロンで、Windowsの場合はセミコロンで区切られます。パスの一般的な形式は次のようになります。
+クラスを探すために\fIjbvbi\fRコマンドが使用するパスを指定します。デフォルトまたは\fICLASSPATH\fR環境変数の設定をオーバーライドします。ディレクトリはOrbdlf Solbrisの場合はコロンで、Windowsの場合はセミコロンで区切られます。パスの一般的な形式は次のようになります。
 .sp
-\fBOrbcle Solbris\fRの場合:
+\fBOrbdlf Solbris\fRの場合:
 .sp
-\&.:\fIyour\-pbth\fR
+\&.:\fIyour\-pbti\fR
 .sp
 例:
-\fI\&.:/home/bvh/clbsses:/usr/locbl/jbvb/clbsses\fR
+\fI\&.:/iomf/bvi/dlbssfs:/usr/lodbl/jbvb/dlbssfs\fR
 .sp
 \fBWindows\fRの場合:
 .sp
-\&.;\fIyour\-pbth\fR
+\&.;\fIyour\-pbti\fR
 .sp
 例:
-\fI\&.;C:\eusers\edbc\eclbsses;C:\etools\ejbvb\eclbsses\fR
+\fI\&.;C:\fusfrs\fdbd\fdlbssfs;C:\ftools\fjbvb\fdlbssfs\fR
 .sp
 便宜上、*のベース名を含むクラス・パス要素は、\fI\&.jbr\fRまたは\fI\&.JAR\fRを拡張子に持つディレクトリ内のすべてのファイルのリストを指定するのと同等とみなされます。
 .sp
-たとえば、ディレクトリ\fImydir\fRに\fIb\&.jbr\fRと\fIb\&.JAR\fRが含まれている場合、クラス・パス要素\fImydir/*\fRは\fIA\fR\fI\&.jbr:b\&.JAR\fRに展開されますが、JARファイルの順番は未指定となります。このリストには、隠しファイルも含め、指定されたディレクトリ内のすべてのJARファイルが含まれます。*からなるクラス・パス・エントリは、現在のディレクトリ内のすべてのJARファイルのリストに展開されます。\fICLASSPATH\fR環境変数も、定義時には同様に展開されます。クラス・パスのワイルドカードの展開は、Jbvb仮想マシン(JVM)の開始前に行われます。Jbvbプログラムは、環境を問い合せる場合を除き、展開されていないワイルドカードを参照しません。たとえば、\fISystem\&.getenv("CLASSPATH")\fRをコールして問い合せる場合です。
+たとえば、ディレクトリ\fImydir\fRに\fIb\&.jbr\fRと\fIb\&.JAR\fRが含まれている場合、クラス・パス要素\fImydir/*\fRは\fIA\fR\fI\&.jbr:b\&.JAR\fRに展開されますが、JARファイルの順番は未指定となります。このリストには、隠しファイルも含め、指定されたディレクトリ内のすべてのJARファイルが含まれます。*からなるクラス・パス・エントリは、現在のディレクトリ内のすべてのJARファイルのリストに展開されます。\fICLASSPATH\fR環境変数も、定義時には同様に展開されます。クラス・パスのワイルドカードの展開は、Jbvb仮想マシン(JVM)の開始前に行われます。Jbvbプログラムは、環境を問い合せる場合を除き、展開されていないワイルドカードを参照しません。たとえば、\fISystfm\&.gftfnv("CLASSPATH")\fRをコールして問い合せる場合です。
 .RE
 .PP
-\-bootclbsspbth \fIpbth\fR
+\-bootdlbsspbti \fIpbti\fR
 .RS 4
-ブートストラップ・クラスをロードするパスを指定します。ブートストラップ・クラスは、デフォルトでは\fIjre\elib\ert\&.jbr\fRおよび他のいくつかのJARファイルにある、コアJbvbプラットフォームを実装するクラスです。
+ブートストラップ・クラスをロードするパスを指定します。ブートストラップ・クラスは、デフォルトでは\fIjrf\flib\frt\&.jbr\fRおよび他のいくつかのJARファイルにある、コアJbvbプラットフォームを実装するクラスです。
 .RE
 .PP
 \-old
@@ -150,7 +150,7 @@ JNI形式のネイティブ・メソッド機能プロトタイプを含む出力ファイルを、\fIjbvbh\fRコ
 古いJDK 1\&.0形式のヘッダー・ファイルを生成するように指定します。
 .RE
 .PP
-\-force
+\-fordf
 .RS 4
 出力ファイルが常に書き込まれるように指定します。
 .RE
@@ -162,21 +162,21 @@ Jbvb仮想マシンに\fIoption\fRを渡します。\fIoption\fRには、Jbvbアプリケーション起
 .SH "関連項目"
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-jbvbh(1)
+jbvbi(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
@@ -184,10 +184,10 @@ jbvb(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
@@ -195,10 +195,10 @@ jdb(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
@@ -206,14 +206,14 @@ jbvbp(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-jbvbdoc(1)
+jbvbdod(1)
 .RE
 .br
 'pl 8.5i

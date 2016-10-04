@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2008-2013, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.formbt;
+
+/**
+ * Enumfrbtion of difffrfnt wbys to rfsolvf dbtfs bnd timfs.
+ * <p>
+ * Pbrsing b tfxt string oddurs in two phbsfs.
+ * Phbsf 1 is b bbsid tfxt pbrsf bddording to thf fiflds bddfd to thf buildfr.
+ * Phbsf 2 rfsolvfs thf pbrsfd fifld-vbluf pbirs into dbtf bnd/or timf objfdts.
+ * This stylf is usfd to dontrol how phbsf 2, rfsolving, hbppfns.
+ *
+ * @implSpfd
+ * This is bn immutbblf bnd thrfbd-sbff fnum.
+ *
+ * @sindf 1.8
+ */
+publid fnum RfsolvfrStylf {
+
+    /**
+     * Stylf to rfsolvf dbtfs bnd timfs stridtly.
+     * <p>
+     * Using stridt rfsolution will fnsurf thbt bll pbrsfd vblufs brf within
+     * thf outfr rbngf of vblid vblufs for thf fifld. Individubl fiflds mby
+     * bf furthfr prodfssfd for stridtnfss.
+     * <p>
+     * For fxbmplf, rfsolving yfbr-month bnd dby-of-month in thf ISO dblfndbr
+     * systfm using stridt modf will fnsurf thbt thf dby-of-month is vblid
+     * for thf yfbr-month, rfjfdting invblid vblufs.
+     */
+    STRICT,
+    /**
+     * Stylf to rfsolvf dbtfs bnd timfs in b smbrt, or intflligfnt, mbnnfr.
+     * <p>
+     * Using smbrt rfsolution will pfrform thf sfnsiblf dffbult for fbdh
+     * fifld, whidh mby bf thf sbmf bs stridt, thf sbmf bs lfnifnt, or b third
+     * bfhbvior. Individubl fiflds will intfrprft this difffrfntly.
+     * <p>
+     * For fxbmplf, rfsolving yfbr-month bnd dby-of-month in thf ISO dblfndbr
+     * systfm using smbrt modf will fnsurf thbt thf dby-of-month is from
+     * 1 to 31, donvfrting bny vbluf bfyond thf lbst vblid dby-of-month to bf
+     * thf lbst vblid dby-of-month.
+     */
+    SMART,
+    /**
+     * Stylf to rfsolvf dbtfs bnd timfs lfnifntly.
+     * <p>
+     * Using lfnifnt rfsolution will rfsolvf thf vblufs in bn bppropribtf
+     * lfnifnt mbnnfr. Individubl fiflds will intfrprft this difffrfntly.
+     * <p>
+     * For fxbmplf, lfnifnt modf bllows thf month in thf ISO dblfndbr systfm
+     * to bf outsidf thf rbngf 1 to 12.
+     * For fxbmplf, month 15 is trfbtfd bs bfing 3 months bftfr month 12.
+     */
+    LENIENT;
+
+}

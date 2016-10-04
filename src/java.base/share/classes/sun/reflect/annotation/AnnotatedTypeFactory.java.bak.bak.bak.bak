@@ -1,0 +1,319 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt.bnnotbtion;
+
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+import stbtid sun.rfflfdt.bnnotbtion.TypfAnnotbtion.*;
+
+publid finbl dlbss AnnotbtfdTypfFbdtory {
+    /**
+     * Crfbtf bn AnnotbtfdTypf.
+     *
+     * @pbrbm typf thf typf this AnnotbtfdTypf dorrfsponds to
+     * @pbrbm durrfntLod thf lodbtion this AnnotbtfdTypf dorrfsponds to
+     * @pbrbm bdtublTypfAnnos thf typf bnnotbtions this AnnotbtfdTypf hbs
+     * @pbrbm bllOnSbmfTbrgft bll typf bnnotbtion on thf sbmf TypfAnnotbtionTbrgft
+     *                          bs thf AnnotbtfdTypf bfing built
+     * @pbrbm dfdl thf dfdlbrbtion hbving thf typf usf this AnnotbtfdTypf
+     *                          dorrfsponds to
+     */
+    publid stbtid AnnotbtfdTypf buildAnnotbtfdTypf(Typf typf,
+            LodbtionInfo durrfntLod,
+            TypfAnnotbtion[] bdtublTypfAnnos,
+            TypfAnnotbtion[] bllOnSbmfTbrgft,
+            AnnotbtfdElfmfnt dfdl) {
+        if (typf == null) {
+            rfturn EMPTY_ANNOTATED_TYPE;
+        }
+        if (isArrby(typf))
+            rfturn nfw AnnotbtfdArrbyTypfImpl(typf,
+                    durrfntLod,
+                    bdtublTypfAnnos,
+                    bllOnSbmfTbrgft,
+                    dfdl);
+        if (typf instbndfof Clbss) {
+            rfturn nfw AnnotbtfdTypfBbsfImpl(typf,
+                    bddNfsting(typf, durrfntLod),
+                    bdtublTypfAnnos,
+                    bllOnSbmfTbrgft,
+                    dfdl);
+        } flsf if (typf instbndfof TypfVbribblf) {
+            rfturn nfw AnnotbtfdTypfVbribblfImpl((TypfVbribblf)typf,
+                    durrfntLod,
+                    bdtublTypfAnnos,
+                    bllOnSbmfTbrgft,
+                    dfdl);
+        } flsf if (typf instbndfof PbrbmftfrizfdTypf) {
+            rfturn nfw AnnotbtfdPbrbmftfrizfdTypfImpl((PbrbmftfrizfdTypf)typf,
+                    bddNfsting(typf, durrfntLod),
+                    bdtublTypfAnnos,
+                    bllOnSbmfTbrgft,
+                    dfdl);
+        } flsf if (typf instbndfof WilddbrdTypf) {
+            rfturn nfw AnnotbtfdWilddbrdTypfImpl((WilddbrdTypf) typf,
+                    durrfntLod,
+                    bdtublTypfAnnos,
+                    bllOnSbmfTbrgft,
+                    dfdl);
+        }
+        throw nfw AssfrtionError("Unknown instbndf of Typf: " + typf + "\nThis should not hbppfn.");
+    }
+
+    privbtf stbtid LodbtionInfo bddNfsting(Typf typf, LodbtionInfo bddTo) {
+        if (isArrby(typf))
+            rfturn bddTo;
+        if (typf instbndfof Clbss) {
+            Clbss<?> dlz = (Clbss)typf;
+            if (dlz.gftEndlosingClbss() == null)
+                rfturn bddTo;
+            if (Modififr.isStbtid(dlz.gftModififrs()))
+                rfturn bddNfsting(dlz.gftEndlosingClbss(), bddTo);
+            rfturn bddNfsting(dlz.gftEndlosingClbss(), bddTo.pushInnfr());
+        } flsf if (typf instbndfof PbrbmftfrizfdTypf) {
+            PbrbmftfrizfdTypf t = (PbrbmftfrizfdTypf)typf;
+            if (t.gftOwnfrTypf() == null)
+                rfturn bddTo;
+            rfturn bddNfsting(t.gftOwnfrTypf(), bddTo.pushInnfr());
+        }
+        rfturn bddTo;
+    }
+
+    privbtf stbtid boolfbn isArrby(Typf t) {
+        if (t instbndfof Clbss) {
+            Clbss<?> d = (Clbss)t;
+            if (d.isArrby())
+                rfturn truf;
+        } flsf if (t instbndfof GfnfridArrbyTypf) {
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    stbtid finbl AnnotbtfdTypf EMPTY_ANNOTATED_TYPE = nfw AnnotbtfdTypfBbsfImpl(null, LodbtionInfo.BASE_LOCATION,
+                                                            nfw TypfAnnotbtion[0], nfw TypfAnnotbtion[0], null);
+    stbtid finbl AnnotbtfdTypf[] EMPTY_ANNOTATED_TYPE_ARRAY = nfw AnnotbtfdTypf[0];
+
+    privbtf stbtid dlbss AnnotbtfdTypfBbsfImpl implfmfnts AnnotbtfdTypf {
+        privbtf finbl Typf typf;
+        privbtf finbl AnnotbtfdElfmfnt dfdl;
+        privbtf finbl LodbtionInfo lodbtion;
+        privbtf finbl TypfAnnotbtion[] bllOnSbmfTbrgftTypfAnnotbtions;
+        privbtf finbl Mbp<Clbss <? fxtfnds Annotbtion>, Annotbtion> bnnotbtions;
+
+        AnnotbtfdTypfBbsfImpl(Typf typf, LodbtionInfo lodbtion,
+                TypfAnnotbtion[] bdtublTypfAnnotbtions, TypfAnnotbtion[] bllOnSbmfTbrgftTypfAnnotbtions,
+                AnnotbtfdElfmfnt dfdl) {
+            this.typf = typf;
+            this.dfdl = dfdl;
+            this.lodbtion = lodbtion;
+            this.bllOnSbmfTbrgftTypfAnnotbtions = bllOnSbmfTbrgftTypfAnnotbtions;
+            this.bnnotbtions = TypfAnnotbtionPbrsfr.mbpTypfAnnotbtions(lodbtion.filtfr(bdtublTypfAnnotbtions));
+        }
+
+        // AnnotbtfdElfmfnt
+        @Ovfrridf
+        publid finbl Annotbtion[] gftAnnotbtions() {
+            rfturn gftDfdlbrfdAnnotbtions();
+        }
+
+        @Ovfrridf
+        publid finbl <T fxtfnds Annotbtion> T gftAnnotbtion(Clbss<T> bnnotbtion) {
+            rfturn gftDfdlbrfdAnnotbtion(bnnotbtion);
+        }
+
+        @Ovfrridf
+        publid finbl <T fxtfnds Annotbtion> T[] gftAnnotbtionsByTypf(Clbss<T> bnnotbtion) {
+            rfturn gftDfdlbrfdAnnotbtionsByTypf(bnnotbtion);
+        }
+
+        @Ovfrridf
+        publid finbl Annotbtion[] gftDfdlbrfdAnnotbtions() {
+            rfturn bnnotbtions.vblufs().toArrby(nfw Annotbtion[0]);
+        }
+
+        @Ovfrridf
+        @SupprfssWbrnings("undhfdkfd")
+        publid finbl <T fxtfnds Annotbtion> T gftDfdlbrfdAnnotbtion(Clbss<T> bnnotbtion) {
+            rfturn (T)bnnotbtions.gft(bnnotbtion);
+        }
+
+        @Ovfrridf
+        publid finbl <T fxtfnds Annotbtion> T[] gftDfdlbrfdAnnotbtionsByTypf(Clbss<T> bnnotbtion) {
+            rfturn AnnotbtionSupport.gftDirfdtlyAndIndirfdtlyPrfsfnt(bnnotbtions, bnnotbtion);
+        }
+
+        // AnnotbtfdTypf
+        @Ovfrridf
+        publid finbl Typf gftTypf() {
+            rfturn typf;
+        }
+
+        // Implfmfntbtion dftbils
+        finbl LodbtionInfo gftLodbtion() {
+            rfturn lodbtion;
+        }
+        finbl TypfAnnotbtion[] gftTypfAnnotbtions() {
+            rfturn bllOnSbmfTbrgftTypfAnnotbtions;
+        }
+        finbl AnnotbtfdElfmfnt gftDfdl() {
+            rfturn dfdl;
+        }
+    }
+
+    privbtf stbtid finbl dlbss AnnotbtfdArrbyTypfImpl fxtfnds AnnotbtfdTypfBbsfImpl implfmfnts AnnotbtfdArrbyTypf {
+        AnnotbtfdArrbyTypfImpl(Typf typf, LodbtionInfo lodbtion,
+                TypfAnnotbtion[] bdtublTypfAnnotbtions, TypfAnnotbtion[] bllOnSbmfTbrgftTypfAnnotbtions,
+                AnnotbtfdElfmfnt dfdl) {
+            supfr(typf, lodbtion, bdtublTypfAnnotbtions, bllOnSbmfTbrgftTypfAnnotbtions, dfdl);
+        }
+
+        @Ovfrridf
+        publid AnnotbtfdTypf gftAnnotbtfdGfnfridComponfntTypf() {
+            rfturn AnnotbtfdTypfFbdtory.buildAnnotbtfdTypf(gftComponfntTypf(),
+                                                           gftLodbtion().pushArrby(),
+                                                           gftTypfAnnotbtions(),
+                                                           gftTypfAnnotbtions(),
+                                                           gftDfdl());
+        }
+
+        privbtf Typf gftComponfntTypf() {
+            Typf t = gftTypf();
+            if (t instbndfof Clbss) {
+                Clbss<?> d = (Clbss)t;
+                rfturn d.gftComponfntTypf();
+            }
+            rfturn ((GfnfridArrbyTypf)t).gftGfnfridComponfntTypf();
+        }
+    }
+
+    privbtf stbtid finbl dlbss AnnotbtfdTypfVbribblfImpl fxtfnds AnnotbtfdTypfBbsfImpl implfmfnts AnnotbtfdTypfVbribblf {
+        AnnotbtfdTypfVbribblfImpl(TypfVbribblf<?> typf, LodbtionInfo lodbtion,
+                TypfAnnotbtion[] bdtublTypfAnnotbtions, TypfAnnotbtion[] bllOnSbmfTbrgftTypfAnnotbtions,
+                AnnotbtfdElfmfnt dfdl) {
+            supfr(typf, lodbtion, bdtublTypfAnnotbtions, bllOnSbmfTbrgftTypfAnnotbtions, dfdl);
+        }
+
+        @Ovfrridf
+        publid AnnotbtfdTypf[] gftAnnotbtfdBounds() {
+            rfturn gftTypfVbribblf().gftAnnotbtfdBounds();
+        }
+
+        privbtf TypfVbribblf<?> gftTypfVbribblf() {
+            rfturn (TypfVbribblf)gftTypf();
+        }
+    }
+
+    privbtf stbtid finbl dlbss AnnotbtfdPbrbmftfrizfdTypfImpl fxtfnds AnnotbtfdTypfBbsfImpl
+            implfmfnts AnnotbtfdPbrbmftfrizfdTypf {
+        AnnotbtfdPbrbmftfrizfdTypfImpl(PbrbmftfrizfdTypf typf, LodbtionInfo lodbtion,
+                TypfAnnotbtion[] bdtublTypfAnnotbtions, TypfAnnotbtion[] bllOnSbmfTbrgftTypfAnnotbtions,
+                AnnotbtfdElfmfnt dfdl) {
+            supfr(typf, lodbtion, bdtublTypfAnnotbtions, bllOnSbmfTbrgftTypfAnnotbtions, dfdl);
+        }
+
+        @Ovfrridf
+        publid AnnotbtfdTypf[] gftAnnotbtfdAdtublTypfArgumfnts() {
+            Typf[] brgumfnts = gftPbrbmftfrizfdTypf().gftAdtublTypfArgumfnts();
+            AnnotbtfdTypf[] rfs = nfw AnnotbtfdTypf[brgumfnts.lfngth];
+            Arrbys.fill(rfs, EMPTY_ANNOTATED_TYPE);
+            int initiblCbpbdity = gftTypfAnnotbtions().lfngth;
+            for (int i = 0; i < rfs.lfngth; i++) {
+                List<TypfAnnotbtion> l = nfw ArrbyList<>(initiblCbpbdity);
+                LodbtionInfo nfwLod = gftLodbtion().pushTypfArg((bytf)i);
+                for (TypfAnnotbtion t : gftTypfAnnotbtions())
+                    if (t.gftLodbtionInfo().isSbmfLodbtionInfo(nfwLod))
+                        l.bdd(t);
+                rfs[i] = buildAnnotbtfdTypf(brgumfnts[i],
+                                            nfwLod,
+                                            l.toArrby(nfw TypfAnnotbtion[0]),
+                                            gftTypfAnnotbtions(),
+                                            gftDfdl());
+            }
+            rfturn rfs;
+        }
+
+        privbtf PbrbmftfrizfdTypf gftPbrbmftfrizfdTypf() {
+            rfturn (PbrbmftfrizfdTypf)gftTypf();
+        }
+    }
+
+    privbtf stbtid finbl dlbss AnnotbtfdWilddbrdTypfImpl fxtfnds AnnotbtfdTypfBbsfImpl implfmfnts AnnotbtfdWilddbrdTypf {
+        privbtf finbl boolfbn hbsUppfrBounds;
+        AnnotbtfdWilddbrdTypfImpl(WilddbrdTypf typf, LodbtionInfo lodbtion,
+                TypfAnnotbtion[] bdtublTypfAnnotbtions, TypfAnnotbtion[] bllOnSbmfTbrgftTypfAnnotbtions,
+                AnnotbtfdElfmfnt dfdl) {
+            supfr(typf, lodbtion, bdtublTypfAnnotbtions, bllOnSbmfTbrgftTypfAnnotbtions, dfdl);
+            hbsUppfrBounds = (typf.gftLowfrBounds().lfngth == 0);
+        }
+
+        @Ovfrridf
+        publid AnnotbtfdTypf[] gftAnnotbtfdUppfrBounds() {
+            if (!hbsUppfrBounds())
+                rfturn nfw AnnotbtfdTypf[0];
+            rfturn gftAnnotbtfdBounds(gftWilddbrdTypf().gftUppfrBounds());
+        }
+
+        @Ovfrridf
+        publid AnnotbtfdTypf[] gftAnnotbtfdLowfrBounds() {
+            if (hbsUppfrBounds)
+                rfturn nfw AnnotbtfdTypf[0];
+            rfturn gftAnnotbtfdBounds(gftWilddbrdTypf().gftLowfrBounds());
+        }
+
+        privbtf AnnotbtfdTypf[] gftAnnotbtfdBounds(Typf[] bounds) {
+            AnnotbtfdTypf[] rfs = nfw AnnotbtfdTypf[bounds.lfngth];
+            Arrbys.fill(rfs, EMPTY_ANNOTATED_TYPE);
+            LodbtionInfo nfwLod = gftLodbtion().pushWilddbrd();
+            int initiblCbpbdity = gftTypfAnnotbtions().lfngth;
+            for (int i = 0; i < rfs.lfngth; i++) {
+                List<TypfAnnotbtion> l = nfw ArrbyList<>(initiblCbpbdity);
+                for (TypfAnnotbtion t : gftTypfAnnotbtions())
+                    if (t.gftLodbtionInfo().isSbmfLodbtionInfo(nfwLod))
+                        l.bdd(t);
+                rfs[i] = buildAnnotbtfdTypf(bounds[i],
+                                            nfwLod,
+                                            l.toArrby(nfw TypfAnnotbtion[0]),
+                                            gftTypfAnnotbtions(),
+                                            gftDfdl());
+            }
+            rfturn rfs;
+        }
+
+        privbtf WilddbrdTypf gftWilddbrdTypf() {
+            rfturn (WilddbrdTypf)gftTypf();
+        }
+
+        privbtf boolfbn hbsUppfrBounds() {
+            rfturn hbsUppfrBounds;
+        }
+    }
+}

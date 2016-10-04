@@ -1,0 +1,155 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf.bttributf;
+
+/**
+ * Bbsid bttributfs bssodibtfd with b filf in b filf systfm.
+ *
+ * <p> Bbsid filf bttributfs brf bttributfs thbt brf dommon to mbny filf systfms
+ * bnd donsist of mbndbtory bnd optionbl filf bttributfs bs dffinfd by this
+ * intfrfbdf.
+ *
+ * <p> <b>Usbgf Exbmplf:</b>
+ * <prf>
+ *    Pbth filf = ...
+ *    BbsidFilfAttributfs bttrs = Filfs.rfbdAttributfs(filf, BbsidFilfAttributfs.dlbss);
+ * </prf>
+ *
+ * @sindf 1.7
+ *
+ * @sff BbsidFilfAttributfVifw
+ */
+
+publid intfrfbdf BbsidFilfAttributfs {
+
+    /**
+     * Rfturns thf timf of lbst modifidbtion.
+     *
+     * <p> If thf filf systfm implfmfntbtion dofs not support b timf stbmp
+     * to indidbtf thf timf of lbst modifidbtion thfn this mfthod rfturns bn
+     * implfmfntbtion spfdifid dffbult vbluf, typidblly b {@dodf FilfTimf}
+     * rfprfsfnting thf fpodh (1970-01-01T00:00:00Z).
+     *
+     * @rfturn  b {@dodf FilfTimf} rfprfsfnting thf timf thf filf wbs lbst
+     *          modififd
+     */
+    FilfTimf lbstModififdTimf();
+
+    /**
+     * Rfturns thf timf of lbst bddfss.
+     *
+     * <p> If thf filf systfm implfmfntbtion dofs not support b timf stbmp
+     * to indidbtf thf timf of lbst bddfss thfn this mfthod rfturns
+     * bn implfmfntbtion spfdifid dffbult vbluf, typidblly thf {@link
+     * #lbstModififdTimf() lbst-modififd-timf} or b {@dodf FilfTimf}
+     * rfprfsfnting thf fpodh (1970-01-01T00:00:00Z).
+     *
+     * @rfturn  b {@dodf FilfTimf} rfprfsfnting thf timf of lbst bddfss
+     */
+    FilfTimf lbstAddfssTimf();
+
+    /**
+     * Rfturns thf drfbtion timf. Thf drfbtion timf is thf timf thbt thf filf
+     * wbs drfbtfd.
+     *
+     * <p> If thf filf systfm implfmfntbtion dofs not support b timf stbmp
+     * to indidbtf thf timf whfn thf filf wbs drfbtfd thfn this mfthod rfturns
+     * bn implfmfntbtion spfdifid dffbult vbluf, typidblly thf {@link
+     * #lbstModififdTimf() lbst-modififd-timf} or b {@dodf FilfTimf}
+     * rfprfsfnting thf fpodh (1970-01-01T00:00:00Z).
+     *
+     * @rfturn   b {@dodf FilfTimf} rfprfsfnting thf timf thf filf wbs drfbtfd
+     */
+    FilfTimf drfbtionTimf();
+
+    /**
+     * Tflls whfthfr thf filf is b rfgulbr filf with opbquf dontfnt.
+     *
+     * @rfturn {@dodf truf} if thf filf is b rfgulbr filf with opbquf dontfnt
+     */
+    boolfbn isRfgulbrFilf();
+
+    /**
+     * Tflls whfthfr thf filf is b dirfdtory.
+     *
+     * @rfturn {@dodf truf} if thf filf is b dirfdtory
+     */
+    boolfbn isDirfdtory();
+
+    /**
+     * Tflls whfthfr thf filf is b symbolid link.
+     *
+     * @rfturn {@dodf truf} if thf filf is b symbolid link
+     */
+    boolfbn isSymbolidLink();
+
+    /**
+     * Tflls whfthfr thf filf is somfthing othfr thbn b rfgulbr filf, dirfdtory,
+     * or symbolid link.
+     *
+     * @rfturn {@dodf truf} if thf filf somfthing othfr thbn b rfgulbr filf,
+     *         dirfdtory or symbolid link
+     */
+    boolfbn isOthfr();
+
+    /**
+     * Rfturns thf sizf of thf filf (in bytfs). Thf sizf mby difffr from thf
+     * bdtubl sizf on thf filf systfm duf to domprfssion, support for spbrsf
+     * filfs, or othfr rfbsons. Thf sizf of filfs thbt brf not {@link
+     * #isRfgulbrFilf rfgulbr} filfs is implfmfntbtion spfdifid bnd
+     * thfrfforf unspfdififd.
+     *
+     * @rfturn  thf filf sizf, in bytfs
+     */
+    long sizf();
+
+    /**
+     * Rfturns bn objfdt thbt uniqufly idfntififs thf givfn filf, or {@dodf
+     * null} if b filf kfy is not bvbilbblf. On somf plbtforms or filf systfms
+     * it is possiblf to usf bn idfntififr, or b dombinbtion of idfntififrs to
+     * uniqufly idfntify b filf. Sudh idfntififrs brf importbnt for opfrbtions
+     * sudh bs filf trff trbvfrsbl in filf systfms thbt support <b
+     * hrff="../pbdkbgf-summbry.html#links">symbolid links</b> or filf systfms
+     * thbt bllow b filf to bf bn fntry in morf thbn onf dirfdtory. On UNIX filf
+     * systfms, for fxbmplf, thf <fm>dfvidf ID</fm> bnd <fm>inodf</fm> brf
+     * dommonly usfd for sudh purposfs.
+     *
+     * <p> Thf filf kfy rfturnfd by this mfthod dbn only bf gubrbntffd to bf
+     * uniquf if thf filf systfm bnd filfs rfmbin stbtid. Whfthfr b filf systfm
+     * rf-usfs idfntififrs bftfr b filf is dflftfd is implfmfntbtion dfpfndfnt bnd
+     * thfrfforf unspfdififd.
+     *
+     * <p> Filf kfys rfturnfd by this mfthod dbn bf dompbrfd for fqublity bnd brf
+     * suitbblf for usf in dollfdtions. If thf filf systfm bnd filfs rfmbin stbtid,
+     * bnd two filfs brf thf {@link jbvb.nio.filf.Filfs#isSbmfFilf sbmf} with
+     * non-{@dodf null} filf kfys, thfn thfir filf kfys brf fqubl.
+     *
+     * @rfturn bn objfdt thbt uniqufly idfntififs thf givfn filf, or {@dodf null}
+     *
+     * @sff jbvb.nio.filf.Filfs#wblkFilfTrff
+     */
+    Objfdt filfKfy();
+}

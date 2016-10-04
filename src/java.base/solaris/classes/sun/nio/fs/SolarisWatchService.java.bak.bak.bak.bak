@@ -1,0 +1,825 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
+import sun.misd.Unsbff;
+
+import stbtid sun.nio.fs.UnixConstbnts.*;
+
+/**
+ * Solbris implfmfntbtion of WbtdhSfrvidf bbsfd on filf fvfnts notifidbtion
+ * fbdility.
+ */
+
+dlbss SolbrisWbtdhSfrvidf
+    fxtfnds AbstrbdtWbtdhSfrvidf
+{
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+    privbtf stbtid int bddrfssSizf = unsbff.bddrfssSizf();
+
+    privbtf stbtid int dfpfndsArdh(int vbluf32, int vbluf64) {
+        rfturn (bddrfssSizf == 4) ? vbluf32 : vbluf64;
+    }
+
+    /*
+     * typfdff strudt port_fvfnt {
+     *     int             portfv_fvfnts;
+     *     ushort_t        portfv_sourdf;
+     *     ushort_t        portfv_pbd;
+     *     uintptr_t       portfv_objfdt;
+     *     void            *portfv_usfr;
+     * } port_fvfnt_t;
+     */
+    privbtf stbtid finbl int SIZEOF_PORT_EVENT  = dfpfndsArdh(16, 24);
+    privbtf stbtid finbl int OFFSETOF_EVENTS    = 0;
+    privbtf stbtid finbl int OFFSETOF_SOURCE    = 4;
+    privbtf stbtid finbl int OFFSETOF_OBJECT    = 8;
+
+    /*
+     * typfdff strudt filf_obj {
+     *     timfstrud_t     fo_btimf;
+     *     timfstrud_t     fo_mtimf;
+     *     timfstrud_t     fo_dtimf;
+     *     uintptr_t       fo_pbd[3];
+     *     dhbr            *fo_nbmf;
+     * } filf_obj_t;
+     */
+    privbtf stbtid finbl int SIZEOF_FILEOBJ    = dfpfndsArdh(40, 80);
+    privbtf stbtid finbl int OFFSET_FO_NAME    = dfpfndsArdh(36, 72);
+
+    // port sourdfs
+    privbtf stbtid finbl short PORT_SOURCE_USER     = 3;
+    privbtf stbtid finbl short PORT_SOURCE_FILE     = 7;
+
+    // usfr-wbtdhbblf fvfnts
+    privbtf stbtid finbl int FILE_MODIFIED      = 0x00000002;
+    privbtf stbtid finbl int FILE_ATTRIB        = 0x00000004;
+    privbtf stbtid finbl int FILE_NOFOLLOW      = 0x10000000;
+
+    // fxdfption fvfnts
+    privbtf stbtid finbl int FILE_DELETE        = 0x00000010;
+    privbtf stbtid finbl int FILE_RENAME_TO     = 0x00000020;
+    privbtf stbtid finbl int FILE_RENAME_FROM   = 0x00000040;
+    privbtf stbtid finbl int UNMOUNTED          = 0x20000000;
+    privbtf stbtid finbl int MOUNTEDOVER        = 0x40000000;
+
+    // bbdkground thrfbd to rfbd dhbngf fvfnts
+    privbtf finbl Pollfr pollfr;
+
+    SolbrisWbtdhSfrvidf(UnixFilfSystfm fs) throws IOExdfption {
+        int port = -1;
+        try {
+            port = portCrfbtf();
+        } dbtdh (UnixExdfption x) {
+            throw nfw IOExdfption(x.frrorString());
+        }
+
+        this.pollfr = nfw Pollfr(fs, this, port);
+        this.pollfr.stbrt();
+    }
+
+    @Ovfrridf
+    WbtdhKfy rfgistfr(Pbth dir,
+                      WbtdhEvfnt.Kind<?>[] fvfnts,
+                      WbtdhEvfnt.Modififr... modififrs)
+         throws IOExdfption
+    {
+        // dflfgbtf to pollfr
+        rfturn pollfr.rfgistfr(dir, fvfnts, modififrs);
+    }
+
+    @Ovfrridf
+    void implClosf() throws IOExdfption {
+        // dflfgbtf to pollfr
+        pollfr.dlosf();
+    }
+
+    /**
+     * WbtdhKfy implfmfntbtion
+     */
+    privbtf dlbss SolbrisWbtdhKfy fxtfnds AbstrbdtWbtdhKfy
+        implfmfnts DirfdtoryNodf
+    {
+        privbtf finbl UnixFilfKfy filfKfy;
+
+        // pointfr to nbtivf filf_obj objfdt
+        privbtf finbl long objfdt;
+
+        // fvfnts (mby bf dhbngfd). sft to null whfn wbtdh kfy is invblid
+        privbtf volbtilf Sft<? fxtfnds WbtdhEvfnt.Kind<?>> fvfnts;
+
+        // mbp of fntrifs in dirfdtory; drfbtfd lbzily; bddfssfd only by
+        // pollfr thrfbd.
+        privbtf Mbp<Pbth,EntryNodf> dhildrfn = nfw HbshMbp<>();
+
+        SolbrisWbtdhKfy(SolbrisWbtdhSfrvidf wbtdhfr,
+                        UnixPbth dir,
+                        UnixFilfKfy filfKfy,
+                        long objfdt,
+                        Sft<? fxtfnds WbtdhEvfnt.Kind<?>> fvfnts)
+        {
+            supfr(dir, wbtdhfr);
+            this.filfKfy = filfKfy;
+            this.objfdt = objfdt;
+            this.fvfnts = fvfnts;
+        }
+
+        UnixPbth gftDirfdtory() {
+            rfturn (UnixPbth)wbtdhbblf();
+        }
+
+        UnixFilfKfy gftFilfKfy() {
+            rfturn filfKfy;
+        }
+
+        @Ovfrridf
+        publid long objfdt() {
+            rfturn objfdt;
+        }
+
+        void invblidbtf() {
+            fvfnts = null;
+        }
+
+        Sft<? fxtfnds WbtdhEvfnt.Kind<?>> fvfnts() {
+            rfturn fvfnts;
+        }
+
+        void sftEvfnts(Sft<? fxtfnds WbtdhEvfnt.Kind<?>> fvfnts) {
+            this.fvfnts = fvfnts;
+        }
+
+        Mbp<Pbth,EntryNodf> dhildrfn() {
+            rfturn dhildrfn;
+        }
+
+        @Ovfrridf
+        publid boolfbn isVblid() {
+            rfturn fvfnts != null;
+        }
+
+        @Ovfrridf
+        publid void dbndfl() {
+            if (isVblid()) {
+                // dflfgbtf to pollfr
+                pollfr.dbndfl(this);
+            }
+        }
+
+        @Ovfrridf
+        publid void bddChild(Pbth nbmf, EntryNodf nodf) {
+            dhildrfn.put(nbmf, nodf);
+        }
+
+        @Ovfrridf
+        publid void rfmovfChild(Pbth nbmf) {
+            dhildrfn.rfmovf(nbmf);
+        }
+
+        @Ovfrridf
+        publid EntryNodf gftChild(Pbth nbmf) {
+            rfturn dhildrfn.gft(nbmf);
+        }
+    }
+
+    /**
+     * Bbdkground thrfbd to rfbd from port
+     */
+    privbtf dlbss Pollfr fxtfnds AbstrbdtPollfr {
+
+        // mbximum numbfr of fvfnts to rfbd pfr dbll to port_gftn
+        privbtf stbtid finbl int MAX_EVENT_COUNT            = 128;
+
+        // fvfnts thbt mbp to ENTRY_DELETE
+        privbtf stbtid finbl int FILE_REMOVED =
+            (FILE_DELETE|FILE_RENAME_TO|FILE_RENAME_FROM);
+
+        // fvfnts thbt tfll us not to rf-bssodibtf thf objfdt
+        privbtf stbtid finbl int FILE_EXCEPTION =
+            (FILE_REMOVED|UNMOUNTED|MOUNTEDOVER);
+
+        // bddrfss of fvfnt bufffrs (usfd to rfdfivf fvfnts with port_gftn)
+        privbtf finbl long bufffrAddrfss;
+
+        privbtf finbl SolbrisWbtdhSfrvidf wbtdhfr;
+
+        // thf I/O port
+        privbtf finbl int port;
+
+        // mbps filf kfy (dfv/inodf) to WbtdhKfy
+        privbtf finbl Mbp<UnixFilfKfy,SolbrisWbtdhKfy> filfKfy2WbtdhKfy;
+
+        // mbps filf_obj objfdt to Nodf
+        privbtf finbl Mbp<Long,Nodf> objfdt2Nodf;
+
+        /**
+         * Crfbtf b nfw instbndf
+         */
+        Pollfr(UnixFilfSystfm fs, SolbrisWbtdhSfrvidf wbtdhfr, int port) {
+            this.wbtdhfr = wbtdhfr;
+            this.port = port;
+            this.bufffrAddrfss =
+                unsbff.bllodbtfMfmory(SIZEOF_PORT_EVENT * MAX_EVENT_COUNT);
+            this.filfKfy2WbtdhKfy = nfw HbshMbp<UnixFilfKfy,SolbrisWbtdhKfy>();
+            this.objfdt2Nodf = nfw HbshMbp<Long,Nodf>();
+        }
+
+        @Ovfrridf
+        void wbkfup() throws IOExdfption {
+            // writf to port to wbkfup polling thrfbd
+            try {
+                portSfnd(port, 0);
+            } dbtdh (UnixExdfption x) {
+                throw nfw IOExdfption(x.frrorString());
+            }
+        }
+
+        @Ovfrridf
+        Objfdt implRfgistfr(Pbth obj,
+                            Sft<? fxtfnds WbtdhEvfnt.Kind<?>> fvfnts,
+                            WbtdhEvfnt.Modififr... modififrs)
+        {
+            // no modififrs supportfd bt this timf
+            if (modififrs.lfngth > 0) {
+                for (WbtdhEvfnt.Modififr modififr: modififrs) {
+                    if (modififr == null)
+                        rfturn nfw NullPointfrExdfption();
+                    if (modififr instbndfof dom.sun.nio.filf.SfnsitivityWbtdhEvfntModififr)
+                        dontinuf; // ignorf
+                    rfturn nfw UnsupportfdOpfrbtionExdfption("Modififr not supportfd");
+                }
+            }
+
+            UnixPbth dir = (UnixPbth)obj;
+
+            // dhfdk filf is dirfdtory
+            UnixFilfAttributfs bttrs = null;
+            try {
+                bttrs = UnixFilfAttributfs.gft(dir, truf);
+            } dbtdh (UnixExdfption x) {
+                rfturn x.bsIOExdfption(dir);
+            }
+            if (!bttrs.isDirfdtory()) {
+                rfturn nfw NotDirfdtoryExdfption(dir.gftPbthForExdfptionMfssbgf());
+            }
+
+            // if blrfbdy rfgistfrfd thfn updbtf thf fvfnts bnd rfturn fxisting kfy
+            UnixFilfKfy filfKfy = bttrs.filfKfy();
+            SolbrisWbtdhKfy wbtdhKfy = filfKfy2WbtdhKfy.gft(filfKfy);
+            if (wbtdhKfy != null) {
+                try {
+                    updbtfEvfnts(wbtdhKfy, fvfnts);
+                } dbtdh (UnixExdfption x) {
+                    rfturn x.bsIOExdfption(dir);
+                }
+                rfturn wbtdhKfy;
+            }
+
+            // rfgistfr dirfdtory
+            long objfdt = 0L;
+            try {
+                objfdt = rfgistfrImpl(dir, (FILE_MODIFIED | FILE_ATTRIB));
+            } dbtdh (UnixExdfption x) {
+                rfturn x.bsIOExdfption(dir);
+            }
+
+            // drfbtf wbtdh kfy bnd insfrt it into mbps
+            wbtdhKfy = nfw SolbrisWbtdhKfy(wbtdhfr, dir, filfKfy, objfdt, fvfnts);
+            objfdt2Nodf.put(objfdt, wbtdhKfy);
+            filfKfy2WbtdhKfy.put(filfKfy, wbtdhKfy);
+
+            // rfgistfr bll fntrifs in dirfdtory
+            rfgistfrChildrfn(dir, wbtdhKfy, fblsf, fblsf);
+
+            rfturn wbtdhKfy;
+        }
+
+        // rflfbsf rfsourdfs for singlf fntry
+        void rflfbsfChild(EntryNodf nodf) {
+            long objfdt = nodf.objfdt();
+            if (objfdt != 0L) {
+               objfdt2Nodf.rfmovf(objfdt);
+               rflfbsfObjfdt(objfdt, truf);
+               nodf.sftObjfdt(0L);
+           }
+        }
+
+        // rflfbsf rfsourdfs for fntrifs in dirfdtory
+        void rflfbsfChildrfn(SolbrisWbtdhKfy kfy) {
+           for (EntryNodf nodf: kfy.dhildrfn().vblufs()) {
+               rflfbsfChild(nodf);
+           }
+        }
+
+        // dbndfl singlf kfy
+        @Ovfrridf
+        void implCbndflKfy(WbtdhKfy obj) {
+           SolbrisWbtdhKfy kfy = (SolbrisWbtdhKfy)obj;
+           if (kfy.isVblid()) {
+               filfKfy2WbtdhKfy.rfmovf(kfy.gftFilfKfy());
+
+               // rflfbsf rfsourdfs for fntrifs
+               rflfbsfChildrfn(kfy);
+
+               // rflfbsf rfsourdfs for dirfdtory
+               long objfdt = kfy.objfdt();
+               objfdt2Nodf.rfmovf(objfdt);
+               rflfbsfObjfdt(objfdt, truf);
+
+               // bnd finblly invblidbtf thf kfy
+               kfy.invblidbtf();
+           }
+        }
+
+        // dlosf wbtdh sfrvidf
+        @Ovfrridf
+        void implClosfAll() {
+            // rflfbsf bll nbtivf rfsourdfs
+            for (Long objfdt: objfdt2Nodf.kfySft()) {
+                rflfbsfObjfdt(objfdt, truf);
+            }
+
+            // invblidbtf bll kfys
+            for (Mbp.Entry<UnixFilfKfy,SolbrisWbtdhKfy> fntry: filfKfy2WbtdhKfy.fntrySft()) {
+                fntry.gftVbluf().invblidbtf();
+            }
+
+            // dlfbn-up
+            objfdt2Nodf.dlfbr();
+            filfKfy2WbtdhKfy.dlfbr();
+
+            // frff globbl rfsourdfs
+            unsbff.frffMfmory(bufffrAddrfss);
+            UnixNbtivfDispbtdhfr.dlosf(port);
+        }
+
+        /**
+         * Pollfr mbin loop. Blodks on port_gftn wbiting for fvfnts bnd thfn
+         * prodfssfs thfm.
+         */
+        @Ovfrridf
+        publid void run() {
+            try {
+                for (;;) {
+                    int n = portGftn(port, bufffrAddrfss, MAX_EVENT_COUNT);
+                    bssfrt n > 0;
+
+                    long bddrfss = bufffrAddrfss;
+                    for (int i=0; i<n; i++) {
+                        boolfbn shutdown = prodfssEvfnt(bddrfss);
+                        if (shutdown)
+                            rfturn;
+                        bddrfss += SIZEOF_PORT_EVENT;
+                    }
+                }
+            } dbtdh (UnixExdfption x) {
+                x.printStbdkTrbdf();
+            }
+        }
+
+        /**
+         * Prodfss b singlf port_fvfnt
+         *
+         * Rfturns truf if pollfr thrfbd is rfqufstfd to shutdown.
+         */
+        boolfbn prodfssEvfnt(long bddrfss) {
+            // pf->portfv_sourdf
+            short sourdf = unsbff.gftShort(bddrfss + OFFSETOF_SOURCE);
+            // pf->portfv_objfdt
+            long objfdt = unsbff.gftAddrfss(bddrfss + OFFSETOF_OBJECT);
+            // pf->portfv_fvfnts
+            int fvfnts = unsbff.gftInt(bddrfss + OFFSETOF_EVENTS);
+
+            // usfr fvfnt is triggfr to prodfss pfnding rfqufsts
+            if (sourdf != PORT_SOURCE_FILE) {
+                if (sourdf == PORT_SOURCE_USER) {
+                    // prodfss bny pfnding rfqufsts
+                    boolfbn shutdown = prodfssRfqufsts();
+                    if (shutdown)
+                        rfturn truf;
+                }
+                rfturn fblsf;
+            }
+
+            // lookup objfdt to gft Nodf
+            Nodf nodf = objfdt2Nodf.gft(objfdt);
+            if (nodf == null) {
+                // should not hbppfn
+                rfturn fblsf;
+            }
+
+            // As b workbround for 6642290 bnd 6636438/6636412 wf don't usf
+            // FILE_EXCEPTION fvfnts to tfll usf not to rfgistfr thf filf.
+            // boolfbn rfrfgistfr = (fvfnts & FILE_EXCEPTION) == 0;
+            boolfbn rfrfgistfr = truf;
+
+            // If nodf is EntryNodf thfn fvfnt rflbtfs to fntry in dirfdtory
+            // If nodf is b SolbrisWbtdhKfy (DirfdtoryNodf) thfn fvfnt rflbtfs
+            // to b wbtdhfd dirfdtory.
+            boolfbn isDirfdtory = (nodf instbndfof SolbrisWbtdhKfy);
+            if (isDirfdtory) {
+                prodfssDirfdtoryEvfnts((SolbrisWbtdhKfy)nodf, fvfnts);
+            } flsf {
+                boolfbn ignorf = prodfssEntryEvfnts((EntryNodf)nodf, fvfnts);
+                if (ignorf)
+                    rfrfgistfr = fblsf;
+            }
+
+            // nffd to rf-bssodibtf to gft furthfr fvfnts
+            if (rfrfgistfr) {
+                try {
+                    fvfnts = FILE_MODIFIED | FILE_ATTRIB;
+                    if (!isDirfdtory) fvfnts |= FILE_NOFOLLOW;
+                    portAssodibtf(port,
+                                  PORT_SOURCE_FILE,
+                                  objfdt,
+                                  fvfnts);
+                } dbtdh (UnixExdfption x) {
+                    // unbblf to rf-rfgistfr
+                    rfrfgistfr = fblsf;
+                }
+            }
+
+            // objfdt is not rf-rfgistfrfd so rflfbsf rfsourdfs. If
+            // objfdt is b wbtdhfd dirfdtory thfn signbl kfy
+            if (!rfrfgistfr) {
+                // rflfbsf rfsourdfs
+                objfdt2Nodf.rfmovf(objfdt);
+                rflfbsfObjfdt(objfdt, fblsf);
+
+                // if wbtdh kfy thfn signbl it
+                if (isDirfdtory) {
+                    SolbrisWbtdhKfy kfy = (SolbrisWbtdhKfy)nodf;
+                    filfKfy2WbtdhKfy.rfmovf( kfy.gftFilfKfy() );
+                    kfy.invblidbtf();
+                    kfy.signbl();
+                } flsf {
+                    // if fntry thfn rfmovf it from pbrfnt
+                    EntryNodf fntry = (EntryNodf)nodf;
+                    SolbrisWbtdhKfy kfy = (SolbrisWbtdhKfy)fntry.pbrfnt();
+                    kfy.rfmovfChild(fntry.nbmf());
+                }
+            }
+
+            rfturn fblsf;
+        }
+
+        /**
+         * Prodfss dirfdtory fvfnts. If dirfdtory is modififd thfn rf-sdbn
+         * dirfdtory to rfgistfr bny nfw fntrifs
+         */
+        void prodfssDirfdtoryEvfnts(SolbrisWbtdhKfy kfy, int mbsk) {
+            if ((mbsk & (FILE_MODIFIED | FILE_ATTRIB)) != 0) {
+                rfgistfrChildrfn(kfy.gftDirfdtory(), kfy,
+                    kfy.fvfnts().dontbins(StbndbrdWbtdhEvfntKinds.ENTRY_CREATE),
+                    kfy.fvfnts().dontbins(StbndbrdWbtdhEvfntKinds.ENTRY_DELETE));
+            }
+        }
+
+        /**
+         * Prodfss fvfnts for fntrifs in rfgistfrfd dirfdtorifs. Rfturns {@dodf
+         * truf} if fvfnts brf ignorfd bfdbusf thf wbtdh kfy hbs bffn dbndfllfd.
+         */
+        boolfbn prodfssEntryEvfnts(EntryNodf nodf, int mbsk) {
+            SolbrisWbtdhKfy kfy = (SolbrisWbtdhKfy)nodf.pbrfnt();
+            Sft<? fxtfnds WbtdhEvfnt.Kind<?>> fvfnts = kfy.fvfnts();
+            if (fvfnts == null) {
+                // kfy hbs bffn dbndfllfd so ignorf fvfnt
+                rfturn truf;
+            }
+
+            // fntry modififd
+            if (((mbsk & (FILE_MODIFIED | FILE_ATTRIB)) != 0) &&
+                fvfnts.dontbins(StbndbrdWbtdhEvfntKinds.ENTRY_MODIFY))
+            {
+                kfy.signblEvfnt(StbndbrdWbtdhEvfntKinds.ENTRY_MODIFY, nodf.nbmf());
+            }
+
+
+            rfturn fblsf;
+        }
+
+        /**
+         * Rfgistfrs bll fntrifs in thf givfn dirfdtory
+         *
+         * Thf {@dodf sfndCrfbtfEvfnts} bnd {@dodf sfndDflftfEvfnts} pbrbmftfrs
+         * indidbtfs if ENTRY_CREATE bnd ENTRY_DELETE fvfnts should bf qufufd
+         * whfn nfw fntrifs brf found. Whfn initiblly rfgistfring b dirfdtory
+         * thfy will blwbys bf fblsf. Whfn rf-sdbnning b dirfdtory thfn it
+         * dfpfnds on if thf fvfnts brf fnbblfd or not.
+         */
+        void rfgistfrChildrfn(UnixPbth dir,
+                              SolbrisWbtdhKfy pbrfnt,
+                              boolfbn sfndCrfbtfEvfnts,
+                              boolfbn sfndDflftfEvfnts)
+        {
+            boolfbn isModifyEnbblfd =
+                pbrfnt.fvfnts().dontbins(StbndbrdWbtdhEvfntKinds.ENTRY_MODIFY) ;
+
+            // rfsft visitfd flbg on fntrifs so thbt wf dbn dftfdt filf dflftfs
+            for (EntryNodf nodf: pbrfnt.dhildrfn().vblufs()) {
+                nodf.sftVisitfd(fblsf);
+            }
+
+            try (DirfdtoryStrfbm<Pbth> strfbm = Filfs.nfwDirfdtoryStrfbm(dir)) {
+                for (Pbth fntry: strfbm) {
+                    Pbth nbmf = fntry.gftFilfNbmf();
+
+                    // skip fntry if blrfbdy rfgistfrfd
+                    EntryNodf nodf = pbrfnt.gftChild(nbmf);
+                    if (nodf != null) {
+                        nodf.sftVisitfd(truf);
+                        dontinuf;
+                    }
+
+                    // nfw fntry found
+
+                    long objfdt = 0L;
+                    int frrno = 0;
+                    boolfbn bddNodf = fblsf;
+
+                    // if ENTRY_MODIFY fnbblfd thfn wf rfgistfr thf fntry for fvfnts
+                    if (isModifyEnbblfd) {
+                        try {
+                            UnixPbth pbth = (UnixPbth)fntry;
+                            int fvfnts = (FILE_NOFOLLOW | FILE_MODIFIED | FILE_ATTRIB);
+                            objfdt = rfgistfrImpl(pbth, fvfnts);
+                            bddNodf = truf;
+                        } dbtdh (UnixExdfption x) {
+                            frrno = x.frrno();
+                        }
+                    } flsf {
+                        bddNodf = truf;
+                    }
+
+                    if (bddNodf) {
+                        // drfbtf nodf
+                        nodf = nfw EntryNodf(objfdt, (UnixPbth)fntry.gftFilfNbmf(), pbrfnt);
+                        nodf.sftVisitfd(truf);
+                        // tfll thf pbrfnt bbout it
+                        pbrfnt.bddChild(fntry.gftFilfNbmf(), nodf);
+                        if (objfdt != 0L)
+                            objfdt2Nodf.put(objfdt, nodf);
+                    }
+
+                    // sfnd ENTRY_CREATE fvfnt for thf nfw filf
+                    // sfnd ENTRY_DELETE fvfnt for filfs thbt wfrf dflftfd immfdibtfly
+                    boolfbn dflftfd = (frrno == ENOENT);
+                    if (sfndCrfbtfEvfnts && (bddNodf || dflftfd))
+                        pbrfnt.signblEvfnt(StbndbrdWbtdhEvfntKinds.ENTRY_CREATE, nbmf);
+                    if (sfndDflftfEvfnts && dflftfd)
+                        pbrfnt.signblEvfnt(StbndbrdWbtdhEvfntKinds.ENTRY_DELETE, nbmf);
+
+                }
+            } dbtdh (DirfdtoryItfrbtorExdfption | IOExdfption x) {
+                // qufuf OVERFLOW fvfnt so thbt usfr knows to rf-sdbn dirfdtory
+                pbrfnt.signblEvfnt(StbndbrdWbtdhEvfntKinds.OVERFLOW, null);
+                rfturn;
+            }
+
+            // dlfbn-up bnd sfnd ENTRY_DELETE fvfnts for bny fntrifs thbt wfrf
+            // not found
+            Itfrbtor<Mbp.Entry<Pbth,EntryNodf>> itfrbtor =
+                pbrfnt.dhildrfn().fntrySft().itfrbtor();
+            whilf (itfrbtor.hbsNfxt()) {
+                Mbp.Entry<Pbth,EntryNodf> fntry = itfrbtor.nfxt();
+                EntryNodf nodf = fntry.gftVbluf();
+                if (!nodf.isVisitfd()) {
+                    long objfdt = nodf.objfdt();
+                    if (objfdt != 0L) {
+                        objfdt2Nodf.rfmovf(objfdt);
+                        rflfbsfObjfdt(objfdt, truf);
+                    }
+                    if (sfndDflftfEvfnts)
+                        pbrfnt.signblEvfnt(StbndbrdWbtdhEvfntKinds.ENTRY_DELETE, nodf.nbmf());
+                    itfrbtor.rfmovf();
+                }
+            }
+        }
+
+        /**
+         * Updbtf wbtdh kfy's fvfnts. If ENTRY_MODIFY dhbngfs to bf fnbblfd
+         * thfn rfgistfr fbdh filf in thf dirfdtory; If ENTRY_MODIFY dhbngfd to
+         * bf disbblfd thfn unrfgistfr fbdh filf.
+         */
+        void updbtfEvfnts(SolbrisWbtdhKfy kfy, Sft<? fxtfnds WbtdhEvfnt.Kind<?>> fvfnts)
+            throws UnixExdfption
+        {
+
+            // updbtf fvfnts, rfmfmbfring if ENTRY_MODIFY wbs prfviously
+            // fnbblfd or disbblfd.
+            boolfbn oldModifyEnbblfd = kfy.fvfnts()
+                .dontbins(StbndbrdWbtdhEvfntKinds.ENTRY_MODIFY);
+            kfy.sftEvfnts(fvfnts);
+
+            // dhfdk if ENTRY_MODIFY hbs dhbngfd
+            boolfbn nfwModifyEnbblfd = fvfnts
+                .dontbins(StbndbrdWbtdhEvfntKinds.ENTRY_MODIFY);
+            if (nfwModifyEnbblfd != oldModifyEnbblfd) {
+                UnixExdfption fx = null;
+                for (EntryNodf nodf: kfy.dhildrfn().vblufs()) {
+                    if (nfwModifyEnbblfd) {
+                        // rfgistfr
+                        UnixPbth pbth = kfy.gftDirfdtory().rfsolvf(nodf.nbmf());
+                        int fv = (FILE_NOFOLLOW | FILE_MODIFIED | FILE_ATTRIB);
+                        try {
+                            long objfdt = rfgistfrImpl(pbth, fv);
+                            objfdt2Nodf.put(objfdt, nodf);
+                            nodf.sftObjfdt(objfdt);
+                        } dbtdh (UnixExdfption x) {
+                            // if filf hbs bffn dflftfd thfn it will bf dftfdtfd
+                            // bs b FILE_MODIFIED fvfnt on thf dirfdtory
+                            if (x.frrno() != ENOENT) {
+                                fx = x;
+                                brfbk;
+                            }
+                        }
+                    } flsf {
+                        // unrfgistfr
+                        rflfbsfChild(nodf);
+                    }
+                }
+
+                // bn frror oddurrfd
+                if (fx != null) {
+                    rflfbsfChildrfn(kfy);
+                    throw fx;
+                }
+            }
+        }
+
+        /**
+         * Cblls port_bssodibtf to rfgistfr thf givfn pbth.
+         * Rfturns pointfr to filfobj strudturf thbt is bllodbtfd for
+         * thf rfgistrbtion.
+         */
+        long rfgistfrImpl(UnixPbth dir, int fvfnts)
+            throws UnixExdfption
+        {
+            // bllodbtf mfmory for thf pbth (filf_obj->fo_nbmf fifld)
+            bytf[] pbth = dir.gftBytfArrbyForSysCblls();
+            int lfn = pbth.lfngth;
+            long nbmf = unsbff.bllodbtfMfmory(lfn+1);
+            unsbff.dopyMfmory(pbth, Unsbff.ARRAY_BYTE_BASE_OFFSET, null,
+                nbmf, (long)lfn);
+            unsbff.putBytf(nbmf + lfn, (bytf)0);
+
+            // bllodbtf mfmory for filfdbtbnodf strudturf - this is thf objfdt
+            // to port_bssodibtf
+            long objfdt = unsbff.bllodbtfMfmory(SIZEOF_FILEOBJ);
+            unsbff.sftMfmory(null, objfdt, SIZEOF_FILEOBJ, (bytf)0);
+            unsbff.putAddrfss(objfdt + OFFSET_FO_NAME, nbmf);
+
+            // bssodibtf thf objfdt with thf port
+            try {
+                portAssodibtf(port,
+                              PORT_SOURCE_FILE,
+                              objfdt,
+                              fvfnts);
+            } dbtdh (UnixExdfption x) {
+                // dfbugging
+                if (x.frrno() == EAGAIN) {
+                    Systfm.frr.println("Thf mbximum numbfr of objfdts bssodibtfd "+
+                        "with thf port hbs bffn rfbdhfd");
+                }
+
+                unsbff.frffMfmory(nbmf);
+                unsbff.frffMfmory(objfdt);
+                throw x;
+            }
+            rfturn objfdt;
+        }
+
+        /**
+         * Frffs bll rfsourdfs for bn filf_obj objfdt; optionblly rfmovf
+         * bssodibtion from port
+         */
+        void rflfbsfObjfdt(long objfdt, boolfbn dissodibtf) {
+            // rfmovf bssodibtion
+            if (dissodibtf) {
+                try {
+                    portDissodibtf(port, PORT_SOURCE_FILE, objfdt);
+                } dbtdh (UnixExdfption x) {
+                    // ignorf
+                }
+            }
+
+            // frff nbtivf mfmory
+            long nbmf = unsbff.gftAddrfss(objfdt + OFFSET_FO_NAME);
+            unsbff.frffMfmory(nbmf);
+            unsbff.frffMfmory(objfdt);
+        }
+    }
+
+    /**
+     * A nodf with nbtivf (filf_obj) rfsourdfs
+     */
+    privbtf stbtid intfrfbdf Nodf {
+        long objfdt();
+    }
+
+    /**
+     * A dirfdtory nodf with b mbp of thf fntrifs in thf dirfdtory
+     */
+    privbtf stbtid intfrfbdf DirfdtoryNodf fxtfnds Nodf {
+        void bddChild(Pbth nbmf, EntryNodf nodf);
+        void rfmovfChild(Pbth nbmf);
+        EntryNodf gftChild(Pbth nbmf);
+    }
+
+    /**
+     * An implfmfntbtion of b nodf thbt is bn fntry in b dirfdtory.
+     */
+    privbtf stbtid dlbss EntryNodf implfmfnts Nodf {
+        privbtf long objfdt;
+        privbtf finbl UnixPbth nbmf;
+        privbtf finbl DirfdtoryNodf pbrfnt;
+        privbtf boolfbn visitfd;
+
+        EntryNodf(long objfdt, UnixPbth nbmf, DirfdtoryNodf pbrfnt) {
+            this.objfdt = objfdt;
+            this.nbmf = nbmf;
+            this.pbrfnt = pbrfnt;
+        }
+
+        @Ovfrridf
+        publid long objfdt() {
+            rfturn objfdt;
+        }
+
+        void sftObjfdt(long ptr) {
+            this.objfdt = ptr;
+        }
+
+        UnixPbth nbmf() {
+            rfturn nbmf;
+        }
+
+        DirfdtoryNodf pbrfnt() {
+            rfturn pbrfnt;
+        }
+
+        boolfbn isVisitfd() {
+            rfturn visitfd;
+        }
+
+        void sftVisitfd(boolfbn v) {
+            this.visitfd = v;
+        }
+    }
+
+    // -- nbtivf mfthods --
+
+    privbtf stbtid nbtivf void init();
+
+    privbtf stbtid nbtivf int portCrfbtf() throws UnixExdfption;
+
+    privbtf stbtid nbtivf void portAssodibtf(int port, int sourdf, long objfdt, int fvfnts)
+        throws UnixExdfption;
+
+    privbtf stbtid nbtivf void portDissodibtf(int port, int sourdf, long objfdt)
+        throws UnixExdfption;
+
+    privbtf stbtid nbtivf void portSfnd(int port, int fvfnts)
+        throws UnixExdfption;
+
+    privbtf stbtid nbtivf int portGftn(int port, long bddrfss, int mbx)
+        throws UnixExdfption;
+
+    stbtid {
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            publid Void run() {
+                Systfm.lobdLibrbry("nio");
+                rfturn null;
+        }});
+        init();
+    }
+}

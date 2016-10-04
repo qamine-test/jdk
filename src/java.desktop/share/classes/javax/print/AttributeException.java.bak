@@ -1,66 +1,66 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print;
+pbdkbgf jbvbx.print;
 
-import javax.print.attribute.Attribute;
+import jbvbx.print.bttributf.Attributf;
 
 /**
- * Interface AttributeException is a mixin interface which a subclass of
+ * Intfrfbdf AttributfExdfption is b mixin intfrfbdf wiidi b subdlbss of
  * {@link
- * PrintException PrintException} can implement to report an error condition
- * involving one or more printing attributes that a particular Print
- * Service instance does not support. Either the attribute is not supported at
- * all, or the attribute is supported but the particular specified value is not
- * supported. The Print Service API does not define any print exception
- * classes that implement interface AttributeException, that being left to the
- * Print Service implementor's discretion.
+ * PrintExdfption PrintExdfption} dbn implfmfnt to rfport bn frror dondition
+ * involving onf or morf printing bttributfs tibt b pbrtidulbr Print
+ * Sfrvidf instbndf dofs not support. Eitifr tif bttributf is not supportfd bt
+ * bll, or tif bttributf is supportfd but tif pbrtidulbr spfdififd vbluf is not
+ * supportfd. Tif Print Sfrvidf API dofs not dffinf bny print fxdfption
+ * dlbssfs tibt implfmfnt intfrfbdf AttributfExdfption, tibt bfing lfft to tif
+ * Print Sfrvidf implfmfntor's disdrftion.
  *
  */
 
-public interface AttributeException {
+publid intfrfbdf AttributfExdfption {
 
 
     /**
-     * Returns the array of printing attribute classes for which the Print
-     * Service instance does not support the attribute at all, or null if
-     * there are no such attributes. The objects in the returned array are
-     * classes that extend the base interface
-     * {@link javax.print.attribute.Attribute Attribute}.
+     * Rfturns tif brrby of printing bttributf dlbssfs for wiidi tif Print
+     * Sfrvidf instbndf dofs not support tif bttributf bt bll, or null if
+     * tifrf brf no sudi bttributfs. Tif objfdts in tif rfturnfd brrby brf
+     * dlbssfs tibt fxtfnd tif bbsf intfrfbdf
+     * {@link jbvbx.print.bttributf.Attributf Attributf}.
      *
-     * @return unsupported attribute classes
+     * @rfturn unsupportfd bttributf dlbssfs
      */
-    public Class<?>[] getUnsupportedAttributes();
+    publid Clbss<?>[] gftUnsupportfdAttributfs();
 
     /**
-     * Returns the array of printing attributes for which the Print Service
-     * instance supports the attribute but does not support that particular
-     * value of the attribute, or null if there are no such attribute values.
+     * Rfturns tif brrby of printing bttributfs for wiidi tif Print Sfrvidf
+     * instbndf supports tif bttributf but dofs not support tibt pbrtidulbr
+     * vbluf of tif bttributf, or null if tifrf brf no sudi bttributf vblufs.
      *
-     * @return unsupported attribute values
+     * @rfturn unsupportfd bttributf vblufs
      */
-    public Attribute[] getUnsupportedValues();
+    publid Attributf[] gftUnsupportfdVblufs();
 
     }

@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.sampled;
+pbdkbgf jbvbx.sound.sbmplfd;
 
-import java.security.BasicPermission;
+import jbvb.sfdurity.BbsidPfrmission;
 
 /**
- * The {@code AudioPermission} class represents access rights to the audio
- * system resources. An {@code AudioPermission} contains a target name but no
- * actions list; you either have the named permission or you don't.
+ * Tif {@dodf AudioPfrmission} dlbss rfprfsfnts bddfss rigits to tif budio
+ * systfm rfsourdfs. An {@dodf AudioPfrmission} dontbins b tbrgft nbmf but no
+ * bdtions list; you fitifr ibvf tif nbmfd pfrmission or you don't.
  * <p>
- * The target name is the name of the audio permission (see the table below).
- * The names follow the hierarchical property-naming convention. Also, an
- * asterisk can be used to represent all the audio permissions.
+ * Tif tbrgft nbmf is tif nbmf of tif budio pfrmission (sff tif tbblf bflow).
+ * Tif nbmfs follow tif iifrbrdiidbl propfrty-nbming donvfntion. Also, bn
+ * bstfrisk dbn bf usfd to rfprfsfnt bll tif budio pfrmissions.
  * <p>
- * The following table lists the possible {@code AudioPermission} target names.
- * For each name, the table provides a description of exactly what that
- * permission allows, as well as a discussion of the risks of granting code the
- * permission.
+ * Tif following tbblf lists tif possiblf {@dodf AudioPfrmission} tbrgft nbmfs.
+ * For fbdi nbmf, tif tbblf providfs b dfsdription of fxbdtly wibt tibt
+ * pfrmission bllows, bs wfll bs b disdussion of tif risks of grbnting dodf tif
+ * pfrmission.
  *
- * <table border=1 cellpadding=5 summary="permission target name, what the permission allows, and associated risks">
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="pfrmission tbrgft nbmf, wibt tif pfrmission bllows, bnd bssodibtfd risks">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
- * <th>Risks of Allowing this Permission</th>
+ * <ti>Pfrmission Tbrgft Nbmf</ti>
+ * <ti>Wibt tif Pfrmission Allows</ti>
+ * <ti>Risks of Allowing tiis Pfrmission</ti>
  * </tr>
  *
  * <tr>
- * <td>play</td>
- * <td>Audio playback through the audio device or devices on the system.
- * Allows the application to obtain and manipulate lines and mixers for
- * audio playback (rendering).</td>
- * <td>In some cases use of this permission may affect other
- * applications because the audio from one line may be mixed with other audio
- * being played on the system, or because manipulation of a mixer affects the
- * audio for all lines using that mixer.</td>
+ * <td>plby</td>
+ * <td>Audio plbybbdk tirougi tif budio dfvidf or dfvidfs on tif systfm.
+ * Allows tif bpplidbtion to obtbin bnd mbnipulbtf linfs bnd mixfrs for
+ * budio plbybbdk (rfndfring).</td>
+ * <td>In somf dbsfs usf of tiis pfrmission mby bfffdt otifr
+ * bpplidbtions bfdbusf tif budio from onf linf mby bf mixfd witi otifr budio
+ * bfing plbyfd on tif systfm, or bfdbusf mbnipulbtion of b mixfr bfffdts tif
+ * budio for bll linfs using tibt mixfr.</td>
  * </tr>
  *
  * <tr>
- * <td>record</td>
- * <td>Audio recording through the audio device or devices on the system.
- * Allows the application to obtain and manipulate lines and mixers for
- * audio recording (capture).</td>
- * <td>In some cases use of this permission may affect other
- * applications because manipulation of a mixer affects the audio for all lines
- * using that mixer.
- * This permission can enable an applet or application to eavesdrop on a user.</td>
+ * <td>rfdord</td>
+ * <td>Audio rfdording tirougi tif budio dfvidf or dfvidfs on tif systfm.
+ * Allows tif bpplidbtion to obtbin bnd mbnipulbtf linfs bnd mixfrs for
+ * budio rfdording (dbpturf).</td>
+ * <td>In somf dbsfs usf of tiis pfrmission mby bfffdt otifr
+ * bpplidbtions bfdbusf mbnipulbtion of b mixfr bfffdts tif budio for bll linfs
+ * using tibt mixfr.
+ * Tiis pfrmission dbn fnbblf bn bpplft or bpplidbtion to fbvfsdrop on b usfr.</td>
  * </tr>
- * </table>
+ * </tbblf>
  *
- * @author Kara Kytle
- * @since 1.3
+ * @butior Kbrb Kytlf
+ * @sindf 1.3
  */
-public class AudioPermission extends BasicPermission {
+publid dlbss AudioPfrmission fxtfnds BbsidPfrmission {
 
-    private static final long serialVersionUID = -5518053473477801126L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5518053473477801126L;
 
     /**
-     * Creates a new {@code AudioPermission} object that has the specified
-     * symbolic name, such as "play" or "record". An asterisk can be used to
-     * indicate all audio permissions.
+     * Crfbtfs b nfw {@dodf AudioPfrmission} objfdt tibt ibs tif spfdififd
+     * symbolid nbmf, sudi bs "plby" or "rfdord". An bstfrisk dbn bf usfd to
+     * indidbtf bll budio pfrmissions.
      *
-     * @param  name the name of the new {@code AudioPermission}
-     * @throws NullPointerException if {@code name} is {@code null}
-     * @throws IllegalArgumentException if {@code name} is empty
+     * @pbrbm  nbmf tif nbmf of tif nfw {@dodf AudioPfrmission}
+     * @tirows NullPointfrExdfption if {@dodf nbmf} is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty
      */
-    public AudioPermission(final String name) {
-        super(name);
+    publid AudioPfrmission(finbl String nbmf) {
+        supfr(nbmf);
     }
 
     /**
-     * Creates a new {@code AudioPermission} object that has the specified
-     * symbolic name, such as "play" or "record". The {@code actions} parameter
-     * is currently unused and should be {@code null}.
+     * Crfbtfs b nfw {@dodf AudioPfrmission} objfdt tibt ibs tif spfdififd
+     * symbolid nbmf, sudi bs "plby" or "rfdord". Tif {@dodf bdtions} pbrbmftfr
+     * is durrfntly unusfd bnd siould bf {@dodf null}.
      *
-     * @param  name the name of the new {@code AudioPermission}
-     * @param  actions (unused; should be {@code null})
-     * @throws NullPointerException if {@code name} is {@code null}
-     * @throws IllegalArgumentException if {@code name} is empty
+     * @pbrbm  nbmf tif nbmf of tif nfw {@dodf AudioPfrmission}
+     * @pbrbm  bdtions (unusfd; siould bf {@dodf null})
+     * @tirows NullPointfrExdfption if {@dodf nbmf} is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty
      */
-    public AudioPermission(final String name, final String actions) {
-        super(name, actions);
+    publid AudioPfrmission(finbl String nbmf, finbl String bdtions) {
+        supfr(nbmf, bdtions);
     }
 }

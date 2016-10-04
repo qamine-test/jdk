@@ -1,0 +1,464 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.util.Sft;
+import jbvb.util.HbshSft;
+import jbvb.util.Collfdtions;
+
+/**
+ * Thf bbstrbdt dlbss {@dodf SodkftImpl} is b dommon supfrdlbss
+ * of bll dlbssfs thbt bdtublly implfmfnt sodkfts. It is usfd to
+ * drfbtf both dlifnt bnd sfrvfr sodkfts.
+ * <p>
+ * A "plbin" sodkft implfmfnts thfsf mfthods fxbdtly bs
+ * dfsdribfd, without bttfmpting to go through b firfwbll or proxy.
+ *
+ * @buthor  unbsdribfd
+ * @sindf   1.0
+ */
+publid bbstrbdt dlbss SodkftImpl implfmfnts SodkftOptions {
+    /**
+     * Thf bdtubl Sodkft objfdt.
+     */
+    Sodkft sodkft = null;
+    SfrvfrSodkft sfrvfrSodkft = null;
+
+    /**
+     * Thf filf dfsdriptor objfdt for this sodkft.
+     */
+    protfdtfd FilfDfsdriptor fd;
+
+    /**
+     * Thf IP bddrfss of thf rfmotf fnd of this sodkft.
+     */
+    protfdtfd InftAddrfss bddrfss;
+
+    /**
+     * Thf port numbfr on thf rfmotf host to whidh this sodkft is donnfdtfd.
+     */
+    protfdtfd int port;
+
+    /**
+     * Thf lodbl port numbfr to whidh this sodkft is donnfdtfd.
+     */
+    protfdtfd int lodblport;
+
+    /**
+     * Crfbtfs fithfr b strfbm or b dbtbgrbm sodkft.
+     *
+     * @pbrbm      strfbm   if {@dodf truf}, drfbtf b strfbm sodkft;
+     *                      othfrwisf, drfbtf b dbtbgrbm sodkft.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whilf drfbting thf
+     *               sodkft.
+     */
+    protfdtfd bbstrbdt void drfbtf(boolfbn strfbm) throws IOExdfption;
+
+    /**
+     * Connfdts this sodkft to thf spfdififd port on thf nbmfd host.
+     *
+     * @pbrbm      host   thf nbmf of thf rfmotf host.
+     * @pbrbm      port   thf port numbfr.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn donnfdting to thf
+     *               rfmotf host.
+     */
+    protfdtfd bbstrbdt void donnfdt(String host, int port) throws IOExdfption;
+
+    /**
+     * Connfdts this sodkft to thf spfdififd port numbfr on thf spfdififd host.
+     *
+     * @pbrbm      bddrfss   thf IP bddrfss of thf rfmotf host.
+     * @pbrbm      port      thf port numbfr.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn bttfmpting b
+     *               donnfdtion.
+     */
+    protfdtfd bbstrbdt void donnfdt(InftAddrfss bddrfss, int port) throws IOExdfption;
+
+    /**
+     * Connfdts this sodkft to thf spfdififd port numbfr on thf spfdififd host.
+     * A timfout of zfro is intfrprftfd bs bn infinitf timfout. Thf donnfdtion
+     * will thfn blodk until fstbblishfd or bn frror oddurs.
+     *
+     * @pbrbm      bddrfss   thf Sodkft bddrfss of thf rfmotf host.
+     * @pbrbm     timfout  thf timfout vbluf, in millisfdonds, or zfro for no timfout.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn bttfmpting b
+     *               donnfdtion.
+     * @sindf 1.4
+     */
+    protfdtfd bbstrbdt void donnfdt(SodkftAddrfss bddrfss, int timfout) throws IOExdfption;
+
+    /**
+     * Binds this sodkft to thf spfdififd lodbl IP bddrfss bnd port numbfr.
+     *
+     * @pbrbm      host   bn IP bddrfss thbt bflongs to b lodbl intfrfbdf.
+     * @pbrbm      port   thf port numbfr.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn binding this sodkft.
+     */
+    protfdtfd bbstrbdt void bind(InftAddrfss host, int port) throws IOExdfption;
+
+    /**
+     * Sfts thf mbximum qufuf lfngth for indoming donnfdtion indidbtions
+     * (b rfqufst to donnfdt) to thf {@dodf dount} brgumfnt. If b
+     * donnfdtion indidbtion brrivfs whfn thf qufuf is full, thf
+     * donnfdtion is rffusfd.
+     *
+     * @pbrbm      bbdklog   thf mbximum lfngth of thf qufuf.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn drfbting thf qufuf.
+     */
+    protfdtfd bbstrbdt void listfn(int bbdklog) throws IOExdfption;
+
+    /**
+     * Addfpts b donnfdtion.
+     *
+     * @pbrbm      s   thf bddfptfd donnfdtion.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn bddfpting thf
+     *               donnfdtion.
+     */
+    protfdtfd bbstrbdt void bddfpt(SodkftImpl s) throws IOExdfption;
+
+    /**
+     * Rfturns bn input strfbm for this sodkft.
+     *
+     * @rfturn     b strfbm for rfbding from this sodkft.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn drfbting thf
+     *               input strfbm.
+    */
+    protfdtfd bbstrbdt InputStrfbm gftInputStrfbm() throws IOExdfption;
+
+    /**
+     * Rfturns bn output strfbm for this sodkft.
+     *
+     * @rfturn     bn output strfbm for writing to this sodkft.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn drfbting thf
+     *               output strfbm.
+     */
+    protfdtfd bbstrbdt OutputStrfbm gftOutputStrfbm() throws IOExdfption;
+
+    /**
+     * Rfturns thf numbfr of bytfs thbt dbn bf rfbd from this sodkft
+     * without blodking.
+     *
+     * @rfturn     thf numbfr of bytfs thbt dbn bf rfbd from this sodkft
+     *             without blodking.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn dftfrmining thf
+     *               numbfr of bytfs bvbilbblf.
+     */
+    protfdtfd bbstrbdt int bvbilbblf() throws IOExdfption;
+
+    /**
+     * Closfs this sodkft.
+     *
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs whfn dlosing this sodkft.
+     */
+    protfdtfd bbstrbdt void dlosf() throws IOExdfption;
+
+    /**
+     * Plbdfs thf input strfbm for this sodkft bt "fnd of strfbm".
+     * Any dbtb sfnt to this sodkft is bdknowlfdgfd bnd thfn
+     * silfntly disdbrdfd.
+     *
+     * If you rfbd from b sodkft input strfbm bftfr invoking this mfthod on thf
+     * sodkft, thf strfbm's {@dodf bvbilbblf} mfthod will rfturn 0, bnd its
+     * {@dodf rfbd} mfthods will rfturn {@dodf -1} (fnd of strfbm).
+     *
+     * @fxdfption IOExdfption if bn I/O frror oddurs whfn shutting down this
+     * sodkft.
+     * @sff jbvb.nft.Sodkft#shutdownOutput()
+     * @sff jbvb.nft.Sodkft#dlosf()
+     * @sff jbvb.nft.Sodkft#sftSoLingfr(boolfbn, int)
+     * @sindf 1.3
+     */
+    protfdtfd void shutdownInput() throws IOExdfption {
+      throw nfw IOExdfption("Mfthod not implfmfntfd!");
+    }
+
+    /**
+     * Disbblfs thf output strfbm for this sodkft.
+     * For b TCP sodkft, bny prfviously writtfn dbtb will bf sfnt
+     * followfd by TCP's normbl donnfdtion tfrminbtion sfqufndf.
+     *
+     * If you writf to b sodkft output strfbm bftfr invoking
+     * shutdownOutput() on thf sodkft, thf strfbm will throw
+     * bn IOExdfption.
+     *
+     * @fxdfption IOExdfption if bn I/O frror oddurs whfn shutting down this
+     * sodkft.
+     * @sff jbvb.nft.Sodkft#shutdownInput()
+     * @sff jbvb.nft.Sodkft#dlosf()
+     * @sff jbvb.nft.Sodkft#sftSoLingfr(boolfbn, int)
+     * @sindf 1.3
+     */
+    protfdtfd void shutdownOutput() throws IOExdfption {
+      throw nfw IOExdfption("Mfthod not implfmfntfd!");
+    }
+
+    /**
+     * Rfturns thf vbluf of this sodkft's {@dodf fd} fifld.
+     *
+     * @rfturn  thf vbluf of this sodkft's {@dodf fd} fifld.
+     * @sff     jbvb.nft.SodkftImpl#fd
+     */
+    protfdtfd FilfDfsdriptor gftFilfDfsdriptor() {
+        rfturn fd;
+    }
+
+    /**
+     * Rfturns thf vbluf of this sodkft's {@dodf bddrfss} fifld.
+     *
+     * @rfturn  thf vbluf of this sodkft's {@dodf bddrfss} fifld.
+     * @sff     jbvb.nft.SodkftImpl#bddrfss
+     */
+    protfdtfd InftAddrfss gftInftAddrfss() {
+        rfturn bddrfss;
+    }
+
+    /**
+     * Rfturns thf vbluf of this sodkft's {@dodf port} fifld.
+     *
+     * @rfturn  thf vbluf of this sodkft's {@dodf port} fifld.
+     * @sff     jbvb.nft.SodkftImpl#port
+     */
+    protfdtfd int gftPort() {
+        rfturn port;
+    }
+
+    /**
+     * Rfturns whfthfr or not this SodkftImpl supports sfnding
+     * urgfnt dbtb. By dffbult, fblsf is rfturnfd
+     * unlfss thf mfthod is ovfrriddfn in b sub-dlbss
+     *
+     * @rfturn  truf if urgfnt dbtb supportfd
+     * @sff     jbvb.nft.SodkftImpl#bddrfss
+     * @sindf 1.4
+     */
+    protfdtfd boolfbn supportsUrgfntDbtb () {
+        rfturn fblsf; // must bf ovfrriddfn in sub-dlbss
+    }
+
+    /**
+     * Sfnd onf bytf of urgfnt dbtb on thf sodkft.
+     * Thf bytf to bf sfnt is thf low fight bits of thf pbrbmftfr
+     * @pbrbm dbtb Thf bytf of dbtb to sfnd
+     * @fxdfption IOExdfption if thfrf is bn frror
+     *  sfnding thf dbtb.
+     * @sindf 1.4
+     */
+    protfdtfd bbstrbdt void sfndUrgfntDbtb (int dbtb) throws IOExdfption;
+
+    /**
+     * Rfturns thf vbluf of this sodkft's {@dodf lodblport} fifld.
+     *
+     * @rfturn  thf vbluf of this sodkft's {@dodf lodblport} fifld.
+     * @sff     jbvb.nft.SodkftImpl#lodblport
+     */
+    protfdtfd int gftLodblPort() {
+        rfturn lodblport;
+    }
+
+    void sftSodkft(Sodkft sod) {
+        this.sodkft = sod;
+    }
+
+    Sodkft gftSodkft() {
+        rfturn sodkft;
+    }
+
+    void sftSfrvfrSodkft(SfrvfrSodkft sod) {
+        this.sfrvfrSodkft = sod;
+    }
+
+    SfrvfrSodkft gftSfrvfrSodkft() {
+        rfturn sfrvfrSodkft;
+    }
+
+    /**
+     * Rfturns thf bddrfss bnd port of this sodkft bs b {@dodf String}.
+     *
+     * @rfturn  b string rfprfsfntbtion of this sodkft.
+     */
+    publid String toString() {
+        rfturn "Sodkft[bddr=" + gftInftAddrfss() +
+            ",port=" + gftPort() + ",lodblport=" + gftLodblPort()  + "]";
+    }
+
+    void rfsft() throws IOExdfption {
+        bddrfss = null;
+        port = 0;
+        lodblport = 0;
+    }
+
+    /**
+     * Sfts pfrformbndf prfffrfndfs for this sodkft.
+     *
+     * <p> Sodkfts usf thf TCP/IP protodol by dffbult.  Somf implfmfntbtions
+     * mby offfr bltfrnbtivf protodols whidh hbvf difffrfnt pfrformbndf
+     * dhbrbdtfristids thbn TCP/IP.  This mfthod bllows thf bpplidbtion to
+     * fxprfss its own prfffrfndfs bs to how thfsf trbdfoffs should bf mbdf
+     * whfn thf implfmfntbtion dhoosfs from thf bvbilbblf protodols.
+     *
+     * <p> Pfrformbndf prfffrfndfs brf dfsdribfd by thrff intfgfrs
+     * whosf vblufs indidbtf thf rflbtivf importbndf of short donnfdtion timf,
+     * low lbtfndy, bnd high bbndwidth.  Thf bbsolutf vblufs of thf intfgfrs
+     * brf irrflfvbnt; in ordfr to dhoosf b protodol thf vblufs brf simply
+     * dompbrfd, with lbrgfr vblufs indidbting strongfr prfffrfndfs. Nfgbtivf
+     * vblufs rfprfsfnt b lowfr priority thbn positivf vblufs. If thf
+     * bpplidbtion prfffrs short donnfdtion timf ovfr both low lbtfndy bnd high
+     * bbndwidth, for fxbmplf, thfn it dould invokf this mfthod with thf vblufs
+     * {@dodf (1, 0, 0)}.  If thf bpplidbtion prfffrs high bbndwidth bbovf low
+     * lbtfndy, bnd low lbtfndy bbovf short donnfdtion timf, thfn it dould
+     * invokf this mfthod with thf vblufs {@dodf (0, 1, 2)}.
+     *
+     * By dffbult, this mfthod dofs nothing, unlfss it is ovfrriddfn in b
+     * b sub-dlbss.
+     *
+     * @pbrbm  donnfdtionTimf
+     *         An {@dodf int} fxprfssing thf rflbtivf importbndf of b short
+     *         donnfdtion timf
+     *
+     * @pbrbm  lbtfndy
+     *         An {@dodf int} fxprfssing thf rflbtivf importbndf of low
+     *         lbtfndy
+     *
+     * @pbrbm  bbndwidth
+     *         An {@dodf int} fxprfssing thf rflbtivf importbndf of high
+     *         bbndwidth
+     *
+     * @sindf 1.5
+     */
+    protfdtfd void sftPfrformbndfPrfffrfndfs(int donnfdtionTimf,
+                                          int lbtfndy,
+                                          int bbndwidth)
+    {
+        /* Not implfmfntfd yft */
+    }
+
+    /**
+     * Cbllfd to sft b sodkft option.
+     *
+     * @pbrbm nbmf Thf sodkft option
+     *
+     * @pbrbm vbluf Thf vbluf of thf sodkft option. A vbluf of {@dodf null}
+     *              mby bf vblid for somf options.
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf SodkftImpl dofs not
+     *         support thf option
+     *
+     * @throws IOExdfption if bn I/O frror oddurs, or if thf sodkft is dlosfd.
+     *
+     * @sindf 1.9
+     */
+    protfdtfd <T> void sftOption(SodkftOption<T> nbmf, T vbluf) throws IOExdfption {
+        if (nbmf == StbndbrdSodkftOptions.SO_KEEPALIVE) {
+            sftOption(SodkftOptions.SO_KEEPALIVE, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_SNDBUF) {
+            sftOption(SodkftOptions.SO_SNDBUF, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_RCVBUF) {
+            sftOption(SodkftOptions.SO_RCVBUF, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_REUSEADDR) {
+            sftOption(SodkftOptions.SO_REUSEADDR, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_LINGER) {
+            sftOption(SodkftOptions.SO_LINGER, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.IP_TOS) {
+            sftOption(SodkftOptions.IP_TOS, vbluf);
+        } flsf if (nbmf == StbndbrdSodkftOptions.TCP_NODELAY) {
+            sftOption(SodkftOptions.TCP_NODELAY, vbluf);
+        } flsf {
+            throw nfw UnsupportfdOpfrbtionExdfption("unsupportfd option");
+        }
+    }
+
+    /**
+     * Cbllfd to gft b sodkft option.
+     *
+     * @pbrbm nbmf Thf sodkft option
+     *
+     * @rfturn thf vbluf of thf nbmfd option
+     *
+     * @throws UnsupportfdOpfrbtionExdfption if thf SodkftImpl dofs not
+     *         support thf option.
+     *
+     * @throws IOExdfption if bn I/O frror oddurs, or if thf sodkft is dlosfd.
+     *
+     * @sindf 1.9
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    protfdtfd <T> T gftOption(SodkftOption<T> nbmf) throws IOExdfption {
+        if (nbmf == StbndbrdSodkftOptions.SO_KEEPALIVE) {
+            rfturn (T)gftOption(SodkftOptions.SO_KEEPALIVE);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_SNDBUF) {
+            rfturn (T)gftOption(SodkftOptions.SO_SNDBUF);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_RCVBUF) {
+            rfturn (T)gftOption(SodkftOptions.SO_RCVBUF);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_REUSEADDR) {
+            rfturn (T)gftOption(SodkftOptions.SO_REUSEADDR);
+        } flsf if (nbmf == StbndbrdSodkftOptions.SO_LINGER) {
+            rfturn (T)gftOption(SodkftOptions.SO_LINGER);
+        } flsf if (nbmf == StbndbrdSodkftOptions.IP_TOS) {
+            rfturn (T)gftOption(SodkftOptions.IP_TOS);
+        } flsf if (nbmf == StbndbrdSodkftOptions.TCP_NODELAY) {
+            rfturn (T)gftOption(SodkftOptions.TCP_NODELAY);
+        } flsf {
+            throw nfw UnsupportfdOpfrbtionExdfption("unsupportfd option");
+        }
+    }
+
+    privbtf stbtid finbl  Sft<SodkftOption<?>> sodkftOptions =
+        nfw HbshSft<>();
+
+    privbtf stbtid finbl  Sft<SodkftOption<?>> sfrvfrSodkftOptions =
+        nfw HbshSft<>();
+
+    stbtid {
+        sodkftOptions.bdd(StbndbrdSodkftOptions.SO_KEEPALIVE);
+        sodkftOptions.bdd(StbndbrdSodkftOptions.SO_SNDBUF);
+        sodkftOptions.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+        sodkftOptions.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+        sodkftOptions.bdd(StbndbrdSodkftOptions.SO_LINGER);
+        sodkftOptions.bdd(StbndbrdSodkftOptions.IP_TOS);
+        sodkftOptions.bdd(StbndbrdSodkftOptions.TCP_NODELAY);
+
+        sfrvfrSodkftOptions.bdd(StbndbrdSodkftOptions.SO_RCVBUF);
+        sfrvfrSodkftOptions.bdd(StbndbrdSodkftOptions.SO_REUSEADDR);
+    };
+
+    /**
+     * Rfturns b sft of SodkftOptions supportfd by this impl
+     * bnd by this impl's sodkft (Sodkft or SfrvfrSodkft)
+     *
+     * @rfturn b Sft of SodkftOptions
+     */
+    protfdtfd Sft<SodkftOption<?>> supportfdOptions() {
+        if (gftSodkft() != null) {
+            rfturn sodkftOptions;
+        } flsf {
+            rfturn sfrvfrSodkftOptions;
+        }
+    }
+}

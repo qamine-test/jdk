@@ -1,0 +1,72 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rfflfdt;
+
+/**
+ * Thrown whfn {@link jbvb.lbng.rfflfdt.Exfdutbblf#gftPbrbmftfrs thf
+ * jbvb.lbng.rfflfdt pbdkbgf} bttfmpts to rfbd mfthod pbrbmftfrs from
+ * b dlbss filf bnd dftfrminfs thbt onf or morf pbrbmftfrs brf
+ * mblformfd.
+ *
+ * <p>Thf following is b list of donditions undfr whidh this fxdfption
+ * dbn bf thrown:
+ * <ul>
+ * <li> Thf numbfr of pbrbmftfrs (pbrbmftfr_dount) is wrong for thf mfthod
+ * <li> A donstbnt pool indfx is out of bounds.
+ * <li> A donstbnt pool indfx dofs not rfffr to b UTF-8 fntry
+ * <li> A pbrbmftfr's nbmf is "", or dontbins bn illfgbl dhbrbdtfr
+ * <li> Thf flbgs fifld dontbins bn illfgbl flbg (somfthing othfr thbn
+ *     FINAL, SYNTHETIC, or MANDATED)
+ * </ul>
+ *
+ * Sff {@link jbvb.lbng.rfflfdt.Exfdutbblf#gftPbrbmftfrs} for morf
+ * informbtion.
+ *
+ * @sff jbvb.lbng.rfflfdt.Exfdutbblf#gftPbrbmftfrs
+ * @sindf 1.8
+ */
+publid dlbss MblformfdPbrbmftfrsExdfption fxtfnds RuntimfExdfption {
+
+    /**
+     * Vfrsion for sfriblizbtion.
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = 20130919L;
+
+    /**
+     * Crfbtf b {@dodf MblformfdPbrbmftfrsExdfption} with bn fmpty
+     * rfbson.
+     */
+    publid MblformfdPbrbmftfrsExdfption() {}
+
+    /**
+     * Crfbtf b {@dodf MblformfdPbrbmftfrsExdfption}.
+     *
+     * @pbrbm rfbson Thf rfbson for thf fxdfption.
+     */
+    publid MblformfdPbrbmftfrsExdfption(String rfbson) {
+        supfr(rfbson);
+    }
+}

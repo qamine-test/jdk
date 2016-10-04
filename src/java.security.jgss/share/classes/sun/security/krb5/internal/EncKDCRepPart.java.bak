@@ -1,224 +1,224 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.krb5.*;
-import sun.security.krb5.EncryptionKey;
-import sun.security.util.*;
-import java.util.Vector;
-import java.io.IOException;
-import java.math.BigInteger;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.EndryptionKfy;
+import sun.sfdurity.util.*;
+import jbvb.util.Vfdtor;
+import jbvb.io.IOExdfption;
+import jbvb.mbti.BigIntfgfr;
 
 /**
- * Implements the ASN.1 EncKDCRepPart type.
+ * Implfmfnts tif ASN.1 EndKDCRfpPbrt typf.
  *
  * <xmp>
- * EncKDCRepPart        ::= SEQUENCE {
- *      key             [0] EncryptionKey,
- *      last-req        [1] LastReq,
- *      nonce           [2] UInt32,
- *      key-expiration  [3] KerberosTime OPTIONAL,
- *      flags           [4] TicketFlags,
- *      authtime        [5] KerberosTime,
- *      starttime       [6] KerberosTime OPTIONAL,
- *      endtime         [7] KerberosTime,
- *      renew-till      [8] KerberosTime OPTIONAL,
- *      srealm          [9] Realm,
- *      sname           [10] PrincipalName,
- *      caddr           [11] HostAddresses OPTIONAL
+ * EndKDCRfpPbrt        ::= SEQUENCE {
+ *      kfy             [0] EndryptionKfy,
+ *      lbst-rfq        [1] LbstRfq,
+ *      nondf           [2] UInt32,
+ *      kfy-fxpirbtion  [3] KfrbfrosTimf OPTIONAL,
+ *      flbgs           [4] TidkftFlbgs,
+ *      butitimf        [5] KfrbfrosTimf,
+ *      stbrttimf       [6] KfrbfrosTimf OPTIONAL,
+ *      fndtimf         [7] KfrbfrosTimf,
+ *      rfnfw-till      [8] KfrbfrosTimf OPTIONAL,
+ *      srfblm          [9] Rfblm,
+ *      snbmf           [10] PrindipblNbmf,
+ *      dbddr           [11] HostAddrfssfs OPTIONAL
  * }
  * </xmp>
  *
  * <p>
- * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * Tiis dffinition rfflfdts tif Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b irff="ittp://www.iftf.org/rfd/rfd4120.txt">
+ * ittp://www.iftf.org/rfd/rfd4120.txt</b>.
  */
-public class EncKDCRepPart {
+publid dlbss EndKDCRfpPbrt {
 
-    public EncryptionKey key;
-    public LastReq lastReq;
-    public int nonce;
-    public KerberosTime keyExpiration; //optional
-    public TicketFlags flags;
-    public KerberosTime authtime;
-    public KerberosTime starttime; //optional
-    public KerberosTime endtime;
-    public KerberosTime renewTill; //optional
-    public PrincipalName sname;
-    public HostAddresses caddr; //optional
-    public int msgType; //not included in sequence
+    publid EndryptionKfy kfy;
+    publid LbstRfq lbstRfq;
+    publid int nondf;
+    publid KfrbfrosTimf kfyExpirbtion; //optionbl
+    publid TidkftFlbgs flbgs;
+    publid KfrbfrosTimf butitimf;
+    publid KfrbfrosTimf stbrttimf; //optionbl
+    publid KfrbfrosTimf fndtimf;
+    publid KfrbfrosTimf rfnfwTill; //optionbl
+    publid PrindipblNbmf snbmf;
+    publid HostAddrfssfs dbddr; //optionbl
+    publid int msgTypf; //not indludfd in sfqufndf
 
-    public EncKDCRepPart(
-            EncryptionKey new_key,
-            LastReq new_lastReq,
-            int new_nonce,
-            KerberosTime new_keyExpiration,
-            TicketFlags new_flags,
-            KerberosTime new_authtime,
-            KerberosTime new_starttime,
-            KerberosTime new_endtime,
-            KerberosTime new_renewTill,
-            PrincipalName new_sname,
-            HostAddresses new_caddr,
-            int new_msgType) {
-        key = new_key;
-        lastReq = new_lastReq;
-        nonce = new_nonce;
-        keyExpiration = new_keyExpiration;
-        flags = new_flags;
-        authtime = new_authtime;
-        starttime = new_starttime;
-        endtime = new_endtime;
-        renewTill = new_renewTill;
-        sname = new_sname;
-        caddr = new_caddr;
-        msgType = new_msgType;
+    publid EndKDCRfpPbrt(
+            EndryptionKfy nfw_kfy,
+            LbstRfq nfw_lbstRfq,
+            int nfw_nondf,
+            KfrbfrosTimf nfw_kfyExpirbtion,
+            TidkftFlbgs nfw_flbgs,
+            KfrbfrosTimf nfw_butitimf,
+            KfrbfrosTimf nfw_stbrttimf,
+            KfrbfrosTimf nfw_fndtimf,
+            KfrbfrosTimf nfw_rfnfwTill,
+            PrindipblNbmf nfw_snbmf,
+            HostAddrfssfs nfw_dbddr,
+            int nfw_msgTypf) {
+        kfy = nfw_kfy;
+        lbstRfq = nfw_lbstRfq;
+        nondf = nfw_nondf;
+        kfyExpirbtion = nfw_kfyExpirbtion;
+        flbgs = nfw_flbgs;
+        butitimf = nfw_butitimf;
+        stbrttimf = nfw_stbrttimf;
+        fndtimf = nfw_fndtimf;
+        rfnfwTill = nfw_rfnfwTill;
+        snbmf = nfw_snbmf;
+        dbddr = nfw_dbddr;
+        msgTypf = nfw_msgTypf;
     }
 
-    public EncKDCRepPart() {
+    publid EndKDCRfpPbrt() {
     }
 
-    public EncKDCRepPart(byte[] data, int rep_type)
-            throws Asn1Exception, IOException, RealmException {
-        init(new DerValue(data), rep_type);
+    publid EndKDCRfpPbrt(bytf[] dbtb, int rfp_typf)
+            tirows Asn1Exdfption, IOExdfption, RfblmExdfption {
+        init(nfw DfrVbluf(dbtb), rfp_typf);
     }
 
-    public EncKDCRepPart(DerValue encoding, int rep_type)
-            throws Asn1Exception, IOException, RealmException {
-        init(encoding, rep_type);
+    publid EndKDCRfpPbrt(DfrVbluf fndoding, int rfp_typf)
+            tirows Asn1Exdfption, IOExdfption, RfblmExdfption {
+        init(fndoding, rfp_typf);
     }
 
     /**
-     * Initializes an EncKDCRepPart object.
+     * Initiblizfs bn EndKDCRfpPbrt objfdt.
      *
-     * @param encoding a single DER-encoded value.
-     * @param rep_type type of the encrypted reply message.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
-     * @exception RealmException if an error occurs while decoding an Realm object.
+     * @pbrbm fndoding b singlf DER-fndodfd vbluf.
+     * @pbrbm rfp_typf typf of tif fndryptfd rfply mfssbgf.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
+     * @fxdfption RfblmExdfption if bn frror oddurs wiilf dfdoding bn Rfblm objfdt.
      */
-    protected void init(DerValue encoding, int rep_type)
-            throws Asn1Exception, IOException, RealmException {
-        DerValue der, subDer;
-        //implementations return the incorrect tag value, so
-        //we don't use the above line; instead we use the following
-        msgType = (encoding.getTag() & (byte) 0x1F);
-        if (msgType != Krb5.KRB_ENC_AS_REP_PART &&
-                msgType != Krb5.KRB_ENC_TGS_REP_PART) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+    protfdtfd void init(DfrVbluf fndoding, int rfp_typf)
+            tirows Asn1Exdfption, IOExdfption, RfblmExdfption {
+        DfrVbluf dfr, subDfr;
+        //implfmfntbtions rfturn tif indorrfdt tbg vbluf, so
+        //wf don't usf tif bbovf linf; instfbd wf usf tif following
+        msgTypf = (fndoding.gftTbg() & (bytf) 0x1F);
+        if (msgTypf != Krb5.KRB_ENC_AS_REP_PART &&
+                msgTypf != Krb5.KRB_ENC_TGS_REP_PART) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        der = encoding.getData().getDerValue();
-        if (der.getTag() != DerValue.tag_Sequence) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if (dfr.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        key = EncryptionKey.parse(der.getData(), (byte) 0x00, false);
-        lastReq = LastReq.parse(der.getData(), (byte) 0x01, false);
-        subDer = der.getData().getDerValue();
-        if ((subDer.getTag() & (byte) 0x1F) == (byte) 0x02) {
-            nonce = subDer.getData().getBigInteger().intValue();
-        } else {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        kfy = EndryptionKfy.pbrsf(dfr.gftDbtb(), (bytf) 0x00, fblsf);
+        lbstRfq = LbstRfq.pbrsf(dfr.gftDbtb(), (bytf) 0x01, fblsf);
+        subDfr = dfr.gftDbtb().gftDfrVbluf();
+        if ((subDfr.gftTbg() & (bytf) 0x1F) == (bytf) 0x02) {
+            nondf = subDfr.gftDbtb().gftBigIntfgfr().intVbluf();
+        } flsf {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        keyExpiration = KerberosTime.parse(der.getData(), (byte) 0x03, true);
-        flags = TicketFlags.parse(der.getData(), (byte) 0x04, false);
-        authtime = KerberosTime.parse(der.getData(), (byte) 0x05, false);
-        starttime = KerberosTime.parse(der.getData(), (byte) 0x06, true);
-        endtime = KerberosTime.parse(der.getData(), (byte) 0x07, false);
-        renewTill = KerberosTime.parse(der.getData(), (byte) 0x08, true);
-        Realm srealm = Realm.parse(der.getData(), (byte) 0x09, false);
-        sname = PrincipalName.parse(der.getData(), (byte) 0x0A, false, srealm);
-        if (der.getData().available() > 0) {
-            caddr = HostAddresses.parse(der.getData(), (byte) 0x0B, true);
+        kfyExpirbtion = KfrbfrosTimf.pbrsf(dfr.gftDbtb(), (bytf) 0x03, truf);
+        flbgs = TidkftFlbgs.pbrsf(dfr.gftDbtb(), (bytf) 0x04, fblsf);
+        butitimf = KfrbfrosTimf.pbrsf(dfr.gftDbtb(), (bytf) 0x05, fblsf);
+        stbrttimf = KfrbfrosTimf.pbrsf(dfr.gftDbtb(), (bytf) 0x06, truf);
+        fndtimf = KfrbfrosTimf.pbrsf(dfr.gftDbtb(), (bytf) 0x07, fblsf);
+        rfnfwTill = KfrbfrosTimf.pbrsf(dfr.gftDbtb(), (bytf) 0x08, truf);
+        Rfblm srfblm = Rfblm.pbrsf(dfr.gftDbtb(), (bytf) 0x09, fblsf);
+        snbmf = PrindipblNbmf.pbrsf(dfr.gftDbtb(), (bytf) 0x0A, fblsf, srfblm);
+        if (dfr.gftDbtb().bvbilbblf() > 0) {
+            dbddr = HostAddrfssfs.pbrsf(dfr.gftDbtb(), (bytf) 0x0B, truf);
         }
-        // We observe extra data from MSAD
-        /*if (der.getData().available() > 0) {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+        // Wf obsfrvf fxtrb dbtb from MSAD
+        /*if (dfr.gftDbtb().bvbilbblf() > 0) {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }*/
     }
 
     /**
-     * Encodes an EncKDCRepPart object.
-     * @param rep_type type of encrypted reply message.
-     * @return byte array of encoded EncKDCRepPart object.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Endodfs bn EndKDCRfpPbrt objfdt.
+     * @pbrbm rfp_typf typf of fndryptfd rfply mfssbgf.
+     * @rfturn bytf brrby of fndodfd EndKDCRfpPbrt objfdt.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
      */
-    public byte[] asn1Encode(int rep_type) throws Asn1Exception,
-            IOException {
-        DerOutputStream temp = new DerOutputStream();
-        DerOutputStream bytes = new DerOutputStream();
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x00), key.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x01), lastReq.asn1Encode());
-        temp.putInteger(BigInteger.valueOf(nonce));
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x02), temp);
+    publid bytf[] bsn1Endodf(int rfp_typf) tirows Asn1Exdfption,
+            IOExdfption {
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x00), kfy.bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x01), lbstRfq.bsn1Endodf());
+        tfmp.putIntfgfr(BigIntfgfr.vblufOf(nondf));
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x02), tfmp);
 
-        if (keyExpiration != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x03), keyExpiration.asn1Encode());
+        if (kfyExpirbtion != null) {
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                    truf, (bytf) 0x03), kfyExpirbtion.bsn1Endodf());
         }
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x04), flags.asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x05), authtime.asn1Encode());
-        if (starttime != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x06), starttime.asn1Encode());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x04), flbgs.bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x05), butitimf.bsn1Endodf());
+        if (stbrttimf != null) {
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                    truf, (bytf) 0x06), stbrttimf.bsn1Endodf());
         }
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x07), endtime.asn1Encode());
-        if (renewTill != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x08), renewTill.asn1Encode());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x07), fndtimf.bsn1Endodf());
+        if (rfnfwTill != null) {
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                    truf, (bytf) 0x08), rfnfwTill.bsn1Endodf());
         }
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x09), sname.getRealm().asn1Encode());
-        bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                true, (byte) 0x0A), sname.asn1Encode());
-        if (caddr != null) {
-            bytes.write(DerValue.createTag(DerValue.TAG_CONTEXT,
-                    true, (byte) 0x0B), caddr.asn1Encode());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x09), snbmf.gftRfblm().bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                truf, (bytf) 0x0A), snbmf.bsn1Endodf());
+        if (dbddr != null) {
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT,
+                    truf, (bytf) 0x0B), dbddr.bsn1Endodf());
         }
-        //should use the rep_type to build the encoding
-        //but other implementations do not; it is ignored and
-        //the cached msgType is used instead
-        temp = new DerOutputStream();
-        temp.write(DerValue.tag_Sequence, bytes);
-        bytes = new DerOutputStream();
-        bytes.write(DerValue.createTag(DerValue.TAG_APPLICATION,
-                true, (byte) msgType), temp);
-        return bytes.toByteArray();
+        //siould usf tif rfp_typf to build tif fndoding
+        //but otifr implfmfntbtions do not; it is ignorfd bnd
+        //tif dbdifd msgTypf is usfd instfbd
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        bytfs = nfw DfrOutputStrfbm();
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_APPLICATION,
+                truf, (bytf) msgTypf), tfmp);
+        rfturn bytfs.toBytfArrby();
     }
 }

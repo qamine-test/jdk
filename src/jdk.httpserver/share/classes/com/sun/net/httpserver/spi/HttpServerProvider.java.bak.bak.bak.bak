@@ -1,0 +1,179 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.nft.httpsfrvfr.spi;
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.SfrvidfLobdfr;
+import jbvb.util.SfrvidfConfigurbtionError;
+import dom.sun.nft.httpsfrvfr.*;
+
+/**
+ * Sfrvidf providfr dlbss for HttpSfrvfr.
+ * Sub-dlbssfs of HttpSfrvfrProvidfr providf bn implfmfntbtion of
+ * {@link HttpSfrvfr} bnd bssodibtfd dlbssfs. Applidbtions do not normblly usf
+ * this dlbss. Sff {@link #providfr()} for how providfrs brf found bnd lobdfd.
+ */
+@jdk.Exportfd
+publid bbstrbdt dlbss HttpSfrvfrProvidfr {
+
+    /**
+     * drfbtfs b HttpSfrvfr from this providfr
+     *
+     * @pbrbm  bddr
+     *         thf bddrfss to bind to. Mby bf {@dodf null}
+     *
+     * @pbrbm  bbdklog
+     *         thf sodkft bbdklog. A vbluf of {@dodf zfro} mfbns thf systfms dffbult
+     */
+    publid bbstrbdt HttpSfrvfr drfbtfHttpSfrvfr(InftSodkftAddrfss bddr,
+                                                int bbdklog)
+        throws IOExdfption;
+
+    /**
+     * drfbtfs b HttpsSfrvfr from this providfr
+     *
+     * @pbrbm  bddr
+     *         thf bddrfss to bind to. Mby bf {@dodf null}
+     *
+     * @pbrbm  bbdklog
+     *         thf sodkft bbdklog. A vbluf of {@dodf zfro} mfbns thf systfms dffbult
+     */
+    publid bbstrbdt HttpsSfrvfr drfbtfHttpsSfrvfr(InftSodkftAddrfss bddr,
+                                                  int bbdklog)
+        throws IOExdfption;
+
+    privbtf stbtid finbl Objfdt lodk = nfw Objfdt();
+    privbtf stbtid HttpSfrvfrProvidfr providfr = null;
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     *
+     * @throws  SfdurityExdfption
+     *          If b sfdurity mbnbgfr hbs bffn instbllfd bnd it dfnifs
+     *          {@link RuntimfPfrmission}{@dodf ("httpSfrvfrProvidfr")}
+     */
+    protfdtfd HttpSfrvfrProvidfr() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null)
+            sm.dhfdkPfrmission(nfw RuntimfPfrmission("httpSfrvfrProvidfr"));
+    }
+
+    privbtf stbtid boolfbn lobdProvidfrFromPropfrty() {
+        String dn = Systfm.gftPropfrty("dom.sun.nft.httpsfrvfr.HttpSfrvfrProvidfr");
+        if (dn == null)
+            rfturn fblsf;
+        try {
+            Clbss<?> d = Clbss.forNbmf(dn, truf,
+                                       ClbssLobdfr.gftSystfmClbssLobdfr());
+            providfr = (HttpSfrvfrProvidfr)d.nfwInstbndf();
+            rfturn truf;
+        } dbtdh (ClbssNotFoundExdfption |
+                 IllfgblAddfssExdfption |
+                 InstbntibtionExdfption |
+                 SfdurityExdfption x) {
+            throw nfw SfrvidfConfigurbtionError(null, x);
+        }
+    }
+
+    privbtf stbtid boolfbn lobdProvidfrAsSfrvidf() {
+        Itfrbtor<HttpSfrvfrProvidfr> i =
+            SfrvidfLobdfr.lobd(HttpSfrvfrProvidfr.dlbss,
+                               ClbssLobdfr.gftSystfmClbssLobdfr())
+                .itfrbtor();
+        for (;;) {
+            try {
+                if (!i.hbsNfxt())
+                    rfturn fblsf;
+                providfr = i.nfxt();
+                rfturn truf;
+            } dbtdh (SfrvidfConfigurbtionError sdf) {
+                if (sdf.gftCbusf() instbndfof SfdurityExdfption) {
+                    // Ignorf thf sfdurity fxdfption, try thf nfxt providfr
+                    dontinuf;
+                }
+                throw sdf;
+            }
+        }
+    }
+
+    /**
+     * Rfturns thf systfm widf dffbult HttpSfrvfrProvidfr for this invodbtion of
+     * thf Jbvb virtubl mbdhinf.
+     *
+     * <p> Thf first invodbtion of this mfthod lodbtfs thf dffbult providfr
+     * objfdt bs follows: </p>
+     *
+     * <ol>
+     *
+     *   <li><p> If thf systfm propfrty
+     *   {@dodf dom.sun.nft.httpsfrvfr.HttpSfrvfrProvidfr} is dffinfd thfn it
+     *   is tbkfn to bf thf fully-qublififd nbmf of b dondrftf providfr dlbss.
+     *   Thf dlbss is lobdfd bnd instbntibtfd; if this prodfss fbils thfn bn
+     *   unspfdififd undhfdkfd frror or fxdfption is thrown.  </p></li>
+     *
+     *   <li><p> If b providfr dlbss hbs bffn instbllfd in b jbr filf thbt is
+     *   visiblf to thf systfm dlbss lobdfr, bnd thbt jbr filf dontbins b
+     *   providfr-donfigurbtion filf nbmfd
+     *   {@dodf dom.sun.nft.httpsfrvfr.HttpSfrvfrProvidfr} in thf rfsourdf
+     *   dirfdtory <tt>META-INF/sfrvidfs</tt>, thfn thf first dlbss nbmf
+     *   spfdififd in thbt filf is tbkfn.  Thf dlbss is lobdfd bnd
+     *   instbntibtfd; if this prodfss fbils thfn bn unspfdififd undhfdkfd frror
+     *   or fxdfption is thrown.  </p></li>
+     *
+     *   <li><p> Finblly, if no providfr hbs bffn spfdififd by bny of thf bbovf
+     *   mfbns thfn thf systfm-dffbult providfr dlbss is instbntibtfd bnd thf
+     *   rfsult is rfturnfd.  </p></li>
+     *
+     * </ol>
+     *
+     * <p> Subsfqufnt invodbtions of this mfthod rfturn thf providfr thbt wbs
+     * rfturnfd by thf first invodbtion.  </p>
+     *
+     * @rfturn  Thf systfm-widf dffbult HttpSfrvfrProvidfr
+     */
+    publid stbtid HttpSfrvfrProvidfr providfr () {
+        syndhronizfd (lodk) {
+            if (providfr != null)
+                rfturn providfr;
+            rfturn (HttpSfrvfrProvidfr)AddfssControllfr
+                .doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+                        publid Objfdt run() {
+                            if (lobdProvidfrFromPropfrty())
+                                rfturn providfr;
+                            if (lobdProvidfrAsSfrvidf())
+                                rfturn providfr;
+                            providfr = nfw sun.nft.httpsfrvfr.DffbultHttpSfrvfrProvidfr();
+                            rfturn providfr;
+                        }
+                    });
+        }
+    }
+
+}

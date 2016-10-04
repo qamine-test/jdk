@@ -1,319 +1,319 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
 
 /**
- * An implementation of a two-state button.
- * The <code>JRadioButton</code> and <code>JCheckBox</code> classes
- * are subclasses of this class.
- * For information on using them see
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/button.html">How to Use Buttons, Check Boxes, and Radio Buttons</a>,
- * a section in <em>The Java Tutorial</em>.
+ * An implfmfntbtion of b two-stbtf button.
+ * Tif <dodf>JRbdioButton</dodf> bnd <dodf>JCifdkBox</dodf> dlbssfs
+ * brf subdlbssfs of tiis dlbss.
+ * For informbtion on using tifm sff
+ * <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/button.itml">How to Usf Buttons, Cifdk Boxfs, bnd Rbdio Buttons</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl</fm>.
  * <p>
- * Buttons can be configured, and to some degree controlled, by
- * <code><a href="Action.html">Action</a></code>s.  Using an
- * <code>Action</code> with a button has many benefits beyond directly
- * configuring a button.  Refer to <a href="Action.html#buttonActions">
- * Swing Components Supporting <code>Action</code></a> for more
- * details, and you can find more information in <a
- * href="http://docs.oracle.com/javase/tutorial/uiswing/misc/action.html">How
- * to Use Actions</a>, a section in <em>The Java Tutorial</em>.
+ * Buttons dbn bf donfigurfd, bnd to somf dfgrff dontrollfd, by
+ * <dodf><b irff="Adtion.itml">Adtion</b></dodf>s.  Using bn
+ * <dodf>Adtion</dodf> witi b button ibs mbny bfnffits bfyond dirfdtly
+ * donfiguring b button.  Rfffr to <b irff="Adtion.itml#buttonAdtions">
+ * Swing Componfnts Supporting <dodf>Adtion</dodf></b> for morf
+ * dftbils, bnd you dbn find morf informbtion in <b
+ * irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/misd/bdtion.itml">How
+ * to Usf Adtions</b>, b sfdtion in <fm>Tif Jbvb Tutoribl</fm>.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: An implementation of a two-state button.
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: An implfmfntbtion of b two-stbtf button.
  *
- * @see JRadioButton
- * @see JCheckBox
- * @author Jeff Dinkins
- * @since 1.2
+ * @sff JRbdioButton
+ * @sff JCifdkBox
+ * @butior Jfff Dinkins
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JToggleButton extends AbstractButton implements Accessible {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JTogglfButton fxtfnds AbstrbdtButton implfmfnts Addfssiblf {
 
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "ToggleButtonUI";
+    privbtf stbtid finbl String uiClbssID = "TogglfButtonUI";
 
     /**
-     * Creates an initially unselected toggle button
-     * without setting the text or image.
+     * Crfbtfs bn initiblly unsflfdtfd togglf button
+     * witiout sftting tif tfxt or imbgf.
      */
-    public JToggleButton () {
-        this(null, null, false);
+    publid JTogglfButton () {
+        tiis(null, null, fblsf);
     }
 
     /**
-     * Creates an initially unselected toggle button
-     * with the specified image but no text.
+     * Crfbtfs bn initiblly unsflfdtfd togglf button
+     * witi tif spfdififd imbgf but no tfxt.
      *
-     * @param icon  the image that the button should display
+     * @pbrbm idon  tif imbgf tibt tif button siould displby
      */
-    public JToggleButton(Icon icon) {
-        this(null, icon, false);
+    publid JTogglfButton(Idon idon) {
+        tiis(null, idon, fblsf);
     }
 
     /**
-     * Creates a toggle button with the specified image
-     * and selection state, but no text.
+     * Crfbtfs b togglf button witi tif spfdififd imbgf
+     * bnd sflfdtion stbtf, but no tfxt.
      *
-     * @param icon  the image that the button should display
-     * @param selected  if true, the button is initially selected;
-     *                  otherwise, the button is initially unselected
+     * @pbrbm idon  tif imbgf tibt tif button siould displby
+     * @pbrbm sflfdtfd  if truf, tif button is initiblly sflfdtfd;
+     *                  otifrwisf, tif button is initiblly unsflfdtfd
      */
-    public JToggleButton(Icon icon, boolean selected) {
-        this(null, icon, selected);
+    publid JTogglfButton(Idon idon, boolfbn sflfdtfd) {
+        tiis(null, idon, sflfdtfd);
     }
 
     /**
-     * Creates an unselected toggle button with the specified text.
+     * Crfbtfs bn unsflfdtfd togglf button witi tif spfdififd tfxt.
      *
-     * @param text  the string displayed on the toggle button
+     * @pbrbm tfxt  tif string displbyfd on tif togglf button
      */
-    public JToggleButton (String text) {
-        this(text, null, false);
+    publid JTogglfButton (String tfxt) {
+        tiis(tfxt, null, fblsf);
     }
 
     /**
-     * Creates a toggle button with the specified text
-     * and selection state.
+     * Crfbtfs b togglf button witi tif spfdififd tfxt
+     * bnd sflfdtion stbtf.
      *
-     * @param text  the string displayed on the toggle button
-     * @param selected  if true, the button is initially selected;
-     *                  otherwise, the button is initially unselected
+     * @pbrbm tfxt  tif string displbyfd on tif togglf button
+     * @pbrbm sflfdtfd  if truf, tif button is initiblly sflfdtfd;
+     *                  otifrwisf, tif button is initiblly unsflfdtfd
      */
-    public JToggleButton (String text, boolean selected) {
-        this(text, null, selected);
+    publid JTogglfButton (String tfxt, boolfbn sflfdtfd) {
+        tiis(tfxt, null, sflfdtfd);
     }
 
     /**
-     * Creates a toggle button where properties are taken from the
-     * Action supplied.
+     * Crfbtfs b togglf button wifrf propfrtifs brf tbkfn from tif
+     * Adtion supplifd.
      *
-     * @param a an instance of an {@code Action}
-     * @since 1.3
+     * @pbrbm b bn instbndf of bn {@dodf Adtion}
+     * @sindf 1.3
      */
-    public JToggleButton(Action a) {
-        this();
-        setAction(a);
+    publid JTogglfButton(Adtion b) {
+        tiis();
+        sftAdtion(b);
     }
 
     /**
-     * Creates a toggle button that has the specified text and image,
-     * and that is initially unselected.
+     * Crfbtfs b togglf button tibt ibs tif spfdififd tfxt bnd imbgf,
+     * bnd tibt is initiblly unsflfdtfd.
      *
-     * @param text the string displayed on the button
-     * @param icon  the image that the button should display
+     * @pbrbm tfxt tif string displbyfd on tif button
+     * @pbrbm idon  tif imbgf tibt tif button siould displby
      */
-    public JToggleButton(String text, Icon icon) {
-        this(text, icon, false);
+    publid JTogglfButton(String tfxt, Idon idon) {
+        tiis(tfxt, idon, fblsf);
     }
 
     /**
-     * Creates a toggle button with the specified text, image, and
-     * selection state.
+     * Crfbtfs b togglf button witi tif spfdififd tfxt, imbgf, bnd
+     * sflfdtion stbtf.
      *
-     * @param text the text of the toggle button
-     * @param icon  the image that the button should display
-     * @param selected  if true, the button is initially selected;
-     *                  otherwise, the button is initially unselected
+     * @pbrbm tfxt tif tfxt of tif togglf button
+     * @pbrbm idon  tif imbgf tibt tif button siould displby
+     * @pbrbm sflfdtfd  if truf, tif button is initiblly sflfdtfd;
+     *                  otifrwisf, tif button is initiblly unsflfdtfd
      */
-    public JToggleButton (String text, Icon icon, boolean selected) {
-        // Create the model
-        setModel(new ToggleButtonModel());
+    publid JTogglfButton (String tfxt, Idon idon, boolfbn sflfdtfd) {
+        // Crfbtf tif modfl
+        sftModfl(nfw TogglfButtonModfl());
 
-        model.setSelected(selected);
+        modfl.sftSflfdtfd(sflfdtfd);
 
-        // initialize
-        init(text, icon);
+        // initiblizf
+        init(tfxt, idon);
     }
 
     /**
-     * Resets the UI property to a value from the current look and feel.
+     * Rfsfts tif UI propfrty to b vbluf from tif durrfnt look bnd fffl.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        setUI((ButtonUI)UIManager.getUI(this));
+    publid void updbtfUI() {
+        sftUI((ButtonUI)UIMbnbgfr.gftUI(tiis));
     }
 
     /**
-     * Returns a string that specifies the name of the l&amp;f class
-     * that renders this component.
+     * Rfturns b string tibt spfdififs tif nbmf of tif l&bmp;f dlbss
+     * tibt rfndfrs tiis domponfnt.
      *
-     * @return String "ToggleButtonUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
-     * @beaninfo
-     *  description: A string that specifies the name of the L&amp;F class
+     * @rfturn String "TogglfButtonUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *  dfsdription: A string tibt spfdififs tif nbmf of tif L&bmp;F dlbss
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
 
     /**
-     * Overriden to return true, JToggleButton supports
-     * the selected state.
+     * Ovfrridfn to rfturn truf, JTogglfButton supports
+     * tif sflfdtfd stbtf.
      */
-    boolean shouldUpdateSelectedStateFromAction() {
-        return true;
+    boolfbn siouldUpdbtfSflfdtfdStbtfFromAdtion() {
+        rfturn truf;
     }
 
     // *********************************************************************
 
     /**
-     * The ToggleButton model
+     * Tif TogglfButton modfl
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    public static class ToggleButtonModel extends DefaultButtonModel {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss TogglfButtonModfl fxtfnds DffbultButtonModfl {
 
         /**
-         * Creates a new ToggleButton Model
+         * Crfbtfs b nfw TogglfButton Modfl
          */
-        public ToggleButtonModel () {
+        publid TogglfButtonModfl () {
         }
 
         /**
-         * Checks if the button is selected.
+         * Cifdks if tif button is sflfdtfd.
          */
-        public boolean isSelected() {
-//              if(getGroup() != null) {
-//                  return getGroup().isSelected(this);
-//              } else {
-                return (stateMask & SELECTED) != 0;
+        publid boolfbn isSflfdtfd() {
+//              if(gftGroup() != null) {
+//                  rfturn gftGroup().isSflfdtfd(tiis);
+//              } flsf {
+                rfturn (stbtfMbsk & SELECTED) != 0;
 //              }
         }
 
 
         /**
-         * Sets the selected state of the button.
-         * @param b true selects the toggle button,
-         *          false deselects the toggle button.
+         * Sfts tif sflfdtfd stbtf of tif button.
+         * @pbrbm b truf sflfdts tif togglf button,
+         *          fblsf dfsflfdts tif togglf button.
          */
-        public void setSelected(boolean b) {
-            ButtonGroup group = getGroup();
+        publid void sftSflfdtfd(boolfbn b) {
+            ButtonGroup group = gftGroup();
             if (group != null) {
-                // use the group model instead
-                group.setSelected(this, b);
-                b = group.isSelected(this);
+                // usf tif group modfl instfbd
+                group.sftSflfdtfd(tiis, b);
+                b = group.isSflfdtfd(tiis);
             }
 
-            if (isSelected() == b) {
-                return;
+            if (isSflfdtfd() == b) {
+                rfturn;
             }
 
             if (b) {
-                stateMask |= SELECTED;
-            } else {
-                stateMask &= ~SELECTED;
+                stbtfMbsk |= SELECTED;
+            } flsf {
+                stbtfMbsk &= ~SELECTED;
             }
 
-            // Send ChangeEvent
-            fireStateChanged();
+            // Sfnd CibngfEvfnt
+            firfStbtfCibngfd();
 
-            // Send ItemEvent
-            fireItemStateChanged(
-                    new ItemEvent(this,
-                                  ItemEvent.ITEM_STATE_CHANGED,
-                                  this,
-                                  this.isSelected() ?  ItemEvent.SELECTED : ItemEvent.DESELECTED));
+            // Sfnd ItfmEvfnt
+            firfItfmStbtfCibngfd(
+                    nfw ItfmEvfnt(tiis,
+                                  ItfmEvfnt.ITEM_STATE_CHANGED,
+                                  tiis,
+                                  tiis.isSflfdtfd() ?  ItfmEvfnt.SELECTED : ItfmEvfnt.DESELECTED));
 
         }
 
         /**
-         * Sets the pressed state of the toggle button.
+         * Sfts tif prfssfd stbtf of tif togglf button.
          */
-        public void setPressed(boolean b) {
-            if ((isPressed() == b) || !isEnabled()) {
-                return;
+        publid void sftPrfssfd(boolfbn b) {
+            if ((isPrfssfd() == b) || !isEnbblfd()) {
+                rfturn;
             }
 
-            if (b == false && isArmed()) {
-                setSelected(!this.isSelected());
+            if (b == fblsf && isArmfd()) {
+                sftSflfdtfd(!tiis.isSflfdtfd());
             }
 
             if (b) {
-                stateMask |= PRESSED;
-            } else {
-                stateMask &= ~PRESSED;
+                stbtfMbsk |= PRESSED;
+            } flsf {
+                stbtfMbsk &= ~PRESSED;
             }
 
-            fireStateChanged();
+            firfStbtfCibngfd();
 
-            if(!isPressed() && isArmed()) {
-                int modifiers = 0;
-                AWTEvent currentEvent = EventQueue.getCurrentEvent();
-                if (currentEvent instanceof InputEvent) {
-                    modifiers = ((InputEvent)currentEvent).getModifiers();
-                } else if (currentEvent instanceof ActionEvent) {
-                    modifiers = ((ActionEvent)currentEvent).getModifiers();
+            if(!isPrfssfd() && isArmfd()) {
+                int modififrs = 0;
+                AWTEvfnt durrfntEvfnt = EvfntQufuf.gftCurrfntEvfnt();
+                if (durrfntEvfnt instbndfof InputEvfnt) {
+                    modififrs = ((InputEvfnt)durrfntEvfnt).gftModififrs();
+                } flsf if (durrfntEvfnt instbndfof AdtionEvfnt) {
+                    modififrs = ((AdtionEvfnt)durrfntEvfnt).gftModififrs();
                 }
-                fireActionPerformed(
-                    new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
-                                    getActionCommand(),
-                                    EventQueue.getMostRecentEventTime(),
-                                    modifiers));
+                firfAdtionPfrformfd(
+                    nfw AdtionEvfnt(tiis, AdtionEvfnt.ACTION_PERFORMED,
+                                    gftAdtionCommbnd(),
+                                    EvfntQufuf.gftMostRfdfntEvfntTimf(),
+                                    modififrs));
             }
 
         }
@@ -321,112 +321,112 @@ public class JToggleButton extends AbstractButton implements Accessible {
 
 
     /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
+     * Sff rfbdObjfdt() bnd writfObjfdt() in JComponfnt for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this JToggleButton. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis JTogglfButton. Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this JToggleButton.
+     * @rfturn  b string rfprfsfntbtion of tiis JTogglfButton.
      */
-    protected String paramString() {
-        return super.paramString();
+    protfdtfd String pbrbmString() {
+        rfturn supfr.pbrbmString();
     }
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JToggleButton.
-     * For toggle buttons, the AccessibleContext takes the form of an
-     * AccessibleJToggleButton.
-     * A new AccessibleJToggleButton instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JTogglfButton.
+     * For togglf buttons, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJTogglfButton.
+     * A nfw AddfssiblfJTogglfButton instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJToggleButton that serves as the
-     *         AccessibleContext of this JToggleButton
-     * @beaninfo
-     *       expert: true
-     *  description: The AccessibleContext associated with this ToggleButton.
+     * @rfturn bn AddfssiblfJTogglfButton tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JTogglfButton
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Tif AddfssiblfContfxt bssodibtfd witi tiis TogglfButton.
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJToggleButton();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJTogglfButton();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JToggleButton</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to toggle button user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JTogglfButton</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to togglf button usfr-intfrfbdf
+     * flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJToggleButton extends AccessibleAbstractButton
-            implements ItemListener {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJTogglfButton fxtfnds AddfssiblfAbstrbdtButton
+            implfmfnts ItfmListfnfr {
 
         /**
-         * Constructs {@code AccessibleJToggleButton}
+         * Construdts {@dodf AddfssiblfJTogglfButton}
          */
-        public AccessibleJToggleButton() {
-            super();
-            JToggleButton.this.addItemListener(this);
+        publid AddfssiblfJTogglfButton() {
+            supfr();
+            JTogglfButton.tiis.bddItfmListfnfr(tiis);
         }
 
         /**
-         * Fire accessible property change events when the state of the
-         * toggle button changes.
+         * Firf bddfssiblf propfrty dibngf fvfnts wifn tif stbtf of tif
+         * togglf button dibngfs.
          */
-        public void itemStateChanged(ItemEvent e) {
-            JToggleButton tb = (JToggleButton) e.getSource();
-            if (JToggleButton.this.accessibleContext != null) {
-                if (tb.isSelected()) {
-                    JToggleButton.this.accessibleContext.firePropertyChange(
-                            AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                            null, AccessibleState.CHECKED);
-                } else {
-                    JToggleButton.this.accessibleContext.firePropertyChange(
-                            AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                            AccessibleState.CHECKED, null);
+        publid void itfmStbtfCibngfd(ItfmEvfnt f) {
+            JTogglfButton tb = (JTogglfButton) f.gftSourdf();
+            if (JTogglfButton.tiis.bddfssiblfContfxt != null) {
+                if (tb.isSflfdtfd()) {
+                    JTogglfButton.tiis.bddfssiblfContfxt.firfPropfrtyCibngf(
+                            AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                            null, AddfssiblfStbtf.CHECKED);
+                } flsf {
+                    JTogglfButton.tiis.bddfssiblfContfxt.firfPropfrtyCibngf(
+                            AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                            AddfssiblfStbtf.CHECKED, null);
                 }
             }
         }
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.TOGGLE_BUTTON;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.TOGGLE_BUTTON;
         }
-    } // inner class AccessibleJToggleButton
+    } // innfr dlbss AddfssiblfJTogglfButton
 }

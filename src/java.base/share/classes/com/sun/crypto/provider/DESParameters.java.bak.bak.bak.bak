@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.io.*;
+import jbvb.sfdurity.AlgorithmPbrbmftfrsSpi;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+
+/**
+ * This dlbss implfmfnts thf pbrbmftfr (IV) usfd with thf DES blgorithm in
+ * fffdbbdk-modf. IV is dffinfd in thf stbndbrds bs follows:
+ *
+ * <prf>
+ * IV ::= OCTET STRING  -- 8 odtfts
+ * </prf>
+ *
+ * @buthor Jbn Lufhf
+ *
+ */
+
+publid finbl dlbss DESPbrbmftfrs fxtfnds AlgorithmPbrbmftfrsSpi {
+
+    privbtf BlodkCiphfrPbrbmsCorf dorf;
+
+    publid DESPbrbmftfrs() {
+        dorf = nfw BlodkCiphfrPbrbmsCorf(DESConstbnts.DES_BLOCK_SIZE);
+    }
+
+    protfdtfd void fnginfInit(AlgorithmPbrbmftfrSpfd pbrbmSpfd)
+        throws InvblidPbrbmftfrSpfdExdfption {
+        dorf.init(pbrbmSpfd);
+    }
+
+    protfdtfd void fnginfInit(bytf[] fndodfd)
+        throws IOExdfption {
+        dorf.init(fndodfd);
+    }
+
+    protfdtfd void fnginfInit(bytf[] fndodfd, String dfdodingMfthod)
+        throws IOExdfption {
+        dorf.init(fndodfd, dfdodingMfthod);
+    }
+
+    protfdtfd <T fxtfnds AlgorithmPbrbmftfrSpfd>
+        T fnginfGftPbrbmftfrSpfd(Clbss<T> pbrbmSpfd)
+        throws InvblidPbrbmftfrSpfdExdfption {
+        if (AlgorithmPbrbmftfrSpfd.dlbss.isAssignbblfFrom(pbrbmSpfd)) {
+            rfturn dorf.gftPbrbmftfrSpfd(pbrbmSpfd);
+        } flsf {
+            throw nfw InvblidPbrbmftfrSpfdExdfption
+                ("Inbppropribtf pbrbmftfr Spfdifidbtion");
+        }
+    }
+
+    protfdtfd bytf[] fnginfGftEndodfd() throws IOExdfption {
+        rfturn dorf.gftEndodfd();
+    }
+
+    protfdtfd bytf[] fnginfGftEndodfd(String fndodingMfthod)
+        throws IOExdfption {
+        rfturn dorf.gftEndodfd();
+    }
+
+    protfdtfd String fnginfToString() {
+        rfturn dorf.toString();
+    }
+}

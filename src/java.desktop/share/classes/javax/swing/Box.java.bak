@@ -1,442 +1,442 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.ConstructorProperties;
-import java.util.Locale;
-import java.io.Serializable;
-import javax.accessibility.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.util.Lodblf;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.bddfssibility.*;
 
 /**
- * A lightweight container
- * that uses a BoxLayout object as its layout manager.
- * Box provides several class methods
- * that are useful for containers using BoxLayout --
- * even non-Box containers.
+ * A ligitwfigit dontbinfr
+ * tibt usfs b BoxLbyout objfdt bs its lbyout mbnbgfr.
+ * Box providfs sfvfrbl dlbss mftiods
+ * tibt brf usfful for dontbinfrs using BoxLbyout --
+ * fvfn non-Box dontbinfrs.
  *
  * <p>
- * The <code>Box</code> class can create several kinds
- * of invisible components
- * that affect layout:
- * glue, struts, and rigid areas.
- * If all the components your <code>Box</code> contains
- * have a fixed size,
- * you might want to use a glue component
- * (returned by <code>createGlue</code>)
- * to control the components' positions.
- * If you need a fixed amount of space between two components,
- * try using a strut
- * (<code>createHorizontalStrut</code> or <code>createVerticalStrut</code>).
- * If you need an invisible component
- * that always takes up the same amount of space,
- * get it by invoking <code>createRigidArea</code>.
+ * Tif <dodf>Box</dodf> dlbss dbn drfbtf sfvfrbl kinds
+ * of invisiblf domponfnts
+ * tibt bfffdt lbyout:
+ * gluf, struts, bnd rigid brfbs.
+ * If bll tif domponfnts your <dodf>Box</dodf> dontbins
+ * ibvf b fixfd sizf,
+ * you migit wbnt to usf b gluf domponfnt
+ * (rfturnfd by <dodf>drfbtfGluf</dodf>)
+ * to dontrol tif domponfnts' positions.
+ * If you nffd b fixfd bmount of spbdf bftwffn two domponfnts,
+ * try using b strut
+ * (<dodf>drfbtfHorizontblStrut</dodf> or <dodf>drfbtfVfrtidblStrut</dodf>).
+ * If you nffd bn invisiblf domponfnt
+ * tibt blwbys tbkfs up tif sbmf bmount of spbdf,
+ * gft it by invoking <dodf>drfbtfRigidArfb</dodf>.
  * <p>
- * If you are implementing a <code>BoxLayout</code> you
- * can find further information and examples in
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/layout/box.html">How to Use BoxLayout</a>,
- * a section in <em>The Java Tutorial.</em>
+ * If you brf implfmfnting b <dodf>BoxLbyout</dodf> you
+ * dbn find furtifr informbtion bnd fxbmplfs in
+ * <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/lbyout/box.itml">How to Usf BoxLbyout</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see BoxLayout
+ * @sff BoxLbyout
  *
- * @author  Timothy Prinzing
- * @since 1.2
+ * @butior  Timotiy Prinzing
+ * @sindf 1.2
  */
-@SuppressWarnings("serial")
-public class Box extends JComponent implements Accessible {
+@SupprfssWbrnings("sfribl")
+publid dlbss Box fxtfnds JComponfnt implfmfnts Addfssiblf {
 
     /**
-     * Creates a <code>Box</code> that displays its components
-     * along the the specified axis.
+     * Crfbtfs b <dodf>Box</dodf> tibt displbys its domponfnts
+     * blong tif tif spfdififd bxis.
      *
-     * @param axis  can be {@link BoxLayout#X_AXIS},
-     *              {@link BoxLayout#Y_AXIS},
-     *              {@link BoxLayout#LINE_AXIS} or
-     *              {@link BoxLayout#PAGE_AXIS}.
-     * @throws AWTError if the <code>axis</code> is invalid
-     * @see #createHorizontalBox
-     * @see #createVerticalBox
+     * @pbrbm bxis  dbn bf {@link BoxLbyout#X_AXIS},
+     *              {@link BoxLbyout#Y_AXIS},
+     *              {@link BoxLbyout#LINE_AXIS} or
+     *              {@link BoxLbyout#PAGE_AXIS}.
+     * @tirows AWTError if tif <dodf>bxis</dodf> is invblid
+     * @sff #drfbtfHorizontblBox
+     * @sff #drfbtfVfrtidblBox
      */
-    public Box(int axis) {
-        super();
-        super.setLayout(new BoxLayout(this, axis));
+    publid Box(int bxis) {
+        supfr();
+        supfr.sftLbyout(nfw BoxLbyout(tiis, bxis));
     }
 
     /**
-     * Creates a <code>Box</code> that displays its components
-     * from left to right. If you want a <code>Box</code> that
-     * respects the component orientation you should create the
-     * <code>Box</code> using the constructor and pass in
-     * <code>BoxLayout.LINE_AXIS</code>, eg:
-     * <pre>
-     *   Box lineBox = new Box(BoxLayout.LINE_AXIS);
-     * </pre>
+     * Crfbtfs b <dodf>Box</dodf> tibt displbys its domponfnts
+     * from lfft to rigit. If you wbnt b <dodf>Box</dodf> tibt
+     * rfspfdts tif domponfnt orifntbtion you siould drfbtf tif
+     * <dodf>Box</dodf> using tif donstrudtor bnd pbss in
+     * <dodf>BoxLbyout.LINE_AXIS</dodf>, fg:
+     * <prf>
+     *   Box linfBox = nfw Box(BoxLbyout.LINE_AXIS);
+     * </prf>
      *
-     * @return the box
+     * @rfturn tif box
      */
-    public static Box createHorizontalBox() {
-        return new Box(BoxLayout.X_AXIS);
+    publid stbtid Box drfbtfHorizontblBox() {
+        rfturn nfw Box(BoxLbyout.X_AXIS);
     }
 
     /**
-     * Creates a <code>Box</code> that displays its components
-     * from top to bottom. If you want a <code>Box</code> that
-     * respects the component orientation you should create the
-     * <code>Box</code> using the constructor and pass in
-     * <code>BoxLayout.PAGE_AXIS</code>, eg:
-     * <pre>
-     *   Box lineBox = new Box(BoxLayout.PAGE_AXIS);
-     * </pre>
+     * Crfbtfs b <dodf>Box</dodf> tibt displbys its domponfnts
+     * from top to bottom. If you wbnt b <dodf>Box</dodf> tibt
+     * rfspfdts tif domponfnt orifntbtion you siould drfbtf tif
+     * <dodf>Box</dodf> using tif donstrudtor bnd pbss in
+     * <dodf>BoxLbyout.PAGE_AXIS</dodf>, fg:
+     * <prf>
+     *   Box linfBox = nfw Box(BoxLbyout.PAGE_AXIS);
+     * </prf>
      *
-     * @return the box
+     * @rfturn tif box
      */
-    public static Box createVerticalBox() {
-        return new Box(BoxLayout.Y_AXIS);
+    publid stbtid Box drfbtfVfrtidblBox() {
+        rfturn nfw Box(BoxLbyout.Y_AXIS);
     }
 
     /**
-     * Creates an invisible component that's always the specified size.
+     * Crfbtfs bn invisiblf domponfnt tibt's blwbys tif spfdififd sizf.
      * <!-- WHEN WOULD YOU USE THIS AS OPPOSED TO A STRUT? -->
      *
-     * @param d the dimensions of the invisible component
-     * @return the component
-     * @see #createGlue
-     * @see #createHorizontalStrut
-     * @see #createVerticalStrut
+     * @pbrbm d tif dimfnsions of tif invisiblf domponfnt
+     * @rfturn tif domponfnt
+     * @sff #drfbtfGluf
+     * @sff #drfbtfHorizontblStrut
+     * @sff #drfbtfVfrtidblStrut
      */
-    public static Component createRigidArea(Dimension d) {
-        return new Filler(d, d, d);
+    publid stbtid Componfnt drfbtfRigidArfb(Dimfnsion d) {
+        rfturn nfw Fillfr(d, d, d);
     }
 
     /**
-     * Creates an invisible, fixed-width component.
-     * In a horizontal box,
-     * you typically use this method
-     * to force a certain amount of space between two components.
-     * In a vertical box,
-     * you might use this method
-     * to force the box to be at least the specified width.
-     * The invisible component has no height
-     * unless excess space is available,
-     * in which case it takes its share of available space,
-     * just like any other component that has no maximum height.
+     * Crfbtfs bn invisiblf, fixfd-widti domponfnt.
+     * In b iorizontbl box,
+     * you typidblly usf tiis mftiod
+     * to fordf b dfrtbin bmount of spbdf bftwffn two domponfnts.
+     * In b vfrtidbl box,
+     * you migit usf tiis mftiod
+     * to fordf tif box to bf bt lfbst tif spfdififd widti.
+     * Tif invisiblf domponfnt ibs no ifigit
+     * unlfss fxdfss spbdf is bvbilbblf,
+     * in wiidi dbsf it tbkfs its sibrf of bvbilbblf spbdf,
+     * just likf bny otifr domponfnt tibt ibs no mbximum ifigit.
      *
-     * @param width the width of the invisible component, in pixels &gt;= 0
-     * @return the component
-     * @see #createVerticalStrut
-     * @see #createGlue
-     * @see #createRigidArea
+     * @pbrbm widti tif widti of tif invisiblf domponfnt, in pixfls &gt;= 0
+     * @rfturn tif domponfnt
+     * @sff #drfbtfVfrtidblStrut
+     * @sff #drfbtfGluf
+     * @sff #drfbtfRigidArfb
      */
-    public static Component createHorizontalStrut(int width) {
-        return new Filler(new Dimension(width,0), new Dimension(width,0),
-                          new Dimension(width, Short.MAX_VALUE));
+    publid stbtid Componfnt drfbtfHorizontblStrut(int widti) {
+        rfturn nfw Fillfr(nfw Dimfnsion(widti,0), nfw Dimfnsion(widti,0),
+                          nfw Dimfnsion(widti, Siort.MAX_VALUE));
     }
 
     /**
-     * Creates an invisible, fixed-height component.
-     * In a vertical box,
-     * you typically use this method
-     * to force a certain amount of space between two components.
-     * In a horizontal box,
-     * you might use this method
-     * to force the box to be at least the specified height.
-     * The invisible component has no width
-     * unless excess space is available,
-     * in which case it takes its share of available space,
-     * just like any other component that has no maximum width.
+     * Crfbtfs bn invisiblf, fixfd-ifigit domponfnt.
+     * In b vfrtidbl box,
+     * you typidblly usf tiis mftiod
+     * to fordf b dfrtbin bmount of spbdf bftwffn two domponfnts.
+     * In b iorizontbl box,
+     * you migit usf tiis mftiod
+     * to fordf tif box to bf bt lfbst tif spfdififd ifigit.
+     * Tif invisiblf domponfnt ibs no widti
+     * unlfss fxdfss spbdf is bvbilbblf,
+     * in wiidi dbsf it tbkfs its sibrf of bvbilbblf spbdf,
+     * just likf bny otifr domponfnt tibt ibs no mbximum widti.
      *
-     * @param height the height of the invisible component, in pixels &gt;= 0
-     * @return the component
-     * @see #createHorizontalStrut
-     * @see #createGlue
-     * @see #createRigidArea
+     * @pbrbm ifigit tif ifigit of tif invisiblf domponfnt, in pixfls &gt;= 0
+     * @rfturn tif domponfnt
+     * @sff #drfbtfHorizontblStrut
+     * @sff #drfbtfGluf
+     * @sff #drfbtfRigidArfb
      */
-    public static Component createVerticalStrut(int height) {
-        return new Filler(new Dimension(0,height), new Dimension(0,height),
-                          new Dimension(Short.MAX_VALUE, height));
+    publid stbtid Componfnt drfbtfVfrtidblStrut(int ifigit) {
+        rfturn nfw Fillfr(nfw Dimfnsion(0,ifigit), nfw Dimfnsion(0,ifigit),
+                          nfw Dimfnsion(Siort.MAX_VALUE, ifigit));
     }
 
     /**
-     * Creates an invisible "glue" component
-     * that can be useful in a Box
-     * whose visible components have a maximum width
-     * (for a horizontal box)
-     * or height (for a vertical box).
-     * You can think of the glue component
-     * as being a gooey substance
-     * that expands as much as necessary
-     * to fill the space between its neighboring components.
+     * Crfbtfs bn invisiblf "gluf" domponfnt
+     * tibt dbn bf usfful in b Box
+     * wiosf visiblf domponfnts ibvf b mbximum widti
+     * (for b iorizontbl box)
+     * or ifigit (for b vfrtidbl box).
+     * You dbn tiink of tif gluf domponfnt
+     * bs bfing b goofy substbndf
+     * tibt fxpbnds bs mudi bs nfdfssbry
+     * to fill tif spbdf bftwffn its nfigiboring domponfnts.
      *
      * <p>
      *
-     * For example, suppose you have
-     * a horizontal box that contains two fixed-size components.
-     * If the box gets extra space,
-     * the fixed-size components won't become larger,
-    * so where does the extra space go?
-     * Without glue,
-     * the extra space goes to the right of the second component.
-     * If you put glue between the fixed-size components,
-     * then the extra space goes there.
-     * If you put glue before the first fixed-size component,
-     * the extra space goes there,
-     * and the fixed-size components are shoved against the right
-     * edge of the box.
-     * If you put glue before the first fixed-size component
-     * and after the second fixed-size component,
-     * the fixed-size components are centered in the box.
+     * For fxbmplf, supposf you ibvf
+     * b iorizontbl box tibt dontbins two fixfd-sizf domponfnts.
+     * If tif box gfts fxtrb spbdf,
+     * tif fixfd-sizf domponfnts won't bfdomf lbrgfr,
+    * so wifrf dofs tif fxtrb spbdf go?
+     * Witiout gluf,
+     * tif fxtrb spbdf gofs to tif rigit of tif sfdond domponfnt.
+     * If you put gluf bftwffn tif fixfd-sizf domponfnts,
+     * tifn tif fxtrb spbdf gofs tifrf.
+     * If you put gluf bfforf tif first fixfd-sizf domponfnt,
+     * tif fxtrb spbdf gofs tifrf,
+     * bnd tif fixfd-sizf domponfnts brf siovfd bgbinst tif rigit
+     * fdgf of tif box.
+     * If you put gluf bfforf tif first fixfd-sizf domponfnt
+     * bnd bftfr tif sfdond fixfd-sizf domponfnt,
+     * tif fixfd-sizf domponfnts brf dfntfrfd in tif box.
      *
      * <p>
      *
-     * To use glue,
-     * call <code>Box.createGlue</code>
-     * and add the returned component to a container.
-     * The glue component has no minimum or preferred size,
-     * so it takes no space unless excess space is available.
-     * If excess space is available,
-     * then the glue component takes its share of available
-     * horizontal or vertical space,
-     * just like any other component that has no maximum width or height.
+     * To usf gluf,
+     * dbll <dodf>Box.drfbtfGluf</dodf>
+     * bnd bdd tif rfturnfd domponfnt to b dontbinfr.
+     * Tif gluf domponfnt ibs no minimum or prfffrrfd sizf,
+     * so it tbkfs no spbdf unlfss fxdfss spbdf is bvbilbblf.
+     * If fxdfss spbdf is bvbilbblf,
+     * tifn tif gluf domponfnt tbkfs its sibrf of bvbilbblf
+     * iorizontbl or vfrtidbl spbdf,
+     * just likf bny otifr domponfnt tibt ibs no mbximum widti or ifigit.
      *
-     * @return the component
+     * @rfturn tif domponfnt
      */
-    public static Component createGlue() {
-        return new Filler(new Dimension(0,0), new Dimension(0,0),
-                          new Dimension(Short.MAX_VALUE, Short.MAX_VALUE));
+    publid stbtid Componfnt drfbtfGluf() {
+        rfturn nfw Fillfr(nfw Dimfnsion(0,0), nfw Dimfnsion(0,0),
+                          nfw Dimfnsion(Siort.MAX_VALUE, Siort.MAX_VALUE));
     }
 
     /**
-     * Creates a horizontal glue component.
+     * Crfbtfs b iorizontbl gluf domponfnt.
      *
-     * @return the component
+     * @rfturn tif domponfnt
      */
-    public static Component createHorizontalGlue() {
-        return new Filler(new Dimension(0,0), new Dimension(0,0),
-                          new Dimension(Short.MAX_VALUE, 0));
+    publid stbtid Componfnt drfbtfHorizontblGluf() {
+        rfturn nfw Fillfr(nfw Dimfnsion(0,0), nfw Dimfnsion(0,0),
+                          nfw Dimfnsion(Siort.MAX_VALUE, 0));
     }
 
     /**
-     * Creates a vertical glue component.
+     * Crfbtfs b vfrtidbl gluf domponfnt.
      *
-     * @return the component
+     * @rfturn tif domponfnt
      */
-    public static Component createVerticalGlue() {
-        return new Filler(new Dimension(0,0), new Dimension(0,0),
-                          new Dimension(0, Short.MAX_VALUE));
+    publid stbtid Componfnt drfbtfVfrtidblGluf() {
+        rfturn nfw Fillfr(nfw Dimfnsion(0,0), nfw Dimfnsion(0,0),
+                          nfw Dimfnsion(0, Siort.MAX_VALUE));
     }
 
     /**
-     * Throws an AWTError, since a Box can use only a BoxLayout.
+     * Tirows bn AWTError, sindf b Box dbn usf only b BoxLbyout.
      *
-     * @param l the layout manager to use
+     * @pbrbm l tif lbyout mbnbgfr to usf
      */
-    public void setLayout(LayoutManager l) {
-        throw new AWTError("Illegal request");
+    publid void sftLbyout(LbyoutMbnbgfr l) {
+        tirow nfw AWTError("Illfgbl rfqufst");
     }
 
     /**
-     * Paints this <code>Box</code>.  If this <code>Box</code> has a UI this
-     * method invokes super's implementation, otherwise if this
-     * <code>Box</code> is opaque the <code>Graphics</code> is filled
-     * using the background.
+     * Pbints tiis <dodf>Box</dodf>.  If tiis <dodf>Box</dodf> ibs b UI tiis
+     * mftiod invokfs supfr's implfmfntbtion, otifrwisf if tiis
+     * <dodf>Box</dodf> is opbquf tif <dodf>Grbpiids</dodf> is fillfd
+     * using tif bbdkground.
      *
-     * @param g the <code>Graphics</code> to paint to
-     * @throws NullPointerException if <code>g</code> is null
-     * @since 1.6
+     * @pbrbm g tif <dodf>Grbpiids</dodf> to pbint to
+     * @tirows NullPointfrExdfption if <dodf>g</dodf> is null
+     * @sindf 1.6
      */
-    protected void paintComponent(Graphics g) {
+    protfdtfd void pbintComponfnt(Grbpiids g) {
         if (ui != null) {
-            // On the off chance some one created a UI, honor it
-            super.paintComponent(g);
-        } else if (isOpaque()) {
-            g.setColor(getBackground());
-            g.fillRect(0, 0, getWidth(), getHeight());
+            // On tif off dibndf somf onf drfbtfd b UI, ionor it
+            supfr.pbintComponfnt(g);
+        } flsf if (isOpbquf()) {
+            g.sftColor(gftBbdkground());
+            g.fillRfdt(0, 0, gftWidti(), gftHfigit());
         }
     }
 
 
     /**
-     * An implementation of a lightweight component that participates in
-     * layout but has no view.
+     * An implfmfntbtion of b ligitwfigit domponfnt tibt pbrtidipbtfs in
+     * lbyout but ibs no vifw.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial")
-    public static class Filler extends JComponent implements Accessible {
+    @SupprfssWbrnings("sfribl")
+    publid stbtid dlbss Fillfr fxtfnds JComponfnt implfmfnts Addfssiblf {
 
         /**
-         * Constructor to create shape with the given size ranges.
+         * Construdtor to drfbtf sibpf witi tif givfn sizf rbngfs.
          *
-         * @param min   Minimum size
-         * @param pref  Preferred size
-         * @param max   Maximum size
+         * @pbrbm min   Minimum sizf
+         * @pbrbm prff  Prfffrrfd sizf
+         * @pbrbm mbx   Mbximum sizf
          */
-        @ConstructorProperties({"minimumSize", "preferredSize", "maximumSize"})
-        public Filler(Dimension min, Dimension pref, Dimension max) {
-            setMinimumSize(min);
-            setPreferredSize(pref);
-            setMaximumSize(max);
+        @ConstrudtorPropfrtifs({"minimumSizf", "prfffrrfdSizf", "mbximumSizf"})
+        publid Fillfr(Dimfnsion min, Dimfnsion prff, Dimfnsion mbx) {
+            sftMinimumSizf(min);
+            sftPrfffrrfdSizf(prff);
+            sftMbximumSizf(mbx);
         }
 
         /**
-         * Change the size requests for this shape.  An invalidate() is
-         * propagated upward as a result so that layout will eventually
-         * happen with using the new sizes.
+         * Cibngf tif sizf rfqufsts for tiis sibpf.  An invblidbtf() is
+         * propbgbtfd upwbrd bs b rfsult so tibt lbyout will fvfntublly
+         * ibppfn witi using tif nfw sizfs.
          *
-         * @param min   Value to return for getMinimumSize
-         * @param pref  Value to return for getPreferredSize
-         * @param max   Value to return for getMaximumSize
+         * @pbrbm min   Vbluf to rfturn for gftMinimumSizf
+         * @pbrbm prff  Vbluf to rfturn for gftPrfffrrfdSizf
+         * @pbrbm mbx   Vbluf to rfturn for gftMbximumSizf
          */
-        public void changeShape(Dimension min, Dimension pref, Dimension max) {
-            setMinimumSize(min);
-            setPreferredSize(pref);
-            setMaximumSize(max);
-            revalidate();
+        publid void dibngfSibpf(Dimfnsion min, Dimfnsion prff, Dimfnsion mbx) {
+            sftMinimumSizf(min);
+            sftPrfffrrfdSizf(prff);
+            sftMbximumSizf(mbx);
+            rfvblidbtf();
         }
 
-        // ---- Component methods ------------------------------------------
+        // ---- Componfnt mftiods ------------------------------------------
 
         /**
-         * Paints this <code>Filler</code>.  If this
-         * <code>Filler</code> has a UI this method invokes super's
-         * implementation, otherwise if this <code>Filler</code> is
-         * opaque the <code>Graphics</code> is filled using the
-         * background.
+         * Pbints tiis <dodf>Fillfr</dodf>.  If tiis
+         * <dodf>Fillfr</dodf> ibs b UI tiis mftiod invokfs supfr's
+         * implfmfntbtion, otifrwisf if tiis <dodf>Fillfr</dodf> is
+         * opbquf tif <dodf>Grbpiids</dodf> is fillfd using tif
+         * bbdkground.
          *
-         * @param g the <code>Graphics</code> to paint to
-         * @throws NullPointerException if <code>g</code> is null
-         * @since 1.6
+         * @pbrbm g tif <dodf>Grbpiids</dodf> to pbint to
+         * @tirows NullPointfrExdfption if <dodf>g</dodf> is null
+         * @sindf 1.6
          */
-        protected void paintComponent(Graphics g) {
+        protfdtfd void pbintComponfnt(Grbpiids g) {
             if (ui != null) {
-                // On the off chance some one created a UI, honor it
-                super.paintComponent(g);
-            } else if (isOpaque()) {
-                g.setColor(getBackground());
-                g.fillRect(0, 0, getWidth(), getHeight());
+                // On tif off dibndf somf onf drfbtfd b UI, ionor it
+                supfr.pbintComponfnt(g);
+            } flsf if (isOpbquf()) {
+                g.sftColor(gftBbdkground());
+                g.fillRfdt(0, 0, gftWidti(), gftHfigit());
             }
         }
 
 /////////////////
-// Accessibility support for Box$Filler
+// Addfssibility support for Box$Fillfr
 ////////////////
 
         /**
-         * Gets the AccessibleContext associated with this Box.Filler.
-         * For box fillers, the AccessibleContext takes the form of an
-         * AccessibleBoxFiller.
-         * A new AccessibleAWTBoxFiller instance is created if necessary.
+         * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis Box.Fillfr.
+         * For box fillfrs, tif AddfssiblfContfxt tbkfs tif form of bn
+         * AddfssiblfBoxFillfr.
+         * A nfw AddfssiblfAWTBoxFillfr instbndf is drfbtfd if nfdfssbry.
          *
-         * @return an AccessibleBoxFiller that serves as the
-         *         AccessibleContext of this Box.Filler.
+         * @rfturn bn AddfssiblfBoxFillfr tibt sfrvfs bs tif
+         *         AddfssiblfContfxt of tiis Box.Fillfr.
          */
-        public AccessibleContext getAccessibleContext() {
-            if (accessibleContext == null) {
-                accessibleContext = new AccessibleBoxFiller();
+        publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+            if (bddfssiblfContfxt == null) {
+                bddfssiblfContfxt = nfw AddfssiblfBoxFillfr();
             }
-            return accessibleContext;
+            rfturn bddfssiblfContfxt;
         }
 
         /**
-         * This class implements accessibility support for the
-         * <code>Box.Filler</code> class.
+         * Tiis dlbss implfmfnts bddfssibility support for tif
+         * <dodf>Box.Fillfr</dodf> dlbss.
          */
-        @SuppressWarnings("serial")
-        protected class AccessibleBoxFiller extends AccessibleAWTComponent {
-            // AccessibleContext methods
+        @SupprfssWbrnings("sfribl")
+        protfdtfd dlbss AddfssiblfBoxFillfr fxtfnds AddfssiblfAWTComponfnt {
+            // AddfssiblfContfxt mftiods
             //
             /**
-             * Gets the role of this object.
+             * Gfts tif rolf of tiis objfdt.
              *
-             * @return an instance of AccessibleRole describing the role of
-             *   the object (AccessibleRole.FILLER)
-             * @see AccessibleRole
+             * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of
+             *   tif objfdt (AddfssiblfRolf.FILLER)
+             * @sff AddfssiblfRolf
              */
-            public AccessibleRole getAccessibleRole() {
-                return AccessibleRole.FILLER;
+            publid AddfssiblfRolf gftAddfssiblfRolf() {
+                rfturn AddfssiblfRolf.FILLER;
             }
         }
     }
 
 /////////////////
-// Accessibility support for Box
+// Addfssibility support for Box
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this Box.
-     * For boxes, the AccessibleContext takes the form of an
-     * AccessibleBox.
-     * A new AccessibleAWTBox instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis Box.
+     * For boxfs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfBox.
+     * A nfw AddfssiblfAWTBox instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleBox that serves as the
-     *         AccessibleContext of this Box
+     * @rfturn bn AddfssiblfBox tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis Box
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleBox();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfBox();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Box</code> class.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>Box</dodf> dlbss.
      */
-    @SuppressWarnings("serial")
-    protected class AccessibleBox extends AccessibleAWTContainer {
-        // AccessibleContext methods
+    @SupprfssWbrnings("sfribl")
+    protfdtfd dlbss AddfssiblfBox fxtfnds AddfssiblfAWTContbinfr {
+        // AddfssiblfContfxt mftiods
         //
         /**
-         * Gets the role of this object.
+         * Gfts tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         *   object (AccessibleRole.FILLER)
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         *   objfdt (AddfssiblfRolf.FILLER)
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.FILLER;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.FILLER;
         }
-    } // inner class AccessibleBox
+    } // innfr dlbss AddfssiblfBox
 }

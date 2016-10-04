@@ -1,202 +1,202 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.SystemTrayPeer;
-import sun.awt.SunToolkit;
-import sun.awt.AppContext;
-import sun.awt.AWTAccessor;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.SystfmTrbyPffr;
+import sun.bwt.SunToolkit;
+import sun.bwt.AppContfxt;
+import sun.bwt.AWTAddfssor;
+import sun.util.logging.PlbtformLoggfr;
 
-public class XSystemTrayPeer implements SystemTrayPeer, XMSelectionListener {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XSystemTrayPeer");
+publid dlbss XSystfmTrbyPffr implfmfnts SystfmTrbyPffr, XMSflfdtionListfnfr {
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XSystfmTrbyPffr");
 
-    SystemTray target;
-    static XSystemTrayPeer peerInstance; // there is only one SystemTray peer per application
+    SystfmTrby tbrgft;
+    stbtid XSystfmTrbyPffr pffrInstbndf; // tifrf is only onf SystfmTrby pffr pfr bpplidbtion
 
-    private volatile boolean available;
-    private final XMSelection selection = new XMSelection("_NET_SYSTEM_TRAY");
+    privbtf volbtilf boolfbn bvbilbblf;
+    privbtf finbl XMSflfdtion sflfdtion = nfw XMSflfdtion("_NET_SYSTEM_TRAY");
 
-    private static final int SCREEN = 0;
-    private static final String SYSTEM_TRAY_PROPERTY_NAME = "systemTray";
-    private static final XAtom _NET_SYSTEM_TRAY = XAtom.get("_NET_SYSTEM_TRAY_S" + SCREEN);
-    private static final XAtom _XEMBED_INFO = XAtom.get("_XEMBED_INFO");
-    private static final XAtom _NET_SYSTEM_TRAY_OPCODE = XAtom.get("_NET_SYSTEM_TRAY_OPCODE");
-    private static final XAtom _NET_WM_ICON = XAtom.get("_NET_WM_ICON");
-    private static final long SYSTEM_TRAY_REQUEST_DOCK = 0;
+    privbtf stbtid finbl int SCREEN = 0;
+    privbtf stbtid finbl String SYSTEM_TRAY_PROPERTY_NAME = "systfmTrby";
+    privbtf stbtid finbl XAtom _NET_SYSTEM_TRAY = XAtom.gft("_NET_SYSTEM_TRAY_S" + SCREEN);
+    privbtf stbtid finbl XAtom _XEMBED_INFO = XAtom.gft("_XEMBED_INFO");
+    privbtf stbtid finbl XAtom _NET_SYSTEM_TRAY_OPCODE = XAtom.gft("_NET_SYSTEM_TRAY_OPCODE");
+    privbtf stbtid finbl XAtom _NET_WM_ICON = XAtom.gft("_NET_WM_ICON");
+    privbtf stbtid finbl long SYSTEM_TRAY_REQUEST_DOCK = 0;
 
-    XSystemTrayPeer(SystemTray target) {
-        this.target = target;
-        peerInstance = this;
+    XSystfmTrbyPffr(SystfmTrby tbrgft) {
+        tiis.tbrgft = tbrgft;
+        pffrInstbndf = tiis;
 
-        selection.addSelectionListener(this);
+        sflfdtion.bddSflfdtionListfnfr(tiis);
 
-        long selection_owner = selection.getOwner(SCREEN);
-        available = (selection_owner != XConstants.None);
+        long sflfdtion_ownfr = sflfdtion.gftOwnfr(SCREEN);
+        bvbilbblf = (sflfdtion_ownfr != XConstbnts.Nonf);
 
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine(" check if system tray is available. selection owner: " + selection_owner);
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf(" difdk if systfm trby is bvbilbblf. sflfdtion ownfr: " + sflfdtion_ownfr);
         }
     }
 
-    public void ownerChanged(int screen, XMSelection sel, long newOwner, long data, long timestamp) {
-        if (screen != SCREEN) {
-            return;
+    publid void ownfrCibngfd(int sdrffn, XMSflfdtion sfl, long nfwOwnfr, long dbtb, long timfstbmp) {
+        if (sdrffn != SCREEN) {
+            rfturn;
         }
-        if (!available) {
-            available = true;
-            firePropertyChange(SYSTEM_TRAY_PROPERTY_NAME, null, target);
-        } else {
-            removeTrayPeers();
+        if (!bvbilbblf) {
+            bvbilbblf = truf;
+            firfPropfrtyCibngf(SYSTEM_TRAY_PROPERTY_NAME, null, tbrgft);
+        } flsf {
+            rfmovfTrbyPffrs();
         }
-        createTrayPeers();
+        drfbtfTrbyPffrs();
     }
 
-    public void ownerDeath(int screen, XMSelection sel, long deadOwner) {
-        if (screen != SCREEN) {
-            return;
+    publid void ownfrDfbti(int sdrffn, XMSflfdtion sfl, long dfbdOwnfr) {
+        if (sdrffn != SCREEN) {
+            rfturn;
         }
-        if (available) {
-            available = false;
-            firePropertyChange(SYSTEM_TRAY_PROPERTY_NAME, target, null);
-            removeTrayPeers();
+        if (bvbilbblf) {
+            bvbilbblf = fblsf;
+            firfPropfrtyCibngf(SYSTEM_TRAY_PROPERTY_NAME, tbrgft, null);
+            rfmovfTrbyPffrs();
         }
     }
 
-    public void selectionChanged(int screen, XMSelection sel, long owner, XPropertyEvent event) {
+    publid void sflfdtionCibngfd(int sdrffn, XMSflfdtion sfl, long ownfr, XPropfrtyEvfnt fvfnt) {
     }
 
-    public Dimension getTrayIconSize() {
-        return new Dimension(XTrayIconPeer.TRAY_ICON_HEIGHT, XTrayIconPeer.TRAY_ICON_WIDTH);
+    publid Dimfnsion gftTrbyIdonSizf() {
+        rfturn nfw Dimfnsion(XTrbyIdonPffr.TRAY_ICON_HEIGHT, XTrbyIdonPffr.TRAY_ICON_WIDTH);
     }
 
-    boolean isAvailable() {
-        return available;
+    boolfbn isAvbilbblf() {
+        rfturn bvbilbblf;
     }
 
-    void dispose() {
-        selection.removeSelectionListener(this);
+    void disposf() {
+        sflfdtion.rfmovfSflfdtionListfnfr(tiis);
     }
 
     // ***********************************************************************
     // ***********************************************************************
 
-    void addTrayIcon(XTrayIconPeer tiPeer) throws AWTException {
-        long selection_owner = selection.getOwner(SCREEN);
+    void bddTrbyIdon(XTrbyIdonPffr tiPffr) tirows AWTExdfption {
+        long sflfdtion_ownfr = sflfdtion.gftOwnfr(SCREEN);
 
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine(" send SYSTEM_TRAY_REQUEST_DOCK message to owner: " + selection_owner);
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf(" sfnd SYSTEM_TRAY_REQUEST_DOCK mfssbgf to ownfr: " + sflfdtion_ownfr);
         }
 
-        if (selection_owner == XConstants.None) {
-            throw new AWTException("TrayIcon couldn't be displayed.");
+        if (sflfdtion_ownfr == XConstbnts.Nonf) {
+            tirow nfw AWTExdfption("TrbyIdon douldn't bf displbyfd.");
         }
 
-        long tray_window = tiPeer.getWindow();
-        long data[] = new long[] {XEmbedHelper.XEMBED_VERSION, XEmbedHelper.XEMBED_MAPPED};
-        long data_ptr = Native.card32ToData(data);
+        long trby_window = tiPffr.gftWindow();
+        long dbtb[] = nfw long[] {XEmbfdHflpfr.XEMBED_VERSION, XEmbfdHflpfr.XEMBED_MAPPED};
+        long dbtb_ptr = Nbtivf.dbrd32ToDbtb(dbtb);
 
-        _XEMBED_INFO.setAtomData(tray_window, data_ptr, data.length);
+        _XEMBED_INFO.sftAtomDbtb(trby_window, dbtb_ptr, dbtb.lfngti);
 
-        sendMessage(selection_owner, SYSTEM_TRAY_REQUEST_DOCK, tray_window, 0, 0);
+        sfndMfssbgf(sflfdtion_ownfr, SYSTEM_TRAY_REQUEST_DOCK, trby_window, 0, 0);
     }
 
-    void sendMessage(long win, long msg, long data1, long data2, long data3) {
-        XClientMessageEvent xev = new XClientMessageEvent();
+    void sfndMfssbgf(long win, long msg, long dbtb1, long dbtb2, long dbtb3) {
+        XClifntMfssbgfEvfnt xfv = nfw XClifntMfssbgfEvfnt();
 
         try {
-            xev.set_type(XConstants.ClientMessage);
-            xev.set_window(win);
-            xev.set_format(32);
-            xev.set_message_type(_NET_SYSTEM_TRAY_OPCODE.getAtom());
-            xev.set_data(0, 0);
-            xev.set_data(1, msg);
-            xev.set_data(2, data1);
-            xev.set_data(3, data2);
-            xev.set_data(4, data3);
+            xfv.sft_typf(XConstbnts.ClifntMfssbgf);
+            xfv.sft_window(win);
+            xfv.sft_formbt(32);
+            xfv.sft_mfssbgf_typf(_NET_SYSTEM_TRAY_OPCODE.gftAtom());
+            xfv.sft_dbtb(0, 0);
+            xfv.sft_dbtb(1, msg);
+            xfv.sft_dbtb(2, dbtb1);
+            xfv.sft_dbtb(3, dbtb2);
+            xfv.sft_dbtb(4, dbtb3);
 
-            XToolkit.awtLock();
+            XToolkit.bwtLodk();
             try {
-                XlibWrapper.XSendEvent(XToolkit.getDisplay(), win, false,
-                                       XConstants.NoEventMask, xev.pData);
-            } finally {
-                XToolkit.awtUnlock();
+                XlibWrbppfr.XSfndEvfnt(XToolkit.gftDisplby(), win, fblsf,
+                                       XConstbnts.NoEvfntMbsk, xfv.pDbtb);
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
-        } finally {
-            xev.dispose();
+        } finblly {
+            xfv.disposf();
         }
     }
 
-    static XSystemTrayPeer getPeerInstance() {
-        return peerInstance;
+    stbtid XSystfmTrbyPffr gftPffrInstbndf() {
+        rfturn pffrInstbndf;
     }
 
-    private void firePropertyChange(final String propertyName,
-                                    final Object oldValue,
-                                    final Object newValue) {
-        Runnable runnable = new Runnable() {
-                public void run() {
-                    AWTAccessor.getSystemTrayAccessor()
-                        .firePropertyChange(target, propertyName, oldValue, newValue);
+    privbtf void firfPropfrtyCibngf(finbl String propfrtyNbmf,
+                                    finbl Objfdt oldVbluf,
+                                    finbl Objfdt nfwVbluf) {
+        Runnbblf runnbblf = nfw Runnbblf() {
+                publid void run() {
+                    AWTAddfssor.gftSystfmTrbyAddfssor()
+                        .firfPropfrtyCibngf(tbrgft, propfrtyNbmf, oldVbluf, nfwVbluf);
                 }
             };
-        invokeOnEachAppContext(runnable);
+        invokfOnEbdiAppContfxt(runnbblf);
     }
 
-    private void createTrayPeers() {
-        Runnable runnable = new Runnable() {
-                public void run() {
-                    TrayIcon[] icons = target.getTrayIcons();
+    privbtf void drfbtfTrbyPffrs() {
+        Runnbblf runnbblf = nfw Runnbblf() {
+                publid void run() {
+                    TrbyIdon[] idons = tbrgft.gftTrbyIdons();
                     try {
-                        for (TrayIcon ti : icons) {
-                            AWTAccessor.getTrayIconAccessor().addNotify(ti);
+                        for (TrbyIdon ti : idons) {
+                            AWTAddfssor.gftTrbyIdonAddfssor().bddNotify(ti);
                         }
-                    } catch (AWTException e) {
+                    } dbtdi (AWTExdfption f) {
                     }
                 }
             };
-        invokeOnEachAppContext(runnable);
+        invokfOnEbdiAppContfxt(runnbblf);
     }
 
-    private void removeTrayPeers() {
-        Runnable runnable = new Runnable() {
-                public void run() {
-                    TrayIcon[] icons = target.getTrayIcons();
-                    for (TrayIcon ti : icons) {
-                        AWTAccessor.getTrayIconAccessor().removeNotify(ti);
+    privbtf void rfmovfTrbyPffrs() {
+        Runnbblf runnbblf = nfw Runnbblf() {
+                publid void run() {
+                    TrbyIdon[] idons = tbrgft.gftTrbyIdons();
+                    for (TrbyIdon ti : idons) {
+                        AWTAddfssor.gftTrbyIdonAddfssor().rfmovfNotify(ti);
                     }
                 }
             };
-        invokeOnEachAppContext(runnable);
+        invokfOnEbdiAppContfxt(runnbblf);
     }
 
-    private void invokeOnEachAppContext(Runnable runnable) {
-        for (AppContext appContext : AppContext.getAppContexts()) {
-            SunToolkit.invokeLaterOnAppContext(appContext, runnable);
+    privbtf void invokfOnEbdiAppContfxt(Runnbblf runnbblf) {
+        for (AppContfxt bppContfxt : AppContfxt.gftAppContfxts()) {
+            SunToolkit.invokfLbtfrOnAppContfxt(bppContfxt, runnbblf);
         }
     }
 

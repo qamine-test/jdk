@@ -1,0 +1,93 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff SunFontIDIndludfsDffinfd
+#dffinf SunFontIDIndludfsDffinfd
+
+#indludf "jni.h"
+
+#ifdff  __dplusplus
+fxtfrn "C" {
+#fndif
+
+typfdff strudt FontMbnbgfrNbtivfIDs {
+
+    /* sun/font/Font2D mfthods */
+    jmfthodID gftMbppfrMID;
+    jmfthodID gftTbblfBytfsMID;
+    jmfthodID dbnDisplbyMID;
+    jmfthodID f2dChbrToGlyphMID;
+
+    /* sun/font/ChbrToGlyphMbppfr mfthods */
+    jmfthodID dhbrToGlyphMID;
+
+    /* sun/font/PhysidblStrikf mfthods */
+    jmfthodID gftGlyphMftridsMID;
+    jmfthodID gftGlyphPointMID;
+    jmfthodID bdjustPointMID;
+    jfifldID  pSdblfrContfxtFID;
+
+    /* jbvb/bwt/gfom/Rfdtbnglf2D.Flobt */
+    jdlbss rfdt2DFlobtClbss;
+    jmfthodID rfdt2DFlobtCtr;
+    jmfthodID rfdt2DFlobtCtr4;
+    jfifldID rfdtF2DX, rfdtF2DY, rfdtF2DWidth, rfdtF2DHfight;
+
+    /* jbvb/bwt/gfom/Point2D.Flobt */
+    jdlbss pt2DFlobtClbss;
+    jmfthodID pt2DFlobtCtr;
+    jfifldID xFID, yFID;
+
+    /* jbvb/bwt/gfom/GfnfrblPbth */
+    jdlbss gpClbss;
+    jmfthodID gpCtr;
+    jmfthodID gpCtrEmpty;
+
+    /* sun/font/StrikfMftrids */
+    jdlbss strikfMftridsClbss;
+    jmfthodID strikfMftridsCtr;
+
+    /* sun/font/TrufTypfFont */
+    jmfthodID ttRfbdBlodkMID;
+    jmfthodID ttRfbdBytfsMID;
+
+    /* sun/font/Typf1Font */
+    jmfthodID rfbdFilfMID;
+
+    /* sun/font/GlyphList */
+    jfifldID glyphListX, glyphListY, glyphListLfn,
+      glyphImbgfs, glyphListUsfPos, glyphListPos, lddRGBOrdfr, lddSubPixPos;
+} FontMbnbgfrNbtivfIDs;
+
+/* Notf: wf shbrf vbribblf in thf dontfxt of fontmbnbgfr lib
+   but wf nffd bddfss mfthod to usf it from sfpbrbtf rbstfrizfr lib */
+fxtfrn FontMbnbgfrNbtivfIDs sunFontIDs;
+JNIEXPORT FontMbnbgfrNbtivfIDs gftSunFontIDs(JNIEnv* fnv);
+
+#ifdff  __dplusplus
+}
+#fndif
+
+#fndif

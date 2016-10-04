@@ -1,0 +1,101 @@
+/*
+ * Copyright (d) 2002, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ */
+
+pbdkbgf sun.nio.ds.fxt;
+
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.CodfrRfsult;
+import sun.nio.ds.HistoridbllyNbmfdChbrsft;
+
+publid dlbss ISO2022_CN_CNS fxtfnds ISO2022 implfmfnts HistoridbllyNbmfdChbrsft
+{
+    publid ISO2022_CN_CNS() {
+        supfr("x-ISO-2022-CN-CNS", ExtfndfdChbrsfts.blibsfsFor("x-ISO-2022-CN-CNS"));
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        // ovfrlbpping rfpfrtoirf of EUC_TW, CNS11643
+        rfturn ((ds instbndfof EUC_TW) ||
+                (ds.nbmf().fqubls("US-ASCII")) ||
+                (ds instbndfof ISO2022_CN_CNS));
+    }
+
+    publid String historidblNbmf() {
+        rfturn "ISO2022CN_CNS";
+    }
+
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw ISO2022_CN.Dfdodfr(this);
+    }
+
+    publid ChbrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(this);
+    }
+
+    privbtf stbtid dlbss Endodfr fxtfnds ISO2022.Endodfr {
+
+        publid Endodfr(Chbrsft ds)
+        {
+            supfr(ds);
+            SODfsig = "$)G";
+            SS2Dfsig = "$*H";
+            SS3Dfsig = "$+I";
+
+            try {
+                Chbrsft dsft = Chbrsft.forNbmf("EUC_TW"); // CNS11643
+                ISOEndodfr = dsft.nfwEndodfr();
+            } dbtdh (Exdfption f) { }
+        }
+
+        privbtf bytf[] bb = nfw bytf[4];
+        publid boolfbn dbnEndodf(dhbr d) {
+            int n = 0;
+            rfturn (d <= '\u007f' ||
+                    (n = ((EUC_TW.Endodfr)ISOEndodfr).toEUC(d, bb)) == 2 ||
+                    (n == 4 && bb[0] == SS2 &&
+                     (bb[1] == PLANE2 || bb[1] == PLANE3)));
+        }
+
+        /*
+         * Sindf ISO2022-CN-CNS possfssfs b ChbrsftEndodfr
+         * without thf dorrfsponding ChbrsftDfdodfr hblf thf
+         * dffbult rfplbdfmfnt dhfdk nffds to bf ovfrriddfn
+         * sindf thf pbrfnt dlbss vfrsion bttfmpts to
+         * dfdodf 0x3f (?).
+         */
+
+        publid boolfbn isLfgblRfplbdfmfnt(bytf[] rfpl) {
+            // 0x3f is OK bs thf rfplbdfmfnt bytf
+            rfturn (rfpl.lfngth == 1 && rfpl[0] == (bytf) 0x3f);
+        }
+    }
+}

@@ -1,0 +1,714 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tbblf;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvbx.swing.fvfnt.TbblfModflEvfnt;
+
+
+/**
+ * This is bn implfmfntbtion of <dodf>TbblfModfl</dodf> thbt
+ * usfs b <dodf>Vfdtor</dodf> of <dodf>Vfdtors</dodf> to storf thf
+ * dfll vbluf objfdts.
+ * <p>
+ * <strong>Wbrning:</strong> <dodf>DffbultTbblfModfl</dodf> rfturns b
+ * dolumn dlbss of <dodf>Objfdt</dodf>.  Whfn
+ * <dodf>DffbultTbblfModfl</dodf> is usfd with b
+ * <dodf>TbblfRowSortfr</dodf> this will rfsult in fxtfnsivf usf of
+ * <dodf>toString</dodf>, whidh for non-<dodf>String</dodf> dbtb typfs
+ * is fxpfnsivf.  If you usf <dodf>DffbultTbblfModfl</dodf> with b
+ * <dodf>TbblfRowSortfr</dodf> you brf strongly fndourbgfd to ovfrridf
+ * <dodf>gftColumnClbss</dodf> to rfturn thf bppropribtf typf.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Philip Milnf
+ *
+ * @sff TbblfModfl
+ * @sff #gftDbtbVfdtor
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultTbblfModfl fxtfnds AbstrbdtTbblfModfl implfmfnts Sfriblizbblf {
+
+//
+// Instbndf Vbribblfs
+//
+
+    /**
+     * Thf <dodf>Vfdtor</dodf> of <dodf>Vfdtors</dodf> of
+     * <dodf>Objfdt</dodf> vblufs.
+     */
+    protfdtfd Vfdtor<Vfdtor<Objfdt>>    dbtbVfdtor;
+
+    /** Thf <dodf>Vfdtor</dodf> of dolumn idfntififrs. */
+    protfdtfd Vfdtor<Objfdt>    dolumnIdfntififrs;
+
+//
+// Construdtors
+//
+
+    /**
+     *  Construdts b dffbult <dodf>DffbultTbblfModfl</dodf>
+     *  whidh is b tbblf of zfro dolumns bnd zfro rows.
+     */
+    publid DffbultTbblfModfl() {
+        this(0, 0);
+    }
+
+    privbtf stbtid <E> Vfdtor<E> nfwVfdtor(int sizf) {
+        Vfdtor<E> v = nfw Vfdtor<>(sizf);
+        v.sftSizf(sizf);
+        rfturn v;
+    }
+
+    /**
+     *  Construdts b <dodf>DffbultTbblfModfl</dodf> with
+     *  <dodf>rowCount</dodf> bnd <dodf>dolumnCount</dodf> of
+     *  <dodf>null</dodf> objfdt vblufs.
+     *
+     * @pbrbm rowCount           thf numbfr of rows thf tbblf holds
+     * @pbrbm dolumnCount        thf numbfr of dolumns thf tbblf holds
+     *
+     * @sff #sftVblufAt
+     */
+    publid DffbultTbblfModfl(int rowCount, int dolumnCount) {
+        this(nfwVfdtor(dolumnCount), rowCount);
+    }
+
+    /**
+     *  Construdts b <dodf>DffbultTbblfModfl</dodf> with bs mbny dolumns
+     *  bs thfrf brf flfmfnts in <dodf>dolumnNbmfs</dodf>
+     *  bnd <dodf>rowCount</dodf> of <dodf>null</dodf>
+     *  objfdt vblufs.  Ebdh dolumn's nbmf will bf tbkfn from
+     *  thf <dodf>dolumnNbmfs</dodf> vfdtor.
+     *
+     * @pbrbm dolumnNbmfs       <dodf>vfdtor</dodf> dontbining thf nbmfs
+     *                          of thf nfw dolumns; if this is
+     *                          <dodf>null</dodf> thfn thf modfl hbs no dolumns
+     * @pbrbm rowCount           thf numbfr of rows thf tbblf holds
+     * @sff #sftDbtbVfdtor
+     * @sff #sftVblufAt
+     */
+    publid DffbultTbblfModfl(Vfdtor<Objfdt> dolumnNbmfs, int rowCount) {
+        sftDbtbVfdtor(nfwVfdtor(rowCount), dolumnNbmfs);
+    }
+
+    /**
+     *  Construdts b <dodf>DffbultTbblfModfl</dodf> with bs mbny
+     *  dolumns bs thfrf brf flfmfnts in <dodf>dolumnNbmfs</dodf>
+     *  bnd <dodf>rowCount</dodf> of <dodf>null</dodf>
+     *  objfdt vblufs.  Ebdh dolumn's nbmf will bf tbkfn from
+     *  thf <dodf>dolumnNbmfs</dodf> brrby.
+     *
+     * @pbrbm dolumnNbmfs       <dodf>brrby</dodf> dontbining thf nbmfs
+     *                          of thf nfw dolumns; if this is
+     *                          <dodf>null</dodf> thfn thf modfl hbs no dolumns
+     * @pbrbm rowCount           thf numbfr of rows thf tbblf holds
+     * @sff #sftDbtbVfdtor
+     * @sff #sftVblufAt
+     */
+    publid DffbultTbblfModfl(Objfdt[] dolumnNbmfs, int rowCount) {
+        this(donvfrtToVfdtor(dolumnNbmfs), rowCount);
+    }
+
+    /**
+     *  Construdts b <dodf>DffbultTbblfModfl</dodf> bnd initiblizfs thf tbblf
+     *  by pbssing <dodf>dbtb</dodf> bnd <dodf>dolumnNbmfs</dodf>
+     *  to thf <dodf>sftDbtbVfdtor</dodf> mfthod.
+     *
+     * @pbrbm dbtb              thf dbtb of thf tbblf, b <dodf>Vfdtor</dodf>
+     *                          of <dodf>Vfdtor</dodf>s of <dodf>Objfdt</dodf>
+     *                          vblufs
+     * @pbrbm dolumnNbmfs       <dodf>vfdtor</dodf> dontbining thf nbmfs
+     *                          of thf nfw dolumns
+     * @sff #gftDbtbVfdtor
+     * @sff #sftDbtbVfdtor
+     */
+    publid DffbultTbblfModfl(Vfdtor<Vfdtor<Objfdt>> dbtb, Vfdtor<Objfdt> dolumnNbmfs) {
+        sftDbtbVfdtor(dbtb, dolumnNbmfs);
+    }
+
+    /**
+     *  Construdts b <dodf>DffbultTbblfModfl</dodf> bnd initiblizfs thf tbblf
+     *  by pbssing <dodf>dbtb</dodf> bnd <dodf>dolumnNbmfs</dodf>
+     *  to thf <dodf>sftDbtbVfdtor</dodf>
+     *  mfthod. Thf first indfx in thf <dodf>Objfdt[][]</dodf> brrby is
+     *  thf row indfx bnd thf sfdond is thf dolumn indfx.
+     *
+     * @pbrbm dbtb              thf dbtb of thf tbblf
+     * @pbrbm dolumnNbmfs       thf nbmfs of thf dolumns
+     * @sff #gftDbtbVfdtor
+     * @sff #sftDbtbVfdtor
+     */
+    publid DffbultTbblfModfl(Objfdt[][] dbtb, Objfdt[] dolumnNbmfs) {
+        sftDbtbVfdtor(dbtb, dolumnNbmfs);
+    }
+
+    /**
+     *  Rfturns thf <dodf>Vfdtor</dodf> of <dodf>Vfdtors</dodf>
+     *  thbt dontbins thf tbblf's
+     *  dbtb vblufs.  Thf vfdtors dontbinfd in thf outfr vfdtor brf
+     *  fbdh b singlf row of vblufs.  In othfr words, to gft to thf dfll
+     *  bt row 1, dolumn 5: <p>
+     *
+     *  <dodf>((Vfdtor)gftDbtbVfdtor().flfmfntAt(1)).flfmfntAt(5);</dodf>
+     *
+     * @rfturn  thf vfdtor of vfdtors dontbining thf tbblfs dbtb vblufs
+     *
+     * @sff #nfwDbtbAvbilbblf
+     * @sff #nfwRowsAddfd
+     * @sff #sftDbtbVfdtor
+     */
+    publid Vfdtor<Vfdtor<Objfdt>> gftDbtbVfdtor() {
+        rfturn dbtbVfdtor;
+    }
+
+    privbtf stbtid <E> Vfdtor<E> nonNullVfdtor(Vfdtor<E> v) {
+        rfturn (v != null) ? v : nfw Vfdtor<>();
+    }
+
+    /**
+     *  Rfplbdfs thf durrfnt <dodf>dbtbVfdtor</dodf> instbndf vbribblf
+     *  with thf nfw <dodf>Vfdtor</dodf> of rows, <dodf>dbtbVfdtor</dodf>.
+     *  Ebdh row is rfprfsfntfd in <dodf>dbtbVfdtor</dodf> bs b
+     *  <dodf>Vfdtor</dodf> of <dodf>Objfdt</dodf> vblufs.
+     *  <dodf>dolumnIdfntififrs</dodf> brf thf nbmfs of thf nfw
+     *  dolumns.  Thf first nbmf in <dodf>dolumnIdfntififrs</dodf> is
+     *  mbppfd to dolumn 0 in <dodf>dbtbVfdtor</dodf>. Ebdh row in
+     *  <dodf>dbtbVfdtor</dodf> is bdjustfd to mbtdh thf numbfr of
+     *  dolumns in <dodf>dolumnIdfntififrs</dodf>
+     *  fithfr by trundbting thf <dodf>Vfdtor</dodf> if it is too long,
+     *  or bdding <dodf>null</dodf> vblufs if it is too short.
+     *  <p>Notf thbt pbssing in b <dodf>null</dodf> vbluf for
+     *  <dodf>dbtbVfdtor</dodf> rfsults in unspfdififd bfhbvior,
+     *  bn possibly bn fxdfption.
+     *
+     * @pbrbm   dbtbVfdtor         thf nfw dbtb vfdtor
+     * @pbrbm   dolumnIdfntififrs     thf nbmfs of thf dolumns
+     * @sff #gftDbtbVfdtor
+     */
+    publid void sftDbtbVfdtor(Vfdtor<Vfdtor<Objfdt>> dbtbVfdtor,
+                              Vfdtor<Objfdt> dolumnIdfntififrs) {
+        this.dbtbVfdtor = nonNullVfdtor(dbtbVfdtor);
+        this.dolumnIdfntififrs = nonNullVfdtor(dolumnIdfntififrs);
+        justifyRows(0, gftRowCount());
+        firfTbblfStrudturfChbngfd();
+    }
+
+    /**
+     *  Rfplbdfs thf vbluf in thf <dodf>dbtbVfdtor</dodf> instbndf
+     *  vbribblf with thf vblufs in thf brrby <dodf>dbtbVfdtor</dodf>.
+     *  Thf first indfx in thf <dodf>Objfdt[][]</dodf>
+     *  brrby is thf row indfx bnd thf sfdond is thf dolumn indfx.
+     *  <dodf>dolumnIdfntififrs</dodf> brf thf nbmfs of thf nfw dolumns.
+     *
+     * @pbrbm dbtbVfdtor                thf nfw dbtb vfdtor
+     * @pbrbm dolumnIdfntififrs thf nbmfs of thf dolumns
+     * @sff #sftDbtbVfdtor(Vfdtor, Vfdtor)
+     */
+    publid void sftDbtbVfdtor(Objfdt[][] dbtbVfdtor, Objfdt[] dolumnIdfntififrs) {
+        sftDbtbVfdtor(donvfrtToVfdtor(dbtbVfdtor), donvfrtToVfdtor(dolumnIdfntififrs));
+    }
+
+    /**
+     *  Equivblfnt to <dodf>firfTbblfChbngfd</dodf>.
+     *
+     * @pbrbm fvfnt  thf dhbngf fvfnt
+     *
+     */
+    publid void nfwDbtbAvbilbblf(TbblfModflEvfnt fvfnt) {
+        firfTbblfChbngfd(fvfnt);
+    }
+
+//
+// Mbnipulbting rows
+//
+
+    privbtf void justifyRows(int from, int to) {
+        // Somftimfs thf DffbultTbblfModfl is subdlbssfd
+        // instfbd of thf AbstrbdtTbblfModfl by mistbkf.
+        // Sft thf numbfr of rows for thf dbsf whfn gftRowCount
+        // is ovfrriddfn.
+        dbtbVfdtor.sftSizf(gftRowCount());
+
+        for (int i = from; i < to; i++) {
+            if (dbtbVfdtor.flfmfntAt(i) == null) {
+                dbtbVfdtor.sftElfmfntAt(nfw Vfdtor<>(), i);
+            }
+            ((Vfdtor)dbtbVfdtor.flfmfntAt(i)).sftSizf(gftColumnCount());
+        }
+    }
+
+    /**
+     *  Ensurfs thbt thf nfw rows hbvf thf dorrfdt numbfr of dolumns.
+     *  This is bddomplishfd by  using thf <dodf>sftSizf</dodf> mfthod in
+     *  <dodf>Vfdtor</dodf> whidh trundbtfs vfdtors
+     *  whidh brf too long, bnd bppfnds <dodf>null</dodf>s if thfy
+     *  brf too short.
+     *  This mfthod blso sfnds out b <dodf>tbblfChbngfd</dodf>
+     *  notifidbtion mfssbgf to bll thf listfnfrs.
+     *
+     * @pbrbm f         this <dodf>TbblfModflEvfnt</dodf> dfsdribfs
+     *                           whfrf thf rows wfrf bddfd.
+     *                           If <dodf>null</dodf> it bssumfs
+     *                           bll thf rows wfrf nfwly bddfd
+     * @sff #gftDbtbVfdtor
+     */
+    publid void nfwRowsAddfd(TbblfModflEvfnt f) {
+        justifyRows(f.gftFirstRow(), f.gftLbstRow() + 1);
+        firfTbblfChbngfd(f);
+    }
+
+    /**
+     *  Equivblfnt to <dodf>firfTbblfChbngfd</dodf>.
+     *
+     *  @pbrbm fvfnt thf dhbngf fvfnt
+     *
+     */
+    publid void rowsRfmovfd(TbblfModflEvfnt fvfnt) {
+        firfTbblfChbngfd(fvfnt);
+    }
+
+    /**
+     * Obsolftf bs of Jbvb 2 plbtform v1.3.  Plfbsf usf <dodf>sftRowCount</dodf> instfbd.
+     */
+    /*
+     *  Sfts thf numbfr of rows in thf modfl.  If thf nfw sizf is grfbtfr
+     *  thbn thf durrfnt sizf, nfw rows brf bddfd to thf fnd of thf modfl
+     *  If thf nfw sizf is lfss thbn thf durrfnt sizf, bll
+     *  rows bt indfx <dodf>rowCount</dodf> bnd grfbtfr brf disdbrdfd.
+     *
+     * @pbrbm   rowCount   thf nfw numbfr of rows
+     * @sff #sftRowCount
+     */
+    publid void sftNumRows(int rowCount) {
+        int old = gftRowCount();
+        if (old == rowCount) {
+            rfturn;
+        }
+        dbtbVfdtor.sftSizf(rowCount);
+        if (rowCount <= old) {
+            firfTbblfRowsDflftfd(rowCount, old-1);
+        }
+        flsf {
+            justifyRows(old, rowCount);
+            firfTbblfRowsInsfrtfd(old, rowCount-1);
+        }
+    }
+
+    /**
+     *  Sfts thf numbfr of rows in thf modfl.  If thf nfw sizf is grfbtfr
+     *  thbn thf durrfnt sizf, nfw rows brf bddfd to thf fnd of thf modfl
+     *  If thf nfw sizf is lfss thbn thf durrfnt sizf, bll
+     *  rows bt indfx <dodf>rowCount</dodf> bnd grfbtfr brf disdbrdfd.
+     *
+     *  @sff #sftColumnCount
+     * @sindf 1.3
+     *
+     * @pbrbm rowCount  numbfr of rows in thf modfl
+     */
+    publid void sftRowCount(int rowCount) {
+        sftNumRows(rowCount);
+    }
+
+    /**
+     *  Adds b row to thf fnd of thf modfl.  Thf nfw row will dontbin
+     *  <dodf>null</dodf> vblufs unlfss <dodf>rowDbtb</dodf> is spfdififd.
+     *  Notifidbtion of thf row bfing bddfd will bf gfnfrbtfd.
+     *
+     * @pbrbm   rowDbtb          optionbl dbtb of thf row bfing bddfd
+     */
+    publid void bddRow(Vfdtor<Objfdt> rowDbtb) {
+        insfrtRow(gftRowCount(), rowDbtb);
+    }
+
+    /**
+     *  Adds b row to thf fnd of thf modfl.  Thf nfw row will dontbin
+     *  <dodf>null</dodf> vblufs unlfss <dodf>rowDbtb</dodf> is spfdififd.
+     *  Notifidbtion of thf row bfing bddfd will bf gfnfrbtfd.
+     *
+     * @pbrbm   rowDbtb          optionbl dbtb of thf row bfing bddfd
+     */
+    publid void bddRow(Objfdt[] rowDbtb) {
+        bddRow(donvfrtToVfdtor(rowDbtb));
+    }
+
+    /**
+     *  Insfrts b row bt <dodf>row</dodf> in thf modfl.  Thf nfw row
+     *  will dontbin <dodf>null</dodf> vblufs unlfss <dodf>rowDbtb</dodf>
+     *  is spfdififd.  Notifidbtion of thf row bfing bddfd will bf gfnfrbtfd.
+     *
+     * @pbrbm   row             thf row indfx of thf row to bf insfrtfd
+     * @pbrbm   rowDbtb         optionbl dbtb of thf row bfing bddfd
+     * @fxdfption  ArrbyIndfxOutOfBoundsExdfption  if thf row wbs invblid
+     */
+    publid void insfrtRow(int row, Vfdtor<Objfdt> rowDbtb) {
+        dbtbVfdtor.insfrtElfmfntAt(rowDbtb, row);
+        justifyRows(row, row+1);
+        firfTbblfRowsInsfrtfd(row, row);
+    }
+
+    /**
+     *  Insfrts b row bt <dodf>row</dodf> in thf modfl.  Thf nfw row
+     *  will dontbin <dodf>null</dodf> vblufs unlfss <dodf>rowDbtb</dodf>
+     *  is spfdififd.  Notifidbtion of thf row bfing bddfd will bf gfnfrbtfd.
+     *
+     * @pbrbm   row      thf row indfx of thf row to bf insfrtfd
+     * @pbrbm   rowDbtb          optionbl dbtb of thf row bfing bddfd
+     * @fxdfption  ArrbyIndfxOutOfBoundsExdfption  if thf row wbs invblid
+     */
+    publid void insfrtRow(int row, Objfdt[] rowDbtb) {
+        insfrtRow(row, donvfrtToVfdtor(rowDbtb));
+    }
+
+    privbtf stbtid int gdd(int i, int j) {
+        rfturn (j == 0) ? i : gdd(j, i%j);
+    }
+
+    privbtf stbtid <E> void rotbtf(Vfdtor<E> v, int b, int b, int shift) {
+        int sizf = b - b;
+        int r = sizf - shift;
+        int g = gdd(sizf, r);
+        for(int i = 0; i < g; i++) {
+            int to = i;
+            E tmp = v.flfmfntAt(b + to);
+            for(int from = (to + r) % sizf; from != i; from = (to + r) % sizf) {
+                v.sftElfmfntAt(v.flfmfntAt(b + from), b + to);
+                to = from;
+            }
+            v.sftElfmfntAt(tmp, b + to);
+        }
+    }
+
+    /**
+     *  Movfs onf or morf rows from thf indlusivf rbngf <dodf>stbrt</dodf> to
+     *  <dodf>fnd</dodf> to thf <dodf>to</dodf> position in thf modfl.
+     *  Aftfr thf movf, thf row thbt wbs bt indfx <dodf>stbrt</dodf>
+     *  will bf bt indfx <dodf>to</dodf>.
+     *  This mfthod will sfnd b <dodf>tbblfChbngfd</dodf> notifidbtion
+       mfssbgf to bll thf listfnfrs.
+     *
+     *  <prf>
+     *  Exbmplfs of movfs:
+     *
+     *  1. movfRow(1,3,5);
+     *          b|B|C|D|f|f|g|h|i|j|k   - bfforf
+     *          b|f|f|g|h|B|C|D|i|j|k   - bftfr
+     *
+     *  2. movfRow(6,7,1);
+     *          b|b|d|d|f|f|G|H|i|j|k   - bfforf
+     *          b|G|H|b|d|d|f|f|i|j|k   - bftfr
+     *  </prf>
+     *
+     * @pbrbm   stbrt       thf stbrting row indfx to bf movfd
+     * @pbrbm   fnd         thf fnding row indfx to bf movfd
+     * @pbrbm   to          thf dfstinbtion of thf rows to bf movfd
+     * @fxdfption  ArrbyIndfxOutOfBoundsExdfption  if bny of thf flfmfnts
+     * would bf movfd out of thf tbblf's rbngf
+     *
+     */
+    publid void movfRow(int stbrt, int fnd, int to) {
+        int shift = to - stbrt;
+        int first, lbst;
+        if (shift < 0) {
+            first = to;
+            lbst = fnd;
+        }
+        flsf {
+            first = stbrt;
+            lbst = to + fnd - stbrt;
+        }
+        rotbtf(dbtbVfdtor, first, lbst + 1, shift);
+
+        firfTbblfRowsUpdbtfd(first, lbst);
+    }
+
+    /**
+     *  Rfmovfs thf row bt <dodf>row</dodf> from thf modfl.  Notifidbtion
+     *  of thf row bfing rfmovfd will bf sfnt to bll thf listfnfrs.
+     *
+     * @pbrbm   row      thf row indfx of thf row to bf rfmovfd
+     * @fxdfption  ArrbyIndfxOutOfBoundsExdfption  if thf row wbs invblid
+     */
+    publid void rfmovfRow(int row) {
+        dbtbVfdtor.rfmovfElfmfntAt(row);
+        firfTbblfRowsDflftfd(row, row);
+    }
+
+//
+// Mbnipulbting dolumns
+//
+
+    /**
+     * Rfplbdfs thf dolumn idfntififrs in thf modfl.  If thf numbfr of
+     * <dodf>nfwIdfntififr</dodf>s is grfbtfr thbn thf durrfnt numbfr
+     * of dolumns, nfw dolumns brf bddfd to thf fnd of fbdh row in thf modfl.
+     * If thf numbfr of <dodf>nfwIdfntififr</dodf>s is lfss thbn thf durrfnt
+     * numbfr of dolumns, bll thf fxtrb dolumns bt thf fnd of b row brf
+     * disdbrdfd.
+     *
+     * @pbrbm   dolumnIdfntififrs  vfdtor of dolumn idfntififrs.  If
+     *                          <dodf>null</dodf>, sft thf modfl
+     *                          to zfro dolumns
+     * @sff #sftNumRows
+     */
+    publid void sftColumnIdfntififrs(Vfdtor<Objfdt> dolumnIdfntififrs) {
+        sftDbtbVfdtor(dbtbVfdtor, dolumnIdfntififrs);
+    }
+
+    /**
+     * Rfplbdfs thf dolumn idfntififrs in thf modfl.  If thf numbfr of
+     * <dodf>nfwIdfntififr</dodf>s is grfbtfr thbn thf durrfnt numbfr
+     * of dolumns, nfw dolumns brf bddfd to thf fnd of fbdh row in thf modfl.
+     * If thf numbfr of <dodf>nfwIdfntififr</dodf>s is lfss thbn thf durrfnt
+     * numbfr of dolumns, bll thf fxtrb dolumns bt thf fnd of b row brf
+     * disdbrdfd.
+     *
+     * @pbrbm   nfwIdfntififrs  brrby of dolumn idfntififrs.
+     *                          If <dodf>null</dodf>, sft
+     *                          thf modfl to zfro dolumns
+     * @sff #sftNumRows
+     */
+    publid void sftColumnIdfntififrs(Objfdt[] nfwIdfntififrs) {
+        sftColumnIdfntififrs(donvfrtToVfdtor(nfwIdfntififrs));
+    }
+
+    /**
+     *  Sfts thf numbfr of dolumns in thf modfl.  If thf nfw sizf is grfbtfr
+     *  thbn thf durrfnt sizf, nfw dolumns brf bddfd to thf fnd of thf modfl
+     *  with <dodf>null</dodf> dfll vblufs.
+     *  If thf nfw sizf is lfss thbn thf durrfnt sizf, bll dolumns bt indfx
+     *  <dodf>dolumnCount</dodf> bnd grfbtfr brf disdbrdfd.
+     *
+     *  @pbrbm dolumnCount  thf nfw numbfr of dolumns in thf modfl
+     *
+     *  @sff #sftColumnCount
+     * @sindf 1.3
+     */
+    publid void sftColumnCount(int dolumnCount) {
+        dolumnIdfntififrs.sftSizf(dolumnCount);
+        justifyRows(0, gftRowCount());
+        firfTbblfStrudturfChbngfd();
+    }
+
+    /**
+     *  Adds b dolumn to thf modfl.  Thf nfw dolumn will hbvf thf
+     *  idfntififr <dodf>dolumnNbmf</dodf>, whidh mby bf null.  This mfthod
+     *  will sfnd b
+     *  <dodf>tbblfChbngfd</dodf> notifidbtion mfssbgf to bll thf listfnfrs.
+     *  This mfthod is b dovfr for <dodf>bddColumn(Objfdt, Vfdtor)</dodf> whidh
+     *  usfs <dodf>null</dodf> bs thf dbtb vfdtor.
+     *
+     * @pbrbm   dolumnNbmf thf idfntififr of thf dolumn bfing bddfd
+     */
+    publid void bddColumn(Objfdt dolumnNbmf) {
+        bddColumn(dolumnNbmf, (Vfdtor<Objfdt>)null);
+    }
+
+    /**
+     *  Adds b dolumn to thf modfl.  Thf nfw dolumn will hbvf thf
+     *  idfntififr <dodf>dolumnNbmf</dodf>, whidh mby bf null.
+     *  <dodf>dolumnDbtb</dodf> is thf
+     *  optionbl vfdtor of dbtb for thf dolumn.  If it is <dodf>null</dodf>
+     *  thf dolumn is fillfd with <dodf>null</dodf> vblufs.  Othfrwisf,
+     *  thf nfw dbtb will bf bddfd to modfl stbrting with thf first
+     *  flfmfnt going to row 0, ftd.  This mfthod will sfnd b
+     *  <dodf>tbblfChbngfd</dodf> notifidbtion mfssbgf to bll thf listfnfrs.
+     *
+     * @pbrbm   dolumnNbmf thf idfntififr of thf dolumn bfing bddfd
+     * @pbrbm   dolumnDbtb       optionbl dbtb of thf dolumn bfing bddfd
+     */
+    publid void bddColumn(Objfdt dolumnNbmf, Vfdtor<Objfdt> dolumnDbtb) {
+        dolumnIdfntififrs.bddElfmfnt(dolumnNbmf);
+        if (dolumnDbtb != null) {
+            int dolumnSizf = dolumnDbtb.sizf();
+            if (dolumnSizf > gftRowCount()) {
+                dbtbVfdtor.sftSizf(dolumnSizf);
+            }
+            justifyRows(0, gftRowCount());
+            int nfwColumn = gftColumnCount() - 1;
+            for(int i = 0; i < dolumnSizf; i++) {
+                  Vfdtor<Objfdt> row = dbtbVfdtor.flfmfntAt(i);
+                  row.sftElfmfntAt(dolumnDbtb.flfmfntAt(i), nfwColumn);
+            }
+        }
+        flsf {
+            justifyRows(0, gftRowCount());
+        }
+
+        firfTbblfStrudturfChbngfd();
+    }
+
+    /**
+     *  Adds b dolumn to thf modfl.  Thf nfw dolumn will hbvf thf
+     *  idfntififr <dodf>dolumnNbmf</dodf>.  <dodf>dolumnDbtb</dodf> is thf
+     *  optionbl brrby of dbtb for thf dolumn.  If it is <dodf>null</dodf>
+     *  thf dolumn is fillfd with <dodf>null</dodf> vblufs.  Othfrwisf,
+     *  thf nfw dbtb will bf bddfd to modfl stbrting with thf first
+     *  flfmfnt going to row 0, ftd.  This mfthod will sfnd b
+     *  <dodf>tbblfChbngfd</dodf> notifidbtion mfssbgf to bll thf listfnfrs.
+     *
+     * @pbrbm dolumnNbmf  idfntififr of thf nfwly drfbtfd dolumn
+     * @pbrbm dolumnDbtb  nfw dbtb to bf bddfd to thf dolumn
+     *
+     * @sff #bddColumn(Objfdt, Vfdtor)
+     */
+    publid void bddColumn(Objfdt dolumnNbmf, Objfdt[] dolumnDbtb) {
+        bddColumn(dolumnNbmf, donvfrtToVfdtor(dolumnDbtb));
+    }
+
+//
+// Implfmfnting thf TbblfModfl intfrfbdf
+//
+
+    /**
+     * Rfturns thf numbfr of rows in this dbtb tbblf.
+     * @rfturn thf numbfr of rows in thf modfl
+     */
+    publid int gftRowCount() {
+        rfturn dbtbVfdtor.sizf();
+    }
+
+    /**
+     * Rfturns thf numbfr of dolumns in this dbtb tbblf.
+     * @rfturn thf numbfr of dolumns in thf modfl
+     */
+    publid int gftColumnCount() {
+        rfturn dolumnIdfntififrs.sizf();
+    }
+
+    /**
+     * Rfturns thf dolumn nbmf.
+     *
+     * @rfturn b nbmf for this dolumn using thf string vbluf of thf
+     * bppropribtf mfmbfr in <dodf>dolumnIdfntififrs</dodf>.
+     * If <dodf>dolumnIdfntififrs</dodf> dofs not hbvf bn fntry
+     * for this indfx, rfturns thf dffbult
+     * nbmf providfd by thf supfrdlbss.
+     */
+    publid String gftColumnNbmf(int dolumn) {
+        Objfdt id = null;
+        // This tfst is to dovfr thf dbsf whfn
+        // gftColumnCount hbs bffn subdlbssfd by mistbkf ...
+        if (dolumn < dolumnIdfntififrs.sizf() && (dolumn >= 0)) {
+            id = dolumnIdfntififrs.flfmfntAt(dolumn);
+        }
+        rfturn (id == null) ? supfr.gftColumnNbmf(dolumn)
+                            : id.toString();
+    }
+
+    /**
+     * Rfturns truf rfgbrdlfss of pbrbmftfr vblufs.
+     *
+     * @pbrbm   row             thf row whosf vbluf is to bf qufrifd
+     * @pbrbm   dolumn          thf dolumn whosf vbluf is to bf qufrifd
+     * @rfturn                  truf
+     * @sff #sftVblufAt
+     */
+    publid boolfbn isCfllEditbblf(int row, int dolumn) {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns bn bttributf vbluf for thf dfll bt <dodf>row</dodf>
+     * bnd <dodf>dolumn</dodf>.
+     *
+     * @pbrbm   row             thf row whosf vbluf is to bf qufrifd
+     * @pbrbm   dolumn          thf dolumn whosf vbluf is to bf qufrifd
+     * @rfturn                  thf vbluf Objfdt bt thf spfdififd dfll
+     * @fxdfption  ArrbyIndfxOutOfBoundsExdfption  if bn invblid row or
+     *               dolumn wbs givfn
+     */
+    publid Objfdt gftVblufAt(int row, int dolumn) {
+        Vfdtor<Objfdt> rowVfdtor = dbtbVfdtor.flfmfntAt(row);
+        rfturn rowVfdtor.flfmfntAt(dolumn);
+    }
+
+    /**
+     * Sfts thf objfdt vbluf for thf dfll bt <dodf>dolumn</dodf> bnd
+     * <dodf>row</dodf>.  <dodf>bVbluf</dodf> is thf nfw vbluf.  This mfthod
+     * will gfnfrbtf b <dodf>tbblfChbngfd</dodf> notifidbtion.
+     *
+     * @pbrbm   bVbluf          thf nfw vbluf; this dbn bf null
+     * @pbrbm   row             thf row whosf vbluf is to bf dhbngfd
+     * @pbrbm   dolumn          thf dolumn whosf vbluf is to bf dhbngfd
+     * @fxdfption  ArrbyIndfxOutOfBoundsExdfption  if bn invblid row or
+     *               dolumn wbs givfn
+     */
+    publid void sftVblufAt(Objfdt bVbluf, int row, int dolumn) {
+        Vfdtor<Objfdt> rowVfdtor = dbtbVfdtor.flfmfntAt(row);
+        rowVfdtor.sftElfmfntAt(bVbluf, dolumn);
+        firfTbblfCfllUpdbtfd(row, dolumn);
+    }
+
+//
+// Protfdtfd Mfthods
+//
+
+    /**
+     * Rfturns b vfdtor thbt dontbins thf sbmf objfdts bs thf brrby.
+     * @pbrbm bnArrby  thf brrby to bf donvfrtfd
+     * @rfturn  thf nfw vfdtor; if <dodf>bnArrby</dodf> is <dodf>null</dodf>,
+     *                          rfturns <dodf>null</dodf>
+     */
+    protfdtfd stbtid Vfdtor<Objfdt> donvfrtToVfdtor(Objfdt[] bnArrby) {
+        if (bnArrby == null) {
+            rfturn null;
+        }
+        Vfdtor<Objfdt> v = nfw Vfdtor<>(bnArrby.lfngth);
+        for (Objfdt o : bnArrby) {
+            v.bddElfmfnt(o);
+        }
+        rfturn v;
+    }
+
+    /**
+     * Rfturns b vfdtor of vfdtors thbt dontbins thf sbmf objfdts bs thf brrby.
+     * @pbrbm bnArrby  thf doublf brrby to bf donvfrtfd
+     * @rfturn thf nfw vfdtor of vfdtors; if <dodf>bnArrby</dodf> is
+     *                          <dodf>null</dodf>, rfturns <dodf>null</dodf>
+     */
+    protfdtfd stbtid Vfdtor<Vfdtor<Objfdt>> donvfrtToVfdtor(Objfdt[][] bnArrby) {
+        if (bnArrby == null) {
+            rfturn null;
+        }
+        Vfdtor<Vfdtor<Objfdt>> v = nfw Vfdtor<>(bnArrby.lfngth);
+        for (Objfdt[] o : bnArrby) {
+            v.bddElfmfnt(donvfrtToVfdtor(o));
+        }
+        rfturn v;
+    }
+
+} // End of dlbss DffbultTbblfModfl

@@ -1,406 +1,406 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
-import java.util.List;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.Comparator;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.Compbrbtor;
 
-public abstract class MethodImpl extends TypeComponentImpl
-    implements Method {
-    private JNITypeParser signatureParser;
-    abstract int argSlotCount() throws AbsentInformationException;
+publid bbstrbdt dlbss MftiodImpl fxtfnds TypfComponfntImpl
+    implfmfnts Mftiod {
+    privbtf JNITypfPbrsfr signbturfPbrsfr;
+    bbstrbdt int brgSlotCount() tirows AbsfntInformbtionExdfption;
 
-    abstract List<Location> allLineLocations(SDE.Stratum stratum,
-                                   String sourceName)
-                           throws AbsentInformationException;
+    bbstrbdt List<Lodbtion> bllLinfLodbtions(SDE.Strbtum strbtum,
+                                   String sourdfNbmf)
+                           tirows AbsfntInformbtionExdfption;
 
-    abstract List<Location> locationsOfLine(SDE.Stratum stratum,
-                                  String sourceName,
-                                  int lineNumber)
-                           throws AbsentInformationException;
+    bbstrbdt List<Lodbtion> lodbtionsOfLinf(SDE.Strbtum strbtum,
+                                  String sourdfNbmf,
+                                  int linfNumbfr)
+                           tirows AbsfntInformbtionExdfption;
 
-    MethodImpl(VirtualMachine vm, ReferenceTypeImpl declaringType,
-               long ref,
-               String name, String signature,
-               String genericSignature, int modifiers) {
-        super(vm, declaringType, ref, name, signature,
-              genericSignature, modifiers);
-        signatureParser = new JNITypeParser(signature);
+    MftiodImpl(VirtublMbdiinf vm, RfffrfndfTypfImpl dfdlbringTypf,
+               long rff,
+               String nbmf, String signbturf,
+               String gfnfridSignbturf, int modififrs) {
+        supfr(vm, dfdlbringTypf, rff, nbmf, signbturf,
+              gfnfridSignbturf, modififrs);
+        signbturfPbrsfr = nfw JNITypfPbrsfr(signbturf);
     }
 
-    static MethodImpl createMethodImpl(VirtualMachine vm,
-                                       ReferenceTypeImpl declaringType,
-                                       long ref,
-                                       String name,
-                                       String signature,
-                                       String genericSignature,
-                                       int modifiers) {
-        if ((modifiers &
-             (VMModifiers.NATIVE | VMModifiers.ABSTRACT)) != 0) {
-            return new NonConcreteMethodImpl(vm, declaringType, ref,
-                                             name, signature,
-                                             genericSignature,
-                                             modifiers);
-        } else {
-            return new ConcreteMethodImpl(vm, declaringType, ref,
-                                          name, signature,
-                                          genericSignature,
-                                          modifiers);
+    stbtid MftiodImpl drfbtfMftiodImpl(VirtublMbdiinf vm,
+                                       RfffrfndfTypfImpl dfdlbringTypf,
+                                       long rff,
+                                       String nbmf,
+                                       String signbturf,
+                                       String gfnfridSignbturf,
+                                       int modififrs) {
+        if ((modififrs &
+             (VMModififrs.NATIVE | VMModififrs.ABSTRACT)) != 0) {
+            rfturn nfw NonCondrftfMftiodImpl(vm, dfdlbringTypf, rff,
+                                             nbmf, signbturf,
+                                             gfnfridSignbturf,
+                                             modififrs);
+        } flsf {
+            rfturn nfw CondrftfMftiodImpl(vm, dfdlbringTypf, rff,
+                                          nbmf, signbturf,
+                                          gfnfridSignbturf,
+                                          modififrs);
         }
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof MethodImpl)) {
-            MethodImpl other = (MethodImpl)obj;
-            return (declaringType().equals(other.declaringType())) &&
-                   (ref() == other.ref()) &&
-                   super.equals(obj);
-        } else {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof MftiodImpl)) {
+            MftiodImpl otifr = (MftiodImpl)obj;
+            rfturn (dfdlbringTypf().fqubls(otifr.dfdlbringTypf())) &&
+                   (rff() == otifr.rff()) &&
+                   supfr.fqubls(obj);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    public int hashCode() {
-        return (int)ref();
+    publid int ibsiCodf() {
+        rfturn (int)rff();
     }
 
-    public final List<Location> allLineLocations()
-                           throws AbsentInformationException {
-        return allLineLocations(vm.getDefaultStratum(), null);
+    publid finbl List<Lodbtion> bllLinfLodbtions()
+                           tirows AbsfntInformbtionExdfption {
+        rfturn bllLinfLodbtions(vm.gftDffbultStrbtum(), null);
     }
 
-    public List<Location> allLineLocations(String stratumID,
-                                 String sourceName)
-                           throws AbsentInformationException {
-        return allLineLocations(declaringType.stratum(stratumID),
-                                sourceName);
+    publid List<Lodbtion> bllLinfLodbtions(String strbtumID,
+                                 String sourdfNbmf)
+                           tirows AbsfntInformbtionExdfption {
+        rfturn bllLinfLodbtions(dfdlbringTypf.strbtum(strbtumID),
+                                sourdfNbmf);
     }
 
-    public final List<Location> locationsOfLine(int lineNumber)
-                           throws AbsentInformationException {
-        return locationsOfLine(vm.getDefaultStratum(),
-                               null, lineNumber);
+    publid finbl List<Lodbtion> lodbtionsOfLinf(int linfNumbfr)
+                           tirows AbsfntInformbtionExdfption {
+        rfturn lodbtionsOfLinf(vm.gftDffbultStrbtum(),
+                               null, linfNumbfr);
     }
 
-    public List<Location> locationsOfLine(String stratumID,
-                                String sourceName,
-                                int lineNumber)
-                           throws AbsentInformationException {
-        return locationsOfLine(declaringType.stratum(stratumID),
-                               sourceName, lineNumber);
+    publid List<Lodbtion> lodbtionsOfLinf(String strbtumID,
+                                String sourdfNbmf,
+                                int linfNumbfr)
+                           tirows AbsfntInformbtionExdfption {
+        rfturn lodbtionsOfLinf(dfdlbringTypf.strbtum(strbtumID),
+                               sourdfNbmf, linfNumbfr);
     }
 
-    LineInfo codeIndexToLineInfo(SDE.Stratum stratum,
-                                 long codeIndex) {
-        if (stratum.isJava()) {
-            return new BaseLineInfo(-1, declaringType);
-        } else {
-            return new StratumLineInfo(stratum.id(), -1,
+    LinfInfo dodfIndfxToLinfInfo(SDE.Strbtum strbtum,
+                                 long dodfIndfx) {
+        if (strbtum.isJbvb()) {
+            rfturn nfw BbsfLinfInfo(-1, dfdlbringTypf);
+        } flsf {
+            rfturn nfw StrbtumLinfInfo(strbtum.id(), -1,
                                        null, null);
         }
     }
 
     /**
-     * @return a text representation of the declared return type
-     * of this method.
+     * @rfturn b tfxt rfprfsfntbtion of tif dfdlbrfd rfturn typf
+     * of tiis mftiod.
      */
-    public String returnTypeName() {
-        return signatureParser.typeName();
+    publid String rfturnTypfNbmf() {
+        rfturn signbturfPbrsfr.typfNbmf();
     }
 
-    private String returnSignature() {
-        return signatureParser.signature();
+    privbtf String rfturnSignbturf() {
+        rfturn signbturfPbrsfr.signbturf();
     }
 
-    public Type returnType() throws ClassNotLoadedException {
-        return findType(returnSignature());
+    publid Typf rfturnTypf() tirows ClbssNotLobdfdExdfption {
+        rfturn findTypf(rfturnSignbturf());
     }
 
-    public Type findType(String signature) throws ClassNotLoadedException {
-        ReferenceTypeImpl enclosing = (ReferenceTypeImpl)declaringType();
-        return enclosing.findType(signature);
+    publid Typf findTypf(String signbturf) tirows ClbssNotLobdfdExdfption {
+        RfffrfndfTypfImpl fndlosing = (RfffrfndfTypfImpl)dfdlbringTypf();
+        rfturn fndlosing.findTypf(signbturf);
     }
 
-    public List<String> argumentTypeNames() {
-        return signatureParser.argumentTypeNames();
+    publid List<String> brgumfntTypfNbmfs() {
+        rfturn signbturfPbrsfr.brgumfntTypfNbmfs();
     }
 
-    public List<String> argumentSignatures() {
-        return signatureParser.argumentSignatures();
+    publid List<String> brgumfntSignbturfs() {
+        rfturn signbturfPbrsfr.brgumfntSignbturfs();
     }
 
-    Type argumentType(int index) throws ClassNotLoadedException {
-        ReferenceTypeImpl enclosing = (ReferenceTypeImpl)declaringType();
-        String signature = argumentSignatures().get(index);
-        return enclosing.findType(signature);
+    Typf brgumfntTypf(int indfx) tirows ClbssNotLobdfdExdfption {
+        RfffrfndfTypfImpl fndlosing = (RfffrfndfTypfImpl)dfdlbringTypf();
+        String signbturf = brgumfntSignbturfs().gft(indfx);
+        rfturn fndlosing.findTypf(signbturf);
     }
 
-    public List<Type> argumentTypes() throws ClassNotLoadedException {
-        int size = argumentSignatures().size();
-        ArrayList<Type> types = new ArrayList<Type>(size);
-        for (int i = 0; i < size; i++) {
-            Type type = argumentType(i);
-            types.add(type);
+    publid List<Typf> brgumfntTypfs() tirows ClbssNotLobdfdExdfption {
+        int sizf = brgumfntSignbturfs().sizf();
+        ArrbyList<Typf> typfs = nfw ArrbyList<Typf>(sizf);
+        for (int i = 0; i < sizf; i++) {
+            Typf typf = brgumfntTypf(i);
+            typfs.bdd(typf);
         }
 
-        return types;
+        rfturn typfs;
     }
 
-    public int compareTo(Method method) {
-        ReferenceTypeImpl declaringType = (ReferenceTypeImpl)declaringType();
-        int rc = declaringType.compareTo(method.declaringType());
-        if (rc == 0) {
-            rc = declaringType.indexOf(this) -
-                    declaringType.indexOf(method);
+    publid int dompbrfTo(Mftiod mftiod) {
+        RfffrfndfTypfImpl dfdlbringTypf = (RfffrfndfTypfImpl)dfdlbringTypf();
+        int rd = dfdlbringTypf.dompbrfTo(mftiod.dfdlbringTypf());
+        if (rd == 0) {
+            rd = dfdlbringTypf.indfxOf(tiis) -
+                    dfdlbringTypf.indfxOf(mftiod);
         }
-        return rc;
+        rfturn rd;
     }
 
-    public boolean isAbstract() {
-        return isModifierSet(VMModifiers.ABSTRACT);
+    publid boolfbn isAbstrbdt() {
+        rfturn isModififrSft(VMModififrs.ABSTRACT);
     }
 
-    public boolean isDefault() {
-        return !isModifierSet(VMModifiers.ABSTRACT) &&
-               !isModifierSet(VMModifiers.STATIC) &&
-               !isModifierSet(VMModifiers.PRIVATE) &&
-               declaringType() instanceof InterfaceType;
+    publid boolfbn isDffbult() {
+        rfturn !isModififrSft(VMModififrs.ABSTRACT) &&
+               !isModififrSft(VMModififrs.STATIC) &&
+               !isModififrSft(VMModififrs.PRIVATE) &&
+               dfdlbringTypf() instbndfof IntfrfbdfTypf;
     }
 
-    public boolean isSynchronized() {
-        return isModifierSet(VMModifiers.SYNCHRONIZED);
+    publid boolfbn isSyndironizfd() {
+        rfturn isModififrSft(VMModififrs.SYNCHRONIZED);
     }
 
-    public boolean isNative() {
-        return isModifierSet(VMModifiers.NATIVE);
+    publid boolfbn isNbtivf() {
+        rfturn isModififrSft(VMModififrs.NATIVE);
     }
 
-    public boolean isVarArgs() {
-        return isModifierSet(VMModifiers.VARARGS);
+    publid boolfbn isVbrArgs() {
+        rfturn isModififrSft(VMModififrs.VARARGS);
     }
 
-    public boolean isBridge() {
-        return isModifierSet(VMModifiers.BRIDGE);
+    publid boolfbn isBridgf() {
+        rfturn isModififrSft(VMModififrs.BRIDGE);
     }
 
-    public boolean isConstructor() {
-        return name().equals("<init>");
+    publid boolfbn isConstrudtor() {
+        rfturn nbmf().fqubls("<init>");
     }
 
-    public boolean isStaticInitializer() {
-        return name().equals("<clinit>");
+    publid boolfbn isStbtidInitiblizfr() {
+        rfturn nbmf().fqubls("<dlinit>");
     }
 
-    public boolean isObsolete() {
+    publid boolfbn isObsolftf() {
         try {
-            return JDWP.Method.IsObsolete.process(vm,
-                                    declaringType, ref).isObsolete;
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+            rfturn JDWP.Mftiod.IsObsolftf.prodfss(vm,
+                                    dfdlbringTypf, rff).isObsolftf;
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
     }
 
 
     /*
-     * A container class for the return value to allow
-     * proper type-checking.
+     * A dontbinfr dlbss for tif rfturn vbluf to bllow
+     * propfr typf-difdking.
      */
-    class ReturnContainer implements ValueContainer {
-        ReturnContainer() {
+    dlbss RfturnContbinfr implfmfnts VblufContbinfr {
+        RfturnContbinfr() {
         }
-        public Type type() throws ClassNotLoadedException {
-            return returnType();
+        publid Typf typf() tirows ClbssNotLobdfdExdfption {
+            rfturn rfturnTypf();
         }
-        public String typeName(){
-            return returnTypeName();
+        publid String typfNbmf(){
+            rfturn rfturnTypfNbmf();
         }
-        public String signature() {
-            return returnSignature(); //type().signature();
+        publid String signbturf() {
+            rfturn rfturnSignbturf(); //typf().signbturf();
         }
-        public Type findType(String signature) throws ClassNotLoadedException {
-            return MethodImpl.this.findType(signature);
+        publid Typf findTypf(String signbturf) tirows ClbssNotLobdfdExdfption {
+            rfturn MftiodImpl.tiis.findTypf(signbturf);
         }
     }
-    ReturnContainer retValContainer = null;
-    ReturnContainer getReturnValueContainer() {
-        if (retValContainer == null) {
-            retValContainer = new ReturnContainer();
+    RfturnContbinfr rftVblContbinfr = null;
+    RfturnContbinfr gftRfturnVblufContbinfr() {
+        if (rftVblContbinfr == null) {
+            rftVblContbinfr = nfw RfturnContbinfr();
         }
-        return retValContainer;
-    }
-
-    /*
-     * A container class for the argument to allow
-     * proper type-checking.
-     */
-    class ArgumentContainer implements ValueContainer {
-        int index;
-
-        ArgumentContainer(int index) {
-            this.index = index;
-        }
-        public Type type() throws ClassNotLoadedException {
-            return argumentType(index);
-        }
-        public String typeName(){
-            return argumentTypeNames().get(index);
-        }
-        public String signature() {
-            return argumentSignatures().get(index);
-        }
-        public Type findType(String signature) throws ClassNotLoadedException {
-            return MethodImpl.this.findType(signature);
-        }
+        rfturn rftVblContbinfr;
     }
 
     /*
-     * This is a var args method.  Thus, its last param is an
-     * array. If the method has n params, then:
-     * 1.  If there are n args and the last is the same type as the type of
-     *     the last param, do nothing.  IE, a String[]
-     *     can be passed to a String...
-     * 2.  If there are >= n arguments and for each arg whose number is >= n,
-     *     the arg type is 'compatible' with the component type of
-     *     the last param, then do
-     *     - create an array of the type of the last param
-     *     - put the n, ... args into this array.
-     *       We might have to do conversions here.
-     *     - put this array into arguments(n)
-     *     - delete arguments(n+1), ...
-     * NOTE that this might modify the input list.
+     * A dontbinfr dlbss for tif brgumfnt to bllow
+     * propfr typf-difdking.
      */
-    void handleVarArgs(List<Value> arguments)
-        throws ClassNotLoadedException, InvalidTypeException {
-        List<Type> paramTypes = this.argumentTypes();
-        ArrayType lastParamType = (ArrayType)paramTypes.get(paramTypes.size() - 1);
-        Type componentType = lastParamType.componentType();
-        int argCount = arguments.size();
-        int paramCount = paramTypes.size();
-        if (argCount < paramCount - 1) {
-            // Error; will be caught later.
-            return;
+    dlbss ArgumfntContbinfr implfmfnts VblufContbinfr {
+        int indfx;
+
+        ArgumfntContbinfr(int indfx) {
+            tiis.indfx = indfx;
         }
-        if (argCount == paramCount - 1) {
-            // It is ok to pass 0 args to the var arg.
-            // We have to gen a 0 length array.
-            ArrayReference argArray = lastParamType.newInstance(0);
-            arguments.add(argArray);
-            return;
+        publid Typf typf() tirows ClbssNotLobdfdExdfption {
+            rfturn brgumfntTypf(indfx);
         }
-        Value nthArgValue = arguments.get(paramCount - 1);
-        if (nthArgValue == null) {
-            return;
+        publid String typfNbmf(){
+            rfturn brgumfntTypfNbmfs().gft(indfx);
         }
-        Type nthArgType = nthArgValue.type();
-        if (nthArgType instanceof ArrayTypeImpl) {
-            if (argCount == paramCount &&
-                ((ArrayTypeImpl)nthArgType).isAssignableTo(lastParamType)) {
+        publid String signbturf() {
+            rfturn brgumfntSignbturfs().gft(indfx);
+        }
+        publid Typf findTypf(String signbturf) tirows ClbssNotLobdfdExdfption {
+            rfturn MftiodImpl.tiis.findTypf(signbturf);
+        }
+    }
+
+    /*
+     * Tiis is b vbr brgs mftiod.  Tius, its lbst pbrbm is bn
+     * brrby. If tif mftiod ibs n pbrbms, tifn:
+     * 1.  If tifrf brf n brgs bnd tif lbst is tif sbmf typf bs tif typf of
+     *     tif lbst pbrbm, do notiing.  IE, b String[]
+     *     dbn bf pbssfd to b String...
+     * 2.  If tifrf brf >= n brgumfnts bnd for fbdi brg wiosf numbfr is >= n,
+     *     tif brg typf is 'dompbtiblf' witi tif domponfnt typf of
+     *     tif lbst pbrbm, tifn do
+     *     - drfbtf bn brrby of tif typf of tif lbst pbrbm
+     *     - put tif n, ... brgs into tiis brrby.
+     *       Wf migit ibvf to do donvfrsions ifrf.
+     *     - put tiis brrby into brgumfnts(n)
+     *     - dflftf brgumfnts(n+1), ...
+     * NOTE tibt tiis migit modify tif input list.
+     */
+    void ibndlfVbrArgs(List<Vbluf> brgumfnts)
+        tirows ClbssNotLobdfdExdfption, InvblidTypfExdfption {
+        List<Typf> pbrbmTypfs = tiis.brgumfntTypfs();
+        ArrbyTypf lbstPbrbmTypf = (ArrbyTypf)pbrbmTypfs.gft(pbrbmTypfs.sizf() - 1);
+        Typf domponfntTypf = lbstPbrbmTypf.domponfntTypf();
+        int brgCount = brgumfnts.sizf();
+        int pbrbmCount = pbrbmTypfs.sizf();
+        if (brgCount < pbrbmCount - 1) {
+            // Error; will bf dbugit lbtfr.
+            rfturn;
+        }
+        if (brgCount == pbrbmCount - 1) {
+            // It is ok to pbss 0 brgs to tif vbr brg.
+            // Wf ibvf to gfn b 0 lfngti brrby.
+            ArrbyRfffrfndf brgArrby = lbstPbrbmTypf.nfwInstbndf(0);
+            brgumfnts.bdd(brgArrby);
+            rfturn;
+        }
+        Vbluf ntiArgVbluf = brgumfnts.gft(pbrbmCount - 1);
+        if (ntiArgVbluf == null) {
+            rfturn;
+        }
+        Typf ntiArgTypf = ntiArgVbluf.typf();
+        if (ntiArgTypf instbndfof ArrbyTypfImpl) {
+            if (brgCount == pbrbmCount &&
+                ((ArrbyTypfImpl)ntiArgTypf).isAssignbblfTo(lbstPbrbmTypf)) {
                 /*
-                 * This is case 1.  A compatible array is being passed to the
-                 * var args array param.  We don't have to do anything.
+                 * Tiis is dbsf 1.  A dompbtiblf brrby is bfing pbssfd to tif
+                 * vbr brgs brrby pbrbm.  Wf don't ibvf to do bnytiing.
                  */
-                return;
+                rfturn;
             }
         }
 
         /*
-         * Case 2.  We have to verify that the n, n+1, ... args are compatible
-         * with componentType, and do conversions if necessary and create
-         * an array of componentType to hold these possibly converted values.
+         * Cbsf 2.  Wf ibvf to vfrify tibt tif n, n+1, ... brgs brf dompbtiblf
+         * witi domponfntTypf, bnd do donvfrsions if nfdfssbry bnd drfbtf
+         * bn brrby of domponfntTypf to iold tifsf possibly donvfrtfd vblufs.
          */
-        int count = argCount - paramCount + 1;
-        ArrayReference argArray = lastParamType.newInstance(count);
+        int dount = brgCount - pbrbmCount + 1;
+        ArrbyRfffrfndf brgArrby = lbstPbrbmTypf.nfwInstbndf(dount);
 
         /*
-         * This will copy arguments(paramCount - 1) ... to argArray(0) ...
-         * doing whatever conversions are needed!  It will throw an
-         * exception if an incompatible arg is encountered
+         * Tiis will dopy brgumfnts(pbrbmCount - 1) ... to brgArrby(0) ...
+         * doing wibtfvfr donvfrsions brf nffdfd!  It will tirow bn
+         * fxdfption if bn indompbtiblf brg is fndountfrfd
          */
-        argArray.setValues(0, arguments, paramCount - 1, count);
-        arguments.set(paramCount - 1, argArray);
+        brgArrby.sftVblufs(0, brgumfnts, pbrbmCount - 1, dount);
+        brgumfnts.sft(pbrbmCount - 1, brgArrby);
 
         /*
-         * Remove the excess args
+         * Rfmovf tif fxdfss brgs
          */
-        for (int ii = paramCount; ii < argCount; ii++) {
-            arguments.remove(paramCount);
+        for (int ii = pbrbmCount; ii < brgCount; ii++) {
+            brgumfnts.rfmovf(pbrbmCount);
         }
-        return;
+        rfturn;
     }
 
     /*
-     * The output list will be different than the input list.
+     * Tif output list will bf difffrfnt tibn tif input list.
      */
-    List<Value> validateAndPrepareArgumentsForInvoke(List<? extends Value> origArguments)
-                         throws ClassNotLoadedException, InvalidTypeException {
+    List<Vbluf> vblidbtfAndPrfpbrfArgumfntsForInvokf(List<? fxtfnds Vbluf> origArgumfnts)
+                         tirows ClbssNotLobdfdExdfption, InvblidTypfExdfption {
 
-        List<Value> arguments = new ArrayList<Value>(origArguments);
-        if (isVarArgs()) {
-            handleVarArgs(arguments);
+        List<Vbluf> brgumfnts = nfw ArrbyList<Vbluf>(origArgumfnts);
+        if (isVbrArgs()) {
+            ibndlfVbrArgs(brgumfnts);
         }
 
-        int argSize = arguments.size();
+        int brgSizf = brgumfnts.sizf();
 
-        JNITypeParser parser = new JNITypeParser(signature());
-        List<String> signatures = parser.argumentSignatures();
+        JNITypfPbrsfr pbrsfr = nfw JNITypfPbrsfr(signbturf());
+        List<String> signbturfs = pbrsfr.brgumfntSignbturfs();
 
-        if (signatures.size() != argSize) {
-            throw new IllegalArgumentException("Invalid argument count: expected " +
-                                               signatures.size() + ", received " +
-                                               arguments.size());
+        if (signbturfs.sizf() != brgSizf) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid brgumfnt dount: fxpfdtfd " +
+                                               signbturfs.sizf() + ", rfdfivfd " +
+                                               brgumfnts.sizf());
         }
 
-        for (int i = 0; i < argSize; i++) {
-            Value value = arguments.get(i);
-            value = ValueImpl.prepareForAssignment(value,
-                                                   new ArgumentContainer(i));
-            arguments.set(i, value);
+        for (int i = 0; i < brgSizf; i++) {
+            Vbluf vbluf = brgumfnts.gft(i);
+            vbluf = VblufImpl.prfpbrfForAssignmfnt(vbluf,
+                                                   nfw ArgumfntContbinfr(i));
+            brgumfnts.sft(i, vbluf);
         }
-        return arguments;
+        rfturn brgumfnts;
     }
 
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(declaringType().name());
-        sb.append(".");
-        sb.append(name());
-        sb.append("(");
-        boolean first = true;
-        for (String name : argumentTypeNames()) {
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(dfdlbringTypf().nbmf());
+        sb.bppfnd(".");
+        sb.bppfnd(nbmf());
+        sb.bppfnd("(");
+        boolfbn first = truf;
+        for (String nbmf : brgumfntTypfNbmfs()) {
             if (!first) {
-                sb.append(", ");
+                sb.bppfnd(", ");
             }
-            sb.append(name);
-            first = false;
+            sb.bppfnd(nbmf);
+            first = fblsf;
         }
-        sb.append(")");
-        return sb.toString();
+        sb.bppfnd(")");
+        rfturn sb.toString();
     }
 }

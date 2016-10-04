@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2005, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.gif;
+pbdkbgf dom.sun.imbgfio.plugins.gif;
 
-import java.awt.image.ColorModel;
-import java.awt.image.SampleModel;
-import java.util.Locale;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriter;
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.stream.ImageOutputStream;
-import com.sun.imageio.plugins.common.PaletteBuilder;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.util.Lodblf;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.ImbgfWritfr;
+import jbvbx.imbgfio.spi.ImbgfWritfrSpi;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import dom.sun.imbgfio.plugins.dommon.PblfttfBuildfr;
 
-public class GIFImageWriterSpi extends ImageWriterSpi {
+publid dlbss GIFImbgfWritfrSpi fxtfnds ImbgfWritfrSpi {
 
-    private static final String vendorName = "Oracle Corporation";
+    privbtf stbtid finbl String vfndorNbmf = "Orbdlf Corporbtion";
 
-    private static final String version = "1.0";
+    privbtf stbtid finbl String vfrsion = "1.0";
 
-    private static final String[] names = { "gif", "GIF" };
+    privbtf stbtid finbl String[] nbmfs = { "gif", "GIF" };
 
-    private static final String[] suffixes = { "gif" };
+    privbtf stbtid finbl String[] suffixfs = { "gif" };
 
-    private static final String[] MIMETypes = { "image/gif" };
+    privbtf stbtid finbl String[] MIMETypfs = { "imbgf/gif" };
 
-    private static final String writerClassName =
-    "com.sun.imageio.plugins.gif.GIFImageWriter";
+    privbtf stbtid finbl String writfrClbssNbmf =
+    "dom.sun.imbgfio.plugins.gif.GIFImbgfWritfr";
 
-    private static final String[] readerSpiNames = {
-        "com.sun.imageio.plugins.gif.GIFImageReaderSpi"
+    privbtf stbtid finbl String[] rfbdfrSpiNbmfs = {
+        "dom.sun.imbgfio.plugins.gif.GIFImbgfRfbdfrSpi"
     };
 
-    public GIFImageWriterSpi() {
-        super(vendorName,
-              version,
-              names,
-              suffixes,
-              MIMETypes,
-              writerClassName,
-              new Class<?>[] { ImageOutputStream.class },
-              readerSpiNames,
-              true,
-              GIFWritableStreamMetadata.NATIVE_FORMAT_NAME,
-              "com.sun.imageio.plugins.gif.GIFStreamMetadataFormat",
+    publid GIFImbgfWritfrSpi() {
+        supfr(vfndorNbmf,
+              vfrsion,
+              nbmfs,
+              suffixfs,
+              MIMETypfs,
+              writfrClbssNbmf,
+              nfw Clbss<?>[] { ImbgfOutputStrfbm.dlbss },
+              rfbdfrSpiNbmfs,
+              truf,
+              GIFWritbblfStrfbmMftbdbtb.NATIVE_FORMAT_NAME,
+              "dom.sun.imbgfio.plugins.gif.GIFStrfbmMftbdbtbFormbt",
               null, null,
-              true,
-              GIFWritableImageMetadata.NATIVE_FORMAT_NAME,
-              "com.sun.imageio.plugins.gif.GIFImageMetadataFormat",
+              truf,
+              GIFWritbblfImbgfMftbdbtb.NATIVE_FORMAT_NAME,
+              "dom.sun.imbgfio.plugins.gif.GIFImbgfMftbdbtbFormbt",
               null, null
               );
     }
 
-    public boolean canEncodeImage(ImageTypeSpecifier type) {
-        if (type == null) {
-            throw new IllegalArgumentException("type == null!");
+    publid boolfbn dbnEndodfImbgf(ImbgfTypfSpfdififr typf) {
+        if (typf == null) {
+            tirow nfw IllfgblArgumfntExdfption("typf == null!");
         }
 
-        SampleModel sm = type.getSampleModel();
-        ColorModel cm = type.getColorModel();
+        SbmplfModfl sm = typf.gftSbmplfModfl();
+        ColorModfl dm = typf.gftColorModfl();
 
-        boolean canEncode = sm.getNumBands() == 1 &&
-            sm.getSampleSize(0) <= 8 &&
-            sm.getWidth() <= 65535 &&
-            sm.getHeight() <= 65535 &&
-            (cm == null || cm.getComponentSize()[0] <= 8);
+        boolfbn dbnEndodf = sm.gftNumBbnds() == 1 &&
+            sm.gftSbmplfSizf(0) <= 8 &&
+            sm.gftWidti() <= 65535 &&
+            sm.gftHfigit() <= 65535 &&
+            (dm == null || dm.gftComponfntSizf()[0] <= 8);
 
-        if (canEncode) {
-            return true;
-        } else {
-            return PaletteBuilder.canCreatePalette(type);
+        if (dbnEndodf) {
+            rfturn truf;
+        } flsf {
+            rfturn PblfttfBuildfr.dbnCrfbtfPblfttf(typf);
         }
     }
 
-    public String getDescription(Locale locale) {
-        return "Standard GIF image writer";
+    publid String gftDfsdription(Lodblf lodblf) {
+        rfturn "Stbndbrd GIF imbgf writfr";
     }
 
-    public ImageWriter createWriterInstance(Object extension) {
-        return new GIFImageWriter(this);
+    publid ImbgfWritfr drfbtfWritfrInstbndf(Objfdt fxtfnsion) {
+        rfturn nfw GIFImbgfWritfr(tiis);
     }
 }

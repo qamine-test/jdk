@@ -1,264 +1,264 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d;
+pbdkbgf sun.jbvb2d;
 
-import sun.awt.util.ThreadGroupUtils;
+import sun.bwt.util.TirfbdGroupUtils;
 
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.PhantomReference;
-import java.lang.ref.WeakReference;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Hashtable;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.PibntomRfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.Hbsitbblf;
 
 /**
- * This class is used for registering and disposing the native
- * data associated with java objects.
+ * Tiis dlbss is usfd for rfgistfring bnd disposing tif nbtivf
+ * dbtb bssodibtfd witi jbvb objfdts.
  *
- * The object can register itself by calling one of the addRecord
- * methods and providing either the pointer to the native disposal
- * method or a descendant of the DisposerRecord class with overridden
- * dispose() method.
+ * Tif objfdt dbn rfgistfr itsflf by dblling onf of tif bddRfdord
+ * mftiods bnd providing fitifr tif pointfr to tif nbtivf disposbl
+ * mftiod or b dfsdfndbnt of tif DisposfrRfdord dlbss witi ovfrriddfn
+ * disposf() mftiod.
  *
- * When the object becomes unreachable, the dispose() method
- * of the associated DisposerRecord object will be called.
+ * Wifn tif objfdt bfdomfs unrfbdibblf, tif disposf() mftiod
+ * of tif bssodibtfd DisposfrRfdord objfdt will bf dbllfd.
  *
- * @see DisposerRecord
+ * @sff DisposfrRfdord
  */
-public class Disposer implements Runnable {
-    private static final ReferenceQueue<Object> queue = new ReferenceQueue<>();
-    private static final Hashtable<java.lang.ref.Reference<Object>, DisposerRecord> records =
-        new Hashtable<>();
+publid dlbss Disposfr implfmfnts Runnbblf {
+    privbtf stbtid finbl RfffrfndfQufuf<Objfdt> qufuf = nfw RfffrfndfQufuf<>();
+    privbtf stbtid finbl Hbsitbblf<jbvb.lbng.rff.Rfffrfndf<Objfdt>, DisposfrRfdord> rfdords =
+        nfw Hbsitbblf<>();
 
-    private static Disposer disposerInstance;
-    public static final int WEAK = 0;
-    public static final int PHANTOM = 1;
-    public static int refType = PHANTOM;
+    privbtf stbtid Disposfr disposfrInstbndf;
+    publid stbtid finbl int WEAK = 0;
+    publid stbtid finbl int PHANTOM = 1;
+    publid stbtid int rffTypf = PHANTOM;
 
-    static {
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("awt");
-                    return null;
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("bwt");
+                    rfturn null;
                 }
             });
         initIDs();
-        String type = java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("sun.java2d.reftype"));
-        if (type != null) {
-            if (type.equals("weak")) {
-                refType = WEAK;
-                System.err.println("Using WEAK refs");
-            } else {
-                refType = PHANTOM;
-                System.err.println("Using PHANTOM refs");
+        String typf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.jbvb2d.rfftypf"));
+        if (typf != null) {
+            if (typf.fqubls("wfbk")) {
+                rffTypf = WEAK;
+                Systfm.frr.println("Using WEAK rffs");
+            } flsf {
+                rffTypf = PHANTOM;
+                Systfm.frr.println("Using PHANTOM rffs");
             }
         }
-        disposerInstance = new Disposer();
-        AccessController.doPrivileged(
-                (PrivilegedAction<Void>) () -> {
-                     /* The thread must be a member of a thread group
-                      * which will not get GCed before VM exit.
-                      * Make its parent the top-level thread group.
+        disposfrInstbndf = nfw Disposfr();
+        AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<Void>) () -> {
+                     /* Tif tirfbd must bf b mfmbfr of b tirfbd group
+                      * wiidi will not gft GCfd bfforf VM fxit.
+                      * Mbkf its pbrfnt tif top-lfvfl tirfbd group.
                       */
-                     ThreadGroup rootTG = ThreadGroupUtils.getRootThreadGroup();
-                     Thread t = new Thread(rootTG, disposerInstance, "Java2D Disposer");
-                     t.setContextClassLoader(null);
-                     t.setDaemon(true);
-                     t.setPriority(Thread.MAX_PRIORITY);
-                     t.start();
-                     return null;
+                     TirfbdGroup rootTG = TirfbdGroupUtils.gftRootTirfbdGroup();
+                     Tirfbd t = nfw Tirfbd(rootTG, disposfrInstbndf, "Jbvb2D Disposfr");
+                     t.sftContfxtClbssLobdfr(null);
+                     t.sftDbfmon(truf);
+                     t.sftPriority(Tirfbd.MAX_PRIORITY);
+                     t.stbrt();
+                     rfturn null;
                  }
          );
     }
 
     /**
-     * Registers the object and the native data for later disposal.
-     * @param target Object to be registered
-     * @param disposeMethod pointer to the native disposal method
-     * @param pData pointer to the data to be passed to the
-     *              native disposal method
+     * Rfgistfrs tif objfdt bnd tif nbtivf dbtb for lbtfr disposbl.
+     * @pbrbm tbrgft Objfdt to bf rfgistfrfd
+     * @pbrbm disposfMftiod pointfr to tif nbtivf disposbl mftiod
+     * @pbrbm pDbtb pointfr to tif dbtb to bf pbssfd to tif
+     *              nbtivf disposbl mftiod
      */
-    public static void addRecord(Object target,
-                                 long disposeMethod, long pData)
+    publid stbtid void bddRfdord(Objfdt tbrgft,
+                                 long disposfMftiod, long pDbtb)
     {
-        disposerInstance.add(target,
-                             new DefaultDisposerRecord(disposeMethod, pData));
+        disposfrInstbndf.bdd(tbrgft,
+                             nfw DffbultDisposfrRfdord(disposfMftiod, pDbtb));
     }
 
     /**
-     * Registers the object and the native data for later disposal.
-     * @param target Object to be registered
-     * @param rec the associated DisposerRecord object
-     * @see DisposerRecord
+     * Rfgistfrs tif objfdt bnd tif nbtivf dbtb for lbtfr disposbl.
+     * @pbrbm tbrgft Objfdt to bf rfgistfrfd
+     * @pbrbm rfd tif bssodibtfd DisposfrRfdord objfdt
+     * @sff DisposfrRfdord
      */
-    public static void addRecord(Object target, DisposerRecord rec) {
-        disposerInstance.add(target, rec);
+    publid stbtid void bddRfdord(Objfdt tbrgft, DisposfrRfdord rfd) {
+        disposfrInstbndf.bdd(tbrgft, rfd);
     }
 
     /**
-     * Performs the actual registration of the target object to be disposed.
-     * @param target Object to be registered, or if target is an instance
-     *               of DisposerTarget, its associated disposer referent
-     *               will be the Object that is registered
-     * @param rec the associated DisposerRecord object
-     * @see DisposerRecord
+     * Pfrforms tif bdtubl rfgistrbtion of tif tbrgft objfdt to bf disposfd.
+     * @pbrbm tbrgft Objfdt to bf rfgistfrfd, or if tbrgft is bn instbndf
+     *               of DisposfrTbrgft, its bssodibtfd disposfr rfffrfnt
+     *               will bf tif Objfdt tibt is rfgistfrfd
+     * @pbrbm rfd tif bssodibtfd DisposfrRfdord objfdt
+     * @sff DisposfrRfdord
      */
-    synchronized void add(Object target, DisposerRecord rec) {
-        if (target instanceof DisposerTarget) {
-            target = ((DisposerTarget)target).getDisposerReferent();
+    syndironizfd void bdd(Objfdt tbrgft, DisposfrRfdord rfd) {
+        if (tbrgft instbndfof DisposfrTbrgft) {
+            tbrgft = ((DisposfrTbrgft)tbrgft).gftDisposfrRfffrfnt();
         }
-        java.lang.ref.Reference<Object> ref;
-        if (refType == PHANTOM) {
-            ref = new PhantomReference<>(target, queue);
-        } else {
-            ref = new WeakReference<>(target, queue);
+        jbvb.lbng.rff.Rfffrfndf<Objfdt> rff;
+        if (rffTypf == PHANTOM) {
+            rff = nfw PibntomRfffrfndf<>(tbrgft, qufuf);
+        } flsf {
+            rff = nfw WfbkRfffrfndf<>(tbrgft, qufuf);
         }
-        records.put(ref, rec);
+        rfdords.put(rff, rfd);
     }
 
-    public void run() {
-        while (true) {
+    publid void run() {
+        wiilf (truf) {
             try {
-                Object obj = queue.remove();
-                ((Reference)obj).clear();
-                DisposerRecord rec = records.remove(obj);
-                rec.dispose();
+                Objfdt obj = qufuf.rfmovf();
+                ((Rfffrfndf)obj).dlfbr();
+                DisposfrRfdord rfd = rfdords.rfmovf(obj);
+                rfd.disposf();
                 obj = null;
-                rec = null;
-                clearDeferredRecords();
-            } catch (Exception e) {
-                System.out.println("Exception while removing reference.");
+                rfd = null;
+                dlfbrDfffrrfdRfdords();
+            } dbtdi (Exdfption f) {
+                Systfm.out.println("Exdfption wiilf rfmoving rfffrfndf.");
             }
         }
     }
 
     /*
-     * This is a marker interface that, if implemented, means it
-     * doesn't acquire any special locks, and is safe to
-     * be disposed in the poll loop on whatever thread
-     * which happens to be the Toolkit thread, is in use.
+     * Tiis is b mbrkfr intfrfbdf tibt, if implfmfntfd, mfbns it
+     * dofsn't bdquirf bny spfdibl lodks, bnd is sbff to
+     * bf disposfd in tif poll loop on wibtfvfr tirfbd
+     * wiidi ibppfns to bf tif Toolkit tirfbd, is in usf.
      */
-    public static interface PollDisposable {
+    publid stbtid intfrfbdf PollDisposbblf {
     };
 
-    private static ArrayList<DisposerRecord> deferredRecords = null;
+    privbtf stbtid ArrbyList<DisposfrRfdord> dfffrrfdRfdords = null;
 
-    private static void clearDeferredRecords() {
-        if (deferredRecords == null || deferredRecords.isEmpty()) {
-            return;
+    privbtf stbtid void dlfbrDfffrrfdRfdords() {
+        if (dfffrrfdRfdords == null || dfffrrfdRfdords.isEmpty()) {
+            rfturn;
         }
-        for (int i=0;i<deferredRecords.size(); i++) {
+        for (int i=0;i<dfffrrfdRfdords.sizf(); i++) {
             try {
-                DisposerRecord rec = deferredRecords.get(i);
-                rec.dispose();
-            } catch (Exception e) {
-                System.out.println("Exception while disposing deferred rec.");
+                DisposfrRfdord rfd = dfffrrfdRfdords.gft(i);
+                rfd.disposf();
+            } dbtdi (Exdfption f) {
+                Systfm.out.println("Exdfption wiilf disposing dfffrrfd rfd.");
             }
         }
-        deferredRecords.clear();
+        dfffrrfdRfdords.dlfbr();
     }
 
     /*
-     * Set to indicate the queue is presently being polled.
+     * Sft to indidbtf tif qufuf is prfsfntly bfing pollfd.
      */
-    public static volatile boolean pollingQueue = false;
+    publid stbtid volbtilf boolfbn pollingQufuf = fblsf;
 
     /*
-     * The pollRemove() method is called back from a dispose method
-     * that is running on the toolkit thread and wants to
-     * dispose any pending refs that are safe to be disposed
-     * on that thread.
+     * Tif pollRfmovf() mftiod is dbllfd bbdk from b disposf mftiod
+     * tibt is running on tif toolkit tirfbd bnd wbnts to
+     * disposf bny pfnding rffs tibt brf sbff to bf disposfd
+     * on tibt tirfbd.
      */
-    public static void pollRemove() {
+    publid stbtid void pollRfmovf() {
 
-        /* This should never be called recursively, so this check
-         * is just a safeguard against the unexpected.
+        /* Tiis siould nfvfr bf dbllfd rfdursivfly, so tiis difdk
+         * is just b sbffgubrd bgbinst tif unfxpfdtfd.
          */
-        if (pollingQueue) {
-            return;
+        if (pollingQufuf) {
+            rfturn;
         }
-        Object obj;
-        pollingQueue = true;
-        int freed = 0;
-        int deferred = 0;
+        Objfdt obj;
+        pollingQufuf = truf;
+        int frffd = 0;
+        int dfffrrfd = 0;
         try {
-            while ((obj = queue.poll()) != null
-                   && freed < 10000 && deferred < 100) {
-                freed++;
-                ((Reference)obj).clear();
-                DisposerRecord rec = records.remove(obj);
-                if (rec instanceof PollDisposable) {
-                    rec.dispose();
+            wiilf ((obj = qufuf.poll()) != null
+                   && frffd < 10000 && dfffrrfd < 100) {
+                frffd++;
+                ((Rfffrfndf)obj).dlfbr();
+                DisposfrRfdord rfd = rfdords.rfmovf(obj);
+                if (rfd instbndfof PollDisposbblf) {
+                    rfd.disposf();
                     obj = null;
-                    rec = null;
-                } else {
-                    if (rec == null) { // shouldn't happen, but just in case.
-                        continue;
+                    rfd = null;
+                } flsf {
+                    if (rfd == null) { // siouldn't ibppfn, but just in dbsf.
+                        dontinuf;
                     }
-                    deferred++;
-                    if (deferredRecords == null) {
-                      deferredRecords = new ArrayList<DisposerRecord>(5);
+                    dfffrrfd++;
+                    if (dfffrrfdRfdords == null) {
+                      dfffrrfdRfdords = nfw ArrbyList<DisposfrRfdord>(5);
                     }
-                    deferredRecords.add(rec);
+                    dfffrrfdRfdords.bdd(rfd);
                 }
             }
-        } catch (Exception e) {
-            System.out.println("Exception while removing reference.");
-        } finally {
-            pollingQueue = false;
+        } dbtdi (Exdfption f) {
+            Systfm.out.println("Exdfption wiilf rfmoving rfffrfndf.");
+        } finblly {
+            pollingQufuf = fblsf;
         }
     }
 
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
     /*
-     * This was added for use by the 2D font implementation to avoid creation
-     * of an additional disposer thread.
-     * WARNING: this thread class monitors a specific queue, so a reference
-     * added here must have been created with this queue. Failure to do
-     * so will clutter the records hashmap and no one will be cleaning up
-     * the reference queue.
+     * Tiis wbs bddfd for usf by tif 2D font implfmfntbtion to bvoid drfbtion
+     * of bn bdditionbl disposfr tirfbd.
+     * WARNING: tiis tirfbd dlbss monitors b spfdifid qufuf, so b rfffrfndf
+     * bddfd ifrf must ibvf bffn drfbtfd witi tiis qufuf. Fbilurf to do
+     * so will dluttfr tif rfdords ibsimbp bnd no onf will bf dlfbning up
+     * tif rfffrfndf qufuf.
      */
-    @SuppressWarnings("unchecked")
-    public static void addReference(Reference<Object> ref, DisposerRecord rec) {
-        records.put(ref, rec);
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid void bddRfffrfndf(Rfffrfndf<Objfdt> rff, DisposfrRfdord rfd) {
+        rfdords.put(rff, rfd);
     }
 
-    public static void addObjectRecord(Object obj, DisposerRecord rec) {
-        records.put(new WeakReference<>(obj, queue) , rec);
+    publid stbtid void bddObjfdtRfdord(Objfdt obj, DisposfrRfdord rfd) {
+        rfdords.put(nfw WfbkRfffrfndf<>(obj, qufuf) , rfd);
     }
 
-    /* This is intended for use in conjunction with addReference(..)
+    /* Tiis is intfndfd for usf in donjundtion witi bddRfffrfndf(..)
      */
-    public static ReferenceQueue<Object> getQueue() {
-        return queue;
+    publid stbtid RfffrfndfQufuf<Objfdt> gftQufuf() {
+        rfturn qufuf;
     }
 
 }

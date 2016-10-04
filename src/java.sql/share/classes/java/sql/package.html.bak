@@ -1,333 +1,333 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
 <!--
- Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
 
-</head>
+</ifbd>
 
 
 
-<body bgcolor="white">
+<body bgdolor="wiitf">
 
-Provides the API for accessing and processing data stored in a 
-data source (usually a relational database) using the 
-Java<sup><font size=-2>TM</font></sup> programming language. 
-This API includes a framework whereby different
-drivers can be installed dynamically to access different data sources.
-Although the JDBC<sup><font size=-2>TM</font></sup> API is mainly geared 
-to passing SQL statements to a database, it provides for reading and
-writing data from any data source with a tabular format.
-The reader/writer facility, available through the 
-<code>javax.sql.RowSet</code> group of interfaces, can be customized to
-use and update data from a spread sheet, flat file, or any other tabular 
-data source.
+Providfs tif API for bddfssing bnd prodfssing dbtb storfd in b 
+dbtb sourdf (usublly b rflbtionbl dbtbbbsf) using tif 
+Jbvb<sup><font sizf=-2>TM</font></sup> progrbmming lbngubgf. 
+Tiis API indludfs b frbmfwork wifrfby difffrfnt
+drivfrs dbn bf instbllfd dynbmidblly to bddfss difffrfnt dbtb sourdfs.
+Altiougi tif JDBC<sup><font sizf=-2>TM</font></sup> API is mbinly gfbrfd 
+to pbssing SQL stbtfmfnts to b dbtbbbsf, it providfs for rfbding bnd
+writing dbtb from bny dbtb sourdf witi b tbbulbr formbt.
+Tif rfbdfr/writfr fbdility, bvbilbblf tirougi tif 
+<dodf>jbvbx.sql.RowSft</dodf> group of intfrfbdfs, dbn bf dustomizfd to
+usf bnd updbtf dbtb from b sprfbd sifft, flbt filf, or bny otifr tbbulbr 
+dbtb sourdf.
 
-<h2>What the JDBC<sup><font size=-2>TM</font></sup> 4.2 API Includes</h2>
-The JDBC<sup><font size=-2>TM</font></sup> 4.2 API includes both
-the <code>java.sql</code> package, referred to as the JDBC core API,
-and the <code>javax.sql</code> package, referred to as the JDBC Optional
-Package API. This complete JDBC API
-is included in the Java<sup><font size=-2>TM</font></sup>  
-Standard Edition (Java SE<sup><font size=-2>TM</font></sup>), version 7.
-The <code>javax.sql</code> package extends the functionality of the JDBC API 
-from a client-side API to a server-side API, and it is an essential part
-of the Java<sup><font size=-2>TM</font></sup>  Enterprise Edition
-(Java EE<sup><font size=-2>TM</font></sup>) technology. 
+<i2>Wibt tif JDBC<sup><font sizf=-2>TM</font></sup> 4.2 API Indludfs</i2>
+Tif JDBC<sup><font sizf=-2>TM</font></sup> 4.2 API indludfs boti
+tif <dodf>jbvb.sql</dodf> pbdkbgf, rfffrrfd to bs tif JDBC dorf API,
+bnd tif <dodf>jbvbx.sql</dodf> pbdkbgf, rfffrrfd to bs tif JDBC Optionbl
+Pbdkbgf API. Tiis domplftf JDBC API
+is indludfd in tif Jbvb<sup><font sizf=-2>TM</font></sup>  
+Stbndbrd Edition (Jbvb SE<sup><font sizf=-2>TM</font></sup>), vfrsion 7.
+Tif <dodf>jbvbx.sql</dodf> pbdkbgf fxtfnds tif fundtionblity of tif JDBC API 
+from b dlifnt-sidf API to b sfrvfr-sidf API, bnd it is bn fssfntibl pbrt
+of tif Jbvb<sup><font sizf=-2>TM</font></sup>  Entfrprisf Edition
+(Jbvb EE<sup><font sizf=-2>TM</font></sup>) tfdinology. 
 
-<h2>Versions</h2>
-The JDBC 4.2 API incorporates all of the previous JDBC API versions:
+<i2>Vfrsions</i2>
+Tif JDBC 4.2 API indorporbtfs bll of tif prfvious JDBC API vfrsions:
 <UL>
-    <LI> The JDBC 4.1 API</li>
-    <LI> The JDBC 4.0 API</li>
-    <LI> The JDBC 3.0 API</li>
-    <LI> The JDBC 2.1 core API</li>
- <LI> The JDBC 2.0 Optional Package API<br>
-      (Note that the JDBC 2.1 core API and the JDBC 2.0 Optional Package
-      API together are referred to as the JDBC 2.0 API.)</li>
- <LI> The JDBC 1.2 API</li>
- <LI> The JDBC 1.0 API</li>
+    <LI> Tif JDBC 4.1 API</li>
+    <LI> Tif JDBC 4.0 API</li>
+    <LI> Tif JDBC 3.0 API</li>
+    <LI> Tif JDBC 2.1 dorf API</li>
+ <LI> Tif JDBC 2.0 Optionbl Pbdkbgf API<br>
+      (Notf tibt tif JDBC 2.1 dorf API bnd tif JDBC 2.0 Optionbl Pbdkbgf
+      API togftifr brf rfffrrfd to bs tif JDBC 2.0 API.)</li>
+ <LI> Tif JDBC 1.2 API</li>
+ <LI> Tif JDBC 1.0 API</li>
 </UL>
 <P>
-Classes, interfaces, methods, fields, constructors, and exceptions 
-have the following "since" tags that indicate when they were introduced 
-into the Java platform. When these "since" tags are used in
-Javadoc<sup><font size=-2>TM</font></sup> comments for the JDBC API,
-they indicate the following:
+Clbssfs, intfrfbdfs, mftiods, fiflds, donstrudtors, bnd fxdfptions 
+ibvf tif following "sindf" tbgs tibt indidbtf wifn tify wfrf introdudfd 
+into tif Jbvb plbtform. Wifn tifsf "sindf" tbgs brf usfd in
+Jbvbdod<sup><font sizf=-2>TM</font></sup> dommfnts for tif JDBC API,
+tify indidbtf tif following:
 <UL>
-    <LI>Since 1.8 -- new in the JDBC 4.2 API and part of the Java SE platform,
-        version 8</li>
- <LI>Since 1.7 -- new in the JDBC 4.1 API and part of the Java SE platform,
-     version 7</li>
-<LI>Since 1.6 -- new in the JDBC 4.0 API and part of the Java SE platform,
-    version 6</li>
- <LI>Since 1.4 -- new in the JDBC 3.0 API and part of the J2SE platform, 
-     version 1.4</li>
- <LI>Since 1.2 -- new in the JDBC 2.0 API and part of the J2SE platform, 
-     version 1.2</li>
- <LI>Since 1.1 or no "since" tag -- in the original JDBC 1.0 API and part of
-     the JDK<sup><font size=-2>TM</font></sup>, version 1.1</li>
+    <LI>Sindf 1.8 -- nfw in tif JDBC 4.2 API bnd pbrt of tif Jbvb SE plbtform,
+        vfrsion 8</li>
+ <LI>Sindf 1.7 -- nfw in tif JDBC 4.1 API bnd pbrt of tif Jbvb SE plbtform,
+     vfrsion 7</li>
+<LI>Sindf 1.6 -- nfw in tif JDBC 4.0 API bnd pbrt of tif Jbvb SE plbtform,
+    vfrsion 6</li>
+ <LI>Sindf 1.4 -- nfw in tif JDBC 3.0 API bnd pbrt of tif J2SE plbtform, 
+     vfrsion 1.4</li>
+ <LI>Sindf 1.2 -- nfw in tif JDBC 2.0 API bnd pbrt of tif J2SE plbtform, 
+     vfrsion 1.2</li>
+ <LI>Sindf 1.1 or no "sindf" tbg -- in tif originbl JDBC 1.0 API bnd pbrt of
+     tif JDK<sup><font sizf=-2>TM</font></sup>, vfrsion 1.1</li>
 </UL>
 <P>
-<b>NOTE:</b> Many of the new features are optional; consequently, there is 
-some variation in drivers and the features they support. Always 
-check your driver's documentation to see whether it supports a feature before
-you try to use it.
+<b>NOTE:</b> Mbny of tif nfw ffbturfs brf optionbl; donsfqufntly, tifrf is 
+somf vbribtion in drivfrs bnd tif ffbturfs tify support. Alwbys 
+difdk your drivfr's dodumfntbtion to sff wiftifr it supports b ffbturf bfforf
+you try to usf it.
 <P>
-<b>NOTE:</b> The class <code>SQLPermission</code> was added in the
-Java<sup><font size=-2>TM</font></sup> 2 SDK, Standard Edition, 
-version 1.3 release. This class is used to prevent unauthorized
-access to the logging stream associated with the <code>DriverManager</code>,
-which may contain information such as table names, column data, and so on.
+<b>NOTE:</b> Tif dlbss <dodf>SQLPfrmission</dodf> wbs bddfd in tif
+Jbvb<sup><font sizf=-2>TM</font></sup> 2 SDK, Stbndbrd Edition, 
+vfrsion 1.3 rflfbsf. Tiis dlbss is usfd to prfvfnt unbutiorizfd
+bddfss to tif logging strfbm bssodibtfd witi tif <dodf>DrivfrMbnbgfr</dodf>,
+wiidi mby dontbin informbtion sudi bs tbblf nbmfs, dolumn dbtb, bnd so on.
 
-<h2>What the <code>java.sql</code> Package Contains</h2>
-The <code>java.sql</code> package contains API for the following:
+<i2>Wibt tif <dodf>jbvb.sql</dodf> Pbdkbgf Contbins</i2>
+Tif <dodf>jbvb.sql</dodf> pbdkbgf dontbins API for tif following:
 <UL>
-  <LI>Making a connection with a database via the <code>DriverManager</code> facility
+  <LI>Mbking b donnfdtion witi b dbtbbbsf vib tif <dodf>DrivfrMbnbgfr</dodf> fbdility
   <UL>
-	 <LI><code>DriverManager</code> class -- makes a connection with a driver
-	 <LI><code>SQLPermission</code> class -- provides permission when code
-                  running within a Security Manager, such as an applet,
-                  attempts to set up a logging stream through the
-                  <code>DriverManager</code>
-	 <LI><code>Driver</code> interface -- provides the API for registering
-             and connecting drivers based on JDBC technology ("JDBC drivers"); 
-             generally used only by the <code>DriverManager</code> class
-	 <LI><code>DriverPropertyInfo</code> class -- provides properties for a
-             JDBC driver; not used by the general user
+	 <LI><dodf>DrivfrMbnbgfr</dodf> dlbss -- mbkfs b donnfdtion witi b drivfr
+	 <LI><dodf>SQLPfrmission</dodf> dlbss -- providfs pfrmission wifn dodf
+                  running witiin b Sfdurity Mbnbgfr, sudi bs bn bpplft,
+                  bttfmpts to sft up b logging strfbm tirougi tif
+                  <dodf>DrivfrMbnbgfr</dodf>
+	 <LI><dodf>Drivfr</dodf> intfrfbdf -- providfs tif API for rfgistfring
+             bnd donnfdting drivfrs bbsfd on JDBC tfdinology ("JDBC drivfrs"); 
+             gfnfrblly usfd only by tif <dodf>DrivfrMbnbgfr</dodf> dlbss
+	 <LI><dodf>DrivfrPropfrtyInfo</dodf> dlbss -- providfs propfrtifs for b
+             JDBC drivfr; not usfd by tif gfnfrbl usfr
   </UL>
-  <LI>Sending SQL statements to a database
+  <LI>Sfnding SQL stbtfmfnts to b dbtbbbsf
   <UL>
-	 <LI><code>Statement</code> --  used to send basic SQL statements
-	 <LI><code>PreparedStatement</code> --  used to send prepared statements or 
-              basic SQL statements (derived from <code>Statement</code>)
-	 <LI><code>CallableStatement</code> --  used to call database stored 
-              procedures (derived from <code>PreparedStatement</code>)
-	 <LI><code>Connection</code> interface --  provides methods for creating
-             statements and managing connections and their properties
-	 <LI><code>Savepoint</code> --  provides savepoints in a transaction
+	 <LI><dodf>Stbtfmfnt</dodf> --  usfd to sfnd bbsid SQL stbtfmfnts
+	 <LI><dodf>PrfpbrfdStbtfmfnt</dodf> --  usfd to sfnd prfpbrfd stbtfmfnts or 
+              bbsid SQL stbtfmfnts (dfrivfd from <dodf>Stbtfmfnt</dodf>)
+	 <LI><dodf>CbllbblfStbtfmfnt</dodf> --  usfd to dbll dbtbbbsf storfd 
+              prodfdurfs (dfrivfd from <dodf>PrfpbrfdStbtfmfnt</dodf>)
+	 <LI><dodf>Connfdtion</dodf> intfrfbdf --  providfs mftiods for drfbting
+             stbtfmfnts bnd mbnbging donnfdtions bnd tifir propfrtifs
+	 <LI><dodf>Sbvfpoint</dodf> --  providfs sbvfpoints in b trbnsbdtion
 
   </UL>
-  <LI>Retrieving and updating the results of a query
+  <LI>Rftrifving bnd updbting tif rfsults of b qufry
   <UL>
-	 <LI><code>ResultSet</code> interface
+	 <LI><dodf>RfsultSft</dodf> intfrfbdf
   </UL>
-  <LI>Standard mappings for SQL types to classes and interfaces in the 
-      Java programming language
+  <LI>Stbndbrd mbppings for SQL typfs to dlbssfs bnd intfrfbdfs in tif 
+      Jbvb progrbmming lbngubgf
   <UL>
-	 <LI><code>Array</code> interface -- mapping for SQL <code>ARRAY</code> 
-	 <LI><code>Blob</code> interface -- mapping for SQL <code>BLOB</code> 
-	 <LI><code>Clob</code> interface -- mapping for SQL <code>CLOB</code>
-	 <LI><code>Date</code> class -- mapping for SQL <code>DATE</code> 
-	  <LI><code>NClob</code> interface -- mapping for SQL <code>NCLOB</code>
-	 <LI><code>Ref</code> interface -- mapping for SQL <code>REF</code> 
-	  <LI><code>RowId</code> interface -- mapping for SQL <code>ROWID</code>
-	 <LI><code>Struct</code> interface -- mapping for SQL <code>STRUCT</code> 
-	  <LI><code>SQLXML</code> interface -- mapping for SQL <code>XML</code>
-	 <LI><code>Time</code> class -- mapping for SQL <code>TIME</code> 
-	 <LI><code>Timestamp</code> class -- mapping for SQL <code>TIMESTAMP</code> 
-	 <LI><code>Types</code> class -- provides constants for SQL types
+	 <LI><dodf>Arrby</dodf> intfrfbdf -- mbpping for SQL <dodf>ARRAY</dodf> 
+	 <LI><dodf>Blob</dodf> intfrfbdf -- mbpping for SQL <dodf>BLOB</dodf> 
+	 <LI><dodf>Clob</dodf> intfrfbdf -- mbpping for SQL <dodf>CLOB</dodf>
+	 <LI><dodf>Dbtf</dodf> dlbss -- mbpping for SQL <dodf>DATE</dodf> 
+	  <LI><dodf>NClob</dodf> intfrfbdf -- mbpping for SQL <dodf>NCLOB</dodf>
+	 <LI><dodf>Rff</dodf> intfrfbdf -- mbpping for SQL <dodf>REF</dodf> 
+	  <LI><dodf>RowId</dodf> intfrfbdf -- mbpping for SQL <dodf>ROWID</dodf>
+	 <LI><dodf>Strudt</dodf> intfrfbdf -- mbpping for SQL <dodf>STRUCT</dodf> 
+	  <LI><dodf>SQLXML</dodf> intfrfbdf -- mbpping for SQL <dodf>XML</dodf>
+	 <LI><dodf>Timf</dodf> dlbss -- mbpping for SQL <dodf>TIME</dodf> 
+	 <LI><dodf>Timfstbmp</dodf> dlbss -- mbpping for SQL <dodf>TIMESTAMP</dodf> 
+	 <LI><dodf>Typfs</dodf> dlbss -- providfs donstbnts for SQL typfs
   </UL>
-  <LI>Custom mapping an SQL user-defined type (UDT) to a class in the
-	  Java programming language
+  <LI>Custom mbpping bn SQL usfr-dffinfd typf (UDT) to b dlbss in tif
+	  Jbvb progrbmming lbngubgf
   <UL>
-	 <LI><code>SQLData</code> interface -- specifies the mapping of
-              a UDT to an instance of this class
-	 <LI><code>SQLInput</code> interface -- provides methods for reading
-              UDT attributes from a stream
-	 <LI><code>SQLOutput</code> interface -- provides methods for writing
-              UDT attributes back to a stream
+	 <LI><dodf>SQLDbtb</dodf> intfrfbdf -- spfdififs tif mbpping of
+              b UDT to bn instbndf of tiis dlbss
+	 <LI><dodf>SQLInput</dodf> intfrfbdf -- providfs mftiods for rfbding
+              UDT bttributfs from b strfbm
+	 <LI><dodf>SQLOutput</dodf> intfrfbdf -- providfs mftiods for writing
+              UDT bttributfs bbdk to b strfbm
   </UL>
-  <LI>Metadata
+  <LI>Mftbdbtb
   <UL>
-	 <LI><code>DatabaseMetaData</code> interface -- provides information
-              about the database
-	 <LI><code>ResultSetMetaData</code> interface -- provides information
-              about the columns of a <code>ResultSet</code> object
-	 <LI><code>ParameterMetaData</code> interface -- provides information
-              about the parameters to <code>PreparedStatement</code> commands
+	 <LI><dodf>DbtbbbsfMftbDbtb</dodf> intfrfbdf -- providfs informbtion
+              bbout tif dbtbbbsf
+	 <LI><dodf>RfsultSftMftbDbtb</dodf> intfrfbdf -- providfs informbtion
+              bbout tif dolumns of b <dodf>RfsultSft</dodf> objfdt
+	 <LI><dodf>PbrbmftfrMftbDbtb</dodf> intfrfbdf -- providfs informbtion
+              bbout tif pbrbmftfrs to <dodf>PrfpbrfdStbtfmfnt</dodf> dommbnds
   </UL>
-  <LI>Exceptions
+  <LI>Exdfptions
 	<UL>
-	  <LI><code>SQLException</code> -- thrown by most methods when there
-		 is a problem accessing data and by some methods for other reasons
-	  <LI><code>SQLWarning</code> -- thrown to indicate a warning
-	  <LI><code>DataTruncation</code> -- thrown to indicate that data may have
-     	  been truncated
-	  <LI><code>BatchUpdateException</code> -- thrown to indicate that not all
-		 commands in a batch update executed successfully
+	  <LI><dodf>SQLExdfption</dodf> -- tirown by most mftiods wifn tifrf
+		 is b problfm bddfssing dbtb bnd by somf mftiods for otifr rfbsons
+	  <LI><dodf>SQLWbrning</dodf> -- tirown to indidbtf b wbrning
+	  <LI><dodf>DbtbTrundbtion</dodf> -- tirown to indidbtf tibt dbtb mby ibvf
+     	  bffn trundbtfd
+	  <LI><dodf>BbtdiUpdbtfExdfption</dodf> -- tirown to indidbtf tibt not bll
+		 dommbnds in b bbtdi updbtf fxfdutfd suddfssfully
 	</UL>
 </UL>
 
-    <h3><code>java.sql</code> and <code>javax.sql</code> Features Introduced in the JDBC 4.2 API</h3>
+    <i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.2 API</i3>
 <UL>
-    <LI>Added <code>JDBCType</code>  enum and <code>SQLType</code> interface</li>
-    <LI>Support for <code>REF CURSORS</code> in <code>CallableStatement</code> 
+    <LI>Addfd <dodf>JDBCTypf</dodf>  fnum bnd <dodf>SQLTypf</dodf> intfrfbdf</li>
+    <LI>Support for <dodf>REF CURSORS</dodf> in <dodf>CbllbblfStbtfmfnt</dodf> 
     </LI>
-    <LI><code>DatabaseMetaData</code> methods to return maximum Logical LOB size
-        and if Ref Cursors are supported</LI>
-    <LI>Added support for large update counts</LI>
+    <LI><dodf>DbtbbbsfMftbDbtb</dodf> mftiods to rfturn mbximum Logidbl LOB sizf
+        bnd if Rff Cursors brf supportfd</LI>
+    <LI>Addfd support for lbrgf updbtf dounts</LI>
 
 </UL>
 
-    <h3><code>java.sql</code> and <code>javax.sql</code> Features Introduced in the JDBC 4.1 API</h3>
+    <i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.1 API</i3>
 <UL>
-    <LI>Allow <code>Connection</code>,
-        <code>ResultSet</code> and <code>Statement</code> objects to be
-        used with the try-with-resources statement</LI>
-    <LI>Supported added to <code>CallableStatement</code> and
-        <code>ResultSet</code> to specify the Java type to convert to via the
-        <code>getObject</code> method</LI>
-    <LI><code>DatabaseMetaData</code> methods to return PseudoColumns and if a
-        generated key is always returned</LI>
-    <LI>Added support to <code>Connection</code> to specify a database schema,
-    abort and timeout a physical connection.</LI>
-    <LI>Added support to close a <code>Statement</code> object when its dependent
-    objects have been closed</LI>
-    <LI>Support for obtaining the parent logger for a <code>Driver</code>,
-     <code>DataSource</code>, <code>ConnectionPoolDataSource</code> and
-     <code>XADataSource</code></LI>
+    <LI>Allow <dodf>Connfdtion</dodf>,
+        <dodf>RfsultSft</dodf> bnd <dodf>Stbtfmfnt</dodf> objfdts to bf
+        usfd witi tif try-witi-rfsourdfs stbtfmfnt</LI>
+    <LI>Supportfd bddfd to <dodf>CbllbblfStbtfmfnt</dodf> bnd
+        <dodf>RfsultSft</dodf> to spfdify tif Jbvb typf to donvfrt to vib tif
+        <dodf>gftObjfdt</dodf> mftiod</LI>
+    <LI><dodf>DbtbbbsfMftbDbtb</dodf> mftiods to rfturn PsfudoColumns bnd if b
+        gfnfrbtfd kfy is blwbys rfturnfd</LI>
+    <LI>Addfd support to <dodf>Connfdtion</dodf> to spfdify b dbtbbbsf sdifmb,
+    bbort bnd timfout b piysidbl donnfdtion.</LI>
+    <LI>Addfd support to dlosf b <dodf>Stbtfmfnt</dodf> objfdt wifn its dfpfndfnt
+    objfdts ibvf bffn dlosfd</LI>
+    <LI>Support for obtbining tif pbrfnt loggfr for b <dodf>Drivfr</dodf>,
+     <dodf>DbtbSourdf</dodf>, <dodf>ConnfdtionPoolDbtbSourdf</dodf> bnd
+     <dodf>XADbtbSourdf</dodf></LI>
 
 </UL>
-<h3><code>java.sql</code> and <code>javax.sql</code> Features Introduced in the JDBC 4.0 API</h3>
+<i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 4.0 API</i3>
 <UL>
-  <LI>auto java.sql.Driver discovery -- no longer need to load a 
-<code>java.sql.Driver</code> class via <code>Class.forName</code>
- <LI>National Character Set support added
- <li>Support added for the SQL:2003 XML data type
- <lI>SQLException enhancements -- Added support for cause chaining; New SQLExceptions
- added for common SQLState class value codes
- <li>Enhanced Blob/Clob functionality -- Support provided to create and free a Blob/Clob instance
- as well as additional methods added to improve accessibility
- <li>Support added for accessing a SQL ROWID
- <li>Support added to allow a JDBC application to access an instance of a JDBC resource
- that has been wrapped by a vendor, usually in an application server or connection 
- pooling environment.
- <li>Availability to be notified when a <code>PreparedStatement</code> that is associated
- with a <code>PooledConnection</code> has been closed or the driver determines is invalid
+  <LI>buto jbvb.sql.Drivfr disdovfry -- no longfr nffd to lobd b 
+<dodf>jbvb.sql.Drivfr</dodf> dlbss vib <dodf>Clbss.forNbmf</dodf>
+ <LI>Nbtionbl Cibrbdtfr Sft support bddfd
+ <li>Support bddfd for tif SQL:2003 XML dbtb typf
+ <lI>SQLExdfption fnibndfmfnts -- Addfd support for dbusf dibining; Nfw SQLExdfptions
+ bddfd for dommon SQLStbtf dlbss vbluf dodfs
+ <li>Enibndfd Blob/Clob fundtionblity -- Support providfd to drfbtf bnd frff b Blob/Clob instbndf
+ bs wfll bs bdditionbl mftiods bddfd to improvf bddfssibility
+ <li>Support bddfd for bddfssing b SQL ROWID
+ <li>Support bddfd to bllow b JDBC bpplidbtion to bddfss bn instbndf of b JDBC rfsourdf
+ tibt ibs bffn wrbppfd by b vfndor, usublly in bn bpplidbtion sfrvfr or donnfdtion 
+ pooling fnvironmfnt.
+ <li>Avbilbbility to bf notififd wifn b <dodf>PrfpbrfdStbtfmfnt</dodf> tibt is bssodibtfd
+ witi b <dodf>PoolfdConnfdtion</dodf> ibs bffn dlosfd or tif drivfr dftfrminfs is invblid
  
  
 </UL>
 
 
-<h3><code>java.sql</code> and <code>javax.sql</code> Features Introduced in the JDBC 3.0 API</h3>
+<i3><dodf>jbvb.sql</dodf> bnd <dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 3.0 API</i3>
 <UL>
-  <LI>Pooled statements -- reuse of statements associated with a pooled 
-       connection
-  <LI>Savepoints -- allow a transaction to be rolled back to a designated
-      savepoint
-  <LI>Properties defined for <code>ConnectionPoolDataSource</code> -- specify
-      how connections are to be pooled
-  <LI>Metadata for parameters of a <code>PreparedStatement</code> object
-  <LI>Ability to retrieve values from automatically generated columns
-  <LI>Ability to have multiple <code>ResultSet</code> objects 
-       returned from <code>CallableStatement</code> objects open at the
-      same time
-  <LI>Ability to identify parameters to <code>CallableStatement</code>
-      objects by name as well as by index
-  <LI><code>ResultSet</code> holdability -- ability to specify whether cursors
-      should be held open or closed at the end of a transaction
-  <LI>Ability to retrieve and update the SQL structured type instance that a
-      <code>Ref</code> object references
-  <LI>Ability to programmatically update <code>BLOB</code>,
-      <code>CLOB</code>, <code>ARRAY</code>, and <code>REF</code> values.
-  <LI>Addition of the <code>java.sql.Types.DATALINK</code> data type -- 
-      allows JDBC drivers access to objects stored outside a data source
-  <LI>Addition of metadata for retrieving SQL type hierarchies
+  <LI>Poolfd stbtfmfnts -- rfusf of stbtfmfnts bssodibtfd witi b poolfd 
+       donnfdtion
+  <LI>Sbvfpoints -- bllow b trbnsbdtion to bf rollfd bbdk to b dfsignbtfd
+      sbvfpoint
+  <LI>Propfrtifs dffinfd for <dodf>ConnfdtionPoolDbtbSourdf</dodf> -- spfdify
+      iow donnfdtions brf to bf poolfd
+  <LI>Mftbdbtb for pbrbmftfrs of b <dodf>PrfpbrfdStbtfmfnt</dodf> objfdt
+  <LI>Ability to rftrifvf vblufs from butombtidblly gfnfrbtfd dolumns
+  <LI>Ability to ibvf multiplf <dodf>RfsultSft</dodf> objfdts 
+       rfturnfd from <dodf>CbllbblfStbtfmfnt</dodf> objfdts opfn bt tif
+      sbmf timf
+  <LI>Ability to idfntify pbrbmftfrs to <dodf>CbllbblfStbtfmfnt</dodf>
+      objfdts by nbmf bs wfll bs by indfx
+  <LI><dodf>RfsultSft</dodf> ioldbbility -- bbility to spfdify wiftifr dursors
+      siould bf ifld opfn or dlosfd bt tif fnd of b trbnsbdtion
+  <LI>Ability to rftrifvf bnd updbtf tif SQL strudturfd typf instbndf tibt b
+      <dodf>Rff</dodf> objfdt rfffrfndfs
+  <LI>Ability to progrbmmbtidblly updbtf <dodf>BLOB</dodf>,
+      <dodf>CLOB</dodf>, <dodf>ARRAY</dodf>, bnd <dodf>REF</dodf> vblufs.
+  <LI>Addition of tif <dodf>jbvb.sql.Typfs.DATALINK</dodf> dbtb typf -- 
+      bllows JDBC drivfrs bddfss to objfdts storfd outsidf b dbtb sourdf
+  <LI>Addition of mftbdbtb for rftrifving SQL typf iifrbrdiifs
 </UL>
 
-<h3><code>java.sql</code> Features Introduced in the JDBC 2.1 Core API</h3>
+<i3><dodf>jbvb.sql</dodf> Ffbturfs Introdudfd in tif JDBC 2.1 Corf API</i3>
 <UL>
-  <LI>Scrollable result sets--using new methods in the <code>ResultSet</code>
-	  interface that allow the cursor to be moved to a particular row or to a
-	  position relative to its current position
-  <LI>Batch updates
-  <LI>Programmatic updates--using <code>ResultSet</code> updater methods
-  <LI>New data types--interfaces mapping the SQL3 data types
-  <LI>Custom mapping of user-defined types (UDTs)
-  <LI>Miscellaneous features, including performance hints, the use of character
-	  streams, full precision for <code>java.math.BigDecimal</code> values,
-	  additional security, and
-	  support for time zones in date, time, and timestamp values. 
+  <LI>Sdrollbblf rfsult sfts--using nfw mftiods in tif <dodf>RfsultSft</dodf>
+	  intfrfbdf tibt bllow tif dursor to bf movfd to b pbrtidulbr row or to b
+	  position rflbtivf to its durrfnt position
+  <LI>Bbtdi updbtfs
+  <LI>Progrbmmbtid updbtfs--using <dodf>RfsultSft</dodf> updbtfr mftiods
+  <LI>Nfw dbtb typfs--intfrfbdfs mbpping tif SQL3 dbtb typfs
+  <LI>Custom mbpping of usfr-dffinfd typfs (UDTs)
+  <LI>Misdfllbnfous ffbturfs, indluding pfrformbndf iints, tif usf of dibrbdtfr
+	  strfbms, full prfdision for <dodf>jbvb.mbti.BigDfdimbl</dodf> vblufs,
+	  bdditionbl sfdurity, bnd
+	  support for timf zonfs in dbtf, timf, bnd timfstbmp vblufs. 
 </UL>
 
-<h3><code>javax.sql</code> Features Introduced in the JDBC 2.0 Optional
-Package API</h3>
+<i3><dodf>jbvbx.sql</dodf> Ffbturfs Introdudfd in tif JDBC 2.0 Optionbl
+Pbdkbgf API</i3>
 <UL>
-  <LI>The <code>DataSource</code> interface as a means of making a connection.  The
-      Java Naming and Directory Interface<sup><font size=-2>TM</font></sup>
-      (JNDI) is used for registering a <code>DataSource</code> object with a 
-      naming service and also for  retrieving it.
-  <LI>Pooled connections -- allowing connections to be used and reused
-  <LI>Distributed transactions -- allowing a transaction to span diverse
-      DBMS servers
-  <LI><code>RowSet</code> technology -- providing a convenient means of
-       handling and passing data
+  <LI>Tif <dodf>DbtbSourdf</dodf> intfrfbdf bs b mfbns of mbking b donnfdtion.  Tif
+      Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font sizf=-2>TM</font></sup>
+      (JNDI) is usfd for rfgistfring b <dodf>DbtbSourdf</dodf> objfdt witi b 
+      nbming sfrvidf bnd blso for  rftrifving it.
+  <LI>Poolfd donnfdtions -- bllowing donnfdtions to bf usfd bnd rfusfd
+  <LI>Distributfd trbnsbdtions -- bllowing b trbnsbdtion to spbn divfrsf
+      DBMS sfrvfrs
+  <LI><dodf>RowSft</dodf> tfdinology -- providing b donvfnifnt mfbns of
+       ibndling bnd pbssing dbtb
 </UL>
 
 
-<h3>Custom Mapping of UDTs</h3>
-A user-defined type (UDT) defined in SQL can be mapped to a class in the Java
-programming language. An SQL structured type or an SQL <code>DISTINCT</code>
-type are the UDTs that may be custom mapped.  The following three
-steps set up a custom mapping:
+<i3>Custom Mbpping of UDTs</i3>
+A usfr-dffinfd typf (UDT) dffinfd in SQL dbn bf mbppfd to b dlbss in tif Jbvb
+progrbmming lbngubgf. An SQL strudturfd typf or bn SQL <dodf>DISTINCT</dodf>
+typf brf tif UDTs tibt mby bf dustom mbppfd.  Tif following tirff
+stfps sft up b dustom mbpping:
 <ol>
-  <li>Defining the SQL structured type or <code>DISTINCT</code> type in SQL
-  <li>Defining the class in the Java programming language to which the
-	  SQL UDT will be mapped.  This class must implement the
-	  <code>SQLData</code> interface.
-  <li>Making an entry in a <code>Connection</code> object's type map
-      that contains two things:
+  <li>Dffining tif SQL strudturfd typf or <dodf>DISTINCT</dodf> typf in SQL
+  <li>Dffining tif dlbss in tif Jbvb progrbmming lbngubgf to wiidi tif
+	  SQL UDT will bf mbppfd.  Tiis dlbss must implfmfnt tif
+	  <dodf>SQLDbtb</dodf> intfrfbdf.
+  <li>Mbking bn fntry in b <dodf>Connfdtion</dodf> objfdt's typf mbp
+      tibt dontbins two tiings:
    <ul>
-       <li>the fully-qualified SQL name of the UDT
-       <li>the <code>Class</code> object for the class that implements the 
-           <code>SQLData</code> interface
+       <li>tif fully-qublififd SQL nbmf of tif UDT
+       <li>tif <dodf>Clbss</dodf> objfdt for tif dlbss tibt implfmfnts tif 
+           <dodf>SQLDbtb</dodf> intfrfbdf
    </ul>
 </ol>
 <p>
-When these are in place for a UDT, calling the methods
-<code>ResultSet.getObject</code> or <code>CallableStatement.getObject</code> 
-on that UDT will automatically retrieve the custom mapping for it. Also, the
-<code>PreparedStatement.setObject</code> method will automatically map the
-object back to its SQL type to store it in the data source.
+Wifn tifsf brf in plbdf for b UDT, dblling tif mftiods
+<dodf>RfsultSft.gftObjfdt</dodf> or <dodf>CbllbblfStbtfmfnt.gftObjfdt</dodf> 
+on tibt UDT will butombtidblly rftrifvf tif dustom mbpping for it. Also, tif
+<dodf>PrfpbrfdStbtfmfnt.sftObjfdt</dodf> mftiod will butombtidblly mbp tif
+objfdt bbdk to its SQL typf to storf it in tif dbtb sourdf.
 
-<h2>Package Specification</h2>
+<i2>Pbdkbgf Spfdifidbtion</i2>
 
 <ul>
-  <li><a href="https://jcp.org/en/jsr/detail?id=221">JDBC 4.2 Specification</a>
+  <li><b irff="ittps://jdp.org/fn/jsr/dftbil?id=221">JDBC 4.2 Spfdifidbtion</b>
 </ul>
 
-<h2>Related Documentation</h2>
+<i2>Rflbtfd Dodumfntbtion</i2>
 
 <ul>
-  <li><a href="http://docs.oracle.com/javase/tutorial/jdbc/basics/index.html">
-          Lesson:JDBC Basics(The Javaxx Tutorials &gt; JDBC&trade; Database Access)</a>
+  <li><b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/jdbd/bbsids/indfx.itml">
+          Lfsson:JDBC Bbsids(Tif Jbvbxx Tutoribls &gt; JDBC&trbdf; Dbtbbbsf Addfss)</b>
 
- <li><a href="http://www.oracle.com/technetwork/java/index-142838.html">
-          <i>JDBC&trade; API Tutorial and Reference, Third Edition</i></a>
+ <li><b irff="ittp://www.orbdlf.dom/tfdinftwork/jbvb/indfx-142838.itml">
+          <i>JDBC&trbdf; API Tutoribl bnd Rfffrfndf, Tiird Edition</i></b>
 </ul>
 
 </body>
-</html>
+</itml>

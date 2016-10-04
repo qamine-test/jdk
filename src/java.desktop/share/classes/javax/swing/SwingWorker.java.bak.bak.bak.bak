@@ -1,0 +1,869 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.PropfrtyChbngfSupport;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.util.List;
+import jbvb.util.dondurrfnt.*;
+import jbvb.util.dondurrfnt.lodks.*;
+
+import jbvb.bwt.fvfnt.*;
+
+import jbvbx.swing.SwingUtilitifs;
+
+import sun.bwt.AppContfxt;
+import sun.swing.AddumulbtivfRunnbblf;
+
+/**
+ * An bbstrbdt dlbss to pfrform lfngthy GUI-intfrbdtion tbsks in b
+ * bbdkground thrfbd. Sfvfrbl bbdkground thrfbds dbn bf usfd to fxfdutf sudh
+ * tbsks. Howfvfr, thf fxbdt strbtfgy of dhoosing b thrfbd for bny pbrtidulbr
+ * {@dodf SwingWorkfr} is unspfdififd bnd should not bf rflifd on.
+ * <p>
+ * Whfn writing b multi-thrfbdfd bpplidbtion using Swing, thfrf brf
+ * two donstrbints to kffp in mind:
+ * (rfffr to
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.html">
+ *   Condurrfndy in Swing
+ * </b> for morf dftbils):
+ * <ul>
+ *   <li> Timf-donsuming tbsks should not bf run on thf <i>Evfnt
+ *        Dispbtdh Thrfbd</i>. Othfrwisf thf bpplidbtion bfdomfs unrfsponsivf.
+ *   </li>
+ *   <li> Swing domponfnts should bf bddfssfd  on thf <i>Evfnt
+ *        Dispbtdh Thrfbd</i> only.
+ *   </li>
+ * </ul>
+ *
+ *
+ * <p>
+ * Thfsf donstrbints mfbn thbt b GUI bpplidbtion with timf intfnsivf
+ * domputing nffds bt lfbst two thrfbds:  1) b thrfbd to pfrform thf lfngthy
+ * tbsk bnd 2) thf <i>Evfnt Dispbtdh Thrfbd</i> (EDT) for bll GUI-rflbtfd
+ * bdtivitifs.  This involvfs intfr-thrfbd dommunidbtion whidh dbn bf
+ * tridky to implfmfnt.
+ *
+ * <p>
+ * {@dodf SwingWorkfr} is dfsignfd for situbtions whfrf you nffd to hbvf b long
+ * running tbsk run in b bbdkground thrfbd bnd providf updbtfs to thf UI
+ * fithfr whfn donf, or whilf prodfssing.
+ * Subdlbssfs of {@dodf SwingWorkfr} must implfmfnt
+ * thf {@link #doInBbdkground} mfthod to pfrform thf bbdkground domputbtion.
+ *
+ *
+ * <p>
+ * <b>Workflow</b>
+ * <p>
+ * Thfrf brf thrff thrfbds involvfd in thf liff dydlf of b
+ * {@dodf SwingWorkfr} :
+ * <ul>
+ * <li>
+ * <p>
+ * <i>Currfnt</i> thrfbd: Thf {@link #fxfdutf} mfthod is
+ * dbllfd on this thrfbd. It sdhfdulfs {@dodf SwingWorkfr} for thf fxfdution on b
+ * <i>workfr</i>
+ * thrfbd bnd rfturns immfdibtfly. Onf dbn wbit for thf {@dodf SwingWorkfr} to
+ * domplftf using thf {@link #gft gft} mfthods.
+ * <li>
+ * <p>
+ * <i>Workfr</i> thrfbd: Thf {@link #doInBbdkground}
+ * mfthod is dbllfd on this thrfbd.
+ * This is whfrf bll bbdkground bdtivitifs should hbppfn. To notify
+ * {@dodf PropfrtyChbngfListfnfrs} bbout bound propfrtifs dhbngfs usf thf
+ * {@link #firfPropfrtyChbngf firfPropfrtyChbngf} bnd
+ * {@link #gftPropfrtyChbngfSupport} mfthods. By dffbult thfrf brf two bound
+ * propfrtifs bvbilbblf: {@dodf stbtf} bnd {@dodf progrfss}.
+ * <li>
+ * <p>
+ * <i>Evfnt Dispbtdh Thrfbd</i>:  All Swing rflbtfd bdtivitifs oddur
+ * on this thrfbd. {@dodf SwingWorkfr} invokfs thf
+ * {@link #prodfss prodfss} bnd {@link #donf} mfthods bnd notififs
+ * bny {@dodf PropfrtyChbngfListfnfrs} on this thrfbd.
+ * </ul>
+ *
+ * <p>
+ * Oftfn, thf <i>Currfnt</i> thrfbd is thf <i>Evfnt Dispbtdh
+ * Thrfbd</i>.
+ *
+ *
+ * <p>
+ * Bfforf thf {@dodf doInBbdkground} mfthod is invokfd on b <i>workfr</i> thrfbd,
+ * {@dodf SwingWorkfr} notififs bny {@dodf PropfrtyChbngfListfnfrs} bbout thf
+ * {@dodf stbtf} propfrty dhbngf to {@dodf StbtfVbluf.STARTED}.  Aftfr thf
+ * {@dodf doInBbdkground} mfthod is finishfd thf {@dodf donf} mfthod is
+ * fxfdutfd.  Thfn {@dodf SwingWorkfr} notififs bny {@dodf PropfrtyChbngfListfnfrs}
+ * bbout thf {@dodf stbtf} propfrty dhbngf to {@dodf StbtfVbluf.DONE}.
+ *
+ * <p>
+ * {@dodf SwingWorkfr} is only dfsignfd to bf fxfdutfd ondf.  Exfduting b
+ * {@dodf SwingWorkfr} morf thbn ondf will not rfsult in invoking thf
+ * {@dodf doInBbdkground} mfthod twidf.
+ *
+ * <p>
+ * <b>Sbmplf Usbgf</b>
+ * <p>
+ * Thf following fxbmplf illustrbtfs thf simplfst usf dbsf.  Somf
+ * prodfssing is donf in thf bbdkground bnd whfn donf you updbtf b Swing
+ * domponfnt.
+ *
+ * <p>
+ * Sby wf wbnt to find thf "Mfbning of Liff" bnd displby thf rfsult in
+ * b {@dodf JLbbfl}.
+ *
+ * <prf>
+ *   finbl JLbbfl lbbfl;
+ *   dlbss MfbningOfLiffFindfr fxtfnds SwingWorkfr&lt;String, Objfdt&gt; {
+ *       {@dodf @Ovfrridf}
+ *       publid String doInBbdkground() {
+ *           rfturn findThfMfbningOfLiff();
+ *       }
+ *
+ *       {@dodf @Ovfrridf}
+ *       protfdtfd void donf() {
+ *           try {
+ *               lbbfl.sftTfxt(gft());
+ *           } dbtdh (Exdfption ignorf) {
+ *           }
+ *       }
+ *   }
+ *
+ *   (nfw MfbningOfLiffFindfr()).fxfdutf();
+ * </prf>
+ *
+ * <p>
+ * Thf nfxt fxbmplf is usfful in situbtions whfrf you wish to prodfss dbtb
+ * bs it is rfbdy on thf <i>Evfnt Dispbtdh Thrfbd</i>.
+ *
+ * <p>
+ * Now wf wbnt to find thf first N primf numbfrs bnd displby thf rfsults in b
+ * {@dodf JTfxtArfb}.  Whilf this is domputing, wf wbnt to updbtf our
+ * progrfss in b {@dodf JProgrfssBbr}.  Finblly, wf blso wbnt to print
+ * thf primf numbfrs to {@dodf Systfm.out}.
+ * <prf>
+ * dlbss PrimfNumbfrsTbsk fxtfnds
+ *         SwingWorkfr&lt;List&lt;Intfgfr&gt;, Intfgfr&gt; {
+ *     PrimfNumbfrsTbsk(JTfxtArfb tfxtArfb, int numbfrsToFind) {
+ *         //initiblizf
+ *     }
+ *
+ *     {@dodf @Ovfrridf}
+ *     publid List&lt;Intfgfr&gt; doInBbdkground() {
+ *         whilf (! fnough &bmp;&bmp; ! isCbndfllfd()) {
+ *                 numbfr = nfxtPrimfNumbfr();
+ *                 publish(numbfr);
+ *                 sftProgrfss(100 * numbfrs.sizf() / numbfrsToFind);
+ *             }
+ *         }
+ *         rfturn numbfrs;
+ *     }
+ *
+ *     {@dodf @Ovfrridf}
+ *     protfdtfd void prodfss(List&lt;Intfgfr&gt; dhunks) {
+ *         for (int numbfr : dhunks) {
+ *             tfxtArfb.bppfnd(numbfr + &quot;\n&quot;);
+ *         }
+ *     }
+ * }
+ *
+ * JTfxtArfb tfxtArfb = nfw JTfxtArfb();
+ * finbl JProgrfssBbr progrfssBbr = nfw JProgrfssBbr(0, 100);
+ * PrimfNumbfrsTbsk tbsk = nfw PrimfNumbfrsTbsk(tfxtArfb, N);
+ * tbsk.bddPropfrtyChbngfListfnfr(
+ *     nfw PropfrtyChbngfListfnfr() {
+ *         publid  void propfrtyChbngf(PropfrtyChbngfEvfnt fvt) {
+ *             if (&quot;progrfss&quot;.fqubls(fvt.gftPropfrtyNbmf())) {
+ *                 progrfssBbr.sftVbluf((Intfgfr)fvt.gftNfwVbluf());
+ *             }
+ *         }
+ *     });
+ *
+ * tbsk.fxfdutf();
+ * Systfm.out.println(tbsk.gft()); //prints bll primf numbfrs wf hbvf got
+ * </prf>
+ *
+ * <p>
+ * Bfdbusf {@dodf SwingWorkfr} implfmfnts {@dodf Runnbblf}, b
+ * {@dodf SwingWorkfr} dbn bf submittfd to bn
+ * {@link jbvb.util.dondurrfnt.Exfdutor} for fxfdution.
+ *
+ * @buthor Igor Kushnirskiy
+ *
+ * @pbrbm <T> thf rfsult typf rfturnfd by this {@dodf SwingWorkfr's}
+ *        {@dodf doInBbdkground} bnd {@dodf gft} mfthods
+ * @pbrbm <V> thf typf usfd for dbrrying out intfrmfdibtf rfsults by this
+ *        {@dodf SwingWorkfr's} {@dodf publish} bnd {@dodf prodfss} mfthods
+ *
+ * @sindf 1.6
+ */
+publid bbstrbdt dlbss SwingWorkfr<T, V> implfmfnts RunnbblfFuturf<T> {
+    /**
+     * numbfr of workfr thrfbds.
+     */
+    privbtf stbtid finbl int MAX_WORKER_THREADS = 10;
+
+    /**
+     * durrfnt progrfss.
+     */
+    privbtf volbtilf int progrfss;
+
+    /**
+     * durrfnt stbtf.
+     */
+    privbtf volbtilf StbtfVbluf stbtf;
+
+    /**
+     * fvfrything is run insidf this FuturfTbsk. Also it is usfd bs
+     * b dflfgbtff for thf Futurf API.
+     */
+    privbtf finbl FuturfTbsk<T> futurf;
+
+    /**
+     * bll propfrtyChbngfSupport gofs through this.
+     */
+    privbtf finbl PropfrtyChbngfSupport propfrtyChbngfSupport;
+
+    /**
+     * hbndlfr for {@dodf prodfss} mfhtod.
+     */
+    privbtf AddumulbtivfRunnbblf<V> doProdfss;
+
+    /**
+     * hbndlfr for progrfss propfrty dhbngf notifidbtions.
+     */
+    privbtf AddumulbtivfRunnbblf<Intfgfr> doNotifyProgrfssChbngf;
+
+    privbtf finbl AddumulbtivfRunnbblf<Runnbblf> doSubmit = gftDoSubmit();
+
+    /**
+     * Vblufs for thf {@dodf stbtf} bound propfrty.
+     * @sindf 1.6
+     */
+    publid fnum StbtfVbluf {
+        /**
+         * Initibl {@dodf SwingWorkfr} stbtf.
+         */
+        PENDING,
+        /**
+         * {@dodf SwingWorkfr} is {@dodf STARTED}
+         * bfforf invoking {@dodf doInBbdkground}.
+         */
+        STARTED,
+
+        /**
+         * {@dodf SwingWorkfr} is {@dodf DONE}
+         * bftfr {@dodf doInBbdkground} mfthod
+         * is finishfd.
+         */
+        DONE
+    }
+
+    /**
+     * Construdts this {@dodf SwingWorkfr}.
+     */
+    publid SwingWorkfr() {
+        Cbllbblf<T> dbllbblf =
+                nfw Cbllbblf<T>() {
+                    publid T dbll() throws Exdfption {
+                        sftStbtf(StbtfVbluf.STARTED);
+                        rfturn doInBbdkground();
+                    }
+                };
+
+        futurf = nfw FuturfTbsk<T>(dbllbblf) {
+                       @Ovfrridf
+                       protfdtfd void donf() {
+                           donfEDT();
+                           sftStbtf(StbtfVbluf.DONE);
+                       }
+                   };
+
+       stbtf = StbtfVbluf.PENDING;
+       propfrtyChbngfSupport = nfw SwingWorkfrPropfrtyChbngfSupport(this);
+       doProdfss = null;
+       doNotifyProgrfssChbngf = null;
+    }
+
+    /**
+     * Computfs b rfsult, or throws bn fxdfption if unbblf to do so.
+     *
+     * <p>
+     * Notf thbt this mfthod is fxfdutfd only ondf.
+     *
+     * <p>
+     * Notf: this mfthod is fxfdutfd in b bbdkground thrfbd.
+     *
+     *
+     * @rfturn thf domputfd rfsult
+     * @throws Exdfption if unbblf to domputf b rfsult
+     *
+     */
+    protfdtfd bbstrbdt T doInBbdkground() throws Exdfption ;
+
+    /**
+     * Sfts this {@dodf Futurf} to thf rfsult of domputbtion unlfss
+     * it hbs bffn dbndfllfd.
+     */
+    publid finbl void run() {
+        futurf.run();
+    }
+
+    /**
+     * Sfnds dbtb dhunks to thf {@link #prodfss} mfthod. This mfthod is to bf
+     * usfd from insidf thf {@dodf doInBbdkground} mfthod to dflivfr
+     * intfrmfdibtf rfsults
+     * for prodfssing on thf <i>Evfnt Dispbtdh Thrfbd</i> insidf thf
+     * {@dodf prodfss} mfthod.
+     *
+     * <p>
+     * Bfdbusf thf {@dodf prodfss} mfthod is invokfd bsyndhronously on
+     * thf <i>Evfnt Dispbtdh Thrfbd</i>
+     * multiplf invodbtions to thf {@dodf publish} mfthod
+     * might oddur bfforf thf {@dodf prodfss} mfthod is fxfdutfd. For
+     * pfrformbndf purposfs bll thfsf invodbtions brf doblfsdfd into onf
+     * invodbtion with dondbtfnbtfd brgumfnts.
+     *
+     * <p>
+     * For fxbmplf:
+     *
+     * <prf>
+     * publish(&quot;1&quot;);
+     * publish(&quot;2&quot;, &quot;3&quot;);
+     * publish(&quot;4&quot;, &quot;5&quot;, &quot;6&quot;);
+     * </prf>
+     *
+     * might rfsult in:
+     *
+     * <prf>
+     * prodfss(&quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;)
+     * </prf>
+     *
+     * <p>
+     * <b>Sbmplf Usbgf</b>. This dodf snippft lobds somf tbbulbr dbtb bnd
+     * updbtfs {@dodf DffbultTbblfModfl} with it. Notf thbt it sbff to mutbtf
+     * thf tbblfModfl from insidf thf {@dodf prodfss} mfthod bfdbusf it is
+     * invokfd on thf <i>Evfnt Dispbtdh Thrfbd</i>.
+     *
+     * <prf>
+     * dlbss TbblfSwingWorkfr fxtfnds
+     *         SwingWorkfr&lt;DffbultTbblfModfl, Objfdt[]&gt; {
+     *     privbtf finbl DffbultTbblfModfl tbblfModfl;
+     *
+     *     publid TbblfSwingWorkfr(DffbultTbblfModfl tbblfModfl) {
+     *         this.tbblfModfl = tbblfModfl;
+     *     }
+     *
+     *     {@dodf @Ovfrridf}
+     *     protfdtfd DffbultTbblfModfl doInBbdkground() throws Exdfption {
+     *         for (Objfdt[] row = lobdDbtb();
+     *                  ! isCbndfllfd() &bmp;&bmp; row != null;
+     *                  row = lobdDbtb()) {
+     *             publish((Objfdt[]) row);
+     *         }
+     *         rfturn tbblfModfl;
+     *     }
+     *
+     *     {@dodf @Ovfrridf}
+     *     protfdtfd void prodfss(List&lt;Objfdt[]&gt; dhunks) {
+     *         for (Objfdt[] row : dhunks) {
+     *             tbblfModfl.bddRow(row);
+     *         }
+     *     }
+     * }
+     * </prf>
+     *
+     * @pbrbm dhunks intfrmfdibtf rfsults to prodfss
+     *
+     * @sff #prodfss
+     *
+     */
+    @SbffVbrbrgs
+    @SupprfssWbrnings("vbrbrgs") // Pbssing dhunks to bdd is sbff
+    protfdtfd finbl void publish(V... dhunks) {
+        syndhronizfd (this) {
+            if (doProdfss == null) {
+                doProdfss = nfw AddumulbtivfRunnbblf<V>() {
+                    @Ovfrridf
+                    publid void run(List<V> brgs) {
+                        prodfss(brgs);
+                    }
+                    @Ovfrridf
+                    protfdtfd void submit() {
+                        doSubmit.bdd(this);
+                    }
+                };
+            }
+        }
+        doProdfss.bdd(dhunks);
+    }
+
+    /**
+     * Rfdfivfs dbtb dhunks from thf {@dodf publish} mfthod bsyndhronously on thf
+     * <i>Evfnt Dispbtdh Thrfbd</i>.
+     *
+     * <p>
+     * Plfbsf rfffr to thf {@link #publish} mfthod for morf dftbils.
+     *
+     * @pbrbm dhunks intfrmfdibtf rfsults to prodfss
+     *
+     * @sff #publish
+     *
+     */
+    protfdtfd void prodfss(List<V> dhunks) {
+    }
+
+    /**
+     * Exfdutfd on thf <i>Evfnt Dispbtdh Thrfbd</i> bftfr thf {@dodf doInBbdkground}
+     * mfthod is finishfd. Thf dffbult
+     * implfmfntbtion dofs nothing. Subdlbssfs mby ovfrridf this mfthod to
+     * pfrform domplftion bdtions on thf <i>Evfnt Dispbtdh Thrfbd</i>. Notf
+     * thbt you dbn qufry stbtus insidf thf implfmfntbtion of this mfthod to
+     * dftfrminf thf rfsult of this tbsk or whfthfr this tbsk hbs bffn dbndfllfd.
+     *
+     * @sff #doInBbdkground
+     * @sff #isCbndfllfd()
+     * @sff #gft
+     */
+    protfdtfd void donf() {
+    }
+
+    /**
+     * Sfts thf {@dodf progrfss} bound propfrty.
+     * Thf vbluf should bf from 0 to 100.
+     *
+     * <p>
+     * Bfdbusf {@dodf PropfrtyChbngfListfnfr}s brf notififd bsyndhronously on
+     * thf <i>Evfnt Dispbtdh Thrfbd</i> multiplf invodbtions to thf
+     * {@dodf sftProgrfss} mfthod might oddur bfforf bny
+     * {@dodf PropfrtyChbngfListfnfrs} brf invokfd. For pfrformbndf purposfs
+     * bll thfsf invodbtions brf doblfsdfd into onf invodbtion with thf lbst
+     * invodbtion brgumfnt only.
+     *
+     * <p>
+     * For fxbmplf, thf following invokbtions:
+     *
+     * <prf>
+     * sftProgrfss(1);
+     * sftProgrfss(2);
+     * sftProgrfss(3);
+     * </prf>
+     *
+     * might rfsult in b singlf {@dodf PropfrtyChbngfListfnfr} notifidbtion with
+     * thf vbluf {@dodf 3}.
+     *
+     * @pbrbm progrfss thf progrfss vbluf to sft
+     * @throws IllfgblArgumfntExdfption is vbluf not from 0 to 100
+     */
+    protfdtfd finbl void sftProgrfss(int progrfss) {
+        if (progrfss < 0 || progrfss > 100) {
+            throw nfw IllfgblArgumfntExdfption("thf vbluf should bf from 0 to 100");
+        }
+        if (this.progrfss == progrfss) {
+            rfturn;
+        }
+        int oldProgrfss = this.progrfss;
+        this.progrfss = progrfss;
+        if (! gftPropfrtyChbngfSupport().hbsListfnfrs("progrfss")) {
+            rfturn;
+        }
+        syndhronizfd (this) {
+            if (doNotifyProgrfssChbngf == null) {
+                doNotifyProgrfssChbngf =
+                    nfw AddumulbtivfRunnbblf<Intfgfr>() {
+                        @Ovfrridf
+                        publid void run(List<Intfgfr> brgs) {
+                            firfPropfrtyChbngf("progrfss",
+                               brgs.gft(0),
+                               brgs.gft(brgs.sizf() - 1));
+                        }
+                        @Ovfrridf
+                        protfdtfd void submit() {
+                            doSubmit.bdd(this);
+                        }
+                    };
+            }
+        }
+        doNotifyProgrfssChbngf.bdd(oldProgrfss, progrfss);
+    }
+
+    /**
+     * Rfturns thf {@dodf progrfss} bound propfrty.
+     *
+     * @rfturn thf progrfss bound propfrty.
+     */
+    publid finbl int gftProgrfss() {
+        rfturn progrfss;
+    }
+
+    /**
+     * Sdhfdulfs this {@dodf SwingWorkfr} for fxfdution on b <i>workfr</i>
+     * thrfbd. Thfrf brf b numbfr of <i>workfr</i> thrfbds bvbilbblf. In thf
+     * fvfnt bll <i>workfr</i> thrfbds brf busy hbndling othfr
+     * {@dodf SwingWorkfrs} this {@dodf SwingWorkfr} is plbdfd in b wbiting
+     * qufuf.
+     *
+     * <p>
+     * Notf:
+     * {@dodf SwingWorkfr} is only dfsignfd to bf fxfdutfd ondf.  Exfduting b
+     * {@dodf SwingWorkfr} morf thbn ondf will not rfsult in invoking thf
+     * {@dodf doInBbdkground} mfthod twidf.
+     */
+    publid finbl void fxfdutf() {
+        gftWorkfrsExfdutorSfrvidf().fxfdutf(this);
+    }
+
+    // Futurf mfthods START
+    /**
+     * {@inhfritDod}
+     */
+    publid finbl boolfbn dbndfl(boolfbn mbyIntfrruptIfRunning) {
+        rfturn futurf.dbndfl(mbyIntfrruptIfRunning);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid finbl boolfbn isCbndfllfd() {
+        rfturn futurf.isCbndfllfd();
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid finbl boolfbn isDonf() {
+        rfturn futurf.isDonf();
+    }
+
+    /**
+     * {@inhfritDod}
+     * <p>
+     * Notf: dblling {@dodf gft} on thf <i>Evfnt Dispbtdh Thrfbd</i> blodks
+     * <i>bll</i> fvfnts, indluding rfpbints, from bfing prodfssfd until this
+     * {@dodf SwingWorkfr} is domplftf.
+     *
+     * <p>
+     * Whfn you wbnt thf {@dodf SwingWorkfr} to blodk on thf <i>Evfnt
+     * Dispbtdh Thrfbd</i> wf rfdommfnd thbt you usf b <i>modbl diblog</i>.
+     *
+     * <p>
+     * For fxbmplf:
+     *
+     * <prf>
+     * dlbss SwingWorkfrComplftionWbitfr fxtfnds PropfrtyChbngfListfnfr {
+     *     privbtf JDiblog diblog;
+     *
+     *     publid SwingWorkfrComplftionWbitfr(JDiblog diblog) {
+     *         this.diblog = diblog;
+     *     }
+     *
+     *     publid void propfrtyChbngf(PropfrtyChbngfEvfnt fvfnt) {
+     *         if (&quot;stbtf&quot;.fqubls(fvfnt.gftPropfrtyNbmf())
+     *                 &bmp;&bmp; SwingWorkfr.StbtfVbluf.DONE == fvfnt.gftNfwVbluf()) {
+     *             diblog.sftVisiblf(fblsf);
+     *             diblog.disposf();
+     *         }
+     *     }
+     * }
+     * JDiblog diblog = nfw JDiblog(ownfr, truf);
+     * swingWorkfr.bddPropfrtyChbngfListfnfr(
+     *     nfw SwingWorkfrComplftionWbitfr(diblog));
+     * swingWorkfr.fxfdutf();
+     * //thf diblog will bf visiblf until thf SwingWorkfr is donf
+     * diblog.sftVisiblf(truf);
+     * </prf>
+     */
+    publid finbl T gft() throws IntfrruptfdExdfption, ExfdutionExdfption {
+        rfturn futurf.gft();
+    }
+
+    /**
+     * {@inhfritDod}
+     * <p>
+     * Plfbsf rfffr to {@link #gft} for morf dftbils.
+     */
+    publid finbl T gft(long timfout, TimfUnit unit) throws IntfrruptfdExdfption,
+            ExfdutionExdfption, TimfoutExdfption {
+        rfturn futurf.gft(timfout, unit);
+    }
+
+    // Futurf mfthods END
+
+    // PropfrtyChbngfSupports mfthods START
+    /**
+     * Adds b {@dodf PropfrtyChbngfListfnfr} to thf listfnfr list. Thf listfnfr
+     * is rfgistfrfd for bll propfrtifs. Thf sbmf listfnfr objfdt mby bf bddfd
+     * morf thbn ondf, bnd will bf dbllfd bs mbny timfs bs it is bddfd. If
+     * {@dodf listfnfr} is {@dodf null}, no fxdfption is thrown bnd no bdtion is tbkfn.
+     *
+     * <p>
+     * Notf: This is mfrfly b donvfnifndf wrbppfr. All work is dflfgbtfd to
+     * {@dodf PropfrtyChbngfSupport} from {@link #gftPropfrtyChbngfSupport}.
+     *
+     * @pbrbm listfnfr thf {@dodf PropfrtyChbngfListfnfr} to bf bddfd
+     */
+    publid finbl void bddPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr) {
+        gftPropfrtyChbngfSupport().bddPropfrtyChbngfListfnfr(listfnfr);
+    }
+
+    /**
+     * Rfmovfs b {@dodf PropfrtyChbngfListfnfr} from thf listfnfr list. This
+     * rfmovfs b {@dodf PropfrtyChbngfListfnfr} thbt wbs rfgistfrfd for bll
+     * propfrtifs. If {@dodf listfnfr} wbs bddfd morf thbn ondf to thf sbmf
+     * fvfnt sourdf, it will bf notififd onf lfss timf bftfr bfing rfmovfd. If
+     * {@dodf listfnfr} is {@dodf null}, or wbs nfvfr bddfd, no fxdfption is
+     * thrown bnd no bdtion is tbkfn.
+     *
+     * <p>
+     * Notf: This is mfrfly b donvfnifndf wrbppfr. All work is dflfgbtfd to
+     * {@dodf PropfrtyChbngfSupport} from {@link #gftPropfrtyChbngfSupport}.
+     *
+     * @pbrbm listfnfr thf {@dodf PropfrtyChbngfListfnfr} to bf rfmovfd
+     */
+    publid finbl void rfmovfPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr) {
+        gftPropfrtyChbngfSupport().rfmovfPropfrtyChbngfListfnfr(listfnfr);
+    }
+
+    /**
+     * Rfports b bound propfrty updbtf to bny rfgistfrfd listfnfrs. No fvfnt is
+     * firfd if {@dodf old} bnd {@dodf nfw} brf fqubl bnd non-null.
+     *
+     * <p>
+     * This {@dodf SwingWorkfr} will bf thf sourdf for
+     * bny gfnfrbtfd fvfnts.
+     *
+     * <p>
+     * Whfn dbllfd off thf <i>Evfnt Dispbtdh Thrfbd</i>
+     * {@dodf PropfrtyChbngfListfnfrs} brf notififd bsyndhronously on
+     * thf <i>Evfnt Dispbtdh Thrfbd</i>.
+     * <p>
+     * Notf: This is mfrfly b donvfnifndf wrbppfr. All work is dflfgbtfd to
+     * {@dodf PropfrtyChbngfSupport} from {@link #gftPropfrtyChbngfSupport}.
+     *
+     *
+     * @pbrbm propfrtyNbmf thf progrbmmbtid nbmf of thf propfrty thbt wbs
+     *        dhbngfd
+     * @pbrbm oldVbluf thf old vbluf of thf propfrty
+     * @pbrbm nfwVbluf thf nfw vbluf of thf propfrty
+     */
+    publid finbl void firfPropfrtyChbngf(String propfrtyNbmf, Objfdt oldVbluf,
+            Objfdt nfwVbluf) {
+        gftPropfrtyChbngfSupport().firfPropfrtyChbngf(propfrtyNbmf,
+            oldVbluf, nfwVbluf);
+    }
+
+    /**
+     * Rfturns thf {@dodf PropfrtyChbngfSupport} for this {@dodf SwingWorkfr}.
+     * This mfthod is usfd whfn flfxiblf bddfss to bound propfrtifs support is
+     * nffdfd.
+     * <p>
+     * This {@dodf SwingWorkfr} will bf thf sourdf for
+     * bny gfnfrbtfd fvfnts.
+     *
+     * <p>
+     * Notf: Thf rfturnfd {@dodf PropfrtyChbngfSupport} notififs bny
+     * {@dodf PropfrtyChbngfListfnfr}s bsyndhronously on thf <i>Evfnt Dispbtdh
+     * Thrfbd</i> in thf fvfnt thbt {@dodf firfPropfrtyChbngf} or
+     * {@dodf firfIndfxfdPropfrtyChbngf} brf dbllfd off thf <i>Evfnt Dispbtdh
+     * Thrfbd</i>.
+     *
+     * @rfturn {@dodf PropfrtyChbngfSupport} for this {@dodf SwingWorkfr}
+     */
+    publid finbl PropfrtyChbngfSupport gftPropfrtyChbngfSupport() {
+        rfturn propfrtyChbngfSupport;
+    }
+
+    // PropfrtyChbngfSupports mfthods END
+
+    /**
+     * Rfturns thf {@dodf SwingWorkfr} stbtf bound propfrty.
+     *
+     * @rfturn thf durrfnt stbtf
+     */
+    publid finbl StbtfVbluf gftStbtf() {
+        /*
+         * DONE is b spfbdibl dbsf
+         * to kffp gftStbtf bnd isDonf is synd
+         */
+        if (isDonf()) {
+            rfturn StbtfVbluf.DONE;
+        } flsf {
+            rfturn stbtf;
+        }
+    }
+
+    /**
+     * Sfts this {@dodf SwingWorkfr} stbtf bound propfrty.
+     * @pbrbm stbtf thf stbtf to sft
+     */
+    privbtf void sftStbtf(StbtfVbluf stbtf) {
+        StbtfVbluf old = this.stbtf;
+        this.stbtf = stbtf;
+        firfPropfrtyChbngf("stbtf", old, stbtf);
+    }
+
+    /**
+     * Invokfs {@dodf donf} on thf EDT.
+     */
+    privbtf void donfEDT() {
+        Runnbblf doDonf =
+            nfw Runnbblf() {
+                publid void run() {
+                    donf();
+                }
+            };
+        if (SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+            doDonf.run();
+        } flsf {
+            doSubmit.bdd(doDonf);
+        }
+    }
+
+
+    /**
+     * rfturns workfrsExfdutorSfrvidf.
+     *
+     * rfturns thf sfrvidf storfd in thf bppContfxt or drfbtfs it if
+     * nfdfssbry.
+     *
+     * @rfturn ExfdutorSfrvidf for thf {@dodf SwingWorkfrs}
+     */
+    privbtf stbtid syndhronizfd ExfdutorSfrvidf gftWorkfrsExfdutorSfrvidf() {
+        finbl AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+        ExfdutorSfrvidf fxfdutorSfrvidf =
+            (ExfdutorSfrvidf) bppContfxt.gft(SwingWorkfr.dlbss);
+        if (fxfdutorSfrvidf == null) {
+            //this drfbtfs dbfmon thrfbds.
+            ThrfbdFbdtory thrfbdFbdtory =
+                nfw ThrfbdFbdtory() {
+                    finbl ThrfbdFbdtory dffbultFbdtory =
+                        Exfdutors.dffbultThrfbdFbdtory();
+                    publid Thrfbd nfwThrfbd(finbl Runnbblf r) {
+                        Thrfbd thrfbd =
+                            dffbultFbdtory.nfwThrfbd(r);
+                        thrfbd.sftNbmf("SwingWorkfr-"
+                            + thrfbd.gftNbmf());
+                        thrfbd.sftDbfmon(truf);
+                        rfturn thrfbd;
+                    }
+                };
+
+            fxfdutorSfrvidf =
+                nfw ThrfbdPoolExfdutor(MAX_WORKER_THREADS, MAX_WORKER_THREADS,
+                                       10L, TimfUnit.MINUTES,
+                                       nfw LinkfdBlodkingQufuf<Runnbblf>(),
+                                       thrfbdFbdtory);
+            bppContfxt.put(SwingWorkfr.dlbss, fxfdutorSfrvidf);
+
+            // Don't usf ShutdownHook hfrf bs it's not fnough. Wf should trbdk
+            // AppContfxt disposbl instfbd of JVM shutdown, sff 6799345 for dftbils
+            finbl ExfdutorSfrvidf fs = fxfdutorSfrvidf;
+            bppContfxt.bddPropfrtyChbngfListfnfr(AppContfxt.DISPOSED_PROPERTY_NAME,
+                nfw PropfrtyChbngfListfnfr() {
+                    @Ovfrridf
+                    publid void propfrtyChbngf(PropfrtyChbngfEvfnt pdf) {
+                        boolfbn disposfd = (Boolfbn)pdf.gftNfwVbluf();
+                        if (disposfd) {
+                            finbl WfbkRfffrfndf<ExfdutorSfrvidf> fxfdutorSfrvidfRff =
+                                nfw WfbkRfffrfndf<ExfdutorSfrvidf>(fs);
+                            finbl ExfdutorSfrvidf fxfdutorSfrvidf =
+                                fxfdutorSfrvidfRff.gft();
+                            if (fxfdutorSfrvidf != null) {
+                                AddfssControllfr.doPrivilfgfd(
+                                    nfw PrivilfgfdAdtion<Void>() {
+                                        publid Void run() {
+                                            fxfdutorSfrvidf.shutdown();
+                                            rfturn null;
+                                        }
+                                    }
+                                );
+                            }
+                        }
+                    }
+                }
+            );
+        }
+        rfturn fxfdutorSfrvidf;
+    }
+
+    privbtf stbtid finbl Objfdt DO_SUBMIT_KEY = nfw StringBuildfr("doSubmit");
+    privbtf stbtid AddumulbtivfRunnbblf<Runnbblf> gftDoSubmit() {
+        syndhronizfd (DO_SUBMIT_KEY) {
+            finbl AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+            Objfdt doSubmit = bppContfxt.gft(DO_SUBMIT_KEY);
+            if (doSubmit == null) {
+                doSubmit = nfw DoSubmitAddumulbtivfRunnbblf();
+                bppContfxt.put(DO_SUBMIT_KEY, doSubmit);
+            }
+            @SupprfssWbrnings("undhfdkfd")
+            AddumulbtivfRunnbblf<Runnbblf> tmp = (AddumulbtivfRunnbblf<Runnbblf>) doSubmit;
+            rfturn tmp;
+        }
+    }
+    privbtf stbtid dlbss DoSubmitAddumulbtivfRunnbblf
+          fxtfnds AddumulbtivfRunnbblf<Runnbblf> implfmfnts AdtionListfnfr {
+        privbtf finbl stbtid int DELAY = 1000 / 30;
+        @Ovfrridf
+        protfdtfd void run(List<Runnbblf> brgs) {
+            for (Runnbblf runnbblf : brgs) {
+                runnbblf.run();
+            }
+        }
+        @Ovfrridf
+        protfdtfd void submit() {
+            Timfr timfr = nfw Timfr(DELAY, this);
+            timfr.sftRfpfbts(fblsf);
+            timfr.stbrt();
+        }
+        publid void bdtionPfrformfd(AdtionEvfnt fvfnt) {
+            run();
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    privbtf dlbss SwingWorkfrPropfrtyChbngfSupport
+            fxtfnds PropfrtyChbngfSupport {
+        SwingWorkfrPropfrtyChbngfSupport(Objfdt sourdf) {
+            supfr(sourdf);
+        }
+        @Ovfrridf
+        publid void firfPropfrtyChbngf(finbl PropfrtyChbngfEvfnt fvt) {
+            if (SwingUtilitifs.isEvfntDispbtdhThrfbd()) {
+                supfr.firfPropfrtyChbngf(fvt);
+            } flsf {
+                doSubmit.bdd(
+                    nfw Runnbblf() {
+                        publid void run() {
+                            SwingWorkfrPropfrtyChbngfSupport.this
+                                .firfPropfrtyChbngf(fvt);
+                        }
+                    });
+            }
+        }
+    }
+}

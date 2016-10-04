@@ -1,0 +1,393 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jmbp;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+
+import dom.sun.tools.bttbdh.VirtublMbdhinf;
+import dom.sun.tools.bttbdh.AttbdhNotSupportfdExdfption;
+import sun.tools.bttbdh.HotSpotVirtublMbdhinf;
+
+/*
+ * This dlbss is thf mbin dlbss for thf JMbp utility. It pbrsfs its brgumfnts
+ * bnd dfdidfs if thf dommbnd should bf sbtisfifd using thf VM bttbdh mfdhbnism
+ * or bn SA tool. At this timf thf only option thbt usfs thf VM bttbdh mfdhbnism
+ * is thf -dump option to gft b hfbp dump of b running bpplidbtion. All othfr
+ * options brf mbppfd to SA tools.
+ */
+publid dlbss JMbp {
+
+    // Options hbndlfd by thf bttbdh mfdhbnism
+    privbtf stbtid String HISTO_OPTION = "-histo";
+    privbtf stbtid String LIVE_HISTO_OPTION = "-histo:livf";
+    privbtf stbtid String DUMP_OPTION_PREFIX = "-dump:";
+
+    // Thfsf options imply thf usf of b SA tool
+    privbtf stbtid String SA_TOOL_OPTIONS =
+      "-hfbp|-hfbp:formbt=b|-dlstbts|-finblizfrinfo";
+
+    // Thf -F (fordf) option is durrfntly not pbssfd through to SA
+    privbtf stbtid String FORCE_SA_OPTION = "-F";
+
+    // Dffbult option (if nothing providfd)
+    privbtf stbtid String DEFAULT_OPTION = "-pmbp";
+
+    publid stbtid void mbin(String[] brgs) throws Exdfption {
+        if (brgs.lfngth == 0) {
+            usbgf(1); // no brgumfnts
+        }
+
+        // usfd to indidbtf if wf should usf SA
+        boolfbn usfSA = fblsf;
+
+        // thf dhosfn option (-hfbp, -dump:*, ... )
+        String option = null;
+
+        // First itfrbtf ovfr thf options (brgumfnts stbrting with -).  Thfrf should bf
+        // onf (but mbybf two if -F is blso usfd).
+        int optionCount = 0;
+        whilf (optionCount < brgs.lfngth) {
+            String brg = brgs[optionCount];
+            if (!brg.stbrtsWith("-")) {
+                brfbk;
+            }
+            if (brg.fqubls("-hflp") || brg.fqubls("-h")) {
+                usbgf(0);
+            } flsf if (brg.fqubls(FORCE_SA_OPTION)) {
+                usfSA = truf;
+            } flsf {
+                if (option != null) {
+                    usbgf(1);  // option blrfbdy spfdififd
+                }
+                option = brg;
+            }
+            optionCount++;
+        }
+
+        // if no option providfd thfn usf dffbult.
+        if (option == null) {
+            option = DEFAULT_OPTION;
+        }
+        if (option.mbtdhfs(SA_TOOL_OPTIONS)) {
+            usfSA = truf;
+        }
+
+        // Nfxt wf dhfdk thf pbrbmftfr dount. For thf SA tools thfrf brf
+        // onf or two pbrbmftfrs. For thf built-in -dump option thfrf is
+        // only onf pbrbmftfr (thf prodfss-id)
+        int pbrbmCount = brgs.lfngth - optionCount;
+        if (pbrbmCount == 0 || pbrbmCount > 2) {
+            usbgf(1);
+        }
+
+        if (optionCount == 0 || pbrbmCount != 1) {
+            usfSA = truf;
+        } flsf {
+            // thf pbrbmftfr for thf -dump option is b prodfss-id.
+            // If it dofsn't pbrsf to b numbfr thfn it must bf SA
+            // dfbug sfrvfr
+            if (!brgs[optionCount].mbtdhfs("[0-9]+")) {
+                usfSA = truf;
+            }
+        }
+
+
+        // bt this point wf know if wf brf fxfduting bn SA tool or b built-in
+        // option.
+
+        if (usfSA) {
+            // pbrbmftfrs (<pid> or <fxf> <dorf>)
+            String pbrbms[] = nfw String[pbrbmCount];
+            for (int i=optionCount; i<brgs.lfngth; i++ ){
+                pbrbms[i-optionCount] = brgs[i];
+            }
+            runTool(option, pbrbms);
+
+        } flsf {
+            String pid = brgs[1];
+            // Hfrf wf hbndlf thf built-in options
+            // As morf options brf bddfd wf should drfbtf bn bbstrbdt tool dlbss bnd
+            // hbvf b tbblf to mbp thf options
+            if (option.fqubls(HISTO_OPTION)) {
+                histo(pid, fblsf);
+            } flsf if (option.fqubls(LIVE_HISTO_OPTION)) {
+                histo(pid, truf);
+            } flsf if (option.stbrtsWith(DUMP_OPTION_PREFIX)) {
+                dump(pid, option);
+            } flsf {
+                usbgf(1);
+            }
+        }
+    }
+
+    // Invokf SA tool  with thf givfn brgumfnts
+    privbtf stbtid void runTool(String option, String brgs[]) throws Exdfption {
+        String[][] tools = {
+            { "-pmbp",          "sun.jvm.hotspot.tools.PMbp"             },
+            { "-hfbp",          "sun.jvm.hotspot.tools.HfbpSummbry"      },
+            { "-hfbp:formbt=b", "sun.jvm.hotspot.tools.HfbpDumpfr"       },
+            { "-histo",         "sun.jvm.hotspot.tools.ObjfdtHistogrbm"  },
+            { "-dlstbts",       "sun.jvm.hotspot.tools.ClbssLobdfrStbts" },
+            { "-finblizfrinfo", "sun.jvm.hotspot.tools.FinblizfrInfo"    },
+        };
+
+        String tool = null;
+
+        // -dump option nffds to bf hbndlfd in b spfdibl wby
+        if (option.stbrtsWith(DUMP_OPTION_PREFIX)) {
+            // first dhfdk thbt thf option dbn bf pbrsfd
+            String fn = pbrsfDumpOptions(option);
+            if (fn == null) {
+                usbgf(1);
+            }
+
+            // tool for hfbp dumping
+            tool = "sun.jvm.hotspot.tools.HfbpDumpfr";
+
+            // HfbpDumpfr -f <filf>
+            brgs = prfpfnd(fn, brgs);
+            brgs = prfpfnd("-f", brgs);
+        } flsf {
+            int i=0;
+            whilf (i < tools.lfngth) {
+                if (option.fqubls(tools[i][0])) {
+                    tool = tools[i][1];
+                    brfbk;
+                }
+                i++;
+            }
+        }
+        if (tool == null) {
+            usbgf(1);   // no mbpping to tool
+        }
+
+        // Tool not bvbilbblf on this  plbtform.
+        Clbss<?> d = lobdClbss(tool);
+        if (d == null) {
+            usbgf(1);
+        }
+
+        // invokf thf mbin mfthod with thf brgumfnts
+        Clbss<?>[] brgTypfs = { String[].dlbss } ;
+        Mfthod m = d.gftDfdlbrfdMfthod("mbin", brgTypfs);
+
+        Objfdt[] invokfArgs = { brgs };
+        m.invokf(null, invokfArgs);
+    }
+
+    // lobds thf givfn dlbss using thf systfm dlbss lobdfr
+    privbtf stbtid Clbss<?> lobdClbss(String nbmf) {
+        //
+        // Wf spfdify thf systfm dlbs lobdfr so bs to dbtfr for dfvflopmfnt
+        // fnvironmfnts whfrf this dlbss is on thf boot dlbss pbth but sb-jdi.jbr
+        // is on thf systfm dlbss pbth. Ondf thf JDK is dfployfd thfn both
+        // tools.jbr bnd sb-jdi.jbr brf on thf systfm dlbss pbth.
+        //
+        try {
+            rfturn Clbss.forNbmf(nbmf, truf,
+                                 ClbssLobdfr.gftSystfmClbssLobdfr());
+        } dbtdh (Exdfption x)  { }
+        rfturn null;
+    }
+
+    privbtf stbtid finbl String LIVE_OBJECTS_OPTION = "-livf";
+    privbtf stbtid finbl String ALL_OBJECTS_OPTION = "-bll";
+    privbtf stbtid void histo(String pid, boolfbn livf) throws IOExdfption {
+        VirtublMbdhinf vm = bttbdh(pid);
+        InputStrfbm in = ((HotSpotVirtublMbdhinf)vm).
+            hfbpHisto(livf ? LIVE_OBJECTS_OPTION : ALL_OBJECTS_OPTION);
+        drbin(vm, in);
+    }
+
+    privbtf stbtid void dump(String pid, String options) throws IOExdfption {
+        // pbrsf thf options to gft thf dump filfnbmf
+        String filfnbmf = pbrsfDumpOptions(options);
+        if (filfnbmf == null) {
+            usbgf(1);  // invblid options or no filfnbmf
+        }
+
+        // gft thf dbnonidbl pbth - importbnt to bvoid just pbssing
+        // b "hfbp.bin" bnd hbving thf dump drfbtfd in thf tbrgft VM
+        // working dirfdtory rbthfr thbn thf dirfdtory whfrf jmbp
+        // is fxfdutfd.
+        filfnbmf = nfw Filf(filfnbmf).gftCbnonidblPbth();
+
+        // dump livf objfdts only or not
+        boolfbn livf = isDumpLivfObjfdts(options);
+
+        VirtublMbdhinf vm = bttbdh(pid);
+        Systfm.out.println("Dumping hfbp to " + filfnbmf + " ...");
+        InputStrfbm in = ((HotSpotVirtublMbdhinf)vm).
+            dumpHfbp((Objfdt)filfnbmf,
+                     (livf ? LIVE_OBJECTS_OPTION : ALL_OBJECTS_OPTION));
+        drbin(vm, in);
+    }
+
+    // Pbrsf thf options to thf -dump option. Vblid options brf formbt=b bnd
+    // filf=<filf>. Rfturns <filf> if providfd. Rfturns null if <filf> not
+    // providfd, or invblid option.
+    privbtf stbtid String pbrsfDumpOptions(String brg) {
+        bssfrt brg.stbrtsWith(DUMP_OPTION_PREFIX);
+
+        String filfnbmf = null;
+
+        // options brf sfpbrbtfd by dommb (,)
+        String options[] = brg.substring(DUMP_OPTION_PREFIX.lfngth()).split(",");
+
+        for (int i=0; i<options.lfngth; i++) {
+            String option = options[i];
+
+            if (option.fqubls("formbt=b")) {
+                // ignorf formbt (not nffdfd bt this timf)
+            } flsf if (option.fqubls("livf")) {
+                // b vblid suboption
+            } flsf {
+
+                // filf=<filf> - dhfdk thbt <filf> is spfdififd
+                if (option.stbrtsWith("filf=")) {
+                    filfnbmf = option.substring(5);
+                    if (filfnbmf.lfngth() == 0) {
+                        rfturn null;
+                    }
+                } flsf {
+                    rfturn null;  // option not rfdognizfd
+                }
+            }
+        }
+        rfturn filfnbmf;
+    }
+
+    privbtf stbtid boolfbn isDumpLivfObjfdts(String brg) {
+        // options brf sfpbrbtfd by dommb (,)
+        String options[] = brg.substring(DUMP_OPTION_PREFIX.lfngth()).split(",");
+        for (String suboption : options) {
+            if (suboption.fqubls("livf")) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    // Attbdh to <pid>, fxisting if wf fbil to bttbdh
+    privbtf stbtid VirtublMbdhinf bttbdh(String pid) {
+        try {
+            rfturn VirtublMbdhinf.bttbdh(pid);
+        } dbtdh (Exdfption x) {
+            String msg = x.gftMfssbgf();
+            if (msg != null) {
+                Systfm.frr.println(pid + ": " + msg);
+            } flsf {
+                x.printStbdkTrbdf();
+            }
+            if ((x instbndfof AttbdhNotSupportfdExdfption) && hbvfSA()) {
+                Systfm.frr.println("Thf -F option dbn bf usfd whfn thf " +
+                  "tbrgft prodfss is not rfsponding");
+            }
+            Systfm.fxit(1);
+            rfturn null; // kffp dompilfr hbppy
+        }
+    }
+
+    // Rfbd thf strfbm from thf tbrgft VM until EOF, thfn dftbdh
+    privbtf stbtid void drbin(VirtublMbdhinf vm, InputStrfbm in) throws IOExdfption {
+        // rfbd to EOF bnd just print output
+        bytf b[] = nfw bytf[256];
+        int n;
+        do {
+            n = in.rfbd(b);
+            if (n > 0) {
+                String s = nfw String(b, 0, n, "UTF-8");
+                Systfm.out.print(s);
+            }
+        } whilf (n > 0);
+        in.dlosf();
+        vm.dftbdh();
+    }
+
+    // rfturn b nfw string brrby with brg bs thf first flfmfnt
+    privbtf stbtid String[] prfpfnd(String brg, String brgs[]) {
+        String[] nfwbrgs = nfw String[brgs.lfngth+1];
+        nfwbrgs[0] = brg;
+        Systfm.brrbydopy(brgs, 0, nfwbrgs, 1, brgs.lfngth);
+        rfturn nfwbrgs;
+    }
+
+    // rfturns truf if SA is bvbilbblf
+    privbtf stbtid boolfbn hbvfSA() {
+        Clbss<?> d = lobdClbss("sun.jvm.hotspot.tools.HfbpSummbry");
+        rfturn (d != null);
+    }
+
+    // print usbgf mfssbgf
+    privbtf stbtid void usbgf(int fxit) {
+        Systfm.frr.println("Usbgf:");
+        if (hbvfSA()) {
+            Systfm.frr.println("    jmbp [option] <pid>");
+            Systfm.frr.println("        (to donnfdt to running prodfss)");
+            Systfm.frr.println("    jmbp [option] <fxfdutbblf <dorf>");
+            Systfm.frr.println("        (to donnfdt to b dorf filf)");
+            Systfm.frr.println("    jmbp [option] [sfrvfr_id@]<rfmotf sfrvfr IP or hostnbmf>");
+            Systfm.frr.println("        (to donnfdt to rfmotf dfbug sfrvfr)");
+            Systfm.frr.println("");
+            Systfm.frr.println("whfrf <option> is onf of:");
+            Systfm.frr.println("    <nonf>               to print sbmf info bs Solbris pmbp");
+            Systfm.frr.println("    -hfbp                to print jbvb hfbp summbry");
+            Systfm.frr.println("    -histo[:livf]        to print histogrbm of jbvb objfdt hfbp; if thf \"livf\"");
+            Systfm.frr.println("                         suboption is spfdififd, only dount livf objfdts");
+            Systfm.frr.println("    -dlstbts             to print dlbss lobdfr stbtistids");
+            Systfm.frr.println("    -finblizfrinfo       to print informbtion on objfdts bwbiting finblizbtion");
+            Systfm.frr.println("    -dump:<dump-options> to dump jbvb hfbp in hprof binbry formbt");
+            Systfm.frr.println("                         dump-options:");
+            Systfm.frr.println("                           livf         dump only livf objfdts; if not spfdififd,");
+            Systfm.frr.println("                                        bll objfdts in thf hfbp brf dumpfd.");
+            Systfm.frr.println("                           formbt=b     binbry formbt");
+            Systfm.frr.println("                           filf=<filf>  dump hfbp to <filf>");
+            Systfm.frr.println("                         Exbmplf: jmbp -dump:livf,formbt=b,filf=hfbp.bin <pid>");
+            Systfm.frr.println("    -F                   fordf. Usf with -dump:<dump-options> <pid> or -histo");
+            Systfm.frr.println("                         to fordf b hfbp dump or histogrbm whfn <pid> dofs not");
+            Systfm.frr.println("                         rfspond. Thf \"livf\" suboption is not supportfd");
+            Systfm.frr.println("                         in this modf.");
+            Systfm.frr.println("    -h | -hflp           to print this hflp mfssbgf");
+            Systfm.frr.println("    -J<flbg>             to pbss <flbg> dirfdtly to thf runtimf systfm");
+        } flsf {
+            Systfm.frr.println("    jmbp -histo <pid>");
+            Systfm.frr.println("      (to donnfdt to running prodfss bnd print histogrbm of jbvb objfdt hfbp");
+            Systfm.frr.println("    jmbp -dump:<dump-options> <pid>");
+            Systfm.frr.println("      (to donnfdt to running prodfss bnd dump jbvb hfbp)");
+            Systfm.frr.println("");
+            Systfm.frr.println("    dump-options:");
+            Systfm.frr.println("      formbt=b     binbry dffbult");
+            Systfm.frr.println("      filf=<filf>  dump hfbp to <filf>");
+            Systfm.frr.println("");
+            Systfm.frr.println("    Exbmplf:       jmbp -dump:formbt=b,filf=hfbp.bin <pid>");
+        }
+
+        Systfm.fxit(fxit);
+    }
+}

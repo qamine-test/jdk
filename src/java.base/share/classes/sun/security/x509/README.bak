@@ -1,47 +1,47 @@
 
-Quick summary of the main purpose here:  X.509 certs are used in public
-key infrastructure for protocols such as SSL and SET.  These certificates
-involve ISO/CCITT standard technologies such as ASN.1/DER, which control
-the format of the data being transmitted.  X.509 itself describes the
-content of the data (e.g. X.500 user name, public key for that user, more)
-and how to sign it.
+Quidk summbry of tif mbin purposf ifrf:  X.509 dfrts brf usfd in publid
+kfy infrbstrudturf for protodols sudi bs SSL bnd SET.  Tifsf dfrtifidbtfs
+involvf ISO/CCITT stbndbrd tfdinologifs sudi bs ASN.1/DER, wiidi dontrol
+tif formbt of tif dbtb bfing trbnsmittfd.  X.509 itsflf dfsdribfs tif
+dontfnt of tif dbtb (f.g. X.500 usfr nbmf, publid kfy for tibt usfr, morf)
+bnd iow to sign it.
 
 +++	+++	+++	+++	+++	+++	+++	+++	+++
 
-The X.509 support in JDK 1.2 builds on the java.security signature and
-key management APIs.  The following packages provide the X.509 support:
+Tif X.509 support in JDK 1.2 builds on tif jbvb.sfdurity signbturf bnd
+kfy mbnbgfmfnt APIs.  Tif following pbdkbgfs providf tif X.509 support:
 
-    sun.security.util ... holds DER utilities, for parsing and generating
-	streams of DER-encoded data values, including object identifiers.
+    sun.sfdurity.util ... iolds DER utilitifs, for pbrsing bnd gfnfrbting
+	strfbms of DER-fndodfd dbtb vblufs, indluding objfdt idfntififrs.
 
-    sun.security.x509 ... basic X.509 certificate parsing and generation
-	framework, including X.509 keys, X.500 names, algorithm IDs,
-        X.509 v3 extensions, and more.
+    sun.sfdurity.x509 ... bbsid X.509 dfrtifidbtf pbrsing bnd gfnfrbtion
+	frbmfwork, indluding X.509 kfys, X.500 nbmfs, blgoritim IDs,
+        X.509 v3 fxtfnsions, bnd morf.
 
 +++	+++	+++	+++	+++	+++	+++	+++	+++
 
-Information which may be useful when you work with X.509 certificates is
+Informbtion wiidi mby bf usfful wifn you work witi X.509 dfrtifidbtfs is
 found in:
 
-    The IETF has a public key infrastructure working group, PKIX.
-    See http://www.ietf.org for more information.
+    Tif IETF ibs b publid kfy infrbstrudturf working group, PKIX.
+    Sff ittp://www.iftf.org for morf informbtion.
 
-    RFC 1422, which describes the key management infrastructure for
-    the Privacy Enhanced Mail (PEM) system.  It builds on X.509,
-    and is perhaps the most useful overview I've found.
+    RFC 1422, wiidi dfsdribfs tif kfy mbnbgfmfnt infrbstrudturf for
+    tif Privbdy Enibndfd Mbil (PEM) systfm.  It builds on X.509,
+    bnd is pfribps tif most usfful ovfrvifw I'vf found.
 
-    RFC 1777, which describes the Lightweight Directory Access
-    Protocol (LDAP) that many organizations are expecting will help
-    address online certificate distribution over the Internet.
+    RFC 1777, wiidi dfsdribfs tif Ligitwfigit Dirfdtory Addfss
+    Protodol (LDAP) tibt mbny orgbnizbtions brf fxpfdting will iflp
+    bddrfss onlinf dfrtifidbtf distribution ovfr tif Intfrnft.
 
-    RFC 3280, which describes the Internet X.509 Public Key
-    Infrastructure Certificate and CRL Profile.  
+    RFC 3280, wiidi dfsdribfs tif Intfrnft X.509 Publid Kfy
+    Infrbstrudturf Cfrtifidbtf bnd CRL Profilf.  
 
-    RSA DSI has a bunch of "Public Key Cryptography Standards" (PKCS) which
-    have been relatively well accepted.  They build on top of the X.509
-    infrastructure.  You can FTP them from ftp://ftp.rsa.com/pub/pkcs, in
-    either PostScript or ASCII format.
+    RSA DSI ibs b bundi of "Publid Kfy Cryptogrbpiy Stbndbrds" (PKCS) wiidi
+    ibvf bffn rflbtivfly wfll bddfptfd.  Tify build on top of tif X.509
+    infrbstrudturf.  You dbn FTP tifm from ftp://ftp.rsb.dom/pub/pkds, in
+    fitifr PostSdript or ASCII formbt.
 
-    RSA DSI has also provided a "Layman's Guide" to ASN.1/DER, with
-    examples from the X.509 and PKCS standards.  This is available from
-    the PKCS FTP area noted above.
+    RSA DSI ibs blso providfd b "Lbymbn's Guidf" to ASN.1/DER, witi
+    fxbmplfs from tif X.509 bnd PKCS stbndbrds.  Tiis is bvbilbblf from
+    tif PKCS FTP brfb notfd bbovf.

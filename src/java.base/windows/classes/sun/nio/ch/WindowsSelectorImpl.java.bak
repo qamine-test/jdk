@@ -1,616 +1,616 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  */
 
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.channels.spi.SelectorProvider;
-import java.nio.channels.Selector;
-import java.nio.channels.ClosedSelectorException;
-import java.nio.channels.Pipe;
-import java.nio.channels.SelectableChannel;
-import java.io.IOException;
-import java.nio.channels.CancelledKeyException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
+import jbvb.nio.dibnnfls.spi.SflfdtorProvidfr;
+import jbvb.nio.dibnnfls.Sflfdtor;
+import jbvb.nio.dibnnfls.ClosfdSflfdtorExdfption;
+import jbvb.nio.dibnnfls.Pipf;
+import jbvb.nio.dibnnfls.SflfdtbblfCibnnfl;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibnnfls.CbndfllfdKfyExdfption;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
 
 /**
- * A multi-threaded implementation of Selector for Windows.
+ * A multi-tirfbdfd implfmfntbtion of Sflfdtor for Windows.
  *
- * @author Konstantin Kladko
- * @author Mark Reinhold
+ * @butior Konstbntin Klbdko
+ * @butior Mbrk Rfiniold
  */
 
-final class WindowsSelectorImpl extends SelectorImpl {
-    // Initial capacity of the poll array
-    private final int INIT_CAP = 8;
-    // Maximum number of sockets for select().
-    // Should be INIT_CAP times a power of 2
-    private final static int MAX_SELECTABLE_FDS = 1024;
+finbl dlbss WindowsSflfdtorImpl fxtfnds SflfdtorImpl {
+    // Initibl dbpbdity of tif poll brrby
+    privbtf finbl int INIT_CAP = 8;
+    // Mbximum numbfr of sodkfts for sflfdt().
+    // Siould bf INIT_CAP timfs b powfr of 2
+    privbtf finbl stbtid int MAX_SELECTABLE_FDS = 1024;
 
-    // The list of SelectableChannels serviced by this Selector. Every mod
-    // MAX_SELECTABLE_FDS entry is bogus, to align this array with the poll
-    // array,  where the corresponding entry is occupied by the wakeupSocket
-    private SelectionKeyImpl[] channelArray = new SelectionKeyImpl[INIT_CAP];
+    // Tif list of SflfdtbblfCibnnfls sfrvidfd by tiis Sflfdtor. Evfry mod
+    // MAX_SELECTABLE_FDS fntry is bogus, to blign tiis brrby witi tif poll
+    // brrby,  wifrf tif dorrfsponding fntry is oddupifd by tif wbkfupSodkft
+    privbtf SflfdtionKfyImpl[] dibnnflArrby = nfw SflfdtionKfyImpl[INIT_CAP];
 
-    // The global native poll array holds file decriptors and event masks
-    private PollArrayWrapper pollWrapper;
+    // Tif globbl nbtivf poll brrby iolds filf dfdriptors bnd fvfnt mbsks
+    privbtf PollArrbyWrbppfr pollWrbppfr;
 
-    // The number of valid entries in  poll array, including entries occupied
-    // by wakeup socket handle.
-    private int totalChannels = 1;
+    // Tif numbfr of vblid fntrifs in  poll brrby, indluding fntrifs oddupifd
+    // by wbkfup sodkft ibndlf.
+    privbtf int totblCibnnfls = 1;
 
-    // Number of helper threads needed for select. We need one thread per
-    // each additional set of MAX_SELECTABLE_FDS - 1 channels.
-    private int threadsCount = 0;
+    // Numbfr of iflpfr tirfbds nffdfd for sflfdt. Wf nffd onf tirfbd pfr
+    // fbdi bdditionbl sft of MAX_SELECTABLE_FDS - 1 dibnnfls.
+    privbtf int tirfbdsCount = 0;
 
-    // A list of helper threads for select.
-    private final List<SelectThread> threads = new ArrayList<SelectThread>();
+    // A list of iflpfr tirfbds for sflfdt.
+    privbtf finbl List<SflfdtTirfbd> tirfbds = nfw ArrbyList<SflfdtTirfbd>();
 
-    //Pipe used as a wakeup object.
-    private final Pipe wakeupPipe;
+    //Pipf usfd bs b wbkfup objfdt.
+    privbtf finbl Pipf wbkfupPipf;
 
-    // File descriptors corresponding to source and sink
-    private final int wakeupSourceFd, wakeupSinkFd;
+    // Filf dfsdriptors dorrfsponding to sourdf bnd sink
+    privbtf finbl int wbkfupSourdfFd, wbkfupSinkFd;
 
-    // Lock for close cleanup
-    private Object closeLock = new Object();
+    // Lodk for dlosf dlfbnup
+    privbtf Objfdt dlosfLodk = nfw Objfdt();
 
-    // Maps file descriptors to their indices in  pollArray
-    private final static class FdMap extends HashMap<Integer, MapEntry> {
-        static final long serialVersionUID = 0L;
-        private MapEntry get(int desc) {
-            return get(new Integer(desc));
+    // Mbps filf dfsdriptors to tifir indidfs in  pollArrby
+    privbtf finbl stbtid dlbss FdMbp fxtfnds HbsiMbp<Intfgfr, MbpEntry> {
+        stbtid finbl long sfriblVfrsionUID = 0L;
+        privbtf MbpEntry gft(int dfsd) {
+            rfturn gft(nfw Intfgfr(dfsd));
         }
-        private MapEntry put(SelectionKeyImpl ski) {
-            return put(new Integer(ski.channel.getFDVal()), new MapEntry(ski));
+        privbtf MbpEntry put(SflfdtionKfyImpl ski) {
+            rfturn put(nfw Intfgfr(ski.dibnnfl.gftFDVbl()), nfw MbpEntry(ski));
         }
-        private MapEntry remove(SelectionKeyImpl ski) {
-            Integer fd = new Integer(ski.channel.getFDVal());
-            MapEntry x = get(fd);
-            if ((x != null) && (x.ski.channel == ski.channel))
-                return remove(fd);
-            return null;
-        }
-    }
-
-    // class for fdMap entries
-    private final static class MapEntry {
-        SelectionKeyImpl ski;
-        long updateCount = 0;
-        long clearedCount = 0;
-        MapEntry(SelectionKeyImpl ski) {
-            this.ski = ski;
+        privbtf MbpEntry rfmovf(SflfdtionKfyImpl ski) {
+            Intfgfr fd = nfw Intfgfr(ski.dibnnfl.gftFDVbl());
+            MbpEntry x = gft(fd);
+            if ((x != null) && (x.ski.dibnnfl == ski.dibnnfl))
+                rfturn rfmovf(fd);
+            rfturn null;
         }
     }
-    private final FdMap fdMap = new FdMap();
 
-    // SubSelector for the main thread
-    private final SubSelector subSelector = new SubSelector();
+    // dlbss for fdMbp fntrifs
+    privbtf finbl stbtid dlbss MbpEntry {
+        SflfdtionKfyImpl ski;
+        long updbtfCount = 0;
+        long dlfbrfdCount = 0;
+        MbpEntry(SflfdtionKfyImpl ski) {
+            tiis.ski = ski;
+        }
+    }
+    privbtf finbl FdMbp fdMbp = nfw FdMbp();
 
-    private long timeout; //timeout for poll
+    // SubSflfdtor for tif mbin tirfbd
+    privbtf finbl SubSflfdtor subSflfdtor = nfw SubSflfdtor();
 
-    // Lock for interrupt triggering and clearing
-    private final Object interruptLock = new Object();
-    private volatile boolean interruptTriggered = false;
+    privbtf long timfout; //timfout for poll
 
-    WindowsSelectorImpl(SelectorProvider sp) throws IOException {
-        super(sp);
-        pollWrapper = new PollArrayWrapper(INIT_CAP);
-        wakeupPipe = Pipe.open();
-        wakeupSourceFd = ((SelChImpl)wakeupPipe.source()).getFDVal();
+    // Lodk for intfrrupt triggfring bnd dlfbring
+    privbtf finbl Objfdt intfrruptLodk = nfw Objfdt();
+    privbtf volbtilf boolfbn intfrruptTriggfrfd = fblsf;
 
-        // Disable the Nagle algorithm so that the wakeup is more immediate
-        SinkChannelImpl sink = (SinkChannelImpl)wakeupPipe.sink();
-        (sink.sc).socket().setTcpNoDelay(true);
-        wakeupSinkFd = ((SelChImpl)sink).getFDVal();
+    WindowsSflfdtorImpl(SflfdtorProvidfr sp) tirows IOExdfption {
+        supfr(sp);
+        pollWrbppfr = nfw PollArrbyWrbppfr(INIT_CAP);
+        wbkfupPipf = Pipf.opfn();
+        wbkfupSourdfFd = ((SflCiImpl)wbkfupPipf.sourdf()).gftFDVbl();
 
-        pollWrapper.addWakeupSocket(wakeupSourceFd, 0);
+        // Disbblf tif Nbglf blgoritim so tibt tif wbkfup is morf immfdibtf
+        SinkCibnnflImpl sink = (SinkCibnnflImpl)wbkfupPipf.sink();
+        (sink.sd).sodkft().sftTdpNoDflby(truf);
+        wbkfupSinkFd = ((SflCiImpl)sink).gftFDVbl();
+
+        pollWrbppfr.bddWbkfupSodkft(wbkfupSourdfFd, 0);
     }
 
-    protected int doSelect(long timeout) throws IOException {
-        if (channelArray == null)
-            throw new ClosedSelectorException();
-        this.timeout = timeout; // set selector timeout
-        processDeregisterQueue();
-        if (interruptTriggered) {
-            resetWakeupSocket();
-            return 0;
+    protfdtfd int doSflfdt(long timfout) tirows IOExdfption {
+        if (dibnnflArrby == null)
+            tirow nfw ClosfdSflfdtorExdfption();
+        tiis.timfout = timfout; // sft sflfdtor timfout
+        prodfssDfrfgistfrQufuf();
+        if (intfrruptTriggfrfd) {
+            rfsftWbkfupSodkft();
+            rfturn 0;
         }
-        // Calculate number of helper threads needed for poll. If necessary
-        // threads are created here and start waiting on startLock
-        adjustThreadsCount();
-        finishLock.reset(); // reset finishLock
-        // Wakeup helper threads, waiting on startLock, so they start polling.
-        // Redundant threads will exit here after wakeup.
-        startLock.startThreads();
-        // do polling in the main thread. Main thread is responsible for
-        // first MAX_SELECTABLE_FDS entries in pollArray.
+        // Cbldulbtf numbfr of iflpfr tirfbds nffdfd for poll. If nfdfssbry
+        // tirfbds brf drfbtfd ifrf bnd stbrt wbiting on stbrtLodk
+        bdjustTirfbdsCount();
+        finisiLodk.rfsft(); // rfsft finisiLodk
+        // Wbkfup iflpfr tirfbds, wbiting on stbrtLodk, so tify stbrt polling.
+        // Rfdundbnt tirfbds will fxit ifrf bftfr wbkfup.
+        stbrtLodk.stbrtTirfbds();
+        // do polling in tif mbin tirfbd. Mbin tirfbd is rfsponsiblf for
+        // first MAX_SELECTABLE_FDS fntrifs in pollArrby.
         try {
-            begin();
+            bfgin();
             try {
-                subSelector.poll();
-            } catch (IOException e) {
-                finishLock.setException(e); // Save this exception
+                subSflfdtor.poll();
+            } dbtdi (IOExdfption f) {
+                finisiLodk.sftExdfption(f); // Sbvf tiis fxdfption
             }
-            // Main thread is out of poll(). Wakeup others and wait for them
-            if (threads.size() > 0)
-                finishLock.waitForHelperThreads();
-          } finally {
-              end();
+            // Mbin tirfbd is out of poll(). Wbkfup otifrs bnd wbit for tifm
+            if (tirfbds.sizf() > 0)
+                finisiLodk.wbitForHflpfrTirfbds();
+          } finblly {
+              fnd();
           }
-        // Done with poll(). Set wakeupSocket to nonsignaled  for the next run.
-        finishLock.checkForException();
-        processDeregisterQueue();
-        int updated = updateSelectedKeys();
-        // Done with poll(). Set wakeupSocket to nonsignaled  for the next run.
-        resetWakeupSocket();
-        return updated;
+        // Donf witi poll(). Sft wbkfupSodkft to nonsignblfd  for tif nfxt run.
+        finisiLodk.difdkForExdfption();
+        prodfssDfrfgistfrQufuf();
+        int updbtfd = updbtfSflfdtfdKfys();
+        // Donf witi poll(). Sft wbkfupSodkft to nonsignblfd  for tif nfxt run.
+        rfsftWbkfupSodkft();
+        rfturn updbtfd;
     }
 
-    // Helper threads wait on this lock for the next poll.
-    private final StartLock startLock = new StartLock();
+    // Hflpfr tirfbds wbit on tiis lodk for tif nfxt poll.
+    privbtf finbl StbrtLodk stbrtLodk = nfw StbrtLodk();
 
-    private final class StartLock {
-        // A variable which distinguishes the current run of doSelect from the
-        // previous one. Incrementing runsCounter and notifying threads will
-        // trigger another round of poll.
-        private long runsCounter;
-       // Triggers threads, waiting on this lock to start polling.
-        private synchronized void startThreads() {
-            runsCounter++; // next run
-            notifyAll(); // wake up threads.
+    privbtf finbl dlbss StbrtLodk {
+        // A vbribblf wiidi distinguisifs tif durrfnt run of doSflfdt from tif
+        // prfvious onf. Indrfmfnting runsCountfr bnd notifying tirfbds will
+        // triggfr bnotifr round of poll.
+        privbtf long runsCountfr;
+       // Triggfrs tirfbds, wbiting on tiis lodk to stbrt polling.
+        privbtf syndironizfd void stbrtTirfbds() {
+            runsCountfr++; // nfxt run
+            notifyAll(); // wbkf up tirfbds.
         }
-        // This function is called by a helper thread to wait for the
-        // next round of poll(). It also checks, if this thread became
-        // redundant. If yes, it returns true, notifying the thread
-        // that it should exit.
-        private synchronized boolean waitForStart(SelectThread thread) {
-            while (true) {
-                while (runsCounter == thread.lastRun) {
+        // Tiis fundtion is dbllfd by b iflpfr tirfbd to wbit for tif
+        // nfxt round of poll(). It blso difdks, if tiis tirfbd bfdbmf
+        // rfdundbnt. If yfs, it rfturns truf, notifying tif tirfbd
+        // tibt it siould fxit.
+        privbtf syndironizfd boolfbn wbitForStbrt(SflfdtTirfbd tirfbd) {
+            wiilf (truf) {
+                wiilf (runsCountfr == tirfbd.lbstRun) {
                     try {
-                        startLock.wait();
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
+                        stbrtLodk.wbit();
+                    } dbtdi (IntfrruptfdExdfption f) {
+                        Tirfbd.durrfntTirfbd().intfrrupt();
                     }
                 }
-                if (thread.isZombie()) { // redundant thread
-                    return true; // will cause run() to exit.
-                } else {
-                    thread.lastRun = runsCounter; // update lastRun
-                    return false; //   will cause run() to poll.
+                if (tirfbd.isZombif()) { // rfdundbnt tirfbd
+                    rfturn truf; // will dbusf run() to fxit.
+                } flsf {
+                    tirfbd.lbstRun = runsCountfr; // updbtf lbstRun
+                    rfturn fblsf; //   will dbusf run() to poll.
                 }
             }
         }
     }
 
-    // Main thread waits on this lock, until all helper threads are done
-    // with poll().
-    private final FinishLock finishLock = new FinishLock();
+    // Mbin tirfbd wbits on tiis lodk, until bll iflpfr tirfbds brf donf
+    // witi poll().
+    privbtf finbl FinisiLodk finisiLodk = nfw FinisiLodk();
 
-    private final class FinishLock  {
-        // Number of helper threads, that did not finish yet.
-        private int threadsToFinish;
+    privbtf finbl dlbss FinisiLodk  {
+        // Numbfr of iflpfr tirfbds, tibt did not finisi yft.
+        privbtf int tirfbdsToFinisi;
 
-        // IOException which occurred during the last run.
-        IOException exception = null;
+        // IOExdfption wiidi oddurrfd during tif lbst run.
+        IOExdfption fxdfption = null;
 
-        // Called before polling.
-        private void reset() {
-            threadsToFinish = threads.size(); // helper threads
+        // Cbllfd bfforf polling.
+        privbtf void rfsft() {
+            tirfbdsToFinisi = tirfbds.sizf(); // iflpfr tirfbds
         }
 
-        // Each helper thread invokes this function on finishLock, when
-        // the thread is done with poll().
-        private synchronized void threadFinished() {
-            if (threadsToFinish == threads.size()) { // finished poll() first
-                // if finished first, wakeup others
-                wakeup();
+        // Ebdi iflpfr tirfbd invokfs tiis fundtion on finisiLodk, wifn
+        // tif tirfbd is donf witi poll().
+        privbtf syndironizfd void tirfbdFinisifd() {
+            if (tirfbdsToFinisi == tirfbds.sizf()) { // finisifd poll() first
+                // if finisifd first, wbkfup otifrs
+                wbkfup();
             }
-            threadsToFinish--;
-            if (threadsToFinish == 0) // all helper threads finished poll().
-                notify();             // notify the main thread
+            tirfbdsToFinisi--;
+            if (tirfbdsToFinisi == 0) // bll iflpfr tirfbds finisifd poll().
+                notify();             // notify tif mbin tirfbd
         }
 
-        // The main thread invokes this function on finishLock to wait
-        // for helper threads to finish poll().
-        private synchronized void waitForHelperThreads() {
-            if (threadsToFinish == threads.size()) {
-                // no helper threads finished yet. Wakeup them up.
-                wakeup();
+        // Tif mbin tirfbd invokfs tiis fundtion on finisiLodk to wbit
+        // for iflpfr tirfbds to finisi poll().
+        privbtf syndironizfd void wbitForHflpfrTirfbds() {
+            if (tirfbdsToFinisi == tirfbds.sizf()) {
+                // no iflpfr tirfbds finisifd yft. Wbkfup tifm up.
+                wbkfup();
             }
-            while (threadsToFinish != 0) {
+            wiilf (tirfbdsToFinisi != 0) {
                 try {
-                    finishLock.wait();
-                } catch (InterruptedException e) {
-                    // Interrupted - set interrupted state.
-                    Thread.currentThread().interrupt();
+                    finisiLodk.wbit();
+                } dbtdi (IntfrruptfdExdfption f) {
+                    // Intfrruptfd - sft intfrruptfd stbtf.
+                    Tirfbd.durrfntTirfbd().intfrrupt();
                 }
             }
         }
 
-        // sets IOException for this run
-        private synchronized void setException(IOException e) {
-            exception = e;
+        // sfts IOExdfption for tiis run
+        privbtf syndironizfd void sftExdfption(IOExdfption f) {
+            fxdfption = f;
         }
 
-        // Checks if there was any exception during the last run.
-        // If yes, throws it
-        private void checkForException() throws IOException {
-            if (exception == null)
-                return;
-            StringBuffer message =  new StringBuffer("An exception occurred" +
-                                       " during the execution of select(): \n");
-            message.append(exception);
-            message.append('\n');
-            exception = null;
-            throw new IOException(message.toString());
+        // Cifdks if tifrf wbs bny fxdfption during tif lbst run.
+        // If yfs, tirows it
+        privbtf void difdkForExdfption() tirows IOExdfption {
+            if (fxdfption == null)
+                rfturn;
+            StringBufffr mfssbgf =  nfw StringBufffr("An fxdfption oddurrfd" +
+                                       " during tif fxfdution of sflfdt(): \n");
+            mfssbgf.bppfnd(fxdfption);
+            mfssbgf.bppfnd('\n');
+            fxdfption = null;
+            tirow nfw IOExdfption(mfssbgf.toString());
         }
     }
 
-    private final class SubSelector {
-        private final int pollArrayIndex; // starting index in pollArray to poll
-        // These arrays will hold result of native select().
-        // The first element of each array is the number of selected sockets.
-        // Other elements are file descriptors of selected sockets.
-        private final int[] readFds = new int [MAX_SELECTABLE_FDS + 1];
-        private final int[] writeFds = new int [MAX_SELECTABLE_FDS + 1];
-        private final int[] exceptFds = new int [MAX_SELECTABLE_FDS + 1];
+    privbtf finbl dlbss SubSflfdtor {
+        privbtf finbl int pollArrbyIndfx; // stbrting indfx in pollArrby to poll
+        // Tifsf brrbys will iold rfsult of nbtivf sflfdt().
+        // Tif first flfmfnt of fbdi brrby is tif numbfr of sflfdtfd sodkfts.
+        // Otifr flfmfnts brf filf dfsdriptors of sflfdtfd sodkfts.
+        privbtf finbl int[] rfbdFds = nfw int [MAX_SELECTABLE_FDS + 1];
+        privbtf finbl int[] writfFds = nfw int [MAX_SELECTABLE_FDS + 1];
+        privbtf finbl int[] fxdfptFds = nfw int [MAX_SELECTABLE_FDS + 1];
 
-        private SubSelector() {
-            this.pollArrayIndex = 0; // main thread
+        privbtf SubSflfdtor() {
+            tiis.pollArrbyIndfx = 0; // mbin tirfbd
         }
 
-        private SubSelector(int threadIndex) { // helper threads
-            this.pollArrayIndex = (threadIndex + 1) * MAX_SELECTABLE_FDS;
+        privbtf SubSflfdtor(int tirfbdIndfx) { // iflpfr tirfbds
+            tiis.pollArrbyIndfx = (tirfbdIndfx + 1) * MAX_SELECTABLE_FDS;
         }
 
-        private int poll() throws IOException{ // poll for the main thread
-            return poll0(pollWrapper.pollArrayAddress,
-                         Math.min(totalChannels, MAX_SELECTABLE_FDS),
-                         readFds, writeFds, exceptFds, timeout);
+        privbtf int poll() tirows IOExdfption{ // poll for tif mbin tirfbd
+            rfturn poll0(pollWrbppfr.pollArrbyAddrfss,
+                         Mbti.min(totblCibnnfls, MAX_SELECTABLE_FDS),
+                         rfbdFds, writfFds, fxdfptFds, timfout);
         }
 
-        private int poll(int index) throws IOException {
-            // poll for helper threads
-            return  poll0(pollWrapper.pollArrayAddress +
-                     (pollArrayIndex * PollArrayWrapper.SIZE_POLLFD),
-                     Math.min(MAX_SELECTABLE_FDS,
-                             totalChannels - (index + 1) * MAX_SELECTABLE_FDS),
-                     readFds, writeFds, exceptFds, timeout);
+        privbtf int poll(int indfx) tirows IOExdfption {
+            // poll for iflpfr tirfbds
+            rfturn  poll0(pollWrbppfr.pollArrbyAddrfss +
+                     (pollArrbyIndfx * PollArrbyWrbppfr.SIZE_POLLFD),
+                     Mbti.min(MAX_SELECTABLE_FDS,
+                             totblCibnnfls - (indfx + 1) * MAX_SELECTABLE_FDS),
+                     rfbdFds, writfFds, fxdfptFds, timfout);
         }
 
-        private native int poll0(long pollAddress, int numfds,
-             int[] readFds, int[] writeFds, int[] exceptFds, long timeout);
+        privbtf nbtivf int poll0(long pollAddrfss, int numfds,
+             int[] rfbdFds, int[] writfFds, int[] fxdfptFds, long timfout);
 
-        private int processSelectedKeys(long updateCount) {
-            int numKeysUpdated = 0;
-            numKeysUpdated += processFDSet(updateCount, readFds,
-                                           Net.POLLIN,
-                                           false);
-            numKeysUpdated += processFDSet(updateCount, writeFds,
-                                           Net.POLLCONN |
-                                           Net.POLLOUT,
-                                           false);
-            numKeysUpdated += processFDSet(updateCount, exceptFds,
-                                           Net.POLLIN |
-                                           Net.POLLCONN |
-                                           Net.POLLOUT,
-                                           true);
-            return numKeysUpdated;
+        privbtf int prodfssSflfdtfdKfys(long updbtfCount) {
+            int numKfysUpdbtfd = 0;
+            numKfysUpdbtfd += prodfssFDSft(updbtfCount, rfbdFds,
+                                           Nft.POLLIN,
+                                           fblsf);
+            numKfysUpdbtfd += prodfssFDSft(updbtfCount, writfFds,
+                                           Nft.POLLCONN |
+                                           Nft.POLLOUT,
+                                           fblsf);
+            numKfysUpdbtfd += prodfssFDSft(updbtfCount, fxdfptFds,
+                                           Nft.POLLIN |
+                                           Nft.POLLCONN |
+                                           Nft.POLLOUT,
+                                           truf);
+            rfturn numKfysUpdbtfd;
         }
 
         /**
-         * Note, clearedCount is used to determine if the readyOps have
-         * been reset in this select operation. updateCount is used to
-         * tell if a key has been counted as updated in this select
-         * operation.
+         * Notf, dlfbrfdCount is usfd to dftfrminf if tif rfbdyOps ibvf
+         * bffn rfsft in tiis sflfdt opfrbtion. updbtfCount is usfd to
+         * tfll if b kfy ibs bffn dountfd bs updbtfd in tiis sflfdt
+         * opfrbtion.
          *
-         * me.updateCount <= me.clearedCount <= updateCount
+         * mf.updbtfCount <= mf.dlfbrfdCount <= updbtfCount
          */
-        private int processFDSet(long updateCount, int[] fds, int rOps,
-                                 boolean isExceptFds)
+        privbtf int prodfssFDSft(long updbtfCount, int[] fds, int rOps,
+                                 boolfbn isExdfptFds)
         {
-            int numKeysUpdated = 0;
+            int numKfysUpdbtfd = 0;
             for (int i = 1; i <= fds[0]; i++) {
-                int desc = fds[i];
-                if (desc == wakeupSourceFd) {
-                    synchronized (interruptLock) {
-                        interruptTriggered = true;
+                int dfsd = fds[i];
+                if (dfsd == wbkfupSourdfFd) {
+                    syndironizfd (intfrruptLodk) {
+                        intfrruptTriggfrfd = truf;
                     }
-                    continue;
+                    dontinuf;
                 }
-                MapEntry me = fdMap.get(desc);
-                // If me is null, the key was deregistered in the previous
-                // processDeregisterQueue.
-                if (me == null)
-                    continue;
-                SelectionKeyImpl sk = me.ski;
+                MbpEntry mf = fdMbp.gft(dfsd);
+                // If mf is null, tif kfy wbs dfrfgistfrfd in tif prfvious
+                // prodfssDfrfgistfrQufuf.
+                if (mf == null)
+                    dontinuf;
+                SflfdtionKfyImpl sk = mf.ski;
 
-                // The descriptor may be in the exceptfds set because there is
-                // OOB data queued to the socket. If there is OOB data then it
-                // is discarded and the key is not added to the selected set.
-                if (isExceptFds &&
-                    (sk.channel() instanceof SocketChannelImpl) &&
-                    discardUrgentData(desc))
+                // Tif dfsdriptor mby bf in tif fxdfptfds sft bfdbusf tifrf is
+                // OOB dbtb qufufd to tif sodkft. If tifrf is OOB dbtb tifn it
+                // is disdbrdfd bnd tif kfy is not bddfd to tif sflfdtfd sft.
+                if (isExdfptFds &&
+                    (sk.dibnnfl() instbndfof SodkftCibnnflImpl) &&
+                    disdbrdUrgfntDbtb(dfsd))
                 {
-                    continue;
+                    dontinuf;
                 }
 
-                if (selectedKeys.contains(sk)) { // Key in selected set
-                    if (me.clearedCount != updateCount) {
-                        if (sk.channel.translateAndSetReadyOps(rOps, sk) &&
-                            (me.updateCount != updateCount)) {
-                            me.updateCount = updateCount;
-                            numKeysUpdated++;
+                if (sflfdtfdKfys.dontbins(sk)) { // Kfy in sflfdtfd sft
+                    if (mf.dlfbrfdCount != updbtfCount) {
+                        if (sk.dibnnfl.trbnslbtfAndSftRfbdyOps(rOps, sk) &&
+                            (mf.updbtfCount != updbtfCount)) {
+                            mf.updbtfCount = updbtfCount;
+                            numKfysUpdbtfd++;
                         }
-                    } else { // The readyOps have been set; now add
-                        if (sk.channel.translateAndUpdateReadyOps(rOps, sk) &&
-                            (me.updateCount != updateCount)) {
-                            me.updateCount = updateCount;
-                            numKeysUpdated++;
-                        }
-                    }
-                    me.clearedCount = updateCount;
-                } else { // Key is not in selected set yet
-                    if (me.clearedCount != updateCount) {
-                        sk.channel.translateAndSetReadyOps(rOps, sk);
-                        if ((sk.nioReadyOps() & sk.nioInterestOps()) != 0) {
-                            selectedKeys.add(sk);
-                            me.updateCount = updateCount;
-                            numKeysUpdated++;
-                        }
-                    } else { // The readyOps have been set; now add
-                        sk.channel.translateAndUpdateReadyOps(rOps, sk);
-                        if ((sk.nioReadyOps() & sk.nioInterestOps()) != 0) {
-                            selectedKeys.add(sk);
-                            me.updateCount = updateCount;
-                            numKeysUpdated++;
+                    } flsf { // Tif rfbdyOps ibvf bffn sft; now bdd
+                        if (sk.dibnnfl.trbnslbtfAndUpdbtfRfbdyOps(rOps, sk) &&
+                            (mf.updbtfCount != updbtfCount)) {
+                            mf.updbtfCount = updbtfCount;
+                            numKfysUpdbtfd++;
                         }
                     }
-                    me.clearedCount = updateCount;
+                    mf.dlfbrfdCount = updbtfCount;
+                } flsf { // Kfy is not in sflfdtfd sft yft
+                    if (mf.dlfbrfdCount != updbtfCount) {
+                        sk.dibnnfl.trbnslbtfAndSftRfbdyOps(rOps, sk);
+                        if ((sk.nioRfbdyOps() & sk.nioIntfrfstOps()) != 0) {
+                            sflfdtfdKfys.bdd(sk);
+                            mf.updbtfCount = updbtfCount;
+                            numKfysUpdbtfd++;
+                        }
+                    } flsf { // Tif rfbdyOps ibvf bffn sft; now bdd
+                        sk.dibnnfl.trbnslbtfAndUpdbtfRfbdyOps(rOps, sk);
+                        if ((sk.nioRfbdyOps() & sk.nioIntfrfstOps()) != 0) {
+                            sflfdtfdKfys.bdd(sk);
+                            mf.updbtfCount = updbtfCount;
+                            numKfysUpdbtfd++;
+                        }
+                    }
+                    mf.dlfbrfdCount = updbtfCount;
                 }
             }
-            return numKeysUpdated;
+            rfturn numKfysUpdbtfd;
         }
     }
 
-    // Represents a helper thread used for select.
-    private final class SelectThread extends Thread {
-        private final int index; // index of this thread
-        final SubSelector subSelector;
-        private long lastRun = 0; // last run number
-        private volatile boolean zombie;
-        // Creates a new thread
-        private SelectThread(int i) {
-            this.index = i;
-            this.subSelector = new SubSelector(i);
-            //make sure we wait for next round of poll
-            this.lastRun = startLock.runsCounter;
+    // Rfprfsfnts b iflpfr tirfbd usfd for sflfdt.
+    privbtf finbl dlbss SflfdtTirfbd fxtfnds Tirfbd {
+        privbtf finbl int indfx; // indfx of tiis tirfbd
+        finbl SubSflfdtor subSflfdtor;
+        privbtf long lbstRun = 0; // lbst run numbfr
+        privbtf volbtilf boolfbn zombif;
+        // Crfbtfs b nfw tirfbd
+        privbtf SflfdtTirfbd(int i) {
+            tiis.indfx = i;
+            tiis.subSflfdtor = nfw SubSflfdtor(i);
+            //mbkf surf wf wbit for nfxt round of poll
+            tiis.lbstRun = stbrtLodk.runsCountfr;
         }
-        void makeZombie() {
-            zombie = true;
+        void mbkfZombif() {
+            zombif = truf;
         }
-        boolean isZombie() {
-            return zombie;
+        boolfbn isZombif() {
+            rfturn zombif;
         }
-        public void run() {
-            while (true) { // poll loop
-                // wait for the start of poll. If this thread has become
-                // redundant, then exit.
-                if (startLock.waitForStart(this))
-                    return;
-                // call poll()
+        publid void run() {
+            wiilf (truf) { // poll loop
+                // wbit for tif stbrt of poll. If tiis tirfbd ibs bfdomf
+                // rfdundbnt, tifn fxit.
+                if (stbrtLodk.wbitForStbrt(tiis))
+                    rfturn;
+                // dbll poll()
                 try {
-                    subSelector.poll(index);
-                } catch (IOException e) {
-                    // Save this exception and let other threads finish.
-                    finishLock.setException(e);
+                    subSflfdtor.poll(indfx);
+                } dbtdi (IOExdfption f) {
+                    // Sbvf tiis fxdfption bnd lft otifr tirfbds finisi.
+                    finisiLodk.sftExdfption(f);
                 }
-                // notify main thread, that this thread has finished, and
-                // wakeup others, if this thread is the first to finish.
-                finishLock.threadFinished();
+                // notify mbin tirfbd, tibt tiis tirfbd ibs finisifd, bnd
+                // wbkfup otifrs, if tiis tirfbd is tif first to finisi.
+                finisiLodk.tirfbdFinisifd();
             }
         }
     }
 
-    // After some channels registered/deregistered, the number of required
-    // helper threads may have changed. Adjust this number.
-    private void adjustThreadsCount() {
-        if (threadsCount > threads.size()) {
-            // More threads needed. Start more threads.
-            for (int i = threads.size(); i < threadsCount; i++) {
-                SelectThread newThread = new SelectThread(i);
-                threads.add(newThread);
-                newThread.setDaemon(true);
-                newThread.start();
+    // Aftfr somf dibnnfls rfgistfrfd/dfrfgistfrfd, tif numbfr of rfquirfd
+    // iflpfr tirfbds mby ibvf dibngfd. Adjust tiis numbfr.
+    privbtf void bdjustTirfbdsCount() {
+        if (tirfbdsCount > tirfbds.sizf()) {
+            // Morf tirfbds nffdfd. Stbrt morf tirfbds.
+            for (int i = tirfbds.sizf(); i < tirfbdsCount; i++) {
+                SflfdtTirfbd nfwTirfbd = nfw SflfdtTirfbd(i);
+                tirfbds.bdd(nfwTirfbd);
+                nfwTirfbd.sftDbfmon(truf);
+                nfwTirfbd.stbrt();
             }
-        } else if (threadsCount < threads.size()) {
-            // Some threads become redundant. Remove them from the threads List.
-            for (int i = threads.size() - 1 ; i >= threadsCount; i--)
-                threads.remove(i).makeZombie();
+        } flsf if (tirfbdsCount < tirfbds.sizf()) {
+            // Somf tirfbds bfdomf rfdundbnt. Rfmovf tifm from tif tirfbds List.
+            for (int i = tirfbds.sizf() - 1 ; i >= tirfbdsCount; i--)
+                tirfbds.rfmovf(i).mbkfZombif();
         }
     }
 
-    // Sets Windows wakeup socket to a signaled state.
-    private void setWakeupSocket() {
-        setWakeupSocket0(wakeupSinkFd);
+    // Sfts Windows wbkfup sodkft to b signblfd stbtf.
+    privbtf void sftWbkfupSodkft() {
+        sftWbkfupSodkft0(wbkfupSinkFd);
     }
-    private native void setWakeupSocket0(int wakeupSinkFd);
+    privbtf nbtivf void sftWbkfupSodkft0(int wbkfupSinkFd);
 
-    // Sets Windows wakeup socket to a non-signaled state.
-    private void resetWakeupSocket() {
-        synchronized (interruptLock) {
-            if (interruptTriggered == false)
-                return;
-            resetWakeupSocket0(wakeupSourceFd);
-            interruptTriggered = false;
+    // Sfts Windows wbkfup sodkft to b non-signblfd stbtf.
+    privbtf void rfsftWbkfupSodkft() {
+        syndironizfd (intfrruptLodk) {
+            if (intfrruptTriggfrfd == fblsf)
+                rfturn;
+            rfsftWbkfupSodkft0(wbkfupSourdfFd);
+            intfrruptTriggfrfd = fblsf;
         }
     }
 
-    private native void resetWakeupSocket0(int wakeupSourceFd);
+    privbtf nbtivf void rfsftWbkfupSodkft0(int wbkfupSourdfFd);
 
-    private native boolean discardUrgentData(int fd);
+    privbtf nbtivf boolfbn disdbrdUrgfntDbtb(int fd);
 
-    // We increment this counter on each call to updateSelectedKeys()
-    // each entry in  SubSelector.fdsMap has a memorized value of
-    // updateCount. When we increment numKeysUpdated we set updateCount
-    // for the corresponding entry to its current value. This is used to
-    // avoid counting the same key more than once - the same key can
-    // appear in readfds and writefds.
-    private long updateCount = 0;
+    // Wf indrfmfnt tiis dountfr on fbdi dbll to updbtfSflfdtfdKfys()
+    // fbdi fntry in  SubSflfdtor.fdsMbp ibs b mfmorizfd vbluf of
+    // updbtfCount. Wifn wf indrfmfnt numKfysUpdbtfd wf sft updbtfCount
+    // for tif dorrfsponding fntry to its durrfnt vbluf. Tiis is usfd to
+    // bvoid dounting tif sbmf kfy morf tibn ondf - tif sbmf kfy dbn
+    // bppfbr in rfbdfds bnd writffds.
+    privbtf long updbtfCount = 0;
 
-    // Update ops of the corresponding Channels. Add the ready keys to the
-    // ready queue.
-    private int updateSelectedKeys() {
-        updateCount++;
-        int numKeysUpdated = 0;
-        numKeysUpdated += subSelector.processSelectedKeys(updateCount);
-        for (SelectThread t: threads) {
-            numKeysUpdated += t.subSelector.processSelectedKeys(updateCount);
+    // Updbtf ops of tif dorrfsponding Cibnnfls. Add tif rfbdy kfys to tif
+    // rfbdy qufuf.
+    privbtf int updbtfSflfdtfdKfys() {
+        updbtfCount++;
+        int numKfysUpdbtfd = 0;
+        numKfysUpdbtfd += subSflfdtor.prodfssSflfdtfdKfys(updbtfCount);
+        for (SflfdtTirfbd t: tirfbds) {
+            numKfysUpdbtfd += t.subSflfdtor.prodfssSflfdtfdKfys(updbtfCount);
         }
-        return numKeysUpdated;
+        rfturn numKfysUpdbtfd;
     }
 
-    protected void implClose() throws IOException {
-        synchronized (closeLock) {
-            if (channelArray != null) {
-                if (pollWrapper != null) {
-                    // prevent further wakeup
-                    synchronized (interruptLock) {
-                        interruptTriggered = true;
+    protfdtfd void implClosf() tirows IOExdfption {
+        syndironizfd (dlosfLodk) {
+            if (dibnnflArrby != null) {
+                if (pollWrbppfr != null) {
+                    // prfvfnt furtifr wbkfup
+                    syndironizfd (intfrruptLodk) {
+                        intfrruptTriggfrfd = truf;
                     }
-                    wakeupPipe.sink().close();
-                    wakeupPipe.source().close();
-                    for(int i = 1; i < totalChannels; i++) { // Deregister channels
-                        if (i % MAX_SELECTABLE_FDS != 0) { // skip wakeupEvent
-                            deregister(channelArray[i]);
-                            SelectableChannel selch = channelArray[i].channel();
-                            if (!selch.isOpen() && !selch.isRegistered())
-                                ((SelChImpl)selch).kill();
+                    wbkfupPipf.sink().dlosf();
+                    wbkfupPipf.sourdf().dlosf();
+                    for(int i = 1; i < totblCibnnfls; i++) { // Dfrfgistfr dibnnfls
+                        if (i % MAX_SELECTABLE_FDS != 0) { // skip wbkfupEvfnt
+                            dfrfgistfr(dibnnflArrby[i]);
+                            SflfdtbblfCibnnfl sfldi = dibnnflArrby[i].dibnnfl();
+                            if (!sfldi.isOpfn() && !sfldi.isRfgistfrfd())
+                                ((SflCiImpl)sfldi).kill();
                         }
                     }
-                    pollWrapper.free();
-                    pollWrapper = null;
-                    selectedKeys = null;
-                    channelArray = null;
-                    // Make all remaining helper threads exit
-                    for (SelectThread t: threads)
-                         t.makeZombie();
-                    startLock.startThreads();
+                    pollWrbppfr.frff();
+                    pollWrbppfr = null;
+                    sflfdtfdKfys = null;
+                    dibnnflArrby = null;
+                    // Mbkf bll rfmbining iflpfr tirfbds fxit
+                    for (SflfdtTirfbd t: tirfbds)
+                         t.mbkfZombif();
+                    stbrtLodk.stbrtTirfbds();
                 }
             }
         }
     }
 
-    protected void implRegister(SelectionKeyImpl ski) {
-        synchronized (closeLock) {
-            if (pollWrapper == null)
-                throw new ClosedSelectorException();
-            growIfNeeded();
-            channelArray[totalChannels] = ski;
-            ski.setIndex(totalChannels);
-            fdMap.put(ski);
-            keys.add(ski);
-            pollWrapper.addEntry(totalChannels, ski);
-            totalChannels++;
+    protfdtfd void implRfgistfr(SflfdtionKfyImpl ski) {
+        syndironizfd (dlosfLodk) {
+            if (pollWrbppfr == null)
+                tirow nfw ClosfdSflfdtorExdfption();
+            growIfNffdfd();
+            dibnnflArrby[totblCibnnfls] = ski;
+            ski.sftIndfx(totblCibnnfls);
+            fdMbp.put(ski);
+            kfys.bdd(ski);
+            pollWrbppfr.bddEntry(totblCibnnfls, ski);
+            totblCibnnfls++;
         }
     }
 
-    private void growIfNeeded() {
-        if (channelArray.length == totalChannels) {
-            int newSize = totalChannels * 2; // Make a larger array
-            SelectionKeyImpl temp[] = new SelectionKeyImpl[newSize];
-            System.arraycopy(channelArray, 1, temp, 1, totalChannels - 1);
-            channelArray = temp;
-            pollWrapper.grow(newSize);
+    privbtf void growIfNffdfd() {
+        if (dibnnflArrby.lfngti == totblCibnnfls) {
+            int nfwSizf = totblCibnnfls * 2; // Mbkf b lbrgfr brrby
+            SflfdtionKfyImpl tfmp[] = nfw SflfdtionKfyImpl[nfwSizf];
+            Systfm.brrbydopy(dibnnflArrby, 1, tfmp, 1, totblCibnnfls - 1);
+            dibnnflArrby = tfmp;
+            pollWrbppfr.grow(nfwSizf);
         }
-        if (totalChannels % MAX_SELECTABLE_FDS == 0) { // more threads needed
-            pollWrapper.addWakeupSocket(wakeupSourceFd, totalChannels);
-            totalChannels++;
-            threadsCount++;
+        if (totblCibnnfls % MAX_SELECTABLE_FDS == 0) { // morf tirfbds nffdfd
+            pollWrbppfr.bddWbkfupSodkft(wbkfupSourdfFd, totblCibnnfls);
+            totblCibnnfls++;
+            tirfbdsCount++;
         }
     }
 
-    protected void implDereg(SelectionKeyImpl ski) throws IOException{
-        int i = ski.getIndex();
-        assert (i >= 0);
-        synchronized (closeLock) {
-            if (i != totalChannels - 1) {
-                // Copy end one over it
-                SelectionKeyImpl endChannel = channelArray[totalChannels-1];
-                channelArray[i] = endChannel;
-                endChannel.setIndex(i);
-                pollWrapper.replaceEntry(pollWrapper, totalChannels - 1,
-                                                                pollWrapper, i);
+    protfdtfd void implDfrfg(SflfdtionKfyImpl ski) tirows IOExdfption{
+        int i = ski.gftIndfx();
+        bssfrt (i >= 0);
+        syndironizfd (dlosfLodk) {
+            if (i != totblCibnnfls - 1) {
+                // Copy fnd onf ovfr it
+                SflfdtionKfyImpl fndCibnnfl = dibnnflArrby[totblCibnnfls-1];
+                dibnnflArrby[i] = fndCibnnfl;
+                fndCibnnfl.sftIndfx(i);
+                pollWrbppfr.rfplbdfEntry(pollWrbppfr, totblCibnnfls - 1,
+                                                                pollWrbppfr, i);
             }
-            ski.setIndex(-1);
+            ski.sftIndfx(-1);
         }
-        channelArray[totalChannels - 1] = null;
-        totalChannels--;
-        if ( totalChannels != 1 && totalChannels % MAX_SELECTABLE_FDS == 1) {
-            totalChannels--;
-            threadsCount--; // The last thread has become redundant.
+        dibnnflArrby[totblCibnnfls - 1] = null;
+        totblCibnnfls--;
+        if ( totblCibnnfls != 1 && totblCibnnfls % MAX_SELECTABLE_FDS == 1) {
+            totblCibnnfls--;
+            tirfbdsCount--; // Tif lbst tirfbd ibs bfdomf rfdundbnt.
         }
-        fdMap.remove(ski); // Remove the key from fdMap, keys and selectedKeys
-        keys.remove(ski);
-        selectedKeys.remove(ski);
-        deregister(ski);
-        SelectableChannel selch = ski.channel();
-        if (!selch.isOpen() && !selch.isRegistered())
-            ((SelChImpl)selch).kill();
+        fdMbp.rfmovf(ski); // Rfmovf tif kfy from fdMbp, kfys bnd sflfdtfdKfys
+        kfys.rfmovf(ski);
+        sflfdtfdKfys.rfmovf(ski);
+        dfrfgistfr(ski);
+        SflfdtbblfCibnnfl sfldi = ski.dibnnfl();
+        if (!sfldi.isOpfn() && !sfldi.isRfgistfrfd())
+            ((SflCiImpl)sfldi).kill();
     }
 
-    public void putEventOps(SelectionKeyImpl sk, int ops) {
-        synchronized (closeLock) {
-            if (pollWrapper == null)
-                throw new ClosedSelectorException();
-            // make sure this sk has not been removed yet
-            int index = sk.getIndex();
-            if (index == -1)
-                throw new CancelledKeyException();
-            pollWrapper.putEventOps(index, ops);
+    publid void putEvfntOps(SflfdtionKfyImpl sk, int ops) {
+        syndironizfd (dlosfLodk) {
+            if (pollWrbppfr == null)
+                tirow nfw ClosfdSflfdtorExdfption();
+            // mbkf surf tiis sk ibs not bffn rfmovfd yft
+            int indfx = sk.gftIndfx();
+            if (indfx == -1)
+                tirow nfw CbndfllfdKfyExdfption();
+            pollWrbppfr.putEvfntOps(indfx, ops);
         }
     }
 
-    public Selector wakeup() {
-        synchronized (interruptLock) {
-            if (!interruptTriggered) {
-                setWakeupSocket();
-                interruptTriggered = true;
+    publid Sflfdtor wbkfup() {
+        syndironizfd (intfrruptLodk) {
+            if (!intfrruptTriggfrfd) {
+                sftWbkfupSodkft();
+                intfrruptTriggfrfd = truf;
             }
         }
-        return this;
+        rfturn tiis;
     }
 
-    static {
-        IOUtil.load();
+    stbtid {
+        IOUtil.lobd();
     }
 }

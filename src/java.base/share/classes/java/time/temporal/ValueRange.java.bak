@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2011-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2011-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,372 +59,372 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbdkbgf jbvb.timf.tfmporbl;
 
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.DateTimeException;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.DbtfTimfExdfption;
 
 /**
- * The range of valid values for a date-time field.
+ * Tif rbngf of vblid vblufs for b dbtf-timf fifld.
  * <p>
- * All {@link TemporalField} instances have a valid range of values.
- * For example, the ISO day-of-month runs from 1 to somewhere between 28 and 31.
- * This class captures that valid range.
+ * All {@link TfmporblFifld} instbndfs ibvf b vblid rbngf of vblufs.
+ * For fxbmplf, tif ISO dby-of-monti runs from 1 to somfwifrf bftwffn 28 bnd 31.
+ * Tiis dlbss dbpturfs tibt vblid rbngf.
  * <p>
- * It is important to be aware of the limitations of this class.
- * Only the minimum and maximum values are provided.
- * It is possible for there to be invalid values within the outer range.
- * For example, a weird field may have valid values of 1, 2, 4, 6, 7, thus
- * have a range of '1 - 7', despite that fact that values 3 and 5 are invalid.
+ * It is importbnt to bf bwbrf of tif limitbtions of tiis dlbss.
+ * Only tif minimum bnd mbximum vblufs brf providfd.
+ * It is possiblf for tifrf to bf invblid vblufs witiin tif outfr rbngf.
+ * For fxbmplf, b wfird fifld mby ibvf vblid vblufs of 1, 2, 4, 6, 7, tius
+ * ibvf b rbngf of '1 - 7', dfspitf tibt fbdt tibt vblufs 3 bnd 5 brf invblid.
  * <p>
- * Instances of this class are not tied to a specific field.
+ * Instbndfs of tiis dlbss brf not tifd to b spfdifid fifld.
  *
- * @implSpec
- * This class is immutable and thread-safe.
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class ValueRange implements Serializable {
+publid finbl dlbss VblufRbngf implfmfnts Sfriblizbblf {
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = -7317881728594519368L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -7317881728594519368L;
 
     /**
-     * The smallest minimum value.
+     * Tif smbllfst minimum vbluf.
      */
-    private final long minSmallest;
+    privbtf finbl long minSmbllfst;
     /**
-     * The largest minimum value.
+     * Tif lbrgfst minimum vbluf.
      */
-    private final long minLargest;
+    privbtf finbl long minLbrgfst;
     /**
-     * The smallest maximum value.
+     * Tif smbllfst mbximum vbluf.
      */
-    private final long maxSmallest;
+    privbtf finbl long mbxSmbllfst;
     /**
-     * The largest maximum value.
+     * Tif lbrgfst mbximum vbluf.
      */
-    private final long maxLargest;
+    privbtf finbl long mbxLbrgfst;
 
     /**
-     * Obtains a fixed value range.
+     * Obtbins b fixfd vbluf rbngf.
      * <p>
-     * This factory obtains a range where the minimum and maximum values are fixed.
-     * For example, the ISO month-of-year always runs from 1 to 12.
+     * Tiis fbdtory obtbins b rbngf wifrf tif minimum bnd mbximum vblufs brf fixfd.
+     * For fxbmplf, tif ISO monti-of-yfbr blwbys runs from 1 to 12.
      *
-     * @param min  the minimum value
-     * @param max  the maximum value
-     * @return the ValueRange for min, max, not null
-     * @throws IllegalArgumentException if the minimum is greater than the maximum
+     * @pbrbm min  tif minimum vbluf
+     * @pbrbm mbx  tif mbximum vbluf
+     * @rfturn tif VblufRbngf for min, mbx, not null
+     * @tirows IllfgblArgumfntExdfption if tif minimum is grfbtfr tibn tif mbximum
      */
-    public static ValueRange of(long min, long max) {
-        if (min > max) {
-            throw new IllegalArgumentException("Minimum value must be less than maximum value");
+    publid stbtid VblufRbngf of(long min, long mbx) {
+        if (min > mbx) {
+            tirow nfw IllfgblArgumfntExdfption("Minimum vbluf must bf lfss tibn mbximum vbluf");
         }
-        return new ValueRange(min, min, max, max);
+        rfturn nfw VblufRbngf(min, min, mbx, mbx);
     }
 
     /**
-     * Obtains a variable value range.
+     * Obtbins b vbribblf vbluf rbngf.
      * <p>
-     * This factory obtains a range where the minimum value is fixed and the maximum value may vary.
-     * For example, the ISO day-of-month always starts at 1, but ends between 28 and 31.
+     * Tiis fbdtory obtbins b rbngf wifrf tif minimum vbluf is fixfd bnd tif mbximum vbluf mby vbry.
+     * For fxbmplf, tif ISO dby-of-monti blwbys stbrts bt 1, but fnds bftwffn 28 bnd 31.
      *
-     * @param min  the minimum value
-     * @param maxSmallest  the smallest maximum value
-     * @param maxLargest  the largest maximum value
-     * @return the ValueRange for min, smallest max, largest max, not null
-     * @throws IllegalArgumentException if
-     *     the minimum is greater than the smallest maximum,
-     *  or the smallest maximum is greater than the largest maximum
+     * @pbrbm min  tif minimum vbluf
+     * @pbrbm mbxSmbllfst  tif smbllfst mbximum vbluf
+     * @pbrbm mbxLbrgfst  tif lbrgfst mbximum vbluf
+     * @rfturn tif VblufRbngf for min, smbllfst mbx, lbrgfst mbx, not null
+     * @tirows IllfgblArgumfntExdfption if
+     *     tif minimum is grfbtfr tibn tif smbllfst mbximum,
+     *  or tif smbllfst mbximum is grfbtfr tibn tif lbrgfst mbximum
      */
-    public static ValueRange of(long min, long maxSmallest, long maxLargest) {
-        return of(min, min, maxSmallest, maxLargest);
+    publid stbtid VblufRbngf of(long min, long mbxSmbllfst, long mbxLbrgfst) {
+        rfturn of(min, min, mbxSmbllfst, mbxLbrgfst);
     }
 
     /**
-     * Obtains a fully variable value range.
+     * Obtbins b fully vbribblf vbluf rbngf.
      * <p>
-     * This factory obtains a range where both the minimum and maximum value may vary.
+     * Tiis fbdtory obtbins b rbngf wifrf boti tif minimum bnd mbximum vbluf mby vbry.
      *
-     * @param minSmallest  the smallest minimum value
-     * @param minLargest  the largest minimum value
-     * @param maxSmallest  the smallest maximum value
-     * @param maxLargest  the largest maximum value
-     * @return the ValueRange for smallest min, largest min, smallest max, largest max, not null
-     * @throws IllegalArgumentException if
-     *     the smallest minimum is greater than the smallest maximum,
-     *  or the smallest maximum is greater than the largest maximum
-     *  or the largest minimum is greater than the largest maximum
+     * @pbrbm minSmbllfst  tif smbllfst minimum vbluf
+     * @pbrbm minLbrgfst  tif lbrgfst minimum vbluf
+     * @pbrbm mbxSmbllfst  tif smbllfst mbximum vbluf
+     * @pbrbm mbxLbrgfst  tif lbrgfst mbximum vbluf
+     * @rfturn tif VblufRbngf for smbllfst min, lbrgfst min, smbllfst mbx, lbrgfst mbx, not null
+     * @tirows IllfgblArgumfntExdfption if
+     *     tif smbllfst minimum is grfbtfr tibn tif smbllfst mbximum,
+     *  or tif smbllfst mbximum is grfbtfr tibn tif lbrgfst mbximum
+     *  or tif lbrgfst minimum is grfbtfr tibn tif lbrgfst mbximum
      */
-    public static ValueRange of(long minSmallest, long minLargest, long maxSmallest, long maxLargest) {
-        if (minSmallest > minLargest) {
-            throw new IllegalArgumentException("Smallest minimum value must be less than largest minimum value");
+    publid stbtid VblufRbngf of(long minSmbllfst, long minLbrgfst, long mbxSmbllfst, long mbxLbrgfst) {
+        if (minSmbllfst > minLbrgfst) {
+            tirow nfw IllfgblArgumfntExdfption("Smbllfst minimum vbluf must bf lfss tibn lbrgfst minimum vbluf");
         }
-        if (maxSmallest > maxLargest) {
-            throw new IllegalArgumentException("Smallest maximum value must be less than largest maximum value");
+        if (mbxSmbllfst > mbxLbrgfst) {
+            tirow nfw IllfgblArgumfntExdfption("Smbllfst mbximum vbluf must bf lfss tibn lbrgfst mbximum vbluf");
         }
-        if (minLargest > maxLargest) {
-            throw new IllegalArgumentException("Minimum value must be less than maximum value");
+        if (minLbrgfst > mbxLbrgfst) {
+            tirow nfw IllfgblArgumfntExdfption("Minimum vbluf must bf lfss tibn mbximum vbluf");
         }
-        return new ValueRange(minSmallest, minLargest, maxSmallest, maxLargest);
+        rfturn nfw VblufRbngf(minSmbllfst, minLbrgfst, mbxSmbllfst, mbxLbrgfst);
     }
 
     /**
-     * Restrictive constructor.
+     * Rfstridtivf donstrudtor.
      *
-     * @param minSmallest  the smallest minimum value
-     * @param minLargest  the largest minimum value
-     * @param maxSmallest  the smallest minimum value
-     * @param maxLargest  the largest minimum value
+     * @pbrbm minSmbllfst  tif smbllfst minimum vbluf
+     * @pbrbm minLbrgfst  tif lbrgfst minimum vbluf
+     * @pbrbm mbxSmbllfst  tif smbllfst minimum vbluf
+     * @pbrbm mbxLbrgfst  tif lbrgfst minimum vbluf
      */
-    private ValueRange(long minSmallest, long minLargest, long maxSmallest, long maxLargest) {
-        this.minSmallest = minSmallest;
-        this.minLargest = minLargest;
-        this.maxSmallest = maxSmallest;
-        this.maxLargest = maxLargest;
+    privbtf VblufRbngf(long minSmbllfst, long minLbrgfst, long mbxSmbllfst, long mbxLbrgfst) {
+        tiis.minSmbllfst = minSmbllfst;
+        tiis.minLbrgfst = minLbrgfst;
+        tiis.mbxSmbllfst = mbxSmbllfst;
+        tiis.mbxLbrgfst = mbxLbrgfst;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Is the value range fixed and fully known.
+     * Is tif vbluf rbngf fixfd bnd fully known.
      * <p>
-     * For example, the ISO day-of-month runs from 1 to between 28 and 31.
-     * Since there is uncertainty about the maximum value, the range is not fixed.
-     * However, for the month of January, the range is always 1 to 31, thus it is fixed.
+     * For fxbmplf, tif ISO dby-of-monti runs from 1 to bftwffn 28 bnd 31.
+     * Sindf tifrf is undfrtbinty bbout tif mbximum vbluf, tif rbngf is not fixfd.
+     * Howfvfr, for tif monti of Jbnubry, tif rbngf is blwbys 1 to 31, tius it is fixfd.
      *
-     * @return true if the set of values is fixed
+     * @rfturn truf if tif sft of vblufs is fixfd
      */
-    public boolean isFixed() {
-        return minSmallest == minLargest && maxSmallest == maxLargest;
+    publid boolfbn isFixfd() {
+        rfturn minSmbllfst == minLbrgfst && mbxSmbllfst == mbxLbrgfst;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the minimum value that the field can take.
+     * Gfts tif minimum vbluf tibt tif fifld dbn tbkf.
      * <p>
-     * For example, the ISO day-of-month always starts at 1.
-     * The minimum is therefore 1.
+     * For fxbmplf, tif ISO dby-of-monti blwbys stbrts bt 1.
+     * Tif minimum is tifrfforf 1.
      *
-     * @return the minimum value for this field
+     * @rfturn tif minimum vbluf for tiis fifld
      */
-    public long getMinimum() {
-        return minSmallest;
+    publid long gftMinimum() {
+        rfturn minSmbllfst;
     }
 
     /**
-     * Gets the largest possible minimum value that the field can take.
+     * Gfts tif lbrgfst possiblf minimum vbluf tibt tif fifld dbn tbkf.
      * <p>
-     * For example, the ISO day-of-month always starts at 1.
-     * The largest minimum is therefore 1.
+     * For fxbmplf, tif ISO dby-of-monti blwbys stbrts bt 1.
+     * Tif lbrgfst minimum is tifrfforf 1.
      *
-     * @return the largest possible minimum value for this field
+     * @rfturn tif lbrgfst possiblf minimum vbluf for tiis fifld
      */
-    public long getLargestMinimum() {
-        return minLargest;
+    publid long gftLbrgfstMinimum() {
+        rfturn minLbrgfst;
     }
 
     /**
-     * Gets the smallest possible maximum value that the field can take.
+     * Gfts tif smbllfst possiblf mbximum vbluf tibt tif fifld dbn tbkf.
      * <p>
-     * For example, the ISO day-of-month runs to between 28 and 31 days.
-     * The smallest maximum is therefore 28.
+     * For fxbmplf, tif ISO dby-of-monti runs to bftwffn 28 bnd 31 dbys.
+     * Tif smbllfst mbximum is tifrfforf 28.
      *
-     * @return the smallest possible maximum value for this field
+     * @rfturn tif smbllfst possiblf mbximum vbluf for tiis fifld
      */
-    public long getSmallestMaximum() {
-        return maxSmallest;
+    publid long gftSmbllfstMbximum() {
+        rfturn mbxSmbllfst;
     }
 
     /**
-     * Gets the maximum value that the field can take.
+     * Gfts tif mbximum vbluf tibt tif fifld dbn tbkf.
      * <p>
-     * For example, the ISO day-of-month runs to between 28 and 31 days.
-     * The maximum is therefore 31.
+     * For fxbmplf, tif ISO dby-of-monti runs to bftwffn 28 bnd 31 dbys.
+     * Tif mbximum is tifrfforf 31.
      *
-     * @return the maximum value for this field
+     * @rfturn tif mbximum vbluf for tiis fifld
      */
-    public long getMaximum() {
-        return maxLargest;
+    publid long gftMbximum() {
+        rfturn mbxLbrgfst;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if all values in the range fit in an {@code int}.
+     * Cifdks if bll vblufs in tif rbngf fit in bn {@dodf int}.
      * <p>
-     * This checks that all valid values are within the bounds of an {@code int}.
+     * Tiis difdks tibt bll vblid vblufs brf witiin tif bounds of bn {@dodf int}.
      * <p>
-     * For example, the ISO month-of-year has values from 1 to 12, which fits in an {@code int}.
-     * By comparison, ISO nano-of-day runs from 1 to 86,400,000,000,000 which does not fit in an {@code int}.
+     * For fxbmplf, tif ISO monti-of-yfbr ibs vblufs from 1 to 12, wiidi fits in bn {@dodf int}.
+     * By dompbrison, ISO nbno-of-dby runs from 1 to 86,400,000,000,000 wiidi dofs not fit in bn {@dodf int}.
      * <p>
-     * This implementation uses {@link #getMinimum()} and {@link #getMaximum()}.
+     * Tiis implfmfntbtion usfs {@link #gftMinimum()} bnd {@link #gftMbximum()}.
      *
-     * @return true if a valid value always fits in an {@code int}
+     * @rfturn truf if b vblid vbluf blwbys fits in bn {@dodf int}
      */
-    public boolean isIntValue() {
-        return getMinimum() >= Integer.MIN_VALUE && getMaximum() <= Integer.MAX_VALUE;
+    publid boolfbn isIntVbluf() {
+        rfturn gftMinimum() >= Intfgfr.MIN_VALUE && gftMbximum() <= Intfgfr.MAX_VALUE;
     }
 
     /**
-     * Checks if the value is within the valid range.
+     * Cifdks if tif vbluf is witiin tif vblid rbngf.
      * <p>
-     * This checks that the value is within the stored range of values.
+     * Tiis difdks tibt tif vbluf is witiin tif storfd rbngf of vblufs.
      *
-     * @param value  the value to check
-     * @return true if the value is valid
+     * @pbrbm vbluf  tif vbluf to difdk
+     * @rfturn truf if tif vbluf is vblid
      */
-    public boolean isValidValue(long value) {
-        return (value >= getMinimum() && value <= getMaximum());
+    publid boolfbn isVblidVbluf(long vbluf) {
+        rfturn (vbluf >= gftMinimum() && vbluf <= gftMbximum());
     }
 
     /**
-     * Checks if the value is within the valid range and that all values
-     * in the range fit in an {@code int}.
+     * Cifdks if tif vbluf is witiin tif vblid rbngf bnd tibt bll vblufs
+     * in tif rbngf fit in bn {@dodf int}.
      * <p>
-     * This method combines {@link #isIntValue()} and {@link #isValidValue(long)}.
+     * Tiis mftiod dombinfs {@link #isIntVbluf()} bnd {@link #isVblidVbluf(long)}.
      *
-     * @param value  the value to check
-     * @return true if the value is valid and fits in an {@code int}
+     * @pbrbm vbluf  tif vbluf to difdk
+     * @rfturn truf if tif vbluf is vblid bnd fits in bn {@dodf int}
      */
-    public boolean isValidIntValue(long value) {
-        return isIntValue() && isValidValue(value);
+    publid boolfbn isVblidIntVbluf(long vbluf) {
+        rfturn isIntVbluf() && isVblidVbluf(vbluf);
     }
 
     /**
-     * Checks that the specified value is valid.
+     * Cifdks tibt tif spfdififd vbluf is vblid.
      * <p>
-     * This validates that the value is within the valid range of values.
-     * The field is only used to improve the error message.
+     * Tiis vblidbtfs tibt tif vbluf is witiin tif vblid rbngf of vblufs.
+     * Tif fifld is only usfd to improvf tif frror mfssbgf.
      *
-     * @param value  the value to check
-     * @param field  the field being checked, may be null
-     * @return the value that was passed in
-     * @see #isValidValue(long)
+     * @pbrbm vbluf  tif vbluf to difdk
+     * @pbrbm fifld  tif fifld bfing difdkfd, mby bf null
+     * @rfturn tif vbluf tibt wbs pbssfd in
+     * @sff #isVblidVbluf(long)
      */
-    public long checkValidValue(long value, TemporalField field) {
-        if (isValidValue(value) == false) {
-            throw new DateTimeException(genInvalidFieldMessage(field, value));
+    publid long difdkVblidVbluf(long vbluf, TfmporblFifld fifld) {
+        if (isVblidVbluf(vbluf) == fblsf) {
+            tirow nfw DbtfTimfExdfption(gfnInvblidFifldMfssbgf(fifld, vbluf));
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Checks that the specified value is valid and fits in an {@code int}.
+     * Cifdks tibt tif spfdififd vbluf is vblid bnd fits in bn {@dodf int}.
      * <p>
-     * This validates that the value is within the valid range of values and that
-     * all valid values are within the bounds of an {@code int}.
-     * The field is only used to improve the error message.
+     * Tiis vblidbtfs tibt tif vbluf is witiin tif vblid rbngf of vblufs bnd tibt
+     * bll vblid vblufs brf witiin tif bounds of bn {@dodf int}.
+     * Tif fifld is only usfd to improvf tif frror mfssbgf.
      *
-     * @param value  the value to check
-     * @param field  the field being checked, may be null
-     * @return the value that was passed in
-     * @see #isValidIntValue(long)
+     * @pbrbm vbluf  tif vbluf to difdk
+     * @pbrbm fifld  tif fifld bfing difdkfd, mby bf null
+     * @rfturn tif vbluf tibt wbs pbssfd in
+     * @sff #isVblidIntVbluf(long)
      */
-    public int checkValidIntValue(long value, TemporalField field) {
-        if (isValidIntValue(value) == false) {
-            throw new DateTimeException(genInvalidFieldMessage(field, value));
+    publid int difdkVblidIntVbluf(long vbluf, TfmporblFifld fifld) {
+        if (isVblidIntVbluf(vbluf) == fblsf) {
+            tirow nfw DbtfTimfExdfption(gfnInvblidFifldMfssbgf(fifld, vbluf));
         }
-        return (int) value;
+        rfturn (int) vbluf;
     }
 
-    private String genInvalidFieldMessage(TemporalField field, long value) {
-        if (field != null) {
-            return "Invalid value for " + field + " (valid values " + this + "): " + value;
-        } else {
-            return "Invalid value (valid values " + this + "): " + value;
+    privbtf String gfnInvblidFifldMfssbgf(TfmporblFifld fifld, long vbluf) {
+        if (fifld != null) {
+            rfturn "Invblid vbluf for " + fifld + " (vblid vblufs " + tiis + "): " + vbluf;
+        } flsf {
+            rfturn "Invblid vbluf (vblid vblufs " + tiis + "): " + vbluf;
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Restore the state of an ValueRange from the stream.
-     * Check that the values are valid.
+     * Rfstorf tif stbtf of bn VblufRbngf from tif strfbm.
+     * Cifdk tibt tif vblufs brf vblid.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException if
-     *     the smallest minimum is greater than the smallest maximum,
-     *  or the smallest maximum is greater than the largest maximum
-     *  or the largest minimum is greater than the largest maximum
-     * @throws ClassNotFoundException if a class cannot be resolved
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption if
+     *     tif smbllfst minimum is grfbtfr tibn tif smbllfst mbximum,
+     *  or tif smbllfst mbximum is grfbtfr tibn tif lbrgfst mbximum
+     *  or tif lbrgfst minimum is grfbtfr tibn tif lbrgfst mbximum
+     * @tirows ClbssNotFoundExdfption if b dlbss dbnnot bf rfsolvfd
      */
-    private void readObject(ObjectInputStream s)
-         throws IOException, ClassNotFoundException, InvalidObjectException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+         tirows IOExdfption, ClbssNotFoundExdfption, InvblidObjfdtExdfption
     {
-        s.defaultReadObject();
-        if (minSmallest > minLargest) {
-            throw new InvalidObjectException("Smallest minimum value must be less than largest minimum value");
+        s.dffbultRfbdObjfdt();
+        if (minSmbllfst > minLbrgfst) {
+            tirow nfw InvblidObjfdtExdfption("Smbllfst minimum vbluf must bf lfss tibn lbrgfst minimum vbluf");
         }
-        if (maxSmallest > maxLargest) {
-            throw new InvalidObjectException("Smallest maximum value must be less than largest maximum value");
+        if (mbxSmbllfst > mbxLbrgfst) {
+            tirow nfw InvblidObjfdtExdfption("Smbllfst mbximum vbluf must bf lfss tibn lbrgfst mbximum vbluf");
         }
-        if (minLargest > maxLargest) {
-            throw new InvalidObjectException("Minimum value must be less than maximum value");
+        if (minLbrgfst > mbxLbrgfst) {
+            tirow nfw InvblidObjfdtExdfption("Minimum vbluf must bf lfss tibn mbximum vbluf");
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this range is equal to another range.
+     * Cifdks if tiis rbngf is fqubl to bnotifr rbngf.
      * <p>
-     * The comparison is based on the four values, minimum, largest minimum,
-     * smallest maximum and maximum.
-     * Only objects of type {@code ValueRange} are compared, other types return false.
+     * Tif dompbrison is bbsfd on tif four vblufs, minimum, lbrgfst minimum,
+     * smbllfst mbximum bnd mbximum.
+     * Only objfdts of typf {@dodf VblufRbngf} brf dompbrfd, otifr typfs rfturn fblsf.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other range
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @rfturn truf if tiis is fqubl to tif otifr rbngf
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis) {
+            rfturn truf;
         }
-        if (obj instanceof ValueRange) {
-            ValueRange other = (ValueRange) obj;
-           return minSmallest == other.minSmallest && minLargest == other.minLargest &&
-                   maxSmallest == other.maxSmallest && maxLargest == other.maxLargest;
+        if (obj instbndfof VblufRbngf) {
+            VblufRbngf otifr = (VblufRbngf) obj;
+           rfturn minSmbllfst == otifr.minSmbllfst && minLbrgfst == otifr.minLbrgfst &&
+                   mbxSmbllfst == otifr.mbxSmbllfst && mbxLbrgfst == otifr.mbxLbrgfst;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * A hash code for this range.
+     * A ibsi dodf for tiis rbngf.
      *
-     * @return a suitable hash code
+     * @rfturn b suitbblf ibsi dodf
      */
-    @Override
-    public int hashCode() {
-        long hash = minSmallest + minLargest << 16 + minLargest >> 48 + maxSmallest << 32 +
-            maxSmallest >> 32 + maxLargest << 48 + maxLargest >> 16;
-        return (int) (hash ^ (hash >>> 32));
+    @Ovfrridf
+    publid int ibsiCodf() {
+        long ibsi = minSmbllfst + minLbrgfst << 16 + minLbrgfst >> 48 + mbxSmbllfst << 32 +
+            mbxSmbllfst >> 32 + mbxLbrgfst << 48 + mbxLbrgfst >> 16;
+        rfturn (int) (ibsi ^ (ibsi >>> 32));
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this range as a {@code String}.
+     * Outputs tiis rbngf bs b {@dodf String}.
      * <p>
-     * The format will be '{min}/{largestMin} - {smallestMax}/{max}',
-     * where the largestMin or smallestMax sections may be omitted, together
-     * with associated slash, if they are the same as the min or max.
+     * Tif formbt will bf '{min}/{lbrgfstMin} - {smbllfstMbx}/{mbx}',
+     * wifrf tif lbrgfstMin or smbllfstMbx sfdtions mby bf omittfd, togftifr
+     * witi bssodibtfd slbsi, if tify brf tif sbmf bs tif min or mbx.
      *
-     * @return a string representation of this range, not null
+     * @rfturn b string rfprfsfntbtion of tiis rbngf, not null
      */
-    @Override
-    public String toString() {
-        StringBuilder buf = new StringBuilder();
-        buf.append(minSmallest);
-        if (minSmallest != minLargest) {
-            buf.append('/').append(minLargest);
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr();
+        buf.bppfnd(minSmbllfst);
+        if (minSmbllfst != minLbrgfst) {
+            buf.bppfnd('/').bppfnd(minLbrgfst);
         }
-        buf.append(" - ").append(maxSmallest);
-        if (maxSmallest != maxLargest) {
-            buf.append('/').append(maxLargest);
+        buf.bppfnd(" - ").bppfnd(mbxSmbllfst);
+        if (mbxSmbllfst != mbxLbrgfst) {
+            buf.bppfnd('/').bppfnd(mbxLbrgfst);
         }
-        return buf.toString();
+        rfturn buf.toString();
     }
 
 }

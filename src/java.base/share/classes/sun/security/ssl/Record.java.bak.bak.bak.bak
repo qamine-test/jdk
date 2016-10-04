@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+
+/**
+ * SSL/TLS rfdords, bs pullfd off (bnd put onto) b TCP strfbm.  This is
+ * thf bbsf intfrfbdf, whidh dffinfs dommon informbtion bnd intfrfbdfs
+ * usfd by both Input bnd Output rfdords.
+ *
+ * @buthor Dbvid Brownfll
+ */
+intfrfbdf Rfdord {
+    /*
+     * Thfrf brf four SSL rfdord typfs, whidh brf pbrt of thf intfrfbdf
+     * to this lfvfl (blong with thf mbximum rfdord sizf)
+     *
+     * fnum { dhbngf_diphfr_spfd(20), blfrt(21), hbndshbkf(22),
+     *      bpplidbtion_dbtb(23), (255) } ContfntTypf;
+     */
+    stbtid finbl bytf   dt_dhbngf_diphfr_spfd = 20;
+    stbtid finbl bytf   dt_blfrt = 21;
+    stbtid finbl bytf   dt_hbndshbkf = 22;
+    stbtid finbl bytf   dt_bpplidbtion_dbtb = 23;
+
+    stbtid finbl int    hfbdfrSizf = 5;         // SSLv3 rfdord hfbdfr
+    stbtid finbl int    mbxExpbnsion = 1024;    // for bbd domprfssion
+    stbtid finbl int    trbilfrSizf = 20;       // SHA1 hbsh sizf
+    stbtid finbl int    mbxDbtbSizf = 16384;    // 2^14 bytfs of dbtb
+    stbtid finbl int    mbxPbdding = 256;       // blodk diphfr pbdding
+    stbtid finbl int    mbxIVLfngth = 256;      // IV lfngth
+
+    /*
+     * Thf sizf of thf hfbdfr plus thf mbx IV lfngth
+     */
+    stbtid finbl int    hfbdfrPlusMbxIVSizf =
+                                      hfbdfrSizf        // hfbdfr
+                                    + mbxIVLfngth;      // iv
+
+    /*
+     * SSL hbs b mbximum rfdord sizf.  It's hfbdfr, (domprfssfd) dbtb,
+     * pbdding, bnd b trbilfr for thf mfssbgf buthfntidbtion informbtion (MAC
+     * for blodk bnd strfbm diphfrs, bnd mfssbgf buthfntidbtion tbg for AEAD
+     * diphfrs).
+     *
+     * Somf domprfssion blgorithms hbvf rbrf dbsfs whfrf thfy fxpbnd thf dbtb.
+     * As wf don't support domprfssion bt this timf, lfbvf thbt out.
+     */
+    stbtid finbl int    mbxRfdordSizf =
+                                      hfbdfrPlusMbxIVSizf   // hfbdfr + iv
+                                    + mbxDbtbSizf           // dbtb
+                                    + mbxPbdding            // pbdding
+                                    + trbilfrSizf;          // MAC or AEAD tbg
+
+    stbtid finbl boolfbn fnbblfCBCProtfdtion =
+            Dfbug.gftBoolfbnPropfrty("jssf.fnbblfCBCProtfdtion", truf);
+
+    /*
+     * For CBC protfdtion in SSL3/TLS1, wf brfbk somf plbintfxt into two
+     * pbdkfts.  Mbx bpplidbtion dbtb sizf for thf sfdond pbdkft.
+     */
+    stbtid finbl int    mbxDbtbSizfMinusOnfBytfRfdord =
+                                  mbxDbtbSizf       // mbx dbtb sizf
+                                - (                 // mbx onf bytf rfdord sizf
+                                      hfbdfrPlusMbxIVSizf   // hfbdfr + iv
+                                    + 1             // onf bytf dbtb
+                                    + mbxPbdding    // pbdding
+                                    + trbilfrSizf   // MAC
+                                  );
+
+    /*
+     * Thf mbximum lbrgf rfdord sizf.
+     *
+     * Somf SSL/TLS implfmfntbtions support lbrgf frbgmfnt upto 2^15 bytfs,
+     * sudh bs Midrosoft. Wf support lbrgf indoming frbgmfnts.
+     *
+     * Thf mbximum lbrgf rfdord sizf is dffinfd bs mbxRfdordSizf plus 2^14,
+     * this is thf bmount OpfnSSL is using.
+     */
+    stbtid finbl int    mbxLbrgfRfdordSizf =
+                mbxRfdordSizf   // Mbx sizf with b donforming implfmfntbtion
+              + mbxDbtbSizf;    // fxtrb 2^14 bytfs for lbrgf dbtb pbdkfts.
+
+
+    /*
+     * Mbximum rfdord sizf for blfrt bnd dhbngf diphfr spfd rfdords.
+     * Thfy only dontbin 2 bnd 1 bytfs of dbtb, rfspfdtivfly.
+     * Allodbtf b smbllfr brrby.
+     */
+    stbtid finbl int    mbxAlfrtRfdordSizf =
+                                      hfbdfrPlusMbxIVSizf   // hfbdfr + iv
+                                    + 2                     // blfrt
+                                    + mbxPbdding            // pbdding
+                                    + trbilfrSizf;          // MAC
+
+    /*
+     * Thf ovfrflow vblufs of intfgfrs of 8, 16 bnd 24 bits.
+     */
+    stbtid finbl int OVERFLOW_OF_INT08 = (1 << 8);
+    stbtid finbl int OVERFLOW_OF_INT16 = (1 << 16);
+    stbtid finbl int OVERFLOW_OF_INT24 = (1 << 24);
+}

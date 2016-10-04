@@ -1,593 +1,593 @@
 /*
- * Copyright (c) 1998, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "util.h"
-#include "ArrayReferenceImpl.h"
-#include "inStream.h"
-#include "outStream.h"
+#indludf "util.i"
+#indludf "ArrbyRfffrfndfImpl.i"
+#indludf "inStrfbm.i"
+#indludf "outStrfbm.i"
 
-static jboolean
-length(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+lfngti(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    JNIEnv *env = getEnv();
-    jsize arrayLength;
+    JNIEnv *fnv = gftEnv();
+    jsizf brrbyLfngti;
 
-    jarray  array = inStream_readArrayRef(env, in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    jbrrby  brrby = inStrfbm_rfbdArrbyRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    arrayLength = JNI_FUNC_PTR(env,GetArrayLength)(env, array);
-    (void)outStream_writeInt(out, arrayLength);
-    return JNI_TRUE;
+    brrbyLfngti = JNI_FUNC_PTR(fnv,GftArrbyLfngti)(fnv, brrby);
+    (void)outStrfbm_writfInt(out, brrbyLfngti);
+    rfturn JNI_TRUE;
 }
 
-static void *
-newComponents(PacketOutputStream *out, jint length, size_t nbytes)
+stbtid void *
+nfwComponfnts(PbdkftOutputStrfbm *out, jint lfngti, sizf_t nbytfs)
 {
     void *ptr = NULL;
 
-    if ( length > 0 ) {
-        ptr = jvmtiAllocate(length*((jint)nbytes));
+    if ( lfngti > 0 ) {
+        ptr = jvmtiAllodbtf(lfngti*((jint)nbytfs));
         if ( ptr == NULL ) {
-            outStream_setError(out, JDWP_ERROR(OUT_OF_MEMORY));
-        } else {
-            (void)memset(ptr, 0, length*nbytes);
+            outStrfbm_sftError(out, JDWP_ERROR(OUT_OF_MEMORY));
+        } flsf {
+            (void)mfmsft(ptr, 0, lfngti*nbytfs);
         }
     }
-    return ptr;
+    rfturn ptr;
 }
 
-static void
-deleteComponents(void *ptr)
+stbtid void
+dflftfComponfnts(void *ptr)
 {
-    jvmtiDeallocate(ptr);
+    jvmtiDfbllodbtf(ptr);
 }
 
-static void
-writeBooleanComponents(JNIEnv *env, PacketOutputStream *out,
-                    jarray array, jint index, jint length)
+stbtid void
+writfBoolfbnComponfnts(JNIEnv *fnv, PbdkftOutputStrfbm *out,
+                    jbrrby brrby, jint indfx, jint lfngti)
 {
-    jboolean *components;
+    jboolfbn *domponfnts;
 
-    components = newComponents(out, length, sizeof(jboolean));
-    if (components != NULL) {
+    domponfnts = nfwComponfnts(out, lfngti, sizfof(jboolfbn));
+    if (domponfnts != NULL) {
         jint i;
-        JNI_FUNC_PTR(env,GetBooleanArrayRegion)(env, array, index, length, components);
-        for (i = 0; i < length; i++) {
-            (void)outStream_writeBoolean(out, components[i]);
+        JNI_FUNC_PTR(fnv,GftBoolfbnArrbyRfgion)(fnv, brrby, indfx, lfngti, domponfnts);
+        for (i = 0; i < lfngti; i++) {
+            (void)outStrfbm_writfBoolfbn(out, domponfnts[i]);
         }
-        deleteComponents(components);
+        dflftfComponfnts(domponfnts);
     }
 }
 
-static void
-writeByteComponents(JNIEnv *env, PacketOutputStream *out,
-                    jarray array, jint index, jint length)
+stbtid void
+writfBytfComponfnts(JNIEnv *fnv, PbdkftOutputStrfbm *out,
+                    jbrrby brrby, jint indfx, jint lfngti)
 {
-    jbyte *components;
+    jbytf *domponfnts;
 
-    components = newComponents(out, length, sizeof(jbyte));
-    if (components != NULL) {
+    domponfnts = nfwComponfnts(out, lfngti, sizfof(jbytf));
+    if (domponfnts != NULL) {
         jint i;
-        JNI_FUNC_PTR(env,GetByteArrayRegion)(env, array, index, length, components);
-        for (i = 0; i < length; i++) {
-            (void)outStream_writeByte(out, components[i]);
+        JNI_FUNC_PTR(fnv,GftBytfArrbyRfgion)(fnv, brrby, indfx, lfngti, domponfnts);
+        for (i = 0; i < lfngti; i++) {
+            (void)outStrfbm_writfBytf(out, domponfnts[i]);
         }
-        deleteComponents(components);
+        dflftfComponfnts(domponfnts);
     }
 }
 
-static void
-writeCharComponents(JNIEnv *env, PacketOutputStream *out,
-                    jarray array, jint index, jint length)
+stbtid void
+writfCibrComponfnts(JNIEnv *fnv, PbdkftOutputStrfbm *out,
+                    jbrrby brrby, jint indfx, jint lfngti)
 {
-    jchar *components;
+    jdibr *domponfnts;
 
-    components = newComponents(out, length, sizeof(jchar));
-    if (components != NULL) {
+    domponfnts = nfwComponfnts(out, lfngti, sizfof(jdibr));
+    if (domponfnts != NULL) {
         jint i;
-        JNI_FUNC_PTR(env,GetCharArrayRegion)(env, array, index, length, components);
-        for (i = 0; i < length; i++) {
-            (void)outStream_writeChar(out, components[i]);
+        JNI_FUNC_PTR(fnv,GftCibrArrbyRfgion)(fnv, brrby, indfx, lfngti, domponfnts);
+        for (i = 0; i < lfngti; i++) {
+            (void)outStrfbm_writfCibr(out, domponfnts[i]);
         }
-        deleteComponents(components);
+        dflftfComponfnts(domponfnts);
     }
 }
 
-static void
-writeShortComponents(JNIEnv *env, PacketOutputStream *out,
-                    jarray array, jint index, jint length)
+stbtid void
+writfSiortComponfnts(JNIEnv *fnv, PbdkftOutputStrfbm *out,
+                    jbrrby brrby, jint indfx, jint lfngti)
 {
-    jshort *components;
+    jsiort *domponfnts;
 
-    components = newComponents(out, length, sizeof(jshort));
-    if (components != NULL) {
+    domponfnts = nfwComponfnts(out, lfngti, sizfof(jsiort));
+    if (domponfnts != NULL) {
         jint i;
-        JNI_FUNC_PTR(env,GetShortArrayRegion)(env, array, index, length, components);
-        for (i = 0; i < length; i++) {
-            (void)outStream_writeShort(out, components[i]);
+        JNI_FUNC_PTR(fnv,GftSiortArrbyRfgion)(fnv, brrby, indfx, lfngti, domponfnts);
+        for (i = 0; i < lfngti; i++) {
+            (void)outStrfbm_writfSiort(out, domponfnts[i]);
         }
-        deleteComponents(components);
+        dflftfComponfnts(domponfnts);
     }
 }
 
-static void
-writeIntComponents(JNIEnv *env, PacketOutputStream *out,
-                    jarray array, jint index, jint length)
+stbtid void
+writfIntComponfnts(JNIEnv *fnv, PbdkftOutputStrfbm *out,
+                    jbrrby brrby, jint indfx, jint lfngti)
 {
-    jint *components;
+    jint *domponfnts;
 
-    components = newComponents(out, length, sizeof(jint));
-    if (components != NULL) {
+    domponfnts = nfwComponfnts(out, lfngti, sizfof(jint));
+    if (domponfnts != NULL) {
         jint i;
-        JNI_FUNC_PTR(env,GetIntArrayRegion)(env, array, index, length, components);
-        for (i = 0; i < length; i++) {
-            (void)outStream_writeInt(out, components[i]);
+        JNI_FUNC_PTR(fnv,GftIntArrbyRfgion)(fnv, brrby, indfx, lfngti, domponfnts);
+        for (i = 0; i < lfngti; i++) {
+            (void)outStrfbm_writfInt(out, domponfnts[i]);
         }
-        deleteComponents(components);
+        dflftfComponfnts(domponfnts);
     }
 }
 
-static void
-writeLongComponents(JNIEnv *env, PacketOutputStream *out,
-                    jarray array, jint index, jint length)
+stbtid void
+writfLongComponfnts(JNIEnv *fnv, PbdkftOutputStrfbm *out,
+                    jbrrby brrby, jint indfx, jint lfngti)
 {
-    jlong *components;
+    jlong *domponfnts;
 
-    components = newComponents(out, length, sizeof(jlong));
-    if (components != NULL) {
+    domponfnts = nfwComponfnts(out, lfngti, sizfof(jlong));
+    if (domponfnts != NULL) {
         jint i;
-        JNI_FUNC_PTR(env,GetLongArrayRegion)(env, array, index, length, components);
-        for (i = 0; i < length; i++) {
-            (void)outStream_writeLong(out, components[i]);
+        JNI_FUNC_PTR(fnv,GftLongArrbyRfgion)(fnv, brrby, indfx, lfngti, domponfnts);
+        for (i = 0; i < lfngti; i++) {
+            (void)outStrfbm_writfLong(out, domponfnts[i]);
         }
-        deleteComponents(components);
+        dflftfComponfnts(domponfnts);
     }
 }
 
-static void
-writeFloatComponents(JNIEnv *env, PacketOutputStream *out,
-                    jarray array, jint index, jint length)
+stbtid void
+writfFlobtComponfnts(JNIEnv *fnv, PbdkftOutputStrfbm *out,
+                    jbrrby brrby, jint indfx, jint lfngti)
 {
-    jfloat *components;
+    jflobt *domponfnts;
 
-    components = newComponents(out, length, sizeof(jfloat));
-    if (components != NULL) {
+    domponfnts = nfwComponfnts(out, lfngti, sizfof(jflobt));
+    if (domponfnts != NULL) {
         jint i;
-        JNI_FUNC_PTR(env,GetFloatArrayRegion)(env, array, index, length, components);
-        for (i = 0; i < length; i++) {
-            (void)outStream_writeFloat(out, components[i]);
+        JNI_FUNC_PTR(fnv,GftFlobtArrbyRfgion)(fnv, brrby, indfx, lfngti, domponfnts);
+        for (i = 0; i < lfngti; i++) {
+            (void)outStrfbm_writfFlobt(out, domponfnts[i]);
         }
-        deleteComponents(components);
+        dflftfComponfnts(domponfnts);
     }
 }
 
-static void
-writeDoubleComponents(JNIEnv *env, PacketOutputStream *out,
-                    jarray array, jint index, jint length)
+stbtid void
+writfDoublfComponfnts(JNIEnv *fnv, PbdkftOutputStrfbm *out,
+                    jbrrby brrby, jint indfx, jint lfngti)
 {
-    jdouble *components;
+    jdoublf *domponfnts;
 
-    components = newComponents(out, length, sizeof(jdouble));
-    if (components != NULL) {
+    domponfnts = nfwComponfnts(out, lfngti, sizfof(jdoublf));
+    if (domponfnts != NULL) {
         jint i;
-        JNI_FUNC_PTR(env,GetDoubleArrayRegion)(env, array, index, length, components);
-        for (i = 0; i < length; i++) {
-            (void)outStream_writeDouble(out, components[i]);
+        JNI_FUNC_PTR(fnv,GftDoublfArrbyRfgion)(fnv, brrby, indfx, lfngti, domponfnts);
+        for (i = 0; i < lfngti; i++) {
+            (void)outStrfbm_writfDoublf(out, domponfnts[i]);
         }
-        deleteComponents(components);
+        dflftfComponfnts(domponfnts);
     }
 }
 
-static void
-writeObjectComponents(JNIEnv *env, PacketOutputStream *out,
-                    jarray array, jint index, jint length)
+stbtid void
+writfObjfdtComponfnts(JNIEnv *fnv, PbdkftOutputStrfbm *out,
+                    jbrrby brrby, jint indfx, jint lfngti)
 {
 
-    WITH_LOCAL_REFS(env, length) {
+    WITH_LOCAL_REFS(fnv, lfngti) {
 
         int i;
-        jobject component;
+        jobjfdt domponfnt;
 
-        for (i = 0; i < length; i++) {
-            component = JNI_FUNC_PTR(env,GetObjectArrayElement)(env, array, index + i);
-            if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
-                /* cleared by caller */
-                break;
+        for (i = 0; i < lfngti; i++) {
+            domponfnt = JNI_FUNC_PTR(fnv,GftObjfdtArrbyElfmfnt)(fnv, brrby, indfx + i);
+            if (JNI_FUNC_PTR(fnv,ExdfptionOddurrfd)(fnv)) {
+                /* dlfbrfd by dbllfr */
+                brfbk;
             }
-            (void)outStream_writeByte(out, specificTypeKey(env, component));
-            (void)outStream_writeObjectRef(env, out, component);
+            (void)outStrfbm_writfBytf(out, spfdifidTypfKfy(fnv, domponfnt));
+            (void)outStrfbm_writfObjfdtRff(fnv, out, domponfnt);
         }
 
-    } END_WITH_LOCAL_REFS(env);
+    } END_WITH_LOCAL_REFS(fnv);
 }
 
-static jboolean
-getValues(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+gftVblufs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    JNIEnv *env = getEnv();
-    jint arrayLength;
-    jarray array;
-    jint index;
-    jint length;
+    JNIEnv *fnv = gftEnv();
+    jint brrbyLfngti;
+    jbrrby brrby;
+    jint indfx;
+    jint lfngti;
 
-    array = inStream_readArrayRef(env, in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    brrby = inStrfbm_rfbdArrbyRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
-    index = inStream_readInt(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    indfx = inStrfbm_rfbdInt(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
-    length = inStream_readInt(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
-    }
-
-    arrayLength = JNI_FUNC_PTR(env,GetArrayLength)(env, array);
-
-    if (length == -1) {
-        length = arrayLength - index;
+    lfngti = inStrfbm_rfbdInt(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    if ((index < 0) || (index > arrayLength - 1)) {
-        outStream_setError(out, JDWP_ERROR(INVALID_INDEX));
-        return JNI_TRUE;
+    brrbyLfngti = JNI_FUNC_PTR(fnv,GftArrbyLfngti)(fnv, brrby);
+
+    if (lfngti == -1) {
+        lfngti = brrbyLfngti - indfx;
     }
 
-    if ((length < 0) || (length + index > arrayLength)) {
-        outStream_setError(out, JDWP_ERROR(INVALID_LENGTH));
-        return JNI_TRUE;
+    if ((indfx < 0) || (indfx > brrbyLfngti - 1)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_INDEX));
+        rfturn JNI_TRUE;
     }
 
-    WITH_LOCAL_REFS(env, 1) {
+    if ((lfngti < 0) || (lfngti + indfx > brrbyLfngti)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_LENGTH));
+        rfturn JNI_TRUE;
+    }
 
-        jclass arrayClass;
-        char *signature = NULL;
-        char *componentSignature;
-        jbyte typeKey;
-        jvmtiError error;
+    WITH_LOCAL_REFS(fnv, 1) {
 
-        arrayClass = JNI_FUNC_PTR(env,GetObjectClass)(env, array);
-        error = classSignature(arrayClass, &signature, NULL);
-        if (error != JVMTI_ERROR_NONE) {
-            goto err;
+        jdlbss brrbyClbss;
+        dibr *signbturf = NULL;
+        dibr *domponfntSignbturf;
+        jbytf typfKfy;
+        jvmtiError frror;
+
+        brrbyClbss = JNI_FUNC_PTR(fnv,GftObjfdtClbss)(fnv, brrby);
+        frror = dlbssSignbturf(brrbyClbss, &signbturf, NULL);
+        if (frror != JVMTI_ERROR_NONE) {
+            goto frr;
         }
-        componentSignature = &signature[1];
-        typeKey = componentSignature[0];
+        domponfntSignbturf = &signbturf[1];
+        typfKfy = domponfntSignbturf[0];
 
-        (void)outStream_writeByte(out, typeKey);
-        (void)outStream_writeInt(out, length);
+        (void)outStrfbm_writfBytf(out, typfKfy);
+        (void)outStrfbm_writfInt(out, lfngti);
 
-        if (isObjectTag(typeKey)) {
-            writeObjectComponents(env, out, array, index, length);
-        } else {
-            switch (typeKey) {
-                case JDWP_TAG(BYTE):
-                    writeByteComponents(env, out, array, index, length);
-                    break;
+        if (isObjfdtTbg(typfKfy)) {
+            writfObjfdtComponfnts(fnv, out, brrby, indfx, lfngti);
+        } flsf {
+            switdi (typfKfy) {
+                dbsf JDWP_TAG(BYTE):
+                    writfBytfComponfnts(fnv, out, brrby, indfx, lfngti);
+                    brfbk;
 
-                case JDWP_TAG(CHAR):
-                    writeCharComponents(env, out, array, index, length);
-                    break;
+                dbsf JDWP_TAG(CHAR):
+                    writfCibrComponfnts(fnv, out, brrby, indfx, lfngti);
+                    brfbk;
 
-                case JDWP_TAG(FLOAT):
-                    writeFloatComponents(env, out, array, index, length);
-                    break;
+                dbsf JDWP_TAG(FLOAT):
+                    writfFlobtComponfnts(fnv, out, brrby, indfx, lfngti);
+                    brfbk;
 
-                case JDWP_TAG(DOUBLE):
-                    writeDoubleComponents(env, out, array, index, length);
-                    break;
+                dbsf JDWP_TAG(DOUBLE):
+                    writfDoublfComponfnts(fnv, out, brrby, indfx, lfngti);
+                    brfbk;
 
-                case JDWP_TAG(INT):
-                    writeIntComponents(env, out, array, index, length);
-                    break;
+                dbsf JDWP_TAG(INT):
+                    writfIntComponfnts(fnv, out, brrby, indfx, lfngti);
+                    brfbk;
 
-                case JDWP_TAG(LONG):
-                    writeLongComponents(env, out, array, index, length);
-                    break;
+                dbsf JDWP_TAG(LONG):
+                    writfLongComponfnts(fnv, out, brrby, indfx, lfngti);
+                    brfbk;
 
-                case JDWP_TAG(SHORT):
-                    writeShortComponents(env, out, array, index, length);
-                    break;
+                dbsf JDWP_TAG(SHORT):
+                    writfSiortComponfnts(fnv, out, brrby, indfx, lfngti);
+                    brfbk;
 
-                case JDWP_TAG(BOOLEAN):
-                    writeBooleanComponents(env, out, array, index, length);
-                    break;
+                dbsf JDWP_TAG(BOOLEAN):
+                    writfBoolfbnComponfnts(fnv, out, brrby, indfx, lfngti);
+                    brfbk;
 
-                default:
-                    outStream_setError(out, JDWP_ERROR(INVALID_TAG));
-                    break;
+                dffbult:
+                    outStrfbm_sftError(out, JDWP_ERROR(INVALID_TAG));
+                    brfbk;
             }
         }
 
-        jvmtiDeallocate(signature);
+        jvmtiDfbllodbtf(signbturf);
 
-    err:;
+    frr:;
 
-    } END_WITH_LOCAL_REFS(env);
+    } END_WITH_LOCAL_REFS(fnv);
 
-    if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
-        outStream_setError(out, JDWP_ERROR(INTERNAL));
-        JNI_FUNC_PTR(env,ExceptionClear)(env);
+    if (JNI_FUNC_PTR(fnv,ExdfptionOddurrfd)(fnv)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INTERNAL));
+        JNI_FUNC_PTR(fnv,ExdfptionClfbr)(fnv);
     }
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-static jdwpError
-readBooleanComponents(JNIEnv *env, PacketInputStream *in,
-                   jarray array, int index, int length)
+stbtid jdwpError
+rfbdBoolfbnComponfnts(JNIEnv *fnv, PbdkftInputStrfbm *in,
+                   jbrrby brrby, int indfx, int lfngti)
 {
     int i;
-    jboolean component;
+    jboolfbn domponfnt;
 
-    for (i = 0; (i < length) && !inStream_error(in); i++) {
-        component = inStream_readBoolean(in);
-        JNI_FUNC_PTR(env,SetBooleanArrayRegion)(env, array, index + i, 1, &component);
+    for (i = 0; (i < lfngti) && !inStrfbm_frror(in); i++) {
+        domponfnt = inStrfbm_rfbdBoolfbn(in);
+        JNI_FUNC_PTR(fnv,SftBoolfbnArrbyRfgion)(fnv, brrby, indfx + i, 1, &domponfnt);
     }
-    return inStream_error(in);
+    rfturn inStrfbm_frror(in);
 }
 
-static jdwpError
-readByteComponents(JNIEnv *env, PacketInputStream *in,
-                   jarray array, int index, int length)
+stbtid jdwpError
+rfbdBytfComponfnts(JNIEnv *fnv, PbdkftInputStrfbm *in,
+                   jbrrby brrby, int indfx, int lfngti)
 {
     int i;
-    jbyte component;
+    jbytf domponfnt;
 
-    for (i = 0; (i < length) && !inStream_error(in); i++) {
-        component = inStream_readByte(in);
-        JNI_FUNC_PTR(env,SetByteArrayRegion)(env, array, index + i, 1, &component);
+    for (i = 0; (i < lfngti) && !inStrfbm_frror(in); i++) {
+        domponfnt = inStrfbm_rfbdBytf(in);
+        JNI_FUNC_PTR(fnv,SftBytfArrbyRfgion)(fnv, brrby, indfx + i, 1, &domponfnt);
     }
-    return inStream_error(in);
+    rfturn inStrfbm_frror(in);
 }
 
-static jdwpError
-readCharComponents(JNIEnv *env, PacketInputStream *in,
-                   jarray array, int index, int length)
+stbtid jdwpError
+rfbdCibrComponfnts(JNIEnv *fnv, PbdkftInputStrfbm *in,
+                   jbrrby brrby, int indfx, int lfngti)
 {
     int i;
-    jchar component;
+    jdibr domponfnt;
 
-    for (i = 0; (i < length) && !inStream_error(in); i++) {
-        component = inStream_readChar(in);
-        JNI_FUNC_PTR(env,SetCharArrayRegion)(env, array, index + i, 1, &component);
+    for (i = 0; (i < lfngti) && !inStrfbm_frror(in); i++) {
+        domponfnt = inStrfbm_rfbdCibr(in);
+        JNI_FUNC_PTR(fnv,SftCibrArrbyRfgion)(fnv, brrby, indfx + i, 1, &domponfnt);
     }
-    return inStream_error(in);
+    rfturn inStrfbm_frror(in);
 }
 
-static jdwpError
-readShortComponents(JNIEnv *env, PacketInputStream *in,
-                   jarray array, int index, int length)
+stbtid jdwpError
+rfbdSiortComponfnts(JNIEnv *fnv, PbdkftInputStrfbm *in,
+                   jbrrby brrby, int indfx, int lfngti)
 {
     int i;
-    jshort component;
+    jsiort domponfnt;
 
-    for (i = 0; (i < length) && !inStream_error(in); i++) {
-        component = inStream_readShort(in);
-        JNI_FUNC_PTR(env,SetShortArrayRegion)(env, array, index + i, 1, &component);
+    for (i = 0; (i < lfngti) && !inStrfbm_frror(in); i++) {
+        domponfnt = inStrfbm_rfbdSiort(in);
+        JNI_FUNC_PTR(fnv,SftSiortArrbyRfgion)(fnv, brrby, indfx + i, 1, &domponfnt);
     }
-    return inStream_error(in);
+    rfturn inStrfbm_frror(in);
 }
 
-static jdwpError
-readIntComponents(JNIEnv *env, PacketInputStream *in,
-                   jarray array, int index, int length)
+stbtid jdwpError
+rfbdIntComponfnts(JNIEnv *fnv, PbdkftInputStrfbm *in,
+                   jbrrby brrby, int indfx, int lfngti)
 {
     int i;
-    jint component;
+    jint domponfnt;
 
-    for (i = 0; (i < length) && !inStream_error(in); i++) {
-        component = inStream_readInt(in);
-        JNI_FUNC_PTR(env,SetIntArrayRegion)(env, array, index + i, 1, &component);
+    for (i = 0; (i < lfngti) && !inStrfbm_frror(in); i++) {
+        domponfnt = inStrfbm_rfbdInt(in);
+        JNI_FUNC_PTR(fnv,SftIntArrbyRfgion)(fnv, brrby, indfx + i, 1, &domponfnt);
     }
-    return inStream_error(in);
+    rfturn inStrfbm_frror(in);
 }
 
-static jdwpError
-readLongComponents(JNIEnv *env, PacketInputStream *in,
-                   jarray array, int index, int length)
+stbtid jdwpError
+rfbdLongComponfnts(JNIEnv *fnv, PbdkftInputStrfbm *in,
+                   jbrrby brrby, int indfx, int lfngti)
 {
     int i;
-    jlong component;
+    jlong domponfnt;
 
-    for (i = 0; (i < length) && !inStream_error(in); i++) {
-        component = inStream_readLong(in);
-        JNI_FUNC_PTR(env,SetLongArrayRegion)(env, array, index + i, 1, &component);
+    for (i = 0; (i < lfngti) && !inStrfbm_frror(in); i++) {
+        domponfnt = inStrfbm_rfbdLong(in);
+        JNI_FUNC_PTR(fnv,SftLongArrbyRfgion)(fnv, brrby, indfx + i, 1, &domponfnt);
     }
-    return inStream_error(in);
+    rfturn inStrfbm_frror(in);
 }
 
-static jdwpError
-readFloatComponents(JNIEnv *env, PacketInputStream *in,
-                   jarray array, int index, int length)
+stbtid jdwpError
+rfbdFlobtComponfnts(JNIEnv *fnv, PbdkftInputStrfbm *in,
+                   jbrrby brrby, int indfx, int lfngti)
 {
     int i;
-    jfloat component;
+    jflobt domponfnt;
 
-    for (i = 0; (i < length) && !inStream_error(in); i++) {
-        component = inStream_readFloat(in);
-        JNI_FUNC_PTR(env,SetFloatArrayRegion)(env, array, index + i, 1, &component);
+    for (i = 0; (i < lfngti) && !inStrfbm_frror(in); i++) {
+        domponfnt = inStrfbm_rfbdFlobt(in);
+        JNI_FUNC_PTR(fnv,SftFlobtArrbyRfgion)(fnv, brrby, indfx + i, 1, &domponfnt);
     }
-    return inStream_error(in);
+    rfturn inStrfbm_frror(in);
 }
 
-static jdwpError
-readDoubleComponents(JNIEnv *env, PacketInputStream *in,
-                   jarray array, int index, int length)
+stbtid jdwpError
+rfbdDoublfComponfnts(JNIEnv *fnv, PbdkftInputStrfbm *in,
+                   jbrrby brrby, int indfx, int lfngti)
 {
     int i;
-    jdouble component;
+    jdoublf domponfnt;
 
-    for (i = 0; (i < length) && !inStream_error(in); i++) {
-        component = inStream_readDouble(in);
-        JNI_FUNC_PTR(env,SetDoubleArrayRegion)(env, array, index + i, 1, &component);
+    for (i = 0; (i < lfngti) && !inStrfbm_frror(in); i++) {
+        domponfnt = inStrfbm_rfbdDoublf(in);
+        JNI_FUNC_PTR(fnv,SftDoublfArrbyRfgion)(fnv, brrby, indfx + i, 1, &domponfnt);
     }
-    return inStream_error(in);
+    rfturn inStrfbm_frror(in);
 }
 
 
-static jdwpError
-readObjectComponents(JNIEnv *env, PacketInputStream *in,
-                   jarray array, int index, int length)
-                   /* char *componentSignature) */
+stbtid jdwpError
+rfbdObjfdtComponfnts(JNIEnv *fnv, PbdkftInputStrfbm *in,
+                   jbrrby brrby, int indfx, int lfngti)
+                   /* dibr *domponfntSignbturf) */
 {
     int i;
 
-    for (i = 0; i < length; i++) {
-        jobject object = inStream_readObjectRef(env, in);
+    for (i = 0; i < lfngti; i++) {
+        jobjfdt objfdt = inStrfbm_rfbdObjfdtRff(fnv, in);
 
-        JNI_FUNC_PTR(env,SetObjectArrayElement)(env, array, index + i, object);
-        if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
-            /* caller will clear */
-            break;
+        JNI_FUNC_PTR(fnv,SftObjfdtArrbyElfmfnt)(fnv, brrby, indfx + i, objfdt);
+        if (JNI_FUNC_PTR(fnv,ExdfptionOddurrfd)(fnv)) {
+            /* dbllfr will dlfbr */
+            brfbk;
         }
     }
 
-    return JDWP_ERROR(NONE);
+    rfturn JDWP_ERROR(NONE);
 }
 
 
-static jboolean
-setValues(PacketInputStream *in, PacketOutputStream *out)
+stbtid jboolfbn
+sftVblufs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
 {
-    JNIEnv *env = getEnv();
-    jdwpError serror = JDWP_ERROR(NONE);
-    int arrayLength;
-    jarray array;
-    jint index;
-    jint length;
+    JNIEnv *fnv = gftEnv();
+    jdwpError sfrror = JDWP_ERROR(NONE);
+    int brrbyLfngti;
+    jbrrby brrby;
+    jint indfx;
+    jint lfngti;
 
-    array = inStream_readArrayRef(env, in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    brrby = inStrfbm_rfbdArrbyRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
-    index = inStream_readInt(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
+    indfx = inStrfbm_rfbdInt(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
-    length = inStream_readInt(in);
-    if (inStream_error(in)) {
-        return JNI_TRUE;
-    }
-
-    arrayLength = JNI_FUNC_PTR(env,GetArrayLength)(env, array);
-
-    if ((index < 0) || (index > arrayLength - 1)) {
-        outStream_setError(out, JDWP_ERROR(INVALID_INDEX));
-        return JNI_TRUE;
+    lfngti = inStrfbm_rfbdInt(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
     }
 
-    if ((length < 0) || (length + index > arrayLength)) {
-        outStream_setError(out, JDWP_ERROR(INVALID_LENGTH));
-        return JNI_TRUE;
+    brrbyLfngti = JNI_FUNC_PTR(fnv,GftArrbyLfngti)(fnv, brrby);
+
+    if ((indfx < 0) || (indfx > brrbyLfngti - 1)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_INDEX));
+        rfturn JNI_TRUE;
     }
 
-    WITH_LOCAL_REFS(env, 1)  {
+    if ((lfngti < 0) || (lfngti + indfx > brrbyLfngti)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_LENGTH));
+        rfturn JNI_TRUE;
+    }
 
-        jclass arrayClass;
-        char *signature = NULL;
-        char *componentSignature;
-        jvmtiError error;
+    WITH_LOCAL_REFS(fnv, 1)  {
 
-        arrayClass = JNI_FUNC_PTR(env,GetObjectClass)(env, array);
-        error = classSignature(arrayClass, &signature, NULL);
-        if (error != JVMTI_ERROR_NONE) {
-            goto err;
+        jdlbss brrbyClbss;
+        dibr *signbturf = NULL;
+        dibr *domponfntSignbturf;
+        jvmtiError frror;
+
+        brrbyClbss = JNI_FUNC_PTR(fnv,GftObjfdtClbss)(fnv, brrby);
+        frror = dlbssSignbturf(brrbyClbss, &signbturf, NULL);
+        if (frror != JVMTI_ERROR_NONE) {
+            goto frr;
         }
-        componentSignature = &signature[1];
+        domponfntSignbturf = &signbturf[1];
 
-        switch (componentSignature[0]) {
-            case JDWP_TAG(OBJECT):
-            case JDWP_TAG(ARRAY):
-                serror = readObjectComponents(env, in, array, index, length);
-                break;
+        switdi (domponfntSignbturf[0]) {
+            dbsf JDWP_TAG(OBJECT):
+            dbsf JDWP_TAG(ARRAY):
+                sfrror = rfbdObjfdtComponfnts(fnv, in, brrby, indfx, lfngti);
+                brfbk;
 
-            case JDWP_TAG(BYTE):
-                serror = readByteComponents(env, in, array, index, length);
-                break;
+            dbsf JDWP_TAG(BYTE):
+                sfrror = rfbdBytfComponfnts(fnv, in, brrby, indfx, lfngti);
+                brfbk;
 
-            case JDWP_TAG(CHAR):
-                serror = readCharComponents(env, in, array, index, length);
-                break;
+            dbsf JDWP_TAG(CHAR):
+                sfrror = rfbdCibrComponfnts(fnv, in, brrby, indfx, lfngti);
+                brfbk;
 
-            case JDWP_TAG(FLOAT):
-                serror = readFloatComponents(env, in, array, index, length);
-                break;
+            dbsf JDWP_TAG(FLOAT):
+                sfrror = rfbdFlobtComponfnts(fnv, in, brrby, indfx, lfngti);
+                brfbk;
 
-            case JDWP_TAG(DOUBLE):
-                serror = readDoubleComponents(env, in, array, index, length);
-                break;
+            dbsf JDWP_TAG(DOUBLE):
+                sfrror = rfbdDoublfComponfnts(fnv, in, brrby, indfx, lfngti);
+                brfbk;
 
-            case JDWP_TAG(INT):
-                serror = readIntComponents(env, in, array, index, length);
-                break;
+            dbsf JDWP_TAG(INT):
+                sfrror = rfbdIntComponfnts(fnv, in, brrby, indfx, lfngti);
+                brfbk;
 
-            case JDWP_TAG(LONG):
-                serror = readLongComponents(env, in, array, index, length);
-                break;
+            dbsf JDWP_TAG(LONG):
+                sfrror = rfbdLongComponfnts(fnv, in, brrby, indfx, lfngti);
+                brfbk;
 
-            case JDWP_TAG(SHORT):
-                serror = readShortComponents(env, in, array, index, length);
-                break;
+            dbsf JDWP_TAG(SHORT):
+                sfrror = rfbdSiortComponfnts(fnv, in, brrby, indfx, lfngti);
+                brfbk;
 
-            case JDWP_TAG(BOOLEAN):
-                serror = readBooleanComponents(env, in, array, index, length);
-                break;
+            dbsf JDWP_TAG(BOOLEAN):
+                sfrror = rfbdBoolfbnComponfnts(fnv, in, brrby, indfx, lfngti);
+                brfbk;
 
-            default:
+            dffbult:
                 {
-                    ERROR_MESSAGE(("Invalid array component signature: %s",
-                                        componentSignature));
+                    ERROR_MESSAGE(("Invblid brrby domponfnt signbturf: %s",
+                                        domponfntSignbturf));
                     EXIT_ERROR(AGENT_ERROR_INVALID_OBJECT,NULL);
                 }
-                break;
+                brfbk;
         }
 
-        jvmtiDeallocate(signature);
+        jvmtiDfbllodbtf(signbturf);
 
-    err:;
+    frr:;
 
-    } END_WITH_LOCAL_REFS(env);
+    } END_WITH_LOCAL_REFS(fnv);
 
-    if (JNI_FUNC_PTR(env,ExceptionOccurred)(env)) {
+    if (JNI_FUNC_PTR(fnv,ExdfptionOddurrfd)(fnv)) {
         /*
-         * TO DO: Check exception type
+         * TO DO: Cifdk fxdfption typf
          */
-        serror = JDWP_ERROR(TYPE_MISMATCH);
-        JNI_FUNC_PTR(env,ExceptionClear)(env);
+        sfrror = JDWP_ERROR(TYPE_MISMATCH);
+        JNI_FUNC_PTR(fnv,ExdfptionClfbr)(fnv);
     }
 
-    outStream_setError(out, serror);
-    return JNI_TRUE;
+    outStrfbm_sftError(out, sfrror);
+    rfturn JNI_TRUE;
 }
 
 
-void *ArrayReference_Cmds[] = { (void *)0x3
-    ,(void *)length
-    ,(void *)getValues
-    ,(void *)setValues};
+void *ArrbyRfffrfndf_Cmds[] = { (void *)0x3
+    ,(void *)lfngti
+    ,(void *)gftVblufs
+    ,(void *)sftVblufs};

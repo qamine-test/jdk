@@ -1,0 +1,263 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Enumfrbtion;
+
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.ObjfdtIdfntififr;
+
+/**
+ * This dlbss rfprfsfnts thf Inhibit Any-Polidy Extfnsion.
+ *
+ * <p>Thf inhibit bny-polidy fxtfnsion dbn bf usfd in dfrtifidbtfs issufd
+ * to CAs. Thf inhibit bny-polidy indidbtfs thbt thf spfdibl bny-polidy
+ * OID, with thf vbluf {2 5 29 32 0}, is not donsidfrfd bn fxplidit
+ * mbtdh for othfr dfrtifidbtf polidifs.  Thf vbluf indidbtfs thf numbfr
+ * of bdditionbl dfrtifidbtfs thbt mby bppfbr in thf pbth bfforf bny-
+ * polidy is no longfr pfrmittfd.  For fxbmplf, b vbluf of onf indidbtfs
+ * thbt bny-polidy mby bf prodfssfd in dfrtifidbtfs issufd by thf sub-
+ * jfdt of this dfrtifidbtf, but not in bdditionbl dfrtifidbtfs in thf
+ * pbth.
+ * <p>
+ * This fxtfnsion MUST bf dritidbl.
+ * <p>
+ * Thf ASN.1 syntbx for this fxtfnsion is:
+ * <dodf><prf>
+ * id-df-inhibitAnyPolidy OBJECT IDENTIFIER ::=  { id-df 54 }
+ *
+ * InhibitAnyPolidy ::= SkipCfrts
+ *
+ * SkipCfrts ::= INTEGER (0..MAX)
+ * </prf></dodf>
+ * @buthor Annf Andfrson
+ * @sff CfrtAttrSft
+ * @sff Extfnsion
+ */
+publid dlbss InhibitAnyPolidyExtfnsion fxtfnds Extfnsion
+implfmfnts CfrtAttrSft<String> {
+
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbth");
+
+    /**
+     * Idfntififr for this bttributf, to bf usfd with thf
+     * gft, sft, dflftf mfthods of Cfrtifidbtf, x509 typf.
+     */
+    publid stbtid finbl String IDENT = "x509.info.fxtfnsions.InhibitAnyPolidy";
+
+    /**
+     * Objfdt idfntififr for "bny-polidy"
+     */
+    publid stbtid ObjfdtIdfntififr AnyPolidy_Id;
+    stbtid {
+        try {
+            AnyPolidy_Id = nfw ObjfdtIdfntififr("2.5.29.32.0");
+        } dbtdh (IOExdfption iof) {
+            // Should not hbppfn
+        }
+    }
+
+    /**
+     * Attributf nbmfs.
+     */
+    publid stbtid finbl String NAME = "InhibitAnyPolidy";
+    publid stbtid finbl String SKIP_CERTS = "skip_dfrts";
+
+    // Privbtf dbtb mfmbfrs
+    privbtf int skipCfrts = Intfgfr.MAX_VALUE;
+
+    // Endodf this fxtfnsion vbluf
+    privbtf void fndodfThis() throws IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        out.putIntfgfr(skipCfrts);
+        this.fxtfnsionVbluf = out.toBytfArrby();
+    }
+
+    /**
+     * Dffbult donstrudtor for this objfdt.
+     *
+     * @pbrbm skipCfrts spfdififs thf dfpth of thf dfrtifidbtion pbth.
+     *                  Usf vbluf of -1 to rfqufst unlimitfd dfpth.
+     */
+    publid InhibitAnyPolidyExtfnsion(int skipCfrts) throws IOExdfption {
+        if (skipCfrts < -1)
+            throw nfw IOExdfption("Invblid vbluf for skipCfrts");
+        if (skipCfrts == -1)
+            this.skipCfrts = Intfgfr.MAX_VALUE;
+        flsf
+            this.skipCfrts = skipCfrts;
+        this.fxtfnsionId = PKIXExtfnsions.InhibitAnyPolidy_Id;
+        dritidbl = truf;
+        fndodfThis();
+    }
+
+    /**
+     * Crfbtf thf fxtfnsion from thf pbssfd DER fndodfd vbluf of thf sbmf.
+     *
+     * @pbrbm dritidbl dritidblity flbg to usf.  Must bf truf for this
+     *                 fxtfnsion.
+     * @pbrbm vbluf b bytf brrby holding thf DER-fndodfd fxtfnsion vbluf.
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption IOExdfption on frror.
+     */
+    publid InhibitAnyPolidyExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+        throws IOExdfption {
+
+        this.fxtfnsionId = PKIXExtfnsions.InhibitAnyPolidy_Id;
+
+        if (!dritidbl.boolfbnVbluf())
+            throw nfw IOExdfption("Critidblity dbnnot bf fblsf for " +
+                                  "InhibitAnyPolidy");
+        this.dritidbl = dritidbl.boolfbnVbluf();
+
+        this.fxtfnsionVbluf = (bytf[]) vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(this.fxtfnsionVbluf);
+        if (vbl.tbg != DfrVbluf.tbg_Intfgfr)
+            throw nfw IOExdfption("Invblid fndoding of InhibitAnyPolidy: "
+                                  + "dbtb not intfgfr");
+
+        if (vbl.dbtb == null)
+            throw nfw IOExdfption("Invblid fndoding of InhibitAnyPolidy: "
+                                  + "null dbtb");
+        int skipCfrtsVbluf = vbl.gftIntfgfr();
+        if (skipCfrtsVbluf < -1)
+            throw nfw IOExdfption("Invblid vbluf for skipCfrts");
+        if (skipCfrtsVbluf == -1) {
+            this.skipCfrts = Intfgfr.MAX_VALUE;
+        } flsf {
+            this.skipCfrts = skipCfrtsVbluf;
+        }
+    }
+
+     /**
+      * Rfturn usfr rfbdbblf form of fxtfnsion.
+      */
+     publid String toString() {
+         String s = supfr.toString() + "InhibitAnyPolidy: " + skipCfrts + "\n";
+         rfturn s;
+     }
+
+     /**
+      * Endodf this fxtfnsion vbluf to thf output strfbm.
+      *
+      * @pbrbm out thf DfrOutputStrfbm to fndodf thf fxtfnsion to.
+      */
+     publid void fndodf(OutputStrfbm out) throws IOExdfption {
+         DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+         if (fxtfnsionVbluf == null) {
+             this.fxtfnsionId = PKIXExtfnsions.InhibitAnyPolidy_Id;
+             dritidbl = truf;
+             fndodfThis();
+         }
+         supfr.fndodf(tmp);
+
+         out.writf(tmp.toBytfArrby());
+     }
+
+    /**
+     * Sft thf bttributf vbluf.
+     *
+     * @pbrbm nbmf nbmf of bttributf to sft. Must bf SKIP_CERTS.
+     * @pbrbm obj  vbluf to whidh bttributf is to bf sft.  Must bf Intfgfr
+     *             typf.
+     * @throws IOExdfption on frror
+     */
+    publid void sft(String nbmf, Objfdt obj) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(SKIP_CERTS)) {
+            if (!(obj instbndfof Intfgfr))
+                throw nfw IOExdfption("Attributf vbluf should bf of typf Intfgfr.");
+            int skipCfrtsVbluf = ((Intfgfr)obj).intVbluf();
+            if (skipCfrtsVbluf < -1)
+                throw nfw IOExdfption("Invblid vbluf for skipCfrts");
+            if (skipCfrtsVbluf == -1) {
+                skipCfrts = Intfgfr.MAX_VALUE;
+            } flsf {
+                skipCfrts = skipCfrtsVbluf;
+            }
+        } flsf
+            throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                  "CfrtAttrSft:InhibitAnyPolidy.");
+        fndodfThis();
+    }
+
+    /**
+     * Gft thf bttributf vbluf.
+     *
+     * @pbrbm nbmf nbmf of bttributf to gft.  Must bf SKIP_CERTS.
+     * @rfturns vbluf of thf bttributf.  In this dbsf it will bf of typf
+     *          Intfgfr.
+     * @throws IOExdfption on frror
+     */
+    publid Intfgfr gft(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(SKIP_CERTS))
+            rfturn (skipCfrts);
+        flsf
+            throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                  "CfrtAttrSft:InhibitAnyPolidy.");
+    }
+
+    /**
+     * Dflftf thf bttributf vbluf.
+     *
+     * @pbrbm nbmf nbmf of bttributf to dflftf. Must bf SKIP_CERTS.
+     * @throws IOExdfption on frror.  In this dbsf, IOExdfption will blwbys bf
+     *                     thrown, bfdbusf thf only bttributf, SKIP_CERTS, is
+     *                     rfquirfd.
+     */
+    publid void dflftf(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(SKIP_CERTS))
+            throw nfw IOExdfption("Attributf " + SKIP_CERTS +
+                                  " mby not bf dflftfd.");
+        flsf
+            throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                  "CfrtAttrSft:InhibitAnyPolidy.");
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     *
+     * @rfturns fnumfrbtion of flfmfnts
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(SKIP_CERTS);
+        rfturn (flfmfnts.flfmfnts());
+    }
+
+    /**
+     * Rfturn thf nbmf of this bttributf.
+     *
+     * @rfturns nbmf of bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn (NAME);
+    }
+}

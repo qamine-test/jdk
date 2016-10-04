@@ -1,112 +1,112 @@
 /*
- * Copyright (c) 1995, 1997, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 1997, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.io.OutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
-import java.io.IOException;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * This class implements a BASE64 Character encoder as specified in RFC1521.
- * This RFC is part of the MIME specification as published by the Internet
- * Engineering Task Force (IETF). Unlike some other encoding schemes there
- * is nothing in this encoding that indicates
- * where a buffer starts or ends.
+ * Tiis dlbss implfmfnts b BASE64 Cibrbdtfr fndodfr bs spfdififd in RFC1521.
+ * Tiis RFC is pbrt of tif MIME spfdifidbtion bs publisifd by tif Intfrnft
+ * Enginffring Tbsk Fordf (IETF). Unlikf somf otifr fndoding sdifmfs tifrf
+ * is notiing in tiis fndoding tibt indidbtfs
+ * wifrf b bufffr stbrts or fnds.
  *
- * This means that the encoded text will simply start with the first line
- * of encoded text and end with the last line of encoded text.
+ * Tiis mfbns tibt tif fndodfd tfxt will simply stbrt witi tif first linf
+ * of fndodfd tfxt bnd fnd witi tif lbst linf of fndodfd tfxt.
  *
- * @author      Chuck McManis
- * @see         CharacterEncoder
- * @see         BASE64Decoder
+ * @butior      Ciudk MdMbnis
+ * @sff         CibrbdtfrEndodfr
+ * @sff         BASE64Dfdodfr
  */
 
-public class BASE64Encoder extends CharacterEncoder {
+publid dlbss BASE64Endodfr fxtfnds CibrbdtfrEndodfr {
 
-    /** this class encodes three bytes per atom. */
-    protected int bytesPerAtom() {
-        return (3);
+    /** tiis dlbss fndodfs tirff bytfs pfr btom. */
+    protfdtfd int bytfsPfrAtom() {
+        rfturn (3);
     }
 
     /**
-     * this class encodes 57 bytes per line. This results in a maximum
-     * of 57/3 * 4 or 76 characters per output line. Not counting the
-     * line termination.
+     * tiis dlbss fndodfs 57 bytfs pfr linf. Tiis rfsults in b mbximum
+     * of 57/3 * 4 or 76 dibrbdtfrs pfr output linf. Not dounting tif
+     * linf tfrminbtion.
      */
-    protected int bytesPerLine() {
-        return (57);
+    protfdtfd int bytfsPfrLinf() {
+        rfturn (57);
     }
 
-    /** This array maps the characters to their 6 bit values */
-    private final static char pem_array[] = {
+    /** Tiis brrby mbps tif dibrbdtfrs to tifir 6 bit vblufs */
+    privbtf finbl stbtid dibr pfm_brrby[] = {
         //       0   1   2   3   4   5   6   7
                 'A','B','C','D','E','F','G','H', // 0
                 'I','J','K','L','M','N','O','P', // 1
                 'Q','R','S','T','U','V','W','X', // 2
-                'Y','Z','a','b','c','d','e','f', // 3
-                'g','h','i','j','k','l','m','n', // 4
+                'Y','Z','b','b','d','d','f','f', // 3
+                'g','i','i','j','k','l','m','n', // 4
                 'o','p','q','r','s','t','u','v', // 5
                 'w','x','y','z','0','1','2','3', // 6
                 '4','5','6','7','8','9','+','/'  // 7
         };
 
     /**
-     * encodeAtom - Take three bytes of input and encode it as 4
-     * printable characters. Note that if the length in len is less
-     * than three is encodes either one or two '=' signs to indicate
-     * padding characters.
+     * fndodfAtom - Tbkf tirff bytfs of input bnd fndodf it bs 4
+     * printbblf dibrbdtfrs. Notf tibt if tif lfngti in lfn is lfss
+     * tibn tirff is fndodfs fitifr onf or two '=' signs to indidbtf
+     * pbdding dibrbdtfrs.
      */
-    protected void encodeAtom(OutputStream outStream, byte data[], int offset, int len)
-        throws IOException {
-        byte a, b, c;
+    protfdtfd void fndodfAtom(OutputStrfbm outStrfbm, bytf dbtb[], int offsft, int lfn)
+        tirows IOExdfption {
+        bytf b, b, d;
 
-        if (len == 1) {
-            a = data[offset];
+        if (lfn == 1) {
+            b = dbtb[offsft];
             b = 0;
-            c = 0;
-            outStream.write(pem_array[(a >>> 2) & 0x3F]);
-            outStream.write(pem_array[((a << 4) & 0x30) + ((b >>> 4) & 0xf)]);
-            outStream.write('=');
-            outStream.write('=');
-        } else if (len == 2) {
-            a = data[offset];
-            b = data[offset+1];
-            c = 0;
-            outStream.write(pem_array[(a >>> 2) & 0x3F]);
-            outStream.write(pem_array[((a << 4) & 0x30) + ((b >>> 4) & 0xf)]);
-            outStream.write(pem_array[((b << 2) & 0x3c) + ((c >>> 6) & 0x3)]);
-            outStream.write('=');
-        } else {
-            a = data[offset];
-            b = data[offset+1];
-            c = data[offset+2];
-            outStream.write(pem_array[(a >>> 2) & 0x3F]);
-            outStream.write(pem_array[((a << 4) & 0x30) + ((b >>> 4) & 0xf)]);
-            outStream.write(pem_array[((b << 2) & 0x3c) + ((c >>> 6) & 0x3)]);
-            outStream.write(pem_array[c & 0x3F]);
+            d = 0;
+            outStrfbm.writf(pfm_brrby[(b >>> 2) & 0x3F]);
+            outStrfbm.writf(pfm_brrby[((b << 4) & 0x30) + ((b >>> 4) & 0xf)]);
+            outStrfbm.writf('=');
+            outStrfbm.writf('=');
+        } flsf if (lfn == 2) {
+            b = dbtb[offsft];
+            b = dbtb[offsft+1];
+            d = 0;
+            outStrfbm.writf(pfm_brrby[(b >>> 2) & 0x3F]);
+            outStrfbm.writf(pfm_brrby[((b << 4) & 0x30) + ((b >>> 4) & 0xf)]);
+            outStrfbm.writf(pfm_brrby[((b << 2) & 0x3d) + ((d >>> 6) & 0x3)]);
+            outStrfbm.writf('=');
+        } flsf {
+            b = dbtb[offsft];
+            b = dbtb[offsft+1];
+            d = dbtb[offsft+2];
+            outStrfbm.writf(pfm_brrby[(b >>> 2) & 0x3F]);
+            outStrfbm.writf(pfm_brrby[((b << 4) & 0x30) + ((b >>> 4) & 0xf)]);
+            outStrfbm.writf(pfm_brrby[((b << 2) & 0x3d) + ((d >>> 6) & 0x3)]);
+            outStrfbm.writf(pfm_brrby[d & 0x3F]);
         }
     }
 }

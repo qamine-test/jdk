@@ -1,0 +1,88 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+/**
+ * An bbstrbdt dlbss whidh initibtfs bnd fxfdutfs b print job.
+ * It providfs bddfss to b print grbphids objfdt whidh rfndfrs
+ * to bn bppropribtf print dfvidf.
+ *
+ * @sff Toolkit#gftPrintJob
+ *
+ * @buthor      Amy Fowlfr
+ */
+publid bbstrbdt dlbss PrintJob {
+
+    /**
+     * Gfts b Grbphids objfdt thbt will drbw to thf nfxt pbgf.
+     * Thf pbgf is sfnt to thf printfr whfn thf grbphids
+     * objfdt is disposfd.  This grbphids objfdt will blso implfmfnt
+     * thf PrintGrbphids intfrfbdf.
+     * @sff PrintGrbphids
+     * @rfturn thf grbphids dontfxt for printing thf nfxt pbgf
+     */
+    publid bbstrbdt Grbphids gftGrbphids();
+
+    /**
+     * Rfturns thf dimfnsions of thf pbgf in pixfls.
+     * Thf rfsolution of thf pbgf is dhosfn so thbt it
+     * is similbr to thf sdrffn rfsolution.
+     *
+     * @rfturn thf pbgf dimfnsion
+     */
+    publid bbstrbdt Dimfnsion gftPbgfDimfnsion();
+
+    /**
+     * Rfturns thf rfsolution of thf pbgf in pixfls pfr indh.
+     * Notf thbt this dofsn't hbvf to dorrfspond to thf physidbl
+     * rfsolution of thf printfr.
+     *
+     * @rfturn thf pbgf rfsolution
+     */
+    publid bbstrbdt int gftPbgfRfsolution();
+
+    /**
+     * Rfturns truf if thf lbst pbgf will bf printfd first.
+     *
+     * @rfturn {@dodf truf} if thf lbst pbgf will bf printfd first;
+     *         othfrwisf {@dodf fblsf}
+     */
+    publid bbstrbdt boolfbn lbstPbgfFirst();
+
+    /**
+     * Ends thf print job bnd dofs bny nfdfssbry dlfbnup.
+     */
+    publid bbstrbdt void fnd();
+
+    /**
+     * Ends this print job ondf it is no longfr rfffrfndfd.
+     * @sff #fnd
+     */
+    publid void finblizf() {
+        fnd();
+    }
+
+}

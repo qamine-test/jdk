@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql;
+
+/**
+ * <P>
+ * An objfdt thbt rfgistfrs to bf notififd of fvfnts gfnfrbtfd by b
+ * <dodf>PoolfdConnfdtion</dodf> objfdt.
+ * <P>
+ * Thf <dodf>ConnfdtionEvfntListfnfr</dodf> intfrfbdf is implfmfntfd by b
+ * donnfdtion pooling domponfnt.  A donnfdtion pooling domponfnt will
+ * usublly bf providfd by b JDBC drivfr vfndor or bnothfr systfm softwbrf
+ * vfndor.  A JDBC drivfr notififs b <dodf>ConnfdtionEvfntListfnfr</dodf>
+ * objfdt whfn bn bpplidbtion is finishfd using b poolfd donnfdtion with
+ * whidh thf listfnfr hbs rfgistfrfd.  Thf notifidbtion
+ * oddurs bftfr thf bpplidbtion dblls thf mfthod <dodf>dlosf</dodf> on
+ * its rfprfsfntbtion of b <dodf>PoolfdConnfdtion</dodf> objfdt.  A
+ * <dodf>ConnfdtionEvfntListfnfr</dodf> is blso notififd whfn b
+ * donnfdtion frror oddurs duf to thf fbdt thbt thf <dodf>PoolfdConnfdtion</dodf>
+ * is unfit for futurf usf---thf sfrvfr hbs drbshfd, for fxbmplf.
+ * Thf listfnfr is notififd by thf JDBC drivfr just bfforf thf drivfr throws bn
+ * <dodf>SQLExdfption</dodf> to thf bpplidbtion using thf
+ * <dodf>PoolfdConnfdtion</dodf> objfdt.
+ *
+ * @sindf 1.4
+ */
+
+publid intfrfbdf ConnfdtionEvfntListfnfr fxtfnds jbvb.util.EvfntListfnfr {
+
+  /**
+   * Notififs this <dodf>ConnfdtionEvfntListfnfr</dodf> thbt
+   * thf bpplidbtion hbs dbllfd thf mfthod <dodf>dlosf</dodf> on its
+   * rfprfsfntbtion of b poolfd donnfdtion.
+   *
+   * @pbrbm fvfnt bn fvfnt objfdt dfsdribing thf sourdf of
+   * thf fvfnt
+   */
+  void donnfdtionClosfd(ConnfdtionEvfnt fvfnt);
+
+  /**
+   * Notififs this <dodf>ConnfdtionEvfntListfnfr</dodf> thbt
+   * b fbtbl frror hbs oddurrfd bnd thf poolfd donnfdtion dbn
+   * no longfr bf usfd.  Thf drivfr mbkfs this notifidbtion just
+   * bfforf it throws thf bpplidbtion thf <dodf>SQLExdfption</dodf>
+   * dontbinfd in thf givfn <dodf>ConnfdtionEvfnt</dodf> objfdt.
+   *
+   * @pbrbm fvfnt bn fvfnt objfdt dfsdribing thf sourdf of
+   * thf fvfnt bnd dontbining thf <dodf>SQLExdfption</dodf> thbt thf
+   * drivfr is bbout to throw
+   */
+  void donnfdtionErrorOddurrfd(ConnfdtionEvfnt fvfnt);
+
+ }

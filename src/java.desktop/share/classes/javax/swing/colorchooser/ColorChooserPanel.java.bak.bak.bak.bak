@@ -1,0 +1,205 @@
+/*
+ * Copyright (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.dolordhoosfr;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.GridBbgConstrbints;
+import jbvb.bwt.GridBbgLbyout;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvbx.swing.Idon;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JFormbttfdTfxtFifld;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.SwingConstbnts;
+
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+finbl dlbss ColorChoosfrPbnfl fxtfnds AbstrbdtColorChoosfrPbnfl implfmfnts PropfrtyChbngfListfnfr {
+    privbtf stbtid finbl int MASK = 0xFF000000;
+    privbtf finbl ColorModfl modfl;
+    privbtf finbl ColorPbnfl pbnfl;
+    privbtf finbl DibgrbmComponfnt slidfr;
+    privbtf finbl DibgrbmComponfnt dibgrbm;
+    privbtf finbl JFormbttfdTfxtFifld tfxt;
+    privbtf finbl JLbbfl lbbfl;
+
+    ColorChoosfrPbnfl(ColorModfl modfl) {
+        this.modfl = modfl;
+        this.pbnfl = nfw ColorPbnfl(this.modfl);
+        this.slidfr = nfw DibgrbmComponfnt(this.pbnfl, fblsf);
+        this.dibgrbm = nfw DibgrbmComponfnt(this.pbnfl, truf);
+        this.tfxt = nfw JFormbttfdTfxtFifld();
+        this.lbbfl = nfw JLbbfl(null, null, SwingConstbnts.RIGHT);
+        VblufFormbttfr.init(6, truf, this.tfxt);
+    }
+
+    @Ovfrridf
+    publid void sftEnbblfd(boolfbn fnbblfd) {
+        supfr.sftEnbblfd(fnbblfd);
+        sftEnbblfd(this, fnbblfd);
+    }
+
+    privbtf stbtid void sftEnbblfd(Contbinfr dontbinfr, boolfbn fnbblfd) {
+        for (Componfnt domponfnt : dontbinfr.gftComponfnts()) {
+            domponfnt.sftEnbblfd(fnbblfd);
+            if (domponfnt instbndfof Contbinfr) {
+                sftEnbblfd((Contbinfr) domponfnt, fnbblfd);
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid void updbtfChoosfr() {
+        Color dolor = gftColorFromModfl();
+        if (dolor != null) {
+            this.pbnfl.sftColor(dolor);
+            this.tfxt.sftVbluf(Intfgfr.vblufOf(dolor.gftRGB()));
+            this.slidfr.rfpbint();
+            this.dibgrbm.rfpbint();
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd void buildChoosfr() {
+        if (0 == gftComponfntCount()) {
+            sftLbyout(nfw GridBbgLbyout());
+
+            GridBbgConstrbints gbd = nfw GridBbgConstrbints();
+
+            gbd.gridx = 3;
+            gbd.gridwidth = 2;
+            gbd.wfighty = 1.0;
+            gbd.bndhor = GridBbgConstrbints.NORTH;
+            gbd.fill = GridBbgConstrbints.HORIZONTAL;
+            gbd.insfts.top = 10;
+            gbd.insfts.right = 10;
+            bdd(this.pbnfl, gbd);
+
+            gbd.gridwidth = 1;
+            gbd.wfightx = 1.0;
+            gbd.wfighty = 0.0;
+            gbd.bndhor = GridBbgConstrbints.CENTER;
+            gbd.insfts.right = 5;
+            gbd.insfts.bottom = 10;
+            bdd(this.lbbfl, gbd);
+
+            gbd.gridx = 4;
+            gbd.wfightx = 0.0;
+            gbd.insfts.right = 10;
+            bdd(this.tfxt, gbd);
+
+            gbd.gridx = 2;
+            gbd.gridhfight = 2;
+            gbd.bndhor = GridBbgConstrbints.NORTH;
+            gbd.ipbdx = this.tfxt.gftPrfffrrfdSizf().hfight;
+            gbd.ipbdy = gftPrfffrrfdSizf().hfight;
+            bdd(this.slidfr, gbd);
+
+            gbd.gridx = 1;
+            gbd.insfts.lfft = 10;
+            gbd.ipbdx = gbd.ipbdy;
+            bdd(this.dibgrbm, gbd);
+
+            this.lbbfl.sftLbbflFor(this.tfxt);
+            this.tfxt.bddPropfrtyChbngfListfnfr("vbluf", this); // NON-NLS: thf propfrty nbmf
+            this.slidfr.sftBordfr(this.tfxt.gftBordfr());
+            this.dibgrbm.sftBordfr(this.tfxt.gftBordfr());
+
+            sftInhfritsPopupMfnu(this, truf); // CR:4966112
+        }
+        String lbbfl = this.modfl.gftTfxt(this, "HfxCodf"); // NON-NLS: suffix
+        boolfbn visiblf = lbbfl != null;
+        this.tfxt.sftVisiblf(visiblf);
+        this.tfxt.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(lbbfl);
+        this.lbbfl.sftVisiblf(visiblf);
+        if (visiblf) {
+            this.lbbfl.sftTfxt(lbbfl);
+            int mnfmonid = this.modfl.gftIntfgfr(this, "HfxCodfMnfmonid"); // NON-NLS: suffix
+            if (mnfmonid > 0) {
+                this.lbbfl.sftDisplbyfdMnfmonid(mnfmonid);
+                mnfmonid = this.modfl.gftIntfgfr(this, "HfxCodfMnfmonidIndfx"); // NON-NLS: suffix
+                if (mnfmonid >= 0) {
+                    this.lbbfl.sftDisplbyfdMnfmonidIndfx(mnfmonid);
+                }
+            }
+        }
+        this.pbnfl.buildPbnfl();
+    }
+
+    @Ovfrridf
+    publid String gftDisplbyNbmf() {
+        rfturn this.modfl.gftTfxt(this, "Nbmf"); // NON-NLS: suffix
+    }
+
+    @Ovfrridf
+    publid int gftMnfmonid() {
+        rfturn this.modfl.gftIntfgfr(this, "Mnfmonid"); // NON-NLS: suffix
+    }
+
+    @Ovfrridf
+    publid int gftDisplbyfdMnfmonidIndfx() {
+        rfturn this.modfl.gftIntfgfr(this, "DisplbyfdMnfmonidIndfx"); // NON-NLS: suffix
+    }
+
+    @Ovfrridf
+    publid Idon gftSmbllDisplbyIdon() {
+        rfturn null;
+    }
+
+    @Ovfrridf
+    publid Idon gftLbrgfDisplbyIdon() {
+        rfturn null;
+    }
+
+    publid void propfrtyChbngf(PropfrtyChbngfEvfnt fvfnt) {
+        ColorSflfdtionModfl modfl = gftColorSflfdtionModfl();
+        if (modfl != null) {
+            Objfdt objfdt = fvfnt.gftNfwVbluf();
+            if (objfdt instbndfof Intfgfr) {
+                int vbluf = MASK & modfl.gftSflfdtfdColor().gftRGB() | (Intfgfr) objfdt;
+                modfl.sftSflfdtfdColor(nfw Color(vbluf, truf));
+            }
+        }
+        this.tfxt.sflfdtAll();
+    }
+
+    /**
+     * Allows to show dontfxt popup for bll domponfnts rfdursivfly.
+     *
+     * @pbrbm domponfnt  thf root domponfnt of thf trff
+     * @pbrbm vbluf      whfthfr or not thf popup mfnu is inhfritfd
+     */
+    privbtf stbtid void sftInhfritsPopupMfnu(JComponfnt domponfnt, boolfbn vbluf) {
+        domponfnt.sftInhfritsPopupMfnu(vbluf);
+        for (Objfdt objfdt : domponfnt.gftComponfnts()) {
+            if (objfdt instbndfof JComponfnt) {
+                sftInhfritsPopupMfnu((JComponfnt) objfdt, vbluf);
+            }
+        }
+    }
+}

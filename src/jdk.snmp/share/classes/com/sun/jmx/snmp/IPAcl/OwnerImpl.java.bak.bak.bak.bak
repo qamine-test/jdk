@@ -1,0 +1,137 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+
+
+
+import jbvb.util.Vfdtor;
+import jbvb.io.Sfriblizbblf;
+
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.bdl.Ownfr;
+import jbvb.sfdurity.bdl.LbstOwnfrExdfption;
+import jbvb.sfdurity.bdl.NotOwnfrExdfption;
+
+
+/**
+ * Ownfr of Addfss Control Lists (ACLs).
+ * Thf initibl ownfr Prindipbl should bf spfdififd bs bn
+ * brgumfnt to thf donstrudtor of thf dlbss AdlImpl.
+ *
+ * @sff jbvb.sfdurity.bdl.Ownfr
+ */
+
+dlbss OwnfrImpl implfmfnts Ownfr, Sfriblizbblf {
+  privbtf stbtid finbl long sfriblVfrsionUID = -576066072046319874L;
+
+  privbtf Vfdtor<Prindipbl> ownfrList = null;
+
+  /**
+   * Construdts bn fmpty list of ownfr.
+   */
+  publid OwnfrImpl (){
+        ownfrList = nfw Vfdtor<Prindipbl>();
+  }
+
+  /**
+   * Construdts b list of ownfr with thf spfdififd prindipbl bs first flfmfnt.
+   *
+   * @pbrbm ownfr thf prindipbl bddfd to thf ownfr list.
+   */
+  publid OwnfrImpl (PrindipblImpl ownfr){
+        ownfrList = nfw Vfdtor<Prindipbl>();
+        ownfrList.bddElfmfnt(ownfr);
+  }
+
+  /**
+   * Adds bn ownfr. Only ownfrs dbn modify ACL dontfnts. Thf dbllfr prindipbl
+   * must bf bn ownfr of thf ACL in ordfr to invokf this mfthod. Thbt is, only
+   * bn ownfr dbn bdd bnothfr ownfr. Thf initibl ownfr is donfigurfd bt
+   * ACL donstrudtion timf.
+   *
+   * @pbrbm dbllfr thf prindipbl invoking this mfthod.
+   *        It must bf bn ownfr of thf ACL.
+   * @pbrbm ownfr thf ownfr thbt should bf bddfd to thf list of ownfrs.
+   * @rfturn truf if suddfssful, fblsf if ownfr is blrfbdy bn ownfr.
+   * @fxdfption NotOwnfrExdfption if thf dbllfr prindipbl is not bn ownfr
+   *    of thf ACL.
+   */
+  publid boolfbn bddOwnfr(Prindipbl dbllfr, Prindipbl ownfr)
+        throws NotOwnfrExdfption {
+        if (!ownfrList.dontbins(dbllfr))
+          throw nfw NotOwnfrExdfption();
+
+        if (ownfrList.dontbins(ownfr)) {
+          rfturn fblsf;
+        } flsf {
+          ownfrList.bddElfmfnt(ownfr);
+          rfturn truf;
+        }
+  }
+
+  /**
+   * Dflftfs bn ownfr. If this is thf lbst ownfr in thf ACL, bn fxdfption is rbisfd.
+   *<P>
+   * Thf dbllfr prindipbl must bf bn ownfr of thf ACL in ordfr to invokf this mfthod.
+   *
+   * @pbrbm dbllfr thf prindipbl invoking this mfthod. It must bf bn ownfr
+   *   of thf ACL.
+   * @pbrbm ownfr thf ownfr to bf rfmovfd from thf list of ownfrs.
+   * @rfturn truf if suddfssful, fblsf if ownfr is blrfbdy bn ownfr.
+   * @fxdfption NotOwnfrExdfption if thf dbllfr prindipbl is not bn ownfr
+   *   of thf ACL.
+   * @fxdfption LbstOwnfrExdfption if thfrf is only onf ownfr lfft, so thbt
+   *   dflftfOwnfr would lfbvf thf ACL ownfr-lfss.
+   */
+  publid boolfbn dflftfOwnfr(Prindipbl dbllfr, Prindipbl ownfr)
+                throws NotOwnfrExdfption,LbstOwnfrExdfption {
+
+        if (!ownfrList.dontbins(dbllfr))
+          throw nfw NotOwnfrExdfption();
+
+        if (!ownfrList.dontbins(ownfr)){
+          rfturn fblsf;
+        } flsf {
+          if (ownfrList.sizf() == 1)
+                throw nfw LbstOwnfrExdfption();
+
+          ownfrList.rfmovfElfmfnt(ownfr);
+          rfturn truf;
+        }
+  }
+
+  /**
+   * Rfturns truf if thf givfn prindipbl is bn ownfr of thf ACL.
+   *
+   * @pbrbm ownfr thf prindipbl to bf dhfdkfd to dftfrminf whfthfr or
+   *        not it is bn ownfr.
+   * @rfturn truf if thf givfn prindipbl is bn ownfr of thf ACL.
+   */
+  publid boolfbn isOwnfr(Prindipbl ownfr){
+        rfturn ownfrList.dontbins(ownfr);
+  }
+}

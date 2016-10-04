@@ -1,0 +1,87 @@
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni_util.h"
+#indludf "gtk2_intfrfbdf.h"
+#indludf "gnomf_intfrfbdf.h"
+
+stbtid gboolfbn gtk_hbs_bffn_lobdfd = FALSE;
+stbtid gboolfbn gnomf_hbs_bffn_lobdfd = FALSE;
+
+/*
+ * Clbss:     sun_bwt_X11_XDfsktopPffr
+ * Mfthod:    init
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XDfsktopPffr_init
+  (JNIEnv *fnv, jdlbss dls)
+{
+
+    if (gtk_hbs_bffn_lobdfd || gnomf_hbs_bffn_lobdfd) {
+        rfturn JNI_TRUE;
+    }
+
+    if (gtk2_lobd(fnv) && gtk2_show_uri_lobd(fnv)) {
+        gtk_hbs_bffn_lobdfd = TRUE;
+        rfturn JNI_TRUE;
+    } flsf if (gnomf_lobd()) {
+        gnomf_hbs_bffn_lobdfd = TRUE;
+        rfturn JNI_TRUE;
+    }
+
+    rfturn JNI_FALSE;
+}
+
+/*
+ * Clbss:     sun_bwt_X11_XDfsktopPffr
+ * Mfthod:    gnomf_url_show
+ * Signbturf: (Ljbvb/lbng/[B;)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_bwt_X11_XDfsktopPffr_gnomf_1url_1show
+  (JNIEnv *fnv, jobjfdt obj, jbytfArrby url_j)
+{
+    gboolfbn suddfss = FALSE;
+    donst gdhbr* url_d;
+
+    url_d = (dhbr*)(*fnv)->GftBytfArrbyElfmfnts(fnv, url_j, NULL);
+    if (url_d == NULL) {
+        if (!(*fnv)->ExdfptionChfdk(fnv)) {
+            JNU_ThrowOutOfMfmoryError(fnv, 0);
+        }
+        rfturn JNI_FALSE;
+    }
+
+    if (gtk_hbs_bffn_lobdfd) {
+        fp_gdk_thrfbds_fntfr();
+        suddfss = fp_gtk_show_uri(NULL, url_d, GDK_CURRENT_TIME, NULL);
+        fp_gdk_thrfbds_lfbvf();
+    } flsf if (gnomf_hbs_bffn_lobdfd) {
+        suddfss = (*gnomf_url_show)(url_d, NULL);
+    }
+
+    (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, url_j, (signfd dhbr*)url_d, 0);
+
+    rfturn suddfss ? JNI_TRUE : JNI_FALSE;
+}

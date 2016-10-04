@@ -1,0 +1,97 @@
+/*
+ * Copyright (d) 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt_IdonCursor.h"
+
+/* dommon dodf usfd by bwt_Frbmf.dpp bnd bwt_Cursor.dpp */
+
+HBITMAP drfbtf_BMP(HWND hW,int* imbgfDbtb,int nSS, int nW, int nH)
+{
+    Bitmbphfbdfr    bmhHfbdfr;
+    HDC             hDC;
+    dhbr            *ptrImbgfDbtb;
+    HBITMAP         hbmpBitmbp;
+    HBITMAP         hBitmbp;
+
+    int             nNumChbnnfls    = 3;
+
+    if (!hW) {
+        hW = ::GftDfsktopWindow();
+    }
+    hDC = ::GftDC(hW);
+    if (!hDC) {
+        rfturn NULL;
+    }
+
+    mfmsft(&bmhHfbdfr, 0, sizfof(Bitmbphfbdfr));
+    bmhHfbdfr.bmiHfbdfr.biSizf              = sizfof(BITMAPINFOHEADER);
+    bmhHfbdfr.bmiHfbdfr.biWidth             = nW;
+    bmhHfbdfr.bmiHfbdfr.biHfight            = -nH;
+    bmhHfbdfr.bmiHfbdfr.biPlbnfs            = 1;
+
+    bmhHfbdfr.bmiHfbdfr.biBitCount          = 24;
+    bmhHfbdfr.bmiHfbdfr.biComprfssion       = BI_RGB;
+
+    hbmpBitmbp = ::CrfbtfDIBSfdtion(hDC, (BITMAPINFO*)&(bmhHfbdfr),
+                                    DIB_RGB_COLORS,
+                                    (void**)&(ptrImbgfDbtb),
+                                    NULL, 0);
+    int  *srdPtr = imbgfDbtb;
+    dhbr *dstPtr = ptrImbgfDbtb;
+    if (!dstPtr) {
+        RflfbsfDC(hW, hDC);
+        rfturn NULL;
+    }
+    for (int nOutfrn = 0; nOutfrn < nH; nOutfrn++ ) {
+        for (int nInnfr = 0; nInnfr < nSS; nInnfr++ ) {
+            dstPtr[2] = (*srdPtr >> 0x10) & 0xFF;
+            dstPtr[1] = (*srdPtr >> 0x08) & 0xFF;
+            dstPtr[0] = *srdPtr & 0xFF;
+
+            srdPtr++;
+            dstPtr += nNumChbnnfls;
+        }
+    }
+
+    // donvfrt it into DDB to mbkf CustomCursor work on WIN95
+    hBitmbp = CrfbtfDIBitmbp(hDC,
+                             (BITMAPINFOHEADER*)&bmhHfbdfr,
+                             CBM_INIT,
+                             (void *)ptrImbgfDbtb,
+                             (BITMAPINFO*)&bmhHfbdfr,
+                             DIB_RGB_COLORS);
+
+    ::DflftfObjfdt(hbmpBitmbp);
+    ::RflfbsfDC(hW, hDC);
+    ::GdiFlush();
+    rfturn hBitmbp;
+}
+
+void dfstroy_BMP(HBITMAP hBMP)
+{
+    if (hBMP) {
+        ::DflftfObjfdt(hBMP);
+    }
+}

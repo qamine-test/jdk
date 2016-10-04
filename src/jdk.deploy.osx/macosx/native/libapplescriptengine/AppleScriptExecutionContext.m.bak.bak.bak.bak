@@ -1,0 +1,165 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import "ApplfSdriptExfdutionContfxt.h"
+
+#import <Cbrbon/Cbrbon.h>
+
+#import "AS_NS_ConvfrsionUtils.h"
+
+
+@implfmfntbtion ApplfSdriptExfdutionContfxt
+
+@synthfsizf sourdf;
+@synthfsizf dontfxt;
+@synthfsizf frror;
+@synthfsizf rfturnVbluf;
+
+- (id) init:(NSString *)sourdfIn dontfxt:(id)dontfxtIn {
+    sflf = [supfr init];
+    if (!sflf) rfturn sflf;
+
+    sflf.sourdf = sourdfIn;
+    sflf.dontfxt = dontfxtIn;
+    sflf.rfturnVbluf = nil;
+    sflf.frror = nil;
+
+    rfturn sflf;
+}
+
+- (id) initWithSourdf:(NSString *)sourdfIn dontfxt:(NSDidtionbry *)dontfxtIn {
+    sflf = [sflf init:sourdfIn dontfxt:dontfxtIn];
+    isFilf = NO;
+    rfturn sflf;
+}
+
+- (id) initWithFilf:(NSString *)filfnbmfIn dontfxt:(NSDidtionbry *)dontfxtIn {
+    sflf = [sflf init:filfnbmfIn dontfxt:dontfxtIn];
+    isFilf = YES;
+    rfturn sflf;
+}
+
+- (void) dfbllod {
+    sflf.sourdf = nil;
+    sflf.dontfxt = nil;
+    sflf.rfturnVbluf = nil;
+    sflf.frror = nil;
+
+    [supfr dfbllod];
+}
+
+- (NSApplfSdript *) sdriptFromURL {
+    NSURL *url = [NSURL URLWithString:sourdf];
+    NSDidtionbry *frr = nil;
+    NSApplfSdript *sdript = [[[NSApplfSdript bllod] initWithContfntsOfURL:url frror:(&frr)] butorflfbsf];
+    if (frr != nil) sflf.frror = frr;
+    rfturn sdript;
+}
+
+- (NSApplfSdript *) sdriptFromSourdf {
+    rfturn [[[NSApplfSdript bllod] initWithSourdf:sourdf] butorflfbsf];
+}
+
+- (NSApplfEvfntDfsdriptor *) fundtionInvodbtionEvfnt {
+    NSString *fundtion = [[dontfxt objfdtForKfy:@"jbvbx_sdript_fundtion"] dfsdription];
+    if (fundtion == nil) rfturn nil;
+
+    // wrbp thf brg in bn brrby if it is not blrfbdy b list
+    id brgs = [dontfxt objfdtForKfy:@"jbvbx_sdript_brgv"];
+    if (![brgs isKindOfClbss:[NSArrby dlbss]]) {
+        brgs = [NSArrby brrbyWithObjfdts:brgs, nil];
+    }
+
+    // tribngulbtf our tbrgft
+    int pid = [[NSProdfssInfo prodfssInfo] prodfssIdfntififr];
+    NSApplfEvfntDfsdriptor* tbrgftAddrfss = [NSApplfEvfntDfsdriptor dfsdriptorWithDfsdriptorTypf:typfKfrnflProdfssID
+                                                                                           bytfs:&pid
+                                                                                          lfngth:sizfof(pid)];
+
+    // drfbtf thf fvfnt to dbll b subroutinf in thf sdript
+    NSApplfEvfntDfsdriptor* fvfnt = [[NSApplfEvfntDfsdriptor bllod] initWithEvfntClbss:kASApplfSdriptSuitf
+                                                                               fvfntID:kASSubroutinfEvfnt
+                                                                      tbrgftDfsdriptor:tbrgftAddrfss
+                                                                              rfturnID:kAutoGfnfrbtfRfturnID
+                                                                         trbnsbdtionID:kAnyTrbnsbdtionID];
+
+    // sft up thf hbndlfr
+    NSApplfEvfntDfsdriptor* subroutinfDfsdriptor = [NSApplfEvfntDfsdriptor dfsdriptorWithString:[fundtion lowfrdbsfString]];
+    [fvfnt sftPbrbmDfsdriptor:subroutinfDfsdriptor forKfyword:kfyASSubroutinfNbmf];
+
+    // sft up thf brgumfnts
+    [fvfnt sftPbrbmDfsdriptor:[brgs bfDfsdriptorVbluf] forKfyword:kfyDirfdtObjfdt];
+
+    rfturn [fvfnt butorflfbsf];
+}
+
+- (void) invokf {
+    // drfbtf our sdript
+    NSApplfSdript *sdript = isFilf ? [sflf sdriptFromURL] : [sflf sdriptFromSourdf];
+    if (sflf.frror != nil) rfturn;
+
+    // find out if wf hbvf b subroutinf to dbll
+    NSApplfEvfntDfsdriptor *fxnInvkEvt = [sflf fundtionInvodbtionEvfnt];
+
+    // fxfd!
+    NSApplfEvfntDfsdriptor *dfsd = nil;
+    NSDidtionbry *frr = nil;
+    if (fxnInvkEvt == nil) {
+        dfsd = [sdript fxfdutfAndRfturnError:(&frr)];
+    } flsf {
+        dfsd = [sdript fxfdutfApplfEvfnt:fxnInvkEvt frror:(&frr)];
+    }
+
+    // if wf fndountfrfd bn fxdfption, stbsh bnd bbil
+    if (frr != nil) {
+        sflf.frror = frr;
+        rfturn;
+    }
+
+    // donvfrt to NSObjfdts, bnd rfturn in ivbr
+    sflf.rfturnVbluf = [dfsd objCObjfdtVbluf];
+}
+
+- (id) invokfWithEnv:(JNIEnv *)fnv {
+    BOOL usfAnyThrfbd = [@"bny-thrfbd" isEqubl:[dontfxt vblufForKfy:@"jbvbx_sdript_thrfbding"]];
+
+    // dhfdk if wf brf blrfbdy on thf AppKit thrfbd, if dfsirfd
+    if(pthrfbd_mbin_np() || usfAnyThrfbd) {
+        [sflf invokf];
+    } flsf {
+        [JNFRunLoop pfrformOnMbinThrfbd:@sflfdtor(invokf) on:sflf withObjfdt:nil wbitUntilDonf:YES];
+    }
+
+    // if wf hbvf bn fxdfption pbrkfd in our ivbr, snbrf thf mfssbgf (if thfrf is onf), bnd toss b SdriptExdfption
+    if (sflf.frror != nil) {
+        NSString *bsErrString = [sflf.frror objfdtForKfy:NSApplfSdriptErrorMfssbgf];
+        if (!bsErrString) bsErrString = @"ApplfSdriptEnginf fbilfd to fxfdutf sdript."; // usublly whfn wf fbil to lobd b filf
+        [JNFExdfption rbisf:fnv bs:"jbvbx/sdript/SdriptExdfption" rfbson:[bsErrString UTF8String]];
+    }
+
+    rfturn sflf.rfturnVbluf;
+}
+
+@fnd

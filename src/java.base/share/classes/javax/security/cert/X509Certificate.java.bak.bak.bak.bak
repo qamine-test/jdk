@@ -1,0 +1,452 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.sfdurity.dfrt;
+
+import jbvb.io.InputStrfbm;
+import jbvb.lbng.Clbss;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.sfdurity.Sfdurity;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.util.BitSft;
+import jbvb.util.Dbtf;
+
+/**
+ * Abstrbdt dlbss for X.509 v1 dfrtifidbtfs. This providfs b stbndbrd
+ * wby to bddfss bll thf vfrsion 1 bttributfs of bn X.509 dfrtifidbtf.
+ * Attributfs thbt brf spfdifid to X.509 v2 or v3 brf not bvbilbblf
+ * through this intfrfbdf. Futurf API fvolution will providf full bddfss to
+ * domplftf X.509 v3 bttributfs.
+ * <p>
+ * Thf bbsid X.509 formbt wbs dffinfd by
+ * ISO/IEC bnd ANSI X9 bnd is dfsdribfd bflow in ASN.1:
+ * <prf>
+ * Cfrtifidbtf  ::=  SEQUENCE  {
+ *     tbsCfrtifidbtf       TBSCfrtifidbtf,
+ *     signbturfAlgorithm   AlgorithmIdfntififr,
+ *     signbturf            BIT STRING  }
+ * </prf>
+ * <p>
+ * Thfsf dfrtifidbtfs brf widfly usfd to support buthfntidbtion bnd
+ * othfr fundtionblity in Intfrnft sfdurity systfms. Common bpplidbtions
+ * indludf Privbdy Enhbndfd Mbil (PEM), Trbnsport Lbyfr Sfdurity (SSL),
+ * dodf signing for trustfd softwbrf distribution, bnd Sfdurf Elfdtronid
+ * Trbnsbdtions (SET).
+ * <p>
+ * Thfsf dfrtifidbtfs brf mbnbgfd bnd voudhfd for by <fm>Cfrtifidbtf
+ * Authoritifs</fm> (CAs). CAs brf sfrvidfs whidh drfbtf dfrtifidbtfs by
+ * plbding dbtb in thf X.509 stbndbrd formbt bnd thfn digitblly signing
+ * thbt dbtb. CAs bdt bs trustfd third pbrtifs, mbking introdudtions
+ * bftwffn prindipbls who hbvf no dirfdt knowlfdgf of fbdh othfr.
+ * CA dfrtifidbtfs brf fithfr signfd by thfmsflvfs, or by somf othfr
+ * CA sudh bs b "root" CA.
+ * <p>
+ * Thf ASN.1 dffinition of {@dodf tbsCfrtifidbtf} is:
+ * <prf>
+ * TBSCfrtifidbtf  ::=  SEQUENCE  {
+ *     vfrsion         [0]  EXPLICIT Vfrsion DEFAULT v1,
+ *     sfriblNumbfr         CfrtifidbtfSfriblNumbfr,
+ *     signbturf            AlgorithmIdfntififr,
+ *     issufr               Nbmf,
+ *     vblidity             Vblidity,
+ *     subjfdt              Nbmf,
+ *     subjfdtPublidKfyInfo SubjfdtPublidKfyInfo,
+ *     }
+ * </prf>
+ * <p>
+ * Hfrf is sbmplf dodf to instbntibtf bn X.509 dfrtifidbtf:
+ * <prf>
+ * InputStrfbm inStrfbm = nfw FilfInputStrfbm("filfNbmf-of-dfrt");
+ * X509Cfrtifidbtf dfrt = X509Cfrtifidbtf.gftInstbndf(inStrfbm);
+ * inStrfbm.dlosf();
+ * </prf>
+ * OR
+ * <prf>
+ * bytf[] dfrtDbtb = &lt;dfrtifidbtf rfbd from b filf, sby&gt;
+ * X509Cfrtifidbtf dfrt = X509Cfrtifidbtf.gftInstbndf(dfrtDbtb);
+ * </prf>
+ * <p>
+ * In fithfr dbsf, thf dodf thbt instbntibtfs bn X.509 dfrtifidbtf
+ * donsults thf vbluf of thf {@dodf dfrt.providfr.x509v1} sfdurity propfrty
+ * to lodbtf thf bdtubl implfmfntbtion or instbntibtfs b dffbult implfmfntbtion.
+ * <p>
+ * Thf {@dodf dfrt.providfr.x509v1} propfrty is sft to b dffbult
+ * implfmfntbtion for X.509 sudh bs:
+ * <prf>
+ * dfrt.providfr.x509v1=dom.sun.sfdurity.dfrt.intfrnbl.x509.X509V1CfrtImpl
+ * </prf>
+ * <p>
+ * Thf vbluf of this {@dodf dfrt.providfr.x509v1} propfrty hbs to bf
+ * dhbngfd to instbntibtf bnothfr implfmfntbtion. If this sfdurity
+ * propfrty is not sft, b dffbult implfmfntbtion will bf usfd.
+ * Currfntly, duf to possiblf sfdurity rfstridtions on bddfss to
+ * Sfdurity propfrtifs, this vbluf is lookfd up bnd dbdhfd bt dlbss
+ * initiblizbtion timf bnd will fbllbbdk on b dffbult implfmfntbtion if
+ * thf Sfdurity propfrty is not bddfssiblf.
+ *
+ * <p><fm>Notf: Thf dlbssfs in thf pbdkbgf {@dodf jbvbx.sfdurity.dfrt}
+ * fxist for dompbtibility with fbrlifr vfrsions of thf
+ * Jbvb Sfdurf Sodkfts Extfnsion (JSSE). Nfw bpplidbtions should instfbd
+ * usf thf stbndbrd Jbvb SE dfrtifidbtf dlbssfs lodbtfd in
+ * {@dodf jbvb.sfdurity.dfrt}.</fm></p>
+ *
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @sindf 1.4
+ * @sff Cfrtifidbtf
+ * @sff jbvb.sfdurity.dfrt.X509Extfnsion
+ * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+ */
+publid bbstrbdt dlbss X509Cfrtifidbtf fxtfnds Cfrtifidbtf {
+
+    /*
+     * Constbnt to lookup in thf Sfdurity propfrtifs filf.
+     * In thf Sfdurity propfrtifs filf thf dffbult implfmfntbtion
+     * for X.509 v3 is givfn bs:
+     * <prf>
+     * dfrt.providfr.x509v1=dom.sun.sfdurity.dfrt.intfrnbl.x509.X509V1CfrtImpl
+     * </prf>
+     */
+    privbtf stbtid finbl String X509_PROVIDER = "dfrt.providfr.x509v1";
+    privbtf stbtid String X509Providfr;
+
+    stbtid {
+        X509Providfr = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn Sfdurity.gftPropfrty(X509_PROVIDER);
+                }
+            }
+        );
+    }
+
+    /**
+     * Instbntibtfs bn X509Cfrtifidbtf objfdt, bnd initiblizfs it with
+     * thf dbtb rfbd from thf input strfbm {@dodf inStrfbm}.
+     * Thf implfmfntbtion (X509Cfrtifidbtf is bn bbstrbdt dlbss) is
+     * providfd by thf dlbss spfdififd bs thf vbluf of thf
+     * {@dodf dfrt.providfr.x509v1} sfdurity propfrty.
+     *
+     * <p>Notf: Only onf DER-fndodfd
+     * dfrtifidbtf is fxpfdtfd to bf in thf input strfbm.
+     * Also, bll X509Cfrtifidbtf
+     * subdlbssfs must providf b donstrudtor of thf form:
+     * <prf>{@dodf
+     * publid <subClbss>(InputStrfbm inStrfbm) ...
+     * }</prf>
+     *
+     * @pbrbm inStrfbm bn input strfbm with thf dbtb to bf rfbd to
+     *        initiblizf thf dfrtifidbtf.
+     * @rfturn bn X509Cfrtifidbtf objfdt initiblizfd with thf dbtb
+     *         from thf input strfbm.
+     * @fxdfption CfrtifidbtfExdfption if b dlbss initiblizbtion
+     *            or dfrtifidbtf pbrsing frror oddurs.
+     */
+    publid stbtid finbl X509Cfrtifidbtf gftInstbndf(InputStrfbm inStrfbm)
+    throws CfrtifidbtfExdfption {
+        rfturn gftInst((Objfdt)inStrfbm);
+    }
+
+    /**
+     * Instbntibtfs bn X509Cfrtifidbtf objfdt, bnd initiblizfs it with
+     * thf spfdififd bytf brrby.
+     * Thf implfmfntbtion (X509Cfrtifidbtf is bn bbstrbdt dlbss) is
+     * providfd by thf dlbss spfdififd bs thf vbluf of thf
+     * {@dodf dfrt.providfr.x509v1} sfdurity propfrty.
+     *
+     * <p>Notf: All X509Cfrtifidbtf
+     * subdlbssfs must providf b donstrudtor of thf form:
+     * <prf>{@dodf
+     * publid <subClbss>(InputStrfbm inStrfbm) ...
+     * }</prf>
+     *
+     * @pbrbm dfrtDbtb b bytf brrby dontbining thf DER-fndodfd
+     *        dfrtifidbtf.
+     * @rfturn bn X509Cfrtifidbtf objfdt initiblizfd with thf dbtb
+     *         from {@dodf dfrtDbtb}.
+     * @fxdfption CfrtifidbtfExdfption if b dlbss initiblizbtion
+     *            or dfrtifidbtf pbrsing frror oddurs.
+     */
+    publid stbtid finbl X509Cfrtifidbtf gftInstbndf(bytf[] dfrtDbtb)
+    throws CfrtifidbtfExdfption {
+        rfturn gftInst((Objfdt)dfrtDbtb);
+    }
+
+    privbtf stbtid finbl X509Cfrtifidbtf gftInst(Objfdt vbluf)
+    throws CfrtifidbtfExdfption {
+        /*
+         * This turns out not to work for now. To run undfr JDK1.2 wf would
+         * nffd to dbll bfginPrivilfgfd() but wf dbn't do thbt bnd run
+         * undfr JDK1.1.
+         */
+        String dlbssNbmf = X509Providfr;
+        if (dlbssNbmf == null || dlbssNbmf.lfngth() == 0) {
+            // shouldn't hbppfn, but bssumf dorruptfd propfrtifs filf
+            // providf bddfss to sun implfmfntbtion
+            dlbssNbmf = "dom.sun.sfdurity.dfrt.intfrnbl.x509.X509V1CfrtImpl";
+        }
+        try {
+            Clbss<?>[] pbrbms = null;
+            if (vbluf instbndfof InputStrfbm) {
+                pbrbms = nfw Clbss<?>[] { InputStrfbm.dlbss };
+            } flsf if (vbluf instbndfof bytf[]) {
+                pbrbms = nfw Clbss<?>[] { vbluf.gftClbss() };
+            } flsf
+                throw nfw CfrtifidbtfExdfption("Unsupportfd brgumfnt typf");
+            Clbss<?> dfrtClbss = Clbss.forNbmf(dlbssNbmf);
+
+            // gft thf bppropribtf donstrudtor bnd instbntibtf it
+            Construdtor<?> dons = dfrtClbss.gftConstrudtor(pbrbms);
+
+            // gft b nfw instbndf
+            Objfdt obj = dons.nfwInstbndf(nfw Objfdt[] {vbluf});
+            rfturn (X509Cfrtifidbtf)obj;
+
+        } dbtdh (ClbssNotFoundExdfption f) {
+          throw nfw CfrtifidbtfExdfption("Could not find dlbss: " + f);
+        } dbtdh (IllfgblAddfssExdfption f) {
+          throw nfw CfrtifidbtfExdfption("Could not bddfss dlbss: " + f);
+        } dbtdh (InstbntibtionExdfption f) {
+          throw nfw CfrtifidbtfExdfption("Problfms instbntibting: " + f);
+        } dbtdh (InvodbtionTbrgftExdfption f) {
+          throw nfw CfrtifidbtfExdfption("InvodbtionTbrgftExdfption: "
+                                         + f.gftTbrgftExdfption());
+        } dbtdh (NoSudhMfthodExdfption f) {
+          throw nfw CfrtifidbtfExdfption("Could not find dlbss mfthod: "
+                                          + f.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Chfdks thbt thf dfrtifidbtf is durrfntly vblid. It is if
+     * thf durrfnt dbtf bnd timf brf within thf vblidity pfriod givfn in thf
+     * dfrtifidbtf.
+     * <p>
+     * Thf vblidity pfriod donsists of two dbtf/timf vblufs:
+     * thf first bnd lbst dbtfs (bnd timfs) on whidh thf dfrtifidbtf
+     * is vblid. It is dffinfd in
+     * ASN.1 bs:
+     * <prf>
+     * vblidity             Vblidity
+     *
+     * Vblidity ::= SEQUENCE {
+     *     notBfforf      CfrtifidbtfVblidityDbtf,
+     *     notAftfr       CfrtifidbtfVblidityDbtf }
+     *
+     * CfrtifidbtfVblidityDbtf ::= CHOICE {
+     *     utdTimf        UTCTimf,
+     *     gfnfrblTimf    GfnfrblizfdTimf }
+     * </prf>
+     *
+     * @fxdfption CfrtifidbtfExpirfdExdfption if thf dfrtifidbtf hbs fxpirfd.
+     * @fxdfption CfrtifidbtfNotYftVblidExdfption if thf dfrtifidbtf is not
+     *            yft vblid.
+     */
+    publid bbstrbdt void dhfdkVblidity()
+        throws CfrtifidbtfExpirfdExdfption, CfrtifidbtfNotYftVblidExdfption;
+
+    /**
+     * Chfdks thbt thf spfdififd dbtf is within thf dfrtifidbtf's
+     * vblidity pfriod. In othfr words, this dftfrminfs whfthfr thf
+     * dfrtifidbtf would bf vblid bt thf spfdififd dbtf/timf.
+     *
+     * @pbrbm dbtf thf Dbtf to dhfdk bgbinst to sff if this dfrtifidbtf
+     *        is vblid bt thbt dbtf/timf.
+     * @fxdfption CfrtifidbtfExpirfdExdfption if thf dfrtifidbtf hbs fxpirfd
+     *            with rfspfdt to thf {@dodf dbtf} supplifd.
+     * @fxdfption CfrtifidbtfNotYftVblidExdfption if thf dfrtifidbtf is not
+     *            yft vblid with rfspfdt to thf {@dodf dbtf} supplifd.
+     * @sff #dhfdkVblidity()
+     */
+    publid bbstrbdt void dhfdkVblidity(Dbtf dbtf)
+        throws CfrtifidbtfExpirfdExdfption, CfrtifidbtfNotYftVblidExdfption;
+
+    /**
+     * Gfts thf {@dodf vfrsion} (vfrsion numbfr) vbluf from thf
+     * dfrtifidbtf. Thf ASN.1 dffinition for this is:
+     * <prf>
+     * vfrsion         [0]  EXPLICIT Vfrsion DEFAULT v1
+     *
+     * Vfrsion  ::=  INTEGER  {  v1(0), v2(1), v3(2)  }
+     * </prf>
+     *
+     * @rfturn thf vfrsion numbfr from thf ASN.1 fndoding, i.f. 0, 1 or 2.
+     */
+    publid bbstrbdt int gftVfrsion();
+
+    /**
+     * Gfts thf {@dodf sfriblNumbfr} vbluf from thf dfrtifidbtf.
+     * Thf sfribl numbfr is bn intfgfr bssignfd by thf dfrtifidbtion
+     * buthority to fbdh dfrtifidbtf. It must bf uniquf for fbdh
+     * dfrtifidbtf issufd by b givfn CA (i.f., thf issufr nbmf bnd
+     * sfribl numbfr idfntify b uniquf dfrtifidbtf).
+     * Thf ASN.1 dffinition for this is:
+     * <prf>
+     * sfriblNumbfr     CfrtifidbtfSfriblNumbfr
+     *
+     * CfrtifidbtfSfriblNumbfr  ::=  INTEGER
+     * </prf>
+     *
+     * @rfturn thf sfribl numbfr.
+     */
+    publid bbstrbdt BigIntfgfr gftSfriblNumbfr();
+
+    /**
+     * Gfts thf {@dodf issufr} (issufr distinguishfd nbmf) vbluf from
+     * thf dfrtifidbtf. Thf issufr nbmf idfntififs thf fntity thbt signfd (bnd
+     * issufd) thf dfrtifidbtf.
+     *
+     * <p>Thf issufr nbmf fifld dontbins bn
+     * X.500 distinguishfd nbmf (DN).
+     * Thf ASN.1 dffinition for this is:
+     * <prf>
+     * issufr    Nbmf
+     *
+     * Nbmf ::= CHOICE { RDNSfqufndf }
+     * RDNSfqufndf ::= SEQUENCE OF RflbtivfDistinguishfdNbmf
+     * RflbtivfDistinguishfdNbmf ::=
+     *     SET OF AttributfVblufAssfrtion
+     *
+     * AttributfVblufAssfrtion ::= SEQUENCE {
+     *                               AttributfTypf,
+     *                               AttributfVbluf }
+     * AttributfTypf ::= OBJECT IDENTIFIER
+     * AttributfVbluf ::= ANY
+     * </prf>
+     * Thf {@dodf Nbmf} dfsdribfs b hifrbrdhidbl nbmf domposfd of
+     * bttributfs, sudh bs dountry nbmf, bnd dorrfsponding vblufs, sudh bs US.
+     * Thf typf of thf {@dodf AttributfVbluf} domponfnt is dftfrminfd by
+     * thf {@dodf AttributfTypf}; in gfnfrbl it will bf b
+     * {@dodf dirfdtoryString}. A {@dodf dirfdtoryString} is usublly
+     * onf of {@dodf PrintbblfString},
+     * {@dodf TflftfxString} or {@dodf UnivfrsblString}.
+     *
+     * @rfturn b Prindipbl whosf nbmf is thf issufr distinguishfd nbmf.
+     */
+    publid bbstrbdt Prindipbl gftIssufrDN();
+
+    /**
+     * Gfts thf {@dodf subjfdt} (subjfdt distinguishfd nbmf) vbluf
+     * from thf dfrtifidbtf.
+     * Thf ASN.1 dffinition for this is:
+     * <prf>
+     * subjfdt    Nbmf
+     * </prf>
+     *
+     * <p>Sff {@link #gftIssufrDN() gftIssufrDN} for {@dodf Nbmf}
+     * bnd othfr rflfvbnt dffinitions.
+     *
+     * @rfturn b Prindipbl whosf nbmf is thf subjfdt nbmf.
+     * @sff #gftIssufrDN()
+     */
+    publid bbstrbdt Prindipbl gftSubjfdtDN();
+
+    /**
+     * Gfts thf {@dodf notBfforf} dbtf from thf vblidity pfriod of
+     * thf dfrtifidbtf.
+     * Thf rflfvbnt ASN.1 dffinitions brf:
+     * <prf>
+     * vblidity             Vblidity
+     *
+     * Vblidity ::= SEQUENCE {
+     *     notBfforf      CfrtifidbtfVblidityDbtf,
+     *     notAftfr       CfrtifidbtfVblidityDbtf }
+     *
+     * CfrtifidbtfVblidityDbtf ::= CHOICE {
+     *     utdTimf        UTCTimf,
+     *     gfnfrblTimf    GfnfrblizfdTimf }
+     * </prf>
+     *
+     * @rfturn thf stbrt dbtf of thf vblidity pfriod.
+     * @sff #dhfdkVblidity()
+     */
+    publid bbstrbdt Dbtf gftNotBfforf();
+
+    /**
+     * Gfts thf {@dodf notAftfr} dbtf from thf vblidity pfriod of
+     * thf dfrtifidbtf. Sff {@link #gftNotBfforf() gftNotBfforf}
+     * for rflfvbnt ASN.1 dffinitions.
+     *
+     * @rfturn thf fnd dbtf of thf vblidity pfriod.
+     * @sff #dhfdkVblidity()
+     */
+    publid bbstrbdt Dbtf gftNotAftfr();
+
+    /**
+     * Gfts thf signbturf blgorithm nbmf for thf dfrtifidbtf
+     * signbturf blgorithm. An fxbmplf is thf string "SHA-1/DSA".
+     * Thf ASN.1 dffinition for this is:
+     * <prf>
+     * signbturfAlgorithm   AlgorithmIdfntififr
+     *
+     * AlgorithmIdfntififr  ::=  SEQUENCE  {
+     *     blgorithm               OBJECT IDENTIFIER,
+     *     pbrbmftfrs              ANY DEFINED BY blgorithm OPTIONAL  }
+     *                             -- dontbins b vbluf of thf typf
+     *                             -- rfgistfrfd for usf with thf
+     *                             -- blgorithm objfdt idfntififr vbluf
+     * </prf>
+     *
+     * <p>Thf blgorithm nbmf is dftfrminfd from thf {@dodf blgorithm}
+     * OID string.
+     *
+     * @rfturn thf signbturf blgorithm nbmf.
+     */
+    publid bbstrbdt String gftSigAlgNbmf();
+
+    /**
+     * Gfts thf signbturf blgorithm OID string from thf dfrtifidbtf.
+     * An OID is rfprfsfntfd by b sft of positivf wholf numbfrs sfpbrbtfd
+     * by pfriods.
+     * For fxbmplf, thf string "1.2.840.10040.4.3" idfntififs thf SHA-1
+     * with DSA signbturf blgorithm, bs pfr thf PKIX pbrt I.
+     *
+     * <p>Sff {@link #gftSigAlgNbmf() gftSigAlgNbmf} for
+     * rflfvbnt ASN.1 dffinitions.
+     *
+     * @rfturn thf signbturf blgorithm OID string.
+     */
+    publid bbstrbdt String gftSigAlgOID();
+
+    /**
+     * Gfts thf DER-fndodfd signbturf blgorithm pbrbmftfrs from this
+     * dfrtifidbtf's signbturf blgorithm. In most dbsfs, thf signbturf
+     * blgorithm pbrbmftfrs brf null; thf pbrbmftfrs brf usublly
+     * supplifd with thf dfrtifidbtf's publid kfy.
+     *
+     * <p>Sff {@link #gftSigAlgNbmf() gftSigAlgNbmf} for
+     * rflfvbnt ASN.1 dffinitions.
+     *
+     * @rfturn thf DER-fndodfd signbturf blgorithm pbrbmftfrs, or
+     *         null if no pbrbmftfrs brf prfsfnt.
+     */
+    publid bbstrbdt bytf[] gftSigAlgPbrbms();
+}

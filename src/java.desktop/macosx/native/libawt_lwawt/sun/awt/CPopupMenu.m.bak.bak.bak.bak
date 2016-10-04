@@ -1,0 +1,94 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import <Codob/Codob.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+
+#import "AWTWindow.h"
+#import "AWTVifw.h"
+#import "CPopupMfnu.h"
+#import "ThrfbdUtilitifs.h"
+#import "LWCToolkit.h"
+#import "GfomUtilitifs.h"
+
+@implfmfntbtion CPopupMfnu
+
+- (id) initWithPffr:(jobjfdt)pffr {
+    sflf = [supfr initWithPffr:pffr];
+    if (sflf == nil) {
+        // TODO: not implfmfntfd
+    }
+    rfturn sflf;
+}
+
+- (NSString *)dfsdription {
+    rfturn [NSString stringWithFormbt:@"CMfnuItfm[ %@ ]", fMfnuItfm];
+}
+
+@fnd // implfmfntbtionCPopupMfnu : CMfnu
+
+
+  /*
+   * Clbss:     sun_lwbwt_mbdosx_CPopupMfnu
+   * Mfthod:    nbtivfCrfbtfPopupMfnu
+   * Signbturf: (JII)J
+   */
+JNIEXPORT jlong JNICALL Jbvb_sun_lwbwt_mbdosx_CPopupMfnu_nbtivfCrfbtfPopupMfnu
+(JNIEnv *fnv, jobjfdt pffr) {
+
+    __blodk CPopupMfnu *bCPopupMfnu = nil;
+
+JNF_COCOA_ENTER(fnv);
+
+    jobjfdt dPffrObjGlobbl = JNFNfwGlobblRff(fnv, pffr);
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:YES blodk:^(){
+        bCPopupMfnu = [[CPopupMfnu bllod] initWithPffr:dPffrObjGlobbl];
+    }];
+
+JNF_COCOA_EXIT(fnv);
+
+    rfturn ptr_to_jlong(bCPopupMfnu);
+}
+
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPopupMfnu_nbtivfShowPopupMfnu
+(JNIEnv *fnv, jobjfdt pffr, jlong mfnuPtr, jint x, jint y) {
+
+    JNF_COCOA_ENTER(fnv);
+
+    CPopupMfnu* dPopupMfnu = (CPopupMfnu*)jlong_to_ptr(mfnuPtr);
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+        NSPoint lod = ConvfrtNSSdrffnPoint(fnv, NSMbkfPoint(x, y));
+
+        [[dPopupMfnu mfnu] popUpMfnuPositioningItfm: nil
+                                         btLodbtion: lod
+                                             inVifw: nil];
+    }];
+
+    JNF_COCOA_EXIT(fnv);
+
+}
+

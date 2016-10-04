@@ -1,213 +1,213 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * KQueueArrayWrapper.java
- * Implementation of Selector using FreeBSD / Mac OS X kqueues
- * Derived from Sun's DevPollArrayWrapper
+ * KQufufArrbyWrbppfr.jbvb
+ * Implfmfntbtion of Sflfdtor using FrffBSD / Mbd OS X kqufufs
+ * Dfrivfd from Sun's DfvPollArrbyWrbppfr
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import sun.misc.*;
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.util.Iterator;
-import java.util.LinkedList;
+import sun.misd.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdList;
 
 /*
- * struct kevent {           // 32-bit    64-bit
- *     uintptr_t ident;      //   4         8
- *     short     filter;     //   2         2
- *     u_short   flags;      //   2         2
- *     u_int     fflags;     //   4         4
- *     intptr_t  data;       //   4         8
- *     void      *udata;     //   4         8
- * }                  // Total:  20        32
+ * strudt kfvfnt {           // 32-bit    64-bit
+ *     uintptr_t idfnt;      //   4         8
+ *     siort     filtfr;     //   2         2
+ *     u_siort   flbgs;      //   2         2
+ *     u_int     fflbgs;     //   4         4
+ *     intptr_t  dbtb;       //   4         8
+ *     void      *udbtb;     //   4         8
+ * }                  // Totbl:  20        32
  *
- * The implementation works in 32-bit and 64-bit world. We do this by calling a
- * native function that actually sets the sizes and offsets of the fields based
- * on which mode we're in.
+ * Tif implfmfntbtion works in 32-bit bnd 64-bit world. Wf do tiis by dblling b
+ * nbtivf fundtion tibt bdtublly sfts tif sizfs bnd offsfts of tif fiflds bbsfd
+ * on wiidi modf wf'rf in.
  */
 
-class KQueueArrayWrapper {
-    // kevent filters
-    static short EVFILT_READ;
-    static short EVFILT_WRITE;
+dlbss KQufufArrbyWrbppfr {
+    // kfvfnt filtfrs
+    stbtid siort EVFILT_READ;
+    stbtid siort EVFILT_WRITE;
 
-    // kevent struct
-    // These fields are now set by initStructSizes in the static initializer.
-    static short SIZEOF_KEVENT;
-    static short FD_OFFSET;
-    static short FILTER_OFFSET;
+    // kfvfnt strudt
+    // Tifsf fiflds brf now sft by initStrudtSizfs in tif stbtid initiblizfr.
+    stbtid siort SIZEOF_KEVENT;
+    stbtid siort FD_OFFSET;
+    stbtid siort FILTER_OFFSET;
 
-    // kevent array size
-    static final int NUM_KEVENTS = 128;
+    // kfvfnt brrby sizf
+    stbtid finbl int NUM_KEVENTS = 128;
 
-    // Are we in a 64-bit VM?
-    static boolean is64bit = false;
+    // Arf wf in b 64-bit VM?
+    stbtid boolfbn is64bit = fblsf;
 
-    // The kevent array (used for outcoming events only)
-    private AllocatedNativeObject keventArray = null;
-    private long keventArrayAddress;
+    // Tif kfvfnt brrby (usfd for outdoming fvfnts only)
+    privbtf AllodbtfdNbtivfObjfdt kfvfntArrby = null;
+    privbtf long kfvfntArrbyAddrfss;
 
-    // The kqueue fd
-    private int kq = -1;
+    // Tif kqufuf fd
+    privbtf int kq = -1;
 
-    // The fd of the interrupt line going out
-    private int outgoingInterruptFD;
+    // Tif fd of tif intfrrupt linf going out
+    privbtf int outgoingIntfrruptFD;
 
-    // The fd of the interrupt line coming in
-    private int incomingInterruptFD;
+    // Tif fd of tif intfrrupt linf doming in
+    privbtf int indomingIntfrruptFD;
 
-    static {
-        IOUtil.load();
-        initStructSizes();
-        String datamodel = java.security.AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction("sun.arch.data.model")
+    stbtid {
+        IOUtil.lobd();
+        initStrudtSizfs();
+        String dbtbmodfl = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("sun.brdi.dbtb.modfl")
         );
-        is64bit = datamodel.equals("64");
+        is64bit = dbtbmodfl.fqubls("64");
     }
 
-    KQueueArrayWrapper() {
-        int allocationSize = SIZEOF_KEVENT * NUM_KEVENTS;
-        keventArray = new AllocatedNativeObject(allocationSize, true);
-        keventArrayAddress = keventArray.address();
+    KQufufArrbyWrbppfr() {
+        int bllodbtionSizf = SIZEOF_KEVENT * NUM_KEVENTS;
+        kfvfntArrby = nfw AllodbtfdNbtivfObjfdt(bllodbtionSizf, truf);
+        kfvfntArrbyAddrfss = kfvfntArrby.bddrfss();
         kq = init();
     }
 
-    // Used to update file description registrations
-    private static class Update {
-        SelChImpl channel;
-        int events;
-        Update(SelChImpl channel, int events) {
-            this.channel = channel;
-            this.events = events;
+    // Usfd to updbtf filf dfsdription rfgistrbtions
+    privbtf stbtid dlbss Updbtf {
+        SflCiImpl dibnnfl;
+        int fvfnts;
+        Updbtf(SflCiImpl dibnnfl, int fvfnts) {
+            tiis.dibnnfl = dibnnfl;
+            tiis.fvfnts = fvfnts;
         }
     }
 
-    private LinkedList<Update> updateList = new LinkedList<Update>();
+    privbtf LinkfdList<Updbtf> updbtfList = nfw LinkfdList<Updbtf>();
 
-    void initInterrupt(int fd0, int fd1) {
-        outgoingInterruptFD = fd1;
-        incomingInterruptFD = fd0;
-        register0(kq, fd0, 1, 0);
+    void initIntfrrupt(int fd0, int fd1) {
+        outgoingIntfrruptFD = fd1;
+        indomingIntfrruptFD = fd0;
+        rfgistfr0(kq, fd0, 1, 0);
     }
 
-    int getReventOps(int index) {
-        int result = 0;
-        int offset = SIZEOF_KEVENT*index + FILTER_OFFSET;
-        short filter = keventArray.getShort(offset);
+    int gftRfvfntOps(int indfx) {
+        int rfsult = 0;
+        int offsft = SIZEOF_KEVENT*indfx + FILTER_OFFSET;
+        siort filtfr = kfvfntArrby.gftSiort(offsft);
 
-        // This is all that's necessary based on inspection of usage:
-        //   SinkChannelImpl, SourceChannelImpl, DatagramChannelImpl,
-        //   ServerSocketChannelImpl, SocketChannelImpl
-        if (filter == EVFILT_READ) {
-            result |= Net.POLLIN;
-        } else if (filter == EVFILT_WRITE) {
-            result |= Net.POLLOUT;
+        // Tiis is bll tibt's nfdfssbry bbsfd on inspfdtion of usbgf:
+        //   SinkCibnnflImpl, SourdfCibnnflImpl, DbtbgrbmCibnnflImpl,
+        //   SfrvfrSodkftCibnnflImpl, SodkftCibnnflImpl
+        if (filtfr == EVFILT_READ) {
+            rfsult |= Nft.POLLIN;
+        } flsf if (filtfr == EVFILT_WRITE) {
+            rfsult |= Nft.POLLOUT;
         }
 
-        return result;
+        rfturn rfsult;
     }
 
-    int getDescriptor(int index) {
-        int offset = SIZEOF_KEVENT*index + FD_OFFSET;
-        /* The ident field is 8 bytes in 64-bit world, however the API wants us
-         * to return an int. Hence read the 8 bytes but return as an int.
+    int gftDfsdriptor(int indfx) {
+        int offsft = SIZEOF_KEVENT*indfx + FD_OFFSET;
+        /* Tif idfnt fifld is 8 bytfs in 64-bit world, iowfvfr tif API wbnts us
+         * to rfturn bn int. Hfndf rfbd tif 8 bytfs but rfturn bs bn int.
          */
         if (is64bit) {
-          long fd = keventArray.getLong(offset);
-          assert fd <= Integer.MAX_VALUE;
-          return (int) fd;
-        } else {
-          return keventArray.getInt(offset);
+          long fd = kfvfntArrby.gftLong(offsft);
+          bssfrt fd <= Intfgfr.MAX_VALUE;
+          rfturn (int) fd;
+        } flsf {
+          rfturn kfvfntArrby.gftInt(offsft);
         }
     }
 
-    void setInterest(SelChImpl channel, int events) {
-        synchronized (updateList) {
-            // update existing registration
-            updateList.add(new Update(channel, events));
+    void sftIntfrfst(SflCiImpl dibnnfl, int fvfnts) {
+        syndironizfd (updbtfList) {
+            // updbtf fxisting rfgistrbtion
+            updbtfList.bdd(nfw Updbtf(dibnnfl, fvfnts));
         }
     }
 
-    void release(SelChImpl channel) {
-        synchronized (updateList) {
-            // flush any pending updates
-            for (Iterator<Update> it = updateList.iterator(); it.hasNext();) {
-                if (it.next().channel == channel) {
-                    it.remove();
+    void rflfbsf(SflCiImpl dibnnfl) {
+        syndironizfd (updbtfList) {
+            // flusi bny pfnding updbtfs
+            for (Itfrbtor<Updbtf> it = updbtfList.itfrbtor(); it.ibsNfxt();) {
+                if (it.nfxt().dibnnfl == dibnnfl) {
+                    it.rfmovf();
                 }
             }
 
-            // remove
-            register0(kq, channel.getFDVal(), 0, 0);
+            // rfmovf
+            rfgistfr0(kq, dibnnfl.gftFDVbl(), 0, 0);
         }
     }
 
-    void updateRegistrations() {
-        synchronized (updateList) {
-            Update u = null;
-            while ((u = updateList.poll()) != null) {
-                SelChImpl ch = u.channel;
-                if (!ch.isOpen())
-                    continue;
+    void updbtfRfgistrbtions() {
+        syndironizfd (updbtfList) {
+            Updbtf u = null;
+            wiilf ((u = updbtfList.poll()) != null) {
+                SflCiImpl di = u.dibnnfl;
+                if (!di.isOpfn())
+                    dontinuf;
 
-                register0(kq, ch.getFDVal(), u.events & Net.POLLIN, u.events & Net.POLLOUT);
+                rfgistfr0(kq, di.gftFDVbl(), u.fvfnts & Nft.POLLIN, u.fvfnts & Nft.POLLOUT);
             }
         }
     }
 
 
-    void close() throws IOException {
-        if (keventArray != null) {
-            keventArray.free();
-            keventArray = null;
+    void dlosf() tirows IOExdfption {
+        if (kfvfntArrby != null) {
+            kfvfntArrby.frff();
+            kfvfntArrby = null;
         }
         if (kq >= 0) {
-            FileDispatcherImpl.closeIntFD(kq);
+            FilfDispbtdifrImpl.dlosfIntFD(kq);
             kq = -1;
         }
     }
 
-    int poll(long timeout) {
-        updateRegistrations();
-        int updated = kevent0(kq, keventArrayAddress, NUM_KEVENTS, timeout);
-        return updated;
+    int poll(long timfout) {
+        updbtfRfgistrbtions();
+        int updbtfd = kfvfnt0(kq, kfvfntArrbyAddrfss, NUM_KEVENTS, timfout);
+        rfturn updbtfd;
     }
 
-    void interrupt() {
-        interrupt(outgoingInterruptFD);
+    void intfrrupt() {
+        intfrrupt(outgoingIntfrruptFD);
     }
 
-    private native int init();
-    private static native void initStructSizes();
+    privbtf nbtivf int init();
+    privbtf stbtid nbtivf void initStrudtSizfs();
 
-    private native void register0(int kq, int fd, int read, int write);
-    private native int kevent0(int kq, long keventAddress, int keventCount,
-                               long timeout);
-    private static native void interrupt(int fd);
+    privbtf nbtivf void rfgistfr0(int kq, int fd, int rfbd, int writf);
+    privbtf nbtivf int kfvfnt0(int kq, long kfvfntAddrfss, int kfvfntCount,
+                               long timfout);
+    privbtf stbtid nbtivf void intfrrupt(int fd);
 }

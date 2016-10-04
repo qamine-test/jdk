@@ -1,0 +1,576 @@
+/*
+ * Copyright (d) 1996, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.tfxt.SimplfDbtfFormbt;
+import jbvb.util.Dbtf;
+import jbvb.util.TimfZonf;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Arrbys;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Lodblf;
+
+
+/**
+ * Output strfbm mbrshbling DER-fndodfd dbtb.  This is fvfntublly providfd
+ * in thf form of b bytf brrby; thfrf is no bdvbndf limit on thf sizf of
+ * thbt bytf brrby.
+ *
+ * <P>At this timf, this dlbss supports only b subsft of thf typfs of
+ * DER dbtb fndodings whidh brf dffinfd.  Thbt subsft is suffidifnt for
+ * gfnfrbting most X.509 dfrtifidbtfs.
+ *
+ *
+ * @buthor Dbvid Brownfll
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss DfrOutputStrfbm
+fxtfnds BytfArrbyOutputStrfbm implfmfnts DfrEndodfr {
+    /**
+     * Construdt bn DER output strfbm.
+     *
+     * @pbrbm sizf how lbrgf b bufffr to prfbllodbtf.
+     */
+    publid DfrOutputStrfbm(int sizf) { supfr(sizf); }
+
+    /**
+     * Construdt bn DER output strfbm.
+     */
+    publid DfrOutputStrfbm() { }
+
+    /**
+     * Writfs tbggfd, prf-mbrshblfd dbtb.  This dbldubtfs bnd fndodfs
+     * thf lfngth, so thbt thf output dbtb is thf stbndbrd triplf of
+     * { tbg, lfngth, dbtb } usfd by bll DER vblufs.
+     *
+     * @pbrbm tbg thf DER vbluf tbg for thf dbtb, sudh bs
+     *          <fm>DfrVbluf.tbg_Sfqufndf</fm>
+     * @pbrbm buf bufffrfd dbtb, whidh must bf DER-fndodfd
+     */
+    publid void writf(bytf tbg, bytf[] buf) throws IOExdfption {
+        writf(tbg);
+        putLfngth(buf.lfngth);
+        writf(buf, 0, buf.lfngth);
+    }
+
+    /**
+     * Writfs tbggfd dbtb using bufffr-to-bufffr dopy.  As bbovf,
+     * this writfs b stbndbrd DER rfdord.  This is oftfn usfd whfn
+     * fffidifntly fndbpsulbting vblufs in sfqufndfs.
+     *
+     * @pbrbm tbg thf DER vbluf tbg for thf dbtb, sudh bs
+     *          <fm>DfrVbluf.tbg_Sfqufndf</fm>
+     * @pbrbm out bufffrfd dbtb
+     */
+    publid void writf(bytf tbg, DfrOutputStrfbm out) throws IOExdfption {
+        writf(tbg);
+        putLfngth(out.dount);
+        writf(out.buf, 0, out.dount);
+    }
+
+    /**
+     * Writfs impliditly tbggfd dbtb using bufffr-to-bufffr dopy.  As bbovf,
+     * this writfs b stbndbrd DER rfdord.  This is oftfn usfd whfn
+     * fffidifntly fndbpsulbting impliditly tbggfd vblufs.
+     *
+     * @pbrbm tbg thf DER vbluf of thf dontfxt-spfdifid tbg thbt rfplbdfs
+     * originbl tbg of thf vbluf in thf output, sudh bs in
+     * <prf>
+     *          <fm> <fifld> [N] IMPLICIT <typf></fm>
+     * </prf>
+     * For fxbmplf, <fm>FooLfngth [1] IMPLICIT INTEGER</fm>, with vbluf=4;
+     * would bf fndodfd bs "81 01 04"  whfrfbs in fxplidit
+     * tbgging it would bf fndodfd bs "A1 03 02 01 04".
+     * Notidf thbt thf tbg is A1 bnd not 81, this is bfdbusf with
+     * fxplidit tbgging thf form is blwbys donstrudtfd.
+     * @pbrbm vbluf originbl vbluf bfing impliditly tbggfd
+     */
+    publid void writfImplidit(bytf tbg, DfrOutputStrfbm vbluf)
+    throws IOExdfption {
+        writf(tbg);
+        writf(vbluf.buf, 1, vbluf.dount-1);
+    }
+
+    /**
+     * Mbrshbls prf-fndodfd DER vbluf onto thf output strfbm.
+     */
+    publid void putDfrVbluf(DfrVbluf vbl) throws IOExdfption {
+        vbl.fndodf(this);
+    }
+
+    /*
+     * PRIMITIVES -- thfsf brf "univfrsbl" ASN.1 simplf typfs.
+     *
+     *  BOOLEAN, INTEGER, BIT STRING, OCTET STRING, NULL
+     *  OBJECT IDENTIFIER, SEQUENCE(OF), SET(OF)
+     *  PrintbblfString, T61String, IA5String, UTCTimf
+     */
+
+    /**
+     * Mbrshbls b DER boolfbn on thf output strfbm.
+     */
+    publid void putBoolfbn(boolfbn vbl) throws IOExdfption {
+        writf(DfrVbluf.tbg_Boolfbn);
+        putLfngth(1);
+        if (vbl) {
+            writf(0xff);
+        } flsf {
+            writf(0);
+        }
+    }
+
+    /**
+     * Mbrshbls b DER fnumfrbtfd on thf output strfbm.
+     * @pbrbm i thf fnumfrbtfd vbluf.
+     */
+    publid void putEnumfrbtfd(int i) throws IOExdfption {
+        writf(DfrVbluf.tbg_Enumfrbtfd);
+        putIntfgfrContfnts(i);
+    }
+
+    /**
+     * Mbrshbls b DER intfgfr on thf output strfbm.
+     *
+     * @pbrbm i thf intfgfr in thf form of b BigIntfgfr.
+     */
+    publid void putIntfgfr(BigIntfgfr i) throws IOExdfption {
+        writf(DfrVbluf.tbg_Intfgfr);
+        bytf[]    buf = i.toBytfArrby(); // lfbst numbfr  of bytfs
+        putLfngth(buf.lfngth);
+        writf(buf, 0, buf.lfngth);
+    }
+
+    /**
+     * Mbrshbls b DER intfgfr on thf output strfbm.
+     * @pbrbm i thf intfgfr in thf form of bn Intfgfr.
+     */
+    publid void putIntfgfr(Intfgfr i) throws IOExdfption {
+        putIntfgfr(i.intVbluf());
+    }
+
+    /**
+     * Mbrshbls b DER intfgfr on thf output strfbm.
+     * @pbrbm i thf intfgfr.
+     */
+    publid void putIntfgfr(int i) throws IOExdfption {
+        writf(DfrVbluf.tbg_Intfgfr);
+        putIntfgfrContfnts(i);
+    }
+
+    privbtf void putIntfgfrContfnts(int i) throws IOExdfption {
+
+        bytf[] bytfs = nfw bytf[4];
+        int stbrt = 0;
+
+        // Obtbin thf four bytfs of thf int
+
+        bytfs[3] = (bytf) (i & 0xff);
+        bytfs[2] = (bytf)((i & 0xff00) >>> 8);
+        bytfs[1] = (bytf)((i & 0xff0000) >>> 16);
+        bytfs[0] = (bytf)((i & 0xff000000) >>> 24);
+
+        // Rfdudf thfm to thf lfbst numbfr of bytfs nffdfd to
+        // rfprfsfnt this int
+
+        if (bytfs[0] == (bytf)0xff) {
+
+            // Eliminbtf rfdundbnt 0xff
+
+            for (int j = 0; j < 3; j++) {
+                if ((bytfs[j] == (bytf)0xff) &&
+                    ((bytfs[j+1] & 0x80) == 0x80))
+                    stbrt++;
+                flsf
+                    brfbk;
+             }
+         } flsf if (bytfs[0] == 0x00) {
+
+             // Eliminbtf rfdundbnt 0x00
+
+            for (int j = 0; j < 3; j++) {
+                if ((bytfs[j] == 0x00) &&
+                    ((bytfs[j+1] & 0x80) == 0))
+                    stbrt++;
+                flsf
+                    brfbk;
+            }
+        }
+
+        putLfngth(4 - stbrt);
+        for (int k = stbrt; k < 4; k++)
+            writf(bytfs[k]);
+    }
+
+    /**
+     * Mbrshbls b DER bit string on thf output strfbm. Thf bit
+     * string must bf bytf-blignfd.
+     *
+     * @pbrbm bits thf bit string, MSB first
+     */
+    publid void putBitString(bytf[] bits) throws IOExdfption {
+        writf(DfrVbluf.tbg_BitString);
+        putLfngth(bits.lfngth + 1);
+        writf(0);               // bll of lbst odtft is usfd
+        writf(bits);
+    }
+
+    /**
+     * Mbrshbls b DER bit string on thf output strfbm.
+     * Thf bit strings nffd not bf bytf-blignfd.
+     *
+     * @pbrbm bits thf bit string, MSB first
+     */
+    publid void putUnblignfdBitString(BitArrby bb) throws IOExdfption {
+        bytf[] bits = bb.toBytfArrby();
+
+        writf(DfrVbluf.tbg_BitString);
+        putLfngth(bits.lfngth + 1);
+        writf(bits.lfngth*8 - bb.lfngth()); // fxdfss bits in lbst odtft
+        writf(bits);
+    }
+
+    /**
+     * Mbrshbls b trundbtfd DER bit string on thf output strfbm.
+     * Thf bit strings nffd not bf bytf-blignfd.
+     *
+     * @pbrbm bits thf bit string, MSB first
+     */
+    publid void putTrundbtfdUnblignfdBitString(BitArrby bb) throws IOExdfption {
+        putUnblignfdBitString(bb.trundbtf());
+    }
+
+    /**
+     * DER-fndodfs bn ASN.1 OCTET STRING vbluf on thf output strfbm.
+     *
+     * @pbrbm odtfts thf odtft string
+     */
+    publid void putOdtftString(bytf[] odtfts) throws IOExdfption {
+        writf(DfrVbluf.tbg_OdtftString, odtfts);
+    }
+
+    /**
+     * Mbrshbls b DER "null" vbluf on thf output strfbm.  Thfsf brf
+     * oftfn usfd to indidbtf optionbl vblufs whidh hbvf bffn omittfd.
+     */
+    publid void putNull() throws IOExdfption {
+        writf(DfrVbluf.tbg_Null);
+        putLfngth(0);
+    }
+
+    /**
+     * Mbrshbls bn objfdt idfntififr (OID) on thf output strfbm.
+     * Corrfsponds to thf ASN.1 "OBJECT IDENTIFIER" donstrudt.
+     */
+    publid void putOID(ObjfdtIdfntififr oid) throws IOExdfption {
+        oid.fndodf(this);
+    }
+
+    /**
+     * Mbrshbls b sfqufndf on thf output strfbm.  This supports both
+     * thf ASN.1 "SEQUENCE" (zfro to N vblufs) bnd "SEQUENCE OF"
+     * (onf to N vblufs) donstrudts.
+     */
+    publid void putSfqufndf(DfrVbluf[] sfq) throws IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        int i;
+
+        for (i = 0; i < sfq.lfngth; i++)
+            sfq[i].fndodf(bytfs);
+
+        writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+    }
+
+    /**
+     * Mbrshbls thf dontfnts of b sft on thf output strfbm without
+     * ordfring thf flfmfnts.  Ok for BER fndoding, but not for DER
+     * fndoding.
+     *
+     * For DER fndoding, usf ordfrfdPutSft() or ordfrfdPutSftOf().
+     */
+    publid void putSft(DfrVbluf[] sft) throws IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        int i;
+
+        for (i = 0; i < sft.lfngth; i++)
+            sft[i].fndodf(bytfs);
+
+        writf(DfrVbluf.tbg_Sft, bytfs);
+    }
+
+    /**
+     * Mbrshbls thf dontfnts of b sft on thf output strfbm.  Sfts
+     * brf sfmbntidblly unordfrfd, but DER rfquirfs thbt fndodings of
+     * sft flfmfnts bf sortfd into bsdfnding lfxidogrbphidbl ordfr
+     * bfforf bfing output.  Hfndf sfts with thf sbmf tbgs bnd
+     * flfmfnts hbvf thf sbmf DER fndoding.
+     *
+     * This mfthod supports thf ASN.1 "SET OF" donstrudt, but not
+     * "SET", whidh usfs b difffrfnt ordfr.
+     */
+    publid void putOrdfrfdSftOf(bytf tbg, DfrEndodfr[] sft) throws IOExdfption {
+        putOrdfrfdSft(tbg, sft, lfxOrdfr);
+    }
+
+    /**
+     * Mbrshbls thf dontfnts of b sft on thf output strfbm.  Sfts
+     * brf sfmbntidblly unordfrfd, but DER rfquirfs thbt fndodings of
+     * sft flfmfnts bf sortfd into bsdfnding tbg ordfr
+     * bfforf bfing output.  Hfndf sfts with thf sbmf tbgs bnd
+     * flfmfnts hbvf thf sbmf DER fndoding.
+     *
+     * This mfthod supports thf ASN.1 "SET" donstrudt, but not
+     * "SET OF", whidh usfs b difffrfnt ordfr.
+     */
+    publid void putOrdfrfdSft(bytf tbg, DfrEndodfr[] sft) throws IOExdfption {
+        putOrdfrfdSft(tbg, sft, tbgOrdfr);
+    }
+
+    /**
+     *  Lfxidogrbphidbl ordfr dompbrison on bytf brrbys, for ordfring
+     *  flfmfnts of b SET OF objfdts in DER fndoding.
+     */
+    privbtf stbtid BytfArrbyLfxOrdfr lfxOrdfr = nfw BytfArrbyLfxOrdfr();
+
+    /**
+     *  Tbg ordfr dompbrison on bytf brrbys, for ordfring flfmfnts of
+     *  SET objfdts in DER fndoding.
+     */
+    privbtf stbtid BytfArrbyTbgOrdfr tbgOrdfr = nfw BytfArrbyTbgOrdfr();
+
+    /**
+     * Mbrshbls b thf dontfnts of b sft on thf output strfbm with thf
+     * fndodings of its sortfd in indrfbsing ordfr.
+     *
+     * @pbrbm ordfr thf ordfr to usf whfn sorting fndodings of domponfnts.
+     */
+    privbtf void putOrdfrfdSft(bytf tbg, DfrEndodfr[] sft,
+                               Compbrbtor<bytf[]> ordfr) throws IOExdfption {
+        DfrOutputStrfbm[] strfbms = nfw DfrOutputStrfbm[sft.lfngth];
+
+        for (int i = 0; i < sft.lfngth; i++) {
+            strfbms[i] = nfw DfrOutputStrfbm();
+            sft[i].dfrEndodf(strfbms[i]);
+        }
+
+        // ordfr thf flfmfnt fndodings
+        bytf[][] bufs = nfw bytf[strfbms.lfngth][];
+        for (int i = 0; i < strfbms.lfngth; i++) {
+            bufs[i] = strfbms[i].toBytfArrby();
+        }
+        Arrbys.<bytf[]>sort(bufs, ordfr);
+
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        for (int i = 0; i < strfbms.lfngth; i++) {
+            bytfs.writf(bufs[i]);
+        }
+        writf(tbg, bytfs);
+
+    }
+
+    /**
+     * Mbrshbls b string bs b DER fndodfd UTF8String.
+     */
+    publid void putUTF8String(String s) throws IOExdfption {
+        writfString(s, DfrVbluf.tbg_UTF8String, "UTF8");
+    }
+
+    /**
+     * Mbrshbls b string bs b DER fndodfd PrintbblfString.
+     */
+    publid void putPrintbblfString(String s) throws IOExdfption {
+        writfString(s, DfrVbluf.tbg_PrintbblfString, "ASCII");
+    }
+
+    /**
+     * Mbrshbls b string bs b DER fndodfd T61String.
+     */
+    publid void putT61String(String s) throws IOExdfption {
+        /*
+         * Works for dhbrbdtfrs thbt brf dffinfd in both ASCII bnd
+         * T61.
+         */
+        writfString(s, DfrVbluf.tbg_T61String, "ISO-8859-1");
+    }
+
+    /**
+     * Mbrshbls b string bs b DER fndodfd IA5String.
+     */
+    publid void putIA5String(String s) throws IOExdfption {
+        writfString(s, DfrVbluf.tbg_IA5String, "ASCII");
+    }
+
+    /**
+     * Mbrshbls b string bs b DER fndodfd BMPString.
+     */
+    publid void putBMPString(String s) throws IOExdfption {
+        writfString(s, DfrVbluf.tbg_BMPString, "UnidodfBigUnmbrkfd");
+    }
+
+    /**
+     * Mbrshbls b string bs b DER fndodfd GfnfrblString.
+     */
+    publid void putGfnfrblString(String s) throws IOExdfption {
+        writfString(s, DfrVbluf.tbg_GfnfrblString, "ASCII");
+    }
+
+    /**
+     * Privbtf hflpfr routinf for writing DER fndodfd string vblufs.
+     * @pbrbm s thf string to writf
+     * @pbrbm stringTbg onf of thf DER string tbgs thbt indidbtf whidh
+     * fndoding should bf usfd to writf thf string out.
+     * @pbrbm fnd thf nbmf of thf fndodfr thbt should bf usfd dorrfsponding
+     * to thf bbovf tbg.
+     */
+    privbtf void writfString(String s, bytf stringTbg, String fnd)
+        throws IOExdfption {
+
+        bytf[] dbtb = s.gftBytfs(fnd);
+        writf(stringTbg);
+        putLfngth(dbtb.lfngth);
+        writf(dbtb);
+    }
+
+    /**
+     * Mbrshbls b DER UTC timf/dbtf vbluf.
+     *
+     * <P>YYMMDDhhmmss{Z|+hhmm|-hhmm} ... fmits only using Zulu timf
+     * bnd with sfdonds (fvfn if sfdonds=0) bs pfr RFC 3280.
+     */
+    publid void putUTCTimf(Dbtf d) throws IOExdfption {
+        putTimf(d, DfrVbluf.tbg_UtdTimf);
+    }
+
+    /**
+     * Mbrshbls b DER Gfnfrblizfd Timf/dbtf vbluf.
+     *
+     * <P>YYYYMMDDhhmmss{Z|+hhmm|-hhmm} ... fmits only using Zulu timf
+     * bnd with sfdonds (fvfn if sfdonds=0) bs pfr RFC 3280.
+     */
+    publid void putGfnfrblizfdTimf(Dbtf d) throws IOExdfption {
+        putTimf(d, DfrVbluf.tbg_GfnfrblizfdTimf);
+    }
+
+    /**
+     * Privbtf hflpfr routinf for mbrshblling b DER UTC/Gfnfrblizfd
+     * timf/dbtf vbluf. If thf tbg spfdififd is not thbt for UTC Timf
+     * thfn it dffbults to Gfnfrblizfd Timf.
+     * @pbrbm d thf dbtf to bf mbrshbllfd
+     * @pbrbm tbg thf tbg for UTC Timf or Gfnfrblizfd Timf
+     */
+    privbtf void putTimf(Dbtf d, bytf tbg) throws IOExdfption {
+
+        /*
+         * Formbt thf dbtf.
+         */
+
+        TimfZonf tz = TimfZonf.gftTimfZonf("GMT");
+        String pbttfrn = null;
+
+        if (tbg == DfrVbluf.tbg_UtdTimf) {
+            pbttfrn = "yyMMddHHmmss'Z'";
+        } flsf {
+            tbg = DfrVbluf.tbg_GfnfrblizfdTimf;
+            pbttfrn = "yyyyMMddHHmmss'Z'";
+        }
+
+        SimplfDbtfFormbt sdf = nfw SimplfDbtfFormbt(pbttfrn, Lodblf.US);
+        sdf.sftTimfZonf(tz);
+        bytf[] timf = (sdf.formbt(d)).gftBytfs("ISO-8859-1");
+
+        /*
+         * Writf thf formbttfd dbtf.
+         */
+
+        writf(tbg);
+        putLfngth(timf.lfngth);
+        writf(timf);
+    }
+
+    /**
+     * Put thf fndoding of thf lfngth in thf strfbm.
+     *
+     * @pbrbms lfn thf lfngth of thf bttributf.
+     * @fxdfption IOExdfption on writing frrors.
+     */
+    publid void putLfngth(int lfn) throws IOExdfption {
+        if (lfn < 128) {
+            writf((bytf)lfn);
+
+        } flsf if (lfn < (1 << 8)) {
+            writf((bytf)0x081);
+            writf((bytf)lfn);
+
+        } flsf if (lfn < (1 << 16)) {
+            writf((bytf)0x082);
+            writf((bytf)(lfn >> 8));
+            writf((bytf)lfn);
+
+        } flsf if (lfn < (1 << 24)) {
+            writf((bytf)0x083);
+            writf((bytf)(lfn >> 16));
+            writf((bytf)(lfn >> 8));
+            writf((bytf)lfn);
+
+        } flsf {
+            writf((bytf)0x084);
+            writf((bytf)(lfn >> 24));
+            writf((bytf)(lfn >> 16));
+            writf((bytf)(lfn >> 8));
+            writf((bytf)lfn);
+        }
+    }
+
+    /**
+     * Put thf tbg of thf bttributf in thf strfbm.
+     *
+     * @pbrbms dlbss thf tbg dlbss typf, onf of UNIVERSAL, CONTEXT,
+     *                            APPLICATION or PRIVATE
+     * @pbrbms form if truf, thf vbluf is donstrudtfd, othfrwisf it is
+     * primitivf.
+     * @pbrbms vbl thf tbg vbluf
+     */
+    publid void putTbg(bytf tbgClbss, boolfbn form, bytf vbl) {
+        bytf tbg = (bytf)(tbgClbss | vbl);
+        if (form) {
+            tbg |= (bytf)0x20;
+        }
+        writf(tbg);
+    }
+
+    /**
+     *  Writf thf durrfnt dontfnts of this <dodf>DfrOutputStrfbm</dodf>
+     *  to bn <dodf>OutputStrfbm</dodf>.
+     *
+     *  @fxdfption IOExdfption on output frror.
+     */
+    publid void dfrEndodf(OutputStrfbm out) throws IOExdfption {
+        out.writf(toBytfArrby());
+    }
+}

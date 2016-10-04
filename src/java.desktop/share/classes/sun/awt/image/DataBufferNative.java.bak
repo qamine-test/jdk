@@ -1,92 +1,92 @@
 /*
- * Copyright (c) 2000, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.awt.image.DataBuffer;
-import sun.java2d.SurfaceData;
-import java.awt.Rectangle;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import sun.jbvb2d.SurfbdfDbtb;
+import jbvb.bwt.Rfdtbnglf;
 
 /**
- * This class extends <CODE>DataBuffer</CODE> and allows access to
- * native data via the DataBuffer methods.  Note that, unlike other
- * DataBuffer classes, the data is not stored in this class but
- * has been created and stored elsewhere and this class is used
- * merely to access that data.  Note also that this class subclasses
- * from DataBuffer and not from any of the standard subclasses
- * (e.g., DataBufferInt); those subclasses allow the user to
- * get a pointer to the data and manipulate it directly.  That
- * operation may not be possible or wise with native data.
- * One important use of this DataBuffer class is in accessing the
- * data stored in an offscreen vram surface, such as that created
- * by the createVolatileImage() method.
+ * Tiis dlbss fxtfnds <CODE>DbtbBufffr</CODE> bnd bllows bddfss to
+ * nbtivf dbtb vib tif DbtbBufffr mftiods.  Notf tibt, unlikf otifr
+ * DbtbBufffr dlbssfs, tif dbtb is not storfd in tiis dlbss but
+ * ibs bffn drfbtfd bnd storfd flsfwifrf bnd tiis dlbss is usfd
+ * mfrfly to bddfss tibt dbtb.  Notf blso tibt tiis dlbss subdlbssfs
+ * from DbtbBufffr bnd not from bny of tif stbndbrd subdlbssfs
+ * (f.g., DbtbBufffrInt); tiosf subdlbssfs bllow tif usfr to
+ * gft b pointfr to tif dbtb bnd mbnipulbtf it dirfdtly.  Tibt
+ * opfrbtion mby not bf possiblf or wisf witi nbtivf dbtb.
+ * Onf importbnt usf of tiis DbtbBufffr dlbss is in bddfssing tif
+ * dbtb storfd in bn offsdrffn vrbm surfbdf, sudi bs tibt drfbtfd
+ * by tif drfbtfVolbtilfImbgf() mftiod.
  */
 
-public class DataBufferNative extends DataBuffer
+publid dlbss DbtbBufffrNbtivf fxtfnds DbtbBufffr
 {
-    protected SurfaceData surfaceData;
-    protected int width;
+    protfdtfd SurfbdfDbtb surfbdfDbtb;
+    protfdtfd int widti;
 
     /**
-     * Constructor.  The constructor of this object requires a
-     * SurfaceData object; that surfaceData object will be used
-     * to access the actual pixel data in native code.
+     * Construdtor.  Tif donstrudtor of tiis objfdt rfquirfs b
+     * SurfbdfDbtb objfdt; tibt surfbdfDbtb objfdt will bf usfd
+     * to bddfss tif bdtubl pixfl dbtb in nbtivf dodf.
      */
-    public DataBufferNative(SurfaceData sData, int type, int width, int height) {
-        super(type, width*height);
-        this.width = width;
-        this.surfaceData = sData;
+    publid DbtbBufffrNbtivf(SurfbdfDbtb sDbtb, int typf, int widti, int ifigit) {
+        supfr(typf, widti*ifigit);
+        tiis.widti = widti;
+        tiis.surfbdfDbtb = sDbtb;
     }
 
-    protected native int getElem(int x, int y, SurfaceData sData);
+    protfdtfd nbtivf int gftElfm(int x, int y, SurfbdfDbtb sDbtb);
 
     /**
-     * getElem returns the pixel value for a given index into the
-     * dataBuffer array.  The bank value is currently ignored (the
-     * type of data accessed through this class is not stored in
-     * separate banks).  The x and y coordinates of a pixel are calculated
-     * from the index value and the native getElem() method is
-     * called with the internal surfaceData object.
+     * gftElfm rfturns tif pixfl vbluf for b givfn indfx into tif
+     * dbtbBufffr brrby.  Tif bbnk vbluf is durrfntly ignorfd (tif
+     * typf of dbtb bddfssfd tirougi tiis dlbss is not storfd in
+     * sfpbrbtf bbnks).  Tif x bnd y doordinbtfs of b pixfl brf dbldulbtfd
+     * from tif indfx vbluf bnd tif nbtivf gftElfm() mftiod is
+     * dbllfd witi tif intfrnbl surfbdfDbtb objfdt.
      */
-    public int getElem(int bank, int i) {
-        return getElem(i % width, i / width, surfaceData);
+    publid int gftElfm(int bbnk, int i) {
+        rfturn gftElfm(i % widti, i / widti, surfbdfDbtb);
     }
 
-    protected native void setElem(int x, int y, int val, SurfaceData sData);
+    protfdtfd nbtivf void sftElfm(int x, int y, int vbl, SurfbdfDbtb sDbtb);
 
     /**
-     * setElem sets the pixel value of a given index into the
-     * dataBuffer array.  The bank value is currently ignored (the
-     * type of data accessed through this class is not stored in
-     * separate banks).  The x and y coordinates of a pixel are calculated
-     * from the index value and the native setElem() method is
-     * called with the internal surfaceData object.
+     * sftElfm sfts tif pixfl vbluf of b givfn indfx into tif
+     * dbtbBufffr brrby.  Tif bbnk vbluf is durrfntly ignorfd (tif
+     * typf of dbtb bddfssfd tirougi tiis dlbss is not storfd in
+     * sfpbrbtf bbnks).  Tif x bnd y doordinbtfs of b pixfl brf dbldulbtfd
+     * from tif indfx vbluf bnd tif nbtivf sftElfm() mftiod is
+     * dbllfd witi tif intfrnbl surfbdfDbtb objfdt.
      */
-    public void setElem(int bank, int i, int val) {
-        setElem(i % width, i / width, val, surfaceData);
+    publid void sftElfm(int bbnk, int i, int vbl) {
+        sftElfm(i % widti, i / widti, vbl, surfbdfDbtb);
     }
 
 }

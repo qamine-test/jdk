@@ -1,275 +1,275 @@
 /*
- * Copyright (c) 2003, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.im;
+pbdkbgf sun.bwt.im;
 
-import java.awt.AWTException;
-import java.awt.CheckboxMenuItem;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.PopupMenu;
-import java.awt.Menu;
-import java.awt.MenuItem;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.im.spi.InputMethodDescriptor;
-import java.util.Locale;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComponent;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JPopupMenu;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.CifdkboxMfnuItfm;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.PopupMfnu;
+import jbvb.bwt.Mfnu;
+import jbvb.bwt.MfnuItfm;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bwt.im.spi.InputMftiodDfsdriptor;
+import jbvb.util.Lodblf;
+import jbvbx.swing.JCifdkBoxMfnuItfm;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JDiblog;
+import jbvbx.swing.JFrbmf;
+import jbvbx.swing.JPopupMfnu;
+import jbvbx.swing.JMfnu;
+import jbvbx.swing.JMfnuItfm;
 
 /**
- * <code>InputMethodPopupMenu</code> provides the popup selection menu
+ * <dodf>InputMftiodPopupMfnu</dodf> providfs tif popup sflfdtion mfnu
  */
 
-abstract class InputMethodPopupMenu implements ActionListener {
+bbstrbdt dlbss InputMftiodPopupMfnu implfmfnts AdtionListfnfr {
 
-    // Factory method to provide the menu, depending on the client, i.e.,
-    // provide Swing popup menu if client is a swing app, otherwise AWT popup
-    // is created.
-    static InputMethodPopupMenu getInstance(Component client, String title) {
-        if ((client instanceof JFrame) ||
-            (client instanceof JDialog)) {
-                return new JInputMethodPopupMenu(title);
-        } else {
-            return new AWTInputMethodPopupMenu(title);
+    // Fbdtory mftiod to providf tif mfnu, dfpfnding on tif dlifnt, i.f.,
+    // providf Swing popup mfnu if dlifnt is b swing bpp, otifrwisf AWT popup
+    // is drfbtfd.
+    stbtid InputMftiodPopupMfnu gftInstbndf(Componfnt dlifnt, String titlf) {
+        if ((dlifnt instbndfof JFrbmf) ||
+            (dlifnt instbndfof JDiblog)) {
+                rfturn nfw JInputMftiodPopupMfnu(titlf);
+        } flsf {
+            rfturn nfw AWTInputMftiodPopupMfnu(titlf);
         }
     }
 
-    abstract void show(Component c, int x, int y);
+    bbstrbdt void siow(Componfnt d, int x, int y);
 
-    abstract void removeAll();
+    bbstrbdt void rfmovfAll();
 
-    abstract void addSeparator();
+    bbstrbdt void bddSfpbrbtor();
 
-    abstract void addToComponent(Component c);
+    bbstrbdt void bddToComponfnt(Componfnt d);
 
-    abstract Object createSubmenu(String label);
+    bbstrbdt Objfdt drfbtfSubmfnu(String lbbfl);
 
-    abstract void add(Object menuItem);
+    bbstrbdt void bdd(Objfdt mfnuItfm);
 
-    abstract void addMenuItem(String label, String command, String currentSelection);
+    bbstrbdt void bddMfnuItfm(String lbbfl, String dommbnd, String durrfntSflfdtion);
 
-    abstract void addMenuItem(Object targetMenu, String label, String command,
-                              String currentSelection);
+    bbstrbdt void bddMfnuItfm(Objfdt tbrgftMfnu, String lbbfl, String dommbnd,
+                              String durrfntSflfdtion);
 
-    void addOneInputMethodToMenu(InputMethodLocator locator, String currentSelection) {
-        InputMethodDescriptor descriptor = locator.getDescriptor();
-        String label = descriptor.getInputMethodDisplayName(null, Locale.getDefault());
-        String command = locator.getActionCommandString();
-        Locale[] locales = null;
-        int localeCount;
+    void bddOnfInputMftiodToMfnu(InputMftiodLodbtor lodbtor, String durrfntSflfdtion) {
+        InputMftiodDfsdriptor dfsdriptor = lodbtor.gftDfsdriptor();
+        String lbbfl = dfsdriptor.gftInputMftiodDisplbyNbmf(null, Lodblf.gftDffbult());
+        String dommbnd = lodbtor.gftAdtionCommbndString();
+        Lodblf[] lodblfs = null;
+        int lodblfCount;
         try {
-            locales = descriptor.getAvailableLocales();
-            localeCount = locales.length;
-        } catch (AWTException e) {
-            // ??? should have better error handling -
-            // tell user what happened, then remove this input method from the list.
-            // For the time being, just show it disabled.
-            localeCount = 0;
+            lodblfs = dfsdriptor.gftAvbilbblfLodblfs();
+            lodblfCount = lodblfs.lfngti;
+        } dbtdi (AWTExdfption f) {
+            // ??? siould ibvf bfttfr frror ibndling -
+            // tfll usfr wibt ibppfnfd, tifn rfmovf tiis input mftiod from tif list.
+            // For tif timf bfing, just siow it disbblfd.
+            lodblfCount = 0;
         }
-        if (localeCount == 0) {
-            // could be IIIMP adapter which has lost its connection
-            addMenuItem(label, null, currentSelection);
-        } else if (localeCount == 1) {
-            if (descriptor.hasDynamicLocaleList()) {
-                // try to make sure that what the user sees and what
-                // we eventually select is consistent even if the locale
-                // list changes in the meantime
-                label = descriptor.getInputMethodDisplayName(locales[0], Locale.getDefault());
-                command = locator.deriveLocator(locales[0]).getActionCommandString();
+        if (lodblfCount == 0) {
+            // dould bf IIIMP bdbptfr wiidi ibs lost its donnfdtion
+            bddMfnuItfm(lbbfl, null, durrfntSflfdtion);
+        } flsf if (lodblfCount == 1) {
+            if (dfsdriptor.ibsDynbmidLodblfList()) {
+                // try to mbkf surf tibt wibt tif usfr sffs bnd wibt
+                // wf fvfntublly sflfdt is donsistfnt fvfn if tif lodblf
+                // list dibngfs in tif mfbntimf
+                lbbfl = dfsdriptor.gftInputMftiodDisplbyNbmf(lodblfs[0], Lodblf.gftDffbult());
+                dommbnd = lodbtor.dfrivfLodbtor(lodblfs[0]).gftAdtionCommbndString();
             }
-            addMenuItem(label, command, currentSelection);
-        } else {
-            Object submenu = createSubmenu(label);
-            add(submenu);
-            for (int j = 0; j < localeCount; j++) {
-                Locale locale = locales[j];
-                String subLabel = getLocaleName(locale);
-                String subCommand = locator.deriveLocator(locale).getActionCommandString();
-                addMenuItem(submenu, subLabel, subCommand, currentSelection);
+            bddMfnuItfm(lbbfl, dommbnd, durrfntSflfdtion);
+        } flsf {
+            Objfdt submfnu = drfbtfSubmfnu(lbbfl);
+            bdd(submfnu);
+            for (int j = 0; j < lodblfCount; j++) {
+                Lodblf lodblf = lodblfs[j];
+                String subLbbfl = gftLodblfNbmf(lodblf);
+                String subCommbnd = lodbtor.dfrivfLodbtor(lodblf).gftAdtionCommbndString();
+                bddMfnuItfm(submfnu, subLbbfl, subCommbnd, durrfntSflfdtion);
             }
         }
     }
 
     /**
-     * Returns whether command indicates the same input method as currentSelection,
-     * taking into account that command may not specify a locale where currentSelection does.
+     * Rfturns wiftifr dommbnd indidbtfs tif sbmf input mftiod bs durrfntSflfdtion,
+     * tbking into bddount tibt dommbnd mby not spfdify b lodblf wifrf durrfntSflfdtion dofs.
      */
-    static boolean isSelected(String command, String currentSelection) {
-        if (command == null || currentSelection == null) {
-            return false;
+    stbtid boolfbn isSflfdtfd(String dommbnd, String durrfntSflfdtion) {
+        if (dommbnd == null || durrfntSflfdtion == null) {
+            rfturn fblsf;
         }
-        if (command.equals(currentSelection)) {
-            return true;
+        if (dommbnd.fqubls(durrfntSflfdtion)) {
+            rfturn truf;
         }
-        // currentSelection may indicate a locale where command does not
-        int index = currentSelection.indexOf('\n');
-        if (index != -1 && currentSelection.substring(0, index).equals(command)) {
-            return true;
+        // durrfntSflfdtion mby indidbtf b lodblf wifrf dommbnd dofs not
+        int indfx = durrfntSflfdtion.indfxOf('\n');
+        if (indfx != -1 && durrfntSflfdtion.substring(0, indfx).fqubls(dommbnd)) {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a localized locale name for input methods with the
-     * given locale. It falls back to Locale.getDisplayName() and
-     * then to Locale.toString() if no localized locale name is found.
+     * Rfturns b lodblizfd lodblf nbmf for input mftiods witi tif
+     * givfn lodblf. It fblls bbdk to Lodblf.gftDisplbyNbmf() bnd
+     * tifn to Lodblf.toString() if no lodblizfd lodblf nbmf is found.
      *
-     * @param locale Locale for which localized locale name is obtained
+     * @pbrbm lodblf Lodblf for wiidi lodblizfd lodblf nbmf is obtbinfd
      */
-    String getLocaleName(Locale locale) {
-        String localeString = locale.toString();
-        String localeName = Toolkit.getProperty("AWT.InputMethodLanguage." + localeString, null);
-        if (localeName == null) {
-            localeName = locale.getDisplayName();
-            if (localeName == null || localeName.length() == 0)
-                localeName = localeString;
+    String gftLodblfNbmf(Lodblf lodblf) {
+        String lodblfString = lodblf.toString();
+        String lodblfNbmf = Toolkit.gftPropfrty("AWT.InputMftiodLbngubgf." + lodblfString, null);
+        if (lodblfNbmf == null) {
+            lodblfNbmf = lodblf.gftDisplbyNbmf();
+            if (lodblfNbmf == null || lodblfNbmf.lfngti() == 0)
+                lodblfNbmf = lodblfString;
         }
-        return localeName;
+        rfturn lodblfNbmf;
     }
 
-    // ActionListener implementation
-    public void actionPerformed(ActionEvent event) {
-        String choice = event.getActionCommand();
-        ((ExecutableInputMethodManager)InputMethodManager.getInstance()).changeInputMethod(choice);
+    // AdtionListfnfr implfmfntbtion
+    publid void bdtionPfrformfd(AdtionEvfnt fvfnt) {
+        String dioidf = fvfnt.gftAdtionCommbnd();
+        ((ExfdutbblfInputMftiodMbnbgfr)InputMftiodMbnbgfr.gftInstbndf()).dibngfInputMftiod(dioidf);
     }
 
 }
 
-class JInputMethodPopupMenu extends InputMethodPopupMenu {
-    static JPopupMenu delegate = null;
+dlbss JInputMftiodPopupMfnu fxtfnds InputMftiodPopupMfnu {
+    stbtid JPopupMfnu dflfgbtf = null;
 
-    JInputMethodPopupMenu(String title) {
-        synchronized (this) {
-            if (delegate == null) {
-                delegate = new JPopupMenu(title);
+    JInputMftiodPopupMfnu(String titlf) {
+        syndironizfd (tiis) {
+            if (dflfgbtf == null) {
+                dflfgbtf = nfw JPopupMfnu(titlf);
             }
         }
     }
 
-    void show(Component c, int x, int y) {
-        delegate.show(c, x, y);
+    void siow(Componfnt d, int x, int y) {
+        dflfgbtf.siow(d, x, y);
     }
 
-    void removeAll() {
-        delegate.removeAll();
+    void rfmovfAll() {
+        dflfgbtf.rfmovfAll();
     }
 
-    void addSeparator() {
-        delegate.addSeparator();
+    void bddSfpbrbtor() {
+        dflfgbtf.bddSfpbrbtor();
     }
 
-    void addToComponent(Component c) {
+    void bddToComponfnt(Componfnt d) {
     }
 
-    Object createSubmenu(String label) {
-        return new JMenu(label);
+    Objfdt drfbtfSubmfnu(String lbbfl) {
+        rfturn nfw JMfnu(lbbfl);
     }
 
-    void add(Object menuItem) {
-        delegate.add((JMenuItem)menuItem);
+    void bdd(Objfdt mfnuItfm) {
+        dflfgbtf.bdd((JMfnuItfm)mfnuItfm);
     }
 
-    void addMenuItem(String label, String command, String currentSelection) {
-        addMenuItem(delegate, label, command, currentSelection);
+    void bddMfnuItfm(String lbbfl, String dommbnd, String durrfntSflfdtion) {
+        bddMfnuItfm(dflfgbtf, lbbfl, dommbnd, durrfntSflfdtion);
     }
 
-    void addMenuItem(Object targetMenu, String label, String command, String currentSelection) {
-        JMenuItem menuItem;
-        if (isSelected(command, currentSelection)) {
-            menuItem = new JCheckBoxMenuItem(label, true);
-        } else {
-            menuItem = new JMenuItem(label);
+    void bddMfnuItfm(Objfdt tbrgftMfnu, String lbbfl, String dommbnd, String durrfntSflfdtion) {
+        JMfnuItfm mfnuItfm;
+        if (isSflfdtfd(dommbnd, durrfntSflfdtion)) {
+            mfnuItfm = nfw JCifdkBoxMfnuItfm(lbbfl, truf);
+        } flsf {
+            mfnuItfm = nfw JMfnuItfm(lbbfl);
         }
-        menuItem.setActionCommand(command);
-        menuItem.addActionListener(this);
-        menuItem.setEnabled(command != null);
-        if (targetMenu instanceof JMenu) {
-            ((JMenu)targetMenu).add(menuItem);
-        } else {
-            ((JPopupMenu)targetMenu).add(menuItem);
+        mfnuItfm.sftAdtionCommbnd(dommbnd);
+        mfnuItfm.bddAdtionListfnfr(tiis);
+        mfnuItfm.sftEnbblfd(dommbnd != null);
+        if (tbrgftMfnu instbndfof JMfnu) {
+            ((JMfnu)tbrgftMfnu).bdd(mfnuItfm);
+        } flsf {
+            ((JPopupMfnu)tbrgftMfnu).bdd(mfnuItfm);
         }
     }
 
 }
 
-class AWTInputMethodPopupMenu extends InputMethodPopupMenu {
-    static PopupMenu delegate = null;
+dlbss AWTInputMftiodPopupMfnu fxtfnds InputMftiodPopupMfnu {
+    stbtid PopupMfnu dflfgbtf = null;
 
-    AWTInputMethodPopupMenu(String title) {
-        synchronized (this) {
-            if (delegate == null) {
-                delegate = new PopupMenu(title);
+    AWTInputMftiodPopupMfnu(String titlf) {
+        syndironizfd (tiis) {
+            if (dflfgbtf == null) {
+                dflfgbtf = nfw PopupMfnu(titlf);
             }
         }
     }
 
-    void show(Component c, int x, int y) {
-        delegate.show(c, x, y);
+    void siow(Componfnt d, int x, int y) {
+        dflfgbtf.siow(d, x, y);
     }
 
-    void removeAll() {
-        delegate.removeAll();
+    void rfmovfAll() {
+        dflfgbtf.rfmovfAll();
     }
 
-    void addSeparator() {
-        delegate.addSeparator();
+    void bddSfpbrbtor() {
+        dflfgbtf.bddSfpbrbtor();
     }
 
-    void addToComponent(Component c) {
-        c.add(delegate);
+    void bddToComponfnt(Componfnt d) {
+        d.bdd(dflfgbtf);
     }
 
-    Object createSubmenu(String label) {
-        return new Menu(label);
+    Objfdt drfbtfSubmfnu(String lbbfl) {
+        rfturn nfw Mfnu(lbbfl);
     }
 
-    void add(Object menuItem) {
-        delegate.add((MenuItem)menuItem);
+    void bdd(Objfdt mfnuItfm) {
+        dflfgbtf.bdd((MfnuItfm)mfnuItfm);
     }
 
-    void addMenuItem(String label, String command, String currentSelection) {
-        addMenuItem(delegate, label, command, currentSelection);
+    void bddMfnuItfm(String lbbfl, String dommbnd, String durrfntSflfdtion) {
+        bddMfnuItfm(dflfgbtf, lbbfl, dommbnd, durrfntSflfdtion);
     }
 
-    void addMenuItem(Object targetMenu, String label, String command, String currentSelection) {
-        MenuItem menuItem;
-        if (isSelected(command, currentSelection)) {
-            menuItem = new CheckboxMenuItem(label, true);
-        } else {
-            menuItem = new MenuItem(label);
+    void bddMfnuItfm(Objfdt tbrgftMfnu, String lbbfl, String dommbnd, String durrfntSflfdtion) {
+        MfnuItfm mfnuItfm;
+        if (isSflfdtfd(dommbnd, durrfntSflfdtion)) {
+            mfnuItfm = nfw CifdkboxMfnuItfm(lbbfl, truf);
+        } flsf {
+            mfnuItfm = nfw MfnuItfm(lbbfl);
         }
-        menuItem.setActionCommand(command);
-        menuItem.addActionListener(this);
-        menuItem.setEnabled(command != null);
-        ((Menu)targetMenu).add(menuItem);
+        mfnuItfm.sftAdtionCommbnd(dommbnd);
+        mfnuItfm.bddAdtionListfnfr(tiis);
+        mfnuItfm.sftEnbblfd(dommbnd != null);
+        ((Mfnu)tbrgftMfnu).bdd(mfnuItfm);
     }
 }

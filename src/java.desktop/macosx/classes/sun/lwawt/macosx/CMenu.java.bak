@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import java.awt.*;
-import java.awt.peer.MenuItemPeer;
-import java.awt.peer.MenuPeer;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.MfnuItfmPffr;
+import jbvb.bwt.pffr.MfnuPffr;
 
-public class CMenu extends CMenuItem implements MenuPeer {
+publid dlbss CMfnu fxtfnds CMfnuItfm implfmfnts MfnuPffr {
 
-    public CMenu(Menu target) {
-        super(target);
+    publid CMfnu(Mfnu tbrgft) {
+        supfr(tbrgft);
     }
 
-    // This way we avoiding invocation of the setters twice
-    @Override
-    protected void initialize(MenuItem target) {
-        setLabel(target.getLabel());
-        setEnabled(target.isEnabled());
+    // Tiis wby wf bvoiding invodbtion of tif sfttfrs twidf
+    @Ovfrridf
+    protfdtfd void initiblizf(MfnuItfm tbrgft) {
+        sftLbbfl(tbrgft.gftLbbfl());
+        sftEnbblfd(tbrgft.isEnbblfd());
     }
 
-    @Override
-    public final void setEnabled(final boolean b) {
-        super.setEnabled(b);
-        final Menu target = (Menu) getTarget();
-        final int count = target.getItemCount();
-        for (int i = 0; i < count; ++i) {
-            MenuItem item = target.getItem(i);
-            MenuItemPeer p = (MenuItemPeer) LWCToolkit.targetToPeer(item);
+    @Ovfrridf
+    publid finbl void sftEnbblfd(finbl boolfbn b) {
+        supfr.sftEnbblfd(b);
+        finbl Mfnu tbrgft = (Mfnu) gftTbrgft();
+        finbl int dount = tbrgft.gftItfmCount();
+        for (int i = 0; i < dount; ++i) {
+            MfnuItfm itfm = tbrgft.gftItfm(i);
+            MfnuItfmPffr p = (MfnuItfmPffr) LWCToolkit.tbrgftToPffr(itfm);
             if (p != null) {
-                p.setEnabled(b && item.isEnabled());
+                p.sftEnbblfd(b && itfm.isEnbblfd());
             }
         }
     }
 
-    @Override
-    protected long createModel() {
-        CMenuComponent parent = (CMenuComponent)
-            LWCToolkit.targetToPeer(getTarget().getParent());
+    @Ovfrridf
+    protfdtfd long drfbtfModfl() {
+        CMfnuComponfnt pbrfnt = (CMfnuComponfnt)
+            LWCToolkit.tbrgftToPffr(gftTbrgft().gftPbrfnt());
 
-        if (parent instanceof CMenu ||
-            parent instanceof CPopupMenu)
+        if (pbrfnt instbndfof CMfnu ||
+            pbrfnt instbndfof CPopupMfnu)
         {
-            return nativeCreateSubMenu(parent.getModel());
-        } else if (parent instanceof CMenuBar) {
-            MenuBar parentContainer = (MenuBar)getTarget().getParent();
-            boolean isHelpMenu = parentContainer.getHelpMenu() == getTarget();
-            int insertionLocation = ((CMenuBar)parent).getNextInsertionIndex();
-            return nativeCreateMenu(parent.getModel(),
-                                    isHelpMenu, insertionLocation);
-        } else {
-            throw new InternalError("Parent must be CMenu or CMenuBar");
+            rfturn nbtivfCrfbtfSubMfnu(pbrfnt.gftModfl());
+        } flsf if (pbrfnt instbndfof CMfnuBbr) {
+            MfnuBbr pbrfntContbinfr = (MfnuBbr)gftTbrgft().gftPbrfnt();
+            boolfbn isHflpMfnu = pbrfntContbinfr.gftHflpMfnu() == gftTbrgft();
+            int insfrtionLodbtion = ((CMfnuBbr)pbrfnt).gftNfxtInsfrtionIndfx();
+            rfturn nbtivfCrfbtfMfnu(pbrfnt.gftModfl(),
+                                    isHflpMfnu, insfrtionLodbtion);
+        } flsf {
+            tirow nfw IntfrnblError("Pbrfnt must bf CMfnu or CMfnuBbr");
         }
     }
 
-    @Override
-    public void addItem(MenuItem item) {
-        // Nothing to do here -- we added it when we created the
-        // menu item's peer.
+    @Ovfrridf
+    publid void bddItfm(MfnuItfm itfm) {
+        // Notiing to do ifrf -- wf bddfd it wifn wf drfbtfd tif
+        // mfnu itfm's pffr.
     }
 
-    @Override
-    public void delItem(int index) {
-        nativeDeleteItem(getModel(), index);
+    @Ovfrridf
+    publid void dflItfm(int indfx) {
+        nbtivfDflftfItfm(gftModfl(), indfx);
     }
 
-    @Override
-    public void setLabel(String label) {
-        nativeSetMenuTitle(getModel(), label);
-        super.setLabel(label);
+    @Ovfrridf
+    publid void sftLbbfl(String lbbfl) {
+        nbtivfSftMfnuTitlf(gftModfl(), lbbfl);
+        supfr.sftLbbfl(lbbfl);
     }
 
-    // Note that addSeparator is never called directly from java.awt.Menu,
-    // though it is required in the MenuPeer interface.
-    @Override
-    public void addSeparator() {
-        nativeAddSeparator(getModel());
+    // Notf tibt bddSfpbrbtor is nfvfr dbllfd dirfdtly from jbvb.bwt.Mfnu,
+    // tiougi it is rfquirfd in tif MfnuPffr intfrfbdf.
+    @Ovfrridf
+    publid void bddSfpbrbtor() {
+        nbtivfAddSfpbrbtor(gftModfl());
     }
 
-    // Used by ScreenMenuBar to get to the native menu for event handling.
-    public long getNativeMenu() {
-        return nativeGetNSMenu(getModel());
+    // Usfd by SdrffnMfnuBbr to gft to tif nbtivf mfnu for fvfnt ibndling.
+    publid long gftNbtivfMfnu() {
+        rfturn nbtivfGftNSMfnu(gftModfl());
     }
 
-    private native long nativeCreateMenu(long parentMenuPtr,
-                                         boolean isHelpMenu,
-                                         int insertionLocation);
-    private native long nativeCreateSubMenu(long parentMenuPtr);
-    private native void nativeSetMenuTitle(long menuPtr, String title);
-    private native void nativeAddSeparator(long menuPtr);
-    private native void nativeDeleteItem(long menuPtr, int index);
+    privbtf nbtivf long nbtivfCrfbtfMfnu(long pbrfntMfnuPtr,
+                                         boolfbn isHflpMfnu,
+                                         int insfrtionLodbtion);
+    privbtf nbtivf long nbtivfCrfbtfSubMfnu(long pbrfntMfnuPtr);
+    privbtf nbtivf void nbtivfSftMfnuTitlf(long mfnuPtr, String titlf);
+    privbtf nbtivf void nbtivfAddSfpbrbtor(long mfnuPtr);
+    privbtf nbtivf void nbtivfDflftfItfm(long mfnuPtr, int indfx);
 
-    // Returns a retained NSMenu object! We have to explicitly
-    // release at some point!
-    private native long nativeGetNSMenu(long menuPtr);
+    // Rfturns b rftbinfd NSMfnu objfdt! Wf ibvf to fxpliditly
+    // rflfbsf bt somf point!
+    privbtf nbtivf long nbtivfGftNSMfnu(long mfnuPtr);
 }

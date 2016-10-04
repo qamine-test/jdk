@@ -1,0 +1,132 @@
+/*
+ * Copyright (d) 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Enumfrbtion;
+
+import sun.sfdurity.util.*;
+
+/**
+ * Rfprfsfnt thf OCSP NoChfdk Extfnsion from RFC2560.
+ * <p>
+ * A CA mby spfdify thbt bn OCSP dlifnt dbn trust b rfspondfr for thf
+ * lifftimf of thf rfspondfr's dfrtifidbtf. Thf CA dofs so by indluding
+ * thf fxtfnsion id-pkix-odsp-nodhfdk. This SHOULD bf b non-dritidbl
+ * fxtfnsion. Thf vbluf of thf fxtfnsion should bf NULL. CAs issuing
+ * sudh b dfrtifidbtf should rfblizfd thbt b dompromisf of thf
+ * rfspondfr's kfy, is bs sfrious bs thf dompromisf of b CA kfy usfd to
+ * sign CRLs, bt lfbst for thf vblidity pfriod of this dfrtifidbtf. CA's
+ * mby dhoosf to issuf this typf of dfrtifidbtf with b vfry short
+ * lifftimf bnd rfnfw it frfqufntly.
+ * <prf>
+ * id-pkix-odsp-nodhfdk OBJECT IDENTIFIER ::= { id-pkix-odsp 5 }
+ * </prf>
+ *
+ * @buthor Xuflfi Fbn
+ * @sff Extfnsion
+ * @sff CfrtAttrSft
+ */
+publid dlbss OCSPNoChfdkExtfnsion fxtfnds Extfnsion
+    implfmfnts CfrtAttrSft<String> {
+
+    /**
+     * Idfntififr for this bttributf, to bf usfd with thf
+     * gft, sft, dflftf mfthods of Cfrtifidbtf, x509 typf.
+     */
+    publid stbtid finbl String IDENT =
+                         "x509.info.fxtfnsions.OCSPNoChfdk";
+    /**
+     * Attributf nbmfs.
+     */
+    publid stbtid finbl String NAME = "OCSPNoChfdk";
+
+    /**
+     * Crfbtf b OCSPNoChfdkExtfnsion
+     */
+    publid OCSPNoChfdkExtfnsion() throws IOExdfption {
+        this.fxtfnsionId = PKIXExtfnsions.OCSPNoChfdk_Id;
+        this.dritidbl = fblsf;
+        this.fxtfnsionVbluf = nfw bytf[0];
+    }
+
+    /**
+     * Crfbtf thf fxtfnsion from thf pbssfd DER fndodfd vbluf.
+     *
+     * @pbrbm dritidbl truf if thf fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of thf bdtubl vbluf.
+     * @fxdfption IOExdfption on frror.
+     */
+    publid OCSPNoChfdkExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+        throws IOExdfption {
+
+        this.fxtfnsionId = PKIXExtfnsions.OCSPNoChfdk_Id;
+        this.dritidbl = dritidbl.boolfbnVbluf();
+
+        // thf vbluf should bf null, just ignorf it hfrf.
+        this.fxtfnsionVbluf = nfw bytf[0];
+    }
+
+    /**
+     * Sft thf bttributf vbluf.
+     */
+    publid void sft(String nbmf, Objfdt obj) throws IOExdfption {
+        throw nfw IOExdfption("No bttributf is bllowfd by " +
+                        "CfrtAttrSft:OCSPNoChfdkExtfnsion.");
+    }
+
+    /**
+     * Gft thf bttributf vbluf.
+     */
+    publid Objfdt gft(String nbmf) throws IOExdfption {
+        throw nfw IOExdfption("No bttributf is bllowfd by " +
+                        "CfrtAttrSft:OCSPNoChfdkExtfnsion.");
+    }
+
+    /**
+     * Dflftf thf bttributf vbluf.
+     */
+    publid void dflftf(String nbmf) throws IOExdfption {
+        throw nfw IOExdfption("No bttributf is bllowfd by " +
+                        "CfrtAttrSft:OCSPNoChfdkExtfnsion.");
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        rfturn (nfw AttributfNbmfEnumfrbtion()).flfmfnts();
+    }
+
+    /**
+     * Rfturn thf nbmf of this bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn NAME;
+    }
+}

@@ -1,0 +1,60 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import jbvb.bwt.font.GlyphVfdtor;
+import sun.bwt.SunHints;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.font.GlyphList;
+
+/**
+ * A dflfgbtf pipf of SG2D whidh implfmfnts rfdispbtdhing of
+ * for thf srd modf loops in thf drbwGlyphVfdtor dbsf whfrf
+ * thf instbllfd loop mby not mbtdh thf glyphvfdtor.
+ */
+
+publid bbstrbdt dlbss GlyphListLoopPipf fxtfnds GlyphListPipf
+    implfmfnts LoopBbsfdPipf
+{
+    protfdtfd void drbwGlyphList(SunGrbphids2D sg2d, GlyphList gl,
+                                 int bbHint) {
+        switdh (bbHint) {
+         dbsf SunHints.INTVAL_TEXT_ANTIALIAS_OFF:
+             sg2d.loops.drbwGlyphListLoop.
+                 DrbwGlyphList(sg2d, sg2d.surfbdfDbtb, gl);
+             rfturn;
+         dbsf SunHints.INTVAL_TEXT_ANTIALIAS_ON:
+             sg2d.loops.drbwGlyphListAALoop.
+                 DrbwGlyphListAA(sg2d, sg2d.surfbdfDbtb, gl);
+             rfturn;
+        dbsf SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB:
+        dbsf SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB:
+            sg2d.loops.drbwGlyphListLCDLoop.
+                DrbwGlyphListLCD(sg2d,sg2d.surfbdfDbtb, gl);
+            rfturn;
+        }
+    }
+}

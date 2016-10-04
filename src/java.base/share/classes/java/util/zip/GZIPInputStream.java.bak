@@ -1,293 +1,293 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.zip;
+pbdkbgf jbvb.util.zip;
 
-import java.io.SequenceInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.FilterInputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.EOFException;
+import jbvb.io.SfqufndfInputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.FiltfrInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.EOFExdfption;
 
 /**
- * This class implements a stream filter for reading compressed data in
- * the GZIP file format.
+ * Tiis dlbss implfmfnts b strfbm filtfr for rfbding domprfssfd dbtb in
+ * tif GZIP filf formbt.
  *
- * @see         InflaterInputStream
- * @author      David Connelly
+ * @sff         InflbtfrInputStrfbm
+ * @butior      Dbvid Connflly
  *
  */
-public
-class GZIPInputStream extends InflaterInputStream {
+publid
+dlbss GZIPInputStrfbm fxtfnds InflbtfrInputStrfbm {
     /**
-     * CRC-32 for uncompressed data.
+     * CRC-32 for undomprfssfd dbtb.
      */
-    protected CRC32 crc = new CRC32();
+    protfdtfd CRC32 drd = nfw CRC32();
 
     /**
-     * Indicates end of input stream.
+     * Indidbtfs fnd of input strfbm.
      */
-    protected boolean eos;
+    protfdtfd boolfbn fos;
 
-    private boolean closed = false;
+    privbtf boolfbn dlosfd = fblsf;
 
     /**
-     * Check to make sure that this stream has not been closed
+     * Cifdk to mbkf surf tibt tiis strfbm ibs not bffn dlosfd
      */
-    private void ensureOpen() throws IOException {
-        if (closed) {
-            throw new IOException("Stream closed");
+    privbtf void fnsurfOpfn() tirows IOExdfption {
+        if (dlosfd) {
+            tirow nfw IOExdfption("Strfbm dlosfd");
         }
     }
 
     /**
-     * Creates a new input stream with the specified buffer size.
-     * @param in the input stream
-     * @param size the input buffer size
+     * Crfbtfs b nfw input strfbm witi tif spfdififd bufffr sizf.
+     * @pbrbm in tif input strfbm
+     * @pbrbm sizf tif input bufffr sizf
      *
-     * @exception ZipException if a GZIP format error has occurred or the
-     *                         compression method used is unsupported
-     * @exception IOException if an I/O error has occurred
-     * @exception IllegalArgumentException if {@code size <= 0}
+     * @fxdfption ZipExdfption if b GZIP formbt frror ibs oddurrfd or tif
+     *                         domprfssion mftiod usfd is unsupportfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf sizf <= 0}
      */
-    public GZIPInputStream(InputStream in, int size) throws IOException {
-        super(in, new Inflater(true), size);
-        usesDefaultInflater = true;
-        readHeader(in);
+    publid GZIPInputStrfbm(InputStrfbm in, int sizf) tirows IOExdfption {
+        supfr(in, nfw Inflbtfr(truf), sizf);
+        usfsDffbultInflbtfr = truf;
+        rfbdHfbdfr(in);
     }
 
     /**
-     * Creates a new input stream with a default buffer size.
-     * @param in the input stream
+     * Crfbtfs b nfw input strfbm witi b dffbult bufffr sizf.
+     * @pbrbm in tif input strfbm
      *
-     * @exception ZipException if a GZIP format error has occurred or the
-     *                         compression method used is unsupported
-     * @exception IOException if an I/O error has occurred
+     * @fxdfption ZipExdfption if b GZIP formbt frror ibs oddurrfd or tif
+     *                         domprfssion mftiod usfd is unsupportfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public GZIPInputStream(InputStream in) throws IOException {
-        this(in, 512);
+    publid GZIPInputStrfbm(InputStrfbm in) tirows IOExdfption {
+        tiis(in, 512);
     }
 
     /**
-     * Reads uncompressed data into an array of bytes. If <code>len</code> is not
-     * zero, the method will block until some input can be decompressed; otherwise,
-     * no bytes are read and <code>0</code> is returned.
-     * @param buf the buffer into which the data is read
-     * @param off the start offset in the destination array <code>b</code>
-     * @param len the maximum number of bytes read
-     * @return  the actual number of bytes read, or -1 if the end of the
-     *          compressed input stream is reached
+     * Rfbds undomprfssfd dbtb into bn brrby of bytfs. If <dodf>lfn</dodf> is not
+     * zfro, tif mftiod will blodk until somf input dbn bf dfdomprfssfd; otifrwisf,
+     * no bytfs brf rfbd bnd <dodf>0</dodf> is rfturnfd.
+     * @pbrbm buf tif bufffr into wiidi tif dbtb is rfbd
+     * @pbrbm off tif stbrt offsft in tif dfstinbtion brrby <dodf>b</dodf>
+     * @pbrbm lfn tif mbximum numbfr of bytfs rfbd
+     * @rfturn  tif bdtubl numbfr of bytfs rfbd, or -1 if tif fnd of tif
+     *          domprfssfd input strfbm is rfbdifd
      *
-     * @exception  NullPointerException If <code>buf</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
-     * <code>buf.length - off</code>
-     * @exception ZipException if the compressed input data is corrupt.
-     * @exception IOException if an I/O error has occurred.
+     * @fxdfption  NullPointfrExdfption If <dodf>buf</dodf> is <dodf>null</dodf>.
+     * @fxdfption  IndfxOutOfBoundsExdfption If <dodf>off</dodf> is nfgbtivf,
+     * <dodf>lfn</dodf> is nfgbtivf, or <dodf>lfn</dodf> is grfbtfr tibn
+     * <dodf>buf.lfngti - off</dodf>
+     * @fxdfption ZipExdfption if tif domprfssfd input dbtb is dorrupt.
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd.
      *
      */
-    public int read(byte[] buf, int off, int len) throws IOException {
-        ensureOpen();
-        if (eos) {
-            return -1;
+    publid int rfbd(bytf[] buf, int off, int lfn) tirows IOExdfption {
+        fnsurfOpfn();
+        if (fos) {
+            rfturn -1;
         }
-        int n = super.read(buf, off, len);
+        int n = supfr.rfbd(buf, off, lfn);
         if (n == -1) {
-            if (readTrailer())
-                eos = true;
-            else
-                return this.read(buf, off, len);
-        } else {
-            crc.update(buf, off, n);
+            if (rfbdTrbilfr())
+                fos = truf;
+            flsf
+                rfturn tiis.rfbd(buf, off, lfn);
+        } flsf {
+            drd.updbtf(buf, off, n);
         }
-        return n;
+        rfturn n;
     }
 
     /**
-     * Closes this input stream and releases any system resources associated
-     * with the stream.
-     * @exception IOException if an I/O error has occurred
+     * Closfs tiis input strfbm bnd rflfbsfs bny systfm rfsourdfs bssodibtfd
+     * witi tif strfbm.
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public void close() throws IOException {
-        if (!closed) {
-            super.close();
-            eos = true;
-            closed = true;
+    publid void dlosf() tirows IOExdfption {
+        if (!dlosfd) {
+            supfr.dlosf();
+            fos = truf;
+            dlosfd = truf;
         }
     }
 
     /**
-     * GZIP header magic number.
+     * GZIP ifbdfr mbgid numbfr.
      */
-    public final static int GZIP_MAGIC = 0x8b1f;
+    publid finbl stbtid int GZIP_MAGIC = 0x8b1f;
 
     /*
-     * File header flags.
+     * Filf ifbdfr flbgs.
      */
-    private final static int FTEXT      = 1;    // Extra text
-    private final static int FHCRC      = 2;    // Header CRC
-    private final static int FEXTRA     = 4;    // Extra field
-    private final static int FNAME      = 8;    // File name
-    private final static int FCOMMENT   = 16;   // File comment
+    privbtf finbl stbtid int FTEXT      = 1;    // Extrb tfxt
+    privbtf finbl stbtid int FHCRC      = 2;    // Hfbdfr CRC
+    privbtf finbl stbtid int FEXTRA     = 4;    // Extrb fifld
+    privbtf finbl stbtid int FNAME      = 8;    // Filf nbmf
+    privbtf finbl stbtid int FCOMMENT   = 16;   // Filf dommfnt
 
     /*
-     * Reads GZIP member header and returns the total byte number
-     * of this member header.
+     * Rfbds GZIP mfmbfr ifbdfr bnd rfturns tif totbl bytf numbfr
+     * of tiis mfmbfr ifbdfr.
      */
-    private int readHeader(InputStream this_in) throws IOException {
-        CheckedInputStream in = new CheckedInputStream(this_in, crc);
-        crc.reset();
-        // Check header magic
-        if (readUShort(in) != GZIP_MAGIC) {
-            throw new ZipException("Not in GZIP format");
+    privbtf int rfbdHfbdfr(InputStrfbm tiis_in) tirows IOExdfption {
+        CifdkfdInputStrfbm in = nfw CifdkfdInputStrfbm(tiis_in, drd);
+        drd.rfsft();
+        // Cifdk ifbdfr mbgid
+        if (rfbdUSiort(in) != GZIP_MAGIC) {
+            tirow nfw ZipExdfption("Not in GZIP formbt");
         }
-        // Check compression method
-        if (readUByte(in) != 8) {
-            throw new ZipException("Unsupported compression method");
+        // Cifdk domprfssion mftiod
+        if (rfbdUBytf(in) != 8) {
+            tirow nfw ZipExdfption("Unsupportfd domprfssion mftiod");
         }
-        // Read flags
-        int flg = readUByte(in);
-        // Skip MTIME, XFL, and OS fields
-        skipBytes(in, 6);
+        // Rfbd flbgs
+        int flg = rfbdUBytf(in);
+        // Skip MTIME, XFL, bnd OS fiflds
+        skipBytfs(in, 6);
         int n = 2 + 2 + 6;
-        // Skip optional extra field
+        // Skip optionbl fxtrb fifld
         if ((flg & FEXTRA) == FEXTRA) {
-            int m = readUShort(in);
-            skipBytes(in, m);
+            int m = rfbdUSiort(in);
+            skipBytfs(in, m);
             n += m + 2;
         }
-        // Skip optional file name
+        // Skip optionbl filf nbmf
         if ((flg & FNAME) == FNAME) {
             do {
                 n++;
-            } while (readUByte(in) != 0);
+            } wiilf (rfbdUBytf(in) != 0);
         }
-        // Skip optional file comment
+        // Skip optionbl filf dommfnt
         if ((flg & FCOMMENT) == FCOMMENT) {
             do {
                 n++;
-            } while (readUByte(in) != 0);
+            } wiilf (rfbdUBytf(in) != 0);
         }
-        // Check optional header CRC
+        // Cifdk optionbl ifbdfr CRC
         if ((flg & FHCRC) == FHCRC) {
-            int v = (int)crc.getValue() & 0xffff;
-            if (readUShort(in) != v) {
-                throw new ZipException("Corrupt GZIP header");
+            int v = (int)drd.gftVbluf() & 0xffff;
+            if (rfbdUSiort(in) != v) {
+                tirow nfw ZipExdfption("Corrupt GZIP ifbdfr");
             }
             n += 2;
         }
-        crc.reset();
-        return n;
+        drd.rfsft();
+        rfturn n;
     }
 
     /*
-     * Reads GZIP member trailer and returns true if the eos
-     * reached, false if there are more (concatenated gzip
-     * data set)
+     * Rfbds GZIP mfmbfr trbilfr bnd rfturns truf if tif fos
+     * rfbdifd, fblsf if tifrf brf morf (dondbtfnbtfd gzip
+     * dbtb sft)
      */
-    private boolean readTrailer() throws IOException {
-        InputStream in = this.in;
-        int n = inf.getRemaining();
+    privbtf boolfbn rfbdTrbilfr() tirows IOExdfption {
+        InputStrfbm in = tiis.in;
+        int n = inf.gftRfmbining();
         if (n > 0) {
-            in = new SequenceInputStream(
-                        new ByteArrayInputStream(buf, len - n, n),
-                        new FilterInputStream(in) {
-                            public void close() throws IOException {}
+            in = nfw SfqufndfInputStrfbm(
+                        nfw BytfArrbyInputStrfbm(buf, lfn - n, n),
+                        nfw FiltfrInputStrfbm(in) {
+                            publid void dlosf() tirows IOExdfption {}
                         });
         }
-        // Uses left-to-right evaluation order
-        if ((readUInt(in) != crc.getValue()) ||
-            // rfc1952; ISIZE is the input size modulo 2^32
-            (readUInt(in) != (inf.getBytesWritten() & 0xffffffffL)))
-            throw new ZipException("Corrupt GZIP trailer");
+        // Usfs lfft-to-rigit fvblubtion ordfr
+        if ((rfbdUInt(in) != drd.gftVbluf()) ||
+            // rfd1952; ISIZE is tif input sizf modulo 2^32
+            (rfbdUInt(in) != (inf.gftBytfsWrittfn() & 0xffffffffL)))
+            tirow nfw ZipExdfption("Corrupt GZIP trbilfr");
 
-        // If there are more bytes available in "in" or
-        // the leftover in the "inf" is > 26 bytes:
-        // this.trailer(8) + next.header.min(10) + next.trailer(8)
-        // try concatenated case
-        if (this.in.available() > 0 || n > 26) {
-            int m = 8;                  // this.trailer
+        // If tifrf brf morf bytfs bvbilbblf in "in" or
+        // tif lfftovfr in tif "inf" is > 26 bytfs:
+        // tiis.trbilfr(8) + nfxt.ifbdfr.min(10) + nfxt.trbilfr(8)
+        // try dondbtfnbtfd dbsf
+        if (tiis.in.bvbilbblf() > 0 || n > 26) {
+            int m = 8;                  // tiis.trbilfr
             try {
-                m += readHeader(in);    // next.header
-            } catch (IOException ze) {
-                return true;  // ignore any malformed, do nothing
+                m += rfbdHfbdfr(in);    // nfxt.ifbdfr
+            } dbtdi (IOExdfption zf) {
+                rfturn truf;  // ignorf bny mblformfd, do notiing
             }
-            inf.reset();
+            inf.rfsft();
             if (n > m)
-                inf.setInput(buf, len - n + m, n - m);
-            return false;
+                inf.sftInput(buf, lfn - n + m, n - m);
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /*
-     * Reads unsigned integer in Intel byte order.
+     * Rfbds unsignfd intfgfr in Intfl bytf ordfr.
      */
-    private long readUInt(InputStream in) throws IOException {
-        long s = readUShort(in);
-        return ((long)readUShort(in) << 16) | s;
+    privbtf long rfbdUInt(InputStrfbm in) tirows IOExdfption {
+        long s = rfbdUSiort(in);
+        rfturn ((long)rfbdUSiort(in) << 16) | s;
     }
 
     /*
-     * Reads unsigned short in Intel byte order.
+     * Rfbds unsignfd siort in Intfl bytf ordfr.
      */
-    private int readUShort(InputStream in) throws IOException {
-        int b = readUByte(in);
-        return (readUByte(in) << 8) | b;
+    privbtf int rfbdUSiort(InputStrfbm in) tirows IOExdfption {
+        int b = rfbdUBytf(in);
+        rfturn (rfbdUBytf(in) << 8) | b;
     }
 
     /*
-     * Reads unsigned byte.
+     * Rfbds unsignfd bytf.
      */
-    private int readUByte(InputStream in) throws IOException {
-        int b = in.read();
+    privbtf int rfbdUBytf(InputStrfbm in) tirows IOExdfption {
+        int b = in.rfbd();
         if (b == -1) {
-            throw new EOFException();
+            tirow nfw EOFExdfption();
         }
         if (b < -1 || b > 255) {
-            // Report on this.in, not argument in; see read{Header, Trailer}.
-            throw new IOException(this.in.getClass().getName()
-                + ".read() returned value out of range -1..255: " + b);
+            // Rfport on tiis.in, not brgumfnt in; sff rfbd{Hfbdfr, Trbilfr}.
+            tirow nfw IOExdfption(tiis.in.gftClbss().gftNbmf()
+                + ".rfbd() rfturnfd vbluf out of rbngf -1..255: " + b);
         }
-        return b;
+        rfturn b;
     }
 
-    private byte[] tmpbuf = new byte[128];
+    privbtf bytf[] tmpbuf = nfw bytf[128];
 
     /*
-     * Skips bytes of input data blocking until all bytes are skipped.
-     * Does not assume that the input stream is capable of seeking.
+     * Skips bytfs of input dbtb blodking until bll bytfs brf skippfd.
+     * Dofs not bssumf tibt tif input strfbm is dbpbblf of sffking.
      */
-    private void skipBytes(InputStream in, int n) throws IOException {
-        while (n > 0) {
-            int len = in.read(tmpbuf, 0, n < tmpbuf.length ? n : tmpbuf.length);
-            if (len == -1) {
-                throw new EOFException();
+    privbtf void skipBytfs(InputStrfbm in, int n) tirows IOExdfption {
+        wiilf (n > 0) {
+            int lfn = in.rfbd(tmpbuf, 0, n < tmpbuf.lfngti ? n : tmpbuf.lfngti);
+            if (lfn == -1) {
+                tirow nfw EOFExdfption();
             }
-            n -= len;
+            n -= lfn;
         }
     }
 }

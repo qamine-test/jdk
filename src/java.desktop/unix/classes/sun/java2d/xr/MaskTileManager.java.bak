@@ -1,311 +1,311 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.xr;
+pbdkbgf sun.jbvb2d.xr;
 
-import java.awt.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
 
 /**
- * We render non-antialiased geometry (consisting of rectangles) into a mask,
- * which is later used in a composition step.
- * To avoid mask-allocations of large size, MaskTileManager splits
- * geometry larger than MASK_SIZE into several tiles,
- * and stores the geometry in instances of MaskTile.
+ * Wf rfndfr non-bntiblibsfd gfomftry (donsisting of rfdtbnglfs) into b mbsk,
+ * wiidi is lbtfr usfd in b domposition stfp.
+ * To bvoid mbsk-bllodbtions of lbrgf sizf, MbskTilfMbnbgfr splits
+ * gfomftry lbrgfr tibn MASK_SIZE into sfvfrbl tilfs,
+ * bnd storfs tif gfomftry in instbndfs of MbskTilf.
  *
- * @author Clemens Eisserer
+ * @butior Clfmfns Eissfrfr
  */
 
-public class MaskTileManager {
+publid dlbss MbskTilfMbnbgfr {
 
-    public static final int MASK_SIZE = 256;
+    publid stbtid finbl int MASK_SIZE = 256;
 
-    MaskTile mainTile = new MaskTile();
+    MbskTilf mbinTilf = nfw MbskTilf();
 
-    ArrayList<MaskTile> tileList;
-    int allocatedTiles = 0;
-    int xTiles, yTiles;
+    ArrbyList<MbskTilf> tilfList;
+    int bllodbtfdTilfs = 0;
+    int xTilfs, yTilfs;
 
-    XRCompositeManager xrMgr;
-    XRBackend con;
+    XRCompositfMbnbgfr xrMgr;
+    XRBbdkfnd don;
 
-    int maskPixmap;
-    int maskPicture;
-    long maskGC;
+    int mbskPixmbp;
+    int mbskPidturf;
+    long mbskGC;
 
-    public MaskTileManager(XRCompositeManager xrMgr, int parentXid) {
-        tileList = new ArrayList<MaskTile>();
-        this.xrMgr = xrMgr;
-        this.con = xrMgr.getBackend();
+    publid MbskTilfMbnbgfr(XRCompositfMbnbgfr xrMgr, int pbrfntXid) {
+        tilfList = nfw ArrbyList<MbskTilf>();
+        tiis.xrMgr = xrMgr;
+        tiis.don = xrMgr.gftBbdkfnd();
 
-        maskPixmap = con.createPixmap(parentXid, 8, MASK_SIZE, MASK_SIZE);
-        maskPicture = con.createPicture(maskPixmap, XRUtils.PictStandardA8);
-        con.renderRectangle(maskPicture, XRUtils.PictOpClear,
-                            new XRColor(Color.black),
+        mbskPixmbp = don.drfbtfPixmbp(pbrfntXid, 8, MASK_SIZE, MASK_SIZE);
+        mbskPidturf = don.drfbtfPidturf(mbskPixmbp, XRUtils.PidtStbndbrdA8);
+        don.rfndfrRfdtbnglf(mbskPidturf, XRUtils.PidtOpClfbr,
+                            nfw XRColor(Color.blbdk),
                             0, 0, MASK_SIZE, MASK_SIZE);
-        maskGC = con.createGC(maskPixmap);
-        con.setGCExposures(maskGC, false);
+        mbskGC = don.drfbtfGC(mbskPixmbp);
+        don.sftGCExposurfs(mbskGC, fblsf);
     }
 
     /**
-     * Transfers the geometry stored (rectangles, lines) to one or more masks,
-     * and renders the result to the destination surface.
+     * Trbnsffrs tif gfomftry storfd (rfdtbnglfs, linfs) to onf or morf mbsks,
+     * bnd rfndfrs tif rfsult to tif dfstinbtion surfbdf.
      */
-    public void fillMask(XRSurfaceData dst) {
+    publid void fillMbsk(XRSurfbdfDbtb dst) {
 
-        boolean maskRequired = xrMgr.maskRequired();
-        boolean maskEvaluated = XRUtils.isMaskEvaluated(xrMgr.compRule);
+        boolfbn mbskRfquirfd = xrMgr.mbskRfquirfd();
+        boolfbn mbskEvblubtfd = XRUtils.isMbskEvblubtfd(xrMgr.dompRulf);
 
-        if (maskRequired && maskEvaluated) {
-            mainTile.calculateDirtyAreas();
-            DirtyRegion dirtyArea = mainTile.getDirtyArea().cloneRegion();
-            mainTile.translate(-dirtyArea.x, -dirtyArea.y);
+        if (mbskRfquirfd && mbskEvblubtfd) {
+            mbinTilf.dbldulbtfDirtyArfbs();
+            DirtyRfgion dirtyArfb = mbinTilf.gftDirtyArfb().dlonfRfgion();
+            mbinTilf.trbnslbtf(-dirtyArfb.x, -dirtyArfb.y);
 
-            XRColor maskColor = xrMgr.getMaskColor();
+            XRColor mbskColor = xrMgr.gftMbskColor();
 
-            // We don't need tiling if all geometry fits in a single tile
-            if (dirtyArea.getWidth() <= MASK_SIZE &&
-                dirtyArea.getHeight() <= MASK_SIZE)
+            // Wf don't nffd tiling if bll gfomftry fits in b singlf tilf
+            if (dirtyArfb.gftWidti() <= MASK_SIZE &&
+                dirtyArfb.gftHfigit() <= MASK_SIZE)
             {
-                compositeSingleTile(dst, mainTile, dirtyArea,
-                                     maskRequired, 0, 0, maskColor);
-            } else {
-                allocTiles(dirtyArea);
-                tileRects();
+                dompositfSinglfTilf(dst, mbinTilf, dirtyArfb,
+                                     mbskRfquirfd, 0, 0, mbskColor);
+            } flsf {
+                bllodTilfs(dirtyArfb);
+                tilfRfdts();
 
-                for (int i = 0; i < yTiles; i++) {
-                    for (int m = 0; m < xTiles; m++) {
-                        MaskTile tile = tileList.get(i * xTiles + m);
+                for (int i = 0; i < yTilfs; i++) {
+                    for (int m = 0; m < xTilfs; m++) {
+                        MbskTilf tilf = tilfList.gft(i * xTilfs + m);
 
-                        int tileStartX = m * MASK_SIZE;
-                        int tileStartY = i * MASK_SIZE;
-                        compositeSingleTile(dst, tile, dirtyArea, maskRequired,
-                                            tileStartX, tileStartY, maskColor);
+                        int tilfStbrtX = m * MASK_SIZE;
+                        int tilfStbrtY = i * MASK_SIZE;
+                        dompositfSinglfTilf(dst, tilf, dirtyArfb, mbskRfquirfd,
+                                            tilfStbrtX, tilfStbrtY, mbskColor);
                     }
                 }
             }
-        } else {
+        } flsf {
             /*
-             * If a mask would be required to store geometry (maskRequired)
-             * composition has to be done rectangle-by-rectagle.
+             * If b mbsk would bf rfquirfd to storf gfomftry (mbskRfquirfd)
+             * domposition ibs to bf donf rfdtbnglf-by-rfdtbglf.
              */
-            if(xrMgr.isSolidPaintActive()) {
-                xrMgr.XRRenderRectangles(dst, mainTile.getRects());
-            } else {
-                xrMgr.XRCompositeRectangles(dst, mainTile.getRects());
+            if(xrMgr.isSolidPbintAdtivf()) {
+                xrMgr.XRRfndfrRfdtbnglfs(dst, mbinTilf.gftRfdts());
+            } flsf {
+                xrMgr.XRCompositfRfdtbnglfs(dst, mbinTilf.gftRfdts());
             }
         }
 
-        mainTile.reset();
+        mbinTilf.rfsft();
     }
 
     /**
-     * Uploads aa geometry generated for maskblit/fill into the mask pixmap.
+     * Uplobds bb gfomftry gfnfrbtfd for mbskblit/fill into tif mbsk pixmbp.
      */
-    public int uploadMask(int w, int h, int maskscan, int maskoff, byte[] mask) {
-        int maskPic = XRUtils.None;
+    publid int uplobdMbsk(int w, int i, int mbsksdbn, int mbskoff, bytf[] mbsk) {
+        int mbskPid = XRUtils.Nonf;
 
-        if (mask != null) {
-            float maskAlpha =
-                 xrMgr.isTexturePaintActive() ? xrMgr.getExtraAlpha() : 1.0f;
-            con.putMaskImage(maskPixmap, maskGC, mask, 0, 0, 0, 0,
-                             w, h, maskoff, maskscan, maskAlpha);
-            maskPic = maskPicture;
-        } else if (xrMgr.isTexturePaintActive()) {
-            maskPic = xrMgr.getExtraAlphaMask();
+        if (mbsk != null) {
+            flobt mbskAlpib =
+                 xrMgr.isTfxturfPbintAdtivf() ? xrMgr.gftExtrbAlpib() : 1.0f;
+            don.putMbskImbgf(mbskPixmbp, mbskGC, mbsk, 0, 0, 0, 0,
+                             w, i, mbskoff, mbsksdbn, mbskAlpib);
+            mbskPid = mbskPidturf;
+        } flsf if (xrMgr.isTfxturfPbintAdtivf()) {
+            mbskPid = xrMgr.gftExtrbAlpibMbsk();
          }
 
-        return maskPic;
+        rfturn mbskPid;
     }
 
     /**
-     * Clears the area of the mask-pixmap used for uploading aa coverage values.
+     * Clfbrs tif brfb of tif mbsk-pixmbp usfd for uplobding bb dovfrbgf vblufs.
      */
-    public void clearUploadMask(int mask, int w, int h) {
-        if (mask == maskPicture) {
-            con.renderRectangle(maskPicture, XRUtils.PictOpClear,
-                                XRColor.NO_ALPHA, 0, 0, w, h);
+    publid void dlfbrUplobdMbsk(int mbsk, int w, int i) {
+        if (mbsk == mbskPidturf) {
+            don.rfndfrRfdtbnglf(mbskPidturf, XRUtils.PidtOpClfbr,
+                                XRColor.NO_ALPHA, 0, 0, w, i);
         }
     }
 
 
     /**
-     * Renders the rectangles provided to the mask, and does a composition
-     * operation with the properties set inXRCompositeManager.
+     * Rfndfrs tif rfdtbnglfs providfd to tif mbsk, bnd dofs b domposition
+     * opfrbtion witi tif propfrtifs sft inXRCompositfMbnbgfr.
      */
-    protected void compositeSingleTile(XRSurfaceData dst, MaskTile tile,
-                                       DirtyRegion dirtyArea,
-                                       boolean maskRequired,
-                                       int tileStartX, int tileStartY,
-                                       XRColor maskColor) {
-        if (tile.rects.getSize() > 0) {
-            DirtyRegion tileDirtyArea = tile.getDirtyArea();
+    protfdtfd void dompositfSinglfTilf(XRSurfbdfDbtb dst, MbskTilf tilf,
+                                       DirtyRfgion dirtyArfb,
+                                       boolfbn mbskRfquirfd,
+                                       int tilfStbrtX, int tilfStbrtY,
+                                       XRColor mbskColor) {
+        if (tilf.rfdts.gftSizf() > 0) {
+            DirtyRfgion tilfDirtyArfb = tilf.gftDirtyArfb();
 
-            int x = tileDirtyArea.x + tileStartX + dirtyArea.x;
-            int y = tileDirtyArea.y + tileStartY + dirtyArea.y;
-            int width = tileDirtyArea.x2 - tileDirtyArea.x;
-            int height = tileDirtyArea.y2 - tileDirtyArea.y;
-            width = Math.min(width, MASK_SIZE);
-            height = Math.min(height, MASK_SIZE);
+            int x = tilfDirtyArfb.x + tilfStbrtX + dirtyArfb.x;
+            int y = tilfDirtyArfb.y + tilfStbrtY + dirtyArfb.y;
+            int widti = tilfDirtyArfb.x2 - tilfDirtyArfb.x;
+            int ifigit = tilfDirtyArfb.y2 - tilfDirtyArfb.y;
+            widti = Mbti.min(widti, MASK_SIZE);
+            ifigit = Mbti.min(ifigit, MASK_SIZE);
 
-            int rectCnt = tile.rects.getSize();
+            int rfdtCnt = tilf.rfdts.gftSizf();
 
-            if (maskRequired) {
-                int mask = XRUtils.None;
+            if (mbskRfquirfd) {
+                int mbsk = XRUtils.Nonf;
 
                 /*
-                 * Optimization: When the tile only contains one rectangle, the
-                 * composite-operation boundaries can be used as geometry
+                 * Optimizbtion: Wifn tif tilf only dontbins onf rfdtbnglf, tif
+                 * dompositf-opfrbtion boundbrifs dbn bf usfd bs gfomftry
                  */
-                if (rectCnt > 1) {
-                    con.renderRectangles(maskPicture, XRUtils.PictOpSrc,
-                                         maskColor, tile.rects);
-                    mask = maskPicture;
-                } else {
-                    if (xrMgr.isTexturePaintActive()) {
-                        mask = xrMgr.getExtraAlphaMask();
+                if (rfdtCnt > 1) {
+                    don.rfndfrRfdtbnglfs(mbskPidturf, XRUtils.PidtOpSrd,
+                                         mbskColor, tilf.rfdts);
+                    mbsk = mbskPidturf;
+                } flsf {
+                    if (xrMgr.isTfxturfPbintAdtivf()) {
+                        mbsk = xrMgr.gftExtrbAlpibMbsk();
                     }
                 }
 
-                xrMgr.XRComposite(XRUtils.None, mask, dst.getPicture(),
-                                  x, y, tileDirtyArea.x, tileDirtyArea.y,
-                                  x, y, width, height);
+                xrMgr.XRCompositf(XRUtils.Nonf, mbsk, dst.gftPidturf(),
+                                  x, y, tilfDirtyArfb.x, tilfDirtyArfb.y,
+                                  x, y, widti, ifigit);
 
-                /* Clear dirty rectangle of the rect-mask */
-                if (rectCnt > 1) {
-                    con.renderRectangle(maskPicture, XRUtils.PictOpClear,
+                /* Clfbr dirty rfdtbnglf of tif rfdt-mbsk */
+                if (rfdtCnt > 1) {
+                    don.rfndfrRfdtbnglf(mbskPidturf, XRUtils.PidtOpClfbr,
                                         XRColor.NO_ALPHA,
-                                        tileDirtyArea.x, tileDirtyArea.y,
-                                        width, height);
+                                        tilfDirtyArfb.x, tilfDirtyArfb.y,
+                                        widti, ifigit);
                 }
 
-                tile.reset();
-            } else if (rectCnt > 0) {
-                tile.rects.translateRects(tileStartX + dirtyArea.x,
-                                          tileStartY + dirtyArea.y);
-                xrMgr.XRRenderRectangles(dst, tile.rects);
+                tilf.rfsft();
+            } flsf if (rfdtCnt > 0) {
+                tilf.rfdts.trbnslbtfRfdts(tilfStbrtX + dirtyArfb.x,
+                                          tilfStbrtY + dirtyArfb.y);
+                xrMgr.XRRfndfrRfdtbnglfs(dst, tilf.rfdts);
             }
         }
     }
 
 
     /**
-     * Allocates enough MaskTile instances, to cover the whole
-     * mask area, or resets existing ones.
+     * Allodbtfs fnougi MbskTilf instbndfs, to dovfr tif wiolf
+     * mbsk brfb, or rfsfts fxisting onfs.
      */
-    protected void allocTiles(DirtyRegion maskArea) {
-        xTiles = (maskArea.getWidth() / MASK_SIZE) + 1;
-        yTiles = (maskArea.getHeight() / MASK_SIZE) + 1;
-        int tileCnt = xTiles * yTiles;
+    protfdtfd void bllodTilfs(DirtyRfgion mbskArfb) {
+        xTilfs = (mbskArfb.gftWidti() / MASK_SIZE) + 1;
+        yTilfs = (mbskArfb.gftHfigit() / MASK_SIZE) + 1;
+        int tilfCnt = xTilfs * yTilfs;
 
-        if (tileCnt > allocatedTiles) {
-            for (int i = 0; i < tileCnt; i++) {
-                if (i < allocatedTiles) {
-                    tileList.get(i).reset();
-                } else {
-                    tileList.add(new MaskTile());
+        if (tilfCnt > bllodbtfdTilfs) {
+            for (int i = 0; i < tilfCnt; i++) {
+                if (i < bllodbtfdTilfs) {
+                    tilfList.gft(i).rfsft();
+                } flsf {
+                    tilfList.bdd(nfw MbskTilf());
                 }
             }
 
-            allocatedTiles = tileCnt;
+            bllodbtfdTilfs = tilfCnt;
         }
     }
 
     /**
-     * Tiles the stored rectangles, if they are larger than the MASK_SIZE
+     * Tilfs tif storfd rfdtbnglfs, if tify brf lbrgfr tibn tif MASK_SIZE
      */
-    protected void tileRects() {
-        GrowableRectArray rects = mainTile.rects;
+    protfdtfd void tilfRfdts() {
+        GrowbblfRfdtArrby rfdts = mbinTilf.rfdts;
 
-        for (int i = 0; i < rects.getSize(); i++) {
-            int tileXStartIndex = rects.getX(i) / MASK_SIZE;
-            int tileYStartIndex = rects.getY(i) / MASK_SIZE;
-            int tileXLength =
-                ((rects.getX(i) + rects.getWidth(i)) / MASK_SIZE + 1) -
-                 tileXStartIndex;
-            int tileYLength =
-                 ((rects.getY(i) + rects.getHeight(i)) / MASK_SIZE + 1) -
-                 tileYStartIndex;
+        for (int i = 0; i < rfdts.gftSizf(); i++) {
+            int tilfXStbrtIndfx = rfdts.gftX(i) / MASK_SIZE;
+            int tilfYStbrtIndfx = rfdts.gftY(i) / MASK_SIZE;
+            int tilfXLfngti =
+                ((rfdts.gftX(i) + rfdts.gftWidti(i)) / MASK_SIZE + 1) -
+                 tilfXStbrtIndfx;
+            int tilfYLfngti =
+                 ((rfdts.gftY(i) + rfdts.gftHfigit(i)) / MASK_SIZE + 1) -
+                 tilfYStbrtIndfx;
 
-            for (int n = 0; n < tileYLength; n++) {
-                for (int m = 0; m < tileXLength; m++) {
+            for (int n = 0; n < tilfYLfngti; n++) {
+                for (int m = 0; m < tilfXLfngti; m++) {
 
-                    int tileIndex =
-                         xTiles * (tileYStartIndex + n) + tileXStartIndex + m;
-                    MaskTile tile = tileList.get(tileIndex);
+                    int tilfIndfx =
+                         xTilfs * (tilfYStbrtIndfx + n) + tilfXStbrtIndfx + m;
+                    MbskTilf tilf = tilfList.gft(tilfIndfx);
 
-                    GrowableRectArray rectTileList = tile.getRects();
-                    int tileArrayIndex = rectTileList.getNextIndex();
+                    GrowbblfRfdtArrby rfdtTilfList = tilf.gftRfdts();
+                    int tilfArrbyIndfx = rfdtTilfList.gftNfxtIndfx();
 
-                    int tileStartPosX = (tileXStartIndex + m) * MASK_SIZE;
-                    int tileStartPosY = (tileYStartIndex + n) * MASK_SIZE;
+                    int tilfStbrtPosX = (tilfXStbrtIndfx + m) * MASK_SIZE;
+                    int tilfStbrtPosY = (tilfYStbrtIndfx + n) * MASK_SIZE;
 
-                    rectTileList.setX(tileArrayIndex, rects.getX(i) - tileStartPosX);
-                    rectTileList.setY(tileArrayIndex, rects.getY(i) - tileStartPosY);
-                    rectTileList.setWidth(tileArrayIndex, rects.getWidth(i));
-                    rectTileList.setHeight(tileArrayIndex, rects.getHeight(i));
+                    rfdtTilfList.sftX(tilfArrbyIndfx, rfdts.gftX(i) - tilfStbrtPosX);
+                    rfdtTilfList.sftY(tilfArrbyIndfx, rfdts.gftY(i) - tilfStbrtPosY);
+                    rfdtTilfList.sftWidti(tilfArrbyIndfx, rfdts.gftWidti(i));
+                    rfdtTilfList.sftHfigit(tilfArrbyIndfx, rfdts.gftHfigit(i));
 
-                    limitRectCoords(rectTileList, tileArrayIndex);
+                    limitRfdtCoords(rfdtTilfList, tilfArrbyIndfx);
 
-                    tile.getDirtyArea().growDirtyRegion
-                       (rectTileList.getX(tileArrayIndex),
-                        rectTileList.getY(tileArrayIndex),
-                        rectTileList.getWidth(tileArrayIndex) +
-                             rectTileList.getX(tileArrayIndex),
-                        rectTileList.getHeight(tileArrayIndex) +
-                            rectTileList.getY(tileArrayIndex));
+                    tilf.gftDirtyArfb().growDirtyRfgion
+                       (rfdtTilfList.gftX(tilfArrbyIndfx),
+                        rfdtTilfList.gftY(tilfArrbyIndfx),
+                        rfdtTilfList.gftWidti(tilfArrbyIndfx) +
+                             rfdtTilfList.gftX(tilfArrbyIndfx),
+                        rfdtTilfList.gftHfigit(tilfArrbyIndfx) +
+                            rfdtTilfList.gftY(tilfArrbyIndfx));
                 }
             }
         }
     }
 
     /**
-     * Limits the rect's coordinates to the mask coordinates. The result is used
-     * by growDirtyRegion.
+     * Limits tif rfdt's doordinbtfs to tif mbsk doordinbtfs. Tif rfsult is usfd
+     * by growDirtyRfgion.
      */
-    private void limitRectCoords(GrowableRectArray rects, int index) {
-        if ((rects.getX(index) + rects.getWidth(index)) > MASK_SIZE) {
-            rects.setWidth(index, MASK_SIZE - rects.getX(index));
+    privbtf void limitRfdtCoords(GrowbblfRfdtArrby rfdts, int indfx) {
+        if ((rfdts.gftX(indfx) + rfdts.gftWidti(indfx)) > MASK_SIZE) {
+            rfdts.sftWidti(indfx, MASK_SIZE - rfdts.gftX(indfx));
         }
-        if ((rects.getY(index) + rects.getHeight(index)) > MASK_SIZE) {
-            rects.setHeight(index, MASK_SIZE - rects.getY(index));
+        if ((rfdts.gftY(indfx) + rfdts.gftHfigit(indfx)) > MASK_SIZE) {
+            rfdts.sftHfigit(indfx, MASK_SIZE - rfdts.gftY(indfx));
         }
-        if (rects.getX(index) < 0) {
-            rects.setWidth(index, rects.getWidth(index) + rects.getX(index));
-            rects.setX(index, 0);
+        if (rfdts.gftX(indfx) < 0) {
+            rfdts.sftWidti(indfx, rfdts.gftWidti(indfx) + rfdts.gftX(indfx));
+            rfdts.sftX(indfx, 0);
         }
-        if (rects.getY(index) < 0) {
-            rects.setHeight(index, rects.getHeight(index) + rects.getY(index));
-            rects.setY(index, 0);
+        if (rfdts.gftY(indfx) < 0) {
+            rfdts.sftHfigit(indfx, rfdts.gftHfigit(indfx) + rfdts.gftY(indfx));
+            rfdts.sftY(indfx, 0);
         }
     }
 
     /**
-     * @return MainTile to which rectangles are added before composition.
+     * @rfturn MbinTilf to wiidi rfdtbnglfs brf bddfd bfforf domposition.
      */
-    public MaskTile getMainTile() {
-        return mainTile;
+    publid MbskTilf gftMbinTilf() {
+        rfturn mbinTilf;
      }
 }

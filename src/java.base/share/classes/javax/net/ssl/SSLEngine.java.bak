@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
-import java.nio.ByteBuffer;
-import java.nio.ReadOnlyBufferException;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.RfbdOnlyBufffrExdfption;
 
 
 /**
- * A class which enables secure communications using protocols such as
- * the Secure Sockets Layer (SSL) or
- * <A HREF="http://www.ietf.org/rfc/rfc2246.txt"> IETF RFC 2246 "Transport
- * Layer Security" (TLS) </A> protocols, but is transport independent.
+ * A dlbss wiidi fnbblfs sfdurf dommunidbtions using protodols sudi bs
+ * tif Sfdurf Sodkfts Lbyfr (SSL) or
+ * <A HREF="ittp://www.iftf.org/rfd/rfd2246.txt"> IETF RFC 2246 "Trbnsport
+ * Lbyfr Sfdurity" (TLS) </A> protodols, but is trbnsport indfpfndfnt.
  * <P>
- * The secure communications modes include: <UL>
+ * Tif sfdurf dommunidbtions modfs indludf: <UL>
  *
- *      <LI> <em>Integrity Protection</em>.  SSL/TLS protects against
- *      modification of messages by an active wiretapper.
+ *      <LI> <fm>Intfgrity Protfdtion</fm>.  SSL/TLS protfdts bgbinst
+ *      modifidbtion of mfssbgfs by bn bdtivf wirftbppfr.
  *
- *      <LI> <em>Authentication</em>.  In most modes, SSL/TLS provides
- *      peer authentication.  Servers are usually authenticated, and
- *      clients may be authenticated as requested by servers.
+ *      <LI> <fm>Autifntidbtion</fm>.  In most modfs, SSL/TLS providfs
+ *      pffr butifntidbtion.  Sfrvfrs brf usublly butifntidbtfd, bnd
+ *      dlifnts mby bf butifntidbtfd bs rfqufstfd by sfrvfrs.
  *
- *      <LI> <em>Confidentiality (Privacy Protection)</em>.  In most
- *      modes, SSL/TLS encrypts data being sent between client and
- *      server.  This protects the confidentiality of data, so that
- *      passive wiretappers won't see sensitive data such as financial
- *      information or personal information of many kinds.
+ *      <LI> <fm>Confidfntiblity (Privbdy Protfdtion)</fm>.  In most
+ *      modfs, SSL/TLS fndrypts dbtb bfing sfnt bftwffn dlifnt bnd
+ *      sfrvfr.  Tiis protfdts tif donfidfntiblity of dbtb, so tibt
+ *      pbssivf wirftbppfrs won't sff sfnsitivf dbtb sudi bs finbndibl
+ *      informbtion or pfrsonbl informbtion of mbny kinds.
  *
  *      </UL>
  *
- * These kinds of protection are specified by a "cipher suite", which
- * is a combination of cryptographic algorithms used by a given SSL
- * connection.  During the negotiation process, the two endpoints must
- * agree on a cipher suite that is available in both environments.  If
- * there is no such suite in common, no SSL connection can be
- * established, and no data can be exchanged.
+ * Tifsf kinds of protfdtion brf spfdififd by b "dipifr suitf", wiidi
+ * is b dombinbtion of dryptogrbpiid blgoritims usfd by b givfn SSL
+ * donnfdtion.  During tif nfgotibtion prodfss, tif two fndpoints must
+ * bgrff on b dipifr suitf tibt is bvbilbblf in boti fnvironmfnts.  If
+ * tifrf is no sudi suitf in dommon, no SSL donnfdtion dbn bf
+ * fstbblisifd, bnd no dbtb dbn bf fxdibngfd.
  * <P>
- * The cipher suite used is established by a negotiation process called
- * "handshaking".  The goal of this process is to create or rejoin a
- * "session", which may protect many connections over time.  After
- * handshaking has completed, you can access session attributes by
- * using the {@link #getSession()} method.
+ * Tif dipifr suitf usfd is fstbblisifd by b nfgotibtion prodfss dbllfd
+ * "ibndsibking".  Tif gobl of tiis prodfss is to drfbtf or rfjoin b
+ * "sfssion", wiidi mby protfdt mbny donnfdtions ovfr timf.  Aftfr
+ * ibndsibking ibs domplftfd, you dbn bddfss sfssion bttributfs by
+ * using tif {@link #gftSfssion()} mftiod.
  * <P>
- * The <code>SSLSocket</code> class provides much of the same security
- * functionality, but all of the inbound and outbound data is
- * automatically transported using the underlying {@link
- * java.net.Socket Socket}, which by design uses a blocking model.
- * While this is appropriate for many applications, this model does not
- * provide the scalability required by large servers.
+ * Tif <dodf>SSLSodkft</dodf> dlbss providfs mudi of tif sbmf sfdurity
+ * fundtionblity, but bll of tif inbound bnd outbound dbtb is
+ * butombtidblly trbnsportfd using tif undfrlying {@link
+ * jbvb.nft.Sodkft Sodkft}, wiidi by dfsign usfs b blodking modfl.
+ * Wiilf tiis is bppropribtf for mbny bpplidbtions, tiis modfl dofs not
+ * providf tif sdblbbility rfquirfd by lbrgf sfrvfrs.
  * <P>
- * The primary distinction of an <code>SSLEngine</code> is that it
- * operates on inbound and outbound byte streams, independent of the
- * transport mechanism.  It is the responsibility of the
- * <code>SSLEngine</code> user to arrange for reliable I/O transport to
- * the peer.  By separating the SSL/TLS abstraction from the I/O
- * transport mechanism, the <code>SSLEngine</code> can be used for a
- * wide variety of I/O types, such as {@link
- * java.nio.channels.spi.AbstractSelectableChannel#configureBlocking(boolean)
- * non-blocking I/O (polling)}, {@link java.nio.channels.Selector
- * selectable non-blocking I/O}, {@link java.net.Socket Socket} and the
- * traditional Input/OutputStreams, local {@link java.nio.ByteBuffer
- * ByteBuffers} or byte arrays, <A
- * HREF="http://www.jcp.org/en/jsr/detail?id=203"> future asynchronous
- * I/O models </A>, and so on.
+ * Tif primbry distindtion of bn <dodf>SSLEnginf</dodf> is tibt it
+ * opfrbtfs on inbound bnd outbound bytf strfbms, indfpfndfnt of tif
+ * trbnsport mfdibnism.  It is tif rfsponsibility of tif
+ * <dodf>SSLEnginf</dodf> usfr to brrbngf for rflibblf I/O trbnsport to
+ * tif pffr.  By sfpbrbting tif SSL/TLS bbstrbdtion from tif I/O
+ * trbnsport mfdibnism, tif <dodf>SSLEnginf</dodf> dbn bf usfd for b
+ * widf vbrifty of I/O typfs, sudi bs {@link
+ * jbvb.nio.dibnnfls.spi.AbstrbdtSflfdtbblfCibnnfl#donfigurfBlodking(boolfbn)
+ * non-blodking I/O (polling)}, {@link jbvb.nio.dibnnfls.Sflfdtor
+ * sflfdtbblf non-blodking I/O}, {@link jbvb.nft.Sodkft Sodkft} bnd tif
+ * trbditionbl Input/OutputStrfbms, lodbl {@link jbvb.nio.BytfBufffr
+ * BytfBufffrs} or bytf brrbys, <A
+ * HREF="ittp://www.jdp.org/fn/jsr/dftbil?id=203"> futurf bsyndironous
+ * I/O modfls </A>, bnd so on.
  * <P>
- * At a high level, the <code>SSLEngine</code> appears thus:
+ * At b iigi lfvfl, tif <dodf>SSLEnginf</dodf> bppfbrs tius:
  *
- * <pre>
- *                   app data
+ * <prf>
+ *                   bpp dbtb
  *
  *                |           ^
  *                |     |     |
  *                v     |     |
  *           +----+-----|-----+----+
  *           |          |          |
- *           |       SSL|Engine    |
- *   wrap()  |          |          |  unwrap()
+ *           |       SSL|Enginf    |
+ *   wrbp()  |          |          |  unwrbp()
  *           | OUTBOUND | INBOUND  |
  *           |          |          |
  *           +----+-----|-----+----+
@@ -106,1150 +106,1150 @@ import java.nio.ReadOnlyBufferException;
  *                |     |     |
  *                v           |
  *
- *                   net data
- * </pre>
- * Application data (also known as plaintext or cleartext) is data which
- * is produced or consumed by an application.  Its counterpart is
- * network data, which consists of either handshaking and/or ciphertext
- * (encrypted) data, and destined to be transported via an I/O
- * mechanism.  Inbound data is data which has been received from the
- * peer, and outbound data is destined for the peer.
+ *                   nft dbtb
+ * </prf>
+ * Applidbtion dbtb (blso known bs plbintfxt or dlfbrtfxt) is dbtb wiidi
+ * is produdfd or donsumfd by bn bpplidbtion.  Its dountfrpbrt is
+ * nftwork dbtb, wiidi donsists of fitifr ibndsibking bnd/or dipifrtfxt
+ * (fndryptfd) dbtb, bnd dfstinfd to bf trbnsportfd vib bn I/O
+ * mfdibnism.  Inbound dbtb is dbtb wiidi ibs bffn rfdfivfd from tif
+ * pffr, bnd outbound dbtb is dfstinfd for tif pffr.
  * <P>
- * (In the context of an <code>SSLEngine</code>, the term "handshake
- * data" is taken to mean any data exchanged to establish and control a
- * secure connection.  Handshake data includes the SSL/TLS messages
- * "alert", "change_cipher_spec," and "handshake.")
+ * (In tif dontfxt of bn <dodf>SSLEnginf</dodf>, tif tfrm "ibndsibkf
+ * dbtb" is tbkfn to mfbn bny dbtb fxdibngfd to fstbblisi bnd dontrol b
+ * sfdurf donnfdtion.  Hbndsibkf dbtb indludfs tif SSL/TLS mfssbgfs
+ * "blfrt", "dibngf_dipifr_spfd," bnd "ibndsibkf.")
  * <P>
- * There are five distinct phases to an <code>SSLEngine</code>.
+ * Tifrf brf fivf distindt pibsfs to bn <dodf>SSLEnginf</dodf>.
  *
  * <OL>
- *     <li> Creation - The <code>SSLEngine</code> has been created and
- *     initialized, but has not yet been used.  During this phase, an
- *     application may set any <code>SSLEngine</code>-specific settings
- *     (enabled cipher suites, whether the <code>SSLEngine</code> should
- *     handshake in client or server mode, and so on).  Once
- *     handshaking has begun, though, any new settings (except
- *     client/server mode, see below) will be used for
- *     the next handshake.
+ *     <li> Crfbtion - Tif <dodf>SSLEnginf</dodf> ibs bffn drfbtfd bnd
+ *     initiblizfd, but ibs not yft bffn usfd.  During tiis pibsf, bn
+ *     bpplidbtion mby sft bny <dodf>SSLEnginf</dodf>-spfdifid sfttings
+ *     (fnbblfd dipifr suitfs, wiftifr tif <dodf>SSLEnginf</dodf> siould
+ *     ibndsibkf in dlifnt or sfrvfr modf, bnd so on).  Ondf
+ *     ibndsibking ibs bfgun, tiougi, bny nfw sfttings (fxdfpt
+ *     dlifnt/sfrvfr modf, sff bflow) will bf usfd for
+ *     tif nfxt ibndsibkf.
  *
- *     <li> Initial Handshake - The initial handshake is a procedure by
- *     which the two peers exchange communication parameters until an
- *     SSLSession is established.  Application data can not be sent during
- *     this phase.
+ *     <li> Initibl Hbndsibkf - Tif initibl ibndsibkf is b prodfdurf by
+ *     wiidi tif two pffrs fxdibngf dommunidbtion pbrbmftfrs until bn
+ *     SSLSfssion is fstbblisifd.  Applidbtion dbtb dbn not bf sfnt during
+ *     tiis pibsf.
  *
- *     <li> Application Data - Once the communication parameters have
- *     been established and the handshake is complete, application data
- *     may flow through the <code>SSLEngine</code>.  Outbound
- *     application messages are encrypted and integrity protected,
- *     and inbound messages reverse the process.
+ *     <li> Applidbtion Dbtb - Ondf tif dommunidbtion pbrbmftfrs ibvf
+ *     bffn fstbblisifd bnd tif ibndsibkf is domplftf, bpplidbtion dbtb
+ *     mby flow tirougi tif <dodf>SSLEnginf</dodf>.  Outbound
+ *     bpplidbtion mfssbgfs brf fndryptfd bnd intfgrity protfdtfd,
+ *     bnd inbound mfssbgfs rfvfrsf tif prodfss.
  *
- *     <li>  Rehandshaking - Either side may request a renegotiation of
- *     the session at any time during the Application Data phase.  New
- *     handshaking data can be intermixed among the application data.
- *     Before starting the rehandshake phase, the application may
- *     reset the SSL/TLS communication parameters such as the list of
- *     enabled ciphersuites and whether to use client authentication,
- *     but can not change between client/server modes.  As before, once
- *     handshaking has begun, any new <code>SSLEngine</code>
- *     configuration settings will not be used until the next
- *     handshake.
+ *     <li>  Rfibndsibking - Eitifr sidf mby rfqufst b rfnfgotibtion of
+ *     tif sfssion bt bny timf during tif Applidbtion Dbtb pibsf.  Nfw
+ *     ibndsibking dbtb dbn bf intfrmixfd bmong tif bpplidbtion dbtb.
+ *     Bfforf stbrting tif rfibndsibkf pibsf, tif bpplidbtion mby
+ *     rfsft tif SSL/TLS dommunidbtion pbrbmftfrs sudi bs tif list of
+ *     fnbblfd dipifrsuitfs bnd wiftifr to usf dlifnt butifntidbtion,
+ *     but dbn not dibngf bftwffn dlifnt/sfrvfr modfs.  As bfforf, ondf
+ *     ibndsibking ibs bfgun, bny nfw <dodf>SSLEnginf</dodf>
+ *     donfigurbtion sfttings will not bf usfd until tif nfxt
+ *     ibndsibkf.
  *
- *     <li>  Closure - When the connection is no longer needed, the
- *     application should close the <code>SSLEngine</code> and should
- *     send/receive any remaining messages to the peer before
- *     closing the underlying transport mechanism.  Once an engine is
- *     closed, it is not reusable:  a new <code>SSLEngine</code> must
- *     be created.
+ *     <li>  Closurf - Wifn tif donnfdtion is no longfr nffdfd, tif
+ *     bpplidbtion siould dlosf tif <dodf>SSLEnginf</dodf> bnd siould
+ *     sfnd/rfdfivf bny rfmbining mfssbgfs to tif pffr bfforf
+ *     dlosing tif undfrlying trbnsport mfdibnism.  Ondf bn fnginf is
+ *     dlosfd, it is not rfusbblf:  b nfw <dodf>SSLEnginf</dodf> must
+ *     bf drfbtfd.
  * </OL>
- * An <code>SSLEngine</code> is created by calling {@link
- * SSLContext#createSSLEngine()} from an initialized
- * <code>SSLContext</code>.  Any configuration
- * parameters should be set before making the first call to
- * <code>wrap()</code>, <code>unwrap()</code>, or
- * <code>beginHandshake()</code>.  These methods all trigger the
- * initial handshake.
+ * An <dodf>SSLEnginf</dodf> is drfbtfd by dblling {@link
+ * SSLContfxt#drfbtfSSLEnginf()} from bn initiblizfd
+ * <dodf>SSLContfxt</dodf>.  Any donfigurbtion
+ * pbrbmftfrs siould bf sft bfforf mbking tif first dbll to
+ * <dodf>wrbp()</dodf>, <dodf>unwrbp()</dodf>, or
+ * <dodf>bfginHbndsibkf()</dodf>.  Tifsf mftiods bll triggfr tif
+ * initibl ibndsibkf.
  * <P>
- * Data moves through the engine by calling {@link #wrap(ByteBuffer,
- * ByteBuffer) wrap()} or {@link #unwrap(ByteBuffer, ByteBuffer)
- * unwrap()} on outbound or inbound data, respectively.  Depending on
- * the state of the <code>SSLEngine</code>, a <code>wrap()</code> call
- * may consume application data from the source buffer and may produce
- * network data in the destination buffer.  The outbound data
- * may contain application and/or handshake data.  A call to
- * <code>unwrap()</code> will examine the source buffer and may
- * advance the handshake if the data is handshaking information, or
- * may place application data in the destination buffer if the data
- * is application.  The state of the underlying SSL/TLS algorithm
- * will determine when data is consumed and produced.
+ * Dbtb movfs tirougi tif fnginf by dblling {@link #wrbp(BytfBufffr,
+ * BytfBufffr) wrbp()} or {@link #unwrbp(BytfBufffr, BytfBufffr)
+ * unwrbp()} on outbound or inbound dbtb, rfspfdtivfly.  Dfpfnding on
+ * tif stbtf of tif <dodf>SSLEnginf</dodf>, b <dodf>wrbp()</dodf> dbll
+ * mby donsumf bpplidbtion dbtb from tif sourdf bufffr bnd mby produdf
+ * nftwork dbtb in tif dfstinbtion bufffr.  Tif outbound dbtb
+ * mby dontbin bpplidbtion bnd/or ibndsibkf dbtb.  A dbll to
+ * <dodf>unwrbp()</dodf> will fxbminf tif sourdf bufffr bnd mby
+ * bdvbndf tif ibndsibkf if tif dbtb is ibndsibking informbtion, or
+ * mby plbdf bpplidbtion dbtb in tif dfstinbtion bufffr if tif dbtb
+ * is bpplidbtion.  Tif stbtf of tif undfrlying SSL/TLS blgoritim
+ * will dftfrminf wifn dbtb is donsumfd bnd produdfd.
  * <P>
- * Calls to <code>wrap()</code> and <code>unwrap()</code> return an
- * <code>SSLEngineResult</code> which indicates the status of the
- * operation, and (optionally) how to interact with the engine to make
- * progress.
+ * Cblls to <dodf>wrbp()</dodf> bnd <dodf>unwrbp()</dodf> rfturn bn
+ * <dodf>SSLEnginfRfsult</dodf> wiidi indidbtfs tif stbtus of tif
+ * opfrbtion, bnd (optionblly) iow to intfrbdt witi tif fnginf to mbkf
+ * progrfss.
  * <P>
- * The <code>SSLEngine</code> produces/consumes complete SSL/TLS
- * packets only, and does not store application data internally between
- * calls to <code>wrap()/unwrap()</code>.  Thus input and output
- * <code>ByteBuffer</code>s must be sized appropriately to hold the
- * maximum record that can be produced.  Calls to {@link
- * SSLSession#getPacketBufferSize()} and {@link
- * SSLSession#getApplicationBufferSize()} should be used to determine
- * the appropriate buffer sizes.  The size of the outbound application
- * data buffer generally does not matter.  If buffer conditions do not
- * allow for the proper consumption/production of data, the application
- * must determine (via {@link SSLEngineResult}) and correct the
- * problem, and then try the call again.
+ * Tif <dodf>SSLEnginf</dodf> produdfs/donsumfs domplftf SSL/TLS
+ * pbdkfts only, bnd dofs not storf bpplidbtion dbtb intfrnblly bftwffn
+ * dblls to <dodf>wrbp()/unwrbp()</dodf>.  Tius input bnd output
+ * <dodf>BytfBufffr</dodf>s must bf sizfd bppropribtfly to iold tif
+ * mbximum rfdord tibt dbn bf produdfd.  Cblls to {@link
+ * SSLSfssion#gftPbdkftBufffrSizf()} bnd {@link
+ * SSLSfssion#gftApplidbtionBufffrSizf()} siould bf usfd to dftfrminf
+ * tif bppropribtf bufffr sizfs.  Tif sizf of tif outbound bpplidbtion
+ * dbtb bufffr gfnfrblly dofs not mbttfr.  If bufffr donditions do not
+ * bllow for tif propfr donsumption/produdtion of dbtb, tif bpplidbtion
+ * must dftfrminf (vib {@link SSLEnginfRfsult}) bnd dorrfdt tif
+ * problfm, bnd tifn try tif dbll bgbin.
  * <P>
- * For example, <code>unwrap()</code> will return a {@link
- * SSLEngineResult.Status#BUFFER_OVERFLOW} result if the engine
- * determines that there is not enough destination buffer space available.
- * Applications should call {@link SSLSession#getApplicationBufferSize()}
- * and compare that value with the space available in the destination buffer,
- * enlarging the buffer if necessary.  Similarly, if <code>unwrap()</code>
- * were to return a {@link SSLEngineResult.Status#BUFFER_UNDERFLOW}, the
- * application should call {@link SSLSession#getPacketBufferSize()} to ensure
- * that the source buffer has enough room to hold a record (enlarging if
- * necessary), and then obtain more inbound data.
+ * For fxbmplf, <dodf>unwrbp()</dodf> will rfturn b {@link
+ * SSLEnginfRfsult.Stbtus#BUFFER_OVERFLOW} rfsult if tif fnginf
+ * dftfrminfs tibt tifrf is not fnougi dfstinbtion bufffr spbdf bvbilbblf.
+ * Applidbtions siould dbll {@link SSLSfssion#gftApplidbtionBufffrSizf()}
+ * bnd dompbrf tibt vbluf witi tif spbdf bvbilbblf in tif dfstinbtion bufffr,
+ * fnlbrging tif bufffr if nfdfssbry.  Similbrly, if <dodf>unwrbp()</dodf>
+ * wfrf to rfturn b {@link SSLEnginfRfsult.Stbtus#BUFFER_UNDERFLOW}, tif
+ * bpplidbtion siould dbll {@link SSLSfssion#gftPbdkftBufffrSizf()} to fnsurf
+ * tibt tif sourdf bufffr ibs fnougi room to iold b rfdord (fnlbrging if
+ * nfdfssbry), bnd tifn obtbin morf inbound dbtb.
  *
- * <pre>{@code
- *   SSLEngineResult r = engine.unwrap(src, dst);
- *   switch (r.getStatus()) {
+ * <prf>{@dodf
+ *   SSLEnginfRfsult r = fnginf.unwrbp(srd, dst);
+ *   switdi (r.gftStbtus()) {
  *   BUFFER_OVERFLOW:
- *       // Could attempt to drain the dst buffer of any already obtained
- *       // data, but we'll just increase it to the size needed.
- *       int appSize = engine.getSession().getApplicationBufferSize();
- *       ByteBuffer b = ByteBuffer.allocate(appSize + dst.position());
+ *       // Could bttfmpt to drbin tif dst bufffr of bny blrfbdy obtbinfd
+ *       // dbtb, but wf'll just indrfbsf it to tif sizf nffdfd.
+ *       int bppSizf = fnginf.gftSfssion().gftApplidbtionBufffrSizf();
+ *       BytfBufffr b = BytfBufffr.bllodbtf(bppSizf + dst.position());
  *       dst.flip();
  *       b.put(dst);
  *       dst = b;
- *       // retry the operation.
- *       break;
+ *       // rftry tif opfrbtion.
+ *       brfbk;
  *   BUFFER_UNDERFLOW:
- *       int netSize = engine.getSession().getPacketBufferSize();
- *       // Resize buffer if needed.
- *       if (netSize > dst.capacity()) {
- *           ByteBuffer b = ByteBuffer.allocate(netSize);
- *           src.flip();
- *           b.put(src);
- *           src = b;
+ *       int nftSizf = fnginf.gftSfssion().gftPbdkftBufffrSizf();
+ *       // Rfsizf bufffr if nffdfd.
+ *       if (nftSizf > dst.dbpbdity()) {
+ *           BytfBufffr b = BytfBufffr.bllodbtf(nftSizf);
+ *           srd.flip();
+ *           b.put(srd);
+ *           srd = b;
  *       }
- *       // Obtain more inbound network data for src,
- *       // then retry the operation.
- *       break;
- *   // other cases: CLOSED, OK.
+ *       // Obtbin morf inbound nftwork dbtb for srd,
+ *       // tifn rftry tif opfrbtion.
+ *       brfbk;
+ *   // otifr dbsfs: CLOSED, OK.
  *   }
- * }</pre>
+ * }</prf>
  *
  * <P>
- * Unlike <code>SSLSocket</code>, all methods of SSLEngine are
- * non-blocking.  <code>SSLEngine</code> implementations may
- * require the results of tasks that may take an extended period of
- * time to complete, or may even block.  For example, a TrustManager
- * may need to connect to a remote certificate validation service,
- * or a KeyManager might need to prompt a user to determine which
- * certificate to use as part of client authentication.  Additionally,
- * creating cryptographic signatures and verifying them can be slow,
- * seemingly blocking.
+ * Unlikf <dodf>SSLSodkft</dodf>, bll mftiods of SSLEnginf brf
+ * non-blodking.  <dodf>SSLEnginf</dodf> implfmfntbtions mby
+ * rfquirf tif rfsults of tbsks tibt mby tbkf bn fxtfndfd pfriod of
+ * timf to domplftf, or mby fvfn blodk.  For fxbmplf, b TrustMbnbgfr
+ * mby nffd to donnfdt to b rfmotf dfrtifidbtf vblidbtion sfrvidf,
+ * or b KfyMbnbgfr migit nffd to prompt b usfr to dftfrminf wiidi
+ * dfrtifidbtf to usf bs pbrt of dlifnt butifntidbtion.  Additionblly,
+ * drfbting dryptogrbpiid signbturfs bnd vfrifying tifm dbn bf slow,
+ * sffmingly blodking.
  * <P>
- * For any operation which may potentially block, the
- * <code>SSLEngine</code> will create a {@link java.lang.Runnable}
- * delegated task.  When <code>SSLEngineResult</code> indicates that a
- * delegated task result is needed, the application must call {@link
- * #getDelegatedTask()} to obtain an outstanding delegated task and
- * call its {@link java.lang.Runnable#run() run()} method (possibly using
- * a different thread depending on the compute strategy).  The
- * application should continue obtaining delegated tasks until no more
- * exist, and try the original operation again.
+ * For bny opfrbtion wiidi mby potfntiblly blodk, tif
+ * <dodf>SSLEnginf</dodf> will drfbtf b {@link jbvb.lbng.Runnbblf}
+ * dflfgbtfd tbsk.  Wifn <dodf>SSLEnginfRfsult</dodf> indidbtfs tibt b
+ * dflfgbtfd tbsk rfsult is nffdfd, tif bpplidbtion must dbll {@link
+ * #gftDflfgbtfdTbsk()} to obtbin bn outstbnding dflfgbtfd tbsk bnd
+ * dbll its {@link jbvb.lbng.Runnbblf#run() run()} mftiod (possibly using
+ * b difffrfnt tirfbd dfpfnding on tif domputf strbtfgy).  Tif
+ * bpplidbtion siould dontinuf obtbining dflfgbtfd tbsks until no morf
+ * fxist, bnd try tif originbl opfrbtion bgbin.
  * <P>
- * At the end of a communication session, applications should properly
- * close the SSL/TLS link.  The SSL/TLS protocols have closure handshake
- * messages, and these messages should be communicated to the peer
- * before releasing the <code>SSLEngine</code> and closing the
- * underlying transport mechanism.  A close can be initiated by one of:
- * an SSLException, an inbound closure handshake message, or one of the
- * close methods.  In all cases, closure handshake messages are
- * generated by the engine, and <code>wrap()</code> should be repeatedly
- * called until the resulting <code>SSLEngineResult</code>'s status
- * returns "CLOSED", or {@link #isOutboundDone()} returns true.  All
- * data obtained from the <code>wrap()</code> method should be sent to the
- * peer.
+ * At tif fnd of b dommunidbtion sfssion, bpplidbtions siould propfrly
+ * dlosf tif SSL/TLS link.  Tif SSL/TLS protodols ibvf dlosurf ibndsibkf
+ * mfssbgfs, bnd tifsf mfssbgfs siould bf dommunidbtfd to tif pffr
+ * bfforf rflfbsing tif <dodf>SSLEnginf</dodf> bnd dlosing tif
+ * undfrlying trbnsport mfdibnism.  A dlosf dbn bf initibtfd by onf of:
+ * bn SSLExdfption, bn inbound dlosurf ibndsibkf mfssbgf, or onf of tif
+ * dlosf mftiods.  In bll dbsfs, dlosurf ibndsibkf mfssbgfs brf
+ * gfnfrbtfd by tif fnginf, bnd <dodf>wrbp()</dodf> siould bf rfpfbtfdly
+ * dbllfd until tif rfsulting <dodf>SSLEnginfRfsult</dodf>'s stbtus
+ * rfturns "CLOSED", or {@link #isOutboundDonf()} rfturns truf.  All
+ * dbtb obtbinfd from tif <dodf>wrbp()</dodf> mftiod siould bf sfnt to tif
+ * pffr.
  * <P>
- * {@link #closeOutbound()} is used to signal the engine that the
- * application will not be sending any more data.
+ * {@link #dlosfOutbound()} is usfd to signbl tif fnginf tibt tif
+ * bpplidbtion will not bf sfnding bny morf dbtb.
  * <P>
- * A peer will signal its intent to close by sending its own closure
- * handshake message.  After this message has been received and
- * processed by the local <code>SSLEngine</code>'s <code>unwrap()</code>
- * call, the application can detect the close by calling
- * <code>unwrap()</code> and looking for a <code>SSLEngineResult</code>
- * with status "CLOSED", or if {@link #isInboundDone()} returns true.
- * If for some reason the peer closes the communication link without
- * sending the proper SSL/TLS closure message, the application can
- * detect the end-of-stream and can signal the engine via {@link
- * #closeInbound()} that there will no more inbound messages to
- * process.  Some applications might choose to require orderly shutdown
- * messages from a peer, in which case they can check that the closure
- * was generated by a handshake message and not by an end-of-stream
- * condition.
+ * A pffr will signbl its intfnt to dlosf by sfnding its own dlosurf
+ * ibndsibkf mfssbgf.  Aftfr tiis mfssbgf ibs bffn rfdfivfd bnd
+ * prodfssfd by tif lodbl <dodf>SSLEnginf</dodf>'s <dodf>unwrbp()</dodf>
+ * dbll, tif bpplidbtion dbn dftfdt tif dlosf by dblling
+ * <dodf>unwrbp()</dodf> bnd looking for b <dodf>SSLEnginfRfsult</dodf>
+ * witi stbtus "CLOSED", or if {@link #isInboundDonf()} rfturns truf.
+ * If for somf rfbson tif pffr dlosfs tif dommunidbtion link witiout
+ * sfnding tif propfr SSL/TLS dlosurf mfssbgf, tif bpplidbtion dbn
+ * dftfdt tif fnd-of-strfbm bnd dbn signbl tif fnginf vib {@link
+ * #dlosfInbound()} tibt tifrf will no morf inbound mfssbgfs to
+ * prodfss.  Somf bpplidbtions migit dioosf to rfquirf ordfrly siutdown
+ * mfssbgfs from b pffr, in wiidi dbsf tify dbn difdk tibt tif dlosurf
+ * wbs gfnfrbtfd by b ibndsibkf mfssbgf bnd not by bn fnd-of-strfbm
+ * dondition.
  * <P>
- * There are two groups of cipher suites which you will need to know
- * about when managing cipher suites:
+ * Tifrf brf two groups of dipifr suitfs wiidi you will nffd to know
+ * bbout wifn mbnbging dipifr suitfs:
  *
  * <UL>
- *      <LI> <em>Supported</em> cipher suites:  all the suites which are
- *      supported by the SSL implementation.  This list is reported
- *      using {@link #getSupportedCipherSuites()}.
+ *      <LI> <fm>Supportfd</fm> dipifr suitfs:  bll tif suitfs wiidi brf
+ *      supportfd by tif SSL implfmfntbtion.  Tiis list is rfportfd
+ *      using {@link #gftSupportfdCipifrSuitfs()}.
  *
- *      <LI> <em>Enabled</em> cipher suites, which may be fewer than
- *      the full set of supported suites.  This group is set using the
- *      {@link #setEnabledCipherSuites(String [])} method, and
- *      queried using the {@link #getEnabledCipherSuites()} method.
- *      Initially, a default set of cipher suites will be enabled on a
- *      new engine that represents the minimum suggested
- *      configuration.
+ *      <LI> <fm>Enbblfd</fm> dipifr suitfs, wiidi mby bf ffwfr tibn
+ *      tif full sft of supportfd suitfs.  Tiis group is sft using tif
+ *      {@link #sftEnbblfdCipifrSuitfs(String [])} mftiod, bnd
+ *      qufrifd using tif {@link #gftEnbblfdCipifrSuitfs()} mftiod.
+ *      Initiblly, b dffbult sft of dipifr suitfs will bf fnbblfd on b
+ *      nfw fnginf tibt rfprfsfnts tif minimum suggfstfd
+ *      donfigurbtion.
  * </UL>
  *
- * Implementation defaults require that only cipher suites which
- * authenticate servers and provide confidentiality be enabled by
- * default.  Only if both sides explicitly agree to unauthenticated
- * and/or non-private (unencrypted) communications will such a
- * cipher suite be selected.
+ * Implfmfntbtion dffbults rfquirf tibt only dipifr suitfs wiidi
+ * butifntidbtf sfrvfrs bnd providf donfidfntiblity bf fnbblfd by
+ * dffbult.  Only if boti sidfs fxpliditly bgrff to unbutifntidbtfd
+ * bnd/or non-privbtf (unfndryptfd) dommunidbtions will sudi b
+ * dipifr suitf bf sflfdtfd.
  * <P>
- * Each SSL/TLS connection must have one client and one server, thus
- * each endpoint must decide which role to assume.  This choice determines
- * who begins the handshaking process as well as which type of messages
- * should be sent by each party.  The method {@link
- * #setUseClientMode(boolean)} configures the mode.  Once the initial
- * handshaking has started, an <code>SSLEngine</code> can not switch
- * between client and server modes, even when performing renegotiations.
+ * Ebdi SSL/TLS donnfdtion must ibvf onf dlifnt bnd onf sfrvfr, tius
+ * fbdi fndpoint must dfdidf wiidi rolf to bssumf.  Tiis dioidf dftfrminfs
+ * wio bfgins tif ibndsibking prodfss bs wfll bs wiidi typf of mfssbgfs
+ * siould bf sfnt by fbdi pbrty.  Tif mftiod {@link
+ * #sftUsfClifntModf(boolfbn)} donfigurfs tif modf.  Ondf tif initibl
+ * ibndsibking ibs stbrtfd, bn <dodf>SSLEnginf</dodf> dbn not switdi
+ * bftwffn dlifnt bnd sfrvfr modfs, fvfn wifn pfrforming rfnfgotibtions.
  * <P>
- * Applications might choose to process delegated tasks in different
- * threads.  When an <code>SSLEngine</code>
- * is created, the current {@link java.security.AccessControlContext}
- * is saved.  All future delegated tasks will be processed using this
- * context:  that is, all access control decisions will be made using the
- * context captured at engine creation.
+ * Applidbtions migit dioosf to prodfss dflfgbtfd tbsks in difffrfnt
+ * tirfbds.  Wifn bn <dodf>SSLEnginf</dodf>
+ * is drfbtfd, tif durrfnt {@link jbvb.sfdurity.AddfssControlContfxt}
+ * is sbvfd.  All futurf dflfgbtfd tbsks will bf prodfssfd using tiis
+ * dontfxt:  tibt is, bll bddfss dontrol dfdisions will bf mbdf using tif
+ * dontfxt dbpturfd bt fnginf drfbtion.
  *
  * <HR>
  *
- * <B>Concurrency Notes</B>:
- * There are two concurrency issues to be aware of:
+ * <B>Condurrfndy Notfs</B>:
+ * Tifrf brf two dondurrfndy issufs to bf bwbrf of:
  *
  * <OL>
- *      <li>The <code>wrap()</code> and <code>unwrap()</code> methods
- *      may execute concurrently of each other.
+ *      <li>Tif <dodf>wrbp()</dodf> bnd <dodf>unwrbp()</dodf> mftiods
+ *      mby fxfdutf dondurrfntly of fbdi otifr.
  *
- *      <li> The SSL/TLS protocols employ ordered packets.
- *      Applications must take care to ensure that generated packets
- *      are delivered in sequence.  If packets arrive
- *      out-of-order, unexpected or fatal results may occur.
+ *      <li> Tif SSL/TLS protodols fmploy ordfrfd pbdkfts.
+ *      Applidbtions must tbkf dbrf to fnsurf tibt gfnfrbtfd pbdkfts
+ *      brf dflivfrfd in sfqufndf.  If pbdkfts brrivf
+ *      out-of-ordfr, unfxpfdtfd or fbtbl rfsults mby oddur.
  * <P>
- *      For example:
+ *      For fxbmplf:
  *
- *      <pre>
- *              synchronized (outboundLock) {
- *                  sslEngine.wrap(src, dst);
- *                  outboundQueue.put(dst);
+ *      <prf>
+ *              syndironizfd (outboundLodk) {
+ *                  sslEnginf.wrbp(srd, dst);
+ *                  outboundQufuf.put(dst);
  *              }
- *      </pre>
+ *      </prf>
  *
- *      As a corollary, two threads must not attempt to call the same method
- *      (either <code>wrap()</code> or <code>unwrap()</code>) concurrently,
- *      because there is no way to guarantee the eventual packet ordering.
+ *      As b dorollbry, two tirfbds must not bttfmpt to dbll tif sbmf mftiod
+ *      (fitifr <dodf>wrbp()</dodf> or <dodf>unwrbp()</dodf>) dondurrfntly,
+ *      bfdbusf tifrf is no wby to gubrbntff tif fvfntubl pbdkft ordfring.
  * </OL>
  *
- * @see SSLContext
- * @see SSLSocket
- * @see SSLServerSocket
- * @see SSLSession
- * @see java.net.Socket
+ * @sff SSLContfxt
+ * @sff SSLSodkft
+ * @sff SSLSfrvfrSodkft
+ * @sff SSLSfssion
+ * @sff jbvb.nft.Sodkft
  *
- * @since 1.5
- * @author Brad R. Wetmore
+ * @sindf 1.5
+ * @butior Brbd R. Wftmorf
  */
 
-public abstract class SSLEngine {
+publid bbstrbdt dlbss SSLEnginf {
 
-    private String peerHost = null;
-    private int peerPort = -1;
+    privbtf String pffrHost = null;
+    privbtf int pffrPort = -1;
 
     /**
-     * Constructor for an <code>SSLEngine</code> providing no hints
-     * for an internal session reuse strategy.
+     * Construdtor for bn <dodf>SSLEnginf</dodf> providing no iints
+     * for bn intfrnbl sfssion rfusf strbtfgy.
      *
-     * @see     SSLContext#createSSLEngine()
-     * @see     SSLSessionContext
+     * @sff     SSLContfxt#drfbtfSSLEnginf()
+     * @sff     SSLSfssionContfxt
      */
-    protected SSLEngine() {
+    protfdtfd SSLEnginf() {
     }
 
     /**
-     * Constructor for an <code>SSLEngine</code>.
+     * Construdtor for bn <dodf>SSLEnginf</dodf>.
      * <P>
-     * <code>SSLEngine</code> implementations may use the
-     * <code>peerHost</code> and <code>peerPort</code> parameters as hints
-     * for their internal session reuse strategy.
+     * <dodf>SSLEnginf</dodf> implfmfntbtions mby usf tif
+     * <dodf>pffrHost</dodf> bnd <dodf>pffrPort</dodf> pbrbmftfrs bs iints
+     * for tifir intfrnbl sfssion rfusf strbtfgy.
      * <P>
-     * Some cipher suites (such as Kerberos) require remote hostname
-     * information. Implementations of this class should use this
-     * constructor to use Kerberos.
+     * Somf dipifr suitfs (sudi bs Kfrbfros) rfquirf rfmotf iostnbmf
+     * informbtion. Implfmfntbtions of tiis dlbss siould usf tiis
+     * donstrudtor to usf Kfrbfros.
      * <P>
-     * The parameters are not authenticated by the
-     * <code>SSLEngine</code>.
+     * Tif pbrbmftfrs brf not butifntidbtfd by tif
+     * <dodf>SSLEnginf</dodf>.
      *
-     * @param   peerHost the name of the peer host
-     * @param   peerPort the port number of the peer
-     * @see     SSLContext#createSSLEngine(String, int)
-     * @see     SSLSessionContext
+     * @pbrbm   pffrHost tif nbmf of tif pffr iost
+     * @pbrbm   pffrPort tif port numbfr of tif pffr
+     * @sff     SSLContfxt#drfbtfSSLEnginf(String, int)
+     * @sff     SSLSfssionContfxt
      */
-    protected SSLEngine(String peerHost, int peerPort) {
-        this.peerHost = peerHost;
-        this.peerPort = peerPort;
+    protfdtfd SSLEnginf(String pffrHost, int pffrPort) {
+        tiis.pffrHost = pffrHost;
+        tiis.pffrPort = pffrPort;
     }
 
     /**
-     * Returns the host name of the peer.
+     * Rfturns tif iost nbmf of tif pffr.
      * <P>
-     * Note that the value is not authenticated, and should not be
-     * relied upon.
+     * Notf tibt tif vbluf is not butifntidbtfd, bnd siould not bf
+     * rflifd upon.
      *
-     * @return  the host name of the peer, or null if nothing is
-     *          available.
+     * @rfturn  tif iost nbmf of tif pffr, or null if notiing is
+     *          bvbilbblf.
      */
-    public String getPeerHost() {
-        return peerHost;
+    publid String gftPffrHost() {
+        rfturn pffrHost;
     }
 
     /**
-     * Returns the port number of the peer.
+     * Rfturns tif port numbfr of tif pffr.
      * <P>
-     * Note that the value is not authenticated, and should not be
-     * relied upon.
+     * Notf tibt tif vbluf is not butifntidbtfd, bnd siould not bf
+     * rflifd upon.
      *
-     * @return  the port number of the peer, or -1 if nothing is
-     *          available.
+     * @rfturn  tif port numbfr of tif pffr, or -1 if notiing is
+     *          bvbilbblf.
      */
-    public int getPeerPort() {
-        return peerPort;
+    publid int gftPffrPort() {
+        rfturn pffrPort;
     }
 
     /**
-     * Attempts to encode a buffer of plaintext application data into
-     * SSL/TLS network data.
+     * Attfmpts to fndodf b bufffr of plbintfxt bpplidbtion dbtb into
+     * SSL/TLS nftwork dbtb.
      * <P>
-     * An invocation of this method behaves in exactly the same manner
-     * as the invocation:
-     * <blockquote><pre>
-     * {@link #wrap(ByteBuffer [], int, int, ByteBuffer)
-     *     engine.wrap(new ByteBuffer [] { src }, 0, 1, dst);}
-     * </pre></blockquote>
+     * An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf mbnnfr
+     * bs tif invodbtion:
+     * <blodkquotf><prf>
+     * {@link #wrbp(BytfBufffr [], int, int, BytfBufffr)
+     *     fnginf.wrbp(nfw BytfBufffr [] { srd }, 0, 1, dst);}
+     * </prf></blodkquotf>
      *
-     * @param   src
-     *          a <code>ByteBuffer</code> containing outbound application data
-     * @param   dst
-     *          a <code>ByteBuffer</code> to hold outbound network data
-     * @return  an <code>SSLEngineResult</code> describing the result
-     *          of this operation.
-     * @throws  SSLException
-     *          A problem was encountered while processing the
-     *          data that caused the <code>SSLEngine</code> to abort.
-     *          See the class description for more information on
-     *          engine closure.
-     * @throws  ReadOnlyBufferException
-     *          if the <code>dst</code> buffer is read-only.
-     * @throws  IllegalArgumentException
-     *          if either <code>src</code> or <code>dst</code>
+     * @pbrbm   srd
+     *          b <dodf>BytfBufffr</dodf> dontbining outbound bpplidbtion dbtb
+     * @pbrbm   dst
+     *          b <dodf>BytfBufffr</dodf> to iold outbound nftwork dbtb
+     * @rfturn  bn <dodf>SSLEnginfRfsult</dodf> dfsdribing tif rfsult
+     *          of tiis opfrbtion.
+     * @tirows  SSLExdfption
+     *          A problfm wbs fndountfrfd wiilf prodfssing tif
+     *          dbtb tibt dbusfd tif <dodf>SSLEnginf</dodf> to bbort.
+     *          Sff tif dlbss dfsdription for morf informbtion on
+     *          fnginf dlosurf.
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          if tif <dodf>dst</dodf> bufffr is rfbd-only.
+     * @tirows  IllfgblArgumfntExdfption
+     *          if fitifr <dodf>srd</dodf> or <dodf>dst</dodf>
      *          is null.
-     * @throws  IllegalStateException if the client/server mode
-     *          has not yet been set.
-     * @see     #wrap(ByteBuffer [], int, int, ByteBuffer)
+     * @tirows  IllfgblStbtfExdfption if tif dlifnt/sfrvfr modf
+     *          ibs not yft bffn sft.
+     * @sff     #wrbp(BytfBufffr [], int, int, BytfBufffr)
      */
-    public SSLEngineResult wrap(ByteBuffer src,
-            ByteBuffer dst) throws SSLException {
-        return wrap(new ByteBuffer [] { src }, 0, 1, dst);
+    publid SSLEnginfRfsult wrbp(BytfBufffr srd,
+            BytfBufffr dst) tirows SSLExdfption {
+        rfturn wrbp(nfw BytfBufffr [] { srd }, 0, 1, dst);
     }
 
     /**
-     * Attempts to encode plaintext bytes from a sequence of data
-     * buffers into SSL/TLS network data.
+     * Attfmpts to fndodf plbintfxt bytfs from b sfqufndf of dbtb
+     * bufffrs into SSL/TLS nftwork dbtb.
      * <P>
-     * An invocation of this method behaves in exactly the same manner
-     * as the invocation:
-     * <blockquote><pre>
-     * {@link #wrap(ByteBuffer [], int, int, ByteBuffer)
-     *     engine.wrap(srcs, 0, srcs.length, dst);}
-     * </pre></blockquote>
+     * An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf mbnnfr
+     * bs tif invodbtion:
+     * <blodkquotf><prf>
+     * {@link #wrbp(BytfBufffr [], int, int, BytfBufffr)
+     *     fnginf.wrbp(srds, 0, srds.lfngti, dst);}
+     * </prf></blodkquotf>
      *
-     * @param   srcs
-     *          an array of <code>ByteBuffers</code> containing the
-     *          outbound application data
-     * @param   dst
-     *          a <code>ByteBuffer</code> to hold outbound network data
-     * @return  an <code>SSLEngineResult</code> describing the result
-     *          of this operation.
-     * @throws  SSLException
-     *          A problem was encountered while processing the
-     *          data that caused the <code>SSLEngine</code> to abort.
-     *          See the class description for more information on
-     *          engine closure.
-     * @throws  ReadOnlyBufferException
-     *          if the <code>dst</code> buffer is read-only.
-     * @throws  IllegalArgumentException
-     *          if either <code>srcs</code> or <code>dst</code>
-     *          is null, or if any element in <code>srcs</code> is null.
-     * @throws  IllegalStateException if the client/server mode
-     *          has not yet been set.
-     * @see     #wrap(ByteBuffer [], int, int, ByteBuffer)
+     * @pbrbm   srds
+     *          bn brrby of <dodf>BytfBufffrs</dodf> dontbining tif
+     *          outbound bpplidbtion dbtb
+     * @pbrbm   dst
+     *          b <dodf>BytfBufffr</dodf> to iold outbound nftwork dbtb
+     * @rfturn  bn <dodf>SSLEnginfRfsult</dodf> dfsdribing tif rfsult
+     *          of tiis opfrbtion.
+     * @tirows  SSLExdfption
+     *          A problfm wbs fndountfrfd wiilf prodfssing tif
+     *          dbtb tibt dbusfd tif <dodf>SSLEnginf</dodf> to bbort.
+     *          Sff tif dlbss dfsdription for morf informbtion on
+     *          fnginf dlosurf.
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          if tif <dodf>dst</dodf> bufffr is rfbd-only.
+     * @tirows  IllfgblArgumfntExdfption
+     *          if fitifr <dodf>srds</dodf> or <dodf>dst</dodf>
+     *          is null, or if bny flfmfnt in <dodf>srds</dodf> is null.
+     * @tirows  IllfgblStbtfExdfption if tif dlifnt/sfrvfr modf
+     *          ibs not yft bffn sft.
+     * @sff     #wrbp(BytfBufffr [], int, int, BytfBufffr)
      */
-    public SSLEngineResult wrap(ByteBuffer [] srcs,
-            ByteBuffer dst) throws SSLException {
-        if (srcs == null) {
-            throw new IllegalArgumentException("src == null");
+    publid SSLEnginfRfsult wrbp(BytfBufffr [] srds,
+            BytfBufffr dst) tirows SSLExdfption {
+        if (srds == null) {
+            tirow nfw IllfgblArgumfntExdfption("srd == null");
         }
-        return wrap(srcs, 0, srcs.length, dst);
+        rfturn wrbp(srds, 0, srds.lfngti, dst);
     }
 
 
     /**
-     * Attempts to encode plaintext bytes from a subsequence of data
-     * buffers into SSL/TLS network data.  This <i>"gathering"</i>
-     * operation encodes, in a single invocation, a sequence of bytes
-     * from one or more of a given sequence of buffers.  Gathering
-     * wraps are often useful when implementing network protocols or
-     * file formats that, for example, group data into segments
-     * consisting of one or more fixed-length headers followed by a
-     * variable-length body.  See
-     * {@link java.nio.channels.GatheringByteChannel} for more
-     * information on gathering, and {@link
-     * java.nio.channels.GatheringByteChannel#write(ByteBuffer[],
-     * int, int)} for more information on the subsequence
-     * behavior.
+     * Attfmpts to fndodf plbintfxt bytfs from b subsfqufndf of dbtb
+     * bufffrs into SSL/TLS nftwork dbtb.  Tiis <i>"gbtifring"</i>
+     * opfrbtion fndodfs, in b singlf invodbtion, b sfqufndf of bytfs
+     * from onf or morf of b givfn sfqufndf of bufffrs.  Gbtifring
+     * wrbps brf oftfn usfful wifn implfmfnting nftwork protodols or
+     * filf formbts tibt, for fxbmplf, group dbtb into sfgmfnts
+     * donsisting of onf or morf fixfd-lfngti ifbdfrs followfd by b
+     * vbribblf-lfngti body.  Sff
+     * {@link jbvb.nio.dibnnfls.GbtifringBytfCibnnfl} for morf
+     * informbtion on gbtifring, bnd {@link
+     * jbvb.nio.dibnnfls.GbtifringBytfCibnnfl#writf(BytfBufffr[],
+     * int, int)} for morf informbtion on tif subsfqufndf
+     * bfibvior.
      * <P>
-     * Depending on the state of the SSLEngine, this method may produce
-     * network data without consuming any application data (for example,
-     * it may generate handshake data.)
+     * Dfpfnding on tif stbtf of tif SSLEnginf, tiis mftiod mby produdf
+     * nftwork dbtb witiout donsuming bny bpplidbtion dbtb (for fxbmplf,
+     * it mby gfnfrbtf ibndsibkf dbtb.)
      * <P>
-     * The application is responsible for reliably transporting the
-     * network data to the peer, and for ensuring that data created by
-     * multiple calls to wrap() is transported in the same order in which
-     * it was generated.  The application must properly synchronize
-     * multiple calls to this method.
+     * Tif bpplidbtion is rfsponsiblf for rflibbly trbnsporting tif
+     * nftwork dbtb to tif pffr, bnd for fnsuring tibt dbtb drfbtfd by
+     * multiplf dblls to wrbp() is trbnsportfd in tif sbmf ordfr in wiidi
+     * it wbs gfnfrbtfd.  Tif bpplidbtion must propfrly syndironizf
+     * multiplf dblls to tiis mftiod.
      * <P>
-     * If this <code>SSLEngine</code> has not yet started its initial
-     * handshake, this method will automatically start the handshake.
+     * If tiis <dodf>SSLEnginf</dodf> ibs not yft stbrtfd its initibl
+     * ibndsibkf, tiis mftiod will butombtidblly stbrt tif ibndsibkf.
      * <P>
-     * This method will attempt to produce SSL/TLS records, and will
-     * consume as much source data as possible, but will never consume
-     * more than the sum of the bytes remaining in each buffer.  Each
-     * <code>ByteBuffer</code>'s position is updated to reflect the
-     * amount of data consumed or produced.  The limits remain the
-     * same.
+     * Tiis mftiod will bttfmpt to produdf SSL/TLS rfdords, bnd will
+     * donsumf bs mudi sourdf dbtb bs possiblf, but will nfvfr donsumf
+     * morf tibn tif sum of tif bytfs rfmbining in fbdi bufffr.  Ebdi
+     * <dodf>BytfBufffr</dodf>'s position is updbtfd to rfflfdt tif
+     * bmount of dbtb donsumfd or produdfd.  Tif limits rfmbin tif
+     * sbmf.
      * <P>
-     * The underlying memory used by the <code>srcs</code> and
-     * <code>dst ByteBuffer</code>s must not be the same.
+     * Tif undfrlying mfmory usfd by tif <dodf>srds</dodf> bnd
+     * <dodf>dst BytfBufffr</dodf>s must not bf tif sbmf.
      * <P>
-     * See the class description for more information on engine closure.
+     * Sff tif dlbss dfsdription for morf informbtion on fnginf dlosurf.
      *
-     * @param   srcs
-     *          an array of <code>ByteBuffers</code> containing the
-     *          outbound application data
-     * @param   offset
-     *          The offset within the buffer array of the first buffer from
-     *          which bytes are to be retrieved; it must be non-negative
-     *          and no larger than <code>srcs.length</code>
-     * @param   length
-     *          The maximum number of buffers to be accessed; it must be
-     *          non-negative and no larger than
-     *          <code>srcs.length</code>&nbsp;-&nbsp;<code>offset</code>
-     * @param   dst
-     *          a <code>ByteBuffer</code> to hold outbound network data
-     * @return  an <code>SSLEngineResult</code> describing the result
-     *          of this operation.
-     * @throws  SSLException
-     *          A problem was encountered while processing the
-     *          data that caused the <code>SSLEngine</code> to abort.
-     *          See the class description for more information on
-     *          engine closure.
-     * @throws  IndexOutOfBoundsException
-     *          if the preconditions on the <code>offset</code> and
-     *          <code>length</code> parameters do not hold.
-     * @throws  ReadOnlyBufferException
-     *          if the <code>dst</code> buffer is read-only.
-     * @throws  IllegalArgumentException
-     *          if either <code>srcs</code> or <code>dst</code>
-     *          is null, or if any element in the <code>srcs</code>
-     *          subsequence specified is null.
-     * @throws  IllegalStateException if the client/server mode
-     *          has not yet been set.
-     * @see     java.nio.channels.GatheringByteChannel
-     * @see     java.nio.channels.GatheringByteChannel#write(
-     *              ByteBuffer[], int, int)
+     * @pbrbm   srds
+     *          bn brrby of <dodf>BytfBufffrs</dodf> dontbining tif
+     *          outbound bpplidbtion dbtb
+     * @pbrbm   offsft
+     *          Tif offsft witiin tif bufffr brrby of tif first bufffr from
+     *          wiidi bytfs brf to bf rftrifvfd; it must bf non-nfgbtivf
+     *          bnd no lbrgfr tibn <dodf>srds.lfngti</dodf>
+     * @pbrbm   lfngti
+     *          Tif mbximum numbfr of bufffrs to bf bddfssfd; it must bf
+     *          non-nfgbtivf bnd no lbrgfr tibn
+     *          <dodf>srds.lfngti</dodf>&nbsp;-&nbsp;<dodf>offsft</dodf>
+     * @pbrbm   dst
+     *          b <dodf>BytfBufffr</dodf> to iold outbound nftwork dbtb
+     * @rfturn  bn <dodf>SSLEnginfRfsult</dodf> dfsdribing tif rfsult
+     *          of tiis opfrbtion.
+     * @tirows  SSLExdfption
+     *          A problfm wbs fndountfrfd wiilf prodfssing tif
+     *          dbtb tibt dbusfd tif <dodf>SSLEnginf</dodf> to bbort.
+     *          Sff tif dlbss dfsdription for morf informbtion on
+     *          fnginf dlosurf.
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          if tif prfdonditions on tif <dodf>offsft</dodf> bnd
+     *          <dodf>lfngti</dodf> pbrbmftfrs do not iold.
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          if tif <dodf>dst</dodf> bufffr is rfbd-only.
+     * @tirows  IllfgblArgumfntExdfption
+     *          if fitifr <dodf>srds</dodf> or <dodf>dst</dodf>
+     *          is null, or if bny flfmfnt in tif <dodf>srds</dodf>
+     *          subsfqufndf spfdififd is null.
+     * @tirows  IllfgblStbtfExdfption if tif dlifnt/sfrvfr modf
+     *          ibs not yft bffn sft.
+     * @sff     jbvb.nio.dibnnfls.GbtifringBytfCibnnfl
+     * @sff     jbvb.nio.dibnnfls.GbtifringBytfCibnnfl#writf(
+     *              BytfBufffr[], int, int)
      */
-    public abstract SSLEngineResult wrap(ByteBuffer [] srcs, int offset,
-            int length, ByteBuffer dst) throws SSLException;
+    publid bbstrbdt SSLEnginfRfsult wrbp(BytfBufffr [] srds, int offsft,
+            int lfngti, BytfBufffr dst) tirows SSLExdfption;
 
     /**
-     * Attempts to decode SSL/TLS network data into a plaintext
-     * application data buffer.
+     * Attfmpts to dfdodf SSL/TLS nftwork dbtb into b plbintfxt
+     * bpplidbtion dbtb bufffr.
      * <P>
-     * An invocation of this method behaves in exactly the same manner
-     * as the invocation:
-     * <blockquote><pre>
-     * {@link #unwrap(ByteBuffer, ByteBuffer [], int, int)
-     *     engine.unwrap(src, new ByteBuffer [] { dst }, 0, 1);}
-     * </pre></blockquote>
+     * An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf mbnnfr
+     * bs tif invodbtion:
+     * <blodkquotf><prf>
+     * {@link #unwrbp(BytfBufffr, BytfBufffr [], int, int)
+     *     fnginf.unwrbp(srd, nfw BytfBufffr [] { dst }, 0, 1);}
+     * </prf></blodkquotf>
      *
-     * @param   src
-     *          a <code>ByteBuffer</code> containing inbound network data.
-     * @param   dst
-     *          a <code>ByteBuffer</code> to hold inbound application data.
-     * @return  an <code>SSLEngineResult</code> describing the result
-     *          of this operation.
-     * @throws  SSLException
-     *          A problem was encountered while processing the
-     *          data that caused the <code>SSLEngine</code> to abort.
-     *          See the class description for more information on
-     *          engine closure.
-     * @throws  ReadOnlyBufferException
-     *          if the <code>dst</code> buffer is read-only.
-     * @throws  IllegalArgumentException
-     *          if either <code>src</code> or <code>dst</code>
+     * @pbrbm   srd
+     *          b <dodf>BytfBufffr</dodf> dontbining inbound nftwork dbtb.
+     * @pbrbm   dst
+     *          b <dodf>BytfBufffr</dodf> to iold inbound bpplidbtion dbtb.
+     * @rfturn  bn <dodf>SSLEnginfRfsult</dodf> dfsdribing tif rfsult
+     *          of tiis opfrbtion.
+     * @tirows  SSLExdfption
+     *          A problfm wbs fndountfrfd wiilf prodfssing tif
+     *          dbtb tibt dbusfd tif <dodf>SSLEnginf</dodf> to bbort.
+     *          Sff tif dlbss dfsdription for morf informbtion on
+     *          fnginf dlosurf.
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          if tif <dodf>dst</dodf> bufffr is rfbd-only.
+     * @tirows  IllfgblArgumfntExdfption
+     *          if fitifr <dodf>srd</dodf> or <dodf>dst</dodf>
      *          is null.
-     * @throws  IllegalStateException if the client/server mode
-     *          has not yet been set.
-     * @see     #unwrap(ByteBuffer, ByteBuffer [], int, int)
+     * @tirows  IllfgblStbtfExdfption if tif dlifnt/sfrvfr modf
+     *          ibs not yft bffn sft.
+     * @sff     #unwrbp(BytfBufffr, BytfBufffr [], int, int)
      */
-    public SSLEngineResult unwrap(ByteBuffer src,
-            ByteBuffer dst) throws SSLException {
-        return unwrap(src, new ByteBuffer [] { dst }, 0, 1);
+    publid SSLEnginfRfsult unwrbp(BytfBufffr srd,
+            BytfBufffr dst) tirows SSLExdfption {
+        rfturn unwrbp(srd, nfw BytfBufffr [] { dst }, 0, 1);
     }
 
     /**
-     * Attempts to decode SSL/TLS network data into a sequence of plaintext
-     * application data buffers.
+     * Attfmpts to dfdodf SSL/TLS nftwork dbtb into b sfqufndf of plbintfxt
+     * bpplidbtion dbtb bufffrs.
      * <P>
-     * An invocation of this method behaves in exactly the same manner
-     * as the invocation:
-     * <blockquote><pre>
-     * {@link #unwrap(ByteBuffer, ByteBuffer [], int, int)
-     *     engine.unwrap(src, dsts, 0, dsts.length);}
-     * </pre></blockquote>
+     * An invodbtion of tiis mftiod bfibvfs in fxbdtly tif sbmf mbnnfr
+     * bs tif invodbtion:
+     * <blodkquotf><prf>
+     * {@link #unwrbp(BytfBufffr, BytfBufffr [], int, int)
+     *     fnginf.unwrbp(srd, dsts, 0, dsts.lfngti);}
+     * </prf></blodkquotf>
      *
-     * @param   src
-     *          a <code>ByteBuffer</code> containing inbound network data.
-     * @param   dsts
-     *          an array of <code>ByteBuffer</code>s to hold inbound
-     *          application data.
-     * @return  an <code>SSLEngineResult</code> describing the result
-     *          of this operation.
-     * @throws  SSLException
-     *          A problem was encountered while processing the
-     *          data that caused the <code>SSLEngine</code> to abort.
-     *          See the class description for more information on
-     *          engine closure.
-     * @throws  ReadOnlyBufferException
-     *          if any of the <code>dst</code> buffers are read-only.
-     * @throws  IllegalArgumentException
-     *          if either <code>src</code> or <code>dsts</code>
-     *          is null, or if any element in <code>dsts</code> is null.
-     * @throws  IllegalStateException if the client/server mode
-     *          has not yet been set.
-     * @see     #unwrap(ByteBuffer, ByteBuffer [], int, int)
+     * @pbrbm   srd
+     *          b <dodf>BytfBufffr</dodf> dontbining inbound nftwork dbtb.
+     * @pbrbm   dsts
+     *          bn brrby of <dodf>BytfBufffr</dodf>s to iold inbound
+     *          bpplidbtion dbtb.
+     * @rfturn  bn <dodf>SSLEnginfRfsult</dodf> dfsdribing tif rfsult
+     *          of tiis opfrbtion.
+     * @tirows  SSLExdfption
+     *          A problfm wbs fndountfrfd wiilf prodfssing tif
+     *          dbtb tibt dbusfd tif <dodf>SSLEnginf</dodf> to bbort.
+     *          Sff tif dlbss dfsdription for morf informbtion on
+     *          fnginf dlosurf.
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          if bny of tif <dodf>dst</dodf> bufffrs brf rfbd-only.
+     * @tirows  IllfgblArgumfntExdfption
+     *          if fitifr <dodf>srd</dodf> or <dodf>dsts</dodf>
+     *          is null, or if bny flfmfnt in <dodf>dsts</dodf> is null.
+     * @tirows  IllfgblStbtfExdfption if tif dlifnt/sfrvfr modf
+     *          ibs not yft bffn sft.
+     * @sff     #unwrbp(BytfBufffr, BytfBufffr [], int, int)
      */
-    public SSLEngineResult unwrap(ByteBuffer src,
-            ByteBuffer [] dsts) throws SSLException {
+    publid SSLEnginfRfsult unwrbp(BytfBufffr srd,
+            BytfBufffr [] dsts) tirows SSLExdfption {
         if (dsts == null) {
-            throw new IllegalArgumentException("dsts == null");
+            tirow nfw IllfgblArgumfntExdfption("dsts == null");
         }
-        return unwrap(src, dsts, 0, dsts.length);
+        rfturn unwrbp(srd, dsts, 0, dsts.lfngti);
     }
 
     /**
-     * Attempts to decode SSL/TLS network data into a subsequence of
-     * plaintext application data buffers.  This <i>"scattering"</i>
-     * operation decodes, in a single invocation, a sequence of bytes
-     * into one or more of a given sequence of buffers.  Scattering
-     * unwraps are often useful when implementing network protocols or
-     * file formats that, for example, group data into segments
-     * consisting of one or more fixed-length headers followed by a
-     * variable-length body.  See
-     * {@link java.nio.channels.ScatteringByteChannel} for more
-     * information on scattering, and {@link
-     * java.nio.channels.ScatteringByteChannel#read(ByteBuffer[],
-     * int, int)} for more information on the subsequence
-     * behavior.
+     * Attfmpts to dfdodf SSL/TLS nftwork dbtb into b subsfqufndf of
+     * plbintfxt bpplidbtion dbtb bufffrs.  Tiis <i>"sdbttfring"</i>
+     * opfrbtion dfdodfs, in b singlf invodbtion, b sfqufndf of bytfs
+     * into onf or morf of b givfn sfqufndf of bufffrs.  Sdbttfring
+     * unwrbps brf oftfn usfful wifn implfmfnting nftwork protodols or
+     * filf formbts tibt, for fxbmplf, group dbtb into sfgmfnts
+     * donsisting of onf or morf fixfd-lfngti ifbdfrs followfd by b
+     * vbribblf-lfngti body.  Sff
+     * {@link jbvb.nio.dibnnfls.SdbttfringBytfCibnnfl} for morf
+     * informbtion on sdbttfring, bnd {@link
+     * jbvb.nio.dibnnfls.SdbttfringBytfCibnnfl#rfbd(BytfBufffr[],
+     * int, int)} for morf informbtion on tif subsfqufndf
+     * bfibvior.
      * <P>
-     * Depending on the state of the SSLEngine, this method may consume
-     * network data without producing any application data (for example,
-     * it may consume handshake data.)
+     * Dfpfnding on tif stbtf of tif SSLEnginf, tiis mftiod mby donsumf
+     * nftwork dbtb witiout produding bny bpplidbtion dbtb (for fxbmplf,
+     * it mby donsumf ibndsibkf dbtb.)
      * <P>
-     * The application is responsible for reliably obtaining the network
-     * data from the peer, and for invoking unwrap() on the data in the
-     * order it was received.  The application must properly synchronize
-     * multiple calls to this method.
+     * Tif bpplidbtion is rfsponsiblf for rflibbly obtbining tif nftwork
+     * dbtb from tif pffr, bnd for invoking unwrbp() on tif dbtb in tif
+     * ordfr it wbs rfdfivfd.  Tif bpplidbtion must propfrly syndironizf
+     * multiplf dblls to tiis mftiod.
      * <P>
-     * If this <code>SSLEngine</code> has not yet started its initial
-     * handshake, this method will automatically start the handshake.
+     * If tiis <dodf>SSLEnginf</dodf> ibs not yft stbrtfd its initibl
+     * ibndsibkf, tiis mftiod will butombtidblly stbrt tif ibndsibkf.
      * <P>
-     * This method will attempt to consume one complete SSL/TLS network
-     * packet, but will never consume more than the sum of the bytes
-     * remaining in the buffers.  Each <code>ByteBuffer</code>'s
-     * position is updated to reflect the amount of data consumed or
-     * produced.  The limits remain the same.
+     * Tiis mftiod will bttfmpt to donsumf onf domplftf SSL/TLS nftwork
+     * pbdkft, but will nfvfr donsumf morf tibn tif sum of tif bytfs
+     * rfmbining in tif bufffrs.  Ebdi <dodf>BytfBufffr</dodf>'s
+     * position is updbtfd to rfflfdt tif bmount of dbtb donsumfd or
+     * produdfd.  Tif limits rfmbin tif sbmf.
      * <P>
-     * The underlying memory used by the <code>src</code> and
-     * <code>dsts ByteBuffer</code>s must not be the same.
+     * Tif undfrlying mfmory usfd by tif <dodf>srd</dodf> bnd
+     * <dodf>dsts BytfBufffr</dodf>s must not bf tif sbmf.
      * <P>
-     * The inbound network buffer may be modified as a result of this
-     * call:  therefore if the network data packet is required for some
-     * secondary purpose, the data should be duplicated before calling this
-     * method.  Note:  the network data will not be useful to a second
-     * SSLEngine, as each SSLEngine contains unique random state which
-     * influences the SSL/TLS messages.
+     * Tif inbound nftwork bufffr mby bf modififd bs b rfsult of tiis
+     * dbll:  tifrfforf if tif nftwork dbtb pbdkft is rfquirfd for somf
+     * sfdondbry purposf, tif dbtb siould bf duplidbtfd bfforf dblling tiis
+     * mftiod.  Notf:  tif nftwork dbtb will not bf usfful to b sfdond
+     * SSLEnginf, bs fbdi SSLEnginf dontbins uniquf rbndom stbtf wiidi
+     * influfndfs tif SSL/TLS mfssbgfs.
      * <P>
-     * See the class description for more information on engine closure.
+     * Sff tif dlbss dfsdription for morf informbtion on fnginf dlosurf.
      *
-     * @param   src
-     *          a <code>ByteBuffer</code> containing inbound network data.
-     * @param   dsts
-     *          an array of <code>ByteBuffer</code>s to hold inbound
-     *          application data.
-     * @param   offset
-     *          The offset within the buffer array of the first buffer from
-     *          which bytes are to be transferred; it must be non-negative
-     *          and no larger than <code>dsts.length</code>.
-     * @param   length
-     *          The maximum number of buffers to be accessed; it must be
-     *          non-negative and no larger than
-     *          <code>dsts.length</code>&nbsp;-&nbsp;<code>offset</code>.
-     * @return  an <code>SSLEngineResult</code> describing the result
-     *          of this operation.
-     * @throws  SSLException
-     *          A problem was encountered while processing the
-     *          data that caused the <code>SSLEngine</code> to abort.
-     *          See the class description for more information on
-     *          engine closure.
-     * @throws  IndexOutOfBoundsException
-     *          If the preconditions on the <code>offset</code> and
-     *          <code>length</code> parameters do not hold.
-     * @throws  ReadOnlyBufferException
-     *          if any of the <code>dst</code> buffers are read-only.
-     * @throws  IllegalArgumentException
-     *          if either <code>src</code> or <code>dsts</code>
-     *          is null, or if any element in the <code>dsts</code>
-     *          subsequence specified is null.
-     * @throws  IllegalStateException if the client/server mode
-     *          has not yet been set.
-     * @see     java.nio.channels.ScatteringByteChannel
-     * @see     java.nio.channels.ScatteringByteChannel#read(
-     *              ByteBuffer[], int, int)
+     * @pbrbm   srd
+     *          b <dodf>BytfBufffr</dodf> dontbining inbound nftwork dbtb.
+     * @pbrbm   dsts
+     *          bn brrby of <dodf>BytfBufffr</dodf>s to iold inbound
+     *          bpplidbtion dbtb.
+     * @pbrbm   offsft
+     *          Tif offsft witiin tif bufffr brrby of tif first bufffr from
+     *          wiidi bytfs brf to bf trbnsffrrfd; it must bf non-nfgbtivf
+     *          bnd no lbrgfr tibn <dodf>dsts.lfngti</dodf>.
+     * @pbrbm   lfngti
+     *          Tif mbximum numbfr of bufffrs to bf bddfssfd; it must bf
+     *          non-nfgbtivf bnd no lbrgfr tibn
+     *          <dodf>dsts.lfngti</dodf>&nbsp;-&nbsp;<dodf>offsft</dodf>.
+     * @rfturn  bn <dodf>SSLEnginfRfsult</dodf> dfsdribing tif rfsult
+     *          of tiis opfrbtion.
+     * @tirows  SSLExdfption
+     *          A problfm wbs fndountfrfd wiilf prodfssing tif
+     *          dbtb tibt dbusfd tif <dodf>SSLEnginf</dodf> to bbort.
+     *          Sff tif dlbss dfsdription for morf informbtion on
+     *          fnginf dlosurf.
+     * @tirows  IndfxOutOfBoundsExdfption
+     *          If tif prfdonditions on tif <dodf>offsft</dodf> bnd
+     *          <dodf>lfngti</dodf> pbrbmftfrs do not iold.
+     * @tirows  RfbdOnlyBufffrExdfption
+     *          if bny of tif <dodf>dst</dodf> bufffrs brf rfbd-only.
+     * @tirows  IllfgblArgumfntExdfption
+     *          if fitifr <dodf>srd</dodf> or <dodf>dsts</dodf>
+     *          is null, or if bny flfmfnt in tif <dodf>dsts</dodf>
+     *          subsfqufndf spfdififd is null.
+     * @tirows  IllfgblStbtfExdfption if tif dlifnt/sfrvfr modf
+     *          ibs not yft bffn sft.
+     * @sff     jbvb.nio.dibnnfls.SdbttfringBytfCibnnfl
+     * @sff     jbvb.nio.dibnnfls.SdbttfringBytfCibnnfl#rfbd(
+     *              BytfBufffr[], int, int)
      */
-    public abstract SSLEngineResult unwrap(ByteBuffer src,
-            ByteBuffer [] dsts, int offset, int length) throws SSLException;
+    publid bbstrbdt SSLEnginfRfsult unwrbp(BytfBufffr srd,
+            BytfBufffr [] dsts, int offsft, int lfngti) tirows SSLExdfption;
 
 
     /**
-     * Returns a delegated <code>Runnable</code> task for
-     * this <code>SSLEngine</code>.
+     * Rfturns b dflfgbtfd <dodf>Runnbblf</dodf> tbsk for
+     * tiis <dodf>SSLEnginf</dodf>.
      * <P>
-     * <code>SSLEngine</code> operations may require the results of
-     * operations that block, or may take an extended period of time to
-     * complete.  This method is used to obtain an outstanding {@link
-     * java.lang.Runnable} operation (task).  Each task must be assigned
-     * a thread (possibly the current) to perform the {@link
-     * java.lang.Runnable#run() run} operation.  Once the
-     * <code>run</code> method returns, the <code>Runnable</code> object
-     * is no longer needed and may be discarded.
+     * <dodf>SSLEnginf</dodf> opfrbtions mby rfquirf tif rfsults of
+     * opfrbtions tibt blodk, or mby tbkf bn fxtfndfd pfriod of timf to
+     * domplftf.  Tiis mftiod is usfd to obtbin bn outstbnding {@link
+     * jbvb.lbng.Runnbblf} opfrbtion (tbsk).  Ebdi tbsk must bf bssignfd
+     * b tirfbd (possibly tif durrfnt) to pfrform tif {@link
+     * jbvb.lbng.Runnbblf#run() run} opfrbtion.  Ondf tif
+     * <dodf>run</dodf> mftiod rfturns, tif <dodf>Runnbblf</dodf> objfdt
+     * is no longfr nffdfd bnd mby bf disdbrdfd.
      * <P>
-     * Delegated tasks run in the <code>AccessControlContext</code>
-     * in place when this object was created.
+     * Dflfgbtfd tbsks run in tif <dodf>AddfssControlContfxt</dodf>
+     * in plbdf wifn tiis objfdt wbs drfbtfd.
      * <P>
-     * A call to this method will return each outstanding task
-     * exactly once.
+     * A dbll to tiis mftiod will rfturn fbdi outstbnding tbsk
+     * fxbdtly ondf.
      * <P>
-     * Multiple delegated tasks can be run in parallel.
+     * Multiplf dflfgbtfd tbsks dbn bf run in pbrbllfl.
      *
-     * @return  a delegated <code>Runnable</code> task, or null
-     *          if none are available.
+     * @rfturn  b dflfgbtfd <dodf>Runnbblf</dodf> tbsk, or null
+     *          if nonf brf bvbilbblf.
      */
-    public abstract Runnable getDelegatedTask();
+    publid bbstrbdt Runnbblf gftDflfgbtfdTbsk();
 
 
     /**
-     * Signals that no more inbound network data will be sent
-     * to this <code>SSLEngine</code>.
+     * Signbls tibt no morf inbound nftwork dbtb will bf sfnt
+     * to tiis <dodf>SSLEnginf</dodf>.
      * <P>
-     * If the application initiated the closing process by calling
-     * {@link #closeOutbound()}, under some circumstances it is not
-     * required that the initiator wait for the peer's corresponding
-     * close message.  (See section 7.2.1 of the TLS specification (<A
-     * HREF="http://www.ietf.org/rfc/rfc2246.txt">RFC 2246</A>) for more
-     * information on waiting for closure alerts.)  In such cases, this
-     * method need not be called.
+     * If tif bpplidbtion initibtfd tif dlosing prodfss by dblling
+     * {@link #dlosfOutbound()}, undfr somf dirdumstbndfs it is not
+     * rfquirfd tibt tif initibtor wbit for tif pffr's dorrfsponding
+     * dlosf mfssbgf.  (Sff sfdtion 7.2.1 of tif TLS spfdifidbtion (<A
+     * HREF="ittp://www.iftf.org/rfd/rfd2246.txt">RFC 2246</A>) for morf
+     * informbtion on wbiting for dlosurf blfrts.)  In sudi dbsfs, tiis
+     * mftiod nffd not bf dbllfd.
      * <P>
-     * But if the application did not initiate the closure process, or
-     * if the circumstances above do not apply, this method should be
-     * called whenever the end of the SSL/TLS data stream is reached.
-     * This ensures closure of the inbound side, and checks that the
-     * peer followed the SSL/TLS close procedure properly, thus
-     * detecting possible truncation attacks.
+     * But if tif bpplidbtion did not initibtf tif dlosurf prodfss, or
+     * if tif dirdumstbndfs bbovf do not bpply, tiis mftiod siould bf
+     * dbllfd wifnfvfr tif fnd of tif SSL/TLS dbtb strfbm is rfbdifd.
+     * Tiis fnsurfs dlosurf of tif inbound sidf, bnd difdks tibt tif
+     * pffr followfd tif SSL/TLS dlosf prodfdurf propfrly, tius
+     * dftfdting possiblf trundbtion bttbdks.
      * <P>
-     * This method is idempotent:  if the inbound side has already
-     * been closed, this method does not do anything.
+     * Tiis mftiod is idfmpotfnt:  if tif inbound sidf ibs blrfbdy
+     * bffn dlosfd, tiis mftiod dofs not do bnytiing.
      * <P>
-     * {@link #wrap(ByteBuffer, ByteBuffer) wrap()} should be
-     * called to flush any remaining handshake data.
+     * {@link #wrbp(BytfBufffr, BytfBufffr) wrbp()} siould bf
+     * dbllfd to flusi bny rfmbining ibndsibkf dbtb.
      *
-     * @throws  SSLException
-     *          if this engine has not received the proper SSL/TLS close
-     *          notification message from the peer.
+     * @tirows  SSLExdfption
+     *          if tiis fnginf ibs not rfdfivfd tif propfr SSL/TLS dlosf
+     *          notifidbtion mfssbgf from tif pffr.
      *
-     * @see     #isInboundDone()
-     * @see     #isOutboundDone()
+     * @sff     #isInboundDonf()
+     * @sff     #isOutboundDonf()
      */
-    public abstract void closeInbound() throws SSLException;
+    publid bbstrbdt void dlosfInbound() tirows SSLExdfption;
 
 
     /**
-     * Returns whether {@link #unwrap(ByteBuffer, ByteBuffer)} will
-     * accept any more inbound data messages.
+     * Rfturns wiftifr {@link #unwrbp(BytfBufffr, BytfBufffr)} will
+     * bddfpt bny morf inbound dbtb mfssbgfs.
      *
-     * @return  true if the <code>SSLEngine</code> will not
-     *          consume anymore network data (and by implication,
-     *          will not produce any more application data.)
-     * @see     #closeInbound()
+     * @rfturn  truf if tif <dodf>SSLEnginf</dodf> will not
+     *          donsumf bnymorf nftwork dbtb (bnd by implidbtion,
+     *          will not produdf bny morf bpplidbtion dbtb.)
+     * @sff     #dlosfInbound()
      */
-    public abstract boolean isInboundDone();
+    publid bbstrbdt boolfbn isInboundDonf();
 
 
     /**
-     * Signals that no more outbound application data will be sent
-     * on this <code>SSLEngine</code>.
+     * Signbls tibt no morf outbound bpplidbtion dbtb will bf sfnt
+     * on tiis <dodf>SSLEnginf</dodf>.
      * <P>
-     * This method is idempotent:  if the outbound side has already
-     * been closed, this method does not do anything.
+     * Tiis mftiod is idfmpotfnt:  if tif outbound sidf ibs blrfbdy
+     * bffn dlosfd, tiis mftiod dofs not do bnytiing.
      * <P>
-     * {@link #wrap(ByteBuffer, ByteBuffer)} should be
-     * called to flush any remaining handshake data.
+     * {@link #wrbp(BytfBufffr, BytfBufffr)} siould bf
+     * dbllfd to flusi bny rfmbining ibndsibkf dbtb.
      *
-     * @see     #isOutboundDone()
+     * @sff     #isOutboundDonf()
      */
-    public abstract void closeOutbound();
+    publid bbstrbdt void dlosfOutbound();
 
 
     /**
-     * Returns whether {@link #wrap(ByteBuffer, ByteBuffer)} will
-     * produce any more outbound data messages.
+     * Rfturns wiftifr {@link #wrbp(BytfBufffr, BytfBufffr)} will
+     * produdf bny morf outbound dbtb mfssbgfs.
      * <P>
-     * Note that during the closure phase, a <code>SSLEngine</code> may
-     * generate handshake closure data that must be sent to the peer.
-     * <code>wrap()</code> must be called to generate this data.  When
-     * this method returns true, no more outbound data will be created.
+     * Notf tibt during tif dlosurf pibsf, b <dodf>SSLEnginf</dodf> mby
+     * gfnfrbtf ibndsibkf dlosurf dbtb tibt must bf sfnt to tif pffr.
+     * <dodf>wrbp()</dodf> must bf dbllfd to gfnfrbtf tiis dbtb.  Wifn
+     * tiis mftiod rfturns truf, no morf outbound dbtb will bf drfbtfd.
      *
-     * @return  true if the <code>SSLEngine</code> will not produce
-     *          any more network data
+     * @rfturn  truf if tif <dodf>SSLEnginf</dodf> will not produdf
+     *          bny morf nftwork dbtb
      *
-     * @see     #closeOutbound()
-     * @see     #closeInbound()
+     * @sff     #dlosfOutbound()
+     * @sff     #dlosfInbound()
      */
-    public abstract boolean isOutboundDone();
+    publid bbstrbdt boolfbn isOutboundDonf();
 
 
     /**
-     * Returns the names of the cipher suites which could be enabled for use
-     * on this engine.  Normally, only a subset of these will actually
-     * be enabled by default, since this list may include cipher suites which
-     * do not meet quality of service requirements for those defaults.  Such
-     * cipher suites might be useful in specialized applications.
+     * Rfturns tif nbmfs of tif dipifr suitfs wiidi dould bf fnbblfd for usf
+     * on tiis fnginf.  Normblly, only b subsft of tifsf will bdtublly
+     * bf fnbblfd by dffbult, sindf tiis list mby indludf dipifr suitfs wiidi
+     * do not mfft qublity of sfrvidf rfquirfmfnts for tiosf dffbults.  Sudi
+     * dipifr suitfs migit bf usfful in spfdiblizfd bpplidbtions.
      *
-     * @return  an array of cipher suite names
-     * @see     #getEnabledCipherSuites()
-     * @see     #setEnabledCipherSuites(String [])
+     * @rfturn  bn brrby of dipifr suitf nbmfs
+     * @sff     #gftEnbblfdCipifrSuitfs()
+     * @sff     #sftEnbblfdCipifrSuitfs(String [])
      */
-    public abstract String [] getSupportedCipherSuites();
+    publid bbstrbdt String [] gftSupportfdCipifrSuitfs();
 
 
     /**
-     * Returns the names of the SSL cipher suites which are currently
-     * enabled for use on this engine.  When an SSLEngine is first
-     * created, all enabled cipher suites support a minimum quality of
-     * service.  Thus, in some environments this value might be empty.
+     * Rfturns tif nbmfs of tif SSL dipifr suitfs wiidi brf durrfntly
+     * fnbblfd for usf on tiis fnginf.  Wifn bn SSLEnginf is first
+     * drfbtfd, bll fnbblfd dipifr suitfs support b minimum qublity of
+     * sfrvidf.  Tius, in somf fnvironmfnts tiis vbluf migit bf fmpty.
      * <P>
-     * Even if a suite has been enabled, it might never be used.  (For
-     * example, the peer does not support it, the requisite
-     * certificates/private keys for the suite are not available, or an
-     * anonymous suite is enabled but authentication is required.)
+     * Evfn if b suitf ibs bffn fnbblfd, it migit nfvfr bf usfd.  (For
+     * fxbmplf, tif pffr dofs not support it, tif rfquisitf
+     * dfrtifidbtfs/privbtf kfys for tif suitf brf not bvbilbblf, or bn
+     * bnonymous suitf is fnbblfd but butifntidbtion is rfquirfd.)
      *
-     * @return  an array of cipher suite names
-     * @see     #getSupportedCipherSuites()
-     * @see     #setEnabledCipherSuites(String [])
+     * @rfturn  bn brrby of dipifr suitf nbmfs
+     * @sff     #gftSupportfdCipifrSuitfs()
+     * @sff     #sftEnbblfdCipifrSuitfs(String [])
      */
-    public abstract String [] getEnabledCipherSuites();
+    publid bbstrbdt String [] gftEnbblfdCipifrSuitfs();
 
 
     /**
-     * Sets the cipher suites enabled for use on this engine.
+     * Sfts tif dipifr suitfs fnbblfd for usf on tiis fnginf.
      * <P>
-     * Each cipher suite in the <code>suites</code> parameter must have
-     * been listed by getSupportedCipherSuites(), or the method will
-     * fail.  Following a successful call to this method, only suites
-     * listed in the <code>suites</code> parameter are enabled for use.
+     * Ebdi dipifr suitf in tif <dodf>suitfs</dodf> pbrbmftfr must ibvf
+     * bffn listfd by gftSupportfdCipifrSuitfs(), or tif mftiod will
+     * fbil.  Following b suddfssful dbll to tiis mftiod, only suitfs
+     * listfd in tif <dodf>suitfs</dodf> pbrbmftfr brf fnbblfd for usf.
      * <P>
-     * See {@link #getEnabledCipherSuites()} for more information
-     * on why a specific cipher suite may never be used on a engine.
+     * Sff {@link #gftEnbblfdCipifrSuitfs()} for morf informbtion
+     * on wiy b spfdifid dipifr suitf mby nfvfr bf usfd on b fnginf.
      *
-     * @param   suites Names of all the cipher suites to enable
-     * @throws  IllegalArgumentException when one or more of the ciphers
-     *          named by the parameter is not supported, or when the
-     *          parameter is null.
-     * @see     #getSupportedCipherSuites()
-     * @see     #getEnabledCipherSuites()
+     * @pbrbm   suitfs Nbmfs of bll tif dipifr suitfs to fnbblf
+     * @tirows  IllfgblArgumfntExdfption wifn onf or morf of tif dipifrs
+     *          nbmfd by tif pbrbmftfr is not supportfd, or wifn tif
+     *          pbrbmftfr is null.
+     * @sff     #gftSupportfdCipifrSuitfs()
+     * @sff     #gftEnbblfdCipifrSuitfs()
      */
-    public abstract void setEnabledCipherSuites(String suites []);
+    publid bbstrbdt void sftEnbblfdCipifrSuitfs(String suitfs []);
 
 
     /**
-     * Returns the names of the protocols which could be enabled for use
-     * with this <code>SSLEngine</code>.
+     * Rfturns tif nbmfs of tif protodols wiidi dould bf fnbblfd for usf
+     * witi tiis <dodf>SSLEnginf</dodf>.
      *
-     * @return  an array of protocols supported
+     * @rfturn  bn brrby of protodols supportfd
      */
-    public abstract String [] getSupportedProtocols();
+    publid bbstrbdt String [] gftSupportfdProtodols();
 
 
     /**
-     * Returns the names of the protocol versions which are currently
-     * enabled for use with this <code>SSLEngine</code>.
+     * Rfturns tif nbmfs of tif protodol vfrsions wiidi brf durrfntly
+     * fnbblfd for usf witi tiis <dodf>SSLEnginf</dodf>.
      *
-     * @return  an array of protocols
-     * @see     #setEnabledProtocols(String [])
+     * @rfturn  bn brrby of protodols
+     * @sff     #sftEnbblfdProtodols(String [])
      */
-    public abstract String [] getEnabledProtocols();
+    publid bbstrbdt String [] gftEnbblfdProtodols();
 
 
     /**
-     * Set the protocol versions enabled for use on this engine.
+     * Sft tif protodol vfrsions fnbblfd for usf on tiis fnginf.
      * <P>
-     * The protocols must have been listed by getSupportedProtocols()
-     * as being supported.  Following a successful call to this method,
-     * only protocols listed in the <code>protocols</code> parameter
-     * are enabled for use.
+     * Tif protodols must ibvf bffn listfd by gftSupportfdProtodols()
+     * bs bfing supportfd.  Following b suddfssful dbll to tiis mftiod,
+     * only protodols listfd in tif <dodf>protodols</dodf> pbrbmftfr
+     * brf fnbblfd for usf.
      *
-     * @param   protocols Names of all the protocols to enable.
-     * @throws  IllegalArgumentException when one or more of
-     *          the protocols named by the parameter is not supported or
-     *          when the protocols parameter is null.
-     * @see     #getEnabledProtocols()
+     * @pbrbm   protodols Nbmfs of bll tif protodols to fnbblf.
+     * @tirows  IllfgblArgumfntExdfption wifn onf or morf of
+     *          tif protodols nbmfd by tif pbrbmftfr is not supportfd or
+     *          wifn tif protodols pbrbmftfr is null.
+     * @sff     #gftEnbblfdProtodols()
      */
-    public abstract void setEnabledProtocols(String protocols[]);
+    publid bbstrbdt void sftEnbblfdProtodols(String protodols[]);
 
 
     /**
-     * Returns the <code>SSLSession</code> in use in this
-     * <code>SSLEngine</code>.
+     * Rfturns tif <dodf>SSLSfssion</dodf> in usf in tiis
+     * <dodf>SSLEnginf</dodf>.
      * <P>
-     * These can be long lived, and frequently correspond to an entire
-     * login session for some user.  The session specifies a particular
-     * cipher suite which is being actively used by all connections in
-     * that session, as well as the identities of the session's client
-     * and server.
+     * Tifsf dbn bf long livfd, bnd frfqufntly dorrfspond to bn fntirf
+     * login sfssion for somf usfr.  Tif sfssion spfdififs b pbrtidulbr
+     * dipifr suitf wiidi is bfing bdtivfly usfd by bll donnfdtions in
+     * tibt sfssion, bs wfll bs tif idfntitifs of tif sfssion's dlifnt
+     * bnd sfrvfr.
      * <P>
-     * Unlike {@link SSLSocket#getSession()}
-     * this method does not block until handshaking is complete.
+     * Unlikf {@link SSLSodkft#gftSfssion()}
+     * tiis mftiod dofs not blodk until ibndsibking is domplftf.
      * <P>
-     * Until the initial handshake has completed, this method returns
-     * a session object which reports an invalid cipher suite of
+     * Until tif initibl ibndsibkf ibs domplftfd, tiis mftiod rfturns
+     * b sfssion objfdt wiidi rfports bn invblid dipifr suitf of
      * "SSL_NULL_WITH_NULL_NULL".
      *
-     * @return  the <code>SSLSession</code> for this <code>SSLEngine</code>
-     * @see     SSLSession
+     * @rfturn  tif <dodf>SSLSfssion</dodf> for tiis <dodf>SSLEnginf</dodf>
+     * @sff     SSLSfssion
      */
-    public abstract SSLSession getSession();
+    publid bbstrbdt SSLSfssion gftSfssion();
 
 
     /**
-     * Returns the {@code SSLSession} being constructed during a SSL/TLS
-     * handshake.
+     * Rfturns tif {@dodf SSLSfssion} bfing donstrudtfd during b SSL/TLS
+     * ibndsibkf.
      * <p>
-     * TLS protocols may negotiate parameters that are needed when using
-     * an instance of this class, but before the {@code SSLSession} has
-     * been completely initialized and made available via {@code getSession}.
-     * For example, the list of valid signature algorithms may restrict
-     * the type of certificates that can used during TrustManager
-     * decisions, or the maximum TLS fragment packet sizes can be
-     * resized to better support the network environment.
+     * TLS protodols mby nfgotibtf pbrbmftfrs tibt brf nffdfd wifn using
+     * bn instbndf of tiis dlbss, but bfforf tif {@dodf SSLSfssion} ibs
+     * bffn domplftfly initiblizfd bnd mbdf bvbilbblf vib {@dodf gftSfssion}.
+     * For fxbmplf, tif list of vblid signbturf blgoritims mby rfstridt
+     * tif typf of dfrtifidbtfs tibt dbn usfd during TrustMbnbgfr
+     * dfdisions, or tif mbximum TLS frbgmfnt pbdkft sizfs dbn bf
+     * rfsizfd to bfttfr support tif nftwork fnvironmfnt.
      * <p>
-     * This method provides early access to the {@code SSLSession} being
-     * constructed.  Depending on how far the handshake has progressed,
-     * some data may not yet be available for use.  For example, if a
-     * remote server will be sending a Certificate chain, but that chain
-     * has yet not been processed, the {@code getPeerCertificates}
-     * method of {@code SSLSession} will throw a
-     * SSLPeerUnverifiedException.  Once that chain has been processed,
-     * {@code getPeerCertificates} will return the proper value.
+     * Tiis mftiod providfs fbrly bddfss to tif {@dodf SSLSfssion} bfing
+     * donstrudtfd.  Dfpfnding on iow fbr tif ibndsibkf ibs progrfssfd,
+     * somf dbtb mby not yft bf bvbilbblf for usf.  For fxbmplf, if b
+     * rfmotf sfrvfr will bf sfnding b Cfrtifidbtf dibin, but tibt dibin
+     * ibs yft not bffn prodfssfd, tif {@dodf gftPffrCfrtifidbtfs}
+     * mftiod of {@dodf SSLSfssion} will tirow b
+     * SSLPffrUnvfrififdExdfption.  Ondf tibt dibin ibs bffn prodfssfd,
+     * {@dodf gftPffrCfrtifidbtfs} will rfturn tif propfr vbluf.
      *
-     * @see SSLSocket
-     * @see SSLSession
-     * @see ExtendedSSLSession
-     * @see X509ExtendedKeyManager
-     * @see X509ExtendedTrustManager
+     * @sff SSLSodkft
+     * @sff SSLSfssion
+     * @sff ExtfndfdSSLSfssion
+     * @sff X509ExtfndfdKfyMbnbgfr
+     * @sff X509ExtfndfdTrustMbnbgfr
      *
-     * @return null if this instance is not currently handshaking, or
-     *         if the current handshake has not progressed far enough to
-     *         create a basic SSLSession.  Otherwise, this method returns the
-     *         {@code SSLSession} currently being negotiated.
-     * @throws UnsupportedOperationException if the underlying provider
-     *         does not implement the operation.
+     * @rfturn null if tiis instbndf is not durrfntly ibndsibking, or
+     *         if tif durrfnt ibndsibkf ibs not progrfssfd fbr fnougi to
+     *         drfbtf b bbsid SSLSfssion.  Otifrwisf, tiis mftiod rfturns tif
+     *         {@dodf SSLSfssion} durrfntly bfing nfgotibtfd.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif undfrlying providfr
+     *         dofs not implfmfnt tif opfrbtion.
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public SSLSession getHandshakeSession() {
-        throw new UnsupportedOperationException();
+    publid SSLSfssion gftHbndsibkfSfssion() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
 
     /**
-     * Initiates handshaking (initial or renegotiation) on this SSLEngine.
+     * Initibtfs ibndsibking (initibl or rfnfgotibtion) on tiis SSLEnginf.
      * <P>
-     * This method is not needed for the initial handshake, as the
-     * <code>wrap()</code> and <code>unwrap()</code> methods will
-     * implicitly call this method if handshaking has not already begun.
+     * Tiis mftiod is not nffdfd for tif initibl ibndsibkf, bs tif
+     * <dodf>wrbp()</dodf> bnd <dodf>unwrbp()</dodf> mftiods will
+     * impliditly dbll tiis mftiod if ibndsibking ibs not blrfbdy bfgun.
      * <P>
-     * Note that the peer may also request a session renegotiation with
-     * this <code>SSLEngine</code> by sending the appropriate
-     * session renegotiate handshake message.
+     * Notf tibt tif pffr mby blso rfqufst b sfssion rfnfgotibtion witi
+     * tiis <dodf>SSLEnginf</dodf> by sfnding tif bppropribtf
+     * sfssion rfnfgotibtf ibndsibkf mfssbgf.
      * <P>
-     * Unlike the {@link SSLSocket#startHandshake()
-     * SSLSocket#startHandshake()} method, this method does not block
-     * until handshaking is completed.
+     * Unlikf tif {@link SSLSodkft#stbrtHbndsibkf()
+     * SSLSodkft#stbrtHbndsibkf()} mftiod, tiis mftiod dofs not blodk
+     * until ibndsibking is domplftfd.
      * <P>
-     * To force a complete SSL/TLS session renegotiation, the current
-     * session should be invalidated prior to calling this method.
+     * To fordf b domplftf SSL/TLS sfssion rfnfgotibtion, tif durrfnt
+     * sfssion siould bf invblidbtfd prior to dblling tiis mftiod.
      * <P>
-     * Some protocols may not support multiple handshakes on an existing
-     * engine and may throw an <code>SSLException</code>.
+     * Somf protodols mby not support multiplf ibndsibkfs on bn fxisting
+     * fnginf bnd mby tirow bn <dodf>SSLExdfption</dodf>.
      *
-     * @throws  SSLException
-     *          if a problem was encountered while signaling the
-     *          <code>SSLEngine</code> to begin a new handshake.
-     *          See the class description for more information on
-     *          engine closure.
-     * @throws  IllegalStateException if the client/server mode
-     *          has not yet been set.
-     * @see     SSLSession#invalidate()
+     * @tirows  SSLExdfption
+     *          if b problfm wbs fndountfrfd wiilf signbling tif
+     *          <dodf>SSLEnginf</dodf> to bfgin b nfw ibndsibkf.
+     *          Sff tif dlbss dfsdription for morf informbtion on
+     *          fnginf dlosurf.
+     * @tirows  IllfgblStbtfExdfption if tif dlifnt/sfrvfr modf
+     *          ibs not yft bffn sft.
+     * @sff     SSLSfssion#invblidbtf()
      */
-    public abstract void beginHandshake() throws SSLException;
+    publid bbstrbdt void bfginHbndsibkf() tirows SSLExdfption;
 
 
     /**
-     * Returns the current handshake status for this <code>SSLEngine</code>.
+     * Rfturns tif durrfnt ibndsibkf stbtus for tiis <dodf>SSLEnginf</dodf>.
      *
-     * @return  the current <code>SSLEngineResult.HandshakeStatus</code>.
+     * @rfturn  tif durrfnt <dodf>SSLEnginfRfsult.HbndsibkfStbtus</dodf>.
      */
-    public abstract SSLEngineResult.HandshakeStatus getHandshakeStatus();
+    publid bbstrbdt SSLEnginfRfsult.HbndsibkfStbtus gftHbndsibkfStbtus();
 
 
     /**
-     * Configures the engine to use client (or server) mode when
-     * handshaking.
+     * Configurfs tif fnginf to usf dlifnt (or sfrvfr) modf wifn
+     * ibndsibking.
      * <P>
-     * This method must be called before any handshaking occurs.
-     * Once handshaking has begun, the mode can not be reset for the
-     * life of this engine.
+     * Tiis mftiod must bf dbllfd bfforf bny ibndsibking oddurs.
+     * Ondf ibndsibking ibs bfgun, tif modf dbn not bf rfsft for tif
+     * liff of tiis fnginf.
      * <P>
-     * Servers normally authenticate themselves, and clients
-     * are not required to do so.
+     * Sfrvfrs normblly butifntidbtf tifmsflvfs, bnd dlifnts
+     * brf not rfquirfd to do so.
      *
-     * @param   mode true if the engine should start its handshaking
-     *          in "client" mode
-     * @throws  IllegalArgumentException if a mode change is attempted
-     *          after the initial handshake has begun.
-     * @see     #getUseClientMode()
+     * @pbrbm   modf truf if tif fnginf siould stbrt its ibndsibking
+     *          in "dlifnt" modf
+     * @tirows  IllfgblArgumfntExdfption if b modf dibngf is bttfmptfd
+     *          bftfr tif initibl ibndsibkf ibs bfgun.
+     * @sff     #gftUsfClifntModf()
      */
-    public abstract void setUseClientMode(boolean mode);
+    publid bbstrbdt void sftUsfClifntModf(boolfbn modf);
 
 
     /**
-     * Returns true if the engine is set to use client mode when
-     * handshaking.
+     * Rfturns truf if tif fnginf is sft to usf dlifnt modf wifn
+     * ibndsibking.
      *
-     * @return  true if the engine should do handshaking
-     *          in "client" mode
-     * @see     #setUseClientMode(boolean)
+     * @rfturn  truf if tif fnginf siould do ibndsibking
+     *          in "dlifnt" modf
+     * @sff     #sftUsfClifntModf(boolfbn)
      */
-    public abstract boolean getUseClientMode();
+    publid bbstrbdt boolfbn gftUsfClifntModf();
 
 
     /**
-     * Configures the engine to <i>require</i> client authentication.  This
-     * option is only useful for engines in the server mode.
+     * Configurfs tif fnginf to <i>rfquirf</i> dlifnt butifntidbtion.  Tiis
+     * option is only usfful for fnginfs in tif sfrvfr modf.
      * <P>
-     * An engine's client authentication setting is one of the following:
+     * An fnginf's dlifnt butifntidbtion sftting is onf of tif following:
      * <ul>
-     * <li> client authentication required
-     * <li> client authentication requested
-     * <li> no client authentication desired
+     * <li> dlifnt butifntidbtion rfquirfd
+     * <li> dlifnt butifntidbtion rfqufstfd
+     * <li> no dlifnt butifntidbtion dfsirfd
      * </ul>
      * <P>
-     * Unlike {@link #setWantClientAuth(boolean)}, if this option is set and
-     * the client chooses not to provide authentication information
-     * about itself, <i>the negotiations will stop and the engine will
-     * begin its closure procedure</i>.
+     * Unlikf {@link #sftWbntClifntAuti(boolfbn)}, if tiis option is sft bnd
+     * tif dlifnt dioosfs not to providf butifntidbtion informbtion
+     * bbout itsflf, <i>tif nfgotibtions will stop bnd tif fnginf will
+     * bfgin its dlosurf prodfdurf</i>.
      * <P>
-     * Calling this method overrides any previous setting made by
-     * this method or {@link #setWantClientAuth(boolean)}.
+     * Cblling tiis mftiod ovfrridfs bny prfvious sftting mbdf by
+     * tiis mftiod or {@link #sftWbntClifntAuti(boolfbn)}.
      *
-     * @param   need set to true if client authentication is required,
-     *          or false if no client authentication is desired.
-     * @see     #getNeedClientAuth()
-     * @see     #setWantClientAuth(boolean)
-     * @see     #getWantClientAuth()
-     * @see     #setUseClientMode(boolean)
+     * @pbrbm   nffd sft to truf if dlifnt butifntidbtion is rfquirfd,
+     *          or fblsf if no dlifnt butifntidbtion is dfsirfd.
+     * @sff     #gftNffdClifntAuti()
+     * @sff     #sftWbntClifntAuti(boolfbn)
+     * @sff     #gftWbntClifntAuti()
+     * @sff     #sftUsfClifntModf(boolfbn)
      */
-    public abstract void setNeedClientAuth(boolean need);
+    publid bbstrbdt void sftNffdClifntAuti(boolfbn nffd);
 
 
     /**
-     * Returns true if the engine will <i>require</i> client authentication.
-     * This option is only useful to engines in the server mode.
+     * Rfturns truf if tif fnginf will <i>rfquirf</i> dlifnt butifntidbtion.
+     * Tiis option is only usfful to fnginfs in tif sfrvfr modf.
      *
-     * @return  true if client authentication is required,
-     *          or false if no client authentication is desired.
-     * @see     #setNeedClientAuth(boolean)
-     * @see     #setWantClientAuth(boolean)
-     * @see     #getWantClientAuth()
-     * @see     #setUseClientMode(boolean)
+     * @rfturn  truf if dlifnt butifntidbtion is rfquirfd,
+     *          or fblsf if no dlifnt butifntidbtion is dfsirfd.
+     * @sff     #sftNffdClifntAuti(boolfbn)
+     * @sff     #sftWbntClifntAuti(boolfbn)
+     * @sff     #gftWbntClifntAuti()
+     * @sff     #sftUsfClifntModf(boolfbn)
      */
-    public abstract boolean getNeedClientAuth();
+    publid bbstrbdt boolfbn gftNffdClifntAuti();
 
 
     /**
-     * Configures the engine to <i>request</i> client authentication.
-     * This option is only useful for engines in the server mode.
+     * Configurfs tif fnginf to <i>rfqufst</i> dlifnt butifntidbtion.
+     * Tiis option is only usfful for fnginfs in tif sfrvfr modf.
      * <P>
-     * An engine's client authentication setting is one of the following:
+     * An fnginf's dlifnt butifntidbtion sftting is onf of tif following:
      * <ul>
-     * <li> client authentication required
-     * <li> client authentication requested
-     * <li> no client authentication desired
+     * <li> dlifnt butifntidbtion rfquirfd
+     * <li> dlifnt butifntidbtion rfqufstfd
+     * <li> no dlifnt butifntidbtion dfsirfd
      * </ul>
      * <P>
-     * Unlike {@link #setNeedClientAuth(boolean)}, if this option is set and
-     * the client chooses not to provide authentication information
-     * about itself, <i>the negotiations will continue</i>.
+     * Unlikf {@link #sftNffdClifntAuti(boolfbn)}, if tiis option is sft bnd
+     * tif dlifnt dioosfs not to providf butifntidbtion informbtion
+     * bbout itsflf, <i>tif nfgotibtions will dontinuf</i>.
      * <P>
-     * Calling this method overrides any previous setting made by
-     * this method or {@link #setNeedClientAuth(boolean)}.
+     * Cblling tiis mftiod ovfrridfs bny prfvious sftting mbdf by
+     * tiis mftiod or {@link #sftNffdClifntAuti(boolfbn)}.
      *
-     * @param   want set to true if client authentication is requested,
-     *          or false if no client authentication is desired.
-     * @see     #getWantClientAuth()
-     * @see     #setNeedClientAuth(boolean)
-     * @see     #getNeedClientAuth()
-     * @see     #setUseClientMode(boolean)
+     * @pbrbm   wbnt sft to truf if dlifnt butifntidbtion is rfqufstfd,
+     *          or fblsf if no dlifnt butifntidbtion is dfsirfd.
+     * @sff     #gftWbntClifntAuti()
+     * @sff     #sftNffdClifntAuti(boolfbn)
+     * @sff     #gftNffdClifntAuti()
+     * @sff     #sftUsfClifntModf(boolfbn)
      */
-    public abstract void setWantClientAuth(boolean want);
+    publid bbstrbdt void sftWbntClifntAuti(boolfbn wbnt);
 
 
     /**
-     * Returns true if the engine will <i>request</i> client authentication.
-     * This option is only useful for engines in the server mode.
+     * Rfturns truf if tif fnginf will <i>rfqufst</i> dlifnt butifntidbtion.
+     * Tiis option is only usfful for fnginfs in tif sfrvfr modf.
      *
-     * @return  true if client authentication is requested,
-     *          or false if no client authentication is desired.
-     * @see     #setNeedClientAuth(boolean)
-     * @see     #getNeedClientAuth()
-     * @see     #setWantClientAuth(boolean)
-     * @see     #setUseClientMode(boolean)
+     * @rfturn  truf if dlifnt butifntidbtion is rfqufstfd,
+     *          or fblsf if no dlifnt butifntidbtion is dfsirfd.
+     * @sff     #sftNffdClifntAuti(boolfbn)
+     * @sff     #gftNffdClifntAuti()
+     * @sff     #sftWbntClifntAuti(boolfbn)
+     * @sff     #sftUsfClifntModf(boolfbn)
      */
-    public abstract boolean getWantClientAuth();
+    publid bbstrbdt boolfbn gftWbntClifntAuti();
 
 
     /**
-     * Controls whether new SSL sessions may be established by this engine.
-     * If session creations are not allowed, and there are no
-     * existing sessions to resume, there will be no successful
-     * handshaking.
+     * Controls wiftifr nfw SSL sfssions mby bf fstbblisifd by tiis fnginf.
+     * If sfssion drfbtions brf not bllowfd, bnd tifrf brf no
+     * fxisting sfssions to rfsumf, tifrf will bf no suddfssful
+     * ibndsibking.
      *
-     * @param   flag true indicates that sessions may be created; this
-     *          is the default.  false indicates that an existing session
-     *          must be resumed
-     * @see     #getEnableSessionCreation()
+     * @pbrbm   flbg truf indidbtfs tibt sfssions mby bf drfbtfd; tiis
+     *          is tif dffbult.  fblsf indidbtfs tibt bn fxisting sfssion
+     *          must bf rfsumfd
+     * @sff     #gftEnbblfSfssionCrfbtion()
      */
-    public abstract void setEnableSessionCreation(boolean flag);
+    publid bbstrbdt void sftEnbblfSfssionCrfbtion(boolfbn flbg);
 
 
     /**
-     * Returns true if new SSL sessions may be established by this engine.
+     * Rfturns truf if nfw SSL sfssions mby bf fstbblisifd by tiis fnginf.
      *
-     * @return  true indicates that sessions may be created; this
-     *          is the default.  false indicates that an existing session
-     *          must be resumed
-     * @see     #setEnableSessionCreation(boolean)
+     * @rfturn  truf indidbtfs tibt sfssions mby bf drfbtfd; tiis
+     *          is tif dffbult.  fblsf indidbtfs tibt bn fxisting sfssion
+     *          must bf rfsumfd
+     * @sff     #sftEnbblfSfssionCrfbtion(boolfbn)
      */
-    public abstract boolean getEnableSessionCreation();
+    publid bbstrbdt boolfbn gftEnbblfSfssionCrfbtion();
 
     /**
-     * Returns the SSLParameters in effect for this SSLEngine.
-     * The ciphersuites and protocols of the returned SSLParameters
-     * are always non-null.
+     * Rfturns tif SSLPbrbmftfrs in ffffdt for tiis SSLEnginf.
+     * Tif dipifrsuitfs bnd protodols of tif rfturnfd SSLPbrbmftfrs
+     * brf blwbys non-null.
      *
-     * @return the SSLParameters in effect for this SSLEngine.
-     * @since 1.6
+     * @rfturn tif SSLPbrbmftfrs in ffffdt for tiis SSLEnginf.
+     * @sindf 1.6
      */
-    public SSLParameters getSSLParameters() {
-        SSLParameters params = new SSLParameters();
-        params.setCipherSuites(getEnabledCipherSuites());
-        params.setProtocols(getEnabledProtocols());
-        if (getNeedClientAuth()) {
-            params.setNeedClientAuth(true);
-        } else if (getWantClientAuth()) {
-            params.setWantClientAuth(true);
+    publid SSLPbrbmftfrs gftSSLPbrbmftfrs() {
+        SSLPbrbmftfrs pbrbms = nfw SSLPbrbmftfrs();
+        pbrbms.sftCipifrSuitfs(gftEnbblfdCipifrSuitfs());
+        pbrbms.sftProtodols(gftEnbblfdProtodols());
+        if (gftNffdClifntAuti()) {
+            pbrbms.sftNffdClifntAuti(truf);
+        } flsf if (gftWbntClifntAuti()) {
+            pbrbms.sftWbntClifntAuti(truf);
         }
-        return params;
+        rfturn pbrbms;
     }
 
     /**
-     * Applies SSLParameters to this engine.
+     * Applifs SSLPbrbmftfrs to tiis fnginf.
      *
-     * <p>This means:
+     * <p>Tiis mfbns:
      * <ul>
-     * <li>If {@code params.getCipherSuites()} is non-null,
-     *   {@code setEnabledCipherSuites()} is called with that value.</li>
-     * <li>If {@code params.getProtocols()} is non-null,
-     *   {@code setEnabledProtocols()} is called with that value.</li>
-     * <li>If {@code params.getNeedClientAuth()} or
-     *   {@code params.getWantClientAuth()} return {@code true},
-     *   {@code setNeedClientAuth(true)} and
-     *   {@code setWantClientAuth(true)} are called, respectively;
-     *   otherwise {@code setWantClientAuth(false)} is called.</li>
-     * <li>If {@code params.getServerNames()} is non-null, the engine will
-     *   configure its server names with that value.</li>
-     * <li>If {@code params.getSNIMatchers()} is non-null, the engine will
-     *   configure its SNI matchers with that value.</li>
+     * <li>If {@dodf pbrbms.gftCipifrSuitfs()} is non-null,
+     *   {@dodf sftEnbblfdCipifrSuitfs()} is dbllfd witi tibt vbluf.</li>
+     * <li>If {@dodf pbrbms.gftProtodols()} is non-null,
+     *   {@dodf sftEnbblfdProtodols()} is dbllfd witi tibt vbluf.</li>
+     * <li>If {@dodf pbrbms.gftNffdClifntAuti()} or
+     *   {@dodf pbrbms.gftWbntClifntAuti()} rfturn {@dodf truf},
+     *   {@dodf sftNffdClifntAuti(truf)} bnd
+     *   {@dodf sftWbntClifntAuti(truf)} brf dbllfd, rfspfdtivfly;
+     *   otifrwisf {@dodf sftWbntClifntAuti(fblsf)} is dbllfd.</li>
+     * <li>If {@dodf pbrbms.gftSfrvfrNbmfs()} is non-null, tif fnginf will
+     *   donfigurf its sfrvfr nbmfs witi tibt vbluf.</li>
+     * <li>If {@dodf pbrbms.gftSNIMbtdifrs()} is non-null, tif fnginf will
+     *   donfigurf its SNI mbtdifrs witi tibt vbluf.</li>
      * </ul>
      *
-     * @param params the parameters
-     * @throws IllegalArgumentException if the setEnabledCipherSuites() or
-     *    the setEnabledProtocols() call fails
-     * @since 1.6
+     * @pbrbm pbrbms tif pbrbmftfrs
+     * @tirows IllfgblArgumfntExdfption if tif sftEnbblfdCipifrSuitfs() or
+     *    tif sftEnbblfdProtodols() dbll fbils
+     * @sindf 1.6
      */
-    public void setSSLParameters(SSLParameters params) {
+    publid void sftSSLPbrbmftfrs(SSLPbrbmftfrs pbrbms) {
         String[] s;
-        s = params.getCipherSuites();
+        s = pbrbms.gftCipifrSuitfs();
         if (s != null) {
-            setEnabledCipherSuites(s);
+            sftEnbblfdCipifrSuitfs(s);
         }
-        s = params.getProtocols();
+        s = pbrbms.gftProtodols();
         if (s != null) {
-            setEnabledProtocols(s);
+            sftEnbblfdProtodols(s);
         }
-        if (params.getNeedClientAuth()) {
-            setNeedClientAuth(true);
-        } else if (params.getWantClientAuth()) {
-            setWantClientAuth(true);
-        } else {
-            setWantClientAuth(false);
+        if (pbrbms.gftNffdClifntAuti()) {
+            sftNffdClifntAuti(truf);
+        } flsf if (pbrbms.gftWbntClifntAuti()) {
+            sftWbntClifntAuti(truf);
+        } flsf {
+            sftWbntClifntAuti(fblsf);
         }
     }
 

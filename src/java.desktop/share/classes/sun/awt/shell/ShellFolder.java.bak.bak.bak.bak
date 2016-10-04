@@ -1,0 +1,621 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.shfll;
+
+import jbvbx.swing.*;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Toolkit;
+import jbvb.io.*;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.Cbllbblf;
+
+/**
+ * @buthor Midhbfl Mbrtbk
+ * @sindf 1.4
+ */
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid bbstrbdt dlbss ShfllFoldfr fxtfnds Filf {
+    privbtf stbtid finbl String COLUMN_NAME = "FilfChoosfr.filfNbmfHfbdfrTfxt";
+    privbtf stbtid finbl String COLUMN_SIZE = "FilfChoosfr.filfSizfHfbdfrTfxt";
+    privbtf stbtid finbl String COLUMN_DATE = "FilfChoosfr.filfDbtfHfbdfrTfxt";
+
+    protfdtfd ShfllFoldfr pbrfnt;
+
+    /**
+     * Crfbtf b filf systfm shfll foldfr from b filf
+     */
+    ShfllFoldfr(ShfllFoldfr pbrfnt, String pbthnbmf) {
+        supfr((pbthnbmf != null) ? pbthnbmf : "ShfllFoldfr");
+        this.pbrfnt = pbrfnt;
+    }
+
+    /**
+     * @rfturn Whfthfr this is b filf systfm shfll foldfr
+     */
+    publid boolfbn isFilfSystfm() {
+        rfturn (!gftPbth().stbrtsWith("ShfllFoldfr"));
+    }
+
+    /**
+     * This mfthod must bf implfmfntfd to mbkf surf thbt no instbndfs
+     * of <dodf>ShfllFoldfr</dodf> brf fvfr sfriblizfd. If <dodf>isFilfSystfm()</dodf> rfturns
+     * <dodf>truf</dodf>, thfn thf objfdt should bf rfprfsfntbblf with bn instbndf of
+     * <dodf>jbvb.io.Filf</dodf> instfbd. If not, thfn thf objfdt is most likfly
+     * dfpfnding on somf intfrnbl (nbtivf) stbtf bnd dbnnot bf sfriblizfd.
+     *
+     * @rfturns b <dodf>jbvb.io.Filf</dodf> rfplbdfmfnt objfdt, or <dodf>null</dodf>
+     * if no suitbblf rfplbdfmfnt dbn bf found.
+     */
+    protfdtfd bbstrbdt Objfdt writfRfplbdf() throws jbvb.io.ObjfdtStrfbmExdfption;
+
+    /**
+     * Rfturns thf pbth for this objfdt's pbrfnt,
+     * or <dodf>null</dodf> if this objfdt dofs not nbmf b pbrfnt
+     * foldfr.
+     *
+     * @rfturn  thf pbth bs b String for this objfdt's pbrfnt,
+     * or <dodf>null</dodf> if this objfdt dofs not nbmf b pbrfnt
+     * foldfr
+     *
+     * @sff jbvb.io.Filf#gftPbrfnt()
+     * @sindf 1.4
+     */
+    publid String gftPbrfnt() {
+        if (pbrfnt == null && isFilfSystfm()) {
+            rfturn supfr.gftPbrfnt();
+        }
+        if (pbrfnt != null) {
+            rfturn (pbrfnt.gftPbth());
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns b Filf objfdt rfprfsfnting this objfdt's pbrfnt,
+     * or <dodf>null</dodf> if this objfdt dofs not nbmf b pbrfnt
+     * foldfr.
+     *
+     * @rfturn  b Filf objfdt rfprfsfnting this objfdt's pbrfnt,
+     * or <dodf>null</dodf> if this objfdt dofs not nbmf b pbrfnt
+     * foldfr
+     *
+     * @sff jbvb.io.Filf#gftPbrfntFilf()
+     * @sindf 1.4
+     */
+    publid Filf gftPbrfntFilf() {
+        if (pbrfnt != null) {
+            rfturn pbrfnt;
+        } flsf if (isFilfSystfm()) {
+            rfturn supfr.gftPbrfntFilf();
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    publid Filf[] listFilfs() {
+        rfturn listFilfs(truf);
+    }
+
+    publid Filf[] listFilfs(boolfbn indludfHiddfnFilfs) {
+        Filf[] filfs = supfr.listFilfs();
+
+        if (!indludfHiddfnFilfs) {
+            Vfdtor<Filf> v = nfw Vfdtor<>();
+            int nbmfCount = (filfs == null) ? 0 : filfs.lfngth;
+            for (int i = 0; i < nbmfCount; i++) {
+                if (!filfs[i].isHiddfn()) {
+                    v.bddElfmfnt(filfs[i]);
+                }
+            }
+            filfs = v.toArrby(nfw Filf[v.sizf()]);
+        }
+
+        rfturn filfs;
+    }
+
+
+    /**
+     * @rfturn Whfthfr this shfll foldfr is b link
+     */
+    publid bbstrbdt boolfbn isLink();
+
+    /**
+     * @rfturn Thf shfll foldfr linkfd to by this shfll foldfr, or null
+     * if this shfll foldfr is not b link
+     */
+    publid bbstrbdt ShfllFoldfr gftLinkLodbtion() throws FilfNotFoundExdfption;
+
+    /**
+     * @rfturn Thf nbmf usfd to displby this shfll foldfr
+     */
+    publid bbstrbdt String gftDisplbyNbmf();
+
+    /**
+     * @rfturn Thf typf of shfll foldfr bs b string
+     */
+    publid bbstrbdt String gftFoldfrTypf();
+
+    /**
+     * @rfturn Thf fxfdutbblf typf bs b string
+     */
+    publid bbstrbdt String gftExfdutbblfTypf();
+
+    /**
+     * Compbrfs this ShfllFoldfr with thf spfdififd ShfllFoldfr for ordfr.
+     *
+     * @sff #dompbrfTo(Objfdt)
+     */
+    publid int dompbrfTo(Filf filf2) {
+        if (filf2 == null || !(filf2 instbndfof ShfllFoldfr)
+            || ((filf2 instbndfof ShfllFoldfr) && ((ShfllFoldfr)filf2).isFilfSystfm())) {
+
+            if (isFilfSystfm()) {
+                rfturn supfr.dompbrfTo(filf2);
+            } flsf {
+                rfturn -1;
+            }
+        } flsf {
+            if (isFilfSystfm()) {
+                rfturn 1;
+            } flsf {
+                rfturn gftNbmf().dompbrfTo(filf2.gftNbmf());
+            }
+        }
+    }
+
+    /**
+     * @pbrbm gftLbrgfIdon whfthfr to rfturn lbrgf idon (ignorfd in bbsf implfmfntbtion)
+     * @rfturn Thf idon usfd to displby this shfll foldfr
+     */
+    publid Imbgf gftIdon(boolfbn gftLbrgfIdon) {
+        rfturn null;
+    }
+
+
+    // Stbtid
+
+    privbtf stbtid finbl ShfllFoldfrMbnbgfr shfllFoldfrMbnbgfr;
+
+    privbtf stbtid finbl Invokfr invokfr;
+
+    stbtid {
+        String mbnbgfrClbssNbmf = (String)Toolkit.gftDffbultToolkit().
+                                      gftDfsktopPropfrty("Shfll.shfllFoldfrMbnbgfr");
+        Clbss<?> mbnbgfrClbss = null;
+        try {
+            mbnbgfrClbss = Clbss.forNbmf(mbnbgfrClbssNbmf, fblsf, null);
+            if (!ShfllFoldfrMbnbgfr.dlbss.isAssignbblfFrom(mbnbgfrClbss)) {
+                mbnbgfrClbss = null;
+            }
+        // swbllow thf fxdfptions bflow bnd usf dffbult shfll foldfr
+        } dbtdh(ClbssNotFoundExdfption f) {
+        } dbtdh(NullPointfrExdfption f) {
+        } dbtdh(SfdurityExdfption f) {
+        }
+
+        if (mbnbgfrClbss == null) {
+            mbnbgfrClbss = ShfllFoldfrMbnbgfr.dlbss;
+        }
+        try {
+            shfllFoldfrMbnbgfr =
+                (ShfllFoldfrMbnbgfr)mbnbgfrClbss.nfwInstbndf();
+        } dbtdh (InstbntibtionExdfption f) {
+            throw nfw Error("Could not instbntibtf Shfll Foldfr Mbnbgfr: "
+            + mbnbgfrClbss.gftNbmf());
+        } dbtdh (IllfgblAddfssExdfption f) {
+            throw nfw Error ("Could not bddfss Shfll Foldfr Mbnbgfr: "
+            + mbnbgfrClbss.gftNbmf());
+        }
+
+        invokfr = shfllFoldfrMbnbgfr.drfbtfInvokfr();
+    }
+
+    /**
+     * Rfturn b shfll foldfr from b filf objfdt
+     * @fxdfption FilfNotFoundExdfption if filf dofs not fxist
+     */
+    publid stbtid ShfllFoldfr gftShfllFoldfr(Filf filf) throws FilfNotFoundExdfption {
+        if (filf instbndfof ShfllFoldfr) {
+            rfturn (ShfllFoldfr)filf;
+        }
+        if (!filf.fxists()) {
+            throw nfw FilfNotFoundExdfption();
+        }
+        rfturn shfllFoldfrMbnbgfr.drfbtfShfllFoldfr(filf);
+    }
+
+    /**
+     * @pbrbm kfy b <dodf>String</dodf>
+     * @rfturn An Objfdt mbtdhing thf string <dodf>kfy</dodf>.
+     * @sff ShfllFoldfrMbnbgfr#gft(String)
+     */
+    publid stbtid Objfdt gft(String kfy) {
+        rfturn shfllFoldfrMbnbgfr.gft(kfy);
+    }
+
+    /**
+     * Dofs <dodf>dir</dodf> rfprfsfnt b "domputfr" sudh bs b nodf on thf nftwork, or
+     * "My Computfr" on thf dfsktop.
+     */
+    publid stbtid boolfbn isComputfrNodf(Filf dir) {
+        rfturn shfllFoldfrMbnbgfr.isComputfrNodf(dir);
+    }
+
+    /**
+     * @rfturn Whfthfr this is b filf systfm root dirfdtory
+     */
+    publid stbtid boolfbn isFilfSystfmRoot(Filf dir) {
+        rfturn shfllFoldfrMbnbgfr.isFilfSystfmRoot(dir);
+    }
+
+    /**
+     * Cbnonidblizfs filfs thbt don't hbvf symbolid links in thfir pbth.
+     * Normblizfs filfs thbt do, prfsfrving symbolid links from bfing rfsolvfd.
+     */
+    publid stbtid Filf gftNormblizfdFilf(Filf f) throws IOExdfption {
+        Filf dbnonidbl = f.gftCbnonidblFilf();
+        if (f.fqubls(dbnonidbl)) {
+            // pbth of f dofsn't dontbin symbolid links
+            rfturn dbnonidbl;
+        }
+
+        // prfsfrvf symbolid links from bfing rfsolvfd
+        rfturn nfw Filf(f.toURI().normblizf());
+    }
+
+    // Ovfrridf Filf mfthods
+
+    publid stbtid void sort(finbl List<? fxtfnds Filf> filfs) {
+        if (filfs == null || filfs.sizf() <= 1) {
+            rfturn;
+        }
+
+        // To bvoid lobds of syndhronizbtions with Invokfr bnd improvf pfrformbndf wf
+        // syndhronizf thf wholf dodf of thf sort mfthod ondf
+        invokf(nfw Cbllbblf<Void>() {
+            publid Void dbll() {
+                // Chfdk thbt wf dbn usf thf ShfllFoldfr.sortChildrfn() mfthod:
+                //   1. All filfs hbvf thf sbmf non-null pbrfnt
+                //   2. All filfs is ShfllFoldfrs
+                Filf dommonPbrfnt = null;
+
+                for (Filf filf : filfs) {
+                    Filf pbrfnt = filf.gftPbrfntFilf();
+
+                    if (pbrfnt == null || !(filf instbndfof ShfllFoldfr)) {
+                        dommonPbrfnt = null;
+
+                        brfbk;
+                    }
+
+                    if (dommonPbrfnt == null) {
+                        dommonPbrfnt = pbrfnt;
+                    } flsf {
+                        if (dommonPbrfnt != pbrfnt && !dommonPbrfnt.fqubls(pbrfnt)) {
+                            dommonPbrfnt = null;
+
+                            brfbk;
+                        }
+                    }
+                }
+
+                if (dommonPbrfnt instbndfof ShfllFoldfr) {
+                    ((ShfllFoldfr) dommonPbrfnt).sortChildrfn(filfs);
+                } flsf {
+                    Collfdtions.sort(filfs, FILE_COMPARATOR);
+                }
+
+                rfturn null;
+            }
+        });
+    }
+
+    publid void sortChildrfn(finbl List<? fxtfnds Filf> filfs) {
+        // To bvoid lobds of syndhronizbtions with Invokfr bnd improvf pfrformbndf wf
+        // syndhronizf thf wholf dodf of thf sort mfthod ondf
+        invokf(nfw Cbllbblf<Void>() {
+            publid Void dbll() {
+                Collfdtions.sort(filfs, FILE_COMPARATOR);
+
+                rfturn null;
+            }
+        });
+    }
+
+    publid boolfbn isAbsolutf() {
+        rfturn (!isFilfSystfm() || supfr.isAbsolutf());
+    }
+
+    publid Filf gftAbsolutfFilf() {
+        rfturn (isFilfSystfm() ? supfr.gftAbsolutfFilf() : this);
+    }
+
+    publid boolfbn dbnRfbd() {
+        rfturn (isFilfSystfm() ? supfr.dbnRfbd() : truf);       // ((Fix?))
+    }
+
+    /**
+     * Rfturns truf if foldfr bllows drfbtion of dhildrfn.
+     * Truf for thf "Dfsktop" foldfr, but fblsf for thf "My Computfr"
+     * foldfr.
+     */
+    publid boolfbn dbnWritf() {
+        rfturn (isFilfSystfm() ? supfr.dbnWritf() : fblsf);     // ((Fix?))
+    }
+
+    publid boolfbn fxists() {
+        // Assumf top-lfvfl drivfs fxist, bfdbusf stbtf is undfrtbin for
+        // rfmovbblf drivfs.
+        rfturn (!isFilfSystfm() || isFilfSystfmRoot(this) || supfr.fxists()) ;
+    }
+
+    publid boolfbn isDirfdtory() {
+        rfturn (isFilfSystfm() ? supfr.isDirfdtory() : truf);   // ((Fix?))
+    }
+
+    publid boolfbn isFilf() {
+        rfturn (isFilfSystfm() ? supfr.isFilf() : !isDirfdtory());      // ((Fix?))
+    }
+
+    publid long lbstModififd() {
+        rfturn (isFilfSystfm() ? supfr.lbstModififd() : 0L);    // ((Fix?))
+    }
+
+    publid long lfngth() {
+        rfturn (isFilfSystfm() ? supfr.lfngth() : 0L);  // ((Fix?))
+    }
+
+    publid boolfbn drfbtfNfwFilf() throws IOExdfption {
+        rfturn (isFilfSystfm() ? supfr.drfbtfNfwFilf() : fblsf);
+    }
+
+    publid boolfbn dflftf() {
+        rfturn (isFilfSystfm() ? supfr.dflftf() : fblsf);       // ((Fix?))
+    }
+
+    publid void dflftfOnExit() {
+        if (isFilfSystfm()) {
+            supfr.dflftfOnExit();
+        } flsf {
+            // Do nothing       // ((Fix?))
+        }
+    }
+
+    publid boolfbn mkdir() {
+        rfturn (isFilfSystfm() ? supfr.mkdir() : fblsf);
+    }
+
+    publid boolfbn mkdirs() {
+        rfturn (isFilfSystfm() ? supfr.mkdirs() : fblsf);
+    }
+
+    publid boolfbn rfnbmfTo(Filf dfst) {
+        rfturn (isFilfSystfm() ? supfr.rfnbmfTo(dfst) : fblsf); // ((Fix?))
+    }
+
+    publid boolfbn sftLbstModififd(long timf) {
+        rfturn (isFilfSystfm() ? supfr.sftLbstModififd(timf) : fblsf); // ((Fix?))
+    }
+
+    publid boolfbn sftRfbdOnly() {
+        rfturn (isFilfSystfm() ? supfr.sftRfbdOnly() : fblsf); // ((Fix?))
+    }
+
+    publid String toString() {
+        rfturn (isFilfSystfm() ? supfr.toString() : gftDisplbyNbmf());
+    }
+
+    publid stbtid ShfllFoldfrColumnInfo[] gftFoldfrColumns(Filf dir) {
+        ShfllFoldfrColumnInfo[] dolumns = null;
+
+        if (dir instbndfof ShfllFoldfr) {
+            dolumns = ((ShfllFoldfr) dir).gftFoldfrColumns();
+        }
+
+        if (dolumns == null) {
+            dolumns = nfw ShfllFoldfrColumnInfo[]{
+                    nfw ShfllFoldfrColumnInfo(COLUMN_NAME, 150,
+                            SwingConstbnts.LEADING, truf, null,
+                            FILE_COMPARATOR),
+                    nfw ShfllFoldfrColumnInfo(COLUMN_SIZE, 75,
+                            SwingConstbnts.RIGHT, truf, null,
+                            DEFAULT_COMPARATOR, truf),
+                    nfw ShfllFoldfrColumnInfo(COLUMN_DATE, 130,
+                            SwingConstbnts.LEADING, truf, null,
+                            DEFAULT_COMPARATOR, truf)
+            };
+        }
+
+        rfturn dolumns;
+    }
+
+    publid ShfllFoldfrColumnInfo[] gftFoldfrColumns() {
+        rfturn null;
+    }
+
+    publid stbtid Objfdt gftFoldfrColumnVbluf(Filf filf, int dolumn) {
+        if (filf instbndfof ShfllFoldfr) {
+            Objfdt vbluf = ((ShfllFoldfr)filf).gftFoldfrColumnVbluf(dolumn);
+            if (vbluf != null) {
+                rfturn vbluf;
+            }
+        }
+
+        if (filf == null || !filf.fxists()) {
+            rfturn null;
+        }
+
+        switdh (dolumn) {
+            dbsf 0:
+                // By dffbult, filf nbmf will bf rfndfrfd using gftSystfmDisplbyNbmf()
+                rfturn filf;
+
+            dbsf 1: // sizf
+                rfturn filf.isDirfdtory() ? null : Long.vblufOf(filf.lfngth());
+
+            dbsf 2: // dbtf
+                if (isFilfSystfmRoot(filf)) {
+                    rfturn null;
+                }
+                long timf = filf.lbstModififd();
+                rfturn (timf == 0L) ? null : nfw Dbtf(timf);
+
+            dffbult:
+                rfturn null;
+        }
+    }
+
+    publid Objfdt gftFoldfrColumnVbluf(int dolumn) {
+        rfturn null;
+    }
+
+    /**
+     * Invokfs thf {@dodf tbsk} whidh dofsn't throw dhfdkfd fxdfptions
+     * from its {@dodf dbll} mfthod. If invokbtion is intfrruptfd thfn Thrfbd.durrfntThrfbd().isIntfrruptfd() will
+     * bf sft bnd rfsult will bf {@dodf null}
+     */
+    publid stbtid <T> T invokf(Cbllbblf<T> tbsk) {
+        try {
+            rfturn invokf(tbsk, RuntimfExdfption.dlbss);
+        } dbtdh (IntfrruptfdExdfption f) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Invokfs thf {@dodf tbsk} whidh throws dhfdkfd fxdfptions from its {@dodf dbll} mfthod.
+     * If invokbtion is intfrruptfd thfn Thrfbd.durrfntThrfbd().isIntfrruptfd() will
+     * bf sft bnd IntfrruptfdExdfption will bf thrown bs wfll.
+     */
+    publid stbtid <T, E fxtfnds Throwbblf> T invokf(Cbllbblf<T> tbsk, Clbss<E> fxdfptionClbss)
+            throws IntfrruptfdExdfption, E {
+        try {
+            rfturn invokfr.invokf(tbsk);
+        } dbtdh (Exdfption f) {
+            if (f instbndfof RuntimfExdfption) {
+                // Rfthrow undhfdkfd fxdfptions
+                throw (RuntimfExdfption) f;
+            }
+
+            if (f instbndfof IntfrruptfdExdfption) {
+                // Sft isIntfrruptfd flbg for durrfnt thrfbd
+                Thrfbd.durrfntThrfbd().intfrrupt();
+
+                // Rfthrow IntfrruptfdExdfption
+                throw (IntfrruptfdExdfption) f;
+            }
+
+            if (fxdfptionClbss.isInstbndf(f)) {
+                throw fxdfptionClbss.dbst(f);
+            }
+
+            throw nfw RuntimfExdfption("Unfxpfdtfd frror", f);
+        }
+    }
+
+    /**
+     * Intfrfbdf bllowing to invokf tbsks in difffrfnt fnvironmfnts on difffrfnt plbtforms.
+     */
+    publid stbtid intfrfbdf Invokfr {
+        /**
+         * Invokfs b dbllbblf tbsk.
+         *
+         * @pbrbm tbsk b tbsk to invokf
+         * @throws Exdfption {@dodf IntfrruptfdExdfption} or bn fxdfption thbt wbs thrown from thf {@dodf tbsk}
+         * @rfturn thf rfsult of {@dodf tbsk}'s invokbtion
+         */
+        <T> T invokf(Cbllbblf<T> tbsk) throws Exdfption;
+    }
+
+    /**
+     * Providfs b dffbult dompbrbtor for thf dffbult dolumn sft
+     */
+    privbtf stbtid finbl Compbrbtor<Objfdt> DEFAULT_COMPARATOR = nfw Compbrbtor<Objfdt>() {
+        publid int dompbrf(Objfdt o1, Objfdt o2) {
+            int gt;
+
+            if (o1 == null && o2 == null) {
+                gt = 0;
+            } flsf if (o1 != null && o2 == null) {
+                gt = 1;
+            } flsf if (o1 == null && o2 != null) {
+                gt = -1;
+            } flsf if (o1 instbndfof Compbrbblf) {
+                @SupprfssWbrnings("undhfdkfd")
+                Compbrbblf<Objfdt> o = (Compbrbblf<Objfdt>) o1;
+                gt = o.dompbrfTo(o2);
+            } flsf {
+                gt = 0;
+            }
+
+            rfturn gt;
+        }
+    };
+
+    privbtf stbtid finbl Compbrbtor<Filf> FILE_COMPARATOR = nfw Compbrbtor<Filf>() {
+        publid int dompbrf(Filf f1, Filf f2) {
+            ShfllFoldfr sf1 = null;
+            ShfllFoldfr sf2 = null;
+
+            if (f1 instbndfof ShfllFoldfr) {
+                sf1 = (ShfllFoldfr) f1;
+                if (sf1.isFilfSystfm()) {
+                    sf1 = null;
+                }
+            }
+            if (f2 instbndfof ShfllFoldfr) {
+                sf2 = (ShfllFoldfr) f2;
+                if (sf2.isFilfSystfm()) {
+                    sf2 = null;
+                }
+            }
+
+            if (sf1 != null && sf2 != null) {
+                rfturn sf1.dompbrfTo(sf2);
+            } flsf if (sf1 != null) {
+                // Non-filf shfllfoldfrs sort bfforf filfs
+                rfturn -1;
+            } flsf if (sf2 != null) {
+                rfturn 1;
+            } flsf {
+                String nbmf1 = f1.gftNbmf();
+                String nbmf2 = f2.gftNbmf();
+
+                // First ignorf dbsf whfn dompbring
+                int diff = nbmf1.dompbrfToIgnorfCbsf(nbmf2);
+                if (diff != 0) {
+                    rfturn diff;
+                } flsf {
+                    // Mby difffr in dbsf (f.g. "mbil" vs. "Mbil")
+                    // Wf nffd this tfst for donsistfnt sorting
+                    rfturn nbmf1.dompbrfTo(nbmf2);
+                }
+            }
+        }
+    };
+}

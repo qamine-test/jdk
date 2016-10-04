@@ -1,278 +1,278 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import java.io.File;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import javax.swing.filechooser.*;
+import jbvb.io.Filf;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Enumfrbtion;
+import jbvbx.swing.filfdioosfr.*;
 
-//### Renamed from 'ExampleFileFilter.java' provided with Swing demos.
+//### Rfnbmfd from 'ExbmplfFilfFiltfr.jbvb' providfd witi Swing dfmos.
 
 /**
- * A convenience implementation of FileFilter that filters out
- * all files except for those type extensions that it knows about.
+ * A donvfnifndf implfmfntbtion of FilfFiltfr tibt filtfrs out
+ * bll filfs fxdfpt for tiosf typf fxtfnsions tibt it knows bbout.
  *
- * Extensions are of the type ".foo", which is typically found on
- * Windows and Unix boxes, but not on Macinthosh. Case is ignored.
+ * Extfnsions brf of tif typf ".foo", wiidi is typidblly found on
+ * Windows bnd Unix boxfs, but not on Mbdintiosi. Cbsf is ignorfd.
  *
- * Example - create a new filter that filerts out all files
- * but gif and jpg image files:
+ * Exbmplf - drfbtf b nfw filtfr tibt filfrts out bll filfs
+ * but gif bnd jpg imbgf filfs:
  *
- *     JFileChooser chooser = new JFileChooser();
- *     ExampleFileFilter filter = new ExampleFileFilter(
- *                   new String{"gif", "jpg"}, "JPEG & GIF Images")
- *     chooser.addChoosableFileFilter(filter);
- *     chooser.showOpenDialog(this);
+ *     JFilfCioosfr dioosfr = nfw JFilfCioosfr();
+ *     ExbmplfFilfFiltfr filtfr = nfw ExbmplfFilfFiltfr(
+ *                   nfw String{"gif", "jpg"}, "JPEG & GIF Imbgfs")
+ *     dioosfr.bddCioosbblfFilfFiltfr(filtfr);
+ *     dioosfr.siowOpfnDiblog(tiis);
  *
- * @author Jeff Dinkins
+ * @butior Jfff Dinkins
  */
 
-public class JDBFileFilter extends FileFilter {
+publid dlbss JDBFilfFiltfr fxtfnds FilfFiltfr {
 
-    private static String TYPE_UNKNOWN = "Type Unknown";
-    private static String HIDDEN_FILE = "Hidden File";
+    privbtf stbtid String TYPE_UNKNOWN = "Typf Unknown";
+    privbtf stbtid String HIDDEN_FILE = "Hiddfn Filf";
 
-    private Hashtable<String, JDBFileFilter> filters = null;
-    private String description = null;
-    private String fullDescription = null;
-    private boolean useExtensionsInDescription = true;
+    privbtf Hbsitbblf<String, JDBFilfFiltfr> filtfrs = null;
+    privbtf String dfsdription = null;
+    privbtf String fullDfsdription = null;
+    privbtf boolfbn usfExtfnsionsInDfsdription = truf;
 
     /**
-     * Creates a file filter. If no filters are added, then all
-     * files are accepted.
+     * Crfbtfs b filf filtfr. If no filtfrs brf bddfd, tifn bll
+     * filfs brf bddfptfd.
      *
-     * @see #addExtension
+     * @sff #bddExtfnsion
      */
-    public JDBFileFilter() {
-        this.filters = new Hashtable<String, JDBFileFilter>();
+    publid JDBFilfFiltfr() {
+        tiis.filtfrs = nfw Hbsitbblf<String, JDBFilfFiltfr>();
     }
 
     /**
-     * Creates a file filter that accepts files with the given extension.
-     * Example: new JDBFileFilter("jpg");
+     * Crfbtfs b filf filtfr tibt bddfpts filfs witi tif givfn fxtfnsion.
+     * Exbmplf: nfw JDBFilfFiltfr("jpg");
      *
-     * @see #addExtension
+     * @sff #bddExtfnsion
      */
-    public JDBFileFilter(String extension) {
-        this(extension,null);
+    publid JDBFilfFiltfr(String fxtfnsion) {
+        tiis(fxtfnsion,null);
     }
 
     /**
-     * Creates a file filter that accepts the given file type.
-     * Example: new JDBFileFilter("jpg", "JPEG Image Images");
+     * Crfbtfs b filf filtfr tibt bddfpts tif givfn filf typf.
+     * Exbmplf: nfw JDBFilfFiltfr("jpg", "JPEG Imbgf Imbgfs");
      *
-     * Note that the "." before the extension is not needed. If
-     * provided, it will be ignored.
+     * Notf tibt tif "." bfforf tif fxtfnsion is not nffdfd. If
+     * providfd, it will bf ignorfd.
      *
-     * @see #addExtension
+     * @sff #bddExtfnsion
      */
-    public JDBFileFilter(String extension, String description) {
-        this();
-        if(extension!=null) {
-         addExtension(extension);
+    publid JDBFilfFiltfr(String fxtfnsion, String dfsdription) {
+        tiis();
+        if(fxtfnsion!=null) {
+         bddExtfnsion(fxtfnsion);
       }
-        if(description!=null) {
-         setDescription(description);
+        if(dfsdription!=null) {
+         sftDfsdription(dfsdription);
       }
     }
 
     /**
-     * Creates a file filter from the given string array.
-     * Example: new JDBFileFilter(String {"gif", "jpg"});
+     * Crfbtfs b filf filtfr from tif givfn string brrby.
+     * Exbmplf: nfw JDBFilfFiltfr(String {"gif", "jpg"});
      *
-     * Note that the "." before the extension is not needed adn
-     * will be ignored.
+     * Notf tibt tif "." bfforf tif fxtfnsion is not nffdfd bdn
+     * will bf ignorfd.
      *
-     * @see #addExtension
+     * @sff #bddExtfnsion
      */
-    public JDBFileFilter(String[] filters) {
-        this(filters, null);
+    publid JDBFilfFiltfr(String[] filtfrs) {
+        tiis(filtfrs, null);
     }
 
     /**
-     * Creates a file filter from the given string array and description.
-     * Example: new JDBFileFilter(String {"gif", "jpg"}, "Gif and JPG Images");
+     * Crfbtfs b filf filtfr from tif givfn string brrby bnd dfsdription.
+     * Exbmplf: nfw JDBFilfFiltfr(String {"gif", "jpg"}, "Gif bnd JPG Imbgfs");
      *
-     * Note that the "." before the extension is not needed and will be ignored.
+     * Notf tibt tif "." bfforf tif fxtfnsion is not nffdfd bnd will bf ignorfd.
      *
-     * @see #addExtension
+     * @sff #bddExtfnsion
      */
-    public JDBFileFilter(String[] filters, String description) {
-        this();
-        for (String filter : filters) {
-            // add filters one by one
-            addExtension(filter);
+    publid JDBFilfFiltfr(String[] filtfrs, String dfsdription) {
+        tiis();
+        for (String filtfr : filtfrs) {
+            // bdd filtfrs onf by onf
+            bddExtfnsion(filtfr);
         }
-        if(description!=null) {
-         setDescription(description);
+        if(dfsdription!=null) {
+         sftDfsdription(dfsdription);
       }
     }
 
     /**
-     * Return true if this file should be shown in the directory pane,
-     * false if it shouldn't.
+     * Rfturn truf if tiis filf siould bf siown in tif dirfdtory pbnf,
+     * fblsf if it siouldn't.
      *
-     * Files that begin with "." are ignored.
+     * Filfs tibt bfgin witi "." brf ignorfd.
      *
-     * @see #getExtension
-     * @see FileFilter#accepts
+     * @sff #gftExtfnsion
+     * @sff FilfFiltfr#bddfpts
      */
-    @Override
-    public boolean accept(File f) {
+    @Ovfrridf
+    publid boolfbn bddfpt(Filf f) {
         if(f != null) {
-            if(f.isDirectory()) {
-                return true;
+            if(f.isDirfdtory()) {
+                rfturn truf;
             }
-            String extension = getExtension(f);
-            if(extension != null && filters.get(getExtension(f)) != null) {
-                return true;
+            String fxtfnsion = gftExtfnsion(f);
+            if(fxtfnsion != null && filtfrs.gft(gftExtfnsion(f)) != null) {
+                rfturn truf;
             };
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Return the extension portion of the file's name .
+     * Rfturn tif fxtfnsion portion of tif filf's nbmf .
      *
-     * @see #getExtension
-     * @see FileFilter#accept
+     * @sff #gftExtfnsion
+     * @sff FilfFiltfr#bddfpt
      */
-     public String getExtension(File f) {
+     publid String gftExtfnsion(Filf f) {
         if(f != null) {
-            String filename = f.getName();
-            int i = filename.lastIndexOf('.');
-            if(i>0 && i<filename.length()-1) {
-                return filename.substring(i+1).toLowerCase();
+            String filfnbmf = f.gftNbmf();
+            int i = filfnbmf.lbstIndfxOf('.');
+            if(i>0 && i<filfnbmf.lfngti()-1) {
+                rfturn filfnbmf.substring(i+1).toLowfrCbsf();
             };
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Adds a filetype "dot" extension to filter against.
+     * Adds b filftypf "dot" fxtfnsion to filtfr bgbinst.
      *
-     * For example: the following code will create a filter that filters
-     * out all files except those that end in ".jpg" and ".tif":
+     * For fxbmplf: tif following dodf will drfbtf b filtfr tibt filtfrs
+     * out bll filfs fxdfpt tiosf tibt fnd in ".jpg" bnd ".tif":
      *
-     *   JDBFileFilter filter = new JDBFileFilter();
-     *   filter.addExtension("jpg");
-     *   filter.addExtension("tif");
+     *   JDBFilfFiltfr filtfr = nfw JDBFilfFiltfr();
+     *   filtfr.bddExtfnsion("jpg");
+     *   filtfr.bddExtfnsion("tif");
      *
-     * Note that the "." before the extension is not needed and will be ignored.
+     * Notf tibt tif "." bfforf tif fxtfnsion is not nffdfd bnd will bf ignorfd.
      */
-    public void addExtension(String extension) {
-        if(filters == null) {
-            filters = new Hashtable<String, JDBFileFilter>(5);
+    publid void bddExtfnsion(String fxtfnsion) {
+        if(filtfrs == null) {
+            filtfrs = nfw Hbsitbblf<String, JDBFilfFiltfr>(5);
         }
-        filters.put(extension.toLowerCase(), this);
-        fullDescription = null;
+        filtfrs.put(fxtfnsion.toLowfrCbsf(), tiis);
+        fullDfsdription = null;
     }
 
 
     /**
-     * Returns the human readable description of this filter. For
-     * example: "JPEG and GIF Image Files (*.jpg, *.gif)"
+     * Rfturns tif iumbn rfbdbblf dfsdription of tiis filtfr. For
+     * fxbmplf: "JPEG bnd GIF Imbgf Filfs (*.jpg, *.gif)"
      *
-     * @see setDescription
-     * @see setExtensionListInDescription
-     * @see isExtensionListInDescription
-     * @see FileFilter#getDescription
+     * @sff sftDfsdription
+     * @sff sftExtfnsionListInDfsdription
+     * @sff isExtfnsionListInDfsdription
+     * @sff FilfFiltfr#gftDfsdription
      */
-    @Override
-    public String getDescription() {
-        if(fullDescription == null) {
-            if(description == null || isExtensionListInDescription()) {
-                fullDescription = description==null ? "(" : description + " (";
-                // build the description from the extension list
-                Enumeration<String> extensions = filters.keys();
-                if(extensions != null) {
-                    fullDescription += "." + extensions.nextElement();
-                    while (extensions.hasMoreElements()) {
-                        fullDescription += ", " + extensions.nextElement();
+    @Ovfrridf
+    publid String gftDfsdription() {
+        if(fullDfsdription == null) {
+            if(dfsdription == null || isExtfnsionListInDfsdription()) {
+                fullDfsdription = dfsdription==null ? "(" : dfsdription + " (";
+                // build tif dfsdription from tif fxtfnsion list
+                Enumfrbtion<String> fxtfnsions = filtfrs.kfys();
+                if(fxtfnsions != null) {
+                    fullDfsdription += "." + fxtfnsions.nfxtElfmfnt();
+                    wiilf (fxtfnsions.ibsMorfElfmfnts()) {
+                        fullDfsdription += ", " + fxtfnsions.nfxtElfmfnt();
                     }
                 }
-                fullDescription += ")";
-            } else {
-                fullDescription = description;
+                fullDfsdription += ")";
+            } flsf {
+                fullDfsdription = dfsdription;
             }
         }
-        return fullDescription;
+        rfturn fullDfsdription;
     }
 
     /**
-     * Sets the human readable description of this filter. For
-     * example: filter.setDescription("Gif and JPG Images");
+     * Sfts tif iumbn rfbdbblf dfsdription of tiis filtfr. For
+     * fxbmplf: filtfr.sftDfsdription("Gif bnd JPG Imbgfs");
      *
-     * @see setDescription
-     * @see setExtensionListInDescription
-     * @see isExtensionListInDescription
+     * @sff sftDfsdription
+     * @sff sftExtfnsionListInDfsdription
+     * @sff isExtfnsionListInDfsdription
      */
-    public void setDescription(String description) {
-        this.description = description;
-        fullDescription = null;
+    publid void sftDfsdription(String dfsdription) {
+        tiis.dfsdription = dfsdription;
+        fullDfsdription = null;
     }
 
     /**
-     * Determines whether the extension list (.jpg, .gif, etc) should
-     * show up in the human readable description.
+     * Dftfrminfs wiftifr tif fxtfnsion list (.jpg, .gif, ftd) siould
+     * siow up in tif iumbn rfbdbblf dfsdription.
      *
-     * Only relevent if a description was provided in the constructor
-     * or using setDescription();
+     * Only rflfvfnt if b dfsdription wbs providfd in tif donstrudtor
+     * or using sftDfsdription();
      *
-     * @see getDescription
-     * @see setDescription
-     * @see isExtensionListInDescription
+     * @sff gftDfsdription
+     * @sff sftDfsdription
+     * @sff isExtfnsionListInDfsdription
      */
-    public void setExtensionListInDescription(boolean b) {
-        useExtensionsInDescription = b;
-        fullDescription = null;
+    publid void sftExtfnsionListInDfsdription(boolfbn b) {
+        usfExtfnsionsInDfsdription = b;
+        fullDfsdription = null;
     }
 
     /**
-     * Returns whether the extension list (.jpg, .gif, etc) should
-     * show up in the human readable description.
+     * Rfturns wiftifr tif fxtfnsion list (.jpg, .gif, ftd) siould
+     * siow up in tif iumbn rfbdbblf dfsdription.
      *
-     * Only relevent if a description was provided in the constructor
-     * or using setDescription();
+     * Only rflfvfnt if b dfsdription wbs providfd in tif donstrudtor
+     * or using sftDfsdription();
      *
-     * @see getDescription
-     * @see setDescription
-     * @see setExtensionListInDescription
+     * @sff gftDfsdription
+     * @sff sftDfsdription
+     * @sff sftExtfnsionListInDfsdription
      */
-    public boolean isExtensionListInDescription() {
-        return useExtensionsInDescription;
+    publid boolfbn isExtfnsionListInDfsdription() {
+        rfturn usfExtfnsionsInDfsdription;
     }
 }

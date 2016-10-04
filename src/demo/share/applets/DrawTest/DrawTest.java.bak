@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,270 +30,270 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.applet.Applet;
-import java.awt.BorderLayout;
-import java.awt.Checkbox;
-import java.awt.CheckboxGroup;
-import java.awt.Choice;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.Panel;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.bpplft.Applft;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Cifdkbox;
+import jbvb.bwt.CifdkboxGroup;
+import jbvb.bwt.Cioidf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.FlowLbyout;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Pbnfl;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.fvfnt.ItfmEvfnt;
+import jbvb.bwt.fvfnt.ItfmListfnfr;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.MousfListfnfr;
+import jbvb.bwt.fvfnt.MousfMotionListfnfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 
-@SuppressWarnings("serial")
-public class DrawTest extends Applet {
+@SupprfssWbrnings("sfribl")
+publid dlbss DrbwTfst fxtfnds Applft {
 
-    DrawPanel panel;
-    DrawControls controls;
+    DrbwPbnfl pbnfl;
+    DrbwControls dontrols;
 
-    @Override
-    public void init() {
-        setLayout(new BorderLayout());
-        panel = new DrawPanel();
-        controls = new DrawControls(panel);
-        add("Center", panel);
-        add("South", controls);
+    @Ovfrridf
+    publid void init() {
+        sftLbyout(nfw BordfrLbyout());
+        pbnfl = nfw DrbwPbnfl();
+        dontrols = nfw DrbwControls(pbnfl);
+        bdd("Cfntfr", pbnfl);
+        bdd("Souti", dontrols);
     }
 
-    @Override
-    public void destroy() {
-        remove(panel);
-        remove(controls);
+    @Ovfrridf
+    publid void dfstroy() {
+        rfmovf(pbnfl);
+        rfmovf(dontrols);
     }
 
-    public static void main(String args[]) {
-        Frame f = new Frame("DrawTest");
-        DrawTest drawTest = new DrawTest();
-        drawTest.init();
-        drawTest.start();
+    publid stbtid void mbin(String brgs[]) {
+        Frbmf f = nfw Frbmf("DrbwTfst");
+        DrbwTfst drbwTfst = nfw DrbwTfst();
+        drbwTfst.init();
+        drbwTfst.stbrt();
 
-        f.add("Center", drawTest);
-        f.setSize(300, 300);
-        f.setVisible(true);
+        f.bdd("Cfntfr", drbwTfst);
+        f.sftSizf(300, 300);
+        f.sftVisiblf(truf);
     }
 
-    @Override
-    public String getAppletInfo() {
-        return "A simple drawing program.";
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "A simplf drbwing progrbm.";
     }
 }
 
 
-@SuppressWarnings("serial")
-class DrawPanel extends Panel implements MouseListener, MouseMotionListener {
+@SupprfssWbrnings("sfribl")
+dlbss DrbwPbnfl fxtfnds Pbnfl implfmfnts MousfListfnfr, MousfMotionListfnfr {
 
-    public static final int LINES = 0;
-    public static final int POINTS = 1;
-    int mode = LINES;
-    List<Rectangle> lines = new ArrayList<Rectangle>();
-    List<Color> colors = new ArrayList<Color>();
+    publid stbtid finbl int LINES = 0;
+    publid stbtid finbl int POINTS = 1;
+    int modf = LINES;
+    List<Rfdtbnglf> linfs = nfw ArrbyList<Rfdtbnglf>();
+    List<Color> dolors = nfw ArrbyList<Color>();
     int x1, y1;
     int x2, y2;
 
-    @SuppressWarnings("LeakingThisInConstructor")
-    public DrawPanel() {
-        setBackground(Color.white);
-        addMouseMotionListener(this);
-        addMouseListener(this);
+    @SupprfssWbrnings("LfbkingTiisInConstrudtor")
+    publid DrbwPbnfl() {
+        sftBbdkground(Color.wiitf);
+        bddMousfMotionListfnfr(tiis);
+        bddMousfListfnfr(tiis);
     }
 
-    public void setDrawMode(int mode) {
-        switch (mode) {
-            case LINES:
-            case POINTS:
-                this.mode = mode;
-                break;
-            default:
-                throw new IllegalArgumentException();
+    publid void sftDrbwModf(int modf) {
+        switdi (modf) {
+            dbsf LINES:
+            dbsf POINTS:
+                tiis.modf = modf;
+                brfbk;
+            dffbult:
+                tirow nfw IllfgblArgumfntExdfption();
         }
     }
 
-    @Override
-    public void mouseDragged(MouseEvent e) {
-        e.consume();
-        switch (mode) {
-            case LINES:
-                x2 = e.getX();
-                y2 = e.getY();
-                break;
-            case POINTS:
-            default:
-                colors.add(getForeground());
-                lines.add(new Rectangle(x1, y1, e.getX(), e.getY()));
-                x1 = e.getX();
-                y1 = e.getY();
-                break;
+    @Ovfrridf
+    publid void mousfDrbggfd(MousfEvfnt f) {
+        f.donsumf();
+        switdi (modf) {
+            dbsf LINES:
+                x2 = f.gftX();
+                y2 = f.gftY();
+                brfbk;
+            dbsf POINTS:
+            dffbult:
+                dolors.bdd(gftForfground());
+                linfs.bdd(nfw Rfdtbnglf(x1, y1, f.gftX(), f.gftY()));
+                x1 = f.gftX();
+                y1 = f.gftY();
+                brfbk;
         }
-        repaint();
+        rfpbint();
     }
 
-    @Override
-    public void mouseMoved(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfMovfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mousePressed(MouseEvent e) {
-        e.consume();
-        switch (mode) {
-            case LINES:
-                x1 = e.getX();
-                y1 = e.getY();
+    @Ovfrridf
+    publid void mousfPrfssfd(MousfEvfnt f) {
+        f.donsumf();
+        switdi (modf) {
+            dbsf LINES:
+                x1 = f.gftX();
+                y1 = f.gftY();
                 x2 = -1;
-                break;
-            case POINTS:
-            default:
-                colors.add(getForeground());
-                lines.add(new Rectangle(e.getX(), e.getY(), -1, -1));
-                x1 = e.getX();
-                y1 = e.getY();
-                repaint();
-                break;
+                brfbk;
+            dbsf POINTS:
+            dffbult:
+                dolors.bdd(gftForfground());
+                linfs.bdd(nfw Rfdtbnglf(f.gftX(), f.gftY(), -1, -1));
+                x1 = f.gftX();
+                y1 = f.gftY();
+                rfpbint();
+                brfbk;
         }
     }
 
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        e.consume();
-        switch (mode) {
-            case LINES:
-                colors.add(getForeground());
-                lines.add(new Rectangle(x1, y1, e.getX(), e.getY()));
+    @Ovfrridf
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        f.donsumf();
+        switdi (modf) {
+            dbsf LINES:
+                dolors.bdd(gftForfground());
+                linfs.bdd(nfw Rfdtbnglf(x1, y1, f.gftX(), f.gftY()));
                 x2 = -1;
-                break;
-            case POINTS:
-            default:
-                break;
+                brfbk;
+            dbsf POINTS:
+            dffbult:
+                brfbk;
         }
-        repaint();
+        rfpbint();
     }
 
-    @Override
-    public void mouseEntered(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfEntfrfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mouseExited(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfExitfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void mouseClicked(MouseEvent e) {
+    @Ovfrridf
+    publid void mousfClidkfd(MousfEvfnt f) {
     }
 
-    @Override
-    public void paint(Graphics g) {
-        int np = lines.size();
+    @Ovfrridf
+    publid void pbint(Grbpiids g) {
+        int np = linfs.sizf();
 
-        /* draw the current lines */
-        g.setColor(getForeground());
+        /* drbw tif durrfnt linfs */
+        g.sftColor(gftForfground());
         for (int i = 0; i < np; i++) {
-            Rectangle p = lines.get(i);
-            g.setColor(colors.get(i));
-            if (p.width != -1) {
-                g.drawLine(p.x, p.y, p.width, p.height);
-            } else {
-                g.drawLine(p.x, p.y, p.x, p.y);
+            Rfdtbnglf p = linfs.gft(i);
+            g.sftColor(dolors.gft(i));
+            if (p.widti != -1) {
+                g.drbwLinf(p.x, p.y, p.widti, p.ifigit);
+            } flsf {
+                g.drbwLinf(p.x, p.y, p.x, p.y);
             }
         }
-        if (mode == LINES) {
-            g.setColor(getForeground());
+        if (modf == LINES) {
+            g.sftColor(gftForfground());
             if (x2 != -1) {
-                g.drawLine(x1, y1, x2, y2);
+                g.drbwLinf(x1, y1, x2, y2);
             }
         }
     }
 }
 
 
-@SuppressWarnings("serial")
-class DrawControls extends Panel implements ItemListener {
+@SupprfssWbrnings("sfribl")
+dlbss DrbwControls fxtfnds Pbnfl implfmfnts ItfmListfnfr {
 
-    DrawPanel target;
+    DrbwPbnfl tbrgft;
 
-    @SuppressWarnings("LeakingThisInConstructor")
-    public DrawControls(DrawPanel target) {
-        this.target = target;
-        setLayout(new FlowLayout());
-        setBackground(Color.lightGray);
-        target.setForeground(Color.red);
-        CheckboxGroup group = new CheckboxGroup();
-        Checkbox b;
-        add(b = new Checkbox(null, group, false));
-        b.addItemListener(this);
-        b.setForeground(Color.red);
-        add(b = new Checkbox(null, group, false));
-        b.addItemListener(this);
-        b.setForeground(Color.green);
-        add(b = new Checkbox(null, group, false));
-        b.addItemListener(this);
-        b.setForeground(Color.blue);
-        add(b = new Checkbox(null, group, false));
-        b.addItemListener(this);
-        b.setForeground(Color.pink);
-        add(b = new Checkbox(null, group, false));
-        b.addItemListener(this);
-        b.setForeground(Color.orange);
-        add(b = new Checkbox(null, group, true));
-        b.addItemListener(this);
-        b.setForeground(Color.black);
-        target.setForeground(b.getForeground());
-        Choice shapes = new Choice();
-        shapes.addItemListener(this);
-        shapes.addItem("Lines");
-        shapes.addItem("Points");
-        shapes.setBackground(Color.lightGray);
-        add(shapes);
+    @SupprfssWbrnings("LfbkingTiisInConstrudtor")
+    publid DrbwControls(DrbwPbnfl tbrgft) {
+        tiis.tbrgft = tbrgft;
+        sftLbyout(nfw FlowLbyout());
+        sftBbdkground(Color.ligitGrby);
+        tbrgft.sftForfground(Color.rfd);
+        CifdkboxGroup group = nfw CifdkboxGroup();
+        Cifdkbox b;
+        bdd(b = nfw Cifdkbox(null, group, fblsf));
+        b.bddItfmListfnfr(tiis);
+        b.sftForfground(Color.rfd);
+        bdd(b = nfw Cifdkbox(null, group, fblsf));
+        b.bddItfmListfnfr(tiis);
+        b.sftForfground(Color.grffn);
+        bdd(b = nfw Cifdkbox(null, group, fblsf));
+        b.bddItfmListfnfr(tiis);
+        b.sftForfground(Color.bluf);
+        bdd(b = nfw Cifdkbox(null, group, fblsf));
+        b.bddItfmListfnfr(tiis);
+        b.sftForfground(Color.pink);
+        bdd(b = nfw Cifdkbox(null, group, fblsf));
+        b.bddItfmListfnfr(tiis);
+        b.sftForfground(Color.orbngf);
+        bdd(b = nfw Cifdkbox(null, group, truf));
+        b.bddItfmListfnfr(tiis);
+        b.sftForfground(Color.blbdk);
+        tbrgft.sftForfground(b.gftForfground());
+        Cioidf sibpfs = nfw Cioidf();
+        sibpfs.bddItfmListfnfr(tiis);
+        sibpfs.bddItfm("Linfs");
+        sibpfs.bddItfm("Points");
+        sibpfs.sftBbdkground(Color.ligitGrby);
+        bdd(sibpfs);
     }
 
-    @Override
-    public void paint(Graphics g) {
-        Rectangle r = getBounds();
-        g.setColor(Color.lightGray);
-        g.draw3DRect(0, 0, r.width, r.height, false);
+    @Ovfrridf
+    publid void pbint(Grbpiids g) {
+        Rfdtbnglf r = gftBounds();
+        g.sftColor(Color.ligitGrby);
+        g.drbw3DRfdt(0, 0, r.widti, r.ifigit, fblsf);
 
-        int n = getComponentCount();
+        int n = gftComponfntCount();
         for (int i = 0; i < n; i++) {
-            Component comp = getComponent(i);
-            if (comp instanceof Checkbox) {
-                Point loc = comp.getLocation();
-                Dimension d = comp.getSize();
-                g.setColor(comp.getForeground());
-                g.drawRect(loc.x - 1, loc.y - 1, d.width + 1, d.height + 1);
+            Componfnt domp = gftComponfnt(i);
+            if (domp instbndfof Cifdkbox) {
+                Point lod = domp.gftLodbtion();
+                Dimfnsion d = domp.gftSizf();
+                g.sftColor(domp.gftForfground());
+                g.drbwRfdt(lod.x - 1, lod.y - 1, d.widti + 1, d.ifigit + 1);
             }
         }
     }
 
-    @Override
-    public void itemStateChanged(ItemEvent e) {
-        if (e.getSource() instanceof Checkbox) {
-            target.setForeground(((Component) e.getSource()).getForeground());
-        } else if (e.getSource() instanceof Choice) {
-            String choice = (String) e.getItem();
-            if (choice.equals("Lines")) {
-                target.setDrawMode(DrawPanel.LINES);
-            } else if (choice.equals("Points")) {
-                target.setDrawMode(DrawPanel.POINTS);
+    @Ovfrridf
+    publid void itfmStbtfCibngfd(ItfmEvfnt f) {
+        if (f.gftSourdf() instbndfof Cifdkbox) {
+            tbrgft.sftForfground(((Componfnt) f.gftSourdf()).gftForfground());
+        } flsf if (f.gftSourdf() instbndfof Cioidf) {
+            String dioidf = (String) f.gftItfm();
+            if (dioidf.fqubls("Linfs")) {
+                tbrgft.sftDrbwModf(DrbwPbnfl.LINES);
+            } flsf if (dioidf.fqubls("Points")) {
+                tbrgft.sftDrbwModf(DrbwPbnfl.POINTS);
             }
         }
     }

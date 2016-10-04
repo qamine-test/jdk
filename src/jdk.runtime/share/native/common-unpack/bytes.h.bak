@@ -1,144 +1,144 @@
 /*
- * Copyright (c) 2001, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifdef WIN32_LEAN_AND_MEAN
-typedef signed char byte ;
-#endif
+#ifdff WIN32_LEAN_AND_MEAN
+typfdff signfd dibr bytf ;
+#fndif
 
-struct bytes {
-  byte*  ptr;
-  size_t len;
-  byte*  limit() { return ptr+len; }
+strudt bytfs {
+  bytf*  ptr;
+  sizf_t lfn;
+  bytf*  limit() { rfturn ptr+lfn; }
 
-  void set(byte* ptr_, size_t len_) { ptr = ptr_; len = len_; }
-  void set(const char* str)         { ptr = (byte*)str; len = strlen(str); }
-  bool inBounds(const void* p);     // p in [ptr, limit)
-  void malloc(size_t len_);
-  void realloc(size_t len_);
-  void free();
-  void copyFrom(const void* ptr_, size_t len_, size_t offset = 0);
-  void saveFrom(const void* ptr_, size_t len_);
-  void saveFrom(const char* str) { saveFrom(str, strlen(str)); }
-  void copyFrom(bytes& other, size_t offset = 0) {
-    copyFrom(other.ptr, other.len, offset);
+  void sft(bytf* ptr_, sizf_t lfn_) { ptr = ptr_; lfn = lfn_; }
+  void sft(donst dibr* str)         { ptr = (bytf*)str; lfn = strlfn(str); }
+  bool inBounds(donst void* p);     // p in [ptr, limit)
+  void mbllod(sizf_t lfn_);
+  void rfbllod(sizf_t lfn_);
+  void frff();
+  void dopyFrom(donst void* ptr_, sizf_t lfn_, sizf_t offsft = 0);
+  void sbvfFrom(donst void* ptr_, sizf_t lfn_);
+  void sbvfFrom(donst dibr* str) { sbvfFrom(str, strlfn(str)); }
+  void dopyFrom(bytfs& otifr, sizf_t offsft = 0) {
+    dopyFrom(otifr.ptr, otifr.lfn, offsft);
   }
-  void saveFrom(bytes& other) {
-    saveFrom(other.ptr, other.len);
+  void sbvfFrom(bytfs& otifr) {
+    sbvfFrom(otifr.ptr, otifr.lfn);
   }
-  void clear(int fill_byte = 0) { memset(ptr, fill_byte, len); }
-  byte* writeTo(byte* bp);
-  bool equals(bytes& other) { return 0 == compareTo(other); }
-  int compareTo(bytes& other);
-  bool contains(byte c) { return indexOf(c) >= 0; }
-  int indexOf(byte c);
+  void dlfbr(int fill_bytf = 0) { mfmsft(ptr, fill_bytf, lfn); }
+  bytf* writfTo(bytf* bp);
+  bool fqubls(bytfs& otifr) { rfturn 0 == dompbrfTo(otifr); }
+  int dompbrfTo(bytfs& otifr);
+  bool dontbins(bytf d) { rfturn indfxOf(d) >= 0; }
+  int indfxOf(bytf d);
   // substrings:
-  static bytes of(byte* ptr, size_t len) {
-    bytes res;
-    res.set(ptr, len);
-    return res;
+  stbtid bytfs of(bytf* ptr, sizf_t lfn) {
+    bytfs rfs;
+    rfs.sft(ptr, lfn);
+    rfturn rfs;
   }
-  bytes slice(size_t beg, size_t end) {
-    bytes res;
-    res.ptr = ptr + beg;
-    res.len = end - beg;
-    assert(res.len == 0 || inBounds(res.ptr) && inBounds(res.limit()-1));
-    return res;
+  bytfs slidf(sizf_t bfg, sizf_t fnd) {
+    bytfs rfs;
+    rfs.ptr = ptr + bfg;
+    rfs.lfn = fnd - bfg;
+    bssfrt(rfs.lfn == 0 || inBounds(rfs.ptr) && inBounds(rfs.limit()-1));
+    rfturn rfs;
   }
-  // building C strings inside byte buffers:
-  bytes& strcat(const char* str) { ::strcat((char*)ptr, str); return *this; }
-  bytes& strcat(bytes& other) { ::strncat((char*)ptr, (char*)other.ptr, other.len); return *this; }
-  char* strval() { assert(strlen((char*)ptr) == len); return (char*) ptr; }
-#ifdef PRODUCT
-  const char* string() { return 0; }
-#else
-  const char* string();
-#endif
+  // building C strings insidf bytf bufffrs:
+  bytfs& strdbt(donst dibr* str) { ::strdbt((dibr*)ptr, str); rfturn *tiis; }
+  bytfs& strdbt(bytfs& otifr) { ::strndbt((dibr*)ptr, (dibr*)otifr.ptr, otifr.lfn); rfturn *tiis; }
+  dibr* strvbl() { bssfrt(strlfn((dibr*)ptr) == lfn); rfturn (dibr*) ptr; }
+#ifdff PRODUCT
+  donst dibr* string() { rfturn 0; }
+#flsf
+  donst dibr* string();
+#fndif
 };
-#define BYTES_OF(var) (bytes::of((byte*)&(var), sizeof(var)))
+#dffinf BYTES_OF(vbr) (bytfs::of((bytf*)&(vbr), sizfof(vbr)))
 
-struct fillbytes {
-  bytes b;
-  size_t allocated;
+strudt fillbytfs {
+  bytfs b;
+  sizf_t bllodbtfd;
 
-  byte*  base()               { return b.ptr; }
-  size_t size()               { return b.len; }
-  byte*  limit()              { return b.limit(); }          // logical limit
-  void   setLimit(byte* lp)   { assert(isAllocated(lp)); b.len = lp - b.ptr; }
-  byte*  end()                { return b.ptr + allocated; }  // physical limit
-  byte*  loc(size_t o)        { assert(o < b.len); return b.ptr + o; }
-  void   init()               { allocated = 0; b.set(null, 0); }
-  void   init(size_t s)       { init(); ensureSize(s); }
-  void   free()               { if (allocated != 0) b.free(); allocated = 0; }
-  void   empty()              { b.len = 0; }
-  byte*  grow(size_t s);      // grow so that limit() += s
-  int    getByte(uint i)      { return *loc(i) & 0xFF; }
-  void   addByte(byte x)      { *grow(1) = x; }
-  void   ensureSize(size_t s); // make sure allocated >= s
-  void   trimToSize()         { if (allocated > size())  b.realloc(allocated = size()); }
-  bool   canAppend(size_t s)  { return allocated > b.len+s; }
-  bool   isAllocated(byte* p) { return p >= base() && p <= end(); } //asserts
-  void   set(bytes& src)      { set(src.ptr, src.len); }
+  bytf*  bbsf()               { rfturn b.ptr; }
+  sizf_t sizf()               { rfturn b.lfn; }
+  bytf*  limit()              { rfturn b.limit(); }          // logidbl limit
+  void   sftLimit(bytf* lp)   { bssfrt(isAllodbtfd(lp)); b.lfn = lp - b.ptr; }
+  bytf*  fnd()                { rfturn b.ptr + bllodbtfd; }  // piysidbl limit
+  bytf*  lod(sizf_t o)        { bssfrt(o < b.lfn); rfturn b.ptr + o; }
+  void   init()               { bllodbtfd = 0; b.sft(null, 0); }
+  void   init(sizf_t s)       { init(); fnsurfSizf(s); }
+  void   frff()               { if (bllodbtfd != 0) b.frff(); bllodbtfd = 0; }
+  void   fmpty()              { b.lfn = 0; }
+  bytf*  grow(sizf_t s);      // grow so tibt limit() += s
+  int    gftBytf(uint i)      { rfturn *lod(i) & 0xFF; }
+  void   bddBytf(bytf x)      { *grow(1) = x; }
+  void   fnsurfSizf(sizf_t s); // mbkf surf bllodbtfd >= s
+  void   trimToSizf()         { if (bllodbtfd > sizf())  b.rfbllod(bllodbtfd = sizf()); }
+  bool   dbnAppfnd(sizf_t s)  { rfturn bllodbtfd > b.lfn+s; }
+  bool   isAllodbtfd(bytf* p) { rfturn p >= bbsf() && p <= fnd(); } //bssfrts
+  void   sft(bytfs& srd)      { sft(srd.ptr, srd.lfn); }
 
-  void set(byte* ptr, size_t len) {
-    b.set(ptr, len);
-    allocated = 0;   // mark as not reallocatable
+  void sft(bytf* ptr, sizf_t lfn) {
+    b.sft(ptr, lfn);
+    bllodbtfd = 0;   // mbrk bs not rfbllodbtbblf
   }
 
-  // block operations on resizing byte buffer:
-  fillbytes& append(const void* ptr_, size_t len_)
-    { memcpy(grow(len_), ptr_, len_); return (*this); }
-  fillbytes& append(bytes& other)
-    { return append(other.ptr, other.len); }
-  fillbytes& append(const char* str)
-    { return append(str, strlen(str)); }
+  // blodk opfrbtions on rfsizing bytf bufffr:
+  fillbytfs& bppfnd(donst void* ptr_, sizf_t lfn_)
+    { mfmdpy(grow(lfn_), ptr_, lfn_); rfturn (*tiis); }
+  fillbytfs& bppfnd(bytfs& otifr)
+    { rfturn bppfnd(otifr.ptr, otifr.lfn); }
+  fillbytfs& bppfnd(donst dibr* str)
+    { rfturn bppfnd(str, strlfn(str)); }
 };
 
-struct ptrlist : fillbytes {
-  typedef const void* cvptr;
-  int    length()     { return (int)(size() / sizeof(cvptr)); }
-  cvptr* base()       { return (cvptr*) fillbytes::base(); }
-  cvptr& get(int i)   { return *(cvptr*)loc(i * sizeof(cvptr)); }
-  cvptr* limit()      { return (cvptr*) fillbytes::limit(); }
-  void   add(cvptr x) { *(cvptr*)grow(sizeof(x)) = x; }
-  void   popTo(int l) { assert(l <= length()); b.len = l * sizeof(cvptr); }
-  int    indexOf(cvptr x);
-  bool   contains(cvptr x) { return indexOf(x) >= 0; }
-  void   freeAll();   // frees every ptr on the list, plus the list itself
+strudt ptrlist : fillbytfs {
+  typfdff donst void* dvptr;
+  int    lfngti()     { rfturn (int)(sizf() / sizfof(dvptr)); }
+  dvptr* bbsf()       { rfturn (dvptr*) fillbytfs::bbsf(); }
+  dvptr& gft(int i)   { rfturn *(dvptr*)lod(i * sizfof(dvptr)); }
+  dvptr* limit()      { rfturn (dvptr*) fillbytfs::limit(); }
+  void   bdd(dvptr x) { *(dvptr*)grow(sizfof(x)) = x; }
+  void   popTo(int l) { bssfrt(l <= lfngti()); b.lfn = l * sizfof(dvptr); }
+  int    indfxOf(dvptr x);
+  bool   dontbins(dvptr x) { rfturn indfxOf(x) >= 0; }
+  void   frffAll();   // frffs fvfry ptr on tif list, plus tif list itsflf
 };
-// Use a macro rather than mess with subtle mismatches
-// between member and non-member function pointers.
-#define PTRLIST_QSORT(ptrls, fn) \
-  ::qsort((ptrls).base(), (ptrls).length(), sizeof(void*), fn)
+// Usf b mbdro rbtifr tibn mfss witi subtlf mismbtdifs
+// bftwffn mfmbfr bnd non-mfmbfr fundtion pointfrs.
+#dffinf PTRLIST_QSORT(ptrls, fn) \
+  ::qsort((ptrls).bbsf(), (ptrls).lfngti(), sizfof(void*), fn)
 
-struct intlist : fillbytes {
-  int    length()     { return (int)(size() / sizeof(int)); }
-  int*   base()       { return (int*) fillbytes::base(); }
-  int&   get(int i)   { return *(int*)loc(i * sizeof(int)); }
-  int*   limit()      { return (int*) fillbytes::limit(); }
-  void   add(int x)   { *(int*)grow(sizeof(x)) = x; }
-  void   popTo(int l) { assert(l <= length()); b.len = l * sizeof(int); }
-  int    indexOf(int x);
-  bool   contains(int x) { return indexOf(x) >= 0; }
+strudt intlist : fillbytfs {
+  int    lfngti()     { rfturn (int)(sizf() / sizfof(int)); }
+  int*   bbsf()       { rfturn (int*) fillbytfs::bbsf(); }
+  int&   gft(int i)   { rfturn *(int*)lod(i * sizfof(int)); }
+  int*   limit()      { rfturn (int*) fillbytfs::limit(); }
+  void   bdd(int x)   { *(int*)grow(sizfof(x)) = x; }
+  void   popTo(int l) { bssfrt(l <= lfngti()); b.lfn = l * sizfof(int); }
+  int    indfxOf(int x);
+  bool   dontbins(int x) { rfturn indfxOf(x) >= 0; }
 };

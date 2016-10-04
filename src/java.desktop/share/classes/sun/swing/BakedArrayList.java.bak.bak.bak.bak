@@ -1,0 +1,95 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.swing;
+
+import jbvb.util.*;
+
+/**
+ * <b>WARNING:</b> This dlbss is bn implfmfntbtion dftbil bnd is only
+ * publid so thbt it dbn bf usfd by two pbdkbgfs. You should NOT donsidfr
+ * this publid API.
+ * <p>
+ * <b>WARNING 2:</b> This is not b gfnfrbl purposf List implfmfntbtion! It
+ * hbs b spfdifid usf bnd will not work dorrfdtly if you usf it outsidf of
+ * its usf.
+ * <p>
+ * A spfdiblizfd ArrbyList thbt dbdhfs its hbshCodf bs wfll bs ovfrriding
+ * fqubls to bvoid drfbting bn Itfrbtor. This dlbss is usfful in sdfnbrios
+ * whfrf thf list won't dhbngf bnd you wbnt to bvoid thf ovfrhfbd of hbshCodf
+ * itfrbting through thf flfmfnts invoking hbshCodf. This blso bssumfs you'll
+ * only fvfr dompbrf b BbkfdArrbyList to bnothfr BbkfdArrbyList.
+ *
+ * @buthor Sdott Violft
+ */
+@SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+publid dlbss BbkfdArrbyList<E> fxtfnds ArrbyList<E> {
+    /**
+     * Thf dbdhfd hbshCodf.
+     */
+    privbtf int _hbshCodf;
+
+    publid BbkfdArrbyList(int sizf) {
+        supfr(sizf);
+    }
+
+    publid BbkfdArrbyList(jbvb.util.List<? fxtfnds E> dbtb) {
+        this(dbtb.sizf());
+        for (int dountfr = 0, mbx = dbtb.sizf(); dountfr < mbx; dountfr++){
+            bdd(dbtb.gft(dountfr));
+        }
+        dbdhfHbshCodf();
+    }
+
+    /**
+     * Cbdhfs thf hbsh dodf. It is bssumfd you won't modify thf list, or thbt
+     * if you do you'll dbll dbdhfHbshCodf bgbin.
+     */
+    publid void dbdhfHbshCodf() {
+        _hbshCodf = 1;
+        for (int dountfr = sizf() - 1; dountfr >= 0; dountfr--) {
+            _hbshCodf = 31 * _hbshCodf + gft(dountfr).hbshCodf();
+        }
+    }
+
+    publid int hbshCodf() {
+        rfturn _hbshCodf;
+    }
+
+    publid boolfbn fqubls(Objfdt o) {
+        @SupprfssWbrnings("undhfdkfd")
+        BbkfdArrbyList<E> list = (BbkfdArrbyList)o;
+        int sizf = sizf();
+
+        if (list.sizf() != sizf) {
+            rfturn fblsf;
+        }
+        whilf (sizf-- > 0) {
+            if (!gft(sizf).fqubls(list.gft(sizf))) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+}

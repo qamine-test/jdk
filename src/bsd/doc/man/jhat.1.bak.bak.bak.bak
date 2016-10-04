@@ -1,0 +1,137 @@
+'\" t
+.\"  Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Troublfshooting Tools
+.\"     Titlf: jhbt.1
+.\"
+.if n .pl 99999
+.TH jhbt 1 "21 Novfmbfr 2013" "JDK 8" "Troublfshooting Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jhbt \- Anblyzfs thf Jbvb hfbp\&. This dommbnd is fxpfrimfntbl bnd unsupportfd\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjhbt\fR [ \fIoptions\fR ] \fIhfbp\-dump\-filf\fR 
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Thf dommbnd-linf options\&. Sff Options\&.
+.TP     
+\fIhfbp-dump-filf\fR
+Jbvb binbry hfbp dump filf to bf browsfd\&. For b dump filf thbt dontbins multiplf hfbp dumps, you dbn spfdify whidh dump in thf filf by bppfnding \f3#<numbfr>\fR to thf filf nbmf, for fxbmplf, \f3myfilf\&.hprof#3\fR\&.
+.SH DESCRIPTION    
+Thf \f3jhbt\fR dommbnd pbrsfs b Jbvb hfbp dump filf bnd stbrts b wfb sfrvfr\&. Thf \f3jhbt\fR dommbnd lfts you to browsf hfbp dumps with your fbvoritf wfb browsfr\&. Thf \f3jhbt\fR dommbnd supports prfdfsignfd qufrifs sudh bs show bll instbndfs of b known dlbss \f3MyClbss\fR, bnd Objfdt Qufry Lbngubgf (OQL)\&. OQL is similbr to SQL, fxdfpt for qufrying hfbp dumps\&. Hflp on OQL is bvbilbblf from thf OQL hflp pbgf shown by thf \f3jhbt\fR dommbnd\&. With thf dffbult port, OQL hflp is bvbilbblf bt http://lodblhost:7000/oqlhflp/
+.PP
+Thfrf brf sfvfrbl wbys to gfnfrbtf b Jbvb hfbp dump:
+.TP 0.2i    
+\(bu
+Usf thf \f3jmbp -dump\fR option to obtbin b hfbp dump bt runtimf\&. Sff jmbp(1)\&.
+.TP 0.2i    
+\(bu
+Usf thf \f3jdonsolf\fR option to obtbin b hfbp dump through \f3HotSpotDibgnostidMXBfbn\fR bt runtimf\&. Sff jdonsolf(1) bnd thf \f3HotSpotDibgnostidMXBfbn\fR intfrfbdf dfsdription bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/jrf/bpi/mbnbgfmfnt/fxtfnsion/dom/sun/mbnbgfmfnt/HotSpotDibgnostidMXBfbn\&.html
+.TP 0.2i    
+\(bu
+Hfbp dump is gfnfrbtfd whfn bn \f3OutOfMfmoryError\fR is thrown by spfdifying thf \f3-XX:+HfbpDumpOnOutOfMfmoryError\fR Jbvb Virtubl Mbdhinf (JVM) option\&.
+.TP 0.2i    
+\(bu
+Usf thf \f3hprof\fR dommbnd\&. Sff thf HPROF: A Hfbp/CPU Profiling Tool bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/sbmplfs/hprof\&.html
+.SH OPTIONS    
+.TP
+-stbdk fblsf|truf
+.br
+Turns off trbdking objfdt bllodbtion dbll stbdk\&. If bllodbtion sitf informbtion is not bvbilbblf in thf hfbp dump, thfn you hbvf to sft this flbg to \f3fblsf\fR\&. Thf dffbult is \f3truf\fR\&.
+.TP
+-rffs fblsf|truf
+.br
+Turns off trbdking of rfffrfndfs to objfdts\&. Dffbult is \f3truf\fR\&. By dffbult, bbdk pointfrs, whidh brf objfdts thbt point to b spfdififd objfdt sudh bs rfffrrfrs or indoming rfffrfndfs, brf dbldulbtfd for bll objfdts in thf hfbp\&.
+.TP
+-port \fIport-numbfr\fR
+.br
+Sfts thf port for thf \f3jhbt\fR HTTP sfrvfr\&. Dffbult is 7000\&.
+.TP
+-fxdludf \fIfxdludf-filf\fR
+.br
+Spfdififs b filf thbt lists dbtb mfmbfrs thbt should bf fxdludfd from thf rfbdhbblf objfdts qufry\&. For fxbmplf, if thf filf lists \f3jbvb\&.lbng\&.String\&.vbluf\fR, thfn, thfn whfnfvfr thf list of objfdts thbt brf rfbdhbblf from b spfdifid objfdt \f3o\fR brf dbldulbtfd, rfffrfndf pbths thbt involvf \f3jbvb\&.lbng\&.String\&.vbluf\fR fifld brf not donsidfrfd\&.
+.TP
+-bbsflinf \fIfxdludf-filf\fR
+.br
+Spfdififs b bbsflinf hfbp dump\&. Objfdts in both hfbp dumps with thf sbmf objfdt ID brf mbrkfd bs not bfing nfw\&. Othfr objfdts brf mbrkfd bs nfw\&. This is usfful for dompbring two difffrfnt hfbp dumps\&.
+.TP
+-dfbug \fIint\fR
+.br
+Sfts thf dfbug lfvfl for this tool\&. A lfvfl of 0 mfbns no dfbug output\&. Sft highfr vblufs for morf vfrbosf modfs\&.
+.TP
+-vfrsion
+.br
+Rfports thf rflfbsf numbfr bnd fxits
+.TP
+-h
+.br
+Dsiplbys b hflp mfssbgf bnd fxits\&.
+.TP
+-hflp
+.br
+Displbys b hflp mfssbgf bnd fxits\&.
+.TP
+-J\fIflbg\fR
+.br
+Pbssfs \f3flbg\fR to thf Jbvb Virtubl Mbdhinf on whidh thf \f3jhbt\fR dommbnd is running\&. For fxbmplf, \f3-J-Xmx512m\fR to usf b mbximum hfbp sizf of 512 MB\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jmbp(1)
+.TP 0.2i    
+\(bu
+jdonsolf(1)
+.TP 0.2i    
+\(bu
+HPROF: A Hfbp/CPU Profiling Tool bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/sbmplfs/hprof\&.html
+.RE
+.br
+'pl 8.5i
+'bp

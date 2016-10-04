@@ -1,0 +1,146 @@
+#
+# This propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf thf Addfssibility pbdkbgf.
+#
+# Whfn this filf is rfbd in, thf strings brf put into thf 
+# dffbults tbblf.  This is bn implfmfntbtion dftbil of thf durrfnt
+# workings of Addfssibility.  DO NOT DEPEND ON THIS.  
+# This mby dhbngf in futurf vfrsions of Addfssibility bs wf improvf 
+# lodblizbtion support.
+#
+# @buthor  Lynn Monsbnto
+
+#
+# bddfssiblf rolfs
+#
+blfrt=\u9884\u8B66
+bwtdomponfnt=AWT \u7EC4\u4EF6
+dhfdkbox=\u590D\u9009\u6846
+dolordhoosfr=\u989C\u8272\u9009\u62E9\u5668
+dolumnhfbdfr=\u5217\u6807\u9898
+dombobox=\u7EC4\u5408\u6846
+dbnvbs=\u753B\u5E03
+dfsktopidon=\u684C\u9762\u56FE\u6807
+dfsktoppbnf=\u684C\u9762\u7A97\u683C
+diblog=\u5BF9\u8BDD
+dirfdtorypbnf=\u76EE\u5F55\u7A97\u683C
+glbsspbnf=\u73BB\u7483\u7A97\u683C
+filfdhoosfr=\u6587\u4EF6\u9009\u62E9\u5668
+fillfr=\u6F0F\u6597
+frbmf=\u6846\u67B6
+intfrnblfrbmf=\u5185\u90E8\u6846\u67B6
+lbbfl=\u6807\u7B7E
+lbyfrfdpbnf=\u5206\u5C42\u7A97\u683C
+list=\u5217\u8868
+listitfm=\u5217\u8868\u9879
+mfnubbr=\u83DC\u5355\u680F
+mfnu=\u83DC\u5355
+mfnuitfm=\u83DC\u5355\u9879
+optionpbnf=\u9009\u9879\u7A97\u683C
+pbgftbb=\u9875\u6807\u7B7E
+pbgftbblist=\u9875\u6807\u7B7E\u5217\u8868
+pbnfl=\u9762\u677F
+pbsswordtfxt=\u53E3\u4EE4\u6587\u672C
+popupmfnu=\u5F39\u51FA\u5F0F\u83DC\u5355
+progrfssbbr=\u8FDB\u5EA6\u680F
+pushbutton=\u6309\u94AE
+rbdiobutton=\u5355\u9009\u6309\u94AE
+rootpbnf=\u6839\u7A97\u683C
+rowhfbdfr=\u884C\u6807\u9898
+sdrollbbr=\u6EDA\u52A8\u6761
+sdrollpbnf=\u6EDA\u52A8\u7A97\u683C
+sfpbrbtor=\u5206\u9694\u6761
+slidfr=\u6ED1\u5757
+splitpbnf=\u62C6\u5206\u7A97\u683C
+swingdomponfnt=\u65CB\u8F6C\u7EC4\u4EF6
+tbblf=\u8868
+tfxt=\u6587\u672C
+trff=\u6811
+togglfbutton=\u5207\u6362\u6309\u94AE
+toolbbr=\u5DE5\u5177\u680F
+tooltip=\u5DE5\u5177\u63D0\u793A
+unknown=\u672A\u77E5
+vifwport=\u89C6\u7A97
+window=\u7A97\u53E3
+#
+# bddfssiblf rflbtions
+#
+lbbflFor=\u6807\u7B7E\u5C5E\u4E8E
+lbbflfdBy=\u6807\u7B7E\u5236\u4F5C\u8005
+mfmbfrOf=\u5C5E\u4E8E
+dontrollfdBy=dontrollfdBy
+dontrollfrFor=dontrollfrFor
+#
+# bddfssiblf stbtfs
+#
+bdtivf=\u6D3B\u52A8
+brmfd=\u5F85\u547D
+busy=\u5FD9
+dhfdkfd=\u5DF2\u9009\u4E2D
+dollbpsfd=\u5DF2\u6536\u7F29
+fditbblf=\u53EF\u7F16\u8F91
+fxpbndbblf=\u53EF\u5C55\u5F00
+fxpbndfd=\u5DF2\u5C55\u5F00
+fnbblfd=\u542F\u7528
+fodusbblf=\u53EF\u96C6\u4E2D
+fodusfd=\u5DF2\u96C6\u4E2D
+idonififd=\u56FE\u6807\u5F0F
+modbl=\u6A21\u6001
+multilinf=\u591A\u884C
+multisflfdtbblf=\u591A\u9009\u62E9
+opbquf=\u4E0D\u900F\u660E
+prfssfd=\u5DF2\u6309\u4E0B
+rfsizbblf=\u53EF\u8C03\u6574\u5927\u5C0F
+sflfdtbblf=\u53EF\u9009\u62E9
+sflfdtfd=\u6240\u9009
+showing=\u6B63\u5728\u663E\u793A
+singlflinf=\u5355\u884C
+trbnsifnt=\u77AC\u65F6
+visiblf=\u53EF\u89C1
+vfrtidbl=\u5782\u76F4
+horizontbl=\u6C34\u5E73
+#
+# bddfssiblf bdtions
+#
+togglffxpbnd=\u5207\u6362\u5C55\u5F00
+
+# nfw rflbtions, rolfs bnd stbtfs for J2SE 1.5.0
+
+# 
+# bddfssiblf rflbtions
+#
+flowsTo=\u6D41\u5411
+flowsFrom=\u6D41\u81EA
+subwindowOf=\u5B50\u7A97\u53E3
+pbrfntWindowOf=\u7236\u7A97\u53E3
+fmbfds=\u5D4C\u5165\u9879
+fmbfddfdBy=\u5D4C\u5165\u8005
+dhildNodfOf=\u5B50\u8282\u70B9
+
+#
+# bddfssiblf rolfs
+#
+hfbdfr=\u9875\u7709
+footfr=\u9875\u811A
+pbrbgrbph=\u6BB5\u843D
+rulfr=\u6807\u5C3A
+fditbbr=\u7F16\u8F91\u680F
+progrfssMonitor=\u8FDB\u5EA6\u76D1\u89C6\u5668
+
+#
+# bddfssiblf stbtfs
+#
+mbnbgfsDfsdfndbnts=\u7BA1\u7406\u5B50\u9879
+indftfrminbtf=\u4E0D\u786E\u5B9A
+trundbtfd=\u5DF2\u622A\u65AD
+
+# nfw for J2SE 1.6.0
+
+#
+# bddfssiblf rolfs
+#
+htmldontbinfr=HTML \u5BB9\u5668
+
+#
+# END OF MATERIAL TO LOCALIZE
+#

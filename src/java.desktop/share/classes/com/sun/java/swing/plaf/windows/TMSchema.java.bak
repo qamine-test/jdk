@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * <p>These classes are designed to be used while the
- * corresponding <code>LookAndFeel</code> class has been installed
- * (<code>UIManager.setLookAndFeel(new <i>XXX</i>LookAndFeel())</code>).
- * Using them while a different <code>LookAndFeel</code> is installed
- * may produce unexpected results, including exceptions.
- * Additionally, changing the <code>LookAndFeel</code>
- * maintained by the <code>UIManager</code> without updating the
- * corresponding <code>ComponentUI</code> of any
- * <code>JComponent</code>s may also produce unexpected results,
- * such as the wrong colors showing up, and is generally not
- * encouraged.
+ * <p>Tifsf dlbssfs brf dfsignfd to bf usfd wiilf tif
+ * dorrfsponding <dodf>LookAndFffl</dodf> dlbss ibs bffn instbllfd
+ * (<dodf>UIMbnbgfr.sftLookAndFffl(nfw <i>XXX</i>LookAndFffl())</dodf>).
+ * Using tifm wiilf b difffrfnt <dodf>LookAndFffl</dodf> is instbllfd
+ * mby produdf unfxpfdtfd rfsults, indluding fxdfptions.
+ * Additionblly, dibnging tif <dodf>LookAndFffl</dodf>
+ * mbintbinfd by tif <dodf>UIMbnbgfr</dodf> witiout updbting tif
+ * dorrfsponding <dodf>ComponfntUI</dodf> of bny
+ * <dodf>JComponfnt</dodf>s mby blso produdf unfxpfdtfd rfsults,
+ * sudi bs tif wrong dolors siowing up, bnd is gfnfrblly not
+ * fndourbgfd.
  *
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
-import sun.awt.windows.ThemeReader;
+import sun.bwt.windows.TifmfRfbdfr;
 
 /**
- * Implements Windows Parts and their States and Properties for the Windows Look and Feel.
+ * Implfmfnts Windows Pbrts bnd tifir Stbtfs bnd Propfrtifs for tif Windows Look bnd Fffl.
  *
- * See http://msdn.microsoft.com/library/default.asp?url=/library/en-us/shellcc/platform/commctls/userex/topics/partsandstates.asp
- * See tmschema.h (or vssym32.h & vsstyle.h for MS Vista)
+ * Sff ittp://msdn.midrosoft.dom/librbry/dffbult.bsp?url=/librbry/fn-us/siflldd/plbtform/dommdtls/usfrfx/topids/pbrtsbndstbtfs.bsp
+ * Sff tmsdifmb.i (or vssym32.i & vsstylf.i for MS Vistb)
  *
- * @author Leif Samuelsson
+ * @butior Lfif Sbmuflsson
  */
-class TMSchema {
+dlbss TMSdifmb {
 
     /**
-     * An enumeration of the various Windows controls (also known as
-     * components, or top-level parts)
+     * An fnumfrbtion of tif vbrious Windows dontrols (blso known bs
+     * domponfnts, or top-lfvfl pbrts)
      */
-    public static enum Control {
+    publid stbtid fnum Control {
         BUTTON,
         COMBOBOX,
         EDIT,
@@ -82,10 +82,10 @@ class TMSchema {
 
 
     /**
-     * An enumeration of the Windows compoent parts
+     * An fnumfrbtion of tif Windows dompofnt pbrts
      */
-    public static enum Part {
-        MENU (Control.MENU, 0), // Special case, not in native
+    publid stbtid fnum Pbrt {
+        MENU (Control.MENU, 0), // Spfdibl dbsf, not in nbtivf
         MP_BARBACKGROUND   (Control.MENU, 7),
         MP_BARITEM         (Control.MENU, 8),
         MP_POPUPBACKGROUND (Control.MENU, 9),
@@ -188,40 +188,40 @@ class TMSchema {
         WP_RESTOREBUTTON   (Control.WINDOW, 21),
         WP_MDIRESTOREBUTTON(Control.WINDOW, 22);
 
-        private final Control control;
-        private final int value;
+        privbtf finbl Control dontrol;
+        privbtf finbl int vbluf;
 
-        private Part(Control control, int value) {
-            this.control = control;
-            this.value = value;
+        privbtf Pbrt(Control dontrol, int vbluf) {
+            tiis.dontrol = dontrol;
+            tiis.vbluf = vbluf;
         }
 
-        public int getValue() {
-            return value;
+        publid int gftVbluf() {
+            rfturn vbluf;
         }
 
-        public String getControlName(Component component) {
+        publid String gftControlNbmf(Componfnt domponfnt) {
             String str = "";
-            if (component instanceof JComponent) {
-                JComponent c = (JComponent)component;
-                String subAppName = (String)c.getClientProperty("XPStyle.subAppName");
-                if (subAppName != null) {
-                    str = subAppName + "::";
+            if (domponfnt instbndfof JComponfnt) {
+                JComponfnt d = (JComponfnt)domponfnt;
+                String subAppNbmf = (String)d.gftClifntPropfrty("XPStylf.subAppNbmf");
+                if (subAppNbmf != null) {
+                    str = subAppNbmf + "::";
                 }
             }
-            return str + control.toString();
+            rfturn str + dontrol.toString();
         }
 
-        public String toString() {
-            return control.toString()+"."+name();
+        publid String toString() {
+            rfturn dontrol.toString()+"."+nbmf();
         }
     }
 
 
     /**
-     * An enumeration of the possible component states
+     * An fnumfrbtion of tif possiblf domponfnt stbtfs
      */
-    public static enum State {
+    publid stbtid fnum Stbtf {
         ACTIVE,
         ASSIST,
         BITMAP,
@@ -253,10 +253,10 @@ class TMSchema {
         ICONSORTEDNORMAL,
         ICONSORTEDPRESSED,
         INACTIVE,
-        INACTIVENORMAL,         // See note 1
-        INACTIVEHOT,            // See note 1
-        INACTIVEPUSHED,         // See note 1
-        INACTIVEDISABLED,       // See note 1
+        INACTIVENORMAL,         // Sff notf 1
+        INACTIVEHOT,            // Sff notf 1
+        INACTIVEPUSHED,         // Sff notf 1
+        INACTIVEDISABLED,       // Sff notf 1
         LEFTDISABLED,
         LEFTHOT,
         LEFTNORMAL,
@@ -296,62 +296,62 @@ class TMSchema {
 
 
         /**
-         * A map of allowed states for each Part
+         * A mbp of bllowfd stbtfs for fbdi Pbrt
          */
-        private static EnumMap<Part, State[]> stateMap;
+        privbtf stbtid EnumMbp<Pbrt, Stbtf[]> stbtfMbp;
 
-        private static synchronized void initStates() {
-            stateMap = new EnumMap<Part, State[]>(Part.class);
+        privbtf stbtid syndironizfd void initStbtfs() {
+            stbtfMbp = nfw EnumMbp<Pbrt, Stbtf[]>(Pbrt.dlbss);
 
-            stateMap.put(Part.EP_EDITTEXT,
-                       new State[] {
+            stbtfMbp.put(Pbrt.EP_EDITTEXT,
+                       nfw Stbtf[] {
                         NORMAL, HOT, SELECTED, DISABLED, FOCUSED, READONLY, ASSIST
             });
 
-            stateMap.put(Part.BP_PUSHBUTTON,
-                       new State[] { NORMAL, HOT, PRESSED, DISABLED, DEFAULTED });
+            stbtfMbp.put(Pbrt.BP_PUSHBUTTON,
+                       nfw Stbtf[] { NORMAL, HOT, PRESSED, DISABLED, DEFAULTED });
 
-            stateMap.put(Part.BP_RADIOBUTTON,
-                       new State[] {
+            stbtfMbp.put(Pbrt.BP_RADIOBUTTON,
+                       nfw Stbtf[] {
                         UNCHECKEDNORMAL, UNCHECKEDHOT, UNCHECKEDPRESSED, UNCHECKEDDISABLED,
                         CHECKEDNORMAL,   CHECKEDHOT,   CHECKEDPRESSED,   CHECKEDDISABLED
             });
 
-            stateMap.put(Part.BP_CHECKBOX,
-                       new State[] {
+            stbtfMbp.put(Pbrt.BP_CHECKBOX,
+                       nfw Stbtf[] {
                         UNCHECKEDNORMAL, UNCHECKEDHOT, UNCHECKEDPRESSED, UNCHECKEDDISABLED,
                         CHECKEDNORMAL,   CHECKEDHOT,   CHECKEDPRESSED,   CHECKEDDISABLED,
                         MIXEDNORMAL,     MIXEDHOT,     MIXEDPRESSED,     MIXEDDISABLED
             });
 
-            State[] comboBoxStates = new State[] { NORMAL, HOT, PRESSED, DISABLED };
-            stateMap.put(Part.CP_COMBOBOX, comboBoxStates);
-            stateMap.put(Part.CP_DROPDOWNBUTTON, comboBoxStates);
-            stateMap.put(Part.CP_BACKGROUND, comboBoxStates);
-            stateMap.put(Part.CP_TRANSPARENTBACKGROUND, comboBoxStates);
-            stateMap.put(Part.CP_BORDER, comboBoxStates);
-            stateMap.put(Part.CP_READONLY, comboBoxStates);
-            stateMap.put(Part.CP_DROPDOWNBUTTONRIGHT, comboBoxStates);
-            stateMap.put(Part.CP_DROPDOWNBUTTONLEFT, comboBoxStates);
-            stateMap.put(Part.CP_CUEBANNER, comboBoxStates);
+            Stbtf[] domboBoxStbtfs = nfw Stbtf[] { NORMAL, HOT, PRESSED, DISABLED };
+            stbtfMbp.put(Pbrt.CP_COMBOBOX, domboBoxStbtfs);
+            stbtfMbp.put(Pbrt.CP_DROPDOWNBUTTON, domboBoxStbtfs);
+            stbtfMbp.put(Pbrt.CP_BACKGROUND, domboBoxStbtfs);
+            stbtfMbp.put(Pbrt.CP_TRANSPARENTBACKGROUND, domboBoxStbtfs);
+            stbtfMbp.put(Pbrt.CP_BORDER, domboBoxStbtfs);
+            stbtfMbp.put(Pbrt.CP_READONLY, domboBoxStbtfs);
+            stbtfMbp.put(Pbrt.CP_DROPDOWNBUTTONRIGHT, domboBoxStbtfs);
+            stbtfMbp.put(Pbrt.CP_DROPDOWNBUTTONLEFT, domboBoxStbtfs);
+            stbtfMbp.put(Pbrt.CP_CUEBANNER, domboBoxStbtfs);
 
-            stateMap.put(Part.HP_HEADERITEM, new State[] { NORMAL, HOT, PRESSED,
+            stbtfMbp.put(Pbrt.HP_HEADERITEM, nfw Stbtf[] { NORMAL, HOT, PRESSED,
                           SORTEDNORMAL, SORTEDHOT, SORTEDPRESSED,
                           ICONNORMAL, ICONHOT, ICONPRESSED,
                           ICONSORTEDNORMAL, ICONSORTEDHOT, ICONSORTEDPRESSED });
 
-            stateMap.put(Part.HP_HEADERSORTARROW,
-                         new State[] {SORTEDDOWN, SORTEDUP});
+            stbtfMbp.put(Pbrt.HP_HEADERSORTARROW,
+                         nfw Stbtf[] {SORTEDDOWN, SORTEDUP});
 
-            State[] scrollBarStates = new State[] { NORMAL, HOT, PRESSED, DISABLED, HOVER };
-            stateMap.put(Part.SBP_SCROLLBAR,    scrollBarStates);
-            stateMap.put(Part.SBP_THUMBBTNVERT, scrollBarStates);
-            stateMap.put(Part.SBP_THUMBBTNHORZ, scrollBarStates);
-            stateMap.put(Part.SBP_GRIPPERVERT,  scrollBarStates);
-            stateMap.put(Part.SBP_GRIPPERHORZ,  scrollBarStates);
+            Stbtf[] sdrollBbrStbtfs = nfw Stbtf[] { NORMAL, HOT, PRESSED, DISABLED, HOVER };
+            stbtfMbp.put(Pbrt.SBP_SCROLLBAR,    sdrollBbrStbtfs);
+            stbtfMbp.put(Pbrt.SBP_THUMBBTNVERT, sdrollBbrStbtfs);
+            stbtfMbp.put(Pbrt.SBP_THUMBBTNHORZ, sdrollBbrStbtfs);
+            stbtfMbp.put(Pbrt.SBP_GRIPPERVERT,  sdrollBbrStbtfs);
+            stbtfMbp.put(Pbrt.SBP_GRIPPERHORZ,  sdrollBbrStbtfs);
 
-            stateMap.put(Part.SBP_ARROWBTN,
-                       new State[] {
+            stbtfMbp.put(Pbrt.SBP_ARROWBTN,
+                       nfw Stbtf[] {
                 UPNORMAL,    UPHOT,     UPPRESSED,    UPDISABLED,
                 DOWNNORMAL,  DOWNHOT,   DOWNPRESSED,  DOWNDISABLED,
                 LEFTNORMAL,  LEFTHOT,   LEFTPRESSED,  LEFTDISABLED,
@@ -360,206 +360,206 @@ class TMSchema {
             });
 
 
-            State[] spinnerStates = new State[] { NORMAL, HOT, PRESSED, DISABLED };
-            stateMap.put(Part.SPNP_UP,   spinnerStates);
-            stateMap.put(Part.SPNP_DOWN, spinnerStates);
+            Stbtf[] spinnfrStbtfs = nfw Stbtf[] { NORMAL, HOT, PRESSED, DISABLED };
+            stbtfMbp.put(Pbrt.SPNP_UP,   spinnfrStbtfs);
+            stbtfMbp.put(Pbrt.SPNP_DOWN, spinnfrStbtfs);
 
-            stateMap.put(Part.TVP_GLYPH, new State[] { CLOSED, OPENED });
+            stbtfMbp.put(Pbrt.TVP_GLYPH, nfw Stbtf[] { CLOSED, OPENED });
 
-            State[] frameButtonStates = new State[] {
-                        NORMAL,         HOT,         PUSHED,         DISABLED,  // See note 1
+            Stbtf[] frbmfButtonStbtfs = nfw Stbtf[] {
+                        NORMAL,         HOT,         PUSHED,         DISABLED,  // Sff notf 1
                         INACTIVENORMAL, INACTIVEHOT, INACTIVEPUSHED, INACTIVEDISABLED,
             };
-            // Note 1: The INACTIVE frame button states apply when the frame
-            //         is inactive. They are not defined in tmschema.h
+            // Notf 1: Tif INACTIVE frbmf button stbtfs bpply wifn tif frbmf
+            //         is inbdtivf. Tify brf not dffinfd in tmsdifmb.i
 
-            // Fix for 6316538: Vista has five frame button states
-            if (ThemeReader.getInt(Control.WINDOW.toString(),
-                                   Part.WP_CLOSEBUTTON.getValue(), 1,
-                                   Prop.IMAGECOUNT.getValue()) == 10) {
-                frameButtonStates = new State[] {
+            // Fix for 6316538: Vistb ibs fivf frbmf button stbtfs
+            if (TifmfRfbdfr.gftInt(Control.WINDOW.toString(),
+                                   Pbrt.WP_CLOSEBUTTON.gftVbluf(), 1,
+                                   Prop.IMAGECOUNT.gftVbluf()) == 10) {
+                frbmfButtonStbtfs = nfw Stbtf[] {
                         NORMAL,         HOT,         PUSHED,         DISABLED,         null,
                         INACTIVENORMAL, INACTIVEHOT, INACTIVEPUSHED, INACTIVEDISABLED, null
                 };
             }
 
-            stateMap.put(Part.WP_MINBUTTON,     frameButtonStates);
-            stateMap.put(Part.WP_MAXBUTTON,     frameButtonStates);
-            stateMap.put(Part.WP_RESTOREBUTTON, frameButtonStates);
-            stateMap.put(Part.WP_CLOSEBUTTON,   frameButtonStates);
+            stbtfMbp.put(Pbrt.WP_MINBUTTON,     frbmfButtonStbtfs);
+            stbtfMbp.put(Pbrt.WP_MAXBUTTON,     frbmfButtonStbtfs);
+            stbtfMbp.put(Pbrt.WP_RESTOREBUTTON, frbmfButtonStbtfs);
+            stbtfMbp.put(Pbrt.WP_CLOSEBUTTON,   frbmfButtonStbtfs);
 
-            // States for Slider (trackbar)
-            stateMap.put(Part.TKP_TRACK,     new State[] { NORMAL });
-            stateMap.put(Part.TKP_TRACKVERT, new State[] { NORMAL });
+            // Stbtfs for Slidfr (trbdkbbr)
+            stbtfMbp.put(Pbrt.TKP_TRACK,     nfw Stbtf[] { NORMAL });
+            stbtfMbp.put(Pbrt.TKP_TRACKVERT, nfw Stbtf[] { NORMAL });
 
-            State[] sliderThumbStates =
-                new State[] { NORMAL, HOT, PRESSED, FOCUSED, DISABLED };
-            stateMap.put(Part.TKP_THUMB,       sliderThumbStates);
-            stateMap.put(Part.TKP_THUMBBOTTOM, sliderThumbStates);
-            stateMap.put(Part.TKP_THUMBTOP,    sliderThumbStates);
-            stateMap.put(Part.TKP_THUMBVERT,   sliderThumbStates);
-            stateMap.put(Part.TKP_THUMBRIGHT,  sliderThumbStates);
+            Stbtf[] slidfrTiumbStbtfs =
+                nfw Stbtf[] { NORMAL, HOT, PRESSED, FOCUSED, DISABLED };
+            stbtfMbp.put(Pbrt.TKP_THUMB,       slidfrTiumbStbtfs);
+            stbtfMbp.put(Pbrt.TKP_THUMBBOTTOM, slidfrTiumbStbtfs);
+            stbtfMbp.put(Pbrt.TKP_THUMBTOP,    slidfrTiumbStbtfs);
+            stbtfMbp.put(Pbrt.TKP_THUMBVERT,   slidfrTiumbStbtfs);
+            stbtfMbp.put(Pbrt.TKP_THUMBRIGHT,  slidfrTiumbStbtfs);
 
-            // States for Tabs
-            State[] tabStates = new State[] { NORMAL, HOT, SELECTED, DISABLED, FOCUSED };
-            stateMap.put(Part.TABP_TABITEM,          tabStates);
-            stateMap.put(Part.TABP_TABITEMLEFTEDGE,  tabStates);
-            stateMap.put(Part.TABP_TABITEMRIGHTEDGE, tabStates);
+            // Stbtfs for Tbbs
+            Stbtf[] tbbStbtfs = nfw Stbtf[] { NORMAL, HOT, SELECTED, DISABLED, FOCUSED };
+            stbtfMbp.put(Pbrt.TABP_TABITEM,          tbbStbtfs);
+            stbtfMbp.put(Pbrt.TABP_TABITEMLEFTEDGE,  tbbStbtfs);
+            stbtfMbp.put(Pbrt.TABP_TABITEMRIGHTEDGE, tbbStbtfs);
 
 
-            stateMap.put(Part.TP_BUTTON,
-                       new State[] {
+            stbtfMbp.put(Pbrt.TP_BUTTON,
+                       nfw Stbtf[] {
                         NORMAL, HOT, PRESSED, DISABLED, CHECKED, HOTCHECKED
             });
 
-            State[] frameStates = new State[] { ACTIVE, INACTIVE };
-            stateMap.put(Part.WP_WINDOW,      frameStates);
-            stateMap.put(Part.WP_FRAMELEFT,   frameStates);
-            stateMap.put(Part.WP_FRAMERIGHT,  frameStates);
-            stateMap.put(Part.WP_FRAMEBOTTOM, frameStates);
+            Stbtf[] frbmfStbtfs = nfw Stbtf[] { ACTIVE, INACTIVE };
+            stbtfMbp.put(Pbrt.WP_WINDOW,      frbmfStbtfs);
+            stbtfMbp.put(Pbrt.WP_FRAMELEFT,   frbmfStbtfs);
+            stbtfMbp.put(Pbrt.WP_FRAMERIGHT,  frbmfStbtfs);
+            stbtfMbp.put(Pbrt.WP_FRAMEBOTTOM, frbmfStbtfs);
 
-            State[] captionStates = new State[] { ACTIVE, INACTIVE, DISABLED };
-            stateMap.put(Part.WP_CAPTION,    captionStates);
-            stateMap.put(Part.WP_MINCAPTION, captionStates);
-            stateMap.put(Part.WP_MAXCAPTION, captionStates);
+            Stbtf[] dbptionStbtfs = nfw Stbtf[] { ACTIVE, INACTIVE, DISABLED };
+            stbtfMbp.put(Pbrt.WP_CAPTION,    dbptionStbtfs);
+            stbtfMbp.put(Pbrt.WP_MINCAPTION, dbptionStbtfs);
+            stbtfMbp.put(Pbrt.WP_MAXCAPTION, dbptionStbtfs);
 
-            stateMap.put(Part.MP_BARBACKGROUND,
-                         new State[] { ACTIVE, INACTIVE });
-            stateMap.put(Part.MP_BARITEM,
-                         new State[] { NORMAL, HOT, PUSHED,
+            stbtfMbp.put(Pbrt.MP_BARBACKGROUND,
+                         nfw Stbtf[] { ACTIVE, INACTIVE });
+            stbtfMbp.put(Pbrt.MP_BARITEM,
+                         nfw Stbtf[] { NORMAL, HOT, PUSHED,
                                        DISABLED, DISABLEDHOT, DISABLEDPUSHED });
-            stateMap.put(Part.MP_POPUPCHECK,
-                         new State[] { CHECKMARKNORMAL, CHECKMARKDISABLED,
+            stbtfMbp.put(Pbrt.MP_POPUPCHECK,
+                         nfw Stbtf[] { CHECKMARKNORMAL, CHECKMARKDISABLED,
                                        BULLETNORMAL, BULLETDISABLED });
-            stateMap.put(Part.MP_POPUPCHECKBACKGROUND,
-                         new State[] { DISABLEDPUSHED, NORMAL, BITMAP });
-            stateMap.put(Part.MP_POPUPITEM,
-                         new State[] { NORMAL, HOT, DISABLED, DISABLEDHOT });
-            stateMap.put(Part.MP_POPUPSUBMENU,
-                         new State[] { NORMAL, DISABLED });
+            stbtfMbp.put(Pbrt.MP_POPUPCHECKBACKGROUND,
+                         nfw Stbtf[] { DISABLEDPUSHED, NORMAL, BITMAP });
+            stbtfMbp.put(Pbrt.MP_POPUPITEM,
+                         nfw Stbtf[] { NORMAL, HOT, DISABLED, DISABLEDHOT });
+            stbtfMbp.put(Pbrt.MP_POPUPSUBMENU,
+                         nfw Stbtf[] { NORMAL, DISABLED });
 
         }
 
 
-        public static synchronized int getValue(Part part, State state) {
-            if (stateMap == null) {
-                initStates();
+        publid stbtid syndironizfd int gftVbluf(Pbrt pbrt, Stbtf stbtf) {
+            if (stbtfMbp == null) {
+                initStbtfs();
             }
 
-            Enum<?>[] states = stateMap.get(part);
-            if (states != null) {
-                for (int i = 0; i < states.length; i++) {
-                    if (state == states[i]) {
-                        return i + 1;
+            Enum<?>[] stbtfs = stbtfMbp.gft(pbrt);
+            if (stbtfs != null) {
+                for (int i = 0; i < stbtfs.lfngti; i++) {
+                    if (stbtf == stbtfs[i]) {
+                        rfturn i + 1;
                     }
                 }
             }
 
-            if (state == null || state == State.NORMAL) {
-                return 1;
+            if (stbtf == null || stbtf == Stbtf.NORMAL) {
+                rfturn 1;
             }
 
-            return 0;
+            rfturn 0;
         }
 
     }
 
 
     /**
-     * An enumeration of the possible component attributes and the
-     * corresponding value type
+     * An fnumfrbtion of tif possiblf domponfnt bttributfs bnd tif
+     * dorrfsponding vbluf typf
      */
-    public static enum Prop {
-        COLOR(Color.class,                204),
-        SIZE(Dimension.class,             207),
+    publid stbtid fnum Prop {
+        COLOR(Color.dlbss,                204),
+        SIZE(Dimfnsion.dlbss,             207),
 
-        FLATMENUS(Boolean.class,         1001),
+        FLATMENUS(Boolfbn.dlbss,         1001),
 
-        BORDERONLY(Boolean.class,        2203), // only draw the border area of the image
+        BORDERONLY(Boolfbn.dlbss,        2203), // only drbw tif bordfr brfb of tif imbgf
 
-        IMAGECOUNT(Integer.class,        2401), // the number of state images in an imagefile
-        BORDERSIZE(Integer.class,        2403), // the size of the border line for bgtype=BorderFill
+        IMAGECOUNT(Intfgfr.dlbss,        2401), // tif numbfr of stbtf imbgfs in bn imbgffilf
+        BORDERSIZE(Intfgfr.dlbss,        2403), // tif sizf of tif bordfr linf for bgtypf=BordfrFill
 
-        PROGRESSCHUNKSIZE(Integer.class, 2411), // size of progress control chunks
-        PROGRESSSPACESIZE(Integer.class, 2412), // size of progress control spaces
+        PROGRESSCHUNKSIZE(Intfgfr.dlbss, 2411), // sizf of progrfss dontrol diunks
+        PROGRESSSPACESIZE(Intfgfr.dlbss, 2412), // sizf of progrfss dontrol spbdfs
 
-        TEXTSHADOWOFFSET(Point.class,    3402), // where char shadows are drawn, relative to orig. chars
+        TEXTSHADOWOFFSET(Point.dlbss,    3402), // wifrf dibr sibdows brf drbwn, rflbtivf to orig. dibrs
 
-        NORMALSIZE(Dimension.class,      3409), // size of dest rect that exactly source
+        NORMALSIZE(Dimfnsion.dlbss,      3409), // sizf of dfst rfdt tibt fxbdtly sourdf
 
 
-        SIZINGMARGINS ( Insets.class,    3601), // margins used for 9-grid sizing
-        CONTENTMARGINS(Insets.class,     3602), // margins that define where content can be placed
-        CAPTIONMARGINS(Insets.class,     3603), // margins that define where caption text can be placed
+        SIZINGMARGINS ( Insfts.dlbss,    3601), // mbrgins usfd for 9-grid sizing
+        CONTENTMARGINS(Insfts.dlbss,     3602), // mbrgins tibt dffinf wifrf dontfnt dbn bf plbdfd
+        CAPTIONMARGINS(Insfts.dlbss,     3603), // mbrgins tibt dffinf wifrf dbption tfxt dbn bf plbdfd
 
-        BORDERCOLOR(Color.class,         3801), // color of borders for BorderFill
-        FILLCOLOR  (  Color.class,       3802), // color of bg fill
-        TEXTCOLOR  (  Color.class,       3803), // color text is drawn in
+        BORDERCOLOR(Color.dlbss,         3801), // dolor of bordfrs for BordfrFill
+        FILLCOLOR  (  Color.dlbss,       3802), // dolor of bg fill
+        TEXTCOLOR  (  Color.dlbss,       3803), // dolor tfxt is drbwn in
 
-        TEXTSHADOWCOLOR(Color.class,     3818), // color of text shadow
+        TEXTSHADOWCOLOR(Color.dlbss,     3818), // dolor of tfxt sibdow
 
-        BGTYPE(Integer.class,            4001), // basic drawing type for each part
+        BGTYPE(Intfgfr.dlbss,            4001), // bbsid drbwing typf for fbdi pbrt
 
-        TEXTSHADOWTYPE(Integer.class,    4010), // type of shadow to draw with text
+        TEXTSHADOWTYPE(Intfgfr.dlbss,    4010), // typf of sibdow to drbw witi tfxt
 
-        TRANSITIONDURATIONS(Integer.class, 6000);
+        TRANSITIONDURATIONS(Intfgfr.dlbss, 6000);
 
-        private final Class<?> type;
-        private final int value;
+        privbtf finbl Clbss<?> typf;
+        privbtf finbl int vbluf;
 
-        private Prop(Class<?> type, int value) {
-            this.type     = type;
-            this.value    = value;
+        privbtf Prop(Clbss<?> typf, int vbluf) {
+            tiis.typf     = typf;
+            tiis.vbluf    = vbluf;
         }
 
-        public int getValue() {
-            return value;
+        publid int gftVbluf() {
+            rfturn vbluf;
         }
 
-        public String toString() {
-            return name()+"["+type.getName()+"] = "+value;
+        publid String toString() {
+            rfturn nbmf()+"["+typf.gftNbmf()+"] = "+vbluf;
         }
     }
 
 
     /**
-     * An enumeration of attribute values for some Props
+     * An fnumfrbtion of bttributf vblufs for somf Props
      */
-    public static enum TypeEnum {
-        BT_IMAGEFILE (Prop.BGTYPE, "imagefile",  0),
-        BT_BORDERFILL(Prop.BGTYPE, "borderfill", 1),
+    publid stbtid fnum TypfEnum {
+        BT_IMAGEFILE (Prop.BGTYPE, "imbgffilf",  0),
+        BT_BORDERFILL(Prop.BGTYPE, "bordfrfill", 1),
 
-        TST_NONE(Prop.TEXTSHADOWTYPE, "none", 0),
-        TST_SINGLE(Prop.TEXTSHADOWTYPE, "single", 1),
-        TST_CONTINUOUS(Prop.TEXTSHADOWTYPE, "continuous", 2);
+        TST_NONE(Prop.TEXTSHADOWTYPE, "nonf", 0),
+        TST_SINGLE(Prop.TEXTSHADOWTYPE, "singlf", 1),
+        TST_CONTINUOUS(Prop.TEXTSHADOWTYPE, "dontinuous", 2);
 
 
-        private TypeEnum(Prop prop, String enumName, int value) {
-            this.prop = prop;
-            this.enumName = enumName;
-            this.value = value;
+        privbtf TypfEnum(Prop prop, String fnumNbmf, int vbluf) {
+            tiis.prop = prop;
+            tiis.fnumNbmf = fnumNbmf;
+            tiis.vbluf = vbluf;
         }
 
-        private final Prop prop;
-        private final String enumName;
-        private final int value;
+        privbtf finbl Prop prop;
+        privbtf finbl String fnumNbmf;
+        privbtf finbl int vbluf;
 
-        public String toString() {
-            return prop+"="+enumName+"="+value;
+        publid String toString() {
+            rfturn prop+"="+fnumNbmf+"="+vbluf;
         }
 
-        String getName() {
-            return enumName;
+        String gftNbmf() {
+            rfturn fnumNbmf;
         }
 
 
-        static TypeEnum getTypeEnum(Prop prop, int enumval) {
-            for (TypeEnum e : TypeEnum.values()) {
-                if (e.prop == prop && e.value == enumval) {
-                    return e;
+        stbtid TypfEnum gftTypfEnum(Prop prop, int fnumvbl) {
+            for (TypfEnum f : TypfEnum.vblufs()) {
+                if (f.prop == prop && f.vbluf == fnumvbl) {
+                    rfturn f;
                 }
             }
-            return null;
+            rfturn null;
         }
     }
 }

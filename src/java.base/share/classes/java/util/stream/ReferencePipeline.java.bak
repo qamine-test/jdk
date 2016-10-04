@@ -1,273 +1,273 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.function.BiConsumer;
-import java.util.function.BiFunction;
-import java.util.function.BinaryOperator;
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.Function;
-import java.util.function.IntConsumer;
-import java.util.function.IntFunction;
-import java.util.function.LongConsumer;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
-import java.util.function.ToDoubleFunction;
-import java.util.function.ToIntFunction;
-import java.util.function.ToLongFunction;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Objfdts;
+import jbvb.util.Optionbl;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtors;
+import jbvb.util.fundtion.BiConsumfr;
+import jbvb.util.fundtion.BiFundtion;
+import jbvb.util.fundtion.BinbryOpfrbtor;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.IntFundtion;
+import jbvb.util.fundtion.LongConsumfr;
+import jbvb.util.fundtion.Prfdidbtf;
+import jbvb.util.fundtion.Supplifr;
+import jbvb.util.fundtion.ToDoublfFundtion;
+import jbvb.util.fundtion.ToIntFundtion;
+import jbvb.util.fundtion.ToLongFundtion;
 
 /**
- * Abstract base class for an intermediate pipeline stage or pipeline source
- * stage implementing whose elements are of type {@code U}.
+ * Abstrbdt bbsf dlbss for bn intfrmfdibtf pipflinf stbgf or pipflinf sourdf
+ * stbgf implfmfnting wiosf flfmfnts brf of typf {@dodf U}.
  *
- * @param <P_IN> type of elements in the upstream source
- * @param <P_OUT> type of elements in produced by this stage
+ * @pbrbm <P_IN> typf of flfmfnts in tif upstrfbm sourdf
+ * @pbrbm <P_OUT> typf of flfmfnts in produdfd by tiis stbgf
  *
- * @since 1.8
+ * @sindf 1.8
  */
-abstract class ReferencePipeline<P_IN, P_OUT>
-        extends AbstractPipeline<P_IN, P_OUT, Stream<P_OUT>>
-        implements Stream<P_OUT>  {
+bbstrbdt dlbss RfffrfndfPipflinf<P_IN, P_OUT>
+        fxtfnds AbstrbdtPipflinf<P_IN, P_OUT, Strfbm<P_OUT>>
+        implfmfnts Strfbm<P_OUT>  {
 
     /**
-     * Constructor for the head of a stream pipeline.
+     * Construdtor for tif ifbd of b strfbm pipflinf.
      *
-     * @param source {@code Supplier<Spliterator>} describing the stream source
-     * @param sourceFlags the source flags for the stream source, described in
-     *        {@link StreamOpFlag}
-     * @param parallel {@code true} if the pipeline is parallel
+     * @pbrbm sourdf {@dodf Supplifr<Splitfrbtor>} dfsdribing tif strfbm sourdf
+     * @pbrbm sourdfFlbgs tif sourdf flbgs for tif strfbm sourdf, dfsdribfd in
+     *        {@link StrfbmOpFlbg}
+     * @pbrbm pbrbllfl {@dodf truf} if tif pipflinf is pbrbllfl
      */
-    ReferencePipeline(Supplier<? extends Spliterator<?>> source,
-                      int sourceFlags, boolean parallel) {
-        super(source, sourceFlags, parallel);
-    }
-
-    /**
-     * Constructor for the head of a stream pipeline.
-     *
-     * @param source {@code Spliterator} describing the stream source
-     * @param sourceFlags The source flags for the stream source, described in
-     *        {@link StreamOpFlag}
-     * @param parallel {@code true} if the pipeline is parallel
-     */
-    ReferencePipeline(Spliterator<?> source,
-                      int sourceFlags, boolean parallel) {
-        super(source, sourceFlags, parallel);
+    RfffrfndfPipflinf(Supplifr<? fxtfnds Splitfrbtor<?>> sourdf,
+                      int sourdfFlbgs, boolfbn pbrbllfl) {
+        supfr(sourdf, sourdfFlbgs, pbrbllfl);
     }
 
     /**
-     * Constructor for appending an intermediate operation onto an existing
-     * pipeline.
+     * Construdtor for tif ifbd of b strfbm pipflinf.
      *
-     * @param upstream the upstream element source.
+     * @pbrbm sourdf {@dodf Splitfrbtor} dfsdribing tif strfbm sourdf
+     * @pbrbm sourdfFlbgs Tif sourdf flbgs for tif strfbm sourdf, dfsdribfd in
+     *        {@link StrfbmOpFlbg}
+     * @pbrbm pbrbllfl {@dodf truf} if tif pipflinf is pbrbllfl
      */
-    ReferencePipeline(AbstractPipeline<?, P_IN, ?> upstream, int opFlags) {
-        super(upstream, opFlags);
+    RfffrfndfPipflinf(Splitfrbtor<?> sourdf,
+                      int sourdfFlbgs, boolfbn pbrbllfl) {
+        supfr(sourdf, sourdfFlbgs, pbrbllfl);
     }
 
-    // Shape-specific methods
-
-    @Override
-    final StreamShape getOutputShape() {
-        return StreamShape.REFERENCE;
+    /**
+     * Construdtor for bppfnding bn intfrmfdibtf opfrbtion onto bn fxisting
+     * pipflinf.
+     *
+     * @pbrbm upstrfbm tif upstrfbm flfmfnt sourdf.
+     */
+    RfffrfndfPipflinf(AbstrbdtPipflinf<?, P_IN, ?> upstrfbm, int opFlbgs) {
+        supfr(upstrfbm, opFlbgs);
     }
 
-    @Override
-    final <P_IN> Node<P_OUT> evaluateToNode(PipelineHelper<P_OUT> helper,
-                                        Spliterator<P_IN> spliterator,
-                                        boolean flattenTree,
-                                        IntFunction<P_OUT[]> generator) {
-        return Nodes.collect(helper, spliterator, flattenTree, generator);
+    // Sibpf-spfdifid mftiods
+
+    @Ovfrridf
+    finbl StrfbmSibpf gftOutputSibpf() {
+        rfturn StrfbmSibpf.REFERENCE;
     }
 
-    @Override
-    final <P_IN> Spliterator<P_OUT> wrap(PipelineHelper<P_OUT> ph,
-                                     Supplier<Spliterator<P_IN>> supplier,
-                                     boolean isParallel) {
-        return new StreamSpliterators.WrappingSpliterator<>(ph, supplier, isParallel);
+    @Ovfrridf
+    finbl <P_IN> Nodf<P_OUT> fvblubtfToNodf(PipflinfHflpfr<P_OUT> iflpfr,
+                                        Splitfrbtor<P_IN> splitfrbtor,
+                                        boolfbn flbttfnTrff,
+                                        IntFundtion<P_OUT[]> gfnfrbtor) {
+        rfturn Nodfs.dollfdt(iflpfr, splitfrbtor, flbttfnTrff, gfnfrbtor);
     }
 
-    @Override
-    final Spliterator<P_OUT> lazySpliterator(Supplier<? extends Spliterator<P_OUT>> supplier) {
-        return new StreamSpliterators.DelegatingSpliterator<>(supplier);
+    @Ovfrridf
+    finbl <P_IN> Splitfrbtor<P_OUT> wrbp(PipflinfHflpfr<P_OUT> pi,
+                                     Supplifr<Splitfrbtor<P_IN>> supplifr,
+                                     boolfbn isPbrbllfl) {
+        rfturn nfw StrfbmSplitfrbtors.WrbppingSplitfrbtor<>(pi, supplifr, isPbrbllfl);
     }
 
-    @Override
-    final void forEachWithCancel(Spliterator<P_OUT> spliterator, Sink<P_OUT> sink) {
-        do { } while (!sink.cancellationRequested() && spliterator.tryAdvance(sink));
+    @Ovfrridf
+    finbl Splitfrbtor<P_OUT> lbzySplitfrbtor(Supplifr<? fxtfnds Splitfrbtor<P_OUT>> supplifr) {
+        rfturn nfw StrfbmSplitfrbtors.DflfgbtingSplitfrbtor<>(supplifr);
     }
 
-    @Override
-    final Node.Builder<P_OUT> makeNodeBuilder(long exactSizeIfKnown, IntFunction<P_OUT[]> generator) {
-        return Nodes.builder(exactSizeIfKnown, generator);
+    @Ovfrridf
+    finbl void forEbdiWitiCbndfl(Splitfrbtor<P_OUT> splitfrbtor, Sink<P_OUT> sink) {
+        do { } wiilf (!sink.dbndfllbtionRfqufstfd() && splitfrbtor.tryAdvbndf(sink));
     }
 
-
-    // BaseStream
-
-    @Override
-    public final Iterator<P_OUT> iterator() {
-        return Spliterators.iterator(spliterator());
+    @Ovfrridf
+    finbl Nodf.Buildfr<P_OUT> mbkfNodfBuildfr(long fxbdtSizfIfKnown, IntFundtion<P_OUT[]> gfnfrbtor) {
+        rfturn Nodfs.buildfr(fxbdtSizfIfKnown, gfnfrbtor);
     }
 
 
-    // Stream
+    // BbsfStrfbm
 
-    // Stateless intermediate operations from Stream
+    @Ovfrridf
+    publid finbl Itfrbtor<P_OUT> itfrbtor() {
+        rfturn Splitfrbtors.itfrbtor(splitfrbtor());
+    }
 
-    @Override
-    public Stream<P_OUT> unordered() {
-        if (!isOrdered())
-            return this;
-        return new StatelessOp<P_OUT, P_OUT>(this, StreamShape.REFERENCE, StreamOpFlag.NOT_ORDERED) {
-            @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<P_OUT> sink) {
-                return sink;
+
+    // Strfbm
+
+    // Stbtflfss intfrmfdibtf opfrbtions from Strfbm
+
+    @Ovfrridf
+    publid Strfbm<P_OUT> unordfrfd() {
+        if (!isOrdfrfd())
+            rfturn tiis;
+        rfturn nfw StbtflfssOp<P_OUT, P_OUT>(tiis, StrfbmSibpf.REFERENCE, StrfbmOpFlbg.NOT_ORDERED) {
+            @Ovfrridf
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<P_OUT> sink) {
+                rfturn sink;
             }
         };
     }
 
-    @Override
-    public final Stream<P_OUT> filter(Predicate<? super P_OUT> predicate) {
-        Objects.requireNonNull(predicate);
-        return new StatelessOp<P_OUT, P_OUT>(this, StreamShape.REFERENCE,
-                                     StreamOpFlag.NOT_SIZED) {
-            @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<P_OUT> sink) {
-                return new Sink.ChainedReference<P_OUT, P_OUT>(sink) {
-                    @Override
-                    public void begin(long size) {
-                        downstream.begin(-1);
+    @Ovfrridf
+    publid finbl Strfbm<P_OUT> filtfr(Prfdidbtf<? supfr P_OUT> prfdidbtf) {
+        Objfdts.rfquirfNonNull(prfdidbtf);
+        rfturn nfw StbtflfssOp<P_OUT, P_OUT>(tiis, StrfbmSibpf.REFERENCE,
+                                     StrfbmOpFlbg.NOT_SIZED) {
+            @Ovfrridf
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<P_OUT> sink) {
+                rfturn nfw Sink.CibinfdRfffrfndf<P_OUT, P_OUT>(sink) {
+                    @Ovfrridf
+                    publid void bfgin(long sizf) {
+                        downstrfbm.bfgin(-1);
                     }
 
-                    @Override
-                    public void accept(P_OUT u) {
-                        if (predicate.test(u))
-                            downstream.accept(u);
+                    @Ovfrridf
+                    publid void bddfpt(P_OUT u) {
+                        if (prfdidbtf.tfst(u))
+                            downstrfbm.bddfpt(u);
                     }
                 };
             }
         };
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public final <R> Stream<R> map(Function<? super P_OUT, ? extends R> mapper) {
-        Objects.requireNonNull(mapper);
-        return new StatelessOp<P_OUT, R>(this, StreamShape.REFERENCE,
-                                     StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
-            @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<R> sink) {
-                return new Sink.ChainedReference<P_OUT, R>(sink) {
-                    @Override
-                    public void accept(P_OUT u) {
-                        downstream.accept(mapper.apply(u));
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid finbl <R> Strfbm<R> mbp(Fundtion<? supfr P_OUT, ? fxtfnds R> mbppfr) {
+        Objfdts.rfquirfNonNull(mbppfr);
+        rfturn nfw StbtflfssOp<P_OUT, R>(tiis, StrfbmSibpf.REFERENCE,
+                                     StrfbmOpFlbg.NOT_SORTED | StrfbmOpFlbg.NOT_DISTINCT) {
+            @Ovfrridf
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<R> sink) {
+                rfturn nfw Sink.CibinfdRfffrfndf<P_OUT, R>(sink) {
+                    @Ovfrridf
+                    publid void bddfpt(P_OUT u) {
+                        downstrfbm.bddfpt(mbppfr.bpply(u));
                     }
                 };
             }
         };
     }
 
-    @Override
-    public final IntStream mapToInt(ToIntFunction<? super P_OUT> mapper) {
-        Objects.requireNonNull(mapper);
-        return new IntPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
-                                              StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
-            @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<Integer> sink) {
-                return new Sink.ChainedReference<P_OUT, Integer>(sink) {
-                    @Override
-                    public void accept(P_OUT u) {
-                        downstream.accept(mapper.applyAsInt(u));
+    @Ovfrridf
+    publid finbl IntStrfbm mbpToInt(ToIntFundtion<? supfr P_OUT> mbppfr) {
+        Objfdts.rfquirfNonNull(mbppfr);
+        rfturn nfw IntPipflinf.StbtflfssOp<P_OUT>(tiis, StrfbmSibpf.REFERENCE,
+                                              StrfbmOpFlbg.NOT_SORTED | StrfbmOpFlbg.NOT_DISTINCT) {
+            @Ovfrridf
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<Intfgfr> sink) {
+                rfturn nfw Sink.CibinfdRfffrfndf<P_OUT, Intfgfr>(sink) {
+                    @Ovfrridf
+                    publid void bddfpt(P_OUT u) {
+                        downstrfbm.bddfpt(mbppfr.bpplyAsInt(u));
                     }
                 };
             }
         };
     }
 
-    @Override
-    public final LongStream mapToLong(ToLongFunction<? super P_OUT> mapper) {
-        Objects.requireNonNull(mapper);
-        return new LongPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
-                                      StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
-            @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<Long> sink) {
-                return new Sink.ChainedReference<P_OUT, Long>(sink) {
-                    @Override
-                    public void accept(P_OUT u) {
-                        downstream.accept(mapper.applyAsLong(u));
+    @Ovfrridf
+    publid finbl LongStrfbm mbpToLong(ToLongFundtion<? supfr P_OUT> mbppfr) {
+        Objfdts.rfquirfNonNull(mbppfr);
+        rfturn nfw LongPipflinf.StbtflfssOp<P_OUT>(tiis, StrfbmSibpf.REFERENCE,
+                                      StrfbmOpFlbg.NOT_SORTED | StrfbmOpFlbg.NOT_DISTINCT) {
+            @Ovfrridf
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<Long> sink) {
+                rfturn nfw Sink.CibinfdRfffrfndf<P_OUT, Long>(sink) {
+                    @Ovfrridf
+                    publid void bddfpt(P_OUT u) {
+                        downstrfbm.bddfpt(mbppfr.bpplyAsLong(u));
                     }
                 };
             }
         };
     }
 
-    @Override
-    public final DoubleStream mapToDouble(ToDoubleFunction<? super P_OUT> mapper) {
-        Objects.requireNonNull(mapper);
-        return new DoublePipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
-                                        StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT) {
-            @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<Double> sink) {
-                return new Sink.ChainedReference<P_OUT, Double>(sink) {
-                    @Override
-                    public void accept(P_OUT u) {
-                        downstream.accept(mapper.applyAsDouble(u));
+    @Ovfrridf
+    publid finbl DoublfStrfbm mbpToDoublf(ToDoublfFundtion<? supfr P_OUT> mbppfr) {
+        Objfdts.rfquirfNonNull(mbppfr);
+        rfturn nfw DoublfPipflinf.StbtflfssOp<P_OUT>(tiis, StrfbmSibpf.REFERENCE,
+                                        StrfbmOpFlbg.NOT_SORTED | StrfbmOpFlbg.NOT_DISTINCT) {
+            @Ovfrridf
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<Doublf> sink) {
+                rfturn nfw Sink.CibinfdRfffrfndf<P_OUT, Doublf>(sink) {
+                    @Ovfrridf
+                    publid void bddfpt(P_OUT u) {
+                        downstrfbm.bddfpt(mbppfr.bpplyAsDoublf(u));
                     }
                 };
             }
         };
     }
 
-    @Override
-    public final <R> Stream<R> flatMap(Function<? super P_OUT, ? extends Stream<? extends R>> mapper) {
-        Objects.requireNonNull(mapper);
-        // We can do better than this, by polling cancellationRequested when stream is infinite
-        return new StatelessOp<P_OUT, R>(this, StreamShape.REFERENCE,
-                                     StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
-            @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<R> sink) {
-                return new Sink.ChainedReference<P_OUT, R>(sink) {
-                    @Override
-                    public void begin(long size) {
-                        downstream.begin(-1);
+    @Ovfrridf
+    publid finbl <R> Strfbm<R> flbtMbp(Fundtion<? supfr P_OUT, ? fxtfnds Strfbm<? fxtfnds R>> mbppfr) {
+        Objfdts.rfquirfNonNull(mbppfr);
+        // Wf dbn do bfttfr tibn tiis, by polling dbndfllbtionRfqufstfd wifn strfbm is infinitf
+        rfturn nfw StbtflfssOp<P_OUT, R>(tiis, StrfbmSibpf.REFERENCE,
+                                     StrfbmOpFlbg.NOT_SORTED | StrfbmOpFlbg.NOT_DISTINCT | StrfbmOpFlbg.NOT_SIZED) {
+            @Ovfrridf
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<R> sink) {
+                rfturn nfw Sink.CibinfdRfffrfndf<P_OUT, R>(sink) {
+                    @Ovfrridf
+                    publid void bfgin(long sizf) {
+                        downstrfbm.bfgin(-1);
                     }
 
-                    @Override
-                    public void accept(P_OUT u) {
-                        try (Stream<? extends R> result = mapper.apply(u)) {
-                            // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
-                            if (result != null)
-                                result.sequential().forEach(downstream);
+                    @Ovfrridf
+                    publid void bddfpt(P_OUT u) {
+                        try (Strfbm<? fxtfnds R> rfsult = mbppfr.bpply(u)) {
+                            // Wf dbn do bfttfr tibt tiis too; optimizf for dfpti=0 dbsf bnd just grbb splitfrbtor bnd forEbdi it
+                            if (rfsult != null)
+                                rfsult.sfqufntibl().forEbdi(downstrfbm);
                         }
                     }
                 };
@@ -275,27 +275,27 @@ abstract class ReferencePipeline<P_IN, P_OUT>
         };
     }
 
-    @Override
-    public final IntStream flatMapToInt(Function<? super P_OUT, ? extends IntStream> mapper) {
-        Objects.requireNonNull(mapper);
-        // We can do better than this, by polling cancellationRequested when stream is infinite
-        return new IntPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
-                                              StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
-            @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<Integer> sink) {
-                return new Sink.ChainedReference<P_OUT, Integer>(sink) {
-                    IntConsumer downstreamAsInt = downstream::accept;
-                    @Override
-                    public void begin(long size) {
-                        downstream.begin(-1);
+    @Ovfrridf
+    publid finbl IntStrfbm flbtMbpToInt(Fundtion<? supfr P_OUT, ? fxtfnds IntStrfbm> mbppfr) {
+        Objfdts.rfquirfNonNull(mbppfr);
+        // Wf dbn do bfttfr tibn tiis, by polling dbndfllbtionRfqufstfd wifn strfbm is infinitf
+        rfturn nfw IntPipflinf.StbtflfssOp<P_OUT>(tiis, StrfbmSibpf.REFERENCE,
+                                              StrfbmOpFlbg.NOT_SORTED | StrfbmOpFlbg.NOT_DISTINCT | StrfbmOpFlbg.NOT_SIZED) {
+            @Ovfrridf
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<Intfgfr> sink) {
+                rfturn nfw Sink.CibinfdRfffrfndf<P_OUT, Intfgfr>(sink) {
+                    IntConsumfr downstrfbmAsInt = downstrfbm::bddfpt;
+                    @Ovfrridf
+                    publid void bfgin(long sizf) {
+                        downstrfbm.bfgin(-1);
                     }
 
-                    @Override
-                    public void accept(P_OUT u) {
-                        try (IntStream result = mapper.apply(u)) {
-                            // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
-                            if (result != null)
-                                result.sequential().forEach(downstreamAsInt);
+                    @Ovfrridf
+                    publid void bddfpt(P_OUT u) {
+                        try (IntStrfbm rfsult = mbppfr.bpply(u)) {
+                            // Wf dbn do bfttfr tibt tiis too; optimizf for dfpti=0 dbsf bnd just grbb splitfrbtor bnd forEbdi it
+                            if (rfsult != null)
+                                rfsult.sfqufntibl().forEbdi(downstrfbmAsInt);
                         }
                     }
                 };
@@ -303,27 +303,27 @@ abstract class ReferencePipeline<P_IN, P_OUT>
         };
     }
 
-    @Override
-    public final DoubleStream flatMapToDouble(Function<? super P_OUT, ? extends DoubleStream> mapper) {
-        Objects.requireNonNull(mapper);
-        // We can do better than this, by polling cancellationRequested when stream is infinite
-        return new DoublePipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
-                                                     StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
-            @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<Double> sink) {
-                return new Sink.ChainedReference<P_OUT, Double>(sink) {
-                    DoubleConsumer downstreamAsDouble = downstream::accept;
-                    @Override
-                    public void begin(long size) {
-                        downstream.begin(-1);
+    @Ovfrridf
+    publid finbl DoublfStrfbm flbtMbpToDoublf(Fundtion<? supfr P_OUT, ? fxtfnds DoublfStrfbm> mbppfr) {
+        Objfdts.rfquirfNonNull(mbppfr);
+        // Wf dbn do bfttfr tibn tiis, by polling dbndfllbtionRfqufstfd wifn strfbm is infinitf
+        rfturn nfw DoublfPipflinf.StbtflfssOp<P_OUT>(tiis, StrfbmSibpf.REFERENCE,
+                                                     StrfbmOpFlbg.NOT_SORTED | StrfbmOpFlbg.NOT_DISTINCT | StrfbmOpFlbg.NOT_SIZED) {
+            @Ovfrridf
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<Doublf> sink) {
+                rfturn nfw Sink.CibinfdRfffrfndf<P_OUT, Doublf>(sink) {
+                    DoublfConsumfr downstrfbmAsDoublf = downstrfbm::bddfpt;
+                    @Ovfrridf
+                    publid void bfgin(long sizf) {
+                        downstrfbm.bfgin(-1);
                     }
 
-                    @Override
-                    public void accept(P_OUT u) {
-                        try (DoubleStream result = mapper.apply(u)) {
-                            // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
-                            if (result != null)
-                                result.sequential().forEach(downstreamAsDouble);
+                    @Ovfrridf
+                    publid void bddfpt(P_OUT u) {
+                        try (DoublfStrfbm rfsult = mbppfr.bpply(u)) {
+                            // Wf dbn do bfttfr tibt tiis too; optimizf for dfpti=0 dbsf bnd just grbb splitfrbtor bnd forEbdi it
+                            if (rfsult != null)
+                                rfsult.sfqufntibl().forEbdi(downstrfbmAsDoublf);
                         }
                     }
                 };
@@ -331,27 +331,27 @@ abstract class ReferencePipeline<P_IN, P_OUT>
         };
     }
 
-    @Override
-    public final LongStream flatMapToLong(Function<? super P_OUT, ? extends LongStream> mapper) {
-        Objects.requireNonNull(mapper);
-        // We can do better than this, by polling cancellationRequested when stream is infinite
-        return new LongPipeline.StatelessOp<P_OUT>(this, StreamShape.REFERENCE,
-                                                   StreamOpFlag.NOT_SORTED | StreamOpFlag.NOT_DISTINCT | StreamOpFlag.NOT_SIZED) {
-            @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<Long> sink) {
-                return new Sink.ChainedReference<P_OUT, Long>(sink) {
-                    LongConsumer downstreamAsLong = downstream::accept;
-                    @Override
-                    public void begin(long size) {
-                        downstream.begin(-1);
+    @Ovfrridf
+    publid finbl LongStrfbm flbtMbpToLong(Fundtion<? supfr P_OUT, ? fxtfnds LongStrfbm> mbppfr) {
+        Objfdts.rfquirfNonNull(mbppfr);
+        // Wf dbn do bfttfr tibn tiis, by polling dbndfllbtionRfqufstfd wifn strfbm is infinitf
+        rfturn nfw LongPipflinf.StbtflfssOp<P_OUT>(tiis, StrfbmSibpf.REFERENCE,
+                                                   StrfbmOpFlbg.NOT_SORTED | StrfbmOpFlbg.NOT_DISTINCT | StrfbmOpFlbg.NOT_SIZED) {
+            @Ovfrridf
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<Long> sink) {
+                rfturn nfw Sink.CibinfdRfffrfndf<P_OUT, Long>(sink) {
+                    LongConsumfr downstrfbmAsLong = downstrfbm::bddfpt;
+                    @Ovfrridf
+                    publid void bfgin(long sizf) {
+                        downstrfbm.bfgin(-1);
                     }
 
-                    @Override
-                    public void accept(P_OUT u) {
-                        try (LongStream result = mapper.apply(u)) {
-                            // We can do better that this too; optimize for depth=0 case and just grab spliterator and forEach it
-                            if (result != null)
-                                result.sequential().forEach(downstreamAsLong);
+                    @Ovfrridf
+                    publid void bddfpt(P_OUT u) {
+                        try (LongStrfbm rfsult = mbppfr.bpply(u)) {
+                            // Wf dbn do bfttfr tibt tiis too; optimizf for dfpti=0 dbsf bnd just grbb splitfrbtor bnd forEbdi it
+                            if (rfsult != null)
+                                rfsult.sfqufntibl().forEbdi(downstrfbmAsLong);
                         }
                     }
                 };
@@ -359,303 +359,303 @@ abstract class ReferencePipeline<P_IN, P_OUT>
         };
     }
 
-    @Override
-    public final Stream<P_OUT> peek(Consumer<? super P_OUT> action) {
-        Objects.requireNonNull(action);
-        return new StatelessOp<P_OUT, P_OUT>(this, StreamShape.REFERENCE,
+    @Ovfrridf
+    publid finbl Strfbm<P_OUT> pffk(Consumfr<? supfr P_OUT> bdtion) {
+        Objfdts.rfquirfNonNull(bdtion);
+        rfturn nfw StbtflfssOp<P_OUT, P_OUT>(tiis, StrfbmSibpf.REFERENCE,
                                      0) {
-            @Override
-            Sink<P_OUT> opWrapSink(int flags, Sink<P_OUT> sink) {
-                return new Sink.ChainedReference<P_OUT, P_OUT>(sink) {
-                    @Override
-                    public void accept(P_OUT u) {
-                        action.accept(u);
-                        downstream.accept(u);
+            @Ovfrridf
+            Sink<P_OUT> opWrbpSink(int flbgs, Sink<P_OUT> sink) {
+                rfturn nfw Sink.CibinfdRfffrfndf<P_OUT, P_OUT>(sink) {
+                    @Ovfrridf
+                    publid void bddfpt(P_OUT u) {
+                        bdtion.bddfpt(u);
+                        downstrfbm.bddfpt(u);
                     }
                 };
             }
         };
     }
 
-    // Stateful intermediate operations from Stream
+    // Stbtfful intfrmfdibtf opfrbtions from Strfbm
 
-    @Override
-    public final Stream<P_OUT> distinct() {
-        return DistinctOps.makeRef(this);
+    @Ovfrridf
+    publid finbl Strfbm<P_OUT> distindt() {
+        rfturn DistindtOps.mbkfRff(tiis);
     }
 
-    @Override
-    public final Stream<P_OUT> sorted() {
-        return SortedOps.makeRef(this);
+    @Ovfrridf
+    publid finbl Strfbm<P_OUT> sortfd() {
+        rfturn SortfdOps.mbkfRff(tiis);
     }
 
-    @Override
-    public final Stream<P_OUT> sorted(Comparator<? super P_OUT> comparator) {
-        return SortedOps.makeRef(this, comparator);
+    @Ovfrridf
+    publid finbl Strfbm<P_OUT> sortfd(Compbrbtor<? supfr P_OUT> dompbrbtor) {
+        rfturn SortfdOps.mbkfRff(tiis, dompbrbtor);
     }
 
-    @Override
-    public final Stream<P_OUT> limit(long maxSize) {
-        if (maxSize < 0)
-            throw new IllegalArgumentException(Long.toString(maxSize));
-        return SliceOps.makeRef(this, 0, maxSize);
+    @Ovfrridf
+    publid finbl Strfbm<P_OUT> limit(long mbxSizf) {
+        if (mbxSizf < 0)
+            tirow nfw IllfgblArgumfntExdfption(Long.toString(mbxSizf));
+        rfturn SlidfOps.mbkfRff(tiis, 0, mbxSizf);
     }
 
-    @Override
-    public final Stream<P_OUT> skip(long n) {
+    @Ovfrridf
+    publid finbl Strfbm<P_OUT> skip(long n) {
         if (n < 0)
-            throw new IllegalArgumentException(Long.toString(n));
+            tirow nfw IllfgblArgumfntExdfption(Long.toString(n));
         if (n == 0)
-            return this;
-        else
-            return SliceOps.makeRef(this, n, -1);
+            rfturn tiis;
+        flsf
+            rfturn SlidfOps.mbkfRff(tiis, n, -1);
     }
 
-    // Terminal operations from Stream
+    // Tfrminbl opfrbtions from Strfbm
 
-    @Override
-    public void forEach(Consumer<? super P_OUT> action) {
-        evaluate(ForEachOps.makeRef(action, false));
+    @Ovfrridf
+    publid void forEbdi(Consumfr<? supfr P_OUT> bdtion) {
+        fvblubtf(ForEbdiOps.mbkfRff(bdtion, fblsf));
     }
 
-    @Override
-    public void forEachOrdered(Consumer<? super P_OUT> action) {
-        evaluate(ForEachOps.makeRef(action, true));
+    @Ovfrridf
+    publid void forEbdiOrdfrfd(Consumfr<? supfr P_OUT> bdtion) {
+        fvblubtf(ForEbdiOps.mbkfRff(bdtion, truf));
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public final <A> A[] toArray(IntFunction<A[]> generator) {
-        // Since A has no relation to U (not possible to declare that A is an upper bound of U)
-        // there will be no static type checking.
-        // Therefore use a raw type and assume A == U rather than propagating the separation of A and U
-        // throughout the code-base.
-        // The runtime type of U is never checked for equality with the component type of the runtime type of A[].
-        // Runtime checking will be performed when an element is stored in A[], thus if A is not a
-        // super type of U an ArrayStoreException will be thrown.
-        @SuppressWarnings("rawtypes")
-        IntFunction rawGenerator = (IntFunction) generator;
-        return (A[]) Nodes.flatten(evaluateToArrayNode(rawGenerator), rawGenerator)
-                              .asArray(rawGenerator);
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid finbl <A> A[] toArrby(IntFundtion<A[]> gfnfrbtor) {
+        // Sindf A ibs no rflbtion to U (not possiblf to dfdlbrf tibt A is bn uppfr bound of U)
+        // tifrf will bf no stbtid typf difdking.
+        // Tifrfforf usf b rbw typf bnd bssumf A == U rbtifr tibn propbgbting tif sfpbrbtion of A bnd U
+        // tirougiout tif dodf-bbsf.
+        // Tif runtimf typf of U is nfvfr difdkfd for fqublity witi tif domponfnt typf of tif runtimf typf of A[].
+        // Runtimf difdking will bf pfrformfd wifn bn flfmfnt is storfd in A[], tius if A is not b
+        // supfr typf of U bn ArrbyStorfExdfption will bf tirown.
+        @SupprfssWbrnings("rbwtypfs")
+        IntFundtion rbwGfnfrbtor = (IntFundtion) gfnfrbtor;
+        rfturn (A[]) Nodfs.flbttfn(fvblubtfToArrbyNodf(rbwGfnfrbtor), rbwGfnfrbtor)
+                              .bsArrby(rbwGfnfrbtor);
     }
 
-    @Override
-    public final Object[] toArray() {
-        return toArray(Object[]::new);
+    @Ovfrridf
+    publid finbl Objfdt[] toArrby() {
+        rfturn toArrby(Objfdt[]::nfw);
     }
 
-    @Override
-    public final boolean anyMatch(Predicate<? super P_OUT> predicate) {
-        return evaluate(MatchOps.makeRef(predicate, MatchOps.MatchKind.ANY));
+    @Ovfrridf
+    publid finbl boolfbn bnyMbtdi(Prfdidbtf<? supfr P_OUT> prfdidbtf) {
+        rfturn fvblubtf(MbtdiOps.mbkfRff(prfdidbtf, MbtdiOps.MbtdiKind.ANY));
     }
 
-    @Override
-    public final boolean allMatch(Predicate<? super P_OUT> predicate) {
-        return evaluate(MatchOps.makeRef(predicate, MatchOps.MatchKind.ALL));
+    @Ovfrridf
+    publid finbl boolfbn bllMbtdi(Prfdidbtf<? supfr P_OUT> prfdidbtf) {
+        rfturn fvblubtf(MbtdiOps.mbkfRff(prfdidbtf, MbtdiOps.MbtdiKind.ALL));
     }
 
-    @Override
-    public final boolean noneMatch(Predicate<? super P_OUT> predicate) {
-        return evaluate(MatchOps.makeRef(predicate, MatchOps.MatchKind.NONE));
+    @Ovfrridf
+    publid finbl boolfbn nonfMbtdi(Prfdidbtf<? supfr P_OUT> prfdidbtf) {
+        rfturn fvblubtf(MbtdiOps.mbkfRff(prfdidbtf, MbtdiOps.MbtdiKind.NONE));
     }
 
-    @Override
-    public final Optional<P_OUT> findFirst() {
-        return evaluate(FindOps.makeRef(true));
+    @Ovfrridf
+    publid finbl Optionbl<P_OUT> findFirst() {
+        rfturn fvblubtf(FindOps.mbkfRff(truf));
     }
 
-    @Override
-    public final Optional<P_OUT> findAny() {
-        return evaluate(FindOps.makeRef(false));
+    @Ovfrridf
+    publid finbl Optionbl<P_OUT> findAny() {
+        rfturn fvblubtf(FindOps.mbkfRff(fblsf));
     }
 
-    @Override
-    public final P_OUT reduce(final P_OUT identity, final BinaryOperator<P_OUT> accumulator) {
-        return evaluate(ReduceOps.makeRef(identity, accumulator, accumulator));
+    @Ovfrridf
+    publid finbl P_OUT rfdudf(finbl P_OUT idfntity, finbl BinbryOpfrbtor<P_OUT> bddumulbtor) {
+        rfturn fvblubtf(RfdudfOps.mbkfRff(idfntity, bddumulbtor, bddumulbtor));
     }
 
-    @Override
-    public final Optional<P_OUT> reduce(BinaryOperator<P_OUT> accumulator) {
-        return evaluate(ReduceOps.makeRef(accumulator));
+    @Ovfrridf
+    publid finbl Optionbl<P_OUT> rfdudf(BinbryOpfrbtor<P_OUT> bddumulbtor) {
+        rfturn fvblubtf(RfdudfOps.mbkfRff(bddumulbtor));
     }
 
-    @Override
-    public final <R> R reduce(R identity, BiFunction<R, ? super P_OUT, R> accumulator, BinaryOperator<R> combiner) {
-        return evaluate(ReduceOps.makeRef(identity, accumulator, combiner));
+    @Ovfrridf
+    publid finbl <R> R rfdudf(R idfntity, BiFundtion<R, ? supfr P_OUT, R> bddumulbtor, BinbryOpfrbtor<R> dombinfr) {
+        rfturn fvblubtf(RfdudfOps.mbkfRff(idfntity, bddumulbtor, dombinfr));
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public final <R, A> R collect(Collector<? super P_OUT, A, R> collector) {
-        A container;
-        if (isParallel()
-                && (collector.characteristics().contains(Collector.Characteristics.CONCURRENT))
-                && (!isOrdered() || collector.characteristics().contains(Collector.Characteristics.UNORDERED))) {
-            container = collector.supplier().get();
-            BiConsumer<A, ? super P_OUT> accumulator = collector.accumulator();
-            forEach(u -> accumulator.accept(container, u));
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid finbl <R, A> R dollfdt(Collfdtor<? supfr P_OUT, A, R> dollfdtor) {
+        A dontbinfr;
+        if (isPbrbllfl()
+                && (dollfdtor.dibrbdtfristids().dontbins(Collfdtor.Cibrbdtfristids.CONCURRENT))
+                && (!isOrdfrfd() || dollfdtor.dibrbdtfristids().dontbins(Collfdtor.Cibrbdtfristids.UNORDERED))) {
+            dontbinfr = dollfdtor.supplifr().gft();
+            BiConsumfr<A, ? supfr P_OUT> bddumulbtor = dollfdtor.bddumulbtor();
+            forEbdi(u -> bddumulbtor.bddfpt(dontbinfr, u));
         }
-        else {
-            container = evaluate(ReduceOps.makeRef(collector));
+        flsf {
+            dontbinfr = fvblubtf(RfdudfOps.mbkfRff(dollfdtor));
         }
-        return collector.characteristics().contains(Collector.Characteristics.IDENTITY_FINISH)
-               ? (R) container
-               : collector.finisher().apply(container);
+        rfturn dollfdtor.dibrbdtfristids().dontbins(Collfdtor.Cibrbdtfristids.IDENTITY_FINISH)
+               ? (R) dontbinfr
+               : dollfdtor.finisifr().bpply(dontbinfr);
     }
 
-    @Override
-    public final <R> R collect(Supplier<R> supplier,
-                               BiConsumer<R, ? super P_OUT> accumulator,
-                               BiConsumer<R, R> combiner) {
-        return evaluate(ReduceOps.makeRef(supplier, accumulator, combiner));
+    @Ovfrridf
+    publid finbl <R> R dollfdt(Supplifr<R> supplifr,
+                               BiConsumfr<R, ? supfr P_OUT> bddumulbtor,
+                               BiConsumfr<R, R> dombinfr) {
+        rfturn fvblubtf(RfdudfOps.mbkfRff(supplifr, bddumulbtor, dombinfr));
     }
 
-    @Override
-    public final Optional<P_OUT> max(Comparator<? super P_OUT> comparator) {
-        return reduce(BinaryOperator.maxBy(comparator));
+    @Ovfrridf
+    publid finbl Optionbl<P_OUT> mbx(Compbrbtor<? supfr P_OUT> dompbrbtor) {
+        rfturn rfdudf(BinbryOpfrbtor.mbxBy(dompbrbtor));
     }
 
-    @Override
-    public final Optional<P_OUT> min(Comparator<? super P_OUT> comparator) {
-        return reduce(BinaryOperator.minBy(comparator));
+    @Ovfrridf
+    publid finbl Optionbl<P_OUT> min(Compbrbtor<? supfr P_OUT> dompbrbtor) {
+        rfturn rfdudf(BinbryOpfrbtor.minBy(dompbrbtor));
 
     }
 
-    @Override
-    public final long count() {
-        return mapToLong(e -> 1L).sum();
+    @Ovfrridf
+    publid finbl long dount() {
+        rfturn mbpToLong(f -> 1L).sum();
     }
 
 
     //
 
     /**
-     * Source stage of a ReferencePipeline.
+     * Sourdf stbgf of b RfffrfndfPipflinf.
      *
-     * @param <E_IN> type of elements in the upstream source
-     * @param <E_OUT> type of elements in produced by this stage
-     * @since 1.8
+     * @pbrbm <E_IN> typf of flfmfnts in tif upstrfbm sourdf
+     * @pbrbm <E_OUT> typf of flfmfnts in produdfd by tiis stbgf
+     * @sindf 1.8
      */
-    static class Head<E_IN, E_OUT> extends ReferencePipeline<E_IN, E_OUT> {
+    stbtid dlbss Hfbd<E_IN, E_OUT> fxtfnds RfffrfndfPipflinf<E_IN, E_OUT> {
         /**
-         * Constructor for the source stage of a Stream.
+         * Construdtor for tif sourdf stbgf of b Strfbm.
          *
-         * @param source {@code Supplier<Spliterator>} describing the stream
-         *               source
-         * @param sourceFlags the source flags for the stream source, described
-         *                    in {@link StreamOpFlag}
+         * @pbrbm sourdf {@dodf Supplifr<Splitfrbtor>} dfsdribing tif strfbm
+         *               sourdf
+         * @pbrbm sourdfFlbgs tif sourdf flbgs for tif strfbm sourdf, dfsdribfd
+         *                    in {@link StrfbmOpFlbg}
          */
-        Head(Supplier<? extends Spliterator<?>> source,
-             int sourceFlags, boolean parallel) {
-            super(source, sourceFlags, parallel);
+        Hfbd(Supplifr<? fxtfnds Splitfrbtor<?>> sourdf,
+             int sourdfFlbgs, boolfbn pbrbllfl) {
+            supfr(sourdf, sourdfFlbgs, pbrbllfl);
         }
 
         /**
-         * Constructor for the source stage of a Stream.
+         * Construdtor for tif sourdf stbgf of b Strfbm.
          *
-         * @param source {@code Spliterator} describing the stream source
-         * @param sourceFlags the source flags for the stream source, described
-         *                    in {@link StreamOpFlag}
+         * @pbrbm sourdf {@dodf Splitfrbtor} dfsdribing tif strfbm sourdf
+         * @pbrbm sourdfFlbgs tif sourdf flbgs for tif strfbm sourdf, dfsdribfd
+         *                    in {@link StrfbmOpFlbg}
          */
-        Head(Spliterator<?> source,
-             int sourceFlags, boolean parallel) {
-            super(source, sourceFlags, parallel);
+        Hfbd(Splitfrbtor<?> sourdf,
+             int sourdfFlbgs, boolfbn pbrbllfl) {
+            supfr(sourdf, sourdfFlbgs, pbrbllfl);
         }
 
-        @Override
-        final boolean opIsStateful() {
-            throw new UnsupportedOperationException();
+        @Ovfrridf
+        finbl boolfbn opIsStbtfful() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
 
-        @Override
-        final Sink<E_IN> opWrapSink(int flags, Sink<E_OUT> sink) {
-            throw new UnsupportedOperationException();
+        @Ovfrridf
+        finbl Sink<E_IN> opWrbpSink(int flbgs, Sink<E_OUT> sink) {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
 
-        // Optimized sequential terminal operations for the head of the pipeline
+        // Optimizfd sfqufntibl tfrminbl opfrbtions for tif ifbd of tif pipflinf
 
-        @Override
-        public void forEach(Consumer<? super E_OUT> action) {
-            if (!isParallel()) {
-                sourceStageSpliterator().forEachRemaining(action);
+        @Ovfrridf
+        publid void forEbdi(Consumfr<? supfr E_OUT> bdtion) {
+            if (!isPbrbllfl()) {
+                sourdfStbgfSplitfrbtor().forEbdiRfmbining(bdtion);
             }
-            else {
-                super.forEach(action);
+            flsf {
+                supfr.forEbdi(bdtion);
             }
         }
 
-        @Override
-        public void forEachOrdered(Consumer<? super E_OUT> action) {
-            if (!isParallel()) {
-                sourceStageSpliterator().forEachRemaining(action);
+        @Ovfrridf
+        publid void forEbdiOrdfrfd(Consumfr<? supfr E_OUT> bdtion) {
+            if (!isPbrbllfl()) {
+                sourdfStbgfSplitfrbtor().forEbdiRfmbining(bdtion);
             }
-            else {
-                super.forEachOrdered(action);
+            flsf {
+                supfr.forEbdiOrdfrfd(bdtion);
             }
         }
     }
 
     /**
-     * Base class for a stateless intermediate stage of a Stream.
+     * Bbsf dlbss for b stbtflfss intfrmfdibtf stbgf of b Strfbm.
      *
-     * @param <E_IN> type of elements in the upstream source
-     * @param <E_OUT> type of elements in produced by this stage
-     * @since 1.8
+     * @pbrbm <E_IN> typf of flfmfnts in tif upstrfbm sourdf
+     * @pbrbm <E_OUT> typf of flfmfnts in produdfd by tiis stbgf
+     * @sindf 1.8
      */
-    abstract static class StatelessOp<E_IN, E_OUT>
-            extends ReferencePipeline<E_IN, E_OUT> {
+    bbstrbdt stbtid dlbss StbtflfssOp<E_IN, E_OUT>
+            fxtfnds RfffrfndfPipflinf<E_IN, E_OUT> {
         /**
-         * Construct a new Stream by appending a stateless intermediate
-         * operation to an existing stream.
+         * Construdt b nfw Strfbm by bppfnding b stbtflfss intfrmfdibtf
+         * opfrbtion to bn fxisting strfbm.
          *
-         * @param upstream The upstream pipeline stage
-         * @param inputShape The stream shape for the upstream pipeline stage
-         * @param opFlags Operation flags for the new stage
+         * @pbrbm upstrfbm Tif upstrfbm pipflinf stbgf
+         * @pbrbm inputSibpf Tif strfbm sibpf for tif upstrfbm pipflinf stbgf
+         * @pbrbm opFlbgs Opfrbtion flbgs for tif nfw stbgf
          */
-        StatelessOp(AbstractPipeline<?, E_IN, ?> upstream,
-                    StreamShape inputShape,
-                    int opFlags) {
-            super(upstream, opFlags);
-            assert upstream.getOutputShape() == inputShape;
+        StbtflfssOp(AbstrbdtPipflinf<?, E_IN, ?> upstrfbm,
+                    StrfbmSibpf inputSibpf,
+                    int opFlbgs) {
+            supfr(upstrfbm, opFlbgs);
+            bssfrt upstrfbm.gftOutputSibpf() == inputSibpf;
         }
 
-        @Override
-        final boolean opIsStateful() {
-            return false;
+        @Ovfrridf
+        finbl boolfbn opIsStbtfful() {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Base class for a stateful intermediate stage of a Stream.
+     * Bbsf dlbss for b stbtfful intfrmfdibtf stbgf of b Strfbm.
      *
-     * @param <E_IN> type of elements in the upstream source
-     * @param <E_OUT> type of elements in produced by this stage
-     * @since 1.8
+     * @pbrbm <E_IN> typf of flfmfnts in tif upstrfbm sourdf
+     * @pbrbm <E_OUT> typf of flfmfnts in produdfd by tiis stbgf
+     * @sindf 1.8
      */
-    abstract static class StatefulOp<E_IN, E_OUT>
-            extends ReferencePipeline<E_IN, E_OUT> {
+    bbstrbdt stbtid dlbss StbtffulOp<E_IN, E_OUT>
+            fxtfnds RfffrfndfPipflinf<E_IN, E_OUT> {
         /**
-         * Construct a new Stream by appending a stateful intermediate operation
-         * to an existing stream.
-         * @param upstream The upstream pipeline stage
-         * @param inputShape The stream shape for the upstream pipeline stage
-         * @param opFlags Operation flags for the new stage
+         * Construdt b nfw Strfbm by bppfnding b stbtfful intfrmfdibtf opfrbtion
+         * to bn fxisting strfbm.
+         * @pbrbm upstrfbm Tif upstrfbm pipflinf stbgf
+         * @pbrbm inputSibpf Tif strfbm sibpf for tif upstrfbm pipflinf stbgf
+         * @pbrbm opFlbgs Opfrbtion flbgs for tif nfw stbgf
          */
-        StatefulOp(AbstractPipeline<?, E_IN, ?> upstream,
-                   StreamShape inputShape,
-                   int opFlags) {
-            super(upstream, opFlags);
-            assert upstream.getOutputShape() == inputShape;
+        StbtffulOp(AbstrbdtPipflinf<?, E_IN, ?> upstrfbm,
+                   StrfbmSibpf inputSibpf,
+                   int opFlbgs) {
+            supfr(upstrfbm, opFlbgs);
+            bssfrt upstrfbm.gftOutputSibpf() == inputSibpf;
         }
 
-        @Override
-        final boolean opIsStateful() {
-            return true;
+        @Ovfrridf
+        finbl boolfbn opIsStbtfful() {
+            rfturn truf;
         }
 
-        @Override
-        abstract <P_IN> Node<E_OUT> opEvaluateParallel(PipelineHelper<E_OUT> helper,
-                                                       Spliterator<P_IN> spliterator,
-                                                       IntFunction<E_OUT[]> generator);
+        @Ovfrridf
+        bbstrbdt <P_IN> Nodf<E_OUT> opEvblubtfPbrbllfl(PipflinfHflpfr<E_OUT> iflpfr,
+                                                       Splitfrbtor<P_IN> splitfrbtor,
+                                                       IntFundtion<E_OUT[]> gfnfrbtor);
     }
 }

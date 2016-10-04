@@ -1,146 +1,146 @@
-<!ELEMENT defaultsProperty EMPTY>
-<?xml version="1.0" encoding="iso-8859-1"?>
+<!ELEMENT dffbultsPropfrty EMPTY>
+<?xml vfrsion="1.0" fndoding="iso-8859-1"?>
 
 <!--
- Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
- This code is free software; you can redistribute it and/or modify it
- under the terms of the GNU General Public License version 2 only, as
- published by the Free Software Foundation.  Oracle designates this
- particular file as subject to the "Classpath" exception as provided
- by Oracle in the LICENSE file that accompanied this code.
+ Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
- This code is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- version 2 for more details (a copy is included in the LICENSE file that
- accompanied this code).
+ Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ bddompbnifd tiis dodf).
 
- You should have received a copy of the GNU General Public License version
- 2 along with this work; if not, write to the Free Software Foundation,
- Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
- Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- or visit www.oracle.com if you need additional information or have any
- questions.
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ qufstions.
 -->
 
 
-<!ELEMENT synth ((%beansPersistance;) | style | bind | font | color |
-          imagePainter | imageIcon | inputMap | defaultsProperty)*>
-<!ATTLIST synth
-          version              CDATA          #IMPLIED
+<!ELEMENT synti ((%bfbnsPfrsistbndf;) | stylf | bind | font | dolor |
+          imbgfPbintfr | imbgfIdon | inputMbp | dffbultsPropfrty)*>
+<!ATTLIST synti
+          vfrsion              CDATA          #IMPLIED
 >
 
-<!ELEMENT style (property | defaultsProperty | state | font |
-          graphicsUtils | insets | painter | imagePainter | opaque |
-          inputMap | %beansPersistance; | imageIcon)*>
-<!ATTLIST style
+<!ELEMENT stylf (propfrty | dffbultsPropfrty | stbtf | font |
+          grbpiidsUtils | insfts | pbintfr | imbgfPbintfr | opbquf |
+          inputMbp | %bfbnsPfrsistbndf; | imbgfIdon)*>
+<!ATTLIST stylf
           id                   ID             #IMPLIED
-          clone                IDREF          #IMPLIED
+          dlonf                IDREF          #IMPLIED
 >
 
-<!ELEMENT state (font | color | painter | imagePainter |
-          (%beansPersistance;) | property | imageIcon)*>
-<!ATTLIST state
+<!ELEMENT stbtf (font | dolor | pbintfr | imbgfPbintfr |
+          (%bfbnsPfrsistbndf;) | propfrty | imbgfIdon)*>
+<!ATTLIST stbtf
           id                   ID             #IMPLIED
-          clone                IDREF          #IMPLIED
-          value                CDATA          #IMPLIED
-          idref                IDREF          #IMPLIED
+          dlonf                IDREF          #IMPLIED
+          vbluf                CDATA          #IMPLIED
+          idrff                IDREF          #IMPLIED
 >
 
 <!ELEMENT font EMPTY>
 <!ATTLIST font
           id                   ID             #IMPLIED
-          idref                IDREF          #IMPLIED
-          name                 CDATA          #IMPLIED
-          style                CDATA          #IMPLIED
-          size                 CDATA          #IMPLIED
+          idrff                IDREF          #IMPLIED
+          nbmf                 CDATA          #IMPLIED
+          stylf                CDATA          #IMPLIED
+          sizf                 CDATA          #IMPLIED
 >
 
-<!ELEMENT color EMPTY>
-<!ATTLIST color
+<!ELEMENT dolor EMPTY>
+<!ATTLIST dolor
           id                   ID             #IMPLIED
-          idref                IDREF          #IMPLIED
-          type                 CDATA          #IMPLIED
-          value                CDATA          #IMPLIED
+          idrff                IDREF          #IMPLIED
+          typf                 CDATA          #IMPLIED
+          vbluf                CDATA          #IMPLIED
 >
 
-<!ELEMENT property EMPTY>
-<!ATTLIST property
-          key         CDATA                                           #REQUIRED
-          type        (idref|boolean|dimension|insets|integer|string) "idref"
-          value       CDATA                                           #REQUIRED
+<!ELEMENT propfrty EMPTY>
+<!ATTLIST propfrty
+          kfy         CDATA                                           #REQUIRED
+          typf        (idrff|boolfbn|dimfnsion|insfts|intfgfr|string) "idrff"
+          vbluf       CDATA                                           #REQUIRED
 >
 
-<!ELEMENT defaultsProperty EMPTY>
-<!ATTLIST defaultsProperty
-          key         CDATA                                           #REQUIRED
-          type        (idref|boolean|dimension|insets|integer|string)   "idref"
-          value       CDATA                                           #REQUIRED
+<!ELEMENT dffbultsPropfrty EMPTY>
+<!ATTLIST dffbultsPropfrty
+          kfy         CDATA                                           #REQUIRED
+          typf        (idrff|boolfbn|dimfnsion|insfts|intfgfr|string)   "idrff"
+          vbluf       CDATA                                           #REQUIRED
 >
 
-<!ELEMENT graphicsUtils EMPTY>
-<!ATTLIST graphicsUtils
-          idref                IDREF          #REQUIRED
+<!ELEMENT grbpiidsUtils EMPTY>
+<!ATTLIST grbpiidsUtils
+          idrff                IDREF          #REQUIRED
 >
 
-<!ELEMENT insets EMPTY>
-<!ATTLIST insets
+<!ELEMENT insfts EMPTY>
+<!ATTLIST insfts
           id                   ID             #IMPLIED
-          idref                IDREF          #IMPLIED
+          idrff                IDREF          #IMPLIED
           top                  CDATA          #IMPLIED
           bottom               CDATA          #IMPLIED
-          left                 CDATA          #IMPLIED
-          right                CDATA          #IMPLIED
+          lfft                 CDATA          #IMPLIED
+          rigit                CDATA          #IMPLIED
 >
 
 <!ELEMENT bind EMPTY>
 <!ATTLIST bind
-          style                IDREF          #REQUIRED
-          type                 (NAME|REGION)  "REGION"
-          key                  CDATA          #REQUIRED
+          stylf                IDREF          #REQUIRED
+          typf                 (NAME|REGION)  "REGION"
+          kfy                  CDATA          #REQUIRED
 >
 
-<!ELEMENT painter EMPTY>
-<!ATTLIST painter
-          idref                IDREF          #IMPLIED
-          method               CDATA          #IMPLIED
-          direction            (north|south|east|west|top|left|bottom|right|horizontal|vertical|horizontal_split|vertical_split)          #IMPLIED
+<!ELEMENT pbintfr EMPTY>
+<!ATTLIST pbintfr
+          idrff                IDREF          #IMPLIED
+          mftiod               CDATA          #IMPLIED
+          dirfdtion            (norti|souti|fbst|wfst|top|lfft|bottom|rigit|iorizontbl|vfrtidbl|iorizontbl_split|vfrtidbl_split)          #IMPLIED
 >
 
-<!ELEMENT imagePainter EMPTY>
-<!ATTLIST imagePainter
+<!ELEMENT imbgfPbintfr EMPTY>
+<!ATTLIST imbgfPbintfr
           id                   ID             #IMPLIED
-          method               CDATA          #IMPLIED
-          direction            (north|south|east|west|top|left|bottom|right|horizontal|vertical|horizontal_split|vertical_split)          #IMPLIED
-          path                 CDATA          #IMPLIED
-          sourceInsets         CDATA          #IMPLIED
-          destinationInsets    CDATA          #IMPLIED
-          paintCenter          (true|false)   "true"
-          stretch              (true|false)   "true"
-          center               (true|false)   "false"
+          mftiod               CDATA          #IMPLIED
+          dirfdtion            (norti|souti|fbst|wfst|top|lfft|bottom|rigit|iorizontbl|vfrtidbl|iorizontbl_split|vfrtidbl_split)          #IMPLIED
+          pbti                 CDATA          #IMPLIED
+          sourdfInsfts         CDATA          #IMPLIED
+          dfstinbtionInsfts    CDATA          #IMPLIED
+          pbintCfntfr          (truf|fblsf)   "truf"
+          strftdi              (truf|fblsf)   "truf"
+          dfntfr               (truf|fblsf)   "fblsf"
 >
 
-<!ELEMENT imageIcon EMPTY>
-<!ATTLIST imageIcon
+<!ELEMENT imbgfIdon EMPTY>
+<!ATTLIST imbgfIdon
           id                   ID             #REQUIRED
-          path                 CDATA          #REQUIRED
+          pbti                 CDATA          #REQUIRED
 >
 
-<!ELEMENT opaque EMPTY>
-<!ATTLIST opaque
-          value                (true|false)   "true"
+<!ELEMENT opbquf EMPTY>
+<!ATTLIST opbquf
+          vbluf                (truf|fblsf)   "truf"
 >
 
-<!ELEMENT inputMap (bindKey)*>
-<!ATTLIST inputMap
+<!ELEMENT inputMbp (bindKfy)*>
+<!ATTLIST inputMbp
           id                   ID             #REQUIRED
 >
 
-<!ELEMENT bindKey EMPTY>
-<!ATTLIST bindKey
-          key                  CDATA          #REQUIRED
-          action               CDATA          #REQUIRED
+<!ELEMENT bindKfy EMPTY>
+<!ATTLIST bindKfy
+          kfy                  CDATA          #REQUIRED
+          bdtion               CDATA          #REQUIRED
 >

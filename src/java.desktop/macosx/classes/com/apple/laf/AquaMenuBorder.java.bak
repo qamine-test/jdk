@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
-import javax.swing.border.Border;
-import javax.swing.plaf.UIResource;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.UIRfsourdf;
 
-public class AquaMenuBorder implements Border, UIResource {
-    public AquaMenuBorder() { }
+publid dlbss AqubMfnuBordfr implfmfnts Bordfr, UIRfsourdf {
+    publid AqubMfnuBordfr() { }
 
     /**
-     * Paints the border for the specified component with the specified
-     * position and size.
-     * @param c the component for which this border is being painted
-     * @param g the paint graphics
-     * @param x the x position of the painted border
-     * @param y the y position of the painted border
-     * @param width the width of the painted border
-     * @param height the height of the painted border
+     * Pbints tif bordfr for tif spfdififd domponfnt witi tif spfdififd
+     * position bnd sizf.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr is bfing pbintfd
+     * @pbrbm g tif pbint grbpiids
+     * @pbrbm x tif x position of tif pbintfd bordfr
+     * @pbrbm y tif y position of tif pbintfd bordfr
+     * @pbrbm widti tif widti of tif pbintfd bordfr
+     * @pbrbm ifigit tif ifigit of tif pbintfd bordfr
      */
-    public void paintBorder(final Component c, final Graphics g, final int x, final int y, final int width, final int height) {
-        // for now we don't paint a border. We let the button paint it since there
-        // needs to be a strict ordering for aqua components.
-        //paintButton(c, g, x, y, width, height);
-        //if (c instanceof JPopupMenu) {
-            //g.setColor(Color.red);
-            //g.drawRect(x,y, width-1, height-1);
+    publid void pbintBordfr(finbl Componfnt d, finbl Grbpiids g, finbl int x, finbl int y, finbl int widti, finbl int ifigit) {
+        // for now wf don't pbint b bordfr. Wf lft tif button pbint it sindf tifrf
+        // nffds to bf b stridt ordfring for bqub domponfnts.
+        //pbintButton(d, g, x, y, widti, ifigit);
+        //if (d instbndfof JPopupMfnu) {
+            //g.sftColor(Color.rfd);
+            //g.drbwRfdt(x,y, widti-1, ifigit-1);
         //}
     }
 
     /**
-     * Returns whether or not the border is opaque.  If the border
-     * is opaque, it is responsible for filling in it's own
-     * background when painting.
+     * Rfturns wiftifr or not tif bordfr is opbquf.  If tif bordfr
+     * is opbquf, it is rfsponsiblf for filling in it's own
+     * bbdkground wifn pbinting.
      */
-    public boolean isBorderOpaque() {
-        return false;
+    publid boolfbn isBordfrOpbquf() {
+        rfturn fblsf;
     }
 
-    protected static Insets getItemInsets() {
-        return new Insets(1, 5, 1, 5);
+    protfdtfd stbtid Insfts gftItfmInsfts() {
+        rfturn nfw Insfts(1, 5, 1, 5);
     }
 
-    protected static Insets getEmptyInsets() {
-        return new Insets(0, 0, 0, 0);
+    protfdtfd stbtid Insfts gftEmptyInsfts() {
+        rfturn nfw Insfts(0, 0, 0, 0);
     }
 
-    protected static Insets getPopupInsets() {
-        return new Insets(4, 0, 4, 0);
+    protfdtfd stbtid Insfts gftPopupInsfts() {
+        rfturn nfw Insfts(4, 0, 4, 0);
     }
 
     /**
-     * Returns the insets of the border.
-     * @param c the component for which this border insets value applies
+     * Rfturns tif insfts of tif bordfr.
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
      */
-    public Insets getBorderInsets(final Component c) {
-        if (!(c instanceof JPopupMenu)) {
-            return getItemInsets();
+    publid Insfts gftBordfrInsfts(finbl Componfnt d) {
+        if (!(d instbndfof JPopupMfnu)) {
+            rfturn gftItfmInsfts();
         }
 
-        // for more info on this issue, see AquaComboBoxPopup.updateContents()
-        final JPopupMenu menu = (JPopupMenu)c;
-        final int nChildren = menu.getComponentCount();
-        if (nChildren > 0) {
-            final Component firstChild = menu.getComponent(0);
-            if (firstChild instanceof Box.Filler) return getEmptyInsets();
-            if (firstChild instanceof JScrollPane) return getEmptyInsets();
+        // for morf info on tiis issuf, sff AqubComboBoxPopup.updbtfContfnts()
+        finbl JPopupMfnu mfnu = (JPopupMfnu)d;
+        finbl int nCiildrfn = mfnu.gftComponfntCount();
+        if (nCiildrfn > 0) {
+            finbl Componfnt firstCiild = mfnu.gftComponfnt(0);
+            if (firstCiild instbndfof Box.Fillfr) rfturn gftEmptyInsfts();
+            if (firstCiild instbndfof JSdrollPbnf) rfturn gftEmptyInsfts();
         }
 
-        // just need top and bottom, and not right and left.
+        // just nffd top bnd bottom, bnd not rigit bnd lfft.
         // but only for non-list popups.
-        return getPopupInsets();
+        rfturn gftPopupInsfts();
     }
 }

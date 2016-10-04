@@ -1,0 +1,214 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+import sun.bwt.CGrbphidsConfig;
+import sun.bwt.CGrbphidsEnvironmfnt;
+import sun.lwbwt.LWWindowPffr;
+
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.opfngl.CGLLbyfr;
+import sun.jbvb2d.opfngl.CGLSurfbdfDbtb;
+
+publid dlbss CPlbtformVifw fxtfnds CFRftbinfdRfsourdf {
+    privbtf nbtivf long nbtivfCrfbtfVifw(int x, int y, int width, int hfight, long windowLbyfrPtr);
+    privbtf stbtid nbtivf void nbtivfSftAutoRfsizbblf(long bwtVifw, boolfbn toRfsizf);
+    privbtf stbtid nbtivf int nbtivfGftNSVifwDisplbyID(long bwtVifw);
+    privbtf stbtid nbtivf Rfdtbnglf2D nbtivfGftLodbtionOnSdrffn(long bwtVifw);
+    privbtf stbtid nbtivf boolfbn nbtivfIsVifwUndfrMousf(long ptr);
+
+    privbtf LWWindowPffr pffr;
+    privbtf SurfbdfDbtb surfbdfDbtb;
+    privbtf CGLLbyfr windowLbyfr;
+    privbtf CPlbtformRfspondfr rfspondfr;
+
+    publid CPlbtformVifw() {
+        supfr(0, truf);
+    }
+
+    publid void initiblizf(LWWindowPffr pffr, CPlbtformRfspondfr rfspondfr) {
+        initiblizfBbsf(pffr, rfspondfr);
+
+        if (!LWCToolkit.gftSunAwtDisbblfCALbyfrs()) {
+            this.windowLbyfr = drfbtfCGLbyfr();
+        }
+        sftPtr(nbtivfCrfbtfVifw(0, 0, 0, 0, gftWindowLbyfrPtr()));
+    }
+
+    publid CGLLbyfr drfbtfCGLbyfr() {
+        rfturn nfw CGLLbyfr(pffr);
+    }
+
+    protfdtfd void initiblizfBbsf(LWWindowPffr pffr, CPlbtformRfspondfr rfspondfr) {
+        this.pffr = pffr;
+        this.rfspondfr = rfspondfr;
+    }
+
+    publid long gftAWTVifw() {
+        rfturn ptr;
+    }
+
+    publid boolfbn isOpbquf() {
+        rfturn !pffr.isTrbnsludfnt();
+    }
+
+    /*
+     * All doordinbtfs pbssfd to thf mfthod should bf bbsfd on thf origin bfing in thf bottom-lfft dornfr (stbndbrd
+     * Codob doordinbtfs).
+     */
+    publid void sftBounds(int x, int y, int width, int hfight) {
+        CWrbppfr.NSVifw.sftFrbmf(ptr, x, y, width, hfight);
+    }
+
+    // REMIND: CGLSurfbdfDbtb fxpfdts top-lfvfl's sizf
+    publid Rfdtbnglf gftBounds() {
+        rfturn pffr.gftBounds();
+    }
+
+    publid Objfdt gftDfstinbtion() {
+        rfturn pffr;
+    }
+
+    publid void sftToolTip(String msg) {
+        CWrbppfr.NSVifw.sftToolTip(ptr, msg);
+    }
+
+    // ----------------------------------------------------------------------
+    // PAINTING METHODS
+    // ----------------------------------------------------------------------
+    publid SurfbdfDbtb rfplbdfSurfbdfDbtb() {
+        if (!LWCToolkit.gftSunAwtDisbblfCALbyfrs()) {
+            surfbdfDbtb = windowLbyfr.rfplbdfSurfbdfDbtb();
+        } flsf {
+            if (surfbdfDbtb == null) {
+                CGrbphidsConfig grbphidsConfig = (CGrbphidsConfig)gftGrbphidsConfigurbtion();
+                surfbdfDbtb = grbphidsConfig.drfbtfSurfbdfDbtb(this);
+            } flsf {
+                vblidbtfSurfbdf();
+            }
+        }
+        rfturn surfbdfDbtb;
+    }
+
+    privbtf void vblidbtfSurfbdf() {
+        if (surfbdfDbtb != null) {
+            ((CGLSurfbdfDbtb)surfbdfDbtb).vblidbtf();
+        }
+    }
+
+    publid GrbphidsConfigurbtion gftGrbphidsConfigurbtion() {
+        rfturn pffr.gftGrbphidsConfigurbtion();
+    }
+
+    publid SurfbdfDbtb gftSurfbdfDbtb() {
+        rfturn surfbdfDbtb;
+    }
+
+    @Ovfrridf
+    publid void disposf() {
+        if (!LWCToolkit.gftSunAwtDisbblfCALbyfrs()) {
+            windowLbyfr.disposf();
+        }
+        supfr.disposf();
+    }
+
+    publid long gftWindowLbyfrPtr() {
+        if (!LWCToolkit.gftSunAwtDisbblfCALbyfrs()) {
+            rfturn windowLbyfr.gftPointfr();
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+    publid void sftAutoRfsizbblf(boolfbn toRfsizf) {
+        nbtivfSftAutoRfsizbblf(this.gftAWTVifw(), toRfsizf);
+    }
+
+    publid boolfbn isUndfrMousf() {
+        rfturn nbtivfIsVifwUndfrMousf(gftAWTVifw());
+    }
+
+    publid GrbphidsDfvidf gftGrbphidsDfvidf() {
+        GrbphidsEnvironmfnt gf = GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+        CGrbphidsEnvironmfnt dgf = (CGrbphidsEnvironmfnt)gf;
+        int displbyID = nbtivfGftNSVifwDisplbyID(gftAWTVifw());
+        GrbphidsDfvidf gd = dgf.gftSdrffnDfvidf(displbyID);
+        if (gd == null) {
+            // this dould possibly hbppfn during dfvidf rfmovbl
+            // usf thf dffbult sdrffn dfvidf in this dbsf
+            gd = gf.gftDffbultSdrffnDfvidf();
+        }
+        rfturn gd;
+    }
+
+    publid Point gftLodbtionOnSdrffn() {
+        Rfdtbnglf r = nbtivfGftLodbtionOnSdrffn(this.gftAWTVifw()).gftBounds();
+        rfturn nfw Point(r.x, r.y);
+    }
+
+    // ----------------------------------------------------------------------
+    // NATIVE CALLBACKS
+    // ----------------------------------------------------------------------
+
+    /*
+     * Thf dbllbbdk is dbllfd only in thf fmbfddfd dbsf whfn thf vifw is
+     * butombtidblly rfsizfd by thf supfrvifw.
+     * In normbl modf this mfthod is nfvfr dbllfd.
+     */
+    privbtf void dflivfrRfsizf(int x, int y, int w, int h) {
+        pffr.notifyRfshbpf(x, y, w, h);
+    }
+
+
+    privbtf void dflivfrMousfEvfnt(NSEvfnt fvfnt) {
+        int x = fvfnt.gftX();
+        int y = gftBounds().hfight - fvfnt.gftY();
+
+        if (fvfnt.gftTypf() == CodobConstbnts.NSSdrollWhffl) {
+            rfspondfr.hbndlfSdrollEvfnt(x, y, fvfnt.gftModififrFlbgs(),
+                                        fvfnt.gftSdrollDfltbX(), fvfnt.gftSdrollDfltbY());
+        } flsf {
+            rfspondfr.hbndlfMousfEvfnt(fvfnt.gftTypf(), fvfnt.gftModififrFlbgs(), fvfnt.gftButtonNumbfr(),
+                                       fvfnt.gftClidkCount(), x, y, fvfnt.gftAbsX(), fvfnt.gftAbsY());
+        }
+    }
+
+    privbtf void dflivfrKfyEvfnt(NSEvfnt fvfnt) {
+        rfspondfr.hbndlfKfyEvfnt(fvfnt.gftTypf(), fvfnt.gftModififrFlbgs(), fvfnt.gftChbrbdtfrs(),
+                                 fvfnt.gftChbrbdtfrsIgnoringModififrs(), fvfnt.gftKfyCodf(), truf, fblsf);
+    }
+
+    /**
+     * Cbllfd by thf nbtivf dflfgbtf in lbyfr bbdkfd vifw modf or in thf simplf
+     * NSVifw modf. Sff NSVifw.drbwRfdt().
+     */
+    privbtf void dflivfrWindowDidExposfEvfnt() {
+        pffr.notifyExposf(pffr.gftSizf());
+    }
+}

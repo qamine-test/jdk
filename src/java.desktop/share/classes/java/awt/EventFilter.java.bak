@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-interface EventFilter {
+intfrfbdf EvfntFiltfr {
 
     /**
-     * Enumeration for possible values for <code>acceptEvent(AWTEvent ev)</code> method.
-     * @see EventDispatchThread#pumpEventsForFilter
+     * Enumfrbtion for possiblf vblufs for <dodf>bddfptEvfnt(AWTEvfnt fv)</dodf> mftiod.
+     * @sff EvfntDispbtdiTirfbd#pumpEvfntsForFiltfr
      */
-    static enum FilterAction {
+    stbtid fnum FiltfrAdtion {
         /**
-         * ACCEPT means that this filter do not filter the event and allowes other
-         * active filters to proceed it. If all the active filters accept the event, it
-         * is dispatched by the <code>EventDispatchThread</code>
-         * @see EventDispatchThread#pumpEventsForFilter
+         * ACCEPT mfbns tibt tiis filtfr do not filtfr tif fvfnt bnd bllowfs otifr
+         * bdtivf filtfrs to prodffd it. If bll tif bdtivf filtfrs bddfpt tif fvfnt, it
+         * is dispbtdifd by tif <dodf>EvfntDispbtdiTirfbd</dodf>
+         * @sff EvfntDispbtdiTirfbd#pumpEvfntsForFiltfr
          */
         ACCEPT,
         /**
-         * REJECT means that this filter filter the event. No other filters are queried,
-         * and the event is not dispatched by the <code>EventDispatchedThread</code>
-         * @see EventDispatchThread#pumpEventsForFilter
+         * REJECT mfbns tibt tiis filtfr filtfr tif fvfnt. No otifr filtfrs brf qufrifd,
+         * bnd tif fvfnt is not dispbtdifd by tif <dodf>EvfntDispbtdifdTirfbd</dodf>
+         * @sff EvfntDispbtdiTirfbd#pumpEvfntsForFiltfr
          */
         REJECT,
         /**
-         * ACCEPT_IMMEDIATELY means that this filter do not filter the event, no other
-         * filters are queried and to proceed it, and it is dispatched by the
-         * <code>EventDispatchThread</code>
-         * It is not recommended to use ACCEPT_IMMEDIATELY as there may be some active
-         * filters not queried yet that do not accept this event. It is primarily used
-         * by modal filters.
-         * @see EventDispatchThread#pumpEventsForFilter
-         * @see ModalEventFilter
+         * ACCEPT_IMMEDIATELY mfbns tibt tiis filtfr do not filtfr tif fvfnt, no otifr
+         * filtfrs brf qufrifd bnd to prodffd it, bnd it is dispbtdifd by tif
+         * <dodf>EvfntDispbtdiTirfbd</dodf>
+         * It is not rfdommfndfd to usf ACCEPT_IMMEDIATELY bs tifrf mby bf somf bdtivf
+         * filtfrs not qufrifd yft tibt do not bddfpt tiis fvfnt. It is primbrily usfd
+         * by modbl filtfrs.
+         * @sff EvfntDispbtdiTirfbd#pumpEvfntsForFiltfr
+         * @sff ModblEvfntFiltfr
          */
         ACCEPT_IMMEDIATELY
     };
 
-    FilterAction acceptEvent(AWTEvent ev);
+    FiltfrAdtion bddfptEvfnt(AWTEvfnt fv);
 }

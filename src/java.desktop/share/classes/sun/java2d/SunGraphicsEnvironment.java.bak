@@ -1,325 +1,325 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d;
+pbdkbgf sun.jbvb2d;
 
-import java.awt.AWTError;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
-import java.awt.font.TextAttribute;
-import java.awt.image.BufferedImage;
-import java.awt.peer.ComponentPeer;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FilenameFilter;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.text.AttributedCharacterIterator;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.TreeMap;
-import java.util.Vector;
-import java.util.concurrent.ConcurrentHashMap;
-import sun.awt.AppContext;
-import sun.awt.DisplayChangedListener;
-import sun.awt.FontConfiguration;
-import sun.awt.SunDisplayChanger;
-import sun.font.CompositeFontDescriptor;
+import jbvb.bwt.AWTError;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.GrbpiidsDfvidf;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.FilfnbmfFiltfr;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.tfxt.AttributfdCibrbdtfrItfrbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.Sft;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.TrffMbp;
+import jbvb.util.Vfdtor;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import sun.bwt.AppContfxt;
+import sun.bwt.DisplbyCibngfdListfnfr;
+import sun.bwt.FontConfigurbtion;
+import sun.bwt.SunDisplbyCibngfr;
+import sun.font.CompositfFontDfsdriptor;
 import sun.font.Font2D;
-import sun.font.FontManager;
-import sun.font.FontManagerFactory;
-import sun.font.FontManagerForSGE;
-import sun.font.NativeFont;
+import sun.font.FontMbnbgfr;
+import sun.font.FontMbnbgfrFbdtory;
+import sun.font.FontMbnbgfrForSGE;
+import sun.font.NbtivfFont;
 
 /**
- * This is an implementation of a GraphicsEnvironment object for the
- * default local GraphicsEnvironment.
+ * Tiis is bn implfmfntbtion of b GrbpiidsEnvironmfnt objfdt for tif
+ * dffbult lodbl GrbpiidsEnvironmfnt.
  *
- * @see GraphicsDevice
- * @see GraphicsConfiguration
+ * @sff GrbpiidsDfvidf
+ * @sff GrbpiidsConfigurbtion
  */
-public abstract class SunGraphicsEnvironment extends GraphicsEnvironment
-    implements DisplayChangedListener {
+publid bbstrbdt dlbss SunGrbpiidsEnvironmfnt fxtfnds GrbpiidsEnvironmfnt
+    implfmfnts DisplbyCibngfdListfnfr {
 
-    public static boolean isOpenSolaris;
-    private static Font defaultFont;
+    publid stbtid boolfbn isOpfnSolbris;
+    privbtf stbtid Font dffbultFont;
 
-    public SunGraphicsEnvironment() {
-        java.security.AccessController.doPrivileged(
-                                    new java.security.PrivilegedAction<Object>() {
-            public Object run() {
-                    String version = System.getProperty("os.version", "0.0");
+    publid SunGrbpiidsEnvironmfnt() {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                                    nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+                    String vfrsion = Systfm.gftPropfrty("os.vfrsion", "0.0");
                     try {
-                        float ver = Float.parseFloat(version);
-                        if (ver > 5.10f) {
-                            File f = new File("/etc/release");
-                            FileInputStream fis = new FileInputStream(f);
-                            InputStreamReader isr
-                                = new InputStreamReader(fis, "ISO-8859-1");
-                            BufferedReader br = new BufferedReader(isr);
-                            String line = br.readLine();
-                            if (line.indexOf("OpenSolaris") >= 0) {
-                                isOpenSolaris = true;
-                            } else {
-                                /* We are using isOpenSolaris as meaning
-                                 * we know the Solaris commercial fonts aren't
-                                 * present. "Solaris Next" (03/10) did not
-                                 * include these even though its was not
-                                 * OpenSolaris. Need to revisit how this is
-                                 * handled but for now as in 6ux, we'll use
-                                 * the test for a standard font resource as
-                                 * being an indicator as to whether we need
-                                 * to treat this as OpenSolaris from a font
-                                 * config perspective.
+                        flobt vfr = Flobt.pbrsfFlobt(vfrsion);
+                        if (vfr > 5.10f) {
+                            Filf f = nfw Filf("/ftd/rflfbsf");
+                            FilfInputStrfbm fis = nfw FilfInputStrfbm(f);
+                            InputStrfbmRfbdfr isr
+                                = nfw InputStrfbmRfbdfr(fis, "ISO-8859-1");
+                            BufffrfdRfbdfr br = nfw BufffrfdRfbdfr(isr);
+                            String linf = br.rfbdLinf();
+                            if (linf.indfxOf("OpfnSolbris") >= 0) {
+                                isOpfnSolbris = truf;
+                            } flsf {
+                                /* Wf brf using isOpfnSolbris bs mfbning
+                                 * wf know tif Solbris dommfrdibl fonts brfn't
+                                 * prfsfnt. "Solbris Nfxt" (03/10) did not
+                                 * indludf tifsf fvfn tiougi its wbs not
+                                 * OpfnSolbris. Nffd to rfvisit iow tiis is
+                                 * ibndlfd but for now bs in 6ux, wf'll usf
+                                 * tif tfst for b stbndbrd font rfsourdf bs
+                                 * bfing bn indidbtor bs to wiftifr wf nffd
+                                 * to trfbt tiis bs OpfnSolbris from b font
+                                 * donfig pfrspfdtivf.
                                  */
-                                String courierNew =
-                                    "/usr/openwin/lib/X11/fonts/TrueType/CourierNew.ttf";
-                                File courierFile = new File(courierNew);
-                                isOpenSolaris = !courierFile.exists();
+                                String dourifrNfw =
+                                    "/usr/opfnwin/lib/X11/fonts/TrufTypf/CourifrNfw.ttf";
+                                Filf dourifrFilf = nfw Filf(dourifrNfw);
+                                isOpfnSolbris = !dourifrFilf.fxists();
                             }
-                            fis.close();
+                            fis.dlosf();
                         }
-                    } catch (Exception e) {
+                    } dbtdi (Exdfption f) {
                     }
 
-                /* Establish the default font to be used by SG2D etc */
-                defaultFont = new Font(Font.DIALOG, Font.PLAIN, 12);
+                /* Estbblisi tif dffbult font to bf usfd by SG2D ftd */
+                dffbultFont = nfw Font(Font.DIALOG, Font.PLAIN, 12);
 
-                return null;
+                rfturn null;
             }
         });
     }
 
-    protected GraphicsDevice[] screens;
+    protfdtfd GrbpiidsDfvidf[] sdrffns;
 
     /**
-     * Returns an array of all of the screen devices.
+     * Rfturns bn brrby of bll of tif sdrffn dfvidfs.
      */
-    public synchronized GraphicsDevice[] getScreenDevices() {
-        GraphicsDevice[] ret = screens;
-        if (ret == null) {
-            int num = getNumScreens();
-            ret = new GraphicsDevice[num];
+    publid syndironizfd GrbpiidsDfvidf[] gftSdrffnDfvidfs() {
+        GrbpiidsDfvidf[] rft = sdrffns;
+        if (rft == null) {
+            int num = gftNumSdrffns();
+            rft = nfw GrbpiidsDfvidf[num];
             for (int i = 0; i < num; i++) {
-                ret[i] = makeScreenDevice(i);
+                rft[i] = mbkfSdrffnDfvidf(i);
             }
-            screens = ret;
+            sdrffns = rft;
         }
-        return ret;
+        rfturn rft;
     }
 
     /**
-     * Returns the number of screen devices of this graphics environment.
+     * Rfturns tif numbfr of sdrffn dfvidfs of tiis grbpiids fnvironmfnt.
      *
-     * @return the number of screen devices of this graphics environment
+     * @rfturn tif numbfr of sdrffn dfvidfs of tiis grbpiids fnvironmfnt
      */
-    protected abstract int getNumScreens();
+    protfdtfd bbstrbdt int gftNumSdrffns();
 
     /**
-     * Create and return the screen device with the specified number. The
-     * device with number <code>0</code> will be the default device (returned
-     * by {@link #getDefaultScreenDevice()}.
+     * Crfbtf bnd rfturn tif sdrffn dfvidf witi tif spfdififd numbfr. Tif
+     * dfvidf witi numbfr <dodf>0</dodf> will bf tif dffbult dfvidf (rfturnfd
+     * by {@link #gftDffbultSdrffnDfvidf()}.
      *
-     * @param screennum the number of the screen to create
+     * @pbrbm sdrffnnum tif numbfr of tif sdrffn to drfbtf
      *
-     * @return the created screen device
+     * @rfturn tif drfbtfd sdrffn dfvidf
      */
-    protected abstract GraphicsDevice makeScreenDevice(int screennum);
+    protfdtfd bbstrbdt GrbpiidsDfvidf mbkfSdrffnDfvidf(int sdrffnnum);
 
     /**
-     * Returns the default screen graphics device.
+     * Rfturns tif dffbult sdrffn grbpiids dfvidf.
      */
-    public GraphicsDevice getDefaultScreenDevice() {
-        GraphicsDevice[] screens = getScreenDevices();
-        if (screens.length == 0) {
-            throw new AWTError("no screen devices");
+    publid GrbpiidsDfvidf gftDffbultSdrffnDfvidf() {
+        GrbpiidsDfvidf[] sdrffns = gftSdrffnDfvidfs();
+        if (sdrffns.lfngti == 0) {
+            tirow nfw AWTError("no sdrffn dfvidfs");
         }
-        return screens[0];
+        rfturn sdrffns[0];
     }
 
     /**
-     * Returns a Graphics2D object for rendering into the
-     * given BufferedImage.
-     * @throws NullPointerException if BufferedImage argument is null
+     * Rfturns b Grbpiids2D objfdt for rfndfring into tif
+     * givfn BufffrfdImbgf.
+     * @tirows NullPointfrExdfption if BufffrfdImbgf brgumfnt is null
      */
-    public Graphics2D createGraphics(BufferedImage img) {
+    publid Grbpiids2D drfbtfGrbpiids(BufffrfdImbgf img) {
         if (img == null) {
-            throw new NullPointerException("BufferedImage cannot be null");
+            tirow nfw NullPointfrExdfption("BufffrfdImbgf dbnnot bf null");
         }
-        SurfaceData sd = SurfaceData.getPrimarySurfaceData(img);
-        return new SunGraphics2D(sd, Color.white, Color.black, defaultFont);
+        SurfbdfDbtb sd = SurfbdfDbtb.gftPrimbrySurfbdfDbtb(img);
+        rfturn nfw SunGrbpiids2D(sd, Color.wiitf, Color.blbdk, dffbultFont);
     }
 
-    public static FontManagerForSGE getFontManagerForSGE() {
-        FontManager fm = FontManagerFactory.getInstance();
-        return (FontManagerForSGE) fm;
+    publid stbtid FontMbnbgfrForSGE gftFontMbnbgfrForSGE() {
+        FontMbnbgfr fm = FontMbnbgfrFbdtory.gftInstbndf();
+        rfturn (FontMbnbgfrForSGE) fm;
     }
 
-    /* Modifies the behaviour of a subsequent call to preferLocaleFonts()
-     * to use Mincho instead of Gothic for dialoginput in JA locales
-     * on windows. Not needed on other platforms.
+    /* Modififs tif bfibviour of b subsfqufnt dbll to prfffrLodblfFonts()
+     * to usf Mindio instfbd of Gotiid for dibloginput in JA lodblfs
+     * on windows. Not nffdfd on otifr plbtforms.
      *
      * DO NOT MOVE OR RENAME OR OTHERWISE ALTER THIS METHOD.
      * ITS USED BY SOME NON-JRE INTERNAL CODE.
      */
-    public static void useAlternateFontforJALocales() {
-        getFontManagerForSGE().useAlternateFontforJALocales();
+    publid stbtid void usfAltfrnbtfFontforJALodblfs() {
+        gftFontMbnbgfrForSGE().usfAltfrnbtfFontforJALodblfs();
     }
 
      /**
-     * Returns all fonts available in this environment.
+     * Rfturns bll fonts bvbilbblf in tiis fnvironmfnt.
      */
-    public Font[] getAllFonts() {
-        FontManagerForSGE fm = getFontManagerForSGE();
-        Font[] installedFonts = fm.getAllInstalledFonts();
-        Font[] created = fm.getCreatedFonts();
-        if (created == null || created.length == 0) {
-            return installedFonts;
-        } else {
-            int newlen = installedFonts.length + created.length;
-            Font [] fonts = java.util.Arrays.copyOf(installedFonts, newlen);
-            System.arraycopy(created, 0, fonts,
-                             installedFonts.length, created.length);
-            return fonts;
+    publid Font[] gftAllFonts() {
+        FontMbnbgfrForSGE fm = gftFontMbnbgfrForSGE();
+        Font[] instbllfdFonts = fm.gftAllInstbllfdFonts();
+        Font[] drfbtfd = fm.gftCrfbtfdFonts();
+        if (drfbtfd == null || drfbtfd.lfngti == 0) {
+            rfturn instbllfdFonts;
+        } flsf {
+            int nfwlfn = instbllfdFonts.lfngti + drfbtfd.lfngti;
+            Font [] fonts = jbvb.util.Arrbys.dopyOf(instbllfdFonts, nfwlfn);
+            Systfm.brrbydopy(drfbtfd, 0, fonts,
+                             instbllfdFonts.lfngti, drfbtfd.lfngti);
+            rfturn fonts;
         }
     }
 
-    public String[] getAvailableFontFamilyNames(Locale requestedLocale) {
-        FontManagerForSGE fm = getFontManagerForSGE();
-        String[] installed = fm.getInstalledFontFamilyNames(requestedLocale);
-        /* Use a new TreeMap as used in getInstalledFontFamilyNames
-         * and insert all the keys in lower case, so that the sort order
-         * is the same as the installed families. This preserves historical
-         * behaviour and inserts new families in the right place.
-         * It would have been marginally more efficient to directly obtain
-         * the tree map and just insert new entries, but not so much as
-         * to justify the extra internal interface.
+    publid String[] gftAvbilbblfFontFbmilyNbmfs(Lodblf rfqufstfdLodblf) {
+        FontMbnbgfrForSGE fm = gftFontMbnbgfrForSGE();
+        String[] instbllfd = fm.gftInstbllfdFontFbmilyNbmfs(rfqufstfdLodblf);
+        /* Usf b nfw TrffMbp bs usfd in gftInstbllfdFontFbmilyNbmfs
+         * bnd insfrt bll tif kfys in lowfr dbsf, so tibt tif sort ordfr
+         * is tif sbmf bs tif instbllfd fbmilifs. Tiis prfsfrvfs iistoridbl
+         * bfibviour bnd insfrts nfw fbmilifs in tif rigit plbdf.
+         * It would ibvf bffn mbrginblly morf fffidifnt to dirfdtly obtbin
+         * tif trff mbp bnd just insfrt nfw fntrifs, but not so mudi bs
+         * to justify tif fxtrb intfrnbl intfrfbdf.
          */
-        TreeMap<String, String> map = fm.getCreatedFontFamilyNames();
-        if (map == null || map.size() == 0) {
-            return installed;
-        } else {
-            for (int i=0; i<installed.length; i++) {
-                map.put(installed[i].toLowerCase(requestedLocale),
-                        installed[i]);
+        TrffMbp<String, String> mbp = fm.gftCrfbtfdFontFbmilyNbmfs();
+        if (mbp == null || mbp.sizf() == 0) {
+            rfturn instbllfd;
+        } flsf {
+            for (int i=0; i<instbllfd.lfngti; i++) {
+                mbp.put(instbllfd[i].toLowfrCbsf(rfqufstfdLodblf),
+                        instbllfd[i]);
             }
-            String[] retval =  new String[map.size()];
-            Object [] keyNames = map.keySet().toArray();
-            for (int i=0; i < keyNames.length; i++) {
-                retval[i] = map.get(keyNames[i]);
+            String[] rftvbl =  nfw String[mbp.sizf()];
+            Objfdt [] kfyNbmfs = mbp.kfySft().toArrby();
+            for (int i=0; i < kfyNbmfs.lfngti; i++) {
+                rftvbl[i] = mbp.gft(kfyNbmfs[i]);
             }
-            return retval;
+            rfturn rftvbl;
         }
     }
 
-    public String[] getAvailableFontFamilyNames() {
-        return getAvailableFontFamilyNames(Locale.getDefault());
+    publid String[] gftAvbilbblfFontFbmilyNbmfs() {
+        rfturn gftAvbilbblfFontFbmilyNbmfs(Lodblf.gftDffbult());
     }
 
     /**
-     * Return the bounds of a GraphicsDevice, less its screen insets.
-     * See also java.awt.GraphicsEnvironment.getUsableBounds();
+     * Rfturn tif bounds of b GrbpiidsDfvidf, lfss its sdrffn insfts.
+     * Sff blso jbvb.bwt.GrbpiidsEnvironmfnt.gftUsbblfBounds();
      */
-    public static Rectangle getUsableBounds(GraphicsDevice gd) {
-        GraphicsConfiguration gc = gd.getDefaultConfiguration();
-        Insets insets = Toolkit.getDefaultToolkit().getScreenInsets(gc);
-        Rectangle usableBounds = gc.getBounds();
+    publid stbtid Rfdtbnglf gftUsbblfBounds(GrbpiidsDfvidf gd) {
+        GrbpiidsConfigurbtion gd = gd.gftDffbultConfigurbtion();
+        Insfts insfts = Toolkit.gftDffbultToolkit().gftSdrffnInsfts(gd);
+        Rfdtbnglf usbblfBounds = gd.gftBounds();
 
-        usableBounds.x += insets.left;
-        usableBounds.y += insets.top;
-        usableBounds.width -= (insets.left + insets.right);
-        usableBounds.height -= (insets.top + insets.bottom);
+        usbblfBounds.x += insfts.lfft;
+        usbblfBounds.y += insfts.top;
+        usbblfBounds.widti -= (insfts.lfft + insfts.rigit);
+        usbblfBounds.ifigit -= (insfts.top + insfts.bottom);
 
-        return usableBounds;
+        rfturn usbblfBounds;
     }
 
     /**
-     * From the DisplayChangedListener interface; called
-     * when the display mode has been changed.
+     * From tif DisplbyCibngfdListfnfr intfrfbdf; dbllfd
+     * wifn tif displby modf ibs bffn dibngfd.
      */
-    public void displayChanged() {
-        // notify screens in device array to do display update stuff
-        for (GraphicsDevice gd : getScreenDevices()) {
-            if (gd instanceof DisplayChangedListener) {
-                ((DisplayChangedListener) gd).displayChanged();
+    publid void displbyCibngfd() {
+        // notify sdrffns in dfvidf brrby to do displby updbtf stuff
+        for (GrbpiidsDfvidf gd : gftSdrffnDfvidfs()) {
+            if (gd instbndfof DisplbyCibngfdListfnfr) {
+                ((DisplbyCibngfdListfnfr) gd).displbyCibngfd();
             }
         }
 
-        // notify SunDisplayChanger list (e.g. VolatileSurfaceManagers and
-        // SurfaceDataProxies) about the display change event
-        displayChanger.notifyListeners();
+        // notify SunDisplbyCibngfr list (f.g. VolbtilfSurfbdfMbnbgfrs bnd
+        // SurfbdfDbtbProxifs) bbout tif displby dibngf fvfnt
+        displbyCibngfr.notifyListfnfrs();
     }
 
     /**
-     * Part of the DisplayChangedListener interface:
-     * propagate this event to listeners
+     * Pbrt of tif DisplbyCibngfdListfnfr intfrfbdf:
+     * propbgbtf tiis fvfnt to listfnfrs
      */
-    public void paletteChanged() {
-        displayChanger.notifyPaletteChanged();
+    publid void pblfttfCibngfd() {
+        displbyCibngfr.notifyPblfttfCibngfd();
     }
 
     /**
-     * Returns true when the display is local, false for remote displays.
+     * Rfturns truf wifn tif displby is lodbl, fblsf for rfmotf displbys.
      *
-     * @return true when the display is local, false for remote displays
+     * @rfturn truf wifn tif displby is lodbl, fblsf for rfmotf displbys
      */
-    public abstract boolean isDisplayLocal();
+    publid bbstrbdt boolfbn isDisplbyLodbl();
 
     /*
      * ----DISPLAY CHANGE SUPPORT----
      */
 
-    protected SunDisplayChanger displayChanger = new SunDisplayChanger();
+    protfdtfd SunDisplbyCibngfr displbyCibngfr = nfw SunDisplbyCibngfr();
 
     /**
-     * Add a DisplayChangeListener to be notified when the display settings
-     * are changed.
+     * Add b DisplbyCibngfListfnfr to bf notififd wifn tif displby sfttings
+     * brf dibngfd.
      */
-    public void addDisplayChangedListener(DisplayChangedListener client) {
-        displayChanger.add(client);
+    publid void bddDisplbyCibngfdListfnfr(DisplbyCibngfdListfnfr dlifnt) {
+        displbyCibngfr.bdd(dlifnt);
     }
 
     /**
-     * Remove a DisplayChangeListener from Win32GraphicsEnvironment
+     * Rfmovf b DisplbyCibngfListfnfr from Win32GrbpiidsEnvironmfnt
      */
-    public void removeDisplayChangedListener(DisplayChangedListener client) {
-        displayChanger.remove(client);
+    publid void rfmovfDisplbyCibngfdListfnfr(DisplbyCibngfdListfnfr dlifnt) {
+        displbyCibngfr.rfmovf(dlifnt);
     }
 
     /*
@@ -327,16 +327,16 @@ public abstract class SunGraphicsEnvironment extends GraphicsEnvironment
      */
 
     /**
-     * Returns true if FlipBufferStrategy with COPIED buffer contents
-     * is preferred for this peer's GraphicsConfiguration over
-     * BlitBufferStrategy, false otherwise.
+     * Rfturns truf if FlipBufffrStrbtfgy witi COPIED bufffr dontfnts
+     * is prfffrrfd for tiis pffr's GrbpiidsConfigurbtion ovfr
+     * BlitBufffrStrbtfgy, fblsf otifrwisf.
      *
-     * The reason FlipBS could be preferred is that in some configurations
-     * an accelerated copy to the screen is supported (like Direct3D 9)
+     * Tif rfbson FlipBS dould bf prfffrrfd is tibt in somf donfigurbtions
+     * bn bddflfrbtfd dopy to tif sdrffn is supportfd (likf Dirfdt3D 9)
      *
-     * @return true if flip strategy should be used, false otherwise
+     * @rfturn truf if flip strbtfgy siould bf usfd, fblsf otifrwisf
      */
-    public boolean isFlipStrategyPreferred(ComponentPeer peer) {
-        return false;
+    publid boolfbn isFlipStrbtfgyPrfffrrfd(ComponfntPffr pffr) {
+        rfturn fblsf;
     }
 }

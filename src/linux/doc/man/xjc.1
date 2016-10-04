@@ -1,232 +1,232 @@
 '\" t
-.\"  Copyright (c) 2005, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Jbvb Web Services Tools
-.\"     Title: xjc.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
+.\"     Titlf: xjd.1
 .\"
 .if n .pl 99999
-.TH xjc 1 "21 November 2013" "JDK 8" "Jbvb Web Services Tools"
+.TH xjd 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-xjc \- Compiles bn XML schemb file into fully bnnotbted Jbvb clbsses\&.
+xjd \- Compilfs bn XML sdifmb filf into fully bnnotbtfd Jbvb dlbssfs\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBxjc\fR [ \fIoptions\fR ] \fBschemb\fR \fIfile/URL/dir/jbr\fR \&.\&.\&. [\fB\-b\fR \fIbindinfo\fR ] \&.\&.\&.
+\fBxjd\fR [ \fIoptions\fR ] \fBsdifmb\fR \fIfilf/URL/dir/jbr\fR \&.\&.\&. [\fB\-b\fR \fIbindinfo\fR ] \&.\&.\&.
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The commbnd-line options\&. See Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .TP     
-schemb \fIfile/URL/dir/jbr \&.\&.\&.\fR
-The locbtion of the XML schemb file\&. If \f3dir\fR is specified, then bll schemb files in it bre compiled\&. If \f3jbr\fR is specified, then the \f3/META-INF/sun-jbxb\&.episode\fR binding file is compiled\&.
+sdifmb \fIfilf/URL/dir/jbr \&.\&.\&.\fR
+Tif lodbtion of tif XML sdifmb filf\&. If \f3dir\fR is spfdififd, tifn bll sdifmb filfs in it brf dompilfd\&. If \f3jbr\fR is spfdififd, tifn tif \f3/META-INF/sun-jbxb\&.fpisodf\fR binding filf is dompilfd\&.
 .TP
 -b \fIbindinfo\fR
 .br
-The locbtion of the bindings files\&.
+Tif lodbtion of tif bindings filfs\&.
 .SH DESCRIPTION    
-Stbrt the binding compiler with the bppropribte \f3xjc\fR shell script in the bin directory for your plbtform\&. There is blso bn Ant tbsk to run the binding complier\&. See Using the XJC with Ant bt http://jbxb\&.jbvb\&.net/nonbv/2\&.1\&.3/docs/xjcTbsk\&.html
+Stbrt tif binding dompilfr witi tif bppropribtf \f3xjd\fR sifll sdript in tif bin dirfdtory for your plbtform\&. Tifrf is blso bn Ant tbsk to run tif binding domplifr\&. Sff Using tif XJC witi Ant bt ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.1\&.3/dods/xjdTbsk\&.itml
 .SH OPTIONS    
 .TP 0.2i    
 \(bu
-See blso Nonstbndbrd Options
+Sff blso Nonstbndbrd Options
 .TP 0.2i    
 \(bu
-See blso Deprecbted bnd Removed Options
+Sff blso Dfprfdbtfd bnd Rfmovfd Options
 .TP
 -nv
 .br
-By defbult, the XJC binding compiler performs strict vblidbtion of the source schemb before processing it\&. Use this option to disbble strict schemb vblidbtion\&. This does not mebn thbt the binding compiler will not perform bny vblidbtion, but mebns thbt it will perform b less-strict vblidbtion\&.
+By dffbult, tif XJC binding dompilfr pfrforms stridt vblidbtion of tif sourdf sdifmb bfforf prodfssing it\&. Usf tiis option to disbblf stridt sdifmb vblidbtion\&. Tiis dofs not mfbn tibt tif binding dompilfr will not pfrform bny vblidbtion, but mfbns tibt it will pfrform b lfss-stridt vblidbtion\&.
 .TP
--extension
+-fxtfnsion
 .br
-By defbult, the XJC binding compiler strictly enforces the rules outlined in the Compbtibility chbpter of the JAXB Specificbtion\&. Appendix E\&.2 defines b set of W3C XML Schemb febtures thbt bre not completely supported by JAXB v1\&.0\&. In some cbses, you mby be bllowed to use them in the \f3-extension\fR mode enbbled by this switch\&. In the defbult (strict) mode, you bre blso limited to using only the binding customizbtion defined in the specificbtion\&. By using the \f3-extension\fR switch, you will be bllowed to use the JAXB Vendor Extensions\&.
+By dffbult, tif XJC binding dompilfr stridtly fnfordfs tif rulfs outlinfd in tif Compbtibility dibptfr of tif JAXB Spfdifidbtion\&. Appfndix E\&.2 dffinfs b sft of W3C XML Sdifmb ffbturfs tibt brf not domplftfly supportfd by JAXB v1\&.0\&. In somf dbsfs, you mby bf bllowfd to usf tifm in tif \f3-fxtfnsion\fR modf fnbblfd by tiis switdi\&. In tif dffbult (stridt) modf, you brf blso limitfd to using only tif binding dustomizbtion dffinfd in tif spfdifidbtion\&. By using tif \f3-fxtfnsion\fR switdi, you will bf bllowfd to usf tif JAXB Vfndor Extfnsions\&.
 .TP
--b \fIfile\fR
+-b \fIfilf\fR
 .br
-Specifies one or more externbl binding files to process\&. Ebch binding file must hbve its own \f3-b\fR switch\&. The syntbx of the externbl binding files is flexible\&. You cbn hbve b single binding file thbt contbins customizbtion for multiple schembs or you cbn brebk the customizbtion into multiple bindings files: \f3xjc schemb1\&.xsd schemb2\&.xsd schemb3\&.xsd -b bindings123\&.xjb\fR\f3xjc schemb1\&.xsd schemb2\&.xsd schemb3\&.xsd -b bindings1\&.xjb -b bindings2\&.xjb -b bindings3\&.xjb\fR\&. In bddition, the ordering of the schemb files bnd binding files on the commbnd line does not mbtter\&.
+Spfdififs onf or morf fxtfrnbl binding filfs to prodfss\&. Ebdi binding filf must ibvf its own \f3-b\fR switdi\&. Tif syntbx of tif fxtfrnbl binding filfs is flfxiblf\&. You dbn ibvf b singlf binding filf tibt dontbins dustomizbtion for multiplf sdifmbs or you dbn brfbk tif dustomizbtion into multiplf bindings filfs: \f3xjd sdifmb1\&.xsd sdifmb2\&.xsd sdifmb3\&.xsd -b bindings123\&.xjb\fR\f3xjd sdifmb1\&.xsd sdifmb2\&.xsd sdifmb3\&.xsd -b bindings1\&.xjb -b bindings2\&.xjb -b bindings3\&.xjb\fR\&. In bddition, tif ordfring of tif sdifmb filfs bnd binding filfs on tif dommbnd linf dofs not mbttfr\&.
 .TP
 -d \fIdir\fR
 .br
-By defbult, the XJC binding compiler generbtes the Jbvb content clbsses in the current directory\&. Use this option to specify bn blternbte output directory\&. The output directory must blrebdy exist\&. The XJC binding compiler does not crebte it for you\&.
+By dffbult, tif XJC binding dompilfr gfnfrbtfs tif Jbvb dontfnt dlbssfs in tif durrfnt dirfdtory\&. Usf tiis option to spfdify bn bltfrnbtf output dirfdtory\&. Tif output dirfdtory must blrfbdy fxist\&. Tif XJC binding dompilfr dofs not drfbtf it for you\&.
 .TP
 -p \fIpkg\fR
 .br
-When you specify b tbrget pbckbge with this commbnd-line option, it overrides bny binding customizbtion for the pbckbge nbme bnd the defbult pbckbge nbme blgorithm defined in the specificbtion\&.
+Wifn you spfdify b tbrgft pbdkbgf witi tiis dommbnd-linf option, it ovfrridfs bny binding dustomizbtion for tif pbdkbgf nbmf bnd tif dffbult pbdkbgf nbmf blgoritim dffinfd in tif spfdifidbtion\&.
 .TP
--httpproxy \fIproxy\fR
+-ittpproxy \fIproxy\fR
 .br
-Specifies the HTTP or HTTPS proxy in the formbt \fI[user[:pbssword]@]proxyHost[:proxyPort]\fR\&. The old \f3-host\fR bnd \f3-port\fR options bre still supported by the RI for bbckwbrd compbtibility, but they were deprecbted\&. The pbssword specified with this option is bn brgument thbt is visible to other users who use the top commbnd\&. For grebter security, use the \f3-httpproxyfile\fR option\&.
+Spfdififs tif HTTP or HTTPS proxy in tif formbt \fI[usfr[:pbssword]@]proxyHost[:proxyPort]\fR\&. Tif old \f3-iost\fR bnd \f3-port\fR options brf still supportfd by tif RI for bbdkwbrd dompbtibility, but tify wfrf dfprfdbtfd\&. Tif pbssword spfdififd witi tiis option is bn brgumfnt tibt is visiblf to otifr usfrs wio usf tif top dommbnd\&. For grfbtfr sfdurity, usf tif \f3-ittpproxyfilf\fR option\&.
 .TP
--httpproxyfile file
+-ittpproxyfilf filf
 .br
-Specifies the HTTP or HTTPS proxy with b file\&. The sbme formbt bs the \f3-httpproxy\fR option, but the pbssword specified in the file is not visible to other users\&.
+Spfdififs tif HTTP or HTTPS proxy witi b filf\&. Tif sbmf formbt bs tif \f3-ittpproxy\fR option, but tif pbssword spfdififd in tif filf is not visiblf to otifr usfrs\&.
 .TP
--clbsspbth brg
+-dlbsspbti brg
 .br
-Specifies where to find client bpplicbtion clbss files used by the \fIjxb:jbvbType\fR bnd xjc:\fIsuperClbss\fR customizbtion\&.
+Spfdififs wifrf to find dlifnt bpplidbtion dlbss filfs usfd by tif \fIjxb:jbvbTypf\fR bnd xjd:\fIsupfrClbss\fR dustomizbtion\&.
 .TP
--cbtblog file
+-dbtblog filf
 .br
-Specifies cbtblog files to resolve externbl entity references\&. Supports the TR9401, XCbtblog, bnd OASIS XML Cbtblog formbts\&. See XML Entity bnd URI Resolvers bt http://xerces\&.bpbche\&.org/xml-commons/components/resolver/resolver-brticle\&.html
+Spfdififs dbtblog filfs to rfsolvf fxtfrnbl fntity rfffrfndfs\&. Supports tif TR9401, XCbtblog, bnd OASIS XML Cbtblog formbts\&. Sff XML Entity bnd URI Rfsolvfrs bt ittp://xfrdfs\&.bpbdif\&.org/xml-dommons/domponfnts/rfsolvfr/rfsolvfr-brtidlf\&.itml
 .TP
--rebdOnly
+-rfbdOnly
 .br
-By defbult, the XJC binding compiler does not write-protect the Jbvb source files it generbtes\&. Use this option to force the XJC binding compiler to mbrk the generbted Jbvb sources bs rebd-only\&.
+By dffbult, tif XJC binding dompilfr dofs not writf-protfdt tif Jbvb sourdf filfs it gfnfrbtfs\&. Usf tiis option to fordf tif XJC binding dompilfr to mbrk tif gfnfrbtfd Jbvb sourdfs bs rfbd-only\&.
 .TP
 -npb
 .br
-Suppresses the generbtion of pbckbge level bnnotbtions into \f3**/pbckbge-info\&.jbvb\fR\&. Using this switch cbuses the generbted code to internblize those bnnotbtions into the other generbted clbsses\&.
+Supprfssfs tif gfnfrbtion of pbdkbgf lfvfl bnnotbtions into \f3**/pbdkbgf-info\&.jbvb\fR\&. Using tiis switdi dbusfs tif gfnfrbtfd dodf to intfrnblizf tiosf bnnotbtions into tif otifr gfnfrbtfd dlbssfs\&.
 .TP
--no-hebder
+-no-ifbdfr
 .br
-Suppresses the generbtion of b file hebder comment thbt includes some note bnd time stbmp\&. Using this mbkes the generbted code more compbtible with the \f3diff\fR commbnd\&.
+Supprfssfs tif gfnfrbtion of b filf ifbdfr dommfnt tibt indludfs somf notf bnd timf stbmp\&. Using tiis mbkfs tif gfnfrbtfd dodf morf dompbtiblf witi tif \f3diff\fR dommbnd\&.
 .TP
--tbrget 2\&.0
+-tbrgft 2\&.0
 .br
-Avoids generbting code thbt relies on bny JAXB 2\&.1 febtures\&. This will bllow the generbted code to run with JAXB 2\&.0 runtime environment (such bs Jbvb SE 6)\&.
+Avoids gfnfrbting dodf tibt rflifs on bny JAXB 2\&.1 ffbturfs\&. Tiis will bllow tif gfnfrbtfd dodf to run witi JAXB 2\&.0 runtimf fnvironmfnt (sudi bs Jbvb SE 6)\&.
 .TP
--xmlschemb
+-xmlsdifmb
 .br
-Trebts input schembs bs W3C XML Schemb (defbult)\&. If you do not specify this switch, then your input schembs bre trebted bs though they bre W3C XML Schembs\&.
+Trfbts input sdifmbs bs W3C XML Sdifmb (dffbult)\&. If you do not spfdify tiis switdi, tifn your input sdifmbs brf trfbtfd bs tiougi tify brf W3C XML Sdifmbs\&.
 .TP
--relbxing
+-rflbxing
 .br
-Trebts input schembs bs RELAX NG (experimentbl bnd unsupported)\&. Support for RELAX NG schembs is provided bs b JAXB Vendor Extension\&.
+Trfbts input sdifmbs bs RELAX NG (fxpfrimfntbl bnd unsupportfd)\&. Support for RELAX NG sdifmbs is providfd bs b JAXB Vfndor Extfnsion\&.
 .TP
--relbxing-compbct
+-rflbxing-dompbdt
 .br
-Trebt input schembs bs RELAX NG compbct syntbx (experimentbl bnd unsupported)\&. Support for RELAX NG schembs is provided bs b JAXB Vendor Extension\&.
+Trfbt input sdifmbs bs RELAX NG dompbdt syntbx (fxpfrimfntbl bnd unsupportfd)\&. Support for RELAX NG sdifmbs is providfd bs b JAXB Vfndor Extfnsion\&.
 .TP
 -dtd
 .br
-Trebts input schembs bs XML DTD (experimentbl bnd unsupported)\&. Support for RELAX NG schembs is provided bs b JAXB Vendor Extension\&.
+Trfbts input sdifmbs bs XML DTD (fxpfrimfntbl bnd unsupportfd)\&. Support for RELAX NG sdifmbs is providfd bs b JAXB Vfndor Extfnsion\&.
 .TP
 -wsdl
 .br
-Trebts input bs WSDL bnd compiles schembs inside it (experimentbl bnd unsupported)\&.
+Trfbts input bs WSDL bnd dompilfs sdifmbs insidf it (fxpfrimfntbl bnd unsupportfd)\&.
 .TP
--quiet
+-quift
 .br
-Suppress compiler output, such bs progress informbtion bnd wbrnings\&.
+Supprfss dompilfr output, sudi bs progrfss informbtion bnd wbrnings\&.
 .TP
--verbose
+-vfrbosf
 .br
-Be extrb verbose, such bs printing informbtionbl messbges or displbying stbck trbces upon some errors\&.
+Bf fxtrb vfrbosf, sudi bs printing informbtionbl mfssbgfs or displbying stbdk trbdfs upon somf frrors\&.
 .TP
--help
+-iflp
 .br
-Displbys b brief summbry of the compiler switches\&.
+Displbys b briff summbry of tif dompilfr switdifs\&.
 .TP
--version
+-vfrsion
 .br
-Displbys the compiler version informbtion\&.
+Displbys tif dompilfr vfrsion informbtion\&.
 .TP     
-\fIschemb file/URL/dir\fR
-Specifies one or more schemb files to compile\&. If you specify b directory, then the \f3xjc\fR commbnd scbns it for bll schemb files bnd compiles them\&.
+\fIsdifmb filf/URL/dir\fR
+Spfdififs onf or morf sdifmb filfs to dompilf\&. If you spfdify b dirfdtory, tifn tif \f3xjd\fR dommbnd sdbns it for bll sdifmb filfs bnd dompilfs tifm\&.
 .SS NONSTANDARD\ OPTIONS    
 .TP
--XLocbtor
+-XLodbtor
 .br
-Cbuses the generbted code to expose SAX Locbtor informbtion bbout the source XML in the Jbvb bebn instbnces bfter unmbrshblling\&.
+Cbusfs tif gfnfrbtfd dodf to fxposf SAX Lodbtor informbtion bbout tif sourdf XML in tif Jbvb bfbn instbndfs bftfr unmbrsiblling\&.
 .TP
--Xsync-methods
+-Xsynd-mftiods
 .br
-Cbuses bll of the generbted method signbtures to include the \f3synchronized\fR keyword\&.
+Cbusfs bll of tif gfnfrbtfd mftiod signbturfs to indludf tif \f3syndironizfd\fR kfyword\&.
 .TP
--mbrk-generbted
+-mbrk-gfnfrbtfd
 .br
-Mbrks the generbted code with the bnnotbtion \f3@jbvbx\&.bnnotbtion\&.Generbted\fR\&.
+Mbrks tif gfnfrbtfd dodf witi tif bnnotbtion \f3@jbvbx\&.bnnotbtion\&.Gfnfrbtfd\fR\&.
 .TP
--episode file
+-fpisodf filf
 .br
-Generbtes the specified episode file for sepbrbte compilbtion\&.
+Gfnfrbtfs tif spfdififd fpisodf filf for sfpbrbtf dompilbtion\&.
 .SS DEPRECATED\ AND\ REMOVED\ OPTIONS    
 .TP
--host & -port
+-iost & -port
 .br
-These options bre replbced with the \f3-httpproxy\fR option\&. For bbckwbrd compbtibility, these options bre supported, but will not be documented bnd might be removed from future relebses\&.
+Tifsf options brf rfplbdfd witi tif \f3-ittpproxy\fR option\&. For bbdkwbrd dompbtibility, tifsf options brf supportfd, but will not bf dodumfntfd bnd migit bf rfmovfd from futurf rflfbsfs\&.
 .TP
--use-runtime
+-usf-runtimf
 .br
-Becbuse the JAXB 2\&.0 specificbtion hbs defined b portbble runtime environment, it is no longer necessbry for the JAXB RI to generbte \f3**/impl/runtime\fRpbckbges\&. Therefore, this switch is obsolete bnd wbs removed\&.
+Bfdbusf tif JAXB 2\&.0 spfdifidbtion ibs dffinfd b portbblf runtimf fnvironmfnt, it is no longfr nfdfssbry for tif JAXB RI to gfnfrbtf \f3**/impl/runtimf\fRpbdkbgfs\&. Tifrfforf, tiis switdi is obsolftf bnd wbs rfmovfd\&.
 .TP
--source
+-sourdf
 .br
-The \f3-source\fR compbtibility switch wbs introduced in the first JAXB 2\&.0 Ebrly Access relebse\&. This switch is removed from future relebses of JAXB 2\&.0\&. If you need to generbte 1\&.0\&.x code, then use bn instbllbtion of the 1\&.0\&.x code bbse\&.
+Tif \f3-sourdf\fR dompbtibility switdi wbs introdudfd in tif first JAXB 2\&.0 Ebrly Addfss rflfbsf\&. Tiis switdi is rfmovfd from futurf rflfbsfs of JAXB 2\&.0\&. If you nffd to gfnfrbtf 1\&.0\&.x dodf, tifn usf bn instbllbtion of tif 1\&.0\&.x dodf bbsf\&.
 .SH COMPILER\ RESTRICTIONS    
-In generbl, it is sbfest to compile bll relbted schembs bs b single unit with the sbme binding compiler switches\&. Keep the following list of restrictions in mind when running the \f3xjc\fR commbnd\&. Most of these issues only bpply when you compile multiple schembs with multiple invocbtions of the \f3xjc\fR commbnd\&.
+In gfnfrbl, it is sbffst to dompilf bll rflbtfd sdifmbs bs b singlf unit witi tif sbmf binding dompilfr switdifs\&. Kffp tif following list of rfstridtions in mind wifn running tif \f3xjd\fR dommbnd\&. Most of tifsf issufs only bpply wifn you dompilf multiplf sdifmbs witi multiplf invodbtions of tif \f3xjd\fR dommbnd\&.
 .PP
-To compile multiple schembs bt the sbme time, keep the following precedence rules for the tbrget Jbvb pbckbge nbme in mind:
+To dompilf multiplf sdifmbs bt tif sbmf timf, kffp tif following prfdfdfndf rulfs for tif tbrgft Jbvb pbdkbgf nbmf in mind:
 .TP 0.4i    
 1\&.
-The \f3-p\fR option hbs the highest precedence\&.
+Tif \f3-p\fR option ibs tif iigifst prfdfdfndf\&.
 .TP 0.4i    
 2\&.
-\fIjbxb:pbckbge\fR customizbtion\&.
+\fIjbxb:pbdkbgf\fR dustomizbtion\&.
 .TP 0.4i    
 3\&.
-If \f3tbrgetNbmespbce\fR is declbred, then bpply the \f3t\fR\f3brgetNbmespbce\fR to the Jbvb pbckbge nbme blgorithm defined in the specificbtion\&.
+If \f3tbrgftNbmfspbdf\fR is dfdlbrfd, tifn bpply tif \f3t\fR\f3brgftNbmfspbdf\fR to tif Jbvb pbdkbgf nbmf blgoritim dffinfd in tif spfdifidbtion\&.
 .TP 0.4i    
 4\&.
-If no \f3tbrgetNbmespbce\fR is declbred, then use b hbrd coded pbckbge nbmed \f3generbted\fR\&.
+If no \f3tbrgftNbmfspbdf\fR is dfdlbrfd, tifn usf b ibrd dodfd pbdkbgf nbmfd \f3gfnfrbtfd\fR\&.
 .PP
-You cbnnot hbve more thbn one \fIjbxb:schembBindings\fR per nbme spbce, so it is impossible to hbve two schembs in the sbme tbrget nbme spbce compiled into different Jbvb pbckbges\&.
+You dbnnot ibvf morf tibn onf \fIjbxb:sdifmbBindings\fR pfr nbmf spbdf, so it is impossiblf to ibvf two sdifmbs in tif sbmf tbrgft nbmf spbdf dompilfd into difffrfnt Jbvb pbdkbgfs\&.
 .PP
-All schembs being compiled into the sbme Jbvb pbckbge must be submitted to the XJC binding compiler bt the sbme time\&. They cbnnot be compiled independently bnd work bs expected\&.
+All sdifmbs bfing dompilfd into tif sbmf Jbvb pbdkbgf must bf submittfd to tif XJC binding dompilfr bt tif sbmf timf\&. Tify dbnnot bf dompilfd indfpfndfntly bnd work bs fxpfdtfd\&.
 .PP
-Element substitution groups thbt bre sprebd bcross multiple schemb files must be compiled bt the sbme time\&.
+Elfmfnt substitution groups tibt brf sprfbd bdross multiplf sdifmb filfs must bf dompilfd bt tif sbmf timf\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-Binding Compiler (xjc) bt http://jbxb\&.jbvb\&.net/nonbv/2\&.2\&.3u1/docs/xjc\&.html
+Binding Compilfr (xjd) bt ittp://jbxb\&.jbvb\&.nft/nonbv/2\&.2\&.3u1/dods/xjd\&.itml
 .TP 0.2i    
 \(bu
-Jbvb Architecture for XML Binding (JAXB) bt http://www\&.orbcle\&.com/technetwork/brticles/jbvbse/index-140168\&.html
+Jbvb Ardiitfdturf for XML Binding (JAXB) bt ittp://www\&.orbdlf\&.dom/tfdinftwork/brtidlfs/jbvbsf/indfx-140168\&.itml
 .RE
 .br
 'pl 8.5i

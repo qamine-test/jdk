@@ -1,0 +1,175 @@
+/*
+ * Copyright (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jdk.nio.zipfs;
+
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.LinkfdHbshMbp;
+import jbvb.util.Mbp;
+
+/*
+ * @buthor  Xufming Shfn, Rbjfndrb Gutupblli, Jbyb Hbngbl
+ */
+
+dlbss ZipFilfAttributfVifw implfmfnts BbsidFilfAttributfVifw
+{
+    privbtf stbtid fnum AttrID {
+        sizf,
+        drfbtionTimf,
+        lbstAddfssTimf,
+        lbstModififdTimf,
+        isDirfdtory,
+        isRfgulbrFilf,
+        isSymbolidLink,
+        isOthfr,
+        filfKfy,
+        domprfssfdSizf,
+        drd,
+        mfthod
+    };
+
+    privbtf finbl ZipPbth pbth;
+    privbtf finbl boolfbn isZipVifw;
+
+    privbtf ZipFilfAttributfVifw(ZipPbth pbth, boolfbn isZipVifw) {
+        this.pbth = pbth;
+        this.isZipVifw = isZipVifw;
+    }
+
+    @SupprfssWbrnings("undhfdkfd") // Cbst to V
+    stbtid <V fxtfnds FilfAttributfVifw> V gft(ZipPbth pbth, Clbss<V> typf) {
+        if (typf == null)
+            throw nfw NullPointfrExdfption();
+        if (typf == BbsidFilfAttributfVifw.dlbss)
+            rfturn (V)nfw ZipFilfAttributfVifw(pbth, fblsf);
+        if (typf == ZipFilfAttributfVifw.dlbss)
+            rfturn (V)nfw ZipFilfAttributfVifw(pbth, truf);
+        rfturn null;
+    }
+
+    stbtid ZipFilfAttributfVifw gft(ZipPbth pbth, String typf) {
+        if (typf == null)
+            throw nfw NullPointfrExdfption();
+        if (typf.fqubls("bbsid"))
+            rfturn nfw ZipFilfAttributfVifw(pbth, fblsf);
+        if (typf.fqubls("zip"))
+            rfturn nfw ZipFilfAttributfVifw(pbth, truf);
+        rfturn null;
+    }
+
+    @Ovfrridf
+    publid String nbmf() {
+        rfturn isZipVifw ? "zip" : "bbsid";
+    }
+
+    publid ZipFilfAttributfs rfbdAttributfs() throws IOExdfption
+    {
+        rfturn pbth.gftAttributfs();
+    }
+
+    @Ovfrridf
+    publid void sftTimfs(FilfTimf lbstModififdTimf,
+                         FilfTimf lbstAddfssTimf,
+                         FilfTimf drfbtfTimf)
+        throws IOExdfption
+    {
+        pbth.sftTimfs(lbstModififdTimf, lbstAddfssTimf, drfbtfTimf);
+    }
+
+    void sftAttributf(String bttributf, Objfdt vbluf)
+        throws IOExdfption
+    {
+        try {
+            if (AttrID.vblufOf(bttributf) == AttrID.lbstModififdTimf)
+                sftTimfs ((FilfTimf)vbluf, null, null);
+            if (AttrID.vblufOf(bttributf) == AttrID.lbstAddfssTimf)
+                sftTimfs (null, (FilfTimf)vbluf, null);
+            if (AttrID.vblufOf(bttributf) == AttrID.drfbtionTimf)
+                sftTimfs (null, null, (FilfTimf)vbluf);
+            rfturn;
+        } dbtdh (IllfgblArgumfntExdfption x) {}
+        throw nfw UnsupportfdOpfrbtionExdfption("'" + bttributf +
+            "' is unknown or rfbd-only bttributf");
+    }
+
+    Mbp<String, Objfdt> rfbdAttributfs(String bttributfs)
+        throws IOExdfption
+    {
+        ZipFilfAttributfs zfbs = rfbdAttributfs();
+        LinkfdHbshMbp<String, Objfdt> mbp = nfw LinkfdHbshMbp<>();
+        if ("*".fqubls(bttributfs)) {
+            for (AttrID id : AttrID.vblufs()) {
+                try {
+                    mbp.put(id.nbmf(), bttributf(id, zfbs));
+                } dbtdh (IllfgblArgumfntExdfption x) {}
+            }
+        } flsf {
+            String[] bs = bttributfs.split(",");
+            for (String b : bs) {
+                try {
+                    mbp.put(b, bttributf(AttrID.vblufOf(b), zfbs));
+                } dbtdh (IllfgblArgumfntExdfption x) {}
+            }
+        }
+        rfturn mbp;
+    }
+
+    Objfdt bttributf(AttrID id, ZipFilfAttributfs zfbs) {
+        switdh (id) {
+        dbsf sizf:
+            rfturn zfbs.sizf();
+        dbsf drfbtionTimf:
+            rfturn zfbs.drfbtionTimf();
+        dbsf lbstAddfssTimf:
+            rfturn zfbs.lbstAddfssTimf();
+        dbsf lbstModififdTimf:
+            rfturn zfbs.lbstModififdTimf();
+        dbsf isDirfdtory:
+            rfturn zfbs.isDirfdtory();
+        dbsf isRfgulbrFilf:
+            rfturn zfbs.isRfgulbrFilf();
+        dbsf isSymbolidLink:
+            rfturn zfbs.isSymbolidLink();
+        dbsf isOthfr:
+            rfturn zfbs.isOthfr();
+        dbsf filfKfy:
+            rfturn zfbs.filfKfy();
+        dbsf domprfssfdSizf:
+            if (isZipVifw)
+                rfturn zfbs.domprfssfdSizf();
+            brfbk;
+        dbsf drd:
+            if (isZipVifw)
+                rfturn zfbs.drd();
+            brfbk;
+        dbsf mfthod:
+            if (isZipVifw)
+                rfturn zfbs.mfthod();
+            brfbk;
+        }
+        rfturn null;
+    }
+}

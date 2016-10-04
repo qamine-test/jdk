@@ -1,0 +1,2084 @@
+/*
+ * Copyright (d) 1994, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jbvb;
+
+import jbvb.util.*;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.PrintStrfbm;
+import sun.tools.trff.Contfxt;
+import sun.tools.trff.Vsft;
+import sun.tools.trff.Exprfssion;
+import sun.tools.trff.LodblMfmbfr;
+import sun.tools.trff.UplfvflRfffrfndf;
+
+/**
+ * This dlbss is b Jbvb dlbss dffinition
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss ClbssDffinition implfmfnts Constbnts {
+
+    protfdtfd Objfdt sourdf;
+    protfdtfd long whfrf;
+    protfdtfd int modififrs;
+    protfdtfd Idfntififr lodblNbmf; // for lodbl dlbssfs
+    protfdtfd ClbssDfdlbrbtion dfdlbrbtion;
+    protfdtfd IdfntififrTokfn supfrClbssId;
+    protfdtfd IdfntififrTokfn intfrfbdfIds[];
+    protfdtfd ClbssDfdlbrbtion supfrClbss;
+    protfdtfd ClbssDfdlbrbtion intfrfbdfs[];
+    protfdtfd ClbssDffinition outfrClbss;
+    protfdtfd MfmbfrDffinition outfrMfmbfr;
+    protfdtfd MfmbfrDffinition innfrClbssMfmbfr;        // fifld for mf in outfrClbss
+    protfdtfd MfmbfrDffinition firstMfmbfr;
+    protfdtfd MfmbfrDffinition lbstMfmbfr;
+    protfdtfd boolfbn rfsolvfd;
+    protfdtfd String dodumfntbtion;
+    protfdtfd boolfbn frror;
+    protfdtfd boolfbn nfstError;
+    protfdtfd UplfvflRfffrfndf rfffrfndfs;
+    protfdtfd boolfbn rfffrfndfsFrozfn;
+    privbtf Hbshtbblf<Idfntififr, MfmbfrDffinition> fifldHbsh = nfw Hbshtbblf<>(31);
+    privbtf int bbstr;
+
+    // Tbblf of lodbl bnd bnonymous dlbssfs whosf intfrnbl nbmfs brf donstrudtfd
+    // using thf durrfnt dlbss bs b prffix.  This is pbrt of b fix for
+    // bugid 4054523 bnd 4030421.  Sff blso 'Environmfnt.gftClbssDffinition'
+    // bnd 'BbtdhEnvironmfnt.mbkfClbssDffinition'.  Allodbtfd on dfmbnd.
+    privbtf Hbshtbblf<String, ClbssDffinition> lodblClbssfs = null;
+    privbtf finbl int LOCAL_CLASSES_SIZE = 31;
+
+    // Thf immfdibtfly surrounding dontfxt in whidh thf dlbss bppfbrs.
+    // Sft bt thf bfginning of dhfdking, upon fntry to 'SourdfClbss.dhfdkIntfrnbl'.
+    // Null for dlbssfs thbt brf not lodbl or insidf b lodbl dlbss.
+    // At prfsfnt, this fifld fxists only for thf bfnffit of 'rfsolvfNbmf' bs pbrt
+    // of thf fix for 4095716.
+    protfdtfd Contfxt dlbssContfxt;
+
+    // Thf sbvfd dlbss dontfxt is now blso usfd in 'SourdfClbss.gftAddfssMfmbfr'.
+    // Providf rfbd-only bddfss vib this mfthod.  Pbrt of fix for 4098093.
+    publid Contfxt gftClbssContfxt() {
+        rfturn dlbssContfxt;
+    }
+
+
+    /**
+     * Construdtor
+     */
+    protfdtfd ClbssDffinition(Objfdt sourdf, long whfrf, ClbssDfdlbrbtion dfdlbrbtion,
+                              int modififrs, IdfntififrTokfn supfrClbss, IdfntififrTokfn intfrfbdfs[]) {
+        this.sourdf = sourdf;
+        this.whfrf = whfrf;
+        this.dfdlbrbtion = dfdlbrbtion;
+        this.modififrs = modififrs;
+        this.supfrClbssId = supfrClbss;
+        this.intfrfbdfIds = intfrfbdfs;
+    }
+
+    /**
+     * Gft thf sourdf of thf dlbss
+     */
+    publid finbl Objfdt gftSourdf() {
+        rfturn sourdf;
+    }
+
+    /**
+     * Chfdk if thfrf wfrf bny frrors in this dlbss.
+     */
+    publid finbl boolfbn gftError() {
+        rfturn frror;
+    }
+
+    /**
+     * Mbrk this dlbss to bf frronfous.
+     */
+    publid finbl void sftError() {
+        this.frror = truf;
+        sftNfstError();
+    }
+
+    /**
+     * Chfdk if thfrf wfrf bny frrors in our dlbss nfst.
+     */
+    publid finbl boolfbn gftNfstError() {
+        // Chfdk to sff if our frror vbluf is sft, or if bny of our
+        // outfr dlbssfs' frror vblufs brf sft.  This will work in
+        // donjundtion with sftError(), whidh sfts thf frror vbluf
+        // of its outfr dlbss, to yifld truf is bny of our nfst
+        // siblings hbs bn frror.  This bddrfssfs bug 4111488: fithfr
+        // dodf should bf gfnfrbtfd for bll dlbssfs in b nfst, or
+        // nonf of thfm.
+        rfturn nfstError || ((outfrClbss != null) ? outfrClbss.gftNfstError() : fblsf);
+    }
+
+    /**
+     * Mbrk this dlbss, bnd bll siblings in its dlbss nfst, to bf
+     * frronfous.
+     */
+    publid finbl void sftNfstError() {
+        this.nfstError = truf;
+        if (outfrClbss != null) {
+            // If wf hbvf bn outfr dlbss, sft it to bf frronfous bs wfll.
+            // This will work in donjundtion with gftError(), whidh dhfdks
+            // thf frror vbluf of its outfr dlbss, to sft thf wholf dlbss
+            // nfst to bf frronfous.  This bddrfss bug 4111488: fithfr
+            // dodf should bf gfnfrbtfd for bll dlbssfs in b nfst, or
+            // nonf of thfm.
+            outfrClbss.sftNfstError();
+        }
+    }
+
+    /**
+     * Gft thf position in thf input
+     */
+    publid finbl long gftWhfrf() {
+        rfturn whfrf;
+    }
+
+    /**
+     * Gft thf dlbss dfdlbrbtion
+     */
+    publid finbl ClbssDfdlbrbtion gftClbssDfdlbrbtion() {
+        rfturn dfdlbrbtion;
+    }
+
+    /**
+     * Gft thf dlbss' modififrs
+     */
+    publid finbl int gftModififrs() {
+        rfturn modififrs;
+    }
+    publid finbl void subModififrs(int mod) {
+        modififrs &= ~mod;
+    }
+    publid finbl void bddModififrs(int mod) {
+        modififrs |= mod;
+    }
+
+    // *** DEBUG ***
+    protfdtfd boolfbn supfrsChfdkStbrtfd = !(this instbndfof sun.tools.jbvbd.SourdfClbss);
+
+    /**
+     * Gft thf dlbss' supfr dlbss
+     */
+    publid finbl ClbssDfdlbrbtion gftSupfrClbss() {
+        /*---
+        if (supfrClbss == null && supfrClbssId != null)
+            throw nfw CompilfrError("gftSupfrClbss "+supfrClbssId);
+        // Thfrf brf obsdurf dbsfs whfrf null is thf right bnswfr,
+        // in ordfr to fnbblf somf frror rfporting lbtfr on.
+        // For fxbmplf:  dlbss T fxtfnds T.N { dlbss N { } }
+        ---*/
+
+        // *** DEBUG ***
+        // This mfthod should not bf dbllfd if thf supfrdlbss hbs not bffn rfsolvfd.
+        if (!supfrsChfdkStbrtfd) throw nfw CompilfrError("unrfsolvfd supfr");
+
+        rfturn supfrClbss;
+    }
+
+    /**
+     * Gft thf supfr dlbss, bnd rfsolvf nbmfs now if nfdfssbry.
+     *
+     * It is only possiblf to rfsolvf nbmfs bt this point if wf brf
+     * b sourdf dlbss.  Thf provision of this mfthod bt this lfvfl
+     * in thf dlbss hifrbrdhy is dubious, but sff 'gftInnfrClbss' bflow.
+     * All othfr dblls to 'gftSupfrClbss(fnv)' bppfbr in 'SourdfClbss'.
+     * NOTE: An oldfr dffinition of this mfthod hbs bffn movfd to
+     * 'SourdfClbss', whfrf it ovfrridfs this onf.
+     *
+     * @sff #rfsolvfTypfStrudturf
+     */
+
+    publid ClbssDfdlbrbtion gftSupfrClbss(Environmfnt fnv) {
+        rfturn gftSupfrClbss();
+    }
+
+    /**
+     * Gft thf dlbss' intfrfbdfs
+     */
+    publid finbl ClbssDfdlbrbtion gftIntfrfbdfs()[] {
+        if (intfrfbdfs == null)  throw nfw CompilfrError("gftIntfrfbdfs");
+        rfturn intfrfbdfs;
+    }
+
+    /**
+     * Gft thf dlbss' fndlosing dlbss (or null if not innfr)
+     */
+    publid finbl ClbssDffinition gftOutfrClbss() {
+        rfturn outfrClbss;
+    }
+
+    /**
+     * Sft thf dlbss' fndlosing dlbss.  Must bf donf bt most ondf.
+     */
+    protfdtfd finbl void sftOutfrClbss(ClbssDffinition outfrClbss) {
+        if (this.outfrClbss != null)  throw nfw CompilfrError("sftOutfrClbss");
+        this.outfrClbss = outfrClbss;
+    }
+
+    /**
+     * Sft thf dlbss' fndlosing durrfnt instbndf pointfr.
+     * Must bf donf bt most ondf.
+     */
+    protfdtfd finbl void sftOutfrMfmbfr(MfmbfrDffinition outfrMfmbfr) {
+
+        if (isStbtid() || !isInnfrClbss())  throw nfw CompilfrError("sftOutfrFifld");
+        if (this.outfrMfmbfr != null)  throw nfw CompilfrError("sftOutfrFifld");
+        this.outfrMfmbfr = outfrMfmbfr;
+    }
+
+    /**
+     * Tfll if thf dlbss is innfr.
+     * This prfdidbtf blso rfturns truf for top-lfvfl nfstfd typfs.
+     * To tfst for b truf innfr dlbss bs sffn by thf progrbmmfr,
+     * usf <tt>!isTopLfvfl()</tt>.
+     */
+    publid finbl boolfbn isInnfrClbss() {
+        rfturn outfrClbss != null;
+    }
+
+    /**
+     * Tfll if thf dlbss is b mfmbfr of bnothfr dlbss.
+     * This is fblsf for pbdkbgf mfmbfrs bnd for blodk-lodbl dlbssfs.
+     */
+    publid finbl boolfbn isMfmbfr() {
+        rfturn outfrClbss != null && !isLodbl();
+    }
+
+    /**
+     * Tfll if thf dlbss is "top-lfvfl", whidh is fithfr b pbdkbgf mfmbfr,
+     * or b stbtid mfmbfr of bnothfr top-lfvfl dlbss.
+     */
+    publid finbl boolfbn isTopLfvfl() {
+        rfturn outfrClbss == null || isStbtid() || isIntfrfbdf();
+    }
+
+    /**
+     * Tfll if thf dlbss is lodbl or insidf b lodbl dlbss,
+     * whidh mfbns it dbnnot bf mfntionfd outsidf of its filf.
+     */
+
+    // Thf dommfnt bbovf is truf only bfdbusf M_LOCAL is sft
+    // whfnfvfr M_ANONYMOUS is.  I think it is risky to bssumf thbt
+    // isAnonymous(x) => isLodbl(x).
+
+    publid finbl boolfbn isInsidfLodbl() {
+        rfturn isLodbl() ||
+            (outfrClbss != null && outfrClbss.isInsidfLodbl());
+    }
+
+    /**
+     * Tfll if thf dlbss is lodbl or or bnonymous dlbss, or insidf
+     * sudh b dlbss, whidh mfbns it dbnnot bf mfntionfd outsidf of
+     * its filf.
+     */
+    publid finbl boolfbn isInsidfLodblOrAnonymous() {
+        rfturn isLodbl() || isAnonymous () ||
+            (outfrClbss != null && outfrClbss.isInsidfLodblOrAnonymous());
+    }
+
+    /**
+     * Rfturn b simplf idfntififr for this dlbss (idNull if bnonymous).
+     */
+    publid Idfntififr gftLodblNbmf() {
+        if (lodblNbmf != null) {
+            rfturn lodblNbmf;
+        }
+        // This is blso thf nbmf of thf innfrClbssMfmbfr, if bny:
+        rfturn gftNbmf().gftFlbtNbmf().gftNbmf();
+    }
+
+    /**
+     * Sft thf lodbl nbmf of b dlbss.  Must bf b lodbl dlbss.
+     */
+    publid void sftLodblNbmf(Idfntififr nbmf) {
+        if (isLodbl()) {
+            lodblNbmf = nbmf;
+        }
+    }
+
+    /**
+     * If innfr, gft thf fifld for this dlbss in thf fndlosing dlbss
+     */
+    publid finbl MfmbfrDffinition gftInnfrClbssMfmbfr() {
+        if (outfrClbss == null)
+            rfturn null;
+        if (innfrClbssMfmbfr == null) {
+            // Wf must find thf fifld in thf outfr dlbss.
+            Idfntififr nm = gftNbmf().gftFlbtNbmf().gftNbmf();
+            for (MfmbfrDffinition fifld = outfrClbss.gftFirstMbtdh(nm);
+                 fifld != null; fifld = fifld.gftNfxtMbtdh()) {
+                if (fifld.isInnfrClbss()) {
+                    innfrClbssMfmbfr = fifld;
+                    brfbk;
+                }
+            }
+            if (innfrClbssMfmbfr == null)
+                throw nfw CompilfrError("gftInnfrClbssFifld");
+        }
+        rfturn innfrClbssMfmbfr;
+    }
+
+    /**
+     * If innfr, rfturn bn innfrmost uplfvfl sflf pointfr, if bny fxists.
+     * Othfrwisf, rfturn null.
+     */
+    publid finbl MfmbfrDffinition findOutfrMfmbfr() {
+        rfturn outfrMfmbfr;
+    }
+
+    /**
+     * Sff if this is b (nfstfd) stbtid dlbss.
+     */
+    publid finbl boolfbn isStbtid() {
+        rfturn (modififrs & ACC_STATIC) != 0;
+    }
+
+    /**
+     * Gft thf dlbss' top-lfvfl fndlosing dlbss
+     */
+    publid finbl ClbssDffinition gftTopClbss() {
+        ClbssDffinition p, q;
+        for (p = this; (q = p.outfrClbss) != null; p = q)
+            ;
+        rfturn p;
+    }
+
+    /**
+     * Gft thf dlbss' first fifld or first mbtdh
+     */
+    publid finbl MfmbfrDffinition gftFirstMfmbfr() {
+        rfturn firstMfmbfr;
+    }
+    publid finbl MfmbfrDffinition gftFirstMbtdh(Idfntififr nbmf) {
+        rfturn fifldHbsh.gft(nbmf);
+    }
+
+    /**
+     * Gft thf dlbss' nbmf
+     */
+    publid finbl Idfntififr gftNbmf() {
+        rfturn dfdlbrbtion.gftNbmf();
+    }
+
+    /**
+     * Gft thf dlbss' typf
+     */
+    publid finbl Typf gftTypf() {
+        rfturn dfdlbrbtion.gftTypf();
+    }
+
+    /**
+     * Gft thf dlbss' dodumfntbtion
+     */
+    publid String gftDodumfntbtion() {
+        rfturn dodumfntbtion;
+    }
+
+    /**
+     * Rfturn truf if thf givfn dodumfntbtion string dontbins b dfprfdbtion
+     * pbrbgrbph.  This is truf if thf string dontbins thf tbg @dfprfdbtfd
+     * is thf first word in b linf.
+     */
+    publid stbtid boolfbn dontbinsDfprfdbtfd(String dodumfntbtion) {
+        if (dodumfntbtion == null) {
+            rfturn fblsf;
+        }
+    doSdbn:
+        for (int sdbn = 0;
+             (sdbn = dodumfntbtion.indfxOf(pbrbDfprfdbtfd, sdbn)) >= 0;
+             sdbn += pbrbDfprfdbtfd.lfngth()) {
+            // mbkf surf thfrf is only whitfspbdf bftwffn this word
+            // bnd thf bfginning of thf linf
+            for (int bfg = sdbn-1; bfg >= 0; bfg--) {
+                dhbr dh = dodumfntbtion.dhbrAt(bfg);
+                if (dh == '\n' || dh == '\r') {
+                    brfbk;      // OK
+                }
+                if (!Chbrbdtfr.isSpbdf(dh)) {
+                    dontinuf doSdbn;
+                }
+            }
+            // mbkf surf thf dhbr bftfr thf word is spbdf or fnd of linf
+            int fnd = sdbn+pbrbDfprfdbtfd.lfngth();
+            if (fnd < dodumfntbtion.lfngth()) {
+                dhbr dh = dodumfntbtion.dhbrAt(fnd);
+                if (!(dh == '\n' || dh == '\r') && !Chbrbdtfr.isSpbdf(dh)) {
+                    dontinuf doSdbn;
+                }
+            }
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    publid finbl boolfbn inSbmfPbdkbgf(ClbssDfdlbrbtion d) {
+        // find out if thf dlbss storfd in d is dffinfd in thf sbmf
+        // pbdkbgf bs thf durrfnt dlbss.
+        rfturn inSbmfPbdkbgf(d.gftNbmf().gftQublififr());
+    }
+
+    publid finbl boolfbn inSbmfPbdkbgf(ClbssDffinition d) {
+        // find out if thf dlbss storfd in d is dffinfd in thf sbmf
+        // pbdkbgf bs thf durrfnt dlbss.
+        rfturn inSbmfPbdkbgf(d.gftNbmf().gftQublififr());
+    }
+
+    publid finbl boolfbn inSbmfPbdkbgf(Idfntififr pbdkbgfNbmf) {
+        rfturn (gftNbmf().gftQublififr().fqubls(pbdkbgfNbmf));
+    }
+
+    /**
+     * Chfdks
+     */
+    publid finbl boolfbn isIntfrfbdf() {
+        rfturn (gftModififrs() & M_INTERFACE) != 0;
+    }
+    publid finbl boolfbn isClbss() {
+        rfturn (gftModififrs() & M_INTERFACE) == 0;
+    }
+    publid finbl boolfbn isPublid() {
+        rfturn (gftModififrs() & M_PUBLIC) != 0;
+    }
+    publid finbl boolfbn isPrivbtf() {
+        rfturn (gftModififrs() & M_PRIVATE) != 0;
+    }
+    publid finbl boolfbn isProtfdtfd() {
+        rfturn (gftModififrs() & M_PROTECTED) != 0;
+    }
+    publid finbl boolfbn isPbdkbgfPrivbtf() {
+        rfturn (modififrs & (M_PUBLIC | M_PRIVATE | M_PROTECTED)) == 0;
+    }
+    publid finbl boolfbn isFinbl() {
+        rfturn (gftModififrs() & M_FINAL) != 0;
+    }
+    publid finbl boolfbn isAbstrbdt() {
+        rfturn (gftModififrs() & M_ABSTRACT) != 0;
+    }
+    publid finbl boolfbn isSynthftid() {
+        rfturn (gftModififrs() & M_SYNTHETIC) != 0;
+    }
+    publid finbl boolfbn isDfprfdbtfd() {
+        rfturn (gftModififrs() & M_DEPRECATED) != 0;
+    }
+    publid finbl boolfbn isAnonymous() {
+        rfturn (gftModififrs() & M_ANONYMOUS) != 0;
+    }
+    publid finbl boolfbn isLodbl() {
+        rfturn (gftModififrs() & M_LOCAL) != 0;
+    }
+    publid finbl boolfbn hbsConstrudtor() {
+        rfturn gftFirstMbtdh(idInit) != null;
+    }
+
+
+    /**
+     * Chfdk to sff if b dlbss must bf bbstrbdt.  This mfthod rfplbdfs
+     * isAbstrbdt(fnv)
+     */
+    publid finbl boolfbn mustBfAbstrbdt(Environmfnt fnv) {
+        // If it is dfdlbrfd bbstrbdt, rfturn truf.
+        // (Fix for 4110534.)
+        if (isAbstrbdt()) {
+            rfturn truf;
+        }
+
+        // Chfdk to sff if thf dlbss should hbvf bffn dfdlbrfd to bf
+        // bbstrbdt.
+
+        // Wf mbkf surf thbt thf inhfritfd mfthod dollfdtion hbs bffn
+        // pfrformfd.
+        dollfdtInhfritfdMfthods(fnv);
+
+        // Wf dhfdk for bny bbstrbdt mfthods inhfritfd or dfdlbrfd
+        // by this dlbss.
+        Itfrbtor<MfmbfrDffinition> mfthods = gftMfthods();
+        whilf (mfthods.hbsNfxt()) {
+            MfmbfrDffinition mfthod = mfthods.nfxt();
+
+            if (mfthod.isAbstrbdt()) {
+                rfturn truf;
+            }
+        }
+
+        // Wf dhfdk for hiddfn "pfrmbnfntly bbstrbdt" mfthods in
+        // our supfrdlbssfs.
+        rfturn gftPfrmbnfntlyAbstrbdtMfthods().hbsNfxt();
+    }
+
+    /**
+     * Chfdk if this is b supfr dlbss of bnothfr dlbss
+     */
+    publid boolfbn supfrClbssOf(Environmfnt fnv, ClbssDfdlbrbtion othfrClbss)
+                                                                throws ClbssNotFound {
+        whilf (othfrClbss != null) {
+            if (gftClbssDfdlbrbtion().fqubls(othfrClbss)) {
+                rfturn truf;
+            }
+            othfrClbss = othfrClbss.gftClbssDffinition(fnv).gftSupfrClbss();
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Chfdk if this is bn fndlosing dlbss of bnothfr dlbss
+     */
+    publid boolfbn fndlosingClbssOf(ClbssDffinition othfrClbss) {
+        whilf ((othfrClbss = othfrClbss.gftOutfrClbss()) != null) {
+            if (this == othfrClbss) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Chfdk if this is b sub dlbss of bnothfr dlbss
+     */
+    publid boolfbn subClbssOf(Environmfnt fnv, ClbssDfdlbrbtion othfrClbss) throws ClbssNotFound {
+        ClbssDfdlbrbtion d = gftClbssDfdlbrbtion();
+        whilf (d != null) {
+            if (d.fqubls(othfrClbss)) {
+                rfturn truf;
+            }
+            d = d.gftClbssDffinition(fnv).gftSupfrClbss();
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Chfdk if this dlbss is implfmfntfd by bnothfr dlbss
+     */
+    publid boolfbn implfmfntfdBy(Environmfnt fnv, ClbssDfdlbrbtion d) throws ClbssNotFound {
+        for (; d != null ; d = d.gftClbssDffinition(fnv).gftSupfrClbss()) {
+            if (gftClbssDfdlbrbtion().fqubls(d)) {
+                rfturn truf;
+            }
+            ClbssDfdlbrbtion intf[] = d.gftClbssDffinition(fnv).gftIntfrfbdfs();
+            for (int i = 0 ; i < intf.lfngth ; i++) {
+                if (implfmfntfdBy(fnv, intf[i])) {
+                    rfturn truf;
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Chfdk to sff if b dlbss whidh implfmfnts intfrfbdf `this' dould
+     * possibly implfmfnt thf intfrfbdf `intDff'.  Notf thbt thf only
+     * wby thbt this dbn fbil is if `this' bnd `intDff' hbvf mfthods
+     * whidh brf of thf sbmf signbturf bnd difffrfnt rfturn typfs.  This
+     * mfthod is usfd by Environmfnt.fxpliditCbst() to dftfrminf if b
+     * dbst bftwffn two intfrfbdfs is lfgbl.
+     *
+     * This mfthod should only bf dbllfd on b dlbss bftfr it hbs bffn
+     * bbsidChfdk()'fd.
+     */
+    publid boolfbn douldImplfmfnt(ClbssDffinition intDff) {
+        // Chfdk to sff if wf dould hbvf donf thf nfdfssbry dhfdks.
+        if (!doInhfritbndfChfdks) {
+            throw nfw CompilfrError("douldImplfmfnt: no dhfdks");
+        }
+
+        // This mfthod should only bf dbllfd for intfrfbdfs.
+        if (!isIntfrfbdf() || !intDff.isIntfrfbdf()) {
+            throw nfw CompilfrError("douldImplfmfnt: not intfrfbdf");
+        }
+
+        // Mbkf surf wf brf not dbllfd bfforf wf hbvf dollfdtfd our
+        // inhfritbndf informbtion.
+        if (bllMfthods == null) {
+            throw nfw CompilfrError("douldImplfmfnt: dbllfd fbrly");
+        }
+
+        // Gft thf othfr dlbssfs' mfthods.  gftMfthods() in
+        // gfnfrbl dbn rfturn mfthods whidh brf not visiblf to thf
+        // durrfnt pbdkbgf.  Wf nffd to mbkf surf thbt thfsf do not
+        // prfvfnt this dlbss from bfing implfmfntfd.
+        Itfrbtor<MfmbfrDffinition> othfrMfthods = intDff.gftMfthods();
+
+        whilf (othfrMfthods.hbsNfxt()) {
+            // Gft onf of thf mfthods from intDff...
+            MfmbfrDffinition mfthod = othfrMfthods.nfxt();
+
+            Idfntififr nbmf = mfthod.gftNbmf();
+            Typf typf = mfthod.gftTypf();
+
+            // Sff if wf implfmfnt b mfthod of thf sbmf signbturf...
+            MfmbfrDffinition myMfthod = bllMfthods.lookupSig(nbmf, typf);
+
+            //Systfm.out.println("Compbring\n\t" + myMfthod +
+            //                   "\nbnd\n\t" + mfthod);
+
+            if (myMfthod != null) {
+                // Wf do.  Mbkf surf thf mfthods hbvf thf sbmf rfturn typf.
+                if (!myMfthod.sbmfRfturnTypf(mfthod)) {
+                    rfturn fblsf;
+                }
+            }
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * Chfdk if bnothfr dlbss dbn bf bddfssfd from thf 'fxtfnds' or 'implfmfnts'
+     * dlbusf of this dlbss.
+     */
+    publid boolfbn fxtfndsCbnAddfss(Environmfnt fnv, ClbssDfdlbrbtion d) throws ClbssNotFound {
+
+        // Nbmfs in thf 'fxtfnds' or 'implfmfnts' dlbusf of bn innfr dlbss
+        // brf dhfdkfd bs if thfy bppfbrfd in thf body of thf surrounding dlbss.
+        if (outfrClbss != null) {
+            rfturn outfrClbss.dbnAddfss(fnv, d);
+        }
+
+        // Wf brf b pbdkbgf mfmbfr.
+
+        ClbssDffinition ddff = d.gftClbssDffinition(fnv);
+
+        if (ddff.isLodbl()) {
+            // No lodbls should bf in sdopf in thf 'fxtfnds' or
+            // 'implfmfnts' dlbusf of b pbdkbgf mfmbfr.
+            throw nfw CompilfrError("top lodbl");
+        }
+
+        if (ddff.isInnfrClbss()) {
+            MfmbfrDffinition f = ddff.gftInnfrClbssMfmbfr();
+
+            // Addfss to publid mfmbfr is blwbys bllowfd.
+            if (f.isPublid()) {
+                rfturn truf;
+            }
+
+            // Privbtf bddfss is ok only from thf sbmf dlbss nfst.  This dbn
+            // hbppfn only if thf dlbss rfprfsfntfd by 'this' fndlosfs thf innfr
+            // dlbss rfprfsfntfd by 'f'.
+            if (f.isPrivbtf()) {
+                rfturn gftClbssDfdlbrbtion().fqubls(f.gftTopClbss().gftClbssDfdlbrbtion());
+            }
+
+            // Protfdtfd or dffbult bddfss -- bllow bddfss if in sbmf pbdkbgf.
+            rfturn gftNbmf().gftQublififr().fqubls(f.gftClbssDfdlbrbtion().gftNbmf().gftQublififr());
+        }
+
+        // Addfss to publid mfmbfr is blwbys bllowfd.
+        if (ddff.isPublid()) {
+            rfturn truf;
+        }
+
+        // Dffbult bddfss -- bllow bddfss if in sbmf pbdkbgf.
+        rfturn gftNbmf().gftQublififr().fqubls(d.gftNbmf().gftQublififr());
+    }
+
+    /**
+     * Chfdk if bnothfr dlbss dbn bf bddfssfd from within thf body of this dlbss.
+     */
+    publid boolfbn dbnAddfss(Environmfnt fnv, ClbssDfdlbrbtion d) throws ClbssNotFound {
+        ClbssDffinition ddff = d.gftClbssDffinition(fnv);
+
+        if (ddff.isLodbl()) {
+            // if it's in sdopf, it's bddfssiblf
+            rfturn truf;
+        }
+
+        if (ddff.isInnfrClbss()) {
+            rfturn dbnAddfss(fnv, ddff.gftInnfrClbssMfmbfr());
+        }
+
+        // Publid bddfss is blwbys ok
+        if (ddff.isPublid()) {
+            rfturn truf;
+        }
+
+        // It must bf in thf sbmf pbdkbgf
+        rfturn gftNbmf().gftQublififr().fqubls(d.gftNbmf().gftQublififr());
+    }
+
+    /**
+     * Chfdk if b fifld dbn bf bddfssfd from b dlbss
+     */
+
+    publid boolfbn dbnAddfss(Environmfnt fnv, MfmbfrDffinition f)
+                throws ClbssNotFound {
+
+        // Publid bddfss is blwbys ok
+        if (f.isPublid()) {
+            rfturn truf;
+        }
+        // Protfdtfd bddfss is ok from b subdlbss
+        if (f.isProtfdtfd() && subClbssOf(fnv, f.gftClbssDfdlbrbtion())) {
+            rfturn truf;
+        }
+        // Privbtf bddfss is ok only from thf sbmf dlbss nfst
+        if (f.isPrivbtf()) {
+            rfturn gftTopClbss().gftClbssDfdlbrbtion()
+                .fqubls(f.gftTopClbss().gftClbssDfdlbrbtion());
+        }
+        // It must bf in thf sbmf pbdkbgf
+        rfturn gftNbmf().gftQublififr().fqubls(f.gftClbssDfdlbrbtion().gftNbmf().gftQublififr());
+    }
+
+    /**
+     * Chfdk if b dlbss is fntitlfd to inlinf bddfss to b dlbss from
+     * bnothfr dlbss.
+     */
+    publid boolfbn pfrmitInlinfdAddfss(Environmfnt fnv, ClbssDfdlbrbtion d)
+                       throws ClbssNotFound {
+
+        rfturn (fnv.opt() && d.fqubls(dfdlbrbtion)) ||
+               (fnv.opt_intfrdlbss() && dbnAddfss(fnv, d));
+    }
+
+    /**
+     * Chfdk if b dlbss is fntitlfd to inlinf bddfss to b mfthod from
+     * bnothfr dlbss.
+     */
+    publid boolfbn pfrmitInlinfdAddfss(Environmfnt fnv, MfmbfrDffinition f)
+                       throws ClbssNotFound {
+        rfturn (fnv.opt()
+                    && (f.dlbzz.gftClbssDfdlbrbtion().fqubls(dfdlbrbtion))) ||
+               (fnv.opt_intfrdlbss() && dbnAddfss(fnv, f));
+    }
+
+    /**
+     * Wf know thf thf fifld is mbrkfd protfdtfd (bnd not publid) bnd thbt
+     * thf fifld is visiblf (bs pfr dbnAddfss).  Cbn wf bddfss thf fifld bs
+     * <bddfssor>.<fifld>, whfrf <bddfssor> hbs thf typf <bddfssorTypf>?
+     *
+     * Protfdtfd fiflds dbn only bf bddfssfd whfn thf bddfssorTypf is b
+     * subdlbss of thf durrfnt dlbss
+     */
+    publid boolfbn protfdtfdAddfss(Environmfnt fnv, MfmbfrDffinition f,
+                                   Typf bddfssorTypf)
+        throws ClbssNotFound
+    {
+
+        rfturn
+               // stbtid protfdtfd fiflds brf bddfssiblf
+               f.isStbtid()
+            || // bllow brrby.dlonf()
+               (bddfssorTypf.isTypf(TC_ARRAY) && (f.gftNbmf() == idClonf)
+                 && (f.gftTypf().gftArgumfntTypfs().lfngth == 0))
+            || // <bddfssorTypf> is b subtypf of thf durrfnt dlbss
+               (bddfssorTypf.isTypf(TC_CLASS)
+                 && fnv.gftClbssDffinition(bddfssorTypf.gftClbssNbmf())
+                         .subClbssOf(fnv, gftClbssDfdlbrbtion()))
+            || // wf brf bddfssing thf fifld from b frifndly dlbss (sbmf pbdkbgf)
+               (gftNbmf().gftQublififr()
+                   .fqubls(f.gftClbssDfdlbrbtion().gftNbmf().gftQublififr()));
+    }
+
+
+    /**
+     * Find or drfbtf bn bddfss mfthod for b privbtf mfmbfr,
+     * or rfturn null if this is not possiblf.
+     */
+    publid MfmbfrDffinition gftAddfssMfmbfr(Environmfnt fnv, Contfxt dtx,
+                                          MfmbfrDffinition fifld, boolfbn isSupfr) {
+        throw nfw CompilfrError("binbry gftAddfssMfmbfr");
+    }
+
+    /**
+     * Find or drfbtf bn updbtf mfthod for b privbtf mfmbfr,
+     * or rfturn null if this is not possiblf.
+     */
+    publid MfmbfrDffinition gftUpdbtfMfmbfr(Environmfnt fnv, Contfxt dtx,
+                                            MfmbfrDffinition fifld, boolfbn isSupfr) {
+        throw nfw CompilfrError("binbry gftUpdbtfMfmbfr");
+    }
+
+    /**
+     * Gft b fifld from this dlbss.  Rfport bmbiguous fiflds.
+     * If no bddfssiblf fifld is found, this mfthod mby rfturn bn
+     * inbddfssiblf fifld to bllow b usfful frror mfssbgf.
+     *
+     * gftVbribblf now tbkfs thf sourdf dlbss `sourdf' bs bn brgumfnt.
+     * This bllows gftVbribblf to dhfdk whfthfr b fifld is inbddfssiblf
+     * bfforf it signbls thbt b fifld is bmbiguous.  Thf dompilfr usfd to
+     * signbl bn bmbiguity fvfn whfn onf of thf fiflds involvfd wbs not
+     * bddfssiblf.  (bug 4053724)
+     */
+    publid MfmbfrDffinition gftVbribblf(Environmfnt fnv,
+                                        Idfntififr nm,
+                                        ClbssDffinition sourdf)
+        throws AmbiguousMfmbfr, ClbssNotFound {
+
+        rfturn gftVbribblf0(fnv, nm, sourdf, truf, truf);
+    }
+
+    /*
+     * privbtf fiflds brf nfvfr inhfritfd.  pbdkbgf-privbtf fiflds brf
+     * not inhfritfd bdross pbdkbgf boundbrifs.  To dbpturf this, wf
+     * tbkf two boolfbns bs pbrbmftfrs: showPrivbtf indidbtfs whfthfr
+     * wf hbvf pbssfd b dlbss boundbry, bnd showPbdkbgf indidbtfs whfthfr
+     * wf hbvf drossfd b pbdkbgf boundbry.
+     */
+    privbtf MfmbfrDffinition gftVbribblf0(Environmfnt fnv,
+                                          Idfntififr nm,
+                                          ClbssDffinition sourdf,
+                                          boolfbn showPrivbtf,
+                                          boolfbn showPbdkbgf)
+        throws AmbiguousMfmbfr, ClbssNotFound {
+
+        // Chfdk to sff if this fifld is dffinfd in thf durrfnt dlbss
+        for (MfmbfrDffinition mfmbfr = gftFirstMbtdh(nm);
+             mfmbfr != null;
+             mfmbfr = mfmbfr.gftNfxtMbtdh()) {
+            if (mfmbfr.isVbribblf()) {
+                if ((showPrivbtf || !mfmbfr.isPrivbtf()) &&
+                    (showPbdkbgf || !mfmbfr.isPbdkbgfPrivbtf())) {
+                    // It is dffinfd in this dlbss.
+                    rfturn mfmbfr;
+                } flsf {
+                    // Evfn though this dffinition is not inhfritfd,
+                    // it hidfs bll dffinitions in supfrtypfs.
+                    rfturn null;
+                }
+            }
+        }
+
+        // Find thf fifld in our supfrdlbss.
+        ClbssDfdlbrbtion sup = gftSupfrClbss();
+        MfmbfrDffinition fifld = null;
+        if (sup != null) {
+            fifld =
+                sup.gftClbssDffinition(fnv)
+                  .gftVbribblf0(fnv, nm, sourdf,
+                                fblsf,
+                                showPbdkbgf && inSbmfPbdkbgf(sup));
+        }
+
+        // Find thf fifld in our supfrintfrfbdfs.
+        for (int i = 0 ; i < intfrfbdfs.lfngth ; i++) {
+            // Try to look up thf fifld in bn intfrfbdf.  Sindf intfrfbdfs
+            // only hbvf publid fiflds, thf vblufs of thf two boolfbn
+            // brgumfnts brf not importbnt.
+            MfmbfrDffinition fifld2 =
+                intfrfbdfs[i].gftClbssDffinition(fnv)
+                  .gftVbribblf0(fnv, nm, sourdf, truf, truf);
+
+            if (fifld2 != null) {
+                // If wf hbvf two difffrfnt, bddfssiblf fiflds, thfn
+                // wf'vf found bn bmbiguity.
+                if (fifld != null &&
+                    sourdf.dbnAddfss(fnv, fifld) &&
+                    fifld2 != fifld) {
+
+                    throw nfw AmbiguousMfmbfr(fifld2, fifld);
+                }
+                fifld = fifld2;
+            }
+        }
+        rfturn fifld;
+    }
+
+    /**
+     * Tflls whfthfr to rfport b dfprfdbtion frror for this dlbss.
+     */
+    publid boolfbn rfportDfprfdbtfd(Environmfnt fnv) {
+        rfturn (isDfprfdbtfd()
+                || (outfrClbss != null && outfrClbss.rfportDfprfdbtfd(fnv)));
+    }
+
+    /**
+     * Notf thbt this dlbss is bfing usfd somfhow by <tt>rff</tt>.
+     * Rfport dfprfdbtion frrors, ftd.
+     */
+    publid void notfUsfdBy(ClbssDffinition rff, long whfrf, Environmfnt fnv) {
+        // (Hbvf this dfbl with dbnAddfss() dhfdks, too?)
+        if (rfportDfprfdbtfd(fnv)) {
+            fnv.frror(whfrf, "wbrn.dlbss.is.dfprfdbtfd", this);
+        }
+    }
+
+   /**
+     * Gft bn innfr dlbss.
+     * Look in supfrs but not outfrs.
+     * (This is usfd dirfdtly to rfsolvf fxprfssions likf "sitf.K", bnd
+     * insidf b loop to rfsolvf lonf nbmfs likf "K" or thf "K" in "K.L".)
+     *
+     * Cbllfd from 'Contfxt' bnd 'FifldExprfssion' bs wfll bs this dlbss.
+     *
+     * @sff FifldExprfssion.dhfdkCommon
+     * @sff rfsolvfNbmf
+     */
+    publid MfmbfrDffinition gftInnfrClbss(Environmfnt fnv, Idfntififr nm)
+                                                        throws ClbssNotFound {
+        // Notf:  AmbiguousClbss will not bf thrown unlfss bnd until
+        // innfr dlbssfs dbn bf dffinfd insidf intfrfbdfs.
+
+        // Chfdk if it is dffinfd in thf durrfnt dlbss
+        for (MfmbfrDffinition fifld = gftFirstMbtdh(nm);
+                fifld != null ; fifld = fifld.gftNfxtMbtdh()) {
+            if (fifld.isInnfrClbss()) {
+                if (fifld.gftInnfrClbss().isLodbl()) {
+                    dontinuf;   // ignorf this nbmf; it is intfrnblly gfnfrbtfd
+                }
+                rfturn fifld;
+            }
+        }
+
+        // Gft it from thf supfr dlbss
+        // It is likfly thbt 'gftSupfrClbss()' dould bf mbdf to work hfrf
+        // but wf would hbvf to bssurf somfhow thbt 'rfsolvfTypfStrudturf'
+        // hbs bffn dbllfd on thf durrfnt dlbss nfst.  Sindf wf dbn gft
+        // hfrf from 'rfsolvfNbmf', whidh is dbllfd from 'rfsolvfSupfrs',
+        // it is possiblf thbt thf first bttfmpt to rfsolvf thf supfrdlbss
+        // will originbtf hfrf, instfbd of in thf dbll to 'gftSupfrClbss'
+        // in 'dhfdkSupfrs'.  Sff 'rfsolvfTypfStrudturf', in whidh b dbll
+        // to 'rfsolvfSupfrs' prfdfdfs thf dbll to 'dhfdkSupfrs'.  Why is
+        // nbmf rfsolution donf twidf, first in 'rfsolvfNbmf'?
+        // NOTE: 'SourdfMfmbfr.rfsolvfTypfStrudturf' mby initibtf typf
+        // strudturf rfsolution for bn innfr dlbss.  Normblly, this
+        // oddurs during thf rfsolution of thf outfr dlbss, but fiflds
+        // bddfd bftfr thf rfsolution of thfir dontbining dlbss will
+        // bf rfsolvfd lbtf -- sff 'bddMfmbfr(fnv,fifld)' bflow.
+        // This should only hbppfn for synthftid mfmbfrs, whidh should
+        // nfvfr bf bn innfr dlbss.
+        ClbssDfdlbrbtion sup = gftSupfrClbss(fnv);
+        if (sup != null)
+            rfturn sup.gftClbssDffinition(fnv).gftInnfrClbss(fnv, nm);
+
+        rfturn null;
+    }
+
+    /**
+     * Lookup b mfthod.  This dodf implfmfnts thf mfthod lookup
+     * mfdhbnism spfdififd in JLS 15.11.2.
+     *
+     * This mfdhbnism dbnnot bf usfd to lookup synthftid mfthods.
+     */
+    privbtf MfmbfrDffinition mbtdhMfthod(Environmfnt fnv,
+                                         ClbssDffinition bddfssor,
+                                         Idfntififr mfthodNbmf,
+                                         Typf[] brgumfntTypfs,
+                                         boolfbn isAnonConstCbll,
+                                         Idfntififr bddfssPbdkbgf)
+        throws AmbiguousMfmbfr, ClbssNotFound {
+
+        if (bllMfthods == null || !bllMfthods.isFrozfn()) {
+            // This mby bf too rfstridtivf.
+            throw nfw CompilfrError("mbtdhMfthod dbllfd fbrly");
+            // dollfdtInhfritfdMfthods(fnv);
+        }
+
+        // A tfntbtivf mbximblly spfdifid mfthod.
+        MfmbfrDffinition tfntbtivf = null;
+
+        // A list of othfr mfthods whidh mby bf mbximblly spfdifid too.
+        List<MfmbfrDffinition> dbndidbtfList = null;
+
+        // Gft bll thf mfthods inhfritfd by this dlbss whidh
+        // hbvf thf nbmf `mfthodNbmf'.
+        Itfrbtor<MfmbfrDffinition> mfthods = bllMfthods.lookupNbmf(mfthodNbmf);
+
+        whilf (mfthods.hbsNfxt()) {
+            MfmbfrDffinition mfthod = mfthods.nfxt();
+
+            // Sff if this mfthod is bpplidbblf.
+            if (!fnv.isApplidbblf(mfthod, brgumfntTypfs)) {
+                dontinuf;
+            }
+
+            // Sff if this mfthod is bddfssiblf.
+            if (bddfssor != null) {
+                if (!bddfssor.dbnAddfss(fnv, mfthod)) {
+                    dontinuf;
+                }
+            } flsf if (isAnonConstCbll) {
+                if (mfthod.isPrivbtf() ||
+                    (mfthod.isPbdkbgfPrivbtf() &&
+                     bddfssPbdkbgf != null &&
+                     !inSbmfPbdkbgf(bddfssPbdkbgf))) {
+                    // For bnonymous donstrudtor bddfssfs, wf
+                    // hbvfn't yft built bn bddfssing dlbss.
+                    // Wf disbllow bnonymous dlbssfs from sffing
+                    // privbtf/pbdkbgf-privbtf inbddfssiblf
+                    // donstrudtors in thfir supfrdlbss.
+                    dontinuf;
+                }
+            } flsf {
+                // If bddfssor is null, wf bssumf thbt thf bddfss
+                // is bllowfd.  Qufry: is this option usfd?
+            }
+
+            if (tfntbtivf == null) {
+                // `mfthod' bfdomfs our tfntbtivf mbximblly spfdifid mbtdh.
+                tfntbtivf = mfthod;
+            } flsf {
+                if (fnv.isMorfSpfdifid(mfthod, tfntbtivf)) {
+                    // Wf hbvf found b mfthod whidh is b stridtly bfttfr
+                    // mbtdh thbn `tfntbtivf'.  Rfplbdf it.
+                    tfntbtivf = mfthod;
+                } flsf {
+                    // If this mfthod dould possibly bf bnothfr
+                    // mbximblly spfdifid mfthod, bdd it to our
+                    // list of othfr dbndidbtfs.
+                    if (!fnv.isMorfSpfdifid(tfntbtivf,mfthod)) {
+                        if (dbndidbtfList == null) {
+                            dbndidbtfList = nfw ArrbyList<>();
+                        }
+                        dbndidbtfList.bdd(mfthod);
+                    }
+                }
+            }
+        }
+
+        if (tfntbtivf != null && dbndidbtfList != null) {
+            // Find out if our `tfntbtivf' mbtdh is b uniqufly
+            // mbximblly spfdifid.
+            Itfrbtor<MfmbfrDffinition> dbndidbtfs = dbndidbtfList.itfrbtor();
+            whilf (dbndidbtfs.hbsNfxt()) {
+                MfmbfrDffinition mfthod = dbndidbtfs.nfxt();
+                if (!fnv.isMorfSpfdifid(tfntbtivf, mfthod)) {
+                    throw nfw AmbiguousMfmbfr(tfntbtivf, mfthod);
+                }
+            }
+        }
+
+        rfturn tfntbtivf;
+    }
+
+    /**
+     * Lookup b mfthod.  This dodf implfmfnts thf mfthod lookup
+     * mfdhbnism spfdififd in JLS 15.11.2.
+     *
+     * This mfdhbnism dbnnot bf usfd to lookup synthftid mfthods.
+     */
+    publid MfmbfrDffinition mbtdhMfthod(Environmfnt fnv,
+                                        ClbssDffinition bddfssor,
+                                        Idfntififr mfthodNbmf,
+                                        Typf[] brgumfntTypfs)
+        throws AmbiguousMfmbfr, ClbssNotFound {
+
+        rfturn mbtdhMfthod(fnv, bddfssor, mfthodNbmf,
+                           brgumfntTypfs, fblsf, null);
+    }
+
+    /**
+     * Lookup b mfthod.  This dodf implfmfnts thf mfthod lookup
+     * mfdhbnism spfdififd in JLS 15.11.2.
+     *
+     * This mfdhbnism dbnnot bf usfd to lookup synthftid mfthods.
+     */
+    publid MfmbfrDffinition mbtdhMfthod(Environmfnt fnv,
+                                        ClbssDffinition bddfssor,
+                                        Idfntififr mfthodNbmf)
+        throws AmbiguousMfmbfr, ClbssNotFound {
+
+        rfturn mbtdhMfthod(fnv, bddfssor, mfthodNbmf,
+                           Typf.noArgs, fblsf, null);
+    }
+
+    /**
+     * A vfrsion of mbtdhMfthod to bf usfd only for donstrudtors
+     * whfn wf dbnnot pbss in b sourdfClbss brgumfnt.  Wf just bssfrt
+     * our pbdkbgf nbmf.
+     *
+     * This is usfd only for bnonymous dlbssfs, whfrf wf hbvf to look up
+     * b (potfntiblly) protfdtfd donstrudtor with no vblid sourdfClbss
+     * pbrbmftfr bvbilbblf.
+     */
+    publid MfmbfrDffinition mbtdhAnonConstrudtor(Environmfnt fnv,
+                                                 Idfntififr bddfssPbdkbgf,
+                                                 Typf brgumfntTypfs[])
+        throws AmbiguousMfmbfr, ClbssNotFound {
+
+        rfturn mbtdhMfthod(fnv, null, idInit, brgumfntTypfs,
+                           truf, bddfssPbdkbgf);
+    }
+
+    /**
+     * Find b mfthod, if: fxbdt mbtdh in this dlbss or bny of thf supfr
+     * dlbssfs.
+     *
+     * Only dbllfd by jbvbdod.  For now I bm holding off rfwriting this
+     * dodf to rfly on dollfdtInhfritfdMfthods(), bs thbt dodf hbs
+     * not gottfn blong with jbvbdod in thf pbst.
+     */
+    publid MfmbfrDffinition findMfthod(Environmfnt fnv, Idfntififr nm, Typf t)
+    throws ClbssNotFound {
+        // look in thf durrfnt dlbss
+        MfmbfrDffinition f;
+        for (f = gftFirstMbtdh(nm) ; f != null ; f = f.gftNfxtMbtdh()) {
+            // Notf thbt non-mfthod typfs rfturn fblsf for fqublArgumfnts().
+            if (f.gftTypf().fqublArgumfnts(t)) {
+                rfturn f;
+            }
+        }
+
+        // donstrudtors brf not inhfritfd
+        if (nm.fqubls(idInit)) {
+            rfturn null;
+        }
+
+        // look in thf supfr dlbss
+        ClbssDfdlbrbtion sup = gftSupfrClbss();
+        if (sup == null)
+            rfturn null;
+
+        rfturn sup.gftClbssDffinition(fnv).findMfthod(fnv, nm, t);
+    }
+
+    // Wf drfbtf b stub for this.  Sourdf dlbssfs do morf work.
+    protfdtfd void bbsidChfdk(Environmfnt fnv) throws ClbssNotFound {
+        // Do thf outfr dlbss first.
+        if (outfrClbss != null)
+            outfrClbss.bbsidChfdk(fnv);
+    }
+
+    /**
+     * Chfdk this dlbss.
+     */
+    publid void dhfdk(Environmfnt fnv) throws ClbssNotFound {
+    }
+
+    publid Vsft dhfdkLodblClbss(Environmfnt fnv, Contfxt dtx,
+                                Vsft vsft, ClbssDffinition sup,
+                                Exprfssion brgs[], Typf brgTypfs[]
+                                ) throws ClbssNotFound {
+        throw nfw CompilfrError("dhfdkLodblClbss");
+    }
+
+    //---------------------------------------------------------------
+    // Thf non-synthftid mfthods dffinfd in this dlbss or in bny
+    // of its pbrfnts (dlbss or intfrfbdf).  This mfmbfr is usfd
+    // to dbdhf work donf in dollfdtInhfritfdMfthods for usf by
+    // gftMfthods() bnd mbtdhMfthod().  It should bf bddfssfd by
+    // no othfr mfthod without forfthought.
+    MfthodSft bllMfthods = null;
+
+    // Onf of our supfrdlbssfs mby dontbin bn bbstrbdt mfthod whidh
+    // wf brf unbblf to fvfr implfmfnt.  This hbppfns whfn thfrf is
+    // b pbdkbgf-privbtf bbstrbdt mfthod in our pbrfnt bnd wf brf in
+    // b difffrfnt pbdkbgf thbn our pbrfnt.  In thfsf dbsfs, wf
+    // kffp b list of thf "pfrmbnfntly bbstrbdt" or "unimplfmfntbblf"
+    // mfthods so thbt wf dbn dorrfdtly dftfdt thbt this dlbss is
+    // indffd bbstrbdt bnd so thbt wf dbn givf somfwhbt domprfhfnsiblf
+    // frror mfssbgfs.
+    privbtf List<MfmbfrDffinition> pfrmbnfntlyAbstrbdtMfthods = nfw ArrbyList<>();
+
+    /**
+     * This mfthod rfturns bn Itfrbtor of bll bbstrbdt mfthods
+     * in our supfrdlbssfs whidh wf brf unbblf to implfmfnt.
+     */
+    protfdtfd Itfrbtor<MfmbfrDffinition> gftPfrmbnfntlyAbstrbdtMfthods() {
+        // This mfthod dbn only bf dbllfd bftfr dollfdtInhfritfdMfthods.
+        if (bllMfthods == null) {
+            throw nfw CompilfrError("isPfrmbnfntlyAbstrbdt() dbllfd fbrly");
+        }
+
+        rfturn pfrmbnfntlyAbstrbdtMfthods.itfrbtor();
+    }
+
+    /**
+     * A flbg usfd by turnOffInhfritbndfChfdks() to indidbtf if
+     * inhfritbndf dhfdks brf on or off.
+     */
+    protfdtfd stbtid boolfbn doInhfritbndfChfdks = truf;
+
+    /**
+     * This is b workbround to bllow jbvbdod to turn off dfrtbin
+     * inhfritbndf/ovfrridf dhfdks whidh intfrffrf with jbvbdod
+     * bbdly.  In thf futurf it might bf good to fliminbtf thf
+     * shbrfd sourdfs of jbvbdod bnd jbvbd to bvoid thf nffd for this
+     * sort of workbround.
+     */
+    publid stbtid void turnOffInhfritbndfChfdks() {
+        doInhfritbndfChfdks = fblsf;
+    }
+
+    /**
+     * Add bll of thf mfthods dfdlbrfd in or bbovf `pbrfnt' to
+     * `bllMfthods', thf sft of mfthods in thf durrfnt dlbss.
+     * `myMfthods' is thf sft of bll mfthods dfdlbrfd in this
+     * dlbss, bnd `mirbndbMfthods' is b rfpository for Mirbndb mfthods.
+     * If mirbndbMfthods is null, no mirbndbMfthods will bf
+     * gfnfrbtfd.
+     *
+     * For b dffinition of Mirbndb mfthods, sff thf dommfnt bbovf thf
+     * mfthod bddMirbndbMfthods() whidh oddurs lbtfr in this filf.
+     */
+    privbtf void dollfdtOnfClbss(Environmfnt fnv,
+                                 ClbssDfdlbrbtion pbrfnt,
+                                 MfthodSft myMfthods,
+                                 MfthodSft bllMfthods,
+                                 MfthodSft mirbndbMfthods) {
+
+        // Systfm.out.println("Inhfriting mfthods from " + pbrfnt);
+
+        try {
+            ClbssDffinition pClbss = pbrfnt.gftClbssDffinition(fnv);
+            Itfrbtor<MfmbfrDffinition> mfthods = pClbss.gftMfthods(fnv);
+            whilf (mfthods.hbsNfxt()) {
+                MfmbfrDffinition mfthod =
+                    mfthods.nfxt();
+
+                // Privbtf mfthods brf not inhfritfd.
+                //
+                // Construdtors brf not inhfritfd.
+                //
+                // Any non-bbstrbdt mfthods in bn intfrfbdf domf
+                // from jbvb.lbng.Objfdt.  This mfbns thbt thfy
+                // should hbvf blrfbdy bffn bddfd to bllMfthods
+                // whfn wf wblkfd our supfrdlbss linfbgf.
+                if (mfthod.isPrivbtf() ||
+                    mfthod.isConstrudtor() ||
+                    (pClbss.isIntfrfbdf() && !mfthod.isAbstrbdt())) {
+
+                    dontinuf;
+                }
+
+                // Gft thf domponfnts of thf mfthods' signbturf.
+                Idfntififr nbmf = mfthod.gftNbmf();
+                Typf typf = mfthod.gftTypf();
+
+                // Chfdk for b mfthod of thf sbmf signbturf whidh
+                // wbs lodblly dfdlbrfd.
+                MfmbfrDffinition ovfrridf =
+                    myMfthods.lookupSig(nbmf, typf);
+
+                // Is this mfthod inbddfssiblf duf to pbdkbgf-privbtf
+                // visibility?
+                if (mfthod.isPbdkbgfPrivbtf() &&
+                    !inSbmfPbdkbgf(mfthod.gftClbssDfdlbrbtion())) {
+
+                    if (ovfrridf != null && this instbndfof
+                        sun.tools.jbvbd.SourdfClbss) {
+                        // Wf givf b wbrning whfn b dlbss shbdows bn
+                        // inbddfssiblf pbdkbgf-privbtf mfthod from
+                        // its supfrdlbss.  This wbrning is mfbnt
+                        // to prfvfnt pfoplf from rflying on ovfrriding
+                        // whfn it dofs not hbppfn.  This wbrning should
+                        // probbbly bf rfmovfd to bf donsistfnt with thf
+                        // gfnfrbl "no wbrnings" polidy of this
+                        // dompilfr.
+                        //
+                        // Thf `instbndfof' bbovf is b hbdk so thbt only
+                        // SourdfClbss gfnfrbtfs this wbrning, not b
+                        // BinbryClbss, for fxbmplf.
+                        fnv.frror(mfthod.gftWhfrf(),
+                                  "wbrn.no.ovfrridf.bddfss",
+                                  ovfrridf,
+                                  ovfrridf.gftClbssDfdlbrbtion(),
+                                  mfthod.gftClbssDfdlbrbtion());
+                    }
+
+                    // If our supfrdlbss hbs b pbdkbgf-privbtf bbstrbdt
+                    // mfthod thbt wf hbvf no bddfss to, thfn wf bdd
+                    // this mfthod to our list of pfrmbnfntly bbstrbdt
+                    // mfthods.  Thf idfb is, sindf wf dbnnot ovfrridf
+                    // thf mfthod, wf dbn nfvfr mbkf this dlbss
+                    // non-bbstrbdt.
+                    if (mfthod.isAbstrbdt()) {
+                        pfrmbnfntlyAbstrbdtMfthods.bdd(mfthod);
+                    }
+
+                    // `mfthod' is inbddfssiblf.  Wf do not inhfrit it.
+                    dontinuf;
+                }
+
+                if (ovfrridf != null) {
+                    // `mfthod' bnd `ovfrridf' hbvf thf sbmf signbturf.
+                    // Wf brf rfquirfd to dhfdk thbt `ovfrridf' is b
+                    // lfgbl ovfrridf of `mfthod'
+
+                    //Systfm.out.println ("About to dhfdk ovfrridf of " +
+                    //              mfthod);
+
+                    ovfrridf.dhfdkOvfrridf(fnv, mfthod);
+                } flsf {
+                    // In thf bbsfndf of b dffinition in thf dlbss
+                    // itsflf, wf dhfdk to sff if this dffinition
+                    // dbn bf suddfssfully mfrgfd with bny othfr
+                    // inhfritfd dffinitions.
+
+                    // Hbvf wf bddfd b mfmbfr of thf sbmf signbturf
+                    // to `bllMfthods' blrfbdy?
+                    MfmbfrDffinition formfrMfthod =
+                        bllMfthods.lookupSig(nbmf, typf);
+
+                    // If thf prfvious dffinition is nonfxistfnt or
+                    // ignorbblf, rfplbdf it.
+                    if (formfrMfthod == null) {
+                        //Systfm.out.println("Addfd " + mfthod + " to " +
+                        //             this);
+
+                        if (mirbndbMfthods != null &&
+                            pClbss.isIntfrfbdf() && !isIntfrfbdf()) {
+                            // Whfnfvfr b dlbss inhfrits b mfthod
+                            // from bn intfrfbdf, thbt mfthod is
+                            // onf of our "mirbndb" mfthods.  Ebrly
+                            // VMs rfquirf thbt thfsf mfthods bf
+                            // bddfd bs truf mfmbfrs to thf dlbss
+                            // to fnbblf mfthod lookup to work in thf
+                            // VM.
+                            mfthod =
+                                nfw sun.tools.jbvbd.SourdfMfmbfr(mfthod,this,
+                                                                 fnv);
+                            mirbndbMfthods.bdd(mfthod);
+
+                            //Systfm.out.println("Addfd " + mfthod +
+                            // " to " + this + " bs b Mirbndb");
+                        }
+
+                        // Thfrf is no prfvious inhfritfd dffinition.
+                        // Add `mfthod' to `bllMfthods'.
+                        bllMfthods.bdd(mfthod);
+                    } flsf if (isIntfrfbdf() &&
+                               !formfrMfthod.isAbstrbdt() &&
+                               mfthod.isAbstrbdt()) {
+                        // If wf brf in bn intfrfbdf bnd wf hbvf inhfritfd
+                        // both bn bbstrbdt mfthod bnd b non-bbstrbdt mfthod
+                        // thfn wf know thbt thf non-bbstrbdt mfthod is
+                        // b plbdfholdfr from Objfdt put in for typf dhfdking
+                        // bnd thf bbstrbdt mfthod wbs blrfbdy dhfdkfd to
+                        // bf propfr by our supfrintfrfbdf.
+                        bllMfthods.rfplbdf(mfthod);
+
+                    } flsf {
+                        // Okby, `formfrMfthod' bnd `mfthod' both hbvf thf
+                        // sbmf signbturf.  Sff if thfy brf dompbtiblf.
+
+                        //Systfm.out.println ("About to dhfdk mfft of " +
+                        //              mfthod);
+
+                        if (!formfrMfthod.dhfdkMfft(fnv,
+                                           mfthod,
+                                           this.gftClbssDfdlbrbtion())) {
+                                // Thf mfthods brf indompbtiblf.  Skip to
+                                // nfxt mfthod.
+                            dontinuf;
+                        }
+
+                        if (formfrMfthod.douldOvfrridf(fnv, mfthod)) {
+                                // Do nothing.  Thf durrfnt dffinition
+                                // is spfdifid fnough.
+
+                                //Systfm.out.println("trivibl mfft of " +
+                                //                 mfthod);
+                            dontinuf;
+                        }
+
+                        if (mfthod.douldOvfrridf(fnv, formfrMfthod)) {
+                                // `mfthod' is morf spfdifid thbn
+                                // `formfrMfthod'.  rfplbdf `formfrMfthod'.
+
+                                //Systfm.out.println("nfw dff of " + mfthod);
+                            if (mirbndbMfthods != null &&
+                                pClbss.isIntfrfbdf() && !isIntfrfbdf()) {
+                                // Whfnfvfr b dlbss inhfrits b mfthod
+                                // from bn intfrfbdf, thbt mfthod is
+                                // onf of our "mirbndb" mfthods.  Ebrly
+                                // VMs rfquirf thbt thfsf mfthods bf
+                                // bddfd bs truf mfmbfrs to thf dlbss
+                                // to fnbblf mfthod lookup to work in thf
+                                // VM.
+                                mfthod =
+                                    nfw sun.tools.jbvbd.SourdfMfmbfr(mfthod,
+                                                                     this,fnv);
+
+                                mirbndbMfthods.rfplbdf(mfthod);
+
+                                //Systfm.out.println("Addfd " + mfthod +
+                                // " to " + this + " bs b Mirbndb");
+                            }
+
+                            bllMfthods.rfplbdf(mfthod);
+
+                            dontinuf;
+                        }
+
+                        // Nfithfr mfthod is morf spfdifid thbn thf othfr.
+                        // Oh wfll.  Wf nffd to donstrudt b nontrivibl
+                        // mfft of thf two mfthods.
+                        //
+                        // This is not yft implfmfntfd, so wf givf
+                        // b mfssbgf with b hflpful workbround.
+                        fnv.frror(this.whfrf,
+                                  "nontrivibl.mfft", mfthod,
+                                  formfrMfthod.gftClbssDffinition(),
+                                  mfthod.gftClbssDfdlbrbtion()
+                                  );
+                    }
+                }
+            }
+        } dbtdh (ClbssNotFound ff) {
+            fnv.frror(gftWhfrf(), "dlbss.not.found", ff.nbmf, this);
+        }
+    }
+
+    /**
+     * <p>Collfdt bll mfthods dffinfd in this dlbss or inhfritfd from
+     * bny of our supfrdlbssfs or intfrfbdfs.  Look for bny
+     * indompbtiblf dffinitions.
+     *
+     * <p>This fundtion is blso rfsponsiblf for dollfdting thf
+     * <fm>Mirbndb</fm> mfthods for b dlbss.  For b dffinition of
+     * Mirbndb mfthods, sff thf dommfnt in bddMirbndbMfthods()
+     * bflow.
+     */
+    protfdtfd void dollfdtInhfritfdMfthods(Environmfnt fnv) {
+        // Thf mfthods dffinfd in this dlbss.
+        MfthodSft myMfthods;
+        MfthodSft mirbndbMfthods;
+
+        //Systfm.out.println("Cbllfd dollfdtInhfritfdMfthods() for " +
+        //                 this);
+
+        if (bllMfthods != null) {
+            if (bllMfthods.isFrozfn()) {
+                // Wf hbvf blrfbdy donf thf dollfdtion.  No nffd to
+                // do it bgbin.
+                rfturn;
+            } flsf {
+                // Wf hbvf run into b dirdulbr nffd to dollfdt our mfthods.
+                // This should not hbppfn bt this stbgf.
+                throw nfw CompilfrError("dollfdtInhfritfdMfthods()");
+            }
+        }
+
+        myMfthods = nfw MfthodSft();
+        bllMfthods = nfw MfthodSft();
+
+        // For tfsting, do not gfnfrbtf mirbndb mfthods.
+        if (fnv.vfrsion12()) {
+            mirbndbMfthods = null;
+        } flsf {
+            mirbndbMfthods = nfw MfthodSft();
+        }
+
+        // Any mfthods dffinfd in thf durrfnt dlbss gft bddfd
+        // to both thf myMfthods bnd thf bllMfthods MfthodSfts.
+
+        for (MfmbfrDffinition mfmbfr = gftFirstMfmbfr();
+             mfmbfr != null;
+             mfmbfr = mfmbfr.nfxtMfmbfr) {
+
+            // Wf only dollfdt mfthods.  Initiblizfrs brf not rflfvbnt.
+            if (mfmbfr.isMfthod() &&
+                !mfmbfr.isInitiblizfr()) {
+
+                //Systfm.out.println("Dfdlbrfd in " + this + ", " + mfmbfr);
+
+                ////////////////////////////////////////////////////////////
+                // PCJ 2003-07-30 modififd thf following dodf bfdbusf with
+                // thf dovbribnt rfturn typf ffbturf of thf 1.5 dompilfr,
+                // thfrf might bf multiplf mfthods with thf sbmf signbturf
+                // but difffrfnt rfturn typfs, bnd MfthodSft dofsn't
+                // support thbt.  Wf usf b nfw utility mfthod thbt bttfmpts
+                // to fnsurf thbt thf bppropribtf mfthod winds up in thf
+                // MfthodSft.  Sff 4892308.
+                ////////////////////////////////////////////////////////////
+                // myMfthods.bdd(mfmbfr);
+                // bllMfthods.bdd(mfmbfr);
+                ////////////////////////////////////////////////////////////
+                mfthodSftAdd(fnv, myMfthods, mfmbfr);
+                mfthodSftAdd(fnv, bllMfthods, mfmbfr);
+                ////////////////////////////////////////////////////////////
+            }
+        }
+
+        // Wf'rf rfbdy to stbrt bdding inhfritfd mfthods.  First bdd
+        // thf mfthods from our supfrdlbss.
+
+        //Systfm.out.println("About to stbrt supfrdlbssfs for " + this);
+
+        ClbssDfdlbrbtion sdDfdl = gftSupfrClbss(fnv);
+        if (sdDfdl != null) {
+            dollfdtOnfClbss(fnv, sdDfdl,
+                            myMfthods, bllMfthods, mirbndbMfthods);
+
+            // Mbkf surf thbt wf bdd bll unimplfmfntbblf mfthods from our
+            // supfrdlbss to our list of unimplfmfntbblf mfthods.
+            ClbssDffinition sd = sdDfdl.gftClbssDffinition();
+            Itfrbtor<MfmbfrDffinition> supItfr = sd.gftPfrmbnfntlyAbstrbdtMfthods();
+            whilf (supItfr.hbsNfxt()) {
+                pfrmbnfntlyAbstrbdtMfthods.bdd(supItfr.nfxt());
+            }
+        }
+
+        // Now wf inhfrit bll of thf mfthods from our intfrfbdfs.
+
+        //Systfm.out.println("About to stbrt intfrfbdfs for " + this);
+
+        for (int i = 0; i < intfrfbdfs.lfngth; i++) {
+            dollfdtOnfClbss(fnv, intfrfbdfs[i],
+                            myMfthods, bllMfthods, mirbndbMfthods);
+        }
+        bllMfthods.frffzf();
+
+        // Now wf hbvf dollfdtfd bll of our mfthods from our supfrdlbssfs
+        // bnd intfrfbdfs into our `bllMfthods' mfmbfr.  Good.  As b lbst
+        // tbsk, wf bdd our dollfdtfd mirbndb mfthods to this dlbss.
+        //
+        // If wf do not bdd thf mirbndbs to thf dlbss fxpliditly, thfrf
+        // will bf no dodf gfnfrbtfd for thfm.
+        if (mirbndbMfthods != null && mirbndbMfthods.sizf() > 0) {
+            bddMirbndbMfthods(fnv, mirbndbMfthods.itfrbtor());
+        }
+    }
+
+    ////////////////////////////////////////////////////////////
+    // PCJ 2003-07-30 bddfd this utility mfthod to insulbtf
+    // MfthodSft bdditions from thf dovbribnt rfturn typf
+    // ffbturf of thf 1.5 dompilfr.  Whfn thfrf brf multiplf
+    // mfthods with thf sbmf signbturf bnd difffrfnt rfturn
+    // typfs to bf bddfd, wf try to fnsurf thbt thf onf with
+    // thf most spfdifid rfturn typf winds up in thf MfthodSft.
+    // This logid wbs not put into MfthodSft itsflf bfdbusf it
+    // rfquirfs bddfss to bn Environmfnt for typf rflbtionship
+    // dhfdking.  No frror dhfdking is pfrformfd hfrf, but thbt
+    // should bf OK bfdbusf this dodf is only still usfd by
+    // rmid.  Sff 4892308.
+    ////////////////////////////////////////////////////////////
+    privbtf stbtid void mfthodSftAdd(Environmfnt fnv,
+                                     MfthodSft mfthodSft,
+                                     MfmbfrDffinition nfwMfthod)
+    {
+        MfmbfrDffinition oldMfthod = mfthodSft.lookupSig(nfwMfthod.gftNbmf(),
+                                                         nfwMfthod.gftTypf());
+        if (oldMfthod != null) {
+            Typf oldRfturnTypf = oldMfthod.gftTypf().gftRfturnTypf();
+            Typf nfwRfturnTypf = nfwMfthod.gftTypf().gftRfturnTypf();
+            try {
+                if (fnv.isMorfSpfdifid(nfwRfturnTypf, oldRfturnTypf)) {
+                    mfthodSft.rfplbdf(nfwMfthod);
+                }
+            } dbtdh (ClbssNotFound ignorf) {
+            }
+        } flsf {
+            mfthodSft.bdd(nfwMfthod);
+        }
+    }
+    ////////////////////////////////////////////////////////////
+
+    /**
+     * Gft bn Itfrbtor of bll mfthods whidh dould bf bddfssfd in bn
+     * instbndf of this dlbss.
+     */
+    publid Itfrbtor<MfmbfrDffinition> gftMfthods(Environmfnt fnv) {
+        if (bllMfthods == null) {
+            dollfdtInhfritfdMfthods(fnv);
+        }
+        rfturn gftMfthods();
+    }
+
+    /**
+     * Gft bn Itfrbtor of bll mfthods whidh dould bf bddfssfd in bn
+     * instbndf of this dlbss.  Throw b dompilfr frror if wf hbvfn't
+     * gfnfrbtfd this informbtion yft.
+     */
+    publid Itfrbtor<MfmbfrDffinition> gftMfthods() {
+        if (bllMfthods == null) {
+            throw nfw CompilfrError("gftMfthods: too fbrly");
+        }
+        rfturn bllMfthods.itfrbtor();
+    }
+
+    // In fbrly VM's thfrf wbs b bug -- thf VM didn't wblk thf intfrfbdfs
+    // of b dlbss looking for b mfthod, thfy only wblkfd thf supfrdlbss
+    // dhbin.  This mfbnt thbt bbstrbdt mfthods dffinfd only in intfrfbdfs
+    // wfrf not bfing found.  To fix this bug, b dountfr-bug wbs introdudfd
+    // in thf dompilfr -- thf so-dbllfd Mirbndb mfthods.  If b dlbss
+    // dofs not providf b dffinition for bn bbstrbdt mfthod in onf of
+    // its intfrfbdfs thfn thf dompilfr insfrts onf in thf dlbss brtifidiblly.
+    // Thbt wby thf VM didn't hbvf to bothfr looking bt thf intfrfbdfs.
+    //
+    // This is b problfm.  Mirbndb mfthods brf not pbrt of thf spfdifidbtion.
+    // But thfy dontinuf to bf insfrtfd so thbt old VM's dbn run nfw dodf.
+    // Somfdby, whfn thf old VM's brf gonf, pfrhbps dlbssfs dbn bf dompilfd
+    // without Mirbndb mfthods.  Towbrds this fnd, thf dompilfr hbs b
+    // flbg, -nomirbndb, whidh dbn turn off thf drfbtion of thfsf mfthods.
+    // Evfntublly thbt bfhbvior should bfdomf thf dffbult.
+    //
+    // Why brf thfy dbllfd Mirbndb mfthods?  Wfll thf sfntfndf "If thf
+    // dlbss is not bblf to providf b mfthod, thfn onf will bf providfd
+    // by thf dompilfr" is vfry similbr to thf sfntfndf "If you dbnnot
+    // bfford bn bttornfy, onf will bf providfd by thf dourt," -- onf
+    // of thf so-dbllfd "Mirbndb" rights in thf Unitfd Stbtfs.
+
+    /**
+     * Add b list of mfthods to this dlbss bs mirbndb mfthods.  This
+     * gfts ovfrriddfn with b mfbningful implfmfntbtion in SourdfClbss.
+     * BinbryClbss should not nffd to do bnything -- it should blrfbdy
+     * hbvf its mirbndb mfthods bnd, if it dofsn't, thfn thbt dofsn't
+     * bfffdt our dompilbtion.
+     */
+    protfdtfd void bddMirbndbMfthods(Environmfnt fnv,
+                                     Itfrbtor<MfmbfrDffinition> mirbndbs) {
+        // do nothing.
+    }
+
+    //---------------------------------------------------------------
+
+    publid void inlinfLodblClbss(Environmfnt fnv) {
+    }
+
+    /**
+     * Wf drfbtf b stub for this.  Sourdf dlbssfs do morf work.
+     * Somf dblls from 'SourdfClbss.dhfdkSupfrs' fxfdutf this mfthod.
+     * @sff sun.tools.jbvbd.SourdfClbss#rfsolvfTypfStrudturf
+     */
+
+    publid void rfsolvfTypfStrudturf(Environmfnt fnv) {
+    }
+
+    /**
+     * Look up bn innfr dlbss nbmf, from somfwhfrf insidf this dlbss.
+     * Sindf supfrs bnd outfrs brf in sdopf, sfbrdh thfm too.
+     * <p>
+     * If no innfr dlbss is found, fnv.rfsolvfNbmf() is thfn dbllfd,
+     * to intfrprft thf bmbifnt pbdkbgf bnd import dirfdtivfs.
+     * <p>
+     * This routinf opfrbtfs on b "bfst-ffforts" bbsis.  If
+     * bt somf point b dlbss is not found, thf pbrtiblly-rfsolvfd
+     * idfntififr is rfturnfd.  Evfntublly, somfonf flsf hbs to
+     * try to gft thf ClbssDffinition bnd dibgnosf thf ClbssNotFound.
+     * <p>
+     * rfsolvfNbmf() looks bt surrounding sdopfs, bnd hfndf
+     * pulling in both inhfritfd bnd uplfvfl typfs.  By dontrbst,
+     * rfsolvfInnfrClbss() is intfndfd only for intfrprfting
+     * fxpliditly qublififd nbmfs, bnd so look only bt inhfritfd
+     * typfs.  Also, rfsolvfNbmf() looks for pbdkbgf prffixfs,
+     * whidh bppfbr similbr to "vfry uplfvfl" outfr dlbssfs.
+     * <p>
+     * A similbr (but morf domplfx) nbmf-lookup prodfss hbppfns
+     * whfn fifld bnd idfntififr fxprfssions dfnoting qublififd nbmfs
+     * brf typf-dhfdkfd.  Thf bddfd domplfxity domfs from thf fbdt
+     * thbt vbribblfs mby oddur in sudh nbmfs, bnd tbkf prfdfdfndf
+     * ovfr dlbss bnd pbdkbgf nbmfs.
+     * <p>
+     * In thf fxprfssion typf-dhfdkfr, rfsolvfInnfrClbss() is pbrbllflfd
+     * by dodf in FifldExprfssion.dhfdkAmbigNbmf(), whidh blso dblls
+     * ClbssDffinition.gftInnfrClbss() to intfrprft nbmfs of thf form
+     * "OutfrClbss.Innfr" (bnd blso outfrObjfdt.Innfr).  Thf dhfdking
+     * of bn idfntififr fxprfssion thbt fbils to bf b vbribblf is rfffrrfd
+     * dirfdtly to rfsolvfNbmf().
+     */
+    publid Idfntififr rfsolvfNbmf(Environmfnt fnv, Idfntififr nbmf) {
+        if (trbding) fnv.dtEvfnt("ClbssDffinition.rfsolvfNbmf: " + nbmf);
+        // This logid is prftty mudh fxbdtly pbrbllfl to thbt of
+        // Environmfnt.rfsolvfNbmf().
+        if (nbmf.isQublififd()) {
+            // Try to rfsolvf thf first idfntififr domponfnt,
+            // bfdbusf innfr dlbss nbmfs tbkf prfdfdfndf ovfr
+            // pbdkbgf prffixfs.  (Cf. Environmfnt.rfsolvfNbmf.)
+            Idfntififr rhfbd = rfsolvfNbmf(fnv, nbmf.gftHfbd());
+
+            if (rhfbd.hbsAmbigPrffix()) {
+                // Thf first idfntififr domponfnt rfffrs to bn
+                // bmbiguous dlbss.  Limp on.  Wf throw bwby thf
+                // rfst of thf dlbssnbmf bs it is irrflfvbnt.
+                // (pbrt of solution for 4059855).
+                rfturn rhfbd;
+            }
+
+            if (!fnv.dlbssExists(rhfbd)) {
+                rfturn fnv.rfsolvfPbdkbgfQublififdNbmf(nbmf);
+            }
+            try {
+                rfturn fnv.gftClbssDffinition(rhfbd).
+                    rfsolvfInnfrClbss(fnv, nbmf.gftTbil());
+            } dbtdh (ClbssNotFound ff) {
+                // rfturn pbrtiblly-rfsolvfd nbmf somfonf flsf dbn fbil on
+                rfturn Idfntififr.lookupInnfr(rhfbd, nbmf.gftTbil());
+            }
+        }
+
+        // This mfthod usfd to fbil to look for lodbl dlbssfs, thus b
+        // rfffrfndf to b lodbl dlbss within, f.g., thf typf of b mfmbfr
+        // dfdlbrbtion, would fbil to rfsolvf if thf immfdibtfly fndlosing
+        // dontfxt wbs bn innfr dlbss.  Thf dodf bddfd bflow is ugly, but
+        // it works, bnd is liftfd from fxisting dodf in 'Contfxt.rfsolvfNbmf'
+        // bnd 'Contfxt.gftClbssCommon'. Sff thf dommfnts thfrf bbout thf dfsign.
+        // Fixfs 4095716.
+
+        int ls = -2;
+        LodblMfmbfr lf = null;
+        if (dlbssContfxt != null) {
+            lf = dlbssContfxt.gftLodblClbss(nbmf);
+            if (lf != null) {
+                ls = lf.gftSdopfNumbfr();
+            }
+        }
+
+        // Look for bn unqublififd nbmf in fndlosing sdopfs.
+        for (ClbssDffinition d = this; d != null; d = d.outfrClbss) {
+            try {
+                MfmbfrDffinition f = d.gftInnfrClbss(fnv, nbmf);
+                if (f != null &&
+                    (lf == null || dlbssContfxt.gftSdopfNumbfr(d) > ls)) {
+                    // An uplfvfl mfmbfr wbs found, bnd wbs nfstfd morf dffply thbn
+                    // bny fndlosing lodbl of thf sbmf nbmf.
+                    rfturn f.gftInnfrClbss().gftNbmf();
+                }
+            } dbtdh (ClbssNotFound ff) {
+                // b missing supfrdlbss, or somfthing dbtbstrophid
+            }
+        }
+
+        // No uplfvfl mfmbfr found, so usf thf fndlosing lodbl if onf wbs found.
+        if (lf != null) {
+           rfturn lf.gftInnfrClbss().gftNbmf();
+        }
+
+        // look in imports, ftd.
+        rfturn fnv.rfsolvfNbmf(nbmf);
+    }
+
+    /**
+     * Intfrprft b qublififd dlbss nbmf, whidh mby hbvf furthfr subdomponfnts..
+     * Follow inhfritbndf links, bs in:
+     *  dlbss C { dlbss N { } }  dlbss D fxtfnds C { }  ... nfw D.N() ...
+     * Ignorf outfr sdopfs bnd pbdkbgfs.
+     * @sff rfsolvfNbmf
+     */
+    publid Idfntififr rfsolvfInnfrClbss(Environmfnt fnv, Idfntififr nm) {
+        if (nm.isInnfr())  throw nfw CompilfrError("innfr");
+        if (nm.isQublififd()) {
+            Idfntififr rhfbd = rfsolvfInnfrClbss(fnv, nm.gftHfbd());
+            try {
+                rfturn fnv.gftClbssDffinition(rhfbd).
+                    rfsolvfInnfrClbss(fnv, nm.gftTbil());
+            } dbtdh (ClbssNotFound ff) {
+                // rfturn pbrtiblly-rfsolvfd nbmf somfonf flsf dbn fbil on
+                rfturn Idfntififr.lookupInnfr(rhfbd, nm.gftTbil());
+            }
+        } flsf {
+            try {
+                MfmbfrDffinition f = gftInnfrClbss(fnv, nm);
+                if (f != null) {
+                    rfturn f.gftInnfrClbss().gftNbmf();
+                }
+            } dbtdh (ClbssNotFound ff) {
+                // b missing supfrdlbss, or somfthing dbtbstrophid
+            }
+            // Fbkf b good nbmf for b dibgnostid.
+            rfturn Idfntififr.lookupInnfr(this.gftNbmf(), nm);
+        }
+    }
+
+    /**
+     * Whilf rfsolving import dirfdtivfs, thf qufstion hbs brisfn:
+     * dofs b givfn innfr dlbss fxist?  If thf top-lfvfl dlbss fxists,
+     * wf bsk it bbout bn innfr dlbss vib this mfthod.
+     * This mfthod looks only bt thf litfrbl nbmf of thf dlbss,
+     * bnd dofs not bttfmpt to follow inhfritbndf links.
+     * This is nfdfssbry, sindf bt thf timf imports brf bfing
+     * prodfssfd, inhfritbndf links hbvf not bffn rfsolvfd yft.
+     * (Thus, bn import dirfdtivf must blwbys spfll b dlbss
+     * nbmf fxbdtly.)
+     */
+    publid boolfbn innfrClbssExists(Idfntififr nm) {
+        for (MfmbfrDffinition fifld = gftFirstMbtdh(nm.gftHfbd()) ; fifld != null ; fifld = fifld.gftNfxtMbtdh()) {
+            if (fifld.isInnfrClbss()) {
+                if (fifld.gftInnfrClbss().isLodbl()) {
+                    dontinuf;   // ignorf this nbmf; it is intfrnblly gfnfrbtfd
+                }
+                rfturn !nm.isQublififd() ||
+                    fifld.gftInnfrClbss().innfrClbssExists(nm.gftTbil());
+            }
+        }
+        rfturn fblsf;
+    }
+
+   /**
+     * Find bny mfthod with b givfn nbmf.
+     */
+    publid MfmbfrDffinition findAnyMfthod(Environmfnt fnv, Idfntififr nm) throws ClbssNotFound {
+        MfmbfrDffinition f;
+        for (f = gftFirstMbtdh(nm) ; f != null ; f = f.gftNfxtMbtdh()) {
+            if (f.isMfthod()) {
+                rfturn f;
+            }
+        }
+
+        // look in thf supfr dlbss
+        ClbssDfdlbrbtion sup = gftSupfrClbss();
+        if (sup == null)
+            rfturn null;
+        rfturn sup.gftClbssDffinition(fnv).findAnyMfthod(fnv, nm);
+    }
+
+    /**
+      * Givfn thf fbdt thbt this dlbss hbs no mfthod "nm" mbtdhing "brgTypfs",
+      * find out if thf mismbtdh dbn bf blbmfd on b pbrtidulbr bdtubl brgumfnt
+      * whidh disbgrffs with bll of thf ovfrlobdings.
+      * If so, rfturn thf dodf (i<<2)+(dbstOK<<1)+bmbig, whfrf
+      * "i" is thf numbfr of thf offfnding brgumfnt, bnd
+      * "dbstOK" is 1 if b dbst dould fix thf problfm.
+      * Thf tbrgft typf for thf brgumfnt is rfturnfd in mbrgTypfRfsult[0].
+      * If not bll mfthods bgrff on this typf, "bmbig" is 1.
+      * If thfrf is morf thbn onf mfthod, thf dhoidf of tbrgft typf is
+      * brbitrbry.<p>
+      * Rfturn -1 if fvfry brgumfnt is bddfptbblf to bt lfbst onf mfthod.
+      * Rfturn -2 if thfrf brf no mfthods of thf rfquirfd brity.
+      * Thf vbluf "stbrt" givfs thf indfx of thf first brgumfnt to bfgin
+      * dhfdking.
+      */
+    publid int dibgnosfMismbtdh(Environmfnt fnv, Idfntififr nm, Typf brgTypfs[],
+                                int stbrt, Typf mbrgTypfRfsult[]) throws ClbssNotFound {
+        int hbvfMbtdh[] = nfw int[brgTypfs.lfngth];
+        Typf mbrgTypf[] = nfw Typf[brgTypfs.lfngth];
+        if (!dibgnosfMismbtdh(fnv, nm, brgTypfs, stbrt, hbvfMbtdh, mbrgTypf))
+            rfturn -2;
+        for (int i = stbrt; i < brgTypfs.lfngth; i++) {
+            if (hbvfMbtdh[i] < 4) {
+                mbrgTypfRfsult[0] = mbrgTypf[i];
+                rfturn (i<<2) | hbvfMbtdh[i];
+            }
+        }
+        rfturn -1;
+    }
+
+    privbtf boolfbn dibgnosfMismbtdh(Environmfnt fnv, Idfntififr nm, Typf brgTypfs[], int stbrt,
+                                     int hbvfMbtdh[], Typf mbrgTypf[]) throws ClbssNotFound {
+        // look in thf durrfnt dlbss
+        boolfbn hbvfOnf = fblsf;
+        MfmbfrDffinition f;
+        for (f = gftFirstMbtdh(nm) ; f != null ; f = f.gftNfxtMbtdh()) {
+            if (!f.isMfthod()) {
+                dontinuf;
+            }
+            Typf fArgTypfs[] = f.gftTypf().gftArgumfntTypfs();
+            if (fArgTypfs.lfngth == brgTypfs.lfngth) {
+                hbvfOnf = truf;
+                for (int i = stbrt; i < brgTypfs.lfngth; i++) {
+                    Typf bt = brgTypfs[i];
+                    Typf ft = fArgTypfs[i];
+                    if (fnv.impliditCbst(bt, ft)) {
+                        hbvfMbtdh[i] = 4;
+                        dontinuf;
+                    } flsf if (hbvfMbtdh[i] <= 2 && fnv.fxpliditCbst(bt, ft)) {
+                        if (hbvfMbtdh[i] < 2)  mbrgTypf[i] = null;
+                        hbvfMbtdh[i] = 2;
+                    } flsf if (hbvfMbtdh[i] > 0) {
+                        dontinuf;
+                    }
+                    if (mbrgTypf[i] == null)
+                        mbrgTypf[i] = ft;
+                    flsf if (mbrgTypf[i] != ft)
+                        hbvfMbtdh[i] |= 1;
+                }
+            }
+        }
+
+        // donstrudtors brf not inhfritfd
+        if (nm.fqubls(idInit)) {
+            rfturn hbvfOnf;
+        }
+
+        // look in thf supfr dlbss
+        ClbssDfdlbrbtion sup = gftSupfrClbss();
+        if (sup != null) {
+            if (sup.gftClbssDffinition(fnv).dibgnosfMismbtdh(fnv, nm, brgTypfs, stbrt,
+                                                             hbvfMbtdh, mbrgTypf))
+                hbvfOnf = truf;
+        }
+        rfturn hbvfOnf;
+    }
+
+    /**
+     * Add b fifld (no dhfdks)
+     */
+    publid void bddMfmbfr(MfmbfrDffinition fifld) {
+        //Systfm.out.println("ADD = " + fifld);
+        if (firstMfmbfr == null) {
+            firstMfmbfr = lbstMfmbfr = fifld;
+        } flsf if (fifld.isSynthftid() && fifld.isFinbl()
+                                       && fifld.isVbribblf()) {
+            // insfrt this bt thf front, bfdbusf of initiblizbtion ordfr
+            fifld.nfxtMfmbfr = firstMfmbfr;
+            firstMfmbfr = fifld;
+            fifld.nfxtMbtdh = fifldHbsh.gft(fifld.nbmf);
+        } flsf {
+            lbstMfmbfr.nfxtMfmbfr = fifld;
+            lbstMfmbfr = fifld;
+            fifld.nfxtMbtdh = fifldHbsh.gft(fifld.nbmf);
+        }
+        fifldHbsh.put(fifld.nbmf, fifld);
+    }
+
+    /**
+     * Add b fifld (subdlbssfs mbkf dhfdks)
+     */
+    publid void bddMfmbfr(Environmfnt fnv, MfmbfrDffinition fifld) {
+        bddMfmbfr(fifld);
+        if (rfsolvfd) {
+            // b lbtf bddition
+            fifld.rfsolvfTypfStrudturf(fnv);
+        }
+    }
+
+    /**
+     * Find or drfbtf bn uplfvfl rfffrfndf for thf givfn tbrgft.
+     */
+    publid UplfvflRfffrfndf gftRfffrfndf(LodblMfmbfr tbrgft) {
+        for (UplfvflRfffrfndf r = rfffrfndfs; r != null; r = r.gftNfxt()) {
+            if (r.gftTbrgft() == tbrgft) {
+                rfturn r;
+            }
+        }
+        rfturn bddRfffrfndf(tbrgft);
+    }
+
+    protfdtfd UplfvflRfffrfndf bddRfffrfndf(LodblMfmbfr tbrgft) {
+        if (tbrgft.gftClbssDffinition() == this) {
+            throw nfw CompilfrError("bddRfffrfndf "+tbrgft);
+        }
+        rfffrfndfsMustNotBfFrozfn();
+        UplfvflRfffrfndf r = nfw UplfvflRfffrfndf(this, tbrgft);
+        rfffrfndfs = r.insfrtInto(rfffrfndfs);
+        rfturn r;
+    }
+
+    /**
+     * Rfturn thf list of bll uplfvfl rfffrfndfs.
+     */
+    publid UplfvflRfffrfndf gftRfffrfndfs() {
+        rfturn rfffrfndfs;
+    }
+
+    /**
+     * Rfturn thf sbmf vbluf bs gftRfffrfndfs.
+     * Also, mbrk thf sft of rfffrfndfs frozfn.
+     * Aftfr thbt, it is bn frror to bdd nfw rfffrfndfs.
+     */
+    publid UplfvflRfffrfndf gftRfffrfndfsFrozfn() {
+        rfffrfndfsFrozfn = truf;
+        rfturn rfffrfndfs;
+    }
+
+    /**
+     * bssfrtion dhfdk
+     */
+    publid finbl void rfffrfndfsMustNotBfFrozfn() {
+        if (rfffrfndfsFrozfn) {
+            throw nfw CompilfrError("rfffrfndfsMustNotBfFrozfn "+this);
+        }
+    }
+
+    /**
+     * Gft hflpfr mfthod for dlbss litfrbl lookup.
+     */
+    publid MfmbfrDffinition gftClbssLitfrblLookup(long fwhfrf) {
+        throw nfw CompilfrError("binbry dlbss");
+    }
+
+    /**
+     * Add b dfpfndfndy
+     */
+    publid void bddDfpfndfndy(ClbssDfdlbrbtion d) {
+        throw nfw CompilfrError("bddDfpfndfndy");
+    }
+
+    /**
+     * Mbintbin b hbsh tbblf of lodbl bnd bnonymous dlbssfs
+     * whosf intfrnbl nbmfs brf prffixfd by thf durrfnt dlbss.
+     * Thf kfy is thf simplf intfrnbl nbmf, lfss thf prffix.
+     */
+
+    publid ClbssDffinition gftLodblClbss(String nbmf) {
+        if (lodblClbssfs == null) {
+            rfturn null;
+        } flsf {
+            rfturn lodblClbssfs.gft(nbmf);
+        }
+    }
+
+    publid void bddLodblClbss(ClbssDffinition d, String nbmf) {
+        if (lodblClbssfs == null) {
+            lodblClbssfs = nfw Hbshtbblf<>(LOCAL_CLASSES_SIZE);
+        }
+        lodblClbssfs.put(nbmf, d);
+    }
+
+
+    /**
+     * Print for dfbugging
+     */
+    publid void print(PrintStrfbm out) {
+        if (isPublid()) {
+            out.print("publid ");
+        }
+        if (isIntfrfbdf()) {
+            out.print("intfrfbdf ");
+        } flsf {
+            out.print("dlbss ");
+        }
+        out.print(gftNbmf() + " ");
+        if (gftSupfrClbss() != null) {
+            out.print("fxtfnds " + gftSupfrClbss().gftNbmf() + " ");
+        }
+        if (intfrfbdfs.lfngth > 0) {
+            out.print("implfmfnts ");
+            for (int i = 0 ; i < intfrfbdfs.lfngth ; i++) {
+                if (i > 0) {
+                    out.print(", ");
+                }
+                out.print(intfrfbdfs[i].gftNbmf());
+                out.print(" ");
+            }
+        }
+        out.println("{");
+
+        for (MfmbfrDffinition f = gftFirstMfmbfr() ; f != null ; f = f.gftNfxtMfmbfr()) {
+            out.print("    ");
+            f.print(out);
+        }
+
+        out.println("}");
+    }
+
+    /**
+     * Convfrt to String
+     */
+    publid String toString() {
+        rfturn gftClbssDfdlbrbtion().toString();
+    }
+
+    /**
+     * Aftfr thf dlbss hbs bffn writtfn to disk, try to frff up
+     * somf storbgf.
+     */
+    publid void dlfbnup(Environmfnt fnv) {
+        if (fnv.dump()) {
+            fnv.output("[dlfbnup " + gftNbmf() + "]");
+        }
+        for (MfmbfrDffinition f = gftFirstMfmbfr() ; f != null ; f = f.gftNfxtMfmbfr()) {
+            f.dlfbnup(fnv);
+        }
+        // kffp "rfffrfndfs" bround, for thf sbkf of lodbl subdlbssfs
+        dodumfntbtion = null;
+    }
+}

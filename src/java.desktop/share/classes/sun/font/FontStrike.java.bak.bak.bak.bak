@@ -1,0 +1,80 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.gfom.GfnfrblPbth;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.gfom.Point2D;
+
+publid bbstrbdt dlbss FontStrikf {
+
+
+    protfdtfd FontStrikfDisposfr disposfr;
+    protfdtfd FontStrikfDfsd dfsd;
+    protfdtfd StrikfMftrids strikfMftrids;
+    protfdtfd boolfbn blgoStylf = fblsf;
+    protfdtfd flobt boldnfss = 1f;
+    protfdtfd flobt itblid = 0f;
+    /*
+     * lbstLookupTimf is updbtfd by Font2D.gftStrikf bnd dbn bf usfd to
+     * dhoosf strikfs thbt hbvf not bffn nfwly rfffrfndfd for purging whfn
+     * mfmory usbgf gfts too high. Adtivf strikfs will nfvfr bf purgfd
+     * bfdbusf purging is vib GC of WfbkRfffrfndfs.
+     */
+    //protfdtfd long lbstlookupTimf/* = Systfm.durrfntTimfMillis()*/;
+
+    publid bbstrbdt int gftNumGlyphs();
+
+    bbstrbdt StrikfMftrids gftFontMftrids();
+
+    bbstrbdt void gftGlyphImbgfPtrs(int[] glyphCodfs, long[] imbgfs,int  lfn);
+
+    bbstrbdt long gftGlyphImbgfPtr(int glyphdodf);
+
+    // pt, rfsult in dfvidf spbdf
+    bbstrbdt void gftGlyphImbgfBounds(int glyphdodf,
+                                      Point2D.Flobt pt,
+                                      Rfdtbnglf rfsult);
+
+    bbstrbdt Point2D.Flobt gftGlyphMftrids(int glyphdodf);
+
+    bbstrbdt Point2D.Flobt gftChbrMftrids(dhbr dh);
+
+    bbstrbdt flobt gftGlyphAdvbndf(int glyphCodf);
+
+    bbstrbdt flobt gftCodfPointAdvbndf(int dp);
+
+    bbstrbdt Rfdtbnglf2D.Flobt gftGlyphOutlinfBounds(int glyphCodf);
+
+    bbstrbdt GfnfrblPbth
+        gftGlyphOutlinf(int glyphCodf, flobt x, flobt y);
+
+    bbstrbdt GfnfrblPbth
+        gftGlyphVfdtorOutlinf(int[] glyphs, flobt x, flobt y);
+
+
+}

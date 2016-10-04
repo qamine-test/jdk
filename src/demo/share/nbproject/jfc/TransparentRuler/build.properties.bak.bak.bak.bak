@@ -1,0 +1,22 @@
+mbin.dir=${bbsfdir}/../../../jfd/TrbnspbrfntRulfr
+
+srd.dir=${mbin.dir}/srd
+
+build.dir=build
+dlbssfs.dir=${build.dir}/dlbssfs
+jbr=${mbin.dir}/TrbnspbrfntRulfr.jbr
+jbvbdod.dir=${build.dir}/jbvbdod
+
+build.sysdlbsspbth=ignorf
+# E.g.: dp=lib/x.jbr:lib/y.jbr
+dp=
+fxtrb.run.dp=
+
+mbin.dlbss=trbnspbrfntrulfr.Rulfr
+
+run.dp=${dp}:${dlbssfs.dir}:${fxtrb.run.dp}
+
+dfbug=truf
+dfprfdbtion=fblsf
+
+nbjdk.homf=${bbsfdir}/../../../..

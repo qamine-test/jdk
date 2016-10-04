@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Date;
-import java.util.Enumeration;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Dbtf;
+import jbvb.util.Enumfrbtion;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
  * From RFC 3280:
  * <p>
- * The invalidity date is a non-critical CRL entry extension that
- * provides the date on which it is known or suspected that the private
- * key was compromised or that the certificate otherwise became invalid.
- * This date may be earlier than the revocation date in the CRL entry,
- * which is the date at which the CA processed the revocation.  When a
- * revocation is first posted by a CRL issuer in a CRL, the invalidity
- * date may precede the date of issue of earlier CRLs, but the
- * revocation date SHOULD NOT precede the date of issue of earlier CRLs.
- * Whenever this information is available, CRL issuers are strongly
- * encouraged to share it with CRL users.
+ * Tif invblidity dbtf is b non-dritidbl CRL fntry fxtfnsion tibt
+ * providfs tif dbtf on wiidi it is known or suspfdtfd tibt tif privbtf
+ * kfy wbs dompromisfd or tibt tif dfrtifidbtf otifrwisf bfdbmf invblid.
+ * Tiis dbtf mby bf fbrlifr tibn tif rfvodbtion dbtf in tif CRL fntry,
+ * wiidi is tif dbtf bt wiidi tif CA prodfssfd tif rfvodbtion.  Wifn b
+ * rfvodbtion is first postfd by b CRL issufr in b CRL, tif invblidity
+ * dbtf mby prfdfdf tif dbtf of issuf of fbrlifr CRLs, but tif
+ * rfvodbtion dbtf SHOULD NOT prfdfdf tif dbtf of issuf of fbrlifr CRLs.
+ * Wifnfvfr tiis informbtion is bvbilbblf, CRL issufrs brf strongly
+ * fndourbgfd to sibrf it witi CRL usfrs.
  * <p>
- * The GeneralizedTime values included in this field MUST be expressed
- * in Greenwich Mean Time (Zulu), and MUST be specified and interpreted
- * as defined in section 4.1.2.5.2.
- * <pre>
- * id-ce-invalidityDate OBJECT IDENTIFIER ::= { id-ce 24 }
+ * Tif GfnfrblizfdTimf vblufs indludfd in tiis fifld MUST bf fxprfssfd
+ * in Grffnwidi Mfbn Timf (Zulu), bnd MUST bf spfdififd bnd intfrprftfd
+ * bs dffinfd in sfdtion 4.1.2.5.2.
+ * <prf>
+ * id-df-invblidityDbtf OBJECT IDENTIFIER ::= { id-df 24 }
  *
- * invalidityDate ::=  GeneralizedTime
- * </pre>
+ * invblidityDbtf ::=  GfnfrblizfdTimf
+ * </prf>
  *
- * @author Sean Mullan
+ * @butior Sfbn Mullbn
  */
-public class InvalidityDateExtension extends Extension
-    implements CertAttrSet<String> {
+publid dlbss InvblidityDbtfExtfnsion fxtfnds Extfnsion
+    implfmfnts CfrtAttrSft<String> {
 
     /**
-     * Attribute name and Reason codes
+     * Attributf nbmf bnd Rfbson dodfs
      */
-    public static final String NAME = "InvalidityDate";
-    public static final String DATE = "date";
+    publid stbtid finbl String NAME = "InvblidityDbtf";
+    publid stbtid finbl String DATE = "dbtf";
 
-    private Date date;
+    privbtf Dbtf dbtf;
 
-    private void encodeThis() throws IOException {
-        if (date == null) {
-            this.extensionValue = null;
-            return;
+    privbtf void fndodfTiis() tirows IOExdfption {
+        if (dbtf == null) {
+            tiis.fxtfnsionVbluf = null;
+            rfturn;
         }
-        DerOutputStream dos = new DerOutputStream();
-        dos.putGeneralizedTime(date);
-        this.extensionValue = dos.toByteArray();
+        DfrOutputStrfbm dos = nfw DfrOutputStrfbm();
+        dos.putGfnfrblizfdTimf(dbtf);
+        tiis.fxtfnsionVbluf = dos.toBytfArrby();
     }
 
     /**
-     * Create a InvalidityDateExtension with the passed in date.
-     * Criticality automatically set to false.
+     * Crfbtf b InvblidityDbtfExtfnsion witi tif pbssfd in dbtf.
+     * Critidblity butombtidblly sft to fblsf.
      *
-     * @param date the invalidity date
+     * @pbrbm dbtf tif invblidity dbtf
      */
-    public InvalidityDateExtension(Date date) throws IOException {
-        this(false, date);
+    publid InvblidityDbtfExtfnsion(Dbtf dbtf) tirows IOExdfption {
+        tiis(fblsf, dbtf);
     }
 
     /**
-     * Create a InvalidityDateExtension with the passed in date.
+     * Crfbtf b InvblidityDbtfExtfnsion witi tif pbssfd in dbtf.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param date the invalidity date
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm dbtf tif invblidity dbtf
      */
-    public InvalidityDateExtension(boolean critical, Date date)
-    throws IOException {
-        this.extensionId = PKIXExtensions.InvalidityDate_Id;
-        this.critical = critical;
-        this.date = date;
-        encodeThis();
+    publid InvblidityDbtfExtfnsion(boolfbn dritidbl, Dbtf dbtf)
+    tirows IOExdfption {
+        tiis.fxtfnsionId = PKIXExtfnsions.InvblidityDbtf_Id;
+        tiis.dritidbl = dritidbl;
+        tiis.dbtf = dbtf;
+        fndodfTiis();
     }
 
     /**
-     * Create the extension from the passed DER encoded value of the same.
+     * Crfbtf tif fxtfnsion from tif pbssfd DER fndodfd vbluf of tif sbmf.
      *
-     * @param critical true if the extension is to be treated as critical.
-     * @param value an array of DER encoded bytes of the actual value.
-     * @exception ClassCastException if value is not an array of bytes
-     * @exception IOException on error.
+     * @pbrbm dritidbl truf if tif fxtfnsion is to bf trfbtfd bs dritidbl.
+     * @pbrbm vbluf bn brrby of DER fndodfd bytfs of tif bdtubl vbluf.
+     * @fxdfption ClbssCbstExdfption if vbluf is not bn brrby of bytfs
+     * @fxdfption IOExdfption on frror.
      */
-    public InvalidityDateExtension(Boolean critical, Object value)
-    throws IOException {
-        this.extensionId = PKIXExtensions.InvalidityDate_Id;
-        this.critical = critical.booleanValue();
-        this.extensionValue = (byte[]) value;
-        DerValue val = new DerValue(this.extensionValue);
-        this.date = val.getGeneralizedTime();
+    publid InvblidityDbtfExtfnsion(Boolfbn dritidbl, Objfdt vbluf)
+    tirows IOExdfption {
+        tiis.fxtfnsionId = PKIXExtfnsions.InvblidityDbtf_Id;
+        tiis.dritidbl = dritidbl.boolfbnVbluf();
+        tiis.fxtfnsionVbluf = (bytf[]) vbluf;
+        DfrVbluf vbl = nfw DfrVbluf(tiis.fxtfnsionVbluf);
+        tiis.dbtf = vbl.gftGfnfrblizfdTimf();
     }
 
     /**
-     * Set the attribute value.
+     * Sft tif bttributf vbluf.
      */
-    public void set(String name, Object obj) throws IOException {
-        if (!(obj instanceof Date)) {
-            throw new IOException("Attribute must be of type Date.");
+    publid void sft(String nbmf, Objfdt obj) tirows IOExdfption {
+        if (!(obj instbndfof Dbtf)) {
+            tirow nfw IOExdfption("Attributf must bf of typf Dbtf.");
         }
-        if (name.equalsIgnoreCase(DATE)) {
-            date = (Date) obj;
-        } else {
-            throw new IOException
-                ("Name not supported by InvalidityDateExtension");
+        if (nbmf.fqublsIgnorfCbsf(DATE)) {
+            dbtf = (Dbtf) obj;
+        } flsf {
+            tirow nfw IOExdfption
+                ("Nbmf not supportfd by InvblidityDbtfExtfnsion");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Get the attribute value.
+     * Gft tif bttributf vbluf.
      */
-    public Date get(String name) throws IOException {
-        if (name.equalsIgnoreCase(DATE)) {
-            if (date == null) {
-                return null;
-            } else {
-                return (new Date(date.getTime()));    // clone
+    publid Dbtf gft(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(DATE)) {
+            if (dbtf == null) {
+                rfturn null;
+            } flsf {
+                rfturn (nfw Dbtf(dbtf.gftTimf()));    // dlonf
             }
-        } else {
-            throw new IOException
-                ("Name not supported by InvalidityDateExtension");
+        } flsf {
+            tirow nfw IOExdfption
+                ("Nbmf not supportfd by InvblidityDbtfExtfnsion");
         }
     }
 
     /**
-     * Delete the attribute value.
+     * Dflftf tif bttributf vbluf.
      */
-    public void delete(String name) throws IOException {
-        if (name.equalsIgnoreCase(DATE)) {
-            date = null;
-        } else {
-            throw new IOException
-                ("Name not supported by InvalidityDateExtension");
+    publid void dflftf(String nbmf) tirows IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(DATE)) {
+            dbtf = null;
+        } flsf {
+            tirow nfw IOExdfption
+                ("Nbmf not supportfd by InvblidityDbtfExtfnsion");
         }
-        encodeThis();
+        fndodfTiis();
     }
 
     /**
-     * Returns a printable representation of the Invalidity Date.
+     * Rfturns b printbblf rfprfsfntbtion of tif Invblidity Dbtf.
      */
-    public String toString() {
-        return super.toString() + "    Invalidity Date: " + String.valueOf(date);
+    publid String toString() {
+        rfturn supfr.toString() + "    Invblidity Dbtf: " + String.vblufOf(dbtf);
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Writf tif fxtfnsion to tif DfrOutputStrfbm.
      *
-     * @param out the DerOutputStream to write the extension to
-     * @exception IOException on encoding errors
+     * @pbrbm out tif DfrOutputStrfbm to writf tif fxtfnsion to
+     * @fxdfption IOExdfption on fndoding frrors
      */
-    public void encode(OutputStream out) throws IOException {
-        DerOutputStream  tmp = new DerOutputStream();
+    publid void fndodf(OutputStrfbm out) tirows IOExdfption {
+        DfrOutputStrfbm  tmp = nfw DfrOutputStrfbm();
 
-        if (this.extensionValue == null) {
-            this.extensionId = PKIXExtensions.InvalidityDate_Id;
-            this.critical = false;
-            encodeThis();
+        if (tiis.fxtfnsionVbluf == null) {
+            tiis.fxtfnsionId = PKIXExtfnsions.InvblidityDbtf_Id;
+            tiis.dritidbl = fblsf;
+            fndodfTiis();
         }
-        super.encode(tmp);
-        out.write(tmp.toByteArray());
+        supfr.fndodf(tmp);
+        out.writf(tmp.toBytfArrby());
     }
 
     /**
-     * Return an enumeration of names of attributes existing within this
-     * attribute.
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting witiin tiis
+     * bttributf.
      */
-    public Enumeration<String> getElements() {
-        AttributeNameEnumeration elements = new AttributeNameEnumeration();
-        elements.addElement(DATE);
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(DATE);
 
-        return elements.elements();
+        rfturn flfmfnts.flfmfnts();
     }
 
     /**
-     * Return the name of this attribute.
+     * Rfturn tif nbmf of tiis bttributf.
      */
-    public String getName() {
-        return NAME;
+    publid String gftNbmf() {
+        rfturn NAME;
     }
 
-    public static InvalidityDateExtension toImpl(java.security.cert.Extension ext)
-        throws IOException {
-        if (ext instanceof InvalidityDateExtension) {
-            return (InvalidityDateExtension) ext;
-        } else {
-            return new InvalidityDateExtension
-                (Boolean.valueOf(ext.isCritical()), ext.getValue());
+    publid stbtid InvblidityDbtfExtfnsion toImpl(jbvb.sfdurity.dfrt.Extfnsion fxt)
+        tirows IOExdfption {
+        if (fxt instbndfof InvblidityDbtfExtfnsion) {
+            rfturn (InvblidityDbtfExtfnsion) fxt;
+        } flsf {
+            rfturn nfw InvblidityDbtfExtfnsion
+                (Boolfbn.vblufOf(fxt.isCritidbl()), fxt.gftVbluf());
         }
     }
 }

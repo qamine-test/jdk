@@ -1,0 +1,68 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+import sun.jbvb2d.SurfbdfDbtb;
+
+/**
+ * This SurfbdfMbnbgfr vbribnt mbnbgfs bn unbddflfrbtfd volbtilf surfbdf.
+ * This dlbss is drfbtfd in thf fvfnt thbt somfonf rfqufstfd b VolbtilfImbgf
+ * to bf drfbtfd from b BufffrfdImbgfGrbphidsConfig, whidh is not plbtform-
+ * or hbrdwbrf-bbsfd, thus thf rfsulting surfbdf bnd surfbdf mbnbgfr
+ * brf unbddflfrbtfd.  All wf do in this dlbss is implfmfnt thf bbstrbdt
+ * mfthods of VolbtilfSurfbdfMbnbgfr to rfturn vblufs thbt indidbtf thbt
+ * wf dbnnot bddflfrbtf surfbdfs through this SurfbdfMbnbgfr, thus thf
+ * pbrfnt dlbss will hbndlf things through thf unbddflfrbtfd bbdkup mfdhbnism.
+ */
+publid dlbss BufImgVolbtilfSurfbdfMbnbgfr fxtfnds VolbtilfSurfbdfMbnbgfr {
+
+    /**
+     * This donstrudtor simply dfffrs to thf supfrdlbss sindf bll of thf rfbl
+     * fundtionblity of this dlbss is implfmfntfd in VolbtilfSurfbdfMbnbgfr.
+     */
+    publid BufImgVolbtilfSurfbdfMbnbgfr(SunVolbtilfImbgf vImg, Objfdt dontfxt) {
+        supfr(vImg, dontfxt);
+    }
+
+    /**
+     * Rfturns fblsf to indidbtf thbt this surfbdf mbnbgfr dbnnot bddflfrbtf
+     * thf imbgf.
+     */
+    protfdtfd boolfbn isAddflfrbtionEnbblfd() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns null to indidbtf fbilurf in drfbting thf bddflfrbtfd surfbdf.
+     * Notf thbt this mfthod should not fvfr bf dbllfd sindf drfbtion of
+     * bddflfrbtfd surfbdfs should bf prfdfdfd by dblls to thf bbovf
+     * isAddflfrbtionEnbblfd() mfthod.  But wf nffd to ovfrridf this mfthod
+     * sindf it is bbstrbdt in our pbrfnt dlbss.
+     */
+    protfdtfd SurfbdfDbtb initAddflfrbtfdSurfbdf() {
+        rfturn null;
+    }
+}

@@ -1,0 +1,132 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+#indludf "Utilitifs.h"
+// Plbtform.jbvb indludfs
+#indludf "dom_sun_mfdib_sound_Plbtform.h"
+
+
+/*
+ * Clbss:     dom_sun_mfdib_sound_Plbtform
+ * Mfthod:    nIsBigEndibn
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_dom_sun_mfdib_sound_Plbtform_nIsBigEndibn(JNIEnv *fnv, jdlbss dlss) {
+    rfturn UTIL_IsBigEndibnPlbtform();
+}
+
+/*
+ * Clbss:     dom_sun_mfdib_sound_Plbtform
+ * Mfthod:    nIsSignfd8
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_dom_sun_mfdib_sound_Plbtform_nIsSignfd8(JNIEnv *fnv, jdlbss dlss) {
+#if ((X_ARCH == X_SPARC) || (X_ARCH == X_SPARCV9))
+    rfturn 1;
+#flsf
+    rfturn 0;
+#fndif
+}
+
+/*
+ * Clbss:     dom_sun_mfdib_sound_Plbtform
+ * Mfthod:    nGftExtrbLibrbrifs
+ * Signbturf: ()Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_dom_sun_mfdib_sound_Plbtform_nGftExtrbLibrbrifs(JNIEnv *fnv, jdlbss dlss) {
+    rfturn (*fnv)->NfwStringUTF(fnv, EXTRA_SOUND_JNI_LIBS);
+}
+
+/*
+ * Clbss:     dom_sun_mfdib_sound_Plbtform
+ * Mfthod:    nGftLibrbryForFfbturf
+ * Signbturf: (I)I
+ */
+JNIEXPORT jint JNICALL Jbvb_dom_sun_mfdib_sound_Plbtform_nGftLibrbryForFfbturf
+  (JNIEnv *fnv, jdlbss dlbzz, jint ffbturf) {
+
+// for fvfry OS
+#if X_PLATFORM == X_WINDOWS
+    switdh (ffbturf) {
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_MIDIIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_PORTS:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_DIRECT_AUDIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_DSOUND;
+    }
+#fndif
+#if (X_PLATFORM == X_SOLARIS)
+    switdh (ffbturf) {
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_MIDIIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_PORTS:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_DIRECT_AUDIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    }
+#fndif
+#if (X_PLATFORM == X_LINUX)
+    switdh (ffbturf) {
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_MIDIIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_ALSA;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_PORTS:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_ALSA;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_DIRECT_AUDIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_ALSA;
+    }
+#fndif
+#if (X_PLATFORM == X_MACOSX)
+    switdh (ffbturf) {
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_MIDIIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_PORTS:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_DIRECT_AUDIO:
+        rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    }
+#fndif
+#if (X_PLATFORM == X_BSD)
+    switdh (ffbturf) {
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_MIDIIO:
+       rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+#ifdff __FrffBSD__
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_PORTS:
+       rfturn dom_sun_mfdib_sound_Plbtform_LIB_ALSA;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_DIRECT_AUDIO:
+       rfturn dom_sun_mfdib_sound_Plbtform_LIB_ALSA;
+#flsf
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_PORTS:
+       rfturn dom_sun_mfdib_sound_Plbtform_LIB_MAIN;
+    dbsf dom_sun_mfdib_sound_Plbtform_FEATURE_DIRECT_AUDIO:
+       // XXXBSD: Whfn nbtivf Dirfdt Audio support is portfd dhbngf
+       // this bbdk to rfturning dom_sun_mfdib_sound_Plbtform_LIB_MAIN
+       rfturn 0;
+#fndif
+    }
+#fndif
+    rfturn 0;
+}

@@ -1,0 +1,131 @@
+/*
+ * Copyright (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.util.List;
+import jbvb.sfdurity.dfrt.CfrtPbthBuildfrExdfption;
+
+/**
+ * This is b subdlbss of thf gfnfrid <dodf>CfrtPbthBuildfrExdfption</dodf>.
+ * It dontbins bn bdjbdfndy list with informbtion rfgbrding thf unsuddfssful
+ * pbths thbt thf SunCfrtPbthBuildfr trifd.
+ *
+ * @sindf       1.4
+ * @buthor      Sfbn Mullbn
+ * @sff         CfrtPbthBuildfrExdfption
+ */
+publid dlbss SunCfrtPbthBuildfrExdfption fxtfnds CfrtPbthBuildfrExdfption {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -7814288414129264709L;
+
+    /**
+     * @sfribl
+     */
+    privbtf trbnsifnt AdjbdfndyList bdjList;
+
+    /**
+     * Construdts b <dodf>SunCfrtPbthBuildfrExdfption</dodf> with
+     * <dodf>null</dodf> bs its dftbil mfssbgf.
+     */
+    publid SunCfrtPbthBuildfrExdfption() {
+        supfr();
+    }
+
+    /**
+     * Construdts b <dodf>SunCfrtPbthBuildfrExdfption</dodf> with thf spfdififd
+     * dftbil mfssbgf. A dftbil mfssbgf is b <dodf>String</dodf> thbt
+     * dfsdribfs this pbrtidulbr fxdfption.
+     *
+     * @pbrbm msg thf dftbil mfssbgf
+     */
+    publid SunCfrtPbthBuildfrExdfption(String msg) {
+        supfr(msg);
+    }
+
+    /**
+     * Construdts b <dodf>SunCfrtPbthBuildfrExdfption</dodf> thbt wrbps thf
+     * spfdififd throwbblf. This bllows bny fxdfption to bf donvfrtfd into b
+     * <dodf>SunCfrtPbthBuildfrExdfption</dodf>, whilf rftbining informbtion
+     * bbout thf dbusf, whidh mby bf usfful for dfbugging. Thf dftbil mfssbgf is
+     * sft to (<dodf>dbusf==null ? null : dbusf.toString()</dodf>) (whidh
+     * typidblly dontbins thf dlbss bnd dftbil mfssbgf of dbusf).
+     *
+     * @pbrbm dbusf thf dbusf (whidh is sbvfd for lbtfr rftrifvbl by thf
+     * {@link #gftCbusf gftCbusf()} mfthod). (A <dodf>null</dodf> vbluf is
+     * pfrmittfd, bnd indidbtfs thbt thf dbusf is nonfxistfnt or unknown.)
+     * root dbusf.
+     */
+    publid SunCfrtPbthBuildfrExdfption(Throwbblf dbusf) {
+        supfr(dbusf);
+    }
+
+    /**
+     * Crfbtfs b <dodf>SunCfrtPbthBuildfrExdfption</dodf> with thf spfdififd
+     * dftbil mfssbgf bnd dbusf.
+     *
+     * @pbrbm msg thf dftbil mfssbgf
+     * @pbrbm dbusf thf dbusf
+     */
+    publid SunCfrtPbthBuildfrExdfption(String msg, Throwbblf dbusf) {
+        supfr(msg, dbusf);
+    }
+
+    /**
+     * Crfbtfs b <dodf>SunCfrtPbthBuildfrExdfption</dodf> withf thf spfdififd
+     * dftbil mfssbgf bnd bdjbdfndy list.
+     *
+     * @pbrbm msg thf dftbil mfssbgf
+     * @pbrbm bdjList thf bdjbdfndy list
+     */
+    SunCfrtPbthBuildfrExdfption(String msg, AdjbdfndyList bdjList) {
+        this(msg);
+        this.bdjList = bdjList;
+    }
+
+    /**
+     * Crfbtfs b <dodf>SunCfrtPbthBuildfrExdfption</dodf> with thf spfdififd
+     * dftbil mfssbgf, dbusf, bnd bdjbdfndy list.
+     *
+     * @pbrbm msg thf dftbil mfssbgf
+     * @pbrbm dbusf thf throwbblf thbt oddurrfd
+     * @pbrbm bdjList Adjbdfndy list
+     */
+    SunCfrtPbthBuildfrExdfption(String msg, Throwbblf dbusf,
+        AdjbdfndyList bdjList)
+    {
+        this(msg, dbusf);
+        this.bdjList = bdjList;
+    }
+
+    /**
+     * Rfturns thf bdjbdfndy list dontbining informbtion bbout thf build.
+     *
+     * @rfturn thf bdjbdfndy list dontbining informbtion bbout thf build
+     */
+    publid AdjbdfndyList gftAdjbdfndyList() {
+        rfturn bdjList;
+    }
+}

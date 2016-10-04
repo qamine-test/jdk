@@ -1,131 +1,131 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
-import java.security.*;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
+import jbvb.sfdurity.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.StringTokfnizfr;
 
 /**
- * This class is for Serializable permissions. A SerializablePermission
- * contains a name (also referred to as a "target name") but
- * no actions list; you either have the named permission
+ * Tiis dlbss is for Sfriblizbblf pfrmissions. A SfriblizbblfPfrmission
+ * dontbins b nbmf (blso rfffrrfd to bs b "tbrgft nbmf") but
+ * no bdtions list; you fitifr ibvf tif nbmfd pfrmission
  * or you don't.
  *
  * <P>
- * The target name is the name of the Serializable permission (see below).
+ * Tif tbrgft nbmf is tif nbmf of tif Sfriblizbblf pfrmission (sff bflow).
  *
  * <P>
- * The following table lists all the possible SerializablePermission target names,
- * and for each provides a description of what the permission allows
- * and a discussion of the risks of granting code the permission.
+ * Tif following tbblf lists bll tif possiblf SfriblizbblfPfrmission tbrgft nbmfs,
+ * bnd for fbdi providfs b dfsdription of wibt tif pfrmission bllows
+ * bnd b disdussion of tif risks of grbnting dodf tif pfrmission.
  *
- * <table border=1 cellpadding=5 summary="Permission target name, what the permission allows, and associated risks">
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="Pfrmission tbrgft nbmf, wibt tif pfrmission bllows, bnd bssodibtfd risks">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
- * <th>Risks of Allowing this Permission</th>
+ * <ti>Pfrmission Tbrgft Nbmf</ti>
+ * <ti>Wibt tif Pfrmission Allows</ti>
+ * <ti>Risks of Allowing tiis Pfrmission</ti>
  * </tr>
  *
  * <tr>
- *   <td>enableSubclassImplementation</td>
- *   <td>Subclass implementation of ObjectOutputStream or ObjectInputStream
- * to override the default serialization or deserialization, respectively,
- * of objects</td>
- *   <td>Code can use this to serialize or
- * deserialize classes in a purposefully malfeasant manner. For example,
- * during serialization, malicious code can use this to
- * purposefully store confidential private field data in a way easily accessible
- * to attackers. Or, during deserialization it could, for example, deserialize
- * a class with all its private fields zeroed out.</td>
+ *   <td>fnbblfSubdlbssImplfmfntbtion</td>
+ *   <td>Subdlbss implfmfntbtion of ObjfdtOutputStrfbm or ObjfdtInputStrfbm
+ * to ovfrridf tif dffbult sfriblizbtion or dfsfriblizbtion, rfspfdtivfly,
+ * of objfdts</td>
+ *   <td>Codf dbn usf tiis to sfriblizf or
+ * dfsfriblizf dlbssfs in b purposffully mblffbsbnt mbnnfr. For fxbmplf,
+ * during sfriblizbtion, mblidious dodf dbn usf tiis to
+ * purposffully storf donfidfntibl privbtf fifld dbtb in b wby fbsily bddfssiblf
+ * to bttbdkfrs. Or, during dfsfriblizbtion it dould, for fxbmplf, dfsfriblizf
+ * b dlbss witi bll its privbtf fiflds zfrofd out.</td>
  * </tr>
  *
  * <tr>
- *   <td>enableSubstitution</td>
- *   <td>Substitution of one object for another during
- * serialization or deserialization</td>
- *   <td>This is dangerous because malicious code
- * can replace the actual object with one which has incorrect or
- * malignant data.</td>
+ *   <td>fnbblfSubstitution</td>
+ *   <td>Substitution of onf objfdt for bnotifr during
+ * sfriblizbtion or dfsfriblizbtion</td>
+ *   <td>Tiis is dbngfrous bfdbusf mblidious dodf
+ * dbn rfplbdf tif bdtubl objfdt witi onf wiidi ibs indorrfdt or
+ * mblignbnt dbtb.</td>
  * </tr>
  *
- * </table>
+ * </tbblf>
  *
- * @see java.security.BasicPermission
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see java.security.PermissionCollection
- * @see java.lang.SecurityManager
+ * @sff jbvb.sfdurity.BbsidPfrmission
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
  *
  *
- * @author Joe Fialli
- * @since 1.2
+ * @butior Jof Fiblli
+ * @sindf 1.2
  */
 
-/* code was borrowed originally from java.lang.RuntimePermission. */
+/* dodf wbs borrowfd originblly from jbvb.lbng.RuntimfPfrmission. */
 
-public final class SerializablePermission extends BasicPermission {
+publid finbl dlbss SfriblizbblfPfrmission fxtfnds BbsidPfrmission {
 
-    private static final long serialVersionUID = 8537212141160296410L;
-
-    /**
-     * @serial
-     */
-    private String actions;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8537212141160296410L;
 
     /**
-     * Creates a new SerializablePermission with the specified name.
-     * The name is the symbolic name of the SerializablePermission, such as
-     * "enableSubstitution", etc.
-     *
-     * @param name the name of the SerializablePermission.
-     *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty.
+     * @sfribl
      */
-    public SerializablePermission(String name)
+    privbtf String bdtions;
+
+    /**
+     * Crfbtfs b nfw SfriblizbblfPfrmission witi tif spfdififd nbmf.
+     * Tif nbmf is tif symbolid nbmf of tif SfriblizbblfPfrmission, sudi bs
+     * "fnbblfSubstitution", ftd.
+     *
+     * @pbrbm nbmf tif nbmf of tif SfriblizbblfPfrmission.
+     *
+     * @tirows NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty.
+     */
+    publid SfriblizbblfPfrmission(String nbmf)
     {
-        super(name);
+        supfr(nbmf);
     }
 
     /**
-     * Creates a new SerializablePermission object with the specified name.
-     * The name is the symbolic name of the SerializablePermission, and the
-     * actions String is currently unused and should be null.
+     * Crfbtfs b nfw SfriblizbblfPfrmission objfdt witi tif spfdififd nbmf.
+     * Tif nbmf is tif symbolid nbmf of tif SfriblizbblfPfrmission, bnd tif
+     * bdtions String is durrfntly unusfd bnd siould bf null.
      *
-     * @param name the name of the SerializablePermission.
-     * @param actions currently unused and must be set to null
+     * @pbrbm nbmf tif nbmf of tif SfriblizbblfPfrmission.
+     * @pbrbm bdtions durrfntly unusfd bnd must bf sft to null
      *
-     * @throws NullPointerException if <code>name</code> is <code>null</code>.
-     * @throws IllegalArgumentException if <code>name</code> is empty.
+     * @tirows NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @tirows IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty.
      */
 
-    public SerializablePermission(String name, String actions)
+    publid SfriblizbblfPfrmission(String nbmf, String bdtions)
     {
-        super(name, actions);
+        supfr(nbmf, bdtions);
     }
 }

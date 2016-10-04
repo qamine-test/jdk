@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
 
 // JMX import
-import javax.management.ObjectName;
-import javax.management.loading.ClassLoaderRepository;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.lobding.ClbssLobdfrRfpository;
 
 /**
- * This interface keeps the list of Class Loaders registered in the
- * MBean Server.
- * It provides the necessary methods to load classes using the
- * registered Class Loaders, and to add/remove class loaders from the
+ * Tiis intfrfbdf kffps tif list of Clbss Lobdfrs rfgistfrfd in tif
+ * MBfbn Sfrvfr.
+ * It providfs tif nfdfssbry mftiods to lobd dlbssfs using tif
+ * rfgistfrfd Clbss Lobdfrs, bnd to bdd/rfmovf dlbss lobdfrs from tif
  * list.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface ModifiableClassLoaderRepository
-    extends ClassLoaderRepository {
+publid intfrfbdf ModifibblfClbssLobdfrRfpository
+    fxtfnds ClbssLobdfrRfpository {
 
     /**
-     * Add an anonymous ClassLoader to the repository.
+     * Add bn bnonymous ClbssLobdfr to tif rfpository.
      **/
-    public void addClassLoader(ClassLoader loader);
+    publid void bddClbssLobdfr(ClbssLobdfr lobdfr);
 
     /**
-     * Remove the specified ClassLoader to the repository.
-     * The class loader may or may not be anonymous.
+     * Rfmovf tif spfdififd ClbssLobdfr to tif rfpository.
+     * Tif dlbss lobdfr mby or mby not bf bnonymous.
      **/
-    public void removeClassLoader(ClassLoader loader);
+    publid void rfmovfClbssLobdfr(ClbssLobdfr lobdfr);
 
     /**
-     * Add a named ClassLoader to the repository.
+     * Add b nbmfd ClbssLobdfr to tif rfpository.
      **/
-    public void addClassLoader(ObjectName name, ClassLoader loader);
+    publid void bddClbssLobdfr(ObjfdtNbmf nbmf, ClbssLobdfr lobdfr);
 
     /**
-     * Remove a named ClassLoader from the repository.
+     * Rfmovf b nbmfd ClbssLobdfr from tif rfpository.
      **/
-    public void removeClassLoader(ObjectName name);
+    publid void rfmovfClbssLobdfr(ObjfdtNbmf nbmf);
 
     /**
-     * Get a named ClassLoader from the repository.
+     * Gft b nbmfd ClbssLobdfr from tif rfpository.
      **/
-    public ClassLoader getClassLoader(ObjectName name);
+    publid ClbssLobdfr gftClbssLobdfr(ObjfdtNbmf nbmf);
 }

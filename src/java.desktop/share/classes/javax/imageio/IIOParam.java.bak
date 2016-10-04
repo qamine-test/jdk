@@ -1,676 +1,676 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio;
+pbdkbgf jbvbx.imbgfio;
 
-import java.awt.Point;
-import java.awt.Rectangle;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
 
 /**
- * A superclass of all classes describing how streams should be
- * decoded or encoded.  This class contains all the variables and
- * methods that are shared by <code>ImageReadParam</code> and
- * <code>ImageWriteParam</code>.
+ * A supfrdlbss of bll dlbssfs dfsdribing iow strfbms siould bf
+ * dfdodfd or fndodfd.  Tiis dlbss dontbins bll tif vbribblfs bnd
+ * mftiods tibt brf sibrfd by <dodf>ImbgfRfbdPbrbm</dodf> bnd
+ * <dodf>ImbgfWritfPbrbm</dodf>.
  *
- * <p> This class provides mechanisms to specify a source region and a
- * destination region.  When reading, the source is the stream and
- * the in-memory image is the destination.  When writing, these are
- * reversed.  In the case of writing, destination regions may be used
- * only with a writer that supports pixel replacement.
+ * <p> Tiis dlbss providfs mfdibnisms to spfdify b sourdf rfgion bnd b
+ * dfstinbtion rfgion.  Wifn rfbding, tif sourdf is tif strfbm bnd
+ * tif in-mfmory imbgf is tif dfstinbtion.  Wifn writing, tifsf brf
+ * rfvfrsfd.  In tif dbsf of writing, dfstinbtion rfgions mby bf usfd
+ * only witi b writfr tibt supports pixfl rfplbdfmfnt.
  * <p>
- * Decimation subsampling may be specified for both readers
- * and writers, using a movable subsampling grid.
+ * Dfdimbtion subsbmpling mby bf spfdififd for boti rfbdfrs
+ * bnd writfrs, using b movbblf subsbmpling grid.
  * <p>
- * Subsets of the source and destination bands may be selected.
+ * Subsfts of tif sourdf bnd dfstinbtion bbnds mby bf sflfdtfd.
  *
  */
-public abstract class IIOParam {
+publid bbstrbdt dlbss IIOPbrbm {
 
     /**
-     * The source region, on <code>null</code> if none is set.
+     * Tif sourdf rfgion, on <dodf>null</dodf> if nonf is sft.
      */
-    protected Rectangle sourceRegion = null;
+    protfdtfd Rfdtbnglf sourdfRfgion = null;
 
     /**
-     * The decimation subsampling to be applied in the horizontal
-     * direction.  By default, the value is <code>1</code>.
-     * The value must not be negative or 0.
+     * Tif dfdimbtion subsbmpling to bf bpplifd in tif iorizontbl
+     * dirfdtion.  By dffbult, tif vbluf is <dodf>1</dodf>.
+     * Tif vbluf must not bf nfgbtivf or 0.
      */
-    protected int sourceXSubsampling = 1;
+    protfdtfd int sourdfXSubsbmpling = 1;
 
     /**
-     * The decimation subsampling to be applied in the vertical
-     * direction.  By default, the value is <code>1</code>.
-     * The value must not be negative or 0.
+     * Tif dfdimbtion subsbmpling to bf bpplifd in tif vfrtidbl
+     * dirfdtion.  By dffbult, tif vbluf is <dodf>1</dodf>.
+     * Tif vbluf must not bf nfgbtivf or 0.
      */
-    protected int sourceYSubsampling = 1;
+    protfdtfd int sourdfYSubsbmpling = 1;
 
     /**
-     * A horizontal offset to be applied to the subsampling grid before
-     * subsampling.  The first pixel to be used will be offset this
-     * amount from the origin of the region, or of the image if no
-     * region is specified.
+     * A iorizontbl offsft to bf bpplifd to tif subsbmpling grid bfforf
+     * subsbmpling.  Tif first pixfl to bf usfd will bf offsft tiis
+     * bmount from tif origin of tif rfgion, or of tif imbgf if no
+     * rfgion is spfdififd.
      */
-    protected int subsamplingXOffset = 0;
+    protfdtfd int subsbmplingXOffsft = 0;
 
     /**
-     * A vertical offset to be applied to the subsampling grid before
-     * subsampling.  The first pixel to be used will be offset this
-     * amount from the origin of the region, or of the image if no
-     * region is specified.
+     * A vfrtidbl offsft to bf bpplifd to tif subsbmpling grid bfforf
+     * subsbmpling.  Tif first pixfl to bf usfd will bf offsft tiis
+     * bmount from tif origin of tif rfgion, or of tif imbgf if no
+     * rfgion is spfdififd.
      */
-    protected int subsamplingYOffset = 0;
+    protfdtfd int subsbmplingYOffsft = 0;
 
     /**
-     * An array of <code>int</code>s indicating which source bands
-     * will be used, or <code>null</code>.  If <code>null</code>, the
-     * set of source bands to be used is as described in the comment
-     * for the <code>setSourceBands</code> method.  No value should
-     * be allowed to be negative.
+     * An brrby of <dodf>int</dodf>s indidbting wiidi sourdf bbnds
+     * will bf usfd, or <dodf>null</dodf>.  If <dodf>null</dodf>, tif
+     * sft of sourdf bbnds to bf usfd is bs dfsdribfd in tif dommfnt
+     * for tif <dodf>sftSourdfBbnds</dodf> mftiod.  No vbluf siould
+     * bf bllowfd to bf nfgbtivf.
      */
-    protected int[] sourceBands = null;
+    protfdtfd int[] sourdfBbnds = null;
 
     /**
-     * An <code>ImageTypeSpecifier</code> to be used to generate a
-     * destination image when reading, or to set the output color type
-     * when writing.  If non has been set the value will be
-     * <code>null</code>.  By default, the value is <code>null</code>.
+     * An <dodf>ImbgfTypfSpfdififr</dodf> to bf usfd to gfnfrbtf b
+     * dfstinbtion imbgf wifn rfbding, or to sft tif output dolor typf
+     * wifn writing.  If non ibs bffn sft tif vbluf will bf
+     * <dodf>null</dodf>.  By dffbult, tif vbluf is <dodf>null</dodf>.
      */
-    protected ImageTypeSpecifier destinationType = null;
+    protfdtfd ImbgfTypfSpfdififr dfstinbtionTypf = null;
 
     /**
-     * The offset in the destination where the upper-left decoded
-     * pixel should be placed.  By default, the value is (0, 0).
+     * Tif offsft in tif dfstinbtion wifrf tif uppfr-lfft dfdodfd
+     * pixfl siould bf plbdfd.  By dffbult, tif vbluf is (0, 0).
      */
-    protected Point destinationOffset = new Point(0, 0);
+    protfdtfd Point dfstinbtionOffsft = nfw Point(0, 0);
 
     /**
-     * The default <code>IIOParamController</code> that will be
-     * used to provide settings for this <code>IIOParam</code>
-     * object when the <code>activateController</code> method
-     * is called.  This default should be set by subclasses
-     * that choose to provide their own default controller,
-     * usually a GUI, for setting parameters.
+     * Tif dffbult <dodf>IIOPbrbmControllfr</dodf> tibt will bf
+     * usfd to providf sfttings for tiis <dodf>IIOPbrbm</dodf>
+     * objfdt wifn tif <dodf>bdtivbtfControllfr</dodf> mftiod
+     * is dbllfd.  Tiis dffbult siould bf sft by subdlbssfs
+     * tibt dioosf to providf tifir own dffbult dontrollfr,
+     * usublly b GUI, for sftting pbrbmftfrs.
      *
-     * @see IIOParamController
-     * @see #getDefaultController
-     * @see #activateController
+     * @sff IIOPbrbmControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #bdtivbtfControllfr
      */
-    protected IIOParamController defaultController = null;
+    protfdtfd IIOPbrbmControllfr dffbultControllfr = null;
 
     /**
-     * The <code>IIOParamController</code> that will be
-     * used to provide settings for this <code>IIOParam</code>
-     * object when the <code>activateController</code> method
-     * is called.  This value overrides any default controller,
-     * even when null.
+     * Tif <dodf>IIOPbrbmControllfr</dodf> tibt will bf
+     * usfd to providf sfttings for tiis <dodf>IIOPbrbm</dodf>
+     * objfdt wifn tif <dodf>bdtivbtfControllfr</dodf> mftiod
+     * is dbllfd.  Tiis vbluf ovfrridfs bny dffbult dontrollfr,
+     * fvfn wifn null.
      *
-     * @see IIOParamController
-     * @see #setController(IIOParamController)
-     * @see #hasController()
-     * @see #activateController()
+     * @sff IIOPbrbmControllfr
+     * @sff #sftControllfr(IIOPbrbmControllfr)
+     * @sff #ibsControllfr()
+     * @sff #bdtivbtfControllfr()
      */
-    protected IIOParamController controller = null;
+    protfdtfd IIOPbrbmControllfr dontrollfr = null;
 
     /**
-     * Protected constructor may be called only by subclasses.
+     * Protfdtfd donstrudtor mby bf dbllfd only by subdlbssfs.
      */
-    protected IIOParam() {
-        controller = defaultController;
+    protfdtfd IIOPbrbm() {
+        dontrollfr = dffbultControllfr;
     }
 
     /**
-     * Sets the source region of interest.  The region of interest is
-     * described as a rectangle, with the upper-left corner of the
-     * source image as pixel (0, 0) and increasing values down and to
-     * the right.  The actual number of pixels used will depend on
-     * the subsampling factors set by <code>setSourceSubsampling</code>.
-     * If subsampling has been set such that this number is zero,
-     * an <code>IllegalStateException</code> will be thrown.
+     * Sfts tif sourdf rfgion of intfrfst.  Tif rfgion of intfrfst is
+     * dfsdribfd bs b rfdtbnglf, witi tif uppfr-lfft dornfr of tif
+     * sourdf imbgf bs pixfl (0, 0) bnd indrfbsing vblufs down bnd to
+     * tif rigit.  Tif bdtubl numbfr of pixfls usfd will dfpfnd on
+     * tif subsbmpling fbdtors sft by <dodf>sftSourdfSubsbmpling</dodf>.
+     * If subsbmpling ibs bffn sft sudi tibt tiis numbfr is zfro,
+     * bn <dodf>IllfgblStbtfExdfption</dodf> will bf tirown.
      *
-     * <p> The source region of interest specified by this method will
-     * be clipped as needed to fit within the source bounds, as well
-     * as the destination offsets, width, and height at the time of
-     * actual I/O.
+     * <p> Tif sourdf rfgion of intfrfst spfdififd by tiis mftiod will
+     * bf dlippfd bs nffdfd to fit witiin tif sourdf bounds, bs wfll
+     * bs tif dfstinbtion offsfts, widti, bnd ifigit bt tif timf of
+     * bdtubl I/O.
      *
-     * <p> A value of <code>null</code> for <code>sourceRegion</code>
-     * will remove any region specification, causing the entire image
-     * to be used.
+     * <p> A vbluf of <dodf>null</dodf> for <dodf>sourdfRfgion</dodf>
+     * will rfmovf bny rfgion spfdifidbtion, dbusing tif fntirf imbgf
+     * to bf usfd.
      *
-     * @param sourceRegion a <code>Rectangle</code> specifying the
-     * source region of interest, or <code>null</code>.
+     * @pbrbm sourdfRfgion b <dodf>Rfdtbnglf</dodf> spfdifying tif
+     * sourdf rfgion of intfrfst, or <dodf>null</dodf>.
      *
-     * @exception IllegalArgumentException if
-     * <code>sourceRegion</code> is non-<code>null</code> and either
-     * <code>sourceRegion.x</code> or <code>sourceRegion.y</code> is
-     * negative.
-     * @exception IllegalArgumentException if
-     * <code>sourceRegion</code> is non-<code>null</code> and either
-     * <code>sourceRegion.width</code> or
-     * <code>sourceRegion.height</code> is negative or 0.
-     * @exception IllegalStateException if subsampling is such that
-     * this region will have a subsampled width or height of zero.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>sourdfRfgion</dodf> is non-<dodf>null</dodf> bnd fitifr
+     * <dodf>sourdfRfgion.x</dodf> or <dodf>sourdfRfgion.y</dodf> is
+     * nfgbtivf.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>sourdfRfgion</dodf> is non-<dodf>null</dodf> bnd fitifr
+     * <dodf>sourdfRfgion.widti</dodf> or
+     * <dodf>sourdfRfgion.ifigit</dodf> is nfgbtivf or 0.
+     * @fxdfption IllfgblStbtfExdfption if subsbmpling is sudi tibt
+     * tiis rfgion will ibvf b subsbmplfd widti or ifigit of zfro.
      *
-     * @see #getSourceRegion
-     * @see #setSourceSubsampling
-     * @see ImageReadParam#setDestinationOffset
-     * @see ImageReadParam#getDestinationOffset
+     * @sff #gftSourdfRfgion
+     * @sff #sftSourdfSubsbmpling
+     * @sff ImbgfRfbdPbrbm#sftDfstinbtionOffsft
+     * @sff ImbgfRfbdPbrbm#gftDfstinbtionOffsft
      */
-    public void setSourceRegion(Rectangle sourceRegion) {
-        if (sourceRegion == null) {
-            this.sourceRegion = null;
-            return;
+    publid void sftSourdfRfgion(Rfdtbnglf sourdfRfgion) {
+        if (sourdfRfgion == null) {
+            tiis.sourdfRfgion = null;
+            rfturn;
         }
 
-        if (sourceRegion.x < 0) {
-            throw new IllegalArgumentException("sourceRegion.x < 0!");
+        if (sourdfRfgion.x < 0) {
+            tirow nfw IllfgblArgumfntExdfption("sourdfRfgion.x < 0!");
         }
-        if (sourceRegion.y < 0){
-            throw new IllegalArgumentException("sourceRegion.y < 0!");
+        if (sourdfRfgion.y < 0){
+            tirow nfw IllfgblArgumfntExdfption("sourdfRfgion.y < 0!");
         }
-        if (sourceRegion.width <= 0) {
-            throw new IllegalArgumentException("sourceRegion.width <= 0!");
+        if (sourdfRfgion.widti <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("sourdfRfgion.widti <= 0!");
         }
-        if (sourceRegion.height <= 0) {
-            throw new IllegalArgumentException("sourceRegion.height <= 0!");
-        }
-
-        // Throw an IllegalStateException if region falls between subsamples
-        if (sourceRegion.width <= subsamplingXOffset) {
-            throw new IllegalStateException
-                ("sourceRegion.width <= subsamplingXOffset!");
-        }
-        if (sourceRegion.height <= subsamplingYOffset) {
-            throw new IllegalStateException
-                ("sourceRegion.height <= subsamplingYOffset!");
+        if (sourdfRfgion.ifigit <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("sourdfRfgion.ifigit <= 0!");
         }
 
-        this.sourceRegion = (Rectangle)sourceRegion.clone();
+        // Tirow bn IllfgblStbtfExdfption if rfgion fblls bftwffn subsbmplfs
+        if (sourdfRfgion.widti <= subsbmplingXOffsft) {
+            tirow nfw IllfgblStbtfExdfption
+                ("sourdfRfgion.widti <= subsbmplingXOffsft!");
+        }
+        if (sourdfRfgion.ifigit <= subsbmplingYOffsft) {
+            tirow nfw IllfgblStbtfExdfption
+                ("sourdfRfgion.ifigit <= subsbmplingYOffsft!");
+        }
+
+        tiis.sourdfRfgion = (Rfdtbnglf)sourdfRfgion.dlonf();
     }
 
     /**
-     * Returns the source region to be used.  The returned value is
-     * that set by the most recent call to
-     * <code>setSourceRegion</code>, and will be <code>null</code> if
-     * there is no region set.
+     * Rfturns tif sourdf rfgion to bf usfd.  Tif rfturnfd vbluf is
+     * tibt sft by tif most rfdfnt dbll to
+     * <dodf>sftSourdfRfgion</dodf>, bnd will bf <dodf>null</dodf> if
+     * tifrf is no rfgion sft.
      *
-     * @return the source region of interest as a
-     * <code>Rectangle</code>, or <code>null</code>.
+     * @rfturn tif sourdf rfgion of intfrfst bs b
+     * <dodf>Rfdtbnglf</dodf>, or <dodf>null</dodf>.
      *
-     * @see #setSourceRegion
+     * @sff #sftSourdfRfgion
      */
-    public Rectangle getSourceRegion() {
-        if (sourceRegion == null) {
-            return null;
+    publid Rfdtbnglf gftSourdfRfgion() {
+        if (sourdfRfgion == null) {
+            rfturn null;
         }
-        return (Rectangle)sourceRegion.clone();
+        rfturn (Rfdtbnglf)sourdfRfgion.dlonf();
     }
 
     /**
-     * Specifies a decimation subsampling to apply on I/O.  The
-     * <code>sourceXSubsampling</code> and
-     * <code>sourceYSubsampling</code> parameters specify the
-     * subsampling period (<i>i.e.</i>, the number of rows and columns
-     * to advance after every source pixel).  Specifically, a period of
-     * 1 will use every row or column; a period of 2 will use every
-     * other row or column.  The <code>subsamplingXOffset</code> and
-     * <code>subsamplingYOffset</code> parameters specify an offset
-     * from the region (or image) origin for the first subsampled pixel.
-     * Adjusting the origin of the subsample grid is useful for avoiding
-     * seams when subsampling a very large source image into destination
-     * regions that will be assembled into a complete subsampled image.
-     * Most users will want to simply leave these parameters at 0.
+     * Spfdififs b dfdimbtion subsbmpling to bpply on I/O.  Tif
+     * <dodf>sourdfXSubsbmpling</dodf> bnd
+     * <dodf>sourdfYSubsbmpling</dodf> pbrbmftfrs spfdify tif
+     * subsbmpling pfriod (<i>i.f.</i>, tif numbfr of rows bnd dolumns
+     * to bdvbndf bftfr fvfry sourdf pixfl).  Spfdifidblly, b pfriod of
+     * 1 will usf fvfry row or dolumn; b pfriod of 2 will usf fvfry
+     * otifr row or dolumn.  Tif <dodf>subsbmplingXOffsft</dodf> bnd
+     * <dodf>subsbmplingYOffsft</dodf> pbrbmftfrs spfdify bn offsft
+     * from tif rfgion (or imbgf) origin for tif first subsbmplfd pixfl.
+     * Adjusting tif origin of tif subsbmplf grid is usfful for bvoiding
+     * sfbms wifn subsbmpling b vfry lbrgf sourdf imbgf into dfstinbtion
+     * rfgions tibt will bf bssfmblfd into b domplftf subsbmplfd imbgf.
+     * Most usfrs will wbnt to simply lfbvf tifsf pbrbmftfrs bt 0.
      *
-     * <p> The number of pixels and scanlines to be used are calculated
-     * as follows.
+     * <p> Tif numbfr of pixfls bnd sdbnlinfs to bf usfd brf dbldulbtfd
+     * bs follows.
      * <p>
-     * The number of subsampled pixels in a scanline is given by
+     * Tif numbfr of subsbmplfd pixfls in b sdbnlinf is givfn by
      * <p>
-     * <code>truncate[(width - subsamplingXOffset + sourceXSubsampling - 1)
-     * / sourceXSubsampling]</code>.
+     * <dodf>trundbtf[(widti - subsbmplingXOffsft + sourdfXSubsbmpling - 1)
+     * / sourdfXSubsbmpling]</dodf>.
      * <p>
-     * If the region is such that this width is zero, an
-     * <code>IllegalStateException</code> is thrown.
+     * If tif rfgion is sudi tibt tiis widti is zfro, bn
+     * <dodf>IllfgblStbtfExdfption</dodf> is tirown.
      * <p>
-     * The number of scanlines to be used can be computed similarly.
+     * Tif numbfr of sdbnlinfs to bf usfd dbn bf domputfd similbrly.
      *
-     * <p>The ability to set the subsampling grid to start somewhere
-     * other than the source region origin is useful if the
-     * region is being used to create subsampled tiles of a large image,
-     * where the tile width and height are not multiples of the
-     * subsampling periods.  If the subsampling grid does not remain
-     * consistent from tile to tile, there will be artifacts at the tile
-     * boundaries.  By adjusting the subsampling grid offset for each
-     * tile to compensate, these artifacts can be avoided.  The tradeoff
-     * is that in order to avoid these artifacts, the tiles are not all
-     * the same size.  The grid offset to use in this case is given by:
+     * <p>Tif bbility to sft tif subsbmpling grid to stbrt somfwifrf
+     * otifr tibn tif sourdf rfgion origin is usfful if tif
+     * rfgion is bfing usfd to drfbtf subsbmplfd tilfs of b lbrgf imbgf,
+     * wifrf tif tilf widti bnd ifigit brf not multiplfs of tif
+     * subsbmpling pfriods.  If tif subsbmpling grid dofs not rfmbin
+     * donsistfnt from tilf to tilf, tifrf will bf brtifbdts bt tif tilf
+     * boundbrifs.  By bdjusting tif subsbmpling grid offsft for fbdi
+     * tilf to dompfnsbtf, tifsf brtifbdts dbn bf bvoidfd.  Tif trbdfoff
+     * is tibt in ordfr to bvoid tifsf brtifbdts, tif tilfs brf not bll
+     * tif sbmf sizf.  Tif grid offsft to usf in tiis dbsf is givfn by:
      * <br>
-     * grid offset = [period - (region offset modulo period)] modulo period)
+     * grid offsft = [pfriod - (rfgion offsft modulo pfriod)] modulo pfriod)
      *
-     * <p> If either <code>sourceXSubsampling</code> or
-     * <code>sourceYSubsampling</code> is 0 or negative, an
-     * <code>IllegalArgumentException</code> will be thrown.
+     * <p> If fitifr <dodf>sourdfXSubsbmpling</dodf> or
+     * <dodf>sourdfYSubsbmpling</dodf> is 0 or nfgbtivf, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> will bf tirown.
      *
-     * <p> If either <code>subsamplingXOffset</code> or
-     * <code>subsamplingYOffset</code> is negative or greater than or
-     * equal to the corresponding period, an
-     * <code>IllegalArgumentException</code> will be thrown.
+     * <p> If fitifr <dodf>subsbmplingXOffsft</dodf> or
+     * <dodf>subsbmplingYOffsft</dodf> is nfgbtivf or grfbtfr tibn or
+     * fqubl to tif dorrfsponding pfriod, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> will bf tirown.
      *
-     * <p> There is no <code>unsetSourceSubsampling</code> method;
-     * simply call <code>setSourceSubsampling(1, 1, 0, 0)</code> to
-     * restore default values.
+     * <p> Tifrf is no <dodf>unsftSourdfSubsbmpling</dodf> mftiod;
+     * simply dbll <dodf>sftSourdfSubsbmpling(1, 1, 0, 0)</dodf> to
+     * rfstorf dffbult vblufs.
      *
-     * @param sourceXSubsampling the number of columns to advance
-     * between pixels.
-     * @param sourceYSubsampling the number of rows to advance between
-     * pixels.
-     * @param subsamplingXOffset the horizontal offset of the first subsample
-     * within the region, or within the image if no region is set.
-     * @param subsamplingYOffset the horizontal offset of the first subsample
-     * within the region, or within the image if no region is set.
-     * @exception IllegalArgumentException if either period is
-     * negative or 0, or if either grid offset is negative or greater than
-     * the corresponding period.
-     * @exception IllegalStateException if the source region is such that
-     * the subsampled output would contain no pixels.
+     * @pbrbm sourdfXSubsbmpling tif numbfr of dolumns to bdvbndf
+     * bftwffn pixfls.
+     * @pbrbm sourdfYSubsbmpling tif numbfr of rows to bdvbndf bftwffn
+     * pixfls.
+     * @pbrbm subsbmplingXOffsft tif iorizontbl offsft of tif first subsbmplf
+     * witiin tif rfgion, or witiin tif imbgf if no rfgion is sft.
+     * @pbrbm subsbmplingYOffsft tif iorizontbl offsft of tif first subsbmplf
+     * witiin tif rfgion, or witiin tif imbgf if no rfgion is sft.
+     * @fxdfption IllfgblArgumfntExdfption if fitifr pfriod is
+     * nfgbtivf or 0, or if fitifr grid offsft is nfgbtivf or grfbtfr tibn
+     * tif dorrfsponding pfriod.
+     * @fxdfption IllfgblStbtfExdfption if tif sourdf rfgion is sudi tibt
+     * tif subsbmplfd output would dontbin no pixfls.
      */
-    public void setSourceSubsampling(int sourceXSubsampling,
-                                     int sourceYSubsampling,
-                                     int subsamplingXOffset,
-                                     int subsamplingYOffset) {
-        if (sourceXSubsampling <= 0) {
-            throw new IllegalArgumentException("sourceXSubsampling <= 0!");
+    publid void sftSourdfSubsbmpling(int sourdfXSubsbmpling,
+                                     int sourdfYSubsbmpling,
+                                     int subsbmplingXOffsft,
+                                     int subsbmplingYOffsft) {
+        if (sourdfXSubsbmpling <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("sourdfXSubsbmpling <= 0!");
         }
-        if (sourceYSubsampling <= 0) {
-            throw new IllegalArgumentException("sourceYSubsampling <= 0!");
+        if (sourdfYSubsbmpling <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("sourdfYSubsbmpling <= 0!");
         }
-        if (subsamplingXOffset < 0 ||
-            subsamplingXOffset >= sourceXSubsampling) {
-            throw new IllegalArgumentException
-                ("subsamplingXOffset out of range!");
+        if (subsbmplingXOffsft < 0 ||
+            subsbmplingXOffsft >= sourdfXSubsbmpling) {
+            tirow nfw IllfgblArgumfntExdfption
+                ("subsbmplingXOffsft out of rbngf!");
         }
-        if (subsamplingYOffset < 0 ||
-            subsamplingYOffset >= sourceYSubsampling) {
-            throw new IllegalArgumentException
-                ("subsamplingYOffset out of range!");
+        if (subsbmplingYOffsft < 0 ||
+            subsbmplingYOffsft >= sourdfYSubsbmpling) {
+            tirow nfw IllfgblArgumfntExdfption
+                ("subsbmplingYOffsft out of rbngf!");
         }
 
-        // Throw an IllegalStateException if region falls between subsamples
-        if (sourceRegion != null) {
-            if (subsamplingXOffset >= sourceRegion.width ||
-                subsamplingYOffset >= sourceRegion.height) {
-                throw new IllegalStateException("region contains no pixels!");
+        // Tirow bn IllfgblStbtfExdfption if rfgion fblls bftwffn subsbmplfs
+        if (sourdfRfgion != null) {
+            if (subsbmplingXOffsft >= sourdfRfgion.widti ||
+                subsbmplingYOffsft >= sourdfRfgion.ifigit) {
+                tirow nfw IllfgblStbtfExdfption("rfgion dontbins no pixfls!");
             }
         }
 
-        this.sourceXSubsampling = sourceXSubsampling;
-        this.sourceYSubsampling = sourceYSubsampling;
-        this.subsamplingXOffset = subsamplingXOffset;
-        this.subsamplingYOffset = subsamplingYOffset;
+        tiis.sourdfXSubsbmpling = sourdfXSubsbmpling;
+        tiis.sourdfYSubsbmpling = sourdfYSubsbmpling;
+        tiis.subsbmplingXOffsft = subsbmplingXOffsft;
+        tiis.subsbmplingYOffsft = subsbmplingYOffsft;
     }
 
     /**
-     * Returns the number of source columns to advance for each pixel.
+     * Rfturns tif numbfr of sourdf dolumns to bdvbndf for fbdi pixfl.
      *
-     * <p>If <code>setSourceSubsampling</code> has not been called, 1
-     * is returned (which is the correct value).
+     * <p>If <dodf>sftSourdfSubsbmpling</dodf> ibs not bffn dbllfd, 1
+     * is rfturnfd (wiidi is tif dorrfdt vbluf).
      *
-     * @return the source subsampling X period.
+     * @rfturn tif sourdf subsbmpling X pfriod.
      *
-     * @see #setSourceSubsampling
-     * @see #getSourceYSubsampling
+     * @sff #sftSourdfSubsbmpling
+     * @sff #gftSourdfYSubsbmpling
      */
-    public int getSourceXSubsampling() {
-        return sourceXSubsampling;
+    publid int gftSourdfXSubsbmpling() {
+        rfturn sourdfXSubsbmpling;
     }
 
     /**
-     * Returns the number of rows to advance for each pixel.
+     * Rfturns tif numbfr of rows to bdvbndf for fbdi pixfl.
      *
-     * <p>If <code>setSourceSubsampling</code> has not been called, 1
-     * is returned (which is the correct value).
+     * <p>If <dodf>sftSourdfSubsbmpling</dodf> ibs not bffn dbllfd, 1
+     * is rfturnfd (wiidi is tif dorrfdt vbluf).
      *
-     * @return the source subsampling Y period.
+     * @rfturn tif sourdf subsbmpling Y pfriod.
      *
-     * @see #setSourceSubsampling
-     * @see #getSourceXSubsampling
+     * @sff #sftSourdfSubsbmpling
+     * @sff #gftSourdfXSubsbmpling
      */
-    public int getSourceYSubsampling() {
-        return sourceYSubsampling;
+    publid int gftSourdfYSubsbmpling() {
+        rfturn sourdfYSubsbmpling;
     }
 
     /**
-     * Returns the horizontal offset of the subsampling grid.
+     * Rfturns tif iorizontbl offsft of tif subsbmpling grid.
      *
-     * <p>If <code>setSourceSubsampling</code> has not been called, 0
-     * is returned (which is the correct value).
+     * <p>If <dodf>sftSourdfSubsbmpling</dodf> ibs not bffn dbllfd, 0
+     * is rfturnfd (wiidi is tif dorrfdt vbluf).
      *
-     * @return the source subsampling grid X offset.
+     * @rfturn tif sourdf subsbmpling grid X offsft.
      *
-     * @see #setSourceSubsampling
-     * @see #getSubsamplingYOffset
+     * @sff #sftSourdfSubsbmpling
+     * @sff #gftSubsbmplingYOffsft
      */
-    public int getSubsamplingXOffset() {
-        return subsamplingXOffset;
+    publid int gftSubsbmplingXOffsft() {
+        rfturn subsbmplingXOffsft;
     }
 
     /**
-     * Returns the vertical offset of the subsampling grid.
+     * Rfturns tif vfrtidbl offsft of tif subsbmpling grid.
      *
-     * <p>If <code>setSourceSubsampling</code> has not been called, 0
-     * is returned (which is the correct value).
+     * <p>If <dodf>sftSourdfSubsbmpling</dodf> ibs not bffn dbllfd, 0
+     * is rfturnfd (wiidi is tif dorrfdt vbluf).
      *
-     * @return the source subsampling grid Y offset.
+     * @rfturn tif sourdf subsbmpling grid Y offsft.
      *
-     * @see #setSourceSubsampling
-     * @see #getSubsamplingXOffset
+     * @sff #sftSourdfSubsbmpling
+     * @sff #gftSubsbmplingXOffsft
      */
-    public int getSubsamplingYOffset() {
-        return subsamplingYOffset;
+    publid int gftSubsbmplingYOffsft() {
+        rfturn subsbmplingYOffsft;
     }
 
     /**
-     * Sets the indices of the source bands to be used.  Duplicate
-     * indices are not allowed.
+     * Sfts tif indidfs of tif sourdf bbnds to bf usfd.  Duplidbtf
+     * indidfs brf not bllowfd.
      *
-     * <p> A <code>null</code> value indicates that all source bands
-     * will be used.
+     * <p> A <dodf>null</dodf> vbluf indidbtfs tibt bll sourdf bbnds
+     * will bf usfd.
      *
-     * <p> At the time of reading, an
-     * <code>IllegalArgumentException</code> will be thrown by the
-     * reader or writer if a value larger than the largest available
-     * source band index has been specified or if the number of source
-     * bands and destination bands to be used differ.  The
-     * <code>ImageReader.checkReadParamBandSettings</code> method may
-     * be used to automate this test.
+     * <p> At tif timf of rfbding, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> will bf tirown by tif
+     * rfbdfr or writfr if b vbluf lbrgfr tibn tif lbrgfst bvbilbblf
+     * sourdf bbnd indfx ibs bffn spfdififd or if tif numbfr of sourdf
+     * bbnds bnd dfstinbtion bbnds to bf usfd difffr.  Tif
+     * <dodf>ImbgfRfbdfr.difdkRfbdPbrbmBbndSfttings</dodf> mftiod mby
+     * bf usfd to butombtf tiis tfst.
      *
-     * <p> Semantically, a copy is made of the array; changes to the
-     * array contents subsequent to this call have no effect on
-     * this <code>IIOParam</code>.
+     * <p> Sfmbntidblly, b dopy is mbdf of tif brrby; dibngfs to tif
+     * brrby dontfnts subsfqufnt to tiis dbll ibvf no ffffdt on
+     * tiis <dodf>IIOPbrbm</dodf>.
      *
-     * @param sourceBands an array of integer band indices to be
-     * used.
+     * @pbrbm sourdfBbnds bn brrby of intfgfr bbnd indidfs to bf
+     * usfd.
      *
-     * @exception IllegalArgumentException if <code>sourceBands</code>
-     * contains a negative or duplicate value.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>sourdfBbnds</dodf>
+     * dontbins b nfgbtivf or duplidbtf vbluf.
      *
-     * @see #getSourceBands
-     * @see ImageReadParam#setDestinationBands
-     * @see ImageReader#checkReadParamBandSettings
+     * @sff #gftSourdfBbnds
+     * @sff ImbgfRfbdPbrbm#sftDfstinbtionBbnds
+     * @sff ImbgfRfbdfr#difdkRfbdPbrbmBbndSfttings
      */
-    public void setSourceBands(int[] sourceBands) {
-        if (sourceBands == null) {
-            this.sourceBands = null;
-        } else {
-            int numBands = sourceBands.length;
-            for (int i = 0; i < numBands; i++) {
-                int band = sourceBands[i];
-                if (band < 0) {
-                    throw new IllegalArgumentException("Band value < 0!");
+    publid void sftSourdfBbnds(int[] sourdfBbnds) {
+        if (sourdfBbnds == null) {
+            tiis.sourdfBbnds = null;
+        } flsf {
+            int numBbnds = sourdfBbnds.lfngti;
+            for (int i = 0; i < numBbnds; i++) {
+                int bbnd = sourdfBbnds[i];
+                if (bbnd < 0) {
+                    tirow nfw IllfgblArgumfntExdfption("Bbnd vbluf < 0!");
                 }
-                for (int j = i + 1; j < numBands; j++) {
-                    if (band == sourceBands[j]) {
-                        throw new IllegalArgumentException("Duplicate band value!");
+                for (int j = i + 1; j < numBbnds; j++) {
+                    if (bbnd == sourdfBbnds[j]) {
+                        tirow nfw IllfgblArgumfntExdfption("Duplidbtf bbnd vbluf!");
                     }
                 }
 
             }
-            this.sourceBands = (sourceBands.clone());
+            tiis.sourdfBbnds = (sourdfBbnds.dlonf());
         }
     }
 
     /**
-     * Returns the set of of source bands to be used. The returned
-     * value is that set by the most recent call to
-     * <code>setSourceBands</code>, or <code>null</code> if there have
-     * been no calls to <code>setSourceBands</code>.
+     * Rfturns tif sft of of sourdf bbnds to bf usfd. Tif rfturnfd
+     * vbluf is tibt sft by tif most rfdfnt dbll to
+     * <dodf>sftSourdfBbnds</dodf>, or <dodf>null</dodf> if tifrf ibvf
+     * bffn no dblls to <dodf>sftSourdfBbnds</dodf>.
      *
-     * <p> Semantically, the array returned is a copy; changes to
-     * array contents subsequent to this call have no effect on this
-     * <code>IIOParam</code>.
+     * <p> Sfmbntidblly, tif brrby rfturnfd is b dopy; dibngfs to
+     * brrby dontfnts subsfqufnt to tiis dbll ibvf no ffffdt on tiis
+     * <dodf>IIOPbrbm</dodf>.
      *
-     * @return the set of source bands to be used, or
-     * <code>null</code>.
+     * @rfturn tif sft of sourdf bbnds to bf usfd, or
+     * <dodf>null</dodf>.
      *
-     * @see #setSourceBands
+     * @sff #sftSourdfBbnds
      */
-    public int[] getSourceBands() {
-        if (sourceBands == null) {
-            return null;
+    publid int[] gftSourdfBbnds() {
+        if (sourdfBbnds == null) {
+            rfturn null;
         }
-        return (sourceBands.clone());
+        rfturn (sourdfBbnds.dlonf());
     }
 
     /**
-     * Sets the desired image type for the destination image, using an
-     * <code>ImageTypeSpecifier</code>.
+     * Sfts tif dfsirfd imbgf typf for tif dfstinbtion imbgf, using bn
+     * <dodf>ImbgfTypfSpfdififr</dodf>.
      *
-     * <p> When reading, if the layout of the destination has been set
-     * using this method, each call to an <code>ImageReader</code>
-     * <code>read</code> method will return a new
-     * <code>BufferedImage</code> using the format specified by the
-     * supplied type specifier.  As a side effect, any destination
-     * <code>BufferedImage</code> set by
-     * <code>ImageReadParam.setDestination(BufferedImage)</code> will
-     * no longer be set as the destination.  In other words, this
-     * method may be thought of as calling
-     * <code>setDestination((BufferedImage)null)</code>.
+     * <p> Wifn rfbding, if tif lbyout of tif dfstinbtion ibs bffn sft
+     * using tiis mftiod, fbdi dbll to bn <dodf>ImbgfRfbdfr</dodf>
+     * <dodf>rfbd</dodf> mftiod will rfturn b nfw
+     * <dodf>BufffrfdImbgf</dodf> using tif formbt spfdififd by tif
+     * supplifd typf spfdififr.  As b sidf ffffdt, bny dfstinbtion
+     * <dodf>BufffrfdImbgf</dodf> sft by
+     * <dodf>ImbgfRfbdPbrbm.sftDfstinbtion(BufffrfdImbgf)</dodf> will
+     * no longfr bf sft bs tif dfstinbtion.  In otifr words, tiis
+     * mftiod mby bf tiougit of bs dblling
+     * <dodf>sftDfstinbtion((BufffrfdImbgf)null)</dodf>.
      *
-     * <p> When writing, the destination type maybe used to determine
-     * the color type of the image.  The <code>SampleModel</code>
-     * information will be ignored, and may be <code>null</code>.  For
-     * example, a 4-banded image could represent either CMYK or RGBA
-     * data.  If a destination type is set, its
-     * <code>ColorModel</code> will override any
-     * <code>ColorModel</code> on the image itself.  This is crucial
-     * when <code>setSourceBands</code> is used since the image's
-     * <code>ColorModel</code> will refer to the entire image rather
-     * than to the subset of bands being written.
+     * <p> Wifn writing, tif dfstinbtion typf mbybf usfd to dftfrminf
+     * tif dolor typf of tif imbgf.  Tif <dodf>SbmplfModfl</dodf>
+     * informbtion will bf ignorfd, bnd mby bf <dodf>null</dodf>.  For
+     * fxbmplf, b 4-bbndfd imbgf dould rfprfsfnt fitifr CMYK or RGBA
+     * dbtb.  If b dfstinbtion typf is sft, its
+     * <dodf>ColorModfl</dodf> will ovfrridf bny
+     * <dodf>ColorModfl</dodf> on tif imbgf itsflf.  Tiis is drudibl
+     * wifn <dodf>sftSourdfBbnds</dodf> is usfd sindf tif imbgf's
+     * <dodf>ColorModfl</dodf> will rfffr to tif fntirf imbgf rbtifr
+     * tibn to tif subsft of bbnds bfing writtfn.
      *
-     * @param destinationType the <code>ImageTypeSpecifier</code> to
-     * be used to determine the destination layout and color type.
+     * @pbrbm dfstinbtionTypf tif <dodf>ImbgfTypfSpfdififr</dodf> to
+     * bf usfd to dftfrminf tif dfstinbtion lbyout bnd dolor typf.
      *
-     * @see #getDestinationType
+     * @sff #gftDfstinbtionTypf
      */
-    public void setDestinationType(ImageTypeSpecifier destinationType) {
-        this.destinationType = destinationType;
+    publid void sftDfstinbtionTypf(ImbgfTypfSpfdififr dfstinbtionTypf) {
+        tiis.dfstinbtionTypf = dfstinbtionTypf;
     }
 
     /**
-     * Returns the type of image to be returned by the read, if one
-     * was set by a call to
-     * <code>setDestination(ImageTypeSpecifier)</code>, as an
-     * <code>ImageTypeSpecifier</code>.  If none was set,
-     * <code>null</code> is returned.
+     * Rfturns tif typf of imbgf to bf rfturnfd by tif rfbd, if onf
+     * wbs sft by b dbll to
+     * <dodf>sftDfstinbtion(ImbgfTypfSpfdififr)</dodf>, bs bn
+     * <dodf>ImbgfTypfSpfdififr</dodf>.  If nonf wbs sft,
+     * <dodf>null</dodf> is rfturnfd.
      *
-     * @return an <code>ImageTypeSpecifier</code> describing the
-     * destination type, or <code>null</code>.
+     * @rfturn bn <dodf>ImbgfTypfSpfdififr</dodf> dfsdribing tif
+     * dfstinbtion typf, or <dodf>null</dodf>.
      *
-     * @see #setDestinationType
+     * @sff #sftDfstinbtionTypf
      */
-    public ImageTypeSpecifier getDestinationType() {
-        return destinationType;
+    publid ImbgfTypfSpfdififr gftDfstinbtionTypf() {
+        rfturn dfstinbtionTypf;
     }
 
     /**
-     * Specifies the offset in the destination image at which future
-     * decoded pixels are to be placed, when reading, or where a
-     * region will be written, when writing.
+     * Spfdififs tif offsft in tif dfstinbtion imbgf bt wiidi futurf
+     * dfdodfd pixfls brf to bf plbdfd, wifn rfbding, or wifrf b
+     * rfgion will bf writtfn, wifn writing.
      *
-     * <p> When reading, the region to be written within the
-     * destination <code>BufferedImage</code> will start at this
-     * offset and have a width and height determined by the source
-     * region of interest, the subsampling parameters, and the
-     * destination bounds.
+     * <p> Wifn rfbding, tif rfgion to bf writtfn witiin tif
+     * dfstinbtion <dodf>BufffrfdImbgf</dodf> will stbrt bt tiis
+     * offsft bnd ibvf b widti bnd ifigit dftfrminfd by tif sourdf
+     * rfgion of intfrfst, tif subsbmpling pbrbmftfrs, bnd tif
+     * dfstinbtion bounds.
      *
-     * <p> Normal writes are not affected by this method, only writes
-     * performed using <code>ImageWriter.replacePixels</code>.  For
-     * such writes, the offset specified is within the output stream
-     * image whose pixels are being modified.
+     * <p> Normbl writfs brf not bfffdtfd by tiis mftiod, only writfs
+     * pfrformfd using <dodf>ImbgfWritfr.rfplbdfPixfls</dodf>.  For
+     * sudi writfs, tif offsft spfdififd is witiin tif output strfbm
+     * imbgf wiosf pixfls brf bfing modififd.
      *
-     * <p> There is no <code>unsetDestinationOffset</code> method;
-     * simply call <code>setDestinationOffset(new Point(0, 0))</code> to
-     * restore default values.
+     * <p> Tifrf is no <dodf>unsftDfstinbtionOffsft</dodf> mftiod;
+     * simply dbll <dodf>sftDfstinbtionOffsft(nfw Point(0, 0))</dodf> to
+     * rfstorf dffbult vblufs.
      *
-     * @param destinationOffset the offset in the destination, as a
-     * <code>Point</code>.
+     * @pbrbm dfstinbtionOffsft tif offsft in tif dfstinbtion, bs b
+     * <dodf>Point</dodf>.
      *
-     * @exception IllegalArgumentException if
-     * <code>destinationOffset</code> is <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>dfstinbtionOffsft</dodf> is <dodf>null</dodf>.
      *
-     * @see #getDestinationOffset
-     * @see ImageWriter#replacePixels
+     * @sff #gftDfstinbtionOffsft
+     * @sff ImbgfWritfr#rfplbdfPixfls
      */
-    public void setDestinationOffset(Point destinationOffset) {
-        if (destinationOffset == null) {
-            throw new IllegalArgumentException("destinationOffset == null!");
+    publid void sftDfstinbtionOffsft(Point dfstinbtionOffsft) {
+        if (dfstinbtionOffsft == null) {
+            tirow nfw IllfgblArgumfntExdfption("dfstinbtionOffsft == null!");
         }
-        this.destinationOffset = (Point)destinationOffset.clone();
+        tiis.dfstinbtionOffsft = (Point)dfstinbtionOffsft.dlonf();
     }
 
     /**
-     * Returns the offset in the destination image at which pixels are
-     * to be placed.
+     * Rfturns tif offsft in tif dfstinbtion imbgf bt wiidi pixfls brf
+     * to bf plbdfd.
      *
-     * <p> If <code>setDestinationOffsets</code> has not been called,
-     * a <code>Point</code> with zero X and Y values is returned
-     * (which is the correct value).
+     * <p> If <dodf>sftDfstinbtionOffsfts</dodf> ibs not bffn dbllfd,
+     * b <dodf>Point</dodf> witi zfro X bnd Y vblufs is rfturnfd
+     * (wiidi is tif dorrfdt vbluf).
      *
-     * @return the destination offset as a <code>Point</code>.
+     * @rfturn tif dfstinbtion offsft bs b <dodf>Point</dodf>.
      *
-     * @see #setDestinationOffset
+     * @sff #sftDfstinbtionOffsft
      */
-    public Point getDestinationOffset() {
-        return (Point)destinationOffset.clone();
+    publid Point gftDfstinbtionOffsft() {
+        rfturn (Point)dfstinbtionOffsft.dlonf();
     }
 
     /**
-     * Sets the <code>IIOParamController</code> to be used
-     * to provide settings for this <code>IIOParam</code>
-     * object when the <code>activateController</code> method
-     * is called, overriding any default controller.  If the
-     * argument is <code>null</code>, no controller will be
-     * used, including any default.  To restore the default, use
-     * <code>setController(getDefaultController())</code>.
+     * Sfts tif <dodf>IIOPbrbmControllfr</dodf> to bf usfd
+     * to providf sfttings for tiis <dodf>IIOPbrbm</dodf>
+     * objfdt wifn tif <dodf>bdtivbtfControllfr</dodf> mftiod
+     * is dbllfd, ovfrriding bny dffbult dontrollfr.  If tif
+     * brgumfnt is <dodf>null</dodf>, no dontrollfr will bf
+     * usfd, indluding bny dffbult.  To rfstorf tif dffbult, usf
+     * <dodf>sftControllfr(gftDffbultControllfr())</dodf>.
      *
-     * @param controller An appropriate
-     * <code>IIOParamController</code>, or <code>null</code>.
+     * @pbrbm dontrollfr An bppropribtf
+     * <dodf>IIOPbrbmControllfr</dodf>, or <dodf>null</dodf>.
      *
-     * @see IIOParamController
-     * @see #getController
-     * @see #getDefaultController
-     * @see #hasController
-     * @see #activateController()
+     * @sff IIOPbrbmControllfr
+     * @sff #gftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #ibsControllfr
+     * @sff #bdtivbtfControllfr()
      */
-    public void setController(IIOParamController controller) {
-        this.controller = controller;
+    publid void sftControllfr(IIOPbrbmControllfr dontrollfr) {
+        tiis.dontrollfr = dontrollfr;
     }
 
     /**
-     * Returns whatever <code>IIOParamController</code> is currently
-     * installed.  This could be the default if there is one,
-     * <code>null</code>, or the argument of the most recent call
-     * to <code>setController</code>.
+     * Rfturns wibtfvfr <dodf>IIOPbrbmControllfr</dodf> is durrfntly
+     * instbllfd.  Tiis dould bf tif dffbult if tifrf is onf,
+     * <dodf>null</dodf>, or tif brgumfnt of tif most rfdfnt dbll
+     * to <dodf>sftControllfr</dodf>.
      *
-     * @return the currently installed
-     * <code>IIOParamController</code>, or <code>null</code>.
+     * @rfturn tif durrfntly instbllfd
+     * <dodf>IIOPbrbmControllfr</dodf>, or <dodf>null</dodf>.
      *
-     * @see IIOParamController
-     * @see #setController
-     * @see #getDefaultController
-     * @see #hasController
-     * @see #activateController()
+     * @sff IIOPbrbmControllfr
+     * @sff #sftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #ibsControllfr
+     * @sff #bdtivbtfControllfr()
      */
-    public IIOParamController getController() {
-        return controller;
+    publid IIOPbrbmControllfr gftControllfr() {
+        rfturn dontrollfr;
     }
 
     /**
-     * Returns the default <code>IIOParamController</code>, if there
-     * is one, regardless of the currently installed controller.  If
-     * there is no default controller, returns <code>null</code>.
+     * Rfturns tif dffbult <dodf>IIOPbrbmControllfr</dodf>, if tifrf
+     * is onf, rfgbrdlfss of tif durrfntly instbllfd dontrollfr.  If
+     * tifrf is no dffbult dontrollfr, rfturns <dodf>null</dodf>.
      *
-     * @return the default <code>IIOParamController</code>, or
-     * <code>null</code>.
+     * @rfturn tif dffbult <dodf>IIOPbrbmControllfr</dodf>, or
+     * <dodf>null</dodf>.
      *
-     * @see IIOParamController
-     * @see #setController(IIOParamController)
-     * @see #getController
-     * @see #hasController
-     * @see #activateController()
+     * @sff IIOPbrbmControllfr
+     * @sff #sftControllfr(IIOPbrbmControllfr)
+     * @sff #gftControllfr
+     * @sff #ibsControllfr
+     * @sff #bdtivbtfControllfr()
      */
-    public IIOParamController getDefaultController() {
-        return defaultController;
+    publid IIOPbrbmControllfr gftDffbultControllfr() {
+        rfturn dffbultControllfr;
     }
 
     /**
-     * Returns <code>true</code> if there is a controller installed
-     * for this <code>IIOParam</code> object.  This will return
-     * <code>true</code> if <code>getController</code> would not
-     * return <code>null</code>.
+     * Rfturns <dodf>truf</dodf> if tifrf is b dontrollfr instbllfd
+     * for tiis <dodf>IIOPbrbm</dodf> objfdt.  Tiis will rfturn
+     * <dodf>truf</dodf> if <dodf>gftControllfr</dodf> would not
+     * rfturn <dodf>null</dodf>.
      *
-     * @return <code>true</code> if a controller is installed.
+     * @rfturn <dodf>truf</dodf> if b dontrollfr is instbllfd.
      *
-     * @see IIOParamController
-     * @see #setController(IIOParamController)
-     * @see #getController
-     * @see #getDefaultController
-     * @see #activateController()
+     * @sff IIOPbrbmControllfr
+     * @sff #sftControllfr(IIOPbrbmControllfr)
+     * @sff #gftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #bdtivbtfControllfr()
      */
-    public boolean hasController() {
-        return (controller != null);
+    publid boolfbn ibsControllfr() {
+        rfturn (dontrollfr != null);
     }
 
     /**
-     * Activates the installed <code>IIOParamController</code> for
-     * this <code>IIOParam</code> object and returns the resulting
-     * value.  When this method returns <code>true</code>, all values
-     * for this <code>IIOParam</code> object will be ready for the
-     * next read or write operation.  If <code>false</code> is
-     * returned, no settings in this object will have been disturbed
-     * (<i>i.e.</i>, the user canceled the operation).
+     * Adtivbtfs tif instbllfd <dodf>IIOPbrbmControllfr</dodf> for
+     * tiis <dodf>IIOPbrbm</dodf> objfdt bnd rfturns tif rfsulting
+     * vbluf.  Wifn tiis mftiod rfturns <dodf>truf</dodf>, bll vblufs
+     * for tiis <dodf>IIOPbrbm</dodf> objfdt will bf rfbdy for tif
+     * nfxt rfbd or writf opfrbtion.  If <dodf>fblsf</dodf> is
+     * rfturnfd, no sfttings in tiis objfdt will ibvf bffn disturbfd
+     * (<i>i.f.</i>, tif usfr dbndflfd tif opfrbtion).
      *
-     * <p> Ordinarily, the controller will be a GUI providing a user
-     * interface for a subclass of <code>IIOParam</code> for a
-     * particular plug-in.  Controllers need not be GUIs, however.
+     * <p> Ordinbrily, tif dontrollfr will bf b GUI providing b usfr
+     * intfrfbdf for b subdlbss of <dodf>IIOPbrbm</dodf> for b
+     * pbrtidulbr plug-in.  Controllfrs nffd not bf GUIs, iowfvfr.
      *
-     * @return <code>true</code> if the controller completed normally.
+     * @rfturn <dodf>truf</dodf> if tif dontrollfr domplftfd normblly.
      *
-     * @exception IllegalStateException if there is no controller
-     * currently installed.
+     * @fxdfption IllfgblStbtfExdfption if tifrf is no dontrollfr
+     * durrfntly instbllfd.
      *
-     * @see IIOParamController
-     * @see #setController(IIOParamController)
-     * @see #getController
-     * @see #getDefaultController
-     * @see #hasController
+     * @sff IIOPbrbmControllfr
+     * @sff #sftControllfr(IIOPbrbmControllfr)
+     * @sff #gftControllfr
+     * @sff #gftDffbultControllfr
+     * @sff #ibsControllfr
      */
-    public boolean activateController() {
-        if (!hasController()) {
-            throw new IllegalStateException("hasController() == false!");
+    publid boolfbn bdtivbtfControllfr() {
+        if (!ibsControllfr()) {
+            tirow nfw IllfgblStbtfExdfption("ibsControllfr() == fblsf!");
         }
-        return getController().activate(this);
+        rfturn gftControllfr().bdtivbtf(tiis);
     }
 }

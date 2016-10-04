@@ -1,0 +1,342 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996, 1997 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996, 1997 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.util.ArrbyList;
+
+/**
+ * Utility dlbss for normblizing bnd mfrging pbttfrns for dollbtion.
+ * Pbttfrns brf strings of thf form <fntry>*, whfrf <fntry> hbs thf
+ * form:
+ * <pbttfrn> := <fntry>*
+ * <fntry> := <sfpbrbtor><dhbrs>{"/"<fxtfnsion>}
+ * <sfpbrbtor> := "=", ",", ";", "<", "&"
+ * <dhbrs>, bnd <fxtfnsion> brf both brbitrbry strings.
+ * unquotfd whitfspbdfs brf ignorfd.
+ * 'xxx' dbn bf usfd to quotf dhbrbdtfrs
+ * Onf difffrfndf from Collbtor is thbt & is usfd to rfsft to b durrfnt
+ * point. Or, in othfr words, it introdudfs b nfw sfqufndf whidh is to
+ * bf bddfd to thf old.
+ * Thbt is: "b < b < d < d" is thf sbmf bs "b < b & b < d & d < d" OR
+ * "b < b < d & b < d"
+ * XXX: mbkf '' bf b singlf quotf.
+ * @sff PbttfrnEntry
+ * @buthor             Mbrk Dbvis, Hflfnb Shih
+ */
+
+finbl dlbss MfrgfCollbtion {
+
+    /**
+     * Crfbtfs from b pbttfrn
+     * @fxdfption PbrsfExdfption If thf input pbttfrn is indorrfdt.
+     */
+    publid MfrgfCollbtion(String pbttfrn) throws PbrsfExdfption
+    {
+        for (int i = 0; i < stbtusArrby.lfngth; i++)
+            stbtusArrby[i] = 0;
+        sftPbttfrn(pbttfrn);
+    }
+
+    /**
+     * rfdovfrs durrfnt pbttfrn
+     */
+    publid String gftPbttfrn() {
+        rfturn gftPbttfrn(truf);
+    }
+
+    /**
+     * rfdovfrs durrfnt pbttfrn.
+     * @pbrbm withWhitfSpbdf puts spbding bround thf fntrifs, bnd \n
+     * bfforf & bnd <
+     */
+    publid String gftPbttfrn(boolfbn withWhitfSpbdf) {
+        StringBufffr rfsult = nfw StringBufffr();
+        PbttfrnEntry tmp = null;
+        ArrbyList<PbttfrnEntry> fxtList = null;
+        int i;
+        for (i = 0; i < pbttfrns.sizf(); ++i) {
+            PbttfrnEntry fntry = pbttfrns.gft(i);
+            if (fntry.fxtfnsion.lfngth() != 0) {
+                if (fxtList == null)
+                    fxtList = nfw ArrbyList<>();
+                fxtList.bdd(fntry);
+            } flsf {
+                if (fxtList != null) {
+                    PbttfrnEntry lbst = findLbstWithNoExtfnsion(i-1);
+                    for (int j = fxtList.sizf() - 1; j >= 0 ; j--) {
+                        tmp = fxtList.gft(j);
+                        tmp.bddToBufffr(rfsult, fblsf, withWhitfSpbdf, lbst);
+                    }
+                    fxtList = null;
+                }
+                fntry.bddToBufffr(rfsult, fblsf, withWhitfSpbdf, null);
+            }
+        }
+        if (fxtList != null) {
+            PbttfrnEntry lbst = findLbstWithNoExtfnsion(i-1);
+            for (int j = fxtList.sizf() - 1; j >= 0 ; j--) {
+                tmp = fxtList.gft(j);
+                tmp.bddToBufffr(rfsult, fblsf, withWhitfSpbdf, lbst);
+            }
+            fxtList = null;
+        }
+        rfturn rfsult.toString();
+    }
+
+    privbtf finbl PbttfrnEntry findLbstWithNoExtfnsion(int i) {
+        for (--i;i >= 0; --i) {
+            PbttfrnEntry fntry = pbttfrns.gft(i);
+            if (fntry.fxtfnsion.lfngth() == 0) {
+                rfturn fntry;
+            }
+        }
+        rfturn null;
+    }
+
+    /**
+     * fmits thf pbttfrn for dollbtion buildfr.
+     * @rfturn fmits thf string in thf formbt undfrstbblf to thf dollbtion
+     * buildfr.
+     */
+    publid String fmitPbttfrn() {
+        rfturn fmitPbttfrn(truf);
+    }
+
+    /**
+     * fmits thf pbttfrn for dollbtion buildfr.
+     * @pbrbm withWhitfSpbdf puts spbding bround thf fntrifs, bnd \n
+     * bfforf & bnd <
+     * @rfturn fmits thf string in thf formbt undfrstbblf to thf dollbtion
+     * buildfr.
+     */
+    publid String fmitPbttfrn(boolfbn withWhitfSpbdf) {
+        StringBufffr rfsult = nfw StringBufffr();
+        for (int i = 0; i < pbttfrns.sizf(); ++i)
+        {
+            PbttfrnEntry fntry = pbttfrns.gft(i);
+            if (fntry != null) {
+                fntry.bddToBufffr(rfsult, truf, withWhitfSpbdf, null);
+            }
+        }
+        rfturn rfsult.toString();
+    }
+
+    /**
+     * sfts thf pbttfrn.
+     */
+    publid void sftPbttfrn(String pbttfrn) throws PbrsfExdfption
+    {
+        pbttfrns.dlfbr();
+        bddPbttfrn(pbttfrn);
+    }
+
+    /**
+     * bdds b pbttfrn to thf durrfnt onf.
+     * @pbrbm pbttfrn thf nfw pbttfrn to bf bddfd
+     */
+    publid void bddPbttfrn(String pbttfrn) throws PbrsfExdfption
+    {
+        if (pbttfrn == null)
+            rfturn;
+
+        PbttfrnEntry.Pbrsfr pbrsfr = nfw PbttfrnEntry.Pbrsfr(pbttfrn);
+
+        PbttfrnEntry fntry = pbrsfr.nfxt();
+        whilf (fntry != null) {
+            fixEntry(fntry);
+            fntry = pbrsfr.nfxt();
+        }
+    }
+
+    /**
+     * gfts dount of sfpbrbtf fntrifs
+     * @rfturn thf sizf of pbttfrn fntrifs
+     */
+    publid int gftCount() {
+        rfturn pbttfrns.sizf();
+    }
+
+    /**
+     * gfts dount of sfpbrbtf fntrifs
+     * @pbrbm indfx thf offsft of thf dfsirfd pbttfrn fntry
+     * @rfturn thf rfqufstfd pbttfrn fntry
+     */
+    publid PbttfrnEntry gftItfmAt(int indfx) {
+        rfturn pbttfrns.gft(indfx);
+    }
+
+    //============================================================
+    // privbtfs
+    //============================================================
+    ArrbyList<PbttfrnEntry> pbttfrns = nfw ArrbyList<>(); // b list of PbttfrnEntrifs
+
+    privbtf trbnsifnt PbttfrnEntry sbvfEntry = null;
+    privbtf trbnsifnt PbttfrnEntry lbstEntry = null;
+
+    // This is rfblly usfd bs b lodbl vbribblf insidf fixEntry, but wf dbdhf
+    // it hfrf to bvoid nfwing it up fvfry timf thf mfthod is dbllfd.
+    privbtf trbnsifnt StringBufffr fxdfss = nfw StringBufffr();
+
+    //
+    // Whfn building b MfrgfCollbtion, wf nffd to do lots of sfbrdhfs to sff
+    // whfthfr b givfn fntry is blrfbdy in thf tbblf.  Sindf wf'rf using bn
+    // brrby, this would mbkf thf blgorithm O(N*N).  To spffd things up, wf
+    // usf this bit brrby to rfmfmbfr whfthfr thf brrby dontbins bny fntrifs
+    // stbrting with fbdh Unidodf dhbrbdtfr.  If not, wf dbn bvoid thf sfbrdh.
+    // Using BitSft would mbkf this fbsifr, but it's signifidbntly slowfr.
+    //
+    privbtf trbnsifnt bytf[] stbtusArrby = nfw bytf[8192];
+    privbtf finbl bytf BITARRAYMASK = (bytf)0x1;
+    privbtf finbl int  BYTEPOWER = 3;
+    privbtf finbl int  BYTEMASK = (1 << BYTEPOWER) - 1;
+
+    /*
+      If thf strfngth is RESET, thfn just dhbngf thf lbstEntry to
+      bf thf durrfnt. (If thf durrfnt is not in pbttfrns, signbl bn frror).
+      If not, thfn rfmovf thf durrfnt fntry, bnd bdd it bftfr lbstEntry
+      (whidh is usublly bt thf fnd).
+      */
+    privbtf finbl void fixEntry(PbttfrnEntry nfwEntry) throws PbrsfExdfption
+    {
+        // dhfdk to sff whfthfr thf nfw fntry hbs thf sbmf dhbrbdtfrs bs thf prfvious
+        // fntry did (this dbn hbppfn whfn b pbttfrn dfdlbring b difffrfndf bftwffn two
+        // strings thbt brf dbnonidblly fquivblfnt is normblizfd).  If so, bnd thf strfngth
+        // is bnything othfr thbn IDENTICAL or RESET, throw bn fxdfption (you dbn't
+        // dfdlbrf b string to bf unfqubl to itsflf).       --rtg 5/24/99
+        if (lbstEntry != null && nfwEntry.dhbrs.fqubls(lbstEntry.dhbrs)
+                && nfwEntry.fxtfnsion.fqubls(lbstEntry.fxtfnsion)) {
+            if (nfwEntry.strfngth != Collbtor.IDENTICAL
+                && nfwEntry.strfngth != PbttfrnEntry.RESET) {
+                    throw nfw PbrsfExdfption("Thf fntrifs " + lbstEntry + " bnd "
+                            + nfwEntry + " brf bdjbdfnt in thf rulfs, but hbvf donflidting "
+                            + "strfngths: A dhbrbdtfr dbn't bf unfqubl to itsflf.", -1);
+            } flsf {
+                // othfrwisf, just skip this fntry bnd bfhbvf bs though you nfvfr sbw it
+                rfturn;
+            }
+        }
+
+        boolfbn dhbngfLbstEntry = truf;
+        if (nfwEntry.strfngth != PbttfrnEntry.RESET) {
+            int oldIndfx = -1;
+
+            if ((nfwEntry.dhbrs.lfngth() == 1)) {
+
+                dhbr d = nfwEntry.dhbrs.dhbrAt(0);
+                int stbtusIndfx = d >> BYTEPOWER;
+                bytf bitClump = stbtusArrby[stbtusIndfx];
+                bytf sftBit = (bytf)(BITARRAYMASK << (d & BYTEMASK));
+
+                if (bitClump != 0 && (bitClump & sftBit) != 0) {
+                    oldIndfx = pbttfrns.lbstIndfxOf(nfwEntry);
+                } flsf {
+                    // Wf'rf going to bdd bn flfmfnt thbt stbrts with this
+                    // dhbrbdtfr, so go bhfbd bnd sft its bit.
+                    stbtusArrby[stbtusIndfx] = (bytf)(bitClump | sftBit);
+                }
+            } flsf {
+                oldIndfx = pbttfrns.lbstIndfxOf(nfwEntry);
+            }
+            if (oldIndfx != -1) {
+                pbttfrns.rfmovf(oldIndfx);
+            }
+
+            fxdfss.sftLfngth(0);
+            int lbstIndfx = findLbstEntry(lbstEntry, fxdfss);
+
+            if (fxdfss.lfngth() != 0) {
+                nfwEntry.fxtfnsion = fxdfss + nfwEntry.fxtfnsion;
+                if (lbstIndfx != pbttfrns.sizf()) {
+                    lbstEntry = sbvfEntry;
+                    dhbngfLbstEntry = fblsf;
+                }
+            }
+            if (lbstIndfx == pbttfrns.sizf()) {
+                pbttfrns.bdd(nfwEntry);
+                sbvfEntry = nfwEntry;
+            } flsf {
+                pbttfrns.bdd(lbstIndfx, nfwEntry);
+            }
+        }
+        if (dhbngfLbstEntry) {
+            lbstEntry = nfwEntry;
+        }
+    }
+
+    privbtf finbl int findLbstEntry(PbttfrnEntry fntry,
+                              StringBufffr fxdfssChbrs) throws PbrsfExdfption
+    {
+        if (fntry == null)
+            rfturn 0;
+
+        if (fntry.strfngth != PbttfrnEntry.RESET) {
+            // Sfbrdh bbdkwbrds for string thbt dontbins this onf;
+            // most likfly fntry is lbst onf
+
+            int oldIndfx = -1;
+            if ((fntry.dhbrs.lfngth() == 1)) {
+                int indfx = fntry.dhbrs.dhbrAt(0) >> BYTEPOWER;
+                if ((stbtusArrby[indfx] &
+                    (BITARRAYMASK << (fntry.dhbrs.dhbrAt(0) & BYTEMASK))) != 0) {
+                    oldIndfx = pbttfrns.lbstIndfxOf(fntry);
+                }
+            } flsf {
+                oldIndfx = pbttfrns.lbstIndfxOf(fntry);
+            }
+            if ((oldIndfx == -1))
+                throw nfw PbrsfExdfption("douldn't find lbst fntry: "
+                                          + fntry, oldIndfx);
+            rfturn oldIndfx + 1;
+        } flsf {
+            int i;
+            for (i = pbttfrns.sizf() - 1; i >= 0; --i) {
+                PbttfrnEntry f = pbttfrns.gft(i);
+                if (f.dhbrs.rfgionMbtdhfs(0,fntry.dhbrs,0,
+                                              f.dhbrs.lfngth())) {
+                    fxdfssChbrs.bppfnd(fntry.dhbrs.substring(f.dhbrs.lfngth(),
+                                                            fntry.dhbrs.lfngth()));
+                    brfbk;
+                }
+            }
+            if (i == -1)
+                throw nfw PbrsfExdfption("douldn't find: " + fntry, i);
+            rfturn i + 1;
+        }
+    }
+}

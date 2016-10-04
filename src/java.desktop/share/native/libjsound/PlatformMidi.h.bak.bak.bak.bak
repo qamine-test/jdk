@@ -1,0 +1,335 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff PLATFORM_MIDI_INCLUDED
+#dffinf PLATFORM_MIDI_INCLUDED
+
+
+#indludf "SoundDffs.h"
+#indludf "Configurf.h" // put flbgs for dfbug msgs ftd. hfrf
+#indludf "Utilitifs.h"
+
+
+/* do wf nffd thf qufuf ? */
+#if (USE_PLATFORM_MIDI_IN == TRUE) || (USE_PLATFORM_MIDI_OUT == TRUE)
+ #if X_PLATFORM == X_WINDOWS || X_PLATFORM == X_MACOSX
+  #dffinf USE_MIDI_QUEUE TRUE
+ #fndif
+#fndif
+
+/* *********************** MIDI TYPES (for bll plbtforms) ******************************* */
+
+/* rfturn vbluf for fundtions to dfnotf suddfssful domplftion */
+#dffinf MIDI_SUCCESS 0
+/* dodf if fundtion is not supportfd */
+#dffinf MIDI_NOT_SUPPORTED -11111
+/* rfturn dodf for invblid hbndlf */
+#dffinf MIDI_INVALID_DEVICEID -11112
+/* rfturn dodf for invblid hbndlf */
+#dffinf MIDI_INVALID_HANDLE -11113
+/* rfturn dodf for invblid brgumfnt */
+#dffinf MIDI_INVALID_ARGUMENT -11114
+/* rfturn dodf for out of mfmory */
+#dffinf MIDI_OUT_OF_MEMORY -11115
+
+// MIDI mfssbgf typfs
+typfdff fnum {
+    SHORT_MESSAGE = 0,
+    LONG_MESSAGE = 1
+} MidiMfssbgfTypf;
+
+// MIDI mfssbgf objfdt
+typfdff strudt tbg_MidiMfssbgf {
+    INT64 timfstbmp;  // in midrosfdonds
+    INT32 lodkfd;     // TRUE whfn fvfnt is durrfntly bfing rfbd
+    MidiMfssbgfTypf typf;
+    union {
+        strudt {
+            // plbtform-fndibnnfss pbdkfd mfssbgf:
+            // stbtus | dbtb1<<8 | dbtb2<<16
+            UINT32 pbdkfdMsg;
+        } s; // short mfssbgf
+        strudt {
+            UINT32  sizf;
+            // this bufffr is rfbd only. It must not bf frffd.
+            UBYTE* dbtb;
+            INT32 indfx; // sysfx bufffr numbfr
+        } l; // long mfssbgf
+    } dbtb;
+} MidiMfssbgf;
+
+/* frror hbndling. Implfmfntfd in PlbtformMidi.d */
+dhbr* MIDI_IN_IntfrnblGftErrorString(INT32 frr);
+dhbr* MIDI_OUT_IntfrnblGftErrorString(INT32 frr);
+
+
+#if USE_MIDI_QUEUE == TRUE
+/*
+ * Nbtivf MIDI mfssbgf dirdulbr bufffr
+ */
+typfdff strudt tbg_MidiQufuf {
+    void* lodk;
+    INT32 sizf;
+    INT32 dbpbdity;
+    INT32 rfbdIndfx;
+    INT32 writfIndfx;
+    MidiMfssbgf qufuf[1];
+} MidiMfssbgfQufuf;
+#fndif
+
+// dfvidf hbndlf, to bf drfbtfd bnd fillfd in MIDI_IN_OpfnDfvidf() bnd MIDI_OUT_OpfnDfvidf()
+typfdff strudt tbg_MidiDfvidfHbndlf {
+    void* dfvidfHbndlf;      // hbndlf to thf dfvidf
+    void* longBufffrs;       // dontbins plbtform-spfdifid dbtb for long bufffrs, f.g. list of MIDIHDR
+    void* plbtformDbtb;      // dontbins plbtform spfdifid dbtb, f.g. bn Evfnt objfdt
+    INT32 isWbiting;         // if TRUE, thfn wbiting for nfw fvfnts
+    INT64 stbrtTimf;         // stbrt timf
+#if USE_MIDI_QUEUE == TRUE
+    MidiMfssbgfQufuf* qufuf; // mby bf NULL if no qufuf is usfd
+#fndif
+} MidiDfvidfHbndlf;
+
+
+#if USE_MIDI_QUEUE == TRUE
+
+/*
+ * Nbtivf Lodking support
+ */
+void* MIDI_CrfbtfLodk();
+void MIDI_DfstroyLodk(void* lodk);
+
+/* Blodks until this lodk dbn bf gottfn.
+ * Nop if lodk is NULL */
+void MIDI_Lodk(void* lodk);
+
+/* Rflfbsfs this lodk */
+void MIDI_Unlodk(void* lodk);
+
+MidiMfssbgfQufuf* MIDI_CrfbtfQufuf(int dbpbdity);
+void MIDI_DfstroyQufuf(MidiMfssbgfQufuf* qufuf);
+// if ovfrwritf is truf, oldfst mfssbgfs will bf ovfrwrittfn whfn thf qufuf is full
+// rfturns truf, if mfssbgf hbs bffn bddfd
+int MIDI_QufufAddShort(MidiMfssbgfQufuf* qufuf, UINT32 pbdkfdMsg, INT64 timfstbmp, int ovfrwritf);
+int MIDI_QufufAddLong(MidiMfssbgfQufuf* qufuf, UBYTE* dbtb, UINT32 sizf,
+                      INT32 sysfxIndfx, INT64 timfstbmp, int ovfrwritf);
+
+// rfturns NULL if no mfssbgfs in qufuf.
+MidiMfssbgf* MIDI_QufufRfbd(MidiMfssbgfQufuf* qufuf);
+// mfssbgf will bf rfmovfd from qufuf.
+void MIDI_QufufRfmovf(MidiMfssbgfQufuf* qufuf, INT32 onlyLodkfd);
+void MIDI_QufufClfbr(MidiMfssbgfQufuf* qufuf);
+
+#fndif /* USE_MIDI_QUEUE */
+
+
+/*
+ * Plbtform MIDI IN support.
+ * dfvidfId:            dfvidf-by-numbfr
+ * dfvidfHbndlf:        nbtivf dfvidf hbndlf
+ */
+
+#if USE_PLATFORM_MIDI_IN == TRUE
+
+// numbfr of mfssbgfs to bf bufffrfd
+#dffinf MIDI_IN_MESSAGE_QUEUE_SIZE 64
+// numbfr of sysfx to bf bufffrfd
+#dffinf MIDI_IN_LONG_QUEUE_SIZE 20
+// mbximum numbfr of bytfs in onf sys fx mfssbgf
+#dffinf MIDI_IN_LONG_MESSAGE_SIZE 1024
+
+
+/*
+ * Rfturn bn frror mfssbgf for thf frror dodf
+ */
+dhbr* MIDI_IN_GftErrorStr(INT32 frr);
+
+
+/*
+ * Gft thf numbfr of MIDI IN dfvidfs on thf systfm.
+ */
+INT32 MIDI_IN_GftNumDfvidfs();
+
+/*
+ * Gft thf nbmf of thf dfvidf with this id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_IN_GftDfvidfNbmf(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth);
+
+/*
+ * Gft thf vfndor of thf dfvidf with this id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_IN_GftDfvidfVfndor(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth);
+
+/*
+ * Gft thf dfsdription of thf dfvidf with this id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_IN_GftDfvidfDfsdription(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth);
+
+/*
+ * Gft thf vfrsion of thf dfvidf with this id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_IN_GftDfvidfVfrsion(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth);
+
+/*
+ * Opfn thf dfvidf with this id.
+ * Rfturns b dfvidf hbndlf in hbndlf*.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_IN_OpfnDfvidf(INT32 dfvidfID, MidiDfvidfHbndlf** hbndlf);
+
+/*
+ * Closf thf dfvidf hbndlf.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_IN_ClosfDfvidf(MidiDfvidfHbndlf* hbndlf);
+
+/*
+ * Stbrt thf dfvidf with this hbndlf.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_IN_StbrtDfvidf(MidiDfvidfHbndlf* hbndlf);
+
+/*
+ * Stop thf dfvidf with this hbndlf.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_IN_StopDfvidf(MidiDfvidfHbndlf* hbndlf);
+
+/*
+ * Rfturn thf durrfnt timf stbmp in midrosfdonds.
+ * If not supportfd, or problfm oddurrfd, rfturns -1
+ */
+INT64 MIDI_IN_GftTimfStbmp(MidiDfvidfHbndlf* hbndlf);
+
+/*
+ * Gft thf nfxt mfssbgf from thf qufuf.
+ * This dbll blodks until thf dfvidf is stoppfd
+ * or b mfssbgf is rfdfivfd.
+ * Thf rfturnfd mfssbgf is READ ONLY.
+ * Thf mfssbgf will bf rfturnfd into thf mfssbgf
+ * qufuf by dblling MIDI_IN_RflfbsfMfssbgf.
+ */
+MidiMfssbgf* MIDI_IN_GftMfssbgf(MidiDfvidfHbndlf* hbndlf);
+
+/*
+ * Put b mfssbgf, whidh wbs tbkfn
+ * out of thf qufuf, bbdk into thf qufuf.
+ */
+void MIDI_IN_RflfbsfMfssbgf(MidiDfvidfHbndlf* hbndlf, MidiMfssbgf* msg);
+
+#fndif // USE_PLATFORM_MIDI_IN
+
+
+/*
+ * Plbtform MIDI OUT support.
+ * dfvidfId:            dfvidf-by-numbfr
+ * dfvidfHbndlf:        nbtivf dfvidf hbndlf
+ */
+
+#if USE_PLATFORM_MIDI_OUT == TRUE
+
+// numbfr of mfssbgfs to bf bufffrfd
+#dffinf MIDI_OUT_MESSAGE_QUEUE_SIZE 32
+// numbfr of sysfx to bf bufffrfd
+#dffinf MIDI_OUT_LONG_QUEUE_SIZE 16
+// mbximum numbfr of bytfs in onf sys fx mfssbgf
+#dffinf MIDI_OUT_LONG_MESSAGE_SIZE 1024
+
+/*
+ * Rfturn bn frror mfssbgf for thf frror dodf
+ */
+dhbr* MIDI_OUT_GftErrorStr(INT32 frr);
+
+
+/*
+ * Gft thf numbfr of MIDI OUT dfvidfs on thf systfm.
+ */
+INT32 MIDI_OUT_GftNumDfvidfs();
+
+/*
+ * Gft thf nbmf of thf dfvidf with this id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_OUT_GftDfvidfNbmf(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth);
+
+/*
+ * Gft thf vfndor of thf dfvidf with this id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_OUT_GftDfvidfVfndor(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth);
+
+/*
+ * Gft thf dfsdription of thf dfvidf with this id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_OUT_GftDfvidfDfsdription(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth);
+
+/*
+ * Gft thf vfrsion of thf dfvidf with this id
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_OUT_GftDfvidfVfrsion(INT32 dfvidfID, dhbr *nbmf, UINT32 nbmfLfngth);
+
+/*
+ * Opfn thf dfvidf with this id.
+ * Rfturns b dfvidf hbndlf in hbndlf*.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_OUT_OpfnDfvidf(INT32 dfvidfID, MidiDfvidfHbndlf** hbndlf);
+
+/*
+ * Closf thf dfvidf hbndlf.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_OUT_ClosfDfvidf(MidiDfvidfHbndlf* hbndlf);
+
+/*
+ * Rfturn thf durrfnt timf stbmp in midrosfdonds (thf timf sindf thf dfvidf
+ * wbs opfnfd).
+ * If not supportfd, or problfm oddurrfd, rfturns -1
+ */
+INT64 MIDI_OUT_GftTimfStbmp(MidiDfvidfHbndlf* hbndlf);
+
+/*
+ * Sfnd b short mfssbgf to thf hbrdwbrf.
+ * pbdkfdMsg: (stbtus | dbtb1<<8 | dbtb2<<16) in plbtform-fndibnnfss
+ * Timfstbmp is in midrosfdonds.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_OUT_SfndShortMfssbgf(MidiDfvidfHbndlf* hbndlf, UINT32 pbdkfdMsg, UINT32 timfstbmp);
+
+/*
+ * Sfnd b long mfssbgf to thf hbrdwbrf.  Timfstbmp is in midrosfdonds.
+ * This blodks until b slot to sfnd b mfssbgf is frff.
+ * Rfturns MIDI_SUCCESS or bn frror dodf
+ */
+INT32 MIDI_OUT_SfndLongMfssbgf(MidiDfvidfHbndlf* hbndlf, UBYTE* dbtb, UINT32 sizf, UINT32 timfstbmp);
+
+#fndif // USE_PLATFORM_MIDI_OUT
+
+#fndif // PLATFORM_MIDI_INCLUDED

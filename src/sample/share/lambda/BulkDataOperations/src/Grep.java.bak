@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,156 +30,156 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation, and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion, bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Pattern;
-import java.util.stream.Stream;
+import jbvb.io.IOExdfption;
+import jbvb.io.UndifdkfdIOExdfption;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbti;
+import jbvb.nio.filf.Pbtis;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.util.strfbm.Strfbm;
 
-import static java.util.stream.Collectors.toList;
+import stbtid jbvb.util.strfbm.Collfdtors.toList;
 
 /**
- * Grep prints lines matching a regex. See {@link #printUsageAndExit(String...)}
- * method for instructions and command line parameters. This sample shows
- * examples of using next features:
+ * Grfp prints linfs mbtdiing b rfgfx. Sff {@link #printUsbgfAndExit(String...)}
+ * mftiod for instrudtions bnd dommbnd linf pbrbmftfrs. Tiis sbmplf siows
+ * fxbmplfs of using nfxt ffbturfs:
  * <ul>
- * <li>Lambda and bulk operations. Working with streams:
- * map(...),filter(...),flatMap(...),limit(...) methods.</li>
- * <li>Static method reference for printing values.</li>
- * <li>New Collections API forEach(...) method.</li>
- * <li>Try-with-resources feature.</li>
- * <li>new Files.walk(...), Files.lines(...) API.</li>
- * <li>Streams that need to be closed.</li>
+ * <li>Lbmbdb bnd bulk opfrbtions. Working witi strfbms:
+ * mbp(...),filtfr(...),flbtMbp(...),limit(...) mftiods.</li>
+ * <li>Stbtid mftiod rfffrfndf for printing vblufs.</li>
+ * <li>Nfw Collfdtions API forEbdi(...) mftiod.</li>
+ * <li>Try-witi-rfsourdfs ffbturf.</li>
+ * <li>nfw Filfs.wblk(...), Filfs.linfs(...) API.</li>
+ * <li>Strfbms tibt nffd to bf dlosfd.</li>
  * </ul>
  *
  */
-public class Grep {
+publid dlbss Grfp {
 
-    private static void printUsageAndExit(String... str) {
-        System.out.println("Usage: " + Grep.class.getSimpleName()
+    privbtf stbtid void printUsbgfAndExit(String... str) {
+        Systfm.out.println("Usbgf: " + Grfp.dlbss.gftSimplfNbmf()
                 + " [OPTION]... PATTERN FILE...");
-        System.out.println("Search for PATTERN in each FILE. "
-                + "If FILE is a directory then whole file tree of the directory"
-                + " will be processed.");
-        System.out.println("Example: grep -m 100 'hello world' menu.h main.c");
-        System.out.println("Options:");
-        System.out.println("    -m NUM: stop analysis after NUM matches");
-        Arrays.asList(str).forEach(System.err::println);
-        System.exit(1);
+        Systfm.out.println("Sfbrdi for PATTERN in fbdi FILE. "
+                + "If FILE is b dirfdtory tifn wiolf filf trff of tif dirfdtory"
+                + " will bf prodfssfd.");
+        Systfm.out.println("Exbmplf: grfp -m 100 'ifllo world' mfnu.i mbin.d");
+        Systfm.out.println("Options:");
+        Systfm.out.println("    -m NUM: stop bnblysis bftfr NUM mbtdifs");
+        Arrbys.bsList(str).forEbdi(Systfm.frr::println);
+        Systfm.fxit(1);
     }
 
     /**
-     * The main method for the Grep program. Run program with empty argument
-     * list to see possible arguments.
+     * Tif mbin mftiod for tif Grfp progrbm. Run progrbm witi fmpty brgumfnt
+     * list to sff possiblf brgumfnts.
      *
-     * @param args the argument list for Grep.
-     * @throws java.io.IOException If an I/O error occurs.
+     * @pbrbm brgs tif brgumfnt list for Grfp.
+     * @tirows jbvb.io.IOExdfption If bn I/O frror oddurs.
      */
-    public static void main(String[] args) throws IOException {
-        long maxCount = Long.MAX_VALUE;
-        if (args.length < 2) {
-            printUsageAndExit();
+    publid stbtid void mbin(String[] brgs) tirows IOExdfption {
+        long mbxCount = Long.MAX_VALUE;
+        if (brgs.lfngti < 2) {
+            printUsbgfAndExit();
         }
         int i = 0;
-        //parse OPTIONS
-        while (args[i].startsWith("-")) {
-            switch (args[i]) {
-                case "-m":
+        //pbrsf OPTIONS
+        wiilf (brgs[i].stbrtsWiti("-")) {
+            switdi (brgs[i]) {
+                dbsf "-m":
                     try {
-                        maxCount = Long.parseLong(args[++i]);
-                    } catch (NumberFormatException ex) {
-                        printUsageAndExit(ex.toString());
+                        mbxCount = Long.pbrsfLong(brgs[++i]);
+                    } dbtdi (NumbfrFormbtExdfption fx) {
+                        printUsbgfAndExit(fx.toString());
                     }
-                    break;
-                default:
-                    printUsageAndExit("Unexpected option " + args[i]);
+                    brfbk;
+                dffbult:
+                    printUsbgfAndExit("Unfxpfdtfd option " + brgs[i]);
             }
             i++;
         }
-        //parse PATTERN
-        Pattern pattern = Pattern.compile(args[i++]);
-        if (i == args.length) {
-            printUsageAndExit("There are no files for input");
+        //pbrsf PATTERN
+        Pbttfrn pbttfrn = Pbttfrn.dompilf(brgs[i++]);
+        if (i == brgs.lfngti) {
+            printUsbgfAndExit("Tifrf brf no filfs for input");
         }
 
         try {
             /*
-            * First obtain the list of all paths.
-            * For a small number of arguments there is little to be gained
-            * by producing this list in parallel. For one argument
-            * there will be no parallelism.
+            * First obtbin tif list of bll pbtis.
+            * For b smbll numbfr of brgumfnts tifrf is littlf to bf gbinfd
+            * by produding tiis list in pbrbllfl. For onf brgumfnt
+            * tifrf will bf no pbrbllflism.
             *
-            * File names are converted to paths. If a path is a directory then
-            * Stream is populated with whole file tree of the directory by
-            * flatMap() method. Files are filtered from directories.
+            * Filf nbmfs brf donvfrtfd to pbtis. If b pbti is b dirfdtory tifn
+            * Strfbm is populbtfd witi wiolf filf trff of tif dirfdtory by
+            * flbtMbp() mftiod. Filfs brf filtfrfd from dirfdtorifs.
             */
-            List<Path> files = Arrays.stream(args, i, args.length)
-                    .map(Paths::get)
-                    // flatMap will ensure each I/O-based stream will be closed
-                    .flatMap(Grep::getPathStream)
-                    .filter(Files::isRegularFile)
-                    .collect(toList());
+            List<Pbti> filfs = Arrbys.strfbm(brgs, i, brgs.lfngti)
+                    .mbp(Pbtis::gft)
+                    // flbtMbp will fnsurf fbdi I/O-bbsfd strfbm will bf dlosfd
+                    .flbtMbp(Grfp::gftPbtiStrfbm)
+                    .filtfr(Filfs::isRfgulbrFilf)
+                    .dollfdt(toList());
             /*
-            * Then operate on that list in parallel.
-            * This is likely to give a more even distribution of work for
-            * parallel execution.
+            * Tifn opfrbtf on tibt list in pbrbllfl.
+            * Tiis is likfly to givf b morf fvfn distribution of work for
+            * pbrbllfl fxfdution.
             *
-            * Lines are extracted from files. Lines are filtered by pattern.
-            * Stream is limited by number of matches. Each remaining string is
-            * displayed in std output by method reference System.out::println.
+            * Linfs brf fxtrbdtfd from filfs. Linfs brf filtfrfd by pbttfrn.
+            * Strfbm is limitfd by numbfr of mbtdifs. Ebdi rfmbining string is
+            * displbyfd in std output by mftiod rfffrfndf Systfm.out::println.
             */
-            files.parallelStream()
-                    // flatMap will ensure each I/O-based stream will be closed
-                    .flatMap(Grep::path2Lines)
-                    .filter(pattern.asPredicate())
-                    .limit(maxCount)
-                    .forEachOrdered(System.out::println);
-        } catch (UncheckedIOException ioe) {
-            printUsageAndExit(ioe.toString());
+            filfs.pbrbllflStrfbm()
+                    // flbtMbp will fnsurf fbdi I/O-bbsfd strfbm will bf dlosfd
+                    .flbtMbp(Grfp::pbti2Linfs)
+                    .filtfr(pbttfrn.bsPrfdidbtf())
+                    .limit(mbxCount)
+                    .forEbdiOrdfrfd(Systfm.out::println);
+        } dbtdi (UndifdkfdIOExdfption iof) {
+            printUsbgfAndExit(iof.toString());
         }
     }
 
     /**
-     * Flattens file system hierarchy into a stream. This code is not inlined
-     * for the reason of Files.walk() throwing a checked IOException that must
-     * be caught.
+     * Flbttfns filf systfm iifrbrdiy into b strfbm. Tiis dodf is not inlinfd
+     * for tif rfbson of Filfs.wblk() tirowing b difdkfd IOExdfption tibt must
+     * bf dbugit.
      *
-     * @param path - the file or directory
-     * @return Whole file tree starting from path, a stream with one element -
-     * the path itself - if it is a file.
+     * @pbrbm pbti - tif filf or dirfdtory
+     * @rfturn Wiolf filf trff stbrting from pbti, b strfbm witi onf flfmfnt -
+     * tif pbti itsflf - if it is b filf.
      */
-    private static Stream<Path> getPathStream(Path path) {
+    privbtf stbtid Strfbm<Pbti> gftPbtiStrfbm(Pbti pbti) {
         try {
-            return Files.walk(path);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            rfturn Filfs.wblk(pbti);
+        } dbtdi (IOExdfption f) {
+            tirow nfw UndifdkfdIOExdfption(f);
         }
     }
 
     /**
-     * Produces a stream of lines from a file. The result is a stream in order
-     * to close it later. This code is not inlined for the reason of
-     * Files.lines() throwing a checked IOException that must be caught.
+     * Produdfs b strfbm of linfs from b filf. Tif rfsult is b strfbm in ordfr
+     * to dlosf it lbtfr. Tiis dodf is not inlinfd for tif rfbson of
+     * Filfs.linfs() tirowing b difdkfd IOExdfption tibt must bf dbugit.
      *
-     * @param path - the file to read
-     * @return stream of lines from the file
+     * @pbrbm pbti - tif filf to rfbd
+     * @rfturn strfbm of linfs from tif filf
      */
-    private static Stream<String> path2Lines(Path path) {
+    privbtf stbtid Strfbm<String> pbti2Linfs(Pbti pbti) {
         try {
-            return Files.lines(path);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            rfturn Filfs.linfs(pbti);
+        } dbtdi (IOExdfption f) {
+            tirow nfw UndifdkfdIOExdfption(f);
         }
     }
 }

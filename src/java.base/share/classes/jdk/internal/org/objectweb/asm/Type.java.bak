@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,870 +56,870 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Mftiod;
 
 /**
- * A Java field or method type. This class can be used to make it easier to
- * manipulate type and method descriptors.
+ * A Jbvb fifld or mftiod typf. Tiis dlbss dbn bf usfd to mbkf it fbsifr to
+ * mbnipulbtf typf bnd mftiod dfsdriptors.
  *
- * @author Eric Bruneton
- * @author Chris Nokleberg
+ * @butior Erid Brunfton
+ * @butior Ciris Noklfbfrg
  */
-public class Type {
+publid dlbss Typf {
 
     /**
-     * The sort of the <tt>void</tt> type. See {@link #getSort getSort}.
+     * Tif sort of tif <tt>void</tt> typf. Sff {@link #gftSort gftSort}.
      */
-    public static final int VOID = 0;
+    publid stbtid finbl int VOID = 0;
 
     /**
-     * The sort of the <tt>boolean</tt> type. See {@link #getSort getSort}.
+     * Tif sort of tif <tt>boolfbn</tt> typf. Sff {@link #gftSort gftSort}.
      */
-    public static final int BOOLEAN = 1;
+    publid stbtid finbl int BOOLEAN = 1;
 
     /**
-     * The sort of the <tt>char</tt> type. See {@link #getSort getSort}.
+     * Tif sort of tif <tt>dibr</tt> typf. Sff {@link #gftSort gftSort}.
      */
-    public static final int CHAR = 2;
+    publid stbtid finbl int CHAR = 2;
 
     /**
-     * The sort of the <tt>byte</tt> type. See {@link #getSort getSort}.
+     * Tif sort of tif <tt>bytf</tt> typf. Sff {@link #gftSort gftSort}.
      */
-    public static final int BYTE = 3;
+    publid stbtid finbl int BYTE = 3;
 
     /**
-     * The sort of the <tt>short</tt> type. See {@link #getSort getSort}.
+     * Tif sort of tif <tt>siort</tt> typf. Sff {@link #gftSort gftSort}.
      */
-    public static final int SHORT = 4;
+    publid stbtid finbl int SHORT = 4;
 
     /**
-     * The sort of the <tt>int</tt> type. See {@link #getSort getSort}.
+     * Tif sort of tif <tt>int</tt> typf. Sff {@link #gftSort gftSort}.
      */
-    public static final int INT = 5;
+    publid stbtid finbl int INT = 5;
 
     /**
-     * The sort of the <tt>float</tt> type. See {@link #getSort getSort}.
+     * Tif sort of tif <tt>flobt</tt> typf. Sff {@link #gftSort gftSort}.
      */
-    public static final int FLOAT = 6;
+    publid stbtid finbl int FLOAT = 6;
 
     /**
-     * The sort of the <tt>long</tt> type. See {@link #getSort getSort}.
+     * Tif sort of tif <tt>long</tt> typf. Sff {@link #gftSort gftSort}.
      */
-    public static final int LONG = 7;
+    publid stbtid finbl int LONG = 7;
 
     /**
-     * The sort of the <tt>double</tt> type. See {@link #getSort getSort}.
+     * Tif sort of tif <tt>doublf</tt> typf. Sff {@link #gftSort gftSort}.
      */
-    public static final int DOUBLE = 8;
+    publid stbtid finbl int DOUBLE = 8;
 
     /**
-     * The sort of array reference types. See {@link #getSort getSort}.
+     * Tif sort of brrby rfffrfndf typfs. Sff {@link #gftSort gftSort}.
      */
-    public static final int ARRAY = 9;
+    publid stbtid finbl int ARRAY = 9;
 
     /**
-     * The sort of object reference types. See {@link #getSort getSort}.
+     * Tif sort of objfdt rfffrfndf typfs. Sff {@link #gftSort gftSort}.
      */
-    public static final int OBJECT = 10;
+    publid stbtid finbl int OBJECT = 10;
 
     /**
-     * The sort of method types. See {@link #getSort getSort}.
+     * Tif sort of mftiod typfs. Sff {@link #gftSort gftSort}.
      */
-    public static final int METHOD = 11;
+    publid stbtid finbl int METHOD = 11;
 
     /**
-     * The <tt>void</tt> type.
+     * Tif <tt>void</tt> typf.
      */
-    public static final Type VOID_TYPE = new Type(VOID, null, ('V' << 24)
+    publid stbtid finbl Typf VOID_TYPE = nfw Typf(VOID, null, ('V' << 24)
             | (5 << 16) | (0 << 8) | 0, 1);
 
     /**
-     * The <tt>boolean</tt> type.
+     * Tif <tt>boolfbn</tt> typf.
      */
-    public static final Type BOOLEAN_TYPE = new Type(BOOLEAN, null, ('Z' << 24)
+    publid stbtid finbl Typf BOOLEAN_TYPE = nfw Typf(BOOLEAN, null, ('Z' << 24)
             | (0 << 16) | (5 << 8) | 1, 1);
 
     /**
-     * The <tt>char</tt> type.
+     * Tif <tt>dibr</tt> typf.
      */
-    public static final Type CHAR_TYPE = new Type(CHAR, null, ('C' << 24)
+    publid stbtid finbl Typf CHAR_TYPE = nfw Typf(CHAR, null, ('C' << 24)
             | (0 << 16) | (6 << 8) | 1, 1);
 
     /**
-     * The <tt>byte</tt> type.
+     * Tif <tt>bytf</tt> typf.
      */
-    public static final Type BYTE_TYPE = new Type(BYTE, null, ('B' << 24)
+    publid stbtid finbl Typf BYTE_TYPE = nfw Typf(BYTE, null, ('B' << 24)
             | (0 << 16) | (5 << 8) | 1, 1);
 
     /**
-     * The <tt>short</tt> type.
+     * Tif <tt>siort</tt> typf.
      */
-    public static final Type SHORT_TYPE = new Type(SHORT, null, ('S' << 24)
+    publid stbtid finbl Typf SHORT_TYPE = nfw Typf(SHORT, null, ('S' << 24)
             | (0 << 16) | (7 << 8) | 1, 1);
 
     /**
-     * The <tt>int</tt> type.
+     * Tif <tt>int</tt> typf.
      */
-    public static final Type INT_TYPE = new Type(INT, null, ('I' << 24)
+    publid stbtid finbl Typf INT_TYPE = nfw Typf(INT, null, ('I' << 24)
             | (0 << 16) | (0 << 8) | 1, 1);
 
     /**
-     * The <tt>float</tt> type.
+     * Tif <tt>flobt</tt> typf.
      */
-    public static final Type FLOAT_TYPE = new Type(FLOAT, null, ('F' << 24)
+    publid stbtid finbl Typf FLOAT_TYPE = nfw Typf(FLOAT, null, ('F' << 24)
             | (2 << 16) | (2 << 8) | 1, 1);
 
     /**
-     * The <tt>long</tt> type.
+     * Tif <tt>long</tt> typf.
      */
-    public static final Type LONG_TYPE = new Type(LONG, null, ('J' << 24)
+    publid stbtid finbl Typf LONG_TYPE = nfw Typf(LONG, null, ('J' << 24)
             | (1 << 16) | (1 << 8) | 2, 1);
 
     /**
-     * The <tt>double</tt> type.
+     * Tif <tt>doublf</tt> typf.
      */
-    public static final Type DOUBLE_TYPE = new Type(DOUBLE, null, ('D' << 24)
+    publid stbtid finbl Typf DOUBLE_TYPE = nfw Typf(DOUBLE, null, ('D' << 24)
             | (3 << 16) | (3 << 8) | 2, 1);
 
     // ------------------------------------------------------------------------
-    // Fields
+    // Fiflds
     // ------------------------------------------------------------------------
 
     /**
-     * The sort of this Java type.
+     * Tif sort of tiis Jbvb typf.
      */
-    private final int sort;
+    privbtf finbl int sort;
 
     /**
-     * A buffer containing the internal name of this Java type. This field is
-     * only used for reference types.
+     * A bufffr dontbining tif intfrnbl nbmf of tiis Jbvb typf. Tiis fifld is
+     * only usfd for rfffrfndf typfs.
      */
-    private final char[] buf;
+    privbtf finbl dibr[] buf;
 
     /**
-     * The offset of the internal name of this Java type in {@link #buf buf} or,
-     * for primitive types, the size, descriptor and getOpcode offsets for this
-     * type (byte 0 contains the size, byte 1 the descriptor, byte 2 the offset
-     * for IALOAD or IASTORE, byte 3 the offset for all other instructions).
+     * Tif offsft of tif intfrnbl nbmf of tiis Jbvb typf in {@link #buf buf} or,
+     * for primitivf typfs, tif sizf, dfsdriptor bnd gftOpdodf offsfts for tiis
+     * typf (bytf 0 dontbins tif sizf, bytf 1 tif dfsdriptor, bytf 2 tif offsft
+     * for IALOAD or IASTORE, bytf 3 tif offsft for bll otifr instrudtions).
      */
-    private final int off;
+    privbtf finbl int off;
 
     /**
-     * The length of the internal name of this Java type.
+     * Tif lfngti of tif intfrnbl nbmf of tiis Jbvb typf.
      */
-    private final int len;
+    privbtf finbl int lfn;
 
     // ------------------------------------------------------------------------
-    // Constructors
+    // Construdtors
     // ------------------------------------------------------------------------
 
     /**
-     * Constructs a reference type.
+     * Construdts b rfffrfndf typf.
      *
-     * @param sort
-     *            the sort of the reference type to be constructed.
-     * @param buf
-     *            a buffer containing the descriptor of the previous type.
-     * @param off
-     *            the offset of this descriptor in the previous buffer.
-     * @param len
-     *            the length of this descriptor.
+     * @pbrbm sort
+     *            tif sort of tif rfffrfndf typf to bf donstrudtfd.
+     * @pbrbm buf
+     *            b bufffr dontbining tif dfsdriptor of tif prfvious typf.
+     * @pbrbm off
+     *            tif offsft of tiis dfsdriptor in tif prfvious bufffr.
+     * @pbrbm lfn
+     *            tif lfngti of tiis dfsdriptor.
      */
-    private Type(final int sort, final char[] buf, final int off, final int len) {
-        this.sort = sort;
-        this.buf = buf;
-        this.off = off;
-        this.len = len;
+    privbtf Typf(finbl int sort, finbl dibr[] buf, finbl int off, finbl int lfn) {
+        tiis.sort = sort;
+        tiis.buf = buf;
+        tiis.off = off;
+        tiis.lfn = lfn;
     }
 
     /**
-     * Returns the Java type corresponding to the given type descriptor.
+     * Rfturns tif Jbvb typf dorrfsponding to tif givfn typf dfsdriptor.
      *
-     * @param typeDescriptor
-     *            a field or method type descriptor.
-     * @return the Java type corresponding to the given type descriptor.
+     * @pbrbm typfDfsdriptor
+     *            b fifld or mftiod typf dfsdriptor.
+     * @rfturn tif Jbvb typf dorrfsponding to tif givfn typf dfsdriptor.
      */
-    public static Type getType(final String typeDescriptor) {
-        return getType(typeDescriptor.toCharArray(), 0);
+    publid stbtid Typf gftTypf(finbl String typfDfsdriptor) {
+        rfturn gftTypf(typfDfsdriptor.toCibrArrby(), 0);
     }
 
     /**
-     * Returns the Java type corresponding to the given internal name.
+     * Rfturns tif Jbvb typf dorrfsponding to tif givfn intfrnbl nbmf.
      *
-     * @param internalName
-     *            an internal name.
-     * @return the Java type corresponding to the given internal name.
+     * @pbrbm intfrnblNbmf
+     *            bn intfrnbl nbmf.
+     * @rfturn tif Jbvb typf dorrfsponding to tif givfn intfrnbl nbmf.
      */
-    public static Type getObjectType(final String internalName) {
-        char[] buf = internalName.toCharArray();
-        return new Type(buf[0] == '[' ? ARRAY : OBJECT, buf, 0, buf.length);
+    publid stbtid Typf gftObjfdtTypf(finbl String intfrnblNbmf) {
+        dibr[] buf = intfrnblNbmf.toCibrArrby();
+        rfturn nfw Typf(buf[0] == '[' ? ARRAY : OBJECT, buf, 0, buf.lfngti);
     }
 
     /**
-     * Returns the Java type corresponding to the given method descriptor.
-     * Equivalent to <code>Type.getType(methodDescriptor)</code>.
+     * Rfturns tif Jbvb typf dorrfsponding to tif givfn mftiod dfsdriptor.
+     * Equivblfnt to <dodf>Typf.gftTypf(mftiodDfsdriptor)</dodf>.
      *
-     * @param methodDescriptor
-     *            a method descriptor.
-     * @return the Java type corresponding to the given method descriptor.
+     * @pbrbm mftiodDfsdriptor
+     *            b mftiod dfsdriptor.
+     * @rfturn tif Jbvb typf dorrfsponding to tif givfn mftiod dfsdriptor.
      */
-    public static Type getMethodType(final String methodDescriptor) {
-        return getType(methodDescriptor.toCharArray(), 0);
+    publid stbtid Typf gftMftiodTypf(finbl String mftiodDfsdriptor) {
+        rfturn gftTypf(mftiodDfsdriptor.toCibrArrby(), 0);
     }
 
     /**
-     * Returns the Java method type corresponding to the given argument and
-     * return types.
+     * Rfturns tif Jbvb mftiod typf dorrfsponding to tif givfn brgumfnt bnd
+     * rfturn typfs.
      *
-     * @param returnType
-     *            the return type of the method.
-     * @param argumentTypes
-     *            the argument types of the method.
-     * @return the Java type corresponding to the given argument and return
-     *         types.
+     * @pbrbm rfturnTypf
+     *            tif rfturn typf of tif mftiod.
+     * @pbrbm brgumfntTypfs
+     *            tif brgumfnt typfs of tif mftiod.
+     * @rfturn tif Jbvb typf dorrfsponding to tif givfn brgumfnt bnd rfturn
+     *         typfs.
      */
-    public static Type getMethodType(final Type returnType,
-            final Type... argumentTypes) {
-        return getType(getMethodDescriptor(returnType, argumentTypes));
+    publid stbtid Typf gftMftiodTypf(finbl Typf rfturnTypf,
+            finbl Typf... brgumfntTypfs) {
+        rfturn gftTypf(gftMftiodDfsdriptor(rfturnTypf, brgumfntTypfs));
     }
 
     /**
-     * Returns the Java type corresponding to the given class.
+     * Rfturns tif Jbvb typf dorrfsponding to tif givfn dlbss.
      *
-     * @param c
-     *            a class.
-     * @return the Java type corresponding to the given class.
+     * @pbrbm d
+     *            b dlbss.
+     * @rfturn tif Jbvb typf dorrfsponding to tif givfn dlbss.
      */
-    public static Type getType(final Class<?> c) {
-        if (c.isPrimitive()) {
-            if (c == Integer.TYPE) {
-                return INT_TYPE;
-            } else if (c == Void.TYPE) {
-                return VOID_TYPE;
-            } else if (c == Boolean.TYPE) {
-                return BOOLEAN_TYPE;
-            } else if (c == Byte.TYPE) {
-                return BYTE_TYPE;
-            } else if (c == Character.TYPE) {
-                return CHAR_TYPE;
-            } else if (c == Short.TYPE) {
-                return SHORT_TYPE;
-            } else if (c == Double.TYPE) {
-                return DOUBLE_TYPE;
-            } else if (c == Float.TYPE) {
-                return FLOAT_TYPE;
-            } else /* if (c == Long.TYPE) */{
-                return LONG_TYPE;
+    publid stbtid Typf gftTypf(finbl Clbss<?> d) {
+        if (d.isPrimitivf()) {
+            if (d == Intfgfr.TYPE) {
+                rfturn INT_TYPE;
+            } flsf if (d == Void.TYPE) {
+                rfturn VOID_TYPE;
+            } flsf if (d == Boolfbn.TYPE) {
+                rfturn BOOLEAN_TYPE;
+            } flsf if (d == Bytf.TYPE) {
+                rfturn BYTE_TYPE;
+            } flsf if (d == Cibrbdtfr.TYPE) {
+                rfturn CHAR_TYPE;
+            } flsf if (d == Siort.TYPE) {
+                rfturn SHORT_TYPE;
+            } flsf if (d == Doublf.TYPE) {
+                rfturn DOUBLE_TYPE;
+            } flsf if (d == Flobt.TYPE) {
+                rfturn FLOAT_TYPE;
+            } flsf /* if (d == Long.TYPE) */{
+                rfturn LONG_TYPE;
             }
-        } else {
-            return getType(getDescriptor(c));
+        } flsf {
+            rfturn gftTypf(gftDfsdriptor(d));
         }
     }
 
     /**
-     * Returns the Java method type corresponding to the given constructor.
+     * Rfturns tif Jbvb mftiod typf dorrfsponding to tif givfn donstrudtor.
      *
-     * @param c
-     *            a {@link Constructor Constructor} object.
-     * @return the Java method type corresponding to the given constructor.
+     * @pbrbm d
+     *            b {@link Construdtor Construdtor} objfdt.
+     * @rfturn tif Jbvb mftiod typf dorrfsponding to tif givfn donstrudtor.
      */
-    public static Type getType(final Constructor<?> c) {
-        return getType(getConstructorDescriptor(c));
+    publid stbtid Typf gftTypf(finbl Construdtor<?> d) {
+        rfturn gftTypf(gftConstrudtorDfsdriptor(d));
     }
 
     /**
-     * Returns the Java method type corresponding to the given method.
+     * Rfturns tif Jbvb mftiod typf dorrfsponding to tif givfn mftiod.
      *
-     * @param m
-     *            a {@link Method Method} object.
-     * @return the Java method type corresponding to the given method.
+     * @pbrbm m
+     *            b {@link Mftiod Mftiod} objfdt.
+     * @rfturn tif Jbvb mftiod typf dorrfsponding to tif givfn mftiod.
      */
-    public static Type getType(final Method m) {
-        return getType(getMethodDescriptor(m));
+    publid stbtid Typf gftTypf(finbl Mftiod m) {
+        rfturn gftTypf(gftMftiodDfsdriptor(m));
     }
 
     /**
-     * Returns the Java types corresponding to the argument types of the given
-     * method descriptor.
+     * Rfturns tif Jbvb typfs dorrfsponding to tif brgumfnt typfs of tif givfn
+     * mftiod dfsdriptor.
      *
-     * @param methodDescriptor
-     *            a method descriptor.
-     * @return the Java types corresponding to the argument types of the given
-     *         method descriptor.
+     * @pbrbm mftiodDfsdriptor
+     *            b mftiod dfsdriptor.
+     * @rfturn tif Jbvb typfs dorrfsponding to tif brgumfnt typfs of tif givfn
+     *         mftiod dfsdriptor.
      */
-    public static Type[] getArgumentTypes(final String methodDescriptor) {
-        char[] buf = methodDescriptor.toCharArray();
+    publid stbtid Typf[] gftArgumfntTypfs(finbl String mftiodDfsdriptor) {
+        dibr[] buf = mftiodDfsdriptor.toCibrArrby();
         int off = 1;
-        int size = 0;
-        while (true) {
-            char car = buf[off++];
-            if (car == ')') {
-                break;
-            } else if (car == 'L') {
-                while (buf[off++] != ';') {
+        int sizf = 0;
+        wiilf (truf) {
+            dibr dbr = buf[off++];
+            if (dbr == ')') {
+                brfbk;
+            } flsf if (dbr == 'L') {
+                wiilf (buf[off++] != ';') {
                 }
-                ++size;
-            } else if (car != '[') {
-                ++size;
+                ++sizf;
+            } flsf if (dbr != '[') {
+                ++sizf;
             }
         }
-        Type[] args = new Type[size];
+        Typf[] brgs = nfw Typf[sizf];
         off = 1;
-        size = 0;
-        while (buf[off] != ')') {
-            args[size] = getType(buf, off);
-            off += args[size].len + (args[size].sort == OBJECT ? 2 : 0);
-            size += 1;
+        sizf = 0;
+        wiilf (buf[off] != ')') {
+            brgs[sizf] = gftTypf(buf, off);
+            off += brgs[sizf].lfn + (brgs[sizf].sort == OBJECT ? 2 : 0);
+            sizf += 1;
         }
-        return args;
+        rfturn brgs;
     }
 
     /**
-     * Returns the Java types corresponding to the argument types of the given
-     * method.
+     * Rfturns tif Jbvb typfs dorrfsponding to tif brgumfnt typfs of tif givfn
+     * mftiod.
      *
-     * @param method
-     *            a method.
-     * @return the Java types corresponding to the argument types of the given
-     *         method.
+     * @pbrbm mftiod
+     *            b mftiod.
+     * @rfturn tif Jbvb typfs dorrfsponding to tif brgumfnt typfs of tif givfn
+     *         mftiod.
      */
-    public static Type[] getArgumentTypes(final Method method) {
-        Class<?>[] classes = method.getParameterTypes();
-        Type[] types = new Type[classes.length];
-        for (int i = classes.length - 1; i >= 0; --i) {
-            types[i] = getType(classes[i]);
+    publid stbtid Typf[] gftArgumfntTypfs(finbl Mftiod mftiod) {
+        Clbss<?>[] dlbssfs = mftiod.gftPbrbmftfrTypfs();
+        Typf[] typfs = nfw Typf[dlbssfs.lfngti];
+        for (int i = dlbssfs.lfngti - 1; i >= 0; --i) {
+            typfs[i] = gftTypf(dlbssfs[i]);
         }
-        return types;
+        rfturn typfs;
     }
 
     /**
-     * Returns the Java type corresponding to the return type of the given
-     * method descriptor.
+     * Rfturns tif Jbvb typf dorrfsponding to tif rfturn typf of tif givfn
+     * mftiod dfsdriptor.
      *
-     * @param methodDescriptor
-     *            a method descriptor.
-     * @return the Java type corresponding to the return type of the given
-     *         method descriptor.
+     * @pbrbm mftiodDfsdriptor
+     *            b mftiod dfsdriptor.
+     * @rfturn tif Jbvb typf dorrfsponding to tif rfturn typf of tif givfn
+     *         mftiod dfsdriptor.
      */
-    public static Type getReturnType(final String methodDescriptor) {
-        char[] buf = methodDescriptor.toCharArray();
-        return getType(buf, methodDescriptor.indexOf(')') + 1);
+    publid stbtid Typf gftRfturnTypf(finbl String mftiodDfsdriptor) {
+        dibr[] buf = mftiodDfsdriptor.toCibrArrby();
+        rfturn gftTypf(buf, mftiodDfsdriptor.indfxOf(')') + 1);
     }
 
     /**
-     * Returns the Java type corresponding to the return type of the given
-     * method.
+     * Rfturns tif Jbvb typf dorrfsponding to tif rfturn typf of tif givfn
+     * mftiod.
      *
-     * @param method
-     *            a method.
-     * @return the Java type corresponding to the return type of the given
-     *         method.
+     * @pbrbm mftiod
+     *            b mftiod.
+     * @rfturn tif Jbvb typf dorrfsponding to tif rfturn typf of tif givfn
+     *         mftiod.
      */
-    public static Type getReturnType(final Method method) {
-        return getType(method.getReturnType());
+    publid stbtid Typf gftRfturnTypf(finbl Mftiod mftiod) {
+        rfturn gftTypf(mftiod.gftRfturnTypf());
     }
 
     /**
-     * Computes the size of the arguments and of the return value of a method.
+     * Computfs tif sizf of tif brgumfnts bnd of tif rfturn vbluf of b mftiod.
      *
-     * @param desc
-     *            the descriptor of a method.
-     * @return the size of the arguments of the method (plus one for the
-     *         implicit this argument), argSize, and the size of its return
-     *         value, retSize, packed into a single int i =
-     *         <tt>(argSize &lt;&lt; 2) | retSize</tt> (argSize is therefore equal to
-     *         <tt>i &gt;&gt; 2</tt>, and retSize to <tt>i &amp; 0x03</tt>).
+     * @pbrbm dfsd
+     *            tif dfsdriptor of b mftiod.
+     * @rfturn tif sizf of tif brgumfnts of tif mftiod (plus onf for tif
+     *         implidit tiis brgumfnt), brgSizf, bnd tif sizf of its rfturn
+     *         vbluf, rftSizf, pbdkfd into b singlf int i =
+     *         <tt>(brgSizf &lt;&lt; 2) | rftSizf</tt> (brgSizf is tifrfforf fqubl to
+     *         <tt>i &gt;&gt; 2</tt>, bnd rftSizf to <tt>i &bmp; 0x03</tt>).
      */
-    public static int getArgumentsAndReturnSizes(final String desc) {
+    publid stbtid int gftArgumfntsAndRfturnSizfs(finbl String dfsd) {
         int n = 1;
-        int c = 1;
-        while (true) {
-            char car = desc.charAt(c++);
-            if (car == ')') {
-                car = desc.charAt(c);
-                return n << 2
-                        | (car == 'V' ? 0 : (car == 'D' || car == 'J' ? 2 : 1));
-            } else if (car == 'L') {
-                while (desc.charAt(c++) != ';') {
+        int d = 1;
+        wiilf (truf) {
+            dibr dbr = dfsd.dibrAt(d++);
+            if (dbr == ')') {
+                dbr = dfsd.dibrAt(d);
+                rfturn n << 2
+                        | (dbr == 'V' ? 0 : (dbr == 'D' || dbr == 'J' ? 2 : 1));
+            } flsf if (dbr == 'L') {
+                wiilf (dfsd.dibrAt(d++) != ';') {
                 }
                 n += 1;
-            } else if (car == '[') {
-                while ((car = desc.charAt(c)) == '[') {
-                    ++c;
+            } flsf if (dbr == '[') {
+                wiilf ((dbr = dfsd.dibrAt(d)) == '[') {
+                    ++d;
                 }
-                if (car == 'D' || car == 'J') {
+                if (dbr == 'D' || dbr == 'J') {
                     n -= 1;
                 }
-            } else if (car == 'D' || car == 'J') {
+            } flsf if (dbr == 'D' || dbr == 'J') {
                 n += 2;
-            } else {
+            } flsf {
                 n += 1;
             }
         }
     }
 
     /**
-     * Returns the Java type corresponding to the given type descriptor. For
-     * method descriptors, buf is supposed to contain nothing more than the
-     * descriptor itself.
+     * Rfturns tif Jbvb typf dorrfsponding to tif givfn typf dfsdriptor. For
+     * mftiod dfsdriptors, buf is supposfd to dontbin notiing morf tibn tif
+     * dfsdriptor itsflf.
      *
-     * @param buf
-     *            a buffer containing a type descriptor.
-     * @param off
-     *            the offset of this descriptor in the previous buffer.
-     * @return the Java type corresponding to the given type descriptor.
+     * @pbrbm buf
+     *            b bufffr dontbining b typf dfsdriptor.
+     * @pbrbm off
+     *            tif offsft of tiis dfsdriptor in tif prfvious bufffr.
+     * @rfturn tif Jbvb typf dorrfsponding to tif givfn typf dfsdriptor.
      */
-    private static Type getType(final char[] buf, final int off) {
-        int len;
-        switch (buf[off]) {
-        case 'V':
-            return VOID_TYPE;
-        case 'Z':
-            return BOOLEAN_TYPE;
-        case 'C':
-            return CHAR_TYPE;
-        case 'B':
-            return BYTE_TYPE;
-        case 'S':
-            return SHORT_TYPE;
-        case 'I':
-            return INT_TYPE;
-        case 'F':
-            return FLOAT_TYPE;
-        case 'J':
-            return LONG_TYPE;
-        case 'D':
-            return DOUBLE_TYPE;
-        case '[':
-            len = 1;
-            while (buf[off + len] == '[') {
-                ++len;
+    privbtf stbtid Typf gftTypf(finbl dibr[] buf, finbl int off) {
+        int lfn;
+        switdi (buf[off]) {
+        dbsf 'V':
+            rfturn VOID_TYPE;
+        dbsf 'Z':
+            rfturn BOOLEAN_TYPE;
+        dbsf 'C':
+            rfturn CHAR_TYPE;
+        dbsf 'B':
+            rfturn BYTE_TYPE;
+        dbsf 'S':
+            rfturn SHORT_TYPE;
+        dbsf 'I':
+            rfturn INT_TYPE;
+        dbsf 'F':
+            rfturn FLOAT_TYPE;
+        dbsf 'J':
+            rfturn LONG_TYPE;
+        dbsf 'D':
+            rfturn DOUBLE_TYPE;
+        dbsf '[':
+            lfn = 1;
+            wiilf (buf[off + lfn] == '[') {
+                ++lfn;
             }
-            if (buf[off + len] == 'L') {
-                ++len;
-                while (buf[off + len] != ';') {
-                    ++len;
+            if (buf[off + lfn] == 'L') {
+                ++lfn;
+                wiilf (buf[off + lfn] != ';') {
+                    ++lfn;
                 }
             }
-            return new Type(ARRAY, buf, off, len + 1);
-        case 'L':
-            len = 1;
-            while (buf[off + len] != ';') {
-                ++len;
+            rfturn nfw Typf(ARRAY, buf, off, lfn + 1);
+        dbsf 'L':
+            lfn = 1;
+            wiilf (buf[off + lfn] != ';') {
+                ++lfn;
             }
-            return new Type(OBJECT, buf, off + 1, len - 1);
-            // case '(':
-        default:
-            return new Type(METHOD, buf, off, buf.length - off);
+            rfturn nfw Typf(OBJECT, buf, off + 1, lfn - 1);
+            // dbsf '(':
+        dffbult:
+            rfturn nfw Typf(METHOD, buf, off, buf.lfngti - off);
         }
     }
 
     // ------------------------------------------------------------------------
-    // Accessors
+    // Addfssors
     // ------------------------------------------------------------------------
 
     /**
-     * Returns the sort of this Java type.
+     * Rfturns tif sort of tiis Jbvb typf.
      *
-     * @return {@link #VOID VOID}, {@link #BOOLEAN BOOLEAN}, {@link #CHAR CHAR},
+     * @rfturn {@link #VOID VOID}, {@link #BOOLEAN BOOLEAN}, {@link #CHAR CHAR},
      *         {@link #BYTE BYTE}, {@link #SHORT SHORT}, {@link #INT INT},
      *         {@link #FLOAT FLOAT}, {@link #LONG LONG}, {@link #DOUBLE DOUBLE},
      *         {@link #ARRAY ARRAY}, {@link #OBJECT OBJECT} or {@link #METHOD
      *         METHOD}.
      */
-    public int getSort() {
-        return sort;
+    publid int gftSort() {
+        rfturn sort;
     }
 
     /**
-     * Returns the number of dimensions of this array type. This method should
-     * only be used for an array type.
+     * Rfturns tif numbfr of dimfnsions of tiis brrby typf. Tiis mftiod siould
+     * only bf usfd for bn brrby typf.
      *
-     * @return the number of dimensions of this array type.
+     * @rfturn tif numbfr of dimfnsions of tiis brrby typf.
      */
-    public int getDimensions() {
+    publid int gftDimfnsions() {
         int i = 1;
-        while (buf[off + i] == '[') {
+        wiilf (buf[off + i] == '[') {
             ++i;
         }
-        return i;
+        rfturn i;
     }
 
     /**
-     * Returns the type of the elements of this array type. This method should
-     * only be used for an array type.
+     * Rfturns tif typf of tif flfmfnts of tiis brrby typf. Tiis mftiod siould
+     * only bf usfd for bn brrby typf.
      *
-     * @return Returns the type of the elements of this array type.
+     * @rfturn Rfturns tif typf of tif flfmfnts of tiis brrby typf.
      */
-    public Type getElementType() {
-        return getType(buf, off + getDimensions());
+    publid Typf gftElfmfntTypf() {
+        rfturn gftTypf(buf, off + gftDimfnsions());
     }
 
     /**
-     * Returns the binary name of the class corresponding to this type. This
-     * method must not be used on method types.
+     * Rfturns tif binbry nbmf of tif dlbss dorrfsponding to tiis typf. Tiis
+     * mftiod must not bf usfd on mftiod typfs.
      *
-     * @return the binary name of the class corresponding to this type.
+     * @rfturn tif binbry nbmf of tif dlbss dorrfsponding to tiis typf.
      */
-    public String getClassName() {
-        switch (sort) {
-        case VOID:
-            return "void";
-        case BOOLEAN:
-            return "boolean";
-        case CHAR:
-            return "char";
-        case BYTE:
-            return "byte";
-        case SHORT:
-            return "short";
-        case INT:
-            return "int";
-        case FLOAT:
-            return "float";
-        case LONG:
-            return "long";
-        case DOUBLE:
-            return "double";
-        case ARRAY:
-            StringBuilder sb = new StringBuilder(getElementType().getClassName());
-            for (int i = getDimensions(); i > 0; --i) {
-                sb.append("[]");
+    publid String gftClbssNbmf() {
+        switdi (sort) {
+        dbsf VOID:
+            rfturn "void";
+        dbsf BOOLEAN:
+            rfturn "boolfbn";
+        dbsf CHAR:
+            rfturn "dibr";
+        dbsf BYTE:
+            rfturn "bytf";
+        dbsf SHORT:
+            rfturn "siort";
+        dbsf INT:
+            rfturn "int";
+        dbsf FLOAT:
+            rfturn "flobt";
+        dbsf LONG:
+            rfturn "long";
+        dbsf DOUBLE:
+            rfturn "doublf";
+        dbsf ARRAY:
+            StringBuildfr sb = nfw StringBuildfr(gftElfmfntTypf().gftClbssNbmf());
+            for (int i = gftDimfnsions(); i > 0; --i) {
+                sb.bppfnd("[]");
             }
-            return sb.toString();
-        case OBJECT:
-            return new String(buf, off, len).replace('/', '.');
-        default:
-            return null;
+            rfturn sb.toString();
+        dbsf OBJECT:
+            rfturn nfw String(buf, off, lfn).rfplbdf('/', '.');
+        dffbult:
+            rfturn null;
         }
     }
 
     /**
-     * Returns the internal name of the class corresponding to this object or
-     * array type. The internal name of a class is its fully qualified name (as
-     * returned by Class.getName(), where '.' are replaced by '/'. This method
-     * should only be used for an object or array type.
+     * Rfturns tif intfrnbl nbmf of tif dlbss dorrfsponding to tiis objfdt or
+     * brrby typf. Tif intfrnbl nbmf of b dlbss is its fully qublififd nbmf (bs
+     * rfturnfd by Clbss.gftNbmf(), wifrf '.' brf rfplbdfd by '/'. Tiis mftiod
+     * siould only bf usfd for bn objfdt or brrby typf.
      *
-     * @return the internal name of the class corresponding to this object type.
+     * @rfturn tif intfrnbl nbmf of tif dlbss dorrfsponding to tiis objfdt typf.
      */
-    public String getInternalName() {
-        return new String(buf, off, len);
+    publid String gftIntfrnblNbmf() {
+        rfturn nfw String(buf, off, lfn);
     }
 
     /**
-     * Returns the argument types of methods of this type. This method should
-     * only be used for method types.
+     * Rfturns tif brgumfnt typfs of mftiods of tiis typf. Tiis mftiod siould
+     * only bf usfd for mftiod typfs.
      *
-     * @return the argument types of methods of this type.
+     * @rfturn tif brgumfnt typfs of mftiods of tiis typf.
      */
-    public Type[] getArgumentTypes() {
-        return getArgumentTypes(getDescriptor());
+    publid Typf[] gftArgumfntTypfs() {
+        rfturn gftArgumfntTypfs(gftDfsdriptor());
     }
 
     /**
-     * Returns the return type of methods of this type. This method should only
-     * be used for method types.
+     * Rfturns tif rfturn typf of mftiods of tiis typf. Tiis mftiod siould only
+     * bf usfd for mftiod typfs.
      *
-     * @return the return type of methods of this type.
+     * @rfturn tif rfturn typf of mftiods of tiis typf.
      */
-    public Type getReturnType() {
-        return getReturnType(getDescriptor());
+    publid Typf gftRfturnTypf() {
+        rfturn gftRfturnTypf(gftDfsdriptor());
     }
 
     /**
-     * Returns the size of the arguments and of the return value of methods of
-     * this type. This method should only be used for method types.
+     * Rfturns tif sizf of tif brgumfnts bnd of tif rfturn vbluf of mftiods of
+     * tiis typf. Tiis mftiod siould only bf usfd for mftiod typfs.
      *
-     * @return the size of the arguments (plus one for the implicit this
-     *         argument), argSize, and the size of the return value, retSize,
-     *         packed into a single
-     *         int i = <tt>(argSize &lt;&lt; 2) | retSize</tt>
-     *         (argSize is therefore equal to <tt>i &gt;&gt; 2</tt>,
-     *         and retSize to <tt>i &amp; 0x03</tt>).
+     * @rfturn tif sizf of tif brgumfnts (plus onf for tif implidit tiis
+     *         brgumfnt), brgSizf, bnd tif sizf of tif rfturn vbluf, rftSizf,
+     *         pbdkfd into b singlf
+     *         int i = <tt>(brgSizf &lt;&lt; 2) | rftSizf</tt>
+     *         (brgSizf is tifrfforf fqubl to <tt>i &gt;&gt; 2</tt>,
+     *         bnd rftSizf to <tt>i &bmp; 0x03</tt>).
      */
-    public int getArgumentsAndReturnSizes() {
-        return getArgumentsAndReturnSizes(getDescriptor());
+    publid int gftArgumfntsAndRfturnSizfs() {
+        rfturn gftArgumfntsAndRfturnSizfs(gftDfsdriptor());
     }
 
     // ------------------------------------------------------------------------
-    // Conversion to type descriptors
+    // Convfrsion to typf dfsdriptors
     // ------------------------------------------------------------------------
 
     /**
-     * Returns the descriptor corresponding to this Java type.
+     * Rfturns tif dfsdriptor dorrfsponding to tiis Jbvb typf.
      *
-     * @return the descriptor corresponding to this Java type.
+     * @rfturn tif dfsdriptor dorrfsponding to tiis Jbvb typf.
      */
-    public String getDescriptor() {
-        StringBuffer buf = new StringBuffer();
-        getDescriptor(buf);
-        return buf.toString();
+    publid String gftDfsdriptor() {
+        StringBufffr buf = nfw StringBufffr();
+        gftDfsdriptor(buf);
+        rfturn buf.toString();
     }
 
     /**
-     * Returns the descriptor corresponding to the given argument and return
-     * types.
+     * Rfturns tif dfsdriptor dorrfsponding to tif givfn brgumfnt bnd rfturn
+     * typfs.
      *
-     * @param returnType
-     *            the return type of the method.
-     * @param argumentTypes
-     *            the argument types of the method.
-     * @return the descriptor corresponding to the given argument and return
-     *         types.
+     * @pbrbm rfturnTypf
+     *            tif rfturn typf of tif mftiod.
+     * @pbrbm brgumfntTypfs
+     *            tif brgumfnt typfs of tif mftiod.
+     * @rfturn tif dfsdriptor dorrfsponding to tif givfn brgumfnt bnd rfturn
+     *         typfs.
      */
-    public static String getMethodDescriptor(final Type returnType,
-            final Type... argumentTypes) {
-        StringBuffer buf = new StringBuffer();
-        buf.append('(');
-        for (int i = 0; i < argumentTypes.length; ++i) {
-            argumentTypes[i].getDescriptor(buf);
+    publid stbtid String gftMftiodDfsdriptor(finbl Typf rfturnTypf,
+            finbl Typf... brgumfntTypfs) {
+        StringBufffr buf = nfw StringBufffr();
+        buf.bppfnd('(');
+        for (int i = 0; i < brgumfntTypfs.lfngti; ++i) {
+            brgumfntTypfs[i].gftDfsdriptor(buf);
         }
-        buf.append(')');
-        returnType.getDescriptor(buf);
-        return buf.toString();
+        buf.bppfnd(')');
+        rfturnTypf.gftDfsdriptor(buf);
+        rfturn buf.toString();
     }
 
     /**
-     * Appends the descriptor corresponding to this Java type to the given
-     * string buffer.
+     * Appfnds tif dfsdriptor dorrfsponding to tiis Jbvb typf to tif givfn
+     * string bufffr.
      *
-     * @param buf
-     *            the string buffer to which the descriptor must be appended.
+     * @pbrbm buf
+     *            tif string bufffr to wiidi tif dfsdriptor must bf bppfndfd.
      */
-    private void getDescriptor(final StringBuffer buf) {
-        if (this.buf == null) {
-            // descriptor is in byte 3 of 'off' for primitive types (buf ==
+    privbtf void gftDfsdriptor(finbl StringBufffr buf) {
+        if (tiis.buf == null) {
+            // dfsdriptor is in bytf 3 of 'off' for primitivf typfs (buf ==
             // null)
-            buf.append((char) ((off & 0xFF000000) >>> 24));
-        } else if (sort == OBJECT) {
-            buf.append('L');
-            buf.append(this.buf, off, len);
-            buf.append(';');
-        } else { // sort == ARRAY || sort == METHOD
-            buf.append(this.buf, off, len);
+            buf.bppfnd((dibr) ((off & 0xFF000000) >>> 24));
+        } flsf if (sort == OBJECT) {
+            buf.bppfnd('L');
+            buf.bppfnd(tiis.buf, off, lfn);
+            buf.bppfnd(';');
+        } flsf { // sort == ARRAY || sort == METHOD
+            buf.bppfnd(tiis.buf, off, lfn);
         }
     }
 
     // ------------------------------------------------------------------------
-    // Direct conversion from classes to type descriptors,
-    // without intermediate Type objects
+    // Dirfdt donvfrsion from dlbssfs to typf dfsdriptors,
+    // witiout intfrmfdibtf Typf objfdts
     // ------------------------------------------------------------------------
 
     /**
-     * Returns the internal name of the given class. The internal name of a
-     * class is its fully qualified name, as returned by Class.getName(), where
-     * '.' are replaced by '/'.
+     * Rfturns tif intfrnbl nbmf of tif givfn dlbss. Tif intfrnbl nbmf of b
+     * dlbss is its fully qublififd nbmf, bs rfturnfd by Clbss.gftNbmf(), wifrf
+     * '.' brf rfplbdfd by '/'.
      *
-     * @param c
-     *            an object or array class.
-     * @return the internal name of the given class.
+     * @pbrbm d
+     *            bn objfdt or brrby dlbss.
+     * @rfturn tif intfrnbl nbmf of tif givfn dlbss.
      */
-    public static String getInternalName(final Class<?> c) {
-        return c.getName().replace('.', '/');
+    publid stbtid String gftIntfrnblNbmf(finbl Clbss<?> d) {
+        rfturn d.gftNbmf().rfplbdf('.', '/');
     }
 
     /**
-     * Returns the descriptor corresponding to the given Java type.
+     * Rfturns tif dfsdriptor dorrfsponding to tif givfn Jbvb typf.
      *
-     * @param c
-     *            an object class, a primitive class or an array class.
-     * @return the descriptor corresponding to the given class.
+     * @pbrbm d
+     *            bn objfdt dlbss, b primitivf dlbss or bn brrby dlbss.
+     * @rfturn tif dfsdriptor dorrfsponding to tif givfn dlbss.
      */
-    public static String getDescriptor(final Class<?> c) {
-        StringBuffer buf = new StringBuffer();
-        getDescriptor(buf, c);
-        return buf.toString();
+    publid stbtid String gftDfsdriptor(finbl Clbss<?> d) {
+        StringBufffr buf = nfw StringBufffr();
+        gftDfsdriptor(buf, d);
+        rfturn buf.toString();
     }
 
     /**
-     * Returns the descriptor corresponding to the given constructor.
+     * Rfturns tif dfsdriptor dorrfsponding to tif givfn donstrudtor.
      *
-     * @param c
-     *            a {@link Constructor Constructor} object.
-     * @return the descriptor of the given constructor.
+     * @pbrbm d
+     *            b {@link Construdtor Construdtor} objfdt.
+     * @rfturn tif dfsdriptor of tif givfn donstrudtor.
      */
-    public static String getConstructorDescriptor(final Constructor<?> c) {
-        Class<?>[] parameters = c.getParameterTypes();
-        StringBuffer buf = new StringBuffer();
-        buf.append('(');
-        for (int i = 0; i < parameters.length; ++i) {
-            getDescriptor(buf, parameters[i]);
+    publid stbtid String gftConstrudtorDfsdriptor(finbl Construdtor<?> d) {
+        Clbss<?>[] pbrbmftfrs = d.gftPbrbmftfrTypfs();
+        StringBufffr buf = nfw StringBufffr();
+        buf.bppfnd('(');
+        for (int i = 0; i < pbrbmftfrs.lfngti; ++i) {
+            gftDfsdriptor(buf, pbrbmftfrs[i]);
         }
-        return buf.append(")V").toString();
+        rfturn buf.bppfnd(")V").toString();
     }
 
     /**
-     * Returns the descriptor corresponding to the given method.
+     * Rfturns tif dfsdriptor dorrfsponding to tif givfn mftiod.
      *
-     * @param m
-     *            a {@link Method Method} object.
-     * @return the descriptor of the given method.
+     * @pbrbm m
+     *            b {@link Mftiod Mftiod} objfdt.
+     * @rfturn tif dfsdriptor of tif givfn mftiod.
      */
-    public static String getMethodDescriptor(final Method m) {
-        Class<?>[] parameters = m.getParameterTypes();
-        StringBuffer buf = new StringBuffer();
-        buf.append('(');
-        for (int i = 0; i < parameters.length; ++i) {
-            getDescriptor(buf, parameters[i]);
+    publid stbtid String gftMftiodDfsdriptor(finbl Mftiod m) {
+        Clbss<?>[] pbrbmftfrs = m.gftPbrbmftfrTypfs();
+        StringBufffr buf = nfw StringBufffr();
+        buf.bppfnd('(');
+        for (int i = 0; i < pbrbmftfrs.lfngti; ++i) {
+            gftDfsdriptor(buf, pbrbmftfrs[i]);
         }
-        buf.append(')');
-        getDescriptor(buf, m.getReturnType());
-        return buf.toString();
+        buf.bppfnd(')');
+        gftDfsdriptor(buf, m.gftRfturnTypf());
+        rfturn buf.toString();
     }
 
     /**
-     * Appends the descriptor of the given class to the given string buffer.
+     * Appfnds tif dfsdriptor of tif givfn dlbss to tif givfn string bufffr.
      *
-     * @param buf
-     *            the string buffer to which the descriptor must be appended.
-     * @param c
-     *            the class whose descriptor must be computed.
+     * @pbrbm buf
+     *            tif string bufffr to wiidi tif dfsdriptor must bf bppfndfd.
+     * @pbrbm d
+     *            tif dlbss wiosf dfsdriptor must bf domputfd.
      */
-    private static void getDescriptor(final StringBuffer buf, final Class<?> c) {
-        Class<?> d = c;
-        while (true) {
-            if (d.isPrimitive()) {
-                char car;
-                if (d == Integer.TYPE) {
-                    car = 'I';
-                } else if (d == Void.TYPE) {
-                    car = 'V';
-                } else if (d == Boolean.TYPE) {
-                    car = 'Z';
-                } else if (d == Byte.TYPE) {
-                    car = 'B';
-                } else if (d == Character.TYPE) {
-                    car = 'C';
-                } else if (d == Short.TYPE) {
-                    car = 'S';
-                } else if (d == Double.TYPE) {
-                    car = 'D';
-                } else if (d == Float.TYPE) {
-                    car = 'F';
-                } else /* if (d == Long.TYPE) */{
-                    car = 'J';
+    privbtf stbtid void gftDfsdriptor(finbl StringBufffr buf, finbl Clbss<?> d) {
+        Clbss<?> d = d;
+        wiilf (truf) {
+            if (d.isPrimitivf()) {
+                dibr dbr;
+                if (d == Intfgfr.TYPE) {
+                    dbr = 'I';
+                } flsf if (d == Void.TYPE) {
+                    dbr = 'V';
+                } flsf if (d == Boolfbn.TYPE) {
+                    dbr = 'Z';
+                } flsf if (d == Bytf.TYPE) {
+                    dbr = 'B';
+                } flsf if (d == Cibrbdtfr.TYPE) {
+                    dbr = 'C';
+                } flsf if (d == Siort.TYPE) {
+                    dbr = 'S';
+                } flsf if (d == Doublf.TYPE) {
+                    dbr = 'D';
+                } flsf if (d == Flobt.TYPE) {
+                    dbr = 'F';
+                } flsf /* if (d == Long.TYPE) */{
+                    dbr = 'J';
                 }
-                buf.append(car);
-                return;
-            } else if (d.isArray()) {
-                buf.append('[');
-                d = d.getComponentType();
-            } else {
-                buf.append('L');
-                String name = d.getName();
-                int len = name.length();
-                for (int i = 0; i < len; ++i) {
-                    char car = name.charAt(i);
-                    buf.append(car == '.' ? '/' : car);
+                buf.bppfnd(dbr);
+                rfturn;
+            } flsf if (d.isArrby()) {
+                buf.bppfnd('[');
+                d = d.gftComponfntTypf();
+            } flsf {
+                buf.bppfnd('L');
+                String nbmf = d.gftNbmf();
+                int lfn = nbmf.lfngti();
+                for (int i = 0; i < lfn; ++i) {
+                    dibr dbr = nbmf.dibrAt(i);
+                    buf.bppfnd(dbr == '.' ? '/' : dbr);
                 }
-                buf.append(';');
-                return;
+                buf.bppfnd(';');
+                rfturn;
             }
         }
     }
 
     // ------------------------------------------------------------------------
-    // Corresponding size and opcodes
+    // Corrfsponding sizf bnd opdodfs
     // ------------------------------------------------------------------------
 
     /**
-     * Returns the size of values of this type. This method must not be used for
-     * method types.
+     * Rfturns tif sizf of vblufs of tiis typf. Tiis mftiod must not bf usfd for
+     * mftiod typfs.
      *
-     * @return the size of values of this type, i.e., 2 for <tt>long</tt> and
-     *         <tt>double</tt>, 0 for <tt>void</tt> and 1 otherwise.
+     * @rfturn tif sizf of vblufs of tiis typf, i.f., 2 for <tt>long</tt> bnd
+     *         <tt>doublf</tt>, 0 for <tt>void</tt> bnd 1 otifrwisf.
      */
-    public int getSize() {
-        // the size is in byte 0 of 'off' for primitive types (buf == null)
-        return buf == null ? (off & 0xFF) : 1;
+    publid int gftSizf() {
+        // tif sizf is in bytf 0 of 'off' for primitivf typfs (buf == null)
+        rfturn buf == null ? (off & 0xFF) : 1;
     }
 
     /**
-     * Returns a JVM instruction opcode adapted to this Java type. This method
-     * must not be used for method types.
+     * Rfturns b JVM instrudtion opdodf bdbptfd to tiis Jbvb typf. Tiis mftiod
+     * must not bf usfd for mftiod typfs.
      *
-     * @param opcode
-     *            a JVM instruction opcode. This opcode must be one of ILOAD,
+     * @pbrbm opdodf
+     *            b JVM instrudtion opdodf. Tiis opdodf must bf onf of ILOAD,
      *            ISTORE, IALOAD, IASTORE, IADD, ISUB, IMUL, IDIV, IREM, INEG,
-     *            ISHL, ISHR, IUSHR, IAND, IOR, IXOR and IRETURN.
-     * @return an opcode that is similar to the given opcode, but adapted to
-     *         this Java type. For example, if this type is <tt>float</tt> and
-     *         <tt>opcode</tt> is IRETURN, this method returns FRETURN.
+     *            ISHL, ISHR, IUSHR, IAND, IOR, IXOR bnd IRETURN.
+     * @rfturn bn opdodf tibt is similbr to tif givfn opdodf, but bdbptfd to
+     *         tiis Jbvb typf. For fxbmplf, if tiis typf is <tt>flobt</tt> bnd
+     *         <tt>opdodf</tt> is IRETURN, tiis mftiod rfturns FRETURN.
      */
-    public int getOpcode(final int opcode) {
-        if (opcode == Opcodes.IALOAD || opcode == Opcodes.IASTORE) {
-            // the offset for IALOAD or IASTORE is in byte 1 of 'off' for
-            // primitive types (buf == null)
-            return opcode + (buf == null ? (off & 0xFF00) >> 8 : 4);
-        } else {
-            // the offset for other instructions is in byte 2 of 'off' for
-            // primitive types (buf == null)
-            return opcode + (buf == null ? (off & 0xFF0000) >> 16 : 4);
+    publid int gftOpdodf(finbl int opdodf) {
+        if (opdodf == Opdodfs.IALOAD || opdodf == Opdodfs.IASTORE) {
+            // tif offsft for IALOAD or IASTORE is in bytf 1 of 'off' for
+            // primitivf typfs (buf == null)
+            rfturn opdodf + (buf == null ? (off & 0xFF00) >> 8 : 4);
+        } flsf {
+            // tif offsft for otifr instrudtions is in bytf 2 of 'off' for
+            // primitivf typfs (buf == null)
+            rfturn opdodf + (buf == null ? (off & 0xFF0000) >> 16 : 4);
         }
     }
 
     // ------------------------------------------------------------------------
-    // Equals, hashCode and toString
+    // Equbls, ibsiCodf bnd toString
     // ------------------------------------------------------------------------
 
     /**
-     * Tests if the given object is equal to this type.
+     * Tfsts if tif givfn objfdt is fqubl to tiis typf.
      *
-     * @param o
-     *            the object to be compared to this type.
-     * @return <tt>true</tt> if the given object is equal to this type.
+     * @pbrbm o
+     *            tif objfdt to bf dompbrfd to tiis typf.
+     * @rfturn <tt>truf</tt> if tif givfn objfdt is fqubl to tiis typf.
      */
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(finbl Objfdt o) {
+        if (tiis == o) {
+            rfturn truf;
         }
-        if (!(o instanceof Type)) {
-            return false;
+        if (!(o instbndfof Typf)) {
+            rfturn fblsf;
         }
-        Type t = (Type) o;
+        Typf t = (Typf) o;
         if (sort != t.sort) {
-            return false;
+            rfturn fblsf;
         }
         if (sort >= ARRAY) {
-            if (len != t.len) {
-                return false;
+            if (lfn != t.lfn) {
+                rfturn fblsf;
             }
-            for (int i = off, j = t.off, end = i + len; i < end; i++, j++) {
+            for (int i = off, j = t.off, fnd = i + lfn; i < fnd; i++, j++) {
                 if (buf[i] != t.buf[j]) {
-                    return false;
+                    rfturn fblsf;
                 }
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns a hash code value for this type.
+     * Rfturns b ibsi dodf vbluf for tiis typf.
      *
-     * @return a hash code value for this type.
+     * @rfturn b ibsi dodf vbluf for tiis typf.
      */
-    @Override
-    public int hashCode() {
-        int hc = 13 * sort;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int id = 13 * sort;
         if (sort >= ARRAY) {
-            for (int i = off, end = i + len; i < end; i++) {
-                hc = 17 * (hc + buf[i]);
+            for (int i = off, fnd = i + lfn; i < fnd; i++) {
+                id = 17 * (id + buf[i]);
             }
         }
-        return hc;
+        rfturn id;
     }
 
     /**
-     * Returns a string representation of this type.
+     * Rfturns b string rfprfsfntbtion of tiis typf.
      *
-     * @return the descriptor of this type.
+     * @rfturn tif dfsdriptor of tiis typf.
      */
-    @Override
-    public String toString() {
-        return getDescriptor();
+    @Ovfrridf
+    publid String toString() {
+        rfturn gftDfsdriptor();
     }
 }

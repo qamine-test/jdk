@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 1994, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+
+/**
+ * Signbls thbt bn bttfmpt to opfn thf filf dfnotfd by b spfdififd pbthnbmf
+ * hbs fbilfd.
+ *
+ * <p> This fxdfption will bf thrown by thf {@link FilfInputStrfbm}, {@link
+ * FilfOutputStrfbm}, bnd {@link RbndomAddfssFilf} donstrudtors whfn b filf
+ * with thf spfdififd pbthnbmf dofs not fxist.  It will blso bf thrown by thfsf
+ * donstrudtors if thf filf dofs fxist but for somf rfbson is inbddfssiblf, for
+ * fxbmplf whfn bn bttfmpt is mbdf to opfn b rfbd-only filf for writing.
+ *
+ * @buthor  unbsdribfd
+ * @sindf   1.0
+ */
+
+publid dlbss FilfNotFoundExdfption fxtfnds IOExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = -897856973823710492L;
+
+    /**
+     * Construdts b <dodf>FilfNotFoundExdfption</dodf> with
+     * <dodf>null</dodf> bs its frror dftbil mfssbgf.
+     */
+    publid FilfNotFoundExdfption() {
+        supfr();
+    }
+
+    /**
+     * Construdts b <dodf>FilfNotFoundExdfption</dodf> with thf
+     * spfdififd dftbil mfssbgf. Thf string <dodf>s</dodf> dbn bf
+     * rftrifvfd lbtfr by thf
+     * <dodf>{@link jbvb.lbng.Throwbblf#gftMfssbgf}</dodf>
+     * mfthod of dlbss <dodf>jbvb.lbng.Throwbblf</dodf>.
+     *
+     * @pbrbm   s   thf dftbil mfssbgf.
+     */
+    publid FilfNotFoundExdfption(String s) {
+        supfr(s);
+    }
+
+    /**
+     * Construdts b <dodf>FilfNotFoundExdfption</dodf> with b dftbil mfssbgf
+     * donsisting of thf givfn pbthnbmf string followfd by thf givfn rfbson
+     * string.  If thf <dodf>rfbson</dodf> brgumfnt is <dodf>null</dodf> thfn
+     * it will bf omittfd.  This privbtf donstrudtor is invokfd only by nbtivf
+     * I/O mfthods.
+     *
+     * @sindf 1.2
+     */
+    privbtf FilfNotFoundExdfption(String pbth, String rfbson) {
+        supfr(pbth + ((rfbson == null)
+                      ? ""
+                      : " (" + rfbson + ")"));
+    }
+
+}

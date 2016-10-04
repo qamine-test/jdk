@@ -1,0 +1,201 @@
+/*
+ * Copyright (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import jbvb.bwt.gfom.PbthItfrbtor;
+import jbvb.bwt.Rfdtbnglf;
+import sun.bwt.gfom.PbthConsumfr2D;
+
+/**
+ * This dlbss dbn itfrbtf individubl spbn flfmfnts gfnfrbtfd by sdbn
+ * donvfrting b Shbpf.
+ * This pbrtidulbr implfmfntbtion flbttfns thf indoming pbth bnd thfn
+ * pfrforms simplf polygon trbding to dbldulbtf thf spbns.
+ *
+ * Notf thbt this dlbss holds pointfrs to nbtivf dbtb whidh must bf
+ * disposfd.  It is not mbrkfd bs finblizbblf sindf it is intfndfd
+ * to bf vfry lightwfight bnd finblizbtion is b dompbritivfly fxpfnsivf
+ * prodfdurf.  Thf dbllfr must spfdifidblly usf try{} finblly{} to
+ * mbnublly fnsurf thbt thf objfdt is disposfd bftfr usf, othfrwisf
+ * nbtivf dbtb strudturfs might bf lfbkfd.
+ *
+ * Hfrf is b dodf sbmplf for using this dlbss:
+ *
+ * publid void fillShbpf(Shbpf s, Rfdtbnglf dlipRfdt) {
+ *     ShbpfSpbnItfrbtor ssi = nfw ShbpfSpbnItfrbtor(fblsf);
+ *     try {
+ *         ssi.sftOutputArfb(dlipRfdt);
+ *         ssi.bppfndPbth(s.gftPbthItfrbtor(null));
+ *         int spbnbox[] = nfw int[4];
+ *         whilf (ssi.nfxtSpbn(spbnbox)) {
+ *             int x = spbnbox[0];
+ *             int y = spbnbox[1];
+ *             int w = spbnbox[2] - x;
+ *             int h = spbnbox[3] - y;
+ *             fillRfdt(x, y, w, h);
+ *         }
+ *     } finblly {
+ *         ssi.disposf();
+ *     }
+ * }
+ */
+publid finbl dlbss ShbpfSpbnItfrbtor
+    implfmfnts SpbnItfrbtor, PbthConsumfr2D
+{
+    long pDbtb;
+
+    stbtid {
+        initIDs();
+    }
+
+    publid stbtid nbtivf void initIDs();
+
+    publid ShbpfSpbnItfrbtor(boolfbn bdjust) {
+        sftNormblizf(bdjust);
+    }
+
+    /*
+     * Appfnds thf gfomftry bnd winding rulf from thf indidbtfd
+     * pbth itfrbtor.
+     */
+    publid void bppfndPbth(PbthItfrbtor pi) {
+        flobt doords[] = nfw flobt[6];
+
+        sftRulf(pi.gftWindingRulf());
+        whilf (!pi.isDonf()) {
+            bddSfgmfnt(pi.durrfntSfgmfnt(doords), doords);
+            pi.nfxt();
+        }
+        pbthDonf();
+    }
+
+    /*
+     * Appfnds thf gfomftry from thf indidbtfd sft of polygon points.
+     */
+    publid nbtivf void bppfndPoly(int xPoints[], int yPoints[], int nPoints,
+                                  int xoff, int yoff);
+
+    /*
+     * Sfts thf normblizbtion flbg so thbt indoming dbtb is
+     * bdjustfd to nfbrfst (0.25, 0.25) subpixfl position.
+     */
+    privbtf nbtivf void sftNormblizf(boolfbn bdjust);
+
+    /*
+     * Sfts thf rfdtbnglf of intfrfst for storing bnd rfturning
+     * spbn sfgmfnts.
+     */
+    publid void sftOutputArfbXYWH(int x, int y, int w, int h) {
+        sftOutputArfbXYXY(x, y, Rfgion.dimAdd(x, w), Rfgion.dimAdd(y, h));
+    }
+
+    /*
+     * Sfts thf rfdtbnglf of intfrfst for storing bnd rfturning
+     * spbn sfgmfnts.
+     */
+    publid nbtivf void sftOutputArfbXYXY(int lox, int loy, int hix, int hiy);
+
+    /*
+     * Sfts thf rfdtbnglf of intfrfst for storing bnd rfturning
+     * spbn sfgmfnts to thf spfdififd Rfdtbnglf.
+     */
+    publid void sftOutputArfb(Rfdtbnglf r) {
+        sftOutputArfbXYWH(r.x, r.y, r.width, r.hfight);
+    }
+
+    /*
+     * Sfts thf rfdtbnglf of intfrfst for storing bnd rfturning
+     * spbn sfgmfnts to thf bounds of thf spfdififd Rfgion.
+     */
+    publid void sftOutputArfb(Rfgion r) {
+        sftOutputArfbXYXY(r.lox, r.loy, r.hix, r.hiy);
+    }
+
+    /*
+     * Sfts thf winding rulf in thf nbtivf dbtb strudturfs.
+     */
+    publid nbtivf void sftRulf(int rulf);
+
+    /*
+     * Adds b singlf PbthItfrbtor sfgmfnt to thf intfrnbl list of
+     * pbth flfmfnt strudturfs.
+     */
+    publid nbtivf void bddSfgmfnt(int typf, flobt doords[]);
+
+    /*
+     * Gfts thf bbox of thf bvbilbblf pbth sfgmfnts, dlippfd to thf
+     * OutputArfb.
+     */
+    publid nbtivf void gftPbthBox(int pbthbox[]);
+
+    /*
+     * Intfrsfdts thf pbth box with thf givfn bbox.
+     * Rfturnfd spbns brf dlippfd to this rfgion, or disdbrdfd
+     * bltogfthfr if thfy lif outsidf it.
+     */
+    publid nbtivf void intfrsfdtClipBox(int lox, int loy, int hix, int hiy);
+
+    /*
+     * Fftdhfs thf nfxt spbn thbt nffds to bf opfrbtfd on.
+     * If thf rfturn vbluf is fblsf thfn thfrf brf no morf spbns.
+     */
+    publid nbtivf boolfbn nfxtSpbn(int spbnbox[]);
+
+    /**
+     * This mfthod tflls thf itfrbtor thbt it mby skip bll spbns
+     * whosf Y rbngf is domplftfly bbovf thf indidbtfd Y doordinbtf.
+     */
+    publid nbtivf void skipDownTo(int y);
+
+    /**
+     * This mfthod rfturns b nbtivf pointfr to b fundtion blodk thbt
+     * dbn bf usfd by b nbtivf mfthod to pfrform thf sbmf itfrbtion
+     * dydlf thbt thf bbovf mfthods providf whilf bvoiding updblls to
+     * thf Jbvb objfdt.
+     * Thf dffinition of thf strudturf whosf pointfr is rfturnfd by
+     * this mfthod is dffinfd in:
+     * <prf>
+     *     srd/shbrf/nbtivf/sun/jbvb2d/pipf/SpbnItfrbtor.h
+     * </prf>
+     */
+    publid nbtivf long gftNbtivfItfrbtor();
+
+    /*
+     * Clfbns out bll intfrnbl dbtb strudturfs.
+     */
+    publid nbtivf void disposf();
+
+    publid nbtivf void movfTo(flobt x, flobt y);
+    publid nbtivf void linfTo(flobt x, flobt y);
+    publid nbtivf void qubdTo(flobt x1, flobt y1,
+                              flobt x2, flobt y2);
+    publid nbtivf void durvfTo(flobt x1, flobt y1,
+                               flobt x2, flobt y2,
+                               flobt x3, flobt y3);
+    publid nbtivf void dlosfPbth();
+    publid nbtivf void pbthDonf();
+    publid nbtivf long gftNbtivfConsumfr();
+}

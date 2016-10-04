@@ -1,653 +1,653 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
+#indludf <stdlib.i>
 
-#include "sun_java2d_opengl_WGLSurfaceData.h"
+#indludf "sun_jbvb2d_opfngl_WGLSurfbdfDbtb.i"
 
-#include "jni.h"
-#include "jlong.h"
-#include "jni_util.h"
-#include "sizecalc.h"
-#include "OGLRenderQueue.h"
-#include "WGLGraphicsConfig.h"
-#include "WGLSurfaceData.h"
+#indludf "jni.i"
+#indludf "jlong.i"
+#indludf "jni_util.i"
+#indludf "sizfdbld.i"
+#indludf "OGLRfndfrQufuf.i"
+#indludf "WGLGrbpiidsConfig.i"
+#indludf "WGLSurfbdfDbtb.i"
 
 /**
- * The methods in this file implement the native windowing system specific
- * layer (WGL) for the OpenGL-based Java 2D pipeline.
+ * Tif mftiods in tiis filf implfmfnt tif nbtivf windowing systfm spfdifid
+ * lbyfr (WGL) for tif OpfnGL-bbsfd Jbvb 2D pipflinf.
  */
 
-extern LockFunc                     OGLSD_Lock;
-extern GetRasInfoFunc               OGLSD_GetRasInfo;
-extern UnlockFunc                   OGLSD_Unlock;
-extern DisposeFunc                  OGLSD_Dispose;
+fxtfrn LodkFund                     OGLSD_Lodk;
+fxtfrn GftRbsInfoFund               OGLSD_GftRbsInfo;
+fxtfrn UnlodkFund                   OGLSD_Unlodk;
+fxtfrn DisposfFund                  OGLSD_Disposf;
 
-extern OGLPixelFormat PixelFormats[];
-extern void AwtWindow_UpdateWindow(JNIEnv *env, jobject peer,
-                                   jint w, jint h, HBITMAP hBitmap);
-extern HBITMAP BitmapUtil_CreateBitmapFromARGBPre(int width, int height,
-                                                  int srcStride,
-                                                  int* imageData);
-extern void AwtComponent_GetInsets(JNIEnv *env, jobject peer, RECT *insets);
+fxtfrn OGLPixflFormbt PixflFormbts[];
+fxtfrn void AwtWindow_UpdbtfWindow(JNIEnv *fnv, jobjfdt pffr,
+                                   jint w, jint i, HBITMAP iBitmbp);
+fxtfrn HBITMAP BitmbpUtil_CrfbtfBitmbpFromARGBPrf(int widti, int ifigit,
+                                                  int srdStridf,
+                                                  int* imbgfDbtb);
+fxtfrn void AwtComponfnt_GftInsfts(JNIEnv *fnv, jobjfdt pffr, RECT *insfts);
 
-extern void
-    OGLSD_SetNativeDimensions(JNIEnv *env, OGLSDOps *oglsdo, jint w, jint h);
+fxtfrn void
+    OGLSD_SftNbtivfDimfnsions(JNIEnv *fnv, OGLSDOps *oglsdo, jint w, jint i);
 
 JNIEXPORT void JNICALL
-Java_sun_java2d_opengl_WGLSurfaceData_initOps(JNIEnv *env, jobject wglsd,
+Jbvb_sun_jbvb2d_opfngl_WGLSurfbdfDbtb_initOps(JNIEnv *fnv, jobjfdt wglsd,
                                               jlong pConfigInfo,
-                                              jobject peer, jlong hwnd)
+                                              jobjfdt pffr, jlong iwnd)
 {
-    OGLSDOps *oglsdo = (OGLSDOps *)SurfaceData_InitOps(env, wglsd,
-                                                       sizeof(OGLSDOps));
-    WGLSDOps *wglsdo = (WGLSDOps *)malloc(sizeof(WGLSDOps));
+    OGLSDOps *oglsdo = (OGLSDOps *)SurfbdfDbtb_InitOps(fnv, wglsd,
+                                                       sizfof(OGLSDOps));
+    WGLSDOps *wglsdo = (WGLSDOps *)mbllod(sizfof(WGLSDOps));
 
-    J2dTraceLn(J2D_TRACE_INFO, "WGLSurfaceData_initOps");
+    J2dTrbdfLn(J2D_TRACE_INFO, "WGLSurfbdfDbtb_initOps");
 
     if (wglsdo == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "creating native wgl ops");
-        return;
+        JNU_TirowOutOfMfmoryError(fnv, "drfbting nbtivf wgl ops");
+        rfturn;
     }
     if (oglsdo == NULL) {
-        free(wglsdo);
-        JNU_ThrowOutOfMemoryError(env, "Initialization of SurfaceData failed.");
-        return;
+        frff(wglsdo);
+        JNU_TirowOutOfMfmoryError(fnv, "Initiblizbtion of SurfbdfDbtb fbilfd.");
+        rfturn;
     }
 
     oglsdo->privOps = wglsdo;
 
-    oglsdo->sdOps.Lock               = OGLSD_Lock;
-    oglsdo->sdOps.GetRasInfo         = OGLSD_GetRasInfo;
-    oglsdo->sdOps.Unlock             = OGLSD_Unlock;
-    oglsdo->sdOps.Dispose            = OGLSD_Dispose;
+    oglsdo->sdOps.Lodk               = OGLSD_Lodk;
+    oglsdo->sdOps.GftRbsInfo         = OGLSD_GftRbsInfo;
+    oglsdo->sdOps.Unlodk             = OGLSD_Unlodk;
+    oglsdo->sdOps.Disposf            = OGLSD_Disposf;
 
-    oglsdo->drawableType = OGLSD_UNDEFINED;
-    oglsdo->activeBuffer = GL_FRONT;
-    oglsdo->needsInit = JNI_TRUE;
-    if (peer != NULL) {
-        RECT insets;
-        AwtComponent_GetInsets(env, peer, &insets);
-        oglsdo->xOffset = -insets.left;
-        oglsdo->yOffset = -insets.bottom;
-    } else {
-        oglsdo->xOffset = 0;
-        oglsdo->yOffset = 0;
+    oglsdo->drbwbblfTypf = OGLSD_UNDEFINED;
+    oglsdo->bdtivfBufffr = GL_FRONT;
+    oglsdo->nffdsInit = JNI_TRUE;
+    if (pffr != NULL) {
+        RECT insfts;
+        AwtComponfnt_GftInsfts(fnv, pffr, &insfts);
+        oglsdo->xOffsft = -insfts.lfft;
+        oglsdo->yOffsft = -insfts.bottom;
+    } flsf {
+        oglsdo->xOffsft = 0;
+        oglsdo->yOffsft = 0;
     }
 
-    wglsdo->window = (HWND)jlong_to_ptr(hwnd);
-    wglsdo->configInfo = (WGLGraphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
-    if (wglsdo->configInfo == NULL) {
-        free(wglsdo);
-        JNU_ThrowNullPointerException(env, "Config info is null in initOps");
+    wglsdo->window = (HWND)jlong_to_ptr(iwnd);
+    wglsdo->donfigInfo = (WGLGrbpiidsConfigInfo *)jlong_to_ptr(pConfigInfo);
+    if (wglsdo->donfigInfo == NULL) {
+        frff(wglsdo);
+        JNU_TirowNullPointfrExdfption(fnv, "Config info is null in initOps");
     }
 }
 
 /**
- * This function disposes of any native windowing system resources associated
- * with this surface.  For instance, if the given OGLSDOps is of type
- * OGLSD_PBUFFER, this method implementation will destroy the actual pbuffer
- * surface.
+ * Tiis fundtion disposfs of bny nbtivf windowing systfm rfsourdfs bssodibtfd
+ * witi tiis surfbdf.  For instbndf, if tif givfn OGLSDOps is of typf
+ * OGLSD_PBUFFER, tiis mftiod implfmfntbtion will dfstroy tif bdtubl pbufffr
+ * surfbdf.
  */
 void
-OGLSD_DestroyOGLSurface(JNIEnv *env, OGLSDOps *oglsdo)
+OGLSD_DfstroyOGLSurfbdf(JNIEnv *fnv, OGLSDOps *oglsdo)
 {
     WGLSDOps *wglsdo = (WGLSDOps *)oglsdo->privOps;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_DestroyOGLSurface");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLSD_DfstroyOGLSurfbdf");
 
-    if (oglsdo->drawableType == OGLSD_PBUFFER) {
-        if (wglsdo->pbuffer != 0) {
-            if (wglsdo->pbufferDC != 0) {
-                j2d_wglReleasePbufferDCARB(wglsdo->pbuffer,
-                                           wglsdo->pbufferDC);
-                wglsdo->pbufferDC = 0;
+    if (oglsdo->drbwbblfTypf == OGLSD_PBUFFER) {
+        if (wglsdo->pbufffr != 0) {
+            if (wglsdo->pbufffrDC != 0) {
+                j2d_wglRflfbsfPbufffrDCARB(wglsdo->pbufffr,
+                                           wglsdo->pbufffrDC);
+                wglsdo->pbufffrDC = 0;
             }
-            j2d_wglDestroyPbufferARB(wglsdo->pbuffer);
-            wglsdo->pbuffer = 0;
+            j2d_wglDfstroyPbufffrARB(wglsdo->pbufffr);
+            wglsdo->pbufffr = 0;
         }
     }
 }
 
 /**
- * Makes the given context current to its associated "scratch" surface.  If
- * the operation is successful, this method will return JNI_TRUE; otherwise,
- * returns JNI_FALSE.
+ * Mbkfs tif givfn dontfxt durrfnt to its bssodibtfd "sdrbtdi" surfbdf.  If
+ * tif opfrbtion is suddfssful, tiis mftiod will rfturn JNI_TRUE; otifrwisf,
+ * rfturns JNI_FALSE.
  */
-static jboolean
-WGLSD_MakeCurrentToScratch(JNIEnv *env, OGLContext *oglc)
+stbtid jboolfbn
+WGLSD_MbkfCurrfntToSdrbtdi(JNIEnv *fnv, OGLContfxt *ogld)
 {
-    WGLCtxInfo *ctxInfo;
+    WGLCtxInfo *dtxInfo;
 
-    J2dTraceLn(J2D_TRACE_INFO, "WGLSD_MakeCurrentToScratch");
+    J2dTrbdfLn(J2D_TRACE_INFO, "WGLSD_MbkfCurrfntToSdrbtdi");
 
-    if (oglc == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "WGLSD_MakeCurrentToScratch: context is null");
-        return JNI_FALSE;
+    if (ogld == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "WGLSD_MbkfCurrfntToSdrbtdi: dontfxt is null");
+        rfturn JNI_FALSE;
     }
 
-    ctxInfo = (WGLCtxInfo *)oglc->ctxInfo;
-    if (!j2d_wglMakeCurrent(ctxInfo->scratchSurfaceDC, ctxInfo->context)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "WGLSD_MakeCurrentToScratch: could not make current");
-        return JNI_FALSE;
+    dtxInfo = (WGLCtxInfo *)ogld->dtxInfo;
+    if (!j2d_wglMbkfCurrfnt(dtxInfo->sdrbtdiSurfbdfDC, dtxInfo->dontfxt)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "WGLSD_MbkfCurrfntToSdrbtdi: dould not mbkf durrfnt");
+        rfturn JNI_FALSE;
     }
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 /**
- * Returns a pointer (as a jlong) to the native WGLGraphicsConfigInfo
- * associated with the given OGLSDOps.  This method can be called from
- * shared code to retrieve the native GraphicsConfig data in a platform-
- * independent manner.
+ * Rfturns b pointfr (bs b jlong) to tif nbtivf WGLGrbpiidsConfigInfo
+ * bssodibtfd witi tif givfn OGLSDOps.  Tiis mftiod dbn bf dbllfd from
+ * sibrfd dodf to rftrifvf tif nbtivf GrbpiidsConfig dbtb in b plbtform-
+ * indfpfndfnt mbnnfr.
  */
 jlong
-OGLSD_GetNativeConfigInfo(OGLSDOps *oglsdo)
+OGLSD_GftNbtivfConfigInfo(OGLSDOps *oglsdo)
 {
     WGLSDOps *wglsdo;
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_GetNativeConfigInfo: ops are null");
-        return 0L;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_GftNbtivfConfigInfo: ops brf null");
+        rfturn 0L;
     }
 
     wglsdo = (WGLSDOps *)oglsdo->privOps;
     if (wglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_GetNativeConfigInfo: wgl ops are null");
-        return 0L;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_GftNbtivfConfigInfo: wgl ops brf null");
+        rfturn 0L;
     }
 
-    return ptr_to_jlong(wglsdo->configInfo);
+    rfturn ptr_to_jlong(wglsdo->donfigInfo);
 }
 
 /**
- * Makes the given GraphicsConfig's context current to its associated
- * "scratch" surface.  If there is a problem making the context current,
- * this method will return NULL; otherwise, returns a pointer to the
- * OGLContext that is associated with the given GraphicsConfig.
+ * Mbkfs tif givfn GrbpiidsConfig's dontfxt durrfnt to its bssodibtfd
+ * "sdrbtdi" surfbdf.  If tifrf is b problfm mbking tif dontfxt durrfnt,
+ * tiis mftiod will rfturn NULL; otifrwisf, rfturns b pointfr to tif
+ * OGLContfxt tibt is bssodibtfd witi tif givfn GrbpiidsConfig.
  */
-OGLContext *
-OGLSD_SetScratchSurface(JNIEnv *env, jlong pConfigInfo)
+OGLContfxt *
+OGLSD_SftSdrbtdiSurfbdf(JNIEnv *fnv, jlong pConfigInfo)
 {
-    WGLGraphicsConfigInfo *wglInfo =
-        (WGLGraphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
-    OGLContext *oglc;
+    WGLGrbpiidsConfigInfo *wglInfo =
+        (WGLGrbpiidsConfigInfo *)jlong_to_ptr(pConfigInfo);
+    OGLContfxt *ogld;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_SetScratchContext");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLSD_SftSdrbtdiContfxt");
 
     if (wglInfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_SetScratchContext: wgl config info is null");
-        return NULL;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_SftSdrbtdiContfxt: wgl donfig info is null");
+        rfturn NULL;
     }
 
-    oglc = wglInfo->context;
-    if (!WGLSD_MakeCurrentToScratch(env, oglc)) {
-        return NULL;
+    ogld = wglInfo->dontfxt;
+    if (!WGLSD_MbkfCurrfntToSdrbtdi(fnv, ogld)) {
+        rfturn NULL;
     }
 
-    if (OGLC_IS_CAP_PRESENT(oglc, CAPS_EXT_FBOBJECT)) {
-        // the GL_EXT_framebuffer_object extension is present, so this call
-        // will ensure that we are bound to the scratch pbuffer (and not
-        // some other framebuffer object)
-        j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+    if (OGLC_IS_CAP_PRESENT(ogld, CAPS_EXT_FBOBJECT)) {
+        // tif GL_EXT_frbmfbufffr_objfdt fxtfnsion is prfsfnt, so tiis dbll
+        // will fnsurf tibt wf brf bound to tif sdrbtdi pbufffr (bnd not
+        // somf otifr frbmfbufffr objfdt)
+        j2d_glBindFrbmfbufffrEXT(GL_FRAMEBUFFER_EXT, 0);
     }
 
-    return oglc;
+    rfturn ogld;
 }
 
 /**
- * Makes a context current to the given source and destination
- * surfaces.  If there is a problem making the context current, this method
- * will return NULL; otherwise, returns a pointer to the OGLContext that is
- * associated with the destination surface.
+ * Mbkfs b dontfxt durrfnt to tif givfn sourdf bnd dfstinbtion
+ * surfbdfs.  If tifrf is b problfm mbking tif dontfxt durrfnt, tiis mftiod
+ * will rfturn NULL; otifrwisf, rfturns b pointfr to tif OGLContfxt tibt is
+ * bssodibtfd witi tif dfstinbtion surfbdf.
  */
-OGLContext *
-OGLSD_MakeOGLContextCurrent(JNIEnv *env, OGLSDOps *srcOps, OGLSDOps *dstOps)
+OGLContfxt *
+OGLSD_MbkfOGLContfxtCurrfnt(JNIEnv *fnv, OGLSDOps *srdOps, OGLSDOps *dstOps)
 {
-    WGLSDOps *srcWGLOps = (WGLSDOps *)srcOps->privOps;
+    WGLSDOps *srdWGLOps = (WGLSDOps *)srdOps->privOps;
     WGLSDOps *dstWGLOps = (WGLSDOps *)dstOps->privOps;
-    OGLContext *oglc;
-    WGLCtxInfo *ctxinfo;
-    HDC srcHDC, dstHDC;
-    BOOL success;
+    OGLContfxt *ogld;
+    WGLCtxInfo *dtxinfo;
+    HDC srdHDC, dstHDC;
+    BOOL suddfss;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_MakeOGLContextCurrent");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLSD_MbkfOGLContfxtCurrfnt");
 
-    J2dTraceLn4(J2D_TRACE_VERBOSE, "  src: %d %p dst: %d %p",
-                srcOps->drawableType, srcOps,
-                dstOps->drawableType, dstOps);
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE, "  srd: %d %p dst: %d %p",
+                srdOps->drbwbblfTypf, srdOps,
+                dstOps->drbwbblfTypf, dstOps);
 
-    oglc = dstWGLOps->configInfo->context;
-    if (oglc == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_MakeOGLContextCurrent: context is null");
-        return NULL;
+    ogld = dstWGLOps->donfigInfo->dontfxt;
+    if (ogld == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_MbkfOGLContfxtCurrfnt: dontfxt is null");
+        rfturn NULL;
     }
 
-    if (dstOps->drawableType == OGLSD_FBOBJECT) {
-        OGLContext *currentContext = OGLRenderQueue_GetCurrentContext();
+    if (dstOps->drbwbblfTypf == OGLSD_FBOBJECT) {
+        OGLContfxt *durrfntContfxt = OGLRfndfrQufuf_GftCurrfntContfxt();
 
-        // first make sure we have a current context (if the context isn't
-        // already current to some drawable, we will make it current to
-        // its scratch surface)
-        if (oglc != currentContext) {
-            if (!WGLSD_MakeCurrentToScratch(env, oglc)) {
-                return NULL;
+        // first mbkf surf wf ibvf b durrfnt dontfxt (if tif dontfxt isn't
+        // blrfbdy durrfnt to somf drbwbblf, wf will mbkf it durrfnt to
+        // its sdrbtdi surfbdf)
+        if (ogld != durrfntContfxt) {
+            if (!WGLSD_MbkfCurrfntToSdrbtdi(fnv, ogld)) {
+                rfturn NULL;
             }
         }
 
-        // now bind to the fbobject associated with the destination surface;
-        // this means that all rendering will go into the fbobject destination
-        // (note that we unbind the currently bound texture first; this is
-        // recommended procedure when binding an fbobject)
-        j2d_glBindTexture(dstOps->textureTarget, 0);
-        j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, dstOps->fbobjectID);
+        // now bind to tif fbobjfdt bssodibtfd witi tif dfstinbtion surfbdf;
+        // tiis mfbns tibt bll rfndfring will go into tif fbobjfdt dfstinbtion
+        // (notf tibt wf unbind tif durrfntly bound tfxturf first; tiis is
+        // rfdommfndfd prodfdurf wifn binding bn fbobjfdt)
+        j2d_glBindTfxturf(dstOps->tfxturfTbrgft, 0);
+        j2d_glBindFrbmfbufffrEXT(GL_FRAMEBUFFER_EXT, dstOps->fbobjfdtID);
 
-        return oglc;
+        rfturn ogld;
     }
 
-    ctxinfo = (WGLCtxInfo *)oglc->ctxInfo;
+    dtxinfo = (WGLCtxInfo *)ogld->dtxInfo;
 
-    // get the hdc for the destination surface
-    if (dstOps->drawableType == OGLSD_PBUFFER) {
-        dstHDC = dstWGLOps->pbufferDC;
-    } else {
-        dstHDC = GetDC(dstWGLOps->window);
+    // gft tif idd for tif dfstinbtion surfbdf
+    if (dstOps->drbwbblfTypf == OGLSD_PBUFFER) {
+        dstHDC = dstWGLOps->pbufffrDC;
+    } flsf {
+        dstHDC = GftDC(dstWGLOps->window);
     }
 
-    // get the hdc for the source surface
-    if (srcOps->drawableType == OGLSD_PBUFFER) {
-        srcHDC = srcWGLOps->pbufferDC;
-    } else {
-        // the source will always be equal to the destination in this case
-        srcHDC = dstHDC;
+    // gft tif idd for tif sourdf surfbdf
+    if (srdOps->drbwbblfTypf == OGLSD_PBUFFER) {
+        srdHDC = srdWGLOps->pbufffrDC;
+    } flsf {
+        // tif sourdf will blwbys bf fqubl to tif dfstinbtion in tiis dbsf
+        srdHDC = dstHDC;
     }
 
-    // REMIND: in theory we should be able to use wglMakeContextCurrentARB()
-    // even when the src/dst surfaces are the same, but this causes problems
-    // on ATI's drivers (see 6525997); for now we will only use it when the
-    // surfaces are different, otherwise we will use the old
-    // wglMakeCurrent() approach...
-    if (srcHDC != dstHDC) {
-        // use WGL_ARB_make_current_read extension to make context current
-        success =
-            j2d_wglMakeContextCurrentARB(dstHDC, srcHDC, ctxinfo->context);
-    } else {
-        // use the old approach for making current to the destination
-        success = j2d_wglMakeCurrent(dstHDC, ctxinfo->context);
+    // REMIND: in tifory wf siould bf bblf to usf wglMbkfContfxtCurrfntARB()
+    // fvfn wifn tif srd/dst surfbdfs brf tif sbmf, but tiis dbusfs problfms
+    // on ATI's drivfrs (sff 6525997); for now wf will only usf it wifn tif
+    // surfbdfs brf difffrfnt, otifrwisf wf will usf tif old
+    // wglMbkfCurrfnt() bpprobdi...
+    if (srdHDC != dstHDC) {
+        // usf WGL_ARB_mbkf_durrfnt_rfbd fxtfnsion to mbkf dontfxt durrfnt
+        suddfss =
+            j2d_wglMbkfContfxtCurrfntARB(dstHDC, srdHDC, dtxinfo->dontfxt);
+    } flsf {
+        // usf tif old bpprobdi for mbking durrfnt to tif dfstinbtion
+        suddfss = j2d_wglMbkfCurrfnt(dstHDC, dtxinfo->dontfxt);
     }
-    if (!success) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_MakeOGLContextCurrent: could not make current");
-        if (dstOps->drawableType != OGLSD_PBUFFER) {
-            ReleaseDC(dstWGLOps->window, dstHDC);
+    if (!suddfss) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_MbkfOGLContfxtCurrfnt: dould not mbkf durrfnt");
+        if (dstOps->drbwbblfTypf != OGLSD_PBUFFER) {
+            RflfbsfDC(dstWGLOps->window, dstHDC);
         }
-        return NULL;
+        rfturn NULL;
     }
 
-    if (OGLC_IS_CAP_PRESENT(oglc, CAPS_EXT_FBOBJECT)) {
-        // the GL_EXT_framebuffer_object extension is present, so we
-        // must bind to the default (windowing system provided)
-        // framebuffer
-        j2d_glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+    if (OGLC_IS_CAP_PRESENT(ogld, CAPS_EXT_FBOBJECT)) {
+        // tif GL_EXT_frbmfbufffr_objfdt fxtfnsion is prfsfnt, so wf
+        // must bind to tif dffbult (windowing systfm providfd)
+        // frbmfbufffr
+        j2d_glBindFrbmfbufffrEXT(GL_FRAMEBUFFER_EXT, 0);
     }
 
-    if (dstOps->drawableType != OGLSD_PBUFFER) {
-        ReleaseDC(dstWGLOps->window, dstHDC);
+    if (dstOps->drbwbblfTypf != OGLSD_PBUFFER) {
+        RflfbsfDC(dstWGLOps->window, dstHDC);
     }
 
-    return oglc;
+    rfturn ogld;
 }
 
 /**
- * This function initializes a native window surface and caches the window
- * bounds in the given OGLSDOps.  Returns JNI_TRUE if the operation was
- * successful; JNI_FALSE otherwise.
+ * Tiis fundtion initiblizfs b nbtivf window surfbdf bnd dbdifs tif window
+ * bounds in tif givfn OGLSDOps.  Rfturns JNI_TRUE if tif opfrbtion wbs
+ * suddfssful; JNI_FALSE otifrwisf.
  */
-jboolean
-OGLSD_InitOGLWindow(JNIEnv *env, OGLSDOps *oglsdo)
+jboolfbn
+OGLSD_InitOGLWindow(JNIEnv *fnv, OGLSDOps *oglsdo)
 {
     PIXELFORMATDESCRIPTOR pfd;
     WGLSDOps *wglsdo;
-    WGLGraphicsConfigInfo *wglInfo;
+    WGLGrbpiidsConfigInfo *wglInfo;
     HWND window;
     RECT wbounds;
-    HDC hdc;
+    HDC idd;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_InitOGLWindow");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLSD_InitOGLWindow");
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitOGLWindow: ops are null");
-        return JNI_FALSE;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: ops brf null");
+        rfturn JNI_FALSE;
     }
 
     wglsdo = (WGLSDOps *)oglsdo->privOps;
     if (wglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitOGLWindow: wgl ops are null");
-        return JNI_FALSE;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: wgl ops brf null");
+        rfturn JNI_FALSE;
     }
 
-    wglInfo = wglsdo->configInfo;
+    wglInfo = wglsdo->donfigInfo;
     if (wglInfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitOGLWindow: graphics config info is null");
-        return JNI_FALSE;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: grbpiids donfig info is null");
+        rfturn JNI_FALSE;
     }
 
     window = wglsdo->window;
     if (!IsWindow(window)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitOGLWindow: disposed component");
-        return JNI_FALSE;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: disposfd domponfnt");
+        rfturn JNI_FALSE;
     }
 
-    GetWindowRect(window, &wbounds);
+    GftWindowRfdt(window, &wbounds);
 
-    hdc = GetDC(window);
-    if (hdc == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitOGLWindow: invalid hdc");
-        return JNI_FALSE;
+    idd = GftDC(window);
+    if (idd == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: invblid idd");
+        rfturn JNI_FALSE;
     }
 
-    if (!SetPixelFormat(hdc, wglInfo->pixfmt, &pfd)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_InitOGLWindow: error setting pixel format");
-        ReleaseDC(window, hdc);
-        return JNI_FALSE;
+    if (!SftPixflFormbt(idd, wglInfo->pixfmt, &pfd)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_InitOGLWindow: frror sftting pixfl formbt");
+        RflfbsfDC(window, idd);
+        rfturn JNI_FALSE;
     }
 
-    ReleaseDC(window, hdc);
+    RflfbsfDC(window, idd);
 
-    oglsdo->drawableType = OGLSD_WINDOW;
-    oglsdo->isOpaque = JNI_TRUE;
-    oglsdo->width = wbounds.right - wbounds.left;
-    oglsdo->height = wbounds.bottom - wbounds.top;
-    wglsdo->pbufferDC = 0;
+    oglsdo->drbwbblfTypf = OGLSD_WINDOW;
+    oglsdo->isOpbquf = JNI_TRUE;
+    oglsdo->widti = wbounds.rigit - wbounds.lfft;
+    oglsdo->ifigit = wbounds.bottom - wbounds.top;
+    wglsdo->pbufffrDC = 0;
 
-    J2dTraceLn2(J2D_TRACE_VERBOSE, "  created window: w=%d h=%d",
-                oglsdo->width, oglsdo->height);
+    J2dTrbdfLn2(J2D_TRACE_VERBOSE, "  drfbtfd window: w=%d i=%d",
+                oglsdo->widti, oglsdo->ifigit);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_opengl_WGLSurfaceData_initPbuffer
-    (JNIEnv *env, jobject wglsd,
-     jlong pData, jlong pConfigInfo,
-     jboolean isOpaque,
-     jint width, jint height)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_opfngl_WGLSurfbdfDbtb_initPbufffr
+    (JNIEnv *fnv, jobjfdt wglsd,
+     jlong pDbtb, jlong pConfigInfo,
+     jboolfbn isOpbquf,
+     jint widti, jint ifigit)
 {
-    int attrKeys[] = {
+    int bttrKfys[] = {
         WGL_MAX_PBUFFER_WIDTH_ARB,
         WGL_MAX_PBUFFER_HEIGHT_ARB,
     };
-    int attrVals[2];
+    int bttrVbls[2];
     int pbAttrList[] = { 0 };
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
-    WGLGraphicsConfigInfo *wglInfo =
-        (WGLGraphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
+    WGLGrbpiidsConfigInfo *wglInfo =
+        (WGLGrbpiidsConfigInfo *)jlong_to_ptr(pConfigInfo);
     WGLSDOps *wglsdo;
-    HWND hwnd;
-    HDC hdc, pbufferDC;
-    HPBUFFERARB pbuffer;
-    int maxWidth, maxHeight;
-    int actualWidth, actualHeight;
+    HWND iwnd;
+    HDC idd, pbufffrDC;
+    HPBUFFERARB pbufffr;
+    int mbxWidti, mbxHfigit;
+    int bdtublWidti, bdtublHfigit;
 
-    J2dTraceLn3(J2D_TRACE_INFO,
-                "WGLSurfaceData_initPbuffer: w=%d h=%d opq=%d",
-                width, height, isOpaque);
+    J2dTrbdfLn3(J2D_TRACE_INFO,
+                "WGLSurfbdfDbtb_initPbufffr: w=%d i=%d opq=%d",
+                widti, ifigit, isOpbquf);
 
     if (oglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: ops are null");
-        return JNI_FALSE;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLSurfbdfDbtb_initPbufffr: ops brf null");
+        rfturn JNI_FALSE;
     }
 
     wglsdo = (WGLSDOps *)oglsdo->privOps;
     if (wglsdo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: wgl ops are null");
-        return JNI_FALSE;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLSurfbdfDbtb_initPbufffr: wgl ops brf null");
+        rfturn JNI_FALSE;
     }
 
     if (wglInfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: wgl config info is null");
-        return JNI_FALSE;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLSurfbdfDbtb_initPbufffr: wgl donfig info is null");
+        rfturn JNI_FALSE;
     }
 
-    // create a scratch window
-    hwnd = WGLGC_CreateScratchWindow(wglInfo->screen);
-    if (hwnd == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: could not create scratch window");
-        return JNI_FALSE;
+    // drfbtf b sdrbtdi window
+    iwnd = WGLGC_CrfbtfSdrbtdiWindow(wglInfo->sdrffn);
+    if (iwnd == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLSurfbdfDbtb_initPbufffr: dould not drfbtf sdrbtdi window");
+        rfturn JNI_FALSE;
     }
 
-    // get the HDC for the scratch window
-    hdc = GetDC(hwnd);
-    if (hdc == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: could not get dc for scratch window");
-        DestroyWindow(hwnd);
-        return JNI_FALSE;
+    // gft tif HDC for tif sdrbtdi window
+    idd = GftDC(iwnd);
+    if (idd == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLSurfbdfDbtb_initPbufffr: dould not gft dd for sdrbtdi window");
+        DfstroyWindow(iwnd);
+        rfturn JNI_FALSE;
     }
 
-    // get the maximum allowable pbuffer dimensions
-    j2d_wglGetPixelFormatAttribivARB(hdc, wglInfo->pixfmt, 0, 2,
-                                     attrKeys, attrVals);
-    maxWidth  = attrVals[0];
-    maxHeight = attrVals[1];
+    // gft tif mbximum bllowbblf pbufffr dimfnsions
+    j2d_wglGftPixflFormbtAttribivARB(idd, wglInfo->pixfmt, 0, 2,
+                                     bttrKfys, bttrVbls);
+    mbxWidti  = bttrVbls[0];
+    mbxHfigit = bttrVbls[1];
 
-    J2dTraceLn4(J2D_TRACE_VERBOSE,
-                "  desired pbuffer dimensions: w=%d h=%d maxw=%d maxh=%d",
-                width, height, maxWidth, maxHeight);
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE,
+                "  dfsirfd pbufffr dimfnsions: w=%d i=%d mbxw=%d mbxi=%d",
+                widti, ifigit, mbxWidti, mbxHfigit);
 
-    // if either dimension is 0 or larger than the maximum, we cannot
-    // allocate a pbuffer with the requested dimensions
-    if (width  == 0 || width  > maxWidth ||
-        height == 0 || height > maxHeight)
+    // if fitifr dimfnsion is 0 or lbrgfr tibn tif mbximum, wf dbnnot
+    // bllodbtf b pbufffr witi tif rfqufstfd dimfnsions
+    if (widti  == 0 || widti  > mbxWidti ||
+        ifigit == 0 || ifigit > mbxHfigit)
     {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: invalid dimensions");
-        ReleaseDC(hwnd, hdc);
-        DestroyWindow(hwnd);
-        return JNI_FALSE;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLSurfbdfDbtb_initPbufffr: invblid dimfnsions");
+        RflfbsfDC(iwnd, idd);
+        DfstroyWindow(iwnd);
+        rfturn JNI_FALSE;
     }
 
-    pbuffer = j2d_wglCreatePbufferARB(hdc, wglInfo->pixfmt,
-                                      width, height, pbAttrList);
+    pbufffr = j2d_wglCrfbtfPbufffrARB(idd, wglInfo->pixfmt,
+                                      widti, ifigit, pbAttrList);
 
-    ReleaseDC(hwnd, hdc);
-    DestroyWindow(hwnd);
+    RflfbsfDC(iwnd, idd);
+    DfstroyWindow(iwnd);
 
-    if (pbuffer == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: could not create wgl pbuffer");
-        return JNI_FALSE;
+    if (pbufffr == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLSurfbdfDbtb_initPbufffr: dould not drfbtf wgl pbufffr");
+        rfturn JNI_FALSE;
     }
 
-    // note that we get the DC for the pbuffer at creation time, and then
-    // release the DC when the pbuffer is disposed; the WGL_ARB_pbuffer
-    // spec is vague about such things, but from past experience we know
-    // this approach to be more robust than, for example, doing a
-    // Get/ReleasePbufferDC() everytime we make a context current
-    pbufferDC = j2d_wglGetPbufferDCARB(pbuffer);
-    if (pbufferDC == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: could not get dc for pbuffer");
-        j2d_wglDestroyPbufferARB(pbuffer);
-        return JNI_FALSE;
+    // notf tibt wf gft tif DC for tif pbufffr bt drfbtion timf, bnd tifn
+    // rflfbsf tif DC wifn tif pbufffr is disposfd; tif WGL_ARB_pbufffr
+    // spfd is vbguf bbout sudi tiings, but from pbst fxpfrifndf wf know
+    // tiis bpprobdi to bf morf robust tibn, for fxbmplf, doing b
+    // Gft/RflfbsfPbufffrDC() fvfrytimf wf mbkf b dontfxt durrfnt
+    pbufffrDC = j2d_wglGftPbufffrDCARB(pbufffr);
+    if (pbufffrDC == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "WGLSurfbdfDbtb_initPbufffr: dould not gft dd for pbufffr");
+        j2d_wglDfstroyPbufffrARB(pbufffr);
+        rfturn JNI_FALSE;
     }
 
-    // make sure the actual dimensions match those that we requested
-    j2d_wglQueryPbufferARB(pbuffer, WGL_PBUFFER_WIDTH_ARB, &actualWidth);
-    j2d_wglQueryPbufferARB(pbuffer, WGL_PBUFFER_HEIGHT_ARB, &actualHeight);
+    // mbkf surf tif bdtubl dimfnsions mbtdi tiosf tibt wf rfqufstfd
+    j2d_wglQufryPbufffrARB(pbufffr, WGL_PBUFFER_WIDTH_ARB, &bdtublWidti);
+    j2d_wglQufryPbufffrARB(pbufffr, WGL_PBUFFER_HEIGHT_ARB, &bdtublHfigit);
 
-    if (width != actualWidth || height != actualHeight) {
-        J2dRlsTraceLn2(J2D_TRACE_ERROR,
-            "WGLSurfaceData_initPbuffer: actual (w=%d h=%d) != requested",
-                       actualWidth, actualHeight);
-        j2d_wglReleasePbufferDCARB(pbuffer, pbufferDC);
-        j2d_wglDestroyPbufferARB(pbuffer);
-        return JNI_FALSE;
+    if (widti != bdtublWidti || ifigit != bdtublHfigit) {
+        J2dRlsTrbdfLn2(J2D_TRACE_ERROR,
+            "WGLSurfbdfDbtb_initPbufffr: bdtubl (w=%d i=%d) != rfqufstfd",
+                       bdtublWidti, bdtublHfigit);
+        j2d_wglRflfbsfPbufffrDCARB(pbufffr, pbufffrDC);
+        j2d_wglDfstroyPbufffrARB(pbufffr);
+        rfturn JNI_FALSE;
     }
 
-    oglsdo->drawableType = OGLSD_PBUFFER;
-    oglsdo->isOpaque = isOpaque;
-    oglsdo->width = width;
-    oglsdo->height = height;
-    wglsdo->pbuffer = pbuffer;
-    wglsdo->pbufferDC = pbufferDC;
+    oglsdo->drbwbblfTypf = OGLSD_PBUFFER;
+    oglsdo->isOpbquf = isOpbquf;
+    oglsdo->widti = widti;
+    oglsdo->ifigit = ifigit;
+    wglsdo->pbufffr = pbufffr;
+    wglsdo->pbufffrDC = pbufffrDC;
 
-    OGLSD_SetNativeDimensions(env, oglsdo, width, height);
+    OGLSD_SftNbtivfDimfnsions(fnv, oglsdo, widti, ifigit);
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }
 
 void
-OGLSD_SwapBuffers(JNIEnv *env, jlong pPeerData)
+OGLSD_SwbpBufffrs(JNIEnv *fnv, jlong pPffrDbtb)
 {
     HWND window;
-    HDC hdc;
+    HDC idd;
 
-    J2dTraceLn(J2D_TRACE_INFO, "OGLSD_SwapBuffers");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLSD_SwbpBufffrs");
 
-    window = AwtComponent_GetHWnd(env, pPeerData);
+    window = AwtComponfnt_GftHWnd(fnv, pPffrDbtb);
     if (!IsWindow(window)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_SwapBuffers: disposed component");
-        return;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_SwbpBufffrs: disposfd domponfnt");
+        rfturn;
     }
 
-    hdc = GetDC(window);
-    if (hdc == 0) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_SwapBuffers: invalid hdc");
-        return;
+    idd = GftDC(window);
+    if (idd == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_SwbpBufffrs: invblid idd");
+        rfturn;
     }
 
-    if (!SwapBuffers(hdc)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_SwapBuffers: error in SwapBuffers");
+    if (!SwbpBufffrs(idd)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_SwbpBufffrs: frror in SwbpBufffrs");
     }
 
-    if (!ReleaseDC(window, hdc)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLSD_SwapBuffers: error while releasing dc");
+    if (!RflfbsfDC(window, idd)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLSD_SwbpBufffrs: frror wiilf rflfbsing dd");
     }
 }
 
-// needed by Mac OS X port, no-op on other platforms
+// nffdfd by Mbd OS X port, no-op on otifr plbtforms
 void
-OGLSD_Flush(JNIEnv *env)
+OGLSD_Flusi(JNIEnv *fnv)
 {
 }
 
 /*
- * Class:     sun_java2d_opengl_WGLSurfaceData
- * Method:    updateWindowAccelImpl
- * Signature: (JJII)Z
+ * Clbss:     sun_jbvb2d_opfngl_WGLSurfbdfDbtb
+ * Mftiod:    updbtfWindowAddflImpl
+ * Signbturf: (JJII)Z
  */
-JNIEXPORT jboolean JNICALL
-    Java_sun_java2d_opengl_WGLSurfaceData_updateWindowAccelImpl
-  (JNIEnv *env, jclass clazz, jlong pData, jobject peer, jint w, jint h)
+JNIEXPORT jboolfbn JNICALL
+    Jbvb_sun_jbvb2d_opfngl_WGLSurfbdfDbtb_updbtfWindowAddflImpl
+  (JNIEnv *fnv, jdlbss dlbzz, jlong pDbtb, jobjfdt pffr, jint w, jint i)
 {
-    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pData);
-    OGLPixelFormat pf = PixelFormats[0/*PF_INT_ARGB_PRE*/];
-    HBITMAP hBitmap = NULL;
+    OGLSDOps *oglsdo = (OGLSDOps *)jlong_to_ptr(pDbtb);
+    OGLPixflFormbt pf = PixflFormbts[0/*PF_INT_ARGB_PRE*/];
+    HBITMAP iBitmbp = NULL;
     void *pDst;
-    jint srcx, srcy, dstx, dsty, width, height;
-    jint pixelStride = 4;
-    jint scanStride = pixelStride * w;
+    jint srdx, srdy, dstx, dsty, widti, ifigit;
+    jint pixflStridf = 4;
+    jint sdbnStridf = pixflStridf * w;
 
-    J2dTraceLn(J2D_TRACE_INFO, "WGLSurfaceData_updateWindowAccelImpl");
+    J2dTrbdfLn(J2D_TRACE_INFO, "WGLSurfbdfDbtb_updbtfWindowAddflImpl");
 
-    if (w <= 0 || h <= 0) {
-        return JNI_TRUE;
+    if (w <= 0 || i <= 0) {
+        rfturn JNI_TRUE;
     }
     if (oglsdo == NULL) {
-        return JNI_FALSE;
+        rfturn JNI_FALSE;
     }
     RESET_PREVIOUS_OP();
 
-    width = w;
-    height = h;
-    srcx = srcy = dstx = dsty = 0;
+    widti = w;
+    ifigit = i;
+    srdx = srdy = dstx = dsty = 0;
 
-    pDst = SAFE_SIZE_ARRAY_ALLOC(malloc, height, scanStride);
+    pDst = SAFE_SIZE_ARRAY_ALLOC(mbllod, ifigit, sdbnStridf);
     if (pDst == NULL) {
-        return JNI_FALSE;
+        rfturn JNI_FALSE;
     }
-    ZeroMemory(pDst, height * scanStride);
+    ZfroMfmory(pDst, ifigit * sdbnStridf);
 
-    // the code below is mostly copied from OGLBlitLoops_SurfaceToSwBlit
+    // tif dodf bflow is mostly dopifd from OGLBlitLoops_SurfbdfToSwBlit
 
-    j2d_glPixelStorei(GL_PACK_SKIP_PIXELS, dstx);
-    j2d_glPixelStorei(GL_PACK_ROW_LENGTH, scanStride / pixelStride);
-    j2d_glPixelStorei(GL_PACK_ALIGNMENT, pf.alignment);
+    j2d_glPixflStorfi(GL_PACK_SKIP_PIXELS, dstx);
+    j2d_glPixflStorfi(GL_PACK_ROW_LENGTH, sdbnStridf / pixflStridf);
+    j2d_glPixflStorfi(GL_PACK_ALIGNMENT, pf.blignmfnt);
 
-    // this accounts for lower-left origin of the source region
-    srcx = oglsdo->xOffset + srcx;
-    srcy = oglsdo->yOffset + oglsdo->height - (srcy + 1);
-    // we must read one scanline at a time because there is no way
-    // to read starting at the top-left corner of the source region
-    while (height > 0) {
-        j2d_glPixelStorei(GL_PACK_SKIP_ROWS, dsty);
-        j2d_glReadPixels(srcx, srcy, width, 1,
-                         pf.format, pf.type, pDst);
-        srcy--;
+    // tiis bddounts for lowfr-lfft origin of tif sourdf rfgion
+    srdx = oglsdo->xOffsft + srdx;
+    srdy = oglsdo->yOffsft + oglsdo->ifigit - (srdy + 1);
+    // wf must rfbd onf sdbnlinf bt b timf bfdbusf tifrf is no wby
+    // to rfbd stbrting bt tif top-lfft dornfr of tif sourdf rfgion
+    wiilf (ifigit > 0) {
+        j2d_glPixflStorfi(GL_PACK_SKIP_ROWS, dsty);
+        j2d_glRfbdPixfls(srdx, srdy, widti, 1,
+                         pf.formbt, pf.typf, pDst);
+        srdy--;
         dsty++;
-        height--;
+        ifigit--;
     }
 
-    j2d_glPixelStorei(GL_PACK_SKIP_PIXELS, 0);
-    j2d_glPixelStorei(GL_PACK_SKIP_ROWS, 0);
-    j2d_glPixelStorei(GL_PACK_ROW_LENGTH, 0);
-    j2d_glPixelStorei(GL_PACK_ALIGNMENT, 4);
+    j2d_glPixflStorfi(GL_PACK_SKIP_PIXELS, 0);
+    j2d_glPixflStorfi(GL_PACK_SKIP_ROWS, 0);
+    j2d_glPixflStorfi(GL_PACK_ROW_LENGTH, 0);
+    j2d_glPixflStorfi(GL_PACK_ALIGNMENT, 4);
 
-    // the pixels read from the surface are already premultiplied
-    hBitmap = BitmapUtil_CreateBitmapFromARGBPre(w, h, scanStride,
+    // tif pixfls rfbd from tif surfbdf brf blrfbdy prfmultiplifd
+    iBitmbp = BitmbpUtil_CrfbtfBitmbpFromARGBPrf(w, i, sdbnStridf,
                                                  (int*)pDst);
-    free(pDst);
+    frff(pDst);
 
-    if (hBitmap == NULL) {
-        return JNI_FALSE;
+    if (iBitmbp == NULL) {
+        rfturn JNI_FALSE;
     }
 
-    AwtWindow_UpdateWindow(env, peer, w, h, hBitmap);
+    AwtWindow_UpdbtfWindow(fnv, pffr, w, i, iBitmbp);
 
-    // hBitmap is released in UpdateWindow
+    // iBitmbp is rflfbsfd in UpdbtfWindow
 
-    return JNI_TRUE;
+    rfturn JNI_TRUE;
 }

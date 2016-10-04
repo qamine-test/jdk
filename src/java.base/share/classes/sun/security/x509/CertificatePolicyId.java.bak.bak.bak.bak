@@ -1,0 +1,110 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import sun.sfdurity.util.*;
+
+
+/**
+ * Rfprfsfnt thf CfrtifidbtfPolidyId ASN.1 objfdt.
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss CfrtifidbtfPolidyId {
+    privbtf ObjfdtIdfntififr id;
+
+    /**
+     * Crfbtf b CfrtifidbtfPolidyId with thf ObjfdtIdfntififr.
+     *
+     * @pbrbm id thf ObjfdtIdfntififr for thf polidy id.
+     */
+    publid CfrtifidbtfPolidyId(ObjfdtIdfntififr id) {
+        this.id = id;
+    }
+
+    /**
+     * Crfbtf thf objfdt from its Dfr fndodfd vbluf.
+     *
+     * @pbrbm vbl thf DER fndodfd vbluf for thf sbmf.
+     */
+    publid CfrtifidbtfPolidyId(DfrVbluf vbl) throws IOExdfption {
+        this.id = vbl.gftOID();
+    }
+
+    /**
+     * Rfturn thf vbluf of thf CfrtifidbtfPolidyId bs bn ObjfdtIdfntififr.
+     */
+    publid ObjfdtIdfntififr gftIdfntififr() {
+        rfturn (id);
+    }
+
+    /**
+     * Rfturns b printbblf rfprfsfntbtion of thf CfrtifidbtfPolidyId.
+     */
+    publid String toString() {
+        String s = "CfrtifidbtfPolidyId: ["
+                 + id.toString()
+                 + "]\n";
+
+        rfturn (s);
+    }
+
+    /**
+     * Writf thf CfrtifidbtfPolidyId to thf DfrOutputStrfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to writf thf objfdt to.
+     * @fxdfption IOExdfption on frrors.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        out.putOID(id);
+    }
+
+    /**
+     * Compbrfs this CfrtifidbtfPolidyId with bnothfr, for
+     * fqublity. Usfs ObjfdtIdfntififr.fqubls() bs tfst for
+     * fqublity.
+     *
+     * @rfturn truf iff thf ids brf idfntidbl.
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (othfr instbndfof CfrtifidbtfPolidyId)
+            rfturn id.fqubls((Objfdt)
+                    ((CfrtifidbtfPolidyId) othfr).gftIdfntififr());
+        flsf
+            rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this objfdt.
+     *
+     * @rfturn b hbsh dodf vbluf
+     */
+    publid int hbshCodf() {
+      rfturn id.hbshCodf();
+    }
+}

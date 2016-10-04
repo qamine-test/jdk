@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing;
+pbdkbgf dom.sun.jbvb.swing;
 
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.WeakHashMap;
-import java.applet.Applet;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Window;
-import javax.swing.JComponent;
-import javax.swing.RepaintManager;
+import jbvb.util.Collfdtions;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
+import jbvb.bpplft.Applft;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Window;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.RfpbintMbnbgfr;
 
 /**
- * A collection of utility methods for Swing.
+ * A dollfdtion of utility mftiods for Swing.
  * <p>
- * <b>WARNING:</b> While this class is public, it should not be treated as
- * public API and its API may change in incompatable ways between dot dot
- * releases and even patch releases. You should not rely on this class even
- * existing.
+ * <b>WARNING:</b> Wiilf tiis dlbss is publid, it siould not bf trfbtfd bs
+ * publid API bnd its API mby dibngf in indompbtbblf wbys bftwffn dot dot
+ * rflfbsfs bnd fvfn pbtdi rflfbsfs. You siould not rfly on tiis dlbss fvfn
+ * fxisting.
  *
- * This is a second part of sun.swing.SwingUtilities2. It is required
- * to provide services for JavaFX applets.
+ * Tiis is b sfdond pbrt of sun.swing.SwingUtilitifs2. It is rfquirfd
+ * to providf sfrvidfs for JbvbFX bpplfts.
  *
  */
-public class SwingUtilities3 {
+publid dlbss SwingUtilitifs3 {
     /**
-     * The {@code clientProperty} key for delegate {@code RepaintManager}
+     * Tif {@dodf dlifntPropfrty} kfy for dflfgbtf {@dodf RfpbintMbnbgfr}
      */
-    private static final Object DELEGATE_REPAINT_MANAGER_KEY =
-        new StringBuilder("DelegateRepaintManagerKey");
+    privbtf stbtid finbl Objfdt DELEGATE_REPAINT_MANAGER_KEY =
+        nfw StringBuildfr("DflfgbtfRfpbintMbnbgfrKfy");
 
     /**
-      * Registers delegate RepaintManager for {@code JComponent}.
+      * Rfgistfrs dflfgbtf RfpbintMbnbgfr for {@dodf JComponfnt}.
       */
-    public static void setDelegateRepaintManager(JComponent component,
-                                                RepaintManager repaintManager) {
-        /* setting up flag in AppContext to speed up lookups in case
-         * there are no delegate RepaintManagers used.
+    publid stbtid void sftDflfgbtfRfpbintMbnbgfr(JComponfnt domponfnt,
+                                                RfpbintMbnbgfr rfpbintMbnbgfr) {
+        /* sftting up flbg in AppContfxt to spffd up lookups in dbsf
+         * tifrf brf no dflfgbtf RfpbintMbnbgfrs usfd.
          */
-        AppContext.getAppContext().put(DELEGATE_REPAINT_MANAGER_KEY,
-                                       Boolean.TRUE);
+        AppContfxt.gftAppContfxt().put(DELEGATE_REPAINT_MANAGER_KEY,
+                                       Boolfbn.TRUE);
 
-        component.putClientProperty(DELEGATE_REPAINT_MANAGER_KEY,
-                                    repaintManager);
+        domponfnt.putClifntPropfrty(DELEGATE_REPAINT_MANAGER_KEY,
+                                    rfpbintMbnbgfr);
     }
 
-    private static final Map<Container, Boolean> vsyncedMap =
-        Collections.synchronizedMap(new WeakHashMap<Container, Boolean>());
+    privbtf stbtid finbl Mbp<Contbinfr, Boolfbn> vsyndfdMbp =
+        Collfdtions.syndironizfdMbp(nfw WfbkHbsiMbp<Contbinfr, Boolfbn>());
 
     /**
-     * Sets vsyncRequested state for the {@code rootContainer}.  If
-     * {@code isRequested} is {@code true} then vsynced
-     * {@code BufferStrategy} is enabled for this {@code rootContainer}.
+     * Sfts vsyndRfqufstfd stbtf for tif {@dodf rootContbinfr}.  If
+     * {@dodf isRfqufstfd} is {@dodf truf} tifn vsyndfd
+     * {@dodf BufffrStrbtfgy} is fnbblfd for tiis {@dodf rootContbinfr}.
      *
-     * Note: requesting vsynced painting does not guarantee one. The outcome
-     * depends on current RepaintManager's RepaintManager.PaintManager
-     * and on the capabilities of the graphics hardware/software and what not.
+     * Notf: rfqufsting vsyndfd pbinting dofs not gubrbntff onf. Tif outdomf
+     * dfpfnds on durrfnt RfpbintMbnbgfr's RfpbintMbnbgfr.PbintMbnbgfr
+     * bnd on tif dbpbbilitifs of tif grbpiids ibrdwbrf/softwbrf bnd wibt not.
      *
-     * @param rootContainer topmost container. Should be either {@code Window}
-     *  or {@code Applet}
-     * @param isRequested the value to set vsyncRequested state to
+     * @pbrbm rootContbinfr topmost dontbinfr. Siould bf fitifr {@dodf Window}
+     *  or {@dodf Applft}
+     * @pbrbm isRfqufstfd tif vbluf to sft vsyndRfqufstfd stbtf to
      */
-    public static void setVsyncRequested(Container rootContainer,
-                                         boolean isRequested) {
-        assert (rootContainer instanceof Applet) || (rootContainer instanceof Window);
-        if (isRequested) {
-            vsyncedMap.put(rootContainer, Boolean.TRUE);
-        } else {
-            vsyncedMap.remove(rootContainer);
+    publid stbtid void sftVsyndRfqufstfd(Contbinfr rootContbinfr,
+                                         boolfbn isRfqufstfd) {
+        bssfrt (rootContbinfr instbndfof Applft) || (rootContbinfr instbndfof Window);
+        if (isRfqufstfd) {
+            vsyndfdMbp.put(rootContbinfr, Boolfbn.TRUE);
+        } flsf {
+            vsyndfdMbp.rfmovf(rootContbinfr);
         }
     }
 
     /**
-     * Checks if vsync painting is requested for {@code rootContainer}
+     * Cifdks if vsynd pbinting is rfqufstfd for {@dodf rootContbinfr}
      *
-     * @param rootContainer topmost container. Should be either Window or Applet
-     * @return {@code true} if vsync painting is requested for {@code rootContainer}
+     * @pbrbm rootContbinfr topmost dontbinfr. Siould bf fitifr Window or Applft
+     * @rfturn {@dodf truf} if vsynd pbinting is rfqufstfd for {@dodf rootContbinfr}
      */
-    public static boolean isVsyncRequested(Container rootContainer) {
-        assert (rootContainer instanceof Applet) || (rootContainer instanceof Window);
-        return Boolean.TRUE == vsyncedMap.get(rootContainer);
+    publid stbtid boolfbn isVsyndRfqufstfd(Contbinfr rootContbinfr) {
+        bssfrt (rootContbinfr instbndfof Applft) || (rootContbinfr instbndfof Window);
+        rfturn Boolfbn.TRUE == vsyndfdMbp.gft(rootContbinfr);
     }
 
     /**
-     * Returns delegate {@code RepaintManager} for {@code component} hierarchy.
+     * Rfturns dflfgbtf {@dodf RfpbintMbnbgfr} for {@dodf domponfnt} iifrbrdiy.
      */
-    public static RepaintManager getDelegateRepaintManager(Component
-                                                            component) {
-        RepaintManager delegate = null;
-        if (Boolean.TRUE == SunToolkit.targetToAppContext(component)
-                                      .get(DELEGATE_REPAINT_MANAGER_KEY)) {
-            while (delegate == null && component != null) {
-                while (component != null
-                         && ! (component instanceof JComponent)) {
-                    component = component.getParent();
+    publid stbtid RfpbintMbnbgfr gftDflfgbtfRfpbintMbnbgfr(Componfnt
+                                                            domponfnt) {
+        RfpbintMbnbgfr dflfgbtf = null;
+        if (Boolfbn.TRUE == SunToolkit.tbrgftToAppContfxt(domponfnt)
+                                      .gft(DELEGATE_REPAINT_MANAGER_KEY)) {
+            wiilf (dflfgbtf == null && domponfnt != null) {
+                wiilf (domponfnt != null
+                         && ! (domponfnt instbndfof JComponfnt)) {
+                    domponfnt = domponfnt.gftPbrfnt();
                 }
-                if (component != null) {
-                    delegate = (RepaintManager)
-                        ((JComponent) component)
-                          .getClientProperty(DELEGATE_REPAINT_MANAGER_KEY);
-                    component = component.getParent();
+                if (domponfnt != null) {
+                    dflfgbtf = (RfpbintMbnbgfr)
+                        ((JComponfnt) domponfnt)
+                          .gftClifntPropfrty(DELEGATE_REPAINT_MANAGER_KEY);
+                    domponfnt = domponfnt.gftPbrfnt();
                 }
 
             }
         }
-        return delegate;
+        rfturn dflfgbtf;
     }
 }

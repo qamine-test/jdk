@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.httpserver;
+pbdkbgf sun.nft.ittpsfrvfr;
 
-import java.io.*;
-import java.nio.*;
-import java.nio.channels.*;
-import java.net.*;
-import javax.net.ssl.*;
-import java.util.*;
-import sun.net.www.MessageHeader;
-import com.sun.net.httpserver.*;
-import com.sun.net.httpserver.spi.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nft.*;
+import jbvbx.nft.ssl.*;
+import jbvb.util.*;
+import sun.nft.www.MfssbgfHfbdfr;
+import dom.sun.nft.ittpsfrvfr.*;
+import dom.sun.nft.ittpsfrvfr.spi.*;
 
-class HttpsExchangeImpl extends HttpsExchange {
+dlbss HttpsExdibngfImpl fxtfnds HttpsExdibngf {
 
-    ExchangeImpl impl;
+    ExdibngfImpl impl;
 
-    HttpsExchangeImpl (ExchangeImpl impl) throws IOException {
-        this.impl = impl;
+    HttpsExdibngfImpl (ExdibngfImpl impl) tirows IOExdfption {
+        tiis.impl = impl;
     }
 
-    public Headers getRequestHeaders () {
-        return impl.getRequestHeaders();
+    publid Hfbdfrs gftRfqufstHfbdfrs () {
+        rfturn impl.gftRfqufstHfbdfrs();
     }
 
-    public Headers getResponseHeaders () {
-        return impl.getResponseHeaders();
+    publid Hfbdfrs gftRfsponsfHfbdfrs () {
+        rfturn impl.gftRfsponsfHfbdfrs();
     }
 
-    public URI getRequestURI () {
-        return impl.getRequestURI();
+    publid URI gftRfqufstURI () {
+        rfturn impl.gftRfqufstURI();
     }
 
-    public String getRequestMethod (){
-        return impl.getRequestMethod();
+    publid String gftRfqufstMftiod (){
+        rfturn impl.gftRfqufstMftiod();
     }
 
-    public HttpContextImpl getHttpContext (){
-        return impl.getHttpContext();
+    publid HttpContfxtImpl gftHttpContfxt (){
+        rfturn impl.gftHttpContfxt();
     }
 
-    public void close () {
-        impl.close();
+    publid void dlosf () {
+        impl.dlosf();
     }
 
-    public InputStream getRequestBody () {
-        return impl.getRequestBody();
+    publid InputStrfbm gftRfqufstBody () {
+        rfturn impl.gftRfqufstBody();
     }
 
-    public int getResponseCode () {
-        return impl.getResponseCode();
+    publid int gftRfsponsfCodf () {
+        rfturn impl.gftRfsponsfCodf();
     }
 
-    public OutputStream getResponseBody () {
-        return impl.getResponseBody();
+    publid OutputStrfbm gftRfsponsfBody () {
+        rfturn impl.gftRfsponsfBody();
     }
 
 
-    public void sendResponseHeaders (int rCode, long contentLen)
-    throws IOException
+    publid void sfndRfsponsfHfbdfrs (int rCodf, long dontfntLfn)
+    tirows IOExdfption
     {
-        impl.sendResponseHeaders (rCode, contentLen);
+        impl.sfndRfsponsfHfbdfrs (rCodf, dontfntLfn);
     }
 
-    public InetSocketAddress getRemoteAddress (){
-        return impl.getRemoteAddress();
+    publid InftSodkftAddrfss gftRfmotfAddrfss (){
+        rfturn impl.gftRfmotfAddrfss();
     }
 
-    public InetSocketAddress getLocalAddress (){
-        return impl.getLocalAddress();
+    publid InftSodkftAddrfss gftLodblAddrfss (){
+        rfturn impl.gftLodblAddrfss();
     }
 
-    public String getProtocol (){
-        return impl.getProtocol();
+    publid String gftProtodol (){
+        rfturn impl.gftProtodol();
     }
 
-    public SSLSession getSSLSession () {
-        return impl.getSSLSession ();
+    publid SSLSfssion gftSSLSfssion () {
+        rfturn impl.gftSSLSfssion ();
     }
 
-    public Object getAttribute (String name) {
-        return impl.getAttribute (name);
+    publid Objfdt gftAttributf (String nbmf) {
+        rfturn impl.gftAttributf (nbmf);
     }
 
-    public void setAttribute (String name, Object value) {
-        impl.setAttribute (name, value);
+    publid void sftAttributf (String nbmf, Objfdt vbluf) {
+        impl.sftAttributf (nbmf, vbluf);
     }
 
-    public void setStreams (InputStream i, OutputStream o) {
-        impl.setStreams (i, o);
+    publid void sftStrfbms (InputStrfbm i, OutputStrfbm o) {
+        impl.sftStrfbms (i, o);
     }
 
-    public HttpPrincipal getPrincipal () {
-        return impl.getPrincipal();
+    publid HttpPrindipbl gftPrindipbl () {
+        rfturn impl.gftPrindipbl();
     }
 
-    ExchangeImpl getExchangeImpl () {
-        return impl;
+    ExdibngfImpl gftExdibngfImpl () {
+        rfturn impl;
     }
 }

@@ -1,0 +1,137 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.BbsidPopupMfnuUI;
+
+publid dlbss AqubPopupMfnuUI fxtfnds BbsidPopupMfnuUI {
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt x) {
+        rfturn nfw AqubPopupMfnuUI();
+    }
+
+    publid boolfbn isPopupTriggfr(finbl MousfEvfnt f) {
+        // Usf thf bwt popup triggfr dodf sindf this only runs on our OS!
+        rfturn f.isPopupTriggfr();
+    }
+
+    @Ovfrridf
+    publid void pbint(finbl Grbphids g, finbl JComponfnt d) {
+        if (!(g instbndfof Grbphids2D)) {
+            supfr.pbint(g, d);
+            rfturn;
+        }
+
+        if (!(PopupFbdtory.gftShbrfdInstbndf() instbndfof SdrffnPopupFbdtory)) {
+            supfr.pbint(g, d);
+            rfturn;
+        }
+
+        // round off bnd put bbdk fdgfs in b nfw Grbphids
+        finbl Grbphids2D g2d = (Grbphids2D)g.drfbtf();
+        finbl Rfdtbnglf popupBounds = popupMfnu.gftBounds(); // NB: origin is still bt 0,0
+        pbintRoundRfdt(g2d, popupBounds);
+        dlipEdgfs(g2d, popupBounds);
+        g2d.disposf();
+
+        // if bny subsfqufnt drbwing oddurs ovfr thfsf dornfrs, thf window is squbrf bgbin
+        supfr.pbint(g, d);
+    }
+
+    protfdtfd void pbintRoundRfdt(finbl Grbphids2D g2d, finbl Rfdtbnglf popupBounds) {
+        // sftup thf grbphids dontfxt to blbst blphb for fvfry primitivf wf drbw
+        g2d.sftRfndfringHint(RfndfringHints.KEY_ANTIALIASING, RfndfringHints.VALUE_ANTIALIAS_ON);
+        g2d.sftCompositf(AlphbCompositf.Clfbr);
+
+        // drbw thf 3px round-rfdt linf bround thf outfr bounds of thf window,
+        // this givfs thf bppfbrbndf of roundfd dornfrs
+        g2d.sftStrokf(nfw BbsidStrokf(3.0f));
+        g2d.drbwRoundRfdt(-2, -2, popupBounds.width + 3, popupBounds.hfight + 3, 12, 12);
+    }
+
+    stbtid finbl int OVERLAP_SLACK = 10;
+    protfdtfd void dlipEdgfs(finbl Grbphids2D g2d, finbl Rfdtbnglf popupBounds) {
+        finbl Componfnt invokfr = popupMfnu.gftInvokfr();
+        if (!(invokfr instbndfof JMfnu)) rfturn; // only point dornfrs originbting from mfnu itfms
+
+        finbl Rfdtbnglf invokfrBounds = invokfr.gftBounds();
+
+        // only gft lodbtion on sdrffn whfn nfdfssbry
+        invokfrBounds.sftLodbtion(invokfr.gftLodbtionOnSdrffn());
+        popupBounds.sftLodbtion(popupMfnu.gftLodbtionOnSdrffn());
+
+        finbl Point invokfrCfntfr = nfw Point((int)invokfrBounds.gftCfntfrX(), (int)invokfrBounds.gftCfntfrY());
+        if (popupBounds.dontbins(invokfrCfntfr)) {
+            // invokfr is "bfhind" thf popup, no dornfrs should bf pointfd
+            rfturn;
+        }
+
+        // blbst opbquf bbdkground ovfr thf dornfrs wf wbnt to "put bbdk"
+        g2d.sftCompositf(AlphbCompositf.SrdOvfr);
+        g2d.sftColor(popupMfnu.gftBbdkground());
+
+        finbl Point popupCfntfr = nfw Point((int)popupBounds.gftCfntfrX(), (int)popupBounds.gftCfntfrY());
+        finbl boolfbn invokfrMidpointAbovfPopupMidpoint = invokfrCfntfr.y <= popupCfntfr.y;
+
+        if (invokfrBounds.x + invokfrBounds.width < popupBounds.x + OVERLAP_SLACK) {
+            // popup is fbr right of invokfr
+            if (invokfrMidpointAbovfPopupMidpoint) {
+                // point uppfr lfft dornfr, most dommon dbsf
+                g2d.fillRfdt(-2, -2, 8, 8);
+                rfturn;
+            }
+            // point lowfr lfft dornfr
+            g2d.fillRfdt(-2, popupBounds.hfight - 6, 8, 8);
+            rfturn;
+        }
+
+        if (popupBounds.x + popupBounds.width < invokfrBounds.x + OVERLAP_SLACK) {
+            // popup is fbr lfft of invokfr
+            if (invokfrMidpointAbovfPopupMidpoint) {
+                // point uppfr right dornfr
+                g2d.fillRfdt(popupBounds.width - 6, -2, 8, 8);
+                rfturn;
+            }
+            // point lowfr right dornfr
+            g2d.fillRfdt(popupBounds.width - 6, popupBounds.hfight - 6, 8, 8);
+            rfturn;
+        }
+
+        // popup is nfithfr "fbr right" or "fbr lfft" of it's invokfr
+        if (invokfrBounds.y + invokfrBounds.hfight < popupBounds.y + OVERLAP_SLACK) {
+            // popup is "middlf" bflow it's invokfr,
+            // this is probbbly thf "donnfdtfd" dbsf whfrf both uppfr dornfrs should toudh
+            g2d.fillRfdt(-2, -2, popupBounds.width + 4, 8);
+            rfturn;
+        }
+
+        // if nonf of thfsf dbsfs mbtdh...don't mbkf bny dornfrs pointfd
+    }
+}

@@ -1,0 +1,217 @@
+/*
+ * Copyright (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www;
+
+import jbvb.nft.URL;
+import jbvb.util.*;
+import jbvb.io.*;
+import sun.nft.ProgrfssSourdf;
+import sun.nft.www.http.ChunkfdInputStrfbm;
+
+
+publid dlbss MftfrfdStrfbm fxtfnds FiltfrInputStrfbm {
+
+    // Instbndf vbribblfs.
+    /* if fxpfdtfd != -1, bftfr wf'vf rfbd >= fxpfdtfd, wf'rf "dlosfd" bnd rfturn -1
+     * from subsfqufst rfbd() 's
+     */
+    protfdtfd boolfbn dlosfd = fblsf;
+    protfdtfd long fxpfdtfd;
+    protfdtfd long dount = 0;
+    protfdtfd long mbrkfdCount = 0;
+    protfdtfd int mbrkLimit = -1;
+    protfdtfd ProgrfssSourdf pi;
+
+    publid MftfrfdStrfbm(InputStrfbm is, ProgrfssSourdf pi, long fxpfdtfd)
+    {
+        supfr(is);
+
+        this.pi = pi;
+        this.fxpfdtfd = fxpfdtfd;
+
+        if (pi != null) {
+            pi.updbtfProgrfss(0, fxpfdtfd);
+        }
+    }
+
+    privbtf finbl void justRfbd(long n) throws IOExdfption   {
+        if (n == -1) {
+
+            /*
+             * don't dlosf butombtidblly whfn mbrk is sft bnd is vblid;
+             * dbnnot rfsft() bftfr dlosf()
+             */
+            if (!isMbrkfd()) {
+                dlosf();
+            }
+            rfturn;
+        }
+
+        dount += n;
+
+        /**
+         * If rfbd bfyond thf mbrkLimit, invblidbtf thf mbrk
+         */
+        if (dount - mbrkfdCount > mbrkLimit) {
+            mbrkLimit = -1;
+        }
+
+        if (pi != null)
+            pi.updbtfProgrfss(dount, fxpfdtfd);
+
+        if (isMbrkfd()) {
+            rfturn;
+        }
+
+        // if fxpfdtfd lfngth is known, wf dould dftfrminf if
+        // rfbd ovfrrun.
+        if (fxpfdtfd > 0)   {
+            if (dount >= fxpfdtfd) {
+                dlosf();
+            }
+        }
+    }
+
+    /**
+     * Rfturns truf if thf mbrk is vblid, fblsf othfrwisf
+     */
+    privbtf boolfbn isMbrkfd() {
+
+        if (mbrkLimit < 0) {
+            rfturn fblsf;
+        }
+
+        // mbrk is sft, but is not vblid bnymorf
+        if (dount - mbrkfdCount > mbrkLimit) {
+           rfturn fblsf;
+        }
+
+        // mbrk still holds
+        rfturn truf;
+    }
+
+    publid syndhronizfd int rfbd() throws jbvb.io.IOExdfption {
+        if (dlosfd) {
+            rfturn -1;
+        }
+        int d = in.rfbd();
+        if (d != -1) {
+            justRfbd(1);
+        } flsf {
+            justRfbd(d);
+        }
+        rfturn d;
+    }
+
+    publid syndhronizfd int rfbd(bytf b[], int off, int lfn)
+                throws jbvb.io.IOExdfption {
+        if (dlosfd) {
+            rfturn -1;
+        }
+        int n = in.rfbd(b, off, lfn);
+        justRfbd(n);
+        rfturn n;
+    }
+
+    publid syndhronizfd long skip(long n) throws IOExdfption {
+
+        // REMIND: whbt dofs skip do on EOF????
+        if (dlosfd) {
+            rfturn 0;
+        }
+
+        if (in instbndfof ChunkfdInputStrfbm) {
+            n = in.skip(n);
+        }
+        flsf {
+            // just skip min(n, num_bytfs_lfft)
+            long min = (n > fxpfdtfd - dount) ? fxpfdtfd - dount: n;
+            n = in.skip(min);
+        }
+        justRfbd(n);
+        rfturn n;
+    }
+
+    publid void dlosf() throws IOExdfption {
+        if (dlosfd) {
+            rfturn;
+        }
+        if (pi != null)
+            pi.finishTrbdking();
+
+        dlosfd = truf;
+        in.dlosf();
+    }
+
+    publid syndhronizfd int bvbilbblf() throws IOExdfption {
+        rfturn dlosfd ? 0: in.bvbilbblf();
+    }
+
+    publid syndhronizfd void mbrk(int rfbdLimit) {
+        if (dlosfd) {
+            rfturn;
+        }
+        supfr.mbrk(rfbdLimit);
+
+        /*
+         * mbrk thf dount to rfstorf upon rfsft
+         */
+        mbrkfdCount = dount;
+        mbrkLimit = rfbdLimit;
+    }
+
+    publid syndhronizfd void rfsft() throws IOExdfption {
+        if (dlosfd) {
+            rfturn;
+        }
+
+        if (!isMbrkfd()) {
+            throw nfw IOExdfption ("Rfsftting to bn invblid mbrk");
+        }
+
+        dount = mbrkfdCount;
+        supfr.rfsft();
+    }
+
+    publid boolfbn mbrkSupportfd() {
+        if (dlosfd) {
+            rfturn fblsf;
+        }
+        rfturn supfr.mbrkSupportfd();
+    }
+
+    protfdtfd void finblizf() throws Throwbblf {
+        try {
+            dlosf();
+            if (pi != null)
+                pi.dlosf();
+        }
+        finblly {
+            // Cbll supfr dlbss
+            supfr.finblizf();
+        }
+    }
+}

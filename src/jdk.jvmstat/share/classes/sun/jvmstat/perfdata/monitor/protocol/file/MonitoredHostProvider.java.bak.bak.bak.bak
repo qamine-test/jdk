@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.filf;
+
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.fvfnt.HostListfnfr;
+import sun.jvmstbt.pfrfdbtb.monitor.*;
+import jbvb.util.*;
+import jbvb.nft.*;
+
+/**
+ * Condrftf implfmfntbtion of thf MonitorfdHost intfrfbdf for thf
+ * <fm>filf:</fm> protodol of thf HotSpot PfrfDbtb monitoring implfmfntbtion.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss MonitorfdHostProvidfr fxtfnds MonitorfdHost {
+
+    /**
+     * Thf dffbult polling intfrvbl. Not usfd by thf <fm>filf:</fm> protodol.
+     */
+    publid stbtid finbl int DEFAULT_POLLING_INTERVAL = 0;
+
+    /**
+     * Crfbtf b MonitorfdHostProvidfr instbndf using thf givfn HostIdfntififr.
+     *
+     * @pbrbm hostId thf host idfntififr for this MonitorfdHost
+     */
+    publid MonitorfdHostProvidfr(HostIdfntififr hostId) {
+        this.hostId = hostId;
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid MonitorfdVm gftMonitorfdVm(VmIdfntififr vmid)
+                       throws MonitorExdfption {
+        rfturn gftMonitorfdVm(vmid, DEFAULT_POLLING_INTERVAL);
+    }
+
+    /**
+     * {@inhfritDod}.
+     * <p>
+     * Notf - thf <fm>filf:</fm> protodol silfntly ignorfs thf
+     * <tt>intfrvbl</tt> pbrbmftfr.
+     */
+    publid MonitorfdVm gftMonitorfdVm(VmIdfntififr vmid, int intfrvbl)
+                       throws MonitorExdfption {
+        // don't bttfmpt to rfsolvf 'filf:' bbsfd vmid
+        rfturn nfw FilfMonitorfdVm(vmid, intfrvbl);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void dftbdh(MonitorfdVm vm) {
+        vm.dftbdh();
+    }
+
+    /**
+     * {@inhfritDod}.
+     * <p>
+     * Notf - thf <fm>filf:</fm> protodol durrfnly dofs not support
+     * rfgistrbtion or notifidbtion of fvfnt listfnfrs. This mfthod
+     * silfntly ignorfs thf bdd rfqufst.
+     */
+    publid void bddHostListfnfr(HostListfnfr listfnfr) {
+        // no HostListfnfr support for 'filf:' bbsfd VmIdfntififrs
+    }
+
+    /**
+     * {@inhfritDod}.
+     * <p>
+     * Notf - thf <fm>filf:</fm> protodol durrfnly dofs not support
+     * rfgistrbtion or notifidbtion of fvfnt listfnfrs. This mfthod
+     * silfntly ignorfs thf rfmovf rfqufst.
+     */
+    publid void rfmovfHostListfnfr(HostListfnfr listfnfr) {
+        // no HostListfnfr support for 'filf:' bbsfd VmIdfntififrs
+    }
+
+    /**
+     * {@inhfritDod}.
+     * <p>
+     * Notf - thf <fm>filf:</fm> protodol durrfntly dofs not support thf
+     * notion of trbdking bdtivf or inbdtivf Jbvb Virtubl Mbdhinfs. This
+     * mfthod durrfntly rfturns bn fmpty sft.
+     */
+    publid Sft<Intfgfr> bdtivfVms() {
+        rfturn nfw HbshSft<Intfgfr>(0);
+    }
+}

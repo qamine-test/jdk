@@ -1,385 +1,385 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.rmi.server;
+pbdkbgf jbvb.rmi.sfrvfr;
 
-import java.rmi.*;
-import sun.rmi.server.UnicastServerRef;
-import sun.rmi.server.UnicastServerRef2;
+import jbvb.rmi.*;
+import sun.rmi.sfrvfr.UnidbstSfrvfrRff;
+import sun.rmi.sfrvfr.UnidbstSfrvfrRff2;
 
 /**
- * Used for exporting a remote object with JRMP and obtaining a stub
- * that communicates to the remote object. Stubs are either generated
- * at runtime using dynamic proxy objects, or they are generated statically
- * at build time, typically using the {@code rmic} tool.
+ * Usfd for fxporting b rfmotf objfdt witi JRMP bnd obtbining b stub
+ * tibt dommunidbtfs to tif rfmotf objfdt. Stubs brf fitifr gfnfrbtfd
+ * bt runtimf using dynbmid proxy objfdts, or tify brf gfnfrbtfd stbtidblly
+ * bt build timf, typidblly using tif {@dodf rmid} tool.
  *
- * <p><strong>Deprecated: Static Stubs.</strong> <em>Support for statically
- * generated stubs is deprecated. This includes the API in this class that
- * requires the use of static stubs, as well as the runtime support for
- * loading static stubs.  Generating stubs dynamically is preferred, using one
- * of the five non-deprecated ways of exporting objects as listed below. Do
- * not run {@code rmic} to generate static stub classes. It is unnecessary, and
- * it is also deprecated.</em>
+ * <p><strong>Dfprfdbtfd: Stbtid Stubs.</strong> <fm>Support for stbtidblly
+ * gfnfrbtfd stubs is dfprfdbtfd. Tiis indludfs tif API in tiis dlbss tibt
+ * rfquirfs tif usf of stbtid stubs, bs wfll bs tif runtimf support for
+ * lobding stbtid stubs.  Gfnfrbting stubs dynbmidblly is prfffrrfd, using onf
+ * of tif fivf non-dfprfdbtfd wbys of fxporting objfdts bs listfd bflow. Do
+ * not run {@dodf rmid} to gfnfrbtf stbtid stub dlbssfs. It is unnfdfssbry, bnd
+ * it is blso dfprfdbtfd.</fm>
  *
- * <p>There are six ways to export remote objects:
+ * <p>Tifrf brf six wbys to fxport rfmotf objfdts:
  *
  * <ol>
  *
- * <li>Subclassing {@code UnicastRemoteObject} and calling the
- * {@link #UnicastRemoteObject()} constructor.
+ * <li>Subdlbssing {@dodf UnidbstRfmotfObjfdt} bnd dblling tif
+ * {@link #UnidbstRfmotfObjfdt()} donstrudtor.
  *
- * <li>Subclassing {@code UnicastRemoteObject} and calling the
- * {@link #UnicastRemoteObject(int) UnicastRemoteObject(port)} constructor.
+ * <li>Subdlbssing {@dodf UnidbstRfmotfObjfdt} bnd dblling tif
+ * {@link #UnidbstRfmotfObjfdt(int) UnidbstRfmotfObjfdt(port)} donstrudtor.
  *
- * <li>Subclassing {@code UnicastRemoteObject} and calling the
- * {@link #UnicastRemoteObject(int, RMIClientSocketFactory, RMIServerSocketFactory)
- * UnicastRemoteObject(port, csf, ssf)} constructor.
+ * <li>Subdlbssing {@dodf UnidbstRfmotfObjfdt} bnd dblling tif
+ * {@link #UnidbstRfmotfObjfdt(int, RMIClifntSodkftFbdtory, RMISfrvfrSodkftFbdtory)
+ * UnidbstRfmotfObjfdt(port, dsf, ssf)} donstrudtor.
  *
- * <li>Calling the
- * {@link #exportObject(Remote) exportObject(Remote)} method.
- * <strong>Deprecated.</strong>
+ * <li>Cblling tif
+ * {@link #fxportObjfdt(Rfmotf) fxportObjfdt(Rfmotf)} mftiod.
+ * <strong>Dfprfdbtfd.</strong>
  *
- * <li>Calling the
- * {@link #exportObject(Remote, int) exportObject(Remote, port)} method.
+ * <li>Cblling tif
+ * {@link #fxportObjfdt(Rfmotf, int) fxportObjfdt(Rfmotf, port)} mftiod.
  *
- * <li>Calling the
- * {@link #exportObject(Remote, int, RMIClientSocketFactory, RMIServerSocketFactory)
- * exportObject(Remote, port, csf, ssf)} method.
+ * <li>Cblling tif
+ * {@link #fxportObjfdt(Rfmotf, int, RMIClifntSodkftFbdtory, RMISfrvfrSodkftFbdtory)
+ * fxportObjfdt(Rfmotf, port, dsf, ssf)} mftiod.
  *
  * </ol>
  *
- * <p>The fourth technique, {@link #exportObject(Remote)},
- * always uses statically generated stubs and is deprecated.
+ * <p>Tif fourti tfdiniquf, {@link #fxportObjfdt(Rfmotf)},
+ * blwbys usfs stbtidblly gfnfrbtfd stubs bnd is dfprfdbtfd.
  *
- * <p>The other five techniques all use the following approach: if the
- * {@code java.rmi.server.ignoreStubClasses} property is {@code true}
- * (case insensitive) or if a static stub cannot be found, stubs are generated
- * dynamically using {@link java.lang.reflect.Proxy Proxy} objects. Otherwise,
- * static stubs are used.
+ * <p>Tif otifr fivf tfdiniqufs bll usf tif following bpprobdi: if tif
+ * {@dodf jbvb.rmi.sfrvfr.ignorfStubClbssfs} propfrty is {@dodf truf}
+ * (dbsf insfnsitivf) or if b stbtid stub dbnnot bf found, stubs brf gfnfrbtfd
+ * dynbmidblly using {@link jbvb.lbng.rfflfdt.Proxy Proxy} objfdts. Otifrwisf,
+ * stbtid stubs brf usfd.
  *
- * <p>The default value of the
- * {@code java.rmi.server.ignoreStubClasses} property is {@code false}.
+ * <p>Tif dffbult vbluf of tif
+ * {@dodf jbvb.rmi.sfrvfr.ignorfStubClbssfs} propfrty is {@dodf fblsf}.
  *
- * <p>Statically generated stubs are typically pregenerated from the
- * remote object's class using the {@code rmic} tool. A static stub is
- * loaded and an instance of that stub class is constructed as described
- * below.
- *
- * <ul>
- *
- * <li>A "root class" is determined as follows: if the remote object's
- * class directly implements an interface that extends {@link Remote}, then
- * the remote object's class is the root class; otherwise, the root class is
- * the most derived superclass of the remote object's class that directly
- * implements an interface that extends {@code Remote}.
- *
- * <li>The name of the stub class to load is determined by concatenating
- * the binary name of the root class with the suffix {@code _Stub}.
- *
- * <li>The stub class is loaded by name using the class loader of the root
- * class. The stub class must extend {@link RemoteStub} and must have a
- * public constructor that has one parameter of type {@link RemoteRef}.
- *
- * <li>Finally, an instance of the stub class is constructed with a
- * {@link RemoteRef}.
- *
- * <li>If the appropriate stub class could not be found, or if the stub class
- * could not be loaded, or if a problem occurs creating the stub instance, a
- * {@link StubNotFoundException} is thrown.
- *
- * </ul>
- *
- * <p>Stubs are dynamically generated by constructing an instance of
- * a {@link java.lang.reflect.Proxy Proxy} with the following characteristics:
+ * <p>Stbtidblly gfnfrbtfd stubs brf typidblly prfgfnfrbtfd from tif
+ * rfmotf objfdt's dlbss using tif {@dodf rmid} tool. A stbtid stub is
+ * lobdfd bnd bn instbndf of tibt stub dlbss is donstrudtfd bs dfsdribfd
+ * bflow.
  *
  * <ul>
  *
- * <li>The proxy's class is defined by the class loader of the remote
- * object's class.
+ * <li>A "root dlbss" is dftfrminfd bs follows: if tif rfmotf objfdt's
+ * dlbss dirfdtly implfmfnts bn intfrfbdf tibt fxtfnds {@link Rfmotf}, tifn
+ * tif rfmotf objfdt's dlbss is tif root dlbss; otifrwisf, tif root dlbss is
+ * tif most dfrivfd supfrdlbss of tif rfmotf objfdt's dlbss tibt dirfdtly
+ * implfmfnts bn intfrfbdf tibt fxtfnds {@dodf Rfmotf}.
  *
- * <li>The proxy implements all the remote interfaces implemented by the
- * remote object's class.
+ * <li>Tif nbmf of tif stub dlbss to lobd is dftfrminfd by dondbtfnbting
+ * tif binbry nbmf of tif root dlbss witi tif suffix {@dodf _Stub}.
  *
- * <li>The proxy's invocation handler is a {@link
- * RemoteObjectInvocationHandler} instance constructed with a
- * {@link RemoteRef}.
+ * <li>Tif stub dlbss is lobdfd by nbmf using tif dlbss lobdfr of tif root
+ * dlbss. Tif stub dlbss must fxtfnd {@link RfmotfStub} bnd must ibvf b
+ * publid donstrudtor tibt ibs onf pbrbmftfr of typf {@link RfmotfRff}.
  *
- * <li>If the proxy could not be created, a {@link StubNotFoundException}
- * will be thrown.
+ * <li>Finblly, bn instbndf of tif stub dlbss is donstrudtfd witi b
+ * {@link RfmotfRff}.
+ *
+ * <li>If tif bppropribtf stub dlbss dould not bf found, or if tif stub dlbss
+ * dould not bf lobdfd, or if b problfm oddurs drfbting tif stub instbndf, b
+ * {@link StubNotFoundExdfption} is tirown.
  *
  * </ul>
  *
- * @implNote
- * Depending upon which constructor or static method is used for exporting an
- * object, {@link RMISocketFactory} may be used for creating sockets.
- * By default, server sockets created by {@link RMISocketFactory}
- * listen on all network interfaces. See the
- * {@link RMISocketFactory} class and the section
- * <a href="{@docRoot}/../platform/rmi/spec/rmi-server29.html">RMI Socket Factories</a>
- * in the
- * <a href="{@docRoot}/../platform/rmi/spec/rmiTOC.html">Java RMI Specification</a>.
+ * <p>Stubs brf dynbmidblly gfnfrbtfd by donstrudting bn instbndf of
+ * b {@link jbvb.lbng.rfflfdt.Proxy Proxy} witi tif following dibrbdtfristids:
  *
- * @author  Ann Wollrath
- * @author  Peter Jones
- * @since   1.1
+ * <ul>
+ *
+ * <li>Tif proxy's dlbss is dffinfd by tif dlbss lobdfr of tif rfmotf
+ * objfdt's dlbss.
+ *
+ * <li>Tif proxy implfmfnts bll tif rfmotf intfrfbdfs implfmfntfd by tif
+ * rfmotf objfdt's dlbss.
+ *
+ * <li>Tif proxy's invodbtion ibndlfr is b {@link
+ * RfmotfObjfdtInvodbtionHbndlfr} instbndf donstrudtfd witi b
+ * {@link RfmotfRff}.
+ *
+ * <li>If tif proxy dould not bf drfbtfd, b {@link StubNotFoundExdfption}
+ * will bf tirown.
+ *
+ * </ul>
+ *
+ * @implNotf
+ * Dfpfnding upon wiidi donstrudtor or stbtid mftiod is usfd for fxporting bn
+ * objfdt, {@link RMISodkftFbdtory} mby bf usfd for drfbting sodkfts.
+ * By dffbult, sfrvfr sodkfts drfbtfd by {@link RMISodkftFbdtory}
+ * listfn on bll nftwork intfrfbdfs. Sff tif
+ * {@link RMISodkftFbdtory} dlbss bnd tif sfdtion
+ * <b irff="{@dodRoot}/../plbtform/rmi/spfd/rmi-sfrvfr29.itml">RMI Sodkft Fbdtorifs</b>
+ * in tif
+ * <b irff="{@dodRoot}/../plbtform/rmi/spfd/rmiTOC.itml">Jbvb RMI Spfdifidbtion</b>.
+ *
+ * @butior  Ann Wollrbti
+ * @butior  Pftfr Jonfs
+ * @sindf   1.1
  **/
-public class UnicastRemoteObject extends RemoteServer {
+publid dlbss UnidbstRfmotfObjfdt fxtfnds RfmotfSfrvfr {
 
     /**
-     * @serial port number on which to export object
+     * @sfribl port numbfr on wiidi to fxport objfdt
      */
-    private int port = 0;
+    privbtf int port = 0;
 
     /**
-     * @serial client-side socket factory (if any)
+     * @sfribl dlifnt-sidf sodkft fbdtory (if bny)
      */
-    private RMIClientSocketFactory csf = null;
+    privbtf RMIClifntSodkftFbdtory dsf = null;
 
     /**
-     * @serial server-side socket factory (if any) to use when
-     * exporting object
+     * @sfribl sfrvfr-sidf sodkft fbdtory (if bny) to usf wifn
+     * fxporting objfdt
      */
-    private RMIServerSocketFactory ssf = null;
+    privbtf RMISfrvfrSodkftFbdtory ssf = null;
 
-    /* indicate compatibility with JDK 1.1.x version of class */
-    private static final long serialVersionUID = 4974527148936298033L;
+    /* indidbtf dompbtibility witi JDK 1.1.x vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = 4974527148936298033L;
 
     /**
-     * Creates and exports a new UnicastRemoteObject object using an
-     * anonymous port.
+     * Crfbtfs bnd fxports b nfw UnidbstRfmotfObjfdt objfdt using bn
+     * bnonymous port.
      *
-     * <p>The object is exported with a server socket
-     * created using the {@link RMISocketFactory} class.
+     * <p>Tif objfdt is fxportfd witi b sfrvfr sodkft
+     * drfbtfd using tif {@link RMISodkftFbdtory} dlbss.
      *
-     * @throws RemoteException if failed to export object
-     * @since 1.1
+     * @tirows RfmotfExdfption if fbilfd to fxport objfdt
+     * @sindf 1.1
      */
-    protected UnicastRemoteObject() throws RemoteException
+    protfdtfd UnidbstRfmotfObjfdt() tirows RfmotfExdfption
     {
-        this(0);
+        tiis(0);
     }
 
     /**
-     * Creates and exports a new UnicastRemoteObject object using the
-     * particular supplied port.
+     * Crfbtfs bnd fxports b nfw UnidbstRfmotfObjfdt objfdt using tif
+     * pbrtidulbr supplifd port.
      *
-     * <p>The object is exported with a server socket
-     * created using the {@link RMISocketFactory} class.
+     * <p>Tif objfdt is fxportfd witi b sfrvfr sodkft
+     * drfbtfd using tif {@link RMISodkftFbdtory} dlbss.
      *
-     * @param port the port number on which the remote object receives calls
-     * (if <code>port</code> is zero, an anonymous port is chosen)
-     * @throws RemoteException if failed to export object
-     * @since 1.2
+     * @pbrbm port tif port numbfr on wiidi tif rfmotf objfdt rfdfivfs dblls
+     * (if <dodf>port</dodf> is zfro, bn bnonymous port is diosfn)
+     * @tirows RfmotfExdfption if fbilfd to fxport objfdt
+     * @sindf 1.2
      */
-    protected UnicastRemoteObject(int port) throws RemoteException
+    protfdtfd UnidbstRfmotfObjfdt(int port) tirows RfmotfExdfption
     {
-        this.port = port;
-        exportObject((Remote) this, port);
+        tiis.port = port;
+        fxportObjfdt((Rfmotf) tiis, port);
     }
 
     /**
-     * Creates and exports a new UnicastRemoteObject object using the
-     * particular supplied port and socket factories.
+     * Crfbtfs bnd fxports b nfw UnidbstRfmotfObjfdt objfdt using tif
+     * pbrtidulbr supplifd port bnd sodkft fbdtorifs.
      *
-     * <p>Either socket factory may be {@code null}, in which case
-     * the corresponding client or server socket creation method of
-     * {@link RMISocketFactory} is used instead.
+     * <p>Eitifr sodkft fbdtory mby bf {@dodf null}, in wiidi dbsf
+     * tif dorrfsponding dlifnt or sfrvfr sodkft drfbtion mftiod of
+     * {@link RMISodkftFbdtory} is usfd instfbd.
      *
-     * @param port the port number on which the remote object receives calls
-     * (if <code>port</code> is zero, an anonymous port is chosen)
-     * @param csf the client-side socket factory for making calls to the
-     * remote object
-     * @param ssf the server-side socket factory for receiving remote calls
-     * @throws RemoteException if failed to export object
-     * @since 1.2
+     * @pbrbm port tif port numbfr on wiidi tif rfmotf objfdt rfdfivfs dblls
+     * (if <dodf>port</dodf> is zfro, bn bnonymous port is diosfn)
+     * @pbrbm dsf tif dlifnt-sidf sodkft fbdtory for mbking dblls to tif
+     * rfmotf objfdt
+     * @pbrbm ssf tif sfrvfr-sidf sodkft fbdtory for rfdfiving rfmotf dblls
+     * @tirows RfmotfExdfption if fbilfd to fxport objfdt
+     * @sindf 1.2
      */
-    protected UnicastRemoteObject(int port,
-                                  RMIClientSocketFactory csf,
-                                  RMIServerSocketFactory ssf)
-        throws RemoteException
+    protfdtfd UnidbstRfmotfObjfdt(int port,
+                                  RMIClifntSodkftFbdtory dsf,
+                                  RMISfrvfrSodkftFbdtory ssf)
+        tirows RfmotfExdfption
     {
-        this.port = port;
-        this.csf = csf;
-        this.ssf = ssf;
-        exportObject((Remote) this, port, csf, ssf);
+        tiis.port = port;
+        tiis.dsf = dsf;
+        tiis.ssf = ssf;
+        fxportObjfdt((Rfmotf) tiis, port, dsf, ssf);
     }
 
     /**
-     * Re-export the remote object when it is deserialized.
+     * Rf-fxport tif rfmotf objfdt wifn it is dfsfriblizfd.
      */
-    private void readObject(java.io.ObjectInputStream in)
-        throws java.io.IOException, java.lang.ClassNotFoundException
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm in)
+        tirows jbvb.io.IOExdfption, jbvb.lbng.ClbssNotFoundExdfption
     {
-        in.defaultReadObject();
-        reexport();
+        in.dffbultRfbdObjfdt();
+        rffxport();
     }
 
     /**
-     * Returns a clone of the remote object that is distinct from
-     * the original.
+     * Rfturns b dlonf of tif rfmotf objfdt tibt is distindt from
+     * tif originbl.
      *
-     * @exception CloneNotSupportedException if clone failed due to
-     * a RemoteException.
-     * @return the new remote object
-     * @since 1.1
+     * @fxdfption ClonfNotSupportfdExdfption if dlonf fbilfd duf to
+     * b RfmotfExdfption.
+     * @rfturn tif nfw rfmotf objfdt
+     * @sindf 1.1
      */
-    public Object clone() throws CloneNotSupportedException
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption
     {
         try {
-            UnicastRemoteObject cloned = (UnicastRemoteObject) super.clone();
-            cloned.reexport();
-            return cloned;
-        } catch (RemoteException e) {
-            throw new ServerCloneException("Clone failed", e);
+            UnidbstRfmotfObjfdt dlonfd = (UnidbstRfmotfObjfdt) supfr.dlonf();
+            dlonfd.rffxport();
+            rfturn dlonfd;
+        } dbtdi (RfmotfExdfption f) {
+            tirow nfw SfrvfrClonfExdfption("Clonf fbilfd", f);
         }
     }
 
     /*
-     * Exports this UnicastRemoteObject using its initialized fields because
-     * its creation bypassed running its constructors (via deserialization
-     * or cloning, for example).
+     * Exports tiis UnidbstRfmotfObjfdt using its initiblizfd fiflds bfdbusf
+     * its drfbtion bypbssfd running its donstrudtors (vib dfsfriblizbtion
+     * or dloning, for fxbmplf).
      */
-    private void reexport() throws RemoteException
+    privbtf void rffxport() tirows RfmotfExdfption
     {
-        if (csf == null && ssf == null) {
-            exportObject((Remote) this, port);
-        } else {
-            exportObject((Remote) this, port, csf, ssf);
+        if (dsf == null && ssf == null) {
+            fxportObjfdt((Rfmotf) tiis, port);
+        } flsf {
+            fxportObjfdt((Rfmotf) tiis, port, dsf, ssf);
         }
     }
 
     /**
-     * Exports the remote object to make it available to receive incoming
-     * calls using an anonymous port. This method will always return a
-     * statically generated stub.
+     * Exports tif rfmotf objfdt to mbkf it bvbilbblf to rfdfivf indoming
+     * dblls using bn bnonymous port. Tiis mftiod will blwbys rfturn b
+     * stbtidblly gfnfrbtfd stub.
      *
-     * <p>The object is exported with a server socket
-     * created using the {@link RMISocketFactory} class.
+     * <p>Tif objfdt is fxportfd witi b sfrvfr sodkft
+     * drfbtfd using tif {@link RMISodkftFbdtory} dlbss.
      *
-     * @param obj the remote object to be exported
-     * @return remote object stub
-     * @exception RemoteException if export fails
-     * @since 1.1
-     * @deprecated This method is deprecated because it supports only static stubs.
-     * Use {@link #exportObject(Remote, int) exportObject(Remote, port)} or
-     * {@link #exportObject(Remote, int, RMIClientSocketFactory, RMIServerSocketFactory)
-     * exportObject(Remote, port, csf, ssf)}
-     * instead.
+     * @pbrbm obj tif rfmotf objfdt to bf fxportfd
+     * @rfturn rfmotf objfdt stub
+     * @fxdfption RfmotfExdfption if fxport fbils
+     * @sindf 1.1
+     * @dfprfdbtfd Tiis mftiod is dfprfdbtfd bfdbusf it supports only stbtid stubs.
+     * Usf {@link #fxportObjfdt(Rfmotf, int) fxportObjfdt(Rfmotf, port)} or
+     * {@link #fxportObjfdt(Rfmotf, int, RMIClifntSodkftFbdtory, RMISfrvfrSodkftFbdtory)
+     * fxportObjfdt(Rfmotf, port, dsf, ssf)}
+     * instfbd.
      */
-    @Deprecated
-    public static RemoteStub exportObject(Remote obj)
-        throws RemoteException
+    @Dfprfdbtfd
+    publid stbtid RfmotfStub fxportObjfdt(Rfmotf obj)
+        tirows RfmotfExdfption
     {
         /*
-         * Use UnicastServerRef constructor passing the boolean value true
-         * to indicate that only a generated stub class should be used.  A
-         * generated stub class must be used instead of a dynamic proxy
-         * because the return value of this method is RemoteStub which a
-         * dynamic proxy class cannot extend.
+         * Usf UnidbstSfrvfrRff donstrudtor pbssing tif boolfbn vbluf truf
+         * to indidbtf tibt only b gfnfrbtfd stub dlbss siould bf usfd.  A
+         * gfnfrbtfd stub dlbss must bf usfd instfbd of b dynbmid proxy
+         * bfdbusf tif rfturn vbluf of tiis mftiod is RfmotfStub wiidi b
+         * dynbmid proxy dlbss dbnnot fxtfnd.
          */
-        return (RemoteStub) exportObject(obj, new UnicastServerRef(true));
+        rfturn (RfmotfStub) fxportObjfdt(obj, nfw UnidbstSfrvfrRff(truf));
     }
 
     /**
-     * Exports the remote object to make it available to receive incoming
-     * calls, using the particular supplied port.
+     * Exports tif rfmotf objfdt to mbkf it bvbilbblf to rfdfivf indoming
+     * dblls, using tif pbrtidulbr supplifd port.
      *
-     * <p>The object is exported with a server socket
-     * created using the {@link RMISocketFactory} class.
+     * <p>Tif objfdt is fxportfd witi b sfrvfr sodkft
+     * drfbtfd using tif {@link RMISodkftFbdtory} dlbss.
      *
-     * @param obj the remote object to be exported
-     * @param port the port to export the object on
-     * @return remote object stub
-     * @exception RemoteException if export fails
-     * @since 1.2
+     * @pbrbm obj tif rfmotf objfdt to bf fxportfd
+     * @pbrbm port tif port to fxport tif objfdt on
+     * @rfturn rfmotf objfdt stub
+     * @fxdfption RfmotfExdfption if fxport fbils
+     * @sindf 1.2
      */
-    public static Remote exportObject(Remote obj, int port)
-        throws RemoteException
+    publid stbtid Rfmotf fxportObjfdt(Rfmotf obj, int port)
+        tirows RfmotfExdfption
     {
-        return exportObject(obj, new UnicastServerRef(port));
+        rfturn fxportObjfdt(obj, nfw UnidbstSfrvfrRff(port));
     }
 
     /**
-     * Exports the remote object to make it available to receive incoming
-     * calls, using a transport specified by the given socket factory.
+     * Exports tif rfmotf objfdt to mbkf it bvbilbblf to rfdfivf indoming
+     * dblls, using b trbnsport spfdififd by tif givfn sodkft fbdtory.
      *
-     * <p>Either socket factory may be {@code null}, in which case
-     * the corresponding client or server socket creation method of
-     * {@link RMISocketFactory} is used instead.
+     * <p>Eitifr sodkft fbdtory mby bf {@dodf null}, in wiidi dbsf
+     * tif dorrfsponding dlifnt or sfrvfr sodkft drfbtion mftiod of
+     * {@link RMISodkftFbdtory} is usfd instfbd.
      *
-     * @param obj the remote object to be exported
-     * @param port the port to export the object on
-     * @param csf the client-side socket factory for making calls to the
-     * remote object
-     * @param ssf the server-side socket factory for receiving remote calls
-     * @return remote object stub
-     * @exception RemoteException if export fails
-     * @since 1.2
+     * @pbrbm obj tif rfmotf objfdt to bf fxportfd
+     * @pbrbm port tif port to fxport tif objfdt on
+     * @pbrbm dsf tif dlifnt-sidf sodkft fbdtory for mbking dblls to tif
+     * rfmotf objfdt
+     * @pbrbm ssf tif sfrvfr-sidf sodkft fbdtory for rfdfiving rfmotf dblls
+     * @rfturn rfmotf objfdt stub
+     * @fxdfption RfmotfExdfption if fxport fbils
+     * @sindf 1.2
      */
-    public static Remote exportObject(Remote obj, int port,
-                                      RMIClientSocketFactory csf,
-                                      RMIServerSocketFactory ssf)
-        throws RemoteException
+    publid stbtid Rfmotf fxportObjfdt(Rfmotf obj, int port,
+                                      RMIClifntSodkftFbdtory dsf,
+                                      RMISfrvfrSodkftFbdtory ssf)
+        tirows RfmotfExdfption
     {
 
-        return exportObject(obj, new UnicastServerRef2(port, csf, ssf));
+        rfturn fxportObjfdt(obj, nfw UnidbstSfrvfrRff2(port, dsf, ssf));
     }
 
     /**
-     * Removes the remote object, obj, from the RMI runtime. If
-     * successful, the object can no longer accept incoming RMI calls.
-     * If the force parameter is true, the object is forcibly unexported
-     * even if there are pending calls to the remote object or the
-     * remote object still has calls in progress.  If the force
-     * parameter is false, the object is only unexported if there are
-     * no pending or in progress calls to the object.
+     * Rfmovfs tif rfmotf objfdt, obj, from tif RMI runtimf. If
+     * suddfssful, tif objfdt dbn no longfr bddfpt indoming RMI dblls.
+     * If tif fordf pbrbmftfr is truf, tif objfdt is fordibly unfxportfd
+     * fvfn if tifrf brf pfnding dblls to tif rfmotf objfdt or tif
+     * rfmotf objfdt still ibs dblls in progrfss.  If tif fordf
+     * pbrbmftfr is fblsf, tif objfdt is only unfxportfd if tifrf brf
+     * no pfnding or in progrfss dblls to tif objfdt.
      *
-     * @param obj the remote object to be unexported
-     * @param force if true, unexports the object even if there are
-     * pending or in-progress calls; if false, only unexports the object
-     * if there are no pending or in-progress calls
-     * @return true if operation is successful, false otherwise
-     * @exception NoSuchObjectException if the remote object is not
-     * currently exported
-     * @since 1.2
+     * @pbrbm obj tif rfmotf objfdt to bf unfxportfd
+     * @pbrbm fordf if truf, unfxports tif objfdt fvfn if tifrf brf
+     * pfnding or in-progrfss dblls; if fblsf, only unfxports tif objfdt
+     * if tifrf brf no pfnding or in-progrfss dblls
+     * @rfturn truf if opfrbtion is suddfssful, fblsf otifrwisf
+     * @fxdfption NoSudiObjfdtExdfption if tif rfmotf objfdt is not
+     * durrfntly fxportfd
+     * @sindf 1.2
      */
-    public static boolean unexportObject(Remote obj, boolean force)
-        throws java.rmi.NoSuchObjectException
+    publid stbtid boolfbn unfxportObjfdt(Rfmotf obj, boolfbn fordf)
+        tirows jbvb.rmi.NoSudiObjfdtExdfption
     {
-        return sun.rmi.transport.ObjectTable.unexportObject(obj, force);
+        rfturn sun.rmi.trbnsport.ObjfdtTbblf.unfxportObjfdt(obj, fordf);
     }
 
     /**
-     * Exports the specified object using the specified server ref.
+     * Exports tif spfdififd objfdt using tif spfdififd sfrvfr rff.
      */
-    private static Remote exportObject(Remote obj, UnicastServerRef sref)
-        throws RemoteException
+    privbtf stbtid Rfmotf fxportObjfdt(Rfmotf obj, UnidbstSfrvfrRff srff)
+        tirows RfmotfExdfption
     {
-        // if obj extends UnicastRemoteObject, set its ref.
-        if (obj instanceof UnicastRemoteObject) {
-            ((UnicastRemoteObject) obj).ref = sref;
+        // if obj fxtfnds UnidbstRfmotfObjfdt, sft its rff.
+        if (obj instbndfof UnidbstRfmotfObjfdt) {
+            ((UnidbstRfmotfObjfdt) obj).rff = srff;
         }
-        return sref.exportObject(obj, null, false);
+        rfturn srff.fxportObjfdt(obj, null, fblsf);
     }
 }

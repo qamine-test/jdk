@@ -1,139 +1,139 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
 /**
- * A standard transformer used in connection blocks.
- * It expects input values to be between 0 and 1.
+ * A stbndbrd trbnsformfr usfd in donnfdtion blodks.
+ * It fxpfdts input vblufs to bf bftwffn 0 bnd 1.
  *
- * The result of the transform is
- *   between 0 and 1 if polarity = unipolar and
- *   between -1 and 1 if polarity = bipolar.
+ * Tif rfsult of tif trbnsform is
+ *   bftwffn 0 bnd 1 if polbrity = unipolbr bnd
+ *   bftwffn -1 bnd 1 if polbrity = bipolbr.
  *
- * These constraints only applies to Concave, Convex and Switch transforms.
+ * Tifsf donstrbints only bpplifs to Condbvf, Convfx bnd Switdi trbnsforms.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class ModelStandardTransform implements ModelTransform {
+publid finbl dlbss ModflStbndbrdTrbnsform implfmfnts ModflTrbnsform {
 
-    public static final boolean DIRECTION_MIN2MAX = false;
-    public static final boolean DIRECTION_MAX2MIN = true;
-    public static final boolean POLARITY_UNIPOLAR = false;
-    public static final boolean POLARITY_BIPOLAR = true;
-    public static final int TRANSFORM_LINEAR = 0;
-    // concave: output = (20*log10(127^2/value^2)) / 96
-    public static final int TRANSFORM_CONCAVE = 1;
-    // convex: same as concave except that start and end point are reversed.
-    public static final int TRANSFORM_CONVEX = 2;
-    // switch: if value > avg(max,min) then max else min
-    public static final int TRANSFORM_SWITCH = 3;
-    public static final int TRANSFORM_ABSOLUTE = 4;
-    private boolean direction = DIRECTION_MIN2MAX;
-    private boolean polarity = POLARITY_UNIPOLAR;
-    private int transform = TRANSFORM_LINEAR;
+    publid stbtid finbl boolfbn DIRECTION_MIN2MAX = fblsf;
+    publid stbtid finbl boolfbn DIRECTION_MAX2MIN = truf;
+    publid stbtid finbl boolfbn POLARITY_UNIPOLAR = fblsf;
+    publid stbtid finbl boolfbn POLARITY_BIPOLAR = truf;
+    publid stbtid finbl int TRANSFORM_LINEAR = 0;
+    // dondbvf: output = (20*log10(127^2/vbluf^2)) / 96
+    publid stbtid finbl int TRANSFORM_CONCAVE = 1;
+    // donvfx: sbmf bs dondbvf fxdfpt tibt stbrt bnd fnd point brf rfvfrsfd.
+    publid stbtid finbl int TRANSFORM_CONVEX = 2;
+    // switdi: if vbluf > bvg(mbx,min) tifn mbx flsf min
+    publid stbtid finbl int TRANSFORM_SWITCH = 3;
+    publid stbtid finbl int TRANSFORM_ABSOLUTE = 4;
+    privbtf boolfbn dirfdtion = DIRECTION_MIN2MAX;
+    privbtf boolfbn polbrity = POLARITY_UNIPOLAR;
+    privbtf int trbnsform = TRANSFORM_LINEAR;
 
-    public ModelStandardTransform() {
+    publid ModflStbndbrdTrbnsform() {
     }
 
-    public ModelStandardTransform(boolean direction) {
-        this.direction = direction;
+    publid ModflStbndbrdTrbnsform(boolfbn dirfdtion) {
+        tiis.dirfdtion = dirfdtion;
     }
 
-    public ModelStandardTransform(boolean direction, boolean polarity) {
-        this.direction = direction;
-        this.polarity = polarity;
+    publid ModflStbndbrdTrbnsform(boolfbn dirfdtion, boolfbn polbrity) {
+        tiis.dirfdtion = dirfdtion;
+        tiis.polbrity = polbrity;
     }
 
-    public ModelStandardTransform(boolean direction, boolean polarity,
-            int transform) {
-        this.direction = direction;
-        this.polarity = polarity;
-        this.transform = transform;
+    publid ModflStbndbrdTrbnsform(boolfbn dirfdtion, boolfbn polbrity,
+            int trbnsform) {
+        tiis.dirfdtion = dirfdtion;
+        tiis.polbrity = polbrity;
+        tiis.trbnsform = trbnsform;
     }
 
-    public double transform(double value) {
-        double s;
-        double a;
-        if (direction == DIRECTION_MAX2MIN)
-            value = 1.0 - value;
-        if (polarity == POLARITY_BIPOLAR)
-            value = value * 2.0 - 1.0;
-        switch (transform) {
-            case TRANSFORM_CONCAVE:
-                s = Math.signum(value);
-                a = Math.abs(value);
-                a = -((5.0 / 12.0) / Math.log(10)) * Math.log(1.0 - a);
-                if (a < 0)
-                    a = 0;
-                else if (a > 1)
-                    a = 1;
-                return s * a;
-            case TRANSFORM_CONVEX:
-                s = Math.signum(value);
-                a = Math.abs(value);
-                a = 1.0 + ((5.0 / 12.0) / Math.log(10)) * Math.log(a);
-                if (a < 0)
-                    a = 0;
-                else if (a > 1)
-                    a = 1;
-                return s * a;
-            case TRANSFORM_SWITCH:
-                if (polarity == POLARITY_BIPOLAR)
-                    return (value > 0) ? 1 : -1;
-                else
-                    return (value > 0.5) ? 1 : 0;
-            case TRANSFORM_ABSOLUTE:
-                return Math.abs(value);
-            default:
-                break;
+    publid doublf trbnsform(doublf vbluf) {
+        doublf s;
+        doublf b;
+        if (dirfdtion == DIRECTION_MAX2MIN)
+            vbluf = 1.0 - vbluf;
+        if (polbrity == POLARITY_BIPOLAR)
+            vbluf = vbluf * 2.0 - 1.0;
+        switdi (trbnsform) {
+            dbsf TRANSFORM_CONCAVE:
+                s = Mbti.signum(vbluf);
+                b = Mbti.bbs(vbluf);
+                b = -((5.0 / 12.0) / Mbti.log(10)) * Mbti.log(1.0 - b);
+                if (b < 0)
+                    b = 0;
+                flsf if (b > 1)
+                    b = 1;
+                rfturn s * b;
+            dbsf TRANSFORM_CONVEX:
+                s = Mbti.signum(vbluf);
+                b = Mbti.bbs(vbluf);
+                b = 1.0 + ((5.0 / 12.0) / Mbti.log(10)) * Mbti.log(b);
+                if (b < 0)
+                    b = 0;
+                flsf if (b > 1)
+                    b = 1;
+                rfturn s * b;
+            dbsf TRANSFORM_SWITCH:
+                if (polbrity == POLARITY_BIPOLAR)
+                    rfturn (vbluf > 0) ? 1 : -1;
+                flsf
+                    rfturn (vbluf > 0.5) ? 1 : 0;
+            dbsf TRANSFORM_ABSOLUTE:
+                rfturn Mbti.bbs(vbluf);
+            dffbult:
+                brfbk;
         }
 
-        return value;
+        rfturn vbluf;
     }
 
-    public boolean getDirection() {
-        return direction;
+    publid boolfbn gftDirfdtion() {
+        rfturn dirfdtion;
     }
 
-    public void setDirection(boolean direction) {
-        this.direction = direction;
+    publid void sftDirfdtion(boolfbn dirfdtion) {
+        tiis.dirfdtion = dirfdtion;
     }
 
-    public boolean getPolarity() {
-        return polarity;
+    publid boolfbn gftPolbrity() {
+        rfturn polbrity;
     }
 
-    public void setPolarity(boolean polarity) {
-        this.polarity = polarity;
+    publid void sftPolbrity(boolfbn polbrity) {
+        tiis.polbrity = polbrity;
     }
 
-    public int getTransform() {
-        return transform;
+    publid int gftTrbnsform() {
+        rfturn trbnsform;
     }
 
-    public void setTransform(int transform) {
-        this.transform = transform;
+    publid void sftTrbnsform(int trbnsform) {
+        tiis.trbnsform = trbnsform;
     }
 }

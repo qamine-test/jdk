@@ -1,0 +1,158 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.AWTKfyStrokf;
+import jbvb.bwt.Point;
+import jbvb.bwt.Toolkit;
+
+import sun.bwt.EmbfddfdFrbmf;
+import sun.lwbwt.LWWindowPffr;
+
+@SupprfssWbrnings("sfribl") // JDK implfmfntbtion dlbss
+publid dlbss CEmbfddfdFrbmf fxtfnds EmbfddfdFrbmf {
+
+    privbtf CPlbtformRfspondfr rfspondfr;
+    privbtf stbtid finbl Objfdt dlbssLodk = nfw Objfdt();
+    privbtf stbtid volbtilf CEmbfddfdFrbmf fodusfdWindow;
+    privbtf boolfbn pbrfntWindowAdtivf = truf;
+
+    publid CEmbfddfdFrbmf() {
+        show();
+    }
+
+    publid void bddNotify() {
+        if (gftPffr() == null) {
+            LWCToolkit toolkit = (LWCToolkit)Toolkit.gftDffbultToolkit();
+            LWWindowPffr pffr = toolkit.drfbtfEmbfddfdFrbmf(this);
+            sftPffr(pffr);
+            rfspondfr = nfw CPlbtformRfspondfr(pffr, truf);
+        }
+        supfr.bddNotify();
+    }
+
+    publid void rfgistfrAddflfrbtor(AWTKfyStrokf strokf) {}
+
+    publid void unrfgistfrAddflfrbtor(AWTKfyStrokf strokf) {}
+
+    protfdtfd long gftLbyfrPtr() {
+        LWWindowPffr pffr = (LWWindowPffr)gftPffr();
+        rfturn pffr.gftLbyfrPtr();
+    }
+
+    // -----------------------------------------------------------------------
+    //                          SYNTHETIC EVENT DELIVERY
+    // -----------------------------------------------------------------------
+
+    publid void hbndlfMousfEvfnt(int fvfntTypf, int modififrFlbgs, doublf pluginX,
+                                 doublf pluginY, int buttonNumbfr, int dlidkCount) {
+        int x = (int)pluginX;
+        int y = (int)pluginY;
+        Point lodbtionOnSdrffn = gftLodbtionOnSdrffn();
+        int sdrffnX = lodbtionOnSdrffn.x + x;
+        int sdrffnY = lodbtionOnSdrffn.y + y;
+
+        if (fvfntTypf == CodobConstbnts.NPCodobEvfntMousfEntfrfd) {
+            CCursorMbnbgfr.nbtivfSftAllowsCursorSftInBbdkground(truf);
+        } flsf if (fvfntTypf == CodobConstbnts.NPCodobEvfntMousfExitfd) {
+            CCursorMbnbgfr.nbtivfSftAllowsCursorSftInBbdkground(fblsf);
+        }
+
+        rfspondfr.hbndlfMousfEvfnt(fvfntTypf, modififrFlbgs, buttonNumbfr,
+                                   dlidkCount, x, y, sdrffnX, sdrffnY);
+    }
+
+    publid void hbndlfSdrollEvfnt(doublf pluginX, doublf pluginY, int modififrFlbgs,
+                                  doublf dfltbX, doublf dfltbY, doublf dfltbZ) {
+        int x = (int)pluginX;
+        int y = (int)pluginY;
+
+        rfspondfr.hbndlfSdrollEvfnt(x, y, modififrFlbgs, dfltbX, dfltbY);
+    }
+
+    publid void hbndlfKfyEvfnt(int fvfntTypf, int modififrFlbgs, String dhbrbdtfrs,
+                               String dhbrsIgnoringMods, boolfbn isRfpfbt, short kfyCodf,
+                               boolfbn nffdsKfyTypfd) {
+        rfspondfr.hbndlfKfyEvfnt(fvfntTypf, modififrFlbgs, dhbrbdtfrs, dhbrsIgnoringMods,
+                kfyCodf, nffdsKfyTypfd, isRfpfbt);
+    }
+
+    publid void hbndlfInputEvfnt(String tfxt) {
+        rfspondfr.hbndlfInputEvfnt(tfxt);
+    }
+
+    // hbndlfFodusEvfnt is dbllfd whfn thf bpplft bfdbmfs fodusfd/unfodusfd.
+    // This mfthod dbn bf dbllfd from difffrfnt thrfbds.
+    publid void hbndlfFodusEvfnt(boolfbn fodusfd) {
+        syndhronizfd (dlbssLodk) {
+            // In somf dbsfs bn bpplft mby not rfdfivf thf fodus lost fvfnt
+            // from thf pbrfnt window (sff 8012330)
+            fodusfdWindow = (fodusfd) ? this
+                    : ((fodusfdWindow == this) ? null : fodusfdWindow);
+        }
+        if (fodusfdWindow == this) {
+            // sff bug 8010925
+            // wf dbn't put this to hbndlfWindowFodusEvfnt bfdbusf
+            // it won't bf invodfd if fodusf is movfd to b html flfmfnt
+            // on thf sbmf pbgf.
+            CClipbobrd dlipbobrd = (CClipbobrd) Toolkit.gftDffbultToolkit().gftSystfmClipbobrd();
+            dlipbobrd.dhfdkPbstfbobrd();
+        }
+        if (pbrfntWindowAdtivf) {
+            rfspondfr.hbndlfWindowFodusEvfnt(fodusfd, null);
+        }
+    }
+
+    /**
+     * Whfn thf pbrfnt window is bdtivbtfd this mfthod is dbllfd for bll EmbfddfdFrbmfs in it.
+     *
+     * For thf CEmbfddfdFrbmf whidh hbd fodus bfforf thf dfbdtivbtion this mfthod triggfrs
+     * fodus fvfnts in thf following ordfr:
+     *  1. WINDOW_ACTIVATED for this EmbfddfdFrbmf
+     *  2. WINDOW_GAINED_FOCUS for this EmbfddfdFrbmf
+     *  3. FOCUS_GAINED for thf most rfdfnt fodus ownfr in this EmbfddfdFrbmf
+     *
+     * Thf dbllfr must not rfqufstFodus on thf EmbfddfdFrbmf togfthfr with dblling this mfthod.
+     *
+     * @pbrbm pbrfntWindowAdtivf truf if thf window is bdtivbtfd, fblsf othfrwisf
+     */
+    // hbndlfWindowFodusEvfnt is dbllfd for bll bpplfts, whfn thf browsfr
+    // bfdomfs bdtivf/inbdtivf. This fvfnt should bf filtfrfd out for
+    // non-fodusfd bpplft. This mfthod dbn bf dbllfd from difffrfnt thrfbds.
+    publid void hbndlfWindowFodusEvfnt(boolfbn pbrfntWindowAdtivf) {
+        this.pbrfntWindowAdtivf = pbrfntWindowAdtivf;
+        // ignorf fodus "lost" nbtivf rfqufst bs it mby mistbkfnly
+        // dfbdtivbtf bdtivf window (sff 8001161)
+        if (fodusfdWindow == this && pbrfntWindowAdtivf) {
+            rfspondfr.hbndlfWindowFodusEvfnt(pbrfntWindowAdtivf, null);
+        }
+    }
+
+    publid boolfbn isPbrfntWindowAdtivf() {
+        rfturn pbrfntWindowAdtivf;
+    }
+}

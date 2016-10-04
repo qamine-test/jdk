@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,60 +30,60 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#ifndef HPROF_TLS_H
-#define HPROF_TLS_H
+#ifndff HPROF_TLS_H
+#dffinf HPROF_TLS_H
 
 void         tls_init(void);
-TlsIndex     tls_find_or_create(JNIEnv *env, jthread thread);
-void         tls_agent_thread(JNIEnv *env, jthread thread);
-SerialNumber tls_get_thread_serial_number(TlsIndex index);
+TlsIndfx     tls_find_or_drfbtf(JNIEnv *fnv, jtirfbd tirfbd);
+void         tls_bgfnt_tirfbd(JNIEnv *fnv, jtirfbd tirfbd);
+SfriblNumbfr tls_gft_tirfbd_sfribl_numbfr(TlsIndfx indfx);
 void         tls_list(void);
-void         tls_delete_global_references(JNIEnv *env);
-void         tls_garbage_collect(JNIEnv *env);
-void         tls_cleanup(void);
-void         tls_thread_ended(JNIEnv *env, TlsIndex index);
-void         tls_sample_all_threads(JNIEnv *env);
+void         tls_dflftf_globbl_rfffrfndfs(JNIEnv *fnv);
+void         tls_gbrbbgf_dollfdt(JNIEnv *fnv);
+void         tls_dlfbnup(void);
+void         tls_tirfbd_fndfd(JNIEnv *fnv, TlsIndfx indfx);
+void         tls_sbmplf_bll_tirfbds(JNIEnv *fnv);
 
-MonitorIndex tls_get_monitor(TlsIndex index);
-void         tls_set_monitor(TlsIndex index, MonitorIndex monitor_index);
+MonitorIndfx tls_gft_monitor(TlsIndfx indfx);
+void         tls_sft_monitor(TlsIndfx indfx, MonitorIndfx monitor_indfx);
 
-void         tls_set_thread_object_index(TlsIndex index,
-                        ObjectIndex thread_object_index);
+void         tls_sft_tirfbd_objfdt_indfx(TlsIndfx indfx,
+                        ObjfdtIndfx tirfbd_objfdt_indfx);
 
-jint         tls_get_tracker_status(JNIEnv *env, jthread thread,
-                        jboolean skip_init, jint **ppstatus, TlsIndex* pindex,
-                        SerialNumber *pthread_serial_num,
-                        TraceIndex *ptrace_index);
+jint         tls_gft_trbdkfr_stbtus(JNIEnv *fnv, jtirfbd tirfbd,
+                        jboolfbn skip_init, jint **ppstbtus, TlsIndfx* pindfx,
+                        SfriblNumbfr *ptirfbd_sfribl_num,
+                        TrbdfIndfx *ptrbdf_indfx);
 
-void         tls_set_sample_status(ObjectIndex object_index, jint sample_status);
-jint         tls_sum_sample_status(void);
+void         tls_sft_sbmplf_stbtus(ObjfdtIndfx objfdt_indfx, jint sbmplf_stbtus);
+jint         tls_sum_sbmplf_stbtus(void);
 
-void         tls_dump_traces(JNIEnv *env);
+void         tls_dump_trbdfs(JNIEnv *fnv);
 
-void         tls_monitor_start_timer(TlsIndex index);
-jlong        tls_monitor_stop_timer(TlsIndex index);
+void         tls_monitor_stbrt_timfr(TlsIndfx indfx);
+jlong        tls_monitor_stop_timfr(TlsIndfx indfx);
 
-void         tls_dump_monitor_state(JNIEnv *env);
+void         tls_dump_monitor_stbtf(JNIEnv *fnv);
 
-void         tls_push_method(TlsIndex index, jmethodID method);
-void         tls_pop_method(TlsIndex index, jthread thread, jmethodID method);
-void         tls_pop_exception_catch(TlsIndex index, jthread thread, jmethodID method);
+void         tls_pusi_mftiod(TlsIndfx indfx, jmftiodID mftiod);
+void         tls_pop_mftiod(TlsIndfx indfx, jtirfbd tirfbd, jmftiodID mftiod);
+void         tls_pop_fxdfption_dbtdi(TlsIndfx indfx, jtirfbd tirfbd, jmftiodID mftiod);
 
-TraceIndex   tls_get_trace(TlsIndex index, JNIEnv *env,
-                           int depth, jboolean skip_init);
+TrbdfIndfx   tls_gft_trbdf(TlsIndfx indfx, JNIEnv *fnv,
+                           int dfpti, jboolfbn skip_init);
 
-void         tls_set_in_heap_dump(TlsIndex index, jint in_heap_dump);
-jint         tls_get_in_heap_dump(TlsIndex index);
-void         tls_clear_in_heap_dump(void);
+void         tls_sft_in_ifbp_dump(TlsIndfx indfx, jint in_ifbp_dump);
+jint         tls_gft_in_ifbp_dump(TlsIndfx indfx);
+void         tls_dlfbr_in_ifbp_dump(void);
 
-TlsIndex     tls_find(SerialNumber thread_serial_num);
+TlsIndfx     tls_find(SfriblNumbfr tirfbd_sfribl_num);
 
-#endif
+#fndif

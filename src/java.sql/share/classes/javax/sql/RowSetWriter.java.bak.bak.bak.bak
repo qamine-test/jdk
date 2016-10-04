@@ -1,0 +1,64 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql;
+
+import jbvb.sql.*;
+
+/**
+ * An objfdt thbt implfmfnts thf <dodf>RowSftWritfr</dodf> intfrfbdf,
+ * dbllfd b <i>writfr</i>. A writfr mby bf rfgistfrfd with b <dodf>RowSft</dodf>
+ * objfdt thbt supports thf rfbdfr/writfr pbrbdigm.
+ * <P>
+ * If b disdonnfdtfd <dodf>RowSft</dodf> objfdt modififs somf of its dbtb,
+ * bnd it hbs b writfr bssodibtfd with it, it mby bf implfmfntfd so thbt it
+ * dblls on thf writfr's <dodf>writfDbtb</dodf> mfthod intfrnblly
+ * to writf thf updbtfs bbdk to thf dbtb sourdf. In ordfr to do this, thf writfr
+ * must first fstbblish b donnfdtion with thf rowsft's dbtb sourdf.
+ * <P>
+ * If thf dbtb to bf updbtfd hbs blrfbdy bffn dhbngfd in thf dbtb sourdf, thfrf
+ * is b donflidt, in whidh dbsf thf writfr will not writf
+ * thf dhbngfs to thf dbtb sourdf.  Thf blgorithm thf writfr usfs for prfvfnting
+ * or limiting donflidts dfpfnds fntirfly on its implfmfntbtion.
+ *
+ * @sindf 1.4
+ */
+
+publid intfrfbdf RowSftWritfr {
+
+  /**
+   * Writfs thf dhbngfs in this <dodf>RowSftWritfr</dodf> objfdt's
+   * rowsft bbdk to thf dbtb sourdf from whidh it got its dbtb.
+   *
+   * @pbrbm dbllfr thf <dodf>RowSft</dodf> objfdt (1) thbt hbs implfmfntfd thf
+   *         <dodf>RowSftIntfrnbl</dodf> intfrfbdf, (2) with whidh this writfr is
+   *        rfgistfrfd, bnd (3) thbt dbllfd this mfthod intfrnblly
+   * @rfturn <dodf>truf</dodf> if thf modififd dbtb wbs writtfn; <dodf>fblsf</dodf>
+   *          if not, whidh will bf thf dbsf if thfrf is b donflidt
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+   */
+  boolfbn writfDbtb(RowSftIntfrnbl dbllfr) throws SQLExdfption;
+
+}

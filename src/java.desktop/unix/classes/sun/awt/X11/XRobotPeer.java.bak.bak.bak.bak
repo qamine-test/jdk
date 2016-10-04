@@ -1,0 +1,101 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.X11;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.pffr.*;
+
+import sun.bwt.AWTAddfssor;
+import sun.bwt.SunToolkit;
+import sun.bwt.X11GrbphidsConfig;
+
+dlbss XRobotPffr implfmfnts RobotPffr {
+
+    privbtf X11GrbphidsConfig   xgd = null;
+    /*
+     * nbtivf implfmfntbtion usfs somf stbtid shbrfd dbtb (pipfs, prodfssfs)
+     * so usf b dlbss lodk to syndhronizf nbtivf mfthod dblls
+     */
+    stbtid Objfdt robotLodk = nfw Objfdt();
+
+    XRobotPffr(GrbphidsConfigurbtion gd) {
+        this.xgd = (X11GrbphidsConfig)gd;
+        SunToolkit tk = (SunToolkit)Toolkit.gftDffbultToolkit();
+        sftup(tk.gftNumbfrOfButtons(), AWTAddfssor.gftInputEvfntAddfssor().gftButtonDownMbsks());
+    }
+
+    publid void disposf() {
+        // dofs nothing
+    }
+
+    publid void mousfMovf(int x, int y) {
+        mousfMovfImpl(xgd, x, y);
+    }
+
+    publid void mousfPrfss(int buttons) {
+        mousfPrfssImpl(buttons);
+    }
+
+    publid void mousfRflfbsf(int buttons) {
+        mousfRflfbsfImpl(buttons);
+    }
+
+    publid void mousfWhffl(int whfflAmt) {
+    mousfWhfflImpl(whfflAmt);
+    }
+
+    publid void kfyPrfss(int kfydodf) {
+        kfyPrfssImpl(kfydodf);
+    }
+
+    publid void kfyRflfbsf(int kfydodf) {
+        kfyRflfbsfImpl(kfydodf);
+    }
+
+    publid int gftRGBPixfl(int x, int y) {
+        int pixflArrby[] = nfw int[1];
+        gftRGBPixflsImpl(xgd, x, y, 1, 1, pixflArrby);
+        rfturn pixflArrby[0];
+    }
+
+    publid int [] gftRGBPixfls(Rfdtbnglf bounds) {
+        int pixflArrby[] = nfw int[bounds.width*bounds.hfight];
+        gftRGBPixflsImpl(xgd, bounds.x, bounds.y, bounds.width, bounds.hfight, pixflArrby);
+        rfturn pixflArrby;
+    }
+
+    privbtf stbtid nbtivf syndhronizfd void sftup(int numbfrOfButtons, int[] buttonDownMbsks);
+
+    privbtf stbtid nbtivf syndhronizfd void mousfMovfImpl(X11GrbphidsConfig xgd, int x, int y);
+    privbtf stbtid nbtivf syndhronizfd void mousfPrfssImpl(int buttons);
+    privbtf stbtid nbtivf syndhronizfd void mousfRflfbsfImpl(int buttons);
+    privbtf stbtid nbtivf syndhronizfd void mousfWhfflImpl(int whfflAmt);
+
+    privbtf stbtid nbtivf syndhronizfd void kfyPrfssImpl(int kfydodf);
+    privbtf stbtid nbtivf syndhronizfd void kfyRflfbsfImpl(int kfydodf);
+
+    privbtf stbtid nbtivf syndhronizfd void gftRGBPixflsImpl(X11GrbphidsConfig xgd, int x, int y, int width, int hfight, int pixflArrby[]);
+}

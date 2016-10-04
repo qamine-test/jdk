@@ -1,0 +1,154 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf.hw;
+
+import jbvb.bwt.BufffrCbpbbilitifs;
+import jbvb.bwt.ImbgfCbpbbilitifs;
+
+/**
+ * Providfs fxtfndfd BufffrStrbtfgy dbpbbilitifs, bllowing to spfdify
+ * thf typf of vfrtidbl rffrfsh syndhronizbtion for b bufffr strbtfgy.
+ *
+ * This BS dbpbbility is blwbys pbgf flipping bfdbusf v-synd is only rflfvbnt
+ * to flipping bufffr strbtfgifs.
+ *
+ * Notf thbt bsking for b v-syndfd BS dofsn't nfdfssbrily gubrbntff thbt it will
+ * bf v-syndfd sindf thf vsynd dbpbbility mby bf disbblfd in thf drivfr, or
+ * thfrf mby bf othfr rfstridtion (likf b numbfr of v-syndfd bufffr strbtfgifs
+ * bllowfd pfr vm). Bfdbusf of this {@dodf drfbtfBufffrStrbtfgy} dofsn't
+ * throw {@dodf AWTExdfption} whfn b v-syndfd BS dould not bf drfbtfd whfn
+ * rfqufstfd.
+ *
+ * @sff jbvb.bwt.Cbnvbs#drfbtfBufffrStrbtfgy(int, BufffrCbpbbilitifs)
+ * @sff jbvb.bwt.Window#drfbtfBufffrStrbtfgy(int, BufffrCbpbbilitifs)
+ */
+publid dlbss ExtfndfdBufffrCbpbbilitifs fxtfnds BufffrCbpbbilitifs {
+
+    /**
+     * Typf of syndhronizbtion on vfrtidbl rftrbdf.
+     */
+    publid stbtid fnum VSyndTypf {
+        /**
+         * Usf thf dffbult v-synd modf bppropribtf for givfn BufffrStrbtfgy
+         * bnd situbtion.
+         */
+        VSYNC_DEFAULT(0),
+
+        /**
+         * Syndhronizf flip on vfrtidbl rftrbdf.
+         */
+        VSYNC_ON(1),
+
+        /**
+         * Do not syndhronizf flip on vfrtidbl rftrbdf.
+         */
+        VSYNC_OFF(2);
+
+        /**
+         * Usfd to idfntify thf v-synd typf (indfpfndfnt of thf donstbnts
+         * ordfr bs opposfd to {@dodf ordinbl()}).
+         */
+        publid int id() {
+            rfturn id;
+        }
+
+        privbtf VSyndTypf(int id) {
+            this.id = id;
+        }
+        privbtf int id;
+    }
+
+    privbtf VSyndTypf vsynd;
+
+    /**
+     * Crfbtfs bn ExtfndfdBufffrCbpbbilitifs objfdt with front/bbdk/flip dbps
+     * from thf pbssfd dbp, bnd VSYNC_DEFAULT v-synd modf.
+     */
+    publid ExtfndfdBufffrCbpbbilitifs(BufffrCbpbbilitifs dbps) {
+        supfr(dbps.gftFrontBufffrCbpbbilitifs(),
+              dbps.gftBbdkBufffrCbpbbilitifs(),
+              dbps.gftFlipContfnts());
+
+        this.vsynd = VSyndTypf.VSYNC_DEFAULT;
+    }
+
+    /**
+     * Crfbtfs bn ExtfndfdBufffrCbpbbilitifs instbndf with front/bbdk/flip dbps
+     * from thf pbssfd dbps, bnd VSYNC_DEFAULT v-synd modf.
+     */
+    publid ExtfndfdBufffrCbpbbilitifs(ImbgfCbpbbilitifs front,
+                                      ImbgfCbpbbilitifs bbdk, FlipContfnts flip)
+    {
+        supfr(front, bbdk, flip);
+
+        this.vsynd = VSyndTypf.VSYNC_DEFAULT;
+    }
+
+    /**
+     * Crfbtfs bn ExtfndfdBufffrCbpbbilitifs instbndf with front/bbdk/flip dbps
+     * from thf pbssfd imbgf/flip dbps, bnd thf v-synd typf.
+     */
+    publid ExtfndfdBufffrCbpbbilitifs(ImbgfCbpbbilitifs front,
+                                      ImbgfCbpbbilitifs bbdk, FlipContfnts flip,
+                                      VSyndTypf t)
+    {
+        supfr(front, bbdk, flip);
+
+        this.vsynd = t;
+    }
+
+    /**
+     * Crfbtfs bn ExtfndfdBufffrCbpbbilitifs instbndf with front/bbdk/flip dbps
+     * from thf pbssfd dbp, bnd thf pbssfd v-synd modf.
+     */
+    publid ExtfndfdBufffrCbpbbilitifs(BufffrCbpbbilitifs dbps, VSyndTypf t) {
+        supfr(dbps.gftFrontBufffrCbpbbilitifs(),
+              dbps.gftBbdkBufffrCbpbbilitifs(),
+              dbps.gftFlipContfnts());
+
+        this.vsynd = t;
+    }
+
+    /**
+     * Crfbtfs bn ExtfndfdBufffrCbpbbilitifs instbndf with front/bbdk/flip dbps
+     * from thf objfdt, bnd pbssfd v-synd modf.
+     */
+    publid ExtfndfdBufffrCbpbbilitifs dfrivf(VSyndTypf t) {
+        rfturn nfw ExtfndfdBufffrCbpbbilitifs(this, t);
+    }
+
+    /**
+     * Rfturns thf typf of v-synd rfqufstfd by this dbpbbilitifs instbndf.
+     */
+    publid VSyndTypf gftVSynd() {
+        rfturn vsynd;
+    }
+
+    @Ovfrridf
+    publid finbl boolfbn isPbgfFlipping() {
+        rfturn truf;
+    }
+}

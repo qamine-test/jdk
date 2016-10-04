@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 1996, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * Indicates some kind of error detected by an SSL subsystem.
- * This class is the general class of exceptions produced
- * by failed SSL-related operations.
+ * Indidbtfs somf kind of frror dftfdtfd by bn SSL subsystfm.
+ * Tiis dlbss is tif gfnfrbl dlbss of fxdfptions produdfd
+ * by fbilfd SSL-rflbtfd opfrbtions.
  *
- * @since 1.4
- * @author David Brownell
+ * @sindf 1.4
+ * @butior Dbvid Brownfll
  */
-public
-class SSLException extends IOException
+publid
+dlbss SSLExdfption fxtfnds IOExdfption
 {
-    private static final long serialVersionUID = 4511006460650708967L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 4511006460650708967L;
 
     /**
-     * Constructs an exception reporting an error found by
-     * an SSL subsystem.
+     * Construdts bn fxdfption rfporting bn frror found by
+     * bn SSL subsystfm.
      *
-     * @param reason describes the problem.
+     * @pbrbm rfbson dfsdribfs tif problfm.
      */
-    public SSLException(String reason)
+    publid SSLExdfption(String rfbson)
     {
-        super(reason);
+        supfr(rfbson);
     }
 
     /**
-     * Creates a <code>SSLException</code> with the specified
-     * detail message and cause.
+     * Crfbtfs b <dodf>SSLExdfption</dodf> witi tif spfdififd
+     * dftbil mfssbgf bnd dbusf.
      *
-     * @param message the detail message (which is saved for later retrieval
-     *          by the {@link #getMessage()} method).
-     * @param cause the cause (which is saved for later retrieval by the
-     *          {@link #getCause()} method).  (A <tt>null</tt> value is
-     *          permitted, and indicates that the cause is nonexistent or
+     * @pbrbm mfssbgf tif dftbil mfssbgf (wiidi is sbvfd for lbtfr rftrifvbl
+     *          by tif {@link #gftMfssbgf()} mftiod).
+     * @pbrbm dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     *          {@link #gftCbusf()} mftiod).  (A <tt>null</tt> vbluf is
+     *          pfrmittfd, bnd indidbtfs tibt tif dbusf is nonfxistfnt or
      *          unknown.)
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SSLException(String message, Throwable cause) {
-        super(message);
-        initCause(cause);
+    publid SSLExdfption(String mfssbgf, Tirowbblf dbusf) {
+        supfr(mfssbgf);
+        initCbusf(dbusf);
     }
 
     /**
-     * Creates a <code>SSLException</code> with the specified cause
-     * and a detail message of <tt>(cause==null ? null : cause.toString())</tt>
-     * (which typically contains the class and detail message of
-     * <tt>cause</tt>).
+     * Crfbtfs b <dodf>SSLExdfption</dodf> witi tif spfdififd dbusf
+     * bnd b dftbil mfssbgf of <tt>(dbusf==null ? null : dbusf.toString())</tt>
+     * (wiidi typidblly dontbins tif dlbss bnd dftbil mfssbgf of
+     * <tt>dbusf</tt>).
      *
-     * @param cause the cause (which is saved for later retrieval by the
-     *          {@link #getCause()} method).  (A <tt>null</tt> value is
-     *          permitted, and indicates that the cause is nonexistent or
+     * @pbrbm dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     *          {@link #gftCbusf()} mftiod).  (A <tt>null</tt> vbluf is
+     *          pfrmittfd, bnd indidbtfs tibt tif dbusf is nonfxistfnt or
      *          unknown.)
-     * @since 1.5
+     * @sindf 1.5
      */
-    public SSLException(Throwable cause) {
-        super(cause == null ? null : cause.toString());
-        initCause(cause);
+    publid SSLExdfption(Tirowbblf dbusf) {
+        supfr(dbusf == null ? null : dbusf.toString());
+        initCbusf(dbusf);
     }
 }

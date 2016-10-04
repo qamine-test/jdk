@@ -1,309 +1,309 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print.attribute;
+pbdkbgf jbvbx.print.bttributf;
 
 /**
- * Interface AttributeSet specifies the interface for a set of printing
- * attributes. A printing attribute is an object whose class implements
- * interface {@link Attribute Attribute}.
+ * Intfrfbdf AttributfSft spfdififs tif intfrfbdf for b sft of printing
+ * bttributfs. A printing bttributf is bn objfdt wiosf dlbss implfmfnts
+ * intfrfbdf {@link Attributf Attributf}.
  * <P>
- * An attribute set contains a group of <I>attribute values,</I>
- * where duplicate values are not allowed in the set.
- * Furthermore, each value in an attribute set is
- * a member of some <I>category,</I> and at most one value in any particular
- * category is allowed in the set. For an attribute set, the values are {@link
- * Attribute Attribute} objects, and the categories are {@link java.lang.Class
- * Class} objects. An attribute's category is the class (or interface) at the
- * root of the class hierarchy for that kind of attribute. Note that an
- * attribute object's category may be a superclass of the attribute object's
- * class rather than the attribute object's class itself. An attribute
- * object's
- * category is determined by calling the {@link Attribute#getCategory()
- * getCategory()} method defined in interface {@link Attribute
- * Attribute}.
+ * An bttributf sft dontbins b group of <I>bttributf vblufs,</I>
+ * wifrf duplidbtf vblufs brf not bllowfd in tif sft.
+ * Furtifrmorf, fbdi vbluf in bn bttributf sft is
+ * b mfmbfr of somf <I>dbtfgory,</I> bnd bt most onf vbluf in bny pbrtidulbr
+ * dbtfgory is bllowfd in tif sft. For bn bttributf sft, tif vblufs brf {@link
+ * Attributf Attributf} objfdts, bnd tif dbtfgorifs brf {@link jbvb.lbng.Clbss
+ * Clbss} objfdts. An bttributf's dbtfgory is tif dlbss (or intfrfbdf) bt tif
+ * root of tif dlbss iifrbrdiy for tibt kind of bttributf. Notf tibt bn
+ * bttributf objfdt's dbtfgory mby bf b supfrdlbss of tif bttributf objfdt's
+ * dlbss rbtifr tibn tif bttributf objfdt's dlbss itsflf. An bttributf
+ * objfdt's
+ * dbtfgory is dftfrminfd by dblling tif {@link Attributf#gftCbtfgory()
+ * gftCbtfgory()} mftiod dffinfd in intfrfbdf {@link Attributf
+ * Attributf}.
  * <P>
- * The interfaces of an AttributeSet resemble those of the Java Collections
- * API's java.util.Map interface, but is more restrictive in the types
- * it will accept, and combines keys and values into an Attribute.
+ * Tif intfrfbdfs of bn AttributfSft rfsfmblf tiosf of tif Jbvb Collfdtions
+ * API's jbvb.util.Mbp intfrfbdf, but is morf rfstridtivf in tif typfs
+ * it will bddfpt, bnd dombinfs kfys bnd vblufs into bn Attributf.
  * <P>
- * Attribute sets are used in several places in the Print Service API. In
- * each context, only certain kinds of attributes are allowed to appear in the
- * attribute set, as determined by the tagging interfaces which the attribute
- * class implements -- {@link DocAttribute DocAttribute}, {@link
- * PrintRequestAttribute PrintRequestAttribute}, {@link PrintJobAttribute
- * PrintJobAttribute}, and {@link PrintServiceAttribute
- * PrintServiceAttribute}.
- * There are four specializations of an attribute set that are restricted to
- * contain just one of the four kinds of attribute -- {@link DocAttributeSet
- * DocAttributeSet}, {@link PrintRequestAttributeSet
- * PrintRequestAttributeSet},
- * {@link PrintJobAttributeSet PrintJobAttributeSet}, and {@link
- * PrintServiceAttributeSet PrintServiceAttributeSet}, respectively. Note that
- * many attribute classes implement more than one tagging interface and so may
- * appear in more than one context.
+ * Attributf sfts brf usfd in sfvfrbl plbdfs in tif Print Sfrvidf API. In
+ * fbdi dontfxt, only dfrtbin kinds of bttributfs brf bllowfd to bppfbr in tif
+ * bttributf sft, bs dftfrminfd by tif tbgging intfrfbdfs wiidi tif bttributf
+ * dlbss implfmfnts -- {@link DodAttributf DodAttributf}, {@link
+ * PrintRfqufstAttributf PrintRfqufstAttributf}, {@link PrintJobAttributf
+ * PrintJobAttributf}, bnd {@link PrintSfrvidfAttributf
+ * PrintSfrvidfAttributf}.
+ * Tifrf brf four spfdiblizbtions of bn bttributf sft tibt brf rfstridtfd to
+ * dontbin just onf of tif four kinds of bttributf -- {@link DodAttributfSft
+ * DodAttributfSft}, {@link PrintRfqufstAttributfSft
+ * PrintRfqufstAttributfSft},
+ * {@link PrintJobAttributfSft PrintJobAttributfSft}, bnd {@link
+ * PrintSfrvidfAttributfSft PrintSfrvidfAttributfSft}, rfspfdtivfly. Notf tibt
+ * mbny bttributf dlbssfs implfmfnt morf tibn onf tbgging intfrfbdf bnd so mby
+ * bppfbr in morf tibn onf dontfxt.
  * <UL>
  * <LI>
- * A {@link DocAttributeSet DocAttributeSet}, containing {@link DocAttribute
- * DocAttribute}s, specifies the characteristics of an individual doc and the
- * print job settings to be applied to an individual doc.
+ * A {@link DodAttributfSft DodAttributfSft}, dontbining {@link DodAttributf
+ * DodAttributf}s, spfdififs tif dibrbdtfristids of bn individubl dod bnd tif
+ * print job sfttings to bf bpplifd to bn individubl dod.
  *
  * <LI>
- * A {@link PrintRequestAttributeSet PrintRequestAttributeSet}, containing
- * {@link PrintRequestAttribute PrintRequestAttribute}s, specifies the
- * settings
- * to be applied to a whole print job and to all the docs in the print job.
+ * A {@link PrintRfqufstAttributfSft PrintRfqufstAttributfSft}, dontbining
+ * {@link PrintRfqufstAttributf PrintRfqufstAttributf}s, spfdififs tif
+ * sfttings
+ * to bf bpplifd to b wiolf print job bnd to bll tif dods in tif print job.
  *
  * <LI>
- * A {@link PrintJobAttributeSet PrintJobAttributeSet}, containing {@link
- * PrintJobAttribute PrintJobAttribute}s, reports the status of a print job.
+ * A {@link PrintJobAttributfSft PrintJobAttributfSft}, dontbining {@link
+ * PrintJobAttributf PrintJobAttributf}s, rfports tif stbtus of b print job.
  *
  * <LI>
- * A {@link PrintServiceAttributeSet PrintServiceAttributeSet}, containing
- * {@link PrintServiceAttribute PrintServiceAttribute}s, reports the status of
- *  a Print Service instance.
+ * A {@link PrintSfrvidfAttributfSft PrintSfrvidfAttributfSft}, dontbining
+ * {@link PrintSfrvidfAttributf PrintSfrvidfAttributf}s, rfports tif stbtus of
+ *  b Print Sfrvidf instbndf.
  * </UL>
  * <P>
- * In some contexts, the client is only allowed to examine an attribute set's
- * contents but not change them (the set is read-only). In other places, the
- * client is allowed both to examine and to change an attribute set's contents
- * (the set is read-write). For a read-only attribute set, calling a mutating
- * operation throws an UnmodifiableSetException.
+ * In somf dontfxts, tif dlifnt is only bllowfd to fxbminf bn bttributf sft's
+ * dontfnts but not dibngf tifm (tif sft is rfbd-only). In otifr plbdfs, tif
+ * dlifnt is bllowfd boti to fxbminf bnd to dibngf bn bttributf sft's dontfnts
+ * (tif sft is rfbd-writf). For b rfbd-only bttributf sft, dblling b mutbting
+ * opfrbtion tirows bn UnmodifibblfSftExdfption.
  * <P>
- * The Print Service API provides one implementation of interface
- * AttributeSet, class {@link HashAttributeSet HashAttributeSet}.
- * A client can use class {@link
- * HashAttributeSet HashAttributeSet} or provide its own implementation of
- * interface AttributeSet. The Print Service API also provides
- * implementations of interface AttributeSet's subinterfaces -- classes {@link
- * HashDocAttributeSet HashDocAttributeSet},
- * {@link HashPrintRequestAttributeSet
- * HashPrintRequestAttributeSet}, {@link HashPrintJobAttributeSet
- * HashPrintJobAttributeSet}, and {@link HashPrintServiceAttributeSet
- * HashPrintServiceAttributeSet}.
+ * Tif Print Sfrvidf API providfs onf implfmfntbtion of intfrfbdf
+ * AttributfSft, dlbss {@link HbsiAttributfSft HbsiAttributfSft}.
+ * A dlifnt dbn usf dlbss {@link
+ * HbsiAttributfSft HbsiAttributfSft} or providf its own implfmfntbtion of
+ * intfrfbdf AttributfSft. Tif Print Sfrvidf API blso providfs
+ * implfmfntbtions of intfrfbdf AttributfSft's subintfrfbdfs -- dlbssfs {@link
+ * HbsiDodAttributfSft HbsiDodAttributfSft},
+ * {@link HbsiPrintRfqufstAttributfSft
+ * HbsiPrintRfqufstAttributfSft}, {@link HbsiPrintJobAttributfSft
+ * HbsiPrintJobAttributfSft}, bnd {@link HbsiPrintSfrvidfAttributfSft
+ * HbsiPrintSfrvidfAttributfSft}.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public interface AttributeSet {
+publid intfrfbdf AttributfSft {
 
 
     /**
-     * Returns the attribute value which this attribute set contains in the
-     * given attribute category. Returns <tt>null</tt> if this attribute set
-     * does not contain any attribute value in the given attribute category.
+     * Rfturns tif bttributf vbluf wiidi tiis bttributf sft dontbins in tif
+     * givfn bttributf dbtfgory. Rfturns <tt>null</tt> if tiis bttributf sft
+     * dofs not dontbin bny bttributf vbluf in tif givfn bttributf dbtfgory.
      *
-     * @param  category  Attribute category whose associated attribute value
-     *                   is to be returned. It must be a
-     *                   {@link java.lang.Class Class}
-     *                   that implements interface {@link Attribute
-     *                   Attribute}.
+     * @pbrbm  dbtfgory  Attributf dbtfgory wiosf bssodibtfd bttributf vbluf
+     *                   is to bf rfturnfd. It must bf b
+     *                   {@link jbvb.lbng.Clbss Clbss}
+     *                   tibt implfmfnts intfrfbdf {@link Attributf
+     *                   Attributf}.
      *
-     * @return  The attribute value in the given attribute category contained
-     *          in this attribute set, or <tt>null</tt> if this attribute set
-     *          does not contain any attribute value in the given attribute
-     *          category.
+     * @rfturn  Tif bttributf vbluf in tif givfn bttributf dbtfgory dontbinfd
+     *          in tiis bttributf sft, or <tt>null</tt> if tiis bttributf sft
+     *          dofs not dontbin bny bttributf vbluf in tif givfn bttributf
+     *          dbtfgory.
      *
-     * @throws  NullPointerException
-     *     (unchecked exception) Thrown if the <CODE>category</CODE> is null.
-     * @throws  ClassCastException
-     *     (unchecked exception) Thrown if the <CODE>category</CODE> is not a
-     *     {@link java.lang.Class Class} that implements interface {@link
-     *     Attribute Attribute}.
+     * @tirows  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if tif <CODE>dbtfgory</CODE> is null.
+     * @tirows  ClbssCbstExdfption
+     *     (undifdkfd fxdfption) Tirown if tif <CODE>dbtfgory</CODE> is not b
+     *     {@link jbvb.lbng.Clbss Clbss} tibt implfmfnts intfrfbdf {@link
+     *     Attributf Attributf}.
      */
-    public Attribute get(Class<?> category);
+    publid Attributf gft(Clbss<?> dbtfgory);
 
     /**
-     * Adds the specified attribute to this attribute set if it is not
-     * already present, first removing any existing value in the same
-     * attribute category as the specified attribute value.
+     * Adds tif spfdififd bttributf to tiis bttributf sft if it is not
+     * blrfbdy prfsfnt, first rfmoving bny fxisting vbluf in tif sbmf
+     * bttributf dbtfgory bs tif spfdififd bttributf vbluf.
      *
-     * @param  attribute  Attribute value to be added to this attribute set.
+     * @pbrbm  bttributf  Attributf vbluf to bf bddfd to tiis bttributf sft.
      *
-     * @return  <tt>true</tt> if this attribute set changed as a result of the
-     *          call, i.e., the given attribute value was not already a member
-     *          of this attribute set.
+     * @rfturn  <tt>truf</tt> if tiis bttributf sft dibngfd bs b rfsult of tif
+     *          dbll, i.f., tif givfn bttributf vbluf wbs not blrfbdy b mfmbfr
+     *          of tiis bttributf sft.
      *
-     * @throws  NullPointerException
-     *     (unchecked exception) Thrown if the <CODE>attribute</CODE> is null.
-     * @throws  UnmodifiableSetException
-     *     (unchecked exception) Thrown if this attribute set does not support
-     *     the <CODE>add()</CODE> operation.
+     * @tirows  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if tif <CODE>bttributf</CODE> is null.
+     * @tirows  UnmodifibblfSftExdfption
+     *     (undifdkfd fxdfption) Tirown if tiis bttributf sft dofs not support
+     *     tif <CODE>bdd()</CODE> opfrbtion.
      */
-    public boolean add(Attribute attribute);
+    publid boolfbn bdd(Attributf bttributf);
 
 
     /**
-     * Removes any attribute for this category from this attribute set if
-     * present. If <CODE>category</CODE> is null, then
-     * <CODE>remove()</CODE> does nothing and returns <tt>false</tt>.
+     * Rfmovfs bny bttributf for tiis dbtfgory from tiis bttributf sft if
+     * prfsfnt. If <CODE>dbtfgory</CODE> is null, tifn
+     * <CODE>rfmovf()</CODE> dofs notiing bnd rfturns <tt>fblsf</tt>.
      *
-     * @param  category Attribute category to be removed from this
-     *                  attribute set.
+     * @pbrbm  dbtfgory Attributf dbtfgory to bf rfmovfd from tiis
+     *                  bttributf sft.
      *
-     * @return  <tt>true</tt> if this attribute set changed as a result of the
-     *         call, i.e., the given attribute value had been a member of this
-     *          attribute set.
+     * @rfturn  <tt>truf</tt> if tiis bttributf sft dibngfd bs b rfsult of tif
+     *         dbll, i.f., tif givfn bttributf vbluf ibd bffn b mfmbfr of tiis
+     *          bttributf sft.
      *
-     * @throws  UnmodifiableSetException
-     *     (unchecked exception) Thrown if this attribute set does not support
-     *     the <CODE>remove()</CODE> operation.
+     * @tirows  UnmodifibblfSftExdfption
+     *     (undifdkfd fxdfption) Tirown if tiis bttributf sft dofs not support
+     *     tif <CODE>rfmovf()</CODE> opfrbtion.
      */
-    public boolean remove(Class<?> category);
+    publid boolfbn rfmovf(Clbss<?> dbtfgory);
 
     /**
-     * Removes the specified attribute from this attribute set if
-     * present. If <CODE>attribute</CODE> is null, then
-     * <CODE>remove()</CODE> does nothing and returns <tt>false</tt>.
+     * Rfmovfs tif spfdififd bttributf from tiis bttributf sft if
+     * prfsfnt. If <CODE>bttributf</CODE> is null, tifn
+     * <CODE>rfmovf()</CODE> dofs notiing bnd rfturns <tt>fblsf</tt>.
      *
-     * @param  attribute Attribute value to be removed from this attribute set.
+     * @pbrbm  bttributf Attributf vbluf to bf rfmovfd from tiis bttributf sft.
      *
-     * @return  <tt>true</tt> if this attribute set changed as a result of the
-     *         call, i.e., the given attribute value had been a member of this
-     *          attribute set.
+     * @rfturn  <tt>truf</tt> if tiis bttributf sft dibngfd bs b rfsult of tif
+     *         dbll, i.f., tif givfn bttributf vbluf ibd bffn b mfmbfr of tiis
+     *          bttributf sft.
      *
-     * @throws  UnmodifiableSetException
-     *     (unchecked exception) Thrown if this attribute set does not support
-     *     the <CODE>remove()</CODE> operation.
+     * @tirows  UnmodifibblfSftExdfption
+     *     (undifdkfd fxdfption) Tirown if tiis bttributf sft dofs not support
+     *     tif <CODE>rfmovf()</CODE> opfrbtion.
      */
-    public boolean remove(Attribute attribute);
+    publid boolfbn rfmovf(Attributf bttributf);
 
     /**
-     * Returns <tt>true</tt> if this attribute set contains an
-     * attribute for the specified category.
+     * Rfturns <tt>truf</tt> if tiis bttributf sft dontbins bn
+     * bttributf for tif spfdififd dbtfgory.
      *
-     * @param  category whose presence in this attribute set is
-     *            to be tested.
+     * @pbrbm  dbtfgory wiosf prfsfndf in tiis bttributf sft is
+     *            to bf tfstfd.
      *
-     * @return  <tt>true</tt> if this attribute set contains an attribute
-     *         value for the specified category.
+     * @rfturn  <tt>truf</tt> if tiis bttributf sft dontbins bn bttributf
+     *         vbluf for tif spfdififd dbtfgory.
      */
-    public boolean containsKey(Class<?> category);
+    publid boolfbn dontbinsKfy(Clbss<?> dbtfgory);
 
     /**
-     * Returns <tt>true</tt> if this attribute set contains the given
-     * attribute value.
+     * Rfturns <tt>truf</tt> if tiis bttributf sft dontbins tif givfn
+     * bttributf vbluf.
      *
-     * @param  attribute  Attribute value whose presence in this
-     * attribute set is to be tested.
+     * @pbrbm  bttributf  Attributf vbluf wiosf prfsfndf in tiis
+     * bttributf sft is to bf tfstfd.
      *
-     * @return  <tt>true</tt> if this attribute set contains the given
-     *      attribute  value.
+     * @rfturn  <tt>truf</tt> if tiis bttributf sft dontbins tif givfn
+     *      bttributf  vbluf.
      */
-    public boolean containsValue(Attribute attribute);
+    publid boolfbn dontbinsVbluf(Attributf bttributf);
 
     /**
-     * Adds all of the elements in the specified set to this attribute.
-     * The outcome is the same as if the =
-     * {@link #add(Attribute) add(Attribute)}
-     * operation had been applied to this attribute set successively with each
-     * element from the specified set.
-     * The behavior of the <CODE>addAll(AttributeSet)</CODE>
-     * operation is unspecified if the specified set is modified while
-     * the operation is in progress.
+     * Adds bll of tif flfmfnts in tif spfdififd sft to tiis bttributf.
+     * Tif outdomf is tif sbmf bs if tif =
+     * {@link #bdd(Attributf) bdd(Attributf)}
+     * opfrbtion ibd bffn bpplifd to tiis bttributf sft suddfssivfly witi fbdi
+     * flfmfnt from tif spfdififd sft.
+     * Tif bfibvior of tif <CODE>bddAll(AttributfSft)</CODE>
+     * opfrbtion is unspfdififd if tif spfdififd sft is modififd wiilf
+     * tif opfrbtion is in progrfss.
      * <P>
-     * If the <CODE>addAll(AttributeSet)</CODE> operation throws an exception,
-     * the effect on this attribute set's state is implementation dependent;
-     * elements from the specified set before the point of the exception may
-     * or may not have been added to this attribute set.
+     * If tif <CODE>bddAll(AttributfSft)</CODE> opfrbtion tirows bn fxdfption,
+     * tif ffffdt on tiis bttributf sft's stbtf is implfmfntbtion dfpfndfnt;
+     * flfmfnts from tif spfdififd sft bfforf tif point of tif fxdfption mby
+     * or mby not ibvf bffn bddfd to tiis bttributf sft.
      *
-     * @param  attributes  whose elements are to be added to this attribute
-     *            set.
+     * @pbrbm  bttributfs  wiosf flfmfnts brf to bf bddfd to tiis bttributf
+     *            sft.
      *
-     * @return  <tt>true</tt> if this attribute set changed as a result of the
-     *          call.
+     * @rfturn  <tt>truf</tt> if tiis bttributf sft dibngfd bs b rfsult of tif
+     *          dbll.
      *
-     * @throws  UnmodifiableSetException
-     *     (Unchecked exception) Thrown if this attribute set does not support
-     *     the <tt>addAll(AttributeSet)</tt> method.
-     * @throws  NullPointerException
-     *     (Unchecked exception) Thrown if some element in the specified
-     *     set is null.
+     * @tirows  UnmodifibblfSftExdfption
+     *     (Undifdkfd fxdfption) Tirown if tiis bttributf sft dofs not support
+     *     tif <tt>bddAll(AttributfSft)</tt> mftiod.
+     * @tirows  NullPointfrExdfption
+     *     (Undifdkfd fxdfption) Tirown if somf flfmfnt in tif spfdififd
+     *     sft is null.
      *
-     * @see #add(Attribute)
+     * @sff #bdd(Attributf)
      */
-    public boolean addAll(AttributeSet attributes);
+    publid boolfbn bddAll(AttributfSft bttributfs);
 
     /**
-     * Returns the number of attributes in this attribute set. If this
-     * attribute set contains more than <tt>Integer.MAX_VALUE</tt> elements,
-     * returns  <tt>Integer.MAX_VALUE</tt>.
+     * Rfturns tif numbfr of bttributfs in tiis bttributf sft. If tiis
+     * bttributf sft dontbins morf tibn <tt>Intfgfr.MAX_VALUE</tt> flfmfnts,
+     * rfturns  <tt>Intfgfr.MAX_VALUE</tt>.
      *
-     * @return  The number of attributes in this attribute set.
+     * @rfturn  Tif numbfr of bttributfs in tiis bttributf sft.
      */
-    public int size();
+    publid int sizf();
 
     /**
-     * Returns an array of the attributes contained in this set.
-     * @return the Attributes contained in this set as an array, zero length
-     * if the AttributeSet is empty.
+     * Rfturns bn brrby of tif bttributfs dontbinfd in tiis sft.
+     * @rfturn tif Attributfs dontbinfd in tiis sft bs bn brrby, zfro lfngti
+     * if tif AttributfSft is fmpty.
      */
-    public Attribute[] toArray();
+    publid Attributf[] toArrby();
 
 
     /**
-     * Removes all attributes from this attribute set.
+     * Rfmovfs bll bttributfs from tiis bttributf sft.
      *
-     * @throws  UnmodifiableSetException
-     *   (unchecked exception) Thrown if this attribute set does not support
-     *     the <CODE>clear()</CODE> operation.
+     * @tirows  UnmodifibblfSftExdfption
+     *   (undifdkfd fxdfption) Tirown if tiis bttributf sft dofs not support
+     *     tif <CODE>dlfbr()</CODE> opfrbtion.
      */
-    public void clear();
+    publid void dlfbr();
 
     /**
-     * Returns true if this attribute set contains no attributes.
+     * Rfturns truf if tiis bttributf sft dontbins no bttributfs.
      *
-     * @return true if this attribute set contains no attributes.
+     * @rfturn truf if tiis bttributf sft dontbins no bttributfs.
      */
-    public boolean isEmpty();
+    publid boolfbn isEmpty();
 
     /**
-     * Compares the specified object with this attribute set for equality.
-     * Returns <tt>true</tt> if the given object is also an attribute set and
-     * the two attribute sets contain the same attribute category-attribute
-     * value mappings. This ensures that the
-     * <tt>equals()</tt> method works properly across different
-     * implementations of the AttributeSet interface.
+     * Compbrfs tif spfdififd objfdt witi tiis bttributf sft for fqublity.
+     * Rfturns <tt>truf</tt> if tif givfn objfdt is blso bn bttributf sft bnd
+     * tif two bttributf sfts dontbin tif sbmf bttributf dbtfgory-bttributf
+     * vbluf mbppings. Tiis fnsurfs tibt tif
+     * <tt>fqubls()</tt> mftiod works propfrly bdross difffrfnt
+     * implfmfntbtions of tif AttributfSft intfrfbdf.
      *
-     * @param  object to be compared for equality with this attribute set.
+     * @pbrbm  objfdt to bf dompbrfd for fqublity witi tiis bttributf sft.
      *
-     * @return  <tt>true</tt> if the specified object is equal to this
-     *       attribute   set.
+     * @rfturn  <tt>truf</tt> if tif spfdififd objfdt is fqubl to tiis
+     *       bttributf   sft.
      */
-    public boolean equals(Object object);
+    publid boolfbn fqubls(Objfdt objfdt);
 
     /**
-     * Returns the hash code value for this attribute set. The hash code of an
-     * attribute set is defined to be the sum of the hash codes of each entry
-     * in the AttributeSet.
-     * This ensures that <tt>t1.equals(t2)</tt> implies that
-     * <tt>t1.hashCode()==t2.hashCode()</tt> for any two attribute sets
-     * <tt>t1</tt> and <tt>t2</tt>, as required by the general contract of
-     * {@link java.lang.Object#hashCode() Object.hashCode()}.
+     * Rfturns tif ibsi dodf vbluf for tiis bttributf sft. Tif ibsi dodf of bn
+     * bttributf sft is dffinfd to bf tif sum of tif ibsi dodfs of fbdi fntry
+     * in tif AttributfSft.
+     * Tiis fnsurfs tibt <tt>t1.fqubls(t2)</tt> implifs tibt
+     * <tt>t1.ibsiCodf()==t2.ibsiCodf()</tt> for bny two bttributf sfts
+     * <tt>t1</tt> bnd <tt>t2</tt>, bs rfquirfd by tif gfnfrbl dontrbdt of
+     * {@link jbvb.lbng.Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.
      *
-     * @return  The hash code value for this attribute set.
+     * @rfturn  Tif ibsi dodf vbluf for tiis bttributf sft.
      */
-    public int hashCode();
+    publid int ibsiCodf();
 
 }

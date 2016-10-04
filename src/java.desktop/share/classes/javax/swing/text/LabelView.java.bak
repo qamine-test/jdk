@@ -1,316 +1,316 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.awt.*;
-import javax.swing.event.*;
+import jbvb.bwt.*;
+import jbvbx.swing.fvfnt.*;
 
 /**
- * A <code>LabelView</code> is a styled chunk of text
- * that represents a view mapped over an element in the
- * text model.  It caches the character level attributes
- * used for rendering.
+ * A <dodf>LbbflVifw</dodf> is b stylfd diunk of tfxt
+ * tibt rfprfsfnts b vifw mbppfd ovfr bn flfmfnt in tif
+ * tfxt modfl.  It dbdifs tif dibrbdtfr lfvfl bttributfs
+ * usfd for rfndfring.
  *
- * @author Timothy Prinzing
+ * @butior Timotiy Prinzing
  */
-public class LabelView extends GlyphView implements TabableView {
+publid dlbss LbbflVifw fxtfnds GlypiVifw implfmfnts TbbbblfVifw {
 
     /**
-     * Constructs a new view wrapped on an element.
+     * Construdts b nfw vifw wrbppfd on bn flfmfnt.
      *
-     * @param elem the element
+     * @pbrbm flfm tif flfmfnt
      */
-    public LabelView(Element elem) {
-        super(elem);
+    publid LbbflVifw(Elfmfnt flfm) {
+        supfr(flfm);
     }
 
     /**
-     * Synchronize the view's cached values with the model.
-     * This causes the font, metrics, color, etc to be
-     * re-cached if the cache has been invalidated.
+     * Syndironizf tif vifw's dbdifd vblufs witi tif modfl.
+     * Tiis dbusfs tif font, mftrids, dolor, ftd to bf
+     * rf-dbdifd if tif dbdif ibs bffn invblidbtfd.
      */
-    final void sync() {
+    finbl void synd() {
         if (font == null) {
-            setPropertiesFromAttributes();
+            sftPropfrtifsFromAttributfs();
         }
     }
 
     /**
-     * Sets whether or not the view is underlined.
-     * Note that this setter is protected and is really
-     * only meant if you need to update some additional
-     * state when set.
+     * Sfts wiftifr or not tif vifw is undfrlinfd.
+     * Notf tibt tiis sfttfr is protfdtfd bnd is rfblly
+     * only mfbnt if you nffd to updbtf somf bdditionbl
+     * stbtf wifn sft.
      *
-     * @param u true if the view is underlined, otherwise
-     *          false
-     * @see #isUnderline
+     * @pbrbm u truf if tif vifw is undfrlinfd, otifrwisf
+     *          fblsf
+     * @sff #isUndfrlinf
      */
-    protected void setUnderline(boolean u) {
-        underline = u;
+    protfdtfd void sftUndfrlinf(boolfbn u) {
+        undfrlinf = u;
     }
 
     /**
-     * Sets whether or not the view has a strike/line
-     * through it.
-     * Note that this setter is protected and is really
-     * only meant if you need to update some additional
-     * state when set.
+     * Sfts wiftifr or not tif vifw ibs b strikf/linf
+     * tirougi it.
+     * Notf tibt tiis sfttfr is protfdtfd bnd is rfblly
+     * only mfbnt if you nffd to updbtf somf bdditionbl
+     * stbtf wifn sft.
      *
-     * @param s true if the view has a strike/line
-     *          through it, otherwise false
-     * @see #isStrikeThrough
+     * @pbrbm s truf if tif vifw ibs b strikf/linf
+     *          tirougi it, otifrwisf fblsf
+     * @sff #isStrikfTirougi
      */
-    protected void setStrikeThrough(boolean s) {
-        strike = s;
+    protfdtfd void sftStrikfTirougi(boolfbn s) {
+        strikf = s;
     }
 
 
     /**
-     * Sets whether or not the view represents a
-     * superscript.
-     * Note that this setter is protected and is really
-     * only meant if you need to update some additional
-     * state when set.
+     * Sfts wiftifr or not tif vifw rfprfsfnts b
+     * supfrsdript.
+     * Notf tibt tiis sfttfr is protfdtfd bnd is rfblly
+     * only mfbnt if you nffd to updbtf somf bdditionbl
+     * stbtf wifn sft.
      *
-     * @param s true if the view represents a
-     *          superscript, otherwise false
-     * @see #isSuperscript
+     * @pbrbm s truf if tif vifw rfprfsfnts b
+     *          supfrsdript, otifrwisf fblsf
+     * @sff #isSupfrsdript
      */
-    protected void setSuperscript(boolean s) {
-        superscript = s;
+    protfdtfd void sftSupfrsdript(boolfbn s) {
+        supfrsdript = s;
     }
 
     /**
-     * Sets whether or not the view represents a
-     * subscript.
-     * Note that this setter is protected and is really
-     * only meant if you need to update some additional
-     * state when set.
+     * Sfts wiftifr or not tif vifw rfprfsfnts b
+     * subsdript.
+     * Notf tibt tiis sfttfr is protfdtfd bnd is rfblly
+     * only mfbnt if you nffd to updbtf somf bdditionbl
+     * stbtf wifn sft.
      *
-     * @param s true if the view represents a
-     *          subscript, otherwise false
-     * @see #isSubscript
+     * @pbrbm s truf if tif vifw rfprfsfnts b
+     *          subsdript, otifrwisf fblsf
+     * @sff #isSubsdript
      */
-    protected void setSubscript(boolean s) {
-        subscript = s;
+    protfdtfd void sftSubsdript(boolfbn s) {
+        subsdript = s;
     }
 
     /**
-     * Sets the background color for the view. This method is typically
-     * invoked as part of configuring this <code>View</code>. If you need
-     * to customize the background color you should override
-     * <code>setPropertiesFromAttributes</code> and invoke this method. A
-     * value of null indicates no background should be rendered, so that the
-     * background of the parent <code>View</code> will show through.
+     * Sfts tif bbdkground dolor for tif vifw. Tiis mftiod is typidblly
+     * invokfd bs pbrt of donfiguring tiis <dodf>Vifw</dodf>. If you nffd
+     * to dustomizf tif bbdkground dolor you siould ovfrridf
+     * <dodf>sftPropfrtifsFromAttributfs</dodf> bnd invokf tiis mftiod. A
+     * vbluf of null indidbtfs no bbdkground siould bf rfndfrfd, so tibt tif
+     * bbdkground of tif pbrfnt <dodf>Vifw</dodf> will siow tirougi.
      *
-     * @param bg background color, or null
-     * @see #setPropertiesFromAttributes
-     * @since 1.5
+     * @pbrbm bg bbdkground dolor, or null
+     * @sff #sftPropfrtifsFromAttributfs
+     * @sindf 1.5
      */
-    protected void setBackground(Color bg) {
-        this.bg = bg;
+    protfdtfd void sftBbdkground(Color bg) {
+        tiis.bg = bg;
     }
 
     /**
-     * Sets the cached properties from the attributes.
+     * Sfts tif dbdifd propfrtifs from tif bttributfs.
      */
-    protected void setPropertiesFromAttributes() {
-        AttributeSet attr = getAttributes();
-        if (attr != null) {
-            Document d = getDocument();
-            if (d instanceof StyledDocument) {
-                StyledDocument doc = (StyledDocument) d;
-                font = doc.getFont(attr);
-                fg = doc.getForeground(attr);
-                if (attr.isDefined(StyleConstants.Background)) {
-                    bg = doc.getBackground(attr);
-                } else {
+    protfdtfd void sftPropfrtifsFromAttributfs() {
+        AttributfSft bttr = gftAttributfs();
+        if (bttr != null) {
+            Dodumfnt d = gftDodumfnt();
+            if (d instbndfof StylfdDodumfnt) {
+                StylfdDodumfnt dod = (StylfdDodumfnt) d;
+                font = dod.gftFont(bttr);
+                fg = dod.gftForfground(bttr);
+                if (bttr.isDffinfd(StylfConstbnts.Bbdkground)) {
+                    bg = dod.gftBbdkground(bttr);
+                } flsf {
                     bg = null;
                 }
-                setUnderline(StyleConstants.isUnderline(attr));
-                setStrikeThrough(StyleConstants.isStrikeThrough(attr));
-                setSuperscript(StyleConstants.isSuperscript(attr));
-                setSubscript(StyleConstants.isSubscript(attr));
-            } else {
-                throw new StateInvariantError("LabelView needs StyledDocument");
+                sftUndfrlinf(StylfConstbnts.isUndfrlinf(bttr));
+                sftStrikfTirougi(StylfConstbnts.isStrikfTirougi(bttr));
+                sftSupfrsdript(StylfConstbnts.isSupfrsdript(bttr));
+                sftSubsdript(StylfConstbnts.isSubsdript(bttr));
+            } flsf {
+                tirow nfw StbtfInvbribntError("LbbflVifw nffds StylfdDodumfnt");
             }
         }
      }
 
     /**
-     * Fetches the <code>FontMetrics</code> used for this view.
-     * @deprecated FontMetrics are not used for glyph rendering
-     *  when running in the JDK.
+     * Fftdifs tif <dodf>FontMftrids</dodf> usfd for tiis vifw.
+     * @dfprfdbtfd FontMftrids brf not usfd for glypi rfndfring
+     *  wifn running in tif JDK.
      */
-    @Deprecated
-    protected FontMetrics getFontMetrics() {
-        sync();
-        Container c = getContainer();
-        return (c != null) ? c.getFontMetrics(font) :
-            Toolkit.getDefaultToolkit().getFontMetrics(font);
+    @Dfprfdbtfd
+    protfdtfd FontMftrids gftFontMftrids() {
+        synd();
+        Contbinfr d = gftContbinfr();
+        rfturn (d != null) ? d.gftFontMftrids(font) :
+            Toolkit.gftDffbultToolkit().gftFontMftrids(font);
     }
 
     /**
-     * Fetches the background color to use to render the glyphs.
-     * This is implemented to return a cached background color,
-     * which defaults to <code>null</code>.
+     * Fftdifs tif bbdkground dolor to usf to rfndfr tif glypis.
+     * Tiis is implfmfntfd to rfturn b dbdifd bbdkground dolor,
+     * wiidi dffbults to <dodf>null</dodf>.
      *
-     * @return the cached background color
-     * @since 1.3
+     * @rfturn tif dbdifd bbdkground dolor
+     * @sindf 1.3
      */
-    public Color getBackground() {
-        sync();
-        return bg;
+    publid Color gftBbdkground() {
+        synd();
+        rfturn bg;
     }
 
     /**
-     * Fetches the foreground color to use to render the glyphs.
-     * This is implemented to return a cached foreground color,
-     * which defaults to <code>null</code>.
+     * Fftdifs tif forfground dolor to usf to rfndfr tif glypis.
+     * Tiis is implfmfntfd to rfturn b dbdifd forfground dolor,
+     * wiidi dffbults to <dodf>null</dodf>.
      *
-     * @return the cached foreground color
-     * @since 1.3
+     * @rfturn tif dbdifd forfground dolor
+     * @sindf 1.3
      */
-    public Color getForeground() {
-        sync();
-        return fg;
+    publid Color gftForfground() {
+        synd();
+        rfturn fg;
     }
 
     /**
-     * Fetches the font that the glyphs should be based upon.
-     * This is implemented to return a cached font.
+     * Fftdifs tif font tibt tif glypis siould bf bbsfd upon.
+     * Tiis is implfmfntfd to rfturn b dbdifd font.
      *
-     * @return the cached font
+     * @rfturn tif dbdifd font
      */
-     public Font getFont() {
-        sync();
-        return font;
+     publid Font gftFont() {
+        synd();
+        rfturn font;
     }
 
     /**
-     * Determines if the glyphs should be underlined.  If true,
-     * an underline should be drawn through the baseline.  This
-     * is implemented to return the cached underline property.
+     * Dftfrminfs if tif glypis siould bf undfrlinfd.  If truf,
+     * bn undfrlinf siould bf drbwn tirougi tif bbsflinf.  Tiis
+     * is implfmfntfd to rfturn tif dbdifd undfrlinf propfrty.
      *
-     * <p>When you request this property, <code>LabelView</code>
-     * re-syncs its state with the properties of the
-     * <code>Element</code>'s <code>AttributeSet</code>.
-     * If <code>Element</code>'s <code>AttributeSet</code>
-     * does not have this property set, it will revert to false.
+     * <p>Wifn you rfqufst tiis propfrty, <dodf>LbbflVifw</dodf>
+     * rf-synds its stbtf witi tif propfrtifs of tif
+     * <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>.
+     * If <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>
+     * dofs not ibvf tiis propfrty sft, it will rfvfrt to fblsf.
      *
-     * @return the value of the cached
-     *     <code>underline</code> property
-     * @since 1.3
+     * @rfturn tif vbluf of tif dbdifd
+     *     <dodf>undfrlinf</dodf> propfrty
+     * @sindf 1.3
      */
-    public boolean isUnderline() {
-        sync();
-        return underline;
+    publid boolfbn isUndfrlinf() {
+        synd();
+        rfturn undfrlinf;
     }
 
     /**
-     * Determines if the glyphs should have a strikethrough
-     * line.  If true, a line should be drawn through the center
-     * of the glyphs.  This is implemented to return the
-     * cached <code>strikeThrough</code> property.
+     * Dftfrminfs if tif glypis siould ibvf b strikftirougi
+     * linf.  If truf, b linf siould bf drbwn tirougi tif dfntfr
+     * of tif glypis.  Tiis is implfmfntfd to rfturn tif
+     * dbdifd <dodf>strikfTirougi</dodf> propfrty.
      *
-     * <p>When you request this property, <code>LabelView</code>
-     * re-syncs its state with the properties of the
-     * <code>Element</code>'s <code>AttributeSet</code>.
-     * If <code>Element</code>'s <code>AttributeSet</code>
-     * does not have this property set, it will revert to false.
+     * <p>Wifn you rfqufst tiis propfrty, <dodf>LbbflVifw</dodf>
+     * rf-synds its stbtf witi tif propfrtifs of tif
+     * <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>.
+     * If <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>
+     * dofs not ibvf tiis propfrty sft, it will rfvfrt to fblsf.
      *
-     * @return the value of the cached
-     *     <code>strikeThrough</code> property
-     * @since 1.3
+     * @rfturn tif vbluf of tif dbdifd
+     *     <dodf>strikfTirougi</dodf> propfrty
+     * @sindf 1.3
      */
-    public boolean isStrikeThrough() {
-        sync();
-        return strike;
+    publid boolfbn isStrikfTirougi() {
+        synd();
+        rfturn strikf;
     }
 
     /**
-     * Determines if the glyphs should be rendered as superscript.
-     * @return the value of the cached subscript property
+     * Dftfrminfs if tif glypis siould bf rfndfrfd bs supfrsdript.
+     * @rfturn tif vbluf of tif dbdifd subsdript propfrty
      *
-     * <p>When you request this property, <code>LabelView</code>
-     * re-syncs its state with the properties of the
-     * <code>Element</code>'s <code>AttributeSet</code>.
-     * If <code>Element</code>'s <code>AttributeSet</code>
-     * does not have this property set, it will revert to false.
+     * <p>Wifn you rfqufst tiis propfrty, <dodf>LbbflVifw</dodf>
+     * rf-synds its stbtf witi tif propfrtifs of tif
+     * <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>.
+     * If <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>
+     * dofs not ibvf tiis propfrty sft, it will rfvfrt to fblsf.
      *
-     * @return the value of the cached
-     *     <code>subscript</code> property
-     * @since 1.3
+     * @rfturn tif vbluf of tif dbdifd
+     *     <dodf>subsdript</dodf> propfrty
+     * @sindf 1.3
      */
-    public boolean isSubscript() {
-        sync();
-        return subscript;
+    publid boolfbn isSubsdript() {
+        synd();
+        rfturn subsdript;
     }
 
     /**
-     * Determines if the glyphs should be rendered as subscript.
+     * Dftfrminfs if tif glypis siould bf rfndfrfd bs subsdript.
      *
-     * <p>When you request this property, <code>LabelView</code>
-     * re-syncs its state with the properties of the
-     * <code>Element</code>'s <code>AttributeSet</code>.
-     * If <code>Element</code>'s <code>AttributeSet</code>
-     * does not have this property set, it will revert to false.
+     * <p>Wifn you rfqufst tiis propfrty, <dodf>LbbflVifw</dodf>
+     * rf-synds its stbtf witi tif propfrtifs of tif
+     * <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>.
+     * If <dodf>Elfmfnt</dodf>'s <dodf>AttributfSft</dodf>
+     * dofs not ibvf tiis propfrty sft, it will rfvfrt to fblsf.
      *
-     * @return the value of the cached
-     *     <code>superscript</code> property
-     * @since 1.3
+     * @rfturn tif vbluf of tif dbdifd
+     *     <dodf>supfrsdript</dodf> propfrty
+     * @sindf 1.3
      */
-    public boolean isSuperscript() {
-        sync();
-        return superscript;
+    publid boolfbn isSupfrsdript() {
+        synd();
+        rfturn supfrsdript;
     }
 
-    // --- View methods ---------------------------------------------
+    // --- Vifw mftiods ---------------------------------------------
 
     /**
-     * Gives notification from the document that attributes were changed
-     * in a location that this view is responsible for.
+     * Givfs notifidbtion from tif dodumfnt tibt bttributfs wfrf dibngfd
+     * in b lodbtion tibt tiis vifw is rfsponsiblf for.
      *
-     * @param e the change information from the associated document
-     * @param a the current allocation of the view
-     * @param f the factory to use to rebuild if the view has children
-     * @see View#changedUpdate
+     * @pbrbm f tif dibngf informbtion from tif bssodibtfd dodumfnt
+     * @pbrbm b tif durrfnt bllodbtion of tif vifw
+     * @pbrbm f tif fbdtory to usf to rfbuild if tif vifw ibs diildrfn
+     * @sff Vifw#dibngfdUpdbtf
      */
-    public void changedUpdate(DocumentEvent e, Shape a, ViewFactory f) {
+    publid void dibngfdUpdbtf(DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
         font = null;
-        super.changedUpdate(e, a, f);
+        supfr.dibngfdUpdbtf(f, b, f);
     }
 
-    // --- variables ------------------------------------------------
+    // --- vbribblfs ------------------------------------------------
 
-    private Font font;
-    private Color fg;
-    private Color bg;
-    private boolean underline;
-    private boolean strike;
-    private boolean superscript;
-    private boolean subscript;
+    privbtf Font font;
+    privbtf Color fg;
+    privbtf Color bg;
+    privbtf boolfbn undfrlinf;
+    privbtf boolfbn strikf;
+    privbtf boolfbn supfrsdript;
+    privbtf boolfbn subsdript;
 
 }

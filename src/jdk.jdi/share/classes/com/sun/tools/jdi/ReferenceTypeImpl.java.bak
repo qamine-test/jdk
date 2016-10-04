@@ -1,1166 +1,1166 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
-import java.util.*;
-import java.lang.ref.SoftReference;
+import jbvb.util.*;
+import jbvb.lbng.rff.SoftRfffrfndf;
 
-public abstract class ReferenceTypeImpl extends TypeImpl
-implements ReferenceType {
-    protected long ref;
-    private String signature = null;
-    private String genericSignature = null;
-    private boolean genericSignatureGotten = false;
-    private String baseSourceName = null;
-    private String baseSourceDir = null;
-    private String baseSourcePath = null;
-    protected int modifiers = -1;
-    private SoftReference<List<Field>> fieldsRef = null;
-    private SoftReference<List<Method>> methodsRef = null;
-    private SoftReference<SDE> sdeRef = null;
+publid bbstrbdt dlbss RfffrfndfTypfImpl fxtfnds TypfImpl
+implfmfnts RfffrfndfTypf {
+    protfdtfd long rff;
+    privbtf String signbturf = null;
+    privbtf String gfnfridSignbturf = null;
+    privbtf boolfbn gfnfridSignbturfGottfn = fblsf;
+    privbtf String bbsfSourdfNbmf = null;
+    privbtf String bbsfSourdfDir = null;
+    privbtf String bbsfSourdfPbti = null;
+    protfdtfd int modififrs = -1;
+    privbtf SoftRfffrfndf<List<Fifld>> fifldsRff = null;
+    privbtf SoftRfffrfndf<List<Mftiod>> mftiodsRff = null;
+    privbtf SoftRfffrfndf<SDE> sdfRff = null;
 
-    private boolean isClassLoaderCached = false;
-    private ClassLoaderReference classLoader = null;
-    private ClassObjectReference classObject = null;
+    privbtf boolfbn isClbssLobdfrCbdifd = fblsf;
+    privbtf ClbssLobdfrRfffrfndf dlbssLobdfr = null;
+    privbtf ClbssObjfdtRfffrfndf dlbssObjfdt = null;
 
-    private int status = 0;
-    private boolean isPrepared = false;
-
-
-    private boolean versionNumberGotten = false;
-    private int majorVersion;
-    private int minorVersion;
-
-    private boolean constantPoolInfoGotten = false;
-    private int constanPoolCount;
-    private byte[] constantPoolBytes;
-    private SoftReference<byte[]> constantPoolBytesRef = null;
-
-    /* to mark a SourceFile request that returned a genuine JDWP.Error.ABSENT_INFORMATION */
-    private static final String ABSENT_BASE_SOURCE_NAME = "**ABSENT_BASE_SOURCE_NAME**";
-
-    /* to mark when no info available */
-    static final SDE NO_SDE_INFO_MARK = new SDE();
-
-    // bits set when initialization was attempted (succeeded or failed)
-    private static final int INITIALIZED_OR_FAILED =
-        JDWP.ClassStatus.INITIALIZED | JDWP.ClassStatus.ERROR;
+    privbtf int stbtus = 0;
+    privbtf boolfbn isPrfpbrfd = fblsf;
 
 
-    protected ReferenceTypeImpl(VirtualMachine aVm, long aRef) {
-        super(aVm);
-        ref = aRef;
-        genericSignatureGotten = false;
+    privbtf boolfbn vfrsionNumbfrGottfn = fblsf;
+    privbtf int mbjorVfrsion;
+    privbtf int minorVfrsion;
+
+    privbtf boolfbn donstbntPoolInfoGottfn = fblsf;
+    privbtf int donstbnPoolCount;
+    privbtf bytf[] donstbntPoolBytfs;
+    privbtf SoftRfffrfndf<bytf[]> donstbntPoolBytfsRff = null;
+
+    /* to mbrk b SourdfFilf rfqufst tibt rfturnfd b gfnuinf JDWP.Error.ABSENT_INFORMATION */
+    privbtf stbtid finbl String ABSENT_BASE_SOURCE_NAME = "**ABSENT_BASE_SOURCE_NAME**";
+
+    /* to mbrk wifn no info bvbilbblf */
+    stbtid finbl SDE NO_SDE_INFO_MARK = nfw SDE();
+
+    // bits sft wifn initiblizbtion wbs bttfmptfd (suddffdfd or fbilfd)
+    privbtf stbtid finbl int INITIALIZED_OR_FAILED =
+        JDWP.ClbssStbtus.INITIALIZED | JDWP.ClbssStbtus.ERROR;
+
+
+    protfdtfd RfffrfndfTypfImpl(VirtublMbdiinf bVm, long bRff) {
+        supfr(bVm);
+        rff = bRff;
+        gfnfridSignbturfGottfn = fblsf;
     }
 
-    void noticeRedefineClass() {
-        //Invalidate information previously fetched and cached.
-        //These will be refreshed later on demand.
-        baseSourceName = null;
-        baseSourcePath = null;
-        modifiers = -1;
-        fieldsRef = null;
-        methodsRef = null;
-        sdeRef = null;
-        versionNumberGotten = false;
-        constantPoolInfoGotten = false;
+    void notidfRfdffinfClbss() {
+        //Invblidbtf informbtion prfviously fftdifd bnd dbdifd.
+        //Tifsf will bf rffrfsifd lbtfr on dfmbnd.
+        bbsfSourdfNbmf = null;
+        bbsfSourdfPbti = null;
+        modififrs = -1;
+        fifldsRff = null;
+        mftiodsRff = null;
+        sdfRff = null;
+        vfrsionNumbfrGottfn = fblsf;
+        donstbntPoolInfoGottfn = fblsf;
     }
 
-    Method getMethodMirror(long ref) {
-        if (ref == 0) {
-            // obsolete method
-            return new ObsoleteMethodImpl(vm, this);
+    Mftiod gftMftiodMirror(long rff) {
+        if (rff == 0) {
+            // obsolftf mftiod
+            rfturn nfw ObsolftfMftiodImpl(vm, tiis);
         }
-        // Fetch all methods for the class, check performance impact
-        // Needs no synchronization now, since methods() returns
-        // unmodifiable local data
-        Iterator<Method> it = methods().iterator();
-        while (it.hasNext()) {
-            MethodImpl method = (MethodImpl)it.next();
-            if (method.ref() == ref) {
-                return method;
+        // Fftdi bll mftiods for tif dlbss, difdk pfrformbndf impbdt
+        // Nffds no syndironizbtion now, sindf mftiods() rfturns
+        // unmodifibblf lodbl dbtb
+        Itfrbtor<Mftiod> it = mftiods().itfrbtor();
+        wiilf (it.ibsNfxt()) {
+            MftiodImpl mftiod = (MftiodImpl)it.nfxt();
+            if (mftiod.rff() == rff) {
+                rfturn mftiod;
             }
         }
-        throw new IllegalArgumentException("Invalid method id: " + ref);
+        tirow nfw IllfgblArgumfntExdfption("Invblid mftiod id: " + rff);
     }
 
-    Field getFieldMirror(long ref) {
-        // Fetch all fields for the class, check performance impact
-        // Needs no synchronization now, since fields() returns
-        // unmodifiable local data
-        Iterator<Field>it = fields().iterator();
-        while (it.hasNext()) {
-            FieldImpl field = (FieldImpl)it.next();
-            if (field.ref() == ref) {
-                return field;
+    Fifld gftFifldMirror(long rff) {
+        // Fftdi bll fiflds for tif dlbss, difdk pfrformbndf impbdt
+        // Nffds no syndironizbtion now, sindf fiflds() rfturns
+        // unmodifibblf lodbl dbtb
+        Itfrbtor<Fifld>it = fiflds().itfrbtor();
+        wiilf (it.ibsNfxt()) {
+            FifldImpl fifld = (FifldImpl)it.nfxt();
+            if (fifld.rff() == rff) {
+                rfturn fifld;
             }
         }
-        throw new IllegalArgumentException("Invalid field id: " + ref);
+        tirow nfw IllfgblArgumfntExdfption("Invblid fifld id: " + rff);
     }
 
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof ReferenceTypeImpl)) {
-            ReferenceTypeImpl other = (ReferenceTypeImpl)obj;
-            return (ref() == other.ref()) &&
-                (vm.equals(other.virtualMachine()));
-        } else {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof RfffrfndfTypfImpl)) {
+            RfffrfndfTypfImpl otifr = (RfffrfndfTypfImpl)obj;
+            rfturn (rff() == otifr.rff()) &&
+                (vm.fqubls(otifr.virtublMbdiinf()));
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    public int hashCode() {
-        return(int)ref();
+    publid int ibsiCodf() {
+        rfturn(int)rff();
     }
 
-    public int compareTo(ReferenceType object) {
+    publid int dompbrfTo(RfffrfndfTypf objfdt) {
         /*
-         * Note that it is critical that compareTo() == 0
-         * implies that equals() == true. Otherwise, TreeSet
-         * will collapse classes.
+         * Notf tibt it is dritidbl tibt dompbrfTo() == 0
+         * implifs tibt fqubls() == truf. Otifrwisf, TrffSft
+         * will dollbpsf dlbssfs.
          *
-         * (Classes of the same name loaded by different class loaders
-         * or in different VMs must not return 0).
+         * (Clbssfs of tif sbmf nbmf lobdfd by difffrfnt dlbss lobdfrs
+         * or in difffrfnt VMs must not rfturn 0).
          */
-        ReferenceTypeImpl other = (ReferenceTypeImpl)object;
-        int comp = name().compareTo(other.name());
-        if (comp == 0) {
-            long rf1 = ref();
-            long rf2 = other.ref();
-            // optimize for typical case: refs equal and VMs equal
+        RfffrfndfTypfImpl otifr = (RfffrfndfTypfImpl)objfdt;
+        int domp = nbmf().dompbrfTo(otifr.nbmf());
+        if (domp == 0) {
+            long rf1 = rff();
+            long rf2 = otifr.rff();
+            // optimizf for typidbl dbsf: rffs fqubl bnd VMs fqubl
             if (rf1 == rf2) {
-                // sequenceNumbers are always positive
-                comp = vm.sequenceNumber -
-                 ((VirtualMachineImpl)(other.virtualMachine())).sequenceNumber;
-            } else {
-                comp = (rf1 < rf2)? -1 : 1;
+                // sfqufndfNumbfrs brf blwbys positivf
+                domp = vm.sfqufndfNumbfr -
+                 ((VirtublMbdiinfImpl)(otifr.virtublMbdiinf())).sfqufndfNumbfr;
+            } flsf {
+                domp = (rf1 < rf2)? -1 : 1;
             }
         }
-        return comp;
+        rfturn domp;
     }
 
-    public String signature() {
-        if (signature == null) {
-            // Does not need synchronization, since worst-case
-            // static info is fetched twice
-            if (vm.canGet1_5LanguageFeatures()) {
+    publid String signbturf() {
+        if (signbturf == null) {
+            // Dofs not nffd syndironizbtion, sindf worst-dbsf
+            // stbtid info is fftdifd twidf
+            if (vm.dbnGft1_5LbngubgfFfbturfs()) {
                 /*
-                 * we might as well get both the signature and the
-                 * generic signature.
+                 * wf migit bs wfll gft boti tif signbturf bnd tif
+                 * gfnfrid signbturf.
                  */
-                genericSignature();
-            } else {
+                gfnfridSignbturf();
+            } flsf {
                 try {
-                    signature = JDWP.ReferenceType.Signature.
-                        process(vm, this).signature;
-                } catch (JDWPException exc) {
-                    throw exc.toJDIException();
+                    signbturf = JDWP.RfffrfndfTypf.Signbturf.
+                        prodfss(vm, tiis).signbturf;
+                } dbtdi (JDWPExdfption fxd) {
+                    tirow fxd.toJDIExdfption();
                 }
             }
         }
-        return signature;
+        rfturn signbturf;
     }
 
-    public String genericSignature() {
-        // This gets both the signature and the generic signature
-        if (vm.canGet1_5LanguageFeatures() && !genericSignatureGotten) {
-            // Does not need synchronization, since worst-case
-            // static info is fetched twice
-            JDWP.ReferenceType.SignatureWithGeneric result;
+    publid String gfnfridSignbturf() {
+        // Tiis gfts boti tif signbturf bnd tif gfnfrid signbturf
+        if (vm.dbnGft1_5LbngubgfFfbturfs() && !gfnfridSignbturfGottfn) {
+            // Dofs not nffd syndironizbtion, sindf worst-dbsf
+            // stbtid info is fftdifd twidf
+            JDWP.RfffrfndfTypf.SignbturfWitiGfnfrid rfsult;
             try {
-                result = JDWP.ReferenceType.SignatureWithGeneric.
-                    process(vm, this);
-            } catch (JDWPException exc) {
-                throw exc.toJDIException();
+                rfsult = JDWP.RfffrfndfTypf.SignbturfWitiGfnfrid.
+                    prodfss(vm, tiis);
+            } dbtdi (JDWPExdfption fxd) {
+                tirow fxd.toJDIExdfption();
             }
-            signature = result.signature;
-            setGenericSignature(result.genericSignature);
+            signbturf = rfsult.signbturf;
+            sftGfnfridSignbturf(rfsult.gfnfridSignbturf);
         }
-        return genericSignature;
+        rfturn gfnfridSignbturf;
     }
 
-    public ClassLoaderReference classLoader() {
-        if (!isClassLoaderCached) {
-            // Does not need synchronization, since worst-case
-            // static info is fetched twice
+    publid ClbssLobdfrRfffrfndf dlbssLobdfr() {
+        if (!isClbssLobdfrCbdifd) {
+            // Dofs not nffd syndironizbtion, sindf worst-dbsf
+            // stbtid info is fftdifd twidf
             try {
-                classLoader = (ClassLoaderReference)
-                    JDWP.ReferenceType.ClassLoader.
-                    process(vm, this).classLoader;
-                isClassLoaderCached = true;
-            } catch (JDWPException exc) {
-                throw exc.toJDIException();
+                dlbssLobdfr = (ClbssLobdfrRfffrfndf)
+                    JDWP.RfffrfndfTypf.ClbssLobdfr.
+                    prodfss(vm, tiis).dlbssLobdfr;
+                isClbssLobdfrCbdifd = truf;
+            } dbtdi (JDWPExdfption fxd) {
+                tirow fxd.toJDIExdfption();
             }
         }
-        return classLoader;
+        rfturn dlbssLobdfr;
     }
 
-    public boolean isPublic() {
-        if (modifiers == -1)
-            getModifiers();
+    publid boolfbn isPublid() {
+        if (modififrs == -1)
+            gftModififrs();
 
-        return((modifiers & VMModifiers.PUBLIC) > 0);
+        rfturn((modififrs & VMModififrs.PUBLIC) > 0);
     }
 
-    public boolean isProtected() {
-        if (modifiers == -1)
-            getModifiers();
+    publid boolfbn isProtfdtfd() {
+        if (modififrs == -1)
+            gftModififrs();
 
-        return((modifiers & VMModifiers.PROTECTED) > 0);
+        rfturn((modififrs & VMModififrs.PROTECTED) > 0);
     }
 
-    public boolean isPrivate() {
-        if (modifiers == -1)
-            getModifiers();
+    publid boolfbn isPrivbtf() {
+        if (modififrs == -1)
+            gftModififrs();
 
-        return((modifiers & VMModifiers.PRIVATE) > 0);
+        rfturn((modififrs & VMModififrs.PRIVATE) > 0);
     }
 
-    public boolean isPackagePrivate() {
-        return !isPublic() && !isPrivate() && !isProtected();
+    publid boolfbn isPbdkbgfPrivbtf() {
+        rfturn !isPublid() && !isPrivbtf() && !isProtfdtfd();
     }
 
-    public boolean isAbstract() {
-        if (modifiers == -1)
-            getModifiers();
+    publid boolfbn isAbstrbdt() {
+        if (modififrs == -1)
+            gftModififrs();
 
-        return((modifiers & VMModifiers.ABSTRACT) > 0);
+        rfturn((modififrs & VMModififrs.ABSTRACT) > 0);
     }
 
-    public boolean isFinal() {
-        if (modifiers == -1)
-            getModifiers();
+    publid boolfbn isFinbl() {
+        if (modififrs == -1)
+            gftModififrs();
 
-        return((modifiers & VMModifiers.FINAL) > 0);
+        rfturn((modififrs & VMModififrs.FINAL) > 0);
     }
 
-    public boolean isStatic() {
-        if (modifiers == -1)
-            getModifiers();
+    publid boolfbn isStbtid() {
+        if (modififrs == -1)
+            gftModififrs();
 
-        return((modifiers & VMModifiers.STATIC) > 0);
+        rfturn((modififrs & VMModififrs.STATIC) > 0);
     }
 
-    public boolean isPrepared() {
-        // This ref type may have been prepared before we were getting
-        // events, so get it once.  After that,
-        // this status flag is updated through the ClassPrepareEvent,
-        // there is no need for the expense of a JDWP query.
-        if (status == 0) {
-            updateStatus();
+    publid boolfbn isPrfpbrfd() {
+        // Tiis rff typf mby ibvf bffn prfpbrfd bfforf wf wfrf gftting
+        // fvfnts, so gft it ondf.  Aftfr tibt,
+        // tiis stbtus flbg is updbtfd tirougi tif ClbssPrfpbrfEvfnt,
+        // tifrf is no nffd for tif fxpfnsf of b JDWP qufry.
+        if (stbtus == 0) {
+            updbtfStbtus();
         }
-        return isPrepared;
+        rfturn isPrfpbrfd;
     }
 
-    public boolean isVerified() {
-        // Once true, it never resets, so we don't need to update
-        if ((status & JDWP.ClassStatus.VERIFIED) == 0) {
-            updateStatus();
+    publid boolfbn isVfrififd() {
+        // Ondf truf, it nfvfr rfsfts, so wf don't nffd to updbtf
+        if ((stbtus & JDWP.ClbssStbtus.VERIFIED) == 0) {
+            updbtfStbtus();
         }
-        return (status & JDWP.ClassStatus.VERIFIED) != 0;
+        rfturn (stbtus & JDWP.ClbssStbtus.VERIFIED) != 0;
     }
 
-    public boolean isInitialized() {
-        // Once initialization succeeds or fails, it never resets,
-        // so we don't need to update
-        if ((status & INITIALIZED_OR_FAILED) == 0) {
-            updateStatus();
+    publid boolfbn isInitiblizfd() {
+        // Ondf initiblizbtion suddffds or fbils, it nfvfr rfsfts,
+        // so wf don't nffd to updbtf
+        if ((stbtus & INITIALIZED_OR_FAILED) == 0) {
+            updbtfStbtus();
         }
-        return (status & JDWP.ClassStatus.INITIALIZED) != 0;
+        rfturn (stbtus & JDWP.ClbssStbtus.INITIALIZED) != 0;
     }
 
-    public boolean failedToInitialize() {
-        // Once initialization succeeds or fails, it never resets,
-        // so we don't need to update
-        if ((status & INITIALIZED_OR_FAILED) == 0) {
-            updateStatus();
+    publid boolfbn fbilfdToInitiblizf() {
+        // Ondf initiblizbtion suddffds or fbils, it nfvfr rfsfts,
+        // so wf don't nffd to updbtf
+        if ((stbtus & INITIALIZED_OR_FAILED) == 0) {
+            updbtfStbtus();
         }
-        return (status & JDWP.ClassStatus.ERROR) != 0;
+        rfturn (stbtus & JDWP.ClbssStbtus.ERROR) != 0;
     }
 
-    public List<Field> fields() {
-        List<Field> fields = (fieldsRef == null) ? null : fieldsRef.get();
-        if (fields == null) {
-            if (vm.canGet1_5LanguageFeatures()) {
-                JDWP.ReferenceType.FieldsWithGeneric.FieldInfo[] jdwpFields;
+    publid List<Fifld> fiflds() {
+        List<Fifld> fiflds = (fifldsRff == null) ? null : fifldsRff.gft();
+        if (fiflds == null) {
+            if (vm.dbnGft1_5LbngubgfFfbturfs()) {
+                JDWP.RfffrfndfTypf.FifldsWitiGfnfrid.FifldInfo[] jdwpFiflds;
                 try {
-                    jdwpFields = JDWP.ReferenceType.FieldsWithGeneric.process(vm, this).declared;
-                } catch (JDWPException exc) {
-                    throw exc.toJDIException();
+                    jdwpFiflds = JDWP.RfffrfndfTypf.FifldsWitiGfnfrid.prodfss(vm, tiis).dfdlbrfd;
+                } dbtdi (JDWPExdfption fxd) {
+                    tirow fxd.toJDIExdfption();
                 }
-                fields = new ArrayList<Field>(jdwpFields.length);
-                for (int i=0; i<jdwpFields.length; i++) {
-                    JDWP.ReferenceType.FieldsWithGeneric.FieldInfo fi
-                        = jdwpFields[i];
+                fiflds = nfw ArrbyList<Fifld>(jdwpFiflds.lfngti);
+                for (int i=0; i<jdwpFiflds.lfngti; i++) {
+                    JDWP.RfffrfndfTypf.FifldsWitiGfnfrid.FifldInfo fi
+                        = jdwpFiflds[i];
 
-                    Field field = new FieldImpl(vm, this, fi.fieldID,
-                                                fi.name, fi.signature,
-                                                fi.genericSignature,
+                    Fifld fifld = nfw FifldImpl(vm, tiis, fi.fifldID,
+                                                fi.nbmf, fi.signbturf,
+                                                fi.gfnfridSignbturf,
                                                 fi.modBits);
-                    fields.add(field);
+                    fiflds.bdd(fifld);
                 }
-            } else {
-                JDWP.ReferenceType.Fields.FieldInfo[] jdwpFields;
+            } flsf {
+                JDWP.RfffrfndfTypf.Fiflds.FifldInfo[] jdwpFiflds;
                 try {
-                    jdwpFields = JDWP.ReferenceType.Fields.
-                        process(vm, this).declared;
-                } catch (JDWPException exc) {
-                    throw exc.toJDIException();
+                    jdwpFiflds = JDWP.RfffrfndfTypf.Fiflds.
+                        prodfss(vm, tiis).dfdlbrfd;
+                } dbtdi (JDWPExdfption fxd) {
+                    tirow fxd.toJDIExdfption();
                 }
-                fields = new ArrayList<Field>(jdwpFields.length);
-                for (int i=0; i<jdwpFields.length; i++) {
-                    JDWP.ReferenceType.Fields.FieldInfo fi = jdwpFields[i];
+                fiflds = nfw ArrbyList<Fifld>(jdwpFiflds.lfngti);
+                for (int i=0; i<jdwpFiflds.lfngti; i++) {
+                    JDWP.RfffrfndfTypf.Fiflds.FifldInfo fi = jdwpFiflds[i];
 
-                    Field field = new FieldImpl(vm, this, fi.fieldID,
-                                            fi.name, fi.signature,
+                    Fifld fifld = nfw FifldImpl(vm, tiis, fi.fifldID,
+                                            fi.nbmf, fi.signbturf,
                                             null,
                                             fi.modBits);
-                    fields.add(field);
+                    fiflds.bdd(fifld);
                 }
             }
 
-            fields = Collections.unmodifiableList(fields);
-            fieldsRef = new SoftReference<List<Field>>(fields);
+            fiflds = Collfdtions.unmodifibblfList(fiflds);
+            fifldsRff = nfw SoftRfffrfndf<List<Fifld>>(fiflds);
         }
-        return fields;
+        rfturn fiflds;
     }
 
-    abstract List<? extends ReferenceType> inheritedTypes();
+    bbstrbdt List<? fxtfnds RfffrfndfTypf> inifritfdTypfs();
 
-    void addVisibleFields(List<Field> visibleList, Map<String, Field> visibleTable, List<String> ambiguousNames) {
-        for (Field field : visibleFields()) {
-            String name = field.name();
-            if (!ambiguousNames.contains(name)) {
-                Field duplicate = visibleTable.get(name);
-                if (duplicate == null) {
-                    visibleList.add(field);
-                    visibleTable.put(name, field);
-                } else if (!field.equals(duplicate)) {
-                    ambiguousNames.add(name);
-                    visibleTable.remove(name);
-                    visibleList.remove(duplicate);
-                } else {
-                    // identical field from two branches; do nothing
+    void bddVisiblfFiflds(List<Fifld> visiblfList, Mbp<String, Fifld> visiblfTbblf, List<String> bmbiguousNbmfs) {
+        for (Fifld fifld : visiblfFiflds()) {
+            String nbmf = fifld.nbmf();
+            if (!bmbiguousNbmfs.dontbins(nbmf)) {
+                Fifld duplidbtf = visiblfTbblf.gft(nbmf);
+                if (duplidbtf == null) {
+                    visiblfList.bdd(fifld);
+                    visiblfTbblf.put(nbmf, fifld);
+                } flsf if (!fifld.fqubls(duplidbtf)) {
+                    bmbiguousNbmfs.bdd(nbmf);
+                    visiblfTbblf.rfmovf(nbmf);
+                    visiblfList.rfmovf(duplidbtf);
+                } flsf {
+                    // idfntidbl fifld from two brbndifs; do notiing
                 }
             }
         }
     }
 
-    public List<Field> visibleFields() {
+    publid List<Fifld> visiblfFiflds() {
         /*
-         * Maintain two different collections of visible fields. The
-         * list maintains a reasonable order for return. The
-         * hash map provides an efficient way to lookup visible fields
-         * by name, important for finding hidden or ambiguous fields.
+         * Mbintbin two difffrfnt dollfdtions of visiblf fiflds. Tif
+         * list mbintbins b rfbsonbblf ordfr for rfturn. Tif
+         * ibsi mbp providfs bn fffidifnt wby to lookup visiblf fiflds
+         * by nbmf, importbnt for finding iiddfn or bmbiguous fiflds.
          */
-        List<Field> visibleList = new ArrayList<Field>();
-        Map<String, Field>  visibleTable = new HashMap<String, Field>();
+        List<Fifld> visiblfList = nfw ArrbyList<Fifld>();
+        Mbp<String, Fifld>  visiblfTbblf = nfw HbsiMbp<String, Fifld>();
 
-        /* Track fields removed from above collection due to ambiguity */
-        List<String> ambiguousNames = new ArrayList<String>();
+        /* Trbdk fiflds rfmovfd from bbovf dollfdtion duf to bmbiguity */
+        List<String> bmbiguousNbmfs = nfw ArrbyList<String>();
 
-        /* Add inherited, visible fields */
-        List<? extends ReferenceType> types = inheritedTypes();
-        Iterator<? extends ReferenceType> iter = types.iterator();
-        while (iter.hasNext()) {
+        /* Add inifritfd, visiblf fiflds */
+        List<? fxtfnds RfffrfndfTypf> typfs = inifritfdTypfs();
+        Itfrbtor<? fxtfnds RfffrfndfTypf> itfr = typfs.itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
             /*
-             * TO DO: Be defensive and check for cyclic interface inheritance
+             * TO DO: Bf dfffnsivf bnd difdk for dydlid intfrfbdf inifritbndf
              */
-            ReferenceTypeImpl type = (ReferenceTypeImpl)iter.next();
-            type.addVisibleFields(visibleList, visibleTable, ambiguousNames);
+            RfffrfndfTypfImpl typf = (RfffrfndfTypfImpl)itfr.nfxt();
+            typf.bddVisiblfFiflds(visiblfList, visiblfTbblf, bmbiguousNbmfs);
         }
 
         /*
-         * Insert fields from this type, removing any inherited fields they
-         * hide.
+         * Insfrt fiflds from tiis typf, rfmoving bny inifritfd fiflds tify
+         * iidf.
          */
-        List<Field> retList = new ArrayList<Field>(fields());
-        for (Field field : retList) {
-            Field hidden = visibleTable.get(field.name());
-            if (hidden != null) {
-                visibleList.remove(hidden);
+        List<Fifld> rftList = nfw ArrbyList<Fifld>(fiflds());
+        for (Fifld fifld : rftList) {
+            Fifld iiddfn = visiblfTbblf.gft(fifld.nbmf());
+            if (iiddfn != null) {
+                visiblfList.rfmovf(iiddfn);
             }
         }
-        retList.addAll(visibleList);
-        return retList;
+        rftList.bddAll(visiblfList);
+        rfturn rftList;
     }
 
-    void addAllFields(List<Field> fieldList, Set<ReferenceType> typeSet) {
-        /* Continue the recursion only if this type is new */
-        if (!typeSet.contains(this)) {
-            typeSet.add((ReferenceType)this);
+    void bddAllFiflds(List<Fifld> fifldList, Sft<RfffrfndfTypf> typfSft) {
+        /* Continuf tif rfdursion only if tiis typf is nfw */
+        if (!typfSft.dontbins(tiis)) {
+            typfSft.bdd((RfffrfndfTypf)tiis);
 
-            /* Add local fields */
-            fieldList.addAll(fields());
+            /* Add lodbl fiflds */
+            fifldList.bddAll(fiflds());
 
-            /* Add inherited fields */
-            List<? extends ReferenceType> types = inheritedTypes();
-            Iterator<? extends ReferenceType> iter = types.iterator();
-            while (iter.hasNext()) {
-                ReferenceTypeImpl type = (ReferenceTypeImpl)iter.next();
-                type.addAllFields(fieldList, typeSet);
+            /* Add inifritfd fiflds */
+            List<? fxtfnds RfffrfndfTypf> typfs = inifritfdTypfs();
+            Itfrbtor<? fxtfnds RfffrfndfTypf> itfr = typfs.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                RfffrfndfTypfImpl typf = (RfffrfndfTypfImpl)itfr.nfxt();
+                typf.bddAllFiflds(fifldList, typfSft);
             }
         }
     }
-    public List<Field> allFields() {
-        List<Field> fieldList = new ArrayList<Field>();
-        Set<ReferenceType> typeSet = new HashSet<ReferenceType>();
-        addAllFields(fieldList, typeSet);
-        return fieldList;
+    publid List<Fifld> bllFiflds() {
+        List<Fifld> fifldList = nfw ArrbyList<Fifld>();
+        Sft<RfffrfndfTypf> typfSft = nfw HbsiSft<RfffrfndfTypf>();
+        bddAllFiflds(fifldList, typfSft);
+        rfturn fifldList;
     }
 
-    public Field fieldByName(String fieldName) {
-        List<Field> searchList = visibleFields();
+    publid Fifld fifldByNbmf(String fifldNbmf) {
+        List<Fifld> sfbrdiList = visiblfFiflds();
 
-        for (int i=0; i<searchList.size(); i++) {
-            Field f = searchList.get(i);
+        for (int i=0; i<sfbrdiList.sizf(); i++) {
+            Fifld f = sfbrdiList.gft(i);
 
-            if (f.name().equals(fieldName)) {
-                return f;
+            if (f.nbmf().fqubls(fifldNbmf)) {
+                rfturn f;
             }
         }
-        //throw new NoSuchFieldException("Field '" + fieldName + "' not found in " + name());
-        return null;
+        //tirow nfw NoSudiFifldExdfption("Fifld '" + fifldNbmf + "' not found in " + nbmf());
+        rfturn null;
     }
 
-    public List<Method> methods() {
-        List<Method> methods = (methodsRef == null) ? null : methodsRef.get();
-        if (methods == null) {
-            if (!vm.canGet1_5LanguageFeatures()) {
-                methods = methods1_4();
-            } else {
-                JDWP.ReferenceType.MethodsWithGeneric.MethodInfo[] declared;
+    publid List<Mftiod> mftiods() {
+        List<Mftiod> mftiods = (mftiodsRff == null) ? null : mftiodsRff.gft();
+        if (mftiods == null) {
+            if (!vm.dbnGft1_5LbngubgfFfbturfs()) {
+                mftiods = mftiods1_4();
+            } flsf {
+                JDWP.RfffrfndfTypf.MftiodsWitiGfnfrid.MftiodInfo[] dfdlbrfd;
                 try {
-                    declared = JDWP.ReferenceType.MethodsWithGeneric.
-                        process(vm, this).declared;
-                } catch (JDWPException exc) {
-                    throw exc.toJDIException();
+                    dfdlbrfd = JDWP.RfffrfndfTypf.MftiodsWitiGfnfrid.
+                        prodfss(vm, tiis).dfdlbrfd;
+                } dbtdi (JDWPExdfption fxd) {
+                    tirow fxd.toJDIExdfption();
                 }
-                methods = new ArrayList<Method>(declared.length);
-                for (int i=0; i<declared.length; i++) {
-                    JDWP.ReferenceType.MethodsWithGeneric.MethodInfo
-                        mi = declared[i];
+                mftiods = nfw ArrbyList<Mftiod>(dfdlbrfd.lfngti);
+                for (int i=0; i<dfdlbrfd.lfngti; i++) {
+                    JDWP.RfffrfndfTypf.MftiodsWitiGfnfrid.MftiodInfo
+                        mi = dfdlbrfd[i];
 
-                    Method method = MethodImpl.createMethodImpl(vm, this,
-                                                         mi.methodID,
-                                                         mi.name, mi.signature,
-                                                         mi.genericSignature,
+                    Mftiod mftiod = MftiodImpl.drfbtfMftiodImpl(vm, tiis,
+                                                         mi.mftiodID,
+                                                         mi.nbmf, mi.signbturf,
+                                                         mi.gfnfridSignbturf,
                                                          mi.modBits);
-                    methods.add(method);
+                    mftiods.bdd(mftiod);
                 }
             }
-            methods = Collections.unmodifiableList(methods);
-            methodsRef = new SoftReference<List<Method>>(methods);
+            mftiods = Collfdtions.unmodifibblfList(mftiods);
+            mftiodsRff = nfw SoftRfffrfndf<List<Mftiod>>(mftiods);
         }
-        return methods;
+        rfturn mftiods;
     }
 
-    private List<Method> methods1_4() {
-        List<Method> methods;
-        JDWP.ReferenceType.Methods.MethodInfo[] declared;
+    privbtf List<Mftiod> mftiods1_4() {
+        List<Mftiod> mftiods;
+        JDWP.RfffrfndfTypf.Mftiods.MftiodInfo[] dfdlbrfd;
         try {
-            declared = JDWP.ReferenceType.Methods.
-                process(vm, this).declared;
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+            dfdlbrfd = JDWP.RfffrfndfTypf.Mftiods.
+                prodfss(vm, tiis).dfdlbrfd;
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
-        methods = new ArrayList<Method>(declared.length);
-        for (int i=0; i<declared.length; i++) {
-            JDWP.ReferenceType.Methods.MethodInfo mi = declared[i];
+        mftiods = nfw ArrbyList<Mftiod>(dfdlbrfd.lfngti);
+        for (int i=0; i<dfdlbrfd.lfngti; i++) {
+            JDWP.RfffrfndfTypf.Mftiods.MftiodInfo mi = dfdlbrfd[i];
 
-            Method method = MethodImpl.createMethodImpl(vm, this,
-                                                        mi.methodID,
-                                                        mi.name, mi.signature,
+            Mftiod mftiod = MftiodImpl.drfbtfMftiodImpl(vm, tiis,
+                                                        mi.mftiodID,
+                                                        mi.nbmf, mi.signbturf,
                                                         null,
                                                         mi.modBits);
-            methods.add(method);
+            mftiods.bdd(mftiod);
         }
-        return methods;
+        rfturn mftiods;
     }
 
     /*
-     * Utility method used by subclasses to build lists of visible
-     * methods.
+     * Utility mftiod usfd by subdlbssfs to build lists of visiblf
+     * mftiods.
      */
-    void addToMethodMap(Map<String, Method> methodMap, List<Method> methodList) {
-        for (Method method : methodList)
-            methodMap.put(method.name().concat(method.signature()), method);
+    void bddToMftiodMbp(Mbp<String, Mftiod> mftiodMbp, List<Mftiod> mftiodList) {
+        for (Mftiod mftiod : mftiodList)
+            mftiodMbp.put(mftiod.nbmf().dondbt(mftiod.signbturf()), mftiod);
         }
 
-    abstract void addVisibleMethods(Map<String, Method> methodMap, Set<InterfaceType> seenInterfaces);
+    bbstrbdt void bddVisiblfMftiods(Mbp<String, Mftiod> mftiodMbp, Sft<IntfrfbdfTypf> sffnIntfrfbdfs);
 
-    public List<Method> visibleMethods() {
+    publid List<Mftiod> visiblfMftiods() {
         /*
-         * Build a collection of all visible methods. The hash
-         * map allows us to do this efficiently by keying on the
-         * concatenation of name and signature.
+         * Build b dollfdtion of bll visiblf mftiods. Tif ibsi
+         * mbp bllows us to do tiis fffidifntly by kfying on tif
+         * dondbtfnbtion of nbmf bnd signbturf.
          */
-        Map<String, Method> map = new HashMap<String, Method>();
-        addVisibleMethods(map, new HashSet<InterfaceType>());
+        Mbp<String, Mftiod> mbp = nfw HbsiMbp<String, Mftiod>();
+        bddVisiblfMftiods(mbp, nfw HbsiSft<IntfrfbdfTypf>());
 
         /*
-         * ... but the hash map destroys order. Methods should be
-         * returned in a sensible order, as they are in allMethods().
-         * So, start over with allMethods() and use the hash map
-         * to filter that ordered collection.
+         * ... but tif ibsi mbp dfstroys ordfr. Mftiods siould bf
+         * rfturnfd in b sfnsiblf ordfr, bs tify brf in bllMftiods().
+         * So, stbrt ovfr witi bllMftiods() bnd usf tif ibsi mbp
+         * to filtfr tibt ordfrfd dollfdtion.
          */
-        List<Method> list = allMethods();
-        list.retainAll(new HashSet<Method>(map.values()));
-        return list;
+        List<Mftiod> list = bllMftiods();
+        list.rftbinAll(nfw HbsiSft<Mftiod>(mbp.vblufs()));
+        rfturn list;
     }
 
-    abstract public List<Method> allMethods();
+    bbstrbdt publid List<Mftiod> bllMftiods();
 
-    public List<Method> methodsByName(String name) {
-        List<Method> methods = visibleMethods();
-        ArrayList<Method> retList = new ArrayList<Method>(methods.size());
-        for (Method candidate : methods) {
-            if (candidate.name().equals(name)) {
-                retList.add(candidate);
+    publid List<Mftiod> mftiodsByNbmf(String nbmf) {
+        List<Mftiod> mftiods = visiblfMftiods();
+        ArrbyList<Mftiod> rftList = nfw ArrbyList<Mftiod>(mftiods.sizf());
+        for (Mftiod dbndidbtf : mftiods) {
+            if (dbndidbtf.nbmf().fqubls(nbmf)) {
+                rftList.bdd(dbndidbtf);
             }
         }
-        retList.trimToSize();
-        return retList;
+        rftList.trimToSizf();
+        rfturn rftList;
     }
 
-    public List<Method> methodsByName(String name, String signature) {
-        List<Method> methods = visibleMethods();
-        ArrayList<Method> retList = new ArrayList<Method>(methods.size());
-        for (Method candidate : methods) {
-            if (candidate.name().equals(name) &&
-                candidate.signature().equals(signature)) {
-                retList.add(candidate);
+    publid List<Mftiod> mftiodsByNbmf(String nbmf, String signbturf) {
+        List<Mftiod> mftiods = visiblfMftiods();
+        ArrbyList<Mftiod> rftList = nfw ArrbyList<Mftiod>(mftiods.sizf());
+        for (Mftiod dbndidbtf : mftiods) {
+            if (dbndidbtf.nbmf().fqubls(nbmf) &&
+                dbndidbtf.signbturf().fqubls(signbturf)) {
+                rftList.bdd(dbndidbtf);
             }
         }
-        retList.trimToSize();
-        return retList;
+        rftList.trimToSizf();
+        rfturn rftList;
     }
 
-    List<InterfaceType> getInterfaces() {
-        InterfaceTypeImpl[] intfs;
+    List<IntfrfbdfTypf> gftIntfrfbdfs() {
+        IntfrfbdfTypfImpl[] intfs;
         try {
-            intfs = JDWP.ReferenceType.Interfaces.
-                                         process(vm, this).interfaces;
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+            intfs = JDWP.RfffrfndfTypf.Intfrfbdfs.
+                                         prodfss(vm, tiis).intfrfbdfs;
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
-        return Arrays.asList((InterfaceType[])intfs);
+        rfturn Arrbys.bsList((IntfrfbdfTypf[])intfs);
     }
 
-    public List<ReferenceType> nestedTypes() {
-        List<ReferenceType> all = vm.allClasses();
-        List<ReferenceType> nested = new ArrayList<ReferenceType>();
-        String outername = name();
-        int outerlen = outername.length();
-        Iterator<ReferenceType> iter = all.iterator();
-        while (iter.hasNext()) {
-            ReferenceType refType = iter.next();
-            String name = refType.name();
-            int len = name.length();
-            /* The separator is historically '$' but could also be '#' */
-            if ( len > outerlen && name.startsWith(outername) ) {
-                char c = name.charAt(outerlen);
-                if ( c =='$' || c== '#' ) {
-                    nested.add(refType);
+    publid List<RfffrfndfTypf> nfstfdTypfs() {
+        List<RfffrfndfTypf> bll = vm.bllClbssfs();
+        List<RfffrfndfTypf> nfstfd = nfw ArrbyList<RfffrfndfTypf>();
+        String outfrnbmf = nbmf();
+        int outfrlfn = outfrnbmf.lfngti();
+        Itfrbtor<RfffrfndfTypf> itfr = bll.itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            RfffrfndfTypf rffTypf = itfr.nfxt();
+            String nbmf = rffTypf.nbmf();
+            int lfn = nbmf.lfngti();
+            /* Tif sfpbrbtor is iistoridblly '$' but dould blso bf '#' */
+            if ( lfn > outfrlfn && nbmf.stbrtsWiti(outfrnbmf) ) {
+                dibr d = nbmf.dibrAt(outfrlfn);
+                if ( d =='$' || d== '#' ) {
+                    nfstfd.bdd(rffTypf);
                 }
             }
         }
-        return nested;
+        rfturn nfstfd;
     }
 
-    public Value getValue(Field sig) {
-        List<Field> list = new ArrayList<Field>(1);
-        list.add(sig);
-        Map<Field, Value> map = getValues(list);
-        return map.get(sig);
+    publid Vbluf gftVbluf(Fifld sig) {
+        List<Fifld> list = nfw ArrbyList<Fifld>(1);
+        list.bdd(sig);
+        Mbp<Fifld, Vbluf> mbp = gftVblufs(list);
+        rfturn mbp.gft(sig);
     }
 
 
-    void validateFieldAccess(Field field) {
+    void vblidbtfFifldAddfss(Fifld fifld) {
         /*
-         * Field must be in this object's class, a superclass, or
-         * implemented interface
+         * Fifld must bf in tiis objfdt's dlbss, b supfrdlbss, or
+         * implfmfntfd intfrfbdf
          */
-        ReferenceTypeImpl declType = (ReferenceTypeImpl)field.declaringType();
-        if (!declType.isAssignableFrom(this)) {
-            throw new IllegalArgumentException("Invalid field");
+        RfffrfndfTypfImpl dfdlTypf = (RfffrfndfTypfImpl)fifld.dfdlbringTypf();
+        if (!dfdlTypf.isAssignbblfFrom(tiis)) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid fifld");
         }
     }
 
-    void validateFieldSet(Field field) {
-        validateFieldAccess(field);
-        if (field.isFinal()) {
-            throw new IllegalArgumentException("Cannot set value of final field");
+    void vblidbtfFifldSft(Fifld fifld) {
+        vblidbtfFifldAddfss(fifld);
+        if (fifld.isFinbl()) {
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot sft vbluf of finbl fifld");
         }
     }
 
     /**
-     * Returns a map of field values
+     * Rfturns b mbp of fifld vblufs
      */
-    public Map<Field,Value> getValues(List<? extends Field> theFields) {
-        validateMirrors(theFields);
+    publid Mbp<Fifld,Vbluf> gftVblufs(List<? fxtfnds Fifld> tifFiflds) {
+        vblidbtfMirrors(tifFiflds);
 
-        int size = theFields.size();
-        JDWP.ReferenceType.GetValues.Field[] queryFields =
-                         new JDWP.ReferenceType.GetValues.Field[size];
+        int sizf = tifFiflds.sizf();
+        JDWP.RfffrfndfTypf.GftVblufs.Fifld[] qufryFiflds =
+                         nfw JDWP.RfffrfndfTypf.GftVblufs.Fifld[sizf];
 
-        for (int i=0; i<size; i++) {
-            FieldImpl field = (FieldImpl)theFields.get(i);
+        for (int i=0; i<sizf; i++) {
+            FifldImpl fifld = (FifldImpl)tifFiflds.gft(i);
 
-            validateFieldAccess(field);
+            vblidbtfFifldAddfss(fifld);
 
-            // Do more validation specific to ReferenceType field getting
-            if (!field.isStatic()) {
-                throw new IllegalArgumentException(
-                     "Attempt to use non-static field with ReferenceType");
+            // Do morf vblidbtion spfdifid to RfffrfndfTypf fifld gftting
+            if (!fifld.isStbtid()) {
+                tirow nfw IllfgblArgumfntExdfption(
+                     "Attfmpt to usf non-stbtid fifld witi RfffrfndfTypf");
             }
-            queryFields[i] = new JDWP.ReferenceType.GetValues.Field(
-                                         field.ref());
+            qufryFiflds[i] = nfw JDWP.RfffrfndfTypf.GftVblufs.Fifld(
+                                         fifld.rff());
         }
 
-        Map<Field, Value> map = new HashMap<Field, Value>(size);
+        Mbp<Fifld, Vbluf> mbp = nfw HbsiMbp<Fifld, Vbluf>(sizf);
 
-        ValueImpl[] values;
+        VblufImpl[] vblufs;
         try {
-            values = JDWP.ReferenceType.GetValues.
-                                     process(vm, this, queryFields).values;
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+            vblufs = JDWP.RfffrfndfTypf.GftVblufs.
+                                     prodfss(vm, tiis, qufryFiflds).vblufs;
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
 
-        if (size != values.length) {
-            throw new InternalException(
-                         "Wrong number of values returned from target VM");
+        if (sizf != vblufs.lfngti) {
+            tirow nfw IntfrnblExdfption(
+                         "Wrong numbfr of vblufs rfturnfd from tbrgft VM");
         }
-        for (int i=0; i<size; i++) {
-            FieldImpl field = (FieldImpl)theFields.get(i);
-            map.put(field, values[i]);
+        for (int i=0; i<sizf; i++) {
+            FifldImpl fifld = (FifldImpl)tifFiflds.gft(i);
+            mbp.put(fifld, vblufs[i]);
         }
 
-        return map;
+        rfturn mbp;
     }
 
-    public ClassObjectReference classObject() {
-        if (classObject == null) {
-            // Are classObjects unique for an Object, or
-            // created each time? Is this spec'ed?
-            synchronized(this) {
-                if (classObject == null) {
+    publid ClbssObjfdtRfffrfndf dlbssObjfdt() {
+        if (dlbssObjfdt == null) {
+            // Arf dlbssObjfdts uniquf for bn Objfdt, or
+            // drfbtfd fbdi timf? Is tiis spfd'fd?
+            syndironizfd(tiis) {
+                if (dlbssObjfdt == null) {
                     try {
-                        classObject = JDWP.ReferenceType.ClassObject.
-                            process(vm, this).classObject;
-                    } catch (JDWPException exc) {
-                        throw exc.toJDIException();
+                        dlbssObjfdt = JDWP.RfffrfndfTypf.ClbssObjfdt.
+                            prodfss(vm, tiis).dlbssObjfdt;
+                    } dbtdi (JDWPExdfption fxd) {
+                        tirow fxd.toJDIExdfption();
                     }
                 }
             }
         }
-        return classObject;
+        rfturn dlbssObjfdt;
     }
 
-    SDE.Stratum stratum(String stratumID) {
-        SDE sde = sourceDebugExtensionInfo();
-        if (!sde.isValid()) {
-            sde = NO_SDE_INFO_MARK;
+    SDE.Strbtum strbtum(String strbtumID) {
+        SDE sdf = sourdfDfbugExtfnsionInfo();
+        if (!sdf.isVblid()) {
+            sdf = NO_SDE_INFO_MARK;
         }
-        return sde.stratum(stratumID);
+        rfturn sdf.strbtum(strbtumID);
     }
 
-    public String sourceName() throws AbsentInformationException {
-        return sourceNames(vm.getDefaultStratum()).get(0);
+    publid String sourdfNbmf() tirows AbsfntInformbtionExdfption {
+        rfturn sourdfNbmfs(vm.gftDffbultStrbtum()).gft(0);
     }
 
-    public List<String> sourceNames(String stratumID)
-                                throws AbsentInformationException {
-        SDE.Stratum stratum = stratum(stratumID);
-        if (stratum.isJava()) {
-            List<String> result = new ArrayList<String>(1);
-            result.add(baseSourceName());
-            return result;
+    publid List<String> sourdfNbmfs(String strbtumID)
+                                tirows AbsfntInformbtionExdfption {
+        SDE.Strbtum strbtum = strbtum(strbtumID);
+        if (strbtum.isJbvb()) {
+            List<String> rfsult = nfw ArrbyList<String>(1);
+            rfsult.bdd(bbsfSourdfNbmf());
+            rfturn rfsult;
         }
-        return stratum.sourceNames(this);
+        rfturn strbtum.sourdfNbmfs(tiis);
     }
 
-    public List<String> sourcePaths(String stratumID)
-                                throws AbsentInformationException {
-        SDE.Stratum stratum = stratum(stratumID);
-        if (stratum.isJava()) {
-            List<String> result = new ArrayList<String>(1);
-            result.add(baseSourceDir() + baseSourceName());
-            return result;
+    publid List<String> sourdfPbtis(String strbtumID)
+                                tirows AbsfntInformbtionExdfption {
+        SDE.Strbtum strbtum = strbtum(strbtumID);
+        if (strbtum.isJbvb()) {
+            List<String> rfsult = nfw ArrbyList<String>(1);
+            rfsult.bdd(bbsfSourdfDir() + bbsfSourdfNbmf());
+            rfturn rfsult;
         }
-        return stratum.sourcePaths(this);
+        rfturn strbtum.sourdfPbtis(tiis);
     }
 
-    String baseSourceName() throws AbsentInformationException {
-        String bsn = baseSourceName;
+    String bbsfSourdfNbmf() tirows AbsfntInformbtionExdfption {
+        String bsn = bbsfSourdfNbmf;
         if (bsn == null) {
-            // Does not need synchronization, since worst-case
-            // static info is fetched twice
+            // Dofs not nffd syndironizbtion, sindf worst-dbsf
+            // stbtid info is fftdifd twidf
             try {
-                bsn = JDWP.ReferenceType.SourceFile.
-                    process(vm, this).sourceFile;
-            } catch (JDWPException exc) {
-                if (exc.errorCode() == JDWP.Error.ABSENT_INFORMATION) {
+                bsn = JDWP.RfffrfndfTypf.SourdfFilf.
+                    prodfss(vm, tiis).sourdfFilf;
+            } dbtdi (JDWPExdfption fxd) {
+                if (fxd.frrorCodf() == JDWP.Error.ABSENT_INFORMATION) {
                     bsn = ABSENT_BASE_SOURCE_NAME;
-                } else {
-                    throw exc.toJDIException();
+                } flsf {
+                    tirow fxd.toJDIExdfption();
                 }
             }
-            baseSourceName = bsn;
+            bbsfSourdfNbmf = bsn;
         }
         if (bsn == ABSENT_BASE_SOURCE_NAME) {
-            throw new AbsentInformationException();
+            tirow nfw AbsfntInformbtionExdfption();
         }
-        return bsn;
+        rfturn bsn;
     }
 
-    String baseSourcePath() throws AbsentInformationException {
-        String bsp = baseSourcePath;
+    String bbsfSourdfPbti() tirows AbsfntInformbtionExdfption {
+        String bsp = bbsfSourdfPbti;
         if (bsp == null) {
-            bsp = baseSourceDir() + baseSourceName();
-            baseSourcePath = bsp;
+            bsp = bbsfSourdfDir() + bbsfSourdfNbmf();
+            bbsfSourdfPbti = bsp;
         }
-        return bsp;
+        rfturn bsp;
     }
 
-    String baseSourceDir() {
-        if (baseSourceDir == null) {
-            String typeName = name();
-            StringBuilder sb = new StringBuilder(typeName.length() + 10);
-            int index = 0;
-            int nextIndex;
+    String bbsfSourdfDir() {
+        if (bbsfSourdfDir == null) {
+            String typfNbmf = nbmf();
+            StringBuildfr sb = nfw StringBuildfr(typfNbmf.lfngti() + 10);
+            int indfx = 0;
+            int nfxtIndfx;
 
-            while ((nextIndex = typeName.indexOf('.', index)) > 0) {
-                sb.append(typeName.substring(index, nextIndex));
-                sb.append(java.io.File.separatorChar);
-                index = nextIndex + 1;
+            wiilf ((nfxtIndfx = typfNbmf.indfxOf('.', indfx)) > 0) {
+                sb.bppfnd(typfNbmf.substring(indfx, nfxtIndfx));
+                sb.bppfnd(jbvb.io.Filf.sfpbrbtorCibr);
+                indfx = nfxtIndfx + 1;
             }
-            baseSourceDir = sb.toString();
+            bbsfSourdfDir = sb.toString();
         }
-        return baseSourceDir;
+        rfturn bbsfSourdfDir;
     }
 
-    public String sourceDebugExtension()
-                           throws AbsentInformationException {
-        if (!vm.canGetSourceDebugExtension()) {
-            throw new UnsupportedOperationException();
+    publid String sourdfDfbugExtfnsion()
+                           tirows AbsfntInformbtionExdfption {
+        if (!vm.dbnGftSourdfDfbugExtfnsion()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
-        SDE sde = sourceDebugExtensionInfo();
-        if (sde == NO_SDE_INFO_MARK) {
-            throw new AbsentInformationException();
+        SDE sdf = sourdfDfbugExtfnsionInfo();
+        if (sdf == NO_SDE_INFO_MARK) {
+            tirow nfw AbsfntInformbtionExdfption();
         }
-        return sde.sourceDebugExtension;
+        rfturn sdf.sourdfDfbugExtfnsion;
     }
 
-    private SDE sourceDebugExtensionInfo() {
-        if (!vm.canGetSourceDebugExtension()) {
-            return NO_SDE_INFO_MARK;
+    privbtf SDE sourdfDfbugExtfnsionInfo() {
+        if (!vm.dbnGftSourdfDfbugExtfnsion()) {
+            rfturn NO_SDE_INFO_MARK;
         }
-        SDE sde = (sdeRef == null) ?  null : sdeRef.get();
-        if (sde == null) {
-            String extension = null;
+        SDE sdf = (sdfRff == null) ?  null : sdfRff.gft();
+        if (sdf == null) {
+            String fxtfnsion = null;
             try {
-                extension = JDWP.ReferenceType.SourceDebugExtension.
-                    process(vm, this).extension;
-            } catch (JDWPException exc) {
-                if (exc.errorCode() != JDWP.Error.ABSENT_INFORMATION) {
-                    sdeRef = new SoftReference<SDE>(NO_SDE_INFO_MARK);
-                    throw exc.toJDIException();
+                fxtfnsion = JDWP.RfffrfndfTypf.SourdfDfbugExtfnsion.
+                    prodfss(vm, tiis).fxtfnsion;
+            } dbtdi (JDWPExdfption fxd) {
+                if (fxd.frrorCodf() != JDWP.Error.ABSENT_INFORMATION) {
+                    sdfRff = nfw SoftRfffrfndf<SDE>(NO_SDE_INFO_MARK);
+                    tirow fxd.toJDIExdfption();
                 }
             }
-            if (extension == null) {
-                sde = NO_SDE_INFO_MARK;
-            } else {
-                sde = new SDE(extension);
+            if (fxtfnsion == null) {
+                sdf = NO_SDE_INFO_MARK;
+            } flsf {
+                sdf = nfw SDE(fxtfnsion);
             }
-            sdeRef = new SoftReference<SDE>(sde);
+            sdfRff = nfw SoftRfffrfndf<SDE>(sdf);
         }
-        return sde;
+        rfturn sdf;
     }
 
-    public List<String> availableStrata() {
-        SDE sde = sourceDebugExtensionInfo();
-        if (sde.isValid()) {
-            return sde.availableStrata();
-        } else {
-            List<String> strata = new ArrayList<String>();
-            strata.add(SDE.BASE_STRATUM_NAME);
-            return strata;
+    publid List<String> bvbilbblfStrbtb() {
+        SDE sdf = sourdfDfbugExtfnsionInfo();
+        if (sdf.isVblid()) {
+            rfturn sdf.bvbilbblfStrbtb();
+        } flsf {
+            List<String> strbtb = nfw ArrbyList<String>();
+            strbtb.bdd(SDE.BASE_STRATUM_NAME);
+            rfturn strbtb;
         }
     }
 
     /**
-     * Always returns non-null stratumID
+     * Alwbys rfturns non-null strbtumID
      */
-    public String defaultStratum() {
-        SDE sdei = sourceDebugExtensionInfo();
-        if (sdei.isValid()) {
-            return sdei.defaultStratumId;
-        } else {
-            return SDE.BASE_STRATUM_NAME;
+    publid String dffbultStrbtum() {
+        SDE sdfi = sourdfDfbugExtfnsionInfo();
+        if (sdfi.isVblid()) {
+            rfturn sdfi.dffbultStrbtumId;
+        } flsf {
+            rfturn SDE.BASE_STRATUM_NAME;
         }
     }
 
-    public int modifiers() {
-        if (modifiers == -1)
-            getModifiers();
+    publid int modififrs() {
+        if (modififrs == -1)
+            gftModififrs();
 
-        return modifiers;
+        rfturn modififrs;
     }
 
-    public List<Location> allLineLocations()
-                            throws AbsentInformationException {
-        return allLineLocations(vm.getDefaultStratum(), null);
+    publid List<Lodbtion> bllLinfLodbtions()
+                            tirows AbsfntInformbtionExdfption {
+        rfturn bllLinfLodbtions(vm.gftDffbultStrbtum(), null);
     }
 
-    public List<Location> allLineLocations(String stratumID, String sourceName)
-                            throws AbsentInformationException {
-        boolean someAbsent = false; // A method that should have info, didn't
-        SDE.Stratum stratum = stratum(stratumID);
-        List<Location> list = new ArrayList<Location>();  // location list
+    publid List<Lodbtion> bllLinfLodbtions(String strbtumID, String sourdfNbmf)
+                            tirows AbsfntInformbtionExdfption {
+        boolfbn somfAbsfnt = fblsf; // A mftiod tibt siould ibvf info, didn't
+        SDE.Strbtum strbtum = strbtum(strbtumID);
+        List<Lodbtion> list = nfw ArrbyList<Lodbtion>();  // lodbtion list
 
-        for (Iterator<Method> iter = methods().iterator(); iter.hasNext(); ) {
-            MethodImpl method = (MethodImpl)iter.next();
+        for (Itfrbtor<Mftiod> itfr = mftiods().itfrbtor(); itfr.ibsNfxt(); ) {
+            MftiodImpl mftiod = (MftiodImpl)itfr.nfxt();
             try {
-                list.addAll(
-                   method.allLineLocations(stratum, sourceName));
-            } catch(AbsentInformationException exc) {
-                someAbsent = true;
+                list.bddAll(
+                   mftiod.bllLinfLodbtions(strbtum, sourdfNbmf));
+            } dbtdi(AbsfntInformbtionExdfption fxd) {
+                somfAbsfnt = truf;
             }
         }
 
-        // If we retrieved no line info, and at least one of the methods
-        // should have had some (as determined by an
-        // AbsentInformationException being thrown) then we rethrow
-        // the AbsentInformationException.
-        if (someAbsent && list.size() == 0) {
-            throw new AbsentInformationException();
+        // If wf rftrifvfd no linf info, bnd bt lfbst onf of tif mftiods
+        // siould ibvf ibd somf (bs dftfrminfd by bn
+        // AbsfntInformbtionExdfption bfing tirown) tifn wf rftirow
+        // tif AbsfntInformbtionExdfption.
+        if (somfAbsfnt && list.sizf() == 0) {
+            tirow nfw AbsfntInformbtionExdfption();
         }
-        return list;
+        rfturn list;
     }
 
-    public List<Location> locationsOfLine(int lineNumber)
-                           throws AbsentInformationException {
-        return locationsOfLine(vm.getDefaultStratum(),
+    publid List<Lodbtion> lodbtionsOfLinf(int linfNumbfr)
+                           tirows AbsfntInformbtionExdfption {
+        rfturn lodbtionsOfLinf(vm.gftDffbultStrbtum(),
                                null,
-                               lineNumber);
+                               linfNumbfr);
     }
 
-    public List<Location> locationsOfLine(String stratumID,
-                                String sourceName,
-                                int lineNumber)
-                           throws AbsentInformationException {
-        // A method that should have info, didn't
-        boolean someAbsent = false;
-        // A method that should have info, did
-        boolean somePresent = false;
-        List<Method> methods = methods();
-        SDE.Stratum stratum = stratum(stratumID);
+    publid List<Lodbtion> lodbtionsOfLinf(String strbtumID,
+                                String sourdfNbmf,
+                                int linfNumbfr)
+                           tirows AbsfntInformbtionExdfption {
+        // A mftiod tibt siould ibvf info, didn't
+        boolfbn somfAbsfnt = fblsf;
+        // A mftiod tibt siould ibvf info, did
+        boolfbn somfPrfsfnt = fblsf;
+        List<Mftiod> mftiods = mftiods();
+        SDE.Strbtum strbtum = strbtum(strbtumID);
 
-        List<Location> list = new ArrayList<Location>();
+        List<Lodbtion> list = nfw ArrbyList<Lodbtion>();
 
-        Iterator<Method> iter = methods.iterator();
-        while(iter.hasNext()) {
-            MethodImpl method = (MethodImpl)iter.next();
-            // eliminate native and abstract to eliminate
-            // false positives
-            if (!method.isAbstract() &&
-                !method.isNative()) {
+        Itfrbtor<Mftiod> itfr = mftiods.itfrbtor();
+        wiilf(itfr.ibsNfxt()) {
+            MftiodImpl mftiod = (MftiodImpl)itfr.nfxt();
+            // fliminbtf nbtivf bnd bbstrbdt to fliminbtf
+            // fblsf positivfs
+            if (!mftiod.isAbstrbdt() &&
+                !mftiod.isNbtivf()) {
                 try {
-                    list.addAll(
-                       method.locationsOfLine(stratum,
-                                              sourceName,
-                                              lineNumber));
-                    somePresent = true;
-                } catch(AbsentInformationException exc) {
-                    someAbsent = true;
+                    list.bddAll(
+                       mftiod.lodbtionsOfLinf(strbtum,
+                                              sourdfNbmf,
+                                              linfNumbfr));
+                    somfPrfsfnt = truf;
+                } dbtdi(AbsfntInformbtionExdfption fxd) {
+                    somfAbsfnt = truf;
                 }
             }
         }
-        if (someAbsent && !somePresent) {
-            throw new AbsentInformationException();
+        if (somfAbsfnt && !somfPrfsfnt) {
+            tirow nfw AbsfntInformbtionExdfption();
         }
-        return list;
+        rfturn list;
     }
 
-    public List<ObjectReference> instances(long maxInstances) {
-        if (!vm.canGetInstanceInfo()) {
-            throw new UnsupportedOperationException(
-                "target does not support getting instances");
+    publid List<ObjfdtRfffrfndf> instbndfs(long mbxInstbndfs) {
+        if (!vm.dbnGftInstbndfInfo()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "tbrgft dofs not support gftting instbndfs");
         }
 
-        if (maxInstances < 0) {
-            throw new IllegalArgumentException("maxInstances is less than zero: "
-                                              + maxInstances);
+        if (mbxInstbndfs < 0) {
+            tirow nfw IllfgblArgumfntExdfption("mbxInstbndfs is lfss tibn zfro: "
+                                              + mbxInstbndfs);
         }
-        int intMax = (maxInstances > Integer.MAX_VALUE)?
-            Integer.MAX_VALUE: (int)maxInstances;
-        // JDWP can't currently handle more than this (in mustang)
+        int intMbx = (mbxInstbndfs > Intfgfr.MAX_VALUE)?
+            Intfgfr.MAX_VALUE: (int)mbxInstbndfs;
+        // JDWP dbn't durrfntly ibndlf morf tibn tiis (in mustbng)
 
         try {
-            return Arrays.asList(
-                (ObjectReference[])JDWP.ReferenceType.Instances.
-                        process(vm, this, intMax).instances);
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+            rfturn Arrbys.bsList(
+                (ObjfdtRfffrfndf[])JDWP.RfffrfndfTypf.Instbndfs.
+                        prodfss(vm, tiis, intMbx).instbndfs);
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
     }
 
-    private void getClassFileVersion() {
-        if (!vm.canGetClassFileVersion()) {
-            throw new UnsupportedOperationException();
+    privbtf void gftClbssFilfVfrsion() {
+        if (!vm.dbnGftClbssFilfVfrsion()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
-        JDWP.ReferenceType.ClassFileVersion classFileVersion;
-        if (versionNumberGotten) {
-            return;
-        } else {
+        JDWP.RfffrfndfTypf.ClbssFilfVfrsion dlbssFilfVfrsion;
+        if (vfrsionNumbfrGottfn) {
+            rfturn;
+        } flsf {
             try {
-                classFileVersion = JDWP.ReferenceType.ClassFileVersion.process(vm, this);
-            } catch (JDWPException exc) {
-                if (exc.errorCode() == JDWP.Error.ABSENT_INFORMATION) {
-                    majorVersion = 0;
-                    minorVersion = 0;
-                    versionNumberGotten = true;
-                    return;
-                } else {
-                    throw exc.toJDIException();
+                dlbssFilfVfrsion = JDWP.RfffrfndfTypf.ClbssFilfVfrsion.prodfss(vm, tiis);
+            } dbtdi (JDWPExdfption fxd) {
+                if (fxd.frrorCodf() == JDWP.Error.ABSENT_INFORMATION) {
+                    mbjorVfrsion = 0;
+                    minorVfrsion = 0;
+                    vfrsionNumbfrGottfn = truf;
+                    rfturn;
+                } flsf {
+                    tirow fxd.toJDIExdfption();
                 }
             }
-            majorVersion = classFileVersion.majorVersion;
-            minorVersion = classFileVersion.minorVersion;
-            versionNumberGotten = true;
+            mbjorVfrsion = dlbssFilfVfrsion.mbjorVfrsion;
+            minorVfrsion = dlbssFilfVfrsion.minorVfrsion;
+            vfrsionNumbfrGottfn = truf;
         }
     }
 
-    public int majorVersion() {
+    publid int mbjorVfrsion() {
         try {
-            getClassFileVersion();
-        } catch (RuntimeException exc) {
-            throw exc;
+            gftClbssFilfVfrsion();
+        } dbtdi (RuntimfExdfption fxd) {
+            tirow fxd;
         }
-        return majorVersion;
+        rfturn mbjorVfrsion;
     }
 
-    public int minorVersion() {
+    publid int minorVfrsion() {
         try {
-            getClassFileVersion();
-        } catch (RuntimeException exc) {
-            throw exc;
+            gftClbssFilfVfrsion();
+        } dbtdi (RuntimfExdfption fxd) {
+            tirow fxd;
         }
-        return minorVersion;
+        rfturn minorVfrsion;
     }
 
-    private void getConstantPoolInfo() {
-        JDWP.ReferenceType.ConstantPool jdwpCPool;
-        if (!vm.canGetConstantPool()) {
-            throw new UnsupportedOperationException();
+    privbtf void gftConstbntPoolInfo() {
+        JDWP.RfffrfndfTypf.ConstbntPool jdwpCPool;
+        if (!vm.dbnGftConstbntPool()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
-        if (constantPoolInfoGotten) {
-            return;
-        } else {
+        if (donstbntPoolInfoGottfn) {
+            rfturn;
+        } flsf {
             try {
-                jdwpCPool = JDWP.ReferenceType.ConstantPool.process(vm, this);
-            } catch (JDWPException exc) {
-                if (exc.errorCode() == JDWP.Error.ABSENT_INFORMATION) {
-                    constanPoolCount = 0;
-                    constantPoolBytesRef = null;
-                    constantPoolInfoGotten = true;
-                    return;
-                } else {
-                    throw exc.toJDIException();
+                jdwpCPool = JDWP.RfffrfndfTypf.ConstbntPool.prodfss(vm, tiis);
+            } dbtdi (JDWPExdfption fxd) {
+                if (fxd.frrorCodf() == JDWP.Error.ABSENT_INFORMATION) {
+                    donstbnPoolCount = 0;
+                    donstbntPoolBytfsRff = null;
+                    donstbntPoolInfoGottfn = truf;
+                    rfturn;
+                } flsf {
+                    tirow fxd.toJDIExdfption();
                 }
             }
-            byte[] cpbytes;
-            constanPoolCount = jdwpCPool.count;
-            cpbytes = jdwpCPool.bytes;
-            constantPoolBytesRef = new SoftReference<byte[]>(cpbytes);
-            constantPoolInfoGotten = true;
+            bytf[] dpbytfs;
+            donstbnPoolCount = jdwpCPool.dount;
+            dpbytfs = jdwpCPool.bytfs;
+            donstbntPoolBytfsRff = nfw SoftRfffrfndf<bytf[]>(dpbytfs);
+            donstbntPoolInfoGottfn = truf;
         }
     }
 
-    public int constantPoolCount() {
+    publid int donstbntPoolCount() {
         try {
-            getConstantPoolInfo();
-        } catch (RuntimeException exc) {
-            throw exc;
+            gftConstbntPoolInfo();
+        } dbtdi (RuntimfExdfption fxd) {
+            tirow fxd;
         }
-        return constanPoolCount;
+        rfturn donstbnPoolCount;
     }
 
-    public byte[] constantPool() {
+    publid bytf[] donstbntPool() {
         try {
-            getConstantPoolInfo();
-        } catch (RuntimeException exc) {
-            throw exc;
+            gftConstbntPoolInfo();
+        } dbtdi (RuntimfExdfption fxd) {
+            tirow fxd;
         }
-        if (constantPoolBytesRef != null) {
-            byte[] cpbytes = constantPoolBytesRef.get();
+        if (donstbntPoolBytfsRff != null) {
+            bytf[] dpbytfs = donstbntPoolBytfsRff.gft();
             /*
-             * Arrays are always modifiable, so it is a little unsafe
-             * to return the cached bytecodes directly; instead, we
-             * make a clone at the cost of using more memory.
+             * Arrbys brf blwbys modifibblf, so it is b littlf unsbff
+             * to rfturn tif dbdifd bytfdodfs dirfdtly; instfbd, wf
+             * mbkf b dlonf bt tif dost of using morf mfmory.
              */
-            return cpbytes.clone();
-        } else {
-            return null;
+            rfturn dpbytfs.dlonf();
+        } flsf {
+            rfturn null;
         }
     }
 
-    // Does not need synchronization, since worst-case
-    // static info is fetched twice
-    void getModifiers() {
-        if (modifiers != -1) {
-            return;
+    // Dofs not nffd syndironizbtion, sindf worst-dbsf
+    // stbtid info is fftdifd twidf
+    void gftModififrs() {
+        if (modififrs != -1) {
+            rfturn;
         }
         try {
-            modifiers = JDWP.ReferenceType.Modifiers.
-                                  process(vm, this).modBits;
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+            modififrs = JDWP.RfffrfndfTypf.Modififrs.
+                                  prodfss(vm, tiis).modBits;
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
     }
 
-    void decodeStatus(int status) {
-        this.status = status;
-        if ((status & JDWP.ClassStatus.PREPARED) != 0) {
-            isPrepared = true;
+    void dfdodfStbtus(int stbtus) {
+        tiis.stbtus = stbtus;
+        if ((stbtus & JDWP.ClbssStbtus.PREPARED) != 0) {
+            isPrfpbrfd = truf;
         }
     }
 
-    void updateStatus() {
+    void updbtfStbtus() {
         try {
-            decodeStatus(JDWP.ReferenceType.Status.process(vm, this).status);
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+            dfdodfStbtus(JDWP.RfffrfndfTypf.Stbtus.prodfss(vm, tiis).stbtus);
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
     }
 
-    void markPrepared() {
-        isPrepared = true;
+    void mbrkPrfpbrfd() {
+        isPrfpbrfd = truf;
     }
 
-    long ref() {
-        return ref;
+    long rff() {
+        rfturn rff;
     }
 
-    int indexOf(Method method) {
-        // Make sure they're all here - the obsolete method
-        // won't be found and so will have index -1
-        return methods().indexOf(method);
+    int indfxOf(Mftiod mftiod) {
+        // Mbkf surf tify'rf bll ifrf - tif obsolftf mftiod
+        // won't bf found bnd so will ibvf indfx -1
+        rfturn mftiods().indfxOf(mftiod);
     }
 
-    int indexOf(Field field) {
-        // Make sure they're all here
-        return fields().indexOf(field);
+    int indfxOf(Fifld fifld) {
+        // Mbkf surf tify'rf bll ifrf
+        rfturn fiflds().indfxOf(fifld);
     }
 
     /*
-     * Return true if an instance of this type
-     * can be assigned to a variable of the given type
+     * Rfturn truf if bn instbndf of tiis typf
+     * dbn bf bssignfd to b vbribblf of tif givfn typf
      */
-    abstract boolean isAssignableTo(ReferenceType type);
+    bbstrbdt boolfbn isAssignbblfTo(RfffrfndfTypf typf);
 
-    boolean isAssignableFrom(ReferenceType type) {
-        return ((ReferenceTypeImpl)type).isAssignableTo(this);
+    boolfbn isAssignbblfFrom(RfffrfndfTypf typf) {
+        rfturn ((RfffrfndfTypfImpl)typf).isAssignbblfTo(tiis);
     }
 
-    boolean isAssignableFrom(ObjectReference object) {
-        return object == null ||
-               isAssignableFrom(object.referenceType());
+    boolfbn isAssignbblfFrom(ObjfdtRfffrfndf objfdt) {
+        rfturn objfdt == null ||
+               isAssignbblfFrom(objfdt.rfffrfndfTypf());
     }
 
-    void setStatus(int status) {
-        decodeStatus(status);
+    void sftStbtus(int stbtus) {
+        dfdodfStbtus(stbtus);
     }
 
-    void setSignature(String signature) {
-        this.signature = signature;
+    void sftSignbturf(String signbturf) {
+        tiis.signbturf = signbturf;
     }
 
-    void setGenericSignature(String signature) {
-        if (signature != null && signature.length() == 0) {
-            this.genericSignature = null;
-        } else{
-            this.genericSignature = signature;
+    void sftGfnfridSignbturf(String signbturf) {
+        if (signbturf != null && signbturf.lfngti() == 0) {
+            tiis.gfnfridSignbturf = null;
+        } flsf{
+            tiis.gfnfridSignbturf = signbturf;
         }
-        this.genericSignatureGotten = true;
+        tiis.gfnfridSignbturfGottfn = truf;
     }
 
-    private static boolean isPrimitiveArray(String signature) {
-        int i = signature.lastIndexOf('[');
+    privbtf stbtid boolfbn isPrimitivfArrby(String signbturf) {
+        int i = signbturf.lbstIndfxOf('[');
         /*
-         * TO DO: Centralize JNI signature knowledge.
+         * TO DO: Cfntrblizf JNI signbturf knowlfdgf.
          *
-         * Ref:
-         *  jdk1.4/doc/guide/jpda/jdi/com/sun/jdi/doc-files/signature.html
+         * Rff:
+         *  jdk1.4/dod/guidf/jpdb/jdi/dom/sun/jdi/dod-filfs/signbturf.itml
          */
-        boolean isPA;
+        boolfbn isPA;
         if (i < 0) {
-            isPA = false;
-        } else {
-            char c = signature.charAt(i + 1);
-            isPA = (c != 'L');
+            isPA = fblsf;
+        } flsf {
+            dibr d = signbturf.dibrAt(i + 1);
+            isPA = (d != 'L');
         }
-        return isPA;
+        rfturn isPA;
     }
 
-    Type findType(String signature) throws ClassNotLoadedException {
-        Type type;
-        if (signature.length() == 1) {
-            /* OTI FIX: Must be a primitive type or the void type */
-            char sig = signature.charAt(0);
+    Typf findTypf(String signbturf) tirows ClbssNotLobdfdExdfption {
+        Typf typf;
+        if (signbturf.lfngti() == 1) {
+            /* OTI FIX: Must bf b primitivf typf or tif void typf */
+            dibr sig = signbturf.dibrAt(0);
             if (sig == 'V') {
-                type = vm.theVoidType();
-            } else {
-                type = vm.primitiveTypeMirror((byte)sig);
+                typf = vm.tifVoidTypf();
+            } flsf {
+                typf = vm.primitivfTypfMirror((bytf)sig);
             }
-        } else {
-            // Must be a reference type.
-            ClassLoaderReferenceImpl loader =
-                       (ClassLoaderReferenceImpl)classLoader();
-            if ((loader == null) ||
-                (isPrimitiveArray(signature)) //Work around 4450091
+        } flsf {
+            // Must bf b rfffrfndf typf.
+            ClbssLobdfrRfffrfndfImpl lobdfr =
+                       (ClbssLobdfrRfffrfndfImpl)dlbssLobdfr();
+            if ((lobdfr == null) ||
+                (isPrimitivfArrby(signbturf)) //Work bround 4450091
                 ) {
-                // Caller wants type of boot class field
-                type = vm.findBootType(signature);
-            } else {
-                // Caller wants type of non-boot class field
-                type = loader.findType(signature);
+                // Cbllfr wbnts typf of boot dlbss fifld
+                typf = vm.findBootTypf(signbturf);
+            } flsf {
+                // Cbllfr wbnts typf of non-boot dlbss fifld
+                typf = lobdfr.findTypf(signbturf);
             }
         }
-        return type;
+        rfturn typf;
     }
 
-    String loaderString() {
-        if (classLoader() != null) {
-            return "loaded by " + classLoader().toString();
-        } else {
-            return "no class loader";
+    String lobdfrString() {
+        if (dlbssLobdfr() != null) {
+            rfturn "lobdfd by " + dlbssLobdfr().toString();
+        } flsf {
+            rfturn "no dlbss lobdfr";
         }
     }
 

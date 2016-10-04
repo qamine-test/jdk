@@ -1,0 +1,299 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+pbdkbgf dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms.implfmfntbtions;
+
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.Kfy;
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.Signbturf;
+import jbvb.sfdurity.SignbturfExdfption;
+import jbvb.sfdurity.intfrfbdfs.DSAKfy;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms.JCEMbppfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.blgorithms.SignbturfAlgorithmSpi;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturf;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.Bbsf64;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.JbvbUtils;
+
+publid dlbss SignbturfDSA fxtfnds SignbturfAlgorithmSpi {
+
+    /** {@link org.bpbdhf.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(SignbturfDSA.dlbss.gftNbmf());
+
+    /** Fifld blgorithm */
+    privbtf jbvb.sfdurity.Signbturf signbturfAlgorithm = null;
+
+    /** sizf of Q */
+    privbtf int sizf;
+
+    /**
+     * Mfthod fnginfGftURI
+     *
+     * @inhfritDod
+     */
+    protfdtfd String fnginfGftURI() {
+        rfturn XMLSignbturf.ALGO_ID_SIGNATURE_DSA;
+    }
+
+    /**
+     * Construdtor SignbturfDSA
+     *
+     * @throws XMLSignbturfExdfption
+     */
+    publid SignbturfDSA() throws XMLSignbturfExdfption {
+        String blgorithmID = JCEMbppfr.trbnslbtfURItoJCEID(fnginfGftURI());
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtfd SignbturfDSA using " + blgorithmID);
+        }
+
+        String providfr = JCEMbppfr.gftProvidfrId();
+        try {
+            if (providfr == null) {
+                this.signbturfAlgorithm = Signbturf.gftInstbndf(blgorithmID);
+            } flsf {
+                this.signbturfAlgorithm =
+                    Signbturf.gftInstbndf(blgorithmID, providfr);
+            }
+        } dbtdh (jbvb.sfdurity.NoSudhAlgorithmExdfption fx) {
+            Objfdt[] fxArgs = { blgorithmID, fx.gftLodblizfdMfssbgf() };
+            throw nfw XMLSignbturfExdfption("blgorithms.NoSudhAlgorithm", fxArgs);
+        } dbtdh (jbvb.sfdurity.NoSudhProvidfrExdfption fx) {
+            Objfdt[] fxArgs = { blgorithmID, fx.gftLodblizfdMfssbgf() };
+            throw nfw XMLSignbturfExdfption("blgorithms.NoSudhAlgorithm", fxArgs);
+        }
+    }
+
+    /**
+     * @inhfritDod
+     */
+    protfdtfd void fnginfSftPbrbmftfr(AlgorithmPbrbmftfrSpfd pbrbms)
+        throws XMLSignbturfExdfption {
+        try {
+            this.signbturfAlgorithm.sftPbrbmftfr(pbrbms);
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+    }
+
+    /**
+     * @inhfritDod
+     */
+    protfdtfd boolfbn fnginfVfrify(bytf[] signbturf)
+        throws XMLSignbturfExdfption {
+        try {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "Cbllfd DSA.vfrify() on " + Bbsf64.fndodf(signbturf));
+            }
+
+            bytf[] jdfbytfs = JbvbUtils.donvfrtDsbXMLDSIGtoASN1(signbturf,
+                                                                sizf/8);
+
+            rfturn this.signbturfAlgorithm.vfrify(jdfbytfs);
+        } dbtdh (SignbturfExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdh (IOExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+    }
+
+    /**
+     * @inhfritDod
+     */
+    protfdtfd void fnginfInitVfrify(Kfy publidKfy) throws XMLSignbturfExdfption {
+        if (!(publidKfy instbndfof PublidKfy)) {
+            String supplifd = publidKfy.gftClbss().gftNbmf();
+            String nffdfd = PublidKfy.dlbss.gftNbmf();
+            Objfdt fxArgs[] = { supplifd, nffdfd };
+
+            throw nfw XMLSignbturfExdfption("blgorithms.WrongKfyForThisOpfrbtion", fxArgs);
+        }
+
+        try {
+            this.signbturfAlgorithm.initVfrify((PublidKfy) publidKfy);
+        } dbtdh (InvblidKfyExdfption fx) {
+            // rfinstbntibtf Signbturf objfdt to work bround bug in JDK
+            // sff: http://bugs.sun.dom/vifw_bug.do?bug_id=4953555
+            Signbturf sig = this.signbturfAlgorithm;
+            try {
+                this.signbturfAlgorithm = Signbturf.gftInstbndf(signbturfAlgorithm.gftAlgorithm());
+            } dbtdh (Exdfption f) {
+                // this shouldn't oddur, but if it dofs, rfstorf prfvious
+                // Signbturf
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Exdfption whfn rfinstbntibting Signbturf:" + f);
+                }
+                this.signbturfAlgorithm = sig;
+            }
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+        sizf = ((DSAKfy)publidKfy).gftPbrbms().gftQ().bitLfngth();
+    }
+
+    /**
+     * @inhfritDod
+     */
+    protfdtfd bytf[] fnginfSign() throws XMLSignbturfExdfption {
+        try {
+            bytf jdfbytfs[] = this.signbturfAlgorithm.sign();
+
+            rfturn JbvbUtils.donvfrtDsbASN1toXMLDSIG(jdfbytfs, sizf/8);
+        } dbtdh (IOExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        } dbtdh (SignbturfExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+    }
+
+    /**
+     * @inhfritDod
+     */
+    protfdtfd void fnginfInitSign(Kfy privbtfKfy, SfdurfRbndom sfdurfRbndom)
+        throws XMLSignbturfExdfption {
+        if (!(privbtfKfy instbndfof PrivbtfKfy)) {
+            String supplifd = privbtfKfy.gftClbss().gftNbmf();
+            String nffdfd = PrivbtfKfy.dlbss.gftNbmf();
+            Objfdt fxArgs[] = { supplifd, nffdfd };
+
+            throw nfw XMLSignbturfExdfption("blgorithms.WrongKfyForThisOpfrbtion", fxArgs);
+        }
+
+        try {
+            this.signbturfAlgorithm.initSign((PrivbtfKfy) privbtfKfy, sfdurfRbndom);
+        } dbtdh (InvblidKfyExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+        sizf = ((DSAKfy)privbtfKfy).gftPbrbms().gftQ().bitLfngth();
+    }
+
+    /**
+     * @inhfritDod
+     */
+    protfdtfd void fnginfInitSign(Kfy privbtfKfy) throws XMLSignbturfExdfption {
+        if (!(privbtfKfy instbndfof PrivbtfKfy)) {
+            String supplifd = privbtfKfy.gftClbss().gftNbmf();
+            String nffdfd = PrivbtfKfy.dlbss.gftNbmf();
+            Objfdt fxArgs[] = { supplifd, nffdfd };
+
+            throw nfw XMLSignbturfExdfption("blgorithms.WrongKfyForThisOpfrbtion", fxArgs);
+        }
+
+        try {
+            this.signbturfAlgorithm.initSign((PrivbtfKfy) privbtfKfy);
+        } dbtdh (InvblidKfyExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+        sizf = ((DSAKfy)privbtfKfy).gftPbrbms().gftQ().bitLfngth();
+    }
+
+    /**
+     * @inhfritDod
+     */
+    protfdtfd void fnginfUpdbtf(bytf[] input) throws XMLSignbturfExdfption {
+        try {
+            this.signbturfAlgorithm.updbtf(input);
+        } dbtdh (SignbturfExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+    }
+
+    /**
+     * @inhfritDod
+     */
+    protfdtfd void fnginfUpdbtf(bytf input) throws XMLSignbturfExdfption {
+        try {
+            this.signbturfAlgorithm.updbtf(input);
+        } dbtdh (SignbturfExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+    }
+
+    /**
+     * @inhfritDod
+     */
+    protfdtfd void fnginfUpdbtf(bytf buf[], int offsft, int lfn) throws XMLSignbturfExdfption {
+        try {
+            this.signbturfAlgorithm.updbtf(buf, offsft, lfn);
+        } dbtdh (SignbturfExdfption fx) {
+            throw nfw XMLSignbturfExdfption("fmpty", fx);
+        }
+    }
+
+    /**
+     * Mfthod fnginfGftJCEAlgorithmString
+     *
+     * @inhfritDod
+     */
+    protfdtfd String fnginfGftJCEAlgorithmString() {
+        rfturn this.signbturfAlgorithm.gftAlgorithm();
+    }
+
+    /**
+     * Mfthod fnginfGftJCEProvidfrNbmf
+     *
+     * @inhfritDod
+     */
+    protfdtfd String fnginfGftJCEProvidfrNbmf() {
+        rfturn this.signbturfAlgorithm.gftProvidfr().gftNbmf();
+    }
+
+    /**
+     * Mfthod fnginfSftHMACOutputLfngth
+     *
+     * @pbrbm HMACOutputLfngth
+     * @throws XMLSignbturfExdfption
+     */
+    protfdtfd void fnginfSftHMACOutputLfngth(int HMACOutputLfngth) throws XMLSignbturfExdfption {
+        throw nfw XMLSignbturfExdfption("blgorithms.HMACOutputLfngthOnlyForHMAC");
+    }
+
+    /**
+     * Mfthod fnginfInitSign
+     *
+     * @pbrbm signingKfy
+     * @pbrbm blgorithmPbrbmftfrSpfd
+     * @throws XMLSignbturfExdfption
+     */
+    protfdtfd void fnginfInitSign(
+        Kfy signingKfy, AlgorithmPbrbmftfrSpfd blgorithmPbrbmftfrSpfd
+    ) throws XMLSignbturfExdfption {
+        throw nfw XMLSignbturfExdfption("blgorithms.CbnnotUsfAlgorithmPbrbmftfrSpfdOnDSA");
+    }
+
+    publid stbtid dlbss SHA256 fxtfnds SignbturfDSA {
+
+        publid SHA256() throws XMLSignbturfExdfption {
+            supfr();
+        }
+
+        publid String fnginfGftURI() {
+            rfturn XMLSignbturf.ALGO_ID_SIGNATURE_DSA_SHA256;
+        }
+    }
+}

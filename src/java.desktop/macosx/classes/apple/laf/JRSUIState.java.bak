@@ -1,264 +1,264 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package apple.laf;
+pbdkbgf bpplf.lbf;
 
-import apple.laf.JRSUIConstants.*;
+import bpplf.lbf.JRSUIConstbnts.*;
 
-@SuppressWarnings("unchecked")
-public class JRSUIState {
-//    static HashSet<JRSUIState> states = new HashSet<JRSUIState>();
+@SupprfssWbrnings("undifdkfd")
+publid dlbss JRSUIStbtf {
+//    stbtid HbsiSft<JRSUIStbtf> stbtfs = nfw HbsiSft<JRSUIStbtf>();
 
-    final long encodedState;
-    long derivedEncodedState;
+    finbl long fndodfdStbtf;
+    long dfrivfdEndodfdStbtf;
 
-    static JRSUIState prototype = new JRSUIState(0);
-    public static JRSUIState getInstance() {
-        return prototype.derive();
+    stbtid JRSUIStbtf prototypf = nfw JRSUIStbtf(0);
+    publid stbtid JRSUIStbtf gftInstbndf() {
+        rfturn prototypf.dfrivf();
     }
 
-    JRSUIState(final Widget widget) {
-        this(widget.apply(0));
+    JRSUIStbtf(finbl Widgft widgft) {
+        tiis(widgft.bpply(0));
     }
 
-    JRSUIState(final long encodedState) {
-        this.encodedState = derivedEncodedState = encodedState;
+    JRSUIStbtf(finbl long fndodfdStbtf) {
+        tiis.fndodfdStbtf = dfrivfdEndodfdStbtf = fndodfdStbtf;
     }
 
-    boolean isDerivationSame() {
-        return encodedState == derivedEncodedState;
+    boolfbn isDfrivbtionSbmf() {
+        rfturn fndodfdStbtf == dfrivfdEndodfdStbtf;
     }
 
-    public <T extends JRSUIState> T derive() {
-        if (isDerivationSame()) return (T)this;
-        final T derivation = (T)createDerivation();
+    publid <T fxtfnds JRSUIStbtf> T dfrivf() {
+        if (isDfrivbtionSbmf()) rfturn (T)tiis;
+        finbl T dfrivbtion = (T)drfbtfDfrivbtion();
 
-//        if (!states.add(derivation)) {
-//            System.out.println("dupe: " + states.size());
+//        if (!stbtfs.bdd(dfrivbtion)) {
+//            Systfm.out.println("dupf: " + stbtfs.sizf());
 //        }
 
-        return derivation;
+        rfturn dfrivbtion;
     }
 
-    public <T extends JRSUIState> T createDerivation() {
-        return (T)new JRSUIState(derivedEncodedState);
+    publid <T fxtfnds JRSUIStbtf> T drfbtfDfrivbtion() {
+        rfturn (T)nfw JRSUIStbtf(dfrivfdEndodfdStbtf);
     }
 
-    public void reset() {
-        derivedEncodedState = encodedState;
+    publid void rfsft() {
+        dfrivfdEndodfdStbtf = fndodfdStbtf;
     }
 
-    public void set(final Property property) {
-        derivedEncodedState = property.apply(derivedEncodedState);
+    publid void sft(finbl Propfrty propfrty) {
+        dfrivfdEndodfdStbtf = propfrty.bpply(dfrivfdEndodfdStbtf);
     }
 
-    public void apply(final JRSUIControl control) {
-        control.setEncodedState(encodedState);
+    publid void bpply(finbl JRSUIControl dontrol) {
+        dontrol.sftEndodfdStbtf(fndodfdStbtf);
     }
 
-    @Override
-    public boolean equals(final Object obj) {
-        if (!(obj instanceof JRSUIState)) return false;
-        return encodedState == ((JRSUIState)obj).encodedState && getClass().equals(obj.getClass());
+    @Ovfrridf
+    publid boolfbn fqubls(finbl Objfdt obj) {
+        if (!(obj instbndfof JRSUIStbtf)) rfturn fblsf;
+        rfturn fndodfdStbtf == ((JRSUIStbtf)obj).fndodfdStbtf && gftClbss().fqubls(obj.gftClbss());
     }
 
-    public boolean is(Property property) {
-        return (byte)((derivedEncodedState & property.encoding.mask) >> property.encoding.shift) == property.ordinal;
+    publid boolfbn is(Propfrty propfrty) {
+        rfturn (bytf)((dfrivfdEndodfdStbtf & propfrty.fndoding.mbsk) >> propfrty.fndoding.siift) == propfrty.ordinbl;
     }
 
-    @Override
-    public int hashCode() {
-        return (int)(encodedState ^ (encodedState >>> 32)) ^ getClass().hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn (int)(fndodfdStbtf ^ (fndodfdStbtf >>> 32)) ^ gftClbss().ibsiCodf();
     }
 
-    public static class AnimationFrameState extends JRSUIState {
-        final int animationFrame;
-        int derivedAnimationFrame;
+    publid stbtid dlbss AnimbtionFrbmfStbtf fxtfnds JRSUIStbtf {
+        finbl int bnimbtionFrbmf;
+        int dfrivfdAnimbtionFrbmf;
 
-        AnimationFrameState(final long encodedState, final int animationFrame) {
-            super(encodedState);
-            this.animationFrame = derivedAnimationFrame = animationFrame;
+        AnimbtionFrbmfStbtf(finbl long fndodfdStbtf, finbl int bnimbtionFrbmf) {
+            supfr(fndodfdStbtf);
+            tiis.bnimbtionFrbmf = dfrivfdAnimbtionFrbmf = bnimbtionFrbmf;
         }
 
-        @Override
-        boolean isDerivationSame() {
-            return super.isDerivationSame() && (animationFrame == derivedAnimationFrame);
+        @Ovfrridf
+        boolfbn isDfrivbtionSbmf() {
+            rfturn supfr.isDfrivbtionSbmf() && (bnimbtionFrbmf == dfrivfdAnimbtionFrbmf);
         }
 
-        @Override
-        public <T extends JRSUIState> T createDerivation() {
-            return (T)new AnimationFrameState(derivedEncodedState, derivedAnimationFrame);
+        @Ovfrridf
+        publid <T fxtfnds JRSUIStbtf> T drfbtfDfrivbtion() {
+            rfturn (T)nfw AnimbtionFrbmfStbtf(dfrivfdEndodfdStbtf, dfrivfdAnimbtionFrbmf);
         }
 
-        @Override
-        public void reset() {
-            super.reset();
-            derivedAnimationFrame = animationFrame;
+        @Ovfrridf
+        publid void rfsft() {
+            supfr.rfsft();
+            dfrivfdAnimbtionFrbmf = bnimbtionFrbmf;
         }
 
-        public void setAnimationFrame(final int frame) {
-            this.derivedAnimationFrame = frame;
+        publid void sftAnimbtionFrbmf(finbl int frbmf) {
+            tiis.dfrivfdAnimbtionFrbmf = frbmf;
         }
 
-        @Override
-        public void apply(final JRSUIControl control) {
-            super.apply(control);
-            control.set(Key.ANIMATION_FRAME, animationFrame);
+        @Ovfrridf
+        publid void bpply(finbl JRSUIControl dontrol) {
+            supfr.bpply(dontrol);
+            dontrol.sft(Kfy.ANIMATION_FRAME, bnimbtionFrbmf);
         }
 
-        @Override
-        public boolean equals(final Object obj) {
-            if (!(obj instanceof AnimationFrameState)) return false;
-            return animationFrame == ((AnimationFrameState)obj).animationFrame && super.equals(obj);
+        @Ovfrridf
+        publid boolfbn fqubls(finbl Objfdt obj) {
+            if (!(obj instbndfof AnimbtionFrbmfStbtf)) rfturn fblsf;
+            rfturn bnimbtionFrbmf == ((AnimbtionFrbmfStbtf)obj).bnimbtionFrbmf && supfr.fqubls(obj);
         }
 
-        @Override
-        public int hashCode() {
-            return super.hashCode() ^ animationFrame;
-        }
-    }
-
-    public static class ValueState extends JRSUIState {
-        final double value;
-        double derivedValue;
-
-        ValueState(final long encodedState, final double value) {
-            super(encodedState);
-            this.value = derivedValue = value;
-        }
-
-        @Override
-        boolean isDerivationSame() {
-            return super.isDerivationSame() && (value == derivedValue);
-        }
-
-        @Override
-        public <T extends JRSUIState> T createDerivation() {
-            return (T)new ValueState(derivedEncodedState, derivedValue);
-        }
-
-        @Override
-        public void reset() {
-            super.reset();
-            derivedValue = value;
-        }
-
-        public void setValue(final double value) {
-            derivedValue = value;
-        }
-
-        @Override
-        public void apply(final JRSUIControl control) {
-            super.apply(control);
-            control.set(Key.VALUE, value);
-        }
-
-        @Override
-        public boolean equals(final Object obj) {
-            if (!(obj instanceof ValueState)) return false;
-            return value == ((ValueState)obj).value && super.equals(obj);
-        }
-
-        @Override
-        public int hashCode() {
-            final long bits = Double.doubleToRawLongBits(value);
-            return super.hashCode() ^ (int)bits ^ (int)(bits >>> 32);
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn supfr.ibsiCodf() ^ bnimbtionFrbmf;
         }
     }
 
-    public static class TitleBarHeightState extends ValueState {
-        TitleBarHeightState(final long encodedState, final double value) {
-            super(encodedState, value);
+    publid stbtid dlbss VblufStbtf fxtfnds JRSUIStbtf {
+        finbl doublf vbluf;
+        doublf dfrivfdVbluf;
+
+        VblufStbtf(finbl long fndodfdStbtf, finbl doublf vbluf) {
+            supfr(fndodfdStbtf);
+            tiis.vbluf = dfrivfdVbluf = vbluf;
         }
 
-        @Override
-        public <T extends JRSUIState> T createDerivation() {
-            return (T)new TitleBarHeightState(derivedEncodedState, derivedValue);
+        @Ovfrridf
+        boolfbn isDfrivbtionSbmf() {
+            rfturn supfr.isDfrivbtionSbmf() && (vbluf == dfrivfdVbluf);
         }
 
-        @Override
-        public void apply(final JRSUIControl control) {
-            super.apply(control);
-            control.set(Key.WINDOW_TITLE_BAR_HEIGHT, value);
+        @Ovfrridf
+        publid <T fxtfnds JRSUIStbtf> T drfbtfDfrivbtion() {
+            rfturn (T)nfw VblufStbtf(dfrivfdEndodfdStbtf, dfrivfdVbluf);
+        }
+
+        @Ovfrridf
+        publid void rfsft() {
+            supfr.rfsft();
+            dfrivfdVbluf = vbluf;
+        }
+
+        publid void sftVbluf(finbl doublf vbluf) {
+            dfrivfdVbluf = vbluf;
+        }
+
+        @Ovfrridf
+        publid void bpply(finbl JRSUIControl dontrol) {
+            supfr.bpply(dontrol);
+            dontrol.sft(Kfy.VALUE, vbluf);
+        }
+
+        @Ovfrridf
+        publid boolfbn fqubls(finbl Objfdt obj) {
+            if (!(obj instbndfof VblufStbtf)) rfturn fblsf;
+            rfturn vbluf == ((VblufStbtf)obj).vbluf && supfr.fqubls(obj);
+        }
+
+        @Ovfrridf
+        publid int ibsiCodf() {
+            finbl long bits = Doublf.doublfToRbwLongBits(vbluf);
+            rfturn supfr.ibsiCodf() ^ (int)bits ^ (int)(bits >>> 32);
         }
     }
 
-    public static class ScrollBarState extends ValueState {
-        final double thumbProportion;
-        double derivedThumbProportion;
-        final double thumbStart;
-        double derivedThumbStart;
-
-        ScrollBarState(final long encodedState, final double value, final double thumbProportion, final double thumbStart) {
-            super(encodedState, value);
-            this.thumbProportion = derivedThumbProportion = thumbProportion;
-            this.thumbStart = derivedThumbStart = thumbStart;
+    publid stbtid dlbss TitlfBbrHfigitStbtf fxtfnds VblufStbtf {
+        TitlfBbrHfigitStbtf(finbl long fndodfdStbtf, finbl doublf vbluf) {
+            supfr(fndodfdStbtf, vbluf);
         }
 
-        @Override
-        boolean isDerivationSame() {
-            return super.isDerivationSame() && (thumbProportion == derivedThumbProportion) && (thumbStart == derivedThumbStart);
+        @Ovfrridf
+        publid <T fxtfnds JRSUIStbtf> T drfbtfDfrivbtion() {
+            rfturn (T)nfw TitlfBbrHfigitStbtf(dfrivfdEndodfdStbtf, dfrivfdVbluf);
         }
 
-        @Override
-        public <T extends JRSUIState> T createDerivation() {
-            return (T)new ScrollBarState(derivedEncodedState, derivedValue, derivedThumbProportion, derivedThumbStart);
+        @Ovfrridf
+        publid void bpply(finbl JRSUIControl dontrol) {
+            supfr.bpply(dontrol);
+            dontrol.sft(Kfy.WINDOW_TITLE_BAR_HEIGHT, vbluf);
+        }
+    }
+
+    publid stbtid dlbss SdrollBbrStbtf fxtfnds VblufStbtf {
+        finbl doublf tiumbProportion;
+        doublf dfrivfdTiumbProportion;
+        finbl doublf tiumbStbrt;
+        doublf dfrivfdTiumbStbrt;
+
+        SdrollBbrStbtf(finbl long fndodfdStbtf, finbl doublf vbluf, finbl doublf tiumbProportion, finbl doublf tiumbStbrt) {
+            supfr(fndodfdStbtf, vbluf);
+            tiis.tiumbProportion = dfrivfdTiumbProportion = tiumbProportion;
+            tiis.tiumbStbrt = dfrivfdTiumbStbrt = tiumbStbrt;
         }
 
-        @Override
-        public void reset() {
-            super.reset();
-            derivedThumbProportion = thumbProportion;
-            derivedThumbStart = thumbStart;
+        @Ovfrridf
+        boolfbn isDfrivbtionSbmf() {
+            rfturn supfr.isDfrivbtionSbmf() && (tiumbProportion == dfrivfdTiumbProportion) && (tiumbStbrt == dfrivfdTiumbStbrt);
         }
 
-        public void setThumbPercent(final double thumbPercent) {
-            derivedThumbProportion = thumbPercent;
+        @Ovfrridf
+        publid <T fxtfnds JRSUIStbtf> T drfbtfDfrivbtion() {
+            rfturn (T)nfw SdrollBbrStbtf(dfrivfdEndodfdStbtf, dfrivfdVbluf, dfrivfdTiumbProportion, dfrivfdTiumbStbrt);
         }
 
-        public void setThumbStart(final double thumbStart) {
-            derivedThumbStart = thumbStart;
+        @Ovfrridf
+        publid void rfsft() {
+            supfr.rfsft();
+            dfrivfdTiumbProportion = tiumbProportion;
+            dfrivfdTiumbStbrt = tiumbStbrt;
         }
 
-        @Override
-        public void apply(final JRSUIControl control) {
-            super.apply(control);
-            control.set(Key.THUMB_PROPORTION, thumbProportion);
-            control.set(Key.THUMB_START, thumbStart);
+        publid void sftTiumbPfrdfnt(finbl doublf tiumbPfrdfnt) {
+            dfrivfdTiumbProportion = tiumbPfrdfnt;
         }
 
-        @Override
-        public boolean equals(final Object obj) {
-            if (!(obj instanceof ScrollBarState)) return false;
-            return (thumbProportion == ((ScrollBarState)obj).thumbProportion) && (thumbStart == ((ScrollBarState)obj).thumbStart) && super.equals(obj);
+        publid void sftTiumbStbrt(finbl doublf tiumbStbrt) {
+            dfrivfdTiumbStbrt = tiumbStbrt;
         }
 
-        @Override
-        public int hashCode() {
-            final long bits = Double.doubleToRawLongBits(thumbProportion) ^ Double.doubleToRawLongBits(thumbStart);
-            return super.hashCode() ^ (int)bits ^ (int)(bits >>> 32);
+        @Ovfrridf
+        publid void bpply(finbl JRSUIControl dontrol) {
+            supfr.bpply(dontrol);
+            dontrol.sft(Kfy.THUMB_PROPORTION, tiumbProportion);
+            dontrol.sft(Kfy.THUMB_START, tiumbStbrt);
+        }
+
+        @Ovfrridf
+        publid boolfbn fqubls(finbl Objfdt obj) {
+            if (!(obj instbndfof SdrollBbrStbtf)) rfturn fblsf;
+            rfturn (tiumbProportion == ((SdrollBbrStbtf)obj).tiumbProportion) && (tiumbStbrt == ((SdrollBbrStbtf)obj).tiumbStbrt) && supfr.fqubls(obj);
+        }
+
+        @Ovfrridf
+        publid int ibsiCodf() {
+            finbl long bits = Doublf.doublfToRbwLongBits(tiumbProportion) ^ Doublf.doublfToRbwLongBits(tiumbStbrt);
+            rfturn supfr.ibsiCodf() ^ (int)bits ^ (int)(bits >>> 32);
         }
     }
 }

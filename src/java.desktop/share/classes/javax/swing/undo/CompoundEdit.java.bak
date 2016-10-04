@@ -1,267 +1,267 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.undo;
+pbdkbgf jbvbx.swing.undo;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * A concrete subclass of AbstractUndoableEdit, used to assemble little
- * UndoableEdits into great big ones.
+ * A dondrftf subdlbss of AbstrbdtUndobblfEdit, usfd to bssfmblf littlf
+ * UndobblfEdits into grfbt big onfs.
  *
- * @author Ray Ryan
+ * @butior Rby Rybn
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class CompoundEdit extends AbstractUndoableEdit {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss CompoundEdit fxtfnds AbstrbdtUndobblfEdit {
     /**
-     * True if this edit has never received <code>end</code>.
+     * Truf if tiis fdit ibs nfvfr rfdfivfd <dodf>fnd</dodf>.
      */
-    boolean inProgress;
+    boolfbn inProgrfss;
 
     /**
-     * The collection of <code>UndoableEdit</code>s
-     * undone/redone en masse by this <code>CompoundEdit</code>.
+     * Tif dollfdtion of <dodf>UndobblfEdit</dodf>s
+     * undonf/rfdonf fn mbssf by tiis <dodf>CompoundEdit</dodf>.
      */
-    protected Vector<UndoableEdit> edits;
+    protfdtfd Vfdtor<UndobblfEdit> fdits;
 
-    public CompoundEdit() {
-        super();
-        inProgress = true;
-        edits = new Vector<UndoableEdit>();
+    publid CompoundEdit() {
+        supfr();
+        inProgrfss = truf;
+        fdits = nfw Vfdtor<UndobblfEdit>();
     }
 
     /**
-     * Sends <code>undo</code> to all contained
-     * <code>UndoableEdits</code> in the reverse of
-     * the order in which they were added.
+     * Sfnds <dodf>undo</dodf> to bll dontbinfd
+     * <dodf>UndobblfEdits</dodf> in tif rfvfrsf of
+     * tif ordfr in wiidi tify wfrf bddfd.
      */
-    public void undo() throws CannotUndoException {
-        super.undo();
-        int i = edits.size();
-        while (i-- > 0) {
-            UndoableEdit e = edits.elementAt(i);
-            e.undo();
+    publid void undo() tirows CbnnotUndoExdfption {
+        supfr.undo();
+        int i = fdits.sizf();
+        wiilf (i-- > 0) {
+            UndobblfEdit f = fdits.flfmfntAt(i);
+            f.undo();
         }
     }
 
     /**
-     * Sends <code>redo</code> to all contained
-     * <code>UndoableEdit</code>s in the order in
-     * which they were added.
+     * Sfnds <dodf>rfdo</dodf> to bll dontbinfd
+     * <dodf>UndobblfEdit</dodf>s in tif ordfr in
+     * wiidi tify wfrf bddfd.
      */
-    public void redo() throws CannotRedoException {
-        super.redo();
-        Enumeration<UndoableEdit> cursor = edits.elements();
-        while (cursor.hasMoreElements()) {
-            cursor.nextElement().redo();
+    publid void rfdo() tirows CbnnotRfdoExdfption {
+        supfr.rfdo();
+        Enumfrbtion<UndobblfEdit> dursor = fdits.flfmfnts();
+        wiilf (dursor.ibsMorfElfmfnts()) {
+            dursor.nfxtElfmfnt().rfdo();
         }
     }
 
     /**
-     * Returns the last <code>UndoableEdit</code> in
-     * <code>edits</code>, or <code>null</code>
-     * if <code>edits</code> is empty.
+     * Rfturns tif lbst <dodf>UndobblfEdit</dodf> in
+     * <dodf>fdits</dodf>, or <dodf>null</dodf>
+     * if <dodf>fdits</dodf> is fmpty.
      *
-     * @return the last {@code UndoableEdit} in {@code edits},
-     *         or {@code null} if {@code edits} is empty.
+     * @rfturn tif lbst {@dodf UndobblfEdit} in {@dodf fdits},
+     *         or {@dodf null} if {@dodf fdits} is fmpty.
      */
-    protected UndoableEdit lastEdit() {
-        int count = edits.size();
-        if (count > 0)
-            return edits.elementAt(count-1);
-        else
-            return null;
+    protfdtfd UndobblfEdit lbstEdit() {
+        int dount = fdits.sizf();
+        if (dount > 0)
+            rfturn fdits.flfmfntAt(dount-1);
+        flsf
+            rfturn null;
     }
 
     /**
-     * Sends <code>die</code> to each subedit,
-     * in the reverse of the order that they were added.
+     * Sfnds <dodf>dif</dodf> to fbdi subfdit,
+     * in tif rfvfrsf of tif ordfr tibt tify wfrf bddfd.
      */
-    public void die() {
-        int size = edits.size();
-        for (int i = size-1; i >= 0; i--)
+    publid void dif() {
+        int sizf = fdits.sizf();
+        for (int i = sizf-1; i >= 0; i--)
         {
-            UndoableEdit e = edits.elementAt(i);
-//          System.out.println("CompoundEdit(" + i + "): Discarding " +
-//                             e.getUndoPresentationName());
-            e.die();
+            UndobblfEdit f = fdits.flfmfntAt(i);
+//          Systfm.out.println("CompoundEdit(" + i + "): Disdbrding " +
+//                             f.gftUndoPrfsfntbtionNbmf());
+            f.dif();
         }
-        super.die();
+        supfr.dif();
     }
 
     /**
-     * If this edit is <code>inProgress</code>,
-     * accepts <code>anEdit</code> and returns true.
+     * If tiis fdit is <dodf>inProgrfss</dodf>,
+     * bddfpts <dodf>bnEdit</dodf> bnd rfturns truf.
      *
-     * <p>The last edit added to this <code>CompoundEdit</code>
-     * is given a chance to <code>addEdit(anEdit)</code>.
-     * If it refuses (returns false), <code>anEdit</code> is
-     * given a chance to <code>replaceEdit</code> the last edit.
-     * If <code>anEdit</code> returns false here,
-     * it is added to <code>edits</code>.
+     * <p>Tif lbst fdit bddfd to tiis <dodf>CompoundEdit</dodf>
+     * is givfn b dibndf to <dodf>bddEdit(bnEdit)</dodf>.
+     * If it rffusfs (rfturns fblsf), <dodf>bnEdit</dodf> is
+     * givfn b dibndf to <dodf>rfplbdfEdit</dodf> tif lbst fdit.
+     * If <dodf>bnEdit</dodf> rfturns fblsf ifrf,
+     * it is bddfd to <dodf>fdits</dodf>.
      *
-     * @param anEdit the edit to be added
-     * @return true if the edit is <code>inProgress</code>;
-     *  otherwise returns false
+     * @pbrbm bnEdit tif fdit to bf bddfd
+     * @rfturn truf if tif fdit is <dodf>inProgrfss</dodf>;
+     *  otifrwisf rfturns fblsf
      */
-    public boolean addEdit(UndoableEdit anEdit) {
-        if (!inProgress) {
-            return false;
-        } else {
-            UndoableEdit last = lastEdit();
+    publid boolfbn bddEdit(UndobblfEdit bnEdit) {
+        if (!inProgrfss) {
+            rfturn fblsf;
+        } flsf {
+            UndobblfEdit lbst = lbstEdit();
 
-            // If this is the first subedit received, just add it.
-            // Otherwise, give the last one a chance to absorb the new
-            // one.  If it won't, give the new one a chance to absorb
-            // the last one.
+            // If tiis is tif first subfdit rfdfivfd, just bdd it.
+            // Otifrwisf, givf tif lbst onf b dibndf to bbsorb tif nfw
+            // onf.  If it won't, givf tif nfw onf b dibndf to bbsorb
+            // tif lbst onf.
 
-            if (last == null) {
-                edits.addElement(anEdit);
+            if (lbst == null) {
+                fdits.bddElfmfnt(bnEdit);
             }
-            else if (!last.addEdit(anEdit)) {
-                if (anEdit.replaceEdit(last)) {
-                    edits.removeElementAt(edits.size()-1);
+            flsf if (!lbst.bddEdit(bnEdit)) {
+                if (bnEdit.rfplbdfEdit(lbst)) {
+                    fdits.rfmovfElfmfntAt(fdits.sizf()-1);
                 }
-                edits.addElement(anEdit);
+                fdits.bddElfmfnt(bnEdit);
             }
 
-            return true;
+            rfturn truf;
         }
     }
 
     /**
-     * Sets <code>inProgress</code> to false.
+     * Sfts <dodf>inProgrfss</dodf> to fblsf.
      *
-     * @see #canUndo
-     * @see #canRedo
+     * @sff #dbnUndo
+     * @sff #dbnRfdo
      */
-    public void end() {
-        inProgress = false;
+    publid void fnd() {
+        inProgrfss = fblsf;
     }
 
     /**
-     * Returns false if <code>isInProgress</code> or if super
-     * returns false.
+     * Rfturns fblsf if <dodf>isInProgrfss</dodf> or if supfr
+     * rfturns fblsf.
      *
-     * @see     #isInProgress
+     * @sff     #isInProgrfss
      */
-    public boolean canUndo() {
-        return !isInProgress() && super.canUndo();
+    publid boolfbn dbnUndo() {
+        rfturn !isInProgrfss() && supfr.dbnUndo();
     }
 
     /**
-     * Returns false if <code>isInProgress</code> or if super
-     * returns false.
+     * Rfturns fblsf if <dodf>isInProgrfss</dodf> or if supfr
+     * rfturns fblsf.
      *
-     * @see     #isInProgress
+     * @sff     #isInProgrfss
      */
-    public boolean canRedo() {
-        return !isInProgress() && super.canRedo();
+    publid boolfbn dbnRfdo() {
+        rfturn !isInProgrfss() && supfr.dbnRfdo();
     }
 
     /**
-     * Returns true if this edit is in progress--that is, it has not
-     * received end. This generally means that edits are still being
-     * added to it.
+     * Rfturns truf if tiis fdit is in progrfss--tibt is, it ibs not
+     * rfdfivfd fnd. Tiis gfnfrblly mfbns tibt fdits brf still bfing
+     * bddfd to it.
      *
-     * @return  whether this edit is in progress
-     * @see     #end
+     * @rfturn  wiftifr tiis fdit is in progrfss
+     * @sff     #fnd
      */
-    public boolean isInProgress() {
-        return inProgress;
+    publid boolfbn isInProgrfss() {
+        rfturn inProgrfss;
     }
 
     /**
-     * Returns true if any of the <code>UndoableEdit</code>s
-     * in <code>edits</code> do.
-     * Returns false if they all return false.
+     * Rfturns truf if bny of tif <dodf>UndobblfEdit</dodf>s
+     * in <dodf>fdits</dodf> do.
+     * Rfturns fblsf if tify bll rfturn fblsf.
      */
-    public boolean  isSignificant() {
-        Enumeration<UndoableEdit> cursor = edits.elements();
-        while (cursor.hasMoreElements()) {
-            if (cursor.nextElement().isSignificant()) {
-                return true;
+    publid boolfbn  isSignifidbnt() {
+        Enumfrbtion<UndobblfEdit> dursor = fdits.flfmfnts();
+        wiilf (dursor.ibsMorfElfmfnts()) {
+            if (dursor.nfxtElfmfnt().isSignifidbnt()) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns <code>getPresentationName</code> from the
-     * last <code>UndoableEdit</code> added to
-     * <code>edits</code>. If <code>edits</code> is empty,
-     * calls super.
+     * Rfturns <dodf>gftPrfsfntbtionNbmf</dodf> from tif
+     * lbst <dodf>UndobblfEdit</dodf> bddfd to
+     * <dodf>fdits</dodf>. If <dodf>fdits</dodf> is fmpty,
+     * dblls supfr.
      */
-    public String getPresentationName() {
-        UndoableEdit last = lastEdit();
-        if (last != null) {
-            return last.getPresentationName();
-        } else {
-            return super.getPresentationName();
+    publid String gftPrfsfntbtionNbmf() {
+        UndobblfEdit lbst = lbstEdit();
+        if (lbst != null) {
+            rfturn lbst.gftPrfsfntbtionNbmf();
+        } flsf {
+            rfturn supfr.gftPrfsfntbtionNbmf();
         }
     }
 
     /**
-     * Returns <code>getUndoPresentationName</code>
-     * from the last <code>UndoableEdit</code>
-     * added to <code>edits</code>.
-     * If <code>edits</code> is empty, calls super.
+     * Rfturns <dodf>gftUndoPrfsfntbtionNbmf</dodf>
+     * from tif lbst <dodf>UndobblfEdit</dodf>
+     * bddfd to <dodf>fdits</dodf>.
+     * If <dodf>fdits</dodf> is fmpty, dblls supfr.
      */
-    public String getUndoPresentationName() {
-        UndoableEdit last = lastEdit();
-        if (last != null) {
-            return last.getUndoPresentationName();
-        } else {
-            return super.getUndoPresentationName();
+    publid String gftUndoPrfsfntbtionNbmf() {
+        UndobblfEdit lbst = lbstEdit();
+        if (lbst != null) {
+            rfturn lbst.gftUndoPrfsfntbtionNbmf();
+        } flsf {
+            rfturn supfr.gftUndoPrfsfntbtionNbmf();
         }
     }
 
     /**
-     * Returns <code>getRedoPresentationName</code>
-     * from the last <code>UndoableEdit</code>
-     * added to <code>edits</code>.
-     * If <code>edits</code> is empty, calls super.
+     * Rfturns <dodf>gftRfdoPrfsfntbtionNbmf</dodf>
+     * from tif lbst <dodf>UndobblfEdit</dodf>
+     * bddfd to <dodf>fdits</dodf>.
+     * If <dodf>fdits</dodf> is fmpty, dblls supfr.
      */
-    public String getRedoPresentationName() {
-        UndoableEdit last = lastEdit();
-        if (last != null) {
-            return last.getRedoPresentationName();
-        } else {
-            return super.getRedoPresentationName();
+    publid String gftRfdoPrfsfntbtionNbmf() {
+        UndobblfEdit lbst = lbstEdit();
+        if (lbst != null) {
+            rfturn lbst.gftRfdoPrfsfntbtionNbmf();
+        } flsf {
+            rfturn supfr.gftRfdoPrfsfntbtionNbmf();
         }
     }
 
     /**
-     * Returns a string that displays and identifies this
-     * object's properties.
+     * Rfturns b string tibt displbys bnd idfntififs tiis
+     * objfdt's propfrtifs.
      *
-     * @return a String representation of this object
+     * @rfturn b String rfprfsfntbtion of tiis objfdt
      */
-    public String toString()
+    publid String toString()
     {
-        return super.toString()
-            + " inProgress: " + inProgress
-            + " edits: " + edits;
+        rfturn supfr.toString()
+            + " inProgrfss: " + inProgrfss
+            + " fdits: " + fdits;
     }
 }

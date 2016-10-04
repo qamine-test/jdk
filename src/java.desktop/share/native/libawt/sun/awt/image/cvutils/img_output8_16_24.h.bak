@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1996, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file contains macro definitions for the Storing category of
- * the macros used by the generic scaleloop function.
+ * Tiis filf dontbins mbdro dffinitions for tif Storing dbtfgory of
+ * tif mbdros usfd by tif gfnfrid sdblfloop fundtion.
  *
- * This implementation can store 8-bit or 16-bit pixels into an array
- * of bytes or shorts such that the pixel for (srcX, srcY) is stored at
- * index (srcOff + srcY * srcScan + srcX) in the array.
+ * Tiis implfmfntbtion dbn storf 8-bit or 16-bit pixfls into bn brrby
+ * of bytfs or siorts sudi tibt tif pixfl for (srdX, srdY) is storfd bt
+ * indfx (srdOff + srdY * srdSdbn + srdX) in tif brrby.
  *
- * This implementation can also store 24-bit pixels into an array of bytes
- * as three consecutive bytes such that the pixel for (srcX, srcY) is
- * stored at indices (srcOff + srcY * srcScan + srcX * 3 + C) in the
- * array, where C == 0 for the blue component, 1 for the green component,
- * and 2 for the red component.
+ * Tiis implfmfntbtion dbn blso storf 24-bit pixfls into bn brrby of bytfs
+ * bs tirff donsfdutivf bytfs sudi tibt tif pixfl for (srdX, srdY) is
+ * storfd bt indidfs (srdOff + srdY * srdSdbn + srdX * 3 + C) in tif
+ * brrby, wifrf C == 0 for tif bluf domponfnt, 1 for tif grffn domponfnt,
+ * bnd 2 for tif rfd domponfnt.
  */
 
-#define DeclareOutputVars                               \
+#dffinf DfdlbrfOutputVbrs                               \
     pixptr dstP;                                        \
     int pixsz;
 
-#define InitOutput(cvdata, clrdata, dstX, dstY)                 \
+#dffinf InitOutput(dvdbtb, dlrdbtb, dstX, dstY)                 \
     do {                                                        \
-        switch (clrdata->bitsperpixel) {                        \
-        case 8: pixsz = 1; break;                               \
-        case 16: pixsz = 2; break;                              \
-        case 24: pixsz = 3; break;                              \
-        default:                                                \
-            SignalError(0, JAVAPKG "InternalError",             \
-                        "unsupported screen depth");            \
-            return SCALEFAILURE;                                \
+        switdi (dlrdbtb->bitspfrpixfl) {                        \
+        dbsf 8: pixsz = 1; brfbk;                               \
+        dbsf 16: pixsz = 2; brfbk;                              \
+        dbsf 24: pixsz = 3; brfbk;                              \
+        dffbult:                                                \
+            SignblError(0, JAVAPKG "IntfrnblError",             \
+                        "unsupportfd sdrffn dfpti");            \
+            rfturn SCALEFAILURE;                                \
         }                                                       \
-        img_check(pixsz != 2 || (ScanBytes(cvdata) & 1) == 0);  \
-        dstP.vp = cvdata->outbuf;                               \
-        dstP.bp += dstY * ScanBytes(cvdata) + dstX * pixsz;     \
-    } while (0)
+        img_difdk(pixsz != 2 || (SdbnBytfs(dvdbtb) & 1) == 0);  \
+        dstP.vp = dvdbtb->outbuf;                               \
+        dstP.bp += dstY * SdbnBytfs(dvdbtb) + dstX * pixsz;     \
+    } wiilf (0)
 
-#define PutPixelInc(pixel, red, green, blue)                    \
+#dffinf PutPixflInd(pixfl, rfd, grffn, bluf)                    \
     do {                                                        \
-        switch (pixsz) {                                        \
-        case 1:                                                 \
-            *dstP.bp++ = ((unsigned char) pixel);               \
-            break;                                              \
-        case 2:                                                 \
-            *dstP.sp++ = ((unsigned short) pixel);              \
-            break;                                              \
-        case 3:                                                 \
-            *dstP.bp++ = blue;                                  \
-            *dstP.bp++ = green;                                 \
-            *dstP.bp++ = red;                                   \
-            break;                                              \
+        switdi (pixsz) {                                        \
+        dbsf 1:                                                 \
+            *dstP.bp++ = ((unsignfd dibr) pixfl);               \
+            brfbk;                                              \
+        dbsf 2:                                                 \
+            *dstP.sp++ = ((unsignfd siort) pixfl);              \
+            brfbk;                                              \
+        dbsf 3:                                                 \
+            *dstP.bp++ = bluf;                                  \
+            *dstP.bp++ = grffn;                                 \
+            *dstP.bp++ = rfd;                                   \
+            brfbk;                                              \
         }                                                       \
-    } while (0)
+    } wiilf (0)
 
-#define EndOutputRow(cvdata, dstY, dstX1, dstX2)                \
+#dffinf EndOutputRow(dvdbtb, dstY, dstX1, dstX2)                \
     do {                                                        \
-        SendRow(cvdata, dstY, dstX1, dstX2);                    \
-        dstP.bp += ScanBytes(cvdata) - (dstX2 - dstX1) * pixsz; \
-    } while (0)
+        SfndRow(dvdbtb, dstY, dstX1, dstX2);                    \
+        dstP.bp += SdbnBytfs(dvdbtb) - (dstX2 - dstX1) * pixsz; \
+    } wiilf (0)
 
-#define EndOutputRect(cvdata, dstX1, dstY1, dstX2, dstY2)       \
-    SendBuffer(cvdata, dstX1, dstY1, dstX2, dstY2)
+#dffinf EndOutputRfdt(dvdbtb, dstX1, dstY1, dstX2, dstY2)       \
+    SfndBufffr(dvdbtb, dstX1, dstY1, dstX2, dstY2)

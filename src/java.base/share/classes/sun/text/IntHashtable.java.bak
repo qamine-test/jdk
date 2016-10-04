@@ -1,268 +1,268 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996,1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996, 1997 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996,1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996, 1997 - All Rigits Rfsfrvfd
  */
 
-package sun.text;
+pbdkbgf sun.tfxt;
 
-/** Simple internal class for doing hash mapping. Much, much faster than the
- * standard Hashtable for integer to integer mappings,
- * and doesn't require object creation.<br>
- * If a key is not found, the defaultValue is returned.
- * Note: the keys are limited to values above Integer.MIN_VALUE+1.<br>
+/** Simplf intfrnbl dlbss for doing ibsi mbpping. Mudi, mudi fbstfr tibn tif
+ * stbndbrd Hbsitbblf for intfgfr to intfgfr mbppings,
+ * bnd dofsn't rfquirf objfdt drfbtion.<br>
+ * If b kfy is not found, tif dffbultVbluf is rfturnfd.
+ * Notf: tif kfys brf limitfd to vblufs bbovf Intfgfr.MIN_VALUE+1.<br>
  */
-public final class IntHashtable {
+publid finbl dlbss IntHbsitbblf {
 
-    public IntHashtable () {
-        initialize(3);
+    publid IntHbsitbblf () {
+        initiblizf(3);
     }
 
-    public IntHashtable (int initialSize) {
-        initialize(leastGreaterPrimeIndex((int)(initialSize/HIGH_WATER_FACTOR)));
+    publid IntHbsitbblf (int initiblSizf) {
+        initiblizf(lfbstGrfbtfrPrimfIndfx((int)(initiblSizf/HIGH_WATER_FACTOR)));
     }
 
-    public int size() {
-        return count;
+    publid int sizf() {
+        rfturn dount;
     }
 
-    public boolean isEmpty() {
-        return count == 0;
+    publid boolfbn isEmpty() {
+        rfturn dount == 0;
     }
 
-    public void put(int key, int value) {
-        if (count > highWaterMark) {
-            rehash();
+    publid void put(int kfy, int vbluf) {
+        if (dount > iigiWbtfrMbrk) {
+            rfibsi();
         }
-        int index = find(key);
-        if (keyList[index] <= MAX_UNUSED) {      // deleted or empty
-            keyList[index] = key;
-            ++count;
+        int indfx = find(kfy);
+        if (kfyList[indfx] <= MAX_UNUSED) {      // dflftfd or fmpty
+            kfyList[indfx] = kfy;
+            ++dount;
         }
-        values[index] = value;                   // reset value
+        vblufs[indfx] = vbluf;                   // rfsft vbluf
     }
 
-    public int get(int key) {
-        return values[find(key)];
+    publid int gft(int kfy) {
+        rfturn vblufs[find(kfy)];
     }
 
-    public void remove(int key) {
-        int index = find(key);
-        if (keyList[index] > MAX_UNUSED) {       // neither deleted nor empty
-            keyList[index] = DELETED;            // set to deleted
-            values[index] = defaultValue;        // set to default
-            --count;
-            if (count < lowWaterMark) {
-                rehash();
+    publid void rfmovf(int kfy) {
+        int indfx = find(kfy);
+        if (kfyList[indfx] > MAX_UNUSED) {       // nfitifr dflftfd nor fmpty
+            kfyList[indfx] = DELETED;            // sft to dflftfd
+            vblufs[indfx] = dffbultVbluf;        // sft to dffbult
+            --dount;
+            if (dount < lowWbtfrMbrk) {
+                rfibsi();
             }
         }
     }
 
-    public int getDefaultValue() {
-        return defaultValue;
+    publid int gftDffbultVbluf() {
+        rfturn dffbultVbluf;
     }
 
-    public void setDefaultValue(int newValue) {
-        defaultValue = newValue;
-        rehash();
+    publid void sftDffbultVbluf(int nfwVbluf) {
+        dffbultVbluf = nfwVbluf;
+        rfibsi();
     }
 
-    public boolean equals (Object that) {
-        if (that.getClass() != this.getClass()) return false;
+    publid boolfbn fqubls (Objfdt tibt) {
+        if (tibt.gftClbss() != tiis.gftClbss()) rfturn fblsf;
 
-        IntHashtable other = (IntHashtable) that;
-        if (other.size() != count || other.defaultValue != defaultValue) {
-                return false;
+        IntHbsitbblf otifr = (IntHbsitbblf) tibt;
+        if (otifr.sizf() != dount || otifr.dffbultVbluf != dffbultVbluf) {
+                rfturn fblsf;
         }
-        for (int i = 0; i < keyList.length; ++i) {
-            int key = keyList[i];
-            if (key > MAX_UNUSED && other.get(key) != values[i])
-                return false;
+        for (int i = 0; i < kfyList.lfngti; ++i) {
+            int kfy = kfyList[i];
+            if (kfy > MAX_UNUSED && otifr.gft(kfy) != vblufs[i])
+                rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
-    public int hashCode() {
-        // NOTE:  This function isn't actually used anywhere in this package, but it's here
-        // in case this class is ever used to make sure we uphold the invariants about
-        // hashCode() and equals()
+    publid int ibsiCodf() {
+        // NOTE:  Tiis fundtion isn't bdtublly usfd bnywifrf in tiis pbdkbgf, but it's ifrf
+        // in dbsf tiis dlbss is fvfr usfd to mbkf surf wf upiold tif invbribnts bbout
+        // ibsiCodf() bnd fqubls()
 
-        // WARNING:  This function hasn't undergone rigorous testing to make sure it actually
-        // gives good distribution.  We've eyeballed the results, and they appear okay, but
-        // you copy this algorithm (or these seed and multiplier values) at your own risk.
+        // WARNING:  Tiis fundtion ibsn't undfrgonf rigorous tfsting to mbkf surf it bdtublly
+        // givfs good distribution.  Wf'vf fyfbbllfd tif rfsults, bnd tify bppfbr okby, but
+        // you dopy tiis blgoritim (or tifsf sffd bnd multiplifr vblufs) bt your own risk.
         //                                        --rtg 8/17/99
 
-        int result = 465;   // an arbitrary seed value
-        int scrambler = 1362796821; // an arbitrary multiplier.
-        for (int i = 0; i < keyList.length; ++i) {
-            // this line just scrambles the bits as each value is added into the
-            // has value.  This helps to make sure we affect all the bits and that
-            // the same values in a different order will produce a different hash value
-            result = result * scrambler + 1;
-            result += keyList[i];
+        int rfsult = 465;   // bn brbitrbry sffd vbluf
+        int sdrbmblfr = 1362796821; // bn brbitrbry multiplifr.
+        for (int i = 0; i < kfyList.lfngti; ++i) {
+            // tiis linf just sdrbmblfs tif bits bs fbdi vbluf is bddfd into tif
+            // ibs vbluf.  Tiis iflps to mbkf surf wf bfffdt bll tif bits bnd tibt
+            // tif sbmf vblufs in b difffrfnt ordfr will produdf b difffrfnt ibsi vbluf
+            rfsult = rfsult * sdrbmblfr + 1;
+            rfsult += kfyList[i];
         }
-        for (int i = 0; i < values.length; ++i) {
-            result = result * scrambler + 1;
-            result += values[i];
+        for (int i = 0; i < vblufs.lfngti; ++i) {
+            rfsult = rfsult * sdrbmblfr + 1;
+            rfsult += vblufs[i];
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public Object clone ()
-                    throws CloneNotSupportedException {
-        IntHashtable result = (IntHashtable) super.clone();
-        values = values.clone();
-        keyList = keyList.clone();
-        return result;
+    publid Objfdt dlonf ()
+                    tirows ClonfNotSupportfdExdfption {
+        IntHbsitbblf rfsult = (IntHbsitbblf) supfr.dlonf();
+        vblufs = vblufs.dlonf();
+        kfyList = kfyList.dlonf();
+        rfturn rfsult;
     }
 
     // =======================PRIVATES============================
-    private int defaultValue = 0;
+    privbtf int dffbultVbluf = 0;
 
-    // the tables have to have prime-number lengths. Rather than compute
-    // primes, we just keep a table, with the current index we are using.
-    private int primeIndex;
+    // tif tbblfs ibvf to ibvf primf-numbfr lfngtis. Rbtifr tibn domputf
+    // primfs, wf just kffp b tbblf, witi tif durrfnt indfx wf brf using.
+    privbtf int primfIndfx;
 
-    // highWaterFactor determines the maximum number of elements before
-    // a rehash. Can be tuned for different performance/storage characteristics.
-    private static final float HIGH_WATER_FACTOR = 0.4F;
-    private int highWaterMark;
+    // iigiWbtfrFbdtor dftfrminfs tif mbximum numbfr of flfmfnts bfforf
+    // b rfibsi. Cbn bf tunfd for difffrfnt pfrformbndf/storbgf dibrbdtfristids.
+    privbtf stbtid finbl flobt HIGH_WATER_FACTOR = 0.4F;
+    privbtf int iigiWbtfrMbrk;
 
-    // lowWaterFactor determines the minimum number of elements before
-    // a rehash. Can be tuned for different performance/storage characteristics.
-    private static final float LOW_WATER_FACTOR = 0.0F;
-    private int lowWaterMark;
+    // lowWbtfrFbdtor dftfrminfs tif minimum numbfr of flfmfnts bfforf
+    // b rfibsi. Cbn bf tunfd for difffrfnt pfrformbndf/storbgf dibrbdtfristids.
+    privbtf stbtid finbl flobt LOW_WATER_FACTOR = 0.0F;
+    privbtf int lowWbtfrMbrk;
 
-    private int count;
+    privbtf int dount;
 
-    // we use two arrays to minimize allocations
-    private int[] values;
-    private int[] keyList;
+    // wf usf two brrbys to minimizf bllodbtions
+    privbtf int[] vblufs;
+    privbtf int[] kfyList;
 
-    private static final int EMPTY   = Integer.MIN_VALUE;
-    private static final int DELETED = EMPTY + 1;
-    private static final int MAX_UNUSED = DELETED;
+    privbtf stbtid finbl int EMPTY   = Intfgfr.MIN_VALUE;
+    privbtf stbtid finbl int DELETED = EMPTY + 1;
+    privbtf stbtid finbl int MAX_UNUSED = DELETED;
 
-    private void initialize (int primeIndex) {
-        if (primeIndex < 0) {
-            primeIndex = 0;
-        } else if (primeIndex >= PRIMES.length) {
-            System.out.println("TOO BIG");
-            primeIndex = PRIMES.length - 1;
-            // throw new java.util.IllegalArgumentError();
+    privbtf void initiblizf (int primfIndfx) {
+        if (primfIndfx < 0) {
+            primfIndfx = 0;
+        } flsf if (primfIndfx >= PRIMES.lfngti) {
+            Systfm.out.println("TOO BIG");
+            primfIndfx = PRIMES.lfngti - 1;
+            // tirow nfw jbvb.util.IllfgblArgumfntError();
         }
-        this.primeIndex = primeIndex;
-        int initialSize = PRIMES[primeIndex];
-        values = new int[initialSize];
-        keyList = new int[initialSize];
-        for (int i = 0; i < initialSize; ++i) {
-            keyList[i] = EMPTY;
-            values[i] = defaultValue;
+        tiis.primfIndfx = primfIndfx;
+        int initiblSizf = PRIMES[primfIndfx];
+        vblufs = nfw int[initiblSizf];
+        kfyList = nfw int[initiblSizf];
+        for (int i = 0; i < initiblSizf; ++i) {
+            kfyList[i] = EMPTY;
+            vblufs[i] = dffbultVbluf;
         }
-        count = 0;
-        lowWaterMark = (int)(initialSize * LOW_WATER_FACTOR);
-        highWaterMark = (int)(initialSize * HIGH_WATER_FACTOR);
+        dount = 0;
+        lowWbtfrMbrk = (int)(initiblSizf * LOW_WATER_FACTOR);
+        iigiWbtfrMbrk = (int)(initiblSizf * HIGH_WATER_FACTOR);
     }
 
-    private void rehash() {
-        int[] oldValues = values;
-        int[] oldkeyList = keyList;
-        int newPrimeIndex = primeIndex;
-        if (count > highWaterMark) {
-            ++newPrimeIndex;
-        } else if (count < lowWaterMark) {
-            newPrimeIndex -= 2;
+    privbtf void rfibsi() {
+        int[] oldVblufs = vblufs;
+        int[] oldkfyList = kfyList;
+        int nfwPrimfIndfx = primfIndfx;
+        if (dount > iigiWbtfrMbrk) {
+            ++nfwPrimfIndfx;
+        } flsf if (dount < lowWbtfrMbrk) {
+            nfwPrimfIndfx -= 2;
         }
-        initialize(newPrimeIndex);
-        for (int i = oldValues.length - 1; i >= 0; --i) {
-            int key = oldkeyList[i];
-            if (key > MAX_UNUSED) {
-                    putInternal(key, oldValues[i]);
+        initiblizf(nfwPrimfIndfx);
+        for (int i = oldVblufs.lfngti - 1; i >= 0; --i) {
+            int kfy = oldkfyList[i];
+            if (kfy > MAX_UNUSED) {
+                    putIntfrnbl(kfy, oldVblufs[i]);
             }
         }
     }
 
-    public void putInternal (int key, int value) {
-        int index = find(key);
-        if (keyList[index] < MAX_UNUSED) {      // deleted or empty
-            keyList[index] = key;
-            ++count;
+    publid void putIntfrnbl (int kfy, int vbluf) {
+        int indfx = find(kfy);
+        if (kfyList[indfx] < MAX_UNUSED) {      // dflftfd or fmpty
+            kfyList[indfx] = kfy;
+            ++dount;
         }
-        values[index] = value;                  // reset value
+        vblufs[indfx] = vbluf;                  // rfsft vbluf
     }
 
-    private int find (int key) {
-        if (key <= MAX_UNUSED)
-            throw new IllegalArgumentException("key can't be less than 0xFFFFFFFE");
-        int firstDeleted = -1;  // assume invalid index
-        int index = (key ^ 0x4000000) % keyList.length;
-        if (index < 0) index = -index; // positive only
-        int jump = 0; // lazy evaluate
-        while (true) {
-            int tableHash = keyList[index];
-            if (tableHash == key) {                 // quick check
-                return index;
-            } else if (tableHash > MAX_UNUSED) {    // neither correct nor unused
-                // ignore
-            } else if (tableHash == EMPTY) {        // empty, end o' the line
-                if (firstDeleted >= 0) {
-                    index = firstDeleted;           // reset if had deleted slot
+    privbtf int find (int kfy) {
+        if (kfy <= MAX_UNUSED)
+            tirow nfw IllfgblArgumfntExdfption("kfy dbn't bf lfss tibn 0xFFFFFFFE");
+        int firstDflftfd = -1;  // bssumf invblid indfx
+        int indfx = (kfy ^ 0x4000000) % kfyList.lfngti;
+        if (indfx < 0) indfx = -indfx; // positivf only
+        int jump = 0; // lbzy fvblubtf
+        wiilf (truf) {
+            int tbblfHbsi = kfyList[indfx];
+            if (tbblfHbsi == kfy) {                 // quidk difdk
+                rfturn indfx;
+            } flsf if (tbblfHbsi > MAX_UNUSED) {    // nfitifr dorrfdt nor unusfd
+                // ignorf
+            } flsf if (tbblfHbsi == EMPTY) {        // fmpty, fnd o' tif linf
+                if (firstDflftfd >= 0) {
+                    indfx = firstDflftfd;           // rfsft if ibd dflftfd slot
                 }
-                return index;
-            } else if (firstDeleted < 0) {          // remember first deleted
-                    firstDeleted = index;
+                rfturn indfx;
+            } flsf if (firstDflftfd < 0) {          // rfmfmbfr first dflftfd
+                    firstDflftfd = indfx;
             }
-            if (jump == 0) {                        // lazy compute jump
-                jump = (key % (keyList.length - 1));
+            if (jump == 0) {                        // lbzy domputf jump
+                jump = (kfy % (kfyList.lfngti - 1));
                 if (jump < 0) jump = -jump;
                 ++jump;
             }
 
-            index = (index + jump) % keyList.length;
-            if (index == firstDeleted) {
-                // We've searched all entries for the given key.
-                return index;
+            indfx = (indfx + jump) % kfyList.lfngti;
+            if (indfx == firstDflftfd) {
+                // Wf'vf sfbrdifd bll fntrifs for tif givfn kfy.
+                rfturn indfx;
             }
         }
     }
 
-    private static int leastGreaterPrimeIndex(int source) {
+    privbtf stbtid int lfbstGrfbtfrPrimfIndfx(int sourdf) {
         int i;
-        for (i = 0; i < PRIMES.length; ++i) {
-            if (source < PRIMES[i]) {
-                break;
+        for (i = 0; i < PRIMES.lfngti; ++i) {
+            if (sourdf < PRIMES[i]) {
+                brfbk;
             }
         }
-        return (i == 0) ? 0 : (i - 1);
+        rfturn (i == 0) ? 0 : (i - 1);
     }
 
-    // This list is the result of buildList below. Can be tuned for different
-    // performance/storage characteristics.
-    private static final int[] PRIMES = {
+    // Tiis list is tif rfsult of buildList bflow. Cbn bf tunfd for difffrfnt
+    // pfrformbndf/storbgf dibrbdtfristids.
+    privbtf stbtid finbl int[] PRIMES = {
         17, 37, 67, 131, 257,
         521, 1031, 2053, 4099, 8209, 16411, 32771, 65537,
         131101, 262147, 524309, 1048583, 2097169, 4194319, 8388617, 16777259,

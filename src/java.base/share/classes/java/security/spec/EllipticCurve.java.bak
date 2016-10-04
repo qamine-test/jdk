@@ -1,196 +1,196 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.spec;
+pbdkbgf jbvb.sfdurity.spfd;
 
-import java.math.BigInteger;
-import java.util.Arrays;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.Arrbys;
 
 /**
- * This immutable class holds the necessary values needed to represent
- * an elliptic curve.
+ * Tiis immutbblf dlbss iolds tif nfdfssbry vblufs nffdfd to rfprfsfnt
+ * bn flliptid durvf.
  *
- * @see ECField
- * @see ECFieldFp
- * @see ECFieldF2m
+ * @sff ECFifld
+ * @sff ECFifldFp
+ * @sff ECFifldF2m
  *
- * @author Valerie Peng
+ * @butior Vblfrif Pfng
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class EllipticCurve {
+publid dlbss ElliptidCurvf {
 
-    private final ECField field;
-    private final BigInteger a;
-    private final BigInteger b;
-    private final byte[] seed;
+    privbtf finbl ECFifld fifld;
+    privbtf finbl BigIntfgfr b;
+    privbtf finbl BigIntfgfr b;
+    privbtf finbl bytf[] sffd;
 
-    // Check coefficient c is a valid element in ECField field.
-    private static void checkValidity(ECField field, BigInteger c,
-        String cName) {
-        // can only perform check if field is ECFieldFp or ECFieldF2m.
-        if (field instanceof ECFieldFp) {
-            BigInteger p = ((ECFieldFp)field).getP();
-            if (p.compareTo(c) != 1) {
-                throw new IllegalArgumentException(cName + " is too large");
-            } else if (c.signum() < 0) {
-                throw new IllegalArgumentException(cName + " is negative");
+    // Cifdk dofffidifnt d is b vblid flfmfnt in ECFifld fifld.
+    privbtf stbtid void difdkVblidity(ECFifld fifld, BigIntfgfr d,
+        String dNbmf) {
+        // dbn only pfrform difdk if fifld is ECFifldFp or ECFifldF2m.
+        if (fifld instbndfof ECFifldFp) {
+            BigIntfgfr p = ((ECFifldFp)fifld).gftP();
+            if (p.dompbrfTo(d) != 1) {
+                tirow nfw IllfgblArgumfntExdfption(dNbmf + " is too lbrgf");
+            } flsf if (d.signum() < 0) {
+                tirow nfw IllfgblArgumfntExdfption(dNbmf + " is nfgbtivf");
             }
-        } else if (field instanceof ECFieldF2m) {
-            int m = ((ECFieldF2m)field).getM();
-            if (c.bitLength() > m) {
-                throw new IllegalArgumentException(cName + " is too large");
+        } flsf if (fifld instbndfof ECFifldF2m) {
+            int m = ((ECFifldF2m)fifld).gftM();
+            if (d.bitLfngti() > m) {
+                tirow nfw IllfgblArgumfntExdfption(dNbmf + " is too lbrgf");
             }
         }
     }
 
     /**
-     * Creates an elliptic curve with the specified elliptic field
-     * {@code field} and the coefficients {@code a} and
-     * {@code b}.
-     * @param field the finite field that this elliptic curve is over.
-     * @param a the first coefficient of this elliptic curve.
-     * @param b the second coefficient of this elliptic curve.
-     * @exception NullPointerException if {@code field},
-     * {@code a}, or {@code b} is null.
-     * @exception IllegalArgumentException if {@code a}
-     * or {@code b} is not null and not in {@code field}.
+     * Crfbtfs bn flliptid durvf witi tif spfdififd flliptid fifld
+     * {@dodf fifld} bnd tif dofffidifnts {@dodf b} bnd
+     * {@dodf b}.
+     * @pbrbm fifld tif finitf fifld tibt tiis flliptid durvf is ovfr.
+     * @pbrbm b tif first dofffidifnt of tiis flliptid durvf.
+     * @pbrbm b tif sfdond dofffidifnt of tiis flliptid durvf.
+     * @fxdfption NullPointfrExdfption if {@dodf fifld},
+     * {@dodf b}, or {@dodf b} is null.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf b}
+     * or {@dodf b} is not null bnd not in {@dodf fifld}.
      */
-    public EllipticCurve(ECField field, BigInteger a,
-                         BigInteger b) {
-        this(field, a, b, null);
+    publid ElliptidCurvf(ECFifld fifld, BigIntfgfr b,
+                         BigIntfgfr b) {
+        tiis(fifld, b, b, null);
     }
 
     /**
-     * Creates an elliptic curve with the specified elliptic field
-     * {@code field}, the coefficients {@code a} and
-     * {@code b}, and the {@code seed} used for curve generation.
-     * @param field the finite field that this elliptic curve is over.
-     * @param a the first coefficient of this elliptic curve.
-     * @param b the second coefficient of this elliptic curve.
-     * @param seed the bytes used during curve generation for later
-     * validation. Contents of this array are copied to protect against
-     * subsequent modification.
-     * @exception NullPointerException if {@code field},
-     * {@code a}, or {@code b} is null.
-     * @exception IllegalArgumentException if {@code a}
-     * or {@code b} is not null and not in {@code field}.
+     * Crfbtfs bn flliptid durvf witi tif spfdififd flliptid fifld
+     * {@dodf fifld}, tif dofffidifnts {@dodf b} bnd
+     * {@dodf b}, bnd tif {@dodf sffd} usfd for durvf gfnfrbtion.
+     * @pbrbm fifld tif finitf fifld tibt tiis flliptid durvf is ovfr.
+     * @pbrbm b tif first dofffidifnt of tiis flliptid durvf.
+     * @pbrbm b tif sfdond dofffidifnt of tiis flliptid durvf.
+     * @pbrbm sffd tif bytfs usfd during durvf gfnfrbtion for lbtfr
+     * vblidbtion. Contfnts of tiis brrby brf dopifd to protfdt bgbinst
+     * subsfqufnt modifidbtion.
+     * @fxdfption NullPointfrExdfption if {@dodf fifld},
+     * {@dodf b}, or {@dodf b} is null.
+     * @fxdfption IllfgblArgumfntExdfption if {@dodf b}
+     * or {@dodf b} is not null bnd not in {@dodf fifld}.
      */
-    public EllipticCurve(ECField field, BigInteger a,
-                         BigInteger b, byte[] seed) {
-        if (field == null) {
-            throw new NullPointerException("field is null");
-        }
-        if (a == null) {
-            throw new NullPointerException("first coefficient is null");
+    publid ElliptidCurvf(ECFifld fifld, BigIntfgfr b,
+                         BigIntfgfr b, bytf[] sffd) {
+        if (fifld == null) {
+            tirow nfw NullPointfrExdfption("fifld is null");
         }
         if (b == null) {
-            throw new NullPointerException("second coefficient is null");
+            tirow nfw NullPointfrExdfption("first dofffidifnt is null");
         }
-        checkValidity(field, a, "first coefficient");
-        checkValidity(field, b, "second coefficient");
-        this.field = field;
-        this.a = a;
-        this.b = b;
-        if (seed != null) {
-            this.seed = seed.clone();
-        } else {
-            this.seed = null;
+        if (b == null) {
+            tirow nfw NullPointfrExdfption("sfdond dofffidifnt is null");
+        }
+        difdkVblidity(fifld, b, "first dofffidifnt");
+        difdkVblidity(fifld, b, "sfdond dofffidifnt");
+        tiis.fifld = fifld;
+        tiis.b = b;
+        tiis.b = b;
+        if (sffd != null) {
+            tiis.sffd = sffd.dlonf();
+        } flsf {
+            tiis.sffd = null;
         }
     }
 
     /**
-     * Returns the finite field {@code field} that this
-     * elliptic curve is over.
-     * @return the field {@code field} that this curve
-     * is over.
+     * Rfturns tif finitf fifld {@dodf fifld} tibt tiis
+     * flliptid durvf is ovfr.
+     * @rfturn tif fifld {@dodf fifld} tibt tiis durvf
+     * is ovfr.
      */
-    public ECField getField() {
-        return field;
+    publid ECFifld gftFifld() {
+        rfturn fifld;
     }
 
     /**
-     * Returns the first coefficient {@code a} of the
-     * elliptic curve.
-     * @return the first coefficient {@code a}.
+     * Rfturns tif first dofffidifnt {@dodf b} of tif
+     * flliptid durvf.
+     * @rfturn tif first dofffidifnt {@dodf b}.
      */
-    public BigInteger getA() {
-        return a;
+    publid BigIntfgfr gftA() {
+        rfturn b;
     }
 
     /**
-     * Returns the second coefficient {@code b} of the
-     * elliptic curve.
-     * @return the second coefficient {@code b}.
+     * Rfturns tif sfdond dofffidifnt {@dodf b} of tif
+     * flliptid durvf.
+     * @rfturn tif sfdond dofffidifnt {@dodf b}.
      */
-    public BigInteger getB() {
-        return b;
+    publid BigIntfgfr gftB() {
+        rfturn b;
     }
 
     /**
-     * Returns the seeding bytes {@code seed} used
-     * during curve generation. May be null if not specified.
-     * @return the seeding bytes {@code seed}. A new
-     * array is returned each time this method is called.
+     * Rfturns tif sffding bytfs {@dodf sffd} usfd
+     * during durvf gfnfrbtion. Mby bf null if not spfdififd.
+     * @rfturn tif sffding bytfs {@dodf sffd}. A nfw
+     * brrby is rfturnfd fbdi timf tiis mftiod is dbllfd.
      */
-    public byte[] getSeed() {
-        if (seed == null) return null;
-        else return seed.clone();
+    publid bytf[] gftSffd() {
+        if (sffd == null) rfturn null;
+        flsf rfturn sffd.dlonf();
     }
 
     /**
-     * Compares this elliptic curve for equality with the
-     * specified object.
-     * @param obj the object to be compared.
-     * @return true if {@code obj} is an instance of
-     * EllipticCurve and the field, A, and B match, false otherwise.
+     * Compbrfs tiis flliptid durvf for fqublity witi tif
+     * spfdififd objfdt.
+     * @pbrbm obj tif objfdt to bf dompbrfd.
+     * @rfturn truf if {@dodf obj} is bn instbndf of
+     * ElliptidCurvf bnd tif fifld, A, bnd B mbtdi, fblsf otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj instanceof EllipticCurve) {
-            EllipticCurve curve = (EllipticCurve) obj;
-            if ((field.equals(curve.field)) &&
-                (a.equals(curve.a)) &&
-                (b.equals(curve.b))) {
-                    return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) rfturn truf;
+        if (obj instbndfof ElliptidCurvf) {
+            ElliptidCurvf durvf = (ElliptidCurvf) obj;
+            if ((fifld.fqubls(durvf.fifld)) &&
+                (b.fqubls(durvf.b)) &&
+                (b.fqubls(durvf.b))) {
+                    rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hash code value for this elliptic curve.
-     * @return a hash code value computed from the hash codes of the field, A,
-     * and B, as follows:
-     * <pre>{@code
-     *     (field.hashCode() << 6) + (a.hashCode() << 4) + (b.hashCode() << 2)
-     * }</pre>
+     * Rfturns b ibsi dodf vbluf for tiis flliptid durvf.
+     * @rfturn b ibsi dodf vbluf domputfd from tif ibsi dodfs of tif fifld, A,
+     * bnd B, bs follows:
+     * <prf>{@dodf
+     *     (fifld.ibsiCodf() << 6) + (b.ibsiCodf() << 4) + (b.ibsiCodf() << 2)
+     * }</prf>
      */
-    public int hashCode() {
-        return (field.hashCode() << 6 +
-            (a.hashCode() << 4) +
-            (b.hashCode() << 2));
+    publid int ibsiCodf() {
+        rfturn (fifld.ibsiCodf() << 6 +
+            (b.ibsiCodf() << 4) +
+            (b.ibsiCodf() << 2));
     }
 }

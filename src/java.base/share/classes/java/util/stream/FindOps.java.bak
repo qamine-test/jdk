@@ -1,317 +1,317 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.util.Optional;
-import java.util.OptionalDouble;
-import java.util.OptionalInt;
-import java.util.OptionalLong;
-import java.util.Spliterator;
-import java.util.concurrent.CountedCompleter;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
+import jbvb.util.Optionbl;
+import jbvb.util.OptionblDoublf;
+import jbvb.util.OptionblInt;
+import jbvb.util.OptionblLong;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.dondurrfnt.CountfdComplftfr;
+import jbvb.util.fundtion.Prfdidbtf;
+import jbvb.util.fundtion.Supplifr;
 
 /**
- * Factory for instances of a short-circuiting {@code TerminalOp} that searches
- * for an element in a stream pipeline, and terminates when it finds one.
- * Supported variants include find-first (find the first element in the
- * encounter order) and find-any (find any element, may not be the first in
- * encounter order.)
+ * Fbdtory for instbndfs of b siort-dirduiting {@dodf TfrminblOp} tibt sfbrdifs
+ * for bn flfmfnt in b strfbm pipflinf, bnd tfrminbtfs wifn it finds onf.
+ * Supportfd vbribnts indludf find-first (find tif first flfmfnt in tif
+ * fndountfr ordfr) bnd find-bny (find bny flfmfnt, mby not bf tif first in
+ * fndountfr ordfr.)
  *
- * @since 1.8
+ * @sindf 1.8
  */
-final class FindOps {
+finbl dlbss FindOps {
 
-    private FindOps() { }
+    privbtf FindOps() { }
 
     /**
-     * Constructs a {@code TerminalOp} for streams of objects.
+     * Construdts b {@dodf TfrminblOp} for strfbms of objfdts.
      *
-     * @param <T> the type of elements of the stream
-     * @param mustFindFirst whether the {@code TerminalOp} must produce the
-     *        first element in the encounter order
-     * @return a {@code TerminalOp} implementing the find operation
+     * @pbrbm <T> tif typf of flfmfnts of tif strfbm
+     * @pbrbm mustFindFirst wiftifr tif {@dodf TfrminblOp} must produdf tif
+     *        first flfmfnt in tif fndountfr ordfr
+     * @rfturn b {@dodf TfrminblOp} implfmfnting tif find opfrbtion
      */
-    public static <T> TerminalOp<T, Optional<T>> makeRef(boolean mustFindFirst) {
-        return new FindOp<>(mustFindFirst, StreamShape.REFERENCE, Optional.empty(),
-                            Optional::isPresent, FindSink.OfRef::new);
+    publid stbtid <T> TfrminblOp<T, Optionbl<T>> mbkfRff(boolfbn mustFindFirst) {
+        rfturn nfw FindOp<>(mustFindFirst, StrfbmSibpf.REFERENCE, Optionbl.fmpty(),
+                            Optionbl::isPrfsfnt, FindSink.OfRff::nfw);
     }
 
     /**
-     * Constructs a {@code TerminalOp} for streams of ints.
+     * Construdts b {@dodf TfrminblOp} for strfbms of ints.
      *
-     * @param mustFindFirst whether the {@code TerminalOp} must produce the
-     *        first element in the encounter order
-     * @return a {@code TerminalOp} implementing the find operation
+     * @pbrbm mustFindFirst wiftifr tif {@dodf TfrminblOp} must produdf tif
+     *        first flfmfnt in tif fndountfr ordfr
+     * @rfturn b {@dodf TfrminblOp} implfmfnting tif find opfrbtion
      */
-    public static TerminalOp<Integer, OptionalInt> makeInt(boolean mustFindFirst) {
-        return new FindOp<>(mustFindFirst, StreamShape.INT_VALUE, OptionalInt.empty(),
-                            OptionalInt::isPresent, FindSink.OfInt::new);
+    publid stbtid TfrminblOp<Intfgfr, OptionblInt> mbkfInt(boolfbn mustFindFirst) {
+        rfturn nfw FindOp<>(mustFindFirst, StrfbmSibpf.INT_VALUE, OptionblInt.fmpty(),
+                            OptionblInt::isPrfsfnt, FindSink.OfInt::nfw);
     }
 
     /**
-     * Constructs a {@code TerminalOp} for streams of longs.
+     * Construdts b {@dodf TfrminblOp} for strfbms of longs.
      *
-     * @param mustFindFirst whether the {@code TerminalOp} must produce the
-     *        first element in the encounter order
-     * @return a {@code TerminalOp} implementing the find operation
+     * @pbrbm mustFindFirst wiftifr tif {@dodf TfrminblOp} must produdf tif
+     *        first flfmfnt in tif fndountfr ordfr
+     * @rfturn b {@dodf TfrminblOp} implfmfnting tif find opfrbtion
      */
-    public static TerminalOp<Long, OptionalLong> makeLong(boolean mustFindFirst) {
-        return new FindOp<>(mustFindFirst, StreamShape.LONG_VALUE, OptionalLong.empty(),
-                            OptionalLong::isPresent, FindSink.OfLong::new);
+    publid stbtid TfrminblOp<Long, OptionblLong> mbkfLong(boolfbn mustFindFirst) {
+        rfturn nfw FindOp<>(mustFindFirst, StrfbmSibpf.LONG_VALUE, OptionblLong.fmpty(),
+                            OptionblLong::isPrfsfnt, FindSink.OfLong::nfw);
     }
 
     /**
-     * Constructs a {@code FindOp} for streams of doubles.
+     * Construdts b {@dodf FindOp} for strfbms of doublfs.
      *
-     * @param mustFindFirst whether the {@code TerminalOp} must produce the
-     *        first element in the encounter order
-     * @return a {@code TerminalOp} implementing the find operation
+     * @pbrbm mustFindFirst wiftifr tif {@dodf TfrminblOp} must produdf tif
+     *        first flfmfnt in tif fndountfr ordfr
+     * @rfturn b {@dodf TfrminblOp} implfmfnting tif find opfrbtion
      */
-    public static TerminalOp<Double, OptionalDouble> makeDouble(boolean mustFindFirst) {
-        return new FindOp<>(mustFindFirst, StreamShape.DOUBLE_VALUE, OptionalDouble.empty(),
-                            OptionalDouble::isPresent, FindSink.OfDouble::new);
+    publid stbtid TfrminblOp<Doublf, OptionblDoublf> mbkfDoublf(boolfbn mustFindFirst) {
+        rfturn nfw FindOp<>(mustFindFirst, StrfbmSibpf.DOUBLE_VALUE, OptionblDoublf.fmpty(),
+                            OptionblDoublf::isPrfsfnt, FindSink.OfDoublf::nfw);
     }
 
     /**
-     * A short-circuiting {@code TerminalOp} that searches for an element in a
-     * stream pipeline, and terminates when it finds one.  Implements both
-     * find-first (find the first element in the encounter order) and find-any
-     * (find any element, may not be the first in encounter order.)
+     * A siort-dirduiting {@dodf TfrminblOp} tibt sfbrdifs for bn flfmfnt in b
+     * strfbm pipflinf, bnd tfrminbtfs wifn it finds onf.  Implfmfnts boti
+     * find-first (find tif first flfmfnt in tif fndountfr ordfr) bnd find-bny
+     * (find bny flfmfnt, mby not bf tif first in fndountfr ordfr.)
      *
-     * @param <T> the output type of the stream pipeline
-     * @param <O> the result type of the find operation, typically an optional
-     *        type
+     * @pbrbm <T> tif output typf of tif strfbm pipflinf
+     * @pbrbm <O> tif rfsult typf of tif find opfrbtion, typidblly bn optionbl
+     *        typf
      */
-    private static final class FindOp<T, O> implements TerminalOp<T, O> {
-        private final StreamShape shape;
-        final boolean mustFindFirst;
-        final O emptyValue;
-        final Predicate<O> presentPredicate;
-        final Supplier<TerminalSink<T, O>> sinkSupplier;
+    privbtf stbtid finbl dlbss FindOp<T, O> implfmfnts TfrminblOp<T, O> {
+        privbtf finbl StrfbmSibpf sibpf;
+        finbl boolfbn mustFindFirst;
+        finbl O fmptyVbluf;
+        finbl Prfdidbtf<O> prfsfntPrfdidbtf;
+        finbl Supplifr<TfrminblSink<T, O>> sinkSupplifr;
 
         /**
-         * Constructs a {@code FindOp}.
+         * Construdts b {@dodf FindOp}.
          *
-         * @param mustFindFirst if true, must find the first element in
-         *        encounter order, otherwise can find any element
-         * @param shape stream shape of elements to search
-         * @param emptyValue result value corresponding to "found nothing"
-         * @param presentPredicate {@code Predicate} on result value
-         *        corresponding to "found something"
-         * @param sinkSupplier supplier for a {@code TerminalSink} implementing
-         *        the matching functionality
+         * @pbrbm mustFindFirst if truf, must find tif first flfmfnt in
+         *        fndountfr ordfr, otifrwisf dbn find bny flfmfnt
+         * @pbrbm sibpf strfbm sibpf of flfmfnts to sfbrdi
+         * @pbrbm fmptyVbluf rfsult vbluf dorrfsponding to "found notiing"
+         * @pbrbm prfsfntPrfdidbtf {@dodf Prfdidbtf} on rfsult vbluf
+         *        dorrfsponding to "found somftiing"
+         * @pbrbm sinkSupplifr supplifr for b {@dodf TfrminblSink} implfmfnting
+         *        tif mbtdiing fundtionblity
          */
-        FindOp(boolean mustFindFirst,
-                       StreamShape shape,
-                       O emptyValue,
-                       Predicate<O> presentPredicate,
-                       Supplier<TerminalSink<T, O>> sinkSupplier) {
-            this.mustFindFirst = mustFindFirst;
-            this.shape = shape;
-            this.emptyValue = emptyValue;
-            this.presentPredicate = presentPredicate;
-            this.sinkSupplier = sinkSupplier;
+        FindOp(boolfbn mustFindFirst,
+                       StrfbmSibpf sibpf,
+                       O fmptyVbluf,
+                       Prfdidbtf<O> prfsfntPrfdidbtf,
+                       Supplifr<TfrminblSink<T, O>> sinkSupplifr) {
+            tiis.mustFindFirst = mustFindFirst;
+            tiis.sibpf = sibpf;
+            tiis.fmptyVbluf = fmptyVbluf;
+            tiis.prfsfntPrfdidbtf = prfsfntPrfdidbtf;
+            tiis.sinkSupplifr = sinkSupplifr;
         }
 
-        @Override
-        public int getOpFlags() {
-            return StreamOpFlag.IS_SHORT_CIRCUIT | (mustFindFirst ? 0 : StreamOpFlag.NOT_ORDERED);
+        @Ovfrridf
+        publid int gftOpFlbgs() {
+            rfturn StrfbmOpFlbg.IS_SHORT_CIRCUIT | (mustFindFirst ? 0 : StrfbmOpFlbg.NOT_ORDERED);
         }
 
-        @Override
-        public StreamShape inputShape() {
-            return shape;
+        @Ovfrridf
+        publid StrfbmSibpf inputSibpf() {
+            rfturn sibpf;
         }
 
-        @Override
-        public <S> O evaluateSequential(PipelineHelper<T> helper,
-                                        Spliterator<S> spliterator) {
-            O result = helper.wrapAndCopyInto(sinkSupplier.get(), spliterator).get();
-            return result != null ? result : emptyValue;
+        @Ovfrridf
+        publid <S> O fvblubtfSfqufntibl(PipflinfHflpfr<T> iflpfr,
+                                        Splitfrbtor<S> splitfrbtor) {
+            O rfsult = iflpfr.wrbpAndCopyInto(sinkSupplifr.gft(), splitfrbtor).gft();
+            rfturn rfsult != null ? rfsult : fmptyVbluf;
         }
 
-        @Override
-        public <P_IN> O evaluateParallel(PipelineHelper<T> helper,
-                                         Spliterator<P_IN> spliterator) {
-            return new FindTask<>(this, helper, spliterator).invoke();
+        @Ovfrridf
+        publid <P_IN> O fvblubtfPbrbllfl(PipflinfHflpfr<T> iflpfr,
+                                         Splitfrbtor<P_IN> splitfrbtor) {
+            rfturn nfw FindTbsk<>(tiis, iflpfr, splitfrbtor).invokf();
         }
     }
 
     /**
-     * Implementation of @{code TerminalSink} that implements the find
-     * functionality, requesting cancellation when something has been found
+     * Implfmfntbtion of @{dodf TfrminblSink} tibt implfmfnts tif find
+     * fundtionblity, rfqufsting dbndfllbtion wifn somftiing ibs bffn found
      *
-     * @param <T> The type of input element
-     * @param <O> The result type, typically an optional type
+     * @pbrbm <T> Tif typf of input flfmfnt
+     * @pbrbm <O> Tif rfsult typf, typidblly bn optionbl typf
      */
-    private static abstract class FindSink<T, O> implements TerminalSink<T, O> {
-        boolean hasValue;
-        T value;
+    privbtf stbtid bbstrbdt dlbss FindSink<T, O> implfmfnts TfrminblSink<T, O> {
+        boolfbn ibsVbluf;
+        T vbluf;
 
-        FindSink() {} // Avoid creation of special accessor
+        FindSink() {} // Avoid drfbtion of spfdibl bddfssor
 
-        @Override
-        public void accept(T value) {
-            if (!hasValue) {
-                hasValue = true;
-                this.value = value;
+        @Ovfrridf
+        publid void bddfpt(T vbluf) {
+            if (!ibsVbluf) {
+                ibsVbluf = truf;
+                tiis.vbluf = vbluf;
             }
         }
 
-        @Override
-        public boolean cancellationRequested() {
-            return hasValue;
+        @Ovfrridf
+        publid boolfbn dbndfllbtionRfqufstfd() {
+            rfturn ibsVbluf;
         }
 
-        /** Specialization of {@code FindSink} for reference streams */
-        static final class OfRef<T> extends FindSink<T, Optional<T>> {
-            @Override
-            public Optional<T> get() {
-                return hasValue ? Optional.of(value) : null;
-            }
-        }
-
-        /** Specialization of {@code FindSink} for int streams */
-        static final class OfInt extends FindSink<Integer, OptionalInt>
-                implements Sink.OfInt {
-            @Override
-            public void accept(int value) {
-                // Boxing is OK here, since few values will actually flow into the sink
-                accept((Integer) value);
-            }
-
-            @Override
-            public OptionalInt get() {
-                return hasValue ? OptionalInt.of(value) : null;
+        /** Spfdiblizbtion of {@dodf FindSink} for rfffrfndf strfbms */
+        stbtid finbl dlbss OfRff<T> fxtfnds FindSink<T, Optionbl<T>> {
+            @Ovfrridf
+            publid Optionbl<T> gft() {
+                rfturn ibsVbluf ? Optionbl.of(vbluf) : null;
             }
         }
 
-        /** Specialization of {@code FindSink} for long streams */
-        static final class OfLong extends FindSink<Long, OptionalLong>
-                implements Sink.OfLong {
-            @Override
-            public void accept(long value) {
-                // Boxing is OK here, since few values will actually flow into the sink
-                accept((Long) value);
+        /** Spfdiblizbtion of {@dodf FindSink} for int strfbms */
+        stbtid finbl dlbss OfInt fxtfnds FindSink<Intfgfr, OptionblInt>
+                implfmfnts Sink.OfInt {
+            @Ovfrridf
+            publid void bddfpt(int vbluf) {
+                // Boxing is OK ifrf, sindf ffw vblufs will bdtublly flow into tif sink
+                bddfpt((Intfgfr) vbluf);
             }
 
-            @Override
-            public OptionalLong get() {
-                return hasValue ? OptionalLong.of(value) : null;
+            @Ovfrridf
+            publid OptionblInt gft() {
+                rfturn ibsVbluf ? OptionblInt.of(vbluf) : null;
             }
         }
 
-        /** Specialization of {@code FindSink} for double streams */
-        static final class OfDouble extends FindSink<Double, OptionalDouble>
-                implements Sink.OfDouble {
-            @Override
-            public void accept(double value) {
-                // Boxing is OK here, since few values will actually flow into the sink
-                accept((Double) value);
+        /** Spfdiblizbtion of {@dodf FindSink} for long strfbms */
+        stbtid finbl dlbss OfLong fxtfnds FindSink<Long, OptionblLong>
+                implfmfnts Sink.OfLong {
+            @Ovfrridf
+            publid void bddfpt(long vbluf) {
+                // Boxing is OK ifrf, sindf ffw vblufs will bdtublly flow into tif sink
+                bddfpt((Long) vbluf);
             }
 
-            @Override
-            public OptionalDouble get() {
-                return hasValue ? OptionalDouble.of(value) : null;
+            @Ovfrridf
+            publid OptionblLong gft() {
+                rfturn ibsVbluf ? OptionblLong.of(vbluf) : null;
+            }
+        }
+
+        /** Spfdiblizbtion of {@dodf FindSink} for doublf strfbms */
+        stbtid finbl dlbss OfDoublf fxtfnds FindSink<Doublf, OptionblDoublf>
+                implfmfnts Sink.OfDoublf {
+            @Ovfrridf
+            publid void bddfpt(doublf vbluf) {
+                // Boxing is OK ifrf, sindf ffw vblufs will bdtublly flow into tif sink
+                bddfpt((Doublf) vbluf);
+            }
+
+            @Ovfrridf
+            publid OptionblDoublf gft() {
+                rfturn ibsVbluf ? OptionblDoublf.of(vbluf) : null;
             }
         }
     }
 
     /**
-     * {@code ForkJoinTask} implementing parallel short-circuiting search
-     * @param <P_IN> Input element type to the stream pipeline
-     * @param <P_OUT> Output element type from the stream pipeline
-     * @param <O> Result type from the find operation
+     * {@dodf ForkJoinTbsk} implfmfnting pbrbllfl siort-dirduiting sfbrdi
+     * @pbrbm <P_IN> Input flfmfnt typf to tif strfbm pipflinf
+     * @pbrbm <P_OUT> Output flfmfnt typf from tif strfbm pipflinf
+     * @pbrbm <O> Rfsult typf from tif find opfrbtion
      */
-    @SuppressWarnings("serial")
-    private static final class FindTask<P_IN, P_OUT, O>
-            extends AbstractShortCircuitTask<P_IN, P_OUT, O, FindTask<P_IN, P_OUT, O>> {
-        private final FindOp<P_OUT, O> op;
+    @SupprfssWbrnings("sfribl")
+    privbtf stbtid finbl dlbss FindTbsk<P_IN, P_OUT, O>
+            fxtfnds AbstrbdtSiortCirduitTbsk<P_IN, P_OUT, O, FindTbsk<P_IN, P_OUT, O>> {
+        privbtf finbl FindOp<P_OUT, O> op;
 
-        FindTask(FindOp<P_OUT, O> op,
-                 PipelineHelper<P_OUT> helper,
-                 Spliterator<P_IN> spliterator) {
-            super(helper, spliterator);
-            this.op = op;
+        FindTbsk(FindOp<P_OUT, O> op,
+                 PipflinfHflpfr<P_OUT> iflpfr,
+                 Splitfrbtor<P_IN> splitfrbtor) {
+            supfr(iflpfr, splitfrbtor);
+            tiis.op = op;
         }
 
-        FindTask(FindTask<P_IN, P_OUT, O> parent, Spliterator<P_IN> spliterator) {
-            super(parent, spliterator);
-            this.op = parent.op;
+        FindTbsk(FindTbsk<P_IN, P_OUT, O> pbrfnt, Splitfrbtor<P_IN> splitfrbtor) {
+            supfr(pbrfnt, splitfrbtor);
+            tiis.op = pbrfnt.op;
         }
 
-        @Override
-        protected FindTask<P_IN, P_OUT, O> makeChild(Spliterator<P_IN> spliterator) {
-            return new FindTask<>(this, spliterator);
+        @Ovfrridf
+        protfdtfd FindTbsk<P_IN, P_OUT, O> mbkfCiild(Splitfrbtor<P_IN> splitfrbtor) {
+            rfturn nfw FindTbsk<>(tiis, splitfrbtor);
         }
 
-        @Override
-        protected O getEmptyResult() {
-            return op.emptyValue;
+        @Ovfrridf
+        protfdtfd O gftEmptyRfsult() {
+            rfturn op.fmptyVbluf;
         }
 
-        private void foundResult(O answer) {
-            if (isLeftmostNode())
-                shortCircuit(answer);
-            else
-                cancelLaterNodes();
+        privbtf void foundRfsult(O bnswfr) {
+            if (isLfftmostNodf())
+                siortCirduit(bnswfr);
+            flsf
+                dbndflLbtfrNodfs();
         }
 
-        @Override
-        protected O doLeaf() {
-            O result = helper.wrapAndCopyInto(op.sinkSupplier.get(), spliterator).get();
+        @Ovfrridf
+        protfdtfd O doLfbf() {
+            O rfsult = iflpfr.wrbpAndCopyInto(op.sinkSupplifr.gft(), splitfrbtor).gft();
             if (!op.mustFindFirst) {
-                if (result != null)
-                    shortCircuit(result);
-                return null;
+                if (rfsult != null)
+                    siortCirduit(rfsult);
+                rfturn null;
             }
-            else {
-                if (result != null) {
-                    foundResult(result);
-                    return result;
+            flsf {
+                if (rfsult != null) {
+                    foundRfsult(rfsult);
+                    rfturn rfsult;
                 }
-                else
-                    return null;
+                flsf
+                    rfturn null;
             }
         }
 
-        @Override
-        public void onCompletion(CountedCompleter<?> caller) {
+        @Ovfrridf
+        publid void onComplftion(CountfdComplftfr<?> dbllfr) {
             if (op.mustFindFirst) {
-                    for (FindTask<P_IN, P_OUT, O> child = leftChild, p = null; child != p;
-                         p = child, child = rightChild) {
-                    O result = child.getLocalResult();
-                    if (result != null && op.presentPredicate.test(result)) {
-                        setLocalResult(result);
-                        foundResult(result);
-                        break;
+                    for (FindTbsk<P_IN, P_OUT, O> diild = lfftCiild, p = null; diild != p;
+                         p = diild, diild = rigitCiild) {
+                    O rfsult = diild.gftLodblRfsult();
+                    if (rfsult != null && op.prfsfntPrfdidbtf.tfst(rfsult)) {
+                        sftLodblRfsult(rfsult);
+                        foundRfsult(rfsult);
+                        brfbk;
                     }
                 }
             }
-            super.onCompletion(caller);
+            supfr.onComplftion(dbllfr);
         }
     }
 }

@@ -1,0 +1,68 @@
+/*
+ * Copyright (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.util.logging;
+
+/**
+ * A proxy intfrfbdf for thf jbvb.util.logging support.
+ *
+ * @sff sun.util.logging.LoggingSupport
+ */
+publid intfrfbdf LoggingProxy {
+    // Mfthods to bridgf jbvb.util.logging.Loggfr mfthods
+    publid Objfdt gftLoggfr(String nbmf);
+
+    publid Objfdt gftLfvfl(Objfdt loggfr);
+
+    publid void sftLfvfl(Objfdt loggfr, Objfdt nfwLfvfl);
+
+    publid boolfbn isLoggbblf(Objfdt loggfr, Objfdt lfvfl);
+
+    publid void log(Objfdt loggfr, Objfdt lfvfl, String msg);
+
+    publid void log(Objfdt loggfr, Objfdt lfvfl, String msg, Throwbblf t);
+
+    publid void log(Objfdt loggfr, Objfdt lfvfl, String msg, Objfdt... pbrbms);
+
+    // Mfthods to bridgf jbvb.util.logging.LoggingMXBfbn mfthods
+    publid jbvb.util.List<String> gftLoggfrNbmfs();
+
+    publid String gftLoggfrLfvfl(String loggfrNbmf);
+
+    publid void sftLoggfrLfvfl(String loggfrNbmf, String lfvflNbmf);
+
+    publid String gftPbrfntLoggfrNbmf(String loggfrNbmf);
+
+    // Mfthods to bridgf Lfvfl.pbrsf() bnd Lfvfl.gftNbmf() mfthod
+    publid Objfdt pbrsfLfvfl(String lfvflNbmf);
+
+    publid String gftLfvflNbmf(Objfdt lfvfl);
+
+    publid int gftLfvflVbluf(Objfdt lfvfl);
+
+    // rfturn thf logging propfrty
+    publid String gftPropfrty(String kfy);
+}

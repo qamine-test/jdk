@@ -1,0 +1,96 @@
+/*
+ * Copyright (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff JDWP_LOG_MESSAGES_H
+#dffinf JDWP_LOG_MESSAGES_H
+
+/* LOG: Must bf dbllfd likf:  LOG_dbtfgory(("bnything")) or LOG_dbtfgory((formbt,brgs)) */
+
+void sftup_logging(donst dhbr *, unsignfd);
+void finish_logging(int);
+
+#dffinf LOG_NULL ((void)0)
+
+/* Usf THIS_FILE whfn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
+
+#ifdff JDWP_LOGGING
+
+    #dffinf _LOG(flbvor,brgs) \
+                (log_mfssbgf_bfgin(flbvor,THIS_FILE,__LINE__), \
+                 log_mfssbgf_fnd brgs)
+
+    #dffinf LOG_TEST(flbg)  (gdbtb->log_flbgs & (flbg))
+
+    #dffinf LOG_JVM(brgs)   \
+        (LOG_TEST(JDWP_LOG_JVM)  ?_LOG("JVM",  brgs):LOG_NULL)
+    #dffinf LOG_JNI(brgs)   \
+        (LOG_TEST(JDWP_LOG_JNI)  ?_LOG("JNI",  brgs):LOG_NULL)
+    #dffinf LOG_JVMTI(brgs) \
+        (LOG_TEST(JDWP_LOG_JVMTI)?_LOG("JVMTI",brgs):LOG_NULL)
+    #dffinf LOG_MISC(brgs)  \
+        (LOG_TEST(JDWP_LOG_MISC) ?_LOG("MISC", brgs):LOG_NULL)
+    #dffinf LOG_STEP(brgs)  \
+        (LOG_TEST(JDWP_LOG_STEP) ?_LOG("STEP", brgs):LOG_NULL)
+    #dffinf LOG_LOC(brgs)   \
+        (LOG_TEST(JDWP_LOG_LOC)  ?_LOG("LOC",  brgs):LOG_NULL)
+    #dffinf LOG_CB(brgs) \
+        (LOG_TEST(JDWP_LOG_CB)?_LOG("CB",brgs):LOG_NULL)
+    #dffinf LOG_ERROR(brgs) \
+        (LOG_TEST(JDWP_LOG_ERROR)?_LOG("ERROR",brgs):LOG_NULL)
+
+
+    /* DO NOT USE THESE DIRECTLY */
+    void log_mfssbgf_bfgin(donst dhbr *, donst dhbr *, int);
+    void log_mfssbgf_fnd(donst dhbr *, ...);
+
+#flsf
+
+    #dffinf LOG_TEST(flbg)      0
+
+    #dffinf LOG_JVM(brgs)       LOG_NULL
+    #dffinf LOG_JNI(brgs)       LOG_NULL
+    #dffinf LOG_JVMTI(brgs)     LOG_NULL
+    #dffinf LOG_MISC(brgs)      LOG_NULL
+    #dffinf LOG_STEP(brgs)      LOG_NULL
+    #dffinf LOG_LOC(brgs)       LOG_NULL
+    #dffinf LOG_CB(brgs)        LOG_NULL
+    #dffinf LOG_ERROR(brgs)     LOG_NULL
+
+#fndif
+
+#dffinf    JDWP_LOG_JVM         0x00000001
+#dffinf    JDWP_LOG_JNI         0x00000002
+#dffinf    JDWP_LOG_JVMTI       0x00000004
+#dffinf    JDWP_LOG_MISC        0x00000008
+#dffinf    JDWP_LOG_STEP        0x00000010
+#dffinf    JDWP_LOG_LOC         0x00000020
+#dffinf    JDWP_LOG_CB          0x00000040
+#dffinf    JDWP_LOG_ERROR       0x00000080
+#dffinf    JDWP_LOG_ALL         0xffffffff
+
+#fndif

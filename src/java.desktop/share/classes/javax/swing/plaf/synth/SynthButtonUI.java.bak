@@ -1,541 +1,541 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import javax.swing.*;
-import java.awt.*;
-import java.beans.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.BasicButtonUI;
-import javax.swing.plaf.basic.BasicHTML;
-import javax.swing.text.View;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidButtonUI;
+import jbvbx.swing.plbf.bbsid.BbsidHTML;
+import jbvbx.swing.tfxt.Vifw;
 
 /**
- * Provides the Synth L&amp;F UI delegate for
- * {@link javax.swing.JButton}.
+ * Providfs tif Synti L&bmp;F UI dflfgbtf for
+ * {@link jbvbx.swing.JButton}.
  *
- * @author Scott Violet
- * @since 1.7
+ * @butior Sdott Violft
+ * @sindf 1.7
  */
-public class SynthButtonUI extends BasicButtonUI implements
-                                 PropertyChangeListener, SynthUI {
-    private SynthStyle style;
+publid dlbss SyntiButtonUI fxtfnds BbsidButtonUI implfmfnts
+                                 PropfrtyCibngfListfnfr, SyntiUI {
+    privbtf SyntiStylf stylf;
 
     /**
-     * Creates a new UI object for the given component.
+     * Crfbtfs b nfw UI objfdt for tif givfn domponfnt.
      *
-     * @param c component to create UI object for
-     * @return the UI object
+     * @pbrbm d domponfnt to drfbtf UI objfdt for
+     * @rfturn tif UI objfdt
      */
-    public static ComponentUI createUI(JComponent c) {
-        return new SynthButtonUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw SyntiButtonUI();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installDefaults(AbstractButton b) {
-        updateStyle(b);
+    @Ovfrridf
+    protfdtfd void instbllDffbults(AbstrbdtButton b) {
+        updbtfStylf(b);
 
-        LookAndFeel.installProperty(b, "rolloverEnabled", Boolean.TRUE);
+        LookAndFffl.instbllPropfrty(b, "rollovfrEnbblfd", Boolfbn.TRUE);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void installListeners(AbstractButton b) {
-        super.installListeners(b);
-        b.addPropertyChangeListener(this);
+    @Ovfrridf
+    protfdtfd void instbllListfnfrs(AbstrbdtButton b) {
+        supfr.instbllListfnfrs(b);
+        b.bddPropfrtyCibngfListfnfr(tiis);
     }
 
-    void updateStyle(AbstractButton b) {
-        SynthContext context = getContext(b, SynthConstants.ENABLED);
-        SynthStyle oldStyle = style;
-        style = SynthLookAndFeel.updateStyle(context, this);
-        if (style != oldStyle) {
-            if (b.getMargin() == null ||
-                                (b.getMargin() instanceof UIResource)) {
-                Insets margin = (Insets)style.get(context,getPropertyPrefix() +
-                                                  "margin");
+    void updbtfStylf(AbstrbdtButton b) {
+        SyntiContfxt dontfxt = gftContfxt(b, SyntiConstbnts.ENABLED);
+        SyntiStylf oldStylf = stylf;
+        stylf = SyntiLookAndFffl.updbtfStylf(dontfxt, tiis);
+        if (stylf != oldStylf) {
+            if (b.gftMbrgin() == null ||
+                                (b.gftMbrgin() instbndfof UIRfsourdf)) {
+                Insfts mbrgin = (Insfts)stylf.gft(dontfxt,gftPropfrtyPrffix() +
+                                                  "mbrgin");
 
-                if (margin == null) {
-                    // Some places assume margins are non-null.
-                    margin = SynthLookAndFeel.EMPTY_UIRESOURCE_INSETS;
+                if (mbrgin == null) {
+                    // Somf plbdfs bssumf mbrgins brf non-null.
+                    mbrgin = SyntiLookAndFffl.EMPTY_UIRESOURCE_INSETS;
                 }
-                b.setMargin(margin);
+                b.sftMbrgin(mbrgin);
             }
 
-            Object value = style.get(context, getPropertyPrefix() + "iconTextGap");
-            if (value != null) {
-                        LookAndFeel.installProperty(b, "iconTextGap", value);
+            Objfdt vbluf = stylf.gft(dontfxt, gftPropfrtyPrffix() + "idonTfxtGbp");
+            if (vbluf != null) {
+                        LookAndFffl.instbllPropfrty(b, "idonTfxtGbp", vbluf);
             }
 
-            value = style.get(context, getPropertyPrefix() + "contentAreaFilled");
-            LookAndFeel.installProperty(b, "contentAreaFilled",
-                                        value != null? value : Boolean.TRUE);
+            vbluf = stylf.gft(dontfxt, gftPropfrtyPrffix() + "dontfntArfbFillfd");
+            LookAndFffl.instbllPropfrty(b, "dontfntArfbFillfd",
+                                        vbluf != null? vbluf : Boolfbn.TRUE);
 
-            if (oldStyle != null) {
-                uninstallKeyboardActions(b);
-                installKeyboardActions(b);
+            if (oldStylf != null) {
+                uninstbllKfybobrdAdtions(b);
+                instbllKfybobrdAdtions(b);
             }
 
         }
-        context.dispose();
+        dontfxt.disposf();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallListeners(AbstractButton b) {
-        super.uninstallListeners(b);
-        b.removePropertyChangeListener(this);
+    @Ovfrridf
+    protfdtfd void uninstbllListfnfrs(AbstrbdtButton b) {
+        supfr.uninstbllListfnfrs(b);
+        b.rfmovfPropfrtyCibngfListfnfr(tiis);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    protected void uninstallDefaults(AbstractButton b) {
-        SynthContext context = getContext(b, ENABLED);
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults(AbstrbdtButton b) {
+        SyntiContfxt dontfxt = gftContfxt(b, ENABLED);
 
-        style.uninstallDefaults(context);
-        context.dispose();
-        style = null;
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public SynthContext getContext(JComponent c) {
-        return getContext(c, getComponentState(c));
+    @Ovfrridf
+    publid SyntiContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, gftComponfntStbtf(d));
     }
 
-    SynthContext getContext(JComponent c, int state) {
-        return SynthContext.getContext(c, style, state);
+    SyntiContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SyntiContfxt.gftContfxt(d, stylf, stbtf);
     }
 
     /**
-     * Returns the current state of the passed in <code>AbstractButton</code>.
+     * Rfturns tif durrfnt stbtf of tif pbssfd in <dodf>AbstrbdtButton</dodf>.
      */
-    private int getComponentState(JComponent c) {
-        int state = ENABLED;
+    privbtf int gftComponfntStbtf(JComponfnt d) {
+        int stbtf = ENABLED;
 
-        if (!c.isEnabled()) {
-            state = DISABLED;
+        if (!d.isEnbblfd()) {
+            stbtf = DISABLED;
         }
-        if (SynthLookAndFeel.getSelectedUI() == this) {
-            return SynthLookAndFeel.getSelectedUIState() | SynthConstants.ENABLED;
+        if (SyntiLookAndFffl.gftSflfdtfdUI() == tiis) {
+            rfturn SyntiLookAndFffl.gftSflfdtfdUIStbtf() | SyntiConstbnts.ENABLED;
         }
-        AbstractButton button = (AbstractButton) c;
-        ButtonModel model = button.getModel();
+        AbstrbdtButton button = (AbstrbdtButton) d;
+        ButtonModfl modfl = button.gftModfl();
 
-        if (model.isPressed()) {
-            if (model.isArmed()) {
-                state = PRESSED;
+        if (modfl.isPrfssfd()) {
+            if (modfl.isArmfd()) {
+                stbtf = PRESSED;
             }
-            else {
-                state = MOUSE_OVER;
-            }
-        }
-        if (model.isRollover()) {
-            state |= MOUSE_OVER;
-        }
-        if (model.isSelected()) {
-            state |= SELECTED;
-        }
-        if (c.isFocusOwner() && button.isFocusPainted()) {
-            state |= FOCUSED;
-        }
-        if ((c instanceof JButton) && ((JButton)c).isDefaultButton()) {
-            state |= DEFAULT;
-        }
-        return state;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public int getBaseline(JComponent c, int width, int height) {
-        if (c == null) {
-            throw new NullPointerException("Component must be non-null");
-        }
-        if (width < 0 || height < 0) {
-            throw new IllegalArgumentException(
-                    "Width and height must be >= 0");
-        }
-        AbstractButton b = (AbstractButton)c;
-        String text = b.getText();
-        if (text == null || "".equals(text)) {
-            return -1;
-        }
-        Insets i = b.getInsets();
-        Rectangle viewRect = new Rectangle();
-        Rectangle textRect = new Rectangle();
-        Rectangle iconRect = new Rectangle();
-        viewRect.x = i.left;
-        viewRect.y = i.top;
-        viewRect.width = width - (i.right + viewRect.x);
-        viewRect.height = height - (i.bottom + viewRect.y);
-
-        // layout the text and icon
-        SynthContext context = getContext(b);
-        FontMetrics fm = context.getComponent().getFontMetrics(
-            context.getStyle().getFont(context));
-        context.getStyle().getGraphicsUtils(context).layoutText(
-            context, fm, b.getText(), b.getIcon(),
-            b.getHorizontalAlignment(), b.getVerticalAlignment(),
-            b.getHorizontalTextPosition(), b.getVerticalTextPosition(),
-            viewRect, iconRect, textRect, b.getIconTextGap());
-        View view = (View)b.getClientProperty(BasicHTML.propertyKey);
-        int baseline;
-        if (view != null) {
-            baseline = BasicHTML.getHTMLBaseline(view, textRect.width,
-                                                 textRect.height);
-            if (baseline >= 0) {
-                baseline += textRect.y;
+            flsf {
+                stbtf = MOUSE_OVER;
             }
         }
-        else {
-            baseline = textRect.y + fm.getAscent();
+        if (modfl.isRollovfr()) {
+            stbtf |= MOUSE_OVER;
         }
-        context.dispose();
-        return baseline;
+        if (modfl.isSflfdtfd()) {
+            stbtf |= SELECTED;
+        }
+        if (d.isFodusOwnfr() && button.isFodusPbintfd()) {
+            stbtf |= FOCUSED;
+        }
+        if ((d instbndfof JButton) && ((JButton)d).isDffbultButton()) {
+            stbtf |= DEFAULT;
+        }
+        rfturn stbtf;
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    @Ovfrridf
+    publid int gftBbsflinf(JComponfnt d, int widti, int ifigit) {
+        if (d == null) {
+            tirow nfw NullPointfrExdfption("Componfnt must bf non-null");
+        }
+        if (widti < 0 || ifigit < 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Widti bnd ifigit must bf >= 0");
+        }
+        AbstrbdtButton b = (AbstrbdtButton)d;
+        String tfxt = b.gftTfxt();
+        if (tfxt == null || "".fqubls(tfxt)) {
+            rfturn -1;
+        }
+        Insfts i = b.gftInsfts();
+        Rfdtbnglf vifwRfdt = nfw Rfdtbnglf();
+        Rfdtbnglf tfxtRfdt = nfw Rfdtbnglf();
+        Rfdtbnglf idonRfdt = nfw Rfdtbnglf();
+        vifwRfdt.x = i.lfft;
+        vifwRfdt.y = i.top;
+        vifwRfdt.widti = widti - (i.rigit + vifwRfdt.x);
+        vifwRfdt.ifigit = ifigit - (i.bottom + vifwRfdt.y);
+
+        // lbyout tif tfxt bnd idon
+        SyntiContfxt dontfxt = gftContfxt(b);
+        FontMftrids fm = dontfxt.gftComponfnt().gftFontMftrids(
+            dontfxt.gftStylf().gftFont(dontfxt));
+        dontfxt.gftStylf().gftGrbpiidsUtils(dontfxt).lbyoutTfxt(
+            dontfxt, fm, b.gftTfxt(), b.gftIdon(),
+            b.gftHorizontblAlignmfnt(), b.gftVfrtidblAlignmfnt(),
+            b.gftHorizontblTfxtPosition(), b.gftVfrtidblTfxtPosition(),
+            vifwRfdt, idonRfdt, tfxtRfdt, b.gftIdonTfxtGbp());
+        Vifw vifw = (Vifw)b.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
+        int bbsflinf;
+        if (vifw != null) {
+            bbsflinf = BbsidHTML.gftHTMLBbsflinf(vifw, tfxtRfdt.widti,
+                                                 tfxtRfdt.ifigit);
+            if (bbsflinf >= 0) {
+                bbsflinf += tfxtRfdt.y;
+            }
+        }
+        flsf {
+            bbsflinf = tfxtRfdt.y + fm.gftAsdfnt();
+        }
+        dontfxt.disposf();
+        rfturn bbsflinf;
     }
 
     // ********************************
-    //          Paint Methods
+    //          Pbint Mftiods
     // ********************************
 
     /**
-     * Notifies this UI delegate to repaint the specified component.
-     * This method paints the component background, then calls
-     * the {@link #paint(SynthContext,Graphics)} method.
+     * Notififs tiis UI dflfgbtf to rfpbint tif spfdififd domponfnt.
+     * Tiis mftiod pbints tif domponfnt bbdkground, tifn dblls
+     * tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * <p>In general, this method does not need to be overridden by subclasses.
-     * All Look and Feel rendering code should reside in the {@code paint} method.
+     * <p>In gfnfrbl, tiis mftiod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf siould rfsidf in tif {@dodf pbint} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void update(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void updbtf(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        SynthLookAndFeel.update(context, g);
-        paintBackground(context, g, c);
-        paint(context, g);
-        context.dispose();
+        SyntiLookAndFffl.updbtf(dontfxt, g);
+        pbintBbdkground(dontfxt, g, d);
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component according to the Look and Feel.
-     * <p>This method is not used by Synth Look and Feel.
-     * Painting is handled by the {@link #paint(SynthContext,Graphics)} method.
+     * Pbints tif spfdififd domponfnt bddording to tif Look bnd Fffl.
+     * <p>Tiis mftiod is not usfd by Synti Look bnd Fffl.
+     * Pbinting is ibndlfd by tif {@link #pbint(SyntiContfxt,Grbpiids)} mftiod.
      *
-     * @param g the {@code Graphics} object used for painting
-     * @param c the component being painted
-     * @see #paint(SynthContext,Graphics)
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @pbrbm d tif domponfnt bfing pbintfd
+     * @sff #pbint(SyntiContfxt,Grbpiids)
      */
-    @Override
-    public void paint(Graphics g, JComponent c) {
-        SynthContext context = getContext(c);
+    @Ovfrridf
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        SyntiContfxt dontfxt = gftContfxt(d);
 
-        paint(context, g);
-        context.dispose();
+        pbint(dontfxt, g);
+        dontfxt.disposf();
     }
 
     /**
-     * Paints the specified component.
+     * Pbints tif spfdififd domponfnt.
      *
-     * @param context context for the component being painted
-     * @param g the {@code Graphics} object used for painting
-     * @see #update(Graphics,JComponent)
+     * @pbrbm dontfxt dontfxt for tif domponfnt bfing pbintfd
+     * @pbrbm g tif {@dodf Grbpiids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbpiids,JComponfnt)
      */
-    protected void paint(SynthContext context, Graphics g) {
-        AbstractButton b = (AbstractButton)context.getComponent();
+    protfdtfd void pbint(SyntiContfxt dontfxt, Grbpiids g) {
+        AbstrbdtButton b = (AbstrbdtButton)dontfxt.gftComponfnt();
 
-        g.setColor(context.getStyle().getColor(context,
-                                               ColorType.TEXT_FOREGROUND));
-        g.setFont(style.getFont(context));
-        context.getStyle().getGraphicsUtils(context).paintText(
-            context, g, b.getText(), getIcon(b),
-            b.getHorizontalAlignment(), b.getVerticalAlignment(),
-            b.getHorizontalTextPosition(), b.getVerticalTextPosition(),
-            b.getIconTextGap(), b.getDisplayedMnemonicIndex(),
-            getTextShiftOffset(context));
+        g.sftColor(dontfxt.gftStylf().gftColor(dontfxt,
+                                               ColorTypf.TEXT_FOREGROUND));
+        g.sftFont(stylf.gftFont(dontfxt));
+        dontfxt.gftStylf().gftGrbpiidsUtils(dontfxt).pbintTfxt(
+            dontfxt, g, b.gftTfxt(), gftIdon(b),
+            b.gftHorizontblAlignmfnt(), b.gftVfrtidblAlignmfnt(),
+            b.gftHorizontblTfxtPosition(), b.gftVfrtidblTfxtPosition(),
+            b.gftIdonTfxtGbp(), b.gftDisplbyfdMnfmonidIndfx(),
+            gftTfxtSiiftOffsft(dontfxt));
     }
 
-    void paintBackground(SynthContext context, Graphics g, JComponent c) {
-        if (((AbstractButton) c).isContentAreaFilled()) {
-            context.getPainter().paintButtonBackground(context, g, 0, 0,
-                                                       c.getWidth(),
-                                                       c.getHeight());
+    void pbintBbdkground(SyntiContfxt dontfxt, Grbpiids g, JComponfnt d) {
+        if (((AbstrbdtButton) d).isContfntArfbFillfd()) {
+            dontfxt.gftPbintfr().pbintButtonBbdkground(dontfxt, g, 0, 0,
+                                                       d.gftWidti(),
+                                                       d.gftHfigit());
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void paintBorder(SynthContext context, Graphics g, int x,
-                            int y, int w, int h) {
-        context.getPainter().paintButtonBorder(context, g, x, y, w, h);
+    @Ovfrridf
+    publid void pbintBordfr(SyntiContfxt dontfxt, Grbpiids g, int x,
+                            int y, int w, int i) {
+        dontfxt.gftPbintfr().pbintButtonBordfr(dontfxt, g, x, y, w, i);
     }
 
     /**
-     * Returns the default icon. This should not callback
-     * to the JComponent.
+     * Rfturns tif dffbult idon. Tiis siould not dbllbbdk
+     * to tif JComponfnt.
      *
-     * @param b button the icon is associated with
-     * @return default icon
+     * @pbrbm b button tif idon is bssodibtfd witi
+     * @rfturn dffbult idon
      */
-    protected Icon getDefaultIcon(AbstractButton b) {
-        SynthContext context = getContext(b);
-        Icon icon = context.getStyle().getIcon(context, getPropertyPrefix() + "icon");
-        context.dispose();
-        return icon;
+    protfdtfd Idon gftDffbultIdon(AbstrbdtButton b) {
+        SyntiContfxt dontfxt = gftContfxt(b);
+        Idon idon = dontfxt.gftStylf().gftIdon(dontfxt, gftPropfrtyPrffix() + "idon");
+        dontfxt.disposf();
+        rfturn idon;
     }
 
     /**
-     * Returns the Icon to use for painting the button. The icon is chosen with
-     * respect to the current state of the button.
+     * Rfturns tif Idon to usf for pbinting tif button. Tif idon is diosfn witi
+     * rfspfdt to tif durrfnt stbtf of tif button.
      *
-     * @param b button the icon is associated with
-     * @return an icon
+     * @pbrbm b button tif idon is bssodibtfd witi
+     * @rfturn bn idon
      */
-    protected Icon getIcon(AbstractButton b) {
-        Icon icon = b.getIcon();
-        ButtonModel model = b.getModel();
+    protfdtfd Idon gftIdon(AbstrbdtButton b) {
+        Idon idon = b.gftIdon();
+        ButtonModfl modfl = b.gftModfl();
 
-        if (!model.isEnabled()) {
-            icon = getSynthDisabledIcon(b, icon);
-        } else if (model.isPressed() && model.isArmed()) {
-            icon = getPressedIcon(b, getSelectedIcon(b, icon));
-        } else if (b.isRolloverEnabled() && model.isRollover()) {
-            icon = getRolloverIcon(b, getSelectedIcon(b, icon));
-        } else if (model.isSelected()) {
-            icon = getSelectedIcon(b, icon);
-        } else {
-            icon = getEnabledIcon(b, icon);
+        if (!modfl.isEnbblfd()) {
+            idon = gftSyntiDisbblfdIdon(b, idon);
+        } flsf if (modfl.isPrfssfd() && modfl.isArmfd()) {
+            idon = gftPrfssfdIdon(b, gftSflfdtfdIdon(b, idon));
+        } flsf if (b.isRollovfrEnbblfd() && modfl.isRollovfr()) {
+            idon = gftRollovfrIdon(b, gftSflfdtfdIdon(b, idon));
+        } flsf if (modfl.isSflfdtfd()) {
+            idon = gftSflfdtfdIdon(b, idon);
+        } flsf {
+            idon = gftEnbblfdIdon(b, idon);
         }
-        if(icon == null) {
-            return getDefaultIcon(b);
+        if(idon == null) {
+            rfturn gftDffbultIdon(b);
         }
-        return icon;
+        rfturn idon;
     }
 
     /**
-     * This method will return the icon that should be used for a button.  We
-     * only want to use the synth icon defined by the style if the specific
-     * icon has not been defined for the button state and the backup icon is a
-     * UIResource (we set it, not the developer).
+     * Tiis mftiod will rfturn tif idon tibt siould bf usfd for b button.  Wf
+     * only wbnt to usf tif synti idon dffinfd by tif stylf if tif spfdifid
+     * idon ibs not bffn dffinfd for tif button stbtf bnd tif bbdkup idon is b
+     * UIRfsourdf (wf sft it, not tif dfvflopfr).
      *
-     * @param b button
-     * @param specificIcon icon returned from the button for the specific state
-     * @param defaultIcon fallback icon
-     * @param state the synth state of the button
+     * @pbrbm b button
+     * @pbrbm spfdifidIdon idon rfturnfd from tif button for tif spfdifid stbtf
+     * @pbrbm dffbultIdon fbllbbdk idon
+     * @pbrbm stbtf tif synti stbtf of tif button
      */
-    private Icon getIcon(AbstractButton b, Icon specificIcon, Icon defaultIcon,
-            int state) {
-        Icon icon = specificIcon;
-        if (icon == null) {
-            if (defaultIcon instanceof UIResource) {
-                icon = getSynthIcon(b, state);
-                if (icon == null) {
-                    icon = defaultIcon;
+    privbtf Idon gftIdon(AbstrbdtButton b, Idon spfdifidIdon, Idon dffbultIdon,
+            int stbtf) {
+        Idon idon = spfdifidIdon;
+        if (idon == null) {
+            if (dffbultIdon instbndfof UIRfsourdf) {
+                idon = gftSyntiIdon(b, stbtf);
+                if (idon == null) {
+                    idon = dffbultIdon;
                 }
-            } else {
-                icon = defaultIcon;
+            } flsf {
+                idon = dffbultIdon;
             }
         }
-        return icon;
+        rfturn idon;
     }
 
-    private Icon getSynthIcon(AbstractButton b, int synthConstant) {
-        return style.getIcon(getContext(b, synthConstant), getPropertyPrefix() + "icon");
+    privbtf Idon gftSyntiIdon(AbstrbdtButton b, int syntiConstbnt) {
+        rfturn stylf.gftIdon(gftContfxt(b, syntiConstbnt), gftPropfrtyPrffix() + "idon");
     }
 
-    private Icon getEnabledIcon(AbstractButton b, Icon defaultIcon) {
-        if (defaultIcon == null) {
-            defaultIcon = getSynthIcon(b, SynthConstants.ENABLED);
+    privbtf Idon gftEnbblfdIdon(AbstrbdtButton b, Idon dffbultIdon) {
+        if (dffbultIdon == null) {
+            dffbultIdon = gftSyntiIdon(b, SyntiConstbnts.ENABLED);
         }
-        return defaultIcon;
+        rfturn dffbultIdon;
     }
 
-    private Icon getSelectedIcon(AbstractButton b, Icon defaultIcon) {
-        return getIcon(b, b.getSelectedIcon(), defaultIcon,
-                SynthConstants.SELECTED);
+    privbtf Idon gftSflfdtfdIdon(AbstrbdtButton b, Idon dffbultIdon) {
+        rfturn gftIdon(b, b.gftSflfdtfdIdon(), dffbultIdon,
+                SyntiConstbnts.SELECTED);
     }
 
-    private Icon getRolloverIcon(AbstractButton b, Icon defaultIcon) {
-        ButtonModel model = b.getModel();
-        Icon icon;
-        if (model.isSelected()) {
-            icon = getIcon(b, b.getRolloverSelectedIcon(), defaultIcon,
-                    SynthConstants.MOUSE_OVER | SynthConstants.SELECTED);
-        } else {
-            icon = getIcon(b, b.getRolloverIcon(), defaultIcon,
-                    SynthConstants.MOUSE_OVER);
+    privbtf Idon gftRollovfrIdon(AbstrbdtButton b, Idon dffbultIdon) {
+        ButtonModfl modfl = b.gftModfl();
+        Idon idon;
+        if (modfl.isSflfdtfd()) {
+            idon = gftIdon(b, b.gftRollovfrSflfdtfdIdon(), dffbultIdon,
+                    SyntiConstbnts.MOUSE_OVER | SyntiConstbnts.SELECTED);
+        } flsf {
+            idon = gftIdon(b, b.gftRollovfrIdon(), dffbultIdon,
+                    SyntiConstbnts.MOUSE_OVER);
         }
-        return icon;
+        rfturn idon;
     }
 
-    private Icon getPressedIcon(AbstractButton b, Icon defaultIcon) {
-        return getIcon(b, b.getPressedIcon(), defaultIcon,
-                SynthConstants.PRESSED);
+    privbtf Idon gftPrfssfdIdon(AbstrbdtButton b, Idon dffbultIdon) {
+        rfturn gftIdon(b, b.gftPrfssfdIdon(), dffbultIdon,
+                SyntiConstbnts.PRESSED);
     }
 
-    private Icon getSynthDisabledIcon(AbstractButton b, Icon defaultIcon) {
-        ButtonModel model = b.getModel();
-        Icon icon;
-        if (model.isSelected()) {
-            icon = getIcon(b, b.getDisabledSelectedIcon(), defaultIcon,
-                    SynthConstants.DISABLED | SynthConstants.SELECTED);
-        } else {
-            icon = getIcon(b, b.getDisabledIcon(), defaultIcon,
-                    SynthConstants.DISABLED);
+    privbtf Idon gftSyntiDisbblfdIdon(AbstrbdtButton b, Idon dffbultIdon) {
+        ButtonModfl modfl = b.gftModfl();
+        Idon idon;
+        if (modfl.isSflfdtfd()) {
+            idon = gftIdon(b, b.gftDisbblfdSflfdtfdIdon(), dffbultIdon,
+                    SyntiConstbnts.DISABLED | SyntiConstbnts.SELECTED);
+        } flsf {
+            idon = gftIdon(b, b.gftDisbblfdIdon(), dffbultIdon,
+                    SyntiConstbnts.DISABLED);
         }
-        return icon;
+        rfturn idon;
     }
 
     /**
-     * Returns the amount to shift the text/icon when painting.
+     * Rfturns tif bmount to siift tif tfxt/idon wifn pbinting.
      */
-    private int getTextShiftOffset(SynthContext state) {
-        AbstractButton button = (AbstractButton)state.getComponent();
-        ButtonModel model = button.getModel();
+    privbtf int gftTfxtSiiftOffsft(SyntiContfxt stbtf) {
+        AbstrbdtButton button = (AbstrbdtButton)stbtf.gftComponfnt();
+        ButtonModfl modfl = button.gftModfl();
 
-        if (model.isArmed() && model.isPressed() &&
-                               button.getPressedIcon() == null) {
-            return state.getStyle().getInt(state, getPropertyPrefix() +
-                                           "textShiftOffset", 0);
+        if (modfl.isArmfd() && modfl.isPrfssfd() &&
+                               button.gftPrfssfdIdon() == null) {
+            rfturn stbtf.gftStylf().gftInt(stbtf, gftPropfrtyPrffix() +
+                                           "tfxtSiiftOffsft", 0);
         }
-        return 0;
+        rfturn 0;
     }
 
     // ********************************
-    //          Layout Methods
+    //          Lbyout Mftiods
     // ********************************
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public Dimension getMinimumSize(JComponent c) {
-        if (c.getComponentCount() > 0 && c.getLayout() != null) {
-            return null;
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf(JComponfnt d) {
+        if (d.gftComponfntCount() > 0 && d.gftLbyout() != null) {
+            rfturn null;
         }
-        AbstractButton b = (AbstractButton)c;
-        SynthContext ss = getContext(c);
-        Dimension size = ss.getStyle().getGraphicsUtils(ss).getMinimumSize(
-               ss, ss.getStyle().getFont(ss), b.getText(), getSizingIcon(b),
-               b.getHorizontalAlignment(), b.getVerticalAlignment(),
-               b.getHorizontalTextPosition(),
-               b.getVerticalTextPosition(), b.getIconTextGap(),
-               b.getDisplayedMnemonicIndex());
+        AbstrbdtButton b = (AbstrbdtButton)d;
+        SyntiContfxt ss = gftContfxt(d);
+        Dimfnsion sizf = ss.gftStylf().gftGrbpiidsUtils(ss).gftMinimumSizf(
+               ss, ss.gftStylf().gftFont(ss), b.gftTfxt(), gftSizingIdon(b),
+               b.gftHorizontblAlignmfnt(), b.gftVfrtidblAlignmfnt(),
+               b.gftHorizontblTfxtPosition(),
+               b.gftVfrtidblTfxtPosition(), b.gftIdonTfxtGbp(),
+               b.gftDisplbyfdMnfmonidIndfx());
 
-        ss.dispose();
-        return size;
+        ss.disposf();
+        rfturn sizf;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public Dimension getPreferredSize(JComponent c) {
-        if (c.getComponentCount() > 0 && c.getLayout() != null) {
-            return null;
+    @Ovfrridf
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        if (d.gftComponfntCount() > 0 && d.gftLbyout() != null) {
+            rfturn null;
         }
-        AbstractButton b = (AbstractButton)c;
-        SynthContext ss = getContext(c);
-        Dimension size = ss.getStyle().getGraphicsUtils(ss).getPreferredSize(
-               ss, ss.getStyle().getFont(ss), b.getText(), getSizingIcon(b),
-               b.getHorizontalAlignment(), b.getVerticalAlignment(),
-               b.getHorizontalTextPosition(),
-               b.getVerticalTextPosition(), b.getIconTextGap(),
-               b.getDisplayedMnemonicIndex());
+        AbstrbdtButton b = (AbstrbdtButton)d;
+        SyntiContfxt ss = gftContfxt(d);
+        Dimfnsion sizf = ss.gftStylf().gftGrbpiidsUtils(ss).gftPrfffrrfdSizf(
+               ss, ss.gftStylf().gftFont(ss), b.gftTfxt(), gftSizingIdon(b),
+               b.gftHorizontblAlignmfnt(), b.gftVfrtidblAlignmfnt(),
+               b.gftHorizontblTfxtPosition(),
+               b.gftVfrtidblTfxtPosition(), b.gftIdonTfxtGbp(),
+               b.gftDisplbyfdMnfmonidIndfx());
 
-        ss.dispose();
-        return size;
+        ss.disposf();
+        rfturn sizf;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public Dimension getMaximumSize(JComponent c) {
-        if (c.getComponentCount() > 0 && c.getLayout() != null) {
-            return null;
+    @Ovfrridf
+    publid Dimfnsion gftMbximumSizf(JComponfnt d) {
+        if (d.gftComponfntCount() > 0 && d.gftLbyout() != null) {
+            rfturn null;
         }
 
-        AbstractButton b = (AbstractButton)c;
-        SynthContext ss = getContext(c);
-        Dimension size = ss.getStyle().getGraphicsUtils(ss).getMaximumSize(
-               ss, ss.getStyle().getFont(ss), b.getText(), getSizingIcon(b),
-               b.getHorizontalAlignment(), b.getVerticalAlignment(),
-               b.getHorizontalTextPosition(),
-               b.getVerticalTextPosition(), b.getIconTextGap(),
-               b.getDisplayedMnemonicIndex());
+        AbstrbdtButton b = (AbstrbdtButton)d;
+        SyntiContfxt ss = gftContfxt(d);
+        Dimfnsion sizf = ss.gftStylf().gftGrbpiidsUtils(ss).gftMbximumSizf(
+               ss, ss.gftStylf().gftFont(ss), b.gftTfxt(), gftSizingIdon(b),
+               b.gftHorizontblAlignmfnt(), b.gftVfrtidblAlignmfnt(),
+               b.gftHorizontblTfxtPosition(),
+               b.gftVfrtidblTfxtPosition(), b.gftIdonTfxtGbp(),
+               b.gftDisplbyfdMnfmonidIndfx());
 
-        ss.dispose();
-        return size;
+        ss.disposf();
+        rfturn sizf;
     }
 
     /**
-     * Returns the Icon used in calculating the
-     * preferred/minimum/maximum size.
+     * Rfturns tif Idon usfd in dbldulbting tif
+     * prfffrrfd/minimum/mbximum sizf.
      *
-     * @param b specifies the {@code AbstractButton}
-     * used when calculating the preferred/minimum/maximum
-     * size.
+     * @pbrbm b spfdififs tif {@dodf AbstrbdtButton}
+     * usfd wifn dbldulbting tif prfffrrfd/minimum/mbximum
+     * sizf.
      *
-     * @return the Icon used in calculating the
-     * preferred/minimum/maximum size.
+     * @rfturn tif Idon usfd in dbldulbting tif
+     * prfffrrfd/minimum/mbximum sizf.
      */
-    protected Icon getSizingIcon(AbstractButton b) {
-        Icon icon = getEnabledIcon(b, b.getIcon());
-        if (icon == null) {
-            icon = getDefaultIcon(b);
+    protfdtfd Idon gftSizingIdon(AbstrbdtButton b) {
+        Idon idon = gftEnbblfdIdon(b, b.gftIdon());
+        if (idon == null) {
+            idon = gftDffbultIdon(b);
         }
-        return icon;
+        rfturn idon;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void propertyChange(PropertyChangeEvent e) {
-        if (SynthLookAndFeel.shouldUpdateStyle(e)) {
-            updateStyle((AbstractButton)e.getSource());
+    @Ovfrridf
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        if (SyntiLookAndFffl.siouldUpdbtfStylf(f)) {
+            updbtfStylf((AbstrbdtButton)f.gftSourdf());
         }
     }
 }

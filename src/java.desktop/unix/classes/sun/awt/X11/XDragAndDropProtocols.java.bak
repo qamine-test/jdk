@@ -1,124 +1,124 @@
 /*
- * Copyright (c) 2003, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
 
 /**
- * This class is a registry for the supported drag and drop protocols.
+ * Tiis dlbss is b rfgistry for tif supportfd drbg bnd drop protodols.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-final class XDragAndDropProtocols {
-    private final static List<XDragSourceProtocol> dragProtocols;
-    private final static List<XDropTargetProtocol> dropProtocols;
+finbl dlbss XDrbgAndDropProtodols {
+    privbtf finbl stbtid List<XDrbgSourdfProtodol> drbgProtodols;
+    privbtf finbl stbtid List<XDropTbrgftProtodol> dropProtodols;
 
-    public static final String XDnD = "XDnD";
-    public static final String MotifDnD = "MotifDnD";
+    publid stbtid finbl String XDnD = "XDnD";
+    publid stbtid finbl String MotifDnD = "MotifDnD";
 
-    static {
-        // Singleton listener for all drag source protocols.
-        XDragSourceProtocolListener dragSourceProtocolListener =
-            XDragSourceContextPeer.getXDragSourceProtocolListener();
-        // Singleton listener for all drop target protocols.
-        XDropTargetProtocolListener dropTargetProtocolListener =
-            XDropTargetContextPeer.getXDropTargetProtocolListener();
+    stbtid {
+        // Singlfton listfnfr for bll drbg sourdf protodols.
+        XDrbgSourdfProtodolListfnfr drbgSourdfProtodolListfnfr =
+            XDrbgSourdfContfxtPffr.gftXDrbgSourdfProtodolListfnfr();
+        // Singlfton listfnfr for bll drop tbrgft protodols.
+        XDropTbrgftProtodolListfnfr dropTbrgftProtodolListfnfr =
+            XDropTbrgftContfxtPffr.gftXDropTbrgftProtodolListfnfr();
 
-        List<XDragSourceProtocol> tDragSourceProtocols = new ArrayList<>();
-        XDragSourceProtocol xdndDragSourceProtocol =
-            XDnDDragSourceProtocol.createInstance(dragSourceProtocolListener);
-        tDragSourceProtocols.add(xdndDragSourceProtocol);
-        XDragSourceProtocol motifdndDragSourceProtocol =
-            MotifDnDDragSourceProtocol.createInstance(dragSourceProtocolListener);
-        tDragSourceProtocols.add(motifdndDragSourceProtocol);
+        List<XDrbgSourdfProtodol> tDrbgSourdfProtodols = nfw ArrbyList<>();
+        XDrbgSourdfProtodol xdndDrbgSourdfProtodol =
+            XDnDDrbgSourdfProtodol.drfbtfInstbndf(drbgSourdfProtodolListfnfr);
+        tDrbgSourdfProtodols.bdd(xdndDrbgSourdfProtodol);
+        XDrbgSourdfProtodol motifdndDrbgSourdfProtodol =
+            MotifDnDDrbgSourdfProtodol.drfbtfInstbndf(drbgSourdfProtodolListfnfr);
+        tDrbgSourdfProtodols.bdd(motifdndDrbgSourdfProtodol);
 
-        List<XDropTargetProtocol> tDropTargetProtocols = new ArrayList<>();
-        XDropTargetProtocol xdndDropTargetProtocol =
-            XDnDDropTargetProtocol.createInstance(dropTargetProtocolListener);
-        tDropTargetProtocols.add(xdndDropTargetProtocol);
-        XDropTargetProtocol motifdndDropTargetProtocol =
-            MotifDnDDropTargetProtocol.createInstance(dropTargetProtocolListener);
-        tDropTargetProtocols.add(motifdndDropTargetProtocol);
+        List<XDropTbrgftProtodol> tDropTbrgftProtodols = nfw ArrbyList<>();
+        XDropTbrgftProtodol xdndDropTbrgftProtodol =
+            XDnDDropTbrgftProtodol.drfbtfInstbndf(dropTbrgftProtodolListfnfr);
+        tDropTbrgftProtodols.bdd(xdndDropTbrgftProtodol);
+        XDropTbrgftProtodol motifdndDropTbrgftProtodol =
+            MotifDnDDropTbrgftProtodol.drfbtfInstbndf(dropTbrgftProtodolListfnfr);
+        tDropTbrgftProtodols.bdd(motifdndDropTbrgftProtodol);
 
-        dragProtocols = Collections.unmodifiableList(tDragSourceProtocols);
-        dropProtocols = Collections.unmodifiableList(tDropTargetProtocols);
+        drbgProtodols = Collfdtions.unmodifibblfList(tDrbgSourdfProtodols);
+        dropProtodols = Collfdtions.unmodifibblfList(tDropTbrgftProtodols);
     }
 
-    static Iterator<XDragSourceProtocol> getDragSourceProtocols() {
-        return dragProtocols.iterator();
+    stbtid Itfrbtor<XDrbgSourdfProtodol> gftDrbgSourdfProtodols() {
+        rfturn drbgProtodols.itfrbtor();
     }
 
-    static Iterator<XDropTargetProtocol> getDropTargetProtocols() {
-        return dropProtocols.iterator();
-    }
-
-    /*
-     * Returns a XDragSourceProtocol whose name equals to the specified string
-     * or null if no such protocol is registered.
-     */
-    public static XDragSourceProtocol getDragSourceProtocol(String name) {
-        // Protocol name cannot be null.
-        if (name == null) {
-            return null;
-        }
-
-        Iterator<XDragSourceProtocol> dragProtocols =
-            XDragAndDropProtocols.getDragSourceProtocols();
-        while (dragProtocols.hasNext()) {
-            XDragSourceProtocol dragProtocol = dragProtocols.next();
-            if (dragProtocol.getProtocolName().equals(name)) {
-                return dragProtocol;
-            }
-        }
-
-        return null;
+    stbtid Itfrbtor<XDropTbrgftProtodol> gftDropTbrgftProtodols() {
+        rfturn dropProtodols.itfrbtor();
     }
 
     /*
-     * Returns a XDropTargetProtocol which name equals to the specified string
-     * or null if no such protocol is registered.
+     * Rfturns b XDrbgSourdfProtodol wiosf nbmf fqubls to tif spfdififd string
+     * or null if no sudi protodol is rfgistfrfd.
      */
-    public static XDropTargetProtocol getDropTargetProtocol(String name) {
-        // Protocol name cannot be null.
-        if (name == null) {
-            return null;
+    publid stbtid XDrbgSourdfProtodol gftDrbgSourdfProtodol(String nbmf) {
+        // Protodol nbmf dbnnot bf null.
+        if (nbmf == null) {
+            rfturn null;
         }
 
-        Iterator<XDropTargetProtocol> dropProtocols =
-            XDragAndDropProtocols.getDropTargetProtocols();
-        while (dropProtocols.hasNext()) {
-            XDropTargetProtocol dropProtocol = dropProtocols.next();
-            if (dropProtocol.getProtocolName().equals(name)) {
-                return dropProtocol;
+        Itfrbtor<XDrbgSourdfProtodol> drbgProtodols =
+            XDrbgAndDropProtodols.gftDrbgSourdfProtodols();
+        wiilf (drbgProtodols.ibsNfxt()) {
+            XDrbgSourdfProtodol drbgProtodol = drbgProtodols.nfxt();
+            if (drbgProtodol.gftProtodolNbmf().fqubls(nbmf)) {
+                rfturn drbgProtodol;
             }
         }
 
-        return null;
+        rfturn null;
+    }
+
+    /*
+     * Rfturns b XDropTbrgftProtodol wiidi nbmf fqubls to tif spfdififd string
+     * or null if no sudi protodol is rfgistfrfd.
+     */
+    publid stbtid XDropTbrgftProtodol gftDropTbrgftProtodol(String nbmf) {
+        // Protodol nbmf dbnnot bf null.
+        if (nbmf == null) {
+            rfturn null;
+        }
+
+        Itfrbtor<XDropTbrgftProtodol> dropProtodols =
+            XDrbgAndDropProtodols.gftDropTbrgftProtodols();
+        wiilf (dropProtodols.ibsNfxt()) {
+            XDropTbrgftProtodol dropProtodol = dropProtodols.nfxt();
+            if (dropProtodol.gftProtodolNbmf().fqubls(nbmf)) {
+                rfturn dropProtodol;
+            }
+        }
+
+        rfturn null;
     }
 }

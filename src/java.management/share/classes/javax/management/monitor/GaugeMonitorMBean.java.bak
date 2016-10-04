@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 1999, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.monitor;
+pbdkbgf jbvbx.mbnbgfmfnt.monitor;
 
 // jmx imports
 //
-import javax.management.ObjectName;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
 
 /**
- * Exposes the remote management interface of the gauge monitor MBean.
+ * Exposfs tif rfmotf mbnbgfmfnt intfrfbdf of tif gbugf monitor MBfbn.
  *
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface GaugeMonitorMBean extends MonitorMBean {
+publid intfrfbdf GbugfMonitorMBfbn fxtfnds MonitorMBfbn {
 
     // GETTERS AND SETTERS
     //--------------------
 
     /**
-     * Gets the derived gauge.
+     * Gfts tif dfrivfd gbugf.
      *
-     * @return The derived gauge.
-     * @deprecated As of JMX 1.2, replaced by {@link #getDerivedGauge(ObjectName)}
+     * @rfturn Tif dfrivfd gbugf.
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #gftDfrivfdGbugf(ObjfdtNbmf)}
      */
-    @Deprecated
-    public Number getDerivedGauge();
+    @Dfprfdbtfd
+    publid Numbfr gftDfrivfdGbugf();
 
     /**
-     * Gets the derived gauge timestamp.
+     * Gfts tif dfrivfd gbugf timfstbmp.
      *
-     * @return The derived gauge timestamp.
-     * @deprecated As of JMX 1.2, replaced by {@link #getDerivedGaugeTimeStamp(ObjectName)}
+     * @rfturn Tif dfrivfd gbugf timfstbmp.
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by {@link #gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf)}
      */
-    @Deprecated
-    public long getDerivedGaugeTimeStamp();
+    @Dfprfdbtfd
+    publid long gftDfrivfdGbugfTimfStbmp();
 
     /**
-     * Gets the derived gauge for the specified MBean.
+     * Gfts tif dfrivfd gbugf for tif spfdififd MBfbn.
      *
-     * @param object the MBean for which the derived gauge is to be returned
-     * @return The derived gauge for the specified MBean if this MBean is in the
-     *         set of observed MBeans, or <code>null</code> otherwise.
+     * @pbrbm objfdt tif MBfbn for wiidi tif dfrivfd gbugf is to bf rfturnfd
+     * @rfturn Tif dfrivfd gbugf for tif spfdififd MBfbn if tiis MBfbn is in tif
+     *         sft of obsfrvfd MBfbns, or <dodf>null</dodf> otifrwisf.
      *
      */
-    public Number getDerivedGauge(ObjectName object);
+    publid Numbfr gftDfrivfdGbugf(ObjfdtNbmf objfdt);
 
     /**
-     * Gets the derived gauge timestamp for the specified MBean.
+     * Gfts tif dfrivfd gbugf timfstbmp for tif spfdififd MBfbn.
      *
-     * @param object the MBean for which the derived gauge timestamp is to be returned
-     * @return The derived gauge timestamp for the specified MBean if this MBean
-     *         is in the set of observed MBeans, or <code>null</code> otherwise.
+     * @pbrbm objfdt tif MBfbn for wiidi tif dfrivfd gbugf timfstbmp is to bf rfturnfd
+     * @rfturn Tif dfrivfd gbugf timfstbmp for tif spfdififd MBfbn if tiis MBfbn
+     *         is in tif sft of obsfrvfd MBfbns, or <dodf>null</dodf> otifrwisf.
      *
      */
-    public long getDerivedGaugeTimeStamp(ObjectName object);
+    publid long gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf objfdt);
 
     /**
-     * Gets the high threshold value.
+     * Gfts tif iigi tirfsiold vbluf.
      *
-     * @return The high threshold value.
+     * @rfturn Tif iigi tirfsiold vbluf.
      */
-    public Number getHighThreshold();
+    publid Numbfr gftHigiTirfsiold();
 
     /**
-     * Gets the low threshold value.
+     * Gfts tif low tirfsiold vbluf.
      *
-     * @return The low threshold value.
+     * @rfturn Tif low tirfsiold vbluf.
      */
-    public Number getLowThreshold();
+    publid Numbfr gftLowTirfsiold();
 
     /**
-     * Sets the high and the low threshold values.
+     * Sfts tif iigi bnd tif low tirfsiold vblufs.
      *
-     * @param highValue The high threshold value.
-     * @param lowValue The low threshold value.
-     * @exception java.lang.IllegalArgumentException The specified high/low threshold is null
-     * or the low threshold is greater than the high threshold
-     * or the high threshold and the low threshold are not of the same type.
+     * @pbrbm iigiVbluf Tif iigi tirfsiold vbluf.
+     * @pbrbm lowVbluf Tif low tirfsiold vbluf.
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption Tif spfdififd iigi/low tirfsiold is null
+     * or tif low tirfsiold is grfbtfr tibn tif iigi tirfsiold
+     * or tif iigi tirfsiold bnd tif low tirfsiold brf not of tif sbmf typf.
      */
-    public void setThresholds(Number highValue, Number lowValue) throws java.lang.IllegalArgumentException;
+    publid void sftTirfsiolds(Numbfr iigiVbluf, Numbfr lowVbluf) tirows jbvb.lbng.IllfgblArgumfntExdfption;
 
     /**
-     * Gets the high notification's on/off switch value.
+     * Gfts tif iigi notifidbtion's on/off switdi vbluf.
      *
-     * @return <CODE>true</CODE> if the gauge monitor notifies when
-     * exceeding the high threshold, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif gbugf monitor notififs wifn
+     * fxdffding tif iigi tirfsiold, <CODE>fblsf</CODE> otifrwisf.
      *
-     * @see #setNotifyHigh
+     * @sff #sftNotifyHigi
      */
-    public boolean getNotifyHigh();
+    publid boolfbn gftNotifyHigi();
 
     /**
-     * Sets the high notification's on/off switch value.
+     * Sfts tif iigi notifidbtion's on/off switdi vbluf.
      *
-     * @param value The high notification's on/off switch value.
+     * @pbrbm vbluf Tif iigi notifidbtion's on/off switdi vbluf.
      *
-     * @see #getNotifyHigh
+     * @sff #gftNotifyHigi
      */
-    public void setNotifyHigh(boolean value);
+    publid void sftNotifyHigi(boolfbn vbluf);
 
     /**
-     * Gets the low notification's on/off switch value.
+     * Gfts tif low notifidbtion's on/off switdi vbluf.
      *
-     * @return <CODE>true</CODE> if the gauge monitor notifies when
-     * exceeding the low threshold, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif gbugf monitor notififs wifn
+     * fxdffding tif low tirfsiold, <CODE>fblsf</CODE> otifrwisf.
      *
-     * @see #setNotifyLow
+     * @sff #sftNotifyLow
      */
-    public boolean getNotifyLow();
+    publid boolfbn gftNotifyLow();
 
     /**
-     * Sets the low notification's on/off switch value.
+     * Sfts tif low notifidbtion's on/off switdi vbluf.
      *
-     * @param value The low notification's on/off switch value.
+     * @pbrbm vbluf Tif low notifidbtion's on/off switdi vbluf.
      *
-     * @see #getNotifyLow
+     * @sff #gftNotifyLow
      */
-    public void setNotifyLow(boolean value);
+    publid void sftNotifyLow(boolfbn vbluf);
 
     /**
-     * Gets the difference mode flag value.
+     * Gfts tif difffrfndf modf flbg vbluf.
      *
-     * @return <CODE>true</CODE> if the difference mode is used,
-     * <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif difffrfndf modf is usfd,
+     * <CODE>fblsf</CODE> otifrwisf.
      *
-     * @see #setDifferenceMode
+     * @sff #sftDifffrfndfModf
      */
-    public boolean getDifferenceMode();
+    publid boolfbn gftDifffrfndfModf();
 
     /**
-     * Sets the difference mode flag value.
+     * Sfts tif difffrfndf modf flbg vbluf.
      *
-     * @param value The difference mode flag value.
+     * @pbrbm vbluf Tif difffrfndf modf flbg vbluf.
      *
-     * @see #getDifferenceMode
+     * @sff #gftDifffrfndfModf
      */
-    public void setDifferenceMode(boolean value);
+    publid void sftDifffrfndfModf(boolfbn vbluf);
 }

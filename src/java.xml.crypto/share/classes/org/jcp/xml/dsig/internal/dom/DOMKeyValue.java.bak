@@ -1,504 +1,504 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
- * $Id: DOMKeyValue.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMKfyVbluf.jbvb 1333415 2012-05-03 12:03:51Z doifigfb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.*;
-import javax.xml.crypto.dsig.keyinfo.KeyValue;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.kfyinfo.KfyVbluf;
 
-// import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.security.AccessController;
-import java.security.KeyException;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.PublicKey;
-import java.security.interfaces.DSAParams;
-import java.security.interfaces.DSAPublicKey;
-import java.security.interfaces.ECPublicKey;
-import java.security.interfaces.RSAPublicKey;
-import java.security.spec.DSAPublicKeySpec;
-import java.security.spec.ECParameterSpec;
-import java.security.spec.ECPoint;
-import java.security.spec.ECPublicKeySpec;
-import java.security.spec.EllipticCurve;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
-import java.security.spec.RSAPublicKeySpec;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+// import jbvb.io.IOExdfption;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.KfyExdfption;
+import jbvb.sfdurity.KfyFbdtory;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.intfrfbdfs.DSAPbrbms;
+import jbvb.sfdurity.intfrfbdfs.DSAPublidKfy;
+import jbvb.sfdurity.intfrfbdfs.ECPublidKfy;
+import jbvb.sfdurity.intfrfbdfs.RSAPublidKfy;
+import jbvb.sfdurity.spfd.DSAPublidKfySpfd;
+import jbvb.sfdurity.spfd.ECPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.ECPoint;
+import jbvb.sfdurity.spfd.ECPublidKfySpfd;
+import jbvb.sfdurity.spfd.ElliptidCurvf;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+import jbvb.sfdurity.spfd.KfySpfd;
+import jbvb.sfdurity.spfd.RSAPublidKfySpfd;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
 
-import com.sun.org.apache.xml.internal.security.exceptions.Base64DecodingException;
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.Bbsf64DfdodingExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Bbsf64;
 
 /**
- * DOM-based implementation of KeyValue.
+ * DOM-bbsfd implfmfntbtion of KfyVbluf.
  *
- * @author Sean Mullan
+ * @butior Sfbn Mullbn
  */
-public abstract class DOMKeyValue extends DOMStructure implements KeyValue {
+publid bbstrbdt dlbss DOMKfyVbluf fxtfnds DOMStrudturf implfmfnts KfyVbluf {
 
-    private static final String XMLDSIG_11_XMLNS
-        = "http://www.w3.org/2009/xmldsig11#";
-    private final PublicKey publicKey;
+    privbtf stbtid finbl String XMLDSIG_11_XMLNS
+        = "ittp://www.w3.org/2009/xmldsig11#";
+    privbtf finbl PublidKfy publidKfy;
 
-    public DOMKeyValue(PublicKey key) throws KeyException {
-        if (key == null) {
-            throw new NullPointerException("key cannot be null");
+    publid DOMKfyVbluf(PublidKfy kfy) tirows KfyExdfption {
+        if (kfy == null) {
+            tirow nfw NullPointfrExdfption("kfy dbnnot bf null");
         }
-        this.publicKey = key;
+        tiis.publidKfy = kfy;
     }
 
     /**
-     * Creates a <code>DOMKeyValue</code> from an element.
+     * Crfbtfs b <dodf>DOMKfyVbluf</dodf> from bn flfmfnt.
      *
-     * @param kvtElem a KeyValue child element
+     * @pbrbm kvtElfm b KfyVbluf diild flfmfnt
      */
-    public DOMKeyValue(Element kvtElem) throws MarshalException {
-        this.publicKey = unmarshalKeyValue(kvtElem);
+    publid DOMKfyVbluf(Elfmfnt kvtElfm) tirows MbrsiblExdfption {
+        tiis.publidKfy = unmbrsiblKfyVbluf(kvtElfm);
     }
 
-    static KeyValue unmarshal(Element kvElem) throws MarshalException {
-        Element kvtElem = DOMUtils.getFirstChildElement(kvElem);
-        if (kvtElem.getLocalName().equals("DSAKeyValue")) {
-            return new DSA(kvtElem);
-        } else if (kvtElem.getLocalName().equals("RSAKeyValue")) {
-            return new RSA(kvtElem);
-        } else if (kvtElem.getLocalName().equals("ECKeyValue")) {
-            return new EC(kvtElem);
-        } else {
-            return new Unknown(kvtElem);
+    stbtid KfyVbluf unmbrsibl(Elfmfnt kvElfm) tirows MbrsiblExdfption {
+        Elfmfnt kvtElfm = DOMUtils.gftFirstCiildElfmfnt(kvElfm);
+        if (kvtElfm.gftLodblNbmf().fqubls("DSAKfyVbluf")) {
+            rfturn nfw DSA(kvtElfm);
+        } flsf if (kvtElfm.gftLodblNbmf().fqubls("RSAKfyVbluf")) {
+            rfturn nfw RSA(kvtElfm);
+        } flsf if (kvtElfm.gftLodblNbmf().fqubls("ECKfyVbluf")) {
+            rfturn nfw EC(kvtElfm);
+        } flsf {
+            rfturn nfw Unknown(kvtElfm);
         }
     }
 
-    public PublicKey getPublicKey() throws KeyException {
-        if (publicKey == null) {
-            throw new KeyException("can't convert KeyValue to PublicKey");
-        } else {
-            return publicKey;
+    publid PublidKfy gftPublidKfy() tirows KfyExdfption {
+        if (publidKfy == null) {
+            tirow nfw KfyExdfption("dbn't donvfrt KfyVbluf to PublidKfy");
+        } flsf {
+            rfturn publidKfy;
         }
     }
 
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        tirows MbrsiblExdfption
     {
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
 
-        // create KeyValue element
-        Element kvElem = DOMUtils.createElement(ownerDoc, "KeyValue",
-                                                XMLSignature.XMLNS, dsPrefix);
-        marshalPublicKey(kvElem, ownerDoc, dsPrefix, context);
+        // drfbtf KfyVbluf flfmfnt
+        Elfmfnt kvElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "KfyVbluf",
+                                                XMLSignbturf.XMLNS, dsPrffix);
+        mbrsiblPublidKfy(kvElfm, ownfrDod, dsPrffix, dontfxt);
 
-        parent.appendChild(kvElem);
+        pbrfnt.bppfndCiild(kvElfm);
     }
 
-    abstract void marshalPublicKey(Node parent, Document doc, String dsPrefix,
-        DOMCryptoContext context) throws MarshalException;
+    bbstrbdt void mbrsiblPublidKfy(Nodf pbrfnt, Dodumfnt dod, String dsPrffix,
+        DOMCryptoContfxt dontfxt) tirows MbrsiblExdfption;
 
-    abstract PublicKey unmarshalKeyValue(Element kvtElem)
-        throws MarshalException;
+    bbstrbdt PublidKfy unmbrsiblKfyVbluf(Elfmfnt kvtElfm)
+        tirows MbrsiblExdfption;
 
-    private static PublicKey generatePublicKey(KeyFactory kf, KeySpec keyspec) {
+    privbtf stbtid PublidKfy gfnfrbtfPublidKfy(KfyFbdtory kf, KfySpfd kfyspfd) {
         try {
-            return kf.generatePublic(keyspec);
-        } catch (InvalidKeySpecException e) {
-            //@@@ should dump exception to log
-            return null;
+            rfturn kf.gfnfrbtfPublid(kfyspfd);
+        } dbtdi (InvblidKfySpfdExdfption f) {
+            //@@@ siould dump fxdfption to log
+            rfturn null;
         }
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (!(obj instanceof KeyValue)) {
-            return false;
+        if (!(obj instbndfof KfyVbluf)) {
+            rfturn fblsf;
         }
         try {
-            KeyValue kv = (KeyValue)obj;
-            if (publicKey == null ) {
-                if (kv.getPublicKey() != null) {
-                    return false;
+            KfyVbluf kv = (KfyVbluf)obj;
+            if (publidKfy == null ) {
+                if (kv.gftPublidKfy() != null) {
+                    rfturn fblsf;
                 }
-            } else if (!publicKey.equals(kv.getPublicKey())) {
-                return false;
+            } flsf if (!publidKfy.fqubls(kv.gftPublidKfy())) {
+                rfturn fblsf;
             }
-        } catch (KeyException ke) {
-            // no practical way to determine if the keys are equal
-            return false;
+        } dbtdi (KfyExdfption kf) {
+            // no prbdtidbl wby to dftfrminf if tif kfys brf fqubl
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
-    @Override
-    public int hashCode() {
-        int result = 17;
-        if (publicKey != null) {
-            result = 31 * result + publicKey.hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int rfsult = 17;
+        if (publidKfy != null) {
+            rfsult = 31 * rfsult + publidKfy.ibsiCodf();
         }
 
-        return result;
+        rfturn rfsult;
     }
 
-    static final class RSA extends DOMKeyValue {
-        // RSAKeyValue CryptoBinaries
-        private DOMCryptoBinary modulus, exponent;
-        private KeyFactory rsakf;
+    stbtid finbl dlbss RSA fxtfnds DOMKfyVbluf {
+        // RSAKfyVbluf CryptoBinbrifs
+        privbtf DOMCryptoBinbry modulus, fxponfnt;
+        privbtf KfyFbdtory rsbkf;
 
-        RSA(PublicKey key) throws KeyException {
-            super(key);
-            RSAPublicKey rkey = (RSAPublicKey)key;
-            exponent = new DOMCryptoBinary(rkey.getPublicExponent());
-            modulus = new DOMCryptoBinary(rkey.getModulus());
+        RSA(PublidKfy kfy) tirows KfyExdfption {
+            supfr(kfy);
+            RSAPublidKfy rkfy = (RSAPublidKfy)kfy;
+            fxponfnt = nfw DOMCryptoBinbry(rkfy.gftPublidExponfnt());
+            modulus = nfw DOMCryptoBinbry(rkfy.gftModulus());
         }
 
-        RSA(Element elem) throws MarshalException {
-            super(elem);
+        RSA(Elfmfnt flfm) tirows MbrsiblExdfption {
+            supfr(flfm);
         }
 
-        void marshalPublicKey(Node parent, Document doc, String dsPrefix,
-            DOMCryptoContext context) throws MarshalException {
-            Element rsaElem = DOMUtils.createElement(doc, "RSAKeyValue",
-                                                     XMLSignature.XMLNS,
-                                                     dsPrefix);
-            Element modulusElem = DOMUtils.createElement(doc, "Modulus",
-                                                         XMLSignature.XMLNS,
-                                                         dsPrefix);
-            Element exponentElem = DOMUtils.createElement(doc, "Exponent",
-                                                          XMLSignature.XMLNS,
-                                                          dsPrefix);
-            modulus.marshal(modulusElem, dsPrefix, context);
-            exponent.marshal(exponentElem, dsPrefix, context);
-            rsaElem.appendChild(modulusElem);
-            rsaElem.appendChild(exponentElem);
-            parent.appendChild(rsaElem);
+        void mbrsiblPublidKfy(Nodf pbrfnt, Dodumfnt dod, String dsPrffix,
+            DOMCryptoContfxt dontfxt) tirows MbrsiblExdfption {
+            Elfmfnt rsbElfm = DOMUtils.drfbtfElfmfnt(dod, "RSAKfyVbluf",
+                                                     XMLSignbturf.XMLNS,
+                                                     dsPrffix);
+            Elfmfnt modulusElfm = DOMUtils.drfbtfElfmfnt(dod, "Modulus",
+                                                         XMLSignbturf.XMLNS,
+                                                         dsPrffix);
+            Elfmfnt fxponfntElfm = DOMUtils.drfbtfElfmfnt(dod, "Exponfnt",
+                                                          XMLSignbturf.XMLNS,
+                                                          dsPrffix);
+            modulus.mbrsibl(modulusElfm, dsPrffix, dontfxt);
+            fxponfnt.mbrsibl(fxponfntElfm, dsPrffix, dontfxt);
+            rsbElfm.bppfndCiild(modulusElfm);
+            rsbElfm.bppfndCiild(fxponfntElfm);
+            pbrfnt.bppfndCiild(rsbElfm);
         }
 
-        PublicKey unmarshalKeyValue(Element kvtElem)
-            throws MarshalException
+        PublidKfy unmbrsiblKfyVbluf(Elfmfnt kvtElfm)
+            tirows MbrsiblExdfption
         {
-            if (rsakf == null) {
+            if (rsbkf == null) {
                 try {
-                    rsakf = KeyFactory.getInstance("RSA");
-                } catch (NoSuchAlgorithmException e) {
-                    throw new RuntimeException
-                        ("unable to create RSA KeyFactory: " + e.getMessage());
+                    rsbkf = KfyFbdtory.gftInstbndf("RSA");
+                } dbtdi (NoSudiAlgoritimExdfption f) {
+                    tirow nfw RuntimfExdfption
+                        ("unbblf to drfbtf RSA KfyFbdtory: " + f.gftMfssbgf());
                 }
             }
-            Element modulusElem = DOMUtils.getFirstChildElement(kvtElem,
+            Elfmfnt modulusElfm = DOMUtils.gftFirstCiildElfmfnt(kvtElfm,
                                                                 "Modulus");
-            modulus = new DOMCryptoBinary(modulusElem.getFirstChild());
-            Element exponentElem = DOMUtils.getNextSiblingElement(modulusElem,
-                                                                  "Exponent");
-            exponent = new DOMCryptoBinary(exponentElem.getFirstChild());
-            RSAPublicKeySpec spec = new RSAPublicKeySpec(modulus.getBigNum(),
-                                                         exponent.getBigNum());
-            return generatePublicKey(rsakf, spec);
+            modulus = nfw DOMCryptoBinbry(modulusElfm.gftFirstCiild());
+            Elfmfnt fxponfntElfm = DOMUtils.gftNfxtSiblingElfmfnt(modulusElfm,
+                                                                  "Exponfnt");
+            fxponfnt = nfw DOMCryptoBinbry(fxponfntElfm.gftFirstCiild());
+            RSAPublidKfySpfd spfd = nfw RSAPublidKfySpfd(modulus.gftBigNum(),
+                                                         fxponfnt.gftBigNum());
+            rfturn gfnfrbtfPublidKfy(rsbkf, spfd);
         }
     }
 
-    static final class DSA extends DOMKeyValue {
-        // DSAKeyValue CryptoBinaries
-        private DOMCryptoBinary p, q, g, y, j; //, seed, pgen;
-        private KeyFactory dsakf;
+    stbtid finbl dlbss DSA fxtfnds DOMKfyVbluf {
+        // DSAKfyVbluf CryptoBinbrifs
+        privbtf DOMCryptoBinbry p, q, g, y, j; //, sffd, pgfn;
+        privbtf KfyFbdtory dsbkf;
 
-        DSA(PublicKey key) throws KeyException {
-            super(key);
-            DSAPublicKey dkey = (DSAPublicKey) key;
-            DSAParams params = dkey.getParams();
-            p = new DOMCryptoBinary(params.getP());
-            q = new DOMCryptoBinary(params.getQ());
-            g = new DOMCryptoBinary(params.getG());
-            y = new DOMCryptoBinary(dkey.getY());
+        DSA(PublidKfy kfy) tirows KfyExdfption {
+            supfr(kfy);
+            DSAPublidKfy dkfy = (DSAPublidKfy) kfy;
+            DSAPbrbms pbrbms = dkfy.gftPbrbms();
+            p = nfw DOMCryptoBinbry(pbrbms.gftP());
+            q = nfw DOMCryptoBinbry(pbrbms.gftQ());
+            g = nfw DOMCryptoBinbry(pbrbms.gftG());
+            y = nfw DOMCryptoBinbry(dkfy.gftY());
         }
 
-        DSA(Element elem) throws MarshalException {
-            super(elem);
+        DSA(Elfmfnt flfm) tirows MbrsiblExdfption {
+            supfr(flfm);
         }
 
-        void marshalPublicKey(Node parent, Document doc, String dsPrefix,
-                              DOMCryptoContext context)
-            throws MarshalException
+        void mbrsiblPublidKfy(Nodf pbrfnt, Dodumfnt dod, String dsPrffix,
+                              DOMCryptoContfxt dontfxt)
+            tirows MbrsiblExdfption
         {
-            Element dsaElem = DOMUtils.createElement(doc, "DSAKeyValue",
-                                                     XMLSignature.XMLNS,
-                                                     dsPrefix);
-            // parameters J, Seed & PgenCounter are not included
-            Element pElem = DOMUtils.createElement(doc, "P", XMLSignature.XMLNS,
-                                                   dsPrefix);
-            Element qElem = DOMUtils.createElement(doc, "Q", XMLSignature.XMLNS,
-                                                   dsPrefix);
-            Element gElem = DOMUtils.createElement(doc, "G", XMLSignature.XMLNS,
-                                                   dsPrefix);
-            Element yElem = DOMUtils.createElement(doc, "Y", XMLSignature.XMLNS,
-                                                   dsPrefix);
-            p.marshal(pElem, dsPrefix, context);
-            q.marshal(qElem, dsPrefix, context);
-            g.marshal(gElem, dsPrefix, context);
-            y.marshal(yElem, dsPrefix, context);
-            dsaElem.appendChild(pElem);
-            dsaElem.appendChild(qElem);
-            dsaElem.appendChild(gElem);
-            dsaElem.appendChild(yElem);
-            parent.appendChild(dsaElem);
+            Elfmfnt dsbElfm = DOMUtils.drfbtfElfmfnt(dod, "DSAKfyVbluf",
+                                                     XMLSignbturf.XMLNS,
+                                                     dsPrffix);
+            // pbrbmftfrs J, Sffd & PgfnCountfr brf not indludfd
+            Elfmfnt pElfm = DOMUtils.drfbtfElfmfnt(dod, "P", XMLSignbturf.XMLNS,
+                                                   dsPrffix);
+            Elfmfnt qElfm = DOMUtils.drfbtfElfmfnt(dod, "Q", XMLSignbturf.XMLNS,
+                                                   dsPrffix);
+            Elfmfnt gElfm = DOMUtils.drfbtfElfmfnt(dod, "G", XMLSignbturf.XMLNS,
+                                                   dsPrffix);
+            Elfmfnt yElfm = DOMUtils.drfbtfElfmfnt(dod, "Y", XMLSignbturf.XMLNS,
+                                                   dsPrffix);
+            p.mbrsibl(pElfm, dsPrffix, dontfxt);
+            q.mbrsibl(qElfm, dsPrffix, dontfxt);
+            g.mbrsibl(gElfm, dsPrffix, dontfxt);
+            y.mbrsibl(yElfm, dsPrffix, dontfxt);
+            dsbElfm.bppfndCiild(pElfm);
+            dsbElfm.bppfndCiild(qElfm);
+            dsbElfm.bppfndCiild(gElfm);
+            dsbElfm.bppfndCiild(yElfm);
+            pbrfnt.bppfndCiild(dsbElfm);
         }
 
-        PublicKey unmarshalKeyValue(Element kvtElem)
-            throws MarshalException
+        PublidKfy unmbrsiblKfyVbluf(Elfmfnt kvtElfm)
+            tirows MbrsiblExdfption
         {
-            if (dsakf == null) {
+            if (dsbkf == null) {
                 try {
-                    dsakf = KeyFactory.getInstance("DSA");
-                } catch (NoSuchAlgorithmException e) {
-                    throw new RuntimeException
-                        ("unable to create DSA KeyFactory: " + e.getMessage());
+                    dsbkf = KfyFbdtory.gftInstbndf("DSA");
+                } dbtdi (NoSudiAlgoritimExdfption f) {
+                    tirow nfw RuntimfExdfption
+                        ("unbblf to drfbtf DSA KfyFbdtory: " + f.gftMfssbgf());
                 }
             }
-            Element curElem = DOMUtils.getFirstChildElement(kvtElem);
-            // check for P and Q
-            if (curElem.getLocalName().equals("P")) {
-                p = new DOMCryptoBinary(curElem.getFirstChild());
-                curElem = DOMUtils.getNextSiblingElement(curElem, "Q");
-                q = new DOMCryptoBinary(curElem.getFirstChild());
-                curElem = DOMUtils.getNextSiblingElement(curElem);
+            Elfmfnt durElfm = DOMUtils.gftFirstCiildElfmfnt(kvtElfm);
+            // difdk for P bnd Q
+            if (durElfm.gftLodblNbmf().fqubls("P")) {
+                p = nfw DOMCryptoBinbry(durElfm.gftFirstCiild());
+                durElfm = DOMUtils.gftNfxtSiblingElfmfnt(durElfm, "Q");
+                q = nfw DOMCryptoBinbry(durElfm.gftFirstCiild());
+                durElfm = DOMUtils.gftNfxtSiblingElfmfnt(durElfm);
             }
-            if (curElem.getLocalName().equals("G")) {
-                g = new DOMCryptoBinary(curElem.getFirstChild());
-                curElem = DOMUtils.getNextSiblingElement(curElem, "Y");
+            if (durElfm.gftLodblNbmf().fqubls("G")) {
+                g = nfw DOMCryptoBinbry(durElfm.gftFirstCiild());
+                durElfm = DOMUtils.gftNfxtSiblingElfmfnt(durElfm, "Y");
             }
-            y = new DOMCryptoBinary(curElem.getFirstChild());
-            curElem = DOMUtils.getNextSiblingElement(curElem);
-            if (curElem != null && curElem.getLocalName().equals("J")) {
-                j = new DOMCryptoBinary(curElem.getFirstChild());
-                // curElem = DOMUtils.getNextSiblingElement(curElem);
+            y = nfw DOMCryptoBinbry(durElfm.gftFirstCiild());
+            durElfm = DOMUtils.gftNfxtSiblingElfmfnt(durElfm);
+            if (durElfm != null && durElfm.gftLodblNbmf().fqubls("J")) {
+                j = nfw DOMCryptoBinbry(durElfm.gftFirstCiild());
+                // durElfm = DOMUtils.gftNfxtSiblingElfmfnt(durElfm);
             }
             /*
-            if (curElem != null) {
-                seed = new DOMCryptoBinary(curElem.getFirstChild());
-                curElem = DOMUtils.getNextSiblingElement(curElem);
-                pgen = new DOMCryptoBinary(curElem.getFirstChild());
+            if (durElfm != null) {
+                sffd = nfw DOMCryptoBinbry(durElfm.gftFirstCiild());
+                durElfm = DOMUtils.gftNfxtSiblingElfmfnt(durElfm);
+                pgfn = nfw DOMCryptoBinbry(durElfm.gftFirstCiild());
             }
             */
-            //@@@ do we care about j, pgenCounter or seed?
-            DSAPublicKeySpec spec = new DSAPublicKeySpec(y.getBigNum(),
-                                                         p.getBigNum(),
-                                                         q.getBigNum(),
-                                                         g.getBigNum());
-            return generatePublicKey(dsakf, spec);
+            //@@@ do wf dbrf bbout j, pgfnCountfr or sffd?
+            DSAPublidKfySpfd spfd = nfw DSAPublidKfySpfd(y.gftBigNum(),
+                                                         p.gftBigNum(),
+                                                         q.gftBigNum(),
+                                                         g.gftBigNum());
+            rfturn gfnfrbtfPublidKfy(dsbkf, spfd);
         }
     }
 
-    static final class EC extends DOMKeyValue {
-        // ECKeyValue CryptoBinaries
-        private byte[] ecPublicKey;
-        private KeyFactory eckf;
-        private ECParameterSpec ecParams;
-        private Method encodePoint, decodePoint, getCurveName,
-                       getECParameterSpec;
+    stbtid finbl dlbss EC fxtfnds DOMKfyVbluf {
+        // ECKfyVbluf CryptoBinbrifs
+        privbtf bytf[] fdPublidKfy;
+        privbtf KfyFbdtory fdkf;
+        privbtf ECPbrbmftfrSpfd fdPbrbms;
+        privbtf Mftiod fndodfPoint, dfdodfPoint, gftCurvfNbmf,
+                       gftECPbrbmftfrSpfd;
 
-        EC(PublicKey key) throws KeyException {
-            super(key);
-            ECPublicKey ecKey = (ECPublicKey)key;
-            ECPoint ecPoint = ecKey.getW();
-            ecParams = ecKey.getParams();
+        EC(PublidKfy kfy) tirows KfyExdfption {
+            supfr(kfy);
+            ECPublidKfy fdKfy = (ECPublidKfy)kfy;
+            ECPoint fdPoint = fdKfy.gftW();
+            fdPbrbms = fdKfy.gftPbrbms();
             try {
-                AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<Void>() {
-                        public Void run() throws
-                            ClassNotFoundException, NoSuchMethodException
+                AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<Void>() {
+                        publid Void run() tirows
+                            ClbssNotFoundExdfption, NoSudiMftiodExdfption
                         {
-                            getMethods();
-                            return null;
+                            gftMftiods();
+                            rfturn null;
                         }
                     }
                 );
-            } catch (PrivilegedActionException pae) {
-                throw new KeyException("ECKeyValue not supported",
-                                        pae.getException());
+            } dbtdi (PrivilfgfdAdtionExdfption pbf) {
+                tirow nfw KfyExdfption("ECKfyVbluf not supportfd",
+                                        pbf.gftExdfption());
             }
-            Object[] args = new Object[] { ecPoint, ecParams.getCurve() };
+            Objfdt[] brgs = nfw Objfdt[] { fdPoint, fdPbrbms.gftCurvf() };
             try {
-                ecPublicKey = (byte[])encodePoint.invoke(null, args);
-            } catch (IllegalAccessException iae) {
-                throw new KeyException(iae);
-            } catch (InvocationTargetException ite) {
-                throw new KeyException(ite);
+                fdPublidKfy = (bytf[])fndodfPoint.invokf(null, brgs);
+            } dbtdi (IllfgblAddfssExdfption ibf) {
+                tirow nfw KfyExdfption(ibf);
+            } dbtdi (InvodbtionTbrgftExdfption itf) {
+                tirow nfw KfyExdfption(itf);
             }
         }
 
-        EC(Element dmElem) throws MarshalException {
-            super(dmElem);
+        EC(Elfmfnt dmElfm) tirows MbrsiblExdfption {
+            supfr(dmElfm);
         }
 
-        void getMethods() throws ClassNotFoundException, NoSuchMethodException {
-            Class<?> c  = Class.forName("sun.security.util.ECParameters");
-            Class<?>[] params = new Class<?>[] { ECPoint.class,
-                                                 EllipticCurve.class };
-            encodePoint = c.getMethod("encodePoint", params);
-            params = new Class<?>[] { ECParameterSpec.class };
-            getCurveName = c.getMethod("getCurveName", params);
-            params = new Class<?>[] { byte[].class, EllipticCurve.class };
-            decodePoint = c.getMethod("decodePoint", params);
-            c  = Class.forName("sun.security.util.NamedCurve");
-            params = new Class<?>[] { String.class };
-            getECParameterSpec = c.getMethod("getECParameterSpec", params);
+        void gftMftiods() tirows ClbssNotFoundExdfption, NoSudiMftiodExdfption {
+            Clbss<?> d  = Clbss.forNbmf("sun.sfdurity.util.ECPbrbmftfrs");
+            Clbss<?>[] pbrbms = nfw Clbss<?>[] { ECPoint.dlbss,
+                                                 ElliptidCurvf.dlbss };
+            fndodfPoint = d.gftMftiod("fndodfPoint", pbrbms);
+            pbrbms = nfw Clbss<?>[] { ECPbrbmftfrSpfd.dlbss };
+            gftCurvfNbmf = d.gftMftiod("gftCurvfNbmf", pbrbms);
+            pbrbms = nfw Clbss<?>[] { bytf[].dlbss, ElliptidCurvf.dlbss };
+            dfdodfPoint = d.gftMftiod("dfdodfPoint", pbrbms);
+            d  = Clbss.forNbmf("sun.sfdurity.util.NbmfdCurvf");
+            pbrbms = nfw Clbss<?>[] { String.dlbss };
+            gftECPbrbmftfrSpfd = d.gftMftiod("gftECPbrbmftfrSpfd", pbrbms);
         }
 
-        void marshalPublicKey(Node parent, Document doc, String dsPrefix,
-                              DOMCryptoContext context)
-            throws MarshalException
+        void mbrsiblPublidKfy(Nodf pbrfnt, Dodumfnt dod, String dsPrffix,
+                              DOMCryptoContfxt dontfxt)
+            tirows MbrsiblExdfption
         {
-            String prefix = DOMUtils.getNSPrefix(context, XMLDSIG_11_XMLNS);
-            Element ecKeyValueElem = DOMUtils.createElement(doc, "ECKeyValue",
+            String prffix = DOMUtils.gftNSPrffix(dontfxt, XMLDSIG_11_XMLNS);
+            Elfmfnt fdKfyVblufElfm = DOMUtils.drfbtfElfmfnt(dod, "ECKfyVbluf",
                                                             XMLDSIG_11_XMLNS,
-                                                            prefix);
-            Element namedCurveElem = DOMUtils.createElement(doc, "NamedCurve",
+                                                            prffix);
+            Elfmfnt nbmfdCurvfElfm = DOMUtils.drfbtfElfmfnt(dod, "NbmfdCurvf",
                                                             XMLDSIG_11_XMLNS,
-                                                            prefix);
-            Element publicKeyElem = DOMUtils.createElement(doc, "PublicKey",
+                                                            prffix);
+            Elfmfnt publidKfyElfm = DOMUtils.drfbtfElfmfnt(dod, "PublidKfy",
                                                            XMLDSIG_11_XMLNS,
-                                                           prefix);
-            Object[] args = new Object[] { ecParams };
+                                                           prffix);
+            Objfdt[] brgs = nfw Objfdt[] { fdPbrbms };
             try {
-                String oid = (String) getCurveName.invoke(null, args);
-                DOMUtils.setAttribute(namedCurveElem, "URI", "urn:oid:" + oid);
-            } catch (IllegalAccessException iae) {
-                throw new MarshalException(iae);
-            } catch (InvocationTargetException ite) {
-                throw new MarshalException(ite);
+                String oid = (String) gftCurvfNbmf.invokf(null, brgs);
+                DOMUtils.sftAttributf(nbmfdCurvfElfm, "URI", "urn:oid:" + oid);
+            } dbtdi (IllfgblAddfssExdfption ibf) {
+                tirow nfw MbrsiblExdfption(ibf);
+            } dbtdi (InvodbtionTbrgftExdfption itf) {
+                tirow nfw MbrsiblExdfption(itf);
             }
-            String qname = (prefix == null || prefix.length() == 0)
-                       ? "xmlns" : "xmlns:" + prefix;
-            namedCurveElem.setAttributeNS("http://www.w3.org/2000/xmlns/",
-                                          qname, XMLDSIG_11_XMLNS);
-            ecKeyValueElem.appendChild(namedCurveElem);
-            String encoded = Base64.encode(ecPublicKey);
-            publicKeyElem.appendChild
-                (DOMUtils.getOwnerDocument(publicKeyElem).createTextNode(encoded));
-            ecKeyValueElem.appendChild(publicKeyElem);
-            parent.appendChild(ecKeyValueElem);
+            String qnbmf = (prffix == null || prffix.lfngti() == 0)
+                       ? "xmlns" : "xmlns:" + prffix;
+            nbmfdCurvfElfm.sftAttributfNS("ittp://www.w3.org/2000/xmlns/",
+                                          qnbmf, XMLDSIG_11_XMLNS);
+            fdKfyVblufElfm.bppfndCiild(nbmfdCurvfElfm);
+            String fndodfd = Bbsf64.fndodf(fdPublidKfy);
+            publidKfyElfm.bppfndCiild
+                (DOMUtils.gftOwnfrDodumfnt(publidKfyElfm).drfbtfTfxtNodf(fndodfd));
+            fdKfyVblufElfm.bppfndCiild(publidKfyElfm);
+            pbrfnt.bppfndCiild(fdKfyVblufElfm);
         }
 
-        PublicKey unmarshalKeyValue(Element kvtElem)
-            throws MarshalException
+        PublidKfy unmbrsiblKfyVbluf(Elfmfnt kvtElfm)
+            tirows MbrsiblExdfption
         {
-            if (eckf == null) {
+            if (fdkf == null) {
                 try {
-                    eckf = KeyFactory.getInstance("EC");
-                } catch (NoSuchAlgorithmException e) {
-                    throw new RuntimeException
-                        ("unable to create EC KeyFactory: " + e.getMessage());
+                    fdkf = KfyFbdtory.gftInstbndf("EC");
+                } dbtdi (NoSudiAlgoritimExdfption f) {
+                    tirow nfw RuntimfExdfption
+                        ("unbblf to drfbtf EC KfyFbdtory: " + f.gftMfssbgf());
                 }
             }
             try {
-                AccessController.doPrivileged(
-                    new PrivilegedExceptionAction<Void>() {
-                        public Void run() throws
-                            ClassNotFoundException, NoSuchMethodException
+                AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<Void>() {
+                        publid Void run() tirows
+                            ClbssNotFoundExdfption, NoSudiMftiodExdfption
                         {
-                            getMethods();
-                            return null;
+                            gftMftiods();
+                            rfturn null;
                         }
                     }
                 );
-            } catch (PrivilegedActionException pae) {
-                throw new MarshalException("ECKeyValue not supported",
-                                           pae.getException());
+            } dbtdi (PrivilfgfdAdtionExdfption pbf) {
+                tirow nfw MbrsiblExdfption("ECKfyVbluf not supportfd",
+                                           pbf.gftExdfption());
             }
-            ECParameterSpec ecParams = null;
-            Element curElem = DOMUtils.getFirstChildElement(kvtElem);
-            if (curElem.getLocalName().equals("ECParameters")) {
-                throw new UnsupportedOperationException
-                    ("ECParameters not supported");
-            } else if (curElem.getLocalName().equals("NamedCurve")) {
-                String uri = DOMUtils.getAttributeValue(curElem, "URI");
+            ECPbrbmftfrSpfd fdPbrbms = null;
+            Elfmfnt durElfm = DOMUtils.gftFirstCiildElfmfnt(kvtElfm);
+            if (durElfm.gftLodblNbmf().fqubls("ECPbrbmftfrs")) {
+                tirow nfw UnsupportfdOpfrbtionExdfption
+                    ("ECPbrbmftfrs not supportfd");
+            } flsf if (durElfm.gftLodblNbmf().fqubls("NbmfdCurvf")) {
+                String uri = DOMUtils.gftAttributfVbluf(durElfm, "URI");
                 // strip off "urn:oid"
-                if (uri.startsWith("urn:oid:")) {
+                if (uri.stbrtsWiti("urn:oid:")) {
                     String oid = uri.substring(8);
                     try {
-                        Object[] args = new Object[] { oid };
-                        ecParams = (ECParameterSpec)
-                                    getECParameterSpec.invoke(null, args);
-                    } catch (IllegalAccessException iae) {
-                        throw new MarshalException(iae);
-                    } catch (InvocationTargetException ite) {
-                        throw new MarshalException(ite);
+                        Objfdt[] brgs = nfw Objfdt[] { oid };
+                        fdPbrbms = (ECPbrbmftfrSpfd)
+                                    gftECPbrbmftfrSpfd.invokf(null, brgs);
+                    } dbtdi (IllfgblAddfssExdfption ibf) {
+                        tirow nfw MbrsiblExdfption(ibf);
+                    } dbtdi (InvodbtionTbrgftExdfption itf) {
+                        tirow nfw MbrsiblExdfption(itf);
                     }
-                } else {
-                    throw new MarshalException("Invalid NamedCurve URI");
+                } flsf {
+                    tirow nfw MbrsiblExdfption("Invblid NbmfdCurvf URI");
                 }
-            } else {
-                throw new MarshalException("Invalid ECKeyValue");
+            } flsf {
+                tirow nfw MbrsiblExdfption("Invblid ECKfyVbluf");
             }
-            curElem = DOMUtils.getNextSiblingElement(curElem, "PublicKey");
-            ECPoint ecPoint = null;
+            durElfm = DOMUtils.gftNfxtSiblingElfmfnt(durElfm, "PublidKfy");
+            ECPoint fdPoint = null;
             try {
-                Object[] args = new Object[] { Base64.decode(curElem),
-                                               ecParams.getCurve() };
-                ecPoint = (ECPoint)decodePoint.invoke(null, args);
-            } catch (Base64DecodingException bde) {
-                throw new MarshalException("Invalid EC PublicKey", bde);
-            } catch (IllegalAccessException iae) {
-                throw new MarshalException(iae);
-            } catch (InvocationTargetException ite) {
-                throw new MarshalException(ite);
+                Objfdt[] brgs = nfw Objfdt[] { Bbsf64.dfdodf(durElfm),
+                                               fdPbrbms.gftCurvf() };
+                fdPoint = (ECPoint)dfdodfPoint.invokf(null, brgs);
+            } dbtdi (Bbsf64DfdodingExdfption bdf) {
+                tirow nfw MbrsiblExdfption("Invblid EC PublidKfy", bdf);
+            } dbtdi (IllfgblAddfssExdfption ibf) {
+                tirow nfw MbrsiblExdfption(ibf);
+            } dbtdi (InvodbtionTbrgftExdfption itf) {
+                tirow nfw MbrsiblExdfption(itf);
             }
 /*
-                ecPoint = sun.security.util.ECParameters.decodePoint(
-                    Base64.decode(curElem), ecParams.getCurve());
+                fdPoint = sun.sfdurity.util.ECPbrbmftfrs.dfdodfPoint(
+                    Bbsf64.dfdodf(durElfm), fdPbrbms.gftCurvf());
 */
-            ECPublicKeySpec spec = new ECPublicKeySpec(ecPoint, ecParams);
-            return generatePublicKey(eckf, spec);
+            ECPublidKfySpfd spfd = nfw ECPublidKfySpfd(fdPoint, fdPbrbms);
+            rfturn gfnfrbtfPublidKfy(fdkf, spfd);
         }
     }
 
-    static final class Unknown extends DOMKeyValue {
-        private javax.xml.crypto.dom.DOMStructure externalPublicKey;
-        Unknown(Element elem) throws MarshalException {
-            super(elem);
+    stbtid finbl dlbss Unknown fxtfnds DOMKfyVbluf {
+        privbtf jbvbx.xml.drypto.dom.DOMStrudturf fxtfrnblPublidKfy;
+        Unknown(Elfmfnt flfm) tirows MbrsiblExdfption {
+            supfr(flfm);
         }
-        PublicKey unmarshalKeyValue(Element kvElem) throws MarshalException {
-            externalPublicKey = new javax.xml.crypto.dom.DOMStructure(kvElem);
-            return null;
+        PublidKfy unmbrsiblKfyVbluf(Elfmfnt kvElfm) tirows MbrsiblExdfption {
+            fxtfrnblPublidKfy = nfw jbvbx.xml.drypto.dom.DOMStrudturf(kvElfm);
+            rfturn null;
         }
-        void marshalPublicKey(Node parent, Document doc, String dsPrefix,
-                              DOMCryptoContext context)
-            throws MarshalException
+        void mbrsiblPublidKfy(Nodf pbrfnt, Dodumfnt dod, String dsPrffix,
+                              DOMCryptoContfxt dontfxt)
+            tirows MbrsiblExdfption
         {
-            parent.appendChild(externalPublicKey.getNode());
+            pbrfnt.bppfndCiild(fxtfrnblPublidKfy.gftNodf());
         }
     }
 }

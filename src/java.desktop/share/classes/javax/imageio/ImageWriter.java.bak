@@ -1,2035 +1,2035 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio;
+pbdkbgf jbvbx.imbgfio;
 
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.awt.image.Raster;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import javax.imageio.event.IIOWriteWarningListener;
-import javax.imageio.event.IIOWriteProgressListener;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.spi.ImageWriterSpi;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
+import jbvbx.imbgfio.fvfnt.IIOWritfWbrningListfnfr;
+import jbvbx.imbgfio.fvfnt.IIOWritfProgrfssListfnfr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import jbvbx.imbgfio.spi.ImbgfWritfrSpi;
 
 /**
- * An abstract superclass for encoding and writing images.  This class
- * must be subclassed by classes that write out images in the context
- * of the Java Image I/O framework.
+ * An bbstrbdt supfrdlbss for fndoding bnd writing imbgfs.  Tiis dlbss
+ * must bf subdlbssfd by dlbssfs tibt writf out imbgfs in tif dontfxt
+ * of tif Jbvb Imbgf I/O frbmfwork.
  *
- * <p> <code>ImageWriter</code> objects are normally instantiated by
- * the service provider class for the specific format.  Service
- * provider classes are registered with the <code>IIORegistry</code>,
- * which uses them for format recognition and presentation of
- * available format readers and writers.
+ * <p> <dodf>ImbgfWritfr</dodf> objfdts brf normblly instbntibtfd by
+ * tif sfrvidf providfr dlbss for tif spfdifid formbt.  Sfrvidf
+ * providfr dlbssfs brf rfgistfrfd witi tif <dodf>IIORfgistry</dodf>,
+ * wiidi usfs tifm for formbt rfdognition bnd prfsfntbtion of
+ * bvbilbblf formbt rfbdfrs bnd writfrs.
  *
- * @see ImageReader
- * @see ImageWriteParam
- * @see javax.imageio.spi.IIORegistry
- * @see javax.imageio.spi.ImageWriterSpi
+ * @sff ImbgfRfbdfr
+ * @sff ImbgfWritfPbrbm
+ * @sff jbvbx.imbgfio.spi.IIORfgistry
+ * @sff jbvbx.imbgfio.spi.ImbgfWritfrSpi
  *
  */
-public abstract class ImageWriter implements ImageTranscoder {
+publid bbstrbdt dlbss ImbgfWritfr implfmfnts ImbgfTrbnsdodfr {
 
     /**
-     * The <code>ImageWriterSpi</code> that instantiated this object,
-     * or <code>null</code> if its identity is not known or none
-     * exists.  By default it is initialized to <code>null</code>.
+     * Tif <dodf>ImbgfWritfrSpi</dodf> tibt instbntibtfd tiis objfdt,
+     * or <dodf>null</dodf> if its idfntity is not known or nonf
+     * fxists.  By dffbult it is initiblizfd to <dodf>null</dodf>.
      */
-    protected ImageWriterSpi originatingProvider = null;
+    protfdtfd ImbgfWritfrSpi originbtingProvidfr = null;
 
     /**
-     * The <code>ImageOutputStream</code> or other <code>Object</code>
-     * set by <code>setOutput</code> and retrieved by
-     * <code>getOutput</code>.  By default it is initialized to
-     * <code>null</code>.
+     * Tif <dodf>ImbgfOutputStrfbm</dodf> or otifr <dodf>Objfdt</dodf>
+     * sft by <dodf>sftOutput</dodf> bnd rftrifvfd by
+     * <dodf>gftOutput</dodf>.  By dffbult it is initiblizfd to
+     * <dodf>null</dodf>.
      */
-    protected Object output = null;
+    protfdtfd Objfdt output = null;
 
     /**
-     * An array of <code>Locale</code>s that may be used to localize
-     * warning messages and compression setting values, or
-     * <code>null</code> if localization is not supported.  By default
-     * it is initialized to <code>null</code>.
+     * An brrby of <dodf>Lodblf</dodf>s tibt mby bf usfd to lodblizf
+     * wbrning mfssbgfs bnd domprfssion sftting vblufs, or
+     * <dodf>null</dodf> if lodblizbtion is not supportfd.  By dffbult
+     * it is initiblizfd to <dodf>null</dodf>.
      */
-    protected Locale[] availableLocales = null;
+    protfdtfd Lodblf[] bvbilbblfLodblfs = null;
 
     /**
-     * The current <code>Locale</code> to be used for localization, or
-     * <code>null</code> if none has been set.  By default it is
-     * initialized to <code>null</code>.
+     * Tif durrfnt <dodf>Lodblf</dodf> to bf usfd for lodblizbtion, or
+     * <dodf>null</dodf> if nonf ibs bffn sft.  By dffbult it is
+     * initiblizfd to <dodf>null</dodf>.
      */
-    protected Locale locale = null;
+    protfdtfd Lodblf lodblf = null;
 
     /**
-     * A <code>List</code> of currently registered
-     * <code>IIOWriteWarningListener</code>s, initialized by default to
-     * <code>null</code>, which is synonymous with an empty
-     * <code>List</code>.
+     * A <dodf>List</dodf> of durrfntly rfgistfrfd
+     * <dodf>IIOWritfWbrningListfnfr</dodf>s, initiblizfd by dffbult to
+     * <dodf>null</dodf>, wiidi is synonymous witi bn fmpty
+     * <dodf>List</dodf>.
      */
-    protected List<IIOWriteWarningListener> warningListeners = null;
+    protfdtfd List<IIOWritfWbrningListfnfr> wbrningListfnfrs = null;
 
     /**
-     * A <code>List</code> of <code>Locale</code>s, one for each
-     * element of <code>warningListeners</code>, initialized by default
-     * <code>null</code>, which is synonymous with an empty
-     * <code>List</code>.
+     * A <dodf>List</dodf> of <dodf>Lodblf</dodf>s, onf for fbdi
+     * flfmfnt of <dodf>wbrningListfnfrs</dodf>, initiblizfd by dffbult
+     * <dodf>null</dodf>, wiidi is synonymous witi bn fmpty
+     * <dodf>List</dodf>.
      */
-    protected List<Locale> warningLocales = null;
+    protfdtfd List<Lodblf> wbrningLodblfs = null;
 
     /**
-     * A <code>List</code> of currently registered
-     * <code>IIOWriteProgressListener</code>s, initialized by default
-     * <code>null</code>, which is synonymous with an empty
-     * <code>List</code>.
+     * A <dodf>List</dodf> of durrfntly rfgistfrfd
+     * <dodf>IIOWritfProgrfssListfnfr</dodf>s, initiblizfd by dffbult
+     * <dodf>null</dodf>, wiidi is synonymous witi bn fmpty
+     * <dodf>List</dodf>.
      */
-    protected List<IIOWriteProgressListener> progressListeners = null;
+    protfdtfd List<IIOWritfProgrfssListfnfr> progrfssListfnfrs = null;
 
     /**
-     * If <code>true</code>, the current write operation should be
-     * aborted.
+     * If <dodf>truf</dodf>, tif durrfnt writf opfrbtion siould bf
+     * bbortfd.
      */
-    private boolean abortFlag = false;
+    privbtf boolfbn bbortFlbg = fblsf;
 
     /**
-     * Constructs an <code>ImageWriter</code> and sets its
-     * <code>originatingProvider</code> instance variable to the
-     * supplied value.
+     * Construdts bn <dodf>ImbgfWritfr</dodf> bnd sfts its
+     * <dodf>originbtingProvidfr</dodf> instbndf vbribblf to tif
+     * supplifd vbluf.
      *
-     * <p> Subclasses that make use of extensions should provide a
-     * constructor with signature <code>(ImageWriterSpi,
-     * Object)</code> in order to retrieve the extension object.  If
-     * the extension object is unsuitable, an
-     * <code>IllegalArgumentException</code> should be thrown.
+     * <p> Subdlbssfs tibt mbkf usf of fxtfnsions siould providf b
+     * donstrudtor witi signbturf <dodf>(ImbgfWritfrSpi,
+     * Objfdt)</dodf> in ordfr to rftrifvf tif fxtfnsion objfdt.  If
+     * tif fxtfnsion objfdt is unsuitbblf, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> siould bf tirown.
      *
-     * @param originatingProvider the <code>ImageWriterSpi</code> that
-     * is constructing this object, or <code>null</code>.
+     * @pbrbm originbtingProvidfr tif <dodf>ImbgfWritfrSpi</dodf> tibt
+     * is donstrudting tiis objfdt, or <dodf>null</dodf>.
      */
-    protected ImageWriter(ImageWriterSpi originatingProvider) {
-        this.originatingProvider = originatingProvider;
+    protfdtfd ImbgfWritfr(ImbgfWritfrSpi originbtingProvidfr) {
+        tiis.originbtingProvidfr = originbtingProvidfr;
     }
 
     /**
-     * Returns the <code>ImageWriterSpi</code> object that created
-     * this <code>ImageWriter</code>, or <code>null</code> if this
-     * object was not created through the <code>IIORegistry</code>.
+     * Rfturns tif <dodf>ImbgfWritfrSpi</dodf> objfdt tibt drfbtfd
+     * tiis <dodf>ImbgfWritfr</dodf>, or <dodf>null</dodf> if tiis
+     * objfdt wbs not drfbtfd tirougi tif <dodf>IIORfgistry</dodf>.
      *
-     * <p> The default implementation returns the value of the
-     * <code>originatingProvider</code> instance variable.
+     * <p> Tif dffbult implfmfntbtion rfturns tif vbluf of tif
+     * <dodf>originbtingProvidfr</dodf> instbndf vbribblf.
      *
-     * @return an <code>ImageWriterSpi</code>, or <code>null</code>.
+     * @rfturn bn <dodf>ImbgfWritfrSpi</dodf>, or <dodf>null</dodf>.
      *
-     * @see ImageWriterSpi
+     * @sff ImbgfWritfrSpi
      */
-    public ImageWriterSpi getOriginatingProvider() {
-        return originatingProvider;
+    publid ImbgfWritfrSpi gftOriginbtingProvidfr() {
+        rfturn originbtingProvidfr;
     }
 
     /**
-     * Sets the destination to the given
-     * <code>ImageOutputStream</code> or other <code>Object</code>.
-     * The destination is assumed to be ready to accept data, and will
-     * not be closed at the end of each write. This allows distributed
-     * imaging applications to transmit a series of images over a
-     * single network connection.  If <code>output</code> is
-     * <code>null</code>, any currently set output will be removed.
+     * Sfts tif dfstinbtion to tif givfn
+     * <dodf>ImbgfOutputStrfbm</dodf> or otifr <dodf>Objfdt</dodf>.
+     * Tif dfstinbtion is bssumfd to bf rfbdy to bddfpt dbtb, bnd will
+     * not bf dlosfd bt tif fnd of fbdi writf. Tiis bllows distributfd
+     * imbging bpplidbtions to trbnsmit b sfrifs of imbgfs ovfr b
+     * singlf nftwork donnfdtion.  If <dodf>output</dodf> is
+     * <dodf>null</dodf>, bny durrfntly sft output will bf rfmovfd.
      *
-     * <p> If <code>output</code> is an
-     * <code>ImageOutputStream</code>, calls to the
-     * <code>write</code>, <code>writeToSequence</code>, and
-     * <code>prepareWriteEmpty</code>/<code>endWriteEmpty</code>
-     * methods will preserve the existing contents of the stream.
-     * Other write methods, such as <code>writeInsert</code>,
-     * <code>replaceStreamMetadata</code>,
-     * <code>replaceImageMetadata</code>, <code>replacePixels</code>,
-     * <code>prepareInsertEmpty</code>/<code>endInsertEmpty</code>,
-     * and <code>endWriteSequence</code>, require the full contents
-     * of the stream to be readable and writable, and may alter any
-     * portion of the stream.
+     * <p> If <dodf>output</dodf> is bn
+     * <dodf>ImbgfOutputStrfbm</dodf>, dblls to tif
+     * <dodf>writf</dodf>, <dodf>writfToSfqufndf</dodf>, bnd
+     * <dodf>prfpbrfWritfEmpty</dodf>/<dodf>fndWritfEmpty</dodf>
+     * mftiods will prfsfrvf tif fxisting dontfnts of tif strfbm.
+     * Otifr writf mftiods, sudi bs <dodf>writfInsfrt</dodf>,
+     * <dodf>rfplbdfStrfbmMftbdbtb</dodf>,
+     * <dodf>rfplbdfImbgfMftbdbtb</dodf>, <dodf>rfplbdfPixfls</dodf>,
+     * <dodf>prfpbrfInsfrtEmpty</dodf>/<dodf>fndInsfrtEmpty</dodf>,
+     * bnd <dodf>fndWritfSfqufndf</dodf>, rfquirf tif full dontfnts
+     * of tif strfbm to bf rfbdbblf bnd writbblf, bnd mby bltfr bny
+     * portion of tif strfbm.
      *
-     * <p> Use of a general <code>Object</code> other than an
-     * <code>ImageOutputStream</code> is intended for writers that
-     * interact directly with an output device or imaging protocol.
-     * The set of legal classes is advertised by the writer's service
-     * provider's <code>getOutputTypes</code> method; most writers
-     * will return a single-element array containing only
-     * <code>ImageOutputStream.class</code> to indicate that they
-     * accept only an <code>ImageOutputStream</code>.
+     * <p> Usf of b gfnfrbl <dodf>Objfdt</dodf> otifr tibn bn
+     * <dodf>ImbgfOutputStrfbm</dodf> is intfndfd for writfrs tibt
+     * intfrbdt dirfdtly witi bn output dfvidf or imbging protodol.
+     * Tif sft of lfgbl dlbssfs is bdvfrtisfd by tif writfr's sfrvidf
+     * providfr's <dodf>gftOutputTypfs</dodf> mftiod; most writfrs
+     * will rfturn b singlf-flfmfnt brrby dontbining only
+     * <dodf>ImbgfOutputStrfbm.dlbss</dodf> to indidbtf tibt tify
+     * bddfpt only bn <dodf>ImbgfOutputStrfbm</dodf>.
      *
-     * <p> The default implementation sets the <code>output</code>
-     * instance variable to the value of <code>output</code> after
-     * checking <code>output</code> against the set of classes
-     * advertised by the originating provider, if there is one.
+     * <p> Tif dffbult implfmfntbtion sfts tif <dodf>output</dodf>
+     * instbndf vbribblf to tif vbluf of <dodf>output</dodf> bftfr
+     * difdking <dodf>output</dodf> bgbinst tif sft of dlbssfs
+     * bdvfrtisfd by tif originbting providfr, if tifrf is onf.
      *
-     * @param output the <code>ImageOutputStream</code> or other
-     * <code>Object</code> to use for future writing.
+     * @pbrbm output tif <dodf>ImbgfOutputStrfbm</dodf> or otifr
+     * <dodf>Objfdt</dodf> to usf for futurf writing.
      *
-     * @exception IllegalArgumentException if <code>output</code> is
-     * not an instance of one of the classes returned by the
-     * originating service provider's <code>getOutputTypes</code>
-     * method.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>output</dodf> is
+     * not bn instbndf of onf of tif dlbssfs rfturnfd by tif
+     * originbting sfrvidf providfr's <dodf>gftOutputTypfs</dodf>
+     * mftiod.
      *
-     * @see #getOutput
+     * @sff #gftOutput
      */
-    public void setOutput(Object output) {
+    publid void sftOutput(Objfdt output) {
         if (output != null) {
-            ImageWriterSpi provider = getOriginatingProvider();
-            if (provider != null) {
-                Class<?>[] classes = provider.getOutputTypes();
-                boolean found = false;
-                for (int i = 0; i < classes.length; i++) {
-                    if (classes[i].isInstance(output)) {
-                        found = true;
-                        break;
+            ImbgfWritfrSpi providfr = gftOriginbtingProvidfr();
+            if (providfr != null) {
+                Clbss<?>[] dlbssfs = providfr.gftOutputTypfs();
+                boolfbn found = fblsf;
+                for (int i = 0; i < dlbssfs.lfngti; i++) {
+                    if (dlbssfs[i].isInstbndf(output)) {
+                        found = truf;
+                        brfbk;
                     }
                 }
                 if (!found) {
-                    throw new IllegalArgumentException("Illegal output type!");
+                    tirow nfw IllfgblArgumfntExdfption("Illfgbl output typf!");
                 }
             }
         }
 
-        this.output = output;
+        tiis.output = output;
     }
 
     /**
-     * Returns the <code>ImageOutputStream</code> or other
-     * <code>Object</code> set by the most recent call to the
-     * <code>setOutput</code> method.  If no destination has been
-     * set, <code>null</code> is returned.
+     * Rfturns tif <dodf>ImbgfOutputStrfbm</dodf> or otifr
+     * <dodf>Objfdt</dodf> sft by tif most rfdfnt dbll to tif
+     * <dodf>sftOutput</dodf> mftiod.  If no dfstinbtion ibs bffn
+     * sft, <dodf>null</dodf> is rfturnfd.
      *
-     * <p> The default implementation returns the value of the
-     * <code>output</code> instance variable.
+     * <p> Tif dffbult implfmfntbtion rfturns tif vbluf of tif
+     * <dodf>output</dodf> instbndf vbribblf.
      *
-     * @return the <code>Object</code> that was specified using
-     * <code>setOutput</code>, or <code>null</code>.
+     * @rfturn tif <dodf>Objfdt</dodf> tibt wbs spfdififd using
+     * <dodf>sftOutput</dodf>, or <dodf>null</dodf>.
      *
-     * @see #setOutput
+     * @sff #sftOutput
      */
-    public Object getOutput() {
-        return output;
+    publid Objfdt gftOutput() {
+        rfturn output;
     }
 
-    // Localization
+    // Lodblizbtion
 
     /**
-     * Returns an array of <code>Locale</code>s that may be used to
-     * localize warning listeners and compression settings.  A return
-     * value of <code>null</code> indicates that localization is not
-     * supported.
+     * Rfturns bn brrby of <dodf>Lodblf</dodf>s tibt mby bf usfd to
+     * lodblizf wbrning listfnfrs bnd domprfssion sfttings.  A rfturn
+     * vbluf of <dodf>null</dodf> indidbtfs tibt lodblizbtion is not
+     * supportfd.
      *
-     * <p> The default implementation returns a clone of the
-     * <code>availableLocales</code> instance variable if it is
-     * non-<code>null</code>, or else returns <code>null</code>.
+     * <p> Tif dffbult implfmfntbtion rfturns b dlonf of tif
+     * <dodf>bvbilbblfLodblfs</dodf> instbndf vbribblf if it is
+     * non-<dodf>null</dodf>, or flsf rfturns <dodf>null</dodf>.
      *
-     * @return an array of <code>Locale</code>s that may be used as
-     * arguments to <code>setLocale</code>, or <code>null</code>.
+     * @rfturn bn brrby of <dodf>Lodblf</dodf>s tibt mby bf usfd bs
+     * brgumfnts to <dodf>sftLodblf</dodf>, or <dodf>null</dodf>.
      */
-    public Locale[] getAvailableLocales() {
-        return (availableLocales == null) ?
-            null : availableLocales.clone();
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        rfturn (bvbilbblfLodblfs == null) ?
+            null : bvbilbblfLodblfs.dlonf();
     }
 
     /**
-     * Sets the current <code>Locale</code> of this
-     * <code>ImageWriter</code> to the given value.  A value of
-     * <code>null</code> removes any previous setting, and indicates
-     * that the writer should localize as it sees fit.
+     * Sfts tif durrfnt <dodf>Lodblf</dodf> of tiis
+     * <dodf>ImbgfWritfr</dodf> to tif givfn vbluf.  A vbluf of
+     * <dodf>null</dodf> rfmovfs bny prfvious sftting, bnd indidbtfs
+     * tibt tif writfr siould lodblizf bs it sffs fit.
      *
-     * <p> The default implementation checks <code>locale</code>
-     * against the values returned by
-     * <code>getAvailableLocales</code>, and sets the
-     * <code>locale</code> instance variable if it is found.  If
-     * <code>locale</code> is <code>null</code>, the instance variable
-     * is set to <code>null</code> without any checking.
+     * <p> Tif dffbult implfmfntbtion difdks <dodf>lodblf</dodf>
+     * bgbinst tif vblufs rfturnfd by
+     * <dodf>gftAvbilbblfLodblfs</dodf>, bnd sfts tif
+     * <dodf>lodblf</dodf> instbndf vbribblf if it is found.  If
+     * <dodf>lodblf</dodf> is <dodf>null</dodf>, tif instbndf vbribblf
+     * is sft to <dodf>null</dodf> witiout bny difdking.
      *
-     * @param locale the desired <code>Locale</code>, or
-     * <code>null</code>.
+     * @pbrbm lodblf tif dfsirfd <dodf>Lodblf</dodf>, or
+     * <dodf>null</dodf>.
      *
-     * @exception IllegalArgumentException if <code>locale</code> is
-     * non-<code>null</code> but is not one of the values returned by
-     * <code>getAvailableLocales</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>lodblf</dodf> is
+     * non-<dodf>null</dodf> but is not onf of tif vblufs rfturnfd by
+     * <dodf>gftAvbilbblfLodblfs</dodf>.
      *
-     * @see #getLocale
+     * @sff #gftLodblf
      */
-    public void setLocale(Locale locale) {
-        if (locale != null) {
-            Locale[] locales = getAvailableLocales();
-            boolean found = false;
-            if (locales != null) {
-                for (int i = 0; i < locales.length; i++) {
-                    if (locale.equals(locales[i])) {
-                        found = true;
-                        break;
+    publid void sftLodblf(Lodblf lodblf) {
+        if (lodblf != null) {
+            Lodblf[] lodblfs = gftAvbilbblfLodblfs();
+            boolfbn found = fblsf;
+            if (lodblfs != null) {
+                for (int i = 0; i < lodblfs.lfngti; i++) {
+                    if (lodblf.fqubls(lodblfs[i])) {
+                        found = truf;
+                        brfbk;
                     }
                 }
             }
             if (!found) {
-                throw new IllegalArgumentException("Invalid locale!");
+                tirow nfw IllfgblArgumfntExdfption("Invblid lodblf!");
             }
         }
-        this.locale = locale;
+        tiis.lodblf = lodblf;
     }
 
     /**
-     * Returns the currently set <code>Locale</code>, or
-     * <code>null</code> if none has been set.
+     * Rfturns tif durrfntly sft <dodf>Lodblf</dodf>, or
+     * <dodf>null</dodf> if nonf ibs bffn sft.
      *
-     * <p> The default implementation returns the value of the
-     * <code>locale</code> instance variable.
+     * <p> Tif dffbult implfmfntbtion rfturns tif vbluf of tif
+     * <dodf>lodblf</dodf> instbndf vbribblf.
      *
-     * @return the current <code>Locale</code>, or <code>null</code>.
+     * @rfturn tif durrfnt <dodf>Lodblf</dodf>, or <dodf>null</dodf>.
      *
-     * @see #setLocale
+     * @sff #sftLodblf
      */
-    public Locale getLocale() {
-        return locale;
+    publid Lodblf gftLodblf() {
+        rfturn lodblf;
     }
 
-    // Write params
+    // Writf pbrbms
 
     /**
-     * Returns a new <code>ImageWriteParam</code> object of the
-     * appropriate type for this file format containing default
-     * values, that is, those values that would be used
-     * if no <code>ImageWriteParam</code> object were specified.  This
-     * is useful as a starting point for tweaking just a few parameters
-     * and otherwise leaving the default settings alone.
+     * Rfturns b nfw <dodf>ImbgfWritfPbrbm</dodf> objfdt of tif
+     * bppropribtf typf for tiis filf formbt dontbining dffbult
+     * vblufs, tibt is, tiosf vblufs tibt would bf usfd
+     * if no <dodf>ImbgfWritfPbrbm</dodf> objfdt wfrf spfdififd.  Tiis
+     * is usfful bs b stbrting point for twfbking just b ffw pbrbmftfrs
+     * bnd otifrwisf lfbving tif dffbult sfttings blonf.
      *
-     * <p> The default implementation constructs and returns a new
-     * <code>ImageWriteParam</code> object that does not allow tiling,
-     * progressive encoding, or compression, and that will be
-     * localized for the current <code>Locale</code> (<i>i.e.</i>,
-     * what you would get by calling <code>new
-     * ImageWriteParam(getLocale())</code>.
+     * <p> Tif dffbult implfmfntbtion donstrudts bnd rfturns b nfw
+     * <dodf>ImbgfWritfPbrbm</dodf> objfdt tibt dofs not bllow tiling,
+     * progrfssivf fndoding, or domprfssion, bnd tibt will bf
+     * lodblizfd for tif durrfnt <dodf>Lodblf</dodf> (<i>i.f.</i>,
+     * wibt you would gft by dblling <dodf>nfw
+     * ImbgfWritfPbrbm(gftLodblf())</dodf>.
      *
-     * <p> Individual plug-ins may return an instance of
-     * <code>ImageWriteParam</code> with additional optional features
-     * enabled, or they may return an instance of a plug-in specific
-     * subclass of <code>ImageWriteParam</code>.
+     * <p> Individubl plug-ins mby rfturn bn instbndf of
+     * <dodf>ImbgfWritfPbrbm</dodf> witi bdditionbl optionbl ffbturfs
+     * fnbblfd, or tify mby rfturn bn instbndf of b plug-in spfdifid
+     * subdlbss of <dodf>ImbgfWritfPbrbm</dodf>.
      *
-     * @return a new <code>ImageWriteParam</code> object containing
-     * default values.
+     * @rfturn b nfw <dodf>ImbgfWritfPbrbm</dodf> objfdt dontbining
+     * dffbult vblufs.
      */
-    public ImageWriteParam getDefaultWriteParam() {
-        return new ImageWriteParam(getLocale());
+    publid ImbgfWritfPbrbm gftDffbultWritfPbrbm() {
+        rfturn nfw ImbgfWritfPbrbm(gftLodblf());
     }
 
-    // Metadata
+    // Mftbdbtb
 
     /**
-     * Returns an <code>IIOMetadata</code> object containing default
-     * values for encoding a stream of images.  The contents of the
-     * object may be manipulated using either the XML tree structure
-     * returned by the <code>IIOMetadata.getAsTree</code> method, an
-     * <code>IIOMetadataController</code> object, or via plug-in
-     * specific interfaces, and the resulting data supplied to one of
-     * the <code>write</code> methods that take a stream metadata
-     * parameter.
+     * Rfturns bn <dodf>IIOMftbdbtb</dodf> objfdt dontbining dffbult
+     * vblufs for fndoding b strfbm of imbgfs.  Tif dontfnts of tif
+     * objfdt mby bf mbnipulbtfd using fitifr tif XML trff strudturf
+     * rfturnfd by tif <dodf>IIOMftbdbtb.gftAsTrff</dodf> mftiod, bn
+     * <dodf>IIOMftbdbtbControllfr</dodf> objfdt, or vib plug-in
+     * spfdifid intfrfbdfs, bnd tif rfsulting dbtb supplifd to onf of
+     * tif <dodf>writf</dodf> mftiods tibt tbkf b strfbm mftbdbtb
+     * pbrbmftfr.
      *
-     * <p> An optional <code>ImageWriteParam</code> may be supplied
-     * for cases where it may affect the structure of the stream
-     * metadata.
+     * <p> An optionbl <dodf>ImbgfWritfPbrbm</dodf> mby bf supplifd
+     * for dbsfs wifrf it mby bfffdt tif strudturf of tif strfbm
+     * mftbdbtb.
      *
-     * <p> If the supplied <code>ImageWriteParam</code> contains
-     * optional setting values not supported by this writer (<i>e.g.</i>
-     * progressive encoding or any format-specific settings), they
-     * will be ignored.
+     * <p> If tif supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by tiis writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), tify
+     * will bf ignorfd.
      *
-     * <p> Writers that do not make use of stream metadata
-     * (<i>e.g.</i>, writers for single-image formats) should return
-     * <code>null</code>.
+     * <p> Writfrs tibt do not mbkf usf of strfbm mftbdbtb
+     * (<i>f.g.</i>, writfrs for singlf-imbgf formbts) siould rfturn
+     * <dodf>null</dodf>.
      *
-     * @param param an <code>ImageWriteParam</code> that will be used to
-     * encode the image, or <code>null</code>.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf> tibt will bf usfd to
+     * fndodf tif imbgf, or <dodf>null</dodf>.
      *
-     * @return an <code>IIOMetadata</code> object.
+     * @rfturn bn <dodf>IIOMftbdbtb</dodf> objfdt.
      */
-    public abstract IIOMetadata
-        getDefaultStreamMetadata(ImageWriteParam param);
+    publid bbstrbdt IIOMftbdbtb
+        gftDffbultStrfbmMftbdbtb(ImbgfWritfPbrbm pbrbm);
 
     /**
-     * Returns an <code>IIOMetadata</code> object containing default
-     * values for encoding an image of the given type.  The contents
-     * of the object may be manipulated using either the XML tree
-     * structure returned by the <code>IIOMetadata.getAsTree</code>
-     * method, an <code>IIOMetadataController</code> object, or via
-     * plug-in specific interfaces, and the resulting data supplied to
-     * one of the <code>write</code> methods that take a stream
-     * metadata parameter.
+     * Rfturns bn <dodf>IIOMftbdbtb</dodf> objfdt dontbining dffbult
+     * vblufs for fndoding bn imbgf of tif givfn typf.  Tif dontfnts
+     * of tif objfdt mby bf mbnipulbtfd using fitifr tif XML trff
+     * strudturf rfturnfd by tif <dodf>IIOMftbdbtb.gftAsTrff</dodf>
+     * mftiod, bn <dodf>IIOMftbdbtbControllfr</dodf> objfdt, or vib
+     * plug-in spfdifid intfrfbdfs, bnd tif rfsulting dbtb supplifd to
+     * onf of tif <dodf>writf</dodf> mftiods tibt tbkf b strfbm
+     * mftbdbtb pbrbmftfr.
      *
-     * <p> An optional <code>ImageWriteParam</code> may be supplied
-     * for cases where it may affect the structure of the image
-     * metadata.
+     * <p> An optionbl <dodf>ImbgfWritfPbrbm</dodf> mby bf supplifd
+     * for dbsfs wifrf it mby bfffdt tif strudturf of tif imbgf
+     * mftbdbtb.
      *
-     * <p> If the supplied <code>ImageWriteParam</code> contains
-     * optional setting values not supported by this writer (<i>e.g.</i>
-     * progressive encoding or any format-specific settings), they
-     * will be ignored.
+     * <p> If tif supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by tiis writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), tify
+     * will bf ignorfd.
      *
-     * @param imageType an <code>ImageTypeSpecifier</code> indicating the
-     * format of the image to be written later.
-     * @param param an <code>ImageWriteParam</code> that will be used to
-     * encode the image, or <code>null</code>.
+     * @pbrbm imbgfTypf bn <dodf>ImbgfTypfSpfdififr</dodf> indidbting tif
+     * formbt of tif imbgf to bf writtfn lbtfr.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf> tibt will bf usfd to
+     * fndodf tif imbgf, or <dodf>null</dodf>.
      *
-     * @return an <code>IIOMetadata</code> object.
+     * @rfturn bn <dodf>IIOMftbdbtb</dodf> objfdt.
      */
-    public abstract IIOMetadata
-        getDefaultImageMetadata(ImageTypeSpecifier imageType,
-                                ImageWriteParam param);
+    publid bbstrbdt IIOMftbdbtb
+        gftDffbultImbgfMftbdbtb(ImbgfTypfSpfdififr imbgfTypf,
+                                ImbgfWritfPbrbm pbrbm);
 
-    // comment inherited
-    public abstract IIOMetadata convertStreamMetadata(IIOMetadata inData,
-                                                      ImageWriteParam param);
+    // dommfnt inifritfd
+    publid bbstrbdt IIOMftbdbtb donvfrtStrfbmMftbdbtb(IIOMftbdbtb inDbtb,
+                                                      ImbgfWritfPbrbm pbrbm);
 
-    // comment inherited
-    public abstract IIOMetadata
-        convertImageMetadata(IIOMetadata inData,
-                             ImageTypeSpecifier imageType,
-                             ImageWriteParam param);
+    // dommfnt inifritfd
+    publid bbstrbdt IIOMftbdbtb
+        donvfrtImbgfMftbdbtb(IIOMftbdbtb inDbtb,
+                             ImbgfTypfSpfdififr imbgfTypf,
+                             ImbgfWritfPbrbm pbrbm);
 
-    // Thumbnails
+    // Tiumbnbils
 
     /**
-     * Returns the number of thumbnails supported by the format being
-     * written, given the image type and any additional write
-     * parameters and metadata objects that will be used during
-     * encoding.  A return value of <code>-1</code> indicates that
-     * insufficient information is available.
+     * Rfturns tif numbfr of tiumbnbils supportfd by tif formbt bfing
+     * writtfn, givfn tif imbgf typf bnd bny bdditionbl writf
+     * pbrbmftfrs bnd mftbdbtb objfdts tibt will bf usfd during
+     * fndoding.  A rfturn vbluf of <dodf>-1</dodf> indidbtfs tibt
+     * insuffidifnt informbtion is bvbilbblf.
      *
-     * <p> An <code>ImageWriteParam</code> may optionally be supplied
-     * for cases where it may affect thumbnail handling.
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * for dbsfs wifrf it mby bfffdt tiumbnbil ibndling.
      *
-     * <p> If the supplied <code>ImageWriteParam</code> contains
-     * optional setting values not supported by this writer (<i>e.g.</i>
-     * progressive encoding or any format-specific settings), they
-     * will be ignored.
+     * <p> If tif supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by tiis writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), tify
+     * will bf ignorfd.
      *
-     * <p> The default implementation returns 0.
+     * <p> Tif dffbult implfmfntbtion rfturns 0.
      *
-     * @param imageType an <code>ImageTypeSpecifier</code> indicating
-     * the type of image to be written, or <code>null</code>.
-     * @param param the <code>ImageWriteParam</code> that will be used for
-     * writing, or <code>null</code>.
-     * @param streamMetadata an <code>IIOMetadata</code> object that will
-     * be used for writing, or <code>null</code>.
-     * @param imageMetadata an <code>IIOMetadata</code> object that will
-     * be used for writing, or <code>null</code>.
+     * @pbrbm imbgfTypf bn <dodf>ImbgfTypfSpfdififr</dodf> indidbting
+     * tif typf of imbgf to bf writtfn, or <dodf>null</dodf>.
+     * @pbrbm pbrbm tif <dodf>ImbgfWritfPbrbm</dodf> tibt will bf usfd for
+     * writing, or <dodf>null</dodf>.
+     * @pbrbm strfbmMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt tibt will
+     * bf usfd for writing, or <dodf>null</dodf>.
+     * @pbrbm imbgfMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt tibt will
+     * bf usfd for writing, or <dodf>null</dodf>.
      *
-     * @return the number of thumbnails that may be written given the
-     * supplied parameters, or <code>-1</code> if insufficient
-     * information is available.
+     * @rfturn tif numbfr of tiumbnbils tibt mby bf writtfn givfn tif
+     * supplifd pbrbmftfrs, or <dodf>-1</dodf> if insuffidifnt
+     * informbtion is bvbilbblf.
      */
-    public int getNumThumbnailsSupported(ImageTypeSpecifier imageType,
-                                         ImageWriteParam param,
-                                         IIOMetadata streamMetadata,
-                                         IIOMetadata imageMetadata) {
-        return 0;
-    }
-
-    /**
-     * Returns an array of <code>Dimension</code>s indicating the
-     * legal size ranges for thumbnail images as they will be encoded
-     * in the output file or stream.  This information is merely
-     * advisory; the writer will resize any supplied thumbnails as
-     * necessary.
-     *
-     * <p> The information is returned as a set of pairs; the first
-     * element of a pair contains an (inclusive) minimum width and
-     * height, and the second element contains an (inclusive) maximum
-     * width and height.  Together, each pair defines a valid range of
-     * sizes.  To specify a fixed size, the same width and height will
-     * appear for both elements.  A return value of <code>null</code>
-     * indicates that the size is arbitrary or unknown.
-     *
-     * <p> An <code>ImageWriteParam</code> may optionally be supplied
-     * for cases where it may affect thumbnail handling.
-     *
-     * <p> If the supplied <code>ImageWriteParam</code> contains
-     * optional setting values not supported by this writer (<i>e.g.</i>
-     * progressive encoding or any format-specific settings), they
-     * will be ignored.
-     *
-     * <p> The default implementation returns <code>null</code>.
-     *
-     * @param imageType an <code>ImageTypeSpecifier</code> indicating the
-     * type of image to be written, or <code>null</code>.
-     * @param param the <code>ImageWriteParam</code> that will be used for
-     * writing, or <code>null</code>.
-     * @param streamMetadata an <code>IIOMetadata</code> object that will
-     * be used for writing, or <code>null</code>.
-     * @param imageMetadata an <code>IIOMetadata</code> object that will
-     * be used for writing, or <code>null</code>.
-     *
-     * @return an array of <code>Dimension</code>s with an even length
-     * of at least two, or <code>null</code>.
-     */
-    public Dimension[] getPreferredThumbnailSizes(ImageTypeSpecifier imageType,
-                                                  ImageWriteParam param,
-                                                  IIOMetadata streamMetadata,
-                                                  IIOMetadata imageMetadata) {
-        return null;
+    publid int gftNumTiumbnbilsSupportfd(ImbgfTypfSpfdififr imbgfTypf,
+                                         ImbgfWritfPbrbm pbrbm,
+                                         IIOMftbdbtb strfbmMftbdbtb,
+                                         IIOMftbdbtb imbgfMftbdbtb) {
+        rfturn 0;
     }
 
     /**
-     * Returns <code>true</code> if the methods that take an
-     * <code>IIOImage</code> parameter are capable of dealing with a
-     * <code>Raster</code> (as opposed to <code>RenderedImage</code>)
-     * source image.  If this method returns <code>false</code>, then
-     * those methods will throw an
-     * <code>UnsupportedOperationException</code> if supplied with an
-     * <code>IIOImage</code> containing a <code>Raster</code>.
+     * Rfturns bn brrby of <dodf>Dimfnsion</dodf>s indidbting tif
+     * lfgbl sizf rbngfs for tiumbnbil imbgfs bs tify will bf fndodfd
+     * in tif output filf or strfbm.  Tiis informbtion is mfrfly
+     * bdvisory; tif writfr will rfsizf bny supplifd tiumbnbils bs
+     * nfdfssbry.
      *
-     * <p> The default implementation returns <code>false</code>.
+     * <p> Tif informbtion is rfturnfd bs b sft of pbirs; tif first
+     * flfmfnt of b pbir dontbins bn (indlusivf) minimum widti bnd
+     * ifigit, bnd tif sfdond flfmfnt dontbins bn (indlusivf) mbximum
+     * widti bnd ifigit.  Togftifr, fbdi pbir dffinfs b vblid rbngf of
+     * sizfs.  To spfdify b fixfd sizf, tif sbmf widti bnd ifigit will
+     * bppfbr for boti flfmfnts.  A rfturn vbluf of <dodf>null</dodf>
+     * indidbtfs tibt tif sizf is brbitrbry or unknown.
      *
-     * @return <code>true</code> if <code>Raster</code> sources are
-     * supported.
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * for dbsfs wifrf it mby bfffdt tiumbnbil ibndling.
+     *
+     * <p> If tif supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by tiis writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), tify
+     * will bf ignorfd.
+     *
+     * <p> Tif dffbult implfmfntbtion rfturns <dodf>null</dodf>.
+     *
+     * @pbrbm imbgfTypf bn <dodf>ImbgfTypfSpfdififr</dodf> indidbting tif
+     * typf of imbgf to bf writtfn, or <dodf>null</dodf>.
+     * @pbrbm pbrbm tif <dodf>ImbgfWritfPbrbm</dodf> tibt will bf usfd for
+     * writing, or <dodf>null</dodf>.
+     * @pbrbm strfbmMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt tibt will
+     * bf usfd for writing, or <dodf>null</dodf>.
+     * @pbrbm imbgfMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt tibt will
+     * bf usfd for writing, or <dodf>null</dodf>.
+     *
+     * @rfturn bn brrby of <dodf>Dimfnsion</dodf>s witi bn fvfn lfngti
+     * of bt lfbst two, or <dodf>null</dodf>.
      */
-    public boolean canWriteRasters() {
-        return false;
+    publid Dimfnsion[] gftPrfffrrfdTiumbnbilSizfs(ImbgfTypfSpfdififr imbgfTypf,
+                                                  ImbgfWritfPbrbm pbrbm,
+                                                  IIOMftbdbtb strfbmMftbdbtb,
+                                                  IIOMftbdbtb imbgfMftbdbtb) {
+        rfturn null;
     }
 
     /**
-     * Appends a complete image stream containing a single image and
-     * associated stream and image metadata and thumbnails to the
-     * output.  Any necessary header information is included.  If the
-     * output is an <code>ImageOutputStream</code>, its existing
-     * contents prior to the current seek position are not affected,
-     * and need not be readable or writable.
+     * Rfturns <dodf>truf</dodf> if tif mftiods tibt tbkf bn
+     * <dodf>IIOImbgf</dodf> pbrbmftfr brf dbpbblf of dfbling witi b
+     * <dodf>Rbstfr</dodf> (bs opposfd to <dodf>RfndfrfdImbgf</dodf>)
+     * sourdf imbgf.  If tiis mftiod rfturns <dodf>fblsf</dodf>, tifn
+     * tiosf mftiods will tirow bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> if supplifd witi bn
+     * <dodf>IIOImbgf</dodf> dontbining b <dodf>Rbstfr</dodf>.
      *
-     * <p> The output must have been set beforehand using the
-     * <code>setOutput</code> method.
+     * <p> Tif dffbult implfmfntbtion rfturns <dodf>fblsf</dodf>.
      *
-     * <p> Stream metadata may optionally be supplied; if it is
-     * <code>null</code>, default stream metadata will be used.
-     *
-     * <p> If <code>canWriteRasters</code> returns <code>true</code>,
-     * the <code>IIOImage</code> may contain a <code>Raster</code>
-     * source.  Otherwise, it must contain a
-     * <code>RenderedImage</code> source.
-     *
-     * <p> The supplied thumbnails will be resized if needed, and any
-     * thumbnails in excess of the supported number will be ignored.
-     * If the format requires additional thumbnails that are not
-     * provided, the writer should generate them internally.
-     *
-     * <p>  An <code>ImageWriteParam</code> may
-     * optionally be supplied to control the writing process.  If
-     * <code>param</code> is <code>null</code>, a default write param
-     * will be used.
-     *
-     * <p> If the supplied <code>ImageWriteParam</code> contains
-     * optional setting values not supported by this writer (<i>e.g.</i>
-     * progressive encoding or any format-specific settings), they
-     * will be ignored.
-     *
-     * @param streamMetadata an <code>IIOMetadata</code> object representing
-     * stream metadata, or <code>null</code> to use default values.
-     * @param image an <code>IIOImage</code> object containing an
-     * image, thumbnails, and metadata to be written.
-     * @param param an <code>ImageWriteParam</code>, or
-     * <code>null</code> to use a default
-     * <code>ImageWriteParam</code>.
-     *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception UnsupportedOperationException if <code>image</code>
-     * contains a <code>Raster</code> and <code>canWriteRasters</code>
-     * returns <code>false</code>.
-     * @exception IllegalArgumentException if <code>image</code> is
-     * <code>null</code>.
-     * @exception IOException if an error occurs during writing.
+     * @rfturn <dodf>truf</dodf> if <dodf>Rbstfr</dodf> sourdfs brf
+     * supportfd.
      */
-    public abstract void write(IIOMetadata streamMetadata,
-                               IIOImage image,
-                               ImageWriteParam param) throws IOException;
-
-    /**
-     * Appends a complete image stream containing a single image with
-     * default metadata and thumbnails to the output.  This method is
-     * a shorthand for <code>write(null, image, null)</code>.
-     *
-     * @param image an <code>IIOImage</code> object containing an
-     * image, thumbnails, and metadata to be written.
-     *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception IllegalArgumentException if <code>image</code> is
-     * <code>null</code>.
-     * @exception UnsupportedOperationException if <code>image</code>
-     * contains a <code>Raster</code> and <code>canWriteRasters</code>
-     * returns <code>false</code>.
-     * @exception IOException if an error occurs during writing.
-     */
-    public void write(IIOImage image) throws IOException {
-        write(null, image, null);
+    publid boolfbn dbnWritfRbstfrs() {
+        rfturn fblsf;
     }
 
     /**
-     * Appends a complete image stream consisting of a single image
-     * with default metadata and thumbnails to the output.  This
-     * method is a shorthand for <code>write(null, new IIOImage(image,
-     * null, null), null)</code>.
+     * Appfnds b domplftf imbgf strfbm dontbining b singlf imbgf bnd
+     * bssodibtfd strfbm bnd imbgf mftbdbtb bnd tiumbnbils to tif
+     * output.  Any nfdfssbry ifbdfr informbtion is indludfd.  If tif
+     * output is bn <dodf>ImbgfOutputStrfbm</dodf>, its fxisting
+     * dontfnts prior to tif durrfnt sffk position brf not bfffdtfd,
+     * bnd nffd not bf rfbdbblf or writbblf.
      *
-     * @param image a <code>RenderedImage</code> to be written.
+     * <p> Tif output must ibvf bffn sft bfforfibnd using tif
+     * <dodf>sftOutput</dodf> mftiod.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception IllegalArgumentException if <code>image</code> is
-     * <code>null</code>.
-     * @exception IOException if an error occurs during writing.
+     * <p> Strfbm mftbdbtb mby optionblly bf supplifd; if it is
+     * <dodf>null</dodf>, dffbult strfbm mftbdbtb will bf usfd.
+     *
+     * <p> If <dodf>dbnWritfRbstfrs</dodf> rfturns <dodf>truf</dodf>,
+     * tif <dodf>IIOImbgf</dodf> mby dontbin b <dodf>Rbstfr</dodf>
+     * sourdf.  Otifrwisf, it must dontbin b
+     * <dodf>RfndfrfdImbgf</dodf> sourdf.
+     *
+     * <p> Tif supplifd tiumbnbils will bf rfsizfd if nffdfd, bnd bny
+     * tiumbnbils in fxdfss of tif supportfd numbfr will bf ignorfd.
+     * If tif formbt rfquirfs bdditionbl tiumbnbils tibt brf not
+     * providfd, tif writfr siould gfnfrbtf tifm intfrnblly.
+     *
+     * <p>  An <dodf>ImbgfWritfPbrbm</dodf> mby
+     * optionblly bf supplifd to dontrol tif writing prodfss.  If
+     * <dodf>pbrbm</dodf> is <dodf>null</dodf>, b dffbult writf pbrbm
+     * will bf usfd.
+     *
+     * <p> If tif supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by tiis writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), tify
+     * will bf ignorfd.
+     *
+     * @pbrbm strfbmMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt rfprfsfnting
+     * strfbm mftbdbtb, or <dodf>null</dodf> to usf dffbult vblufs.
+     * @pbrbm imbgf bn <dodf>IIOImbgf</dodf> objfdt dontbining bn
+     * imbgf, tiumbnbils, bnd mftbdbtb to bf writtfn.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf>, or
+     * <dodf>null</dodf> to usf b dffbult
+     * <dodf>ImbgfWritfPbrbm</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if <dodf>imbgf</dodf>
+     * dontbins b <dodf>Rbstfr</dodf> bnd <dodf>dbnWritfRbstfrs</dodf>
+     * rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
      */
-    public void write(RenderedImage image) throws IOException {
-        write(null, new IIOImage(image, null, null), null);
+    publid bbstrbdt void writf(IIOMftbdbtb strfbmMftbdbtb,
+                               IIOImbgf imbgf,
+                               ImbgfWritfPbrbm pbrbm) tirows IOExdfption;
+
+    /**
+     * Appfnds b domplftf imbgf strfbm dontbining b singlf imbgf witi
+     * dffbult mftbdbtb bnd tiumbnbils to tif output.  Tiis mftiod is
+     * b siortibnd for <dodf>writf(null, imbgf, null)</dodf>.
+     *
+     * @pbrbm imbgf bn <dodf>IIOImbgf</dodf> objfdt dontbining bn
+     * imbgf, tiumbnbils, bnd mftbdbtb to bf writtfn.
+     *
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if <dodf>imbgf</dodf>
+     * dontbins b <dodf>Rbstfr</dodf> bnd <dodf>dbnWritfRbstfrs</dodf>
+     * rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
+     */
+    publid void writf(IIOImbgf imbgf) tirows IOExdfption {
+        writf(null, imbgf, null);
     }
 
-    // Check that the output has been set, then throw an
-    // UnsupportedOperationException.
-    private void unsupported() {
-        if (getOutput() == null) {
-            throw new IllegalStateException("getOutput() == null!");
+    /**
+     * Appfnds b domplftf imbgf strfbm donsisting of b singlf imbgf
+     * witi dffbult mftbdbtb bnd tiumbnbils to tif output.  Tiis
+     * mftiod is b siortibnd for <dodf>writf(null, nfw IIOImbgf(imbgf,
+     * null, null), null)</dodf>.
+     *
+     * @pbrbm imbgf b <dodf>RfndfrfdImbgf</dodf> to bf writtfn.
+     *
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
+     */
+    publid void writf(RfndfrfdImbgf imbgf) tirows IOExdfption {
+        writf(null, nfw IIOImbgf(imbgf, null, null), null);
+    }
+
+    // Cifdk tibt tif output ibs bffn sft, tifn tirow bn
+    // UnsupportfdOpfrbtionExdfption.
+    privbtf void unsupportfd() {
+        if (gftOutput() == null) {
+            tirow nfw IllfgblStbtfExdfption("gftOutput() == null!");
         }
-        throw new UnsupportedOperationException("Unsupported write variant!");
+        tirow nfw UnsupportfdOpfrbtionExdfption("Unsupportfd writf vbribnt!");
     }
 
-    // Sequence writes
+    // Sfqufndf writfs
 
     /**
-     * Returns <code>true</code> if the writer is able to append an
-     * image to an image stream that already contains header
-     * information and possibly prior images.
+     * Rfturns <dodf>truf</dodf> if tif writfr is bblf to bppfnd bn
+     * imbgf to bn imbgf strfbm tibt blrfbdy dontbins ifbdfr
+     * informbtion bnd possibly prior imbgfs.
      *
-     * <p> If <code>canWriteSequence</code> returns <code>false</code>,
-     * <code>writeToSequence</code> and <code>endWriteSequence</code>
-     * will throw an <code>UnsupportedOperationException</code>.
+     * <p> If <dodf>dbnWritfSfqufndf</dodf> rfturns <dodf>fblsf</dodf>,
+     * <dodf>writfToSfqufndf</dodf> bnd <dodf>fndWritfSfqufndf</dodf>
+     * will tirow bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * <p> The default implementation returns <code>false</code>.
+     * <p> Tif dffbult implfmfntbtion rfturns <dodf>fblsf</dodf>.
      *
-     * @return <code>true</code> if images may be appended sequentially.
+     * @rfturn <dodf>truf</dodf> if imbgfs mby bf bppfndfd sfqufntiblly.
      */
-    public boolean canWriteSequence() {
-        return false;
-    }
-
-    /**
-     * Prepares a stream to accept a series of subsequent
-     * <code>writeToSequence</code> calls, using the provided stream
-     * metadata object.  The metadata will be written to the stream if
-     * it should precede the image data.  If the argument is <code>null</code>,
-     * default stream metadata is used.
-     *
-     * <p> If the output is an <code>ImageOutputStream</code>, the existing
-     * contents of the output prior to the current seek position are
-     * flushed, and need not be readable or writable.  If the format
-     * requires that <code>endWriteSequence</code> be able to rewind to
-     * patch up the header information, such as for a sequence of images
-     * in a single TIFF file, then the metadata written by this method
-     * must remain in a writable portion of the stream.  Other formats
-     * may flush the stream after this method and after each image.
-     *
-     * <p> If <code>canWriteSequence</code> returns <code>false</code>,
-     * this method will throw an
-     * <code>UnsupportedOperationException</code>.
-     *
-     * <p> The output must have been set beforehand using either
-     * the <code>setOutput</code> method.
-     *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise throws an
-     * <code>UnsupportedOperationException</code>.
-     *
-     * @param streamMetadata A stream metadata object, or <code>null</code>.
-     *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception UnsupportedOperationException if
-     * <code>canWriteSequence</code> returns <code>false</code>.
-     * @exception IOException if an error occurs writing the stream
-     * metadata.
-     */
-    public void prepareWriteSequence(IIOMetadata streamMetadata)
-        throws IOException {
-        unsupported();
+    publid boolfbn dbnWritfSfqufndf() {
+        rfturn fblsf;
     }
 
     /**
-     * Appends a single image and possibly associated metadata and
-     * thumbnails, to the output.  If the output is an
-     * <code>ImageOutputStream</code>, the existing contents of the
-     * output prior to the current seek position may be flushed, and
-     * need not be readable or writable, unless the plug-in needs to
-     * be able to patch up the header information when
-     * <code>endWriteSequence</code> is called (<i>e.g.</i> TIFF).
+     * Prfpbrfs b strfbm to bddfpt b sfrifs of subsfqufnt
+     * <dodf>writfToSfqufndf</dodf> dblls, using tif providfd strfbm
+     * mftbdbtb objfdt.  Tif mftbdbtb will bf writtfn to tif strfbm if
+     * it siould prfdfdf tif imbgf dbtb.  If tif brgumfnt is <dodf>null</dodf>,
+     * dffbult strfbm mftbdbtb is usfd.
      *
-     * <p> If <code>canWriteSequence</code> returns <code>false</code>,
-     * this method will throw an
-     * <code>UnsupportedOperationException</code>.
+     * <p> If tif output is bn <dodf>ImbgfOutputStrfbm</dodf>, tif fxisting
+     * dontfnts of tif output prior to tif durrfnt sffk position brf
+     * flusifd, bnd nffd not bf rfbdbblf or writbblf.  If tif formbt
+     * rfquirfs tibt <dodf>fndWritfSfqufndf</dodf> bf bblf to rfwind to
+     * pbtdi up tif ifbdfr informbtion, sudi bs for b sfqufndf of imbgfs
+     * in b singlf TIFF filf, tifn tif mftbdbtb writtfn by tiis mftiod
+     * must rfmbin in b writbblf portion of tif strfbm.  Otifr formbts
+     * mby flusi tif strfbm bftfr tiis mftiod bnd bftfr fbdi imbgf.
      *
-     * <p> The output must have been set beforehand using
-     * the <code>setOutput</code> method.
+     * <p> If <dodf>dbnWritfSfqufndf</dodf> rfturns <dodf>fblsf</dodf>,
+     * tiis mftiod will tirow bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * <p> <code>prepareWriteSequence</code> must have been called
-     * beforehand, or an <code>IllegalStateException</code> is thrown.
+     * <p> Tif output must ibvf bffn sft bfforfibnd using fitifr
+     * tif <dodf>sftOutput</dodf> mftiod.
      *
-     * <p> If <code>canWriteRasters</code> returns <code>true</code>,
-     * the <code>IIOImage</code> may contain a <code>Raster</code>
-     * source.  Otherwise, it must contain a
-     * <code>RenderedImage</code> source.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * <p> The supplied thumbnails will be resized if needed, and any
-     * thumbnails in excess of the supported number will be ignored.
-     * If the format requires additional thumbnails that are not
-     * provided, the writer will generate them internally.
+     * @pbrbm strfbmMftbdbtb A strfbm mftbdbtb objfdt, or <dodf>null</dodf>.
      *
-     * <p> An <code>ImageWriteParam</code> may optionally be supplied
-     * to control the writing process.  If <code>param</code> is
-     * <code>null</code>, a default write param will be used.
-     *
-     * <p> If the supplied <code>ImageWriteParam</code> contains
-     * optional setting values not supported by this writer (<i>e.g.</i>
-     * progressive encoding or any format-specific settings), they
-     * will be ignored.
-     *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise throws an
-     * <code>UnsupportedOperationException</code>.
-     *
-     * @param image an <code>IIOImage</code> object containing an
-     * image, thumbnails, and metadata to be written.
-     * @param param an <code>ImageWriteParam</code>, or
-     * <code>null</code> to use a default
-     * <code>ImageWriteParam</code>.
-     *
-     * @exception IllegalStateException if the output has not
-     * been set, or <code>prepareWriteSequence</code> has not been called.
-     * @exception UnsupportedOperationException if
-     * <code>canWriteSequence</code> returns <code>false</code>.
-     * @exception IllegalArgumentException if <code>image</code> is
-     * <code>null</code>.
-     * @exception UnsupportedOperationException if <code>image</code>
-     * contains a <code>Raster</code> and <code>canWriteRasters</code>
-     * returns <code>false</code>.
-     * @exception IOException if an error occurs during writing.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnWritfSfqufndf</dodf> rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs writing tif strfbm
+     * mftbdbtb.
      */
-    public void writeToSequence(IIOImage image, ImageWriteParam param)
-        throws IOException {
-        unsupported();
+    publid void prfpbrfWritfSfqufndf(IIOMftbdbtb strfbmMftbdbtb)
+        tirows IOExdfption {
+        unsupportfd();
     }
 
     /**
-     * Completes the writing of a sequence of images begun with
-     * <code>prepareWriteSequence</code>.  Any stream metadata that
-     * should come at the end of the sequence of images is written out,
-     * and any header information at the beginning of the sequence is
-     * patched up if necessary.  If the output is an
-     * <code>ImageOutputStream</code>, data through the stream metadata
-     * at the end of the sequence are flushed and need not be readable
-     * or writable.
+     * Appfnds b singlf imbgf bnd possibly bssodibtfd mftbdbtb bnd
+     * tiumbnbils, to tif output.  If tif output is bn
+     * <dodf>ImbgfOutputStrfbm</dodf>, tif fxisting dontfnts of tif
+     * output prior to tif durrfnt sffk position mby bf flusifd, bnd
+     * nffd not bf rfbdbblf or writbblf, unlfss tif plug-in nffds to
+     * bf bblf to pbtdi up tif ifbdfr informbtion wifn
+     * <dodf>fndWritfSfqufndf</dodf> is dbllfd (<i>f.g.</i> TIFF).
      *
-     * <p> If <code>canWriteSequence</code> returns <code>false</code>,
-     * this method will throw an
-     * <code>UnsupportedOperationException</code>.
+     * <p> If <dodf>dbnWritfSfqufndf</dodf> rfturns <dodf>fblsf</dodf>,
+     * tiis mftiod will tirow bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise throws an
-     * <code>UnsupportedOperationException</code>.
+     * <p> Tif output must ibvf bffn sft bfforfibnd using
+     * tif <dodf>sftOutput</dodf> mftiod.
      *
-     * @exception IllegalStateException if the output has not
-     * been set, or <code>prepareWriteSequence</code> has not been called.
-     * @exception UnsupportedOperationException if
-     * <code>canWriteSequence</code> returns <code>false</code>.
-     * @exception IOException if an error occurs during writing.
+     * <p> <dodf>prfpbrfWritfSfqufndf</dodf> must ibvf bffn dbllfd
+     * bfforfibnd, or bn <dodf>IllfgblStbtfExdfption</dodf> is tirown.
+     *
+     * <p> If <dodf>dbnWritfRbstfrs</dodf> rfturns <dodf>truf</dodf>,
+     * tif <dodf>IIOImbgf</dodf> mby dontbin b <dodf>Rbstfr</dodf>
+     * sourdf.  Otifrwisf, it must dontbin b
+     * <dodf>RfndfrfdImbgf</dodf> sourdf.
+     *
+     * <p> Tif supplifd tiumbnbils will bf rfsizfd if nffdfd, bnd bny
+     * tiumbnbils in fxdfss of tif supportfd numbfr will bf ignorfd.
+     * If tif formbt rfquirfs bdditionbl tiumbnbils tibt brf not
+     * providfd, tif writfr will gfnfrbtf tifm intfrnblly.
+     *
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * to dontrol tif writing prodfss.  If <dodf>pbrbm</dodf> is
+     * <dodf>null</dodf>, b dffbult writf pbrbm will bf usfd.
+     *
+     * <p> If tif supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by tiis writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), tify
+     * will bf ignorfd.
+     *
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @pbrbm imbgf bn <dodf>IIOImbgf</dodf> objfdt dontbining bn
+     * imbgf, tiumbnbils, bnd mftbdbtb to bf writtfn.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf>, or
+     * <dodf>null</dodf> to usf b dffbult
+     * <dodf>ImbgfWritfPbrbm</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft, or <dodf>prfpbrfWritfSfqufndf</dodf> ibs not bffn dbllfd.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnWritfSfqufndf</dodf> rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if <dodf>imbgf</dodf>
+     * dontbins b <dodf>Rbstfr</dodf> bnd <dodf>dbnWritfRbstfrs</dodf>
+     * rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
      */
-    public void endWriteSequence() throws IOException {
-        unsupported();
+    publid void writfToSfqufndf(IIOImbgf imbgf, ImbgfWritfPbrbm pbrbm)
+        tirows IOExdfption {
+        unsupportfd();
     }
 
-    // Metadata replacement
+    /**
+     * Complftfs tif writing of b sfqufndf of imbgfs bfgun witi
+     * <dodf>prfpbrfWritfSfqufndf</dodf>.  Any strfbm mftbdbtb tibt
+     * siould domf bt tif fnd of tif sfqufndf of imbgfs is writtfn out,
+     * bnd bny ifbdfr informbtion bt tif bfginning of tif sfqufndf is
+     * pbtdifd up if nfdfssbry.  If tif output is bn
+     * <dodf>ImbgfOutputStrfbm</dodf>, dbtb tirougi tif strfbm mftbdbtb
+     * bt tif fnd of tif sfqufndf brf flusifd bnd nffd not bf rfbdbblf
+     * or writbblf.
+     *
+     * <p> If <dodf>dbnWritfSfqufndf</dodf> rfturns <dodf>fblsf</dodf>,
+     * tiis mftiod will tirow bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     *
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft, or <dodf>prfpbrfWritfSfqufndf</dodf> ibs not bffn dbllfd.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnWritfSfqufndf</dodf> rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
+     */
+    publid void fndWritfSfqufndf() tirows IOExdfption {
+        unsupportfd();
+    }
+
+    // Mftbdbtb rfplbdfmfnt
 
     /**
-     * Returns <code>true</code> if it is possible to replace the
-     * stream metadata already present in the output.
+     * Rfturns <dodf>truf</dodf> if it is possiblf to rfplbdf tif
+     * strfbm mftbdbtb blrfbdy prfsfnt in tif output.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise returns <code>false</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf rfturns <dodf>fblsf</dodf>.
      *
-     * @return <code>true</code> if replacement of stream metadata is
-     * allowed.
+     * @rfturn <dodf>truf</dodf> if rfplbdfmfnt of strfbm mftbdbtb is
+     * bllowfd.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception IOException if an I/O error occurs during the query.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during tif qufry.
      */
-    public boolean canReplaceStreamMetadata() throws IOException {
-        if (getOutput() == null) {
-            throw new IllegalStateException("getOutput() == null!");
+    publid boolfbn dbnRfplbdfStrfbmMftbdbtb() tirows IOExdfption {
+        if (gftOutput() == null) {
+            tirow nfw IllfgblStbtfExdfption("gftOutput() == null!");
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Replaces the stream metadata in the output with new
-     * information.  If the output is an
-     * <code>ImageOutputStream</code>, the prior contents of the
-     * stream are examined and possibly edited to make room for the
-     * new data.  All of the prior contents of the output must be
-     * available for reading and writing.
+     * Rfplbdfs tif strfbm mftbdbtb in tif output witi nfw
+     * informbtion.  If tif output is bn
+     * <dodf>ImbgfOutputStrfbm</dodf>, tif prior dontfnts of tif
+     * strfbm brf fxbminfd bnd possibly fditfd to mbkf room for tif
+     * nfw dbtb.  All of tif prior dontfnts of tif output must bf
+     * bvbilbblf for rfbding bnd writing.
      *
-     * <p> If <code>canReplaceStreamMetadata</code> returns
-     * <code>false</code>, an
-     * <code>UnsupportedOperationException</code> will be thrown.
+     * <p> If <dodf>dbnRfplbdfStrfbmMftbdbtb</dodf> rfturns
+     * <dodf>fblsf</dodf>, bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf tirown.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise throws an
-     * <code>UnsupportedOperationException</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * @param streamMetadata an <code>IIOMetadata</code> object representing
-     * stream metadata, or <code>null</code> to use default values.
+     * @pbrbm strfbmMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt rfprfsfnting
+     * strfbm mftbdbtb, or <dodf>null</dodf> to usf dffbult vblufs.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception UnsupportedOperationException if the
-     * <code>canReplaceStreamMetadata</code> returns
-     * <code>false</code>.  modes do not include
-     * @exception IOException if an error occurs during writing.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if tif
+     * <dodf>dbnRfplbdfStrfbmMftbdbtb</dodf> rfturns
+     * <dodf>fblsf</dodf>.  modfs do not indludf
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
      */
-    public void replaceStreamMetadata(IIOMetadata streamMetadata)
-        throws IOException {
-        unsupported();
+    publid void rfplbdfStrfbmMftbdbtb(IIOMftbdbtb strfbmMftbdbtb)
+        tirows IOExdfption {
+        unsupportfd();
     }
 
     /**
-     * Returns <code>true</code> if it is possible to replace the
-     * image metadata associated with an existing image with index
-     * <code>imageIndex</code>.  If this method returns
-     * <code>false</code>, a call to
-     * <code>replaceImageMetadata(imageIndex)</code> will throw an
-     * <code>UnsupportedOperationException</code>.
+     * Rfturns <dodf>truf</dodf> if it is possiblf to rfplbdf tif
+     * imbgf mftbdbtb bssodibtfd witi bn fxisting imbgf witi indfx
+     * <dodf>imbgfIndfx</dodf>.  If tiis mftiod rfturns
+     * <dodf>fblsf</dodf>, b dbll to
+     * <dodf>rfplbdfImbgfMftbdbtb(imbgfIndfx)</dodf> will tirow bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * <p> A writer that does not support any image metadata
-     * replacement may return <code>false</code> without performing
-     * bounds checking on the index.
+     * <p> A writfr tibt dofs not support bny imbgf mftbdbtb
+     * rfplbdfmfnt mby rfturn <dodf>fblsf</dodf> witiout pfrforming
+     * bounds difdking on tif indfx.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise returns <code>false</code>
-     * without checking the value of <code>imageIndex</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf rfturns <dodf>fblsf</dodf>
+     * witiout difdking tif vbluf of <dodf>imbgfIndfx</dodf>.
      *
-     * @param imageIndex the index of the image whose metadata is to
-     * be replaced.
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf wiosf mftbdbtb is to
+     * bf rfplbdfd.
      *
-     * @return <code>true</code> if the image metadata of the given
-     * image can be replaced.
+     * @rfturn <dodf>truf</dodf> if tif imbgf mftbdbtb of tif givfn
+     * imbgf dbn bf rfplbdfd.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception IndexOutOfBoundsException if the writer supports
-     * image metadata replacement in general, but
-     * <code>imageIndex</code> is less than 0 or greater than the
-     * largest available index.
-     * @exception IOException if an I/O error occurs during the query.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if tif writfr supports
+     * imbgf mftbdbtb rfplbdfmfnt in gfnfrbl, but
+     * <dodf>imbgfIndfx</dodf> is lfss tibn 0 or grfbtfr tibn tif
+     * lbrgfst bvbilbblf indfx.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during tif qufry.
      */
-    public boolean canReplaceImageMetadata(int imageIndex)
-        throws IOException {
-        if (getOutput() == null) {
-            throw new IllegalStateException("getOutput() == null!");
+    publid boolfbn dbnRfplbdfImbgfMftbdbtb(int imbgfIndfx)
+        tirows IOExdfption {
+        if (gftOutput() == null) {
+            tirow nfw IllfgblStbtfExdfption("gftOutput() == null!");
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Replaces the image metadata associated with an existing image.
+     * Rfplbdfs tif imbgf mftbdbtb bssodibtfd witi bn fxisting imbgf.
      *
-     * <p> If <code>canReplaceImageMetadata(imageIndex)</code> returns
-     * <code>false</code>, an
-     * <code>UnsupportedOperationException</code> will be thrown.
+     * <p> If <dodf>dbnRfplbdfImbgfMftbdbtb(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>, bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf tirown.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise throws an
-     * <code>UnsupportedOperationException</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * @param imageIndex the index of the image whose metadata is to
-     * be replaced.
-     * @param imageMetadata an <code>IIOMetadata</code> object
-     * representing image metadata, or <code>null</code>.
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf wiosf mftbdbtb is to
+     * bf rfplbdfd.
+     * @pbrbm imbgfMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt
+     * rfprfsfnting imbgf mftbdbtb, or <dodf>null</dodf>.
      *
-     * @exception IllegalStateException if the output has not been
-     * set.
-     * @exception UnsupportedOperationException if
-     * <code>canReplaceImageMetadata</code> returns
-     * <code>false</code>.
-     * @exception IndexOutOfBoundsException if <code>imageIndex</code>
-     * is less than 0 or greater than the largest available index.
-     * @exception IOException if an error occurs during writing.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not bffn
+     * sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnRfplbdfImbgfMftbdbtb</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>imbgfIndfx</dodf>
+     * is lfss tibn 0 or grfbtfr tibn tif lbrgfst bvbilbblf indfx.
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
      */
-    public void replaceImageMetadata(int imageIndex,
-                                     IIOMetadata imageMetadata)
-        throws IOException {
-        unsupported();
+    publid void rfplbdfImbgfMftbdbtb(int imbgfIndfx,
+                                     IIOMftbdbtb imbgfMftbdbtb)
+        tirows IOExdfption {
+        unsupportfd();
     }
 
-    // Image insertion
+    // Imbgf insfrtion
 
     /**
-     * Returns <code>true</code> if the writer supports the insertion
-     * of a new image at the given index.  Existing images with
-     * indices greater than or equal to the insertion index will have
-     * their indices increased by 1.  A value for
-     * <code>imageIndex</code> of <code>-1</code> may be used to
-     * signify an index one larger than the current largest index.
+     * Rfturns <dodf>truf</dodf> if tif writfr supports tif insfrtion
+     * of b nfw imbgf bt tif givfn indfx.  Existing imbgfs witi
+     * indidfs grfbtfr tibn or fqubl to tif insfrtion indfx will ibvf
+     * tifir indidfs indrfbsfd by 1.  A vbluf for
+     * <dodf>imbgfIndfx</dodf> of <dodf>-1</dodf> mby bf usfd to
+     * signify bn indfx onf lbrgfr tibn tif durrfnt lbrgfst indfx.
      *
-     * <p> A writer that does not support any image insertion may
-     * return <code>false</code> without performing bounds checking on
-     * the index.
+     * <p> A writfr tibt dofs not support bny imbgf insfrtion mby
+     * rfturn <dodf>fblsf</dodf> witiout pfrforming bounds difdking on
+     * tif indfx.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise returns <code>false</code>
-     * without checking the value of <code>imageIndex</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf rfturns <dodf>fblsf</dodf>
+     * witiout difdking tif vbluf of <dodf>imbgfIndfx</dodf>.
      *
-     * @param imageIndex the index at which the image is to be
-     * inserted.
+     * @pbrbm imbgfIndfx tif indfx bt wiidi tif imbgf is to bf
+     * insfrtfd.
      *
-     * @return <code>true</code> if an image may be inserted at the
-     * given index.
+     * @rfturn <dodf>truf</dodf> if bn imbgf mby bf insfrtfd bt tif
+     * givfn indfx.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception IndexOutOfBoundsException if the writer supports
-     * image insertion in general, but <code>imageIndex</code> is less
-     * than -1 or greater than the largest available index.
-     * @exception IOException if an I/O error occurs during the query.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if tif writfr supports
+     * imbgf insfrtion in gfnfrbl, but <dodf>imbgfIndfx</dodf> is lfss
+     * tibn -1 or grfbtfr tibn tif lbrgfst bvbilbblf indfx.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during tif qufry.
      */
-    public boolean canInsertImage(int imageIndex) throws IOException {
-        if (getOutput() == null) {
-            throw new IllegalStateException("getOutput() == null!");
+    publid boolfbn dbnInsfrtImbgf(int imbgfIndfx) tirows IOExdfption {
+        if (gftOutput() == null) {
+            tirow nfw IllfgblStbtfExdfption("gftOutput() == null!");
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Inserts a new image into an existing image stream.  Existing
-     * images with an index greater than <code>imageIndex</code> are
-     * preserved, and their indices are each increased by 1.  A value
-     * for <code>imageIndex</code> of -1 may be used to signify an
-     * index one larger than the previous largest index; that is, it
-     * will cause the image to be logically appended to the end of the
-     * sequence.  If the output is an <code>ImageOutputStream</code>,
-     * the entirety of the stream must be both readable and writeable.
+     * Insfrts b nfw imbgf into bn fxisting imbgf strfbm.  Existing
+     * imbgfs witi bn indfx grfbtfr tibn <dodf>imbgfIndfx</dodf> brf
+     * prfsfrvfd, bnd tifir indidfs brf fbdi indrfbsfd by 1.  A vbluf
+     * for <dodf>imbgfIndfx</dodf> of -1 mby bf usfd to signify bn
+     * indfx onf lbrgfr tibn tif prfvious lbrgfst indfx; tibt is, it
+     * will dbusf tif imbgf to bf logidblly bppfndfd to tif fnd of tif
+     * sfqufndf.  If tif output is bn <dodf>ImbgfOutputStrfbm</dodf>,
+     * tif fntirfty of tif strfbm must bf boti rfbdbblf bnd writfbblf.
      *
-     * <p> If <code>canInsertImage(imageIndex)</code> returns
-     * <code>false</code>, an
-     * <code>UnsupportedOperationException</code> will be thrown.
+     * <p> If <dodf>dbnInsfrtImbgf(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>, bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf tirown.
      *
-     * <p> An <code>ImageWriteParam</code> may optionally be supplied
-     * to control the writing process.  If <code>param</code> is
-     * <code>null</code>, a default write param will be used.
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * to dontrol tif writing prodfss.  If <dodf>pbrbm</dodf> is
+     * <dodf>null</dodf>, b dffbult writf pbrbm will bf usfd.
      *
-     * <p> If the supplied <code>ImageWriteParam</code> contains
-     * optional setting values not supported by this writer (<i>e.g.</i>
-     * progressive encoding or any format-specific settings), they
-     * will be ignored.
+     * <p> If tif supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by tiis writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), tify
+     * will bf ignorfd.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise throws an
-     * <code>UnsupportedOperationException</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * @param imageIndex the index at which to write the image.
-     * @param image an <code>IIOImage</code> object containing an
-     * image, thumbnails, and metadata to be written.
-     * @param param an <code>ImageWriteParam</code>, or
-     * <code>null</code> to use a default
-     * <code>ImageWriteParam</code>.
+     * @pbrbm imbgfIndfx tif indfx bt wiidi to writf tif imbgf.
+     * @pbrbm imbgf bn <dodf>IIOImbgf</dodf> objfdt dontbining bn
+     * imbgf, tiumbnbils, bnd mftbdbtb to bf writtfn.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf>, or
+     * <dodf>null</dodf> to usf b dffbult
+     * <dodf>ImbgfWritfPbrbm</dodf>.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception UnsupportedOperationException if
-     * <code>canInsertImage(imageIndex)</code> returns <code>false</code>.
-     * @exception IllegalArgumentException if <code>image</code> is
-     * <code>null</code>.
-     * @exception IndexOutOfBoundsException if <code>imageIndex</code>
-     * is less than -1 or greater than the largest available index.
-     * @exception UnsupportedOperationException if <code>image</code>
-     * contains a <code>Raster</code> and <code>canWriteRasters</code>
-     * returns <code>false</code>.
-     * @exception IOException if an error occurs during writing.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnInsfrtImbgf(imbgfIndfx)</dodf> rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>imbgfIndfx</dodf>
+     * is lfss tibn -1 or grfbtfr tibn tif lbrgfst bvbilbblf indfx.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if <dodf>imbgf</dodf>
+     * dontbins b <dodf>Rbstfr</dodf> bnd <dodf>dbnWritfRbstfrs</dodf>
+     * rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IOExdfption if bn frror oddurs during writing.
      */
-    public void writeInsert(int imageIndex,
-                            IIOImage image,
-                            ImageWriteParam param) throws IOException {
-        unsupported();
+    publid void writfInsfrt(int imbgfIndfx,
+                            IIOImbgf imbgf,
+                            ImbgfWritfPbrbm pbrbm) tirows IOExdfption {
+        unsupportfd();
     }
 
-    // Image removal
+    // Imbgf rfmovbl
 
     /**
-     * Returns <code>true</code> if the writer supports the removal
-     * of an existing image at the given index.  Existing images with
-     * indices greater than the insertion index will have
-     * their indices decreased by 1.
+     * Rfturns <dodf>truf</dodf> if tif writfr supports tif rfmovbl
+     * of bn fxisting imbgf bt tif givfn indfx.  Existing imbgfs witi
+     * indidfs grfbtfr tibn tif insfrtion indfx will ibvf
+     * tifir indidfs dfdrfbsfd by 1.
      *
-     * <p> A writer that does not support any image removal may
-     * return <code>false</code> without performing bounds checking on
-     * the index.
+     * <p> A writfr tibt dofs not support bny imbgf rfmovbl mby
+     * rfturn <dodf>fblsf</dodf> witiout pfrforming bounds difdking on
+     * tif indfx.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise returns <code>false</code>
-     * without checking the value of <code>imageIndex</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf rfturns <dodf>fblsf</dodf>
+     * witiout difdking tif vbluf of <dodf>imbgfIndfx</dodf>.
      *
-     * @param imageIndex the index of the image to be removed.
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf to bf rfmovfd.
      *
-     * @return <code>true</code> if it is possible to remove the given
-     * image.
+     * @rfturn <dodf>truf</dodf> if it is possiblf to rfmovf tif givfn
+     * imbgf.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception IndexOutOfBoundsException if the writer supports
-     * image removal in general, but <code>imageIndex</code> is less
-     * than 0 or greater than the largest available index.
-     * @exception IOException if an I/O error occurs during the
-     * query.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if tif writfr supports
+     * imbgf rfmovbl in gfnfrbl, but <dodf>imbgfIndfx</dodf> is lfss
+     * tibn 0 or grfbtfr tibn tif lbrgfst bvbilbblf indfx.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during tif
+     * qufry.
      */
-    public boolean canRemoveImage(int imageIndex) throws IOException {
-        if (getOutput() == null) {
-            throw new IllegalStateException("getOutput() == null!");
+    publid boolfbn dbnRfmovfImbgf(int imbgfIndfx) tirows IOExdfption {
+        if (gftOutput() == null) {
+            tirow nfw IllfgblStbtfExdfption("gftOutput() == null!");
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Removes an image from the stream.
+     * Rfmovfs bn imbgf from tif strfbm.
      *
-     * <p> If <code>canRemoveImage(imageIndex)</code> returns false,
-     * an <code>UnsupportedOperationException</code>will be thrown.
+     * <p> If <dodf>dbnRfmovfImbgf(imbgfIndfx)</dodf> rfturns fblsf,
+     * bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>will bf tirown.
      *
-     * <p> The removal may or may not cause a reduction in the actual
-     * file size.
+     * <p> Tif rfmovbl mby or mby not dbusf b rfdudtion in tif bdtubl
+     * filf sizf.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise throws an
-     * <code>UnsupportedOperationException</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * @param imageIndex the index of the image to be removed.
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf to bf rfmovfd.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception UnsupportedOperationException if
-     * <code>canRemoveImage(imageIndex)</code> returns <code>false</code>.
-     * @exception IndexOutOfBoundsException if <code>imageIndex</code>
-     * is less than 0 or greater than the largest available index.
-     * @exception IOException if an I/O error occurs during the
-     * removal.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnRfmovfImbgf(imbgfIndfx)</dodf> rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>imbgfIndfx</dodf>
+     * is lfss tibn 0 or grfbtfr tibn tif lbrgfst bvbilbblf indfx.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during tif
+     * rfmovbl.
      */
-    public void removeImage(int imageIndex) throws IOException {
-        unsupported();
+    publid void rfmovfImbgf(int imbgfIndfx) tirows IOExdfption {
+        unsupportfd();
     }
 
-    // Empty images
+    // Empty imbgfs
 
     /**
-     * Returns <code>true</code> if the writer supports the writing of
-     * a complete image stream consisting of a single image with
-     * undefined pixel values and associated metadata and thumbnails
-     * to the output.  The pixel values may be defined by future
-     * calls to the <code>replacePixels</code> methods.  If the output
-     * is an <code>ImageOutputStream</code>, its existing contents
-     * prior to the current seek position are not affected, and need
-     * not be readable or writable.
+     * Rfturns <dodf>truf</dodf> if tif writfr supports tif writing of
+     * b domplftf imbgf strfbm donsisting of b singlf imbgf witi
+     * undffinfd pixfl vblufs bnd bssodibtfd mftbdbtb bnd tiumbnbils
+     * to tif output.  Tif pixfl vblufs mby bf dffinfd by futurf
+     * dblls to tif <dodf>rfplbdfPixfls</dodf> mftiods.  If tif output
+     * is bn <dodf>ImbgfOutputStrfbm</dodf>, its fxisting dontfnts
+     * prior to tif durrfnt sffk position brf not bfffdtfd, bnd nffd
+     * not bf rfbdbblf or writbblf.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise returns <code>false</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf rfturns <dodf>fblsf</dodf>.
      *
-     * @return <code>true</code> if the writing of complete image
-     * stream with contents to be defined later is supported.
+     * @rfturn <dodf>truf</dodf> if tif writing of domplftf imbgf
+     * strfbm witi dontfnts to bf dffinfd lbtfr is supportfd.
      *
-     * @exception IllegalStateException if the output has not been
-     * set.
-     * @exception IOException if an I/O error occurs during the
-     * query.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not bffn
+     * sft.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during tif
+     * qufry.
      */
-    public boolean canWriteEmpty() throws IOException {
-        if (getOutput() == null) {
-            throw new IllegalStateException("getOutput() == null!");
+    publid boolfbn dbnWritfEmpty() tirows IOExdfption {
+        if (gftOutput() == null) {
+            tirow nfw IllfgblStbtfExdfption("gftOutput() == null!");
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Begins the writing of a complete image stream, consisting of a
-     * single image with undefined pixel values and associated
-     * metadata and thumbnails, to the output.  The pixel values will
-     * be defined by future calls to the <code>replacePixels</code>
-     * methods.  If the output is an <code>ImageOutputStream</code>,
-     * its existing contents prior to the current seek position are
-     * not affected, and need not be readable or writable.
+     * Bfgins tif writing of b domplftf imbgf strfbm, donsisting of b
+     * singlf imbgf witi undffinfd pixfl vblufs bnd bssodibtfd
+     * mftbdbtb bnd tiumbnbils, to tif output.  Tif pixfl vblufs will
+     * bf dffinfd by futurf dblls to tif <dodf>rfplbdfPixfls</dodf>
+     * mftiods.  If tif output is bn <dodf>ImbgfOutputStrfbm</dodf>,
+     * its fxisting dontfnts prior to tif durrfnt sffk position brf
+     * not bfffdtfd, bnd nffd not bf rfbdbblf or writbblf.
      *
-     * <p> The writing is not complete until a call to
-     * <code>endWriteEmpty</code> occurs.  Calls to
-     * <code>prepareReplacePixels</code>, <code>replacePixels</code>,
-     * and <code>endReplacePixels</code> may occur between calls to
-     * <code>prepareWriteEmpty</code> and <code>endWriteEmpty</code>.
-     * However, calls to <code>prepareWriteEmpty</code> cannot be
-     * nested, and calls to <code>prepareWriteEmpty</code> and
-     * <code>prepareInsertEmpty</code> may not be interspersed.
+     * <p> Tif writing is not domplftf until b dbll to
+     * <dodf>fndWritfEmpty</dodf> oddurs.  Cblls to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf>, <dodf>rfplbdfPixfls</dodf>,
+     * bnd <dodf>fndRfplbdfPixfls</dodf> mby oddur bftwffn dblls to
+     * <dodf>prfpbrfWritfEmpty</dodf> bnd <dodf>fndWritfEmpty</dodf>.
+     * Howfvfr, dblls to <dodf>prfpbrfWritfEmpty</dodf> dbnnot bf
+     * nfstfd, bnd dblls to <dodf>prfpbrfWritfEmpty</dodf> bnd
+     * <dodf>prfpbrfInsfrtEmpty</dodf> mby not bf intfrspfrsfd.
      *
-     * <p> If <code>canWriteEmpty</code> returns <code>false</code>,
-     * an <code>UnsupportedOperationException</code> will be thrown.
+     * <p> If <dodf>dbnWritfEmpty</dodf> rfturns <dodf>fblsf</dodf>,
+     * bn <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf tirown.
      *
-     * <p> An <code>ImageWriteParam</code> may optionally be supplied
-     * to control the writing process.  If <code>param</code> is
-     * <code>null</code>, a default write param will be used.
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * to dontrol tif writing prodfss.  If <dodf>pbrbm</dodf> is
+     * <dodf>null</dodf>, b dffbult writf pbrbm will bf usfd.
      *
-     * <p> If the supplied <code>ImageWriteParam</code> contains
-     * optional setting values not supported by this writer (<i>e.g.</i>
-     * progressive encoding or any format-specific settings), they
-     * will be ignored.
+     * <p> If tif supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by tiis writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), tify
+     * will bf ignorfd.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise throws an
-     * <code>UnsupportedOperationException</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * @param streamMetadata an <code>IIOMetadata</code> object representing
-     * stream metadata, or <code>null</code> to use default values.
-     * @param imageType an <code>ImageTypeSpecifier</code> describing
-     * the layout of the image.
-     * @param width the width of the image.
-     * @param height the height of the image.
-     * @param imageMetadata an <code>IIOMetadata</code> object
-     * representing image metadata, or <code>null</code>.
-     * @param thumbnails a <code>List</code> of
-     * <code>BufferedImage</code> thumbnails for this image, or
-     * <code>null</code>.
-     * @param param an <code>ImageWriteParam</code>, or
-     * <code>null</code> to use a default
-     * <code>ImageWriteParam</code>.
+     * @pbrbm strfbmMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt rfprfsfnting
+     * strfbm mftbdbtb, or <dodf>null</dodf> to usf dffbult vblufs.
+     * @pbrbm imbgfTypf bn <dodf>ImbgfTypfSpfdififr</dodf> dfsdribing
+     * tif lbyout of tif imbgf.
+     * @pbrbm widti tif widti of tif imbgf.
+     * @pbrbm ifigit tif ifigit of tif imbgf.
+     * @pbrbm imbgfMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt
+     * rfprfsfnting imbgf mftbdbtb, or <dodf>null</dodf>.
+     * @pbrbm tiumbnbils b <dodf>List</dodf> of
+     * <dodf>BufffrfdImbgf</dodf> tiumbnbils for tiis imbgf, or
+     * <dodf>null</dodf>.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf>, or
+     * <dodf>null</dodf> to usf b dffbult
+     * <dodf>ImbgfWritfPbrbm</dodf>.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception UnsupportedOperationException if
-     * <code>canWriteEmpty</code> returns <code>false</code>.
-     * @exception IllegalStateException if a previous call to
-     * <code>prepareWriteEmpty</code> has been made without a
-     * corresponding call to <code>endWriteEmpty</code>.
-     * @exception IllegalStateException if a previous call to
-     * <code>prepareInsertEmpty</code> has been made without a
-     * corresponding call to <code>endInsertEmpty</code>.
-     * @exception IllegalArgumentException if <code>imageType</code>
-     * is <code>null</code> or <code>thumbnails</code> contains
-     * <code>null</code> references or objects other than
-     * <code>BufferedImage</code>s.
-     * @exception IllegalArgumentException if width or height are less
-     * than 1.
-     * @exception IOException if an I/O error occurs during writing.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnWritfEmpty</dodf> rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfWritfEmpty</dodf> ibs bffn mbdf witiout b
+     * dorrfsponding dbll to <dodf>fndWritfEmpty</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfInsfrtEmpty</dodf> ibs bffn mbdf witiout b
+     * dorrfsponding dbll to <dodf>fndInsfrtEmpty</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgfTypf</dodf>
+     * is <dodf>null</dodf> or <dodf>tiumbnbils</dodf> dontbins
+     * <dodf>null</dodf> rfffrfndfs or objfdts otifr tibn
+     * <dodf>BufffrfdImbgf</dodf>s.
+     * @fxdfption IllfgblArgumfntExdfption if widti or ifigit brf lfss
+     * tibn 1.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during writing.
      */
-    public void prepareWriteEmpty(IIOMetadata streamMetadata,
-                                  ImageTypeSpecifier imageType,
-                                  int width, int height,
-                                  IIOMetadata imageMetadata,
-                                  List<? extends BufferedImage> thumbnails,
-                                  ImageWriteParam param) throws IOException {
-        unsupported();
+    publid void prfpbrfWritfEmpty(IIOMftbdbtb strfbmMftbdbtb,
+                                  ImbgfTypfSpfdififr imbgfTypf,
+                                  int widti, int ifigit,
+                                  IIOMftbdbtb imbgfMftbdbtb,
+                                  List<? fxtfnds BufffrfdImbgf> tiumbnbils,
+                                  ImbgfWritfPbrbm pbrbm) tirows IOExdfption {
+        unsupportfd();
     }
 
     /**
-     * Completes the writing of a new image that was begun with a
-     * prior call to <code>prepareWriteEmpty</code>.
+     * Complftfs tif writing of b nfw imbgf tibt wbs bfgun witi b
+     * prior dbll to <dodf>prfpbrfWritfEmpty</dodf>.
      *
-     * <p> If <code>canWriteEmpty()</code> returns <code>false</code>,
-     * an <code>UnsupportedOperationException</code> will be thrown.
+     * <p> If <dodf>dbnWritfEmpty()</dodf> rfturns <dodf>fblsf</dodf>,
+     * bn <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf tirown.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise throws an
-     * <code>UnsupportedOperationException</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception UnsupportedOperationException if
-     * <code>canWriteEmpty(imageIndex)</code> returns
-     * <code>false</code>.
-     * @exception IllegalStateException if a previous call to
-     * <code>prepareWriteEmpty</code> without a corresponding call to
-     * <code>endWriteEmpty</code> has not been made.
-     * @exception IllegalStateException if a previous call to
-     * <code>prepareInsertEmpty</code> without a corresponding call to
-     * <code>endInsertEmpty</code> has been made.
-     * @exception IllegalStateException if a call to
-     * <code>prepareReiplacePixels</code> has been made without a
-     * matching call to <code>endReplacePixels</code>.
-     * @exception IOException if an I/O error occurs during writing.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnWritfEmpty(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfWritfEmpty</dodf> witiout b dorrfsponding dbll to
+     * <dodf>fndWritfEmpty</dodf> ibs not bffn mbdf.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfInsfrtEmpty</dodf> witiout b dorrfsponding dbll to
+     * <dodf>fndInsfrtEmpty</dodf> ibs bffn mbdf.
+     * @fxdfption IllfgblStbtfExdfption if b dbll to
+     * <dodf>prfpbrfRfiplbdfPixfls</dodf> ibs bffn mbdf witiout b
+     * mbtdiing dbll to <dodf>fndRfplbdfPixfls</dodf>.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during writing.
      */
-    public void endWriteEmpty() throws IOException {
-        if (getOutput() == null) {
-            throw new IllegalStateException("getOutput() == null!");
+    publid void fndWritfEmpty() tirows IOExdfption {
+        if (gftOutput() == null) {
+            tirow nfw IllfgblStbtfExdfption("gftOutput() == null!");
         }
-        throw new IllegalStateException("No call to prepareWriteEmpty!");
+        tirow nfw IllfgblStbtfExdfption("No dbll to prfpbrfWritfEmpty!");
     }
 
     /**
-     * Returns <code>true</code> if the writer supports the insertion
-     * of a new, empty image at the given index.  The pixel values of
-     * the image are undefined, and may be specified in pieces using
-     * the <code>replacePixels</code> methods.  Existing images with
-     * indices greater than or equal to the insertion index will have
-     * their indices increased by 1.  A value for
-     * <code>imageIndex</code> of <code>-1</code> may be used to
-     * signify an index one larger than the current largest index.
+     * Rfturns <dodf>truf</dodf> if tif writfr supports tif insfrtion
+     * of b nfw, fmpty imbgf bt tif givfn indfx.  Tif pixfl vblufs of
+     * tif imbgf brf undffinfd, bnd mby bf spfdififd in pifdfs using
+     * tif <dodf>rfplbdfPixfls</dodf> mftiods.  Existing imbgfs witi
+     * indidfs grfbtfr tibn or fqubl to tif insfrtion indfx will ibvf
+     * tifir indidfs indrfbsfd by 1.  A vbluf for
+     * <dodf>imbgfIndfx</dodf> of <dodf>-1</dodf> mby bf usfd to
+     * signify bn indfx onf lbrgfr tibn tif durrfnt lbrgfst indfx.
      *
-     * <p> A writer that does not support insertion of empty images
-     * may return <code>false</code> without performing bounds
-     * checking on the index.
+     * <p> A writfr tibt dofs not support insfrtion of fmpty imbgfs
+     * mby rfturn <dodf>fblsf</dodf> witiout pfrforming bounds
+     * difdking on tif indfx.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise returns <code>false</code>
-     * without checking the value of <code>imageIndex</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf rfturns <dodf>fblsf</dodf>
+     * witiout difdking tif vbluf of <dodf>imbgfIndfx</dodf>.
      *
-     * @param imageIndex the index at which the image is to be
-     * inserted.
+     * @pbrbm imbgfIndfx tif indfx bt wiidi tif imbgf is to bf
+     * insfrtfd.
      *
-     * @return <code>true</code> if an empty image may be inserted at
-     * the given index.
+     * @rfturn <dodf>truf</dodf> if bn fmpty imbgf mby bf insfrtfd bt
+     * tif givfn indfx.
      *
-     * @exception IllegalStateException if the output has not been
-     * set.
-     * @exception IndexOutOfBoundsException if the writer supports
-     * empty image insertion in general, but <code>imageIndex</code>
-     * is less than -1 or greater than the largest available index.
-     * @exception IOException if an I/O error occurs during the
-     * query.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not bffn
+     * sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if tif writfr supports
+     * fmpty imbgf insfrtion in gfnfrbl, but <dodf>imbgfIndfx</dodf>
+     * is lfss tibn -1 or grfbtfr tibn tif lbrgfst bvbilbblf indfx.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during tif
+     * qufry.
      */
-    public boolean canInsertEmpty(int imageIndex) throws IOException {
-        if (getOutput() == null) {
-            throw new IllegalStateException("getOutput() == null!");
+    publid boolfbn dbnInsfrtEmpty(int imbgfIndfx) tirows IOExdfption {
+        if (gftOutput() == null) {
+            tirow nfw IllfgblStbtfExdfption("gftOutput() == null!");
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Begins the insertion of a new image with undefined pixel values
-     * into an existing image stream.  Existing images with an index
-     * greater than <code>imageIndex</code> are preserved, and their
-     * indices are each increased by 1.  A value for
-     * <code>imageIndex</code> of -1 may be used to signify an index
-     * one larger than the previous largest index; that is, it will
-     * cause the image to be logically appended to the end of the
-     * sequence.  If the output is an <code>ImageOutputStream</code>,
-     * the entirety of the stream must be both readable and writeable.
+     * Bfgins tif insfrtion of b nfw imbgf witi undffinfd pixfl vblufs
+     * into bn fxisting imbgf strfbm.  Existing imbgfs witi bn indfx
+     * grfbtfr tibn <dodf>imbgfIndfx</dodf> brf prfsfrvfd, bnd tifir
+     * indidfs brf fbdi indrfbsfd by 1.  A vbluf for
+     * <dodf>imbgfIndfx</dodf> of -1 mby bf usfd to signify bn indfx
+     * onf lbrgfr tibn tif prfvious lbrgfst indfx; tibt is, it will
+     * dbusf tif imbgf to bf logidblly bppfndfd to tif fnd of tif
+     * sfqufndf.  If tif output is bn <dodf>ImbgfOutputStrfbm</dodf>,
+     * tif fntirfty of tif strfbm must bf boti rfbdbblf bnd writfbblf.
      *
-     * <p> The image contents may be
-     * supplied later using the <code>replacePixels</code> method.
-     * The insertion is not complete until a call to
-     * <code>endInsertEmpty</code> occurs.  Calls to
-     * <code>prepareReplacePixels</code>, <code>replacePixels</code>,
-     * and <code>endReplacePixels</code> may occur between calls to
-     * <code>prepareInsertEmpty</code> and
-     * <code>endInsertEmpty</code>.  However, calls to
-     * <code>prepareInsertEmpty</code> cannot be nested, and calls to
-     * <code>prepareWriteEmpty</code> and
-     * <code>prepareInsertEmpty</code> may not be interspersed.
+     * <p> Tif imbgf dontfnts mby bf
+     * supplifd lbtfr using tif <dodf>rfplbdfPixfls</dodf> mftiod.
+     * Tif insfrtion is not domplftf until b dbll to
+     * <dodf>fndInsfrtEmpty</dodf> oddurs.  Cblls to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf>, <dodf>rfplbdfPixfls</dodf>,
+     * bnd <dodf>fndRfplbdfPixfls</dodf> mby oddur bftwffn dblls to
+     * <dodf>prfpbrfInsfrtEmpty</dodf> bnd
+     * <dodf>fndInsfrtEmpty</dodf>.  Howfvfr, dblls to
+     * <dodf>prfpbrfInsfrtEmpty</dodf> dbnnot bf nfstfd, bnd dblls to
+     * <dodf>prfpbrfWritfEmpty</dodf> bnd
+     * <dodf>prfpbrfInsfrtEmpty</dodf> mby not bf intfrspfrsfd.
      *
-     * <p> If <code>canInsertEmpty(imageIndex)</code> returns
-     * <code>false</code>, an
-     * <code>UnsupportedOperationException</code> will be thrown.
+     * <p> If <dodf>dbnInsfrtEmpty(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>, bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf tirown.
      *
-     * <p> An <code>ImageWriteParam</code> may optionally be supplied
-     * to control the writing process.  If <code>param</code> is
-     * <code>null</code>, a default write param will be used.
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * to dontrol tif writing prodfss.  If <dodf>pbrbm</dodf> is
+     * <dodf>null</dodf>, b dffbult writf pbrbm will bf usfd.
      *
-     * <p> If the supplied <code>ImageWriteParam</code> contains
-     * optional setting values not supported by this writer (<i>e.g.</i>
-     * progressive encoding or any format-specific settings), they
-     * will be ignored.
+     * <p> If tif supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by tiis writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), tify
+     * will bf ignorfd.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise throws an
-     * <code>UnsupportedOperationException</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * @param imageIndex the index at which to write the image.
-     * @param imageType an <code>ImageTypeSpecifier</code> describing
-     * the layout of the image.
-     * @param width the width of the image.
-     * @param height the height of the image.
-     * @param imageMetadata an <code>IIOMetadata</code> object
-     * representing image metadata, or <code>null</code>.
-     * @param thumbnails a <code>List</code> of
-     * <code>BufferedImage</code> thumbnails for this image, or
-     * <code>null</code>.
-     * @param param an <code>ImageWriteParam</code>, or
-     * <code>null</code> to use a default
-     * <code>ImageWriteParam</code>.
+     * @pbrbm imbgfIndfx tif indfx bt wiidi to writf tif imbgf.
+     * @pbrbm imbgfTypf bn <dodf>ImbgfTypfSpfdififr</dodf> dfsdribing
+     * tif lbyout of tif imbgf.
+     * @pbrbm widti tif widti of tif imbgf.
+     * @pbrbm ifigit tif ifigit of tif imbgf.
+     * @pbrbm imbgfMftbdbtb bn <dodf>IIOMftbdbtb</dodf> objfdt
+     * rfprfsfnting imbgf mftbdbtb, or <dodf>null</dodf>.
+     * @pbrbm tiumbnbils b <dodf>List</dodf> of
+     * <dodf>BufffrfdImbgf</dodf> tiumbnbils for tiis imbgf, or
+     * <dodf>null</dodf>.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf>, or
+     * <dodf>null</dodf> to usf b dffbult
+     * <dodf>ImbgfWritfPbrbm</dodf>.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception UnsupportedOperationException if
-     * <code>canInsertEmpty(imageIndex)</code> returns
-     * <code>false</code>.
-     * @exception IndexOutOfBoundsException if <code>imageIndex</code>
-     * is less than -1 or greater than the largest available index.
-     * @exception IllegalStateException if a previous call to
-     * <code>prepareInsertEmpty</code> has been made without a
-     * corresponding call to <code>endInsertEmpty</code>.
-     * @exception IllegalStateException if a previous call to
-     * <code>prepareWriteEmpty</code> has been made without a
-     * corresponding call to <code>endWriteEmpty</code>.
-     * @exception IllegalArgumentException if <code>imageType</code>
-     * is <code>null</code> or <code>thumbnails</code> contains
-     * <code>null</code> references or objects other than
-     * <code>BufferedImage</code>s.
-     * @exception IllegalArgumentException if width or height are less
-     * than 1.
-     * @exception IOException if an I/O error occurs during writing.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnInsfrtEmpty(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>imbgfIndfx</dodf>
+     * is lfss tibn -1 or grfbtfr tibn tif lbrgfst bvbilbblf indfx.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfInsfrtEmpty</dodf> ibs bffn mbdf witiout b
+     * dorrfsponding dbll to <dodf>fndInsfrtEmpty</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfWritfEmpty</dodf> ibs bffn mbdf witiout b
+     * dorrfsponding dbll to <dodf>fndWritfEmpty</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>imbgfTypf</dodf>
+     * is <dodf>null</dodf> or <dodf>tiumbnbils</dodf> dontbins
+     * <dodf>null</dodf> rfffrfndfs or objfdts otifr tibn
+     * <dodf>BufffrfdImbgf</dodf>s.
+     * @fxdfption IllfgblArgumfntExdfption if widti or ifigit brf lfss
+     * tibn 1.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during writing.
      */
-    public void prepareInsertEmpty(int imageIndex,
-                                   ImageTypeSpecifier imageType,
-                                   int width, int height,
-                                   IIOMetadata imageMetadata,
-                                   List<? extends BufferedImage> thumbnails,
-                                   ImageWriteParam param) throws IOException {
-        unsupported();
+    publid void prfpbrfInsfrtEmpty(int imbgfIndfx,
+                                   ImbgfTypfSpfdififr imbgfTypf,
+                                   int widti, int ifigit,
+                                   IIOMftbdbtb imbgfMftbdbtb,
+                                   List<? fxtfnds BufffrfdImbgf> tiumbnbils,
+                                   ImbgfWritfPbrbm pbrbm) tirows IOExdfption {
+        unsupportfd();
     }
 
     /**
-     * Completes the insertion of a new image that was begun with a
-     * prior call to <code>prepareInsertEmpty</code>.
+     * Complftfs tif insfrtion of b nfw imbgf tibt wbs bfgun witi b
+     * prior dbll to <dodf>prfpbrfInsfrtEmpty</dodf>.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise throws an
-     * <code>UnsupportedOperationException</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception UnsupportedOperationException if
-     * <code>canInsertEmpty(imageIndex)</code> returns
-     * <code>false</code>.
-     * @exception IllegalStateException if a previous call to
-     * <code>prepareInsertEmpty</code> without a corresponding call to
-     * <code>endInsertEmpty</code> has not been made.
-     * @exception IllegalStateException if a previous call to
-     * <code>prepareWriteEmpty</code> without a corresponding call to
-     * <code>endWriteEmpty</code> has been made.
-     * @exception IllegalStateException if a call to
-     * <code>prepareReplacePixels</code> has been made without a
-     * matching call to <code>endReplacePixels</code>.
-     * @exception IOException if an I/O error occurs during writing.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnInsfrtEmpty(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfInsfrtEmpty</dodf> witiout b dorrfsponding dbll to
+     * <dodf>fndInsfrtEmpty</dodf> ibs not bffn mbdf.
+     * @fxdfption IllfgblStbtfExdfption if b prfvious dbll to
+     * <dodf>prfpbrfWritfEmpty</dodf> witiout b dorrfsponding dbll to
+     * <dodf>fndWritfEmpty</dodf> ibs bffn mbdf.
+     * @fxdfption IllfgblStbtfExdfption if b dbll to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf> ibs bffn mbdf witiout b
+     * mbtdiing dbll to <dodf>fndRfplbdfPixfls</dodf>.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during writing.
      */
-    public void endInsertEmpty() throws IOException {
-        unsupported();
+    publid void fndInsfrtEmpty() tirows IOExdfption {
+        unsupportfd();
     }
 
-    // Pixel replacement
+    // Pixfl rfplbdfmfnt
 
     /**
-     * Returns <code>true</code> if the writer allows pixels of the
-     * given image to be replaced using the <code>replacePixels</code>
-     * methods.
+     * Rfturns <dodf>truf</dodf> if tif writfr bllows pixfls of tif
+     * givfn imbgf to bf rfplbdfd using tif <dodf>rfplbdfPixfls</dodf>
+     * mftiods.
      *
-     * <p> A writer that does not support any pixel replacement may
-     * return <code>false</code> without performing bounds checking on
-     * the index.
+     * <p> A writfr tibt dofs not support bny pixfl rfplbdfmfnt mby
+     * rfturn <dodf>fblsf</dodf> witiout pfrforming bounds difdking on
+     * tif indfx.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise returns <code>false</code>
-     * without checking the value of <code>imageIndex</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf rfturns <dodf>fblsf</dodf>
+     * witiout difdking tif vbluf of <dodf>imbgfIndfx</dodf>.
      *
-     * @param imageIndex the index of the image whose pixels are to be
-     * replaced.
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf wiosf pixfls brf to bf
+     * rfplbdfd.
      *
-     * @return <code>true</code> if the pixels of the given
-     * image can be replaced.
+     * @rfturn <dodf>truf</dodf> if tif pixfls of tif givfn
+     * imbgf dbn bf rfplbdfd.
      *
-     * @exception IllegalStateException if the output has not been
-     * set.
-     * @exception IndexOutOfBoundsException if the writer supports
-     * pixel replacement in general, but <code>imageIndex</code> is
-     * less than 0 or greater than the largest available index.
-     * @exception IOException if an I/O error occurs during the query.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not bffn
+     * sft.
+     * @fxdfption IndfxOutOfBoundsExdfption if tif writfr supports
+     * pixfl rfplbdfmfnt in gfnfrbl, but <dodf>imbgfIndfx</dodf> is
+     * lfss tibn 0 or grfbtfr tibn tif lbrgfst bvbilbblf indfx.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during tif qufry.
      */
-    public boolean canReplacePixels(int imageIndex) throws IOException {
-        if (getOutput() == null) {
-            throw new IllegalStateException("getOutput() == null!");
+    publid boolfbn dbnRfplbdfPixfls(int imbgfIndfx) tirows IOExdfption {
+        if (gftOutput() == null) {
+            tirow nfw IllfgblStbtfExdfption("gftOutput() == null!");
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Prepares the writer to handle a series of calls to the
-     * <code>replacePixels</code> methods.  The affected pixel area
-     * will be clipped against the supplied
+     * Prfpbrfs tif writfr to ibndlf b sfrifs of dblls to tif
+     * <dodf>rfplbdfPixfls</dodf> mftiods.  Tif bfffdtfd pixfl brfb
+     * will bf dlippfd bgbinst tif supplifd
      *
-     * <p> If <code>canReplacePixels</code> returns
-     * <code>false</code>, and
-     * <code>UnsupportedOperationException</code> will be thrown.
+     * <p> If <dodf>dbnRfplbdfPixfls</dodf> rfturns
+     * <dodf>fblsf</dodf>, bnd
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf tirown.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise throws an
-     * <code>UnsupportedOperationException</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * @param imageIndex the index of the image whose pixels are to be
-     * replaced.
-     * @param region a <code>Rectangle</code> that will be used to clip
-     * future pixel regions.
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf wiosf pixfls brf to bf
+     * rfplbdfd.
+     * @pbrbm rfgion b <dodf>Rfdtbnglf</dodf> tibt will bf usfd to dlip
+     * futurf pixfl rfgions.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception UnsupportedOperationException if
-     * <code>canReplacePixels(imageIndex)</code> returns
-     * <code>false</code>.
-     * @exception IndexOutOfBoundsException if <code>imageIndex</code>
-     * is less than 0 or greater than the largest available index.
-     * @exception IllegalStateException if there is a previous call to
-     * <code>prepareReplacePixels</code> without a matching call to
-     * <code>endReplacePixels</code> (<i>i.e.</i>, nesting is not
-     * allowed).
-     * @exception IllegalArgumentException if <code>region</code> is
-     * <code>null</code> or has a width or height less than 1.
-     * @exception IOException if an I/O error occurs during the
-     * preparation.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnRfplbdfPixfls(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption if <dodf>imbgfIndfx</dodf>
+     * is lfss tibn 0 or grfbtfr tibn tif lbrgfst bvbilbblf indfx.
+     * @fxdfption IllfgblStbtfExdfption if tifrf is b prfvious dbll to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf> witiout b mbtdiing dbll to
+     * <dodf>fndRfplbdfPixfls</dodf> (<i>i.f.</i>, nfsting is not
+     * bllowfd).
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rfgion</dodf> is
+     * <dodf>null</dodf> or ibs b widti or ifigit lfss tibn 1.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during tif
+     * prfpbrbtion.
      */
-    public void prepareReplacePixels(int imageIndex,
-                                     Rectangle region)  throws IOException {
-        unsupported();
+    publid void prfpbrfRfplbdfPixfls(int imbgfIndfx,
+                                     Rfdtbnglf rfgion)  tirows IOExdfption {
+        unsupportfd();
     }
 
     /**
-     * Replaces a portion of an image already present in the output
-     * with a portion of the given image.  The image data must match,
-     * or be convertible to, the image layout of the existing image.
+     * Rfplbdfs b portion of bn imbgf blrfbdy prfsfnt in tif output
+     * witi b portion of tif givfn imbgf.  Tif imbgf dbtb must mbtdi,
+     * or bf donvfrtiblf to, tif imbgf lbyout of tif fxisting imbgf.
      *
-     * <p> The destination region is specified in the
-     * <code>param</code> argument, and will be clipped to the image
-     * boundaries and the region supplied to
-     * <code>prepareReplacePixels</code>.  At least one pixel of the
-     * source must not be clipped, or an exception is thrown.
+     * <p> Tif dfstinbtion rfgion is spfdififd in tif
+     * <dodf>pbrbm</dodf> brgumfnt, bnd will bf dlippfd to tif imbgf
+     * boundbrifs bnd tif rfgion supplifd to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf>.  At lfbst onf pixfl of tif
+     * sourdf must not bf dlippfd, or bn fxdfption is tirown.
      *
-     * <p> An <code>ImageWriteParam</code> may optionally be supplied
-     * to control the writing process.  If <code>param</code> is
-     * <code>null</code>, a default write param will be used.
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * to dontrol tif writing prodfss.  If <dodf>pbrbm</dodf> is
+     * <dodf>null</dodf>, b dffbult writf pbrbm will bf usfd.
      *
-     * <p> If the supplied <code>ImageWriteParam</code> contains
-     * optional setting values not supported by this writer (<i>e.g.</i>
-     * progressive encoding or any format-specific settings), they
-     * will be ignored.
+     * <p> If tif supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by tiis writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), tify
+     * will bf ignorfd.
      *
-     * <p> This method may only be called after a call to
-     * <code>prepareReplacePixels</code>, or else an
-     * <code>IllegalStateException</code> will be thrown.
+     * <p> Tiis mftiod mby only bf dbllfd bftfr b dbll to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf>, or flsf bn
+     * <dodf>IllfgblStbtfExdfption</dodf> will bf tirown.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise throws an
-     * <code>UnsupportedOperationException</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * @param image a <code>RenderedImage</code> containing source
-     * pixels.
-     * @param param an <code>ImageWriteParam</code>, or
-     * <code>null</code> to use a default
-     * <code>ImageWriteParam</code>.
+     * @pbrbm imbgf b <dodf>RfndfrfdImbgf</dodf> dontbining sourdf
+     * pixfls.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf>, or
+     * <dodf>null</dodf> to usf b dffbult
+     * <dodf>ImbgfWritfPbrbm</dodf>.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception UnsupportedOperationException if
-     * <code>canReplacePixels(imageIndex)</code> returns
-     * <code>false</code>.
-     * @exception IllegalStateException if there is no previous call to
-     * <code>prepareReplacePixels</code> without a matching call to
-     * <code>endReplacePixels</code>.
-     * @exception IllegalArgumentException if any of the following are true:
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnRfplbdfPixfls(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if tifrf is no prfvious dbll to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf> witiout b mbtdiing dbll to
+     * <dodf>fndRfplbdfPixfls</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if bny of tif following brf truf:
      * <ul>
-     * <li> <code>image</code> is <code>null</code>.
-     * <li> <code>param</code> is <code>null</code>.
-     * <li> the intersected region does not contain at least one pixel.
-     * <li> the layout of <code>image</code> does not match, or this
-     * writer cannot convert it to, the existing image layout.
+     * <li> <dodf>imbgf</dodf> is <dodf>null</dodf>.
+     * <li> <dodf>pbrbm</dodf> is <dodf>null</dodf>.
+     * <li> tif intfrsfdtfd rfgion dofs not dontbin bt lfbst onf pixfl.
+     * <li> tif lbyout of <dodf>imbgf</dodf> dofs not mbtdi, or tiis
+     * writfr dbnnot donvfrt it to, tif fxisting imbgf lbyout.
      * </ul>
-     * @exception IOException if an I/O error occurs during writing.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during writing.
      */
-    public void replacePixels(RenderedImage image, ImageWriteParam param)
-        throws IOException {
-        unsupported();
+    publid void rfplbdfPixfls(RfndfrfdImbgf imbgf, ImbgfWritfPbrbm pbrbm)
+        tirows IOExdfption {
+        unsupportfd();
     }
 
     /**
-     * Replaces a portion of an image already present in the output
-     * with a portion of the given <code>Raster</code>.  The image
-     * data must match, or be convertible to, the image layout of the
-     * existing image.
+     * Rfplbdfs b portion of bn imbgf blrfbdy prfsfnt in tif output
+     * witi b portion of tif givfn <dodf>Rbstfr</dodf>.  Tif imbgf
+     * dbtb must mbtdi, or bf donvfrtiblf to, tif imbgf lbyout of tif
+     * fxisting imbgf.
      *
-     * <p> An <code>ImageWriteParam</code> may optionally be supplied
-     * to control the writing process.  If <code>param</code> is
-     * <code>null</code>, a default write param will be used.
+     * <p> An <dodf>ImbgfWritfPbrbm</dodf> mby optionblly bf supplifd
+     * to dontrol tif writing prodfss.  If <dodf>pbrbm</dodf> is
+     * <dodf>null</dodf>, b dffbult writf pbrbm will bf usfd.
      *
-     * <p> The destination region is specified in the
-     * <code>param</code> argument, and will be clipped to the image
-     * boundaries and the region supplied to
-     * <code>prepareReplacePixels</code>.  At least one pixel of the
-     * source must not be clipped, or an exception is thrown.
+     * <p> Tif dfstinbtion rfgion is spfdififd in tif
+     * <dodf>pbrbm</dodf> brgumfnt, bnd will bf dlippfd to tif imbgf
+     * boundbrifs bnd tif rfgion supplifd to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf>.  At lfbst onf pixfl of tif
+     * sourdf must not bf dlippfd, or bn fxdfption is tirown.
      *
-     * <p> If the supplied <code>ImageWriteParam</code> contains
-     * optional setting values not supported by this writer (<i>e.g.</i>
-     * progressive encoding or any format-specific settings), they
-     * will be ignored.
+     * <p> If tif supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not supportfd by tiis writfr (<i>f.g.</i>
+     * progrfssivf fndoding or bny formbt-spfdifid sfttings), tify
+     * will bf ignorfd.
      *
-     * <p> This method may only be called after a call to
-     * <code>prepareReplacePixels</code>, or else an
-     * <code>IllegalStateException</code> will be thrown.
+     * <p> Tiis mftiod mby only bf dbllfd bftfr b dbll to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf>, or flsf bn
+     * <dodf>IllfgblStbtfExdfption</dodf> will bf tirown.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise throws an
-     * <code>UnsupportedOperationException</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * @param raster a <code>Raster</code> containing source
-     * pixels.
-     * @param param an <code>ImageWriteParam</code>, or
-     * <code>null</code> to use a default
-     * <code>ImageWriteParam</code>.
+     * @pbrbm rbstfr b <dodf>Rbstfr</dodf> dontbining sourdf
+     * pixfls.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf>, or
+     * <dodf>null</dodf> to usf b dffbult
+     * <dodf>ImbgfWritfPbrbm</dodf>.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception UnsupportedOperationException if
-     * <code>canReplacePixels(imageIndex)</code> returns
-     * <code>false</code>.
-     * @exception IllegalStateException if there is no previous call to
-     * <code>prepareReplacePixels</code> without a matching call to
-     * <code>endReplacePixels</code>.
-     * @exception UnsupportedOperationException if
-     * <code>canWriteRasters</code> returns <code>false</code>.
-     * @exception IllegalArgumentException if any of the following are true:
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnRfplbdfPixfls(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if tifrf is no prfvious dbll to
+     * <dodf>prfpbrfRfplbdfPixfls</dodf> witiout b mbtdiing dbll to
+     * <dodf>fndRfplbdfPixfls</dodf>.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnWritfRbstfrs</dodf> rfturns <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if bny of tif following brf truf:
      * <ul>
-     * <li> <code>raster</code> is <code>null</code>.
-     * <li> <code>param</code> is <code>null</code>.
-     * <li> the intersected region does not contain at least one pixel.
-     * <li> the layout of <code>raster</code> does not match, or this
-     * writer cannot convert it to, the existing image layout.
+     * <li> <dodf>rbstfr</dodf> is <dodf>null</dodf>.
+     * <li> <dodf>pbrbm</dodf> is <dodf>null</dodf>.
+     * <li> tif intfrsfdtfd rfgion dofs not dontbin bt lfbst onf pixfl.
+     * <li> tif lbyout of <dodf>rbstfr</dodf> dofs not mbtdi, or tiis
+     * writfr dbnnot donvfrt it to, tif fxisting imbgf lbyout.
      * </ul>
-     * @exception IOException if an I/O error occurs during writing.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during writing.
      */
-    public void replacePixels(Raster raster, ImageWriteParam param)
-        throws IOException {
-        unsupported();
+    publid void rfplbdfPixfls(Rbstfr rbstfr, ImbgfWritfPbrbm pbrbm)
+        tirows IOExdfption {
+        unsupportfd();
     }
 
     /**
-     * Terminates a sequence of calls to <code>replacePixels</code>.
+     * Tfrminbtfs b sfqufndf of dblls to <dodf>rfplbdfPixfls</dodf>.
      *
-     * <p> If <code>canReplacePixels</code> returns
-     * <code>false</code>, and
-     * <code>UnsupportedOperationException</code> will be thrown.
+     * <p> If <dodf>dbnRfplbdfPixfls</dodf> rfturns
+     * <dodf>fblsf</dodf>, bnd
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf tirown.
      *
-     * <p> The default implementation throws an
-     * <code>IllegalStateException</code> if the output is
-     * <code>null</code>, and otherwise throws an
-     * <code>UnsupportedOperationException</code>.
+     * <p> Tif dffbult implfmfntbtion tirows bn
+     * <dodf>IllfgblStbtfExdfption</dodf> if tif output is
+     * <dodf>null</dodf>, bnd otifrwisf tirows bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
      *
-     * @exception IllegalStateException if the output has not
-     * been set.
-     * @exception UnsupportedOperationException if
-     * <code>canReplacePixels(imageIndex)</code> returns
-     * <code>false</code>.
-     * @exception IllegalStateException if there is no previous call
-     * to <code>prepareReplacePixels</code> without a matching call to
-     * <code>endReplacePixels</code>.
-     * @exception IOException if an I/O error occurs during writing.
+     * @fxdfption IllfgblStbtfExdfption if tif output ibs not
+     * bffn sft.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>dbnRfplbdfPixfls(imbgfIndfx)</dodf> rfturns
+     * <dodf>fblsf</dodf>.
+     * @fxdfption IllfgblStbtfExdfption if tifrf is no prfvious dbll
+     * to <dodf>prfpbrfRfplbdfPixfls</dodf> witiout b mbtdiing dbll to
+     * <dodf>fndRfplbdfPixfls</dodf>.
+     * @fxdfption IOExdfption if bn I/O frror oddurs during writing.
      */
-    public void endReplacePixels() throws IOException {
-        unsupported();
+    publid void fndRfplbdfPixfls() tirows IOExdfption {
+        unsupportfd();
     }
 
     // Abort
 
     /**
-     * Requests that any current write operation be aborted.  The
-     * contents of the output following the abort will be undefined.
+     * Rfqufsts tibt bny durrfnt writf opfrbtion bf bbortfd.  Tif
+     * dontfnts of tif output following tif bbort will bf undffinfd.
      *
-     * <p> Writers should call <code>clearAbortRequest</code> at the
-     * beginning of each write operation, and poll the value of
-     * <code>abortRequested</code> regularly during the write.
+     * <p> Writfrs siould dbll <dodf>dlfbrAbortRfqufst</dodf> bt tif
+     * bfginning of fbdi writf opfrbtion, bnd poll tif vbluf of
+     * <dodf>bbortRfqufstfd</dodf> rfgulbrly during tif writf.
      */
-    public synchronized void abort() {
-        this.abortFlag = true;
+    publid syndironizfd void bbort() {
+        tiis.bbortFlbg = truf;
     }
 
     /**
-     * Returns <code>true</code> if a request to abort the current
-     * write operation has been made since the writer was instantiated or
-     * <code>clearAbortRequest</code> was called.
+     * Rfturns <dodf>truf</dodf> if b rfqufst to bbort tif durrfnt
+     * writf opfrbtion ibs bffn mbdf sindf tif writfr wbs instbntibtfd or
+     * <dodf>dlfbrAbortRfqufst</dodf> wbs dbllfd.
      *
-     * @return <code>true</code> if the current write operation should
-     * be aborted.
+     * @rfturn <dodf>truf</dodf> if tif durrfnt writf opfrbtion siould
+     * bf bbortfd.
      *
-     * @see #abort
-     * @see #clearAbortRequest
+     * @sff #bbort
+     * @sff #dlfbrAbortRfqufst
      */
-    protected synchronized boolean abortRequested() {
-        return this.abortFlag;
+    protfdtfd syndironizfd boolfbn bbortRfqufstfd() {
+        rfturn tiis.bbortFlbg;
     }
 
     /**
-     * Clears any previous abort request.  After this method has been
-     * called, <code>abortRequested</code> will return
-     * <code>false</code>.
+     * Clfbrs bny prfvious bbort rfqufst.  Aftfr tiis mftiod ibs bffn
+     * dbllfd, <dodf>bbortRfqufstfd</dodf> will rfturn
+     * <dodf>fblsf</dodf>.
      *
-     * @see #abort
-     * @see #abortRequested
+     * @sff #bbort
+     * @sff #bbortRfqufstfd
      */
-    protected synchronized void clearAbortRequest() {
-        this.abortFlag = false;
+    protfdtfd syndironizfd void dlfbrAbortRfqufst() {
+        tiis.bbortFlbg = fblsf;
     }
 
-    // Listeners
+    // Listfnfrs
 
     /**
-     * Adds an <code>IIOWriteWarningListener</code> to the list of
-     * registered warning listeners.  If <code>listener</code> is
-     * <code>null</code>, no exception will be thrown and no action
-     * will be taken.  Messages sent to the given listener will be
-     * localized, if possible, to match the current
-     * <code>Locale</code>.  If no <code>Locale</code> has been set,
-     * warning messages may be localized as the writer sees fit.
+     * Adds bn <dodf>IIOWritfWbrningListfnfr</dodf> to tif list of
+     * rfgistfrfd wbrning listfnfrs.  If <dodf>listfnfr</dodf> is
+     * <dodf>null</dodf>, no fxdfption will bf tirown bnd no bdtion
+     * will bf tbkfn.  Mfssbgfs sfnt to tif givfn listfnfr will bf
+     * lodblizfd, if possiblf, to mbtdi tif durrfnt
+     * <dodf>Lodblf</dodf>.  If no <dodf>Lodblf</dodf> ibs bffn sft,
+     * wbrning mfssbgfs mby bf lodblizfd bs tif writfr sffs fit.
      *
-     * @param listener an <code>IIOWriteWarningListener</code> to be
-     * registered.
+     * @pbrbm listfnfr bn <dodf>IIOWritfWbrningListfnfr</dodf> to bf
+     * rfgistfrfd.
      *
-     * @see #removeIIOWriteWarningListener
+     * @sff #rfmovfIIOWritfWbrningListfnfr
      */
-    public void addIIOWriteWarningListener(IIOWriteWarningListener listener) {
-        if (listener == null) {
-            return;
+    publid void bddIIOWritfWbrningListfnfr(IIOWritfWbrningListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
         }
-        warningListeners = ImageReader.addToList(warningListeners, listener);
-        warningLocales = ImageReader.addToList(warningLocales, getLocale());
+        wbrningListfnfrs = ImbgfRfbdfr.bddToList(wbrningListfnfrs, listfnfr);
+        wbrningLodblfs = ImbgfRfbdfr.bddToList(wbrningLodblfs, gftLodblf());
     }
 
     /**
-     * Removes an <code>IIOWriteWarningListener</code> from the list
-     * of registered warning listeners.  If the listener was not
-     * previously registered, or if <code>listener</code> is
-     * <code>null</code>, no exception will be thrown and no action
-     * will be taken.
+     * Rfmovfs bn <dodf>IIOWritfWbrningListfnfr</dodf> from tif list
+     * of rfgistfrfd wbrning listfnfrs.  If tif listfnfr wbs not
+     * prfviously rfgistfrfd, or if <dodf>listfnfr</dodf> is
+     * <dodf>null</dodf>, no fxdfption will bf tirown bnd no bdtion
+     * will bf tbkfn.
      *
-     * @param listener an <code>IIOWriteWarningListener</code> to be
-     * deregistered.
+     * @pbrbm listfnfr bn <dodf>IIOWritfWbrningListfnfr</dodf> to bf
+     * dfrfgistfrfd.
      *
-     * @see #addIIOWriteWarningListener
+     * @sff #bddIIOWritfWbrningListfnfr
      */
-    public
-        void removeIIOWriteWarningListener(IIOWriteWarningListener listener) {
-        if (listener == null || warningListeners == null) {
-            return;
+    publid
+        void rfmovfIIOWritfWbrningListfnfr(IIOWritfWbrningListfnfr listfnfr) {
+        if (listfnfr == null || wbrningListfnfrs == null) {
+            rfturn;
         }
-        int index = warningListeners.indexOf(listener);
-        if (index != -1) {
-            warningListeners.remove(index);
-            warningLocales.remove(index);
-            if (warningListeners.size() == 0) {
-                warningListeners = null;
-                warningLocales = null;
+        int indfx = wbrningListfnfrs.indfxOf(listfnfr);
+        if (indfx != -1) {
+            wbrningListfnfrs.rfmovf(indfx);
+            wbrningLodblfs.rfmovf(indfx);
+            if (wbrningListfnfrs.sizf() == 0) {
+                wbrningListfnfrs = null;
+                wbrningLodblfs = null;
             }
         }
     }
 
     /**
-     * Removes all currently registered
-     * <code>IIOWriteWarningListener</code> objects.
+     * Rfmovfs bll durrfntly rfgistfrfd
+     * <dodf>IIOWritfWbrningListfnfr</dodf> objfdts.
      *
-     * <p> The default implementation sets the
-     * <code>warningListeners</code> and <code>warningLocales</code>
-     * instance variables to <code>null</code>.
+     * <p> Tif dffbult implfmfntbtion sfts tif
+     * <dodf>wbrningListfnfrs</dodf> bnd <dodf>wbrningLodblfs</dodf>
+     * instbndf vbribblfs to <dodf>null</dodf>.
      */
-    public void removeAllIIOWriteWarningListeners() {
-        this.warningListeners = null;
-        this.warningLocales = null;
+    publid void rfmovfAllIIOWritfWbrningListfnfrs() {
+        tiis.wbrningListfnfrs = null;
+        tiis.wbrningLodblfs = null;
     }
 
     /**
-     * Adds an <code>IIOWriteProgressListener</code> to the list of
-     * registered progress listeners.  If <code>listener</code> is
-     * <code>null</code>, no exception will be thrown and no action
-     * will be taken.
+     * Adds bn <dodf>IIOWritfProgrfssListfnfr</dodf> to tif list of
+     * rfgistfrfd progrfss listfnfrs.  If <dodf>listfnfr</dodf> is
+     * <dodf>null</dodf>, no fxdfption will bf tirown bnd no bdtion
+     * will bf tbkfn.
      *
-     * @param listener an <code>IIOWriteProgressListener</code> to be
-     * registered.
+     * @pbrbm listfnfr bn <dodf>IIOWritfProgrfssListfnfr</dodf> to bf
+     * rfgistfrfd.
      *
-     * @see #removeIIOWriteProgressListener
+     * @sff #rfmovfIIOWritfProgrfssListfnfr
      */
-    public void
-        addIIOWriteProgressListener(IIOWriteProgressListener listener) {
-        if (listener == null) {
-            return;
+    publid void
+        bddIIOWritfProgrfssListfnfr(IIOWritfProgrfssListfnfr listfnfr) {
+        if (listfnfr == null) {
+            rfturn;
         }
-        progressListeners = ImageReader.addToList(progressListeners, listener);
+        progrfssListfnfrs = ImbgfRfbdfr.bddToList(progrfssListfnfrs, listfnfr);
     }
 
     /**
-     * Removes an <code>IIOWriteProgressListener</code> from the list
-     * of registered progress listeners.  If the listener was not
-     * previously registered, or if <code>listener</code> is
-     * <code>null</code>, no exception will be thrown and no action
-     * will be taken.
+     * Rfmovfs bn <dodf>IIOWritfProgrfssListfnfr</dodf> from tif list
+     * of rfgistfrfd progrfss listfnfrs.  If tif listfnfr wbs not
+     * prfviously rfgistfrfd, or if <dodf>listfnfr</dodf> is
+     * <dodf>null</dodf>, no fxdfption will bf tirown bnd no bdtion
+     * will bf tbkfn.
      *
-     * @param listener an <code>IIOWriteProgressListener</code> to be
-     * deregistered.
+     * @pbrbm listfnfr bn <dodf>IIOWritfProgrfssListfnfr</dodf> to bf
+     * dfrfgistfrfd.
      *
-     * @see #addIIOWriteProgressListener
+     * @sff #bddIIOWritfProgrfssListfnfr
      */
-    public void
-        removeIIOWriteProgressListener(IIOWriteProgressListener listener) {
-        if (listener == null || progressListeners == null) {
-            return;
+    publid void
+        rfmovfIIOWritfProgrfssListfnfr(IIOWritfProgrfssListfnfr listfnfr) {
+        if (listfnfr == null || progrfssListfnfrs == null) {
+            rfturn;
         }
-        progressListeners =
-            ImageReader.removeFromList(progressListeners, listener);
+        progrfssListfnfrs =
+            ImbgfRfbdfr.rfmovfFromList(progrfssListfnfrs, listfnfr);
     }
 
     /**
-     * Removes all currently registered
-     * <code>IIOWriteProgressListener</code> objects.
+     * Rfmovfs bll durrfntly rfgistfrfd
+     * <dodf>IIOWritfProgrfssListfnfr</dodf> objfdts.
      *
-     * <p> The default implementation sets the
-     * <code>progressListeners</code> instance variable to
-     * <code>null</code>.
+     * <p> Tif dffbult implfmfntbtion sfts tif
+     * <dodf>progrfssListfnfrs</dodf> instbndf vbribblf to
+     * <dodf>null</dodf>.
      */
-    public void removeAllIIOWriteProgressListeners() {
-        this.progressListeners = null;
+    publid void rfmovfAllIIOWritfProgrfssListfnfrs() {
+        tiis.progrfssListfnfrs = null;
     }
 
     /**
-     * Broadcasts the start of an image write to all registered
-     * <code>IIOWriteProgressListener</code>s by calling their
-     * <code>imageStarted</code> method.  Subclasses may use this
-     * method as a convenience.
+     * Brobddbsts tif stbrt of bn imbgf writf to bll rfgistfrfd
+     * <dodf>IIOWritfProgrfssListfnfr</dodf>s by dblling tifir
+     * <dodf>imbgfStbrtfd</dodf> mftiod.  Subdlbssfs mby usf tiis
+     * mftiod bs b donvfnifndf.
      *
-     * @param imageIndex the index of the image about to be written.
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bbout to bf writtfn.
      */
-    protected void processImageStarted(int imageIndex) {
-        if (progressListeners == null) {
-            return;
+    protfdtfd void prodfssImbgfStbrtfd(int imbgfIndfx) {
+        if (progrfssListfnfrs == null) {
+            rfturn;
         }
-        int numListeners = progressListeners.size();
-        for (int i = 0; i < numListeners; i++) {
-            IIOWriteProgressListener listener =
-                progressListeners.get(i);
-            listener.imageStarted(this, imageIndex);
-        }
-    }
-
-    /**
-     * Broadcasts the current percentage of image completion to all
-     * registered <code>IIOWriteProgressListener</code>s by calling
-     * their <code>imageProgress</code> method.  Subclasses may use
-     * this method as a convenience.
-     *
-     * @param percentageDone the current percentage of completion,
-     * as a <code>float</code>.
-     */
-    protected void processImageProgress(float percentageDone) {
-        if (progressListeners == null) {
-            return;
-        }
-        int numListeners = progressListeners.size();
-        for (int i = 0; i < numListeners; i++) {
-            IIOWriteProgressListener listener =
-                progressListeners.get(i);
-            listener.imageProgress(this, percentageDone);
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.imbgfStbrtfd(tiis, imbgfIndfx);
         }
     }
 
     /**
-     * Broadcasts the completion of an image write to all registered
-     * <code>IIOWriteProgressListener</code>s by calling their
-     * <code>imageComplete</code> method.  Subclasses may use this
-     * method as a convenience.
+     * Brobddbsts tif durrfnt pfrdfntbgf of imbgf domplftion to bll
+     * rfgistfrfd <dodf>IIOWritfProgrfssListfnfr</dodf>s by dblling
+     * tifir <dodf>imbgfProgrfss</dodf> mftiod.  Subdlbssfs mby usf
+     * tiis mftiod bs b donvfnifndf.
+     *
+     * @pbrbm pfrdfntbgfDonf tif durrfnt pfrdfntbgf of domplftion,
+     * bs b <dodf>flobt</dodf>.
      */
-    protected void processImageComplete() {
-        if (progressListeners == null) {
-            return;
+    protfdtfd void prodfssImbgfProgrfss(flobt pfrdfntbgfDonf) {
+        if (progrfssListfnfrs == null) {
+            rfturn;
         }
-        int numListeners = progressListeners.size();
-        for (int i = 0; i < numListeners; i++) {
-            IIOWriteProgressListener listener =
-                progressListeners.get(i);
-            listener.imageComplete(this);
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.imbgfProgrfss(tiis, pfrdfntbgfDonf);
         }
     }
 
     /**
-     * Broadcasts the start of a thumbnail write to all registered
-     * <code>IIOWriteProgressListener</code>s by calling their
-     * <code>thumbnailStarted</code> method.  Subclasses may use this
-     * method as a convenience.
-     *
-     * @param imageIndex the index of the image associated with the
-     * thumbnail.
-     * @param thumbnailIndex the index of the thumbnail.
+     * Brobddbsts tif domplftion of bn imbgf writf to bll rfgistfrfd
+     * <dodf>IIOWritfProgrfssListfnfr</dodf>s by dblling tifir
+     * <dodf>imbgfComplftf</dodf> mftiod.  Subdlbssfs mby usf tiis
+     * mftiod bs b donvfnifndf.
      */
-    protected void processThumbnailStarted(int imageIndex,
-                                           int thumbnailIndex) {
-        if (progressListeners == null) {
-            return;
+    protfdtfd void prodfssImbgfComplftf() {
+        if (progrfssListfnfrs == null) {
+            rfturn;
         }
-        int numListeners = progressListeners.size();
-        for (int i = 0; i < numListeners; i++) {
-            IIOWriteProgressListener listener =
-                progressListeners.get(i);
-            listener.thumbnailStarted(this, imageIndex, thumbnailIndex);
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.imbgfComplftf(tiis);
         }
     }
 
     /**
-     * Broadcasts the current percentage of thumbnail completion to
-     * all registered <code>IIOWriteProgressListener</code>s by calling
-     * their <code>thumbnailProgress</code> method.  Subclasses may
-     * use this method as a convenience.
+     * Brobddbsts tif stbrt of b tiumbnbil writf to bll rfgistfrfd
+     * <dodf>IIOWritfProgrfssListfnfr</dodf>s by dblling tifir
+     * <dodf>tiumbnbilStbrtfd</dodf> mftiod.  Subdlbssfs mby usf tiis
+     * mftiod bs b donvfnifndf.
      *
-     * @param percentageDone the current percentage of completion,
-     * as a <code>float</code>.
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf bssodibtfd witi tif
+     * tiumbnbil.
+     * @pbrbm tiumbnbilIndfx tif indfx of tif tiumbnbil.
      */
-    protected void processThumbnailProgress(float percentageDone) {
-        if (progressListeners == null) {
-            return;
+    protfdtfd void prodfssTiumbnbilStbrtfd(int imbgfIndfx,
+                                           int tiumbnbilIndfx) {
+        if (progrfssListfnfrs == null) {
+            rfturn;
         }
-        int numListeners = progressListeners.size();
-        for (int i = 0; i < numListeners; i++) {
-            IIOWriteProgressListener listener =
-                progressListeners.get(i);
-            listener.thumbnailProgress(this, percentageDone);
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.tiumbnbilStbrtfd(tiis, imbgfIndfx, tiumbnbilIndfx);
         }
     }
 
     /**
-     * Broadcasts the completion of a thumbnail write to all registered
-     * <code>IIOWriteProgressListener</code>s by calling their
-     * <code>thumbnailComplete</code> method.  Subclasses may use this
-     * method as a convenience.
+     * Brobddbsts tif durrfnt pfrdfntbgf of tiumbnbil domplftion to
+     * bll rfgistfrfd <dodf>IIOWritfProgrfssListfnfr</dodf>s by dblling
+     * tifir <dodf>tiumbnbilProgrfss</dodf> mftiod.  Subdlbssfs mby
+     * usf tiis mftiod bs b donvfnifndf.
+     *
+     * @pbrbm pfrdfntbgfDonf tif durrfnt pfrdfntbgf of domplftion,
+     * bs b <dodf>flobt</dodf>.
      */
-    protected void processThumbnailComplete() {
-        if (progressListeners == null) {
-            return;
+    protfdtfd void prodfssTiumbnbilProgrfss(flobt pfrdfntbgfDonf) {
+        if (progrfssListfnfrs == null) {
+            rfturn;
         }
-        int numListeners = progressListeners.size();
-        for (int i = 0; i < numListeners; i++) {
-            IIOWriteProgressListener listener =
-                progressListeners.get(i);
-            listener.thumbnailComplete(this);
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.tiumbnbilProgrfss(tiis, pfrdfntbgfDonf);
         }
     }
 
     /**
-     * Broadcasts that the write has been aborted to all registered
-     * <code>IIOWriteProgressListener</code>s by calling their
-     * <code>writeAborted</code> method.  Subclasses may use this
-     * method as a convenience.
+     * Brobddbsts tif domplftion of b tiumbnbil writf to bll rfgistfrfd
+     * <dodf>IIOWritfProgrfssListfnfr</dodf>s by dblling tifir
+     * <dodf>tiumbnbilComplftf</dodf> mftiod.  Subdlbssfs mby usf tiis
+     * mftiod bs b donvfnifndf.
      */
-    protected void processWriteAborted() {
-        if (progressListeners == null) {
-            return;
+    protfdtfd void prodfssTiumbnbilComplftf() {
+        if (progrfssListfnfrs == null) {
+            rfturn;
         }
-        int numListeners = progressListeners.size();
-        for (int i = 0; i < numListeners; i++) {
-            IIOWriteProgressListener listener =
-                progressListeners.get(i);
-            listener.writeAborted(this);
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.tiumbnbilComplftf(tiis);
         }
     }
 
     /**
-     * Broadcasts a warning message to all registered
-     * <code>IIOWriteWarningListener</code>s by calling their
-     * <code>warningOccurred</code> method.  Subclasses may use this
-     * method as a convenience.
-     *
-     * @param imageIndex the index of the image on which the warning
-     * occurred.
-     * @param warning the warning message.
-     *
-     * @exception IllegalArgumentException if <code>warning</code>
-     * is <code>null</code>.
+     * Brobddbsts tibt tif writf ibs bffn bbortfd to bll rfgistfrfd
+     * <dodf>IIOWritfProgrfssListfnfr</dodf>s by dblling tifir
+     * <dodf>writfAbortfd</dodf> mftiod.  Subdlbssfs mby usf tiis
+     * mftiod bs b donvfnifndf.
      */
-    protected void processWarningOccurred(int imageIndex,
-                                          String warning) {
-        if (warningListeners == null) {
-            return;
+    protfdtfd void prodfssWritfAbortfd() {
+        if (progrfssListfnfrs == null) {
+            rfturn;
         }
-        if (warning == null) {
-            throw new IllegalArgumentException("warning == null!");
-        }
-        int numListeners = warningListeners.size();
-        for (int i = 0; i < numListeners; i++) {
-            IIOWriteWarningListener listener =
-                warningListeners.get(i);
-
-            listener.warningOccurred(this, imageIndex, warning);
+        int numListfnfrs = progrfssListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfProgrfssListfnfr listfnfr =
+                progrfssListfnfrs.gft(i);
+            listfnfr.writfAbortfd(tiis);
         }
     }
 
     /**
-     * Broadcasts a localized warning message to all registered
-     * <code>IIOWriteWarningListener</code>s by calling their
-     * <code>warningOccurred</code> method with a string taken
-     * from a <code>ResourceBundle</code>.  Subclasses may use this
-     * method as a convenience.
+     * Brobddbsts b wbrning mfssbgf to bll rfgistfrfd
+     * <dodf>IIOWritfWbrningListfnfr</dodf>s by dblling tifir
+     * <dodf>wbrningOddurrfd</dodf> mftiod.  Subdlbssfs mby usf tiis
+     * mftiod bs b donvfnifndf.
      *
-     * @param imageIndex the index of the image on which the warning
-     * occurred.
-     * @param baseName the base name of a set of
-     * <code>ResourceBundle</code>s containing localized warning
-     * messages.
-     * @param keyword the keyword used to index the warning message
-     * within the set of <code>ResourceBundle</code>s.
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf on wiidi tif wbrning
+     * oddurrfd.
+     * @pbrbm wbrning tif wbrning mfssbgf.
      *
-     * @exception IllegalArgumentException if <code>baseName</code>
-     * is <code>null</code>.
-     * @exception IllegalArgumentException if <code>keyword</code>
-     * is <code>null</code>.
-     * @exception IllegalArgumentException if no appropriate
-     * <code>ResourceBundle</code> may be located.
-     * @exception IllegalArgumentException if the named resource is
-     * not found in the located <code>ResourceBundle</code>.
-     * @exception IllegalArgumentException if the object retrieved
-     * from the <code>ResourceBundle</code> is not a
-     * <code>String</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>wbrning</dodf>
+     * is <dodf>null</dodf>.
      */
-    protected void processWarningOccurred(int imageIndex,
-                                          String baseName,
-                                          String keyword) {
-        if (warningListeners == null) {
-            return;
+    protfdtfd void prodfssWbrningOddurrfd(int imbgfIndfx,
+                                          String wbrning) {
+        if (wbrningListfnfrs == null) {
+            rfturn;
         }
-        if (baseName == null) {
-            throw new IllegalArgumentException("baseName == null!");
+        if (wbrning == null) {
+            tirow nfw IllfgblArgumfntExdfption("wbrning == null!");
         }
-        if (keyword == null) {
-            throw new IllegalArgumentException("keyword == null!");
+        int numListfnfrs = wbrningListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfWbrningListfnfr listfnfr =
+                wbrningListfnfrs.gft(i);
+
+            listfnfr.wbrningOddurrfd(tiis, imbgfIndfx, wbrning);
         }
-        int numListeners = warningListeners.size();
-        for (int i = 0; i < numListeners; i++) {
-            IIOWriteWarningListener listener =
-                warningListeners.get(i);
-            Locale locale = warningLocales.get(i);
-            if (locale == null) {
-                locale = Locale.getDefault();
+    }
+
+    /**
+     * Brobddbsts b lodblizfd wbrning mfssbgf to bll rfgistfrfd
+     * <dodf>IIOWritfWbrningListfnfr</dodf>s by dblling tifir
+     * <dodf>wbrningOddurrfd</dodf> mftiod witi b string tbkfn
+     * from b <dodf>RfsourdfBundlf</dodf>.  Subdlbssfs mby usf tiis
+     * mftiod bs b donvfnifndf.
+     *
+     * @pbrbm imbgfIndfx tif indfx of tif imbgf on wiidi tif wbrning
+     * oddurrfd.
+     * @pbrbm bbsfNbmf tif bbsf nbmf of b sft of
+     * <dodf>RfsourdfBundlf</dodf>s dontbining lodblizfd wbrning
+     * mfssbgfs.
+     * @pbrbm kfyword tif kfyword usfd to indfx tif wbrning mfssbgf
+     * witiin tif sft of <dodf>RfsourdfBundlf</dodf>s.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bbsfNbmf</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>kfyword</dodf>
+     * is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if no bppropribtf
+     * <dodf>RfsourdfBundlf</dodf> mby bf lodbtfd.
+     * @fxdfption IllfgblArgumfntExdfption if tif nbmfd rfsourdf is
+     * not found in tif lodbtfd <dodf>RfsourdfBundlf</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if tif objfdt rftrifvfd
+     * from tif <dodf>RfsourdfBundlf</dodf> is not b
+     * <dodf>String</dodf>.
+     */
+    protfdtfd void prodfssWbrningOddurrfd(int imbgfIndfx,
+                                          String bbsfNbmf,
+                                          String kfyword) {
+        if (wbrningListfnfrs == null) {
+            rfturn;
+        }
+        if (bbsfNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("bbsfNbmf == null!");
+        }
+        if (kfyword == null) {
+            tirow nfw IllfgblArgumfntExdfption("kfyword == null!");
+        }
+        int numListfnfrs = wbrningListfnfrs.sizf();
+        for (int i = 0; i < numListfnfrs; i++) {
+            IIOWritfWbrningListfnfr listfnfr =
+                wbrningListfnfrs.gft(i);
+            Lodblf lodblf = wbrningLodblfs.gft(i);
+            if (lodblf == null) {
+                lodblf = Lodblf.gftDffbult();
             }
 
             /**
-             * If an applet supplies an implementation of ImageWriter and
-             * resource bundles, then the resource bundle will need to be
-             * accessed via the applet class loader. So first try the context
-             * class loader to locate the resource bundle.
-             * If that throws MissingResourceException, then try the
-             * system class loader.
+             * If bn bpplft supplifs bn implfmfntbtion of ImbgfWritfr bnd
+             * rfsourdf bundlfs, tifn tif rfsourdf bundlf will nffd to bf
+             * bddfssfd vib tif bpplft dlbss lobdfr. So first try tif dontfxt
+             * dlbss lobdfr to lodbtf tif rfsourdf bundlf.
+             * If tibt tirows MissingRfsourdfExdfption, tifn try tif
+             * systfm dlbss lobdfr.
              */
-            ClassLoader loader =
-                java.security.AccessController.doPrivileged(
-                   new java.security.PrivilegedAction<ClassLoader>() {
-                      public ClassLoader run() {
-                        return Thread.currentThread().getContextClassLoader();
+            ClbssLobdfr lobdfr =
+                jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                   nfw jbvb.sfdurity.PrivilfgfdAdtion<ClbssLobdfr>() {
+                      publid ClbssLobdfr run() {
+                        rfturn Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
                       }
                 });
 
-            ResourceBundle bundle = null;
+            RfsourdfBundlf bundlf = null;
             try {
-                bundle = ResourceBundle.getBundle(baseName, locale, loader);
-            } catch (MissingResourceException mre) {
+                bundlf = RfsourdfBundlf.gftBundlf(bbsfNbmf, lodblf, lobdfr);
+            } dbtdi (MissingRfsourdfExdfption mrf) {
                 try {
-                    bundle = ResourceBundle.getBundle(baseName, locale);
-                } catch (MissingResourceException mre1) {
-                    throw new IllegalArgumentException("Bundle not found!");
+                    bundlf = RfsourdfBundlf.gftBundlf(bbsfNbmf, lodblf);
+                } dbtdi (MissingRfsourdfExdfption mrf1) {
+                    tirow nfw IllfgblArgumfntExdfption("Bundlf not found!");
                 }
             }
 
-            String warning = null;
+            String wbrning = null;
             try {
-                warning = bundle.getString(keyword);
-            } catch (ClassCastException cce) {
-                throw new IllegalArgumentException("Resource is not a String!");
-            } catch (MissingResourceException mre) {
-                throw new IllegalArgumentException("Resource is missing!");
+                wbrning = bundlf.gftString(kfyword);
+            } dbtdi (ClbssCbstExdfption ddf) {
+                tirow nfw IllfgblArgumfntExdfption("Rfsourdf is not b String!");
+            } dbtdi (MissingRfsourdfExdfption mrf) {
+                tirow nfw IllfgblArgumfntExdfption("Rfsourdf is missing!");
             }
 
-            listener.warningOccurred(this, imageIndex, warning);
+            listfnfr.wbrningOddurrfd(tiis, imbgfIndfx, wbrning);
         }
     }
 
-    // State management
+    // Stbtf mbnbgfmfnt
 
     /**
-     * Restores the <code>ImageWriter</code> to its initial state.
+     * Rfstorfs tif <dodf>ImbgfWritfr</dodf> to its initibl stbtf.
      *
-     * <p> The default implementation calls
-     * <code>setOutput(null)</code>, <code>setLocale(null)</code>,
-     * <code>removeAllIIOWriteWarningListeners()</code>,
-     * <code>removeAllIIOWriteProgressListeners()</code>, and
-     * <code>clearAbortRequest</code>.
+     * <p> Tif dffbult implfmfntbtion dblls
+     * <dodf>sftOutput(null)</dodf>, <dodf>sftLodblf(null)</dodf>,
+     * <dodf>rfmovfAllIIOWritfWbrningListfnfrs()</dodf>,
+     * <dodf>rfmovfAllIIOWritfProgrfssListfnfrs()</dodf>, bnd
+     * <dodf>dlfbrAbortRfqufst</dodf>.
      */
-    public void reset() {
-        setOutput(null);
-        setLocale(null);
-        removeAllIIOWriteWarningListeners();
-        removeAllIIOWriteProgressListeners();
-        clearAbortRequest();
+    publid void rfsft() {
+        sftOutput(null);
+        sftLodblf(null);
+        rfmovfAllIIOWritfWbrningListfnfrs();
+        rfmovfAllIIOWritfProgrfssListfnfrs();
+        dlfbrAbortRfqufst();
     }
 
     /**
-     * Allows any resources held by this object to be released.  The
-     * result of calling any other method (other than
-     * <code>finalize</code>) subsequent to a call to this method
-     * is undefined.
+     * Allows bny rfsourdfs ifld by tiis objfdt to bf rflfbsfd.  Tif
+     * rfsult of dblling bny otifr mftiod (otifr tibn
+     * <dodf>finblizf</dodf>) subsfqufnt to b dbll to tiis mftiod
+     * is undffinfd.
      *
-     * <p>It is important for applications to call this method when they
-     * know they will no longer be using this <code>ImageWriter</code>.
-     * Otherwise, the writer may continue to hold on to resources
-     * indefinitely.
+     * <p>It is importbnt for bpplidbtions to dbll tiis mftiod wifn tify
+     * know tify will no longfr bf using tiis <dodf>ImbgfWritfr</dodf>.
+     * Otifrwisf, tif writfr mby dontinuf to iold on to rfsourdfs
+     * indffinitfly.
      *
-     * <p>The default implementation of this method in the superclass does
-     * nothing.  Subclass implementations should ensure that all resources,
-     * especially native resources, are released.
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod in tif supfrdlbss dofs
+     * notiing.  Subdlbss implfmfntbtions siould fnsurf tibt bll rfsourdfs,
+     * fspfdiblly nbtivf rfsourdfs, brf rflfbsfd.
      */
-    public void dispose() {
+    publid void disposf() {
     }
 }

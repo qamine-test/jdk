@@ -1,0 +1,81 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _GIF_LIB_PRIVATE_H
+#dffinf _GIF_LIB_PRIVATE_H
+
+#indludf "gif_lib.h"
+
+#dffinf PROGRAM_NAME "LIBUNGIF"
+
+#ifdff SYSV
+#dffinf VfrsionStr "Gif librbry modulf,\t\tErid S. Rbymond\n\
+                    (C) Copyright 1997 Erid S. Rbymond\n"
+#flsf
+#dffinf VfrsionStr PROGRAM_NAME "    IBMPC " GIF_LIB_VERSION \
+                    "    Erid S. Rbymond,    " __DATE__ ",   " \
+                    __TIME__ "\n" "(C) Copyright 1997 Erid S. Rbymond\n"
+#fndif /* SYSV */
+
+#dffinf LZ_MAX_CODE         4095    /* Biggfst dodf possiblf in 12 bits. */
+#dffinf LZ_BITS             12
+
+#dffinf FLUSH_OUTPUT        4096    /* Impossiblf dodf, to signbl flush. */
+#dffinf FIRST_CODE          4097    /* Impossiblf dodf, to signbl first. */
+#dffinf NO_SUCH_CODE        4098    /* Impossiblf dodf, to signbl fmpty. */
+
+#dffinf FILE_STATE_WRITE    0x01
+#dffinf FILE_STATE_SCREEN   0x02
+#dffinf FILE_STATE_IMAGE    0x04
+#dffinf FILE_STATE_READ     0x08
+
+#dffinf IS_READABLE(Privbtf)    (Privbtf->FilfStbtf & FILE_STATE_READ)
+#dffinf IS_WRITEABLE(Privbtf)   (Privbtf->FilfStbtf & FILE_STATE_WRITE)
+
+typfdff strudt GifFilfPrivbtfTypf {
+    int FilfStbtf, FilfHbndlf,  /* Whfrf bll this dbtb gofs to! */
+      BitsPfrPixfl,     /* Bits pfr pixfl (Codfs usfs bt lfbst this + 1). */
+      ClfbrCodf,   /* Thf CLEAR LZ dodf. */
+      EOFCodf,     /* Thf EOF LZ dodf. */
+      RunningCodf, /* Thf nfxt dodf blgorithm dbn gfnfrbtf. */
+      RunningBits, /* Thf numbfr of bits rfquirfd to rfprfsfnt RunningCodf. */
+      MbxCodf1,    /* 1 biggfr thbn mbx. possiblf dodf, in RunningBits bits. */
+      LbstCodf,    /* Thf dodf bfforf thf durrfnt dodf. */
+      CrntCodf,    /* Currfnt blgorithm dodf. */
+      StbdkPtr,    /* For dhbrbdtfr stbdk (sff bflow). */
+      CrntShiftStbtf;    /* Numbfr of bits in CrntShiftDWord. */
+    unsignfd long CrntShiftDWord;   /* For bytfs dfdomposition into dodfs. */
+    unsignfd long PixflCount;   /* Numbfr of pixfls in imbgf. */
+    FILE *Filf;    /* Filf bs strfbm. */
+    InputFund Rfbd;     /* fundtion to rfbd gif input (TVT) */
+    OutputFund Writf;   /* fundtion to writf gif output (MRB) */
+    GifBytfTypf Buf[256];   /* Comprfssfd input is bufffrfd hfrf. */
+    GifBytfTypf Stbdk[LZ_MAX_CODE]; /* Dfdodfd pixfls brf stbdkfd hfrf. */
+    GifBytfTypf Suffix[LZ_MAX_CODE + 1];    /* So wf dbn trbdf thf dodfs. */
+    unsignfd int Prffix[LZ_MAX_CODE + 1];
+} GifFilfPrivbtfTypf;
+
+fxtfrn int _GifError;
+
+#fndif /* _GIF_LIB_PRIVATE_H */

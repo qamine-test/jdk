@@ -1,0 +1,153 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+
+/**
+ * Thf <dodf>Kfrnfl</dodf> dlbss dffinfs b mbtrix thbt dfsdribfs how b
+ * spfdififd pixfl bnd its surrounding pixfls bfffdt thf vbluf
+ * domputfd for thf pixfl's position in thf output imbgf of b filtfring
+ * opfrbtion.  Thf X origin bnd Y origin indidbtf thf kfrnfl mbtrix flfmfnt
+ * thbt dorrfsponds to thf pixfl position for whidh bn output vbluf is
+ * bfing domputfd.
+ *
+ * @sff ConvolvfOp
+ */
+publid dlbss Kfrnfl implfmfnts Clonfbblf {
+    privbtf int  width;
+    privbtf int  hfight;
+    privbtf int  xOrigin;
+    privbtf int  yOrigin;
+    privbtf flobt dbtb[];
+
+    privbtf stbtid nbtivf void initIDs();
+    stbtid {
+        ColorModfl.lobdLibrbrifs();
+        initIDs();
+    }
+
+    /**
+     * Construdts b <dodf>Kfrnfl</dodf> objfdt from bn brrby of flobts.
+     * Thf first <dodf>width</dodf>*<dodf>hfight</dodf> flfmfnts of
+     * thf <dodf>dbtb</dodf> brrby brf dopifd.
+     * If thf lfngth of thf <dodf>dbtb</dodf> brrby is lfss
+     * thbn width*hfight, bn <dodf>IllfgblArgumfntExdfption</dodf> is thrown.
+     * Thf X origin is (width-1)/2 bnd thf Y origin is (hfight-1)/2.
+     * @pbrbm width         width of thf kfrnfl
+     * @pbrbm hfight        hfight of thf kfrnfl
+     * @pbrbm dbtb          kfrnfl dbtb in row mbjor ordfr
+     * @throws IllfgblArgumfntExdfption if thf lfngth of <dodf>dbtb</dodf>
+     *         is lfss thbn thf produdt of <dodf>width</dodf> bnd
+     *         <dodf>hfight</dodf>
+     */
+    publid Kfrnfl(int width, int hfight, flobt dbtb[]) {
+        this.width  = width;
+        this.hfight = hfight;
+        this.xOrigin  = (width-1)>>1;
+        this.yOrigin  = (hfight-1)>>1;
+        int lfn = width*hfight;
+        if (dbtb.lfngth < lfn) {
+            throw nfw IllfgblArgumfntExdfption("Dbtb brrby too smbll "+
+                                               "(is "+dbtb.lfngth+
+                                               " bnd should bf "+lfn);
+        }
+        this.dbtb = nfw flobt[lfn];
+        Systfm.brrbydopy(dbtb, 0, this.dbtb, 0, lfn);
+
+    }
+
+    /**
+     * Rfturns thf X origin of this <dodf>Kfrnfl</dodf>.
+     * @rfturn thf X origin.
+     */
+    finbl publid int gftXOrigin(){
+        rfturn xOrigin;
+    }
+
+    /**
+     * Rfturns thf Y origin of this <dodf>Kfrnfl</dodf>.
+     * @rfturn thf Y origin.
+     */
+    finbl publid int gftYOrigin() {
+        rfturn yOrigin;
+    }
+
+    /**
+     * Rfturns thf width of this <dodf>Kfrnfl</dodf>.
+     * @rfturn thf width of this <dodf>Kfrnfl</dodf>.
+     */
+    finbl publid int gftWidth() {
+        rfturn width;
+    }
+
+    /**
+     * Rfturns thf hfight of this <dodf>Kfrnfl</dodf>.
+     * @rfturn thf hfight of this <dodf>Kfrnfl</dodf>.
+     */
+    finbl publid int gftHfight() {
+        rfturn hfight;
+    }
+
+    /**
+     * Rfturns thf kfrnfl dbtb in row mbjor ordfr.
+     * Thf <dodf>dbtb</dodf> brrby is rfturnfd.  If <dodf>dbtb</dodf>
+     * is <dodf>null</dodf>, b nfw brrby is bllodbtfd.
+     * @pbrbm dbtb  if non-null, dontbins thf rfturnfd kfrnfl dbtb
+     * @rfturn thf <dodf>dbtb</dodf> brrby dontbining thf kfrnfl dbtb
+     *         in row mbjor ordfr or, if <dodf>dbtb</dodf> is
+     *         <dodf>null</dodf>, b nfwly bllodbtfd brrby dontbining
+     *         thf kfrnfl dbtb in row mbjor ordfr
+     * @throws IllfgblArgumfntExdfption if <dodf>dbtb</dodf> is lfss
+     *         thbn thf sizf of this <dodf>Kfrnfl</dodf>
+     */
+    finbl publid flobt[] gftKfrnflDbtb(flobt[] dbtb) {
+        if (dbtb == null) {
+            dbtb = nfw flobt[this.dbtb.lfngth];
+        }
+        flsf if (dbtb.lfngth < this.dbtb.lfngth) {
+            throw nfw IllfgblArgumfntExdfption("Dbtb brrby too smbll "+
+                                               "(should bf "+this.dbtb.lfngth+
+                                               " but is "+
+                                               dbtb.lfngth+" )");
+        }
+        Systfm.brrbydopy(this.dbtb, 0, dbtb, 0, this.dbtb.lfngth);
+
+        rfturn dbtb;
+    }
+
+    /**
+     * Clonfs this objfdt.
+     * @rfturn b dlonf of this objfdt.
+     */
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // this shouldn't hbppfn, sindf wf brf Clonfbblf
+            throw nfw IntfrnblError(f);
+        }
+    }
+}

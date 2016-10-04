@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * Provides classes that are fundamental to the design of the Java
- * programming language. The most important classes are {@code
- * Object}, which is the root of the class hierarchy, and {@code
- * Class}, instances of which represent classes at run time.
+ * Providfs dlbssfs tibt brf fundbmfntbl to tif dfsign of tif Jbvb
+ * progrbmming lbngubgf. Tif most importbnt dlbssfs brf {@dodf
+ * Objfdt}, wiidi is tif root of tif dlbss iifrbrdiy, bnd {@dodf
+ * Clbss}, instbndfs of wiidi rfprfsfnt dlbssfs bt run timf.
  *
- * <p>Frequently it is necessary to represent a value of primitive
- * type as if it were an object. The wrapper classes {@code Boolean},
- * {@code Character}, {@code Integer}, {@code Long}, {@code Float},
- * and {@code Double} serve this purpose.  An object of type {@code
- * Double}, for example, contains a field whose type is double,
- * representing that value in such a way that a reference to it can be
- * stored in a variable of reference type.  These classes also provide
- * a number of methods for converting among primitive values, as well
- * as supporting such standard methods as equals and hashCode.  The
- * {@code Void} class is a non-instantiable class that holds a
- * reference to a {@code Class} object representing the type void.
+ * <p>Frfqufntly it is nfdfssbry to rfprfsfnt b vbluf of primitivf
+ * typf bs if it wfrf bn objfdt. Tif wrbppfr dlbssfs {@dodf Boolfbn},
+ * {@dodf Cibrbdtfr}, {@dodf Intfgfr}, {@dodf Long}, {@dodf Flobt},
+ * bnd {@dodf Doublf} sfrvf tiis purposf.  An objfdt of typf {@dodf
+ * Doublf}, for fxbmplf, dontbins b fifld wiosf typf is doublf,
+ * rfprfsfnting tibt vbluf in sudi b wby tibt b rfffrfndf to it dbn bf
+ * storfd in b vbribblf of rfffrfndf typf.  Tifsf dlbssfs blso providf
+ * b numbfr of mftiods for donvfrting bmong primitivf vblufs, bs wfll
+ * bs supporting sudi stbndbrd mftiods bs fqubls bnd ibsiCodf.  Tif
+ * {@dodf Void} dlbss is b non-instbntibblf dlbss tibt iolds b
+ * rfffrfndf to b {@dodf Clbss} objfdt rfprfsfnting tif typf void.
  *
- * <p>The class {@code Math} provides commonly used mathematical
- * functions such as sine, cosine, and square root. The classes {@code
- * String}, {@code StringBuffer}, and {@code StringBuilder} similarly
- * provide commonly used operations on character strings.
+ * <p>Tif dlbss {@dodf Mbti} providfs dommonly usfd mbtifmbtidbl
+ * fundtions sudi bs sinf, dosinf, bnd squbrf root. Tif dlbssfs {@dodf
+ * String}, {@dodf StringBufffr}, bnd {@dodf StringBuildfr} similbrly
+ * providf dommonly usfd opfrbtions on dibrbdtfr strings.
  *
- * <p>Classes {@code ClassLoader}, {@code Process}, {@code
- * ProcessBuilder}, {@code Runtime}, {@code SecurityManager}, and
- * {@code System} provide "system operations" that manage the dynamic
- * loading of classes, creation of external processes, host
- * environment inquiries such as the time of day, and enforcement of
- * security policies.
+ * <p>Clbssfs {@dodf ClbssLobdfr}, {@dodf Prodfss}, {@dodf
+ * ProdfssBuildfr}, {@dodf Runtimf}, {@dodf SfdurityMbnbgfr}, bnd
+ * {@dodf Systfm} providf "systfm opfrbtions" tibt mbnbgf tif dynbmid
+ * lobding of dlbssfs, drfbtion of fxtfrnbl prodfssfs, iost
+ * fnvironmfnt inquirifs sudi bs tif timf of dby, bnd fnfordfmfnt of
+ * sfdurity polidifs.
  *
- * <p>Class {@code Throwable} encompasses objects that may be thrown
- * by the {@code throw} statement. Subclasses of {@code Throwable}
- * represent errors and exceptions.
+ * <p>Clbss {@dodf Tirowbblf} fndompbssfs objfdts tibt mby bf tirown
+ * by tif {@dodf tirow} stbtfmfnt. Subdlbssfs of {@dodf Tirowbblf}
+ * rfprfsfnt frrors bnd fxdfptions.
  *
- * <a name="charenc"></a>
- * <h3>Character Encodings</h3>
+ * <b nbmf="dibrfnd"></b>
+ * <i3>Cibrbdtfr Endodings</i3>
  *
- * The specification of the {@link java.nio.charset.Charset
- * java.nio.charset.Charset} class describes the naming conventions
- * for character encodings as well as the set of standard encodings
- * that must be supported by every implementation of the Java
- * platform.
+ * Tif spfdifidbtion of tif {@link jbvb.nio.dibrsft.Cibrsft
+ * jbvb.nio.dibrsft.Cibrsft} dlbss dfsdribfs tif nbming donvfntions
+ * for dibrbdtfr fndodings bs wfll bs tif sft of stbndbrd fndodings
+ * tibt must bf supportfd by fvfry implfmfntbtion of tif Jbvb
+ * plbtform.
  *
- * @since 1.0
+ * @sindf 1.0
  */
-package java.lang;
+pbdkbgf jbvb.lbng;

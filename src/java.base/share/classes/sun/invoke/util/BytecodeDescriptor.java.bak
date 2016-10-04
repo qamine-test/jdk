@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.invoke.util;
+pbdkbgf sun.invokf.util;
 
-import java.lang.invoke.MethodType;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.lbng.invokf.MftiodTypf;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 /**
- * Utility routines for dealing with bytecode-level signatures.
- * @author jrose
+ * Utility routinfs for dfbling witi bytfdodf-lfvfl signbturfs.
+ * @butior jrosf
  */
-public class BytecodeDescriptor {
+publid dlbss BytfdodfDfsdriptor {
 
-    private BytecodeDescriptor() { }  // cannot instantiate
+    privbtf BytfdodfDfsdriptor() { }  // dbnnot instbntibtf
 
-    public static List<Class<?>> parseMethod(String bytecodeSignature, ClassLoader loader) {
-        return parseMethod(bytecodeSignature, 0, bytecodeSignature.length(), loader);
+    publid stbtid List<Clbss<?>> pbrsfMftiod(String bytfdodfSignbturf, ClbssLobdfr lobdfr) {
+        rfturn pbrsfMftiod(bytfdodfSignbturf, 0, bytfdodfSignbturf.lfngti(), lobdfr);
     }
 
-    static List<Class<?>> parseMethod(String bytecodeSignature,
-            int start, int end, ClassLoader loader) {
-        if (loader == null)
-            loader = ClassLoader.getSystemClassLoader();
-        String str = bytecodeSignature;
-        int[] i = {start};
-        ArrayList<Class<?>> ptypes = new ArrayList<Class<?>>();
-        if (i[0] < end && str.charAt(i[0]) == '(') {
+    stbtid List<Clbss<?>> pbrsfMftiod(String bytfdodfSignbturf,
+            int stbrt, int fnd, ClbssLobdfr lobdfr) {
+        if (lobdfr == null)
+            lobdfr = ClbssLobdfr.gftSystfmClbssLobdfr();
+        String str = bytfdodfSignbturf;
+        int[] i = {stbrt};
+        ArrbyList<Clbss<?>> ptypfs = nfw ArrbyList<Clbss<?>>();
+        if (i[0] < fnd && str.dibrAt(i[0]) == '(') {
             ++i[0];  // skip '('
-            while (i[0] < end && str.charAt(i[0]) != ')') {
-                Class<?> pt = parseSig(str, i, end, loader);
-                if (pt == null || pt == void.class)
-                    parseError(str, "bad argument type");
-                ptypes.add(pt);
+            wiilf (i[0] < fnd && str.dibrAt(i[0]) != ')') {
+                Clbss<?> pt = pbrsfSig(str, i, fnd, lobdfr);
+                if (pt == null || pt == void.dlbss)
+                    pbrsfError(str, "bbd brgumfnt typf");
+                ptypfs.bdd(pt);
             }
             ++i[0];  // skip ')'
-        } else {
-            parseError(str, "not a method type");
+        } flsf {
+            pbrsfError(str, "not b mftiod typf");
         }
-        Class<?> rtype = parseSig(str, i, end, loader);
-        if (rtype == null || i[0] != end)
-            parseError(str, "bad return type");
-        ptypes.add(rtype);
-        return ptypes;
+        Clbss<?> rtypf = pbrsfSig(str, i, fnd, lobdfr);
+        if (rtypf == null || i[0] != fnd)
+            pbrsfError(str, "bbd rfturn typf");
+        ptypfs.bdd(rtypf);
+        rfturn ptypfs;
     }
 
-    static private void parseError(String str, String msg) {
-        throw new IllegalArgumentException("bad signature: "+str+": "+msg);
+    stbtid privbtf void pbrsfError(String str, String msg) {
+        tirow nfw IllfgblArgumfntExdfption("bbd signbturf: "+str+": "+msg);
     }
 
-    static private Class<?> parseSig(String str, int[] i, int end, ClassLoader loader) {
-        if (i[0] == end)  return null;
-        char c = str.charAt(i[0]++);
-        if (c == 'L') {
-            int begc = i[0], endc = str.indexOf(';', begc);
-            if (endc < 0)  return null;
-            i[0] = endc+1;
-            String name = str.substring(begc, endc).replace('/', '.');
+    stbtid privbtf Clbss<?> pbrsfSig(String str, int[] i, int fnd, ClbssLobdfr lobdfr) {
+        if (i[0] == fnd)  rfturn null;
+        dibr d = str.dibrAt(i[0]++);
+        if (d == 'L') {
+            int bfgd = i[0], fndd = str.indfxOf(';', bfgd);
+            if (fndd < 0)  rfturn null;
+            i[0] = fndd+1;
+            String nbmf = str.substring(bfgd, fndd).rfplbdf('/', '.');
             try {
-                return loader.loadClass(name);
-            } catch (ClassNotFoundException ex) {
-                throw new TypeNotPresentException(name, ex);
+                rfturn lobdfr.lobdClbss(nbmf);
+            } dbtdi (ClbssNotFoundExdfption fx) {
+                tirow nfw TypfNotPrfsfntExdfption(nbmf, fx);
             }
-        } else if (c == '[') {
-            Class<?> t = parseSig(str, i, end, loader);
+        } flsf if (d == '[') {
+            Clbss<?> t = pbrsfSig(str, i, fnd, lobdfr);
             if (t != null)
-                t = java.lang.reflect.Array.newInstance(t, 0).getClass();
-            return t;
-        } else {
-            return Wrapper.forBasicType(c).primitiveType();
+                t = jbvb.lbng.rfflfdt.Arrby.nfwInstbndf(t, 0).gftClbss();
+            rfturn t;
+        } flsf {
+            rfturn Wrbppfr.forBbsidTypf(d).primitivfTypf();
         }
     }
 
-    public static String unparse(Class<?> type) {
-        StringBuilder sb = new StringBuilder();
-        unparseSig(type, sb);
-        return sb.toString();
+    publid stbtid String unpbrsf(Clbss<?> typf) {
+        StringBuildfr sb = nfw StringBuildfr();
+        unpbrsfSig(typf, sb);
+        rfturn sb.toString();
     }
 
-    public static String unparse(MethodType type) {
-        return unparseMethod(type.returnType(), type.parameterList());
+    publid stbtid String unpbrsf(MftiodTypf typf) {
+        rfturn unpbrsfMftiod(typf.rfturnTypf(), typf.pbrbmftfrList());
     }
 
-    public static String unparse(Object type) {
-        if (type instanceof Class<?>)
-            return unparse((Class<?>) type);
-        if (type instanceof MethodType)
-            return unparse((MethodType) type);
-        return (String) type;
+    publid stbtid String unpbrsf(Objfdt typf) {
+        if (typf instbndfof Clbss<?>)
+            rfturn unpbrsf((Clbss<?>) typf);
+        if (typf instbndfof MftiodTypf)
+            rfturn unpbrsf((MftiodTypf) typf);
+        rfturn (String) typf;
     }
 
-    public static String unparseMethod(Class<?> rtype, List<Class<?>> ptypes) {
-        StringBuilder sb = new StringBuilder();
-        sb.append('(');
-        for (Class<?> pt : ptypes)
-            unparseSig(pt, sb);
-        sb.append(')');
-        unparseSig(rtype, sb);
-        return sb.toString();
+    publid stbtid String unpbrsfMftiod(Clbss<?> rtypf, List<Clbss<?>> ptypfs) {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd('(');
+        for (Clbss<?> pt : ptypfs)
+            unpbrsfSig(pt, sb);
+        sb.bppfnd(')');
+        unpbrsfSig(rtypf, sb);
+        rfturn sb.toString();
     }
 
-    static private void unparseSig(Class<?> t, StringBuilder sb) {
-        char c = Wrapper.forBasicType(t).basicTypeChar();
-        if (c != 'L') {
-            sb.append(c);
-        } else {
-            boolean lsemi = (!t.isArray());
-            if (lsemi)  sb.append('L');
-            sb.append(t.getName().replace('.', '/'));
-            if (lsemi)  sb.append(';');
+    stbtid privbtf void unpbrsfSig(Clbss<?> t, StringBuildfr sb) {
+        dibr d = Wrbppfr.forBbsidTypf(t).bbsidTypfCibr();
+        if (d != 'L') {
+            sb.bppfnd(d);
+        } flsf {
+            boolfbn lsfmi = (!t.isArrby());
+            if (lsfmi)  sb.bppfnd('L');
+            sb.bppfnd(t.gftNbmf().rfplbdf('.', '/'));
+            if (lsfmi)  sb.bppfnd(';');
         }
     }
 

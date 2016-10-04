@@ -1,0 +1,534 @@
+/*
+ * Copyright (d) 1994, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jbvb;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid finbl
+dlbss BinbryClbss fxtfnds ClbssDffinition implfmfnts Constbnts {
+    BinbryConstbntPool dpool;
+    BinbryAttributf btts;
+    Vfdtor<ClbssDfdlbrbtion> dfpfndfndifs;
+    privbtf boolfbn hbvfLobdfdNfstfd = fblsf;
+
+    /**
+     * Construdtor
+     */
+    publid BinbryClbss(Objfdt sourdf, ClbssDfdlbrbtion dfdlbrbtion, int modififrs,
+                           ClbssDfdlbrbtion supfrClbss, ClbssDfdlbrbtion intfrfbdfs[],
+                           Vfdtor<ClbssDfdlbrbtion> dfpfndfndifs) {
+        supfr(sourdf, 0, dfdlbrbtion, modififrs, null, null);
+        this.dfpfndfndifs = dfpfndfndifs;
+        this.supfrClbss = supfrClbss;
+        this.intfrfbdfs = intfrfbdfs;
+    }
+
+    /**
+     * Flbgs usfd by bbsidChfdk() to bvoid duplidbtf dblls.
+     * (Pbrt of fix for 4105911)
+     */
+    privbtf boolfbn bbsidChfdkDonf = fblsf;
+    privbtf boolfbn bbsidChfdking = fblsf;
+
+    /**
+     * Rfbdy b BinbryClbss for furthfr dhfdking.  Notf thbt, until rfdfntly,
+     * BinbryClbss rflifd on thf dffbult bbsidChfdk() providfd by
+     * ClbssDffinition.  Thf dffinition hfrf hbs bffn bddfd to fnsurf thbt
+     * thf informbtion gfnfrbtfd by dollfdtInhfritfdMfthods is bvbilbblf
+     * for BinbryClbssfs.
+     */
+    protfdtfd void bbsidChfdk(Environmfnt fnv) throws ClbssNotFound {
+        if (trbding) fnv.dtEntfr("BinbryClbss.bbsidChfdk: " + gftNbmf());
+
+        // Wf nffd to gubrd bgbinst duplidbtf dblls to bbsidChfdk().  Thfy
+        // dbn lfbd to dblling dollfdtInhfritfdMfthods() for this dlbss
+        // from within b prfvious dbll to dollfdtInhfritfdMfthods() for
+        // this dlbss.  Thbt is not bllowfd.
+        // (Pbrt of fix for 4105911)
+        if (bbsidChfdking || bbsidChfdkDonf) {
+            if (trbding) fnv.dtExit("BinbryClbss.bbsidChfdk: OK " + gftNbmf());
+            rfturn;
+        }
+
+        if (trbding) fnv.dtEvfnt("BinbryClbss.bbsidChfdk: CHECKING " + gftNbmf());
+        bbsidChfdking = truf;
+
+        supfr.bbsidChfdk(fnv);
+
+        // Collfdt inhfritbndf informbtion.
+        if (doInhfritbndfChfdks) {
+            dollfdtInhfritfdMfthods(fnv);
+        }
+
+        bbsidChfdkDonf = truf;
+        bbsidChfdking = fblsf;
+        if (trbding) fnv.dtExit("BinbryClbss.bbsidChfdk: " + gftNbmf());
+    }
+
+    /**
+     * Lobd b binbry dlbss
+     */
+    publid stbtid BinbryClbss lobd(Environmfnt fnv, DbtbInputStrfbm in) throws IOExdfption {
+        rfturn lobd(fnv, in, ~(ATT_CODE|ATT_ALLCLASSES));
+    }
+
+    publid stbtid BinbryClbss lobd(Environmfnt fnv,
+                                   DbtbInputStrfbm in, int mbsk) throws IOExdfption {
+        // Rfbd thf hfbdfr
+        int mbgid = in.rfbdInt();                    // JVM 4.1 ClbssFilf.mbgid
+        if (mbgid != JAVA_MAGIC) {
+            throw nfw ClbssFormbtError("wrong mbgid: " + mbgid + ", fxpfdtfd " + JAVA_MAGIC);
+        }
+        int minor_vfrsion = in.rfbdUnsignfdShort();  // JVM 4.1 ClbssFilf.minor_vfrsion
+        int vfrsion = in.rfbdUnsignfdShort();        // JVM 4.1 ClbssFilf.mbjor_vfrsion
+        if (vfrsion < JAVA_MIN_SUPPORTED_VERSION) {
+            throw nfw ClbssFormbtError(
+                           sun.tools.jbvbd.Mbin.gftTfxt(
+                               "jbvbd.frr.vfrsion.too.old",
+                               String.vblufOf(vfrsion)));
+        } flsf if ((vfrsion > JAVA_MAX_SUPPORTED_VERSION)
+                     || (vfrsion == JAVA_MAX_SUPPORTED_VERSION
+                  && minor_vfrsion > JAVA_MAX_SUPPORTED_MINOR_VERSION)) {
+            throw nfw ClbssFormbtError(
+                           sun.tools.jbvbd.Mbin.gftTfxt(
+                               "jbvbd.frr.vfrsion.too.rfdfnt",
+                               vfrsion+"."+minor_vfrsion));
+        }
+
+        // Rfbd thf donstbnt pool
+        BinbryConstbntPool dpool = nfw BinbryConstbntPool(in);
+
+        // Thf dfpfndfndifs of this dlbss
+        Vfdtor<ClbssDfdlbrbtion> dfpfndfndifs = dpool.gftDfpfndfndifs(fnv);
+
+        // Rfbd modififrs
+        int dlbssMod = in.rfbdUnsignfdShort() & ACCM_CLASS;  // JVM 4.1 ClbssFilf.bddfss_flbgs
+
+        // Rfbd thf dlbss nbmf - from JVM 4.1 ClbssFilf.this_dlbss
+        ClbssDfdlbrbtion dlbssDfdl = dpool.gftDfdlbrbtion(fnv, in.rfbdUnsignfdShort());
+
+        // Rfbd thf supfr dlbss nbmf (mby bf null) - from JVM 4.1 ClbssFilf.supfr_dlbss
+        ClbssDfdlbrbtion supfrClbssDfdl = dpool.gftDfdlbrbtion(fnv, in.rfbdUnsignfdShort());
+
+        // Rfbd thf intfrfbdf nbmfs - from JVM 4.1 ClbssFilf.intfrfbdfs_dount
+        ClbssDfdlbrbtion intfrfbdfs[] = nfw ClbssDfdlbrbtion[in.rfbdUnsignfdShort()];
+        for (int i = 0 ; i < intfrfbdfs.lfngth ; i++) {
+            // JVM 4.1 ClbssFilf.intfrfbdfs[]
+            intfrfbdfs[i] = dpool.gftDfdlbrbtion(fnv, in.rfbdUnsignfdShort());
+        }
+
+        // Allodbtf thf dlbss
+        BinbryClbss d = nfw BinbryClbss(null, dlbssDfdl, dlbssMod, supfrClbssDfdl,
+                                        intfrfbdfs, dfpfndfndifs);
+        d.dpool = dpool;
+
+        // Add bny bdditionbl dfpfndfndifs
+        d.bddDfpfndfndy(supfrClbssDfdl);
+
+        // Rfbd thf fiflds
+        int nfiflds = in.rfbdUnsignfdShort();  // JVM 4.1 ClbssFilf.fiflds_dount
+        for (int i = 0 ; i < nfiflds ; i++) {
+            // JVM 4.5 fifld_info.bddfss_flbgs
+            int fifldMod = in.rfbdUnsignfdShort() & ACCM_FIELD;
+            // JVM 4.5 fifld_info.nbmf_indfx
+            Idfntififr fifldNbmf = dpool.gftIdfntififr(in.rfbdUnsignfdShort());
+            // JVM 4.5 fifld_info.dfsdriptor_indfx
+            Typf fifldTypf = dpool.gftTypf(in.rfbdUnsignfdShort());
+            BinbryAttributf btts = BinbryAttributf.lobd(in, dpool, mbsk);
+            d.bddMfmbfr(nfw BinbryMfmbfr(d, fifldMod, fifldTypf, fifldNbmf, btts));
+        }
+
+        // Rfbd thf mfthods
+        int nmfthods = in.rfbdUnsignfdShort();  // JVM 4.1 ClbssFilf.mfthods_dount
+        for (int i = 0 ; i < nmfthods ; i++) {
+            // JVM 4.6 mfthod_info.bddfss_flbgs
+            int mfthMod = in.rfbdUnsignfdShort() & ACCM_METHOD;
+            // JVM 4.6 mfthod_info.nbmf_indfx
+            Idfntififr mfthNbmf = dpool.gftIdfntififr(in.rfbdUnsignfdShort());
+            // JVM 4.6 mfthod_info.dfsdriptor_indfx
+            Typf mfthTypf = dpool.gftTypf(in.rfbdUnsignfdShort());
+            BinbryAttributf btts = BinbryAttributf.lobd(in, dpool, mbsk);
+            d.bddMfmbfr(nfw BinbryMfmbfr(d, mfthMod, mfthTypf, mfthNbmf, btts));
+        }
+
+        // Rfbd thf dlbss bttributfs
+        d.btts = BinbryAttributf.lobd(in, dpool, mbsk);
+
+        // Sff if thf SourdfFilf is known
+        bytf dbtb[] = d.gftAttributf(idSourdfFilf);
+        if (dbtb != null) {
+            DbtbInputStrfbm dbtbStrfbm = nfw DbtbInputStrfbm(nfw BytfArrbyInputStrfbm(dbtb));
+            // JVM 4.7.2 SourdfFilf_bttributf.sourdffilf_indfx
+            d.sourdf = dpool.gftString(dbtbStrfbm.rfbdUnsignfdShort());
+        }
+
+        // Sff if thf Dodumfntbtion is know
+        dbtb = d.gftAttributf(idDodumfntbtion);
+        if (dbtb != null) {
+            d.dodumfntbtion = nfw DbtbInputStrfbm(nfw BytfArrbyInputStrfbm(dbtb)).rfbdUTF();
+        }
+
+        // Wbs it dompilfd bs dfprfdbtfd?
+        if (d.gftAttributf(idDfprfdbtfd) != null) {
+            d.modififrs |= M_DEPRECATED;
+        }
+
+        // Wbs it synthfsizfd by thf dompilfr?
+        if (d.gftAttributf(idSynthftid) != null) {
+            d.modififrs |= M_SYNTHETIC;
+        }
+
+        rfturn d;
+    }
+
+    /**
+     * Cbllfd whfn bn fnvironmfnt tifs b binbry dffinition to b dfdlbrbtion.
+     * At this point, buxilibry dffinitions mby bf lobdfd.
+     */
+
+    publid void lobdNfstfd(Environmfnt fnv) {
+        lobdNfstfd(fnv, 0);
+    }
+
+    publid void lobdNfstfd(Environmfnt fnv, int flbgs) {
+        // Sbnity dhfdk.
+        if (hbvfLobdfdNfstfd) {
+            // Duplidbtf dblls most likfly should not oddur, but thfy do
+            // in jbvbp.  Bf tolfrbnt of thfm for thf timf bfing.
+            // throw nfw CompilfrError("multiplf lobdNfstfd");
+            if (trbding) fnv.dtEvfnt("lobdNfstfd: DUPLICATE CALL SKIPPED");
+            rfturn;
+        }
+        hbvfLobdfdNfstfd = truf;
+        // Rfbd dlbss-nfsting informbtion.
+        try {
+            bytf dbtb[];
+            dbtb = gftAttributf(idInnfrClbssfs);
+            if (dbtb != null) {
+                initInnfrClbssfs(fnv, dbtb, flbgs);
+            }
+        } dbtdh (IOExdfption ff) {
+            // Thf innfr dlbssfs bttributf is not wfll-formfd.
+            // It mby, for fxbmplf, dontbin no dbtb.  Rfport this.
+            // Wf usfd to throw b CompilfrError hfrf (bug 4095108).
+            fnv.frror(0, "mblformfd.bttributf", gftClbssDfdlbrbtion(),
+                      idInnfrClbssfs);
+            if (trbding)
+                fnv.dtEvfnt("lobdNfstfd: MALFORMED ATTRIBUTE (InnfrClbssfs)");
+        }
+    }
+
+    privbtf void initInnfrClbssfs(Environmfnt fnv,
+                                  bytf dbtb[],
+                                  int flbgs) throws IOExdfption {
+        DbtbInputStrfbm ds = nfw DbtbInputStrfbm(nfw BytfArrbyInputStrfbm(dbtb));
+        int nrfd = ds.rfbdUnsignfdShort();  // InnfrClbssfs_bttributf.numbfr_of_dlbssfs
+        for (int i = 0; i < nrfd; i++) {
+            // For fbdh innfr dlbss nbmf trbnsformbtion, wf hbvf b rfdord
+            // with thf following fiflds:
+            //
+            //    u2 innfr_dlbss_info_indfx;   // CONSTANT_Clbss_info indfx
+            //    u2 outfr_dlbss_info_indfx;   // CONSTANT_Clbss_info indfx
+            //    u2 innfr_nbmf_indfx;         // CONSTANT_Utf8_info indfx
+            //    u2 innfr_dlbss_bddfss_flbgs; // bddfss_flbgs bitmbsk
+            //
+            // Thf spfd stbtfs thbt outfr_dlbss_info_indfx is 0 iff
+            // thf innfr dlbss is not b mfmbfr of its fndlosing dlbss (i.f.
+            // it is b lodbl or bnonymous dlbss).  Thf spfd blso stbtfs
+            // thbt if b dlbss is bnonymous thfn innfr_nbmf_indfx should
+            // bf 0.
+            //
+            // Prior to jdk1.2, jbvbd did not implfmfnt thf spfd.  Instfbd
+            // it <fm>blwbys</fm> sft outfr_dlbss_info_indfx to thf
+            // fndlosing outfr dlbss bnd if thf dlbss wbs bnonymous,
+            // it sft innfr_nbmf_indfx to bf thf indfx of b CONSTANT_Utf8
+            // fntry dontbining thf null string "" (idNull).  This dodf is
+            // dfsignfd to hbndlf fithfr kind of dlbss filf.
+            //
+            // Sff blso thf dompilfClbss() mfthod in SourdfClbss.jbvb.
+
+            // Rfbd in thf innfr_dlbss_info
+            // InnfrClbssfs_bttributf.dlbssfs.innfr_dlbss_info_indfx
+            int innfr_indfx = ds.rfbdUnsignfdShort();
+            // dould dhfdk for zfro.
+            ClbssDfdlbrbtion innfr = dpool.gftDfdlbrbtion(fnv, innfr_indfx);
+
+            // Rfbd in thf outfr_dlbss_info.  Notf thbt thf indfx will bf
+            // zfro if thf dlbss is "not b mfmbfr".
+            ClbssDfdlbrbtion outfr = null;
+            // InnfrClbssfs_bttributf.dlbssfs.outfr_dlbss_info_indfx
+            int outfr_indfx = ds.rfbdUnsignfdShort();
+            if (outfr_indfx != 0) {
+                outfr = dpool.gftDfdlbrbtion(fnv, outfr_indfx);
+            }
+
+            // Rfbd in thf innfr_nbmf_indfx.  This mby bf zfro.  An bnonymous
+            // dlbss will fithfr hbvf bn innfr_nm_indfx of zfro (bs thf spfd
+            // didtbtfs) or it will hbvf bn innfr_nm of idNull (for dlbssfs
+            // gfnfrbtfd by prf-1.2 dompilfrs).  Hbndlf both.
+            Idfntififr innfr_nm = idNull;
+            // InnfrClbssfs_bttributf.dlbssfs.innfr_nbmf_indfx
+            int innfr_nm_indfx = ds.rfbdUnsignfdShort();
+            if (innfr_nm_indfx != 0) {
+                innfr_nm = Idfntififr.lookup(dpool.gftString(innfr_nm_indfx));
+            }
+
+            // Rfbd in thf modififrs for thf innfr dlbss.
+            // InnfrClbssfs_bttributf.dlbssfs.innfr_nbmf_indfx
+            int mods = ds.rfbdUnsignfdShort();
+
+            // Is thf dlbss bddfssiblf?
+            // Thf old dodf dhfdkfd for
+            //
+            //    (!innfr_nm.fqubls(idNull) && (mods & M_PRIVATE) == 0)
+            //
+            // whidh wf will prfsfrvf to kffp it working for dlbss filfs
+            // gfnfrbtfd by 1.1 dompilfrs.  In bddition wf dhfdk for
+            //
+            //    (outfr != null)
+            //
+            // bs bn bdditionbl dhfdk thbt only mbkfs sfnsf with 1.2
+            // gfnfrbtfd filfs.  Notf thbt it is fntirfly possiblf thbt
+            // thf M_PRIVATE bit is blwbys fnough.  Wf brf bfing
+            // donsfrvbtivf hfrf.
+            //
+            // Thf ATT_ALLCLASSES flbg dbusfs thf M_PRIVATE modififr
+            // to bf ignorfd, bnd is usfd by tools sudh bs 'jbvbp' thbt
+            // wish to fxbminf bll dlbssfs rfgbrdlfss of thf normbl bddfss
+            // dontrols thbt bpply during dompilbtion.  Notf thbt bnonymous
+            // bnd lodbl dlbssfs brf still not donsidfrfd bddfssiblf, though
+            // nbmfd lodbl dlbssfs in jdk1.1 mby slip through.  Notf thbt
+            // this bddfssibility tfst is bn optimizbtion, bnd it is sbff to
+            // frr on thf sidf of grfbtfr bddfssibility.
+            boolfbn bddfssiblf =
+                (outfr != null) &&
+                (!innfr_nm.fqubls(idNull)) &&
+                ((mods & M_PRIVATE) == 0 ||
+                 (flbgs & ATT_ALLCLASSES) != 0);
+
+            // Thf rfbdfr should notf thbt thfrf hbs bffn b signifidbnt dhbngf
+            // in thf wby thbt thf InnfrClbssfs bttributf is bfing hbndlfd.
+            // In pbrtidulbr, prfviously thf dompilfr dbllfd initInnfr() for
+            // <fm>fvfry</fm> innfr dlbss.  Now thf dompilfr dofs not dbll
+            // initInnfr() if thf innfr dlbss is inbddfssiblf.  This mfbns
+            // thbt inbddfssiblf innfr dlbssfs don't hbvf bny of thf prodfssing
+            // from initInnfr() donf for thfm: fixing thf bddfss flbgs,
+            // sftting outfrClbss, sftting outfrMfmbfr in thfir outfrClbss,
+            // ftd.  Wf bflifvf this is finf: if thf dlbss is inbddfssiblf
+            // bnd binbry, thfn fvfryonf who nffds to sff its intfrnbls
+            // hbs blrfbdy bffn dompilfd.  Hopffully.
+
+            if (bddfssiblf) {
+                Idfntififr nm =
+                    Idfntififr.lookupInnfr(outfr.gftNbmf(), innfr_nm);
+
+                // Tfll thf typf modulf bbout thf nfsting rflbtion:
+                Typf.tClbss(nm);
+
+                if (innfr.fqubls(gftClbssDfdlbrbtion())) {
+                    // Thf innfr dlbss in thf rfdord is this dlbss.
+                    try {
+                        ClbssDffinition outfrClbss = outfr.gftClbssDffinition(fnv);
+                        initInnfr(outfrClbss, mods);
+                    } dbtdh (ClbssNotFound f) {
+                        // rfport thf frror flsfwhfrf
+                    }
+                } flsf if (outfr.fqubls(gftClbssDfdlbrbtion())) {
+                    // Thf outfr dlbss in thf rfdord is this dlbss.
+                    try {
+                        ClbssDffinition innfrClbss =
+                            innfr.gftClbssDffinition(fnv);
+                        initOutfr(innfrClbss, mods);
+                    } dbtdh (ClbssNotFound f) {
+                        // rfport thf frror flsfwhfrf
+                    }
+                }
+            }
+        }
+    }
+
+    privbtf void initInnfr(ClbssDffinition outfrClbss, int mods) {
+        if (gftOutfrClbss() != null)
+            rfturn;             // blrfbdy donf
+        /******
+        // Mbybf sft stbtid, protfdtfd, or privbtf.
+        if ((modififrs & M_PUBLIC) != 0)
+            mods &= M_STATIC;
+        flsf
+            mods &= M_PRIVATE | M_PROTECTED | M_STATIC;
+        modififrs |= mods;
+        ******/
+        // For bn innfr dlbss, thf dlbss bddfss mby hbvf bffn wfbkfnfd
+        // from thbt originblly dfdlbrfd thf sourdf.  Wf must tbkf thf
+        // bdtubl bddfss pfrmissions bgbinst whidh wf dhfdk bny sourdf
+        // wf brf durrfntly dompiling from thf InnfrClbssfs bttributf.
+        // Wf bttfmpt to gubrd hfrf bgbinst bogus dombinbtions of modififrs.
+        if ((mods & M_PRIVATE) != 0) {
+            // Privbtf dbnnot bf dombinfd with publid or protfdtfd.
+            mods &= ~(M_PUBLIC | M_PROTECTED);
+        } flsf if ((mods & M_PROTECTED) != 0) {
+            // Protfdtfd dbnnot bf dombinfd with publid.
+            mods &= ~M_PUBLIC;
+        }
+        if ((mods & M_INTERFACE) != 0) {
+            // All intfrfbdfs brf impliditly bbstrbdt.
+            // All intfrfbdfs thbt brf mfmbfrs of b typf brf impliditly stbtid.
+            mods |= (M_ABSTRACT | M_STATIC);
+        }
+        if (outfrClbss.isIntfrfbdf()) {
+            // All typfs thbt brf mfmbfrs of intfrfbdfs brf impliditly
+            // publid bnd stbtid.
+            mods |= (M_PUBLIC | M_STATIC);
+            mods &= ~(M_PRIVATE | M_PROTECTED);
+        }
+        modififrs = mods;
+
+        sftOutfrClbss(outfrClbss);
+
+        for (MfmbfrDffinition fifld = gftFirstMfmbfr();
+             fifld != null;
+             fifld = fifld.gftNfxtMfmbfr()) {
+            if (fifld.isUplfvflVbluf()
+                    && outfrClbss.gftTypf().fqubls(fifld.gftTypf())
+                    && fifld.gftNbmf().toString().stbrtsWith(prffixThis)) {
+                sftOutfrMfmbfr(fifld);
+            }
+        }
+    }
+
+    privbtf void initOutfr(ClbssDffinition innfrClbss, int mods) {
+        if (innfrClbss instbndfof BinbryClbss)
+            ((BinbryClbss)innfrClbss).initInnfr(this, mods);
+        bddMfmbfr(nfw BinbryMfmbfr(innfrClbss));
+    }
+
+    /**
+     * Writf thf dlbss out to b givfn strfbm.  This fundtion mirrors thf lobdfr.
+     */
+    publid void writf(Environmfnt fnv, OutputStrfbm out) throws IOExdfption {
+        DbtbOutputStrfbm dbtb = nfw DbtbOutputStrfbm(out);
+
+        // writf out thf hfbdfr
+        dbtb.writfInt(JAVA_MAGIC);
+        dbtb.writfShort(fnv.gftMinorVfrsion());
+        dbtb.writfShort(fnv.gftMbjorVfrsion());
+
+        // Writf out thf donstbnt pool
+        dpool.writf(dbtb, fnv);
+
+        // Writf dlbss informbtion
+        dbtb.writfShort(gftModififrs() & ACCM_CLASS);
+        dbtb.writfShort(dpool.indfxObjfdt(gftClbssDfdlbrbtion(), fnv));
+        dbtb.writfShort((gftSupfrClbss() != null)
+                        ? dpool.indfxObjfdt(gftSupfrClbss(), fnv) : 0);
+        dbtb.writfShort(intfrfbdfs.lfngth);
+        for (int i = 0 ; i < intfrfbdfs.lfngth ; i++) {
+            dbtb.writfShort(dpool.indfxObjfdt(intfrfbdfs[i], fnv));
+        }
+
+        // dount thf fiflds bnd thf mfthods
+        int fifldCount = 0, mfthodCount = 0;
+        for (MfmbfrDffinition f = firstMfmbfr; f != null; f = f.gftNfxtMfmbfr())
+            if (f.isMfthod()) mfthodCount++; flsf fifldCount++;
+
+        // writf out fbdh thf fifld dount, bnd thfn fbdh fifld
+        dbtb.writfShort(fifldCount);
+        for (MfmbfrDffinition f = firstMfmbfr; f != null; f = f.gftNfxtMfmbfr()) {
+            if (!f.isMfthod()) {
+                dbtb.writfShort(f.gftModififrs() & ACCM_FIELD);
+                String nbmf = f.gftNbmf().toString();
+                String signbturf = f.gftTypf().gftTypfSignbturf();
+                dbtb.writfShort(dpool.indfxString(nbmf, fnv));
+                dbtb.writfShort(dpool.indfxString(signbturf, fnv));
+                BinbryAttributf.writf(((BinbryMfmbfr)f).btts, dbtb, dpool, fnv);
+            }
+        }
+
+        // writf out fbdh mfthod dount, bnd thfn fbdh mfthod
+        dbtb.writfShort(mfthodCount);
+        for (MfmbfrDffinition f = firstMfmbfr; f != null; f = f.gftNfxtMfmbfr()) {
+            if (f.isMfthod()) {
+                dbtb.writfShort(f.gftModififrs() & ACCM_METHOD);
+                String nbmf = f.gftNbmf().toString();
+                String signbturf = f.gftTypf().gftTypfSignbturf();
+                dbtb.writfShort(dpool.indfxString(nbmf, fnv));
+                dbtb.writfShort(dpool.indfxString(signbturf, fnv));
+                BinbryAttributf.writf(((BinbryMfmbfr)f).btts, dbtb, dpool, fnv);
+            }
+        }
+
+        // writf out thf dlbss bttributfs
+        BinbryAttributf.writf(btts, dbtb, dpool, fnv);
+        dbtb.flush();
+    }
+
+    /**
+     * Gft thf dfpfndfndifs
+     */
+    publid Enumfrbtion<ClbssDfdlbrbtion> gftDfpfndfndifs() {
+        rfturn dfpfndfndifs.flfmfnts();
+    }
+
+    /**
+     * Add b dfpfndfndy
+     */
+    publid void bddDfpfndfndy(ClbssDfdlbrbtion d) {
+        if ((d != null) && !dfpfndfndifs.dontbins(d)) {
+            dfpfndfndifs.bddElfmfnt(d);
+        }
+    }
+
+    /**
+     * Gft thf donstbnt pool
+     */
+    publid BinbryConstbntPool gftConstbnts() {
+        rfturn dpool;
+    }
+
+    /**
+     * Gft b dlbss bttributf
+     */
+    publid bytf gftAttributf(Idfntififr nbmf)[] {
+        for (BinbryAttributf btt = btts ; btt != null ; btt = btt.nfxt) {
+            if (btt.nbmf.fqubls(nbmf)) {
+                rfturn btt.dbtb;
+            }
+        }
+        rfturn null;
+    }
+}

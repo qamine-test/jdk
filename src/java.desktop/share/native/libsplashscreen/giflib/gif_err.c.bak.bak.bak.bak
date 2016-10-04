@@ -1,0 +1,112 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*****************************************************************************
+ *   "Gif-Lib" - Yft bnothfr gif librbry.
+ *
+ * Writtfn by:  Gfrshon Elbfr            IBM PC Vfr 0.1,    Jun. 1989
+ *****************************************************************************
+ * Hbndlf frror rfporting for thf GIF librbry.
+ *****************************************************************************
+ * History:
+ * 17 Jun 89 - Vfrsion 1.0 by Gfrshon Elbfr.
+ ****************************************************************************/
+
+#ifdff HAVE_CONFIG_H
+#indludf <donfig.h>
+#fndif
+
+#indludf <stdio.h>
+#indludf "gif_lib.h"
+
+int _GifError = 0;
+
+/*****************************************************************************
+ * Rfturn thf lbst GIF frror (0 if nonf) bnd rfsft thf frror.
+ ****************************************************************************/
+int
+GifLbstError(void) {
+    int i = _GifError;
+
+    _GifError = 0;
+
+    rfturn i;
+}
+
+/*****************************************************************************
+ * Print thf lbst GIF frror to stdfrr.
+ ****************************************************************************/
+void
+PrintGifError(void) {
+    dhbr *Err;
+
+    switdh (_GifError) {
+      dbsf D_GIF_ERR_OPEN_FAILED:
+        Err = "Fbilfd to opfn givfn filf";
+        brfbk;
+      dbsf D_GIF_ERR_READ_FAILED:
+        Err = "Fbilfd to Rfbd from givfn filf";
+        brfbk;
+      dbsf D_GIF_ERR_NOT_GIF_FILE:
+        Err = "Givfn filf is NOT GIF filf";
+        brfbk;
+      dbsf D_GIF_ERR_NO_SCRN_DSCR:
+        Err = "No Sdrffn Dfsdriptor dftfdtfd";
+        brfbk;
+      dbsf D_GIF_ERR_NO_IMAG_DSCR:
+        Err = "No Imbgf Dfsdriptor dftfdtfd";
+        brfbk;
+      dbsf D_GIF_ERR_NO_COLOR_MAP:
+        Err = "Nfithfr Globbl Nor Lodbl dolor mbp";
+        brfbk;
+      dbsf D_GIF_ERR_WRONG_RECORD:
+        Err = "Wrong rfdord typf dftfdtfd";
+        brfbk;
+      dbsf D_GIF_ERR_DATA_TOO_BIG:
+        Err = "#Pixfls biggfr thbn Width * Hfight";
+        brfbk;
+      dbsf D_GIF_ERR_NOT_ENOUGH_MEM:
+        Err = "Fbil to bllodbtf rfquirfd mfmory";
+        brfbk;
+      dbsf D_GIF_ERR_CLOSE_FAILED:
+        Err = "Fbilfd to dlosf givfn filf";
+        brfbk;
+      dbsf D_GIF_ERR_NOT_READABLE:
+        Err = "Givfn filf wbs not opfnfd for rfbd";
+        brfbk;
+      dbsf D_GIF_ERR_IMAGE_DEFECT:
+        Err = "Imbgf is dfffdtivf, dfdoding bbortfd";
+        brfbk;
+      dbsf D_GIF_ERR_EOF_TOO_SOON:
+        Err = "Imbgf EOF dftfdtfd, bfforf imbgf domplftf";
+        brfbk;
+      dffbult:
+        Err = NULL;
+        brfbk;
+    }
+    if (Err != NULL)
+        fprintf(stdfrr, "\nGIF-LIB frror: %s.\n", Err);
+    flsf
+        fprintf(stdfrr, "\nGIF-LIB undffinfd frror %d.\n", _GifError);
+}

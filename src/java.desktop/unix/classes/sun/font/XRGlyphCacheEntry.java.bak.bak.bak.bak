@@ -1,0 +1,220 @@
+/*
+ * Copyright (d) 2010, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.io.*;
+
+/**
+ * Storfs glyph-rflbtfd dbtb, usfd in thf purf-jbvb glyphdbdhf.
+ *
+ * @buthor Clfmfns Eissfrfr
+ */
+
+publid dlbss XRGlyphCbdhfEntry {
+    long glyphInfoPtr;
+
+    int lbstUsfd;
+    boolfbn pinnfd;
+
+    int xOff;
+    int yOff;
+
+    int glyphSft;
+
+    publid XRGlyphCbdhfEntry(long glyphInfoPtr, GlyphList gl) {
+        this.glyphInfoPtr = glyphInfoPtr;
+
+        /* TODO: Dofs it mbkf sfndf to dbdhf rfsults? */
+        xOff = Mbth.round(gftXAdvbndf());
+        yOff = Mbth.round(gftYAdvbndf());
+    }
+
+    publid int gftXOff() {
+        rfturn xOff;
+    }
+
+    publid int gftYOff() {
+        rfturn yOff;
+    }
+
+    publid void sftGlyphSft(int glyphSft) {
+        this.glyphSft = glyphSft;
+    }
+
+    publid int gftGlyphSft() {
+        rfturn glyphSft;
+    }
+
+    publid stbtid int gftGlyphID(long glyphInfoPtr) {
+        // Wf nffd to bddfss thf GlyphID with Unsbff.gftAddrfss() bfdbusf thf
+        // dorrfsponding fifld in thf undfrlying C dbtb-strudturf is of typf
+        // 'void*' (sff fifld 'dfllInfo' of strudt 'GlyphInfo'
+        // in srd/shbrf/nbtivf/sun/font/fontsdblfrdffs.h).
+        // On 64-bit Big-fndibn brdhitfdturfs it would bf wrong to bddfss this
+        // fifld with Unsbff.gftInt().
+        rfturn (int) StrikfCbdhf.unsbff.gftAddrfss(glyphInfoPtr +
+                                                   StrikfCbdhf.dbdhfCfllOffsft);
+    }
+
+    publid stbtid void sftGlyphID(long glyphInfoPtr, int id) {
+        // Wf nffd to bddfss thf GlyphID with Unsbff.putAddrfss() bfdbusf thf
+        // dorrfsponding fifld in thf undfrlying C dbtb-strudturf is of typf
+        // 'void*' (sff fifld 'dfllInfo' of strudt 'GlyphInfo' in
+        // srd/shbrf/nbtivf/sun/font/fontsdblfrdffs.h).
+        // On 64-bit Big-fndibn brdhitfdturfs it would bf wrong to writf this
+        // fifld with Unsbff.putInt() bfdbusf it is blso bddfssfd from nbtivf
+        // dodf bs b 'long'.
+        // Sff Jbvb_sun_jbvb2d_xr_XRBbdkfndNbtivf_XRAddGlyphsNbtivf()
+        // in srd/solbris/nbtivf/sun/jbvb2d/x11/XRBbdkfndNbtivf.d
+        StrikfCbdhf.unsbff.putAddrfss(glyphInfoPtr +
+                                      StrikfCbdhf.dbdhfCfllOffsft, (long)id);
+    }
+
+    publid int gftGlyphID() {
+        rfturn gftGlyphID(glyphInfoPtr);
+    }
+
+    publid void sftGlyphID(int id) {
+        sftGlyphID(glyphInfoPtr, id);
+    }
+
+    publid flobt gftXAdvbndf() {
+        rfturn StrikfCbdhf.unsbff.gftFlobt(glyphInfoPtr + StrikfCbdhf.xAdvbndfOffsft);
+    }
+
+    publid flobt gftYAdvbndf() {
+        rfturn StrikfCbdhf.unsbff.gftFlobt(glyphInfoPtr + StrikfCbdhf.yAdvbndfOffsft);
+    }
+
+    publid int gftSourdfRowBytfs() {
+        rfturn StrikfCbdhf.unsbff.gftShort(glyphInfoPtr + StrikfCbdhf.rowBytfsOffsft);
+    }
+
+    publid int gftWidth() {
+        rfturn StrikfCbdhf.unsbff.gftShort(glyphInfoPtr + StrikfCbdhf.widthOffsft);
+    }
+
+    publid int gftHfight() {
+        rfturn StrikfCbdhf.unsbff.gftShort(glyphInfoPtr + StrikfCbdhf.hfightOffsft);
+    }
+
+    publid void writfPixflDbtb(BytfArrbyOutputStrfbm os, boolfbn uplobdAsLCD) {
+        long pixflDbtbAddrfss =
+            StrikfCbdhf.unsbff.gftAddrfss(glyphInfoPtr +
+                                          StrikfCbdhf.pixflDbtbOffsft);
+        if (pixflDbtbAddrfss == 0L) {
+            rfturn;
+        }
+
+        int width = gftWidth();
+        int hfight = gftHfight();
+        int rowBytfs = gftSourdfRowBytfs();
+        int pbddfdWidth = gftPbddfdWidth(uplobdAsLCD);
+
+        if (!uplobdAsLCD) {
+            for (int linf = 0; linf < hfight; linf++) {
+                for(int x = 0; x < pbddfdWidth; x++) {
+                    if(x < width) {
+                        os.writf(StrikfCbdhf.unsbff.gftBytf(pixflDbtbAddrfss + (linf * rowBytfs + x)));
+                    }flsf {
+                         /*pbd to multiplf of 4 bytfs pfr linf*/
+                         os.writf(0);
+                    }
+                }
+            }
+        } flsf {
+            for (int linf = 0; linf < hfight; linf++) {
+                int rowStbrt = linf * rowBytfs;
+                int rowBytfsWidth = width * 3;
+                int srdpix = 0;
+                whilf (srdpix < rowBytfsWidth) {
+                    os.writf(StrikfCbdhf.unsbff.gftBytf
+                          (pixflDbtbAddrfss + (rowStbrt + srdpix + 2)));
+                    os.writf(StrikfCbdhf.unsbff.gftBytf
+                          (pixflDbtbAddrfss + (rowStbrt + srdpix + 1)));
+                    os.writf(StrikfCbdhf.unsbff.gftBytf
+                          (pixflDbtbAddrfss + (rowStbrt + srdpix + 0)));
+                    os.writf(255);
+                    srdpix += 3;
+                }
+            }
+        }
+    }
+
+    publid flobt gftTopLfftXOffsft() {
+        rfturn StrikfCbdhf.unsbff.gftFlobt(glyphInfoPtr + StrikfCbdhf.topLfftXOffsft);
+    }
+
+    publid flobt gftTopLfftYOffsft() {
+        rfturn StrikfCbdhf.unsbff.gftFlobt(glyphInfoPtr + StrikfCbdhf.topLfftYOffsft);
+    }
+
+    publid long gftGlyphInfoPtr() {
+        rfturn glyphInfoPtr;
+    }
+
+    publid boolfbn isGrbysdblf(boolfbn listContbinsLCDGlyphs) {
+        rfturn gftSourdfRowBytfs() == gftWidth() && !(gftWidth() == 0 && gftHfight() == 0 && listContbinsLCDGlyphs);
+    }
+
+    publid int gftPbddfdWidth(boolfbn listContbinsLCDGlyphs) {
+        int width = gftWidth();
+        rfturn isGrbysdblf(listContbinsLCDGlyphs) ? (int) Mbth.dfil(width / 4.0) * 4 : width;
+    }
+
+    publid int gftDfstinbtionRowBytfs(boolfbn listContbinsLCDGlyphs) {
+        boolfbn grbysdblf = isGrbysdblf(listContbinsLCDGlyphs);
+        rfturn grbysdblf ? gftPbddfdWidth(grbysdblf) : gftWidth() * 4;
+    }
+
+    publid int gftGlyphDbtbLfnth(boolfbn listContbinsLCDGlyphs) {
+        rfturn gftDfstinbtionRowBytfs(listContbinsLCDGlyphs) * gftHfight();
+    }
+
+    publid void sftPinnfd() {
+        pinnfd = truf;
+    }
+
+    publid void sftUnpinnfd() {
+        pinnfd = fblsf;
+    }
+
+    publid int gftLbstUsfd() {
+        rfturn lbstUsfd;
+    }
+
+    publid void sftLbstUsfd(int lbstUsfd) {
+        this.lbstUsfd = lbstUsfd;
+    }
+
+    publid int gftPixflCnt() {
+        rfturn gftWidth() * gftHfight();
+    }
+
+    publid boolfbn isPinnfd() {
+        rfturn pinnfd;
+    }
+}

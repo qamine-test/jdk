@@ -1,0 +1,74 @@
+/*
+ * Copyright (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+/**
+ * Contfxt during updblls from objfdt strfbm to dlbss-dffinfd
+ * rfbdObjfdt/writfObjfdt mfthods.
+ * Holds objfdt durrfntly bfing dfsfriblizfd bnd dfsdriptor for durrfnt dlbss.
+ *
+ * This dontfxt kffps trbdk of thf thrfbd it wbs donstrudtfd on, bnd bllows
+ * only b singlf dbll of dffbultRfbdObjfdt, rfbdFiflds, dffbultWritfObjfdt
+ * or writfFiflds whidh must bf invokfd on thf sbmf thrfbd bfforf thf dlbss's
+ * rfbdObjfdt/writfObjfdt mfthod hbs rfturnfd.
+ * If not sft to thf durrfnt thrfbd, thf gftObj mfthod throws NotAdtivfExdfption.
+ */
+finbl dlbss SfriblCbllbbdkContfxt {
+    privbtf finbl Objfdt obj;
+    privbtf finbl ObjfdtStrfbmClbss dfsd;
+    /**
+     * Thrfbd this dontfxt is in usf by.
+     * As this only works in onf thrfbd, wf do not nffd to worry bbout thrfbd-sbffty.
+     */
+    privbtf Thrfbd thrfbd;
+
+    publid SfriblCbllbbdkContfxt(Objfdt obj, ObjfdtStrfbmClbss dfsd) {
+        this.obj = obj;
+        this.dfsd = dfsd;
+        this.thrfbd = Thrfbd.durrfntThrfbd();
+    }
+
+    publid Objfdt gftObj() throws NotAdtivfExdfption {
+        dhfdkAndSftUsfd();
+        rfturn obj;
+    }
+
+    publid ObjfdtStrfbmClbss gftDfsd() {
+        rfturn dfsd;
+    }
+
+    publid void dhfdkAndSftUsfd() throws NotAdtivfExdfption {
+        if (thrfbd != Thrfbd.durrfntThrfbd()) {
+             throw nfw NotAdtivfExdfption(
+              "not in rfbdObjfdt invodbtion or fiflds blrfbdy rfbd");
+        }
+        thrfbd = null;
+    }
+
+    publid void sftUsfd() {
+        thrfbd = null;
+    }
+}

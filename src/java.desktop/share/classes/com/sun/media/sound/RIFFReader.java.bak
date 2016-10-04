@@ -1,332 +1,332 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.InputStream;
+import jbvb.io.EOFExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
 
 /**
- * Resource Interchange File Format (RIFF) stream decoder.
+ * Rfsourdf Intfrdibngf Filf Formbt (RIFF) strfbm dfdodfr.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class RIFFReader extends InputStream {
+publid finbl dlbss RIFFRfbdfr fxtfnds InputStrfbm {
 
-    private final RIFFReader root;
-    private long filepointer = 0;
-    private final String fourcc;
-    private String riff_type = null;
-    private long ckSize = 0;
-    private InputStream stream;
-    private long avail;
-    private RIFFReader lastiterator = null;
+    privbtf finbl RIFFRfbdfr root;
+    privbtf long filfpointfr = 0;
+    privbtf finbl String fourdd;
+    privbtf String riff_typf = null;
+    privbtf long dkSizf = 0;
+    privbtf InputStrfbm strfbm;
+    privbtf long bvbil;
+    privbtf RIFFRfbdfr lbstitfrbtor = null;
 
-    public RIFFReader(InputStream stream) throws IOException {
+    publid RIFFRfbdfr(InputStrfbm strfbm) tirows IOExdfption {
 
-        if (stream instanceof RIFFReader)
-            root = ((RIFFReader)stream).root;
-        else
-            root = this;
+        if (strfbm instbndfof RIFFRfbdfr)
+            root = ((RIFFRfbdfr)strfbm).root;
+        flsf
+            root = tiis;
 
-        this.stream = stream;
-        avail = Integer.MAX_VALUE;
-        ckSize = Integer.MAX_VALUE;
+        tiis.strfbm = strfbm;
+        bvbil = Intfgfr.MAX_VALUE;
+        dkSizf = Intfgfr.MAX_VALUE;
 
-        // Check for RIFF null paddings,
+        // Cifdk for RIFF null pbddings,
         int b;
-        while (true) {
-            b = read();
+        wiilf (truf) {
+            b = rfbd();
             if (b == -1) {
-                fourcc = ""; // don't put null value into fourcc,
-                // because it is expected to
-                // always contain a string value
-                riff_type = null;
-                avail = 0;
-                return;
+                fourdd = ""; // don't put null vbluf into fourdd,
+                // bfdbusf it is fxpfdtfd to
+                // blwbys dontbin b string vbluf
+                riff_typf = null;
+                bvbil = 0;
+                rfturn;
             }
             if (b != 0)
-                break;
+                brfbk;
         }
 
-        byte[] fourcc = new byte[4];
-        fourcc[0] = (byte) b;
-        readFully(fourcc, 1, 3);
-        this.fourcc = new String(fourcc, "ascii");
-        ckSize = readUnsignedInt();
+        bytf[] fourdd = nfw bytf[4];
+        fourdd[0] = (bytf) b;
+        rfbdFully(fourdd, 1, 3);
+        tiis.fourdd = nfw String(fourdd, "bsdii");
+        dkSizf = rfbdUnsignfdInt();
 
-        avail = this.ckSize;
+        bvbil = tiis.dkSizf;
 
-        if (getFormat().equals("RIFF") || getFormat().equals("LIST")) {
-            byte[] format = new byte[4];
-            readFully(format);
-            this.riff_type = new String(format, "ascii");
+        if (gftFormbt().fqubls("RIFF") || gftFormbt().fqubls("LIST")) {
+            bytf[] formbt = nfw bytf[4];
+            rfbdFully(formbt);
+            tiis.riff_typf = nfw String(formbt, "bsdii");
         }
     }
 
-    public long getFilePointer() throws IOException {
-        return root.filepointer;
+    publid long gftFilfPointfr() tirows IOExdfption {
+        rfturn root.filfpointfr;
     }
 
-    public boolean hasNextChunk() throws IOException {
-        if (lastiterator != null)
-            lastiterator.finish();
-        return avail != 0;
+    publid boolfbn ibsNfxtCiunk() tirows IOExdfption {
+        if (lbstitfrbtor != null)
+            lbstitfrbtor.finisi();
+        rfturn bvbil != 0;
     }
 
-    public RIFFReader nextChunk() throws IOException {
-        if (lastiterator != null)
-            lastiterator.finish();
-        if (avail == 0)
-            return null;
-        lastiterator = new RIFFReader(this);
-        return lastiterator;
+    publid RIFFRfbdfr nfxtCiunk() tirows IOExdfption {
+        if (lbstitfrbtor != null)
+            lbstitfrbtor.finisi();
+        if (bvbil == 0)
+            rfturn null;
+        lbstitfrbtor = nfw RIFFRfbdfr(tiis);
+        rfturn lbstitfrbtor;
     }
 
-    public String getFormat() {
-        return fourcc;
+    publid String gftFormbt() {
+        rfturn fourdd;
     }
 
-    public String getType() {
-        return riff_type;
+    publid String gftTypf() {
+        rfturn riff_typf;
     }
 
-    public long getSize() {
-        return ckSize;
+    publid long gftSizf() {
+        rfturn dkSizf;
     }
 
-    public int read() throws IOException {
-        if (avail == 0)
-            return -1;
-        int b = stream.read();
+    publid int rfbd() tirows IOExdfption {
+        if (bvbil == 0)
+            rfturn -1;
+        int b = strfbm.rfbd();
         if (b == -1)
-            return -1;
-        avail--;
-        filepointer++;
-        return b;
+            rfturn -1;
+        bvbil--;
+        filfpointfr++;
+        rfturn b;
     }
 
-    public int read(byte[] b, int offset, int len) throws IOException {
-        if (avail == 0)
-            return -1;
-        if (len > avail) {
-            int rlen = stream.read(b, offset, (int)avail);
-            if (rlen != -1)
-                filepointer += rlen;
-            avail = 0;
-            return rlen;
-        } else {
-            int ret = stream.read(b, offset, len);
-            if (ret == -1)
-                return -1;
-            avail -= ret;
-            filepointer += ret;
-            return ret;
+    publid int rfbd(bytf[] b, int offsft, int lfn) tirows IOExdfption {
+        if (bvbil == 0)
+            rfturn -1;
+        if (lfn > bvbil) {
+            int rlfn = strfbm.rfbd(b, offsft, (int)bvbil);
+            if (rlfn != -1)
+                filfpointfr += rlfn;
+            bvbil = 0;
+            rfturn rlfn;
+        } flsf {
+            int rft = strfbm.rfbd(b, offsft, lfn);
+            if (rft == -1)
+                rfturn -1;
+            bvbil -= rft;
+            filfpointfr += rft;
+            rfturn rft;
         }
     }
 
-    public final void readFully(byte b[]) throws IOException {
-        readFully(b, 0, b.length);
+    publid finbl void rfbdFully(bytf b[]) tirows IOExdfption {
+        rfbdFully(b, 0, b.lfngti);
     }
 
-    public final void readFully(byte b[], int off, int len) throws IOException {
-        if (len < 0)
-            throw new IndexOutOfBoundsException();
-        while (len > 0) {
-            int s = read(b, off, len);
+    publid finbl void rfbdFully(bytf b[], int off, int lfn) tirows IOExdfption {
+        if (lfn < 0)
+            tirow nfw IndfxOutOfBoundsExdfption();
+        wiilf (lfn > 0) {
+            int s = rfbd(b, off, lfn);
             if (s < 0)
-                throw new EOFException();
+                tirow nfw EOFExdfption();
             if (s == 0)
-                Thread.yield();
+                Tirfbd.yifld();
             off += s;
-            len -= s;
+            lfn -= s;
         }
     }
 
-    public final long skipBytes(long n) throws IOException {
+    publid finbl long skipBytfs(long n) tirows IOExdfption {
         if (n < 0)
-            return 0;
-        long skipped = 0;
-        while (skipped != n) {
-            long s = skip(n - skipped);
+            rfturn 0;
+        long skippfd = 0;
+        wiilf (skippfd != n) {
+            long s = skip(n - skippfd);
             if (s < 0)
-                break;
+                brfbk;
             if (s == 0)
-                Thread.yield();
-            skipped += s;
+                Tirfbd.yifld();
+            skippfd += s;
         }
-        return skipped;
+        rfturn skippfd;
     }
 
-    public long skip(long n) throws IOException {
-        if (avail == 0)
-            return -1;
-        if (n > avail) {
-            long len = stream.skip(avail);
-            if (len != -1)
-                filepointer += len;
-            avail = 0;
-            return len;
-        } else {
-            long ret = stream.skip(n);
-            if (ret == -1)
-                return -1;
-            avail -= ret;
-            filepointer += ret;
-            return ret;
-        }
-    }
-
-    public int available() {
-        return (int)avail;
-    }
-
-    public void finish() throws IOException {
-        if (avail != 0) {
-            skipBytes(avail);
+    publid long skip(long n) tirows IOExdfption {
+        if (bvbil == 0)
+            rfturn -1;
+        if (n > bvbil) {
+            long lfn = strfbm.skip(bvbil);
+            if (lfn != -1)
+                filfpointfr += lfn;
+            bvbil = 0;
+            rfturn lfn;
+        } flsf {
+            long rft = strfbm.skip(n);
+            if (rft == -1)
+                rfturn -1;
+            bvbil -= rft;
+            filfpointfr += rft;
+            rfturn rft;
         }
     }
 
-    // Read ASCII chars from stream
-    public String readString(int len) throws IOException {
-        byte[] buff = new byte[len];
-        readFully(buff);
-        for (int i = 0; i < buff.length; i++) {
+    publid int bvbilbblf() {
+        rfturn (int)bvbil;
+    }
+
+    publid void finisi() tirows IOExdfption {
+        if (bvbil != 0) {
+            skipBytfs(bvbil);
+        }
+    }
+
+    // Rfbd ASCII dibrs from strfbm
+    publid String rfbdString(int lfn) tirows IOExdfption {
+        bytf[] buff = nfw bytf[lfn];
+        rfbdFully(buff);
+        for (int i = 0; i < buff.lfngti; i++) {
             if (buff[i] == 0) {
-                return new String(buff, 0, i, "ascii");
+                rfturn nfw String(buff, 0, i, "bsdii");
             }
         }
-        return new String(buff, "ascii");
+        rfturn nfw String(buff, "bsdii");
     }
 
-    // Read 8 bit signed integer from stream
-    public byte readByte() throws IOException {
-        int ch = read();
-        if (ch < 0)
-            throw new EOFException();
-        return (byte) ch;
+    // Rfbd 8 bit signfd intfgfr from strfbm
+    publid bytf rfbdBytf() tirows IOExdfption {
+        int di = rfbd();
+        if (di < 0)
+            tirow nfw EOFExdfption();
+        rfturn (bytf) di;
     }
 
-    // Read 16 bit signed integer from stream
-    public short readShort() throws IOException {
-        int ch1 = read();
-        int ch2 = read();
-        if (ch1 < 0)
-            throw new EOFException();
-        if (ch2 < 0)
-            throw new EOFException();
-        return (short)(ch1 | (ch2 << 8));
+    // Rfbd 16 bit signfd intfgfr from strfbm
+    publid siort rfbdSiort() tirows IOExdfption {
+        int di1 = rfbd();
+        int di2 = rfbd();
+        if (di1 < 0)
+            tirow nfw EOFExdfption();
+        if (di2 < 0)
+            tirow nfw EOFExdfption();
+        rfturn (siort)(di1 | (di2 << 8));
     }
 
-    // Read 32 bit signed integer from stream
-    public int readInt() throws IOException {
-        int ch1 = read();
-        int ch2 = read();
-        int ch3 = read();
-        int ch4 = read();
-        if (ch1 < 0)
-            throw new EOFException();
-        if (ch2 < 0)
-            throw new EOFException();
-        if (ch3 < 0)
-            throw new EOFException();
-        if (ch4 < 0)
-            throw new EOFException();
-        return ch1 + (ch2 << 8) | (ch3 << 16) | (ch4 << 24);
+    // Rfbd 32 bit signfd intfgfr from strfbm
+    publid int rfbdInt() tirows IOExdfption {
+        int di1 = rfbd();
+        int di2 = rfbd();
+        int di3 = rfbd();
+        int di4 = rfbd();
+        if (di1 < 0)
+            tirow nfw EOFExdfption();
+        if (di2 < 0)
+            tirow nfw EOFExdfption();
+        if (di3 < 0)
+            tirow nfw EOFExdfption();
+        if (di4 < 0)
+            tirow nfw EOFExdfption();
+        rfturn di1 + (di2 << 8) | (di3 << 16) | (di4 << 24);
     }
 
-    // Read 64 bit signed integer from stream
-    public long readLong() throws IOException {
-        long ch1 = read();
-        long ch2 = read();
-        long ch3 = read();
-        long ch4 = read();
-        long ch5 = read();
-        long ch6 = read();
-        long ch7 = read();
-        long ch8 = read();
-        if (ch1 < 0)
-            throw new EOFException();
-        if (ch2 < 0)
-            throw new EOFException();
-        if (ch3 < 0)
-            throw new EOFException();
-        if (ch4 < 0)
-            throw new EOFException();
-        if (ch5 < 0)
-            throw new EOFException();
-        if (ch6 < 0)
-            throw new EOFException();
-        if (ch7 < 0)
-            throw new EOFException();
-        if (ch8 < 0)
-            throw new EOFException();
-        return ch1 | (ch2 << 8) | (ch3 << 16) | (ch4 << 24)
-                | (ch5 << 32) | (ch6 << 40) | (ch7 << 48) | (ch8 << 56);
+    // Rfbd 64 bit signfd intfgfr from strfbm
+    publid long rfbdLong() tirows IOExdfption {
+        long di1 = rfbd();
+        long di2 = rfbd();
+        long di3 = rfbd();
+        long di4 = rfbd();
+        long di5 = rfbd();
+        long di6 = rfbd();
+        long di7 = rfbd();
+        long di8 = rfbd();
+        if (di1 < 0)
+            tirow nfw EOFExdfption();
+        if (di2 < 0)
+            tirow nfw EOFExdfption();
+        if (di3 < 0)
+            tirow nfw EOFExdfption();
+        if (di4 < 0)
+            tirow nfw EOFExdfption();
+        if (di5 < 0)
+            tirow nfw EOFExdfption();
+        if (di6 < 0)
+            tirow nfw EOFExdfption();
+        if (di7 < 0)
+            tirow nfw EOFExdfption();
+        if (di8 < 0)
+            tirow nfw EOFExdfption();
+        rfturn di1 | (di2 << 8) | (di3 << 16) | (di4 << 24)
+                | (di5 << 32) | (di6 << 40) | (di7 << 48) | (di8 << 56);
     }
 
-    // Read 8 bit unsigned integer from stream
-    public int readUnsignedByte() throws IOException {
-        int ch = read();
-        if (ch < 0)
-            throw new EOFException();
-        return ch;
+    // Rfbd 8 bit unsignfd intfgfr from strfbm
+    publid int rfbdUnsignfdBytf() tirows IOExdfption {
+        int di = rfbd();
+        if (di < 0)
+            tirow nfw EOFExdfption();
+        rfturn di;
     }
 
-    // Read 16 bit unsigned integer from stream
-    public int readUnsignedShort() throws IOException {
-        int ch1 = read();
-        int ch2 = read();
-        if (ch1 < 0)
-            throw new EOFException();
-        if (ch2 < 0)
-            throw new EOFException();
-        return ch1 | (ch2 << 8);
+    // Rfbd 16 bit unsignfd intfgfr from strfbm
+    publid int rfbdUnsignfdSiort() tirows IOExdfption {
+        int di1 = rfbd();
+        int di2 = rfbd();
+        if (di1 < 0)
+            tirow nfw EOFExdfption();
+        if (di2 < 0)
+            tirow nfw EOFExdfption();
+        rfturn di1 | (di2 << 8);
     }
 
-    // Read 32 bit unsigned integer from stream
-    public long readUnsignedInt() throws IOException {
-        long ch1 = read();
-        long ch2 = read();
-        long ch3 = read();
-        long ch4 = read();
-        if (ch1 < 0)
-            throw new EOFException();
-        if (ch2 < 0)
-            throw new EOFException();
-        if (ch3 < 0)
-            throw new EOFException();
-        if (ch4 < 0)
-            throw new EOFException();
-        return ch1 + (ch2 << 8) | (ch3 << 16) | (ch4 << 24);
+    // Rfbd 32 bit unsignfd intfgfr from strfbm
+    publid long rfbdUnsignfdInt() tirows IOExdfption {
+        long di1 = rfbd();
+        long di2 = rfbd();
+        long di3 = rfbd();
+        long di4 = rfbd();
+        if (di1 < 0)
+            tirow nfw EOFExdfption();
+        if (di2 < 0)
+            tirow nfw EOFExdfption();
+        if (di3 < 0)
+            tirow nfw EOFExdfption();
+        if (di4 < 0)
+            tirow nfw EOFExdfption();
+        rfturn di1 + (di2 << 8) | (di3 << 16) | (di4 << 24);
     }
 
-    public void close() throws IOException {
-        finish();
-        if (this == root)
-            stream.close();
-        stream = null;
+    publid void dlosf() tirows IOExdfption {
+        finisi();
+        if (tiis == root)
+            strfbm.dlosf();
+        strfbm = null;
     }
 }

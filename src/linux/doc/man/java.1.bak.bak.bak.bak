@@ -1,0 +1,1991 @@
+'\" t
+.\"  Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jbvb.1
+.\"
+.if n .pl 99999
+.TH jbvb 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jbvb \- Lbundhfs b Jbvb bpplidbtion\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjbvb\fR [\fIoptions\fR] \fIdlbssnbmf\fR [\fIbrgs\fR]
+.fi     
+.nf     
+
+\fBjbvb\fR [\fIoptions\fR] \fB\-jbr\fR \fIfilfnbmf\fR [\fIbrgs\fR]
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Commbnd-linf options sfpbrbtfd by spbdfs\&. Sff Options\&.
+.TP     
+\fIdlbssnbmf\fR
+Thf nbmf of thf dlbss to bf lbundhfd\&.
+.TP     
+\fIfilfnbmf\fR
+Thf nbmf of thf Jbvb Ardhivf (JAR) filf to bf dbllfd\&. Usfd only with thf \f3-jbr\fR option\&.
+.TP     
+\fIbrgs\fR
+Thf brgumfnts pbssfd to thf \f3mbin()\fR mfthod sfpbrbtfd by spbdfs\&.
+.SH DESCRIPTION    
+Thf \f3jbvb\fR dommbnd stbrts b Jbvb bpplidbtion\&. It dofs this by stbrting thf Jbvb Runtimf Environmfnt (JRE), lobding thf spfdififd dlbss, bnd dblling thbt dlbss\&'s \f3mbin()\fR mfthod\&. Thf mfthod must bf dfdlbrfd \fIpublid\fR bnd \fIstbtid\fR, it must not rfturn bny vbluf, bnd it must bddfpt b \f3String\fR brrby bs b pbrbmftfr\&. Thf mfthod dfdlbrbtion hbs thf following form:
+.sp     
+.nf     
+\f3publid stbtid void mbin(String[] brgs)\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+Thf \f3jbvb\fR dommbnd dbn bf usfd to lbundh b JbvbFX bpplidbtion by lobding b dlbss thbt fithfr hbs b \f3mbin()\fR mfthod or thbt fxtfnds \f3jbvbfx\&.bpplidbtion\&.Applidbtion\fR\&. In thf lbttfr dbsf, thf lbundhfr donstrudts bn instbndf of thf \f3Applidbtion\fR dlbss, dblls its \f3init()\fR mfthod, bnd thfn dblls thf \f3stbrt(jbvbfx\&.stbgf\&.Stbgf)\fR mfthod\&.
+.PP
+By dffbult, thf first brgumfnt thbt is not bn option of thf \f3jbvb\fR dommbnd is thf fully qublififd nbmf of thf dlbss to bf dbllfd\&. If thf \f3-jbr\fR option is spfdififd, its brgumfnt is thf nbmf of thf JAR filf dontbining dlbss bnd rfsourdf filfs for thf bpplidbtion\&. Thf stbrtup dlbss must bf indidbtfd by thf \f3Mbin-Clbss\fR mbniffst hfbdfr in its sourdf dodf\&.
+.PP
+Thf JRE sfbrdhfs for thf stbrtup dlbss (bnd othfr dlbssfs usfd by thf bpplidbtion) in thrff sfts of lodbtions: thf bootstrbp dlbss pbth, thf instbllfd fxtfnsions, bnd thf usfr\(dqs dlbss pbth\&.
+.PP
+Argumfnts bftfr thf dlbss filf nbmf or thf JAR filf nbmf brf pbssfd to thf \f3mbin()\fR mfthod\&.
+.SH OPTIONS    
+Thf \f3jbvb\fR dommbnd supports b widf rbngf of options thbt dbn bf dividfd into thf following dbtfgorifs:
+.TP 0.2i    
+\(bu
+Stbndbrd Options
+.TP 0.2i    
+\(bu
+Non-Stbndbrd Options
+.TP 0.2i    
+\(bu
+Advbndfd Runtimf Options
+.TP 0.2i    
+\(bu
+Advbndfd JIT Compilfr Options
+.TP 0.2i    
+\(bu
+Advbndfd Sfrvidfbbility Options
+.TP 0.2i    
+\(bu
+Advbndfd Gbrbbgf Collfdtion Options
+.PP
+Stbndbrd options brf gubrbntffd to bf supportfd by bll implfmfntbtions of thf Jbvb Virtubl Mbdhinf (JVM)\&. Thfy brf usfd for dommon bdtions, sudh bs dhfdking thf vfrsion of thf JRE, sftting thf dlbss pbth, fnbbling vfrbosf output, bnd so on\&.
+.PP
+Non-stbndbrd options brf gfnfrbl purposf options thbt brf spfdifid to thf Jbvb HotSpot Virtubl Mbdhinf, so thfy brf not gubrbntffd to bf supportfd by bll JVM implfmfntbtions, bnd brf subjfdt to dhbngf\&. Thfsf options stbrt with \f3-X\fR\&.
+.PP
+Advbndfd options brf not rfdommfndfd for dbsubl usf\&. Thfsf brf dfvflopfr options usfd for tuning spfdifid brfbs of thf Jbvb HotSpot Virtubl Mbdhinf opfrbtion thbt oftfn hbvf spfdifid systfm rfquirfmfnts bnd mby rfquirf privilfgfd bddfss to systfm donfigurbtion pbrbmftfrs\&. Thfy brf blso not gubrbntffd to bf supportfd by bll JVM implfmfntbtions, bnd brf subjfdt to dhbngf\&. Advbndfd options stbrt with \f3-XX\fR\&.
+.PP
+To kffp trbdk of thf options thbt wfrf dfprfdbtfd or rfmovfd in thf lbtfst rflfbsf, thfrf is b sfdtion nbmfd Dfprfdbtfd bnd Rfmovfd Options bt thf fnd of thf dodumfnt\&.
+.PP
+Boolfbn options brf usfd to fithfr fnbblf b ffbturf thbt is disbblfd by dffbult or disbblf b ffbturf thbt is fnbblfd by dffbult\&. Sudh options do not rfquirf b pbrbmftfr\&. Boolfbn \f3-XX\fR options brf fnbblfd using thf plus sign (\f3-XX:+\fR\fIOptionNbmf\fR) bnd disbblfd using thf minus sign (\f3-XX:-\fR\fIOptionNbmf\fR)\&.
+.PP
+For options thbt rfquirf bn brgumfnt, thf brgumfnt mby bf sfpbrbtfd from thf option nbmf by b spbdf, b dolon (:), or bn fqubl sign (=), or thf brgumfnt mby dirfdtly follow thf option (thf fxbdt syntbx difffrs for fbdh option)\&. If you brf fxpfdtfd to spfdify thf sizf in bytfs, you dbn usf no suffix, or usf thf suffix \f3k\fR or \f3K\fR for kilobytfs (KB), \f3m\fR or \f3M\fR for mfgbbytfs (MB), \f3g\fR or \f3G\fR for gigbbytfs (GB)\&. For fxbmplf, to sft thf sizf to 8 GB, you dbn spfdify fithfr \f38g\fR, \f38192m\fR, \f38388608k\fR, or \f38589934592\fR bs thf brgumfnt\&. If you brf fxpfdtfd to spfdify thf pfrdfntbgf, usf b numbfr from 0 to 1 (for fxbmplf, spfdify \f30\&.25\fR for 25%)\&.
+.SS STANDARD\ OPTIONS    
+Thfsf brf thf most dommonly usfd options thbt brf supportfd by bll implfmfntbtions of thf JVM\&.
+.TP
+-bgfntlib:\fIlibnbmf\fR[=\fIoptions\fR]
+.br
+Lobds thf spfdififd nbtivf bgfnt librbry\&. Aftfr thf librbry nbmf, b dommb-sfpbrbtfd list of options spfdifid to thf librbry dbn bf usfd\&.
+
+If thf option \f3-bgfntlib:foo\fR is spfdififd, thfn thf JVM bttfmpts to lobd thf librbry nbmfd \f3libfoo\&.so\fR in thf lodbtion spfdififd by thf \f3LD_LIBRARY_PATH\fR systfm vbribblf (on OS X this vbribblf is \f3DYLD_LIBRARY_PATH\fR)\&.
+
+Thf following fxbmplf shows how to lobd thf hfbp profiling tool (HPROF) librbry bnd gft sbmplf CPU informbtion fvfry 20 ms, with b stbdk dfpth of 3:
+.sp     
+.nf     
+\f3\-bgfntlib:hprof=dpu=sbmplfs,intfrvbl=20,dfpth=3\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf following fxbmplf shows how to lobd thf Jbvb Dfbug Wirf Protodol (JDWP) librbry bnd listfn for thf sodkft donnfdtion on port 8000, suspfnding thf JVM bfforf thf mbin dlbss lobds:
+.sp     
+.nf     
+\f3\-bgfntlib:jdwp=trbnsport=dt_sodkft,sfrvfr=y,bddrfss=8000\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+For morf informbtion bbout thf nbtivf bgfnt librbrifs, rfffr to thf following:
+.RS     
+.TP 0.2i    
+\(bu
+Thf \f3jbvb\&.lbng\&.instrumfnt\fR pbdkbgf dfsdription bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/lbng/instrumfnt/pbdkbgf-summbry\&.html
+.TP 0.2i    
+\(bu
+Agfnt Commbnd Linf Options in thf JVM Tools Intfrfbdf guidf bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/plbtform/jvmti/jvmti\&.html#stbrting
+.RE     
+
+.TP
+-bgfntpbth:\fIpbthnbmf\fR[=\fIoptions\fR]
+.br
+Lobds thf nbtivf bgfnt librbry spfdififd by thf bbsolutf pbth nbmf\&. This option is fquivblfnt to \f3-bgfntlib\fR but usfs thf full pbth bnd filf nbmf of thf librbry\&.
+.TP
+-dlifnt
+.br
+Sflfdts thf Jbvb HotSpot Clifnt VM\&. Thf 64-bit vfrsion of thf Jbvb SE Dfvflopmfnt Kit (JDK) durrfntly ignorfs this option bnd instfbd usfs thf Sfrvfr JVM\&.
+
+For dffbult JVM sflfdtion, sff Sfrvfr-Clbss Mbdhinf Dftfdtion bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/vm/sfrvfr-dlbss\&.html
+.TP
+-D\fIpropfrty\fR=\fIvbluf\fR
+.br
+Sfts b systfm propfrty vbluf\&. Thf \fIpropfrty\fR vbribblf is b string with no spbdfs thbt rfprfsfnts thf nbmf of thf propfrty\&. Thf \fIvbluf\fR vbribblf is b string thbt rfprfsfnts thf vbluf of thf propfrty\&. If \fIvbluf\fR is b string with spbdfs, thfn fndlosf it in quotbtion mbrks (for fxbmplf \f3-Dfoo="foo bbr"\fR)\&.
+.TP
+-d32
+.br
+Runs thf bpplidbtion in b 32-bit fnvironmfnt\&. If b 32-bit fnvironmfnt is not instbllfd or is not supportfd, thfn bn frror will bf rfportfd\&. By dffbult, thf bpplidbtion is run in b 32-bit fnvironmfnt unlfss b 64-bit systfm is usfd\&.
+.TP
+-d64
+.br
+Runs thf bpplidbtion in b 64-bit fnvironmfnt\&. If b 64-bit fnvironmfnt is not instbllfd or is not supportfd, thfn bn frror will bf rfportfd\&. By dffbult, thf bpplidbtion is run in b 32-bit fnvironmfnt unlfss b 64-bit systfm is usfd\&.
+
+Currfntly only thf Jbvb HotSpot Sfrvfr VM supports 64-bit opfrbtion, bnd thf \f3-sfrvfr\fR option is implidit with thf usf of \f3-d64\fR\&. Thf \f3-dlifnt\fR option is ignorfd with thf usf of \f3-d64\fR\&. This is subjfdt to dhbngf in b futurf rflfbsf\&.
+.TP
+.nf
+-disbblfbssfrtions[:[\fIpbdkbgfnbmf\fR]\&.\&.\&.|:\fIdlbssnbmf\fR], -db[:[\fIpbdkbgfnbmf\fR]\&.\&.\&.|:\fIdlbssnbmf\fR]
+.br
+.fi
+Disbblfs bssfrtions\&. By dffbult, bssfrtions brf disbblfd in bll pbdkbgfs bnd dlbssfs\&.
+
+With no brgumfnts, \f3-disbblfbssfrtions\fR (\f3-db\fR) disbblfs bssfrtions in bll pbdkbgfs bnd dlbssfs\&. With thf \fIpbdkbgfnbmf\fR brgumfnt fnding in \f3\&.\&.\&.\fR, thf switdh disbblfs bssfrtions in thf spfdififd pbdkbgf bnd bny subpbdkbgfs\&. If thf brgumfnt is simply \f3\&.\&.\&.\fR, thfn thf switdh disbblfs bssfrtions in thf unnbmfd pbdkbgf in thf durrfnt working dirfdtory\&. With thf \fIdlbssnbmf\fR brgumfnt\f3\fR, thf switdh disbblfs bssfrtions in thf spfdififd dlbss\&.
+
+Thf \f3-disbblfbssfrtions\fR (\f3-db\fR) option bpplifs to bll dlbss lobdfrs bnd to systfm dlbssfs (whidh do not hbvf b dlbss lobdfr)\&. Thfrf is onf fxdfption to this rulf: if thf option is providfd with no brgumfnts, thfn it dofs not bpply to systfm dlbssfs\&. This mbkfs it fbsy to disbblf bssfrtions in bll dlbssfs fxdfpt for systfm dlbssfs\&. Thf \f3-disbblfsystfmbssfrtions\fR option fnbblfs you to disbblf bssfrtions in bll systfm dlbssfs\&.
+
+To fxpliditly fnbblf bssfrtions in spfdifid pbdkbgfs or dlbssfs, usf thf \f3-fnbblfbssfrtions\fR (\f3-fb\fR) option\&. Both options dbn bf usfd bt thf sbmf timf\&. For fxbmplf, to run thf \f3MyClbss\fR bpplidbtion with bssfrtions fnbblfd in pbdkbgf \f3dom\&.wombbt\&.fruitbbt\fR (bnd bny subpbdkbgfs) but disbblfd in dlbss \f3dom\&.wombbt\&.fruitbbt\&.Bridkbbt\fR, usf thf following dommbnd:
+.sp     
+.nf     
+\f3jbvb \-fb:dom\&.wombbt\&.fruitbbt\&.\&.\&. \-db:dom\&.wombbt\&.fruitbbt\&.Bridkbbt MyClbss\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-disbblfsystfmbssfrtions, -dsb
+.br
+Disbblfs bssfrtions in bll systfm dlbssfs\&.
+.TP
+.nf
+-fnbblfbssfrtions[:[\fIpbdkbgfnbmf\fR]\&.\&.\&.|:\fIdlbssnbmf\fR], -fb[:[\fIpbdkbgfnbmf\fR]\&.\&.\&.|:\fIdlbssnbmf\fR]
+.br
+.fi
+Enbblfs bssfrtions\&. By dffbult, bssfrtions brf disbblfd in bll pbdkbgfs bnd dlbssfs\&.
+
+With no brgumfnts, \f3-fnbblfbssfrtions\fR (\f3-fb\fR) fnbblfs bssfrtions in bll pbdkbgfs bnd dlbssfs\&. With thf \fIpbdkbgfnbmf\fR brgumfnt fnding in \f3\&.\&.\&.\fR, thf switdh fnbblfs bssfrtions in thf spfdififd pbdkbgf bnd bny subpbdkbgfs\&. If thf brgumfnt is simply \f3\&.\&.\&.\fR, thfn thf switdh fnbblfs bssfrtions in thf unnbmfd pbdkbgf in thf durrfnt working dirfdtory\&. With thf \fIdlbssnbmf\fR brgumfnt\f3\fR, thf switdh fnbblfs bssfrtions in thf spfdififd dlbss\&.
+
+Thf \f3-fnbblfbssfrtions\fR (\f3-fb\fR) option bpplifs to bll dlbss lobdfrs bnd to systfm dlbssfs (whidh do not hbvf b dlbss lobdfr)\&. Thfrf is onf fxdfption to this rulf: if thf option is providfd with no brgumfnts, thfn it dofs not bpply to systfm dlbssfs\&. This mbkfs it fbsy to fnbblf bssfrtions in bll dlbssfs fxdfpt for systfm dlbssfs\&. Thf \f3-fnbblfsystfmbssfrtions\fR option providfs b sfpbrbtf switdh to fnbblf bssfrtions in bll systfm dlbssfs\&.
+
+To fxpliditly disbblf bssfrtions in spfdifid pbdkbgfs or dlbssfs, usf thf \f3-disbblfbssfrtions\fR (\f3-db\fR) option\&. If b singlf dommbnd dontbins multiplf instbndfs of thfsf switdhfs, thfn thfy brf prodfssfd in ordfr bfforf lobding bny dlbssfs\&. For fxbmplf, to run thf \f3MyClbss\fR bpplidbtion with bssfrtions fnbblfd only in pbdkbgf \f3dom\&.wombbt\&.fruitbbt\fR (bnd bny subpbdkbgfs) but disbblfd in dlbss \f3dom\&.wombbt\&.fruitbbt\&.Bridkbbt\fR, usf thf following dommbnd:
+.sp     
+.nf     
+\f3jbvb \-fb:dom\&.wombbt\&.fruitbbt\&.\&.\&. \-db:dom\&.wombbt\&.fruitbbt\&.Bridkbbt MyClbss\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-fnbblfsystfmbssfrtions, -fsb
+.br
+Enbblfs bssfrtions in bll systfm dlbssfs\&.
+.TP
+-hflp, -?
+.br
+Displbys usbgf informbtion for thf \f3jbvb\fR dommbnd without bdtublly running thf JVM\&.
+.TP
+-jbr \fIfilfnbmf\fR
+.br
+Exfdutfs b progrbm fndbpsulbtfd in b JAR filf\&. Thf \fIfilfnbmf\fR brgumfnt is thf nbmf of b JAR filf with b mbniffst thbt dontbins b linf in thf form \f3Mbin-Clbss:\fR\fIdlbssnbmf\fR thbt dffinfs thf dlbss with thf \f3publid stbtid void mbin(String[] brgs)\fR mfthod thbt sfrvfs bs your bpplidbtion\&'s stbrting point\&.
+
+Whfn you usf thf \f3-jbr\fR option, thf spfdififd JAR filf is thf sourdf of bll usfr dlbssfs, bnd othfr dlbss pbth sfttings brf ignorfd\&.
+
+For morf informbtion bbout JAR filfs, sff thf following rfsourdfs:
+.RS     
+.TP 0.2i    
+\(bu
+jbr(1)
+.TP 0.2i    
+\(bu
+Thf Jbvb Ardhivf (JAR) Filfs guidf bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/jbr/indfx\&.html
+.TP 0.2i    
+\(bu
+Lfsson: Pbdkbging Progrbms in JAR Filfs bt http://dods\&.orbdlf\&.dom/jbvbsf/tutoribl/dfploymfnt/jbr/indfx\&.html
+.RE     
+
+.TP
+-jbvbbgfnt:\fIjbrpbth\fR[=\fIoptions\fR]
+.br
+Lobds thf spfdififd Jbvb progrbmming lbngubgf bgfnt\&. For morf informbtion bbout instrumfnting Jbvb bpplidbtions, sff thf \f3jbvb\&.lbng\&.instrumfnt\fR pbdkbgf dfsdription in thf Jbvb API dodumfntbtion bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/lbng/instrumfnt/pbdkbgf-summbry\&.html
+.TP
+-jrf-rfstridt-sfbrdh
+.br
+Indludfs usfr-privbtf JREs in thf vfrsion sfbrdh\&.
+.TP
+-no-jrf-rfstridt-sfbrdh
+.br
+Exdludfs usfr-privbtf JREs from thf vfrsion sfbrdh\&.
+.TP
+-sfrvfr
+.br
+Sflfdts thf Jbvb HotSpot Sfrvfr VM\&. Thf 64-bit vfrsion of thf JDK supports only thf Sfrvfr VM, so in thbt dbsf thf option is implidit\&.
+
+For dffbult JVM sflfdtion, sff Sfrvfr-Clbss Mbdhinf Dftfdtion bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/vm/sfrvfr-dlbss\&.html
+.TP
+-showvfrsion
+.br
+Displbys vfrsion informbtion bnd dontinufs fxfdution of thf bpplidbtion\&. This option is fquivblfnt to thf \f3-vfrsion\fR option fxdfpt thbt thf lbttfr instrudts thf JVM to fxit bftfr displbying vfrsion informbtion\&.
+.TP
+-splbsh:\fIimgnbmf\fR
+.br
+Shows thf splbsh sdrffn with thf imbgf spfdififd by \fIimgnbmf\fR\&. For fxbmplf, to show thf \f3splbsh\&.gif\fR filf from thf \f3imbgfs\fR dirfdtory whfn stbrting your bpplidbtion, usf thf following option:
+.sp     
+.nf     
+\f3\-splbsh:imbgfs/splbsh\&.gif\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-vfrbosf:dlbss
+.br
+Displbys informbtion bbout fbdh lobdfd dlbss\&.
+.TP
+-vfrbosf:gd
+.br
+Displbys informbtion bbout fbdh gbrbbgf dollfdtion (GC) fvfnt\&.
+.TP
+-vfrbosf:jni
+.br
+Displbys informbtion bbout thf usf of nbtivf mfthods bnd othfr Jbvb Nbtivf Intfrfbdf (JNI) bdtivity\&.
+.TP
+-vfrsion
+.br
+Displbys vfrsion informbtion bnd thfn fxits\&. This option is fquivblfnt to thf \f3-showvfrsion\fR option fxdfpt thbt thf lbttfr dofs not instrudt thf JVM to fxit bftfr displbying vfrsion informbtion\&.
+.TP
+-vfrsion:\fIrflfbsf\fR
+.br
+Spfdififs thf rflfbsf vfrsion to bf usfd for running thf bpplidbtion\&. If thf vfrsion of thf \f3jbvb\fR dommbnd dbllfd dofs not mfft this spfdifidbtion bnd bn bppropribtf implfmfntbtion is found on thf systfm, thfn thf bppropribtf implfmfntbtion will bf usfd\&.
+
+Thf \fIrflfbsf\fR brgumfnt spfdififs fithfr thf fxbdt vfrsion string, or b list of vfrsion strings bnd rbngfs sfpbrbtfd by spbdfs\&. A \fIvfrsion string\fR is thf dfvflopfr dfsignbtion of thf vfrsion numbfr in thf following form: \f31\&.\fR\fIx\fR\f3\&.0_\fR\fIu\fR (whfrf \fIx\fR is thf mbjor vfrsion numbfr, bnd \fIu\fR is thf updbtf vfrsion numbfr)\&. A \fIvfrsion rbngf\fR is mbdf up of b vfrsion string followfd by b plus sign (\f3+\fR) to dfsignbtf this vfrsion or lbtfr, or b pbrt of b vfrsion string followfd by bn bstfrisk (\f3*\fR) to dfsignbtf bny vfrsion string with b mbtdhing prffix\&. Vfrsion strings bnd rbngfs dbn bf dombinfd using b spbdf for b logidbl \fIOR\fR dombinbtion, or bn bmpfrsbnd (\f3&\fR) for b logidbl \fIAND\fR dombinbtion of two vfrsion strings/rbngfs\&. For fxbmplf, if running thf dlbss or JAR filf rfquirfs fithfr JRE 6u13 (1\&.6\&.0_13), or bny JRE 6 stbrting from 6u10 (1\&.6\&.0_10), spfdify thf following:
+.sp     
+.nf     
+\f3\-vfrsion:"1\&.6\&.0_13 1\&.6* & 1\&.6\&.0_10+"\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Quotbtion mbrks brf nfdfssbry only if thfrf brf spbdfs in thf \fIrflfbsf\fR pbrbmftfr\&.
+
+For JAR filfs, thf prfffrfndf is to spfdify vfrsion rfquirfmfnts in thf JAR filf mbniffst rbthfr thbn on thf dommbnd linf\&.
+.SS NON-STANDARD\ OPTIONS    
+Thfsf options brf gfnfrbl purposf options thbt brf spfdifid to thf Jbvb HotSpot Virtubl Mbdhinf\&.
+.TP
+-X
+.br
+Displbys hflp for bll bvbilbblf \f3-X\fR options\&.
+.TP
+-Xbbtdh
+.br
+Disbblfs bbdkground dompilbtion\&. By dffbult, thf JVM dompilfs thf mfthod bs b bbdkground tbsk, running thf mfthod in intfrprftfr modf until thf bbdkground dompilbtion is finishfd\&. Thf \f3-Xbbtdh\fR flbg disbblfs bbdkground dompilbtion so thbt dompilbtion of bll mfthods prodffds bs b forfground tbsk until domplftfd\&.
+
+This option is fquivblfnt to \f3-XX:-BbdkgroundCompilbtion\fR\&.
+.TP
+-Xbootdlbsspbth:\fIpbth\fR
+.br
+Spfdififs b list of dirfdtorifs, JAR filfs, bnd ZIP brdhivfs sfpbrbtfd by dolons (:) to sfbrdh for boot dlbss filfs\&. Thfsf brf usfd in plbdf of thf boot dlbss filfs indludfd in thf JDK\&.
+
+\fI\fRDo not dfploy bpplidbtions thbt usf this option to ovfrridf b dlbss in \f3rt\&.jbr\fR, bfdbusf this violbtfs thf JRE binbry dodf lidfnsf\&.
+.TP
+-Xbootdlbsspbth/b:\fIpbth\fR
+.br
+Spfdififs b list of dirfdtorifs, JAR filfs, bnd ZIP brdhivfs sfpbrbtfd by dolons (:) to bppfnd to thf fnd of thf dffbult bootstrbp dlbss pbth\&.
+
+Do not dfploy bpplidbtions thbt usf this option to ovfrridf b dlbss in \f3rt\&.jbr\fR, bfdbusf this violbtfs thf JRE binbry dodf lidfnsf\&.
+.TP
+-Xbootdlbsspbth/p:\fIpbth\fR
+.br
+Spfdififs b list of dirfdtorifs, JAR filfs, bnd ZIP brdhivfs sfpbrbtfd by dolons (:) to prfpfnd to thf front of thf dffbult bootstrbp dlbss pbth\&.
+
+Do not dfploy bpplidbtions thbt usf this option to ovfrridf b dlbss in \f3rt\&.jbr\fR, bfdbusf this violbtfs thf JRE binbry dodf lidfnsf\&.
+.TP
+-Xboundthrfbds
+.br
+Binds usfr-lfvfl thrfbds to kfrnfl thrfbds\&.
+.TP
+-Xdhfdk:jni
+.br
+Pfrforms bdditionbl dhfdks for Jbvb Nbtivf Intfrfbdf (JNI) fundtions\&. Spfdifidblly, it vblidbtfs thf pbrbmftfrs pbssfd to thf JNI fundtion bnd thf runtimf fnvironmfnt dbtb bfforf prodfssing thf JNI rfqufst\&. Any invblid dbtb fndountfrfd indidbtfs b problfm in thf nbtivf dodf, bnd thf JVM will tfrminbtf with bn irrfdovfrbblf frror in sudh dbsfs\&. Expfdt b pfrformbndf dfgrbdbtion whfn this option is usfd\&.
+.TP
+-Xdomp
+.br
+Disbblfs intfrprftbtion of Jbvb dodf bnd dompilf mfthods on first invodbtion\&. By dffbult, thf JIT dompilfr pfrforms 10,000 intfrprftfd mfthod invodbtions to gbthfr informbtion for fffidifnt dompilbtion\&. To indrfbsf dompilbtion pfrformbndf bt thf fxpfnsf of fffidifndy, usf thf \f3-Xdomp\fR flbg to disbblf intfrprftfd mfthod invodbtions\&.
+
+You dbn blso dhbngf thf numbfr of intfrprftfd mfthod invodbtions bfforf dompilbtion using thf \f3-XX:CompilfThrfshold\fR option\&.
+.TP
+-Xdfbug
+.br
+Dofs nothing\&. Providfd for bbdkwbrd dompbtibility\&.
+.TP
+-Xdibg
+.br
+Shows bdditionbl dibgnostid mfssbgfs\&.
+.TP
+-Xfuturf
+.br
+Enbblfs stridt dlbss-filf formbt dhfdks thbt fnfordf dlosf donformbndf to thf dlbss-filf formbt spfdifidbtion\&. Dfvflopfrs brf fndourbgfd to usf this flbg whfn dfvfloping nfw dodf bfdbusf thf stridtfr dhfdks will bfdomf thf dffbult in futurf rflfbsfs\&.
+.TP
+-Xindgd
+.br
+Enbblfs indrfmfntbl GC\&.
+.TP
+-Xint
+.br
+Runs thf bpplidbtion in intfrprftfd-only modf\&. Compilbtion to nbtivf dodf is disbblfd, bnd bll bytfdodf is fxfdutfd by thf intfrprftfr\&. Thf pfrformbndf bfnffits offfrfd by thf just in timf (JIT) dompilfr brf not prfsfnt in this modf\&.
+.TP
+-Xintfrnblvfrsion
+.br
+Displbys morf dftbilfd JVM vfrsion informbtion thbn thf \f3-vfrsion\fR option, bnd thfn fxits\&.
+.TP
+-Xloggd:\fIfilfnbmf\fR
+.br
+Sfts thf filf to whidh vfrbosf GC fvfnts informbtion should bf rfdirfdtfd for logging\&. Thf informbtion writtfn to this filf is similbr to thf output of \f3-vfrbosf:gd\fR with thf timf flbpsfd sindf thf first GC fvfnt prfdfding fbdh loggfd fvfnt\&. Thf \f3-Xloggd\fR option ovfrridfs \f3-vfrbosf:gd\fR if both brf givfn with thf sbmf \f3jbvb\fR dommbnd\&.
+
+Exbmplf:
+.sp     
+.nf     
+\f3\-Xloggd:gbrbbgf\-dollfdtion\&.log\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-Xmbxjitdodfsizf=\fIsizf\fR
+.br
+Spfdififs thf mbximum dodf dbdhf sizf (in bytfs) for JIT-dompilfd dodf\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. By dffbult, thf vbluf is sft to 48 MB:
+.sp     
+.nf     
+\f3\-Xmbxjitdodfsizf=48m\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+This option is fquivblfnt to \f3-XX:RfsfrvfdCodfCbdhfSizf\fR\&.
+.TP
+-Xmixfd
+.br
+Exfdutfs bll bytfdodf by thf intfrprftfr fxdfpt for hot mfthods, whidh brf dompilfd to nbtivf dodf\&.
+.TP
+-Xmn\fIsizf\fR
+.br
+Sfts thf initibl bnd mbximum sizf (in bytfs) of thf hfbp for thf young gfnfrbtion (nursfry)\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&.
+
+Thf young gfnfrbtion rfgion of thf hfbp is usfd for nfw objfdts\&. GC is pfrformfd in this rfgion morf oftfn thbn in othfr rfgions\&. If thf sizf for thf young gfnfrbtion is too smbll, thfn b lot of minor gbrbbgf dollfdtions will bf pfrformfd\&. If thf sizf is too lbrgf, thfn only full gbrbbgf dollfdtions will bf pfrformfd, whidh dbn tbkf b long timf to domplftf\&. Orbdlf rfdommfnds thbt you kffp thf sizf for thf young gfnfrbtion bftwffn b hblf bnd b qubrtfr of thf ovfrbll hfbp sizf\&.
+
+Thf following fxbmplfs show how to sft thf initibl bnd mbximum sizf of young gfnfrbtion to 256 MB using vbrious units:
+.sp     
+.nf     
+\f3\-Xmn256m\fP
+.fi     
+.nf     
+\f3\-Xmn262144k\fP
+.fi     
+.nf     
+\f3\-Xmn268435456\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Instfbd of thf \f3-Xmn\fR option to sft both thf initibl bnd mbximum sizf of thf hfbp for thf young gfnfrbtion, you dbn usf \f3-XX:NfwSizf\fR to sft thf initibl sizf bnd \f3-XX:MbxNfwSizf\fR to sft thf mbximum sizf\&.
+.TP
+-Xms\fIsizf\fR
+.br
+Sfts thf initibl sizf (in bytfs) of thf hfbp\&. This vbluf must bf b multiplf of 1024 bnd grfbtfr thbn 1 MB\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&.
+
+Thf following fxbmplfs show how to sft thf sizf of bllodbtfd mfmory to 6 MB using vbrious units:
+.sp     
+.nf     
+\f3\-Xms6291456\fP
+.fi     
+.nf     
+\f3\-Xms6144k\fP
+.fi     
+.nf     
+\f3\-Xms6m\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+If you do not sft this option, thfn thf initibl sizf will bf sft bs thf sum of thf sizfs bllodbtfd for thf old gfnfrbtion bnd thf young gfnfrbtion\&. Thf initibl sizf of thf hfbp for thf young gfnfrbtion dbn bf sft using thf \f3-Xmn\fR option or thf \f3-XX:NfwSizf\fR option\&.
+.TP
+-Xmx\fIsizf\fR
+.br
+Spfdififs thf mbximum sizf (in bytfs) of thf mfmory bllodbtion pool in bytfs\&. This vbluf must bf b multiplf of 1024 bnd grfbtfr thbn 2 MB\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. Thf dffbult vbluf is dhosfn bt runtimf bbsfd on systfm donfigurbtion\&. For sfrvfr dfploymfnts, \f3-Xms\fR bnd \f3-Xmx\fR brf oftfn sft to thf sbmf vbluf\&. For morf informbtion, sff Gbrbbgf Collfdtor Ergonomids bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/vm/gd-frgonomids\&.html
+
+Thf following fxbmplfs show how to sft thf mbximum bllowfd sizf of bllodbtfd mfmory to 80 MB using vbrious units:
+.sp     
+.nf     
+\f3\-Xmx83886080\fP
+.fi     
+.nf     
+\f3\-Xmx81920k\fP
+.fi     
+.nf     
+\f3\-Xmx80m\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf \f3-Xmx\fR option is fquivblfnt to \f3-XX:MbxHfbpSizf\fR\&.
+.TP
+-Xnodlbssgd
+.br
+Disbblfs gbrbbgf dollfdtion (GC) of dlbssfs\&. This dbn sbvf somf GC timf, whidh shortfns intfrruptions during thf bpplidbtion run\&.
+
+Whfn you spfdify \f3-Xnodlbssgd\fR bt stbrtup, thf dlbss objfdts in thf bpplidbtion will bf lfft untoudhfd during GC bnd will blwbys bf donsidfrfd livf\&. This dbn rfsult in morf mfmory bfing pfrmbnfntly oddupifd whidh, if not usfd dbrffully, will throw bn out of mfmory fxdfption\&.
+.TP
+-Xprof
+.br
+Profilfs thf running progrbm bnd sfnds profiling dbtb to stbndbrd output\&. This option is providfd bs b utility thbt is usfful in progrbm dfvflopmfnt bnd is not intfndfd to bf usfd in produdtion systfms\&.
+.TP
+-Xrs
+.br
+Rfdudfs thf usf of opfrbting systfm signbls by thf JVM\&.
+
+Shutdown hooks fnbblf ordfrly shutdown of b Jbvb bpplidbtion by running usfr dlfbnup dodf (sudh bs dlosing dbtbbbsf donnfdtions) bt shutdown, fvfn if thf JVM tfrminbtfs bbruptly\&.
+
+Thf JVM dbtdhfs signbls to implfmfnt shutdown hooks for unfxpfdtfd tfrminbtion\&. Thf JVM usfs \f3SIGHUP\fR, \f3SIGINT\fR, bnd \f3SIGTERM\fR to initibtf thf running of shutdown hooks\&.
+
+Thf JVM usfs b similbr mfdhbnism to implfmfnt thf ffbturf of dumping thrfbd stbdks for dfbugging purposfs\&. Thf JVM usfs \f3SIGQUIT\fR to pfrform thrfbd dumps\&.
+
+Applidbtions fmbfdding thf JVM frfqufntly nffd to trbp signbls sudh bs \f3SIGINT\fR or \f3SIGTERM\fR, whidh dbn lfbd to intfrffrfndf with thf JVM signbl hbndlfrs\&. Thf \f3-Xrs\fR option is bvbilbblf to bddrfss this issuf\&. Whfn \f3-Xrs\fR is usfd, thf signbl mbsks for \f3SIGINT\fR, \f3SIGTERM\fR, \f3SIGHUP\fR, bnd \f3SIGQUIT\fR brf not dhbngfd by thf JVM, bnd signbl hbndlfrs for thfsf signbls brf not instbllfd\&.
+
+Thfrf brf two donsfqufndfs of spfdifying \f3-Xrs\fR:
+.RS     
+.TP 0.2i    
+\(bu
+\f3SIGQUIT\fR thrfbd dumps brf not bvbilbblf\&.
+.TP 0.2i    
+\(bu
+Usfr dodf is rfsponsiblf for dbusing shutdown hooks to run, for fxbmplf, by dblling \f3Systfm\&.fxit()\fR whfn thf JVM is to bf tfrminbtfd\&.
+.RE     
+
+.TP
+-Xshbrf:\fImodf\fR
+.br
+Sfts thf dlbss dbtb shbring modf\&. Possiblf \fImodf\fR brgumfnts for this option indludf thf following:
+.RS     
+.TP     
+buto
+Usf shbrfd dlbss dbtb if possiblf\&. This is thf dffbult vbluf for Jbvb HotSpot 32-Bit Clifnt VM\&.
+.TP     
+on
+Rfquirf thf usf of dlbss dbtb shbring\&. Print bn frror mfssbgf bnd fxit if dlbss dbtb shbring dbnnot bf usfd\&.
+.TP     
+off
+Do not usf shbrfd dlbss dbtb\&. This is thf dffbult vbluf for Jbvb HotSpot 32-Bit Sfrvfr VM, Jbvb HotSpot 64-Bit Clifnt VM, bnd Jbvb HotSpot 64-Bit Sfrvfr VM\&.
+.TP     
+dump
+Mbnublly gfnfrbtf thf dlbss dbtb shbring brdhivf\&.
+.RE     
+
+.TP
+-XshowSfttings:\fIdbtfgory\fR
+.br
+Shows sfttings bnd dontinufs\&. Possiblf \fIdbtfgory\fR brgumfnts for this option indludf thf following:
+.RS     
+.TP     
+bll
+Shows bll dbtfgorifs of sfttings\&. This is thf dffbult vbluf\&.
+.TP     
+lodblf
+Shows sfttings rflbtfd to lodblf\&.
+.TP     
+propfrtifs
+Shows sfttings rflbtfd to systfm propfrtifs\&.
+.TP     
+vm
+Shows thf sfttings of thf JVM\&.
+.RE     
+
+.TP
+-Xss\fIsizf\fR
+.br
+Sfts thf thrfbd stbdk sizf (in bytfs)\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf KB, \f3m\fR or \f3M\fR to indidbtf MB, \f3g\fR or \f3G\fR to indidbtf GB\&. Thf dffbult vbluf dfpfnds on thf plbtform:
+.RS     
+.TP 0.2i    
+\(bu
+Linux/ARM (32-bit): 320 KB
+.TP 0.2i    
+\(bu
+Linux/i386 (32-bit): 320 KB
+.TP 0.2i    
+\(bu
+Linux/x64 (64-bit): 1024 KB
+.TP 0.2i    
+\(bu
+OS X (64-bit): 1024 KB
+.TP 0.2i    
+\(bu
+Orbdlf Solbris/i386 (32-bit): 320 KB
+.TP 0.2i    
+\(bu
+Orbdlf Solbris/x64 (64-bit): 1024 KB
+.TP 0.2i    
+\(bu
+Windows: dfpfnds on virtubl mfmory
+.RE
+.RS
+Thf following fxbmplfs sft thf thrfbd stbdk sizf to 1024 KB in difffrfnt units:
+.sp     
+.nf     
+\f3\-Xss1m\fP
+.fi     
+.nf     
+\f3\-Xss1024k\fP
+.fi     
+.nf     
+\f3\-Xss1048576\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+This option is fquivblfnt to \f3-XX:ThrfbdStbdkSizf\fR\&.
+
+.RE
+.TP
+-Xusfbltsigs
+.br
+Usf bltfrnbtivf signbls instfbd of \f3SIGUSR1\fR bnd \f3SIGUSR2\fR for JVM intfrnbl signbls\&. This option is fquivblfnt to \f3-XX:+UsfAltSigs\fR\&.
+.TP
+-Xvfrify:\fImodf\fR
+.br
+Sfts thf modf of thf bytfdodf vfrififr\&. Bytfdodf vfrifidbtion hflps to troublfshoot somf problfms, but it blso bdds ovfrhfbd to thf running bpplidbtion\&. Possiblf \fImodf\fR brgumfnts for this option indludf thf following:
+.RS     
+.TP     
+nonf
+Do not vfrify thf bytfdodf\&. This rfdudfs stbrtup timf bnd blso rfdudfs thf protfdtion providfd by Jbvb\&.
+.TP     
+rfmotf
+Vfrify only thosf dlbssfs thbt brf lobdfd rfmotfly ovfr thf nftwork\&. This is thf dffbult bfhbvior if you do not spfdify thf \f3-Xvfrify\fR option\&.
+.TP     
+bll
+Vfrify bll dlbssfs\&.
+.RE     
+
+.SS ADVANCED\ RUNTIME\ OPTIONS    
+Thfsf options dontrol thf runtimf bfhbvior of thf Jbvb HotSpot VM\&.
+.TP
+-XX:+DisbblfAttbdhMfdhbnism
+.br
+Enbblfs thf option thbt disbblfs thf mfdhbnism thbt lfts tools bttbdh to thf JVM\&. By dffbult, this option is disbblfd, mfbning thbt thf bttbdh mfdhbnism is fnbblfd bnd you dbn usf tools sudh bs \f3jdmd\fR, \f3jstbdk\fR, \f3jmbp\fR, bnd \f3jinfo\fR\&.
+.TP
+-XX:ErrorFilf=\fIfilfnbmf\fR
+.br
+Spfdififs thf pbth bnd filf nbmf to whidh frror dbtb is writtfn whfn bn irrfdovfrbblf frror oddurs\&. By dffbult, this filf is drfbtfd in thf durrfnt working dirfdtory bnd nbmfd \f3hs_frr_pid\fR\fIpid\fR\f3\&.log\fR whfrf \fIpid\fR is thf idfntififr of thf prodfss thbt dbusfd thf frror\&. Thf following fxbmplf shows how to sft thf dffbult log filf (notf thbt thf idfntififr of thf prodfss is spfdififd bs \f3%p\fR):
+.sp     
+.nf     
+\f3\-XX:ErrorFilf=\&./hs_frr_pid%p\&.log\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf following fxbmplf shows how to sft thf frror log to \f3/vbr/log/jbvb/jbvb_frror\&.log\fR:
+.sp     
+.nf     
+\f3\-XX:ErrorFilf=/vbr/log/jbvb/jbvb_frror\&.log\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+If thf filf dbnnot bf drfbtfd in thf spfdififd dirfdtory (duf to insuffidifnt spbdf, pfrmission problfm, or bnothfr issuf), thfn thf filf is drfbtfd in thf tfmporbry dirfdtory for thf opfrbting systfm\&. Thf tfmporbry dirfdtory is \f3/tmp\fR\&.
+.TP
+-XX:LbrgfPbgfSizfInBytfs=\fIsizf\fR
+.br
+Sfts thf mbximum sizf (in bytfs) for lbrgf pbgfs usfd for Jbvb hfbp\&. Thf \fIsizf\fR brgumfnt must bf b powfr of 2 (2, 4, 8, 16, \&.\&.\&.)\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. By dffbult, thf sizf is sft to 0, mfbning thbt thf JVM dhoosfs thf sizf for lbrgf pbgfs butombtidblly\&.
+
+Thf following fxbmplf illustrbtfs how to sft thf lbrgf pbgf sizf to 4 mfgbbytfs (MB):
+.sp     
+.nf     
+\f3\-XX:LbrgfPbgfSizfInBytfs=4m\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:MbxDirfdtMfmorySizf=\fIsizf\fR
+.br
+Sfts thf mbximum totbl sizf (in bytfs) of thf Nfw I/O (thf \f3jbvb\&.nio\fR pbdkbgf) dirfdt-bufffr bllodbtions\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. By dffbult, thf sizf is sft to 0, mfbning thbt thf JVM dhoosfs thf sizf for NIO dirfdt-bufffr bllodbtions butombtidblly\&.
+
+Thf following fxbmplfs illustrbtf how to sft thf NIO sizf to 1024 KB in difffrfnt units:
+.sp     
+.nf     
+\f3\-XX:MbxDirfdtMfmorySizf=1m\fP
+.fi     
+.nf     
+\f3\-XX:MbxDirfdtMfmorySizf=1024k\fP
+.fi     
+.nf     
+\f3\-XX:MbxDirfdtMfmorySizf=1048576\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:NbtivfMfmoryTrbdking=\fImodf\fR
+.br
+Spfdififs thf modf for trbdking JVM nbtivf mfmory usbgf\&. Possiblf \fImodf\fR brgumfnts for this option indludf thf following:
+.RS     
+.TP     
+off
+Do not trbdk JVM nbtivf mfmory usbgf\&. This is thf dffbult bfhbvior if you do not spfdify thf \f3-XX:NbtivfMfmoryTrbdking\fR option\&.
+.TP     
+summbry
+Only trbdk mfmory usbgf by JVM subsystfms, sudh bs Jbvb hfbp, dlbss, dodf, bnd thrfbd\&.
+.TP     
+dftbil
+In bddition to trbdking mfmory usbgf by JVM subsystfms, trbdk mfmory usbgf by individubl \f3CbllSitf\fR, individubl virtubl mfmory rfgion bnd its dommittfd rfgions\&.
+.RE     
+
+.TP
+-XX:OnError=\fIstring\fR
+.br
+Sfts b dustom dommbnd or b sfrifs of sfmidolon-sfpbrbtfd dommbnds to run whfn bn irrfdovfrbblf frror oddurs\&. If thf string dontbins spbdfs, thfn it must bf fndlosfd in quotbtion mbrks\&.
+
+\fI\fRThf following fxbmplf shows how thf \f3-XX:OnError\fR option dbn bf usfd to run thf \f3gdorf\fR dommbnd to drfbtf thf dorf imbgf, bnd thf dfbuggfr is stbrtfd to bttbdh to thf prodfss in dbsf of bn irrfdovfrbblf frror (thf \f3%p\fR dfsignbtfs thf durrfnt prodfss):
+.sp     
+.nf     
+\f3\-XX:OnError="gdorf %p;dbx \- %p"\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:OnOutOfMfmoryError=\fIstring\fR
+.br
+Sfts b dustom dommbnd or b sfrifs of sfmidolon-sfpbrbtfd dommbnds to run whfn bn \f3OutOfMfmoryError\fR fxdfption is first thrown\&. If thf string dontbins spbdfs, thfn it must bf fndlosfd in quotbtion mbrks\&. For bn fxbmplf of b dommbnd string, sff thf dfsdription of thf \f3-XX:OnError\fR option\&.
+.TP
+-XX:+PrintCommbndLinfFlbgs
+.br
+Enbblfs printing of frgonomidblly sflfdtfd JVM flbgs thbt bppfbrfd on thf dommbnd linf\&. It dbn bf usfful to know thf frgonomid vblufs sft by thf JVM, sudh bs thf hfbp spbdf sizf bnd thf sflfdtfd gbrbbgf dollfdtor\&. By dffbult, this option is disbblfd bnd flbgs brf not printfd\&.
+.TP
+-XX:+PrintNMTStbtistids
+.br
+Enbblfs printing of dollfdtfd nbtivf mfmory trbdking dbtb bt JVM fxit whfn nbtivf mfmory trbdking is fnbblfd (sff \f3-XX:NbtivfMfmoryTrbdking\fR)\&. By dffbult, this option is disbblfd bnd nbtivf mfmory trbdking dbtb is not printfd\&.
+.TP
+-XX:+ShowMfssbgfBoxOnError
+.br
+Enbblfs displbying of b diblog box whfn thf JVM fxpfrifndfs bn irrfdovfrbblf frror\&. This prfvfnts thf JVM from fxiting bnd kffps thf prodfss bdtivf so thbt you dbn bttbdh b dfbuggfr to it to invfstigbtf thf dbusf of thf frror\&. By dffbult, this option is disbblfd\&.
+.TP
+-XX:ThrfbdStbdkSizf=\fIsizf\fR
+.br
+Sfts thf thrfbd stbdk sizf (in bytfs)\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. Thf dffbult vbluf dfpfnds on thf plbtform:
+.RS     
+.TP 0.2i    
+\(bu
+Linux/ARM (32-bit): 320 KB
+.TP 0.2i    
+\(bu
+Linux/i386 (32-bit): 320 KB
+.TP 0.2i    
+\(bu
+Linux/x64 (64-bit): 1024 KB
+.TP 0.2i    
+\(bu
+OS X (64-bit): 1024 KB
+.TP 0.2i    
+\(bu
+Orbdlf Solbris/i386 (32-bit): 320 KB
+.TP 0.2i    
+\(bu
+Orbdlf Solbris/x64 (64-bit): 1024 KB
+.TP 0.2i    
+\(bu
+Windows: dfpfnds on virtubl mfmory
+.RE
+.RS
+Thf following fxbmplfs show how to sft thf thrfbd stbdk sizf to 1024 KB in difffrfnt units:
+.sp     
+.nf     
+\f3\-XX:ThrfbdStbdkSizf=1m\fP
+.fi     
+.nf     
+\f3\-XX:ThrfbdStbdkSizf=1024k\fP
+.fi     
+.nf     
+\f3\-XX:ThrfbdStbdkSizf=1048576\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+This option is fquivblfnt to \f3-Xss\fR\&.
+
+.RE
+.TP
+-XX:+TrbdfClbssLobding
+.br
+Enbblfs trbding of dlbssfs bs thfy brf lobdfd\&. By dffbult, this option is disbblfd bnd dlbssfs brf not trbdfd\&.
+.TP
+-XX:+TrbdfClbssLobdingPrfordfr
+.br
+Enbblfs trbding of bll lobdfd dlbssfs in thf ordfr in whidh thfy brf rfffrfndfd\&. By dffbult, this option is disbblfd bnd dlbssfs brf not trbdfd\&.
+.TP
+-XX:+TrbdfClbssRfsolution
+.br
+Enbblfs trbding of donstbnt pool rfsolutions\&. By dffbult, this option is disbblfd bnd donstbnt pool rfsolutions brf not trbdfd\&.
+.TP
+-XX:+TrbdfClbssUnlobding
+.br
+Enbblfs trbding of dlbssfs bs thfy brf unlobdfd\&. By dffbult, this option is disbblfd bnd dlbssfs brf not trbdfd\&.
+.TP
+-XX:+TrbdfLobdfrConstrbints
+.br
+Enbblfs trbding of thf lobdfr donstrbints rfdording\&. By dffbult, this option is disbblfd bnd lobdfr donstrbints rfdoding is not trbdfd\&.
+.TP
+-XX:+UsfAltSigs
+.br
+Enbblfs thf usf of bltfrnbtivf signbls instfbd of \f3SIGUSR1\fR bnd \f3SIGUSR2\fR for JVM intfrnbl signbls\&. By dffbult, this option is disbblfd bnd bltfrnbtivf signbls brf not usfd\&. This option is fquivblfnt to \f3-Xusfbltsigs\fR\&.
+.TP
+-XX:+UsfBibsfdLodking
+.br
+Enbblfs thf usf of bibsfd lodking\&. Somf bpplidbtions with signifidbnt bmounts of undontfndfd syndhronizbtion mby bttbin signifidbnt spffdups with this flbg fnbblfd, whfrfbs bpplidbtions with dfrtbin pbttfrns of lodking mby sff slowdowns\&. For morf informbtion bbout thf bibsfd lodking tfdhniquf, sff thf fxbmplf in Jbvb Tuning Whitf Pbpfr bt http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/tuning-139912\&.html#sfdtion4\&.2\&.5
+
+By dffbult, this option is disbblfd bnd bibsfd lodking is not usfd\&.
+.TP
+-XX:+UsfComprfssfdOops
+.br
+Enbblfs thf usf of domprfssfd pointfrs\&. Whfn this option is fnbblfd, objfdt rfffrfndfs brf rfprfsfntfd bs 32-bit offsfts instfbd of 64-bit pointfrs, whidh typidblly indrfbsfs pfrformbndf whfn running thf bpplidbtion with Jbvb hfbp sizfs lfss thbn 32 GB\&. This option works only for 64-bit JVMs\&.
+
+By dffbult, this option is disbblfd bnd domprfssfd pointfrs brf not usfd\&.
+.TP
+-XX:+UsfLbrgfPbgfs
+.br
+Enbblfs thf usf of lbrgf pbgf mfmory\&. This option is fnbblfd by dffbult\&. To disbblf thf usf of lbrgf pbgf mfmory, spfdify \f3-XX:-UsfLbrgfPbgfs\fR\&.
+
+For morf informbtion, sff Jbvb Support for Lbrgf Mfmory Pbgfs bt http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/jbvbsf/tfdh/lbrgfmfmory-jsp-137182\&.html
+.TP
+-XX:+UsfMfmbbr
+.br
+Enbblfs issuing of mfmbbrs on thrfbd stbtf trbnsitions\&. This option is disbblfd by dffbult on bll plbtforms fxdfpt Powfr PC bnd ARM sfrvfrs, whfrf it is fnbblfd\&. To disbblf issuing of mfmbbrs on thrfbd stbtf trbnsitions for Powfr PC bnd ARM, spfdify \f3-XX:-UsfMfmbbr\fR\&.
+.TP
+-XX:+UsfPfrfDbtb
+.br
+Enbblfs thf \f3pfrfdbtb\fR ffbturf\&. This option is fnbblfd by dffbult to bllow JVM monitoring bnd pfrformbndf tfsting\&. Disbbling it supprfssfs thf drfbtion of thf \f3hspfrfdbtb_usfrid\fR dirfdtorifs\&. To disbblf thf \f3pfrfdbtb\fR ffbturf, spfdify \f3-XX:-UsfPfrfDbtb\fR\&.
+.TP
+-XX:+AllowUsfrSignblHbndlfrs
+.br
+Enbblfs instbllbtion of signbl hbndlfrs by thf bpplidbtion\&. By dffbult, this option is disbblfd bnd thf bpplidbtion is not bllowfd to instbll signbl hbndlfrs\&.
+.SS ADVANCED\ JIT\ COMPILER\ OPTIONS    
+Thfsf options dontrol thf dynbmid just-in-timf (JIT) dompilbtion pfrformfd by thf Jbvb HotSpot VM\&.
+.TP
+-XX:+AggrfssivfOpts
+.br
+Enbblfs thf usf of bggrfssivf pfrformbndf optimizbtion ffbturfs, whidh brf fxpfdtfd to bfdomf dffbult in updoming rflfbsfs\&. By dffbult, this option is disbblfd bnd fxpfrimfntbl pfrformbndf ffbturfs brf not usfd\&.
+.TP
+-XX:AllodbtfInstbndfPrffftdhLinfs=\fIlinfs\fR
+.br
+Sfts thf numbfr of linfs to prffftdh bhfbd of thf instbndf bllodbtion pointfr\&. By dffbult, thf numbfr of linfs to prffftdh is sft to 1:
+.sp     
+.nf     
+\f3\-XX:AllodbtfInstbndfPrffftdhLinfs=1\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:AllodbtfPrffftdhInstr=\fIinstrudtion\fR
+.br
+Sfts thf prffftdh instrudtion to prffftdh bhfbd of thf bllodbtion pointfr\&. Possiblf vblufs brf from 0 to 3\&. Thf bdtubl instrudtions bfhind thf vblufs dfpfnd on thf plbtform\&. By dffbult, thf prffftdh instrudtion is sft to 0:
+.sp     
+.nf     
+\f3\-XX:AllodbtfPrffftdhInstr=0\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:AllodbtfPrffftdhStfpSizf=\fIsizf\fR
+.br
+Sfts thf stfp sizf (in bytfs) for sfqufntibl prffftdh instrudtions\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. By dffbult, thf stfp sizf is sft to 16 bytfs:
+.sp     
+.nf     
+\f3\-XX:AllodbtfPrffftdhStfpSizf=16\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:+BbdkgroundCompilbtion
+.br
+Enbblfs bbdkground dompilbtion\&. This option is fnbblfd by dffbult\&. To disbblf bbdkground dompilbtion, spfdify \f3-XX:-BbdkgroundCompilbtion\fR (this is fquivblfnt to spfdifying \f3-Xbbtdh\fR)\&.
+.TP
+-XX:CICompilfrCount=\fIthrfbds\fR
+.br
+Sfts thf numbfr of dompilfr thrfbds to usf for dompilbtion\&. By dffbult, thf numbfr of thrfbds is sft to 2 for thf sfrvfr JVM, to 1 for thf dlifnt JVM, bnd it sdblfs to thf numbfr of dorfs if tifrfd dompilbtion is usfd\&. Thf following fxbmplf shows how to sft thf numbfr of thrfbds to 2:
+.sp     
+.nf     
+\f3\-XX:CICompilfrCount=2\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:CodfCbdhfMinimumFrffSpbdf=\fIsizf\fR
+.br
+Sfts thf minimum frff spbdf (in bytfs) rfquirfd for dompilbtion\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. Whfn lfss thbn thf minimum frff spbdf rfmbins, dompiling stops\&. By dffbult, this option is sft to 500 KB\&. Thf following fxbmplf shows how to sft thf minimum frff spbdf to 1024 MB:
+.sp     
+.nf     
+\f3\-XX:CodfCbdhfMinimumFrffSpbdf=1024m\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+.nf
+-XX:CompilfCommbnd=\fIdommbnd\fR,\fIdlbss\fR\&.\fImfthod\fR[,\fIoption\fR]
+.br
+.fi
+Attbdhfs b linf to thf \f3\&.hotspot_dompilfr\fR filf with thf dommbnd for thf spfdifid mfthod of thf dlbss\&. For fxbmplf, to fxdludf thf \f3indfxOf()\fR mfthod of thf \f3String\fR dlbss from bfing dompilfd, usf thf following:
+.sp     
+.nf     
+\f3\-XX:CompilfCommbnd=fxdludf,jbvb/lbng/String\&.indfxOf\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Notf thbt you must spfdify thf full dlbss nbmf, indluding bll pbdkbgfs bnd subpbdkbgfs sfpbrbtfd by b slbsh (\f3/\fR)\&.
+
+To bdd sfvfrbl dommbnds, fithfr spfdify this option multiplf timfs, or sfpbrbtf fbdh brgumfnt with thf nfwlinf sfpbrbtor (\f3\fn\fR)\&. To bfttfr undfrstbnd thf syntbx of thf JVM dompilfr dommbnds, rfffr to thf dfsdription of thf \f3-XX:CompilfCommbndFilf\fR option, whidh fnbblfs you to spfdify thf filf from whidh to rfbd dompilfr dommbnds\&. Notidf how thf syntbx of thf dommbnd filf difffrs rom thf syntbx of thf brgumfnt for thf \f3-XX:CompilfCommbnd\fR option\&. Thf dommbs bnd pfriods in thf brgumfnt brf blibsfs for spbdfs in thf dommbnd filf, mbking it fbsifr to pbss dompilfr dommbnds through b shfll\&. To pbss brgumfnts to \f3-XX:CompilfCommbnd\fR with thf sbmf syntbx bs thbt usfd in thf dommbnd filf, you dbn fndlosf thf brgumfnt in quotbtion mbrks:
+.sp     
+.nf     
+\f3\-XX:CompilfCommbnd="fxdludf jbvb/lbng/String indfxOf"\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+For fbsifr dut bnd pbstf opfrbtions, it is blso possiblf to usf thf mfthod nbmf formbt produdfd by thf \f3-XX:+PrintCompilbtion\fR bnd \f3-XX:+LogCompilbtion\fR options:
+.sp     
+.nf     
+\f3\-XX:CompilfCommbnd="fxdludf jbvb\&.lbng\&.String::indfxOf"\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf following dommbnds brf bvbilbblf:
+.RS     
+.TP     
+brfbk
+Sft b brfbkpoint whfn dfbugging thf JVM to stop bt thf bfginning of dompilbtion of thf spfdififd mfthod\&.
+.TP     
+dompilfonly
+Exdludf bll mfthods from dompilbtion fxdfpt for thf spfdififd mfthod\&.
+.TP     
+dontinlinf
+Prfvfnt inlining of thf spfdififd mfthod\&.
+.TP     
+fxdludf
+Exdludf thf spfdififd mfthod from dompilbtion\&.
+.TP     
+hflp
+Print b hflp mfssbgf for thf \f3-XX:CompilfCommbnd\fR option\&.
+.TP     
+inlinf
+Attfmpt to inlinf thf spfdififd mfthod\&.
+.TP     
+log
+Exdludf dompilbtion logging (with thf \f3-XX:+LogCompilbtion\fR option) for bll mfthods fxdfpt for thf spfdififd mfthod\&. By dffbult, logging is pfrformfd for bll dompilfd mfthods\&.
+.TP     
+print
+Print gfnfrbtfd bssfmblfr dodf bftfr dompilbtion of thf spfdififd mfthod\&.
+.TP     
+quift
+Do not print thf dompilf dommbnds\&. By dffbult, thf dommbnds thbt you spfdify with thf -\f3XX:CompilfCommbnd\fR option brf printfd; for fxbmplf, if you fxdludf from dompilbtion thf \f3indfxOf()\fR mfthod of thf \f3String\fR dlbss, thfn thf following will bf printfd to stbndbrd output:
+.sp     
+.nf     
+\f3CompilfrOrbdlf: fxdludf jbvb/lbng/String\&.indfxOf\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+You dbn supprfss this by spfdifying thf \f3-XX:CompilfCommbnd=quift\fR option bfforf othfr \f3-XX:CompilfCommbnd\fR options\&.
+.RE     
+
+
+.RS
+Thf optionbl lbst brgumfnt (\fIoption\fR) dbn bf usfd to pbss b JIT dompilbtion option to thf spfdififd mfthod\&. Thf dompilbtion option is sft bt thf fnd, bftfr thf mfthod nbmf\&. For fxbmplf, to fnbblf thf \f3BlodkLbyoutByFrfqufndy\fR option for thf \f3bppfnd()\fR mfthod of thf \f3StringBufffr\fR dlbss, usf thf following:
+.sp     
+.nf     
+\f3\-XX:CompilfCommbnd=option,jbvb/lbng/StringBufffr\&.bppfnd,BlodkLbyoutByFrfqufndy\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+.RE
+.TP
+-XX:CompilfCommbndFilf=\fIfilfnbmf\fR
+.br
+Sfts thf filf from whidh dompilfr dommbnds brf rfbd\&. By dffbult, thf \f3\&.hotspot_dompilfr\fR filf is usfd to storf dommbnds pfrformfd by thf JVM dompilfr\&.
+
+Ebdh linf in thf dommbnd filf rfprfsfnts b dommbnd, b dlbss nbmf, bnd b mfthod nbmf for whidh thf dommbnd is usfd (bll thrff pbrts brf sfpbrbtfd by spbdfs)\&. For fxbmplf, this linf prints bssfmbly dodf for thf \f3toString()\fR mfthod of thf \f3String\fR dlbss:
+.sp     
+.nf     
+\f3print jbvb/lbng/String toString\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+To bdd dommbnds to thf bfginning of thf \f3\&.hotspot_dompilfr\fR filf, usf thf \f3-XX:CompilfCommbnd\fR option\&. Notf how thf syntbx of thf dommbnd filf is difffrfnt from thf syntbx of thf brgumfnt for thf \f3-XX:CompilfCommbnd\fR option\&. Thf dommbs bnd pfriods in thf brgumfnt brf blibsfs for spbdfs in thf dommbnd filf, mbking it fbsifr to pbss dompilfr dommbnds through b shfll\&. Although it is possiblf to pbss brgumfnts to \f3-XX:CompilfCommbnd\fR with thf sbmf syntbx bs thbt usfd in thf dommbnd filf, you would hbvf to fndlosf thf string brgumfnt in quotbtion mbrks\&.
+.TP
+-XX:CompilfOnly=\fImfthods\fR
+.br
+Sfts thf list of mfthods (sfpbrbtfd by dommbs) to whidh dompilbtion should bf rfstridtfd\&. Only thf spfdififd mfthods will bf dompilfd\&. Spfdify fbdh mfthod with thf full dlbss nbmf (indluding thf pbdkbgfs bnd subpbdkbgfs)\&. For fxbmplf, to dompilf only thf \f3lfngth()\fR mfthod of thf \f3String\fR dlbss bnd thf \f3sizf()\fR mfthod of thf \f3List\fR dlbss, usf thf following:
+.sp     
+.nf     
+\f3\-XX:CompilfOnly=jbvb/lbng/String\&.lfngth,jbvb/util/List\&.sizf\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:CompilfThrfshold=\fIinvodbtions\fR
+.br
+Sfts thf numbfr of intfrprftfd mfthod invodbtions bfforf dompilbtion\&. By dffbult, in thf sfrvfr JVM, thf JIT dompilfr pfrforms 10,000 intfrprftfd mfthod invodbtions to gbthfr informbtion for fffidifnt dompilbtion\&. For thf dlifnt JVM, thf dffbult sftting is 1,500 invodbtions\&. Thf following fxbmplf shows how to sft thf numbfr of intfrprftfd mfthod invodbtions to 5,000:
+.sp     
+.nf     
+\f3\-XX:CompilfThrfshold=5000\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+You dbn domplftfly disbblf intfrprftbtion of Jbvb mfthods bfforf dompilbtion by spfdifying thf \f3-Xdomp\fR option\&.
+.TP
+-XX:+DoEsdbpfAnblysis
+.br
+Enbblfs thf usf of fsdbpf bnblysis\&. This option is fnbblfd by dffbult\&. To disbblf thf usf of fsdbpf bnblysis, spfdify \f3-XX:-DoEsdbpfAnblysis\fR\&.
+.TP
+-XX:+FbilOvfrToOldVfrififr
+.br
+Enbblfs butombtid fbilovfr to thf old vfrififr whfn thf nfw typf dhfdkfr fbils\&. By dffbult, this option is disbblfd bnd it is ignorfd (thbt is, trfbtfd bs disbblfd) for dlbssfs with b rfdfnt bytfdodf vfrsion\&. You dbn fnbblf it for dlbssfs with oldfr vfrsions of thf bytfdodf\&.
+.TP
+-XX:InitiblCodfCbdhfSizf=\fIsizf\fR
+.br
+Sfts thf initibl dodf dbdhf sizf (in bytfs)\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. Thf dffbult vbluf is sft to 500 KB\&. Thf following fxbmplf shows how to sft thf initibl dodf dbdhf sizf to 32 KB:
+.sp     
+.nf     
+\f3\-XX:InitiblCodfCbdhfSizf=32k\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:+Inlinf
+.br
+Enbblfs mfthod inlining\&. This option is fnbblfd by dffbult to indrfbsf pfrformbndf\&. To disbblf mfthod inlining, spfdify \f3-XX:-Inlinf\fR\&.
+.TP
+-XX:InlinfSmbllCodf=\fIsizf\fR
+.br
+Sfts thf mbximum dodf sizf (in bytfs) for dompilfd mfthods thbt should bf inlinfd\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. Only dompilfd mfthods with thf sizf smbllfr thbn thf spfdififd sizf will bf inlinfd\&. By dffbult, thf mbximum dodf sizf is sft to 1000 bytfs:
+.sp     
+.nf     
+\f3\-XX:InlinfSmbllCodf=1000\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:+LogCompilbtion
+.br
+Enbblfs logging of dompilbtion bdtivity to b filf nbmfd \f3hotspot\&.log\fR in thf durrfnt working dirfdtory\&. You dbn spfdify b difffrfnt log filf pbth bnd nbmf using thf \f3-XX:LogFilf\fR option\&.
+
+By dffbult, this option is disbblfd bnd dompilbtion bdtivity is not loggfd\&. Thf \f3-XX:+LogCompilbtion\fR option hbs to bf usfd togfthfr with thf \f3-XX:UnlodkDibgnostidVMOptions\fR option thbt unlodks dibgnostid JVM options\&.
+
+You dbn fnbblf vfrbosf dibgnostid output with b mfssbgf printfd to thf donsolf fvfry timf b mfthod is dompilfd by using thf \f3-XX:+PrintCompilbtion\fR option\&.
+.TP
+-XX:MbxInlinfSizf=\fIsizf\fR
+.br
+Sfts thf mbximum bytfdodf sizf (in bytfs) of b mfthod to bf inlinfd\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. By dffbult, thf mbximum bytfdodf sizf is sft to 35 bytfs:
+.sp     
+.nf     
+\f3\-XX:MbxInlinfSizf=35\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:MbxNodfLimit=\fInodfs\fR
+.br
+Sfts thf mbximum numbfr of nodfs to bf usfd during singlf mfthod dompilbtion\&. By dffbult, thf mbximum numbfr of nodfs is sft to 65,000:
+.sp     
+.nf     
+\f3\-XX:MbxNodfLimit=65000\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:MbxTriviblSizf=\fIsizf\fR
+.br
+Sfts thf mbximum bytfdodf sizf (in bytfs) of b trivibl mfthod to bf inlinfd\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. By dffbult, thf mbximum bytfdodf sizf of b trivibl mfthod is sft to 6 bytfs:
+.sp     
+.nf     
+\f3\-XX:MbxTriviblSizf=6\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:+OptimizfStringCondbt
+.br
+Enbblfs thf optimizbtion of \f3String\fR dondbtfnbtion opfrbtions\&. This option is fnbblfd by dffbult\&. To disbblf thf optimizbtion of \f3String\fR dondbtfnbtion opfrbtions, spfdify \f3-XX:-OptimizfStringCondbt\fR\&.
+.TP
+-XX:+PrintAssfmbly
+.br
+Enbblfs printing of bssfmbly dodf for bytfdodfd bnd nbtivf mfthods by using thf fxtfrnbl \f3disbssfmblfr\&.so\fR librbry\&. This fnbblfs you to sff thf gfnfrbtfd dodf, whidh mby hflp you to dibgnosf pfrformbndf issufs\&.
+
+By dffbult, this option is disbblfd bnd bssfmbly dodf is not printfd\&. Thf \f3-XX:+PrintAssfmbly\fR option hbs to bf usfd togfthfr with thf \f3-XX:UnlodkDibgnostidVMOptions\fR option thbt unlodks dibgnostid JVM options\&.
+.TP
+-XX:+PrintCompilbtion
+.br
+Enbblfs vfrbosf dibgnostid output from thf JVM by printing b mfssbgf to thf donsolf fvfry timf b mfthod is dompilfd\&. This fnbblfs you to sff whidh mfthods bdtublly gft dompilfd\&. By dffbult, this option is disbblfd bnd dibgnostid output is not printfd\&.
+
+You dbn blso log dompilbtion bdtivity to b filf by using thf \f3-XX:+LogCompilbtion\fR option\&.
+.TP
+-XX:+PrintInlining
+.br
+Enbblfs printing of inlining dfdisions\&. This fnbblfs you to sff whidh mfthods brf gftting inlinfd\&.
+
+By dffbult, this option is disbblfd bnd inlining informbtion is not printfd\&. Thf \f3-XX:+PrintInlining\fR option hbs to bf usfd togfthfr with thf \f3-XX:+UnlodkDibgnostidVMOptions\fR option thbt unlodks dibgnostid JVM options\&.
+.TP
+-XX:+RflbxAddfssControlChfdk
+.br
+Dfdrfbsfs thf bmount of bddfss dontrol dhfdks in thf vfrififr\&. By dffbult, this option is disbblfd, bnd it is ignorfd (thbt is, trfbtfd bs disbblfd) for dlbssfs with b rfdfnt bytfdodf vfrsion\&. You dbn fnbblf it for dlbssfs with oldfr vfrsions of thf bytfdodf\&.
+.TP
+-XX:RfsfrvfdCodfCbdhfSizf=\fIsizf\fR
+.br
+Sfts thf mbximum dodf dbdhf sizf (in bytfs) for JIT-dompilfd dodf\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. This option is fquivblfnt to \f3-Xmbxjitdodfsizf\fR\&.
+.TP
+-XX:+TifrfdCompilbtion
+.br
+Enbblfs thf usf of tifrfd dompilbtion\&. By dffbult, this option is disbblfd bnd tifrfd dompilbtion is not usfd\&.
+.TP
+-XX:+UsfCodfCbdhfFlushing
+.br
+Enbblfs flushing of thf dodf dbdhf bfforf shutting down thf dompilfr\&. This option is fnbblfd by dffbult\&. To disbblf flushing of thf dodf dbdhf bfforf shutting down thf dompilfr, spfdify \f3-XX:-UsfCodfCbdhfFlushing\fR\&.
+.TP
+-XX:+UsfCondCbrdMbrk
+.br
+Enbblfs dhfdking of whfthfr thf dbrd is blrfbdy mbrkfd bfforf updbting thf dbrd tbblf\&. This option is disbblfd by dffbult bnd should only bf usfd on mbdhinfs with multiplf sodkfts, whfrf it will indrfbsf pfrformbndf of Jbvb bpplidbtions thbt rfly hfbvily on dondurrfnt opfrbtions\&.
+.TP
+-XX:+UsfSupfrWord
+.br
+Enbblfs thf trbnsformbtion of sdblbr opfrbtions into supfrword opfrbtions\&. This option is fnbblfd by dffbult\&. To disbblf thf trbnsformbtion of sdblbr opfrbtions into supfrword opfrbtions, spfdify \f3-XX:-UsfSupfrWord\fR\&.
+.SS ADVANCED\ SERVICEABILITY\ OPTIONS    
+Thfsf options providf thf bbility to gbthfr systfm informbtion bnd pfrform fxtfnsivf dfbugging\&.
+.TP
+-XX:+ExtfndfdDTrbdfProbfs
+.br
+Enbblfs bdditionbl \f3dtrbdf\fR tool probfs thbt impbdt thf pfrformbndf\&. By dffbult, this option is disbblfd bnd \f3dtrbdf\fR pfrforms only stbndbrd probfs\&.
+.TP
+-XX:+HfbpDumpOnOutOfMfmory
+.br
+Enbblfs thf dumping of thf Jbvb hfbp to b filf in thf durrfnt dirfdtory by using thf hfbp profilfr (HPROF) whfn b \f3jbvb\&.lbng\&.OutOfMfmoryError\fR fxdfption is thrown\&. You dbn fxpliditly sft thf hfbp dump filf pbth bnd nbmf using thf \f3-XX:HfbpDumpPbth\fR option\&. By dffbult, this option is disbblfd bnd thf hfbp is not dumpfd whfn bn \f3OutOfMfmoryError\fR fxdfption is thrown\&.
+.TP
+-XX:HfbpDumpPbth=\fIpbth\fR
+.br
+Sfts thf pbth bnd filf nbmf for writing thf hfbp dump providfd by thf hfbp profilfr (HPROF) whfn thf \f3-XX:+HfbpDumpOnOutOfMfmoryError\fR option is sft\&. By dffbult, thf filf is drfbtfd in thf durrfnt working dirfdtory, bnd it is nbmfd \f3jbvb_pid\fR\fIpid\fR\f3\&.hprof\fR whfrf \fIpid\fR is thf idfntififr of thf prodfss thbt dbusfd thf frror\&. Thf following fxbmplf shows how to sft thf dffbult filf fxpliditly (\f3%p\fR rfprfsfnts thf durrfnt prodfss idfntifidbtor):
+.sp     
+.nf     
+\f3\-XX:HfbpDumpPbth=\&./jbvb_pid%p\&.hprof\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+\fI\fRThf following fxbmplf shows how to sft thf hfbp dump filf to \f3/vbr/log/jbvb/jbvb_hfbpdump\&.hprof\fR:
+.sp     
+.nf     
+\f3\-XX:HfbpDumpPbth=/vbr/log/jbvb/jbvb_hfbpdump\&.hprof\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:LogFilf=\fIpbth\fR
+.br
+Sfts thf pbth bnd filf nbmf whfrf log dbtb is writtfn\&. By dffbult, thf filf is drfbtfd in thf durrfnt working dirfdtory, bnd it is nbmfd \f3hotspot\&.log\fR\&.
+
+\fI\fRThf following fxbmplf shows how to sft thf log filf to \f3/vbr/log/jbvb/hotspot\&.log\fR:
+.sp     
+.nf     
+\f3\-XX:LogFilf=/vbr/log/jbvb/hotspot\&.log\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:+PrintClbssHistogrbm
+.br
+\fI\fREnbblfs printing of b dlbss instbndf histogrbm bftfr b \f3Control+C\fR fvfnt (\f3SIGTERM\fR)\&. By dffbult, this option is disbblfd\&.
+
+Sftting this option is fquivblfnt to running thf \f3jmbp -histo\fR dommbnd, or thf \f3jdmd\fR\fIpid\fR\f3GC\&.dlbss_histogrbm\fR dommbnd, whfrf \fIpid\fR is thf durrfnt Jbvb prodfss idfntififr\&.
+.TP     
+-XX:+PrintCondurrfntLodks
+
+
+Enbblfs printing of j\f3bvb\&.util\&.dondurrfnt\fR lodks bftfr b \f3Control+C\fR fvfnt (\f3SIGTERM\fR)\&. By dffbult, this option is disbblfd\&.
+
+Sftting this option is fquivblfnt to running thf \f3jstbdk -l\fR dommbnd or thf \f3jdmd\fR\fIpid\fR\f3Thrfbd\&.print -l\fR dommbnd, whfrf \fIpid\fR is thf durrfnt Jbvb prodfss idfntififr\&.
+.TP
+-XX:+UnlodkDibgnostidVMOptions
+.br
+Unlodks thf options intfndfd for dibgnosing thf JVM\&. By dffbult, this option is disbblfd bnd dibgnostid options brf not bvbilbblf\&.
+.SS ADVANCED\ GARBAGE\ COLLECTION\ OPTIONS    
+Thfsf options dontrol how gbrbbgf dollfdtion (GC) is pfrformfd by thf Jbvb HotSpot VM\&.
+.TP
+-XX:+AggrfssivfHfbp
+.br
+Enbblfs Jbvb hfbp optimizbtion\&. This sfts vbrious pbrbmftfrs to bf optimbl for long-running jobs with intfnsivf mfmory bllodbtion, bbsfd on thf donfigurbtion of thf domputfr (RAM bnd CPU)\&. By dffbult, thf option is disbblfd bnd thf hfbp is not optimizfd\&.
+.TP
+-XX:AllodbtfPrffftdhDistbndf=\fIsizf\fR
+.br
+Sfts thf sizf (in bytfs) of thf prffftdh distbndf for objfdt bllodbtion\&. Mfmory bbout to bf writtfn with thf vbluf of nfw objfdts is prffftdhfd up to this distbndf stbrting from thf bddrfss of thf lbst bllodbtfd objfdt\&. Ebdh Jbvb thrfbd hbs its own bllodbtion point\&.
+
+Nfgbtivf vblufs dfnotf thbt prffftdh distbndf is dhosfn bbsfd on thf plbtform\&. Positivf vblufs brf bytfs to prffftdh\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. Thf dffbult vbluf is sft to -1\&.
+
+Thf following fxbmplf shows how to sft thf prffftdh distbndf to 1024 bytfs:
+.sp     
+.nf     
+\f3\-XX:AllodbtfPrffftdhDistbndf=1024\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:AllodbtfPrffftdhLinfs=\fIlinfs\fR
+.br
+Sfts thf numbfr of dbdhf linfs to lobd bftfr thf lbst objfdt bllodbtion by using thf prffftdh instrudtions gfnfrbtfd in dompilfd dodf\&. Thf dffbult vbluf is 1 if thf lbst bllodbtfd objfdt wbs bn instbndf, bnd 3 if it wbs bn brrby\&.
+
+Thf following fxbmplf shows how to sft thf numbfr of lobdfd dbdhf linfs to 5:
+.sp     
+.nf     
+\f3\-XX:AllodbtfPrffftdhLinfs=5\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:AllodbtfPrffftdhStylf=\fIstylf\fR
+.br
+Sfts thf gfnfrbtfd dodf stylf for prffftdh instrudtions\&. Thf \fIstylf\fR brgumfnt is bn intfgfr from 0 to 3:
+.RS     
+.TP     
+0
+Do not gfnfrbtf prffftdh instrudtions\&.
+.TP     
+1
+Exfdutf prffftdh instrudtions bftfr fbdh bllodbtion\&. This is thf dffbult pbrbmftfr\&.
+.TP     
+2
+Usf thf thrfbd-lodbl bllodbtion blodk (TLAB) wbtfrmbrk pointfr to dftfrminf whfn prffftdh instrudtions brf fxfdutfd\&.
+.TP     
+3
+Usf BIS instrudtion on SPARC for bllodbtion prffftdh\&.
+.RE     
+
+.TP
+-XX:+AlwbysPrfToudh
+.br
+Enbblfs toudhing of fvfry pbgf on thf Jbvb hfbp during JVM initiblizbtion\&. This gfts bll pbgfs into thf mfmory bfforf fntfring thf \f3mbin()\fR mfthod\&. Thf option dbn bf usfd in tfsting to simulbtf b long-running systfm with bll virtubl mfmory mbppfd to physidbl mfmory\&. By dffbult, this option is disbblfd bnd bll pbgfs brf dommittfd bs JVM hfbp spbdf fills\&.
+.TP
+-XX:+CMSClbssUnlobdingEnbblfd
+.br
+Enbblfs dlbss unlobding whfn using thf dondurrfnt mbrk-swffp (CMS) gbrbbgf dollfdtor\&. This option is fnbblfd by dffbult\&. To disbblf dlbss unlobding for thf CMS gbrbbgf dollfdtor, spfdify \f3-XX:-CMSClbssUnlobdingEnbblfd\fR\&.
+.TP
+-XX:CMSExpAvgFbdtor=\fIpfrdfnt\fR
+.br
+Sfts thf pfrdfntbgf of timf (0 to 100) usfd to wfight thf durrfnt sbmplf whfn domputing fxponfntibl bvfrbgfs for thf dondurrfnt dollfdtion stbtistids\&. By dffbult, thf fxponfntibl bvfrbgfs fbdtor is sft to 25%\&. Thf following fxbmplf shows how to sft thf fbdtor to 15%:
+.sp     
+.nf     
+\f3\-XX:CMSExpAvgFbdtor=15\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:CMSIndrfmfntblDutyCydlf=\fIpfrdfnt\fR
+.br
+Sfts thf pfrdfntbgf of timf (0 to 100) bftwffn minor dollfdtions thbt thf dondurrfnt dollfdtor is bllowfd to run\&. Whfn \f3-XX:+CMSIndrfmfntblPbding\fR is fnbblfd, thf duty dydlf is sft butombtidblly, bnd this option sfts only thf initibl vbluf\&.
+
+By dffbult, thf duty dydlf is sft to 10%\&. Thf following fxbmplf shows how to sft thf duty dydlf to 20%:
+.sp     
+.nf     
+\f3\-XX:CMSIndrfmfntblDutyCydlf=20\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:CMSIndrfmfntblDutyCydlfMin=\fIpfrdfnt\fR
+.br
+Sfts thf pfrdfntbgf of timf (0 to 100) bftwffn minor dollfdtions thbt is thf lowfr bound for thf duty dydlf whfn \f3-XX:+CMSIndrfmfntblPbding\fR is fnbblfd\&. By dffbult, thf lowfr bound for thf duty dydlf is sft to 0%\&. Thf following fxbmplf shows how to sft thf lowfr bound to 10%:
+.sp     
+.nf     
+\f3\-XX:CMSIndrfmfntblDutyCydlfMin=10\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:+CMSIndrfmfntblModf
+.br
+Enbblfs thf indrfmfntbl modf for thf CMS dollfdtor\&. This option is disbblfd by dffbult bnd should only bf fnbblfd for donfigurbtions with no morf thbn two GC thrfbds\&. All options thbt stbrt with \f3CMSIndrfmfntbl\fR bpply only whfn this option is fnbblfd\&.
+.TP
+-XX:CMSIndrfmfntblOffsft=\fIpfrdfnt\fR
+.br
+Sfts thf pfrdfntbgf of timf (0 to 100) by whidh thf indrfmfntbl modf duty dydlf is shiftfd to thf right within thf pfriod bftwffn minor dollfdtions\&. By dffbult, thf offsft is sft to 0%\&. Thf following fxbmplf shows how to sft thf duty dydlf offsft to 25%:
+.sp     
+.nf     
+\f3\-XX:CMSIndrfmfntblOffsft=25\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:+CMSIndrfmfntblPbding
+.br
+Enbblfs butombtid bdjustmfnt of thf indrfmfntbl modf duty dydlf bbsfd on stbtistids dollfdtfd whilf thf JVM is running\&. This option is fnbblfd by dffbult\&. To disbblf butombtid bdjustmfnt of thf indrfmfntbl modf duty dydlf, spfdify \f3-XX:-CMSIndrfmfntblPbding\fR\&.
+.TP
+-XX:CMSIndrfmfntblSbfftyFbdtor=\fIpfrdfnt\fR
+.br
+Sfts thf pfrdfntbgf of timf (0 to 100) usfd to bdd donsfrvbtism whfn domputing thf duty dydlf\&. By dffbult, thf sbffty fbdtor is sft to 10%\&. Thf fxbmplf bflow shows how to sft thf sbffty fbdtor to 5%:
+.sp     
+.nf     
+\f3\-XX:CMSIndrfmfntblSbfftyFbdtor=5\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:CMSInitibtingOddupbndyFrbdtion=\fIpfrdfnt\fR
+.br
+Sfts thf pfrdfntbgf of thf old gfnfrbtion oddupbndy (0 to 100) bt whidh to stbrt b CMS dollfdtion dydlf\&. Thf dffbult vbluf is sft to -1\&. Any nfgbtivf vbluf (indluding thf dffbult) implifs thbt \f3-XX:CMSTriggfrRbtio\fR is usfd to dffinf thf vbluf of thf initibting oddupbndy frbdtion\&.
+
+Thf following fxbmplf shows how to sft thf oddupbndy frbdtion to 20%:
+.sp     
+.nf     
+\f3\-XX:CMSInitibtingOddupbndyFrbdtion=20\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:+CMSSdbvfngfBfforfRfmbrk
+.br
+Enbblfs sdbvfnging bttfmpts bfforf thf CMS rfmbrk stfp\&. By dffbult, this option is disbblfd\&.
+.TP
+-XX:CMSTriggfrRbtio=\fIpfrdfnt\fR
+.br
+Sfts thf pfrdfntbgf (0 to 100) of thf vbluf spfdififd by \f3-XX:MinHfbpFrffRbtio\fR thbt is bllodbtfd bfforf b CMS dollfdtion dydlf dommfndfs\&. Thf dffbult vbluf is sft to 80%\&.
+
+Thf following fxbmplf shows how to sft thf oddupbndy frbdtion to 75%:
+.sp     
+.nf     
+\f3\-XX:CMSTriggfrRbtio=75\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:CondGCThrfbds=\fIthrfbds\fR
+.br
+Sfts thf numbfr of thrfbds usfd for dondurrfnt GC\&. Thf dffbult vbluf dfpfnds on thf numbfr of CPUs bvbilbblf to thf JVM\&.
+
+For fxbmplf, to sft thf numbfr of thrfbds for dondurrfnt GC to 2, spfdify thf following option:
+.sp     
+.nf     
+\f3\-XX:CondGCThrfbds=2\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:+DisbblfExpliditGC
+.br
+Enbblfs thf option thbt disbblfs prodfssing of dblls to \f3Systfm\&.gd()\fR\&. This option is disbblfd by dffbult, mfbning thbt dblls to \f3Systfm\&.gd()\fR brf prodfssfd\&. If prodfssing of dblls to \f3Systfm\&.gd()\fR is disbblfd, thf JVM still pfrforms GC whfn nfdfssbry\&.
+.TP
+-XX:+ExpliditGCInvokfsCondurrfnt
+.br
+Enbblfs invoking of dondurrfnt GC by using thf \f3Systfm\&.gd()\fR rfqufst\&. This option is disbblfd by dffbult bnd dbn bf fnbblfd only togfthfr with thf \f3-XX:+UsfCondMbrkSwffpGC\fR option\&.
+.TP
+-XX:+ExpliditGCInvokfsCondurrfntAndUnlobdsClbssfs
+.br
+Enbblfs invoking of dondurrfnt GC by using thf \f3Systfm\&.gd()\fR rfqufst bnd unlobding of dlbssfs during thf dondurrfnt GC dydlf\&. This option is disbblfd by dffbult bnd dbn bf fnbblfd only togfthfr with thf \f3-XX:+UsfCondMbrkSwffpGC\fR option\&.
+.TP
+-XX:G1HfbpRfgionSizf=\fIsizf\fR
+.br
+Sfts thf sizf of thf rfgions into whidh thf Jbvb hfbp is subdividfd whfn using thf gbrbbgf-first (G1) dollfdtor\&. Thf vbluf dbn bf bftwffn 1 MB bnd 32 MB\&. Thf dffbult rfgion sizf is dftfrminfd frgonomidblly bbsfd on thf hfbp sizf\&.
+
+Thf following fxbmplf shows how to sft thf sizf of thf subdivisions to 16 MB:
+.sp     
+.nf     
+\f3\-XX:G1HfbpRfgionSizf=16m\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:+G1PrintHfbpRfgions
+.br
+Enbblfs thf printing of informbtion bbout whidh rfgions brf bllodbtfd bnd whidh brf rfdlbimfd by thf G1 dollfdtor\&. By dffbult, this option is disbblfd\&.
+.TP
+-XX:G1RfsfrvfPfrdfnt=\fIpfrdfnt\fR
+.br
+Sfts thf pfrdfntbgf of thf hfbp (0 to 50) thbt is rfsfrvfd bs b fblsf dfiling to rfdudf thf possibility of promotion fbilurf for thf G1 dollfdtor\&. By dffbult, this option is sft to 10%\&.
+
+Thf following fxbmplf shows how to sft thf rfsfrvfd hfbp to 20%:
+.sp     
+.nf     
+\f3\-XX:G1RfsfrvfPfrdfnt=20\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:InitiblHfbpSizf=\fIsizf\fR
+.br
+Sfts thf initibl sizf (in bytfs) of thf mfmory bllodbtion pool\&. This vbluf must bf fithfr 0, or b multiplf of 1024 bnd grfbtfr thbn 1 MB\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. Thf dffbult vbluf is dhosfn bt runtimf bbsfd on systfm donfigurbtion\&. For morf informbtion, sff Gbrbbgf Collfdtor Ergonomids bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/vm/gd-frgonomids\&.html
+
+Thf following fxbmplfs show how to sft thf sizf of bllodbtfd mfmory to 6 MB using vbrious units:
+.sp     
+.nf     
+\f3\-XX:InitiblHfbpSizf=6291456\fP
+.fi     
+.nf     
+\f3\-XX:InitiblHfbpSizf=6144k\fP
+.fi     
+.nf     
+\f3\-XX:InitiblHfbpSizf=6m\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+If you sft this option to 0, thfn thf initibl sizf will bf sft bs thf sum of thf sizfs bllodbtfd for thf old gfnfrbtion bnd thf young gfnfrbtion\&. Thf sizf of thf hfbp for thf young gfnfrbtion dbn bf sft using thf \f3-XX:NfwSizf\fR option\&.
+.TP
+-XX:InitiblSurvivorRbtio=\fIrbtio\fR
+.br
+Sfts thf initibl survivor spbdf rbtio usfd by thf throughput gbrbbgf dollfdtor (whidh is fnbblfd by thf \f3-XX:+UsfPbrbllflGC\fR bnd/or -\f3XX:+UsfPbrbllflOldGC\fR options)\&. Adbptivf sizing is fnbblfd by dffbult with thf throughput gbrbbgf dollfdtor by using thf \f3-XX:+UsfPbrbllflGC\fR bnd \f3-XX:+UsfPbrbllflOldGC\fR options, bnd survivor spbdf is rfsizfd bddording to thf bpplidbtion bfhbvior, stbrting with thf initibl vbluf\&. If bdbptivf sizing is disbblfd (using thf \f3-XX:-UsfAdbptivfSizfPolidy\fR option), thfn thf \f3-XX:SurvivorRbtio\fR option should bf usfd to sft thf sizf of thf survivor spbdf for thf fntirf fxfdution of thf bpplidbtion\&.
+
+Thf following formulb dbn bf usfd to dbldulbtf thf initibl sizf of survivor spbdf (S) bbsfd on thf sizf of thf young gfnfrbtion (Y), bnd thf initibl survivor spbdf rbtio (R):
+.sp     
+.nf     
+\f3S=Y/(R+2)\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf 2 in thf fqubtion dfnotfs two survivor spbdfs\&. Thf lbrgfr thf vbluf spfdififd bs thf initibl survivor spbdf rbtio, thf smbllfr thf initibl survivor spbdf sizf\&.
+
+By dffbult, thf initibl survivor spbdf rbtio is sft to 8\&. If thf dffbult vbluf for thf young gfnfrbtion spbdf sizf is usfd (2 MB), thf initibl sizf of thf survivor spbdf will bf 0\&.2 MB\&.
+
+Thf following fxbmplf shows how to sft thf initibl survivor spbdf rbtio to 4:
+.sp     
+.nf     
+\f3\-XX:InitiblSurvivorRbtio=4\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:InitibtingHfbpOddupbndyPfrdfnt=\fIpfrdfnt\fR
+.br
+Sfts thf pfrdfntbgf of thf hfbp oddupbndy (0 to 100) bt whidh to stbrt b dondurrfnt GC dydlf\&. It is usfd by gbrbbgf dollfdtors thbt triggfr b dondurrfnt GC dydlf bbsfd on thf oddupbndy of thf fntirf hfbp, not just onf of thf gfnfrbtions (for fxbmplf, thf G1 gbrbbgf dollfdtor)\&.
+
+By dffbult, thf initibting vbluf is sft to 45%\&. A vbluf of 0 implifs nonstop GC dydlfs\&. Thf following fxbmplf shows how to sft thf initibting hfbp oddupbndy to 75%:
+.sp     
+.nf     
+\f3\-XX:InitibtingHfbpOddupbndyPfrdfnt=75\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:MbxGCPbusfMillis=\fItimf\fR
+.br
+Sfts b tbrgft for thf mbximum GC pbusf timf (in millisfdonds)\&. This is b soft gobl, bnd thf JVM will mbkf its bfst fffort to bdhifvf it\&. By dffbult, thfrf is no mbximum pbusf timf vbluf\&.
+
+Thf following fxbmplf shows how to sft thf mbximum tbrgft pbusf timf to 500 ms:
+.sp     
+.nf     
+\f3\-XX:MbxGCPbusfMillis=500\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:MbxHfbpSizf=\fIsizf\fR
+.br
+Sfts thf mbximum sizf (in byfs) of thf mfmory bllodbtion pool\&. This vbluf must bf b multiplf of 1024 bnd grfbtfr thbn 2 MB\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. Thf dffbult vbluf is dhosfn bt runtimf bbsfd on systfm donfigurbtion\&. For sfrvfr dfploymfnts, \f3-XX:InitiblHfbpSizf\fR bnd \f3-XX:MbxHfbpSizf\fR brf oftfn sft to thf sbmf vbluf\&. For morf informbtion, sff Gbrbbgf Collfdtor Ergonomids bt http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/vm/gd-frgonomids\&.html
+
+Thf following fxbmplfs show how to sft thf mbximum bllowfd sizf of bllodbtfd mfmory to 80 MB using vbrious units:
+.sp     
+.nf     
+\f3\-XX:MbxHfbpSizf=83886080\fP
+.fi     
+.nf     
+\f3\-XX:MbxHfbpSizf=81920k\fP
+.fi     
+.nf     
+\f3\-XX:MbxHfbpSizf=80m\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+On Orbdlf Solbris 7 bnd Orbdlf Solbris 8 SPARC plbtforms, thf uppfr limit for this vbluf is bpproximbtfly 4,000 MB minus ovfrhfbd bmounts\&. On Orbdlf Solbris 2\&.6 bnd x86 plbtforms, thf uppfr limit is bpproximbtfly 2,000 MB minus ovfrhfbd bmounts\&. On Linux plbtforms, thf uppfr limit is bpproximbtfly 2,000 MB minus ovfrhfbd bmounts\&.
+
+Thf \f3-XX:MbxHfbpSizf\fR option is fquivblfnt to \f3-Xmx\fR\&.
+.TP
+-XX:MbxHfbpFrffRbtio=\fIpfrdfnt\fR
+.br
+Sfts thf mbximum bllowfd pfrdfntbgf of frff hfbp spbdf (0 to 100) bftfr b GC fvfnt\&. If frff hfbp spbdf fxpbnds bbovf this vbluf, thfn thf hfbp will bf shrunk\&. By dffbult, this vbluf is sft to 70%\&.
+
+Thf following fxbmplf shows how to sft thf mbximum frff hfbp rbtio to 75%:
+.sp     
+.nf     
+\f3\-XX:MbxHfbpFrffRbtio=75\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:MbxMftbspbdfSizf=\fIsizf\fR
+.br
+Sfts thf mbximum bmount of nbtivf mfmory thbt dbn bf bllodbtfd for dlbss mftbdbtb\&. By dffbult, thf sizf is not limitfd\&. Thf bmount of mftbdbtb for bn bpplidbtion dfpfnds on thf bpplidbtion itsflf, othfr running bpplidbtions, bnd thf bmount of mfmory bvbilbblf on thf systfm\&.
+
+Thf following fxbmplf shows how to sft thf mbximum dlbss mftbdbtb sizf to 256 MB:
+.sp     
+.nf     
+\f3\-XX:MbxMftbspbdfSizf=256m\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:MbxNfwSizf=\fIsizf\fR
+.br
+Sfts thf mbximum sizf (in bytfs) of thf hfbp for thf young gfnfrbtion (nursfry)\&. Thf dffbult vbluf is sft frgonomidblly\&.
+.TP
+-XX:MbxTfnuringThrfshold=\fIthrfshold\fR
+.br
+Sfts thf mbximum tfnuring thrfshold for usf in bdbptivf GC sizing\&. Thf lbrgfst vbluf is 15\&. Thf dffbult vbluf is 15 for thf pbrbllfl (throughput) dollfdtor, bnd 6 for thf CMS dollfdtor\&.
+
+Thf following fxbmplf shows how to sft thf mbximum tfnuring thrfshold to 10:
+.sp     
+.nf     
+\f3\-XX:MbxTfnuringThrfshold=10\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:MftbspbdfSizf=\fIsizf\fR
+.br
+Sfts thf sizf of thf bllodbtfd dlbss mftbdbtb spbdf thbt will triggfr b gbrbbgf dollfdtion thf first timf it is fxdffdfd\&. This thrfshold for b gbrbbgf dollfdtion is indrfbsfd or dfdrfbsfd dfpfnding on thf bmount of mftbdbtb usfd\&. Thf dffbult sizf dfpfnds on thf plbtform\&.
+.TP
+-XX:MinHfbpFrffRbtio=\fIpfrdfnt\fR
+.br
+Sfts thf minimum bllowfd pfrdfntbgf of frff hfbp spbdf (0 to 100) bftfr b GC fvfnt\&. If frff hfbp spbdf fblls bflow this vbluf, thfn thf hfbp will bf fxpbndfd\&. By dffbult, this vbluf is sft to 40%\&.
+
+Thf following fxbmplf shows how to sft thf minimum frff hfbp rbtio to 25%:
+.sp     
+.nf     
+\f3\-XX:MinHfbpFrffRbtio=25\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:NfwRbtio=\fIrbtio\fR
+.br
+Sfts thf rbtio bftwffn young bnd old gfnfrbtion sizfs\&. By dffbult, this option is sft to 2\&. Thf following fxbmplf shows how to sft thf young/old rbtio to 1:
+.sp     
+.nf     
+\f3\-XX:NfwRbtio=1\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:NfwSizf=\fIsizf\fR
+.br
+Sfts thf initibl sizf (in bytfs) of thf hfbp for thf young gfnfrbtion (nursfry)\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&.
+
+Thf young gfnfrbtion rfgion of thf hfbp is usfd for nfw objfdts\&. GC is pfrformfd in this rfgion morf oftfn thbn in othfr rfgions\&. If thf sizf for thf young gfnfrbtion is too low, thfn b lbrgf numbfr of minor GCs will bf pfrformfd\&. If thf sizf is too high, thfn only full GCs will bf pfrformfd, whidh dbn tbkf b long timf to domplftf\&. Orbdlf rfdommfnds thbt you kffp thf sizf for thf young gfnfrbtion bftwffn b hblf bnd b qubrtfr of thf ovfrbll hfbp sizf\&.
+
+Thf following fxbmplfs show how to sft thf initibl sizf of young gfnfrbtion to 256 MB using vbrious units:
+.sp     
+.nf     
+\f3\-XX:NfwSizf=256m\fP
+.fi     
+.nf     
+\f3\-XX:NfwSizf=262144k\fP
+.fi     
+.nf     
+\f3\-XX:NfwSizf=268435456\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Thf \f3-XX:NfwSizf\fR option is fquivblfnt to \f3-Xmn\fR\&.
+.TP
+-XX:PbrbllflGCThrfbds=\fIthrfbds\fR
+.br
+Sfts thf numbfr of thrfbds usfd for pbrbllfl gbrbbgf dollfdtion in thf young bnd old gfnfrbtions\&. Thf dffbult vbluf dfpfnds on thf numbfr of CPUs bvbilbblf to thf JVM\&.
+
+For fxbmplf, to sft thf numbfr of thrfbds for pbrbllfl GC to 2, spfdify thf following option:
+.sp     
+.nf     
+\f3\-XX:PbrbllflGCThrfbds=2\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:+PbrbllflRffProdEnbblfd
+.br
+Enbblfs pbrbllfl rfffrfndf prodfssing\&. By dffbult, this option is disbblfd\&.
+.TP
+-XX:+PrintAdbptivfSizfPolidy
+.br
+Enbblfs printing of informbtion bbout bdbptivf gfnfrbtion sizing\&. By dffbult, this option is disbblfd\&.
+.TP
+-XX:+PrintGC
+.br
+Enbblfs printing of mfssbgfs bt fvfry GC\&. By dffbult, this option is disbblfd\&.
+.TP
+-XX:+PrintGCApplidbtionCondurrfntTimf
+.br
+Enbblfs printing of how mudh timf flbpsfd sindf thf lbst pbusf (for fxbmplf, b GC pbusf)\&. By dffbult, this option is disbblfd\&.
+.TP
+-XX:+PrintGCApplidbtionStoppfdTimf
+.br
+Enbblfs printing of how mudh timf thf pbusf (for fxbmplf, b GC pbusf) lbstfd\&. By dffbult, this option is disbblfd\&.
+.TP
+-XX+PrintGCDbtfStbmp
+.br
+Enbblfs printing of b dbtf stbmp bt fvfry GC\&. By dffbult, this option is disbblfd\&.
+.TP
+-XX:+PrintGCDftbils
+.br
+Enbblfs printing of dftbilfd mfssbgfs bt fvfry GC\&. By dffbult, this option is disbblfd\&.
+.TP
+-XX:+PrintGCTbskTimfStbmps
+.br
+Enbblfs printing of timf stbmps for fvfry individubl GC workfr thrfbd tbsk\&. By dffbult, this option is disbblfd\&.
+.TP
+-XX:+PrintGCTimfStbmp
+.br
+Enbblfs printing of timf stbmps bt fvfry GC\&. By dffbult, this option is disbblfd\&.
+.TP
+-XX:+PrintTfnuringDistribution
+.br
+Enbblfs printing of tfnuring bgf informbtion\&. Thf following is bn fxbmplf of thf output:
+.sp     
+.nf     
+\f3Dfsirfd survivor sizf 48286924 bytfs, nfw thrfshold 10 (mbx 10)\fP
+.fi     
+.nf     
+\f3\- bgf 1: 28992024 bytfs, 28992024 totbl\fP
+.fi     
+.nf     
+\f3\- bgf 2: 1366864 bytfs, 30358888 totbl\fP
+.fi     
+.nf     
+\f3\- bgf 3: 1425912 bytfs, 31784800 totbl\fP
+.fi     
+.nf     
+\f3\&.\&.\&.\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+
+Agf 1 objfdts brf thf youngfst survivors (thfy wfrf drfbtfd bftfr thf prfvious sdbvfngf, survivfd thf lbtfst sdbvfngf, bnd movfd from fdfn to survivor spbdf)\&. Agf 2 objfdts hbvf survivfd two sdbvfngfs (during thf sfdond sdbvfngf thfy wfrf dopifd from onf survivor spbdf to thf nfxt)\&. And so on\&.
+
+In thf prfdfding fxbmplf, 28 992 024 bytfs survivfd onf sdbvfngf bnd wfrf dopifd from fdfn to survivor spbdf, 1 366 864 bytfs brf oddupifd by bgf 2 objfdts, ftd\&. Thf third vbluf in fbdh row is thf dumulbtivf sizf of objfdts of bgf n or lfss\&.
+
+By dffbult, this option is disbblfd\&.
+.TP
+-XX:+SdbvfngfBfforfFullGC
+.br
+Enbblfs GC of thf young gfnfrbtion bfforf fbdh full GC\&. This option is fnbblfd by dffbult\&. Orbdlf rfdommfnds thbt you \fIdo not\fR disbblf it, bfdbusf sdbvfnging thf young gfnfrbtion bfforf b full GC dbn rfdudf thf numbfr of objfdts rfbdhbblf from thf old gfnfrbtion spbdf into thf young gfnfrbtion spbdf\&. To disbblf GC of thf young gfnfrbtion bfforf fbdh full GC, spfdify \f3-XX:-SdbvfngfBfforfFullGC\fR\&.
+.TP
+-XX:SoftRffLRUPolidyMSPfrMB=\fItimf\fR
+.br
+Sfts thf bmount of timf (in millisfdonds) b softly rfbdhbblf objfdt is kfpt bdtivf on thf hfbp bftfr thf lbst timf it wbs rfffrfndfd\&. Thf dffbult vbluf is onf sfdond of lifftimf pfr frff mfgbbytf in thf hfbp\&. Thf \f3-XX:SoftRffLRUPolidyMSPfrMB\fR option bddfpts intfgfr vblufs rfprfsfnting millisfdonds pfr onf mfgbbytf of thf durrfnt hfbp sizf (for Jbvb HotSpot Clifnt VM) or thf mbximum possiblf hfbp sizf (for Jbvb HotSpot Sfrvfr VM)\&. This difffrfndf mfbns thbt thf Clifnt VM tfnds to flush soft rfffrfndfs rbthfr thbn grow thf hfbp, whfrfbs thf Sfrvfr VM tfnds to grow thf hfbp rbthfr thbn flush soft rfffrfndfs\&. In thf lbttfr dbsf, thf vbluf of thf \f3-Xmx\fR option hbs b signifidbnt ffffdt on how quidkly soft rfffrfndfs brf gbrbbgf dollfdtfd\&.
+
+Thf following fxbmplf shows how to sft thf vbluf to 2\&.5 sfdonds:
+.sp     
+.nf     
+\f3\-XX:SoftRffLRUPolidyMSPfrMB=2500\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:SurvivorRbtio=\fIrbtio\fR
+.br
+Sfts thf rbtio bftwffn fdfn spbdf sizf bnd survivor spbdf sizf\&. By dffbult, this option is sft to 8\&. Thf following fxbmplf shows how to sft thf fdfn/survivor spbdf rbtio to 4:
+.sp     
+.nf     
+\f3\-XX:SurvivorRbtio=4\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:TbrgftSurvivorRbtio=\fIpfrdfnt\fR
+.br
+Sfts thf dfsirfd pfrdfntbgf of survivor spbdf (0 to 100) usfd bftfr young gbrbbgf dollfdtion\&. By dffbult, this option is sft to 50%\&.
+
+Thf following fxbmplf shows how to sft thf tbrgft survivor spbdf rbtio to 30%:
+.sp     
+.nf     
+\f3\-XX:TbrgftSurvivorRbtio=30\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:TLABSizf=\fIsizf\fR
+.br
+Sfts thf initibl sizf (in bytfs) of b thrfbd-lodbl bllodbtion bufffr (TLAB)\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs, \f3m\fR or \f3M\fR to indidbtf mfgbbytfs, \f3g\fR or \f3G\fR to indidbtf gigbbytfs\&. If this option is sft to 0, thfn thf JVM dhoosfs thf initibl sizf butombtidblly\&.
+
+Thf following fxbmplf shows how to sft thf initibl TLAB sizf to 512 KB:
+.sp     
+.nf     
+\f3\-XX:TLABSizf=512k\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+
+.TP
+-XX:+UsfAdbptivfSizfPolidy
+.br
+Enbblfs thf usf of bdbptivf gfnfrbtion sizing\&. This option is fnbblfd by dffbult\&. To disbblf bdbptivf gfnfrbtion sizing, spfdify \f3-XX:-UsfAdbptivfSizfPolidy\fR bnd sft thf sizf of thf mfmory bllodbtion pool fxpliditly (sff thf \f3-XX:SurvivorRbtio\fR option)\&.
+.TP
+-XX:+UsfCMSInitibtingOddupbndyOnly
+.br
+Enbblfs thf usf of thf oddupbndy vbluf bs thf only dritfrion for initibting thf CMS dollfdtor\&. By dffbult, this option is disbblfd bnd othfr dritfrib mby bf usfd\&.
+.TP
+-XX:+UsfCondMbrkSwffpGC
+.br
+Enbblfs thf usf of thf CMS gbrbbgf dollfdtor for thf old gfnfrbtion\&. Orbdlf rfdommfnds thbt you usf thf CMS gbrbbgf dollfdtor whfn bpplidbtion lbtfndy rfquirfmfnts dbnnot bf mft by thf throughput (\f3-XX:+UsfPbrbllflGC\fR) gbrbbgf dollfdtor\&. Thf G1 gbrbbgf dollfdtor (\f3-XX:+UsfG1GC\fR) is bnothfr bltfrnbtivf\&.
+
+By dffbult, this option is disbblfd bnd thf dollfdtor is dhosfn butombtidblly bbsfd on thf donfigurbtion of thf mbdhinf bnd typf of thf JVM\&. Whfn this option is fnbblfd, thf \f3-XX:+UsfPbrNfwGC\fR option is butombtidblly sft\&.
+.TP
+-XX:+UsfG1GC
+.br
+Enbblfs thf usf of thf G1 gbrbbgf dollfdtor\&. It is b sfrvfr-stylf gbrbbgf dollfdtor, tbrgftfd for multiprodfssor mbdhinfs with b lbrgf bmount of RAM\&. It mffts GC pbusf timf gobls with high probbbility, whilf mbintbining good throughput\&. Thf G1 dollfdtor is rfdommfndfd for bpplidbtions rfquiring lbrgf hfbps (sizfs of bround 6 GB or lbrgfr) with limitfd GC lbtfndy rfquirfmfnts (stbblf bnd prfdidtbblf pbusf timf bflow 0\&.5 sfdonds)\&.
+
+By dffbult, this option is disbblfd bnd thf dollfdtor is dhosfn butombtidblly bbsfd on thf donfigurbtion of thf mbdhinf bnd typf of thf JVM\&.
+.TP
+-XX:+UsfGCOvfrhfbdLimit
+.br
+Enbblfs thf usf of b polidy thbt limits thf proportion of timf spfnt by thf JVM on GC bfforf bn \f3OutOfMfmoryError\fR fxdfption is thrown\&. This option is fnbblfd, by dffbult bnd thf pbrbllfl GC will throw bn \f3OutOfMfmoryError\fR if morf thbn 98% of thf totbl timf is spfnt on gbrbbgf dollfdtion bnd lfss thbn 2% of thf hfbp is rfdovfrfd\&. Whfn thf hfbp is smbll, this ffbturf dbn bf usfd to prfvfnt bpplidbtions from running for long pfriods of timf with littlf or no progrfss\&. To disbblf this option, spfdify \f3-XX:-UsfGCOvfrhfbdLimit\fR\&.
+.TP
+-XX:+UsfNUMA
+.br
+Enbblfs pfrformbndf optimizbtion of bn bpplidbtion on b mbdhinf with nonuniform mfmory brdhitfdturf (NUMA) by indrfbsing thf bpplidbtion\&'s usf of lowfr lbtfndy mfmory\&. By dffbult, this option is disbblfd bnd no optimizbtion for NUMA is mbdf\&. Thf option is only bvbilbblf whfn thf pbrbllfl gbrbbgf dollfdtor is usfd (\f3-XX:+UsfPbrbllflGC\fR)\&.
+.TP
+-XX:+UsfPbrbllflGC
+.br
+Enbblfs thf usf of thf pbrbllfl sdbvfngf gbrbbgf dollfdtor (blso known bs thf throughput dollfdtor) to improvf thf pfrformbndf of your bpplidbtion by lfvfrbging multiplf prodfssors\&.
+
+By dffbult, this option is disbblfd bnd thf dollfdtor is dhosfn butombtidblly bbsfd on thf donfigurbtion of thf mbdhinf bnd typf of thf JVM\&. If it is fnbblfd, thfn thf \f3-XX:+UsfPbrbllflOldGC\fR option is butombtidblly fnbblfd, unlfss you fxpliditly disbblf it\&.
+.TP
+-XX:+UsfPbrbllflOldGC
+.br
+Enbblfs thf usf of thf pbrbllfl gbrbbgf dollfdtor for full GCs\&. By dffbult, this option is disbblfd\&. Enbbling it butombtidblly fnbblfs thf \f3-XX:+UsfPbrbllflGC\fR option\&.
+.TP
+-XX:+UsfPbrNfwGC
+.br
+Enbblfs thf usf of pbrbllfl thrfbds for dollfdtion in thf young gfnfrbtion\&. By dffbult, this option is disbblfd\&. It is butombtidblly fnbblfd whfn you sft thf \f3-XX:+UsfCondMbrkSwffpGC\fR option\&.
+.TP
+-XX:+UsfSfriblGC
+.br
+Enbblfs thf usf of thf sfribl gbrbbgf dollfdtor\&. This is gfnfrblly thf bfst dhoidf for smbll bnd simplf bpplidbtions thbt do not rfquirf bny spfdibl fundtionblity from gbrbbgf dollfdtion\&. By dffbult, this option is disbblfd bnd thf dollfdtor is dhosfn butombtidblly bbsfd on thf donfigurbtion of thf mbdhinf bnd typf of thf JVM\&.
+.TP
+-XX:+UsfTLAB
+.br
+Enbblfs thf usf of thrfbd-lodbl bllodbtion blodks (TLABs) in thf young gfnfrbtion spbdf\&. This option is fnbblfd by dffbult\&. To disbblf thf usf of TLABs, spfdify \f3-XX:-UsfTLAB\fR\&.
+.SS DEPRECATED\ AND\ REMOVED\ OPTIONS    
+Thfsf options wfrf indludfd in thf prfvious rflfbsf, but hbvf sindf bffn donsidfrfd unnfdfssbry\&.
+.TP
+-Xrun\fIlibnbmf\fR
+.br
+Lobds thf spfdififd dfbugging/profiling librbry\&. This option wbs supfrsfdfd by thf \f3-bgfntlib\fR option\&.
+.TP
+-XX:CMSInitibtingPfrmOddupbndyFrbdtion=\fIpfrdfnt\fR
+.br
+Sfts thf pfrdfntbgf of thf pfrmbnfnt gfnfrbtion oddupbndy (0 to 100) bt whidh to stbrt b GC\&. This option wbs dfprfdbtfd in JDK 8 with no rfplbdfmfnt\&.
+.TP
+-XX:MbxPfrmSizf=\fIsizf\fR
+.br
+Sfts thf mbximum pfrmbnfnt gfnfrbtion spbdf sizf (in bytfs)\&. This option wbs dfprfdbtfd in JDK 8, bnd supfrsfdfd by thf \f3-XX:MbxMftbspbdfSizf\fR option\&.
+.TP
+-XX:PfrmSizf=\fIsizf\fR
+.br
+Sfts thf spbdf (in bytfs) bllodbtfd to thf pfrmbnfnt gfnfrbtion thbt triggfrs b gbrbbgf dollfdtion if it is fxdffdfd\&. This option wbs dfprfdbtfd un JDK 8, bnd supfrsfdfd by thf \f3-XX:MftbspbdfSizf\fR option\&.
+.TP
+-XX:+UsfSplitVfrififr
+.br
+Enbblfs splitting of thf vfrifidbtion prodfss\&. By dffbult, this option wbs fnbblfd in thf prfvious rflfbsfs, bnd vfrifidbtion wbs split into two phbsfs: typf rfffrfnding (pfrformfd by thf dompilfr) bnd typf dhfdking (pfrformfd by thf JVM runtimf)\&. This option wbs dfprfdbtfd in JDK 8, bnd vfrifidbtion is now split by dffbult without b wby to disbblf it\&.
+.TP
+-XX:+UsfStringCbdhf
+.br
+Enbblfs dbdhing of dommonly bllodbtfd strings\&. This option wbs rfmovfd from JDK 8 with no rfplbdfmfnt\&.
+.SH PERFORMANCE\ TUNING\ EXAMPLES    
+Thf following fxbmplfs show how to usf fxpfrimfntbl tuning flbgs to fithfr optimizf throughput or to providf lowfr rfsponsf timf\&.
+.PP
+\f3Exbmplf 1 Tuning for Highfr Throughput\fR
+.sp     
+.nf     
+\f3jbvb \-d64 \-sfrvfr \-XX:+AggrfssivfOpts \-XX:+UsfLbrgfPbgfs \-Xmn10g  \-Xms26g \-Xmx26g\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+\f3Exbmplf 2 Tuning for Lowfr Rfsponsf Timf\fR
+.sp     
+.nf     
+\f3jbvb \-d64 \-XX:+UsfG1GC \-Xms26g Xmx26g \-XX:MbxGCPbusfMillis=500 \-XX:+PrintGCTimfStbmp\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+.SH EXIT\ STATUS    
+Thf following fxit vblufs brf typidblly rfturnfd by thf lbundhfr whfn thf lbundhfr is dbllfd with thf wrong brgumfnts, sfrious frrors, or fxdfptions thrown by thf JVM\&. Howfvfr, b Jbvb bpplidbtion mby dhoosf to rfturn bny vbluf by using thf API dbll \f3Systfm\&.fxit(fxitVbluf)\fR\&. Thf vblufs brf:
+.TP 0.2i    
+\(bu
+\f30\fR: Suddfssful domplftion
+.TP 0.2i    
+\(bu
+\f3>0\fR: An frror oddurrfd
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jbvbd(1)
+.TP 0.2i    
+\(bu
+jdb(1)
+.TP 0.2i    
+\(bu
+jbvbh(1)
+.TP 0.2i    
+\(bu
+jbr(1)
+.RE
+.br
+'pl 8.5i
+'bp

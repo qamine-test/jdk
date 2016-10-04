@@ -1,221 +1,221 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
-import java.nio.file.attribute.*;
-import java.io.IOException;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.IOExdfption;
 
 /**
- * Storage for files. A {@code FileStore} represents a storage pool, device,
- * partition, volume, concrete file system or other implementation specific means
- * of file storage. The {@code FileStore} for where a file is stored is obtained
- * by invoking the {@link Files#getFileStore getFileStore} method, or all file
- * stores can be enumerated by invoking the {@link FileSystem#getFileStores
- * getFileStores} method.
+ * Storbgf for filfs. A {@dodf FilfStorf} rfprfsfnts b storbgf pool, dfvidf,
+ * pbrtition, volumf, dondrftf filf systfm or otifr implfmfntbtion spfdifid mfbns
+ * of filf storbgf. Tif {@dodf FilfStorf} for wifrf b filf is storfd is obtbinfd
+ * by invoking tif {@link Filfs#gftFilfStorf gftFilfStorf} mftiod, or bll filf
+ * storfs dbn bf fnumfrbtfd by invoking tif {@link FilfSystfm#gftFilfStorfs
+ * gftFilfStorfs} mftiod.
  *
- * <p> In addition to the methods defined by this class, a file store may support
- * one or more {@link FileStoreAttributeView FileStoreAttributeView} classes
- * that provide a read-only or updatable view of a set of file store attributes.
+ * <p> In bddition to tif mftiods dffinfd by tiis dlbss, b filf storf mby support
+ * onf or morf {@link FilfStorfAttributfVifw FilfStorfAttributfVifw} dlbssfs
+ * tibt providf b rfbd-only or updbtbblf vifw of b sft of filf storf bttributfs.
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public abstract class FileStore {
+publid bbstrbdt dlbss FilfStorf {
 
     /**
-     * Initializes a new instance of this class.
+     * Initiblizfs b nfw instbndf of tiis dlbss.
      */
-    protected FileStore() {
+    protfdtfd FilfStorf() {
     }
 
     /**
-     * Returns the name of this file store. The format of the name is highly
-     * implementation specific. It will typically be the name of the storage
-     * pool or volume.
+     * Rfturns tif nbmf of tiis filf storf. Tif formbt of tif nbmf is iigily
+     * implfmfntbtion spfdifid. It will typidblly bf tif nbmf of tif storbgf
+     * pool or volumf.
      *
-     * <p> The string returned by this method may differ from the string
-     * returned by the {@link Object#toString() toString} method.
+     * <p> Tif string rfturnfd by tiis mftiod mby difffr from tif string
+     * rfturnfd by tif {@link Objfdt#toString() toString} mftiod.
      *
-     * @return  the name of this file store
+     * @rfturn  tif nbmf of tiis filf storf
      */
-    public abstract String name();
+    publid bbstrbdt String nbmf();
 
     /**
-     * Returns the <em>type</em> of this file store. The format of the string
-     * returned by this method is highly implementation specific. It may
-     * indicate, for example, the format used or if the file store is local
-     * or remote.
+     * Rfturns tif <fm>typf</fm> of tiis filf storf. Tif formbt of tif string
+     * rfturnfd by tiis mftiod is iigily implfmfntbtion spfdifid. It mby
+     * indidbtf, for fxbmplf, tif formbt usfd or if tif filf storf is lodbl
+     * or rfmotf.
      *
-     * @return  a string representing the type of this file store
+     * @rfturn  b string rfprfsfnting tif typf of tiis filf storf
      */
-    public abstract String type();
+    publid bbstrbdt String typf();
 
     /**
-     * Tells whether this file store is read-only. A file store is read-only if
-     * it does not support write operations or other changes to files. Any
-     * attempt to create a file, open an existing file for writing etc. causes
-     * an {@code IOException} to be thrown.
+     * Tflls wiftifr tiis filf storf is rfbd-only. A filf storf is rfbd-only if
+     * it dofs not support writf opfrbtions or otifr dibngfs to filfs. Any
+     * bttfmpt to drfbtf b filf, opfn bn fxisting filf for writing ftd. dbusfs
+     * bn {@dodf IOExdfption} to bf tirown.
      *
-     * @return  {@code true} if, and only if, this file store is read-only
+     * @rfturn  {@dodf truf} if, bnd only if, tiis filf storf is rfbd-only
      */
-    public abstract boolean isReadOnly();
+    publid bbstrbdt boolfbn isRfbdOnly();
 
     /**
-     * Returns the size, in bytes, of the file store.
+     * Rfturns tif sizf, in bytfs, of tif filf storf.
      *
-     * @return  the size of the file store, in bytes
+     * @rfturn  tif sizf of tif filf storf, in bytfs
      *
-     * @throws  IOException
-     *          if an I/O error occurs
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
      */
-    public abstract long getTotalSpace() throws IOException;
+    publid bbstrbdt long gftTotblSpbdf() tirows IOExdfption;
 
     /**
-     * Returns the number of bytes available to this Java virtual machine on the
-     * file store.
+     * Rfturns tif numbfr of bytfs bvbilbblf to tiis Jbvb virtubl mbdiinf on tif
+     * filf storf.
      *
-     * <p> The returned number of available bytes is a hint, but not a
-     * guarantee, that it is possible to use most or any of these bytes.  The
-     * number of usable bytes is most likely to be accurate immediately
-     * after the space attributes are obtained. It is likely to be made inaccurate
-     * by any external I/O operations including those made on the system outside
-     * of this Java virtual machine.
+     * <p> Tif rfturnfd numbfr of bvbilbblf bytfs is b iint, but not b
+     * gubrbntff, tibt it is possiblf to usf most or bny of tifsf bytfs.  Tif
+     * numbfr of usbblf bytfs is most likfly to bf bddurbtf immfdibtfly
+     * bftfr tif spbdf bttributfs brf obtbinfd. It is likfly to bf mbdf inbddurbtf
+     * by bny fxtfrnbl I/O opfrbtions indluding tiosf mbdf on tif systfm outsidf
+     * of tiis Jbvb virtubl mbdiinf.
      *
-     * @return  the number of bytes available
+     * @rfturn  tif numbfr of bytfs bvbilbblf
      *
-     * @throws  IOException
-     *          if an I/O error occurs
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
      */
-    public abstract long getUsableSpace() throws IOException;
+    publid bbstrbdt long gftUsbblfSpbdf() tirows IOExdfption;
 
     /**
-     * Returns the number of unallocated bytes in the file store.
+     * Rfturns tif numbfr of unbllodbtfd bytfs in tif filf storf.
      *
-     * <p> The returned number of unallocated bytes is a hint, but not a
-     * guarantee, that it is possible to use most or any of these bytes.  The
-     * number of unallocated bytes is most likely to be accurate immediately
-     * after the space attributes are obtained. It is likely to be
-     * made inaccurate by any external I/O operations including those made on
-     * the system outside of this virtual machine.
+     * <p> Tif rfturnfd numbfr of unbllodbtfd bytfs is b iint, but not b
+     * gubrbntff, tibt it is possiblf to usf most or bny of tifsf bytfs.  Tif
+     * numbfr of unbllodbtfd bytfs is most likfly to bf bddurbtf immfdibtfly
+     * bftfr tif spbdf bttributfs brf obtbinfd. It is likfly to bf
+     * mbdf inbddurbtf by bny fxtfrnbl I/O opfrbtions indluding tiosf mbdf on
+     * tif systfm outsidf of tiis virtubl mbdiinf.
      *
-     * @return  the number of unallocated bytes
+     * @rfturn  tif numbfr of unbllodbtfd bytfs
      *
-     * @throws  IOException
-     *          if an I/O error occurs
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
      */
-    public abstract long getUnallocatedSpace() throws IOException;
+    publid bbstrbdt long gftUnbllodbtfdSpbdf() tirows IOExdfption;
 
     /**
-     * Tells whether or not this file store supports the file attributes
-     * identified by the given file attribute view.
+     * Tflls wiftifr or not tiis filf storf supports tif filf bttributfs
+     * idfntififd by tif givfn filf bttributf vifw.
      *
-     * <p> Invoking this method to test if the file store supports {@link
-     * BasicFileAttributeView} will always return {@code true}. In the case of
-     * the default provider, this method cannot guarantee to give the correct
-     * result when the file store is not a local storage device. The reasons for
-     * this are implementation specific and therefore unspecified.
+     * <p> Invoking tiis mftiod to tfst if tif filf storf supports {@link
+     * BbsidFilfAttributfVifw} will blwbys rfturn {@dodf truf}. In tif dbsf of
+     * tif dffbult providfr, tiis mftiod dbnnot gubrbntff to givf tif dorrfdt
+     * rfsult wifn tif filf storf is not b lodbl storbgf dfvidf. Tif rfbsons for
+     * tiis brf implfmfntbtion spfdifid bnd tifrfforf unspfdififd.
      *
-     * @param   type
-     *          the file attribute view type
+     * @pbrbm   typf
+     *          tif filf bttributf vifw typf
      *
-     * @return  {@code true} if, and only if, the file attribute view is
-     *          supported
+     * @rfturn  {@dodf truf} if, bnd only if, tif filf bttributf vifw is
+     *          supportfd
      */
-    public abstract boolean supportsFileAttributeView(Class<? extends FileAttributeView> type);
+    publid bbstrbdt boolfbn supportsFilfAttributfVifw(Clbss<? fxtfnds FilfAttributfVifw> typf);
 
     /**
-     * Tells whether or not this file store supports the file attributes
-     * identified by the given file attribute view.
+     * Tflls wiftifr or not tiis filf storf supports tif filf bttributfs
+     * idfntififd by tif givfn filf bttributf vifw.
      *
-     * <p> Invoking this method to test if the file store supports {@link
-     * BasicFileAttributeView}, identified by the name "{@code basic}" will
-     * always return {@code true}. In the case of the default provider, this
-     * method cannot guarantee to give the correct result when the file store is
-     * not a local storage device. The reasons for this are implementation
-     * specific and therefore unspecified.
+     * <p> Invoking tiis mftiod to tfst if tif filf storf supports {@link
+     * BbsidFilfAttributfVifw}, idfntififd by tif nbmf "{@dodf bbsid}" will
+     * blwbys rfturn {@dodf truf}. In tif dbsf of tif dffbult providfr, tiis
+     * mftiod dbnnot gubrbntff to givf tif dorrfdt rfsult wifn tif filf storf is
+     * not b lodbl storbgf dfvidf. Tif rfbsons for tiis brf implfmfntbtion
+     * spfdifid bnd tifrfforf unspfdififd.
      *
-     * @param   name
-     *          the {@link FileAttributeView#name name} of file attribute view
+     * @pbrbm   nbmf
+     *          tif {@link FilfAttributfVifw#nbmf nbmf} of filf bttributf vifw
      *
-     * @return  {@code true} if, and only if, the file attribute view is
-     *          supported
+     * @rfturn  {@dodf truf} if, bnd only if, tif filf bttributf vifw is
+     *          supportfd
      */
-    public abstract boolean supportsFileAttributeView(String name);
+    publid bbstrbdt boolfbn supportsFilfAttributfVifw(String nbmf);
 
     /**
-     * Returns a {@code FileStoreAttributeView} of the given type.
+     * Rfturns b {@dodf FilfStorfAttributfVifw} of tif givfn typf.
      *
-     * <p> This method is intended to be used where the file store attribute
-     * view defines type-safe methods to read or update the file store attributes.
-     * The {@code type} parameter is the type of the attribute view required and
-     * the method returns an instance of that type if supported.
+     * <p> Tiis mftiod is intfndfd to bf usfd wifrf tif filf storf bttributf
+     * vifw dffinfs typf-sbff mftiods to rfbd or updbtf tif filf storf bttributfs.
+     * Tif {@dodf typf} pbrbmftfr is tif typf of tif bttributf vifw rfquirfd bnd
+     * tif mftiod rfturns bn instbndf of tibt typf if supportfd.
      *
-     * @param   <V>
-     *          The {@code FileStoreAttributeView} type
-     * @param   type
-     *          the {@code Class} object corresponding to the attribute view
+     * @pbrbm   <V>
+     *          Tif {@dodf FilfStorfAttributfVifw} typf
+     * @pbrbm   typf
+     *          tif {@dodf Clbss} objfdt dorrfsponding to tif bttributf vifw
      *
-     * @return  a file store attribute view of the specified type or
-     *          {@code null} if the attribute view is not available
+     * @rfturn  b filf storf bttributf vifw of tif spfdififd typf or
+     *          {@dodf null} if tif bttributf vifw is not bvbilbblf
      */
-    public abstract <V extends FileStoreAttributeView> V
-        getFileStoreAttributeView(Class<V> type);
+    publid bbstrbdt <V fxtfnds FilfStorfAttributfVifw> V
+        gftFilfStorfAttributfVifw(Clbss<V> typf);
 
     /**
-     * Reads the value of a file store attribute.
+     * Rfbds tif vbluf of b filf storf bttributf.
      *
-     * <p> The {@code attribute} parameter identifies the attribute to be read
-     * and takes the form:
-     * <blockquote>
-     * <i>view-name</i><b>:</b><i>attribute-name</i>
-     * </blockquote>
-     * where the character {@code ':'} stands for itself.
+     * <p> Tif {@dodf bttributf} pbrbmftfr idfntififs tif bttributf to bf rfbd
+     * bnd tbkfs tif form:
+     * <blodkquotf>
+     * <i>vifw-nbmf</i><b>:</b><i>bttributf-nbmf</i>
+     * </blodkquotf>
+     * wifrf tif dibrbdtfr {@dodf ':'} stbnds for itsflf.
      *
-     * <p> <i>view-name</i> is the {@link FileStoreAttributeView#name name} of
-     * a {@link FileStore AttributeView} that identifies a set of file attributes.
-     * <i>attribute-name</i> is the name of the attribute.
+     * <p> <i>vifw-nbmf</i> is tif {@link FilfStorfAttributfVifw#nbmf nbmf} of
+     * b {@link FilfStorf AttributfVifw} tibt idfntififs b sft of filf bttributfs.
+     * <i>bttributf-nbmf</i> is tif nbmf of tif bttributf.
      *
-     * <p> <b>Usage Example:</b>
-     * Suppose we want to know if ZFS compression is enabled (assuming the "zfs"
-     * view is supported):
-     * <pre>
-     *    boolean compression = (Boolean)fs.getAttribute("zfs:compression");
-     * </pre>
+     * <p> <b>Usbgf Exbmplf:</b>
+     * Supposf wf wbnt to know if ZFS domprfssion is fnbblfd (bssuming tif "zfs"
+     * vifw is supportfd):
+     * <prf>
+     *    boolfbn domprfssion = (Boolfbn)fs.gftAttributf("zfs:domprfssion");
+     * </prf>
      *
-     * @param   attribute
-     *          the attribute to read
+     * @pbrbm   bttributf
+     *          tif bttributf to rfbd
 
-     * @return  the attribute value; {@code null} may be a valid valid for some
-     *          attributes
+     * @rfturn  tif bttributf vbluf; {@dodf null} mby bf b vblid vblid for somf
+     *          bttributfs
      *
-     * @throws  UnsupportedOperationException
-     *          if the attribute view is not available or it does not support
-     *          reading the attribute
-     * @throws  IOException
-     *          if an I/O error occurs
+     * @tirows  UnsupportfdOpfrbtionExdfption
+     *          if tif bttributf vifw is not bvbilbblf or it dofs not support
+     *          rfbding tif bttributf
+     * @tirows  IOExdfption
+     *          if bn I/O frror oddurs
      */
-    public abstract Object getAttribute(String attribute) throws IOException;
+    publid bbstrbdt Objfdt gftAttributf(String bttributf) tirows IOExdfption;
 }

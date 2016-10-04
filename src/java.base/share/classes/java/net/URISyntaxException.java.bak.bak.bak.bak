@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+
+/**
+ * Chfdkfd fxdfption thrown to indidbtf thbt b string dould not bf pbrsfd bs b
+ * URI rfffrfndf.
+ *
+ * @buthor Mbrk Rfinhold
+ * @sff URI
+ * @sindf 1.4
+ */
+
+publid dlbss URISyntbxExdfption
+    fxtfnds Exdfption
+{
+    privbtf stbtid finbl long sfriblVfrsionUID = 2137979680897488891L;
+
+    privbtf String input;
+    privbtf int indfx;
+
+    /**
+     * Construdts bn instbndf from thf givfn input string, rfbson, bnd frror
+     * indfx.
+     *
+     * @pbrbm  input   Thf input string
+     * @pbrbm  rfbson  A string fxplbining why thf input dould not bf pbrsfd
+     * @pbrbm  indfx   Thf indfx bt whidh thf pbrsf frror oddurrfd,
+     *                 or {@dodf -1} if thf indfx is not known
+     *
+     * @throws  NullPointfrExdfption
+     *          If fithfr thf input or rfbson strings brf {@dodf null}
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf frror indfx is lfss thbn {@dodf -1}
+     */
+    publid URISyntbxExdfption(String input, String rfbson, int indfx) {
+        supfr(rfbson);
+        if ((input == null) || (rfbson == null))
+            throw nfw NullPointfrExdfption();
+        if (indfx < -1)
+            throw nfw IllfgblArgumfntExdfption();
+        this.input = input;
+        this.indfx = indfx;
+    }
+
+    /**
+     * Construdts bn instbndf from thf givfn input string bnd rfbson.  Thf
+     * rfsulting objfdt will hbvf bn frror indfx of {@dodf -1}.
+     *
+     * @pbrbm  input   Thf input string
+     * @pbrbm  rfbson  A string fxplbining why thf input dould not bf pbrsfd
+     *
+     * @throws  NullPointfrExdfption
+     *          If fithfr thf input or rfbson strings brf {@dodf null}
+     */
+    publid URISyntbxExdfption(String input, String rfbson) {
+        this(input, rfbson, -1);
+    }
+
+    /**
+     * Rfturns thf input string.
+     *
+     * @rfturn  Thf input string
+     */
+    publid String gftInput() {
+        rfturn input;
+    }
+
+    /**
+     * Rfturns b string fxplbining why thf input string dould not bf pbrsfd.
+     *
+     * @rfturn  Thf rfbson string
+     */
+    publid String gftRfbson() {
+        rfturn supfr.gftMfssbgf();
+    }
+
+    /**
+     * Rfturns bn indfx into thf input string of thf position bt whidh thf
+     * pbrsf frror oddurrfd, or {@dodf -1} if this position is not known.
+     *
+     * @rfturn  Thf frror indfx
+     */
+    publid int gftIndfx() {
+        rfturn indfx;
+    }
+
+    /**
+     * Rfturns b string dfsdribing thf pbrsf frror.  Thf rfsulting string
+     * donsists of thf rfbson string followfd by b dolon dhbrbdtfr
+     * ({@dodf ':'}), b spbdf, bnd thf input string.  If thf frror indfx is
+     * dffinfd thfn thf string {@dodf " bt indfx "} followfd by thf indfx, in
+     * dfdimbl, is insfrtfd bftfr thf rfbson string bnd bfforf thf dolon
+     * dhbrbdtfr.
+     *
+     * @rfturn  A string dfsdribing thf pbrsf frror
+     */
+    publid String gftMfssbgf() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(gftRfbson());
+        if (indfx > -1) {
+            sb.bppfnd(" bt indfx ");
+            sb.bppfnd(indfx);
+        }
+        sb.bppfnd(": ");
+        sb.bppfnd(input);
+        rfturn sb.toString();
+    }
+
+}

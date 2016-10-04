@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.remote.rmi;
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf.rmi;
 
-import java.io.IOException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
+import jbvb.io.IOExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
 
 /**
- * <p>RMI object used to establish connections to an RMI connector.
- * There is one Remote object implementing this interface for each RMI
- * connector.</p>
+ * <p>RMI objfdt usfd to fstbblisi donnfdtions to bn RMI donnfdtor.
+ * Tifrf is onf Rfmotf objfdt implfmfnting tiis intfrfbdf for fbdi RMI
+ * donnfdtor.</p>
  *
- * <p>User code does not usually refer to this interface.  It is
- * specified as part of the public API so that different
- * implementations of that API will interoperate.</p>
+ * <p>Usfr dodf dofs not usublly rfffr to tiis intfrfbdf.  It is
+ * spfdififd bs pbrt of tif publid API so tibt difffrfnt
+ * implfmfntbtions of tibt API will intfropfrbtf.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface RMIServer extends Remote {
+publid intfrfbdf RMISfrvfr fxtfnds Rfmotf {
     /**
-     * <p>The version of the RMI Connector Protocol understood by this
-     * connector server.  This is a string with the following format:</p>
+     * <p>Tif vfrsion of tif RMI Connfdtor Protodol undfrstood by tiis
+     * donnfdtor sfrvfr.  Tiis is b string witi tif following formbt:</p>
      *
-     * <pre>
-     * <em>protocol-version</em> <em>implementation-name</em>
-     * </pre>
+     * <prf>
+     * <fm>protodol-vfrsion</fm> <fm>implfmfntbtion-nbmf</fm>
+     * </prf>
      *
-     * <p>The <code><em>protocol-version</em></code> is a series of
-     * two or more non-negative integers separated by periods
-     * (<code>.</code>).  An implementation of the version described
-     * by this documentation must use the string <code>1.0</code>
-     * here.</p>
+     * <p>Tif <dodf><fm>protodol-vfrsion</fm></dodf> is b sfrifs of
+     * two or morf non-nfgbtivf intfgfrs sfpbrbtfd by pfriods
+     * (<dodf>.</dodf>).  An implfmfntbtion of tif vfrsion dfsdribfd
+     * by tiis dodumfntbtion must usf tif string <dodf>1.0</dodf>
+     * ifrf.</p>
      *
-     * <p>After the protocol version there must be a space, followed
-     * by the implementation name.  The format of the implementation
-     * name is unspecified.  It is recommended that it include an
-     * implementation version number.  An implementation can use an
-     * empty string as its implementation name, for example for
-     * security reasons.</p>
+     * <p>Aftfr tif protodol vfrsion tifrf must bf b spbdf, followfd
+     * by tif implfmfntbtion nbmf.  Tif formbt of tif implfmfntbtion
+     * nbmf is unspfdififd.  It is rfdommfndfd tibt it indludf bn
+     * implfmfntbtion vfrsion numbfr.  An implfmfntbtion dbn usf bn
+     * fmpty string bs its implfmfntbtion nbmf, for fxbmplf for
+     * sfdurity rfbsons.</p>
      *
-     * @return a string with the format described here.
+     * @rfturn b string witi tif formbt dfsdribfd ifrf.
      *
-     * @exception RemoteException if there is a communication
-     * exception during the remote method call.
+     * @fxdfption RfmotfExdfption if tifrf is b dommunidbtion
+     * fxdfption during tif rfmotf mftiod dbll.
      */
-    public String getVersion() throws RemoteException;
+    publid String gftVfrsion() tirows RfmotfExdfption;
 
     /**
-     * <p>Makes a new connection through this RMI connector.  Each
-     * remote client calls this method to obtain a new RMI object
-     * representing its connection.</p>
+     * <p>Mbkfs b nfw donnfdtion tirougi tiis RMI donnfdtor.  Ebdi
+     * rfmotf dlifnt dblls tiis mftiod to obtbin b nfw RMI objfdt
+     * rfprfsfnting its donnfdtion.</p>
      *
-     * @param credentials this object specifies the user-defined credentials
-     * to be passed in to the server in order to authenticate the user before
-     * creating the <code>RMIConnection</code>.  Can be null.
+     * @pbrbm drfdfntibls tiis objfdt spfdififs tif usfr-dffinfd drfdfntibls
+     * to bf pbssfd in to tif sfrvfr in ordfr to butifntidbtf tif usfr bfforf
+     * drfbting tif <dodf>RMIConnfdtion</dodf>.  Cbn bf null.
      *
-     * @return the newly-created connection object.
+     * @rfturn tif nfwly-drfbtfd donnfdtion objfdt.
      *
-     * @exception IOException if the new client object cannot be
-     * created or exported, or if there is a communication exception
-     * during the remote method call.
+     * @fxdfption IOExdfption if tif nfw dlifnt objfdt dbnnot bf
+     * drfbtfd or fxportfd, or if tifrf is b dommunidbtion fxdfption
+     * during tif rfmotf mftiod dbll.
      *
-     * @exception SecurityException if the given credentials do not
-     * allow the server to authenticate the caller successfully.
+     * @fxdfption SfdurityExdfption if tif givfn drfdfntibls do not
+     * bllow tif sfrvfr to butifntidbtf tif dbllfr suddfssfully.
      */
-    public RMIConnection newClient(Object credentials) throws IOException;
+    publid RMIConnfdtion nfwClifnt(Objfdt drfdfntibls) tirows IOExdfption;
 }

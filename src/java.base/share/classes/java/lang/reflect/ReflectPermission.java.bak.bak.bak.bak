@@ -1,0 +1,106 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rfflfdt;
+
+/**
+ * Thf Pfrmission dlbss for rfflfdtivf opfrbtions.
+ * <P>
+ * Thf following tbblf
+ * providfs b summbry dfsdription of whbt thf pfrmission bllows,
+ * bnd disdussfs thf risks of grbnting dodf thf pfrmission.
+ *
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="Tbblf shows pfrmission tbrgft nbmf, whbt thf pfrmission bllows, bnd bssodibtfd risks">
+ * <tr>
+ * <th>Pfrmission Tbrgft Nbmf</th>
+ * <th>Whbt thf Pfrmission Allows</th>
+ * <th>Risks of Allowing this Pfrmission</th>
+ * </tr>
+ *
+ * <tr>
+ *   <td>supprfssAddfssChfdks</td>
+ *   <td>bbility to supprfss thf stbndbrd Jbvb lbngubgf bddfss dhfdks
+ *       on fiflds bnd mfthods in b dlbss; bllow bddfss not only publid mfmbfrs
+ *       but blso bllow bddfss to dffbult (pbdkbgf) bddfss, protfdtfd,
+ *       bnd privbtf mfmbfrs.</td>
+ *   <td>This is dbngfrous in thbt informbtion (possibly donfidfntibl) bnd
+ *       mfthods normblly unbvbilbblf would bf bddfssiblf to mblidious dodf.</td>
+ * </tr>
+ * <tr>
+ *   <td>nfwProxyInPbdkbgf.{pbdkbgf nbmf}</td>
+ *   <td>bbility to drfbtf b proxy instbndf in thf spfdififd pbdkbgf of whidh
+ *       thf non-publid intfrfbdf thbt thf proxy dlbss implfmfnts.</td>
+ *   <td>This givfs dodf bddfss to dlbssfs in pbdkbgfs to whidh it normblly
+ *       dofs not hbvf bddfss bnd thf dynbmid proxy dlbss is in thf systfm
+ *       protfdtion dombin. Mblidious dodf mby usf thfsf dlbssfs to
+ *       hflp in its bttfmpt to dompromisf sfdurity in thf systfm.</td>
+ * </tr>
+ *
+ * </tbblf>
+ *
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.BbsidPfrmission
+ * @sff AddfssiblfObjfdt
+ * @sff Fifld#gft
+ * @sff Fifld#sft
+ * @sff Mfthod#invokf
+ * @sff Construdtor#nfwInstbndf
+ * @sff Proxy#nfwProxyInstbndf
+ *
+ * @sindf 1.2
+ */
+publid finbl
+dlbss RfflfdtPfrmission fxtfnds jbvb.sfdurity.BbsidPfrmission {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 7412737110241507485L;
+
+    /**
+     * Construdts b RfflfdtPfrmission with thf spfdififd nbmf.
+     *
+     * @pbrbm nbmf thf nbmf of thf RfflfdtPfrmission
+     *
+     * @throws NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @throws IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
+     */
+    publid RfflfdtPfrmission(String nbmf) {
+        supfr(nbmf);
+    }
+
+    /**
+     * Construdts b RfflfdtPfrmission with thf spfdififd nbmf bnd bdtions.
+     * Thf bdtions should bf null; thfy brf ignorfd.
+     *
+     * @pbrbm nbmf thf nbmf of thf RfflfdtPfrmission
+     *
+     * @pbrbm bdtions should bf null
+     *
+     * @throws NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @throws IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
+     */
+    publid RfflfdtPfrmission(String nbmf, String bdtions) {
+        supfr(nbmf, bdtions);
+    }
+
+}

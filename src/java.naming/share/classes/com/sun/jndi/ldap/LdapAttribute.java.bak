@@ -1,212 +1,212 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.io.IOException;
-import java.util.Hashtable;
-import java.util.Vector;
-import javax.naming.*;
-import javax.naming.directory.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
 
 /**
-  * This subclass is used by LDAP to implement the schema calls.
-  * Basically, it keeps track of which context it is an attribute of
-  * so it can get the schema for that context.
+  * Tiis subdlbss is usfd by LDAP to implfmfnt tif sdifmb dblls.
+  * Bbsidblly, it kffps trbdk of wiidi dontfxt it is bn bttributf of
+  * so it dbn gft tif sdifmb for tibt dontfxt.
   *
-  * @author Jon Ruiz
+  * @butior Jon Ruiz
   */
-final class LdapAttribute extends BasicAttribute {
+finbl dlbss LdbpAttributf fxtfnds BbsidAttributf {
 
-    static final long serialVersionUID = -4288716561020779584L;
+    stbtid finbl long sfriblVfrsionUID = -4288716561020779584L;
 
-    private transient DirContext baseCtx = null;
-    private Name rdn = new CompositeName();
+    privbtf trbnsifnt DirContfxt bbsfCtx = null;
+    privbtf Nbmf rdn = nfw CompositfNbmf();
 
-    // these two are used to reconstruct the baseCtx if this attribute has
-    // been serialized (
-    private String baseCtxURL;
-    private Hashtable<String, ? super String> baseCtxEnv;
+    // tifsf two brf usfd to rfdonstrudt tif bbsfCtx if tiis bttributf ibs
+    // bffn sfriblizfd (
+    privbtf String bbsfCtxURL;
+    privbtf Hbsitbblf<String, ? supfr String> bbsfCtxEnv;
 
-    @SuppressWarnings("unchecked") // clone()
-    public Object clone() {
-        LdapAttribute attr = new LdapAttribute(this.attrID, baseCtx, rdn);
-        attr.values = (Vector<Object>)values.clone();
-        return attr;
+    @SupprfssWbrnings("undifdkfd") // dlonf()
+    publid Objfdt dlonf() {
+        LdbpAttributf bttr = nfw LdbpAttributf(tiis.bttrID, bbsfCtx, rdn);
+        bttr.vblufs = (Vfdtor<Objfdt>)vblufs.dlonf();
+        rfturn bttr;
     }
 
     /**
-      * Adds a new value to this attribute.
+      * Adds b nfw vbluf to tiis bttributf.
       *
-      * @param attrVal The value to be added. If null, a null value is added to
-      *                the attribute.
-      * @return true Always returns true.
+      * @pbrbm bttrVbl Tif vbluf to bf bddfd. If null, b null vbluf is bddfd to
+      *                tif bttributf.
+      * @rfturn truf Alwbys rfturns truf.
       */
-    public boolean add(Object attrVal) {
-        // LDAP attributes don't contain duplicate values so there's no need
-        // to check if the value already exists before adding it.
-        values.addElement(attrVal);
-        return true;
+    publid boolfbn bdd(Objfdt bttrVbl) {
+        // LDAP bttributfs don't dontbin duplidbtf vblufs so tifrf's no nffd
+        // to difdk if tif vbluf blrfbdy fxists bfforf bdding it.
+        vblufs.bddElfmfnt(bttrVbl);
+        rfturn truf;
     }
 
     /**
-      * Constructs a new instance of an attribute.
+      * Construdts b nfw instbndf of bn bttributf.
       *
-      * @param id The attribute's id. It cannot be null.
+      * @pbrbm id Tif bttributf's id. It dbnnot bf null.
       */
-    LdapAttribute(String id) {
-        super(id);
+    LdbpAttributf(String id) {
+        supfr(id);
     }
 
     /**
-      * Constructs a new instance of an attribute.
+      * Construdts b nfw instbndf of bn bttributf.
       *
-      * @param id The attribute's id. It cannot be null.
-      * @param baseCtx  the baseCtx object of this attribute
-      * @param rdn      the RDN of the entry (relative to baseCtx)
+      * @pbrbm id Tif bttributf's id. It dbnnot bf null.
+      * @pbrbm bbsfCtx  tif bbsfCtx objfdt of tiis bttributf
+      * @pbrbm rdn      tif RDN of tif fntry (rflbtivf to bbsfCtx)
       */
-    private LdapAttribute(String id, DirContext baseCtx, Name rdn) {
-        super(id);
-        this.baseCtx = baseCtx;
-        this.rdn = rdn;
+    privbtf LdbpAttributf(String id, DirContfxt bbsfCtx, Nbmf rdn) {
+        supfr(id);
+        tiis.bbsfCtx = bbsfCtx;
+        tiis.rdn = rdn;
     }
 
      /**
-      * Sets the baseCtx and rdn used to find the attribute's schema
-      * Used by LdapCtx.setParents().
+      * Sfts tif bbsfCtx bnd rdn usfd to find tif bttributf's sdifmb
+      * Usfd by LdbpCtx.sftPbrfnts().
       */
-    void setParent(DirContext baseCtx, Name rdn) {
-        this.baseCtx = baseCtx;
-        this.rdn = rdn;
+    void sftPbrfnt(DirContfxt bbsfCtx, Nbmf rdn) {
+        tiis.bbsfCtx = bbsfCtx;
+        tiis.rdn = rdn;
     }
 
     /**
-     * returns the ctx this attribute came from. This call allows
-     * LDAPAttribute to be serializable. 'baseCtx' is transient so if
-     * it is null, the `baseCtxURL` is used to reconstruct the context
-     * to which calls are made.
+     * rfturns tif dtx tiis bttributf dbmf from. Tiis dbll bllows
+     * LDAPAttributf to bf sfriblizbblf. 'bbsfCtx' is trbnsifnt so if
+     * it is null, tif `bbsfCtxURL` is usfd to rfdonstrudt tif dontfxt
+     * to wiidi dblls brf mbdf.
      */
-    private DirContext getBaseCtx() throws NamingException {
-        if(baseCtx == null) {
-            if (baseCtxEnv == null) {
-                baseCtxEnv = new Hashtable<String, String>(3);
+    privbtf DirContfxt gftBbsfCtx() tirows NbmingExdfption {
+        if(bbsfCtx == null) {
+            if (bbsfCtxEnv == null) {
+                bbsfCtxEnv = nfw Hbsitbblf<String, String>(3);
             }
-            baseCtxEnv.put(Context.INITIAL_CONTEXT_FACTORY,
-                             "com.sun.jndi.ldap.LdapCtxFactory");
-            baseCtxEnv.put(Context.PROVIDER_URL,baseCtxURL);
-            baseCtx = (new InitialDirContext(baseCtxEnv));
+            bbsfCtxEnv.put(Contfxt.INITIAL_CONTEXT_FACTORY,
+                             "dom.sun.jndi.ldbp.LdbpCtxFbdtory");
+            bbsfCtxEnv.put(Contfxt.PROVIDER_URL,bbsfCtxURL);
+            bbsfCtx = (nfw InitiblDirContfxt(bbsfCtxEnv));
         }
-        return baseCtx;
+        rfturn bbsfCtx;
     }
 
     /**
-     * This is called when the object is serialized. It is
-     * overridden so that the appropriate class variables can be set
-     * to re-construct the baseCtx when deserialized. Setting these
-     * variables is costly, so it is only done if the object
-     * is actually serialized.
+     * Tiis is dbllfd wifn tif objfdt is sfriblizfd. It is
+     * ovfrriddfn so tibt tif bppropribtf dlbss vbribblfs dbn bf sft
+     * to rf-donstrudt tif bbsfCtx wifn dfsfriblizfd. Sftting tifsf
+     * vbribblfs is dostly, so it is only donf if tif objfdt
+     * is bdtublly sfriblizfd.
      */
-    private void writeObject(java.io.ObjectOutputStream out)
-        throws IOException {
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm out)
+        tirows IOExdfption {
 
-        // setup internal state
-        this.setBaseCtxInfo();
+        // sftup intfrnbl stbtf
+        tiis.sftBbsfCtxInfo();
 
-        // let the ObjectOutputStream do the real work of serialization
-        out.defaultWriteObject();
+        // lft tif ObjfdtOutputStrfbm do tif rfbl work of sfriblizbtion
+        out.dffbultWritfObjfdt();
     }
 
     /**
-     * sets the information needed to reconstruct the baseCtx if
-     * we are serialized. This must be called _before_ the object is
-     * serialized!!!
+     * sfts tif informbtion nffdfd to rfdonstrudt tif bbsfCtx if
+     * wf brf sfriblizfd. Tiis must bf dbllfd _bfforf_ tif objfdt is
+     * sfriblizfd!!!
      */
-    @SuppressWarnings("unchecked") // clone()
-    private void setBaseCtxInfo() {
-        Hashtable<String, Object> realEnv = null;
-        Hashtable<String, Object> secureEnv = null;
+    @SupprfssWbrnings("undifdkfd") // dlonf()
+    privbtf void sftBbsfCtxInfo() {
+        Hbsitbblf<String, Objfdt> rfblEnv = null;
+        Hbsitbblf<String, Objfdt> sfdurfEnv = null;
 
-        if (baseCtx != null) {
-            realEnv = ((LdapCtx)baseCtx).envprops;
-            this.baseCtxURL = ((LdapCtx)baseCtx).getURL();
+        if (bbsfCtx != null) {
+            rfblEnv = ((LdbpCtx)bbsfCtx).fnvprops;
+            tiis.bbsfCtxURL = ((LdbpCtx)bbsfCtx).gftURL();
         }
 
-        if(realEnv != null && realEnv.size() > 0 ) {
-            // remove any security credentials - otherwise the serialized form
-            // would store them in the clear
-            for (String key : realEnv.keySet()){
-                if (key.indexOf("security") != -1 ) {
+        if(rfblEnv != null && rfblEnv.sizf() > 0 ) {
+            // rfmovf bny sfdurity drfdfntibls - otifrwisf tif sfriblizfd form
+            // would storf tifm in tif dlfbr
+            for (String kfy : rfblEnv.kfySft()){
+                if (kfy.indfxOf("sfdurity") != -1 ) {
 
-                    //if we need to remove props, we must do it to a clone
-                    //of the environment. cloning is expensive, so we only do
-                    //it if we have to.
-                    if(secureEnv == null) {
-                        secureEnv = (Hashtable<String, Object>)realEnv.clone();
+                    //if wf nffd to rfmovf props, wf must do it to b dlonf
+                    //of tif fnvironmfnt. dloning is fxpfnsivf, so wf only do
+                    //it if wf ibvf to.
+                    if(sfdurfEnv == null) {
+                        sfdurfEnv = (Hbsitbblf<String, Objfdt>)rfblEnv.dlonf();
                     }
-                    secureEnv.remove(key);
+                    sfdurfEnv.rfmovf(kfy);
                 }
             }
         }
 
-        // set baseCtxEnv depending on whether we removed props or not
-        this.baseCtxEnv = (secureEnv == null ? realEnv : secureEnv);
+        // sft bbsfCtxEnv dfpfnding on wiftifr wf rfmovfd props or not
+        tiis.bbsfCtxEnv = (sfdurfEnv == null ? rfblEnv : sfdurfEnv);
     }
 
     /**
-      * Retrieves the syntax definition associated with this attribute.
-      * @return This attribute's syntax definition.
+      * Rftrifvfs tif syntbx dffinition bssodibtfd witi tiis bttributf.
+      * @rfturn Tiis bttributf's syntbx dffinition.
       */
-    public DirContext getAttributeSyntaxDefinition() throws NamingException {
-        // get the syntax id from the attribute def
-        DirContext schema = getBaseCtx().getSchema(rdn);
-        DirContext attrDef = (DirContext)schema.lookup(
-            LdapSchemaParser.ATTRIBUTE_DEFINITION_NAME + "/" + getID());
+    publid DirContfxt gftAttributfSyntbxDffinition() tirows NbmingExdfption {
+        // gft tif syntbx id from tif bttributf dff
+        DirContfxt sdifmb = gftBbsfCtx().gftSdifmb(rdn);
+        DirContfxt bttrDff = (DirContfxt)sdifmb.lookup(
+            LdbpSdifmbPbrsfr.ATTRIBUTE_DEFINITION_NAME + "/" + gftID());
 
-        Attribute syntaxAttr = attrDef.getAttributes("").get("SYNTAX");
+        Attributf syntbxAttr = bttrDff.gftAttributfs("").gft("SYNTAX");
 
-        if(syntaxAttr == null || syntaxAttr.size() == 0) {
-            throw new NameNotFoundException(
-                getID() + " does not have a syntax associated with it");
+        if(syntbxAttr == null || syntbxAttr.sizf() == 0) {
+            tirow nfw NbmfNotFoundExdfption(
+                gftID() + " dofs not ibvf b syntbx bssodibtfd witi it");
         }
 
-        String syntaxName = (String)syntaxAttr.get();
+        String syntbxNbmf = (String)syntbxAttr.gft();
 
-        // look in the schema tree for the syntax definition
-        return (DirContext)schema.lookup(
-            LdapSchemaParser.SYNTAX_DEFINITION_NAME + "/" + syntaxName);
+        // look in tif sdifmb trff for tif syntbx dffinition
+        rfturn (DirContfxt)sdifmb.lookup(
+            LdbpSdifmbPbrsfr.SYNTAX_DEFINITION_NAME + "/" + syntbxNbmf);
     }
 
     /**
-      * Retrieves this attribute's schema definition.
+      * Rftrifvfs tiis bttributf's sdifmb dffinition.
       *
-      * @return This attribute's schema definition.
+      * @rfturn Tiis bttributf's sdifmb dffinition.
       */
-    public DirContext getAttributeDefinition() throws NamingException {
-        DirContext schema = getBaseCtx().getSchema(rdn);
+    publid DirContfxt gftAttributfDffinition() tirows NbmingExdfption {
+        DirContfxt sdifmb = gftBbsfCtx().gftSdifmb(rdn);
 
-        return (DirContext)schema.lookup(
-            LdapSchemaParser.ATTRIBUTE_DEFINITION_NAME + "/" + getID());
+        rfturn (DirContfxt)sdifmb.lookup(
+            LdbpSdifmbPbrsfr.ATTRIBUTE_DEFINITION_NAME + "/" + gftID());
     }
 }

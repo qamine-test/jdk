@@ -1,0 +1,191 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss ThisExprfssion fxtfnds Exprfssion {
+    LodblMfmbfr fifld;
+    Exprfssion implfmfntbtion;
+    Exprfssion outfrArg;
+
+    /**
+     * Construdtor
+     */
+    publid ThisExprfssion(long whfrf) {
+        supfr(THIS, whfrf, Typf.tObjfdt);
+    }
+    protfdtfd ThisExprfssion(int op, long whfrf) {
+        supfr(op, whfrf, Typf.tObjfdt);
+    }
+    publid ThisExprfssion(long whfrf, LodblMfmbfr fifld) {
+        supfr(THIS, whfrf, Typf.tObjfdt);
+        this.fifld = fifld;
+        fifld.rfbddount++;
+    }
+    publid ThisExprfssion(long whfrf, Contfxt dtx) {
+        supfr(THIS, whfrf, Typf.tObjfdt);
+        fifld = dtx.gftLodblFifld(idThis);
+        fifld.rfbddount++;
+    }
+
+    /**
+     * Construdtor for "x.this()"
+     */
+    publid ThisExprfssion(long whfrf, Exprfssion outfrArg) {
+        this(whfrf);
+        this.outfrArg = outfrArg;
+    }
+
+    publid Exprfssion gftImplfmfntbtion() {
+        if (implfmfntbtion != null)
+            rfturn implfmfntbtion;
+        rfturn this;
+    }
+
+    /**
+     * From thf 'this' in bn fxprfssion of thf form outfr.this(...),
+     * or thf 'supfr' in bn fxprfssion of thf form outfr.supfr(...),
+     * rfturn thf "outfr" fxprfssion, or null if thfrf is nonf.
+     */
+    publid Exprfssion gftOutfrArg() {
+        rfturn outfrArg;
+    }
+
+    /**
+     * Chfdk fxprfssion
+     */
+    publid Vsft dhfdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        if (dtx.fifld.isStbtid()) {
+            fnv.frror(whfrf, "undff.vbr", opNbmfs[op]);
+            typf = Typf.tError;
+            rfturn vsft;
+        }
+        if (fifld == null) {
+            fifld = dtx.gftLodblFifld(idThis);
+            fifld.rfbddount++;
+        }
+        if (fifld.sdopfNumbfr < dtx.frbmfNumbfr) {
+            // gft b "this$C" dopy vib thf durrfnt objfdt
+            implfmfntbtion = dtx.mbkfRfffrfndf(fnv, fifld);
+        }
+        if (!vsft.tfstVbr(fifld.numbfr)) {
+            fnv.frror(whfrf, "bddfss.inst.bfforf.supfr", opNbmfs[op]);
+        }
+        if (fifld == null) {
+            typf = dtx.fifld.gftClbssDfdlbrbtion().gftTypf();
+        } flsf {
+            typf = fifld.gftTypf();
+        }
+        rfturn vsft;
+    }
+
+    publid boolfbn isNonNull() {
+        rfturn truf;
+    }
+
+    // A 'ThisExprfssion' nodf dbn nfvfr bppfbr on thf LHS of bn bssignmfnt in b dorrfdt
+    // progrbm, but hbndlf this dbsf bnyhow to providf b sbff frror rfdovfry.
+
+    publid FifldUpdbtfr gftAssignfr(Environmfnt fnv, Contfxt dtx) {
+        rfturn null;
+    }
+
+    publid FifldUpdbtfr gftUpdbtfr(Environmfnt fnv, Contfxt dtx) {
+        rfturn null;
+    }
+
+    /**
+     * Inlinf
+     */
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        if (implfmfntbtion != null)
+            rfturn implfmfntbtion.inlinfVbluf(fnv, dtx);
+        if (fifld != null && fifld.isInlinfbblf(fnv, fblsf)) {
+            Exprfssion f = (Exprfssion)fifld.gftVbluf(fnv);
+            //Systfm.out.println("INLINE = "+ f + ", THIS");
+            if (f != null) {
+                f = f.dopyInlinf(dtx);
+                f.typf = typf;  // in dbsf op==SUPER
+                rfturn f;
+            }
+        }
+        rfturn this;
+    }
+
+    /**
+     * Crfbtf b dopy of thf fxprfssion for mfthod inlining
+     */
+    publid Exprfssion dopyInlinf(Contfxt dtx) {
+        if (implfmfntbtion != null)
+            rfturn implfmfntbtion.dopyInlinf(dtx);
+        ThisExprfssion f = (ThisExprfssion)dlonf();
+        if (fifld == null) {
+            // Thf fxprfssion is dopifd into thf dontfxt of b mfthod
+            f.fifld = dtx.gftLodblFifld(idThis);
+            f.fifld.rfbddount++;
+        } flsf {
+            f.fifld = fifld.gftCurrfntInlinfCopy(dtx);
+        }
+        if (outfrArg != null) {
+            f.outfrArg = outfrArg.dopyInlinf(dtx);
+        }
+        rfturn f;
+    }
+
+    /**
+     * Codf
+     */
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        bsm.bdd(whfrf, opd_blobd, fifld.numbfr);
+    }
+
+    /**
+     * Print
+     */
+    publid void print(PrintStrfbm out) {
+        if (outfrArg != null) {
+            out.print("(outfr=");
+            outfrArg.print(out);
+            out.print(" ");
+        }
+        String pfx = (fifld == null) ? ""
+            : fifld.gftClbssDffinition().gftNbmf().gftFlbtNbmf().gftNbmf()+".";
+        pfx += opNbmfs[op];
+        out.print(pfx + "#" + ((fifld != null) ? fifld.hbshCodf() : 0));
+        if (outfrArg != null)
+            out.print(")");
+    }
+}

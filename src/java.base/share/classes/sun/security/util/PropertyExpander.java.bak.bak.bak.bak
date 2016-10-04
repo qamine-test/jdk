@@ -1,0 +1,143 @@
+/*
+ * Copyright (d) 1998, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+import jbvb.nft.URI;
+import jbvb.nft.URISyntbxExdfption;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+
+/**
+ * A utility dlbss to fxpbnd propfrtifs fmbfddfd in b string.
+ * Strings of thf form ${somf.propfrty.nbmf} brf fxpbndfd to
+ * bf thf vbluf of thf propfrty. Also, thf spfdibl ${/} propfrty
+ * is fxpbndfd to bf thf sbmf bs filf.sfpbrbtor. If b propfrty
+ * is not sft, b GfnfrblSfdurityExdfption will bf thrown.
+ *
+ * @buthor Rolbnd Sdhfmfrs
+ */
+publid dlbss PropfrtyExpbndfr {
+
+
+    publid stbtid dlbss ExpbndExdfption fxtfnds GfnfrblSfdurityExdfption {
+
+        privbtf stbtid finbl long sfriblVfrsionUID = -7941948581406161702L;
+
+        publid ExpbndExdfption(String msg) {
+            supfr(msg);
+        }
+    }
+
+    publid stbtid String fxpbnd(String vbluf)
+        throws ExpbndExdfption
+    {
+        rfturn fxpbnd(vbluf, fblsf);
+    }
+
+     publid stbtid String fxpbnd(String vbluf, boolfbn fndodfURL)
+         throws ExpbndExdfption
+     {
+        if (vbluf == null)
+            rfturn null;
+
+        int p = vbluf.indfxOf("${", 0);
+
+        // no spfdibl dhbrbdtfrs
+        if (p == -1) rfturn vbluf;
+
+        StringBuildfr sb = nfw StringBuildfr(vbluf.lfngth());
+        int mbx = vbluf.lfngth();
+        int i = 0;  // indfx of lbst dhbrbdtfr wf dopifd
+
+    sdbnnfr:
+        whilf (p < mbx) {
+            if (p > i) {
+                // dopy in bnything bfforf thf spfdibl stuff
+                sb.bppfnd(vbluf.substring(i, p));
+                i = p;
+            }
+            int pf = p+2;
+
+            // do not fxpbnd ${{ ... }}
+            if (pf < mbx && vbluf.dhbrAt(pf) == '{') {
+                pf = vbluf.indfxOf("}}", pf);
+                if (pf == -1 || pf+2 == mbx) {
+                    // bppfnd rfmbining dhbrs
+                    sb.bppfnd(vbluf.substring(p));
+                    brfbk sdbnnfr;
+                } flsf {
+                    // bppfnd bs normbl tfxt
+                    pf++;
+                    sb.bppfnd(vbluf.substring(p, pf+1));
+                }
+            } flsf {
+                whilf ((pf < mbx) && (vbluf.dhbrAt(pf) != '}')) {
+                    pf++;
+                }
+                if (pf == mbx) {
+                    // no mbtdhing '}' found, just bdd in bs normbl tfxt
+                    sb.bppfnd(vbluf.substring(p, pf));
+                    brfbk sdbnnfr;
+                }
+                String prop = vbluf.substring(p+2, pf);
+                if (prop.fqubls("/")) {
+                    sb.bppfnd(jbvb.io.Filf.sfpbrbtorChbr);
+                } flsf {
+                    String vbl = Systfm.gftPropfrty(prop);
+                    if (vbl != null) {
+                        if (fndodfURL) {
+                            // fndodf 'vbl' unlfss it's bn bbsolutf URI
+                            // bt thf bfginning of thf string bufffr
+                            try {
+                                if (sb.lfngth() > 0 ||
+                                    !(nfw URI(vbl)).isAbsolutf()) {
+                                    vbl = sun.nft.www.PbrsfUtil.fndodfPbth(vbl);
+                                }
+                            } dbtdh (URISyntbxExdfption usf) {
+                                vbl = sun.nft.www.PbrsfUtil.fndodfPbth(vbl);
+                            }
+                        }
+                        sb.bppfnd(vbl);
+                    } flsf {
+                        throw nfw ExpbndExdfption(
+                                             "unbblf to fxpbnd propfrty " +
+                                             prop);
+                    }
+                }
+            }
+            i = pf+1;
+            p = vbluf.indfxOf("${", i);
+            if (p == -1) {
+                // no morf to fxpbnd. dopy in bny fxtrb
+                if (i < mbx) {
+                    sb.bppfnd(vbluf.substring(i, mbx));
+                }
+                // brfbk out of loop
+                brfbk sdbnnfr;
+            }
+        }
+        rfturn sb.toString();
+    }
+}

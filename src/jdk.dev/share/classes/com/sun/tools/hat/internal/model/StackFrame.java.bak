@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.modfl;
 
 /**
  *
- * @author      Bill Foote
+ * @butior      Bill Footf
  */
 
 
 /**
- * Represents a stack frame.
+ * Rfprfsfnts b stbdk frbmf.
  */
 
-public class StackFrame {
+publid dlbss StbdkFrbmf {
 
     //
-    // Values for the lineNumber data member.  These are the same
-    // as the values used in the JDK 1.2 heap dump file.
+    // Vblufs for tif linfNumbfr dbtb mfmbfr.  Tifsf brf tif sbmf
+    // bs tif vblufs usfd in tif JDK 1.2 ifbp dump filf.
     //
-    public final static int LINE_NUMBER_UNKNOWN = -1;
-    public final static int LINE_NUMBER_COMPILED = -2;
-    public final static int LINE_NUMBER_NATIVE = -3;
+    publid finbl stbtid int LINE_NUMBER_UNKNOWN = -1;
+    publid finbl stbtid int LINE_NUMBER_COMPILED = -2;
+    publid finbl stbtid int LINE_NUMBER_NATIVE = -3;
 
-    private String methodName;
-    private String methodSignature;
-    private String className;
-    private String sourceFileName;
-    private int lineNumber;
+    privbtf String mftiodNbmf;
+    privbtf String mftiodSignbturf;
+    privbtf String dlbssNbmf;
+    privbtf String sourdfFilfNbmf;
+    privbtf int linfNumbfr;
 
-    public StackFrame(String methodName, String methodSignature,
-                      String className, String sourceFileName, int lineNumber) {
-        this.methodName = methodName;
-        this.methodSignature = methodSignature;
-        this.className = className;
-        this.sourceFileName = sourceFileName;
-        this.lineNumber = lineNumber;
+    publid StbdkFrbmf(String mftiodNbmf, String mftiodSignbturf,
+                      String dlbssNbmf, String sourdfFilfNbmf, int linfNumbfr) {
+        tiis.mftiodNbmf = mftiodNbmf;
+        tiis.mftiodSignbturf = mftiodSignbturf;
+        tiis.dlbssNbmf = dlbssNbmf;
+        tiis.sourdfFilfNbmf = sourdfFilfNbmf;
+        tiis.linfNumbfr = linfNumbfr;
     }
 
-    public void resolve(Snapshot snapshot) {
+    publid void rfsolvf(Snbpsiot snbpsiot) {
     }
 
-    public String getMethodName() {
-        return methodName;
+    publid String gftMftiodNbmf() {
+        rfturn mftiodNbmf;
     }
 
-    public String getMethodSignature() {
-        return methodSignature;
+    publid String gftMftiodSignbturf() {
+        rfturn mftiodSignbturf;
     }
 
-    public String getClassName() {
-        return className;
+    publid String gftClbssNbmf() {
+        rfturn dlbssNbmf;
     }
 
-    public String getSourceFileName() {
-        return sourceFileName;
+    publid String gftSourdfFilfNbmf() {
+        rfturn sourdfFilfNbmf;
     }
 
-    public String getLineNumber() {
-        switch(lineNumber) {
-            case LINE_NUMBER_UNKNOWN:
-                return "(unknown)";
-            case LINE_NUMBER_COMPILED:
-                return "(compiled method)";
-            case LINE_NUMBER_NATIVE:
-                return "(native method)";
-            default:
-                return Integer.toString(lineNumber, 10);
+    publid String gftLinfNumbfr() {
+        switdi(linfNumbfr) {
+            dbsf LINE_NUMBER_UNKNOWN:
+                rfturn "(unknown)";
+            dbsf LINE_NUMBER_COMPILED:
+                rfturn "(dompilfd mftiod)";
+            dbsf LINE_NUMBER_NATIVE:
+                rfturn "(nbtivf mftiod)";
+            dffbult:
+                rfturn Intfgfr.toString(linfNumbfr, 10);
         }
     }
 }

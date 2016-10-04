@@ -1,0 +1,2534 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+    /* AUTOMATICALLY GENERATED FILE - DO NOT EDIT */
+
+
+    /* Indludf filf for thf Jbvb(tm) Virtubl Mbdhinf Tool Intfrfbdf */
+
+#ifndff _JAVA_JVMTI_H_
+#dffinf _JAVA_JVMTI_H_
+
+#indludf "jni.h"
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+fnum {
+    JVMTI_VERSION_1   = 0x30010000,
+    JVMTI_VERSION_1_0 = 0x30010000,
+    JVMTI_VERSION_1_1 = 0x30010100,
+    JVMTI_VERSION_1_2 = 0x30010200,
+
+    JVMTI_VERSION = 0x30000000 + (1 * 0x10000) + (2 * 0x100) + 1  /* vfrsion: 1.2.1 */
+};
+
+JNIEXPORT jint JNICALL
+Agfnt_OnLobd(JbvbVM *vm, dhbr *options, void *rfsfrvfd);
+
+JNIEXPORT jint JNICALL
+Agfnt_OnAttbdh(JbvbVM* vm, dhbr* options, void* rfsfrvfd);
+
+JNIEXPORT void JNICALL
+Agfnt_OnUnlobd(JbvbVM *vm);
+
+    /* Forwbrd dfdlbrbtion of thf fnvironmfnt */
+
+strudt _jvmtiEnv;
+
+strudt jvmtiIntfrfbdf_1_;
+
+#ifdff __dplusplus
+typfdff _jvmtiEnv jvmtiEnv;
+#flsf
+typfdff donst strudt jvmtiIntfrfbdf_1_ *jvmtiEnv;
+#fndif /* __dplusplus */
+
+/* Dfrivfd Bbsf Typfs */
+
+typfdff jobjfdt jthrfbd;
+typfdff jobjfdt jthrfbdGroup;
+typfdff jlong jlodbtion;
+strudt _jrbwMonitorID;
+typfdff strudt _jrbwMonitorID *jrbwMonitorID;
+typfdff strudt JNINbtivfIntfrfbdf_ jniNbtivfIntfrfbdf;
+
+    /* Constbnts */
+
+
+    /* Thrfbd Stbtf Flbgs */
+
+fnum {
+    JVMTI_THREAD_STATE_ALIVE = 0x0001,
+    JVMTI_THREAD_STATE_TERMINATED = 0x0002,
+    JVMTI_THREAD_STATE_RUNNABLE = 0x0004,
+    JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER = 0x0400,
+    JVMTI_THREAD_STATE_WAITING = 0x0080,
+    JVMTI_THREAD_STATE_WAITING_INDEFINITELY = 0x0010,
+    JVMTI_THREAD_STATE_WAITING_WITH_TIMEOUT = 0x0020,
+    JVMTI_THREAD_STATE_SLEEPING = 0x0040,
+    JVMTI_THREAD_STATE_IN_OBJECT_WAIT = 0x0100,
+    JVMTI_THREAD_STATE_PARKED = 0x0200,
+    JVMTI_THREAD_STATE_SUSPENDED = 0x100000,
+    JVMTI_THREAD_STATE_INTERRUPTED = 0x200000,
+    JVMTI_THREAD_STATE_IN_NATIVE = 0x400000,
+    JVMTI_THREAD_STATE_VENDOR_1 = 0x10000000,
+    JVMTI_THREAD_STATE_VENDOR_2 = 0x20000000,
+    JVMTI_THREAD_STATE_VENDOR_3 = 0x40000000
+};
+
+    /* jbvb.lbng.Thrfbd.Stbtf Convfrsion Mbsks */
+
+fnum {
+    JVMTI_JAVA_LANG_THREAD_STATE_MASK = JVMTI_THREAD_STATE_TERMINATED | JVMTI_THREAD_STATE_ALIVE | JVMTI_THREAD_STATE_RUNNABLE | JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER | JVMTI_THREAD_STATE_WAITING | JVMTI_THREAD_STATE_WAITING_INDEFINITELY | JVMTI_THREAD_STATE_WAITING_WITH_TIMEOUT,
+    JVMTI_JAVA_LANG_THREAD_STATE_NEW = 0,
+    JVMTI_JAVA_LANG_THREAD_STATE_TERMINATED = JVMTI_THREAD_STATE_TERMINATED,
+    JVMTI_JAVA_LANG_THREAD_STATE_RUNNABLE = JVMTI_THREAD_STATE_ALIVE | JVMTI_THREAD_STATE_RUNNABLE,
+    JVMTI_JAVA_LANG_THREAD_STATE_BLOCKED = JVMTI_THREAD_STATE_ALIVE | JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER,
+    JVMTI_JAVA_LANG_THREAD_STATE_WAITING = JVMTI_THREAD_STATE_ALIVE | JVMTI_THREAD_STATE_WAITING | JVMTI_THREAD_STATE_WAITING_INDEFINITELY,
+    JVMTI_JAVA_LANG_THREAD_STATE_TIMED_WAITING = JVMTI_THREAD_STATE_ALIVE | JVMTI_THREAD_STATE_WAITING | JVMTI_THREAD_STATE_WAITING_WITH_TIMEOUT
+};
+
+    /* Thrfbd Priority Constbnts */
+
+fnum {
+    JVMTI_THREAD_MIN_PRIORITY = 1,
+    JVMTI_THREAD_NORM_PRIORITY = 5,
+    JVMTI_THREAD_MAX_PRIORITY = 10
+};
+
+    /* Hfbp Filtfr Flbgs */
+
+fnum {
+    JVMTI_HEAP_FILTER_TAGGED = 0x4,
+    JVMTI_HEAP_FILTER_UNTAGGED = 0x8,
+    JVMTI_HEAP_FILTER_CLASS_TAGGED = 0x10,
+    JVMTI_HEAP_FILTER_CLASS_UNTAGGED = 0x20
+};
+
+    /* Hfbp Visit Control Flbgs */
+
+fnum {
+    JVMTI_VISIT_OBJECTS = 0x100,
+    JVMTI_VISIT_ABORT = 0x8000
+};
+
+    /* Hfbp Rfffrfndf Enumfrbtion */
+
+typfdff fnum {
+    JVMTI_HEAP_REFERENCE_CLASS = 1,
+    JVMTI_HEAP_REFERENCE_FIELD = 2,
+    JVMTI_HEAP_REFERENCE_ARRAY_ELEMENT = 3,
+    JVMTI_HEAP_REFERENCE_CLASS_LOADER = 4,
+    JVMTI_HEAP_REFERENCE_SIGNERS = 5,
+    JVMTI_HEAP_REFERENCE_PROTECTION_DOMAIN = 6,
+    JVMTI_HEAP_REFERENCE_INTERFACE = 7,
+    JVMTI_HEAP_REFERENCE_STATIC_FIELD = 8,
+    JVMTI_HEAP_REFERENCE_CONSTANT_POOL = 9,
+    JVMTI_HEAP_REFERENCE_SUPERCLASS = 10,
+    JVMTI_HEAP_REFERENCE_JNI_GLOBAL = 21,
+    JVMTI_HEAP_REFERENCE_SYSTEM_CLASS = 22,
+    JVMTI_HEAP_REFERENCE_MONITOR = 23,
+    JVMTI_HEAP_REFERENCE_STACK_LOCAL = 24,
+    JVMTI_HEAP_REFERENCE_JNI_LOCAL = 25,
+    JVMTI_HEAP_REFERENCE_THREAD = 26,
+    JVMTI_HEAP_REFERENCE_OTHER = 27
+} jvmtiHfbpRfffrfndfKind;
+
+    /* Primitivf Typf Enumfrbtion */
+
+typfdff fnum {
+    JVMTI_PRIMITIVE_TYPE_BOOLEAN = 90,
+    JVMTI_PRIMITIVE_TYPE_BYTE = 66,
+    JVMTI_PRIMITIVE_TYPE_CHAR = 67,
+    JVMTI_PRIMITIVE_TYPE_SHORT = 83,
+    JVMTI_PRIMITIVE_TYPE_INT = 73,
+    JVMTI_PRIMITIVE_TYPE_LONG = 74,
+    JVMTI_PRIMITIVE_TYPE_FLOAT = 70,
+    JVMTI_PRIMITIVE_TYPE_DOUBLE = 68
+} jvmtiPrimitivfTypf;
+
+    /* Hfbp Objfdt Filtfr Enumfrbtion */
+
+typfdff fnum {
+    JVMTI_HEAP_OBJECT_TAGGED = 1,
+    JVMTI_HEAP_OBJECT_UNTAGGED = 2,
+    JVMTI_HEAP_OBJECT_EITHER = 3
+} jvmtiHfbpObjfdtFiltfr;
+
+    /* Hfbp Root Kind Enumfrbtion */
+
+typfdff fnum {
+    JVMTI_HEAP_ROOT_JNI_GLOBAL = 1,
+    JVMTI_HEAP_ROOT_SYSTEM_CLASS = 2,
+    JVMTI_HEAP_ROOT_MONITOR = 3,
+    JVMTI_HEAP_ROOT_STACK_LOCAL = 4,
+    JVMTI_HEAP_ROOT_JNI_LOCAL = 5,
+    JVMTI_HEAP_ROOT_THREAD = 6,
+    JVMTI_HEAP_ROOT_OTHER = 7
+} jvmtiHfbpRootKind;
+
+    /* Objfdt Rfffrfndf Enumfrbtion */
+
+typfdff fnum {
+    JVMTI_REFERENCE_CLASS = 1,
+    JVMTI_REFERENCE_FIELD = 2,
+    JVMTI_REFERENCE_ARRAY_ELEMENT = 3,
+    JVMTI_REFERENCE_CLASS_LOADER = 4,
+    JVMTI_REFERENCE_SIGNERS = 5,
+    JVMTI_REFERENCE_PROTECTION_DOMAIN = 6,
+    JVMTI_REFERENCE_INTERFACE = 7,
+    JVMTI_REFERENCE_STATIC_FIELD = 8,
+    JVMTI_REFERENCE_CONSTANT_POOL = 9
+} jvmtiObjfdtRfffrfndfKind;
+
+    /* Itfrbtion Control Enumfrbtion */
+
+typfdff fnum {
+    JVMTI_ITERATION_CONTINUE = 1,
+    JVMTI_ITERATION_IGNORE = 2,
+    JVMTI_ITERATION_ABORT = 0
+} jvmtiItfrbtionControl;
+
+    /* Clbss Stbtus Flbgs */
+
+fnum {
+    JVMTI_CLASS_STATUS_VERIFIED = 1,
+    JVMTI_CLASS_STATUS_PREPARED = 2,
+    JVMTI_CLASS_STATUS_INITIALIZED = 4,
+    JVMTI_CLASS_STATUS_ERROR = 8,
+    JVMTI_CLASS_STATUS_ARRAY = 16,
+    JVMTI_CLASS_STATUS_PRIMITIVE = 32
+};
+
+    /* Evfnt Enbblf/Disbblf */
+
+typfdff fnum {
+    JVMTI_ENABLE = 1,
+    JVMTI_DISABLE = 0
+} jvmtiEvfntModf;
+
+    /* Extfnsion Fundtion/Evfnt Pbrbmftfr Typfs */
+
+typfdff fnum {
+    JVMTI_TYPE_JBYTE = 101,
+    JVMTI_TYPE_JCHAR = 102,
+    JVMTI_TYPE_JSHORT = 103,
+    JVMTI_TYPE_JINT = 104,
+    JVMTI_TYPE_JLONG = 105,
+    JVMTI_TYPE_JFLOAT = 106,
+    JVMTI_TYPE_JDOUBLE = 107,
+    JVMTI_TYPE_JBOOLEAN = 108,
+    JVMTI_TYPE_JOBJECT = 109,
+    JVMTI_TYPE_JTHREAD = 110,
+    JVMTI_TYPE_JCLASS = 111,
+    JVMTI_TYPE_JVALUE = 112,
+    JVMTI_TYPE_JFIELDID = 113,
+    JVMTI_TYPE_JMETHODID = 114,
+    JVMTI_TYPE_CCHAR = 115,
+    JVMTI_TYPE_CVOID = 116,
+    JVMTI_TYPE_JNIENV = 117
+} jvmtiPbrbmTypfs;
+
+    /* Extfnsion Fundtion/Evfnt Pbrbmftfr Kinds */
+
+typfdff fnum {
+    JVMTI_KIND_IN = 91,
+    JVMTI_KIND_IN_PTR = 92,
+    JVMTI_KIND_IN_BUF = 93,
+    JVMTI_KIND_ALLOC_BUF = 94,
+    JVMTI_KIND_ALLOC_ALLOC_BUF = 95,
+    JVMTI_KIND_OUT = 96,
+    JVMTI_KIND_OUT_BUF = 97
+} jvmtiPbrbmKind;
+
+    /* Timfr Kinds */
+
+typfdff fnum {
+    JVMTI_TIMER_USER_CPU = 30,
+    JVMTI_TIMER_TOTAL_CPU = 31,
+    JVMTI_TIMER_ELAPSED = 32
+} jvmtiTimfrKind;
+
+    /* Phbsfs of fxfdution */
+
+typfdff fnum {
+    JVMTI_PHASE_ONLOAD = 1,
+    JVMTI_PHASE_PRIMORDIAL = 2,
+    JVMTI_PHASE_START = 6,
+    JVMTI_PHASE_LIVE = 4,
+    JVMTI_PHASE_DEAD = 8
+} jvmtiPhbsf;
+
+    /* Vfrsion Intfrfbdf Typfs */
+
+fnum {
+    JVMTI_VERSION_INTERFACE_JNI = 0x00000000,
+    JVMTI_VERSION_INTERFACE_JVMTI = 0x30000000
+};
+
+    /* Vfrsion Mbsks */
+
+fnum {
+    JVMTI_VERSION_MASK_INTERFACE_TYPE = 0x70000000,
+    JVMTI_VERSION_MASK_MAJOR = 0x0FFF0000,
+    JVMTI_VERSION_MASK_MINOR = 0x0000FF00,
+    JVMTI_VERSION_MASK_MICRO = 0x000000FF
+};
+
+    /* Vfrsion Shifts */
+
+fnum {
+    JVMTI_VERSION_SHIFT_MAJOR = 16,
+    JVMTI_VERSION_SHIFT_MINOR = 8,
+    JVMTI_VERSION_SHIFT_MICRO = 0
+};
+
+    /* Vfrbosf Flbg Enumfrbtion */
+
+typfdff fnum {
+    JVMTI_VERBOSE_OTHER = 0,
+    JVMTI_VERBOSE_GC = 1,
+    JVMTI_VERBOSE_CLASS = 2,
+    JVMTI_VERBOSE_JNI = 4
+} jvmtiVfrbosfFlbg;
+
+    /* JLodbtion Formbt Enumfrbtion */
+
+typfdff fnum {
+    JVMTI_JLOCATION_JVMBCI = 1,
+    JVMTI_JLOCATION_MACHINEPC = 2,
+    JVMTI_JLOCATION_OTHER = 0
+} jvmtiJlodbtionFormbt;
+
+    /* Rfsourdf Exhbustion Flbgs */
+
+fnum {
+    JVMTI_RESOURCE_EXHAUSTED_OOM_ERROR = 0x0001,
+    JVMTI_RESOURCE_EXHAUSTED_JAVA_HEAP = 0x0002,
+    JVMTI_RESOURCE_EXHAUSTED_THREADS = 0x0004
+};
+
+    /* Errors */
+
+typfdff fnum {
+    JVMTI_ERROR_NONE = 0,
+    JVMTI_ERROR_INVALID_THREAD = 10,
+    JVMTI_ERROR_INVALID_THREAD_GROUP = 11,
+    JVMTI_ERROR_INVALID_PRIORITY = 12,
+    JVMTI_ERROR_THREAD_NOT_SUSPENDED = 13,
+    JVMTI_ERROR_THREAD_SUSPENDED = 14,
+    JVMTI_ERROR_THREAD_NOT_ALIVE = 15,
+    JVMTI_ERROR_INVALID_OBJECT = 20,
+    JVMTI_ERROR_INVALID_CLASS = 21,
+    JVMTI_ERROR_CLASS_NOT_PREPARED = 22,
+    JVMTI_ERROR_INVALID_METHODID = 23,
+    JVMTI_ERROR_INVALID_LOCATION = 24,
+    JVMTI_ERROR_INVALID_FIELDID = 25,
+    JVMTI_ERROR_NO_MORE_FRAMES = 31,
+    JVMTI_ERROR_OPAQUE_FRAME = 32,
+    JVMTI_ERROR_TYPE_MISMATCH = 34,
+    JVMTI_ERROR_INVALID_SLOT = 35,
+    JVMTI_ERROR_DUPLICATE = 40,
+    JVMTI_ERROR_NOT_FOUND = 41,
+    JVMTI_ERROR_INVALID_MONITOR = 50,
+    JVMTI_ERROR_NOT_MONITOR_OWNER = 51,
+    JVMTI_ERROR_INTERRUPT = 52,
+    JVMTI_ERROR_INVALID_CLASS_FORMAT = 60,
+    JVMTI_ERROR_CIRCULAR_CLASS_DEFINITION = 61,
+    JVMTI_ERROR_FAILS_VERIFICATION = 62,
+    JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_ADDED = 63,
+    JVMTI_ERROR_UNSUPPORTED_REDEFINITION_SCHEMA_CHANGED = 64,
+    JVMTI_ERROR_INVALID_TYPESTATE = 65,
+    JVMTI_ERROR_UNSUPPORTED_REDEFINITION_HIERARCHY_CHANGED = 66,
+    JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_DELETED = 67,
+    JVMTI_ERROR_UNSUPPORTED_VERSION = 68,
+    JVMTI_ERROR_NAMES_DONT_MATCH = 69,
+    JVMTI_ERROR_UNSUPPORTED_REDEFINITION_CLASS_MODIFIERS_CHANGED = 70,
+    JVMTI_ERROR_UNSUPPORTED_REDEFINITION_METHOD_MODIFIERS_CHANGED = 71,
+    JVMTI_ERROR_UNMODIFIABLE_CLASS = 79,
+    JVMTI_ERROR_NOT_AVAILABLE = 98,
+    JVMTI_ERROR_MUST_POSSESS_CAPABILITY = 99,
+    JVMTI_ERROR_NULL_POINTER = 100,
+    JVMTI_ERROR_ABSENT_INFORMATION = 101,
+    JVMTI_ERROR_INVALID_EVENT_TYPE = 102,
+    JVMTI_ERROR_ILLEGAL_ARGUMENT = 103,
+    JVMTI_ERROR_NATIVE_METHOD = 104,
+    JVMTI_ERROR_CLASS_LOADER_UNSUPPORTED = 106,
+    JVMTI_ERROR_OUT_OF_MEMORY = 110,
+    JVMTI_ERROR_ACCESS_DENIED = 111,
+    JVMTI_ERROR_WRONG_PHASE = 112,
+    JVMTI_ERROR_INTERNAL = 113,
+    JVMTI_ERROR_UNATTACHED_THREAD = 115,
+    JVMTI_ERROR_INVALID_ENVIRONMENT = 116,
+    JVMTI_ERROR_MAX = 116
+} jvmtiError;
+
+    /* Evfnt IDs */
+
+typfdff fnum {
+    JVMTI_MIN_EVENT_TYPE_VAL = 50,
+    JVMTI_EVENT_VM_INIT = 50,
+    JVMTI_EVENT_VM_DEATH = 51,
+    JVMTI_EVENT_THREAD_START = 52,
+    JVMTI_EVENT_THREAD_END = 53,
+    JVMTI_EVENT_CLASS_FILE_LOAD_HOOK = 54,
+    JVMTI_EVENT_CLASS_LOAD = 55,
+    JVMTI_EVENT_CLASS_PREPARE = 56,
+    JVMTI_EVENT_VM_START = 57,
+    JVMTI_EVENT_EXCEPTION = 58,
+    JVMTI_EVENT_EXCEPTION_CATCH = 59,
+    JVMTI_EVENT_SINGLE_STEP = 60,
+    JVMTI_EVENT_FRAME_POP = 61,
+    JVMTI_EVENT_BREAKPOINT = 62,
+    JVMTI_EVENT_FIELD_ACCESS = 63,
+    JVMTI_EVENT_FIELD_MODIFICATION = 64,
+    JVMTI_EVENT_METHOD_ENTRY = 65,
+    JVMTI_EVENT_METHOD_EXIT = 66,
+    JVMTI_EVENT_NATIVE_METHOD_BIND = 67,
+    JVMTI_EVENT_COMPILED_METHOD_LOAD = 68,
+    JVMTI_EVENT_COMPILED_METHOD_UNLOAD = 69,
+    JVMTI_EVENT_DYNAMIC_CODE_GENERATED = 70,
+    JVMTI_EVENT_DATA_DUMP_REQUEST = 71,
+    JVMTI_EVENT_MONITOR_WAIT = 73,
+    JVMTI_EVENT_MONITOR_WAITED = 74,
+    JVMTI_EVENT_MONITOR_CONTENDED_ENTER = 75,
+    JVMTI_EVENT_MONITOR_CONTENDED_ENTERED = 76,
+    JVMTI_EVENT_RESOURCE_EXHAUSTED = 80,
+    JVMTI_EVENT_GARBAGE_COLLECTION_START = 81,
+    JVMTI_EVENT_GARBAGE_COLLECTION_FINISH = 82,
+    JVMTI_EVENT_OBJECT_FREE = 83,
+    JVMTI_EVENT_VM_OBJECT_ALLOC = 84,
+    JVMTI_MAX_EVENT_TYPE_VAL = 84
+} jvmtiEvfnt;
+
+
+    /* Prf-Dfdlbrbtions */
+strudt _jvmtiThrfbdInfo;
+typfdff strudt _jvmtiThrfbdInfo jvmtiThrfbdInfo;
+strudt _jvmtiMonitorStbdkDfpthInfo;
+typfdff strudt _jvmtiMonitorStbdkDfpthInfo jvmtiMonitorStbdkDfpthInfo;
+strudt _jvmtiThrfbdGroupInfo;
+typfdff strudt _jvmtiThrfbdGroupInfo jvmtiThrfbdGroupInfo;
+strudt _jvmtiFrbmfInfo;
+typfdff strudt _jvmtiFrbmfInfo jvmtiFrbmfInfo;
+strudt _jvmtiStbdkInfo;
+typfdff strudt _jvmtiStbdkInfo jvmtiStbdkInfo;
+strudt _jvmtiHfbpRfffrfndfInfoFifld;
+typfdff strudt _jvmtiHfbpRfffrfndfInfoFifld jvmtiHfbpRfffrfndfInfoFifld;
+strudt _jvmtiHfbpRfffrfndfInfoArrby;
+typfdff strudt _jvmtiHfbpRfffrfndfInfoArrby jvmtiHfbpRfffrfndfInfoArrby;
+strudt _jvmtiHfbpRfffrfndfInfoConstbntPool;
+typfdff strudt _jvmtiHfbpRfffrfndfInfoConstbntPool jvmtiHfbpRfffrfndfInfoConstbntPool;
+strudt _jvmtiHfbpRfffrfndfInfoStbdkLodbl;
+typfdff strudt _jvmtiHfbpRfffrfndfInfoStbdkLodbl jvmtiHfbpRfffrfndfInfoStbdkLodbl;
+strudt _jvmtiHfbpRfffrfndfInfoJniLodbl;
+typfdff strudt _jvmtiHfbpRfffrfndfInfoJniLodbl jvmtiHfbpRfffrfndfInfoJniLodbl;
+strudt _jvmtiHfbpRfffrfndfInfoRfsfrvfd;
+typfdff strudt _jvmtiHfbpRfffrfndfInfoRfsfrvfd jvmtiHfbpRfffrfndfInfoRfsfrvfd;
+union _jvmtiHfbpRfffrfndfInfo;
+typfdff union _jvmtiHfbpRfffrfndfInfo jvmtiHfbpRfffrfndfInfo;
+strudt _jvmtiHfbpCbllbbdks;
+typfdff strudt _jvmtiHfbpCbllbbdks jvmtiHfbpCbllbbdks;
+strudt _jvmtiClbssDffinition;
+typfdff strudt _jvmtiClbssDffinition jvmtiClbssDffinition;
+strudt _jvmtiMonitorUsbgf;
+typfdff strudt _jvmtiMonitorUsbgf jvmtiMonitorUsbgf;
+strudt _jvmtiLinfNumbfrEntry;
+typfdff strudt _jvmtiLinfNumbfrEntry jvmtiLinfNumbfrEntry;
+strudt _jvmtiLodblVbribblfEntry;
+typfdff strudt _jvmtiLodblVbribblfEntry jvmtiLodblVbribblfEntry;
+strudt _jvmtiPbrbmInfo;
+typfdff strudt _jvmtiPbrbmInfo jvmtiPbrbmInfo;
+strudt _jvmtiExtfnsionFundtionInfo;
+typfdff strudt _jvmtiExtfnsionFundtionInfo jvmtiExtfnsionFundtionInfo;
+strudt _jvmtiExtfnsionEvfntInfo;
+typfdff strudt _jvmtiExtfnsionEvfntInfo jvmtiExtfnsionEvfntInfo;
+strudt _jvmtiTimfrInfo;
+typfdff strudt _jvmtiTimfrInfo jvmtiTimfrInfo;
+strudt _jvmtiAddrLodbtionMbp;
+typfdff strudt _jvmtiAddrLodbtionMbp jvmtiAddrLodbtionMbp;
+
+    /* Fundtion Typfs */
+
+typfdff void (JNICALL *jvmtiStbrtFundtion)
+    (jvmtiEnv* jvmti_fnv, JNIEnv* jni_fnv, void* brg);
+
+typfdff jint (JNICALL *jvmtiHfbpItfrbtionCbllbbdk)
+    (jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, jint lfngth, void* usfr_dbtb);
+
+typfdff jint (JNICALL *jvmtiHfbpRfffrfndfCbllbbdk)
+    (jvmtiHfbpRfffrfndfKind rfffrfndf_kind, donst jvmtiHfbpRfffrfndfInfo* rfffrfndf_info, jlong dlbss_tbg, jlong rfffrrfr_dlbss_tbg, jlong sizf, jlong* tbg_ptr, jlong* rfffrrfr_tbg_ptr, jint lfngth, void* usfr_dbtb);
+
+typfdff jint (JNICALL *jvmtiPrimitivfFifldCbllbbdk)
+    (jvmtiHfbpRfffrfndfKind kind, donst jvmtiHfbpRfffrfndfInfo* info, jlong objfdt_dlbss_tbg, jlong* objfdt_tbg_ptr, jvbluf vbluf, jvmtiPrimitivfTypf vbluf_typf, void* usfr_dbtb);
+
+typfdff jint (JNICALL *jvmtiArrbyPrimitivfVblufCbllbbdk)
+    (jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, jint flfmfnt_dount, jvmtiPrimitivfTypf flfmfnt_typf, donst void* flfmfnts, void* usfr_dbtb);
+
+typfdff jint (JNICALL *jvmtiStringPrimitivfVblufCbllbbdk)
+    (jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, donst jdhbr* vbluf, jint vbluf_lfngth, void* usfr_dbtb);
+
+typfdff jint (JNICALL *jvmtiRfsfrvfdCbllbbdk)
+    ();
+
+typfdff jvmtiItfrbtionControl (JNICALL *jvmtiHfbpObjfdtCbllbbdk)
+    (jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, void* usfr_dbtb);
+
+typfdff jvmtiItfrbtionControl (JNICALL *jvmtiHfbpRootCbllbbdk)
+    (jvmtiHfbpRootKind root_kind, jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, void* usfr_dbtb);
+
+typfdff jvmtiItfrbtionControl (JNICALL *jvmtiStbdkRfffrfndfCbllbbdk)
+    (jvmtiHfbpRootKind root_kind, jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, jlong thrfbd_tbg, jint dfpth, jmfthodID mfthod, jint slot, void* usfr_dbtb);
+
+typfdff jvmtiItfrbtionControl (JNICALL *jvmtiObjfdtRfffrfndfCbllbbdk)
+    (jvmtiObjfdtRfffrfndfKind rfffrfndf_kind, jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, jlong rfffrrfr_tbg, jint rfffrrfr_indfx, void* usfr_dbtb);
+
+typfdff jvmtiError (JNICALL *jvmtiExtfnsionFundtion)
+    (jvmtiEnv* jvmti_fnv,  ...);
+
+typfdff void (JNICALL *jvmtiExtfnsionEvfnt)
+    (jvmtiEnv* jvmti_fnv,  ...);
+
+
+    /* Strudturf Typfs */
+strudt _jvmtiThrfbdInfo {
+    dhbr* nbmf;
+    jint priority;
+    jboolfbn is_dbfmon;
+    jthrfbdGroup thrfbd_group;
+    jobjfdt dontfxt_dlbss_lobdfr;
+};
+strudt _jvmtiMonitorStbdkDfpthInfo {
+    jobjfdt monitor;
+    jint stbdk_dfpth;
+};
+strudt _jvmtiThrfbdGroupInfo {
+    jthrfbdGroup pbrfnt;
+    dhbr* nbmf;
+    jint mbx_priority;
+    jboolfbn is_dbfmon;
+};
+strudt _jvmtiFrbmfInfo {
+    jmfthodID mfthod;
+    jlodbtion lodbtion;
+};
+strudt _jvmtiStbdkInfo {
+    jthrfbd thrfbd;
+    jint stbtf;
+    jvmtiFrbmfInfo* frbmf_bufffr;
+    jint frbmf_dount;
+};
+strudt _jvmtiHfbpRfffrfndfInfoFifld {
+    jint indfx;
+};
+strudt _jvmtiHfbpRfffrfndfInfoArrby {
+    jint indfx;
+};
+strudt _jvmtiHfbpRfffrfndfInfoConstbntPool {
+    jint indfx;
+};
+strudt _jvmtiHfbpRfffrfndfInfoStbdkLodbl {
+    jlong thrfbd_tbg;
+    jlong thrfbd_id;
+    jint dfpth;
+    jmfthodID mfthod;
+    jlodbtion lodbtion;
+    jint slot;
+};
+strudt _jvmtiHfbpRfffrfndfInfoJniLodbl {
+    jlong thrfbd_tbg;
+    jlong thrfbd_id;
+    jint dfpth;
+    jmfthodID mfthod;
+};
+strudt _jvmtiHfbpRfffrfndfInfoRfsfrvfd {
+    jlong rfsfrvfd1;
+    jlong rfsfrvfd2;
+    jlong rfsfrvfd3;
+    jlong rfsfrvfd4;
+    jlong rfsfrvfd5;
+    jlong rfsfrvfd6;
+    jlong rfsfrvfd7;
+    jlong rfsfrvfd8;
+};
+union _jvmtiHfbpRfffrfndfInfo {
+    jvmtiHfbpRfffrfndfInfoFifld fifld;
+    jvmtiHfbpRfffrfndfInfoArrby brrby;
+    jvmtiHfbpRfffrfndfInfoConstbntPool donstbnt_pool;
+    jvmtiHfbpRfffrfndfInfoStbdkLodbl stbdk_lodbl;
+    jvmtiHfbpRfffrfndfInfoJniLodbl jni_lodbl;
+    jvmtiHfbpRfffrfndfInfoRfsfrvfd othfr;
+};
+strudt _jvmtiHfbpCbllbbdks {
+    jvmtiHfbpItfrbtionCbllbbdk hfbp_itfrbtion_dbllbbdk;
+    jvmtiHfbpRfffrfndfCbllbbdk hfbp_rfffrfndf_dbllbbdk;
+    jvmtiPrimitivfFifldCbllbbdk primitivf_fifld_dbllbbdk;
+    jvmtiArrbyPrimitivfVblufCbllbbdk brrby_primitivf_vbluf_dbllbbdk;
+    jvmtiStringPrimitivfVblufCbllbbdk string_primitivf_vbluf_dbllbbdk;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd5;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd6;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd7;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd8;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd9;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd10;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd11;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd12;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd13;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd14;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd15;
+};
+strudt _jvmtiClbssDffinition {
+    jdlbss klbss;
+    jint dlbss_bytf_dount;
+    donst unsignfd dhbr* dlbss_bytfs;
+};
+strudt _jvmtiMonitorUsbgf {
+    jthrfbd ownfr;
+    jint fntry_dount;
+    jint wbitfr_dount;
+    jthrfbd* wbitfrs;
+    jint notify_wbitfr_dount;
+    jthrfbd* notify_wbitfrs;
+};
+strudt _jvmtiLinfNumbfrEntry {
+    jlodbtion stbrt_lodbtion;
+    jint linf_numbfr;
+};
+strudt _jvmtiLodblVbribblfEntry {
+    jlodbtion stbrt_lodbtion;
+    jint lfngth;
+    dhbr* nbmf;
+    dhbr* signbturf;
+    dhbr* gfnfrid_signbturf;
+    jint slot;
+};
+strudt _jvmtiPbrbmInfo {
+    dhbr* nbmf;
+    jvmtiPbrbmKind kind;
+    jvmtiPbrbmTypfs bbsf_typf;
+    jboolfbn null_ok;
+};
+strudt _jvmtiExtfnsionFundtionInfo {
+    jvmtiExtfnsionFundtion fund;
+    dhbr* id;
+    dhbr* short_dfsdription;
+    jint pbrbm_dount;
+    jvmtiPbrbmInfo* pbrbms;
+    jint frror_dount;
+    jvmtiError* frrors;
+};
+strudt _jvmtiExtfnsionEvfntInfo {
+    jint fxtfnsion_fvfnt_indfx;
+    dhbr* id;
+    dhbr* short_dfsdription;
+    jint pbrbm_dount;
+    jvmtiPbrbmInfo* pbrbms;
+};
+strudt _jvmtiTimfrInfo {
+    jlong mbx_vbluf;
+    jboolfbn mby_skip_forwbrd;
+    jboolfbn mby_skip_bbdkwbrd;
+    jvmtiTimfrKind kind;
+    jlong rfsfrvfd1;
+    jlong rfsfrvfd2;
+};
+strudt _jvmtiAddrLodbtionMbp {
+    donst void* stbrt_bddrfss;
+    jlodbtion lodbtion;
+};
+
+typfdff strudt {
+    unsignfd int dbn_tbg_objfdts : 1;
+    unsignfd int dbn_gfnfrbtf_fifld_modifidbtion_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_fifld_bddfss_fvfnts : 1;
+    unsignfd int dbn_gft_bytfdodfs : 1;
+    unsignfd int dbn_gft_synthftid_bttributf : 1;
+    unsignfd int dbn_gft_ownfd_monitor_info : 1;
+    unsignfd int dbn_gft_durrfnt_dontfndfd_monitor : 1;
+    unsignfd int dbn_gft_monitor_info : 1;
+    unsignfd int dbn_pop_frbmf : 1;
+    unsignfd int dbn_rfdffinf_dlbssfs : 1;
+    unsignfd int dbn_signbl_thrfbd : 1;
+    unsignfd int dbn_gft_sourdf_filf_nbmf : 1;
+    unsignfd int dbn_gft_linf_numbfrs : 1;
+    unsignfd int dbn_gft_sourdf_dfbug_fxtfnsion : 1;
+    unsignfd int dbn_bddfss_lodbl_vbribblfs : 1;
+    unsignfd int dbn_mbintbin_originbl_mfthod_ordfr : 1;
+    unsignfd int dbn_gfnfrbtf_singlf_stfp_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_fxdfption_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_frbmf_pop_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_brfbkpoint_fvfnts : 1;
+    unsignfd int dbn_suspfnd : 1;
+    unsignfd int dbn_rfdffinf_bny_dlbss : 1;
+    unsignfd int dbn_gft_durrfnt_thrfbd_dpu_timf : 1;
+    unsignfd int dbn_gft_thrfbd_dpu_timf : 1;
+    unsignfd int dbn_gfnfrbtf_mfthod_fntry_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_mfthod_fxit_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_bll_dlbss_hook_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_dompilfd_mfthod_lobd_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_monitor_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_vm_objfdt_bllod_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_nbtivf_mfthod_bind_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_gbrbbgf_dollfdtion_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_objfdt_frff_fvfnts : 1;
+    unsignfd int dbn_fordf_fbrly_rfturn : 1;
+    unsignfd int dbn_gft_ownfd_monitor_stbdk_dfpth_info : 1;
+    unsignfd int dbn_gft_donstbnt_pool : 1;
+    unsignfd int dbn_sft_nbtivf_mfthod_prffix : 1;
+    unsignfd int dbn_rftrbnsform_dlbssfs : 1;
+    unsignfd int dbn_rftrbnsform_bny_dlbss : 1;
+    unsignfd int dbn_gfnfrbtf_rfsourdf_fxhbustion_hfbp_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_rfsourdf_fxhbustion_thrfbds_fvfnts : 1;
+    unsignfd int : 7;
+    unsignfd int : 16;
+    unsignfd int : 16;
+    unsignfd int : 16;
+    unsignfd int : 16;
+    unsignfd int : 16;
+} jvmtiCbpbbilitifs;
+
+
+    /* Evfnt Dffinitions */
+
+typfdff void (JNICALL *jvmtiEvfntRfsfrvfd)(void);
+
+
+typfdff void (JNICALL *jvmtiEvfntBrfbkpoint)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jmfthodID mfthod,
+     jlodbtion lodbtion);
+
+typfdff void (JNICALL *jvmtiEvfntClbssFilfLobdHook)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jdlbss dlbss_bfing_rfdffinfd,
+     jobjfdt lobdfr,
+     donst dhbr* nbmf,
+     jobjfdt protfdtion_dombin,
+     jint dlbss_dbtb_lfn,
+     donst unsignfd dhbr* dlbss_dbtb,
+     jint* nfw_dlbss_dbtb_lfn,
+     unsignfd dhbr** nfw_dlbss_dbtb);
+
+typfdff void (JNICALL *jvmtiEvfntClbssLobd)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jdlbss klbss);
+
+typfdff void (JNICALL *jvmtiEvfntClbssPrfpbrf)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jdlbss klbss);
+
+typfdff void (JNICALL *jvmtiEvfntCompilfdMfthodLobd)
+    (jvmtiEnv *jvmti_fnv,
+     jmfthodID mfthod,
+     jint dodf_sizf,
+     donst void* dodf_bddr,
+     jint mbp_lfngth,
+     donst jvmtiAddrLodbtionMbp* mbp,
+     donst void* dompilf_info);
+
+typfdff void (JNICALL *jvmtiEvfntCompilfdMfthodUnlobd)
+    (jvmtiEnv *jvmti_fnv,
+     jmfthodID mfthod,
+     donst void* dodf_bddr);
+
+typfdff void (JNICALL *jvmtiEvfntDbtbDumpRfqufst)
+    (jvmtiEnv *jvmti_fnv);
+
+typfdff void (JNICALL *jvmtiEvfntDynbmidCodfGfnfrbtfd)
+    (jvmtiEnv *jvmti_fnv,
+     donst dhbr* nbmf,
+     donst void* bddrfss,
+     jint lfngth);
+
+typfdff void (JNICALL *jvmtiEvfntExdfption)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jmfthodID mfthod,
+     jlodbtion lodbtion,
+     jobjfdt fxdfption,
+     jmfthodID dbtdh_mfthod,
+     jlodbtion dbtdh_lodbtion);
+
+typfdff void (JNICALL *jvmtiEvfntExdfptionCbtdh)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jmfthodID mfthod,
+     jlodbtion lodbtion,
+     jobjfdt fxdfption);
+
+typfdff void (JNICALL *jvmtiEvfntFifldAddfss)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jmfthodID mfthod,
+     jlodbtion lodbtion,
+     jdlbss fifld_klbss,
+     jobjfdt objfdt,
+     jfifldID fifld);
+
+typfdff void (JNICALL *jvmtiEvfntFifldModifidbtion)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jmfthodID mfthod,
+     jlodbtion lodbtion,
+     jdlbss fifld_klbss,
+     jobjfdt objfdt,
+     jfifldID fifld,
+     dhbr signbturf_typf,
+     jvbluf nfw_vbluf);
+
+typfdff void (JNICALL *jvmtiEvfntFrbmfPop)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jmfthodID mfthod,
+     jboolfbn wbs_poppfd_by_fxdfption);
+
+typfdff void (JNICALL *jvmtiEvfntGbrbbgfCollfdtionFinish)
+    (jvmtiEnv *jvmti_fnv);
+
+typfdff void (JNICALL *jvmtiEvfntGbrbbgfCollfdtionStbrt)
+    (jvmtiEnv *jvmti_fnv);
+
+typfdff void (JNICALL *jvmtiEvfntMfthodEntry)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jmfthodID mfthod);
+
+typfdff void (JNICALL *jvmtiEvfntMfthodExit)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jmfthodID mfthod,
+     jboolfbn wbs_poppfd_by_fxdfption,
+     jvbluf rfturn_vbluf);
+
+typfdff void (JNICALL *jvmtiEvfntMonitorContfndfdEntfr)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jobjfdt objfdt);
+
+typfdff void (JNICALL *jvmtiEvfntMonitorContfndfdEntfrfd)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jobjfdt objfdt);
+
+typfdff void (JNICALL *jvmtiEvfntMonitorWbit)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jobjfdt objfdt,
+     jlong timfout);
+
+typfdff void (JNICALL *jvmtiEvfntMonitorWbitfd)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jobjfdt objfdt,
+     jboolfbn timfd_out);
+
+typfdff void (JNICALL *jvmtiEvfntNbtivfMfthodBind)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jmfthodID mfthod,
+     void* bddrfss,
+     void** nfw_bddrfss_ptr);
+
+typfdff void (JNICALL *jvmtiEvfntObjfdtFrff)
+    (jvmtiEnv *jvmti_fnv,
+     jlong tbg);
+
+typfdff void (JNICALL *jvmtiEvfntRfsourdfExhbustfd)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jint flbgs,
+     donst void* rfsfrvfd,
+     donst dhbr* dfsdription);
+
+typfdff void (JNICALL *jvmtiEvfntSinglfStfp)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jmfthodID mfthod,
+     jlodbtion lodbtion);
+
+typfdff void (JNICALL *jvmtiEvfntThrfbdEnd)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd);
+
+typfdff void (JNICALL *jvmtiEvfntThrfbdStbrt)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd);
+
+typfdff void (JNICALL *jvmtiEvfntVMDfbth)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv);
+
+typfdff void (JNICALL *jvmtiEvfntVMInit)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd);
+
+typfdff void (JNICALL *jvmtiEvfntVMObjfdtAllod)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jthrfbd thrfbd,
+     jobjfdt objfdt,
+     jdlbss objfdt_klbss,
+     jlong sizf);
+
+typfdff void (JNICALL *jvmtiEvfntVMStbrt)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv);
+
+    /* Evfnt Cbllbbdk Strudturf */
+
+typfdff strudt {
+                              /*   50 : VM Initiblizbtion Evfnt */
+    jvmtiEvfntVMInit VMInit;
+                              /*   51 : VM Dfbth Evfnt */
+    jvmtiEvfntVMDfbth VMDfbth;
+                              /*   52 : Thrfbd Stbrt */
+    jvmtiEvfntThrfbdStbrt ThrfbdStbrt;
+                              /*   53 : Thrfbd End */
+    jvmtiEvfntThrfbdEnd ThrfbdEnd;
+                              /*   54 : Clbss Filf Lobd Hook */
+    jvmtiEvfntClbssFilfLobdHook ClbssFilfLobdHook;
+                              /*   55 : Clbss Lobd */
+    jvmtiEvfntClbssLobd ClbssLobd;
+                              /*   56 : Clbss Prfpbrf */
+    jvmtiEvfntClbssPrfpbrf ClbssPrfpbrf;
+                              /*   57 : VM Stbrt Evfnt */
+    jvmtiEvfntVMStbrt VMStbrt;
+                              /*   58 : Exdfption */
+    jvmtiEvfntExdfption Exdfption;
+                              /*   59 : Exdfption Cbtdh */
+    jvmtiEvfntExdfptionCbtdh ExdfptionCbtdh;
+                              /*   60 : Singlf Stfp */
+    jvmtiEvfntSinglfStfp SinglfStfp;
+                              /*   61 : Frbmf Pop */
+    jvmtiEvfntFrbmfPop FrbmfPop;
+                              /*   62 : Brfbkpoint */
+    jvmtiEvfntBrfbkpoint Brfbkpoint;
+                              /*   63 : Fifld Addfss */
+    jvmtiEvfntFifldAddfss FifldAddfss;
+                              /*   64 : Fifld Modifidbtion */
+    jvmtiEvfntFifldModifidbtion FifldModifidbtion;
+                              /*   65 : Mfthod Entry */
+    jvmtiEvfntMfthodEntry MfthodEntry;
+                              /*   66 : Mfthod Exit */
+    jvmtiEvfntMfthodExit MfthodExit;
+                              /*   67 : Nbtivf Mfthod Bind */
+    jvmtiEvfntNbtivfMfthodBind NbtivfMfthodBind;
+                              /*   68 : Compilfd Mfthod Lobd */
+    jvmtiEvfntCompilfdMfthodLobd CompilfdMfthodLobd;
+                              /*   69 : Compilfd Mfthod Unlobd */
+    jvmtiEvfntCompilfdMfthodUnlobd CompilfdMfthodUnlobd;
+                              /*   70 : Dynbmid Codf Gfnfrbtfd */
+    jvmtiEvfntDynbmidCodfGfnfrbtfd DynbmidCodfGfnfrbtfd;
+                              /*   71 : Dbtb Dump Rfqufst */
+    jvmtiEvfntDbtbDumpRfqufst DbtbDumpRfqufst;
+                              /*   72 */
+    jvmtiEvfntRfsfrvfd rfsfrvfd72;
+                              /*   73 : Monitor Wbit */
+    jvmtiEvfntMonitorWbit MonitorWbit;
+                              /*   74 : Monitor Wbitfd */
+    jvmtiEvfntMonitorWbitfd MonitorWbitfd;
+                              /*   75 : Monitor Contfndfd Entfr */
+    jvmtiEvfntMonitorContfndfdEntfr MonitorContfndfdEntfr;
+                              /*   76 : Monitor Contfndfd Entfrfd */
+    jvmtiEvfntMonitorContfndfdEntfrfd MonitorContfndfdEntfrfd;
+                              /*   77 */
+    jvmtiEvfntRfsfrvfd rfsfrvfd77;
+                              /*   78 */
+    jvmtiEvfntRfsfrvfd rfsfrvfd78;
+                              /*   79 */
+    jvmtiEvfntRfsfrvfd rfsfrvfd79;
+                              /*   80 : Rfsourdf Exhbustfd */
+    jvmtiEvfntRfsourdfExhbustfd RfsourdfExhbustfd;
+                              /*   81 : Gbrbbgf Collfdtion Stbrt */
+    jvmtiEvfntGbrbbgfCollfdtionStbrt GbrbbgfCollfdtionStbrt;
+                              /*   82 : Gbrbbgf Collfdtion Finish */
+    jvmtiEvfntGbrbbgfCollfdtionFinish GbrbbgfCollfdtionFinish;
+                              /*   83 : Objfdt Frff */
+    jvmtiEvfntObjfdtFrff ObjfdtFrff;
+                              /*   84 : VM Objfdt Allodbtion */
+    jvmtiEvfntVMObjfdtAllod VMObjfdtAllod;
+} jvmtiEvfntCbllbbdks;
+
+
+    /* Fundtion Intfrfbdf */
+
+typfdff strudt jvmtiIntfrfbdf_1_ {
+
+  /*   1 :  RESERVED */
+  void *rfsfrvfd1;
+
+  /*   2 : Sft Evfnt Notifidbtion Modf */
+  jvmtiError (JNICALL *SftEvfntNotifidbtionModf) (jvmtiEnv* fnv,
+    jvmtiEvfntModf modf,
+    jvmtiEvfnt fvfnt_typf,
+    jthrfbd fvfnt_thrfbd,
+     ...);
+
+  /*   3 :  RESERVED */
+  void *rfsfrvfd3;
+
+  /*   4 : Gft All Thrfbds */
+  jvmtiError (JNICALL *GftAllThrfbds) (jvmtiEnv* fnv,
+    jint* thrfbds_dount_ptr,
+    jthrfbd** thrfbds_ptr);
+
+  /*   5 : Suspfnd Thrfbd */
+  jvmtiError (JNICALL *SuspfndThrfbd) (jvmtiEnv* fnv,
+    jthrfbd thrfbd);
+
+  /*   6 : Rfsumf Thrfbd */
+  jvmtiError (JNICALL *RfsumfThrfbd) (jvmtiEnv* fnv,
+    jthrfbd thrfbd);
+
+  /*   7 : Stop Thrfbd */
+  jvmtiError (JNICALL *StopThrfbd) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jobjfdt fxdfption);
+
+  /*   8 : Intfrrupt Thrfbd */
+  jvmtiError (JNICALL *IntfrruptThrfbd) (jvmtiEnv* fnv,
+    jthrfbd thrfbd);
+
+  /*   9 : Gft Thrfbd Info */
+  jvmtiError (JNICALL *GftThrfbdInfo) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jvmtiThrfbdInfo* info_ptr);
+
+  /*   10 : Gft Ownfd Monitor Info */
+  jvmtiError (JNICALL *GftOwnfdMonitorInfo) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint* ownfd_monitor_dount_ptr,
+    jobjfdt** ownfd_monitors_ptr);
+
+  /*   11 : Gft Currfnt Contfndfd Monitor */
+  jvmtiError (JNICALL *GftCurrfntContfndfdMonitor) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jobjfdt* monitor_ptr);
+
+  /*   12 : Run Agfnt Thrfbd */
+  jvmtiError (JNICALL *RunAgfntThrfbd) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jvmtiStbrtFundtion prod,
+    donst void* brg,
+    jint priority);
+
+  /*   13 : Gft Top Thrfbd Groups */
+  jvmtiError (JNICALL *GftTopThrfbdGroups) (jvmtiEnv* fnv,
+    jint* group_dount_ptr,
+    jthrfbdGroup** groups_ptr);
+
+  /*   14 : Gft Thrfbd Group Info */
+  jvmtiError (JNICALL *GftThrfbdGroupInfo) (jvmtiEnv* fnv,
+    jthrfbdGroup group,
+    jvmtiThrfbdGroupInfo* info_ptr);
+
+  /*   15 : Gft Thrfbd Group Childrfn */
+  jvmtiError (JNICALL *GftThrfbdGroupChildrfn) (jvmtiEnv* fnv,
+    jthrfbdGroup group,
+    jint* thrfbd_dount_ptr,
+    jthrfbd** thrfbds_ptr,
+    jint* group_dount_ptr,
+    jthrfbdGroup** groups_ptr);
+
+  /*   16 : Gft Frbmf Count */
+  jvmtiError (JNICALL *GftFrbmfCount) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint* dount_ptr);
+
+  /*   17 : Gft Thrfbd Stbtf */
+  jvmtiError (JNICALL *GftThrfbdStbtf) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint* thrfbd_stbtf_ptr);
+
+  /*   18 : Gft Currfnt Thrfbd */
+  jvmtiError (JNICALL *GftCurrfntThrfbd) (jvmtiEnv* fnv,
+    jthrfbd* thrfbd_ptr);
+
+  /*   19 : Gft Frbmf Lodbtion */
+  jvmtiError (JNICALL *GftFrbmfLodbtion) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint dfpth,
+    jmfthodID* mfthod_ptr,
+    jlodbtion* lodbtion_ptr);
+
+  /*   20 : Notify Frbmf Pop */
+  jvmtiError (JNICALL *NotifyFrbmfPop) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint dfpth);
+
+  /*   21 : Gft Lodbl Vbribblf - Objfdt */
+  jvmtiError (JNICALL *GftLodblObjfdt) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint dfpth,
+    jint slot,
+    jobjfdt* vbluf_ptr);
+
+  /*   22 : Gft Lodbl Vbribblf - Int */
+  jvmtiError (JNICALL *GftLodblInt) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint dfpth,
+    jint slot,
+    jint* vbluf_ptr);
+
+  /*   23 : Gft Lodbl Vbribblf - Long */
+  jvmtiError (JNICALL *GftLodblLong) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint dfpth,
+    jint slot,
+    jlong* vbluf_ptr);
+
+  /*   24 : Gft Lodbl Vbribblf - Flobt */
+  jvmtiError (JNICALL *GftLodblFlobt) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint dfpth,
+    jint slot,
+    jflobt* vbluf_ptr);
+
+  /*   25 : Gft Lodbl Vbribblf - Doublf */
+  jvmtiError (JNICALL *GftLodblDoublf) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint dfpth,
+    jint slot,
+    jdoublf* vbluf_ptr);
+
+  /*   26 : Sft Lodbl Vbribblf - Objfdt */
+  jvmtiError (JNICALL *SftLodblObjfdt) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint dfpth,
+    jint slot,
+    jobjfdt vbluf);
+
+  /*   27 : Sft Lodbl Vbribblf - Int */
+  jvmtiError (JNICALL *SftLodblInt) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint dfpth,
+    jint slot,
+    jint vbluf);
+
+  /*   28 : Sft Lodbl Vbribblf - Long */
+  jvmtiError (JNICALL *SftLodblLong) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint dfpth,
+    jint slot,
+    jlong vbluf);
+
+  /*   29 : Sft Lodbl Vbribblf - Flobt */
+  jvmtiError (JNICALL *SftLodblFlobt) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint dfpth,
+    jint slot,
+    jflobt vbluf);
+
+  /*   30 : Sft Lodbl Vbribblf - Doublf */
+  jvmtiError (JNICALL *SftLodblDoublf) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint dfpth,
+    jint slot,
+    jdoublf vbluf);
+
+  /*   31 : Crfbtf Rbw Monitor */
+  jvmtiError (JNICALL *CrfbtfRbwMonitor) (jvmtiEnv* fnv,
+    donst dhbr* nbmf,
+    jrbwMonitorID* monitor_ptr);
+
+  /*   32 : Dfstroy Rbw Monitor */
+  jvmtiError (JNICALL *DfstroyRbwMonitor) (jvmtiEnv* fnv,
+    jrbwMonitorID monitor);
+
+  /*   33 : Rbw Monitor Entfr */
+  jvmtiError (JNICALL *RbwMonitorEntfr) (jvmtiEnv* fnv,
+    jrbwMonitorID monitor);
+
+  /*   34 : Rbw Monitor Exit */
+  jvmtiError (JNICALL *RbwMonitorExit) (jvmtiEnv* fnv,
+    jrbwMonitorID monitor);
+
+  /*   35 : Rbw Monitor Wbit */
+  jvmtiError (JNICALL *RbwMonitorWbit) (jvmtiEnv* fnv,
+    jrbwMonitorID monitor,
+    jlong millis);
+
+  /*   36 : Rbw Monitor Notify */
+  jvmtiError (JNICALL *RbwMonitorNotify) (jvmtiEnv* fnv,
+    jrbwMonitorID monitor);
+
+  /*   37 : Rbw Monitor Notify All */
+  jvmtiError (JNICALL *RbwMonitorNotifyAll) (jvmtiEnv* fnv,
+    jrbwMonitorID monitor);
+
+  /*   38 : Sft Brfbkpoint */
+  jvmtiError (JNICALL *SftBrfbkpoint) (jvmtiEnv* fnv,
+    jmfthodID mfthod,
+    jlodbtion lodbtion);
+
+  /*   39 : Clfbr Brfbkpoint */
+  jvmtiError (JNICALL *ClfbrBrfbkpoint) (jvmtiEnv* fnv,
+    jmfthodID mfthod,
+    jlodbtion lodbtion);
+
+  /*   40 :  RESERVED */
+  void *rfsfrvfd40;
+
+  /*   41 : Sft Fifld Addfss Wbtdh */
+  jvmtiError (JNICALL *SftFifldAddfssWbtdh) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld);
+
+  /*   42 : Clfbr Fifld Addfss Wbtdh */
+  jvmtiError (JNICALL *ClfbrFifldAddfssWbtdh) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld);
+
+  /*   43 : Sft Fifld Modifidbtion Wbtdh */
+  jvmtiError (JNICALL *SftFifldModifidbtionWbtdh) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld);
+
+  /*   44 : Clfbr Fifld Modifidbtion Wbtdh */
+  jvmtiError (JNICALL *ClfbrFifldModifidbtionWbtdh) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld);
+
+  /*   45 : Is Modifibblf Clbss */
+  jvmtiError (JNICALL *IsModifibblfClbss) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jboolfbn* is_modifibblf_dlbss_ptr);
+
+  /*   46 : Allodbtf */
+  jvmtiError (JNICALL *Allodbtf) (jvmtiEnv* fnv,
+    jlong sizf,
+    unsignfd dhbr** mfm_ptr);
+
+  /*   47 : Dfbllodbtf */
+  jvmtiError (JNICALL *Dfbllodbtf) (jvmtiEnv* fnv,
+    unsignfd dhbr* mfm);
+
+  /*   48 : Gft Clbss Signbturf */
+  jvmtiError (JNICALL *GftClbssSignbturf) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    dhbr** signbturf_ptr,
+    dhbr** gfnfrid_ptr);
+
+  /*   49 : Gft Clbss Stbtus */
+  jvmtiError (JNICALL *GftClbssStbtus) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jint* stbtus_ptr);
+
+  /*   50 : Gft Sourdf Filf Nbmf */
+  jvmtiError (JNICALL *GftSourdfFilfNbmf) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    dhbr** sourdf_nbmf_ptr);
+
+  /*   51 : Gft Clbss Modififrs */
+  jvmtiError (JNICALL *GftClbssModififrs) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jint* modififrs_ptr);
+
+  /*   52 : Gft Clbss Mfthods */
+  jvmtiError (JNICALL *GftClbssMfthods) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jint* mfthod_dount_ptr,
+    jmfthodID** mfthods_ptr);
+
+  /*   53 : Gft Clbss Fiflds */
+  jvmtiError (JNICALL *GftClbssFiflds) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jint* fifld_dount_ptr,
+    jfifldID** fiflds_ptr);
+
+  /*   54 : Gft Implfmfntfd Intfrfbdfs */
+  jvmtiError (JNICALL *GftImplfmfntfdIntfrfbdfs) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jint* intfrfbdf_dount_ptr,
+    jdlbss** intfrfbdfs_ptr);
+
+  /*   55 : Is Intfrfbdf */
+  jvmtiError (JNICALL *IsIntfrfbdf) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jboolfbn* is_intfrfbdf_ptr);
+
+  /*   56 : Is Arrby Clbss */
+  jvmtiError (JNICALL *IsArrbyClbss) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jboolfbn* is_brrby_dlbss_ptr);
+
+  /*   57 : Gft Clbss Lobdfr */
+  jvmtiError (JNICALL *GftClbssLobdfr) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jobjfdt* dlbsslobdfr_ptr);
+
+  /*   58 : Gft Objfdt Hbsh Codf */
+  jvmtiError (JNICALL *GftObjfdtHbshCodf) (jvmtiEnv* fnv,
+    jobjfdt objfdt,
+    jint* hbsh_dodf_ptr);
+
+  /*   59 : Gft Objfdt Monitor Usbgf */
+  jvmtiError (JNICALL *GftObjfdtMonitorUsbgf) (jvmtiEnv* fnv,
+    jobjfdt objfdt,
+    jvmtiMonitorUsbgf* info_ptr);
+
+  /*   60 : Gft Fifld Nbmf (bnd Signbturf) */
+  jvmtiError (JNICALL *GftFifldNbmf) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld,
+    dhbr** nbmf_ptr,
+    dhbr** signbturf_ptr,
+    dhbr** gfnfrid_ptr);
+
+  /*   61 : Gft Fifld Dfdlbring Clbss */
+  jvmtiError (JNICALL *GftFifldDfdlbringClbss) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld,
+    jdlbss* dfdlbring_dlbss_ptr);
+
+  /*   62 : Gft Fifld Modififrs */
+  jvmtiError (JNICALL *GftFifldModififrs) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld,
+    jint* modififrs_ptr);
+
+  /*   63 : Is Fifld Synthftid */
+  jvmtiError (JNICALL *IsFifldSynthftid) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld,
+    jboolfbn* is_synthftid_ptr);
+
+  /*   64 : Gft Mfthod Nbmf (bnd Signbturf) */
+  jvmtiError (JNICALL *GftMfthodNbmf) (jvmtiEnv* fnv,
+    jmfthodID mfthod,
+    dhbr** nbmf_ptr,
+    dhbr** signbturf_ptr,
+    dhbr** gfnfrid_ptr);
+
+  /*   65 : Gft Mfthod Dfdlbring Clbss */
+  jvmtiError (JNICALL *GftMfthodDfdlbringClbss) (jvmtiEnv* fnv,
+    jmfthodID mfthod,
+    jdlbss* dfdlbring_dlbss_ptr);
+
+  /*   66 : Gft Mfthod Modififrs */
+  jvmtiError (JNICALL *GftMfthodModififrs) (jvmtiEnv* fnv,
+    jmfthodID mfthod,
+    jint* modififrs_ptr);
+
+  /*   67 :  RESERVED */
+  void *rfsfrvfd67;
+
+  /*   68 : Gft Mbx Lodbls */
+  jvmtiError (JNICALL *GftMbxLodbls) (jvmtiEnv* fnv,
+    jmfthodID mfthod,
+    jint* mbx_ptr);
+
+  /*   69 : Gft Argumfnts Sizf */
+  jvmtiError (JNICALL *GftArgumfntsSizf) (jvmtiEnv* fnv,
+    jmfthodID mfthod,
+    jint* sizf_ptr);
+
+  /*   70 : Gft Linf Numbfr Tbblf */
+  jvmtiError (JNICALL *GftLinfNumbfrTbblf) (jvmtiEnv* fnv,
+    jmfthodID mfthod,
+    jint* fntry_dount_ptr,
+    jvmtiLinfNumbfrEntry** tbblf_ptr);
+
+  /*   71 : Gft Mfthod Lodbtion */
+  jvmtiError (JNICALL *GftMfthodLodbtion) (jvmtiEnv* fnv,
+    jmfthodID mfthod,
+    jlodbtion* stbrt_lodbtion_ptr,
+    jlodbtion* fnd_lodbtion_ptr);
+
+  /*   72 : Gft Lodbl Vbribblf Tbblf */
+  jvmtiError (JNICALL *GftLodblVbribblfTbblf) (jvmtiEnv* fnv,
+    jmfthodID mfthod,
+    jint* fntry_dount_ptr,
+    jvmtiLodblVbribblfEntry** tbblf_ptr);
+
+  /*   73 : Sft Nbtivf Mfthod Prffix */
+  jvmtiError (JNICALL *SftNbtivfMfthodPrffix) (jvmtiEnv* fnv,
+    donst dhbr* prffix);
+
+  /*   74 : Sft Nbtivf Mfthod Prffixfs */
+  jvmtiError (JNICALL *SftNbtivfMfthodPrffixfs) (jvmtiEnv* fnv,
+    jint prffix_dount,
+    dhbr** prffixfs);
+
+  /*   75 : Gft Bytfdodfs */
+  jvmtiError (JNICALL *GftBytfdodfs) (jvmtiEnv* fnv,
+    jmfthodID mfthod,
+    jint* bytfdodf_dount_ptr,
+    unsignfd dhbr** bytfdodfs_ptr);
+
+  /*   76 : Is Mfthod Nbtivf */
+  jvmtiError (JNICALL *IsMfthodNbtivf) (jvmtiEnv* fnv,
+    jmfthodID mfthod,
+    jboolfbn* is_nbtivf_ptr);
+
+  /*   77 : Is Mfthod Synthftid */
+  jvmtiError (JNICALL *IsMfthodSynthftid) (jvmtiEnv* fnv,
+    jmfthodID mfthod,
+    jboolfbn* is_synthftid_ptr);
+
+  /*   78 : Gft Lobdfd Clbssfs */
+  jvmtiError (JNICALL *GftLobdfdClbssfs) (jvmtiEnv* fnv,
+    jint* dlbss_dount_ptr,
+    jdlbss** dlbssfs_ptr);
+
+  /*   79 : Gft Clbsslobdfr Clbssfs */
+  jvmtiError (JNICALL *GftClbssLobdfrClbssfs) (jvmtiEnv* fnv,
+    jobjfdt initibting_lobdfr,
+    jint* dlbss_dount_ptr,
+    jdlbss** dlbssfs_ptr);
+
+  /*   80 : Pop Frbmf */
+  jvmtiError (JNICALL *PopFrbmf) (jvmtiEnv* fnv,
+    jthrfbd thrfbd);
+
+  /*   81 : Fordf Ebrly Rfturn - Objfdt */
+  jvmtiError (JNICALL *FordfEbrlyRfturnObjfdt) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jobjfdt vbluf);
+
+  /*   82 : Fordf Ebrly Rfturn - Int */
+  jvmtiError (JNICALL *FordfEbrlyRfturnInt) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint vbluf);
+
+  /*   83 : Fordf Ebrly Rfturn - Long */
+  jvmtiError (JNICALL *FordfEbrlyRfturnLong) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jlong vbluf);
+
+  /*   84 : Fordf Ebrly Rfturn - Flobt */
+  jvmtiError (JNICALL *FordfEbrlyRfturnFlobt) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jflobt vbluf);
+
+  /*   85 : Fordf Ebrly Rfturn - Doublf */
+  jvmtiError (JNICALL *FordfEbrlyRfturnDoublf) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jdoublf vbluf);
+
+  /*   86 : Fordf Ebrly Rfturn - Void */
+  jvmtiError (JNICALL *FordfEbrlyRfturnVoid) (jvmtiEnv* fnv,
+    jthrfbd thrfbd);
+
+  /*   87 : Rfdffinf Clbssfs */
+  jvmtiError (JNICALL *RfdffinfClbssfs) (jvmtiEnv* fnv,
+    jint dlbss_dount,
+    donst jvmtiClbssDffinition* dlbss_dffinitions);
+
+  /*   88 : Gft Vfrsion Numbfr */
+  jvmtiError (JNICALL *GftVfrsionNumbfr) (jvmtiEnv* fnv,
+    jint* vfrsion_ptr);
+
+  /*   89 : Gft Cbpbbilitifs */
+  jvmtiError (JNICALL *GftCbpbbilitifs) (jvmtiEnv* fnv,
+    jvmtiCbpbbilitifs* dbpbbilitifs_ptr);
+
+  /*   90 : Gft Sourdf Dfbug Extfnsion */
+  jvmtiError (JNICALL *GftSourdfDfbugExtfnsion) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    dhbr** sourdf_dfbug_fxtfnsion_ptr);
+
+  /*   91 : Is Mfthod Obsolftf */
+  jvmtiError (JNICALL *IsMfthodObsolftf) (jvmtiEnv* fnv,
+    jmfthodID mfthod,
+    jboolfbn* is_obsolftf_ptr);
+
+  /*   92 : Suspfnd Thrfbd List */
+  jvmtiError (JNICALL *SuspfndThrfbdList) (jvmtiEnv* fnv,
+    jint rfqufst_dount,
+    donst jthrfbd* rfqufst_list,
+    jvmtiError* rfsults);
+
+  /*   93 : Rfsumf Thrfbd List */
+  jvmtiError (JNICALL *RfsumfThrfbdList) (jvmtiEnv* fnv,
+    jint rfqufst_dount,
+    donst jthrfbd* rfqufst_list,
+    jvmtiError* rfsults);
+
+  /*   94 :  RESERVED */
+  void *rfsfrvfd94;
+
+  /*   95 :  RESERVED */
+  void *rfsfrvfd95;
+
+  /*   96 :  RESERVED */
+  void *rfsfrvfd96;
+
+  /*   97 :  RESERVED */
+  void *rfsfrvfd97;
+
+  /*   98 :  RESERVED */
+  void *rfsfrvfd98;
+
+  /*   99 :  RESERVED */
+  void *rfsfrvfd99;
+
+  /*   100 : Gft All Stbdk Trbdfs */
+  jvmtiError (JNICALL *GftAllStbdkTrbdfs) (jvmtiEnv* fnv,
+    jint mbx_frbmf_dount,
+    jvmtiStbdkInfo** stbdk_info_ptr,
+    jint* thrfbd_dount_ptr);
+
+  /*   101 : Gft Thrfbd List Stbdk Trbdfs */
+  jvmtiError (JNICALL *GftThrfbdListStbdkTrbdfs) (jvmtiEnv* fnv,
+    jint thrfbd_dount,
+    donst jthrfbd* thrfbd_list,
+    jint mbx_frbmf_dount,
+    jvmtiStbdkInfo** stbdk_info_ptr);
+
+  /*   102 : Gft Thrfbd Lodbl Storbgf */
+  jvmtiError (JNICALL *GftThrfbdLodblStorbgf) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    void** dbtb_ptr);
+
+  /*   103 : Sft Thrfbd Lodbl Storbgf */
+  jvmtiError (JNICALL *SftThrfbdLodblStorbgf) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    donst void* dbtb);
+
+  /*   104 : Gft Stbdk Trbdf */
+  jvmtiError (JNICALL *GftStbdkTrbdf) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint stbrt_dfpth,
+    jint mbx_frbmf_dount,
+    jvmtiFrbmfInfo* frbmf_bufffr,
+    jint* dount_ptr);
+
+  /*   105 :  RESERVED */
+  void *rfsfrvfd105;
+
+  /*   106 : Gft Tbg */
+  jvmtiError (JNICALL *GftTbg) (jvmtiEnv* fnv,
+    jobjfdt objfdt,
+    jlong* tbg_ptr);
+
+  /*   107 : Sft Tbg */
+  jvmtiError (JNICALL *SftTbg) (jvmtiEnv* fnv,
+    jobjfdt objfdt,
+    jlong tbg);
+
+  /*   108 : Fordf Gbrbbgf Collfdtion */
+  jvmtiError (JNICALL *FordfGbrbbgfCollfdtion) (jvmtiEnv* fnv);
+
+  /*   109 : Itfrbtf Ovfr Objfdts Rfbdhbblf From Objfdt */
+  jvmtiError (JNICALL *ItfrbtfOvfrObjfdtsRfbdhbblfFromObjfdt) (jvmtiEnv* fnv,
+    jobjfdt objfdt,
+    jvmtiObjfdtRfffrfndfCbllbbdk objfdt_rfffrfndf_dbllbbdk,
+    donst void* usfr_dbtb);
+
+  /*   110 : Itfrbtf Ovfr Rfbdhbblf Objfdts */
+  jvmtiError (JNICALL *ItfrbtfOvfrRfbdhbblfObjfdts) (jvmtiEnv* fnv,
+    jvmtiHfbpRootCbllbbdk hfbp_root_dbllbbdk,
+    jvmtiStbdkRfffrfndfCbllbbdk stbdk_rff_dbllbbdk,
+    jvmtiObjfdtRfffrfndfCbllbbdk objfdt_rff_dbllbbdk,
+    donst void* usfr_dbtb);
+
+  /*   111 : Itfrbtf Ovfr Hfbp */
+  jvmtiError (JNICALL *ItfrbtfOvfrHfbp) (jvmtiEnv* fnv,
+    jvmtiHfbpObjfdtFiltfr objfdt_filtfr,
+    jvmtiHfbpObjfdtCbllbbdk hfbp_objfdt_dbllbbdk,
+    donst void* usfr_dbtb);
+
+  /*   112 : Itfrbtf Ovfr Instbndfs Of Clbss */
+  jvmtiError (JNICALL *ItfrbtfOvfrInstbndfsOfClbss) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jvmtiHfbpObjfdtFiltfr objfdt_filtfr,
+    jvmtiHfbpObjfdtCbllbbdk hfbp_objfdt_dbllbbdk,
+    donst void* usfr_dbtb);
+
+  /*   113 :  RESERVED */
+  void *rfsfrvfd113;
+
+  /*   114 : Gft Objfdts With Tbgs */
+  jvmtiError (JNICALL *GftObjfdtsWithTbgs) (jvmtiEnv* fnv,
+    jint tbg_dount,
+    donst jlong* tbgs,
+    jint* dount_ptr,
+    jobjfdt** objfdt_rfsult_ptr,
+    jlong** tbg_rfsult_ptr);
+
+  /*   115 : Follow Rfffrfndfs */
+  jvmtiError (JNICALL *FollowRfffrfndfs) (jvmtiEnv* fnv,
+    jint hfbp_filtfr,
+    jdlbss klbss,
+    jobjfdt initibl_objfdt,
+    donst jvmtiHfbpCbllbbdks* dbllbbdks,
+    donst void* usfr_dbtb);
+
+  /*   116 : Itfrbtf Through Hfbp */
+  jvmtiError (JNICALL *ItfrbtfThroughHfbp) (jvmtiEnv* fnv,
+    jint hfbp_filtfr,
+    jdlbss klbss,
+    donst jvmtiHfbpCbllbbdks* dbllbbdks,
+    donst void* usfr_dbtb);
+
+  /*   117 :  RESERVED */
+  void *rfsfrvfd117;
+
+  /*   118 :  RESERVED */
+  void *rfsfrvfd118;
+
+  /*   119 :  RESERVED */
+  void *rfsfrvfd119;
+
+  /*   120 : Sft JNI Fundtion Tbblf */
+  jvmtiError (JNICALL *SftJNIFundtionTbblf) (jvmtiEnv* fnv,
+    donst jniNbtivfIntfrfbdf* fundtion_tbblf);
+
+  /*   121 : Gft JNI Fundtion Tbblf */
+  jvmtiError (JNICALL *GftJNIFundtionTbblf) (jvmtiEnv* fnv,
+    jniNbtivfIntfrfbdf** fundtion_tbblf);
+
+  /*   122 : Sft Evfnt Cbllbbdks */
+  jvmtiError (JNICALL *SftEvfntCbllbbdks) (jvmtiEnv* fnv,
+    donst jvmtiEvfntCbllbbdks* dbllbbdks,
+    jint sizf_of_dbllbbdks);
+
+  /*   123 : Gfnfrbtf Evfnts */
+  jvmtiError (JNICALL *GfnfrbtfEvfnts) (jvmtiEnv* fnv,
+    jvmtiEvfnt fvfnt_typf);
+
+  /*   124 : Gft Extfnsion Fundtions */
+  jvmtiError (JNICALL *GftExtfnsionFundtions) (jvmtiEnv* fnv,
+    jint* fxtfnsion_dount_ptr,
+    jvmtiExtfnsionFundtionInfo** fxtfnsions);
+
+  /*   125 : Gft Extfnsion Evfnts */
+  jvmtiError (JNICALL *GftExtfnsionEvfnts) (jvmtiEnv* fnv,
+    jint* fxtfnsion_dount_ptr,
+    jvmtiExtfnsionEvfntInfo** fxtfnsions);
+
+  /*   126 : Sft Extfnsion Evfnt Cbllbbdk */
+  jvmtiError (JNICALL *SftExtfnsionEvfntCbllbbdk) (jvmtiEnv* fnv,
+    jint fxtfnsion_fvfnt_indfx,
+    jvmtiExtfnsionEvfnt dbllbbdk);
+
+  /*   127 : Disposf Environmfnt */
+  jvmtiError (JNICALL *DisposfEnvironmfnt) (jvmtiEnv* fnv);
+
+  /*   128 : Gft Error Nbmf */
+  jvmtiError (JNICALL *GftErrorNbmf) (jvmtiEnv* fnv,
+    jvmtiError frror,
+    dhbr** nbmf_ptr);
+
+  /*   129 : Gft JLodbtion Formbt */
+  jvmtiError (JNICALL *GftJLodbtionFormbt) (jvmtiEnv* fnv,
+    jvmtiJlodbtionFormbt* formbt_ptr);
+
+  /*   130 : Gft Systfm Propfrtifs */
+  jvmtiError (JNICALL *GftSystfmPropfrtifs) (jvmtiEnv* fnv,
+    jint* dount_ptr,
+    dhbr*** propfrty_ptr);
+
+  /*   131 : Gft Systfm Propfrty */
+  jvmtiError (JNICALL *GftSystfmPropfrty) (jvmtiEnv* fnv,
+    donst dhbr* propfrty,
+    dhbr** vbluf_ptr);
+
+  /*   132 : Sft Systfm Propfrty */
+  jvmtiError (JNICALL *SftSystfmPropfrty) (jvmtiEnv* fnv,
+    donst dhbr* propfrty,
+    donst dhbr* vbluf);
+
+  /*   133 : Gft Phbsf */
+  jvmtiError (JNICALL *GftPhbsf) (jvmtiEnv* fnv,
+    jvmtiPhbsf* phbsf_ptr);
+
+  /*   134 : Gft Currfnt Thrfbd CPU Timfr Informbtion */
+  jvmtiError (JNICALL *GftCurrfntThrfbdCpuTimfrInfo) (jvmtiEnv* fnv,
+    jvmtiTimfrInfo* info_ptr);
+
+  /*   135 : Gft Currfnt Thrfbd CPU Timf */
+  jvmtiError (JNICALL *GftCurrfntThrfbdCpuTimf) (jvmtiEnv* fnv,
+    jlong* nbnos_ptr);
+
+  /*   136 : Gft Thrfbd CPU Timfr Informbtion */
+  jvmtiError (JNICALL *GftThrfbdCpuTimfrInfo) (jvmtiEnv* fnv,
+    jvmtiTimfrInfo* info_ptr);
+
+  /*   137 : Gft Thrfbd CPU Timf */
+  jvmtiError (JNICALL *GftThrfbdCpuTimf) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jlong* nbnos_ptr);
+
+  /*   138 : Gft Timfr Informbtion */
+  jvmtiError (JNICALL *GftTimfrInfo) (jvmtiEnv* fnv,
+    jvmtiTimfrInfo* info_ptr);
+
+  /*   139 : Gft Timf */
+  jvmtiError (JNICALL *GftTimf) (jvmtiEnv* fnv,
+    jlong* nbnos_ptr);
+
+  /*   140 : Gft Potfntibl Cbpbbilitifs */
+  jvmtiError (JNICALL *GftPotfntiblCbpbbilitifs) (jvmtiEnv* fnv,
+    jvmtiCbpbbilitifs* dbpbbilitifs_ptr);
+
+  /*   141 :  RESERVED */
+  void *rfsfrvfd141;
+
+  /*   142 : Add Cbpbbilitifs */
+  jvmtiError (JNICALL *AddCbpbbilitifs) (jvmtiEnv* fnv,
+    donst jvmtiCbpbbilitifs* dbpbbilitifs_ptr);
+
+  /*   143 : Rflinquish Cbpbbilitifs */
+  jvmtiError (JNICALL *RflinquishCbpbbilitifs) (jvmtiEnv* fnv,
+    donst jvmtiCbpbbilitifs* dbpbbilitifs_ptr);
+
+  /*   144 : Gft Avbilbblf Prodfssors */
+  jvmtiError (JNICALL *GftAvbilbblfProdfssors) (jvmtiEnv* fnv,
+    jint* prodfssor_dount_ptr);
+
+  /*   145 : Gft Clbss Vfrsion Numbfrs */
+  jvmtiError (JNICALL *GftClbssVfrsionNumbfrs) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jint* minor_vfrsion_ptr,
+    jint* mbjor_vfrsion_ptr);
+
+  /*   146 : Gft Constbnt Pool */
+  jvmtiError (JNICALL *GftConstbntPool) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jint* donstbnt_pool_dount_ptr,
+    jint* donstbnt_pool_bytf_dount_ptr,
+    unsignfd dhbr** donstbnt_pool_bytfs_ptr);
+
+  /*   147 : Gft Environmfnt Lodbl Storbgf */
+  jvmtiError (JNICALL *GftEnvironmfntLodblStorbgf) (jvmtiEnv* fnv,
+    void** dbtb_ptr);
+
+  /*   148 : Sft Environmfnt Lodbl Storbgf */
+  jvmtiError (JNICALL *SftEnvironmfntLodblStorbgf) (jvmtiEnv* fnv,
+    donst void* dbtb);
+
+  /*   149 : Add To Bootstrbp Clbss Lobdfr Sfbrdh */
+  jvmtiError (JNICALL *AddToBootstrbpClbssLobdfrSfbrdh) (jvmtiEnv* fnv,
+    donst dhbr* sfgmfnt);
+
+  /*   150 : Sft Vfrbosf Flbg */
+  jvmtiError (JNICALL *SftVfrbosfFlbg) (jvmtiEnv* fnv,
+    jvmtiVfrbosfFlbg flbg,
+    jboolfbn vbluf);
+
+  /*   151 : Add To Systfm Clbss Lobdfr Sfbrdh */
+  jvmtiError (JNICALL *AddToSystfmClbssLobdfrSfbrdh) (jvmtiEnv* fnv,
+    donst dhbr* sfgmfnt);
+
+  /*   152 : Rftrbnsform Clbssfs */
+  jvmtiError (JNICALL *RftrbnsformClbssfs) (jvmtiEnv* fnv,
+    jint dlbss_dount,
+    donst jdlbss* dlbssfs);
+
+  /*   153 : Gft Ownfd Monitor Stbdk Dfpth Info */
+  jvmtiError (JNICALL *GftOwnfdMonitorStbdkDfpthInfo) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint* monitor_info_dount_ptr,
+    jvmtiMonitorStbdkDfpthInfo** monitor_info_ptr);
+
+  /*   154 : Gft Objfdt Sizf */
+  jvmtiError (JNICALL *GftObjfdtSizf) (jvmtiEnv* fnv,
+    jobjfdt objfdt,
+    jlong* sizf_ptr);
+
+  /*   155 : Gft Lodbl Instbndf */
+  jvmtiError (JNICALL *GftLodblInstbndf) (jvmtiEnv* fnv,
+    jthrfbd thrfbd,
+    jint dfpth,
+    jobjfdt* vbluf_ptr);
+
+} jvmtiIntfrfbdf_1;
+
+strudt _jvmtiEnv {
+    donst strudt jvmtiIntfrfbdf_1_ *fundtions;
+#ifdff __dplusplus
+
+
+  jvmtiError Allodbtf(jlong sizf,
+            unsignfd dhbr** mfm_ptr) {
+    rfturn fundtions->Allodbtf(this, sizf, mfm_ptr);
+  }
+
+  jvmtiError Dfbllodbtf(unsignfd dhbr* mfm) {
+    rfturn fundtions->Dfbllodbtf(this, mfm);
+  }
+
+  jvmtiError GftThrfbdStbtf(jthrfbd thrfbd,
+            jint* thrfbd_stbtf_ptr) {
+    rfturn fundtions->GftThrfbdStbtf(this, thrfbd, thrfbd_stbtf_ptr);
+  }
+
+  jvmtiError GftCurrfntThrfbd(jthrfbd* thrfbd_ptr) {
+    rfturn fundtions->GftCurrfntThrfbd(this, thrfbd_ptr);
+  }
+
+  jvmtiError GftAllThrfbds(jint* thrfbds_dount_ptr,
+            jthrfbd** thrfbds_ptr) {
+    rfturn fundtions->GftAllThrfbds(this, thrfbds_dount_ptr, thrfbds_ptr);
+  }
+
+  jvmtiError SuspfndThrfbd(jthrfbd thrfbd) {
+    rfturn fundtions->SuspfndThrfbd(this, thrfbd);
+  }
+
+  jvmtiError SuspfndThrfbdList(jint rfqufst_dount,
+            donst jthrfbd* rfqufst_list,
+            jvmtiError* rfsults) {
+    rfturn fundtions->SuspfndThrfbdList(this, rfqufst_dount, rfqufst_list, rfsults);
+  }
+
+  jvmtiError RfsumfThrfbd(jthrfbd thrfbd) {
+    rfturn fundtions->RfsumfThrfbd(this, thrfbd);
+  }
+
+  jvmtiError RfsumfThrfbdList(jint rfqufst_dount,
+            donst jthrfbd* rfqufst_list,
+            jvmtiError* rfsults) {
+    rfturn fundtions->RfsumfThrfbdList(this, rfqufst_dount, rfqufst_list, rfsults);
+  }
+
+  jvmtiError StopThrfbd(jthrfbd thrfbd,
+            jobjfdt fxdfption) {
+    rfturn fundtions->StopThrfbd(this, thrfbd, fxdfption);
+  }
+
+  jvmtiError IntfrruptThrfbd(jthrfbd thrfbd) {
+    rfturn fundtions->IntfrruptThrfbd(this, thrfbd);
+  }
+
+  jvmtiError GftThrfbdInfo(jthrfbd thrfbd,
+            jvmtiThrfbdInfo* info_ptr) {
+    rfturn fundtions->GftThrfbdInfo(this, thrfbd, info_ptr);
+  }
+
+  jvmtiError GftOwnfdMonitorInfo(jthrfbd thrfbd,
+            jint* ownfd_monitor_dount_ptr,
+            jobjfdt** ownfd_monitors_ptr) {
+    rfturn fundtions->GftOwnfdMonitorInfo(this, thrfbd, ownfd_monitor_dount_ptr, ownfd_monitors_ptr);
+  }
+
+  jvmtiError GftOwnfdMonitorStbdkDfpthInfo(jthrfbd thrfbd,
+            jint* monitor_info_dount_ptr,
+            jvmtiMonitorStbdkDfpthInfo** monitor_info_ptr) {
+    rfturn fundtions->GftOwnfdMonitorStbdkDfpthInfo(this, thrfbd, monitor_info_dount_ptr, monitor_info_ptr);
+  }
+
+  jvmtiError GftCurrfntContfndfdMonitor(jthrfbd thrfbd,
+            jobjfdt* monitor_ptr) {
+    rfturn fundtions->GftCurrfntContfndfdMonitor(this, thrfbd, monitor_ptr);
+  }
+
+  jvmtiError RunAgfntThrfbd(jthrfbd thrfbd,
+            jvmtiStbrtFundtion prod,
+            donst void* brg,
+            jint priority) {
+    rfturn fundtions->RunAgfntThrfbd(this, thrfbd, prod, brg, priority);
+  }
+
+  jvmtiError SftThrfbdLodblStorbgf(jthrfbd thrfbd,
+            donst void* dbtb) {
+    rfturn fundtions->SftThrfbdLodblStorbgf(this, thrfbd, dbtb);
+  }
+
+  jvmtiError GftThrfbdLodblStorbgf(jthrfbd thrfbd,
+            void** dbtb_ptr) {
+    rfturn fundtions->GftThrfbdLodblStorbgf(this, thrfbd, dbtb_ptr);
+  }
+
+  jvmtiError GftTopThrfbdGroups(jint* group_dount_ptr,
+            jthrfbdGroup** groups_ptr) {
+    rfturn fundtions->GftTopThrfbdGroups(this, group_dount_ptr, groups_ptr);
+  }
+
+  jvmtiError GftThrfbdGroupInfo(jthrfbdGroup group,
+            jvmtiThrfbdGroupInfo* info_ptr) {
+    rfturn fundtions->GftThrfbdGroupInfo(this, group, info_ptr);
+  }
+
+  jvmtiError GftThrfbdGroupChildrfn(jthrfbdGroup group,
+            jint* thrfbd_dount_ptr,
+            jthrfbd** thrfbds_ptr,
+            jint* group_dount_ptr,
+            jthrfbdGroup** groups_ptr) {
+    rfturn fundtions->GftThrfbdGroupChildrfn(this, group, thrfbd_dount_ptr, thrfbds_ptr, group_dount_ptr, groups_ptr);
+  }
+
+  jvmtiError GftStbdkTrbdf(jthrfbd thrfbd,
+            jint stbrt_dfpth,
+            jint mbx_frbmf_dount,
+            jvmtiFrbmfInfo* frbmf_bufffr,
+            jint* dount_ptr) {
+    rfturn fundtions->GftStbdkTrbdf(this, thrfbd, stbrt_dfpth, mbx_frbmf_dount, frbmf_bufffr, dount_ptr);
+  }
+
+  jvmtiError GftAllStbdkTrbdfs(jint mbx_frbmf_dount,
+            jvmtiStbdkInfo** stbdk_info_ptr,
+            jint* thrfbd_dount_ptr) {
+    rfturn fundtions->GftAllStbdkTrbdfs(this, mbx_frbmf_dount, stbdk_info_ptr, thrfbd_dount_ptr);
+  }
+
+  jvmtiError GftThrfbdListStbdkTrbdfs(jint thrfbd_dount,
+            donst jthrfbd* thrfbd_list,
+            jint mbx_frbmf_dount,
+            jvmtiStbdkInfo** stbdk_info_ptr) {
+    rfturn fundtions->GftThrfbdListStbdkTrbdfs(this, thrfbd_dount, thrfbd_list, mbx_frbmf_dount, stbdk_info_ptr);
+  }
+
+  jvmtiError GftFrbmfCount(jthrfbd thrfbd,
+            jint* dount_ptr) {
+    rfturn fundtions->GftFrbmfCount(this, thrfbd, dount_ptr);
+  }
+
+  jvmtiError PopFrbmf(jthrfbd thrfbd) {
+    rfturn fundtions->PopFrbmf(this, thrfbd);
+  }
+
+  jvmtiError GftFrbmfLodbtion(jthrfbd thrfbd,
+            jint dfpth,
+            jmfthodID* mfthod_ptr,
+            jlodbtion* lodbtion_ptr) {
+    rfturn fundtions->GftFrbmfLodbtion(this, thrfbd, dfpth, mfthod_ptr, lodbtion_ptr);
+  }
+
+  jvmtiError NotifyFrbmfPop(jthrfbd thrfbd,
+            jint dfpth) {
+    rfturn fundtions->NotifyFrbmfPop(this, thrfbd, dfpth);
+  }
+
+  jvmtiError FordfEbrlyRfturnObjfdt(jthrfbd thrfbd,
+            jobjfdt vbluf) {
+    rfturn fundtions->FordfEbrlyRfturnObjfdt(this, thrfbd, vbluf);
+  }
+
+  jvmtiError FordfEbrlyRfturnInt(jthrfbd thrfbd,
+            jint vbluf) {
+    rfturn fundtions->FordfEbrlyRfturnInt(this, thrfbd, vbluf);
+  }
+
+  jvmtiError FordfEbrlyRfturnLong(jthrfbd thrfbd,
+            jlong vbluf) {
+    rfturn fundtions->FordfEbrlyRfturnLong(this, thrfbd, vbluf);
+  }
+
+  jvmtiError FordfEbrlyRfturnFlobt(jthrfbd thrfbd,
+            jflobt vbluf) {
+    rfturn fundtions->FordfEbrlyRfturnFlobt(this, thrfbd, vbluf);
+  }
+
+  jvmtiError FordfEbrlyRfturnDoublf(jthrfbd thrfbd,
+            jdoublf vbluf) {
+    rfturn fundtions->FordfEbrlyRfturnDoublf(this, thrfbd, vbluf);
+  }
+
+  jvmtiError FordfEbrlyRfturnVoid(jthrfbd thrfbd) {
+    rfturn fundtions->FordfEbrlyRfturnVoid(this, thrfbd);
+  }
+
+  jvmtiError FollowRfffrfndfs(jint hfbp_filtfr,
+            jdlbss klbss,
+            jobjfdt initibl_objfdt,
+            donst jvmtiHfbpCbllbbdks* dbllbbdks,
+            donst void* usfr_dbtb) {
+    rfturn fundtions->FollowRfffrfndfs(this, hfbp_filtfr, klbss, initibl_objfdt, dbllbbdks, usfr_dbtb);
+  }
+
+  jvmtiError ItfrbtfThroughHfbp(jint hfbp_filtfr,
+            jdlbss klbss,
+            donst jvmtiHfbpCbllbbdks* dbllbbdks,
+            donst void* usfr_dbtb) {
+    rfturn fundtions->ItfrbtfThroughHfbp(this, hfbp_filtfr, klbss, dbllbbdks, usfr_dbtb);
+  }
+
+  jvmtiError GftTbg(jobjfdt objfdt,
+            jlong* tbg_ptr) {
+    rfturn fundtions->GftTbg(this, objfdt, tbg_ptr);
+  }
+
+  jvmtiError SftTbg(jobjfdt objfdt,
+            jlong tbg) {
+    rfturn fundtions->SftTbg(this, objfdt, tbg);
+  }
+
+  jvmtiError GftObjfdtsWithTbgs(jint tbg_dount,
+            donst jlong* tbgs,
+            jint* dount_ptr,
+            jobjfdt** objfdt_rfsult_ptr,
+            jlong** tbg_rfsult_ptr) {
+    rfturn fundtions->GftObjfdtsWithTbgs(this, tbg_dount, tbgs, dount_ptr, objfdt_rfsult_ptr, tbg_rfsult_ptr);
+  }
+
+  jvmtiError FordfGbrbbgfCollfdtion() {
+    rfturn fundtions->FordfGbrbbgfCollfdtion(this);
+  }
+
+  jvmtiError ItfrbtfOvfrObjfdtsRfbdhbblfFromObjfdt(jobjfdt objfdt,
+            jvmtiObjfdtRfffrfndfCbllbbdk objfdt_rfffrfndf_dbllbbdk,
+            donst void* usfr_dbtb) {
+    rfturn fundtions->ItfrbtfOvfrObjfdtsRfbdhbblfFromObjfdt(this, objfdt, objfdt_rfffrfndf_dbllbbdk, usfr_dbtb);
+  }
+
+  jvmtiError ItfrbtfOvfrRfbdhbblfObjfdts(jvmtiHfbpRootCbllbbdk hfbp_root_dbllbbdk,
+            jvmtiStbdkRfffrfndfCbllbbdk stbdk_rff_dbllbbdk,
+            jvmtiObjfdtRfffrfndfCbllbbdk objfdt_rff_dbllbbdk,
+            donst void* usfr_dbtb) {
+    rfturn fundtions->ItfrbtfOvfrRfbdhbblfObjfdts(this, hfbp_root_dbllbbdk, stbdk_rff_dbllbbdk, objfdt_rff_dbllbbdk, usfr_dbtb);
+  }
+
+  jvmtiError ItfrbtfOvfrHfbp(jvmtiHfbpObjfdtFiltfr objfdt_filtfr,
+            jvmtiHfbpObjfdtCbllbbdk hfbp_objfdt_dbllbbdk,
+            donst void* usfr_dbtb) {
+    rfturn fundtions->ItfrbtfOvfrHfbp(this, objfdt_filtfr, hfbp_objfdt_dbllbbdk, usfr_dbtb);
+  }
+
+  jvmtiError ItfrbtfOvfrInstbndfsOfClbss(jdlbss klbss,
+            jvmtiHfbpObjfdtFiltfr objfdt_filtfr,
+            jvmtiHfbpObjfdtCbllbbdk hfbp_objfdt_dbllbbdk,
+            donst void* usfr_dbtb) {
+    rfturn fundtions->ItfrbtfOvfrInstbndfsOfClbss(this, klbss, objfdt_filtfr, hfbp_objfdt_dbllbbdk, usfr_dbtb);
+  }
+
+  jvmtiError GftLodblObjfdt(jthrfbd thrfbd,
+            jint dfpth,
+            jint slot,
+            jobjfdt* vbluf_ptr) {
+    rfturn fundtions->GftLodblObjfdt(this, thrfbd, dfpth, slot, vbluf_ptr);
+  }
+
+  jvmtiError GftLodblInstbndf(jthrfbd thrfbd,
+            jint dfpth,
+            jobjfdt* vbluf_ptr) {
+    rfturn fundtions->GftLodblInstbndf(this, thrfbd, dfpth, vbluf_ptr);
+  }
+
+  jvmtiError GftLodblInt(jthrfbd thrfbd,
+            jint dfpth,
+            jint slot,
+            jint* vbluf_ptr) {
+    rfturn fundtions->GftLodblInt(this, thrfbd, dfpth, slot, vbluf_ptr);
+  }
+
+  jvmtiError GftLodblLong(jthrfbd thrfbd,
+            jint dfpth,
+            jint slot,
+            jlong* vbluf_ptr) {
+    rfturn fundtions->GftLodblLong(this, thrfbd, dfpth, slot, vbluf_ptr);
+  }
+
+  jvmtiError GftLodblFlobt(jthrfbd thrfbd,
+            jint dfpth,
+            jint slot,
+            jflobt* vbluf_ptr) {
+    rfturn fundtions->GftLodblFlobt(this, thrfbd, dfpth, slot, vbluf_ptr);
+  }
+
+  jvmtiError GftLodblDoublf(jthrfbd thrfbd,
+            jint dfpth,
+            jint slot,
+            jdoublf* vbluf_ptr) {
+    rfturn fundtions->GftLodblDoublf(this, thrfbd, dfpth, slot, vbluf_ptr);
+  }
+
+  jvmtiError SftLodblObjfdt(jthrfbd thrfbd,
+            jint dfpth,
+            jint slot,
+            jobjfdt vbluf) {
+    rfturn fundtions->SftLodblObjfdt(this, thrfbd, dfpth, slot, vbluf);
+  }
+
+  jvmtiError SftLodblInt(jthrfbd thrfbd,
+            jint dfpth,
+            jint slot,
+            jint vbluf) {
+    rfturn fundtions->SftLodblInt(this, thrfbd, dfpth, slot, vbluf);
+  }
+
+  jvmtiError SftLodblLong(jthrfbd thrfbd,
+            jint dfpth,
+            jint slot,
+            jlong vbluf) {
+    rfturn fundtions->SftLodblLong(this, thrfbd, dfpth, slot, vbluf);
+  }
+
+  jvmtiError SftLodblFlobt(jthrfbd thrfbd,
+            jint dfpth,
+            jint slot,
+            jflobt vbluf) {
+    rfturn fundtions->SftLodblFlobt(this, thrfbd, dfpth, slot, vbluf);
+  }
+
+  jvmtiError SftLodblDoublf(jthrfbd thrfbd,
+            jint dfpth,
+            jint slot,
+            jdoublf vbluf) {
+    rfturn fundtions->SftLodblDoublf(this, thrfbd, dfpth, slot, vbluf);
+  }
+
+  jvmtiError SftBrfbkpoint(jmfthodID mfthod,
+            jlodbtion lodbtion) {
+    rfturn fundtions->SftBrfbkpoint(this, mfthod, lodbtion);
+  }
+
+  jvmtiError ClfbrBrfbkpoint(jmfthodID mfthod,
+            jlodbtion lodbtion) {
+    rfturn fundtions->ClfbrBrfbkpoint(this, mfthod, lodbtion);
+  }
+
+  jvmtiError SftFifldAddfssWbtdh(jdlbss klbss,
+            jfifldID fifld) {
+    rfturn fundtions->SftFifldAddfssWbtdh(this, klbss, fifld);
+  }
+
+  jvmtiError ClfbrFifldAddfssWbtdh(jdlbss klbss,
+            jfifldID fifld) {
+    rfturn fundtions->ClfbrFifldAddfssWbtdh(this, klbss, fifld);
+  }
+
+  jvmtiError SftFifldModifidbtionWbtdh(jdlbss klbss,
+            jfifldID fifld) {
+    rfturn fundtions->SftFifldModifidbtionWbtdh(this, klbss, fifld);
+  }
+
+  jvmtiError ClfbrFifldModifidbtionWbtdh(jdlbss klbss,
+            jfifldID fifld) {
+    rfturn fundtions->ClfbrFifldModifidbtionWbtdh(this, klbss, fifld);
+  }
+
+  jvmtiError GftLobdfdClbssfs(jint* dlbss_dount_ptr,
+            jdlbss** dlbssfs_ptr) {
+    rfturn fundtions->GftLobdfdClbssfs(this, dlbss_dount_ptr, dlbssfs_ptr);
+  }
+
+  jvmtiError GftClbssLobdfrClbssfs(jobjfdt initibting_lobdfr,
+            jint* dlbss_dount_ptr,
+            jdlbss** dlbssfs_ptr) {
+    rfturn fundtions->GftClbssLobdfrClbssfs(this, initibting_lobdfr, dlbss_dount_ptr, dlbssfs_ptr);
+  }
+
+  jvmtiError GftClbssSignbturf(jdlbss klbss,
+            dhbr** signbturf_ptr,
+            dhbr** gfnfrid_ptr) {
+    rfturn fundtions->GftClbssSignbturf(this, klbss, signbturf_ptr, gfnfrid_ptr);
+  }
+
+  jvmtiError GftClbssStbtus(jdlbss klbss,
+            jint* stbtus_ptr) {
+    rfturn fundtions->GftClbssStbtus(this, klbss, stbtus_ptr);
+  }
+
+  jvmtiError GftSourdfFilfNbmf(jdlbss klbss,
+            dhbr** sourdf_nbmf_ptr) {
+    rfturn fundtions->GftSourdfFilfNbmf(this, klbss, sourdf_nbmf_ptr);
+  }
+
+  jvmtiError GftClbssModififrs(jdlbss klbss,
+            jint* modififrs_ptr) {
+    rfturn fundtions->GftClbssModififrs(this, klbss, modififrs_ptr);
+  }
+
+  jvmtiError GftClbssMfthods(jdlbss klbss,
+            jint* mfthod_dount_ptr,
+            jmfthodID** mfthods_ptr) {
+    rfturn fundtions->GftClbssMfthods(this, klbss, mfthod_dount_ptr, mfthods_ptr);
+  }
+
+  jvmtiError GftClbssFiflds(jdlbss klbss,
+            jint* fifld_dount_ptr,
+            jfifldID** fiflds_ptr) {
+    rfturn fundtions->GftClbssFiflds(this, klbss, fifld_dount_ptr, fiflds_ptr);
+  }
+
+  jvmtiError GftImplfmfntfdIntfrfbdfs(jdlbss klbss,
+            jint* intfrfbdf_dount_ptr,
+            jdlbss** intfrfbdfs_ptr) {
+    rfturn fundtions->GftImplfmfntfdIntfrfbdfs(this, klbss, intfrfbdf_dount_ptr, intfrfbdfs_ptr);
+  }
+
+  jvmtiError GftClbssVfrsionNumbfrs(jdlbss klbss,
+            jint* minor_vfrsion_ptr,
+            jint* mbjor_vfrsion_ptr) {
+    rfturn fundtions->GftClbssVfrsionNumbfrs(this, klbss, minor_vfrsion_ptr, mbjor_vfrsion_ptr);
+  }
+
+  jvmtiError GftConstbntPool(jdlbss klbss,
+            jint* donstbnt_pool_dount_ptr,
+            jint* donstbnt_pool_bytf_dount_ptr,
+            unsignfd dhbr** donstbnt_pool_bytfs_ptr) {
+    rfturn fundtions->GftConstbntPool(this, klbss, donstbnt_pool_dount_ptr, donstbnt_pool_bytf_dount_ptr, donstbnt_pool_bytfs_ptr);
+  }
+
+  jvmtiError IsIntfrfbdf(jdlbss klbss,
+            jboolfbn* is_intfrfbdf_ptr) {
+    rfturn fundtions->IsIntfrfbdf(this, klbss, is_intfrfbdf_ptr);
+  }
+
+  jvmtiError IsArrbyClbss(jdlbss klbss,
+            jboolfbn* is_brrby_dlbss_ptr) {
+    rfturn fundtions->IsArrbyClbss(this, klbss, is_brrby_dlbss_ptr);
+  }
+
+  jvmtiError IsModifibblfClbss(jdlbss klbss,
+            jboolfbn* is_modifibblf_dlbss_ptr) {
+    rfturn fundtions->IsModifibblfClbss(this, klbss, is_modifibblf_dlbss_ptr);
+  }
+
+  jvmtiError GftClbssLobdfr(jdlbss klbss,
+            jobjfdt* dlbsslobdfr_ptr) {
+    rfturn fundtions->GftClbssLobdfr(this, klbss, dlbsslobdfr_ptr);
+  }
+
+  jvmtiError GftSourdfDfbugExtfnsion(jdlbss klbss,
+            dhbr** sourdf_dfbug_fxtfnsion_ptr) {
+    rfturn fundtions->GftSourdfDfbugExtfnsion(this, klbss, sourdf_dfbug_fxtfnsion_ptr);
+  }
+
+  jvmtiError RftrbnsformClbssfs(jint dlbss_dount,
+            donst jdlbss* dlbssfs) {
+    rfturn fundtions->RftrbnsformClbssfs(this, dlbss_dount, dlbssfs);
+  }
+
+  jvmtiError RfdffinfClbssfs(jint dlbss_dount,
+            donst jvmtiClbssDffinition* dlbss_dffinitions) {
+    rfturn fundtions->RfdffinfClbssfs(this, dlbss_dount, dlbss_dffinitions);
+  }
+
+  jvmtiError GftObjfdtSizf(jobjfdt objfdt,
+            jlong* sizf_ptr) {
+    rfturn fundtions->GftObjfdtSizf(this, objfdt, sizf_ptr);
+  }
+
+  jvmtiError GftObjfdtHbshCodf(jobjfdt objfdt,
+            jint* hbsh_dodf_ptr) {
+    rfturn fundtions->GftObjfdtHbshCodf(this, objfdt, hbsh_dodf_ptr);
+  }
+
+  jvmtiError GftObjfdtMonitorUsbgf(jobjfdt objfdt,
+            jvmtiMonitorUsbgf* info_ptr) {
+    rfturn fundtions->GftObjfdtMonitorUsbgf(this, objfdt, info_ptr);
+  }
+
+  jvmtiError GftFifldNbmf(jdlbss klbss,
+            jfifldID fifld,
+            dhbr** nbmf_ptr,
+            dhbr** signbturf_ptr,
+            dhbr** gfnfrid_ptr) {
+    rfturn fundtions->GftFifldNbmf(this, klbss, fifld, nbmf_ptr, signbturf_ptr, gfnfrid_ptr);
+  }
+
+  jvmtiError GftFifldDfdlbringClbss(jdlbss klbss,
+            jfifldID fifld,
+            jdlbss* dfdlbring_dlbss_ptr) {
+    rfturn fundtions->GftFifldDfdlbringClbss(this, klbss, fifld, dfdlbring_dlbss_ptr);
+  }
+
+  jvmtiError GftFifldModififrs(jdlbss klbss,
+            jfifldID fifld,
+            jint* modififrs_ptr) {
+    rfturn fundtions->GftFifldModififrs(this, klbss, fifld, modififrs_ptr);
+  }
+
+  jvmtiError IsFifldSynthftid(jdlbss klbss,
+            jfifldID fifld,
+            jboolfbn* is_synthftid_ptr) {
+    rfturn fundtions->IsFifldSynthftid(this, klbss, fifld, is_synthftid_ptr);
+  }
+
+  jvmtiError GftMfthodNbmf(jmfthodID mfthod,
+            dhbr** nbmf_ptr,
+            dhbr** signbturf_ptr,
+            dhbr** gfnfrid_ptr) {
+    rfturn fundtions->GftMfthodNbmf(this, mfthod, nbmf_ptr, signbturf_ptr, gfnfrid_ptr);
+  }
+
+  jvmtiError GftMfthodDfdlbringClbss(jmfthodID mfthod,
+            jdlbss* dfdlbring_dlbss_ptr) {
+    rfturn fundtions->GftMfthodDfdlbringClbss(this, mfthod, dfdlbring_dlbss_ptr);
+  }
+
+  jvmtiError GftMfthodModififrs(jmfthodID mfthod,
+            jint* modififrs_ptr) {
+    rfturn fundtions->GftMfthodModififrs(this, mfthod, modififrs_ptr);
+  }
+
+  jvmtiError GftMbxLodbls(jmfthodID mfthod,
+            jint* mbx_ptr) {
+    rfturn fundtions->GftMbxLodbls(this, mfthod, mbx_ptr);
+  }
+
+  jvmtiError GftArgumfntsSizf(jmfthodID mfthod,
+            jint* sizf_ptr) {
+    rfturn fundtions->GftArgumfntsSizf(this, mfthod, sizf_ptr);
+  }
+
+  jvmtiError GftLinfNumbfrTbblf(jmfthodID mfthod,
+            jint* fntry_dount_ptr,
+            jvmtiLinfNumbfrEntry** tbblf_ptr) {
+    rfturn fundtions->GftLinfNumbfrTbblf(this, mfthod, fntry_dount_ptr, tbblf_ptr);
+  }
+
+  jvmtiError GftMfthodLodbtion(jmfthodID mfthod,
+            jlodbtion* stbrt_lodbtion_ptr,
+            jlodbtion* fnd_lodbtion_ptr) {
+    rfturn fundtions->GftMfthodLodbtion(this, mfthod, stbrt_lodbtion_ptr, fnd_lodbtion_ptr);
+  }
+
+  jvmtiError GftLodblVbribblfTbblf(jmfthodID mfthod,
+            jint* fntry_dount_ptr,
+            jvmtiLodblVbribblfEntry** tbblf_ptr) {
+    rfturn fundtions->GftLodblVbribblfTbblf(this, mfthod, fntry_dount_ptr, tbblf_ptr);
+  }
+
+  jvmtiError GftBytfdodfs(jmfthodID mfthod,
+            jint* bytfdodf_dount_ptr,
+            unsignfd dhbr** bytfdodfs_ptr) {
+    rfturn fundtions->GftBytfdodfs(this, mfthod, bytfdodf_dount_ptr, bytfdodfs_ptr);
+  }
+
+  jvmtiError IsMfthodNbtivf(jmfthodID mfthod,
+            jboolfbn* is_nbtivf_ptr) {
+    rfturn fundtions->IsMfthodNbtivf(this, mfthod, is_nbtivf_ptr);
+  }
+
+  jvmtiError IsMfthodSynthftid(jmfthodID mfthod,
+            jboolfbn* is_synthftid_ptr) {
+    rfturn fundtions->IsMfthodSynthftid(this, mfthod, is_synthftid_ptr);
+  }
+
+  jvmtiError IsMfthodObsolftf(jmfthodID mfthod,
+            jboolfbn* is_obsolftf_ptr) {
+    rfturn fundtions->IsMfthodObsolftf(this, mfthod, is_obsolftf_ptr);
+  }
+
+  jvmtiError SftNbtivfMfthodPrffix(donst dhbr* prffix) {
+    rfturn fundtions->SftNbtivfMfthodPrffix(this, prffix);
+  }
+
+  jvmtiError SftNbtivfMfthodPrffixfs(jint prffix_dount,
+            dhbr** prffixfs) {
+    rfturn fundtions->SftNbtivfMfthodPrffixfs(this, prffix_dount, prffixfs);
+  }
+
+  jvmtiError CrfbtfRbwMonitor(donst dhbr* nbmf,
+            jrbwMonitorID* monitor_ptr) {
+    rfturn fundtions->CrfbtfRbwMonitor(this, nbmf, monitor_ptr);
+  }
+
+  jvmtiError DfstroyRbwMonitor(jrbwMonitorID monitor) {
+    rfturn fundtions->DfstroyRbwMonitor(this, monitor);
+  }
+
+  jvmtiError RbwMonitorEntfr(jrbwMonitorID monitor) {
+    rfturn fundtions->RbwMonitorEntfr(this, monitor);
+  }
+
+  jvmtiError RbwMonitorExit(jrbwMonitorID monitor) {
+    rfturn fundtions->RbwMonitorExit(this, monitor);
+  }
+
+  jvmtiError RbwMonitorWbit(jrbwMonitorID monitor,
+            jlong millis) {
+    rfturn fundtions->RbwMonitorWbit(this, monitor, millis);
+  }
+
+  jvmtiError RbwMonitorNotify(jrbwMonitorID monitor) {
+    rfturn fundtions->RbwMonitorNotify(this, monitor);
+  }
+
+  jvmtiError RbwMonitorNotifyAll(jrbwMonitorID monitor) {
+    rfturn fundtions->RbwMonitorNotifyAll(this, monitor);
+  }
+
+  jvmtiError SftJNIFundtionTbblf(donst jniNbtivfIntfrfbdf* fundtion_tbblf) {
+    rfturn fundtions->SftJNIFundtionTbblf(this, fundtion_tbblf);
+  }
+
+  jvmtiError GftJNIFundtionTbblf(jniNbtivfIntfrfbdf** fundtion_tbblf) {
+    rfturn fundtions->GftJNIFundtionTbblf(this, fundtion_tbblf);
+  }
+
+  jvmtiError SftEvfntCbllbbdks(donst jvmtiEvfntCbllbbdks* dbllbbdks,
+            jint sizf_of_dbllbbdks) {
+    rfturn fundtions->SftEvfntCbllbbdks(this, dbllbbdks, sizf_of_dbllbbdks);
+  }
+
+  jvmtiError SftEvfntNotifidbtionModf(jvmtiEvfntModf modf,
+            jvmtiEvfnt fvfnt_typf,
+            jthrfbd fvfnt_thrfbd,
+             ...) {
+    rfturn fundtions->SftEvfntNotifidbtionModf(this, modf, fvfnt_typf, fvfnt_thrfbd);
+  }
+
+  jvmtiError GfnfrbtfEvfnts(jvmtiEvfnt fvfnt_typf) {
+    rfturn fundtions->GfnfrbtfEvfnts(this, fvfnt_typf);
+  }
+
+  jvmtiError GftExtfnsionFundtions(jint* fxtfnsion_dount_ptr,
+            jvmtiExtfnsionFundtionInfo** fxtfnsions) {
+    rfturn fundtions->GftExtfnsionFundtions(this, fxtfnsion_dount_ptr, fxtfnsions);
+  }
+
+  jvmtiError GftExtfnsionEvfnts(jint* fxtfnsion_dount_ptr,
+            jvmtiExtfnsionEvfntInfo** fxtfnsions) {
+    rfturn fundtions->GftExtfnsionEvfnts(this, fxtfnsion_dount_ptr, fxtfnsions);
+  }
+
+  jvmtiError SftExtfnsionEvfntCbllbbdk(jint fxtfnsion_fvfnt_indfx,
+            jvmtiExtfnsionEvfnt dbllbbdk) {
+    rfturn fundtions->SftExtfnsionEvfntCbllbbdk(this, fxtfnsion_fvfnt_indfx, dbllbbdk);
+  }
+
+  jvmtiError GftPotfntiblCbpbbilitifs(jvmtiCbpbbilitifs* dbpbbilitifs_ptr) {
+    rfturn fundtions->GftPotfntiblCbpbbilitifs(this, dbpbbilitifs_ptr);
+  }
+
+  jvmtiError AddCbpbbilitifs(donst jvmtiCbpbbilitifs* dbpbbilitifs_ptr) {
+    rfturn fundtions->AddCbpbbilitifs(this, dbpbbilitifs_ptr);
+  }
+
+  jvmtiError RflinquishCbpbbilitifs(donst jvmtiCbpbbilitifs* dbpbbilitifs_ptr) {
+    rfturn fundtions->RflinquishCbpbbilitifs(this, dbpbbilitifs_ptr);
+  }
+
+  jvmtiError GftCbpbbilitifs(jvmtiCbpbbilitifs* dbpbbilitifs_ptr) {
+    rfturn fundtions->GftCbpbbilitifs(this, dbpbbilitifs_ptr);
+  }
+
+  jvmtiError GftCurrfntThrfbdCpuTimfrInfo(jvmtiTimfrInfo* info_ptr) {
+    rfturn fundtions->GftCurrfntThrfbdCpuTimfrInfo(this, info_ptr);
+  }
+
+  jvmtiError GftCurrfntThrfbdCpuTimf(jlong* nbnos_ptr) {
+    rfturn fundtions->GftCurrfntThrfbdCpuTimf(this, nbnos_ptr);
+  }
+
+  jvmtiError GftThrfbdCpuTimfrInfo(jvmtiTimfrInfo* info_ptr) {
+    rfturn fundtions->GftThrfbdCpuTimfrInfo(this, info_ptr);
+  }
+
+  jvmtiError GftThrfbdCpuTimf(jthrfbd thrfbd,
+            jlong* nbnos_ptr) {
+    rfturn fundtions->GftThrfbdCpuTimf(this, thrfbd, nbnos_ptr);
+  }
+
+  jvmtiError GftTimfrInfo(jvmtiTimfrInfo* info_ptr) {
+    rfturn fundtions->GftTimfrInfo(this, info_ptr);
+  }
+
+  jvmtiError GftTimf(jlong* nbnos_ptr) {
+    rfturn fundtions->GftTimf(this, nbnos_ptr);
+  }
+
+  jvmtiError GftAvbilbblfProdfssors(jint* prodfssor_dount_ptr) {
+    rfturn fundtions->GftAvbilbblfProdfssors(this, prodfssor_dount_ptr);
+  }
+
+  jvmtiError AddToBootstrbpClbssLobdfrSfbrdh(donst dhbr* sfgmfnt) {
+    rfturn fundtions->AddToBootstrbpClbssLobdfrSfbrdh(this, sfgmfnt);
+  }
+
+  jvmtiError AddToSystfmClbssLobdfrSfbrdh(donst dhbr* sfgmfnt) {
+    rfturn fundtions->AddToSystfmClbssLobdfrSfbrdh(this, sfgmfnt);
+  }
+
+  jvmtiError GftSystfmPropfrtifs(jint* dount_ptr,
+            dhbr*** propfrty_ptr) {
+    rfturn fundtions->GftSystfmPropfrtifs(this, dount_ptr, propfrty_ptr);
+  }
+
+  jvmtiError GftSystfmPropfrty(donst dhbr* propfrty,
+            dhbr** vbluf_ptr) {
+    rfturn fundtions->GftSystfmPropfrty(this, propfrty, vbluf_ptr);
+  }
+
+  jvmtiError SftSystfmPropfrty(donst dhbr* propfrty,
+            donst dhbr* vbluf) {
+    rfturn fundtions->SftSystfmPropfrty(this, propfrty, vbluf);
+  }
+
+  jvmtiError GftPhbsf(jvmtiPhbsf* phbsf_ptr) {
+    rfturn fundtions->GftPhbsf(this, phbsf_ptr);
+  }
+
+  jvmtiError DisposfEnvironmfnt() {
+    rfturn fundtions->DisposfEnvironmfnt(this);
+  }
+
+  jvmtiError SftEnvironmfntLodblStorbgf(donst void* dbtb) {
+    rfturn fundtions->SftEnvironmfntLodblStorbgf(this, dbtb);
+  }
+
+  jvmtiError GftEnvironmfntLodblStorbgf(void** dbtb_ptr) {
+    rfturn fundtions->GftEnvironmfntLodblStorbgf(this, dbtb_ptr);
+  }
+
+  jvmtiError GftVfrsionNumbfr(jint* vfrsion_ptr) {
+    rfturn fundtions->GftVfrsionNumbfr(this, vfrsion_ptr);
+  }
+
+  jvmtiError GftErrorNbmf(jvmtiError frror,
+            dhbr** nbmf_ptr) {
+    rfturn fundtions->GftErrorNbmf(this, frror, nbmf_ptr);
+  }
+
+  jvmtiError SftVfrbosfFlbg(jvmtiVfrbosfFlbg flbg,
+            jboolfbn vbluf) {
+    rfturn fundtions->SftVfrbosfFlbg(this, flbg, vbluf);
+  }
+
+  jvmtiError GftJLodbtionFormbt(jvmtiJlodbtionFormbt* formbt_ptr) {
+    rfturn fundtions->GftJLodbtionFormbt(this, formbt_ptr);
+  }
+
+#fndif /* __dplusplus */
+};
+
+
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif /* __dplusplus */
+
+#fndif /* !_JAVA_JVMTI_H_ */
+

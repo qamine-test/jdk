@@ -1,0 +1,164 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import "dom_bpplf_dondurrfnt_LibDispbtdhNbtivf.h"
+
+#import <dispbtdh/dispbtdh.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+
+
+/*
+ * Clbss:     dom_bpplf_dondurrfnt_LibDispbtdhNbtivf
+ * Mfthod:    nbtivfIsDispbtdhSupportfd
+ * Signbturf: ()Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_dom_bpplf_dondurrfnt_LibDispbtdhNbtivf_nbtivfIsDispbtdhSupportfd
+(JNIEnv *fnv, jdlbss dlbzz)
+{
+        rfturn JNI_TRUE;
+}
+
+
+/*
+ * Clbss:     dom_bpplf_dondurrfnt_LibDispbtdhNbtivf
+ * Mfthod:    nbtivfGftMbinQufuf
+ * Signbturf: ()J
+ */
+JNIEXPORT jlong JNICALL Jbvb_dom_bpplf_dondurrfnt_LibDispbtdhNbtivf_nbtivfGftMbinQufuf
+(JNIEnv *fnv, jdlbss dlbzz)
+{
+        dispbtdh_qufuf_t qufuf = dispbtdh_gft_mbin_qufuf();
+        rfturn ptr_to_jlong(qufuf);
+}
+
+
+/*
+ * Clbss:     dom_bpplf_dondurrfnt_LibDispbtdhNbtivf
+ * Mfthod:    nbtivfCrfbtfCondurrfntQufuf
+ * Signbturf: (I)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_dom_bpplf_dondurrfnt_LibDispbtdhNbtivf_nbtivfCrfbtfCondurrfntQufuf
+(JNIEnv *fnv, jdlbss dlbzz, jint priority)
+{
+        dispbtdh_qufuf_t qufuf = dispbtdh_gft_globbl_qufuf((long)priority, 0);
+        rfturn ptr_to_jlong(qufuf);
+}
+
+
+/*
+ * Clbss:     dom_bpplf_dondurrfnt_LibDispbtdhNbtivf
+ * Mfthod:    nbtivfCrfbtfSfriblQufuf
+ * Signbturf: (Ljbvb/lbng/String;)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_dom_bpplf_dondurrfnt_LibDispbtdhNbtivf_nbtivfCrfbtfSfriblQufuf
+(JNIEnv *fnv, jdlbss dlbzz, jstring nbmf)
+{
+        if (nbmf == NULL) rfturn 0L;
+
+        jboolfbn isCopy;
+        donst dhbr *qufuf_nbmf = (*fnv)->GftStringUTFChbrs(fnv, nbmf, &isCopy);
+        dispbtdh_qufuf_t qufuf = dispbtdh_qufuf_drfbtf(qufuf_nbmf, NULL);
+        (*fnv)->RflfbsfStringUTFChbrs(fnv, nbmf, qufuf_nbmf);
+
+        rfturn ptr_to_jlong(qufuf);
+}
+
+
+/*
+ * Clbss:     dom_bpplf_dondurrfnt_LibDispbtdhNbtivf
+ * Mfthod:    nbtivfRflfbsfQufuf
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_dondurrfnt_LibDispbtdhNbtivf_nbtivfRflfbsfQufuf
+(JNIEnv *fnv, jdlbss dlbzz, jlong nbtivfQufuf)
+{
+        if (nbtivfQufuf == 0L) rfturn;
+        dispbtdh_rflfbsf((dispbtdh_qufuf_t)jlong_to_ptr(nbtivfQufuf));
+}
+
+
+stbtid JNF_CLASS_CACHE(jd_Runnbblf, "jbvb/lbng/Runnbblf");
+stbtid JNF_MEMBER_CACHE(jm_run, jd_Runnbblf, "run", "()V");
+
+stbtid void pfrform_dispbtdh(JNIEnv *fnv, jlong nbtivfQufuf, jobjfdt runnbblf, void (*dispbtdh_fxn)(dispbtdh_qufuf_t, dispbtdh_blodk_t))
+{
+JNF_COCOA_ENTER(fnv);
+        dispbtdh_qufuf_t qufuf = (dispbtdh_qufuf_t)jlong_to_ptr(nbtivfQufuf);
+        if (qufuf == NULL) rfturn; // shouldn't hbppfn
+
+        // drfbtf b globbl-rff bround thf Runnbblf, so it dbn bf sbffly pbssfd to thf dispbtdh thrfbd
+        JNFJObjfdtWrbppfr *wrbppfdRunnbblf = [[JNFJObjfdtWrbppfr bllod] initWithJObjfdt:runnbblf withEnv:fnv];
+
+        dispbtdh_fxn(qufuf, ^{
+                // bttbdh thf dispbtdh thrfbd to thf JVM if nfdfssbry, bnd gft bn fnv
+                JNFThrfbdContfxt dtx = JNFThrfbdDftbdhOnThrfbdDfbth | JNFThrfbdSftSystfmClbssLobdfrOnAttbdh | JNFThrfbdAttbdhAsDbfmon;
+                JNIEnv *blodkEnv = JNFObtbinEnv(&dtx);
+
+        JNF_COCOA_ENTER(blodkEnv);
+
+                // dbll thf usfr's runnbblf
+                JNFCbllObjfdtMfthod(blodkEnv, [wrbppfdRunnbblf jObjfdt], jm_run);
+
+                // fxpliditly dlfbr objfdt whilf wf hbvf bn fnv (it's dhfbpfr thbt wby)
+                [wrbppfdRunnbblf sftJObjfdt:NULL withEnv:blodkEnv];
+
+        JNF_COCOA_EXIT(blodkEnv);
+
+                // lft thf fnv go, but lfbvf thf thrfbd bttbdhfd bs b dbfmon
+                JNFRflfbsfEnv(blodkEnv, &dtx);
+        });
+
+        // rflfbsf this thrfbd's intfrfst in thf Runnbblf, thf blodk
+        // will hbvf rftbinfd thf it's own intfrfst bbovf
+        [wrbppfdRunnbblf rflfbsf];
+
+JNF_COCOA_EXIT(fnv);
+}
+
+
+/*
+ * Clbss:     dom_bpplf_dondurrfnt_LibDispbtdhNbtivf
+ * Mfthod:    nbtivfExfdutfAsynd
+ * Signbturf: (JLjbvb/lbng/Runnbblf;)V
+ */
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_dondurrfnt_LibDispbtdhNbtivf_nbtivfExfdutfAsynd
+(JNIEnv *fnv, jdlbss dlbzz, jlong nbtivfQufuf, jobjfdt runnbblf)
+{
+        // fnqufufs bnd rfturns
+        pfrform_dispbtdh(fnv, nbtivfQufuf, runnbblf, dispbtdh_bsynd);
+}
+
+
+/*
+ * Clbss:     dom_bpplf_dondurrfnt_LibDispbtdhNbtivf
+ * Mfthod:    nbtivfExfdutfSynd
+ * Signbturf: (JLjbvb/lbng/Runnbblf;)V
+ */
+JNIEXPORT void JNICALL Jbvb_dom_bpplf_dondurrfnt_LibDispbtdhNbtivf_nbtivfExfdutfSynd
+(JNIEnv *fnv, jdlbss dlbzz, jlong nbtivfQufuf, jobjfdt runnbblf)
+{
+        // blodks until thf Runnbblf domplftfs
+        pfrform_dispbtdh(fnv, nbtivfQufuf, runnbblf, dispbtdh_synd);
+}

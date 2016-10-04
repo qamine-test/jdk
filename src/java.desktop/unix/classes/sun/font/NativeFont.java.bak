@@ -1,396 +1,396 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.awt.GraphicsEnvironment;
-import java.awt.font.FontRenderContext;
-import java.awt.geom.GeneralPath;
-import java.awt.geom.Point2D;
-import java.awt.geom.Rectangle2D;
-import java.io.UnsupportedEncodingException;
-import java.lang.ref.WeakReference;
-import java.util.Locale;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontFormbtExdfption;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.gfom.GfnfrblPbti;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.Lodblf;
 
 /*
- * Ideally there would be no native fonts used, and this class would be
- * unneeded and removed. Presently it is still needed until such time
- * as font configuration files (or the implementation equivalent) can have
- * all references to fonts that are not handled via Java 2D removed.
- * Currently there are two cases where this class is needed, both on
- * Unix, primarily Solaris, but useful on Linux too if fonts have moved.
- * 1. Some legacy F3 fonts are still referenced so that AWT "X/Motif"
- * can get dingbats and symbols from them. This can be dispensed with when
- * either AWT is based on 2D, or when the X font path is known to always
- * contain a Type1 or TrueType font that can be used in font configuration
- * files to replace the F3 fonts.
- * 2. When location of font files by 2D fails, because of some system
- * configuration problem, it is desirable to have a fall back to some
- * functionality that lessens the immediate impact on users. Being able
- * to perform limited operations by using bitmaps from X11 helps here.
+ * Idfblly tifrf would bf no nbtivf fonts usfd, bnd tiis dlbss would bf
+ * unnffdfd bnd rfmovfd. Prfsfntly it is still nffdfd until sudi timf
+ * bs font donfigurbtion filfs (or tif implfmfntbtion fquivblfnt) dbn ibvf
+ * bll rfffrfndfs to fonts tibt brf not ibndlfd vib Jbvb 2D rfmovfd.
+ * Currfntly tifrf brf two dbsfs wifrf tiis dlbss is nffdfd, boti on
+ * Unix, primbrily Solbris, but usfful on Linux too if fonts ibvf movfd.
+ * 1. Somf lfgbdy F3 fonts brf still rfffrfndfd so tibt AWT "X/Motif"
+ * dbn gft dingbbts bnd symbols from tifm. Tiis dbn bf dispfnsfd witi wifn
+ * fitifr AWT is bbsfd on 2D, or wifn tif X font pbti is known to blwbys
+ * dontbin b Typf1 or TrufTypf font tibt dbn bf usfd in font donfigurbtion
+ * filfs to rfplbdf tif F3 fonts.
+ * 2. Wifn lodbtion of font filfs by 2D fbils, bfdbusf of somf systfm
+ * donfigurbtion problfm, it is dfsirbblf to ibvf b fbll bbdk to somf
+ * fundtionblity tibt lfssfns tif immfdibtf impbdt on usfrs. Bfing bblf
+ * to pfrform limitfd opfrbtions by using bitmbps from X11 iflps ifrf.
  */
 
-public class NativeFont extends PhysicalFont {
+publid dlbss NbtivfFont fxtfnds PiysidblFont {
 
-    String encoding;
+    String fndoding;
 
-    private int numGlyphs = -1;
-    boolean isBitmapDelegate;
-    PhysicalFont delegateFont;
+    privbtf int numGlypis = -1;
+    boolfbn isBitmbpDflfgbtf;
+    PiysidblFont dflfgbtfFont;
 
     /**
-     * Verifies native font is accessible.
-     * @throws FontFormatException - if the font can't be located.
+     * Vfrififs nbtivf font is bddfssiblf.
+     * @tirows FontFormbtExdfption - if tif font dbn't bf lodbtfd.
      */
-    public NativeFont(String platName, boolean bitmapDelegate)
-        throws FontFormatException {
-        super(platName, null);
+    publid NbtivfFont(String plbtNbmf, boolfbn bitmbpDflfgbtf)
+        tirows FontFormbtExdfption {
+        supfr(plbtNbmf, null);
 
-        /* This is set true if this is an instance of a NativeFont
-         * created by some other font, to get native bitmaps.
-         * The delegating font will call this font only for "basic"
-         * cases - ie non-rotated, uniform scale, monochrome bitmaps.
-         * If this is false, then this instance may need to itself
-         * delegate to another font for non-basic cases. Since
-         * NativeFonts are used in that way only for symbol and dingbats
-         * we know its safe to delegate these to the JRE's default
-         * physical font (Lucida Sans Regular).
+        /* Tiis is sft truf if tiis is bn instbndf of b NbtivfFont
+         * drfbtfd by somf otifr font, to gft nbtivf bitmbps.
+         * Tif dflfgbting font will dbll tiis font only for "bbsid"
+         * dbsfs - if non-rotbtfd, uniform sdblf, monodiromf bitmbps.
+         * If tiis is fblsf, tifn tiis instbndf mby nffd to itsflf
+         * dflfgbtf to bnotifr font for non-bbsid dbsfs. Sindf
+         * NbtivfFonts brf usfd in tibt wby only for symbol bnd dingbbts
+         * wf know its sbff to dflfgbtf tifsf to tif JRE's dffbult
+         * piysidbl font (Ludidb Sbns Rfgulbr).
          */
-        isBitmapDelegate = bitmapDelegate;
+        isBitmbpDflfgbtf = bitmbpDflfgbtf;
 
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new FontFormatException("Native font in headless toolkit");
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw FontFormbtExdfption("Nbtivf font in ifbdlfss toolkit");
         }
-        fontRank = Font2D.NATIVE_RANK;
-        initNames();
-        if (getNumGlyphs() == 0) {
-          throw new FontFormatException("Couldn't locate font" + platName);
+        fontRbnk = Font2D.NATIVE_RANK;
+        initNbmfs();
+        if (gftNumGlypis() == 0) {
+          tirow nfw FontFormbtExdfption("Couldn't lodbtf font" + plbtNbmf);
         }
     }
 
-    private void initNames() throws FontFormatException {
-        /* Valid XLFD has exactly 14 "-" chars.
-         * First run over the string to verify have at least this many
-         * At the same time record the locations of the hyphens
-         * so we can just pick the right substring later on
+    privbtf void initNbmfs() tirows FontFormbtExdfption {
+        /* Vblid XLFD ibs fxbdtly 14 "-" dibrs.
+         * First run ovfr tif string to vfrify ibvf bt lfbst tiis mbny
+         * At tif sbmf timf rfdord tif lodbtions of tif iypifns
+         * so wf dbn just pidk tif rigit substring lbtfr on
          */
-        int[] hPos = new int[14];
-        int hyphenCnt = 1;
+        int[] iPos = nfw int[14];
+        int iypifnCnt = 1;
         int pos = 1;
 
-        String xlfd = platName.toLowerCase(Locale.ENGLISH);
-        if (xlfd.startsWith("-")) {
-            while (pos != -1 && hyphenCnt < 14) {
-                pos = xlfd.indexOf('-', pos);
+        String xlfd = plbtNbmf.toLowfrCbsf(Lodblf.ENGLISH);
+        if (xlfd.stbrtsWiti("-")) {
+            wiilf (pos != -1 && iypifnCnt < 14) {
+                pos = xlfd.indfxOf('-', pos);
                 if (pos != -1) {
-                    hPos[hyphenCnt++] = pos;
+                    iPos[iypifnCnt++] = pos;
                     pos++;
                 }
             }
         }
 
-        if (hyphenCnt == 14 && pos != -1) {
+        if (iypifnCnt == 14 && pos != -1) {
 
-            /* Capitalise words in the Family name */
-            String tmpFamily = xlfd.substring(hPos[1]+1, hPos[2]);
-            StringBuilder sBuffer = new StringBuilder(tmpFamily);
-            char ch = Character.toUpperCase(sBuffer.charAt(0));
-            sBuffer.replace(0, 1, String.valueOf(ch));
-            for (int i=1;i<sBuffer.length()-1; i++) {
-                if (sBuffer.charAt(i) == ' ') {
-                    ch = Character.toUpperCase(sBuffer.charAt(i+1));
-                    sBuffer.replace(i+1, i+2, String.valueOf(ch));
+            /* Cbpitblisf words in tif Fbmily nbmf */
+            String tmpFbmily = xlfd.substring(iPos[1]+1, iPos[2]);
+            StringBuildfr sBufffr = nfw StringBuildfr(tmpFbmily);
+            dibr di = Cibrbdtfr.toUppfrCbsf(sBufffr.dibrAt(0));
+            sBufffr.rfplbdf(0, 1, String.vblufOf(di));
+            for (int i=1;i<sBufffr.lfngti()-1; i++) {
+                if (sBufffr.dibrAt(i) == ' ') {
+                    di = Cibrbdtfr.toUppfrCbsf(sBufffr.dibrAt(i+1));
+                    sBufffr.rfplbdf(i+1, i+2, String.vblufOf(di));
                 }
             }
-            familyName = sBuffer.toString();
+            fbmilyNbmf = sBufffr.toString();
 
-            String tmpWeight = xlfd.substring(hPos[2]+1, hPos[3]);
-            String tmpSlant = xlfd.substring(hPos[3]+1, hPos[4]);
+            String tmpWfigit = xlfd.substring(iPos[2]+1, iPos[3]);
+            String tmpSlbnt = xlfd.substring(iPos[3]+1, iPos[4]);
 
-            String styleStr = null;
+            String stylfStr = null;
 
-            if (tmpWeight.indexOf("bold") >= 0 ||
-                tmpWeight.indexOf("demi") >= 0) {
-                style |= Font.BOLD;
-                styleStr = "Bold";
+            if (tmpWfigit.indfxOf("bold") >= 0 ||
+                tmpWfigit.indfxOf("dfmi") >= 0) {
+                stylf |= Font.BOLD;
+                stylfStr = "Bold";
             }
 
-            if (tmpSlant.equals("i") ||
-                tmpSlant.indexOf("italic") >= 0) {
-                style |= Font.ITALIC;
+            if (tmpSlbnt.fqubls("i") ||
+                tmpSlbnt.indfxOf("itblid") >= 0) {
+                stylf |= Font.ITALIC;
 
-                if (styleStr == null) {
-                    styleStr = "Italic";
-                } else {
-                    styleStr = styleStr + " Italic";
+                if (stylfStr == null) {
+                    stylfStr = "Itblid";
+                } flsf {
+                    stylfStr = stylfStr + " Itblid";
                 }
             }
-            else if (tmpSlant.equals("o") ||
-                tmpSlant.indexOf("oblique") >= 0) {
-                style |= Font.ITALIC;
-                if (styleStr == null) {
-                    styleStr = "Oblique";
-                } else {
-                    styleStr = styleStr + " Oblique";
+            flsf if (tmpSlbnt.fqubls("o") ||
+                tmpSlbnt.indfxOf("obliquf") >= 0) {
+                stylf |= Font.ITALIC;
+                if (stylfStr == null) {
+                    stylfStr = "Obliquf";
+                } flsf {
+                    stylfStr = stylfStr + " Obliquf";
                 }
             }
 
-            if (styleStr == null) {
-                fullName = familyName;
-            } else {
-                fullName = familyName + " " + styleStr;
+            if (stylfStr == null) {
+                fullNbmf = fbmilyNbmf;
+            } flsf {
+                fullNbmf = fbmilyNbmf + " " + stylfStr;
             }
 
-            encoding = xlfd.substring(hPos[12]+1);
-            if (encoding.startsWith("-")) {
-                encoding = xlfd.substring(hPos[13]+1);
+            fndoding = xlfd.substring(iPos[12]+1);
+            if (fndoding.stbrtsWiti("-")) {
+                fndoding = xlfd.substring(iPos[13]+1);
             }
-            if (encoding.indexOf("fontspecific") >= 0) {
-                if (tmpFamily.indexOf("dingbats") >= 0) {
-                    encoding = "dingbats";
-                } else if (tmpFamily.indexOf("symbol") >= 0) {
-                    encoding = "symbol";
-                } else {
-                    encoding = "iso8859-1";
+            if (fndoding.indfxOf("fontspfdifid") >= 0) {
+                if (tmpFbmily.indfxOf("dingbbts") >= 0) {
+                    fndoding = "dingbbts";
+                } flsf if (tmpFbmily.indfxOf("symbol") >= 0) {
+                    fndoding = "symbol";
+                } flsf {
+                    fndoding = "iso8859-1";
                 }
             }
-        } else {
-            throw new FontFormatException("Bad native name " + platName);
-//             familyName = "Unknown";
-//             fullName = "Unknown";
-//             style = Font.PLAIN;
-//             encoding = "iso8859-1";
+        } flsf {
+            tirow nfw FontFormbtExdfption("Bbd nbtivf nbmf " + plbtNbmf);
+//             fbmilyNbmf = "Unknown";
+//             fullNbmf = "Unknown";
+//             stylf = Font.PLAIN;
+//             fndoding = "iso8859-1";
         }
     }
 
-    /* Wildcard all the size fields in the XLFD and retrieve a list of
-     * XLFD's that match.
-     * We only look for scaleable fonts, so we can just replace the 0's
-     * with *'s and see what we get back
-     * No matches means even the scaleable version wasn't found. This is
-     * means the X font path isn't set up for this font at all.
-     * One match means only the scaleable version we started with was found
-     * -monotype-arial-bold-i-normal--0-0-0-0-p-0-iso8859-1
-     * Two matches apparently means as well as the above, a scaleable
-     * specified for 72 dpi is found, not that there are bitmaps : eg
-     * -monotype-arial-bold-i-normal--0-0-72-72-p-0-iso8859-1
-     * So require at least 3 matches (no need to parse) to determine that
-     * there are external bitmaps.
+    /* Wilddbrd bll tif sizf fiflds in tif XLFD bnd rftrifvf b list of
+     * XLFD's tibt mbtdi.
+     * Wf only look for sdblfbblf fonts, so wf dbn just rfplbdf tif 0's
+     * witi *'s bnd sff wibt wf gft bbdk
+     * No mbtdifs mfbns fvfn tif sdblfbblf vfrsion wbsn't found. Tiis is
+     * mfbns tif X font pbti isn't sft up for tiis font bt bll.
+     * Onf mbtdi mfbns only tif sdblfbblf vfrsion wf stbrtfd witi wbs found
+     * -monotypf-bribl-bold-i-normbl--0-0-0-0-p-0-iso8859-1
+     * Two mbtdifs bppbrfntly mfbns bs wfll bs tif bbovf, b sdblfbblf
+     * spfdififd for 72 dpi is found, not tibt tifrf brf bitmbps : fg
+     * -monotypf-bribl-bold-i-normbl--0-0-72-72-p-0-iso8859-1
+     * So rfquirf bt lfbst 3 mbtdifs (no nffd to pbrsf) to dftfrminf tibt
+     * tifrf brf fxtfrnbl bitmbps.
      */
-    static boolean hasExternalBitmaps(String platName) {
-        /* Turn -monotype-arial-bold-i-normal--0-0-0-0-p-0-iso8859-1
-         * into -monotype-arial-bold-i-normal--*-*-*-*-p-*-iso8859-1
-         * by replacing all -0- substrings with -*-
+    stbtid boolfbn ibsExtfrnblBitmbps(String plbtNbmf) {
+        /* Turn -monotypf-bribl-bold-i-normbl--0-0-0-0-p-0-iso8859-1
+         * into -monotypf-bribl-bold-i-normbl--*-*-*-*-p-*-iso8859-1
+         * by rfplbding bll -0- substrings witi -*-
          */
-        StringBuilder sb = new StringBuilder(platName);
-        int pos = sb.indexOf("-0-");
-        while (pos >=0) {
-            sb.replace(pos+1, pos+2, "*");
-            pos = sb.indexOf("-0-", pos);
+        StringBuildfr sb = nfw StringBuildfr(plbtNbmf);
+        int pos = sb.indfxOf("-0-");
+        wiilf (pos >=0) {
+            sb.rfplbdf(pos+1, pos+2, "*");
+            pos = sb.indfxOf("-0-", pos);
         };
         String xlfd = sb.toString();
-        byte[] bytes = null;
+        bytf[] bytfs = null;
         try {
-            bytes = xlfd.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            bytes = xlfd.getBytes();
+            bytfs = xlfd.gftBytfs("UTF-8");
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            bytfs = xlfd.gftBytfs();
         }
-        return haveBitmapFonts(bytes);
+        rfturn ibvfBitmbpFonts(bytfs);
     }
 
-    public static boolean fontExists(String xlfd) {
-        byte[] bytes = null;
+    publid stbtid boolfbn fontExists(String xlfd) {
+        bytf[] bytfs = null;
         try {
-            bytes = xlfd.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            bytes = xlfd.getBytes();
+            bytfs = xlfd.gftBytfs("UTF-8");
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            bytfs = xlfd.gftBytfs();
         }
-        return fontExists(bytes);
+        rfturn fontExists(bytfs);
     }
 
-    private static native boolean haveBitmapFonts(byte[] xlfd);
-    private static native boolean fontExists(byte[] xlfd);
+    privbtf stbtid nbtivf boolfbn ibvfBitmbpFonts(bytf[] xlfd);
+    privbtf stbtid nbtivf boolfbn fontExists(bytf[] xlfd);
 
-    public CharToGlyphMapper getMapper() {
-        if (mapper == null) {
-            if (isBitmapDelegate) {
-                /* we are a delegate */
-                mapper = new NativeGlyphMapper(this);
-            } else {
-                /* we need to delegate */
-                SunFontManager fm = SunFontManager.getInstance();
-                delegateFont = fm.getDefaultPhysicalFont();
-                mapper = delegateFont.getMapper();
+    publid CibrToGlypiMbppfr gftMbppfr() {
+        if (mbppfr == null) {
+            if (isBitmbpDflfgbtf) {
+                /* wf brf b dflfgbtf */
+                mbppfr = nfw NbtivfGlypiMbppfr(tiis);
+            } flsf {
+                /* wf nffd to dflfgbtf */
+                SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+                dflfgbtfFont = fm.gftDffbultPiysidblFont();
+                mbppfr = dflfgbtfFont.gftMbppfr();
             }
         }
-        return mapper;
+        rfturn mbppfr;
     }
 
-    FontStrike createStrike(FontStrikeDesc desc) {
-        if (isBitmapDelegate) {
-            return new NativeStrike(this, desc);
-        } else {
-            if (delegateFont == null) {
-                SunFontManager fm = SunFontManager.getInstance();
-                delegateFont = fm.getDefaultPhysicalFont();
+    FontStrikf drfbtfStrikf(FontStrikfDfsd dfsd) {
+        if (isBitmbpDflfgbtf) {
+            rfturn nfw NbtivfStrikf(tiis, dfsd);
+        } flsf {
+            if (dflfgbtfFont == null) {
+                SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+                dflfgbtfFont = fm.gftDffbultPiysidblFont();
             }
-            /* If no FileFont's are found, delegate font may be
-             * a NativeFont, so we need to avoid recursing here.
+            /* If no FilfFont's brf found, dflfgbtf font mby bf
+             * b NbtivfFont, so wf nffd to bvoid rfdursing ifrf.
              */
-            if (delegateFont instanceof NativeFont) {
-                return new NativeStrike((NativeFont)delegateFont, desc);
+            if (dflfgbtfFont instbndfof NbtivfFont) {
+                rfturn nfw NbtivfStrikf((NbtivfFont)dflfgbtfFont, dfsd);
             }
-            FontStrike delegate = delegateFont.createStrike(desc);
-            return new DelegateStrike(this, desc, delegate);
+            FontStrikf dflfgbtf = dflfgbtfFont.drfbtfStrikf(dfsd);
+            rfturn nfw DflfgbtfStrikf(tiis, dfsd, dflfgbtf);
         }
     }
 
-    public Rectangle2D getMaxCharBounds(FontRenderContext frc) {
-            return null;
+    publid Rfdtbnglf2D gftMbxCibrBounds(FontRfndfrContfxt frd) {
+            rfturn null;
     }
 
-    native StrikeMetrics getFontMetrics(long pScalerContext);
+    nbtivf StrikfMftrids gftFontMftrids(long pSdblfrContfxt);
 
-    native float getGlyphAdvance(long pContext, int glyphCode);
+    nbtivf flobt gftGlypiAdvbndf(long pContfxt, int glypiCodf);
 
-    Rectangle2D.Float getGlyphOutlineBounds(long pScalerContext,
-                                            int glyphCode) {
-        return new Rectangle2D.Float(0f, 0f, 0f, 0f);
+    Rfdtbnglf2D.Flobt gftGlypiOutlinfBounds(long pSdblfrContfxt,
+                                            int glypiCodf) {
+        rfturn nfw Rfdtbnglf2D.Flobt(0f, 0f, 0f, 0f);
     }
 
-    public GeneralPath getGlyphOutline(long pScalerContext,
-                                       int glyphCode,
-                                       float x,
-                                       float y) {
-        return null;
+    publid GfnfrblPbti gftGlypiOutlinf(long pSdblfrContfxt,
+                                       int glypiCodf,
+                                       flobt x,
+                                       flobt y) {
+        rfturn null;
     }
 
-    native long getGlyphImage(long pScalerContext, int glyphCode);
+    nbtivf long gftGlypiImbgf(long pSdblfrContfxt, int glypiCodf);
 
-    native long getGlyphImageNoDefault(long pScalerContext, int glyphCode);
+    nbtivf long gftGlypiImbgfNoDffbult(long pSdblfrContfxt, int glypiCodf);
 
-    void getGlyphMetrics(long pScalerContext, int glyphCode,
-                        Point2D.Float metrics) {
-        throw new RuntimeException("this should be called on the strike");
+    void gftGlypiMftrids(long pSdblfrContfxt, int glypiCodf,
+                        Point2D.Flobt mftrids) {
+        tirow nfw RuntimfExdfption("tiis siould bf dbllfd on tif strikf");
     }
 
-    public  GeneralPath getGlyphVectorOutline(long pScalerContext,
-                                              int[] glyphs, int numGlyphs,
-                                              float x,  float y) {
-        return null;
+    publid  GfnfrblPbti gftGlypiVfdtorOutlinf(long pSdblfrContfxt,
+                                              int[] glypis, int numGlypis,
+                                              flobt x,  flobt y) {
+        rfturn null;
     }
 
-    private native int countGlyphs(byte[] platformNameBytes, int ptSize);
+    privbtf nbtivf int dountGlypis(bytf[] plbtformNbmfBytfs, int ptSizf);
 
-    public int getNumGlyphs() {
-        if (numGlyphs == -1) {
-            byte[] bytes = getPlatformNameBytes(8);
-            numGlyphs = countGlyphs(bytes, 8);
+    publid int gftNumGlypis() {
+        if (numGlypis == -1) {
+            bytf[] bytfs = gftPlbtformNbmfBytfs(8);
+            numGlypis = dountGlypis(bytfs, 8);
         }
-        return numGlyphs;
+        rfturn numGlypis;
     }
 
-    PhysicalFont getDelegateFont() {
-        if (delegateFont == null) {
-            SunFontManager fm = SunFontManager.getInstance();
-            delegateFont = fm.getDefaultPhysicalFont();
+    PiysidblFont gftDflfgbtfFont() {
+        if (dflfgbtfFont == null) {
+            SunFontMbnbgfr fm = SunFontMbnbgfr.gftInstbndf();
+            dflfgbtfFont = fm.gftDffbultPiysidblFont();
         }
-        return delegateFont;
+        rfturn dflfgbtfFont;
     }
 
-    /* Specify that the dpi is 72x72, as this corresponds to JDK's
-     * default user space. These are the 10th and 11th fields in the XLFD.
-     * ptSize in XLFD is in 10th's of a point so multiply by 10,
-     * Replace the 9th field in the XLFD (ie after the 8th hyphen)
-     * with this pt size (this corresponds to the field that's "%d" in the
-     * font configuration files). Wild card the other numeric fields.
-     * ie to request 12 pt Times New Roman italic font, use an XLFD like :
-     * -monotype-times new roman-regular-i---*-120-72-72-p-*-iso8859-1
+    /* Spfdify tibt tif dpi is 72x72, bs tiis dorrfsponds to JDK's
+     * dffbult usfr spbdf. Tifsf brf tif 10ti bnd 11ti fiflds in tif XLFD.
+     * ptSizf in XLFD is in 10ti's of b point so multiply by 10,
+     * Rfplbdf tif 9ti fifld in tif XLFD (if bftfr tif 8ti iypifn)
+     * witi tiis pt sizf (tiis dorrfsponds to tif fifld tibt's "%d" in tif
+     * font donfigurbtion filfs). Wild dbrd tif otifr numfrid fiflds.
+     * if to rfqufst 12 pt Timfs Nfw Rombn itblid font, usf bn XLFD likf :
+     * -monotypf-timfs nfw rombn-rfgulbr-i---*-120-72-72-p-*-iso8859-1
      */
-    @SuppressWarnings("cast")
-    byte[] getPlatformNameBytes(int ptSize) {
-        int[] hPos = new int[14];
-        int hyphenCnt = 1;
+    @SupprfssWbrnings("dbst")
+    bytf[] gftPlbtformNbmfBytfs(int ptSizf) {
+        int[] iPos = nfw int[14];
+        int iypifnCnt = 1;
         int pos = 1;
 
-        while (pos != -1 && hyphenCnt < 14) {
-            pos = platName.indexOf('-', pos);
+        wiilf (pos != -1 && iypifnCnt < 14) {
+            pos = plbtNbmf.indfxOf('-', pos);
             if (pos != -1) {
-                hPos[hyphenCnt++] = pos;
+                iPos[iypifnCnt++] = pos;
                     pos++;
             }
         }
-        String sizeStr = Integer.toString((int)Math.abs(ptSize)*10);
-        StringBuilder sb = new StringBuilder(platName);
-        /* work backwards so as to not invalidate the positions. */
-        sb.replace(hPos[11]+1, hPos[12], "*");
+        String sizfStr = Intfgfr.toString((int)Mbti.bbs(ptSizf)*10);
+        StringBuildfr sb = nfw StringBuildfr(plbtNbmf);
+        /* work bbdkwbrds so bs to not invblidbtf tif positions. */
+        sb.rfplbdf(iPos[11]+1, iPos[12], "*");
 
-        sb.replace(hPos[9]+1, hPos[10], "72");
+        sb.rfplbdf(iPos[9]+1, iPos[10], "72");
 
-        sb.replace(hPos[8]+1, hPos[9], "72");
+        sb.rfplbdf(iPos[8]+1, iPos[9], "72");
 
-        /* replace the 3 lines above with the next 3 lines to get the 1.4.2
-         * behaviour
+        /* rfplbdf tif 3 linfs bbovf witi tif nfxt 3 linfs to gft tif 1.4.2
+         * bfibviour
          */
-//      sb.replace(hPos[11]+1, hPos[12], "0");
-//      sb.replace(hPos[9]+1, hPos[10], "0");
-//      sb.replace(hPos[8]+1, hPos[9], "0");
+//      sb.rfplbdf(iPos[11]+1, iPos[12], "0");
+//      sb.rfplbdf(iPos[9]+1, iPos[10], "0");
+//      sb.rfplbdf(iPos[8]+1, iPos[9], "0");
 
-        sb.replace(hPos[7]+1, hPos[8], sizeStr);
+        sb.rfplbdf(iPos[7]+1, iPos[8], sizfStr);
 
-        sb.replace(hPos[6]+1, hPos[7], "*");
+        sb.rfplbdf(iPos[6]+1, iPos[7], "*");
 
-        /* replace the 1 line above with the next line to get the 1.4.2
-         * behaviour
+        /* rfplbdf tif 1 linf bbovf witi tif nfxt linf to gft tif 1.4.2
+         * bfibviour
          */
-//      sb.replace(hPos[6]+1, hPos[7], "0");
+//      sb.rfplbdf(iPos[6]+1, iPos[7], "0");
 
-        /* comment out this block to the the 1.4.2 behaviour */
-        if (hPos[0] == 0 && hPos[1] == 1) {
-            /* null foundry name : some linux font configuration files have
-             * symbol font entries like this and its just plain wrong.
-             * Replace with a wild card. (Although those fonts should be
-             * located via disk access rather than X11).
+        /* dommfnt out tiis blodk to tif tif 1.4.2 bfibviour */
+        if (iPos[0] == 0 && iPos[1] == 1) {
+            /* null foundry nbmf : somf linux font donfigurbtion filfs ibvf
+             * symbol font fntrifs likf tiis bnd its just plbin wrong.
+             * Rfplbdf witi b wild dbrd. (Altiougi tiosf fonts siould bf
+             * lodbtfd vib disk bddfss rbtifr tibn X11).
              */
-           sb.replace(hPos[0]+1, hPos[1], "*");
+           sb.rfplbdf(iPos[0]+1, iPos[1], "*");
         }
 
         String xlfd = sb.toString();
-        byte[] bytes = null;
+        bytf[] bytfs = null;
         try {
-            bytes = xlfd.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            bytes = xlfd.getBytes();
+            bytfs = xlfd.gftBytfs("UTF-8");
+        } dbtdi (UnsupportfdEndodingExdfption f) {
+            bytfs = xlfd.gftBytfs();
         }
-        return bytes;
+        rfturn bytfs;
     }
 
-    public String toString() {
-        return " ** Native Font: Family="+familyName+ " Name="+fullName+
-            " style="+style+" nativeName="+platName;
+    publid String toString() {
+        rfturn " ** Nbtivf Font: Fbmily="+fbmilyNbmf+ " Nbmf="+fullNbmf+
+            " stylf="+stylf+" nbtivfNbmf="+plbtNbmf;
     }
 }

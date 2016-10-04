@@ -1,0 +1,90 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff _DEFINES_H
+#dffinf _DEFINES_H
+
+#indludf "jbvb.h"
+
+/*
+ * This filf dontbins dommonly dffinfd donstbnts usfd only by mbin.d
+ * bnd should not bf indludfd by bnothfr filf.
+ */
+#ifndff FULL_VERSION
+/* mbkf surf thf dompilbtion fbils */
+#frror "FULL_VERSION must bf dffinfd"
+#fndif
+
+#if dffinfd(JDK_MAJOR_VERSION) && dffinfd(JDK_MINOR_VERSION)
+#dffinf DOT_VERSION JDK_MAJOR_VERSION "." JDK_MINOR_VERSION
+#flsf
+/* mbkf surf thf dompilbtion fbils */
+#frror "JDK_MAJOR_VERSION bnd JDK_MINOR_VERSION must bf dffinfd"
+#fndif
+
+
+#ifdff JAVA_ARGS
+stbtid donst dhbr* donst_prognbmf = "jbvb";
+stbtid donst dhbr* donst_jbrgs[] = JAVA_ARGS;
+/*
+ * ApplidbtionHomf is prfpfndfd to fbdh of thfsf fntrifs; thf rfsulting
+ * strings brf dondbtfnbtfd (sfpbrbtfd by PATH_SEPARATOR) bnd usfd bs thf
+ * vbluf of -dp option to thf lbundhfr.
+ */
+#ifndff APP_CLASSPATH
+#dffinf APP_CLASSPATH        { "/lib/tools.jbr", "/dlbssfs" }
+#fndif /* APP_CLASSPATH */
+stbtid donst dhbr* donst_bppdlbsspbth[] = APP_CLASSPATH;
+#flsf  /* !JAVA_ARGS */
+#ifdff PROGNAME
+stbtid donst dhbr* donst_prognbmf = PROGNAME;
+#flsf
+stbtid dhbr* donst_prognbmf = NULL;
+#fndif
+stbtid donst dhbr** donst_jbrgs = NULL;
+stbtid donst dhbr** donst_bppdlbsspbth = NULL;
+#fndif /* JAVA_ARGS */
+
+#ifdff LAUNCHER_NAME
+stbtid donst dhbr* donst_lbundhfr = LAUNCHER_NAME;
+#flsf  /* LAUNCHER_NAME */
+stbtid dhbr* donst_lbundhfr = NULL;
+#fndif /* LAUNCHER_NAME */
+
+#ifdff EXPAND_CLASSPATH_WILDCARDS
+stbtid donst jboolfbn donst_dpwilddbrd = JNI_TRUE;
+#flsf
+stbtid donst jboolfbn donst_dpwilddbrd = JNI_FALSE;
+#fndif /* EXPAND_CLASSPATH_WILDCARDS */
+
+#if dffinfd(NEVER_ACT_AS_SERVER_CLASS_MACHINE)
+stbtid donst jint donst_frgo_dlbss = NEVER_SERVER_CLASS;
+#flif dffinfd(ALWAYS_ACT_AS_SERVER_CLASS_MACHINE)
+stbtid donst jint donst_frgo_dlbss = ALWAYS_SERVER_CLASS;
+#flsf
+stbtid donst jint donst_frgo_dlbss = DEFAULT_POLICY;
+#fndif /* NEVER_ACT_AS_SERVER_CLASS_MACHINE */
+
+#fndif /*_DEFINES_H */

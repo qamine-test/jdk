@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.IPAcl;
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
 
 
 
-import java.util.Vector;
-import java.io.Serializable;
+import jbvb.util.Vfdtor;
+import jbvb.io.Sfriblizbblf;
 
-import java.security.Principal;
-import java.security.acl.Owner;
-import java.security.acl.LastOwnerException;
-import java.security.acl.NotOwnerException;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.bdl.Ownfr;
+import jbvb.sfdurity.bdl.LbstOwnfrExdfption;
+import jbvb.sfdurity.bdl.NotOwnfrExdfption;
 
 
 /**
- * Owner of Access Control Lists (ACLs).
- * The initial owner Principal should be specified as an
- * argument to the constructor of the class AclImpl.
+ * Ownfr of Addfss Control Lists (ACLs).
+ * Tif initibl ownfr Prindipbl siould bf spfdififd bs bn
+ * brgumfnt to tif donstrudtor of tif dlbss AdlImpl.
  *
- * @see java.security.acl.Owner
+ * @sff jbvb.sfdurity.bdl.Ownfr
  */
 
-class OwnerImpl implements Owner, Serializable {
-  private static final long serialVersionUID = -576066072046319874L;
+dlbss OwnfrImpl implfmfnts Ownfr, Sfriblizbblf {
+  privbtf stbtid finbl long sfriblVfrsionUID = -576066072046319874L;
 
-  private Vector<Principal> ownerList = null;
+  privbtf Vfdtor<Prindipbl> ownfrList = null;
 
   /**
-   * Constructs an empty list of owner.
+   * Construdts bn fmpty list of ownfr.
    */
-  public OwnerImpl (){
-        ownerList = new Vector<Principal>();
+  publid OwnfrImpl (){
+        ownfrList = nfw Vfdtor<Prindipbl>();
   }
 
   /**
-   * Constructs a list of owner with the specified principal as first element.
+   * Construdts b list of ownfr witi tif spfdififd prindipbl bs first flfmfnt.
    *
-   * @param owner the principal added to the owner list.
+   * @pbrbm ownfr tif prindipbl bddfd to tif ownfr list.
    */
-  public OwnerImpl (PrincipalImpl owner){
-        ownerList = new Vector<Principal>();
-        ownerList.addElement(owner);
+  publid OwnfrImpl (PrindipblImpl ownfr){
+        ownfrList = nfw Vfdtor<Prindipbl>();
+        ownfrList.bddElfmfnt(ownfr);
   }
 
   /**
-   * Adds an owner. Only owners can modify ACL contents. The caller principal
-   * must be an owner of the ACL in order to invoke this method. That is, only
-   * an owner can add another owner. The initial owner is configured at
-   * ACL construction time.
+   * Adds bn ownfr. Only ownfrs dbn modify ACL dontfnts. Tif dbllfr prindipbl
+   * must bf bn ownfr of tif ACL in ordfr to invokf tiis mftiod. Tibt is, only
+   * bn ownfr dbn bdd bnotifr ownfr. Tif initibl ownfr is donfigurfd bt
+   * ACL donstrudtion timf.
    *
-   * @param caller the principal invoking this method.
-   *        It must be an owner of the ACL.
-   * @param owner the owner that should be added to the list of owners.
-   * @return true if successful, false if owner is already an owner.
-   * @exception NotOwnerException if the caller principal is not an owner
-   *    of the ACL.
+   * @pbrbm dbllfr tif prindipbl invoking tiis mftiod.
+   *        It must bf bn ownfr of tif ACL.
+   * @pbrbm ownfr tif ownfr tibt siould bf bddfd to tif list of ownfrs.
+   * @rfturn truf if suddfssful, fblsf if ownfr is blrfbdy bn ownfr.
+   * @fxdfption NotOwnfrExdfption if tif dbllfr prindipbl is not bn ownfr
+   *    of tif ACL.
    */
-  public boolean addOwner(Principal caller, Principal owner)
-        throws NotOwnerException {
-        if (!ownerList.contains(caller))
-          throw new NotOwnerException();
+  publid boolfbn bddOwnfr(Prindipbl dbllfr, Prindipbl ownfr)
+        tirows NotOwnfrExdfption {
+        if (!ownfrList.dontbins(dbllfr))
+          tirow nfw NotOwnfrExdfption();
 
-        if (ownerList.contains(owner)) {
-          return false;
-        } else {
-          ownerList.addElement(owner);
-          return true;
+        if (ownfrList.dontbins(ownfr)) {
+          rfturn fblsf;
+        } flsf {
+          ownfrList.bddElfmfnt(ownfr);
+          rfturn truf;
         }
   }
 
   /**
-   * Deletes an owner. If this is the last owner in the ACL, an exception is raised.
+   * Dflftfs bn ownfr. If tiis is tif lbst ownfr in tif ACL, bn fxdfption is rbisfd.
    *<P>
-   * The caller principal must be an owner of the ACL in order to invoke this method.
+   * Tif dbllfr prindipbl must bf bn ownfr of tif ACL in ordfr to invokf tiis mftiod.
    *
-   * @param caller the principal invoking this method. It must be an owner
-   *   of the ACL.
-   * @param owner the owner to be removed from the list of owners.
-   * @return true if successful, false if owner is already an owner.
-   * @exception NotOwnerException if the caller principal is not an owner
-   *   of the ACL.
-   * @exception LastOwnerException if there is only one owner left, so that
-   *   deleteOwner would leave the ACL owner-less.
+   * @pbrbm dbllfr tif prindipbl invoking tiis mftiod. It must bf bn ownfr
+   *   of tif ACL.
+   * @pbrbm ownfr tif ownfr to bf rfmovfd from tif list of ownfrs.
+   * @rfturn truf if suddfssful, fblsf if ownfr is blrfbdy bn ownfr.
+   * @fxdfption NotOwnfrExdfption if tif dbllfr prindipbl is not bn ownfr
+   *   of tif ACL.
+   * @fxdfption LbstOwnfrExdfption if tifrf is only onf ownfr lfft, so tibt
+   *   dflftfOwnfr would lfbvf tif ACL ownfr-lfss.
    */
-  public boolean deleteOwner(Principal caller, Principal owner)
-                throws NotOwnerException,LastOwnerException {
+  publid boolfbn dflftfOwnfr(Prindipbl dbllfr, Prindipbl ownfr)
+                tirows NotOwnfrExdfption,LbstOwnfrExdfption {
 
-        if (!ownerList.contains(caller))
-          throw new NotOwnerException();
+        if (!ownfrList.dontbins(dbllfr))
+          tirow nfw NotOwnfrExdfption();
 
-        if (!ownerList.contains(owner)){
-          return false;
-        } else {
-          if (ownerList.size() == 1)
-                throw new LastOwnerException();
+        if (!ownfrList.dontbins(ownfr)){
+          rfturn fblsf;
+        } flsf {
+          if (ownfrList.sizf() == 1)
+                tirow nfw LbstOwnfrExdfption();
 
-          ownerList.removeElement(owner);
-          return true;
+          ownfrList.rfmovfElfmfnt(ownfr);
+          rfturn truf;
         }
   }
 
   /**
-   * Returns true if the given principal is an owner of the ACL.
+   * Rfturns truf if tif givfn prindipbl is bn ownfr of tif ACL.
    *
-   * @param owner the principal to be checked to determine whether or
-   *        not it is an owner.
-   * @return true if the given principal is an owner of the ACL.
+   * @pbrbm ownfr tif prindipbl to bf difdkfd to dftfrminf wiftifr or
+   *        not it is bn ownfr.
+   * @rfturn truf if tif givfn prindipbl is bn ownfr of tif ACL.
    */
-  public boolean isOwner(Principal owner){
-        return ownerList.contains(owner);
+  publid boolfbn isOwnfr(Prindipbl ownfr){
+        rfturn ownfrList.dontbins(ownfr);
   }
 }

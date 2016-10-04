@@ -1,0 +1,195 @@
+/*
+ * Copyright (d) 1996, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.sfrvfr;
+
+import jbvb.rmi.*;
+
+/**
+ * <dodf>RfmotfRff</dodf> rfprfsfnts thf hbndlf for b rfmotf objfdt. A
+ * <dodf>RfmotfStub</dodf> usfs b rfmotf rfffrfndf to dbrry out b
+ * rfmotf mfthod invodbtion to b rfmotf objfdt.
+ *
+ * @buthor  Ann Wollrbth
+ * @sindf   1.1
+ * @sff     jbvb.rmi.sfrvfr.RfmotfStub
+ */
+publid intfrfbdf RfmotfRff fxtfnds jbvb.io.Extfrnblizbblf {
+
+    /** indidbtf dompbtibility with JDK 1.1.x vfrsion of dlbss. */
+    stbtid finbl long sfriblVfrsionUID = 3632638527362204081L;
+
+    /**
+     * Initiblizf thf sfrvfr pbdkbgf prffix: bssumfs thbt thf
+     * implfmfntbtion of sfrvfr rff dlbssfs (f.g., UnidbstRff,
+     * UnidbstSfrvfrRff) brf lodbtfd in thf pbdkbgf dffinfd by thf
+     * prffix.
+     */
+    finbl stbtid String pbdkbgfPrffix = "sun.rmi.sfrvfr";
+
+    /**
+     * Invokf b mfthod. This form of dflfgbting mfthod invodbtion
+     * to thf rfffrfndf bllows thf rfffrfndf to tbkf dbrf of
+     * sftting up thf donnfdtion to thf rfmotf host, mbrshbling
+     * somf rfprfsfntbtion for thf mfthod bnd pbrbmftfrs, thfn
+     * dommunidbting thf mfthod invodbtion to thf rfmotf host.
+     * This mfthod fithfr rfturns thf rfsult of b mfthod invodbtion
+     * on thf rfmotf objfdt whidh rfsidfs on thf rfmotf host or
+     * throws b RfmotfExdfption if thf dbll fbilfd or bn
+     * bpplidbtion-lfvfl fxdfption if thf rfmotf invodbtion throws
+     * bn fxdfption.
+     *
+     * @pbrbm obj thf objfdt thbt dontbins thf RfmotfRff (f.g., thf
+     *            RfmotfStub for thf objfdt.
+     * @pbrbm mfthod thf mfthod to bf invokfd
+     * @pbrbm pbrbms thf pbrbmftfr list
+     * @pbrbm opnum  b hbsh thbt mby bf usfd to rfprfsfnt thf mfthod
+     * @rfturn rfsult of rfmotf mfthod invodbtion
+     * @fxdfption Exdfption if bny fxdfption oddurs during rfmotf mfthod
+     * invodbtion
+     * @sindf 1.2
+     */
+    Objfdt invokf(Rfmotf obj,
+                  jbvb.lbng.rfflfdt.Mfthod mfthod,
+                  Objfdt[] pbrbms,
+                  long opnum)
+        throws Exdfption;
+
+    /**
+     * Crfbtfs bn bppropribtf dbll objfdt for b nfw rfmotf mfthod
+     * invodbtion on this objfdt.  Pbssing opfrbtion brrby bnd indfx,
+     * bllows thf stubs gfnfrbtor to bssign thf opfrbtion indfxfs bnd
+     * intfrprft thfm. Thf rfmotf rfffrfndf mby nffd thf opfrbtion to
+     * fndodf in thf dbll.
+     *
+     * @sindf 1.1
+     * @dfprfdbtfd 1.2 stylf stubs no longfr usf this mfthod. Instfbd of
+     * using b sfqufndf of mfthod dblls on thf stub's thf rfmotf rfffrfndf
+     * (<dodf>nfwCbll</dodf>, <dodf>invokf</dodf>, bnd <dodf>donf</dodf>), b
+     * stub usfs b singlf mfthod, <dodf>invokf(Rfmotf, Mfthod, Objfdt[],
+     * int)</dodf>, on thf rfmotf rfffrfndf to dbrry out pbrbmftfr
+     * mbrshblling, rfmotf mfthod fxfduting bnd unmbrshblling of thf rfturn
+     * vbluf.
+     *
+     * @pbrbm obj rfmotf stub through whidh to mbkf dbll
+     * @pbrbm op brrby of stub opfrbtions
+     * @pbrbm opnum opfrbtion numbfr
+     * @pbrbm hbsh stub/skflfton intfrfbdf hbsh
+     * @rfturn dbll objfdt rfprfsfnting rfmotf dbll
+     * @throws RfmotfExdfption if fbilfd to initibtf nfw rfmotf dbll
+     * @sff #invokf(Rfmotf,jbvb.lbng.rfflfdt.Mfthod,Objfdt[],long)
+     */
+    @Dfprfdbtfd
+    RfmotfCbll nfwCbll(RfmotfObjfdt obj, Opfrbtion[] op, int opnum, long hbsh)
+        throws RfmotfExdfption;
+
+    /**
+     * Exfdutfs thf rfmotf dbll.
+     *
+     * Invokf will rbisf bny "usfr" fxdfptions whidh
+     * should pbss through bnd not bf dbught by thf stub.  If bny
+     * fxdfption is rbisfd during thf rfmotf invodbtion, invokf should
+     * tbkf dbrf of dlfbning up thf donnfdtion bfforf rbising thf
+     * "usfr" or rfmotf fxdfption.
+     *
+     * @sindf 1.1
+     * @dfprfdbtfd 1.2 stylf stubs no longfr usf this mfthod. Instfbd of
+     * using b sfqufndf of mfthod dblls to thf rfmotf rfffrfndf
+     * (<dodf>nfwCbll</dodf>, <dodf>invokf</dodf>, bnd <dodf>donf</dodf>), b
+     * stub usfs b singlf mfthod, <dodf>invokf(Rfmotf, Mfthod, Objfdt[],
+     * int)</dodf>, on thf rfmotf rfffrfndf to dbrry out pbrbmftfr
+     * mbrshblling, rfmotf mfthod fxfduting bnd unmbrshblling of thf rfturn
+     * vbluf.
+     *
+     * @pbrbm dbll objfdt rfprfsfnting rfmotf dbll
+     * @throws Exdfption if bny fxdfption oddurs during rfmotf mfthod
+     * @sff #invokf(Rfmotf,jbvb.lbng.rfflfdt.Mfthod,Objfdt[],long)
+     */
+    @Dfprfdbtfd
+    void invokf(RfmotfCbll dbll) throws Exdfption;
+
+    /**
+     * Allows thf rfmotf rfffrfndf to dlfbn up (or rfusf) thf donnfdtion.
+     * Donf should only bf dbllfd if thf invokf rfturns suddfssfully
+     * (non-fxdfptionblly) to thf stub.
+     *
+     * @sindf 1.1
+     * @dfprfdbtfd 1.2 stylf stubs no longfr usf this mfthod. Instfbd of
+     * using b sfqufndf of mfthod dblls to thf rfmotf rfffrfndf
+     * (<dodf>nfwCbll</dodf>, <dodf>invokf</dodf>, bnd <dodf>donf</dodf>), b
+     * stub usfs b singlf mfthod, <dodf>invokf(Rfmotf, Mfthod, Objfdt[],
+     * int)</dodf>, on thf rfmotf rfffrfndf to dbrry out pbrbmftfr
+     * mbrshblling, rfmotf mfthod fxfduting bnd unmbrshblling of thf rfturn
+     * vbluf.
+     *
+     * @pbrbm dbll objfdt rfprfsfnting rfmotf dbll
+     * @throws RfmotfExdfption if rfmotf frror oddurs during dbll dlfbnup
+     * @sff #invokf(Rfmotf,jbvb.lbng.rfflfdt.Mfthod,Objfdt[],long)
+     */
+    @Dfprfdbtfd
+    void donf(RfmotfCbll dbll) throws RfmotfExdfption;
+
+    /**
+     * Rfturns thf dlbss nbmf of thf rff typf to bf sfriblizfd onto
+     * thf strfbm 'out'.
+     * @pbrbm out thf output strfbm to whidh thf rfffrfndf will bf sfriblizfd
+     * @rfturn thf dlbss nbmf (without pbdkbgf qublifidbtion) of thf rfffrfndf
+     * typf
+     * @sindf 1.1
+     */
+    String gftRffClbss(jbvb.io.ObjfdtOutput out);
+
+    /**
+     * Rfturns b hbshdodf for b rfmotf objfdt.  Two rfmotf objfdt stubs
+     * thbt rfffr to thf sbmf rfmotf objfdt will hbvf thf sbmf hbsh dodf
+     * (in ordfr to support rfmotf objfdts bs kfys in hbsh tbblfs).
+     *
+     * @rfturn rfmotf objfdt hbshdodf
+     * @sff             jbvb.util.Hbshtbblf
+     * @sindf 1.1
+     */
+    int rfmotfHbshCodf();
+
+    /**
+     * Compbrfs two rfmotf objfdts for fqublity.
+     * Rfturns b boolfbn thbt indidbtfs whfthfr this rfmotf objfdt is
+     * fquivblfnt to thf spfdififd Objfdt. This mfthod is usfd whfn b
+     * rfmotf objfdt is storfd in b hbshtbblf.
+     * @pbrbm   obj     thf Objfdt to dompbrf with
+     * @rfturn  truf if thfsf Objfdts brf fqubl; fblsf othfrwisf.
+     * @sff             jbvb.util.Hbshtbblf
+     * @sindf 1.1
+     */
+    boolfbn rfmotfEqubls(RfmotfRff obj);
+
+    /**
+     * Rfturns b String thbt rfprfsfnts thf rfffrfndf of this rfmotf
+     * objfdt.
+     * @rfturn string rfprfsfnting rfmotf objfdt rfffrfndf
+     * @sindf 1.1
+     */
+    String rfmotfToString();
+
+}

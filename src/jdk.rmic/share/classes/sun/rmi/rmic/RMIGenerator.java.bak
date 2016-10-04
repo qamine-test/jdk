@@ -1,1008 +1,1008 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*****************************************************************************/
-/*                    Copyright (c) IBM Corporation 1998                     */
+/*                    Copyrigit (d) IBM Corporbtion 1998                     */
 /*                                                                           */
-/* (C) Copyright IBM Corp. 1998                                              */
+/* (C) Copyrigit IBM Corp. 1998                                              */
 /*                                                                           */
 /*****************************************************************************/
 
-package sun.rmi.rmic;
+pbdkbgf sun.rmi.rmid;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Hashtable;
-import java.util.Vector;
-import sun.tools.java.Type;
-import sun.tools.java.Identifier;
-import sun.tools.java.ClassDefinition;
-import sun.tools.java.ClassDeclaration;
-import sun.tools.java.ClassNotFound;
-import sun.tools.java.ClassFile;
-import sun.tools.java.MemberDefinition;
-import com.sun.corba.se.impl.util.Utility;
+import jbvb.io.Filf;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.OutputStrfbmWritfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
+import sun.tools.jbvb.Typf;
+import sun.tools.jbvb.Idfntififr;
+import sun.tools.jbvb.ClbssDffinition;
+import sun.tools.jbvb.ClbssDfdlbrbtion;
+import sun.tools.jbvb.ClbssNotFound;
+import sun.tools.jbvb.ClbssFilf;
+import sun.tools.jbvb.MfmbfrDffinition;
+import dom.sun.dorbb.sf.impl.util.Utility;
 
 /**
- * A Generator object will generate the Java source code of the stub
- * and skeleton classes for an RMI remote implementation class, using
- * a particular stub protocol version.
+ * A Gfnfrbtor objfdt will gfnfrbtf tif Jbvb sourdf dodf of tif stub
+ * bnd skflfton dlbssfs for bn RMI rfmotf implfmfntbtion dlbss, using
+ * b pbrtidulbr stub protodol vfrsion.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  *
- * @author      Peter Jones,  Bryan Atsatt
+ * @butior      Pftfr Jonfs,  Brybn Atsbtt
  */
-public class RMIGenerator implements RMIConstants, Generator {
+publid dlbss RMIGfnfrbtor implfmfnts RMIConstbnts, Gfnfrbtor {
 
-    private static final Hashtable<String, Integer> versionOptions = new Hashtable<>();
-    static {
-        versionOptions.put("-v1.1", STUB_VERSION_1_1);
-        versionOptions.put("-vcompat", STUB_VERSION_FAT);
-        versionOptions.put("-v1.2", STUB_VERSION_1_2);
+    privbtf stbtid finbl Hbsitbblf<String, Intfgfr> vfrsionOptions = nfw Hbsitbblf<>();
+    stbtid {
+        vfrsionOptions.put("-v1.1", STUB_VERSION_1_1);
+        vfrsionOptions.put("-vdompbt", STUB_VERSION_FAT);
+        vfrsionOptions.put("-v1.2", STUB_VERSION_1_2);
     }
 
     /**
-     * Default constructor for Main to use.
+     * Dffbult donstrudtor for Mbin to usf.
      */
-    public RMIGenerator() {
-        version = STUB_VERSION_1_2;     // default is -v1.2 (see 4638155)
+    publid RMIGfnfrbtor() {
+        vfrsion = STUB_VERSION_1_2;     // dffbult is -v1.2 (sff 4638155)
     }
 
     /**
-     * Examine and consume command line arguments.
-     * @param argv The command line arguments. Ignore null
-     * and unknown arguments. Set each consumed argument to null.
-     * @param error Report any errors using the main.error() methods.
-     * @return true if no errors, false otherwise.
+     * Exbminf bnd donsumf dommbnd linf brgumfnts.
+     * @pbrbm brgv Tif dommbnd linf brgumfnts. Ignorf null
+     * bnd unknown brgumfnts. Sft fbdi donsumfd brgumfnt to null.
+     * @pbrbm frror Rfport bny frrors using tif mbin.frror() mftiods.
+     * @rfturn truf if no frrors, fblsf otifrwisf.
      */
-    public boolean parseArgs(String argv[], Main main) {
-        String explicitVersion = null;
-        for (int i = 0; i < argv.length; i++) {
-            if (argv[i] != null) {
-                String arg = argv[i].toLowerCase();
-                if (versionOptions.containsKey(arg)) {
-                    if (explicitVersion != null &&
-                        !explicitVersion.equals(arg))
+    publid boolfbn pbrsfArgs(String brgv[], Mbin mbin) {
+        String fxpliditVfrsion = null;
+        for (int i = 0; i < brgv.lfngti; i++) {
+            if (brgv[i] != null) {
+                String brg = brgv[i].toLowfrCbsf();
+                if (vfrsionOptions.dontbinsKfy(brg)) {
+                    if (fxpliditVfrsion != null &&
+                        !fxpliditVfrsion.fqubls(brg))
                     {
-                        main.error("rmic.cannot.use.both",
-                                   explicitVersion, arg);
-                        return false;
+                        mbin.frror("rmid.dbnnot.usf.boti",
+                                   fxpliditVfrsion, brg);
+                        rfturn fblsf;
                     }
-                    explicitVersion = arg;
-                    version = versionOptions.get(arg);
-                    argv[i] = null;
+                    fxpliditVfrsion = brg;
+                    vfrsion = vfrsionOptions.gft(brg);
+                    brgv[i] = null;
                 }
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Generate the source files for the stub and/or skeleton classes
-     * needed by RMI for the given remote implementation class.
+     * Gfnfrbtf tif sourdf filfs for tif stub bnd/or skflfton dlbssfs
+     * nffdfd by RMI for tif givfn rfmotf implfmfntbtion dlbss.
      *
-     * @param env       compiler environment
-     * @param cdef      definition of remote implementation class
-     *                  to generate stubs and/or skeletons for
-     * @param destDir   directory for the root of the package hierarchy
-     *                  for generated files
+     * @pbrbm fnv       dompilfr fnvironmfnt
+     * @pbrbm ddff      dffinition of rfmotf implfmfntbtion dlbss
+     *                  to gfnfrbtf stubs bnd/or skflftons for
+     * @pbrbm dfstDir   dirfdtory for tif root of tif pbdkbgf iifrbrdiy
+     *                  for gfnfrbtfd filfs
      */
-    public void generate(BatchEnvironment env, ClassDefinition cdef, File destDir) {
-        RemoteClass remoteClass = RemoteClass.forClass(env, cdef);
-        if (remoteClass == null)        // exit if an error occurred
-            return;
+    publid void gfnfrbtf(BbtdiEnvironmfnt fnv, ClbssDffinition ddff, Filf dfstDir) {
+        RfmotfClbss rfmotfClbss = RfmotfClbss.forClbss(fnv, ddff);
+        if (rfmotfClbss == null)        // fxit if bn frror oddurrfd
+            rfturn;
 
-        RMIGenerator gen;
+        RMIGfnfrbtor gfn;
         try {
-            gen = new RMIGenerator(env, cdef, destDir, remoteClass, version);
-        } catch (ClassNotFound e) {
-            env.error(0, "rmic.class.not.found", e.name);
-            return;
+            gfn = nfw RMIGfnfrbtor(fnv, ddff, dfstDir, rfmotfClbss, vfrsion);
+        } dbtdi (ClbssNotFound f) {
+            fnv.frror(0, "rmid.dlbss.not.found", f.nbmf);
+            rfturn;
         }
-        gen.generate();
+        gfn.gfnfrbtf();
     }
 
-    private void generate() {
-        env.addGeneratedFile(stubFile);
+    privbtf void gfnfrbtf() {
+        fnv.bddGfnfrbtfdFilf(stubFilf);
 
         try {
-            IndentingWriter out = new IndentingWriter(
-                new OutputStreamWriter(new FileOutputStream(stubFile)));
-            writeStub(out);
-            out.close();
-            if (env.verbose()) {
-                env.output(Main.getText("rmic.wrote", stubFile.getPath()));
+            IndfntingWritfr out = nfw IndfntingWritfr(
+                nfw OutputStrfbmWritfr(nfw FilfOutputStrfbm(stubFilf)));
+            writfStub(out);
+            out.dlosf();
+            if (fnv.vfrbosf()) {
+                fnv.output(Mbin.gftTfxt("rmid.wrotf", stubFilf.gftPbti()));
             }
-            env.parseFile(new ClassFile(stubFile));
-        } catch (IOException e) {
-            env.error(0, "cant.write", stubFile.toString());
-            return;
+            fnv.pbrsfFilf(nfw ClbssFilf(stubFilf));
+        } dbtdi (IOExdfption f) {
+            fnv.frror(0, "dbnt.writf", stubFilf.toString());
+            rfturn;
         }
 
-        if (version == STUB_VERSION_1_1 ||
-            version == STUB_VERSION_FAT)
+        if (vfrsion == STUB_VERSION_1_1 ||
+            vfrsion == STUB_VERSION_FAT)
         {
-            env.addGeneratedFile(skeletonFile);
+            fnv.bddGfnfrbtfdFilf(skflftonFilf);
 
             try {
-                IndentingWriter out = new IndentingWriter(
-                    new OutputStreamWriter(
-                        new FileOutputStream(skeletonFile)));
-                writeSkeleton(out);
-                out.close();
-                if (env.verbose()) {
-                    env.output(Main.getText("rmic.wrote",
-                        skeletonFile.getPath()));
+                IndfntingWritfr out = nfw IndfntingWritfr(
+                    nfw OutputStrfbmWritfr(
+                        nfw FilfOutputStrfbm(skflftonFilf)));
+                writfSkflfton(out);
+                out.dlosf();
+                if (fnv.vfrbosf()) {
+                    fnv.output(Mbin.gftTfxt("rmid.wrotf",
+                        skflftonFilf.gftPbti()));
                 }
-                env.parseFile(new ClassFile(skeletonFile));
-            } catch (IOException e) {
-                env.error(0, "cant.write", stubFile.toString());
-                return;
+                fnv.pbrsfFilf(nfw ClbssFilf(skflftonFilf));
+            } dbtdi (IOExdfption f) {
+                fnv.frror(0, "dbnt.writf", stubFilf.toString());
+                rfturn;
             }
-        } else {
+        } flsf {
             /*
-             * For bugid 4135136: if skeleton files are not being generated
-             * for this compilation run, delete old skeleton source or class
-             * files for this remote implementation class that were
-             * (presumably) left over from previous runs, to avoid user
-             * confusion from extraneous or inconsistent generated files.
+             * For bugid 4135136: if skflfton filfs brf not bfing gfnfrbtfd
+             * for tiis dompilbtion run, dflftf old skflfton sourdf or dlbss
+             * filfs for tiis rfmotf implfmfntbtion dlbss tibt wfrf
+             * (prfsumbbly) lfft ovfr from prfvious runs, to bvoid usfr
+             * donfusion from fxtrbnfous or indonsistfnt gfnfrbtfd filfs.
              */
 
-            File outputDir = Util.getOutputDirectoryFor(remoteClassName,destDir,env);
-            File skeletonClassFile = new File(outputDir,skeletonClassName.getName().toString() + ".class");
+            Filf outputDir = Util.gftOutputDirfdtoryFor(rfmotfClbssNbmf,dfstDir,fnv);
+            Filf skflftonClbssFilf = nfw Filf(outputDir,skflftonClbssNbmf.gftNbmf().toString() + ".dlbss");
 
-            skeletonFile.delete();      // ignore failures (no big deal)
-            skeletonClassFile.delete();
+            skflftonFilf.dflftf();      // ignorf fbilurfs (no big dfbl)
+            skflftonClbssFilf.dflftf();
         }
     }
 
     /**
-     * Return the File object that should be used as the source file
-     * for the given Java class, using the supplied destination
-     * directory for the top of the package hierarchy.
+     * Rfturn tif Filf objfdt tibt siould bf usfd bs tif sourdf filf
+     * for tif givfn Jbvb dlbss, using tif supplifd dfstinbtion
+     * dirfdtory for tif top of tif pbdkbgf iifrbrdiy.
      */
-    protected static File sourceFileForClass(Identifier className,
-                                             Identifier outputClassName,
-                                             File destDir,
-                                             BatchEnvironment env)
+    protfdtfd stbtid Filf sourdfFilfForClbss(Idfntififr dlbssNbmf,
+                                             Idfntififr outputClbssNbmf,
+                                             Filf dfstDir,
+                                             BbtdiEnvironmfnt fnv)
     {
-        File packageDir = Util.getOutputDirectoryFor(className,destDir,env);
-        String outputName = Names.mangleClass(outputClassName).getName().toString();
+        Filf pbdkbgfDir = Util.gftOutputDirfdtoryFor(dlbssNbmf,dfstDir,fnv);
+        String outputNbmf = Nbmfs.mbnglfClbss(outputClbssNbmf).gftNbmf().toString();
 
-        // Is there any existing _Tie equivalent leftover from a
-        // previous invocation of rmic -iiop? Only do this once per
-        // class by looking for skeleton generation...
+        // Is tifrf bny fxisting _Tif fquivblfnt lfftovfr from b
+        // prfvious invodbtion of rmid -iiop? Only do tiis ondf pfr
+        // dlbss by looking for skflfton gfnfrbtion...
 
-        if (outputName.endsWith("_Skel")) {
-            String classNameStr = className.getName().toString();
-            File temp = new File(packageDir, Utility.tieName(classNameStr) + ".class");
-            if (temp.exists()) {
+        if (outputNbmf.fndsWiti("_Skfl")) {
+            String dlbssNbmfStr = dlbssNbmf.gftNbmf().toString();
+            Filf tfmp = nfw Filf(pbdkbgfDir, Utility.tifNbmf(dlbssNbmfStr) + ".dlbss");
+            if (tfmp.fxists()) {
 
-                // Found a tie. Is IIOP generation also being done?
+                // Found b tif. Is IIOP gfnfrbtion blso bfing donf?
 
-                if (!env.getMain().iiopGeneration) {
+                if (!fnv.gftMbin().iiopGfnfrbtion) {
 
-                    // No, so write a warning...
+                    // No, so writf b wbrning...
 
-                    env.error(0,"warn.rmic.tie.found",
-                              classNameStr,
-                              temp.getAbsolutePath());
+                    fnv.frror(0,"wbrn.rmid.tif.found",
+                              dlbssNbmfStr,
+                              tfmp.gftAbsolutfPbti());
                 }
             }
         }
 
-        String outputFileName = outputName + ".java";
-        return new File(packageDir, outputFileName);
+        String outputFilfNbmf = outputNbmf + ".jbvb";
+        rfturn nfw Filf(pbdkbgfDir, outputFilfNbmf);
     }
 
 
-    /** rmic environment for this object */
-    private BatchEnvironment env;
+    /** rmid fnvironmfnt for tiis objfdt */
+    privbtf BbtdiEnvironmfnt fnv;
 
-    /** the remote class that this instance is generating code for */
-    private RemoteClass remoteClass;
+    /** tif rfmotf dlbss tibt tiis instbndf is gfnfrbting dodf for */
+    privbtf RfmotfClbss rfmotfClbss;
 
-    /** version of the stub protocol to use in code generation */
-    private int version;
+    /** vfrsion of tif stub protodol to usf in dodf gfnfrbtion */
+    privbtf int vfrsion;
 
-    /** remote methods for remote class, indexed by operation number */
-    private RemoteClass.Method[] remoteMethods;
-
-    /**
-     * Names for the remote class and the stub and skeleton classes
-     * to be generated for it.
-     */
-    private Identifier remoteClassName;
-    private Identifier stubClassName;
-    private Identifier skeletonClassName;
-
-    private ClassDefinition cdef;
-    private File destDir;
-    private File stubFile;
-    private File skeletonFile;
+    /** rfmotf mftiods for rfmotf dlbss, indfxfd by opfrbtion numbfr */
+    privbtf RfmotfClbss.Mftiod[] rfmotfMftiods;
 
     /**
-     * Names to use for the java.lang.reflect.Method static fields
-     * corresponding to each remote method.
+     * Nbmfs for tif rfmotf dlbss bnd tif stub bnd skflfton dlbssfs
+     * to bf gfnfrbtfd for it.
      */
-    private String[] methodFieldNames;
+    privbtf Idfntififr rfmotfClbssNbmf;
+    privbtf Idfntififr stubClbssNbmf;
+    privbtf Idfntififr skflftonClbssNbmf;
 
-    /** cached definition for certain exception classes in this environment */
-    private ClassDefinition defException;
-    private ClassDefinition defRemoteException;
-    private ClassDefinition defRuntimeException;
+    privbtf ClbssDffinition ddff;
+    privbtf Filf dfstDir;
+    privbtf Filf stubFilf;
+    privbtf Filf skflftonFilf;
 
     /**
-     * Create a new stub/skeleton Generator object for the given
-     * remote implementation class to generate code according to
-     * the given stub protocol version.
+     * Nbmfs to usf for tif jbvb.lbng.rfflfdt.Mftiod stbtid fiflds
+     * dorrfsponding to fbdi rfmotf mftiod.
      */
-    private RMIGenerator(BatchEnvironment env, ClassDefinition cdef,
-                           File destDir, RemoteClass remoteClass, int version)
-        throws ClassNotFound
+    privbtf String[] mftiodFifldNbmfs;
+
+    /** dbdifd dffinition for dfrtbin fxdfption dlbssfs in tiis fnvironmfnt */
+    privbtf ClbssDffinition dffExdfption;
+    privbtf ClbssDffinition dffRfmotfExdfption;
+    privbtf ClbssDffinition dffRuntimfExdfption;
+
+    /**
+     * Crfbtf b nfw stub/skflfton Gfnfrbtor objfdt for tif givfn
+     * rfmotf implfmfntbtion dlbss to gfnfrbtf dodf bddording to
+     * tif givfn stub protodol vfrsion.
+     */
+    privbtf RMIGfnfrbtor(BbtdiEnvironmfnt fnv, ClbssDffinition ddff,
+                           Filf dfstDir, RfmotfClbss rfmotfClbss, int vfrsion)
+        tirows ClbssNotFound
     {
-        this.destDir     = destDir;
-        this.cdef        = cdef;
-        this.env         = env;
-        this.remoteClass = remoteClass;
-        this.version     = version;
+        tiis.dfstDir     = dfstDir;
+        tiis.ddff        = ddff;
+        tiis.fnv         = fnv;
+        tiis.rfmotfClbss = rfmotfClbss;
+        tiis.vfrsion     = vfrsion;
 
-        remoteMethods = remoteClass.getRemoteMethods();
+        rfmotfMftiods = rfmotfClbss.gftRfmotfMftiods();
 
-        remoteClassName = remoteClass.getName();
-        stubClassName = Names.stubFor(remoteClassName);
-        skeletonClassName = Names.skeletonFor(remoteClassName);
+        rfmotfClbssNbmf = rfmotfClbss.gftNbmf();
+        stubClbssNbmf = Nbmfs.stubFor(rfmotfClbssNbmf);
+        skflftonClbssNbmf = Nbmfs.skflftonFor(rfmotfClbssNbmf);
 
-        methodFieldNames = nameMethodFields(remoteMethods);
+        mftiodFifldNbmfs = nbmfMftiodFiflds(rfmotfMftiods);
 
-        stubFile = sourceFileForClass(remoteClassName,stubClassName, destDir , env);
-        skeletonFile = sourceFileForClass(remoteClassName,skeletonClassName, destDir, env);
+        stubFilf = sourdfFilfForClbss(rfmotfClbssNbmf,stubClbssNbmf, dfstDir , fnv);
+        skflftonFilf = sourdfFilfForClbss(rfmotfClbssNbmf,skflftonClbssNbmf, dfstDir, fnv);
 
         /*
-         * Initialize cached definitions for exception classes used
-         * in the generation process.
+         * Initiblizf dbdifd dffinitions for fxdfption dlbssfs usfd
+         * in tif gfnfrbtion prodfss.
          */
-        defException =
-            env.getClassDeclaration(idJavaLangException).
-                getClassDefinition(env);
-        defRemoteException =
-            env.getClassDeclaration(idRemoteException).
-                getClassDefinition(env);
-        defRuntimeException =
-            env.getClassDeclaration(idJavaLangRuntimeException).
-                getClassDefinition(env);
+        dffExdfption =
+            fnv.gftClbssDfdlbrbtion(idJbvbLbngExdfption).
+                gftClbssDffinition(fnv);
+        dffRfmotfExdfption =
+            fnv.gftClbssDfdlbrbtion(idRfmotfExdfption).
+                gftClbssDffinition(fnv);
+        dffRuntimfExdfption =
+            fnv.gftClbssDfdlbrbtion(idJbvbLbngRuntimfExdfption).
+                gftClbssDffinition(fnv);
     }
 
     /**
-     * Write the stub for the remote class to a stream.
+     * Writf tif stub for tif rfmotf dlbss to b strfbm.
      */
-    private void writeStub(IndentingWriter p) throws IOException {
+    privbtf void writfStub(IndfntingWritfr p) tirows IOExdfption {
 
         /*
-         * Write boiler plate comment.
+         * Writf boilfr plbtf dommfnt.
          */
-        p.pln("// Stub class generated by rmic, do not edit.");
-        p.pln("// Contents subject to change without notice.");
+        p.pln("// Stub dlbss gfnfrbtfd by rmid, do not fdit.");
+        p.pln("// Contfnts subjfdt to dibngf witiout notidf.");
         p.pln();
 
         /*
-         * If remote implementation class was in a particular package,
-         * declare the stub class to be in the same package.
+         * If rfmotf implfmfntbtion dlbss wbs in b pbrtidulbr pbdkbgf,
+         * dfdlbrf tif stub dlbss to bf in tif sbmf pbdkbgf.
          */
-        if (remoteClassName.isQualified()) {
-            p.pln("package " + remoteClassName.getQualifier() + ";");
+        if (rfmotfClbssNbmf.isQublififd()) {
+            p.pln("pbdkbgf " + rfmotfClbssNbmf.gftQublififr() + ";");
             p.pln();
         }
 
         /*
-         * Declare the stub class; implement all remote interfaces.
+         * Dfdlbrf tif stub dlbss; implfmfnt bll rfmotf intfrfbdfs.
          */
-        p.plnI("public final class " +
-            Names.mangleClass(stubClassName.getName()));
-        p.pln("extends " + idRemoteStub);
-        ClassDefinition[] remoteInterfaces = remoteClass.getRemoteInterfaces();
-        if (remoteInterfaces.length > 0) {
-            p.p("implements ");
-            for (int i = 0; i < remoteInterfaces.length; i++) {
+        p.plnI("publid finbl dlbss " +
+            Nbmfs.mbnglfClbss(stubClbssNbmf.gftNbmf()));
+        p.pln("fxtfnds " + idRfmotfStub);
+        ClbssDffinition[] rfmotfIntfrfbdfs = rfmotfClbss.gftRfmotfIntfrfbdfs();
+        if (rfmotfIntfrfbdfs.lfngti > 0) {
+            p.p("implfmfnts ");
+            for (int i = 0; i < rfmotfIntfrfbdfs.lfngti; i++) {
                 if (i > 0)
                     p.p(", ");
-                p.p(remoteInterfaces[i].getName().toString());
+                p.p(rfmotfIntfrfbdfs[i].gftNbmf().toString());
             }
             p.pln();
         }
         p.pOlnI("{");
 
-        if (version == STUB_VERSION_1_1 ||
-            version == STUB_VERSION_FAT)
+        if (vfrsion == STUB_VERSION_1_1 ||
+            vfrsion == STUB_VERSION_FAT)
         {
-            writeOperationsArray(p);
+            writfOpfrbtionsArrby(p);
             p.pln();
-            writeInterfaceHash(p);
+            writfIntfrfbdfHbsi(p);
             p.pln();
         }
 
-        if (version == STUB_VERSION_FAT ||
-            version == STUB_VERSION_1_2)
+        if (vfrsion == STUB_VERSION_FAT ||
+            vfrsion == STUB_VERSION_1_2)
         {
-            p.pln("private static final long serialVersionUID = " +
+            p.pln("privbtf stbtid finbl long sfriblVfrsionUID = " +
                 STUB_SERIAL_VERSION_UID + ";");
             p.pln();
 
             /*
-             * We only need to declare and initialize the static fields of
-             * Method objects for each remote method if there are any remote
-             * methods; otherwise, skip this code entirely, to avoid generating
-             * a try/catch block for a checked exception that cannot occur
-             * (see bugid 4125181).
+             * Wf only nffd to dfdlbrf bnd initiblizf tif stbtid fiflds of
+             * Mftiod objfdts for fbdi rfmotf mftiod if tifrf brf bny rfmotf
+             * mftiods; otifrwisf, skip tiis dodf fntirfly, to bvoid gfnfrbting
+             * b try/dbtdi blodk for b difdkfd fxdfption tibt dbnnot oddur
+             * (sff bugid 4125181).
              */
-            if (methodFieldNames.length > 0) {
-                if (version == STUB_VERSION_FAT) {
-                    p.pln("private static boolean useNewInvoke;");
+            if (mftiodFifldNbmfs.lfngti > 0) {
+                if (vfrsion == STUB_VERSION_FAT) {
+                    p.pln("privbtf stbtid boolfbn usfNfwInvokf;");
                 }
-                writeMethodFieldDeclarations(p);
+                writfMftiodFifldDfdlbrbtions(p);
                 p.pln();
 
                 /*
-                 * Initialize java.lang.reflect.Method fields for each remote
-                 * method in a static initializer.
+                 * Initiblizf jbvb.lbng.rfflfdt.Mftiod fiflds for fbdi rfmotf
+                 * mftiod in b stbtid initiblizfr.
                  */
-                p.plnI("static {");
+                p.plnI("stbtid {");
                 p.plnI("try {");
-                if (version == STUB_VERSION_FAT) {
+                if (vfrsion == STUB_VERSION_FAT) {
                     /*
-                     * Fat stubs must determine whether the API required for
-                     * the JDK 1.2 stub protocol is supported in the current
-                     * runtime, so that it can use it if supported.  This is
-                     * determined by using the Reflection API to test if the
-                     * new invoke method on RemoteRef exists, and setting the
-                     * static boolean "useNewInvoke" to true if it does, or
-                     * to false if a NoSuchMethodException is thrown.
+                     * Fbt stubs must dftfrminf wiftifr tif API rfquirfd for
+                     * tif JDK 1.2 stub protodol is supportfd in tif durrfnt
+                     * runtimf, so tibt it dbn usf it if supportfd.  Tiis is
+                     * dftfrminfd by using tif Rfflfdtion API to tfst if tif
+                     * nfw invokf mftiod on RfmotfRff fxists, bnd sftting tif
+                     * stbtid boolfbn "usfNfwInvokf" to truf if it dofs, or
+                     * to fblsf if b NoSudiMftiodExdfption is tirown.
                      */
-                    p.plnI(idRemoteRef + ".class.getMethod(\"invoke\",");
-                    p.plnI("new java.lang.Class[] {");
-                    p.pln(idRemote + ".class,");
-                    p.pln("java.lang.reflect.Method.class,");
-                    p.pln("java.lang.Object[].class,");
-                    p.pln("long.class");
+                    p.plnI(idRfmotfRff + ".dlbss.gftMftiod(\"invokf\",");
+                    p.plnI("nfw jbvb.lbng.Clbss[] {");
+                    p.pln(idRfmotf + ".dlbss,");
+                    p.pln("jbvb.lbng.rfflfdt.Mftiod.dlbss,");
+                    p.pln("jbvb.lbng.Objfdt[].dlbss,");
+                    p.pln("long.dlbss");
                     p.pOln("});");
                     p.pO();
-                    p.pln("useNewInvoke = true;");
+                    p.pln("usfNfwInvokf = truf;");
                 }
-                writeMethodFieldInitializers(p);
-                p.pOlnI("} catch (java.lang.NoSuchMethodException e) {");
-                if (version == STUB_VERSION_FAT) {
-                    p.pln("useNewInvoke = false;");
-                } else {
+                writfMftiodFifldInitiblizfrs(p);
+                p.pOlnI("} dbtdi (jbvb.lbng.NoSudiMftiodExdfption f) {");
+                if (vfrsion == STUB_VERSION_FAT) {
+                    p.pln("usfNfwInvokf = fblsf;");
+                } flsf {
                     /*
-                     * REMIND: By throwing an Error here, the application will
-                     * get the NoSuchMethodError directly when the stub class
-                     * is initialized.  If we throw a RuntimeException
-                     * instead, the application would get an
-                     * ExceptionInInitializerError.  Would that be more
-                     * appropriate, and if so, which RuntimeException should
-                     * be thrown?
+                     * REMIND: By tirowing bn Error ifrf, tif bpplidbtion will
+                     * gft tif NoSudiMftiodError dirfdtly wifn tif stub dlbss
+                     * is initiblizfd.  If wf tirow b RuntimfExdfption
+                     * instfbd, tif bpplidbtion would gft bn
+                     * ExdfptionInInitiblizfrError.  Would tibt bf morf
+                     * bppropribtf, bnd if so, wiidi RuntimfExdfption siould
+                     * bf tirown?
                      */
-                    p.plnI("throw new java.lang.NoSuchMethodError(");
-                    p.pln("\"stub class initialization failed\");");
+                    p.plnI("tirow nfw jbvb.lbng.NoSudiMftiodError(");
+                    p.pln("\"stub dlbss initiblizbtion fbilfd\");");
                     p.pO();
                 }
-                p.pOln("}");            // end try/catch block
-                p.pOln("}");            // end static initializer
+                p.pOln("}");            // fnd try/dbtdi blodk
+                p.pOln("}");            // fnd stbtid initiblizfr
                 p.pln();
             }
         }
 
-        writeStubConstructors(p);
+        writfStubConstrudtors(p);
         p.pln();
 
         /*
-         * Write each stub method.
+         * Writf fbdi stub mftiod.
          */
-        if (remoteMethods.length > 0) {
-            p.pln("// methods from remote interfaces");
-            for (int i = 0; i < remoteMethods.length; ++i) {
+        if (rfmotfMftiods.lfngti > 0) {
+            p.pln("// mftiods from rfmotf intfrfbdfs");
+            for (int i = 0; i < rfmotfMftiods.lfngti; ++i) {
                 p.pln();
-                writeStubMethod(p, i);
+                writfStubMftiod(p, i);
             }
         }
 
-        p.pOln("}");                    // end stub class
+        p.pOln("}");                    // fnd stub dlbss
     }
 
     /**
-     * Write the constructors for the stub class.
+     * Writf tif donstrudtors for tif stub dlbss.
      */
-    private void writeStubConstructors(IndentingWriter p)
-        throws IOException
+    privbtf void writfStubConstrudtors(IndfntingWritfr p)
+        tirows IOExdfption
     {
-        p.pln("// constructors");
+        p.pln("// donstrudtors");
 
         /*
-         * Only stubs compatible with the JDK 1.1 stub protocol need
-         * a no-arg constructor; later versions use reflection to find
-         * the constructor that directly takes a RemoteRef argument.
+         * Only stubs dompbtiblf witi tif JDK 1.1 stub protodol nffd
+         * b no-brg donstrudtor; lbtfr vfrsions usf rfflfdtion to find
+         * tif donstrudtor tibt dirfdtly tbkfs b RfmotfRff brgumfnt.
          */
-        if (version == STUB_VERSION_1_1 ||
-            version == STUB_VERSION_FAT)
+        if (vfrsion == STUB_VERSION_1_1 ||
+            vfrsion == STUB_VERSION_FAT)
         {
-            p.plnI("public " + Names.mangleClass(stubClassName.getName()) +
+            p.plnI("publid " + Nbmfs.mbnglfClbss(stubClbssNbmf.gftNbmf()) +
                 "() {");
-            p.pln("super();");
+            p.pln("supfr();");
             p.pOln("}");
         }
 
-        p.plnI("public " + Names.mangleClass(stubClassName.getName()) +
-            "(" + idRemoteRef + " ref) {");
-        p.pln("super(ref);");
+        p.plnI("publid " + Nbmfs.mbnglfClbss(stubClbssNbmf.gftNbmf()) +
+            "(" + idRfmotfRff + " rff) {");
+        p.pln("supfr(rff);");
         p.pOln("}");
     }
 
     /**
-     * Write the stub method for the remote method with the given "opnum".
+     * Writf tif stub mftiod for tif rfmotf mftiod witi tif givfn "opnum".
      */
-    private void writeStubMethod(IndentingWriter p, int opnum)
-        throws IOException
+    privbtf void writfStubMftiod(IndfntingWritfr p, int opnum)
+        tirows IOExdfption
     {
-        RemoteClass.Method method = remoteMethods[opnum];
-        Identifier methodName = method.getName();
-        Type methodType = method.getType();
-        Type paramTypes[] = methodType.getArgumentTypes();
-        String paramNames[] = nameParameters(paramTypes);
-        Type returnType = methodType.getReturnType();
-        ClassDeclaration[] exceptions = method.getExceptions();
+        RfmotfClbss.Mftiod mftiod = rfmotfMftiods[opnum];
+        Idfntififr mftiodNbmf = mftiod.gftNbmf();
+        Typf mftiodTypf = mftiod.gftTypf();
+        Typf pbrbmTypfs[] = mftiodTypf.gftArgumfntTypfs();
+        String pbrbmNbmfs[] = nbmfPbrbmftfrs(pbrbmTypfs);
+        Typf rfturnTypf = mftiodTypf.gftRfturnTypf();
+        ClbssDfdlbrbtion[] fxdfptions = mftiod.gftExdfptions();
 
         /*
-         * Declare stub method; throw exceptions declared in remote
-         * interface(s).
+         * Dfdlbrf stub mftiod; tirow fxdfptions dfdlbrfd in rfmotf
+         * intfrfbdf(s).
          */
-        p.pln("// implementation of " +
-            methodType.typeString(methodName.toString(), true, false));
-        p.p("public " + returnType + " " + methodName + "(");
-        for (int i = 0; i < paramTypes.length; i++) {
+        p.pln("// implfmfntbtion of " +
+            mftiodTypf.typfString(mftiodNbmf.toString(), truf, fblsf));
+        p.p("publid " + rfturnTypf + " " + mftiodNbmf + "(");
+        for (int i = 0; i < pbrbmTypfs.lfngti; i++) {
             if (i > 0)
                 p.p(", ");
-            p.p(paramTypes[i] + " " + paramNames[i]);
+            p.p(pbrbmTypfs[i] + " " + pbrbmNbmfs[i]);
         }
         p.plnI(")");
-        if (exceptions.length > 0) {
-            p.p("throws ");
-            for (int i = 0; i < exceptions.length; i++) {
+        if (fxdfptions.lfngti > 0) {
+            p.p("tirows ");
+            for (int i = 0; i < fxdfptions.lfngti; i++) {
                 if (i > 0)
                     p.p(", ");
-                p.p(exceptions[i].getName().toString());
+                p.p(fxdfptions[i].gftNbmf().toString());
             }
             p.pln();
         }
         p.pOlnI("{");
 
         /*
-         * The RemoteRef.invoke methods throw Exception, but unless this
-         * stub method throws Exception as well, we must catch Exceptions
-         * thrown from the invocation.  So we must catch Exception and
-         * rethrow something we can throw: UnexpectedException, which is a
-         * subclass of RemoteException.  But for any subclasses of Exception
-         * that we can throw, like RemoteException, RuntimeException, and
-         * any of the exceptions declared by this stub method, we want them
-         * to pass through unharmed, so first we must catch any such
-         * exceptions and rethrow it directly.
+         * Tif RfmotfRff.invokf mftiods tirow Exdfption, but unlfss tiis
+         * stub mftiod tirows Exdfption bs wfll, wf must dbtdi Exdfptions
+         * tirown from tif invodbtion.  So wf must dbtdi Exdfption bnd
+         * rftirow somftiing wf dbn tirow: UnfxpfdtfdExdfption, wiidi is b
+         * subdlbss of RfmotfExdfption.  But for bny subdlbssfs of Exdfption
+         * tibt wf dbn tirow, likf RfmotfExdfption, RuntimfExdfption, bnd
+         * bny of tif fxdfptions dfdlbrfd by tiis stub mftiod, wf wbnt tifm
+         * to pbss tirougi unibrmfd, so first wf must dbtdi bny sudi
+         * fxdfptions bnd rftirow it dirfdtly.
          *
-         * We have to be careful generating the rethrowing catch blocks
-         * here, because javac will flag an error if there are any
-         * unreachable catch blocks, i.e. if the catch of an exception class
-         * follows a previous catch of it or of one of its superclasses.
-         * The following method invocation takes care of these details.
+         * Wf ibvf to bf dbrfful gfnfrbting tif rftirowing dbtdi blodks
+         * ifrf, bfdbusf jbvbd will flbg bn frror if tifrf brf bny
+         * unrfbdibblf dbtdi blodks, i.f. if tif dbtdi of bn fxdfption dlbss
+         * follows b prfvious dbtdi of it or of onf of its supfrdlbssfs.
+         * Tif following mftiod invodbtion tbkfs dbrf of tifsf dftbils.
          */
-        Vector<ClassDefinition> catchList = computeUniqueCatchList(exceptions);
+        Vfdtor<ClbssDffinition> dbtdiList = domputfUniqufCbtdiList(fxdfptions);
 
         /*
-         * If we need to catch any particular exceptions (i.e. this method
-         * does not declare java.lang.Exception), put the entire stub
-         * method in a try block.
+         * If wf nffd to dbtdi bny pbrtidulbr fxdfptions (i.f. tiis mftiod
+         * dofs not dfdlbrf jbvb.lbng.Exdfption), put tif fntirf stub
+         * mftiod in b try blodk.
          */
-        if (catchList.size() > 0) {
+        if (dbtdiList.sizf() > 0) {
             p.plnI("try {");
         }
 
-        if (version == STUB_VERSION_FAT) {
-            p.plnI("if (useNewInvoke) {");
+        if (vfrsion == STUB_VERSION_FAT) {
+            p.plnI("if (usfNfwInvokf) {");
         }
-        if (version == STUB_VERSION_FAT ||
-            version == STUB_VERSION_1_2)
+        if (vfrsion == STUB_VERSION_FAT ||
+            vfrsion == STUB_VERSION_1_2)
         {
-            if (!returnType.isType(TC_VOID)) {
-                p.p("Object $result = ");               // REMIND: why $?
+            if (!rfturnTypf.isTypf(TC_VOID)) {
+                p.p("Objfdt $rfsult = ");               // REMIND: wiy $?
             }
-            p.p("ref.invoke(this, " + methodFieldNames[opnum] + ", ");
-            if (paramTypes.length > 0) {
-                p.p("new java.lang.Object[] {");
-                for (int i = 0; i < paramTypes.length; i++) {
+            p.p("rff.invokf(tiis, " + mftiodFifldNbmfs[opnum] + ", ");
+            if (pbrbmTypfs.lfngti > 0) {
+                p.p("nfw jbvb.lbng.Objfdt[] {");
+                for (int i = 0; i < pbrbmTypfs.lfngti; i++) {
                     if (i > 0)
                         p.p(", ");
-                    p.p(wrapArgumentCode(paramTypes[i], paramNames[i]));
+                    p.p(wrbpArgumfntCodf(pbrbmTypfs[i], pbrbmNbmfs[i]));
                 }
                 p.p("}");
-            } else {
+            } flsf {
                 p.p("null");
             }
-            p.pln(", " + method.getMethodHash() + "L);");
-            if (!returnType.isType(TC_VOID)) {
-                p.pln("return " +
-                    unwrapArgumentCode(returnType, "$result") + ";");
+            p.pln(", " + mftiod.gftMftiodHbsi() + "L);");
+            if (!rfturnTypf.isTypf(TC_VOID)) {
+                p.pln("rfturn " +
+                    unwrbpArgumfntCodf(rfturnTypf, "$rfsult") + ";");
             }
         }
-        if (version == STUB_VERSION_FAT) {
-            p.pOlnI("} else {");
+        if (vfrsion == STUB_VERSION_FAT) {
+            p.pOlnI("} flsf {");
         }
-        if (version == STUB_VERSION_1_1 ||
-            version == STUB_VERSION_FAT)
+        if (vfrsion == STUB_VERSION_1_1 ||
+            vfrsion == STUB_VERSION_FAT)
         {
-            p.pln(idRemoteCall + " call = ref.newCall((" + idRemoteObject +
-                ") this, operations, " + opnum + ", interfaceHash);");
+            p.pln(idRfmotfCbll + " dbll = rff.nfwCbll((" + idRfmotfObjfdt +
+                ") tiis, opfrbtions, " + opnum + ", intfrfbdfHbsi);");
 
-            if (paramTypes.length > 0) {
+            if (pbrbmTypfs.lfngti > 0) {
                 p.plnI("try {");
-                p.pln("java.io.ObjectOutput out = call.getOutputStream();");
-                writeMarshalArguments(p, "out", paramTypes, paramNames);
-                p.pOlnI("} catch (java.io.IOException e) {");
-                p.pln("throw new " + idMarshalException +
-                    "(\"error marshalling arguments\", e);");
+                p.pln("jbvb.io.ObjfdtOutput out = dbll.gftOutputStrfbm();");
+                writfMbrsiblArgumfnts(p, "out", pbrbmTypfs, pbrbmNbmfs);
+                p.pOlnI("} dbtdi (jbvb.io.IOExdfption f) {");
+                p.pln("tirow nfw " + idMbrsiblExdfption +
+                    "(\"frror mbrsiblling brgumfnts\", f);");
                 p.pOln("}");
             }
 
-            p.pln("ref.invoke(call);");
+            p.pln("rff.invokf(dbll);");
 
-            if (returnType.isType(TC_VOID)) {
-                p.pln("ref.done(call);");
-            } else {
-                p.pln(returnType + " $result;");        // REMIND: why $?
+            if (rfturnTypf.isTypf(TC_VOID)) {
+                p.pln("rff.donf(dbll);");
+            } flsf {
+                p.pln(rfturnTypf + " $rfsult;");        // REMIND: wiy $?
                 p.plnI("try {");
-                p.pln("java.io.ObjectInput in = call.getInputStream();");
-                boolean objectRead =
-                    writeUnmarshalArgument(p, "in", returnType, "$result");
+                p.pln("jbvb.io.ObjfdtInput in = dbll.gftInputStrfbm();");
+                boolfbn objfdtRfbd =
+                    writfUnmbrsiblArgumfnt(p, "in", rfturnTypf, "$rfsult");
                 p.pln(";");
-                p.pOlnI("} catch (java.io.IOException e) {");
-                p.pln("throw new " + idUnmarshalException +
-                    "(\"error unmarshalling return\", e);");
+                p.pOlnI("} dbtdi (jbvb.io.IOExdfption f) {");
+                p.pln("tirow nfw " + idUnmbrsiblExdfption +
+                    "(\"frror unmbrsiblling rfturn\", f);");
                 /*
-                 * If any only if readObject has been invoked, we must catch
-                 * ClassNotFoundException as well as IOException.
+                 * If bny only if rfbdObjfdt ibs bffn invokfd, wf must dbtdi
+                 * ClbssNotFoundExdfption bs wfll bs IOExdfption.
                  */
-                if (objectRead) {
-                    p.pOlnI("} catch (java.lang.ClassNotFoundException e) {");
-                    p.pln("throw new " + idUnmarshalException +
-                        "(\"error unmarshalling return\", e);");
+                if (objfdtRfbd) {
+                    p.pOlnI("} dbtdi (jbvb.lbng.ClbssNotFoundExdfption f) {");
+                    p.pln("tirow nfw " + idUnmbrsiblExdfption +
+                        "(\"frror unmbrsiblling rfturn\", f);");
                 }
-                p.pOlnI("} finally {");
-                p.pln("ref.done(call);");
+                p.pOlnI("} finblly {");
+                p.pln("rff.donf(dbll);");
                 p.pOln("}");
-                p.pln("return $result;");
+                p.pln("rfturn $rfsult;");
             }
         }
-        if (version == STUB_VERSION_FAT) {
-            p.pOln("}");                // end if/else (useNewInvoke) block
+        if (vfrsion == STUB_VERSION_FAT) {
+            p.pOln("}");                // fnd if/flsf (usfNfwInvokf) blodk
         }
 
         /*
-         * If we need to catch any particular exceptions, finally write
-         * the catch blocks for them, rethrow any other Exceptions with an
-         * UnexpectedException, and end the try block.
+         * If wf nffd to dbtdi bny pbrtidulbr fxdfptions, finblly writf
+         * tif dbtdi blodks for tifm, rftirow bny otifr Exdfptions witi bn
+         * UnfxpfdtfdExdfption, bnd fnd tif try blodk.
          */
-        if (catchList.size() > 0) {
-            for (Enumeration<ClassDefinition> enumeration = catchList.elements();
-                 enumeration.hasMoreElements();)
+        if (dbtdiList.sizf() > 0) {
+            for (Enumfrbtion<ClbssDffinition> fnumfrbtion = dbtdiList.flfmfnts();
+                 fnumfrbtion.ibsMorfElfmfnts();)
             {
-                ClassDefinition def = enumeration.nextElement();
-                p.pOlnI("} catch (" + def.getName() + " e) {");
-                p.pln("throw e;");
+                ClbssDffinition dff = fnumfrbtion.nfxtElfmfnt();
+                p.pOlnI("} dbtdi (" + dff.gftNbmf() + " f) {");
+                p.pln("tirow f;");
             }
-            p.pOlnI("} catch (java.lang.Exception e) {");
-            p.pln("throw new " + idUnexpectedException +
-                "(\"undeclared checked exception\", e);");
-            p.pOln("}");                // end try/catch block
+            p.pOlnI("} dbtdi (jbvb.lbng.Exdfption f) {");
+            p.pln("tirow nfw " + idUnfxpfdtfdExdfption +
+                "(\"undfdlbrfd difdkfd fxdfption\", f);");
+            p.pOln("}");                // fnd try/dbtdi blodk
         }
 
-        p.pOln("}");                    // end stub method
+        p.pOln("}");                    // fnd stub mftiod
     }
 
     /**
-     * Compute the exceptions which need to be caught and rethrown in a
-     * stub method before wrapping Exceptions in UnexpectedExceptions,
-     * given the exceptions declared in the throws clause of the method.
-     * Returns a Vector containing ClassDefinition objects for each
-     * exception to catch.  Each exception is guaranteed to be unique,
-     * i.e. not a subclass of any of the other exceptions in the Vector,
-     * so the catch blocks for these exceptions may be generated in any
-     * order relative to each other.
+     * Computf tif fxdfptions wiidi nffd to bf dbugit bnd rftirown in b
+     * stub mftiod bfforf wrbpping Exdfptions in UnfxpfdtfdExdfptions,
+     * givfn tif fxdfptions dfdlbrfd in tif tirows dlbusf of tif mftiod.
+     * Rfturns b Vfdtor dontbining ClbssDffinition objfdts for fbdi
+     * fxdfption to dbtdi.  Ebdi fxdfption is gubrbntffd to bf uniquf,
+     * i.f. not b subdlbss of bny of tif otifr fxdfptions in tif Vfdtor,
+     * so tif dbtdi blodks for tifsf fxdfptions mby bf gfnfrbtfd in bny
+     * ordfr rflbtivf to fbdi otifr.
      *
-     * RemoteException and RuntimeException are each automatically placed
-     * in the returned Vector (if none of their superclasses are already
-     * present), since those exceptions should always be directly rethrown
-     * by a stub method.
+     * RfmotfExdfption bnd RuntimfExdfption brf fbdi butombtidblly plbdfd
+     * in tif rfturnfd Vfdtor (if nonf of tifir supfrdlbssfs brf blrfbdy
+     * prfsfnt), sindf tiosf fxdfptions siould blwbys bf dirfdtly rftirown
+     * by b stub mftiod.
      *
-     * The returned Vector will be empty if java.lang.Exception or one
-     * of its superclasses is in the throws clause of the method, indicating
-     * that no exceptions need to be caught.
+     * Tif rfturnfd Vfdtor will bf fmpty if jbvb.lbng.Exdfption or onf
+     * of its supfrdlbssfs is in tif tirows dlbusf of tif mftiod, indidbting
+     * tibt no fxdfptions nffd to bf dbugit.
      */
-    private Vector<ClassDefinition> computeUniqueCatchList(ClassDeclaration[] exceptions) {
-        Vector<ClassDefinition> uniqueList = new Vector<>();       // unique exceptions to catch
+    privbtf Vfdtor<ClbssDffinition> domputfUniqufCbtdiList(ClbssDfdlbrbtion[] fxdfptions) {
+        Vfdtor<ClbssDffinition> uniqufList = nfw Vfdtor<>();       // uniquf fxdfptions to dbtdi
 
-        uniqueList.addElement(defRuntimeException);
-        uniqueList.addElement(defRemoteException);
+        uniqufList.bddElfmfnt(dffRuntimfExdfption);
+        uniqufList.bddElfmfnt(dffRfmotfExdfption);
 
-        /* For each exception declared by the stub method's throws clause: */
-    nextException:
-        for (int i = 0; i < exceptions.length; i++) {
-            ClassDeclaration decl = exceptions[i];
+        /* For fbdi fxdfption dfdlbrfd by tif stub mftiod's tirows dlbusf: */
+    nfxtExdfption:
+        for (int i = 0; i < fxdfptions.lfngti; i++) {
+            ClbssDfdlbrbtion dfdl = fxdfptions[i];
             try {
-                if (defException.subClassOf(env, decl)) {
+                if (dffExdfption.subClbssOf(fnv, dfdl)) {
                     /*
-                     * (If java.lang.Exception (or a superclass) was declared
-                     * in the throws clause of this stub method, then we don't
-                     * have to bother catching anything; clear the list and
-                     * return.)
+                     * (If jbvb.lbng.Exdfption (or b supfrdlbss) wbs dfdlbrfd
+                     * in tif tirows dlbusf of tiis stub mftiod, tifn wf don't
+                     * ibvf to botifr dbtdiing bnytiing; dlfbr tif list bnd
+                     * rfturn.)
                      */
-                    uniqueList.clear();
-                    break;
-                } else if (!defException.superClassOf(env, decl)) {
+                    uniqufList.dlfbr();
+                    brfbk;
+                } flsf if (!dffExdfption.supfrClbssOf(fnv, dfdl)) {
                     /*
-                     * Ignore other Throwables that do not extend Exception,
-                     * since they do not need to be caught anyway.
+                     * Ignorf otifr Tirowbblfs tibt do not fxtfnd Exdfption,
+                     * sindf tify do not nffd to bf dbugit bnywby.
                      */
-                    continue;
+                    dontinuf;
                 }
                 /*
-                 * Compare this exception against the current list of
-                 * exceptions that need to be caught:
+                 * Compbrf tiis fxdfption bgbinst tif durrfnt list of
+                 * fxdfptions tibt nffd to bf dbugit:
                  */
-                for (int j = 0; j < uniqueList.size();) {
-                    ClassDefinition def = uniqueList.elementAt(j);
-                    if (def.superClassOf(env, decl)) {
+                for (int j = 0; j < uniqufList.sizf();) {
+                    ClbssDffinition dff = uniqufList.flfmfntAt(j);
+                    if (dff.supfrClbssOf(fnv, dfdl)) {
                         /*
-                         * If a superclass of this exception is already on
-                         * the list to catch, then ignore and continue;
+                         * If b supfrdlbss of tiis fxdfption is blrfbdy on
+                         * tif list to dbtdi, tifn ignorf bnd dontinuf;
                          */
-                        continue nextException;
-                    } else if (def.subClassOf(env, decl)) {
+                        dontinuf nfxtExdfption;
+                    } flsf if (dff.subClbssOf(fnv, dfdl)) {
                         /*
-                         * If a subclass of this exception is on the list
-                         * to catch, then remove it.
+                         * If b subdlbss of tiis fxdfption is on tif list
+                         * to dbtdi, tifn rfmovf it.
                          */
-                        uniqueList.removeElementAt(j);
-                    } else {
-                        j++;    // else continue comparing
+                        uniqufList.rfmovfElfmfntAt(j);
+                    } flsf {
+                        j++;    // flsf dontinuf dompbring
                     }
                 }
-                /* This exception is unique: add it to the list to catch. */
-                uniqueList.addElement(decl.getClassDefinition(env));
-            } catch (ClassNotFound e) {
-                env.error(0, "class.not.found", e.name, decl.getName());
+                /* Tiis fxdfption is uniquf: bdd it to tif list to dbtdi. */
+                uniqufList.bddElfmfnt(dfdl.gftClbssDffinition(fnv));
+            } dbtdi (ClbssNotFound f) {
+                fnv.frror(0, "dlbss.not.found", f.nbmf, dfdl.gftNbmf());
                 /*
-                 * REMIND: We do not exit from this exceptional condition,
-                 * generating questionable code and likely letting the
-                 * compiler report a resulting error later.
+                 * REMIND: Wf do not fxit from tiis fxdfptionbl dondition,
+                 * gfnfrbting qufstionbblf dodf bnd likfly lftting tif
+                 * dompilfr rfport b rfsulting frror lbtfr.
                  */
             }
         }
-        return uniqueList;
+        rfturn uniqufList;
     }
 
     /**
-     * Write the skeleton for the remote class to a stream.
+     * Writf tif skflfton for tif rfmotf dlbss to b strfbm.
      */
-    private void writeSkeleton(IndentingWriter p) throws IOException {
-        if (version == STUB_VERSION_1_2) {
-            throw new Error("should not generate skeleton for version");
+    privbtf void writfSkflfton(IndfntingWritfr p) tirows IOExdfption {
+        if (vfrsion == STUB_VERSION_1_2) {
+            tirow nfw Error("siould not gfnfrbtf skflfton for vfrsion");
         }
 
         /*
-         * Write boiler plate comment.
+         * Writf boilfr plbtf dommfnt.
          */
-        p.pln("// Skeleton class generated by rmic, do not edit.");
-        p.pln("// Contents subject to change without notice.");
+        p.pln("// Skflfton dlbss gfnfrbtfd by rmid, do not fdit.");
+        p.pln("// Contfnts subjfdt to dibngf witiout notidf.");
         p.pln();
 
         /*
-         * If remote implementation class was in a particular package,
-         * declare the skeleton class to be in the same package.
+         * If rfmotf implfmfntbtion dlbss wbs in b pbrtidulbr pbdkbgf,
+         * dfdlbrf tif skflfton dlbss to bf in tif sbmf pbdkbgf.
          */
-        if (remoteClassName.isQualified()) {
-            p.pln("package " + remoteClassName.getQualifier() + ";");
+        if (rfmotfClbssNbmf.isQublififd()) {
+            p.pln("pbdkbgf " + rfmotfClbssNbmf.gftQublififr() + ";");
             p.pln();
         }
 
         /*
-         * Declare the skeleton class.
+         * Dfdlbrf tif skflfton dlbss.
          */
-        p.plnI("public final class " +
-            Names.mangleClass(skeletonClassName.getName()));
-        p.pln("implements " + idSkeleton);
+        p.plnI("publid finbl dlbss " +
+            Nbmfs.mbnglfClbss(skflftonClbssNbmf.gftNbmf()));
+        p.pln("implfmfnts " + idSkflfton);
         p.pOlnI("{");
 
-        writeOperationsArray(p);
+        writfOpfrbtionsArrby(p);
         p.pln();
 
-        writeInterfaceHash(p);
+        writfIntfrfbdfHbsi(p);
         p.pln();
 
         /*
-         * Define the getOperations() method.
+         * Dffinf tif gftOpfrbtions() mftiod.
          */
-        p.plnI("public " + idOperation + "[] getOperations() {");
-        p.pln("return (" + idOperation + "[]) operations.clone();");
+        p.plnI("publid " + idOpfrbtion + "[] gftOpfrbtions() {");
+        p.pln("rfturn (" + idOpfrbtion + "[]) opfrbtions.dlonf();");
         p.pOln("}");
         p.pln();
 
         /*
-         * Define the dispatch() method.
+         * Dffinf tif dispbtdi() mftiod.
          */
-        p.plnI("public void dispatch(" + idRemote + " obj, " +
-            idRemoteCall + " call, int opnum, long hash)");
-        p.pln("throws java.lang.Exception");
+        p.plnI("publid void dispbtdi(" + idRfmotf + " obj, " +
+            idRfmotfCbll + " dbll, int opnum, long ibsi)");
+        p.pln("tirows jbvb.lbng.Exdfption");
         p.pOlnI("{");
 
-        if (version == STUB_VERSION_FAT) {
+        if (vfrsion == STUB_VERSION_FAT) {
             p.plnI("if (opnum < 0) {");
-            if (remoteMethods.length > 0) {
-                for (int opnum = 0; opnum < remoteMethods.length; opnum++) {
+            if (rfmotfMftiods.lfngti > 0) {
+                for (int opnum = 0; opnum < rfmotfMftiods.lfngti; opnum++) {
                     if (opnum > 0)
-                        p.pO("} else ");
-                    p.plnI("if (hash == " +
-                        remoteMethods[opnum].getMethodHash() + "L) {");
+                        p.pO("} flsf ");
+                    p.plnI("if (ibsi == " +
+                        rfmotfMftiods[opnum].gftMftiodHbsi() + "L) {");
                     p.pln("opnum = " + opnum + ";");
                 }
-                p.pOlnI("} else {");
+                p.pOlnI("} flsf {");
             }
             /*
-             * Skeleton throws UnmarshalException if it does not recognize
-             * the method hash; this is what UnicastServerRef.dispatch()
+             * Skflfton tirows UnmbrsiblExdfption if it dofs not rfdognizf
+             * tif mftiod ibsi; tiis is wibt UnidbstSfrvfrRff.dispbtdi()
              * would do.
              */
-            p.pln("throw new " +
-                idUnmarshalException + "(\"invalid method hash\");");
-            if (remoteMethods.length > 0) {
+            p.pln("tirow nfw " +
+                idUnmbrsiblExdfption + "(\"invblid mftiod ibsi\");");
+            if (rfmotfMftiods.lfngti > 0) {
                 p.pOln("}");
             }
             /*
-             * Ignore the validation of the interface hash if the
-             * operation number was negative, since it is really a
-             * method hash instead.
+             * Ignorf tif vblidbtion of tif intfrfbdf ibsi if tif
+             * opfrbtion numbfr wbs nfgbtivf, sindf it is rfblly b
+             * mftiod ibsi instfbd.
              */
-            p.pOlnI("} else {");
+            p.pOlnI("} flsf {");
         }
 
-        p.plnI("if (hash != interfaceHash)");
-        p.pln("throw new " +
-            idSkeletonMismatchException + "(\"interface hash mismatch\");");
+        p.plnI("if (ibsi != intfrfbdfHbsi)");
+        p.pln("tirow nfw " +
+            idSkflftonMismbtdiExdfption + "(\"intfrfbdf ibsi mismbtdi\");");
         p.pO();
 
-        if (version == STUB_VERSION_FAT) {
-            p.pOln("}");                // end if/else (opnum < 0) block
+        if (vfrsion == STUB_VERSION_FAT) {
+            p.pOln("}");                // fnd if/flsf (opnum < 0) blodk
         }
         p.pln();
 
         /*
-         * Cast remote object instance to our specific implementation class.
+         * Cbst rfmotf objfdt instbndf to our spfdifid implfmfntbtion dlbss.
          */
-        p.pln(remoteClassName + " server = (" + remoteClassName + ") obj;");
+        p.pln(rfmotfClbssNbmf + " sfrvfr = (" + rfmotfClbssNbmf + ") obj;");
 
         /*
-         * Process call according to the operation number.
+         * Prodfss dbll bddording to tif opfrbtion numbfr.
          */
-        p.plnI("switch (opnum) {");
-        for (int opnum = 0; opnum < remoteMethods.length; opnum++) {
-            writeSkeletonDispatchCase(p, opnum);
+        p.plnI("switdi (opnum) {");
+        for (int opnum = 0; opnum < rfmotfMftiods.lfngti; opnum++) {
+            writfSkflftonDispbtdiCbsf(p, opnum);
         }
-        p.pOlnI("default:");
+        p.pOlnI("dffbult:");
         /*
-         * Skeleton throws UnmarshalException if it does not recognize
-         * the operation number; this is consistent with the case of an
-         * unrecognized method hash.
+         * Skflfton tirows UnmbrsiblExdfption if it dofs not rfdognizf
+         * tif opfrbtion numbfr; tiis is donsistfnt witi tif dbsf of bn
+         * unrfdognizfd mftiod ibsi.
          */
-        p.pln("throw new " + idUnmarshalException +
-            "(\"invalid method number\");");
-        p.pOln("}");                    // end switch statement
+        p.pln("tirow nfw " + idUnmbrsiblExdfption +
+            "(\"invblid mftiod numbfr\");");
+        p.pOln("}");                    // fnd switdi stbtfmfnt
 
-        p.pOln("}");                    // end dispatch() method
+        p.pOln("}");                    // fnd dispbtdi() mftiod
 
-        p.pOln("}");                    // end skeleton class
+        p.pOln("}");                    // fnd skflfton dlbss
     }
 
     /**
-     * Write the case block for the skeleton's dispatch method for
-     * the remote method with the given "opnum".
+     * Writf tif dbsf blodk for tif skflfton's dispbtdi mftiod for
+     * tif rfmotf mftiod witi tif givfn "opnum".
      */
-    private void writeSkeletonDispatchCase(IndentingWriter p, int opnum)
-        throws IOException
+    privbtf void writfSkflftonDispbtdiCbsf(IndfntingWritfr p, int opnum)
+        tirows IOExdfption
     {
-        RemoteClass.Method method = remoteMethods[opnum];
-        Identifier methodName = method.getName();
-        Type methodType = method.getType();
-        Type paramTypes[] = methodType.getArgumentTypes();
-        String paramNames[] = nameParameters(paramTypes);
-        Type returnType = methodType.getReturnType();
+        RfmotfClbss.Mftiod mftiod = rfmotfMftiods[opnum];
+        Idfntififr mftiodNbmf = mftiod.gftNbmf();
+        Typf mftiodTypf = mftiod.gftTypf();
+        Typf pbrbmTypfs[] = mftiodTypf.gftArgumfntTypfs();
+        String pbrbmNbmfs[] = nbmfPbrbmftfrs(pbrbmTypfs);
+        Typf rfturnTypf = mftiodTypf.gftRfturnTypf();
 
-        p.pOlnI("case " + opnum + ": // " +
-            methodType.typeString(methodName.toString(), true, false));
+        p.pOlnI("dbsf " + opnum + ": // " +
+            mftiodTypf.typfString(mftiodNbmf.toString(), truf, fblsf));
         /*
-         * Use nested block statement inside case to provide an independent
-         * namespace for local variables used to unmarshal parameters for
-         * this remote method.
+         * Usf nfstfd blodk stbtfmfnt insidf dbsf to providf bn indfpfndfnt
+         * nbmfspbdf for lodbl vbribblfs usfd to unmbrsibl pbrbmftfrs for
+         * tiis rfmotf mftiod.
          */
         p.pOlnI("{");
 
-        if (paramTypes.length > 0) {
+        if (pbrbmTypfs.lfngti > 0) {
             /*
-             * Declare local variables to hold arguments.
+             * Dfdlbrf lodbl vbribblfs to iold brgumfnts.
              */
-            for (int i = 0; i < paramTypes.length; i++) {
-                p.pln(paramTypes[i] + " " + paramNames[i] + ";");
+            for (int i = 0; i < pbrbmTypfs.lfngti; i++) {
+                p.pln(pbrbmTypfs[i] + " " + pbrbmNbmfs[i] + ";");
             }
 
             /*
-             * Unmarshal arguments from call stream.
+             * Unmbrsibl brgumfnts from dbll strfbm.
              */
             p.plnI("try {");
-            p.pln("java.io.ObjectInput in = call.getInputStream();");
-            boolean objectsRead = writeUnmarshalArguments(p, "in",
-                paramTypes, paramNames);
-            p.pOlnI("} catch (java.io.IOException e) {");
-            p.pln("throw new " + idUnmarshalException +
-                "(\"error unmarshalling arguments\", e);");
+            p.pln("jbvb.io.ObjfdtInput in = dbll.gftInputStrfbm();");
+            boolfbn objfdtsRfbd = writfUnmbrsiblArgumfnts(p, "in",
+                pbrbmTypfs, pbrbmNbmfs);
+            p.pOlnI("} dbtdi (jbvb.io.IOExdfption f) {");
+            p.pln("tirow nfw " + idUnmbrsiblExdfption +
+                "(\"frror unmbrsiblling brgumfnts\", f);");
             /*
-             * If any only if readObject has been invoked, we must catch
-             * ClassNotFoundException as well as IOException.
+             * If bny only if rfbdObjfdt ibs bffn invokfd, wf must dbtdi
+             * ClbssNotFoundExdfption bs wfll bs IOExdfption.
              */
-            if (objectsRead) {
-                p.pOlnI("} catch (java.lang.ClassNotFoundException e) {");
-                p.pln("throw new " + idUnmarshalException +
-                    "(\"error unmarshalling arguments\", e);");
+            if (objfdtsRfbd) {
+                p.pOlnI("} dbtdi (jbvb.lbng.ClbssNotFoundExdfption f) {");
+                p.pln("tirow nfw " + idUnmbrsiblExdfption +
+                    "(\"frror unmbrsiblling brgumfnts\", f);");
             }
-            p.pOlnI("} finally {");
-            p.pln("call.releaseInputStream();");
+            p.pOlnI("} finblly {");
+            p.pln("dbll.rflfbsfInputStrfbm();");
             p.pOln("}");
-        } else {
-            p.pln("call.releaseInputStream();");
+        } flsf {
+            p.pln("dbll.rflfbsfInputStrfbm();");
         }
 
-        if (!returnType.isType(TC_VOID)) {
+        if (!rfturnTypf.isTypf(TC_VOID)) {
             /*
-             * Declare variable to hold return type, if not void.
+             * Dfdlbrf vbribblf to iold rfturn typf, if not void.
              */
-            p.p(returnType + " $result = ");            // REMIND: why $?
+            p.p(rfturnTypf + " $rfsult = ");            // REMIND: wiy $?
         }
 
         /*
-         * Invoke the method on the server object.
+         * Invokf tif mftiod on tif sfrvfr objfdt.
          */
-        p.p("server." + methodName + "(");
-        for (int i = 0; i < paramNames.length; i++) {
+        p.p("sfrvfr." + mftiodNbmf + "(");
+        for (int i = 0; i < pbrbmNbmfs.lfngti; i++) {
             if (i > 0)
                 p.p(", ");
-            p.p(paramNames[i]);
+            p.p(pbrbmNbmfs[i]);
         }
         p.pln(");");
 
         /*
-         * Always invoke getResultStream(true) on the call object to send
-         * the indication of a successful invocation to the caller.  If
-         * the return type is not void, keep the result stream and marshal
-         * the return value.
+         * Alwbys invokf gftRfsultStrfbm(truf) on tif dbll objfdt to sfnd
+         * tif indidbtion of b suddfssful invodbtion to tif dbllfr.  If
+         * tif rfturn typf is not void, kffp tif rfsult strfbm bnd mbrsibl
+         * tif rfturn vbluf.
          */
         p.plnI("try {");
-        if (!returnType.isType(TC_VOID)) {
-            p.p("java.io.ObjectOutput out = ");
+        if (!rfturnTypf.isTypf(TC_VOID)) {
+            p.p("jbvb.io.ObjfdtOutput out = ");
         }
-        p.pln("call.getResultStream(true);");
-        if (!returnType.isType(TC_VOID)) {
-            writeMarshalArgument(p, "out", returnType, "$result");
+        p.pln("dbll.gftRfsultStrfbm(truf);");
+        if (!rfturnTypf.isTypf(TC_VOID)) {
+            writfMbrsiblArgumfnt(p, "out", rfturnTypf, "$rfsult");
             p.pln(";");
         }
-        p.pOlnI("} catch (java.io.IOException e) {");
-        p.pln("throw new " +
-            idMarshalException + "(\"error marshalling return\", e);");
+        p.pOlnI("} dbtdi (jbvb.io.IOExdfption f) {");
+        p.pln("tirow nfw " +
+            idMbrsiblExdfption + "(\"frror mbrsiblling rfturn\", f);");
         p.pOln("}");
 
-        p.pln("break;");                // break from switch statement
+        p.pln("brfbk;");                // brfbk from switdi stbtfmfnt
 
-        p.pOlnI("}");                   // end nested block statement
+        p.pOlnI("}");                   // fnd nfstfd blodk stbtfmfnt
         p.pln();
     }
 
     /**
-     * Write declaration and initializer for "operations" static array.
+     * Writf dfdlbrbtion bnd initiblizfr for "opfrbtions" stbtid brrby.
      */
-    private void writeOperationsArray(IndentingWriter p)
-        throws IOException
+    privbtf void writfOpfrbtionsArrby(IndfntingWritfr p)
+        tirows IOExdfption
     {
-        p.plnI("private static final " + idOperation + "[] operations = {");
-        for (int i = 0; i < remoteMethods.length; i++) {
+        p.plnI("privbtf stbtid finbl " + idOpfrbtion + "[] opfrbtions = {");
+        for (int i = 0; i < rfmotfMftiods.lfngti; i++) {
             if (i > 0)
                 p.pln(",");
-            p.p("new " + idOperation + "(\"" +
-                remoteMethods[i].getOperationString() + "\")");
+            p.p("nfw " + idOpfrbtion + "(\"" +
+                rfmotfMftiods[i].gftOpfrbtionString() + "\")");
         }
         p.pln();
         p.pOln("};");
     }
 
     /**
-     * Write declaration and initializer for "interfaceHash" static field.
+     * Writf dfdlbrbtion bnd initiblizfr for "intfrfbdfHbsi" stbtid fifld.
      */
-    private void writeInterfaceHash(IndentingWriter p)
-        throws IOException
+    privbtf void writfIntfrfbdfHbsi(IndfntingWritfr p)
+        tirows IOExdfption
     {
-        p.pln("private static final long interfaceHash = " +
-            remoteClass.getInterfaceHash() + "L;");
+        p.pln("privbtf stbtid finbl long intfrfbdfHbsi = " +
+            rfmotfClbss.gftIntfrfbdfHbsi() + "L;");
     }
 
     /**
-     * Write declaration for java.lang.reflect.Method static fields
-     * corresponding to each remote method in a stub.
+     * Writf dfdlbrbtion for jbvb.lbng.rfflfdt.Mftiod stbtid fiflds
+     * dorrfsponding to fbdi rfmotf mftiod in b stub.
      */
-    private void writeMethodFieldDeclarations(IndentingWriter p)
-        throws IOException
+    privbtf void writfMftiodFifldDfdlbrbtions(IndfntingWritfr p)
+        tirows IOExdfption
     {
-        for (int i = 0; i < methodFieldNames.length; i++) {
-            p.pln("private static java.lang.reflect.Method " +
-                methodFieldNames[i] + ";");
+        for (int i = 0; i < mftiodFifldNbmfs.lfngti; i++) {
+            p.pln("privbtf stbtid jbvb.lbng.rfflfdt.Mftiod " +
+                mftiodFifldNbmfs[i] + ";");
         }
     }
 
     /**
-     * Write code to initialize the static fields for each method
-     * using the Java Reflection API.
+     * Writf dodf to initiblizf tif stbtid fiflds for fbdi mftiod
+     * using tif Jbvb Rfflfdtion API.
      */
-    private void writeMethodFieldInitializers(IndentingWriter p)
-        throws IOException
+    privbtf void writfMftiodFifldInitiblizfrs(IndfntingWritfr p)
+        tirows IOExdfption
     {
-        for (int i = 0; i < methodFieldNames.length; i++) {
-            p.p(methodFieldNames[i] + " = ");
+        for (int i = 0; i < mftiodFifldNbmfs.lfngti; i++) {
+            p.p(mftiodFifldNbmfs[i] + " = ");
             /*
-             * Here we look up the Method object in the arbitrary interface
-             * that we find in the RemoteClass.Method object.
-             * REMIND: Is this arbitrary choice OK?
-             * REMIND: Should this access be part of RemoteClass.Method's
-             * abstraction?
+             * Hfrf wf look up tif Mftiod objfdt in tif brbitrbry intfrfbdf
+             * tibt wf find in tif RfmotfClbss.Mftiod objfdt.
+             * REMIND: Is tiis brbitrbry dioidf OK?
+             * REMIND: Siould tiis bddfss bf pbrt of RfmotfClbss.Mftiod's
+             * bbstrbdtion?
              */
-            RemoteClass.Method method = remoteMethods[i];
-            MemberDefinition def = method.getMemberDefinition();
-            Identifier methodName = method.getName();
-            Type methodType = method.getType();
-            Type paramTypes[] = methodType.getArgumentTypes();
+            RfmotfClbss.Mftiod mftiod = rfmotfMftiods[i];
+            MfmbfrDffinition dff = mftiod.gftMfmbfrDffinition();
+            Idfntififr mftiodNbmf = mftiod.gftNbmf();
+            Typf mftiodTypf = mftiod.gftTypf();
+            Typf pbrbmTypfs[] = mftiodTypf.gftArgumfntTypfs();
 
-            p.p(def.getClassDefinition().getName() + ".class.getMethod(\"" +
-                methodName + "\", new java.lang.Class[] {");
-            for (int j = 0; j < paramTypes.length; j++) {
+            p.p(dff.gftClbssDffinition().gftNbmf() + ".dlbss.gftMftiod(\"" +
+                mftiodNbmf + "\", nfw jbvb.lbng.Clbss[] {");
+            for (int j = 0; j < pbrbmTypfs.lfngti; j++) {
                 if (j > 0)
                     p.p(", ");
-                p.p(paramTypes[j] + ".class");
+                p.p(pbrbmTypfs[j] + ".dlbss");
             }
             p.pln("});");
         }
@@ -1010,293 +1010,293 @@ public class RMIGenerator implements RMIConstants, Generator {
 
 
     /*
-     * Following are a series of static utility methods useful during
-     * the code generation process:
+     * Following brf b sfrifs of stbtid utility mftiods usfful during
+     * tif dodf gfnfrbtion prodfss:
      */
 
     /**
-     * Generate an array of names for fields that correspond to the given
-     * array of remote methods.  Each name in the returned array is
-     * guaranteed to be unique.
+     * Gfnfrbtf bn brrby of nbmfs for fiflds tibt dorrfspond to tif givfn
+     * brrby of rfmotf mftiods.  Ebdi nbmf in tif rfturnfd brrby is
+     * gubrbntffd to bf uniquf.
      *
-     * The name of a method is included in its corresponding field name
-     * to enhance readability of the generated code.
+     * Tif nbmf of b mftiod is indludfd in its dorrfsponding fifld nbmf
+     * to fnibndf rfbdbbility of tif gfnfrbtfd dodf.
      */
-    private static String[] nameMethodFields(RemoteClass.Method[] methods) {
-        String[] names = new String[methods.length];
-        for (int i = 0; i < names.length; i++) {
-            names[i] = "$method_" + methods[i].getName() + "_" + i;
+    privbtf stbtid String[] nbmfMftiodFiflds(RfmotfClbss.Mftiod[] mftiods) {
+        String[] nbmfs = nfw String[mftiods.lfngti];
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+            nbmfs[i] = "$mftiod_" + mftiods[i].gftNbmf() + "_" + i;
         }
-        return names;
+        rfturn nbmfs;
     }
 
     /**
-     * Generate an array of names for parameters corresponding to the
-     * given array of types for the parameters.  Each name in the returned
-     * array is guaranteed to be unique.
+     * Gfnfrbtf bn brrby of nbmfs for pbrbmftfrs dorrfsponding to tif
+     * givfn brrby of typfs for tif pbrbmftfrs.  Ebdi nbmf in tif rfturnfd
+     * brrby is gubrbntffd to bf uniquf.
      *
-     * A representation of the type of a parameter is included in its
-     * corresponding field name to enhance the readability of the generated
-     * code.
+     * A rfprfsfntbtion of tif typf of b pbrbmftfr is indludfd in its
+     * dorrfsponding fifld nbmf to fnibndf tif rfbdbbility of tif gfnfrbtfd
+     * dodf.
      */
-    private static String[] nameParameters(Type[] types) {
-        String[] names = new String[types.length];
-        for (int i = 0; i < names.length; i++) {
-            names[i] = "$param_" +
-                generateNameFromType(types[i]) + "_" + (i + 1);
+    privbtf stbtid String[] nbmfPbrbmftfrs(Typf[] typfs) {
+        String[] nbmfs = nfw String[typfs.lfngti];
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+            nbmfs[i] = "$pbrbm_" +
+                gfnfrbtfNbmfFromTypf(typfs[i]) + "_" + (i + 1);
         }
-        return names;
+        rfturn nbmfs;
     }
 
     /**
-     * Generate a readable string representing the given type suitable
-     * for embedding within a Java identifier.
+     * Gfnfrbtf b rfbdbblf string rfprfsfnting tif givfn typf suitbblf
+     * for fmbfdding witiin b Jbvb idfntififr.
      */
-    private static String generateNameFromType(Type type) {
-        int typeCode = type.getTypeCode();
-        switch (typeCode) {
-        case TC_BOOLEAN:
-        case TC_BYTE:
-        case TC_CHAR:
-        case TC_SHORT:
-        case TC_INT:
-        case TC_LONG:
-        case TC_FLOAT:
-        case TC_DOUBLE:
-            return type.toString();
-        case TC_ARRAY:
-            return "arrayOf_" + generateNameFromType(type.getElementType());
-        case TC_CLASS:
-            return Names.mangleClass(type.getClassName().getName()).toString();
-        default:
-            throw new Error("unexpected type code: " + typeCode);
+    privbtf stbtid String gfnfrbtfNbmfFromTypf(Typf typf) {
+        int typfCodf = typf.gftTypfCodf();
+        switdi (typfCodf) {
+        dbsf TC_BOOLEAN:
+        dbsf TC_BYTE:
+        dbsf TC_CHAR:
+        dbsf TC_SHORT:
+        dbsf TC_INT:
+        dbsf TC_LONG:
+        dbsf TC_FLOAT:
+        dbsf TC_DOUBLE:
+            rfturn typf.toString();
+        dbsf TC_ARRAY:
+            rfturn "brrbyOf_" + gfnfrbtfNbmfFromTypf(typf.gftElfmfntTypf());
+        dbsf TC_CLASS:
+            rfturn Nbmfs.mbnglfClbss(typf.gftClbssNbmf().gftNbmf()).toString();
+        dffbult:
+            tirow nfw Error("unfxpfdtfd typf dodf: " + typfCodf);
         }
     }
 
     /**
-     * Write a snippet of Java code to marshal a value named "name" of
-     * type "type" to the java.io.ObjectOutput stream named "stream".
+     * Writf b snippft of Jbvb dodf to mbrsibl b vbluf nbmfd "nbmf" of
+     * typf "typf" to tif jbvb.io.ObjfdtOutput strfbm nbmfd "strfbm".
      *
-     * Primitive types are marshalled with their corresponding methods
-     * in the java.io.DataOutput interface, and objects (including arrays)
-     * are marshalled using the writeObject method.
+     * Primitivf typfs brf mbrsibllfd witi tifir dorrfsponding mftiods
+     * in tif jbvb.io.DbtbOutput intfrfbdf, bnd objfdts (indluding brrbys)
+     * brf mbrsibllfd using tif writfObjfdt mftiod.
      */
-    private static void writeMarshalArgument(IndentingWriter p,
-                                             String streamName,
-                                             Type type, String name)
-        throws IOException
+    privbtf stbtid void writfMbrsiblArgumfnt(IndfntingWritfr p,
+                                             String strfbmNbmf,
+                                             Typf typf, String nbmf)
+        tirows IOExdfption
     {
-        int typeCode = type.getTypeCode();
-        switch (typeCode) {
-        case TC_BOOLEAN:
-            p.p(streamName + ".writeBoolean(" + name + ")");
-            break;
-        case TC_BYTE:
-            p.p(streamName + ".writeByte(" + name + ")");
-            break;
-        case TC_CHAR:
-            p.p(streamName + ".writeChar(" + name + ")");
-            break;
-        case TC_SHORT:
-            p.p(streamName + ".writeShort(" + name + ")");
-            break;
-        case TC_INT:
-            p.p(streamName + ".writeInt(" + name + ")");
-            break;
-        case TC_LONG:
-            p.p(streamName + ".writeLong(" + name + ")");
-            break;
-        case TC_FLOAT:
-            p.p(streamName + ".writeFloat(" + name + ")");
-            break;
-        case TC_DOUBLE:
-            p.p(streamName + ".writeDouble(" + name + ")");
-            break;
-        case TC_ARRAY:
-        case TC_CLASS:
-            p.p(streamName + ".writeObject(" + name + ")");
-            break;
-        default:
-            throw new Error("unexpected type code: " + typeCode);
+        int typfCodf = typf.gftTypfCodf();
+        switdi (typfCodf) {
+        dbsf TC_BOOLEAN:
+            p.p(strfbmNbmf + ".writfBoolfbn(" + nbmf + ")");
+            brfbk;
+        dbsf TC_BYTE:
+            p.p(strfbmNbmf + ".writfBytf(" + nbmf + ")");
+            brfbk;
+        dbsf TC_CHAR:
+            p.p(strfbmNbmf + ".writfCibr(" + nbmf + ")");
+            brfbk;
+        dbsf TC_SHORT:
+            p.p(strfbmNbmf + ".writfSiort(" + nbmf + ")");
+            brfbk;
+        dbsf TC_INT:
+            p.p(strfbmNbmf + ".writfInt(" + nbmf + ")");
+            brfbk;
+        dbsf TC_LONG:
+            p.p(strfbmNbmf + ".writfLong(" + nbmf + ")");
+            brfbk;
+        dbsf TC_FLOAT:
+            p.p(strfbmNbmf + ".writfFlobt(" + nbmf + ")");
+            brfbk;
+        dbsf TC_DOUBLE:
+            p.p(strfbmNbmf + ".writfDoublf(" + nbmf + ")");
+            brfbk;
+        dbsf TC_ARRAY:
+        dbsf TC_CLASS:
+            p.p(strfbmNbmf + ".writfObjfdt(" + nbmf + ")");
+            brfbk;
+        dffbult:
+            tirow nfw Error("unfxpfdtfd typf dodf: " + typfCodf);
         }
     }
 
     /**
-     * Write Java statements to marshal a series of values in order as
-     * named in the "names" array, with types as specified in the "types"
-     * array", to the java.io.ObjectOutput stream named "stream".
+     * Writf Jbvb stbtfmfnts to mbrsibl b sfrifs of vblufs in ordfr bs
+     * nbmfd in tif "nbmfs" brrby, witi typfs bs spfdififd in tif "typfs"
+     * brrby", to tif jbvb.io.ObjfdtOutput strfbm nbmfd "strfbm".
      */
-    private static void writeMarshalArguments(IndentingWriter p,
-                                              String streamName,
-                                              Type[] types, String[] names)
-        throws IOException
+    privbtf stbtid void writfMbrsiblArgumfnts(IndfntingWritfr p,
+                                              String strfbmNbmf,
+                                              Typf[] typfs, String[] nbmfs)
+        tirows IOExdfption
     {
-        if (types.length != names.length) {
-            throw new Error("parameter type and name arrays different sizes");
+        if (typfs.lfngti != nbmfs.lfngti) {
+            tirow nfw Error("pbrbmftfr typf bnd nbmf brrbys difffrfnt sizfs");
         }
 
-        for (int i = 0; i < types.length; i++) {
-            writeMarshalArgument(p, streamName, types[i], names[i]);
+        for (int i = 0; i < typfs.lfngti; i++) {
+            writfMbrsiblArgumfnt(p, strfbmNbmf, typfs[i], nbmfs[i]);
             p.pln(";");
         }
     }
 
     /**
-     * Write a snippet of Java code to unmarshal a value of type "type"
-     * from the java.io.ObjectInput stream named "stream" into a variable
-     * named "name" (if "name" is null, the value in unmarshalled and
-     * discarded).
+     * Writf b snippft of Jbvb dodf to unmbrsibl b vbluf of typf "typf"
+     * from tif jbvb.io.ObjfdtInput strfbm nbmfd "strfbm" into b vbribblf
+     * nbmfd "nbmf" (if "nbmf" is null, tif vbluf in unmbrsibllfd bnd
+     * disdbrdfd).
      *
-     * Primitive types are unmarshalled with their corresponding methods
-     * in the java.io.DataInput interface, and objects (including arrays)
-     * are unmarshalled using the readObject method.
+     * Primitivf typfs brf unmbrsibllfd witi tifir dorrfsponding mftiods
+     * in tif jbvb.io.DbtbInput intfrfbdf, bnd objfdts (indluding brrbys)
+     * brf unmbrsibllfd using tif rfbdObjfdt mftiod.
      */
-    private static boolean writeUnmarshalArgument(IndentingWriter p,
-                                                  String streamName,
-                                                  Type type, String name)
-        throws IOException
+    privbtf stbtid boolfbn writfUnmbrsiblArgumfnt(IndfntingWritfr p,
+                                                  String strfbmNbmf,
+                                                  Typf typf, String nbmf)
+        tirows IOExdfption
     {
-        boolean readObject = false;
+        boolfbn rfbdObjfdt = fblsf;
 
-        if (name != null) {
-            p.p(name + " = ");
+        if (nbmf != null) {
+            p.p(nbmf + " = ");
         }
 
-        int typeCode = type.getTypeCode();
-        switch (type.getTypeCode()) {
-        case TC_BOOLEAN:
-            p.p(streamName + ".readBoolean()");
-            break;
-        case TC_BYTE:
-            p.p(streamName + ".readByte()");
-            break;
-        case TC_CHAR:
-            p.p(streamName + ".readChar()");
-            break;
-        case TC_SHORT:
-            p.p(streamName + ".readShort()");
-            break;
-        case TC_INT:
-            p.p(streamName + ".readInt()");
-            break;
-        case TC_LONG:
-            p.p(streamName + ".readLong()");
-            break;
-        case TC_FLOAT:
-            p.p(streamName + ".readFloat()");
-            break;
-        case TC_DOUBLE:
-            p.p(streamName + ".readDouble()");
-            break;
-        case TC_ARRAY:
-        case TC_CLASS:
-            p.p("(" + type + ") " + streamName + ".readObject()");
-            readObject = true;
-            break;
-        default:
-            throw new Error("unexpected type code: " + typeCode);
+        int typfCodf = typf.gftTypfCodf();
+        switdi (typf.gftTypfCodf()) {
+        dbsf TC_BOOLEAN:
+            p.p(strfbmNbmf + ".rfbdBoolfbn()");
+            brfbk;
+        dbsf TC_BYTE:
+            p.p(strfbmNbmf + ".rfbdBytf()");
+            brfbk;
+        dbsf TC_CHAR:
+            p.p(strfbmNbmf + ".rfbdCibr()");
+            brfbk;
+        dbsf TC_SHORT:
+            p.p(strfbmNbmf + ".rfbdSiort()");
+            brfbk;
+        dbsf TC_INT:
+            p.p(strfbmNbmf + ".rfbdInt()");
+            brfbk;
+        dbsf TC_LONG:
+            p.p(strfbmNbmf + ".rfbdLong()");
+            brfbk;
+        dbsf TC_FLOAT:
+            p.p(strfbmNbmf + ".rfbdFlobt()");
+            brfbk;
+        dbsf TC_DOUBLE:
+            p.p(strfbmNbmf + ".rfbdDoublf()");
+            brfbk;
+        dbsf TC_ARRAY:
+        dbsf TC_CLASS:
+            p.p("(" + typf + ") " + strfbmNbmf + ".rfbdObjfdt()");
+            rfbdObjfdt = truf;
+            brfbk;
+        dffbult:
+            tirow nfw Error("unfxpfdtfd typf dodf: " + typfCodf);
         }
-        return readObject;
+        rfturn rfbdObjfdt;
     }
 
     /**
-     * Write Java statements to unmarshal a series of values in order of
-     * types as in the "types" array from the java.io.ObjectInput stream
-     * named "stream" into variables as named in "names" (for any element
-     * of "names" that is null, the corresponding value is unmarshalled
-     * and discarded).
+     * Writf Jbvb stbtfmfnts to unmbrsibl b sfrifs of vblufs in ordfr of
+     * typfs bs in tif "typfs" brrby from tif jbvb.io.ObjfdtInput strfbm
+     * nbmfd "strfbm" into vbribblfs bs nbmfd in "nbmfs" (for bny flfmfnt
+     * of "nbmfs" tibt is null, tif dorrfsponding vbluf is unmbrsibllfd
+     * bnd disdbrdfd).
      */
-    private static boolean writeUnmarshalArguments(IndentingWriter p,
-                                                   String streamName,
-                                                   Type[] types,
-                                                   String[] names)
-        throws IOException
+    privbtf stbtid boolfbn writfUnmbrsiblArgumfnts(IndfntingWritfr p,
+                                                   String strfbmNbmf,
+                                                   Typf[] typfs,
+                                                   String[] nbmfs)
+        tirows IOExdfption
     {
-        if (types.length != names.length) {
-            throw new Error("parameter type and name arrays different sizes");
+        if (typfs.lfngti != nbmfs.lfngti) {
+            tirow nfw Error("pbrbmftfr typf bnd nbmf brrbys difffrfnt sizfs");
         }
 
-        boolean readObject = false;
-        for (int i = 0; i < types.length; i++) {
-            if (writeUnmarshalArgument(p, streamName, types[i], names[i])) {
-                readObject = true;
+        boolfbn rfbdObjfdt = fblsf;
+        for (int i = 0; i < typfs.lfngti; i++) {
+            if (writfUnmbrsiblArgumfnt(p, strfbmNbmf, typfs[i], nbmfs[i])) {
+                rfbdObjfdt = truf;
             }
             p.pln(";");
         }
-        return readObject;
+        rfturn rfbdObjfdt;
     }
 
     /**
-     * Return a snippet of Java code to wrap a value named "name" of
-     * type "type" into an object as appropriate for use by the
-     * Java Reflection API.
+     * Rfturn b snippft of Jbvb dodf to wrbp b vbluf nbmfd "nbmf" of
+     * typf "typf" into bn objfdt bs bppropribtf for usf by tif
+     * Jbvb Rfflfdtion API.
      *
-     * For primitive types, an appropriate wrapper class instantiated
-     * with the primitive value.  For object types (including arrays),
-     * no wrapping is necessary, so the value is named directly.
+     * For primitivf typfs, bn bppropribtf wrbppfr dlbss instbntibtfd
+     * witi tif primitivf vbluf.  For objfdt typfs (indluding brrbys),
+     * no wrbpping is nfdfssbry, so tif vbluf is nbmfd dirfdtly.
      */
-    private static String wrapArgumentCode(Type type, String name) {
-        int typeCode = type.getTypeCode();
-        switch (typeCode) {
-        case TC_BOOLEAN:
-            return ("(" + name +
-                    " ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE)");
-        case TC_BYTE:
-            return "new java.lang.Byte(" + name + ")";
-        case TC_CHAR:
-            return "new java.lang.Character(" + name + ")";
-        case TC_SHORT:
-            return "new java.lang.Short(" + name + ")";
-        case TC_INT:
-            return "new java.lang.Integer(" + name + ")";
-        case TC_LONG:
-            return "new java.lang.Long(" + name + ")";
-        case TC_FLOAT:
-            return "new java.lang.Float(" + name + ")";
-        case TC_DOUBLE:
-            return "new java.lang.Double(" + name + ")";
-        case TC_ARRAY:
-        case TC_CLASS:
-            return name;
-        default:
-            throw new Error("unexpected type code: " + typeCode);
+    privbtf stbtid String wrbpArgumfntCodf(Typf typf, String nbmf) {
+        int typfCodf = typf.gftTypfCodf();
+        switdi (typfCodf) {
+        dbsf TC_BOOLEAN:
+            rfturn ("(" + nbmf +
+                    " ? jbvb.lbng.Boolfbn.TRUE : jbvb.lbng.Boolfbn.FALSE)");
+        dbsf TC_BYTE:
+            rfturn "nfw jbvb.lbng.Bytf(" + nbmf + ")";
+        dbsf TC_CHAR:
+            rfturn "nfw jbvb.lbng.Cibrbdtfr(" + nbmf + ")";
+        dbsf TC_SHORT:
+            rfturn "nfw jbvb.lbng.Siort(" + nbmf + ")";
+        dbsf TC_INT:
+            rfturn "nfw jbvb.lbng.Intfgfr(" + nbmf + ")";
+        dbsf TC_LONG:
+            rfturn "nfw jbvb.lbng.Long(" + nbmf + ")";
+        dbsf TC_FLOAT:
+            rfturn "nfw jbvb.lbng.Flobt(" + nbmf + ")";
+        dbsf TC_DOUBLE:
+            rfturn "nfw jbvb.lbng.Doublf(" + nbmf + ")";
+        dbsf TC_ARRAY:
+        dbsf TC_CLASS:
+            rfturn nbmf;
+        dffbult:
+            tirow nfw Error("unfxpfdtfd typf dodf: " + typfCodf);
         }
     }
 
     /**
-     * Return a snippet of Java code to unwrap a value named "name" into
-     * a value of type "type", as appropriate for the Java Reflection API.
+     * Rfturn b snippft of Jbvb dodf to unwrbp b vbluf nbmfd "nbmf" into
+     * b vbluf of typf "typf", bs bppropribtf for tif Jbvb Rfflfdtion API.
      *
-     * For primitive types, the value is assumed to be of the corresponding
-     * wrapper type, and a method is called on the wrapper type to retrieve
-     * the primitive value.  For object types (include arrays), no
-     * unwrapping is necessary; the value is simply cast to the expected
-     * real object type.
+     * For primitivf typfs, tif vbluf is bssumfd to bf of tif dorrfsponding
+     * wrbppfr typf, bnd b mftiod is dbllfd on tif wrbppfr typf to rftrifvf
+     * tif primitivf vbluf.  For objfdt typfs (indludf brrbys), no
+     * unwrbpping is nfdfssbry; tif vbluf is simply dbst to tif fxpfdtfd
+     * rfbl objfdt typf.
      */
-    private static String unwrapArgumentCode(Type type, String name) {
-        int typeCode = type.getTypeCode();
-        switch (typeCode) {
-        case TC_BOOLEAN:
-            return "((java.lang.Boolean) " + name + ").booleanValue()";
-        case TC_BYTE:
-            return "((java.lang.Byte) " + name + ").byteValue()";
-        case TC_CHAR:
-            return "((java.lang.Character) " + name + ").charValue()";
-        case TC_SHORT:
-            return "((java.lang.Short) " + name + ").shortValue()";
-        case TC_INT:
-            return "((java.lang.Integer) " + name + ").intValue()";
-        case TC_LONG:
-            return "((java.lang.Long) " + name + ").longValue()";
-        case TC_FLOAT:
-            return "((java.lang.Float) " + name + ").floatValue()";
-        case TC_DOUBLE:
-            return "((java.lang.Double) " + name + ").doubleValue()";
-        case TC_ARRAY:
-        case TC_CLASS:
-            return "((" + type + ") " + name + ")";
-        default:
-            throw new Error("unexpected type code: " + typeCode);
+    privbtf stbtid String unwrbpArgumfntCodf(Typf typf, String nbmf) {
+        int typfCodf = typf.gftTypfCodf();
+        switdi (typfCodf) {
+        dbsf TC_BOOLEAN:
+            rfturn "((jbvb.lbng.Boolfbn) " + nbmf + ").boolfbnVbluf()";
+        dbsf TC_BYTE:
+            rfturn "((jbvb.lbng.Bytf) " + nbmf + ").bytfVbluf()";
+        dbsf TC_CHAR:
+            rfturn "((jbvb.lbng.Cibrbdtfr) " + nbmf + ").dibrVbluf()";
+        dbsf TC_SHORT:
+            rfturn "((jbvb.lbng.Siort) " + nbmf + ").siortVbluf()";
+        dbsf TC_INT:
+            rfturn "((jbvb.lbng.Intfgfr) " + nbmf + ").intVbluf()";
+        dbsf TC_LONG:
+            rfturn "((jbvb.lbng.Long) " + nbmf + ").longVbluf()";
+        dbsf TC_FLOAT:
+            rfturn "((jbvb.lbng.Flobt) " + nbmf + ").flobtVbluf()";
+        dbsf TC_DOUBLE:
+            rfturn "((jbvb.lbng.Doublf) " + nbmf + ").doublfVbluf()";
+        dbsf TC_ARRAY:
+        dbsf TC_CLASS:
+            rfturn "((" + typf + ") " + nbmf + ")";
+        dffbult:
+            tirow nfw Error("unfxpfdtfd typf dodf: " + typfCodf);
         }
     }
 }

@@ -1,325 +1,325 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.daemon;
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
 
 
 
-// java import
+// jbvb import
 //
-import java.util.Enumeration;
-import java.util.logging.Level;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.logging.Lfvfl;
 // jmx imports
 //
-import com.sun.jmx.snmp.SnmpPdu;
-import com.sun.jmx.snmp.SnmpVarBind;
-import com.sun.jmx.snmp.SnmpOid;
-import com.sun.jmx.snmp.SnmpValue;
-import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpStatusException;
-import com.sun.jmx.snmp.SnmpEngine;
-// SNMP Runtime import
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpVbrBind;
+import dom.sun.jmx.snmp.SnmpOid;
+import dom.sun.jmx.snmp.SnmpVbluf;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+import dom.sun.jmx.snmp.SnmpEnginf;
+// SNMP Runtimf import
 //
-import static com.sun.jmx.defaults.JmxProperties.SNMP_ADAPTOR_LOGGER;
-import com.sun.jmx.snmp.agent.SnmpMibAgent;
-import com.sun.jmx.snmp.internal.SnmpIncomingRequest;
-import com.sun.jmx.snmp.ThreadContext;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_ADAPTOR_LOGGER;
+import dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt;
+import dom.sun.jmx.snmp.intfrnbl.SnmpIndomingRfqufst;
+import dom.sun.jmx.snmp.TirfbdContfxt;
 
-class SnmpSubBulkRequestHandler extends SnmpSubRequestHandler {
-    private SnmpAdaptorServer server = null;
+dlbss SnmpSubBulkRfqufstHbndlfr fxtfnds SnmpSubRfqufstHbndlfr {
+    privbtf SnmpAdbptorSfrvfr sfrvfr = null;
 
     /**
-     * The constructor initialize the subrequest with the whole varbind list contained
-     * in the original request.
+     * Tif donstrudtor initiblizf tif subrfqufst witi tif wiolf vbrbind list dontbinfd
+     * in tif originbl rfqufst.
      */
-    protected SnmpSubBulkRequestHandler(SnmpEngine engine,
-                                        SnmpAdaptorServer server,
-                                        SnmpIncomingRequest incRequest,
-                                        SnmpMibAgent agent,
-                                        SnmpPdu req,
-                                        int nonRepeat,
-                                        int maxRepeat,
+    protfdtfd SnmpSubBulkRfqufstHbndlfr(SnmpEnginf fnginf,
+                                        SnmpAdbptorSfrvfr sfrvfr,
+                                        SnmpIndomingRfqufst indRfqufst,
+                                        SnmpMibAgfnt bgfnt,
+                                        SnmpPdu rfq,
+                                        int nonRfpfbt,
+                                        int mbxRfpfbt,
                                         int R) {
-        super(engine, incRequest, agent, req);
-        init(server, req, nonRepeat, maxRepeat, R);
+        supfr(fnginf, indRfqufst, bgfnt, rfq);
+        init(sfrvfr, rfq, nonRfpfbt, mbxRfpfbt, R);
     }
 
     /**
-     * The constructor initialize the subrequest with the whole varbind list contained
-     * in the original request.
+     * Tif donstrudtor initiblizf tif subrfqufst witi tif wiolf vbrbind list dontbinfd
+     * in tif originbl rfqufst.
      */
-    protected SnmpSubBulkRequestHandler(SnmpAdaptorServer server,
-                                        SnmpMibAgent agent,
-                                        SnmpPdu req,
-                                        int nonRepeat,
-                                        int maxRepeat,
+    protfdtfd SnmpSubBulkRfqufstHbndlfr(SnmpAdbptorSfrvfr sfrvfr,
+                                        SnmpMibAgfnt bgfnt,
+                                        SnmpPdu rfq,
+                                        int nonRfpfbt,
+                                        int mbxRfpfbt,
                                         int R) {
-        super(agent, req);
-        init(server, req, nonRepeat, maxRepeat, R);
+        supfr(bgfnt, rfq);
+        init(sfrvfr, rfq, nonRfpfbt, mbxRfpfbt, R);
     }
 
-    @Override
-    public void run() {
+    @Ovfrridf
+    publid void run() {
 
-        size= varBind.size();
+        sizf= vbrBind.sizf();
 
         try {
-            // Invoke a getBulk operation
+            // Invokf b gftBulk opfrbtion
             //
-            /* NPCTE fix for bugId 4492741, esc 0, 16-August-2001 */
-            final ThreadContext oldContext =
-                ThreadContext.push("SnmpUserData",data);
+            /* NPCTE fix for bugId 4492741, fsd 0, 16-August-2001 */
+            finbl TirfbdContfxt oldContfxt =
+                TirfbdContfxt.pusi("SnmpUsfrDbtb",dbtb);
             try {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                        "run", "[" + Thread.currentThread() +
-                        "]:getBulk operation on " + agent.getMibName());
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                        "run", "[" + Tirfbd.durrfntTirfbd() +
+                        "]:gftBulk opfrbtion on " + bgfnt.gftMibNbmf());
                 }
-                agent.getBulk(createMibRequest(varBind,version,data),
-                              nonRepeat, maxRepeat);
-            } finally {
-                ThreadContext.restore(oldContext);
+                bgfnt.gftBulk(drfbtfMibRfqufst(vbrBind,vfrsion,dbtb),
+                              nonRfpfbt, mbxRfpfbt);
+            } finblly {
+                TirfbdContfxt.rfstorf(oldContfxt);
             }
-            /* end of NPCTE fix for bugId 4492741 */
+            /* fnd of NPCTE fix for bugId 4492741 */
 
-        } catch(SnmpStatusException x) {
-            errorStatus = x.getStatus() ;
-            errorIndex=  x.getErrorIndex();
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHandler.class.getName(),
-                    "run", "[" + Thread.currentThread() +
-                    "]:an Snmp error occurred during the operation", x);
+        } dbtdi(SnmpStbtusExdfption x) {
+            frrorStbtus = x.gftStbtus() ;
+            frrorIndfx=  x.gftErrorIndfx();
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                    "run", "[" + Tirfbd.durrfntTirfbd() +
+                    "]:bn Snmp frror oddurrfd during tif opfrbtion", x);
             }
         }
-        catch(Exception x) {
-            errorStatus = SnmpDefinitions.snmpRspGenErr ;
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHandler.class.getName(),
-                    "run", "[" + Thread.currentThread() +
-                    "]:a generic error occurred during the operation", x);
+        dbtdi(Exdfption x) {
+            frrorStbtus = SnmpDffinitions.snmpRspGfnErr ;
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                    "run", "[" + Tirfbd.durrfntTirfbd() +
+                    "]:b gfnfrid frror oddurrfd during tif opfrbtion", x);
             }
         }
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                "run", "[" + Thread.currentThread() +
-                  "]:operation completed");
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                "run", "[" + Tirfbd.durrfntTirfbd() +
+                  "]:opfrbtion domplftfd");
         }
     }
 
-    private void init(SnmpAdaptorServer server,
-                      SnmpPdu req,
-                      int nonRepeat,
-                      int maxRepeat,
+    privbtf void init(SnmpAdbptorSfrvfr sfrvfr,
+                      SnmpPdu rfq,
+                      int nonRfpfbt,
+                      int mbxRfpfbt,
                       int R) {
-        this.server = server;
-        this.nonRepeat= nonRepeat;
-        this.maxRepeat= maxRepeat;
-        this.globalR= R;
+        tiis.sfrvfr = sfrvfr;
+        tiis.nonRfpfbt= nonRfpfbt;
+        tiis.mbxRfpfbt= mbxRfpfbt;
+        tiis.globblR= R;
 
-        final int max= translation.length;
-        final SnmpVarBind[] list= req.varBindList;
-        final NonSyncVector<SnmpVarBind> nonSyncVarBind =
-                ((NonSyncVector<SnmpVarBind>)varBind);
-        for(int i=0; i < max; i++) {
-            translation[i]= i;
-            // we need to allocate a new SnmpVarBind. Otherwise the first
-            // sub request will modify the list...
+        finbl int mbx= trbnslbtion.lfngti;
+        finbl SnmpVbrBind[] list= rfq.vbrBindList;
+        finbl NonSyndVfdtor<SnmpVbrBind> nonSyndVbrBind =
+                ((NonSyndVfdtor<SnmpVbrBind>)vbrBind);
+        for(int i=0; i < mbx; i++) {
+            trbnslbtion[i]= i;
+            // wf nffd to bllodbtf b nfw SnmpVbrBind. Otifrwisf tif first
+            // sub rfqufst will modify tif list...
             //
-            final SnmpVarBind newVarBind =
-                new SnmpVarBind(list[i].oid, list[i].value);
-            nonSyncVarBind.addNonSyncElement(newVarBind);
+            finbl SnmpVbrBind nfwVbrBind =
+                nfw SnmpVbrBind(list[i].oid, list[i].vbluf);
+            nonSyndVbrBind.bddNonSyndElfmfnt(nfwVbrBind);
         }
     }
 
     /**
-     * The method updates find out which element to use at update time. Handle oid overlapping as well
+     * Tif mftiod updbtfs find out wiidi flfmfnt to usf bt updbtf timf. Hbndlf oid ovfrlbpping bs wfll
      */
-    private SnmpVarBind findVarBind(SnmpVarBind element,
-                                    SnmpVarBind result) {
+    privbtf SnmpVbrBind findVbrBind(SnmpVbrBind flfmfnt,
+                                    SnmpVbrBind rfsult) {
 
-        if (element == null) return null;
+        if (flfmfnt == null) rfturn null;
 
-        if (result.oid == null) {
-             return element;
+        if (rfsult.oid == null) {
+             rfturn flfmfnt;
         }
 
-        if (element.value == SnmpVarBind.endOfMibView) return result;
+        if (flfmfnt.vbluf == SnmpVbrBind.fndOfMibVifw) rfturn rfsult;
 
-        if (result.value == SnmpVarBind.endOfMibView) return element;
+        if (rfsult.vbluf == SnmpVbrBind.fndOfMibVifw) rfturn flfmfnt;
 
-        final SnmpValue val = result.value;
+        finbl SnmpVbluf vbl = rfsult.vbluf;
 
-        int comp = element.oid.compareTo(result.oid);
-        if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                "findVarBind","Comparing OID element : " + element.oid +
-                  " with result : " + result.oid);
-            SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                "findVarBind","Values element : " + element.value +
-                  " result : " + result.value);
+        int domp = flfmfnt.oid.dompbrfTo(rfsult.oid);
+        if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                "findVbrBind","Compbring OID flfmfnt : " + flfmfnt.oid +
+                  " witi rfsult : " + rfsult.oid);
+            SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                "findVbrBind","Vblufs flfmfnt : " + flfmfnt.vbluf +
+                  " rfsult : " + rfsult.vbluf);
         }
-        if (comp < 0) {
-            // Take the smallest (lexicographically)
+        if (domp < 0) {
+            // Tbkf tif smbllfst (lfxidogrbpiidblly)
             //
-            return element;
+            rfturn flfmfnt;
         }
-        else {
-            if(comp == 0) {
-                // Must compare agent used for reply
-                // Take the deeper within the reply
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                        "findVarBind"," oid overlapping. Oid : " +
-                          element.oid + "value :" + element.value);
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                         "findVarBind","Already present varBind : " +
-                          result);
+        flsf {
+            if(domp == 0) {
+                // Must dompbrf bgfnt usfd for rfply
+                // Tbkf tif dffpfr witiin tif rfply
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                        "findVbrBind"," oid ovfrlbpping. Oid : " +
+                          flfmfnt.oid + "vbluf :" + flfmfnt.vbluf);
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                         "findVbrBind","Alrfbdy prfsfnt vbrBind : " +
+                          rfsult);
                 }
-                SnmpOid oid = result.oid;
-                SnmpMibAgent deeperAgent = server.getAgentMib(oid);
+                SnmpOid oid = rfsult.oid;
+                SnmpMibAgfnt dffpfrAgfnt = sfrvfr.gftAgfntMib(oid);
 
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                        "findVarBind","Deeper agent : " + deeperAgent);
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                        "findVbrBind","Dffpfr bgfnt : " + dffpfrAgfnt);
                 }
-                if(deeperAgent == agent) {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                            "findVarBind","The current agent is the deeper one. Update the value with the current one");
+                if(dffpfrAgfnt == bgfnt) {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                            "findVbrBind","Tif durrfnt bgfnt is tif dffpfr onf. Updbtf tif vbluf witi tif durrfnt onf");
                     }
-                    return element;
-                } else {
-                    if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                        SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                            "findVarBind","The current agent is not the deeper one. return the previous one.");
+                    rfturn flfmfnt;
+                } flsf {
+                    if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                        SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                            "findVbrBind","Tif durrfnt bgfnt is not tif dffpfr onf. rfturn tif prfvious onf.");
                     }
-                    return result;
+                    rfturn rfsult;
                 }
 
                 /*
-                   Vector v = new Vector();
-                   SnmpMibRequest getReq = createMibRequest(v,
-                   version,
+                   Vfdtor v = nfw Vfdtor();
+                   SnmpMibRfqufst gftRfq = drfbtfMibRfqufst(v,
+                   vfrsion,
                    null);
-                   SnmpVarBind realValue = new SnmpVarBind(oid);
-                   getReq.addVarBind(realValue);
+                   SnmpVbrBind rfblVbluf = nfw SnmpVbrBind(oid);
+                   gftRfq.bddVbrBind(rfblVbluf);
                    try {
-                   deeperAgent.get(getReq);
-                   } catch(SnmpStatusException e) {
-                   e.printStackTrace();
+                   dffpfrAgfnt.gft(gftRfq);
+                   } dbtdi(SnmpStbtusExdfption f) {
+                   f.printStbdkTrbdf();
                    }
 
-                   if(isDebugOn())
-                   trace("findVarBind", "Biggest priority value is : " +
-                   realValue.value);
+                   if(isDfbugOn())
+                   trbdf("findVbrBind", "Biggfst priority vbluf is : " +
+                   rfblVbluf.vbluf);
 
-                   return realValue;
+                   rfturn rfblVbluf;
                 */
 
             }
-            else {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                        "findVarBind","The right varBind is the already present one");
+            flsf {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                        "findVbrBind","Tif rigit vbrBind is tif blrfbdy prfsfnt onf");
                 }
-                return result;
+                rfturn rfsult;
             }
         }
     }
     /**
-     * The method updates a given var bind list with the result of a
-     * previsouly invoked operation.
-     * Prior to calling the method, one must make sure that the operation was
-     * successful. As such the method getErrorIndex or getErrorStatus should be
-     * called.
+     * Tif mftiod updbtfs b givfn vbr bind list witi tif rfsult of b
+     * prfvisouly invokfd opfrbtion.
+     * Prior to dblling tif mftiod, onf must mbkf surf tibt tif opfrbtion wbs
+     * suddfssful. As sudi tif mftiod gftErrorIndfx or gftErrorStbtus siould bf
+     * dbllfd.
      */
-    @Override
-    protected void updateResult(SnmpVarBind[] result) {
-        // we can assume that the run method is over ...
+    @Ovfrridf
+    protfdtfd void updbtfRfsult(SnmpVbrBind[] rfsult) {
+        // wf dbn bssumf tibt tif run mftiod is ovfr ...
         //
 
-        final Enumeration<SnmpVarBind> e= varBind.elements();
-        final int max= result.length;
+        finbl Enumfrbtion<SnmpVbrBind> f= vbrBind.flfmfnts();
+        finbl int mbx= rfsult.lfngti;
 
-        // First go through all the values once ...
-        for(int i=0; i < size; i++) {
-            // May be we should control the position ...
+        // First go tirougi bll tif vblufs ondf ...
+        for(int i=0; i < sizf; i++) {
+            // Mby bf wf siould dontrol tif position ...
             //
-            if (e.hasMoreElements() == false)
-                return;
+            if (f.ibsMorfElfmfnts() == fblsf)
+                rfturn;
 
-            // bugId 4641694: must check position in order to avoid
-            //       ArrayIndexOutOfBoundException
-            final int pos=translation[i];
-            if (pos >= max) {
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINEST)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINEST, SnmpSubRequestHandler.class.getName(),
-                        "updateResult","Position '"+pos+"' is out of bound...");
+            // bugId 4641694: must difdk position in ordfr to bvoid
+            //       ArrbyIndfxOutOfBoundExdfption
+            finbl int pos=trbnslbtion[i];
+            if (pos >= mbx) {
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINEST, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                        "updbtfRfsult","Position '"+pos+"' is out of bound...");
                 }
-                continue;
+                dontinuf;
             }
 
-            final SnmpVarBind element= e.nextElement();
+            finbl SnmpVbrBind flfmfnt= f.nfxtElfmfnt();
 
-            if (element == null) continue;
-            if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                    "updateResult","Non repeaters Current element : " +
-                      element + " from agent : " + agent);
+            if (flfmfnt == null) dontinuf;
+            if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                    "updbtfRfsult","Non rfpfbtfrs Currfnt flfmfnt : " +
+                      flfmfnt + " from bgfnt : " + bgfnt);
             }
-            final SnmpVarBind res = findVarBind(element,result[pos]);
+            finbl SnmpVbrBind rfs = findVbrBind(flfmfnt,rfsult[pos]);
 
-            if(res == null) continue;
+            if(rfs == null) dontinuf;
 
-            result[pos] = res;
+            rfsult[pos] = rfs;
         }
 
-        // Now update the values which have been repeated
-        // more than once.
-        int localR= size - nonRepeat;
-        for (int i = 2 ; i <= maxRepeat ; i++) {
-            for (int r = 0 ; r < localR ; r++) {
-                final int pos = (i-1)* globalR + translation[nonRepeat + r] ;
-                if (pos >= max)
-                    return;
-                if (e.hasMoreElements() ==false)
-                    return;
-                final SnmpVarBind element= e.nextElement();
+        // Now updbtf tif vblufs wiidi ibvf bffn rfpfbtfd
+        // morf tibn ondf.
+        int lodblR= sizf - nonRfpfbt;
+        for (int i = 2 ; i <= mbxRfpfbt ; i++) {
+            for (int r = 0 ; r < lodblR ; r++) {
+                finbl int pos = (i-1)* globblR + trbnslbtion[nonRfpfbt + r] ;
+                if (pos >= mbx)
+                    rfturn;
+                if (f.ibsMorfElfmfnts() ==fblsf)
+                    rfturn;
+                finbl SnmpVbrBind flfmfnt= f.nfxtElfmfnt();
 
-                if (element == null) continue;
-                if (SNMP_ADAPTOR_LOGGER.isLoggable(Level.FINER)) {
-                    SNMP_ADAPTOR_LOGGER.logp(Level.FINER, SnmpSubRequestHandler.class.getName(),
-                        "updateResult","Repeaters Current element : " +
-                          element + " from agent : " + agent);
+                if (flfmfnt == null) dontinuf;
+                if (SNMP_ADAPTOR_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                    SNMP_ADAPTOR_LOGGER.logp(Lfvfl.FINER, SnmpSubRfqufstHbndlfr.dlbss.gftNbmf(),
+                        "updbtfRfsult","Rfpfbtfrs Currfnt flfmfnt : " +
+                          flfmfnt + " from bgfnt : " + bgfnt);
                 }
-                final SnmpVarBind res = findVarBind(element, result[pos]);
+                finbl SnmpVbrBind rfs = findVbrBind(flfmfnt, rfsult[pos]);
 
-                if(res == null) continue;
+                if(rfs == null) dontinuf;
 
-                result[pos] = res;
+                rfsult[pos] = rfs;
             }
         }
     }
@@ -328,16 +328,16 @@ class SnmpSubBulkRequestHandler extends SnmpSubRequestHandler {
     //------------------
 
     /**
-     * Specific to the sub request
+     * Spfdifid to tif sub rfqufst
      */
-    protected int nonRepeat=0;
+    protfdtfd int nonRfpfbt=0;
 
-    protected int maxRepeat=0;
+    protfdtfd int mbxRfpfbt=0;
 
     /**
-     * R as defined in RCF 1902 for the global request the sub-request is associated to.
+     * R bs dffinfd in RCF 1902 for tif globbl rfqufst tif sub-rfqufst is bssodibtfd to.
      */
-    protected int globalR=0;
+    protfdtfd int globblR=0;
 
-    protected int size=0;
+    protfdtfd int sizf=0;
 }

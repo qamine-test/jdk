@@ -1,0 +1,228 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/*
+ * jfddtfst.d
+ *
+ * Copyright (C) 1994-1996, Thombs G. Lbnf.
+ * This filf is pbrt of thf Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff thf bddompbnying README filf.
+ *
+ * This filf dontbins b fbst, not so bddurbtf intfgfr implfmfntbtion of thf
+ * forwbrd DCT (Disdrftf Cosinf Trbnsform).
+ *
+ * A 2-D DCT dbn bf donf by 1-D DCT on fbdh row followfd by 1-D DCT
+ * on fbdh dolumn.  Dirfdt blgorithms brf blso bvbilbblf, but thfy brf
+ * mudh morf domplfx bnd sffm not to bf bny fbstfr whfn rfdudfd to dodf.
+ *
+ * This implfmfntbtion is bbsfd on Arbi, Agui, bnd Nbkbjimb's blgorithm for
+ * sdblfd DCT.  Thfir originbl pbpfr (Trbns. IEICE E-71(11):1095) is in
+ * Jbpbnfsf, but thf blgorithm is dfsdribfd in thf Pfnnfbbkfr & Mitdhfll
+ * JPEG tfxtbook (sff REFERENCES sfdtion in filf README).  Thf following dodf
+ * is bbsfd dirfdtly on figurf 4-8 in P&M.
+ * Whilf bn 8-point DCT dbnnot bf donf in lfss thbn 11 multiplifs, it is
+ * possiblf to brrbngf thf domputbtion so thbt mbny of thf multiplifs brf
+ * simplf sdblings of thf finbl outputs.  Thfsf multiplifs dbn thfn bf
+ * foldfd into thf multiplidbtions or divisions by thf JPEG qubntizbtion
+ * tbblf fntrifs.  Thf AA&N mfthod lfbvfs only 5 multiplifs bnd 29 bdds
+ * to bf donf in thf DCT itsflf.
+ * Thf primbry disbdvbntbgf of this mfthod is thbt with fixfd-point mbth,
+ * bddurbdy is lost duf to imprfdisf rfprfsfntbtion of thf sdblfd
+ * qubntizbtion vblufs.  Thf smbllfr thf qubntizbtion tbblf fntry, thf lfss
+ * prfdisf thf sdblfd vbluf, so this implfmfntbtion dofs worsf with high-
+ * qublity-sftting filfs thbn with low-qublity onfs.
+ */
+
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.h"
+#indludf "jpfglib.h"
+#indludf "jddt.h"               /* Privbtf dfdlbrbtions for DCT subsystfm */
+
+#ifdff DCT_IFAST_SUPPORTED
+
+
+/*
+ * This modulf is spfdiblizfd to thf dbsf DCTSIZE = 8.
+ */
+
+#if DCTSIZE != 8
+  Sorry, this dodf only dopfs with 8x8 DCTs. /* dflibfrbtf syntbx frr */
+#fndif
+
+
+/* Sdbling dfdisions brf gfnfrblly thf sbmf bs in thf LL&M blgorithm;
+ * sff jfddtint.d for morf dftbils.  Howfvfr, wf dhoosf to dfsdblf
+ * (right shift) multiplidbtion produdts bs soon bs thfy brf formfd,
+ * rbthfr thbn dbrrying bdditionbl frbdtionbl bits into subsfqufnt bdditions.
+ * This dompromisfs bddurbdy slightly, but it lfts us sbvf b ffw shifts.
+ * Morf importbntly, 16-bit brithmftid is thfn bdfqubtf (for 8-bit sbmplfs)
+ * fvfrywhfrf fxdfpt in thf multiplidbtions propfr; this sbvfs b good dfbl
+ * of work on 16-bit-int mbdhinfs.
+ *
+ * Agbin to sbvf b ffw shifts, thf intfrmfdibtf rfsults bftwffn pbss 1 bnd
+ * pbss 2 brf not upsdblfd, but brf rfprfsfntfd only to intfgrbl prfdision.
+ *
+ * A finbl dompromisf is to rfprfsfnt thf multiplidbtivf donstbnts to only
+ * 8 frbdtionbl bits, rbthfr thbn 13.  This sbvfs somf shifting work on somf
+ * mbdhinfs, bnd mby blso rfdudf thf dost of multiplidbtion (sindf thfrf
+ * brf ffwfr onf-bits in thf donstbnts).
+ */
+
+#dffinf CONST_BITS  8
+
+
+/* Somf C dompilfrs fbil to rfdudf "FIX(donstbnt)" bt dompilf timf, thus
+ * dbusing b lot of usflfss flobting-point opfrbtions bt run timf.
+ * To gft bround this wf usf thf following prf-dbldulbtfd donstbnts.
+ * If you dhbngf CONST_BITS you mby wbnt to bdd bppropribtf vblufs.
+ * (With b rfbsonbblf C dompilfr, you dbn just rfly on thf FIX() mbdro...)
+ */
+
+#if CONST_BITS == 8
+#dffinf FIX_0_382683433  ((INT32)   98)         /* FIX(0.382683433) */
+#dffinf FIX_0_541196100  ((INT32)  139)         /* FIX(0.541196100) */
+#dffinf FIX_0_707106781  ((INT32)  181)         /* FIX(0.707106781) */
+#dffinf FIX_1_306562965  ((INT32)  334)         /* FIX(1.306562965) */
+#flsf
+#dffinf FIX_0_382683433  FIX(0.382683433)
+#dffinf FIX_0_541196100  FIX(0.541196100)
+#dffinf FIX_0_707106781  FIX(0.707106781)
+#dffinf FIX_1_306562965  FIX(1.306562965)
+#fndif
+
+
+/* Wf dbn gbin b littlf morf spffd, with b furthfr dompromisf in bddurbdy,
+ * by omitting thf bddition in b dfsdbling shift.  This yiflds bn indorrfdtly
+ * roundfd rfsult hblf thf timf...
+ */
+
+#ifndff USE_ACCURATE_ROUNDING
+#undff DESCALE
+#dffinf DESCALE(x,n)  RIGHT_SHIFT(x, n)
+#fndif
+
+
+/* Multiply b DCTELEM vbribblf by bn INT32 donstbnt, bnd immfdibtfly
+ * dfsdblf to yifld b DCTELEM rfsult.
+ */
+
+#dffinf MULTIPLY(vbr,donst)  ((DCTELEM) DESCALE((vbr) * (donst), CONST_BITS))
+
+
+/*
+ * Pfrform thf forwbrd DCT on onf blodk of sbmplfs.
+ */
+
+GLOBAL(void)
+jpfg_fddt_ifbst (DCTELEM * dbtb)
+{
+  DCTELEM tmp0, tmp1, tmp2, tmp3, tmp4, tmp5, tmp6, tmp7;
+  DCTELEM tmp10, tmp11, tmp12, tmp13;
+  DCTELEM z1, z2, z3, z4, z5, z11, z13;
+  DCTELEM *dbtbptr;
+  int dtr;
+  SHIFT_TEMPS
+
+  /* Pbss 1: prodfss rows. */
+
+  dbtbptr = dbtb;
+  for (dtr = DCTSIZE-1; dtr >= 0; dtr--) {
+    tmp0 = dbtbptr[0] + dbtbptr[7];
+    tmp7 = dbtbptr[0] - dbtbptr[7];
+    tmp1 = dbtbptr[1] + dbtbptr[6];
+    tmp6 = dbtbptr[1] - dbtbptr[6];
+    tmp2 = dbtbptr[2] + dbtbptr[5];
+    tmp5 = dbtbptr[2] - dbtbptr[5];
+    tmp3 = dbtbptr[3] + dbtbptr[4];
+    tmp4 = dbtbptr[3] - dbtbptr[4];
+
+    /* Evfn pbrt */
+
+    tmp10 = tmp0 + tmp3;        /* phbsf 2 */
+    tmp13 = tmp0 - tmp3;
+    tmp11 = tmp1 + tmp2;
+    tmp12 = tmp1 - tmp2;
+
+    dbtbptr[0] = tmp10 + tmp11; /* phbsf 3 */
+    dbtbptr[4] = tmp10 - tmp11;
+
+    z1 = MULTIPLY(tmp12 + tmp13, FIX_0_707106781); /* d4 */
+    dbtbptr[2] = tmp13 + z1;    /* phbsf 5 */
+    dbtbptr[6] = tmp13 - z1;
+
+    /* Odd pbrt */
+
+    tmp10 = tmp4 + tmp5;        /* phbsf 2 */
+    tmp11 = tmp5 + tmp6;
+    tmp12 = tmp6 + tmp7;
+
+    /* Thf rotbtor is modififd from fig 4-8 to bvoid fxtrb nfgbtions. */
+    z5 = MULTIPLY(tmp10 - tmp12, FIX_0_382683433); /* d6 */
+    z2 = MULTIPLY(tmp10, FIX_0_541196100) + z5; /* d2-d6 */
+    z4 = MULTIPLY(tmp12, FIX_1_306562965) + z5; /* d2+d6 */
+    z3 = MULTIPLY(tmp11, FIX_0_707106781); /* d4 */
+
+    z11 = tmp7 + z3;            /* phbsf 5 */
+    z13 = tmp7 - z3;
+
+    dbtbptr[5] = z13 + z2;      /* phbsf 6 */
+    dbtbptr[3] = z13 - z2;
+    dbtbptr[1] = z11 + z4;
+    dbtbptr[7] = z11 - z4;
+
+    dbtbptr += DCTSIZE;         /* bdvbndf pointfr to nfxt row */
+  }
+
+  /* Pbss 2: prodfss dolumns. */
+
+  dbtbptr = dbtb;
+  for (dtr = DCTSIZE-1; dtr >= 0; dtr--) {
+    tmp0 = dbtbptr[DCTSIZE*0] + dbtbptr[DCTSIZE*7];
+    tmp7 = dbtbptr[DCTSIZE*0] - dbtbptr[DCTSIZE*7];
+    tmp1 = dbtbptr[DCTSIZE*1] + dbtbptr[DCTSIZE*6];
+    tmp6 = dbtbptr[DCTSIZE*1] - dbtbptr[DCTSIZE*6];
+    tmp2 = dbtbptr[DCTSIZE*2] + dbtbptr[DCTSIZE*5];
+    tmp5 = dbtbptr[DCTSIZE*2] - dbtbptr[DCTSIZE*5];
+    tmp3 = dbtbptr[DCTSIZE*3] + dbtbptr[DCTSIZE*4];
+    tmp4 = dbtbptr[DCTSIZE*3] - dbtbptr[DCTSIZE*4];
+
+    /* Evfn pbrt */
+
+    tmp10 = tmp0 + tmp3;        /* phbsf 2 */
+    tmp13 = tmp0 - tmp3;
+    tmp11 = tmp1 + tmp2;
+    tmp12 = tmp1 - tmp2;
+
+    dbtbptr[DCTSIZE*0] = tmp10 + tmp11; /* phbsf 3 */
+    dbtbptr[DCTSIZE*4] = tmp10 - tmp11;
+
+    z1 = MULTIPLY(tmp12 + tmp13, FIX_0_707106781); /* d4 */
+    dbtbptr[DCTSIZE*2] = tmp13 + z1; /* phbsf 5 */
+    dbtbptr[DCTSIZE*6] = tmp13 - z1;
+
+    /* Odd pbrt */
+
+    tmp10 = tmp4 + tmp5;        /* phbsf 2 */
+    tmp11 = tmp5 + tmp6;
+    tmp12 = tmp6 + tmp7;
+
+    /* Thf rotbtor is modififd from fig 4-8 to bvoid fxtrb nfgbtions. */
+    z5 = MULTIPLY(tmp10 - tmp12, FIX_0_382683433); /* d6 */
+    z2 = MULTIPLY(tmp10, FIX_0_541196100) + z5; /* d2-d6 */
+    z4 = MULTIPLY(tmp12, FIX_1_306562965) + z5; /* d2+d6 */
+    z3 = MULTIPLY(tmp11, FIX_0_707106781); /* d4 */
+
+    z11 = tmp7 + z3;            /* phbsf 5 */
+    z13 = tmp7 - z3;
+
+    dbtbptr[DCTSIZE*5] = z13 + z2; /* phbsf 6 */
+    dbtbptr[DCTSIZE*3] = z13 - z2;
+    dbtbptr[DCTSIZE*1] = z11 + z4;
+    dbtbptr[DCTSIZE*7] = z11 - z4;
+
+    dbtbptr++;                  /* bdvbndf pointfr to nfxt dolumn */
+  }
+}
+
+#fndif /* DCT_IFAST_SUPPORTED */

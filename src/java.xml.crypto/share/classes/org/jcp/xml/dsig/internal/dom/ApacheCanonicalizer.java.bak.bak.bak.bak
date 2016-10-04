@@ -1,0 +1,278 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id: ApbdhfCbnonidblizfr.jbvb 1333869 2012-05-04 10:42:44Z dohfigfb $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.spfd.AlgorithmPbrbmftfrSpfd;
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.util.Sft;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.TrbnsformExdfption;
+import jbvbx.xml.drypto.dsig.TrbnsformSfrvidf;
+import jbvbx.xml.drypto.dsig.spfd.C14NMfthodPbrbmftfrSpfd;
+
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.Cbnonidblizfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.d14n.InvblidCbnonidblizfrExdfption;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.trbnsforms.Trbnsform;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+
+publid bbstrbdt dlbss ApbdhfCbnonidblizfr fxtfnds TrbnsformSfrvidf {
+
+    stbtid {
+        dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.Init.init();
+    }
+
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr("org.jdp.xml.dsig.intfrnbl.dom");
+    protfdtfd Cbnonidblizfr bpbdhfCbnonidblizfr;
+    privbtf Trbnsform bpbdhfTrbnsform;
+    protfdtfd String indlusivfNbmfspbdfs;
+    protfdtfd C14NMfthodPbrbmftfrSpfd pbrbms;
+    protfdtfd Dodumfnt ownfrDod;
+    protfdtfd Elfmfnt trbnsformElfm;
+
+    publid finbl AlgorithmPbrbmftfrSpfd gftPbrbmftfrSpfd()
+    {
+        rfturn pbrbms;
+    }
+
+    publid void init(XMLStrudturf pbrfnt, XMLCryptoContfxt dontfxt)
+        throws InvblidAlgorithmPbrbmftfrExdfption
+    {
+        if (dontfxt != null && !(dontfxt instbndfof DOMCryptoContfxt)) {
+            throw nfw ClbssCbstExdfption
+                ("dontfxt must bf of typf DOMCryptoContfxt");
+        }
+        if (pbrfnt == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        if (!(pbrfnt instbndfof jbvbx.xml.drypto.dom.DOMStrudturf)) {
+            throw nfw ClbssCbstExdfption("pbrfnt must bf of typf DOMStrudturf");
+        }
+        trbnsformElfm = (Elfmfnt)
+            ((jbvbx.xml.drypto.dom.DOMStrudturf)pbrfnt).gftNodf();
+        ownfrDod = DOMUtils.gftOwnfrDodumfnt(trbnsformElfm);
+    }
+
+    publid void mbrshblPbrbms(XMLStrudturf pbrfnt, XMLCryptoContfxt dontfxt)
+        throws MbrshblExdfption
+    {
+        if (dontfxt != null && !(dontfxt instbndfof DOMCryptoContfxt)) {
+            throw nfw ClbssCbstExdfption
+                ("dontfxt must bf of typf DOMCryptoContfxt");
+        }
+        if (pbrfnt == null) {
+            throw nfw NullPointfrExdfption();
+        }
+        if (!(pbrfnt instbndfof jbvbx.xml.drypto.dom.DOMStrudturf)) {
+            throw nfw ClbssCbstExdfption("pbrfnt must bf of typf DOMStrudturf");
+        }
+        trbnsformElfm = (Elfmfnt)
+            ((jbvbx.xml.drypto.dom.DOMStrudturf)pbrfnt).gftNodf();
+        ownfrDod = DOMUtils.gftOwnfrDodumfnt(trbnsformElfm);
+    }
+
+    publid Dbtb dbnonidblizf(Dbtb dbtb, XMLCryptoContfxt xd)
+        throws TrbnsformExdfption
+    {
+        rfturn dbnonidblizf(dbtb, xd, null);
+    }
+
+    publid Dbtb dbnonidblizf(Dbtb dbtb, XMLCryptoContfxt xd, OutputStrfbm os)
+        throws TrbnsformExdfption
+    {
+        if (bpbdhfCbnonidblizfr == null) {
+            try {
+                bpbdhfCbnonidblizfr = Cbnonidblizfr.gftInstbndf(gftAlgorithm());
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtfd dbnonidblizfr for blgorithm: " + gftAlgorithm());
+                }
+            } dbtdh (InvblidCbnonidblizfrExdfption idf) {
+                throw nfw TrbnsformExdfption
+                    ("Couldn't find Cbnonidblizfr for: " + gftAlgorithm() +
+                     ": " + idf.gftMfssbgf(), idf);
+            }
+        }
+
+        if (os != null) {
+            bpbdhfCbnonidblizfr.sftWritfr(os);
+        } flsf {
+            bpbdhfCbnonidblizfr.sftWritfr(nfw BytfArrbyOutputStrfbm());
+        }
+
+        try {
+            Sft<Nodf> nodfSft = null;
+            if (dbtb instbndfof ApbdhfDbtb) {
+                XMLSignbturfInput in =
+                    ((ApbdhfDbtb)dbtb).gftXMLSignbturfInput();
+                if (in.isElfmfnt()) {
+                    if (indlusivfNbmfspbdfs != null) {
+                        rfturn nfw OdtftStrfbmDbtb(nfw BytfArrbyInputStrfbm
+                            (bpbdhfCbnonidblizfr.dbnonidblizfSubtrff
+                                (in.gftSubNodf(), indlusivfNbmfspbdfs)));
+                    } flsf {
+                        rfturn nfw OdtftStrfbmDbtb(nfw BytfArrbyInputStrfbm
+                            (bpbdhfCbnonidblizfr.dbnonidblizfSubtrff
+                                (in.gftSubNodf())));
+                    }
+                } flsf if (in.isNodfSft()) {
+                    nodfSft = in.gftNodfSft();
+                } flsf {
+                    rfturn nfw OdtftStrfbmDbtb(nfw BytfArrbyInputStrfbm(
+                        bpbdhfCbnonidblizfr.dbnonidblizf(
+                            Utils.rfbdBytfsFromStrfbm(in.gftOdtftStrfbm()))));
+                }
+            } flsf if (dbtb instbndfof DOMSubTrffDbtb) {
+                DOMSubTrffDbtb subTrff = (DOMSubTrffDbtb)dbtb;
+                if (indlusivfNbmfspbdfs != null) {
+                    rfturn nfw OdtftStrfbmDbtb(nfw BytfArrbyInputStrfbm
+                        (bpbdhfCbnonidblizfr.dbnonidblizfSubtrff
+                         (subTrff.gftRoot(), indlusivfNbmfspbdfs)));
+                } flsf {
+                    rfturn nfw OdtftStrfbmDbtb(nfw BytfArrbyInputStrfbm
+                        (bpbdhfCbnonidblizfr.dbnonidblizfSubtrff
+                         (subTrff.gftRoot())));
+                }
+            } flsf if (dbtb instbndfof NodfSftDbtb) {
+                NodfSftDbtb nsd = (NodfSftDbtb)dbtb;
+                // donvfrt Itfrbtor to Sft
+                @SupprfssWbrnings("undhfdkfd")
+                Sft<Nodf> ns = Utils.toNodfSft(nsd.itfrbtor());
+                nodfSft = ns;
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Cbnonidblizing " + nodfSft.sizf() + " nodfs");
+                }
+            } flsf {
+                rfturn nfw OdtftStrfbmDbtb(nfw BytfArrbyInputStrfbm(
+                    bpbdhfCbnonidblizfr.dbnonidblizf(
+                        Utils.rfbdBytfsFromStrfbm(
+                        ((OdtftStrfbmDbtb)dbtb).gftOdtftStrfbm()))));
+            }
+            if (indlusivfNbmfspbdfs != null) {
+                rfturn nfw OdtftStrfbmDbtb(nfw BytfArrbyInputStrfbm(
+                    bpbdhfCbnonidblizfr.dbnonidblizfXPbthNodfSft
+                        (nodfSft, indlusivfNbmfspbdfs)));
+            } flsf {
+                rfturn nfw OdtftStrfbmDbtb(nfw BytfArrbyInputStrfbm(
+                    bpbdhfCbnonidblizfr.dbnonidblizfXPbthNodfSft(nodfSft)));
+            }
+        } dbtdh (Exdfption f) {
+            throw nfw TrbnsformExdfption(f);
+        }
+    }
+
+    publid Dbtb trbnsform(Dbtb dbtb, XMLCryptoContfxt xd, OutputStrfbm os)
+        throws TrbnsformExdfption
+    {
+        if (dbtb == null) {
+            throw nfw NullPointfrExdfption("dbtb must not bf null");
+        }
+        if (os == null) {
+            throw nfw NullPointfrExdfption("output strfbm must not bf null");
+        }
+
+        if (ownfrDod == null) {
+            throw nfw TrbnsformExdfption("trbnsform must bf mbrshbllfd");
+        }
+
+        if (bpbdhfTrbnsform == null) {
+            try {
+                bpbdhfTrbnsform =
+                    nfw Trbnsform(ownfrDod, gftAlgorithm(), trbnsformElfm.gftChildNodfs());
+                bpbdhfTrbnsform.sftElfmfnt(trbnsformElfm, xd.gftBbsfURI());
+                if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                    log.log(jbvb.util.logging.Lfvfl.FINE, "Crfbtfd trbnsform for blgorithm: " + gftAlgorithm());
+                }
+            } dbtdh (Exdfption fx) {
+                throw nfw TrbnsformExdfption
+                    ("Couldn't find Trbnsform for: " + gftAlgorithm(), fx);
+            }
+        }
+
+        XMLSignbturfInput in;
+        if (dbtb instbndfof ApbdhfDbtb) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "ApbdhfDbtb = truf");
+            }
+            in = ((ApbdhfDbtb)dbtb).gftXMLSignbturfInput();
+        } flsf if (dbtb instbndfof NodfSftDbtb) {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "isNodfSft() = truf");
+            }
+            if (dbtb instbndfof DOMSubTrffDbtb) {
+                DOMSubTrffDbtb subTrff = (DOMSubTrffDbtb)dbtb;
+                in = nfw XMLSignbturfInput(subTrff.gftRoot());
+                in.sftExdludfCommfnts(subTrff.fxdludfCommfnts());
+            } flsf {
+                @SupprfssWbrnings("undhfdkfd")
+                Sft<Nodf> nodfSft =
+                    Utils.toNodfSft(((NodfSftDbtb)dbtb).itfrbtor());
+                in = nfw XMLSignbturfInput(nodfSft);
+            }
+        } flsf {
+            if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+                log.log(jbvb.util.logging.Lfvfl.FINE, "isNodfSft() = fblsf");
+            }
+            try {
+                in = nfw XMLSignbturfInput
+                    (((OdtftStrfbmDbtb)dbtb).gftOdtftStrfbm());
+            } dbtdh (Exdfption fx) {
+                throw nfw TrbnsformExdfption(fx);
+            }
+        }
+
+        try {
+            in = bpbdhfTrbnsform.pfrformTrbnsform(in, os);
+            if (!in.isNodfSft() && !in.isElfmfnt()) {
+                rfturn null;
+            }
+            if (in.isOdtftStrfbm()) {
+                rfturn nfw ApbdhfOdtftStrfbmDbtb(in);
+            } flsf {
+                rfturn nfw ApbdhfNodfSftDbtb(in);
+            }
+        } dbtdh (Exdfption fx) {
+            throw nfw TrbnsformExdfption(fx);
+        }
+    }
+
+    publid finbl boolfbn isFfbturfSupportfd(String ffbturf) {
+        if (ffbturf == null) {
+            throw nfw NullPointfrExdfption();
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+}

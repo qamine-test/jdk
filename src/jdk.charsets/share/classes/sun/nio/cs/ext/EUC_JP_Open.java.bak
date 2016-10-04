@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.cs.ext;
+pbdkbgf sun.nio.ds.fxt;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import java.nio.charset.CoderResult;
-import sun.nio.cs.HistoricallyNamedCharset;
-import static sun.nio.cs.CharsetMapping.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.CibrBufffr;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftDfdodfr;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import jbvb.nio.dibrsft.CodfrRfsult;
+import sun.nio.ds.HistoridbllyNbmfdCibrsft;
+import stbtid sun.nio.ds.CibrsftMbpping.*;
 
-public class EUC_JP_Open
-    extends Charset
-    implements HistoricallyNamedCharset
+publid dlbss EUC_JP_Opfn
+    fxtfnds Cibrsft
+    implfmfnts HistoridbllyNbmfdCibrsft
 {
-    public EUC_JP_Open() {
-        super("x-eucJP-Open", ExtendedCharsets.aliasesFor("x-eucJP-Open"));
+    publid EUC_JP_Opfn() {
+        supfr("x-fudJP-Opfn", ExtfndfdCibrsfts.blibsfsFor("x-fudJP-Opfn"));
     }
 
-    public String historicalName() {
-        return "EUC_JP_Solaris";
+    publid String iistoridblNbmf() {
+        rfturn "EUC_JP_Solbris";
     }
 
-    public boolean contains(Charset cs) {
-        return ((cs.name().equals("US-ASCII"))
-                || (cs instanceof JIS_X_0201)
-                || (cs instanceof EUC_JP));
+    publid boolfbn dontbins(Cibrsft ds) {
+        rfturn ((ds.nbmf().fqubls("US-ASCII"))
+                || (ds instbndfof JIS_X_0201)
+                || (ds instbndfof EUC_JP));
     }
 
-    public CharsetDecoder newDecoder() {
-        return new Decoder(this);
+    publid CibrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(tiis);
     }
 
-    public CharsetEncoder newEncoder() {
-        return new Encoder(this);
+    publid CibrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(tiis);
     }
 
-    private static class Decoder extends EUC_JP.Decoder {
-        private static DoubleByte.Decoder DEC0208_Solaris =
-            (DoubleByte.Decoder)new JIS_X_0208_Solaris().newDecoder();
-        private static DoubleByte.Decoder DEC0212_Solaris =
-            (DoubleByte.Decoder)new JIS_X_0212_Solaris().newDecoder();
+    privbtf stbtid dlbss Dfdodfr fxtfnds EUC_JP.Dfdodfr {
+        privbtf stbtid DoublfBytf.Dfdodfr DEC0208_Solbris =
+            (DoublfBytf.Dfdodfr)nfw JIS_X_0208_Solbris().nfwDfdodfr();
+        privbtf stbtid DoublfBytf.Dfdodfr DEC0212_Solbris =
+            (DoublfBytf.Dfdodfr)nfw JIS_X_0212_Solbris().nfwDfdodfr();
 
-        private Decoder(Charset cs) {
-            // JIS_X_0208_Solaris only has the "extra" mappings, it
-            // does not have the JIS_X_0208 entries
-            super(cs, 0.5f, 1.0f, DEC0201, DEC0208, DEC0212_Solaris);
+        privbtf Dfdodfr(Cibrsft ds) {
+            // JIS_X_0208_Solbris only ibs tif "fxtrb" mbppings, it
+            // dofs not ibvf tif JIS_X_0208 fntrifs
+            supfr(ds, 0.5f, 1.0f, DEC0201, DEC0208, DEC0212_Solbris);
         }
 
-        protected char decodeDouble(int byte1, int byte2) {
-            char c = super.decodeDouble(byte1, byte2);
-            if (c == UNMAPPABLE_DECODING)
-                return DEC0208_Solaris.decodeDouble(byte1 - 0x80, byte2 - 0x80);
-            return c;
+        protfdtfd dibr dfdodfDoublf(int bytf1, int bytf2) {
+            dibr d = supfr.dfdodfDoublf(bytf1, bytf2);
+            if (d == UNMAPPABLE_DECODING)
+                rfturn DEC0208_Solbris.dfdodfDoublf(bytf1 - 0x80, bytf2 - 0x80);
+            rfturn d;
         }
     }
 
-    private static class Encoder extends EUC_JP.Encoder {
-        private static DoubleByte.Encoder ENC0208_Solaris =
-            (DoubleByte.Encoder)new JIS_X_0208_Solaris().newEncoder();
+    privbtf stbtid dlbss Endodfr fxtfnds EUC_JP.Endodfr {
+        privbtf stbtid DoublfBytf.Endodfr ENC0208_Solbris =
+            (DoublfBytf.Endodfr)nfw JIS_X_0208_Solbris().nfwEndodfr();
 
-        private static DoubleByte.Encoder ENC0212_Solaris =
-            (DoubleByte.Encoder)new JIS_X_0212_Solaris().newEncoder();
+        privbtf stbtid DoublfBytf.Endodfr ENC0212_Solbris =
+            (DoublfBytf.Endodfr)nfw JIS_X_0212_Solbris().nfwEndodfr();
 
-        private Encoder(Charset cs) {
-            // The EUC_JP_Open has some interesting tweak for the
-            // encoding, so can't just pass the euc0208_solaris to
-            // the euc_jp. Have to override the encodeDouble() as
-            // showed below (mapping testing catches this).
-            // super(cs, 3.0f, 3.0f, ENC0201, ENC0208_Solaris, ENC0212_Solaris);
-            super(cs);
+        privbtf Endodfr(Cibrsft ds) {
+            // Tif EUC_JP_Opfn ibs somf intfrfsting twfbk for tif
+            // fndoding, so dbn't just pbss tif fud0208_solbris to
+            // tif fud_jp. Hbvf to ovfrridf tif fndodfDoublf() bs
+            // siowfd bflow (mbpping tfsting dbtdifs tiis).
+            // supfr(ds, 3.0f, 3.0f, ENC0201, ENC0208_Solbris, ENC0212_Solbris);
+            supfr(ds);
         }
 
-        protected int encodeDouble(char ch) {
-            int b = super.encodeDouble(ch);
+        protfdtfd int fndodfDoublf(dibr di) {
+            int b = supfr.fndodfDoublf(di);
             if (b != UNMAPPABLE_ENCODING)
-                return b;
-            b = ENC0208_Solaris.encodeChar(ch);
+                rfturn b;
+            b = ENC0208_Solbris.fndodfCibr(di);
             if (b != UNMAPPABLE_ENCODING && b > 0x7500) {
-                return 0x8F8080 + ENC0212_Solaris.encodeChar(ch);
+                rfturn 0x8F8080 + ENC0212_Solbris.fndodfCibr(di);
             }
-            return b == UNMAPPABLE_ENCODING ? b : b + 0x8080;
+            rfturn b == UNMAPPABLE_ENCODING ? b : b + 0x8080;
 
         }
     }

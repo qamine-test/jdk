@@ -1,284 +1,284 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <jni.h>
-#include "management.h"
-#include "sun_management_GcInfoBuilder.h"
+#indludf <stdlib.i>
+#indludf <stdio.i>
+#indludf <jni.i>
+#indludf "mbnbgfmfnt.i"
+#indludf "sun_mbnbgfmfnt_GdInfoBuildfr.i"
 
-JNIEXPORT jint JNICALL Java_sun_management_GcInfoBuilder_getNumGcExtAttributes
-  (JNIEnv *env, jobject dummy, jobject gc) {
-    jlong value;
+JNIEXPORT jint JNICALL Jbvb_sun_mbnbgfmfnt_GdInfoBuildfr_gftNumGdExtAttributfs
+  (JNIEnv *fnv, jobjfdt dummy, jobjfdt gd) {
+    jlong vbluf;
 
-    if (gc == NULL) {
-        JNU_ThrowNullPointerException(env, "Invalid GarbageCollectorMBean");
-        return 0;
+    if (gd == NULL) {
+        JNU_TirowNullPointfrExdfption(fnv, "Invblid GbrbbgfCollfdtorMBfbn");
+        rfturn 0;
     }
-    value = jmm_interface->GetLongAttribute(env, gc,
+    vbluf = jmm_intfrfbdf->GftLongAttributf(fnv, gd,
                                             JMM_GC_EXT_ATTRIBUTE_INFO_SIZE);
-    return (jint) value;
+    rfturn (jint) vbluf;
 }
 
-JNIEXPORT void JNICALL Java_sun_management_GcInfoBuilder_fillGcAttributeInfo
-  (JNIEnv *env, jobject dummy, jobject gc,
-   jint num_attributes, jobjectArray attributeNames,
-   jcharArray types, jobjectArray descriptions) {
+JNIEXPORT void JNICALL Jbvb_sun_mbnbgfmfnt_GdInfoBuildfr_fillGdAttributfInfo
+  (JNIEnv *fnv, jobjfdt dummy, jobjfdt gd,
+   jint num_bttributfs, jobjfdtArrby bttributfNbmfs,
+   jdibrArrby typfs, jobjfdtArrby dfsdriptions) {
 
-    jmmExtAttributeInfo* ext_att_info;
-    jchar* nativeTypes;
-    jstring attName = NULL;
-    jstring desc = NULL;
-    jint ret = 0;
+    jmmExtAttributfInfo* fxt_btt_info;
+    jdibr* nbtivfTypfs;
+    jstring bttNbmf = NULL;
+    jstring dfsd = NULL;
+    jint rft = 0;
     jint i;
 
-    if (gc == NULL) {
-        JNU_ThrowNullPointerException(env, "Invalid GarbageCollectorMBean");
-        return;
+    if (gd == NULL) {
+        JNU_TirowNullPointfrExdfption(fnv, "Invblid GbrbbgfCollfdtorMBfbn");
+        rfturn;
     }
 
-    if (num_attributes <= 0) {
-        JNU_ThrowIllegalArgumentException(env, "Invalid num_attributes");
-        return;
+    if (num_bttributfs <= 0) {
+        JNU_TirowIllfgblArgumfntExdfption(fnv, "Invblid num_bttributfs");
+        rfturn;
     }
 
-    ext_att_info = (jmmExtAttributeInfo*) malloc((size_t)num_attributes *
-                                                 sizeof(jmmExtAttributeInfo));
-    if (ext_att_info == NULL) {
-        JNU_ThrowOutOfMemoryError(env, 0);
-        return;
+    fxt_btt_info = (jmmExtAttributfInfo*) mbllod((sizf_t)num_bttributfs *
+                                                 sizfof(jmmExtAttributfInfo));
+    if (fxt_btt_info == NULL) {
+        JNU_TirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    ret = jmm_interface->GetGCExtAttributeInfo(env, gc,
-                                               ext_att_info, num_attributes);
-    if (ret != num_attributes) {
-        JNU_ThrowInternalError(env, "Unexpected num_attributes");
-        free(ext_att_info);
-        return;
+    rft = jmm_intfrfbdf->GftGCExtAttributfInfo(fnv, gd,
+                                               fxt_btt_info, num_bttributfs);
+    if (rft != num_bttributfs) {
+        JNU_TirowIntfrnblError(fnv, "Unfxpfdtfd num_bttributfs");
+        frff(fxt_btt_info);
+        rfturn;
     }
 
-    nativeTypes = (jchar*) malloc((size_t)num_attributes * sizeof(jchar));
-    if (nativeTypes == NULL) {
-        free(ext_att_info);
-        JNU_ThrowOutOfMemoryError(env, 0);
-        return;
+    nbtivfTypfs = (jdibr*) mbllod((sizf_t)num_bttributfs * sizfof(jdibr));
+    if (nbtivfTypfs == NULL) {
+        frff(fxt_btt_info);
+        JNU_TirowOutOfMfmoryError(fnv, 0);
+        rfturn;
     }
-    for (i = 0; i < num_attributes; i++) {
-        nativeTypes[i] = ext_att_info[i].type;
-        attName = (*env)->NewStringUTF(env, ext_att_info[i].name);
-        desc = (*env)->NewStringUTF(env, ext_att_info[i].description);
-        (*env)->SetObjectArrayElement(env, attributeNames, i, attName);
-        (*env)->SetObjectArrayElement(env, descriptions, i, desc);
+    for (i = 0; i < num_bttributfs; i++) {
+        nbtivfTypfs[i] = fxt_btt_info[i].typf;
+        bttNbmf = (*fnv)->NfwStringUTF(fnv, fxt_btt_info[i].nbmf);
+        dfsd = (*fnv)->NfwStringUTF(fnv, fxt_btt_info[i].dfsdription);
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bttributfNbmfs, i, bttNbmf);
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, dfsdriptions, i, dfsd);
     }
-    (*env)->SetCharArrayRegion(env, types, 0, num_attributes, nativeTypes);
+    (*fnv)->SftCibrArrbyRfgion(fnv, typfs, 0, num_bttributfs, nbtivfTypfs);
 
-    if (ext_att_info != NULL) {
-        free(ext_att_info);
+    if (fxt_btt_info != NULL) {
+        frff(fxt_btt_info);
     }
-    if (nativeTypes != NULL) {
-        free(nativeTypes);
+    if (nbtivfTypfs != NULL) {
+        frff(nbtivfTypfs);
     }
 }
 
-static void setLongValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                      jsize index, jlong value) {
-    static const char* class_name = "java/lang/Long";
-    static const char* signature = "(J)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtid void sftLongVblufAtObjfdtArrby(JNIEnv *fnv, jobjfdtArrby brrby,
+                                      jsizf indfx, jlong vbluf) {
+    stbtid donst dibr* dlbss_nbmf = "jbvb/lbng/Long";
+    stbtid donst dibr* signbturf = "(J)V";
+    jobjfdt obj = JNU_NfwObjfdtByNbmf(fnv, dlbss_nbmf, signbturf, vbluf);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*fnv)->SftObjfdtArrbyElfmfnt(fnv, brrby, indfx, obj);
 }
 
-static void setBooleanValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                         jsize index, jboolean value) {
-    static const char* class_name = "java/lang/Boolean";
-    static const char* signature = "(Z)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtid void sftBoolfbnVblufAtObjfdtArrby(JNIEnv *fnv, jobjfdtArrby brrby,
+                                         jsizf indfx, jboolfbn vbluf) {
+    stbtid donst dibr* dlbss_nbmf = "jbvb/lbng/Boolfbn";
+    stbtid donst dibr* signbturf = "(Z)V";
+    jobjfdt obj = JNU_NfwObjfdtByNbmf(fnv, dlbss_nbmf, signbturf, vbluf);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*fnv)->SftObjfdtArrbyElfmfnt(fnv, brrby, indfx, obj);
 }
 
-static void setByteValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                      jsize index, jbyte value) {
-    static const char* class_name = "java/lang/Byte";
-    static const char* signature = "(B)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtid void sftBytfVblufAtObjfdtArrby(JNIEnv *fnv, jobjfdtArrby brrby,
+                                      jsizf indfx, jbytf vbluf) {
+    stbtid donst dibr* dlbss_nbmf = "jbvb/lbng/Bytf";
+    stbtid donst dibr* signbturf = "(B)V";
+    jobjfdt obj = JNU_NfwObjfdtByNbmf(fnv, dlbss_nbmf, signbturf, vbluf);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*fnv)->SftObjfdtArrbyElfmfnt(fnv, brrby, indfx, obj);
 }
 
-static void setIntValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                     jsize index, jint value) {
-    static const char* class_name = "java/lang/Integer";
-    static const char* signature = "(I)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtid void sftIntVblufAtObjfdtArrby(JNIEnv *fnv, jobjfdtArrby brrby,
+                                     jsizf indfx, jint vbluf) {
+    stbtid donst dibr* dlbss_nbmf = "jbvb/lbng/Intfgfr";
+    stbtid donst dibr* signbturf = "(I)V";
+    jobjfdt obj = JNU_NfwObjfdtByNbmf(fnv, dlbss_nbmf, signbturf, vbluf);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*fnv)->SftObjfdtArrbyElfmfnt(fnv, brrby, indfx, obj);
 }
 
-static void setShortValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                       jsize index, jshort value) {
-    static const char* class_name = "java/lang/Short";
-    static const char* signature = "(S)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtid void sftSiortVblufAtObjfdtArrby(JNIEnv *fnv, jobjfdtArrby brrby,
+                                       jsizf indfx, jsiort vbluf) {
+    stbtid donst dibr* dlbss_nbmf = "jbvb/lbng/Siort";
+    stbtid donst dibr* signbturf = "(S)V";
+    jobjfdt obj = JNU_NfwObjfdtByNbmf(fnv, dlbss_nbmf, signbturf, vbluf);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*fnv)->SftObjfdtArrbyElfmfnt(fnv, brrby, indfx, obj);
 }
 
-static void setDoubleValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                        jsize index, jdouble value) {
-    static const char* class_name = "java/lang/Double";
-    static const char* signature = "(D)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtid void sftDoublfVblufAtObjfdtArrby(JNIEnv *fnv, jobjfdtArrby brrby,
+                                        jsizf indfx, jdoublf vbluf) {
+    stbtid donst dibr* dlbss_nbmf = "jbvb/lbng/Doublf";
+    stbtid donst dibr* signbturf = "(D)V";
+    jobjfdt obj = JNU_NfwObjfdtByNbmf(fnv, dlbss_nbmf, signbturf, vbluf);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*fnv)->SftObjfdtArrbyElfmfnt(fnv, brrby, indfx, obj);
 }
 
-static void setFloatValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                       jsize index, jfloat value) {
-    static const char* class_name = "java/lang/Float";
-    static const char* signature = "(D)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtid void sftFlobtVblufAtObjfdtArrby(JNIEnv *fnv, jobjfdtArrby brrby,
+                                       jsizf indfx, jflobt vbluf) {
+    stbtid donst dibr* dlbss_nbmf = "jbvb/lbng/Flobt";
+    stbtid donst dibr* signbturf = "(D)V";
+    jobjfdt obj = JNU_NfwObjfdtByNbmf(fnv, dlbss_nbmf, signbturf, vbluf);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*fnv)->SftObjfdtArrbyElfmfnt(fnv, brrby, indfx, obj);
 }
 
-static void setCharValueAtObjectArray(JNIEnv *env, jobjectArray array,
-                                      jsize index, jchar value) {
-    static const char* class_name = "java/lang/Character";
-    static const char* signature = "(C)V";
-    jobject obj = JNU_NewObjectByName(env, class_name, signature, value);
+stbtid void sftCibrVblufAtObjfdtArrby(JNIEnv *fnv, jobjfdtArrby brrby,
+                                      jsizf indfx, jdibr vbluf) {
+    stbtid donst dibr* dlbss_nbmf = "jbvb/lbng/Cibrbdtfr";
+    stbtid donst dibr* signbturf = "(C)V";
+    jobjfdt obj = JNU_NfwObjfdtByNbmf(fnv, dlbss_nbmf, signbturf, vbluf);
 
-    (*env)->SetObjectArrayElement(env, array, index, obj);
+    (*fnv)->SftObjfdtArrbyElfmfnt(fnv, brrby, indfx, obj);
 }
 
-JNIEXPORT jobject JNICALL Java_sun_management_GcInfoBuilder_getLastGcInfo0
-  (JNIEnv *env, jobject builder, jobject gc,
-   jint ext_att_count, jobjectArray ext_att_values, jcharArray ext_att_types,
-   jobjectArray usageBeforeGC, jobjectArray usageAfterGC) {
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_mbnbgfmfnt_GdInfoBuildfr_gftLbstGdInfo0
+  (JNIEnv *fnv, jobjfdt buildfr, jobjfdt gd,
+   jint fxt_btt_dount, jobjfdtArrby fxt_btt_vblufs, jdibrArrby fxt_btt_typfs,
+   jobjfdtArrby usbgfBfforfGC, jobjfdtArrby usbgfAftfrGC) {
 
-    jmmGCStat   gc_stat;
-    jchar*      nativeTypes;
-    jsize       i;
-    jvalue      v;
+    jmmGCStbt   gd_stbt;
+    jdibr*      nbtivfTypfs;
+    jsizf       i;
+    jvbluf      v;
 
-    if (gc == NULL) {
-        JNU_ThrowNullPointerException(env, "Invalid GarbageCollectorMBean");
-        return 0;
+    if (gd == NULL) {
+        JNU_TirowNullPointfrExdfption(fnv, "Invblid GbrbbgfCollfdtorMBfbn");
+        rfturn 0;
     }
 
-    if (ext_att_count <= 0) {
-        JNU_ThrowIllegalArgumentException(env, "Invalid ext_att_count");
-        return 0;
+    if (fxt_btt_dount <= 0) {
+        JNU_TirowIllfgblArgumfntExdfption(fnv, "Invblid fxt_btt_dount");
+        rfturn 0;
     }
 
-    gc_stat.usage_before_gc = usageBeforeGC;
-    gc_stat.usage_after_gc = usageAfterGC;
-    gc_stat.gc_ext_attribute_values_size = ext_att_count;
-    if (ext_att_count > 0) {
-        gc_stat.gc_ext_attribute_values = (jvalue*) malloc((size_t)ext_att_count *
-                                                           sizeof(jvalue));
-        if (gc_stat.gc_ext_attribute_values == NULL) {
-            JNU_ThrowOutOfMemoryError(env, 0);
-            return 0;
+    gd_stbt.usbgf_bfforf_gd = usbgfBfforfGC;
+    gd_stbt.usbgf_bftfr_gd = usbgfAftfrGC;
+    gd_stbt.gd_fxt_bttributf_vblufs_sizf = fxt_btt_dount;
+    if (fxt_btt_dount > 0) {
+        gd_stbt.gd_fxt_bttributf_vblufs = (jvbluf*) mbllod((sizf_t)fxt_btt_dount *
+                                                           sizfof(jvbluf));
+        if (gd_stbt.gd_fxt_bttributf_vblufs == NULL) {
+            JNU_TirowOutOfMfmoryError(fnv, 0);
+            rfturn 0;
         }
-    } else {
-        gc_stat.gc_ext_attribute_values = NULL;
+    } flsf {
+        gd_stbt.gd_fxt_bttributf_vblufs = NULL;
     }
 
 
-    jmm_interface->GetLastGCStat(env, gc, &gc_stat);
-    if (gc_stat.gc_index == 0) {
-        if (gc_stat.gc_ext_attribute_values != NULL) {
-            free(gc_stat.gc_ext_attribute_values);
+    jmm_intfrfbdf->GftLbstGCStbt(fnv, gd, &gd_stbt);
+    if (gd_stbt.gd_indfx == 0) {
+        if (gd_stbt.gd_fxt_bttributf_vblufs != NULL) {
+            frff(gd_stbt.gd_fxt_bttributf_vblufs);
         }
-        return 0;
+        rfturn 0;
     }
 
-    // convert the ext_att_types to native types
-    nativeTypes = (jchar*) malloc((size_t)ext_att_count * sizeof(jchar));
-    if (nativeTypes == NULL) {
-        if (gc_stat.gc_ext_attribute_values != NULL) {
-            free(gc_stat.gc_ext_attribute_values);
+    // donvfrt tif fxt_btt_typfs to nbtivf typfs
+    nbtivfTypfs = (jdibr*) mbllod((sizf_t)fxt_btt_dount * sizfof(jdibr));
+    if (nbtivfTypfs == NULL) {
+        if (gd_stbt.gd_fxt_bttributf_vblufs != NULL) {
+            frff(gd_stbt.gd_fxt_bttributf_vblufs);
         }
-        JNU_ThrowOutOfMemoryError(env, 0);
-        return 0;
+        JNU_TirowOutOfMfmoryError(fnv, 0);
+        rfturn 0;
     }
-    (*env)->GetCharArrayRegion(env, ext_att_types, 0, ext_att_count, nativeTypes);
-    for (i = 0; i < ext_att_count; i++) {
-       v = gc_stat.gc_ext_attribute_values[i];
-       switch (nativeTypes[i]) {
-            case 'Z':
-                setBooleanValueAtObjectArray(env, ext_att_values, i, v.z);
-                break;
-            case 'B':
-                setByteValueAtObjectArray(env, ext_att_values, i, v.b);
-                break;
-            case 'C':
-                setCharValueAtObjectArray(env, ext_att_values, i, v.c);
-                break;
-            case 'S':
-                setShortValueAtObjectArray(env, ext_att_values, i, v.s);
-                break;
-            case 'I':
-                setIntValueAtObjectArray(env, ext_att_values, i, v.i);
-                break;
-            case 'J':
-                setLongValueAtObjectArray(env, ext_att_values, i, v.j);
-                break;
-            case 'F':
-                setFloatValueAtObjectArray(env, ext_att_values, i, v.f);
-                break;
-            case 'D':
-                setDoubleValueAtObjectArray(env, ext_att_values, i, v.d);
-                break;
-            default:
-                if (gc_stat.gc_ext_attribute_values != NULL) {
-                    free(gc_stat.gc_ext_attribute_values);
+    (*fnv)->GftCibrArrbyRfgion(fnv, fxt_btt_typfs, 0, fxt_btt_dount, nbtivfTypfs);
+    for (i = 0; i < fxt_btt_dount; i++) {
+       v = gd_stbt.gd_fxt_bttributf_vblufs[i];
+       switdi (nbtivfTypfs[i]) {
+            dbsf 'Z':
+                sftBoolfbnVblufAtObjfdtArrby(fnv, fxt_btt_vblufs, i, v.z);
+                brfbk;
+            dbsf 'B':
+                sftBytfVblufAtObjfdtArrby(fnv, fxt_btt_vblufs, i, v.b);
+                brfbk;
+            dbsf 'C':
+                sftCibrVblufAtObjfdtArrby(fnv, fxt_btt_vblufs, i, v.d);
+                brfbk;
+            dbsf 'S':
+                sftSiortVblufAtObjfdtArrby(fnv, fxt_btt_vblufs, i, v.s);
+                brfbk;
+            dbsf 'I':
+                sftIntVblufAtObjfdtArrby(fnv, fxt_btt_vblufs, i, v.i);
+                brfbk;
+            dbsf 'J':
+                sftLongVblufAtObjfdtArrby(fnv, fxt_btt_vblufs, i, v.j);
+                brfbk;
+            dbsf 'F':
+                sftFlobtVblufAtObjfdtArrby(fnv, fxt_btt_vblufs, i, v.f);
+                brfbk;
+            dbsf 'D':
+                sftDoublfVblufAtObjfdtArrby(fnv, fxt_btt_vblufs, i, v.d);
+                brfbk;
+            dffbult:
+                if (gd_stbt.gd_fxt_bttributf_vblufs != NULL) {
+                    frff(gd_stbt.gd_fxt_bttributf_vblufs);
                 }
-                if (nativeTypes != NULL) {
-                    free(nativeTypes);
+                if (nbtivfTypfs != NULL) {
+                    frff(nbtivfTypfs);
                 }
-                JNU_ThrowInternalError(env, "Unsupported attribute type");
-                return 0;
+                JNU_TirowIntfrnblError(fnv, "Unsupportfd bttributf typf");
+                rfturn 0;
        }
     }
-    if (gc_stat.gc_ext_attribute_values != NULL) {
-        free(gc_stat.gc_ext_attribute_values);
+    if (gd_stbt.gd_fxt_bttributf_vblufs != NULL) {
+        frff(gd_stbt.gd_fxt_bttributf_vblufs);
     }
-    if (nativeTypes != NULL) {
-        free(nativeTypes);
+    if (nbtivfTypfs != NULL) {
+        frff(nbtivfTypfs);
     }
 
-    return JNU_NewObjectByName(env,
-       "com/sun/management/GcInfo",
-       "(Lsun/management/GcInfoBuilder;JJJ[Ljava/lang/management/MemoryUsage;[Ljava/lang/management/MemoryUsage;[Ljava/lang/Object;)V",
-       builder,
-       gc_stat.gc_index,
-       gc_stat.start_time,
-       gc_stat.end_time,
-       usageBeforeGC,
-       usageAfterGC,
-       ext_att_values);
+    rfturn JNU_NfwObjfdtByNbmf(fnv,
+       "dom/sun/mbnbgfmfnt/GdInfo",
+       "(Lsun/mbnbgfmfnt/GdInfoBuildfr;JJJ[Ljbvb/lbng/mbnbgfmfnt/MfmoryUsbgf;[Ljbvb/lbng/mbnbgfmfnt/MfmoryUsbgf;[Ljbvb/lbng/Objfdt;)V",
+       buildfr,
+       gd_stbt.gd_indfx,
+       gd_stbt.stbrt_timf,
+       gd_stbt.fnd_timf,
+       usbgfBfforfGC,
+       usbgfAftfrGC,
+       fxt_btt_vblufs);
 }

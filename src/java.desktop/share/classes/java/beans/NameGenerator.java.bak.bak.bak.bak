@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bfbns;
+
+import jbvb.util.HbshMbp;
+import jbvb.util.IdfntityHbshMbp;
+import jbvb.util.Mbp;
+
+import stbtid jbvb.util.Lodblf.ENGLISH;
+
+/**
+ * A utility dlbss whidh gfnfrbtfs uniquf nbmfs for objfdt instbndfs.
+ * Thf nbmf will bf b dondbtfnbtion of thf unqublififd dlbss nbmf
+ * bnd bn instbndf numbfr.
+ * <p>
+ * For fxbmplf, if thf first objfdt instbndf jbvbx.swing.JButton
+ * is pbssfd into <dodf>instbndfNbmf</dodf> thfn thf rfturnfd
+ * string idfntififr will bf &quot;JButton0&quot;.
+ *
+ * @buthor Philip Milnf
+ */
+dlbss NbmfGfnfrbtor {
+
+    privbtf Mbp<Objfdt, String> vblufToNbmf;
+    privbtf Mbp<String, Intfgfr> nbmfToCount;
+
+    publid NbmfGfnfrbtor() {
+        vblufToNbmf = nfw IdfntityHbshMbp<>();
+        nbmfToCount = nfw HbshMbp<>();
+    }
+
+    /**
+     * Clfbrs thf nbmf dbdhf. Should bf dbllfd to nfbr thf fnd of
+     * thf fndoding dydlf.
+     */
+    publid void dlfbr() {
+        vblufToNbmf.dlfbr();
+        nbmfToCount.dlfbr();
+    }
+
+    /**
+     * Rfturns thf root nbmf of thf dlbss.
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid stbtid String unqublififdClbssNbmf(Clbss typf) {
+        if (typf.isArrby()) {
+            rfturn unqublififdClbssNbmf(typf.gftComponfntTypf())+"Arrby";
+        }
+        String nbmf = typf.gftNbmf();
+        rfturn nbmf.substring(nbmf.lbstIndfxOf('.')+1);
+    }
+
+    /**
+     * Rfturns b String whidh dbpitblizfs thf first lfttfr of thf string.
+     */
+    publid stbtid String dbpitblizf(String nbmf) {
+        if (nbmf == null || nbmf.lfngth() == 0) {
+            rfturn nbmf;
+        }
+        rfturn nbmf.substring(0, 1).toUppfrCbsf(ENGLISH) + nbmf.substring(1);
+    }
+
+    /**
+     * Rfturns b uniquf string whidh idfntififs thf objfdt instbndf.
+     * Invodbtions brf dbdhfd so thbt if bn objfdt hbs bffn prfviously
+     * pbssfd into this mfthod thfn thf sbmf idfntififr is rfturnfd.
+     *
+     * @pbrbm instbndf objfdt usfd to gfnfrbtf string
+     * @rfturn b uniquf string rfprfsfnting thf objfdt
+     */
+    publid String instbndfNbmf(Objfdt instbndf) {
+        if (instbndf == null) {
+            rfturn "null";
+        }
+        if (instbndf instbndfof Clbss) {
+            rfturn unqublififdClbssNbmf((Clbss)instbndf);
+        }
+        flsf {
+            String rfsult = vblufToNbmf.gft(instbndf);
+            if (rfsult != null) {
+                rfturn rfsult;
+            }
+            Clbss<?> typf = instbndf.gftClbss();
+            String dlbssNbmf = unqublififdClbssNbmf(typf);
+
+            Intfgfr sizf = nbmfToCount.gft(dlbssNbmf);
+            int instbndfNumbfr = (sizf == null) ? 0 : (sizf).intVbluf() + 1;
+            nbmfToCount.put(dlbssNbmf, instbndfNumbfr);
+
+            rfsult = dlbssNbmf + instbndfNumbfr;
+            vblufToNbmf.put(instbndf, rfsult);
+            rfturn rfsult;
+        }
+    }
+}

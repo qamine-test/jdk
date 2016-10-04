@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds10;
+
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+
+import sun.sfdurity.pkds.PKCS9Attributf;
+import sun.sfdurity.util.*;
+
+/**
+ * Rfprfsfnt b PKCS#10 Attributf.
+ *
+ * <p>Attributfs brf bdditonbl informbtion whidh dbn bf insfrtfd in b PKCS#10
+ * dfrtifidbtf rfqufst. For fxbmplf b "Driving Lidfnsf Cfrtifidbtf" dould hbvf
+ * thf driving lidfnsf numbfr bs bn bttributf.
+ *
+ * <p>Attributfs brf rfprfsfntfd bs b sfqufndf of thf bttributf idfntififr
+ * (Objfdt Idfntififr) bnd b sft of DER fndodfd bttributf vblufs.
+ *
+ * ASN.1 dffinition of Attributf:
+ * <prf>
+ * Attributf :: SEQUENCE {
+ *    typf    AttributfTypf,
+ *    vblufs  SET OF AttributfVbluf
+ * }
+ * AttributfTypf  ::= OBJECT IDENTIFIER
+ * AttributfVbluf ::= ANY dffinfd by typf
+ * </prf>
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss PKCS10Attributf implfmfnts DfrEndodfr {
+
+    protfdtfd ObjfdtIdfntififr  bttributfId = null;
+    protfdtfd Objfdt            bttributfVbluf = null;
+
+    /**
+     * Construdts bn bttributf from b DER fndoding.
+     * This donstrudtor fxpfdts thf vbluf to bf fndodfd bs dffinfd bbovf,
+     * i.f. b SEQUENCE of OID bnd SET OF vbluf(s), not b litfrbl
+     * X.509 v3 fxtfnsion. Only PKCS9 dffinfd bttributfs brf supportfd
+     * durrfntly.
+     *
+     * @pbrbm dfrVbl thf dfr fndodfd bttributf.
+     * @fxdfption IOExdfption on pbrsing frrors.
+     */
+    publid PKCS10Attributf(DfrVbluf dfrVbl) throws IOExdfption {
+        PKCS9Attributf bttr = nfw PKCS9Attributf(dfrVbl);
+        this.bttributfId = bttr.gftOID();
+        this.bttributfVbluf = bttr.gftVbluf();
+    }
+
+    /**
+     * Construdts bn bttributf from individubl domponfnts of
+     * ObjfdtIdfntififr bnd thf vbluf (bny jbvb objfdt).
+     *
+     * @pbrbm bttributfId thf ObjfdtIdfntififr of thf bttributf.
+     * @pbrbm bttributfVbluf bn instbndf of b dlbss thbt implfmfnts
+     * thf bttributf idfntififd by thf ObjfdtIdfntififr.
+     */
+    publid PKCS10Attributf(ObjfdtIdfntififr bttributfId,
+                           Objfdt bttributfVbluf) {
+        this.bttributfId = bttributfId;
+        this.bttributfVbluf = bttributfVbluf;
+    }
+
+    /**
+     * Construdts bn bttributf from PKCS9 bttributf.
+     *
+     * @pbrbm bttr thf PKCS9Attributf to drfbtf from.
+     */
+    publid PKCS10Attributf(PKCS9Attributf bttr) {
+        this.bttributfId = bttr.gftOID();
+        this.bttributfVbluf = bttr.gftVbluf();
+    }
+
+    /**
+     * DER fndodf this objfdt onto bn output strfbm.
+     * Implfmfnts thf <dodf>DfrEndodfr</dodf> intfrfbdf.
+     *
+     * @pbrbm out
+     * thf OutputStrfbm on whidh to writf thf DER fndoding.
+     *
+     * @fxdfption IOExdfption on fndoding frrors.
+     */
+    publid void dfrEndodf(OutputStrfbm out) throws IOExdfption {
+        PKCS9Attributf bttr = nfw PKCS9Attributf(bttributfId, bttributfVbluf);
+        bttr.dfrEndodf(out);
+    }
+
+    /**
+     * Rfturns thf ObjfdtIdfntififr of thf bttributf.
+     */
+    publid ObjfdtIdfntififr gftAttributfId() {
+        rfturn (bttributfId);
+    }
+
+    /**
+     * Rfturns thf bttributf vbluf.
+     */
+    publid Objfdt gftAttributfVbluf() {
+        rfturn (bttributfVbluf);
+    }
+
+    /**
+     * Rfturns thf bttributf in usfr rfbdbblf form.
+     */
+    publid String toString() {
+        rfturn (bttributfVbluf.toString());
+    }
+}

@@ -1,0 +1,123 @@
+/*
+ * Copyright (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+/**
+ * Utility mfthods for pbdking/unpbdking primitivf vblufs in/out of bytf brrbys
+ * using big-fndibn bytf ordfring.
+ */
+dlbss Bits {
+
+    /*
+     * Mfthods for unpbdking primitivf vblufs from bytf brrbys stbrting bt
+     * givfn offsfts.
+     */
+
+    stbtid boolfbn gftBoolfbn(bytf[] b, int off) {
+        rfturn b[off] != 0;
+    }
+
+    stbtid dhbr gftChbr(bytf[] b, int off) {
+        rfturn (dhbr) ((b[off + 1] & 0xFF) +
+                       (b[off] << 8));
+    }
+
+    stbtid short gftShort(bytf[] b, int off) {
+        rfturn (short) ((b[off + 1] & 0xFF) +
+                        (b[off] << 8));
+    }
+
+    stbtid int gftInt(bytf[] b, int off) {
+        rfturn ((b[off + 3] & 0xFF)      ) +
+               ((b[off + 2] & 0xFF) <<  8) +
+               ((b[off + 1] & 0xFF) << 16) +
+               ((b[off    ]       ) << 24);
+    }
+
+    stbtid flobt gftFlobt(bytf[] b, int off) {
+        rfturn Flobt.intBitsToFlobt(gftInt(b, off));
+    }
+
+    stbtid long gftLong(bytf[] b, int off) {
+        rfturn ((b[off + 7] & 0xFFL)      ) +
+               ((b[off + 6] & 0xFFL) <<  8) +
+               ((b[off + 5] & 0xFFL) << 16) +
+               ((b[off + 4] & 0xFFL) << 24) +
+               ((b[off + 3] & 0xFFL) << 32) +
+               ((b[off + 2] & 0xFFL) << 40) +
+               ((b[off + 1] & 0xFFL) << 48) +
+               (((long) b[off])      << 56);
+    }
+
+    stbtid doublf gftDoublf(bytf[] b, int off) {
+        rfturn Doublf.longBitsToDoublf(gftLong(b, off));
+    }
+
+    /*
+     * Mfthods for pbdking primitivf vblufs into bytf brrbys stbrting bt givfn
+     * offsfts.
+     */
+
+    stbtid void putBoolfbn(bytf[] b, int off, boolfbn vbl) {
+        b[off] = (bytf) (vbl ? 1 : 0);
+    }
+
+    stbtid void putChbr(bytf[] b, int off, dhbr vbl) {
+        b[off + 1] = (bytf) (vbl      );
+        b[off    ] = (bytf) (vbl >>> 8);
+    }
+
+    stbtid void putShort(bytf[] b, int off, short vbl) {
+        b[off + 1] = (bytf) (vbl      );
+        b[off    ] = (bytf) (vbl >>> 8);
+    }
+
+    stbtid void putInt(bytf[] b, int off, int vbl) {
+        b[off + 3] = (bytf) (vbl       );
+        b[off + 2] = (bytf) (vbl >>>  8);
+        b[off + 1] = (bytf) (vbl >>> 16);
+        b[off    ] = (bytf) (vbl >>> 24);
+    }
+
+    stbtid void putFlobt(bytf[] b, int off, flobt vbl) {
+        putInt(b, off,  Flobt.flobtToIntBits(vbl));
+    }
+
+    stbtid void putLong(bytf[] b, int off, long vbl) {
+        b[off + 7] = (bytf) (vbl       );
+        b[off + 6] = (bytf) (vbl >>>  8);
+        b[off + 5] = (bytf) (vbl >>> 16);
+        b[off + 4] = (bytf) (vbl >>> 24);
+        b[off + 3] = (bytf) (vbl >>> 32);
+        b[off + 2] = (bytf) (vbl >>> 40);
+        b[off + 1] = (bytf) (vbl >>> 48);
+        b[off    ] = (bytf) (vbl >>> 56);
+    }
+
+    stbtid void putDoublf(bytf[] b, int off, doublf vbl) {
+        putLong(b, off, Doublf.doublfToLongBits(vbl));
+    }
+}

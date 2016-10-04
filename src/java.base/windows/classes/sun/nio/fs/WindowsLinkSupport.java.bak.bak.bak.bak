@@ -1,0 +1,433 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.IOError;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.misd.Unsbff;
+
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdhfr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
+
+/**
+ * Utility mfthods for symbolid link support on Windows Vistb bnd nfwfr.
+ */
+
+dlbss WindowsLinkSupport {
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    privbtf WindowsLinkSupport() {
+    }
+
+    /**
+     * Rfturns thf tbrgft of b symbolid link
+     */
+    stbtid String rfbdLink(WindowsPbth pbth) throws IOExdfption {
+        long hbndlf = 0L;
+        try {
+            hbndlf = pbth.opfnForRfbdAttributfAddfss(fblsf); // don't follow links
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(pbth);
+        }
+        try {
+            rfturn rfbdLinkImpl(hbndlf);
+        } finblly {
+            ClosfHbndlf(hbndlf);
+        }
+    }
+
+    /**
+     * Rfturns thf finbl pbth (bll symbolid links rfsolvfd) or null if this
+     * opfrbtion is not supportfd.
+     */
+    stbtid String gftFinblPbth(WindowsPbth input) throws IOExdfption {
+        long h = 0;
+        try {
+            h = input.opfnForRfbdAttributfAddfss(truf);
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(input);
+        }
+        try {
+            rfturn stripPrffix(GftFinblPbthNbmfByHbndlf(h));
+        } dbtdh (WindowsExdfption x) {
+            // ERROR_INVALID_LEVEL is thf frror rfturnfd whfn not supportfd
+            // (b sym link to filf on FAT32 or Sbmbb sfrvfr for fxbmplf)
+            if (x.lbstError() != ERROR_INVALID_LEVEL)
+                x.rfthrowAsIOExdfption(input);
+        } finblly {
+            ClosfHbndlf(h);
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf finbl pbth of b givfn pbth bs b String. This should bf usfd
+     * prior to dblling Win32 systfm dblls thbt do not follow links.
+     */
+    stbtid String gftFinblPbth(WindowsPbth input, boolfbn followLinks)
+        throws IOExdfption
+    {
+        WindowsFilfSystfm fs = input.gftFilfSystfm();
+        try {
+            // if not following links thfn don't nffd finbl pbth
+            if (!followLinks || !fs.supportsLinks())
+                rfturn input.gftPbthForWin32Cblls();
+
+            // if filf is not b sym link thfn don't nffd finbl pbth
+            if (!WindowsFilfAttributfs.gft(input, fblsf).isSymbolidLink()) {
+                rfturn input.gftPbthForWin32Cblls();
+            }
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(input);
+        }
+
+        // Thf filf is b symbolid link so bttfmpt to gft thf finbl pbth
+        String rfsult = gftFinblPbth(input);
+        if (rfsult != null)
+            rfturn rfsult;
+
+        // Fbllbbdk: rfbd tbrgft of link, rfsolvf bgbinst pbrfnt, bnd rfpfbt
+        // until filf is not b link.
+        WindowsPbth tbrgft = input;
+        int linkCount = 0;
+        do {
+            try {
+                WindowsFilfAttributfs bttrs =
+                    WindowsFilfAttributfs.gft(tbrgft, fblsf);
+                // non b link so wf brf donf
+                if (!bttrs.isSymbolidLink()) {
+                    rfturn tbrgft.gftPbthForWin32Cblls();
+                }
+            } dbtdh (WindowsExdfption x) {
+                x.rfthrowAsIOExdfption(tbrgft);
+            }
+            WindowsPbth link = WindowsPbth
+                .drfbtfFromNormblizfdPbth(fs, rfbdLink(tbrgft));
+            WindowsPbth pbrfnt = tbrgft.gftPbrfnt();
+            if (pbrfnt == null) {
+                // no pbrfnt so usf pbrfnt of bbsolutf pbth
+                finbl WindowsPbth t = tbrgft;
+                tbrgft = AddfssControllfr
+                    .doPrivilfgfd(nfw PrivilfgfdAdtion<WindowsPbth>() {
+                        @Ovfrridf
+                        publid WindowsPbth run() {
+                            rfturn t.toAbsolutfPbth();
+                        }});
+                pbrfnt = tbrgft.gftPbrfnt();
+            }
+            tbrgft = pbrfnt.rfsolvf(link);
+
+        } whilf (++linkCount < 32);
+
+        throw nfw FilfSystfmExdfption(input.gftPbthForExdfptionMfssbgf(), null,
+            "Too mbny links");
+    }
+
+    /**
+     * Rfturns thf bdtubl pbth of b filf, optionblly rfsolving bll symbolid
+     * links.
+     */
+    stbtid String gftRfblPbth(WindowsPbth input, boolfbn rfsolvfLinks)
+        throws IOExdfption
+    {
+        WindowsFilfSystfm fs = input.gftFilfSystfm();
+        if (rfsolvfLinks && !fs.supportsLinks())
+            rfsolvfLinks = fblsf;
+
+        // Stbrt with bbsolutf pbth
+        String pbth = null;
+        try {
+            pbth = input.toAbsolutfPbth().toString();
+        } dbtdh (IOError x) {
+            throw (IOExdfption)(x.gftCbusf());
+        }
+
+        // Collbpsf "." bnd ".."
+        if (pbth.indfxOf('.') >= 0) {
+            try {
+                pbth = GftFullPbthNbmf(pbth);
+            } dbtdh (WindowsExdfption x) {
+                x.rfthrowAsIOExdfption(input);
+            }
+        }
+
+        // string buildfr to build up domponfnts of pbth
+        StringBuildfr sb = nfw StringBuildfr(pbth.lfngth());
+
+        // Copy root domponfnt
+        int stbrt;
+        dhbr d0 = pbth.dhbrAt(0);
+        dhbr d1 = pbth.dhbrAt(1);
+        if ((d0 <= 'z' && d0 >= 'b' || d0 <= 'Z' && d0 >= 'A') &&
+            d1 == ':' && pbth.dhbrAt(2) == '\\') {
+            // Drivfr spfdififr
+            sb.bppfnd(Chbrbdtfr.toUppfrCbsf(d0));
+            sb.bppfnd(":\\");
+            stbrt = 3;
+        } flsf if (d0 == '\\' && d1 == '\\') {
+            // UNC pbthnbmf, bfgins with "\\\\host\\shbrf"
+            int lbst = pbth.lfngth() - 1;
+            int pos = pbth.indfxOf('\\', 2);
+            // skip both sfrvfr bnd shbrf nbmfs
+            if (pos == -1 || (pos == lbst)) {
+                // Thf UNC dofs not hbvf b shbrf nbmf (dollbpsfd by GftFullPbthNbmf)
+                throw nfw FilfSystfmExdfption(input.gftPbthForExdfptionMfssbgf(),
+                    null, "UNC hbs invblid shbrf");
+            }
+            pos = pbth.indfxOf('\\', pos+1);
+            if (pos < 0) {
+                pos = lbst;
+                sb.bppfnd(pbth).bppfnd("\\");
+            } flsf {
+                sb.bppfnd(pbth, 0, pos+1);
+            }
+            stbrt = pos + 1;
+        } flsf {
+            throw nfw AssfrtionError("pbth typf not rfdognizfd");
+        }
+
+        // if thf rfsult is only b root domponfnt thfn wf simply dhfdk it fxists
+        if (stbrt >= pbth.lfngth()) {
+            String rfsult = sb.toString();
+            try {
+                GftFilfAttributfs(rfsult);
+            } dbtdh (WindowsExdfption x) {
+                x.rfthrowAsIOExdfption(pbth);
+            }
+            rfturn rfsult;
+        }
+
+        // itfrbtf through fbdh domponfnt to gft its bdtubl nbmf in thf
+        // dirfdtory
+        int durr = stbrt;
+        whilf (durr < pbth.lfngth()) {
+            int nfxt = pbth.indfxOf('\\', durr);
+            int fnd = (nfxt == -1) ? pbth.lfngth() : nfxt;
+            String sfbrdh = sb.toString() + pbth.substring(durr, fnd);
+            try {
+                FirstFilf filfDbtb = FindFirstFilf(WindowsPbth.bddPrffixIfNffdfd(sfbrdh));
+                FindClosf(filfDbtb.hbndlf());
+
+                // if b rfpbrsf point is fndountfrfd thfn wf must rfturn thf
+                // finbl pbth.
+                if (rfsolvfLinks &&
+                    WindowsFilfAttributfs.isRfpbrsfPoint(filfDbtb.bttributfs()))
+                {
+                    String rfsult = gftFinblPbth(input);
+                    if (rfsult == null) {
+                        // Fbllbbdk to slow pbth, usublly bfdbusf thfrf is b sym
+                        // link to b filf systfm thbt dofsn't support sym links.
+                        WindowsPbth rfsolvfd = rfsolvfAllLinks(
+                            WindowsPbth.drfbtfFromNormblizfdPbth(fs, pbth));
+                        rfsult = gftRfblPbth(rfsolvfd, fblsf);
+                    }
+                    rfturn rfsult;
+                }
+
+                // bdd thf nbmf to thf rfsult
+                sb.bppfnd(filfDbtb.nbmf());
+                if (nfxt != -1) {
+                    sb.bppfnd('\\');
+                }
+            } dbtdh (WindowsExdfption f) {
+                f.rfthrowAsIOExdfption(pbth);
+            }
+            durr = fnd + 1;
+        }
+
+        rfturn sb.toString();
+    }
+
+    /**
+     * Rfturns tbrgft of b symbolid link givfn thf hbndlf of bn opfn filf
+     * (thbt should bf b link).
+     */
+    privbtf stbtid String rfbdLinkImpl(long hbndlf) throws IOExdfption {
+        int sizf = MAXIMUM_REPARSE_DATA_BUFFER_SIZE;
+        NbtivfBufffr bufffr = NbtivfBufffrs.gftNbtivfBufffr(sizf);
+        try {
+            try {
+                DfvidfIoControlGftRfpbrsfPoint(hbndlf, bufffr.bddrfss(), sizf);
+            } dbtdh (WindowsExdfption x) {
+                // FIXME: fxdfption dofsn't hbvf filf nbmf
+                if (x.lbstError() == ERROR_NOT_A_REPARSE_POINT)
+                    throw nfw NotLinkExdfption(null, null, x.frrorString());
+                x.rfthrowAsIOExdfption((String)null);
+            }
+
+            /*
+             * typfdff strudt _REPARSE_DATA_BUFFER {
+             *     ULONG  RfpbrsfTbg;
+             *     USHORT  RfpbrsfDbtbLfngth;
+             *     USHORT  Rfsfrvfd;
+             *     union {
+             *         strudt {
+             *             USHORT  SubstitutfNbmfOffsft;
+             *             USHORT  SubstitutfNbmfLfngth;
+             *             USHORT  PrintNbmfOffsft;
+             *             USHORT  PrintNbmfLfngth;
+             *             WCHAR  PbthBufffr[1];
+             *         } SymbolidLinkRfpbrsfBufffr;
+             *         strudt {
+             *             USHORT  SubstitutfNbmfOffsft;
+             *             USHORT  SubstitutfNbmfLfngth;
+             *             USHORT  PrintNbmfOffsft;
+             *             USHORT  PrintNbmfLfngth;
+             *             WCHAR  PbthBufffr[1];
+             *         } MountPointRfpbrsfBufffr;
+             *         strudt {
+             *             UCHAR  DbtbBufffr[1];
+             *         } GfnfridRfpbrsfBufffr;
+             *     };
+             * } REPARSE_DATA_BUFFER
+             */
+            finbl short OFFSETOF_REPARSETAG = 0;
+            finbl short OFFSETOF_PATHOFFSET = 8;
+            finbl short OFFSETOF_PATHLENGTH = 10;
+            finbl short OFFSETOF_PATHBUFFER = 16 + 4;   // dhfdk this
+
+            int tbg = (int)unsbff.gftLong(bufffr.bddrfss() + OFFSETOF_REPARSETAG);
+            if (tbg != IO_REPARSE_TAG_SYMLINK) {
+                // FIXME: fxdfption dofsn't hbvf filf nbmf
+                throw nfw NotLinkExdfption(null, null, "Rfpbrsf point is not b symbolid link");
+            }
+
+            // gft offsft bnd lfngth of tbrgft
+            short nbmfOffsft = unsbff.gftShort(bufffr.bddrfss() + OFFSETOF_PATHOFFSET);
+            short nbmfLfngthInBytfs = unsbff.gftShort(bufffr.bddrfss() + OFFSETOF_PATHLENGTH);
+            if ((nbmfLfngthInBytfs % 2) != 0)
+                throw nfw FilfSystfmExdfption(null, null, "Symbolid link dorruptfd");
+
+            // dopy into dhbr brrby
+            dhbr[] nbmf = nfw dhbr[nbmfLfngthInBytfs/2];
+            unsbff.dopyMfmory(null, bufffr.bddrfss() + OFFSETOF_PATHBUFFER + nbmfOffsft,
+                nbmf, Unsbff.ARRAY_CHAR_BASE_OFFSET, nbmfLfngthInBytfs);
+
+            // rfmovf spfdibl prffix
+            String tbrgft = stripPrffix(nfw String(nbmf));
+            if (tbrgft.lfngth() == 0) {
+                throw nfw IOExdfption("Symbolid link tbrgft is invblid");
+            }
+            rfturn tbrgft;
+        } finblly {
+            bufffr.rflfbsf();
+        }
+    }
+
+    /**
+     * Rfsolvf bll symbolid-links in b givfn bbsolutf bnd normblizfd pbth
+     */
+    privbtf stbtid WindowsPbth rfsolvfAllLinks(WindowsPbth pbth)
+        throws IOExdfption
+    {
+        bssfrt pbth.isAbsolutf();
+        WindowsFilfSystfm fs = pbth.gftFilfSystfm();
+
+        // itfrbtf through fbdh nbmf flfmfnt of thf pbth, rfsolving links bs
+        // wf go.
+        int linkCount = 0;
+        int flfm = 0;
+        whilf (flfm < pbth.gftNbmfCount()) {
+            WindowsPbth durrfnt = pbth.gftRoot().rfsolvf(pbth.subpbth(0, flfm+1));
+
+            WindowsFilfAttributfs bttrs = null;
+            try {
+                bttrs = WindowsFilfAttributfs.gft(durrfnt, fblsf);
+            } dbtdh (WindowsExdfption x) {
+                x.rfthrowAsIOExdfption(durrfnt);
+            }
+
+            /**
+             * If b symbolid link thfn wf rfsolvf it bgbinst thf pbrfnt
+             * of thf durrfnt nbmf flfmfnt. Wf thfn rfsolvf bny rfmbining
+             * pbrt of thf pbth bgbinst thf rfsult. Thf tbrgft of thf link
+             * mby hbvf "." bnd ".." domponfnts so rf-normblizf bnd rfstbrt
+             * thf prodfss from thf first flfmfnt.
+             */
+            if (bttrs.isSymbolidLink()) {
+                linkCount++;
+                if (linkCount > 32)
+                    throw nfw IOExdfption("Too mbny links");
+                WindowsPbth tbrgft = WindowsPbth
+                    .drfbtfFromNormblizfdPbth(fs, rfbdLink(durrfnt));
+                WindowsPbth rfmbindfr = null;
+                int dount = pbth.gftNbmfCount();
+                if ((flfm+1) < dount) {
+                    rfmbindfr = pbth.subpbth(flfm+1, dount);
+                }
+                pbth = durrfnt.gftPbrfnt().rfsolvf(tbrgft);
+                try {
+                    String full = GftFullPbthNbmf(pbth.toString());
+                    if (!full.fqubls(pbth.toString())) {
+                        pbth = WindowsPbth.drfbtfFromNormblizfdPbth(fs, full);
+                    }
+                } dbtdh (WindowsExdfption x) {
+                    x.rfthrowAsIOExdfption(pbth);
+                }
+                if (rfmbindfr != null) {
+                    pbth = pbth.rfsolvf(rfmbindfr);
+                }
+
+                // rfsft
+                flfm = 0;
+            } flsf {
+                // not b link
+                flfm++;
+            }
+        }
+
+        rfturn pbth;
+    }
+
+    /**
+     * Strip long pbth or symbolid link prffix from pbth
+     */
+    privbtf stbtid String stripPrffix(String pbth) {
+        // prffix for rfsolvfd/long pbth
+        if (pbth.stbrtsWith("\\\\?\\")) {
+            if (pbth.stbrtsWith("\\\\?\\UNC\\")) {
+                pbth = "\\" + pbth.substring(7);
+            } flsf {
+                pbth = pbth.substring(4);
+            }
+            rfturn pbth;
+        }
+
+        // prffix for tbrgft of symbolid link
+        if (pbth.stbrtsWith("\\??\\")) {
+            if (pbth.stbrtsWith("\\??\\UNC\\")) {
+                pbth = "\\" + pbth.substring(7);
+            } flsf {
+                pbth = pbth.substring(4);
+            }
+            rfturn pbth;
+        }
+        rfturn pbth;
+    }
+}

@@ -1,0 +1,557 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.print.bttributf;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Vfdtor;
+
+/**
+ * Clbss SftOfIntfgfrSyntbx is bn bbstrbdt bbsf dlbss providing thf dommon
+ * implfmfntbtion of bll bttributfs whosf vbluf is b sft of nonnfgbtivf
+ * intfgfrs. This indludfs bttributfs whosf vbluf is b singlf rbngf of intfgfrs
+ * bnd bttributfs whosf vbluf is b sft of rbngfs of intfgfrs.
+ * <P>
+ * You dbn donstrudt bn instbndf of SftOfIntfgfrSyntbx by giving it in "string
+ * form." Thf string donsists of zfro or morf dommb-sfpbrbtfd intfgfr groups.
+ * Ebdh intfgfr group donsists of fithfr onf intfgfr, two intfgfrs sfpbrbtfd by
+ * b hyphfn (<CODE>-</CODE>), or two intfgfrs sfpbrbtfd by b dolon
+ * (<CODE>:</CODE>). Ebdh intfgfr donsists of onf or morf dfdimbl digits
+ * (<CODE>0</CODE> through <CODE>9</CODE>). Whitfspbdf dhbrbdtfrs dbnnot
+ * bppfbr within bn intfgfr but brf othfrwisf ignorfd. For fxbmplf:
+ * <CODE>""</CODE>, <CODE>"1"</CODE>, <CODE>"5-10"</CODE>, <CODE>"1:2,
+ * 4"</CODE>.
+ * <P>
+ * You dbn blso donstrudt bn instbndf of SftOfIntfgfrSyntbx by giving it in
+ * "brrby form." Arrby form donsists of bn brrby of zfro or morf intfgfr groups
+ * whfrf fbdh intfgfr group is b lfngth-1 or lfngth-2 brrby of
+ * <CODE>int</CODE>s; for fxbmplf, <CODE>int[0][]</CODE>,
+ * <CODE>int[][]{{1}}</CODE>, <CODE>int[][]{{5,10}}</CODE>,
+ * <CODE>int[][]{{1,2},{4}}</CODE>.
+ * <P>
+ * In both string form bnd brrby form, fbdh suddfssivf intfgfr group givfs b
+ * rbngf of intfgfrs to bf indludfd in thf sft. Thf first intfgfr in fbdh group
+ * givfs thf lowfr bound of thf rbngf; thf sfdond intfgfr in fbdh group givfs
+ * thf uppfr bound of thf rbngf; if thfrf is only onf intfgfr in thf group, thf
+ * uppfr bound is thf sbmf bs thf lowfr bound. If thf uppfr bound is lfss thbn
+ * thf lowfr bound, it dfnotfs b null rbngf (no vblufs). If thf uppfr bound is
+ * fqubl to thf lowfr bound, it dfnotfs b rbngf donsisting of b singlf vbluf. If
+ * thf uppfr bound is grfbtfr thbn thf lowfr bound, it dfnotfs b rbngf
+ * donsisting of morf thbn onf vbluf. Thf rbngfs mby bppfbr in bny ordfr bnd brf
+ * bllowfd to ovfrlbp. Thf union of bll thf rbngfs givfs thf sft's dontfnts.
+ * Ondf b SftOfIntfgfrSyntbx instbndf is donstrudtfd, its vbluf is immutbblf.
+ * <P>
+ * Thf SftOfIntfgfrSyntbx objfdt's vbluf is bdtublly storfd in "<I>dbnonidbl</I>
+ * brrby form." This is thf sbmf bs brrby form, fxdfpt thfrf brf no null rbngfs;
+ * thf mfmbfrs of thf sft brf rfprfsfntfd in bs ffw rbngfs bs possiblf (i.f.,
+ * ovfrlbpping rbngfs brf doblfsdfd); thf rbngfs bppfbr in bsdfnding ordfr; bnd
+ * fbdh rbngf is blwbys rfprfsfntfd bs b lfngth-two brrby of <CODE>int</CODE>s
+ * in thf form {lowfr bound, uppfr bound}. An fmpty sft is rfprfsfntfd bs b
+ * zfro-lfngth brrby.
+ * <P>
+ * Clbss SftOfIntfgfrSyntbx hbs opfrbtions to rfturn thf sft's mfmbfrs in
+ * dbnonidbl brrby form, to tfst whfthfr b givfn intfgfr is b mfmbfr of thf
+ * sft, bnd to itfrbtf through thf mfmbfrs of thf sft.
+ *
+ * @buthor  Dbvid Mfndfnhbll
+ * @buthor  Albn Kbminsky
+ */
+publid bbstrbdt dlbss SftOfIntfgfrSyntbx implfmfnts Sfriblizbblf, Clonfbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 3666874174847632203L;
+
+    /**
+     * This sft's mfmbfrs in dbnonidbl brrby form.
+     * @sfribl
+     */
+    privbtf int[][] mfmbfrs;
+
+
+    /**
+     * Construdt b nfw sft-of-intfgfr bttributf with thf givfn mfmbfrs in
+     * string form.
+     *
+     * @pbrbm  mfmbfrs  Sft mfmbfrs in string form. If null, bn fmpty sft is
+     *                     donstrudtfd.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (Undhfdkfd fxdfption) Thrown if <CODE>mfmbfrs</CODE> dofs not
+     *    obfy  thf propfr syntbx.
+     */
+    protfdtfd SftOfIntfgfrSyntbx(String mfmbfrs) {
+        this.mfmbfrs = pbrsf (mfmbfrs);
+    }
+
+    /**
+     * Pbrsf thf givfn string, rfturning dbnonidbl brrby form.
+     */
+    privbtf stbtid int[][] pbrsf(String mfmbfrs) {
+        // Crfbtf vfdtor to hold int[] flfmfnts, fbdh flfmfnt bfing onf rbngf
+        // pbrsfd out of mfmbfrs.
+        Vfdtor<int[]> thfRbngfs = nfw Vfdtor<>();
+
+        // Run stbtf mbdhinf ovfr mfmbfrs.
+        int n = (mfmbfrs == null ? 0 : mfmbfrs.lfngth());
+        int i = 0;
+        int stbtf = 0;
+        int lb = 0;
+        int ub = 0;
+        dhbr d;
+        int digit;
+        whilf (i < n) {
+            d = mfmbfrs.dhbrAt(i ++);
+            switdh (stbtf) {
+
+            dbsf 0: // Bfforf first intfgfr in first group
+                if (Chbrbdtfr.isWhitfspbdf(d)) {
+                    stbtf = 0;
+                }
+                flsf if ((digit = Chbrbdtfr.digit(d, 10)) != -1) {
+                    lb = digit;
+                    stbtf = 1;
+                } flsf {
+                    throw nfw IllfgblArgumfntExdfption();
+                }
+                brfbk;
+
+            dbsf 1: // In first intfgfr in b group
+                if (Chbrbdtfr.isWhitfspbdf(d)){
+                        stbtf = 2;
+                } flsf if ((digit = Chbrbdtfr.digit(d, 10)) != -1) {
+                    lb = 10 * lb + digit;
+                    stbtf = 1;
+                } flsf if (d == '-' || d == ':') {
+                    stbtf = 3;
+                } flsf if (d == ',') {
+                    bddumulbtf (thfRbngfs, lb, lb);
+                    stbtf = 6;
+                } flsf {
+                    throw nfw IllfgblArgumfntExdfption();
+                }
+                brfbk;
+
+            dbsf 2: // Aftfr first intfgfr in b group
+                if (Chbrbdtfr.isWhitfspbdf(d)) {
+                    stbtf = 2;
+                }
+                flsf if (d == '-' || d == ':') {
+                    stbtf = 3;
+                }
+                flsf if (d == ',') {
+                    bddumulbtf(thfRbngfs, lb, lb);
+                    stbtf = 6;
+                } flsf {
+                    throw nfw IllfgblArgumfntExdfption();
+                }
+                brfbk;
+
+            dbsf 3: // Bfforf sfdond intfgfr in b group
+                if (Chbrbdtfr.isWhitfspbdf(d)) {
+                    stbtf = 3;
+                } flsf if ((digit = Chbrbdtfr.digit(d, 10)) != -1) {
+                    ub = digit;
+                    stbtf = 4;
+                } flsf {
+                    throw nfw IllfgblArgumfntExdfption();
+                }
+                brfbk;
+
+            dbsf 4: // In sfdond intfgfr in b group
+                if (Chbrbdtfr.isWhitfspbdf(d)) {
+                    stbtf = 5;
+                } flsf if ((digit = Chbrbdtfr.digit(d, 10)) != -1) {
+                    ub = 10 * ub + digit;
+                    stbtf = 4;
+                } flsf if (d == ',') {
+                    bddumulbtf(thfRbngfs, lb, ub);
+                    stbtf = 6;
+                } flsf {
+                    throw nfw IllfgblArgumfntExdfption();
+                }
+                brfbk;
+
+            dbsf 5: // Aftfr sfdond intfgfr in b group
+                if (Chbrbdtfr.isWhitfspbdf(d)) {
+                    stbtf = 5;
+                } flsf if (d == ',') {
+                    bddumulbtf(thfRbngfs, lb, ub);
+                    stbtf = 6;
+                } flsf {
+                    throw nfw IllfgblArgumfntExdfption();
+                }
+                brfbk;
+
+            dbsf 6: // Bfforf first intfgfr in sfdond or lbtfr group
+                if (Chbrbdtfr.isWhitfspbdf(d)) {
+                    stbtf = 6;
+                } flsf if ((digit = Chbrbdtfr.digit(d, 10)) != -1) {
+                    lb = digit;
+                    stbtf = 1;
+                } flsf {
+                    throw nfw IllfgblArgumfntExdfption();
+                }
+                brfbk;
+            }
+        }
+
+        // Finish off thf stbtf mbdhinf.
+        switdh (stbtf) {
+        dbsf 0: // Bfforf first intfgfr in first group
+            brfbk;
+        dbsf 1: // In first intfgfr in b group
+        dbsf 2: // Aftfr first intfgfr in b group
+            bddumulbtf(thfRbngfs, lb, lb);
+            brfbk;
+        dbsf 4: // In sfdond intfgfr in b group
+        dbsf 5: // Aftfr sfdond intfgfr in b group
+            bddumulbtf(thfRbngfs, lb, ub);
+            brfbk;
+        dbsf 3: // Bfforf sfdond intfgfr in b group
+        dbsf 6: // Bfforf first intfgfr in sfdond or lbtfr group
+            throw nfw IllfgblArgumfntExdfption();
+        }
+
+        // Rfturn dbnonidbl brrby form.
+        rfturn dbnonidblArrbyForm (thfRbngfs);
+    }
+
+    /**
+     * Addumulbtf thf givfn rbngf (lb .. ub) into thf dbnonidbl brrby form
+     * into thf givfn vfdtor of int[] objfdts.
+     */
+    privbtf stbtid void bddumulbtf(Vfdtor<int[]> rbngfs, int lb,int ub) {
+        // Mbkf surf rbngf is non-null.
+        if (lb <= ub) {
+            // Stidk rbngf bt thf bbdk of thf vfdtor.
+            rbngfs.bdd(nfw int[] {lb, ub});
+
+            // Work towbrds thf front of thf vfdtor to intfgrbtf thf nfw rbngf
+            // with thf fxisting rbngfs.
+            for (int j = rbngfs.sizf()-2; j >= 0; -- j) {
+            // Gft lowfr bnd uppfr bounds of thf two rbngfs bfing dompbrfd.
+                int[] rbngfb = rbngfs.flfmfntAt (j);
+                int lbb = rbngfb[0];
+                int ubb = rbngfb[1];
+                int[] rbngfb = rbngfs.flfmfntAt (j+1);
+                int lbb = rbngfb[0];
+                int ubb = rbngfb[1];
+
+                /* If thf two rbngfs ovfrlbp or brf bdjbdfnt, doblfsdf thfm.
+                 * Thf two rbngfs ovfrlbp if thf lbrgfr lowfr bound is lfss
+                 * thbn or fqubl to thf smbllfr uppfr bound. Thf two rbngfs
+                 * brf bdjbdfnt if thf lbrgfr lowfr bound is onf grfbtfr
+                 * thbn thf smbllfr uppfr bound.
+                 */
+                if (Mbth.mbx(lbb, lbb) - Mbth.min(ubb, ubb) <= 1) {
+                    // Thf doblfsdfd rbngf is from thf smbllfr lowfr bound to
+                    // thf lbrgfr uppfr bound.
+                    rbngfs.sftElfmfntAt(nfw int[]
+                                           {Mbth.min(lbb, lbb),
+                                                Mbth.mbx(ubb, ubb)}, j);
+                    rbngfs.rfmovf (j+1);
+                } flsf if (lbb > lbb) {
+
+                    /* If thf two rbngfs don't ovfrlbp bnd brfn't bdjbdfnt but
+                     * brf out of ordfr, swbp thfm.
+                     */
+                    rbngfs.sftElfmfntAt (rbngfb, j);
+                    rbngfs.sftElfmfntAt (rbngfb, j+1);
+                } flsf {
+                /* If thf two rbngfs don't ovfrlbp bnd brfn't bdjbdfnt bnd
+                 * brfn't out of ordfr, wf'rf donf fbrly.
+                 */
+                    brfbk;
+                }
+            }
+        }
+    }
+
+    /**
+     * Convfrt thf givfn vfdtor of int[] objfdts to dbnonidbl brrby form.
+     */
+    privbtf stbtid int[][] dbnonidblArrbyForm(Vfdtor<int[]> rbngfs) {
+        rfturn rbngfs.toArrby (nfw int[rbngfs.sizf()][]);
+    }
+
+    /**
+     * Construdt b nfw sft-of-intfgfr bttributf with thf givfn mfmbfrs in
+     * brrby form.
+     *
+     * @pbrbm  mfmbfrs  Sft mfmbfrs in brrby form. If null, bn fmpty sft is
+     *                     donstrudtfd.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (Undhfdkfd fxdfption) Thrown if bny flfmfnt of
+     *     <CODE>mfmbfrs</CODE> is null.
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (Undhfdkfd fxdfption) Thrown if bny flfmfnt of
+     *     <CODE>mfmbfrs</CODE> is not b lfngth-onf or lfngth-two brrby or if
+     *     bny non-null rbngf in <CODE>mfmbfrs</CODE> hbs b lowfr bound lfss
+     *     thbn zfro.
+     */
+    protfdtfd SftOfIntfgfrSyntbx(int[][] mfmbfrs) {
+        this.mfmbfrs = pbrsf (mfmbfrs);
+    }
+
+    /**
+     * Pbrsf thf givfn brrby form, rfturning dbnonidbl brrby form.
+     */
+    privbtf stbtid int[][] pbrsf(int[][] mfmbfrs) {
+        // Crfbtf vfdtor to hold int[] flfmfnts, fbdh flfmfnt bfing onf rbngf
+        // pbrsfd out of mfmbfrs.
+        Vfdtor<int[]> rbngfs = nfw Vfdtor<>();
+
+        // Prodfss bll intfgfr groups in mfmbfrs.
+        int n = (mfmbfrs == null ? 0 : mfmbfrs.lfngth);
+        for (int i = 0; i < n; ++ i) {
+            // Gft lowfr bnd uppfr bounds of thf rbngf.
+            int lb, ub;
+            if (mfmbfrs[i].lfngth == 1) {
+                lb = ub = mfmbfrs[i][0];
+            } flsf if (mfmbfrs[i].lfngth == 2) {
+                lb = mfmbfrs[i][0];
+                ub = mfmbfrs[i][1];
+            } flsf {
+                throw nfw IllfgblArgumfntExdfption();
+            }
+
+            // Vfrify vblid bounds.
+            if (lb <= ub && lb < 0) {
+                throw nfw IllfgblArgumfntExdfption();
+            }
+
+            // Addumulbtf thf rbngf.
+            bddumulbtf(rbngfs, lb, ub);
+        }
+
+                // Rfturn dbnonidbl brrby form.
+                rfturn dbnonidblArrbyForm (rbngfs);
+                }
+
+    /**
+     * Construdt b nfw sft-of-intfgfr bttributf dontbining b singlf intfgfr.
+     *
+     * @pbrbm  mfmbfr  Sft mfmbfr.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (Undhfdkfd fxdfption) Thrown if <CODE>mfmbfr</CODE> is lfss thbn
+     *     zfro.
+     */
+    protfdtfd SftOfIntfgfrSyntbx(int mfmbfr) {
+        if (mfmbfr < 0) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        mfmbfrs = nfw int[][] {{mfmbfr, mfmbfr}};
+    }
+
+    /**
+     * Construdt b nfw sft-of-intfgfr bttributf dontbining b singlf rbngf of
+     * intfgfrs. If thf lowfr bound is grfbtfr thbn thf uppfr bound (b null
+     * rbngf), bn fmpty sft is donstrudtfd.
+     *
+     * @pbrbm  lowfrBound  Lowfr bound of thf rbngf.
+     * @pbrbm  uppfrBound  Uppfr bound of thf rbngf.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *     (Undhfdkfd fxdfption) Thrown if thf rbngf is non-null bnd
+     *     <CODE>lowfrBound</CODE> is lfss thbn zfro.
+     */
+    protfdtfd SftOfIntfgfrSyntbx(int lowfrBound, int uppfrBound) {
+        if (lowfrBound <= uppfrBound && lowfrBound < 0) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+        mfmbfrs = lowfrBound <=uppfrBound ?
+            nfw int[][] {{lowfrBound, uppfrBound}} :
+            nfw int[0][];
+    }
+
+
+    /**
+     * Obtbin this sft-of-intfgfr bttributf's mfmbfrs in dbnonidbl brrby form.
+     * Thf rfturnfd brrby is "sbff;" thf dlifnt mby bltfr it without bfffdting
+     * this sft-of-intfgfr bttributf.
+     *
+     * @rfturn  This sft-of-intfgfr bttributf's mfmbfrs in dbnonidbl brrby form.
+     */
+    publid int[][] gftMfmbfrs() {
+        int n = mfmbfrs.lfngth;
+        int[][] rfsult = nfw int[n][];
+        for (int i = 0; i < n; ++ i) {
+            rfsult[i] = nfw int[] {mfmbfrs[i][0], mfmbfrs[i][1]};
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Dftfrminf if this sft-of-intfgfr bttributf dontbins thf givfn vbluf.
+     *
+     * @pbrbm  x  Intfgfr vbluf.
+     *
+     * @rfturn  Truf if this sft-of-intfgfr bttributf dontbins thf vbluf
+     *          <CODE>x</CODE>, fblsf othfrwisf.
+     */
+    publid boolfbn dontbins(int x) {
+        // Do b linfbr sfbrdh to find thf rbngf thbt dontbins x, if bny.
+        int n = mfmbfrs.lfngth;
+        for (int i = 0; i < n; ++ i) {
+            if (x < mfmbfrs[i][0]) {
+                rfturn fblsf;
+            } flsf if (x <= mfmbfrs[i][1]) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Dftfrminf if this sft-of-intfgfr bttributf dontbins thf givfn intfgfr
+     * bttributf's vbluf.
+     *
+     * @pbrbm  bttributf  Intfgfr bttributf.
+     *
+     * @rfturn  Truf if this sft-of-intfgfr bttributf dontbins
+     *          <CODE>thfAttributf</CODE>'s vbluf, fblsf othfrwisf.
+     */
+    publid boolfbn dontbins(IntfgfrSyntbx bttributf) {
+        rfturn dontbins (bttributf.gftVbluf());
+    }
+
+    /**
+     * Dftfrminf thf smbllfst intfgfr in this sft-of-intfgfr bttributf thbt is
+     * grfbtfr thbn thf givfn vbluf. If thfrf brf no intfgfrs in this
+     * sft-of-intfgfr bttributf grfbtfr thbn thf givfn vbluf, <CODE>-1</CODE> is
+     * rfturnfd. (Sindf b sft-of-intfgfr bttributf dbn only dontbin nonnfgbtivf
+     * vblufs, <CODE>-1</CODE> will nfvfr bppfbr in thf sft.) You dbn usf thf
+     * <CODE>nfxt()</CODE> mfthod to itfrbtf through thf intfgfr vblufs in b
+     * sft-of-intfgfr bttributf in bsdfnding ordfr, likf this:
+     * <PRE>
+     *     SftOfIntfgfrSyntbx bttributf = . . .;
+     *     int i = -1;
+     *     whilf ((i = bttributf.nfxt (i)) != -1)
+     *         {
+     *         foo (i);
+     *         }
+     * </PRE>
+     *
+     * @pbrbm  x  Intfgfr vbluf.
+     *
+     * @rfturn  Thf smbllfst intfgfr in this sft-of-intfgfr bttributf thbt is
+     *          grfbtfr thbn <CODE>x</CODE>, or <CODE>-1</CODE> if no intfgfr in
+     *          this sft-of-intfgfr bttributf is grfbtfr thbn <CODE>x</CODE>.
+     */
+    publid int nfxt(int x) {
+        // Do b linfbr sfbrdh to find thf rbngf thbt dontbins x, if bny.
+        int n = mfmbfrs.lfngth;
+        for (int i = 0; i < n; ++ i) {
+            if (x < mfmbfrs[i][0]) {
+                rfturn mfmbfrs[i][0];
+            } flsf if (x < mfmbfrs[i][1]) {
+                rfturn x + 1;
+            }
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Rfturns whfthfr this sft-of-intfgfr bttributf is fquivblfnt to thf pbssfd
+     * in objfdt. To bf fquivblfnt, bll of thf following donditions must bf
+     * truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss SftOfIntfgfrSyntbx.
+     * <LI>
+     * This sft-of-intfgfr bttributf's mfmbfrs bnd <CODE>objfdt</CODE>'s
+     * mfmbfrs brf thf sbmf.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this
+     *          sft-of-intfgfr bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        if (objfdt != null && objfdt instbndfof SftOfIntfgfrSyntbx) {
+            int[][] myMfmbfrs = this.mfmbfrs;
+            int[][] othfrMfmbfrs = ((SftOfIntfgfrSyntbx) objfdt).mfmbfrs;
+            int m = myMfmbfrs.lfngth;
+            int n = othfrMfmbfrs.lfngth;
+            if (m == n) {
+                for (int i = 0; i < m; ++ i) {
+                    if (myMfmbfrs[i][0] != othfrMfmbfrs[i][0] ||
+                        myMfmbfrs[i][1] != othfrMfmbfrs[i][1]) {
+                        rfturn fblsf;
+                    }
+                }
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
+            }
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this sft-of-intfgfr bttributf. Thf hbsh
+     * dodf is thf sum of thf lowfr bnd uppfr bounds of thf rbngfs in thf
+     * dbnonidbl brrby form, or 0 for bn fmpty sft.
+     */
+    publid int hbshCodf() {
+        int rfsult = 0;
+        int n = mfmbfrs.lfngth;
+        for (int i = 0; i < n; ++ i) {
+            rfsult += mfmbfrs[i][0] + mfmbfrs[i][1];
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns b string vbluf dorrfsponding to this sft-of-intfgfr bttributf.
+     * Thf string vbluf is b zfro-lfngth string if this sft is fmpty. Othfrwisf,
+     * thf string vbluf is b dommb-sfpbrbtfd list of thf rbngfs in thf dbnonidbl
+     * brrby form, whfrf fbdh rbngf is rfprfsfntfd bs <CODE>"<I>i</I>"</CODE> if
+     * thf lowfr bound fqubls thf uppfr bound or
+     * <CODE>"<I>i</I>-<I>j</I>"</CODE> othfrwisf.
+     */
+    publid String toString() {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        int n = mfmbfrs.lfngth;
+        for (int i = 0; i < n; i++) {
+            if (i > 0) {
+                rfsult.bppfnd (',');
+            }
+            rfsult.bppfnd (mfmbfrs[i][0]);
+            if (mfmbfrs[i][0] != mfmbfrs[i][1]) {
+                rfsult.bppfnd ('-');
+                rfsult.bppfnd (mfmbfrs[i][1]);
+            }
+        }
+        rfturn rfsult.toString();
+    }
+
+}

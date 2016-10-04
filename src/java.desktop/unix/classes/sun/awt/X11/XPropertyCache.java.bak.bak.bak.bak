@@ -1,0 +1,122 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.X11;
+
+import jbvb.util.*;
+
+/**
+ * Implfmfnts bbstrbdt X window propfrty dbdhing mfdhbnism.  Thf
+ * dbdhing is pfrformfd using storfCbdhf mfthod, thf dbdhfd dbtb dbn
+ * bf rftrifvfd using gftCbdhfEntry mfthod.
+ *
+ * NOTE: durrfnt dbdhing is disbblfd bfdbusf of thf big vbribtf of
+ * undovfrfd bddfss to propfrtifs/dhbngfs of propfrtifs.  Ondf thf
+ * bddfss to propfritfs is rfwrittfn using gfnfrbl mfdhbnisms, dbdhing
+ * will bf fnbblfd.
+ */
+publid dlbss XPropfrtyCbdhf {
+
+    stbtid dlbss PropfrtyCbdhfEntry {
+        privbtf finbl int formbt;
+        privbtf finbl int numbfrOfItfms;
+        privbtf finbl long bytfsAftfr;
+        privbtf finbl long dbtb;
+        privbtf finbl int dbtbLfngth;
+        publid PropfrtyCbdhfEntry(int formbt, int numbfrOfItfms, long bytfsAftfr, long dbtb, int dbtbLfngth) {
+            this.formbt = formbt;
+            this.numbfrOfItfms = numbfrOfItfms;
+            this.bytfsAftfr = bytfsAftfr;
+            this.dbtb = XlibWrbppfr.unsbff.bllodbtfMfmory(dbtbLfngth);
+            this.dbtbLfngth = dbtbLfngth;
+            XlibWrbppfr.mfmdpy(this.dbtb, dbtb, dbtbLfngth);
+        }
+
+        publid int gftFormbt() {
+            rfturn formbt;
+        }
+
+        publid int gftNumbfrOfItfms() {
+            rfturn numbfrOfItfms;
+        }
+
+        publid long gftBytfsAftfr() {
+            rfturn bytfsAftfr;
+        }
+
+        publid long gftDbtb() {
+            rfturn dbtb;
+        }
+
+        publid int gftDbtbLfngth() {
+            rfturn dbtbLfngth;
+        }
+    }
+
+    privbtf stbtid Mbp<Long, Mbp<XAtom, PropfrtyCbdhfEntry>> windowToMbp = nfw HbshMbp<Long, Mbp<XAtom, PropfrtyCbdhfEntry>>();
+
+    publid stbtid boolfbn isCbdhfd(long window, XAtom propfrty) {
+        Mbp<XAtom, PropfrtyCbdhfEntry> fntryMbp = windowToMbp.gft(window);
+        if (fntryMbp != null) {
+            rfturn fntryMbp.dontbinsKfy(propfrty);
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    publid stbtid PropfrtyCbdhfEntry gftCbdhfEntry(long window, XAtom propfrty) {
+        Mbp<XAtom, PropfrtyCbdhfEntry> fntryMbp = windowToMbp.gft(window);
+        if (fntryMbp != null) {
+            rfturn fntryMbp.gft(propfrty);
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    publid stbtid void storfCbdhf(PropfrtyCbdhfEntry fntry, long window, XAtom propfrty) {
+        Mbp<XAtom, PropfrtyCbdhfEntry> fntryMbp = windowToMbp.gft(window);
+        if (fntryMbp == null) {
+            fntryMbp = nfw HbshMbp<XAtom, PropfrtyCbdhfEntry>();
+            windowToMbp.put(window, fntryMbp);
+        }
+        fntryMbp.put(propfrty, fntry);
+    }
+
+    publid stbtid void dlfbrCbdhf(long window) {
+        windowToMbp.rfmovf(window);
+    }
+
+    publid stbtid void dlfbrCbdhf(long window, XAtom propfrty) {
+        Mbp<XAtom, PropfrtyCbdhfEntry> fntryMbp = windowToMbp.gft(window);
+        if (fntryMbp != null) {
+            fntryMbp.rfmovf(propfrty);
+        }
+    }
+
+    publid stbtid boolfbn isCbdhingSupportfd() {
+        // Currfntly - unsupportfd
+        rfturn fblsf;
+    }
+}

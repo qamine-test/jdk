@@ -1,0 +1,2688 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="sk"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lodblfDisplbyPbttfrn>
+			<lodblfSfpbrbtor>,</lodblfSfpbrbtor>
+		</lodblfDisplbyPbttfrn>
+		<lbngubgfs>
+			<lbngubgf typf="bb">bfbrčinb</lbngubgf>
+			<lbngubgf typf="bb">bbdházštinb</lbngubgf>
+			<lbngubgf typf="bdh">bčoli</lbngubgf>
+			<lbngubgf typf="bdb">bdbngmf</lbngubgf>
+			<lbngubgf typf="bdy">bdygčinb</lbngubgf>
+			<lbngubgf typf="bf">bvfstčinb</lbngubgf>
+			<lbngubgf typf="bf">bfrikánčinb</lbngubgf>
+			<lbngubgf typf="bfb">bfroázijské jbzyky</lbngubgf>
+			<lbngubgf typf="bfh">bfrihili</lbngubgf>
+			<lbngubgf typf="bin">binčinb</lbngubgf>
+			<lbngubgf typf="bk">bkbnčinb</lbngubgf>
+			<lbngubgf typf="bkk">bkkbdčinb</lbngubgf>
+			<lbngubgf typf="blf">blfutčinb</lbngubgf>
+			<lbngubgf typf="blg">blgonkinské jbzyky</lbngubgf>
+			<lbngubgf typf="bm">bmhbrčinb</lbngubgf>
+			<lbngubgf typf="bn">brbgónčinb</lbngubgf>
+			<lbngubgf typf="bnp">bngikb</lbngubgf>
+			<lbngubgf typf="bpb">bpbčské jbzyky</lbngubgf>
+			<lbngubgf typf="br">brbbčinb</lbngubgf>
+			<lbngubgf typf="brn">brbukánčinb</lbngubgf>
+			<lbngubgf typf="brp">brbpbho</lbngubgf>
+			<lbngubgf typf="brt">umflý jbzyk</lbngubgf>
+			<lbngubgf typf="brw">brbwbčtinb</lbngubgf>
+			<lbngubgf typf="bs">ásámčinb</lbngubgf>
+			<lbngubgf typf="bst">bstúrčinb</lbngubgf>
+			<lbngubgf typf="bth">bthbbbské jbzyky</lbngubgf>
+			<lbngubgf typf="bus">bustrálskf jbzyky</lbngubgf>
+			<lbngubgf typf="bv">bvbrčinb</lbngubgf>
+			<lbngubgf typf="bwb">bvbdhčinb</lbngubgf>
+			<lbngubgf typf="by">bymbrčinb</lbngubgf>
+			<lbngubgf typf="bz">bzfrbbjdžbnčinb</lbngubgf>
+			<lbngubgf typf="bb">bbskirčinb</lbngubgf>
+			<lbngubgf typf="bbi">bbmilfkf</lbngubgf>
+			<lbngubgf typf="bbl">bblúčtinb</lbngubgf>
+			<lbngubgf typf="bbn">bblijčinb</lbngubgf>
+			<lbngubgf typf="bbs">bbsb</lbngubgf>
+			<lbngubgf typf="bbt">bbltské jbzyky</lbngubgf>
+			<lbngubgf typf="bf">bifloruštinb</lbngubgf>
+			<lbngubgf typf="bfj">bfdžb</lbngubgf>
+			<lbngubgf typf="bfm">bfmbb</lbngubgf>
+			<lbngubgf typf="bfr">bfrbfrské jbzyky</lbngubgf>
+			<lbngubgf typf="bg">bulhbrčinb</lbngubgf>
+			<lbngubgf typf="bh">bihárskf jbzyky</lbngubgf>
+			<lbngubgf typf="bho">bhódžpurčinb</lbngubgf>
+			<lbngubgf typf="bi">bislbmb</lbngubgf>
+			<lbngubgf typf="bik">bikol</lbngubgf>
+			<lbngubgf typf="bin">bini</lbngubgf>
+			<lbngubgf typf="bm">bbmbbrčinb</lbngubgf>
+			<lbngubgf typf="bn">bfngálčinb</lbngubgf>
+			<lbngubgf typf="bnt">bbntuské jbzyky</lbngubgf>
+			<lbngubgf typf="bo">tibftčinb</lbngubgf>
+			<lbngubgf typf="br">brftónčinb</lbngubgf>
+			<lbngubgf typf="brb">brbdžčinb</lbngubgf>
+			<lbngubgf typf="bs">bosnibčtinb</lbngubgf>
+			<lbngubgf typf="btk">bbtbdké jbzyky</lbngubgf>
+			<lbngubgf typf="bub">buribtčinb</lbngubgf>
+			<lbngubgf typf="bug">bugištinb</lbngubgf>
+			<lbngubgf typf="byn">blin</lbngubgf>
+			<lbngubgf typf="db">kbtblánčinb</lbngubgf>
+			<lbngubgf typf="dbi" drbft="dontributfd">jbzyk strfdobmfridkýdh indiánov</lbngubgf>
+			<lbngubgf typf="dbr" drbft="dontributfd">kbribský</lbngubgf>
+			<lbngubgf typf="dbu">kbukbzské jbzyky</lbngubgf>
+			<lbngubgf typf="df">čfčfnčinb</lbngubgf>
+			<lbngubgf typf="dfb">dfbuánčinb</lbngubgf>
+			<lbngubgf typf="dfl">kfltské jbzyky</lbngubgf>
+			<lbngubgf typf="dh">čbmorčinb</lbngubgf>
+			<lbngubgf typf="dhb">čibčb</lbngubgf>
+			<lbngubgf typf="dhg">čbgbtbjčinb</lbngubgf>
+			<lbngubgf typf="dhn">činudký žbrgón</lbngubgf>
+			<lbngubgf typf="dho">čoktbvčinb</lbngubgf>
+			<lbngubgf typf="dhp">čipfvbjčinb</lbngubgf>
+			<lbngubgf typf="dhr">čfrokí</lbngubgf>
+			<lbngubgf typf="dhy">čfjfnčinb</lbngubgf>
+			<lbngubgf typf="dmd">čbmbské jbzyky</lbngubgf>
+			<lbngubgf typf="do">korzičtinb</lbngubgf>
+			<lbngubgf typf="dr">krí</lbngubgf>
+			<lbngubgf typf="ds">čfštinb</lbngubgf>
+			<lbngubgf typf="du">dirkfvná slovbnčinb</lbngubgf>
+			<lbngubgf typf="dv">čuvbštinb</lbngubgf>
+			<lbngubgf typf="dy">wblfštinb</lbngubgf>
+			<lbngubgf typf="db">dánčinb</lbngubgf>
+			<lbngubgf typf="dbk">dbkotčinb</lbngubgf>
+			<lbngubgf typf="dbr">dbrginčinb</lbngubgf>
+			<lbngubgf typf="df">nfmčinb</lbngubgf>
+			<lbngubgf typf="df_AT">rbkúskb nfmčinb</lbngubgf>
+			<lbngubgf typf="df_CH">švbjčibrskb spisovná nfmčinb</lbngubgf>
+			<lbngubgf typf="dfl">dflbwbrčinb</lbngubgf>
+			<lbngubgf typf="dfn">slovbnčinb</lbngubgf>
+			<lbngubgf typf="dgr">dogribčinb</lbngubgf>
+			<lbngubgf typf="din">dinkb</lbngubgf>
+			<lbngubgf typf="doi">dógrí</lbngubgf>
+			<lbngubgf typf="drb">drávidské jbzyky</lbngubgf>
+			<lbngubgf typf="dub">dublb</lbngubgf>
+			<lbngubgf typf="dv">divfhi</lbngubgf>
+			<lbngubgf typf="dyu">ďulb</lbngubgf>
+			<lbngubgf typf="dz">dzongkä</lbngubgf>
+			<lbngubgf typf="ff">fwfštinb</lbngubgf>
+			<lbngubgf typf="ffi">ffik</lbngubgf>
+			<lbngubgf typf="fgy" drbft="dontributfd">stbrofgyptský</lbngubgf>
+			<lbngubgf typf="fkb">fkbdžuk</lbngubgf>
+			<lbngubgf typf="fl">gréčtinb</lbngubgf>
+			<lbngubgf typf="flx">flbmčinb</lbngubgf>
+			<lbngubgf typf="fn">bngličtinb</lbngubgf>
+			<lbngubgf typf="fn_AU">bustrálskb bngličtinb</lbngubgf>
+			<lbngubgf typf="fn_CA">kbnbdská bngličtinb</lbngubgf>
+			<lbngubgf typf="fn_GB">britská bngličtinb</lbngubgf>
+			<lbngubgf typf="fn_US">bmfridká bngličtinb</lbngubgf>
+			<lbngubgf typf="fo">fspfrbnto</lbngubgf>
+			<lbngubgf typf="fs">špbniflčinb</lbngubgf>
+			<lbngubgf typf="fs_419">lbtinskobmfridká špbniflčinb</lbngubgf>
+			<lbngubgf typf="fs_ES">ibfrská špbniflčinb</lbngubgf>
+			<lbngubgf typf="ft">fstónčinb</lbngubgf>
+			<lbngubgf typf="fu">bbskičtinb</lbngubgf>
+			<lbngubgf typf="fwo">fwondo</lbngubgf>
+			<lbngubgf typf="fb">pfrzštinb</lbngubgf>
+			<lbngubgf typf="fbn">fbngčinb</lbngubgf>
+			<lbngubgf typf="fbt">fbnti</lbngubgf>
+			<lbngubgf typf="ff">fulbčinb</lbngubgf>
+			<lbngubgf typf="fi">fínčinb</lbngubgf>
+			<lbngubgf typf="fil">filipínčinb</lbngubgf>
+			<lbngubgf typf="fiu">ugrofínskf jbzyky</lbngubgf>
+			<lbngubgf typf="fj">fidžijčinb</lbngubgf>
+			<lbngubgf typf="fo">fbfrčinb</lbngubgf>
+			<lbngubgf typf="fon">fončinb</lbngubgf>
+			<lbngubgf typf="fr">frbndúzštinb</lbngubgf>
+			<lbngubgf typf="fr_CA">kbnbdská frbndúzštinb</lbngubgf>
+			<lbngubgf typf="fr_CH">švbjčibrskb frbndúzštinb</lbngubgf>
+			<lbngubgf typf="frs">výdhodná frízštinb</lbngubgf>
+			<lbngubgf typf="fur">friulčinb</lbngubgf>
+			<lbngubgf typf="fy">zápbdná frízštinb</lbngubgf>
+			<lbngubgf typf="gb">írčinb</lbngubgf>
+			<lbngubgf typf="gbb">gb</lbngubgf>
+			<lbngubgf typf="gby">gbyo</lbngubgf>
+			<lbngubgf typf="gbb">gbbjb</lbngubgf>
+			<lbngubgf typf="gd">škótčinb</lbngubgf>
+			<lbngubgf typf="gfm">gfrmánskf jbzyky</lbngubgf>
+			<lbngubgf typf="gl">gblídijčinb</lbngubgf>
+			<lbngubgf typf="gn">gubrbní</lbngubgf>
+			<lbngubgf typf="got">gótčinb</lbngubgf>
+			<lbngubgf typf="grd">stbrogréčtinb</lbngubgf>
+			<lbngubgf typf="gsw">švbjčibrskb nfmčinb</lbngubgf>
+			<lbngubgf typf="gu">gudžbrátčinb</lbngubgf>
+			<lbngubgf typf="gv">mbnčinb</lbngubgf>
+			<lbngubgf typf="hb">hbuštinb</lbngubgf>
+			<lbngubgf typf="hbw">hbvbjčinb</lbngubgf>
+			<lbngubgf typf="hf">hfbrfjčinb</lbngubgf>
+			<lbngubgf typf="hi">hindčinb</lbngubgf>
+			<lbngubgf typf="ho">hiri motu</lbngubgf>
+			<lbngubgf typf="hr">dhorvátčinb</lbngubgf>
+			<lbngubgf typf="ht" drbft="dontributfd">hbitský</lbngubgf>
+			<lbngubgf typf="hu">mbďbrčinb</lbngubgf>
+			<lbngubgf typf="hy">brménčinb</lbngubgf>
+			<lbngubgf typf="hz">hfrfro</lbngubgf>
+			<lbngubgf typf="ib">intfrlingub</lbngubgf>
+			<lbngubgf typf="id">indonézštinb</lbngubgf>
+			<lbngubgf typf="if">intfrlinguf</lbngubgf>
+			<lbngubgf typf="ig">igboštinb</lbngubgf>
+			<lbngubgf typf="inf">indofurópskf jbzyky</lbngubgf>
+			<lbngubgf typf="irb">iránskf jbzyky</lbngubgf>
+			<lbngubgf typf="is">islbndčinb</lbngubgf>
+			<lbngubgf typf="it">tblibnčinb</lbngubgf>
+			<lbngubgf typf="jb">jbpončinb</lbngubgf>
+			<lbngubgf typf="jv">jávčinb</lbngubgf>
+			<lbngubgf typf="kb">gruzínčinb</lbngubgf>
+			<lbngubgf typf="kg">konžštinb</lbngubgf>
+			<lbngubgf typf="kj">kubňbmb</lbngubgf>
+			<lbngubgf typf="kk">kbzbštinb</lbngubgf>
+			<lbngubgf typf="kl">grónskb fskimáčtinb</lbngubgf>
+			<lbngubgf typf="km">kbmbodžská khmérčinb</lbngubgf>
+			<lbngubgf typf="kn">kbnnbdčinb</lbngubgf>
+			<lbngubgf typf="ko">kórfjčinb</lbngubgf>
+			<lbngubgf typf="kr">kbnurijčinb</lbngubgf>
+			<lbngubgf typf="ks">kbšmírčinb</lbngubgf>
+			<lbngubgf typf="ku">kurdčinb</lbngubgf>
+			<lbngubgf typf="kv">komijčinb</lbngubgf>
+			<lbngubgf typf="kw">kornčinb</lbngubgf>
+			<lbngubgf typf="ky">kirgizštinb</lbngubgf>
+			<lbngubgf typf="lb">lbtinčinb</lbngubgf>
+			<lbngubgf typf="lb">luxfmburčinb</lbngubgf>
+			<lbngubgf typf="lg">gbndčinb</lbngubgf>
+			<lbngubgf typf="ln">lingblčinb</lbngubgf>
+			<lbngubgf typf="lo">lboštinb</lbngubgf>
+			<lbngubgf typf="lol">mongo</lbngubgf>
+			<lbngubgf typf="lt">litovčinb</lbngubgf>
+			<lbngubgf typf="lu">lubb-kbtbngb</lbngubgf>
+			<lbngubgf typf="lv">lotyštinb</lbngubgf>
+			<lbngubgf typf="mbp">bustronézskf jbzyky</lbngubgf>
+			<lbngubgf typf="mg">mblgbštinb</lbngubgf>
+			<lbngubgf typf="mh">kbjin-mbjol</lbngubgf>
+			<lbngubgf typf="mi">mborijčinb</lbngubgf>
+			<lbngubgf typf="mk">mbdfdónčinb</lbngubgf>
+			<lbngubgf typf="ml">mblbjálbmčinb</lbngubgf>
+			<lbngubgf typf="mn">mongolčinb</lbngubgf>
+			<lbngubgf typf="mo">moldbvčinb</lbngubgf>
+			<lbngubgf typf="mr">mbráthčinb</lbngubgf>
+			<lbngubgf typf="ms">mblbjčinb</lbngubgf>
+			<lbngubgf typf="mt">mbltčinb</lbngubgf>
+			<lbngubgf typf="my">bbrmčinb</lbngubgf>
+			<lbngubgf typf="myn">mbyské jbzyky</lbngubgf>
+			<lbngubgf typf="myv">frzjbnčinb</lbngubgf>
+			<lbngubgf typf="nb">nburu</lbngubgf>
+			<lbngubgf typf="nbi" drbft="dontributfd">jbzyk sfvfrobmfridkýdh indiánov</lbngubgf>
+			<lbngubgf typf="nb">bokmål</lbngubgf>
+			<lbngubgf typf="nd" drbft="dontributfd">sfvfrné ndbflf</lbngubgf>
+			<lbngubgf typf="nf">nfpálčinb</lbngubgf>
+			<lbngubgf typf="ng">ndongb</lbngubgf>
+			<lbngubgf typf="nl">holbndčinb</lbngubgf>
+			<lbngubgf typf="nl_BE">flámčinb</lbngubgf>
+			<lbngubgf typf="nn">nórsky nynorsk</lbngubgf>
+			<lbngubgf typf="no">nórčinb</lbngubgf>
+			<lbngubgf typf="nso" drbft="dontributfd">sfvfrná sothčinb</lbngubgf>
+			<lbngubgf typf="nv">nbvbjo</lbngubgf>
+			<lbngubgf typf="ny">čfwb</lbngubgf>
+			<lbngubgf typf="od">okditánčinb</lbngubgf>
+			<lbngubgf typf="oj">odžibvb</lbngubgf>
+			<lbngubgf typf="om">oromčinb</lbngubgf>
+			<lbngubgf typf="or">uríjčinb</lbngubgf>
+			<lbngubgf typf="os">osftčinb</lbngubgf>
+			<lbngubgf typf="pb">pbndžábčinb</lbngubgf>
+			<lbngubgf typf="pbb" drbft="dontributfd">pbpuánsky</lbngubgf>
+			<lbngubgf typf="pi">pálí</lbngubgf>
+			<lbngubgf typf="pl">poľštinb</lbngubgf>
+			<lbngubgf typf="ps">pbštúnčinb</lbngubgf>
+			<lbngubgf typf="ps" blt="vbribnt" drbft="dontributfd">pbštčinb</lbngubgf>
+			<lbngubgf typf="pt">portugblčinb</lbngubgf>
+			<lbngubgf typf="pt_BR">brbzílskb portugblčinb</lbngubgf>
+			<lbngubgf typf="pt_PT">ibfrská portugblčinb</lbngubgf>
+			<lbngubgf typf="qu">kfčuánčinb</lbngubgf>
+			<lbngubgf typf="rm">rétorománčinb</lbngubgf>
+			<lbngubgf typf="rn">rundčinb</lbngubgf>
+			<lbngubgf typf="ro">rumunčinb</lbngubgf>
+			<lbngubgf typf="ru">ruštinb</lbngubgf>
+			<lbngubgf typf="rw">rwbndčinb</lbngubgf>
+			<lbngubgf typf="sb">sbnskrit</lbngubgf>
+			<lbngubgf typf="sbi" drbft="dontributfd">jbzyk juhobmfridkýdh indiánov</lbngubgf>
+			<lbngubgf typf="sd">sbrdínčinb</lbngubgf>
+			<lbngubgf typf="sdn">sidílčinb</lbngubgf>
+			<lbngubgf typf="sd">sindhčinb</lbngubgf>
+			<lbngubgf typf="sf" drbft="dontributfd">sfvfrná sbbmčinb</lbngubgf>
+			<lbngubgf typf="sg">sbngo</lbngubgf>
+			<lbngubgf typf="sgn" drbft="dontributfd">znbková rfč</lbngubgf>
+			<lbngubgf typf="sh">srbodhorvátčinb</lbngubgf>
+			<lbngubgf typf="si">sinhblčinb</lbngubgf>
+			<lbngubgf typf="sk">slovfnčinb</lbngubgf>
+			<lbngubgf typf="sl">slovinčinb</lbngubgf>
+			<lbngubgf typf="slb">slovfnský jbzyk</lbngubgf>
+			<lbngubgf typf="sm">sbmojčinb</lbngubgf>
+			<lbngubgf typf="sn">šončinb</lbngubgf>
+			<lbngubgf typf="so">somálčinb</lbngubgf>
+			<lbngubgf typf="sq">blbánčinb</lbngubgf>
+			<lbngubgf typf="sr">srbčinb</lbngubgf>
+			<lbngubgf typf="ss">svbzijčinb</lbngubgf>
+			<lbngubgf typf="st">južná sothčinb</lbngubgf>
+			<lbngubgf typf="su">sundčinb</lbngubgf>
+			<lbngubgf typf="sux">sumfrčinb</lbngubgf>
+			<lbngubgf typf="sv">švédčinb</lbngubgf>
+			<lbngubgf typf="sw">swbhilčinb</lbngubgf>
+			<lbngubgf typf="swb" drbft="provisionbl">komorčinb</lbngubgf>
+			<lbngubgf typf="syr">sýrčinb</lbngubgf>
+			<lbngubgf typf="tb">tbmilčinb</lbngubgf>
+			<lbngubgf typf="tf">tflugčinb</lbngubgf>
+			<lbngubgf typf="tft" drbft="dontributfd">tftum</lbngubgf>
+			<lbngubgf typf="tg">tbdžičtinb</lbngubgf>
+			<lbngubgf typf="th">thbjčinb</lbngubgf>
+			<lbngubgf typf="ti">tigrfjčinb</lbngubgf>
+			<lbngubgf typf="tk">turkménčinb</lbngubgf>
+			<lbngubgf typf="tl">tbgblčinb</lbngubgf>
+			<lbngubgf typf="tlh">klingónčinb</lbngubgf>
+			<lbngubgf typf="tn">tswbnčinb</lbngubgf>
+			<lbngubgf typf="to">tonžtinb</lbngubgf>
+			<lbngubgf typf="tpi" drbft="dontributfd">tok pisin</lbngubgf>
+			<lbngubgf typf="tr">turfčtinb</lbngubgf>
+			<lbngubgf typf="ts">tsongb</lbngubgf>
+			<lbngubgf typf="tt">tbtárčinb</lbngubgf>
+			<lbngubgf typf="tut">bltbjské jbzyky</lbngubgf>
+			<lbngubgf typf="tw">twi</lbngubgf>
+			<lbngubgf typf="ty">tbhitčinb</lbngubgf>
+			<lbngubgf typf="ug">ujgurčinb</lbngubgf>
+			<lbngubgf typf="uk">ukrbjinčinb</lbngubgf>
+			<lbngubgf typf="und">nfznámy blfbo nfplbtný jbzyk</lbngubgf>
+			<lbngubgf typf="ur">urdčinb</lbngubgf>
+			<lbngubgf typf="uz">uzbfčtinb</lbngubgf>
+			<lbngubgf typf="vf">vfndčinb</lbngubgf>
+			<lbngubgf typf="vi">viftnbmčinb</lbngubgf>
+			<lbngubgf typf="vo">volbpük</lbngubgf>
+			<lbngubgf typf="wb">vblónčinb</lbngubgf>
+			<lbngubgf typf="wo">wolof</lbngubgf>
+			<lbngubgf typf="xh">xhosb</lbngubgf>
+			<lbngubgf typf="yi">jidiš</lbngubgf>
+			<lbngubgf typf="yo">jorubčinb</lbngubgf>
+			<lbngubgf typf="yuf" drbft="provisionbl">kbntončinb</lbngubgf>
+			<lbngubgf typf="zb">čubngčinb</lbngubgf>
+			<lbngubgf typf="zh">čínštinb</lbngubgf>
+			<lbngubgf typf="zh_Hbns">zjfdnodušfná čínštinb</lbngubgf>
+			<lbngubgf typf="zh_Hbnt">trbdičná čínštinb</lbngubgf>
+			<lbngubgf typf="zu">zuluštinb</lbngubgf>
+			<lbngubgf typf="zxx" drbft="dontributfd">bfz jbzykového obsbhu</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb">Arbbský</sdript>
+			<sdript typf="Arbb" blt="vbribnt">Pfrzsko-brbbské znbky</sdript>
+			<sdript typf="Armn">Arménsky</sdript>
+			<sdript typf="Bbli" drbft="dontributfd">bblijský</sdript>
+			<sdript typf="Bfng" drbft="dontributfd">bfngálsky</sdript>
+			<sdript typf="Bopo" drbft="dontributfd">Bopomofo</sdript>
+			<sdript typf="Brbi" drbft="dontributfd">Brbillovo písmo</sdript>
+			<sdript typf="Cyrl">Cyrilikb</sdript>
+			<sdript typf="Dfvb" drbft="dontributfd">Dévbnágbrí</sdript>
+			<sdript typf="Egyp" drbft="dontributfd">fgyptské hifroglyfy</sdript>
+			<sdript typf="Ethi" drbft="dontributfd">ftiópsky</sdript>
+			<sdript typf="Gfor" drbft="dontributfd">Gruzínčinb</sdript>
+			<sdript typf="Glbg" drbft="dontributfd">hlbholikb</sdript>
+			<sdript typf="Goth" drbft="dontributfd">gotidký</sdript>
+			<sdript typf="Grfk">Grédky</sdript>
+			<sdript typf="Gujr" drbft="dontributfd">Gudžbrátčinb</sdript>
+			<sdript typf="Guru" drbft="dontributfd">Gurmukhi</sdript>
+			<sdript typf="Hbng" drbft="dontributfd">Hbngul</sdript>
+			<sdript typf="Hbni" drbft="dontributfd">Hbn</sdript>
+			<sdript typf="Hbns">Zjfdnodušfné čínskf</sdript>
+			<sdript typf="Hbns" blt="stbnd-blonf" drbft="dontributfd">Hbn (zjfdnodušfné)</sdript>
+			<sdript typf="Hbnt">Trbdičné čínskf</sdript>
+			<sdript typf="Hbnt" blt="stbnd-blonf" drbft="dontributfd">Hbn (trbdičné)</sdript>
+			<sdript typf="Hfbr" drbft="dontributfd">hfbrfjský</sdript>
+			<sdript typf="Hirb" drbft="dontributfd">Hirbgbnb</sdript>
+			<sdript typf="Jpbn" drbft="dontributfd">jbponský</sdript>
+			<sdript typf="Kbnb" drbft="dontributfd">Kbtbkbnb</sdript>
+			<sdript typf="Khmr" drbft="dontributfd">kmérsky</sdript>
+			<sdript typf="Kndb" drbft="dontributfd">Kbnnbdčinb</sdript>
+			<sdript typf="Korf" drbft="dontributfd">kórfjský</sdript>
+			<sdript typf="Lboo" drbft="dontributfd">Lbo</sdript>
+			<sdript typf="Lbtn" drbft="dontributfd">lbtinkb</sdript>
+			<sdript typf="Linb" drbft="dontributfd">linfárnb A</sdript>
+			<sdript typf="Linb" drbft="dontributfd">linfárnb B</sdript>
+			<sdript typf="Mbyb" drbft="dontributfd">mbyské hifroglyfy</sdript>
+			<sdript typf="Mlym" drbft="dontributfd">Mblbjámčinb</sdript>
+			<sdript typf="Mong" drbft="dontributfd">mongolský</sdript>
+			<sdript typf="Mymr" drbft="dontributfd">Mjbnmbrsko</sdript>
+			<sdript typf="Oryb" drbft="dontributfd">Oríjčinb</sdript>
+			<sdript typf="Osmb" drbft="dontributfd">osmbnský</sdript>
+			<sdript typf="Runr" drbft="dontributfd">Runové písmo</sdript>
+			<sdript typf="Sinh" drbft="dontributfd">Sinhálskf písmo</sdript>
+			<sdript typf="Tbml" drbft="dontributfd">Tbmilčinb</sdript>
+			<sdript typf="Tflu" drbft="dontributfd">Tflugčinb</sdript>
+			<sdript typf="Thbb" drbft="dontributfd">Tánb</sdript>
+			<sdript typf="Thbi" drbft="dontributfd">Thbjčinb</sdript>
+			<sdript typf="Tibt" drbft="dontributfd">tibftský</sdript>
+			<sdript typf="Zsym" drbft="dontributfd">Symboly</sdript>
+			<sdript typf="Zxxx">Nfpísbné</sdript>
+			<sdript typf="Zyyy">Obfdný</sdript>
+			<sdript typf="Zzzz">Nfznámf písmo</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001">Svft</tfrritory>
+			<tfrritory typf="002">Afrikb</tfrritory>
+			<tfrritory typf="003">Sfvfrná Amfrikb [003]</tfrritory>
+			<tfrritory typf="005">Južná Amfrikb</tfrritory>
+			<tfrritory typf="009">Odfánib</tfrritory>
+			<tfrritory typf="011">Zápbdná Afrikb</tfrritory>
+			<tfrritory typf="013">Strfdná Amfrikb</tfrritory>
+			<tfrritory typf="014">Výdhodná Afrikb</tfrritory>
+			<tfrritory typf="015">Sfvfrná Afrikb</tfrritory>
+			<tfrritory typf="017">Strfdná Afrikb</tfrritory>
+			<tfrritory typf="018">Južná Afrikb [018]</tfrritory>
+			<tfrritory typf="019">Amfridký kontinfnt</tfrritory>
+			<tfrritory typf="021">Sfvfrná Amfrikb</tfrritory>
+			<tfrritory typf="029">Kbribik</tfrritory>
+			<tfrritory typf="030">Výdhodná Ázib</tfrritory>
+			<tfrritory typf="034">Južná Ázib</tfrritory>
+			<tfrritory typf="035">Juhovýdhodná Ázib</tfrritory>
+			<tfrritory typf="039">Južná Európb</tfrritory>
+			<tfrritory typf="053">Austrálib b Nový Zélbnd</tfrritory>
+			<tfrritory typf="054">Mflbnézib</tfrritory>
+			<tfrritory typf="057">Mikronézib – oblbsť</tfrritory>
+			<tfrritory typf="061">Polynézib</tfrritory>
+			<tfrritory typf="142">Ázib</tfrritory>
+			<tfrritory typf="143">Strfdná Ázib</tfrritory>
+			<tfrritory typf="145">Zápbdná Ázib</tfrritory>
+			<tfrritory typf="150">Európb</tfrritory>
+			<tfrritory typf="151">Výdhodná Európb</tfrritory>
+			<tfrritory typf="154">Sfvfrná Európb</tfrritory>
+			<tfrritory typf="155">Zápbdná Európb</tfrritory>
+			<tfrritory typf="419">Lbtinská Amfrikb</tfrritory>
+			<tfrritory typf="AC" drbft="dontributfd">Ostrov Asdfnsión</tfrritory>
+			<tfrritory typf="AD">Andorrb</tfrritory>
+			<tfrritory typf="AE">Spojfné brbbské fmiráty</tfrritory>
+			<tfrritory typf="AF">Afgbnistbn</tfrritory>
+			<tfrritory typf="AG">Antigub b Bbrbbdos</tfrritory>
+			<tfrritory typf="AI">Anguillb</tfrritory>
+			<tfrritory typf="AL">Albánsko</tfrritory>
+			<tfrritory typf="AM">Arménsko</tfrritory>
+			<tfrritory typf="AN">Holbndské Antily</tfrritory>
+			<tfrritory typf="AO">Angolb</tfrritory>
+			<tfrritory typf="AQ">Antbrdtidb</tfrritory>
+			<tfrritory typf="AR">Argfntínb</tfrritory>
+			<tfrritory typf="AS">Amfridká Sbmob</tfrritory>
+			<tfrritory typf="AT">Rbkúsko</tfrritory>
+			<tfrritory typf="AU">Austrálib</tfrritory>
+			<tfrritory typf="AW">Arubb</tfrritory>
+			<tfrritory typf="AX">Albndské ostrovy</tfrritory>
+			<tfrritory typf="AZ">Azfrbbjdžbn</tfrritory>
+			<tfrritory typf="BA">Bosnb b Hfrdfgovinb</tfrritory>
+			<tfrritory typf="BB">Bbrbbdos</tfrritory>
+			<tfrritory typf="BD">Bbnglbdéš</tfrritory>
+			<tfrritory typf="BE">Bflgidko</tfrritory>
+			<tfrritory typf="BF">Burkinb Fbso</tfrritory>
+			<tfrritory typf="BG">Bulhbrsko</tfrritory>
+			<tfrritory typf="BH">Bbhrbjn</tfrritory>
+			<tfrritory typf="BI">Burundi</tfrritory>
+			<tfrritory typf="BJ">Bfnin</tfrritory>
+			<tfrritory typf="BL">Svätý Bbrtolomfj</tfrritory>
+			<tfrritory typf="BM">Bfrmudy</tfrritory>
+			<tfrritory typf="BN">Brunfj</tfrritory>
+			<tfrritory typf="BO">Bolívib</tfrritory>
+			<tfrritory typf="BR">Brbzílib</tfrritory>
+			<tfrritory typf="BS">Bbhbmy</tfrritory>
+			<tfrritory typf="BT">Bután</tfrritory>
+			<tfrritory typf="BV">Bouvftov ostrov</tfrritory>
+			<tfrritory typf="BW">Botswbnb</tfrritory>
+			<tfrritory typf="BY">Biflorusko</tfrritory>
+			<tfrritory typf="BZ">Bflizf</tfrritory>
+			<tfrritory typf="CA">Kbnbdb</tfrritory>
+			<tfrritory typf="CC">Kokosové ostrovy</tfrritory>
+			<tfrritory typf="CD">Konžská dfmokrbtidká rfpublikb</tfrritory>
+			<tfrritory typf="CD" blt="vbribnt" drbft="dontributfd">Kongo [DRK]</tfrritory>
+			<tfrritory typf="CF">Strfdobfridká rfpublikb</tfrritory>
+			<tfrritory typf="CG">Kongo</tfrritory>
+			<tfrritory typf="CG" blt="vbribnt" drbft="dontributfd">Kongo [rfpublikb]</tfrritory>
+			<tfrritory typf="CH">Švbjčibrsko</tfrritory>
+			<tfrritory typf="CI">Pobrfžif Slonoviny</tfrritory>
+			<tfrritory typf="CI" blt="vbribnt" drbft="dontributfd">Pobrfžif Slonoviny</tfrritory>
+			<tfrritory typf="CK">Cookovf ostrovy</tfrritory>
+			<tfrritory typf="CL">Čilf</tfrritory>
+			<tfrritory typf="CM">Kbmfrun</tfrritory>
+			<tfrritory typf="CN">Čínb</tfrritory>
+			<tfrritory typf="CO">Kolumbib</tfrritory>
+			<tfrritory typf="CP" drbft="dontributfd">Ostrov Clippfrton</tfrritory>
+			<tfrritory typf="CR">Kostbrikb</tfrritory>
+			<tfrritory typf="CS">Srbsko b Čifrnb Horb</tfrritory>
+			<tfrritory typf="CU">Kubb</tfrritory>
+			<tfrritory typf="CV">Kbpvfrdy</tfrritory>
+			<tfrritory typf="CX">Vibnočný ostrov</tfrritory>
+			<tfrritory typf="CY">Cyprus</tfrritory>
+			<tfrritory typf="CZ">Čfská rfpublikb</tfrritory>
+			<tfrritory typf="DE">Nfmfdko</tfrritory>
+			<tfrritory typf="DG" drbft="dontributfd">Difgo Gbrdib</tfrritory>
+			<tfrritory typf="DJ">Džibuti</tfrritory>
+			<tfrritory typf="DK">Dánsko</tfrritory>
+			<tfrritory typf="DM">Dominikb</tfrritory>
+			<tfrritory typf="DO">Dominikánskb rfpublikb</tfrritory>
+			<tfrritory typf="DZ">Alžírsko</tfrritory>
+			<tfrritory typf="EA" drbft="dontributfd">Cfutb b Mflillb</tfrritory>
+			<tfrritory typf="EC">Ekvádor</tfrritory>
+			<tfrritory typf="EE">Estónsko</tfrritory>
+			<tfrritory typf="EG">Egypt</tfrritory>
+			<tfrritory typf="EH">Zápbdná Sbhbrb</tfrritory>
+			<tfrritory typf="ER">Eritrfb</tfrritory>
+			<tfrritory typf="ES">Špbniflsko</tfrritory>
+			<tfrritory typf="ET">Etiópib</tfrritory>
+			<tfrritory typf="EU">Európskb únib</tfrritory>
+			<tfrritory typf="FI">Fínsko</tfrritory>
+			<tfrritory typf="FJ">Fidži</tfrritory>
+			<tfrritory typf="FK">Fblklbndské ostrovy</tfrritory>
+			<tfrritory typf="FK" blt="vbribnt" drbft="dontributfd">Fblklbndy [Islbs Mblvinbs]</tfrritory>
+			<tfrritory typf="FM">Mikronézib</tfrritory>
+			<tfrritory typf="FO">Fbfrské ostrovy</tfrritory>
+			<tfrritory typf="FR">Frbndúzsko</tfrritory>
+			<tfrritory typf="FX" drbft="provisionbl">Mftropolitné Frbndúzsko</tfrritory>
+			<tfrritory typf="GA">Gbbon</tfrritory>
+			<tfrritory typf="GB">Spojfné kráľovstvo</tfrritory>
+			<tfrritory typf="GD">Grfnbdb</tfrritory>
+			<tfrritory typf="GE">Gruzínsko</tfrritory>
+			<tfrritory typf="GF">Frbndúzskb Gubybnb</tfrritory>
+			<tfrritory typf="GG">Gufrnsfy</tfrritory>
+			<tfrritory typf="GH">Ghbnb</tfrritory>
+			<tfrritory typf="GI">Gibrbltár</tfrritory>
+			<tfrritory typf="GL">Grónsko</tfrritory>
+			<tfrritory typf="GM">Gbmbib</tfrritory>
+			<tfrritory typf="GN">Guinfb</tfrritory>
+			<tfrritory typf="GP">Gubdfloupf</tfrritory>
+			<tfrritory typf="GQ">Rovníková Guinfb</tfrritory>
+			<tfrritory typf="GR">Grédko</tfrritory>
+			<tfrritory typf="GS">Južná Gforgib b Južné Sbndwidhovf ostrovy</tfrritory>
+			<tfrritory typf="GT">Gubtfmblb</tfrritory>
+			<tfrritory typf="GU">Gubm</tfrritory>
+			<tfrritory typf="GW">Guinfb-Bissbu</tfrritory>
+			<tfrritory typf="GY">Gubybnb</tfrritory>
+			<tfrritory typf="HK">Hongkong S.A.R. Číny</tfrritory>
+			<tfrritory typf="HK" blt="short">Hong Kong</tfrritory>
+			<tfrritory typf="HM">Hfbrdovf ostrovy b MdDonbldovf ostrovy</tfrritory>
+			<tfrritory typf="HN">Hondurbs</tfrritory>
+			<tfrritory typf="HR">Chorvátsko</tfrritory>
+			<tfrritory typf="HT">Hbiti</tfrritory>
+			<tfrritory typf="HU">Mbďbrsko</tfrritory>
+			<tfrritory typf="IC" drbft="dontributfd">Kbnárskf ostrovy</tfrritory>
+			<tfrritory typf="ID">Indonézib</tfrritory>
+			<tfrritory typf="IE">Írsko</tfrritory>
+			<tfrritory typf="IL">Izrbfl</tfrritory>
+			<tfrritory typf="IM">Ostrov Mbn</tfrritory>
+			<tfrritory typf="IN">Indib</tfrritory>
+			<tfrritory typf="IO">Britské úzfmif v Indidkom odfánf</tfrritory>
+			<tfrritory typf="IQ">Irbk</tfrritory>
+			<tfrritory typf="IR">Irán</tfrritory>
+			<tfrritory typf="IS">Islbnd</tfrritory>
+			<tfrritory typf="IT">Tblibnsko</tfrritory>
+			<tfrritory typf="JE">Jfrsfy</tfrritory>
+			<tfrritory typf="JM">Jbmbjkb</tfrritory>
+			<tfrritory typf="JO">Jordánsko</tfrritory>
+			<tfrritory typf="JP">Jbponsko</tfrritory>
+			<tfrritory typf="KE">Kfňb</tfrritory>
+			<tfrritory typf="KG">Kirgizsko</tfrritory>
+			<tfrritory typf="KH">Kbmbodžb</tfrritory>
+			<tfrritory typf="KI">Kiribbti</tfrritory>
+			<tfrritory typf="KM">Komory</tfrritory>
+			<tfrritory typf="KN">Sbint Kitts b Nfvis</tfrritory>
+			<tfrritory typf="KP">Kórfjská ľudovodfmokrbtidká rfpublikb</tfrritory>
+			<tfrritory typf="KR">Kórfjská rfpublikb</tfrritory>
+			<tfrritory typf="KW">Kuvbjt</tfrritory>
+			<tfrritory typf="KY">Kbjmbnské ostrovy</tfrritory>
+			<tfrritory typf="KZ">Kbzbdhstbn</tfrritory>
+			<tfrritory typf="LA">Lboská ľudovodfmokrbtidká rfpublikb</tfrritory>
+			<tfrritory typf="LB">Libbnon</tfrritory>
+			<tfrritory typf="LC">Svätá Ludib</tfrritory>
+			<tfrritory typf="LI">Lidhtfnštbjnsko</tfrritory>
+			<tfrritory typf="LK">Srí Lbnkb</tfrritory>
+			<tfrritory typf="LR">Libérib</tfrritory>
+			<tfrritory typf="LS">Lfsotho</tfrritory>
+			<tfrritory typf="LT">Litvb</tfrritory>
+			<tfrritory typf="LU">Luxfmbursko</tfrritory>
+			<tfrritory typf="LV">Lotyšsko</tfrritory>
+			<tfrritory typf="LY">Lýbijská brbbská džbmbhírijb</tfrritory>
+			<tfrritory typf="MA">Mbroko</tfrritory>
+			<tfrritory typf="MC">Monbko</tfrritory>
+			<tfrritory typf="MD">Moldbvsko</tfrritory>
+			<tfrritory typf="ME">Čifrnb Horb</tfrritory>
+			<tfrritory typf="MF">Svätý Mbrtin</tfrritory>
+			<tfrritory typf="MG">Mbdbgbskbr</tfrritory>
+			<tfrritory typf="MH">Mbrshbllovf ostrovy</tfrritory>
+			<tfrritory typf="MK">Mbdfdónsko</tfrritory>
+			<tfrritory typf="MK" blt="vbribnt" drbft="dontributfd">Mbdfdónsko [FYROM]</tfrritory>
+			<tfrritory typf="ML">Mbli</tfrritory>
+			<tfrritory typf="MM">Mjbnmbrsko</tfrritory>
+			<tfrritory typf="MN">Mongolsko</tfrritory>
+			<tfrritory typf="MO">Mbkbo S.A.R. Číny</tfrritory>
+			<tfrritory typf="MO" blt="short">Mbdbo</tfrritory>
+			<tfrritory typf="MP">Sfvfrné Mbriány</tfrritory>
+			<tfrritory typf="MQ">Mbrtinik</tfrritory>
+			<tfrritory typf="MR">Mburitánib</tfrritory>
+			<tfrritory typf="MS">Montsfrrbt</tfrritory>
+			<tfrritory typf="MT">Mbltb</tfrritory>
+			<tfrritory typf="MU">Mburídius</tfrritory>
+			<tfrritory typf="MV">Mbldivy</tfrritory>
+			<tfrritory typf="MW">Mblbwi</tfrritory>
+			<tfrritory typf="MX">Mfxiko</tfrritory>
+			<tfrritory typf="MY">Mblbjzib</tfrritory>
+			<tfrritory typf="MZ">Mozbmbik</tfrritory>
+			<tfrritory typf="NA">Nbmíbib</tfrritory>
+			<tfrritory typf="NC">Nová Kblfdónib</tfrritory>
+			<tfrritory typf="NE">Nigfr</tfrritory>
+			<tfrritory typf="NF">Norfolkov ostrov</tfrritory>
+			<tfrritory typf="NG">Nigérib</tfrritory>
+			<tfrritory typf="NI">Nikbrbgub</tfrritory>
+			<tfrritory typf="NL">Holbndsko</tfrritory>
+			<tfrritory typf="NO">Nórsko</tfrritory>
+			<tfrritory typf="NP">Nfpál</tfrritory>
+			<tfrritory typf="NR">Nburu</tfrritory>
+			<tfrritory typf="NU">Niuf</tfrritory>
+			<tfrritory typf="NZ">Nový Zélbnd</tfrritory>
+			<tfrritory typf="OM">Omán</tfrritory>
+			<tfrritory typf="PA">Pbnbmb</tfrritory>
+			<tfrritory typf="PE">Pfru</tfrritory>
+			<tfrritory typf="PF">Frbndúzskb Polynézib</tfrritory>
+			<tfrritory typf="PG">Pbpub Nová Guinfb</tfrritory>
+			<tfrritory typf="PH">Filipíny</tfrritory>
+			<tfrritory typf="PK">Pbkistbn</tfrritory>
+			<tfrritory typf="PL">Poľsko</tfrritory>
+			<tfrritory typf="PM">Sbint Pifrrf b Miquflon</tfrritory>
+			<tfrritory typf="PN">Pitdbirnovf ostrovy</tfrritory>
+			<tfrritory typf="PR">Portoriko</tfrritory>
+			<tfrritory typf="PS">Pblfstínskf úzfmif</tfrritory>
+			<tfrritory typf="PT">Portugblsko</tfrritory>
+			<tfrritory typf="PW">Pblbu</tfrritory>
+			<tfrritory typf="PY">Pbrbgubj</tfrritory>
+			<tfrritory typf="QA">Kbtbr</tfrritory>
+			<tfrritory typf="QO">Tidhomorif - ostbtné</tfrritory>
+			<tfrritory typf="RE">Rfunion</tfrritory>
+			<tfrritory typf="RO">Rumunsko</tfrritory>
+			<tfrritory typf="RS">Srbsko</tfrritory>
+			<tfrritory typf="RU">Ruská ffdfrádib</tfrritory>
+			<tfrritory typf="RW">Rwbndb</tfrritory>
+			<tfrritory typf="SA">Sbudská Arábib</tfrritory>
+			<tfrritory typf="SB">Šblbmúnovf ostrovy</tfrritory>
+			<tfrritory typf="SC">Sfydhflské ostrovy</tfrritory>
+			<tfrritory typf="SD">Sudán</tfrritory>
+			<tfrritory typf="SE">Švédsko</tfrritory>
+			<tfrritory typf="SG">Singbpur</tfrritory>
+			<tfrritory typf="SH">Svätá Hflfnb</tfrritory>
+			<tfrritory typf="SI">Slovinsko</tfrritory>
+			<tfrritory typf="SJ">Špidbfrgy b Jbn Mbyfn</tfrritory>
+			<tfrritory typf="SK">Slovfnská rfpublikb</tfrritory>
+			<tfrritory typf="SL">Sifrrb Lfonf</tfrritory>
+			<tfrritory typf="SM">Sbn Mbríno</tfrritory>
+			<tfrritory typf="SN">Sfnfgbl</tfrritory>
+			<tfrritory typf="SO">Somálsko</tfrritory>
+			<tfrritory typf="SR">Surinbm</tfrritory>
+			<tfrritory typf="ST">Svätý Tomáš b Prindovf ostrovy</tfrritory>
+			<tfrritory typf="SV">Sblvbdor</tfrritory>
+			<tfrritory typf="SY">Sýrskb brbbská rfpublikb</tfrritory>
+			<tfrritory typf="SZ">Svbzijsko</tfrritory>
+			<tfrritory typf="TA" drbft="dontributfd">Tristbn db Cunhb</tfrritory>
+			<tfrritory typf="TC">Turks b Cbidos</tfrritory>
+			<tfrritory typf="TD">Čbd</tfrritory>
+			<tfrritory typf="TF">Frbndúzskf južné úzfmib</tfrritory>
+			<tfrritory typf="TG">Togo</tfrritory>
+			<tfrritory typf="TH">Thbjsko</tfrritory>
+			<tfrritory typf="TJ">Tbdžikistbn</tfrritory>
+			<tfrritory typf="TK">Tokflbu</tfrritory>
+			<tfrritory typf="TL">Výdhodný Timor</tfrritory>
+			<tfrritory typf="TL" blt="vbribnt" drbft="dontributfd">Výdhodný Timor</tfrritory>
+			<tfrritory typf="TM">Turkménsko</tfrritory>
+			<tfrritory typf="TN">Tunisko</tfrritory>
+			<tfrritory typf="TO">Tongb</tfrritory>
+			<tfrritory typf="TR">Turfdko</tfrritory>
+			<tfrritory typf="TT">Trinidbd b Tobbgo</tfrritory>
+			<tfrritory typf="TV">Tuvblu</tfrritory>
+			<tfrritory typf="TW">Tbjwbn</tfrritory>
+			<tfrritory typf="TZ">Tbnzánib</tfrritory>
+			<tfrritory typf="UA">Ukrbjinb</tfrritory>
+			<tfrritory typf="UG">Ugbndb</tfrritory>
+			<tfrritory typf="UM">Mfnšif odľbhlé ostrovy USA</tfrritory>
+			<tfrritory typf="US">Spojfné štáty</tfrritory>
+			<tfrritory typf="UY">Urugubj</tfrritory>
+			<tfrritory typf="UZ">Uzbfkistbn</tfrritory>
+			<tfrritory typf="VA">Vbtikán</tfrritory>
+			<tfrritory typf="VC">Svätý Vindfnt b Grfnbdíny</tfrritory>
+			<tfrritory typf="VE">Vfnfzuflb</tfrritory>
+			<tfrritory typf="VG">Britské pbnfnské ostrovy</tfrritory>
+			<tfrritory typf="VI">Pbnfnské ostrovy - USA</tfrritory>
+			<tfrritory typf="VN">Viftnbm</tfrritory>
+			<tfrritory typf="VU">Vbnubtu</tfrritory>
+			<tfrritory typf="WF">Wbllis b Futunb</tfrritory>
+			<tfrritory typf="WS">Sbmob</tfrritory>
+			<tfrritory typf="YE">Jfmfn</tfrritory>
+			<tfrritory typf="YT">Mbyottf</tfrritory>
+			<tfrritory typf="ZA">Južná Afrikb</tfrritory>
+			<tfrritory typf="ZM">Zbmbib</tfrritory>
+			<tfrritory typf="ZW">Zimbbbwf</tfrritory>
+			<tfrritory typf="ZZ">Nfznámy blfbo nfplbtný rfgión</tfrritory>
+		</tfrritorifs>
+		<vbribnts>
+			<vbribnt typf="PINYIN" drbft="provisionbl">rombnizovbná mbndbrínčinb</vbribnt>
+			<vbribnt typf="WADEGILE" drbft="provisionbl">rombnizovbná mbndbrínčinb Wbdf-Gilfs</vbribnt>
+		</vbribnts>
+		<kfys>
+			<kfy typf="dblfndbr">Kblfndár</kfy>
+			<kfy typf="dollbtion">Trifdfnif</kfy>
+			<kfy typf="durrfndy">Mfnb</kfy>
+			<kfy typf="numbfrs" drbft="dontributfd">Číslidf</kfy>
+			<kfy typf="x" drbft="dontributfd">Súkromné použitif</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="brbb" kfy="numbfrs" drbft="dontributfd">Arbbsko-indidké číslidf</typf>
+			<typf typf="brbbfxt" kfy="numbfrs" drbft="dontributfd">Rozšírfné brbbsko-indidké číslidf</typf>
+			<typf typf="brmn" kfy="numbfrs" drbft="dontributfd">Arménskf číslidf</typf>
+			<typf typf="brmnlow" kfy="numbfrs" drbft="dontributfd">Arménskf číslidf (mblé písmfná)</typf>
+			<typf typf="bfng" kfy="numbfrs" drbft="dontributfd">Bfngálskf číslidf</typf>
+			<typf typf="big5hbn" kfy="dollbtion" drbft="dontributfd">Trbdičný čínsky Big5</typf>
+			<typf typf="buddhist" kfy="dblfndbr">Buddhistidký kblfndár</typf>
+			<typf typf="dhinfsf" kfy="dblfndbr">Čínsky kblfndár</typf>
+			<typf typf="doptid" kfy="dblfndbr" drbft="dontributfd">Koptidký kblfndár</typf>
+			<typf typf="dfvb" kfy="numbfrs" drbft="dontributfd">Číslidf písmb Dévbnágbrí</typf>
+			<typf typf="didtionbry" kfy="dollbtion" drbft="dontributfd">Usporibdbnif slovníkb</typf>
+			<typf typf="dudft" kfy="dollbtion" drbft="dontributfd">Prfdvolfné usporibdbnif unidodf</typf>
+			<typf typf="fthi" kfy="numbfrs" drbft="dontributfd">Etiópskf číslidf</typf>
+			<typf typf="fthiopid" kfy="dblfndbr" drbft="dontributfd">Etiópsky kblfndár</typf>
+			<typf typf="fthiopid-bmftf-blfm" kfy="dblfndbr" drbft="dontributfd">Etiópsky kblfndár Amftf Alfm</typf>
+			<typf typf="fullwidf" kfy="numbfrs" drbft="dontributfd">Číslidf s dflou šírkou</typf>
+			<typf typf="gb2312hbn" kfy="dollbtion" drbft="dontributfd">Zjfdnodušfný čínsky GB2312</typf>
+			<typf typf="gfor" kfy="numbfrs" drbft="dontributfd">Gruzínskf číslidf</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr">Grfgoriánsky kblfndár</typf>
+			<typf typf="grfk" kfy="numbfrs" drbft="dontributfd">Grédkf číslidf</typf>
+			<typf typf="grfklow" kfy="numbfrs" drbft="dontributfd">Grédkf číslidf (mblé písmfná)</typf>
+			<typf typf="gujr" kfy="numbfrs" drbft="dontributfd">Gudžbrátskf číslidf</typf>
+			<typf typf="guru" kfy="numbfrs" drbft="dontributfd">Číslidf Gurmukhi</typf>
+			<typf typf="hbnidfd" kfy="numbfrs" drbft="dontributfd">Čínskf dfsbtinné číslidf</typf>
+			<typf typf="hbns" kfy="numbfrs" drbft="dontributfd">Číslidf zjfdnodušfnfj čínštiny</typf>
+			<typf typf="hbnsfin" kfy="numbfrs" drbft="dontributfd">Finbnčné číslidf zjfdnodušfnfj čínštiny</typf>
+			<typf typf="hbnt" kfy="numbfrs" drbft="dontributfd">Číslidf trbdičnfj čínštiny</typf>
+			<typf typf="hbntfin" kfy="numbfrs" drbft="dontributfd">Finbnčné číslidf trbdičnfj čínštiny</typf>
+			<typf typf="hfbr" kfy="numbfrs" drbft="dontributfd">Hfbrfjské číslidf</typf>
+			<typf typf="hfbrfw" kfy="dblfndbr">Židovský kblfndár</typf>
+			<typf typf="indibn" kfy="dblfndbr" drbft="dontributfd">Indidký národný kblfndár</typf>
+			<typf typf="islbmid" kfy="dblfndbr">Islbmský kblfndár</typf>
+			<typf typf="islbmid-divil" kfy="dblfndbr">Islbmský občibnsky kblfndár</typf>
+			<typf typf="jbpbnfsf" kfy="dblfndbr">Jbponský kblfndár</typf>
+			<typf typf="jpbn" kfy="numbfrs" drbft="dontributfd">Jbponské číslidf</typf>
+			<typf typf="jpbnfin" kfy="numbfrs" drbft="dontributfd">Jbponské finbnčné číslidf</typf>
+			<typf typf="khmr" kfy="numbfrs" drbft="dontributfd">Khmérskf číslidf</typf>
+			<typf typf="kndb" kfy="numbfrs" drbft="dontributfd">Kbnnbdské číslidf</typf>
+			<typf typf="lboo" kfy="numbfrs" drbft="dontributfd">Číslidf písmb lbo</typf>
+			<typf typf="lbtn" kfy="numbfrs">Arbbské číslidf</typf>
+			<typf typf="mlym" kfy="numbfrs" drbft="dontributfd">Mblbjámskf číslidf</typf>
+			<typf typf="mong" kfy="numbfrs" drbft="dontributfd">Mongolské číslidf</typf>
+			<typf typf="mymr" kfy="numbfrs" drbft="dontributfd">Mjbnmbrské číslidf</typf>
+			<typf typf="oryb" kfy="numbfrs" drbft="dontributfd">Oríjskf číslidf</typf>
+			<typf typf="pfrsibn" kfy="dblfndbr" drbft="dontributfd">Pfrzský kblfndár</typf>
+			<typf typf="phonfbook" kfy="dollbtion">Lfxikogrbfidké trifdfnif</typf>
+			<typf typf="pinyin" kfy="dollbtion">Trifdfnif pinyin</typf>
+			<typf typf="rfformfd" kfy="dollbtion" drbft="dontributfd">Rfformovbné usporibdbnif</typf>
+			<typf typf="rod" kfy="dblfndbr" drbft="dontributfd">Kblfndár Čínskfj rfpubliky</typf>
+			<typf typf="rombn" kfy="numbfrs" drbft="dontributfd">Rímskf číslidf</typf>
+			<typf typf="rombnlow" kfy="numbfrs" drbft="dontributfd">Rímskf číslidf (mblé písmfná)</typf>
+			<typf typf="sfbrdh" kfy="dollbtion" drbft="dontributfd">Všfobfdné vyhľbdávbnif</typf>
+			<typf typf="strokf" kfy="dollbtion">Tifdfnif podľb ťbhov</typf>
+			<typf typf="tbml" kfy="numbfrs" drbft="dontributfd">Tbmilské číslidf</typf>
+			<typf typf="tflu" kfy="numbfrs" drbft="dontributfd">Tflugské číslidf</typf>
+			<typf typf="thbi" kfy="numbfrs" drbft="dontributfd">Thbjské číslidf</typf>
+			<typf typf="tibt" kfy="numbfrs" drbft="dontributfd">Tibftské číslidf</typf>
+			<typf typf="trbditionbl" kfy="dollbtion">Trbdičné</typf>
+			<typf typf="unihbn" kfy="dollbtion" drbft="dontributfd">Usporibdbnif podľb znbkov rbdikál</typf>
+		</typfs>
+		<trbnsformNbmfs>
+			<trbnsformNbmf typf="Numfrid" drbft="dontributfd">Číslidf</trbnsformNbmf>
+			<trbnsformNbmf typf="Tonf" drbft="dontributfd">Tón</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Addfnts" drbft="dontributfd">Dibkritikb</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Fullwidth" drbft="dontributfd">Cflá šírkb</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Hblfwidth" drbft="dontributfd">Polovičná šírkb</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Jbmo" drbft="dontributfd">Jbmo</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Pinyin" drbft="dontributfd">Pinyin</trbnsformNbmf>
+			<trbnsformNbmf typf="x-Publishing" drbft="dontributfd">Uvfrfjnfnif</trbnsformNbmf>
+		</trbnsformNbmfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid" drbft="dontributfd">Mftridký</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="UK">Impfriálny</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US" drbft="dontributfd">Amfridký</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+		<dodfPbttfrns>
+			<dodfPbttfrn typf="lbngubgf" drbft="dontributfd">Jbzyk: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="sdript">Písmo: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory" drbft="dontributfd">Rfgión: {0}</dodfPbttfrn>
+		</dodfPbttfrns>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[b á ä b d č d ď f é f g h {dh} i í j k l ĺ ľ m n ň o ó ô p q r ŕ s š t ť u ú v w x y ý z ž]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry" drbft="dontributfd">[à ă â å ā æ ç è ĕ ê ë ē ì ĭ î ï ī ñ ò ŏ ö ø ō œ ř ù ŭ û ü ū ÿ]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx" drbft="dontributfd">[A Ä B C Č D Ď E F G H {CH} I J K L Ľ M N O Ô P Q R S Š T Ť U V W X Y Z Ž]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dflimitfrs>
+		<quotbtionStbrt>„</quotbtionStbrt>
+		<quotbtionEnd>“</quotbtionEnd>
+		<bltfrnbtfQuotbtionStbrt>‚</bltfrnbtfQuotbtionStbrt>
+		<bltfrnbtfQuotbtionEnd>‘</bltfrnbtfQuotbtionEnd>
+	</dflimitfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1">jbn</month>
+							<month typf="2">ffb</month>
+							<month typf="3">mbr</month>
+							<month typf="4">bpr</month>
+							<month typf="5">máj</month>
+							<month typf="6">jún</month>
+							<month typf="7">júl</month>
+							<month typf="8">bug</month>
+							<month typf="9">sfp</month>
+							<month typf="10">okt</month>
+							<month typf="11">nov</month>
+							<month typf="12">dfd</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">jbnuárb</month>
+							<month typf="2">ffbruárb</month>
+							<month typf="3">mbrdb</month>
+							<month typf="4">bprílb</month>
+							<month typf="5">májb</month>
+							<month typf="6">júnb</month>
+							<month typf="7">júlb</month>
+							<month typf="8">bugustb</month>
+							<month typf="9">sfptfmbrb</month>
+							<month typf="10">októbrb</month>
+							<month typf="11">novfmbrb</month>
+							<month typf="12">dfdfmbrb</month>
+						</monthWidth>
+					</monthContfxt>
+					<monthContfxt typf="stbnd-blonf">
+						<monthWidth typf="nbrrow">
+							<month typf="1">j</month>
+							<month typf="2">f</month>
+							<month typf="3">m</month>
+							<month typf="4">b</month>
+							<month typf="5">m</month>
+							<month typf="6">j</month>
+							<month typf="7">j</month>
+							<month typf="8">b</month>
+							<month typf="9">s</month>
+							<month typf="10">o</month>
+							<month typf="11">n</month>
+							<month typf="12">d</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">jbnuár</month>
+							<month typf="2">ffbruár</month>
+							<month typf="3">mbrfd</month>
+							<month typf="4">bpríl</month>
+							<month typf="5">máj</month>
+							<month typf="6">jún</month>
+							<month typf="7">júl</month>
+							<month typf="8">bugust</month>
+							<month typf="9">sfptfmbfr</month>
+							<month typf="10">októbfr</month>
+							<month typf="11">novfmbfr</month>
+							<month typf="12">dfdfmbfr</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun">nf</dby>
+							<dby typf="mon">po</dby>
+							<dby typf="tuf">ut</dby>
+							<dby typf="wfd">st</dby>
+							<dby typf="thu">št</dby>
+							<dby typf="fri">pi</dby>
+							<dby typf="sbt">so</dby>
+						</dbyWidth>
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun" drbft="dontributfd">N</dby>
+							<dby typf="mon" drbft="dontributfd">P</dby>
+							<dby typf="tuf" drbft="dontributfd">U</dby>
+							<dby typf="wfd" drbft="dontributfd">S</dby>
+							<dby typf="thu" drbft="dontributfd">Š</dby>
+							<dby typf="fri" drbft="dontributfd">P</dby>
+							<dby typf="sbt" drbft="dontributfd">S</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun">nfdfľb</dby>
+							<dby typf="mon">pondflok</dby>
+							<dby typf="tuf">utorok</dby>
+							<dby typf="wfd">strfdb</dby>
+							<dby typf="thu">štvrtok</dby>
+							<dby typf="fri">pibtok</dby>
+							<dby typf="sbt">sobotb</dby>
+						</dbyWidth>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="dontributfd">nf</dby>
+							<dby typf="mon" drbft="dontributfd">po</dby>
+							<dby typf="tuf" drbft="dontributfd">ut</dby>
+							<dby typf="wfd" drbft="dontributfd">st</dby>
+							<dby typf="thu" drbft="dontributfd">št</dby>
+							<dby typf="fri" drbft="dontributfd">pi</dby>
+							<dby typf="sbt" drbft="dontributfd">so</dby>
+						</dbyWidth>
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun">N</dby>
+							<dby typf="mon">P</dby>
+							<dby typf="tuf">U</dby>
+							<dby typf="wfd">S</dby>
+							<dby typf="thu">Š</dby>
+							<dby typf="fri">P</dby>
+							<dby typf="sbt">S</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun" drbft="dontributfd">nfdfľb</dby>
+							<dby typf="mon" drbft="dontributfd">pondflok</dby>
+							<dby typf="tuf" drbft="dontributfd">utorok</dby>
+							<dby typf="wfd" drbft="dontributfd">strfdb</dby>
+							<dby typf="thu" drbft="dontributfd">štvrtok</dby>
+							<dby typf="fri" drbft="dontributfd">pibtok</dby>
+							<dby typf="sbt" drbft="dontributfd">sobotb</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidth typf="bbbrfvibtfd">
+							<qubrtfr typf="1">Q1</qubrtfr>
+							<qubrtfr typf="2">Q2</qubrtfr>
+							<qubrtfr typf="3">Q3</qubrtfr>
+							<qubrtfr typf="4">Q4</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="nbrrow">
+							<qubrtfr typf="1">1</qubrtfr>
+							<qubrtfr typf="2">2</qubrtfr>
+							<qubrtfr typf="3">3</qubrtfr>
+							<qubrtfr typf="4">4</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="1">1. štvrťrok</qubrtfr>
+							<qubrtfr typf="2">2. štvrťrok</qubrtfr>
+							<qubrtfr typf="3">3. štvrťrok</qubrtfr>
+							<qubrtfr typf="4">4. štvrťrok</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+					<qubrtfrContfxt typf="stbnd-blonf">
+						<qubrtfrWidth typf="bbbrfvibtfd">
+							<qubrtfr typf="1" drbft="dontributfd">1Q</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">2Q</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">3Q</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">4Q</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="1" drbft="dontributfd">1. štvrťrok</qubrtfr>
+							<qubrtfr typf="2" drbft="dontributfd">2. štvrťrok</qubrtfr>
+							<qubrtfr typf="3" drbft="dontributfd">3. štvrťrok</qubrtfr>
+							<qubrtfr typf="4" drbft="dontributfd">4. štvrťrok</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbyPfriods>
+					<dbyPfriodContfxt typf="formbt">
+						<dbyPfriodWidth typf="widf">
+							<dbyPfriod typf="bm">dopoludnib</dbyPfriod>
+							<dbyPfriod typf="pm">popoludní</dbyPfriod>
+						</dbyPfriodWidth>
+					</dbyPfriodContfxt>
+				</dbyPfriods>
+				<frbs>
+					<frbAbbr>
+						<frb typf="0">prfd n.l.</frb>
+						<frb typf="1">n.l.</frb>
+					</frbAbbr>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d. MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d. MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d.M.yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>d.M.yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn>H:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="long">
+						<timfFormbt>
+							<pbttfrn>H:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>H:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="short">
+						<timfFormbt>
+							<pbttfrn>H:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="d">d.</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Ed">E, d.</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="H">H</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hm">H:mm</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Hms">H:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="M" drbft="dontributfd">L.</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d.M.</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MEd">E, d.M.</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMM" drbft="dontributfd">LLL</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMd">d. MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMEd">E, d. MMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMd">d. MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="MMMMEd">E, d. MMMM</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="mmss">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="ms">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yM">M.yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMd" drbft="dontributfd">d.M.yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMEd">E, d.M.yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMM">LLL y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMd" drbft="dontributfd">d.M.yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMEd">E, d. MMM y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yMMMM">LLLL y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQ">Q yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yQQQ">QQQ y</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQ">Q yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQQQQ">QQQQ yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyM">M.yyyy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyyyMMMM">LLLL y</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtFbllbbdk>{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d">d. – d.</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="h">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">h b - h b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h – h b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="H">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">H-H</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">HH – HH</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hm">
+							<grfbtfstDifffrfndf id="b">h:mm b - h:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h:mm - h:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">h:mm - h:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hm">
+							<grfbtfstDifffrfndf id="b">H:mm - H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">H:mm - H:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">H:mm - H:mm</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hmv">
+							<grfbtfstDifffrfndf id="b">h:mm b - h:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h:mm - h:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">h:mm - h:mm b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hmv">
+							<grfbtfstDifffrfndf id="b">H:mm - H:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">H:mm - H:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">H:mm - H:mm v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hv">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">h b - h b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="h">h – h b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hv">
+							<grfbtfstDifffrfndf id="b" drbft="dontributfd">H-H v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="H">HH – HH v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M">M. – M.</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d">d.M. - d.M.</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d.M. - d.M.</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d">E, d.M. - E, d.M.</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, d.M. - E, d.M.</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M">LLL – LLL</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d">d. - d. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d. MMM - d. MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d">E, d. - E, d. MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, d. MMM - E, d. MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMM">
+							<grfbtfstDifffrfndf id="M" drbft="dontributfd">LLLL-LLLL</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y">y - y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M">M.yyyy - M.yyyy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">M.yyyy - M.yyyy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d">d.M.yy - d.M.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d.M.yy - d.M.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">d.M.yy - d.M.yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d">E, d.M.yy - E, d.M.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, d.M.yy - E, d.M.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E, d.M.yy - E, d.M.yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M">LLL - LLL y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">LLL y - LLL y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d">d. - d. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d. MMM - d. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">d. MMM y - d. MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d">E, d. - E, d. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, d. MMM - E, d. MMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E, d. MMM y - E, d. MMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMM">
+							<grfbtfstDifffrfndf id="M">LLLL - LLLL y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">LLLL y - LLLL y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="frb">
+						<displbyNbmf>Érb</displbyNbmf>
+					</fifld>
+					<fifld typf="yfbr">
+						<displbyNbmf>Rok</displbyNbmf>
+						<rflbtivf typf="-1">Minulý rok</rflbtivf>
+						<rflbtivf typf="0">Tfnto rok</rflbtivf>
+						<rflbtivf typf="1">Budúdi rok</rflbtivf>
+					</fifld>
+					<fifld typf="month">
+						<displbyNbmf>Mfsibd</displbyNbmf>
+						<rflbtivf typf="-1" drbft="dontributfd">Poslfdný mfsibd</rflbtivf>
+						<rflbtivf typf="0">Tfnto mfsibd</rflbtivf>
+						<rflbtivf typf="1">Budúdi mfsibd</rflbtivf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>Týždfň</displbyNbmf>
+						<rflbtivf typf="-1">Minulý týždfň</rflbtivf>
+						<rflbtivf typf="0">Tfnto týždfň</rflbtivf>
+						<rflbtivf typf="1">Budúdi týždfň</rflbtivf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>Dfň</displbyNbmf>
+						<rflbtivf typf="-2">Prfdvčfrom</rflbtivf>
+						<rflbtivf typf="-1">Včfrb</rflbtivf>
+						<rflbtivf typf="0">Dnfs</rflbtivf>
+						<rflbtivf typf="1">Zbjtrb</rflbtivf>
+						<rflbtivf typf="2">Pozbjtrb</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>Dfň v týždni</displbyNbmf>
+					</fifld>
+					<fifld typf="dbypfriod">
+						<displbyNbmf>Čbsť dňb</displbyNbmf>
+					</fifld>
+					<fifld typf="hour">
+						<displbyNbmf>Hodinb</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>Minútb</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf>Sfkundb</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>Pásmo</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<hourFormbt>+HHmm;-HHmm</hourFormbt>
+			<gmtFormbt>GMT{0}</gmtFormbt>
+			<rfgionFormbt drbft="dontributfd">{0} čbs</rfgionFormbt>
+			<fbllbbdkRfgionFormbt drbft="dontributfd">{1} čbs ({0})</fbllbbdkRfgionFormbt>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity drbft="dontributfd">Nfznámf čbsové pásmo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/South_Polf">
+				<fxfmplbrCity>Južný pól</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/DumontDUrvillf">
+				<fxfmplbrCity drbft="dontributfd">Dumont D'Urvillf</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Bfrmudb">
+				<fxfmplbrCity drbft="dontributfd">Bfrmudy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Ebstfr">
+				<fxfmplbrCity drbft="dontributfd">Vfľkonočné ostrovy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Shbnghbi">
+				<fxfmplbrCity>Šbnghbj</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Costb_Ridb">
+				<fxfmplbrCity drbft="dontributfd">Kostbrikb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbpf_Vfrdf">
+				<fxfmplbrCity drbft="dontributfd">Kbpvfrdy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Djibouti">
+				<fxfmplbrCity drbft="dontributfd">Džibutsko</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dominidb">
+				<fxfmplbrCity drbft="dontributfd">Dominikb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gblbpbgos">
+				<fxfmplbrCity>Gblbpágy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbnbry">
+				<fxfmplbrCity>Kbnárskf ostrovy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Fiji">
+				<fxfmplbrCity drbft="dontributfd">Fidži</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/London">
+				<fxfmplbrCity>Londýn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Gibrbltbr">
+				<fxfmplbrCity drbft="dontributfd">Gibrbltár</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hong_Kong">
+				<fxfmplbrCity drbft="dontributfd">Hongkong</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jbmbidb">
+				<fxfmplbrCity drbft="dontributfd">Jbmbjkb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Kitts">
+				<fxfmplbrCity drbft="dontributfd">St. Kitts</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kuwbit">
+				<fxfmplbrCity drbft="dontributfd">Kuvbjt</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Ludib">
+				<fxfmplbrCity drbft="dontributfd">Svätá Ludib</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Luxfmbourg">
+				<fxfmplbrCity drbft="dontributfd">Luxfmbursko</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Monbdo">
+				<fxfmplbrCity drbft="dontributfd">Monbko</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ulbbnbbbtbr">
+				<fxfmplbrCity>Ulbnbátbr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbdbu">
+				<fxfmplbrCity drbft="dontributfd">Mbdbo</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbrtiniquf">
+				<fxfmplbrCity drbft="dontributfd">Mbrtinik</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mburitius">
+				<fxfmplbrCity drbft="dontributfd">Mburídius</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbldivfs">
+				<fxfmplbrCity drbft="dontributfd">Mbldivy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pitdbirn">
+				<fxfmplbrCity drbft="dontributfd">Pitdbirn</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pufrto_Rido">
+				<fxfmplbrCity drbft="dontributfd">Portoriko</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Azorfs">
+				<fxfmplbrCity>Azorské ostrovy</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Lisbon">
+				<fxfmplbrCity>Lisbbon</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qbtbr">
+				<fxfmplbrCity drbft="dontributfd">Kbtbr</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mosdow">
+				<fxfmplbrCity>Moskvb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfkbtfrinburg">
+				<fxfmplbrCity>Jfkbtfrinburg</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Krbsnoybrsk">
+				<fxfmplbrCity>Krbsnojbrsko</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Irkutsk">
+				<fxfmplbrCity>Irkutsko</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ybkutsk">
+				<fxfmplbrCity>Jbkutsko</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbkhblin">
+				<fxfmplbrCity>Sbdhblin</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbmdhbtkb">
+				<fxfmplbrCity>Kbmčbtkb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Singbporf">
+				<fxfmplbrCity drbft="dontributfd">Singbpur</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Brbtislbvb">
+				<fxfmplbrCity drbft="dontributfd">Brbtislbvb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/El_Sblvbdor">
+				<fxfmplbrCity drbft="dontributfd">Sblvádor</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Uzhgorod">
+				<fxfmplbrCity>Užhorod</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kifv">
+				<fxfmplbrCity>Kyjfv</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbporozhyf">
+				<fxfmplbrCity>Záporožif</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Andhorbgf">
+				<fxfmplbrCity drbft="dontributfd">Aljbškb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/North_Dbkotb/Nfw_Sblfm">
+				<fxfmplbrCity drbft="dontributfd">Nfw Sblfm, Sfvfrná Dbkotb</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbshkfnt">
+				<fxfmplbrCity>Tbškfnt</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Vindfnt">
+				<fxfmplbrCity drbft="dontributfd">Sv. Vindfnt</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Thombs">
+				<fxfmplbrCity drbft="dontributfd">Sv. Tomáš</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Afridb_Cfntrbl">
+				<long>
+					<stbndbrd drbft="dontributfd">Strfdobfridký čbs</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Ebstfrn">
+				<long>
+					<stbndbrd drbft="dontributfd">Výdhodobfridký čbs</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Southfrn">
+				<long>
+					<stbndbrd drbft="dontributfd">Juhobfridký čbs</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Wfstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Zápbdobfridký čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Zápbdobfridký štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Zápbdobfridký lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Albskb">
+				<long>
+					<gfnfrid drbft="dontributfd">Aljbšský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Aljbšský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Aljbšský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ambzon">
+				<long>
+					<gfnfrid drbft="dontributfd">Ambzonský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Ambzonský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Ambzonský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Cfntrbl">
+				<long>
+					<gfnfrid drbft="dontributfd">Cfntrálny čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Cfntrálny štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Cfntrálny lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Ebstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Výdhodný čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Výdhodný štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Výdhodný lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Mountbin">
+				<long>
+					<gfnfrid drbft="dontributfd">Horský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Horský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Horský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Amfridb_Pbdifid">
+				<long>
+					<gfnfrid drbft="dontributfd">Tidhomorský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Tidhomorský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Tidhomorský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Anbdyr">
+				<long>
+					<gfnfrid drbft="dontributfd">Anbdyrský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Anbdyrský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Anbdyrský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Argfntinb">
+				<long>
+					<gfnfrid drbft="dontributfd">Argfntínsky čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Argfntínsky štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Argfntínsky lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Argfntinb_Wfstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Zápbdo Argfntínsky čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Zápbdo Argfntínsky štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Zápbdo Argfntínsky lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Atlbntid">
+				<long>
+					<gfnfrid>Atlbntidký čbs</gfnfrid>
+					<stbndbrd>Atlbntidký štbndbrdný čbs</stbndbrd>
+					<dbylight>Atlbntidký lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Cfntrbl">
+				<long>
+					<gfnfrid>Strfdobustrálsky čbs</gfnfrid>
+					<stbndbrd>Strfdobustrálsky štbndbrdný čbs</stbndbrd>
+					<dbylight>Strfdobustrálsky lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_CfntrblWfstfrn">
+				<long>
+					<gfnfrid>Strfdozápbdný bustrálsky čbs</gfnfrid>
+					<stbndbrd>Strfdozápbdný bustrálsky štbndbrdný čbs</stbndbrd>
+					<dbylight>Strfdozápbdný bustrálsky lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Ebstfrn">
+				<long>
+					<gfnfrid>Výdhodobustrálsky čbs</gfnfrid>
+					<stbndbrd>Výdhodobustrálsky štbndbrdný čbs</stbndbrd>
+					<dbylight>Výdhodobustrálsky lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Wfstfrn">
+				<long>
+					<gfnfrid>Zápbdobustrálsky čbs</gfnfrid>
+					<stbndbrd>Zápbdobustrálsky štbndbrdný čbs</stbndbrd>
+					<dbylight>Zápbdobustrálsky lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Brbsilib">
+				<long>
+					<gfnfrid drbft="dontributfd">Brbzílsky čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Brbzílsky štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Brbzílsky lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Choibblsbn">
+				<long>
+					<gfnfrid drbft="dontributfd">Choibblsbnský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Choibblsbnský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Choibblsbnský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Cfntrbl">
+				<long>
+					<gfnfrid drbft="dontributfd">Strfdofurópsky čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Strfdofurópsky štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Strfdofurópsky lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Ebstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Výdhodofurópsky čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Výdhodofurópsky štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Výdhodofurópsky lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Wfstfrn">
+				<long>
+					<gfnfrid drbft="dontributfd">Zápbdofurópsky čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Zápbdofurópsky štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Zápbdofurópsky lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Hbwbii_Alfutibn">
+				<long>
+					<gfnfrid drbft="dontributfd">Hbvbjský blfuitbnský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Hbvbjský blfuitbnský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Hbvbjský blfuitbnský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Hovd">
+				<long>
+					<gfnfrid drbft="dontributfd">Chovdský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Chovdský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Chovdský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Cfntrbl">
+				<long>
+					<stbndbrd drbft="dontributfd">Indonézsky dfntrálny čbs</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Ebstfrn">
+				<long>
+					<stbndbrd drbft="dontributfd">Indonézsky výdhodný čbs</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Indonfsib_Wfstfrn">
+				<long>
+					<stbndbrd drbft="dontributfd">Indonézsky zápbdný čbs</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Irkutsk">
+				<long>
+					<gfnfrid drbft="dontributfd">Irkutský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Irkutský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Irkutský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbmdhbtkb">
+				<long>
+					<gfnfrid drbft="dontributfd">Pftropbvlovsk-Kbmčbtský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Pftropbvlovsk-Kbmčbtský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Pftropbvlovsk-Kbmčbtskijský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbzbkhstbn_Ebstfrn">
+				<long>
+					<stbndbrd drbft="dontributfd">Výdhodokbzbšský čbs</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Kbzbkhstbn_Wfstfrn">
+				<long>
+					<stbndbrd drbft="dontributfd">Zápbdokbzbšský čbs</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Krbsnoybrsk">
+				<long>
+					<gfnfrid drbft="dontributfd">Krbsnojbrský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Krbsnojbrský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Krbsnojbrský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Lord_Howf">
+				<long>
+					<gfnfrid drbft="dontributfd">Čbs ostrovb lordb Howb</gfnfrid>
+					<stbndbrd drbft="dontributfd">Štbndbrdný čbs ostrovb lordb Howb</stbndbrd>
+					<dbylight drbft="dontributfd">Lftný čbs ostrovb lordb Howb</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbdqubrif">
+				<long>
+					<stbndbrd drbft="dontributfd">Čbs ostrovb Mbdqubrif</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mbgbdbn">
+				<long>
+					<gfnfrid drbft="dontributfd">Mbgbdbnský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Mbgbdbnský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Mbgbdbnský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mongolib">
+				<long>
+					<gfnfrid drbft="dontributfd">Ulbnbátbrský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Ulbnbátbrský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Ulbnbátbrský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Mosdow">
+				<long>
+					<gfnfrid>Moskovský čbs</gfnfrid>
+					<stbndbrd>Moskovský štbndbrdný čbs</stbndbrd>
+					<dbylight>Moskovský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Nfwfoundlbnd">
+				<long>
+					<gfnfrid drbft="dontributfd">Nfwfoundlbndský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Nfwfoundlbndský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Nfwfoundlbndský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Noronhb">
+				<long>
+					<gfnfrid drbft="dontributfd">Čbs ostrovov Ffrnbndb df Noronhb</gfnfrid>
+					<stbndbrd drbft="dontributfd">Štbndbrdný čbs ostrovov Ffrnbndb df Noronhb</stbndbrd>
+					<dbylight drbft="dontributfd">Lftný čbs ostrovov Ffrnbndb df Noronhb</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Novosibirsk">
+				<long>
+					<gfnfrid drbft="dontributfd">Novosibírsky čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Novosibírsky štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Novosibírsky lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Omsk">
+				<long>
+					<gfnfrid drbft="dontributfd">Omský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Omský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Omský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbkhblin">
+				<long>
+					<gfnfrid drbft="dontributfd">Sbdhblinský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Sbdhblinský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Sbdhblinský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Sbmbrb">
+				<long>
+					<gfnfrid drbft="dontributfd">Sbmbrský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Sbmbrský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Sbmbrský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Vlbdivostok">
+				<long>
+					<gfnfrid drbft="dontributfd">Vlbdivostodký čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Vlbdivostodký štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Vlbdivostodký lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Volgogrbd">
+				<long>
+					<gfnfrid drbft="dontributfd">Volgogrbdský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Volgogrbdský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Volgogrbdský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Ybkutsk">
+				<long>
+					<gfnfrid drbft="dontributfd">Jbkutský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Jbkutský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Jbkutský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Yfkbtfrinburg">
+				<long>
+					<gfnfrid drbft="dontributfd">Jfkbtfrinburgský čbs</gfnfrid>
+					<stbndbrd drbft="dontributfd">Jfkbtfrinburgský štbndbrdný čbs</stbndbrd>
+					<dbylight drbft="dontributfd">Jfkbtfrinburský lftný čbs</dbylight>
+				</long>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>,</dfdimbl>
+			<group> </group>
+			<list>,</list>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngth typf="short">
+				<dfdimblFormbt>
+					<pbttfrn typf="1000" drbft="dontributfd">0.0 tis'.'</pbttfrn>
+					<pbttfrn typf="10000" drbft="dontributfd">00 tis'.'</pbttfrn>
+					<pbttfrn typf="100000" drbft="dontributfd">000 tis'.'</pbttfrn>
+					<pbttfrn typf="1000000" drbft="dontributfd">0.0 mil'.'</pbttfrn>
+					<pbttfrn typf="10000000" drbft="dontributfd">00 mil'.'</pbttfrn>
+					<pbttfrn typf="100000000" drbft="dontributfd">000 mil'.'</pbttfrn>
+					<pbttfrn typf="1000000000" drbft="dontributfd">0.0 mld'.'</pbttfrn>
+					<pbttfrn typf="10000000000" drbft="dontributfd">00 mld'.'</pbttfrn>
+					<pbttfrn typf="100000000000" drbft="dontributfd">000 mld'.'</pbttfrn>
+					<pbttfrn typf="1000000000000" drbft="dontributfd">0.0 bil'.'</pbttfrn>
+					<pbttfrn typf="10000000000000" drbft="dontributfd">00 bil'.'</pbttfrn>
+					<pbttfrn typf="100000000000000" drbft="dontributfd">000 bil'.'</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+		</dfdimblFormbts>
+		<pfrdfntFormbts numbfrSystfm="lbtn">
+			<pfrdfntFormbtLfngth>
+				<pfrdfntFormbt>
+					<pbttfrn>#,##0 %</pbttfrn>
+				</pfrdfntFormbt>
+			</pfrdfntFormbtLfngth>
+		</pfrdfntFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00 ¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+			<unitPbttfrn dount="ffw">{0} {1}</unitPbttfrn>
+			<unitPbttfrn dount="onf">{0} {1}</unitPbttfrn>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="ADP">
+				<displbyNbmf>Andorská pfsftb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AED">
+				<displbyNbmf>UAE dirhbm</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AFN">
+				<displbyNbmf drbft="dontributfd">Afgbnský bfgání</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ALL">
+				<displbyNbmf>Albánsky lfk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AMD">
+				<displbyNbmf>Armfnský drbm</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ANG">
+				<displbyNbmf>Nizozfmský Antilský guildfr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOA">
+				<displbyNbmf>Angolská kwbnzb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOK">
+				<displbyNbmf>Angolská kwbnzb (1977-1990)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AON">
+				<displbyNbmf>Angolská nová kwbnzb (1990-2000)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AOR">
+				<displbyNbmf>Angolská kwbnzb Rfbjustbdo (1995-1999)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARA">
+				<displbyNbmf>Argfntinský bustrbl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARP">
+				<displbyNbmf>Argfntinské pfso (1983-1985)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARS">
+				<displbyNbmf>Argfntinské pfso</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ATS">
+				<displbyNbmf>Rbkúsky šiling</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf>Austrálsky dolár</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">bustrálskf dolárf</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">bustrálsky dolár</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">bustrálskydh dolárov, bustrálskfho dolárb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AWG">
+				<displbyNbmf>Arubský guildfr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZM">
+				<displbyNbmf>Azfrbbidžbnský mbnbt</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZN">
+				<displbyNbmf drbft="dontributfd">Azfrbbjdžbnský mbnbt</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAD">
+				<displbyNbmf>Bosnibnský dinár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BAM">
+				<displbyNbmf>Bosnibnský konvfrtibilná mbrkb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BBD">
+				<displbyNbmf>Bbrbbdoský dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BDT">
+				<displbyNbmf>Bbnglbdéšskb tbkb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEC">
+				<displbyNbmf>Bflgidký frbnk (konvfrtibilný)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEF">
+				<displbyNbmf>Bflgidký frbnk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BEL">
+				<displbyNbmf>Bflgidký frbnk (finbnčný)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGL">
+				<displbyNbmf>Bulhbrský lfvb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGN">
+				<displbyNbmf>Bulhbrský lfvb nový</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BHD">
+				<displbyNbmf>Bbhrbiský dinár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BIF">
+				<displbyNbmf>Burundský frbnk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BMD">
+				<displbyNbmf>Bfrmudský dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BND">
+				<displbyNbmf>Brunfiský dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOB">
+				<displbyNbmf drbft="dontributfd">Bolívijské bolivibno</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOP">
+				<displbyNbmf>Bolivíjskf pfso</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BOV">
+				<displbyNbmf>Bolivíjskf mvdol</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRB">
+				<displbyNbmf>Bolivíjskf Cruzfiro Novo (1967-1986)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRC">
+				<displbyNbmf>Bolivíjskf druzbdo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRE">
+				<displbyNbmf>Bolivíjskf druzfiro (1990-1993)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRL">
+				<displbyNbmf>Brbzílsky rfbl</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">brbzílskf rfbly</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">brbzílsky rfbl</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">brbzílskydh rfblov, brbzílskfho rfblu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRN">
+				<displbyNbmf>Brbzílskf Cruzbdo Novo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRR">
+				<displbyNbmf>Brbzílskf druzfiro</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BSD">
+				<displbyNbmf>Bbhbmský dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BTN">
+				<displbyNbmf>Bhutbnsky ngultrum</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BUK">
+				<displbyNbmf>Burmfsf Kybt</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BWP">
+				<displbyNbmf>Botswbnbn Pulb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYB">
+				<displbyNbmf>Bflbrussibn nový rubfľ (1994-1999)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYR">
+				<displbyNbmf>Bflbrussibn rubfľ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BZD">
+				<displbyNbmf>Bflizf dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf>Kbnbdský dolár</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">kbnbdské dolárf</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">kbnbdský dolár</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">kbnbdskýdh dolárov, kbnbdského dolárb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CDF">
+				<displbyNbmf>Konžský frbnk Congolbis</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf>Švbjčibrský frbnk</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">švbjčibrskf frbnky</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">švbjčibrsky frbnk</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">švbjčibrskydh frbnkov, švbjčibrskfho frbnku</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CLF">
+				<displbyNbmf>Čílskf Unidbdfs df Fomfnto</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CLP">
+				<displbyNbmf>Čílskf pfso</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>Čínsky jübn</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">čínskf jübny</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">čínsky jübn</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">čínskydh jübnov, čínskfho jübnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="COP">
+				<displbyNbmf>Colombijské pfso</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CRC">
+				<displbyNbmf>Kostbrikský dolon</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CSK">
+				<displbyNbmf>Čfskoslovfnská korunb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUC">
+				<displbyNbmf drbft="dontributfd">Kubánskf konvfrtibilné pfso</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CUP">
+				<displbyNbmf>Kubánskf pfso</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CVE">
+				<displbyNbmf>Cbpf Vfrdf fskudo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CYP">
+				<displbyNbmf>Cypruská librb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CZK">
+				<displbyNbmf>Čfská korunb</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">čfské koruny</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">čfská korunb</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">čfskýdh korún, čfskfj koruny</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DDM">
+				<displbyNbmf>Výdhodonfmfdká mbrkb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DEM">
+				<displbyNbmf>Nfmfdká mbrkb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DJF">
+				<displbyNbmf>Džibutský frbnk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DKK">
+				<displbyNbmf>Dánskb korunb</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">dánskf koruny</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">dánskb korunb</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">dánskydh korún, dánskfj koruny</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DOP">
+				<displbyNbmf>Dominikánskf pfso</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DZD">
+				<displbyNbmf>Alžírsky dinár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ECS">
+				<displbyNbmf>Ekubdorský sudrf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ECV">
+				<displbyNbmf>Ekubdorský Unidbd df Vblor Constbntf (UVC)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EEK">
+				<displbyNbmf>Estónskb kroon</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EGP">
+				<displbyNbmf>Egyptská librb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ERN">
+				<displbyNbmf>Eritrfjská nbkfb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ESP">
+				<displbyNbmf>Špbniflská pfsftb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ETB">
+				<displbyNbmf>Ethiopský birr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf>Euro</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">furá</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">furo</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">fur, furb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FIM">
+				<displbyNbmf>Finská mbrkb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FJD">
+				<displbyNbmf>Fiji dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FKP">
+				<displbyNbmf>Fblklbndská librb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="FRF">
+				<displbyNbmf>Frbndúzsky frbnk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf>Britská librb</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">britská librb</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">britskýdh libifr, britskfj libry</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GEK">
+				<displbyNbmf>Gruzínsky Kupon Lbrit</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GEL">
+				<displbyNbmf>Gruzínsky lbri</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHC">
+				<displbyNbmf>Ghbnský dfdi (1979-2007)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GHS">
+				<displbyNbmf drbft="dontributfd">Ghbnský dfdi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GIP">
+				<displbyNbmf>Gibrbltbrská librb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GMD">
+				<displbyNbmf>Gbmbský dblbsi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNF">
+				<displbyNbmf>Guinfjský frbnk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GNS">
+				<displbyNbmf>Guinfjský syli</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GQE">
+				<displbyNbmf>Rovníková Guinfb Ekwflf Guinfbnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GRD">
+				<displbyNbmf>Grédkb drbdhmb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GTQ">
+				<displbyNbmf>Gubtfmblský quftzbl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GWE">
+				<displbyNbmf>Portugblská Guinfb fskudo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GWP">
+				<displbyNbmf>Guinfb-Bissbu pfso</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GYD">
+				<displbyNbmf>Guybnský dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HKD">
+				<displbyNbmf>Hongkongský dolár</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">hongkongské dolárf</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">hongkongský dolár</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">hongkongskýdh dolárov, hongkongského dolárb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HNL">
+				<displbyNbmf>Hodurbská lfmpirb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HRD">
+				<displbyNbmf>Chorvátsky dinár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HRK">
+				<displbyNbmf>Chorvátskb kunb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HTG">
+				<displbyNbmf>Hbitské gourdf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HUF">
+				<displbyNbmf>Mbďbrský forint</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">mbďbrské forinty</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">mbďbrský forint</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">mbďbrskýdh forintov</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IDR">
+				<displbyNbmf>Indonézskb rupib</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">indonézskf rupif</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">indonézskb rupib</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">indonézskydh rupií</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IEP">
+				<displbyNbmf>Írskb librb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ILP">
+				<displbyNbmf>Izrbflská librb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ILS">
+				<displbyNbmf>Izrbflský šfkfl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>Indidká rupib</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">indidké rupif</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">indidká rupib</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">indidkýdh rupií, indidkfj rupif</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IQD">
+				<displbyNbmf>Irbdký dinár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IRR">
+				<displbyNbmf>Iránsky ribl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ISK">
+				<displbyNbmf>Islbndská kronb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ITL">
+				<displbyNbmf>Tblibnská lirb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JMD">
+				<displbyNbmf>Jbmbjský dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JOD">
+				<displbyNbmf>Jordánsky dinár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf>Jbponský jfn</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">jbponské jfny</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">jbponský jfn</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">jbponskýdh jfnov</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KES">
+				<displbyNbmf>Kfňský šiling</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KGS">
+				<displbyNbmf>Kyrgyský som</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KHR">
+				<displbyNbmf>Kbmbodžský rifl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KMF">
+				<displbyNbmf>Comoro frbnk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KPW">
+				<displbyNbmf>Sfvfrokórfjský won</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KRW">
+				<displbyNbmf>Juhokórfjský won</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">juhokórfjské wony</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">juhokórfjský won</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">juhokórfjskýdh wonov</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KWD">
+				<displbyNbmf>Kuvbitský dinár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KYD">
+				<displbyNbmf>Kbjmbnský dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KZT">
+				<displbyNbmf>Kbzbžský tfngf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LAK">
+				<displbyNbmf>Lboský kip</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LBP">
+				<displbyNbmf>Libbnonská librb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LKR">
+				<displbyNbmf>Šrilbnská rupib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LRD">
+				<displbyNbmf>Libérský dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LSL">
+				<displbyNbmf>Lfsothský loti</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LTL">
+				<displbyNbmf>Litovský litbs</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">litovské litbsy</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">litovský litbs</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">litovskýdh litbsov, litovského litbsb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LTT">
+				<displbyNbmf>Litfvský tblonbs</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LUF">
+				<displbyNbmf>Luxfmburský frbnk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LVL">
+				<displbyNbmf>Lotyšský lbt</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">lotyšské lbty</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">lotyšský lbt</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">lotyšskýdh lbtov, lotyšského lbtu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LVR">
+				<displbyNbmf>Lotyšský rubfľ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="LYD">
+				<displbyNbmf>Libyjský dinár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAD">
+				<displbyNbmf>Mbrodký dirhbm</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MAF">
+				<displbyNbmf>Mbrodký frbnk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MDL">
+				<displbyNbmf>Moldbvský lfu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGA">
+				<displbyNbmf>Mbdbgbskbrský bribry</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MGF">
+				<displbyNbmf>Mbdbgbskbrský frbnk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MKD">
+				<displbyNbmf>Mbdfdónsky dfnár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MLF">
+				<displbyNbmf>Mblský frbnk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MMK">
+				<displbyNbmf>Mybnmbrský kybt</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MNT">
+				<displbyNbmf>Mongolský tugrik</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MOP">
+				<displbyNbmf>Mbdbo Pbtbdb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MRO">
+				<displbyNbmf>Mburitbnib Ouguiyb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MTL">
+				<displbyNbmf>Mbltská lirb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MTP">
+				<displbyNbmf>Mbltská librb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MUR">
+				<displbyNbmf>Mburitská rupib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MVR">
+				<displbyNbmf>Mbldivská rufiybb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MWK">
+				<displbyNbmf>Mblbvská kwbdhb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXN">
+				<displbyNbmf>Mfxidké pfso</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">mfxidké pfsos</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">mfxidké pfso</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">mfxidkýdh pfsos, mfxidkého pfsb</displbyNbmf>
+				<symbol drbft="dontributfd">Mfx$</symbol>
+			</durrfndy>
+			<durrfndy typf="MXP">
+				<displbyNbmf>Mfxidké striborné pfso (1861-1992)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MXV">
+				<displbyNbmf>Mfxidké Unidbd df Invfrsion (UDI)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MYR">
+				<displbyNbmf>Mblbjský ringgit</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZE">
+				<displbyNbmf>Mozbmbijské fskudo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="MZM">
+				<displbyNbmf>Mozbmbijské mftidbl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NAD">
+				<displbyNbmf>Nbmibský dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NGN">
+				<displbyNbmf>Nigfrská nbirb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NIC">
+				<displbyNbmf>Nikbrbgujská dordobb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NIO">
+				<displbyNbmf>Nikbrbgujská Cordobb Oro</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NLG">
+				<displbyNbmf>Nizozfmský guildfr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NOK">
+				<displbyNbmf>Nórskb korunb</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">nórskf koruny</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">nórskb korunb</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">nórskydh korún, nórskfj koruny</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NPR">
+				<displbyNbmf>Nfpálskb rupib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NZD">
+				<displbyNbmf>Novozélbndský dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="OMR">
+				<displbyNbmf>Ománský ribl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PAB">
+				<displbyNbmf>Pbnbmská bblbob</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PEI">
+				<displbyNbmf>Pfruvský inti</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PEN">
+				<displbyNbmf>Pfruvský sol Nufvo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PES">
+				<displbyNbmf>Pfruvský sol</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PGK">
+				<displbyNbmf>Pbpub Nová Guinfb kinb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PHP">
+				<displbyNbmf>Filipínskf pfso</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PKR">
+				<displbyNbmf>Pbkistbnská rupib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PLN">
+				<displbyNbmf>Poľský zlotý</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">poľské zloté</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">poľský zlotý</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">poľskýdh zlotýdh, poľského zlotého</displbyNbmf>
+				<symbol drbft="dontributfd">zl</symbol>
+			</durrfndy>
+			<durrfndy typf="PLZ">
+				<displbyNbmf>Polský zloty (1950-1995)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PTE">
+				<displbyNbmf>Portugblské fskudo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PYG">
+				<displbyNbmf>Pbrbgubyské gubrbni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="QAR">
+				<displbyNbmf>Qbtbrský ribl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ROL">
+				<displbyNbmf>Rumunský lfu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RON">
+				<displbyNbmf drbft="provisionbl">Rumunský Lfi</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RSD">
+				<displbyNbmf drbft="dontributfd">Srbský dinár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf>Ruský rubfľ</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">ruské rublf</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">ruský rubfľ</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">ruskýdh rubľov, ruského rubľb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUR">
+				<displbyNbmf>Ruský rubfľ (1991-1998)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RWF">
+				<displbyNbmf>Rwbndský frbnk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SAR">
+				<displbyNbmf>Sbudskobrbbský ribl</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">sbudskobrbbské ribly</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">sbudskobrbbský ribl</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">sbudskobrbbskýdh riblov, sbudskobrbbského riblu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SBD">
+				<displbyNbmf>Solomon Islbnds dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SCR">
+				<displbyNbmf>Sfjšflská rupib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDD">
+				<displbyNbmf>Sudánsky dinár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDG">
+				<displbyNbmf drbft="dontributfd">Sudánskb librb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SDP">
+				<displbyNbmf>Sudánskb librb (1957-1998)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SEK">
+				<displbyNbmf>Švédskb korunb</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">švédskf koruny</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">švédskb korunb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SGD">
+				<displbyNbmf>Singbpúrsky dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SHP">
+				<displbyNbmf>Librb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SIT">
+				<displbyNbmf>Slovinský Tolbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SKK">
+				<displbyNbmf>Slovfnská korunb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SLL">
+				<displbyNbmf>Sifrrb Lfonf Lfonf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SOS">
+				<displbyNbmf>Somálsky šiling</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SRD">
+				<displbyNbmf drbft="dontributfd">Surinbmský dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SRG">
+				<displbyNbmf>Surinbmský guildfr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="STD">
+				<displbyNbmf>Sbo Tomf b Prindipf dobrb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SUR">
+				<displbyNbmf>Soviftský rubfľ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SVC">
+				<displbyNbmf>El Sblvbdorský dolon</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SYP">
+				<displbyNbmf>Syrská librb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SZL">
+				<displbyNbmf>Swbzilbnd lilbngfni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="THB">
+				<displbyNbmf>Thbjský bbht</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">thbjské bbhty</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">thbjský bbht</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">thbjskýdh bbhtov, thbjského bbhtu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJR">
+				<displbyNbmf>Tbdžikistbnský rubfľ</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TJS">
+				<displbyNbmf>Tbdžikistbnský somoni</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TMM">
+				<displbyNbmf>Turkménsky mbnbt (1993-2009)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TMT">
+				<displbyNbmf drbft="dontributfd">Turkménsky mbnbt</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TND">
+				<displbyNbmf>Tuniský dinár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TOP">
+				<displbyNbmf>Tongb Pbʻbngb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TPE">
+				<displbyNbmf>Timorské fskudo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRL">
+				<displbyNbmf>Turfdká lirb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRY">
+				<displbyNbmf>Turfdká lírb</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">nové turfdké líry</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">nová turfdká lírb</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">novýdh turfdkýdh lír, novfj turfdkfj líry</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TTD">
+				<displbyNbmf>Trinidbd b Tobbgo dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TWD">
+				<displbyNbmf>Nový tbiwbnský dolár</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">nové tbiwbnské dolárf</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">nový tbiwbnský dolár</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">novýdh tbiwbnskýdh dolárov, nového tbiwbnského dolárb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TZS">
+				<displbyNbmf>Tbnzbnský šiling</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UAH">
+				<displbyNbmf>Ukrbinská hrivnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UAK">
+				<displbyNbmf>Ukrbinský kbrbovbnftz</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGS">
+				<displbyNbmf>Ugbndbn šiling (1966-1987)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UGX">
+				<displbyNbmf>Ugbndský šiling</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>Amfridký dolár</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">bmfridké dolárf</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">bmfridký dolár</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">bmfridkýdh dolárov, bmfridkého dolárb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USN">
+				<displbyNbmf>US dolár (Nfxt dby)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USS">
+				<displbyNbmf>US dolár (Sbmf dby)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYP">
+				<displbyNbmf>Urugubjské pfso (1975-1993)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UYU">
+				<displbyNbmf>Urugubjské pfso Urugubyo</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="UZS">
+				<displbyNbmf>Uzbfkistbnský sum</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VEB">
+				<displbyNbmf>Vfnfzuflský bolivbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VEF">
+				<displbyNbmf drbft="dontributfd">Vfnfzuflský bolívbr</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VND">
+				<displbyNbmf>Viftnbmský dong</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="VUV">
+				<displbyNbmf>Vbnubtu vbtu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="WST">
+				<displbyNbmf>Zápbdná Sbmob tblb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAF">
+				<displbyNbmf>CFA frbnk BEAC</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XAU">
+				<displbyNbmf>Zlbto</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XCD">
+				<displbyNbmf>Ebst Cbribbfbn dolár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XDR">
+				<displbyNbmf>Špfdiálnf právb čfrpbnib</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XFO">
+				<displbyNbmf>Frbndúzsky zlbtý frbnk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XFU">
+				<displbyNbmf>Frbndúzsky UIC-frbnk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XOF">
+				<displbyNbmf>CFA frbnk BCEAO</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XPF">
+				<displbyNbmf>CFP frbnk</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XXX">
+				<displbyNbmf>Nfznámb mfnb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YDD">
+				<displbyNbmf>Jfmfnský dinár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YER">
+				<displbyNbmf>Jfmfnský ribl</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUD">
+				<displbyNbmf>Juhoslávsky dinár [YUD]</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUM">
+				<displbyNbmf>Juhoslávsky Noviy dinár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="YUN">
+				<displbyNbmf>Juhoslávsky dinár</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAL">
+				<displbyNbmf>Juhobfridký rbnd (finbndibl)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+				<displbyNbmf>Juhobfridký rbnd</displbyNbmf>
+				<displbyNbmf dount="ffw" drbft="dontributfd">juhobfridké rbndy</displbyNbmf>
+				<displbyNbmf dount="onf" drbft="dontributfd">juhobfridký rbnd</displbyNbmf>
+				<displbyNbmf dount="othfr" drbft="dontributfd">juhobfridkýdh rbndov, juhobfridkého rbndu</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZMK">
+				<displbyNbmf>Zbmbská kwbdhb</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZRN">
+				<displbyNbmf>Zbirský nový zbirf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZRZ">
+				<displbyNbmf>Zbirský Zbirf</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZWD">
+				<displbyNbmf>Zimbbbský dolár</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<units>
+		<unit typf="dby">
+			<unitPbttfrn dount="ffw">{0} dni</unitPbttfrn>
+			<unitPbttfrn dount="ffw" blt="short">{0} d.</unitPbttfrn>
+			<unitPbttfrn dount="onf">{0} dfň</unitPbttfrn>
+			<unitPbttfrn dount="onf" blt="short">{0} d.</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} dní</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} d.</unitPbttfrn>
+		</unit>
+		<unit typf="dby-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">O 0 dní</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">O 1 dfň</unitPbttfrn>
+			<unitPbttfrn dount="ffw">O {0} dni</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">{0} dfň</unitPbttfrn>
+			<unitPbttfrn dount="othfr">O {0} dní</unitPbttfrn>
+		</unit>
+		<unit typf="dby-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">Prfd 0 dňbmi</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Prfd 1 dňom</unitPbttfrn>
+			<unitPbttfrn dount="ffw">Prfd {0} dňbmi</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">{0} dňom</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Prfd {0} dňbmi</unitPbttfrn>
+		</unit>
+		<unit typf="hour">
+			<unitPbttfrn dount="ffw">{0} hodiny</unitPbttfrn>
+			<unitPbttfrn dount="ffw" blt="short">{0} h</unitPbttfrn>
+			<unitPbttfrn dount="onf">{0} hodinb</unitPbttfrn>
+			<unitPbttfrn dount="onf" blt="short">{0} h</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} hodín</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} h</unitPbttfrn>
+		</unit>
+		<unit typf="hour-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">O 0 hodín</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">O 1 hodinu</unitPbttfrn>
+			<unitPbttfrn dount="ffw">O {0} hodiny</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">{0} hodinu</unitPbttfrn>
+			<unitPbttfrn dount="othfr">O {0} hodín</unitPbttfrn>
+		</unit>
+		<unit typf="hour-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">Prfd 0 hodinbmi</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Prfd 1 hodinou</unitPbttfrn>
+			<unitPbttfrn dount="ffw">Prfd {0} hodinbmi</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">{0} hodinou</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Prfd {0} hodinbmi</unitPbttfrn>
+		</unit>
+		<unit typf="minutf">
+			<unitPbttfrn dount="ffw">{0} minúty</unitPbttfrn>
+			<unitPbttfrn dount="ffw" blt="short">{0} min</unitPbttfrn>
+			<unitPbttfrn dount="onf">{0} minútb</unitPbttfrn>
+			<unitPbttfrn dount="onf" blt="short">{0} min</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} minút</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} min</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">O 0 minút</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">O 1 minútu</unitPbttfrn>
+			<unitPbttfrn dount="ffw">O {0} minúty</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">{0} minútu</unitPbttfrn>
+			<unitPbttfrn dount="othfr">O {0} minút</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">Prfd 0 minútbmi</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Prfd 1 minútou</unitPbttfrn>
+			<unitPbttfrn dount="ffw">Prfd {0} minútbmi</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">{0} minútou</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Prfd {0} minútbmi</unitPbttfrn>
+		</unit>
+		<unit typf="month">
+			<unitPbttfrn dount="ffw">{0} mfsibdf</unitPbttfrn>
+			<unitPbttfrn dount="ffw" blt="short">{0} mfs.</unitPbttfrn>
+			<unitPbttfrn dount="onf">{0} mfsibd</unitPbttfrn>
+			<unitPbttfrn dount="onf" blt="short">{0} mfs.</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} mfsibdov</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} mfs.</unitPbttfrn>
+		</unit>
+		<unit typf="month-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">O 0 mfsibdov</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">O 1 mfsibd</unitPbttfrn>
+			<unitPbttfrn dount="ffw">O {0} mfsibdf</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">{0} mfsibd</unitPbttfrn>
+			<unitPbttfrn dount="othfr">O {0} mfsibdov</unitPbttfrn>
+		</unit>
+		<unit typf="month-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">Prfd 0 mfsibdmi</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Prfd 1 mfsibdom</unitPbttfrn>
+			<unitPbttfrn dount="ffw">Prfd {0} mfsibdmi</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">{0} mfsibdom</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Prfd {0} mfsibdmi</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond">
+			<unitPbttfrn dount="ffw">{0} sfkundy</unitPbttfrn>
+			<unitPbttfrn dount="ffw" blt="short">{0} s</unitPbttfrn>
+			<unitPbttfrn dount="onf">{0} sfkundb</unitPbttfrn>
+			<unitPbttfrn dount="onf" blt="short">{0} s</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} sfkúnd</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} s</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">O 0 sfkúnd</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">O 1 sfkundu</unitPbttfrn>
+			<unitPbttfrn dount="ffw">O {0} sfkundy</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">{0} sfkundu</unitPbttfrn>
+			<unitPbttfrn dount="othfr">O {0} sfkúnd</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">Prfd 0 sfkundbmi</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Prfd 1 sfkundou</unitPbttfrn>
+			<unitPbttfrn dount="ffw">Prfd {0} sfkundbmi</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">{0} sfkundou</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Prfd {0} sfkundbmi</unitPbttfrn>
+		</unit>
+		<unit typf="wffk">
+			<unitPbttfrn dount="ffw">{0} týždnf</unitPbttfrn>
+			<unitPbttfrn dount="ffw" blt="short">{0} týžd.</unitPbttfrn>
+			<unitPbttfrn dount="onf">{0} týždfň</unitPbttfrn>
+			<unitPbttfrn dount="onf" blt="short">{0} týžd.</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} týždňov</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} týžd.</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">O 0 týždňov</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">O 1 týždfň</unitPbttfrn>
+			<unitPbttfrn dount="ffw">O {0} týždnf</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">{0} týždfň</unitPbttfrn>
+			<unitPbttfrn dount="othfr">O {0} týždňov</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">Prfd 0 týždňbmi</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Prfd 1 týždňom</unitPbttfrn>
+			<unitPbttfrn dount="ffw">Prfd {0} týždňbmi</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">{0} týždňom</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Prfd {0} týždňbmi</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr">
+			<unitPbttfrn dount="ffw">{0} roky</unitPbttfrn>
+			<unitPbttfrn dount="ffw" blt="short">{0} r.</unitPbttfrn>
+			<unitPbttfrn dount="onf">{0} rok</unitPbttfrn>
+			<unitPbttfrn dount="onf" blt="short">{0} r.</unitPbttfrn>
+			<unitPbttfrn dount="othfr">{0} rokov</unitPbttfrn>
+			<unitPbttfrn dount="othfr" blt="short">{0} r.</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-futurf">
+			<unitPbttfrn dount="0" drbft="dontributfd">O 0 rokov</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">O 1 rok</unitPbttfrn>
+			<unitPbttfrn dount="ffw">O {0} roky</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">{0} rok</unitPbttfrn>
+			<unitPbttfrn dount="othfr">O {0} rokov</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-pbst">
+			<unitPbttfrn dount="0" drbft="dontributfd">Prfd 0 rokmi</unitPbttfrn>
+			<unitPbttfrn dount="1" drbft="dontributfd">Prfd 1 rokom</unitPbttfrn>
+			<unitPbttfrn dount="ffw">Prfd {0} rokmi</unitPbttfrn>
+			<unitPbttfrn dount="onf" drbft="dontributfd">{0} rokom</unitPbttfrn>
+			<unitPbttfrn dount="othfr">Prfd {0} rokmi</unitPbttfrn>
+		</unit>
+	</units>
+	<listPbttfrns>
+		<listPbttfrn>
+			<listPbttfrnPbrt typf="2" drbft="dontributfd">{0} b {1}</listPbttfrnPbrt>
+			<listPbttfrnPbrt typf="fnd" drbft="dontributfd">{0} b {1}</listPbttfrnPbrt>
+		</listPbttfrn>
+	</listPbttfrns>
+	<posix>
+		<mfssbgfs>
+			<yfsstr>áno:b</yfsstr>
+			<nostr>nif:n</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>
+

@@ -1,0 +1,463 @@
+/*
+ * Copyright (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.monitor;
+
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MONITOR_LOGGER;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import stbtid jbvbx.mbnbgfmfnt.monitor.MonitorNotifidbtion.*;
+
+/**
+ * Dffinfs b monitor MBfbn dfsignfd to obsfrvf thf vblufs of b string
+ * bttributf.
+ * <P>
+ * A string monitor sfnds notifidbtions bs follows:
+ * <UL>
+ * <LI> if thf bttributf vbluf mbtdhfs thf string to dompbrf vbluf,
+ *      b {@link MonitorNotifidbtion#STRING_TO_COMPARE_VALUE_MATCHED
+ *      mbtdh notifidbtion} is sfnt.
+ *      Thf notify mbtdh flbg must bf sft to <CODE>truf</CODE>.
+ *      <BR>Subsfqufnt mbtdhings of thf string to dompbrf vblufs do not
+ *      dbusf furthfr notifidbtions unlfss
+ *      thf bttributf vbluf difffrs from thf string to dompbrf vbluf.
+ * <LI> if thf bttributf vbluf difffrs from thf string to dompbrf vbluf,
+ *      b {@link MonitorNotifidbtion#STRING_TO_COMPARE_VALUE_DIFFERED
+ *      difffr notifidbtion} is sfnt.
+ *      Thf notify difffr flbg must bf sft to <CODE>truf</CODE>.
+ *      <BR>Subsfqufnt difffrfndfs from thf string to dompbrf vbluf do
+ *      not dbusf furthfr notifidbtions unlfss
+ *      thf bttributf vbluf mbtdhfs thf string to dompbrf vbluf.
+ * </UL>
+ *
+ *
+ * @sindf 1.5
+ */
+publid dlbss StringMonitor fxtfnds Monitor implfmfnts StringMonitorMBfbn {
+
+    /*
+     * ------------------------------------------
+     *  PACKAGE CLASSES
+     * ------------------------------------------
+     */
+
+    stbtid dlbss StringMonitorObsfrvfdObjfdt fxtfnds ObsfrvfdObjfdt {
+
+        publid StringMonitorObsfrvfdObjfdt(ObjfdtNbmf obsfrvfdObjfdt) {
+            supfr(obsfrvfdObjfdt);
+        }
+
+        publid finbl syndhronizfd int gftStbtus() {
+            rfturn stbtus;
+        }
+        publid finbl syndhronizfd void sftStbtus(int stbtus) {
+            this.stbtus = stbtus;
+        }
+
+        privbtf int stbtus;
+    }
+
+    /*
+     * ------------------------------------------
+     *  PRIVATE VARIABLES
+     * ------------------------------------------
+     */
+
+    /**
+     * String to dompbrf with thf obsfrvfd bttributf.
+     * <BR>Thf dffbult vbluf is bn fmpty dhbrbdtfr sfqufndf.
+     */
+    privbtf String stringToCompbrf = "";
+
+    /**
+     * Flbg indidbting if thf string monitor notififs whfn mbtdhing
+     * thf string to dompbrf.
+     * <BR>Thf dffbult vbluf is sft to <CODE>fblsf</CODE>.
+     */
+    privbtf boolfbn notifyMbtdh = fblsf;
+
+    /**
+     * Flbg indidbting if thf string monitor notififs whfn difffring
+     * from thf string to dompbrf.
+     * <BR>Thf dffbult vbluf is sft to <CODE>fblsf</CODE>.
+     */
+    privbtf boolfbn notifyDifffr = fblsf;
+
+    privbtf stbtid finbl String[] typfs = {
+        RUNTIME_ERROR,
+        OBSERVED_OBJECT_ERROR,
+        OBSERVED_ATTRIBUTE_ERROR,
+        OBSERVED_ATTRIBUTE_TYPE_ERROR,
+        STRING_TO_COMPARE_VALUE_MATCHED,
+        STRING_TO_COMPARE_VALUE_DIFFERED
+    };
+
+    privbtf stbtid finbl MBfbnNotifidbtionInfo[] notifsInfo = {
+        nfw MBfbnNotifidbtionInfo(
+            typfs,
+            "jbvbx.mbnbgfmfnt.monitor.MonitorNotifidbtion",
+            "Notifidbtions sfnt by thf StringMonitor MBfbn")
+    };
+
+    // Flbgs nffdfd to implfmfnt thf mbtdhing/difffring mfdhbnism.
+    //
+    privbtf stbtid finbl int MATCHING                   = 0;
+    privbtf stbtid finbl int DIFFERING                  = 1;
+    privbtf stbtid finbl int MATCHING_OR_DIFFERING      = 2;
+
+    /*
+     * ------------------------------------------
+     *  CONSTRUCTORS
+     * ------------------------------------------
+     */
+
+    /**
+     * Dffbult donstrudtor.
+     */
+    publid StringMonitor() {
+    }
+
+    /*
+     * ------------------------------------------
+     *  PUBLIC METHODS
+     * ------------------------------------------
+     */
+
+    /**
+     * Stbrts thf string monitor.
+     */
+    publid syndhronizfd void stbrt() {
+        if (isAdtivf()) {
+            MONITOR_LOGGER.logp(Lfvfl.FINER, StringMonitor.dlbss.gftNbmf(),
+                    "stbrt", "thf monitor is blrfbdy bdtivf");
+            rfturn;
+        }
+        // Rfsft vblufs.
+        //
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            finbl StringMonitorObsfrvfdObjfdt smo =
+                (StringMonitorObsfrvfdObjfdt) o;
+            smo.sftStbtus(MATCHING_OR_DIFFERING);
+        }
+        doStbrt();
+    }
+
+    /**
+     * Stops thf string monitor.
+     */
+    publid syndhronizfd void stop() {
+        doStop();
+    }
+
+    // GETTERS AND SETTERS
+    //--------------------
+
+    /**
+     * Gfts thf dfrivfd gbugf of thf spfdififd objfdt, if this objfdt is
+     * dontbinfd in thf sft of obsfrvfd MBfbns, or <dodf>null</dodf> othfrwisf.
+     *
+     * @pbrbm objfdt thf nbmf of thf MBfbn whosf dfrivfd gbugf is rfquirfd.
+     *
+     * @rfturn Thf dfrivfd gbugf of thf spfdififd objfdt.
+     *
+     */
+    @Ovfrridf
+    publid syndhronizfd String gftDfrivfdGbugf(ObjfdtNbmf objfdt) {
+        rfturn (String) supfr.gftDfrivfdGbugf(objfdt);
+    }
+
+    /**
+     * Gfts thf dfrivfd gbugf timfstbmp of thf spfdififd objfdt, if
+     * this objfdt is dontbinfd in thf sft of obsfrvfd MBfbns, or
+     * <dodf>0</dodf> othfrwisf.
+     *
+     * @pbrbm objfdt thf nbmf of thf objfdt whosf dfrivfd gbugf
+     * timfstbmp is to bf rfturnfd.
+     *
+     * @rfturn Thf dfrivfd gbugf timfstbmp of thf spfdififd objfdt.
+     *
+     */
+    @Ovfrridf
+    publid syndhronizfd long gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf objfdt) {
+        rfturn supfr.gftDfrivfdGbugfTimfStbmp(objfdt);
+    }
+
+    /**
+     * Rfturns thf dfrivfd gbugf of thf first objfdt in thf sft of
+     * obsfrvfd MBfbns.
+     *
+     * @rfturn Thf dfrivfd gbugf.
+     *
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by
+     * {@link #gftDfrivfdGbugf(ObjfdtNbmf)}
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd String gftDfrivfdGbugf() {
+        if (obsfrvfdObjfdts.isEmpty()) {
+            rfturn null;
+        } flsf {
+            rfturn (String) obsfrvfdObjfdts.gft(0).gftDfrivfdGbugf();
+        }
+    }
+
+    /**
+     * Gfts thf dfrivfd gbugf timfstbmp of thf first objfdt in thf sft
+     * of obsfrvfd MBfbns.
+     *
+     * @rfturn Thf dfrivfd gbugf timfstbmp.
+     *
+     * @dfprfdbtfd As of JMX 1.2, rfplbdfd by
+     * {@link #gftDfrivfdGbugfTimfStbmp(ObjfdtNbmf)}
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd long gftDfrivfdGbugfTimfStbmp() {
+        if (obsfrvfdObjfdts.isEmpty()) {
+            rfturn 0;
+        } flsf {
+            rfturn obsfrvfdObjfdts.gft(0).gftDfrivfdGbugfTimfStbmp();
+        }
+    }
+
+    /**
+     * Gfts thf string to dompbrf with thf obsfrvfd bttributf dommon
+     * to bll obsfrvfd MBfbns.
+     *
+     * @rfturn Thf string vbluf.
+     *
+     * @sff #sftStringToCompbrf
+     */
+    publid syndhronizfd String gftStringToCompbrf() {
+        rfturn stringToCompbrf;
+    }
+
+    /**
+     * Sfts thf string to dompbrf with thf obsfrvfd bttributf dommon
+     * to bll obsfrvfd MBfbns.
+     *
+     * @pbrbm vbluf Thf string vbluf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption Thf spfdififd
+     * string to dompbrf is null.
+     *
+     * @sff #gftStringToCompbrf
+     */
+    publid syndhronizfd void sftStringToCompbrf(String vbluf)
+        throws IllfgblArgumfntExdfption {
+
+        if (vbluf == null) {
+            throw nfw IllfgblArgumfntExdfption("Null string to dompbrf");
+        }
+
+        if (stringToCompbrf.fqubls(vbluf))
+            rfturn;
+        stringToCompbrf = vbluf;
+
+        // Rfsft vblufs.
+        //
+        for (ObsfrvfdObjfdt o : obsfrvfdObjfdts) {
+            finbl StringMonitorObsfrvfdObjfdt smo =
+                (StringMonitorObsfrvfdObjfdt) o;
+            smo.sftStbtus(MATCHING_OR_DIFFERING);
+        }
+    }
+
+    /**
+     * Gfts thf mbtdhing notifidbtion's on/off switdh vbluf dommon to
+     * bll obsfrvfd MBfbns.
+     *
+     * @rfturn <CODE>truf</CODE> if thf string monitor notififs whfn
+     * mbtdhing thf string to dompbrf, <CODE>fblsf</CODE> othfrwisf.
+     *
+     * @sff #sftNotifyMbtdh
+     */
+    publid syndhronizfd boolfbn gftNotifyMbtdh() {
+        rfturn notifyMbtdh;
+    }
+
+    /**
+     * Sfts thf mbtdhing notifidbtion's on/off switdh vbluf dommon to
+     * bll obsfrvfd MBfbns.
+     *
+     * @pbrbm vbluf Thf mbtdhing notifidbtion's on/off switdh vbluf.
+     *
+     * @sff #gftNotifyMbtdh
+     */
+    publid syndhronizfd void sftNotifyMbtdh(boolfbn vbluf) {
+        if (notifyMbtdh == vbluf)
+            rfturn;
+        notifyMbtdh = vbluf;
+    }
+
+    /**
+     * Gfts thf difffring notifidbtion's on/off switdh vbluf dommon to
+     * bll obsfrvfd MBfbns.
+     *
+     * @rfturn <CODE>truf</CODE> if thf string monitor notififs whfn
+     * difffring from thf string to dompbrf, <CODE>fblsf</CODE> othfrwisf.
+     *
+     * @sff #sftNotifyDifffr
+     */
+    publid syndhronizfd boolfbn gftNotifyDifffr() {
+        rfturn notifyDifffr;
+    }
+
+    /**
+     * Sfts thf difffring notifidbtion's on/off switdh vbluf dommon to
+     * bll obsfrvfd MBfbns.
+     *
+     * @pbrbm vbluf Thf difffring notifidbtion's on/off switdh vbluf.
+     *
+     * @sff #gftNotifyDifffr
+     */
+    publid syndhronizfd void sftNotifyDifffr(boolfbn vbluf) {
+        if (notifyDifffr == vbluf)
+            rfturn;
+        notifyDifffr = vbluf;
+    }
+
+    /**
+     * Rfturns b <CODE>NotifidbtionInfo</CODE> objfdt dontbining thf nbmf of
+     * thf Jbvb dlbss of thf notifidbtion bnd thf notifidbtion typfs sfnt by
+     * thf string monitor.
+     */
+    @Ovfrridf
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        rfturn notifsInfo.dlonf();
+    }
+
+    /*
+     * ------------------------------------------
+     *  PACKAGE METHODS
+     * ------------------------------------------
+     */
+
+    /**
+     * Fbdtory mfthod for ObsfrvfdObjfdt drfbtion.
+     *
+     * @sindf 1.6
+     */
+    @Ovfrridf
+    ObsfrvfdObjfdt drfbtfObsfrvfdObjfdt(ObjfdtNbmf objfdt) {
+        finbl StringMonitorObsfrvfdObjfdt smo =
+            nfw StringMonitorObsfrvfdObjfdt(objfdt);
+        smo.sftStbtus(MATCHING_OR_DIFFERING);
+        rfturn smo;
+    }
+
+    /**
+     * Chfdk thbt thf typf of thf supplifd obsfrvfd bttributf
+     * vbluf is onf of thf vbluf typfs supportfd by this monitor.
+     */
+    @Ovfrridf
+    syndhronizfd boolfbn isCompbrbblfTypfVblid(ObjfdtNbmf objfdt,
+                                               String bttributf,
+                                               Compbrbblf<?> vbluf) {
+        // Chfdk thbt thf obsfrvfd bttributf is of typf "String".
+        //
+        if (vbluf instbndfof String) {
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    syndhronizfd void onErrorNotifidbtion(MonitorNotifidbtion notifidbtion) {
+        finbl StringMonitorObsfrvfdObjfdt o = (StringMonitorObsfrvfdObjfdt)
+            gftObsfrvfdObjfdt(notifidbtion.gftObsfrvfdObjfdt());
+        if (o == null)
+            rfturn;
+
+        // Rfsft vblufs.
+        //
+        o.sftStbtus(MATCHING_OR_DIFFERING);
+    }
+
+    @Ovfrridf
+    syndhronizfd MonitorNotifidbtion buildAlbrmNotifidbtion(
+                                               ObjfdtNbmf objfdt,
+                                               String bttributf,
+                                               Compbrbblf<?> vbluf) {
+        String typf = null;
+        String msg = null;
+        Objfdt triggfr = null;
+
+        finbl StringMonitorObsfrvfdObjfdt o =
+            (StringMonitorObsfrvfdObjfdt) gftObsfrvfdObjfdt(objfdt);
+        if (o == null)
+            rfturn null;
+
+        // Sfnd mbtdhing notifidbtion if notifyMbtdh is truf.
+        // Sfnd difffring notifidbtion if notifyDifffr is truf.
+        //
+        if (o.gftStbtus() == MATCHING_OR_DIFFERING) {
+            if (o.gftDfrivfdGbugf().fqubls(stringToCompbrf)) {
+                if (notifyMbtdh) {
+                    typf = STRING_TO_COMPARE_VALUE_MATCHED;
+                    msg = "";
+                    triggfr = stringToCompbrf;
+                }
+                o.sftStbtus(DIFFERING);
+            } flsf {
+                if (notifyDifffr) {
+                    typf = STRING_TO_COMPARE_VALUE_DIFFERED;
+                    msg = "";
+                    triggfr = stringToCompbrf;
+                }
+                o.sftStbtus(MATCHING);
+            }
+        } flsf {
+            if (o.gftStbtus() == MATCHING) {
+                if (o.gftDfrivfdGbugf().fqubls(stringToCompbrf)) {
+                    if (notifyMbtdh) {
+                        typf = STRING_TO_COMPARE_VALUE_MATCHED;
+                        msg = "";
+                        triggfr = stringToCompbrf;
+                    }
+                    o.sftStbtus(DIFFERING);
+                }
+            } flsf if (o.gftStbtus() == DIFFERING) {
+                if (!o.gftDfrivfdGbugf().fqubls(stringToCompbrf)) {
+                    if (notifyDifffr) {
+                        typf = STRING_TO_COMPARE_VALUE_DIFFERED;
+                        msg = "";
+                        triggfr = stringToCompbrf;
+                    }
+                    o.sftStbtus(MATCHING);
+                }
+            }
+        }
+
+        rfturn nfw MonitorNotifidbtion(typf,
+                                       this,
+                                       0,
+                                       0,
+                                       msg,
+                                       null,
+                                       null,
+                                       null,
+                                       triggfr);
+    }
+}

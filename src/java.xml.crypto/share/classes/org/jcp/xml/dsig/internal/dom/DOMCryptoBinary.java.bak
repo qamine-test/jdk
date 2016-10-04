@@ -1,103 +1,103 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
- * $Id: DOMCryptoBinary.java 1197150 2011-11-03 14:34:57Z coheigea $
+ * $Id: DOMCryptoBinbry.jbvb 1197150 2011-11-03 14:34:57Z doifigfb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import java.math.BigInteger;
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import org.w3c.dom.Node;
-import org.w3c.dom.Text;
+import jbvb.mbti.BigIntfgfr;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.Tfxt;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Bbsf64;
 
 /**
- * A DOM-based representation of the XML <code>CryptoBinary</code> simple type
- * as defined in the W3C specification for XML-Signature Syntax and Processing.
- * The XML Schema Definition is defined as:
+ * A DOM-bbsfd rfprfsfntbtion of tif XML <dodf>CryptoBinbry</dodf> simplf typf
+ * bs dffinfd in tif W3C spfdifidbtion for XML-Signbturf Syntbx bnd Prodfssing.
+ * Tif XML Sdifmb Dffinition is dffinfd bs:
  *
  * <xmp>
- * <simpleType name="CryptoBinary">
- *   <restriction base = "base64Binary">
- *   </restriction>
- * </simpleType>
+ * <simplfTypf nbmf="CryptoBinbry">
+ *   <rfstridtion bbsf = "bbsf64Binbry">
+ *   </rfstridtion>
+ * </simplfTypf>
  * </xmp>
  *
- * @author Sean Mullan
+ * @butior Sfbn Mullbn
  */
-public final class DOMCryptoBinary extends DOMStructure {
+publid finbl dlbss DOMCryptoBinbry fxtfnds DOMStrudturf {
 
-    private final BigInteger bigNum;
-    private final String value;
+    privbtf finbl BigIntfgfr bigNum;
+    privbtf finbl String vbluf;
 
     /**
-     * Create a <code>DOMCryptoBinary</code> instance from the specified
-     * <code>BigInteger</code>
+     * Crfbtf b <dodf>DOMCryptoBinbry</dodf> instbndf from tif spfdififd
+     * <dodf>BigIntfgfr</dodf>
      *
-     * @param bigNum the arbitrary-length integer
-     * @throws NullPointerException if <code>bigNum</code> is <code>null</code>
+     * @pbrbm bigNum tif brbitrbry-lfngti intfgfr
+     * @tirows NullPointfrExdfption if <dodf>bigNum</dodf> is <dodf>null</dodf>
      */
-    public DOMCryptoBinary(BigInteger bigNum) {
+    publid DOMCryptoBinbry(BigIntfgfr bigNum) {
         if (bigNum == null) {
-            throw new NullPointerException("bigNum is null");
+            tirow nfw NullPointfrExdfption("bigNum is null");
         }
-        this.bigNum = bigNum;
-        // convert to bitstring
-        value = Base64.encode(bigNum);
+        tiis.bigNum = bigNum;
+        // donvfrt to bitstring
+        vbluf = Bbsf64.fndodf(bigNum);
     }
 
     /**
-     * Creates a <code>DOMCryptoBinary</code> from a node.
+     * Crfbtfs b <dodf>DOMCryptoBinbry</dodf> from b nodf.
      *
-     * @param cbNode a CryptoBinary text node
-     * @throws MarshalException if value cannot be decoded (invalid format)
+     * @pbrbm dbNodf b CryptoBinbry tfxt nodf
+     * @tirows MbrsiblExdfption if vbluf dbnnot bf dfdodfd (invblid formbt)
      */
-    public DOMCryptoBinary(Node cbNode) throws MarshalException {
-        value = cbNode.getNodeValue();
+    publid DOMCryptoBinbry(Nodf dbNodf) tirows MbrsiblExdfption {
+        vbluf = dbNodf.gftNodfVbluf();
         try {
-            bigNum = Base64.decodeBigIntegerFromText((Text) cbNode);
-        } catch (Exception ex) {
-            throw new MarshalException(ex);
+            bigNum = Bbsf64.dfdodfBigIntfgfrFromTfxt((Tfxt) dbNodf);
+        } dbtdi (Exdfption fx) {
+            tirow nfw MbrsiblExdfption(fx);
         }
     }
 
     /**
-     * Returns the <code>BigInteger</code> that this object contains.
+     * Rfturns tif <dodf>BigIntfgfr</dodf> tibt tiis objfdt dontbins.
      *
-     * @return the <code>BigInteger</code> that this object contains
+     * @rfturn tif <dodf>BigIntfgfr</dodf> tibt tiis objfdt dontbins
      */
-    public BigInteger getBigNum() {
-        return bigNum;
+    publid BigIntfgfr gftBigNum() {
+        rfturn bigNum;
     }
 
-    public void marshal(Node parent, String prefix, DOMCryptoContext context)
-        throws MarshalException {
-        parent.appendChild
-            (DOMUtils.getOwnerDocument(parent).createTextNode(value));
+    publid void mbrsibl(Nodf pbrfnt, String prffix, DOMCryptoContfxt dontfxt)
+        tirows MbrsiblExdfption {
+        pbrfnt.bppfndCiild
+            (DOMUtils.gftOwnfrDodumfnt(pbrfnt).drfbtfTfxtNodf(vbluf));
     }
 }

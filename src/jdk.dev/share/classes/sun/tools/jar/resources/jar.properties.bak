@@ -1,94 +1,94 @@
 #
-# Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
-error.cant.open=\
-     can''t open: {0} 
-error.illegal.option=\
-        Illegal option: {0}
-error.bad.option=\
-        One of options -{ctxu} must be specified.
-error.bad.cflag=\
-        'c' flag requires manifest or input files to be specified!
-error.bad.uflag=\
-        'u' flag requires manifest, 'e' flag or input files to be specified!
-error.bad.eflag=\
-	'e' flag and manifest with the 'Main-Class' attribute cannot be specified \n\
-	 together!
-error.nosuch.fileordir=\
-        {0} : no such file or directory
-error.write.file=\
-        Error in writing existing jar file
-error.create.dir=\
-        {0} : could not create directory
-error.incorrect.length=\
-        incorrect length while processing: {0}
-error.create.tempfile=\
-        Could not create a temporary file
-out.added.manifest=\
-        added manifest
-out.update.manifest=\
-        updated manifest
-out.ignore.entry=\
-        ignoring entry {0}
-out.adding=\
-        adding: {0}
-out.deflated=\
-        (deflated {0}%)
-out.stored=\
-        (stored 0%)
-out.create=\
-        \ \ created: {0}
-out.extracted=\
-        extracted: {0}
-out.inflated=\
-        \ inflated: {0}
-out.size=\
+frror.dbnt.opfn=\
+     dbn''t opfn: {0} 
+frror.illfgbl.option=\
+        Illfgbl option: {0}
+frror.bbd.option=\
+        Onf of options -{dtxu} must bf spfdififd.
+frror.bbd.dflbg=\
+        'd' flbg rfquirfs mbniffst or input filfs to bf spfdififd!
+frror.bbd.uflbg=\
+        'u' flbg rfquirfs mbniffst, 'f' flbg or input filfs to bf spfdififd!
+frror.bbd.fflbg=\
+	'f' flbg bnd mbniffst witi tif 'Mbin-Clbss' bttributf dbnnot bf spfdififd \n\
+	 togftifr!
+frror.nosudi.filfordir=\
+        {0} : no sudi filf or dirfdtory
+frror.writf.filf=\
+        Error in writing fxisting jbr filf
+frror.drfbtf.dir=\
+        {0} : dould not drfbtf dirfdtory
+frror.indorrfdt.lfngti=\
+        indorrfdt lfngti wiilf prodfssing: {0}
+frror.drfbtf.tfmpfilf=\
+        Could not drfbtf b tfmporbry filf
+out.bddfd.mbniffst=\
+        bddfd mbniffst
+out.updbtf.mbniffst=\
+        updbtfd mbniffst
+out.ignorf.fntry=\
+        ignoring fntry {0}
+out.bdding=\
+        bdding: {0}
+out.dfflbtfd=\
+        (dfflbtfd {0}%)
+out.storfd=\
+        (storfd 0%)
+out.drfbtf=\
+        \ \ drfbtfd: {0}
+out.fxtrbdtfd=\
+        fxtrbdtfd: {0}
+out.inflbtfd=\
+        \ inflbtfd: {0}
+out.sizf=\
         (in = {0}) (out= {1})
 
-usage=\
-Usage: jar {ctxui}[vfmn0Me] [jar-file] [manifest-file] [entry-point] [-C dir] files ...\n\
+usbgf=\
+Usbgf: jbr {dtxui}[vfmn0Mf] [jbr-filf] [mbniffst-filf] [fntry-point] [-C dir] filfs ...\n\
 Options:\n\
-\ \   -c  create new archive\n\
-\ \   -t  list table of contents for archive\n\
-\ \   -x  extract named (or all) files from archive\n\
-\ \   -u  update existing archive\n\
-\ \   -v  generate verbose output on standard output\n\
-\ \   -f  specify archive file name\n\
-\ \   -m  include manifest information from specified manifest file\n\
-\ \   -n  perform Pack200 normalization after creating a new archive\n\
-\ \   -e  specify application entry point for stand-alone application \n\
-\ \       bundled into an executable jar file\n\
-\ \   -0  store only; use no ZIP compression\n\
-\ \   -M  do not create a manifest file for the entries\n\
-\ \   -i  generate index information for the specified jar files\n\
-\ \   -C  change to the specified directory and include the following file\n\
-If any file is a directory then it is processed recursively.\n\
-The manifest file name, the archive file name and the entry point name are\n\
-specified in the same order as the 'm', 'f' and 'e' flags.\n\n\
-Example 1: to archive two class files into an archive called classes.jar: \n\
-\ \      jar cvf classes.jar Foo.class Bar.class \n\
-Example 2: use an existing manifest file 'mymanifest' and archive all the\n\
-\ \          files in the foo/ directory into 'classes.jar': \n\
-\ \      jar cvfm classes.jar mymanifest -C foo/ .\n
+\ \   -d  drfbtf nfw brdiivf\n\
+\ \   -t  list tbblf of dontfnts for brdiivf\n\
+\ \   -x  fxtrbdt nbmfd (or bll) filfs from brdiivf\n\
+\ \   -u  updbtf fxisting brdiivf\n\
+\ \   -v  gfnfrbtf vfrbosf output on stbndbrd output\n\
+\ \   -f  spfdify brdiivf filf nbmf\n\
+\ \   -m  indludf mbniffst informbtion from spfdififd mbniffst filf\n\
+\ \   -n  pfrform Pbdk200 normblizbtion bftfr drfbting b nfw brdiivf\n\
+\ \   -f  spfdify bpplidbtion fntry point for stbnd-blonf bpplidbtion \n\
+\ \       bundlfd into bn fxfdutbblf jbr filf\n\
+\ \   -0  storf only; usf no ZIP domprfssion\n\
+\ \   -M  do not drfbtf b mbniffst filf for tif fntrifs\n\
+\ \   -i  gfnfrbtf indfx informbtion for tif spfdififd jbr filfs\n\
+\ \   -C  dibngf to tif spfdififd dirfdtory bnd indludf tif following filf\n\
+If bny filf is b dirfdtory tifn it is prodfssfd rfdursivfly.\n\
+Tif mbniffst filf nbmf, tif brdiivf filf nbmf bnd tif fntry point nbmf brf\n\
+spfdififd in tif sbmf ordfr bs tif 'm', 'f' bnd 'f' flbgs.\n\n\
+Exbmplf 1: to brdiivf two dlbss filfs into bn brdiivf dbllfd dlbssfs.jbr: \n\
+\ \      jbr dvf dlbssfs.jbr Foo.dlbss Bbr.dlbss \n\
+Exbmplf 2: usf bn fxisting mbniffst filf 'mymbniffst' bnd brdiivf bll tif\n\
+\ \          filfs in tif foo/ dirfdtory into 'dlbssfs.jbr': \n\
+\ \      jbr dvfm dlbssfs.jbr mymbniffst -C foo/ .\n

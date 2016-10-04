@@ -1,255 +1,255 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
- * $Id: DOMXMLObject.java 1333415 2012-05-03 12:03:51Z coheigea $
+ * $Id: DOMXMLObjfdt.jbvb 1333415 2012-05-03 12:03:51Z doifigfb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import javax.xml.crypto.*;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import javax.xml.crypto.dsig.*;
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.*;
 
-import java.security.Provider;
-import java.util.*;
+import jbvb.sfdurity.Providfr;
+import jbvb.util.*;
 
-import org.w3c.dom.Attr;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3d.dom.Attr;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
 
 /**
- * DOM-based implementation of XMLObject.
+ * DOM-bbsfd implfmfntbtion of XMLObjfdt.
  *
- * @author Sean Mullan
+ * @butior Sfbn Mullbn
  */
-public final class DOMXMLObject extends DOMStructure implements XMLObject {
+publid finbl dlbss DOMXMLObjfdt fxtfnds DOMStrudturf implfmfnts XMLObjfdt {
 
-    private final String id;
-    private final String mimeType;
-    private final String encoding;
-    private final List<XMLStructure> content;
-    private Element objectElem;
-
-    /**
-     * Creates an <code>XMLObject</code> from the specified parameters.
-     *
-     * @param content a list of {@link XMLStructure}s. The list
-     *    is defensively copied to protect against subsequent modification.
-     *    May be <code>null</code> or empty.
-     * @param id the Id (may be <code>null</code>)
-     * @param mimeType the mime type (may be <code>null</code>)
-     * @param encoding the encoding (may be <code>null</code>)
-     * @return an <code>XMLObject</code>
-     * @throws ClassCastException if <code>content</code> contains any
-     *    entries that are not of type {@link XMLStructure}
-     */
-    public DOMXMLObject(List<? extends XMLStructure> content, String id,
-                        String mimeType, String encoding)
-    {
-        if (content == null || content.isEmpty()) {
-            this.content = Collections.emptyList();
-        } else {
-            this.content = Collections.unmodifiableList(
-                new ArrayList<XMLStructure>(content));
-            for (int i = 0, size = this.content.size(); i < size; i++) {
-                if (!(this.content.get(i) instanceof XMLStructure)) {
-                    throw new ClassCastException
-                        ("content["+i+"] is not a valid type");
-                }
-            }
-        }
-        this.id = id;
-        this.mimeType = mimeType;
-        this.encoding = encoding;
-    }
+    privbtf finbl String id;
+    privbtf finbl String mimfTypf;
+    privbtf finbl String fndoding;
+    privbtf finbl List<XMLStrudturf> dontfnt;
+    privbtf Elfmfnt objfdtElfm;
 
     /**
-     * Creates an <code>XMLObject</code> from an element.
+     * Crfbtfs bn <dodf>XMLObjfdt</dodf> from tif spfdififd pbrbmftfrs.
      *
-     * @param objElem an Object element
-     * @throws MarshalException if there is an error when unmarshalling
+     * @pbrbm dontfnt b list of {@link XMLStrudturf}s. Tif list
+     *    is dfffnsivfly dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     *    Mby bf <dodf>null</dodf> or fmpty.
+     * @pbrbm id tif Id (mby bf <dodf>null</dodf>)
+     * @pbrbm mimfTypf tif mimf typf (mby bf <dodf>null</dodf>)
+     * @pbrbm fndoding tif fndoding (mby bf <dodf>null</dodf>)
+     * @rfturn bn <dodf>XMLObjfdt</dodf>
+     * @tirows ClbssCbstExdfption if <dodf>dontfnt</dodf> dontbins bny
+     *    fntrifs tibt brf not of typf {@link XMLStrudturf}
      */
-    public DOMXMLObject(Element objElem, XMLCryptoContext context,
-                        Provider provider)
-    throws MarshalException
+    publid DOMXMLObjfdt(List<? fxtfnds XMLStrudturf> dontfnt, String id,
+                        String mimfTypf, String fndoding)
     {
-        // unmarshal attributes
-        this.encoding = DOMUtils.getAttributeValue(objElem, "Encoding");
-
-        Attr attr = objElem.getAttributeNodeNS(null, "Id");
-        if (attr != null) {
-            this.id = attr.getValue();
-            objElem.setIdAttributeNode(attr, true);
-        } else {
-            this.id = null;
-        }
-        this.mimeType = DOMUtils.getAttributeValue(objElem, "MimeType");
-
-        NodeList nodes = objElem.getChildNodes();
-        int length = nodes.getLength();
-        List<XMLStructure> content = new ArrayList<XMLStructure>(length);
-        for (int i = 0; i < length; i++) {
-            Node child = nodes.item(i);
-            if (child.getNodeType() == Node.ELEMENT_NODE) {
-                Element childElem = (Element)child;
-                String tag = childElem.getLocalName();
-                if (tag.equals("Manifest")) {
-                    content.add(new DOMManifest(childElem, context, provider));
-                    continue;
-                } else if (tag.equals("SignatureProperties")) {
-                    content.add(new DOMSignatureProperties(childElem, context));
-                    continue;
-                } else if (tag.equals("X509Data")) {
-                    content.add(new DOMX509Data(childElem));
-                    continue;
-                }
-                //@@@FIXME: check for other dsig structures
-            }
-            content.add(new javax.xml.crypto.dom.DOMStructure(child));
-        }
-        if (content.isEmpty()) {
-            this.content = Collections.emptyList();
-        } else {
-            this.content = Collections.unmodifiableList(content);
-        }
-        this.objectElem = objElem;
-    }
-
-    public List<XMLStructure> getContent() {
-        return content;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getMimeType() {
-        return mimeType;
-    }
-
-    public String getEncoding() {
-        return encoding;
-    }
-
-    public void marshal(Node parent, String dsPrefix, DOMCryptoContext context)
-        throws MarshalException {
-        Document ownerDoc = DOMUtils.getOwnerDocument(parent);
-
-        Element objElem = objectElem != null ? objectElem : null;
-        if (objElem == null) {
-            objElem = DOMUtils.createElement(ownerDoc, "Object",
-                                             XMLSignature.XMLNS, dsPrefix);
-
-            // set attributes
-            DOMUtils.setAttributeID(objElem, "Id", id);
-            DOMUtils.setAttribute(objElem, "MimeType", mimeType);
-            DOMUtils.setAttribute(objElem, "Encoding", encoding);
-
-            // create and append any elements and mixed content, if necessary
-            for (XMLStructure object : content) {
-                if (object instanceof DOMStructure) {
-                    ((DOMStructure)object).marshal(objElem, dsPrefix, context);
-                } else {
-                    javax.xml.crypto.dom.DOMStructure domObject =
-                        (javax.xml.crypto.dom.DOMStructure)object;
-                    DOMUtils.appendChild(objElem, domObject.getNode());
+        if (dontfnt == null || dontfnt.isEmpty()) {
+            tiis.dontfnt = Collfdtions.fmptyList();
+        } flsf {
+            tiis.dontfnt = Collfdtions.unmodifibblfList(
+                nfw ArrbyList<XMLStrudturf>(dontfnt));
+            for (int i = 0, sizf = tiis.dontfnt.sizf(); i < sizf; i++) {
+                if (!(tiis.dontfnt.gft(i) instbndfof XMLStrudturf)) {
+                    tirow nfw ClbssCbstExdfption
+                        ("dontfnt["+i+"] is not b vblid typf");
                 }
             }
         }
-
-        parent.appendChild(objElem);
+        tiis.id = id;
+        tiis.mimfTypf = mimfTypf;
+        tiis.fndoding = fndoding;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) {
-            return true;
+    /**
+     * Crfbtfs bn <dodf>XMLObjfdt</dodf> from bn flfmfnt.
+     *
+     * @pbrbm objElfm bn Objfdt flfmfnt
+     * @tirows MbrsiblExdfption if tifrf is bn frror wifn unmbrsiblling
+     */
+    publid DOMXMLObjfdt(Elfmfnt objElfm, XMLCryptoContfxt dontfxt,
+                        Providfr providfr)
+    tirows MbrsiblExdfption
+    {
+        // unmbrsibl bttributfs
+        tiis.fndoding = DOMUtils.gftAttributfVbluf(objElfm, "Endoding");
+
+        Attr bttr = objElfm.gftAttributfNodfNS(null, "Id");
+        if (bttr != null) {
+            tiis.id = bttr.gftVbluf();
+            objElfm.sftIdAttributfNodf(bttr, truf);
+        } flsf {
+            tiis.id = null;
         }
+        tiis.mimfTypf = DOMUtils.gftAttributfVbluf(objElfm, "MimfTypf");
 
-        if (!(o instanceof XMLObject)) {
-            return false;
+        NodfList nodfs = objElfm.gftCiildNodfs();
+        int lfngti = nodfs.gftLfngti();
+        List<XMLStrudturf> dontfnt = nfw ArrbyList<XMLStrudturf>(lfngti);
+        for (int i = 0; i < lfngti; i++) {
+            Nodf diild = nodfs.itfm(i);
+            if (diild.gftNodfTypf() == Nodf.ELEMENT_NODE) {
+                Elfmfnt diildElfm = (Elfmfnt)diild;
+                String tbg = diildElfm.gftLodblNbmf();
+                if (tbg.fqubls("Mbniffst")) {
+                    dontfnt.bdd(nfw DOMMbniffst(diildElfm, dontfxt, providfr));
+                    dontinuf;
+                } flsf if (tbg.fqubls("SignbturfPropfrtifs")) {
+                    dontfnt.bdd(nfw DOMSignbturfPropfrtifs(diildElfm, dontfxt));
+                    dontinuf;
+                } flsf if (tbg.fqubls("X509Dbtb")) {
+                    dontfnt.bdd(nfw DOMX509Dbtb(diildElfm));
+                    dontinuf;
+                }
+                //@@@FIXME: difdk for otifr dsig strudturfs
+            }
+            dontfnt.bdd(nfw jbvbx.xml.drypto.dom.DOMStrudturf(diild));
         }
-        XMLObject oxo = (XMLObject)o;
-
-        boolean idsEqual = (id == null ? oxo.getId() == null
-                                       : id.equals(oxo.getId()));
-        boolean encodingsEqual =
-            (encoding == null ? oxo.getEncoding() == null
-                              : encoding.equals(oxo.getEncoding()));
-        boolean mimeTypesEqual =
-            (mimeType == null ? oxo.getMimeType() == null
-                              : mimeType.equals(oxo.getMimeType()));
-
-        @SuppressWarnings("unchecked")
-        List<XMLStructure> oxoContent = oxo.getContent();
-        return (idsEqual && encodingsEqual && mimeTypesEqual &&
-                equalsContent(oxoContent));
+        if (dontfnt.isEmpty()) {
+            tiis.dontfnt = Collfdtions.fmptyList();
+        } flsf {
+            tiis.dontfnt = Collfdtions.unmodifibblfList(dontfnt);
+        }
+        tiis.objfdtElfm = objElfm;
     }
 
-    @Override
-    public int hashCode() {
-        int result = 17;
+    publid List<XMLStrudturf> gftContfnt() {
+        rfturn dontfnt;
+    }
+
+    publid String gftId() {
+        rfturn id;
+    }
+
+    publid String gftMimfTypf() {
+        rfturn mimfTypf;
+    }
+
+    publid String gftEndoding() {
+        rfturn fndoding;
+    }
+
+    publid void mbrsibl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        tirows MbrsiblExdfption {
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+
+        Elfmfnt objElfm = objfdtElfm != null ? objfdtElfm : null;
+        if (objElfm == null) {
+            objElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "Objfdt",
+                                             XMLSignbturf.XMLNS, dsPrffix);
+
+            // sft bttributfs
+            DOMUtils.sftAttributfID(objElfm, "Id", id);
+            DOMUtils.sftAttributf(objElfm, "MimfTypf", mimfTypf);
+            DOMUtils.sftAttributf(objElfm, "Endoding", fndoding);
+
+            // drfbtf bnd bppfnd bny flfmfnts bnd mixfd dontfnt, if nfdfssbry
+            for (XMLStrudturf objfdt : dontfnt) {
+                if (objfdt instbndfof DOMStrudturf) {
+                    ((DOMStrudturf)objfdt).mbrsibl(objElfm, dsPrffix, dontfxt);
+                } flsf {
+                    jbvbx.xml.drypto.dom.DOMStrudturf domObjfdt =
+                        (jbvbx.xml.drypto.dom.DOMStrudturf)objfdt;
+                    DOMUtils.bppfndCiild(objElfm, domObjfdt.gftNodf());
+                }
+            }
+        }
+
+        pbrfnt.bppfndCiild(objElfm);
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (tiis == o) {
+            rfturn truf;
+        }
+
+        if (!(o instbndfof XMLObjfdt)) {
+            rfturn fblsf;
+        }
+        XMLObjfdt oxo = (XMLObjfdt)o;
+
+        boolfbn idsEqubl = (id == null ? oxo.gftId() == null
+                                       : id.fqubls(oxo.gftId()));
+        boolfbn fndodingsEqubl =
+            (fndoding == null ? oxo.gftEndoding() == null
+                              : fndoding.fqubls(oxo.gftEndoding()));
+        boolfbn mimfTypfsEqubl =
+            (mimfTypf == null ? oxo.gftMimfTypf() == null
+                              : mimfTypf.fqubls(oxo.gftMimfTypf()));
+
+        @SupprfssWbrnings("undifdkfd")
+        List<XMLStrudturf> oxoContfnt = oxo.gftContfnt();
+        rfturn (idsEqubl && fndodingsEqubl && mimfTypfsEqubl &&
+                fqublsContfnt(oxoContfnt));
+    }
+
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int rfsult = 17;
         if (id != null) {
-            result = 31 * result + id.hashCode();
+            rfsult = 31 * rfsult + id.ibsiCodf();
         }
-        if (encoding != null) {
-            result = 31 * result + encoding.hashCode();
+        if (fndoding != null) {
+            rfsult = 31 * rfsult + fndoding.ibsiCodf();
         }
-        if (mimeType != null) {
-            result = 31 * result + mimeType.hashCode();
+        if (mimfTypf != null) {
+            rfsult = 31 * rfsult + mimfTypf.ibsiCodf();
         }
-        result = 31 * result + content.hashCode();
+        rfsult = 31 * rfsult + dontfnt.ibsiCodf();
 
-        return result;
+        rfturn rfsult;
     }
 
-    private boolean equalsContent(List<XMLStructure> otherContent) {
-        if (content.size() != otherContent.size()) {
-            return false;
+    privbtf boolfbn fqublsContfnt(List<XMLStrudturf> otifrContfnt) {
+        if (dontfnt.sizf() != otifrContfnt.sizf()) {
+            rfturn fblsf;
         }
-        for (int i = 0, osize = otherContent.size(); i < osize; i++) {
-            XMLStructure oxs = otherContent.get(i);
-            XMLStructure xs = content.get(i);
-            if (oxs instanceof javax.xml.crypto.dom.DOMStructure) {
-                if (!(xs instanceof javax.xml.crypto.dom.DOMStructure)) {
-                    return false;
+        for (int i = 0, osizf = otifrContfnt.sizf(); i < osizf; i++) {
+            XMLStrudturf oxs = otifrContfnt.gft(i);
+            XMLStrudturf xs = dontfnt.gft(i);
+            if (oxs instbndfof jbvbx.xml.drypto.dom.DOMStrudturf) {
+                if (!(xs instbndfof jbvbx.xml.drypto.dom.DOMStrudturf)) {
+                    rfturn fblsf;
                 }
-                Node onode = ((javax.xml.crypto.dom.DOMStructure)oxs).getNode();
-                Node node = ((javax.xml.crypto.dom.DOMStructure)xs).getNode();
-                if (!DOMUtils.nodesEqual(node, onode)) {
-                    return false;
+                Nodf onodf = ((jbvbx.xml.drypto.dom.DOMStrudturf)oxs).gftNodf();
+                Nodf nodf = ((jbvbx.xml.drypto.dom.DOMStrudturf)xs).gftNodf();
+                if (!DOMUtils.nodfsEqubl(nodf, onodf)) {
+                    rfturn fblsf;
                 }
-            } else {
-                if (!(xs.equals(oxs))) {
-                    return false;
+            } flsf {
+                if (!(xs.fqubls(oxs))) {
+                    rfturn fblsf;
                 }
             }
         }
 
-        return true;
+        rfturn truf;
     }
 }

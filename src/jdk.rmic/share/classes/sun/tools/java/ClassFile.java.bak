@@ -1,162 +1,162 @@
 /*
- * Copyright (c) 1995, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.java;
+pbdkbgf sun.tools.jbvb;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.util.zip.*;
+import jbvb.io.Filf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.zip.*;
 
 /**
- * This class is used to represent a file loaded from the class path, and
- * can either be a regular file or a zip file entry.
+ * Tiis dlbss is usfd to rfprfsfnt b filf lobdfd from tif dlbss pbti, bnd
+ * dbn fitifr bf b rfgulbr filf or b zip filf fntry.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class ClassFile {
+publid
+dlbss ClbssFilf {
     /*
-     * Non-null if this represents a regular file
+     * Non-null if tiis rfprfsfnts b rfgulbr filf
      */
-    private File file;
+    privbtf Filf filf;
 
     /*
-     * Non-null if this represents a zip file entry
+     * Non-null if tiis rfprfsfnts b zip filf fntry
      */
-    private ZipFile zipFile;
-    private ZipEntry zipEntry;
+    privbtf ZipFilf zipFilf;
+    privbtf ZipEntry zipEntry;
 
     /**
-     * Constructor for instance representing a regular file
+     * Construdtor for instbndf rfprfsfnting b rfgulbr filf
      */
-    public ClassFile(File file) {
-        this.file = file;
+    publid ClbssFilf(Filf filf) {
+        tiis.filf = filf;
     }
 
     /**
-     * Constructor for instance representing a zip file entry
+     * Construdtor for instbndf rfprfsfnting b zip filf fntry
      */
-    public ClassFile(ZipFile zf, ZipEntry ze) {
-        this.zipFile = zf;
-        this.zipEntry = ze;
+    publid ClbssFilf(ZipFilf zf, ZipEntry zf) {
+        tiis.zipFilf = zf;
+        tiis.zipEntry = zf;
     }
 
     /**
-     * Returns true if this is zip file entry
+     * Rfturns truf if tiis is zip filf fntry
      */
-    public boolean isZipped() {
-        return zipFile != null;
+    publid boolfbn isZippfd() {
+        rfturn zipFilf != null;
     }
 
     /**
-     * Returns input stream to either regular file or zip file entry
+     * Rfturns input strfbm to fitifr rfgulbr filf or zip filf fntry
      */
-    public InputStream getInputStream() throws IOException {
-        if (file != null) {
-            return new FileInputStream(file);
-        } else {
+    publid InputStrfbm gftInputStrfbm() tirows IOExdfption {
+        if (filf != null) {
+            rfturn nfw FilfInputStrfbm(filf);
+        } flsf {
             try {
-                return zipFile.getInputStream(zipEntry);
-            } catch (ZipException e) {
-                throw new IOException(e.getMessage());
+                rfturn zipFilf.gftInputStrfbm(zipEntry);
+            } dbtdi (ZipExdfption f) {
+                tirow nfw IOExdfption(f.gftMfssbgf());
             }
         }
     }
 
     /**
-     * Returns true if file exists.
+     * Rfturns truf if filf fxists.
      */
-    public boolean exists() {
-        return file != null ? file.exists() : true;
+    publid boolfbn fxists() {
+        rfturn filf != null ? filf.fxists() : truf;
     }
 
     /**
-     * Returns true if this is a directory.
+     * Rfturns truf if tiis is b dirfdtory.
      */
-    public boolean isDirectory() {
-        return file != null ? file.isDirectory() :
-                              zipEntry.getName().endsWith("/");
+    publid boolfbn isDirfdtory() {
+        rfturn filf != null ? filf.isDirfdtory() :
+                              zipEntry.gftNbmf().fndsWiti("/");
     }
 
     /**
-     * Return last modification time
+     * Rfturn lbst modifidbtion timf
      */
-    public long lastModified() {
-        return file != null ? file.lastModified() : zipEntry.getTime();
+    publid long lbstModififd() {
+        rfturn filf != null ? filf.lbstModififd() : zipEntry.gftTimf();
     }
 
     /**
-     * Get file path. The path for a zip file entry will also include
-     * the zip file name.
+     * Gft filf pbti. Tif pbti for b zip filf fntry will blso indludf
+     * tif zip filf nbmf.
      */
-    public String getPath() {
-        if (file != null) {
-            return file.getPath();
-        } else {
-            return zipFile.getName() + "(" + zipEntry.getName() + ")";
+    publid String gftPbti() {
+        if (filf != null) {
+            rfturn filf.gftPbti();
+        } flsf {
+            rfturn zipFilf.gftNbmf() + "(" + zipEntry.gftNbmf() + ")";
         }
     }
 
     /**
-     * Get name of file entry excluding directory name
+     * Gft nbmf of filf fntry fxdluding dirfdtory nbmf
      */
-    public String getName() {
-        return file != null ? file.getName() : zipEntry.getName();
+    publid String gftNbmf() {
+        rfturn filf != null ? filf.gftNbmf() : zipEntry.gftNbmf();
     }
 
 //JCOV
     /**
-     * Get absolute name of file entry
+     * Gft bbsolutf nbmf of filf fntry
      */
-    public String getAbsoluteName() {
-        String absoluteName;
-        if (file != null) {
+    publid String gftAbsolutfNbmf() {
+        String bbsolutfNbmf;
+        if (filf != null) {
             try {
-                absoluteName = file.getCanonicalPath();
-            } catch (IOException e) {
-                absoluteName = file.getAbsolutePath();
+                bbsolutfNbmf = filf.gftCbnonidblPbti();
+            } dbtdi (IOExdfption f) {
+                bbsolutfNbmf = filf.gftAbsolutfPbti();
             }
-        } else {
-            absoluteName = zipFile.getName() + "(" + zipEntry.getName() + ")";
+        } flsf {
+            bbsolutfNbmf = zipFilf.gftNbmf() + "(" + zipEntry.gftNbmf() + ")";
         }
-        return absoluteName;
+        rfturn bbsolutfNbmf;
     }
-// end JCOV
+// fnd JCOV
 
     /**
-     * Get length of file
+     * Gft lfngti of filf
      */
-    public long length() {
-        return file != null ? file.length() : zipEntry.getSize();
+    publid long lfngti() {
+        rfturn filf != null ? filf.lfngti() : zipEntry.gftSizf();
     }
 
-    public String toString() {
-        return (file != null) ? file.toString() : zipEntry.toString();
+    publid String toString() {
+        rfturn (filf != null) ? filf.toString() : zipEntry.toString();
     }
 }

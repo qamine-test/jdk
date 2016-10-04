@@ -1,0 +1,1068 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <frrno.h>
+#indludf <string.h>
+#indludf <sys/typfs.h>
+#indludf <sys/sodkft.h>
+#if dffinfd(__linux__)
+#indludf <sys/poll.h>
+#fndif
+#indludf <nftinft/tdp.h>        /* Dffinfs TCP_NODELAY, nffdfd for 2.6 */
+#indludf <nftinft/in.h>
+#ifdff __linux__
+#indludf <nftinft/ip.h>
+#fndif
+#indludf <nftdb.h>
+#indludf <stdlib.h>
+
+#ifdff __solbris__
+#indludf <fdntl.h>
+#fndif
+#ifdff __linux__
+#indludf <unistd.h>
+#indludf <sys/sysdtl.h>
+#fndif
+
+#indludf "jvm.h"
+#indludf "jni_util.h"
+#indludf "nft_util.h"
+
+#indludf "jbvb_nft_SodkftOptions.h"
+#indludf "jbvb_nft_PlbinSodkftImpl.h"
+
+/************************************************************************
+ * PlbinSodkftImpl
+ */
+
+stbtid jfifldID IO_fd_fdID;
+
+jfifldID psi_fdID;
+jfifldID psi_bddrfssID;
+jfifldID psi_ipbddrfssID;
+jfifldID psi_portID;
+jfifldID psi_lodblportID;
+jfifldID psi_timfoutID;
+jfifldID psi_trbffidClbssID;
+jfifldID psi_sfrvfrSodkftID;
+jfifldID psi_fdLodkID;
+jfifldID psi_dlosfPfndingID;
+
+fxtfrn void sftDffbultSdopfID(JNIEnv *fnv, strudt sodkbddr *him);
+
+/*
+ * filf dfsdriptor usfd for dup2
+ */
+stbtid int mbrkfr_fd = -1;
+
+
+#dffinf SET_NONBLOCKING(fd) {           \
+        int flbgs = fdntl(fd, F_GETFL); \
+        flbgs |= O_NONBLOCK;            \
+        fdntl(fd, F_SETFL, flbgs);      \
+}
+
+#dffinf SET_BLOCKING(fd) {              \
+        int flbgs = fdntl(fd, F_GETFL); \
+        flbgs &= ~O_NONBLOCK;           \
+        fdntl(fd, F_SETFL, flbgs);      \
+}
+
+/*
+ * Crfbtf thf mbrkfr filf dfsdriptor by fstbblishing b loopbbdk donnfdtion
+ * whidh wf shutdown but do not dlosf thf fd. Thf rfsult is bn fd thbt
+ * dbn bf usfd for rfbd/writf.
+ */
+stbtid int gftMbrkfrFD()
+{
+    int sv[2];
+
+#ifdff AF_UNIX
+    if (sodkftpbir(AF_UNIX, SOCK_STREAM, 0, sv) == -1) {
+        rfturn -1;
+    }
+#flsf
+    rfturn -1;
+#fndif
+
+    /*
+     * Finblly shutdown sv[0] (bny rfbds to this fd will gft
+     * EOF; bny writfs will gft bn frror).
+     */
+    shutdown(sv[0], 2);
+    dlosf(sv[1]);
+
+    rfturn sv[0];
+}
+
+/*
+ * Rfturn thf filf dfsdriptor givfn b PlbinSodkftImpl
+ */
+stbtid int gftFD(JNIEnv *fnv, jobjfdt this) {
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, psi_fdID);
+    CHECK_NULL_RETURN(fdObj, -1);
+    rfturn (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+}
+
+/*
+ * Thf initroto fundtion is dbllfd whfnfvfr PlbinSodkftImpl is
+ * lobdfd, to dbdhf fifld IDs for fffidifndy. This is dbllfd fvfry timf
+ * thf Jbvb dlbss is lobdfd.
+ *
+ * Clbss:     jbvb_nft_PlbinSodkftImpl
+ * Mfthod:    initProto
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_PlbinSodkftImpl_initProto(JNIEnv *fnv, jdlbss dls) {
+    psi_fdID = (*fnv)->GftFifldID(fnv, dls , "fd",
+                                  "Ljbvb/io/FilfDfsdriptor;");
+    CHECK_NULL(psi_fdID);
+    psi_bddrfssID = (*fnv)->GftFifldID(fnv, dls, "bddrfss",
+                                          "Ljbvb/nft/InftAddrfss;");
+    CHECK_NULL(psi_bddrfssID);
+    psi_portID = (*fnv)->GftFifldID(fnv, dls, "port", "I");
+    CHECK_NULL(psi_portID);
+    psi_lodblportID = (*fnv)->GftFifldID(fnv, dls, "lodblport", "I");
+    CHECK_NULL(psi_lodblportID);
+    psi_timfoutID = (*fnv)->GftFifldID(fnv, dls, "timfout", "I");
+    CHECK_NULL(psi_timfoutID);
+    psi_trbffidClbssID = (*fnv)->GftFifldID(fnv, dls, "trbffidClbss", "I");
+    CHECK_NULL(psi_trbffidClbssID);
+    psi_sfrvfrSodkftID = (*fnv)->GftFifldID(fnv, dls, "sfrvfrSodkft",
+                        "Ljbvb/nft/SfrvfrSodkft;");
+    CHECK_NULL(psi_sfrvfrSodkftID);
+    psi_fdLodkID = (*fnv)->GftFifldID(fnv, dls, "fdLodk",
+                                      "Ljbvb/lbng/Objfdt;");
+    CHECK_NULL(psi_fdLodkID);
+    psi_dlosfPfndingID = (*fnv)->GftFifldID(fnv, dls, "dlosfPfnding", "Z");
+    CHECK_NULL(psi_dlosfPfndingID);
+    IO_fd_fdID = NET_GftFilfDfsdriptorID(fnv);
+    CHECK_NULL(IO_fd_fdID);
+
+    initInftAddrfssIDs(fnv);
+    JNU_CHECK_EXCEPTION(fnv);
+
+    /* Crfbtf thf mbrkfr fd usfd for dup2 */
+    mbrkfr_fd = gftMbrkfrFD();
+}
+
+/* b globbl rfffrfndf to thf jbvb.nft.SodkftExdfption dlbss. In
+ * sodkftCrfbtf, wf fnsurf thbt this is initiblizfd. This is to
+ * prfvfnt thf problfm whfrf sodkftCrfbtf runs out of filf
+ * dfsdriptors, bnd is thfn unbblf to lobd thf fxdfption dlbss.
+ */
+stbtid jdlbss sodkftExdfptionCls;
+
+/*
+ * Clbss:     jbvb_nft_PlbinSodkftImpl
+ * Mfthod:    sodkftCrfbtf
+ * Signbturf: (Z)V */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_PlbinSodkftImpl_sodkftCrfbtf(JNIEnv *fnv, jobjfdt this,
+                                           jboolfbn strfbm) {
+    jobjfdt fdObj, ssObj;
+    int fd;
+    int typf = (strfbm ? SOCK_STREAM : SOCK_DGRAM);
+#ifdff AF_INET6
+    int dombin = ipv6_bvbilbblf() ? AF_INET6 : AF_INET;
+#flsf
+    int dombin = AF_INET;
+#fndif
+
+    if (sodkftExdfptionCls == NULL) {
+        jdlbss d = (*fnv)->FindClbss(fnv, "jbvb/nft/SodkftExdfption");
+        CHECK_NULL(d);
+        sodkftExdfptionCls = (jdlbss)(*fnv)->NfwGlobblRff(fnv, d);
+        CHECK_NULL(sodkftExdfptionCls);
+    }
+    fdObj = (*fnv)->GftObjfdtFifld(fnv, this, psi_fdID);
+
+    if (fdObj == NULL) {
+        (*fnv)->ThrowNfw(fnv, sodkftExdfptionCls, "null fd objfdt");
+        rfturn;
+    }
+
+    if ((fd = sodkft(dombin, typf, 0)) == -1) {
+        /* notf: if you run out of fds, you mby not bf bblf to lobd
+         * thf fxdfption dlbss, bnd gft b NoClbssDffFoundError
+         * instfbd.
+         */
+        NET_ThrowNfw(fnv, frrno, "dbn't drfbtf sodkft");
+        rfturn;
+    }
+
+#ifdff AF_INET6
+    /* Disbblf IPV6_V6ONLY to fnsurf dubl-sodkft support */
+    if (dombin == AF_INET6) {
+        int brg = 0;
+        if (sftsodkopt(fd, IPPROTO_IPV6, IPV6_V6ONLY, (dhbr*)&brg,
+                       sizfof(int)) < 0) {
+            NET_ThrowNfw(fnv, frrno, "dbnnot sft IPPROTO_IPV6");
+            dlosf(fd);
+            rfturn;
+        }
+    }
+#fndif /* AF_INET6 */
+
+    /*
+     * If this is b sfrvfr sodkft thfn fnbblf SO_REUSEADDR
+     * butombtidblly bnd sft to non blodking.
+     */
+    ssObj = (*fnv)->GftObjfdtFifld(fnv, this, psi_sfrvfrSodkftID);
+    if (ssObj != NULL) {
+        int brg = 1;
+        SET_NONBLOCKING(fd);
+        if (NET_SftSodkOpt(fd, SOL_SOCKET, SO_REUSEADDR, (dhbr*)&brg,
+                       sizfof(brg)) < 0) {
+            NET_ThrowNfw(fnv, frrno, "dbnnot sft SO_REUSEADDR");
+            dlosf(fd);
+            rfturn;
+        }
+    }
+
+    (*fnv)->SftIntFifld(fnv, fdObj, IO_fd_fdID, fd);
+}
+
+/*
+ * inftAddrfss is thf bddrfss objfdt pbssfd to thf sodkft donnfdt
+ * dbll.
+ *
+ * Clbss:     jbvb_nft_PlbinSodkftImpl
+ * Mfthod:    sodkftConnfdt
+ * Signbturf: (Ljbvb/nft/InftAddrfss;I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_PlbinSodkftImpl_sodkftConnfdt(JNIEnv *fnv, jobjfdt this,
+                                            jobjfdt ibObj, jint port,
+                                            jint timfout)
+{
+    jint lodblport = (*fnv)->GftIntFifld(fnv, this, psi_lodblportID);
+    int lfn = 0;
+
+    /* fdObj is thf FilfDfsdriptor fifld on this */
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, psi_fdID);
+
+    jdlbss dlbzz = (*fnv)->GftObjfdtClbss(fnv, this);
+
+    jobjfdt fdLodk;
+
+    jint trbffidClbss = (*fnv)->GftIntFifld(fnv, this, psi_trbffidClbssID);
+
+    /* fd is bn int fifld on ibObj */
+    jint fd;
+
+    SOCKADDR him;
+    /* Thf rfsult of thf donnfdtion */
+    int donnfdt_rv = -1;
+
+    if (IS_NULL(fdObj)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Sodkft dlosfd");
+        rfturn;
+    } flsf {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+    }
+    if (IS_NULL(ibObj)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "inft bddrfss brgumfnt null.");
+        rfturn;
+    }
+
+    /* donnfdt */
+    if (NET_InftAddrfssToSodkbddr(fnv, ibObj, port, (strudt sodkbddr *)&him, &lfn, JNI_TRUE) != 0) {
+      rfturn;
+    }
+    sftDffbultSdopfID(fnv, (strudt sodkbddr *)&him);
+
+#ifdff AF_INET6
+    if (trbffidClbss != 0 && ipv6_bvbilbblf()) {
+        NET_SftTrbffidClbss((strudt sodkbddr *)&him, trbffidClbss);
+    }
+#fndif /* AF_INET6 */
+    if (timfout <= 0) {
+        donnfdt_rv = NET_Connfdt(fd, (strudt sodkbddr *)&him, lfn);
+#ifdff __solbris__
+        if (donnfdt_rv == -1 && frrno == EINPROGRESS ) {
+
+            /* This dbn hbppfn if b blodking donnfdt is intfrruptfd by b signbl.
+             * Sff 6343810.
+             */
+            whilf (1) {
+                strudt pollfd pfd;
+                pfd.fd = fd;
+                pfd.fvfnts = POLLOUT;
+
+                donnfdt_rv = NET_Poll(&pfd, 1, -1);
+
+                if (donnfdt_rv == -1) {
+                    if (frrno == EINTR) {
+                        dontinuf;
+                    } flsf {
+                        brfbk;
+                    }
+                }
+                if (donnfdt_rv > 0) {
+                    sodklfn_t optlfn;
+                    /* hbs donnfdtion bffn fstbblishfd */
+                    optlfn = sizfof(donnfdt_rv);
+                    if (gftsodkopt(fd, SOL_SOCKET, SO_ERROR,
+                                   (void*)&donnfdt_rv, &optlfn) <0) {
+                        donnfdt_rv = frrno;
+                    }
+
+                    if (donnfdt_rv != 0) {
+                        /* rfstorf frrno */
+                        frrno = donnfdt_rv;
+                        donnfdt_rv = -1;
+                    }
+                    brfbk;
+                }
+            }
+        }
+#fndif
+    } flsf {
+        /*
+         * A timfout wbs spfdififd. Wf put thf sodkft into non-blodking
+         * modf, donnfdt, bnd thfn wbit for thf donnfdtion to bf
+         * fstbblishfd, fbil, or timfout.
+         */
+        SET_NONBLOCKING(fd);
+
+        /* no nffd to usf NET_Connfdt bs non-blodking */
+        donnfdt_rv = donnfdt(fd, (strudt sodkbddr *)&him, lfn);
+
+        /* donnfdtion not fstbblishfd immfdibtfly */
+        if (donnfdt_rv != 0) {
+            sodklfn_t optlfn;
+            jlong prfvTimf = JVM_CurrfntTimfMillis(fnv, 0);
+
+            if (frrno != EINPROGRESS) {
+                NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "ConnfdtExdfption",
+                             "donnfdt fbilfd");
+                SET_BLOCKING(fd);
+                rfturn;
+            }
+
+            /*
+             * Wbit for thf donnfdtion to bf fstbblishfd or b
+             * timfout oddurs. poll nffds to hbndlf EINTR in
+             * dbsf lwp sig hbndlfr rfdirfdts bny prodfss signbls to
+             * this thrfbd.
+             */
+            whilf (1) {
+                jlong nfwTimf;
+                strudt pollfd pfd;
+                pfd.fd = fd;
+                pfd.fvfnts = POLLOUT;
+
+                frrno = 0;
+                donnfdt_rv = NET_Poll(&pfd, 1, timfout);
+
+                if (donnfdt_rv >= 0) {
+                    brfbk;
+                }
+                if (frrno != EINTR) {
+                    brfbk;
+                }
+
+                /*
+                 * Thf poll wbs intfrruptfd so bdjust timfout bnd
+                 * rfstbrt
+                 */
+                nfwTimf = JVM_CurrfntTimfMillis(fnv, 0);
+                timfout -= (nfwTimf - prfvTimf);
+                if (timfout <= 0) {
+                    donnfdt_rv = 0;
+                    brfbk;
+                }
+                prfvTimf = nfwTimf;
+
+            } /* whilf */
+
+            if (donnfdt_rv == 0) {
+                JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftTimfoutExdfption",
+                            "donnfdt timfd out");
+
+                /*
+                 * Timfout out but donnfdtion mby still bf fstbblishfd.
+                 * At thf high lfvfl it should bf dlosfd immfdibtfly but
+                 * just in dbsf wf mbkf thf sodkft blodking bgbin bnd
+                 * shutdown input & output.
+                 */
+                SET_BLOCKING(fd);
+                shutdown(fd, 2);
+                rfturn;
+            }
+
+            /* hbs donnfdtion bffn fstbblishfd */
+            optlfn = sizfof(donnfdt_rv);
+            if (gftsodkopt(fd, SOL_SOCKET, SO_ERROR, (void*)&donnfdt_rv,
+                           &optlfn) <0) {
+                donnfdt_rv = frrno;
+            }
+        }
+
+        /* mbkf sodkft blodking bgbin */
+        SET_BLOCKING(fd);
+
+        /* rfstorf frrno */
+        if (donnfdt_rv != 0) {
+            frrno = donnfdt_rv;
+            donnfdt_rv = -1;
+        }
+    }
+
+    /* rfport thf bppropribtf fxdfption */
+    if (donnfdt_rv < 0) {
+
+#ifdff __linux__
+        /*
+         * Linux/GNU distribution sftup /ftd/hosts so thbt
+         * InftAddrfss.gftLodblHost gfts bbdk thf loopbbdk bddrfss
+         * rbthfr thbn thf host bddrfss. Thus b sodkft dbn bf
+         * bound to thf loopbbdk bddrfss bnd thf donnfdt will
+         * fbil with EADDRNOTAVAIL. In bddition thf Linux kfrnfl
+         * rfturns thf wrong frror in this dbsf - it rfturns EINVAL
+         * instfbd of EADDRNOTAVAIL. Wf hbndlf this hfrf so thbt
+         * b morf dfsdriptivf fxdfption tfxt is usfd.
+         */
+        if (donnfdt_rv == -1 && frrno == EINVAL) {
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                "Invblid brgumfnt or dbnnot bssign rfqufstfd bddrfss");
+            rfturn;
+        }
+#fndif
+#if dffinfd(EPROTO)
+        if (frrno == EPROTO) {
+            NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "ProtodolExdfption",
+                           "Protodol frror");
+            rfturn;
+        }
+#fndif
+        if (frrno == ECONNREFUSED) {
+            NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "ConnfdtExdfption",
+                           "Connfdtion rffusfd");
+        } flsf if (frrno == ETIMEDOUT) {
+            NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "ConnfdtExdfption",
+                           "Connfdtion timfd out");
+        } flsf if (frrno == EHOSTUNREACH) {
+            NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "NoRoutfToHostExdfption",
+                           "Host unrfbdhbblf");
+        } flsf if (frrno == EADDRNOTAVAIL) {
+            NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "NoRoutfToHostExdfption",
+                             "Addrfss not bvbilbblf");
+        } flsf if ((frrno == EISCONN) || (frrno == EBADF)) {
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                            "Sodkft dlosfd");
+        } flsf {
+            NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "donnfdt fbilfd");
+        }
+        rfturn;
+    }
+
+    (*fnv)->SftIntFifld(fnv, fdObj, IO_fd_fdID, fd);
+
+    /* sft thf rfmotf pffr bddrfss bnd port */
+    (*fnv)->SftObjfdtFifld(fnv, this, psi_bddrfssID, ibObj);
+    (*fnv)->SftIntFifld(fnv, this, psi_portID, port);
+
+    /*
+     * wf nffd to initiblizf thf lodbl port fifld if bind wbs dbllfd
+     * prfviously to thf donnfdt (by thf dlifnt) thfn lodblport fifld
+     * will blrfbdy bf initiblizfd
+     */
+    if (lodblport == 0) {
+        /* Now thbt wf'rf b donnfdtfd sodkft, lft's fxtrbdt thf port numbfr
+         * thbt thf systfm dhosf for us bnd storf it in thf Sodkft objfdt.
+         */
+        sodklfn_t slfn = SOCKADDR_LEN;
+        if (gftsodknbmf(fd, (strudt sodkbddr *)&him, &slfn) == -1) {
+            NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                           "Error gftting sodkft nbmf");
+        } flsf {
+            lodblport = NET_GftPortFromSodkbddr((strudt sodkbddr *)&him);
+            (*fnv)->SftIntFifld(fnv, this, psi_lodblportID, lodblport);
+        }
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_PlbinSodkftImpl
+ * Mfthod:    sodkftBind
+ * Signbturf: (Ljbvb/nft/InftAddrfss;I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_PlbinSodkftImpl_sodkftBind(JNIEnv *fnv, jobjfdt this,
+                                         jobjfdt ibObj, jint lodblport) {
+
+    /* fdObj is thf FilfDfsdriptor fifld on this */
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, psi_fdID);
+    /* fd is bn int fifld on fdObj */
+    int fd;
+    int lfn;
+    SOCKADDR him;
+
+    if (IS_NULL(fdObj)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Sodkft dlosfd");
+        rfturn;
+    } flsf {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+    }
+    if (IS_NULL(ibObj)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "ibObj is null.");
+        rfturn;
+    }
+
+    /* bind */
+    if (NET_InftAddrfssToSodkbddr(fnv, ibObj, lodblport, (strudt sodkbddr *)&him, &lfn, JNI_TRUE) != 0) {
+      rfturn;
+    }
+    sftDffbultSdopfID(fnv, (strudt sodkbddr *)&him);
+
+    if (NET_Bind(fd, (strudt sodkbddr *)&him, lfn) < 0) {
+        if (frrno == EADDRINUSE || frrno == EADDRNOTAVAIL ||
+            frrno == EPERM || frrno == EACCES) {
+            NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "BindExdfption",
+                           "Bind fbilfd");
+        } flsf {
+            NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                           "Bind fbilfd");
+        }
+        rfturn;
+    }
+
+    /* sft thf bddrfss */
+    (*fnv)->SftObjfdtFifld(fnv, this, psi_bddrfssID, ibObj);
+
+    /* initiblizf thf lodbl port */
+    if (lodblport == 0) {
+        sodklfn_t slfn = sizfof(him);
+        /* Now thbt wf'rf b donnfdtfd sodkft, lft's fxtrbdt thf port numbfr
+         * thbt thf systfm dhosf for us bnd storf it in thf Sodkft objfdt.
+         */
+        if (gftsodknbmf(fd, (strudt sodkbddr *)&him, &slfn) == -1) {
+            NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                           "Error gftting sodkft nbmf");
+            rfturn;
+        }
+        lodblport = NET_GftPortFromSodkbddr((strudt sodkbddr *)&him);
+        (*fnv)->SftIntFifld(fnv, this, psi_lodblportID, lodblport);
+    } flsf {
+        (*fnv)->SftIntFifld(fnv, this, psi_lodblportID, lodblport);
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_PlbinSodkftImpl
+ * Mfthod:    sodkftListfn
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_PlbinSodkftImpl_sodkftListfn (JNIEnv *fnv, jobjfdt this,
+                                            jint dount)
+{
+    /* this FilfDfsdriptor fd fifld */
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, psi_fdID);
+    /* fdObj's int fd fifld */
+    int fd;
+
+    if (IS_NULL(fdObj)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Sodkft dlosfd");
+        rfturn;
+    } flsf {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+    }
+
+    /*
+     * Workbround for bugid 4101691 in Solbris 2.6. Sff 4106600.
+     * If listfn bbdklog is Intfgfr.MAX_VALUE thfn subtrbdt 1.
+     */
+    if (dount == 0x7fffffff)
+        dount -= 1;
+
+    if (listfn(fd, dount) == -1) {
+        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                       "Listfn fbilfd");
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_PlbinSodkftImpl
+ * Mfthod:    sodkftAddfpt
+ * Signbturf: (Ljbvb/nft/SodkftImpl;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_PlbinSodkftImpl_sodkftAddfpt(JNIEnv *fnv, jobjfdt this,
+                                           jobjfdt sodkft)
+{
+    /* fiflds on this */
+    int port;
+    jint timfout = (*fnv)->GftIntFifld(fnv, this, psi_timfoutID);
+    jlong prfvTimf = 0;
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, psi_fdID);
+
+    /* thf FilfDfsdriptor fifld on sodkft */
+    jobjfdt sodkftFdObj;
+    /* thf InftAddrfss fifld on sodkft */
+    jobjfdt sodkftAddrfssObj;
+
+    /* thf SfrvfrSodkft fd int fifld on fdObj */
+    jint fd;
+
+    /* bddfptfd fd */
+    jint nfwfd;
+
+    SOCKADDR him;
+    sodklfn_t slfn = SOCKADDR_LEN;
+
+    if (IS_NULL(fdObj)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Sodkft dlosfd");
+        rfturn;
+    } flsf {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+    }
+    if (IS_NULL(sodkft)) {
+        JNU_ThrowNullPointfrExdfption(fnv, "sodkft is null");
+        rfturn;
+    }
+
+    /*
+     * bddfpt donnfdtion but ignorf ECONNABORTED indidbting thbt
+     * donnfdtion wbs fbgfrly bddfptfd by thf OS but wbs rfsft
+     * bfforf bddfpt() wbs dbllfd.
+     *
+     * If bddfpt timfout in plbdf bnd timfout is bdjustfd with
+     * fbdh ECONNABORTED or EWOULDBLOCK to fnsurf thbt sfmbntids
+     * of timfout brf prfsfrvfd.
+     */
+    for (;;) {
+        int rft;
+
+        /* first usbgf pidk up durrfnt timf */
+        if (prfvTimf == 0 && timfout > 0) {
+            prfvTimf = JVM_CurrfntTimfMillis(fnv, 0);
+        }
+
+        /* pbssing b timfout of 0 to poll will rfturn immfdibtfly,
+           but in thf dbsf of SfrvfrSodkft 0 mfbns infinitf. */
+        if (timfout <= 0) {
+            rft = NET_Timfout(fd, -1);
+        } flsf {
+            rft = NET_Timfout(fd, timfout);
+        }
+        if (rft == 0) {
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftTimfoutExdfption",
+                            "Addfpt timfd out");
+            rfturn;
+        } flsf if (rft == -1) {
+            if (frrno == EBADF) {
+               JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Sodkft dlosfd");
+            } flsf if (frrno == ENOMEM) {
+               JNU_ThrowOutOfMfmoryError(fnv, "NET_Timfout nbtivf hfbp bllodbtion fbilfd");
+            } flsf {
+               NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "Addfpt fbilfd");
+            }
+            rfturn;
+        }
+
+        nfwfd = NET_Addfpt(fd, (strudt sodkbddr *)&him, &slfn);
+
+        /* donnfdtion bddfptfd */
+        if (nfwfd >= 0) {
+            SET_BLOCKING(nfwfd);
+            brfbk;
+        }
+
+        /* non (ECONNABORTED or EWOULDBLOCK) frror */
+        if (!(frrno == ECONNABORTED || frrno == EWOULDBLOCK)) {
+            brfbk;
+        }
+
+        /* ECONNABORTED or EWOULDBLOCK frror so bdjust timfout if thfrf is onf. */
+        if (timfout) {
+            jlong durrTimf = JVM_CurrfntTimfMillis(fnv, 0);
+            timfout -= (durrTimf - prfvTimf);
+
+            if (timfout <= 0) {
+                JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftTimfoutExdfption",
+                                "Addfpt timfd out");
+                rfturn;
+            }
+            prfvTimf = durrTimf;
+        }
+    }
+
+    if (nfwfd < 0) {
+        if (nfwfd == -2) {
+            JNU_ThrowByNbmf(fnv, JNU_JAVAIOPKG "IntfrruptfdIOExdfption",
+                            "opfrbtion intfrruptfd");
+        } flsf {
+            if (frrno == EINVAL) {
+                frrno = EBADF;
+            }
+            if (frrno == EBADF) {
+                JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Sodkft dlosfd");
+            } flsf {
+                NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "Addfpt fbilfd");
+            }
+        }
+        rfturn;
+    }
+
+    /*
+     * fill up thf rfmotf pffr port bnd bddrfss in thf nfw sodkft strudturf.
+     */
+    sodkftAddrfssObj = NET_SodkbddrToInftAddrfss(fnv, (strudt sodkbddr *)&him, &port);
+    if (sodkftAddrfssObj == NULL) {
+        /* should bf pfnding fxdfption */
+        dlosf(nfwfd);
+        rfturn;
+    }
+
+    /*
+     * Populbtf SodkftImpl.fd.fd
+     */
+    sodkftFdObj = (*fnv)->GftObjfdtFifld(fnv, sodkft, psi_fdID);
+    (*fnv)->SftIntFifld(fnv, sodkftFdObj, IO_fd_fdID, nfwfd);
+
+    (*fnv)->SftObjfdtFifld(fnv, sodkft, psi_bddrfssID, sodkftAddrfssObj);
+    (*fnv)->SftIntFifld(fnv, sodkft, psi_portID, port);
+    /* blso fill up thf lodbl port informbtion */
+     port = (*fnv)->GftIntFifld(fnv, this, psi_lodblportID);
+    (*fnv)->SftIntFifld(fnv, sodkft, psi_lodblportID, port);
+}
+
+
+/*
+ * Clbss:     jbvb_nft_PlbinSodkftImpl
+ * Mfthod:    sodkftAvbilbblf
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_nft_PlbinSodkftImpl_sodkftAvbilbblf(JNIEnv *fnv, jobjfdt this) {
+
+    jint rft = -1;
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, psi_fdID);
+    jint fd;
+
+    if (IS_NULL(fdObj)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Sodkft dlosfd");
+        rfturn -1;
+    } flsf {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+    }
+    /* NET_SodkftAvbilbblf rfturns 0 for fbilurf, 1 for suddfss */
+    if (NET_SodkftAvbilbblf(fd, &rft) == 0){
+        if (frrno == ECONNRESET) {
+            JNU_ThrowByNbmf(fnv, "sun/nft/ConnfdtionRfsftExdfption", "");
+        } flsf {
+            NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                         "iodtl FIONREAD fbilfd");
+        }
+    }
+    rfturn rft;
+}
+
+/*
+ * Clbss:     jbvb_nft_PlbinSodkftImpl
+ * Mfthod:    sodkftClosf0
+ * Signbturf: (Z)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_PlbinSodkftImpl_sodkftClosf0(JNIEnv *fnv, jobjfdt this,
+                                          jboolfbn usfDfffrrfdClosf) {
+
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, psi_fdID);
+    jint fd;
+
+    if (IS_NULL(fdObj)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "sodkft blrfbdy dlosfd");
+        rfturn;
+    } flsf {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+    }
+    if (fd != -1) {
+        if (usfDfffrrfdClosf && mbrkfr_fd >= 0) {
+            NET_Dup2(mbrkfr_fd, fd);
+        } flsf {
+            (*fnv)->SftIntFifld(fnv, fdObj, IO_fd_fdID, -1);
+            NET_SodkftClosf(fd);
+        }
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_PlbinSodkftImpl
+ * Mfthod:    sodkftShutdown
+ * Signbturf: (I)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_PlbinSodkftImpl_sodkftShutdown(JNIEnv *fnv, jobjfdt this,
+                                             jint howto)
+{
+
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, psi_fdID);
+    jint fd;
+
+    /*
+     * WARNING: THIS NEEDS LOCKING. ALSO: SHOULD WE CHECK for fd bfing
+     * -1 blrfbdy?
+     */
+    if (IS_NULL(fdObj)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "sodkft blrfbdy dlosfd");
+        rfturn;
+    } flsf {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+    }
+    shutdown(fd, howto);
+}
+
+
+/*
+ * Clbss:     jbvb_nft_PlbinSodkftImpl
+ * Mfthod:    sodkftSftOption
+ * Signbturf: (IZLjbvb/lbng/Objfdt;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_PlbinSodkftImpl_sodkftSftOption(JNIEnv *fnv, jobjfdt this,
+                                              jint dmd, jboolfbn on,
+                                              jobjfdt vbluf) {
+    int fd;
+    int lfvfl, optnbmf, optlfn;
+    union {
+        int i;
+        strudt lingfr ling;
+    } optvbl;
+
+    /*
+     * Chfdk thbt sodkft hbsn't bffn dlosfd
+     */
+    fd = gftFD(fnv, this);
+    if (fd < 0) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Sodkft dlosfd");
+        rfturn;
+    }
+
+    /*
+     * SO_TIMEOUT is b NOOP on Solbris/Linux
+     */
+    if (dmd == jbvb_nft_SodkftOptions_SO_TIMEOUT) {
+        rfturn;
+    }
+
+    /*
+     * Mbp thf Jbvb lfvfl sodkft option to thf plbtform spfdifid
+     * lfvfl bnd option nbmf.
+     */
+    if (NET_MbpSodkftOption(dmd, &lfvfl, &optnbmf)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Invblid option");
+        rfturn;
+    }
+
+    switdh (dmd) {
+        dbsf jbvb_nft_SodkftOptions_SO_SNDBUF :
+        dbsf jbvb_nft_SodkftOptions_SO_RCVBUF :
+        dbsf jbvb_nft_SodkftOptions_SO_LINGER :
+        dbsf jbvb_nft_SodkftOptions_IP_TOS :
+            {
+                jdlbss dls;
+                jfifldID fid;
+
+                dls = (*fnv)->FindClbss(fnv, "jbvb/lbng/Intfgfr");
+                CHECK_NULL(dls);
+                fid = (*fnv)->GftFifldID(fnv, dls, "vbluf", "I");
+                CHECK_NULL(fid);
+
+                if (dmd == jbvb_nft_SodkftOptions_SO_LINGER) {
+                    if (on) {
+                        optvbl.ling.l_onoff = 1;
+                        optvbl.ling.l_lingfr = (*fnv)->GftIntFifld(fnv, vbluf, fid);
+                    } flsf {
+                        optvbl.ling.l_onoff = 0;
+                        optvbl.ling.l_lingfr = 0;
+                    }
+                    optlfn = sizfof(optvbl.ling);
+                } flsf {
+                    optvbl.i = (*fnv)->GftIntFifld(fnv, vbluf, fid);
+                    optlfn = sizfof(optvbl.i);
+                }
+
+                brfbk;
+            }
+
+        /* Boolfbn -> int */
+        dffbult :
+            optvbl.i = (on ? 1 : 0);
+            optlfn = sizfof(optvbl.i);
+
+    }
+
+    if (NET_SftSodkOpt(fd, lfvfl, optnbmf, (donst void *)&optvbl, optlfn) < 0) {
+#if dffinfd(__solbris__) || dffinfd(_AIX)
+        if (frrno == EINVAL) {
+            // On Solbris sftsodkopt will sft frrno to EINVAL if thf sodkft
+            // is dlosfd. Thf dffbult frror mfssbgf is thfn donfusing
+            dhbr fullMsg[128];
+            jio_snprintf(fullMsg, sizfof(fullMsg), "Invblid option or sodkft rfsft by rfmotf pffr");
+            JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", fullMsg);
+            rfturn;
+        }
+#fndif /* __solbris__ */
+        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                      "Error sftting sodkft option");
+    }
+}
+
+/*
+ * Clbss:     jbvb_nft_PlbinSodkftImpl
+ * Mfthod:    sodkftGftOption
+ * Signbturf: (I)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_jbvb_nft_PlbinSodkftImpl_sodkftGftOption(JNIEnv *fnv, jobjfdt this,
+                                              jint dmd, jobjfdt ibContbinfrObj) {
+
+    int fd;
+    int lfvfl, optnbmf, optlfn;
+    union {
+        int i;
+        strudt lingfr ling;
+    } optvbl;
+
+    /*
+     * Chfdk thbt sodkft hbsn't bffn dlosfd
+     */
+    fd = gftFD(fnv, this);
+    if (fd < 0) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                        "Sodkft dlosfd");
+        rfturn -1;
+    }
+
+    /*
+     * SO_BINDADDR isn't b sodkft option
+     */
+    if (dmd == jbvb_nft_SodkftOptions_SO_BINDADDR) {
+        SOCKADDR him;
+        sodklfn_t lfn = 0;
+        int port;
+        jobjfdt ibObj;
+        jdlbss ibCntrClbss;
+        jfifldID ibFifldID;
+
+        lfn = SOCKADDR_LEN;
+
+        if (gftsodknbmf(fd, (strudt sodkbddr *)&him, &lfn) < 0) {
+            NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                             "Error gftting sodkft nbmf");
+            rfturn -1;
+        }
+        ibObj = NET_SodkbddrToInftAddrfss(fnv, (strudt sodkbddr *)&him, &port);
+        CHECK_NULL_RETURN(ibObj, -1);
+
+        ibCntrClbss = (*fnv)->GftObjfdtClbss(fnv, ibContbinfrObj);
+        ibFifldID = (*fnv)->GftFifldID(fnv, ibCntrClbss, "bddr", "Ljbvb/nft/InftAddrfss;");
+        CHECK_NULL_RETURN(ibFifldID, -1);
+        (*fnv)->SftObjfdtFifld(fnv, ibContbinfrObj, ibFifldID, ibObj);
+        rfturn 0; /* notidf dhbngf from bfforf */
+    }
+
+    /*
+     * Mbp thf Jbvb lfvfl sodkft option to thf plbtform spfdifid
+     * lfvfl bnd option nbmf.
+     */
+    if (NET_MbpSodkftOption(dmd, &lfvfl, &optnbmf)) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Invblid option");
+        rfturn -1;
+    }
+
+    /*
+     * Args brf int fxdfpt for SO_LINGER
+     */
+    if (dmd == jbvb_nft_SodkftOptions_SO_LINGER) {
+        optlfn = sizfof(optvbl.ling);
+    } flsf {
+        optlfn = sizfof(optvbl.i);
+    }
+
+    if (NET_GftSodkOpt(fd, lfvfl, optnbmf, (void *)&optvbl, &optlfn) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption",
+                                      "Error gftting sodkft option");
+        rfturn -1;
+    }
+
+    switdh (dmd) {
+        dbsf jbvb_nft_SodkftOptions_SO_LINGER:
+            rfturn (optvbl.ling.l_onoff ? optvbl.ling.l_lingfr: -1);
+
+        dbsf jbvb_nft_SodkftOptions_SO_SNDBUF:
+        dbsf jbvb_nft_SodkftOptions_SO_RCVBUF:
+        dbsf jbvb_nft_SodkftOptions_IP_TOS:
+            rfturn optvbl.i;
+
+        dffbult :
+            rfturn (optvbl.i == 0) ? -1 : 1;
+    }
+}
+
+
+/*
+ * Clbss:     jbvb_nft_PlbinSodkftImpl
+ * Mfthod:    sodkftSfndUrgfntDbtb
+ * Signbturf: (B)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_PlbinSodkftImpl_sodkftSfndUrgfntDbtb(JNIEnv *fnv, jobjfdt this,
+                                             jint dbtb) {
+    /* Thf fd fifld */
+    jobjfdt fdObj = (*fnv)->GftObjfdtFifld(fnv, this, psi_fdID);
+    int n, fd;
+    unsignfd dhbr d = dbtb & 0xFF;
+
+    if (IS_NULL(fdObj)) {
+        JNU_ThrowByNbmf(fnv, "jbvb/nft/SodkftExdfption", "Sodkft dlosfd");
+        rfturn;
+    } flsf {
+        fd = (*fnv)->GftIntFifld(fnv, fdObj, IO_fd_fdID);
+        /* Bug 4086704 - If thf Sodkft bssodibtfd with this filf dfsdriptor
+         * wbs dlosfd (sysClosfFD), thf thf filf dfsdriptor is sft to -1.
+         */
+        if (fd == -1) {
+            JNU_ThrowByNbmf(fnv, "jbvb/nft/SodkftExdfption", "Sodkft dlosfd");
+            rfturn;
+        }
+
+    }
+    n = NET_Sfnd(fd, (dhbr *)&d, 1, MSG_OOB);
+    if (n == -1) {
+        NET_ThrowByNbmfWithLbstError(fnv, "jbvb/io/IOExdfption", "Writf fbilfd");
+    }
+}

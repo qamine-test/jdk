@@ -1,568 +1,568 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.rmi.server;
+pbdkbgf sun.rmi.sfrvfr;
 
-import java.io.IOException;
-import java.io.ObjectInput;
-import java.io.ObjectOutput;
-import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.rmi.MarshalException;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.ServerError;
-import java.rmi.ServerException;
-import java.rmi.UnmarshalException;
-import java.rmi.server.ExportException;
-import java.rmi.server.RemoteCall;
-import java.rmi.server.RemoteRef;
-import java.rmi.server.RemoteStub;
-import java.rmi.server.ServerNotActiveException;
-import java.rmi.server.ServerRef;
-import java.rmi.server.Skeleton;
-import java.rmi.server.SkeletonNotFoundException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.WeakHashMap;
-import sun.rmi.runtime.Log;
-import sun.rmi.transport.LiveRef;
-import sun.rmi.transport.Target;
-import sun.rmi.transport.tcp.TCPTransport;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.PrintStrfbm;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.rmi.MbrsiblExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.SfrvfrError;
+import jbvb.rmi.SfrvfrExdfption;
+import jbvb.rmi.UnmbrsiblExdfption;
+import jbvb.rmi.sfrvfr.ExportExdfption;
+import jbvb.rmi.sfrvfr.RfmotfCbll;
+import jbvb.rmi.sfrvfr.RfmotfRff;
+import jbvb.rmi.sfrvfr.RfmotfStub;
+import jbvb.rmi.sfrvfr.SfrvfrNotAdtivfExdfption;
+import jbvb.rmi.sfrvfr.SfrvfrRff;
+import jbvb.rmi.sfrvfr.Skflfton;
+import jbvb.rmi.sfrvfr.SkflftonNotFoundExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.Dbtf;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
+import sun.rmi.runtimf.Log;
+import sun.rmi.trbnsport.LivfRff;
+import sun.rmi.trbnsport.Tbrgft;
+import sun.rmi.trbnsport.tdp.TCPTrbnsport;
 
 /**
- * UnicastServerRef implements the remote reference layer server-side
- * behavior for remote objects exported with the "UnicastRef" reference
- * type.
+ * UnidbstSfrvfrRff implfmfnts tif rfmotf rfffrfndf lbyfr sfrvfr-sidf
+ * bfibvior for rfmotf objfdts fxportfd witi tif "UnidbstRff" rfffrfndf
+ * typf.
  *
- * @author  Ann Wollrath
- * @author  Roger Riggs
- * @author  Peter Jones
+ * @butior  Ann Wollrbti
+ * @butior  Rogfr Riggs
+ * @butior  Pftfr Jonfs
  */
-@SuppressWarnings("deprecation")
-public class UnicastServerRef extends UnicastRef
-    implements ServerRef, Dispatcher
+@SupprfssWbrnings("dfprfdbtion")
+publid dlbss UnidbstSfrvfrRff fxtfnds UnidbstRff
+    implfmfnts SfrvfrRff, Dispbtdifr
 {
-    /** value of server call log property */
-    public static final boolean logCalls = AccessController.doPrivileged(
-        (PrivilegedAction<Boolean>) () -> Boolean.getBoolean("java.rmi.server.logCalls"));
+    /** vbluf of sfrvfr dbll log propfrty */
+    publid stbtid finbl boolfbn logCblls = AddfssControllfr.doPrivilfgfd(
+        (PrivilfgfdAdtion<Boolfbn>) () -> Boolfbn.gftBoolfbn("jbvb.rmi.sfrvfr.logCblls"));
 
-    /** server call log */
-    public static final Log callLog =
-        Log.getLog("sun.rmi.server.call", "RMI", logCalls);
+    /** sfrvfr dbll log */
+    publid stbtid finbl Log dbllLog =
+        Log.gftLog("sun.rmi.sfrvfr.dbll", "RMI", logCblls);
 
-    // use serialVersionUID from JDK 1.2.2 for interoperability
-    private static final long serialVersionUID = -7384275867073752268L;
+    // usf sfriblVfrsionUID from JDK 1.2.2 for intfropfrbbility
+    privbtf stbtid finbl long sfriblVfrsionUID = -7384275867073752268L;
 
-    /** flag to enable writing exceptions to System.err */
-    private static final boolean wantExceptionLog =
-        AccessController.doPrivileged((PrivilegedAction<Boolean>) () ->
-            Boolean.getBoolean("sun.rmi.server.exceptionTrace"));
+    /** flbg to fnbblf writing fxdfptions to Systfm.frr */
+    privbtf stbtid finbl boolfbn wbntExdfptionLog =
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Boolfbn>) () ->
+            Boolfbn.gftBoolfbn("sun.rmi.sfrvfr.fxdfptionTrbdf"));
 
-    private boolean forceStubUse = false;
+    privbtf boolfbn fordfStubUsf = fblsf;
 
     /**
-     * flag to remove server-side stack traces before marshalling
-     * exceptions thrown by remote invocations to this VM
+     * flbg to rfmovf sfrvfr-sidf stbdk trbdfs bfforf mbrsiblling
+     * fxdfptions tirown by rfmotf invodbtions to tiis VM
      */
-    private static final boolean suppressStackTraces =
-        AccessController.doPrivileged((PrivilegedAction<Boolean>) () ->
-            Boolean.getBoolean("sun.rmi.server.suppressStackTraces"));
+    privbtf stbtid finbl boolfbn supprfssStbdkTrbdfs =
+        AddfssControllfr.doPrivilfgfd((PrivilfgfdAdtion<Boolfbn>) () ->
+            Boolfbn.gftBoolfbn("sun.rmi.sfrvfr.supprfssStbdkTrbdfs"));
 
     /**
-     * skeleton to dispatch remote calls through, for 1.1 stub protocol
-     * (may be null if stub class only uses 1.2 stub protocol)
+     * skflfton to dispbtdi rfmotf dblls tirougi, for 1.1 stub protodol
+     * (mby bf null if stub dlbss only usfs 1.2 stub protodol)
      */
-    private transient Skeleton skel;
+    privbtf trbnsifnt Skflfton skfl;
 
-    /** maps method hash to Method object for each remote method */
-    private transient Map<Long,Method> hashToMethod_Map = null;
+    /** mbps mftiod ibsi to Mftiod objfdt for fbdi rfmotf mftiod */
+    privbtf trbnsifnt Mbp<Long,Mftiod> ibsiToMftiod_Mbp = null;
 
     /**
-     * A weak hash map, mapping classes to hash maps that map method
-     * hashes to method objects.
+     * A wfbk ibsi mbp, mbpping dlbssfs to ibsi mbps tibt mbp mftiod
+     * ibsifs to mftiod objfdts.
      **/
-    private static final WeakClassHashMap<Map<Long,Method>> hashToMethod_Maps =
-        new HashToMethod_Maps();
+    privbtf stbtid finbl WfbkClbssHbsiMbp<Mbp<Long,Mftiod>> ibsiToMftiod_Mbps =
+        nfw HbsiToMftiod_Mbps();
 
-    /** cache of impl classes that have no corresponding skeleton class */
-    private static final Map<Class<?>,?> withoutSkeletons =
-        Collections.synchronizedMap(new WeakHashMap<Class<?>,Void>());
+    /** dbdif of impl dlbssfs tibt ibvf no dorrfsponding skflfton dlbss */
+    privbtf stbtid finbl Mbp<Clbss<?>,?> witioutSkflftons =
+        Collfdtions.syndironizfdMbp(nfw WfbkHbsiMbp<Clbss<?>,Void>());
 
     /**
-     * Create a new (empty) Unicast server remote reference.
+     * Crfbtf b nfw (fmpty) Unidbst sfrvfr rfmotf rfffrfndf.
      */
-    public UnicastServerRef() {
+    publid UnidbstSfrvfrRff() {
     }
 
     /**
-     * Construct a Unicast server remote reference for a specified
-     * liveRef.
+     * Construdt b Unidbst sfrvfr rfmotf rfffrfndf for b spfdififd
+     * livfRff.
      */
-    public UnicastServerRef(LiveRef ref) {
-        super(ref);
+    publid UnidbstSfrvfrRff(LivfRff rff) {
+        supfr(rff);
     }
 
     /**
-     * Construct a Unicast server remote reference to be exported
-     * on the specified port.
+     * Construdt b Unidbst sfrvfr rfmotf rfffrfndf to bf fxportfd
+     * on tif spfdififd port.
      */
-    public UnicastServerRef(int port) {
-        super(new LiveRef(port));
+    publid UnidbstSfrvfrRff(int port) {
+        supfr(nfw LivfRff(port));
     }
 
     /**
-     * Constructs a UnicastServerRef to be exported on an
-     * anonymous port (i.e., 0) and that uses a pregenerated stub class
-     * (NOT a dynamic proxy instance) if 'forceStubUse' is 'true'.
+     * Construdts b UnidbstSfrvfrRff to bf fxportfd on bn
+     * bnonymous port (i.f., 0) bnd tibt usfs b prfgfnfrbtfd stub dlbss
+     * (NOT b dynbmid proxy instbndf) if 'fordfStubUsf' is 'truf'.
      *
-     * This constructor is only called by the method
-     * UnicastRemoteObject.exportObject(Remote) passing 'true' for
-     * 'forceStubUse'.  The UnicastRemoteObject.exportObject(Remote) method
-     * returns RemoteStub, so it must ensure that the stub for the
-     * exported object is an instance of a pregenerated stub class that
-     * extends RemoteStub (instead of an instance of a dynamic proxy class
-     * which is not an instance of RemoteStub).
+     * Tiis donstrudtor is only dbllfd by tif mftiod
+     * UnidbstRfmotfObjfdt.fxportObjfdt(Rfmotf) pbssing 'truf' for
+     * 'fordfStubUsf'.  Tif UnidbstRfmotfObjfdt.fxportObjfdt(Rfmotf) mftiod
+     * rfturns RfmotfStub, so it must fnsurf tibt tif stub for tif
+     * fxportfd objfdt is bn instbndf of b prfgfnfrbtfd stub dlbss tibt
+     * fxtfnds RfmotfStub (instfbd of bn instbndf of b dynbmid proxy dlbss
+     * wiidi is not bn instbndf of RfmotfStub).
      **/
-    public UnicastServerRef(boolean forceStubUse) {
-        this(0);
-        this.forceStubUse = forceStubUse;
+    publid UnidbstSfrvfrRff(boolfbn fordfStubUsf) {
+        tiis(0);
+        tiis.fordfStubUsf = fordfStubUsf;
     }
 
     /**
-     * With the addition of support for dynamic proxies as stubs, this
-     * method is obsolete because it returns RemoteStub instead of the more
-     * general Remote.  It should not be called.  It sets the
-     * 'forceStubUse' flag to true so that the stub for the exported object
-     * is forced to be an instance of the pregenerated stub class, which
-     * extends RemoteStub.
+     * Witi tif bddition of support for dynbmid proxifs bs stubs, tiis
+     * mftiod is obsolftf bfdbusf it rfturns RfmotfStub instfbd of tif morf
+     * gfnfrbl Rfmotf.  It siould not bf dbllfd.  It sfts tif
+     * 'fordfStubUsf' flbg to truf so tibt tif stub for tif fxportfd objfdt
+     * is fordfd to bf bn instbndf of tif prfgfnfrbtfd stub dlbss, wiidi
+     * fxtfnds RfmotfStub.
      *
-     * Export this object, create the skeleton and stubs for this
-     * dispatcher.  Create a stub based on the type of the impl,
-     * initialize it with the appropriate remote reference. Create the
-     * target defined by the impl, dispatcher (this) and stub.
-     * Export that target via the Ref.
+     * Export tiis objfdt, drfbtf tif skflfton bnd stubs for tiis
+     * dispbtdifr.  Crfbtf b stub bbsfd on tif typf of tif impl,
+     * initiblizf it witi tif bppropribtf rfmotf rfffrfndf. Crfbtf tif
+     * tbrgft dffinfd by tif impl, dispbtdifr (tiis) bnd stub.
+     * Export tibt tbrgft vib tif Rff.
      **/
-    public RemoteStub exportObject(Remote impl, Object data)
-        throws RemoteException
+    publid RfmotfStub fxportObjfdt(Rfmotf impl, Objfdt dbtb)
+        tirows RfmotfExdfption
     {
-        forceStubUse = true;
-        return (RemoteStub) exportObject(impl, data, false);
+        fordfStubUsf = truf;
+        rfturn (RfmotfStub) fxportObjfdt(impl, dbtb, fblsf);
     }
 
     /**
-     * Export this object, create the skeleton and stubs for this
-     * dispatcher.  Create a stub based on the type of the impl,
-     * initialize it with the appropriate remote reference. Create the
-     * target defined by the impl, dispatcher (this) and stub.
-     * Export that target via the Ref.
+     * Export tiis objfdt, drfbtf tif skflfton bnd stubs for tiis
+     * dispbtdifr.  Crfbtf b stub bbsfd on tif typf of tif impl,
+     * initiblizf it witi tif bppropribtf rfmotf rfffrfndf. Crfbtf tif
+     * tbrgft dffinfd by tif impl, dispbtdifr (tiis) bnd stub.
+     * Export tibt tbrgft vib tif Rff.
      */
-    public Remote exportObject(Remote impl, Object data,
-                               boolean permanent)
-        throws RemoteException
+    publid Rfmotf fxportObjfdt(Rfmotf impl, Objfdt dbtb,
+                               boolfbn pfrmbnfnt)
+        tirows RfmotfExdfption
     {
-        Class<?> implClass = impl.getClass();
-        Remote stub;
+        Clbss<?> implClbss = impl.gftClbss();
+        Rfmotf stub;
 
         try {
-            stub = Util.createProxy(implClass, getClientRef(), forceStubUse);
-        } catch (IllegalArgumentException e) {
-            throw new ExportException(
-                "remote object implements illegal remote interface", e);
+            stub = Util.drfbtfProxy(implClbss, gftClifntRff(), fordfStubUsf);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow nfw ExportExdfption(
+                "rfmotf objfdt implfmfnts illfgbl rfmotf intfrfbdf", f);
         }
-        if (stub instanceof RemoteStub) {
-            setSkeleton(impl);
+        if (stub instbndfof RfmotfStub) {
+            sftSkflfton(impl);
         }
 
-        Target target =
-            new Target(impl, this, stub, ref.getObjID(), permanent);
-        ref.exportObject(target);
-        hashToMethod_Map = hashToMethod_Maps.get(implClass);
-        return stub;
+        Tbrgft tbrgft =
+            nfw Tbrgft(impl, tiis, stub, rff.gftObjID(), pfrmbnfnt);
+        rff.fxportObjfdt(tbrgft);
+        ibsiToMftiod_Mbp = ibsiToMftiod_Mbps.gft(implClbss);
+        rfturn stub;
     }
 
     /**
-     * Return the hostname of the current client.  When called from a
-     * thread actively handling a remote method invocation the
-     * hostname of the client is returned.
-     * @exception ServerNotActiveException If called outside of servicing
-     * a remote method invocation.
+     * Rfturn tif iostnbmf of tif durrfnt dlifnt.  Wifn dbllfd from b
+     * tirfbd bdtivfly ibndling b rfmotf mftiod invodbtion tif
+     * iostnbmf of tif dlifnt is rfturnfd.
+     * @fxdfption SfrvfrNotAdtivfExdfption If dbllfd outsidf of sfrviding
+     * b rfmotf mftiod invodbtion.
      */
-    public String getClientHost() throws ServerNotActiveException {
-        return TCPTransport.getClientHost();
+    publid String gftClifntHost() tirows SfrvfrNotAdtivfExdfption {
+        rfturn TCPTrbnsport.gftClifntHost();
     }
 
     /**
-     * Discovers and sets the appropriate skeleton for the impl.
+     * Disdovfrs bnd sfts tif bppropribtf skflfton for tif impl.
      */
-    public void setSkeleton(Remote impl) throws RemoteException {
-        if (!withoutSkeletons.containsKey(impl.getClass())) {
+    publid void sftSkflfton(Rfmotf impl) tirows RfmotfExdfption {
+        if (!witioutSkflftons.dontbinsKfy(impl.gftClbss())) {
             try {
-                skel = Util.createSkeleton(impl);
-            } catch (SkeletonNotFoundException e) {
+                skfl = Util.drfbtfSkflfton(impl);
+            } dbtdi (SkflftonNotFoundExdfption f) {
                 /*
-                 * Ignore exception for skeleton class not found, because a
-                 * skeleton class is not necessary with the 1.2 stub protocol.
-                 * Remember that this impl's class does not have a skeleton
-                 * class so we don't waste time searching for it again.
+                 * Ignorf fxdfption for skflfton dlbss not found, bfdbusf b
+                 * skflfton dlbss is not nfdfssbry witi tif 1.2 stub protodol.
+                 * Rfmfmbfr tibt tiis impl's dlbss dofs not ibvf b skflfton
+                 * dlbss so wf don't wbstf timf sfbrdiing for it bgbin.
                  */
-                withoutSkeletons.put(impl.getClass(), null);
+                witioutSkflftons.put(impl.gftClbss(), null);
             }
         }
     }
 
     /**
-     * Call to dispatch to the remote object (on the server side).
-     * The up-call to the server and the marshalling of return result
-     * (or exception) should be handled before returning from this
-     * method.
-     * @param obj the target remote object for the call
-     * @param call the "remote call" from which operation and
-     * method arguments can be obtained.
-     * @exception IOException If unable to marshal return result or
-     * release input or output streams
+     * Cbll to dispbtdi to tif rfmotf objfdt (on tif sfrvfr sidf).
+     * Tif up-dbll to tif sfrvfr bnd tif mbrsiblling of rfturn rfsult
+     * (or fxdfption) siould bf ibndlfd bfforf rfturning from tiis
+     * mftiod.
+     * @pbrbm obj tif tbrgft rfmotf objfdt for tif dbll
+     * @pbrbm dbll tif "rfmotf dbll" from wiidi opfrbtion bnd
+     * mftiod brgumfnts dbn bf obtbinfd.
+     * @fxdfption IOExdfption If unbblf to mbrsibl rfturn rfsult or
+     * rflfbsf input or output strfbms
      */
-    public void dispatch(Remote obj, RemoteCall call) throws IOException {
-        // positive operation number in 1.1 stubs;
-        // negative version number in 1.2 stubs and beyond...
+    publid void dispbtdi(Rfmotf obj, RfmotfCbll dbll) tirows IOExdfption {
+        // positivf opfrbtion numbfr in 1.1 stubs;
+        // nfgbtivf vfrsion numbfr in 1.2 stubs bnd bfyond...
         int num;
         long op;
 
         try {
-            // read remote call header
-            ObjectInput in;
+            // rfbd rfmotf dbll ifbdfr
+            ObjfdtInput in;
             try {
-                in = call.getInputStream();
-                num = in.readInt();
+                in = dbll.gftInputStrfbm();
+                num = in.rfbdInt();
                 if (num >= 0) {
-                    if (skel != null) {
-                        oldDispatch(obj, call, num);
-                        return;
-                    } else {
-                        throw new UnmarshalException(
-                            "skeleton class not found but required " +
-                            "for client version");
+                    if (skfl != null) {
+                        oldDispbtdi(obj, dbll, num);
+                        rfturn;
+                    } flsf {
+                        tirow nfw UnmbrsiblExdfption(
+                            "skflfton dlbss not found but rfquirfd " +
+                            "for dlifnt vfrsion");
                     }
                 }
-                op = in.readLong();
-            } catch (Exception readEx) {
-                throw new UnmarshalException("error unmarshalling call header",
-                                             readEx);
+                op = in.rfbdLong();
+            } dbtdi (Exdfption rfbdEx) {
+                tirow nfw UnmbrsiblExdfption("frror unmbrsiblling dbll ifbdfr",
+                                             rfbdEx);
             }
 
             /*
-             * Since only system classes (with null class loaders) will be on
-             * the execution stack during parameter unmarshalling for the 1.2
-             * stub protocol, tell the MarshalInputStream not to bother trying
-             * to resolve classes using its superclasses's default method of
-             * consulting the first non-null class loader on the stack.
+             * Sindf only systfm dlbssfs (witi null dlbss lobdfrs) will bf on
+             * tif fxfdution stbdk during pbrbmftfr unmbrsiblling for tif 1.2
+             * stub protodol, tfll tif MbrsiblInputStrfbm not to botifr trying
+             * to rfsolvf dlbssfs using its supfrdlbssfs's dffbult mftiod of
+             * donsulting tif first non-null dlbss lobdfr on tif stbdk.
              */
-            MarshalInputStream marshalStream = (MarshalInputStream) in;
-            marshalStream.skipDefaultResolveClass();
+            MbrsiblInputStrfbm mbrsiblStrfbm = (MbrsiblInputStrfbm) in;
+            mbrsiblStrfbm.skipDffbultRfsolvfClbss();
 
-            Method method = hashToMethod_Map.get(op);
-            if (method == null) {
-                throw new UnmarshalException("unrecognized method hash: " +
-                    "method not supported by remote object");
+            Mftiod mftiod = ibsiToMftiod_Mbp.gft(op);
+            if (mftiod == null) {
+                tirow nfw UnmbrsiblExdfption("unrfdognizfd mftiod ibsi: " +
+                    "mftiod not supportfd by rfmotf objfdt");
             }
 
-            // if calls are being logged, write out object id and operation
-            logCall(obj, method);
+            // if dblls brf bfing loggfd, writf out objfdt id bnd opfrbtion
+            logCbll(obj, mftiod);
 
-            // unmarshal parameters
-            Class<?>[] types = method.getParameterTypes();
-            Object[] params = new Object[types.length];
+            // unmbrsibl pbrbmftfrs
+            Clbss<?>[] typfs = mftiod.gftPbrbmftfrTypfs();
+            Objfdt[] pbrbms = nfw Objfdt[typfs.lfngti];
 
             try {
-                unmarshalCustomCallData(in);
-                for (int i = 0; i < types.length; i++) {
-                    params[i] = unmarshalValue(types[i], in);
+                unmbrsiblCustomCbllDbtb(in);
+                for (int i = 0; i < typfs.lfngti; i++) {
+                    pbrbms[i] = unmbrsiblVbluf(typfs[i], in);
                 }
-            } catch (java.io.IOException e) {
-                throw new UnmarshalException(
-                    "error unmarshalling arguments", e);
-            } catch (ClassNotFoundException e) {
-                throw new UnmarshalException(
-                    "error unmarshalling arguments", e);
-            } finally {
-                call.releaseInputStream();
+            } dbtdi (jbvb.io.IOExdfption f) {
+                tirow nfw UnmbrsiblExdfption(
+                    "frror unmbrsiblling brgumfnts", f);
+            } dbtdi (ClbssNotFoundExdfption f) {
+                tirow nfw UnmbrsiblExdfption(
+                    "frror unmbrsiblling brgumfnts", f);
+            } finblly {
+                dbll.rflfbsfInputStrfbm();
             }
 
-            // make upcall on remote object
-            Object result;
+            // mbkf updbll on rfmotf objfdt
+            Objfdt rfsult;
             try {
-                result = method.invoke(obj, params);
-            } catch (InvocationTargetException e) {
-                throw e.getTargetException();
+                rfsult = mftiod.invokf(obj, pbrbms);
+            } dbtdi (InvodbtionTbrgftExdfption f) {
+                tirow f.gftTbrgftExdfption();
             }
 
-            // marshal return value
+            // mbrsibl rfturn vbluf
             try {
-                ObjectOutput out = call.getResultStream(true);
-                Class<?> rtype = method.getReturnType();
-                if (rtype != void.class) {
-                    marshalValue(rtype, result, out);
+                ObjfdtOutput out = dbll.gftRfsultStrfbm(truf);
+                Clbss<?> rtypf = mftiod.gftRfturnTypf();
+                if (rtypf != void.dlbss) {
+                    mbrsiblVbluf(rtypf, rfsult, out);
                 }
-            } catch (IOException ex) {
-                throw new MarshalException("error marshalling return", ex);
+            } dbtdi (IOExdfption fx) {
+                tirow nfw MbrsiblExdfption("frror mbrsiblling rfturn", fx);
                 /*
-                 * This throw is problematic because when it is caught below,
-                 * we attempt to marshal it back to the client, but at this
-                 * point, a "normal return" has already been indicated,
-                 * so marshalling an exception will corrupt the stream.
-                 * This was the case with skeletons as well; there is no
-                 * immediately obvious solution without a protocol change.
+                 * Tiis tirow is problfmbtid bfdbusf wifn it is dbugit bflow,
+                 * wf bttfmpt to mbrsibl it bbdk to tif dlifnt, but bt tiis
+                 * point, b "normbl rfturn" ibs blrfbdy bffn indidbtfd,
+                 * so mbrsiblling bn fxdfption will dorrupt tif strfbm.
+                 * Tiis wbs tif dbsf witi skflftons bs wfll; tifrf is no
+                 * immfdibtfly obvious solution witiout b protodol dibngf.
                  */
             }
-        } catch (Throwable e) {
-            logCallException(e);
+        } dbtdi (Tirowbblf f) {
+            logCbllExdfption(f);
 
-            ObjectOutput out = call.getResultStream(false);
-            if (e instanceof Error) {
-                e = new ServerError(
-                    "Error occurred in server thread", (Error) e);
-            } else if (e instanceof RemoteException) {
-                e = new ServerException(
-                    "RemoteException occurred in server thread",
-                    (Exception) e);
+            ObjfdtOutput out = dbll.gftRfsultStrfbm(fblsf);
+            if (f instbndfof Error) {
+                f = nfw SfrvfrError(
+                    "Error oddurrfd in sfrvfr tirfbd", (Error) f);
+            } flsf if (f instbndfof RfmotfExdfption) {
+                f = nfw SfrvfrExdfption(
+                    "RfmotfExdfption oddurrfd in sfrvfr tirfbd",
+                    (Exdfption) f);
             }
-            if (suppressStackTraces) {
-                clearStackTraces(e);
+            if (supprfssStbdkTrbdfs) {
+                dlfbrStbdkTrbdfs(f);
             }
-            out.writeObject(e);
-        } finally {
-            call.releaseInputStream(); // in case skeleton doesn't
-            call.releaseOutputStream();
+            out.writfObjfdt(f);
+        } finblly {
+            dbll.rflfbsfInputStrfbm(); // in dbsf skflfton dofsn't
+            dbll.rflfbsfOutputStrfbm();
         }
     }
 
-    protected void unmarshalCustomCallData(ObjectInput in)
-        throws IOException, ClassNotFoundException
+    protfdtfd void unmbrsiblCustomCbllDbtb(ObjfdtInput in)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {}
 
     /**
-     * Handle server-side dispatch using the RMI 1.1 stub/skeleton
-     * protocol, given a non-negative operation number that has
-     * already been read from the call stream.
+     * Hbndlf sfrvfr-sidf dispbtdi using tif RMI 1.1 stub/skflfton
+     * protodol, givfn b non-nfgbtivf opfrbtion numbfr tibt ibs
+     * blrfbdy bffn rfbd from tif dbll strfbm.
      *
-     * @param obj the target remote object for the call
-     * @param call the "remote call" from which operation and
-     * method arguments can be obtained.
-     * @param op the operation number
-     * @exception IOException if unable to marshal return result or
-     * release input or output streams
+     * @pbrbm obj tif tbrgft rfmotf objfdt for tif dbll
+     * @pbrbm dbll tif "rfmotf dbll" from wiidi opfrbtion bnd
+     * mftiod brgumfnts dbn bf obtbinfd.
+     * @pbrbm op tif opfrbtion numbfr
+     * @fxdfption IOExdfption if unbblf to mbrsibl rfturn rfsult or
+     * rflfbsf input or output strfbms
      */
-    public void oldDispatch(Remote obj, RemoteCall call, int op)
-        throws IOException
+    publid void oldDispbtdi(Rfmotf obj, RfmotfCbll dbll, int op)
+        tirows IOExdfption
     {
-        long hash;              // hash for matching stub with skeleton
+        long ibsi;              // ibsi for mbtdiing stub witi skflfton
 
         try {
-            // read remote call header
-            ObjectInput in;
+            // rfbd rfmotf dbll ifbdfr
+            ObjfdtInput in;
             try {
-                in = call.getInputStream();
+                in = dbll.gftInputStrfbm();
                 try {
-                    Class<?> clazz = Class.forName("sun.rmi.transport.DGCImpl_Skel");
-                    if (clazz.isAssignableFrom(skel.getClass())) {
-                        ((MarshalInputStream)in).useCodebaseOnly();
+                    Clbss<?> dlbzz = Clbss.forNbmf("sun.rmi.trbnsport.DGCImpl_Skfl");
+                    if (dlbzz.isAssignbblfFrom(skfl.gftClbss())) {
+                        ((MbrsiblInputStrfbm)in).usfCodfbbsfOnly();
                     }
-                } catch (ClassNotFoundException ignore) { }
-                hash = in.readLong();
-            } catch (Exception readEx) {
-                throw new UnmarshalException("error unmarshalling call header",
-                                             readEx);
+                } dbtdi (ClbssNotFoundExdfption ignorf) { }
+                ibsi = in.rfbdLong();
+            } dbtdi (Exdfption rfbdEx) {
+                tirow nfw UnmbrsiblExdfption("frror unmbrsiblling dbll ifbdfr",
+                                             rfbdEx);
             }
 
-            // if calls are being logged, write out object id and operation
-            logCall(obj, skel.getOperations()[op]);
-            unmarshalCustomCallData(in);
-            // dispatch to skeleton for remote object
-            skel.dispatch(obj, call, op, hash);
+            // if dblls brf bfing loggfd, writf out objfdt id bnd opfrbtion
+            logCbll(obj, skfl.gftOpfrbtions()[op]);
+            unmbrsiblCustomCbllDbtb(in);
+            // dispbtdi to skflfton for rfmotf objfdt
+            skfl.dispbtdi(obj, dbll, op, ibsi);
 
-        } catch (Throwable e) {
-            logCallException(e);
+        } dbtdi (Tirowbblf f) {
+            logCbllExdfption(f);
 
-            ObjectOutput out = call.getResultStream(false);
-            if (e instanceof Error) {
-                e = new ServerError(
-                    "Error occurred in server thread", (Error) e);
-            } else if (e instanceof RemoteException) {
-                e = new ServerException(
-                    "RemoteException occurred in server thread",
-                    (Exception) e);
+            ObjfdtOutput out = dbll.gftRfsultStrfbm(fblsf);
+            if (f instbndfof Error) {
+                f = nfw SfrvfrError(
+                    "Error oddurrfd in sfrvfr tirfbd", (Error) f);
+            } flsf if (f instbndfof RfmotfExdfption) {
+                f = nfw SfrvfrExdfption(
+                    "RfmotfExdfption oddurrfd in sfrvfr tirfbd",
+                    (Exdfption) f);
             }
-            if (suppressStackTraces) {
-                clearStackTraces(e);
+            if (supprfssStbdkTrbdfs) {
+                dlfbrStbdkTrbdfs(f);
             }
-            out.writeObject(e);
-        } finally {
-            call.releaseInputStream(); // in case skeleton doesn't
-            call.releaseOutputStream();
+            out.writfObjfdt(f);
+        } finblly {
+            dbll.rflfbsfInputStrfbm(); // in dbsf skflfton dofsn't
+            dbll.rflfbsfOutputStrfbm();
         }
     }
 
     /**
-     * Clear the stack trace of the given Throwable by replacing it with
-     * an empty StackTraceElement array, and do the same for all of its
-     * chained causative exceptions.
+     * Clfbr tif stbdk trbdf of tif givfn Tirowbblf by rfplbding it witi
+     * bn fmpty StbdkTrbdfElfmfnt brrby, bnd do tif sbmf for bll of its
+     * dibinfd dbusbtivf fxdfptions.
      */
-    public static void clearStackTraces(Throwable t) {
-        StackTraceElement[] empty = new StackTraceElement[0];
-        while (t != null) {
-            t.setStackTrace(empty);
-            t = t.getCause();
+    publid stbtid void dlfbrStbdkTrbdfs(Tirowbblf t) {
+        StbdkTrbdfElfmfnt[] fmpty = nfw StbdkTrbdfElfmfnt[0];
+        wiilf (t != null) {
+            t.sftStbdkTrbdf(fmpty);
+            t = t.gftCbusf();
         }
     }
 
     /**
-     * Log the details of an incoming call.  The method parameter is either of
-     * type java.lang.reflect.Method or java.rmi.server.Operation.
+     * Log tif dftbils of bn indoming dbll.  Tif mftiod pbrbmftfr is fitifr of
+     * typf jbvb.lbng.rfflfdt.Mftiod or jbvb.rmi.sfrvfr.Opfrbtion.
      */
-    private void logCall(Remote obj, Object method) {
-        if (callLog.isLoggable(Log.VERBOSE)) {
-            String clientHost;
+    privbtf void logCbll(Rfmotf obj, Objfdt mftiod) {
+        if (dbllLog.isLoggbblf(Log.VERBOSE)) {
+            String dlifntHost;
             try {
-                clientHost = getClientHost();
-            } catch (ServerNotActiveException snae) {
-                clientHost = "(local)"; // shouldn't happen
+                dlifntHost = gftClifntHost();
+            } dbtdi (SfrvfrNotAdtivfExdfption snbf) {
+                dlifntHost = "(lodbl)"; // siouldn't ibppfn
             }
-            callLog.log(Log.VERBOSE, "[" + clientHost + ": " +
-                              obj.getClass().getName() +
-                              ref.getObjID().toString() + ": " +
-                              method + "]");
+            dbllLog.log(Log.VERBOSE, "[" + dlifntHost + ": " +
+                              obj.gftClbss().gftNbmf() +
+                              rff.gftObjID().toString() + ": " +
+                              mftiod + "]");
         }
     }
 
     /**
-     * Log the exception detail of an incoming call.
+     * Log tif fxdfption dftbil of bn indoming dbll.
      */
-    private void logCallException(Throwable e) {
-        // if calls are being logged, log them
-        if (callLog.isLoggable(Log.BRIEF)) {
-            String clientHost = "";
+    privbtf void logCbllExdfption(Tirowbblf f) {
+        // if dblls brf bfing loggfd, log tifm
+        if (dbllLog.isLoggbblf(Log.BRIEF)) {
+            String dlifntHost = "";
             try {
-                clientHost = "[" + getClientHost() + "] ";
-            } catch (ServerNotActiveException snae) {
+                dlifntHost = "[" + gftClifntHost() + "] ";
+            } dbtdi (SfrvfrNotAdtivfExdfption snbf) {
             }
-            callLog.log(Log.BRIEF, clientHost + "exception: ", e);
+            dbllLog.log(Log.BRIEF, dlifntHost + "fxdfption: ", f);
         }
 
-        // write exceptions (only) to System.err if desired
-        if (wantExceptionLog) {
-            java.io.PrintStream log = System.err;
-            synchronized (log) {
+        // writf fxdfptions (only) to Systfm.frr if dfsirfd
+        if (wbntExdfptionLog) {
+            jbvb.io.PrintStrfbm log = Systfm.frr;
+            syndironizfd (log) {
                 log.println();
-                log.println("Exception dispatching call to " +
-                            ref.getObjID() + " in thread \"" +
-                            Thread.currentThread().getName() +
-                            "\" at " + (new Date()) + ":");
-                e.printStackTrace(log);
+                log.println("Exdfption dispbtdiing dbll to " +
+                            rff.gftObjID() + " in tirfbd \"" +
+                            Tirfbd.durrfntTirfbd().gftNbmf() +
+                            "\" bt " + (nfw Dbtf()) + ":");
+                f.printStbdkTrbdf(log);
             }
         }
     }
 
     /**
-     * Returns the class of the ref type to be serialized.
+     * Rfturns tif dlbss of tif rff typf to bf sfriblizfd.
      */
-    public String getRefClass(ObjectOutput out) {
-        return "UnicastServerRef";
+    publid String gftRffClbss(ObjfdtOutput out) {
+        rfturn "UnidbstSfrvfrRff";
     }
 
     /**
-     * Return the client remote reference for this remoteRef.
-     * In the case of a client RemoteRef "this" is the answer.
-     * For a server remote reference, a client side one will have to
-     * found or created.
+     * Rfturn tif dlifnt rfmotf rfffrfndf for tiis rfmotfRff.
+     * In tif dbsf of b dlifnt RfmotfRff "tiis" is tif bnswfr.
+     * For b sfrvfr rfmotf rfffrfndf, b dlifnt sidf onf will ibvf to
+     * found or drfbtfd.
      */
-    protected RemoteRef getClientRef() {
-        return new UnicastRef(ref);
+    protfdtfd RfmotfRff gftClifntRff() {
+        rfturn nfw UnidbstRff(rff);
     }
 
     /**
-     * Write out external representation for remote ref.
+     * Writf out fxtfrnbl rfprfsfntbtion for rfmotf rff.
      */
-    public void writeExternal(ObjectOutput out) throws IOException {
+    publid void writfExtfrnbl(ObjfdtOutput out) tirows IOExdfption {
     }
 
     /**
-     * Read in external representation for remote ref.
-     * @exception ClassNotFoundException If the class for an object
-     * being restored cannot be found.
+     * Rfbd in fxtfrnbl rfprfsfntbtion for rfmotf rff.
+     * @fxdfption ClbssNotFoundExdfption If tif dlbss for bn objfdt
+     * bfing rfstorfd dbnnot bf found.
      */
-    public void readExternal(ObjectInput in)
-        throws IOException, ClassNotFoundException
+    publid void rfbdExtfrnbl(ObjfdtInput in)
+        tirows IOExdfption, ClbssNotFoundExdfption
     {
-        // object is re-exported elsewhere (e.g., by UnicastRemoteObject)
-        ref = null;
-        skel = null;
+        // objfdt is rf-fxportfd flsfwifrf (f.g., by UnidbstRfmotfObjfdt)
+        rff = null;
+        skfl = null;
     }
 
 
     /**
-     * A weak hash map, mapping classes to hash maps that map method
-     * hashes to method objects.
+     * A wfbk ibsi mbp, mbpping dlbssfs to ibsi mbps tibt mbp mftiod
+     * ibsifs to mftiod objfdts.
      **/
-    private static class HashToMethod_Maps
-        extends WeakClassHashMap<Map<Long,Method>>
+    privbtf stbtid dlbss HbsiToMftiod_Mbps
+        fxtfnds WfbkClbssHbsiMbp<Mbp<Long,Mftiod>>
     {
-        HashToMethod_Maps() {}
+        HbsiToMftiod_Mbps() {}
 
-        protected Map<Long,Method> computeValue(Class<?> remoteClass) {
-            Map<Long,Method> map = new HashMap<>();
-            for (Class<?> cl = remoteClass;
-                 cl != null;
-                 cl = cl.getSuperclass())
+        protfdtfd Mbp<Long,Mftiod> domputfVbluf(Clbss<?> rfmotfClbss) {
+            Mbp<Long,Mftiod> mbp = nfw HbsiMbp<>();
+            for (Clbss<?> dl = rfmotfClbss;
+                 dl != null;
+                 dl = dl.gftSupfrdlbss())
             {
-                for (Class<?> intf : cl.getInterfaces()) {
-                    if (Remote.class.isAssignableFrom(intf)) {
-                        for (Method method : intf.getMethods()) {
-                            final Method m = method;
+                for (Clbss<?> intf : dl.gftIntfrfbdfs()) {
+                    if (Rfmotf.dlbss.isAssignbblfFrom(intf)) {
+                        for (Mftiod mftiod : intf.gftMftiods()) {
+                            finbl Mftiod m = mftiod;
                             /*
-                             * Set this Method object to override language
-                             * access checks so that the dispatcher can invoke
-                             * methods from non-public remote interfaces.
+                             * Sft tiis Mftiod objfdt to ovfrridf lbngubgf
+                             * bddfss difdks so tibt tif dispbtdifr dbn invokf
+                             * mftiods from non-publid rfmotf intfrfbdfs.
                              */
-                            AccessController.doPrivileged(
-                                new PrivilegedAction<Void>() {
-                                public Void run() {
-                                    m.setAccessible(true);
-                                    return null;
+                            AddfssControllfr.doPrivilfgfd(
+                                nfw PrivilfgfdAdtion<Void>() {
+                                publid Void run() {
+                                    m.sftAddfssiblf(truf);
+                                    rfturn null;
                                 }
                             });
-                            map.put(Util.computeMethodHash(m), m);
+                            mbp.put(Util.domputfMftiodHbsi(m), m);
                         }
                     }
                 }
             }
-            return map;
+            rfturn mbp;
         }
     }
 }

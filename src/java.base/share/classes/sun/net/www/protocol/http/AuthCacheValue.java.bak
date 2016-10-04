@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.protocol.http;
+pbdkbgf sun.nft.www.protodol.ittp;
 
-import java.io.Serializable;
-import java.net.PasswordAuthentication;
+import jbvb.io.Sfriblizbblf;
+import jbvb.nft.PbsswordAutifntidbtion;
 
 /**
- * AuthCacheValue: interface to minimize exposure to authentication cache
- * for external users (ie. plugin)
+ * AutiCbdifVbluf: intfrfbdf to minimizf fxposurf to butifntidbtion dbdif
+ * for fxtfrnbl usfrs (if. plugin)
  *
- * @author Michael McMahon
+ * @butior Midibfl MdMbion
  */
 
-public abstract class AuthCacheValue implements Serializable {
+publid bbstrbdt dlbss AutiCbdifVbluf implfmfnts Sfriblizbblf {
 
-    static final long serialVersionUID = 735249334068211611L;
+    stbtid finbl long sfriblVfrsionUID = 735249334068211611L;
 
-    public enum Type {
+    publid fnum Typf {
         Proxy,
-        Server
+        Sfrvfr
     };
 
     /**
-     * Caches authentication info entered by user.  See cacheKey()
+     * Cbdifs butifntidbtion info fntfrfd by usfr.  Sff dbdifKfy()
      */
-    static protected AuthCache cache = new AuthCacheImpl();
+    stbtid protfdtfd AutiCbdif dbdif = nfw AutiCbdifImpl();
 
-    public static void setAuthCache (AuthCache map) {
-        cache = map;
+    publid stbtid void sftAutiCbdif (AutiCbdif mbp) {
+        dbdif = mbp;
     }
 
-    /* Package private ctor to prevent extension outside package */
+    /* Pbdkbgf privbtf dtor to prfvfnt fxtfnsion outsidf pbdkbgf */
 
-    AuthCacheValue() {}
-
-    /**
-     * Proxy or Server
-     */
-    abstract Type getAuthType ();
+    AutiCbdifVbluf() {}
 
     /**
-     * Authentication scheme
+     * Proxy or Sfrvfr
      */
-    abstract AuthScheme getAuthScheme();
+    bbstrbdt Typf gftAutiTypf ();
+
+    /**
+     * Autifntidbtion sdifmf
+     */
+    bbstrbdt AutiSdifmf gftAutiSdifmf();
 
    /**
-    * name of server/proxy
+    * nbmf of sfrvfr/proxy
     */
-    abstract String getHost ();
+    bbstrbdt String gftHost ();
 
    /**
-    * portnumber of server/proxy
+    * portnumbfr of sfrvfr/proxy
     */
-    abstract int getPort();
+    bbstrbdt int gftPort();
 
    /**
-    * realm of authentication if known
+    * rfblm of butifntidbtion if known
     */
-    abstract String getRealm();
+    bbstrbdt String gftRfblm();
 
     /**
-     * root path of realm or the request path if the root
-     * is not known yet.
+     * root pbti of rfblm or tif rfqufst pbti if tif root
+     * is not known yft.
      */
-    abstract String getPath();
+    bbstrbdt String gftPbti();
 
     /**
-     * returns http or https
+     * rfturns ittp or ittps
      */
-    abstract String getProtocolScheme();
+    bbstrbdt String gftProtodolSdifmf();
 
     /**
-     * the credentials associated with this authentication
+     * tif drfdfntibls bssodibtfd witi tiis butifntidbtion
      */
-    abstract PasswordAuthentication credentials();
+    bbstrbdt PbsswordAutifntidbtion drfdfntibls();
 }

@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.event;
+pbdkbgf jbvb.bwt.fvfnt;
 
-import java.util.EventListener;
-import java.awt.AWTEvent;
+import jbvb.util.EvfntListfnfr;
+import jbvb.bwt.AWTEvfnt;
 
 /**
- * The listener interface for receiving notification of events
- * dispatched to objects that are instances of Component or
- * MenuComponent or their subclasses.  Unlike the other EventListeners
- * in this package, AWTEventListeners passively observe events
- * being dispatched in the AWT, system-wide.  Most applications
- * should never use this class; applications which might use
- * AWTEventListeners include event recorders for automated testing,
- * and facilities such as the Java Accessibility package.
+ * Tif listfnfr intfrfbdf for rfdfiving notifidbtion of fvfnts
+ * dispbtdifd to objfdts tibt brf instbndfs of Componfnt or
+ * MfnuComponfnt or tifir subdlbssfs.  Unlikf tif otifr EvfntListfnfrs
+ * in tiis pbdkbgf, AWTEvfntListfnfrs pbssivfly obsfrvf fvfnts
+ * bfing dispbtdifd in tif AWT, systfm-widf.  Most bpplidbtions
+ * siould nfvfr usf tiis dlbss; bpplidbtions wiidi migit usf
+ * AWTEvfntListfnfrs indludf fvfnt rfdordfrs for butombtfd tfsting,
+ * bnd fbdilitifs sudi bs tif Jbvb Addfssibility pbdkbgf.
  * <p>
- * The class that is interested in monitoring AWT events
- * implements this interface, and the object created with that
- * class is registered with the Toolkit, using the Toolkit's
- * <code>addAWTEventListener</code> method.  When an event is
- * dispatched anywhere in the AWT, that object's
- * <code>eventDispatched</code> method is invoked.
+ * Tif dlbss tibt is intfrfstfd in monitoring AWT fvfnts
+ * implfmfnts tiis intfrfbdf, bnd tif objfdt drfbtfd witi tibt
+ * dlbss is rfgistfrfd witi tif Toolkit, using tif Toolkit's
+ * <dodf>bddAWTEvfntListfnfr</dodf> mftiod.  Wifn bn fvfnt is
+ * dispbtdifd bnywifrf in tif AWT, tibt objfdt's
+ * <dodf>fvfntDispbtdifd</dodf> mftiod is invokfd.
  *
- * @see java.awt.AWTEvent
- * @see java.awt.Toolkit#addAWTEventListener
- * @see java.awt.Toolkit#removeAWTEventListener
+ * @sff jbvb.bwt.AWTEvfnt
+ * @sff jbvb.bwt.Toolkit#bddAWTEvfntListfnfr
+ * @sff jbvb.bwt.Toolkit#rfmovfAWTEvfntListfnfr
  *
- * @author Fred Ecks
- * @since 1.2
+ * @butior Frfd Edks
+ * @sindf 1.2
  */
-public interface AWTEventListener extends EventListener {
+publid intfrfbdf AWTEvfntListfnfr fxtfnds EvfntListfnfr {
 
     /**
-     * Invoked when an event is dispatched in the AWT.
-     * @param event the event to be processed
+     * Invokfd wifn bn fvfnt is dispbtdifd in tif AWT.
+     * @pbrbm fvfnt tif fvfnt to bf prodfssfd
      */
-    public void eventDispatched(AWTEvent event);
+    publid void fvfntDispbtdifd(AWTEvfnt fvfnt);
 
 }

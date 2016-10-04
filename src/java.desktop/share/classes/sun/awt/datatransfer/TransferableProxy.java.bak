@@ -1,218 +1,218 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.datatransfer;
+pbdkbgf sun.bwt.dbtbtrbnsffr;
 
-import java.awt.datatransfer.DataFlavor;
-import java.awt.datatransfer.Transferable;
-import java.awt.datatransfer.UnsupportedFlavorException;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamClass;
-import java.io.OutputStream;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Proxy;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import jbvb.bwt.dbtbtrbnsffr.DbtbFlbvor;
+import jbvb.bwt.dbtbtrbnsffr.Trbnsffrbblf;
+import jbvb.bwt.dbtbtrbnsffr.UnsupportfdFlbvorExdfption;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmClbss;
+import jbvb.io.OutputStrfbm;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
 
 
 /**
- * Proxies for another Transferable so that Serializable objects are never
- * returned directly by DnD or the Clipboard. Instead, a new instance of the
- * object is returned.
+ * Proxifs for bnotifr Trbnsffrbblf so tibt Sfriblizbblf objfdts brf nfvfr
+ * rfturnfd dirfdtly by DnD or tif Clipbobrd. Instfbd, b nfw instbndf of tif
+ * objfdt is rfturnfd.
  *
- * @author Lawrence P.G. Cable
- * @author David Mendenhall
+ * @butior Lbwrfndf P.G. Cbblf
+ * @butior Dbvid Mfndfnibll
  *
- * @since 1.4
+ * @sindf 1.4
  */
-public class TransferableProxy implements Transferable {
-    public TransferableProxy(Transferable t, boolean local) {
-        transferable = t;
-        isLocal = local;
+publid dlbss TrbnsffrbblfProxy implfmfnts Trbnsffrbblf {
+    publid TrbnsffrbblfProxy(Trbnsffrbblf t, boolfbn lodbl) {
+        trbnsffrbblf = t;
+        isLodbl = lodbl;
     }
-    public DataFlavor[] getTransferDataFlavors() {
-        return transferable.getTransferDataFlavors();
+    publid DbtbFlbvor[] gftTrbnsffrDbtbFlbvors() {
+        rfturn trbnsffrbblf.gftTrbnsffrDbtbFlbvors();
     }
-    public boolean isDataFlavorSupported(DataFlavor flavor) {
-        return transferable.isDataFlavorSupported(flavor);
+    publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor flbvor) {
+        rfturn trbnsffrbblf.isDbtbFlbvorSupportfd(flbvor);
     }
-    public Object getTransferData(DataFlavor df)
-        throws UnsupportedFlavorException, IOException
+    publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor df)
+        tirows UnsupportfdFlbvorExdfption, IOExdfption
     {
-        Object data = transferable.getTransferData(df);
+        Objfdt dbtb = trbnsffrbblf.gftTrbnsffrDbtb(df);
 
-        // If the data is a Serializable object, then create a new instance
-        // before returning it. This insulates applications sharing DnD and
-        // Clipboard data from each other.
-        if (data != null && isLocal && df.isFlavorSerializedObjectType()) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // If tif dbtb is b Sfriblizbblf objfdt, tifn drfbtf b nfw instbndf
+        // bfforf rfturning it. Tiis insulbtfs bpplidbtions sibring DnD bnd
+        // Clipbobrd dbtb from fbdi otifr.
+        if (dbtb != null && isLodbl && df.isFlbvorSfriblizfdObjfdtTypf()) {
+            BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
 
-            ClassLoaderObjectOutputStream oos =
-                new ClassLoaderObjectOutputStream(baos);
-            oos.writeObject(data);
+            ClbssLobdfrObjfdtOutputStrfbm oos =
+                nfw ClbssLobdfrObjfdtOutputStrfbm(bbos);
+            oos.writfObjfdt(dbtb);
 
-            ByteArrayInputStream bais =
-                new ByteArrayInputStream(baos.toByteArray());
+            BytfArrbyInputStrfbm bbis =
+                nfw BytfArrbyInputStrfbm(bbos.toBytfArrby());
 
             try {
-                ClassLoaderObjectInputStream ois =
-                    new ClassLoaderObjectInputStream(bais,
-                                                     oos.getClassLoaderMap());
-                data = ois.readObject();
-            } catch (ClassNotFoundException cnfe) {
-                throw (IOException)new IOException().initCause(cnfe);
+                ClbssLobdfrObjfdtInputStrfbm ois =
+                    nfw ClbssLobdfrObjfdtInputStrfbm(bbis,
+                                                     oos.gftClbssLobdfrMbp());
+                dbtb = ois.rfbdObjfdt();
+            } dbtdi (ClbssNotFoundExdfption dnff) {
+                tirow (IOExdfption)nfw IOExdfption().initCbusf(dnff);
             }
         }
 
-        return data;
+        rfturn dbtb;
     }
 
-    protected final Transferable transferable;
-    protected final boolean isLocal;
+    protfdtfd finbl Trbnsffrbblf trbnsffrbblf;
+    protfdtfd finbl boolfbn isLodbl;
 }
 
-final class ClassLoaderObjectOutputStream extends ObjectOutputStream {
-    private final Map<Set<String>, ClassLoader> map =
-        new HashMap<Set<String>, ClassLoader>();
+finbl dlbss ClbssLobdfrObjfdtOutputStrfbm fxtfnds ObjfdtOutputStrfbm {
+    privbtf finbl Mbp<Sft<String>, ClbssLobdfr> mbp =
+        nfw HbsiMbp<Sft<String>, ClbssLobdfr>();
 
-    ClassLoaderObjectOutputStream(OutputStream os) throws IOException {
-        super(os);
+    ClbssLobdfrObjfdtOutputStrfbm(OutputStrfbm os) tirows IOExdfption {
+        supfr(os);
     }
 
-    protected void annotateClass(final Class<?> cl) throws IOException {
-        ClassLoader classLoader = AccessController.doPrivileged(
-            new PrivilegedAction<ClassLoader>() {
-                public ClassLoader run() {
-                    return cl.getClassLoader();
+    protfdtfd void bnnotbtfClbss(finbl Clbss<?> dl) tirows IOExdfption {
+        ClbssLobdfr dlbssLobdfr = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<ClbssLobdfr>() {
+                publid ClbssLobdfr run() {
+                    rfturn dl.gftClbssLobdfr();
                 }
             });
 
-        Set<String> s = new HashSet<String>(1);
-        s.add(cl.getName());
+        Sft<String> s = nfw HbsiSft<String>(1);
+        s.bdd(dl.gftNbmf());
 
-        map.put(s, classLoader);
+        mbp.put(s, dlbssLobdfr);
     }
-    protected void annotateProxyClass(final Class<?> cl) throws IOException {
-        ClassLoader classLoader = AccessController.doPrivileged(
-            new PrivilegedAction<ClassLoader>() {
-                public ClassLoader run() {
-                    return cl.getClassLoader();
+    protfdtfd void bnnotbtfProxyClbss(finbl Clbss<?> dl) tirows IOExdfption {
+        ClbssLobdfr dlbssLobdfr = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<ClbssLobdfr>() {
+                publid ClbssLobdfr run() {
+                    rfturn dl.gftClbssLobdfr();
                 }
             });
 
-        Class<?>[] interfaces = cl.getInterfaces();
-        Set<String> s = new HashSet<String>(interfaces.length);
-        for (int i = 0; i < interfaces.length; i++) {
-            s.add(interfaces[i].getName());
+        Clbss<?>[] intfrfbdfs = dl.gftIntfrfbdfs();
+        Sft<String> s = nfw HbsiSft<String>(intfrfbdfs.lfngti);
+        for (int i = 0; i < intfrfbdfs.lfngti; i++) {
+            s.bdd(intfrfbdfs[i].gftNbmf());
         }
 
-        map.put(s, classLoader);
+        mbp.put(s, dlbssLobdfr);
     }
 
-    Map<Set<String>, ClassLoader> getClassLoaderMap() {
-        return new HashMap<>(map);
+    Mbp<Sft<String>, ClbssLobdfr> gftClbssLobdfrMbp() {
+        rfturn nfw HbsiMbp<>(mbp);
     }
 }
 
-final class ClassLoaderObjectInputStream extends ObjectInputStream {
-    private final Map<Set<String>, ClassLoader> map;
+finbl dlbss ClbssLobdfrObjfdtInputStrfbm fxtfnds ObjfdtInputStrfbm {
+    privbtf finbl Mbp<Sft<String>, ClbssLobdfr> mbp;
 
-    ClassLoaderObjectInputStream(InputStream is,
-                                 Map<Set<String>, ClassLoader> map)
-      throws IOException {
-        super(is);
-        if (map == null) {
-            throw new NullPointerException("Null map");
+    ClbssLobdfrObjfdtInputStrfbm(InputStrfbm is,
+                                 Mbp<Sft<String>, ClbssLobdfr> mbp)
+      tirows IOExdfption {
+        supfr(is);
+        if (mbp == null) {
+            tirow nfw NullPointfrExdfption("Null mbp");
         }
-        this.map = map;
+        tiis.mbp = mbp;
     }
 
-    protected Class<?> resolveClass(ObjectStreamClass classDesc)
-      throws IOException, ClassNotFoundException {
-        String className = classDesc.getName();
+    protfdtfd Clbss<?> rfsolvfClbss(ObjfdtStrfbmClbss dlbssDfsd)
+      tirows IOExdfption, ClbssNotFoundExdfption {
+        String dlbssNbmf = dlbssDfsd.gftNbmf();
 
-        Set<String> s = new HashSet<String>(1);
-        s.add(className);
+        Sft<String> s = nfw HbsiSft<String>(1);
+        s.bdd(dlbssNbmf);
 
-        ClassLoader classLoader = map.get(s);
-        if (classLoader != null) {
-            return Class.forName(className, false, classLoader);
-        } else {
-            return super.resolveClass(classDesc);
+        ClbssLobdfr dlbssLobdfr = mbp.gft(s);
+        if (dlbssLobdfr != null) {
+            rfturn Clbss.forNbmf(dlbssNbmf, fblsf, dlbssLobdfr);
+        } flsf {
+            rfturn supfr.rfsolvfClbss(dlbssDfsd);
         }
     }
 
-    protected Class<?> resolveProxyClass(String[] interfaces)
-      throws IOException, ClassNotFoundException {
+    protfdtfd Clbss<?> rfsolvfProxyClbss(String[] intfrfbdfs)
+      tirows IOExdfption, ClbssNotFoundExdfption {
 
-        Set<String> s = new HashSet<String>(interfaces.length);
-        for (int i = 0; i < interfaces.length; i++) {
-            s.add(interfaces[i]);
+        Sft<String> s = nfw HbsiSft<String>(intfrfbdfs.lfngti);
+        for (int i = 0; i < intfrfbdfs.lfngti; i++) {
+            s.bdd(intfrfbdfs[i]);
         }
 
-        ClassLoader classLoader = map.get(s);
-        if (classLoader == null) {
-            return super.resolveProxyClass(interfaces);
+        ClbssLobdfr dlbssLobdfr = mbp.gft(s);
+        if (dlbssLobdfr == null) {
+            rfturn supfr.rfsolvfProxyClbss(intfrfbdfs);
         }
 
-        // The code below is mostly copied from the superclass.
-        ClassLoader nonPublicLoader = null;
-        boolean hasNonPublicInterface = false;
+        // Tif dodf bflow is mostly dopifd from tif supfrdlbss.
+        ClbssLobdfr nonPublidLobdfr = null;
+        boolfbn ibsNonPublidIntfrfbdf = fblsf;
 
-        // define proxy in class loader of non-public interface(s), if any
-        Class<?>[] classObjs = new Class<?>[interfaces.length];
-        for (int i = 0; i < interfaces.length; i++) {
-            Class<?> cl = Class.forName(interfaces[i], false, classLoader);
-            if ((cl.getModifiers() & Modifier.PUBLIC) == 0) {
-                if (hasNonPublicInterface) {
-                    if (nonPublicLoader != cl.getClassLoader()) {
-                        throw new IllegalAccessError(
-                            "conflicting non-public interface class loaders");
+        // dffinf proxy in dlbss lobdfr of non-publid intfrfbdf(s), if bny
+        Clbss<?>[] dlbssObjs = nfw Clbss<?>[intfrfbdfs.lfngti];
+        for (int i = 0; i < intfrfbdfs.lfngti; i++) {
+            Clbss<?> dl = Clbss.forNbmf(intfrfbdfs[i], fblsf, dlbssLobdfr);
+            if ((dl.gftModififrs() & Modififr.PUBLIC) == 0) {
+                if (ibsNonPublidIntfrfbdf) {
+                    if (nonPublidLobdfr != dl.gftClbssLobdfr()) {
+                        tirow nfw IllfgblAddfssError(
+                            "donflidting non-publid intfrfbdf dlbss lobdfrs");
                     }
-                } else {
-                    nonPublicLoader = cl.getClassLoader();
-                    hasNonPublicInterface = true;
+                } flsf {
+                    nonPublidLobdfr = dl.gftClbssLobdfr();
+                    ibsNonPublidIntfrfbdf = truf;
                 }
             }
-            classObjs[i] = cl;
+            dlbssObjs[i] = dl;
         }
         try {
-            return Proxy.getProxyClass(hasNonPublicInterface ?
-                                       nonPublicLoader : classLoader,
-                                       classObjs);
-        } catch (IllegalArgumentException e) {
-            throw new ClassNotFoundException(null, e);
+            rfturn Proxy.gftProxyClbss(ibsNonPublidIntfrfbdf ?
+                                       nonPublidLobdfr : dlbssLobdfr,
+                                       dlbssObjs);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow nfw ClbssNotFoundExdfption(null, f);
         }
     }
 }

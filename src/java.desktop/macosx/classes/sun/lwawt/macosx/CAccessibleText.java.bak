@@ -1,341 +1,341 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import java.awt.Component;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
-import java.util.concurrent.Callable;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.util.dondurrfnt.Cbllbblf;
 
-import javax.accessibility.Accessible;
-import javax.accessibility.AccessibleContext;
-import javax.accessibility.AccessibleEditableText;
-import javax.accessibility.AccessibleText;
-import javax.swing.text.Element;
-import javax.swing.text.JTextComponent;
+import jbvbx.bddfssibility.Addfssiblf;
+import jbvbx.bddfssibility.AddfssiblfContfxt;
+import jbvbx.bddfssibility.AddfssiblfEditbblfTfxt;
+import jbvbx.bddfssibility.AddfssiblfTfxt;
+import jbvbx.swing.tfxt.Elfmfnt;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
 
-class CAccessibleText {
-    static AccessibleEditableText getAccessibleEditableText(final Accessible a, final Component c) {
-        if (a == null) return null;
+dlbss CAddfssiblfTfxt {
+    stbtid AddfssiblfEditbblfTfxt gftAddfssiblfEditbblfTfxt(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
 
-        return CAccessibility.invokeAndWait(new Callable<AccessibleEditableText>() {
-            public AccessibleEditableText call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
-                return ac.getAccessibleEditableText();
+        rfturn CAddfssibility.invokfAndWbit(nfw Cbllbblf<AddfssiblfEditbblfTfxt>() {
+            publid AddfssiblfEditbblfTfxt dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+                rfturn bd.gftAddfssiblfEditbblfTfxt();
             }
-        }, c);
+        }, d);
     }
 
-    static String getSelectedText(final Accessible a, final Component c) {
-        if (a == null) return null;
+    stbtid String gftSflfdtfdTfxt(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
 
-        return CAccessibility.invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+        rfturn CAddfssibility.invokfAndWbit(nfw Cbllbblf<String>() {
+            publid String dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
 
-                final AccessibleText at = ac.getAccessibleText();
-                if (at == null) return null;
+                finbl AddfssiblfTfxt bt = bd.gftAddfssiblfTfxt();
+                if (bt == null) rfturn null;
 
-                return at.getSelectedText();
+                rfturn bt.gftSflfdtfdTfxt();
             }
-        }, c);
+        }, d);
     }
 
-    // replace the currently selected text with newText
-    static void setSelectedText(final Accessible a, final Component c, final String newText) {
-        if (a == null) return;
+    // rfplbdf tif durrfntly sflfdtfd tfxt witi nfwTfxt
+    stbtid void sftSflfdtfdTfxt(finbl Addfssiblf b, finbl Componfnt d, finbl String nfwTfxt) {
+        if (b == null) rfturn;
 
-        CAccessibility.invokeLater(new Runnable() {
-            public void run() {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return;
+        CAddfssibility.invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn;
 
-                final AccessibleEditableText aet = ac.getAccessibleEditableText();
-                if (aet == null) return;
+                finbl AddfssiblfEditbblfTfxt bft = bd.gftAddfssiblfEditbblfTfxt();
+                if (bft == null) rfturn;
 
-                final int selectionStart = aet.getSelectionStart();
-                final int selectionEnd = aet.getSelectionEnd();
-                aet.replaceText(selectionStart, selectionEnd, newText);
+                finbl int sflfdtionStbrt = bft.gftSflfdtionStbrt();
+                finbl int sflfdtionEnd = bft.gftSflfdtionEnd();
+                bft.rfplbdfTfxt(sflfdtionStbrt, sflfdtionEnd, nfwTfxt);
             }
-        }, c);
+        }, d);
     }
 
-    static void setSelectedTextRange(final Accessible a, final Component c, final int startIndex, final int endIndex) {
-        if (a == null) return;
+    stbtid void sftSflfdtfdTfxtRbngf(finbl Addfssiblf b, finbl Componfnt d, finbl int stbrtIndfx, finbl int fndIndfx) {
+        if (b == null) rfturn;
 
-        CAccessibility.invokeLater(new Runnable() {
-            public void run() {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return;
+        CAddfssibility.invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn;
 
-                final AccessibleEditableText aet = ac.getAccessibleEditableText();
-                if (aet == null) return;
+                finbl AddfssiblfEditbblfTfxt bft = bd.gftAddfssiblfEditbblfTfxt();
+                if (bft == null) rfturn;
 
-                final boolean validRange = (startIndex >= 0) && (endIndex >= startIndex) && (endIndex <= aet.getCharCount());
-                if (!validRange) return;
+                finbl boolfbn vblidRbngf = (stbrtIndfx >= 0) && (fndIndfx >= stbrtIndfx) && (fndIndfx <= bft.gftCibrCount());
+                if (!vblidRbngf) rfturn;
 
-                aet.selectText(startIndex, endIndex);
+                bft.sflfdtTfxt(stbrtIndfx, fndIndfx);
             }
-        }, c);
+        }, d);
     }
 
-    static String getTextRange(final AccessibleEditableText aet, final int start, final int stop, final Component c) {
-        if (aet == null) return null;
+    stbtid String gftTfxtRbngf(finbl AddfssiblfEditbblfTfxt bft, finbl int stbrt, finbl int stop, finbl Componfnt d) {
+        if (bft == null) rfturn null;
 
-        return CAccessibility.invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                return aet.getTextRange(start, stop);
+        rfturn CAddfssibility.invokfAndWbit(nfw Cbllbblf<String>() {
+            publid String dbll() tirows Exdfption {
+                rfturn bft.gftTfxtRbngf(stbrt, stop);
             }
-        }, c);
+        }, d);
     }
 
-    static int getCharacterIndexAtPosition(final Accessible a, final Component c, final int x, final int y) {
-        if (a == null) return 0;
+    stbtid int gftCibrbdtfrIndfxAtPosition(finbl Addfssiblf b, finbl Componfnt d, finbl int x, finbl int y) {
+        if (b == null) rfturn 0;
 
-        return CAccessibility.invokeAndWait(new Callable<Integer>() {
-            public Integer call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
-                final AccessibleText at = ac.getAccessibleText();
-                if (at == null) return null;
-                // (x, y) passed in as java screen coords - (0, 0) at upper-left corner of screen.
-                // Convert to java component-local coords
-                final Point componentLocation = ac.getAccessibleComponent().getLocationOnScreen();
-                final int localX = x - (int)componentLocation.getX();
-                final int localY = y - (int)componentLocation.getY();
+        rfturn CAddfssibility.invokfAndWbit(nfw Cbllbblf<Intfgfr>() {
+            publid Intfgfr dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
+                finbl AddfssiblfTfxt bt = bd.gftAddfssiblfTfxt();
+                if (bt == null) rfturn null;
+                // (x, y) pbssfd in bs jbvb sdrffn doords - (0, 0) bt uppfr-lfft dornfr of sdrffn.
+                // Convfrt to jbvb domponfnt-lodbl doords
+                finbl Point domponfntLodbtion = bd.gftAddfssiblfComponfnt().gftLodbtionOnSdrffn();
+                finbl int lodblX = x - (int)domponfntLodbtion.gftX();
+                finbl int lodblY = y - (int)domponfntLodbtion.gftY();
 
-                return at.getIndexAtPoint(new Point(localX, localY));
+                rfturn bt.gftIndfxAtPoint(nfw Point(lodblX, lodblY));
             }
-        }, c);
+        }, d);
     }
 
-    static int[] getSelectedTextRange(final Accessible a, final Component c) {
-        if (a == null) return new int[2];
+    stbtid int[] gftSflfdtfdTfxtRbngf(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn nfw int[2];
 
-        return CAccessibility.invokeAndWait(new Callable<int[]>() {
-            public int[] call() {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return new int[2];
+        rfturn CAddfssibility.invokfAndWbit(nfw Cbllbblf<int[]>() {
+            publid int[] dbll() {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn nfw int[2];
 
-                final AccessibleText at = ac.getAccessibleText();
-                if (at == null) return new int[2];
+                finbl AddfssiblfTfxt bt = bd.gftAddfssiblfTfxt();
+                if (bt == null) rfturn nfw int[2];
 
-                final int[] ret = new int[2];
-                ret[0] = at.getSelectionStart();
-                ret[1] = at.getSelectionEnd();
-                return ret;
+                finbl int[] rft = nfw int[2];
+                rft[0] = bt.gftSflfdtionStbrt();
+                rft[1] = bt.gftSflfdtionEnd();
+                rfturn rft;
             }
-        }, c);
+        }, d);
     }
 
 
-    static int[] getVisibleCharacterRange(final Accessible a, final Component c) {
-        if (a == null) return null;
-        return CAccessibility.invokeAndWait(new Callable<int[]>() {
-            public int[] call() {
-                return getVisibleCharacterRange(a);
+    stbtid int[] gftVisiblfCibrbdtfrRbngf(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn null;
+        rfturn CAddfssibility.invokfAndWbit(nfw Cbllbblf<int[]>() {
+            publid int[] dbll() {
+                rfturn gftVisiblfCibrbdtfrRbngf(b);
             }
-        }, c);
+        }, d);
     }
 
-    static int getLineNumberForIndex(final Accessible a, final Component c, final int index) {
-        if (a == null) return 0;
-        return CAccessibility.invokeAndWait(new Callable<Integer>() {
-            public Integer call() {
-                return Integer.valueOf(getLineNumberForIndex(a, index));
+    stbtid int gftLinfNumbfrForIndfx(finbl Addfssiblf b, finbl Componfnt d, finbl int indfx) {
+        if (b == null) rfturn 0;
+        rfturn CAddfssibility.invokfAndWbit(nfw Cbllbblf<Intfgfr>() {
+            publid Intfgfr dbll() {
+                rfturn Intfgfr.vblufOf(gftLinfNumbfrForIndfx(b, indfx));
             }
-        }, c);
+        }, d);
     }
 
-    static int getLineNumberForInsertionPoint(final Accessible a, final Component c) {
-        if (a == null) return 0;
-        return CAccessibility.invokeAndWait(new Callable<Integer>() {
-            public Integer call() {
-                return Integer.valueOf(getLineNumberForInsertionPoint(a));
+    stbtid int gftLinfNumbfrForInsfrtionPoint(finbl Addfssiblf b, finbl Componfnt d) {
+        if (b == null) rfturn 0;
+        rfturn CAddfssibility.invokfAndWbit(nfw Cbllbblf<Intfgfr>() {
+            publid Intfgfr dbll() {
+                rfturn Intfgfr.vblufOf(gftLinfNumbfrForInsfrtionPoint(b));
             }
-        }, c);
+        }, d);
     }
 
-    static int[] getRangeForLine(final Accessible a, final Component c, final int line) {
-        if (a == null) return null;
-        return CAccessibility.invokeAndWait(new Callable<int[]>() {
-            public int[] call() {
-                return getRangeForLine(a, line);
+    stbtid int[] gftRbngfForLinf(finbl Addfssiblf b, finbl Componfnt d, finbl int linf) {
+        if (b == null) rfturn null;
+        rfturn CAddfssibility.invokfAndWbit(nfw Cbllbblf<int[]>() {
+            publid int[] dbll() {
+                rfturn gftRbngfForLinf(b, linf);
             }
-        }, c);
+        }, d);
     }
 
-    static int[] getRangeForIndex(final Accessible a, final Component c, final int index) {
-        if (a == null) return new int[2];
+    stbtid int[] gftRbngfForIndfx(finbl Addfssiblf b, finbl Componfnt d, finbl int indfx) {
+        if (b == null) rfturn nfw int[2];
 
-        return CAccessibility.invokeAndWait(new Callable<int[]>() {
-            public int[] call() {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return new int[2];
+        rfturn CAddfssibility.invokfAndWbit(nfw Cbllbblf<int[]>() {
+            publid int[] dbll() {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn nfw int[2];
 
-                final AccessibleEditableText aet = ac.getAccessibleEditableText();
-                if (aet == null) return new int[2];
+                finbl AddfssiblfEditbblfTfxt bft = bd.gftAddfssiblfEditbblfTfxt();
+                if (bft == null) rfturn nfw int[2];
 
-                final int charCount = aet.getCharCount();
-                if (index >= charCount) return new int[2];
+                finbl int dibrCount = bft.gftCibrCount();
+                if (indfx >= dibrCount) rfturn nfw int[2];
 
-                final String foundWord = aet.getAtIndex(AccessibleText.WORD, index);
-                final int foundWordLength = foundWord.length();
-                final String wholeString = aet.getTextRange(0, charCount - 1);
+                finbl String foundWord = bft.gftAtIndfx(AddfssiblfTfxt.WORD, indfx);
+                finbl int foundWordLfngti = foundWord.lfngti();
+                finbl String wiolfString = bft.gftTfxtRbngf(0, dibrCount - 1);
 
-                // now we need to find the index of the foundWord in wholeString. It's somewhere pretty close to the passed-in index,
-                // but we don't know if it's before or after the passed-in index. So, look behind and ahead of the passed-in index
-                int foundWordIndex = -1;
-                int offset = 0;
-                while ((foundWordIndex == -1) && (offset < foundWordLength)) {
-                    if (wholeString.regionMatches(true, index - offset, foundWord, 0, foundWordLength)) {
-                        // is the index of foundWord to the left of the passed-in index?
-                        foundWordIndex = index - offset;
+                // now wf nffd to find tif indfx of tif foundWord in wiolfString. It's somfwifrf prftty dlosf to tif pbssfd-in indfx,
+                // but wf don't know if it's bfforf or bftfr tif pbssfd-in indfx. So, look bfiind bnd bifbd of tif pbssfd-in indfx
+                int foundWordIndfx = -1;
+                int offsft = 0;
+                wiilf ((foundWordIndfx == -1) && (offsft < foundWordLfngti)) {
+                    if (wiolfString.rfgionMbtdifs(truf, indfx - offsft, foundWord, 0, foundWordLfngti)) {
+                        // is tif indfx of foundWord to tif lfft of tif pbssfd-in indfx?
+                        foundWordIndfx = indfx - offsft;
                     }
-                    if (wholeString.regionMatches(true, index + offset, foundWord, 0, foundWordLength)) {
-                        // is the index of the foundWord to the right of the passed-in index?
-                        foundWordIndex = index + offset;
+                    if (wiolfString.rfgionMbtdifs(truf, indfx + offsft, foundWord, 0, foundWordLfngti)) {
+                        // is tif indfx of tif foundWord to tif rigit of tif pbssfd-in indfx?
+                        foundWordIndfx = indfx + offsft;
                     }
-                    offset++;
+                    offsft++;
                 }
 
-                final int[] ret = new int[2];
-                ret[0] = foundWordIndex;
-                ret[1] = foundWordIndex + foundWordLength;
-                return ret;
+                finbl int[] rft = nfw int[2];
+                rft[0] = foundWordIndfx;
+                rft[1] = foundWordIndfx + foundWordLfngti;
+                rfturn rft;
             }
-        }, c);
+        }, d);
     }
 
-    // cmcnote: this method does not currently work for JLabels. JLabels, for some reason unbeknownst to me, do not
-    // return a value from getAccessibleText. According to the javadocs, AccessibleJLabels implement AccessibleText,
-    // so this doesn't really make sense. Perhaps a sun bug? Investigate. We currently get the text value out of labels
-    // via "getAccessibleName". This just returns a String - so we don't know it's position, etc, as we do for
-    // AccessibleText.
-    static double[] getBoundsForRange(final Accessible a, final Component c, final int location, final int length) {
-        final double[] ret = new double[4];
-        if (a == null) return ret;
+    // dmdnotf: tiis mftiod dofs not durrfntly work for JLbbfls. JLbbfls, for somf rfbson unbfknownst to mf, do not
+    // rfturn b vbluf from gftAddfssiblfTfxt. Addording to tif jbvbdods, AddfssiblfJLbbfls implfmfnt AddfssiblfTfxt,
+    // so tiis dofsn't rfblly mbkf sfnsf. Pfribps b sun bug? Invfstigbtf. Wf durrfntly gft tif tfxt vbluf out of lbbfls
+    // vib "gftAddfssiblfNbmf". Tiis just rfturns b String - so wf don't know it's position, ftd, bs wf do for
+    // AddfssiblfTfxt.
+    stbtid doublf[] gftBoundsForRbngf(finbl Addfssiblf b, finbl Componfnt d, finbl int lodbtion, finbl int lfngti) {
+        finbl doublf[] rft = nfw doublf[4];
+        if (b == null) rfturn rft;
 
-        return CAccessibility.invokeAndWait(new Callable<double[]>() {
-            public double[] call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return ret;
+        rfturn CAddfssibility.invokfAndWbit(nfw Cbllbblf<doublf[]>() {
+            publid doublf[] dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn rft;
 
-                final AccessibleText at = ac.getAccessibleText();
-                if (at == null) {
-                    ac.getAccessibleName();
-                    ac.getAccessibleEditableText();
-                    return ret;
+                finbl AddfssiblfTfxt bt = bd.gftAddfssiblfTfxt();
+                if (bt == null) {
+                    bd.gftAddfssiblfNbmf();
+                    bd.gftAddfssiblfEditbblfTfxt();
+                    rfturn rft;
                 }
 
-                final Rectangle2D boundsStart = at.getCharacterBounds(location);
-                final Rectangle2D boundsEnd = at.getCharacterBounds(location + length - 1);
-                if (boundsEnd == null || boundsStart == null) return ret;
-                final Rectangle2D boundsUnion = boundsStart.createUnion(boundsEnd);
-                if (boundsUnion.isEmpty()) return ret;
+                finbl Rfdtbnglf2D boundsStbrt = bt.gftCibrbdtfrBounds(lodbtion);
+                finbl Rfdtbnglf2D boundsEnd = bt.gftCibrbdtfrBounds(lodbtion + lfngti - 1);
+                if (boundsEnd == null || boundsStbrt == null) rfturn rft;
+                finbl Rfdtbnglf2D boundsUnion = boundsStbrt.drfbtfUnion(boundsEnd);
+                if (boundsUnion.isEmpty()) rfturn rft;
 
-                final double localX = boundsUnion.getX();
-                final double localY = boundsUnion.getY();
+                finbl doublf lodblX = boundsUnion.gftX();
+                finbl doublf lodblY = boundsUnion.gftY();
 
-                final Point componentLocation = ac.getAccessibleComponent().getLocationOnScreen();
-                final double screenX = componentLocation.getX() + localX;
-                final double screenY = componentLocation.getY() + localY;
+                finbl Point domponfntLodbtion = bd.gftAddfssiblfComponfnt().gftLodbtionOnSdrffn();
+                finbl doublf sdrffnX = domponfntLodbtion.gftX() + lodblX;
+                finbl doublf sdrffnY = domponfntLodbtion.gftY() + lodblY;
 
-                ret[0] = screenX;
-                ret[1] = screenY; // in java screen coords (from top-left corner of screen)
-                ret[2] = boundsUnion.getWidth();
-                ret[3] = boundsUnion.getHeight();
-                return ret;
+                rft[0] = sdrffnX;
+                rft[1] = sdrffnY; // in jbvb sdrffn doords (from top-lfft dornfr of sdrffn)
+                rft[2] = boundsUnion.gftWidti();
+                rft[3] = boundsUnion.gftHfigit();
+                rfturn rft;
             }
-        }, c);
+        }, d);
     }
 
-    static String getStringForRange(final Accessible a, final Component c, final int location, final int length) {
-        if (a == null) return null;
-        return CAccessibility.invokeAndWait(new Callable<String>() {
-            public String call() throws Exception {
-                final AccessibleContext ac = a.getAccessibleContext();
-                if (ac == null) return null;
+    stbtid String gftStringForRbngf(finbl Addfssiblf b, finbl Componfnt d, finbl int lodbtion, finbl int lfngti) {
+        if (b == null) rfturn null;
+        rfturn CAddfssibility.invokfAndWbit(nfw Cbllbblf<String>() {
+            publid String dbll() tirows Exdfption {
+                finbl AddfssiblfContfxt bd = b.gftAddfssiblfContfxt();
+                if (bd == null) rfturn null;
 
-                final AccessibleEditableText aet = ac.getAccessibleEditableText();
-                if (aet == null) return null;
+                finbl AddfssiblfEditbblfTfxt bft = bd.gftAddfssiblfEditbblfTfxt();
+                if (bft == null) rfturn null;
 
-                return aet.getTextRange(location, location + length);
+                rfturn bft.gftTfxtRbngf(lodbtion, lodbtion + lfngti);
             }
-        }, c);
+        }, d);
     }
 
-    static int[] getVisibleCharacterRange(final Accessible a) {
-        final Accessible sa = CAccessible.getSwingAccessible(a);
-        if (!(sa instanceof JTextComponent)) return null;
+    stbtid int[] gftVisiblfCibrbdtfrRbngf(finbl Addfssiblf b) {
+        finbl Addfssiblf sb = CAddfssiblf.gftSwingAddfssiblf(b);
+        if (!(sb instbndfof JTfxtComponfnt)) rfturn null;
 
-        final JTextComponent jc = (JTextComponent) sa;
-        final Rectangle rect = jc.getVisibleRect();
-        final Point topLeft = new Point(rect.x, rect.y);
-        final Point topRight = new Point(rect.x + rect.width, rect.y);
-        final Point bottomLeft = new Point(rect.x, rect.y + rect.height);
-        final Point bottomRight = new Point(rect.x + rect.width, rect.y + rect.height);
+        finbl JTfxtComponfnt jd = (JTfxtComponfnt) sb;
+        finbl Rfdtbnglf rfdt = jd.gftVisiblfRfdt();
+        finbl Point topLfft = nfw Point(rfdt.x, rfdt.y);
+        finbl Point topRigit = nfw Point(rfdt.x + rfdt.widti, rfdt.y);
+        finbl Point bottomLfft = nfw Point(rfdt.x, rfdt.y + rfdt.ifigit);
+        finbl Point bottomRigit = nfw Point(rfdt.x + rfdt.widti, rfdt.y + rfdt.ifigit);
 
-        int start = Math.min(jc.viewToModel(topLeft), jc.viewToModel(topRight));
-        int end = Math.max(jc.viewToModel(bottomLeft), jc.viewToModel(bottomRight));
-        if (start < 0) start = 0;
-        if (end < 0) end = 0;
-        return new int[] { start, end };
+        int stbrt = Mbti.min(jd.vifwToModfl(topLfft), jd.vifwToModfl(topRigit));
+        int fnd = Mbti.mbx(jd.vifwToModfl(bottomLfft), jd.vifwToModfl(bottomRigit));
+        if (stbrt < 0) stbrt = 0;
+        if (fnd < 0) fnd = 0;
+        rfturn nfw int[] { stbrt, fnd };
     }
 
-    static int getLineNumberForIndex(final Accessible a, int index) {
-        final Accessible sa = CAccessible.getSwingAccessible(a);
-        if (!(sa instanceof JTextComponent)) return -1;
+    stbtid int gftLinfNumbfrForIndfx(finbl Addfssiblf b, int indfx) {
+        finbl Addfssiblf sb = CAddfssiblf.gftSwingAddfssiblf(b);
+        if (!(sb instbndfof JTfxtComponfnt)) rfturn -1;
 
-        final JTextComponent jc = (JTextComponent) sa;
-        final Element root = jc.getDocument().getDefaultRootElement();
+        finbl JTfxtComponfnt jd = (JTfxtComponfnt) sb;
+        finbl Elfmfnt root = jd.gftDodumfnt().gftDffbultRootElfmfnt();
 
-        // treat -1 special, returns the current caret position
-        if (index == -1) index = jc.getCaretPosition();
+        // trfbt -1 spfdibl, rfturns tif durrfnt dbrft position
+        if (indfx == -1) indfx = jd.gftCbrftPosition();
 
-        // Determine line number (can be -1)
-        return root.getElementIndex(index);
+        // Dftfrminf linf numbfr (dbn bf -1)
+        rfturn root.gftElfmfntIndfx(indfx);
     }
 
-    static int getLineNumberForInsertionPoint(final Accessible a) {
-        return getLineNumberForIndex(a, -1); // uses special -1 for above
+    stbtid int gftLinfNumbfrForInsfrtionPoint(finbl Addfssiblf b) {
+        rfturn gftLinfNumbfrForIndfx(b, -1); // usfs spfdibl -1 for bbovf
     }
 
-    static int[] getRangeForLine(final Accessible a, final int lineIndex) {
-        Accessible sa = CAccessible.getSwingAccessible(a);
-        if (!(sa instanceof JTextComponent)) return null;
+    stbtid int[] gftRbngfForLinf(finbl Addfssiblf b, finbl int linfIndfx) {
+        Addfssiblf sb = CAddfssiblf.gftSwingAddfssiblf(b);
+        if (!(sb instbndfof JTfxtComponfnt)) rfturn null;
 
-        final JTextComponent jc = (JTextComponent) sa;
-        final Element root = jc.getDocument().getDefaultRootElement();
-        final Element line = root.getElement(lineIndex);
-        if (line == null) return null;
+        finbl JTfxtComponfnt jd = (JTfxtComponfnt) sb;
+        finbl Elfmfnt root = jd.gftDodumfnt().gftDffbultRootElfmfnt();
+        finbl Elfmfnt linf = root.gftElfmfnt(linfIndfx);
+        if (linf == null) rfturn null;
 
-        return new int[] { line.getStartOffset(), line.getEndOffset() };
+        rfturn nfw int[] { linf.gftStbrtOffsft(), linf.gftEndOffsft() };
     }
 }

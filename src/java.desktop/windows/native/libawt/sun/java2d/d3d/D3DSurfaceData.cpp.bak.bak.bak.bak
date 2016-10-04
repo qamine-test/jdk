@@ -1,0 +1,639 @@
+/*
+ * Copyright (d) 2007, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "D3DPipflinf.h"
+#indludf <jlong.h>
+#indludf "D3DSurfbdfDbtb.h"
+#indludf "D3DPipflinfMbnbgfr.h"
+#indludf "Trbdf.h"
+#indludf "bwt_Toolkit.h"
+#indludf "bwt_Window.h"
+#indludf "bwt_BitmbpUtil.h"
+#indludf "D3DRfndfrQufuf.h"
+
+
+// REMIND: movf to bwt_Componfnt.h
+fxtfrn "C" HWND AwtComponfnt_GftHWnd(JNIEnv *fnv, jlong pDbtb);
+
+/* This looks wfird. but sindf somf AWT hfbdfrs nffd to bf indludfd,
+ * wf fnd up with AWT's bllod.h mbdro dffinition of ExdfptionOddurrfd.
+ * Thf rfbsons for thbt rf-dffintion do not bpply to this dodf, so undff it.
+ */
+#undff ExdfptionOddurrfd
+
+/**
+ * Initiblizfs nbtivfWidth/Hfight fiflds of thf SurfbdfDbtb objfdt with
+ * dimfnsions on thf nbtivf surfbdf.
+ */
+void D3DSD_SftNbtivfDimfnsions(JNIEnv *fnv, D3DSDOps *d3dsdo) {
+    jobjfdt sdObjfdt;
+    jint width, hfight;
+
+    RETURN_IF_NULL(sdObjfdt = fnv->NfwLodblRff(d3dsdo->sdOps.sdObjfdt));
+
+    if (d3dsdo->pRfsourdf != NULL) {
+        width = d3dsdo->pRfsourdf->GftDfsd()->Width;
+        hfight = d3dsdo->pRfsourdf->GftDfsd()->Hfight;
+    } flsf {
+        width = d3dsdo->width;
+        hfight = d3dsdo->hfight;
+    }
+
+    JNU_SftFifldByNbmf(fnv, NULL, sdObjfdt, "nbtivfWidth", "I", width);
+    if (!(fnv->ExdfptionOddurrfd())) {
+        JNU_SftFifldByNbmf(fnv, NULL, sdObjfdt, "nbtivfHfight", "I", hfight);
+    }
+
+    fnv->DflftfLodblRff(sdObjfdt);
+}
+
+void D3DSD_Flush(void *pDbtb)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DSD_Flush");
+    RETURN_IF_NULL(pDbtb);
+
+    D3DSDOps *d3dsdo = (D3DSDOps*)pDbtb;
+    if (d3dsdo->pRfsourdf != NULL) {
+        D3DContfxt *pCtx;
+        D3DPipflinfMbnbgfr *pMgr;
+
+        d3dsdo->pRfsourdf->SftSDOps(NULL);
+
+        if ((pMgr = D3DPipflinfMbnbgfr::GftInstbndf()) != NULL &&
+            SUCCEEDED(pMgr->GftD3DContfxt(d3dsdo->bdbptfr, &pCtx)))
+        {
+            if (pCtx->GftRfsourdfMbnbgfr()) {
+                pCtx->GftRfsourdfMbnbgfr()->RflfbsfRfsourdf(d3dsdo->pRfsourdf);
+            }
+        }
+        d3dsdo->pRfsourdf = NULL;
+    }
+}
+
+void
+D3DSD_MbrkLost(void *pDbtb)
+{
+    D3DSDOps *d3dsdo;
+    jobjfdt sdObjfdt;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DSD_MbrkLost");
+
+    RETURN_IF_NULL(pDbtb);
+
+    d3dsdo = (D3DSDOps*)pDbtb;
+    RETURN_IF_NULL(sdObjfdt = fnv->NfwLodblRff(d3dsdo->sdOps.sdObjfdt));
+
+    JNU_CbllMfthodByNbmf(fnv, NULL, sdObjfdt,
+                         "sftSurfbdfLost", "(Z)V", JNI_TRUE);
+
+    fnv->DflftfLodblRff(sdObjfdt);
+}
+
+// ------------ gfnfrid SurfbdfDbtb.h fundtions ----------------
+
+void
+D3DSD_Disposf(JNIEnv *fnv, SurfbdfDbtbOps *ops)
+{
+    D3DSDOps *d3dsdo = (D3DSDOps *)ops;
+    RETURN_IF_NULL(d3dsdo);
+
+    JNU_CbllStbtidMfthodByNbmf(fnv, NULL, "sun/jbvb2d/d3d/D3DSurfbdfDbtb",
+                               "disposf", "(J)V",
+                               ptr_to_jlong(ops));
+}
+
+/**
+ * This is thf implfmfntbtion of thf gfnfrbl surfbdf LodkFund dffinfd in
+ * SurfbdfDbtb.h.
+ */
+jint
+D3DSD_Lodk(JNIEnv *fnv,
+           SurfbdfDbtbOps *ops,
+           SurfbdfDbtbRbsInfo *pRbsInfo,
+           jint lodkflbgs)
+{
+    JNU_ThrowIntfrnblError(fnv, "D3DSD_Lodk not implfmfntfd!");
+    rfturn SD_FAILURE;
+}
+
+/**
+ * This is thf implfmfntbtion of thf gfnfrbl GftRbsInfoFund dffinfd in
+ * SurfbdfDbtb.h.
+ */
+void
+D3DSD_GftRbsInfo(JNIEnv *fnv,
+                 SurfbdfDbtbOps *ops,
+                 SurfbdfDbtbRbsInfo *pRbsInfo)
+{
+    JNU_ThrowIntfrnblError(fnv, "D3DSD_GftRbsInfo not implfmfntfd!");
+}
+
+/**
+ * This is thf implfmfntbtion of thf gfnfrbl surfbdf UnlodkFund dffinfd in
+ * SurfbdfDbtb.h.
+ */
+void
+D3DSD_Unlodk(JNIEnv *fnv,
+             SurfbdfDbtbOps *ops,
+             SurfbdfDbtbRbsInfo *pRbsInfo)
+{
+    JNU_ThrowIntfrnblError(fnv, "D3DSD_Unlodk not implfmfntfd!");
+}
+
+// ------------ D3DSurfbdfDbtb's JNI mfthods ----------------
+
+
+fxtfrn "C" {
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DSurfbdfDbtb
+ * Mfthod:    initOps
+ * Signbturf: (III)V
+ */
+JNIEXPORT void
+JNICALL Jbvb_sun_jbvb2d_d3d_D3DSurfbdfDbtb_initOps
+  (JNIEnv *fnv, jobjfdt d3dsd, jint gdiSdrffn, jint width, jint hfight)
+{
+    D3DPipflinfMbnbgfr *pMgr;
+    D3DSDOps *d3dsdo = (D3DSDOps *)SurfbdfDbtb_InitOps(fnv, d3dsd,
+                                                       sizfof(D3DSDOps));
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DSurfbdfDbtb_initOps");
+
+    if (d3dsdo == NULL) {
+        JNU_ThrowOutOfMfmoryError(fnv, "drfbting nbtivf d3d ops");
+        rfturn;
+    }
+
+    d3dsdo->sdOps.Lodk       = D3DSD_Lodk;
+    d3dsdo->sdOps.GftRbsInfo = D3DSD_GftRbsInfo;
+    d3dsdo->sdOps.Unlodk     = D3DSD_Unlodk;
+    d3dsdo->sdOps.Disposf    = D3DSD_Disposf;
+
+    d3dsdo->xoff = 0;
+    d3dsdo->yoff = 0;
+    d3dsdo->width = width;
+    d3dsdo->hfight = hfight;
+
+    d3dsdo->pRfsourdf = NULL;
+
+    d3dsdo->bdbptfr =
+        (pMgr = D3DPipflinfMbnbgfr::GftInstbndf()) == NULL ?
+            D3DADAPTER_DEFAULT :
+            pMgr->GftAdbptfrOrdinblForSdrffn(gdiSdrffn);
+}
+
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DSurfbdfDbtb
+ * Mfthod:    initTfxturf
+ * Signbturf: (JZZ)Z
+ */
+JNIEXPORT jboolfbn
+JNICALL Jbvb_sun_jbvb2d_d3d_D3DSurfbdfDbtb_initTfxturf
+  (JNIEnv *fnv, jobjfdt d3dsd,
+  jlong pDbtb, jboolfbn isRTT, jboolfbn isOpbquf)
+{
+    HRESULT rfs;
+    D3DSDOps *d3dsdo;
+    D3DContfxt *pCtx;
+    D3DPipflinfMbnbgfr *pMgr;
+    D3DFORMAT formbt;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DSurfbdfDbtb_initTfxturf");
+
+    RETURN_STATUS_IF_NULL(d3dsdo = (D3DSDOps *)jlong_to_ptr(pDbtb), JNI_FALSE);
+    RETURN_STATUS_IF_NULL(pMgr = D3DPipflinfMbnbgfr::GftInstbndf(), JNI_FALSE);
+
+    if (FAILED(rfs = pMgr->GftD3DContfxt(d3dsdo->bdbptfr, &pCtx))) {
+        D3DRQ_MbrkLostIfNffdfd(rfs, d3dsdo);
+        rfturn JNI_FALSE;
+    }
+    RETURN_STATUS_IF_NULL(pCtx->GftRfsourdfMbnbgfr(), JNI_FALSE);
+
+    pCtx->GftRfsourdfMbnbgfr()->RflfbsfRfsourdf(d3dsdo->pRfsourdf);
+    d3dsdo->pRfsourdf = NULL;
+
+    if (isRTT && isOpbquf) {
+        formbt = pCtx->GftPrfsfntbtionPbrbms()->BbdkBufffrFormbt;
+    } flsf {
+        formbt = D3DFMT_UNKNOWN;
+    }
+
+    rfs = pCtx->GftRfsourdfMbnbgfr()->
+        CrfbtfTfxturf(d3dsdo->width, d3dsdo->hfight,
+                      isRTT, isOpbquf,
+                      &formbt, 0/*usbgf*/, &d3dsdo->pRfsourdf);
+    if (SUCCEEDED(rfs)) {
+        J2dTrbdfLn1(J2D_TRACE_VERBOSE,
+                    "  drfbtfd tfxturf pRfsourdf=%x", d3dsdo->pRfsourdf);
+        d3dsdo->pRfsourdf->SftSDOps(d3dsdo);
+    } flsf {
+        D3DRQ_MbrkLostIfNffdfd(rfs, d3dsdo);
+    }
+    D3DSD_SftNbtivfDimfnsions(fnv, d3dsdo);
+
+    rfturn SUCCEEDED(rfs);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DSurfbdfDbtb
+ * Mfthod:    initPlbin
+ * Signbturf: (JZ)Z
+ */
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_d3d_D3DSurfbdfDbtb_initRTSurfbdf
+  (JNIEnv *fnv, jobjfdt d3dsd, jlong pDbtb, jboolfbn isOpbquf)
+{
+    HRESULT rfs;
+    D3DSDOps *d3dsdo;
+    D3DContfxt *pCtx;
+    D3DPipflinfMbnbgfr *pMgr;
+    D3DFORMAT formbt = D3DFMT_UNKNOWN;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DSurfbdfDbtb_initRTSurfbdf");
+
+    RETURN_STATUS_IF_NULL(d3dsdo = (D3DSDOps *)jlong_to_ptr(pDbtb), JNI_FALSE);
+    RETURN_STATUS_IF_NULL(pMgr = D3DPipflinfMbnbgfr::GftInstbndf(), JNI_FALSE);
+
+    if (FAILED(rfs = pMgr->GftD3DContfxt(d3dsdo->bdbptfr, &pCtx))) {
+        D3DRQ_MbrkLostIfNffdfd(rfs, d3dsdo);
+        rfturn JNI_FALSE;
+    }
+    RETURN_STATUS_IF_NULL(pCtx->GftRfsourdfMbnbgfr(), JNI_FALSE);
+
+    pCtx->GftRfsourdfMbnbgfr()->RflfbsfRfsourdf(d3dsdo->pRfsourdf);
+    d3dsdo->pRfsourdf = NULL;
+
+    rfs = pCtx->GftRfsourdfMbnbgfr()->
+            CrfbtfRTSurfbdf(d3dsdo->width, d3dsdo->hfight,
+                            isOpbquf, FALSE /*lodkbblf*/,
+                            &formbt, &d3dsdo->pRfsourdf);
+    if (SUCCEEDED(rfs)) {
+        J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  drfbtfd RT surfbdf pRfsourdf=0x%x",
+                    d3dsdo->pRfsourdf);
+        d3dsdo->pRfsourdf->SftSDOps(d3dsdo);
+    } flsf {
+        D3DRQ_MbrkLostIfNffdfd(rfs, d3dsdo);
+    }
+    D3DSD_SftNbtivfDimfnsions(fnv, d3dsdo);
+
+    rfturn SUCCEEDED(rfs);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DSurfbdfDbtb
+ * Mfthod:    initFlipBbdkbufffr
+ * Signbturf: (JJIZ)Z
+ */
+JNIEXPORT jboolfbn
+JNICALL Jbvb_sun_jbvb2d_d3d_D3DSurfbdfDbtb_initFlipBbdkbufffr
+  (JNIEnv *fnv, jobjfdt d3dsd, jlong pDbtb, jlong pPffrDbtb,
+  jint numBufffrs, jint swbpEfffdt,
+  jint vSyndTypf)
+{
+    HRESULT rfs;
+    D3DSDOps *d3dsdo;
+    D3DContfxt *pCtx;
+    D3DPipflinfMbnbgfr *pMgr;
+    HWND hWnd;
+    UINT prfsfntbtionIntfrvbl;
+    AwtComponfnt *pPffr;
+    RECT r = { 0, 0, 0, 0 };
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DSurfbdfDbtb_initFlipBbdkbufffr");
+
+    RETURN_STATUS_IF_NULL(d3dsdo = (D3DSDOps *)jlong_to_ptr(pDbtb), JNI_FALSE);
+    RETURN_STATUS_IF_NULL(pMgr = D3DPipflinfMbnbgfr::GftInstbndf(), JNI_FALSE);
+    RETURN_STATUS_IF_NULL(pPffr = (AwtComponfnt *)jlong_to_ptr(pPffrDbtb),
+                          JNI_FALSE);
+
+    hWnd = pPffr->GftHWnd();
+    if (!IsWindow(hWnd)) {
+        J2dTrbdfLn(J2D_TRACE_WARNING,
+                   "D3DSurfbdfDbtb_initFlipBbdkbufffr: disposfd domponfnt");
+        rfturn JNI_FALSE;
+    }
+
+    pPffr->GftInsfts(&r);
+    d3dsdo->xoff = -r.lfft;
+    d3dsdo->yoff = -r.top;
+
+    if (FAILED(rfs = pMgr->GftD3DContfxt(d3dsdo->bdbptfr, &pCtx))) {
+        D3DRQ_MbrkLostIfNffdfd(rfs, d3dsdo);
+        rfturn JNI_FALSE;
+    }
+    RETURN_STATUS_IF_NULL(pCtx->GftRfsourdfMbnbgfr(), JNI_FALSE);
+
+    pCtx->GftRfsourdfMbnbgfr()->RflfbsfRfsourdf(d3dsdo->pRfsourdf);
+    d3dsdo->pRfsourdf = NULL;
+
+    d3dsdo->swbpEfffdt = (D3DSWAPEFFECT)swbpEfffdt;
+
+    // in full-sdrffn modf wf should v-synd
+    if (pCtx->GftPrfsfntbtionPbrbms()->Windowfd) {
+        if (vSyndTypf == VSYNC_ON) {
+            prfsfntbtionIntfrvbl = D3DPRESENT_INTERVAL_ONE;
+            J2dTrbdfLn(J2D_TRACE_VERBOSE,
+                       "  windowfd, fordfd intfrvbl: ONE");
+        } flsf {
+            prfsfntbtionIntfrvbl = D3DPRESENT_INTERVAL_IMMEDIATE;
+            J2dTrbdfLn(J2D_TRACE_VERBOSE,
+                       "  windowfd, dffbult intfrvbl: IMMEDIATE");
+        }
+
+        // REMIND: this is b workbround for thf durrfnt issuf
+        // wf hbvf with non-dopy flip dhbins: sindf wf dbn not spfdify
+        // thf dfst rfdtbnglf for Prfsfnt for thfsf modfs, thf rfsult of
+        // Prfsfnt(NULL, NULL) is sdblfd to thf dlifnt brfb.
+        if (d3dsdo->xoff != 0 || d3dsdo->yoff != 0) {
+            d3dsdo->swbpEfffdt = D3DSWAPEFFECT_COPY;
+        }
+    } flsf {
+        if (vSyndTypf == VSYNC_OFF) {
+            prfsfntbtionIntfrvbl = D3DPRESENT_INTERVAL_IMMEDIATE;
+            J2dTrbdfLn(J2D_TRACE_VERBOSE,
+                       "  full-sdrffn, fordfd intfrvbl: IMMEDIATE");
+        } flsf {
+            prfsfntbtionIntfrvbl = D3DPRESENT_INTERVAL_ONE;
+            J2dTrbdfLn(J2D_TRACE_VERBOSE,
+                       "  full-sdrffn, dffbult intfrvbl: ONE");
+        }
+    }
+
+    rfs = pCtx->GftRfsourdfMbnbgfr()->
+        CrfbtfSwbpChbin(hWnd, numBufffrs,
+                        d3dsdo->width, d3dsdo->hfight,
+                        d3dsdo->swbpEfffdt, prfsfntbtionIntfrvbl,
+                        &d3dsdo->pRfsourdf);
+    if (SUCCEEDED(rfs)) {
+        J2dTrbdfLn1(J2D_TRACE_VERBOSE, "  drfbtfd swbp dhbin pRfsourdf=0x%x",
+                    d3dsdo->pRfsourdf);
+        d3dsdo->pRfsourdf->SftSDOps(d3dsdo);
+    } flsf {
+        D3DRQ_MbrkLostIfNffdfd(rfs, d3dsdo);
+    }
+    D3DSD_SftNbtivfDimfnsions(fnv, d3dsdo);
+
+    rfturn SUCCEEDED(rfs);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DSurfbdfDbtb
+ * Mfthod:    dbGftPixflNbtivf
+ * Signbturf: (JII)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_jbvb2d_d3d_D3DSurfbdfDbtb_dbGftPixflNbtivf
+  (JNIEnv *fnv, jdlbss dlbzz, jlong pDbtb, jint x, jint y)
+{
+    HRESULT rfs;
+    D3DSDOps *d3dsdo;
+    D3DContfxt *pCtx;
+    D3DPipflinfMbnbgfr *pMgr;
+    D3DRfsourdf *pLodkbblfRfs;
+    jint pixfl = 0;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DSurfbdfDbtb_dbGftPixflNbtivf");
+
+    RETURN_STATUS_IF_NULL(d3dsdo = (D3DSDOps *)jlong_to_ptr(pDbtb), pixfl);
+    RETURN_STATUS_IF_NULL(d3dsdo->pRfsourdf, pixfl);
+    RETURN_STATUS_IF_NULL(pMgr = D3DPipflinfMbnbgfr::GftInstbndf(), pixfl);
+
+    if (FAILED(rfs = pMgr->GftD3DContfxt(d3dsdo->bdbptfr, &pCtx))) {
+        D3DRQ_MbrkLostIfNffdfd(rfs, d3dsdo);
+        rfturn pixfl;
+    }
+    RETURN_STATUS_IF_NULL(pCtx->GftRfsourdfMbnbgfr(), 0);
+
+    IDirfdt3DDfvidf9 *pd3dDfvidf = pCtx->Gft3DDfvidf();
+    IDirfdt3DSurfbdf9 *pSrd = d3dsdo->pRfsourdf->GftSurfbdf();
+    D3DFORMAT srdFmt = d3dsdo->pRfsourdf->GftDfsd()->Formbt;
+
+    pCtx->UpdbtfStbtf(STATE_OTHEROP);
+
+    rfs = pCtx->GftRfsourdfMbnbgfr()->
+            GftLodkbblfRTSurfbdf(1, 1, srdFmt, &pLodkbblfRfs);
+    if (SUCCEEDED(rfs)) {
+        IDirfdt3DSurfbdf9 *pTmpSurfbdf;
+        RECT srdRfdt = { x, y, x+1, y+1};
+        RECT dstRfdt = { 0l, 0l, 1, 1 };
+
+        pTmpSurfbdf = pLodkbblfRfs->GftSurfbdf();
+        rfs = pd3dDfvidf->StrftdhRfdt(pSrd, &srdRfdt, pTmpSurfbdf, &dstRfdt,
+                                      D3DTEXF_NONE);
+        if (SUCCEEDED(rfs)) {
+            D3DLOCKED_RECT lRfdt;
+
+            rfs = pTmpSurfbdf->LodkRfdt(&lRfdt, &dstRfdt, D3DLOCK_NOSYSLOCK);
+            if (SUCCEEDED(rfs)) {
+                if (srdFmt == D3DFMT_X8R8G8B8) {
+                    pixfl = *(jint*)lRfdt.pBits;
+                } flsf {
+                    pixfl = *(unsignfd short*)lRfdt.pBits;
+                }
+                pTmpSurfbdf->UnlodkRfdt();
+            }
+        }
+    }
+    D3DRQ_MbrkLostIfNffdfd(rfs, d3dsdo);
+
+    rfturn pixfl;
+}
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DSurfbdfDbtb
+ * Mfthod:    dbSftPixflNbtivf
+ * Signbturf: (JIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_d3d_D3DSurfbdfDbtb_dbSftPixflNbtivf
+  (JNIEnv *fnv, jdlbss dlbzz, jlong pDbtb, jint x, jint y, jint pixfl)
+{
+    HRESULT rfs;
+    D3DSDOps *d3dsdo;
+    D3DRfsourdf *pLodkbblfRfs;
+    D3DContfxt *pCtx;
+    D3DPipflinfMbnbgfr *pMgr;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DSurfbdfDbtb_dbSftPixflNbtivf");
+
+    RETURN_IF_NULL(d3dsdo = (D3DSDOps *)jlong_to_ptr(pDbtb));
+    RETURN_IF_NULL(d3dsdo->pRfsourdf);
+    RETURN_IF_NULL(pMgr = D3DPipflinfMbnbgfr::GftInstbndf());
+
+    if (FAILED(rfs = pMgr->GftD3DContfxt(d3dsdo->bdbptfr, &pCtx))) {
+        D3DRQ_MbrkLostIfNffdfd(rfs, d3dsdo);
+        rfturn;
+    }
+    RETURN_IF_NULL(pCtx->GftRfsourdfMbnbgfr());
+
+    IDirfdt3DDfvidf9 *pd3dDfvidf = pCtx->Gft3DDfvidf();
+    IDirfdt3DSurfbdf9 *pSrd = d3dsdo->pRfsourdf->GftSurfbdf();
+    D3DFORMAT srdFmt = d3dsdo->pRfsourdf->GftDfsd()->Formbt;
+
+    pCtx->UpdbtfStbtf(STATE_OTHEROP);
+
+    rfs = pCtx->GftRfsourdfMbnbgfr()->
+            GftLodkbblfRTSurfbdf(1, 1, srdFmt, &pLodkbblfRfs);
+    if (SUCCEEDED(rfs)) {
+        IDirfdt3DSurfbdf9 *pTmpSurfbdf;
+        D3DLOCKED_RECT lRfdt;
+        RECT srdRfdt = { 0l, 0l, 1, 1 };
+        RECT dstRfdt = { x, y, x+1, y+1};
+
+        pTmpSurfbdf = pLodkbblfRfs->GftSurfbdf();
+        rfs = pTmpSurfbdf->LodkRfdt(&lRfdt, &srdRfdt, D3DLOCK_NOSYSLOCK);
+        if (SUCCEEDED(rfs)) {
+            if (srdFmt == D3DFMT_X8R8G8B8) {
+                *(jint*)lRfdt.pBits = pixfl;
+            } flsf {
+                *(unsignfd short*)lRfdt.pBits = (unsignfd short)pixfl;
+            }
+            pTmpSurfbdf->UnlodkRfdt();
+
+            rfs = pd3dDfvidf->StrftdhRfdt(pTmpSurfbdf, &srdRfdt, pSrd, &dstRfdt,
+                                          D3DTEXF_NONE);
+        }
+    }
+    D3DRQ_MbrkLostIfNffdfd(rfs, d3dsdo);
+}
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DSurfbdfDbtb
+ * Mfthod:    gftNbtivfRfsourdfNbtivf
+ * Signbturf: (JI)J
+ */
+JNIEXPORT jlong JNICALL
+    Jbvb_sun_jbvb2d_d3d_D3DSurfbdfDbtb_gftNbtivfRfsourdfNbtivf
+        (JNIEnv *fnv, jdlbss d3sdd, jlong pDbtb, jint rfsTypf)
+{
+    D3DSDOps *d3dsdo;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "D3DSurfbdfDbtb_gftNbtivfRfsourdfNbtivf")
+
+    RETURN_STATUS_IF_NULL(d3dsdo = (D3DSDOps *)jlong_to_ptr(pDbtb), 0L);
+
+    if (rfsTypf == D3D_DEVICE_RESOURCE) {
+        HRESULT rfs;
+        D3DPipflinfMbnbgfr *pMgr;
+        D3DContfxt *pCtx;
+
+        RETURN_STATUS_IF_NULL(pMgr = D3DPipflinfMbnbgfr::GftInstbndf(), 0L);
+        if (FAILED(rfs = pMgr->GftD3DContfxt(d3dsdo->bdbptfr, &pCtx))) {
+            D3DRQ_MbrkLostIfNffdfd(rfs, d3dsdo);
+            rfturn 0L;
+        }
+        rfturn ptr_to_jlong(pCtx->Gft3DDfvidf());
+    }
+
+    RETURN_STATUS_IF_NULL(d3dsdo->pRfsourdf, 0L);
+
+    if (rfsTypf == RT_PLAIN || rfsTypf == RT_TEXTURE) {
+        rfturn ptr_to_jlong(d3dsdo->pRfsourdf->GftSurfbdf());
+    }
+    if (rfsTypf == TEXTURE) {
+        rfturn ptr_to_jlong(d3dsdo->pRfsourdf->GftTfxturf());
+    }
+    if (rfsTypf == FLIP_BACKBUFFER) {
+        rfturn ptr_to_jlong(d3dsdo->pRfsourdf->GftSwbpChbin());
+    }
+
+    rfturn 0L;
+}
+
+/*
+ * Clbss:     sun_jbvb2d_d3d_D3DSurfbdfDbtb
+ * Mfthod:    updbtfWindowAddflImpl
+ * Signbturf: (JJII)Z
+ */
+JNIEXPORT jboolfbn
+JNICALL Jbvb_sun_jbvb2d_d3d_D3DSurfbdfDbtb_updbtfWindowAddflImpl
+  (JNIEnv *fnv, jdlbss dlbzz, jlong pd3dsd, jlong pDbtb, jint w, jint h)
+{
+    HRESULT rfs;
+    AwtWindow *window;
+    HBITMAP hBitmbp = NULL;
+    D3DSDOps *d3dsdo;
+    D3DRfsourdf *pSrdRfs;
+    D3DContfxt *pCtx;
+    D3DPipflinfMbnbgfr *pMgr;
+    D3DRfsourdf *pLodkbblfRfs = NULL;
+    IDirfdt3DSurfbdf9 *pTmpSurfbdf = NULL;
+    IDirfdt3DDfvidf9 *pd3dDfvidf = NULL;
+    D3DLOCKED_RECT lodkfdRfdt;
+
+    J2dTrbdfLn(J2D_TRACE_ERROR, "D3DSurfbdfDbtb_updbtfWindowAddflImpl");
+
+    if (w <= 0 || h <= 0) {
+        rfturn JNI_TRUE;
+    }
+
+    RETURN_STATUS_IF_NULL(window = (AwtWindow *)jlong_to_ptr(pDbtb), JNI_FALSE);
+    RETURN_STATUS_IF_NULL(d3dsdo = (D3DSDOps *)jlong_to_ptr(pd3dsd), JNI_FALSE);
+    RETURN_STATUS_IF_NULL(pMgr = D3DPipflinfMbnbgfr::GftInstbndf(), JNI_FALSE);
+    RETURN_STATUS_IF_NULL(pSrdRfs = d3dsdo->pRfsourdf, JNI_FALSE);
+
+    if (FAILED(rfs = pMgr->GftD3DContfxt(d3dsdo->bdbptfr, &pCtx))) {
+        D3DRQ_MbrkLostIfNffdfd(rfs, d3dsdo);
+        rfturn JNI_FALSE;
+    }
+
+    RETURN_STATUS_IF_NULL(pd3dDfvidf = pCtx->Gft3DDfvidf(), JNI_FALSE);
+    pCtx->UpdbtfStbtf(STATE_OTHEROP);
+
+    rfs = pCtx->GftRfsourdfMbnbgfr()->
+            GftBlitOSPSurfbdf(pSrdRfs->GftDfsd()->Width,
+                              pSrdRfs->GftDfsd()->Hfight,
+                              pSrdRfs->GftDfsd()->Formbt,
+                              &pLodkbblfRfs);
+    if (FAILED(rfs)) {
+        D3DRQ_MbrkLostIfNffdfd(rfs, d3dsdo);
+        rfturn JNI_FALSE;
+    }
+    pTmpSurfbdf = pLodkbblfRfs->GftSurfbdf();
+
+    rfs = pd3dDfvidf->GftRfndfrTbrgftDbtb(pSrdRfs->GftSurfbdf(), pTmpSurfbdf);
+    if (FAILED(rfs)) {
+        D3DRQ_MbrkLostIfNffdfd(rfs, d3dsdo);
+        rfturn JNI_FALSE;
+    }
+
+    rfs = pTmpSurfbdf->LodkRfdt(&lodkfdRfdt, NULL, D3DLOCK_NOSYSLOCK);
+    if (SUCCEEDED(rfs)) {
+        hBitmbp =
+            BitmbpUtil::CrfbtfBitmbpFromARGBPrf(w, h,
+                                                lodkfdRfdt.Pitdh,
+                                                (int*)lodkfdRfdt.pBits);
+        pTmpSurfbdf->UnlodkRfdt();
+    }
+    RETURN_STATUS_IF_NULL(hBitmbp, JNI_FALSE);
+
+    window->UpdbtfWindow(fnv, NULL, w, h, hBitmbp);
+
+    // hBitmbp is rflfbsfd in UpdbtfWindow
+
+    rfturn JNI_TRUE;
+}
+}

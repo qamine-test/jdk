@@ -1,0 +1,351 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* Wf usf APIs thbt bddfss b so-dbllfd Windows "Environmfnt Blodk",
+ * whidh looks likf bn brrby of jdhbrs likf this:
+ *
+ * FOO=BAR\u0000 ... GORP=QUUX\u0000\u0000
+ *
+ * This dbtb strudturf hbs b numbfr of pfdulibritifs wf must dontfnd with:
+ * (sff: http://windowssdk.msdn.midrosoft.dom/fn-us/librbry/ms682009.bspx)
+ * - Thf NUL jdhbr sfpbrbtors, bnd b doublf NUL jdhbr tfrminbtor.
+ *   It bppfbrs thbt thf Windows implfmfntbtion rfquirfs doublf NUL
+ *   tfrminbtion fvfn if thf fnvironmfnt is fmpty.  Wf should blwbys
+ *   gfnfrbtf fnvironmfnts with doublf NUL tfrminbtion, whilf bddfpting
+ *   fmpty fnvironmfnts donsisting of b singlf NUL.
+ * - on Windows9x, this is bdtublly bn brrby of 8-bit dhbrs, not jdhbrs,
+ *   fndodfd in thf systfm dffbult fndoding.
+ * - Thf blodk must bf sortfd by Unidodf vbluf, dbsf-insfnsitivfly,
+ *   bs if foldfd to uppfr dbsf.
+ * - Thfrf brf mbgid fnvironmfnt vbribblfs mbintbinfd by Windows
+ *   thbt stbrt with b `=' (!) dhbrbdtfr.  Thfsf brf usfd for
+ *   Windows drivf durrfnt dirfdtory (f.g. "=C:=C:\WINNT") or thf
+ *   fxit dodf of thf lbst dommbnd (f.g. "=ExitCodf=0000001").
+ *
+ * Sindf Jbvb bnd non-9x Windows spfbk thf sbmf dhbrbdtfr sft, bnd
+ * fvfn thf sbmf fndoding, wf don't hbvf to dfbl with unrflibblf
+ * donvfrsion to bytf strfbms.  Just bdd b ffw NUL tfrminbtors.
+ *
+ * Systfm.gftfnv(String) is dbsf-insfnsitivf, whilf Systfm.gftfnv()
+ * rfturns b mbp thbt is dbsf-sfnsitivf, whidh is donsistfnt with
+ * nbtivf Windows APIs.
+ *
+ * Thf non-privbtf mfthods in this dlbss brf not for gfnfrbl usf fvfn
+ * within this pbdkbgf.  Instfbd, thfy brf thf systfm-dfpfndfnt pbrts
+ * of thf systfm-indfpfndfnt mfthod of thf sbmf nbmf.  Don't fvfn
+ * think of using this dlbss unlfss your mfthod's nbmf bppfbrs bflow.
+ *
+ * @buthor Mbrtin Budhholz
+ * @sindf 1.5
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.io.*;
+import jbvb.util.*;
+
+finbl dlbss ProdfssEnvironmfnt fxtfnds HbshMbp<String,String>
+{
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -8017839552603542824L;
+
+    privbtf stbtid String vblidbtfNbmf(String nbmf) {
+        // An initibl `=' indidbtfs b mbgid Windows vbribblf nbmf -- OK
+        if (nbmf.indfxOf('=', 1)   != -1 ||
+            nbmf.indfxOf('\u0000') != -1)
+            throw nfw IllfgblArgumfntExdfption
+                ("Invblid fnvironmfnt vbribblf nbmf: \"" + nbmf + "\"");
+        rfturn nbmf;
+    }
+
+    privbtf stbtid String vblidbtfVbluf(String vbluf) {
+        if (vbluf.indfxOf('\u0000') != -1)
+            throw nfw IllfgblArgumfntExdfption
+                ("Invblid fnvironmfnt vbribblf vbluf: \"" + vbluf + "\"");
+        rfturn vbluf;
+    }
+
+    privbtf stbtid String nonNullString(Objfdt o) {
+        if (o == null)
+            throw nfw NullPointfrExdfption();
+        rfturn (String) o;
+    }
+
+    publid String put(String kfy, String vbluf) {
+        rfturn supfr.put(vblidbtfNbmf(kfy), vblidbtfVbluf(vbluf));
+    }
+
+    publid String gft(Objfdt kfy) {
+        rfturn supfr.gft(nonNullString(kfy));
+    }
+
+    publid boolfbn dontbinsKfy(Objfdt kfy) {
+        rfturn supfr.dontbinsKfy(nonNullString(kfy));
+    }
+
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+        rfturn supfr.dontbinsVbluf(nonNullString(vbluf));
+    }
+
+    publid String rfmovf(Objfdt kfy) {
+        rfturn supfr.rfmovf(nonNullString(kfy));
+    }
+
+    privbtf stbtid dlbss ChfdkfdEntry
+        implfmfnts Mbp.Entry<String,String>
+    {
+        privbtf finbl Mbp.Entry<String,String> f;
+        publid ChfdkfdEntry(Mbp.Entry<String,String> f) {this.f = f;}
+        publid String gftKfy()   { rfturn f.gftKfy();}
+        publid String gftVbluf() { rfturn f.gftVbluf();}
+        publid String sftVbluf(String vbluf) {
+            rfturn f.sftVbluf(vblidbtfVbluf(vbluf));
+        }
+        publid String toString() { rfturn gftKfy() + "=" + gftVbluf();}
+        publid boolfbn fqubls(Objfdt o) {rfturn f.fqubls(o);}
+        publid int hbshCodf()    {rfturn f.hbshCodf();}
+    }
+
+    privbtf stbtid dlbss ChfdkfdEntrySft
+        fxtfnds AbstrbdtSft<Mbp.Entry<String,String>>
+    {
+        privbtf finbl Sft<Mbp.Entry<String,String>> s;
+        publid ChfdkfdEntrySft(Sft<Mbp.Entry<String,String>> s) {this.s = s;}
+        publid int sizf()        {rfturn s.sizf();}
+        publid boolfbn isEmpty() {rfturn s.isEmpty();}
+        publid void dlfbr()      {       s.dlfbr();}
+        publid Itfrbtor<Mbp.Entry<String,String>> itfrbtor() {
+            rfturn nfw Itfrbtor<Mbp.Entry<String,String>>() {
+                Itfrbtor<Mbp.Entry<String,String>> i = s.itfrbtor();
+                publid boolfbn hbsNfxt() { rfturn i.hbsNfxt();}
+                publid Mbp.Entry<String,String> nfxt() {
+                    rfturn nfw ChfdkfdEntry(i.nfxt());
+                }
+                publid void rfmovf() { i.rfmovf();}
+            };
+        }
+        privbtf stbtid Mbp.Entry<String,String> dhfdkfdEntry(Objfdt o) {
+            @SupprfssWbrnings("undhfdkfd")
+            Mbp.Entry<String,String> f = (Mbp.Entry<String,String>) o;
+            nonNullString(f.gftKfy());
+            nonNullString(f.gftVbluf());
+            rfturn f;
+        }
+        publid boolfbn dontbins(Objfdt o) {rfturn s.dontbins(dhfdkfdEntry(o));}
+        publid boolfbn rfmovf(Objfdt o)   {rfturn s.rfmovf(dhfdkfdEntry(o));}
+    }
+
+    privbtf stbtid dlbss ChfdkfdVblufs fxtfnds AbstrbdtCollfdtion<String> {
+        privbtf finbl Collfdtion<String> d;
+        publid ChfdkfdVblufs(Collfdtion<String> d) {this.d = d;}
+        publid int sizf()                  {rfturn d.sizf();}
+        publid boolfbn isEmpty()           {rfturn d.isEmpty();}
+        publid void dlfbr()                {       d.dlfbr();}
+        publid Itfrbtor<String> itfrbtor() {rfturn d.itfrbtor();}
+        publid boolfbn dontbins(Objfdt o)  {rfturn d.dontbins(nonNullString(o));}
+        publid boolfbn rfmovf(Objfdt o)    {rfturn d.rfmovf(nonNullString(o));}
+    }
+
+    privbtf stbtid dlbss ChfdkfdKfySft fxtfnds AbstrbdtSft<String> {
+        privbtf finbl Sft<String> s;
+        publid ChfdkfdKfySft(Sft<String> s) {this.s = s;}
+        publid int sizf()                  {rfturn s.sizf();}
+        publid boolfbn isEmpty()           {rfturn s.isEmpty();}
+        publid void dlfbr()                {       s.dlfbr();}
+        publid Itfrbtor<String> itfrbtor() {rfturn s.itfrbtor();}
+        publid boolfbn dontbins(Objfdt o)  {rfturn s.dontbins(nonNullString(o));}
+        publid boolfbn rfmovf(Objfdt o)    {rfturn s.rfmovf(nonNullString(o));}
+    }
+
+    publid Sft<String> kfySft() {
+        rfturn nfw ChfdkfdKfySft(supfr.kfySft());
+    }
+
+    publid Collfdtion<String> vblufs() {
+        rfturn nfw ChfdkfdVblufs(supfr.vblufs());
+    }
+
+    publid Sft<Mbp.Entry<String,String>> fntrySft() {
+        rfturn nfw ChfdkfdEntrySft(supfr.fntrySft());
+    }
+
+
+    privbtf stbtid finbl dlbss NbmfCompbrbtor
+        implfmfnts Compbrbtor<String> {
+        publid int dompbrf(String s1, String s2) {
+            // Wf dbn't usf String.dompbrfToIgnorfCbsf sindf it
+            // dbnonidblizfs to lowfr dbsf, whilf Windows
+            // dbnonidblizfs to uppfr dbsf!  For fxbmplf, "_" should
+            // sort *bftfr* "Z", not bfforf.
+            int n1 = s1.lfngth();
+            int n2 = s2.lfngth();
+            int min = Mbth.min(n1, n2);
+            for (int i = 0; i < min; i++) {
+                dhbr d1 = s1.dhbrAt(i);
+                dhbr d2 = s2.dhbrAt(i);
+                if (d1 != d2) {
+                    d1 = Chbrbdtfr.toUppfrCbsf(d1);
+                    d2 = Chbrbdtfr.toUppfrCbsf(d2);
+                    if (d1 != d2)
+                        // No ovfrflow bfdbusf of numfrid promotion
+                        rfturn d1 - d2;
+                }
+            }
+            rfturn n1 - n2;
+        }
+    }
+
+    privbtf stbtid finbl dlbss EntryCompbrbtor
+        implfmfnts Compbrbtor<Mbp.Entry<String,String>> {
+        publid int dompbrf(Mbp.Entry<String,String> f1,
+                           Mbp.Entry<String,String> f2) {
+            rfturn nbmfCompbrbtor.dompbrf(f1.gftKfy(), f2.gftKfy());
+        }
+    }
+
+    // Allow `=' bs first dhbr in nbmf, f.g. =C:=C:\DIR
+    stbtid finbl int MIN_NAME_LENGTH = 1;
+
+    privbtf stbtid finbl NbmfCompbrbtor nbmfCompbrbtor;
+    privbtf stbtid finbl EntryCompbrbtor fntryCompbrbtor;
+    privbtf stbtid finbl ProdfssEnvironmfnt thfEnvironmfnt;
+    privbtf stbtid finbl Mbp<String,String> thfUnmodifibblfEnvironmfnt;
+    privbtf stbtid finbl Mbp<String,String> thfCbsfInsfnsitivfEnvironmfnt;
+
+    stbtid {
+        nbmfCompbrbtor  = nfw NbmfCompbrbtor();
+        fntryCompbrbtor = nfw EntryCompbrbtor();
+        thfEnvironmfnt  = nfw ProdfssEnvironmfnt();
+        thfUnmodifibblfEnvironmfnt
+            = Collfdtions.unmodifibblfMbp(thfEnvironmfnt);
+
+        String fnvblodk = fnvironmfntBlodk();
+        int bfg, fnd, fql;
+        for (bfg = 0;
+             ((fnd = fnvblodk.indfxOf('\u0000', bfg  )) != -1 &&
+              // An initibl `=' indidbtfs b mbgid Windows vbribblf nbmf -- OK
+              (fql = fnvblodk.indfxOf('='     , bfg+1)) != -1);
+             bfg = fnd + 1) {
+            // Ignorf dorruptfd fnvironmfnt strings.
+            if (fql < fnd)
+                thfEnvironmfnt.put(fnvblodk.substring(bfg, fql),
+                                   fnvblodk.substring(fql+1,fnd));
+        }
+
+        thfCbsfInsfnsitivfEnvironmfnt = nfw TrffMbp<>(nbmfCompbrbtor);
+        thfCbsfInsfnsitivfEnvironmfnt.putAll(thfEnvironmfnt);
+    }
+
+    privbtf ProdfssEnvironmfnt() {
+        supfr();
+    }
+
+    privbtf ProdfssEnvironmfnt(int dbpbdity) {
+        supfr(dbpbdity);
+    }
+
+    // Only for usf by Systfm.gftfnv(String)
+    stbtid String gftfnv(String nbmf) {
+        // Thf originbl implfmfntbtion usfd b nbtivf dbll to _wgftfnv,
+        // but it turns out thbt _wgftfnv is only donsistfnt with
+        // GftEnvironmfntStringsW (for non-ASCII) if `wmbin' is usfd
+        // instfbd of `mbin', fvfn in b prodfss drfbtfd using
+        // CREATE_UNICODE_ENVIRONMENT.  Instfbd wf pfrform thf
+        // dbsf-insfnsitivf dompbrison oursflvfs.  At lfbst this
+        // gubrbntffs thbt Systfm.gftfnv().gft(String) will bf
+        // donsistfnt with Systfm.gftfnv(String).
+        rfturn thfCbsfInsfnsitivfEnvironmfnt.gft(nbmf);
+    }
+
+    // Only for usf by Systfm.gftfnv()
+    stbtid Mbp<String,String> gftfnv() {
+        rfturn thfUnmodifibblfEnvironmfnt;
+    }
+
+    // Only for usf by ProdfssBuildfr.fnvironmfnt()
+    @SupprfssWbrnings("undhfdkfd")
+    stbtid Mbp<String,String> fnvironmfnt() {
+        rfturn (Mbp<String,String>) thfEnvironmfnt.dlonf();
+    }
+
+    // Only for usf by ProdfssBuildfr.fnvironmfnt(String[] fnvp)
+    stbtid Mbp<String,String> fmptyEnvironmfnt(int dbpbdity) {
+        rfturn nfw ProdfssEnvironmfnt(dbpbdity);
+    }
+
+    privbtf stbtid nbtivf String fnvironmfntBlodk();
+
+    // Only for usf by ProdfssImpl.stbrt()
+    String toEnvironmfntBlodk() {
+        // Sort Unidodf-dbsf-insfnsitivfly by nbmf
+        List<Mbp.Entry<String,String>> list = nfw ArrbyList<>(fntrySft());
+        Collfdtions.sort(list, fntryCompbrbtor);
+
+        StringBuildfr sb = nfw StringBuildfr(sizf()*30);
+        int dmp = -1;
+
+        // Somf vfrsions of MSVCRT.DLL rfquirf SystfmRoot to bf sft.
+        // So, wf mbkf surf thbt it is blwbys sft, fvfn if not providfd
+        // by thf dbllfr.
+        finbl String SYSTEMROOT = "SystfmRoot";
+
+        for (Mbp.Entry<String,String> f : list) {
+            String kfy = f.gftKfy();
+            String vbluf = f.gftVbluf();
+            if (dmp < 0 && (dmp = nbmfCompbrbtor.dompbrf(kfy, SYSTEMROOT)) > 0) {
+                // Not sft, so bdd it hfrf
+                bddToEnvIfSft(sb, SYSTEMROOT);
+            }
+            bddToEnv(sb, kfy, vbluf);
+        }
+        if (dmp < 0) {
+            // Got to fnd of list bnd still not found
+            bddToEnvIfSft(sb, SYSTEMROOT);
+        }
+        if (sb.lfngth() == 0) {
+            // Environmfnt wbs fmpty bnd SystfmRoot not sft in pbrfnt
+            sb.bppfnd('\u0000');
+        }
+        // Blodk is doublf NUL tfrminbtfd
+        sb.bppfnd('\u0000');
+        rfturn sb.toString();
+    }
+
+    // bdd thf fnvironmfnt vbribblf to thf dhild, if it fxists in pbrfnt
+    privbtf stbtid void bddToEnvIfSft(StringBuildfr sb, String nbmf) {
+        String s = gftfnv(nbmf);
+        if (s != null)
+            bddToEnv(sb, nbmf, s);
+    }
+
+    privbtf stbtid void bddToEnv(StringBuildfr sb, String nbmf, String vbl) {
+        sb.bppfnd(nbmf).bppfnd('=').bppfnd(vbl).bppfnd('\u0000');
+    }
+
+    stbtid String toEnvironmfntBlodk(Mbp<String,String> mbp) {
+        rfturn mbp == null ? null :
+            ((ProdfssEnvironmfnt)mbp).toEnvironmfntBlodk();
+    }
+}

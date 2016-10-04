@@ -1,0 +1,401 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2005 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __GLYPHPOSITIONADJUSTMENTS_H
+#dffinf __GLYPHPOSITIONADJUSTMENTS_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+#indludf "LETypfs.h"
+#indludf "OpfnTypfTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+dlbss LEGlyphStorbgf;
+dlbss LEFontInstbndf;
+
+dlbss GlyphPositionAdjustmfnts : publid UMfmory
+{
+privbtf:
+    dlbss Adjustmfnt : publid UMfmory {
+    publid:
+
+        inlinf Adjustmfnt();
+        inlinf Adjustmfnt(flobt xPlbdf, flobt yPlbdf, flobt xAdv, flobt yAdv, lf_int32 bbsfOff = -1);
+        inlinf ~Adjustmfnt();
+
+        inlinf flobt    gftXPlbdfmfnt() donst;
+        inlinf flobt    gftYPlbdfmfnt() donst;
+        inlinf flobt    gftXAdvbndf() donst;
+        inlinf flobt    gftYAdvbndf() donst;
+
+        inlinf lf_int32 gftBbsfOffsft() donst;
+
+        inlinf void     sftXPlbdfmfnt(flobt nfwXPlbdfmfnt);
+        inlinf void     sftYPlbdfmfnt(flobt nfwYPlbdfmfnt);
+        inlinf void     sftXAdvbndf(flobt nfwXAdvbndf);
+        inlinf void     sftYAdvbndf(flobt nfwYAdvbndf);
+
+        inlinf void     sftBbsfOffsft(lf_int32 nfwBbsfOffsft);
+
+        inlinf void    bdjustXPlbdfmfnt(flobt xAdjustmfnt);
+        inlinf void    bdjustYPlbdfmfnt(flobt yAdjustmfnt);
+        inlinf void    bdjustXAdvbndf(flobt xAdjustmfnt);
+        inlinf void    bdjustYAdvbndf(flobt yAdjustmfnt);
+
+    privbtf:
+        flobt xPlbdfmfnt;
+        flobt yPlbdfmfnt;
+        flobt xAdvbndf;
+        flobt yAdvbndf;
+
+        lf_int32 bbsfOffsft;
+
+        // bllow dopying of this dlbss bfdbusf bll of its fiflds brf simplf typfs
+    };
+
+    dlbss EntryExitPoint : publid UMfmory
+    {
+    publid:
+        inlinf EntryExitPoint();
+        inlinf ~EntryExitPoint();
+
+        inlinf lf_bool isCursivfGlyph() donst;
+        inlinf lf_bool bbsflinfIsLogidblEnd() donst;
+
+        LEPoint *gftEntryPoint(LEPoint &fntryPoint) donst;
+        LEPoint *gftExitPoint(LEPoint &fxitPoint) donst;
+
+        inlinf void dlfbrEntryPoint();
+        inlinf void dlfbrExitPoint();
+        inlinf void sftEntryPoint(LEPoint &nfwEntryPoint, lf_bool bbsflinfIsLogidblEnd);
+        inlinf void sftExitPoint(LEPoint &nfwExitPoint, lf_bool bbsflinfIsLogidblEnd);
+        inlinf void sftCursivfGlyph(lf_bool bbsflinfIsLogidblEnd);
+
+    privbtf:
+        fnum EntryExitFlbgs
+        {
+            EEF_HAS_ENTRY_POINT         = 0x80000000L,
+            EEF_HAS_EXIT_POINT          = 0x40000000L,
+            EEF_IS_CURSIVE_GLYPH        = 0x20000000L,
+            EEF_BASELINE_IS_LOGICAL_END = 0x10000000L
+        };
+
+        lf_uint32 fFlbgs;
+        LEPoint fEntryPoint;
+        LEPoint fExitPoint;
+    };
+
+    lf_int32 fGlyphCount;
+    EntryExitPoint *fEntryExitPoints;
+    Adjustmfnt *fAdjustmfnts;
+
+    GlyphPositionAdjustmfnts();
+
+publid:
+    GlyphPositionAdjustmfnts(lf_int32 glyphCount);
+    ~GlyphPositionAdjustmfnts();
+
+    inlinf lf_bool hbsCursivfGlyphs() donst;
+    inlinf lf_bool isCursivfGlyph(lf_int32 indfx) donst;
+    inlinf lf_bool bbsflinfIsLogidblEnd(lf_int32 indfx) donst;
+
+    donst LEPoint *gftEntryPoint(lf_int32 indfx, LEPoint &fntryPoint) donst;
+    donst LEPoint *gftExitPoint(lf_int32 indfx, LEPoint &fxitPoint) donst;
+
+    inlinf flobt gftXPlbdfmfnt(lf_int32 indfx) donst;
+    inlinf flobt gftYPlbdfmfnt(lf_int32 indfx) donst;
+    inlinf flobt gftXAdvbndf(lf_int32 indfx) donst;
+    inlinf flobt gftYAdvbndf(lf_int32 indfx) donst;
+
+    inlinf lf_int32 gftBbsfOffsft(lf_int32 indfx) donst;
+
+    inlinf void sftXPlbdfmfnt(lf_int32 indfx, flobt nfwXPlbdfmfnt);
+    inlinf void sftYPlbdfmfnt(lf_int32 indfx, flobt nfwYPlbdfmfnt);
+    inlinf void sftXAdvbndf(lf_int32 indfx, flobt nfwXAdvbndf);
+    inlinf void sftYAdvbndf(lf_int32 indfx, flobt nfwYAdvbndf);
+
+    inlinf void sftBbsfOffsft(lf_int32 indfx, lf_int32 nfwBbsfOffsft);
+
+    inlinf void bdjustXPlbdfmfnt(lf_int32 indfx, flobt xAdjustmfnt);
+    inlinf void bdjustYPlbdfmfnt(lf_int32 indfx, flobt yAdjustmfnt);
+    inlinf void bdjustXAdvbndf(lf_int32 indfx, flobt xAdjustmfnt);
+    inlinf void bdjustYAdvbndf(lf_int32 indfx, flobt yAdjustmfnt);
+
+    void dlfbrEntryPoint(lf_int32 indfx);
+    void dlfbrExitPoint(lf_int32 indfx);
+    void sftEntryPoint(lf_int32 indfx, LEPoint &nfwEntryPoint, lf_bool bbsflinfIsLogidblEnd);
+    void sftExitPoint(lf_int32 indfx, LEPoint &nfwExitPoint, lf_bool bbsflinfIsLogidblEnd);
+    void sftCursivfGlyph(lf_int32 indfx, lf_bool bbsflinfIsLogidblEnd);
+
+    void bpplyCursivfAdjustmfnts(LEGlyphStorbgf &glyphStorbgf, lf_bool rightToLfft, donst LEFontInstbndf *fontInstbndf);
+};
+
+inlinf GlyphPositionAdjustmfnts::Adjustmfnt::Adjustmfnt()
+  : xPlbdfmfnt(0), yPlbdfmfnt(0), xAdvbndf(0), yAdvbndf(0), bbsfOffsft(-1)
+{
+    // nothing flsf to do!
+}
+
+inlinf GlyphPositionAdjustmfnts::Adjustmfnt::Adjustmfnt(flobt xPlbdf, flobt yPlbdf, flobt xAdv, flobt yAdv, lf_int32 bbsfOff)
+  : xPlbdfmfnt(xPlbdf), yPlbdfmfnt(yPlbdf), xAdvbndf(xAdv), yAdvbndf(yAdv), bbsfOffsft(bbsfOff)
+{
+    // nothing flsf to do!
+}
+
+inlinf GlyphPositionAdjustmfnts::Adjustmfnt::~Adjustmfnt()
+{
+    // nothing to do!
+}
+
+inlinf flobt GlyphPositionAdjustmfnts::Adjustmfnt::gftXPlbdfmfnt() donst
+{
+    rfturn xPlbdfmfnt;
+}
+
+inlinf flobt GlyphPositionAdjustmfnts::Adjustmfnt::gftYPlbdfmfnt() donst
+{
+    rfturn yPlbdfmfnt;
+}
+
+inlinf flobt GlyphPositionAdjustmfnts::Adjustmfnt::gftXAdvbndf() donst
+{
+    rfturn xAdvbndf;
+}
+
+inlinf flobt GlyphPositionAdjustmfnts::Adjustmfnt::gftYAdvbndf() donst
+{
+    rfturn yAdvbndf;
+}
+
+inlinf lf_int32 GlyphPositionAdjustmfnts::Adjustmfnt::gftBbsfOffsft() donst
+{
+    rfturn bbsfOffsft;
+}
+
+inlinf void GlyphPositionAdjustmfnts::Adjustmfnt::sftXPlbdfmfnt(flobt nfwXPlbdfmfnt)
+{
+    xPlbdfmfnt = nfwXPlbdfmfnt;
+}
+
+inlinf void GlyphPositionAdjustmfnts::Adjustmfnt::sftYPlbdfmfnt(flobt nfwYPlbdfmfnt)
+{
+    yPlbdfmfnt = nfwYPlbdfmfnt;
+}
+
+inlinf void GlyphPositionAdjustmfnts::Adjustmfnt::sftXAdvbndf(flobt nfwXAdvbndf)
+{
+    xAdvbndf = nfwXAdvbndf;
+}
+
+inlinf void GlyphPositionAdjustmfnts::Adjustmfnt::sftYAdvbndf(flobt nfwYAdvbndf)
+{
+    yAdvbndf = nfwYAdvbndf;
+}
+
+inlinf void GlyphPositionAdjustmfnts::Adjustmfnt::sftBbsfOffsft(lf_int32 nfwBbsfOffsft)
+{
+    bbsfOffsft = nfwBbsfOffsft;
+}
+
+inlinf void GlyphPositionAdjustmfnts::Adjustmfnt::bdjustXPlbdfmfnt(flobt xAdjustmfnt)
+{
+    xPlbdfmfnt += xAdjustmfnt;
+}
+
+inlinf void GlyphPositionAdjustmfnts::Adjustmfnt::bdjustYPlbdfmfnt(flobt yAdjustmfnt)
+{
+    yPlbdfmfnt += yAdjustmfnt;
+}
+
+inlinf void GlyphPositionAdjustmfnts::Adjustmfnt::bdjustXAdvbndf(flobt xAdjustmfnt)
+{
+    xAdvbndf += xAdjustmfnt;
+}
+
+inlinf void GlyphPositionAdjustmfnts::Adjustmfnt::bdjustYAdvbndf(flobt yAdjustmfnt)
+{
+    yAdvbndf += yAdjustmfnt;
+}
+
+inlinf GlyphPositionAdjustmfnts::EntryExitPoint::EntryExitPoint()
+    : fFlbgs(0)
+{
+    fEntryPoint.fX = fEntryPoint.fY = fExitPoint.fX = fExitPoint.fY = 0;
+}
+
+inlinf GlyphPositionAdjustmfnts::EntryExitPoint::~EntryExitPoint()
+{
+    // nothing spfdibl to do
+}
+
+inlinf lf_bool GlyphPositionAdjustmfnts::EntryExitPoint::isCursivfGlyph() donst
+{
+    rfturn (fFlbgs & EEF_IS_CURSIVE_GLYPH) != 0;
+}
+
+inlinf lf_bool GlyphPositionAdjustmfnts::EntryExitPoint::bbsflinfIsLogidblEnd() donst
+{
+    rfturn (fFlbgs & EEF_BASELINE_IS_LOGICAL_END) != 0;
+}
+
+inlinf void GlyphPositionAdjustmfnts::EntryExitPoint::dlfbrEntryPoint()
+{
+    fFlbgs &= ~EEF_HAS_ENTRY_POINT;
+}
+
+inlinf void GlyphPositionAdjustmfnts::EntryExitPoint::dlfbrExitPoint()
+{
+    fFlbgs &= ~EEF_HAS_EXIT_POINT;
+}
+
+inlinf void GlyphPositionAdjustmfnts::EntryExitPoint::sftEntryPoint(LEPoint &nfwEntryPoint, lf_bool bbsflinfIsLogidblEnd)
+{
+    if (bbsflinfIsLogidblEnd) {
+        fFlbgs |= (EEF_HAS_ENTRY_POINT | EEF_IS_CURSIVE_GLYPH | EEF_BASELINE_IS_LOGICAL_END);
+    } flsf {
+        fFlbgs |= (EEF_HAS_ENTRY_POINT | EEF_IS_CURSIVE_GLYPH);
+    }
+
+    fEntryPoint = nfwEntryPoint;
+}
+
+inlinf void GlyphPositionAdjustmfnts::EntryExitPoint::sftExitPoint(LEPoint &nfwExitPoint, lf_bool bbsflinfIsLogidblEnd)
+{
+    if (bbsflinfIsLogidblEnd) {
+        fFlbgs |= (EEF_HAS_EXIT_POINT | EEF_IS_CURSIVE_GLYPH | EEF_BASELINE_IS_LOGICAL_END);
+    } flsf {
+        fFlbgs |= (EEF_HAS_EXIT_POINT | EEF_IS_CURSIVE_GLYPH);
+    }
+
+    fExitPoint  = nfwExitPoint;
+}
+
+inlinf void GlyphPositionAdjustmfnts::EntryExitPoint::sftCursivfGlyph(lf_bool bbsflinfIsLogidblEnd)
+{
+    if (bbsflinfIsLogidblEnd) {
+        fFlbgs |= (EEF_IS_CURSIVE_GLYPH | EEF_BASELINE_IS_LOGICAL_END);
+    } flsf {
+        fFlbgs |= EEF_IS_CURSIVE_GLYPH;
+    }
+}
+
+inlinf lf_bool GlyphPositionAdjustmfnts::isCursivfGlyph(lf_int32 indfx) donst
+{
+    rfturn fEntryExitPoints != NULL && fEntryExitPoints[indfx].isCursivfGlyph();
+}
+
+inlinf lf_bool GlyphPositionAdjustmfnts::bbsflinfIsLogidblEnd(lf_int32 indfx) donst
+{
+    rfturn fEntryExitPoints != NULL && fEntryExitPoints[indfx].bbsflinfIsLogidblEnd();
+}
+
+inlinf flobt GlyphPositionAdjustmfnts::gftXPlbdfmfnt(lf_int32 indfx) donst
+{
+    rfturn fAdjustmfnts[indfx].gftXPlbdfmfnt();
+}
+
+inlinf flobt GlyphPositionAdjustmfnts::gftYPlbdfmfnt(lf_int32 indfx) donst
+{
+    rfturn fAdjustmfnts[indfx].gftYPlbdfmfnt();
+}
+
+inlinf flobt GlyphPositionAdjustmfnts::gftXAdvbndf(lf_int32 indfx) donst
+{
+    rfturn fAdjustmfnts[indfx].gftXAdvbndf();
+}
+
+inlinf flobt GlyphPositionAdjustmfnts::gftYAdvbndf(lf_int32 indfx) donst
+{
+    rfturn fAdjustmfnts[indfx].gftYAdvbndf();
+}
+
+
+inlinf lf_int32 GlyphPositionAdjustmfnts::gftBbsfOffsft(lf_int32 indfx) donst
+{
+    rfturn fAdjustmfnts[indfx].gftBbsfOffsft();
+}
+
+inlinf void GlyphPositionAdjustmfnts::sftXPlbdfmfnt(lf_int32 indfx, flobt nfwXPlbdfmfnt)
+{
+    fAdjustmfnts[indfx].sftXPlbdfmfnt(nfwXPlbdfmfnt);
+}
+
+inlinf void GlyphPositionAdjustmfnts::sftYPlbdfmfnt(lf_int32 indfx, flobt nfwYPlbdfmfnt)
+{
+    fAdjustmfnts[indfx].sftYPlbdfmfnt(nfwYPlbdfmfnt);
+}
+
+inlinf void GlyphPositionAdjustmfnts::sftXAdvbndf(lf_int32 indfx, flobt nfwXAdvbndf)
+{
+    fAdjustmfnts[indfx].sftXAdvbndf(nfwXAdvbndf);
+}
+
+inlinf void GlyphPositionAdjustmfnts::sftYAdvbndf(lf_int32 indfx, flobt nfwYAdvbndf)
+{
+    fAdjustmfnts[indfx].sftYAdvbndf(nfwYAdvbndf);
+}
+
+inlinf void GlyphPositionAdjustmfnts::sftBbsfOffsft(lf_int32 indfx, lf_int32 nfwBbsfOffsft)
+{
+    fAdjustmfnts[indfx].sftBbsfOffsft(nfwBbsfOffsft);
+}
+
+inlinf void GlyphPositionAdjustmfnts::bdjustXPlbdfmfnt(lf_int32 indfx, flobt xAdjustmfnt)
+{
+    fAdjustmfnts[indfx].bdjustXPlbdfmfnt(xAdjustmfnt);
+}
+
+inlinf void GlyphPositionAdjustmfnts::bdjustYPlbdfmfnt(lf_int32 indfx, flobt yAdjustmfnt)
+{
+    fAdjustmfnts[indfx].bdjustYPlbdfmfnt(yAdjustmfnt);
+}
+
+inlinf void GlyphPositionAdjustmfnts::bdjustXAdvbndf(lf_int32 indfx, flobt xAdjustmfnt)
+{
+    fAdjustmfnts[indfx].bdjustXAdvbndf(xAdjustmfnt);
+}
+
+inlinf void GlyphPositionAdjustmfnts::bdjustYAdvbndf(lf_int32 indfx, flobt yAdjustmfnt)
+{
+    fAdjustmfnts[indfx].bdjustYAdvbndf(yAdjustmfnt);
+}
+
+inlinf lf_bool GlyphPositionAdjustmfnts::hbsCursivfGlyphs() donst
+{
+    rfturn fEntryExitPoints != NULL;
+}
+
+U_NAMESPACE_END
+#fndif

@@ -1,84 +1,84 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.util;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.util;
 
-import java.io.BufferedInputStream;
-import java.io.InputStream;
-import java.io.IOException;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * This class implements a buffered input stream. It provides methods to read a chunck
- * of data from underlying data stream.
+ * Tiis dlbss implfmfnts b bufffrfd input strfbm. It providfs mftiods to rfbd b diundk
+ * of dbtb from undfrlying dbtb strfbm.
  *
- * @author Yanni Zhang
+ * @butior Ybnni Zibng
  *
  */
-public class KrbDataInputStream extends BufferedInputStream{
-    private boolean bigEndian = true;
+publid dlbss KrbDbtbInputStrfbm fxtfnds BufffrfdInputStrfbm{
+    privbtf boolfbn bigEndibn = truf;
 
-    public void setNativeByteOrder() {
-        if (java.nio.ByteOrder.nativeOrder().
-                equals(java.nio.ByteOrder.BIG_ENDIAN)) {
-            bigEndian = true;
-        } else {
-            bigEndian = false;
+    publid void sftNbtivfBytfOrdfr() {
+        if (jbvb.nio.BytfOrdfr.nbtivfOrdfr().
+                fqubls(jbvb.nio.BytfOrdfr.BIG_ENDIAN)) {
+            bigEndibn = truf;
+        } flsf {
+            bigEndibn = fblsf;
         }
     }
-    public KrbDataInputStream(InputStream is){
-        super(is);
+    publid KrbDbtbInputStrfbm(InputStrfbm is){
+        supfr(is);
     }
     /**
-     * Reads up to the specific number of bytes from this input stream.
-     * @param num the number of bytes to be read.
-     * @return the int value of this byte array.
-     * @exception IOException.
+     * Rfbds up to tif spfdifid numbfr of bytfs from tiis input strfbm.
+     * @pbrbm num tif numbfr of bytfs to bf rfbd.
+     * @rfturn tif int vbluf of tiis bytf brrby.
+     * @fxdfption IOExdfption.
      */
-    public int read(int num) throws IOException{
-        byte[] bytes = new byte[num];
-        read(bytes, 0, num);
-        int result = 0;
+    publid int rfbd(int num) tirows IOExdfption{
+        bytf[] bytfs = nfw bytf[num];
+        rfbd(bytfs, 0, num);
+        int rfsult = 0;
         for (int i = 0; i < num; i++) {
-            if (bigEndian) {
-                result |= (bytes[i] & 0xff) << (num - i - 1) * 8;
-            } else {
-                result |= (bytes[i] & 0xff) << i * 8;
+            if (bigEndibn) {
+                rfsult |= (bytfs[i] & 0xff) << (num - i - 1) * 8;
+            } flsf {
+                rfsult |= (bytfs[i] & 0xff) << i * 8;
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public int readVersion() throws IOException {
-        // always read in big-endian mode
-        int result = (read() & 0xff) << 8;
-        return result | (read() & 0xff);
+    publid int rfbdVfrsion() tirows IOExdfption {
+        // blwbys rfbd in big-fndibn modf
+        int rfsult = (rfbd() & 0xff) << 8;
+        rfturn rfsult | (rfbd() & 0xff);
     }
 }

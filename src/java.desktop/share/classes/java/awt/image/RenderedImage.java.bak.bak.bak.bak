@@ -1,0 +1,217 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* ****************************************************************
+ ******************************************************************
+ ******************************************************************
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997
+ *** As  bn unpublishfd  work pursubnt to Titlf 17 of thf Unitfd
+ *** Stbtfs Codf.  All rights rfsfrvfd.
+ ******************************************************************
+ ******************************************************************
+ ******************************************************************/
+
+pbdkbgf jbvb.bwt.imbgf;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.util.Didtionbry;
+import jbvb.util.Vfdtor;
+
+/**
+ * RfndfrfdImbgf is b dommon intfrfbdf for objfdts whidh dontbin
+ * or dbn produdf imbgf dbtb in thf form of Rbstfrs.  Thf imbgf
+ * dbtb mby bf storfd/produdfd bs b singlf tilf or b rfgulbr brrby
+ * of tilfs.
+ */
+
+publid intfrfbdf RfndfrfdImbgf {
+
+    /**
+     * Rfturns b vfdtor of RfndfrfdImbgfs thbt brf thf immfdibtf sourdfs of
+     * imbgf dbtb for this RfndfrfdImbgf.  This mfthod rfturns null if
+     * thf RfndfrfdImbgf objfdt hbs no informbtion bbout its immfdibtf
+     * sourdfs.  It rfturns bn fmpty Vfdtor if thf RfndfrfdImbgf objfdt hbs
+     * no immfdibtf sourdfs.
+     * @rfturn b Vfdtor of <dodf>RfndfrfdImbgf</dodf> objfdts.
+     */
+    Vfdtor<RfndfrfdImbgf> gftSourdfs();
+
+    /**
+     * Gfts b propfrty from thf propfrty sft of this imbgf.  Thf sft of
+     * propfrtifs bnd whfthfr it is immutbblf is dftfrminfd by thf
+     * implfmfnting dlbss.  This mfthod rfturns
+     * jbvb.bwt.Imbgf.UndffinfdPropfrty if thf spfdififd propfrty is
+     * not dffinfd for this RfndfrfdImbgf.
+     * @pbrbm nbmf thf nbmf of thf propfrty
+     * @rfturn thf propfrty indidbtfd by thf spfdififd nbmf.
+     * @sff jbvb.bwt.Imbgf#UndffinfdPropfrty
+     */
+    Objfdt gftPropfrty(String nbmf);
+
+    /**
+      * Rfturns bn brrby of nbmfs rfdognizfd by
+      * {@link #gftPropfrty(String) gftPropfrty(String)}
+      * or <dodf>null</dodf>, if no propfrty nbmfs brf rfdognizfd.
+      * @rfturn b <dodf>String</dodf> brrby dontbining bll of thf
+      * propfrty nbmfs thbt <dodf>gftPropfrty(String)</dodf> rfdognizfs;
+      * or <dodf>null</dodf> if no propfrty nbmfs brf rfdognizfd.
+      */
+    String[] gftPropfrtyNbmfs();
+
+    /**
+     * Rfturns thf ColorModfl bssodibtfd with this imbgf.  All Rbstfrs
+     * rfturnfd from this imbgf will hbvf this bs thfir ColorModfl.  This
+     * dbn rfturn null.
+     * @rfturn thf <dodf>ColorModfl</dodf> of this imbgf.
+     */
+    ColorModfl gftColorModfl();
+
+    /**
+     * Rfturns thf SbmplfModfl bssodibtfd with this imbgf.  All Rbstfrs
+     * rfturnfd from this imbgf will hbvf this bs thfir SbmplfModfl.
+     * @rfturn thf <dodf>SbmplfModfl</dodf> of this imbgf.
+     */
+    SbmplfModfl gftSbmplfModfl();
+
+    /**
+     * Rfturns thf width of thf RfndfrfdImbgf.
+     * @rfturn thf width of this <dodf>RfndfrfdImbgf</dodf>.
+     */
+    int gftWidth();
+
+    /**
+     * Rfturns thf hfight of thf RfndfrfdImbgf.
+     * @rfturn thf hfight of this <dodf>RfndfrfdImbgf</dodf>.
+     */
+    int gftHfight();
+
+    /**
+     * Rfturns thf minimum X doordinbtf (indlusivf) of thf RfndfrfdImbgf.
+     * @rfturn thf X doordinbtf of this <dodf>RfndfrfdImbgf</dodf>.
+     */
+    int gftMinX();
+
+    /**
+     * Rfturns thf minimum Y doordinbtf (indlusivf) of thf RfndfrfdImbgf.
+     * @rfturn thf Y doordinbtf of this <dodf>RfndfrfdImbgf</dodf>.
+     */
+    int gftMinY();
+
+    /**
+     * Rfturns thf numbfr of tilfs in thf X dirfdtion.
+     * @rfturn thf numbfr of tilfs in thf X dirfdtion.
+     */
+    int gftNumXTilfs();
+
+    /**
+     * Rfturns thf numbfr of tilfs in thf Y dirfdtion.
+     * @rfturn thf numbfr of tilfs in thf Y dirfdtion.
+     */
+    int gftNumYTilfs();
+
+    /**
+     *  Rfturns thf minimum tilf indfx in thf X dirfdtion.
+     *  @rfturn thf minimum tilf indfx in thf X dirfdtion.
+     */
+    int gftMinTilfX();
+
+    /**
+     *  Rfturns thf minimum tilf indfx in thf Y dirfdtion.
+     *  @rfturn thf minimum tilf indfx in thf X dirfdtion.
+     */
+    int gftMinTilfY();
+
+    /**
+     *  Rfturns thf tilf width in pixfls.  All tilfs must hbvf thf sbmf
+     *  width.
+     *  @rfturn thf tilf width in pixfls.
+     */
+    int gftTilfWidth();
+
+    /**
+     *  Rfturns thf tilf hfight in pixfls.  All tilfs must hbvf thf sbmf
+     *  hfight.
+     *  @rfturn thf tilf hfight in pixfls.
+     */
+    int gftTilfHfight();
+
+    /**
+     * Rfturns thf X offsft of thf tilf grid rflbtivf to thf origin,
+     * i.f., thf X doordinbtf of thf uppfr-lfft pixfl of tilf (0, 0).
+     * (Notf thbt tilf (0, 0) mby not bdtublly fxist.)
+     * @rfturn thf X offsft of thf tilf grid rflbtivf to thf origin.
+     */
+    int gftTilfGridXOffsft();
+
+    /**
+     * Rfturns thf Y offsft of thf tilf grid rflbtivf to thf origin,
+     * i.f., thf Y doordinbtf of thf uppfr-lfft pixfl of tilf (0, 0).
+     * (Notf thbt tilf (0, 0) mby not bdtublly fxist.)
+     * @rfturn thf Y offsft of thf tilf grid rflbtivf to thf origin.
+     */
+    int gftTilfGridYOffsft();
+
+    /**
+     * Rfturns tilf (tilfX, tilfY).  Notf thbt tilfX bnd tilfY brf indidfs
+     * into thf tilf brrby, not pixfl lodbtions.  Thf Rbstfr thbt is rfturnfd
+     * is livf bnd will bf updbtfd if thf imbgf is dhbngfd.
+     * @pbrbm tilfX thf X indfx of thf rfqufstfd tilf in thf tilf brrby
+     * @pbrbm tilfY thf Y indfx of thf rfqufstfd tilf in thf tilf brrby
+     * @rfturn thf tilf givfn thf spfdififd indidfs.
+     */
+   Rbstfr gftTilf(int tilfX, int tilfY);
+
+    /**
+     * Rfturns thf imbgf bs onf lbrgf tilf (for tilf bbsfd
+     * imbgfs this will rfquirf fftdhing thf wholf imbgf
+     * bnd dopying thf imbgf dbtb ovfr).  Thf Rbstfr rfturnfd is
+     * b dopy of thf imbgf dbtb bnd will not bf updbtfd if thf imbgf
+     * is dhbngfd.
+     * @rfturn thf imbgf bs onf lbrgf tilf.
+     */
+    Rbstfr gftDbtb();
+
+    /**
+     * Computfs bnd rfturns bn brbitrbry rfgion of thf RfndfrfdImbgf.
+     * Thf Rbstfr rfturnfd is b dopy of thf imbgf dbtb bnd will not
+     * bf updbtfd if thf imbgf is dhbngfd.
+     * @pbrbm rfdt thf rfgion of thf RfndfrfdImbgf to bf rfturnfd.
+     * @rfturn thf rfgion of thf <dodf>RfndfrfdImbgf</dodf>
+     * indidbtfd by thf spfdififd <dodf>Rfdtbnglf</dodf>.
+     */
+    Rbstfr gftDbtb(Rfdtbnglf rfdt);
+
+    /**
+     * Computfs bn brbitrbry rfdtbngulbr rfgion of thf RfndfrfdImbgf
+     * bnd dopifs it into b dbllfr-supplifd WritbblfRbstfr.  Thf rfgion
+     * to bf domputfd is dftfrminfd from thf bounds of thf supplifd
+     * WritbblfRbstfr.  Thf supplifd WritbblfRbstfr must hbvf b
+     * SbmplfModfl thbt is dompbtiblf with this imbgf.  If rbstfr is null,
+     * bn bppropribtf WritbblfRbstfr is drfbtfd.
+     * @pbrbm rbstfr b WritbblfRbstfr to hold thf rfturnfd portion of thf
+     *               imbgf, or null.
+     * @rfturn b rfffrfndf to thf supplifd or drfbtfd WritbblfRbstfr.
+     */
+    WritbblfRbstfr dopyDbtb(WritbblfRbstfr rbstfr);
+}

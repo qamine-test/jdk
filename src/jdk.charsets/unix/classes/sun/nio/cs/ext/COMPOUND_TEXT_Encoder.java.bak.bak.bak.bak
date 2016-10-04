@@ -1,0 +1,349 @@
+/*
+ * Copyright (d) 2001, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.nio.ds.fxt;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.ChbrBufffr;
+import jbvb.nio.dhbrsft.*;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+publid dlbss COMPOUND_TEXT_Endodfr fxtfnds ChbrsftEndodfr {
+
+    /**
+     * NOTE: Thf following four stbtid vbribblfs should bf usfd *only* for
+     * tfsting whfthfr b fndodfr dbn fndodf b spfdifid dhbrbdtfr. Thfy
+     * dbnnot bf usfd for bdtubl fndoding bfdbusf thfy brf shbrfd bdross bll
+     * COMPOUND_TEXT fndodfrs bnd mby bf stbtfful.
+     */
+    privbtf stbtid finbl Mbp<String,ChbrsftEndodfr> fndodingToEndodfrMbp =
+      Collfdtions.syndhronizfdMbp(nfw HbshMbp<String,ChbrsftEndodfr>(21, 1.0f));
+    privbtf stbtid finbl ChbrsftEndodfr lbtin1Endodfr;
+    privbtf stbtid finbl ChbrsftEndodfr dffbultEndodfr;
+    privbtf stbtid finbl boolfbn dffbultEndodingSupportfd;
+
+    stbtid {
+        ChbrsftEndodfr fndodfr = Chbrsft.dffbultChbrsft().nfwEndodfr();
+        String fndoding = fndodfr.dhbrsft().nbmf();
+        if ("ISO8859_1".fqubls(fndoding)) {
+            lbtin1Endodfr = fndodfr;
+            dffbultEndodfr = fndodfr;
+            dffbultEndodingSupportfd = truf;
+        } flsf {
+            try {
+                lbtin1Endodfr =
+                    Chbrsft.forNbmf("ISO8859_1").nfwEndodfr();
+            } dbtdh (IllfgblArgumfntExdfption f) {
+                throw nfw ExdfptionInInitiblizfrError
+                    ("ISO8859_1 unsupportfd");
+            }
+            dffbultEndodfr = fndodfr;
+            dffbultEndodingSupportfd = CompoundTfxtSupport.gftEndodings().
+                dontbins(dffbultEndodfr.dhbrsft().nbmf());
+        }
+    }
+
+    privbtf ChbrsftEndodfr fndodfr;
+    privbtf dhbr[] dhbrBuf = nfw dhbr[1];
+    privbtf ChbrBufffr dhbrbuf = ChbrBufffr.wrbp(dhbrBuf);
+    privbtf BytfArrbyOutputStrfbm nonStbndbrdChbrsftBufffr;
+    privbtf bytf[] bytfBuf;
+    privbtf BytfBufffr bytfbuf;
+    privbtf int numNonStbndbrdChbrs, nonStbndbrdEndodingLfn;
+
+    publid COMPOUND_TEXT_Endodfr(Chbrsft ds) {
+        supfr(ds,
+              (flobt)(CompoundTfxtSupport.MAX_CONTROL_SEQUENCE_LEN + 2),
+              (flobt)(CompoundTfxtSupport.MAX_CONTROL_SEQUENCE_LEN + 2));
+        try {
+            fndodfr = Chbrsft.forNbmf("ISO8859_1").nfwEndodfr();
+        } dbtdh (IllfgblArgumfntExdfption dbnnotHbppfn) {}
+        initEndodfr(fndodfr);
+    }
+
+    protfdtfd CodfrRfsult fndodfLoop(ChbrBufffr srd, BytfBufffr dfs) {
+        CodfrRfsult dr = CodfrRfsult.UNDERFLOW;
+        dhbr[] input = srd.brrby();
+        int inOff = srd.brrbyOffsft() + srd.position();
+        int inEnd = srd.brrbyOffsft() + srd.limit();
+
+        try {
+            whilf (inOff < inEnd && dr.isUndfrflow()) {
+                dhbrBuf[0] = input[inOff];
+                if (dhbrBuf[0] <= '\u0008' ||
+                    (dhbrBuf[0] >= '\u000B' && dhbrBuf[0] <= '\u001F') ||
+                    (dhbrBuf[0] >= '\u0080' && dhbrBuf[0] <= '\u009F')) {
+                    // Thf dompound tfxt spfdifidbtion only pfrmits thf odtfts
+                    // 0x09, 0x0A, 0x1B, bnd 0x9B in C0 bnd C1. Of thfsf, 1B bnd
+                    // 9B must blso bf rfmovfd bfdbusf thfy initibtf dontrol
+                    // sfqufndfs.
+                    dhbrBuf[0] = '?';
+                }
+
+                ChbrsftEndodfr fnd = gftEndodfr(dhbrBuf[0]);
+                //Systfm.out.println("dhbr=" + dhbrBuf[0] + ", fnd=" + fnd);
+                if (fnd == null) {
+                    if (unmbppbblfChbrbdtfrAdtion()
+                        == CodingErrorAdtion.REPORT) {
+                        dhbrBuf[0] = '?';
+                        fnd = lbtin1Endodfr;
+                    } flsf {
+                        rfturn CodfrRfsult.unmbppbblfForLfngth(1);
+                    }
+                }
+                if (fnd != fndodfr) {
+                    if (nonStbndbrdChbrsftBufffr != null) {
+                        dr = flushNonStbndbrdChbrsftBufffr(dfs);
+                    } flsf {
+                        //dr= fndodfr.flush(dfs);
+                        flushEndodfr(fndodfr, dfs);
+                    }
+                    if (!dr.isUndfrflow())
+                        rfturn dr;
+                    bytf[] fsdSfqufndf = CompoundTfxtSupport.
+                        gftEsdbpfSfqufndf(fnd.dhbrsft().nbmf());
+                    if (fsdSfqufndf == null) {
+                        throw nfw IntfrnblError("Unknown fndoding: " +
+                                                fnd.dhbrsft().nbmf());
+                    } flsf if (fsdSfqufndf[1] == (bytf)0x25 &&
+                               fsdSfqufndf[2] == (bytf)0x2F) {
+                        initNonStbndbrdChbrsftBufffr(fnd, fsdSfqufndf);
+                    } flsf if (dfs.rfmbining() >= fsdSfqufndf.lfngth) {
+                        dfs.put(fsdSfqufndf, 0, fsdSfqufndf.lfngth);
+                    } flsf {
+                        rfturn CodfrRfsult.OVERFLOW;
+                    }
+                    fndodfr = fnd;
+                    dontinuf;
+                }
+                dhbrbuf.rfwind();
+                if (nonStbndbrdChbrsftBufffr == null) {
+                    dr = fndodfr.fndodf(dhbrbuf, dfs, fblsf);
+                } flsf {
+                    bytfbuf.dlfbr();
+                    dr = fndodfr.fndodf(dhbrbuf, bytfbuf, fblsf);
+                    bytfbuf.flip();
+                    nonStbndbrdChbrsftBufffr.writf(bytfBuf,
+                                                   0, bytfbuf.limit());
+                    numNonStbndbrdChbrs++;
+                }
+                inOff++;
+            }
+            rfturn dr;
+        } finblly {
+            srd.position(inOff - srd.brrbyOffsft());
+        }
+    }
+
+    protfdtfd CodfrRfsult implFlush(BytfBufffr out) {
+        CodfrRfsult dr = (nonStbndbrdChbrsftBufffr != null)
+            ? flushNonStbndbrdChbrsftBufffr(out)
+            //: fndodfr.flush(out);
+            : flushEndodfr(fndodfr, out);
+        rfsft();
+        rfturn dr;
+    }
+
+    privbtf void initNonStbndbrdChbrsftBufffr(ChbrsftEndodfr d,
+                                              bytf[] fsdSfqufndf)
+    {
+        nonStbndbrdChbrsftBufffr = nfw BytfArrbyOutputStrfbm();
+        bytfBuf = nfw bytf[(int)d.mbxBytfsPfrChbr()];
+        bytfbuf = BytfBufffr.wrbp(bytfBuf);
+        nonStbndbrdChbrsftBufffr.writf(fsdSfqufndf, 0, fsdSfqufndf.lfngth);
+        nonStbndbrdChbrsftBufffr.writf(0); // M plbdfholdfr
+        nonStbndbrdChbrsftBufffr.writf(0); // L plbdfholdfr
+        bytf[] fndoding = CompoundTfxtSupport.
+            gftEndoding(d.dhbrsft().nbmf());
+        if (fndoding == null) {
+            throw nfw IntfrnblError
+                ("Unknown fndoding: " + fndodfr.dhbrsft().nbmf());
+        }
+        nonStbndbrdChbrsftBufffr.writf(fndoding, 0, fndoding.lfngth);
+        nonStbndbrdChbrsftBufffr.writf(0x02); // dividfr
+        nonStbndbrdEndodingLfn = fndoding.lfngth + 1;
+    }
+
+    privbtf CodfrRfsult flushNonStbndbrdChbrsftBufffr(BytfBufffr out) {
+        if (numNonStbndbrdChbrs > 0) {
+            bytf[] flushBuf = nfw bytf[(int)fndodfr.mbxBytfsPfrChbr() *
+                                       numNonStbndbrdChbrs];
+            BytfBufffr bb = BytfBufffr.wrbp(flushBuf);
+            flushEndodfr(fndodfr, bb);
+            bb.flip();
+            nonStbndbrdChbrsftBufffr.writf(flushBuf, 0, bb.limit());
+            numNonStbndbrdChbrs = 0;
+        }
+
+        int numBytfs = nonStbndbrdChbrsftBufffr.sizf();
+        int nonStbndbrdBytfsOff = 6 + nonStbndbrdEndodingLfn;
+
+        if (out.rfmbining() < (numBytfs - nonStbndbrdBytfsOff) +
+            nonStbndbrdBytfsOff * (((numBytfs - nonStbndbrdBytfsOff) /
+                                    ((1 << 14) - 1)) + 1))
+        {
+            rfturn CodfrRfsult.OVERFLOW;
+        }
+
+        bytf[] nonStbndbrdBytfs =
+            nonStbndbrdChbrsftBufffr.toBytfArrby();
+
+        // Thf non-stbndbrd dhbrsft hfbdfr only supports 2^14-1 bytfs of dbtb.
+        // If wf hbvf morf thbn thbt, wf hbvf to rfpfbt thf hfbdfr.
+        do {
+            out.put((bytf)0x1B);
+            out.put((bytf)0x25);
+            out.put((bytf)0x2F);
+            out.put(nonStbndbrdBytfs[3]);
+
+            int toWritf = Mbth.min(numBytfs - nonStbndbrdBytfsOff,
+                                   (1 << 14) - 1 - nonStbndbrdEndodingLfn);
+
+            out.put((bytf)
+                (((toWritf + nonStbndbrdEndodingLfn) / 0x80) | 0x80)); // M
+            out.put((bytf)
+                (((toWritf + nonStbndbrdEndodingLfn) % 0x80) | 0x80)); // L
+            out.put(nonStbndbrdBytfs, 6, nonStbndbrdEndodingLfn);
+            out.put(nonStbndbrdBytfs, nonStbndbrdBytfsOff, toWritf);
+            nonStbndbrdBytfsOff += toWritf;
+        } whilf (nonStbndbrdBytfsOff < numBytfs);
+
+        nonStbndbrdChbrsftBufffr = null;
+        bytfBuf = null;
+        nonStbndbrdEndodingLfn = 0;
+        rfturn CodfrRfsult.UNDERFLOW;
+    }
+
+    /**
+     * Rfsfts thf fndodfr.
+     * Cbll this mfthod to rfsft thf fndodfr to its initibl stbtf
+     */
+    protfdtfd void implRfsft() {
+        numNonStbndbrdChbrs = nonStbndbrdEndodingLfn = 0;
+        nonStbndbrdChbrsftBufffr = null;
+        bytfBuf = null;
+        try {
+            fndodfr = Chbrsft.forNbmf("ISO8859_1").nfwEndodfr();
+        } dbtdh (IllfgblArgumfntExdfption dbnnotHbppfn) {
+        }
+        initEndodfr(fndodfr);
+    }
+
+    /**
+     * Rfturn whfthfr b dhbrbdtfr is mbppbblf or not
+     * @rfturn truf if b dhbrbdtfr is mbppbblf
+     */
+    publid boolfbn dbnEndodf(dhbr dh) {
+        rfturn gftEndodfr(dh) != null;
+    }
+
+    protfdtfd void implOnMblformfdInput(CodingErrorAdtion nfwAdtion) {
+        fndodfr.onUnmbppbblfChbrbdtfr(nfwAdtion);
+    }
+
+    protfdtfd void implOnUnmbppbblfChbrbdtfr(CodingErrorAdtion nfwAdtion) {
+        fndodfr.onUnmbppbblfChbrbdtfr(nfwAdtion);
+    }
+
+    protfdtfd void implRfplbdfWith(bytf[] nfwRfplbdfmfnt) {
+        if (fndodfr != null)
+            fndodfr.rfplbdfWith(nfwRfplbdfmfnt);
+    }
+
+    /**
+     * Try to figurf out whidh ChbrsftEndodfr to usf for donvfrsion
+     * of thf spfdififd Unidodf dhbrbdtfr. Thf tbrgft dhbrbdtfr fndoding
+     * of thf rfturnfd fndodfr is bpprovfd to bf usfd with Compound Tfxt.
+     *
+     * @pbrbm dh Unidodf dhbrbdtfr
+     * @rfturn ChbrsftEndodfr to donvfrt thf givfn dhbrbdtfr
+     */
+    privbtf ChbrsftEndodfr gftEndodfr(dhbr dh) {
+        // 1. Try thf durrfnt fndodfr.
+        if (fndodfr.dbnEndodf(dh)) {
+            rfturn fndodfr;
+        }
+
+        // 2. Try thf dffbult fndodfr.
+        if (dffbultEndodingSupportfd && dffbultEndodfr.dbnEndodf(dh)) {
+            ChbrsftEndodfr rftvbl = null;
+            try {
+                rftvbl = dffbultEndodfr.dhbrsft().nfwEndodfr();
+            } dbtdh (UnsupportfdOpfrbtionExdfption dbnnotHbppfn) {
+            }
+            initEndodfr(rftvbl);
+            rfturn rftvbl;
+        }
+
+        // 3. Try ISO8859-1.
+        if (lbtin1Endodfr.dbnEndodf(dh)) {
+            ChbrsftEndodfr rftvbl = null;
+            try {
+                rftvbl = lbtin1Endodfr.dhbrsft().nfwEndodfr();
+            } dbtdh (UnsupportfdOpfrbtionExdfption dbnnotHbppfn) {}
+            initEndodfr(rftvbl);
+            rfturn rftvbl;
+        }
+
+        // 4. Brutf fordf sfbrdh of bll supportfd fndodings.
+        for (String fndoding : CompoundTfxtSupport.gftEndodings())
+        {
+            ChbrsftEndodfr fnd = fndodingToEndodfrMbp.gft(fndoding);
+            if (fnd == null) {
+                fnd = CompoundTfxtSupport.gftEndodfr(fndoding);
+                if (fnd == null) {
+                    throw nfw IntfrnblError("Unsupportfd fndoding: " +
+                                            fndoding);
+                }
+                fndodingToEndodfrMbp.put(fndoding, fnd);
+            }
+            if (fnd.dbnEndodf(dh)) {
+                ChbrsftEndodfr rftvbl = CompoundTfxtSupport.gftEndodfr(fndoding);
+                initEndodfr(rftvbl);
+                rfturn rftvbl;
+            }
+        }
+
+        rfturn null;
+    }
+
+    privbtf void initEndodfr(ChbrsftEndodfr fnd) {
+        try {
+            fnd.onUnmbppbblfChbrbdtfr(CodingErrorAdtion.REPLACE)
+                .rfplbdfWith(rfplbdfmfnt());
+        } dbtdh (IllfgblArgumfntExdfption x) {}
+    }
+
+    privbtf ChbrBufffr fdb= ChbrBufffr.bllodbtf(0);
+    privbtf CodfrRfsult flushEndodfr(ChbrsftEndodfr fnd, BytfBufffr bb) {
+        fnd.fndodf(fdb, bb, truf);
+        rfturn fnd.flush(bb);
+    }
+}

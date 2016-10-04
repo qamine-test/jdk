@@ -1,308 +1,308 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import java.util.AbstractSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.HashMap;
-import java.util.Set;
+import jbvb.util.AbstrbdtSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Sft;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.PrintServiceAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.PrintSfrvidfAttributf;
 
 /**
- * Class PrinterStateReasons is a printing attribute class, a set of
- * enumeration values, that provides additional information about the
- * printer's current state, i.e., information that augments the value of the
- * printer's {@link PrinterState PrinterState} attribute.
+ * Clbss PrintfrStbtfRfbsons is b printing bttributf dlbss, b sft of
+ * fnumfrbtion vblufs, tibt providfs bdditionbl informbtion bbout tif
+ * printfr's durrfnt stbtf, i.f., informbtion tibt bugmfnts tif vbluf of tif
+ * printfr's {@link PrintfrStbtf PrintfrStbtf} bttributf.
  * <P>
- * Instances of {@link PrinterStateReason PrinterStateReason} do not appear in
- *  a Print Service's attribute set directly. Rather, a PrinterStateReasons
- * attribute appears in the Print Service's attribute set. The
- * PrinterStateReasons attribute contains zero, one, or more than one {@link
- * PrinterStateReason PrinterStateReason} objects which pertain to the Print
- * Service's status, and each {@link PrinterStateReason PrinterStateReason}
- * object is associated with a {@link Severity Severity} level of REPORT
- *  (least severe), WARNING, or ERROR (most severe). The printer adds a {@link
- * PrinterStateReason PrinterStateReason} object to the Print Service's
- * PrinterStateReasons attribute when the corresponding condition becomes true
- * of the printer, and the printer removes the {@link PrinterStateReason
- * PrinterStateReason} object again when the corresponding condition becomes
- * false, regardless of whether the Print Service's overall
- * {@link PrinterState PrinterState} also changed.
+ * Instbndfs of {@link PrintfrStbtfRfbson PrintfrStbtfRfbson} do not bppfbr in
+ *  b Print Sfrvidf's bttributf sft dirfdtly. Rbtifr, b PrintfrStbtfRfbsons
+ * bttributf bppfbrs in tif Print Sfrvidf's bttributf sft. Tif
+ * PrintfrStbtfRfbsons bttributf dontbins zfro, onf, or morf tibn onf {@link
+ * PrintfrStbtfRfbson PrintfrStbtfRfbson} objfdts wiidi pfrtbin to tif Print
+ * Sfrvidf's stbtus, bnd fbdi {@link PrintfrStbtfRfbson PrintfrStbtfRfbson}
+ * objfdt is bssodibtfd witi b {@link Sfvfrity Sfvfrity} lfvfl of REPORT
+ *  (lfbst sfvfrf), WARNING, or ERROR (most sfvfrf). Tif printfr bdds b {@link
+ * PrintfrStbtfRfbson PrintfrStbtfRfbson} objfdt to tif Print Sfrvidf's
+ * PrintfrStbtfRfbsons bttributf wifn tif dorrfsponding dondition bfdomfs truf
+ * of tif printfr, bnd tif printfr rfmovfs tif {@link PrintfrStbtfRfbson
+ * PrintfrStbtfRfbson} objfdt bgbin wifn tif dorrfsponding dondition bfdomfs
+ * fblsf, rfgbrdlfss of wiftifr tif Print Sfrvidf's ovfrbll
+ * {@link PrintfrStbtf PrintfrStbtf} blso dibngfd.
  * <P>
- * Class PrinterStateReasons inherits its implementation from class {@link
- * java.util.HashMap java.util.HashMap}. Each entry in the map consists of a
- * {@link PrinterStateReason PrinterStateReason} object (key) mapping to a
- * {@link Severity Severity} object (value):
+ * Clbss PrintfrStbtfRfbsons inifrits its implfmfntbtion from dlbss {@link
+ * jbvb.util.HbsiMbp jbvb.util.HbsiMbp}. Ebdi fntry in tif mbp donsists of b
+ * {@link PrintfrStbtfRfbson PrintfrStbtfRfbson} objfdt (kfy) mbpping to b
+ * {@link Sfvfrity Sfvfrity} objfdt (vbluf):
  * <P>
- * Unlike most printing attributes which are immutable once constructed, class
- * PrinterStateReasons is designed to be mutable; you can add {@link
- * PrinterStateReason PrinterStateReason} objects to an existing
- * PrinterStateReasons object and remove them again. However, like class
- *  {@link java.util.HashMap java.util.HashMap}, class PrinterStateReasons is
- * not multiple thread safe. If a PrinterStateReasons object will be used by
- * multiple threads, be sure to synchronize its operations (e.g., using a
- * synchronized map view obtained from class {@link java.util.Collections
- * java.util.Collections}).
+ * Unlikf most printing bttributfs wiidi brf immutbblf ondf donstrudtfd, dlbss
+ * PrintfrStbtfRfbsons is dfsignfd to bf mutbblf; you dbn bdd {@link
+ * PrintfrStbtfRfbson PrintfrStbtfRfbson} objfdts to bn fxisting
+ * PrintfrStbtfRfbsons objfdt bnd rfmovf tifm bgbin. Howfvfr, likf dlbss
+ *  {@link jbvb.util.HbsiMbp jbvb.util.HbsiMbp}, dlbss PrintfrStbtfRfbsons is
+ * not multiplf tirfbd sbff. If b PrintfrStbtfRfbsons objfdt will bf usfd by
+ * multiplf tirfbds, bf surf to syndironizf its opfrbtions (f.g., using b
+ * syndironizfd mbp vifw obtbinfd from dlbss {@link jbvb.util.Collfdtions
+ * jbvb.util.Collfdtions}).
  * <P>
- * <B>IPP Compatibility:</B> The string values returned by each individual
- * {@link PrinterStateReason PrinterStateReason} object's and the associated
- * {@link Severity Severity} object's <CODE>toString()</CODE> methods,
- * concatenated
- * together with a hyphen (<CODE>"-"</CODE>) in between, gives the IPP keyword
- * value. The category name returned by <CODE>getName()</CODE> gives the IPP
- * attribute name.
+ * <B>IPP Compbtibility:</B> Tif string vblufs rfturnfd by fbdi individubl
+ * {@link PrintfrStbtfRfbson PrintfrStbtfRfbson} objfdt's bnd tif bssodibtfd
+ * {@link Sfvfrity Sfvfrity} objfdt's <CODE>toString()</CODE> mftiods,
+ * dondbtfnbtfd
+ * togftifr witi b iypifn (<CODE>"-"</CODE>) in bftwffn, givfs tif IPP kfyword
+ * vbluf. Tif dbtfgory nbmf rfturnfd by <CODE>gftNbmf()</CODE> givfs tif IPP
+ * bttributf nbmf.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public final class PrinterStateReasons
-    extends HashMap<PrinterStateReason,Severity>
-    implements PrintServiceAttribute
+publid finbl dlbss PrintfrStbtfRfbsons
+    fxtfnds HbsiMbp<PrintfrStbtfRfbson,Sfvfrity>
+    implfmfnts PrintSfrvidfAttributf
 {
 
-    private static final long serialVersionUID = -3731791085163619457L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -3731791085163619457L;
 
     /**
-     * Construct a new, empty printer state reasons attribute; the underlying
-     * hash map has the default initial capacity and load factor.
+     * Construdt b nfw, fmpty printfr stbtf rfbsons bttributf; tif undfrlying
+     * ibsi mbp ibs tif dffbult initibl dbpbdity bnd lobd fbdtor.
      */
-    public PrinterStateReasons() {
-        super();
+    publid PrintfrStbtfRfbsons() {
+        supfr();
     }
 
     /**
-     * super a new, empty printer state reasons attribute; the underlying
-     * hash map has the given initial capacity and the default load factor.
+     * supfr b nfw, fmpty printfr stbtf rfbsons bttributf; tif undfrlying
+     * ibsi mbp ibs tif givfn initibl dbpbdity bnd tif dffbult lobd fbdtor.
      *
-     * @param  initialCapacity  Initial capacity.
+     * @pbrbm  initiblCbpbdity  Initibl dbpbdity.
      *
-     * @throws IllegalArgumentException if the initial capacity is less
-     *     than zero.
+     * @tirows IllfgblArgumfntExdfption if tif initibl dbpbdity is lfss
+     *     tibn zfro.
      */
-    public PrinterStateReasons(int initialCapacity) {
-        super (initialCapacity);
+    publid PrintfrStbtfRfbsons(int initiblCbpbdity) {
+        supfr (initiblCbpbdity);
     }
 
     /**
-     * Construct a new, empty printer state reasons attribute; the underlying
-     * hash map has the given initial capacity and load factor.
+     * Construdt b nfw, fmpty printfr stbtf rfbsons bttributf; tif undfrlying
+     * ibsi mbp ibs tif givfn initibl dbpbdity bnd lobd fbdtor.
      *
-     * @param  initialCapacity  Initial capacity.
-     * @param  loadFactor       Load factor.
+     * @pbrbm  initiblCbpbdity  Initibl dbpbdity.
+     * @pbrbm  lobdFbdtor       Lobd fbdtor.
      *
-     * @throws IllegalArgumentException if the initial capacity is less
-     *     than zero.
+     * @tirows IllfgblArgumfntExdfption if tif initibl dbpbdity is lfss
+     *     tibn zfro.
      */
-    public PrinterStateReasons(int initialCapacity, float loadFactor) {
-        super (initialCapacity, loadFactor);
+    publid PrintfrStbtfRfbsons(int initiblCbpbdity, flobt lobdFbdtor) {
+        supfr (initiblCbpbdity, lobdFbdtor);
     }
 
     /**
-     * Construct a new printer state reasons attribute that contains the same
-     * {@link PrinterStateReason PrinterStateReason}-to-{@link Severity
-     * Severity} mappings as the given map. The underlying hash map's initial
-     * capacity and load factor are as specified in the superclass constructor
-     * {@link java.util.HashMap#HashMap(java.util.Map)
-     * HashMap(Map)}.
+     * Construdt b nfw printfr stbtf rfbsons bttributf tibt dontbins tif sbmf
+     * {@link PrintfrStbtfRfbson PrintfrStbtfRfbson}-to-{@link Sfvfrity
+     * Sfvfrity} mbppings bs tif givfn mbp. Tif undfrlying ibsi mbp's initibl
+     * dbpbdity bnd lobd fbdtor brf bs spfdififd in tif supfrdlbss donstrudtor
+     * {@link jbvb.util.HbsiMbp#HbsiMbp(jbvb.util.Mbp)
+     * HbsiMbp(Mbp)}.
      *
-     * @param  map  Map to copy.
+     * @pbrbm  mbp  Mbp to dopy.
      *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>map</CODE> is null or if any
-     *     key or value in <CODE>map</CODE> is null.
-     * @throws  ClassCastException
-     *     (unchecked exception) Thrown if any key in <CODE>map</CODE> is not
-     *   an instance of class {@link PrinterStateReason PrinterStateReason} or
-     *     if any value in <CODE>map</CODE> is not an instance of class
-     *     {@link Severity Severity}.
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>mbp</CODE> is null or if bny
+     *     kfy or vbluf in <CODE>mbp</CODE> is null.
+     * @tirows  ClbssCbstExdfption
+     *     (undifdkfd fxdfption) Tirown if bny kfy in <CODE>mbp</CODE> is not
+     *   bn instbndf of dlbss {@link PrintfrStbtfRfbson PrintfrStbtfRfbson} or
+     *     if bny vbluf in <CODE>mbp</CODE> is not bn instbndf of dlbss
+     *     {@link Sfvfrity Sfvfrity}.
      */
-    public PrinterStateReasons(Map<PrinterStateReason,Severity> map) {
-        this();
-        for (Map.Entry<PrinterStateReason,Severity> e : map.entrySet())
-            put(e.getKey(), e.getValue());
+    publid PrintfrStbtfRfbsons(Mbp<PrintfrStbtfRfbson,Sfvfrity> mbp) {
+        tiis();
+        for (Mbp.Entry<PrintfrStbtfRfbson,Sfvfrity> f : mbp.fntrySft())
+            put(f.gftKfy(), f.gftVbluf());
     }
 
     /**
-     * Adds the given printer state reason to this printer state reasons
-     * attribute, associating it with the given severity level. If this
-     * printer state reasons attribute previously contained a mapping for the
-     * given printer state reason, the old value is replaced.
+     * Adds tif givfn printfr stbtf rfbson to tiis printfr stbtf rfbsons
+     * bttributf, bssodibting it witi tif givfn sfvfrity lfvfl. If tiis
+     * printfr stbtf rfbsons bttributf prfviously dontbinfd b mbpping for tif
+     * givfn printfr stbtf rfbson, tif old vbluf is rfplbdfd.
      *
-     * @param  reason    Printer state reason. This must be an instance of
-     *                    class {@link PrinterStateReason PrinterStateReason}.
-     * @param  severity  Severity of the printer state reason. This must be
-     *                      an instance of class {@link Severity Severity}.
+     * @pbrbm  rfbson    Printfr stbtf rfbson. Tiis must bf bn instbndf of
+     *                    dlbss {@link PrintfrStbtfRfbson PrintfrStbtfRfbson}.
+     * @pbrbm  sfvfrity  Sfvfrity of tif printfr stbtf rfbson. Tiis must bf
+     *                      bn instbndf of dlbss {@link Sfvfrity Sfvfrity}.
      *
-     * @return  Previous severity associated with the given printer state
-     *          reason, or <tt>null</tt> if the given printer state reason was
-     *          not present.
+     * @rfturn  Prfvious sfvfrity bssodibtfd witi tif givfn printfr stbtf
+     *          rfbson, or <tt>null</tt> if tif givfn printfr stbtf rfbson wbs
+     *          not prfsfnt.
      *
-     * @throws  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>reason</CODE> is null or
-     *     <CODE>severity</CODE> is null.
-     * @throws  ClassCastException
-     *     (unchecked exception) Thrown if <CODE>reason</CODE> is not an
-     *   instance of class {@link PrinterStateReason PrinterStateReason} or if
-     *     <CODE>severity</CODE> is not an instance of class {@link Severity
-     *     Severity}.
-     * @since 1.5
+     * @tirows  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>rfbson</CODE> is null or
+     *     <CODE>sfvfrity</CODE> is null.
+     * @tirows  ClbssCbstExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>rfbson</CODE> is not bn
+     *   instbndf of dlbss {@link PrintfrStbtfRfbson PrintfrStbtfRfbson} or if
+     *     <CODE>sfvfrity</CODE> is not bn instbndf of dlbss {@link Sfvfrity
+     *     Sfvfrity}.
+     * @sindf 1.5
      */
-    public Severity put(PrinterStateReason reason, Severity severity) {
-        if (reason == null) {
-            throw new NullPointerException("reason is null");
+    publid Sfvfrity put(PrintfrStbtfRfbson rfbson, Sfvfrity sfvfrity) {
+        if (rfbson == null) {
+            tirow nfw NullPointfrExdfption("rfbson is null");
         }
-        if (severity == null) {
-            throw new NullPointerException("severity is null");
+        if (sfvfrity == null) {
+            tirow nfw NullPointfrExdfption("sfvfrity is null");
         }
-        return super.put(reason, severity);
+        rfturn supfr.put(rfbson, sfvfrity);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class PrinterStateReasons, the
-     * category is class PrinterStateReasons itself.
+     * For dlbss PrintfrStbtfRfbsons, tif
+     * dbtfgory is dlbss PrintfrStbtfRfbsons itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return PrinterStateReasons.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn PrintfrStbtfRfbsons.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class PrinterStateReasons, the
-     * category name is <CODE>"printer-state-reasons"</CODE>.
+     * For dlbss PrintfrStbtfRfbsons, tif
+     * dbtfgory nbmf is <CODE>"printfr-stbtf-rfbsons"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "printer-state-reasons";
+    publid finbl String gftNbmf() {
+        rfturn "printfr-stbtf-rfbsons";
     }
 
     /**
-     * Obtain an unmodifiable set view of the individual printer state reason
-     * attributes at the given severity level in this PrinterStateReasons
-     * attribute. Each element in the set view is a {@link PrinterStateReason
-     * PrinterStateReason} object. The only elements in the set view are the
-     * {@link PrinterStateReason PrinterStateReason} objects that map to the
-     * given severity value. The set view is backed by this
-     * PrinterStateReasons attribute, so changes to this PrinterStateReasons
-     * attribute are reflected  in the set view.
-     * The set view does not support element insertion or
-     * removal. The set view's iterator does not support element removal.
+     * Obtbin bn unmodifibblf sft vifw of tif individubl printfr stbtf rfbson
+     * bttributfs bt tif givfn sfvfrity lfvfl in tiis PrintfrStbtfRfbsons
+     * bttributf. Ebdi flfmfnt in tif sft vifw is b {@link PrintfrStbtfRfbson
+     * PrintfrStbtfRfbson} objfdt. Tif only flfmfnts in tif sft vifw brf tif
+     * {@link PrintfrStbtfRfbson PrintfrStbtfRfbson} objfdts tibt mbp to tif
+     * givfn sfvfrity vbluf. Tif sft vifw is bbdkfd by tiis
+     * PrintfrStbtfRfbsons bttributf, so dibngfs to tiis PrintfrStbtfRfbsons
+     * bttributf brf rfflfdtfd  in tif sft vifw.
+     * Tif sft vifw dofs not support flfmfnt insfrtion or
+     * rfmovbl. Tif sft vifw's itfrbtor dofs not support flfmfnt rfmovbl.
      *
-     * @param  severity  Severity level.
+     * @pbrbm  sfvfrity  Sfvfrity lfvfl.
      *
-     * @return  Set view of the individual {@link PrinterStateReason
-     *          PrinterStateReason} attributes at the given {@link Severity
-     *          Severity} level.
+     * @rfturn  Sft vifw of tif individubl {@link PrintfrStbtfRfbson
+     *          PrintfrStbtfRfbson} bttributfs bt tif givfn {@link Sfvfrity
+     *          Sfvfrity} lfvfl.
      *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>severity</CODE> is null.
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>sfvfrity</CODE> is null.
      */
-    public Set<PrinterStateReason> printerStateReasonSet(Severity severity) {
-        if (severity == null) {
-            throw new NullPointerException("severity is null");
+    publid Sft<PrintfrStbtfRfbson> printfrStbtfRfbsonSft(Sfvfrity sfvfrity) {
+        if (sfvfrity == null) {
+            tirow nfw NullPointfrExdfption("sfvfrity is null");
         }
-        return new PrinterStateReasonSet (severity, entrySet());
+        rfturn nfw PrintfrStbtfRfbsonSft (sfvfrity, fntrySft());
     }
 
-    private class PrinterStateReasonSet
-        extends AbstractSet<PrinterStateReason>
+    privbtf dlbss PrintfrStbtfRfbsonSft
+        fxtfnds AbstrbdtSft<PrintfrStbtfRfbson>
     {
-        private Severity mySeverity;
+        privbtf Sfvfrity mySfvfrity;
 
-        private Set<Map.Entry<PrinterStateReason, Severity>> myEntrySet;
+        privbtf Sft<Mbp.Entry<PrintfrStbtfRfbson, Sfvfrity>> myEntrySft;
 
-        public PrinterStateReasonSet(Severity severity,
-                                     Set<Map.Entry<PrinterStateReason, Severity>> entrySet) {
-            mySeverity = severity;
-            myEntrySet = entrySet;
+        publid PrintfrStbtfRfbsonSft(Sfvfrity sfvfrity,
+                                     Sft<Mbp.Entry<PrintfrStbtfRfbson, Sfvfrity>> fntrySft) {
+            mySfvfrity = sfvfrity;
+            myEntrySft = fntrySft;
         }
 
-        public int size() {
-            int result = 0;
-            Iterator<PrinterStateReason> iter = iterator();
-            while (iter.hasNext()) {
-                iter.next();
-                ++ result;
+        publid int sizf() {
+            int rfsult = 0;
+            Itfrbtor<PrintfrStbtfRfbson> itfr = itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                itfr.nfxt();
+                ++ rfsult;
             }
-            return result;
+            rfturn rfsult;
         }
 
-        public Iterator<PrinterStateReason> iterator() {
-            return new PrinterStateReasonSetIterator(mySeverity,
-                                                     myEntrySet.iterator());
+        publid Itfrbtor<PrintfrStbtfRfbson> itfrbtor() {
+            rfturn nfw PrintfrStbtfRfbsonSftItfrbtor(mySfvfrity,
+                                                     myEntrySft.itfrbtor());
         }
     }
 
-    private class PrinterStateReasonSetIterator implements Iterator<PrinterStateReason> {
-        private Severity mySeverity;
-        private Iterator<Map.Entry<PrinterStateReason, Severity>> myIterator;
-        private Map.Entry<PrinterStateReason, Severity> myEntry;
+    privbtf dlbss PrintfrStbtfRfbsonSftItfrbtor implfmfnts Itfrbtor<PrintfrStbtfRfbson> {
+        privbtf Sfvfrity mySfvfrity;
+        privbtf Itfrbtor<Mbp.Entry<PrintfrStbtfRfbson, Sfvfrity>> myItfrbtor;
+        privbtf Mbp.Entry<PrintfrStbtfRfbson, Sfvfrity> myEntry;
 
-        public PrinterStateReasonSetIterator(Severity severity,
-                                             Iterator<Map.Entry<PrinterStateReason, Severity>> iterator) {
-            mySeverity = severity;
-            myIterator = iterator;
-            goToNext();
+        publid PrintfrStbtfRfbsonSftItfrbtor(Sfvfrity sfvfrity,
+                                             Itfrbtor<Mbp.Entry<PrintfrStbtfRfbson, Sfvfrity>> itfrbtor) {
+            mySfvfrity = sfvfrity;
+            myItfrbtor = itfrbtor;
+            goToNfxt();
         }
 
-        private void goToNext() {
+        privbtf void goToNfxt() {
             myEntry = null;
-            while (myEntry == null && myIterator.hasNext()) {
-                myEntry = myIterator.next();
-                if (myEntry.getValue() != mySeverity) {
+            wiilf (myEntry == null && myItfrbtor.ibsNfxt()) {
+                myEntry = myItfrbtor.nfxt();
+                if (myEntry.gftVbluf() != mySfvfrity) {
                     myEntry = null;
                 }
             }
         }
 
-        public boolean hasNext() {
-            return myEntry != null;
+        publid boolfbn ibsNfxt() {
+            rfturn myEntry != null;
         }
 
-        public PrinterStateReason next() {
+        publid PrintfrStbtfRfbson nfxt() {
             if (myEntry == null) {
-                throw new NoSuchElementException();
+                tirow nfw NoSudiElfmfntExdfption();
             }
-            PrinterStateReason result = myEntry.getKey();
-            goToNext();
-            return result;
+            PrintfrStbtfRfbson rfsult = myEntry.gftKfy();
+            goToNfxt();
+            rfturn rfsult;
         }
 
-        public void remove() {
-            throw new UnsupportedOperationException();
+        publid void rfmovf() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
     }
 

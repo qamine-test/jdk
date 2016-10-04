@@ -1,222 +1,222 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal.crypto;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto;
 
-import sun.security.krb5.Confounder;
-import sun.security.krb5.KrbCryptoException;
-import sun.security.krb5.internal.*;
+import sun.sfdurity.krb5.Confoundfr;
+import sun.sfdurity.krb5.KrbCryptoExdfption;
+import sun.sfdurity.krb5.intfrnbl.*;
 
-abstract class DesCbcEType extends EType {
-    protected abstract byte[] calculateChecksum(byte[] data, int size)
-        throws KrbCryptoException;
+bbstrbdt dlbss DfsCbdETypf fxtfnds ETypf {
+    protfdtfd bbstrbdt bytf[] dbldulbtfCifdksum(bytf[] dbtb, int sizf)
+        tirows KrbCryptoExdfption;
 
-    public int blockSize() {
-        return 8;
+    publid int blodkSizf() {
+        rfturn 8;
     }
 
-    public int keyType() {
-        return Krb5.KEYTYPE_DES;
+    publid int kfyTypf() {
+        rfturn Krb5.KEYTYPE_DES;
     }
 
-    public int keySize() {
-        return 8;
-    }
-
-    /**
-     * Encrypts the data using DES in CBC mode.
-     * @param data the buffer for plain text.
-     * @param key the key to encrypt the data.
-     * @return the buffer for encrypted data.
-     *
-     * @written by Yanni Zhang, Dec 6 99.
-     */
-
-    public byte[] encrypt(byte[] data, byte[] key, int usage)
-         throws KrbCryptoException {
-        byte[] ivec = new byte[keySize()];
-        return encrypt(data, key, ivec, usage);
+    publid int kfySizf() {
+        rfturn 8;
     }
 
     /**
-     * Encrypts the data using DES in CBC mode.
-     * @param data the buffer for plain text.
-     * @param key the key to encrypt the data.
-     * @param ivec initialization vector.
-     * @return buffer for encrypted data.
+     * Endrypts tif dbtb using DES in CBC modf.
+     * @pbrbm dbtb tif bufffr for plbin tfxt.
+     * @pbrbm kfy tif kfy to fndrypt tif dbtb.
+     * @rfturn tif bufffr for fndryptfd dbtb.
      *
-     * @modified by Yanni Zhang, Feb 24 00.
+     * @writtfn by Ybnni Zibng, Dfd 6 99.
      */
-    public byte[] encrypt(byte[] data, byte[] key, byte[] ivec,
-        int usage) throws KrbCryptoException {
+
+    publid bytf[] fndrypt(bytf[] dbtb, bytf[] kfy, int usbgf)
+         tirows KrbCryptoExdfption {
+        bytf[] ivfd = nfw bytf[kfySizf()];
+        rfturn fndrypt(dbtb, kfy, ivfd, usbgf);
+    }
+
+    /**
+     * Endrypts tif dbtb using DES in CBC modf.
+     * @pbrbm dbtb tif bufffr for plbin tfxt.
+     * @pbrbm kfy tif kfy to fndrypt tif dbtb.
+     * @pbrbm ivfd initiblizbtion vfdtor.
+     * @rfturn bufffr for fndryptfd dbtb.
+     *
+     * @modififd by Ybnni Zibng, Ffb 24 00.
+     */
+    publid bytf[] fndrypt(bytf[] dbtb, bytf[] kfy, bytf[] ivfd,
+        int usbgf) tirows KrbCryptoExdfption {
 
         /*
-         * To meet export control requirements, double check that the
-         * key being used is no longer than 64 bits.
+         * To mfft fxport dontrol rfquirfmfnts, doublf difdk tibt tif
+         * kfy bfing usfd is no longfr tibn 64 bits.
          *
-         * Note that from a protocol point of view, an
-         * algorithm that is not DES will be rejected before this
-         * point. Also, a  DES key that is not 64 bits will be
-         * rejected by a good implementations of JCE.
+         * Notf tibt from b protodol point of vifw, bn
+         * blgoritim tibt is not DES will bf rfjfdtfd bfforf tiis
+         * point. Also, b  DES kfy tibt is not 64 bits will bf
+         * rfjfdtfd by b good implfmfntbtions of JCE.
          */
-        if (key.length > 8)
-        throw new KrbCryptoException("Invalid DES Key!");
+        if (kfy.lfngti > 8)
+        tirow nfw KrbCryptoExdfption("Invblid DES Kfy!");
 
-        int new_size = data.length + confounderSize() + checksumSize();
-        byte[] new_data;
-        byte pad;
-        /*Data padding: using Kerberos 5 GSS-API mechanism (1.2.2.3), Jun 1996.
-         *Before encryption, plain text data is padded to the next highest multiple of blocksize.
-         *by appending between 1 and 8 bytes, the value of each such byte being the total number
-         *of pad bytes. For example, if new_size = 10, blockSize is 8, we should pad 2 bytes,
-         *and the value of each byte is 2.
-         *If plaintext data is a multiple of blocksize, we pad a 8 bytes of 8.
+        int nfw_sizf = dbtb.lfngti + donfoundfrSizf() + difdksumSizf();
+        bytf[] nfw_dbtb;
+        bytf pbd;
+        /*Dbtb pbdding: using Kfrbfros 5 GSS-API mfdibnism (1.2.2.3), Jun 1996.
+         *Bfforf fndryption, plbin tfxt dbtb is pbddfd to tif nfxt iigifst multiplf of blodksizf.
+         *by bppfnding bftwffn 1 bnd 8 bytfs, tif vbluf of fbdi sudi bytf bfing tif totbl numbfr
+         *of pbd bytfs. For fxbmplf, if nfw_sizf = 10, blodkSizf is 8, wf siould pbd 2 bytfs,
+         *bnd tif vbluf of fbdi bytf is 2.
+         *If plbintfxt dbtb is b multiplf of blodksizf, wf pbd b 8 bytfs of 8.
          */
-        if (new_size % blockSize() == 0) {
-            new_data = new byte[new_size + blockSize()];
-            pad = (byte)8;
+        if (nfw_sizf % blodkSizf() == 0) {
+            nfw_dbtb = nfw bytf[nfw_sizf + blodkSizf()];
+            pbd = (bytf)8;
         }
-        else {
-            new_data = new byte[new_size + blockSize() - new_size % blockSize()];
-            pad = (byte)(blockSize() - new_size % blockSize());
+        flsf {
+            nfw_dbtb = nfw bytf[nfw_sizf + blodkSizf() - nfw_sizf % blodkSizf()];
+            pbd = (bytf)(blodkSizf() - nfw_sizf % blodkSizf());
         }
-        for (int i = new_size; i < new_data.length; i++) {
-            new_data[i] = pad;
+        for (int i = nfw_sizf; i < nfw_dbtb.lfngti; i++) {
+            nfw_dbtb[i] = pbd;
         }
-        byte[] conf = Confounder.bytes(confounderSize());
-        System.arraycopy(conf, 0, new_data, 0, confounderSize());
-        System.arraycopy(data, 0, new_data, startOfData(), data.length);
-        byte[] cksum = calculateChecksum(new_data, new_data.length);
-        System.arraycopy(cksum, 0, new_data, startOfChecksum(),
-                         checksumSize());
-        byte[] cipher = new byte[new_data.length];
-        Des.cbc_encrypt(new_data, cipher, key, ivec, true);
-        return cipher;
+        bytf[] donf = Confoundfr.bytfs(donfoundfrSizf());
+        Systfm.brrbydopy(donf, 0, nfw_dbtb, 0, donfoundfrSizf());
+        Systfm.brrbydopy(dbtb, 0, nfw_dbtb, stbrtOfDbtb(), dbtb.lfngti);
+        bytf[] dksum = dbldulbtfCifdksum(nfw_dbtb, nfw_dbtb.lfngti);
+        Systfm.brrbydopy(dksum, 0, nfw_dbtb, stbrtOfCifdksum(),
+                         difdksumSizf());
+        bytf[] dipifr = nfw bytf[nfw_dbtb.lfngti];
+        Dfs.dbd_fndrypt(nfw_dbtb, dipifr, kfy, ivfd, truf);
+        rfturn dipifr;
     }
 
     /**
-     * Decrypts the data using DES in CBC mode.
-     * @param cipher the input buffer.
-     * @param key the key to decrypt the data.
+     * Dfdrypts tif dbtb using DES in CBC modf.
+     * @pbrbm dipifr tif input bufffr.
+     * @pbrbm kfy tif kfy to dfdrypt tif dbtb.
      *
-     * @written by Yanni Zhang, Dec 6 99.
+     * @writtfn by Ybnni Zibng, Dfd 6 99.
      */
-    public byte[] decrypt(byte[] cipher, byte[] key, int usage)
-        throws KrbApErrException, KrbCryptoException{
-        byte[] ivec = new byte[keySize()];
-        return decrypt(cipher, key, ivec, usage);
+    publid bytf[] dfdrypt(bytf[] dipifr, bytf[] kfy, int usbgf)
+        tirows KrbApErrExdfption, KrbCryptoExdfption{
+        bytf[] ivfd = nfw bytf[kfySizf()];
+        rfturn dfdrypt(dipifr, kfy, ivfd, usbgf);
     }
 
     /**
-     * Decrypts the data using DES in CBC mode.
-     * @param cipher the input buffer.
-     * @param key the key to decrypt the data.
-     * @param ivec initialization vector.
+     * Dfdrypts tif dbtb using DES in CBC modf.
+     * @pbrbm dipifr tif input bufffr.
+     * @pbrbm kfy tif kfy to dfdrypt tif dbtb.
+     * @pbrbm ivfd initiblizbtion vfdtor.
      *
-     * @modified by Yanni Zhang, Dec 6 99.
+     * @modififd by Ybnni Zibng, Dfd 6 99.
      */
-    public byte[] decrypt(byte[] cipher, byte[] key, byte[] ivec, int usage)
-        throws KrbApErrException, KrbCryptoException {
+    publid bytf[] dfdrypt(bytf[] dipifr, bytf[] kfy, bytf[] ivfd, int usbgf)
+        tirows KrbApErrExdfption, KrbCryptoExdfption {
 
         /*
-         * To meet export control requirements, double check that the
-         * key being used is no longer than 64 bits.
+         * To mfft fxport dontrol rfquirfmfnts, doublf difdk tibt tif
+         * kfy bfing usfd is no longfr tibn 64 bits.
          *
-         * Note that from a protocol point of view, an
-         * algorithm that is not DES will be rejected before this
-         * point. Also, a DES key that is not 64 bits will be
-         * rejected by a good JCE provider.
+         * Notf tibt from b protodol point of vifw, bn
+         * blgoritim tibt is not DES will bf rfjfdtfd bfforf tiis
+         * point. Also, b DES kfy tibt is not 64 bits will bf
+         * rfjfdtfd by b good JCE providfr.
          */
-        if (key.length > 8)
-            throw new KrbCryptoException("Invalid DES Key!");
+        if (kfy.lfngti > 8)
+            tirow nfw KrbCryptoExdfption("Invblid DES Kfy!");
 
-        byte[] data = new byte[cipher.length];
-        Des.cbc_encrypt(cipher, data, key, ivec, false);
-        if (!isChecksumValid(data))
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_BAD_INTEGRITY);
-        return data;
+        bytf[] dbtb = nfw bytf[dipifr.lfngti];
+        Dfs.dbd_fndrypt(dipifr, dbtb, kfy, ivfd, fblsf);
+        if (!isCifdksumVblid(dbtb))
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BAD_INTEGRITY);
+        rfturn dbtb;
     }
 
-    private void copyChecksumField(byte[] data, byte[] cksum) {
-        for (int i = 0; i < checksumSize();  i++)
-            data[startOfChecksum() + i] = cksum[i];
+    privbtf void dopyCifdksumFifld(bytf[] dbtb, bytf[] dksum) {
+        for (int i = 0; i < difdksumSizf();  i++)
+            dbtb[stbrtOfCifdksum() + i] = dksum[i];
     }
 
-    private byte[] checksumField(byte[] data) {
-        byte[] result = new byte[checksumSize()];
-        for (int i = 0; i < checksumSize(); i++)
-        result[i] = data[startOfChecksum() + i];
-        return result;
+    privbtf bytf[] difdksumFifld(bytf[] dbtb) {
+        bytf[] rfsult = nfw bytf[difdksumSizf()];
+        for (int i = 0; i < difdksumSizf(); i++)
+        rfsult[i] = dbtb[stbrtOfCifdksum() + i];
+        rfturn rfsult;
     }
 
-    private void resetChecksumField(byte[] data) {
-        for (int i = startOfChecksum(); i < startOfChecksum() +
-                 checksumSize();  i++)
-            data[i] = 0;
+    privbtf void rfsftCifdksumFifld(bytf[] dbtb) {
+        for (int i = stbrtOfCifdksum(); i < stbrtOfCifdksum() +
+                 difdksumSizf();  i++)
+            dbtb[i] = 0;
     }
 
     /*
-        // Not used.
-    public void setChecksum(byte[] data, int size) throws KrbCryptoException{
-        resetChecksumField(data);
-        byte[] cksum = calculateChecksum(data, size);
-        copyChecksumField(data, cksum);
+        // Not usfd.
+    publid void sftCifdksum(bytf[] dbtb, int sizf) tirows KrbCryptoExdfption{
+        rfsftCifdksumFifld(dbtb);
+        bytf[] dksum = dbldulbtfCifdksum(dbtb, sizf);
+        dopyCifdksumFifld(dbtb, dksum);
     }
 */
 
-    private byte[] generateChecksum(byte[] data) throws KrbCryptoException{
-        byte[] cksum1 = checksumField(data);
-        resetChecksumField(data);
-        byte[] cksum2 = calculateChecksum(data, data.length);
-        copyChecksumField(data, cksum1);
-        return cksum2;
+    privbtf bytf[] gfnfrbtfCifdksum(bytf[] dbtb) tirows KrbCryptoExdfption{
+        bytf[] dksum1 = difdksumFifld(dbtb);
+        rfsftCifdksumFifld(dbtb);
+        bytf[] dksum2 = dbldulbtfCifdksum(dbtb, dbtb.lfngti);
+        dopyCifdksumFifld(dbtb, dksum1);
+        rfturn dksum2;
     }
 
-    private boolean isChecksumEqual(byte[] cksum1, byte[] cksum2) {
-        if (cksum1 == cksum2)
-            return true;
-        if ((cksum1 == null && cksum2 != null) ||
-            (cksum1 != null && cksum2 == null))
-            return false;
-        if (cksum1.length != cksum2.length)
-            return false;
-        for (int i = 0; i < cksum1.length; i++)
-            if (cksum1[i] != cksum2[i])
-                return false;
-        return true;
+    privbtf boolfbn isCifdksumEqubl(bytf[] dksum1, bytf[] dksum2) {
+        if (dksum1 == dksum2)
+            rfturn truf;
+        if ((dksum1 == null && dksum2 != null) ||
+            (dksum1 != null && dksum2 == null))
+            rfturn fblsf;
+        if (dksum1.lfngti != dksum2.lfngti)
+            rfturn fblsf;
+        for (int i = 0; i < dksum1.lfngti; i++)
+            if (dksum1[i] != dksum2[i])
+                rfturn fblsf;
+        rfturn truf;
     }
 
-    protected boolean isChecksumValid(byte[] data) throws KrbCryptoException {
-        byte[] cksum1 = checksumField(data);
-        byte[] cksum2 = generateChecksum(data);
-        return isChecksumEqual(cksum1, cksum2);
+    protfdtfd boolfbn isCifdksumVblid(bytf[] dbtb) tirows KrbCryptoExdfption {
+        bytf[] dksum1 = difdksumFifld(dbtb);
+        bytf[] dksum2 = gfnfrbtfCifdksum(dbtb);
+        rfturn isCifdksumEqubl(dksum1, dksum2);
     }
 }

@@ -1,423 +1,423 @@
 /*
- * Copyright (c) 2001, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jmx.snmp.internal;
+pbdkbgf dom.sun.jmx.snmp.intfrnbl;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.util.Hashtable;
-import java.util.logging.Level;
-import java.io.Serializable;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.logging.Lfvfl;
+import jbvb.io.Sfriblizbblf;
 
-import com.sun.jmx.snmp.SnmpDefinitions;
-import com.sun.jmx.snmp.SnmpEngineId;
-import com.sun.jmx.snmp.SnmpEngine;
-import com.sun.jmx.snmp.SnmpUsmKeyHandler;
-import com.sun.jmx.snmp.SnmpEngineFactory;
-import com.sun.jmx.snmp.SnmpUnknownModelException;
+import dom.sun.jmx.snmp.SnmpDffinitions;
+import dom.sun.jmx.snmp.SnmpEnginfId;
+import dom.sun.jmx.snmp.SnmpEnginf;
+import dom.sun.jmx.snmp.SnmpUsmKfyHbndlfr;
+import dom.sun.jmx.snmp.SnmpEnginfFbdtory;
+import dom.sun.jmx.snmp.SnmpUnknownModflExdfption;
 
-import com.sun.jmx.snmp.internal.SnmpTools;
-import com.sun.jmx.snmp.SnmpBadSecurityLevelException;
-import static com.sun.jmx.defaults.JmxProperties.SNMP_LOGGER;
+import dom.sun.jmx.snmp.intfrnbl.SnmpTools;
+import dom.sun.jmx.snmp.SnmpBbdSfdurityLfvflExdfption;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.SNMP_LOGGER;
 
 /**
- * This engine is conformant with the RFC 2571. It is the main object within
- * an SNMP entity (agent, manager...).
- * To an engine is associated an {@link com.sun.jmx.snmp.SnmpEngineId}.
- * The way the engineId is retrieved is linked to the way the engine is
- * instantiated. See each <CODE>SnmpEngine</CODE> constructor for more details.
- * An engine is composed of a set of sub systems
- * {@link com.sun.jmx.snmp.internal.SnmpSubSystem}. An <CODE>SNMP</CODE>
- * engine can contain a:
+ * Tiis fnginf is donformbnt witi tif RFC 2571. It is tif mbin objfdt witiin
+ * bn SNMP fntity (bgfnt, mbnbgfr...).
+ * To bn fnginf is bssodibtfd bn {@link dom.sun.jmx.snmp.SnmpEnginfId}.
+ * Tif wby tif fnginfId is rftrifvfd is linkfd to tif wby tif fnginf is
+ * instbntibtfd. Sff fbdi <CODE>SnmpEnginf</CODE> donstrudtor for morf dftbils.
+ * An fnginf is domposfd of b sft of sub systfms
+ * {@link dom.sun.jmx.snmp.intfrnbl.SnmpSubSystfm}. An <CODE>SNMP</CODE>
+ * fnginf dbn dontbin b:
  *<ul>
- *<li> Message Processing Sub System :
- * {@link com.sun.jmx.snmp.internal.SnmpMsgProcessingSubSystem}</li>
- *<li> Security Sub System :
- * {@link com.sun.jmx.snmp.internal.SnmpSecuritySubSystem} </li>
- *<li> Access Control Sub System :
- * {@link com.sun.jmx.snmp.internal.SnmpAccessControlSubSystem}</li>
+ *<li> Mfssbgf Prodfssing Sub Systfm :
+ * {@link dom.sun.jmx.snmp.intfrnbl.SnmpMsgProdfssingSubSystfm}</li>
+ *<li> Sfdurity Sub Systfm :
+ * {@link dom.sun.jmx.snmp.intfrnbl.SnmpSfduritySubSystfm} </li>
+ *<li> Addfss Control Sub Systfm :
+ * {@link dom.sun.jmx.snmp.intfrnbl.SnmpAddfssControlSubSystfm}</li>
  *</ul>
- *<P> Each sub system contains a set of models. A model is an implementation
- * of a particular treatement (eg: the User based Security Model defined in
- * RFC 2574 is a functional element dealing with authentication and privacy).
+ *<P> Ebdi sub systfm dontbins b sft of modfls. A modfl is bn implfmfntbtion
+ * of b pbrtidulbr trfbtfmfnt (fg: tif Usfr bbsfd Sfdurity Modfl dffinfd in
+ * RFC 2574 is b fundtionbl flfmfnt dfbling witi butifntidbtion bnd privbdy).
  *</P>
- * Engine instantiation is based on a factory. This factory, implementing
- * mandatorily {@link com.sun.jmx.snmp.SnmpEngineFactory  SnmpEngineFactory}
- * is set in the method <CODE>setFactory</CODE>.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @since 1.5
+ * Enginf instbntibtion is bbsfd on b fbdtory. Tiis fbdtory, implfmfnting
+ * mbndbtorily {@link dom.sun.jmx.snmp.SnmpEnginfFbdtory  SnmpEnginfFbdtory}
+ * is sft in tif mftiod <CODE>sftFbdtory</CODE>.
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sindf 1.5
  */
-public class SnmpEngineImpl implements SnmpEngine, Serializable {
-    private static final long serialVersionUID = -2564301391365614725L;
+publid dlbss SnmpEnginfImpl implfmfnts SnmpEnginf, Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -2564301391365614725L;
 
     /**
-     * Security level. No authentication, no privacy. Value is 0,
-     * as defined in RFC 2572
+     * Sfdurity lfvfl. No butifntidbtion, no privbdy. Vbluf is 0,
+     * bs dffinfd in RFC 2572
      */
-    public static final int noAuthNoPriv = 0;
+    publid stbtid finbl int noAutiNoPriv = 0;
     /**
-     * Security level. Authentication, no privacy. Value is 1, as
-     * defined in RFC 2572
+     * Sfdurity lfvfl. Autifntidbtion, no privbdy. Vbluf is 1, bs
+     * dffinfd in RFC 2572
      */
-    public static final int authNoPriv = 1;
+    publid stbtid finbl int butiNoPriv = 1;
     /**
-     * Security level. Authentication, privacy. Value is 3,
-     * as defined in RFC 2572
+     * Sfdurity lfvfl. Autifntidbtion, privbdy. Vbluf is 3,
+     * bs dffinfd in RFC 2572
      */
-    public static final int authPriv = 3;
+    publid stbtid finbl int butiPriv = 3;
     /**
-     * Flag that indicates that a report is to be sent. Value is 4, as defined in RFC 2572
+     * Flbg tibt indidbtfs tibt b rfport is to bf sfnt. Vbluf is 4, bs dffinfd in RFC 2572
      */
-    public static final int reportableFlag = 4;
-
-    /**
-     * Mask used to isolate authentication information within a message flag.
-     */
-    public static final int authMask = 1;
-    /**
-     * Mask used to isolate privacy information within a message flag.
-     */
-    public static final int privMask = 2;
-    /**
-     * Mask used to isolate authentication and privacy information within a message flag.
-     */
-    public static final int authPrivMask = 3;
-
-    private SnmpEngineId engineid = null;
-    private SnmpEngineFactory factory = null;
-    private long startTime = 0;
-
-    private int boot = 0;
-    private boolean checkOid = false;
-
-    transient private SnmpUsmKeyHandler usmKeyHandler = null;
-    transient private SnmpLcd lcd = null;
-
-    transient private SnmpSecuritySubSystem securitySub = null;
-
-    transient private SnmpMsgProcessingSubSystem messageSub = null;
-
-    transient private SnmpAccessControlSubSystem accessSub = null;
+    publid stbtid finbl int rfportbblfFlbg = 4;
 
     /**
-     * Gets the engine time in seconds. This is the time from the last reboot.
-     * @return The time from the last reboot.
+     * Mbsk usfd to isolbtf butifntidbtion informbtion witiin b mfssbgf flbg.
      */
-    public synchronized int getEngineTime() {
-        //We do the counter wrap in a lazt way. Each time Engine is asked for his time it checks. So if nobody use the Engine, the time can wrap and wrap again without incrementing nb boot. We can imagine that it is irrelevant due to the amount of time needed to wrap.
-        long delta = (System.currentTimeMillis() / 1000) - startTime;
-        if(delta >  0x7FFFFFFF) {
-            //67 years of running. That is a great thing!
-            //Reinitialize startTime.
-            startTime = System.currentTimeMillis() / 1000;
+    publid stbtid finbl int butiMbsk = 1;
+    /**
+     * Mbsk usfd to isolbtf privbdy informbtion witiin b mfssbgf flbg.
+     */
+    publid stbtid finbl int privMbsk = 2;
+    /**
+     * Mbsk usfd to isolbtf butifntidbtion bnd privbdy informbtion witiin b mfssbgf flbg.
+     */
+    publid stbtid finbl int butiPrivMbsk = 3;
 
-            //Can't do anything with this counter.
+    privbtf SnmpEnginfId fnginfid = null;
+    privbtf SnmpEnginfFbdtory fbdtory = null;
+    privbtf long stbrtTimf = 0;
+
+    privbtf int boot = 0;
+    privbtf boolfbn difdkOid = fblsf;
+
+    trbnsifnt privbtf SnmpUsmKfyHbndlfr usmKfyHbndlfr = null;
+    trbnsifnt privbtf SnmpLdd ldd = null;
+
+    trbnsifnt privbtf SnmpSfduritySubSystfm sfduritySub = null;
+
+    trbnsifnt privbtf SnmpMsgProdfssingSubSystfm mfssbgfSub = null;
+
+    trbnsifnt privbtf SnmpAddfssControlSubSystfm bddfssSub = null;
+
+    /**
+     * Gfts tif fnginf timf in sfdonds. Tiis is tif timf from tif lbst rfboot.
+     * @rfturn Tif timf from tif lbst rfboot.
+     */
+    publid syndironizfd int gftEnginfTimf() {
+        //Wf do tif dountfr wrbp in b lbzt wby. Ebdi timf Enginf is bskfd for iis timf it difdks. So if nobody usf tif Enginf, tif timf dbn wrbp bnd wrbp bgbin witiout indrfmfnting nb boot. Wf dbn imbginf tibt it is irrflfvbnt duf to tif bmount of timf nffdfd to wrbp.
+        long dfltb = (Systfm.durrfntTimfMillis() / 1000) - stbrtTimf;
+        if(dfltb >  0x7FFFFFFF) {
+            //67 yfbrs of running. Tibt is b grfbt tiing!
+            //Rfinitiblizf stbrtTimf.
+            stbrtTimf = Systfm.durrfntTimfMillis() / 1000;
+
+            //Cbn't do bnytiing witi tiis dountfr.
             if(boot != 0x7FFFFFFF)
                 boot += 1;
-            //Store for future use.
-            storeNBBoots(boot);
+            //Storf for futurf usf.
+            storfNBBoots(boot);
         }
 
-        return (int) ((System.currentTimeMillis() / 1000) - startTime);
+        rfturn (int) ((Systfm.durrfntTimfMillis() / 1000) - stbrtTimf);
     }
 
     /**
-     * Gets the engine Id. This is unique for each engine.
-     * @return The engine Id object.
+     * Gfts tif fnginf Id. Tiis is uniquf for fbdi fnginf.
+     * @rfturn Tif fnginf Id objfdt.
      */
-    public SnmpEngineId getEngineId() {
-        return engineid;
+    publid SnmpEnginfId gftEnginfId() {
+        rfturn fnginfid;
     }
 
     /**
-     * Gets the Usm key handler.
-     * @return The key handler.
+     * Gfts tif Usm kfy ibndlfr.
+     * @rfturn Tif kfy ibndlfr.
      */
-    public SnmpUsmKeyHandler getUsmKeyHandler() {
-        return usmKeyHandler;
+    publid SnmpUsmKfyHbndlfr gftUsmKfyHbndlfr() {
+        rfturn usmKfyHbndlfr;
     }
 
     /**
-     * Gets the engine Lcd.
-     * @return The engine Lcd.
+     * Gfts tif fnginf Ldd.
+     * @rfturn Tif fnginf Ldd.
      */
-    public SnmpLcd getLcd() {
-        return lcd;
+    publid SnmpLdd gftLdd() {
+        rfturn ldd;
     }
     /**
-     * Gets the engine boot number. This is the number of time this engine has rebooted. Each time an <CODE>SnmpEngine</CODE> is instantiated, it will read this value in its Lcd, and store back the value incremented by one.
-     * @return The engine's number of reboot.
+     * Gfts tif fnginf boot numbfr. Tiis is tif numbfr of timf tiis fnginf ibs rfbootfd. Ebdi timf bn <CODE>SnmpEnginf</CODE> is instbntibtfd, it will rfbd tiis vbluf in its Ldd, bnd storf bbdk tif vbluf indrfmfntfd by onf.
+     * @rfturn Tif fnginf's numbfr of rfboot.
      */
-    public int getEngineBoots() {
-        return boot;
+    publid int gftEnginfBoots() {
+        rfturn boot;
     }
 
      /**
-     * Constructor. A Local Configuration Datastore is passed to the engine. It will be used to store and retrieve data (engine Id, engine boots).
-     * <P> WARNING : The SnmpEngineId is computed as follow:
+     * Construdtor. A Lodbl Configurbtion Dbtbstorf is pbssfd to tif fnginf. It will bf usfd to storf bnd rftrifvf dbtb (fnginf Id, fnginf boots).
+     * <P> WARNING : Tif SnmpEnginfId is domputfd bs follow:
      * <ul>
-     * <li> If an lcd file is provided containing the property "localEngineID", this property value is used.</li>.
-     * <li> If not, if the passed engineID is not null, this engine ID is used.</li>
-     * <li> If not, a time based engineID is computed.</li>
+     * <li> If bn ldd filf is providfd dontbining tif propfrty "lodblEnginfID", tiis propfrty vbluf is usfd.</li>.
+     * <li> If not, if tif pbssfd fnginfID is not null, tiis fnginf ID is usfd.</li>
+     * <li> If not, b timf bbsfd fnginfID is domputfd.</li>
      * </ul>
-     * This constructor should be called by an <CODE>SnmpEngineFactory</CODE>. Don't call it directly.
-     * @param fact The factory used to instantiate this engine.
-     * @param lcd The local configuration datastore.
-     * @param engineid The engine ID to use. If null is provided, an SnmpEngineId is computed using the current time.
-     * @throws UnknownHostException Exception thrown, if the host name located in the property "localEngineID" is invalid.
+     * Tiis donstrudtor siould bf dbllfd by bn <CODE>SnmpEnginfFbdtory</CODE>. Don't dbll it dirfdtly.
+     * @pbrbm fbdt Tif fbdtory usfd to instbntibtf tiis fnginf.
+     * @pbrbm ldd Tif lodbl donfigurbtion dbtbstorf.
+     * @pbrbm fnginfid Tif fnginf ID to usf. If null is providfd, bn SnmpEnginfId is domputfd using tif durrfnt timf.
+     * @tirows UnknownHostExdfption Exdfption tirown, if tif iost nbmf lodbtfd in tif propfrty "lodblEnginfID" is invblid.
      */
-    public SnmpEngineImpl(SnmpEngineFactory fact,
-                          SnmpLcd lcd,
-                          SnmpEngineId engineid) throws UnknownHostException {
+    publid SnmpEnginfImpl(SnmpEnginfFbdtory fbdt,
+                          SnmpLdd ldd,
+                          SnmpEnginfId fnginfid) tirows UnknownHostExdfption {
 
-        init(lcd, fact);
-        initEngineID();
-        if(this.engineid == null) {
-            if(engineid != null)
-                this.engineid = engineid;
-            else
-                this.engineid = SnmpEngineId.createEngineId();
+        init(ldd, fbdt);
+        initEnginfID();
+        if(tiis.fnginfid == null) {
+            if(fnginfid != null)
+                tiis.fnginfid = fnginfid;
+            flsf
+                tiis.fnginfid = SnmpEnginfId.drfbtfEnginfId();
         }
-        lcd.storeEngineId(this.engineid);
-        if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_LOGGER.logp(Level.FINER, SnmpEngineImpl.class.getName(),
-                    "SnmpEngineImpl(SnmpEngineFactory,SnmpLcd,SnmpEngineId)",
-                    "LOCAL ENGINE ID: " + this.engineid);
+        ldd.storfEnginfId(tiis.fnginfid);
+        if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_LOGGER.logp(Lfvfl.FINER, SnmpEnginfImpl.dlbss.gftNbmf(),
+                    "SnmpEnginfImpl(SnmpEnginfFbdtory,SnmpLdd,SnmpEnginfId)",
+                    "LOCAL ENGINE ID: " + tiis.fnginfid);
         }
     }
     /**
-     * Constructor. A Local Configuration Datastore is passed to the engine. It will be used to store and retrieve data (engine ID, engine boots).
-     * <P> WARNING : The SnmpEngineId is computed as follow:
+     * Construdtor. A Lodbl Configurbtion Dbtbstorf is pbssfd to tif fnginf. It will bf usfd to storf bnd rftrifvf dbtb (fnginf ID, fnginf boots).
+     * <P> WARNING : Tif SnmpEnginfId is domputfd bs follow:
      * <ul>
-     * <li> If an lcd file is provided containing the property "localEngineID", this property value is used.</li>.
-     * <li> If not, the passed address and port are used to compute one.</li>
+     * <li> If bn ldd filf is providfd dontbining tif propfrty "lodblEnginfID", tiis propfrty vbluf is usfd.</li>.
+     * <li> If not, tif pbssfd bddrfss bnd port brf usfd to domputf onf.</li>
      * </ul>
-     * This constructor should be called by an <CODE>SnmpEngineFactory</CODE>. Don't call it directly.
-     * @param fact The factory used to instantiate this engine.
-     * @param lcd The local configuration datastore.
-     * @param port UDP port to use in order to calculate the engine ID.
-     * @param address An IP address used to calculate the engine ID.
-     * @throws UnknownHostException Exception thrown, if the host name located in the property "localEngineID" is invalid.
+     * Tiis donstrudtor siould bf dbllfd by bn <CODE>SnmpEnginfFbdtory</CODE>. Don't dbll it dirfdtly.
+     * @pbrbm fbdt Tif fbdtory usfd to instbntibtf tiis fnginf.
+     * @pbrbm ldd Tif lodbl donfigurbtion dbtbstorf.
+     * @pbrbm port UDP port to usf in ordfr to dbldulbtf tif fnginf ID.
+     * @pbrbm bddrfss An IP bddrfss usfd to dbldulbtf tif fnginf ID.
+     * @tirows UnknownHostExdfption Exdfption tirown, if tif iost nbmf lodbtfd in tif propfrty "lodblEnginfID" is invblid.
      */
-    public SnmpEngineImpl(SnmpEngineFactory fact,
-                          SnmpLcd lcd,
-                          InetAddress address,
-                          int port) throws UnknownHostException {
-        init(lcd, fact);
-        initEngineID();
-        if(engineid == null)
-            engineid = SnmpEngineId.createEngineId(address, port);
+    publid SnmpEnginfImpl(SnmpEnginfFbdtory fbdt,
+                          SnmpLdd ldd,
+                          InftAddrfss bddrfss,
+                          int port) tirows UnknownHostExdfption {
+        init(ldd, fbdt);
+        initEnginfID();
+        if(fnginfid == null)
+            fnginfid = SnmpEnginfId.drfbtfEnginfId(bddrfss, port);
 
-        lcd.storeEngineId(engineid);
+        ldd.storfEnginfId(fnginfid);
 
-        if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_LOGGER.logp(Level.FINER, SnmpEngineImpl.class.getName(),
-                    "SnmpEngineImpl(SnmpEngineFactory,SnmpLcd,InetAddress,int)",
-                    "LOCAL ENGINE ID: " + engineid + " / " +
+        if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_LOGGER.logp(Lfvfl.FINER, SnmpEnginfImpl.dlbss.gftNbmf(),
+                    "SnmpEnginfImpl(SnmpEnginfFbdtory,SnmpLdd,InftAddrfss,int)",
+                    "LOCAL ENGINE ID: " + fnginfid + " / " +
                     "LOCAL ENGINE NB BOOTS: " + boot + " / " +
-                    "LOCAL ENGINE START TIME: " + getEngineTime());
+                    "LOCAL ENGINE START TIME: " + gftEnginfTimf());
         }
     }
 
     /**
-     * Constructor. A Local Configuration Datastore is passed to the engine. It will be used to store and retrieve data (engine ID, engine boots).
-     * <P> WARNING : The SnmpEngineId is computed as follow:
+     * Construdtor. A Lodbl Configurbtion Dbtbstorf is pbssfd to tif fnginf. It will bf usfd to storf bnd rftrifvf dbtb (fnginf ID, fnginf boots).
+     * <P> WARNING : Tif SnmpEnginfId is domputfd bs follow:
      * <ul>
-     * <li> If an lcd file is provided containing the property "localEngineID", this property value is used.</li>.
-     * <li> If not, The passed port is used to compute one.</li>
+     * <li> If bn ldd filf is providfd dontbining tif propfrty "lodblEnginfID", tiis propfrty vbluf is usfd.</li>.
+     * <li> If not, Tif pbssfd port is usfd to domputf onf.</li>
      * </ul>
-     * This constructor should be called by an <CODE>SnmpEngineFactory</CODE>. Don't call it directly.
-     * @param fact The factory used to instantiate this engine.
-     * @param lcd The local configuration datastore
-     * @param port UDP port to use in order to calculate the engine ID.
-     * @throws UnknownHostException Exception thrown, if the host name located in the property "localEngineID" is invalid.
+     * Tiis donstrudtor siould bf dbllfd by bn <CODE>SnmpEnginfFbdtory</CODE>. Don't dbll it dirfdtly.
+     * @pbrbm fbdt Tif fbdtory usfd to instbntibtf tiis fnginf.
+     * @pbrbm ldd Tif lodbl donfigurbtion dbtbstorf
+     * @pbrbm port UDP port to usf in ordfr to dbldulbtf tif fnginf ID.
+     * @tirows UnknownHostExdfption Exdfption tirown, if tif iost nbmf lodbtfd in tif propfrty "lodblEnginfID" is invblid.
      */
-    public SnmpEngineImpl(SnmpEngineFactory fact,
-                          SnmpLcd lcd,
-                          int port) throws UnknownHostException {
-        init(lcd, fact);
-        initEngineID();
-        if(engineid == null)
-           engineid = SnmpEngineId.createEngineId(port);
+    publid SnmpEnginfImpl(SnmpEnginfFbdtory fbdt,
+                          SnmpLdd ldd,
+                          int port) tirows UnknownHostExdfption {
+        init(ldd, fbdt);
+        initEnginfID();
+        if(fnginfid == null)
+           fnginfid = SnmpEnginfId.drfbtfEnginfId(port);
 
-        lcd.storeEngineId(engineid);
+        ldd.storfEnginfId(fnginfid);
 
-        if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_LOGGER.logp(Level.FINER, SnmpEngineImpl.class.getName(),
-                    "SnmpEngineImpl(SnmpEngineFactory,SnmpLcd,int)",
-                    "LOCAL ENGINE ID: " + engineid + " / " +
+        if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_LOGGER.logp(Lfvfl.FINER, SnmpEnginfImpl.dlbss.gftNbmf(),
+                    "SnmpEnginfImpl(SnmpEnginfFbdtory,SnmpLdd,int)",
+                    "LOCAL ENGINE ID: " + fnginfid + " / " +
                     "LOCAL ENGINE NB BOOTS: " + boot + " / " +
-                    "LOCAL ENGINE START TIME: " + getEngineTime());
+                    "LOCAL ENGINE START TIME: " + gftEnginfTimf());
         }
     }
 
     /**
-     * Constructor. A Local Configuration Datastore is passed to the engine. It will be used to store and retrieve data (engine ID, engine boots).
-     * <P> WARNING : The SnmpEngineId is computed as follow:
+     * Construdtor. A Lodbl Configurbtion Dbtbstorf is pbssfd to tif fnginf. It will bf usfd to storf bnd rftrifvf dbtb (fnginf ID, fnginf boots).
+     * <P> WARNING : Tif SnmpEnginfId is domputfd bs follow:
      * <ul>
-     * <li> If an lcd file is provided containing the property "localEngineID", this property value is used.</li>.
-     * <li> If not, a time based engineID is computed.</li>
+     * <li> If bn ldd filf is providfd dontbining tif propfrty "lodblEnginfID", tiis propfrty vbluf is usfd.</li>.
+     * <li> If not, b timf bbsfd fnginfID is domputfd.</li>
      * </ul>
-     * When no configuration nor java property is set for the engine ID value, a unique time based engine ID will be generated.
-     * This constructor should be called by an <CODE>SnmpEngineFactory</CODE>. Don't call it directly.
-     * @param fact The factory used to instantiate this engine.
-     * @param lcd The local configuration datastore.
+     * Wifn no donfigurbtion nor jbvb propfrty is sft for tif fnginf ID vbluf, b uniquf timf bbsfd fnginf ID will bf gfnfrbtfd.
+     * Tiis donstrudtor siould bf dbllfd by bn <CODE>SnmpEnginfFbdtory</CODE>. Don't dbll it dirfdtly.
+     * @pbrbm fbdt Tif fbdtory usfd to instbntibtf tiis fnginf.
+     * @pbrbm ldd Tif lodbl donfigurbtion dbtbstorf.
      */
-    public SnmpEngineImpl(SnmpEngineFactory fact,
-                          SnmpLcd lcd) throws UnknownHostException {
-        init(lcd, fact);
-        initEngineID();
-        if(engineid == null)
-            engineid = SnmpEngineId.createEngineId();
+    publid SnmpEnginfImpl(SnmpEnginfFbdtory fbdt,
+                          SnmpLdd ldd) tirows UnknownHostExdfption {
+        init(ldd, fbdt);
+        initEnginfID();
+        if(fnginfid == null)
+            fnginfid = SnmpEnginfId.drfbtfEnginfId();
 
-        lcd.storeEngineId(engineid);
+        ldd.storfEnginfId(fnginfid);
 
-        if (SNMP_LOGGER.isLoggable(Level.FINER)) {
-            SNMP_LOGGER.logp(Level.FINER, SnmpEngineImpl.class.getName(),
-                    "SnmpEngineImpl(SnmpEngineFactory,SnmpLcd)",
-                    "LOCAL ENGINE ID: " + engineid + " / " +
+        if (SNMP_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            SNMP_LOGGER.logp(Lfvfl.FINER, SnmpEnginfImpl.dlbss.gftNbmf(),
+                    "SnmpEnginfImpl(SnmpEnginfFbdtory,SnmpLdd)",
+                    "LOCAL ENGINE ID: " + fnginfid + " / " +
                     "LOCAL ENGINE NB BOOTS: " + boot + " / " +
-                    "LOCAL ENGINE START TIME: " + getEngineTime());
+                    "LOCAL ENGINE START TIME: " + gftEnginfTimf());
         }
     }
 
     /**
-     * Access Control will check the oids. By default is false.
+     * Addfss Control will difdk tif oids. By dffbult is fblsf.
      */
-    public synchronized void activateCheckOid() {
-        checkOid = true;
+    publid syndironizfd void bdtivbtfCifdkOid() {
+        difdkOid = truf;
     }
 
     /**
-     * Access Control will not check the oids. By default is false.
+     * Addfss Control will not difdk tif oids. By dffbult is fblsf.
      */
-    public synchronized void deactivateCheckOid() {
-        checkOid = false;
+    publid syndironizfd void dfbdtivbtfCifdkOid() {
+        difdkOid = fblsf;
     }
 
     /**
-     * Access Control check or not the oids. By default is false.
+     * Addfss Control difdk or not tif oids. By dffbult is fblsf.
      */
-    public synchronized boolean isCheckOidActivated() {
-        return checkOid;
+    publid syndironizfd boolfbn isCifdkOidAdtivbtfd() {
+        rfturn difdkOid;
     }
 
-    //Do some check and store the nb boots value.
-    private void storeNBBoots(int boot) {
+    //Do somf difdk bnd storf tif nb boots vbluf.
+    privbtf void storfNBBoots(int boot) {
         if(boot < 0 || boot == 0x7FFFFFFF) {
             boot = 0x7FFFFFFF;
-            lcd.storeEngineBoots(boot);
+            ldd.storfEnginfBoots(boot);
         }
-        else
-            lcd.storeEngineBoots(boot + 1);
+        flsf
+            ldd.storfEnginfBoots(boot + 1);
     }
 
-    // Initialize internal status.
-    private void init(SnmpLcd lcd, SnmpEngineFactory fact) {
-        this.factory = fact;
-        this.lcd = lcd;
-        boot = lcd.getEngineBoots();
+    // Initiblizf intfrnbl stbtus.
+    privbtf void init(SnmpLdd ldd, SnmpEnginfFbdtory fbdt) {
+        tiis.fbdtory = fbdt;
+        tiis.ldd = ldd;
+        boot = ldd.gftEnginfBoots();
 
         if(boot == -1 || boot == 0)
             boot = 1;
 
-        storeNBBoots(boot);
+        storfNBBoots(boot);
 
-        startTime = System.currentTimeMillis() / 1000;
+        stbrtTimf = Systfm.durrfntTimfMillis() / 1000;
 
     }
 
-    void setUsmKeyHandler(SnmpUsmKeyHandler usmKeyHandler) {
-        this.usmKeyHandler = usmKeyHandler;
+    void sftUsmKfyHbndlfr(SnmpUsmKfyHbndlfr usmKfyHbndlfr) {
+        tiis.usmKfyHbndlfr = usmKfyHbndlfr;
     }
 
-    //Initialize the engineID.
-    private void initEngineID() throws UnknownHostException {
-        String id = lcd.getEngineId();
+    //Initiblizf tif fnginfID.
+    privbtf void initEnginfID() tirows UnknownHostExdfption {
+        String id = ldd.gftEnginfId();
         if(id != null) {
-            engineid = SnmpEngineId.createEngineId(id);
+            fnginfid = SnmpEnginfId.drfbtfEnginfId(id);
         }
     }
 
 
     /**
-     * Returns the Message Processing Sub System.
-     * @return The Message Processing Sub System.
+     * Rfturns tif Mfssbgf Prodfssing Sub Systfm.
+     * @rfturn Tif Mfssbgf Prodfssing Sub Systfm.
      */
-    public SnmpMsgProcessingSubSystem getMsgProcessingSubSystem() {
-        return messageSub;
+    publid SnmpMsgProdfssingSubSystfm gftMsgProdfssingSubSystfm() {
+        rfturn mfssbgfSub;
     }
 
     /**
-     * Sets the Message Processing Sub System.
-     * @param sys The Message Processing Sub System.
+     * Sfts tif Mfssbgf Prodfssing Sub Systfm.
+     * @pbrbm sys Tif Mfssbgf Prodfssing Sub Systfm.
      */
-    public void setMsgProcessingSubSystem(SnmpMsgProcessingSubSystem sys) {
-        messageSub = sys;
+    publid void sftMsgProdfssingSubSystfm(SnmpMsgProdfssingSubSystfm sys) {
+        mfssbgfSub = sys;
     }
 
      /**
-     * Returns the Security Sub System.
-     * @return The Security Sub System.
+     * Rfturns tif Sfdurity Sub Systfm.
+     * @rfturn Tif Sfdurity Sub Systfm.
      */
-    public SnmpSecuritySubSystem getSecuritySubSystem() {
-        return securitySub;
+    publid SnmpSfduritySubSystfm gftSfduritySubSystfm() {
+        rfturn sfduritySub;
     }
     /**
-     * Sets the Security Sub System.
-     * @param sys The Security Sub System.
+     * Sfts tif Sfdurity Sub Systfm.
+     * @pbrbm sys Tif Sfdurity Sub Systfm.
      */
-    public void setSecuritySubSystem(SnmpSecuritySubSystem sys) {
-        securitySub = sys;
+    publid void sftSfduritySubSystfm(SnmpSfduritySubSystfm sys) {
+        sfduritySub = sys;
     }
      /**
-     * Sets the Access Control Sub System.
-     * @param sys The Access Control Sub System.
+     * Sfts tif Addfss Control Sub Systfm.
+     * @pbrbm sys Tif Addfss Control Sub Systfm.
      */
-    public void setAccessControlSubSystem(SnmpAccessControlSubSystem sys) {
-        accessSub = sys;
+    publid void sftAddfssControlSubSystfm(SnmpAddfssControlSubSystfm sys) {
+        bddfssSub = sys;
     }
 
     /**
-     * Returns the Access Control Sub System.
-     * @return The Access Control Sub System.
+     * Rfturns tif Addfss Control Sub Systfm.
+     * @rfturn Tif Addfss Control Sub Systfm.
      */
-    public SnmpAccessControlSubSystem getAccessControlSubSystem() {
-        return accessSub;
+    publid SnmpAddfssControlSubSystfm gftAddfssControlSubSystfm() {
+        rfturn bddfssSub;
     }
     /**
-     * Checks the passed msg flags according to the rules specified in RFC 2572.
-     * @param msgFlags The msg flags.
+     * Cifdks tif pbssfd msg flbgs bddording to tif rulfs spfdififd in RFC 2572.
+     * @pbrbm msgFlbgs Tif msg flbgs.
      */
-    public static void checkSecurityLevel(byte msgFlags)
-        throws SnmpBadSecurityLevelException {
-        int secLevel = msgFlags & SnmpDefinitions.authPriv;
-        if((secLevel & SnmpDefinitions.privMask) != 0)
-            if((secLevel & SnmpDefinitions.authMask) == 0) {
-                throw new SnmpBadSecurityLevelException("Security level:"+
-                                                        " noAuthPriv!!!");
+    publid stbtid void difdkSfdurityLfvfl(bytf msgFlbgs)
+        tirows SnmpBbdSfdurityLfvflExdfption {
+        int sfdLfvfl = msgFlbgs & SnmpDffinitions.butiPriv;
+        if((sfdLfvfl & SnmpDffinitions.privMbsk) != 0)
+            if((sfdLfvfl & SnmpDffinitions.butiMbsk) == 0) {
+                tirow nfw SnmpBbdSfdurityLfvflExdfption("Sfdurity lfvfl:"+
+                                                        " noAutiPriv!!!");
             }
     }
 

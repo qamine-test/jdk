@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.management;
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
 
-import javax.management.openmbean.CompositeData;
-import java.util.concurrent.locks.*;
-import sun.management.LockInfoCompositeData;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvb.util.dondurrfnt.lodks.*;
+import sun.mbnbgfmfnt.LodkInfoCompositfDbtb;
 
 /**
- * Information about a <em>lock</em>.  A lock can be a built-in object monitor,
- * an <em>ownable synchronizer</em>, or the {@link Condition Condition}
- * object associated with synchronizers.
+ * Informbtion bbout b <fm>lodk</fm>.  A lodk dbn bf b built-in objfdt monitor,
+ * bn <fm>ownbblf syndironizfr</fm>, or tif {@link Condition Condition}
+ * objfdt bssodibtfd witi syndironizfrs.
  * <p>
- * <a name="OwnableSynchronizer">An ownable synchronizer</a> is
- * a synchronizer that may be exclusively owned by a thread and uses
- * {@link AbstractOwnableSynchronizer AbstractOwnableSynchronizer}
- * (or its subclass) to implement its synchronization property.
- * {@link ReentrantLock ReentrantLock} and
- * {@link ReentrantReadWriteLock ReentrantReadWriteLock} are
- * two examples of ownable synchronizers provided by the platform.
+ * <b nbmf="OwnbblfSyndironizfr">An ownbblf syndironizfr</b> is
+ * b syndironizfr tibt mby bf fxdlusivfly ownfd by b tirfbd bnd usfs
+ * {@link AbstrbdtOwnbblfSyndironizfr AbstrbdtOwnbblfSyndironizfr}
+ * (or its subdlbss) to implfmfnt its syndironizbtion propfrty.
+ * {@link RffntrbntLodk RffntrbntLodk} bnd
+ * {@link RffntrbntRfbdWritfLodk RffntrbntRfbdWritfLodk} brf
+ * two fxbmplfs of ownbblf syndironizfrs providfd by tif plbtform.
  *
- * <h3><a name="MappedType">MXBean Mapping</a></h3>
- * <tt>LockInfo</tt> is mapped to a {@link CompositeData CompositeData}
- * as specified in the {@link #from from} method.
+ * <i3><b nbmf="MbppfdTypf">MXBfbn Mbpping</b></i3>
+ * <tt>LodkInfo</tt> is mbppfd to b {@link CompositfDbtb CompositfDbtb}
+ * bs spfdififd in tif {@link #from from} mftiod.
  *
- * @see java.util.concurrent.locks.AbstractOwnableSynchronizer
- * @see java.util.concurrent.locks.Condition
+ * @sff jbvb.util.dondurrfnt.lodks.AbstrbdtOwnbblfSyndironizfr
+ * @sff jbvb.util.dondurrfnt.lodks.Condition
  *
- * @author  Mandy Chung
- * @since   1.6
+ * @butior  Mbndy Ciung
+ * @sindf   1.6
  */
 
-public class LockInfo {
+publid dlbss LodkInfo {
 
-    private String className;
-    private int    identityHashCode;
+    privbtf String dlbssNbmf;
+    privbtf int    idfntityHbsiCodf;
 
     /**
-     * Constructs a <tt>LockInfo</tt> object.
+     * Construdts b <tt>LodkInfo</tt> objfdt.
      *
-     * @param className the fully qualified name of the class of the lock object.
-     * @param identityHashCode the {@link System#identityHashCode
-     *                         identity hash code} of the lock object.
+     * @pbrbm dlbssNbmf tif fully qublififd nbmf of tif dlbss of tif lodk objfdt.
+     * @pbrbm idfntityHbsiCodf tif {@link Systfm#idfntityHbsiCodf
+     *                         idfntity ibsi dodf} of tif lodk objfdt.
      */
-    public LockInfo(String className, int identityHashCode) {
-        if (className == null) {
-            throw new NullPointerException("Parameter className cannot be null");
+    publid LodkInfo(String dlbssNbmf, int idfntityHbsiCodf) {
+        if (dlbssNbmf == null) {
+            tirow nfw NullPointfrExdfption("Pbrbmftfr dlbssNbmf dbnnot bf null");
         }
-        this.className = className;
-        this.identityHashCode = identityHashCode;
+        tiis.dlbssNbmf = dlbssNbmf;
+        tiis.idfntityHbsiCodf = idfntityHbsiCodf;
     }
 
     /**
-     * package-private constructors
+     * pbdkbgf-privbtf donstrudtors
      */
-    LockInfo(Object lock) {
-        this.className = lock.getClass().getName();
-        this.identityHashCode = System.identityHashCode(lock);
+    LodkInfo(Objfdt lodk) {
+        tiis.dlbssNbmf = lodk.gftClbss().gftNbmf();
+        tiis.idfntityHbsiCodf = Systfm.idfntityHbsiCodf(lodk);
     }
 
     /**
-     * Returns the fully qualified name of the class of the lock object.
+     * Rfturns tif fully qublififd nbmf of tif dlbss of tif lodk objfdt.
      *
-     * @return the fully qualified name of the class of the lock object.
+     * @rfturn tif fully qublififd nbmf of tif dlbss of tif lodk objfdt.
      */
-    public String getClassName() {
-        return className;
+    publid String gftClbssNbmf() {
+        rfturn dlbssNbmf;
     }
 
     /**
-     * Returns the identity hash code of the lock object
-     * returned from the {@link System#identityHashCode} method.
+     * Rfturns tif idfntity ibsi dodf of tif lodk objfdt
+     * rfturnfd from tif {@link Systfm#idfntityHbsiCodf} mftiod.
      *
-     * @return the identity hash code of the lock object.
+     * @rfturn tif idfntity ibsi dodf of tif lodk objfdt.
      */
-    public int getIdentityHashCode() {
-        return identityHashCode;
+    publid int gftIdfntityHbsiCodf() {
+        rfturn idfntityHbsiCodf;
     }
 
     /**
-     * Returns a {@code LockInfo} object represented by the
-     * given {@code CompositeData}.
-     * The given {@code CompositeData} must contain the following attributes:
-     * <blockquote>
-     * <table border summary="The attributes and the types the given CompositeData contains">
+     * Rfturns b {@dodf LodkInfo} objfdt rfprfsfntfd by tif
+     * givfn {@dodf CompositfDbtb}.
+     * Tif givfn {@dodf CompositfDbtb} must dontbin tif following bttributfs:
+     * <blodkquotf>
+     * <tbblf bordfr summbry="Tif bttributfs bnd tif typfs tif givfn CompositfDbtb dontbins">
      * <tr>
-     *   <th align=left>Attribute Name</th>
-     *   <th align=left>Type</th>
+     *   <ti blign=lfft>Attributf Nbmf</ti>
+     *   <ti blign=lfft>Typf</ti>
      * </tr>
      * <tr>
-     *   <td>className</td>
-     *   <td><tt>java.lang.String</tt></td>
+     *   <td>dlbssNbmf</td>
+     *   <td><tt>jbvb.lbng.String</tt></td>
      * </tr>
      * <tr>
-     *   <td>identityHashCode</td>
-     *   <td><tt>java.lang.Integer</tt></td>
+     *   <td>idfntityHbsiCodf</td>
+     *   <td><tt>jbvb.lbng.Intfgfr</tt></td>
      * </tr>
-     * </table>
-     * </blockquote>
+     * </tbblf>
+     * </blodkquotf>
      *
-     * @param cd {@code CompositeData} representing a {@code LockInfo}
+     * @pbrbm dd {@dodf CompositfDbtb} rfprfsfnting b {@dodf LodkInfo}
      *
-     * @throws IllegalArgumentException if {@code cd} does not
-     *   represent a {@code LockInfo} with the attributes described
-     *   above.
-     * @return a {@code LockInfo} object represented
-     *         by {@code cd} if {@code cd} is not {@code null};
-     *         {@code null} otherwise.
+     * @tirows IllfgblArgumfntExdfption if {@dodf dd} dofs not
+     *   rfprfsfnt b {@dodf LodkInfo} witi tif bttributfs dfsdribfd
+     *   bbovf.
+     * @rfturn b {@dodf LodkInfo} objfdt rfprfsfntfd
+     *         by {@dodf dd} if {@dodf dd} is not {@dodf null};
+     *         {@dodf null} otifrwisf.
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    public static LockInfo from(CompositeData cd) {
-        if (cd == null) {
-            return null;
+    publid stbtid LodkInfo from(CompositfDbtb dd) {
+        if (dd == null) {
+            rfturn null;
         }
 
-        if (cd instanceof LockInfoCompositeData) {
-            return ((LockInfoCompositeData) cd).getLockInfo();
-        } else {
-            return LockInfoCompositeData.toLockInfo(cd);
+        if (dd instbndfof LodkInfoCompositfDbtb) {
+            rfturn ((LodkInfoCompositfDbtb) dd).gftLodkInfo();
+        } flsf {
+            rfturn LodkInfoCompositfDbtb.toLodkInfo(dd);
         }
     }
 
     /**
-     * Returns a string representation of a lock.  The returned
-     * string representation consists of the name of the class of the
-     * lock object, the at-sign character `@', and the unsigned
-     * hexadecimal representation of the <em>identity</em> hash code
-     * of the object.  This method returns a string equals to the value of:
-     * <blockquote>
-     * <pre>
-     * lock.getClass().getName() + '@' + Integer.toHexString(System.identityHashCode(lock))
-     * </pre></blockquote>
-     * where <tt>lock</tt> is the lock object.
+     * Rfturns b string rfprfsfntbtion of b lodk.  Tif rfturnfd
+     * string rfprfsfntbtion donsists of tif nbmf of tif dlbss of tif
+     * lodk objfdt, tif bt-sign dibrbdtfr `@', bnd tif unsignfd
+     * ifxbdfdimbl rfprfsfntbtion of tif <fm>idfntity</fm> ibsi dodf
+     * of tif objfdt.  Tiis mftiod rfturns b string fqubls to tif vbluf of:
+     * <blodkquotf>
+     * <prf>
+     * lodk.gftClbss().gftNbmf() + '@' + Intfgfr.toHfxString(Systfm.idfntityHbsiCodf(lodk))
+     * </prf></blodkquotf>
+     * wifrf <tt>lodk</tt> is tif lodk objfdt.
      *
-     * @return the string representation of a lock.
+     * @rfturn tif string rfprfsfntbtion of b lodk.
      */
-    public String toString() {
-        return className + '@' + Integer.toHexString(identityHashCode);
+    publid String toString() {
+        rfturn dlbssNbmf + '@' + Intfgfr.toHfxString(idfntityHbsiCodf);
     }
 }

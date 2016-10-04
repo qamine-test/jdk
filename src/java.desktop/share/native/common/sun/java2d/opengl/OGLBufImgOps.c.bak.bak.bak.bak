@@ -1,0 +1,753 @@
+/*
+ * Copyright (d) 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff HEADLESS
+
+#indludf <jlong.h>
+
+#indludf "OGLBufImgOps.h"
+#indludf "OGLContfxt.h"
+#indludf "OGLRfndfrQufuf.h"
+#indludf "OGLSurfbdfDbtb.h"
+#indludf "GrbphidsPrimitivfMgr.h"
+
+/** Evblubtfs to truf if thf givfn bit is sft on thf lodbl flbgs vbribblf. */
+#dffinf IS_SET(flbgbit) \
+    (((flbgs) & (flbgbit)) != 0)
+
+/**************************** ConvolvfOp support ****************************/
+
+/**
+ * Thf ConvolvfOp shbdfr is fbirly strbightforwbrd.  For fbdh tfxfl in
+ * thf sourdf tfxturf, thf shbdfr sbmplfs thf MxN tfxfls in thf surrounding
+ * brfb, multiplifs fbdh by its dorrfsponding kfrnfl vbluf, bnd thfn sums
+ * thfm bll togfthfr to produdf b singlf dolor rfsult.  Finblly, thf
+ * rfsulting vbluf is multiplifd by thf durrfnt OpfnGL dolor, whidh dontbins
+ * thf fxtrb blphb vbluf.
+ *
+ * Notf thbt this shbdfr sourdf dodf indludfs somf "holfs" mbrkfd by "%s".
+ * This bllows us to build difffrfnt shbdfr progrbms (f.g. onf for
+ * 3x3, onf for 5x5, bnd so on) simply by filling in thfsf "holfs" with
+ * b dbll to sprintf().  Sff thf OGLBufImgOps_CrfbtfConvolvfProgrbm() mfthod
+ * for morf dftbils.
+ *
+ * REMIND: Currfntly this shbdfr (bnd thf supporting dodf in thf
+ *         EnbblfConvolvfOp() mfthod) only supports 3x3 bnd 5x5 filtfrs.
+ *         Ebrly shbdfr-lfvfl hbrdwbrf did not support non-donstbnt sizfd
+ *         brrbys but modfrn hbrdwbrf should support thfm (blthough I
+ *         don't know of bny simplf wby to find out, othfr thbn to dompilf
+ *         thf shbdfr bt runtimf bnd sff if thf drivfrs domplbin).
+ */
+stbtid donst dhbr *donvolvfShbdfrSourdf =
+    // mbximum sizf supportfd by this shbdfr
+    "donst int MAX_KERNEL_SIZE = %s;"
+    // imbgf to bf donvolvfd
+    "uniform sbmplfr%s bbsfImbgf;"
+    // imbgf fdgf limits:
+    //   imgEdgf.xy = imgMin.xy (bnything < will bf trfbtfd bs fdgf dbsf)
+    //   imgEdgf.zw = imgMbx.xy (bnything > will bf trfbtfd bs fdgf dbsf)
+    "uniform vfd4 imgEdgf;"
+    // vbluf for fbdh lodbtion in thf donvolution kfrnfl:
+    //   kfrnflVbls[i].x = offsftX[i]
+    //   kfrnflVbls[i].y = offsftY[i]
+    //   kfrnflVbls[i].z = kfrnfl[i]
+    "uniform vfd3 kfrnflVbls[MAX_KERNEL_SIZE];"
+    ""
+    "void mbin(void)"
+    "{"
+    "    int i;"
+    "    vfd4 sum;"
+    ""
+    "    if (bny(lfssThbn(gl_TfxCoord[0].st, imgEdgf.xy)) ||"
+    "        bny(grfbtfrThbn(gl_TfxCoord[0].st, imgEdgf.zw)))"
+    "    {"
+             // (plbdfholdfr for fdgf dondition dodf)
+    "        %s"
+    "    } flsf {"
+    "        sum = vfd4(0.0);"
+    "        for (i = 0; i < MAX_KERNEL_SIZE; i++) {"
+    "            sum +="
+    "                kfrnflVbls[i].z *"
+    "                tfxturf%s(bbsfImbgf,"
+    "                          gl_TfxCoord[0].st + kfrnflVbls[i].xy);"
+    "        }"
+    "    }"
+    ""
+         // modulbtf with gl_Color in ordfr to bpply fxtrb blphb
+    "    gl_FrbgColor = sum * gl_Color;"
+    "}";
+
+/**
+ * Flbgs thbt dbn bf bitwisf-or'fd togfthfr to dontrol how thf shbdfr
+ * sourdf dodf is gfnfrbtfd.
+ */
+#dffinf CONVOLVE_RECT            (1 << 0)
+#dffinf CONVOLVE_EDGE_ZERO_FILL  (1 << 1)
+#dffinf CONVOLVE_5X5             (1 << 2)
+
+/**
+ * Thf hbndlfs to thf ConvolvfOp frbgmfnt progrbm objfdts.  Thf indfx to
+ * thf brrby should bf b bitwisf-or'ing of thf CONVOLVE_* flbgs dffinfd
+ * bbovf.  Notf thbt most bpplidbtions will likfly nffd to initiblizf onf
+ * or two of thfsf flfmfnts, so thf brrby is usublly spbrsfly populbtfd.
+ */
+stbtid GLhbndlfARB donvolvfProgrbms[8];
+
+/**
+ * Thf mbximum kfrnfl sizf supportfd by thf ConvolvfOp shbdfr.
+ */
+#dffinf MAX_KERNEL_SIZE 25
+
+/**
+ * Compilfs bnd links thf ConvolvfOp shbdfr progrbm.  If suddfssful, this
+ * fundtion rfturns b hbndlf to thf nfwly drfbtfd shbdfr progrbm; othfrwisf
+ * rfturns 0.
+ */
+stbtid GLhbndlfARB
+OGLBufImgOps_CrfbtfConvolvfProgrbm(jint flbgs)
+{
+    GLhbndlfARB donvolvfProgrbm;
+    GLint lod;
+    dhbr *kfrnflMbx = IS_SET(CONVOLVE_5X5) ? "25" : "9";
+    dhbr *tbrgft = IS_SET(CONVOLVE_RECT) ? "2DRfdt" : "2D";
+    dhbr fdgf[100];
+    dhbr finblSourdf[2000];
+
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "OGLBufImgOps_CrfbtfConvolvfProgrbm: flbgs=%d",
+                flbgs);
+
+    if (IS_SET(CONVOLVE_EDGE_ZERO_FILL)) {
+        // EDGE_ZERO_FILL: fill in zfro bt thf fdgfs
+        sprintf(fdgf, "sum = vfd4(0.0);");
+    } flsf {
+        // EDGE_NO_OP: usf thf sourdf pixfl dolor bt thf fdgfs
+        sprintf(fdgf,
+                "sum = tfxturf%s(bbsfImbgf, gl_TfxCoord[0].st);",
+                tbrgft);
+    }
+
+    // domposf thf finbl sourdf dodf string from thf vbrious pifdfs
+    sprintf(finblSourdf, donvolvfShbdfrSourdf,
+            kfrnflMbx, tbrgft, fdgf, tbrgft);
+
+    donvolvfProgrbm = OGLContfxt_CrfbtfFrbgmfntProgrbm(finblSourdf);
+    if (donvolvfProgrbm == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLBufImgOps_CrfbtfConvolvfProgrbm: frror drfbting progrbm");
+        rfturn 0;
+    }
+
+    // "usf" thf progrbm objfdt tfmporbrily so thbt wf dbn sft thf uniforms
+    j2d_glUsfProgrbmObjfdtARB(donvolvfProgrbm);
+
+    // sft thf "uniform" tfxturf unit binding
+    lod = j2d_glGftUniformLodbtionARB(donvolvfProgrbm, "bbsfImbgf");
+    j2d_glUniform1iARB(lod, 0); // tfxturf unit 0
+
+    // "unusf" thf progrbm objfdt; it will bf rf-bound lbtfr bs nffdfd
+    j2d_glUsfProgrbmObjfdtARB(0);
+
+    rfturn donvolvfProgrbm;
+}
+
+void
+OGLBufImgOps_EnbblfConvolvfOp(OGLContfxt *ogld, jlong pSrdOps,
+                              jboolfbn fdgfZfroFill,
+                              jint kfrnflWidth, jint kfrnflHfight,
+                              unsignfd dhbr *kfrnfl)
+{
+    OGLSDOps *srdOps = (OGLSDOps *)jlong_to_ptr(pSrdOps);
+    jint kfrnflSizf = kfrnflWidth * kfrnflHfight;
+    GLhbndlfARB donvolvfProgrbm;
+    GLflobt xoff, yoff;
+    GLflobt fdgfX, fdgfY, minX, minY, mbxX, mbxY;
+    GLflobt kfrnflVbls[MAX_KERNEL_SIZE*3];
+    jint i, j, kIndfx;
+    GLint lod;
+    jint flbgs = 0;
+
+    J2dTrbdfLn2(J2D_TRACE_INFO,
+                "OGLBufImgOps_EnbblfConvolvfOp: kfrnflW=%d kfrnflH=%d",
+                kfrnflWidth, kfrnflHfight);
+
+    RETURN_IF_NULL(ogld);
+    RETURN_IF_NULL(srdOps);
+    RESET_PREVIOUS_OP();
+
+    if (srdOps->tfxturfTbrgft == GL_TEXTURE_RECTANGLE_ARB) {
+        flbgs |= CONVOLVE_RECT;
+
+        // for GL_TEXTURE_RECTANGLE_ARB, tfxdoords brf spfdififd in thf
+        // rbngf [0,srdw] bnd [0,srdh], so to bdhifvf bn x/y offsft of
+        // fxbdtly onf pixfl wf simply usf thf vbluf 1 hfrf
+        xoff = 1.0f;
+        yoff = 1.0f;
+    } flsf {
+        // for GL_TEXTURE_2D, tfxdoords brf spfdififd in thf rbngf [0,1],
+        // so to bdhifvf bn x/y offsft of bpproximbtfly onf pixfl wf hbvf
+        // to normblizf to thbt rbngf hfrf
+        xoff = 1.0f / srdOps->tfxturfWidth;
+        yoff = 1.0f / srdOps->tfxturfHfight;
+    }
+    if (fdgfZfroFill) {
+        flbgs |= CONVOLVE_EDGE_ZERO_FILL;
+    }
+    if (kfrnflWidth == 5 && kfrnflHfight == 5) {
+        flbgs |= CONVOLVE_5X5;
+    }
+
+    // lodbtf/initiblizf thf shbdfr progrbm for thf givfn flbgs
+    if (donvolvfProgrbms[flbgs] == 0) {
+        donvolvfProgrbms[flbgs] = OGLBufImgOps_CrfbtfConvolvfProgrbm(flbgs);
+        if (donvolvfProgrbms[flbgs] == 0) {
+            // shouldn't hbppfn, but just in dbsf...
+            rfturn;
+        }
+    }
+    donvolvfProgrbm = donvolvfProgrbms[flbgs];
+
+    // fnbblf thf donvolvf shbdfr
+    j2d_glUsfProgrbmObjfdtARB(donvolvfProgrbm);
+
+    // updbtf thf "uniform" imbgf min/mbx vblufs
+    fdgfX = (kfrnflWidth/2) * xoff;
+    fdgfY = (kfrnflHfight/2) * yoff;
+    minX = fdgfX;
+    minY = fdgfY;
+    if (srdOps->tfxturfTbrgft == GL_TEXTURE_RECTANGLE_ARB) {
+        // tfxdoords brf in thf rbngf [0,srdw] bnd [0,srdh]
+        mbxX = ((GLflobt)srdOps->width)  - fdgfX;
+        mbxY = ((GLflobt)srdOps->hfight) - fdgfY;
+    } flsf {
+        // tfxdoords brf in thf rbngf [0,1]
+        mbxX = (((GLflobt)srdOps->width) / srdOps->tfxturfWidth) - fdgfX;
+        mbxY = (((GLflobt)srdOps->hfight) / srdOps->tfxturfHfight) - fdgfY;
+    }
+    lod = j2d_glGftUniformLodbtionARB(donvolvfProgrbm, "imgEdgf");
+    j2d_glUniform4fARB(lod, minX, minY, mbxX, mbxY);
+
+    // updbtf thf "uniform" kfrnfl offsfts bnd vblufs
+    lod = j2d_glGftUniformLodbtionARB(donvolvfProgrbm, "kfrnflVbls");
+    kIndfx = 0;
+    for (i = -kfrnflHfight/2; i < kfrnflHfight/2+1; i++) {
+        for (j = -kfrnflWidth/2; j < kfrnflWidth/2+1; j++) {
+            kfrnflVbls[kIndfx+0] = j*xoff;
+            kfrnflVbls[kIndfx+1] = i*yoff;
+            kfrnflVbls[kIndfx+2] = NEXT_FLOAT(kfrnfl);
+            kIndfx += 3;
+        }
+    }
+    j2d_glUniform3fvARB(lod, kfrnflSizf, kfrnflVbls);
+}
+
+void
+OGLBufImgOps_DisbblfConvolvfOp(OGLContfxt *ogld)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBufImgOps_DisbblfConvolvfOp");
+
+    RETURN_IF_NULL(ogld);
+
+    // disbblf thf ConvolvfOp shbdfr
+    j2d_glUsfProgrbmObjfdtARB(0);
+}
+
+/**************************** RfsdblfOp support *****************************/
+
+/**
+ * Thf RfsdblfOp shbdfr is onf of thf simplfst possiblf.  Ebdh frbgmfnt
+ * from thf sourdf imbgf is multiplifd by thf usfr's sdblf fbdtor bnd bddfd
+ * to thf usfr's offsft vbluf (thfsf brf domponfnt-wisf opfrbtions).
+ * Finblly, thf rfsulting vbluf is multiplifd by thf durrfnt OpfnGL dolor,
+ * whidh dontbins thf fxtrb blphb vbluf.
+ *
+ * Thf RfsdblfOp spfd sbys thbt thf opfrbtion is pfrformfd rfgbrdlfss of
+ * whfthfr thf sourdf dbtb is prfmultiplifd or non-prfmultiplifd.  This is
+ * b problfm for thf OpfnGL pipflinf in thbt b non-prfmultiplifd
+ * BufffrfdImbgf will hbvf blrfbdy bffn donvfrtfd into prfmultiplifd
+ * whfn uplobdfd to bn OpfnGL tfxturf.  Thfrfforf, wf hbvf b spfdibl modf
+ * dbllfd RESCALE_NON_PREMULT (usfd only for sourdf imbgfs thbt wfrf
+ * originblly non-prfmultiplifd) thbt un-prfmultiplifs thf sourdf dolor
+ * prior to thf rfsdblf opfrbtion, thfn rf-prfmultiplifs thf rfsulting
+ * dolor bfforf rfturning from thf frbgmfnt shbdfr.
+ *
+ * Notf thbt this shbdfr sourdf dodf indludfs somf "holfs" mbrkfd by "%s".
+ * This bllows us to build difffrfnt shbdfr progrbms (f.g. onf for
+ * GL_TEXTURE_2D tbrgfts, onf for GL_TEXTURE_RECTANGLE_ARB tbrgfts, bnd so on)
+ * simply by filling in thfsf "holfs" with b dbll to sprintf().  Sff thf
+ * OGLBufImgOps_CrfbtfRfsdblfProgrbm() mfthod for morf dftbils.
+ */
+stbtid donst dhbr *rfsdblfShbdfrSourdf =
+    // imbgf to bf rfsdblfd
+    "uniform sbmplfr%s bbsfImbgf;"
+    // vfdtor dontbining sdblf fbdtors
+    "uniform vfd4 sdblfFbdtors;"
+    // vfdtor dontbining offsfts
+    "uniform vfd4 offsfts;"
+    ""
+    "void mbin(void)"
+    "{"
+    "    vfd4 srdColor = tfxturf%s(bbsfImbgf, gl_TfxCoord[0].st);"
+         // (plbdfholdfr for un-prfmult dodf)
+    "    %s"
+         // rfsdblf sourdf vbluf
+    "    vfd4 rfsult = (srdColor * sdblfFbdtors) + offsfts;"
+         // (plbdfholdfr for rf-prfmult dodf)
+    "    %s"
+         // modulbtf with gl_Color in ordfr to bpply fxtrb blphb
+    "    gl_FrbgColor = rfsult * gl_Color;"
+    "}";
+
+/**
+ * Flbgs thbt dbn bf bitwisf-or'fd togfthfr to dontrol how thf shbdfr
+ * sourdf dodf is gfnfrbtfd.
+ */
+#dffinf RESCALE_RECT        (1 << 0)
+#dffinf RESCALE_NON_PREMULT (1 << 1)
+
+/**
+ * Thf hbndlfs to thf RfsdblfOp frbgmfnt progrbm objfdts.  Thf indfx to
+ * thf brrby should bf b bitwisf-or'ing of thf RESCALE_* flbgs dffinfd
+ * bbovf.  Notf thbt most bpplidbtions will likfly nffd to initiblizf onf
+ * or two of thfsf flfmfnts, so thf brrby is usublly spbrsfly populbtfd.
+ */
+stbtid GLhbndlfARB rfsdblfProgrbms[4];
+
+/**
+ * Compilfs bnd links thf RfsdblfOp shbdfr progrbm.  If suddfssful, this
+ * fundtion rfturns b hbndlf to thf nfwly drfbtfd shbdfr progrbm; othfrwisf
+ * rfturns 0.
+ */
+stbtid GLhbndlfARB
+OGLBufImgOps_CrfbtfRfsdblfProgrbm(jint flbgs)
+{
+    GLhbndlfARB rfsdblfProgrbm;
+    GLint lod;
+    dhbr *tbrgft = IS_SET(RESCALE_RECT) ? "2DRfdt" : "2D";
+    dhbr *prfRfsdblf = "";
+    dhbr *postRfsdblf = "";
+    dhbr finblSourdf[2000];
+
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "OGLBufImgOps_CrfbtfRfsdblfProgrbm: flbgs=%d",
+                flbgs);
+
+    if (IS_SET(RESCALE_NON_PREMULT)) {
+        prfRfsdblf  = "srdColor.rgb /= srdColor.b;";
+        postRfsdblf = "rfsult.rgb *= rfsult.b;";
+    }
+
+    // domposf thf finbl sourdf dodf string from thf vbrious pifdfs
+    sprintf(finblSourdf, rfsdblfShbdfrSourdf,
+            tbrgft, tbrgft, prfRfsdblf, postRfsdblf);
+
+    rfsdblfProgrbm = OGLContfxt_CrfbtfFrbgmfntProgrbm(finblSourdf);
+    if (rfsdblfProgrbm == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLBufImgOps_CrfbtfRfsdblfProgrbm: frror drfbting progrbm");
+        rfturn 0;
+    }
+
+    // "usf" thf progrbm objfdt tfmporbrily so thbt wf dbn sft thf uniforms
+    j2d_glUsfProgrbmObjfdtARB(rfsdblfProgrbm);
+
+    // sft thf "uniform" vblufs
+    lod = j2d_glGftUniformLodbtionARB(rfsdblfProgrbm, "bbsfImbgf");
+    j2d_glUniform1iARB(lod, 0); // tfxturf unit 0
+
+    // "unusf" thf progrbm objfdt; it will bf rf-bound lbtfr bs nffdfd
+    j2d_glUsfProgrbmObjfdtARB(0);
+
+    rfturn rfsdblfProgrbm;
+}
+
+void
+OGLBufImgOps_EnbblfRfsdblfOp(OGLContfxt *ogld, jlong pSrdOps,
+                             jboolfbn nonPrfmult,
+                             unsignfd dhbr *sdblfFbdtors,
+                             unsignfd dhbr *offsfts)
+{
+    OGLSDOps *srdOps = (OGLSDOps *)jlong_to_ptr(pSrdOps);
+    GLhbndlfARB rfsdblfProgrbm;
+    GLint lod;
+    jint flbgs = 0;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBufImgOps_EnbblfRfsdblfOp");
+
+    RETURN_IF_NULL(ogld);
+    RETURN_IF_NULL(srdOps);
+    RESET_PREVIOUS_OP();
+
+    // dhoosf thf bppropribtf shbdfr, dfpfnding on thf sourdf tfxturf tbrgft
+    if (srdOps->tfxturfTbrgft == GL_TEXTURE_RECTANGLE_ARB) {
+        flbgs |= RESCALE_RECT;
+    }
+    if (nonPrfmult) {
+        flbgs |= RESCALE_NON_PREMULT;
+    }
+
+    // lodbtf/initiblizf thf shbdfr progrbm for thf givfn flbgs
+    if (rfsdblfProgrbms[flbgs] == 0) {
+        rfsdblfProgrbms[flbgs] = OGLBufImgOps_CrfbtfRfsdblfProgrbm(flbgs);
+        if (rfsdblfProgrbms[flbgs] == 0) {
+            // shouldn't hbppfn, but just in dbsf...
+            rfturn;
+        }
+    }
+    rfsdblfProgrbm = rfsdblfProgrbms[flbgs];
+
+    // fnbblf thf rfsdblf shbdfr
+    j2d_glUsfProgrbmObjfdtARB(rfsdblfProgrbm);
+
+    // updbtf thf "uniform" sdblf fbdtor vblufs (notf thbt thf Jbvb-lfvfl
+    // dispbtdhing dodf blwbys pbssfs down 4 vblufs hfrf, rfgbrdlfss of
+    // thf originbl sourdf imbgf typf)
+    lod = j2d_glGftUniformLodbtionARB(rfsdblfProgrbm, "sdblfFbdtors");
+    {
+        GLflobt sf1 = NEXT_FLOAT(sdblfFbdtors);
+        GLflobt sf2 = NEXT_FLOAT(sdblfFbdtors);
+        GLflobt sf3 = NEXT_FLOAT(sdblfFbdtors);
+        GLflobt sf4 = NEXT_FLOAT(sdblfFbdtors);
+        j2d_glUniform4fARB(lod, sf1, sf2, sf3, sf4);
+    }
+
+    // updbtf thf "uniform" offsft vblufs (notf thbt thf Jbvb-lfvfl
+    // dispbtdhing dodf blwbys pbssfs down 4 vblufs hfrf, bnd thbt thf
+    // offsfts will hbvf blrfbdy bffn normblizfd to thf rbngf [0,1])
+    lod = j2d_glGftUniformLodbtionARB(rfsdblfProgrbm, "offsfts");
+    {
+        GLflobt off1 = NEXT_FLOAT(offsfts);
+        GLflobt off2 = NEXT_FLOAT(offsfts);
+        GLflobt off3 = NEXT_FLOAT(offsfts);
+        GLflobt off4 = NEXT_FLOAT(offsfts);
+        j2d_glUniform4fARB(lod, off1, off2, off3, off4);
+    }
+}
+
+void
+OGLBufImgOps_DisbblfRfsdblfOp(OGLContfxt *ogld)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBufImgOps_DisbblfRfsdblfOp");
+
+    RETURN_IF_NULL(ogld);
+
+    // disbblf thf RfsdblfOp shbdfr
+    j2d_glUsfProgrbmObjfdtARB(0);
+}
+
+/**************************** LookupOp support ******************************/
+
+/**
+ * Thf LookupOp shbdfr tbkfs b frbgmfnt dolor (from thf sourdf tfxturf) bs
+ * input, subtrbdts thf optionbl usfr offsft vbluf, bnd thfn usfs thf
+ * rfsulting vbluf to indfx into thf lookup tbblf tfxturf to providf
+ * b nfw dolor rfsult.  Finblly, thf rfsulting vbluf is multiplifd by
+ * thf durrfnt OpfnGL dolor, whidh dontbins thf fxtrb blphb vbluf.
+ *
+ * Thf lookup stfp rfquirfs 3 tfxturf bddfssfs (or 4, whfn blphb is indludfd),
+ * whidh is somfwhbt unfortunbtf bfdbusf it's not idfbl from b pfrformbndf
+ * stbndpoint, but thbt sort of thing is gftting fbstfr with nfwfr hbrdwbrf.
+ * In thf 3-bbnd dbsf, wf dould donsidfr using b thrff-dimfnsionbl tfxturf
+ * bnd pfrforming thf lookup with b singlf tfxturf bddfss stfp.  Wf blrfbdy
+ * usf this bpprobdh in thf LCD tfxt shbdfr, bnd it works wfll, but for thf
+ * purposfs of this LookupOp shbdfr, it's probbbly ovfrkill.  Also, thfrf's
+ * b difffrfndf in thbt thf LCD tfxt shbdfr only nffds to populbtf thf 3D LUT
+ * ondf, but hfrf wf would nffd to populbtf it on fvfry invodbtion, whidh
+ * would likfly bf b wbstf of VRAM bnd CPU/GPU dydlfs.
+ *
+ * Thf LUT tfxturf is durrfntly hbrddodfd bs 4 rows/bbnds, fbdh dontbining
+ * 256 flfmfnts.  This mfbns thbt wf durrfntly only support usfr-providfd
+ * tbblfs with no morf thbn 256 flfmfnts in fbdh bbnd (this is dhfdkfd bt
+ * bt thf Jbvb lfvfl).  If thf usfr providfs b tbblf with lfss thbn 256
+ * flfmfnts pfr bbnd, our shbdfr will still work finf, but if flfmfnts brf
+ * bddfssfd with bn indfx >= thf sizf of thf LUT, thfn thf shbdfr will simply
+ * produdf undffinfd vblufs.  Typidblly thf usfr would providf bn offsft
+ * vbluf thbt would prfvfnt this from hbppfning, but it's worth pointing out
+ * this fbdt bfdbusf thf softwbrf LookupOp implfmfntbtion would usublly
+ * throw bn ArrbyIndfxOutOfBoundsExdfption in this sdfnbrio (blthough it is
+ * not somfthing dfmbndfd by thf spfd).
+ *
+ * Thf LookupOp spfd sbys thbt thf opfrbtion is pfrformfd rfgbrdlfss of
+ * whfthfr thf sourdf dbtb is prfmultiplifd or non-prfmultiplifd.  This is
+ * b problfm for thf OpfnGL pipflinf in thbt b non-prfmultiplifd
+ * BufffrfdImbgf will hbvf blrfbdy bffn donvfrtfd into prfmultiplifd
+ * whfn uplobdfd to bn OpfnGL tfxturf.  Thfrfforf, wf hbvf b spfdibl modf
+ * dbllfd LOOKUP_NON_PREMULT (usfd only for sourdf imbgfs thbt wfrf
+ * originblly non-prfmultiplifd) thbt un-prfmultiplifs thf sourdf dolor
+ * prior to thf lookup opfrbtion, thfn rf-prfmultiplifs thf rfsulting
+ * dolor bfforf rfturning from thf frbgmfnt shbdfr.
+ *
+ * Notf thbt this shbdfr sourdf dodf indludfs somf "holfs" mbrkfd by "%s".
+ * This bllows us to build difffrfnt shbdfr progrbms (f.g. onf for
+ * GL_TEXTURE_2D tbrgfts, onf for GL_TEXTURE_RECTANGLE_ARB tbrgfts, bnd so on)
+ * simply by filling in thfsf "holfs" with b dbll to sprintf().  Sff thf
+ * OGLBufImgOps_CrfbtfLookupProgrbm() mfthod for morf dftbils.
+ */
+stbtid donst dhbr *lookupShbdfrSourdf =
+    // sourdf imbgf (bound to tfxturf unit 0)
+    "uniform sbmplfr%s bbsfImbgf;"
+    // lookup tbblf (bound to tfxturf unit 1)
+    "uniform sbmplfr2D lookupTbblf;"
+    // offsft subtrbdtfd from sourdf indfx prior to lookup stfp
+    "uniform vfd4 offsft;"
+    ""
+    "void mbin(void)"
+    "{"
+    "    vfd4 srdColor = tfxturf%s(bbsfImbgf, gl_TfxCoord[0].st);"
+         // (plbdfholdfr for un-prfmult dodf)
+    "    %s"
+         // subtrbdt offsft from originbl indfx
+    "    vfd4 srdIndfx = srdColor - offsft;"
+         // usf sourdf vbluf bs input to lookup tbblf (notf thbt
+         // "v" tfxdoords brf hbrddodfd to hit tfxfl dfntfrs of
+         // fbdh row/bbnd in tfxturf)
+    "    vfd4 rfsult;"
+    "    rfsult.r = tfxturf2D(lookupTbblf, vfd2(srdIndfx.r, 0.125)).r;"
+    "    rfsult.g = tfxturf2D(lookupTbblf, vfd2(srdIndfx.g, 0.375)).r;"
+    "    rfsult.b = tfxturf2D(lookupTbblf, vfd2(srdIndfx.b, 0.625)).r;"
+         // (plbdfholdfr for blphb storf dodf)
+    "    %s"
+         // (plbdfholdfr for rf-prfmult dodf)
+    "    %s"
+         // modulbtf with gl_Color in ordfr to bpply fxtrb blphb
+    "    gl_FrbgColor = rfsult * gl_Color;"
+    "}";
+
+/**
+ * Flbgs thbt dbn bf bitwisf-or'fd togfthfr to dontrol how thf shbdfr
+ * sourdf dodf is gfnfrbtfd.
+ */
+#dffinf LOOKUP_RECT          (1 << 0)
+#dffinf LOOKUP_USE_SRC_ALPHA (1 << 1)
+#dffinf LOOKUP_NON_PREMULT   (1 << 2)
+
+/**
+ * Thf hbndlfs to thf LookupOp frbgmfnt progrbm objfdts.  Thf indfx to
+ * thf brrby should bf b bitwisf-or'ing of thf LOOKUP_* flbgs dffinfd
+ * bbovf.  Notf thbt most bpplidbtions will likfly nffd to initiblizf onf
+ * or two of thfsf flfmfnts, so thf brrby is usublly spbrsfly populbtfd.
+ */
+stbtid GLhbndlfARB lookupProgrbms[8];
+
+/**
+ * Thf hbndlf to thf lookup tbblf tfxturf objfdt usfd by thf shbdfr.
+ */
+stbtid GLuint lutTfxturfID = 0;
+
+/**
+ * Compilfs bnd links thf LookupOp shbdfr progrbm.  If suddfssful, this
+ * fundtion rfturns b hbndlf to thf nfwly drfbtfd shbdfr progrbm; othfrwisf
+ * rfturns 0.
+ */
+stbtid GLhbndlfARB
+OGLBufImgOps_CrfbtfLookupProgrbm(jint flbgs)
+{
+    GLhbndlfARB lookupProgrbm;
+    GLint lod;
+    dhbr *tbrgft = IS_SET(LOOKUP_RECT) ? "2DRfdt" : "2D";
+    dhbr *blphb;
+    dhbr *prfLookup = "";
+    dhbr *postLookup = "";
+    dhbr finblSourdf[2000];
+
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "OGLBufImgOps_CrfbtfLookupProgrbm: flbgs=%d",
+                flbgs);
+
+    if (IS_SET(LOOKUP_USE_SRC_ALPHA)) {
+        // whfn numComps is 1 or 3, thf blphb is not lookfd up in thf tbblf;
+        // just kffp thf blphb from thf sourdf frbgmfnt
+        blphb = "rfsult.b = srdColor.b;";
+    } flsf {
+        // whfn numComps is 4, thf blphb is lookfd up in thf tbblf, just
+        // likf thf othfr dolor domponfnts from thf sourdf frbgmfnt
+        blphb =
+            "rfsult.b = tfxturf2D(lookupTbblf, vfd2(srdIndfx.b, 0.875)).r;";
+    }
+    if (IS_SET(LOOKUP_NON_PREMULT)) {
+        prfLookup  = "srdColor.rgb /= srdColor.b;";
+        postLookup = "rfsult.rgb *= rfsult.b;";
+    }
+
+    // domposf thf finbl sourdf dodf string from thf vbrious pifdfs
+    sprintf(finblSourdf, lookupShbdfrSourdf,
+            tbrgft, tbrgft, prfLookup, blphb, postLookup);
+
+    lookupProgrbm = OGLContfxt_CrfbtfFrbgmfntProgrbm(finblSourdf);
+    if (lookupProgrbm == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+            "OGLBufImgOps_CrfbtfLookupProgrbm: frror drfbting progrbm");
+        rfturn 0;
+    }
+
+    // "usf" thf progrbm objfdt tfmporbrily so thbt wf dbn sft thf uniforms
+    j2d_glUsfProgrbmObjfdtARB(lookupProgrbm);
+
+    // sft thf "uniform" vblufs
+    lod = j2d_glGftUniformLodbtionARB(lookupProgrbm, "bbsfImbgf");
+    j2d_glUniform1iARB(lod, 0); // tfxturf unit 0
+    lod = j2d_glGftUniformLodbtionARB(lookupProgrbm, "lookupTbblf");
+    j2d_glUniform1iARB(lod, 1); // tfxturf unit 1
+
+    // "unusf" thf progrbm objfdt; it will bf rf-bound lbtfr bs nffdfd
+    j2d_glUsfProgrbmObjfdtARB(0);
+
+    rfturn lookupProgrbm;
+}
+
+void
+OGLBufImgOps_EnbblfLookupOp(OGLContfxt *ogld, jlong pSrdOps,
+                            jboolfbn nonPrfmult, jboolfbn shortDbtb,
+                            jint numBbnds, jint bbndLfngth, jint offsft,
+                            void *tbblfVblufs)
+{
+    OGLSDOps *srdOps = (OGLSDOps *)jlong_to_ptr(pSrdOps);
+    int bytfsPfrElfm = (shortDbtb ? 2 : 1);
+    GLhbndlfARB lookupProgrbm;
+    GLflobt foff;
+    GLint lod;
+    void *bbnds[4];
+    int i;
+    jint flbgs = 0;
+
+    J2dTrbdfLn4(J2D_TRACE_INFO,
+                "OGLBufImgOps_EnbblfLookupOp: short=%d num=%d lfn=%d off=%d",
+                shortDbtb, numBbnds, bbndLfngth, offsft);
+
+    for (i = 0; i < 4; i++) {
+        bbnds[i] = NULL;
+    }
+    RETURN_IF_NULL(ogld);
+    RETURN_IF_NULL(srdOps);
+    RESET_PREVIOUS_OP();
+
+    // dhoosf thf bppropribtf shbdfr, dfpfnding on thf sourdf tfxturf tbrgft
+    // bnd thf numbfr of bbnds involvfd
+    if (srdOps->tfxturfTbrgft == GL_TEXTURE_RECTANGLE_ARB) {
+        flbgs |= LOOKUP_RECT;
+    }
+    if (numBbnds != 4) {
+        flbgs |= LOOKUP_USE_SRC_ALPHA;
+    }
+    if (nonPrfmult) {
+        flbgs |= LOOKUP_NON_PREMULT;
+    }
+
+    // lodbtf/initiblizf thf shbdfr progrbm for thf givfn flbgs
+    if (lookupProgrbms[flbgs] == 0) {
+        lookupProgrbms[flbgs] = OGLBufImgOps_CrfbtfLookupProgrbm(flbgs);
+        if (lookupProgrbms[flbgs] == 0) {
+            // shouldn't hbppfn, but just in dbsf...
+            rfturn;
+        }
+    }
+    lookupProgrbm = lookupProgrbms[flbgs];
+
+    // fnbblf thf lookup shbdfr
+    j2d_glUsfProgrbmObjfdtARB(lookupProgrbm);
+
+    // updbtf thf "uniform" offsft vbluf
+    lod = j2d_glGftUniformLodbtionARB(lookupProgrbm, "offsft");
+    foff = offsft / 255.0f;
+    j2d_glUniform4fARB(lod, foff, foff, foff, foff);
+
+    // bind thf lookup tbblf to tfxturf unit 1 bnd fnbblf tfxturing
+    j2d_glAdtivfTfxturfARB(GL_TEXTURE1_ARB);
+    if (lutTfxturfID == 0) {
+        /*
+         * Crfbtf thf lookup tbblf tfxturf with 4 rows (onf bbnd pfr row)
+         * bnd 256 dolumns (onf LUT bbnd flfmfnt pfr dolumn) bnd with bn
+         * intfrnbl formbt of 16-bit luminbndf vblufs, whidh will bf
+         * suffidifnt for fithfr bytf or short LUT dbtb.  Notf thbt thf
+         * tfxturf wrbp modf will bf sft to thf dffbult of GL_CLAMP_TO_EDGE,
+         * whidh mfbns thbt out-of-rbngf indfx vbluf will bf dlbmpfd
+         * bppropribtfly.
+         */
+        lutTfxturfID =
+            OGLContfxt_CrfbtfBlitTfxturf(GL_LUMINANCE16, GL_LUMINANCE,
+                                         256, 4);
+        if (lutTfxturfID == 0) {
+            // should nfvfr hbppfn, but just to bf sbff...
+            rfturn;
+        }
+    }
+    j2d_glBindTfxturf(GL_TEXTURE_2D, lutTfxturfID);
+    j2d_glEnbblf(GL_TEXTURE_2D);
+
+    // updbtf thf lookup tbblf with thf usfr-providfd vblufs
+    if (numBbnds == 1) {
+        // rfplidbtf thf singlf bbnd for R/G/B; blphb bbnd is unusfd
+        for (i = 0; i < 3; i++) {
+            bbnds[i] = tbblfVblufs;
+        }
+        bbnds[3] = NULL;
+    } flsf if (numBbnds == 3) {
+        // usfr supplifd bbnd for fbdh of R/G/B; blphb bbnd is unusfd
+        for (i = 0; i < 3; i++) {
+            bbnds[i] = PtrAddBytfs(tbblfVblufs, i*bbndLfngth*bytfsPfrElfm);
+        }
+        bbnds[3] = NULL;
+    } flsf if (numBbnds == 4) {
+        // usfr supplifd bbnd for fbdh of R/G/B/A
+        for (i = 0; i < 4; i++) {
+            bbnds[i] = PtrAddBytfs(tbblfVblufs, i*bbndLfngth*bytfsPfrElfm);
+        }
+    }
+
+    // uplobd thf bbnds onf row bt b timf into our lookup tbblf tfxturf
+    for (i = 0; i < 4; i++) {
+        if (bbnds[i] == NULL) {
+            dontinuf;
+        }
+        j2d_glTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                            0, i, bbndLfngth, 1,
+                            GL_LUMINANCE,
+                            shortDbtb ? GL_UNSIGNED_SHORT : GL_UNSIGNED_BYTE,
+                            bbnds[i]);
+    }
+
+    // rfstorf tfxturf unit 0 (thf dffbult) bs thf bdtivf onf sindf
+    // thf OGLBlitTfxturfToSurfbdf() mfthod is rfsponsiblf for binding thf
+    // sourdf imbgf tfxturf, whidh will hbppfn lbtfr
+    j2d_glAdtivfTfxturfARB(GL_TEXTURE0_ARB);
+}
+
+void
+OGLBufImgOps_DisbblfLookupOp(OGLContfxt *ogld)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLBufImgOps_DisbblfLookupOp");
+
+    RETURN_IF_NULL(ogld);
+
+    // disbblf thf LookupOp shbdfr
+    j2d_glUsfProgrbmObjfdtARB(0);
+
+    // disbblf thf lookup tbblf on tfxturf unit 1
+    j2d_glAdtivfTfxturfARB(GL_TEXTURE1_ARB);
+    j2d_glDisbblf(GL_TEXTURE_2D);
+    j2d_glAdtivfTfxturfARB(GL_TEXTURE0_ARB);
+}
+
+#fndif /* !HEADLESS */

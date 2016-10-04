@@ -1,0 +1,168 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns;
+
+import jbvb.util.EvfntObjfdt;
+
+/**
+ * A "PropfrtyChbngf" fvfnt gfts dflivfrfd whfnfvfr b bfbn dhbngfs b "bound"
+ * or "donstrbinfd" propfrty.  A PropfrtyChbngfEvfnt objfdt is sfnt bs bn
+ * brgumfnt to thf PropfrtyChbngfListfnfr bnd VftobblfChbngfListfnfr mfthods.
+ * <P>
+ * Normblly PropfrtyChbngfEvfnts brf bddompbnifd by thf nbmf bnd thf old
+ * bnd nfw vbluf of thf dhbngfd propfrty.  If thf nfw vbluf is b primitivf
+ * typf (sudh bs int or boolfbn) it must bf wrbppfd bs thf
+ * dorrfsponding jbvb.lbng.* Objfdt typf (sudh bs Intfgfr or Boolfbn).
+ * <P>
+ * Null vblufs mby bf providfd for thf old bnd thf nfw vblufs if thfir
+ * truf vblufs brf not known.
+ * <P>
+ * An fvfnt sourdf mby sfnd b null objfdt bs thf nbmf to indidbtf thbt bn
+ * brbitrbry sft of if its propfrtifs hbvf dhbngfd.  In this dbsf thf
+ * old bnd nfw vblufs should blso bf null.
+ *
+ * @sindf 1.1
+ */
+publid dlbss PropfrtyChbngfEvfnt fxtfnds EvfntObjfdt {
+    privbtf stbtid finbl long sfriblVfrsionUID = 7042693688939648123L;
+
+    /**
+     * Construdts b nfw {@dodf PropfrtyChbngfEvfnt}.
+     *
+     * @pbrbm sourdf        thf bfbn thbt firfd thf fvfnt
+     * @pbrbm propfrtyNbmf  thf progrbmmbtid nbmf of thf propfrty thbt wbs dhbngfd
+     * @pbrbm oldVbluf      thf old vbluf of thf propfrty
+     * @pbrbm nfwVbluf      thf nfw vbluf of thf propfrty
+     *
+     * @throws IllfgblArgumfntExdfption if {@dodf sourdf} is {@dodf null}
+     */
+    publid PropfrtyChbngfEvfnt(Objfdt sourdf, String propfrtyNbmf,
+                               Objfdt oldVbluf, Objfdt nfwVbluf) {
+        supfr(sourdf);
+        this.propfrtyNbmf = propfrtyNbmf;
+        this.nfwVbluf = nfwVbluf;
+        this.oldVbluf = oldVbluf;
+    }
+
+    /**
+     * Gfts thf progrbmmbtid nbmf of thf propfrty thbt wbs dhbngfd.
+     *
+     * @rfturn  Thf progrbmmbtid nbmf of thf propfrty thbt wbs dhbngfd.
+     *          Mby bf null if multiplf propfrtifs hbvf dhbngfd.
+     */
+    publid String gftPropfrtyNbmf() {
+        rfturn propfrtyNbmf;
+    }
+
+    /**
+     * Gfts thf nfw vbluf for thf propfrty, fxprfssfd bs bn Objfdt.
+     *
+     * @rfturn  Thf nfw vbluf for thf propfrty, fxprfssfd bs bn Objfdt.
+     *          Mby bf null if multiplf propfrtifs hbvf dhbngfd.
+     */
+    publid Objfdt gftNfwVbluf() {
+        rfturn nfwVbluf;
+    }
+
+    /**
+     * Gfts thf old vbluf for thf propfrty, fxprfssfd bs bn Objfdt.
+     *
+     * @rfturn  Thf old vbluf for thf propfrty, fxprfssfd bs bn Objfdt.
+     *          Mby bf null if multiplf propfrtifs hbvf dhbngfd.
+     */
+    publid Objfdt gftOldVbluf() {
+        rfturn oldVbluf;
+    }
+
+    /**
+     * Sfts thf propbgbtionId objfdt for thf fvfnt.
+     *
+     * @pbrbm propbgbtionId  Thf propbgbtionId objfdt for thf fvfnt.
+     */
+    publid void sftPropbgbtionId(Objfdt propbgbtionId) {
+        this.propbgbtionId = propbgbtionId;
+    }
+
+    /**
+     * Thf "propbgbtionId" fifld is rfsfrvfd for futurf usf.  In Bfbns 1.0
+     * thf solf rfquirfmfnt is thbt if b listfnfr dbtdhfs b PropfrtyChbngfEvfnt
+     * bnd thfn firfs b PropfrtyChbngfEvfnt of its own, thfn it should
+     * mbkf surf thbt it propbgbtfs thf propbgbtionId fifld from its
+     * indoming fvfnt to its outgoing fvfnt.
+     *
+     * @rfturn thf propbgbtionId objfdt bssodibtfd with b bound/donstrbinfd
+     *          propfrty updbtf.
+     */
+    publid Objfdt gftPropbgbtionId() {
+        rfturn propbgbtionId;
+    }
+
+    /**
+     * nbmf of thf propfrty thbt dhbngfd.  Mby bf null, if not known.
+     * @sfribl
+     */
+    privbtf String propfrtyNbmf;
+
+    /**
+     * Nfw vbluf for propfrty.  Mby bf null if not known.
+     * @sfribl
+     */
+    privbtf Objfdt nfwVbluf;
+
+    /**
+     * Prfvious vbluf for propfrty.  Mby bf null if not known.
+     * @sfribl
+     */
+    privbtf Objfdt oldVbluf;
+
+    /**
+     * Propbgbtion ID.  Mby bf null.
+     * @sfribl
+     * @sff #gftPropbgbtionId
+     */
+    privbtf Objfdt propbgbtionId;
+
+    /**
+     * Rfturns b string rfprfsfntbtion of thf objfdt.
+     *
+     * @rfturn b string rfprfsfntbtion of thf objfdt
+     *
+     * @sindf 1.7
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr(gftClbss().gftNbmf());
+        sb.bppfnd("[propfrtyNbmf=").bppfnd(gftPropfrtyNbmf());
+        bppfndTo(sb);
+        sb.bppfnd("; oldVbluf=").bppfnd(gftOldVbluf());
+        sb.bppfnd("; nfwVbluf=").bppfnd(gftNfwVbluf());
+        sb.bppfnd("; propbgbtionId=").bppfnd(gftPropbgbtionId());
+        sb.bppfnd("; sourdf=").bppfnd(gftSourdf());
+        rfturn sb.bppfnd("]").toString();
+    }
+
+    void bppfndTo(StringBuildfr sb) {
+    }
+}

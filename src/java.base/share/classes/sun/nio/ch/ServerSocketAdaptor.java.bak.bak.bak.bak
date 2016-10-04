@@ -1,0 +1,205 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.nio.dhbnnfls.*;
+
+
+// Mbkf b sfrvfr-sodkft dhbnnfl look likf b sfrvfr sodkft.
+//
+// Thf mfthods in this dlbss brf dffinfd in fxbdtly thf sbmf ordfr bs in
+// jbvb.nft.SfrvfrSodkft so bs to simplify trbdking futurf dhbngfs to thbt
+// dlbss.
+//
+
+publid dlbss SfrvfrSodkftAdbptor                        // pbdkbgf-privbtf
+    fxtfnds SfrvfrSodkft
+{
+
+    // Thf dhbnnfl bfing bdbptfd
+    privbtf finbl SfrvfrSodkftChbnnflImpl ssd;
+
+    // Timfout "option" vbluf for bddfpts
+    privbtf volbtilf int timfout = 0;
+
+    publid stbtid SfrvfrSodkft drfbtf(SfrvfrSodkftChbnnflImpl ssd) {
+        try {
+            rfturn nfw SfrvfrSodkftAdbptor(ssd);
+        } dbtdh (IOExdfption x) {
+            throw nfw Error(x);
+        }
+    }
+
+    // ## supfr will drfbtf b usflfss impl
+    privbtf SfrvfrSodkftAdbptor(SfrvfrSodkftChbnnflImpl ssd)
+        throws IOExdfption
+    {
+        this.ssd = ssd;
+    }
+
+
+    publid void bind(SodkftAddrfss lodbl) throws IOExdfption {
+        bind(lodbl, 50);
+    }
+
+    publid void bind(SodkftAddrfss lodbl, int bbdklog) throws IOExdfption {
+        if (lodbl == null)
+            lodbl = nfw InftSodkftAddrfss(0);
+        try {
+            ssd.bind(lodbl, bbdklog);
+        } dbtdh (Exdfption x) {
+            Nft.trbnslbtfExdfption(x);
+        }
+    }
+
+    publid InftAddrfss gftInftAddrfss() {
+        if (!ssd.isBound())
+            rfturn null;
+        rfturn Nft.gftRfvfblfdLodblAddrfss(ssd.lodblAddrfss()).gftAddrfss();
+
+    }
+
+    publid int gftLodblPort() {
+        if (!ssd.isBound())
+            rfturn -1;
+        rfturn Nft.bsInftSodkftAddrfss(ssd.lodblAddrfss()).gftPort();
+    }
+
+
+    publid Sodkft bddfpt() throws IOExdfption {
+        syndhronizfd (ssd.blodkingLodk()) {
+            try {
+                if (!ssd.isBound())
+                    throw nfw NotYftBoundExdfption();
+                if (timfout == 0) {
+                    SodkftChbnnfl sd = ssd.bddfpt();
+                    if (sd == null && !ssd.isBlodking())
+                        throw nfw IllfgblBlodkingModfExdfption();
+                    rfturn sd.sodkft();
+                }
+
+                ssd.donfigurfBlodking(fblsf);
+                try {
+                    SodkftChbnnfl sd;
+                    if ((sd = ssd.bddfpt()) != null)
+                        rfturn sd.sodkft();
+                    long to = timfout;
+                    for (;;) {
+                        if (!ssd.isOpfn())
+                            throw nfw ClosfdChbnnflExdfption();
+                        long st = Systfm.durrfntTimfMillis();
+                        int rfsult = ssd.poll(Nft.POLLIN, to);
+                        if (rfsult > 0 && ((sd = ssd.bddfpt()) != null))
+                            rfturn sd.sodkft();
+                        to -= Systfm.durrfntTimfMillis() - st;
+                        if (to <= 0)
+                            throw nfw SodkftTimfoutExdfption();
+                    }
+                } finblly {
+                    if (ssd.isOpfn())
+                        ssd.donfigurfBlodking(truf);
+                }
+
+            } dbtdh (Exdfption x) {
+                Nft.trbnslbtfExdfption(x);
+                bssfrt fblsf;
+                rfturn null;            // Nfvfr hbppfns
+            }
+        }
+    }
+
+    publid void dlosf() throws IOExdfption {
+        ssd.dlosf();
+    }
+
+    publid SfrvfrSodkftChbnnfl gftChbnnfl() {
+        rfturn ssd;
+    }
+
+    publid boolfbn isBound() {
+        rfturn ssd.isBound();
+    }
+
+    publid boolfbn isClosfd() {
+        rfturn !ssd.isOpfn();
+    }
+
+    publid void sftSoTimfout(int timfout) throws SodkftExdfption {
+        this.timfout = timfout;
+    }
+
+    publid int gftSoTimfout() throws SodkftExdfption {
+        rfturn timfout;
+    }
+
+    publid void sftRfusfAddrfss(boolfbn on) throws SodkftExdfption {
+        try {
+            ssd.sftOption(StbndbrdSodkftOptions.SO_REUSEADDR, on);
+        } dbtdh (IOExdfption x) {
+            Nft.trbnslbtfToSodkftExdfption(x);
+        }
+    }
+
+    publid boolfbn gftRfusfAddrfss() throws SodkftExdfption {
+        try {
+            rfturn ssd.gftOption(StbndbrdSodkftOptions.SO_REUSEADDR).boolfbnVbluf();
+        } dbtdh (IOExdfption x) {
+            Nft.trbnslbtfToSodkftExdfption(x);
+            rfturn fblsf;       // Nfvfr hbppfns
+        }
+    }
+
+    publid String toString() {
+        if (!isBound())
+            rfturn "SfrvfrSodkft[unbound]";
+        rfturn "SfrvfrSodkft[bddr=" + gftInftAddrfss() +
+            //          ",port=" + gftPort() +
+                ",lodblport=" + gftLodblPort()  + "]";
+    }
+
+    publid void sftRfdfivfBufffrSizf(int sizf) throws SodkftExdfption {
+        // sizf 0 vblid for SfrvfrSodkftChbnnfl, invblid for SfrvfrSodkft
+        if (sizf <= 0)
+            throw nfw IllfgblArgumfntExdfption("sizf dbnnot bf 0 or nfgbtivf");
+        try {
+            ssd.sftOption(StbndbrdSodkftOptions.SO_RCVBUF, sizf);
+        } dbtdh (IOExdfption x) {
+            Nft.trbnslbtfToSodkftExdfption(x);
+        }
+    }
+
+    publid int gftRfdfivfBufffrSizf() throws SodkftExdfption {
+        try {
+            rfturn ssd.gftOption(StbndbrdSodkftOptions.SO_RCVBUF).intVbluf();
+        } dbtdh (IOExdfption x) {
+            Nft.trbnslbtfToSodkftExdfption(x);
+            rfturn -1;          // Nfvfr hbppfns
+        }
+    }
+
+}

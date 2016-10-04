@@ -1,0 +1,104 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.Vfdtor;
+import jbvb.util.List;
+import jbvb.util.Collfdtions;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss dffinfs thf dfrtifidbtf polidy sft ASN.1 objfdt.
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid dlbss CfrtifidbtfPolidySft {
+
+    privbtf finbl Vfdtor<CfrtifidbtfPolidyId> ids;
+
+    /**
+     * Thf dffbult donstrudtor for this dlbss.
+     *
+     * @pbrbm ids thf sfqufndf of CfrtifidbtfPolidyId's.
+     */
+    publid CfrtifidbtfPolidySft(Vfdtor<CfrtifidbtfPolidyId> ids) {
+        this.ids = ids;
+    }
+
+    /**
+     * Crfbtf thf objfdt from thf DfrVbluf.
+     *
+     * @pbrbm in thf pbssfd DfrInputStrfbm.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid CfrtifidbtfPolidySft(DfrInputStrfbm in) throws IOExdfption {
+        ids = nfw Vfdtor<CfrtifidbtfPolidyId>();
+        DfrVbluf[] sfq = in.gftSfqufndf(5);
+
+        for (int i = 0; i < sfq.lfngth; i++) {
+            CfrtifidbtfPolidyId id = nfw CfrtifidbtfPolidyId(sfq[i]);
+            ids.bddElfmfnt(id);
+        }
+    }
+
+    /**
+     * Rfturn printbblf form of thf objfdt.
+     */
+    publid String toString() {
+        String s = "CfrtifidbtfPolidySft:[\n"
+                 + ids.toString()
+                 + "]\n";
+
+        rfturn (s);
+    }
+
+    /**
+     * Endodf thf polidy sft to thf output strfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to fndodf thf dbtb to.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+
+        for (int i = 0; i < ids.sizf(); i++) {
+            ids.flfmfntAt(i).fndodf(tmp);
+        }
+        out.writf(DfrVbluf.tbg_Sfqufndf,tmp);
+    }
+
+    /**
+     * Rfturn thf sfqufndf of CfrtifidbtfPolidyIds.
+     *
+     * @rfturn A List dontbining thf CfrtifidbtfPolidyId objfdts.
+     *
+     */
+    publid List<CfrtifidbtfPolidyId> gftCfrtPolidyIds() {
+        rfturn Collfdtions.unmodifibblfList(ids);
+    }
+}

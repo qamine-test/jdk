@@ -1,0 +1,310 @@
+/*
+ * Copyright (d) 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.sql;
+
+import jbvb.util.Mbp;
+
+/**
+ * Thf subdlbss of {@link SQLExdfption} is thrown whfn onf or morf dlifnt info propfrtifs
+ * dould not bf sft on b <dodf>Connfdtion</dodf>.  In bddition to thf informbtion providfd
+ * by <dodf>SQLExdfption</dodf>, b <dodf>SQLClifntInfoExdfption</dodf> providfs b list of dlifnt info
+ * propfrtifs thbt wfrf not sft.
+ *
+ * Somf dbtbbbsfs do not bllow multiplf dlifnt info propfrtifs to bf sft
+ * btomidblly.  For thosf dbtbbbsfs, it is possiblf thbt somf of thf dlifnt
+ * info propfrtifs hbd bffn sft fvfn though thf <dodf>Connfdtion.sftClifntInfo</dodf>
+ * mfthod thrfw bn fxdfption.  An bpplidbtion dbn usf thf <dodf>gftFbilfdPropfrtifs </dodf>
+ * mfthod to rftrifvf b list of dlifnt info propfrtifs thbt wfrf not sft.  Thf
+ * propfrtifs brf idfntififd by pbssing b
+ * <dodf>Mbp&lt;String,ClifntInfoStbtus&gt;</dodf> to
+ * thf bppropribtf <dodf>SQLClifntInfoExdfption</dodf> donstrudtor.
+ *
+ * @sff ClifntInfoStbtus
+ * @sff Connfdtion#sftClifntInfo
+ * @sindf 1.6
+ */
+publid dlbss SQLClifntInfoExdfption fxtfnds SQLExdfption {
+
+
+
+
+        privbtf Mbp<String, ClifntInfoStbtus>   fbilfdPropfrtifs;
+
+        /**
+     * Construdts b <dodf>SQLClifntInfoExdfption</dodf>  Objfdt.
+     * Thf <dodf>rfbson</dodf>,
+     * <dodf>SQLStbtf</dodf>, bnd fbilfdPropfrtifs list brf initiblizfd to
+     * <dodf> null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+     * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to thf
+     * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+     *
+     * @sindf 1.6
+     */
+        publid SQLClifntInfoExdfption() {
+
+                this.fbilfdPropfrtifs = null;
+        }
+
+        /**
+     * Construdts b <dodf>SQLClifntInfoExdfption</dodf> objfdt initiblizfd with b
+     * givfn <dodf>fbilfdPropfrtifs</dodf>.
+     * Thf <dodf>rfbson</dodf> bnd <dodf>SQLStbtf</dodf> brf initiblizfd
+     * to <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+     *
+     * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to thf
+     * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+     *
+     * @pbrbm fbilfdPropfrtifs          A Mbp dontbining thf propfrty vblufs thbt dould not
+     *                                  bf sft.  Thf kfys in thf Mbp
+     *                                  dontbin thf nbmfs of thf dlifnt info
+     *                                  propfrtifs thbt dould not bf sft bnd
+     *                                  thf vblufs dontbin onf of thf rfbson dodfs
+     *                                  dffinfd in <dodf>ClifntInfoStbtus</dodf>
+     *
+     * @sindf 1.6
+     */
+        publid SQLClifntInfoExdfption(Mbp<String, ClifntInfoStbtus> fbilfdPropfrtifs) {
+
+                this.fbilfdPropfrtifs = fbilfdPropfrtifs;
+        }
+
+        /**
+     * Construdts b <dodf>SQLClifntInfoExdfption</dodf> objfdt initiblizfd with
+     * b givfn <dodf>dbusf</dodf> bnd <dodf>fbilfdPropfrtifs</dodf>.
+     *
+     * Thf <dodf>rfbson</dodf>  is initiblizfd to <dodf>null</dodf> if
+     * <dodf>dbusf==null</dodf> or to <dodf>dbusf.toString()</dodf> if
+     * <dodf>dbusf!=null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+     *
+     * @pbrbm fbilfdPropfrtifs          A Mbp dontbining thf propfrty vblufs thbt dould not
+     *                                  bf sft.  Thf kfys in thf Mbp
+     *                                  dontbin thf nbmfs of thf dlifnt info
+     *                                  propfrtifs thbt dould not bf sft bnd
+     *                                  thf vblufs dontbin onf of thf rfbson dodfs
+     *                                  dffinfd in <dodf>ClifntInfoStbtus</dodf>
+     * @pbrbm dbusf                                     thf (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod); mby bf null indidbting
+     *     thf dbusf is non-fxistfnt or unknown.
+     *
+     * @sindf 1.6
+     */
+        publid SQLClifntInfoExdfption(Mbp<String, ClifntInfoStbtus> fbilfdPropfrtifs,
+                                                           Throwbblf dbusf) {
+
+                supfr(dbusf != null?dbusf.toString():null);
+                initCbusf(dbusf);
+                this.fbilfdPropfrtifs = fbilfdPropfrtifs;
+        }
+
+        /**
+     * Construdts b <dodf>SQLClifntInfoExdfption</dodf> objfdt initiblizfd with b
+     * givfn <dodf>rfbson</dodf> bnd <dodf>fbilfdPropfrtifs</dodf>.
+     * Thf <dodf>SQLStbtf</dodf> is initiblizfd
+     * to <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+     *
+     * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to thf
+     * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+     *
+     * @pbrbm rfbson                            b dfsdription of thf fxdfption
+     * @pbrbm fbilfdPropfrtifs          A Mbp dontbining thf propfrty vblufs thbt dould not
+     *                                  bf sft.  Thf kfys in thf Mbp
+     *                                  dontbin thf nbmfs of thf dlifnt info
+     *                                  propfrtifs thbt dould not bf sft bnd
+     *                                  thf vblufs dontbin onf of thf rfbson dodfs
+     *                                  dffinfd in <dodf>ClifntInfoStbtus</dodf>
+     *
+     * @sindf 1.6
+     */
+        publid SQLClifntInfoExdfption(String rfbson,
+                Mbp<String, ClifntInfoStbtus> fbilfdPropfrtifs) {
+
+                supfr(rfbson);
+                this.fbilfdPropfrtifs = fbilfdPropfrtifs;
+        }
+
+        /**
+     * Construdts b <dodf>SQLClifntInfoExdfption</dodf> objfdt initiblizfd with b
+     * givfn <dodf>rfbson</dodf>, <dodf>dbusf</dodf> bnd
+     * <dodf>fbilfdPropfrtifs</dodf>.
+     * Thf  <dodf>SQLStbtf</dodf> is initiblizfd
+     * to <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+     *
+     * @pbrbm rfbson                            b dfsdription of thf fxdfption
+     * @pbrbm fbilfdPropfrtifs          A Mbp dontbining thf propfrty vblufs thbt dould not
+     *                                  bf sft.  Thf kfys in thf Mbp
+     *                                  dontbin thf nbmfs of thf dlifnt info
+     *                                  propfrtifs thbt dould not bf sft bnd
+     *                                  thf vblufs dontbin onf of thf rfbson dodfs
+     *                                  dffinfd in <dodf>ClifntInfoStbtus</dodf>
+     * @pbrbm dbusf                                     thf undfrlying rfbson for this <dodf>SQLExdfption</dodf> (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod); mby bf null indidbting
+     *     thf dbusf is non-fxistfnt or unknown.
+     *
+     * @sindf 1.6
+     */
+        publid SQLClifntInfoExdfption(String rfbson,
+                                                           Mbp<String, ClifntInfoStbtus> fbilfdPropfrtifs,
+                                                           Throwbblf dbusf) {
+
+                supfr(rfbson);
+                initCbusf(dbusf);
+                this.fbilfdPropfrtifs = fbilfdPropfrtifs;
+        }
+
+        /**
+     * Construdts b <dodf>SQLClifntInfoExdfption</dodf> objfdt initiblizfd with b
+     * givfn  <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>  bnd
+     * <dodf>fbilfdPropfrtifs</dodf>.
+     * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to thf
+     * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod. Thf vfndor dodf
+     * is initiblizfd to 0.
+     *
+     * @pbrbm rfbson                    b dfsdription of thf fxdfption
+     * @pbrbm SQLStbtf                  bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+     * @pbrbm fbilfdPropfrtifs          A Mbp dontbining thf propfrty vblufs thbt dould not
+     *                                  bf sft.  Thf kfys in thf Mbp
+     *                                  dontbin thf nbmfs of thf dlifnt info
+     *                                  propfrtifs thbt dould not bf sft bnd
+     *                                  thf vblufs dontbin onf of thf rfbson dodfs
+     *                                  dffinfd in <dodf>ClifntInfoStbtus</dodf>
+     *
+     * @sindf 1.6
+     */
+        publid SQLClifntInfoExdfption(String rfbson,
+                                                           String SQLStbtf,
+                                                           Mbp<String, ClifntInfoStbtus> fbilfdPropfrtifs) {
+
+                supfr(rfbson, SQLStbtf);
+                this.fbilfdPropfrtifs = fbilfdPropfrtifs;
+        }
+
+        /**
+     * Construdts b <dodf>SQLClifntInfoExdfption</dodf> objfdt initiblizfd with b
+     * givfn  <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>, <dodf>dbusf</dodf>
+     * bnd <dodf>fbilfdPropfrtifs</dodf>.  Thf vfndor dodf is initiblizfd to 0.
+     *
+     * @pbrbm rfbson                    b dfsdription of thf fxdfption
+     * @pbrbm SQLStbtf                  bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+     * @pbrbm fbilfdPropfrtifs          A Mbp dontbining thf propfrty vblufs thbt dould not
+     *                                  bf sft.  Thf kfys in thf Mbp
+     *                                  dontbin thf nbmfs of thf dlifnt info
+     *                                  propfrtifs thbt dould not bf sft bnd
+     *                                  thf vblufs dontbin onf of thf rfbson dodfs
+     *                                  dffinfd in <dodf>ClifntInfoStbtus</dodf>
+     * @pbrbm dbusf                     thf undfrlying rfbson for this <dodf>SQLExdfption</dodf> (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod); mby bf null indidbting
+     *     thf dbusf is non-fxistfnt or unknown.
+     *
+     * @sindf 1.6
+     */
+        publid SQLClifntInfoExdfption(String rfbson,
+                                                           String SQLStbtf,
+                                                           Mbp<String, ClifntInfoStbtus> fbilfdPropfrtifs,
+                                                           Throwbblf dbusf) {
+
+                supfr(rfbson, SQLStbtf);
+                initCbusf(dbusf);
+                this.fbilfdPropfrtifs = fbilfdPropfrtifs;
+        }
+
+        /**
+     * Construdts b <dodf>SQLClifntInfoExdfption</dodf> objfdt initiblizfd with b
+     * givfn  <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>,
+     * <dodf>vfndorCodf</dodf>  bnd <dodf>fbilfdPropfrtifs</dodf>.
+     * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+     * initiblizfd by b dbll to thf
+     * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+     *
+     * @pbrbm rfbson                    b dfsdription of thf fxdfption
+     * @pbrbm SQLStbtf                  bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+     * @pbrbm vfndorCodf                b dbtbbbsf vfndor-spfdifid fxdfption dodf
+     * @pbrbm fbilfdPropfrtifs          A Mbp dontbining thf propfrty vblufs thbt dould not
+     *                                  bf sft.  Thf kfys in thf Mbp
+     *                                  dontbin thf nbmfs of thf dlifnt info
+     *                                  propfrtifs thbt dould not bf sft bnd
+     *                                  thf vblufs dontbin onf of thf rfbson dodfs
+     *                                  dffinfd in <dodf>ClifntInfoStbtus</dodf>
+     *
+     * @sindf 1.6
+     */
+        publid SQLClifntInfoExdfption(String rfbson,
+                                                           String SQLStbtf,
+                                                           int vfndorCodf,
+                                                           Mbp<String, ClifntInfoStbtus> fbilfdPropfrtifs) {
+
+                supfr(rfbson, SQLStbtf, vfndorCodf);
+                this.fbilfdPropfrtifs = fbilfdPropfrtifs;
+        }
+
+        /**
+     * Construdts b <dodf>SQLClifntInfoExdfption</dodf> objfdt initiblizfd with b
+     * givfn  <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>,
+     * <dodf>dbusf</dodf>, <dodf>vfndorCodf</dodf> bnd
+     * <dodf>fbilfdPropfrtifs</dodf>.
+     *
+     * @pbrbm rfbson                    b dfsdription of thf fxdfption
+     * @pbrbm SQLStbtf                  bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+     * @pbrbm vfndorCodf                b dbtbbbsf vfndor-spfdifid fxdfption dodf
+     * @pbrbm fbilfdPropfrtifs          A Mbp dontbining thf propfrty vblufs thbt dould not
+     *                                  bf sft.  Thf kfys in thf Mbp
+     *                                  dontbin thf nbmfs of thf dlifnt info
+     *                                  propfrtifs thbt dould not bf sft bnd
+     *                                  thf vblufs dontbin onf of thf rfbson dodfs
+     *                                  dffinfd in <dodf>ClifntInfoStbtus</dodf>
+     * @pbrbm dbusf                     thf undfrlying rfbson for this <dodf>SQLExdfption</dodf> (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod); mby bf null indidbting
+     *                                  thf dbusf is non-fxistfnt or unknown.
+     *
+     * @sindf 1.6
+     */
+        publid SQLClifntInfoExdfption(String rfbson,
+                                                           String SQLStbtf,
+                                                           int vfndorCodf,
+                                                           Mbp<String, ClifntInfoStbtus> fbilfdPropfrtifs,
+                                                           Throwbblf dbusf) {
+
+                supfr(rfbson, SQLStbtf, vfndorCodf);
+                initCbusf(dbusf);
+                this.fbilfdPropfrtifs = fbilfdPropfrtifs;
+        }
+
+    /**
+     * Rfturns thf list of dlifnt info propfrtifs thbt dould not bf sft.  Thf
+     * kfys in thf Mbp  dontbin thf nbmfs of thf dlifnt info
+     * propfrtifs thbt dould not bf sft bnd thf vblufs dontbin onf of thf
+     * rfbson dodfs dffinfd in <dodf>ClifntInfoStbtus</dodf>
+     *
+     * @rfturn Mbp list dontbining thf dlifnt info propfrtifs thbt dould
+     * not bf sft
+     *
+     * @sindf 1.6
+     */
+        publid Mbp<String, ClifntInfoStbtus> gftFbilfdPropfrtifs() {
+
+                rfturn this.fbilfdPropfrtifs;
+        }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -4319604256824655880L;
+}

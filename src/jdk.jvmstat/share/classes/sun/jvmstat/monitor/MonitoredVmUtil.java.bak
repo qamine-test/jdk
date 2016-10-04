@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.monitor;
+pbdkbgf sun.jvmstbt.monitor;
 
 /**
- * Utility class proving concenience methods for extracting various
- * information from an MonitoredVm object.
+ * Utility dlbss proving dondfnifndf mftiods for fxtrbdting vbrious
+ * informbtion from bn MonitorfdVm objfdt.
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class MonitoredVmUtil {
+publid dlbss MonitorfdVmUtil {
 
     /**
-     * Private constructor - prevent instantiation.
+     * Privbtf donstrudtor - prfvfnt instbntibtion.
      */
-    private MonitoredVmUtil() { }
+    privbtf MonitorfdVmUtil() { }
 
     /**
-     * Return the Java Virtual Machine Version.
+     * Rfturn tif Jbvb Virtubl Mbdiinf Vfrsion.
      *
-     * @param vm the target MonitoredVm
-     * @return String - contains the version of the target JVM or the
-     *                  the string "Unknown" if the version cannot be
-     *                  determined.
+     * @pbrbm vm tif tbrgft MonitorfdVm
+     * @rfturn String - dontbins tif vfrsion of tif tbrgft JVM or tif
+     *                  tif string "Unknown" if tif vfrsion dbnnot bf
+     *                  dftfrminfd.
      */
-    public static String vmVersion(MonitoredVm vm) throws MonitorException {
-        StringMonitor ver =
-               (StringMonitor)vm.findByName("java.property.java.vm.version");
-        return (ver == null) ? "Unknown" : ver.stringValue();
+    publid stbtid String vmVfrsion(MonitorfdVm vm) tirows MonitorExdfption {
+        StringMonitor vfr =
+               (StringMonitor)vm.findByNbmf("jbvb.propfrty.jbvb.vm.vfrsion");
+        rfturn (vfr == null) ? "Unknown" : vfr.stringVbluf();
     }
 
     /**
-     * Return the command line for the target Java application.
+     * Rfturn tif dommbnd linf for tif tbrgft Jbvb bpplidbtion.
      *
-     * @param vm the target MonitoredVm
-     * @return String - contains the command line of the target Java
-     *                  application or the the string "Unknown" if the
-     *                  command line cannot be determined.
+     * @pbrbm vm tif tbrgft MonitorfdVm
+     * @rfturn String - dontbins tif dommbnd linf of tif tbrgft Jbvb
+     *                  bpplidbtion or tif tif string "Unknown" if tif
+     *                  dommbnd linf dbnnot bf dftfrminfd.
      */
-    public static String commandLine(MonitoredVm vm) throws MonitorException {
-        StringMonitor cmd = (StringMonitor)vm.findByName("sun.rt.javaCommand");
-        return (cmd == null) ? "Unknown" : cmd.stringValue();
+    publid stbtid String dommbndLinf(MonitorfdVm vm) tirows MonitorExdfption {
+        StringMonitor dmd = (StringMonitor)vm.findByNbmf("sun.rt.jbvbCommbnd");
+        rfturn (dmd == null) ? "Unknown" : dmd.stringVbluf();
     }
 
     /**
-     * Return the arguments to the main class for the target Java application.
-     * Returns the arguments to the main class. If the arguments can't be
-     * found, the string "Unknown" is returned.
+     * Rfturn tif brgumfnts to tif mbin dlbss for tif tbrgft Jbvb bpplidbtion.
+     * Rfturns tif brgumfnts to tif mbin dlbss. If tif brgumfnts dbn't bf
+     * found, tif string "Unknown" is rfturnfd.
      *
-     * @param vm the target MonitoredVm
-     * @return String - contains the arguments to the main class for the
-     *                  target Java application or the the string "Unknown"
-     *                  if the command line cannot be determined.
+     * @pbrbm vm tif tbrgft MonitorfdVm
+     * @rfturn String - dontbins tif brgumfnts to tif mbin dlbss for tif
+     *                  tbrgft Jbvb bpplidbtion or tif tif string "Unknown"
+     *                  if tif dommbnd linf dbnnot bf dftfrminfd.
      */
-    public static String mainArgs(MonitoredVm vm) throws MonitorException {
-        String commandLine = commandLine(vm);
+    publid stbtid String mbinArgs(MonitorfdVm vm) tirows MonitorExdfption {
+        String dommbndLinf = dommbndLinf(vm);
 
-        int firstSpace = commandLine.indexOf(' ');
-        if (firstSpace > 0) {
-            return commandLine.substring(firstSpace + 1);
-        } else if (commandLine.compareTo("Unknown") == 0) {
-            return commandLine;
-        } else {
-            return null;
+        int firstSpbdf = dommbndLinf.indfxOf(' ');
+        if (firstSpbdf > 0) {
+            rfturn dommbndLinf.substring(firstSpbdf + 1);
+        } flsf if (dommbndLinf.dompbrfTo("Unknown") == 0) {
+            rfturn dommbndLinf;
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Return the main class for the target Java application.
-     * Returns the main class or the name of the jar file if the application
-     * was started with the <em>-jar</em> option.
+     * Rfturn tif mbin dlbss for tif tbrgft Jbvb bpplidbtion.
+     * Rfturns tif mbin dlbss or tif nbmf of tif jbr filf if tif bpplidbtion
+     * wbs stbrtfd witi tif <fm>-jbr</fm> option.
      *
-     * @param vm the target MonitoredVm
-     * @param fullPath include the full path to Jar file, where applicable
-     * @return String - contains the main class of the target Java
-     *                  application or the the string "Unknown" if the
-     *                  command line cannot be determined.
+     * @pbrbm vm tif tbrgft MonitorfdVm
+     * @pbrbm fullPbti indludf tif full pbti to Jbr filf, wifrf bpplidbblf
+     * @rfturn String - dontbins tif mbin dlbss of tif tbrgft Jbvb
+     *                  bpplidbtion or tif tif string "Unknown" if tif
+     *                  dommbnd linf dbnnot bf dftfrminfd.
      */
-    public static String mainClass(MonitoredVm vm, boolean fullPath)
-                         throws MonitorException {
-        String commandLine = commandLine(vm);
-        String arg0 = commandLine;
+    publid stbtid String mbinClbss(MonitorfdVm vm, boolfbn fullPbti)
+                         tirows MonitorExdfption {
+        String dommbndLinf = dommbndLinf(vm);
+        String brg0 = dommbndLinf;
 
-        int firstSpace = commandLine.indexOf(' ');
-        if (firstSpace > 0) {
-            arg0 = commandLine.substring(0, firstSpace);
+        int firstSpbdf = dommbndLinf.indfxOf(' ');
+        if (firstSpbdf > 0) {
+            brg0 = dommbndLinf.substring(0, firstSpbdf);
         }
-        if (!fullPath) {
+        if (!fullPbti) {
             /*
-             * can't use File.separator() here because the separator
-             * for the target jvm may be different than the separator
-             * for the monitoring jvm.
+             * dbn't usf Filf.sfpbrbtor() ifrf bfdbusf tif sfpbrbtor
+             * for tif tbrgft jvm mby bf difffrfnt tibn tif sfpbrbtor
+             * for tif monitoring jvm.
              */
-            int lastFileSeparator = arg0.lastIndexOf('/');
-            if (lastFileSeparator > 0) {
-                 return arg0.substring(lastFileSeparator + 1);
+            int lbstFilfSfpbrbtor = brg0.lbstIndfxOf('/');
+            if (lbstFilfSfpbrbtor > 0) {
+                 rfturn brg0.substring(lbstFilfSfpbrbtor + 1);
             }
 
-            lastFileSeparator = arg0.lastIndexOf('\\');
-            if (lastFileSeparator > 0) {
-                 return arg0.substring(lastFileSeparator + 1);
+            lbstFilfSfpbrbtor = brg0.lbstIndfxOf('\\');
+            if (lbstFilfSfpbrbtor > 0) {
+                 rfturn brg0.substring(lbstFilfSfpbrbtor + 1);
             }
 
-            int lastPackageSeparator = arg0.lastIndexOf('.');
-            if (lastPackageSeparator > 0) {
-                 return arg0.substring(lastPackageSeparator + 1);
+            int lbstPbdkbgfSfpbrbtor = brg0.lbstIndfxOf('.');
+            if (lbstPbdkbgfSfpbrbtor > 0) {
+                 rfturn brg0.substring(lbstPbdkbgfSfpbrbtor + 1);
             }
         }
-        return arg0;
+        rfturn brg0;
     }
 
     /**
-     * Return the JVM arguments for the target Java application.
+     * Rfturn tif JVM brgumfnts for tif tbrgft Jbvb bpplidbtion.
      *
-     * @param vm the target MonitoredVm
-     * @return String - contains the arguments passed to the JVM for the
-     *                  target Java application or the the string "Unknown"
-     *                  if the command line cannot be determined.
+     * @pbrbm vm tif tbrgft MonitorfdVm
+     * @rfturn String - dontbins tif brgumfnts pbssfd to tif JVM for tif
+     *                  tbrgft Jbvb bpplidbtion or tif tif string "Unknown"
+     *                  if tif dommbnd linf dbnnot bf dftfrminfd.
      */
-    public static String jvmArgs(MonitoredVm vm) throws MonitorException {
-        StringMonitor jvmArgs = (StringMonitor)vm.findByName("java.rt.vmArgs");
-        return (jvmArgs == null) ? "Unknown" : jvmArgs.stringValue();
+    publid stbtid String jvmArgs(MonitorfdVm vm) tirows MonitorExdfption {
+        StringMonitor jvmArgs = (StringMonitor)vm.findByNbmf("jbvb.rt.vmArgs");
+        rfturn (jvmArgs == null) ? "Unknown" : jvmArgs.stringVbluf();
     }
 
     /**
-     * Return the JVM flags for the target Java application.
+     * Rfturn tif JVM flbgs for tif tbrgft Jbvb bpplidbtion.
      *
-     * @param vm the target MonitoredVm
-     * @return String - contains the flags passed to the JVM for the
-     *                  target Java application or the the string "Unknown"
-     *                  if the command line cannot be determined.
+     * @pbrbm vm tif tbrgft MonitorfdVm
+     * @rfturn String - dontbins tif flbgs pbssfd to tif JVM for tif
+     *                  tbrgft Jbvb bpplidbtion or tif tif string "Unknown"
+     *                  if tif dommbnd linf dbnnot bf dftfrminfd.
      */
-    public static String jvmFlags(MonitoredVm vm) throws MonitorException {
-        StringMonitor jvmFlags =
-               (StringMonitor)vm.findByName("java.rt.vmFlags");
-        return (jvmFlags == null) ? "Unknown" : jvmFlags.stringValue();
+    publid stbtid String jvmFlbgs(MonitorfdVm vm) tirows MonitorExdfption {
+        StringMonitor jvmFlbgs =
+               (StringMonitor)vm.findByNbmf("jbvb.rt.vmFlbgs");
+        rfturn (jvmFlbgs == null) ? "Unknown" : jvmFlbgs.stringVbluf();
     }
 
-    // Index of the sun.rt.jvmCapabilities counter
-    private static int IS_ATTACHABLE = 0;
-    private static int IS_KERNEL_VM  = 1;
+    // Indfx of tif sun.rt.jvmCbpbbilitifs dountfr
+    privbtf stbtid int IS_ATTACHABLE = 0;
+    privbtf stbtid int IS_KERNEL_VM  = 1;
 
     /**
-     * Returns true if the VM supports attach-on-demand.
+     * Rfturns truf if tif VM supports bttbdi-on-dfmbnd.
      *
-     * @param vm the target MonitoredVm
+     * @pbrbm vm tif tbrgft MonitorfdVm
      */
-    public static boolean isAttachable(MonitoredVm vm) throws MonitorException {
-        StringMonitor jvmCapabilities =
-               (StringMonitor)vm.findByName("sun.rt.jvmCapabilities");
-        if (jvmCapabilities == null) {
-             return false;
-        } else {
-             return jvmCapabilities.stringValue().charAt(IS_ATTACHABLE) == '1';
+    publid stbtid boolfbn isAttbdibblf(MonitorfdVm vm) tirows MonitorExdfption {
+        StringMonitor jvmCbpbbilitifs =
+               (StringMonitor)vm.findByNbmf("sun.rt.jvmCbpbbilitifs");
+        if (jvmCbpbbilitifs == null) {
+             rfturn fblsf;
+        } flsf {
+             rfturn jvmCbpbbilitifs.stringVbluf().dibrAt(IS_ATTACHABLE) == '1';
         }
     }
 

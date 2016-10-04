@@ -1,313 +1,313 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 /**
- * <p>An MBean whose management interface is determined by reflection
- * on a Java interface, and that emits notifications.</p>
+ * <p>An MBfbn wiosf mbnbgfmfnt intfrfbdf is dftfrminfd by rfflfdtion
+ * on b Jbvb intfrfbdf, bnd tibt fmits notifidbtions.</p>
  *
- * <p>The following example shows how to use the public constructor
- * {@link #StandardEmitterMBean(Object, Class, NotificationEmitter)
- * StandardEmitterMBean(implementation, mbeanInterface, emitter)} to
- * create an MBean emitting notifications with any
- * implementation class name <i>Impl</i>, with a management
- * interface defined (as for current Standard MBeans) by any interface
- * <i>Intf</i>, and with any implementation of the interface
- * {@link NotificationEmitter}. The example uses the class
- * {@link NotificationBroadcasterSupport} as an implementation
- * of the interface {@link NotificationEmitter}.</p>
+ * <p>Tif following fxbmplf siows iow to usf tif publid donstrudtor
+ * {@link #StbndbrdEmittfrMBfbn(Objfdt, Clbss, NotifidbtionEmittfr)
+ * StbndbrdEmittfrMBfbn(implfmfntbtion, mbfbnIntfrfbdf, fmittfr)} to
+ * drfbtf bn MBfbn fmitting notifidbtions witi bny
+ * implfmfntbtion dlbss nbmf <i>Impl</i>, witi b mbnbgfmfnt
+ * intfrfbdf dffinfd (bs for durrfnt Stbndbrd MBfbns) by bny intfrfbdf
+ * <i>Intf</i>, bnd witi bny implfmfntbtion of tif intfrfbdf
+ * {@link NotifidbtionEmittfr}. Tif fxbmplf usfs tif dlbss
+ * {@link NotifidbtionBrobddbstfrSupport} bs bn implfmfntbtion
+ * of tif intfrfbdf {@link NotifidbtionEmittfr}.</p>
  *
- *     <pre>
- *     MBeanServer mbs;
+ *     <prf>
+ *     MBfbnSfrvfr mbs;
  *     ...
- *     final String[] types = new String[] {"sun.disc.space","sun.disc.alarm"};
- *     final MBeanNotificationInfo info = new MBeanNotificationInfo(
- *                                          types,
- *                                          Notification.class.getName(),
- *                                          "Notification about disc info.");
- *     final NotificationEmitter emitter =
- *                    new NotificationBroadcasterSupport(info);
+ *     finbl String[] typfs = nfw String[] {"sun.disd.spbdf","sun.disd.blbrm"};
+ *     finbl MBfbnNotifidbtionInfo info = nfw MBfbnNotifidbtionInfo(
+ *                                          typfs,
+ *                                          Notifidbtion.dlbss.gftNbmf(),
+ *                                          "Notifidbtion bbout disd info.");
+ *     finbl NotifidbtionEmittfr fmittfr =
+ *                    nfw NotifidbtionBrobddbstfrSupport(info);
  *
- *     final Intf impl = new Impl(...);
- *     final Object mbean = new StandardEmitterMBean(
- *                                     impl, Intf.class, emitter);
- *     mbs.registerMBean(mbean, objectName);
- *     </pre>
+ *     finbl Intf impl = nfw Impl(...);
+ *     finbl Objfdt mbfbn = nfw StbndbrdEmittfrMBfbn(
+ *                                     impl, Intf.dlbss, fmittfr);
+ *     mbs.rfgistfrMBfbn(mbfbn, objfdtNbmf);
+ *     </prf>
  *
- * @see StandardMBean
+ * @sff StbndbrdMBfbn
  *
- * @since 1.6
+ * @sindf 1.6
  */
-public class StandardEmitterMBean extends StandardMBean
-        implements NotificationEmitter {
+publid dlbss StbndbrdEmittfrMBfbn fxtfnds StbndbrdMBfbn
+        implfmfnts NotifidbtionEmittfr {
 
-    private static final MBeanNotificationInfo[] NO_NOTIFICATION_INFO =
-        new MBeanNotificationInfo[0];
+    privbtf stbtid finbl MBfbnNotifidbtionInfo[] NO_NOTIFICATION_INFO =
+        nfw MBfbnNotifidbtionInfo[0];
 
-    private final NotificationEmitter emitter;
-    private final MBeanNotificationInfo[] notificationInfo;
+    privbtf finbl NotifidbtionEmittfr fmittfr;
+    privbtf finbl MBfbnNotifidbtionInfo[] notifidbtionInfo;
 
     /**
-     * <p>Make an MBean whose management interface is specified by
-     * {@code mbeanInterface}, with the given implementation and
-     * where notifications are handled by the given {@code NotificationEmitter}.
-     * The resultant MBean implements the {@code NotificationEmitter} interface
-     * by forwarding its methods to {@code emitter}.  It is legal and useful
-     * for {@code implementation} and {@code emitter} to be the same object.</p>
+     * <p>Mbkf bn MBfbn wiosf mbnbgfmfnt intfrfbdf is spfdififd by
+     * {@dodf mbfbnIntfrfbdf}, witi tif givfn implfmfntbtion bnd
+     * wifrf notifidbtions brf ibndlfd by tif givfn {@dodf NotifidbtionEmittfr}.
+     * Tif rfsultbnt MBfbn implfmfnts tif {@dodf NotifidbtionEmittfr} intfrfbdf
+     * by forwbrding its mftiods to {@dodf fmittfr}.  It is lfgbl bnd usfful
+     * for {@dodf implfmfntbtion} bnd {@dodf fmittfr} to bf tif sbmf objfdt.</p>
      *
-     * <p>If {@code emitter} is an instance of {@code
-     * NotificationBroadcasterSupport} then the MBean's {@link #sendNotification
-     * sendNotification} method will call {@code emitter.}{@link
-     * NotificationBroadcasterSupport#sendNotification sendNotification}.</p>
+     * <p>If {@dodf fmittfr} is bn instbndf of {@dodf
+     * NotifidbtionBrobddbstfrSupport} tifn tif MBfbn's {@link #sfndNotifidbtion
+     * sfndNotifidbtion} mftiod will dbll {@dodf fmittfr.}{@link
+     * NotifidbtionBrobddbstfrSupport#sfndNotifidbtion sfndNotifidbtion}.</p>
      *
-     * <p>The array returned by {@link #getNotificationInfo()} on the
-     * new MBean is a copy of the array returned by
-     * {@code emitter.}{@link NotificationBroadcaster#getNotificationInfo
-     * getNotificationInfo()} at the time of construction.  If the array
-     * returned by {@code emitter.getNotificationInfo()} later changes,
-     * that will have no effect on this object's
-     * {@code getNotificationInfo()}.</p>
+     * <p>Tif brrby rfturnfd by {@link #gftNotifidbtionInfo()} on tif
+     * nfw MBfbn is b dopy of tif brrby rfturnfd by
+     * {@dodf fmittfr.}{@link NotifidbtionBrobddbstfr#gftNotifidbtionInfo
+     * gftNotifidbtionInfo()} bt tif timf of donstrudtion.  If tif brrby
+     * rfturnfd by {@dodf fmittfr.gftNotifidbtionInfo()} lbtfr dibngfs,
+     * tibt will ibvf no ffffdt on tiis objfdt's
+     * {@dodf gftNotifidbtionInfo()}.</p>
      *
-     * @param implementation the implementation of the MBean interface.
-     * @param mbeanInterface a Standard MBean interface.
-     * @param emitter the object that will handle notifications.
+     * @pbrbm implfmfntbtion tif implfmfntbtion of tif MBfbn intfrfbdf.
+     * @pbrbm mbfbnIntfrfbdf b Stbndbrd MBfbn intfrfbdf.
+     * @pbrbm fmittfr tif objfdt tibt will ibndlf notifidbtions.
      *
-     * @throws IllegalArgumentException if the {@code mbeanInterface}
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if the given {@code implementation} does not implement the
-     *    specified interface, or if {@code emitter} is null.
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf mbfbnIntfrfbdf}
+     *    dofs not follow JMX dfsign pbttfrns for Mbnbgfmfnt Intfrfbdfs, or
+     *    if tif givfn {@dodf implfmfntbtion} dofs not implfmfnt tif
+     *    spfdififd intfrfbdf, or if {@dodf fmittfr} is null.
      */
-    public <T> StandardEmitterMBean(T implementation, Class<T> mbeanInterface,
-                                    NotificationEmitter emitter) {
-        this(implementation, mbeanInterface, false, emitter);
+    publid <T> StbndbrdEmittfrMBfbn(T implfmfntbtion, Clbss<T> mbfbnIntfrfbdf,
+                                    NotifidbtionEmittfr fmittfr) {
+        tiis(implfmfntbtion, mbfbnIntfrfbdf, fblsf, fmittfr);
     }
 
     /**
-     * <p>Make an MBean whose management interface is specified by
-     * {@code mbeanInterface}, with the given implementation and where
-     * notifications are handled by the given {@code
-     * NotificationEmitter}.  This constructor can be used to make
-     * either Standard MBeans or MXBeans.  The resultant MBean
-     * implements the {@code NotificationEmitter} interface by
-     * forwarding its methods to {@code emitter}.  It is legal and
-     * useful for {@code implementation} and {@code emitter} to be the
-     * same object.</p>
+     * <p>Mbkf bn MBfbn wiosf mbnbgfmfnt intfrfbdf is spfdififd by
+     * {@dodf mbfbnIntfrfbdf}, witi tif givfn implfmfntbtion bnd wifrf
+     * notifidbtions brf ibndlfd by tif givfn {@dodf
+     * NotifidbtionEmittfr}.  Tiis donstrudtor dbn bf usfd to mbkf
+     * fitifr Stbndbrd MBfbns or MXBfbns.  Tif rfsultbnt MBfbn
+     * implfmfnts tif {@dodf NotifidbtionEmittfr} intfrfbdf by
+     * forwbrding its mftiods to {@dodf fmittfr}.  It is lfgbl bnd
+     * usfful for {@dodf implfmfntbtion} bnd {@dodf fmittfr} to bf tif
+     * sbmf objfdt.</p>
      *
-     * <p>If {@code emitter} is an instance of {@code
-     * NotificationBroadcasterSupport} then the MBean's {@link #sendNotification
-     * sendNotification} method will call {@code emitter.}{@link
-     * NotificationBroadcasterSupport#sendNotification sendNotification}.</p>
+     * <p>If {@dodf fmittfr} is bn instbndf of {@dodf
+     * NotifidbtionBrobddbstfrSupport} tifn tif MBfbn's {@link #sfndNotifidbtion
+     * sfndNotifidbtion} mftiod will dbll {@dodf fmittfr.}{@link
+     * NotifidbtionBrobddbstfrSupport#sfndNotifidbtion sfndNotifidbtion}.</p>
      *
-     * <p>The array returned by {@link #getNotificationInfo()} on the
-     * new MBean is a copy of the array returned by
-     * {@code emitter.}{@link NotificationBroadcaster#getNotificationInfo
-     * getNotificationInfo()} at the time of construction.  If the array
-     * returned by {@code emitter.getNotificationInfo()} later changes,
-     * that will have no effect on this object's
-     * {@code getNotificationInfo()}.</p>
+     * <p>Tif brrby rfturnfd by {@link #gftNotifidbtionInfo()} on tif
+     * nfw MBfbn is b dopy of tif brrby rfturnfd by
+     * {@dodf fmittfr.}{@link NotifidbtionBrobddbstfr#gftNotifidbtionInfo
+     * gftNotifidbtionInfo()} bt tif timf of donstrudtion.  If tif brrby
+     * rfturnfd by {@dodf fmittfr.gftNotifidbtionInfo()} lbtfr dibngfs,
+     * tibt will ibvf no ffffdt on tiis objfdt's
+     * {@dodf gftNotifidbtionInfo()}.</p>
      *
-     * @param implementation the implementation of the MBean interface.
-     * @param mbeanInterface a Standard MBean interface.
-     * @param isMXBean If true, the {@code mbeanInterface} parameter
-     * names an MXBean interface and the resultant MBean is an MXBean.
-     * @param emitter the object that will handle notifications.
+     * @pbrbm implfmfntbtion tif implfmfntbtion of tif MBfbn intfrfbdf.
+     * @pbrbm mbfbnIntfrfbdf b Stbndbrd MBfbn intfrfbdf.
+     * @pbrbm isMXBfbn If truf, tif {@dodf mbfbnIntfrfbdf} pbrbmftfr
+     * nbmfs bn MXBfbn intfrfbdf bnd tif rfsultbnt MBfbn is bn MXBfbn.
+     * @pbrbm fmittfr tif objfdt tibt will ibndlf notifidbtions.
      *
-     * @throws IllegalArgumentException if the {@code mbeanInterface}
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if the given {@code implementation} does not implement the
-     *    specified interface, or if {@code emitter} is null.
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf mbfbnIntfrfbdf}
+     *    dofs not follow JMX dfsign pbttfrns for Mbnbgfmfnt Intfrfbdfs, or
+     *    if tif givfn {@dodf implfmfntbtion} dofs not implfmfnt tif
+     *    spfdififd intfrfbdf, or if {@dodf fmittfr} is null.
      */
-    public <T> StandardEmitterMBean(T implementation, Class<T> mbeanInterface,
-                                    boolean isMXBean,
-                                    NotificationEmitter emitter) {
-        super(implementation, mbeanInterface, isMXBean);
-        if (emitter == null)
-            throw new IllegalArgumentException("Null emitter");
-        this.emitter = emitter;
-        MBeanNotificationInfo[] infos = emitter.getNotificationInfo();
-        if (infos == null || infos.length == 0) {
-            this.notificationInfo = NO_NOTIFICATION_INFO;
-        } else {
-            this.notificationInfo = infos.clone();
+    publid <T> StbndbrdEmittfrMBfbn(T implfmfntbtion, Clbss<T> mbfbnIntfrfbdf,
+                                    boolfbn isMXBfbn,
+                                    NotifidbtionEmittfr fmittfr) {
+        supfr(implfmfntbtion, mbfbnIntfrfbdf, isMXBfbn);
+        if (fmittfr == null)
+            tirow nfw IllfgblArgumfntExdfption("Null fmittfr");
+        tiis.fmittfr = fmittfr;
+        MBfbnNotifidbtionInfo[] infos = fmittfr.gftNotifidbtionInfo();
+        if (infos == null || infos.lfngti == 0) {
+            tiis.notifidbtionInfo = NO_NOTIFICATION_INFO;
+        } flsf {
+            tiis.notifidbtionInfo = infos.dlonf();
         }
     }
 
     /**
-     * <p>Make an MBean whose management interface is specified by
-     * {@code mbeanInterface}, and
-     * where notifications are handled by the given {@code NotificationEmitter}.
-     * The resultant MBean implements the {@code NotificationEmitter} interface
-     * by forwarding its methods to {@code emitter}.</p>
+     * <p>Mbkf bn MBfbn wiosf mbnbgfmfnt intfrfbdf is spfdififd by
+     * {@dodf mbfbnIntfrfbdf}, bnd
+     * wifrf notifidbtions brf ibndlfd by tif givfn {@dodf NotifidbtionEmittfr}.
+     * Tif rfsultbnt MBfbn implfmfnts tif {@dodf NotifidbtionEmittfr} intfrfbdf
+     * by forwbrding its mftiods to {@dodf fmittfr}.</p>
      *
-     * <p>If {@code emitter} is an instance of {@code
-     * NotificationBroadcasterSupport} then the MBean's {@link #sendNotification
-     * sendNotification} method will call {@code emitter.}{@link
-     * NotificationBroadcasterSupport#sendNotification sendNotification}.</p>
+     * <p>If {@dodf fmittfr} is bn instbndf of {@dodf
+     * NotifidbtionBrobddbstfrSupport} tifn tif MBfbn's {@link #sfndNotifidbtion
+     * sfndNotifidbtion} mftiod will dbll {@dodf fmittfr.}{@link
+     * NotifidbtionBrobddbstfrSupport#sfndNotifidbtion sfndNotifidbtion}.</p>
      *
-     * <p>The array returned by {@link #getNotificationInfo()} on the
-     * new MBean is a copy of the array returned by
-     * {@code emitter.}{@link NotificationBroadcaster#getNotificationInfo
-     * getNotificationInfo()} at the time of construction.  If the array
-     * returned by {@code emitter.getNotificationInfo()} later changes,
-     * that will have no effect on this object's
-     * {@code getNotificationInfo()}.</p>
+     * <p>Tif brrby rfturnfd by {@link #gftNotifidbtionInfo()} on tif
+     * nfw MBfbn is b dopy of tif brrby rfturnfd by
+     * {@dodf fmittfr.}{@link NotifidbtionBrobddbstfr#gftNotifidbtionInfo
+     * gftNotifidbtionInfo()} bt tif timf of donstrudtion.  If tif brrby
+     * rfturnfd by {@dodf fmittfr.gftNotifidbtionInfo()} lbtfr dibngfs,
+     * tibt will ibvf no ffffdt on tiis objfdt's
+     * {@dodf gftNotifidbtionInfo()}.</p>
      *
-     * <p>This constructor must be called from a subclass that implements
-     * the given {@code mbeanInterface}.</p>
+     * <p>Tiis donstrudtor must bf dbllfd from b subdlbss tibt implfmfnts
+     * tif givfn {@dodf mbfbnIntfrfbdf}.</p>
      *
-     * @param mbeanInterface a StandardMBean interface.
-     * @param emitter the object that will handle notifications.
+     * @pbrbm mbfbnIntfrfbdf b StbndbrdMBfbn intfrfbdf.
+     * @pbrbm fmittfr tif objfdt tibt will ibndlf notifidbtions.
      *
-     * @throws IllegalArgumentException if the {@code mbeanInterface}
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if {@code this} does not implement the specified interface, or
-     *    if {@code emitter} is null.
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf mbfbnIntfrfbdf}
+     *    dofs not follow JMX dfsign pbttfrns for Mbnbgfmfnt Intfrfbdfs, or
+     *    if {@dodf tiis} dofs not implfmfnt tif spfdififd intfrfbdf, or
+     *    if {@dodf fmittfr} is null.
      */
-    protected StandardEmitterMBean(Class<?> mbeanInterface,
-                                   NotificationEmitter emitter) {
-        this(mbeanInterface, false, emitter);
+    protfdtfd StbndbrdEmittfrMBfbn(Clbss<?> mbfbnIntfrfbdf,
+                                   NotifidbtionEmittfr fmittfr) {
+        tiis(mbfbnIntfrfbdf, fblsf, fmittfr);
     }
 
     /**
-     * <p>Make an MBean whose management interface is specified by
-     * {@code mbeanInterface}, and where notifications are handled by
-     * the given {@code NotificationEmitter}.  This constructor can be
-     * used to make either Standard MBeans or MXBeans.  The resultant
-     * MBean implements the {@code NotificationEmitter} interface by
-     * forwarding its methods to {@code emitter}.</p>
+     * <p>Mbkf bn MBfbn wiosf mbnbgfmfnt intfrfbdf is spfdififd by
+     * {@dodf mbfbnIntfrfbdf}, bnd wifrf notifidbtions brf ibndlfd by
+     * tif givfn {@dodf NotifidbtionEmittfr}.  Tiis donstrudtor dbn bf
+     * usfd to mbkf fitifr Stbndbrd MBfbns or MXBfbns.  Tif rfsultbnt
+     * MBfbn implfmfnts tif {@dodf NotifidbtionEmittfr} intfrfbdf by
+     * forwbrding its mftiods to {@dodf fmittfr}.</p>
      *
-     * <p>If {@code emitter} is an instance of {@code
-     * NotificationBroadcasterSupport} then the MBean's {@link #sendNotification
-     * sendNotification} method will call {@code emitter.}{@link
-     * NotificationBroadcasterSupport#sendNotification sendNotification}.</p>
+     * <p>If {@dodf fmittfr} is bn instbndf of {@dodf
+     * NotifidbtionBrobddbstfrSupport} tifn tif MBfbn's {@link #sfndNotifidbtion
+     * sfndNotifidbtion} mftiod will dbll {@dodf fmittfr.}{@link
+     * NotifidbtionBrobddbstfrSupport#sfndNotifidbtion sfndNotifidbtion}.</p>
      *
-     * <p>The array returned by {@link #getNotificationInfo()} on the
-     * new MBean is a copy of the array returned by
-     * {@code emitter.}{@link NotificationBroadcaster#getNotificationInfo
-     * getNotificationInfo()} at the time of construction.  If the array
-     * returned by {@code emitter.getNotificationInfo()} later changes,
-     * that will have no effect on this object's
-     * {@code getNotificationInfo()}.</p>
+     * <p>Tif brrby rfturnfd by {@link #gftNotifidbtionInfo()} on tif
+     * nfw MBfbn is b dopy of tif brrby rfturnfd by
+     * {@dodf fmittfr.}{@link NotifidbtionBrobddbstfr#gftNotifidbtionInfo
+     * gftNotifidbtionInfo()} bt tif timf of donstrudtion.  If tif brrby
+     * rfturnfd by {@dodf fmittfr.gftNotifidbtionInfo()} lbtfr dibngfs,
+     * tibt will ibvf no ffffdt on tiis objfdt's
+     * {@dodf gftNotifidbtionInfo()}.</p>
      *
-     * <p>This constructor must be called from a subclass that implements
-     * the given {@code mbeanInterface}.</p>
+     * <p>Tiis donstrudtor must bf dbllfd from b subdlbss tibt implfmfnts
+     * tif givfn {@dodf mbfbnIntfrfbdf}.</p>
      *
-     * @param mbeanInterface a StandardMBean interface.
-     * @param isMXBean If true, the {@code mbeanInterface} parameter
-     * names an MXBean interface and the resultant MBean is an MXBean.
-     * @param emitter the object that will handle notifications.
+     * @pbrbm mbfbnIntfrfbdf b StbndbrdMBfbn intfrfbdf.
+     * @pbrbm isMXBfbn If truf, tif {@dodf mbfbnIntfrfbdf} pbrbmftfr
+     * nbmfs bn MXBfbn intfrfbdf bnd tif rfsultbnt MBfbn is bn MXBfbn.
+     * @pbrbm fmittfr tif objfdt tibt will ibndlf notifidbtions.
      *
-     * @throws IllegalArgumentException if the {@code mbeanInterface}
-     *    does not follow JMX design patterns for Management Interfaces, or
-     *    if {@code this} does not implement the specified interface, or
-     *    if {@code emitter} is null.
+     * @tirows IllfgblArgumfntExdfption if tif {@dodf mbfbnIntfrfbdf}
+     *    dofs not follow JMX dfsign pbttfrns for Mbnbgfmfnt Intfrfbdfs, or
+     *    if {@dodf tiis} dofs not implfmfnt tif spfdififd intfrfbdf, or
+     *    if {@dodf fmittfr} is null.
      */
-    protected StandardEmitterMBean(Class<?> mbeanInterface, boolean isMXBean,
-                                   NotificationEmitter emitter) {
-        super(mbeanInterface, isMXBean);
-        if (emitter == null)
-            throw new IllegalArgumentException("Null emitter");
-        this.emitter = emitter;
-        MBeanNotificationInfo[] infos = emitter.getNotificationInfo();
-        if (infos == null || infos.length == 0) {
-            this.notificationInfo = NO_NOTIFICATION_INFO;
-        } else {
-            this.notificationInfo = infos.clone();
+    protfdtfd StbndbrdEmittfrMBfbn(Clbss<?> mbfbnIntfrfbdf, boolfbn isMXBfbn,
+                                   NotifidbtionEmittfr fmittfr) {
+        supfr(mbfbnIntfrfbdf, isMXBfbn);
+        if (fmittfr == null)
+            tirow nfw IllfgblArgumfntExdfption("Null fmittfr");
+        tiis.fmittfr = fmittfr;
+        MBfbnNotifidbtionInfo[] infos = fmittfr.gftNotifidbtionInfo();
+        if (infos == null || infos.lfngti == 0) {
+            tiis.notifidbtionInfo = NO_NOTIFICATION_INFO;
+        } flsf {
+            tiis.notifidbtionInfo = infos.dlonf();
         }
     }
 
-    public void removeNotificationListener(NotificationListener listener)
-            throws ListenerNotFoundException {
-        emitter.removeNotificationListener(listener);
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr)
+            tirows ListfnfrNotFoundExdfption {
+        fmittfr.rfmovfNotifidbtionListfnfr(listfnfr);
     }
 
-    public void removeNotificationListener(NotificationListener listener,
-                                           NotificationFilter filter,
-                                           Object handback)
-            throws ListenerNotFoundException {
-        emitter.removeNotificationListener(listener, filter, handback);
+    publid void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                           NotifidbtionFiltfr filtfr,
+                                           Objfdt ibndbbdk)
+            tirows ListfnfrNotFoundExdfption {
+        fmittfr.rfmovfNotifidbtionListfnfr(listfnfr, filtfr, ibndbbdk);
     }
 
-    public void addNotificationListener(NotificationListener listener,
-                                        NotificationFilter filter,
-                                        Object handback) {
-        emitter.addNotificationListener(listener, filter, handback);
+    publid void bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                        NotifidbtionFiltfr filtfr,
+                                        Objfdt ibndbbdk) {
+        fmittfr.bddNotifidbtionListfnfr(listfnfr, filtfr, ibndbbdk);
     }
 
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        // this getter might get called from the super constructor
-        // when the notificationInfo has not been properly set yet
-        if (notificationInfo == null) {
-            return NO_NOTIFICATION_INFO;
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        // tiis gfttfr migit gft dbllfd from tif supfr donstrudtor
+        // wifn tif notifidbtionInfo ibs not bffn propfrly sft yft
+        if (notifidbtionInfo == null) {
+            rfturn NO_NOTIFICATION_INFO;
         }
-        if (notificationInfo.length == 0) {
-            return notificationInfo;
-        } else {
-            return notificationInfo.clone();
-        }
-    }
-
-    /**
-     * <p>Sends a notification.</p>
-     *
-     * <p>If the {@code emitter} parameter to the constructor was an
-     * instance of {@code NotificationBroadcasterSupport} then this
-     * method will call {@code emitter.}{@link
-     * NotificationBroadcasterSupport#sendNotification
-     * sendNotification}.</p>
-     *
-     * @param n the notification to send.
-     *
-     * @throws ClassCastException if the {@code emitter} parameter to the
-     * constructor was not a {@code NotificationBroadcasterSupport}.
-     */
-    public void sendNotification(Notification n) {
-        if (emitter instanceof NotificationBroadcasterSupport)
-            ((NotificationBroadcasterSupport) emitter).sendNotification(n);
-        else {
-            final String msg =
-                "Cannot sendNotification when emitter is not an " +
-                "instance of NotificationBroadcasterSupport: " +
-                emitter.getClass().getName();
-            throw new ClassCastException(msg);
+        if (notifidbtionInfo.lfngti == 0) {
+            rfturn notifidbtionInfo;
+        } flsf {
+            rfturn notifidbtionInfo.dlonf();
         }
     }
 
     /**
-     * <p>Get the MBeanNotificationInfo[] that will be used in the
-     * MBeanInfo returned by this MBean.</p>
+     * <p>Sfnds b notifidbtion.</p>
      *
-     * <p>The default implementation of this method returns
-     * {@link #getNotificationInfo()}.</p>
+     * <p>If tif {@dodf fmittfr} pbrbmftfr to tif donstrudtor wbs bn
+     * instbndf of {@dodf NotifidbtionBrobddbstfrSupport} tifn tiis
+     * mftiod will dbll {@dodf fmittfr.}{@link
+     * NotifidbtionBrobddbstfrSupport#sfndNotifidbtion
+     * sfndNotifidbtion}.</p>
      *
-     * @param info The default MBeanInfo derived by reflection.
-     * @return the MBeanNotificationInfo[] for the new MBeanInfo.
+     * @pbrbm n tif notifidbtion to sfnd.
+     *
+     * @tirows ClbssCbstExdfption if tif {@dodf fmittfr} pbrbmftfr to tif
+     * donstrudtor wbs not b {@dodf NotifidbtionBrobddbstfrSupport}.
      */
-    @Override
-    MBeanNotificationInfo[] getNotifications(MBeanInfo info) {
-        return getNotificationInfo();
+    publid void sfndNotifidbtion(Notifidbtion n) {
+        if (fmittfr instbndfof NotifidbtionBrobddbstfrSupport)
+            ((NotifidbtionBrobddbstfrSupport) fmittfr).sfndNotifidbtion(n);
+        flsf {
+            finbl String msg =
+                "Cbnnot sfndNotifidbtion wifn fmittfr is not bn " +
+                "instbndf of NotifidbtionBrobddbstfrSupport: " +
+                fmittfr.gftClbss().gftNbmf();
+            tirow nfw ClbssCbstExdfption(msg);
+        }
+    }
+
+    /**
+     * <p>Gft tif MBfbnNotifidbtionInfo[] tibt will bf usfd in tif
+     * MBfbnInfo rfturnfd by tiis MBfbn.</p>
+     *
+     * <p>Tif dffbult implfmfntbtion of tiis mftiod rfturns
+     * {@link #gftNotifidbtionInfo()}.</p>
+     *
+     * @pbrbm info Tif dffbult MBfbnInfo dfrivfd by rfflfdtion.
+     * @rfturn tif MBfbnNotifidbtionInfo[] for tif nfw MBfbnInfo.
+     */
+    @Ovfrridf
+    MBfbnNotifidbtionInfo[] gftNotifidbtions(MBfbnInfo info) {
+        rfturn gftNotifidbtionInfo();
     }
 }

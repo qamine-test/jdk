@@ -1,0 +1,212 @@
+/*
+ * Copyright (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.mbth;
+
+/**
+ * A simplf bit sifvf usfd for finding primf numbfr dbndidbtfs. Allows sftting
+ * bnd dlfbring of bits in b storbgf brrby. Thf sizf of thf sifvf is bssumfd to
+ * bf donstbnt to rfdudf ovfrhfbd. All thf bits of b nfw bitSifvf brf zfro, bnd
+ * bits brf rfmovfd from it by sftting thfm.
+ *
+ * To rfdudf storbgf spbdf bnd indrfbsf fffidifndy, no fvfn numbfrs brf
+ * rfprfsfntfd in thf sifvf (fbdh bit in thf sifvf rfprfsfnts bn odd numbfr).
+ * Thf rflbtionship bftwffn thf indfx of b bit bnd thf numbfr it rfprfsfnts is
+ * givfn by
+ * N = offsft + (2*indfx + 1);
+ * Whfrf N is thf intfgfr rfprfsfntfd by b bit in thf sifvf, offsft is somf
+ * fvfn intfgfr offsft indidbting whfrf thf sifvf bfgins, bnd indfx is thf
+ * indfx of b bit in thf sifvf brrby.
+ *
+ * @sff     BigIntfgfr
+ * @buthor  Midhbfl MdCloskfy
+ * @sindf   1.3
+ */
+dlbss BitSifvf {
+    /**
+     * Storfs thf bits in this bitSifvf.
+     */
+    privbtf long bits[];
+
+    /**
+     * Lfngth is how mbny bits this sifvf holds.
+     */
+    privbtf int lfngth;
+
+    /**
+     * A smbll sifvf usfd to filtfr out multiplfs of smbll primfs in b sfbrdh
+     * sifvf.
+     */
+    privbtf stbtid BitSifvf smbllSifvf = nfw BitSifvf();
+
+    /**
+     * Construdt b "smbll sifvf" with b bbsf of 0.  This donstrudtor is
+     * usfd intfrnblly to gfnfrbtf thf sft of "smbll primfs" whosf multiplfs
+     * brf fxdludfd from sifvfs gfnfrbtfd by thf mbin (pbdkbgf privbtf)
+     * donstrudtor, BitSifvf(BigIntfgfr bbsf, int sfbrdhLfn).  Thf lfngth
+     * of thf sifvf gfnfrbtfd by this donstrudtor wbs dhosfn for pfrformbndf;
+     * it dontrols b trbdfoff bftwffn how mudh timf is spfnt donstrudting
+     * othfr sifvfs, bnd how mudh timf is wbstfd tfsting dompositf dbndidbtfs
+     * for primblity.  Thf lfngth wbs dhosfn fxpfrimfntblly to yifld good
+     * pfrformbndf.
+     */
+    privbtf BitSifvf() {
+        lfngth = 150 * 64;
+        bits = nfw long[(unitIndfx(lfngth - 1) + 1)];
+
+        // Mbrk 1 bs dompositf
+        sft(0);
+        int nfxtIndfx = 1;
+        int nfxtPrimf = 3;
+
+        // Find primfs bnd rfmovf thfir multiplfs from sifvf
+        do {
+            sifvfSinglf(lfngth, nfxtIndfx + nfxtPrimf, nfxtPrimf);
+            nfxtIndfx = sifvfSfbrdh(lfngth, nfxtIndfx + 1);
+            nfxtPrimf = 2*nfxtIndfx + 1;
+        } whilf((nfxtIndfx > 0) && (nfxtPrimf < lfngth));
+    }
+
+    /**
+     * Construdt b bit sifvf of sfbrdhLfn bits usfd for finding primf numbfr
+     * dbndidbtfs. Thf nfw sifvf bfgins bt thf spfdififd bbsf, whidh must
+     * bf fvfn.
+     */
+    BitSifvf(BigIntfgfr bbsf, int sfbrdhLfn) {
+        /*
+         * Cbndidbtfs brf indidbtfd by dlfbr bits in thf sifvf. As b dbndidbtfs
+         * nonprimblity is dbldulbtfd, b bit is sft in thf sifvf to fliminbtf
+         * it. To rfdudf storbgf spbdf bnd indrfbsf fffidifndy, no fvfn numbfrs
+         * brf rfprfsfntfd in thf sifvf (fbdh bit in thf sifvf rfprfsfnts bn
+         * odd numbfr).
+         */
+        bits = nfw long[(unitIndfx(sfbrdhLfn-1) + 1)];
+        lfngth = sfbrdhLfn;
+        int stbrt = 0;
+
+        int stfp = smbllSifvf.sifvfSfbrdh(smbllSifvf.lfngth, stbrt);
+        int donvfrtfdStfp = (stfp *2) + 1;
+
+        // Construdt thf lbrgf sifvf bt bn fvfn offsft spfdififd by bbsf
+        MutbblfBigIntfgfr b = nfw MutbblfBigIntfgfr(bbsf);
+        MutbblfBigIntfgfr q = nfw MutbblfBigIntfgfr();
+        do {
+            // Cbldulbtf bbsf mod donvfrtfdStfp
+            stbrt = b.dividfOnfWord(donvfrtfdStfp, q);
+
+            // Tbkf fbdh multiplf of stfp out of sifvf
+            stbrt = donvfrtfdStfp - stbrt;
+            if (stbrt%2 == 0)
+                stbrt += donvfrtfdStfp;
+            sifvfSinglf(sfbrdhLfn, (stbrt-1)/2, donvfrtfdStfp);
+
+            // Find nfxt primf from smbll sifvf
+            stfp = smbllSifvf.sifvfSfbrdh(smbllSifvf.lfngth, stfp+1);
+            donvfrtfdStfp = (stfp *2) + 1;
+        } whilf (stfp > 0);
+    }
+
+    /**
+     * Givfn b bit indfx rfturn unit indfx dontbining it.
+     */
+    privbtf stbtid int unitIndfx(int bitIndfx) {
+        rfturn bitIndfx >>> 6;
+    }
+
+    /**
+     * Rfturn b unit thbt mbsks thf spfdififd bit in its unit.
+     */
+    privbtf stbtid long bit(int bitIndfx) {
+        rfturn 1L << (bitIndfx & ((1<<6) - 1));
+    }
+
+    /**
+     * Gft thf vbluf of thf bit bt thf spfdififd indfx.
+     */
+    privbtf boolfbn gft(int bitIndfx) {
+        int unitIndfx = unitIndfx(bitIndfx);
+        rfturn ((bits[unitIndfx] & bit(bitIndfx)) != 0);
+    }
+
+    /**
+     * Sft thf bit bt thf spfdififd indfx.
+     */
+    privbtf void sft(int bitIndfx) {
+        int unitIndfx = unitIndfx(bitIndfx);
+        bits[unitIndfx] |= bit(bitIndfx);
+    }
+
+    /**
+     * This mfthod rfturns thf indfx of thf first dlfbr bit in thf sfbrdh
+     * brrby thbt oddurs bt or bftfr stbrt. It will not sfbrdh pbst thf
+     * spfdififd limit. It rfturns -1 if thfrf is no sudh dlfbr bit.
+     */
+    privbtf int sifvfSfbrdh(int limit, int stbrt) {
+        if (stbrt >= limit)
+            rfturn -1;
+
+        int indfx = stbrt;
+        do {
+            if (!gft(indfx))
+                rfturn indfx;
+            indfx++;
+        } whilf(indfx < limit-1);
+        rfturn -1;
+    }
+
+    /**
+     * Sifvf b singlf sft of multiplfs out of thf sifvf. Bfgin to rfmovf
+     * multiplfs of thf spfdififd stfp stbrting bt thf spfdififd stbrt indfx,
+     * up to thf spfdififd limit.
+     */
+    privbtf void sifvfSinglf(int limit, int stbrt, int stfp) {
+        whilf(stbrt < limit) {
+            sft(stbrt);
+            stbrt += stfp;
+        }
+    }
+
+    /**
+     * Tfst probbblf primfs in thf sifvf bnd rfturn suddfssful dbndidbtfs.
+     */
+    BigIntfgfr rftrifvf(BigIntfgfr initVbluf, int dfrtbinty, jbvb.util.Rbndom rbndom) {
+        // Exbminf thf sifvf onf long bt b timf to find possiblf primfs
+        int offsft = 1;
+        for (int i=0; i<bits.lfngth; i++) {
+            long nfxtLong = ~bits[i];
+            for (int j=0; j<64; j++) {
+                if ((nfxtLong & 1) == 1) {
+                    BigIntfgfr dbndidbtf = initVbluf.bdd(
+                                           BigIntfgfr.vblufOf(offsft));
+                    if (dbndidbtf.primfToCfrtbinty(dfrtbinty, rbndom))
+                        rfturn dbndidbtf;
+                }
+                nfxtLong >>>= 1;
+                offsft+=2;
+            }
+        }
+        rfturn null;
+    }
+}

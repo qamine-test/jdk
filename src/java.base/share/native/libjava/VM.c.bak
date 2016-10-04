@@ -1,62 +1,62 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <string.h>
+#indludf <string.i>
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jlong.h"
-#include "jvm.h"
-#include "jdk_util.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jlong.i"
+#indludf "jvm.i"
+#indludf "jdk_util.i"
 
-#include "sun_misc_VM.h"
+#indludf "sun_misd_VM.i"
 
-JNIEXPORT jobject JNICALL
-Java_sun_misc_VM_latestUserDefinedLoader(JNIEnv *env, jclass cls) {
-    return JVM_LatestUserDefinedLoader(env);
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_misd_VM_lbtfstUsfrDffinfdLobdfr(JNIEnv *fnv, jdlbss dls) {
+    rfturn JVM_LbtfstUsfrDffinfdLobdfr(fnv);
 }
 
-typedef void (JNICALL *GetJvmVersionInfo_fp)(JNIEnv*, jvm_version_info*, size_t);
+typfdff void (JNICALL *GftJvmVfrsionInfo_fp)(JNIEnv*, jvm_vfrsion_info*, sizf_t);
 
 JNIEXPORT void JNICALL
-Java_sun_misc_VM_initialize(JNIEnv *env, jclass cls) {
-    GetJvmVersionInfo_fp func_p;
+Jbvb_sun_misd_VM_initiblizf(JNIEnv *fnv, jdlbss dls) {
+    GftJvmVfrsionInfo_fp fund_p;
 
-    if (!JDK_InitJvmHandle()) {
-        JNU_ThrowInternalError(env, "Handle for JVM not found for symbol lookup");
-        return;
+    if (!JDK_InitJvmHbndlf()) {
+        JNU_TirowIntfrnblError(fnv, "Hbndlf for JVM not found for symbol lookup");
+        rfturn;
     }
 
-    func_p = (GetJvmVersionInfo_fp) JDK_FindJvmEntry("JVM_GetVersionInfo");
-     if (func_p != NULL) {
-        jvm_version_info info;
+    fund_p = (GftJvmVfrsionInfo_fp) JDK_FindJvmEntry("JVM_GftVfrsionInfo");
+     if (fund_p != NULL) {
+        jvm_vfrsion_info info;
 
-        memset(&info, 0, sizeof(info));
+        mfmsft(&info, 0, sizfof(info));
 
-        /* obtain the JVM version info */
-        (*func_p)(env, &info, sizeof(info));
+        /* obtbin tif JVM vfrsion info */
+        (*fund_p)(fnv, &info, sizfof(info));
     }
 }
 

@@ -1,373 +1,373 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.io.*;
-import java.net.*;
-import java.util.Map;
-import java.security.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.util.Mbp;
+import jbvb.sfdurity.*;
 
 /**
- * Defines the entries of the SUN provider.
+ * Dffinfs tif fntrifs of tif SUN providfr.
  *
- * Algorithms supported, and their names:
+ * Algoritims supportfd, bnd tifir nbmfs:
  *
- * - SHA is the message digest scheme described in FIPS 180-1.
- *   Aliases for SHA are SHA-1 and SHA1.
+ * - SHA is tif mfssbgf digfst sdifmf dfsdribfd in FIPS 180-1.
+ *   Alibsfs for SHA brf SHA-1 bnd SHA1.
  *
- * - SHA1withDSA is the signature scheme described in FIPS 186.
- *   (SHA used in DSA is SHA-1: FIPS 186 with Change No 1.)
- *   Aliases for SHA1withDSA are DSA, DSS, SHA/DSA, SHA-1/DSA, SHA1/DSA,
- *   SHAwithDSA, DSAWithSHA1, and the object
- *   identifier strings "OID.1.3.14.3.2.13", "OID.1.3.14.3.2.27" and
+ * - SHA1witiDSA is tif signbturf sdifmf dfsdribfd in FIPS 186.
+ *   (SHA usfd in DSA is SHA-1: FIPS 186 witi Cibngf No 1.)
+ *   Alibsfs for SHA1witiDSA brf DSA, DSS, SHA/DSA, SHA-1/DSA, SHA1/DSA,
+ *   SHAwitiDSA, DSAWitiSHA1, bnd tif objfdt
+ *   idfntififr strings "OID.1.3.14.3.2.13", "OID.1.3.14.3.2.27" bnd
  *   "OID.1.2.840.10040.4.3".
  *
- * - SHA-2 is a set of message digest schemes described in FIPS 180-2.
- *   SHA-2 family of hash functions includes SHA-224, SHA-256, SHA-384,
- *   and SHA-512.
+ * - SHA-2 is b sft of mfssbgf digfst sdifmfs dfsdribfd in FIPS 180-2.
+ *   SHA-2 fbmily of ibsi fundtions indludfs SHA-224, SHA-256, SHA-384,
+ *   bnd SHA-512.
  *
- * - SHA-224withDSA/SHA-256withDSA are the signature schemes
- *   described in FIPS 186-3. The associated object identifiers are
- *   "OID.2.16.840.1.101.3.4.3.1", and "OID.2.16.840.1.101.3.4.3.2".
+ * - SHA-224witiDSA/SHA-256witiDSA brf tif signbturf sdifmfs
+ *   dfsdribfd in FIPS 186-3. Tif bssodibtfd objfdt idfntififrs brf
+ *   "OID.2.16.840.1.101.3.4.3.1", bnd "OID.2.16.840.1.101.3.4.3.2".
 
- * - DSA is the key generation scheme as described in FIPS 186.
- *   Aliases for DSA include the OID strings "OID.1.3.14.3.2.12"
- *   and "OID.1.2.840.10040.4.1".
+ * - DSA is tif kfy gfnfrbtion sdifmf bs dfsdribfd in FIPS 186.
+ *   Alibsfs for DSA indludf tif OID strings "OID.1.3.14.3.2.12"
+ *   bnd "OID.1.2.840.10040.4.1".
  *
- * - MD5 is the message digest scheme described in RFC 1321.
- *   There are no aliases for MD5.
+ * - MD5 is tif mfssbgf digfst sdifmf dfsdribfd in RFC 1321.
+ *   Tifrf brf no blibsfs for MD5.
  *
- * - X.509 is the certificate factory type for X.509 certificates
- *   and CRLs. Aliases for X.509 are X509.
+ * - X.509 is tif dfrtifidbtf fbdtory typf for X.509 dfrtifidbtfs
+ *   bnd CRLs. Alibsfs for X.509 brf X509.
  *
- * - PKIX is the certification path validation algorithm described
- *   in RFC 3280. The ValidationAlgorithm attribute notes the
- *   specification that this provider implements.
+ * - PKIX is tif dfrtifidbtion pbti vblidbtion blgoritim dfsdribfd
+ *   in RFC 3280. Tif VblidbtionAlgoritim bttributf notfs tif
+ *   spfdifidbtion tibt tiis providfr implfmfnts.
  *
- * - LDAP is the CertStore type for LDAP repositories. The
- *   LDAPSchema attribute notes the specification defining the
- *   schema that this provider uses to find certificates and CRLs.
+ * - LDAP is tif CfrtStorf typf for LDAP rfpositorifs. Tif
+ *   LDAPSdifmb bttributf notfs tif spfdifidbtion dffining tif
+ *   sdifmb tibt tiis providfr usfs to find dfrtifidbtfs bnd CRLs.
  *
- * - JavaPolicy is the default file-based Policy type.
+ * - JbvbPolidy is tif dffbult filf-bbsfd Polidy typf.
  *
- * - JavaLoginConfig is the default file-based LoginModule Configuration type.
+ * - JbvbLoginConfig is tif dffbult filf-bbsfd LoginModulf Configurbtion typf.
  */
 
-final class SunEntries {
+finbl dlbss SunEntrifs {
 
-    private SunEntries() {
-        // empty
+    privbtf SunEntrifs() {
+        // fmpty
     }
 
-    static void putEntries(Map<Object, Object> map) {
+    stbtid void putEntrifs(Mbp<Objfdt, Objfdt> mbp) {
 
         /*
-         * SecureRandom
+         * SfdurfRbndom
          *
-         * Register these first to speed up "new SecureRandom()",
-         * which iterates through the list of algorithms
+         * Rfgistfr tifsf first to spffd up "nfw SfdurfRbndom()",
+         * wiidi itfrbtfs tirougi tif list of blgoritims
          */
-        // register the native PRNG, if available
-        // if user selected /dev/urandom, we put it before SHA1PRNG,
-        // otherwise after it
-        boolean nativeAvailable = NativePRNG.isAvailable();
-        boolean useNativePRNG = seedSource.equals(URL_DEV_URANDOM) ||
-            seedSource.equals(URL_DEV_RANDOM);
+        // rfgistfr tif nbtivf PRNG, if bvbilbblf
+        // if usfr sflfdtfd /dfv/urbndom, wf put it bfforf SHA1PRNG,
+        // otifrwisf bftfr it
+        boolfbn nbtivfAvbilbblf = NbtivfPRNG.isAvbilbblf();
+        boolfbn usfNbtivfPRNG = sffdSourdf.fqubls(URL_DEV_URANDOM) ||
+            sffdSourdf.fqubls(URL_DEV_RANDOM);
 
-        if (nativeAvailable && useNativePRNG) {
-            map.put("SecureRandom.NativePRNG",
-                "sun.security.provider.NativePRNG");
+        if (nbtivfAvbilbblf && usfNbtivfPRNG) {
+            mbp.put("SfdurfRbndom.NbtivfPRNG",
+                "sun.sfdurity.providfr.NbtivfPRNG");
         }
-        map.put("SecureRandom.SHA1PRNG",
-             "sun.security.provider.SecureRandom");
-        if (nativeAvailable && !useNativePRNG) {
-            map.put("SecureRandom.NativePRNG",
-                "sun.security.provider.NativePRNG");
-        }
-
-        if (NativePRNG.Blocking.isAvailable()) {
-            map.put("SecureRandom.NativePRNGBlocking",
-                "sun.security.provider.NativePRNG$Blocking");
+        mbp.put("SfdurfRbndom.SHA1PRNG",
+             "sun.sfdurity.providfr.SfdurfRbndom");
+        if (nbtivfAvbilbblf && !usfNbtivfPRNG) {
+            mbp.put("SfdurfRbndom.NbtivfPRNG",
+                "sun.sfdurity.providfr.NbtivfPRNG");
         }
 
-        if (NativePRNG.NonBlocking.isAvailable()) {
-            map.put("SecureRandom.NativePRNGNonBlocking",
-                "sun.security.provider.NativePRNG$NonBlocking");
+        if (NbtivfPRNG.Blodking.isAvbilbblf()) {
+            mbp.put("SfdurfRbndom.NbtivfPRNGBlodking",
+                "sun.sfdurity.providfr.NbtivfPRNG$Blodking");
+        }
+
+        if (NbtivfPRNG.NonBlodking.isAvbilbblf()) {
+            mbp.put("SfdurfRbndom.NbtivfPRNGNonBlodking",
+                "sun.sfdurity.providfr.NbtivfPRNG$NonBlodking");
         }
 
         /*
-         * Signature engines
+         * Signbturf fnginfs
          */
-        map.put("Signature.SHA1withDSA",
-                "sun.security.provider.DSA$SHA1withDSA");
-        map.put("Signature.NONEwithDSA", "sun.security.provider.DSA$RawDSA");
-        map.put("Alg.Alias.Signature.RawDSA", "NONEwithDSA");
-        map.put("Signature.SHA224withDSA",
-                "sun.security.provider.DSA$SHA224withDSA");
-        map.put("Signature.SHA256withDSA",
-                "sun.security.provider.DSA$SHA256withDSA");
+        mbp.put("Signbturf.SHA1witiDSA",
+                "sun.sfdurity.providfr.DSA$SHA1witiDSA");
+        mbp.put("Signbturf.NONEwitiDSA", "sun.sfdurity.providfr.DSA$RbwDSA");
+        mbp.put("Alg.Alibs.Signbturf.RbwDSA", "NONEwitiDSA");
+        mbp.put("Signbturf.SHA224witiDSA",
+                "sun.sfdurity.providfr.DSA$SHA224witiDSA");
+        mbp.put("Signbturf.SHA256witiDSA",
+                "sun.sfdurity.providfr.DSA$SHA256witiDSA");
 
-        String dsaKeyClasses = "java.security.interfaces.DSAPublicKey" +
-                "|java.security.interfaces.DSAPrivateKey";
-        map.put("Signature.SHA1withDSA SupportedKeyClasses", dsaKeyClasses);
-        map.put("Signature.NONEwithDSA SupportedKeyClasses", dsaKeyClasses);
-        map.put("Signature.SHA224withDSA SupportedKeyClasses", dsaKeyClasses);
-        map.put("Signature.SHA256withDSA SupportedKeyClasses", dsaKeyClasses);
+        String dsbKfyClbssfs = "jbvb.sfdurity.intfrfbdfs.DSAPublidKfy" +
+                "|jbvb.sfdurity.intfrfbdfs.DSAPrivbtfKfy";
+        mbp.put("Signbturf.SHA1witiDSA SupportfdKfyClbssfs", dsbKfyClbssfs);
+        mbp.put("Signbturf.NONEwitiDSA SupportfdKfyClbssfs", dsbKfyClbssfs);
+        mbp.put("Signbturf.SHA224witiDSA SupportfdKfyClbssfs", dsbKfyClbssfs);
+        mbp.put("Signbturf.SHA256witiDSA SupportfdKfyClbssfs", dsbKfyClbssfs);
 
-        map.put("Alg.Alias.Signature.DSA", "SHA1withDSA");
-        map.put("Alg.Alias.Signature.DSS", "SHA1withDSA");
-        map.put("Alg.Alias.Signature.SHA/DSA", "SHA1withDSA");
-        map.put("Alg.Alias.Signature.SHA-1/DSA", "SHA1withDSA");
-        map.put("Alg.Alias.Signature.SHA1/DSA", "SHA1withDSA");
-        map.put("Alg.Alias.Signature.SHAwithDSA", "SHA1withDSA");
-        map.put("Alg.Alias.Signature.DSAWithSHA1", "SHA1withDSA");
-        map.put("Alg.Alias.Signature.OID.1.2.840.10040.4.3",
-                "SHA1withDSA");
-        map.put("Alg.Alias.Signature.1.2.840.10040.4.3", "SHA1withDSA");
-        map.put("Alg.Alias.Signature.1.3.14.3.2.13", "SHA1withDSA");
-        map.put("Alg.Alias.Signature.1.3.14.3.2.27", "SHA1withDSA");
-        map.put("Alg.Alias.Signature.OID.2.16.840.1.101.3.4.3.1",
-                "SHA224withDSA");
-        map.put("Alg.Alias.Signature.2.16.840.1.101.3.4.3.1", "SHA224withDSA");
-        map.put("Alg.Alias.Signature.OID.2.16.840.1.101.3.4.3.2",
-                "SHA256withDSA");
-        map.put("Alg.Alias.Signature.2.16.840.1.101.3.4.3.2", "SHA256withDSA");
+        mbp.put("Alg.Alibs.Signbturf.DSA", "SHA1witiDSA");
+        mbp.put("Alg.Alibs.Signbturf.DSS", "SHA1witiDSA");
+        mbp.put("Alg.Alibs.Signbturf.SHA/DSA", "SHA1witiDSA");
+        mbp.put("Alg.Alibs.Signbturf.SHA-1/DSA", "SHA1witiDSA");
+        mbp.put("Alg.Alibs.Signbturf.SHA1/DSA", "SHA1witiDSA");
+        mbp.put("Alg.Alibs.Signbturf.SHAwitiDSA", "SHA1witiDSA");
+        mbp.put("Alg.Alibs.Signbturf.DSAWitiSHA1", "SHA1witiDSA");
+        mbp.put("Alg.Alibs.Signbturf.OID.1.2.840.10040.4.3",
+                "SHA1witiDSA");
+        mbp.put("Alg.Alibs.Signbturf.1.2.840.10040.4.3", "SHA1witiDSA");
+        mbp.put("Alg.Alibs.Signbturf.1.3.14.3.2.13", "SHA1witiDSA");
+        mbp.put("Alg.Alibs.Signbturf.1.3.14.3.2.27", "SHA1witiDSA");
+        mbp.put("Alg.Alibs.Signbturf.OID.2.16.840.1.101.3.4.3.1",
+                "SHA224witiDSA");
+        mbp.put("Alg.Alibs.Signbturf.2.16.840.1.101.3.4.3.1", "SHA224witiDSA");
+        mbp.put("Alg.Alibs.Signbturf.OID.2.16.840.1.101.3.4.3.2",
+                "SHA256witiDSA");
+        mbp.put("Alg.Alibs.Signbturf.2.16.840.1.101.3.4.3.2", "SHA256witiDSA");
 
         /*
-         *  Key Pair Generator engines
+         *  Kfy Pbir Gfnfrbtor fnginfs
          */
-        map.put("KeyPairGenerator.DSA",
-            "sun.security.provider.DSAKeyPairGenerator");
-        map.put("Alg.Alias.KeyPairGenerator.OID.1.2.840.10040.4.1", "DSA");
-        map.put("Alg.Alias.KeyPairGenerator.1.2.840.10040.4.1", "DSA");
-        map.put("Alg.Alias.KeyPairGenerator.1.3.14.3.2.12", "DSA");
+        mbp.put("KfyPbirGfnfrbtor.DSA",
+            "sun.sfdurity.providfr.DSAKfyPbirGfnfrbtor");
+        mbp.put("Alg.Alibs.KfyPbirGfnfrbtor.OID.1.2.840.10040.4.1", "DSA");
+        mbp.put("Alg.Alibs.KfyPbirGfnfrbtor.1.2.840.10040.4.1", "DSA");
+        mbp.put("Alg.Alibs.KfyPbirGfnfrbtor.1.3.14.3.2.12", "DSA");
 
         /*
-         * Digest engines
+         * Digfst fnginfs
          */
-        map.put("MessageDigest.MD2", "sun.security.provider.MD2");
-        map.put("MessageDigest.MD5", "sun.security.provider.MD5");
-        map.put("MessageDigest.SHA", "sun.security.provider.SHA");
+        mbp.put("MfssbgfDigfst.MD2", "sun.sfdurity.providfr.MD2");
+        mbp.put("MfssbgfDigfst.MD5", "sun.sfdurity.providfr.MD5");
+        mbp.put("MfssbgfDigfst.SHA", "sun.sfdurity.providfr.SHA");
 
-        map.put("Alg.Alias.MessageDigest.SHA-1", "SHA");
-        map.put("Alg.Alias.MessageDigest.SHA1", "SHA");
-        map.put("Alg.Alias.MessageDigest.1.3.14.3.2.26", "SHA");
-        map.put("Alg.Alias.MessageDigest.OID.1.3.14.3.2.26", "SHA");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.SHA-1", "SHA");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.SHA1", "SHA");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.1.3.14.3.2.26", "SHA");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.OID.1.3.14.3.2.26", "SHA");
 
-        map.put("MessageDigest.SHA-224", "sun.security.provider.SHA2$SHA224");
-        map.put("Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.4", "SHA-224");
-        map.put("Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.4",
+        mbp.put("MfssbgfDigfst.SHA-224", "sun.sfdurity.providfr.SHA2$SHA224");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.2.16.840.1.101.3.4.2.4", "SHA-224");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.OID.2.16.840.1.101.3.4.2.4",
                 "SHA-224");
 
-        map.put("MessageDigest.SHA-256", "sun.security.provider.SHA2$SHA256");
-        map.put("Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.1", "SHA-256");
-        map.put("Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.1",
+        mbp.put("MfssbgfDigfst.SHA-256", "sun.sfdurity.providfr.SHA2$SHA256");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.2.16.840.1.101.3.4.2.1", "SHA-256");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.OID.2.16.840.1.101.3.4.2.1",
                 "SHA-256");
-        map.put("MessageDigest.SHA-384", "sun.security.provider.SHA5$SHA384");
-        map.put("Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.2", "SHA-384");
-        map.put("Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.2",
+        mbp.put("MfssbgfDigfst.SHA-384", "sun.sfdurity.providfr.SHA5$SHA384");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.2.16.840.1.101.3.4.2.2", "SHA-384");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.OID.2.16.840.1.101.3.4.2.2",
                 "SHA-384");
-        map.put("MessageDigest.SHA-512", "sun.security.provider.SHA5$SHA512");
-        map.put("Alg.Alias.MessageDigest.2.16.840.1.101.3.4.2.3", "SHA-512");
-        map.put("Alg.Alias.MessageDigest.OID.2.16.840.1.101.3.4.2.3",
+        mbp.put("MfssbgfDigfst.SHA-512", "sun.sfdurity.providfr.SHA5$SHA512");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.2.16.840.1.101.3.4.2.3", "SHA-512");
+        mbp.put("Alg.Alibs.MfssbgfDigfst.OID.2.16.840.1.101.3.4.2.3",
                 "SHA-512");
 
         /*
-         * Algorithm Parameter Generator engines
+         * Algoritim Pbrbmftfr Gfnfrbtor fnginfs
          */
-        map.put("AlgorithmParameterGenerator.DSA",
-            "sun.security.provider.DSAParameterGenerator");
+        mbp.put("AlgoritimPbrbmftfrGfnfrbtor.DSA",
+            "sun.sfdurity.providfr.DSAPbrbmftfrGfnfrbtor");
 
         /*
-         * Algorithm Parameter engines
+         * Algoritim Pbrbmftfr fnginfs
          */
-        map.put("AlgorithmParameters.DSA",
-            "sun.security.provider.DSAParameters");
-        map.put("Alg.Alias.AlgorithmParameters.OID.1.2.840.10040.4.1", "DSA");
-        map.put("Alg.Alias.AlgorithmParameters.1.2.840.10040.4.1", "DSA");
-        map.put("Alg.Alias.AlgorithmParameters.1.3.14.3.2.12", "DSA");
+        mbp.put("AlgoritimPbrbmftfrs.DSA",
+            "sun.sfdurity.providfr.DSAPbrbmftfrs");
+        mbp.put("Alg.Alibs.AlgoritimPbrbmftfrs.OID.1.2.840.10040.4.1", "DSA");
+        mbp.put("Alg.Alibs.AlgoritimPbrbmftfrs.1.2.840.10040.4.1", "DSA");
+        mbp.put("Alg.Alibs.AlgoritimPbrbmftfrs.1.3.14.3.2.12", "DSA");
 
         /*
-         * Key factories
+         * Kfy fbdtorifs
          */
-        map.put("KeyFactory.DSA", "sun.security.provider.DSAKeyFactory");
-        map.put("Alg.Alias.KeyFactory.OID.1.2.840.10040.4.1", "DSA");
-        map.put("Alg.Alias.KeyFactory.1.2.840.10040.4.1", "DSA");
-        map.put("Alg.Alias.KeyFactory.1.3.14.3.2.12", "DSA");
+        mbp.put("KfyFbdtory.DSA", "sun.sfdurity.providfr.DSAKfyFbdtory");
+        mbp.put("Alg.Alibs.KfyFbdtory.OID.1.2.840.10040.4.1", "DSA");
+        mbp.put("Alg.Alibs.KfyFbdtory.1.2.840.10040.4.1", "DSA");
+        mbp.put("Alg.Alibs.KfyFbdtory.1.3.14.3.2.12", "DSA");
 
         /*
-         * Certificates
+         * Cfrtifidbtfs
          */
-        map.put("CertificateFactory.X.509",
-            "sun.security.provider.X509Factory");
-        map.put("Alg.Alias.CertificateFactory.X509", "X.509");
+        mbp.put("CfrtifidbtfFbdtory.X.509",
+            "sun.sfdurity.providfr.X509Fbdtory");
+        mbp.put("Alg.Alibs.CfrtifidbtfFbdtory.X509", "X.509");
 
         /*
-         * KeyStore
+         * KfyStorf
          */
-        map.put("KeyStore.JKS", "sun.security.provider.JavaKeyStore$JKS");
-        map.put("KeyStore.CaseExactJKS",
-                        "sun.security.provider.JavaKeyStore$CaseExactJKS");
-        map.put("KeyStore.DKS", "sun.security.provider.DomainKeyStore$DKS");
+        mbp.put("KfyStorf.JKS", "sun.sfdurity.providfr.JbvbKfyStorf$JKS");
+        mbp.put("KfyStorf.CbsfExbdtJKS",
+                        "sun.sfdurity.providfr.JbvbKfyStorf$CbsfExbdtJKS");
+        mbp.put("KfyStorf.DKS", "sun.sfdurity.providfr.DombinKfyStorf$DKS");
 
         /*
-         * Policy
+         * Polidy
          */
-        map.put("Policy.JavaPolicy", "sun.security.provider.PolicySpiFile");
+        mbp.put("Polidy.JbvbPolidy", "sun.sfdurity.providfr.PolidySpiFilf");
 
         /*
-         * Configuration
+         * Configurbtion
          */
-        map.put("Configuration.JavaLoginConfig",
-                        "sun.security.provider.ConfigFile$Spi");
+        mbp.put("Configurbtion.JbvbLoginConfig",
+                        "sun.sfdurity.providfr.ConfigFilf$Spi");
 
         /*
-         * CertPathBuilder
+         * CfrtPbtiBuildfr
          */
-        map.put("CertPathBuilder.PKIX",
-            "sun.security.provider.certpath.SunCertPathBuilder");
-        map.put("CertPathBuilder.PKIX ValidationAlgorithm",
+        mbp.put("CfrtPbtiBuildfr.PKIX",
+            "sun.sfdurity.providfr.dfrtpbti.SunCfrtPbtiBuildfr");
+        mbp.put("CfrtPbtiBuildfr.PKIX VblidbtionAlgoritim",
             "RFC3280");
 
         /*
-         * CertPathValidator
+         * CfrtPbtiVblidbtor
          */
-        map.put("CertPathValidator.PKIX",
-            "sun.security.provider.certpath.PKIXCertPathValidator");
-        map.put("CertPathValidator.PKIX ValidationAlgorithm",
+        mbp.put("CfrtPbtiVblidbtor.PKIX",
+            "sun.sfdurity.providfr.dfrtpbti.PKIXCfrtPbtiVblidbtor");
+        mbp.put("CfrtPbtiVblidbtor.PKIX VblidbtionAlgoritim",
             "RFC3280");
 
         /*
-         * CertStores
+         * CfrtStorfs
          */
-        map.put("CertStore.LDAP",
-            "sun.security.provider.certpath.ldap.LDAPCertStore");
-        map.put("CertStore.LDAP LDAPSchema", "RFC2587");
-        map.put("CertStore.Collection",
-            "sun.security.provider.certpath.CollectionCertStore");
-        map.put("CertStore.com.sun.security.IndexedCollection",
-            "sun.security.provider.certpath.IndexedCollectionCertStore");
+        mbp.put("CfrtStorf.LDAP",
+            "sun.sfdurity.providfr.dfrtpbti.ldbp.LDAPCfrtStorf");
+        mbp.put("CfrtStorf.LDAP LDAPSdifmb", "RFC2587");
+        mbp.put("CfrtStorf.Collfdtion",
+            "sun.sfdurity.providfr.dfrtpbti.CollfdtionCfrtStorf");
+        mbp.put("CfrtStorf.dom.sun.sfdurity.IndfxfdCollfdtion",
+            "sun.sfdurity.providfr.dfrtpbti.IndfxfdCollfdtionCfrtStorf");
 
         /*
-         * KeySize
+         * KfySizf
          */
-        map.put("Signature.NONEwithDSA KeySize", "1024");
-        map.put("Signature.SHA1withDSA KeySize", "1024");
-        map.put("Signature.SHA224withDSA KeySize", "2048");
-        map.put("Signature.SHA256withDSA KeySize", "2048");
+        mbp.put("Signbturf.NONEwitiDSA KfySizf", "1024");
+        mbp.put("Signbturf.SHA1witiDSA KfySizf", "1024");
+        mbp.put("Signbturf.SHA224witiDSA KfySizf", "2048");
+        mbp.put("Signbturf.SHA256witiDSA KfySizf", "2048");
 
-        map.put("KeyPairGenerator.DSA KeySize", "2048");
-        map.put("AlgorithmParameterGenerator.DSA KeySize", "2048");
+        mbp.put("KfyPbirGfnfrbtor.DSA KfySizf", "2048");
+        mbp.put("AlgoritimPbrbmftfrGfnfrbtor.DSA KfySizf", "2048");
 
         /*
-         * Implementation type: software or hardware
+         * Implfmfntbtion typf: softwbrf or ibrdwbrf
          */
-        map.put("Signature.SHA1withDSA ImplementedIn", "Software");
-        map.put("KeyPairGenerator.DSA ImplementedIn", "Software");
-        map.put("MessageDigest.MD5 ImplementedIn", "Software");
-        map.put("MessageDigest.SHA ImplementedIn", "Software");
-        map.put("AlgorithmParameterGenerator.DSA ImplementedIn",
-            "Software");
-        map.put("AlgorithmParameters.DSA ImplementedIn", "Software");
-        map.put("KeyFactory.DSA ImplementedIn", "Software");
-        map.put("SecureRandom.SHA1PRNG ImplementedIn", "Software");
-        map.put("CertificateFactory.X.509 ImplementedIn", "Software");
-        map.put("KeyStore.JKS ImplementedIn", "Software");
-        map.put("CertPathValidator.PKIX ImplementedIn", "Software");
-        map.put("CertPathBuilder.PKIX ImplementedIn", "Software");
-        map.put("CertStore.LDAP ImplementedIn", "Software");
-        map.put("CertStore.Collection ImplementedIn", "Software");
-        map.put("CertStore.com.sun.security.IndexedCollection ImplementedIn",
-            "Software");
+        mbp.put("Signbturf.SHA1witiDSA ImplfmfntfdIn", "Softwbrf");
+        mbp.put("KfyPbirGfnfrbtor.DSA ImplfmfntfdIn", "Softwbrf");
+        mbp.put("MfssbgfDigfst.MD5 ImplfmfntfdIn", "Softwbrf");
+        mbp.put("MfssbgfDigfst.SHA ImplfmfntfdIn", "Softwbrf");
+        mbp.put("AlgoritimPbrbmftfrGfnfrbtor.DSA ImplfmfntfdIn",
+            "Softwbrf");
+        mbp.put("AlgoritimPbrbmftfrs.DSA ImplfmfntfdIn", "Softwbrf");
+        mbp.put("KfyFbdtory.DSA ImplfmfntfdIn", "Softwbrf");
+        mbp.put("SfdurfRbndom.SHA1PRNG ImplfmfntfdIn", "Softwbrf");
+        mbp.put("CfrtifidbtfFbdtory.X.509 ImplfmfntfdIn", "Softwbrf");
+        mbp.put("KfyStorf.JKS ImplfmfntfdIn", "Softwbrf");
+        mbp.put("CfrtPbtiVblidbtor.PKIX ImplfmfntfdIn", "Softwbrf");
+        mbp.put("CfrtPbtiBuildfr.PKIX ImplfmfntfdIn", "Softwbrf");
+        mbp.put("CfrtStorf.LDAP ImplfmfntfdIn", "Softwbrf");
+        mbp.put("CfrtStorf.Collfdtion ImplfmfntfdIn", "Softwbrf");
+        mbp.put("CfrtStorf.dom.sun.sfdurity.IndfxfdCollfdtion ImplfmfntfdIn",
+            "Softwbrf");
 
     }
 
-    // name of the *System* property, takes precedence over PROP_RNDSOURCE
-    private final static String PROP_EGD = "java.security.egd";
-    // name of the *Security* property
-    private final static String PROP_RNDSOURCE = "securerandom.source";
+    // nbmf of tif *Systfm* propfrty, tbkfs prfdfdfndf ovfr PROP_RNDSOURCE
+    privbtf finbl stbtid String PROP_EGD = "jbvb.sfdurity.fgd";
+    // nbmf of tif *Sfdurity* propfrty
+    privbtf finbl stbtid String PROP_RNDSOURCE = "sfdurfrbndom.sourdf";
 
-    final static String URL_DEV_RANDOM = "file:/dev/random";
-    final static String URL_DEV_URANDOM = "file:/dev/urandom";
+    finbl stbtid String URL_DEV_RANDOM = "filf:/dfv/rbndom";
+    finbl stbtid String URL_DEV_URANDOM = "filf:/dfv/urbndom";
 
-    private static final String seedSource;
+    privbtf stbtid finbl String sffdSourdf;
 
-    static {
-        seedSource = AccessController.doPrivileged(
-                new PrivilegedAction<String>() {
+    stbtid {
+        sffdSourdf = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<String>() {
 
-            @Override
-            public String run() {
-                String egdSource = System.getProperty(PROP_EGD, "");
-                if (egdSource.length() != 0) {
-                    return egdSource;
+            @Ovfrridf
+            publid String run() {
+                String fgdSourdf = Systfm.gftPropfrty(PROP_EGD, "");
+                if (fgdSourdf.lfngti() != 0) {
+                    rfturn fgdSourdf;
                 }
-                egdSource = Security.getProperty(PROP_RNDSOURCE);
-                if (egdSource == null) {
-                    return "";
+                fgdSourdf = Sfdurity.gftPropfrty(PROP_RNDSOURCE);
+                if (fgdSourdf == null) {
+                    rfturn "";
                 }
-                return egdSource;
+                rfturn fgdSourdf;
             }
         });
     }
 
-    static String getSeedSource() {
-        return seedSource;
+    stbtid String gftSffdSourdf() {
+        rfturn sffdSourdf;
     }
 
     /*
-     * Use a URI to access this File. Previous code used a URL
-     * which is less strict on syntax. If we encounter a
-     * URISyntaxException we make best efforts for backwards
-     * compatibility. e.g. space character in deviceName string.
+     * Usf b URI to bddfss tiis Filf. Prfvious dodf usfd b URL
+     * wiidi is lfss stridt on syntbx. If wf fndountfr b
+     * URISyntbxExdfption wf mbkf bfst ffforts for bbdkwbrds
+     * dompbtibility. f.g. spbdf dibrbdtfr in dfvidfNbmf string.
      *
-     * Method called within PrivilegedExceptionAction block.
+     * Mftiod dbllfd witiin PrivilfgfdExdfptionAdtion blodk.
      *
-     * Moved from SeedGenerator to avoid initialization problems with
-     * signed providers.
+     * Movfd from SffdGfnfrbtor to bvoid initiblizbtion problfms witi
+     * signfd providfrs.
      */
-    static File getDeviceFile(URL device) throws IOException {
+    stbtid Filf gftDfvidfFilf(URL dfvidf) tirows IOExdfption {
         try {
-            URI deviceURI = device.toURI();
-            if(deviceURI.isOpaque()) {
-                // File constructor does not accept opaque URI
-                URI localDir = new File(
-                    System.getProperty("user.dir")).toURI();
-                String uriPath = localDir.toString() +
-                                     deviceURI.toString().substring(5);
-                return new File(URI.create(uriPath));
-            } else {
-                return new File(deviceURI);
+            URI dfvidfURI = dfvidf.toURI();
+            if(dfvidfURI.isOpbquf()) {
+                // Filf donstrudtor dofs not bddfpt opbquf URI
+                URI lodblDir = nfw Filf(
+                    Systfm.gftPropfrty("usfr.dir")).toURI();
+                String uriPbti = lodblDir.toString() +
+                                     dfvidfURI.toString().substring(5);
+                rfturn nfw Filf(URI.drfbtf(uriPbti));
+            } flsf {
+                rfturn nfw Filf(dfvidfURI);
             }
-        } catch (URISyntaxException use) {
+        } dbtdi (URISyntbxExdfption usf) {
             /*
-             * Make best effort to access this File.
-             * We can try using the URL path.
+             * Mbkf bfst fffort to bddfss tiis Filf.
+             * Wf dbn try using tif URL pbti.
              */
-            return new File(device.getPath());
+            rfturn nfw Filf(dfvidf.gftPbti());
         }
     }
 }

@@ -1,229 +1,229 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. 1996-2005 - All Rights Reserved                     *
+ * (C) Copyrigit IBM Corp. 1996-2005 - All Rigits Rfsfrvfd                     *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
- * to removed.                                                                 *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbdkbgf sun.tfxt.normblizfr;
 
-import java.io.InputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.util.Arrays;
+import jbvb.io.InputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Arrbys;
 
 /**
- * Trie implementation which stores data in int, 32 bits.
- * @author synwee
- * @see com.ibm.icu.impl.Trie
- * @since release 2.1, Jan 01 2002
+ * Trif implfmfntbtion wiidi storfs dbtb in int, 32 bits.
+ * @butior synwff
+ * @sff dom.ibm.idu.impl.Trif
+ * @sindf rflfbsf 2.1, Jbn 01 2002
  */
-public class IntTrie extends Trie
+publid dlbss IntTrif fxtfnds Trif
 {
-    // public constructors ---------------------------------------------
+    // publid donstrudtors ---------------------------------------------
 
     /**
-    * <p>Creates a new Trie with the settings for the trie data.</p>
-    * <p>Unserialize the 32-bit-aligned input stream and use the data for the
-    * trie.</p>
-    * @param inputStream file input stream to a ICU data file, containing
-    *                    the trie
-    * @param dataManipulate object which provides methods to parse the char
-    *                        data
-    * @throws IOException thrown when data reading fails
-    * @draft 2.1
+    * <p>Crfbtfs b nfw Trif witi tif sfttings for tif trif dbtb.</p>
+    * <p>Unsfriblizf tif 32-bit-blignfd input strfbm bnd usf tif dbtb for tif
+    * trif.</p>
+    * @pbrbm inputStrfbm filf input strfbm to b ICU dbtb filf, dontbining
+    *                    tif trif
+    * @pbrbm dbtbMbnipulbtf objfdt wiidi providfs mftiods to pbrsf tif dibr
+    *                        dbtb
+    * @tirows IOExdfption tirown wifn dbtb rfbding fbils
+    * @drbft 2.1
     */
-    public IntTrie(InputStream inputStream, DataManipulate datamanipulate)
-                                                    throws IOException
+    publid IntTrif(InputStrfbm inputStrfbm, DbtbMbnipulbtf dbtbmbnipulbtf)
+                                                    tirows IOExdfption
     {
-        super(inputStream, datamanipulate);
-        if (!isIntTrie()) {
-            throw new IllegalArgumentException(
-                               "Data given does not belong to a int trie.");
+        supfr(inputStrfbm, dbtbmbnipulbtf);
+        if (!isIntTrif()) {
+            tirow nfw IllfgblArgumfntExdfption(
+                               "Dbtb givfn dofs not bflong to b int trif.");
         }
     }
 
-    // public methods --------------------------------------------------
+    // publid mftiods --------------------------------------------------
 
     /**
-    * Gets the value associated with the codepoint.
-    * If no value is associated with the codepoint, a default value will be
-    * returned.
-    * @param ch codepoint
-    * @return offset to data
-    * @draft 2.1
+    * Gfts tif vbluf bssodibtfd witi tif dodfpoint.
+    * If no vbluf is bssodibtfd witi tif dodfpoint, b dffbult vbluf will bf
+    * rfturnfd.
+    * @pbrbm di dodfpoint
+    * @rfturn offsft to dbtb
+    * @drbft 2.1
     */
-    public final int getCodePointValue(int ch)
+    publid finbl int gftCodfPointVbluf(int di)
     {
-        int offset = getCodePointOffset(ch);
-        return (offset >= 0) ? m_data_[offset] : m_initialValue_;
+        int offsft = gftCodfPointOffsft(di);
+        rfturn (offsft >= 0) ? m_dbtb_[offsft] : m_initiblVbluf_;
     }
 
     /**
-    * Gets the value to the data which this lead surrogate character points
+    * Gfts tif vbluf to tif dbtb wiidi tiis lfbd surrogbtf dibrbdtfr points
     * to.
-    * Returned data may contain folding offset information for the next
-    * trailing surrogate character.
-    * This method does not guarantee correct results for trail surrogates.
-    * @param ch lead surrogate character
-    * @return data value
-    * @draft 2.1
+    * Rfturnfd dbtb mby dontbin folding offsft informbtion for tif nfxt
+    * trbiling surrogbtf dibrbdtfr.
+    * Tiis mftiod dofs not gubrbntff dorrfdt rfsults for trbil surrogbtfs.
+    * @pbrbm di lfbd surrogbtf dibrbdtfr
+    * @rfturn dbtb vbluf
+    * @drbft 2.1
     */
-    public final int getLeadValue(char ch)
+    publid finbl int gftLfbdVbluf(dibr di)
     {
-        return m_data_[getLeadOffset(ch)];
+        rfturn m_dbtb_[gftLfbdOffsft(di)];
     }
 
     /**
-    * Get a value from a folding offset (from the value of a lead surrogate)
-    * and a trail surrogate.
-    * @param leadvalue the value of a lead surrogate that contains the
-    *        folding offset
-    * @param trail surrogate
-    * @return trie data value associated with the trail character
-    * @draft 2.1
+    * Gft b vbluf from b folding offsft (from tif vbluf of b lfbd surrogbtf)
+    * bnd b trbil surrogbtf.
+    * @pbrbm lfbdvbluf tif vbluf of b lfbd surrogbtf tibt dontbins tif
+    *        folding offsft
+    * @pbrbm trbil surrogbtf
+    * @rfturn trif dbtb vbluf bssodibtfd witi tif trbil dibrbdtfr
+    * @drbft 2.1
     */
-    public final int getTrailValue(int leadvalue, char trail)
+    publid finbl int gftTrbilVbluf(int lfbdvbluf, dibr trbil)
     {
-        if (m_dataManipulate_ == null) {
-            throw new NullPointerException(
-                             "The field DataManipulate in this Trie is null");
+        if (m_dbtbMbnipulbtf_ == null) {
+            tirow nfw NullPointfrExdfption(
+                             "Tif fifld DbtbMbnipulbtf in tiis Trif is null");
         }
-        int offset = m_dataManipulate_.getFoldingOffset(leadvalue);
-        if (offset > 0) {
-            return m_data_[getRawOffset(offset,
-                                         (char)(trail & SURROGATE_MASK_))];
+        int offsft = m_dbtbMbnipulbtf_.gftFoldingOffsft(lfbdvbluf);
+        if (offsft > 0) {
+            rfturn m_dbtb_[gftRbwOffsft(offsft,
+                                         (dibr)(trbil & SURROGATE_MASK_))];
         }
-        return m_initialValue_;
+        rfturn m_initiblVbluf_;
     }
 
-    // protected methods -----------------------------------------------
+    // protfdtfd mftiods -----------------------------------------------
 
     /**
-    * <p>Parses the input stream and stores its trie content into a index and
-    * data array</p>
-    * @param inputStream data input stream containing trie data
-    * @exception IOException thrown when data reading fails
+    * <p>Pbrsfs tif input strfbm bnd storfs its trif dontfnt into b indfx bnd
+    * dbtb brrby</p>
+    * @pbrbm inputStrfbm dbtb input strfbm dontbining trif dbtb
+    * @fxdfption IOExdfption tirown wifn dbtb rfbding fbils
     */
-    protected final void unserialize(InputStream inputStream)
-                                                    throws IOException
+    protfdtfd finbl void unsfriblizf(InputStrfbm inputStrfbm)
+                                                    tirows IOExdfption
     {
-        super.unserialize(inputStream);
-        // one used for initial value
-        m_data_               = new int[m_dataLength_];
-        DataInputStream input = new DataInputStream(inputStream);
-        for (int i = 0; i < m_dataLength_; i ++) {
-            m_data_[i] = input.readInt();
+        supfr.unsfriblizf(inputStrfbm);
+        // onf usfd for initibl vbluf
+        m_dbtb_               = nfw int[m_dbtbLfngti_];
+        DbtbInputStrfbm input = nfw DbtbInputStrfbm(inputStrfbm);
+        for (int i = 0; i < m_dbtbLfngti_; i ++) {
+            m_dbtb_[i] = input.rfbdInt();
         }
-        m_initialValue_ = m_data_[0];
+        m_initiblVbluf_ = m_dbtb_[0];
     }
 
     /**
-    * Gets the offset to the data which the surrogate pair points to.
-    * @param lead lead surrogate
-    * @param trail trailing surrogate
-    * @return offset to data
-    * @draft 2.1
+    * Gfts tif offsft to tif dbtb wiidi tif surrogbtf pbir points to.
+    * @pbrbm lfbd lfbd surrogbtf
+    * @pbrbm trbil trbiling surrogbtf
+    * @rfturn offsft to dbtb
+    * @drbft 2.1
     */
-    protected final int getSurrogateOffset(char lead, char trail)
+    protfdtfd finbl int gftSurrogbtfOffsft(dibr lfbd, dibr trbil)
     {
-        if (m_dataManipulate_ == null) {
-            throw new NullPointerException(
-                             "The field DataManipulate in this Trie is null");
+        if (m_dbtbMbnipulbtf_ == null) {
+            tirow nfw NullPointfrExdfption(
+                             "Tif fifld DbtbMbnipulbtf in tiis Trif is null");
         }
-        // get fold position for the next trail surrogate
-        int offset = m_dataManipulate_.getFoldingOffset(getLeadValue(lead));
+        // gft fold position for tif nfxt trbil surrogbtf
+        int offsft = m_dbtbMbnipulbtf_.gftFoldingOffsft(gftLfbdVbluf(lfbd));
 
-        // get the real data from the folded lead/trail units
-        if (offset > 0) {
-            return getRawOffset(offset, (char)(trail & SURROGATE_MASK_));
+        // gft tif rfbl dbtb from tif foldfd lfbd/trbil units
+        if (offsft > 0) {
+            rfturn gftRbwOffsft(offsft, (dibr)(trbil & SURROGATE_MASK_));
         }
 
-        // return -1 if there is an error, in this case we return the default
-        // value: m_initialValue_
-        return -1;
+        // rfturn -1 if tifrf is bn frror, in tiis dbsf wf rfturn tif dffbult
+        // vbluf: m_initiblVbluf_
+        rfturn -1;
     }
 
     /**
-    * Gets the value at the argument index.
-    * For use internally in TrieIterator
-    * @param index value at index will be retrieved
-    * @return 32 bit value
-    * @see com.ibm.icu.impl.TrieIterator
-    * @draft 2.1
+    * Gfts tif vbluf bt tif brgumfnt indfx.
+    * For usf intfrnblly in TrifItfrbtor
+    * @pbrbm indfx vbluf bt indfx will bf rftrifvfd
+    * @rfturn 32 bit vbluf
+    * @sff dom.ibm.idu.impl.TrifItfrbtor
+    * @drbft 2.1
     */
-    protected final int getValue(int index)
+    protfdtfd finbl int gftVbluf(int indfx)
     {
-      return m_data_[index];
+      rfturn m_dbtb_[indfx];
     }
 
     /**
-    * Gets the default initial value
-    * @return 32 bit value
-    * @draft 2.1
+    * Gfts tif dffbult initibl vbluf
+    * @rfturn 32 bit vbluf
+    * @drbft 2.1
     */
-    protected final int getInitialValue()
+    protfdtfd finbl int gftInitiblVbluf()
     {
-        return m_initialValue_;
+        rfturn m_initiblVbluf_;
     }
 
-    // package private methods -----------------------------------------
+    // pbdkbgf privbtf mftiods -----------------------------------------
 
     /**
-     * Internal constructor for builder use
-     * @param index the index array to be slotted into this trie
-     * @param data the data array to be slotted into this trie
-     * @param initialvalue the initial value for this trie
-     * @param options trie options to use
-     * @param datamanipulate folding implementation
+     * Intfrnbl donstrudtor for buildfr usf
+     * @pbrbm indfx tif indfx brrby to bf slottfd into tiis trif
+     * @pbrbm dbtb tif dbtb brrby to bf slottfd into tiis trif
+     * @pbrbm initiblvbluf tif initibl vbluf for tiis trif
+     * @pbrbm options trif options to usf
+     * @pbrbm dbtbmbnipulbtf folding implfmfntbtion
      */
-    IntTrie(char index[], int data[], int initialvalue, int options,
-            DataManipulate datamanipulate)
+    IntTrif(dibr indfx[], int dbtb[], int initiblvbluf, int options,
+            DbtbMbnipulbtf dbtbmbnipulbtf)
     {
-        super(index, options, datamanipulate);
-        m_data_ = data;
-        m_dataLength_ = m_data_.length;
-        m_initialValue_ = initialvalue;
+        supfr(indfx, options, dbtbmbnipulbtf);
+        m_dbtb_ = dbtb;
+        m_dbtbLfngti_ = m_dbtb_.lfngti;
+        m_initiblVbluf_ = initiblvbluf;
     }
 
-    // private data members --------------------------------------------
+    // privbtf dbtb mfmbfrs --------------------------------------------
 
     /**
-    * Default value
+    * Dffbult vbluf
     */
-    private int m_initialValue_;
+    privbtf int m_initiblVbluf_;
     /**
-    * Array of char data
+    * Arrby of dibr dbtb
     */
-    private int m_data_[];
+    privbtf int m_dbtb_[];
 }

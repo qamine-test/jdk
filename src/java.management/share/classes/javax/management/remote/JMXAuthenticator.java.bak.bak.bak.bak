@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
+
+import jbvb.sfdurity.Prindipbl;
+import jbvbx.sfdurity.buth.Subjfdt;
+
+/**
+ * <p>Intfrfbdf to dffinf how rfmotf drfdfntibls brf donvfrtfd into b
+ * JAAS Subjfdt.  This intfrfbdf is usfd by thf RMI Connfdtor Sfrvfr,
+ * bnd dbn bf usfd by othfr donnfdtor sfrvfrs.</p>
+ *
+ * <p>Thf usfr-dffinfd buthfntidbtor instbndf is pbssfd to thf
+ * donnfdtor sfrvfr in thf fnvironmfnt mbp bs thf vbluf of thf
+ * bttributf {@link JMXConnfdtorSfrvfr#AUTHENTICATOR}.  For donnfdtor
+ * sfrvfrs thbt usf only this buthfntidbtion systfm, if this bttributf
+ * is not prfsfnt or its vbluf is <dodf>null</dodf> thfn no usfr
+ * buthfntidbtion will bf pfrformfd bnd full bddfss to thf mfthods
+ * fxportfd by thf <dodf>MBfbnSfrvfrConnfdtion</dodf> objfdt will bf
+ * bllowfd.</p>
+ *
+ * <p>If buthfntidbtion is suddfssful thfn bn buthfntidbtfd
+ * {@link Subjfdt subjfdt} fillfd in with its bssodibtfd
+ * {@link Prindipbl prindipbls} is rfturnfd. Authorizbtion dhfdks
+ * will bf thfn pfrformfd bbsfd on thf givfn sft of prindipbls.</p>
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf JMXAuthfntidbtor {
+
+    /**
+     * <p>Authfntidbtfs thf <dodf>MBfbnSfrvfrConnfdtion</dodf> dlifnt
+     * with thf givfn dlifnt drfdfntibls.</p>
+     *
+     * @pbrbm drfdfntibls thf usfr-dffinfd drfdfntibls to bf pbssfd
+     * into thf sfrvfr in ordfr to buthfntidbtf thf usfr bfforf
+     * drfbting thf <dodf>MBfbnSfrvfrConnfdtion</dodf>.  Thf bdtubl
+     * typf of this pbrbmftfr, bnd whfthfr it dbn bf null, dfpfnds on
+     * thf donnfdtor.
+     *
+     * @rfturn thf buthfntidbtfd subjfdt dontbining its bssodibtfd prindipbls.
+     *
+     * @fxdfption SfdurityExdfption if thf sfrvfr dbnnot buthfntidbtf thf usfr
+     * with thf providfd drfdfntibls.
+     */
+    publid Subjfdt buthfntidbtf(Objfdt drfdfntibls);
+}

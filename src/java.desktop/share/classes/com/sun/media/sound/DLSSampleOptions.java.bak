@@ -1,80 +1,80 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 /**
- * This class stores options how to playback sampled data like pitch/tuning,
- * attenuation and loops.
- * It is stored as a "wsmp" chunk inside DLS files.
+ * Tiis dlbss storfs options iow to plbybbdk sbmplfd dbtb likf pitdi/tuning,
+ * bttfnubtion bnd loops.
+ * It is storfd bs b "wsmp" diunk insidf DLS filfs.
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class DLSSampleOptions {
+publid finbl dlbss DLSSbmplfOptions {
 
-    int unitynote;
-    short finetune;
-    int attenuation;
+    int unitynotf;
+    siort finftunf;
+    int bttfnubtion;
     long options;
-    List<DLSSampleLoop> loops = new ArrayList<DLSSampleLoop>();
+    List<DLSSbmplfLoop> loops = nfw ArrbyList<DLSSbmplfLoop>();
 
-    public int getAttenuation() {
-        return attenuation;
+    publid int gftAttfnubtion() {
+        rfturn bttfnubtion;
     }
 
-    public void setAttenuation(int attenuation) {
-        this.attenuation = attenuation;
+    publid void sftAttfnubtion(int bttfnubtion) {
+        tiis.bttfnubtion = bttfnubtion;
     }
 
-    public short getFinetune() {
-        return finetune;
+    publid siort gftFinftunf() {
+        rfturn finftunf;
     }
 
-    public void setFinetune(short finetune) {
-        this.finetune = finetune;
+    publid void sftFinftunf(siort finftunf) {
+        tiis.finftunf = finftunf;
     }
 
-    public List<DLSSampleLoop> getLoops() {
-        return loops;
+    publid List<DLSSbmplfLoop> gftLoops() {
+        rfturn loops;
     }
 
-    public long getOptions() {
-        return options;
+    publid long gftOptions() {
+        rfturn options;
     }
 
-    public void setOptions(long options) {
-        this.options = options;
+    publid void sftOptions(long options) {
+        tiis.options = options;
     }
 
-    public int getUnitynote() {
-        return unitynote;
+    publid int gftUnitynotf() {
+        rfturn unitynotf;
     }
 
-    public void setUnitynote(int unitynote) {
-        this.unitynote = unitynote;
+    publid void sftUnitynotf(int unitynotf) {
+        tiis.unitynotf = unitynotf;
     }
 }

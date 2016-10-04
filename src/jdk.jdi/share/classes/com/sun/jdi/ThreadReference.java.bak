@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi;
-import java.util.List;
+pbdkbgf dom.sun.jdi;
+import jbvb.util.List;
 
 /**
- * A thread object from the target VM.
- * A ThreadReference is an {@link ObjectReference} with additional
- * access to thread-specific information from the target VM.
+ * A tirfbd objfdt from tif tbrgft VM.
+ * A TirfbdRfffrfndf is bn {@link ObjfdtRfffrfndf} witi bdditionbl
+ * bddfss to tirfbd-spfdifid informbtion from tif tbrgft VM.
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @butior Gordon Hirsdi
+ * @butior Jbmfs MdIlrff
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface ThreadReference extends ObjectReference {
-    /** Thread status is unknown */
-    public final int THREAD_STATUS_UNKNOWN  =-1;
-    /** Thread has completed execution */
-    public final int THREAD_STATUS_ZOMBIE = 0;
-    /** Thread is runnable */
-    public final int THREAD_STATUS_RUNNING = 1;
-    /** Thread is sleeping - Thread.sleep() or JVM_Sleep() was called */
-    public final int THREAD_STATUS_SLEEPING = 2;
-    /** Thread is waiting on a java monitor */
-    public final int THREAD_STATUS_MONITOR = 3;
-    /** Thread is waiting - Object.wait() or JVM_MonitorWait() was called */
-    public final int THREAD_STATUS_WAIT = 4;
-    /** Thread has not yet been started */
-    public final int THREAD_STATUS_NOT_STARTED = 5;
+@jdk.Exportfd
+publid intfrfbdf TirfbdRfffrfndf fxtfnds ObjfdtRfffrfndf {
+    /** Tirfbd stbtus is unknown */
+    publid finbl int THREAD_STATUS_UNKNOWN  =-1;
+    /** Tirfbd ibs domplftfd fxfdution */
+    publid finbl int THREAD_STATUS_ZOMBIE = 0;
+    /** Tirfbd is runnbblf */
+    publid finbl int THREAD_STATUS_RUNNING = 1;
+    /** Tirfbd is slffping - Tirfbd.slffp() or JVM_Slffp() wbs dbllfd */
+    publid finbl int THREAD_STATUS_SLEEPING = 2;
+    /** Tirfbd is wbiting on b jbvb monitor */
+    publid finbl int THREAD_STATUS_MONITOR = 3;
+    /** Tirfbd is wbiting - Objfdt.wbit() or JVM_MonitorWbit() wbs dbllfd */
+    publid finbl int THREAD_STATUS_WAIT = 4;
+    /** Tirfbd ibs not yft bffn stbrtfd */
+    publid finbl int THREAD_STATUS_NOT_STARTED = 5;
 
     /**
-     * Returns the name of this thread.
+     * Rfturns tif nbmf of tiis tirfbd.
      *
-     * @return the string containing the thread name.
+     * @rfturn tif string dontbining tif tirfbd nbmf.
      */
-    String name();
+    String nbmf();
 
     /**
-     * Suspends this thread. The thread can be resumed through
-     * {@link #resume} or resumed with other threads through
-     * {@link VirtualMachine#resume}.
+     * Suspfnds tiis tirfbd. Tif tirfbd dbn bf rfsumfd tirougi
+     * {@link #rfsumf} or rfsumfd witi otifr tirfbds tirougi
+     * {@link VirtublMbdiinf#rfsumf}.
      * <p>
-     * Unlike {@link java.lang.Thread#suspend},
-     * suspends of both the virtual machine and individual threads are
-     * counted. Before a thread will run again, it must be resumed
-     * (through {@link #resume} or {@link ThreadReference#resume})
-     * the same number of times it has been suspended.
+     * Unlikf {@link jbvb.lbng.Tirfbd#suspfnd},
+     * suspfnds of boti tif virtubl mbdiinf bnd individubl tirfbds brf
+     * dountfd. Bfforf b tirfbd will run bgbin, it must bf rfsumfd
+     * (tirougi {@link #rfsumf} or {@link TirfbdRfffrfndf#rfsumf})
+     * tif sbmf numbfr of timfs it ibs bffn suspfndfd.
      * <p>
-     * Suspending single threads with this method has the same dangers
-     * as {@link java.lang.Thread#suspend()}. If the suspended thread
-     * holds a monitor needed by another running thread, deadlock is
-     * possible in the target VM (at least until the suspended thread
-     * is resumed again).
+     * Suspfnding singlf tirfbds witi tiis mftiod ibs tif sbmf dbngfrs
+     * bs {@link jbvb.lbng.Tirfbd#suspfnd()}. If tif suspfndfd tirfbd
+     * iolds b monitor nffdfd by bnotifr running tirfbd, dfbdlodk is
+     * possiblf in tif tbrgft VM (bt lfbst until tif suspfndfd tirfbd
+     * is rfsumfd bgbin).
      * <p>
-     * The suspended thread is guaranteed to remain suspended until
-     * resumed through one of the JDI resume methods mentioned above;
-     * the application in the target VM cannot resume the suspended thread
-     * through {@link java.lang.Thread#resume}.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * Tif suspfndfd tirfbd is gubrbntffd to rfmbin suspfndfd until
+     * rfsumfd tirougi onf of tif JDI rfsumf mftiods mfntionfd bbovf;
+     * tif bpplidbtion in tif tbrgft VM dbnnot rfsumf tif suspfndfd tirfbd
+     * tirougi {@link jbvb.lbng.Tirfbd#rfsumf}.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      */
-    void suspend();
+    void suspfnd();
 
     /**
-     * Resumes this thread. If this thread was not previously suspended
-     * through {@link #suspend} or through {@link VirtualMachine#suspend},
-     * or because of a SUSPEND_ALL or SUSPEND_EVENT_THREAD event, then
-     * invoking this method has no effect. Otherwise, the count of pending
-     * suspends on this thread is decremented. If it is decremented to 0,
-     * the thread will continue to execute.
-     * Note: the normal way to resume from an event related suspension is
-     * via {@link com.sun.jdi.event.EventSet#resume}.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * Rfsumfs tiis tirfbd. If tiis tirfbd wbs not prfviously suspfndfd
+     * tirougi {@link #suspfnd} or tirougi {@link VirtublMbdiinf#suspfnd},
+     * or bfdbusf of b SUSPEND_ALL or SUSPEND_EVENT_THREAD fvfnt, tifn
+     * invoking tiis mftiod ibs no ffffdt. Otifrwisf, tif dount of pfnding
+     * suspfnds on tiis tirfbd is dfdrfmfntfd. If it is dfdrfmfntfd to 0,
+     * tif tirfbd will dontinuf to fxfdutf.
+     * Notf: tif normbl wby to rfsumf from bn fvfnt rflbtfd suspfnsion is
+     * vib {@link dom.sun.jdi.fvfnt.EvfntSft#rfsumf}.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      */
-    void resume();
+    void rfsumf();
 
     /**
-     * Returns the number of pending suspends for this thread. See
-     * {@link #suspend} for an explanation of counted suspends.
-     * @return pending suspend count as an integer
+     * Rfturns tif numbfr of pfnding suspfnds for tiis tirfbd. Sff
+     * {@link #suspfnd} for bn fxplbnbtion of dountfd suspfnds.
+     * @rfturn pfnding suspfnd dount bs bn intfgfr
      */
-    int suspendCount();
+    int suspfndCount();
 
     /**
-     * Stops this thread with an asynchronous exception.
-     * A debugger thread in the target VM will stop this thread
-     * with the given {@link java.lang.Throwable} object.
+     * Stops tiis tirfbd witi bn bsyndironous fxdfption.
+     * A dfbuggfr tirfbd in tif tbrgft VM will stop tiis tirfbd
+     * witi tif givfn {@link jbvb.lbng.Tirowbblf} objfdt.
      *
-     * @param throwable the asynchronous exception to throw.
-     * @throws InvalidTypeException if <code>throwable</code> is not
-     * an instance of java.lang.Throwable in the target VM.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
-     * @see java.lang.Thread#stop(Throwable)
+     * @pbrbm tirowbblf tif bsyndironous fxdfption to tirow.
+     * @tirows InvblidTypfExdfption if <dodf>tirowbblf</dodf> is not
+     * bn instbndf of jbvb.lbng.Tirowbblf in tif tbrgft VM.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
+     * @sff jbvb.lbng.Tirfbd#stop(Tirowbblf)
      */
-    void stop(ObjectReference throwable) throws InvalidTypeException;
+    void stop(ObjfdtRfffrfndf tirowbblf) tirows InvblidTypfExdfption;
 
     /**
-     * Interrupts this thread unless the thread has been suspended by the
-     * debugger.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * Intfrrupts tiis tirfbd unlfss tif tirfbd ibs bffn suspfndfd by tif
+     * dfbuggfr.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      *
-     * @see java.lang.Thread#interrupt()
+     * @sff jbvb.lbng.Tirfbd#intfrrupt()
      */
-    void interrupt();
+    void intfrrupt();
 
     /**
-     * Returns the thread's status. If the thread is not suspended the
-     * thread's current status is returned. If the thread is suspended, the
-     * thread's status before the suspension is returned (or
-     * {@link #THREAD_STATUS_UNKNOWN} if this information is not available.
-     * {@link #isSuspended} can be used to determine if the thread has been
-     * suspended.
+     * Rfturns tif tirfbd's stbtus. If tif tirfbd is not suspfndfd tif
+     * tirfbd's durrfnt stbtus is rfturnfd. If tif tirfbd is suspfndfd, tif
+     * tirfbd's stbtus bfforf tif suspfnsion is rfturnfd (or
+     * {@link #THREAD_STATUS_UNKNOWN} if tiis informbtion is not bvbilbblf.
+     * {@link #isSuspfndfd} dbn bf usfd to dftfrminf if tif tirfbd ibs bffn
+     * suspfndfd.
      *
-     * @return one of
+     * @rfturn onf of
      * {@link #THREAD_STATUS_UNKNOWN},
      * {@link #THREAD_STATUS_ZOMBIE},
      * {@link #THREAD_STATUS_RUNNING},
@@ -144,330 +144,330 @@ public interface ThreadReference extends ObjectReference {
      * {@link #THREAD_STATUS_WAIT},
      * {@link #THREAD_STATUS_NOT_STARTED},
      */
-    int status();
+    int stbtus();
 
     /**
-     * Determines whether the thread has been suspended by the
-     * the debugger.
+     * Dftfrminfs wiftifr tif tirfbd ibs bffn suspfndfd by tif
+     * tif dfbuggfr.
      *
-     * @return <code>true</code> if the thread is currently suspended;
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif tirfbd is durrfntly suspfndfd;
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean isSuspended();
+    boolfbn isSuspfndfd();
 
     /**
-     * Determines whether the thread is suspended at a breakpoint.
+     * Dftfrminfs wiftifr tif tirfbd is suspfndfd bt b brfbkpoint.
      *
-     * @return <code>true</code> if the thread is currently stopped at
-     * a breakpoint; <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tif tirfbd is durrfntly stoppfd bt
+     * b brfbkpoint; <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean isAtBreakpoint();
+    boolfbn isAtBrfbkpoint();
 
     /**
-     * Returns this thread's thread group.
-     * @return a {@link ThreadGroupReference} that mirrors this thread's
-     * thread group in the target VM.
+     * Rfturns tiis tirfbd's tirfbd group.
+     * @rfturn b {@link TirfbdGroupRfffrfndf} tibt mirrors tiis tirfbd's
+     * tirfbd group in tif tbrgft VM.
      */
-    ThreadGroupReference threadGroup();
+    TirfbdGroupRfffrfndf tirfbdGroup();
 
     /**
-     * Returns the number of stack frames in the thread's current
-     * call stack.
-     * The thread must be suspended (normally through an interruption
-     * to the VM) to get this information, and
-     * it is only valid until the thread is resumed again.
+     * Rfturns tif numbfr of stbdk frbmfs in tif tirfbd's durrfnt
+     * dbll stbdk.
+     * Tif tirfbd must bf suspfndfd (normblly tirougi bn intfrruption
+     * to tif VM) to gft tiis informbtion, bnd
+     * it is only vblid until tif tirfbd is rfsumfd bgbin.
      *
-     * @return an integer frame count
-     * @throws IncompatibleThreadStateException if the thread is
-     * not suspended in the target VM
+     * @rfturn bn intfgfr frbmf dount
+     * @tirows IndompbtiblfTirfbdStbtfExdfption if tif tirfbd is
+     * not suspfndfd in tif tbrgft VM
      */
-    int frameCount() throws IncompatibleThreadStateException;
+    int frbmfCount() tirows IndompbtiblfTirfbdStbtfExdfption;
 
     /**
-     * Returns a List containing each {@link StackFrame} in the
-     * thread's current call stack.
-     * The thread must be suspended (normally through an interruption
-     * to the VM) to get this information, and
-     * it is only valid until the thread is resumed again.
+     * Rfturns b List dontbining fbdi {@link StbdkFrbmf} in tif
+     * tirfbd's durrfnt dbll stbdk.
+     * Tif tirfbd must bf suspfndfd (normblly tirougi bn intfrruption
+     * to tif VM) to gft tiis informbtion, bnd
+     * it is only vblid until tif tirfbd is rfsumfd bgbin.
      *
-     * @return a List of {@link StackFrame} with the current frame first
-     * followed by each caller's frame.
-     * @throws IncompatibleThreadStateException if the thread is
-     * not suspended in the target VM
+     * @rfturn b List of {@link StbdkFrbmf} witi tif durrfnt frbmf first
+     * followfd by fbdi dbllfr's frbmf.
+     * @tirows IndompbtiblfTirfbdStbtfExdfption if tif tirfbd is
+     * not suspfndfd in tif tbrgft VM
      */
-    List<StackFrame> frames() throws IncompatibleThreadStateException;
+    List<StbdkFrbmf> frbmfs() tirows IndompbtiblfTirfbdStbtfExdfption;
 
     /**
-     * Returns the {@link StackFrame} at the given index in the
-     * thread's current call stack. Index 0 retrieves the current
-     * frame; higher indices retrieve caller frames.
-     * The thread must be suspended (normally through an interruption
-     * to the VM) to get this information, and
-     * it is only valid until the thread is resumed again.
+     * Rfturns tif {@link StbdkFrbmf} bt tif givfn indfx in tif
+     * tirfbd's durrfnt dbll stbdk. Indfx 0 rftrifvfs tif durrfnt
+     * frbmf; iigifr indidfs rftrifvf dbllfr frbmfs.
+     * Tif tirfbd must bf suspfndfd (normblly tirougi bn intfrruption
+     * to tif VM) to gft tiis informbtion, bnd
+     * it is only vblid until tif tirfbd is rfsumfd bgbin.
      *
-     * @param index the desired frame
-     * @return the requested {@link StackFrame}
-     * @throws IncompatibleThreadStateException if the thread is
-     * not suspended in the target VM
-     * @throws java.lang.IndexOutOfBoundsException if the index is greater than
-     * or equal to {@link #frameCount} or is negative.
+     * @pbrbm indfx tif dfsirfd frbmf
+     * @rfturn tif rfqufstfd {@link StbdkFrbmf}
+     * @tirows IndompbtiblfTirfbdStbtfExdfption if tif tirfbd is
+     * not suspfndfd in tif tbrgft VM
+     * @tirows jbvb.lbng.IndfxOutOfBoundsExdfption if tif indfx is grfbtfr tibn
+     * or fqubl to {@link #frbmfCount} or is nfgbtivf.
      */
-    StackFrame frame(int index) throws IncompatibleThreadStateException;
+    StbdkFrbmf frbmf(int indfx) tirows IndompbtiblfTirfbdStbtfExdfption;
 
     /**
-     * Returns a List containing a range of {@link StackFrame} mirrors
-     * from the thread's current call stack.
-     * The thread must be suspended (normally through an interruption
-     * to the VM) to get this information, and
-     * it is only valid until the thread is resumed again.
+     * Rfturns b List dontbining b rbngf of {@link StbdkFrbmf} mirrors
+     * from tif tirfbd's durrfnt dbll stbdk.
+     * Tif tirfbd must bf suspfndfd (normblly tirougi bn intfrruption
+     * to tif VM) to gft tiis informbtion, bnd
+     * it is only vblid until tif tirfbd is rfsumfd bgbin.
      *
-     * @param start the index of the first frame to retrieve.
-     *       Index 0 represents the current frame.
-     * @param length the number of frames to retrieve
-     * @return a List of {@link StackFrame} with the current frame first
-     * followed by each caller's frame.
-     * @throws IncompatibleThreadStateException if the thread is
-     * not suspended in the target VM
-     * @throws IndexOutOfBoundsException if the specified range is not
-     * within the range of stack frame indicies.
-     * That is, the exception is thrown if any of the following are true:
-     * <pre>    start &lt; 0
-     *    start &gt;= {@link #frameCount}
-     *    length &lt; 0
-     *    (start+length) &gt; {@link #frameCount}</pre>
+     * @pbrbm stbrt tif indfx of tif first frbmf to rftrifvf.
+     *       Indfx 0 rfprfsfnts tif durrfnt frbmf.
+     * @pbrbm lfngti tif numbfr of frbmfs to rftrifvf
+     * @rfturn b List of {@link StbdkFrbmf} witi tif durrfnt frbmf first
+     * followfd by fbdi dbllfr's frbmf.
+     * @tirows IndompbtiblfTirfbdStbtfExdfption if tif tirfbd is
+     * not suspfndfd in tif tbrgft VM
+     * @tirows IndfxOutOfBoundsExdfption if tif spfdififd rbngf is not
+     * witiin tif rbngf of stbdk frbmf indidifs.
+     * Tibt is, tif fxdfption is tirown if bny of tif following brf truf:
+     * <prf>    stbrt &lt; 0
+     *    stbrt &gt;= {@link #frbmfCount}
+     *    lfngti &lt; 0
+     *    (stbrt+lfngti) &gt; {@link #frbmfCount}</prf>
      */
-    List<StackFrame> frames(int start, int length)
-        throws IncompatibleThreadStateException;
+    List<StbdkFrbmf> frbmfs(int stbrt, int lfngti)
+        tirows IndompbtiblfTirfbdStbtfExdfption;
 
     /**
-     * Returns a List containing an {@link ObjectReference} for
-     * each monitor owned by the thread.
-     * A monitor is owned by a thread if it has been entered
-     * (via the synchronized statement or entry into a synchronized
-     * method) and has not been relinquished through {@link Object#wait}.
+     * Rfturns b List dontbining bn {@link ObjfdtRfffrfndf} for
+     * fbdi monitor ownfd by tif tirfbd.
+     * A monitor is ownfd by b tirfbd if it ibs bffn fntfrfd
+     * (vib tif syndironizfd stbtfmfnt or fntry into b syndironizfd
+     * mftiod) bnd ibs not bffn rflinquisifd tirougi {@link Objfdt#wbit}.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetOwnedMonitorInfo()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnGftOwnfdMonitorInfo()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @return a List of {@link ObjectReference} objects. The list
-     * has zero length if no monitors are owned by this thread.
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation.
-     * @throws IncompatibleThreadStateException if the thread is
-     * not suspended in the target VM
+     * @rfturn b List of {@link ObjfdtRfffrfndf} objfdts. Tif list
+     * ibs zfro lfngti if no monitors brf ownfd by tiis tirfbd.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion.
+     * @tirows IndompbtiblfTirfbdStbtfExdfption if tif tirfbd is
+     * not suspfndfd in tif tbrgft VM
      */
-    List<ObjectReference> ownedMonitors()
-        throws IncompatibleThreadStateException;
+    List<ObjfdtRfffrfndf> ownfdMonitors()
+        tirows IndompbtiblfTirfbdStbtfExdfption;
 
     /**
-     * Returns a List containing a {@link MonitorInfo} object for
-     * each monitor owned by the thread.
-     * A monitor is owned by a thread if it has been entered
-     * (via the synchronized statement or entry into a synchronized
-     * method) and has not been relinquished through {@link Object#wait}.
+     * Rfturns b List dontbining b {@link MonitorInfo} objfdt for
+     * fbdi monitor ownfd by tif tirfbd.
+     * A monitor is ownfd by b tirfbd if it ibs bffn fntfrfd
+     * (vib tif syndironizfd stbtfmfnt or fntry into b syndironizfd
+     * mftiod) bnd ibs not bffn rflinquisifd tirougi {@link Objfdt#wbit}.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetMonitorFrameInfo()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnGftMonitorFrbmfInfo()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @return a List of {@link MonitorInfo} objects. The list
-     * has zero length if no monitors are owned by this thread.
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation.
-     * @throws IncompatibleThreadStateException if the thread is
-     * not suspended in the target VM
+     * @rfturn b List of {@link MonitorInfo} objfdts. Tif list
+     * ibs zfro lfngti if no monitors brf ownfd by tiis tirfbd.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion.
+     * @tirows IndompbtiblfTirfbdStbtfExdfption if tif tirfbd is
+     * not suspfndfd in tif tbrgft VM
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    List<MonitorInfo> ownedMonitorsAndFrames()
-        throws IncompatibleThreadStateException;
+    List<MonitorInfo> ownfdMonitorsAndFrbmfs()
+        tirows IndompbtiblfTirfbdStbtfExdfption;
 
     /**
-     * Returns an {@link ObjectReference} for the monitor, if any,
-     * for which this thread is currently waiting.
-     * The thread can be waiting for a monitor through entry into a
-     * synchronized method, the synchronized statement, or
-     * {@link Object#wait}.  The {@link #status} method can be used
-     * to differentiate between the first two cases and the third.
+     * Rfturns bn {@link ObjfdtRfffrfndf} for tif monitor, if bny,
+     * for wiidi tiis tirfbd is durrfntly wbiting.
+     * Tif tirfbd dbn bf wbiting for b monitor tirougi fntry into b
+     * syndironizfd mftiod, tif syndironizfd stbtfmfnt, or
+     * {@link Objfdt#wbit}.  Tif {@link #stbtus} mftiod dbn bf usfd
+     * to difffrfntibtf bftwffn tif first two dbsfs bnd tif tiird.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetCurrentContendedMonitor()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnGftCurrfntContfndfdMonitor()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @return the {@link ObjectReference} corresponding to the
-     * contended monitor, or null if it is not waiting for a monitor.
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation.
-     * @throws IncompatibleThreadStateException if the thread is
-     * not suspended in the target VM
+     * @rfturn tif {@link ObjfdtRfffrfndf} dorrfsponding to tif
+     * dontfndfd monitor, or null if it is not wbiting for b monitor.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion.
+     * @tirows IndompbtiblfTirfbdStbtfExdfption if tif tirfbd is
+     * not suspfndfd in tif tbrgft VM
      */
-    ObjectReference currentContendedMonitor() throws IncompatibleThreadStateException;
+    ObjfdtRfffrfndf durrfntContfndfdMonitor() tirows IndompbtiblfTirfbdStbtfExdfption;
 
     /**
-     * Pop stack frames.
+     * Pop stbdk frbmfs.
      * <P>
-     * All frames up to and including the <CODE>frame</CODE> are
-     * popped off the stack.
-     * The frame previous to the parameter <CODE>frame</CODE>
-     * will become the current frame.
+     * All frbmfs up to bnd indluding tif <CODE>frbmf</CODE> brf
+     * poppfd off tif stbdk.
+     * Tif frbmf prfvious to tif pbrbmftfr <CODE>frbmf</CODE>
+     * will bfdomf tif durrfnt frbmf.
      * <P>
-     * After this operation, this thread will be
-     * suspended at the invoke instruction of the target method
-     * that created <CODE>frame</CODE>.
-     * The <CODE>frame</CODE>'s method can be reentered with a step into
-     * the instruction.
+     * Aftfr tiis opfrbtion, tiis tirfbd will bf
+     * suspfndfd bt tif invokf instrudtion of tif tbrgft mftiod
+     * tibt drfbtfd <CODE>frbmf</CODE>.
+     * Tif <CODE>frbmf</CODE>'s mftiod dbn bf rffntfrfd witi b stfp into
+     * tif instrudtion.
      * <P>
-     * The operand stack is restored, however, any changes
-     * to the arguments that occurred in the called method, remain.
-     * For example, if the method <CODE>foo</CODE>:
+     * Tif opfrbnd stbdk is rfstorfd, iowfvfr, bny dibngfs
+     * to tif brgumfnts tibt oddurrfd in tif dbllfd mftiod, rfmbin.
+     * For fxbmplf, if tif mftiod <CODE>foo</CODE>:
      * <PRE>
      *    void foo(int x) {
-     *        System.out.println("Foo: " + x);
+     *        Systfm.out.println("Foo: " + x);
      *        x = 4;
-     *        System.out.println("pop here");
+     *        Systfm.out.println("pop ifrf");
      *    }
      * </PRE>
-     * was called with <CODE>foo(7)</CODE> and <CODE>foo</CODE>
-     * is popped at the second <CODE>println</CODE> and resumed,
+     * wbs dbllfd witi <CODE>foo(7)</CODE> bnd <CODE>foo</CODE>
+     * is poppfd bt tif sfdond <CODE>println</CODE> bnd rfsumfd,
      * it will print: <CODE>Foo: 4</CODE>.
      * <P>
-     * Locks acquired by a popped frame are released when it
-     * is popped. This applies to synchronized methods that
-     * are popped, and to any synchronized blocks within them.
+     * Lodks bdquirfd by b poppfd frbmf brf rflfbsfd wifn it
+     * is poppfd. Tiis bpplifs to syndironizfd mftiods tibt
+     * brf poppfd, bnd to bny syndironizfd blodks witiin tifm.
      * <P>
-     * Finally blocks are not executed.
+     * Finblly blodks brf not fxfdutfd.
      * <P>
-     * No aspect of state, other than this thread's execution point and
-     * locks, is affected by this call.  Specifically, the values of
-     * fields are unchanged, as are external resources such as
-     * I/O streams.  Additionally, the target program might be
-     * placed in a state that is impossible with normal program flow;
-     * for example, order of lock acquisition might be perturbed.
-     * Thus the target program may
-     * proceed differently than the user would expect.
+     * No bspfdt of stbtf, otifr tibn tiis tirfbd's fxfdution point bnd
+     * lodks, is bfffdtfd by tiis dbll.  Spfdifidblly, tif vblufs of
+     * fiflds brf undibngfd, bs brf fxtfrnbl rfsourdfs sudi bs
+     * I/O strfbms.  Additionblly, tif tbrgft progrbm migit bf
+     * plbdfd in b stbtf tibt is impossiblf witi normbl progrbm flow;
+     * for fxbmplf, ordfr of lodk bdquisition migit bf pfrturbfd.
+     * Tius tif tbrgft progrbm mby
+     * prodffd difffrfntly tibn tif usfr would fxpfdt.
      * <P>
-     * The specified thread must be suspended.
+     * Tif spfdififd tirfbd must bf suspfndfd.
      * <P>
-     * All <code>StackFrame</code> objects for this thread are
-     * invalidated.
+     * All <dodf>StbdkFrbmf</dodf> objfdts for tiis tirfbd brf
+     * invblidbtfd.
      * <P>
-     * No events are generated by this method.
+     * No fvfnts brf gfnfrbtfd by tiis mftiod.
      * <P>
-     * None of the frames through and including the frame for the caller
-     * of <i>frame</i> may be native.
+     * Nonf of tif frbmfs tirougi bnd indluding tif frbmf for tif dbllfr
+     * of <i>frbmf</i> mby bf nbtivf.
      * <P>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canPopFrames() VirtualMachine.canPopFrames()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnPopFrbmfs() VirtublMbdiinf.dbnPopFrbmfs()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @param frame Stack frame to pop.  <CODE>frame</CODE> is on this
-     * thread's call stack.
+     * @pbrbm frbmf Stbdk frbmf to pop.  <CODE>frbmf</CODE> is on tiis
+     * tirfbd's dbll stbdk.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canPopFrames() VirtualMachine.canPopFrames()}.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion - sff
+     * {@link VirtublMbdiinf#dbnPopFrbmfs() VirtublMbdiinf.dbnPopFrbmfs()}.
      *
-     * @throws IncompatibleThreadStateException if this
-     * thread is not suspended.
+     * @tirows IndompbtiblfTirfbdStbtfExdfption if tiis
+     * tirfbd is not suspfndfd.
      *
-     * @throws java.lang.IllegalArgumentException if <CODE>frame</CODE>
-     * is not on this thread's call stack.
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption if <CODE>frbmf</CODE>
+     * is not on tiis tirfbd's dbll stbdk.
      *
-     * @throws NativeMethodException if one of the frames that would be
-     * popped is that of a native method or if the frame previous to
-     * <i>frame</i> is native.
+     * @tirows NbtivfMftiodExdfption if onf of tif frbmfs tibt would bf
+     * poppfd is tibt of b nbtivf mftiod or if tif frbmf prfvious to
+     * <i>frbmf</i> is nbtivf.
      *
-     * @throws InvalidStackFrameException if <CODE>frame</CODE> has become
-     * invalid. Once this thread is resumed, the stack frame is
-     * no longer valid.  This exception is also thrown if there are no
-     * more frames.
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @tirows InvblidStbdkFrbmfExdfption if <CODE>frbmf</CODE> ibs bfdomf
+     * invblid. Ondf tiis tirfbd is rfsumfd, tif stbdk frbmf is
+     * no longfr vblid.  Tiis fxdfption is blso tirown if tifrf brf no
+     * morf frbmfs.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      *
-     * @since 1.4 */
-    void popFrames(StackFrame frame) throws IncompatibleThreadStateException;
+     * @sindf 1.4 */
+    void popFrbmfs(StbdkFrbmf frbmf) tirows IndompbtiblfTirfbdStbtfExdfption;
 
 
     /**
-     * Force a method to return before it reaches a return
-     * statement.
+     * Fordf b mftiod to rfturn bfforf it rfbdifs b rfturn
+     * stbtfmfnt.
      * <p>
-     * The method which will return early is referred to as the
-     * called method. The called method is the current method (as
-     * defined by the Frames section in the Java Virtual Machine
-     * Specification) for the specified thread at the time this
-     * method is called.
+     * Tif mftiod wiidi will rfturn fbrly is rfffrrfd to bs tif
+     * dbllfd mftiod. Tif dbllfd mftiod is tif durrfnt mftiod (bs
+     * dffinfd by tif Frbmfs sfdtion in tif Jbvb Virtubl Mbdiinf
+     * Spfdifidbtion) for tif spfdififd tirfbd bt tif timf tiis
+     * mftiod is dbllfd.
      * <p>
-     * The thread must be suspended.
-     * The return occurs when execution of Java programming
-     * language code is resumed on this thread. Between the call to
-     * this method and resumption of thread execution, the
-     * state of the stack is undefined.
+     * Tif tirfbd must bf suspfndfd.
+     * Tif rfturn oddurs wifn fxfdution of Jbvb progrbmming
+     * lbngubgf dodf is rfsumfd on tiis tirfbd. Bftwffn tif dbll to
+     * tiis mftiod bnd rfsumption of tirfbd fxfdution, tif
+     * stbtf of tif stbdk is undffinfd.
      * <p>
-     * No further instructions are executed in the called
-     * method. Specifically, finally blocks are not executed. Note:
-     * this can cause inconsistent states in the application.
+     * No furtifr instrudtions brf fxfdutfd in tif dbllfd
+     * mftiod. Spfdifidblly, finblly blodks brf not fxfdutfd. Notf:
+     * tiis dbn dbusf indonsistfnt stbtfs in tif bpplidbtion.
      * <p>
-     * A lock acquired by calling the called method (if it is a
-     * synchronized method) and locks acquired by entering
-     * synchronized blocks within the called method are
-     * released. Note: this does not apply to native locks or
-     * java.util.concurrent.locks locks.
+     * A lodk bdquirfd by dblling tif dbllfd mftiod (if it is b
+     * syndironizfd mftiod) bnd lodks bdquirfd by fntfring
+     * syndironizfd blodks witiin tif dbllfd mftiod brf
+     * rflfbsfd. Notf: tiis dofs not bpply to nbtivf lodks or
+     * jbvb.util.dondurrfnt.lodks lodks.
      * <p>
-     * Events, such as MethodExit, are generated as they would be in
-     * a normal return.
+     * Evfnts, sudi bs MftiodExit, brf gfnfrbtfd bs tify would bf in
+     * b normbl rfturn.
      * <p>
-     * The called method must be a non-native Java programming
-     * language method. Forcing return on a thread with only one
-     * frame on the stack causes the thread to exit when resumed.
+     * Tif dbllfd mftiod must bf b non-nbtivf Jbvb progrbmming
+     * lbngubgf mftiod. Fording rfturn on b tirfbd witi only onf
+     * frbmf on tif stbdk dbusfs tif tirfbd to fxit wifn rfsumfd.
      * <p>
-     * The <code>value</code> argument is the value that the
-     * method is to return.
-     * If the return type of the method is void, then value must
-     * be a  {@link VoidValue VoidValue}.
-     * Object values must be assignment compatible with the method return type
-     * (This implies that the method return type must be loaded through the
-     * enclosing class's class loader). Primitive values must be
-     * either assignment compatible with the method return type or must be
-     * convertible to the variable type without loss of information.
-     * See JLS section 5.2 for more information on assignment
-     * compatibility.
+     * Tif <dodf>vbluf</dodf> brgumfnt is tif vbluf tibt tif
+     * mftiod is to rfturn.
+     * If tif rfturn typf of tif mftiod is void, tifn vbluf must
+     * bf b  {@link VoidVbluf VoidVbluf}.
+     * Objfdt vblufs must bf bssignmfnt dompbtiblf witi tif mftiod rfturn typf
+     * (Tiis implifs tibt tif mftiod rfturn typf must bf lobdfd tirougi tif
+     * fndlosing dlbss's dlbss lobdfr). Primitivf vblufs must bf
+     * fitifr bssignmfnt dompbtiblf witi tif mftiod rfturn typf or must bf
+     * donvfrtiblf to tif vbribblf typf witiout loss of informbtion.
+     * Sff JLS sfdtion 5.2 for morf informbtion on bssignmfnt
+     * dompbtibility.
      * <p>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canForceEarlyReturn()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnFordfEbrlyRfturn()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @param value the value the method is to return.
+     * @pbrbm vbluf tif vbluf tif mftiod is to rfturn.
      *
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation - see
-     * {@link VirtualMachine#canGetInstanceInfo() canForceEarlyReturn()}
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion - sff
+     * {@link VirtublMbdiinf#dbnGftInstbndfInfo() dbnFordfEbrlyRfturn()}
      *
-     * @throws IncompatibleThreadStateException if this
-     * thread is not suspended.
+     * @tirows IndompbtiblfTirfbdStbtfExdfption if tiis
+     * tirfbd is not suspfndfd.
      *
-     * @throws NativeMethodException if the frame to be returned from
-     * is that of a native method.
+     * @tirows NbtivfMftiodExdfption if tif frbmf to bf rfturnfd from
+     * is tibt of b nbtivf mftiod.
      *
-     * @throws InvalidStackFrameException if there are no frames.
+     * @tirows InvblidStbdkFrbmfExdfption if tifrf brf no frbmfs.
      *
-     * @throws InvalidTypeException if the value's type does not match
-     * the method's return type.
+     * @tirows InvblidTypfExdfption if tif vbluf's typf dofs not mbtdi
+     * tif mftiod's rfturn typf.
      *
-     * @throws ClassNotLoadedException if the method's return type has not yet
-     * been loaded through the appropriate class loader.
+     * @tirows ClbssNotLobdfdExdfption if tif mftiod's rfturn typf ibs not yft
+     * bffn lobdfd tirougi tif bppropribtf dlbss lobdfr.
      *
-     * @throws VMCannotBeModifiedException if the VirtualMachine is read-only - see {@link VirtualMachine#canBeModified()}.
+     * @tirows VMCbnnotBfModififdExdfption if tif VirtublMbdiinf is rfbd-only - sff {@link VirtublMbdiinf#dbnBfModififd()}.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    void forceEarlyReturn(Value value) throws InvalidTypeException,
-                                              ClassNotLoadedException,
-                                              IncompatibleThreadStateException;
+    void fordfEbrlyRfturn(Vbluf vbluf) tirows InvblidTypfExdfption,
+                                              ClbssNotLobdfdExdfption,
+                                              IndompbtiblfTirfbdStbtfExdfption;
 
 }

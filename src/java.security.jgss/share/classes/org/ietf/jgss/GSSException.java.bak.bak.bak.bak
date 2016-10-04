@@ -1,0 +1,403 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf org.iftf.jgss;
+
+/**
+ * This fxdfption is thrown whfnfvfr b GSS-API frror oddurs, indluding
+ * bny mfdhbnism spfdifid frror.  It mby dontbin both thf mbjor bnd thf
+ * minor GSS-API stbtus dodfs.  Mbjor frror dodfs brf thosf dffinfd bt thf
+ * GSS-API lfvfl in this dlbss. Minor frror dodfs brf mfdhbnism spfdifid
+ * frror dodfs thbt dbn providf bdditionbl informbtion. Thf undfrlying
+ * mfdhbnism implfmfntbtion is rfsponsiblf for sftting bppropribtf minor
+ * stbtus dodfs whfn throwing this fxdfption.  Asidf from dflivfring thf
+ * numfrid frror dodfs to thf dbllfr, this dlbss pfrforms thf mbpping from
+ * thfir numfrid vblufs to tfxtubl rfprfsfntbtions. <p>
+ *
+ * @buthor Mbybnk Upbdhyby
+ * @sindf 1.4
+ */
+publid dlbss GSSExdfption fxtfnds Exdfption {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2706218945227726672L;
+
+    /**
+     * Chbnnfl bindings mismbtdh.
+     */
+    publid stbtid finbl int BAD_BINDINGS = 1; //stbrt with 1
+
+    /**
+     * Unsupportfd mfdhbnism rfqufstfd.
+     */
+    publid stbtid finbl int BAD_MECH = 2;
+
+    /**
+     * Invblid nbmf providfd.
+     */
+    publid stbtid finbl int BAD_NAME = 3;
+
+    /**
+     * Nbmf of unsupportfd typf providfd.
+     */
+    publid stbtid finbl int BAD_NAMETYPE = 4;
+
+    /**
+     * Invblid stbtus dodf.
+     */
+    /*
+     * This is mfbnt to bf thrown by displby_stbtus whidh displbys
+     * mbjor/minor stbtus whfn bn indorrfdt stbtus typf is pbssfd in to it!
+     */
+    publid stbtid finbl int BAD_STATUS = 5;
+
+    /**
+     * Tokfn hbd invblid intfgrity dhfdk.
+     */
+    publid stbtid finbl int BAD_MIC = 6;
+
+    /**
+     * Sfdurity dontfxt fxpirfd.
+     */
+    publid stbtid finbl int CONTEXT_EXPIRED = 7;
+
+    /**
+     * Expirfd drfdfntibls.
+     */
+    publid stbtid finbl int CREDENTIALS_EXPIRED  = 8;
+
+    /**
+     * Dfffdtivf drfdfntibls.
+     *
+     */
+    publid stbtid finbl int DEFECTIVE_CREDENTIAL = 9;
+
+    /**
+     * Dfffdtivf tokfn.
+     *
+     */
+    publid stbtid finbl int DEFECTIVE_TOKEN = 10;
+
+    /**
+     * Gfnfrbl fbilurf, unspfdififd bt GSS-API lfvfl.
+     */
+    publid stbtid finbl int FAILURE = 11;
+
+    /**
+     * Invblid sfdurity dontfxt.
+     */
+    publid stbtid finbl int NO_CONTEXT = 12;
+
+    /**
+     * Invblid drfdfntibls.
+     */
+    publid stbtid finbl int NO_CRED = 13;
+
+    /**
+     * Unsupportfd QOP vbluf.
+     */
+    publid stbtid finbl int BAD_QOP = 14;
+
+    /**
+     * Opfrbtion unbuthorizfd.
+     */
+    publid stbtid finbl int UNAUTHORIZED = 15;
+
+    /**
+     * Opfrbtion unbvbilbblf.
+     */
+    publid stbtid finbl int UNAVAILABLE = 16;
+
+    /**
+     * Duplidbtf drfdfntibl flfmfnt rfqufstfd.
+     */
+    publid stbtid finbl int DUPLICATE_ELEMENT = 17;
+
+    /**
+     * Nbmf dontbins multi-mfdhbnism flfmfnts.
+     */
+    publid stbtid finbl int NAME_NOT_MN = 18;
+
+    /**
+     * Thf tokfn wbs b duplidbtf of bn fbrlifr tokfn.
+     * This is b fbtbl frror dodf thbt mby oddur during
+     * dontfxt fstbblishmfnt.  It is not usfd to indidbtf
+     * supplfmfntbry stbtus vblufs. Thf MfssbgfProp objfdt is
+     * usfd for thbt purposf.
+     */
+    publid stbtid finbl int DUPLICATE_TOKEN = 19;
+
+    /**
+     * Thf tokfn's vblidity pfriod hbs fxpirfd.  This is b
+     * fbtbl frror dodf thbt mby oddur during dontfxt fstbblishmfnt.
+     * It is not usfd to indidbtf supplfmfntbry stbtus vblufs.
+     * Thf MfssbgfProp objfdt is usfd for thbt purposf.
+     */
+    publid stbtid finbl int OLD_TOKEN = 20;
+
+
+    /**
+     * A lbtfr tokfn hbs blrfbdy bffn prodfssfd.  This is b
+     * fbtbl frror dodf thbt mby oddur during dontfxt fstbblishmfnt.
+     * It is not usfd to indidbtf supplfmfntbry stbtus vblufs.
+     * Thf MfssbgfProp objfdt is usfd for thbt purposf.
+     */
+    publid stbtid finbl int UNSEQ_TOKEN = 21;
+
+
+    /**
+     * An fxpfdtfd pfr-mfssbgf tokfn wbs not rfdfivfd.  This is b
+     * fbtbl frror dodf thbt mby oddur during dontfxt fstbblishmfnt.
+     * It is not usfd to indidbtf supplfmfntbry stbtus vblufs.
+     * Thf MfssbgfProp objfdt is usfd for thbt purposf.
+     */
+    publid stbtid finbl int GAP_TOKEN = 22;
+
+
+    privbtf stbtid String[] mfssbgfs = {
+        "Chbnnfl binding mismbtdh", // BAD_BINDINGS
+        "Unsupportfd mfdhbnism rfqufstfd", // BAD_MECH
+        "Invblid nbmf providfd", // BAD_NAME
+        "Nbmf of unsupportfd typf providfd", //BAD_NAMETYPE
+        "Invblid input stbtus sflfdtor", // BAD_STATUS
+        "Tokfn hbd invblid intfgrity dhfdk", // BAD_SIG
+        "Spfdififd sfdurity dontfxt fxpirfd", // CONTEXT_EXPIRED
+        "Expirfd drfdfntibls dftfdtfd", // CREDENTIALS_EXPIRED
+        "Dfffdtivf drfdfntibl dftfdtfd", // DEFECTIVE_CREDENTIAL
+        "Dfffdtivf tokfn dftfdtfd", // DEFECTIVE_TOKEN
+        "Fbilurf unspfdififd bt GSS-API lfvfl", // FAILURE
+        "Sfdurity dontfxt init/bddfpt not yft dbllfd or dontfxt dflftfd",
+                                                // NO_CONTEXT
+        "No vblid drfdfntibls providfd", // NO_CRED
+        "Unsupportfd QOP vbluf", // BAD_QOP
+        "Opfrbtion unbuthorizfd", // UNAUTHORIZED
+        "Opfrbtion unbvbilbblf", // UNAVAILABLE
+        "Duplidbtf drfdfntibl flfmfnt rfqufstfd", //DUPLICATE_ELEMENT
+        "Nbmf dontbins multi-mfdhbnism flfmfnts", // NAME_NOT_MN
+        "Thf tokfn wbs b duplidbtf of bn fbrlifr tokfn", //DUPLICATE_TOKEN
+        "Thf tokfn's vblidity pfriod hbs fxpirfd", //OLD_TOKEN
+        "A lbtfr tokfn hbs blrfbdy bffn prodfssfd", //UNSEQ_TOKEN
+        "An fxpfdtfd pfr-mfssbgf tokfn wbs not rfdfivfd", //GAP_TOKEN
+    };
+
+   /**
+    * Thf mbjor dodf for this fxdfption
+    *
+    * @sfribl
+    */
+    privbtf int mbjor;
+
+   /**
+    * Thf minor dodf for this fxdfption
+    *
+    * @sfribl
+    */
+    privbtf int minor = 0;
+
+   /**
+    * Thf tfxt string for minor dodf
+    *
+    * @sfribl
+    */
+    privbtf String minorMfssbgf = null;
+
+   /**
+    * Altfrnbtf tfxt string for mbjor dodf
+    *
+    * @sfribl
+    */
+
+    privbtf String mbjorString = null;
+
+    /**
+     *  Crfbtfs b GSSExdfption objfdt with b spfdififd mbjor dodf.
+     *
+     * @pbrbm mbjorCodf thf Thf GSS frror dodf for thf problfm dbusing this
+     * fxdfption to bf thrown.
+     */
+    publid GSSExdfption (int mbjorCodf) {
+
+        if (vblidbtfMbjor(mbjorCodf))
+            mbjor = mbjorCodf;
+        flsf
+            mbjor = FAILURE;
+    }
+
+    /**
+     * Construdt b GSSExdfption objfdt with b spfdififd mbjor dodf bnd b
+     * spfdifid mbjor string for it.
+     *
+     * @pbrbm mbjorCodf thf fbtbl frror dodf dbusing this fxdfption.
+     * @pbrbm mbjorString bn fxpidit mfssbgf to bf indludfd in this fxdfption
+     */
+    GSSExdfption (int mbjorCodf, String mbjorString) {
+
+        if (vblidbtfMbjor(mbjorCodf))
+            mbjor = mbjorCodf;
+        flsf
+            mbjor = FAILURE;
+        this.mbjorString = mbjorString;
+    }
+
+
+    /**
+     * Crfbtfs b GSSExdfption objfdt with thf spfdififd mbjor dodf, minor
+     * dodf, bnd minor dodf tfxtubl fxplbnbtion.  This donstrudtor is to bf
+     * usfd whfn thf fxdfption is originbting from thf undfrlying mfdhbnism
+     * lfvfl. It bllows thf sftting of both thf GSS dodf bnd thf mfdhbnism
+     * dodf.
+     *
+     * @pbrbm mbjorCodf thf GSS frror dodf for thf problfm dbusing this
+     * fxdfption to bf thrown.
+     * @pbrbm minorCodf thf mfdhbnism lfvfl frror dodf for thf problfm
+     * dbusing this fxdfption to bf thrown.
+     * @pbrbm minorString thf tfxtubl fxplbnbtion of thf mfdhbnism frror
+     * dodf.
+     */
+    publid GSSExdfption (int mbjorCodf, int minorCodf, String minorString) {
+
+        if (vblidbtfMbjor(mbjorCodf))
+            mbjor = mbjorCodf;
+        flsf
+            mbjor = FAILURE;
+
+        minor = minorCodf;
+        minorMfssbgf = minorString;
+    }
+
+    /**
+     * Rfturns thf GSS-API lfvfl mbjor frror dodf for thf problfm dbusing
+     * this fxdfption to bf thrown. Mbjor frror dodfs brf
+     * dffinfd bt thf mfdhbnism indfpfndfnt GSS-API lfvfl in this
+     * dlbss. Mfdhbnism spfdifid frror dodfs thbt might providf morf
+     * informbtion brf sft bs thf minor frror dodf.
+     *
+     * @rfturn int thf GSS-API lfvfl mbjor frror dodf dbusing this fxdfption
+     * @sff #gftMbjorString
+     * @sff #gftMinor
+     * @sff #gftMinorString
+     */
+    publid int gftMbjor() {
+        rfturn mbjor;
+    }
+
+    /**
+     * Rfturns thf mfdhbnism lfvfl frror dodf for thf problfm dbusing this
+     * fxdfption to bf thrown. Thf minor dodf is sft by thf undfrlying
+     * mfdhbnism.
+     *
+     * @rfturn int thf mfdhbnism frror dodf; 0 indidbtfs thbt it hbs not
+     * bffn sft.
+     * @sff #gftMinorString
+     * @sff #sftMinor
+     */
+    publid int  gftMinor(){
+        rfturn minor;
+    }
+
+    /**
+     * Rfturns b string fxplbining thf GSS-API lfvfl mbjor frror dodf in
+     * this fxdfption.
+     *
+     * @rfturn String fxplbnbtion string for thf mbjor frror dodf
+     * @sff #gftMbjor
+     * @sff #toString
+     */
+    publid String gftMbjorString() {
+
+        if (mbjorString != null)
+            rfturn mbjorString;
+        flsf
+            rfturn mfssbgfs[mbjor - 1];
+    }
+
+
+    /**
+     * Rfturns b string fxplbining thf mfdhbnism spfdifid frror dodf.
+     * If thf minor stbtus dodf is 0, thfn no mfdhbnism lfvfl frror dftbils
+     * will bf bvbilbblf.
+     *
+     * @rfturn String b tfxtubl fxplbnbtion of mfdhbnism frror dodf
+     * @sff #gftMinor
+     * @sff #gftMbjorString
+     * @sff #toString
+     */
+    publid String gftMinorString() {
+
+        rfturn minorMfssbgf;
+    }
+
+
+    /**
+     * Usfd by thf fxdfption throwfr to sft thf mfdhbnism
+     * lfvfl minor frror dodf bnd its string fxplbnbtion.  This is usfd by
+     * mfdhbnism providfrs to indidbtf frror dftbils.
+     *
+     * @pbrbm minorCodf thf mfdhbnism spfdifid frror dodf
+     * @pbrbm mfssbgf tfxtubl fxplbnbtion of thf mfdhbnism frror dodf
+     * @sff #gftMinor
+     */
+    publid void sftMinor(int minorCodf, String mfssbgf) {
+
+        minor = minorCodf;
+        minorMfssbgf = mfssbgf;
+    }
+
+
+    /**
+     * Rfturns b tfxtubl rfprfsfntbtion of both thf mbjor bnd thf minor
+     * stbtus dodfs.
+     *
+     * @rfturn b String with thf frror dfsdriptions
+     */
+    publid String toString() {
+        rfturn ("GSSExdfption: " + gftMfssbgf());
+    }
+
+    /**
+     * Rfturns b tfxtubl rfprfsfntbtion of both thf mbjor bnd thf minor
+     * stbtus dodfs.
+     *
+     * @rfturn b String with thf frror dfsdriptions
+     */
+    publid String gftMfssbgf() {
+        if (minor == 0)
+            rfturn (gftMbjorString());
+
+        rfturn (gftMbjorString()
+                + " (Mfdhbnism lfvfl: " + gftMinorString() + ")");
+    }
+
+
+    /*
+     * Vblidbtfs thf mbjor dodf in thf propfr rbngf.
+     */
+    privbtf boolfbn vblidbtfMbjor(int mbjor) {
+
+        if (mbjor > 0 && mbjor <= mfssbgfs.lfngth)
+            rfturn (truf);
+
+        rfturn (fblsf);
+    }
+}

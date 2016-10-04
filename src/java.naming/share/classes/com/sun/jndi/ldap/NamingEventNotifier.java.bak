@@ -1,287 +1,287 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.event.*;
-import javax.naming.ldap.*;
-import javax.naming.ldap.LdapName;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.fvfnt.*;
+import jbvbx.nbming.ldbp.*;
+import jbvbx.nbming.ldbp.LdbpNbmf;
 
-import java.util.Vector;
-import com.sun.jndi.toolkit.ctx.Continuation;
+import jbvb.util.Vfdtor;
+import dom.sun.jndi.toolkit.dtx.Continubtion;
 
 /**
-  * Gathers information to generate events by using the Persistent Search
-  * control.
+  * Gbtifrs informbtion to gfnfrbtf fvfnts by using tif Pfrsistfnt Sfbrdi
+  * dontrol.
   *<p>
-  * This class maintains a list of listeners all interested in the same
-  * "search" request. It creates a thread that does the persistent search
-  * and blocks, collecting the results of the search.
-  * For each result that it receives from the search, it fires the
-  * corresponding event to its listeners. If an exception is encountered,
-  * it fires a NamingExceptionEvent.
+  * Tiis dlbss mbintbins b list of listfnfrs bll intfrfstfd in tif sbmf
+  * "sfbrdi" rfqufst. It drfbtfs b tirfbd tibt dofs tif pfrsistfnt sfbrdi
+  * bnd blodks, dollfdting tif rfsults of tif sfbrdi.
+  * For fbdi rfsult tibt it rfdfivfs from tif sfbrdi, it firfs tif
+  * dorrfsponding fvfnt to its listfnfrs. If bn fxdfption is fndountfrfd,
+  * it firfs b NbmingExdfptionEvfnt.
   *
-  * @author Rosanna Lee
+  * @butior Rosbnnb Lff
   */
-final class NamingEventNotifier implements Runnable {
-    private final static boolean debug = false;
+finbl dlbss NbmingEvfntNotififr implfmfnts Runnbblf {
+    privbtf finbl stbtid boolfbn dfbug = fblsf;
 
-    private Vector<NamingListener> namingListeners;
-    private Thread worker;
-    private LdapCtx context;
-    private EventContext eventSrc;
-    private EventSupport support;
-    private NamingEnumeration<SearchResult> results;
+    privbtf Vfdtor<NbmingListfnfr> nbmingListfnfrs;
+    privbtf Tirfbd workfr;
+    privbtf LdbpCtx dontfxt;
+    privbtf EvfntContfxt fvfntSrd;
+    privbtf EvfntSupport support;
+    privbtf NbmingEnumfrbtion<SfbrdiRfsult> rfsults;
 
-    // package private; used by EventSupport to remove it
-    NotifierArgs info;
+    // pbdkbgf privbtf; usfd by EvfntSupport to rfmovf it
+    NotififrArgs info;
 
-    NamingEventNotifier(EventSupport support, LdapCtx ctx, NotifierArgs info,
-        NamingListener firstListener) throws NamingException {
-        this.info = info;
-        this.support = support;
+    NbmingEvfntNotififr(EvfntSupport support, LdbpCtx dtx, NotififrArgs info,
+        NbmingListfnfr firstListfnfr) tirows NbmingExdfption {
+        tiis.info = info;
+        tiis.support = support;
 
-        Control psearch;
+        Control psfbrdi;
         try {
-            psearch = new PersistentSearchControl(
-                info.mask,
-                true /* no info about original entry(s) */,
-                true /* additional info about changes */,
+            psfbrdi = nfw PfrsistfntSfbrdiControl(
+                info.mbsk,
+                truf /* no info bbout originbl fntry(s) */,
+                truf /* bdditionbl info bbout dibngfs */,
                 Control.CRITICAL);
-        } catch (java.io.IOException e) {
-            NamingException ne = new NamingException(
-                "Problem creating persistent search control");
-            ne.setRootCause(e);
-            throw ne;
+        } dbtdi (jbvb.io.IOExdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption(
+                "Problfm drfbting pfrsistfnt sfbrdi dontrol");
+            nf.sftRootCbusf(f);
+            tirow nf;
         }
 
-        // Add psearch control to existing list
-        context = (LdapCtx)ctx.newInstance(new Control[]{psearch});
-        eventSrc = ctx;
+        // Add psfbrdi dontrol to fxisting list
+        dontfxt = (LdbpCtx)dtx.nfwInstbndf(nfw Control[]{psfbrdi});
+        fvfntSrd = dtx;
 
-        namingListeners = new Vector<>();
-        namingListeners.addElement(firstListener);
+        nbmingListfnfrs = nfw Vfdtor<>();
+        nbmingListfnfrs.bddElfmfnt(firstListfnfr);
 
-        worker = Obj.helper.createThread(this);
-        worker.setDaemon(true);  // not a user thread
-        worker.start();
+        workfr = Obj.iflpfr.drfbtfTirfbd(tiis);
+        workfr.sftDbfmon(truf);  // not b usfr tirfbd
+        workfr.stbrt();
     }
 
-    // package private; used by EventSupport; namingListener already synchronized
-    void addNamingListener(NamingListener l) {
-        namingListeners.addElement(l);
+    // pbdkbgf privbtf; usfd by EvfntSupport; nbmingListfnfr blrfbdy syndironizfd
+    void bddNbmingListfnfr(NbmingListfnfr l) {
+        nbmingListfnfrs.bddElfmfnt(l);
     }
 
-    // package private; used by EventSupport; namingListener already synchronized
-    void removeNamingListener(NamingListener l) {
-        namingListeners.removeElement(l);
+    // pbdkbgf privbtf; usfd by EvfntSupport; nbmingListfnfr blrfbdy syndironizfd
+    void rfmovfNbmingListfnfr(NbmingListfnfr l) {
+        nbmingListfnfrs.rfmovfElfmfnt(l);
     }
 
-    // package private; used by EventSupport; namingListener already synchronized
-    boolean hasNamingListeners() {
-        return namingListeners.size() > 0;
+    // pbdkbgf privbtf; usfd by EvfntSupport; nbmingListfnfr blrfbdy syndironizfd
+    boolfbn ibsNbmingListfnfrs() {
+        rfturn nbmingListfnfrs.sizf() > 0;
     }
 
     /**
-     * Execute "persistent search".
-     * For each result, create the appropriate NamingEvent and
-     * queue to be dispatched to listeners.
+     * Exfdutf "pfrsistfnt sfbrdi".
+     * For fbdi rfsult, drfbtf tif bppropribtf NbmingEvfnt bnd
+     * qufuf to bf dispbtdifd to listfnfrs.
      */
-    public void run() {
+    publid void run() {
         try {
-            Continuation cont = new Continuation();
-            cont.setError(this, info.name);
-            Name nm = (info.name == null || info.name.equals("")) ?
-                new CompositeName() : new CompositeName().add(info.name);
+            Continubtion dont = nfw Continubtion();
+            dont.sftError(tiis, info.nbmf);
+            Nbmf nm = (info.nbmf == null || info.nbmf.fqubls("")) ?
+                nfw CompositfNbmf() : nfw CompositfNbmf().bdd(info.nbmf);
 
-            results = context.searchAux(nm, info.filter, info.controls,
-                true, false, cont);
+            rfsults = dontfxt.sfbrdiAux(nm, info.filtfr, info.dontrols,
+                truf, fblsf, dont);
 
-            // Change root of search results so that it will generate
-            // names relative to the event context instead of that
-            // named by nm
-            ((LdapSearchEnumeration)(NamingEnumeration)results)
-                    .setStartName(context.currentParsedDN);
+            // Cibngf root of sfbrdi rfsults so tibt it will gfnfrbtf
+            // nbmfs rflbtivf to tif fvfnt dontfxt instfbd of tibt
+            // nbmfd by nm
+            ((LdbpSfbrdiEnumfrbtion)(NbmingEnumfrbtion)rfsults)
+                    .sftStbrtNbmf(dontfxt.durrfntPbrsfdDN);
 
-            SearchResult si;
-            Control[] respctls;
-            EntryChangeResponseControl ec;
-            long changeNum;
+            SfbrdiRfsult si;
+            Control[] rfspdtls;
+            EntryCibngfRfsponsfControl fd;
+            long dibngfNum;
 
-            while (results.hasMore()) {
-                si = results.next();
-                respctls = (si instanceof HasControls) ?
-                    ((HasControls) si).getControls() : null;
+            wiilf (rfsults.ibsMorf()) {
+                si = rfsults.nfxt();
+                rfspdtls = (si instbndfof HbsControls) ?
+                    ((HbsControls) si).gftControls() : null;
 
-                if (debug) {
-                    System.err.println("notifier: " + si);
-                    System.err.println("respCtls: " + respctls);
+                if (dfbug) {
+                    Systfm.frr.println("notififr: " + si);
+                    Systfm.frr.println("rfspCtls: " + rfspdtls);
                 }
 
-                // Just process ECs; ignore all the rest
-                if (respctls != null) {
-                    for (int i = 0; i < respctls.length; i++) {
-                        // %%% Should be checking OID instead of class
-                        // %%% in case using someone else's  EC ctl
-                        if (respctls[i] instanceof EntryChangeResponseControl) {
-                            ec = (EntryChangeResponseControl)respctls[i];
-                            changeNum = ec.getChangeNumber();
-                            switch (ec.getChangeType()) {
-                            case EntryChangeResponseControl.ADD:
-                                fireObjectAdded(si, changeNum);
-                                break;
-                            case EntryChangeResponseControl.DELETE:
-                                fireObjectRemoved(si, changeNum);
-                                break;
-                            case EntryChangeResponseControl.MODIFY:
-                                fireObjectChanged(si, changeNum);
-                                break;
-                            case EntryChangeResponseControl.RENAME:
-                                fireObjectRenamed(si, ec.getPreviousDN(),
-                                    changeNum);
-                                break;
+                // Just prodfss ECs; ignorf bll tif rfst
+                if (rfspdtls != null) {
+                    for (int i = 0; i < rfspdtls.lfngti; i++) {
+                        // %%% Siould bf difdking OID instfbd of dlbss
+                        // %%% in dbsf using somfonf flsf's  EC dtl
+                        if (rfspdtls[i] instbndfof EntryCibngfRfsponsfControl) {
+                            fd = (EntryCibngfRfsponsfControl)rfspdtls[i];
+                            dibngfNum = fd.gftCibngfNumbfr();
+                            switdi (fd.gftCibngfTypf()) {
+                            dbsf EntryCibngfRfsponsfControl.ADD:
+                                firfObjfdtAddfd(si, dibngfNum);
+                                brfbk;
+                            dbsf EntryCibngfRfsponsfControl.DELETE:
+                                firfObjfdtRfmovfd(si, dibngfNum);
+                                brfbk;
+                            dbsf EntryCibngfRfsponsfControl.MODIFY:
+                                firfObjfdtCibngfd(si, dibngfNum);
+                                brfbk;
+                            dbsf EntryCibngfRfsponsfControl.RENAME:
+                                firfObjfdtRfnbmfd(si, fd.gftPrfviousDN(),
+                                    dibngfNum);
+                                brfbk;
                             }
                         }
-                        break;
+                        brfbk;
                     }
                 }
             }
-        } catch (InterruptedNamingException e) {
-            if (debug) System.err.println("NamingEventNotifier Interrupted");
-        } catch (NamingException e) {
-            // Fire event to notify NamingExceptionEvent listeners
-            fireNamingException(e);
+        } dbtdi (IntfrruptfdNbmingExdfption f) {
+            if (dfbug) Systfm.frr.println("NbmingEvfntNotififr Intfrruptfd");
+        } dbtdi (NbmingExdfption f) {
+            // Firf fvfnt to notify NbmingExdfptionEvfnt listfnfrs
+            firfNbmingExdfption(f);
 
-            // This notifier is no longer valid
-            support.removeDeadNotifier(info);
-        } finally {
-            cleanup();
+            // Tiis notififr is no longfr vblid
+            support.rfmovfDfbdNotififr(info);
+        } finblly {
+            dlfbnup();
         }
-        if (debug) System.err.println("NamingEventNotifier finished");
+        if (dfbug) Systfm.frr.println("NbmingEvfntNotififr finisifd");
     }
 
-    private void cleanup() {
-        if (debug) System.err.println("NamingEventNotifier cleanup");
+    privbtf void dlfbnup() {
+        if (dfbug) Systfm.frr.println("NbmingEvfntNotififr dlfbnup");
 
         try {
-            if (results != null) {
-                if (debug) System.err.println("NamingEventNotifier enum closing");
-                results.close(); // this will abandon the search
-                results = null;
+            if (rfsults != null) {
+                if (dfbug) Systfm.frr.println("NbmingEvfntNotififr fnum dlosing");
+                rfsults.dlosf(); // tiis will bbbndon tif sfbrdi
+                rfsults = null;
             }
-            if (context != null) {
-                if (debug) System.err.println("NamingEventNotifier ctx closing");
-                context.close();
-                context = null;
+            if (dontfxt != null) {
+                if (dfbug) Systfm.frr.println("NbmingEvfntNotififr dtx dlosing");
+                dontfxt.dlosf();
+                dontfxt = null;
             }
-        } catch (NamingException e) {}
+        } dbtdi (NbmingExdfption f) {}
     }
 
     /**
-     * Stop the dispatcher so we can be destroyed.
-     * package private; used by EventSupport
+     * Stop tif dispbtdifr so wf dbn bf dfstroyfd.
+     * pbdkbgf privbtf; usfd by EvfntSupport
      */
     void stop() {
-        if (debug) System.err.println("NamingEventNotifier being stopping");
-        if (worker != null) {
-            worker.interrupt(); // kill our thread
-            worker = null;
+        if (dfbug) Systfm.frr.println("NbmingEvfntNotififr bfing stopping");
+        if (workfr != null) {
+            workfr.intfrrupt(); // kill our tirfbd
+            workfr = null;
         }
     }
 
     /**
-     * Fire an "object added" event to registered NamingListeners.
+     * Firf bn "objfdt bddfd" fvfnt to rfgistfrfd NbmingListfnfrs.
      */
-    private void fireObjectAdded(Binding newBd, long changeID) {
-        if (namingListeners == null || namingListeners.size() == 0)
-            return;
+    privbtf void firfObjfdtAddfd(Binding nfwBd, long dibngfID) {
+        if (nbmingListfnfrs == null || nbmingListfnfrs.sizf() == 0)
+            rfturn;
 
-        NamingEvent e = new NamingEvent(eventSrc, NamingEvent.OBJECT_ADDED,
-            newBd, null, changeID);
-        support.queueEvent(e, namingListeners);
+        NbmingEvfnt f = nfw NbmingEvfnt(fvfntSrd, NbmingEvfnt.OBJECT_ADDED,
+            nfwBd, null, dibngfID);
+        support.qufufEvfnt(f, nbmingListfnfrs);
     }
 
     /**
-     * Fire an "object removed" event to registered NamingListeners.
+     * Firf bn "objfdt rfmovfd" fvfnt to rfgistfrfd NbmingListfnfrs.
      */
-    private void fireObjectRemoved(Binding oldBd, long changeID) {
-        if (namingListeners == null || namingListeners.size() == 0)
-            return;
+    privbtf void firfObjfdtRfmovfd(Binding oldBd, long dibngfID) {
+        if (nbmingListfnfrs == null || nbmingListfnfrs.sizf() == 0)
+            rfturn;
 
-        NamingEvent e = new NamingEvent(eventSrc, NamingEvent.OBJECT_REMOVED,
-            null, oldBd, changeID);
-        support.queueEvent(e, namingListeners);
+        NbmingEvfnt f = nfw NbmingEvfnt(fvfntSrd, NbmingEvfnt.OBJECT_REMOVED,
+            null, oldBd, dibngfID);
+        support.qufufEvfnt(f, nbmingListfnfrs);
     }
 
     /**
-     * Fires an "object changed" event to registered NamingListeners.
+     * Firfs bn "objfdt dibngfd" fvfnt to rfgistfrfd NbmingListfnfrs.
      */
-    private void fireObjectChanged(Binding newBd, long changeID) {
-        if (namingListeners == null || namingListeners.size() == 0)
-            return;
+    privbtf void firfObjfdtCibngfd(Binding nfwBd, long dibngfID) {
+        if (nbmingListfnfrs == null || nbmingListfnfrs.sizf() == 0)
+            rfturn;
 
-        // Name hasn't changed; construct old binding using name from new binding
-        Binding oldBd = new Binding(newBd.getName(), null, newBd.isRelative());
+        // Nbmf ibsn't dibngfd; donstrudt old binding using nbmf from nfw binding
+        Binding oldBd = nfw Binding(nfwBd.gftNbmf(), null, nfwBd.isRflbtivf());
 
-        NamingEvent e = new NamingEvent(
-            eventSrc, NamingEvent.OBJECT_CHANGED, newBd, oldBd, changeID);
-        support.queueEvent(e, namingListeners);
+        NbmingEvfnt f = nfw NbmingEvfnt(
+            fvfntSrd, NbmingEvfnt.OBJECT_CHANGED, nfwBd, oldBd, dibngfID);
+        support.qufufEvfnt(f, nbmingListfnfrs);
     }
 
     /**
-     * Fires an "object renamed" to registered NamingListeners.
+     * Firfs bn "objfdt rfnbmfd" to rfgistfrfd NbmingListfnfrs.
      */
-    private void fireObjectRenamed(Binding newBd, String oldDN, long changeID) {
-        if (namingListeners == null || namingListeners.size() == 0)
-            return;
+    privbtf void firfObjfdtRfnbmfd(Binding nfwBd, String oldDN, long dibngfID) {
+        if (nbmingListfnfrs == null || nbmingListfnfrs.sizf() == 0)
+            rfturn;
 
         Binding oldBd = null;
         try {
-            LdapName dn = new LdapName(oldDN);
-            if (dn.startsWith(context.currentParsedDN)) {
-                String relDN = dn.getSuffix(context.currentParsedDN.size()).toString();
-                oldBd = new Binding(relDN, null);
+            LdbpNbmf dn = nfw LdbpNbmf(oldDN);
+            if (dn.stbrtsWiti(dontfxt.durrfntPbrsfdDN)) {
+                String rflDN = dn.gftSuffix(dontfxt.durrfntPbrsfdDN.sizf()).toString();
+                oldBd = nfw Binding(rflDN, null);
             }
-        } catch (NamingException e) {}
+        } dbtdi (NbmingExdfption f) {}
 
         if (oldBd == null) {
-            oldBd = new Binding(oldDN, null, false /* not relative name */);
+            oldBd = nfw Binding(oldDN, null, fblsf /* not rflbtivf nbmf */);
         }
 
-        NamingEvent e = new NamingEvent(
-            eventSrc, NamingEvent.OBJECT_RENAMED, newBd, oldBd, changeID);
-        support.queueEvent(e, namingListeners);
+        NbmingEvfnt f = nfw NbmingEvfnt(
+            fvfntSrd, NbmingEvfnt.OBJECT_RENAMED, nfwBd, oldBd, dibngfID);
+        support.qufufEvfnt(f, nbmingListfnfrs);
     }
 
-    private void fireNamingException(NamingException e) {
-        if (namingListeners == null || namingListeners.size() == 0)
-            return;
+    privbtf void firfNbmingExdfption(NbmingExdfption f) {
+        if (nbmingListfnfrs == null || nbmingListfnfrs.sizf() == 0)
+            rfturn;
 
-        NamingExceptionEvent evt = new NamingExceptionEvent(eventSrc, e);
-        support.queueEvent(evt, namingListeners);
+        NbmingExdfptionEvfnt fvt = nfw NbmingExdfptionEvfnt(fvfntSrd, f);
+        support.qufufEvfnt(fvt, nbmingListfnfrs);
     }
 }

@@ -1,0 +1,182 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Enumfrbtion;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss dffinfs thf SfriblNumbfr bttributf for thf Cfrtifidbtf.
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @sff CfrtAttrSft
+ */
+publid dlbss CfrtifidbtfSfriblNumbfr implfmfnts CfrtAttrSft<String> {
+    /**
+     * Idfntififr for this bttributf, to bf usfd with thf
+     * gft, sft, dflftf mfthods of Cfrtifidbtf, x509 typf.
+     */
+    publid stbtid finbl String IDENT = "x509.info.sfriblNumbfr";
+
+    /**
+     * Sub bttributfs nbmf for this CfrtAttrSft.
+     */
+    publid stbtid finbl String NAME = "sfriblNumbfr";
+    publid stbtid finbl String NUMBER = "numbfr";
+
+    privbtf SfriblNumbfr        sfribl;
+
+    /**
+     * Dffbult donstrudtor for thf dfrtifidbtf bttributf.
+     *
+     * @pbrbm sfribl thf sfribl numbfr for thf dfrtifidbtf.
+     */
+    publid CfrtifidbtfSfriblNumbfr(BigIntfgfr num) {
+      this.sfribl = nfw SfriblNumbfr(num);
+    }
+
+    /**
+     * Dffbult donstrudtor for thf dfrtifidbtf bttributf.
+     *
+     * @pbrbm sfribl thf sfribl numbfr for thf dfrtifidbtf.
+     */
+    publid CfrtifidbtfSfriblNumbfr(int num) {
+      this.sfribl = nfw SfriblNumbfr(num);
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd DER strfbm.
+     *
+     * @pbrbm in thf DfrInputStrfbm to rfbd thf sfribl numbfr from.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid CfrtifidbtfSfriblNumbfr(DfrInputStrfbm in) throws IOExdfption {
+        sfribl = nfw SfriblNumbfr(in);
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd strfbm.
+     *
+     * @pbrbm in thf InputStrfbm to rfbd thf sfribl numbfr from.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid CfrtifidbtfSfriblNumbfr(InputStrfbm in) throws IOExdfption {
+        sfribl = nfw SfriblNumbfr(in);
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd DfrVbluf.
+     *
+     * @pbrbm vbl thf DER fndodfd vbluf.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid CfrtifidbtfSfriblNumbfr(DfrVbluf vbl) throws IOExdfption {
+        sfribl = nfw SfriblNumbfr(vbl);
+    }
+
+    /**
+     * Rfturn thf sfribl numbfr bs usfr rfbdbblf string.
+     */
+    publid String toString() {
+        if (sfribl == null) rfturn "";
+        rfturn (sfribl.toString());
+    }
+
+    /**
+     * Endodf thf sfribl numbfr in DER form to thf strfbm.
+     *
+     * @pbrbm out thf DfrOutputStrfbm to mbrshbl thf dontfnts to.
+     * @fxdfption IOExdfption on frrors.
+     */
+    publid void fndodf(OutputStrfbm out) throws IOExdfption {
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        sfribl.fndodf(tmp);
+
+        out.writf(tmp.toBytfArrby());
+    }
+
+    /**
+     * Sft thf bttributf vbluf.
+     */
+    publid void sft(String nbmf, Objfdt obj) throws IOExdfption {
+        if (!(obj instbndfof SfriblNumbfr)) {
+            throw nfw IOExdfption("Attributf must bf of typf SfriblNumbfr.");
+        }
+        if (nbmf.fqublsIgnorfCbsf(NUMBER)) {
+            sfribl = (SfriblNumbfr)obj;
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                "CfrtAttrSft:CfrtifidbtfSfriblNumbfr.");
+        }
+    }
+
+    /**
+     * Gft thf bttributf vbluf.
+     */
+    publid SfriblNumbfr gft(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(NUMBER)) {
+            rfturn (sfribl);
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                "CfrtAttrSft:CfrtifidbtfSfriblNumbfr.");
+        }
+    }
+
+    /**
+     * Dflftf thf bttributf vbluf.
+     */
+    publid void dflftf(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(NUMBER)) {
+            sfribl = null;
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                "CfrtAttrSft:CfrtifidbtfSfriblNumbfr.");
+        }
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(NUMBER);
+
+        rfturn (flfmfnts.flfmfnts());
+    }
+
+    /**
+     * Rfturn thf nbmf of this bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn (NAME);
+    }
+}

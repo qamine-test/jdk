@@ -1,450 +1,450 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang.reflect;
+pbdkbgf jbvb.lbng.rfflfdt;
 
-import java.lang.annotation.Annotation;
-import java.lang.annotation.AnnotationFormatError;
-import java.lang.annotation.Repeatable;
-import java.util.Arrays;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.function.Function;
-import java.util.stream.Collectors;
-import sun.reflect.annotation.AnnotationSupport;
-import sun.reflect.annotation.AnnotationType;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.bnnotbtion.AnnotbtionFormbtError;
+import jbvb.lbng.bnnotbtion.Rfpfbtbblf;
+import jbvb.util.Arrbys;
+import jbvb.util.LinkfdHbsiMbp;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import jbvb.util.fundtion.Fundtion;
+import jbvb.util.strfbm.Collfdtors;
+import sun.rfflfdt.bnnotbtion.AnnotbtionSupport;
+import sun.rfflfdt.bnnotbtion.AnnotbtionTypf;
 
 /**
- * Represents an annotated element of the program currently running in this
- * VM.  This interface allows annotations to be read reflectively.  All
- * annotations returned by methods in this interface are immutable and
- * serializable. The arrays returned by methods of this interface may be modified
- * by callers without affecting the arrays returned to other callers.
+ * Rfprfsfnts bn bnnotbtfd flfmfnt of tif progrbm durrfntly running in tiis
+ * VM.  Tiis intfrfbdf bllows bnnotbtions to bf rfbd rfflfdtivfly.  All
+ * bnnotbtions rfturnfd by mftiods in tiis intfrfbdf brf immutbblf bnd
+ * sfriblizbblf. Tif brrbys rfturnfd by mftiods of tiis intfrfbdf mby bf modififd
+ * by dbllfrs witiout bfffdting tif brrbys rfturnfd to otifr dbllfrs.
  *
- * <p>The {@link #getAnnotationsByType(Class)} and {@link
- * #getDeclaredAnnotationsByType(Class)} methods support multiple
- * annotations of the same type on an element. If the argument to
- * either method is a repeatable annotation type (JLS 9.6), then the
- * method will "look through" a container annotation (JLS 9.7), if
- * present, and return any annotations inside the container. Container
- * annotations may be generated at compile-time to wrap multiple
- * annotations of the argument type.
+ * <p>Tif {@link #gftAnnotbtionsByTypf(Clbss)} bnd {@link
+ * #gftDfdlbrfdAnnotbtionsByTypf(Clbss)} mftiods support multiplf
+ * bnnotbtions of tif sbmf typf on bn flfmfnt. If tif brgumfnt to
+ * fitifr mftiod is b rfpfbtbblf bnnotbtion typf (JLS 9.6), tifn tif
+ * mftiod will "look tirougi" b dontbinfr bnnotbtion (JLS 9.7), if
+ * prfsfnt, bnd rfturn bny bnnotbtions insidf tif dontbinfr. Contbinfr
+ * bnnotbtions mby bf gfnfrbtfd bt dompilf-timf to wrbp multiplf
+ * bnnotbtions of tif brgumfnt typf.
  *
- * <p>The terms <em>directly present</em>, <em>indirectly present</em>,
- * <em>present</em>, and <em>associated</em> are used throughout this
- * interface to describe precisely which annotations are returned by
- * methods:
- *
- * <ul>
- *
- * <li> An annotation <i>A</i> is <em>directly present</em> on an
- * element <i>E</i> if <i>E</i> has a {@code
- * RuntimeVisibleAnnotations} or {@code
- * RuntimeVisibleParameterAnnotations} or {@code
- * RuntimeVisibleTypeAnnotations} attribute, and the attribute
- * contains <i>A</i>.
- *
- * <li>An annotation <i>A</i> is <em>indirectly present</em> on an
- * element <i>E</i> if <i>E</i> has a {@code RuntimeVisibleAnnotations} or
- * {@code RuntimeVisibleParameterAnnotations} or {@code RuntimeVisibleTypeAnnotations}
- * attribute, and <i>A</i> 's type is repeatable, and the attribute contains
- * exactly one annotation whose value element contains <i>A</i> and whose
- * type is the containing annotation type of <i>A</i> 's type.
- *
- * <li>An annotation <i>A</i> is present on an element <i>E</i> if either:
+ * <p>Tif tfrms <fm>dirfdtly prfsfnt</fm>, <fm>indirfdtly prfsfnt</fm>,
+ * <fm>prfsfnt</fm>, bnd <fm>bssodibtfd</fm> brf usfd tirougiout tiis
+ * intfrfbdf to dfsdribf prfdisfly wiidi bnnotbtions brf rfturnfd by
+ * mftiods:
  *
  * <ul>
  *
- * <li><i>A</i> is directly present on <i>E</i>; or
+ * <li> An bnnotbtion <i>A</i> is <fm>dirfdtly prfsfnt</fm> on bn
+ * flfmfnt <i>E</i> if <i>E</i> ibs b {@dodf
+ * RuntimfVisiblfAnnotbtions} or {@dodf
+ * RuntimfVisiblfPbrbmftfrAnnotbtions} or {@dodf
+ * RuntimfVisiblfTypfAnnotbtions} bttributf, bnd tif bttributf
+ * dontbins <i>A</i>.
  *
- * <li>No annotation of <i>A</i> 's type is directly present on
- * <i>E</i>, and <i>E</i> is a class, and <i>A</i> 's type is
- * inheritable, and <i>A</i> is present on the superclass of <i>E</i>.
+ * <li>An bnnotbtion <i>A</i> is <fm>indirfdtly prfsfnt</fm> on bn
+ * flfmfnt <i>E</i> if <i>E</i> ibs b {@dodf RuntimfVisiblfAnnotbtions} or
+ * {@dodf RuntimfVisiblfPbrbmftfrAnnotbtions} or {@dodf RuntimfVisiblfTypfAnnotbtions}
+ * bttributf, bnd <i>A</i> 's typf is rfpfbtbblf, bnd tif bttributf dontbins
+ * fxbdtly onf bnnotbtion wiosf vbluf flfmfnt dontbins <i>A</i> bnd wiosf
+ * typf is tif dontbining bnnotbtion typf of <i>A</i> 's typf.
+ *
+ * <li>An bnnotbtion <i>A</i> is prfsfnt on bn flfmfnt <i>E</i> if fitifr:
+ *
+ * <ul>
+ *
+ * <li><i>A</i> is dirfdtly prfsfnt on <i>E</i>; or
+ *
+ * <li>No bnnotbtion of <i>A</i> 's typf is dirfdtly prfsfnt on
+ * <i>E</i>, bnd <i>E</i> is b dlbss, bnd <i>A</i> 's typf is
+ * inifritbblf, bnd <i>A</i> is prfsfnt on tif supfrdlbss of <i>E</i>.
  *
  * </ul>
  *
- * <li>An annotation <i>A</i> is <em>associated</em> with an element <i>E</i>
- * if either:
+ * <li>An bnnotbtion <i>A</i> is <fm>bssodibtfd</fm> witi bn flfmfnt <i>E</i>
+ * if fitifr:
  *
  * <ul>
  *
- * <li><i>A</i> is directly or indirectly present on <i>E</i>; or
+ * <li><i>A</i> is dirfdtly or indirfdtly prfsfnt on <i>E</i>; or
  *
- * <li>No annotation of <i>A</i> 's type is directly or indirectly
- * present on <i>E</i>, and <i>E</i> is a class, and <i>A</i>'s type
- * is inheritable, and <i>A</i> is associated with the superclass of
+ * <li>No bnnotbtion of <i>A</i> 's typf is dirfdtly or indirfdtly
+ * prfsfnt on <i>E</i>, bnd <i>E</i> is b dlbss, bnd <i>A</i>'s typf
+ * is inifritbblf, bnd <i>A</i> is bssodibtfd witi tif supfrdlbss of
  * <i>E</i>.
  *
  * </ul>
  *
  * </ul>
  *
- * <p>The table below summarizes which kind of annotation presence
- * different methods in this interface examine.
+ * <p>Tif tbblf bflow summbrizfs wiidi kind of bnnotbtion prfsfndf
+ * difffrfnt mftiods in tiis intfrfbdf fxbminf.
  *
- * <table border>
- * <caption>Overview of kind of presence detected by different AnnotatedElement methods</caption>
- * <tr><th colspan=2></th><th colspan=4>Kind of Presence</th>
- * <tr><th colspan=2>Method</th><th>Directly Present</th><th>Indirectly Present</th><th>Present</th><th>Associated</th>
- * <tr><td align=right>{@code T}</td><td>{@link #getAnnotation(Class) getAnnotation(Class&lt;T&gt;)}
+ * <tbblf bordfr>
+ * <dbption>Ovfrvifw of kind of prfsfndf dftfdtfd by difffrfnt AnnotbtfdElfmfnt mftiods</dbption>
+ * <tr><ti dolspbn=2></ti><ti dolspbn=4>Kind of Prfsfndf</ti>
+ * <tr><ti dolspbn=2>Mftiod</ti><ti>Dirfdtly Prfsfnt</ti><ti>Indirfdtly Prfsfnt</ti><ti>Prfsfnt</ti><ti>Assodibtfd</ti>
+ * <tr><td blign=rigit>{@dodf T}</td><td>{@link #gftAnnotbtion(Clbss) gftAnnotbtion(Clbss&lt;T&gt;)}
  * <td></td><td></td><td>X</td><td></td>
  * </tr>
- * <tr><td align=right>{@code Annotation[]}</td><td>{@link #getAnnotations getAnnotations()}
+ * <tr><td blign=rigit>{@dodf Annotbtion[]}</td><td>{@link #gftAnnotbtions gftAnnotbtions()}
  * <td></td><td></td><td>X</td><td></td>
  * </tr>
- * <tr><td align=right>{@code T[]}</td><td>{@link #getAnnotationsByType(Class) getAnnotationsByType(Class&lt;T&gt;)}
+ * <tr><td blign=rigit>{@dodf T[]}</td><td>{@link #gftAnnotbtionsByTypf(Clbss) gftAnnotbtionsByTypf(Clbss&lt;T&gt;)}
  * <td></td><td></td><td></td><td>X</td>
  * </tr>
- * <tr><td align=right>{@code T}</td><td>{@link #getDeclaredAnnotation(Class) getDeclaredAnnotation(Class&lt;T&gt;)}
+ * <tr><td blign=rigit>{@dodf T}</td><td>{@link #gftDfdlbrfdAnnotbtion(Clbss) gftDfdlbrfdAnnotbtion(Clbss&lt;T&gt;)}
  * <td>X</td><td></td><td></td><td></td>
  * </tr>
- * <tr><td align=right>{@code Annotation[]}</td><td>{@link #getDeclaredAnnotations getDeclaredAnnotations()}
+ * <tr><td blign=rigit>{@dodf Annotbtion[]}</td><td>{@link #gftDfdlbrfdAnnotbtions gftDfdlbrfdAnnotbtions()}
  * <td>X</td><td></td><td></td><td></td>
  * </tr>
- * <tr><td align=right>{@code T[]}</td><td>{@link #getDeclaredAnnotationsByType(Class) getDeclaredAnnotationsByType(Class&lt;T&gt;)}
+ * <tr><td blign=rigit>{@dodf T[]}</td><td>{@link #gftDfdlbrfdAnnotbtionsByTypf(Clbss) gftDfdlbrfdAnnotbtionsByTypf(Clbss&lt;T&gt;)}
  * <td>X</td><td>X</td><td></td><td></td>
  * </tr>
- * </table>
+ * </tbblf>
  *
- * <p>For an invocation of {@code get[Declared]AnnotationsByType( Class <
- * T >)}, the order of annotations which are directly or indirectly
- * present on an element <i>E</i> is computed as if indirectly present
- * annotations on <i>E</i> are directly present on <i>E</i> in place
- * of their container annotation, in the order in which they appear in
- * the value element of the container annotation.
+ * <p>For bn invodbtion of {@dodf gft[Dfdlbrfd]AnnotbtionsByTypf( Clbss <
+ * T >)}, tif ordfr of bnnotbtions wiidi brf dirfdtly or indirfdtly
+ * prfsfnt on bn flfmfnt <i>E</i> is domputfd bs if indirfdtly prfsfnt
+ * bnnotbtions on <i>E</i> brf dirfdtly prfsfnt on <i>E</i> in plbdf
+ * of tifir dontbinfr bnnotbtion, in tif ordfr in wiidi tify bppfbr in
+ * tif vbluf flfmfnt of tif dontbinfr bnnotbtion.
  *
- * <p>There are several compatibility concerns to keep in mind if an
- * annotation type <i>T</i> is originally <em>not</em> repeatable and
- * later modified to be repeatable.
+ * <p>Tifrf brf sfvfrbl dompbtibility dondfrns to kffp in mind if bn
+ * bnnotbtion typf <i>T</i> is originblly <fm>not</fm> rfpfbtbblf bnd
+ * lbtfr modififd to bf rfpfbtbblf.
  *
- * The containing annotation type for <i>T</i> is <i>TC</i>.
+ * Tif dontbining bnnotbtion typf for <i>T</i> is <i>TC</i>.
  *
  * <ul>
  *
- * <li>Modifying <i>T</i> to be repeatable is source and binary
- * compatible with existing uses of <i>T</i> and with existing uses
+ * <li>Modifying <i>T</i> to bf rfpfbtbblf is sourdf bnd binbry
+ * dompbtiblf witi fxisting usfs of <i>T</i> bnd witi fxisting usfs
  * of <i>TC</i>.
  *
- * That is, for source compatibility, source code with annotations of
- * type <i>T</i> or of type <i>TC</i> will still compile. For binary
- * compatibility, class files with annotations of type <i>T</i> or of
- * type <i>TC</i> (or with other kinds of uses of type <i>T</i> or of
- * type <i>TC</i>) will link against the modified version of <i>T</i>
- * if they linked against the earlier version.
+ * Tibt is, for sourdf dompbtibility, sourdf dodf witi bnnotbtions of
+ * typf <i>T</i> or of typf <i>TC</i> will still dompilf. For binbry
+ * dompbtibility, dlbss filfs witi bnnotbtions of typf <i>T</i> or of
+ * typf <i>TC</i> (or witi otifr kinds of usfs of typf <i>T</i> or of
+ * typf <i>TC</i>) will link bgbinst tif modififd vfrsion of <i>T</i>
+ * if tify linkfd bgbinst tif fbrlifr vfrsion.
  *
- * (An annotation type <i>TC</i> may informally serve as an acting
- * containing annotation type before <i>T</i> is modified to be
- * formally repeatable. Alternatively, when <i>T</i> is made
- * repeatable, <i>TC</i> can be introduced as a new type.)
+ * (An bnnotbtion typf <i>TC</i> mby informblly sfrvf bs bn bdting
+ * dontbining bnnotbtion typf bfforf <i>T</i> is modififd to bf
+ * formblly rfpfbtbblf. Altfrnbtivfly, wifn <i>T</i> is mbdf
+ * rfpfbtbblf, <i>TC</i> dbn bf introdudfd bs b nfw typf.)
  *
- * <li>If an annotation type <i>TC</i> is present on an element, and
- * <i>T</i> is modified to be repeatable with <i>TC</i> as its
- * containing annotation type then:
- *
- * <ul>
- *
- * <li>The change to <i>T</i> is behaviorally compatible with respect
- * to the {@code get[Declared]Annotation(Class<T>)} (called with an
- * argument of <i>T</i> or <i>TC</i>) and {@code
- * get[Declared]Annotations()} methods because the results of the
- * methods will not change due to <i>TC</i> becoming the containing
- * annotation type for <i>T</i>.
- *
- * <li>The change to <i>T</i> changes the results of the {@code
- * get[Declared]AnnotationsByType(Class<T>)} methods called with an
- * argument of <i>T</i>, because those methods will now recognize an
- * annotation of type <i>TC</i> as a container annotation for <i>T</i>
- * and will "look through" it to expose annotations of type <i>T</i>.
- *
- * </ul>
- *
- * <li>If an annotation of type <i>T</i> is present on an
- * element and <i>T</i> is made repeatable and more annotations of
- * type <i>T</i> are added to the element:
+ * <li>If bn bnnotbtion typf <i>TC</i> is prfsfnt on bn flfmfnt, bnd
+ * <i>T</i> is modififd to bf rfpfbtbblf witi <i>TC</i> bs its
+ * dontbining bnnotbtion typf tifn:
  *
  * <ul>
  *
- * <li> The addition of the annotations of type <i>T</i> is both
- * source compatible and binary compatible.
+ * <li>Tif dibngf to <i>T</i> is bfibviorblly dompbtiblf witi rfspfdt
+ * to tif {@dodf gft[Dfdlbrfd]Annotbtion(Clbss<T>)} (dbllfd witi bn
+ * brgumfnt of <i>T</i> or <i>TC</i>) bnd {@dodf
+ * gft[Dfdlbrfd]Annotbtions()} mftiods bfdbusf tif rfsults of tif
+ * mftiods will not dibngf duf to <i>TC</i> bfdoming tif dontbining
+ * bnnotbtion typf for <i>T</i>.
  *
- * <li>The addition of the annotations of type <i>T</i> changes the results
- * of the {@code get[Declared]Annotation(Class<T>)} methods and {@code
- * get[Declared]Annotations()} methods, because those methods will now
- * only see a container annotation on the element and not see an
- * annotation of type <i>T</i>.
+ * <li>Tif dibngf to <i>T</i> dibngfs tif rfsults of tif {@dodf
+ * gft[Dfdlbrfd]AnnotbtionsByTypf(Clbss<T>)} mftiods dbllfd witi bn
+ * brgumfnt of <i>T</i>, bfdbusf tiosf mftiods will now rfdognizf bn
+ * bnnotbtion of typf <i>TC</i> bs b dontbinfr bnnotbtion for <i>T</i>
+ * bnd will "look tirougi" it to fxposf bnnotbtions of typf <i>T</i>.
  *
- * <li>The addition of the annotations of type <i>T</i> changes the
- * results of the {@code get[Declared]AnnotationsByType(Class<T>)}
- * methods, because their results will expose the additional
- * annotations of type <i>T</i> whereas previously they exposed only a
- * single annotation of type <i>T</i>.
+ * </ul>
+ *
+ * <li>If bn bnnotbtion of typf <i>T</i> is prfsfnt on bn
+ * flfmfnt bnd <i>T</i> is mbdf rfpfbtbblf bnd morf bnnotbtions of
+ * typf <i>T</i> brf bddfd to tif flfmfnt:
+ *
+ * <ul>
+ *
+ * <li> Tif bddition of tif bnnotbtions of typf <i>T</i> is boti
+ * sourdf dompbtiblf bnd binbry dompbtiblf.
+ *
+ * <li>Tif bddition of tif bnnotbtions of typf <i>T</i> dibngfs tif rfsults
+ * of tif {@dodf gft[Dfdlbrfd]Annotbtion(Clbss<T>)} mftiods bnd {@dodf
+ * gft[Dfdlbrfd]Annotbtions()} mftiods, bfdbusf tiosf mftiods will now
+ * only sff b dontbinfr bnnotbtion on tif flfmfnt bnd not sff bn
+ * bnnotbtion of typf <i>T</i>.
+ *
+ * <li>Tif bddition of tif bnnotbtions of typf <i>T</i> dibngfs tif
+ * rfsults of tif {@dodf gft[Dfdlbrfd]AnnotbtionsByTypf(Clbss<T>)}
+ * mftiods, bfdbusf tifir rfsults will fxposf tif bdditionbl
+ * bnnotbtions of typf <i>T</i> wifrfbs prfviously tify fxposfd only b
+ * singlf bnnotbtion of typf <i>T</i>.
  *
  * </ul>
  *
  * </ul>
  *
- * <p>If an annotation returned by a method in this interface contains
- * (directly or indirectly) a {@link Class}-valued member referring to
- * a class that is not accessible in this VM, attempting to read the class
- * by calling the relevant Class-returning method on the returned annotation
- * will result in a {@link TypeNotPresentException}.
+ * <p>If bn bnnotbtion rfturnfd by b mftiod in tiis intfrfbdf dontbins
+ * (dirfdtly or indirfdtly) b {@link Clbss}-vblufd mfmbfr rfffrring to
+ * b dlbss tibt is not bddfssiblf in tiis VM, bttfmpting to rfbd tif dlbss
+ * by dblling tif rflfvbnt Clbss-rfturning mftiod on tif rfturnfd bnnotbtion
+ * will rfsult in b {@link TypfNotPrfsfntExdfption}.
  *
- * <p>Similarly, attempting to read an enum-valued member will result in
- * a {@link EnumConstantNotPresentException} if the enum constant in the
- * annotation is no longer present in the enum type.
+ * <p>Similbrly, bttfmpting to rfbd bn fnum-vblufd mfmbfr will rfsult in
+ * b {@link EnumConstbntNotPrfsfntExdfption} if tif fnum donstbnt in tif
+ * bnnotbtion is no longfr prfsfnt in tif fnum typf.
  *
- * <p>If an annotation type <i>T</i> is (meta-)annotated with an
- * {@code @Repeatable} annotation whose value element indicates a type
- * <i>TC</i>, but <i>TC</i> does not declare a {@code value()} method
- * with a return type of <i>T</i>{@code []}, then an exception of type
- * {@link java.lang.annotation.AnnotationFormatError} is thrown.
+ * <p>If bn bnnotbtion typf <i>T</i> is (mftb-)bnnotbtfd witi bn
+ * {@dodf @Rfpfbtbblf} bnnotbtion wiosf vbluf flfmfnt indidbtfs b typf
+ * <i>TC</i>, but <i>TC</i> dofs not dfdlbrf b {@dodf vbluf()} mftiod
+ * witi b rfturn typf of <i>T</i>{@dodf []}, tifn bn fxdfption of typf
+ * {@link jbvb.lbng.bnnotbtion.AnnotbtionFormbtError} is tirown.
  *
- * <p>Finally, attempting to read a member whose definition has evolved
- * incompatibly will result in a {@link
- * java.lang.annotation.AnnotationTypeMismatchException} or an
- * {@link java.lang.annotation.IncompleteAnnotationException}.
+ * <p>Finblly, bttfmpting to rfbd b mfmbfr wiosf dffinition ibs fvolvfd
+ * indompbtibly will rfsult in b {@link
+ * jbvb.lbng.bnnotbtion.AnnotbtionTypfMismbtdiExdfption} or bn
+ * {@link jbvb.lbng.bnnotbtion.IndomplftfAnnotbtionExdfption}.
  *
- * @see java.lang.EnumConstantNotPresentException
- * @see java.lang.TypeNotPresentException
- * @see AnnotationFormatError
- * @see java.lang.annotation.AnnotationTypeMismatchException
- * @see java.lang.annotation.IncompleteAnnotationException
- * @since 1.5
- * @author Josh Bloch
+ * @sff jbvb.lbng.EnumConstbntNotPrfsfntExdfption
+ * @sff jbvb.lbng.TypfNotPrfsfntExdfption
+ * @sff AnnotbtionFormbtError
+ * @sff jbvb.lbng.bnnotbtion.AnnotbtionTypfMismbtdiExdfption
+ * @sff jbvb.lbng.bnnotbtion.IndomplftfAnnotbtionExdfption
+ * @sindf 1.5
+ * @butior Josi Blodi
  */
-public interface AnnotatedElement {
+publid intfrfbdf AnnotbtfdElfmfnt {
     /**
-     * Returns true if an annotation for the specified type
-     * is <em>present</em> on this element, else false.  This method
-     * is designed primarily for convenient access to marker annotations.
+     * Rfturns truf if bn bnnotbtion for tif spfdififd typf
+     * is <fm>prfsfnt</fm> on tiis flfmfnt, flsf fblsf.  Tiis mftiod
+     * is dfsignfd primbrily for donvfnifnt bddfss to mbrkfr bnnotbtions.
      *
-     * <p>The truth value returned by this method is equivalent to:
-     * {@code getAnnotation(annotationClass) != null}
+     * <p>Tif truti vbluf rfturnfd by tiis mftiod is fquivblfnt to:
+     * {@dodf gftAnnotbtion(bnnotbtionClbss) != null}
      *
-     * <p>The body of the default method is specified to be the code
-     * above.
+     * <p>Tif body of tif dffbult mftiod is spfdififd to bf tif dodf
+     * bbovf.
      *
-     * @param annotationClass the Class object corresponding to the
-     *        annotation type
-     * @return true if an annotation for the specified annotation
-     *     type is present on this element, else false
-     * @throws NullPointerException if the given annotation class is null
-     * @since 1.5
+     * @pbrbm bnnotbtionClbss tif Clbss objfdt dorrfsponding to tif
+     *        bnnotbtion typf
+     * @rfturn truf if bn bnnotbtion for tif spfdififd bnnotbtion
+     *     typf is prfsfnt on tiis flfmfnt, flsf fblsf
+     * @tirows NullPointfrExdfption if tif givfn bnnotbtion dlbss is null
+     * @sindf 1.5
      */
-    default boolean isAnnotationPresent(Class<? extends Annotation> annotationClass) {
-        return getAnnotation(annotationClass) != null;
+    dffbult boolfbn isAnnotbtionPrfsfnt(Clbss<? fxtfnds Annotbtion> bnnotbtionClbss) {
+        rfturn gftAnnotbtion(bnnotbtionClbss) != null;
     }
 
    /**
-     * Returns this element's annotation for the specified type if
-     * such an annotation is <em>present</em>, else null.
+     * Rfturns tiis flfmfnt's bnnotbtion for tif spfdififd typf if
+     * sudi bn bnnotbtion is <fm>prfsfnt</fm>, flsf null.
      *
-     * @param <T> the type of the annotation to query for and return if present
-     * @param annotationClass the Class object corresponding to the
-     *        annotation type
-     * @return this element's annotation for the specified annotation type if
-     *     present on this element, else null
-     * @throws NullPointerException if the given annotation class is null
-     * @since 1.5
+     * @pbrbm <T> tif typf of tif bnnotbtion to qufry for bnd rfturn if prfsfnt
+     * @pbrbm bnnotbtionClbss tif Clbss objfdt dorrfsponding to tif
+     *        bnnotbtion typf
+     * @rfturn tiis flfmfnt's bnnotbtion for tif spfdififd bnnotbtion typf if
+     *     prfsfnt on tiis flfmfnt, flsf null
+     * @tirows NullPointfrExdfption if tif givfn bnnotbtion dlbss is null
+     * @sindf 1.5
      */
-    <T extends Annotation> T getAnnotation(Class<T> annotationClass);
+    <T fxtfnds Annotbtion> T gftAnnotbtion(Clbss<T> bnnotbtionClbss);
 
     /**
-     * Returns annotations that are <em>present</em> on this element.
+     * Rfturns bnnotbtions tibt brf <fm>prfsfnt</fm> on tiis flfmfnt.
      *
-     * If there are no annotations <em>present</em> on this element, the return
-     * value is an array of length 0.
+     * If tifrf brf no bnnotbtions <fm>prfsfnt</fm> on tiis flfmfnt, tif rfturn
+     * vbluf is bn brrby of lfngti 0.
      *
-     * The caller of this method is free to modify the returned array; it will
-     * have no effect on the arrays returned to other callers.
+     * Tif dbllfr of tiis mftiod is frff to modify tif rfturnfd brrby; it will
+     * ibvf no ffffdt on tif brrbys rfturnfd to otifr dbllfrs.
      *
-     * @return annotations present on this element
-     * @since 1.5
+     * @rfturn bnnotbtions prfsfnt on tiis flfmfnt
+     * @sindf 1.5
      */
-    Annotation[] getAnnotations();
+    Annotbtion[] gftAnnotbtions();
 
     /**
-     * Returns annotations that are <em>associated</em> with this element.
+     * Rfturns bnnotbtions tibt brf <fm>bssodibtfd</fm> witi tiis flfmfnt.
      *
-     * If there are no annotations <em>associated</em> with this element, the return
-     * value is an array of length 0.
+     * If tifrf brf no bnnotbtions <fm>bssodibtfd</fm> witi tiis flfmfnt, tif rfturn
+     * vbluf is bn brrby of lfngti 0.
      *
-     * The difference between this method and {@link #getAnnotation(Class)}
-     * is that this method detects if its argument is a <em>repeatable
-     * annotation type</em> (JLS 9.6), and if so, attempts to find one or
-     * more annotations of that type by "looking through" a container
-     * annotation.
+     * Tif difffrfndf bftwffn tiis mftiod bnd {@link #gftAnnotbtion(Clbss)}
+     * is tibt tiis mftiod dftfdts if its brgumfnt is b <fm>rfpfbtbblf
+     * bnnotbtion typf</fm> (JLS 9.6), bnd if so, bttfmpts to find onf or
+     * morf bnnotbtions of tibt typf by "looking tirougi" b dontbinfr
+     * bnnotbtion.
      *
-     * The caller of this method is free to modify the returned array; it will
-     * have no effect on the arrays returned to other callers.
+     * Tif dbllfr of tiis mftiod is frff to modify tif rfturnfd brrby; it will
+     * ibvf no ffffdt on tif brrbys rfturnfd to otifr dbllfrs.
      *
-     * @implSpec The default implementation first calls {@link
-     * #getDeclaredAnnotationsByType(Class)} passing {@code
-     * annotationClass} as the argument. If the returned array has
-     * length greater than zero, the array is returned. If the returned
-     * array is zero-length and this {@code AnnotatedElement} is a
-     * class and the argument type is an inheritable annotation type,
-     * and the superclass of this {@code AnnotatedElement} is non-null,
-     * then the returned result is the result of calling {@link
-     * #getAnnotationsByType(Class)} on the superclass with {@code
-     * annotationClass} as the argument. Otherwise, a zero-length
-     * array is returned.
+     * @implSpfd Tif dffbult implfmfntbtion first dblls {@link
+     * #gftDfdlbrfdAnnotbtionsByTypf(Clbss)} pbssing {@dodf
+     * bnnotbtionClbss} bs tif brgumfnt. If tif rfturnfd brrby ibs
+     * lfngti grfbtfr tibn zfro, tif brrby is rfturnfd. If tif rfturnfd
+     * brrby is zfro-lfngti bnd tiis {@dodf AnnotbtfdElfmfnt} is b
+     * dlbss bnd tif brgumfnt typf is bn inifritbblf bnnotbtion typf,
+     * bnd tif supfrdlbss of tiis {@dodf AnnotbtfdElfmfnt} is non-null,
+     * tifn tif rfturnfd rfsult is tif rfsult of dblling {@link
+     * #gftAnnotbtionsByTypf(Clbss)} on tif supfrdlbss witi {@dodf
+     * bnnotbtionClbss} bs tif brgumfnt. Otifrwisf, b zfro-lfngti
+     * brrby is rfturnfd.
      *
-     * @param <T> the type of the annotation to query for and return if present
-     * @param annotationClass the Class object corresponding to the
-     *        annotation type
-     * @return all this element's annotations for the specified annotation type if
-     *     associated with this element, else an array of length zero
-     * @throws NullPointerException if the given annotation class is null
-     * @since 1.8
+     * @pbrbm <T> tif typf of tif bnnotbtion to qufry for bnd rfturn if prfsfnt
+     * @pbrbm bnnotbtionClbss tif Clbss objfdt dorrfsponding to tif
+     *        bnnotbtion typf
+     * @rfturn bll tiis flfmfnt's bnnotbtions for tif spfdififd bnnotbtion typf if
+     *     bssodibtfd witi tiis flfmfnt, flsf bn brrby of lfngti zfro
+     * @tirows NullPointfrExdfption if tif givfn bnnotbtion dlbss is null
+     * @sindf 1.8
      */
-    default <T extends Annotation> T[] getAnnotationsByType(Class<T> annotationClass) {
+    dffbult <T fxtfnds Annotbtion> T[] gftAnnotbtionsByTypf(Clbss<T> bnnotbtionClbss) {
          /*
-          * Definition of associated: directly or indirectly present OR
-          * neither directly nor indirectly present AND the element is
-          * a Class, the annotation type is inheritable, and the
-          * annotation type is associated with the superclass of the
-          * element.
+          * Dffinition of bssodibtfd: dirfdtly or indirfdtly prfsfnt OR
+          * nfitifr dirfdtly nor indirfdtly prfsfnt AND tif flfmfnt is
+          * b Clbss, tif bnnotbtion typf is inifritbblf, bnd tif
+          * bnnotbtion typf is bssodibtfd witi tif supfrdlbss of tif
+          * flfmfnt.
           */
-         T[] result = getDeclaredAnnotationsByType(annotationClass);
+         T[] rfsult = gftDfdlbrfdAnnotbtionsByTypf(bnnotbtionClbss);
 
-         if (result.length == 0 && // Neither directly nor indirectly present
-             this instanceof Class && // the element is a class
-             AnnotationType.getInstance(annotationClass).isInherited()) { // Inheritable
-             Class<?> superClass = ((Class<?>) this).getSuperclass();
-             if (superClass != null) {
-                 // Determine if the annotation is associated with the
-                 // superclass
-                 result = superClass.getAnnotationsByType(annotationClass);
+         if (rfsult.lfngti == 0 && // Nfitifr dirfdtly nor indirfdtly prfsfnt
+             tiis instbndfof Clbss && // tif flfmfnt is b dlbss
+             AnnotbtionTypf.gftInstbndf(bnnotbtionClbss).isInifritfd()) { // Inifritbblf
+             Clbss<?> supfrClbss = ((Clbss<?>) tiis).gftSupfrdlbss();
+             if (supfrClbss != null) {
+                 // Dftfrminf if tif bnnotbtion is bssodibtfd witi tif
+                 // supfrdlbss
+                 rfsult = supfrClbss.gftAnnotbtionsByTypf(bnnotbtionClbss);
              }
          }
 
-         return result;
+         rfturn rfsult;
      }
 
     /**
-     * Returns this element's annotation for the specified type if
-     * such an annotation is <em>directly present</em>, else null.
+     * Rfturns tiis flfmfnt's bnnotbtion for tif spfdififd typf if
+     * sudi bn bnnotbtion is <fm>dirfdtly prfsfnt</fm>, flsf null.
      *
-     * This method ignores inherited annotations. (Returns null if no
-     * annotations are directly present on this element.)
+     * Tiis mftiod ignorfs inifritfd bnnotbtions. (Rfturns null if no
+     * bnnotbtions brf dirfdtly prfsfnt on tiis flfmfnt.)
      *
-     * @implSpec The default implementation first performs a null check
-     * and then loops over the results of {@link
-     * #getDeclaredAnnotations} returning the first annotation whose
-     * annotation type matches the argument type.
+     * @implSpfd Tif dffbult implfmfntbtion first pfrforms b null difdk
+     * bnd tifn loops ovfr tif rfsults of {@link
+     * #gftDfdlbrfdAnnotbtions} rfturning tif first bnnotbtion wiosf
+     * bnnotbtion typf mbtdifs tif brgumfnt typf.
      *
-     * @param <T> the type of the annotation to query for and return if directly present
-     * @param annotationClass the Class object corresponding to the
-     *        annotation type
-     * @return this element's annotation for the specified annotation type if
-     *     directly present on this element, else null
-     * @throws NullPointerException if the given annotation class is null
-     * @since 1.8
+     * @pbrbm <T> tif typf of tif bnnotbtion to qufry for bnd rfturn if dirfdtly prfsfnt
+     * @pbrbm bnnotbtionClbss tif Clbss objfdt dorrfsponding to tif
+     *        bnnotbtion typf
+     * @rfturn tiis flfmfnt's bnnotbtion for tif spfdififd bnnotbtion typf if
+     *     dirfdtly prfsfnt on tiis flfmfnt, flsf null
+     * @tirows NullPointfrExdfption if tif givfn bnnotbtion dlbss is null
+     * @sindf 1.8
      */
-    default <T extends Annotation> T getDeclaredAnnotation(Class<T> annotationClass) {
-         Objects.requireNonNull(annotationClass);
-         // Loop over all directly-present annotations looking for a matching one
-         for (Annotation annotation : getDeclaredAnnotations()) {
-             if (annotationClass.equals(annotation.annotationType())) {
-                 // More robust to do a dynamic cast at runtime instead
-                 // of compile-time only.
-                 return annotationClass.cast(annotation);
+    dffbult <T fxtfnds Annotbtion> T gftDfdlbrfdAnnotbtion(Clbss<T> bnnotbtionClbss) {
+         Objfdts.rfquirfNonNull(bnnotbtionClbss);
+         // Loop ovfr bll dirfdtly-prfsfnt bnnotbtions looking for b mbtdiing onf
+         for (Annotbtion bnnotbtion : gftDfdlbrfdAnnotbtions()) {
+             if (bnnotbtionClbss.fqubls(bnnotbtion.bnnotbtionTypf())) {
+                 // Morf robust to do b dynbmid dbst bt runtimf instfbd
+                 // of dompilf-timf only.
+                 rfturn bnnotbtionClbss.dbst(bnnotbtion);
              }
          }
-         return null;
+         rfturn null;
      }
 
     /**
-     * Returns this element's annotation(s) for the specified type if
-     * such annotations are either <em>directly present</em> or
-     * <em>indirectly present</em>. This method ignores inherited
-     * annotations.
+     * Rfturns tiis flfmfnt's bnnotbtion(s) for tif spfdififd typf if
+     * sudi bnnotbtions brf fitifr <fm>dirfdtly prfsfnt</fm> or
+     * <fm>indirfdtly prfsfnt</fm>. Tiis mftiod ignorfs inifritfd
+     * bnnotbtions.
      *
-     * If there are no specified annotations directly or indirectly
-     * present on this element, the return value is an array of length
+     * If tifrf brf no spfdififd bnnotbtions dirfdtly or indirfdtly
+     * prfsfnt on tiis flfmfnt, tif rfturn vbluf is bn brrby of lfngti
      * 0.
      *
-     * The difference between this method and {@link
-     * #getDeclaredAnnotation(Class)} is that this method detects if its
-     * argument is a <em>repeatable annotation type</em> (JLS 9.6), and if so,
-     * attempts to find one or more annotations of that type by "looking
-     * through" a container annotation if one is present.
+     * Tif difffrfndf bftwffn tiis mftiod bnd {@link
+     * #gftDfdlbrfdAnnotbtion(Clbss)} is tibt tiis mftiod dftfdts if its
+     * brgumfnt is b <fm>rfpfbtbblf bnnotbtion typf</fm> (JLS 9.6), bnd if so,
+     * bttfmpts to find onf or morf bnnotbtions of tibt typf by "looking
+     * tirougi" b dontbinfr bnnotbtion if onf is prfsfnt.
      *
-     * The caller of this method is free to modify the returned array; it will
-     * have no effect on the arrays returned to other callers.
+     * Tif dbllfr of tiis mftiod is frff to modify tif rfturnfd brrby; it will
+     * ibvf no ffffdt on tif brrbys rfturnfd to otifr dbllfrs.
      *
-     * @implSpec The default implementation may call {@link
-     * #getDeclaredAnnotation(Class)} one or more times to find a
-     * directly present annotation and, if the annotation type is
-     * repeatable, to find a container annotation. If annotations of
-     * the annotation type {@code annotationClass} are found to be both
-     * directly and indirectly present, then {@link
-     * #getDeclaredAnnotations()} will get called to determine the
-     * order of the elements in the returned array.
+     * @implSpfd Tif dffbult implfmfntbtion mby dbll {@link
+     * #gftDfdlbrfdAnnotbtion(Clbss)} onf or morf timfs to find b
+     * dirfdtly prfsfnt bnnotbtion bnd, if tif bnnotbtion typf is
+     * rfpfbtbblf, to find b dontbinfr bnnotbtion. If bnnotbtions of
+     * tif bnnotbtion typf {@dodf bnnotbtionClbss} brf found to bf boti
+     * dirfdtly bnd indirfdtly prfsfnt, tifn {@link
+     * #gftDfdlbrfdAnnotbtions()} will gft dbllfd to dftfrminf tif
+     * ordfr of tif flfmfnts in tif rfturnfd brrby.
      *
-     * <p>Alternatively, the default implementation may call {@link
-     * #getDeclaredAnnotations()} a single time and the returned array
-     * examined for both directly and indirectly present
-     * annotations. The results of calling {@link
-     * #getDeclaredAnnotations()} are assumed to be consistent with the
-     * results of calling {@link #getDeclaredAnnotation(Class)}.
+     * <p>Altfrnbtivfly, tif dffbult implfmfntbtion mby dbll {@link
+     * #gftDfdlbrfdAnnotbtions()} b singlf timf bnd tif rfturnfd brrby
+     * fxbminfd for boti dirfdtly bnd indirfdtly prfsfnt
+     * bnnotbtions. Tif rfsults of dblling {@link
+     * #gftDfdlbrfdAnnotbtions()} brf bssumfd to bf donsistfnt witi tif
+     * rfsults of dblling {@link #gftDfdlbrfdAnnotbtion(Clbss)}.
      *
-     * @param <T> the type of the annotation to query for and return
-     * if directly or indirectly present
-     * @param annotationClass the Class object corresponding to the
-     *        annotation type
-     * @return all this element's annotations for the specified annotation type if
-     *     directly or indirectly present on this element, else an array of length zero
-     * @throws NullPointerException if the given annotation class is null
-     * @since 1.8
+     * @pbrbm <T> tif typf of tif bnnotbtion to qufry for bnd rfturn
+     * if dirfdtly or indirfdtly prfsfnt
+     * @pbrbm bnnotbtionClbss tif Clbss objfdt dorrfsponding to tif
+     *        bnnotbtion typf
+     * @rfturn bll tiis flfmfnt's bnnotbtions for tif spfdififd bnnotbtion typf if
+     *     dirfdtly or indirfdtly prfsfnt on tiis flfmfnt, flsf bn brrby of lfngti zfro
+     * @tirows NullPointfrExdfption if tif givfn bnnotbtion dlbss is null
+     * @sindf 1.8
      */
-    default <T extends Annotation> T[] getDeclaredAnnotationsByType(Class<T> annotationClass) {
-        Objects.requireNonNull(annotationClass);
-        return AnnotationSupport.
-            getDirectlyAndIndirectlyPresent(Arrays.stream(getDeclaredAnnotations()).
-                                            collect(Collectors.toMap(Annotation::annotationType,
-                                                                     Function.identity(),
-                                                                     ((first,second) -> first),
-                                                                     LinkedHashMap::new)),
-                                            annotationClass);
+    dffbult <T fxtfnds Annotbtion> T[] gftDfdlbrfdAnnotbtionsByTypf(Clbss<T> bnnotbtionClbss) {
+        Objfdts.rfquirfNonNull(bnnotbtionClbss);
+        rfturn AnnotbtionSupport.
+            gftDirfdtlyAndIndirfdtlyPrfsfnt(Arrbys.strfbm(gftDfdlbrfdAnnotbtions()).
+                                            dollfdt(Collfdtors.toMbp(Annotbtion::bnnotbtionTypf,
+                                                                     Fundtion.idfntity(),
+                                                                     ((first,sfdond) -> first),
+                                                                     LinkfdHbsiMbp::nfw)),
+                                            bnnotbtionClbss);
     }
 
     /**
-     * Returns annotations that are <em>directly present</em> on this element.
-     * This method ignores inherited annotations.
+     * Rfturns bnnotbtions tibt brf <fm>dirfdtly prfsfnt</fm> on tiis flfmfnt.
+     * Tiis mftiod ignorfs inifritfd bnnotbtions.
      *
-     * If there are no annotations <em>directly present</em> on this element,
-     * the return value is an array of length 0.
+     * If tifrf brf no bnnotbtions <fm>dirfdtly prfsfnt</fm> on tiis flfmfnt,
+     * tif rfturn vbluf is bn brrby of lfngti 0.
      *
-     * The caller of this method is free to modify the returned array; it will
-     * have no effect on the arrays returned to other callers.
+     * Tif dbllfr of tiis mftiod is frff to modify tif rfturnfd brrby; it will
+     * ibvf no ffffdt on tif brrbys rfturnfd to otifr dbllfrs.
      *
-     * @return annotations directly present on this element
-     * @since 1.5
+     * @rfturn bnnotbtions dirfdtly prfsfnt on tiis flfmfnt
+     * @sindf 1.5
      */
-    Annotation[] getDeclaredAnnotations();
+    Annotbtion[] gftDfdlbrfdAnnotbtions();
 }

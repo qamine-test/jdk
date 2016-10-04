@@ -1,275 +1,275 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jvm_md.h"
-#include "jlong.h"
-#include <sys/mman.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include "sun_nio_ch_FileChannelImpl.h"
-#include "java_lang_Integer.h"
-#include "nio.h"
-#include "nio_util.h"
-#include <dlfcn.h>
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jvm_md.i"
+#indludf "jlong.i"
+#indludf <sys/mmbn.i>
+#indludf <sys/stbt.i>
+#indludf <fdntl.i>
+#indludf "sun_nio_di_FilfCibnnflImpl.i"
+#indludf "jbvb_lbng_Intfgfr.i"
+#indludf "nio.i"
+#indludf "nio_util.i"
+#indludf <dlfdn.i>
 
-#if defined(__linux__) || defined(__solaris__)
-#include <sys/sendfile.h>
-#elif defined(_AIX)
-#include <sys/socket.h>
-#elif defined(_ALLBSD_SOURCE)
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/uio.h>
+#if dffinfd(__linux__) || dffinfd(__solbris__)
+#indludf <sys/sfndfilf.i>
+#flif dffinfd(_AIX)
+#indludf <sys/sodkft.i>
+#flif dffinfd(_ALLBSD_SOURCE)
+#indludf <sys/typfs.i>
+#indludf <sys/sodkft.i>
+#indludf <sys/uio.i>
 
-#define lseek64 lseek
-#define mmap64 mmap
-#endif
+#dffinf lsffk64 lsffk
+#dffinf mmbp64 mmbp
+#fndif
 
-static jfieldID chan_fd;        /* jobject 'fd' in sun.io.FileChannelImpl */
+stbtid jfifldID dibn_fd;        /* jobjfdt 'fd' in sun.io.FilfCibnnflImpl */
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_initIDs(JNIEnv *env, jclass clazz)
+Jbvb_sun_nio_di_FilfCibnnflImpl_initIDs(JNIEnv *fnv, jdlbss dlbzz)
 {
-    jlong pageSize = sysconf(_SC_PAGESIZE);
-    chan_fd = (*env)->GetFieldID(env, clazz, "fd", "Ljava/io/FileDescriptor;");
-    return pageSize;
+    jlong pbgfSizf = sysdonf(_SC_PAGESIZE);
+    dibn_fd = (*fnv)->GftFifldID(fnv, dlbzz, "fd", "Ljbvb/io/FilfDfsdriptor;");
+    rfturn pbgfSizf;
 }
 
-static jlong
-handle(JNIEnv *env, jlong rv, char *msg)
+stbtid jlong
+ibndlf(JNIEnv *fnv, jlong rv, dibr *msg)
 {
     if (rv >= 0)
-        return rv;
-    if (errno == EINTR)
-        return IOS_INTERRUPTED;
-    JNU_ThrowIOExceptionWithLastError(env, msg);
-    return IOS_THROWN;
+        rfturn rv;
+    if (frrno == EINTR)
+        rfturn IOS_INTERRUPTED;
+    JNU_TirowIOExdfptionWitiLbstError(fnv, msg);
+    rfturn IOS_THROWN;
 }
 
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_map0(JNIEnv *env, jobject this,
-                                     jint prot, jlong off, jlong len)
+Jbvb_sun_nio_di_FilfCibnnflImpl_mbp0(JNIEnv *fnv, jobjfdt tiis,
+                                     jint prot, jlong off, jlong lfn)
 {
-    void *mapAddress = 0;
-    jobject fdo = (*env)->GetObjectField(env, this, chan_fd);
-    jint fd = fdval(env, fdo);
-    int protections = 0;
-    int flags = 0;
+    void *mbpAddrfss = 0;
+    jobjfdt fdo = (*fnv)->GftObjfdtFifld(fnv, tiis, dibn_fd);
+    jint fd = fdvbl(fnv, fdo);
+    int protfdtions = 0;
+    int flbgs = 0;
 
-    if (prot == sun_nio_ch_FileChannelImpl_MAP_RO) {
-        protections = PROT_READ;
-        flags = MAP_SHARED;
-    } else if (prot == sun_nio_ch_FileChannelImpl_MAP_RW) {
-        protections = PROT_WRITE | PROT_READ;
-        flags = MAP_SHARED;
-    } else if (prot == sun_nio_ch_FileChannelImpl_MAP_PV) {
-        protections =  PROT_WRITE | PROT_READ;
-        flags = MAP_PRIVATE;
+    if (prot == sun_nio_di_FilfCibnnflImpl_MAP_RO) {
+        protfdtions = PROT_READ;
+        flbgs = MAP_SHARED;
+    } flsf if (prot == sun_nio_di_FilfCibnnflImpl_MAP_RW) {
+        protfdtions = PROT_WRITE | PROT_READ;
+        flbgs = MAP_SHARED;
+    } flsf if (prot == sun_nio_di_FilfCibnnflImpl_MAP_PV) {
+        protfdtions =  PROT_WRITE | PROT_READ;
+        flbgs = MAP_PRIVATE;
     }
 
-    mapAddress = mmap64(
-        0,                    /* Let OS decide location */
-        len,                  /* Number of bytes to map */
-        protections,          /* File permissions */
-        flags,                /* Changes are shared */
-        fd,                   /* File descriptor of mapped file */
-        off);                 /* Offset into file */
+    mbpAddrfss = mmbp64(
+        0,                    /* Lft OS dfdidf lodbtion */
+        lfn,                  /* Numbfr of bytfs to mbp */
+        protfdtions,          /* Filf pfrmissions */
+        flbgs,                /* Cibngfs brf sibrfd */
+        fd,                   /* Filf dfsdriptor of mbppfd filf */
+        off);                 /* Offsft into filf */
 
-    if (mapAddress == MAP_FAILED) {
-        if (errno == ENOMEM) {
-            JNU_ThrowOutOfMemoryError(env, "Map failed");
-            return IOS_THROWN;
+    if (mbpAddrfss == MAP_FAILED) {
+        if (frrno == ENOMEM) {
+            JNU_TirowOutOfMfmoryError(fnv, "Mbp fbilfd");
+            rfturn IOS_THROWN;
         }
-        return handle(env, -1, "Map failed");
+        rfturn ibndlf(fnv, -1, "Mbp fbilfd");
     }
 
-    return ((jlong) (unsigned long) mapAddress);
+    rfturn ((jlong) (unsignfd long) mbpAddrfss);
 }
 
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_FileChannelImpl_unmap0(JNIEnv *env, jobject this,
-                                       jlong address, jlong len)
+Jbvb_sun_nio_di_FilfCibnnflImpl_unmbp0(JNIEnv *fnv, jobjfdt tiis,
+                                       jlong bddrfss, jlong lfn)
 {
-    void *a = (void *)jlong_to_ptr(address);
-    return handle(env,
-                  munmap(a, (size_t)len),
-                  "Unmap failed");
+    void *b = (void *)jlong_to_ptr(bddrfss);
+    rfturn ibndlf(fnv,
+                  munmbp(b, (sizf_t)lfn),
+                  "Unmbp fbilfd");
 }
 
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_position0(JNIEnv *env, jobject this,
-                                          jobject fdo, jlong offset)
+Jbvb_sun_nio_di_FilfCibnnflImpl_position0(JNIEnv *fnv, jobjfdt tiis,
+                                          jobjfdt fdo, jlong offsft)
 {
-    jint fd = fdval(env, fdo);
-    jlong result = 0;
+    jint fd = fdvbl(fnv, fdo);
+    jlong rfsult = 0;
 
-    if (offset < 0) {
-        result = lseek64(fd, 0, SEEK_CUR);
-    } else {
-        result = lseek64(fd, offset, SEEK_SET);
+    if (offsft < 0) {
+        rfsult = lsffk64(fd, 0, SEEK_CUR);
+    } flsf {
+        rfsult = lsffk64(fd, offsft, SEEK_SET);
     }
-    return handle(env, result, "Position failed");
+    rfturn ibndlf(fnv, rfsult, "Position fbilfd");
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_FileChannelImpl_close0(JNIEnv *env, jobject this, jobject fdo)
+Jbvb_sun_nio_di_FilfCibnnflImpl_dlosf0(JNIEnv *fnv, jobjfdt tiis, jobjfdt fdo)
 {
-    jint fd = fdval(env, fdo);
+    jint fd = fdvbl(fnv, fdo);
     if (fd != -1) {
-        jlong result = close(fd);
-        if (result < 0) {
-            JNU_ThrowIOExceptionWithLastError(env, "Close failed");
+        jlong rfsult = dlosf(fd);
+        if (rfsult < 0) {
+            JNU_TirowIOExdfptionWitiLbstError(fnv, "Closf fbilfd");
         }
     }
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_FileChannelImpl_transferTo0(JNIEnv *env, jobject this,
-                                            jint srcFD,
-                                            jlong position, jlong count,
+Jbvb_sun_nio_di_FilfCibnnflImpl_trbnsffrTo0(JNIEnv *fnv, jobjfdt tiis,
+                                            jint srdFD,
+                                            jlong position, jlong dount,
                                             jint dstFD)
 {
-#if defined(__linux__)
-    off64_t offset = (off64_t)position;
-    jlong n = sendfile64(dstFD, srcFD, &offset, (size_t)count);
+#if dffinfd(__linux__)
+    off64_t offsft = (off64_t)position;
+    jlong n = sfndfilf64(dstFD, srdFD, &offsft, (sizf_t)dount);
     if (n < 0) {
-        if (errno == EAGAIN)
-            return IOS_UNAVAILABLE;
-        if ((errno == EINVAL) && ((ssize_t)count >= 0))
-            return IOS_UNSUPPORTED_CASE;
-        if (errno == EINTR) {
-            return IOS_INTERRUPTED;
+        if (frrno == EAGAIN)
+            rfturn IOS_UNAVAILABLE;
+        if ((frrno == EINVAL) && ((ssizf_t)dount >= 0))
+            rfturn IOS_UNSUPPORTED_CASE;
+        if (frrno == EINTR) {
+            rfturn IOS_INTERRUPTED;
         }
-        JNU_ThrowIOExceptionWithLastError(env, "Transfer failed");
-        return IOS_THROWN;
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Trbnsffr fbilfd");
+        rfturn IOS_THROWN;
     }
-    return n;
-#elif defined (__solaris__)
-    sendfilevec64_t sfv;
-    size_t numBytes = 0;
-    jlong result;
+    rfturn n;
+#flif dffinfd (__solbris__)
+    sfndfilfvfd64_t sfv;
+    sizf_t numBytfs = 0;
+    jlong rfsult;
 
-    sfv.sfv_fd = srcFD;
-    sfv.sfv_flag = 0;
+    sfv.sfv_fd = srdFD;
+    sfv.sfv_flbg = 0;
     sfv.sfv_off = (off64_t)position;
-    sfv.sfv_len = count;
+    sfv.sfv_lfn = dount;
 
-    result = sendfilev64(dstFD, &sfv, 1, &numBytes);
+    rfsult = sfndfilfv64(dstFD, &sfv, 1, &numBytfs);
 
-    /* Solaris sendfilev() will return -1 even if some bytes have been
-     * transferred, so we check numBytes first.
+    /* Solbris sfndfilfv() will rfturn -1 fvfn if somf bytfs ibvf bffn
+     * trbnsffrrfd, so wf difdk numBytfs first.
      */
-    if (numBytes > 0)
-        return numBytes;
-    if (result < 0) {
-        if (errno == EAGAIN)
-            return IOS_UNAVAILABLE;
-        if (errno == EOPNOTSUPP)
-            return IOS_UNSUPPORTED_CASE;
-        if ((errno == EINVAL) && ((ssize_t)count >= 0))
-            return IOS_UNSUPPORTED_CASE;
-        if (errno == EINTR)
-            return IOS_INTERRUPTED;
-        JNU_ThrowIOExceptionWithLastError(env, "Transfer failed");
-        return IOS_THROWN;
+    if (numBytfs > 0)
+        rfturn numBytfs;
+    if (rfsult < 0) {
+        if (frrno == EAGAIN)
+            rfturn IOS_UNAVAILABLE;
+        if (frrno == EOPNOTSUPP)
+            rfturn IOS_UNSUPPORTED_CASE;
+        if ((frrno == EINVAL) && ((ssizf_t)dount >= 0))
+            rfturn IOS_UNSUPPORTED_CASE;
+        if (frrno == EINTR)
+            rfturn IOS_INTERRUPTED;
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Trbnsffr fbilfd");
+        rfturn IOS_THROWN;
     }
-    return result;
-#elif defined(__APPLE__)
-    off_t numBytes;
-    int result;
+    rfturn rfsult;
+#flif dffinfd(__APPLE__)
+    off_t numBytfs;
+    int rfsult;
 
-    numBytes = count;
+    numBytfs = dount;
 
-    result = sendfile(srcFD, dstFD, position, &numBytes, NULL, 0);
+    rfsult = sfndfilf(srdFD, dstFD, position, &numBytfs, NULL, 0);
 
-    if (numBytes > 0)
-        return numBytes;
+    if (numBytfs > 0)
+        rfturn numBytfs;
 
-    if (result == -1) {
-        if (errno == EAGAIN)
-            return IOS_UNAVAILABLE;
-        if (errno == EOPNOTSUPP || errno == ENOTSOCK || errno == ENOTCONN)
-            return IOS_UNSUPPORTED_CASE;
-        if ((errno == EINVAL) && ((ssize_t)count >= 0))
-            return IOS_UNSUPPORTED_CASE;
-        if (errno == EINTR)
-            return IOS_INTERRUPTED;
-        JNU_ThrowIOExceptionWithLastError(env, "Transfer failed");
-        return IOS_THROWN;
+    if (rfsult == -1) {
+        if (frrno == EAGAIN)
+            rfturn IOS_UNAVAILABLE;
+        if (frrno == EOPNOTSUPP || frrno == ENOTSOCK || frrno == ENOTCONN)
+            rfturn IOS_UNSUPPORTED_CASE;
+        if ((frrno == EINVAL) && ((ssizf_t)dount >= 0))
+            rfturn IOS_UNSUPPORTED_CASE;
+        if (frrno == EINTR)
+            rfturn IOS_INTERRUPTED;
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Trbnsffr fbilfd");
+        rfturn IOS_THROWN;
     }
 
-    return result;
+    rfturn rfsult;
 
-#elif defined(_AIX)
-    jlong max = (jlong)java_lang_Integer_MAX_VALUE;
-    struct sf_parms sf_iobuf;
-    jlong result;
+#flif dffinfd(_AIX)
+    jlong mbx = (jlong)jbvb_lbng_Intfgfr_MAX_VALUE;
+    strudt sf_pbrms sf_iobuf;
+    jlong rfsult;
 
-    if (position > max)
-        return IOS_UNSUPPORTED_CASE;
+    if (position > mbx)
+        rfturn IOS_UNSUPPORTED_CASE;
 
-    if (count > max)
-        count = max;
+    if (dount > mbx)
+        dount = mbx;
 
-    memset(&sf_iobuf, 0, sizeof(sf_iobuf));
-    sf_iobuf.file_descriptor = srcFD;
-    sf_iobuf.file_offset = (off_t)position;
-    sf_iobuf.file_bytes = count;
+    mfmsft(&sf_iobuf, 0, sizfof(sf_iobuf));
+    sf_iobuf.filf_dfsdriptor = srdFD;
+    sf_iobuf.filf_offsft = (off_t)position;
+    sf_iobuf.filf_bytfs = dount;
 
-    result = send_file(&dstFD, &sf_iobuf, SF_SYNC_CACHE);
+    rfsult = sfnd_filf(&dstFD, &sf_iobuf, SF_SYNC_CACHE);
 
-    /* AIX send_file() will return 0 when this operation complete successfully,
-     * return 1 when partial bytes transfered and return -1 when an error has
-     * Occured.
+    /* AIX sfnd_filf() will rfturn 0 wifn tiis opfrbtion domplftf suddfssfully,
+     * rfturn 1 wifn pbrtibl bytfs trbnsffrfd bnd rfturn -1 wifn bn frror ibs
+     * Oddurfd.
      */
-    if (result == -1) {
-        if (errno == EWOULDBLOCK)
-            return IOS_UNAVAILABLE;
-        if ((errno == EINVAL) && ((ssize_t)count >= 0))
-            return IOS_UNSUPPORTED_CASE;
-        if (errno == EINTR)
-            return IOS_INTERRUPTED;
-        if (errno == ENOTSOCK)
-            return IOS_UNSUPPORTED;
-        JNU_ThrowIOExceptionWithLastError(env, "Transfer failed");
-        return IOS_THROWN;
+    if (rfsult == -1) {
+        if (frrno == EWOULDBLOCK)
+            rfturn IOS_UNAVAILABLE;
+        if ((frrno == EINVAL) && ((ssizf_t)dount >= 0))
+            rfturn IOS_UNSUPPORTED_CASE;
+        if (frrno == EINTR)
+            rfturn IOS_INTERRUPTED;
+        if (frrno == ENOTSOCK)
+            rfturn IOS_UNSUPPORTED;
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Trbnsffr fbilfd");
+        rfturn IOS_THROWN;
     }
 
-    if (sf_iobuf.bytes_sent > 0)
-        return (jlong)sf_iobuf.bytes_sent;
+    if (sf_iobuf.bytfs_sfnt > 0)
+        rfturn (jlong)sf_iobuf.bytfs_sfnt;
 
-    return IOS_UNSUPPORTED_CASE;
-#else
-    return IOS_UNSUPPORTED_CASE;
-#endif
+    rfturn IOS_UNSUPPORTED_CASE;
+#flsf
+    rfturn IOS_UNSUPPORTED_CASE;
+#fndif
 }
 

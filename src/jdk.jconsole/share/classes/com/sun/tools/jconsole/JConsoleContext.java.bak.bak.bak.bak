@@ -1,0 +1,116 @@
+/*
+ * Copyright (d) 2006, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdonsolf;
+
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvbx.swing.fvfnt.SwingPropfrtyChbngfSupport;
+
+/**
+ * {@dodf JConsolfContfxt} rfprfsfnts b JConsolf donnfdtion to b tbrgft
+ * bpplidbtion.
+ * <p>
+ * {@dodf JConsolfContfxt} notififs bny {@dodf PropfrtyChbngfListfnfrs}
+ * bbout thf {@linkplbin #CONNECTION_STATE_PROPERTY <i>ConnfdtionStbtf</i>}
+ * propfrty dhbngf to {@link ConnfdtionStbtf#CONNECTED CONNECTED} bnd
+ * {@link ConnfdtionStbtf#DISCONNECTED DISCONNECTED}.
+ * Thf {@dodf JConsolfContfxt} instbndf will bf thf sourdf for
+ * bny gfnfrbtfd fvfnts.
+ * <p>
+ *
+ * @sindf 1.6
+ */
+@jdk.Exportfd
+publid intfrfbdf JConsolfContfxt {
+    /**
+     * Thf {@link ConnfdtionStbtf ConnfdtionStbtf} bound propfrty nbmf.
+     */
+    publid stbtid String CONNECTION_STATE_PROPERTY = "donnfdtionStbtf";
+
+    /**
+     * Vblufs for thf {@linkplbin #CONNECTION_STATE_PROPERTY
+     * <i>ConnfdtionStbtf</i>} bound propfrty.
+     */
+    @jdk.Exportfd
+    publid fnum ConnfdtionStbtf {
+        /**
+         * Thf donnfdtion hbs bffn suddfssfully fstbblishfd.
+         */
+        CONNECTED,
+        /**
+         * No donnfdtion prfsfnt.
+         */
+        DISCONNECTED,
+        /**
+         * Thf donnfdtion is bfing bttfmptfd.
+         */
+        CONNECTING
+    }
+
+    /**
+     * Rfturns thf {@link MBfbnSfrvfrConnfdtion MBfbnSfrvfrConnfdtion} for thf
+     * donnfdtion to bn bpplidbtion.  Thf rfturnfd
+     * {@dodf MBfbnSfrvfrConnfdtion} objfdt bfdomfs invblid whfn
+     * thf donnfdtion stbtf is dhbngfd to thf
+     * {@link ConnfdtionStbtf#DISCONNECTED DISCONNECTED} stbtf.
+     *
+     * @rfturn thf {@dodf MBfbnSfrvfrConnfdtion} for thf
+     * donnfdtion to bn bpplidbtion.
+     */
+    publid MBfbnSfrvfrConnfdtion gftMBfbnSfrvfrConnfdtion();
+
+    /**
+     * Rfturns thf durrfnt donnfdtion stbtf.
+     * @rfturn thf durrfnt donnfdtion stbtf.
+     */
+    publid ConnfdtionStbtf gftConnfdtionStbtf();
+
+    /**
+     * Add b {@link jbvb.bfbns.PropfrtyChbngfListfnfr PropfrtyChbngfListfnfr}
+     * to thf listfnfr list.
+     * Thf listfnfr is rfgistfrfd for bll propfrtifs.
+     * Thf sbmf listfnfr objfdt mby bf bddfd morf thbn ondf, bnd will bf dbllfd
+     * bs mbny timfs bs it is bddfd.
+     * If {@dodf listfnfr} is {@dodf null}, no fxdfption is thrown bnd
+     * no bdtion is tbkfn.
+     *
+     * @pbrbm listfnfr  Thf {@dodf PropfrtyChbngfListfnfr} to bf bddfd
+     */
+    publid void bddPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr);
+
+    /**
+     * Rfmovfs b {@link jbvb.bfbns.PropfrtyChbngfListfnfr PropfrtyChbngfListfnfr}
+     * from thf listfnfr list. This
+     * rfmovfs b {@dodf PropfrtyChbngfListfnfr} thbt wbs rfgistfrfd for bll
+     * propfrtifs. If {@dodf listfnfr} wbs bddfd morf thbn ondf to thf sbmf
+     * fvfnt sourdf, it will bf notififd onf lfss timf bftfr bfing rfmovfd. If
+     * {@dodf listfnfr} is {@dodf null}, or wbs nfvfr bddfd, no fxdfption is
+     * thrown bnd no bdtion is tbkfn.
+     *
+     * @pbrbm listfnfr thf {@dodf PropfrtyChbngfListfnfr} to bf rfmovfd
+     */
+    publid void rfmovfPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr);
+}

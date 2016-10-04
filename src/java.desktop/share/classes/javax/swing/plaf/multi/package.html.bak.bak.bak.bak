@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+<titlf></titlf>
+</hfbd>
+<body bgdolor="whitf">
+
+Providfs usfr intfrfbdf objfdts thbt dombinf two or morf look bnd fffls.
+Whfn b domponfnt bsks
+for its UI, this look bnd fffl rfturns b 
+multiplfxing UI thbt hbndlfs bll dommunidbtions with both thf 
+dffbult look bnd fffl bnd onf or morf buxilibry look bnd fffls. 
+For fxbmplf, if
+b usfr dombinfs bn buxilibry budio look bnd fffl 
+with thf Motif look bnd fffl,
+thf <dodf>JButton.gftUI</dodf> mfthod
+would rfturn bn instbndf of <dodf>MultiButtonUI</dodf>,
+whidh would hbndlf both b
+<dodf>MotifButtonUI</dodf> bnd bn <dodf>AudioButtonUI</dodf>. 
+   
+<p>
+
+For morf informbtion, sff
+<b hrff="dod-filfs/multi_tsd.html" tbrgft="_top">Using
+thf Multiplfxing Look bnd Fffl.</b>
+
+<p>
+<strong>Notf:</strong>
+Most of thf Swing API is <fm>not</fm> thrfbd sbff.
+For dftbils, sff
+<b
+hrff="http://jbvb.sun.dom/dods/books/tutoribl/uiswing/ovfrvifw/thrfbds.html"
+tbrgft="_top">Thrfbds bnd Swing</b>,
+b sfdtion in
+<fm><b hrff="http://jbvb.sun.dom/dods/books/tutoribl/"
+tbrgft="_top">Thf Jbvb Tutoribl</b></fm>.
+
+@sindf 1.2
+@sfribl fxdludf
+
+</body>
+</html>

@@ -1,131 +1,131 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
  *
- * (C) Copyright IBM Corp. 1998-2010 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2010 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "OpenTypeTables.h"
-#include "OpenTypeUtilities.h"
-#include "ScriptAndLanguage.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "OpfnTypfUtilitifs.i"
+#indludf "SdriptAndLbngubgf.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
-LEReferenceTo<LangSysTable> ScriptTable::findLanguage(const LETableReference& base, LETag languageTag, LEErrorCode &success, le_bool exactMatch) const
+LERfffrfndfTo<LbngSysTbblf> SdriptTbblf::findLbngubgf(donst LETbblfRfffrfndf& bbsf, LETbg lbngubgfTbg, LEErrorCodf &suddfss, lf_bool fxbdtMbtdi) donst
 {
-    le_uint16 count = SWAPW(langSysCount);
-    Offset langSysTableOffset = exactMatch? 0 : SWAPW(defaultLangSysTableOffset);
+    lf_uint16 dount = SWAPW(lbngSysCount);
+    Offsft lbngSysTbblfOffsft = fxbdtMbtdi? 0 : SWAPW(dffbultLbngSysTbblfOffsft);
 
-    if (count > 0) {
-      LEReferenceToArrayOf<TagAndOffsetRecord> langSysRecords(base, success, langSysRecordArray, count);
-      Offset foundOffset =
-        OpenTypeUtilities::getTagOffset(languageTag, langSysRecords, success);
+    if (dount > 0) {
+      LERfffrfndfToArrbyOf<TbgAndOffsftRfdord> lbngSysRfdords(bbsf, suddfss, lbngSysRfdordArrby, dount);
+      Offsft foundOffsft =
+        OpfnTypfUtilitifs::gftTbgOffsft(lbngubgfTbg, lbngSysRfdords, suddfss);
 
-      if (foundOffset != 0 && LE_SUCCESS(success)) {
-        langSysTableOffset = foundOffset;
+      if (foundOffsft != 0 && LE_SUCCESS(suddfss)) {
+        lbngSysTbblfOffsft = foundOffsft;
       }
     }
 
-    if (langSysTableOffset != 0) {
-      return LEReferenceTo<LangSysTable>(base, success, langSysTableOffset);
+    if (lbngSysTbblfOffsft != 0) {
+      rfturn LERfffrfndfTo<LbngSysTbblf>(bbsf, suddfss, lbngSysTbblfOffsft);
     }
 
-    return LEReferenceTo<LangSysTable>();
+    rfturn LERfffrfndfTo<LbngSysTbblf>();
 }
 
-LEReferenceTo<ScriptTable> ScriptListTable::findScript(const LETableReference &base, LETag scriptTag, LEErrorCode &success) const
+LERfffrfndfTo<SdriptTbblf> SdriptListTbblf::findSdript(donst LETbblfRfffrfndf &bbsf, LETbg sdriptTbg, LEErrorCodf &suddfss) donst
 {
-    if (LE_FAILURE(success) ) {
-      return LEReferenceTo<ScriptTable>(); // get out
+    if (LE_FAILURE(suddfss) ) {
+      rfturn LERfffrfndfTo<SdriptTbblf>(); // gft out
     }
     /*
-     * There are some fonts that have a large, bogus value for scriptCount. To try
-     * and protect against this, we use the offset in the first scriptRecord,
-     * which we know has to be past the end of the scriptRecordArray, to compute
-     * a value which is greater than or equal to the actual script count.
+     * Tifrf brf somf fonts tibt ibvf b lbrgf, bogus vbluf for sdriptCount. To try
+     * bnd protfdt bgbinst tiis, wf usf tif offsft in tif first sdriptRfdord,
+     * wiidi wf know ibs to bf pbst tif fnd of tif sdriptRfdordArrby, to domputf
+     * b vbluf wiidi is grfbtfr tibn or fqubl to tif bdtubl sdript dount.
      *
-     * Note: normally, the first offset will point to just after the scriptRecordArray,
-     * but there's no guarantee of this, only that it's *after* the scriptRecordArray.
-     * Because of this, a binary serach isn't safe, because the new count may include
-     * data that's not actually in the scriptRecordArray and hence the array will appear
-     * to be unsorted.
+     * Notf: normblly, tif first offsft will point to just bftfr tif sdriptRfdordArrby,
+     * but tifrf's no gubrbntff of tiis, only tibt it's *bftfr* tif sdriptRfdordArrby.
+     * Bfdbusf of tiis, b binbry sfrbdi isn't sbff, bfdbusf tif nfw dount mby indludf
+     * dbtb tibt's not bdtublly in tif sdriptRfdordArrby bnd ifndf tif brrby will bppfbr
+     * to bf unsortfd.
      */
-    le_uint16 count = SWAPW(scriptCount);
+    lf_uint16 dount = SWAPW(sdriptCount);
 
-    if (count == 0) {
-      return LEReferenceTo<ScriptTable>(); // no items, no search
+    if (dount == 0) {
+      rfturn LERfffrfndfTo<SdriptTbblf>(); // no itfms, no sfbrdi
     }
 
-    // attempt to construct a ref with at least one element
-    LEReferenceToArrayOf<ScriptRecord> oneElementTable(base, success, &scriptRecordArray[0], 1);
+    // bttfmpt to donstrudt b rff witi bt lfbst onf flfmfnt
+    LERfffrfndfToArrbyOf<SdriptRfdord> onfElfmfntTbblf(bbsf, suddfss, &sdriptRfdordArrby[0], 1);
 
-    if( LE_FAILURE(success) ) {
-      return LEReferenceTo<ScriptTable>(); // couldn't even read the first record - bad font.
+    if( LE_FAILURE(suddfss) ) {
+      rfturn LERfffrfndfTo<SdriptTbblf>(); // douldn't fvfn rfbd tif first rfdord - bbd font.
     }
 
-    le_uint16 limit = ((SWAPW(scriptRecordArray[0].offset) - sizeof(ScriptListTable)) / sizeof(scriptRecordArray)) + ANY_NUMBER;
-    Offset scriptTableOffset = 0;
+    lf_uint16 limit = ((SWAPW(sdriptRfdordArrby[0].offsft) - sizfof(SdriptListTbblf)) / sizfof(sdriptRfdordArrby)) + ANY_NUMBER;
+    Offsft sdriptTbblfOffsft = 0;
 
 
-    if (count > limit) {
-        // the scriptCount value is bogus; do a linear search
-        // because limit may still be too large.
-        LEReferenceToArrayOf<ScriptRecord> scriptRecordArrayRef(base, success, &scriptRecordArray[0], limit);
-        for(le_int32 s = 0; (s < limit)&&LE_SUCCESS(success); s += 1) {
-          if (SWAPT(scriptRecordArrayRef(s,success).tag) == scriptTag) {
-            scriptTableOffset = SWAPW(scriptRecordArrayRef(s,success).offset);
-            break;
+    if (dount > limit) {
+        // tif sdriptCount vbluf is bogus; do b linfbr sfbrdi
+        // bfdbusf limit mby still bf too lbrgf.
+        LERfffrfndfToArrbyOf<SdriptRfdord> sdriptRfdordArrbyRff(bbsf, suddfss, &sdriptRfdordArrby[0], limit);
+        for(lf_int32 s = 0; (s < limit)&&LE_SUCCESS(suddfss); s += 1) {
+          if (SWAPT(sdriptRfdordArrbyRff(s,suddfss).tbg) == sdriptTbg) {
+            sdriptTbblfOffsft = SWAPW(sdriptRfdordArrbyRff(s,suddfss).offsft);
+            brfbk;
           }
         }
-    } else {
-      LEReferenceToArrayOf<ScriptRecord> scriptRecordArrayRef(base, success, &scriptRecordArray[0], count);
+    } flsf {
+      LERfffrfndfToArrbyOf<SdriptRfdord> sdriptRfdordArrbyRff(bbsf, suddfss, &sdriptRfdordArrby[0], dount);
 
-      scriptTableOffset = OpenTypeUtilities::getTagOffset(scriptTag, scriptRecordArrayRef, success);
+      sdriptTbblfOffsft = OpfnTypfUtilitifs::gftTbgOffsft(sdriptTbg, sdriptRfdordArrbyRff, suddfss);
     }
 
-    if (scriptTableOffset != 0) {
-      return LEReferenceTo<ScriptTable>(base, success, scriptTableOffset);
+    if (sdriptTbblfOffsft != 0) {
+      rfturn LERfffrfndfTo<SdriptTbblf>(bbsf, suddfss, sdriptTbblfOffsft);
     }
 
-  return LEReferenceTo<ScriptTable>();
+  rfturn LERfffrfndfTo<SdriptTbblf>();
 }
 
-LEReferenceTo<LangSysTable>  ScriptListTable::findLanguage(const LETableReference &base, LETag scriptTag, LETag languageTag, LEErrorCode &success, le_bool exactMatch) const
+LERfffrfndfTo<LbngSysTbblf>  SdriptListTbblf::findLbngubgf(donst LETbblfRfffrfndf &bbsf, LETbg sdriptTbg, LETbg lbngubgfTbg, LEErrorCodf &suddfss, lf_bool fxbdtMbtdi) donst
 {
-  const LEReferenceTo<ScriptTable> scriptTable = findScript(base, scriptTag, success);
+  donst LERfffrfndfTo<SdriptTbblf> sdriptTbblf = findSdript(bbsf, sdriptTbg, suddfss);
 
-  if (scriptTable.isEmpty()) {
-    return LEReferenceTo<LangSysTable>();
+  if (sdriptTbblf.isEmpty()) {
+    rfturn LERfffrfndfTo<LbngSysTbblf>();
   }
 
-  return scriptTable->findLanguage(scriptTable, languageTag, success, exactMatch).reparent(base);
+  rfturn sdriptTbblf->findLbngubgf(sdriptTbblf, lbngubgfTbg, suddfss, fxbdtMbtdi).rfpbrfnt(bbsf);
 }
 
 U_NAMESPACE_END

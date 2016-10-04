@@ -1,0 +1,304 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.Hbshtbblf;
+
+
+/**
+ * This dlbss is bn intfrnbl dlbss whidh is usfd to rfprfsfnt RowStbtus
+ * dodfs bs dffinfd in RFC 2579.
+ *
+ * It dffinfs bn bdditionbl dodf, <i>unspfdififd</i>, whidh is
+ * implfmfntbtion spfdifid, bnd is usfd to idfntify
+ * unspfdififd bdtions (whfn for instbndf thf RowStbtus vbribblf
+ * is not prfsfnt in thf vbrbind list) or uninitiblizfd vblufs.
+ *
+ * mibgfn dofs not gfnfrbtf objfdts of this dlbss but bny vbribblf
+ * using thf RowStbtus tfxtubl donvfntion dbn bf donvfrtfd into bn
+ * objfdt of this dlbss thbnks to thf
+ * <dodf>EnumRowStbtus(Enumfrbtfd vblufIndfx)</dodf> donstrudtor.
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ **/
+
+publid dlbss EnumRowStbtus fxtfnds Enumfrbtfd implfmfnts Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 8966519271130162420L;
+
+    /**
+     * This vbluf is SNMP Runtimf implfmfntbtion spfdifid, bnd is usfd to idfntify
+     * unspfdififd bdtions (whfn for instbndf thf RowStbtus vbribblf
+     * is not prfsfnt in thf vbrbind list) or uninitiblizfd vblufs.
+     */
+    publid finbl stbtid int unspfdififd   = 0;
+
+    /**
+     * This vbluf dorrfsponds to thf <i>bdtivf</i> RowStbtus, bs dffinfd in
+     * RFC 2579 from SMIv2:
+     * <ul>
+     * <i>bdtivf</i> indidbtfs thbt thf dondfptubl row is bvbilbblf for
+     * usf by thf mbnbgfd dfvidf;
+     * </ul>
+     */
+    publid finbl stbtid int bdtivf        = 1;
+
+    /**
+     * This vbluf dorrfsponds to thf <i>notInSfrvidf</i> RowStbtus, bs
+     * dffinfd in RFC 2579 from SMIv2:
+     * <ul>
+     * <i>notInSfrvidf</i> indidbtfs thbt thf dondfptubl
+     * row fxists in thf bgfnt, but is unbvbilbblf for usf by
+     * thf mbnbgfd dfvidf; <i>notInSfrvidf</i> hbs
+     * no implidbtion rfgbrding thf intfrnbl donsistfndy of
+     * thf row, bvbilbbility of rfsourdfs, or donsistfndy with
+     * thf durrfnt stbtf of thf mbnbgfd dfvidf;
+     * </ul>
+     **/
+    publid finbl stbtid int notInSfrvidf  = 2;
+
+    /**
+     * This vbluf dorrfsponds to thf <i>notRfbdy</i> RowStbtus, bs dffinfd
+     * in RFC 2579 from SMIv2:
+     * <ul>
+     * <i>notRfbdy</i> indidbtfs thbt thf dondfptubl row
+     * fxists in thf bgfnt, but is missing informbtion
+     * nfdfssbry in ordfr to bf bvbilbblf for usf by thf
+     * mbnbgfd dfvidf (i.f., onf or morf rfquirfd dolumns in
+     * thf dondfptubl row hbvf not bffn instbntibtfd);
+     * </ul>
+     */
+    publid finbl stbtid int notRfbdy      = 3;
+
+    /**
+     * This vbluf dorrfsponds to thf <i>drfbtfAndGo</i> RowStbtus,
+     * bs dffinfd in RFC 2579 from SMIv2:
+     * <ul>
+     * <i>drfbtfAndGo</i> is supplifd by b mbnbgfmfnt
+     * stbtion wishing to drfbtf b nfw instbndf of b
+     * dondfptubl row bnd to hbvf its stbtus butombtidblly sft
+     * to bdtivf, mbking it bvbilbblf for usf by thf mbnbgfd
+     * dfvidf;
+     * </ul>
+     */
+    publid finbl stbtid int drfbtfAndGo   = 4;
+
+    /**
+     * This vbluf dorrfsponds to thf <i>drfbtfAndWbit</i> RowStbtus,
+     * bs dffinfd in RFC 2579 from SMIv2:
+     * <ul>
+     * <i>drfbtfAndWbit</i> is supplifd by b mbnbgfmfnt
+     * stbtion wishing to drfbtf b nfw instbndf of b
+     * dondfptubl row (but not mbkf it bvbilbblf for usf by
+     * thf mbnbgfd dfvidf);
+     * </ul>
+     */
+    publid finbl stbtid int drfbtfAndWbit = 5;
+
+    /**
+     * This vbluf dorrfsponds to thf <i>dfstroy</i> RowStbtus, bs dffinfd in
+     * RFC 2579 from SMIv2:
+     * <ul>
+     * <i>dfstroy</i> is supplifd by b mbnbgfmfnt stbtion
+     * wishing to dflftf bll of thf instbndfs bssodibtfd with
+     * bn fxisting dondfptubl row.
+     * </ul>
+     */
+    publid finbl stbtid int dfstroy       = 6;
+
+    /**
+     * Build bn <dodf>EnumRowStbtus</dodf> from bn <dodf>int</dodf>.
+     * @pbrbm vblufIndfx should bf fithfr 0 (<i>unspfdififd</i>), or onf of
+     *        thf vblufs dffinfd in RFC 2579.
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn
+     *            <dodf>vblufIndfx</dodf> is not vblid.
+     **/
+    publid EnumRowStbtus(int vblufIndfx)
+        throws IllfgblArgumfntExdfption {
+        supfr(vblufIndfx);
+    }
+
+    /**
+     * Build bn <dodf>EnumRowStbtus</dodf> from bn <dodf>Enumfrbtfd</dodf>.
+     * @pbrbm vblufIndfx should bf fithfr 0 (<i>unspfdififd</i>), or onf of
+     *        thf vblufs dffinfd in RFC 2579.
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn
+     *            <dodf>vblufIndfx</dodf> is not vblid.
+     **/
+    publid EnumRowStbtus(Enumfrbtfd vblufIndfx)
+        throws IllfgblArgumfntExdfption {
+        this(vblufIndfx.intVbluf());
+    }
+
+    /**
+     * Build bn <dodf>EnumRowStbtus</dodf> from b <dodf>long</dodf>.
+     * @pbrbm vblufIndfx should bf fithfr 0 (<i>unspfdififd</i>), or onf of
+     *        thf vblufs dffinfd in RFC 2579.
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn
+     *            <dodf>vblufIndfx</dodf> is not vblid.
+     **/
+    publid EnumRowStbtus(long vblufIndfx)
+        throws IllfgblArgumfntExdfption {
+        this((int)vblufIndfx);
+    }
+
+    /**
+     * Build bn <dodf>EnumRowStbtus</dodf> from bn <dodf>Intfgfr</dodf>.
+     * @pbrbm vblufIndfx should bf fithfr 0 (<i>unspfdififd</i>), or onf of
+     *        thf vblufs dffinfd in RFC 2579.
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn
+     *            <dodf>vblufIndfx</dodf> is not vblid.
+     **/
+    publid EnumRowStbtus(Intfgfr vblufIndfx)
+        throws IllfgblArgumfntExdfption {
+        supfr(vblufIndfx);
+    }
+
+    /**
+     * Build bn <dodf>EnumRowStbtus</dodf> from b <dodf>Long</dodf>.
+     * @pbrbm vblufIndfx should bf fithfr 0 (<i>unspfdififd</i>), or onf of
+     *        thf vblufs dffinfd in RFC 2579.
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn
+     *            <dodf>vblufIndfx</dodf> is not vblid.
+     **/
+    publid EnumRowStbtus(Long vblufIndfx)
+        throws IllfgblArgumfntExdfption {
+        this(vblufIndfx.longVbluf());
+    }
+
+    /**
+     * Build bn <dodf>EnumRowStbtus</dodf> with <i>unspfdififd</i> vbluf.
+     **/
+    publid EnumRowStbtus()
+        throws IllfgblArgumfntExdfption {
+        this(unspfdififd);
+    }
+
+    /**
+     * Build bn <dodf>EnumRowStbtus</dodf> from b <dodf>String</dodf>.
+     * @pbrbm x should bf fithfr "unspfdififd", or onf of
+     *        thf vblufs dffinfd in RFC 2579 ("bdtivf", "notRfbdy", ftd...)
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn String
+     *            <dodf>x</dodf> is not vblid.
+     **/
+    publid EnumRowStbtus(String x)
+        throws IllfgblArgumfntExdfption {
+        supfr(x);
+    }
+
+    /**
+     * Build bn <dodf>EnumRowStbtus</dodf> from bn <dodf>SnmpInt</dodf>.
+     * @pbrbm vblufIndfx should bf fithfr 0 (<i>unspfdififd</i>), or onf of
+     *        thf vblufs dffinfd in RFC 2579.
+     * @fxdfption IllfgblArgumfntExdfption if thf givfn
+     *            <dodf>vblufIndfx</dodf> is not vblid.
+     **/
+    publid EnumRowStbtus(SnmpInt vblufIndfx)
+        throws IllfgblArgumfntExdfption {
+        this(vblufIndfx.intVbluf());
+    }
+
+    /**
+     * Build bn SnmpVbluf from this objfdt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if this objfdt holds bn
+     *            <i>unspfdififd</i> vbluf.
+     * @rfturn bn SnmpInt dontbining this objfdt vbluf.
+     **/
+    publid SnmpInt toSnmpVbluf()
+        throws IllfgblArgumfntExdfption {
+        if (vbluf == unspfdififd)
+            throw nfw
+        IllfgblArgumfntExdfption("`unspfdififd' is not b vblid SNMP vbluf.");
+        rfturn nfw SnmpInt(vbluf);
+    }
+
+    /**
+     * Chfdk thbt thf givfn <dodf>vbluf</dodf> is vblid.
+     *
+     * Vblid vblufs brf:
+     * <ul><li><i>unspfdififd(0)</i></li>
+     *     <li><i>bdtivf(1)</i></li>
+     *     <li><i>notInSfrvidf(2)</i></li>
+     *     <li><i>notRfbdy(3)</i></li>
+     *     <li><i>drfbtfAndGo(4)</i></li>
+     *     <li><i>drfbtfAndWbit(5)</i></li>
+     *     <li><i>dfstroy(6)</i></li>
+     * </ul>
+     *
+     **/
+    stbtid publid boolfbn isVblidVbluf(int vbluf) {
+        if (vbluf < 0) rfturn fblsf;
+        if (vbluf > 6) rfturn fblsf;
+        rfturn truf;
+    }
+
+    // Dodumfntfd in Enumfrbtfd
+    //
+    @Ovfrridf
+    protfdtfd Hbshtbblf<Intfgfr, String> gftIntTbblf() {
+        rfturn EnumRowStbtus.gftRSIntTbblf();
+    }
+
+    // Dodumfntfd in Enumfrbtfd
+    //
+    @Ovfrridf
+    protfdtfd Hbshtbblf<String, Intfgfr> gftStringTbblf() {
+        rfturn  EnumRowStbtus.gftRSStringTbblf();
+    }
+
+    stbtid Hbshtbblf<Intfgfr, String> gftRSIntTbblf() {
+        rfturn intTbblf ;
+    }
+
+    stbtid Hbshtbblf<String, Intfgfr> gftRSStringTbblf() {
+        rfturn stringTbblf ;
+    }
+
+    // Initiblizf thf mbpping tbblfs.
+    //
+    finbl stbtid Hbshtbblf<Intfgfr, String> intTbblf = nfw Hbshtbblf<>();
+    finbl stbtid Hbshtbblf<String, Intfgfr> stringTbblf = nfw Hbshtbblf<>();
+    stbtid  {
+        intTbblf.put(0, "unspfdififd");
+        intTbblf.put(3, "notRfbdy");
+        intTbblf.put(6, "dfstroy");
+        intTbblf.put(2, "notInSfrvidf");
+        intTbblf.put(5, "drfbtfAndWbit");
+        intTbblf.put(1, "bdtivf");
+        intTbblf.put(4, "drfbtfAndGo");
+        stringTbblf.put("unspfdififd", 0);
+        stringTbblf.put("notRfbdy", 3);
+        stringTbblf.put("dfstroy", 6);
+        stringTbblf.put("notInSfrvidf", 2);
+        stringTbblf.put("drfbtfAndWbit", 5);
+        stringTbblf.put("bdtivf", 1);
+        stringTbblf.put("drfbtfAndGo", 4);
+    }
+
+
+}

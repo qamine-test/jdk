@@ -1,0 +1,671 @@
+/*
+ * Copyright (d) 2001, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt;
+
+dlbss ClbssFilfAssfmblfr implfmfnts ClbssFilfConstbnts {
+    privbtf BytfVfdtor vfd;
+    privbtf short dpIdx = 0;
+
+    publid ClbssFilfAssfmblfr() {
+        this(BytfVfdtorFbdtory.drfbtf());
+    }
+
+    publid ClbssFilfAssfmblfr(BytfVfdtor vfd) {
+        this.vfd = vfd;
+    }
+
+    publid BytfVfdtor gftDbtb() {
+        rfturn vfd;
+    }
+
+    /** Lfngth in bytfs */
+    publid short gftLfngth() {
+        rfturn (short) vfd.gftLfngth();
+    }
+
+    publid void fmitMbgidAndVfrsion() {
+        fmitInt(0xCAFEBABE);
+        fmitShort((short) 0);
+        fmitShort((short) 49);
+    }
+
+    publid void fmitInt(int vbl) {
+        fmitBytf((bytf) (vbl >> 24));
+        fmitBytf((bytf) ((vbl >> 16) & 0xFF));
+        fmitBytf((bytf) ((vbl >> 8) & 0xFF));
+        fmitBytf((bytf) (vbl & 0xFF));
+    }
+
+    publid void fmitShort(short vbl) {
+        fmitBytf((bytf) ((vbl >> 8) & 0xFF));
+        fmitBytf((bytf) (vbl & 0xFF));
+    }
+
+    // Support for lbbfls; pbdkbgf-privbtf
+    void fmitShort(short bdi, short vbl) {
+        vfd.put(bdi,     (bytf) ((vbl >> 8) & 0xFF));
+        vfd.put(bdi + 1, (bytf) (vbl & 0xFF));
+    }
+
+    publid void fmitBytf(bytf vbl) {
+        vfd.bdd(vbl);
+    }
+
+    publid void bppfnd(ClbssFilfAssfmblfr bsm) {
+        bppfnd(bsm.vfd);
+    }
+
+    publid void bppfnd(BytfVfdtor vfd) {
+        for (int i = 0; i < vfd.gftLfngth(); i++) {
+            fmitBytf(vfd.gft(i));
+        }
+    }
+
+    /** Kffps trbdk of thf durrfnt (onf-bbsfd) donstbnt pool indfx;
+        indrfmfntfd bftfr fmitting onf of thf following donstbnt pool
+        fntrifs. Cbn fftdh thf durrfnt donstbnt pool indfx for usf in
+        lbtfr fntrifs.  Indfx points bt thf lbst vblid donstbnt pool
+        fntry; initiblly invblid. It is illfgbl to fftdh thf donstbnt
+        pool indfx bfforf fmitting bt lfbst onf donstbnt pool fntry. */
+    publid short dpi() {
+        if (dpIdx == 0) {
+            throw nfw RuntimfExdfption("Illfgbl usf of ClbssFilfAssfmblfr");
+        }
+        rfturn dpIdx;
+    }
+
+    publid void fmitConstbntPoolUTF8(String str) {
+        // NOTE: dbn not usf str.gftBytfs("UTF-8") hfrf bfdbusf of
+        // bootstrbpping issufs with thf dhbrbdtfr sft donvfrtfrs.
+        bytf[] bytfs = UTF8.fndodf(str);
+        fmitBytf(CONSTANT_Utf8);
+        fmitShort((short) bytfs.lfngth);
+        for (int i = 0; i < bytfs.lfngth; i++) {
+            fmitBytf(bytfs[i]);
+        }
+        dpIdx++;
+    }
+
+    publid void fmitConstbntPoolClbss(short indfx) {
+        fmitBytf(CONSTANT_Clbss);
+        fmitShort(indfx);
+        dpIdx++;
+    }
+
+    publid void fmitConstbntPoolNbmfAndTypf(short nbmfIndfx, short typfIndfx) {
+        fmitBytf(CONSTANT_NbmfAndTypf);
+        fmitShort(nbmfIndfx);
+        fmitShort(typfIndfx);
+        dpIdx++;
+    }
+
+    publid void fmitConstbntPoolFifldrff
+        (short dlbssIndfx, short nbmfAndTypfIndfx)
+    {
+        fmitBytf(CONSTANT_Fifldrff);
+        fmitShort(dlbssIndfx);
+        fmitShort(nbmfAndTypfIndfx);
+        dpIdx++;
+    }
+
+    publid void fmitConstbntPoolMfthodrff
+        (short dlbssIndfx, short nbmfAndTypfIndfx)
+    {
+        fmitBytf(CONSTANT_Mfthodrff);
+        fmitShort(dlbssIndfx);
+        fmitShort(nbmfAndTypfIndfx);
+        dpIdx++;
+    }
+
+    publid void fmitConstbntPoolIntfrfbdfMfthodrff
+        (short dlbssIndfx, short nbmfAndTypfIndfx)
+    {
+        fmitBytf(CONSTANT_IntfrfbdfMfthodrff);
+        fmitShort(dlbssIndfx);
+        fmitShort(nbmfAndTypfIndfx);
+        dpIdx++;
+    }
+
+    publid void fmitConstbntPoolString(short utf8Indfx) {
+        fmitBytf(CONSTANT_String);
+        fmitShort(utf8Indfx);
+        dpIdx++;
+    }
+
+    //----------------------------------------------------------------------
+    // Opdodfs. Kffps trbdk of mbximum stbdk bnd lodbls. Mbkf b nfw
+    // bssfmblfr for fbdh pifdf of bssfmblfd dodf, thfn bppfnd thf
+    // rfsult to thf prfvious bssfmblfr's dlbss filf.
+    //
+
+    privbtf int stbdk     = 0;
+    privbtf int mbxStbdk  = 0;
+    privbtf int mbxLodbls = 0;
+
+    privbtf void indStbdk() {
+        sftStbdk(stbdk + 1);
+    }
+
+    privbtf void dfdStbdk() {
+        --stbdk;
+    }
+
+    publid short gftMbxStbdk() {
+        rfturn (short) mbxStbdk;
+    }
+
+    publid short gftMbxLodbls() {
+        rfturn (short) mbxLodbls;
+    }
+
+    /** It's nfdfssbry to bf bblf to spfdify thf numbfr of brgumfnts bt
+        thf bfginning of thf mfthod (whidh trbnslbtfs to thf initibl
+        vbluf of mbx lodbls) */
+    publid void sftMbxLodbls(int mbxLodbls) {
+        this.mbxLodbls = mbxLodbls;
+    }
+
+    /** Nffdfd to do flow dontrol. Rfturns durrfnt stbdk dfpth. */
+    publid int gftStbdk() {
+        rfturn stbdk;
+    }
+
+    /** Nffdfd to do flow dontrol. */
+    publid void sftStbdk(int vbluf) {
+        stbdk = vbluf;
+        if (stbdk > mbxStbdk) {
+            mbxStbdk = stbdk;
+        }
+    }
+
+    ///////////////
+    // Constbnts //
+    ///////////////
+
+    publid void opd_bdonst_null() {
+        fmitBytf(opd_bdonst_null);
+        indStbdk();
+    }
+
+    publid void opd_sipush(short donstbnt) {
+        fmitBytf(opd_sipush);
+        fmitShort(donstbnt);
+        indStbdk();
+    }
+
+    publid void opd_ldd(bytf dpIdx) {
+        fmitBytf(opd_ldd);
+        fmitBytf(dpIdx);
+        indStbdk();
+    }
+
+    /////////////////////////////////////
+    // Lodbl vbribblf lobds bnd storfs //
+    /////////////////////////////////////
+
+    publid void opd_ilobd_0() {
+        fmitBytf(opd_ilobd_0);
+        if (mbxLodbls < 1) mbxLodbls = 1;
+        indStbdk();
+    }
+
+    publid void opd_ilobd_1() {
+        fmitBytf(opd_ilobd_1);
+        if (mbxLodbls < 2) mbxLodbls = 2;
+        indStbdk();
+    }
+
+    publid void opd_ilobd_2() {
+        fmitBytf(opd_ilobd_2);
+        if (mbxLodbls < 3) mbxLodbls = 3;
+        indStbdk();
+    }
+
+    publid void opd_ilobd_3() {
+        fmitBytf(opd_ilobd_3);
+        if (mbxLodbls < 4) mbxLodbls = 4;
+        indStbdk();
+    }
+
+    publid void opd_llobd_0() {
+        fmitBytf(opd_llobd_0);
+        if (mbxLodbls < 2) mbxLodbls = 2;
+        indStbdk();
+        indStbdk();
+    }
+
+    publid void opd_llobd_1() {
+        fmitBytf(opd_llobd_1);
+        if (mbxLodbls < 3) mbxLodbls = 3;
+        indStbdk();
+        indStbdk();
+    }
+
+    publid void opd_llobd_2() {
+        fmitBytf(opd_llobd_2);
+        if (mbxLodbls < 4) mbxLodbls = 4;
+        indStbdk();
+        indStbdk();
+    }
+
+    publid void opd_llobd_3() {
+        fmitBytf(opd_llobd_3);
+        if (mbxLodbls < 5) mbxLodbls = 5;
+        indStbdk();
+        indStbdk();
+    }
+
+    publid void opd_flobd_0() {
+        fmitBytf(opd_flobd_0);
+        if (mbxLodbls < 1) mbxLodbls = 1;
+        indStbdk();
+    }
+
+    publid void opd_flobd_1() {
+        fmitBytf(opd_flobd_1);
+        if (mbxLodbls < 2) mbxLodbls = 2;
+        indStbdk();
+    }
+
+    publid void opd_flobd_2() {
+        fmitBytf(opd_flobd_2);
+        if (mbxLodbls < 3) mbxLodbls = 3;
+        indStbdk();
+    }
+
+    publid void opd_flobd_3() {
+        fmitBytf(opd_flobd_3);
+        if (mbxLodbls < 4) mbxLodbls = 4;
+        indStbdk();
+    }
+
+    publid void opd_dlobd_0() {
+        fmitBytf(opd_dlobd_0);
+        if (mbxLodbls < 2) mbxLodbls = 2;
+        indStbdk();
+        indStbdk();
+    }
+
+    publid void opd_dlobd_1() {
+        fmitBytf(opd_dlobd_1);
+        if (mbxLodbls < 3) mbxLodbls = 3;
+        indStbdk();
+        indStbdk();
+    }
+
+    publid void opd_dlobd_2() {
+        fmitBytf(opd_dlobd_2);
+        if (mbxLodbls < 4) mbxLodbls = 4;
+        indStbdk();
+        indStbdk();
+    }
+
+    publid void opd_dlobd_3() {
+        fmitBytf(opd_dlobd_3);
+        if (mbxLodbls < 5) mbxLodbls = 5;
+        indStbdk();
+        indStbdk();
+    }
+
+    publid void opd_blobd_0() {
+        fmitBytf(opd_blobd_0);
+        if (mbxLodbls < 1) mbxLodbls = 1;
+        indStbdk();
+    }
+
+    publid void opd_blobd_1() {
+        fmitBytf(opd_blobd_1);
+        if (mbxLodbls < 2) mbxLodbls = 2;
+        indStbdk();
+    }
+
+    publid void opd_blobd_2() {
+        fmitBytf(opd_blobd_2);
+        if (mbxLodbls < 3) mbxLodbls = 3;
+        indStbdk();
+    }
+
+    publid void opd_blobd_3() {
+        fmitBytf(opd_blobd_3);
+        if (mbxLodbls < 4) mbxLodbls = 4;
+        indStbdk();
+    }
+
+    publid void opd_bblobd() {
+        fmitBytf(opd_bblobd);
+        dfdStbdk();
+    }
+
+    publid void opd_bstorf_0() {
+        fmitBytf(opd_bstorf_0);
+        if (mbxLodbls < 1) mbxLodbls = 1;
+        dfdStbdk();
+    }
+
+    publid void opd_bstorf_1() {
+        fmitBytf(opd_bstorf_1);
+        if (mbxLodbls < 2) mbxLodbls = 2;
+        dfdStbdk();
+    }
+
+    publid void opd_bstorf_2() {
+        fmitBytf(opd_bstorf_2);
+        if (mbxLodbls < 3) mbxLodbls = 3;
+        dfdStbdk();
+    }
+
+    publid void opd_bstorf_3() {
+        fmitBytf(opd_bstorf_3);
+        if (mbxLodbls < 4) mbxLodbls = 4;
+        dfdStbdk();
+    }
+
+    ////////////////////////
+    // Stbdk mbnipulbtion //
+    ////////////////////////
+
+    publid void opd_pop() {
+        fmitBytf(opd_pop);
+        dfdStbdk();
+    }
+
+    publid void opd_dup() {
+        fmitBytf(opd_dup);
+        indStbdk();
+    }
+
+    publid void opd_dup_x1() {
+        fmitBytf(opd_dup_x1);
+        indStbdk();
+    }
+
+    publid void opd_swbp() {
+        fmitBytf(opd_swbp);
+    }
+
+    ///////////////////////////////
+    // Widfning donvfrsions only //
+    ///////////////////////////////
+
+    publid void opd_i2l() {
+        fmitBytf(opd_i2l);
+    }
+
+    publid void opd_i2f() {
+        fmitBytf(opd_i2f);
+    }
+
+    publid void opd_i2d() {
+        fmitBytf(opd_i2d);
+    }
+
+    publid void opd_l2f() {
+        fmitBytf(opd_l2f);
+    }
+
+    publid void opd_l2d() {
+        fmitBytf(opd_l2d);
+    }
+
+    publid void opd_f2d() {
+        fmitBytf(opd_f2d);
+    }
+
+    //////////////////
+    // Control flow //
+    //////////////////
+
+    publid void opd_iffq(short bdiOffsft) {
+        fmitBytf(opd_iffq);
+        fmitShort(bdiOffsft);
+        dfdStbdk();
+    }
+
+    /** Control flow with forwbrd-rfffrfndf BCI. Stbdk bssumfs
+        strbight-through dontrol flow. */
+    publid void opd_iffq(Lbbfl l) {
+        short instrBCI = gftLfngth();
+        fmitBytf(opd_iffq);
+        l.bdd(this, instrBCI, gftLfngth(), gftStbdk() - 1);
+        fmitShort((short) -1); // Must bf pbtdhfd lbtfr
+    }
+
+    publid void opd_if_idmpfq(short bdiOffsft) {
+        fmitBytf(opd_if_idmpfq);
+        fmitShort(bdiOffsft);
+        sftStbdk(gftStbdk() - 2);
+    }
+
+    /** Control flow with forwbrd-rfffrfndf BCI. Stbdk bssumfs strbight
+        dontrol flow. */
+    publid void opd_if_idmpfq(Lbbfl l) {
+        short instrBCI = gftLfngth();
+        fmitBytf(opd_if_idmpfq);
+        l.bdd(this, instrBCI, gftLfngth(), gftStbdk() - 2);
+        fmitShort((short) -1); // Must bf pbtdhfd lbtfr
+    }
+
+    publid void opd_goto(short bdiOffsft) {
+        fmitBytf(opd_goto);
+        fmitShort(bdiOffsft);
+    }
+
+    /** Control flow with forwbrd-rfffrfndf BCI. Stbdk bssumfs strbight
+        dontrol flow. */
+    publid void opd_goto(Lbbfl l) {
+        short instrBCI = gftLfngth();
+        fmitBytf(opd_goto);
+        l.bdd(this, instrBCI, gftLfngth(), gftStbdk());
+        fmitShort((short) -1); // Must bf pbtdhfd lbtfr
+    }
+
+    publid void opd_ifnull(short bdiOffsft) {
+        fmitBytf(opd_ifnull);
+        fmitShort(bdiOffsft);
+        dfdStbdk();
+    }
+
+    /** Control flow with forwbrd-rfffrfndf BCI. Stbdk bssumfs strbight
+        dontrol flow. */
+    publid void opd_ifnull(Lbbfl l) {
+        short instrBCI = gftLfngth();
+        fmitBytf(opd_ifnull);
+        l.bdd(this, instrBCI, gftLfngth(), gftStbdk() - 1);
+        fmitShort((short) -1); // Must bf pbtdhfd lbtfr
+        dfdStbdk();
+    }
+
+    publid void opd_ifnonnull(short bdiOffsft) {
+        fmitBytf(opd_ifnonnull);
+        fmitShort(bdiOffsft);
+        dfdStbdk();
+    }
+
+    /** Control flow with forwbrd-rfffrfndf BCI. Stbdk bssumfs strbight
+        dontrol flow. */
+    publid void opd_ifnonnull(Lbbfl l) {
+        short instrBCI = gftLfngth();
+        fmitBytf(opd_ifnonnull);
+        l.bdd(this, instrBCI, gftLfngth(), gftStbdk() - 1);
+        fmitShort((short) -1); // Must bf pbtdhfd lbtfr
+        dfdStbdk();
+    }
+
+    /////////////////////////
+    // Rfturn instrudtions //
+    /////////////////////////
+
+    publid void opd_irfturn() {
+        fmitBytf(opd_irfturn);
+        sftStbdk(0);
+    }
+
+    publid void opd_lrfturn() {
+        fmitBytf(opd_lrfturn);
+        sftStbdk(0);
+    }
+
+    publid void opd_frfturn() {
+        fmitBytf(opd_frfturn);
+        sftStbdk(0);
+    }
+
+    publid void opd_drfturn() {
+        fmitBytf(opd_drfturn);
+        sftStbdk(0);
+    }
+
+    publid void opd_brfturn() {
+        fmitBytf(opd_brfturn);
+        sftStbdk(0);
+    }
+
+    publid void opd_rfturn() {
+        fmitBytf(opd_rfturn);
+        sftStbdk(0);
+    }
+
+    //////////////////////
+    // Fifld opfrbtions //
+    //////////////////////
+
+    publid void opd_gftstbtid(short fifldIndfx, int fifldSizfInStbdkSlots) {
+        fmitBytf(opd_gftstbtid);
+        fmitShort(fifldIndfx);
+        sftStbdk(gftStbdk() + fifldSizfInStbdkSlots);
+    }
+
+    publid void opd_putstbtid(short fifldIndfx, int fifldSizfInStbdkSlots) {
+        fmitBytf(opd_putstbtid);
+        fmitShort(fifldIndfx);
+        sftStbdk(gftStbdk() - fifldSizfInStbdkSlots);
+    }
+
+    publid void opd_gftfifld(short fifldIndfx, int fifldSizfInStbdkSlots) {
+        fmitBytf(opd_gftfifld);
+        fmitShort(fifldIndfx);
+        sftStbdk(gftStbdk() + fifldSizfInStbdkSlots - 1);
+    }
+
+    publid void opd_putfifld(short fifldIndfx, int fifldSizfInStbdkSlots) {
+        fmitBytf(opd_putfifld);
+        fmitShort(fifldIndfx);
+        sftStbdk(gftStbdk() - fifldSizfInStbdkSlots - 1);
+    }
+
+    ////////////////////////
+    // Mfthod invodbtions //
+    ////////////////////////
+
+    /** Long bnd doublf brgumfnts bnd rfturn typfs dount bs 2 brgumfnts;
+        othfr vblufs dount bs 1. */
+    publid void opd_invokfvirtubl(short mfthodIndfx,
+                                  int numArgs,
+                                  int numRfturnVblufs)
+    {
+        fmitBytf(opd_invokfvirtubl);
+        fmitShort(mfthodIndfx);
+        sftStbdk(gftStbdk() - numArgs - 1 + numRfturnVblufs);
+    }
+
+    /** Long bnd doublf brgumfnts bnd rfturn typfs dount bs 2 brgumfnts;
+        othfr vblufs dount bs 1. */
+    publid void opd_invokfspfdibl(short mfthodIndfx,
+                                  int numArgs,
+                                  int numRfturnVblufs)
+    {
+        fmitBytf(opd_invokfspfdibl);
+        fmitShort(mfthodIndfx);
+        sftStbdk(gftStbdk() - numArgs - 1 + numRfturnVblufs);
+    }
+
+    /** Long bnd doublf brgumfnts bnd rfturn typfs dount bs 2 brgumfnts;
+        othfr vblufs dount bs 1. */
+    publid void opd_invokfstbtid(short mfthodIndfx,
+                                 int numArgs,
+                                 int numRfturnVblufs)
+    {
+        fmitBytf(opd_invokfstbtid);
+        fmitShort(mfthodIndfx);
+        sftStbdk(gftStbdk() - numArgs + numRfturnVblufs);
+    }
+
+    /** Long bnd doublf brgumfnts bnd rfturn typfs dount bs 2 brgumfnts;
+        othfr vblufs dount bs 1. */
+    publid void opd_invokfintfrfbdf(short mfthodIndfx,
+                                    int numArgs,
+                                    bytf dount,
+                                    int numRfturnVblufs)
+    {
+        fmitBytf(opd_invokfintfrfbdf);
+        fmitShort(mfthodIndfx);
+        fmitBytf(dount);
+        fmitBytf((bytf) 0);
+        sftStbdk(gftStbdk() - numArgs - 1 + numRfturnVblufs);
+    }
+
+    //////////////////
+    // Arrby lfngth //
+    //////////////////
+
+    publid void opd_brrbylfngth() {
+        fmitBytf(opd_brrbylfngth);
+    }
+
+    /////////
+    // Nfw //
+    /////////
+
+    publid void opd_nfw(short dlbssIndfx) {
+        fmitBytf(opd_nfw);
+        fmitShort(dlbssIndfx);
+        indStbdk();
+    }
+
+    ////////////
+    // Athrow //
+    ////////////
+
+    publid void opd_bthrow() {
+        fmitBytf(opd_bthrow);
+        sftStbdk(1);
+    }
+
+    //////////////////////////////
+    // Chfdkdbst bnd instbndfof //
+    //////////////////////////////
+
+    /** Assumfs thf dhfdkdbst suddffds */
+    publid void opd_dhfdkdbst(short dlbssIndfx) {
+        fmitBytf(opd_dhfdkdbst);
+        fmitShort(dlbssIndfx);
+    }
+
+    publid void opd_instbndfof(short dlbssIndfx) {
+        fmitBytf(opd_instbndfof);
+        fmitShort(dlbssIndfx);
+    }
+}

@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.io.*;
-import java.nio.*;
-import java.util.*;
-import java.security.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
 
-import javax.crypto.BadPaddingException;
+import jbvbx.drypto.BbdPbddingExdfption;
 
-import javax.net.ssl.*;
-import javax.net.ssl.SSLEngineResult.*;
+import jbvbx.nft.ssl.*;
+import jbvbx.nft.ssl.SSLEnginfRfsult.*;
 
 /**
- * Implementation of an non-blocking SSLEngine.
+ * Implfmfntbtion of bn non-blodking SSLEnginf.
  *
- * *Currently*, the SSLEngine code exists in parallel with the current
- * SSLSocket.  As such, the current implementation is using legacy code
- * with many of the same abstractions.  However, it varies in many
- * areas, most dramatically in the IO handling.
+ * *Currfntly*, tif SSLEnginf dodf fxists in pbrbllfl witi tif durrfnt
+ * SSLSodkft.  As sudi, tif durrfnt implfmfntbtion is using lfgbdy dodf
+ * witi mbny of tif sbmf bbstrbdtions.  Howfvfr, it vbrifs in mbny
+ * brfbs, most drbmbtidblly in tif IO ibndling.
  *
- * There are three main I/O threads that can be existing in parallel:
- * wrap(), unwrap(), and beginHandshake().  We are encouraging users to
- * not call multiple instances of wrap or unwrap, because the data could
- * appear to flow out of the SSLEngine in a non-sequential order.  We
- * take all steps we can to at least make sure the ordering remains
- * consistent, but once the calls returns, anything can happen.  For
- * example, thread1 and thread2 both call wrap, thread1 gets the first
- * packet, thread2 gets the second packet, but thread2 gets control back
- * before thread1, and sends the data.  The receiving side would see an
- * out-of-order error.
+ * Tifrf brf tirff mbin I/O tirfbds tibt dbn bf fxisting in pbrbllfl:
+ * wrbp(), unwrbp(), bnd bfginHbndsibkf().  Wf brf fndourbging usfrs to
+ * not dbll multiplf instbndfs of wrbp or unwrbp, bfdbusf tif dbtb dould
+ * bppfbr to flow out of tif SSLEnginf in b non-sfqufntibl ordfr.  Wf
+ * tbkf bll stfps wf dbn to bt lfbst mbkf surf tif ordfring rfmbins
+ * donsistfnt, but ondf tif dblls rfturns, bnytiing dbn ibppfn.  For
+ * fxbmplf, tirfbd1 bnd tirfbd2 boti dbll wrbp, tirfbd1 gfts tif first
+ * pbdkft, tirfbd2 gfts tif sfdond pbdkft, but tirfbd2 gfts dontrol bbdk
+ * bfforf tirfbd1, bnd sfnds tif dbtb.  Tif rfdfiving sidf would sff bn
+ * out-of-ordfr frror.
  *
- * Handshaking is still done the same way as SSLSocket using the normal
- * InputStream/OutputStream abstactions.  We create
- * ClientHandshakers/ServerHandshakers, which produce/consume the
- * handshaking data.  The transfer of the data is largely handled by the
- * HandshakeInStream/HandshakeOutStreams.  Lastly, the
- * InputRecord/OutputRecords still have the same functionality, except
- * that they are overridden with EngineInputRecord/EngineOutputRecord,
- * which provide SSLEngine-specific functionality.
+ * Hbndsibking is still donf tif sbmf wby bs SSLSodkft using tif normbl
+ * InputStrfbm/OutputStrfbm bbstbdtions.  Wf drfbtf
+ * ClifntHbndsibkfrs/SfrvfrHbndsibkfrs, wiidi produdf/donsumf tif
+ * ibndsibking dbtb.  Tif trbnsffr of tif dbtb is lbrgfly ibndlfd by tif
+ * HbndsibkfInStrfbm/HbndsibkfOutStrfbms.  Lbstly, tif
+ * InputRfdord/OutputRfdords still ibvf tif sbmf fundtionblity, fxdfpt
+ * tibt tify brf ovfrriddfn witi EnginfInputRfdord/EnginfOutputRfdord,
+ * wiidi providf SSLEnginf-spfdifid fundtionblity.
  *
- * Some of the major differences are:
+ * Somf of tif mbjor difffrfndfs brf:
  *
- * EngineInputRecord/EngineOutputRecord/EngineWriter:
+ * EnginfInputRfdord/EnginfOutputRfdord/EnginfWritfr:
  *
- *      In order to avoid writing whole new control flows for
- *      handshaking, and to reuse most of the same code, we kept most
- *      of the actual handshake code the same.  As usual, reading
- *      handshake data may trigger output of more handshake data, so
- *      what we do is write this data to internal buffers, and wait for
- *      wrap() to be called to give that data a ride.
+ *      In ordfr to bvoid writing wiolf nfw dontrol flows for
+ *      ibndsibking, bnd to rfusf most of tif sbmf dodf, wf kfpt most
+ *      of tif bdtubl ibndsibkf dodf tif sbmf.  As usubl, rfbding
+ *      ibndsibkf dbtb mby triggfr output of morf ibndsibkf dbtb, so
+ *      wibt wf do is writf tiis dbtb to intfrnbl bufffrs, bnd wbit for
+ *      wrbp() to bf dbllfd to givf tibt dbtb b ridf.
  *
- *      All data is routed through
- *      EngineInputRecord/EngineOutputRecord.  However, all handshake
- *      data (ct_alert/ct_change_cipher_spec/ct_handshake) are passed
- *      through to the the underlying InputRecord/OutputRecord, and
- *      the data uses the internal buffers.
+ *      All dbtb is routfd tirougi
+ *      EnginfInputRfdord/EnginfOutputRfdord.  Howfvfr, bll ibndsibkf
+ *      dbtb (dt_blfrt/dt_dibngf_dipifr_spfd/dt_ibndsibkf) brf pbssfd
+ *      tirougi to tif tif undfrlying InputRfdord/OutputRfdord, bnd
+ *      tif dbtb usfs tif intfrnbl bufffrs.
  *
- *      Application data is handled slightly different, we copy the data
- *      directly from the src to the dst buffers, and do all operations
- *      on those buffers, saving the overhead of multiple copies.
+ *      Applidbtion dbtb is ibndlfd sligitly difffrfnt, wf dopy tif dbtb
+ *      dirfdtly from tif srd to tif dst bufffrs, bnd do bll opfrbtions
+ *      on tiosf bufffrs, sbving tif ovfrifbd of multiplf dopifs.
  *
- *      In the case of an inbound record, unwrap passes the inbound
- *      ByteBuffer to the InputRecord.  If the data is handshake data,
- *      the data is read into the InputRecord's internal buffer.  If
- *      the data is application data, the data is decoded directly into
- *      the dst buffer.
+ *      In tif dbsf of bn inbound rfdord, unwrbp pbssfs tif inbound
+ *      BytfBufffr to tif InputRfdord.  If tif dbtb is ibndsibkf dbtb,
+ *      tif dbtb is rfbd into tif InputRfdord's intfrnbl bufffr.  If
+ *      tif dbtb is bpplidbtion dbtb, tif dbtb is dfdodfd dirfdtly into
+ *      tif dst bufffr.
  *
- *      In the case of an outbound record, when the write to the
- *      "real" OutputStream's would normally take place, instead we
- *      call back up to the EngineOutputRecord's version of
- *      writeBuffer, at which time we capture the resulting output in a
- *      ByteBuffer, and send that back to the EngineWriter for internal
- *      storage.
+ *      In tif dbsf of bn outbound rfdord, wifn tif writf to tif
+ *      "rfbl" OutputStrfbm's would normblly tbkf plbdf, instfbd wf
+ *      dbll bbdk up to tif EnginfOutputRfdord's vfrsion of
+ *      writfBufffr, bt wiidi timf wf dbpturf tif rfsulting output in b
+ *      BytfBufffr, bnd sfnd tibt bbdk to tif EnginfWritfr for intfrnbl
+ *      storbgf.
  *
- *      EngineWriter is responsible for "handling" all outbound
- *      data, be it handshake or app data, and for returning the data
- *      to wrap() in the proper order.
+ *      EnginfWritfr is rfsponsiblf for "ibndling" bll outbound
+ *      dbtb, bf it ibndsibkf or bpp dbtb, bnd for rfturning tif dbtb
+ *      to wrbp() in tif propfr ordfr.
  *
- * ClientHandshaker/ServerHandshaker/Handshaker:
- *      Methods which relied on SSLSocket now have work on either
- *      SSLSockets or SSLEngines.
+ * ClifntHbndsibkfr/SfrvfrHbndsibkfr/Hbndsibkfr:
+ *      Mftiods wiidi rflifd on SSLSodkft now ibvf work on fitifr
+ *      SSLSodkfts or SSLEnginfs.
  *
- * @author Brad Wetmore
+ * @butior Brbd Wftmorf
  */
-final public class SSLEngineImpl extends SSLEngine {
+finbl publid dlbss SSLEnginfImpl fxtfnds SSLEnginf {
 
     //
-    // Fields and global comments
+    // Fiflds bnd globbl dommfnts
     //
 
     /*
-     * There's a state machine associated with each connection, which
-     * among other roles serves to negotiate session changes.
+     * Tifrf's b stbtf mbdiinf bssodibtfd witi fbdi donnfdtion, wiidi
+     * bmong otifr rolfs sfrvfs to nfgotibtf sfssion dibngfs.
      *
-     * - START with constructor, until the TCP connection's around.
-     * - HANDSHAKE picks session parameters before allowing traffic.
-     *          There are many substates due to sequencing requirements
-     *          for handshake messages.
-     * - DATA may be transmitted.
-     * - RENEGOTIATE state allows concurrent data and handshaking
-     *          traffic ("same" substates as HANDSHAKE), and terminates
-     *          in selection of new session (and connection) parameters
-     * - ERROR state immediately precedes abortive disconnect.
-     * - CLOSED when one side closes down, used to start the shutdown
-     *          process.  SSL connection objects are not reused.
+     * - START witi donstrudtor, until tif TCP donnfdtion's bround.
+     * - HANDSHAKE pidks sfssion pbrbmftfrs bfforf bllowing trbffid.
+     *          Tifrf brf mbny substbtfs duf to sfqufnding rfquirfmfnts
+     *          for ibndsibkf mfssbgfs.
+     * - DATA mby bf trbnsmittfd.
+     * - RENEGOTIATE stbtf bllows dondurrfnt dbtb bnd ibndsibking
+     *          trbffid ("sbmf" substbtfs bs HANDSHAKE), bnd tfrminbtfs
+     *          in sflfdtion of nfw sfssion (bnd donnfdtion) pbrbmftfrs
+     * - ERROR stbtf immfdibtfly prfdfdfs bbortivf disdonnfdt.
+     * - CLOSED wifn onf sidf dlosfs down, usfd to stbrt tif siutdown
+     *          prodfss.  SSL donnfdtion objfdts brf not rfusfd.
      *
-     * State affects what SSL record types may legally be sent:
+     * Stbtf bfffdts wibt SSL rfdord typfs mby lfgblly bf sfnt:
      *
-     * - Handshake ... only in HANDSHAKE and RENEGOTIATE states
-     * - App Data ... only in DATA and RENEGOTIATE states
-     * - Alert ... in HANDSHAKE, DATA, RENEGOTIATE
+     * - Hbndsibkf ... only in HANDSHAKE bnd RENEGOTIATE stbtfs
+     * - App Dbtb ... only in DATA bnd RENEGOTIATE stbtfs
+     * - Alfrt ... in HANDSHAKE, DATA, RENEGOTIATE
      *
-     * Re what may be received:  same as what may be sent, except that
-     * HandshakeRequest handshaking messages can come from servers even
-     * in the application data state, to request entry to RENEGOTIATE.
+     * Rf wibt mby bf rfdfivfd:  sbmf bs wibt mby bf sfnt, fxdfpt tibt
+     * HbndsibkfRfqufst ibndsibking mfssbgfs dbn domf from sfrvfrs fvfn
+     * in tif bpplidbtion dbtb stbtf, to rfqufst fntry to RENEGOTIATE.
      *
-     * The state machine within HANDSHAKE and RENEGOTIATE states controls
-     * the pending session, not the connection state, until the change
-     * cipher spec and "Finished" handshake messages are processed and
-     * make the "new" session become the current one.
+     * Tif stbtf mbdiinf witiin HANDSHAKE bnd RENEGOTIATE stbtfs dontrols
+     * tif pfnding sfssion, not tif donnfdtion stbtf, until tif dibngf
+     * dipifr spfd bnd "Finisifd" ibndsibkf mfssbgfs brf prodfssfd bnd
+     * mbkf tif "nfw" sfssion bfdomf tif durrfnt onf.
      *
-     * NOTE: details of the SMs always need to be nailed down better.
-     * The text above illustrates the core ideas.
+     * NOTE: dftbils of tif SMs blwbys nffd to bf nbilfd down bfttfr.
+     * Tif tfxt bbovf illustrbtfs tif dorf idfbs.
      *
      *                +---->-------+------>--------->-------+
      *                |            |                        |
@@ -158,1443 +158,1443 @@ final public class SSLEngineImpl extends SSLEngine {
      *                v                                     |
      *               ERROR>------>----->CLOSED<--------<----+
      *
-     * ALSO, note that the the purpose of handshaking (renegotiation is
-     * included) is to assign a different, and perhaps new, session to
-     * the connection.  The SSLv3 spec is a bit confusing on that new
-     * protocol feature.
+     * ALSO, notf tibt tif tif purposf of ibndsibking (rfnfgotibtion is
+     * indludfd) is to bssign b difffrfnt, bnd pfribps nfw, sfssion to
+     * tif donnfdtion.  Tif SSLv3 spfd is b bit donfusing on tibt nfw
+     * protodol ffbturf.
      */
-    private int                 connectionState;
+    privbtf int                 donnfdtionStbtf;
 
-    private static final int    cs_START = 0;
-    private static final int    cs_HANDSHAKE = 1;
-    private static final int    cs_DATA = 2;
-    private static final int    cs_RENEGOTIATE = 3;
-    private static final int    cs_ERROR = 4;
-    private static final int    cs_CLOSED = 6;
+    privbtf stbtid finbl int    ds_START = 0;
+    privbtf stbtid finbl int    ds_HANDSHAKE = 1;
+    privbtf stbtid finbl int    ds_DATA = 2;
+    privbtf stbtid finbl int    ds_RENEGOTIATE = 3;
+    privbtf stbtid finbl int    ds_ERROR = 4;
+    privbtf stbtid finbl int    ds_CLOSED = 6;
 
     /*
-     * Once we're in state cs_CLOSED, we can continue to
-     * wrap/unwrap until we finish sending/receiving the messages
-     * for close_notify.  EngineWriter handles outboundDone.
+     * Ondf wf'rf in stbtf ds_CLOSED, wf dbn dontinuf to
+     * wrbp/unwrbp until wf finisi sfnding/rfdfiving tif mfssbgfs
+     * for dlosf_notify.  EnginfWritfr ibndlfs outboundDonf.
      */
-    private boolean             inboundDone = false;
+    privbtf boolfbn             inboundDonf = fblsf;
 
-    EngineWriter                writer;
+    EnginfWritfr                writfr;
 
     /*
-     * The authentication context holds all information used to establish
-     * who this end of the connection is (certificate chains, private keys,
-     * etc) and who is trusted (e.g. as CAs or websites).
+     * Tif butifntidbtion dontfxt iolds bll informbtion usfd to fstbblisi
+     * wio tiis fnd of tif donnfdtion is (dfrtifidbtf dibins, privbtf kfys,
+     * ftd) bnd wio is trustfd (f.g. bs CAs or wfbsitfs).
      */
-    private SSLContextImpl      sslContext;
+    privbtf SSLContfxtImpl      sslContfxt;
 
     /*
-     * This connection is one of (potentially) many associated with
-     * any given session.  The output of the handshake protocol is a
-     * new session ... although all the protocol description talks
-     * about changing the cipher spec (and it does change), in fact
-     * that's incidental since it's done by changing everything that
-     * is associated with a session at the same time.  (TLS/IETF may
-     * change that to add client authentication w/o new key exchg.)
+     * Tiis donnfdtion is onf of (potfntiblly) mbny bssodibtfd witi
+     * bny givfn sfssion.  Tif output of tif ibndsibkf protodol is b
+     * nfw sfssion ... bltiougi bll tif protodol dfsdription tblks
+     * bbout dibnging tif dipifr spfd (bnd it dofs dibngf), in fbdt
+     * tibt's indidfntbl sindf it's donf by dibnging fvfrytiing tibt
+     * is bssodibtfd witi b sfssion bt tif sbmf timf.  (TLS/IETF mby
+     * dibngf tibt to bdd dlifnt butifntidbtion w/o nfw kfy fxdig.)
      */
-    private Handshaker                  handshaker;
-    private SSLSessionImpl              sess;
-    private volatile SSLSessionImpl     handshakeSession;
+    privbtf Hbndsibkfr                  ibndsibkfr;
+    privbtf SSLSfssionImpl              sfss;
+    privbtf volbtilf SSLSfssionImpl     ibndsibkfSfssion;
 
 
     /*
-     * Client authentication be off, requested, or required.
+     * Clifnt butifntidbtion bf off, rfqufstfd, or rfquirfd.
      *
-     * This will be used by both this class and SSLSocket's variants.
+     * Tiis will bf usfd by boti tiis dlbss bnd SSLSodkft's vbribnts.
      */
-    static final byte           clauth_none = 0;
-    static final byte           clauth_requested = 1;
-    static final byte           clauth_required = 2;
+    stbtid finbl bytf           dlbuti_nonf = 0;
+    stbtid finbl bytf           dlbuti_rfqufstfd = 1;
+    stbtid finbl bytf           dlbuti_rfquirfd = 2;
 
     /*
-     * Flag indicating if the next record we receive MUST be a Finished
-     * message. Temporarily set during the handshake to ensure that
-     * a change cipher spec message is followed by a finished message.
+     * Flbg indidbting if tif nfxt rfdord wf rfdfivf MUST bf b Finisifd
+     * mfssbgf. Tfmporbrily sft during tif ibndsibkf to fnsurf tibt
+     * b dibngf dipifr spfd mfssbgf is followfd by b finisifd mfssbgf.
      */
-    private boolean             expectingFinished;
+    privbtf boolfbn             fxpfdtingFinisifd;
 
 
     /*
-     * If someone tries to closeInbound() (say at End-Of-Stream)
-     * our engine having received a close_notify, we need to
-     * notify the app that we may have a truncation attack underway.
+     * If somfonf trifs to dlosfInbound() (sby bt End-Of-Strfbm)
+     * our fnginf ibving rfdfivfd b dlosf_notify, wf nffd to
+     * notify tif bpp tibt wf mby ibvf b trundbtion bttbdk undfrwby.
      */
-    private boolean             recvCN;
+    privbtf boolfbn             rfdvCN;
 
     /*
-     * For improved diagnostics, we detail connection closure
-     * If the engine is closed (connectionState >= cs_ERROR),
-     * closeReason != null indicates if the engine was closed
-     * because of an error or because or normal shutdown.
+     * For improvfd dibgnostids, wf dftbil donnfdtion dlosurf
+     * If tif fnginf is dlosfd (donnfdtionStbtf >= ds_ERROR),
+     * dlosfRfbson != null indidbtfs if tif fnginf wbs dlosfd
+     * bfdbusf of bn frror or bfdbusf or normbl siutdown.
      */
-    private SSLException        closeReason;
+    privbtf SSLExdfption        dlosfRfbson;
 
     /*
-     * Per-connection private state that doesn't change when the
-     * session is changed.
+     * Pfr-donnfdtion privbtf stbtf tibt dofsn't dibngf wifn tif
+     * sfssion is dibngfd.
      */
-    private byte                        doClientAuth;
-    private boolean                     enableSessionCreation = true;
-    EngineInputRecord                   inputRecord;
-    EngineOutputRecord                  outputRecord;
-    private AccessControlContext        acc;
+    privbtf bytf                        doClifntAuti;
+    privbtf boolfbn                     fnbblfSfssionCrfbtion = truf;
+    EnginfInputRfdord                   inputRfdord;
+    EnginfOutputRfdord                  outputRfdord;
+    privbtf AddfssControlContfxt        bdd;
 
-    // The cipher suites enabled for use on this connection.
-    private CipherSuiteList             enabledCipherSuites;
+    // Tif dipifr suitfs fnbblfd for usf on tiis donnfdtion.
+    privbtf CipifrSuitfList             fnbblfdCipifrSuitfs;
 
-    // the endpoint identification protocol
-    private String                      identificationProtocol = null;
+    // tif fndpoint idfntifidbtion protodol
+    privbtf String                      idfntifidbtionProtodol = null;
 
-    // The cryptographic algorithm constraints
-    private AlgorithmConstraints        algorithmConstraints = null;
+    // Tif dryptogrbpiid blgoritim donstrbints
+    privbtf AlgoritimConstrbints        blgoritimConstrbints = null;
 
-    // The server name indication and matchers
-    List<SNIServerName>         serverNames =
-                                    Collections.<SNIServerName>emptyList();
-    Collection<SNIMatcher>      sniMatchers =
-                                    Collections.<SNIMatcher>emptyList();
+    // Tif sfrvfr nbmf indidbtion bnd mbtdifrs
+    List<SNISfrvfrNbmf>         sfrvfrNbmfs =
+                                    Collfdtions.<SNISfrvfrNbmf>fmptyList();
+    Collfdtion<SNIMbtdifr>      sniMbtdifrs =
+                                    Collfdtions.<SNIMbtdifr>fmptyList();
 
-    // Have we been told whether we're client or server?
-    private boolean                     serverModeSet = false;
-    private boolean                     roleIsServer;
+    // Hbvf wf bffn told wiftifr wf'rf dlifnt or sfrvfr?
+    privbtf boolfbn                     sfrvfrModfSft = fblsf;
+    privbtf boolfbn                     rolfIsSfrvfr;
 
     /*
-     * The protocol versions enabled for use on this connection.
+     * Tif protodol vfrsions fnbblfd for usf on tiis donnfdtion.
      *
-     * Note: we support a pseudo protocol called SSLv2Hello which when
-     * set will result in an SSL v2 Hello being sent with SSL (version 3.0)
-     * or TLS (version 3.1, 3.2, etc.) version info.
+     * Notf: wf support b psfudo protodol dbllfd SSLv2Hfllo wiidi wifn
+     * sft will rfsult in bn SSL v2 Hfllo bfing sfnt witi SSL (vfrsion 3.0)
+     * or TLS (vfrsion 3.1, 3.2, ftd.) vfrsion info.
      */
-    private ProtocolList        enabledProtocols;
+    privbtf ProtodolList        fnbblfdProtodols;
 
     /*
-     * The SSL version associated with this connection.
+     * Tif SSL vfrsion bssodibtfd witi tiis donnfdtion.
      */
-    private ProtocolVersion     protocolVersion = ProtocolVersion.DEFAULT;
+    privbtf ProtodolVfrsion     protodolVfrsion = ProtodolVfrsion.DEFAULT;
 
     /*
-     * Crypto state that's reinitialized when the session changes.
+     * Crypto stbtf tibt's rfinitiblizfd wifn tif sfssion dibngfs.
      */
-    private Authenticator       readAuthenticator, writeAuthenticator;
-    private CipherBox           readCipher, writeCipher;
-    // NOTE: compression state would be saved here
+    privbtf Autifntidbtor       rfbdAutifntidbtor, writfAutifntidbtor;
+    privbtf CipifrBox           rfbdCipifr, writfCipifr;
+    // NOTE: domprfssion stbtf would bf sbvfd ifrf
 
     /*
-     * security parameters for secure renegotiation.
+     * sfdurity pbrbmftfrs for sfdurf rfnfgotibtion.
      */
-    private boolean             secureRenegotiation;
-    private byte[]              clientVerifyData;
-    private byte[]              serverVerifyData;
+    privbtf boolfbn             sfdurfRfnfgotibtion;
+    privbtf bytf[]              dlifntVfrifyDbtb;
+    privbtf bytf[]              sfrvfrVfrifyDbtb;
 
     /*
      * READ ME * READ ME * READ ME * READ ME * READ ME * READ ME *
      * IMPORTANT STUFF TO UNDERSTANDING THE SYNCHRONIZATION ISSUES.
      * READ ME * READ ME * READ ME * READ ME * READ ME * READ ME *
      *
-     * There are several locks here.
+     * Tifrf brf sfvfrbl lodks ifrf.
      *
-     * The primary lock is the per-instance lock used by
-     * synchronized(this) and the synchronized methods.  It controls all
-     * access to things such as the connection state and variables which
-     * affect handshaking.  If we are inside a synchronized method, we
-     * can access the state directly, otherwise, we must use the
-     * synchronized equivalents.
+     * Tif primbry lodk is tif pfr-instbndf lodk usfd by
+     * syndironizfd(tiis) bnd tif syndironizfd mftiods.  It dontrols bll
+     * bddfss to tiings sudi bs tif donnfdtion stbtf bnd vbribblfs wiidi
+     * bfffdt ibndsibking.  If wf brf insidf b syndironizfd mftiod, wf
+     * dbn bddfss tif stbtf dirfdtly, otifrwisf, wf must usf tif
+     * syndironizfd fquivblfnts.
      *
-     * Note that we must never acquire the <code>this</code> lock after
-     * <code>writeLock</code> or run the risk of deadlock.
+     * Notf tibt wf must nfvfr bdquirf tif <dodf>tiis</dodf> lodk bftfr
+     * <dodf>writfLodk</dodf> or run tif risk of dfbdlodk.
      *
-     * Grab some coffee, and be careful with any code changes.
+     * Grbb somf doffff, bnd bf dbrfful witi bny dodf dibngfs.
      */
-    private Object              wrapLock;
-    private Object              unwrapLock;
-    Object                      writeLock;
+    privbtf Objfdt              wrbpLodk;
+    privbtf Objfdt              unwrbpLodk;
+    Objfdt                      writfLodk;
 
     /*
-     * Is it the first application record to write?
+     * Is it tif first bpplidbtion rfdord to writf?
      */
-    private boolean isFirstAppOutputRecord = true;
+    privbtf boolfbn isFirstAppOutputRfdord = truf;
 
     /*
-     * Whether local cipher suites preference in server side should be
-     * honored during handshaking?
+     * Wiftifr lodbl dipifr suitfs prfffrfndf in sfrvfr sidf siould bf
+     * ionorfd during ibndsibking?
      */
-    private boolean preferLocalCipherSuites = false;
+    privbtf boolfbn prfffrLodblCipifrSuitfs = fblsf;
 
     /*
-     * Class and subclass dynamic debugging support
+     * Clbss bnd subdlbss dynbmid dfbugging support
      */
-    private static final Debug debug = Debug.getInstance("ssl");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("ssl");
 
     //
-    // Initialization/Constructors
+    // Initiblizbtion/Construdtors
     //
 
     /**
-     * Constructor for an SSLEngine from SSLContext, without
-     * host/port hints.  This Engine will not be able to cache
-     * sessions, but must renegotiate everything by hand.
+     * Construdtor for bn SSLEnginf from SSLContfxt, witiout
+     * iost/port iints.  Tiis Enginf will not bf bblf to dbdif
+     * sfssions, but must rfnfgotibtf fvfrytiing by ibnd.
      */
-    SSLEngineImpl(SSLContextImpl ctx) {
-        super();
-        init(ctx);
+    SSLEnginfImpl(SSLContfxtImpl dtx) {
+        supfr();
+        init(dtx);
     }
 
     /**
-     * Constructor for an SSLEngine from SSLContext.
+     * Construdtor for bn SSLEnginf from SSLContfxt.
      */
-    SSLEngineImpl(SSLContextImpl ctx, String host, int port) {
-        super(host, port);
-        init(ctx);
+    SSLEnginfImpl(SSLContfxtImpl dtx, String iost, int port) {
+        supfr(iost, port);
+        init(dtx);
     }
 
     /**
-     * Initializes the Engine
+     * Initiblizfs tif Enginf
      */
-    private void init(SSLContextImpl ctx) {
-        if (debug != null && Debug.isOn("ssl")) {
-            System.out.println("Using SSLEngineImpl.");
+    privbtf void init(SSLContfxtImpl dtx) {
+        if (dfbug != null && Dfbug.isOn("ssl")) {
+            Systfm.out.println("Using SSLEnginfImpl.");
         }
 
-        sslContext = ctx;
-        sess = SSLSessionImpl.nullSession;
-        handshakeSession = null;
+        sslContfxt = dtx;
+        sfss = SSLSfssionImpl.nullSfssion;
+        ibndsibkfSfssion = null;
 
         /*
-         * State is cs_START until we initialize the handshaker.
+         * Stbtf is ds_START until wf initiblizf tif ibndsibkfr.
          *
-         * Apps using SSLEngine are probably going to be server.
-         * Somewhat arbitrary choice.
+         * Apps using SSLEnginf brf probbbly going to bf sfrvfr.
+         * Somfwibt brbitrbry dioidf.
          */
-        roleIsServer = true;
-        connectionState = cs_START;
+        rolfIsSfrvfr = truf;
+        donnfdtionStbtf = ds_START;
 
-        // default server name indication
-        serverNames =
-            Utilities.addToSNIServerNameList(serverNames, getPeerHost());
+        // dffbult sfrvfr nbmf indidbtion
+        sfrvfrNbmfs =
+            Utilitifs.bddToSNISfrvfrNbmfList(sfrvfrNbmfs, gftPffrHost());
 
         /*
-         * default read and write side cipher and MAC support
+         * dffbult rfbd bnd writf sidf dipifr bnd MAC support
          *
-         * Note:  compression support would go here too
+         * Notf:  domprfssion support would go ifrf too
          */
-        readCipher = CipherBox.NULL;
-        readAuthenticator = MAC.NULL;
-        writeCipher = CipherBox.NULL;
-        writeAuthenticator = MAC.NULL;
+        rfbdCipifr = CipifrBox.NULL;
+        rfbdAutifntidbtor = MAC.NULL;
+        writfCipifr = CipifrBox.NULL;
+        writfAutifntidbtor = MAC.NULL;
 
-        // default security parameters for secure renegotiation
-        secureRenegotiation = false;
-        clientVerifyData = new byte[0];
-        serverVerifyData = new byte[0];
+        // dffbult sfdurity pbrbmftfrs for sfdurf rfnfgotibtion
+        sfdurfRfnfgotibtion = fblsf;
+        dlifntVfrifyDbtb = nfw bytf[0];
+        sfrvfrVfrifyDbtb = nfw bytf[0];
 
-        enabledCipherSuites =
-                sslContext.getDefaultCipherSuiteList(roleIsServer);
-        enabledProtocols =
-                sslContext.getDefaultProtocolList(roleIsServer);
+        fnbblfdCipifrSuitfs =
+                sslContfxt.gftDffbultCipifrSuitfList(rolfIsSfrvfr);
+        fnbblfdProtodols =
+                sslContfxt.gftDffbultProtodolList(rolfIsSfrvfr);
 
-        wrapLock = new Object();
-        unwrapLock = new Object();
-        writeLock = new Object();
+        wrbpLodk = nfw Objfdt();
+        unwrbpLodk = nfw Objfdt();
+        writfLodk = nfw Objfdt();
 
         /*
-         * Save the Access Control Context.  This will be used later
-         * for a couple of things, including providing a context to
-         * run tasks in, and for determining which credentials
-         * to use for Subject based (JAAS) decisions
+         * Sbvf tif Addfss Control Contfxt.  Tiis will bf usfd lbtfr
+         * for b douplf of tiings, indluding providing b dontfxt to
+         * run tbsks in, bnd for dftfrmining wiidi drfdfntibls
+         * to usf for Subjfdt bbsfd (JAAS) dfdisions
          */
-        acc = AccessController.getContext();
+        bdd = AddfssControllfr.gftContfxt();
 
         /*
-         * All outbound application data goes through this OutputRecord,
-         * other data goes through their respective records created
-         * elsewhere.  All inbound data goes through this one
-         * input record.
+         * All outbound bpplidbtion dbtb gofs tirougi tiis OutputRfdord,
+         * otifr dbtb gofs tirougi tifir rfspfdtivf rfdords drfbtfd
+         * flsfwifrf.  All inbound dbtb gofs tirougi tiis onf
+         * input rfdord.
          */
-        outputRecord =
-            new EngineOutputRecord(Record.ct_application_data, this);
-        inputRecord = new EngineInputRecord(this);
-        inputRecord.enableFormatChecks();
+        outputRfdord =
+            nfw EnginfOutputRfdord(Rfdord.dt_bpplidbtion_dbtb, tiis);
+        inputRfdord = nfw EnginfInputRfdord(tiis);
+        inputRfdord.fnbblfFormbtCifdks();
 
-        writer = new EngineWriter();
+        writfr = nfw EnginfWritfr();
     }
 
     /**
-     * Initialize the handshaker object. This means:
+     * Initiblizf tif ibndsibkfr objfdt. Tiis mfbns:
      *
-     *  . if a handshake is already in progress (state is cs_HANDSHAKE
-     *    or cs_RENEGOTIATE), do nothing and return
+     *  . if b ibndsibkf is blrfbdy in progrfss (stbtf is ds_HANDSHAKE
+     *    or ds_RENEGOTIATE), do notiing bnd rfturn
      *
-     *  . if the engine is already closed, throw an Exception (internal error)
+     *  . if tif fnginf is blrfbdy dlosfd, tirow bn Exdfption (intfrnbl frror)
      *
-     *  . otherwise (cs_START or cs_DATA), create the appropriate handshaker
-     *    object and advance the connection state (to cs_HANDSHAKE or
-     *    cs_RENEGOTIATE, respectively).
+     *  . otifrwisf (ds_START or ds_DATA), drfbtf tif bppropribtf ibndsibkfr
+     *    objfdt bnd bdvbndf tif donnfdtion stbtf (to ds_HANDSHAKE or
+     *    ds_RENEGOTIATE, rfspfdtivfly).
      *
-     * This method is called right after a new engine is created, when
-     * starting renegotiation, or when changing client/server mode of the
-     * engine.
+     * Tiis mftiod is dbllfd rigit bftfr b nfw fnginf is drfbtfd, wifn
+     * stbrting rfnfgotibtion, or wifn dibnging dlifnt/sfrvfr modf of tif
+     * fnginf.
      */
-    private void initHandshaker() {
-        switch (connectionState) {
+    privbtf void initHbndsibkfr() {
+        switdi (donnfdtionStbtf) {
 
         //
-        // Starting a new handshake.
+        // Stbrting b nfw ibndsibkf.
         //
-        case cs_START:
-        case cs_DATA:
-            break;
+        dbsf ds_START:
+        dbsf ds_DATA:
+            brfbk;
 
         //
-        // We're already in the middle of a handshake.
+        // Wf'rf blrfbdy in tif middlf of b ibndsibkf.
         //
-        case cs_HANDSHAKE:
-        case cs_RENEGOTIATE:
-            return;
+        dbsf ds_HANDSHAKE:
+        dbsf ds_RENEGOTIATE:
+            rfturn;
 
         //
-        // Anyone allowed to call this routine is required to
-        // do so ONLY if the connection state is reasonable...
+        // Anyonf bllowfd to dbll tiis routinf is rfquirfd to
+        // do so ONLY if tif donnfdtion stbtf is rfbsonbblf...
         //
-        default:
-            throw new IllegalStateException("Internal error");
+        dffbult:
+            tirow nfw IllfgblStbtfExdfption("Intfrnbl frror");
         }
 
-        // state is either cs_START or cs_DATA
-        if (connectionState == cs_START) {
-            connectionState = cs_HANDSHAKE;
-        } else { // cs_DATA
-            connectionState = cs_RENEGOTIATE;
+        // stbtf is fitifr ds_START or ds_DATA
+        if (donnfdtionStbtf == ds_START) {
+            donnfdtionStbtf = ds_HANDSHAKE;
+        } flsf { // ds_DATA
+            donnfdtionStbtf = ds_RENEGOTIATE;
         }
-        if (roleIsServer) {
-            handshaker = new ServerHandshaker(this, sslContext,
-                    enabledProtocols, doClientAuth,
-                    protocolVersion, connectionState == cs_HANDSHAKE,
-                    secureRenegotiation, clientVerifyData, serverVerifyData);
-            handshaker.setSNIMatchers(sniMatchers);
-            handshaker.setUseCipherSuitesOrder(preferLocalCipherSuites);
-        } else {
-            handshaker = new ClientHandshaker(this, sslContext,
-                    enabledProtocols,
-                    protocolVersion, connectionState == cs_HANDSHAKE,
-                    secureRenegotiation, clientVerifyData, serverVerifyData);
-            handshaker.setSNIServerNames(serverNames);
+        if (rolfIsSfrvfr) {
+            ibndsibkfr = nfw SfrvfrHbndsibkfr(tiis, sslContfxt,
+                    fnbblfdProtodols, doClifntAuti,
+                    protodolVfrsion, donnfdtionStbtf == ds_HANDSHAKE,
+                    sfdurfRfnfgotibtion, dlifntVfrifyDbtb, sfrvfrVfrifyDbtb);
+            ibndsibkfr.sftSNIMbtdifrs(sniMbtdifrs);
+            ibndsibkfr.sftUsfCipifrSuitfsOrdfr(prfffrLodblCipifrSuitfs);
+        } flsf {
+            ibndsibkfr = nfw ClifntHbndsibkfr(tiis, sslContfxt,
+                    fnbblfdProtodols,
+                    protodolVfrsion, donnfdtionStbtf == ds_HANDSHAKE,
+                    sfdurfRfnfgotibtion, dlifntVfrifyDbtb, sfrvfrVfrifyDbtb);
+            ibndsibkfr.sftSNISfrvfrNbmfs(sfrvfrNbmfs);
         }
-        handshaker.setEnabledCipherSuites(enabledCipherSuites);
-        handshaker.setEnableSessionCreation(enableSessionCreation);
+        ibndsibkfr.sftEnbblfdCipifrSuitfs(fnbblfdCipifrSuitfs);
+        ibndsibkfr.sftEnbblfSfssionCrfbtion(fnbblfSfssionCrfbtion);
     }
 
     /*
-     * Report the current status of the Handshaker
+     * Rfport tif durrfnt stbtus of tif Hbndsibkfr
      */
-    private HandshakeStatus getHSStatus(HandshakeStatus hss) {
+    privbtf HbndsibkfStbtus gftHSStbtus(HbndsibkfStbtus iss) {
 
-        if (hss != null) {
-            return hss;
+        if (iss != null) {
+            rfturn iss;
         }
 
-        synchronized (this) {
-            if (writer.hasOutboundData()) {
-                return HandshakeStatus.NEED_WRAP;
-            } else if (handshaker != null) {
-                if (handshaker.taskOutstanding()) {
-                    return HandshakeStatus.NEED_TASK;
-                } else {
-                    return HandshakeStatus.NEED_UNWRAP;
+        syndironizfd (tiis) {
+            if (writfr.ibsOutboundDbtb()) {
+                rfturn HbndsibkfStbtus.NEED_WRAP;
+            } flsf if (ibndsibkfr != null) {
+                if (ibndsibkfr.tbskOutstbnding()) {
+                    rfturn HbndsibkfStbtus.NEED_TASK;
+                } flsf {
+                    rfturn HbndsibkfStbtus.NEED_UNWRAP;
                 }
-            } else if (connectionState == cs_CLOSED) {
+            } flsf if (donnfdtionStbtf == ds_CLOSED) {
                 /*
-                 * Special case where we're closing, but
-                 * still need the close_notify before we
-                 * can officially be closed.
+                 * Spfdibl dbsf wifrf wf'rf dlosing, but
+                 * still nffd tif dlosf_notify bfforf wf
+                 * dbn offidiblly bf dlosfd.
                  *
-                 * Note isOutboundDone is taken care of by
-                 * hasOutboundData() above.
+                 * Notf isOutboundDonf is tbkfn dbrf of by
+                 * ibsOutboundDbtb() bbovf.
                  */
-                if (!isInboundDone()) {
-                    return HandshakeStatus.NEED_UNWRAP;
-                } // else not handshaking
+                if (!isInboundDonf()) {
+                    rfturn HbndsibkfStbtus.NEED_UNWRAP;
+                } // flsf not ibndsibking
             }
 
-            return HandshakeStatus.NOT_HANDSHAKING;
+            rfturn HbndsibkfStbtus.NOT_HANDSHAKING;
         }
     }
 
-    synchronized private void checkTaskThrown() throws SSLException {
-        if (handshaker != null) {
-            handshaker.checkThrown();
+    syndironizfd privbtf void difdkTbskTirown() tirows SSLExdfption {
+        if (ibndsibkfr != null) {
+            ibndsibkfr.difdkTirown();
         }
     }
 
     //
-    // Handshaking and connection state code
+    // Hbndsibking bnd donnfdtion stbtf dodf
     //
 
     /*
-     * Provides "this" synchronization for connection state.
-     * Otherwise, you can access it directly.
+     * Providfs "tiis" syndironizbtion for donnfdtion stbtf.
+     * Otifrwisf, you dbn bddfss it dirfdtly.
      */
-    synchronized private int getConnectionState() {
-        return connectionState;
+    syndironizfd privbtf int gftConnfdtionStbtf() {
+        rfturn donnfdtionStbtf;
     }
 
-    synchronized private void setConnectionState(int state) {
-        connectionState = state;
-    }
-
-    /*
-     * Get the Access Control Context.
-     *
-     * Used for a known context to
-     * run tasks in, and for determining which credentials
-     * to use for Subject-based (JAAS) decisions.
-     */
-    AccessControlContext getAcc() {
-        return acc;
+    syndironizfd privbtf void sftConnfdtionStbtf(int stbtf) {
+        donnfdtionStbtf = stbtf;
     }
 
     /*
-     * Is a handshake currently underway?
+     * Gft tif Addfss Control Contfxt.
+     *
+     * Usfd for b known dontfxt to
+     * run tbsks in, bnd for dftfrmining wiidi drfdfntibls
+     * to usf for Subjfdt-bbsfd (JAAS) dfdisions.
      */
-    @Override
-    public SSLEngineResult.HandshakeStatus getHandshakeStatus() {
-        return getHSStatus(null);
+    AddfssControlContfxt gftAdd() {
+        rfturn bdd;
     }
 
     /*
-     * When a connection finishes handshaking by enabling use of a newly
-     * negotiated session, each end learns about it in two halves (read,
-     * and write).  When both read and write ciphers have changed, and the
-     * last handshake message has been read, the connection has joined
-     * (rejoined) the new session.
-     *
-     * NOTE:  The SSLv3 spec is rather unclear on the concepts here.
-     * Sessions don't change once they're established (including cipher
-     * suite and master secret) but connections can join them (and leave
-     * them).  They're created by handshaking, though sometime handshaking
-     * causes connections to join up with pre-established sessions.
-     *
-     * Synchronized on "this" from readRecord.
+     * Is b ibndsibkf durrfntly undfrwby?
      */
-    private void changeReadCiphers() throws SSLException {
-        if (connectionState != cs_HANDSHAKE
-                && connectionState != cs_RENEGOTIATE) {
-            throw new SSLProtocolException(
-                "State error, change cipher specs");
+    @Ovfrridf
+    publid SSLEnginfRfsult.HbndsibkfStbtus gftHbndsibkfStbtus() {
+        rfturn gftHSStbtus(null);
+    }
+
+    /*
+     * Wifn b donnfdtion finisifs ibndsibking by fnbbling usf of b nfwly
+     * nfgotibtfd sfssion, fbdi fnd lfbrns bbout it in two iblvfs (rfbd,
+     * bnd writf).  Wifn boti rfbd bnd writf dipifrs ibvf dibngfd, bnd tif
+     * lbst ibndsibkf mfssbgf ibs bffn rfbd, tif donnfdtion ibs joinfd
+     * (rfjoinfd) tif nfw sfssion.
+     *
+     * NOTE:  Tif SSLv3 spfd is rbtifr undlfbr on tif dondfpts ifrf.
+     * Sfssions don't dibngf ondf tify'rf fstbblisifd (indluding dipifr
+     * suitf bnd mbstfr sfdrft) but donnfdtions dbn join tifm (bnd lfbvf
+     * tifm).  Tify'rf drfbtfd by ibndsibking, tiougi somftimf ibndsibking
+     * dbusfs donnfdtions to join up witi prf-fstbblisifd sfssions.
+     *
+     * Syndironizfd on "tiis" from rfbdRfdord.
+     */
+    privbtf void dibngfRfbdCipifrs() tirows SSLExdfption {
+        if (donnfdtionStbtf != ds_HANDSHAKE
+                && donnfdtionStbtf != ds_RENEGOTIATE) {
+            tirow nfw SSLProtodolExdfption(
+                "Stbtf frror, dibngf dipifr spfds");
         }
 
-        // ... create decompressor
+        // ... drfbtf dfdomprfssor
 
-        CipherBox oldCipher = readCipher;
+        CipifrBox oldCipifr = rfbdCipifr;
 
         try {
-            readCipher = handshaker.newReadCipher();
-            readAuthenticator = handshaker.newReadAuthenticator();
-        } catch (GeneralSecurityException e) {
-            // "can't happen"
-            throw new SSLException("Algorithm missing:  ", e);
+            rfbdCipifr = ibndsibkfr.nfwRfbdCipifr();
+            rfbdAutifntidbtor = ibndsibkfr.nfwRfbdAutifntidbtor();
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            // "dbn't ibppfn"
+            tirow nfw SSLExdfption("Algoritim missing:  ", f);
         }
 
         /*
-         * Dispose of any intermediate state in the underlying cipher.
-         * For PKCS11 ciphers, this will release any attached sessions,
-         * and thus make finalization faster.
+         * Disposf of bny intfrmfdibtf stbtf in tif undfrlying dipifr.
+         * For PKCS11 dipifrs, tiis will rflfbsf bny bttbdifd sfssions,
+         * bnd tius mbkf finblizbtion fbstfr.
          *
-         * Since MAC's doFinal() is called for every SSL/TLS packet, it's
-         * not necessary to do the same with MAC's.
+         * Sindf MAC's doFinbl() is dbllfd for fvfry SSL/TLS pbdkft, it's
+         * not nfdfssbry to do tif sbmf witi MAC's.
          */
-        oldCipher.dispose();
+        oldCipifr.disposf();
     }
 
     /*
-     * used by Handshaker to change the active write cipher, follows
-     * the output of the CCS message.
+     * usfd by Hbndsibkfr to dibngf tif bdtivf writf dipifr, follows
+     * tif output of tif CCS mfssbgf.
      *
-     * Also synchronized on "this" from readRecord/delegatedTask.
+     * Also syndironizfd on "tiis" from rfbdRfdord/dflfgbtfdTbsk.
      */
-    void changeWriteCiphers() throws SSLException {
-        if (connectionState != cs_HANDSHAKE
-                && connectionState != cs_RENEGOTIATE) {
-            throw new SSLProtocolException(
-                "State error, change cipher specs");
+    void dibngfWritfCipifrs() tirows SSLExdfption {
+        if (donnfdtionStbtf != ds_HANDSHAKE
+                && donnfdtionStbtf != ds_RENEGOTIATE) {
+            tirow nfw SSLProtodolExdfption(
+                "Stbtf frror, dibngf dipifr spfds");
         }
 
-        // ... create compressor
+        // ... drfbtf domprfssor
 
-        CipherBox oldCipher = writeCipher;
+        CipifrBox oldCipifr = writfCipifr;
 
         try {
-            writeCipher = handshaker.newWriteCipher();
-            writeAuthenticator = handshaker.newWriteAuthenticator();
-        } catch (GeneralSecurityException e) {
-            // "can't happen"
-            throw new SSLException("Algorithm missing:  ", e);
+            writfCipifr = ibndsibkfr.nfwWritfCipifr();
+            writfAutifntidbtor = ibndsibkfr.nfwWritfAutifntidbtor();
+        } dbtdi (GfnfrblSfdurityExdfption f) {
+            // "dbn't ibppfn"
+            tirow nfw SSLExdfption("Algoritim missing:  ", f);
         }
 
-        // See comment above.
-        oldCipher.dispose();
+        // Sff dommfnt bbovf.
+        oldCipifr.disposf();
 
-        // reset the flag of the first application record
-        isFirstAppOutputRecord = true;
+        // rfsft tif flbg of tif first bpplidbtion rfdord
+        isFirstAppOutputRfdord = truf;
     }
 
     /*
-     * Updates the SSL version associated with this connection.
-     * Called from Handshaker once it has determined the negotiated version.
+     * Updbtfs tif SSL vfrsion bssodibtfd witi tiis donnfdtion.
+     * Cbllfd from Hbndsibkfr ondf it ibs dftfrminfd tif nfgotibtfd vfrsion.
      */
-    synchronized void setVersion(ProtocolVersion protocolVersion) {
-        this.protocolVersion = protocolVersion;
-        outputRecord.setVersion(protocolVersion);
+    syndironizfd void sftVfrsion(ProtodolVfrsion protodolVfrsion) {
+        tiis.protodolVfrsion = protodolVfrsion;
+        outputRfdord.sftVfrsion(protodolVfrsion);
     }
 
 
     /**
-     * Kickstart the handshake if it is not already in progress.
-     * This means:
+     * Kidkstbrt tif ibndsibkf if it is not blrfbdy in progrfss.
+     * Tiis mfbns:
      *
-     *  . if handshaking is already underway, do nothing and return
+     *  . if ibndsibking is blrfbdy undfrwby, do notiing bnd rfturn
      *
-     *  . if the engine is not connected or already closed, throw an
-     *    Exception.
+     *  . if tif fnginf is not donnfdtfd or blrfbdy dlosfd, tirow bn
+     *    Exdfption.
      *
-     *  . otherwise, call initHandshake() to initialize the handshaker
-     *    object and progress the state. Then, send the initial
-     *    handshaking message if appropriate (always on clients and
-     *    on servers when renegotiating).
+     *  . otifrwisf, dbll initHbndsibkf() to initiblizf tif ibndsibkfr
+     *    objfdt bnd progrfss tif stbtf. Tifn, sfnd tif initibl
+     *    ibndsibking mfssbgf if bppropribtf (blwbys on dlifnts bnd
+     *    on sfrvfrs wifn rfnfgotibting).
      */
-    private synchronized void kickstartHandshake() throws IOException {
-        switch (connectionState) {
+    privbtf syndironizfd void kidkstbrtHbndsibkf() tirows IOExdfption {
+        switdi (donnfdtionStbtf) {
 
-        case cs_START:
-            if (!serverModeSet) {
-                throw new IllegalStateException(
-                    "Client/Server mode not yet set.");
+        dbsf ds_START:
+            if (!sfrvfrModfSft) {
+                tirow nfw IllfgblStbtfExdfption(
+                    "Clifnt/Sfrvfr modf not yft sft.");
             }
-            initHandshaker();
-            break;
+            initHbndsibkfr();
+            brfbk;
 
-        case cs_HANDSHAKE:
-            // handshaker already setup, proceed
-            break;
+        dbsf ds_HANDSHAKE:
+            // ibndsibkfr blrfbdy sftup, prodffd
+            brfbk;
 
-        case cs_DATA:
-            if (!secureRenegotiation && !Handshaker.allowUnsafeRenegotiation) {
-                throw new SSLHandshakeException(
-                        "Insecure renegotiation is not allowed");
+        dbsf ds_DATA:
+            if (!sfdurfRfnfgotibtion && !Hbndsibkfr.bllowUnsbffRfnfgotibtion) {
+                tirow nfw SSLHbndsibkfExdfption(
+                        "Insfdurf rfnfgotibtion is not bllowfd");
             }
 
-            if (!secureRenegotiation) {
-                if (debug != null && Debug.isOn("handshake")) {
-                    System.out.println(
-                        "Warning: Using insecure renegotiation");
+            if (!sfdurfRfnfgotibtion) {
+                if (dfbug != null && Dfbug.isOn("ibndsibkf")) {
+                    Systfm.out.println(
+                        "Wbrning: Using insfdurf rfnfgotibtion");
                 }
             }
 
-            // initialize the handshaker, move to cs_RENEGOTIATE
-            initHandshaker();
-            break;
+            // initiblizf tif ibndsibkfr, movf to ds_RENEGOTIATE
+            initHbndsibkfr();
+            brfbk;
 
-        case cs_RENEGOTIATE:
-            // handshaking already in progress, return
-            return;
+        dbsf ds_RENEGOTIATE:
+            // ibndsibking blrfbdy in progrfss, rfturn
+            rfturn;
 
-        default:
-            // cs_ERROR/cs_CLOSED
-            throw new SSLException("SSLEngine is closing/closed");
+        dffbult:
+            // ds_ERROR/ds_CLOSED
+            tirow nfw SSLExdfption("SSLEnginf is dlosing/dlosfd");
         }
 
         //
-        // Kickstart handshake state machine if we need to ...
+        // Kidkstbrt ibndsibkf stbtf mbdiinf if wf nffd to ...
         //
-        // Note that handshaker.kickstart() writes the message
-        // to its HandshakeOutStream, which calls back into
-        // SSLSocketImpl.writeRecord() to send it.
+        // Notf tibt ibndsibkfr.kidkstbrt() writfs tif mfssbgf
+        // to its HbndsibkfOutStrfbm, wiidi dblls bbdk into
+        // SSLSodkftImpl.writfRfdord() to sfnd it.
         //
-        if (!handshaker.activated()) {
-             // prior to handshaking, activate the handshake
-            if (connectionState == cs_RENEGOTIATE) {
-                // don't use SSLv2Hello when renegotiating
-                handshaker.activate(protocolVersion);
-            } else {
-                handshaker.activate(null);
+        if (!ibndsibkfr.bdtivbtfd()) {
+             // prior to ibndsibking, bdtivbtf tif ibndsibkf
+            if (donnfdtionStbtf == ds_RENEGOTIATE) {
+                // don't usf SSLv2Hfllo wifn rfnfgotibting
+                ibndsibkfr.bdtivbtf(protodolVfrsion);
+            } flsf {
+                ibndsibkfr.bdtivbtf(null);
             }
 
-            if (handshaker instanceof ClientHandshaker) {
-                // send client hello
-                handshaker.kickstart();
-            } else {    // instanceof ServerHandshaker
-                if (connectionState == cs_HANDSHAKE) {
-                    // initial handshake, no kickstart message to send
-                } else {
-                    // we want to renegotiate, send hello request
-                    handshaker.kickstart();
+            if (ibndsibkfr instbndfof ClifntHbndsibkfr) {
+                // sfnd dlifnt ifllo
+                ibndsibkfr.kidkstbrt();
+            } flsf {    // instbndfof SfrvfrHbndsibkfr
+                if (donnfdtionStbtf == ds_HANDSHAKE) {
+                    // initibl ibndsibkf, no kidkstbrt mfssbgf to sfnd
+                } flsf {
+                    // wf wbnt to rfnfgotibtf, sfnd ifllo rfqufst
+                    ibndsibkfr.kidkstbrt();
 
-                    // hello request is not included in the handshake
-                    // hashes, reset them
-                    handshaker.handshakeHash.reset();
+                    // ifllo rfqufst is not indludfd in tif ibndsibkf
+                    // ibsifs, rfsft tifm
+                    ibndsibkfr.ibndsibkfHbsi.rfsft();
                 }
             }
         }
     }
 
     /*
-     * Start a SSLEngine handshake
+     * Stbrt b SSLEnginf ibndsibkf
      */
-    @Override
-    public void beginHandshake() throws SSLException {
+    @Ovfrridf
+    publid void bfginHbndsibkf() tirows SSLExdfption {
         try {
-            kickstartHandshake();
-        } catch (Exception e) {
-            fatal(Alerts.alert_handshake_failure,
-                "Couldn't kickstart handshaking", e);
+            kidkstbrtHbndsibkf();
+        } dbtdi (Exdfption f) {
+            fbtbl(Alfrts.blfrt_ibndsibkf_fbilurf,
+                "Couldn't kidkstbrt ibndsibking", f);
         }
     }
 
 
     //
-    // Read/unwrap side
+    // Rfbd/unwrbp sidf
     //
 
 
     /**
-     * Unwraps a buffer.  Does a variety of checks before grabbing
-     * the unwrapLock, which blocks multiple unwraps from occurring.
+     * Unwrbps b bufffr.  Dofs b vbrifty of difdks bfforf grbbbing
+     * tif unwrbpLodk, wiidi blodks multiplf unwrbps from oddurring.
      */
-    @Override
-    public SSLEngineResult unwrap(ByteBuffer netData, ByteBuffer [] appData,
-            int offset, int length) throws SSLException {
+    @Ovfrridf
+    publid SSLEnginfRfsult unwrbp(BytfBufffr nftDbtb, BytfBufffr [] bppDbtb,
+            int offsft, int lfngti) tirows SSLExdfption {
 
-        EngineArgs ea = new EngineArgs(netData, appData, offset, length);
+        EnginfArgs fb = nfw EnginfArgs(nftDbtb, bppDbtb, offsft, lfngti);
 
         try {
-            synchronized (unwrapLock) {
-                return readNetRecord(ea);
+            syndironizfd (unwrbpLodk) {
+                rfturn rfbdNftRfdord(fb);
             }
-        } catch (Exception e) {
+        } dbtdi (Exdfption f) {
             /*
-             * Don't reset position so it looks like we didn't
-             * consume anything.  We did consume something, and it
-             * got us into this situation, so report that much back.
-             * Our days of consuming are now over anyway.
+             * Don't rfsft position so it looks likf wf didn't
+             * donsumf bnytiing.  Wf did donsumf somftiing, bnd it
+             * got us into tiis situbtion, so rfport tibt mudi bbdk.
+             * Our dbys of donsuming brf now ovfr bnywby.
              */
-            fatal(Alerts.alert_internal_error,
-                "problem unwrapping net record", e);
-            return null;  // make compiler happy
-        } finally {
+            fbtbl(Alfrts.blfrt_intfrnbl_frror,
+                "problfm unwrbpping nft rfdord", f);
+            rfturn null;  // mbkf dompilfr ibppy
+        } finblly {
             /*
-             * Just in case something failed to reset limits properly.
+             * Just in dbsf somftiing fbilfd to rfsft limits propfrly.
              */
-            ea.resetLim();
+            fb.rfsftLim();
         }
     }
 
     /*
-     * Makes additional checks for unwrap, but this time more
-     * specific to this packet and the current state of the machine.
+     * Mbkfs bdditionbl difdks for unwrbp, but tiis timf morf
+     * spfdifid to tiis pbdkft bnd tif durrfnt stbtf of tif mbdiinf.
      */
-    private SSLEngineResult readNetRecord(EngineArgs ea) throws IOException {
+    privbtf SSLEnginfRfsult rfbdNftRfdord(EnginfArgs fb) tirows IOExdfption {
 
-        Status status = null;
-        HandshakeStatus hsStatus = null;
-
-        /*
-         * See if the handshaker needs to report back some SSLException.
-         */
-        checkTaskThrown();
+        Stbtus stbtus = null;
+        HbndsibkfStbtus isStbtus = null;
 
         /*
-         * Check if we are closing/closed.
+         * Sff if tif ibndsibkfr nffds to rfport bbdk somf SSLExdfption.
          */
-        if (isInboundDone()) {
-            return new SSLEngineResult(Status.CLOSED, getHSStatus(null), 0, 0);
+        difdkTbskTirown();
+
+        /*
+         * Cifdk if wf brf dlosing/dlosfd.
+         */
+        if (isInboundDonf()) {
+            rfturn nfw SSLEnginfRfsult(Stbtus.CLOSED, gftHSStbtus(null), 0, 0);
         }
 
         /*
-         * If we're still in cs_HANDSHAKE, make sure it's been
-         * started.
+         * If wf'rf still in ds_HANDSHAKE, mbkf surf it's bffn
+         * stbrtfd.
          */
-        synchronized (this) {
-            if ((connectionState == cs_HANDSHAKE) ||
-                    (connectionState == cs_START)) {
-                kickstartHandshake();
+        syndironizfd (tiis) {
+            if ((donnfdtionStbtf == ds_HANDSHAKE) ||
+                    (donnfdtionStbtf == ds_START)) {
+                kidkstbrtHbndsibkf();
 
                 /*
-                 * If there's still outbound data to flush, we
-                 * can return without trying to unwrap anything.
+                 * If tifrf's still outbound dbtb to flusi, wf
+                 * dbn rfturn witiout trying to unwrbp bnytiing.
                  */
-                hsStatus = getHSStatus(null);
+                isStbtus = gftHSStbtus(null);
 
-                if (hsStatus == HandshakeStatus.NEED_WRAP) {
-                    return new SSLEngineResult(Status.OK, hsStatus, 0, 0);
+                if (isStbtus == HbndsibkfStbtus.NEED_WRAP) {
+                    rfturn nfw SSLEnginfRfsult(Stbtus.OK, isStbtus, 0, 0);
                 }
             }
         }
 
         /*
-         * Grab a copy of this if it doesn't already exist,
-         * and we can use it several places before anything major
-         * happens on this side.  Races aren't critical
-         * here.
+         * Grbb b dopy of tiis if it dofsn't blrfbdy fxist,
+         * bnd wf dbn usf it sfvfrbl plbdfs bfforf bnytiing mbjor
+         * ibppfns on tiis sidf.  Rbdfs brfn't dritidbl
+         * ifrf.
          */
-        if (hsStatus == null) {
-            hsStatus = getHSStatus(null);
+        if (isStbtus == null) {
+            isStbtus = gftHSStbtus(null);
         }
 
         /*
-         * If we have a task outstanding, this *MUST* be done before
-         * doing any more unwrapping, because we could be in the middle
-         * of receiving a handshake message, for example, a finished
-         * message which would change the ciphers.
+         * If wf ibvf b tbsk outstbnding, tiis *MUST* bf donf bfforf
+         * doing bny morf unwrbpping, bfdbusf wf dould bf in tif middlf
+         * of rfdfiving b ibndsibkf mfssbgf, for fxbmplf, b finisifd
+         * mfssbgf wiidi would dibngf tif dipifrs.
          */
-        if (hsStatus == HandshakeStatus.NEED_TASK) {
-            return new SSLEngineResult(
-                Status.OK, hsStatus, 0, 0);
+        if (isStbtus == HbndsibkfStbtus.NEED_TASK) {
+            rfturn nfw SSLEnginfRfsult(
+                Stbtus.OK, isStbtus, 0, 0);
         }
 
         /*
-         * Check the packet to make sure enough is here.
-         * This will also indirectly check for 0 len packets.
+         * Cifdk tif pbdkft to mbkf surf fnougi is ifrf.
+         * Tiis will blso indirfdtly difdk for 0 lfn pbdkfts.
          */
-        int packetLen = inputRecord.bytesInCompletePacket(ea.netData);
+        int pbdkftLfn = inputRfdord.bytfsInComplftfPbdkft(fb.nftDbtb);
 
-        // Is this packet bigger than SSL/TLS normally allows?
-        if (packetLen > sess.getPacketBufferSize()) {
-            if (packetLen > Record.maxLargeRecordSize) {
-                throw new SSLProtocolException(
-                    "Input SSL/TLS record too big: max = " +
-                    Record.maxLargeRecordSize +
-                    " len = " + packetLen);
-            } else {
-                // Expand the expected maximum packet/application buffer
-                // sizes.
-                sess.expandBufferSizes();
+        // Is tiis pbdkft biggfr tibn SSL/TLS normblly bllows?
+        if (pbdkftLfn > sfss.gftPbdkftBufffrSizf()) {
+            if (pbdkftLfn > Rfdord.mbxLbrgfRfdordSizf) {
+                tirow nfw SSLProtodolExdfption(
+                    "Input SSL/TLS rfdord too big: mbx = " +
+                    Rfdord.mbxLbrgfRfdordSizf +
+                    " lfn = " + pbdkftLfn);
+            } flsf {
+                // Expbnd tif fxpfdtfd mbximum pbdkft/bpplidbtion bufffr
+                // sizfs.
+                sfss.fxpbndBufffrSizfs();
             }
         }
 
         /*
-         * Check for OVERFLOW.
+         * Cifdk for OVERFLOW.
          *
-         * To be considered: We could delay enforcing the application buffer
-         * free space requirement until after the initial handshaking.
+         * To bf donsidfrfd: Wf dould dflby fnfording tif bpplidbtion bufffr
+         * frff spbdf rfquirfmfnt until bftfr tif initibl ibndsibking.
          */
-        if ((packetLen - Record.headerSize) > ea.getAppRemaining()) {
-            return new SSLEngineResult(Status.BUFFER_OVERFLOW, hsStatus, 0, 0);
+        if ((pbdkftLfn - Rfdord.ifbdfrSizf) > fb.gftAppRfmbining()) {
+            rfturn nfw SSLEnginfRfsult(Stbtus.BUFFER_OVERFLOW, isStbtus, 0, 0);
         }
 
-        // check for UNDERFLOW.
-        if ((packetLen == -1) || (ea.netData.remaining() < packetLen)) {
-            return new SSLEngineResult(
-                Status.BUFFER_UNDERFLOW, hsStatus, 0, 0);
+        // difdk for UNDERFLOW.
+        if ((pbdkftLfn == -1) || (fb.nftDbtb.rfmbining() < pbdkftLfn)) {
+            rfturn nfw SSLEnginfRfsult(
+                Stbtus.BUFFER_UNDERFLOW, isStbtus, 0, 0);
         }
 
         /*
-         * We're now ready to actually do the read.
-         * The only result code we really need to be exactly
-         * right is the HS finished, for signaling to
-         * HandshakeCompletedListeners.
+         * Wf'rf now rfbdy to bdtublly do tif rfbd.
+         * Tif only rfsult dodf wf rfblly nffd to bf fxbdtly
+         * rigit is tif HS finisifd, for signbling to
+         * HbndsibkfComplftfdListfnfrs.
          */
         try {
-            hsStatus = readRecord(ea);
-        } catch (SSLException e) {
-            throw e;
-        } catch (IOException e) {
-            throw new SSLException("readRecord", e);
+            isStbtus = rfbdRfdord(fb);
+        } dbtdi (SSLExdfption f) {
+            tirow f;
+        } dbtdi (IOExdfption f) {
+            tirow nfw SSLExdfption("rfbdRfdord", f);
         }
 
         /*
-         * Check the various condition that we could be reporting.
+         * Cifdk tif vbrious dondition tibt wf dould bf rfporting.
          *
-         * It's *possible* something might have happened between the
-         * above and now, but it was better to minimally lock "this"
-         * during the read process.  We'll return the current
-         * status, which is more representative of the current state.
+         * It's *possiblf* somftiing migit ibvf ibppfnfd bftwffn tif
+         * bbovf bnd now, but it wbs bfttfr to minimblly lodk "tiis"
+         * during tif rfbd prodfss.  Wf'll rfturn tif durrfnt
+         * stbtus, wiidi is morf rfprfsfntbtivf of tif durrfnt stbtf.
          *
-         * status above should cover:  FINISHED, NEED_TASK
+         * stbtus bbovf siould dovfr:  FINISHED, NEED_TASK
          */
-        status = (isInboundDone() ? Status.CLOSED : Status.OK);
-        hsStatus = getHSStatus(hsStatus);
+        stbtus = (isInboundDonf() ? Stbtus.CLOSED : Stbtus.OK);
+        isStbtus = gftHSStbtus(isStbtus);
 
-        return new SSLEngineResult(status, hsStatus,
-            ea.deltaNet(), ea.deltaApp());
+        rfturn nfw SSLEnginfRfsult(stbtus, isStbtus,
+            fb.dfltbNft(), fb.dfltbApp());
     }
 
     /*
-     * Actually do the read record processing.
+     * Adtublly do tif rfbd rfdord prodfssing.
      *
-     * Returns a Status if it can make specific determinations
-     * of the engine state.  In particular, we need to signal
-     * that a handshake just completed.
+     * Rfturns b Stbtus if it dbn mbkf spfdifid dftfrminbtions
+     * of tif fnginf stbtf.  In pbrtidulbr, wf nffd to signbl
+     * tibt b ibndsibkf just domplftfd.
      *
-     * It would be nice to be symmetrical with the write side and move
-     * the majority of this to EngineInputRecord, but there's too much
-     * SSLEngine state to do that cleanly.  It must still live here.
+     * It would bf nidf to bf symmftridbl witi tif writf sidf bnd movf
+     * tif mbjority of tiis to EnginfInputRfdord, but tifrf's too mudi
+     * SSLEnginf stbtf to do tibt dlfbnly.  It must still livf ifrf.
      */
-    private HandshakeStatus readRecord(EngineArgs ea) throws IOException {
+    privbtf HbndsibkfStbtus rfbdRfdord(EnginfArgs fb) tirows IOExdfption {
 
-        HandshakeStatus hsStatus = null;
+        HbndsibkfStbtus isStbtus = null;
 
         /*
-         * The various operations will return new sliced BB's,
-         * this will avoid having to worry about positions and
-         * limits in the netBB.
+         * Tif vbrious opfrbtions will rfturn nfw slidfd BB's,
+         * tiis will bvoid ibving to worry bbout positions bnd
+         * limits in tif nftBB.
          */
-        ByteBuffer readBB = null;
-        ByteBuffer decryptedBB = null;
+        BytfBufffr rfbdBB = null;
+        BytfBufffr dfdryptfdBB = null;
 
-        if (getConnectionState() != cs_ERROR) {
+        if (gftConnfdtionStbtf() != ds_ERROR) {
 
             /*
-             * Read a record ... maybe emitting an alert if we get a
-             * comprehensible but unsupported "hello" message during
-             * format checking (e.g. V2).
+             * Rfbd b rfdord ... mbybf fmitting bn blfrt if wf gft b
+             * domprfifnsiblf but unsupportfd "ifllo" mfssbgf during
+             * formbt difdking (f.g. V2).
              */
             try {
-                readBB = inputRecord.read(ea.netData);
-            } catch (IOException e) {
-                fatal(Alerts.alert_unexpected_message, e);
+                rfbdBB = inputRfdord.rfbd(fb.nftDbtb);
+            } dbtdi (IOExdfption f) {
+                fbtbl(Alfrts.blfrt_unfxpfdtfd_mfssbgf, f);
             }
 
             /*
-             * The basic SSLv3 record protection involves (optional)
-             * encryption for privacy, and an integrity check ensuring
-             * data origin authentication.  We do them both here, and
-             * throw a fatal alert if the integrity check fails.
+             * Tif bbsid SSLv3 rfdord protfdtion involvfs (optionbl)
+             * fndryption for privbdy, bnd bn intfgrity difdk fnsuring
+             * dbtb origin butifntidbtion.  Wf do tifm boti ifrf, bnd
+             * tirow b fbtbl blfrt if tif intfgrity difdk fbils.
              */
             try {
-                decryptedBB = inputRecord.decrypt(
-                                    readAuthenticator, readCipher, readBB);
-            } catch (BadPaddingException e) {
-                byte alertType = (inputRecord.contentType() ==
-                    Record.ct_handshake) ?
-                        Alerts.alert_handshake_failure :
-                        Alerts.alert_bad_record_mac;
-                fatal(alertType, e.getMessage(), e);
+                dfdryptfdBB = inputRfdord.dfdrypt(
+                                    rfbdAutifntidbtor, rfbdCipifr, rfbdBB);
+            } dbtdi (BbdPbddingExdfption f) {
+                bytf blfrtTypf = (inputRfdord.dontfntTypf() ==
+                    Rfdord.dt_ibndsibkf) ?
+                        Alfrts.blfrt_ibndsibkf_fbilurf :
+                        Alfrts.blfrt_bbd_rfdord_mbd;
+                fbtbl(blfrtTypf, f.gftMfssbgf(), f);
             }
 
-            // if (!inputRecord.decompress(c))
-            //     fatal(Alerts.alert_decompression_failure,
-            //     "decompression failure");
+            // if (!inputRfdord.dfdomprfss(d))
+            //     fbtbl(Alfrts.blfrt_dfdomprfssion_fbilurf,
+            //     "dfdomprfssion fbilurf");
 
 
             /*
-             * Process the record.
+             * Prodfss tif rfdord.
              */
 
-            synchronized (this) {
-                switch (inputRecord.contentType()) {
-                case Record.ct_handshake:
+            syndironizfd (tiis) {
+                switdi (inputRfdord.dontfntTypf()) {
+                dbsf Rfdord.dt_ibndsibkf:
                     /*
-                     * Handshake messages always go to a pending session
-                     * handshaker ... if there isn't one, create one.  This
-                     * must work asynchronously, for renegotiation.
+                     * Hbndsibkf mfssbgfs blwbys go to b pfnding sfssion
+                     * ibndsibkfr ... if tifrf isn't onf, drfbtf onf.  Tiis
+                     * must work bsyndironously, for rfnfgotibtion.
                      *
-                     * NOTE that handshaking will either resume a session
-                     * which was in the cache (and which might have other
-                     * connections in it already), or else will start a new
-                     * session (new keys exchanged) with just this connection
+                     * NOTE tibt ibndsibking will fitifr rfsumf b sfssion
+                     * wiidi wbs in tif dbdif (bnd wiidi migit ibvf otifr
+                     * donnfdtions in it blrfbdy), or flsf will stbrt b nfw
+                     * sfssion (nfw kfys fxdibngfd) witi just tiis donnfdtion
                      * in it.
                      */
-                    initHandshaker();
-                    if (!handshaker.activated()) {
-                        // prior to handshaking, activate the handshake
-                        if (connectionState == cs_RENEGOTIATE) {
-                            // don't use SSLv2Hello when renegotiating
-                            handshaker.activate(protocolVersion);
-                        } else {
-                            handshaker.activate(null);
+                    initHbndsibkfr();
+                    if (!ibndsibkfr.bdtivbtfd()) {
+                        // prior to ibndsibking, bdtivbtf tif ibndsibkf
+                        if (donnfdtionStbtf == ds_RENEGOTIATE) {
+                            // don't usf SSLv2Hfllo wifn rfnfgotibting
+                            ibndsibkfr.bdtivbtf(protodolVfrsion);
+                        } flsf {
+                            ibndsibkfr.bdtivbtf(null);
                         }
                     }
 
                     /*
-                     * process the handshake record ... may contain just
-                     * a partial handshake message or multiple messages.
+                     * prodfss tif ibndsibkf rfdord ... mby dontbin just
+                     * b pbrtibl ibndsibkf mfssbgf or multiplf mfssbgfs.
                      *
-                     * The handshaker state machine will ensure that it's
-                     * a finished message.
+                     * Tif ibndsibkfr stbtf mbdiinf will fnsurf tibt it's
+                     * b finisifd mfssbgf.
                      */
-                    handshaker.process_record(inputRecord, expectingFinished);
-                    expectingFinished = false;
+                    ibndsibkfr.prodfss_rfdord(inputRfdord, fxpfdtingFinisifd);
+                    fxpfdtingFinisifd = fblsf;
 
-                    if (handshaker.invalidated) {
-                        handshaker = null;
-                        // if state is cs_RENEGOTIATE, revert it to cs_DATA
-                        if (connectionState == cs_RENEGOTIATE) {
-                            connectionState = cs_DATA;
+                    if (ibndsibkfr.invblidbtfd) {
+                        ibndsibkfr = null;
+                        // if stbtf is ds_RENEGOTIATE, rfvfrt it to ds_DATA
+                        if (donnfdtionStbtf == ds_RENEGOTIATE) {
+                            donnfdtionStbtf = ds_DATA;
                         }
-                    } else if (handshaker.isDone()) {
-                        // reset the parameters for secure renegotiation.
-                        secureRenegotiation =
-                                        handshaker.isSecureRenegotiation();
-                        clientVerifyData = handshaker.getClientVerifyData();
-                        serverVerifyData = handshaker.getServerVerifyData();
+                    } flsf if (ibndsibkfr.isDonf()) {
+                        // rfsft tif pbrbmftfrs for sfdurf rfnfgotibtion.
+                        sfdurfRfnfgotibtion =
+                                        ibndsibkfr.isSfdurfRfnfgotibtion();
+                        dlifntVfrifyDbtb = ibndsibkfr.gftClifntVfrifyDbtb();
+                        sfrvfrVfrifyDbtb = ibndsibkfr.gftSfrvfrVfrifyDbtb();
 
-                        sess = handshaker.getSession();
-                        handshakeSession = null;
-                        if (!writer.hasOutboundData()) {
-                            hsStatus = HandshakeStatus.FINISHED;
+                        sfss = ibndsibkfr.gftSfssion();
+                        ibndsibkfSfssion = null;
+                        if (!writfr.ibsOutboundDbtb()) {
+                            isStbtus = HbndsibkfStbtus.FINISHED;
                         }
-                        handshaker = null;
-                        connectionState = cs_DATA;
+                        ibndsibkfr = null;
+                        donnfdtionStbtf = ds_DATA;
 
-                        // No handshakeListeners here.  That's a
-                        // SSLSocket thing.
-                    } else if (handshaker.taskOutstanding()) {
-                        hsStatus = HandshakeStatus.NEED_TASK;
+                        // No ibndsibkfListfnfrs ifrf.  Tibt's b
+                        // SSLSodkft tiing.
+                    } flsf if (ibndsibkfr.tbskOutstbnding()) {
+                        isStbtus = HbndsibkfStbtus.NEED_TASK;
                     }
-                    break;
+                    brfbk;
 
-                case Record.ct_application_data:
-                    // Pass this right back up to the application.
-                    if ((connectionState != cs_DATA)
-                            && (connectionState != cs_RENEGOTIATE)
-                            && (connectionState != cs_CLOSED)) {
-                        throw new SSLProtocolException(
-                            "Data received in non-data state: " +
-                            connectionState);
+                dbsf Rfdord.dt_bpplidbtion_dbtb:
+                    // Pbss tiis rigit bbdk up to tif bpplidbtion.
+                    if ((donnfdtionStbtf != ds_DATA)
+                            && (donnfdtionStbtf != ds_RENEGOTIATE)
+                            && (donnfdtionStbtf != ds_CLOSED)) {
+                        tirow nfw SSLProtodolExdfption(
+                            "Dbtb rfdfivfd in non-dbtb stbtf: " +
+                            donnfdtionStbtf);
                     }
 
-                    if (expectingFinished) {
-                        throw new SSLProtocolException
-                                ("Expecting finished message, received data");
+                    if (fxpfdtingFinisifd) {
+                        tirow nfw SSLProtodolExdfption
+                                ("Expfdting finisifd mfssbgf, rfdfivfd dbtb");
                     }
 
                     /*
-                     * Don't return data once the inbound side is
-                     * closed.
+                     * Don't rfturn dbtb ondf tif inbound sidf is
+                     * dlosfd.
                      */
-                    if (!inboundDone) {
-                        ea.scatter(decryptedBB.slice());
+                    if (!inboundDonf) {
+                        fb.sdbttfr(dfdryptfdBB.slidf());
                     }
-                    break;
+                    brfbk;
 
-                case Record.ct_alert:
-                    recvAlert();
-                    break;
+                dbsf Rfdord.dt_blfrt:
+                    rfdvAlfrt();
+                    brfbk;
 
-                case Record.ct_change_cipher_spec:
-                    if ((connectionState != cs_HANDSHAKE
-                                && connectionState != cs_RENEGOTIATE)
-                            || inputRecord.available() != 1
-                            || inputRecord.read() != 1) {
-                        fatal(Alerts.alert_unexpected_message,
-                            "illegal change cipher spec msg, state = "
-                            + connectionState);
+                dbsf Rfdord.dt_dibngf_dipifr_spfd:
+                    if ((donnfdtionStbtf != ds_HANDSHAKE
+                                && donnfdtionStbtf != ds_RENEGOTIATE)
+                            || inputRfdord.bvbilbblf() != 1
+                            || inputRfdord.rfbd() != 1) {
+                        fbtbl(Alfrts.blfrt_unfxpfdtfd_mfssbgf,
+                            "illfgbl dibngf dipifr spfd msg, stbtf = "
+                            + donnfdtionStbtf);
                     }
 
                     //
-                    // The first message after a change_cipher_spec
-                    // record MUST be a "Finished" handshake record,
-                    // else it's a protocol violation.  We force this
-                    // to be checked by a minor tweak to the state
-                    // machine.
+                    // Tif first mfssbgf bftfr b dibngf_dipifr_spfd
+                    // rfdord MUST bf b "Finisifd" ibndsibkf rfdord,
+                    // flsf it's b protodol violbtion.  Wf fordf tiis
+                    // to bf difdkfd by b minor twfbk to tif stbtf
+                    // mbdiinf.
                     //
-                    changeReadCiphers();
-                    // next message MUST be a finished message
-                    expectingFinished = true;
-                    break;
+                    dibngfRfbdCipifrs();
+                    // nfxt mfssbgf MUST bf b finisifd mfssbgf
+                    fxpfdtingFinisifd = truf;
+                    brfbk;
 
-                default:
+                dffbult:
                     //
-                    // TLS requires that unrecognized records be ignored.
+                    // TLS rfquirfs tibt unrfdognizfd rfdords bf ignorfd.
                     //
-                    if (debug != null && Debug.isOn("ssl")) {
-                        System.out.println(Thread.currentThread().getName() +
-                            ", Received record type: "
-                            + inputRecord.contentType());
+                    if (dfbug != null && Dfbug.isOn("ssl")) {
+                        Systfm.out.println(Tirfbd.durrfntTirfbd().gftNbmf() +
+                            ", Rfdfivfd rfdord typf: "
+                            + inputRfdord.dontfntTypf());
                     }
-                    break;
-                } // switch
+                    brfbk;
+                } // switdi
 
                 /*
-                 * We only need to check the sequence number state for
-                 * non-handshaking record.
+                 * Wf only nffd to difdk tif sfqufndf numbfr stbtf for
+                 * non-ibndsibking rfdord.
                  *
-                 * Note that in order to maintain the handshake status
-                 * properly, we check the sequence number after the last
-                 * record reading process. As we request renegotiation
-                 * or close the connection for wrapped sequence number
-                 * when there is enough sequence number space left to
-                 * handle a few more records, so the sequence number
-                 * of the last record cannot be wrapped.
+                 * Notf tibt in ordfr to mbintbin tif ibndsibkf stbtus
+                 * propfrly, wf difdk tif sfqufndf numbfr bftfr tif lbst
+                 * rfdord rfbding prodfss. As wf rfqufst rfnfgotibtion
+                 * or dlosf tif donnfdtion for wrbppfd sfqufndf numbfr
+                 * wifn tifrf is fnougi sfqufndf numbfr spbdf lfft to
+                 * ibndlf b ffw morf rfdords, so tif sfqufndf numbfr
+                 * of tif lbst rfdord dbnnot bf wrbppfd.
                  */
-                hsStatus = getHSStatus(hsStatus);
-                if (connectionState < cs_ERROR && !isInboundDone() &&
-                        (hsStatus == HandshakeStatus.NOT_HANDSHAKING)) {
-                    if (checkSequenceNumber(readAuthenticator,
-                            inputRecord.contentType())) {
-                        hsStatus = getHSStatus(null);
+                isStbtus = gftHSStbtus(isStbtus);
+                if (donnfdtionStbtf < ds_ERROR && !isInboundDonf() &&
+                        (isStbtus == HbndsibkfStbtus.NOT_HANDSHAKING)) {
+                    if (difdkSfqufndfNumbfr(rfbdAutifntidbtor,
+                            inputRfdord.dontfntTypf())) {
+                        isStbtus = gftHSStbtus(null);
                     }
                 }
-            } // synchronized (this)
+            } // syndironizfd (tiis)
         }
 
-        return hsStatus;
+        rfturn isStbtus;
     }
 
 
     //
-    // write/wrap side
+    // writf/wrbp sidf
     //
 
 
     /**
-     * Wraps a buffer.  Does a variety of checks before grabbing
-     * the wrapLock, which blocks multiple wraps from occurring.
+     * Wrbps b bufffr.  Dofs b vbrifty of difdks bfforf grbbbing
+     * tif wrbpLodk, wiidi blodks multiplf wrbps from oddurring.
      */
-    @Override
-    public SSLEngineResult wrap(ByteBuffer [] appData,
-            int offset, int length, ByteBuffer netData) throws SSLException {
+    @Ovfrridf
+    publid SSLEnginfRfsult wrbp(BytfBufffr [] bppDbtb,
+            int offsft, int lfngti, BytfBufffr nftDbtb) tirows SSLExdfption {
 
-        EngineArgs ea = new EngineArgs(appData, offset, length, netData);
+        EnginfArgs fb = nfw EnginfArgs(bppDbtb, offsft, lfngti, nftDbtb);
 
         /*
-         * We can be smarter about using smaller buffer sizes later.
-         * For now, force it to be large enough to handle any
-         * valid SSL/TLS record.
+         * Wf dbn bf smbrtfr bbout using smbllfr bufffr sizfs lbtfr.
+         * For now, fordf it to bf lbrgf fnougi to ibndlf bny
+         * vblid SSL/TLS rfdord.
          */
-        if (netData.remaining() < EngineOutputRecord.maxRecordSize) {
-            return new SSLEngineResult(
-                Status.BUFFER_OVERFLOW, getHSStatus(null), 0, 0);
+        if (nftDbtb.rfmbining() < EnginfOutputRfdord.mbxRfdordSizf) {
+            rfturn nfw SSLEnginfRfsult(
+                Stbtus.BUFFER_OVERFLOW, gftHSStbtus(null), 0, 0);
         }
 
         try {
-            synchronized (wrapLock) {
-                return writeAppRecord(ea);
+            syndironizfd (wrbpLodk) {
+                rfturn writfAppRfdord(fb);
             }
-        } catch (Exception e) {
-            ea.resetPos();
+        } dbtdi (Exdfption f) {
+            fb.rfsftPos();
 
-            fatal(Alerts.alert_internal_error,
-                "problem wrapping app data", e);
-            return null;  // make compiler happy
-        } finally {
+            fbtbl(Alfrts.blfrt_intfrnbl_frror,
+                "problfm wrbpping bpp dbtb", f);
+            rfturn null;  // mbkf dompilfr ibppy
+        } finblly {
             /*
-             * Just in case something didn't reset limits properly.
+             * Just in dbsf somftiing didn't rfsft limits propfrly.
              */
-            ea.resetLim();
+            fb.rfsftLim();
         }
     }
 
     /*
-     * Makes additional checks for unwrap, but this time more
-     * specific to this packet and the current state of the machine.
+     * Mbkfs bdditionbl difdks for unwrbp, but tiis timf morf
+     * spfdifid to tiis pbdkft bnd tif durrfnt stbtf of tif mbdiinf.
      */
-    private SSLEngineResult writeAppRecord(EngineArgs ea) throws IOException {
+    privbtf SSLEnginfRfsult writfAppRfdord(EnginfArgs fb) tirows IOExdfption {
 
-        Status status = null;
-        HandshakeStatus hsStatus = null;
-
-        /*
-         * See if the handshaker needs to report back some SSLException.
-         */
-        checkTaskThrown();
+        Stbtus stbtus = null;
+        HbndsibkfStbtus isStbtus = null;
 
         /*
-         * short circuit if we're closed/closing.
+         * Sff if tif ibndsibkfr nffds to rfport bbdk somf SSLExdfption.
          */
-        if (writer.isOutboundDone()) {
-            return new SSLEngineResult(Status.CLOSED, getHSStatus(null), 0, 0);
+        difdkTbskTirown();
+
+        /*
+         * siort dirduit if wf'rf dlosfd/dlosing.
+         */
+        if (writfr.isOutboundDonf()) {
+            rfturn nfw SSLEnginfRfsult(Stbtus.CLOSED, gftHSStbtus(null), 0, 0);
         }
 
         /*
-         * If we're still in cs_HANDSHAKE, make sure it's been
-         * started.
+         * If wf'rf still in ds_HANDSHAKE, mbkf surf it's bffn
+         * stbrtfd.
          */
-        synchronized (this) {
-            if ((connectionState == cs_HANDSHAKE) ||
-                    (connectionState == cs_START)) {
-                kickstartHandshake();
+        syndironizfd (tiis) {
+            if ((donnfdtionStbtf == ds_HANDSHAKE) ||
+                    (donnfdtionStbtf == ds_START)) {
+                kidkstbrtHbndsibkf();
 
                 /*
-                 * If there's no HS data available to write, we can return
-                 * without trying to wrap anything.
+                 * If tifrf's no HS dbtb bvbilbblf to writf, wf dbn rfturn
+                 * witiout trying to wrbp bnytiing.
                  */
-                hsStatus = getHSStatus(null);
+                isStbtus = gftHSStbtus(null);
 
-                if (hsStatus == HandshakeStatus.NEED_UNWRAP) {
-                    return new SSLEngineResult(Status.OK, hsStatus, 0, 0);
+                if (isStbtus == HbndsibkfStbtus.NEED_UNWRAP) {
+                    rfturn nfw SSLEnginfRfsult(Stbtus.OK, isStbtus, 0, 0);
                 }
             }
         }
 
         /*
-         * Grab a copy of this if it doesn't already exist,
-         * and we can use it several places before anything major
-         * happens on this side.  Races aren't critical
-         * here.
+         * Grbb b dopy of tiis if it dofsn't blrfbdy fxist,
+         * bnd wf dbn usf it sfvfrbl plbdfs bfforf bnytiing mbjor
+         * ibppfns on tiis sidf.  Rbdfs brfn't dritidbl
+         * ifrf.
          */
-        if (hsStatus == null) {
-            hsStatus = getHSStatus(null);
+        if (isStbtus == null) {
+            isStbtus = gftHSStbtus(null);
         }
 
         /*
-         * If we have a task outstanding, this *MUST* be done before
-         * doing any more wrapping, because we could be in the middle
-         * of receiving a handshake message, for example, a finished
-         * message which would change the ciphers.
+         * If wf ibvf b tbsk outstbnding, tiis *MUST* bf donf bfforf
+         * doing bny morf wrbpping, bfdbusf wf dould bf in tif middlf
+         * of rfdfiving b ibndsibkf mfssbgf, for fxbmplf, b finisifd
+         * mfssbgf wiidi would dibngf tif dipifrs.
          */
-        if (hsStatus == HandshakeStatus.NEED_TASK) {
-            return new SSLEngineResult(
-                Status.OK, hsStatus, 0, 0);
+        if (isStbtus == HbndsibkfStbtus.NEED_TASK) {
+            rfturn nfw SSLEnginfRfsult(
+                Stbtus.OK, isStbtus, 0, 0);
         }
 
         /*
-         * This will obtain any waiting outbound data, or will
-         * process the outbound appData.
+         * Tiis will obtbin bny wbiting outbound dbtb, or will
+         * prodfss tif outbound bppDbtb.
          */
         try {
-            synchronized (writeLock) {
-                hsStatus = writeRecord(outputRecord, ea);
+            syndironizfd (writfLodk) {
+                isStbtus = writfRfdord(outputRfdord, fb);
             }
-        } catch (SSLException e) {
-            throw e;
-        } catch (IOException e) {
-            throw new SSLException("Write problems", e);
+        } dbtdi (SSLExdfption f) {
+            tirow f;
+        } dbtdi (IOExdfption f) {
+            tirow nfw SSLExdfption("Writf problfms", f);
         }
 
         /*
-         * writeRecord might have reported some status.
-         * Now check for the remaining cases.
+         * writfRfdord migit ibvf rfportfd somf stbtus.
+         * Now difdk for tif rfmbining dbsfs.
          *
-         * status above should cover:  NEED_WRAP/FINISHED
+         * stbtus bbovf siould dovfr:  NEED_WRAP/FINISHED
          */
-        status = (isOutboundDone() ? Status.CLOSED : Status.OK);
-        hsStatus = getHSStatus(hsStatus);
+        stbtus = (isOutboundDonf() ? Stbtus.CLOSED : Stbtus.OK);
+        isStbtus = gftHSStbtus(isStbtus);
 
-        return new SSLEngineResult(status, hsStatus,
-            ea.deltaApp(), ea.deltaNet());
+        rfturn nfw SSLEnginfRfsult(stbtus, isStbtus,
+            fb.dfltbApp(), fb.dfltbNft());
     }
 
     /*
-     * Central point to write/get all of the outgoing data.
+     * Cfntrbl point to writf/gft bll of tif outgoing dbtb.
      */
-    private HandshakeStatus writeRecord(EngineOutputRecord eor,
-            EngineArgs ea) throws IOException {
+    privbtf HbndsibkfStbtus writfRfdord(EnginfOutputRfdord for,
+            EnginfArgs fb) tirows IOExdfption {
 
-        // eventually compress as well.
-        HandshakeStatus hsStatus =
-                writer.writeRecord(eor, ea, writeAuthenticator, writeCipher);
+        // fvfntublly domprfss bs wfll.
+        HbndsibkfStbtus isStbtus =
+                writfr.writfRfdord(for, fb, writfAutifntidbtor, writfCipifr);
 
         /*
-         * We only need to check the sequence number state for
-         * non-handshaking record.
+         * Wf only nffd to difdk tif sfqufndf numbfr stbtf for
+         * non-ibndsibking rfdord.
          *
-         * Note that in order to maintain the handshake status
-         * properly, we check the sequence number after the last
-         * record writing process. As we request renegotiation
-         * or close the connection for wrapped sequence number
-         * when there is enough sequence number space left to
-         * handle a few more records, so the sequence number
-         * of the last record cannot be wrapped.
+         * Notf tibt in ordfr to mbintbin tif ibndsibkf stbtus
+         * propfrly, wf difdk tif sfqufndf numbfr bftfr tif lbst
+         * rfdord writing prodfss. As wf rfqufst rfnfgotibtion
+         * or dlosf tif donnfdtion for wrbppfd sfqufndf numbfr
+         * wifn tifrf is fnougi sfqufndf numbfr spbdf lfft to
+         * ibndlf b ffw morf rfdords, so tif sfqufndf numbfr
+         * of tif lbst rfdord dbnnot bf wrbppfd.
          */
-        hsStatus = getHSStatus(hsStatus);
-        if (connectionState < cs_ERROR && !isOutboundDone() &&
-                (hsStatus == HandshakeStatus.NOT_HANDSHAKING)) {
-            if (checkSequenceNumber(writeAuthenticator, eor.contentType())) {
-                hsStatus = getHSStatus(null);
+        isStbtus = gftHSStbtus(isStbtus);
+        if (donnfdtionStbtf < ds_ERROR && !isOutboundDonf() &&
+                (isStbtus == HbndsibkfStbtus.NOT_HANDSHAKING)) {
+            if (difdkSfqufndfNumbfr(writfAutifntidbtor, for.dontfntTypf())) {
+                isStbtus = gftHSStbtus(null);
             }
         }
 
         /*
-         * turn off the flag of the first application record if we really
-         * consumed at least byte.
+         * turn off tif flbg of tif first bpplidbtion rfdord if wf rfblly
+         * donsumfd bt lfbst bytf.
          */
-        if (isFirstAppOutputRecord && ea.deltaApp() > 0) {
-            isFirstAppOutputRecord = false;
+        if (isFirstAppOutputRfdord && fb.dfltbApp() > 0) {
+            isFirstAppOutputRfdord = fblsf;
         }
 
-        return hsStatus;
+        rfturn isStbtus;
     }
 
     /*
-     * Need to split the payload except the following cases:
+     * Nffd to split tif pbylobd fxdfpt tif following dbsfs:
      *
-     * 1. protocol version is TLS 1.1 or later;
-     * 2. bulk cipher does not use CBC mode, including null bulk cipher suites.
-     * 3. the payload is the first application record of a freshly
-     *    negotiated TLS session.
-     * 4. the CBC protection is disabled;
+     * 1. protodol vfrsion is TLS 1.1 or lbtfr;
+     * 2. bulk dipifr dofs not usf CBC modf, indluding null bulk dipifr suitfs.
+     * 3. tif pbylobd is tif first bpplidbtion rfdord of b frfsily
+     *    nfgotibtfd TLS sfssion.
+     * 4. tif CBC protfdtion is disbblfd;
      *
-     * More details, please refer to
-     * EngineOutputRecord.write(EngineArgs, MAC, CipherBox).
+     * Morf dftbils, plfbsf rfffr to
+     * EnginfOutputRfdord.writf(EnginfArgs, MAC, CipifrBox).
      */
-    boolean needToSplitPayload(CipherBox cipher, ProtocolVersion protocol) {
-        return (protocol.v <= ProtocolVersion.TLS10.v) &&
-                cipher.isCBCMode() && !isFirstAppOutputRecord &&
-                Record.enableCBCProtection;
+    boolfbn nffdToSplitPbylobd(CipifrBox dipifr, ProtodolVfrsion protodol) {
+        rfturn (protodol.v <= ProtodolVfrsion.TLS10.v) &&
+                dipifr.isCBCModf() && !isFirstAppOutputRfdord &&
+                Rfdord.fnbblfCBCProtfdtion;
     }
 
     /*
-     * Non-application OutputRecords go through here.
+     * Non-bpplidbtion OutputRfdords go tirougi ifrf.
      */
-    void writeRecord(EngineOutputRecord eor) throws IOException {
-        // eventually compress as well.
-        writer.writeRecord(eor, writeAuthenticator, writeCipher);
+    void writfRfdord(EnginfOutputRfdord for) tirows IOExdfption {
+        // fvfntublly domprfss bs wfll.
+        writfr.writfRfdord(for, writfAutifntidbtor, writfCipifr);
 
         /*
-         * Check the sequence number state
+         * Cifdk tif sfqufndf numbfr stbtf
          *
-         * Note that in order to maintain the connection I/O
-         * properly, we check the sequence number after the last
-         * record writing process. As we request renegotiation
-         * or close the connection for wrapped sequence number
-         * when there is enough sequence number space left to
-         * handle a few more records, so the sequence number
-         * of the last record cannot be wrapped.
+         * Notf tibt in ordfr to mbintbin tif donnfdtion I/O
+         * propfrly, wf difdk tif sfqufndf numbfr bftfr tif lbst
+         * rfdord writing prodfss. As wf rfqufst rfnfgotibtion
+         * or dlosf tif donnfdtion for wrbppfd sfqufndf numbfr
+         * wifn tifrf is fnougi sfqufndf numbfr spbdf lfft to
+         * ibndlf b ffw morf rfdords, so tif sfqufndf numbfr
+         * of tif lbst rfdord dbnnot bf wrbppfd.
          */
-        if ((connectionState < cs_ERROR) && !isOutboundDone()) {
-            checkSequenceNumber(writeAuthenticator, eor.contentType());
+        if ((donnfdtionStbtf < ds_ERROR) && !isOutboundDonf()) {
+            difdkSfqufndfNumbfr(writfAutifntidbtor, for.dontfntTypf());
         }
     }
 
     //
-    // Close code
+    // Closf dodf
     //
 
     /**
-     * Check the sequence number state
+     * Cifdk tif sfqufndf numbfr stbtf
      *
-     * RFC 4346 states that, "Sequence numbers are of type uint64 and
-     * may not exceed 2^64-1.  Sequence numbers do not wrap. If a TLS
-     * implementation would need to wrap a sequence number, it must
-     * renegotiate instead."
+     * RFC 4346 stbtfs tibt, "Sfqufndf numbfrs brf of typf uint64 bnd
+     * mby not fxdffd 2^64-1.  Sfqufndf numbfrs do not wrbp. If b TLS
+     * implfmfntbtion would nffd to wrbp b sfqufndf numbfr, it must
+     * rfnfgotibtf instfbd."
      *
-     * Return true if the handshake status may be changed.
+     * Rfturn truf if tif ibndsibkf stbtus mby bf dibngfd.
      */
-    private boolean checkSequenceNumber(Authenticator authenticator, byte type)
-            throws IOException {
+    privbtf boolfbn difdkSfqufndfNumbfr(Autifntidbtor butifntidbtor, bytf typf)
+            tirows IOExdfption {
 
         /*
-         * Don't bother to check the sequence number for error or
-         * closed connections, or NULL MAC
+         * Don't botifr to difdk tif sfqufndf numbfr for frror or
+         * dlosfd donnfdtions, or NULL MAC
          */
-        if (connectionState >= cs_ERROR || authenticator == MAC.NULL) {
-            return false;
+        if (donnfdtionStbtf >= ds_ERROR || butifntidbtor == MAC.NULL) {
+            rfturn fblsf;
         }
 
         /*
-         * Conservatively, close the connection immediately when the
-         * sequence number is close to overflow
+         * Consfrvbtivfly, dlosf tif donnfdtion immfdibtfly wifn tif
+         * sfqufndf numbfr is dlosf to ovfrflow
          */
-        if (authenticator.seqNumOverflow()) {
+        if (butifntidbtor.sfqNumOvfrflow()) {
             /*
-             * TLS protocols do not define a error alert for sequence
-             * number overflow. We use handshake_failure error alert
-             * for handshaking and bad_record_mac for other records.
+             * TLS protodols do not dffinf b frror blfrt for sfqufndf
+             * numbfr ovfrflow. Wf usf ibndsibkf_fbilurf frror blfrt
+             * for ibndsibking bnd bbd_rfdord_mbd for otifr rfdords.
              */
-            if (debug != null && Debug.isOn("ssl")) {
-                System.out.println(Thread.currentThread().getName() +
-                    ", sequence number extremely close to overflow " +
-                    "(2^64-1 packets). Closing connection.");
+            if (dfbug != null && Dfbug.isOn("ssl")) {
+                Systfm.out.println(Tirfbd.durrfntTirfbd().gftNbmf() +
+                    ", sfqufndf numbfr fxtrfmfly dlosf to ovfrflow " +
+                    "(2^64-1 pbdkfts). Closing donnfdtion.");
             }
 
-            fatal(Alerts.alert_handshake_failure, "sequence number overflow");
+            fbtbl(Alfrts.blfrt_ibndsibkf_fbilurf, "sfqufndf numbfr ovfrflow");
 
-            return true; // make the compiler happy
+            rfturn truf; // mbkf tif dompilfr ibppy
         }
 
         /*
-         * Ask for renegotiation when need to renew sequence number.
+         * Ask for rfnfgotibtion wifn nffd to rfnfw sfqufndf numbfr.
          *
-         * Don't bother to kickstart the renegotiation when the local is
-         * asking for it.
+         * Don't botifr to kidkstbrt tif rfnfgotibtion wifn tif lodbl is
+         * bsking for it.
          */
-        if ((type != Record.ct_handshake) && authenticator.seqNumIsHuge()) {
-            if (debug != null && Debug.isOn("ssl")) {
-                System.out.println(Thread.currentThread().getName() +
-                        ", request renegotiation " +
-                        "to avoid sequence number overflow");
+        if ((typf != Rfdord.dt_ibndsibkf) && butifntidbtor.sfqNumIsHugf()) {
+            if (dfbug != null && Dfbug.isOn("ssl")) {
+                Systfm.out.println(Tirfbd.durrfntTirfbd().gftNbmf() +
+                        ", rfqufst rfnfgotibtion " +
+                        "to bvoid sfqufndf numbfr ovfrflow");
             }
 
-            beginHandshake();
-            return true;
+            bfginHbndsibkf();
+            rfturn truf;
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Signals that no more outbound application data will be sent
-     * on this <code>SSLEngine</code>.
+     * Signbls tibt no morf outbound bpplidbtion dbtb will bf sfnt
+     * on tiis <dodf>SSLEnginf</dodf>.
      */
-    private void closeOutboundInternal() {
+    privbtf void dlosfOutboundIntfrnbl() {
 
-        if ((debug != null) && Debug.isOn("ssl")) {
-            System.out.println(Thread.currentThread().getName() +
-                                    ", closeOutboundInternal()");
+        if ((dfbug != null) && Dfbug.isOn("ssl")) {
+            Systfm.out.println(Tirfbd.durrfntTirfbd().gftNbmf() +
+                                    ", dlosfOutboundIntfrnbl()");
         }
 
         /*
-         * Already closed, ignore
+         * Alrfbdy dlosfd, ignorf
          */
-        if (writer.isOutboundDone()) {
-            return;
+        if (writfr.isOutboundDonf()) {
+            rfturn;
         }
 
-        switch (connectionState) {
+        switdi (donnfdtionStbtf) {
 
         /*
-         * If we haven't even started yet, don't bother reading inbound.
+         * If wf ibvfn't fvfn stbrtfd yft, don't botifr rfbding inbound.
          */
-        case cs_START:
-            writer.closeOutbound();
-            inboundDone = true;
-            break;
+        dbsf ds_START:
+            writfr.dlosfOutbound();
+            inboundDonf = truf;
+            brfbk;
 
-        case cs_ERROR:
-        case cs_CLOSED:
-            break;
+        dbsf ds_ERROR:
+        dbsf ds_CLOSED:
+            brfbk;
 
         /*
-         * Otherwise we indicate clean termination.
+         * Otifrwisf wf indidbtf dlfbn tfrminbtion.
          */
-        // case cs_HANDSHAKE:
-        // case cs_DATA:
-        // case cs_RENEGOTIATE:
-        default:
-            warning(Alerts.alert_close_notify);
-            writer.closeOutbound();
-            break;
+        // dbsf ds_HANDSHAKE:
+        // dbsf ds_DATA:
+        // dbsf ds_RENEGOTIATE:
+        dffbult:
+            wbrning(Alfrts.blfrt_dlosf_notify);
+            writfr.dlosfOutbound();
+            brfbk;
         }
 
-        // See comment in changeReadCiphers()
-        writeCipher.dispose();
+        // Sff dommfnt in dibngfRfbdCipifrs()
+        writfCipifr.disposf();
 
-        connectionState = cs_CLOSED;
+        donnfdtionStbtf = ds_CLOSED;
     }
 
-    @Override
-    synchronized public void closeOutbound() {
+    @Ovfrridf
+    syndironizfd publid void dlosfOutbound() {
         /*
-         * Dump out a close_notify to the remote side
+         * Dump out b dlosf_notify to tif rfmotf sidf
          */
-        if ((debug != null) && Debug.isOn("ssl")) {
-            System.out.println(Thread.currentThread().getName() +
-                                    ", called closeOutbound()");
+        if ((dfbug != null) && Dfbug.isOn("ssl")) {
+            Systfm.out.println(Tirfbd.durrfntTirfbd().gftNbmf() +
+                                    ", dbllfd dlosfOutbound()");
         }
 
-        closeOutboundInternal();
-    }
-
-    /**
-     * Returns the outbound application data closure state
-     */
-    @Override
-    public boolean isOutboundDone() {
-        return writer.isOutboundDone();
+        dlosfOutboundIntfrnbl();
     }
 
     /**
-     * Signals that no more inbound network data will be sent
-     * to this <code>SSLEngine</code>.
+     * Rfturns tif outbound bpplidbtion dbtb dlosurf stbtf
      */
-    private void closeInboundInternal() {
+    @Ovfrridf
+    publid boolfbn isOutboundDonf() {
+        rfturn writfr.isOutboundDonf();
+    }
 
-        if ((debug != null) && Debug.isOn("ssl")) {
-            System.out.println(Thread.currentThread().getName() +
-                                    ", closeInboundInternal()");
+    /**
+     * Signbls tibt no morf inbound nftwork dbtb will bf sfnt
+     * to tiis <dodf>SSLEnginf</dodf>.
+     */
+    privbtf void dlosfInboundIntfrnbl() {
+
+        if ((dfbug != null) && Dfbug.isOn("ssl")) {
+            Systfm.out.println(Tirfbd.durrfntTirfbd().gftNbmf() +
+                                    ", dlosfInboundIntfrnbl()");
         }
 
         /*
-         * Already closed, ignore
+         * Alrfbdy dlosfd, ignorf
          */
-        if (inboundDone) {
-            return;
+        if (inboundDonf) {
+            rfturn;
         }
 
-        closeOutboundInternal();
-        inboundDone = true;
+        dlosfOutboundIntfrnbl();
+        inboundDonf = truf;
 
-        // See comment in changeReadCiphers()
-        readCipher.dispose();
+        // Sff dommfnt in dibngfRfbdCipifrs()
+        rfbdCipifr.disposf();
 
-        connectionState = cs_CLOSED;
+        donnfdtionStbtf = ds_CLOSED;
     }
 
     /*
-     * Close the inbound side of the connection.  We grab the
-     * lock here, and do the real work in the internal verison.
-     * We do check for truncation attacks.
+     * Closf tif inbound sidf of tif donnfdtion.  Wf grbb tif
+     * lodk ifrf, bnd do tif rfbl work in tif intfrnbl vfrison.
+     * Wf do difdk for trundbtion bttbdks.
      */
-    @Override
-    synchronized public void closeInbound() throws SSLException {
+    @Ovfrridf
+    syndironizfd publid void dlosfInbound() tirows SSLExdfption {
         /*
-         * Currently closes the outbound side as well.  The IETF TLS
-         * working group has expressed the opinion that 1/2 open
-         * connections are not allowed by the spec.  May change
-         * someday in the future.
+         * Currfntly dlosfs tif outbound sidf bs wfll.  Tif IETF TLS
+         * working group ibs fxprfssfd tif opinion tibt 1/2 opfn
+         * donnfdtions brf not bllowfd by tif spfd.  Mby dibngf
+         * somfdby in tif futurf.
          */
-        if ((debug != null) && Debug.isOn("ssl")) {
-            System.out.println(Thread.currentThread().getName() +
-                                    ", called closeInbound()");
+        if ((dfbug != null) && Dfbug.isOn("ssl")) {
+            Systfm.out.println(Tirfbd.durrfntTirfbd().gftNbmf() +
+                                    ", dbllfd dlosfInbound()");
         }
 
         /*
-         * No need to throw an Exception if we haven't even started yet.
+         * No nffd to tirow bn Exdfption if wf ibvfn't fvfn stbrtfd yft.
          */
-        if ((connectionState != cs_START) && !recvCN) {
-            recvCN = true;  // Only receive the Exception once
-            fatal(Alerts.alert_internal_error,
-                "Inbound closed before receiving peer's close_notify: " +
-                "possible truncation attack?");
-        } else {
+        if ((donnfdtionStbtf != ds_START) && !rfdvCN) {
+            rfdvCN = truf;  // Only rfdfivf tif Exdfption ondf
+            fbtbl(Alfrts.blfrt_intfrnbl_frror,
+                "Inbound dlosfd bfforf rfdfiving pffr's dlosf_notify: " +
+                "possiblf trundbtion bttbdk?");
+        } flsf {
             /*
-             * Currently, this is a no-op, but in case we change
-             * the close inbound code later.
+             * Currfntly, tiis is b no-op, but in dbsf wf dibngf
+             * tif dlosf inbound dodf lbtfr.
              */
-            closeInboundInternal();
+            dlosfInboundIntfrnbl();
         }
     }
 
     /**
-     * Returns the network inbound data closure state
+     * Rfturns tif nftwork inbound dbtb dlosurf stbtf
      */
-    @Override
-    synchronized public boolean isInboundDone() {
-        return inboundDone;
+    @Ovfrridf
+    syndironizfd publid boolfbn isInboundDonf() {
+        rfturn inboundDonf;
     }
 
 
     //
-    // Misc stuff
+    // Misd stuff
     //
 
 
     /**
-     * Returns the current <code>SSLSession</code> for this
-     * <code>SSLEngine</code>
+     * Rfturns tif durrfnt <dodf>SSLSfssion</dodf> for tiis
+     * <dodf>SSLEnginf</dodf>
      * <P>
-     * These can be long lived, and frequently correspond to an
-     * entire login session for some user.
+     * Tifsf dbn bf long livfd, bnd frfqufntly dorrfspond to bn
+     * fntirf login sfssion for somf usfr.
      */
-    @Override
-    synchronized public SSLSession getSession() {
-        return sess;
+    @Ovfrridf
+    syndironizfd publid SSLSfssion gftSfssion() {
+        rfturn sfss;
     }
 
-    @Override
-    synchronized public SSLSession getHandshakeSession() {
-        return handshakeSession;
+    @Ovfrridf
+    syndironizfd publid SSLSfssion gftHbndsibkfSfssion() {
+        rfturn ibndsibkfSfssion;
     }
 
-    synchronized void setHandshakeSession(SSLSessionImpl session) {
-        handshakeSession = session;
+    syndironizfd void sftHbndsibkfSfssion(SSLSfssionImpl sfssion) {
+        ibndsibkfSfssion = sfssion;
     }
 
     /**
-     * Returns a delegated <code>Runnable</code> task for
-     * this <code>SSLEngine</code>.
+     * Rfturns b dflfgbtfd <dodf>Runnbblf</dodf> tbsk for
+     * tiis <dodf>SSLEnginf</dodf>.
      */
-    @Override
-    synchronized public Runnable getDelegatedTask() {
-        if (handshaker != null) {
-            return handshaker.getTask();
+    @Ovfrridf
+    syndironizfd publid Runnbblf gftDflfgbtfdTbsk() {
+        if (ibndsibkfr != null) {
+            rfturn ibndsibkfr.gftTbsk();
         }
-        return null;
+        rfturn null;
     }
 
 
@@ -1603,541 +1603,541 @@ final public class SSLEngineImpl extends SSLEngine {
     //
 
     /*
-     * Send a warning alert.
+     * Sfnd b wbrning blfrt.
      */
-    void warning(byte description) {
-        sendAlert(Alerts.alert_warning, description);
+    void wbrning(bytf dfsdription) {
+        sfndAlfrt(Alfrts.blfrt_wbrning, dfsdription);
     }
 
-    synchronized void fatal(byte description, String diagnostic)
-            throws SSLException {
-        fatal(description, diagnostic, null);
+    syndironizfd void fbtbl(bytf dfsdription, String dibgnostid)
+            tirows SSLExdfption {
+        fbtbl(dfsdription, dibgnostid, null);
     }
 
-    synchronized void fatal(byte description, Throwable cause)
-            throws SSLException {
-        fatal(description, null, cause);
+    syndironizfd void fbtbl(bytf dfsdription, Tirowbblf dbusf)
+            tirows SSLExdfption {
+        fbtbl(dfsdription, null, dbusf);
     }
 
     /*
-     * We've got a fatal error here, so start the shutdown process.
+     * Wf'vf got b fbtbl frror ifrf, so stbrt tif siutdown prodfss.
      *
-     * Because of the way the code was written, we have some code
-     * calling fatal directly when the "description" is known
-     * and some throwing Exceptions which are then caught by higher
-     * levels which then call here.  This code needs to determine
-     * if one of the lower levels has already started the process.
+     * Bfdbusf of tif wby tif dodf wbs writtfn, wf ibvf somf dodf
+     * dblling fbtbl dirfdtly wifn tif "dfsdription" is known
+     * bnd somf tirowing Exdfptions wiidi brf tifn dbugit by iigifr
+     * lfvfls wiidi tifn dbll ifrf.  Tiis dodf nffds to dftfrminf
+     * if onf of tif lowfr lfvfls ibs blrfbdy stbrtfd tif prodfss.
      *
-     * We won't worry about Error's, if we have one of those,
-     * we're in worse trouble.  Note:  the networking code doesn't
-     * deal with Errors either.
+     * Wf won't worry bbout Error's, if wf ibvf onf of tiosf,
+     * wf'rf in worsf troublf.  Notf:  tif nftworking dodf dofsn't
+     * dfbl witi Errors fitifr.
      */
-    synchronized void fatal(byte description, String diagnostic,
-            Throwable cause) throws SSLException {
+    syndironizfd void fbtbl(bytf dfsdription, String dibgnostid,
+            Tirowbblf dbusf) tirows SSLExdfption {
 
         /*
-         * If we have no further information, make a general-purpose
-         * message for folks to see.  We generally have one or the other.
+         * If wf ibvf no furtifr informbtion, mbkf b gfnfrbl-purposf
+         * mfssbgf for folks to sff.  Wf gfnfrblly ibvf onf or tif otifr.
          */
-        if (diagnostic == null) {
-            diagnostic = "General SSLEngine problem";
+        if (dibgnostid == null) {
+            dibgnostid = "Gfnfrbl SSLEnginf problfm";
         }
-        if (cause == null) {
-            cause = Alerts.getSSLException(description, cause, diagnostic);
+        if (dbusf == null) {
+            dbusf = Alfrts.gftSSLExdfption(dfsdription, dbusf, dibgnostid);
         }
 
         /*
-         * If we've already shutdown because of an error,
-         * there is nothing we can do except rethrow the exception.
+         * If wf'vf blrfbdy siutdown bfdbusf of bn frror,
+         * tifrf is notiing wf dbn do fxdfpt rftirow tif fxdfption.
          *
-         * Most exceptions seen here will be SSLExceptions.
-         * We may find the occasional Exception which hasn't been
-         * converted to a SSLException, so we'll do it here.
+         * Most fxdfptions sffn ifrf will bf SSLExdfptions.
+         * Wf mby find tif oddbsionbl Exdfption wiidi ibsn't bffn
+         * donvfrtfd to b SSLExdfption, so wf'll do it ifrf.
          */
-        if (closeReason != null) {
-            if ((debug != null) && Debug.isOn("ssl")) {
-                System.out.println(Thread.currentThread().getName() +
-                    ", fatal: engine already closed.  Rethrowing " +
-                    cause.toString());
+        if (dlosfRfbson != null) {
+            if ((dfbug != null) && Dfbug.isOn("ssl")) {
+                Systfm.out.println(Tirfbd.durrfntTirfbd().gftNbmf() +
+                    ", fbtbl: fnginf blrfbdy dlosfd.  Rftirowing " +
+                    dbusf.toString());
             }
-            if (cause instanceof RuntimeException) {
-                throw (RuntimeException)cause;
-            } else if (cause instanceof SSLException) {
-                throw (SSLException)cause;
-            } else if (cause instanceof Exception) {
-                throw new SSLException("fatal SSLEngine condition", cause);
+            if (dbusf instbndfof RuntimfExdfption) {
+                tirow (RuntimfExdfption)dbusf;
+            } flsf if (dbusf instbndfof SSLExdfption) {
+                tirow (SSLExdfption)dbusf;
+            } flsf if (dbusf instbndfof Exdfption) {
+                tirow nfw SSLExdfption("fbtbl SSLEnginf dondition", dbusf);
             }
         }
 
-        if ((debug != null) && Debug.isOn("ssl")) {
-            System.out.println(Thread.currentThread().getName()
-                        + ", fatal error: " + description +
-                        ": " + diagnostic + "\n" + cause.toString());
+        if ((dfbug != null) && Dfbug.isOn("ssl")) {
+            Systfm.out.println(Tirfbd.durrfntTirfbd().gftNbmf()
+                        + ", fbtbl frror: " + dfsdription +
+                        ": " + dibgnostid + "\n" + dbusf.toString());
         }
 
         /*
-         * Ok, this engine's going down.
+         * Ok, tiis fnginf's going down.
          */
-        int oldState = connectionState;
-        connectionState = cs_ERROR;
+        int oldStbtf = donnfdtionStbtf;
+        donnfdtionStbtf = ds_ERROR;
 
-        inboundDone = true;
+        inboundDonf = truf;
 
-        sess.invalidate();
-        if (handshakeSession != null) {
-            handshakeSession.invalidate();
+        sfss.invblidbtf();
+        if (ibndsibkfSfssion != null) {
+            ibndsibkfSfssion.invblidbtf();
         }
 
         /*
-         * If we haven't even started handshaking yet, no need
-         * to generate the fatal close alert.
+         * If wf ibvfn't fvfn stbrtfd ibndsibking yft, no nffd
+         * to gfnfrbtf tif fbtbl dlosf blfrt.
          */
-        if (oldState != cs_START) {
-            sendAlert(Alerts.alert_fatal, description);
+        if (oldStbtf != ds_START) {
+            sfndAlfrt(Alfrts.blfrt_fbtbl, dfsdription);
         }
 
-        if (cause instanceof SSLException) { // only true if != null
-            closeReason = (SSLException)cause;
-        } else {
+        if (dbusf instbndfof SSLExdfption) { // only truf if != null
+            dlosfRfbson = (SSLExdfption)dbusf;
+        } flsf {
             /*
-             * Including RuntimeExceptions, but we'll throw those
-             * down below.  The closeReason isn't used again,
-             * except for null checks.
+             * Indluding RuntimfExdfptions, but wf'll tirow tiosf
+             * down bflow.  Tif dlosfRfbson isn't usfd bgbin,
+             * fxdfpt for null difdks.
              */
-            closeReason =
-                Alerts.getSSLException(description, cause, diagnostic);
+            dlosfRfbson =
+                Alfrts.gftSSLExdfption(dfsdription, dbusf, dibgnostid);
         }
 
-        writer.closeOutbound();
+        writfr.dlosfOutbound();
 
-        connectionState = cs_CLOSED;
+        donnfdtionStbtf = ds_CLOSED;
 
-        // See comment in changeReadCiphers()
-        readCipher.dispose();
-        writeCipher.dispose();
+        // Sff dommfnt in dibngfRfbdCipifrs()
+        rfbdCipifr.disposf();
+        writfCipifr.disposf();
 
-        if (cause instanceof RuntimeException) {
-            throw (RuntimeException)cause;
-        } else {
-            throw closeReason;
+        if (dbusf instbndfof RuntimfExdfption) {
+            tirow (RuntimfExdfption)dbusf;
+        } flsf {
+            tirow dlosfRfbson;
         }
     }
 
     /*
-     * Process an incoming alert ... caller must already have synchronized
-     * access to "this".
+     * Prodfss bn indoming blfrt ... dbllfr must blrfbdy ibvf syndironizfd
+     * bddfss to "tiis".
      */
-    private void recvAlert() throws IOException {
-        byte level = (byte)inputRecord.read();
-        byte description = (byte)inputRecord.read();
-        if (description == -1) { // check for short message
-            fatal(Alerts.alert_illegal_parameter, "Short alert message");
+    privbtf void rfdvAlfrt() tirows IOExdfption {
+        bytf lfvfl = (bytf)inputRfdord.rfbd();
+        bytf dfsdription = (bytf)inputRfdord.rfbd();
+        if (dfsdription == -1) { // difdk for siort mfssbgf
+            fbtbl(Alfrts.blfrt_illfgbl_pbrbmftfr, "Siort blfrt mfssbgf");
         }
 
-        if (debug != null && (Debug.isOn("record") ||
-                Debug.isOn("handshake"))) {
-            synchronized (System.out) {
-                System.out.print(Thread.currentThread().getName());
-                System.out.print(", RECV " + protocolVersion + " ALERT:  ");
-                if (level == Alerts.alert_fatal) {
-                    System.out.print("fatal, ");
-                } else if (level == Alerts.alert_warning) {
-                    System.out.print("warning, ");
-                } else {
-                    System.out.print("<level " + (0x0ff & level) + ">, ");
+        if (dfbug != null && (Dfbug.isOn("rfdord") ||
+                Dfbug.isOn("ibndsibkf"))) {
+            syndironizfd (Systfm.out) {
+                Systfm.out.print(Tirfbd.durrfntTirfbd().gftNbmf());
+                Systfm.out.print(", RECV " + protodolVfrsion + " ALERT:  ");
+                if (lfvfl == Alfrts.blfrt_fbtbl) {
+                    Systfm.out.print("fbtbl, ");
+                } flsf if (lfvfl == Alfrts.blfrt_wbrning) {
+                    Systfm.out.print("wbrning, ");
+                } flsf {
+                    Systfm.out.print("<lfvfl " + (0x0ff & lfvfl) + ">, ");
                 }
-                System.out.println(Alerts.alertDescription(description));
+                Systfm.out.println(Alfrts.blfrtDfsdription(dfsdription));
             }
         }
 
-        if (level == Alerts.alert_warning) {
-            if (description == Alerts.alert_close_notify) {
-                if (connectionState == cs_HANDSHAKE) {
-                    fatal(Alerts.alert_unexpected_message,
-                                "Received close_notify during handshake");
-                } else {
-                    recvCN = true;
-                    closeInboundInternal();  // reply to close
+        if (lfvfl == Alfrts.blfrt_wbrning) {
+            if (dfsdription == Alfrts.blfrt_dlosf_notify) {
+                if (donnfdtionStbtf == ds_HANDSHAKE) {
+                    fbtbl(Alfrts.blfrt_unfxpfdtfd_mfssbgf,
+                                "Rfdfivfd dlosf_notify during ibndsibkf");
+                } flsf {
+                    rfdvCN = truf;
+                    dlosfInboundIntfrnbl();  // rfply to dlosf
                 }
-            } else {
+            } flsf {
 
                 //
-                // The other legal warnings relate to certificates,
-                // e.g. no_certificate, bad_certificate, etc; these
-                // are important to the handshaking code, which can
-                // also handle illegal protocol alerts if needed.
+                // Tif otifr lfgbl wbrnings rflbtf to dfrtifidbtfs,
+                // f.g. no_dfrtifidbtf, bbd_dfrtifidbtf, ftd; tifsf
+                // brf importbnt to tif ibndsibking dodf, wiidi dbn
+                // blso ibndlf illfgbl protodol blfrts if nffdfd.
                 //
-                if (handshaker != null) {
-                    handshaker.handshakeAlert(description);
+                if (ibndsibkfr != null) {
+                    ibndsibkfr.ibndsibkfAlfrt(dfsdription);
                 }
             }
-        } else { // fatal or unknown level
-            String reason = "Received fatal alert: "
-                + Alerts.alertDescription(description);
-            if (closeReason == null) {
-                closeReason = Alerts.getSSLException(description, reason);
+        } flsf { // fbtbl or unknown lfvfl
+            String rfbson = "Rfdfivfd fbtbl blfrt: "
+                + Alfrts.blfrtDfsdription(dfsdription);
+            if (dlosfRfbson == null) {
+                dlosfRfbson = Alfrts.gftSSLExdfption(dfsdription, rfbson);
             }
-            fatal(Alerts.alert_unexpected_message, reason);
+            fbtbl(Alfrts.blfrt_unfxpfdtfd_mfssbgf, rfbson);
         }
     }
 
 
     /*
-     * Emit alerts.  Caller must have synchronized with "this".
+     * Emit blfrts.  Cbllfr must ibvf syndironizfd witi "tiis".
      */
-    private void sendAlert(byte level, byte description) {
-        // the connectionState cannot be cs_START
-        if (connectionState >= cs_CLOSED) {
-            return;
+    privbtf void sfndAlfrt(bytf lfvfl, bytf dfsdription) {
+        // tif donnfdtionStbtf dbnnot bf ds_START
+        if (donnfdtionStbtf >= ds_CLOSED) {
+            rfturn;
         }
 
-        // For initial handshaking, don't send alert message to peer if
-        // handshaker has not started.
-        if (connectionState == cs_HANDSHAKE &&
-            (handshaker == null || !handshaker.started())) {
-            return;
+        // For initibl ibndsibking, don't sfnd blfrt mfssbgf to pffr if
+        // ibndsibkfr ibs not stbrtfd.
+        if (donnfdtionStbtf == ds_HANDSHAKE &&
+            (ibndsibkfr == null || !ibndsibkfr.stbrtfd())) {
+            rfturn;
         }
 
-        EngineOutputRecord r = new EngineOutputRecord(Record.ct_alert, this);
-        r.setVersion(protocolVersion);
+        EnginfOutputRfdord r = nfw EnginfOutputRfdord(Rfdord.dt_blfrt, tiis);
+        r.sftVfrsion(protodolVfrsion);
 
-        boolean useDebug = debug != null && Debug.isOn("ssl");
-        if (useDebug) {
-            synchronized (System.out) {
-                System.out.print(Thread.currentThread().getName());
-                System.out.print(", SEND " + protocolVersion + " ALERT:  ");
-                if (level == Alerts.alert_fatal) {
-                    System.out.print("fatal, ");
-                } else if (level == Alerts.alert_warning) {
-                    System.out.print("warning, ");
-                } else {
-                    System.out.print("<level = " + (0x0ff & level) + ">, ");
+        boolfbn usfDfbug = dfbug != null && Dfbug.isOn("ssl");
+        if (usfDfbug) {
+            syndironizfd (Systfm.out) {
+                Systfm.out.print(Tirfbd.durrfntTirfbd().gftNbmf());
+                Systfm.out.print(", SEND " + protodolVfrsion + " ALERT:  ");
+                if (lfvfl == Alfrts.blfrt_fbtbl) {
+                    Systfm.out.print("fbtbl, ");
+                } flsf if (lfvfl == Alfrts.blfrt_wbrning) {
+                    Systfm.out.print("wbrning, ");
+                } flsf {
+                    Systfm.out.print("<lfvfl = " + (0x0ff & lfvfl) + ">, ");
                 }
-                System.out.println("description = "
-                        + Alerts.alertDescription(description));
+                Systfm.out.println("dfsdription = "
+                        + Alfrts.blfrtDfsdription(dfsdription));
             }
         }
 
-        r.write(level);
-        r.write(description);
+        r.writf(lfvfl);
+        r.writf(dfsdription);
         try {
-            writeRecord(r);
-        } catch (IOException e) {
-            if (useDebug) {
-                System.out.println(Thread.currentThread().getName() +
-                    ", Exception sending alert: " + e);
+            writfRfdord(r);
+        } dbtdi (IOExdfption f) {
+            if (usfDfbug) {
+                Systfm.out.println(Tirfbd.durrfntTirfbd().gftNbmf() +
+                    ", Exdfption sfnding blfrt: " + f);
             }
         }
     }
 
 
     //
-    // VARIOUS OTHER METHODS (COMMON TO SSLSocket)
+    // VARIOUS OTHER METHODS (COMMON TO SSLSodkft)
     //
 
 
     /**
-     * Controls whether new connections may cause creation of new SSL
-     * sessions.
+     * Controls wiftifr nfw donnfdtions mby dbusf drfbtion of nfw SSL
+     * sfssions.
      *
-     * As long as handshaking has not started, we can change
-     * whether we enable session creations.  Otherwise,
-     * we will need to wait for the next handshake.
+     * As long bs ibndsibking ibs not stbrtfd, wf dbn dibngf
+     * wiftifr wf fnbblf sfssion drfbtions.  Otifrwisf,
+     * wf will nffd to wbit for tif nfxt ibndsibkf.
      */
-    @Override
-    synchronized public void setEnableSessionCreation(boolean flag) {
-        enableSessionCreation = flag;
+    @Ovfrridf
+    syndironizfd publid void sftEnbblfSfssionCrfbtion(boolfbn flbg) {
+        fnbblfSfssionCrfbtion = flbg;
 
-        if ((handshaker != null) && !handshaker.activated()) {
-            handshaker.setEnableSessionCreation(enableSessionCreation);
+        if ((ibndsibkfr != null) && !ibndsibkfr.bdtivbtfd()) {
+            ibndsibkfr.sftEnbblfSfssionCrfbtion(fnbblfSfssionCrfbtion);
         }
     }
 
     /**
-     * Returns true if new connections may cause creation of new SSL
-     * sessions.
+     * Rfturns truf if nfw donnfdtions mby dbusf drfbtion of nfw SSL
+     * sfssions.
      */
-    @Override
-    synchronized public boolean getEnableSessionCreation() {
-        return enableSessionCreation;
+    @Ovfrridf
+    syndironizfd publid boolfbn gftEnbblfSfssionCrfbtion() {
+        rfturn fnbblfSfssionCrfbtion;
     }
 
 
     /**
-     * Sets the flag controlling whether a server mode engine
-     * *REQUIRES* SSL client authentication.
+     * Sfts tif flbg dontrolling wiftifr b sfrvfr modf fnginf
+     * *REQUIRES* SSL dlifnt butifntidbtion.
      *
-     * As long as handshaking has not started, we can change
-     * whether client authentication is needed.  Otherwise,
-     * we will need to wait for the next handshake.
+     * As long bs ibndsibking ibs not stbrtfd, wf dbn dibngf
+     * wiftifr dlifnt butifntidbtion is nffdfd.  Otifrwisf,
+     * wf will nffd to wbit for tif nfxt ibndsibkf.
      */
-    @Override
-    synchronized public void setNeedClientAuth(boolean flag) {
-        doClientAuth = (flag ?
-            SSLEngineImpl.clauth_required : SSLEngineImpl.clauth_none);
+    @Ovfrridf
+    syndironizfd publid void sftNffdClifntAuti(boolfbn flbg) {
+        doClifntAuti = (flbg ?
+            SSLEnginfImpl.dlbuti_rfquirfd : SSLEnginfImpl.dlbuti_nonf);
 
-        if ((handshaker != null) &&
-                (handshaker instanceof ServerHandshaker) &&
-                !handshaker.activated()) {
-            ((ServerHandshaker) handshaker).setClientAuth(doClientAuth);
+        if ((ibndsibkfr != null) &&
+                (ibndsibkfr instbndfof SfrvfrHbndsibkfr) &&
+                !ibndsibkfr.bdtivbtfd()) {
+            ((SfrvfrHbndsibkfr) ibndsibkfr).sftClifntAuti(doClifntAuti);
         }
     }
 
-    @Override
-    synchronized public boolean getNeedClientAuth() {
-        return (doClientAuth == SSLEngineImpl.clauth_required);
+    @Ovfrridf
+    syndironizfd publid boolfbn gftNffdClifntAuti() {
+        rfturn (doClifntAuti == SSLEnginfImpl.dlbuti_rfquirfd);
     }
 
     /**
-     * Sets the flag controlling whether a server mode engine
-     * *REQUESTS* SSL client authentication.
+     * Sfts tif flbg dontrolling wiftifr b sfrvfr modf fnginf
+     * *REQUESTS* SSL dlifnt butifntidbtion.
      *
-     * As long as handshaking has not started, we can change
-     * whether client authentication is requested.  Otherwise,
-     * we will need to wait for the next handshake.
+     * As long bs ibndsibking ibs not stbrtfd, wf dbn dibngf
+     * wiftifr dlifnt butifntidbtion is rfqufstfd.  Otifrwisf,
+     * wf will nffd to wbit for tif nfxt ibndsibkf.
      */
-    @Override
-    synchronized public void setWantClientAuth(boolean flag) {
-        doClientAuth = (flag ?
-            SSLEngineImpl.clauth_requested : SSLEngineImpl.clauth_none);
+    @Ovfrridf
+    syndironizfd publid void sftWbntClifntAuti(boolfbn flbg) {
+        doClifntAuti = (flbg ?
+            SSLEnginfImpl.dlbuti_rfqufstfd : SSLEnginfImpl.dlbuti_nonf);
 
-        if ((handshaker != null) &&
-                (handshaker instanceof ServerHandshaker) &&
-                !handshaker.activated()) {
-            ((ServerHandshaker) handshaker).setClientAuth(doClientAuth);
+        if ((ibndsibkfr != null) &&
+                (ibndsibkfr instbndfof SfrvfrHbndsibkfr) &&
+                !ibndsibkfr.bdtivbtfd()) {
+            ((SfrvfrHbndsibkfr) ibndsibkfr).sftClifntAuti(doClifntAuti);
         }
     }
 
-    @Override
-    synchronized public boolean getWantClientAuth() {
-        return (doClientAuth == SSLEngineImpl.clauth_requested);
+    @Ovfrridf
+    syndironizfd publid boolfbn gftWbntClifntAuti() {
+        rfturn (doClifntAuti == SSLEnginfImpl.dlbuti_rfqufstfd);
     }
 
 
     /**
-     * Sets the flag controlling whether the engine is in SSL
-     * client or server mode.  Must be called before any SSL
-     * traffic has started.
+     * Sfts tif flbg dontrolling wiftifr tif fnginf is in SSL
+     * dlifnt or sfrvfr modf.  Must bf dbllfd bfforf bny SSL
+     * trbffid ibs stbrtfd.
      */
-    @Override
-    @SuppressWarnings("fallthrough")
-    synchronized public void setUseClientMode(boolean flag) {
-        switch (connectionState) {
+    @Ovfrridf
+    @SupprfssWbrnings("fblltirougi")
+    syndironizfd publid void sftUsfClifntModf(boolfbn flbg) {
+        switdi (donnfdtionStbtf) {
 
-        case cs_START:
+        dbsf ds_START:
             /*
-             * If we need to change the engine mode and the enabled
-             * protocols haven't specifically been set by the user,
-             * change them to the corresponding default ones.
+             * If wf nffd to dibngf tif fnginf modf bnd tif fnbblfd
+             * protodols ibvfn't spfdifidblly bffn sft by tif usfr,
+             * dibngf tifm to tif dorrfsponding dffbult onfs.
              */
-            if (roleIsServer != (!flag) &&
-                    sslContext.isDefaultProtocolList(enabledProtocols)) {
-                enabledProtocols = sslContext.getDefaultProtocolList(!flag);
+            if (rolfIsSfrvfr != (!flbg) &&
+                    sslContfxt.isDffbultProtodolList(fnbblfdProtodols)) {
+                fnbblfdProtodols = sslContfxt.gftDffbultProtodolList(!flbg);
             }
 
-            roleIsServer = !flag;
-            serverModeSet = true;
-            break;
+            rolfIsSfrvfr = !flbg;
+            sfrvfrModfSft = truf;
+            brfbk;
 
-        case cs_HANDSHAKE:
+        dbsf ds_HANDSHAKE:
             /*
-             * If we have a handshaker, but haven't started
-             * SSL traffic, we can throw away our current
-             * handshaker, and start from scratch.  Don't
-             * need to call doneConnect() again, we already
-             * have the streams.
+             * If wf ibvf b ibndsibkfr, but ibvfn't stbrtfd
+             * SSL trbffid, wf dbn tirow bwby our durrfnt
+             * ibndsibkfr, bnd stbrt from sdrbtdi.  Don't
+             * nffd to dbll donfConnfdt() bgbin, wf blrfbdy
+             * ibvf tif strfbms.
              */
-            assert(handshaker != null);
-            if (!handshaker.activated()) {
+            bssfrt(ibndsibkfr != null);
+            if (!ibndsibkfr.bdtivbtfd()) {
                 /*
-                 * If we need to change the engine mode and the enabled
-                 * protocols haven't specifically been set by the user,
-                 * change them to the corresponding default ones.
+                 * If wf nffd to dibngf tif fnginf modf bnd tif fnbblfd
+                 * protodols ibvfn't spfdifidblly bffn sft by tif usfr,
+                 * dibngf tifm to tif dorrfsponding dffbult onfs.
                  */
-                if (roleIsServer != (!flag) &&
-                        sslContext.isDefaultProtocolList(enabledProtocols)) {
-                    enabledProtocols = sslContext.getDefaultProtocolList(!flag);
+                if (rolfIsSfrvfr != (!flbg) &&
+                        sslContfxt.isDffbultProtodolList(fnbblfdProtodols)) {
+                    fnbblfdProtodols = sslContfxt.gftDffbultProtodolList(!flbg);
                 }
 
-                roleIsServer = !flag;
-                connectionState = cs_START;
-                initHandshaker();
-                break;
+                rolfIsSfrvfr = !flbg;
+                donnfdtionStbtf = ds_START;
+                initHbndsibkfr();
+                brfbk;
             }
 
-            // If handshake has started, that's an error.  Fall through...
+            // If ibndsibkf ibs stbrtfd, tibt's bn frror.  Fbll tirougi...
 
-        default:
-            if (debug != null && Debug.isOn("ssl")) {
-                System.out.println(Thread.currentThread().getName() +
-                    ", setUseClientMode() invoked in state = " +
-                    connectionState);
+        dffbult:
+            if (dfbug != null && Dfbug.isOn("ssl")) {
+                Systfm.out.println(Tirfbd.durrfntTirfbd().gftNbmf() +
+                    ", sftUsfClifntModf() invokfd in stbtf = " +
+                    donnfdtionStbtf);
             }
 
             /*
-             * We can let them continue if they catch this correctly,
-             * we don't need to shut this down.
+             * Wf dbn lft tifm dontinuf if tify dbtdi tiis dorrfdtly,
+             * wf don't nffd to siut tiis down.
              */
-            throw new IllegalArgumentException(
-                "Cannot change mode after SSL traffic has started");
+            tirow nfw IllfgblArgumfntExdfption(
+                "Cbnnot dibngf modf bftfr SSL trbffid ibs stbrtfd");
         }
     }
 
-    @Override
-    synchronized public boolean getUseClientMode() {
-        return !roleIsServer;
+    @Ovfrridf
+    syndironizfd publid boolfbn gftUsfClifntModf() {
+        rfturn !rolfIsSfrvfr;
     }
 
 
     /**
-     * Returns the names of the cipher suites which could be enabled for use
-     * on an SSL connection.  Normally, only a subset of these will actually
-     * be enabled by default, since this list may include cipher suites which
-     * do not support the mutual authentication of servers and clients, or
-     * which do not protect data confidentiality.  Servers may also need
-     * certain kinds of certificates to use certain cipher suites.
+     * Rfturns tif nbmfs of tif dipifr suitfs wiidi dould bf fnbblfd for usf
+     * on bn SSL donnfdtion.  Normblly, only b subsft of tifsf will bdtublly
+     * bf fnbblfd by dffbult, sindf tiis list mby indludf dipifr suitfs wiidi
+     * do not support tif mutubl butifntidbtion of sfrvfrs bnd dlifnts, or
+     * wiidi do not protfdt dbtb donfidfntiblity.  Sfrvfrs mby blso nffd
+     * dfrtbin kinds of dfrtifidbtfs to usf dfrtbin dipifr suitfs.
      *
-     * @return an array of cipher suite names
+     * @rfturn bn brrby of dipifr suitf nbmfs
      */
-    @Override
-    public String[] getSupportedCipherSuites() {
-        return sslContext.getSupportedCipherSuiteList().toStringArray();
+    @Ovfrridf
+    publid String[] gftSupportfdCipifrSuitfs() {
+        rfturn sslContfxt.gftSupportfdCipifrSuitfList().toStringArrby();
     }
 
     /**
-     * Controls which particular cipher suites are enabled for use on
-     * this connection.  The cipher suites must have been listed by
-     * getCipherSuites() as being supported.  Even if a suite has been
-     * enabled, it might never be used if no peer supports it or the
-     * requisite certificates (and private keys) are not available.
+     * Controls wiidi pbrtidulbr dipifr suitfs brf fnbblfd for usf on
+     * tiis donnfdtion.  Tif dipifr suitfs must ibvf bffn listfd by
+     * gftCipifrSuitfs() bs bfing supportfd.  Evfn if b suitf ibs bffn
+     * fnbblfd, it migit nfvfr bf usfd if no pffr supports it or tif
+     * rfquisitf dfrtifidbtfs (bnd privbtf kfys) brf not bvbilbblf.
      *
-     * @param suites Names of all the cipher suites to enable.
+     * @pbrbm suitfs Nbmfs of bll tif dipifr suitfs to fnbblf.
      */
-    @Override
-    synchronized public void setEnabledCipherSuites(String[] suites) {
-        enabledCipherSuites = new CipherSuiteList(suites);
-        if ((handshaker != null) && !handshaker.activated()) {
-            handshaker.setEnabledCipherSuites(enabledCipherSuites);
+    @Ovfrridf
+    syndironizfd publid void sftEnbblfdCipifrSuitfs(String[] suitfs) {
+        fnbblfdCipifrSuitfs = nfw CipifrSuitfList(suitfs);
+        if ((ibndsibkfr != null) && !ibndsibkfr.bdtivbtfd()) {
+            ibndsibkfr.sftEnbblfdCipifrSuitfs(fnbblfdCipifrSuitfs);
         }
     }
 
     /**
-     * Returns the names of the SSL cipher suites which are currently enabled
-     * for use on this connection.  When an SSL engine is first created,
-     * all enabled cipher suites <em>(a)</em> protect data confidentiality,
-     * by traffic encryption, and <em>(b)</em> can mutually authenticate
-     * both clients and servers.  Thus, in some environments, this value
-     * might be empty.
+     * Rfturns tif nbmfs of tif SSL dipifr suitfs wiidi brf durrfntly fnbblfd
+     * for usf on tiis donnfdtion.  Wifn bn SSL fnginf is first drfbtfd,
+     * bll fnbblfd dipifr suitfs <fm>(b)</fm> protfdt dbtb donfidfntiblity,
+     * by trbffid fndryption, bnd <fm>(b)</fm> dbn mutublly butifntidbtf
+     * boti dlifnts bnd sfrvfrs.  Tius, in somf fnvironmfnts, tiis vbluf
+     * migit bf fmpty.
      *
-     * @return an array of cipher suite names
+     * @rfturn bn brrby of dipifr suitf nbmfs
      */
-    @Override
-    synchronized public String[] getEnabledCipherSuites() {
-        return enabledCipherSuites.toStringArray();
+    @Ovfrridf
+    syndironizfd publid String[] gftEnbblfdCipifrSuitfs() {
+        rfturn fnbblfdCipifrSuitfs.toStringArrby();
     }
 
 
     /**
-     * Returns the protocols that are supported by this implementation.
-     * A subset of the supported protocols may be enabled for this connection
-     * @return an array of protocol names.
+     * Rfturns tif protodols tibt brf supportfd by tiis implfmfntbtion.
+     * A subsft of tif supportfd protodols mby bf fnbblfd for tiis donnfdtion
+     * @rfturn bn brrby of protodol nbmfs.
      */
-    @Override
-    public String[] getSupportedProtocols() {
-        return sslContext.getSuportedProtocolList().toStringArray();
+    @Ovfrridf
+    publid String[] gftSupportfdProtodols() {
+        rfturn sslContfxt.gftSuportfdProtodolList().toStringArrby();
     }
 
     /**
-     * Controls which protocols are enabled for use on
-     * this connection.  The protocols must have been listed by
-     * getSupportedProtocols() as being supported.
+     * Controls wiidi protodols brf fnbblfd for usf on
+     * tiis donnfdtion.  Tif protodols must ibvf bffn listfd by
+     * gftSupportfdProtodols() bs bfing supportfd.
      *
-     * @param protocols protocols to enable.
-     * @exception IllegalArgumentException when one of the protocols
-     *  named by the parameter is not supported.
+     * @pbrbm protodols protodols to fnbblf.
+     * @fxdfption IllfgblArgumfntExdfption wifn onf of tif protodols
+     *  nbmfd by tif pbrbmftfr is not supportfd.
      */
-    @Override
-    synchronized public void setEnabledProtocols(String[] protocols) {
-        enabledProtocols = new ProtocolList(protocols);
-        if ((handshaker != null) && !handshaker.activated()) {
-            handshaker.setEnabledProtocols(enabledProtocols);
+    @Ovfrridf
+    syndironizfd publid void sftEnbblfdProtodols(String[] protodols) {
+        fnbblfdProtodols = nfw ProtodolList(protodols);
+        if ((ibndsibkfr != null) && !ibndsibkfr.bdtivbtfd()) {
+            ibndsibkfr.sftEnbblfdProtodols(fnbblfdProtodols);
         }
     }
 
-    @Override
-    synchronized public String[] getEnabledProtocols() {
-        return enabledProtocols.toStringArray();
-    }
-
-    /**
-     * Returns the SSLParameters in effect for this SSLEngine.
-     */
-    @Override
-    synchronized public SSLParameters getSSLParameters() {
-        SSLParameters params = super.getSSLParameters();
-
-        // the super implementation does not handle the following parameters
-        params.setEndpointIdentificationAlgorithm(identificationProtocol);
-        params.setAlgorithmConstraints(algorithmConstraints);
-        params.setSNIMatchers(sniMatchers);
-        params.setServerNames(serverNames);
-        params.setUseCipherSuitesOrder(preferLocalCipherSuites);
-
-        return params;
+    @Ovfrridf
+    syndironizfd publid String[] gftEnbblfdProtodols() {
+        rfturn fnbblfdProtodols.toStringArrby();
     }
 
     /**
-     * Applies SSLParameters to this engine.
+     * Rfturns tif SSLPbrbmftfrs in ffffdt for tiis SSLEnginf.
      */
-    @Override
-    synchronized public void setSSLParameters(SSLParameters params) {
-        super.setSSLParameters(params);
+    @Ovfrridf
+    syndironizfd publid SSLPbrbmftfrs gftSSLPbrbmftfrs() {
+        SSLPbrbmftfrs pbrbms = supfr.gftSSLPbrbmftfrs();
 
-        // the super implementation does not handle the following parameters
-        identificationProtocol = params.getEndpointIdentificationAlgorithm();
-        algorithmConstraints = params.getAlgorithmConstraints();
-        preferLocalCipherSuites = params.getUseCipherSuitesOrder();
+        // tif supfr implfmfntbtion dofs not ibndlf tif following pbrbmftfrs
+        pbrbms.sftEndpointIdfntifidbtionAlgoritim(idfntifidbtionProtodol);
+        pbrbms.sftAlgoritimConstrbints(blgoritimConstrbints);
+        pbrbms.sftSNIMbtdifrs(sniMbtdifrs);
+        pbrbms.sftSfrvfrNbmfs(sfrvfrNbmfs);
+        pbrbms.sftUsfCipifrSuitfsOrdfr(prfffrLodblCipifrSuitfs);
 
-        List<SNIServerName> sniNames = params.getServerNames();
-        if (sniNames != null) {
-            serverNames = sniNames;
+        rfturn pbrbms;
+    }
+
+    /**
+     * Applifs SSLPbrbmftfrs to tiis fnginf.
+     */
+    @Ovfrridf
+    syndironizfd publid void sftSSLPbrbmftfrs(SSLPbrbmftfrs pbrbms) {
+        supfr.sftSSLPbrbmftfrs(pbrbms);
+
+        // tif supfr implfmfntbtion dofs not ibndlf tif following pbrbmftfrs
+        idfntifidbtionProtodol = pbrbms.gftEndpointIdfntifidbtionAlgoritim();
+        blgoritimConstrbints = pbrbms.gftAlgoritimConstrbints();
+        prfffrLodblCipifrSuitfs = pbrbms.gftUsfCipifrSuitfsOrdfr();
+
+        List<SNISfrvfrNbmf> sniNbmfs = pbrbms.gftSfrvfrNbmfs();
+        if (sniNbmfs != null) {
+            sfrvfrNbmfs = sniNbmfs;
         }
 
-        Collection<SNIMatcher> matchers = params.getSNIMatchers();
-        if (matchers != null) {
-            sniMatchers = matchers;
+        Collfdtion<SNIMbtdifr> mbtdifrs = pbrbms.gftSNIMbtdifrs();
+        if (mbtdifrs != null) {
+            sniMbtdifrs = mbtdifrs;
         }
 
-        if ((handshaker != null) && !handshaker.started()) {
-            handshaker.setIdentificationProtocol(identificationProtocol);
-            handshaker.setAlgorithmConstraints(algorithmConstraints);
-            if (roleIsServer) {
-                handshaker.setSNIMatchers(sniMatchers);
-                handshaker.setUseCipherSuitesOrder(preferLocalCipherSuites);
-            } else {
-                handshaker.setSNIServerNames(serverNames);
+        if ((ibndsibkfr != null) && !ibndsibkfr.stbrtfd()) {
+            ibndsibkfr.sftIdfntifidbtionProtodol(idfntifidbtionProtodol);
+            ibndsibkfr.sftAlgoritimConstrbints(blgoritimConstrbints);
+            if (rolfIsSfrvfr) {
+                ibndsibkfr.sftSNIMbtdifrs(sniMbtdifrs);
+                ibndsibkfr.sftUsfCipifrSuitfsOrdfr(prfffrLodblCipifrSuitfs);
+            } flsf {
+                ibndsibkfr.sftSNISfrvfrNbmfs(sfrvfrNbmfs);
             }
         }
     }
 
     /**
-     * Returns a printable representation of this end of the connection.
+     * Rfturns b printbblf rfprfsfntbtion of tiis fnd of tif donnfdtion.
      */
-    @Override
-    public String toString() {
-        StringBuilder retval = new StringBuilder(80);
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr rftvbl = nfw StringBuildfr(80);
 
-        retval.append(Integer.toHexString(hashCode()));
-        retval.append("[");
-        retval.append("SSLEngine[hostname=");
-        String host = getPeerHost();
-        retval.append((host == null) ? "null" : host);
-        retval.append(" port=");
-        retval.append(Integer.toString(getPeerPort()));
-        retval.append("] ");
-        retval.append(getSession().getCipherSuite());
-        retval.append("]");
+        rftvbl.bppfnd(Intfgfr.toHfxString(ibsiCodf()));
+        rftvbl.bppfnd("[");
+        rftvbl.bppfnd("SSLEnginf[iostnbmf=");
+        String iost = gftPffrHost();
+        rftvbl.bppfnd((iost == null) ? "null" : iost);
+        rftvbl.bppfnd(" port=");
+        rftvbl.bppfnd(Intfgfr.toString(gftPffrPort()));
+        rftvbl.bppfnd("] ");
+        rftvbl.bppfnd(gftSfssion().gftCipifrSuitf());
+        rftvbl.bppfnd("]");
 
-        return retval.toString();
+        rfturn rftvbl.toString();
     }
 }

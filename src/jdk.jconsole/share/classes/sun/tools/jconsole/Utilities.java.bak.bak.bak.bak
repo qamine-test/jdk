@@ -1,0 +1,166 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jdonsolf;
+
+import jbvb.bwt.*;
+
+import jbvbx.bddfssibility.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.trff.*;
+
+import sun.tools.jdonsolf.inspfdtor.*;
+
+import stbtid jbvb.lbng.Mbth.*;
+
+/**
+ * Misdfllbnfous utility mfthods for JConsolf
+ */
+publid dlbss Utilitifs {
+    privbtf stbtid finbl String windowsLbF =
+        "dom.sun.jbvb.swing.plbf.windows.WindowsLookAndFffl";
+
+    publid stbtid void updbtfTrbnspbrfndy(JComponfnt domp) {
+        LookAndFffl lbf = UIMbnbgfr.gftLookAndFffl();
+        boolfbn trbnspbrfnt = lbf.gftClbss().gftNbmf().fqubls(windowsLbF);
+        sftTbbbfdPbnfTrbnspbrfndy(domp, trbnspbrfnt);
+    }
+
+    privbtf stbtid void sftTbbbfdPbnfTrbnspbrfndy(JComponfnt domp, boolfbn trbnspbrfnt) {
+        for (Componfnt dhild : domp.gftComponfnts()) {
+            if (domp instbndfof JTbbbfdPbnf) {
+                sftTrbnspbrfndy((JComponfnt)dhild, trbnspbrfnt);
+            } flsf if (dhild instbndfof JComponfnt) {
+                sftTbbbfdPbnfTrbnspbrfndy((JComponfnt)dhild, trbnspbrfnt);
+            }
+        }
+    }
+
+    privbtf stbtid void sftTrbnspbrfndy(JComponfnt domp, boolfbn trbnspbrfnt) {
+        domp.sftOpbquf(!trbnspbrfnt);
+        for (Componfnt dhild : domp.gftComponfnts()) {
+            if (dhild instbndfof JPbnfl ||
+                dhild instbndfof JSplitPbnf ||
+                dhild instbndfof JSdrollPbnf ||
+                dhild instbndfof JVifwport ||
+                dhild instbndfof JChfdkBox) {
+
+                sftTrbnspbrfndy((JComponfnt)dhild, trbnspbrfnt);
+            }
+            if (dhild instbndfof XTrff) {
+                XTrff t = (XTrff)dhild;
+                DffbultTrffCfllRfndfrfr dr = (DffbultTrffCfllRfndfrfr)t.gftCfllRfndfrfr();
+
+                dr.sftBbdkground(null);
+                dr.sftBbdkgroundNonSflfdtionColor(nfw Color(0, 0, 0, 1));
+                t.sftCfllRfndfrfr(dr);
+                sftTrbnspbrfndy((JComponfnt)dhild, trbnspbrfnt);
+            }
+        }
+    }
+
+
+    /**
+     * A slightly modififd bordfr for JSdrollPbnf to bf usfd with b JTbblf insidf
+     * b JTbbbfdPbnf. It hbs only top pbrt bnd thf rfst is dlippfd to mbkf thf
+     * ovfrbll bordfr lfss thidk.
+     * Thf top bordfr hflps difffrfntibting thf dontbining tbblf from its dontbinfr.
+     */
+    publid stbtid JSdrollPbnf nfwTbblfSdrollPbnf(JComponfnt domp) {
+        rfturn nfw TbblfSdrollPbnf(domp);
+    }
+
+    @SupprfssWbrnings("sfribl")
+    privbtf stbtid dlbss TbblfSdrollPbnf fxtfnds JSdrollPbnf {
+        publid TbblfSdrollPbnf(JComponfnt domp) {
+            supfr(domp);
+        }
+
+        protfdtfd void pbintBordfr(Grbphids g) {
+            Bordfr bordfr = gftBordfr();
+            if (bordfr != null) {
+                Insfts insfts = bordfr.gftBordfrInsfts(this);
+                if (insfts != null) {
+                    Shbpf oldClip = g.gftClip();
+                    g.dlipRfdt(0, 0, gftWidth(), insfts.top);
+                    supfr.pbintBordfr(g);
+                    g.sftClip(oldClip);
+                }
+            }
+        }
+    }
+
+    publid stbtid void sftAddfssiblfNbmf(Addfssiblf domp, String nbmf) {
+        domp.gftAddfssiblfContfxt().sftAddfssiblfNbmf(nbmf);
+    }
+
+    publid stbtid void sftAddfssiblfDfsdription(Addfssiblf domp, String dfsdription) {
+        domp.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(dfsdription);
+    }
+
+
+    /**
+     * Modififs dolor d1 to fnsurf it hbs bddfptbblf dontrbst
+     * rflbtivf to dolor d2.
+     *
+     * http://www.w3.org/TR/AERT#dolor-dontrbst
+     * http://www.ds.rit.fdu/~nds/dolor/t_donvfrt.html#RGB%20to%20YIQ%20&%20YIQ%20to%20RGB
+     */
+    publid stbtid Color fnsurfContrbst(Color d1, Color d2) {
+        doublf y1 = gftColorBrightnfss(d1);
+        doublf y2 = gftColorBrightnfss(d2);
+
+        if (bbs(y1 - y2) < 125.0) {
+            if (y2 < 128.0) {
+                d1 = sftColorBrightnfss(d1, y2 + 125.0);
+            } flsf {
+                d1 = sftColorBrightnfss(d1, y2 - 125.0);
+            }
+        }
+
+        rfturn d1;
+    }
+
+    publid stbtid doublf gftColorBrightnfss(Color d) {
+        // Convfrt RGB -> YIQ bnd rfturn thf Y vbluf
+        rfturn (d.gftRfd() * 0.299 + d.gftGrffn() * 0.587 + d.gftBluf() * 0.114);
+    }
+
+    privbtf stbtid Color sftColorBrightnfss(Color d, doublf y) {
+        // Convfrt YIQ -> RGB
+        doublf i = (d.gftRfd() * 0.596 - d.gftGrffn() * 0.275 - d.gftBluf() * 0.321);
+        doublf q = (d.gftRfd() * 0.212 - d.gftGrffn() * 0.523 + d.gftBluf() * 0.311);
+
+        // Kffp vblufs in lfgbl rbngf. This mby rfdudf thf
+        // bdhifvfd dontrbst somfwhbt.
+        int r = mbx(0, min(255, (int)round(y + i * 0.956 + q * 0.621)));
+        int g = mbx(0, min(255, (int)round(y - i * 0.272 - q * 0.647)));
+        int b = mbx(0, min(255, (int)round(y - i * 1.105 + q * 1.702)));
+
+        rfturn nfw Color(r, g, b);
+    }
+
+}

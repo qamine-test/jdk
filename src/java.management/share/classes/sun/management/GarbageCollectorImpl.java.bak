@@ -1,192 +1,192 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.management;
+pbdkbgf sun.mbnbgfmfnt;
 
-import com.sun.management.GarbageCollectorMXBean;
-import com.sun.management.GarbageCollectionNotificationInfo;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryPoolMXBean;
-import java.lang.management.MemoryUsage;
+import dom.sun.mbnbgfmfnt.GbrbbgfCollfdtorMXBfbn;
+import dom.sun.mbnbgfmfnt.GbrbbgfCollfdtionNotifidbtionInfo;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.lbng.mbnbgfmfnt.MfmoryPoolMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MfmoryUsbgf;
 
-import com.sun.management.GcInfo;
-import javax.management.openmbean.CompositeData;
-import javax.management.MBeanInfo;
-import javax.management.MBeanAttributeInfo;
-import javax.management.ObjectName;
-import javax.management.MBeanNotificationInfo;
-import javax.management.Notification;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
-import javax.management.ListenerNotFoundException;
+import dom.sun.mbnbgfmfnt.GdInfo;
+import jbvbx.mbnbgfmfnt.opfnmbfbn.CompositfDbtb;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
 
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
+import jbvb.util.List;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.Mbp;
 
 /**
- * Implementation class for the garbage collector.
- * Standard and committed hotspot-specific metrics if any.
+ * Implfmfntbtion dlbss for tif gbrbbgf dollfdtor.
+ * Stbndbrd bnd dommittfd iotspot-spfdifid mftrids if bny.
  *
- * ManagementFactory.getGarbageCollectorMXBeans() returns a list
- * of instances of this class.
+ * MbnbgfmfntFbdtory.gftGbrbbgfCollfdtorMXBfbns() rfturns b list
+ * of instbndfs of tiis dlbss.
  */
-class GarbageCollectorImpl extends MemoryManagerImpl
-    implements GarbageCollectorMXBean {
+dlbss GbrbbgfCollfdtorImpl fxtfnds MfmoryMbnbgfrImpl
+    implfmfnts GbrbbgfCollfdtorMXBfbn {
 
-    GarbageCollectorImpl(String name) {
-        super(name);
+    GbrbbgfCollfdtorImpl(String nbmf) {
+        supfr(nbmf);
     }
 
-    public native long getCollectionCount();
-    public native long getCollectionTime();
+    publid nbtivf long gftCollfdtionCount();
+    publid nbtivf long gftCollfdtionTimf();
 
 
-    // The memory pools are static and won't be changed.
-    // TODO: If the hotspot implementation begins to have pools
-    // dynamically created and removed, this needs to be modified.
-    private String[] poolNames = null;
-    synchronized String[] getAllPoolNames() {
-        if (poolNames == null) {
-            List<MemoryPoolMXBean> pools = ManagementFactory.getMemoryPoolMXBeans();
-            poolNames = new String[pools.size()];
+    // Tif mfmory pools brf stbtid bnd won't bf dibngfd.
+    // TODO: If tif iotspot implfmfntbtion bfgins to ibvf pools
+    // dynbmidblly drfbtfd bnd rfmovfd, tiis nffds to bf modififd.
+    privbtf String[] poolNbmfs = null;
+    syndironizfd String[] gftAllPoolNbmfs() {
+        if (poolNbmfs == null) {
+            List<MfmoryPoolMXBfbn> pools = MbnbgfmfntFbdtory.gftMfmoryPoolMXBfbns();
+            poolNbmfs = nfw String[pools.sizf()];
             int i = 0;
-            for (MemoryPoolMXBean m : pools) {
-                poolNames[i++] = m.getName();
+            for (MfmoryPoolMXBfbn m : pools) {
+                poolNbmfs[i++] = m.gftNbmf();
             }
         }
-        return poolNames;
+        rfturn poolNbmfs;
     }
 
-    // Sun JDK extension
-    private GcInfoBuilder gcInfoBuilder;
+    // Sun JDK fxtfnsion
+    privbtf GdInfoBuildfr gdInfoBuildfr;
 
-    private synchronized GcInfoBuilder getGcInfoBuilder() {
-        if(gcInfoBuilder == null) {
-            gcInfoBuilder = new GcInfoBuilder(this, getAllPoolNames());
+    privbtf syndironizfd GdInfoBuildfr gftGdInfoBuildfr() {
+        if(gdInfoBuildfr == null) {
+            gdInfoBuildfr = nfw GdInfoBuildfr(tiis, gftAllPoolNbmfs());
         }
-        return gcInfoBuilder;
+        rfturn gdInfoBuildfr;
     }
 
-    public GcInfo getLastGcInfo() {
-        GcInfo info = getGcInfoBuilder().getLastGcInfo();
-        return info;
+    publid GdInfo gftLbstGdInfo() {
+        GdInfo info = gftGdInfoBuildfr().gftLbstGdInfo();
+        rfturn info;
     }
 
-    private final static String notifName =
-        "javax.management.Notification";
+    privbtf finbl stbtid String notifNbmf =
+        "jbvbx.mbnbgfmfnt.Notifidbtion";
 
-    private final static String[] gcNotifTypes = {
-        GarbageCollectionNotificationInfo.GARBAGE_COLLECTION_NOTIFICATION
+    privbtf finbl stbtid String[] gdNotifTypfs = {
+        GbrbbgfCollfdtionNotifidbtionInfo.GARBAGE_COLLECTION_NOTIFICATION
     };
 
-    private MBeanNotificationInfo[] notifInfo = null;
-    public MBeanNotificationInfo[] getNotificationInfo() {
-        synchronized (this) {
+    privbtf MBfbnNotifidbtionInfo[] notifInfo = null;
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        syndironizfd (tiis) {
             if (notifInfo == null) {
-                 notifInfo = new MBeanNotificationInfo[1];
-                 notifInfo[0] = new MBeanNotificationInfo(gcNotifTypes,
-                                                          notifName,
-                                                          "GC Notification");
+                 notifInfo = nfw MBfbnNotifidbtionInfo[1];
+                 notifInfo[0] = nfw MBfbnNotifidbtionInfo(gdNotifTypfs,
+                                                          notifNbmf,
+                                                          "GC Notifidbtion");
             }
         }
-        return notifInfo;
+        rfturn notifInfo;
     }
 
-    private static long seqNumber = 0;
-    private static long getNextSeqNumber() {
-        return ++seqNumber;
+    privbtf stbtid long sfqNumbfr = 0;
+    privbtf stbtid long gftNfxtSfqNumbfr() {
+        rfturn ++sfqNumbfr;
     }
 
-    void createGCNotification(long timestamp,
-                              String gcName,
-                              String gcAction,
-                              String gcCause,
-                              GcInfo gcInfo)  {
+    void drfbtfGCNotifidbtion(long timfstbmp,
+                              String gdNbmf,
+                              String gdAdtion,
+                              String gdCbusf,
+                              GdInfo gdInfo)  {
 
-        if (!hasListeners()) {
-            return;
+        if (!ibsListfnfrs()) {
+            rfturn;
         }
 
-        Notification notif = new Notification(GarbageCollectionNotificationInfo.GARBAGE_COLLECTION_NOTIFICATION,
-                                              getObjectName(),
-                                              getNextSeqNumber(),
-                                              timestamp,
-                                              gcName);
-        GarbageCollectionNotificationInfo info =
-            new GarbageCollectionNotificationInfo(gcName,
-                                                  gcAction,
-                                                  gcCause,
-                                                  gcInfo);
+        Notifidbtion notif = nfw Notifidbtion(GbrbbgfCollfdtionNotifidbtionInfo.GARBAGE_COLLECTION_NOTIFICATION,
+                                              gftObjfdtNbmf(),
+                                              gftNfxtSfqNumbfr(),
+                                              timfstbmp,
+                                              gdNbmf);
+        GbrbbgfCollfdtionNotifidbtionInfo info =
+            nfw GbrbbgfCollfdtionNotifidbtionInfo(gdNbmf,
+                                                  gdAdtion,
+                                                  gdCbusf,
+                                                  gdInfo);
 
-        CompositeData cd =
-            GarbageCollectionNotifInfoCompositeData.toCompositeData(info);
-        notif.setUserData(cd);
-        sendNotification(notif);
+        CompositfDbtb dd =
+            GbrbbgfCollfdtionNotifInfoCompositfDbtb.toCompositfDbtb(info);
+        notif.sftUsfrDbtb(dd);
+        sfndNotifidbtion(notif);
     }
 
-    public synchronized void addNotificationListener(NotificationListener listener,
-                                                     NotificationFilter filter,
-                                                     Object handback)
+    publid syndironizfd void bddNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                                     NotifidbtionFiltfr filtfr,
+                                                     Objfdt ibndbbdk)
     {
-        boolean before = hasListeners();
-        super.addNotificationListener(listener, filter, handback);
-        boolean after = hasListeners();
-        if (!before && after) {
-            setNotificationEnabled(this, true);
+        boolfbn bfforf = ibsListfnfrs();
+        supfr.bddNotifidbtionListfnfr(listfnfr, filtfr, ibndbbdk);
+        boolfbn bftfr = ibsListfnfrs();
+        if (!bfforf && bftfr) {
+            sftNotifidbtionEnbblfd(tiis, truf);
         }
     }
 
-    public synchronized void removeNotificationListener(NotificationListener listener)
-        throws ListenerNotFoundException {
-        boolean before = hasListeners();
-        super.removeNotificationListener(listener);
-        boolean after = hasListeners();
-        if (before && !after) {
-            setNotificationEnabled(this,false);
+    publid syndironizfd void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr)
+        tirows ListfnfrNotFoundExdfption {
+        boolfbn bfforf = ibsListfnfrs();
+        supfr.rfmovfNotifidbtionListfnfr(listfnfr);
+        boolfbn bftfr = ibsListfnfrs();
+        if (bfforf && !bftfr) {
+            sftNotifidbtionEnbblfd(tiis,fblsf);
         }
     }
 
-    public synchronized void removeNotificationListener(NotificationListener listener,
-                                                        NotificationFilter filter,
-                                                        Object handback)
-            throws ListenerNotFoundException
+    publid syndironizfd void rfmovfNotifidbtionListfnfr(NotifidbtionListfnfr listfnfr,
+                                                        NotifidbtionFiltfr filtfr,
+                                                        Objfdt ibndbbdk)
+            tirows ListfnfrNotFoundExdfption
     {
-        boolean before = hasListeners();
-        super.removeNotificationListener(listener,filter,handback);
-        boolean after = hasListeners();
-        if (before && !after) {
-            setNotificationEnabled(this,false);
+        boolfbn bfforf = ibsListfnfrs();
+        supfr.rfmovfNotifidbtionListfnfr(listfnfr,filtfr,ibndbbdk);
+        boolfbn bftfr = ibsListfnfrs();
+        if (bfforf && !bftfr) {
+            sftNotifidbtionEnbblfd(tiis,fblsf);
         }
     }
 
-    public ObjectName getObjectName() {
-        return Util.newObjectName(ManagementFactory.GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE, getName());
+    publid ObjfdtNbmf gftObjfdtNbmf() {
+        rfturn Util.nfwObjfdtNbmf(MbnbgfmfntFbdtory.GARBAGE_COLLECTOR_MXBEAN_DOMAIN_TYPE, gftNbmf());
     }
 
-    native void setNotificationEnabled(GarbageCollectorMXBean gc,
-                                       boolean enabled);
+    nbtivf void sftNotifidbtionEnbblfd(GbrbbgfCollfdtorMXBfbn gd,
+                                       boolfbn fnbblfd);
 
 }

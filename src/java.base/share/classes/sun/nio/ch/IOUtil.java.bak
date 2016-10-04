@@ -1,370 +1,370 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.nio.ByteBuffer;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
 
 
 /**
- * File-descriptor based I/O utilities that are shared by NIO classes.
+ * Filf-dfsdriptor bbsfd I/O utilitifs tibt brf sibrfd by NIO dlbssfs.
  */
 
-public class IOUtil {
+publid dlbss IOUtil {
 
     /**
-     * Max number of iovec structures that readv/writev supports
+     * Mbx numbfr of iovfd strudturfs tibt rfbdv/writfv supports
      */
-    static final int IOV_MAX;
+    stbtid finbl int IOV_MAX;
 
-    private IOUtil() { }                // No instantiation
+    privbtf IOUtil() { }                // No instbntibtion
 
-    static int write(FileDescriptor fd, ByteBuffer src, long position,
-                     NativeDispatcher nd)
-        throws IOException
+    stbtid int writf(FilfDfsdriptor fd, BytfBufffr srd, long position,
+                     NbtivfDispbtdifr nd)
+        tirows IOExdfption
     {
-        if (src instanceof DirectBuffer)
-            return writeFromNativeBuffer(fd, src, position, nd);
+        if (srd instbndfof DirfdtBufffr)
+            rfturn writfFromNbtivfBufffr(fd, srd, position, nd);
 
-        // Substitute a native buffer
-        int pos = src.position();
-        int lim = src.limit();
-        assert (pos <= lim);
-        int rem = (pos <= lim ? lim - pos : 0);
-        ByteBuffer bb = Util.getTemporaryDirectBuffer(rem);
+        // Substitutf b nbtivf bufffr
+        int pos = srd.position();
+        int lim = srd.limit();
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
+        BytfBufffr bb = Util.gftTfmporbryDirfdtBufffr(rfm);
         try {
-            bb.put(src);
+            bb.put(srd);
             bb.flip();
-            // Do not update src until we see how many bytes were written
-            src.position(pos);
+            // Do not updbtf srd until wf sff iow mbny bytfs wfrf writtfn
+            srd.position(pos);
 
-            int n = writeFromNativeBuffer(fd, bb, position, nd);
+            int n = writfFromNbtivfBufffr(fd, bb, position, nd);
             if (n > 0) {
-                // now update src
-                src.position(pos + n);
+                // now updbtf srd
+                srd.position(pos + n);
             }
-            return n;
-        } finally {
-            Util.offerFirstTemporaryDirectBuffer(bb);
+            rfturn n;
+        } finblly {
+            Util.offfrFirstTfmporbryDirfdtBufffr(bb);
         }
     }
 
-    private static int writeFromNativeBuffer(FileDescriptor fd, ByteBuffer bb,
-                                             long position, NativeDispatcher nd)
-        throws IOException
+    privbtf stbtid int writfFromNbtivfBufffr(FilfDfsdriptor fd, BytfBufffr bb,
+                                             long position, NbtivfDispbtdifr nd)
+        tirows IOExdfption
     {
         int pos = bb.position();
         int lim = bb.limit();
-        assert (pos <= lim);
-        int rem = (pos <= lim ? lim - pos : 0);
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
 
-        int written = 0;
-        if (rem == 0)
-            return 0;
+        int writtfn = 0;
+        if (rfm == 0)
+            rfturn 0;
         if (position != -1) {
-            written = nd.pwrite(fd,
-                                ((DirectBuffer)bb).address() + pos,
-                                rem, position);
-        } else {
-            written = nd.write(fd, ((DirectBuffer)bb).address() + pos, rem);
+            writtfn = nd.pwritf(fd,
+                                ((DirfdtBufffr)bb).bddrfss() + pos,
+                                rfm, position);
+        } flsf {
+            writtfn = nd.writf(fd, ((DirfdtBufffr)bb).bddrfss() + pos, rfm);
         }
-        if (written > 0)
-            bb.position(pos + written);
-        return written;
+        if (writtfn > 0)
+            bb.position(pos + writtfn);
+        rfturn writtfn;
     }
 
-    static long write(FileDescriptor fd, ByteBuffer[] bufs, NativeDispatcher nd)
-        throws IOException
+    stbtid long writf(FilfDfsdriptor fd, BytfBufffr[] bufs, NbtivfDispbtdifr nd)
+        tirows IOExdfption
     {
-        return write(fd, bufs, 0, bufs.length, nd);
+        rfturn writf(fd, bufs, 0, bufs.lfngti, nd);
     }
 
-    static long write(FileDescriptor fd, ByteBuffer[] bufs, int offset, int length,
-                      NativeDispatcher nd)
-        throws IOException
+    stbtid long writf(FilfDfsdriptor fd, BytfBufffr[] bufs, int offsft, int lfngti,
+                      NbtivfDispbtdifr nd)
+        tirows IOExdfption
     {
-        IOVecWrapper vec = IOVecWrapper.get(length);
+        IOVfdWrbppfr vfd = IOVfdWrbppfr.gft(lfngti);
 
-        boolean completed = false;
-        int iov_len = 0;
+        boolfbn domplftfd = fblsf;
+        int iov_lfn = 0;
         try {
 
-            // Iterate over buffers to populate native iovec array.
-            int count = offset + length;
-            int i = offset;
-            while (i < count && iov_len < IOV_MAX) {
-                ByteBuffer buf = bufs[i];
+            // Itfrbtf ovfr bufffrs to populbtf nbtivf iovfd brrby.
+            int dount = offsft + lfngti;
+            int i = offsft;
+            wiilf (i < dount && iov_lfn < IOV_MAX) {
+                BytfBufffr buf = bufs[i];
                 int pos = buf.position();
                 int lim = buf.limit();
-                assert (pos <= lim);
-                int rem = (pos <= lim ? lim - pos : 0);
-                if (rem > 0) {
-                    vec.setBuffer(iov_len, buf, pos, rem);
+                bssfrt (pos <= lim);
+                int rfm = (pos <= lim ? lim - pos : 0);
+                if (rfm > 0) {
+                    vfd.sftBufffr(iov_lfn, buf, pos, rfm);
 
-                    // allocate shadow buffer to ensure I/O is done with direct buffer
-                    if (!(buf instanceof DirectBuffer)) {
-                        ByteBuffer shadow = Util.getTemporaryDirectBuffer(rem);
-                        shadow.put(buf);
-                        shadow.flip();
-                        vec.setShadow(iov_len, shadow);
-                        buf.position(pos);  // temporarily restore position in user buffer
-                        buf = shadow;
-                        pos = shadow.position();
+                    // bllodbtf sibdow bufffr to fnsurf I/O is donf witi dirfdt bufffr
+                    if (!(buf instbndfof DirfdtBufffr)) {
+                        BytfBufffr sibdow = Util.gftTfmporbryDirfdtBufffr(rfm);
+                        sibdow.put(buf);
+                        sibdow.flip();
+                        vfd.sftSibdow(iov_lfn, sibdow);
+                        buf.position(pos);  // tfmporbrily rfstorf position in usfr bufffr
+                        buf = sibdow;
+                        pos = sibdow.position();
                     }
 
-                    vec.putBase(iov_len, ((DirectBuffer)buf).address() + pos);
-                    vec.putLen(iov_len, rem);
-                    iov_len++;
+                    vfd.putBbsf(iov_lfn, ((DirfdtBufffr)buf).bddrfss() + pos);
+                    vfd.putLfn(iov_lfn, rfm);
+                    iov_lfn++;
                 }
                 i++;
             }
-            if (iov_len == 0)
-                return 0L;
+            if (iov_lfn == 0)
+                rfturn 0L;
 
-            long bytesWritten = nd.writev(fd, vec.address, iov_len);
+            long bytfsWrittfn = nd.writfv(fd, vfd.bddrfss, iov_lfn);
 
-            // Notify the buffers how many bytes were taken
-            long left = bytesWritten;
-            for (int j=0; j<iov_len; j++) {
-                if (left > 0) {
-                    ByteBuffer buf = vec.getBuffer(j);
-                    int pos = vec.getPosition(j);
-                    int rem = vec.getRemaining(j);
-                    int n = (left > rem) ? rem : (int)left;
+            // Notify tif bufffrs iow mbny bytfs wfrf tbkfn
+            long lfft = bytfsWrittfn;
+            for (int j=0; j<iov_lfn; j++) {
+                if (lfft > 0) {
+                    BytfBufffr buf = vfd.gftBufffr(j);
+                    int pos = vfd.gftPosition(j);
+                    int rfm = vfd.gftRfmbining(j);
+                    int n = (lfft > rfm) ? rfm : (int)lfft;
                     buf.position(pos + n);
-                    left -= n;
+                    lfft -= n;
                 }
-                // return shadow buffers to buffer pool
-                ByteBuffer shadow = vec.getShadow(j);
-                if (shadow != null)
-                    Util.offerLastTemporaryDirectBuffer(shadow);
-                vec.clearRefs(j);
+                // rfturn sibdow bufffrs to bufffr pool
+                BytfBufffr sibdow = vfd.gftSibdow(j);
+                if (sibdow != null)
+                    Util.offfrLbstTfmporbryDirfdtBufffr(sibdow);
+                vfd.dlfbrRffs(j);
             }
 
-            completed = true;
-            return bytesWritten;
+            domplftfd = truf;
+            rfturn bytfsWrittfn;
 
-        } finally {
-            // if an error occurred then clear refs to buffers and return any shadow
-            // buffers to cache
-            if (!completed) {
-                for (int j=0; j<iov_len; j++) {
-                    ByteBuffer shadow = vec.getShadow(j);
-                    if (shadow != null)
-                        Util.offerLastTemporaryDirectBuffer(shadow);
-                    vec.clearRefs(j);
+        } finblly {
+            // if bn frror oddurrfd tifn dlfbr rffs to bufffrs bnd rfturn bny sibdow
+            // bufffrs to dbdif
+            if (!domplftfd) {
+                for (int j=0; j<iov_lfn; j++) {
+                    BytfBufffr sibdow = vfd.gftSibdow(j);
+                    if (sibdow != null)
+                        Util.offfrLbstTfmporbryDirfdtBufffr(sibdow);
+                    vfd.dlfbrRffs(j);
                 }
             }
         }
     }
 
-    static int read(FileDescriptor fd, ByteBuffer dst, long position,
-                    NativeDispatcher nd)
-        throws IOException
+    stbtid int rfbd(FilfDfsdriptor fd, BytfBufffr dst, long position,
+                    NbtivfDispbtdifr nd)
+        tirows IOExdfption
     {
-        if (dst.isReadOnly())
-            throw new IllegalArgumentException("Read-only buffer");
-        if (dst instanceof DirectBuffer)
-            return readIntoNativeBuffer(fd, dst, position, nd);
+        if (dst.isRfbdOnly())
+            tirow nfw IllfgblArgumfntExdfption("Rfbd-only bufffr");
+        if (dst instbndfof DirfdtBufffr)
+            rfturn rfbdIntoNbtivfBufffr(fd, dst, position, nd);
 
-        // Substitute a native buffer
-        ByteBuffer bb = Util.getTemporaryDirectBuffer(dst.remaining());
+        // Substitutf b nbtivf bufffr
+        BytfBufffr bb = Util.gftTfmporbryDirfdtBufffr(dst.rfmbining());
         try {
-            int n = readIntoNativeBuffer(fd, bb, position, nd);
+            int n = rfbdIntoNbtivfBufffr(fd, bb, position, nd);
             bb.flip();
             if (n > 0)
                 dst.put(bb);
-            return n;
-        } finally {
-            Util.offerFirstTemporaryDirectBuffer(bb);
+            rfturn n;
+        } finblly {
+            Util.offfrFirstTfmporbryDirfdtBufffr(bb);
         }
     }
 
-    private static int readIntoNativeBuffer(FileDescriptor fd, ByteBuffer bb,
-                                            long position, NativeDispatcher nd)
-        throws IOException
+    privbtf stbtid int rfbdIntoNbtivfBufffr(FilfDfsdriptor fd, BytfBufffr bb,
+                                            long position, NbtivfDispbtdifr nd)
+        tirows IOExdfption
     {
         int pos = bb.position();
         int lim = bb.limit();
-        assert (pos <= lim);
-        int rem = (pos <= lim ? lim - pos : 0);
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
 
-        if (rem == 0)
-            return 0;
+        if (rfm == 0)
+            rfturn 0;
         int n = 0;
         if (position != -1) {
-            n = nd.pread(fd, ((DirectBuffer)bb).address() + pos,
-                         rem, position);
-        } else {
-            n = nd.read(fd, ((DirectBuffer)bb).address() + pos, rem);
+            n = nd.prfbd(fd, ((DirfdtBufffr)bb).bddrfss() + pos,
+                         rfm, position);
+        } flsf {
+            n = nd.rfbd(fd, ((DirfdtBufffr)bb).bddrfss() + pos, rfm);
         }
         if (n > 0)
             bb.position(pos + n);
-        return n;
+        rfturn n;
     }
 
-    static long read(FileDescriptor fd, ByteBuffer[] bufs, NativeDispatcher nd)
-        throws IOException
+    stbtid long rfbd(FilfDfsdriptor fd, BytfBufffr[] bufs, NbtivfDispbtdifr nd)
+        tirows IOExdfption
     {
-        return read(fd, bufs, 0, bufs.length, nd);
+        rfturn rfbd(fd, bufs, 0, bufs.lfngti, nd);
     }
 
-    static long read(FileDescriptor fd, ByteBuffer[] bufs, int offset, int length,
-                     NativeDispatcher nd)
-        throws IOException
+    stbtid long rfbd(FilfDfsdriptor fd, BytfBufffr[] bufs, int offsft, int lfngti,
+                     NbtivfDispbtdifr nd)
+        tirows IOExdfption
     {
-        IOVecWrapper vec = IOVecWrapper.get(length);
+        IOVfdWrbppfr vfd = IOVfdWrbppfr.gft(lfngti);
 
-        boolean completed = false;
-        int iov_len = 0;
+        boolfbn domplftfd = fblsf;
+        int iov_lfn = 0;
         try {
 
-            // Iterate over buffers to populate native iovec array.
-            int count = offset + length;
-            int i = offset;
-            while (i < count && iov_len < IOV_MAX) {
-                ByteBuffer buf = bufs[i];
-                if (buf.isReadOnly())
-                    throw new IllegalArgumentException("Read-only buffer");
+            // Itfrbtf ovfr bufffrs to populbtf nbtivf iovfd brrby.
+            int dount = offsft + lfngti;
+            int i = offsft;
+            wiilf (i < dount && iov_lfn < IOV_MAX) {
+                BytfBufffr buf = bufs[i];
+                if (buf.isRfbdOnly())
+                    tirow nfw IllfgblArgumfntExdfption("Rfbd-only bufffr");
                 int pos = buf.position();
                 int lim = buf.limit();
-                assert (pos <= lim);
-                int rem = (pos <= lim ? lim - pos : 0);
+                bssfrt (pos <= lim);
+                int rfm = (pos <= lim ? lim - pos : 0);
 
-                if (rem > 0) {
-                    vec.setBuffer(iov_len, buf, pos, rem);
+                if (rfm > 0) {
+                    vfd.sftBufffr(iov_lfn, buf, pos, rfm);
 
-                    // allocate shadow buffer to ensure I/O is done with direct buffer
-                    if (!(buf instanceof DirectBuffer)) {
-                        ByteBuffer shadow = Util.getTemporaryDirectBuffer(rem);
-                        vec.setShadow(iov_len, shadow);
-                        buf = shadow;
-                        pos = shadow.position();
+                    // bllodbtf sibdow bufffr to fnsurf I/O is donf witi dirfdt bufffr
+                    if (!(buf instbndfof DirfdtBufffr)) {
+                        BytfBufffr sibdow = Util.gftTfmporbryDirfdtBufffr(rfm);
+                        vfd.sftSibdow(iov_lfn, sibdow);
+                        buf = sibdow;
+                        pos = sibdow.position();
                     }
 
-                    vec.putBase(iov_len, ((DirectBuffer)buf).address() + pos);
-                    vec.putLen(iov_len, rem);
-                    iov_len++;
+                    vfd.putBbsf(iov_lfn, ((DirfdtBufffr)buf).bddrfss() + pos);
+                    vfd.putLfn(iov_lfn, rfm);
+                    iov_lfn++;
                 }
                 i++;
             }
-            if (iov_len == 0)
-                return 0L;
+            if (iov_lfn == 0)
+                rfturn 0L;
 
-            long bytesRead = nd.readv(fd, vec.address, iov_len);
+            long bytfsRfbd = nd.rfbdv(fd, vfd.bddrfss, iov_lfn);
 
-            // Notify the buffers how many bytes were read
-            long left = bytesRead;
-            for (int j=0; j<iov_len; j++) {
-                ByteBuffer shadow = vec.getShadow(j);
-                if (left > 0) {
-                    ByteBuffer buf = vec.getBuffer(j);
-                    int rem = vec.getRemaining(j);
-                    int n = (left > rem) ? rem : (int)left;
-                    if (shadow == null) {
-                        int pos = vec.getPosition(j);
+            // Notify tif bufffrs iow mbny bytfs wfrf rfbd
+            long lfft = bytfsRfbd;
+            for (int j=0; j<iov_lfn; j++) {
+                BytfBufffr sibdow = vfd.gftSibdow(j);
+                if (lfft > 0) {
+                    BytfBufffr buf = vfd.gftBufffr(j);
+                    int rfm = vfd.gftRfmbining(j);
+                    int n = (lfft > rfm) ? rfm : (int)lfft;
+                    if (sibdow == null) {
+                        int pos = vfd.gftPosition(j);
                         buf.position(pos + n);
-                    } else {
-                        shadow.limit(shadow.position() + n);
-                        buf.put(shadow);
+                    } flsf {
+                        sibdow.limit(sibdow.position() + n);
+                        buf.put(sibdow);
                     }
-                    left -= n;
+                    lfft -= n;
                 }
-                if (shadow != null)
-                    Util.offerLastTemporaryDirectBuffer(shadow);
-                vec.clearRefs(j);
+                if (sibdow != null)
+                    Util.offfrLbstTfmporbryDirfdtBufffr(sibdow);
+                vfd.dlfbrRffs(j);
             }
 
-            completed = true;
-            return bytesRead;
+            domplftfd = truf;
+            rfturn bytfsRfbd;
 
-        } finally {
-            // if an error occurred then clear refs to buffers and return any shadow
-            // buffers to cache
-            if (!completed) {
-                for (int j=0; j<iov_len; j++) {
-                    ByteBuffer shadow = vec.getShadow(j);
-                    if (shadow != null)
-                        Util.offerLastTemporaryDirectBuffer(shadow);
-                    vec.clearRefs(j);
+        } finblly {
+            // if bn frror oddurrfd tifn dlfbr rffs to bufffrs bnd rfturn bny sibdow
+            // bufffrs to dbdif
+            if (!domplftfd) {
+                for (int j=0; j<iov_lfn; j++) {
+                    BytfBufffr sibdow = vfd.gftSibdow(j);
+                    if (sibdow != null)
+                        Util.offfrLbstTfmporbryDirfdtBufffr(sibdow);
+                    vfd.dlfbrRffs(j);
                 }
             }
         }
     }
 
-    public static FileDescriptor newFD(int i) {
-        FileDescriptor fd = new FileDescriptor();
-        setfdVal(fd, i);
-        return fd;
+    publid stbtid FilfDfsdriptor nfwFD(int i) {
+        FilfDfsdriptor fd = nfw FilfDfsdriptor();
+        sftfdVbl(fd, i);
+        rfturn fd;
     }
 
-    static native boolean randomBytes(byte[] someBytes);
+    stbtid nbtivf boolfbn rbndomBytfs(bytf[] somfBytfs);
 
     /**
-     * Returns two file descriptors for a pipe encoded in a long.
-     * The read end of the pipe is returned in the high 32 bits,
-     * while the write end is returned in the low 32 bits.
+     * Rfturns two filf dfsdriptors for b pipf fndodfd in b long.
+     * Tif rfbd fnd of tif pipf is rfturnfd in tif iigi 32 bits,
+     * wiilf tif writf fnd is rfturnfd in tif low 32 bits.
      */
-    static native long makePipe(boolean blocking);
+    stbtid nbtivf long mbkfPipf(boolfbn blodking);
 
-    static native boolean drain(int fd) throws IOException;
+    stbtid nbtivf boolfbn drbin(int fd) tirows IOExdfption;
 
-    public static native void configureBlocking(FileDescriptor fd,
-                                                boolean blocking)
-        throws IOException;
+    publid stbtid nbtivf void donfigurfBlodking(FilfDfsdriptor fd,
+                                                boolfbn blodking)
+        tirows IOExdfption;
 
-    public static native int fdVal(FileDescriptor fd);
+    publid stbtid nbtivf int fdVbl(FilfDfsdriptor fd);
 
-    static native void setfdVal(FileDescriptor fd, int value);
+    stbtid nbtivf void sftfdVbl(FilfDfsdriptor fd, int vbluf);
 
-    static native int fdLimit();
+    stbtid nbtivf int fdLimit();
 
-    static native int iovMax();
+    stbtid nbtivf int iovMbx();
 
-    static native void initIDs();
+    stbtid nbtivf void initIDs();
 
     /**
-     * Used to trigger loading of native libraries
+     * Usfd to triggfr lobding of nbtivf librbrifs
      */
-    public static void load() { }
+    publid stbtid void lobd() { }
 
-    static {
-        java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Void>() {
-                    public Void run() {
-                        System.loadLibrary("net");
-                        System.loadLibrary("nio");
-                        return null;
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        Systfm.lobdLibrbry("nft");
+                        Systfm.lobdLibrbry("nio");
+                        rfturn null;
                     }
                 });
 
         initIDs();
 
-        IOV_MAX = iovMax();
+        IOV_MAX = iovMbx();
     }
 
 }

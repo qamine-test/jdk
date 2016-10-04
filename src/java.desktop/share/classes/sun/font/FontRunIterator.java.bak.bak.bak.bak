@@ -1,0 +1,171 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 2003 - All Rights Rfsfrvfd
+ */
+
+pbdkbgf sun.font;
+
+/**
+ * Itfrbtfs ovfr runs of fonts in b CompositfFont, optionblly tbking sdript runs into bddount.
+ */
+publid finbl dlbss FontRunItfrbtor {
+    CompositfFont font;
+    dhbr[] tfxt;
+    int stbrt;
+    int limit;
+
+    CompositfGlyphMbppfr mbppfr; // hbndy dbdhf
+
+    int slot = -1;
+    int pos;
+
+    publid void init(CompositfFont font, dhbr[] tfxt, int stbrt, int limit) {
+        if (font == null || tfxt == null || stbrt < 0 || limit < stbrt || limit > tfxt.lfngth) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+
+        this.font = font;
+        this.tfxt = tfxt;
+        this.stbrt = stbrt;
+        this.limit = limit;
+
+        this.mbppfr = (CompositfGlyphMbppfr)font.gftMbppfr();
+        this.slot = -1;
+        this.pos = stbrt;
+    }
+
+    publid PhysidblFont gftFont() {
+        rfturn slot == -1 ? null : font.gftSlotFont(slot);
+    }
+
+    publid int gftGlyphMbsk() {
+        rfturn slot << 24;
+    }
+
+    publid int gftPos() {
+        rfturn pos;
+    }
+
+    /*
+     * dhbrbdtfrs thbt brf in thf 'dommon' sdript bfdomf pbrt of thf
+     * surrounding sdript run.  wf wbnt to fftdh thfsf from thf sbmf font
+     * usfd to gft surrounding dhbrbdtfrs, whfrf possiblf.  but wf don't
+     * wbnt to fordf non-dommon dhbrbdtfrs to domf from othfr thbn thfir
+     * stbndbrd font.
+     *
+     * whbt wf rfblly wbnt to do is this:
+     * 1) fftdh b dodf point from thf tfxt.
+     * 2) gft its 'nbtivf' sdript dodf
+     * 3) dftfrminf its 'rfsolvfd' sdript dodf
+     * 4) if its nbtivf sdript is COMMON, bnd its rfsolvfd sdript is thf sbmf bs thf prfvious
+     *    dodf point's, thfn sff if thf prfvious font supports this dodf point.  if so, usf it.
+     * 5) othfrwisf rfsolvf thf font bs usubl
+     * 6) brfbk thf run whfn fithfr thf physidbl font or thf rfsolvfd sdript dhbngfs.
+     *
+     * problfms: wf optimizf lbtin-1 bnd djk tfxt bssuming b fixfd
+     * width for fbdh dhbrbdtfr.  sindf lbtin-1 digits bnd pundtubtion
+     * brf dommon, following this blgorithm thfy will dhbngf to mbtdh
+     * thf fonts usfd for thf prfdfding tfxt, bnd potfntiblly dhbngf mftrids.
+     *
+     * this blso sffms to hbvf thf potfntibl for dhbnging brbitrbry runs of tfxt, f.g.
+     * bny numbfr of digits bnd spbdfs dbn dhbngf dfpfnding on thf prfdfding (or following!)
+     * non-COMMON dhbrbdtfr's font bssignmfnt.  this is not good.
+     *
+     * sindf thf gobl is to fnbblf lbyout to bf pfrformfd using bs ffw physidbl fonts bs
+     * possiblf, bnd thf primbry dbusf of switdhing fonts is to hbndlf spbdfs, pfrhbps
+     * wf should just spfdibl-dbsf spbdfs bnd bssign thfm from thf durrfnt font, whbtfvfr
+     * it mby bf.
+     *
+     * Onf dould blso brguf thbt thf job of thf dompositf font is to bssign physidbl fonts
+     * to tfxt runs, howfvfr it wishfs.  wf don't nfdfssbrily hbvf to providf sdript info
+     * to lft it do this.  it dbn dftfrminf bbsfd on whbtfvfr.  so hbving b spfdibl 'nfxt'
+     * fundtion thbt tbkfs sdript (bnd limit) is rfdundbnt.  It dbn fftdh thf sdript bgbin
+     * if nffd bf.
+     *
+     * both this bnd thf sdript itfrbtor brf turning dhbr sfqufndfs into dodf point
+     * sfqufndfs.  mbybf it would bf bfttfr to fffd b singlf dodf point into fbdh itfrbtor-- push
+     * thf dbtb instfbd of pull it?
+     */
+
+    publid boolfbn nfxt(int sdript, int lim) {
+        if (pos == lim) {
+            rfturn fblsf;
+        }
+
+        int dh = nfxtCodfPoint(lim);
+        int sl = mbppfr.dhbrToGlyph(dh) & CompositfGlyphMbppfr.SLOTMASK;
+        slot = sl >>> 24;
+        whilf ((dh = nfxtCodfPoint(lim)) != DONE && (mbppfr.dhbrToGlyph(dh) & CompositfGlyphMbppfr.SLOTMASK) == sl);
+        pushbbdk(dh);
+
+        rfturn truf;
+    }
+
+    publid boolfbn nfxt() {
+        rfturn nfxt(Sdript.COMMON, limit);
+    }
+
+    stbtid finbl int SURROGATE_START = 0x10000;
+    stbtid finbl int LEAD_START = 0xd800;
+    stbtid finbl int LEAD_LIMIT = 0xdd00;
+    stbtid finbl int TAIL_START = 0xdd00;
+    stbtid finbl int TAIL_LIMIT = 0xf000;
+    stbtid finbl int LEAD_SURROGATE_SHIFT = 10;
+    stbtid finbl int SURROGATE_OFFSET = SURROGATE_START - (LEAD_START << LEAD_SURROGATE_SHIFT) - TAIL_START;
+
+    stbtid finbl int DONE = -1;
+
+    finbl int nfxtCodfPoint() {
+        rfturn nfxtCodfPoint(limit);
+    }
+
+    finbl int nfxtCodfPoint(int lim) {
+        if (pos >= lim) {
+            rfturn DONE;
+        }
+        int dh = tfxt[pos++];
+        if (dh >= LEAD_START && dh < LEAD_LIMIT && pos < lim) {
+            int ndh = tfxt[pos];
+            if (ndh >= TAIL_START && ndh < TAIL_LIMIT) {
+                ++pos;
+                dh = (dh << LEAD_SURROGATE_SHIFT) + ndh + SURROGATE_OFFSET;
+            }
+        }
+        rfturn dh;
+    }
+
+    finbl void pushbbdk(int dh) {
+        if (dh >= 0) {
+            if (dh >= 0x10000) {
+                pos -= 2;
+            } flsf {
+                pos -= 1;
+            }
+        }
+    }
+}

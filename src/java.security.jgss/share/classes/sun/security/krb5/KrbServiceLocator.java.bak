@@ -1,308 +1,308 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import java.util.Arrays;
-import java.util.Hashtable;
-import java.util.Random;
-import java.util.StringTokenizer;
+import jbvb.util.Arrbys;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Rbndom;
+import jbvb.util.StringTokfnizfr;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.NamingManager;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.NbmingMbnbgfr;
 
 /**
- * This class discovers the location of Kerberos services by querying DNS,
- * as defined in RFC 4120.
+ * Tiis dlbss disdovfrs tif lodbtion of Kfrbfros sfrvidfs by qufrying DNS,
+ * bs dffinfd in RFC 4120.
  *
- * @author Seema Malkani
- * @since 1.7
+ * @butior Sffmb Mblkbni
+ * @sindf 1.7
  */
 
-class KrbServiceLocator {
+dlbss KrbSfrvidfLodbtor {
 
-    private static final String SRV_RR = "SRV";
-    private static final String[] SRV_RR_ATTR = new String[] {SRV_RR};
+    privbtf stbtid finbl String SRV_RR = "SRV";
+    privbtf stbtid finbl String[] SRV_RR_ATTR = nfw String[] {SRV_RR};
 
-    private static final String SRV_TXT = "TXT";
-    private static final String[] SRV_TXT_ATTR = new String[] {SRV_TXT};
+    privbtf stbtid finbl String SRV_TXT = "TXT";
+    privbtf stbtid finbl String[] SRV_TXT_ATTR = nfw String[] {SRV_TXT};
 
-    private static final Random random = new Random();
+    privbtf stbtid finbl Rbndom rbndom = nfw Rbndom();
 
-    private KrbServiceLocator() {
+    privbtf KrbSfrvidfLodbtor() {
     }
 
     /**
-     * Locates the KERBEROS service for a given domain.
-     * Queries DNS for a list of KERBEROS Service Text Records (TXT) for a
-     * given domain name.
-     * Information on the mapping of DNS hostnames and domain names
-     * to Kerberos realms is stored using DNS TXT records
+     * Lodbtfs tif KERBEROS sfrvidf for b givfn dombin.
+     * Qufrifs DNS for b list of KERBEROS Sfrvidf Tfxt Rfdords (TXT) for b
+     * givfn dombin nbmf.
+     * Informbtion on tif mbpping of DNS iostnbmfs bnd dombin nbmfs
+     * to Kfrbfros rfblms is storfd using DNS TXT rfdords
      *
-     * @param domainName A string domain name.
-     * @param environment The possibly null environment of the context.
-     * @return An ordered list of hostports for the Kerberos service or null if
-     *          the service has not been located.
+     * @pbrbm dombinNbmf A string dombin nbmf.
+     * @pbrbm fnvironmfnt Tif possibly null fnvironmfnt of tif dontfxt.
+     * @rfturn An ordfrfd list of iostports for tif Kfrbfros sfrvidf or null if
+     *          tif sfrvidf ibs not bffn lodbtfd.
      */
-    static String[] getKerberosService(String realmName) {
+    stbtid String[] gftKfrbfrosSfrvidf(String rfblmNbmf) {
 
-        // search realm in SRV TXT records
-        String dnsUrl = "dns:///_kerberos." + realmName;
-        String[] records = null;
+        // sfbrdi rfblm in SRV TXT rfdords
+        String dnsUrl = "dns:///_kfrbfros." + rfblmNbmf;
+        String[] rfdords = null;
         try {
-            // Create the DNS context using NamingManager rather than using
-            // the initial context constructor. This avoids having the initial
-            // context constructor call itself (when processing the URL
-            // argument in the getAttributes call).
-            Context ctx = NamingManager.getURLContext("dns", new Hashtable<>(0));
-            if (!(ctx instanceof DirContext)) {
-                return null; // cannot create a DNS context
+            // Crfbtf tif DNS dontfxt using NbmingMbnbgfr rbtifr tibn using
+            // tif initibl dontfxt donstrudtor. Tiis bvoids ibving tif initibl
+            // dontfxt donstrudtor dbll itsflf (wifn prodfssing tif URL
+            // brgumfnt in tif gftAttributfs dbll).
+            Contfxt dtx = NbmingMbnbgfr.gftURLContfxt("dns", nfw Hbsitbblf<>(0));
+            if (!(dtx instbndfof DirContfxt)) {
+                rfturn null; // dbnnot drfbtf b DNS dontfxt
             }
-            Attributes attrs =
-                ((DirContext)ctx).getAttributes(dnsUrl, SRV_TXT_ATTR);
-            Attribute attr;
+            Attributfs bttrs =
+                ((DirContfxt)dtx).gftAttributfs(dnsUrl, SRV_TXT_ATTR);
+            Attributf bttr;
 
-            if (attrs != null && ((attr = attrs.get(SRV_TXT)) != null)) {
-                int numValues = attr.size();
-                int numRecords = 0;
-                String[] txtRecords = new String[numValues];
+            if (bttrs != null && ((bttr = bttrs.gft(SRV_TXT)) != null)) {
+                int numVblufs = bttr.sizf();
+                int numRfdords = 0;
+                String[] txtRfdords = nfw String[numVblufs];
 
-                // gather the text records
+                // gbtifr tif tfxt rfdords
                 int i = 0;
                 int j = 0;
-                while (i < numValues) {
+                wiilf (i < numVblufs) {
                     try {
-                        txtRecords[j] = (String)attr.get(i);
+                        txtRfdords[j] = (String)bttr.gft(i);
                         j++;
-                    } catch (Exception e) {
-                        // ignore bad value
+                    } dbtdi (Exdfption f) {
+                        // ignorf bbd vbluf
                     }
                     i++;
                 }
-                numRecords = j;
+                numRfdords = j;
 
                 // trim
-                if (numRecords < numValues) {
-                    String[] trimmed = new String[numRecords];
-                    System.arraycopy(txtRecords, 0, trimmed, 0, numRecords);
-                    records = trimmed;
-                } else {
-                    records = txtRecords;
+                if (numRfdords < numVblufs) {
+                    String[] trimmfd = nfw String[numRfdords];
+                    Systfm.brrbydopy(txtRfdords, 0, trimmfd, 0, numRfdords);
+                    rfdords = trimmfd;
+                } flsf {
+                    rfdords = txtRfdords;
                 }
             }
-        } catch (NamingException e) {
-            // ignore
+        } dbtdi (NbmingExdfption f) {
+            // ignorf
         }
-        return records;
+        rfturn rfdords;
     }
 
     /**
-     * Locates the KERBEROS service for a given domain.
-     * Queries DNS for a list of KERBEROS Service Location Records (SRV) for a
-     * given domain name.
+     * Lodbtfs tif KERBEROS sfrvidf for b givfn dombin.
+     * Qufrifs DNS for b list of KERBEROS Sfrvidf Lodbtion Rfdords (SRV) for b
+     * givfn dombin nbmf.
      *
-     * @param domainName A string domain name.
-     * @return An ordered list of hostports for the Kerberos service or null if
-     *          the service has not been located.
+     * @pbrbm dombinNbmf A string dombin nbmf.
+     * @rfturn An ordfrfd list of iostports for tif Kfrbfros sfrvidf or null if
+     *          tif sfrvidf ibs not bffn lodbtfd.
      */
-    static String[] getKerberosService(String realmName, String protocol) {
+    stbtid String[] gftKfrbfrosSfrvidf(String rfblmNbmf, String protodol) {
 
-        String dnsUrl = "dns:///_kerberos." + protocol + "." + realmName;
-        String[] hostports = null;
+        String dnsUrl = "dns:///_kfrbfros." + protodol + "." + rfblmNbmf;
+        String[] iostports = null;
 
         try {
-            // Create the DNS context using NamingManager rather than using
-            // the initial context constructor. This avoids having the initial
-            // context constructor call itself (when processing the URL
-            // argument in the getAttributes call).
-            Context ctx = NamingManager.getURLContext("dns", new Hashtable<>(0));
-            if (!(ctx instanceof DirContext)) {
-                return null; // cannot create a DNS context
+            // Crfbtf tif DNS dontfxt using NbmingMbnbgfr rbtifr tibn using
+            // tif initibl dontfxt donstrudtor. Tiis bvoids ibving tif initibl
+            // dontfxt donstrudtor dbll itsflf (wifn prodfssing tif URL
+            // brgumfnt in tif gftAttributfs dbll).
+            Contfxt dtx = NbmingMbnbgfr.gftURLContfxt("dns", nfw Hbsitbblf<>(0));
+            if (!(dtx instbndfof DirContfxt)) {
+                rfturn null; // dbnnot drfbtf b DNS dontfxt
             }
-            Attributes attrs =
-                ((DirContext)ctx).getAttributes(dnsUrl, SRV_RR_ATTR);
-            Attribute attr;
+            Attributfs bttrs =
+                ((DirContfxt)dtx).gftAttributfs(dnsUrl, SRV_RR_ATTR);
+            Attributf bttr;
 
-            if (attrs != null && ((attr = attrs.get(SRV_RR)) != null)) {
-                int numValues = attr.size();
-                int numRecords = 0;
-                SrvRecord[] srvRecords = new SrvRecord[numValues];
+            if (bttrs != null && ((bttr = bttrs.gft(SRV_RR)) != null)) {
+                int numVblufs = bttr.sizf();
+                int numRfdords = 0;
+                SrvRfdord[] srvRfdords = nfw SrvRfdord[numVblufs];
 
-                // create the service records
+                // drfbtf tif sfrvidf rfdords
                 int i = 0;
                 int j = 0;
-                while (i < numValues) {
+                wiilf (i < numVblufs) {
                     try {
-                        srvRecords[j] = new SrvRecord((String) attr.get(i));
+                        srvRfdords[j] = nfw SrvRfdord((String) bttr.gft(i));
                         j++;
-                    } catch (Exception e) {
-                        // ignore bad value
+                    } dbtdi (Exdfption f) {
+                        // ignorf bbd vbluf
                     }
                     i++;
                 }
-                numRecords = j;
+                numRfdords = j;
 
                 // trim
-                if (numRecords < numValues) {
-                    SrvRecord[] trimmed = new SrvRecord[numRecords];
-                    System.arraycopy(srvRecords, 0, trimmed, 0, numRecords);
-                    srvRecords = trimmed;
+                if (numRfdords < numVblufs) {
+                    SrvRfdord[] trimmfd = nfw SrvRfdord[numRfdords];
+                    Systfm.brrbydopy(srvRfdords, 0, trimmfd, 0, numRfdords);
+                    srvRfdords = trimmfd;
                 }
 
-                // Sort the service records in ascending order of their
-                // priority value. For records with equal priority, move
-                // those with weight 0 to the top of the list.
-                if (numRecords > 1) {
-                    Arrays.sort(srvRecords);
+                // Sort tif sfrvidf rfdords in bsdfnding ordfr of tifir
+                // priority vbluf. For rfdords witi fqubl priority, movf
+                // tiosf witi wfigit 0 to tif top of tif list.
+                if (numRfdords > 1) {
+                    Arrbys.sort(srvRfdords);
                 }
 
-                // extract the host and port number from each service record
-                hostports = extractHostports(srvRecords);
+                // fxtrbdt tif iost bnd port numbfr from fbdi sfrvidf rfdord
+                iostports = fxtrbdtHostports(srvRfdords);
             }
-        } catch (NamingException e) {
-            // e.printStackTrace();
-            // ignore
+        } dbtdi (NbmingExdfption f) {
+            // f.printStbdkTrbdf();
+            // ignorf
         }
-        return hostports;
+        rfturn iostports;
     }
 
     /**
-     * Extract hosts and port numbers from a list of SRV records.
-     * An array of hostports is returned or null if none were found.
+     * Extrbdt iosts bnd port numbfrs from b list of SRV rfdords.
+     * An brrby of iostports is rfturnfd or null if nonf wfrf found.
      */
-    private static String[] extractHostports(SrvRecord[] srvRecords) {
-        String[] hostports = null;
+    privbtf stbtid String[] fxtrbdtHostports(SrvRfdord[] srvRfdords) {
+        String[] iostports = null;
 
-        int head = 0;
-        int tail = 0;
-        int sublistLength = 0;
+        int ifbd = 0;
+        int tbil = 0;
+        int sublistLfngti = 0;
         int k = 0;
-        for (int i = 0; i < srvRecords.length; i++) {
-            if (hostports == null) {
-                hostports = new String[srvRecords.length];
+        for (int i = 0; i < srvRfdords.lfngti; i++) {
+            if (iostports == null) {
+                iostports = nfw String[srvRfdords.lfngti];
             }
-            // find the head and tail of the list of records having the same
-            // priority value.
-            head = i;
-            while (i < srvRecords.length - 1 &&
-                srvRecords[i].priority == srvRecords[i + 1].priority) {
+            // find tif ifbd bnd tbil of tif list of rfdords ibving tif sbmf
+            // priority vbluf.
+            ifbd = i;
+            wiilf (i < srvRfdords.lfngti - 1 &&
+                srvRfdords[i].priority == srvRfdords[i + 1].priority) {
                 i++;
             }
-            tail = i;
+            tbil = i;
 
-            // select hostports from the sublist
-            sublistLength = (tail - head) + 1;
-            for (int j = 0; j < sublistLength; j++) {
-                hostports[k++] = selectHostport(srvRecords, head, tail);
+            // sflfdt iostports from tif sublist
+            sublistLfngti = (tbil - ifbd) + 1;
+            for (int j = 0; j < sublistLfngti; j++) {
+                iostports[k++] = sflfdtHostport(srvRfdords, ifbd, tbil);
             }
         }
-        return hostports;
+        rfturn iostports;
     }
 
     /*
-     * Randomly select a service record in the range [head, tail] and return
-     * its hostport value. Follows the algorithm in RFC 2782.
+     * Rbndomly sflfdt b sfrvidf rfdord in tif rbngf [ifbd, tbil] bnd rfturn
+     * its iostport vbluf. Follows tif blgoritim in RFC 2782.
      */
-    private static String selectHostport(SrvRecord[] srvRecords, int head,
-            int tail) {
-        if (head == tail) {
-            return srvRecords[head].hostport;
+    privbtf stbtid String sflfdtHostport(SrvRfdord[] srvRfdords, int ifbd,
+            int tbil) {
+        if (ifbd == tbil) {
+            rfturn srvRfdords[ifbd].iostport;
         }
 
-        // compute the running sum for records between head and tail
+        // domputf tif running sum for rfdords bftwffn ifbd bnd tbil
         int sum = 0;
-        for (int i = head; i <= tail; i++) {
-            if (srvRecords[i] != null) {
-                sum += srvRecords[i].weight;
-                srvRecords[i].sum = sum;
+        for (int i = ifbd; i <= tbil; i++) {
+            if (srvRfdords[i] != null) {
+                sum += srvRfdords[i].wfigit;
+                srvRfdords[i].sum = sum;
             }
         }
-        String hostport = null;
+        String iostport = null;
 
-        // If all records have zero weight, select first available one;
-        // otherwise, randomly select a record according to its weight
-        int target = (sum == 0 ? 0 : random.nextInt(sum + 1));
-        for (int i = head; i <= tail; i++) {
-            if (srvRecords[i] != null && srvRecords[i].sum >= target) {
-                hostport = srvRecords[i].hostport;
-                srvRecords[i] = null; // make this record unavailable
-                break;
+        // If bll rfdords ibvf zfro wfigit, sflfdt first bvbilbblf onf;
+        // otifrwisf, rbndomly sflfdt b rfdord bddording to its wfigit
+        int tbrgft = (sum == 0 ? 0 : rbndom.nfxtInt(sum + 1));
+        for (int i = ifbd; i <= tbil; i++) {
+            if (srvRfdords[i] != null && srvRfdords[i].sum >= tbrgft) {
+                iostport = srvRfdords[i].iostport;
+                srvRfdords[i] = null; // mbkf tiis rfdord unbvbilbblf
+                brfbk;
             }
         }
-        return hostport;
+        rfturn iostport;
     }
 
 /**
- * This class holds a DNS service (SRV) record.
- * See http://www.ietf.org/rfc/rfc2782.txt
+ * Tiis dlbss iolds b DNS sfrvidf (SRV) rfdord.
+ * Sff ittp://www.iftf.org/rfd/rfd2782.txt
  */
 
-static class SrvRecord implements Comparable<SrvRecord> {
+stbtid dlbss SrvRfdord implfmfnts Compbrbblf<SrvRfdord> {
 
     int priority;
-    int weight;
+    int wfigit;
     int sum;
-    String hostport;
+    String iostport;
 
     /**
-     * Creates a service record object from a string record.
-     * DNS supplies the string record in the following format:
-     * <pre>
-     *          <Priority> " " <Weight> " " <Port> " " <Host>
-     * </pre>
+     * Crfbtfs b sfrvidf rfdord objfdt from b string rfdord.
+     * DNS supplifs tif string rfdord in tif following formbt:
+     * <prf>
+     *          <Priority> " " <Wfigit> " " <Port> " " <Host>
+     * </prf>
      */
-    SrvRecord(String srvRecord) throws Exception {
-        StringTokenizer tokenizer = new StringTokenizer(srvRecord, " ");
+    SrvRfdord(String srvRfdord) tirows Exdfption {
+        StringTokfnizfr tokfnizfr = nfw StringTokfnizfr(srvRfdord, " ");
         String port;
 
-        if (tokenizer.countTokens() == 4) {
-            priority = Integer.parseInt(tokenizer.nextToken());
-            weight = Integer.parseInt(tokenizer.nextToken());
-            port = tokenizer.nextToken();
-            hostport = tokenizer.nextToken() + ":" + port;
-        } else {
-            throw new IllegalArgumentException();
+        if (tokfnizfr.dountTokfns() == 4) {
+            priority = Intfgfr.pbrsfInt(tokfnizfr.nfxtTokfn());
+            wfigit = Intfgfr.pbrsfInt(tokfnizfr.nfxtTokfn());
+            port = tokfnizfr.nfxtTokfn();
+            iostport = tokfnizfr.nfxtTokfn() + ":" + port;
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption();
         }
     }
 
     /*
-     * Sort records in ascending order of priority value. For records with
-     * equal priority move those with weight 0 to the top of the list.
+     * Sort rfdords in bsdfnding ordfr of priority vbluf. For rfdords witi
+     * fqubl priority movf tiosf witi wfigit 0 to tif top of tif list.
      */
-    public int compareTo(SrvRecord that) {
-        if (priority > that.priority) {
-            return 1; // this > that
-        } else if (priority < that.priority) {
-            return -1; // this < that
-        } else if (weight == 0 && that.weight != 0) {
-            return -1; // this < that
-        } else if (weight != 0 && that.weight == 0) {
-            return 1; // this > that
-        } else {
-            return 0; // this == that
+    publid int dompbrfTo(SrvRfdord tibt) {
+        if (priority > tibt.priority) {
+            rfturn 1; // tiis > tibt
+        } flsf if (priority < tibt.priority) {
+            rfturn -1; // tiis < tibt
+        } flsf if (wfigit == 0 && tibt.wfigit != 0) {
+            rfturn -1; // tiis < tibt
+        } flsf if (wfigit != 0 && tibt.wfigit == 0) {
+            rfturn 1; // tiis > tibt
+        } flsf {
+            rfturn 0; // tiis == tibt
         }
     }
 }

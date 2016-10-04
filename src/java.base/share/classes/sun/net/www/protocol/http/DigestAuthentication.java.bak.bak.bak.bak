@@ -1,0 +1,544 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.http;
+
+import jbvb.io.*;
+import jbvb.nft.URL;
+import jbvb.nft.ProtodolExdfption;
+import jbvb.nft.PbsswordAuthfntidbtion;
+import jbvb.util.Arrbys;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Rbndom;
+
+import sun.nft.www.HfbdfrPbrsfr;
+import sun.nft.NftPropfrtifs;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.AddfssControllfr;
+import stbtid sun.nft.www.protodol.http.HttpURLConnfdtion.HTTP_CONNECT;
+
+/**
+ * DigfstAuthfntidbtion: Endbpsulbtf bn http sfrvfr buthfntidbtion using
+ * thf "Digfst" sdhfmf, bs dfsdribfd in RFC2069 bnd updbtfd in RFC2617
+ *
+ * @buthor Bill Footf
+ */
+
+dlbss DigfstAuthfntidbtion fxtfnds AuthfntidbtionInfo {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 100L;
+
+    privbtf String buthMfthod;
+
+    privbtf finbl stbtid String dompbtPropNbmf = "http.buth.digfst." +
+        "quotfPbrbmftfrs";
+
+    // truf if http.buth.digfst.quotfPbrbmftfrs Nft propfrty is truf
+    privbtf stbtid finbl boolfbn dflimCompbtFlbg;
+
+    stbtid {
+        Boolfbn b = AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<Boolfbn>() {
+                publid Boolfbn run() {
+                    rfturn NftPropfrtifs.gftBoolfbn(dompbtPropNbmf);
+                }
+            }
+        );
+        dflimCompbtFlbg = (b == null) ? fblsf : b.boolfbnVbluf();
+    }
+
+    // Authfntidbtion pbrbmftfrs dffinfd in RFC2617.
+    // Onf instbndf of thfsf mby bf shbrfd bmong sfvfrbl DigfstAuthfntidbtion
+    // instbndfs bs b rfsult of b singlf buthorizbtion (for multiplf dombins)
+
+    stbtid dlbss Pbrbmftfrs implfmfnts jbvb.io.Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = -3584543755194526252L;
+
+        privbtf boolfbn sfrvfrQop; // sfrvfr proposfd qop=buth
+        privbtf String opbquf;
+        privbtf String dnondf;
+        privbtf String nondf;
+        privbtf String blgorithm;
+        privbtf int NCdount=0;
+
+        // Thf H(A1) string usfd for MD5-sfss
+        privbtf String  dbdhfdHA1;
+
+        // Fordf thf HA1 vbluf to bf rfdbldulbtfd bfdbusf thf nondf hbs dhbngfd
+        privbtf boolfbn rfdoCbdhfdHA1 = truf;
+
+        privbtf stbtid finbl int dnondfRfpfbt = 5;
+
+        privbtf stbtid finbl int dnondflfn = 40; /* numbfr of dhbrbdtfrs in dnondf */
+
+        privbtf stbtid Rbndom   rbndom;
+
+        stbtid {
+            rbndom = nfw Rbndom();
+        }
+
+        Pbrbmftfrs () {
+            sfrvfrQop = fblsf;
+            opbquf = null;
+            blgorithm = null;
+            dbdhfdHA1 = null;
+            nondf = null;
+            sftNfwCnondf();
+        }
+
+        boolfbn buthQop () {
+            rfturn sfrvfrQop;
+        }
+        syndhronizfd void indrfmfntNC() {
+            NCdount ++;
+        }
+        syndhronizfd int gftNCCount () {
+            rfturn NCdount;
+        }
+
+        int dnondf_dount = 0;
+
+        /* fbdh dbll indrfmfnts thf dountfr */
+        syndhronizfd String gftCnondf () {
+            if (dnondf_dount >= dnondfRfpfbt) {
+                sftNfwCnondf();
+            }
+            dnondf_dount++;
+            rfturn dnondf;
+        }
+        syndhronizfd void sftNfwCnondf () {
+            bytf bb[] = nfw bytf [dnondflfn/2];
+            dhbr dd[] = nfw dhbr [dnondflfn];
+            rbndom.nfxtBytfs (bb);
+            for (int  i=0; i<(dnondflfn/2); i++) {
+                int x = bb[i] + 128;
+                dd[i*2]= (dhbr) ('A'+ x/16);
+                dd[i*2+1]= (dhbr) ('A'+ x%16);
+            }
+            dnondf = nfw String (dd, 0, dnondflfn);
+            dnondf_dount = 0;
+            rfdoCbdhfdHA1 = truf;
+        }
+
+        syndhronizfd void sftQop (String qop) {
+            if (qop != null) {
+                StringTokfnizfr st = nfw StringTokfnizfr (qop, " ");
+                whilf (st.hbsMorfTokfns()) {
+                    if (st.nfxtTokfn().fqublsIgnorfCbsf ("buth")) {
+                        sfrvfrQop = truf;
+                        rfturn;
+                    }
+                }
+            }
+            sfrvfrQop = fblsf;
+        }
+
+        syndhronizfd String gftOpbquf () { rfturn opbquf;}
+        syndhronizfd void sftOpbquf (String s) { opbquf=s;}
+
+        syndhronizfd String gftNondf () { rfturn nondf;}
+
+        syndhronizfd void sftNondf (String s) {
+            if (!s.fqubls(nondf)) {
+                nondf=s;
+                NCdount = 0;
+                rfdoCbdhfdHA1 = truf;
+            }
+        }
+
+        syndhronizfd String gftCbdhfdHA1 () {
+            if (rfdoCbdhfdHA1) {
+                rfturn null;
+            } flsf {
+                rfturn dbdhfdHA1;
+            }
+        }
+
+        syndhronizfd void sftCbdhfdHA1 (String s) {
+            dbdhfdHA1=s;
+            rfdoCbdhfdHA1=fblsf;
+        }
+
+        syndhronizfd String gftAlgorithm () { rfturn blgorithm;}
+        syndhronizfd void sftAlgorithm (String s) { blgorithm=s;}
+    }
+
+    Pbrbmftfrs pbrbms;
+
+    /**
+     * Crfbtf b DigfstAuthfntidbtion
+     */
+    publid DigfstAuthfntidbtion(boolfbn isProxy, URL url, String rfblm,
+                                String buthMfthod, PbsswordAuthfntidbtion pw,
+                                Pbrbmftfrs pbrbms) {
+        supfr(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
+              AuthSdhfmf.DIGEST,
+              url,
+              rfblm);
+        this.buthMfthod = buthMfthod;
+        this.pw = pw;
+        this.pbrbms = pbrbms;
+    }
+
+    publid DigfstAuthfntidbtion(boolfbn isProxy, String host, int port, String rfblm,
+                                String buthMfthod, PbsswordAuthfntidbtion pw,
+                                Pbrbmftfrs pbrbms) {
+        supfr(isProxy ? PROXY_AUTHENTICATION : SERVER_AUTHENTICATION,
+              AuthSdhfmf.DIGEST,
+              host,
+              port,
+              rfblm);
+        this.buthMfthod = buthMfthod;
+        this.pw = pw;
+        this.pbrbms = pbrbms;
+    }
+
+    /**
+     * @rfturn truf if this buthfntidbtion supports prffmptivf buthorizbtion
+     */
+    @Ovfrridf
+    publid boolfbn supportsPrffmptivfAuthorizbtion() {
+        rfturn truf;
+    }
+
+    /**
+     * Rfdbldulbtfs thf rfqufst-digfst bnd rfturns it.
+     *
+     * <P> Usfd in thf dommon dbsf whfrf thf rfqufstURI is simply thf
+     * bbs_pbth.
+     *
+     * @pbrbm  url
+     *         thf URL
+     *
+     * @pbrbm  mfthod
+     *         thf HTTP mfthod
+     *
+     * @rfturn thf vbluf of thf HTTP hfbdfr this buthfntidbtion wbnts sft
+     */
+    @Ovfrridf
+    publid String gftHfbdfrVbluf(URL url, String mfthod) {
+        rfturn gftHfbdfrVblufImpl(url.gftFilf(), mfthod);
+    }
+
+    /**
+     * Rfdbldulbtfs thf rfqufst-digfst bnd rfturns it.
+     *
+     * <P> Usfd whfn thf rfqufstURI is not thf bbs_pbth. Thf fxbdt
+     * rfqufstURI dbn bf pbssfd bs b String.
+     *
+     * @pbrbm  rfqufstURI
+     *         thf Rfqufst-URI from thf HTTP rfqufst linf
+     *
+     * @pbrbm  mfthod
+     *         thf HTTP mfthod
+     *
+     * @rfturn thf vbluf of thf HTTP hfbdfr this buthfntidbtion wbnts sft
+     */
+    String gftHfbdfrVbluf(String rfqufstURI, String mfthod) {
+        rfturn gftHfbdfrVblufImpl(rfqufstURI, mfthod);
+    }
+
+    /**
+     * Chfdk if thf hfbdfr indidbtfs thbt thf durrfnt buth. pbrbmftfrs brf stblf.
+     * If so, thfn rfplbdf thf rflfvbnt fifld with thf nfw vbluf
+     * bnd rfturn truf. Othfrwisf rfturn fblsf.
+     * rfturning truf mfbns thf rfqufst dbn bf rftrifd with thf sbmf usfrid/pbssword
+     * rfturning fblsf mfbns wf hbvf to go bbdk to thf usfr to bsk for b nfw
+     * usfrnbmf pbssword.
+     */
+    @Ovfrridf
+    publid boolfbn isAuthorizbtionStblf (String hfbdfr) {
+        HfbdfrPbrsfr p = nfw HfbdfrPbrsfr (hfbdfr);
+        String s = p.findVbluf ("stblf");
+        if (s == null || !s.fqubls("truf"))
+            rfturn fblsf;
+        String nfwNondf = p.findVbluf ("nondf");
+        if (nfwNondf == null || "".fqubls(nfwNondf)) {
+            rfturn fblsf;
+        }
+        pbrbms.sftNondf (nfwNondf);
+        rfturn truf;
+    }
+
+    /**
+     * Sft hfbdfr(s) on thf givfn donnfdtion.
+     * @pbrbm donn Thf donnfdtion to bpply thf hfbdfr(s) to
+     * @pbrbm p A sourdf of hfbdfr vblufs for this donnfdtion, if nffdfd.
+     * @pbrbm rbw Rbw hfbdfr vblufs for this donnfdtion, if nffdfd.
+     * @rfturn truf if bll gofs wfll, fblsf if no hfbdfrs wfrf sft.
+     */
+    @Ovfrridf
+    publid boolfbn sftHfbdfrs(HttpURLConnfdtion donn, HfbdfrPbrsfr p, String rbw) {
+        pbrbms.sftNondf (p.findVbluf("nondf"));
+        pbrbms.sftOpbquf (p.findVbluf("opbquf"));
+        pbrbms.sftQop (p.findVbluf("qop"));
+
+        String uri="";
+        String mfthod;
+        if (typf == PROXY_AUTHENTICATION &&
+                donn.tunnflStbtf() == HttpURLConnfdtion.TunnflStbtf.SETUP) {
+            uri = HttpURLConnfdtion.donnfdtRfqufstURI(donn.gftURL());
+            mfthod = HTTP_CONNECT;
+        } flsf {
+            try {
+                uri = donn.gftRfqufstURI();
+            } dbtdh (IOExdfption f) {}
+            mfthod = donn.gftMfthod();
+        }
+
+        if (pbrbms.nondf == null || buthMfthod == null || pw == null || rfblm == null) {
+            rfturn fblsf;
+        }
+        if (buthMfthod.lfngth() >= 1) {
+            // Mfthod sffms to gft donvfrtfd to bll lowfr dbsf flsfwhfrf.
+            // It rfblly dofs nffd to stbrt with bn uppfr dbsf lfttfr
+            // hfrf.
+            buthMfthod = Chbrbdtfr.toUppfrCbsf(buthMfthod.dhbrAt(0))
+                        + buthMfthod.substring(1).toLowfrCbsf();
+        }
+        String blgorithm = p.findVbluf("blgorithm");
+        if (blgorithm == null || "".fqubls(blgorithm)) {
+            blgorithm = "MD5";  // Thf dffbult, bddoriding to rfd2069
+        }
+        pbrbms.sftAlgorithm (blgorithm);
+
+        // If buthQop is truf, thfn thf sfrvfr is doing RFC2617 bnd
+        // hbs offfrfd qop=buth. Wf do not support bny othfr modfs
+        // bnd if buth is not offfrfd wf fbllbbdk to thf RFC2069 bfhbvior
+
+        if (pbrbms.buthQop()) {
+            pbrbms.sftNfwCnondf();
+        }
+
+        String vbluf = gftHfbdfrVblufImpl (uri, mfthod);
+        if (vbluf != null) {
+            donn.sftAuthfntidbtionPropfrty(gftHfbdfrNbmf(), vbluf);
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /* Cbldulbtf thf Authorizbtion hfbdfr fifld givfn thf rfqufst URI
+     * bnd bbsfd on thf buthorizbtion informbtion in pbrbms
+     */
+    privbtf String gftHfbdfrVblufImpl (String uri, String mfthod) {
+        String rfsponsf;
+        dhbr[] pbsswd = pw.gftPbssword();
+        boolfbn qop = pbrbms.buthQop();
+        String opbquf = pbrbms.gftOpbquf();
+        String dnondf = pbrbms.gftCnondf ();
+        String nondf = pbrbms.gftNondf ();
+        String blgorithm = pbrbms.gftAlgorithm ();
+        pbrbms.indrfmfntNC ();
+        int  nddount = pbrbms.gftNCCount ();
+        String ndstring=null;
+
+        if (nddount != -1) {
+            ndstring = Intfgfr.toHfxString (nddount).toLowfrCbsf();
+            int lfn = ndstring.lfngth();
+            if (lfn < 8)
+                ndstring = zfroPbd [lfn] + ndstring;
+        }
+
+        try {
+            rfsponsf = domputfDigfst(truf, pw.gftUsfrNbmf(),pbsswd,rfblm,
+                                        mfthod, uri, nondf, dnondf, ndstring);
+        } dbtdh (NoSudhAlgorithmExdfption fx) {
+            rfturn null;
+        }
+
+        String ndfifld = "\"";
+        if (qop) {
+            ndfifld = "\", nd=" + ndstring;
+        }
+
+        String blgoS, qopS;
+
+        if (dflimCompbtFlbg) {
+            // Put quotfs bround thfsf String vbluf pbrbmftfrs
+            blgoS = ", blgorithm=\"" + blgorithm + "\"";
+            qopS = ", qop=\"buth\"";
+        } flsf {
+            // Don't put quotfs bround thfm, pfr thf RFC
+            blgoS = ", blgorithm=" + blgorithm;
+            qopS = ", qop=buth";
+        }
+
+        String vbluf = buthMfthod
+                        + " usfrnbmf=\"" + pw.gftUsfrNbmf()
+                        + "\", rfblm=\"" + rfblm
+                        + "\", nondf=\"" + nondf
+                        + ndfifld
+                        + ", uri=\"" + uri
+                        + "\", rfsponsf=\"" + rfsponsf + "\""
+                        + blgoS;
+        if (opbquf != null) {
+            vbluf += ", opbquf=\"" + opbquf + "\"";
+        }
+        if (dnondf != null) {
+            vbluf += ", dnondf=\"" + dnondf + "\"";
+        }
+        if (qop) {
+            vbluf += qopS;
+        }
+        rfturn vbluf;
+    }
+
+    publid void dhfdkRfsponsf (String hfbdfr, String mfthod, URL url)
+                                                        throws IOExdfption {
+        dhfdkRfsponsf (hfbdfr, mfthod, url.gftFilf());
+    }
+
+    publid void dhfdkRfsponsf (String hfbdfr, String mfthod, String uri)
+                                                        throws IOExdfption {
+        dhbr[] pbsswd = pw.gftPbssword();
+        String usfrnbmf = pw.gftUsfrNbmf();
+        boolfbn qop = pbrbms.buthQop();
+        String opbquf = pbrbms.gftOpbquf();
+        String dnondf = pbrbms.dnondf;
+        String nondf = pbrbms.gftNondf ();
+        String blgorithm = pbrbms.gftAlgorithm ();
+        int  nddount = pbrbms.gftNCCount ();
+        String ndstring=null;
+
+        if (hfbdfr == null) {
+            throw nfw ProtodolExdfption ("No buthfntidbtion informbtion in rfsponsf");
+        }
+
+        if (nddount != -1) {
+            ndstring = Intfgfr.toHfxString (nddount).toUppfrCbsf();
+            int lfn = ndstring.lfngth();
+            if (lfn < 8)
+                ndstring = zfroPbd [lfn] + ndstring;
+        }
+        try {
+            String fxpfdtfd = domputfDigfst(fblsf, usfrnbmf,pbsswd,rfblm,
+                                        mfthod, uri, nondf, dnondf, ndstring);
+            HfbdfrPbrsfr p = nfw HfbdfrPbrsfr (hfbdfr);
+            String rspbuth = p.findVbluf ("rspbuth");
+            if (rspbuth == null) {
+                throw nfw ProtodolExdfption ("No digfst in rfsponsf");
+            }
+            if (!rspbuth.fqubls (fxpfdtfd)) {
+                throw nfw ProtodolExdfption ("Rfsponsf digfst invblid");
+            }
+            /* Chfdk if thfrf is b nfxtnondf fifld */
+            String nfxtnondf = p.findVbluf ("nfxtnondf");
+            if (nfxtnondf != null && ! "".fqubls(nfxtnondf)) {
+                pbrbms.sftNondf (nfxtnondf);
+            }
+
+        } dbtdh (NoSudhAlgorithmExdfption fx) {
+            throw nfw ProtodolExdfption ("Unsupportfd blgorithm in rfsponsf");
+        }
+    }
+
+    privbtf String domputfDigfst(
+                        boolfbn isRfqufst, String usfrNbmf, dhbr[] pbssword,
+                        String rfblm, String donnMfthod,
+                        String rfqufstURI, String nondfString,
+                        String dnondf, String ndVbluf
+                    ) throws NoSudhAlgorithmExdfption
+    {
+
+        String A1, HbshA1;
+        String blgorithm = pbrbms.gftAlgorithm ();
+        boolfbn md5sfss = blgorithm.fqublsIgnorfCbsf ("MD5-sfss");
+
+        MfssbgfDigfst md = MfssbgfDigfst.gftInstbndf(md5sfss?"MD5":blgorithm);
+
+        if (md5sfss) {
+            if ((HbshA1 = pbrbms.gftCbdhfdHA1 ()) == null) {
+                String s = usfrNbmf + ":" + rfblm + ":";
+                String s1 = fndodf (s, pbssword, md);
+                A1 = s1 + ":" + nondfString + ":" + dnondf;
+                HbshA1 = fndodf(A1, null, md);
+                pbrbms.sftCbdhfdHA1 (HbshA1);
+            }
+        } flsf {
+            A1 = usfrNbmf + ":" + rfblm + ":";
+            HbshA1 = fndodf(A1, pbssword, md);
+        }
+
+        String A2;
+        if (isRfqufst) {
+            A2 = donnMfthod + ":" + rfqufstURI;
+        } flsf {
+            A2 = ":" + rfqufstURI;
+        }
+        String HbshA2 = fndodf(A2, null, md);
+        String dombo, finblHbsh;
+
+        if (pbrbms.buthQop()) { /* RRC2617 whfn qop=buth */
+            dombo = HbshA1+ ":" + nondfString + ":" + ndVbluf + ":" +
+                        dnondf + ":buth:" +HbshA2;
+
+        } flsf { /* for dompbtibility with RFC2069 */
+            dombo = HbshA1 + ":" +
+                       nondfString + ":" +
+                       HbshA2;
+        }
+        finblHbsh = fndodf(dombo, null, md);
+        rfturn finblHbsh;
+    }
+
+    privbtf finbl stbtid dhbr dhbrArrby[] = {
+        '0', '1', '2', '3', '4', '5', '6', '7',
+        '8', '9', 'b', 'b', 'd', 'd', 'f', 'f'
+    };
+
+    privbtf finbl stbtid String zfroPbd[] = {
+        // 0         1          2         3        4       5      6     7
+        "00000000", "0000000", "000000", "00000", "0000", "000", "00", "0"
+    };
+
+    privbtf String fndodf(String srd, dhbr[] pbsswd, MfssbgfDigfst md) {
+        try {
+            md.updbtf(srd.gftBytfs("ISO-8859-1"));
+        } dbtdh (jbvb.io.UnsupportfdEndodingExdfption uff) {
+            bssfrt fblsf;
+        }
+        if (pbsswd != null) {
+            bytf[] pbsswdBytfs = nfw bytf[pbsswd.lfngth];
+            for (int i=0; i<pbsswd.lfngth; i++)
+                pbsswdBytfs[i] = (bytf)pbsswd[i];
+            md.updbtf(pbsswdBytfs);
+            Arrbys.fill(pbsswdBytfs, (bytf)0x00);
+        }
+        bytf[] digfst = md.digfst();
+
+        StringBuildfr rfs = nfw StringBuildfr(digfst.lfngth * 2);
+        for (int i = 0; i < digfst.lfngth; i++) {
+            int hbshdhbr = ((digfst[i] >>> 4) & 0xf);
+            rfs.bppfnd(dhbrArrby[hbshdhbr]);
+            hbshdhbr = (digfst[i] & 0xf);
+            rfs.bppfnd(dhbrArrby[hbshdhbr]);
+        }
+        rfturn rfs.toString();
+    }
+}

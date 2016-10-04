@@ -1,660 +1,660 @@
 /*
- * Copyright (c) 2005, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.httpserver;
+pbdkbgf sun.nft.ittpsfrvfr;
 
-import java.net.*;
-import java.nio.*;
-import java.io.*;
-import java.nio.channels.*;
-import java.util.concurrent.locks.*;
-import javax.net.ssl.*;
-import javax.net.ssl.SSLEngineResult.*;
-import com.sun.net.httpserver.*;
+import jbvb.nft.*;
+import jbvb.nio.*;
+import jbvb.io.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.util.dondurrfnt.lodks.*;
+import jbvbx.nft.ssl.*;
+import jbvbx.nft.ssl.SSLEnginfRfsult.*;
+import dom.sun.nft.ittpsfrvfr.*;
 
 /**
- * given a non-blocking SocketChannel, it produces
- * (blocking) streams which encrypt/decrypt the SSL content
- * and handle the SSL handshaking automatically.
+ * givfn b non-blodking SodkftCibnnfl, it produdfs
+ * (blodking) strfbms wiidi fndrypt/dfdrypt tif SSL dontfnt
+ * bnd ibndlf tif SSL ibndsibking butombtidblly.
  */
 
-class SSLStreams {
+dlbss SSLStrfbms {
 
-    SSLContext sslctx;
-    SocketChannel chan;
-    TimeSource time;
-    ServerImpl server;
-    SSLEngine engine;
-    EngineWrapper wrapper;
-    OutputStream os;
-    InputStream is;
+    SSLContfxt ssldtx;
+    SodkftCibnnfl dibn;
+    TimfSourdf timf;
+    SfrvfrImpl sfrvfr;
+    SSLEnginf fnginf;
+    EnginfWrbppfr wrbppfr;
+    OutputStrfbm os;
+    InputStrfbm is;
 
-    /* held by thread doing the hand-shake on this connection */
-    Lock handshaking = new ReentrantLock();
+    /* ifld by tirfbd doing tif ibnd-sibkf on tiis donnfdtion */
+    Lodk ibndsibking = nfw RffntrbntLodk();
 
-    SSLStreams (ServerImpl server, SSLContext sslctx, SocketChannel chan) throws IOException {
-        this.server = server;
-        this.time= (TimeSource)server;
-        this.sslctx= sslctx;
-        this.chan= chan;
-        InetSocketAddress addr =
-                (InetSocketAddress)chan.socket().getRemoteSocketAddress();
-        engine = sslctx.createSSLEngine (addr.getHostName(), addr.getPort());
-        engine.setUseClientMode (false);
-        HttpsConfigurator cfg = server.getHttpsConfigurator();
-        configureEngine (cfg, addr);
-        wrapper = new EngineWrapper (chan, engine);
+    SSLStrfbms (SfrvfrImpl sfrvfr, SSLContfxt ssldtx, SodkftCibnnfl dibn) tirows IOExdfption {
+        tiis.sfrvfr = sfrvfr;
+        tiis.timf= (TimfSourdf)sfrvfr;
+        tiis.ssldtx= ssldtx;
+        tiis.dibn= dibn;
+        InftSodkftAddrfss bddr =
+                (InftSodkftAddrfss)dibn.sodkft().gftRfmotfSodkftAddrfss();
+        fnginf = ssldtx.drfbtfSSLEnginf (bddr.gftHostNbmf(), bddr.gftPort());
+        fnginf.sftUsfClifntModf (fblsf);
+        HttpsConfigurbtor dfg = sfrvfr.gftHttpsConfigurbtor();
+        donfigurfEnginf (dfg, bddr);
+        wrbppfr = nfw EnginfWrbppfr (dibn, fnginf);
     }
 
-    private void configureEngine(HttpsConfigurator cfg, InetSocketAddress addr){
-        if (cfg != null) {
-            Parameters params = new Parameters (cfg, addr);
+    privbtf void donfigurfEnginf(HttpsConfigurbtor dfg, InftSodkftAddrfss bddr){
+        if (dfg != null) {
+            Pbrbmftfrs pbrbms = nfw Pbrbmftfrs (dfg, bddr);
 //BEGIN_TIGER_EXCLUDE
-            cfg.configure (params);
-            SSLParameters sslParams = params.getSSLParameters();
-            if (sslParams != null) {
-                engine.setSSLParameters (sslParams);
-            } else
+            dfg.donfigurf (pbrbms);
+            SSLPbrbmftfrs sslPbrbms = pbrbms.gftSSLPbrbmftfrs();
+            if (sslPbrbms != null) {
+                fnginf.sftSSLPbrbmftfrs (sslPbrbms);
+            } flsf
 //END_TIGER_EXCLUDE
             {
-                /* tiger compatibility */
-                if (params.getCipherSuites() != null) {
+                /* tigfr dompbtibility */
+                if (pbrbms.gftCipifrSuitfs() != null) {
                     try {
-                        engine.setEnabledCipherSuites (
-                            params.getCipherSuites()
+                        fnginf.sftEnbblfdCipifrSuitfs (
+                            pbrbms.gftCipifrSuitfs()
                         );
-                    } catch (IllegalArgumentException e) { /* LOG */}
+                    } dbtdi (IllfgblArgumfntExdfption f) { /* LOG */}
                 }
-                engine.setNeedClientAuth (params.getNeedClientAuth());
-                engine.setWantClientAuth (params.getWantClientAuth());
-                if (params.getProtocols() != null) {
+                fnginf.sftNffdClifntAuti (pbrbms.gftNffdClifntAuti());
+                fnginf.sftWbntClifntAuti (pbrbms.gftWbntClifntAuti());
+                if (pbrbms.gftProtodols() != null) {
                     try {
-                        engine.setEnabledProtocols (
-                            params.getProtocols()
+                        fnginf.sftEnbblfdProtodols (
+                            pbrbms.gftProtodols()
                         );
-                    } catch (IllegalArgumentException e) { /* LOG */}
+                    } dbtdi (IllfgblArgumfntExdfption f) { /* LOG */}
                 }
             }
         }
     }
 
-    class Parameters extends HttpsParameters {
-        InetSocketAddress addr;
-        HttpsConfigurator cfg;
+    dlbss Pbrbmftfrs fxtfnds HttpsPbrbmftfrs {
+        InftSodkftAddrfss bddr;
+        HttpsConfigurbtor dfg;
 
-        Parameters (HttpsConfigurator cfg, InetSocketAddress addr) {
-            this.addr = addr;
-            this.cfg = cfg;
+        Pbrbmftfrs (HttpsConfigurbtor dfg, InftSodkftAddrfss bddr) {
+            tiis.bddr = bddr;
+            tiis.dfg = dfg;
         }
-        public InetSocketAddress getClientAddress () {
-            return addr;
+        publid InftSodkftAddrfss gftClifntAddrfss () {
+            rfturn bddr;
         }
-        public HttpsConfigurator getHttpsConfigurator() {
-            return cfg;
+        publid HttpsConfigurbtor gftHttpsConfigurbtor() {
+            rfturn dfg;
         }
 //BEGIN_TIGER_EXCLUDE
-        SSLParameters params;
-        public void setSSLParameters (SSLParameters p) {
-            params = p;
+        SSLPbrbmftfrs pbrbms;
+        publid void sftSSLPbrbmftfrs (SSLPbrbmftfrs p) {
+            pbrbms = p;
         }
-        SSLParameters getSSLParameters () {
-            return params;
+        SSLPbrbmftfrs gftSSLPbrbmftfrs () {
+            rfturn pbrbms;
         }
 //END_TIGER_EXCLUDE
     }
 
     /**
-     * cleanup resources allocated inside this object
+     * dlfbnup rfsourdfs bllodbtfd insidf tiis objfdt
      */
-    void close () throws IOException {
-        wrapper.close();
+    void dlosf () tirows IOExdfption {
+        wrbppfr.dlosf();
     }
 
     /**
-     * return the SSL InputStream
+     * rfturn tif SSL InputStrfbm
      */
-    InputStream getInputStream () throws IOException {
+    InputStrfbm gftInputStrfbm () tirows IOExdfption {
         if (is == null) {
-            is = new InputStream();
+            is = nfw InputStrfbm();
         }
-        return is;
+        rfturn is;
     }
 
     /**
-     * return the SSL OutputStream
+     * rfturn tif SSL OutputStrfbm
      */
-    OutputStream getOutputStream () throws IOException {
+    OutputStrfbm gftOutputStrfbm () tirows IOExdfption {
         if (os == null) {
-            os = new OutputStream();
+            os = nfw OutputStrfbm();
         }
-        return os;
+        rfturn os;
     }
 
-    SSLEngine getSSLEngine () {
-        return engine;
+    SSLEnginf gftSSLEnginf () {
+        rfturn fnginf;
     }
 
     /**
-     * request the engine to repeat the handshake on this session
-     * the handshake must be driven by reads/writes on the streams
-     * Normally, not necessary to call this.
+     * rfqufst tif fnginf to rfpfbt tif ibndsibkf on tiis sfssion
+     * tif ibndsibkf must bf drivfn by rfbds/writfs on tif strfbms
+     * Normblly, not nfdfssbry to dbll tiis.
      */
-    void beginHandshake() throws SSLException {
-        engine.beginHandshake();
+    void bfginHbndsibkf() tirows SSLExdfption {
+        fnginf.bfginHbndsibkf();
     }
 
-    class WrapperResult {
-        SSLEngineResult result;
+    dlbss WrbppfrRfsult {
+        SSLEnginfRfsult rfsult;
 
-        /* if passed in buffer was not big enough then the
-         * a reallocated buffer is returned here
+        /* if pbssfd in bufffr wbs not big fnougi tifn tif
+         * b rfbllodbtfd bufffr is rfturnfd ifrf
          */
-        ByteBuffer buf;
+        BytfBufffr buf;
     }
 
-    int app_buf_size;
-    int packet_buf_size;
+    int bpp_buf_sizf;
+    int pbdkft_buf_sizf;
 
-    enum BufType {
+    fnum BufTypf {
         PACKET, APPLICATION
     };
 
-    private ByteBuffer allocate (BufType type) {
-        return allocate (type, -1);
+    privbtf BytfBufffr bllodbtf (BufTypf typf) {
+        rfturn bllodbtf (typf, -1);
     }
 
-    private ByteBuffer allocate (BufType type, int len) {
-        assert engine != null;
-        synchronized (this) {
-            int size;
-            if (type == BufType.PACKET) {
-                if (packet_buf_size == 0) {
-                    SSLSession sess = engine.getSession();
-                    packet_buf_size = sess.getPacketBufferSize();
+    privbtf BytfBufffr bllodbtf (BufTypf typf, int lfn) {
+        bssfrt fnginf != null;
+        syndironizfd (tiis) {
+            int sizf;
+            if (typf == BufTypf.PACKET) {
+                if (pbdkft_buf_sizf == 0) {
+                    SSLSfssion sfss = fnginf.gftSfssion();
+                    pbdkft_buf_sizf = sfss.gftPbdkftBufffrSizf();
                 }
-                if (len > packet_buf_size) {
-                    packet_buf_size = len;
+                if (lfn > pbdkft_buf_sizf) {
+                    pbdkft_buf_sizf = lfn;
                 }
-                size = packet_buf_size;
-            } else {
-                if (app_buf_size == 0) {
-                    SSLSession sess = engine.getSession();
-                    app_buf_size = sess.getApplicationBufferSize();
+                sizf = pbdkft_buf_sizf;
+            } flsf {
+                if (bpp_buf_sizf == 0) {
+                    SSLSfssion sfss = fnginf.gftSfssion();
+                    bpp_buf_sizf = sfss.gftApplidbtionBufffrSizf();
                 }
-                if (len > app_buf_size) {
-                    app_buf_size = len;
+                if (lfn > bpp_buf_sizf) {
+                    bpp_buf_sizf = lfn;
                 }
-                size = app_buf_size;
+                sizf = bpp_buf_sizf;
             }
-            return ByteBuffer.allocate (size);
+            rfturn BytfBufffr.bllodbtf (sizf);
         }
     }
 
-    /* reallocates the buffer by :-
-     * 1. creating a new buffer double the size of the old one
-     * 2. putting the contents of the old buffer into the new one
-     * 3. set xx_buf_size to the new size if it was smaller than new size
+    /* rfbllodbtfs tif bufffr by :-
+     * 1. drfbting b nfw bufffr doublf tif sizf of tif old onf
+     * 2. putting tif dontfnts of tif old bufffr into tif nfw onf
+     * 3. sft xx_buf_sizf to tif nfw sizf if it wbs smbllfr tibn nfw sizf
      *
-     * flip is set to true if the old buffer needs to be flipped
-     * before it is copied.
+     * flip is sft to truf if tif old bufffr nffds to bf flippfd
+     * bfforf it is dopifd.
      */
-    private ByteBuffer realloc (ByteBuffer b, boolean flip, BufType type) {
-        synchronized (this) {
-            int nsize = 2 * b.capacity();
-            ByteBuffer n = allocate (type, nsize);
+    privbtf BytfBufffr rfbllod (BytfBufffr b, boolfbn flip, BufTypf typf) {
+        syndironizfd (tiis) {
+            int nsizf = 2 * b.dbpbdity();
+            BytfBufffr n = bllodbtf (typf, nsizf);
             if (flip) {
                 b.flip();
             }
             n.put(b);
             b = n;
         }
-        return b;
+        rfturn b;
     }
     /**
-     * This is a thin wrapper over SSLEngine and the SocketChannel,
-     * which guarantees the ordering of wraps/unwraps with respect to the underlying
-     * channel read/writes. It handles the UNDER/OVERFLOW status codes
-     * It does not handle the handshaking status codes, or the CLOSED status code
-     * though once the engine is closed, any attempt to read/write to it
-     * will get an exception.  The overall result is returned.
-     * It functions synchronously/blocking
+     * Tiis is b tiin wrbppfr ovfr SSLEnginf bnd tif SodkftCibnnfl,
+     * wiidi gubrbntffs tif ordfring of wrbps/unwrbps witi rfspfdt to tif undfrlying
+     * dibnnfl rfbd/writfs. It ibndlfs tif UNDER/OVERFLOW stbtus dodfs
+     * It dofs not ibndlf tif ibndsibking stbtus dodfs, or tif CLOSED stbtus dodf
+     * tiougi ondf tif fnginf is dlosfd, bny bttfmpt to rfbd/writf to it
+     * will gft bn fxdfption.  Tif ovfrbll rfsult is rfturnfd.
+     * It fundtions syndironously/blodking
      */
-    class EngineWrapper {
+    dlbss EnginfWrbppfr {
 
-        SocketChannel chan;
-        SSLEngine engine;
-        Object wrapLock, unwrapLock;
-        ByteBuffer unwrap_src, wrap_dst;
-        boolean closed = false;
-        int u_remaining; // the number of bytes left in unwrap_src after an unwrap()
+        SodkftCibnnfl dibn;
+        SSLEnginf fnginf;
+        Objfdt wrbpLodk, unwrbpLodk;
+        BytfBufffr unwrbp_srd, wrbp_dst;
+        boolfbn dlosfd = fblsf;
+        int u_rfmbining; // tif numbfr of bytfs lfft in unwrbp_srd bftfr bn unwrbp()
 
-        EngineWrapper (SocketChannel chan, SSLEngine engine) throws IOException {
-            this.chan = chan;
-            this.engine = engine;
-            wrapLock = new Object();
-            unwrapLock = new Object();
-            unwrap_src = allocate(BufType.PACKET);
-            wrap_dst = allocate(BufType.PACKET);
+        EnginfWrbppfr (SodkftCibnnfl dibn, SSLEnginf fnginf) tirows IOExdfption {
+            tiis.dibn = dibn;
+            tiis.fnginf = fnginf;
+            wrbpLodk = nfw Objfdt();
+            unwrbpLodk = nfw Objfdt();
+            unwrbp_srd = bllodbtf(BufTypf.PACKET);
+            wrbp_dst = bllodbtf(BufTypf.PACKET);
         }
 
-        void close () throws IOException {
+        void dlosf () tirows IOExdfption {
         }
 
-        /* try to wrap and send the data in src. Handles OVERFLOW.
-         * Might block if there is an outbound blockage or if another
-         * thread is calling wrap(). Also, might not send any data
-         * if an unwrap is needed.
+        /* try to wrbp bnd sfnd tif dbtb in srd. Hbndlfs OVERFLOW.
+         * Migit blodk if tifrf is bn outbound blodkbgf or if bnotifr
+         * tirfbd is dblling wrbp(). Also, migit not sfnd bny dbtb
+         * if bn unwrbp is nffdfd.
          */
-        WrapperResult wrapAndSend(ByteBuffer src) throws IOException {
-            return wrapAndSendX(src, false);
+        WrbppfrRfsult wrbpAndSfnd(BytfBufffr srd) tirows IOExdfption {
+            rfturn wrbpAndSfndX(srd, fblsf);
         }
 
-        WrapperResult wrapAndSendX(ByteBuffer src, boolean ignoreClose) throws IOException {
-            if (closed && !ignoreClose) {
-                throw new IOException ("Engine is closed");
+        WrbppfrRfsult wrbpAndSfndX(BytfBufffr srd, boolfbn ignorfClosf) tirows IOExdfption {
+            if (dlosfd && !ignorfClosf) {
+                tirow nfw IOExdfption ("Enginf is dlosfd");
             }
-            Status status;
-            WrapperResult r = new WrapperResult();
-            synchronized (wrapLock) {
-                wrap_dst.clear();
+            Stbtus stbtus;
+            WrbppfrRfsult r = nfw WrbppfrRfsult();
+            syndironizfd (wrbpLodk) {
+                wrbp_dst.dlfbr();
                 do {
-                    r.result = engine.wrap (src, wrap_dst);
-                    status = r.result.getStatus();
-                    if (status == Status.BUFFER_OVERFLOW) {
-                        wrap_dst = realloc (wrap_dst, true, BufType.PACKET);
+                    r.rfsult = fnginf.wrbp (srd, wrbp_dst);
+                    stbtus = r.rfsult.gftStbtus();
+                    if (stbtus == Stbtus.BUFFER_OVERFLOW) {
+                        wrbp_dst = rfbllod (wrbp_dst, truf, BufTypf.PACKET);
                     }
-                } while (status == Status.BUFFER_OVERFLOW);
-                if (status == Status.CLOSED && !ignoreClose) {
-                    closed = true;
-                    return r;
+                } wiilf (stbtus == Stbtus.BUFFER_OVERFLOW);
+                if (stbtus == Stbtus.CLOSED && !ignorfClosf) {
+                    dlosfd = truf;
+                    rfturn r;
                 }
-                if (r.result.bytesProduced() > 0) {
-                    wrap_dst.flip();
-                    int l = wrap_dst.remaining();
-                    assert l == r.result.bytesProduced();
-                    while (l>0) {
-                        l -= chan.write (wrap_dst);
+                if (r.rfsult.bytfsProdudfd() > 0) {
+                    wrbp_dst.flip();
+                    int l = wrbp_dst.rfmbining();
+                    bssfrt l == r.rfsult.bytfsProdudfd();
+                    wiilf (l>0) {
+                        l -= dibn.writf (wrbp_dst);
                     }
                 }
             }
-            return r;
+            rfturn r;
         }
 
-        /* block until a complete message is available and return it
-         * in dst, together with the Result. dst may have been re-allocated
-         * so caller should check the returned value in Result
-         * If handshaking is in progress then, possibly no data is returned
+        /* blodk until b domplftf mfssbgf is bvbilbblf bnd rfturn it
+         * in dst, togftifr witi tif Rfsult. dst mby ibvf bffn rf-bllodbtfd
+         * so dbllfr siould difdk tif rfturnfd vbluf in Rfsult
+         * If ibndsibking is in progrfss tifn, possibly no dbtb is rfturnfd
          */
-        WrapperResult recvAndUnwrap(ByteBuffer dst) throws IOException {
-            Status status = Status.OK;
-            WrapperResult r = new WrapperResult();
+        WrbppfrRfsult rfdvAndUnwrbp(BytfBufffr dst) tirows IOExdfption {
+            Stbtus stbtus = Stbtus.OK;
+            WrbppfrRfsult r = nfw WrbppfrRfsult();
             r.buf = dst;
-            if (closed) {
-                throw new IOException ("Engine is closed");
+            if (dlosfd) {
+                tirow nfw IOExdfption ("Enginf is dlosfd");
             }
-            boolean needData;
-            if (u_remaining > 0) {
-                unwrap_src.compact();
-                unwrap_src.flip();
-                needData = false;
-            } else {
-                unwrap_src.clear();
-                needData = true;
+            boolfbn nffdDbtb;
+            if (u_rfmbining > 0) {
+                unwrbp_srd.dompbdt();
+                unwrbp_srd.flip();
+                nffdDbtb = fblsf;
+            } flsf {
+                unwrbp_srd.dlfbr();
+                nffdDbtb = truf;
             }
-            synchronized (unwrapLock) {
+            syndironizfd (unwrbpLodk) {
                 int x;
                 do {
-                    if (needData) {
+                    if (nffdDbtb) {
                         do {
-                        x = chan.read (unwrap_src);
-                        } while (x == 0);
+                        x = dibn.rfbd (unwrbp_srd);
+                        } wiilf (x == 0);
                         if (x == -1) {
-                            throw new IOException ("connection closed for reading");
+                            tirow nfw IOExdfption ("donnfdtion dlosfd for rfbding");
                         }
-                        unwrap_src.flip();
+                        unwrbp_srd.flip();
                     }
-                    r.result = engine.unwrap (unwrap_src, r.buf);
-                    status = r.result.getStatus();
-                    if (status == Status.BUFFER_UNDERFLOW) {
-                        if (unwrap_src.limit() == unwrap_src.capacity()) {
-                            /* buffer not big enough */
-                            unwrap_src = realloc (
-                                unwrap_src, false, BufType.PACKET
+                    r.rfsult = fnginf.unwrbp (unwrbp_srd, r.buf);
+                    stbtus = r.rfsult.gftStbtus();
+                    if (stbtus == Stbtus.BUFFER_UNDERFLOW) {
+                        if (unwrbp_srd.limit() == unwrbp_srd.dbpbdity()) {
+                            /* bufffr not big fnougi */
+                            unwrbp_srd = rfbllod (
+                                unwrbp_srd, fblsf, BufTypf.PACKET
                             );
-                        } else {
-                            /* Buffer not full, just need to read more
-                             * data off the channel. Reset pointers
-                             * for reading off SocketChannel
+                        } flsf {
+                            /* Bufffr not full, just nffd to rfbd morf
+                             * dbtb off tif dibnnfl. Rfsft pointfrs
+                             * for rfbding off SodkftCibnnfl
                              */
-                            unwrap_src.position (unwrap_src.limit());
-                            unwrap_src.limit (unwrap_src.capacity());
+                            unwrbp_srd.position (unwrbp_srd.limit());
+                            unwrbp_srd.limit (unwrbp_srd.dbpbdity());
                         }
-                        needData = true;
-                    } else if (status == Status.BUFFER_OVERFLOW) {
-                        r.buf = realloc (r.buf, true, BufType.APPLICATION);
-                        needData = false;
-                    } else if (status == Status.CLOSED) {
-                        closed = true;
+                        nffdDbtb = truf;
+                    } flsf if (stbtus == Stbtus.BUFFER_OVERFLOW) {
+                        r.buf = rfbllod (r.buf, truf, BufTypf.APPLICATION);
+                        nffdDbtb = fblsf;
+                    } flsf if (stbtus == Stbtus.CLOSED) {
+                        dlosfd = truf;
                         r.buf.flip();
-                        return r;
+                        rfturn r;
                     }
-                } while (status != Status.OK);
+                } wiilf (stbtus != Stbtus.OK);
             }
-            u_remaining = unwrap_src.remaining();
-            return r;
+            u_rfmbining = unwrbp_srd.rfmbining();
+            rfturn r;
         }
     }
 
     /**
-     * send the data in the given ByteBuffer. If a handshake is needed
-     * then this is handled within this method. When this call returns,
-     * all of the given user data has been sent and any handshake has been
-     * completed. Caller should check if engine has been closed.
+     * sfnd tif dbtb in tif givfn BytfBufffr. If b ibndsibkf is nffdfd
+     * tifn tiis is ibndlfd witiin tiis mftiod. Wifn tiis dbll rfturns,
+     * bll of tif givfn usfr dbtb ibs bffn sfnt bnd bny ibndsibkf ibs bffn
+     * domplftfd. Cbllfr siould difdk if fnginf ibs bffn dlosfd.
      */
-    public WrapperResult sendData (ByteBuffer src) throws IOException {
-        WrapperResult r=null;
-        while (src.remaining() > 0) {
-            r = wrapper.wrapAndSend(src);
-            Status status = r.result.getStatus();
-            if (status == Status.CLOSED) {
-                doClosure ();
-                return r;
+    publid WrbppfrRfsult sfndDbtb (BytfBufffr srd) tirows IOExdfption {
+        WrbppfrRfsult r=null;
+        wiilf (srd.rfmbining() > 0) {
+            r = wrbppfr.wrbpAndSfnd(srd);
+            Stbtus stbtus = r.rfsult.gftStbtus();
+            if (stbtus == Stbtus.CLOSED) {
+                doClosurf ();
+                rfturn r;
             }
-            HandshakeStatus hs_status = r.result.getHandshakeStatus();
-            if (hs_status != HandshakeStatus.FINISHED &&
-                hs_status != HandshakeStatus.NOT_HANDSHAKING)
+            HbndsibkfStbtus is_stbtus = r.rfsult.gftHbndsibkfStbtus();
+            if (is_stbtus != HbndsibkfStbtus.FINISHED &&
+                is_stbtus != HbndsibkfStbtus.NOT_HANDSHAKING)
             {
-                doHandshake(hs_status);
+                doHbndsibkf(is_stbtus);
             }
         }
-        return r;
+        rfturn r;
     }
 
     /**
-     * read data thru the engine into the given ByteBuffer. If the
-     * given buffer was not large enough, a new one is allocated
-     * and returned. This call handles handshaking automatically.
-     * Caller should check if engine has been closed.
+     * rfbd dbtb tiru tif fnginf into tif givfn BytfBufffr. If tif
+     * givfn bufffr wbs not lbrgf fnougi, b nfw onf is bllodbtfd
+     * bnd rfturnfd. Tiis dbll ibndlfs ibndsibking butombtidblly.
+     * Cbllfr siould difdk if fnginf ibs bffn dlosfd.
      */
-    public WrapperResult recvData (ByteBuffer dst) throws IOException {
-        /* we wait until some user data arrives */
-        WrapperResult r = null;
-        assert dst.position() == 0;
-        while (dst.position() == 0) {
-            r = wrapper.recvAndUnwrap (dst);
+    publid WrbppfrRfsult rfdvDbtb (BytfBufffr dst) tirows IOExdfption {
+        /* wf wbit until somf usfr dbtb brrivfs */
+        WrbppfrRfsult r = null;
+        bssfrt dst.position() == 0;
+        wiilf (dst.position() == 0) {
+            r = wrbppfr.rfdvAndUnwrbp (dst);
             dst = (r.buf != dst) ? r.buf: dst;
-            Status status = r.result.getStatus();
-            if (status == Status.CLOSED) {
-                doClosure ();
-                return r;
+            Stbtus stbtus = r.rfsult.gftStbtus();
+            if (stbtus == Stbtus.CLOSED) {
+                doClosurf ();
+                rfturn r;
             }
 
-            HandshakeStatus hs_status = r.result.getHandshakeStatus();
-            if (hs_status != HandshakeStatus.FINISHED &&
-                hs_status != HandshakeStatus.NOT_HANDSHAKING)
+            HbndsibkfStbtus is_stbtus = r.rfsult.gftHbndsibkfStbtus();
+            if (is_stbtus != HbndsibkfStbtus.FINISHED &&
+                is_stbtus != HbndsibkfStbtus.NOT_HANDSHAKING)
             {
-                doHandshake (hs_status);
+                doHbndsibkf (is_stbtus);
             }
         }
         dst.flip();
-        return r;
+        rfturn r;
     }
 
-    /* we've received a close notify. Need to call wrap to send
-     * the response
+    /* wf'vf rfdfivfd b dlosf notify. Nffd to dbll wrbp to sfnd
+     * tif rfsponsf
      */
-    void doClosure () throws IOException {
+    void doClosurf () tirows IOExdfption {
         try {
-            handshaking.lock();
-            ByteBuffer tmp = allocate(BufType.APPLICATION);
-            WrapperResult r;
+            ibndsibking.lodk();
+            BytfBufffr tmp = bllodbtf(BufTypf.APPLICATION);
+            WrbppfrRfsult r;
             do {
-                tmp.clear();
+                tmp.dlfbr();
                 tmp.flip ();
-                r = wrapper.wrapAndSendX (tmp, true);
-            } while (r.result.getStatus() != Status.CLOSED);
-        } finally {
-            handshaking.unlock();
+                r = wrbppfr.wrbpAndSfndX (tmp, truf);
+            } wiilf (r.rfsult.gftStbtus() != Stbtus.CLOSED);
+        } finblly {
+            ibndsibking.unlodk();
         }
     }
 
-    /* do the (complete) handshake after acquiring the handshake lock.
-     * If two threads call this at the same time, then we depend
-     * on the wrapper methods being idempotent. eg. if wrapAndSend()
-     * is called with no data to send then there must be no problem
+    /* do tif (domplftf) ibndsibkf bftfr bdquiring tif ibndsibkf lodk.
+     * If two tirfbds dbll tiis bt tif sbmf timf, tifn wf dfpfnd
+     * on tif wrbppfr mftiods bfing idfmpotfnt. fg. if wrbpAndSfnd()
+     * is dbllfd witi no dbtb to sfnd tifn tifrf must bf no problfm
      */
-    @SuppressWarnings("fallthrough")
-    void doHandshake (HandshakeStatus hs_status) throws IOException {
+    @SupprfssWbrnings("fblltirougi")
+    void doHbndsibkf (HbndsibkfStbtus is_stbtus) tirows IOExdfption {
         try {
-            handshaking.lock();
-            ByteBuffer tmp = allocate(BufType.APPLICATION);
-            while (hs_status != HandshakeStatus.FINISHED &&
-                   hs_status != HandshakeStatus.NOT_HANDSHAKING)
+            ibndsibking.lodk();
+            BytfBufffr tmp = bllodbtf(BufTypf.APPLICATION);
+            wiilf (is_stbtus != HbndsibkfStbtus.FINISHED &&
+                   is_stbtus != HbndsibkfStbtus.NOT_HANDSHAKING)
             {
-                WrapperResult r = null;
-                switch (hs_status) {
-                    case NEED_TASK:
-                        Runnable task;
-                        while ((task = engine.getDelegatedTask()) != null) {
-                            /* run in current thread, because we are already
-                             * running an external Executor
+                WrbppfrRfsult r = null;
+                switdi (is_stbtus) {
+                    dbsf NEED_TASK:
+                        Runnbblf tbsk;
+                        wiilf ((tbsk = fnginf.gftDflfgbtfdTbsk()) != null) {
+                            /* run in durrfnt tirfbd, bfdbusf wf brf blrfbdy
+                             * running bn fxtfrnbl Exfdutor
                              */
-                            task.run();
+                            tbsk.run();
                         }
-                        /* fall thru - call wrap again */
-                    case NEED_WRAP:
-                        tmp.clear();
+                        /* fbll tiru - dbll wrbp bgbin */
+                    dbsf NEED_WRAP:
+                        tmp.dlfbr();
                         tmp.flip();
-                        r = wrapper.wrapAndSend(tmp);
-                        break;
+                        r = wrbppfr.wrbpAndSfnd(tmp);
+                        brfbk;
 
-                    case NEED_UNWRAP:
-                        tmp.clear();
-                        r = wrapper.recvAndUnwrap (tmp);
+                    dbsf NEED_UNWRAP:
+                        tmp.dlfbr();
+                        r = wrbppfr.rfdvAndUnwrbp (tmp);
                         if (r.buf != tmp) {
                             tmp = r.buf;
                         }
-                        assert tmp.position() == 0;
-                        break;
+                        bssfrt tmp.position() == 0;
+                        brfbk;
                 }
-                hs_status = r.result.getHandshakeStatus();
+                is_stbtus = r.rfsult.gftHbndsibkfStbtus();
             }
-        } finally {
-            handshaking.unlock();
+        } finblly {
+            ibndsibking.unlodk();
         }
     }
 
     /**
-     * represents an SSL input stream. Multiple https requests can
-     * be sent over one stream. closing this stream causes an SSL close
+     * rfprfsfnts bn SSL input strfbm. Multiplf ittps rfqufsts dbn
+     * bf sfnt ovfr onf strfbm. dlosing tiis strfbm dbusfs bn SSL dlosf
      * input.
      */
-    class InputStream extends java.io.InputStream {
+    dlbss InputStrfbm fxtfnds jbvb.io.InputStrfbm {
 
-        ByteBuffer bbuf;
-        boolean closed = false;
+        BytfBufffr bbuf;
+        boolfbn dlosfd = fblsf;
 
-        /* this stream eof */
-        boolean eof = false;
+        /* tiis strfbm fof */
+        boolfbn fof = fblsf;
 
-        boolean needData = true;
+        boolfbn nffdDbtb = truf;
 
-        InputStream () {
-            bbuf = allocate (BufType.APPLICATION);
+        InputStrfbm () {
+            bbuf = bllodbtf (BufTypf.APPLICATION);
         }
 
-        public int read (byte[] buf, int off, int len) throws IOException {
-            if (closed) {
-                throw new IOException ("SSL stream is closed");
+        publid int rfbd (bytf[] buf, int off, int lfn) tirows IOExdfption {
+            if (dlosfd) {
+                tirow nfw IOExdfption ("SSL strfbm is dlosfd");
             }
-            if (eof) {
-                return 0;
+            if (fof) {
+                rfturn 0;
             }
-            int available=0;
-            if (!needData) {
-                available = bbuf.remaining();
-                needData = (available==0);
+            int bvbilbblf=0;
+            if (!nffdDbtb) {
+                bvbilbblf = bbuf.rfmbining();
+                nffdDbtb = (bvbilbblf==0);
             }
-            if (needData) {
-                bbuf.clear();
-                WrapperResult r = recvData (bbuf);
+            if (nffdDbtb) {
+                bbuf.dlfbr();
+                WrbppfrRfsult r = rfdvDbtb (bbuf);
                 bbuf = r.buf== bbuf? bbuf: r.buf;
-                if ((available=bbuf.remaining()) == 0) {
-                    eof = true;
-                    return 0;
-                } else {
-                    needData = false;
+                if ((bvbilbblf=bbuf.rfmbining()) == 0) {
+                    fof = truf;
+                    rfturn 0;
+                } flsf {
+                    nffdDbtb = fblsf;
                 }
             }
-            /* copy as much as possible from buf into users buf */
-            if (len > available) {
-                len = available;
+            /* dopy bs mudi bs possiblf from buf into usfrs buf */
+            if (lfn > bvbilbblf) {
+                lfn = bvbilbblf;
             }
-            bbuf.get (buf, off, len);
-            return len;
+            bbuf.gft (buf, off, lfn);
+            rfturn lfn;
         }
 
-        public int available () throws IOException {
-            return bbuf.remaining();
+        publid int bvbilbblf () tirows IOExdfption {
+            rfturn bbuf.rfmbining();
         }
 
-        public boolean markSupported () {
-            return false; /* not possible with SSLEngine */
+        publid boolfbn mbrkSupportfd () {
+            rfturn fblsf; /* not possiblf witi SSLEnginf */
         }
 
-        public void reset () throws IOException {
-            throw new IOException ("mark/reset not supported");
+        publid void rfsft () tirows IOExdfption {
+            tirow nfw IOExdfption ("mbrk/rfsft not supportfd");
         }
 
-        public long skip (long s) throws IOException {
+        publid long skip (long s) tirows IOExdfption {
             int n = (int)s;
-            if (closed) {
-                throw new IOException ("SSL stream is closed");
+            if (dlosfd) {
+                tirow nfw IOExdfption ("SSL strfbm is dlosfd");
             }
-            if (eof) {
-                return 0;
+            if (fof) {
+                rfturn 0;
             }
-            int ret = n;
-            while (n > 0) {
-                if (bbuf.remaining() >= n) {
+            int rft = n;
+            wiilf (n > 0) {
+                if (bbuf.rfmbining() >= n) {
                     bbuf.position (bbuf.position()+n);
-                    return ret;
-                } else {
-                    n -= bbuf.remaining();
-                    bbuf.clear();
-                    WrapperResult r = recvData (bbuf);
+                    rfturn rft;
+                } flsf {
+                    n -= bbuf.rfmbining();
+                    bbuf.dlfbr();
+                    WrbppfrRfsult r = rfdvDbtb (bbuf);
                     bbuf = r.buf==bbuf? bbuf: r.buf;
                 }
             }
-            return ret; /* not reached */
+            rfturn rft; /* not rfbdifd */
         }
 
         /**
-         * close the SSL connection. All data must have been consumed
-         * before this is called. Otherwise an exception will be thrown.
-         * [Note. May need to revisit this. not quite the normal close() symantics
+         * dlosf tif SSL donnfdtion. All dbtb must ibvf bffn donsumfd
+         * bfforf tiis is dbllfd. Otifrwisf bn fxdfption will bf tirown.
+         * [Notf. Mby nffd to rfvisit tiis. not quitf tif normbl dlosf() symbntids
          */
-        public void close () throws IOException {
-            eof = true;
-            engine.closeInbound ();
+        publid void dlosf () tirows IOExdfption {
+            fof = truf;
+            fnginf.dlosfInbound ();
         }
 
-        public int read (byte[] buf) throws IOException {
-            return read (buf, 0, buf.length);
+        publid int rfbd (bytf[] buf) tirows IOExdfption {
+            rfturn rfbd (buf, 0, buf.lfngti);
         }
 
-        byte single[] = new byte [1];
+        bytf singlf[] = nfw bytf [1];
 
-        public int read () throws IOException {
-            int n = read (single, 0, 1);
+        publid int rfbd () tirows IOExdfption {
+            int n = rfbd (singlf, 0, 1);
             if (n == 0) {
-                return -1;
-            } else {
-                return single[0] & 0xFF;
+                rfturn -1;
+            } flsf {
+                rfturn singlf[0] & 0xFF;
             }
         }
     }
 
     /**
-     * represents an SSL output stream. plain text data written to this stream
-     * is encrypted by the stream. Multiple HTTPS responses can be sent on
-     * one stream. closing this stream initiates an SSL closure
+     * rfprfsfnts bn SSL output strfbm. plbin tfxt dbtb writtfn to tiis strfbm
+     * is fndryptfd by tif strfbm. Multiplf HTTPS rfsponsfs dbn bf sfnt on
+     * onf strfbm. dlosing tiis strfbm initibtfs bn SSL dlosurf
      */
-    class OutputStream extends java.io.OutputStream {
-        ByteBuffer buf;
-        boolean closed = false;
-        byte single[] = new byte[1];
+    dlbss OutputStrfbm fxtfnds jbvb.io.OutputStrfbm {
+        BytfBufffr buf;
+        boolfbn dlosfd = fblsf;
+        bytf singlf[] = nfw bytf[1];
 
-        OutputStream() {
-            buf = allocate(BufType.APPLICATION);
+        OutputStrfbm() {
+            buf = bllodbtf(BufTypf.APPLICATION);
         }
 
-        public void write(int b) throws IOException {
-            single[0] = (byte)b;
-            write (single, 0, 1);
+        publid void writf(int b) tirows IOExdfption {
+            singlf[0] = (bytf)b;
+            writf (singlf, 0, 1);
         }
 
-        public void write(byte b[]) throws IOException {
-            write (b, 0, b.length);
+        publid void writf(bytf b[]) tirows IOExdfption {
+            writf (b, 0, b.lfngti);
         }
-        public void write(byte b[], int off, int len) throws IOException {
-            if (closed) {
-                throw new IOException ("output stream is closed");
+        publid void writf(bytf b[], int off, int lfn) tirows IOExdfption {
+            if (dlosfd) {
+                tirow nfw IOExdfption ("output strfbm is dlosfd");
             }
-            while (len > 0) {
-                int l = len > buf.capacity() ? buf.capacity() : len;
-                buf.clear();
+            wiilf (lfn > 0) {
+                int l = lfn > buf.dbpbdity() ? buf.dbpbdity() : lfn;
+                buf.dlfbr();
                 buf.put (b, off, l);
-                len -= l;
+                lfn -= l;
                 off += l;
                 buf.flip();
-                WrapperResult r = sendData (buf);
-                if (r.result.getStatus() == Status.CLOSED) {
-                    closed = true;
-                    if (len > 0) {
-                        throw new IOException ("output stream is closed");
+                WrbppfrRfsult r = sfndDbtb (buf);
+                if (r.rfsult.gftStbtus() == Stbtus.CLOSED) {
+                    dlosfd = truf;
+                    if (lfn > 0) {
+                        tirow nfw IOExdfption ("output strfbm is dlosfd");
                     }
                 }
             }
         }
 
-        public void flush() throws IOException {
+        publid void flusi() tirows IOExdfption {
             /* no-op */
         }
 
-        public void close() throws IOException {
-            WrapperResult r=null;
-            engine.closeOutbound();
-            closed = true;
-            HandshakeStatus stat = HandshakeStatus.NEED_WRAP;
-            buf.clear();
-            while (stat == HandshakeStatus.NEED_WRAP) {
-                r = wrapper.wrapAndSend (buf);
-                stat = r.result.getHandshakeStatus();
+        publid void dlosf() tirows IOExdfption {
+            WrbppfrRfsult r=null;
+            fnginf.dlosfOutbound();
+            dlosfd = truf;
+            HbndsibkfStbtus stbt = HbndsibkfStbtus.NEED_WRAP;
+            buf.dlfbr();
+            wiilf (stbt == HbndsibkfStbtus.NEED_WRAP) {
+                r = wrbppfr.wrbpAndSfnd (buf);
+                stbt = r.rfsult.gftHbndsibkfStbtus();
             }
-            assert r.result.getStatus() == Status.CLOSED;
+            bssfrt r.rfsult.gftStbtus() == Stbtus.CLOSED;
         }
     }
 }

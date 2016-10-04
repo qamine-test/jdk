@@ -1,0 +1,114 @@
+/*
+ * Copyright (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+/**
+ * This AddfssiblfSflfdtion intfrfbdf
+ * providfs thf stbndbrd mfdhbnism for bn bssistivf tfdhnology to dftfrminf
+ * whbt thf durrfnt sflfdtfd dhildrfn brf, bs wfll bs modify thf sflfdtion sft.
+ * Any objfdt thbt hbs dhildrfn thbt dbn bf sflfdtfd should support
+ * thf AddfssiblfSflfdtion intfrfbdf.  Applidbtions dbn dftfrminf if bn objfdt supports thf
+ * AddfssiblfSflfdtion intfrfbdf by first obtbining its AddfssiblfContfxt (sff
+ * {@link Addfssiblf}) bnd thfn dblling thf
+ * {@link AddfssiblfContfxt#gftAddfssiblfSflfdtion} mfthod.
+ * If thf rfturn vbluf is not null, thf objfdt supports this intfrfbdf.
+ *
+ * @sff Addfssiblf
+ * @sff Addfssiblf#gftAddfssiblfContfxt
+ * @sff AddfssiblfContfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfSflfdtion
+ *
+ * @buthor      Pftfr Korn
+ * @buthor      Hbns Mullfr
+ * @buthor      Willif Wblkfr
+ */
+publid intfrfbdf AddfssiblfSflfdtion {
+
+    /**
+     * Rfturns thf numbfr of Addfssiblf dhildrfn durrfntly sflfdtfd.
+     * If no dhildrfn brf sflfdtfd, thf rfturn vbluf will bf 0.
+     *
+     * @rfturn thf numbfr of itfms durrfntly sflfdtfd.
+     */
+     publid int gftAddfssiblfSflfdtionCount();
+
+    /**
+     * Rfturns bn Addfssiblf rfprfsfnting thf spfdififd sflfdtfd dhild
+     * of thf objfdt.  If thfrf isn't b sflfdtion, or thfrf brf
+     * ffwfr dhildrfn sflfdtfd thbn thf intfgfr pbssfd in, thf rfturn
+     * vbluf will bf null.
+     * <p>Notf thbt thf indfx rfprfsfnts thf i-th sflfdtfd dhild, whidh
+     * is difffrfnt from thf i-th dhild.
+     *
+     * @pbrbm i thf zfro-bbsfd indfx of sflfdtfd dhildrfn
+     * @rfturn thf i-th sflfdtfd dhild
+     * @sff #gftAddfssiblfSflfdtionCount
+     */
+     publid Addfssiblf gftAddfssiblfSflfdtion(int i);
+
+    /**
+     * Dftfrminfs if thf durrfnt dhild of this objfdt is sflfdtfd.
+     *
+     * @rfturn truf if thf durrfnt dhild of this objfdt is sflfdtfd; flsf fblsf.
+     * @pbrbm i thf zfro-bbsfd indfx of thf dhild in this Addfssiblf objfdt.
+     * @sff AddfssiblfContfxt#gftAddfssiblfChild
+     */
+     publid boolfbn isAddfssiblfChildSflfdtfd(int i);
+
+    /**
+     * Adds thf spfdififd Addfssiblf dhild of thf objfdt to thf objfdt's
+     * sflfdtion.  If thf objfdt supports multiplf sflfdtions,
+     * thf spfdififd dhild is bddfd to bny fxisting sflfdtion, othfrwisf
+     * it rfplbdfs bny fxisting sflfdtion in thf objfdt.  If thf
+     * spfdififd dhild is blrfbdy sflfdtfd, this mfthod hbs no ffffdt.
+     *
+     * @pbrbm i thf zfro-bbsfd indfx of thf dhild
+     * @sff AddfssiblfContfxt#gftAddfssiblfChild
+     */
+     publid void bddAddfssiblfSflfdtion(int i);
+
+    /**
+     * Rfmovfs thf spfdififd dhild of thf objfdt from thf objfdt's
+     * sflfdtion.  If thf spfdififd itfm isn't durrfntly sflfdtfd, this
+     * mfthod hbs no ffffdt.
+     *
+     * @pbrbm i thf zfro-bbsfd indfx of thf dhild
+     * @sff AddfssiblfContfxt#gftAddfssiblfChild
+     */
+     publid void rfmovfAddfssiblfSflfdtion(int i);
+
+    /**
+     * Clfbrs thf sflfdtion in thf objfdt, so thbt no dhildrfn in thf
+     * objfdt brf sflfdtfd.
+     */
+     publid void dlfbrAddfssiblfSflfdtion();
+
+    /**
+     * Cbusfs fvfry dhild of thf objfdt to bf sflfdtfd
+     * if thf objfdt supports multiplf sflfdtions.
+     */
+     publid void sflfdtAllAddfssiblfSflfdtion();
+}

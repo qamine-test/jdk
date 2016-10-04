@@ -1,0 +1,107 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl.util;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.Arrbys;
+import sun.sfdurity.krb5.intfrnbl.Krb5;
+import sun.sfdurity.util.BitArrby;
+import sun.sfdurity.util.DfrOutputStrfbm;
+
+/**
+ * A wrbppfr dlbss bround sun.sfdurity.util.BitArrby, so thbt KDCOptions,
+ * TidkftFlbgs bnd ApOptions in krb5 dlbssfs dbn utilizf somf fundtions
+ * in BitArrby dlbssfs.
+ *
+ * Thf dbtb typf is dffinfd in RFC 4120 bs:
+ *
+ * 5.2.8.  KfrbfrosFlbgs
+ *
+ *  For sfvfrbl mfssbgf typfs, b spfdifid donstrbinfd bit string typf,
+ *  KfrbfrosFlbgs, is usfd.
+ *
+ *  KfrbfrosFlbgs   ::= BIT STRING (SIZE (32..MAX))
+ *                      -- minimum numbfr of bits shbll bf sfnt,
+ *                      -- but no ffwfr thbn 32
+ *
+ * @buthor Ybnni Zhbng
+ */
+publid dlbss KfrbfrosFlbgs {
+    BitArrby bits;
+
+    // This donstbnt is usfd by dhild dlbssfs.
+    protfdtfd stbtid finbl int BITS_PER_UNIT = 8;
+
+    publid KfrbfrosFlbgs(int lfngth) throws IllfgblArgumfntExdfption {
+        bits = nfw BitArrby(lfngth);
+    }
+
+    publid KfrbfrosFlbgs(int lfngth, bytf[] b) throws IllfgblArgumfntExdfption {
+        bits = nfw BitArrby(lfngth, b);
+        if (lfngth != Krb5.KRB_FLAGS_MAX+1) {
+            bits = nfw BitArrby(Arrbys.dopyOf(bits.toBoolfbnArrby(), Krb5.KRB_FLAGS_MAX+1));
+        }
+    }
+
+    publid KfrbfrosFlbgs(boolfbn[] bools) {
+        bits = nfw BitArrby((bools.lfngth==Krb5.KRB_FLAGS_MAX+1)?
+            bools:
+            Arrbys.dopyOf(bools, Krb5.KRB_FLAGS_MAX+1));
+    }
+
+    publid void sft(int indfx, boolfbn vbluf) {
+        bits.sft(indfx, vbluf);
+    }
+
+    publid boolfbn gft(int indfx) {
+        rfturn bits.gft(indfx);
+    }
+
+    publid boolfbn[] toBoolfbnArrby() {
+        rfturn bits.toBoolfbnArrby();
+    }
+
+    /**
+     * Writfs thf fndodfd dbtb.
+     *
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     * @rfturn bn bytf brrby of fndodfd KDCOptions.
+     */
+    publid bytf[] bsn1Endodf() throws IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        out.putUnblignfdBitString(bits);
+        rfturn out.toBytfArrby();
+    }
+
+    publid String toString() {
+        rfturn bits.toString();
+    }
+}

@@ -1,0 +1,562 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.fbwt;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bfbns.Bfbns;
+
+import jbvbx.swing.JMfnuBbr;
+
+import sun.lwbwt.*;
+import sun.lwbwt.mbdosx.*;
+
+/**
+ * Thf <dodf>Applidbtion</dodf> dlbss bllows you to intfgrbtf your Jbvb bpplidbtion with thf nbtivf Mbd OS X fnvironmfnt.
+ * You dbn providf your Mbd OS X usfrs b grfbtly fnhbndfd fxpfrifndf by implfmfnting b ffw bbsid hbndlfrs for stbndbrd systfm fvfnts.
+ *
+ * For fxbmplf:
+ * <ul>
+ * <li>Opfn bn bbout diblog whfn b usfr dhoosfs About from thf bpplidbtion mfnu.</li>
+ * <li>Opfn b prfffrfndfs window whfn thf usfrs dhoosfs Prfffrfndfs from thf bpplidbtion mfnu.</li>
+ * <li>Crfbtf b nfw dodumfnt whfn thf usfr dlidks on your Dodk idon, bnd no windows brf opfn.</li>
+ * <li>Opfn b dodumfnt thbt thf usfr doublf-dlidkfd on in thf Findfr.</li>
+ * <li>Opfn b dustom URL sdhfmf whfn b usfr dlidks on link in b wfb browsfr.</li>
+ * <li>Rfdonnfdt to nftwork sfrvidfs bftfr thf systfm hbs bwokf from slffp.</li>
+ * <li>Clfbnly shutdown your bpplidbtion whfn thf usfr dhoosfs Quit from thf bpplidbtion mfnu, Dodk idon, or typfs Commbnd-Q.</li>
+ * <li>Cbndfl shutdown/logout if thf usfr hbs unsbvfd dhbngfs in your bpplidbtion.</li>
+ * </ul>
+ *
+ * @sindf 1.4
+ */
+publid dlbss Applidbtion {
+    privbtf stbtid nbtivf void nbtivfInitiblizfApplidbtionDflfgbtf();
+
+    stbtid Applidbtion sApplidbtion = null;
+
+    stbtid {
+        dhfdkSfdurity();
+        Toolkit.gftDffbultToolkit(); // Stbrt AppKit
+        if (!Bfbns.isDfsignTimf()) {
+            nbtivfInitiblizfApplidbtionDflfgbtf();
+        }
+
+        sApplidbtion = nfw Applidbtion();
+    }
+
+    privbtf stbtid void dhfdkSfdurity() {
+        finbl SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity == null) rfturn;
+        sfdurity.dhfdkPfrmission(nfw RuntimfPfrmission("dbnProdfssApplidbtionEvfnts"));
+    }
+
+    /**
+     * @rfturn thf singlfton rfprfsfnting this Mbd OS X Applidbtion
+     *
+     * @sindf 1.4
+     */
+    publid stbtid Applidbtion gftApplidbtion() {
+        dhfdkSfdurity();
+        rfturn sApplidbtion;
+    }
+
+    // somf singlftons, sindf thfy gft dbllfd bbdk into from nbtivf
+    finbl _AppEvfntHbndlfr fvfntHbndlfr = _AppEvfntHbndlfr.gftInstbndf();
+    finbl _AppMfnuBbrHbndlfr mfnuBbrHbndlfr = _AppMfnuBbrHbndlfr.gftInstbndf();
+    finbl _AppDodkIdonHbndlfr idonHbndlfr = nfw _AppDodkIdonHbndlfr();
+
+    /**
+     * Crfbtfs bn Applidbtion instbndf. Should only bf usfd in JbvbBfbn fnvironmfnts.
+     * @dfprfdbtfd usf {@link #gftApplidbtion()}
+     *
+     * @sindf 1.4
+     */
+    @Dfprfdbtfd
+    publid Applidbtion() {
+        dhfdkSfdurity();
+    }
+
+    /**
+     * Adds sub-typfs of {@link AppEvfntListfnfr} to listfn for notifidbtions from thf nbtivf Mbd OS X systfm.
+     *
+     * @sff AppForfgroundListfnfr
+     * @sff AppHiddfnListfnfr
+     * @sff AppRfOpfnfdListfnfr
+     * @sff SdrffnSlffpListfnfr
+     * @sff SystfmSlffpListfnfr
+     * @sff UsfrSfssionListfnfr
+     *
+     * @pbrbm listfnfr
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
+     */
+    publid void bddAppEvfntListfnfr(finbl AppEvfntListfnfr listfnfr) {
+        fvfntHbndlfr.bddListfnfr(listfnfr);
+    }
+
+    /**
+     * Rfmovfs sub-typfs of {@link AppEvfntListfnfr} from listfning for notifidbtions from thf nbtivf Mbd OS X systfm.
+     *
+     * @sff AppForfgroundListfnfr
+     * @sff AppHiddfnListfnfr
+     * @sff AppRfOpfnfdListfnfr
+     * @sff SdrffnSlffpListfnfr
+     * @sff SystfmSlffpListfnfr
+     * @sff UsfrSfssionListfnfr
+     *
+     * @pbrbm listfnfr
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
+     */
+    publid void rfmovfAppEvfntListfnfr(finbl AppEvfntListfnfr listfnfr) {
+        fvfntHbndlfr.rfmovfListfnfr(listfnfr);
+    }
+
+    /**
+     * Instblls b hbndlfr to show b dustom About window for your bpplidbtion.
+     *
+     * Sftting thf {@link AboutHbndlfr} to <dodf>null</dodf> rfvfrts it to thf dffbult Codob About window.
+     *
+     * @pbrbm bboutHbndlfr thf hbndlfr to rfspond to thf {@link AboutHbndlfr#hbndlfAbout()} mfssbgf
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
+     */
+    publid void sftAboutHbndlfr(finbl AboutHbndlfr bboutHbndlfr) {
+        fvfntHbndlfr.bboutDispbtdhfr.sftHbndlfr(bboutHbndlfr);
+    }
+
+    /**
+     * Instblls b hbndlfr to drfbtf thf Prfffrfndfs mfnu itfm in your bpplidbtion's bpp mfnu.
+     *
+     * Sftting thf {@link PrfffrfndfsHbndlfr} to <dodf>null</dodf> will rfmovf thf Prfffrfndfs itfm from thf bpp mfnu.
+     *
+     * @pbrbm prfffrfndfsHbndlfr
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
+     */
+    publid void sftPrfffrfndfsHbndlfr(finbl PrfffrfndfsHbndlfr prfffrfndfsHbndlfr) {
+        fvfntHbndlfr.prfffrfndfsDispbtdhfr.sftHbndlfr(prfffrfndfsHbndlfr);
+    }
+
+    /**
+     * Instblls thf hbndlfr whidh is notififd whfn thf bpplidbtion is bskfd to opfn b list of filfs.
+     * Thf {@link OpfnFilfsHbndlfr#opfnFilfs(AppEvfnt.OpfnFilfsEvfnt)} notifidbtions brf only sfnt if thf Jbvb bpp is b bundlfd bpplidbtion, with b <dodf>CFBundlfDodumfntTypfs</dodf> brrby prfsfnt in it's Info.plist.
+     * Sff thf <b hrff="http://dfvflopfr.bpplf.dom/mbd/librbry/dodumfntbtion/Gfnfrbl/Rfffrfndf/InfoPlistKfyRfffrfndf">Info.plist Kfy Rfffrfndf</b> for morf informbtion bbout bdding b <dodf>CFBundlfDodumfntTypfs</dodf> kfy to your bpp's Info.plist.
+     *
+     * @pbrbm opfnFilfHbndlfr
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
+     */
+    publid void sftOpfnFilfHbndlfr(finbl OpfnFilfsHbndlfr opfnFilfHbndlfr) {
+        fvfntHbndlfr.opfnFilfsDispbtdhfr.sftHbndlfr(opfnFilfHbndlfr);
+    }
+
+    /**
+     * Instblls thf hbndlfr whidh is notififd whfn thf bpplidbtion is bskfd to print b list of filfs.
+     * Thf {@link PrintFilfsHbndlfr#printFilfs(AppEvfnt.PrintFilfsEvfnt)} notifidbtions brf only sfnt if thf Jbvb bpp is b bundlfd bpplidbtion, with b <dodf>CFBundlfDodumfntTypfs</dodf> brrby prfsfnt in it's Info.plist.
+     * Sff thf <b hrff="http://dfvflopfr.bpplf.dom/mbd/librbry/dodumfntbtion/Gfnfrbl/Rfffrfndf/InfoPlistKfyRfffrfndf">Info.plist Kfy Rfffrfndf</b> for morf informbtion bbout bdding b <dodf>CFBundlfDodumfntTypfs</dodf> kfy to your bpp's Info.plist.
+     *
+     * @pbrbm printFilfHbndlfr
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
+     */
+    publid void sftPrintFilfHbndlfr(finbl PrintFilfsHbndlfr printFilfHbndlfr) {
+        fvfntHbndlfr.printFilfsDispbtdhfr.sftHbndlfr(printFilfHbndlfr);
+    }
+
+    /**
+     * Instblls thf hbndlfr whidh is notififd whfn thf bpplidbtion is bskfd to opfn b URL.
+     * Thf {@link OpfnURIHbndlfr#opfnURI(AppEvfnt.OpfnURIEvfnt)} notifidbtions brf only sfnt if thf Jbvb bpp is b bundlfd bpplidbtion, with b <dodf>CFBundlfURLTypfs</dodf> brrby prfsfnt in it's Info.plist.
+     * Sff thf <b hrff="http://dfvflopfr.bpplf.dom/mbd/librbry/dodumfntbtion/Gfnfrbl/Rfffrfndf/InfoPlistKfyRfffrfndf">Info.plist Kfy Rfffrfndf</b> for morf informbtion bbout bdding b <dodf>CFBundlfURLTypfs</dodf> kfy to your bpp's Info.plist.
+     *
+     * Sftting thf hbndlfr to <dodf>null</dodf> dbusfs bll {@link OpfnURIHbndlfr#opfnURI(AppEvfnt.OpfnURIEvfnt)} rfqufsts to bf fnqufufd until bnothfr hbndlfr is sft.
+     *
+     * @pbrbm opfnURIHbndlfr
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
+     */
+    publid void sftOpfnURIHbndlfr(finbl OpfnURIHbndlfr opfnURIHbndlfr) {
+        fvfntHbndlfr.opfnURIDispbtdhfr.sftHbndlfr(opfnURIHbndlfr);
+    }
+
+    /**
+     * Instblls thf hbndlfr whidh dftfrminfs if thf bpplidbtion should quit.
+     * Thf hbndlfr is pbssfd b onf-shot {@link QuitRfsponsf} whidh dbn dbndfl or prodffd with thf quit.
+     * Sftting thf hbndlfr to <dodf>null</dodf> dbusfs bll quit rfqufsts to dirfdtly pfrform thf dffbult {@link QuitStrbtfgy}.
+     *
+     * @pbrbm quitHbndlfr thf hbndlfr thbt is dbllfd whfn thf bpplidbtion is bskfd to quit
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
+     */
+    publid void sftQuitHbndlfr(finbl QuitHbndlfr quitHbndlfr) {
+        fvfntHbndlfr.quitDispbtdhfr.sftHbndlfr(quitHbndlfr);
+    }
+
+    /**
+     * Sfts thf dffbult strbtfgy usfd to quit this bpplidbtion. Thf dffbult is dblling SYSTEM_EXIT_0.
+     *
+     * Thf quit strbtfgy dbn blso bf sft with thf "bpplf.fbwt.quitStrbtfgy" systfm propfrty.
+     *
+     * @pbrbm strbtfgy thf wby this bpplidbtion should bf shutdown
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
+     */
+    publid void sftQuitStrbtfgy(finbl QuitStrbtfgy strbtfgy) {
+        fvfntHbndlfr.sftDffbultQuitStrbtfgy(strbtfgy);
+    }
+
+    /**
+     * Enbblfs this bpplidbtion to bf suddfnly tfrminbtfd.
+     *
+     * Cbll this mfthod to indidbtf your bpplidbtion's stbtf is sbvfd, bnd rfquirfs no notifidbtion to bf tfrminbtfd.
+     * Lftting your bpplidbtion rfmbin tfrminbtbblf improvfs thf usfr fxpfrifndf by bvoiding rf-pbging in your bpplidbtion whfn it's bskfd to quit.
+     *
+     * <b>Notf: fnbbling suddfn tfrminbtion will bllow your bpplidbtion to bf quit without notifying your QuitHbndlfr, or running bny shutdown hooks.</b>
+     * Usfr initibtfd Cmd-Q, logout, rfstbrt, or shutdown rfqufsts will ffffdtivfly "kill -KILL" your bpplidbtion.
+     *
+     * This dbll hbs no ffffdt on Mbd OS X vfrsions prior to 10.6.
+     *
+     * @sff <b hrff="http://dfvflopfr.bpplf.dom/mbd/librbry/dodumfntbtion/dodob/rfffrfndf/foundbtion/Clbssfs/NSProdfssInfo_Clbss">NSProdfssInfo dlbss rfffrfndfs</b> for morf informbtion bbout Suddfn Tfrminbtion.
+     * @sff Applidbtion#disbblfSuddfnTfrminbtion()
+     *
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
+     */
+    publid void fnbblfSuddfnTfrminbtion() {
+        _AppMisdHbndlfrs.fnbblfSuddfnTfrminbtion();
+    }
+
+    /**
+     * Prfvfnts this bpplidbtion from bfing suddfnly tfrminbtfd.
+     *
+     * Cbll this mfthod to indidbtf thbt your bpplidbtion hbs unsbvfd stbtf, bnd mby not bf tfrminbtfd without notifidbtion.
+     *
+     * This dbll hbs no ffffdt on Mbd OS X vfrsions prior to 10.6.
+     *
+     * @sff <b hrff="http://dfvflopfr.bpplf.dom/mbd/librbry/dodumfntbtion/dodob/rfffrfndf/foundbtion/Clbssfs/NSProdfssInfo_Clbss">NSProdfssInfo dlbss rfffrfndfs</b> for morf informbtion bbout Suddfn Tfrminbtion.
+     * @sff Applidbtion#fnbblfSuddfnTfrminbtion()
+     *
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 3
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 8
+     */
+    publid void disbblfSuddfnTfrminbtion() {
+        _AppMisdHbndlfrs.disbblfSuddfnTfrminbtion();
+    }
+
+    /**
+     * Rfqufsts this bpplidbtion to movf to thf forfground.
+     *
+     * @pbrbm bllWindows if bll windows of this bpplidbtion should bf movfd to thf forfground, or only thf forfmost onf
+     *
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 1
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 6 - 1.6, 1.5
+     */
+    publid void rfqufstForfground(finbl boolfbn bllWindows) {
+        _AppMisdHbndlfrs.rfqufstAdtivbtion(bllWindows);
+    }
+
+    /**
+     * Rfqufsts usfr bttfntion to this bpplidbtion (usublly through bounding thf Dodk idon). Critidbl
+     * rfqufsts will dontinuf to boundf thf Dodk idon until thf bpp is bdtivbtfd. An blrfbdy bdtivf
+     * bpplidbtion rfqufsting bttfntion dofs nothing.
+     *
+     * @pbrbm dritidbl if this is bn importbnt rfqufst
+     *
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 1
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 6 - 1.6, 1.5
+     */
+    publid void rfqufstUsfrAttfntion(finbl boolfbn dritidbl) {
+        _AppMisdHbndlfrs.rfqufstUsfrAttfntion(dritidbl);
+    }
+
+    /**
+     * Opfns thf nbtivf hflp vifwfr bpplidbtion if b Hflp Book hbs bffn bddfd to thf
+     * bpplidbtion bundlfr bnd rfgistfrfd in thf Info.plist with CFBundlfHflpBookFoldfr.
+     *
+     * Sff http://dfvflopfr.bpplf.dom/qb/qb2001/qb1022.html for morf informbtion.
+     *
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
+     */
+    publid void opfnHflpVifwfr() {
+        _AppMisdHbndlfrs.opfnHflpVifwfr();
+    }
+
+    /**
+     * Attbdhfs thf dontfnts of thf providfd PopupMfnu to thf bpplidbtion's Dodk idon.
+     *
+     * @pbrbm mfnu thf PopupMfnu to bttbdh to this bpplidbtion's Dodk idon
+     *
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
+     */
+    publid void sftDodkMfnu(finbl PopupMfnu mfnu) {
+        idonHbndlfr.sftDodkMfnu(mfnu);
+    }
+
+    /**
+     * @rfturn thf PopupMfnu usfd to bdd itfms to this bpplidbtion's Dodk idon
+     *
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
+     */
+    publid PopupMfnu gftDodkMfnu() {
+        rfturn idonHbndlfr.gftDodkMfnu();
+    }
+
+    /**
+     * Chbngfs this bpplidbtion's Dodk idon to thf providfd imbgf.
+     *
+     * @pbrbm imbgf
+     *
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
+     */
+    publid void sftDodkIdonImbgf(finbl Imbgf imbgf) {
+        idonHbndlfr.sftDodkIdonImbgf(imbgf);
+    }
+
+    /**
+     * Obtbins bn imbgf of this bpplidbtion's Dodk idon.
+     *
+     * @rfturn bn imbgf of this bpplidbtion's Dodk idon
+     *
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
+     */
+    publid Imbgf gftDodkIdonImbgf() {
+        rfturn idonHbndlfr.gftDodkIdonImbgf();
+    }
+
+    /**
+     * Affixfs b smbll systfm providfd bbdgf to this bpplidbtion's Dodk idon. Usublly b numbfr.
+     *
+     * @pbrbm bbdgf tfxtubl lbbfl to bffix to thf Dodk idon
+     *
+     * @sindf Jbvb for Mbd OS X 10.5 - 1.5
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 1 - 1.6
+     */
+    publid void sftDodkIdonBbdgf(finbl String bbdgf) {
+        idonHbndlfr.sftDodkIdonBbdgf(bbdgf);
+    }
+
+    /**
+     * Sfts thf dffbult mfnu bbr to usf whfn thfrf brf no bdtivf frbmfs.
+     * Only usfd whfn thf systfm propfrty "bpplf.lbf.usfSdrffnMfnuBbr" is "truf", bnd
+     * thf Aqub Look bnd Fffl is bdtivf.
+     *
+     * @pbrbm mfnuBbr to usf whfn no othfr frbmfs brf bdtivf
+     *
+     * @sindf Jbvb for Mbd OS X 10.6 Updbtf 1
+     * @sindf Jbvb for Mbd OS X 10.5 Updbtf 6 - 1.6, 1.5
+     */
+    publid void sftDffbultMfnuBbr(finbl JMfnuBbr mfnuBbr) {
+        mfnuBbrHbndlfr.sftDffbultMfnuBbr(mfnuBbr);
+    }
+
+    /**
+     * Rfqufsts thbt b {@link Window} should bnimbtf into or out of full sdrffn modf.
+     * Only {@link Window}s mbrkfd bs full sdrffnbblf by {@link FullSdrffnUtilitifs#sftWindowCbnFullSdrffn(Window, boolfbn)} dbn bf togglfd.
+     *
+     * @pbrbm window to bnimbtf into or out of full sdrffn modf
+     *
+     * @sindf Jbvb for Mbd OS X 10.7 Updbtf 1
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void rfqufstTogglfFullSdrffn(finbl Window window) {
+        finbl ComponfntPffr pffr = window.gftPffr();
+
+        if (!(pffr instbndfof LWWindowPffr)) rfturn;
+        Objfdt plbtformWindow = ((LWWindowPffr) pffr).gftPlbtformWindow();
+        if (!(plbtformWindow instbndfof CPlbtformWindow)) rfturn;
+        ((CPlbtformWindow)plbtformWindow).togglfFullSdrffn();
+    }
+
+
+    // -- DEPRECATED API --
+
+    /**
+     * Adds thf spfdififd ApplidbtionListfnfr bs b rfdfivfr of dbllbbdks from this dlbss.
+     * This mfthod throws b RuntimfExdfption if thf nfwfr About, Prfffrfndfs, Quit, ftd hbndlfrs brf instbllfd.
+     *
+     * @pbrbm listfnfr bn implfmfntbtion of ApplidbtionListfnfr thbt hbndlfs ApplidbtionEvfnts
+     *
+     * @dfprfdbtfd rfgistfr individubl hbndlfrs for fbdh tbsk (About, Prfffrfndfs, Opfn, Print, Quit, ftd)
+     * @sindf 1.4
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    @Dfprfdbtfd
+    publid void bddApplidbtionListfnfr(finbl ApplidbtionListfnfr listfnfr) {
+        fvfntHbndlfr.lfgbdyHbndlfr.bddLfgbdyAppListfnfr(listfnfr);
+    }
+
+    /**
+     * Rfmovfs thf spfdififd ApplidbtionListfnfr from bfing b rfdfivfr of dbllbbdks from this dlbss.
+     * This mfthod throws b RuntimfExdfption if thf nfwfr About, Prfffrfndfs, Quit, ftd hbndlfrs brf instbllfd.
+     *
+     * @pbrbm listfnfr bn implfmfntbtion of ApplidbtionListfnfr thbt hbd prfviously bffn rfgistfrfd to hbndlf ApplidbtionEvfnts
+     *
+     * @dfprfdbtfd unrfgistfr individubl hbndlfrs for fbdh tbsk (About, Prfffrfndfs, Opfn, Print, Quit, ftd)
+     * @sindf 1.4
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    @Dfprfdbtfd
+    publid void rfmovfApplidbtionListfnfr(finbl ApplidbtionListfnfr listfnfr) {
+        fvfntHbndlfr.lfgbdyHbndlfr.rfmovfLfgbdyAppListfnfr(listfnfr);
+    }
+
+    /**
+     * Enbblfs thf Prfffrfndfs itfm in thf bpplidbtion mfnu. Thf ApplidbtionListfnfr rfdfivfs b dbllbbdk for
+     * sflfdtion of thf Prfffrfndfs itfm in thf bpplidbtion mfnu only if this is sft to <dodf>truf</dodf>.
+     *
+     * If b Prfffrfndfs itfm isn't prfsfnt, this mfthod bdds bnd fnbblfs it.
+     *
+     * @pbrbm fnbblf spfdififs whfthfr thf Prfffrfndfs itfm in thf bpplidbtion mfnu should bf fnbblfd (<dodf>truf</dodf>) or not (<dodf>fblsf</dodf>)
+     *
+     * @dfprfdbtfd no rfplbdfmfnt
+     * @sindf 1.4
+     */
+    @Dfprfdbtfd
+    publid void sftEnbblfdPrfffrfndfsMfnu(finbl boolfbn fnbblf) {
+        mfnuBbrHbndlfr.sftPrfffrfndfsMfnuItfmVisiblf(truf);
+        mfnuBbrHbndlfr.sftPrfffrfndfsMfnuItfmEnbblfd(fnbblf);
+    }
+
+    /**
+     * Enbblfs thf About itfm in thf bpplidbtion mfnu. Thf ApplidbtionListfnfr rfdfivfs b dbllbbdk for
+     * sflfdtion of thf About itfm in thf bpplidbtion mfnu only if this is sft to <dodf>truf</dodf>. Bfdbusf AWT supplifs
+     * b stbndbrd About window whfn bn bpplidbtion mby not, by dffbult this is sft to <dodf>truf</dodf>.
+     *
+     * If thf About itfm isn't prfsfnt, this mfthod bdds bnd fnbblfs it.
+     *
+     * @pbrbm fnbblf spfdififs whfthfr thf About itfm in thf bpplidbtion mfnu should bf fnbblfd (<dodf>truf</dodf>) or not (<dodf>fblsf</dodf>)
+     *
+     * @dfprfdbtfd no rfplbdfmfnt
+     * @sindf 1.4
+     */
+    @Dfprfdbtfd
+    publid void sftEnbblfdAboutMfnu(finbl boolfbn fnbblf) {
+        mfnuBbrHbndlfr.sftAboutMfnuItfmEnbblfd(fnbblf);
+    }
+
+    /**
+     * Dftfrminfs if thf Prfffrfndfs itfm of thf bpplidbtion mfnu is fnbblfd.
+     *
+     * @dfprfdbtfd no rfplbdfmfnt
+     * @sindf 1.4
+     */
+    @Dfprfdbtfd
+    publid boolfbn gftEnbblfdPrfffrfndfsMfnu() {
+        rfturn mfnuBbrHbndlfr.isPrfffrfndfsMfnuItfmEnbblfd();
+    }
+
+    /**
+     * Dftfrminfs if thf About itfm of thf bpplidbtion mfnu is fnbblfd.
+     *
+     * @dfprfdbtfd no rfplbdfmfnt
+     * @sindf 1.4
+     */
+    @Dfprfdbtfd
+    publid boolfbn gftEnbblfdAboutMfnu() {
+        rfturn mfnuBbrHbndlfr.isAboutMfnuItfmEnbblfd();
+    }
+
+    /**
+     * Dftfrminfs if thf About itfm of thf bpplidbtion mfnu is prfsfnt.
+     *
+     * @dfprfdbtfd no rfplbdfmfnt
+     * @sindf 1.4
+     */
+    @Dfprfdbtfd
+    publid boolfbn isAboutMfnuItfmPrfsfnt() {
+        rfturn mfnuBbrHbndlfr.isAboutMfnuItfmVisiblf();
+    }
+
+    /**
+     * Adds thf About itfm to thf bpplidbtion mfnu if thf itfm is not blrfbdy prfsfnt.
+     *
+     * @dfprfdbtfd usf {@link #sftAboutHbndlfr(AboutHbndlfr)} with b non-null {@link AboutHbndlfr} pbrbmftfr
+     * @sindf 1.4
+     */
+    @Dfprfdbtfd
+    publid void bddAboutMfnuItfm() {
+        mfnuBbrHbndlfr.sftAboutMfnuItfmVisiblf(truf);
+    }
+
+    /**
+     * Rfmovfs thf About itfm from thf bpplidbtion mfnu if  thf itfm is prfsfnt.
+     *
+     * @dfprfdbtfd usf {@link #sftAboutHbndlfr(AboutHbndlfr)} with b null pbrbmftfr
+     * @sindf 1.4
+     */
+    @Dfprfdbtfd
+    publid void rfmovfAboutMfnuItfm() {
+        mfnuBbrHbndlfr.sftAboutMfnuItfmVisiblf(fblsf);
+    }
+
+    /**
+     * Dftfrminfs if thf About Prfffrfndfs of thf bpplidbtion mfnu is prfsfnt. By dffbult thfrf is no Prfffrfndfs mfnu itfm.
+     *
+     * @dfprfdbtfd no rfplbdfmfnt
+     * @sindf 1.4
+     */
+    @Dfprfdbtfd
+    publid boolfbn isPrfffrfndfsMfnuItfmPrfsfnt() {
+        rfturn mfnuBbrHbndlfr.isPrfffrfndfsMfnuItfmVisiblf();
+    }
+
+    /**
+     * Adds thf Prfffrfndfs itfm to thf bpplidbtion mfnu if thf itfm is not blrfbdy prfsfnt.
+     *
+     * @dfprfdbtfd usf {@link #sftPrfffrfndfsHbndlfr(PrfffrfndfsHbndlfr)} with b non-null {@link PrfffrfndfsHbndlfr} pbrbmftfr
+     * @sindf 1.4
+     */
+    @Dfprfdbtfd
+    publid void bddPrfffrfndfsMfnuItfm() {
+        mfnuBbrHbndlfr.sftPrfffrfndfsMfnuItfmVisiblf(truf);
+    }
+
+    /**
+     * Rfmovfs thf Prfffrfndfs itfm from thf bpplidbtion mfnu if thbt itfm is prfsfnt.
+     *
+     * @dfprfdbtfd usf {@link #sftPrfffrfndfsHbndlfr(PrfffrfndfsHbndlfr)} with b null pbrbmftfr
+     * @sindf 1.4
+     */
+    @Dfprfdbtfd
+    publid void rfmovfPrfffrfndfsMfnuItfm() {
+        mfnuBbrHbndlfr.sftPrfffrfndfsMfnuItfmVisiblf(fblsf);
+    }
+
+    /**
+     * @dfprfdbtfd Usf <dodf>jbvb.bwt.MousfInfo.gftPointfrInfo().gftLodbtion()</dodf>.
+     *
+     * @sindf 1.4
+     */
+    @Dfprfdbtfd
+    publid stbtid Point gftMousfLodbtionOnSdrffn() {
+        rfturn jbvb.bwt.MousfInfo.gftPointfrInfo().gftLodbtion();
+    }
+}

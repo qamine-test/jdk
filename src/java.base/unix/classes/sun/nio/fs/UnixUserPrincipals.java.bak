@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.attribute.*;
-import java.io.IOException;
-import static sun.nio.fs.UnixNativeDispatcher.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.IOExdfption;
+import stbtid sun.nio.fs.UnixNbtivfDispbtdifr.*;
 
 /**
- * Unix implementation of java.nio.file.attribute.UserPrincipal
+ * Unix implfmfntbtion of jbvb.nio.filf.bttributf.UsfrPrindipbl
  */
 
-class UnixUserPrincipals {
-    private static User createSpecial(String name) { return new User(-1, name); }
+dlbss UnixUsfrPrindipbls {
+    privbtf stbtid Usfr drfbtfSpfdibl(String nbmf) { rfturn nfw Usfr(-1, nbmf); }
 
-    static final User SPECIAL_OWNER = createSpecial("OWNER@");
-    static final User SPECIAL_GROUP = createSpecial("GROUP@");
-    static final User SPECIAL_EVERYONE = createSpecial("EVERYONE@");
+    stbtid finbl Usfr SPECIAL_OWNER = drfbtfSpfdibl("OWNER@");
+    stbtid finbl Usfr SPECIAL_GROUP = drfbtfSpfdibl("GROUP@");
+    stbtid finbl Usfr SPECIAL_EVERYONE = drfbtfSpfdibl("EVERYONE@");
 
-    static class User implements UserPrincipal {
-        private final int id;             // uid or gid
-        private final boolean isGroup;
-        private final String name;
+    stbtid dlbss Usfr implfmfnts UsfrPrindipbl {
+        privbtf finbl int id;             // uid or gid
+        privbtf finbl boolfbn isGroup;
+        privbtf finbl String nbmf;
 
-        private User(int id, boolean isGroup, String name) {
-            this.id = id;
-            this.isGroup = isGroup;
-            this.name = name;
+        privbtf Usfr(int id, boolfbn isGroup, String nbmf) {
+            tiis.id = id;
+            tiis.isGroup = isGroup;
+            tiis.nbmf = nbmf;
         }
 
-        User(int id, String name) {
-            this(id, false, name);
+        Usfr(int id, String nbmf) {
+            tiis(id, fblsf, nbmf);
         }
 
         int uid() {
             if (isGroup)
-                throw new AssertionError();
-            return id;
+                tirow nfw AssfrtionError();
+            rfturn id;
         }
 
         int gid() {
             if (isGroup)
-                return id;
-            throw new AssertionError();
+                rfturn id;
+            tirow nfw AssfrtionError();
         }
 
-        boolean isSpecial() {
-            return id == -1;
+        boolfbn isSpfdibl() {
+            rfturn id == -1;
         }
 
-        @Override
-        public String getName() {
-            return name;
+        @Ovfrridf
+        publid String gftNbmf() {
+            rfturn nbmf;
         }
 
-        @Override
-        public String toString() {
-            return name;
+        @Ovfrridf
+        publid String toString() {
+            rfturn nbmf;
         }
 
-        @Override
-        public boolean equals(Object obj) {
-            if (obj == this)
-                return true;
-            if (!(obj instanceof User))
-                return false;
-            User other = (User)obj;
-            if ((this.id != other.id) ||
-                (this.isGroup != other.isGroup)) {
-                return false;
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj == tiis)
+                rfturn truf;
+            if (!(obj instbndfof Usfr))
+                rfturn fblsf;
+            Usfr otifr = (Usfr)obj;
+            if ((tiis.id != otifr.id) ||
+                (tiis.isGroup != otifr.isGroup)) {
+                rfturn fblsf;
             }
-            // specials
-            if (this.id == -1 && other.id == -1)
-                return this.name.equals(other.name);
+            // spfdibls
+            if (tiis.id == -1 && otifr.id == -1)
+                rfturn tiis.nbmf.fqubls(otifr.nbmf);
 
-            return true;
+            rfturn truf;
         }
 
-        @Override
-        public int hashCode() {
-            return (id != -1) ? id : name.hashCode();
-        }
-    }
-
-    static class Group extends User implements GroupPrincipal {
-        Group(int id, String name) {
-            super(id, true, name);
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn (id != -1) ? id : nbmf.ibsiCodf();
         }
     }
 
-    // return UserPrincipal representing given uid
-    static User fromUid(int uid) {
-        String name = null;
+    stbtid dlbss Group fxtfnds Usfr implfmfnts GroupPrindipbl {
+        Group(int id, String nbmf) {
+            supfr(id, truf, nbmf);
+        }
+    }
+
+    // rfturn UsfrPrindipbl rfprfsfnting givfn uid
+    stbtid Usfr fromUid(int uid) {
+        String nbmf = null;
         try {
-            name = Util.toString(getpwuid(uid));
-        } catch (UnixException x) {
-            name = Integer.toString(uid);
+            nbmf = Util.toString(gftpwuid(uid));
+        } dbtdi (UnixExdfption x) {
+            nbmf = Intfgfr.toString(uid);
         }
-        return new User(uid, name);
+        rfturn nfw Usfr(uid, nbmf);
     }
 
-    // return GroupPrincipal representing given gid
-    static Group fromGid(int gid) {
-        String name = null;
+    // rfturn GroupPrindipbl rfprfsfnting givfn gid
+    stbtid Group fromGid(int gid) {
+        String nbmf = null;
         try {
-            name = Util.toString(getgrgid(gid));
-        } catch (UnixException x) {
-            name = Integer.toString(gid);
+            nbmf = Util.toString(gftgrgid(gid));
+        } dbtdi (UnixExdfption x) {
+            nbmf = Intfgfr.toString(gid);
         }
-        return new Group(gid, name);
+        rfturn nfw Group(gid, nbmf);
     }
 
-    // lookup user or group name
-    private static int lookupName(String name, boolean isGroup)
-        throws IOException
+    // lookup usfr or group nbmf
+    privbtf stbtid int lookupNbmf(String nbmf, boolfbn isGroup)
+        tirows IOExdfption
     {
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(new RuntimePermission("lookupUserInformation"));
+            sm.difdkPfrmission(nfw RuntimfPfrmission("lookupUsfrInformbtion"));
         }
         int id = -1;
         try {
-            id = (isGroup) ? getgrnam(name) : getpwnam(name);
-        } catch (UnixException x) {
-            throw new IOException(name + ": " + x.errorString());
+            id = (isGroup) ? gftgrnbm(nbmf) : gftpwnbm(nbmf);
+        } dbtdi (UnixExdfption x) {
+            tirow nfw IOExdfption(nbmf + ": " + x.frrorString());
         }
         if (id == -1) {
-            // lookup failed, allow input to be uid or gid
+            // lookup fbilfd, bllow input to bf uid or gid
             try {
-                id = Integer.parseInt(name);
-            } catch (NumberFormatException ignore) {
-                throw new UserPrincipalNotFoundException(name);
+                id = Intfgfr.pbrsfInt(nbmf);
+            } dbtdi (NumbfrFormbtExdfption ignorf) {
+                tirow nfw UsfrPrindipblNotFoundExdfption(nbmf);
             }
         }
-        return id;
+        rfturn id;
 
     }
 
-    // lookup user name
-    static UserPrincipal lookupUser(String name) throws IOException {
-        if (name.equals(SPECIAL_OWNER.getName()))
-            return SPECIAL_OWNER;
-        if (name.equals(SPECIAL_GROUP.getName()))
-            return SPECIAL_GROUP;
-        if (name.equals(SPECIAL_EVERYONE.getName()))
-            return SPECIAL_EVERYONE;
-        int uid = lookupName(name, false);
-        return new User(uid, name);
+    // lookup usfr nbmf
+    stbtid UsfrPrindipbl lookupUsfr(String nbmf) tirows IOExdfption {
+        if (nbmf.fqubls(SPECIAL_OWNER.gftNbmf()))
+            rfturn SPECIAL_OWNER;
+        if (nbmf.fqubls(SPECIAL_GROUP.gftNbmf()))
+            rfturn SPECIAL_GROUP;
+        if (nbmf.fqubls(SPECIAL_EVERYONE.gftNbmf()))
+            rfturn SPECIAL_EVERYONE;
+        int uid = lookupNbmf(nbmf, fblsf);
+        rfturn nfw Usfr(uid, nbmf);
     }
 
-    // lookup group name
-    static GroupPrincipal lookupGroup(String group)
-        throws IOException
+    // lookup group nbmf
+    stbtid GroupPrindipbl lookupGroup(String group)
+        tirows IOExdfption
     {
-        int gid = lookupName(group, true);
-        return new Group(gid, group);
+        int gid = lookupNbmf(group, truf);
+        rfturn nfw Group(gid, group);
     }
 }

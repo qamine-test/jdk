@@ -1,163 +1,163 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sql.rowset;
+pbdkbgf jbvbx.sql.rowsft;
 
-import javax.sql.*;
-import java.sql.*;
+import jbvbx.sql.*;
+import jbvb.sql.*;
 
 /**
- * The standard interface that provides the framework for all
- * <code>FilteredRowSet</code> objects to describe their filters.
+ * Tif stbndbrd intfrfbdf tibt providfs tif frbmfwork for bll
+ * <dodf>FiltfrfdRowSft</dodf> objfdts to dfsdribf tifir filtfrs.
  *
- * <h3>1.0 Background</h3>
- * The <code>Predicate</code> interface is a standard interface that
- * applications can implement to define the filter they wish to apply to a
- * a <code>FilteredRowSet</code> object. A <code>FilteredRowSet</code>
- * object consumes implementations of this interface and enforces the
- * constraints defined in the implementation of the method <code>evaluate</code>.
- * A <code>FilteredRowSet</code> object enforces the filter constraints in a
- * bi-directional manner: It outputs only rows that are within
- * the constraints of the filter; and conversely, it inserts, modifies, or updates
- * only rows that are within the constraints of the filter.
+ * <i3>1.0 Bbdkground</i3>
+ * Tif <dodf>Prfdidbtf</dodf> intfrfbdf is b stbndbrd intfrfbdf tibt
+ * bpplidbtions dbn implfmfnt to dffinf tif filtfr tify wisi to bpply to b
+ * b <dodf>FiltfrfdRowSft</dodf> objfdt. A <dodf>FiltfrfdRowSft</dodf>
+ * objfdt donsumfs implfmfntbtions of tiis intfrfbdf bnd fnfordfs tif
+ * donstrbints dffinfd in tif implfmfntbtion of tif mftiod <dodf>fvblubtf</dodf>.
+ * A <dodf>FiltfrfdRowSft</dodf> objfdt fnfordfs tif filtfr donstrbints in b
+ * bi-dirfdtionbl mbnnfr: It outputs only rows tibt brf witiin
+ * tif donstrbints of tif filtfr; bnd donvfrsfly, it insfrts, modififs, or updbtfs
+ * only rows tibt brf witiin tif donstrbints of tif filtfr.
  *
- * <h3>2.0 Implementation Guidelines</h3>
- * In order to supply a predicate for the <code>FilteredRowSet</code>.
- * this interface must be implemented.  At this time, the JDBC RowSet
- * Implementations (JSR-114) does not specify any standard filters definitions.
- * By specifying a standard means and mechanism for a range of filters to be
- * defined and deployed with both the reference and vendor implementations
- * of the <code>FilteredRowSet</code> interface, this allows for a flexible
- * and application motivated implementations of <code>Predicate</code> to emerge.
+ * <i3>2.0 Implfmfntbtion Guidflinfs</i3>
+ * In ordfr to supply b prfdidbtf for tif <dodf>FiltfrfdRowSft</dodf>.
+ * tiis intfrfbdf must bf implfmfntfd.  At tiis timf, tif JDBC RowSft
+ * Implfmfntbtions (JSR-114) dofs not spfdify bny stbndbrd filtfrs dffinitions.
+ * By spfdifying b stbndbrd mfbns bnd mfdibnism for b rbngf of filtfrs to bf
+ * dffinfd bnd dfployfd witi boti tif rfffrfndf bnd vfndor implfmfntbtions
+ * of tif <dodf>FiltfrfdRowSft</dodf> intfrfbdf, tiis bllows for b flfxiblf
+ * bnd bpplidbtion motivbtfd implfmfntbtions of <dodf>Prfdidbtf</dodf> to fmfrgf.
  * <p>
- * A sample implementation would look something like this:
- * <pre>{@code
- *    public class Range implements Predicate {
+ * A sbmplf implfmfntbtion would look somftiing likf tiis:
+ * <prf>{@dodf
+ *    publid dlbss Rbngf implfmfnts Prfdidbtf {
  *
- *       private int[] lo;
- *       private int[] hi;
- *       private int[] idx;
+ *       privbtf int[] lo;
+ *       privbtf int[] ii;
+ *       privbtf int[] idx;
  *
- *       public Range(int[] lo, int[] hi, int[] idx) {
- *          this.lo = lo;
- *          this.hi = hi;
- *          this.idx = idx;
+ *       publid Rbngf(int[] lo, int[] ii, int[] idx) {
+ *          tiis.lo = lo;
+ *          tiis.ii = ii;
+ *          tiis.idx = idx;
  *       }
  *
- *      public boolean evaluate(RowSet rs) {
+ *      publid boolfbn fvblubtf(RowSft rs) {
  *
- *          // Check the present row determine if it lies
- *          // within the filtering criteria.
+ *          // Cifdk tif prfsfnt row dftfrminf if it lifs
+ *          // witiin tif filtfring dritfrib.
  *
- *          for (int i = 0; i < idx.length; i++) {
- *             int value;
+ *          for (int i = 0; i < idx.lfngti; i++) {
+ *             int vbluf;
  *             try {
- *                 value = (Integer) rs.getObject(idx[i]);
- *             } catch (SQLException ex) {
- *                 Logger.getLogger(Range.class.getName()).log(Level.SEVERE, null, ex);
- *                 return false;
+ *                 vbluf = (Intfgfr) rs.gftObjfdt(idx[i]);
+ *             } dbtdi (SQLExdfption fx) {
+ *                 Loggfr.gftLoggfr(Rbngf.dlbss.gftNbmf()).log(Lfvfl.SEVERE, null, fx);
+ *                 rfturn fblsf;
  *             }
  *
- *             if (value < lo[i] && value > hi[i]) {
- *                 // outside of filter constraints
- *                 return false;
+ *             if (vbluf < lo[i] && vbluf > ii[i]) {
+ *                 // outsidf of filtfr donstrbints
+ *                 rfturn fblsf;
  *             }
  *         }
- *         // Within filter constraints
- *        return true;
+ *         // Witiin filtfr donstrbints
+ *        rfturn truf;
  *      }
  *   }
- * }</pre>
+ * }</prf>
  * <P>
- * The example above implements a simple range predicate. Note, that
- * implementations should but are not required to provide <code>String</code>
- * and integer index based constructors to provide for JDBC RowSet Implementation
- * applications that use both column identification conventions.
+ * Tif fxbmplf bbovf implfmfnts b simplf rbngf prfdidbtf. Notf, tibt
+ * implfmfntbtions siould but brf not rfquirfd to providf <dodf>String</dodf>
+ * bnd intfgfr indfx bbsfd donstrudtors to providf for JDBC RowSft Implfmfntbtion
+ * bpplidbtions tibt usf boti dolumn idfntifidbtion donvfntions.
  *
- * @author Jonathan Bruce, Amit Handa
- * @since 1.5
+ * @butior Jonbtibn Brudf, Amit Hbndb
+ * @sindf 1.5
  *
  */
 
- // <h3>3.0 FilteredRowSet Internals</h3>
- // internalNext, Frist, Last. Discuss guidelines on how to approach this
- // and cite examples in reference implementations.
-public interface Predicate {
+ // <i3>3.0 FiltfrfdRowSft Intfrnbls</i3>
+ // intfrnblNfxt, Frist, Lbst. Disduss guidflinfs on iow to bpprobdi tiis
+ // bnd ditf fxbmplfs in rfffrfndf implfmfntbtions.
+publid intfrfbdf Prfdidbtf {
     /**
-     * This method is typically called a <code>FilteredRowSet</code> object
-     * internal methods (not public) that control the <code>RowSet</code> object's
-     * cursor moving  from row to the next. In addition, if this internal method
-     * moves the cursor onto a row that has been deleted, the internal method will
-     * continue to ove the cursor until a valid row is found.
-     * @param rs The {@code RowSet} to be evaluated
-     * @return <code>true</code> if there are more rows in the filter;
-     *     <code>false</code> otherwise
+     * Tiis mftiod is typidblly dbllfd b <dodf>FiltfrfdRowSft</dodf> objfdt
+     * intfrnbl mftiods (not publid) tibt dontrol tif <dodf>RowSft</dodf> objfdt's
+     * dursor moving  from row to tif nfxt. In bddition, if tiis intfrnbl mftiod
+     * movfs tif dursor onto b row tibt ibs bffn dflftfd, tif intfrnbl mftiod will
+     * dontinuf to ovf tif dursor until b vblid row is found.
+     * @pbrbm rs Tif {@dodf RowSft} to bf fvblubtfd
+     * @rfturn <dodf>truf</dodf> if tifrf brf morf rows in tif filtfr;
+     *     <dodf>fblsf</dodf> otifrwisf
      */
-    public boolean evaluate(RowSet rs);
+    publid boolfbn fvblubtf(RowSft rs);
 
 
     /**
-     * This method is called by a <code>FilteredRowSet</code> object
-     * to check whether the value lies between the filtering criterion (or criteria
-     * if multiple constraints exist) set using the <code>setFilter()</code> method.
+     * Tiis mftiod is dbllfd by b <dodf>FiltfrfdRowSft</dodf> objfdt
+     * to difdk wiftifr tif vbluf lifs bftwffn tif filtfring dritfrion (or dritfrib
+     * if multiplf donstrbints fxist) sft using tif <dodf>sftFiltfr()</dodf> mftiod.
      * <P>
-     * The <code>FilteredRowSet</code> object will use this method internally
-     * while inserting new rows to a <code>FilteredRowSet</code> instance.
+     * Tif <dodf>FiltfrfdRowSft</dodf> objfdt will usf tiis mftiod intfrnblly
+     * wiilf insfrting nfw rows to b <dodf>FiltfrfdRowSft</dodf> instbndf.
      *
-     * @param value An <code>Object</code> value which needs to be checked,
-     *        whether it can be part of this <code>FilterRowSet</code> object.
-     * @param column a <code>int</code> object that must match the
-     *        SQL index of a column in this <code>RowSet</code> object. This must
-     *        have been passed to <code>Predicate</code> as one of the columns
-     *        for filtering while initializing a <code>Predicate</code>
-     * @return <code>true</code> if row value lies within the filter;
-     *     <code>false</code> otherwise
-     * @throws SQLException if the column is not part of filtering criteria
+     * @pbrbm vbluf An <dodf>Objfdt</dodf> vbluf wiidi nffds to bf difdkfd,
+     *        wiftifr it dbn bf pbrt of tiis <dodf>FiltfrRowSft</dodf> objfdt.
+     * @pbrbm dolumn b <dodf>int</dodf> objfdt tibt must mbtdi tif
+     *        SQL indfx of b dolumn in tiis <dodf>RowSft</dodf> objfdt. Tiis must
+     *        ibvf bffn pbssfd to <dodf>Prfdidbtf</dodf> bs onf of tif dolumns
+     *        for filtfring wiilf initiblizing b <dodf>Prfdidbtf</dodf>
+     * @rfturn <dodf>truf</dodf> if row vbluf lifs witiin tif filtfr;
+     *     <dodf>fblsf</dodf> otifrwisf
+     * @tirows SQLExdfption if tif dolumn is not pbrt of filtfring dritfrib
      */
-    public boolean evaluate(Object value, int column) throws SQLException;
+    publid boolfbn fvblubtf(Objfdt vbluf, int dolumn) tirows SQLExdfption;
 
     /**
-     * This method is called by the <code>FilteredRowSet</code> object
-     * to check whether the value lies between the filtering criteria set
-     * using the setFilter method.
+     * Tiis mftiod is dbllfd by tif <dodf>FiltfrfdRowSft</dodf> objfdt
+     * to difdk wiftifr tif vbluf lifs bftwffn tif filtfring dritfrib sft
+     * using tif sftFiltfr mftiod.
      * <P>
-     * The <code>FilteredRowSet</code> object will use this method internally
-     * while inserting new rows to a <code>FilteredRowSet</code> instance.
+     * Tif <dodf>FiltfrfdRowSft</dodf> objfdt will usf tiis mftiod intfrnblly
+     * wiilf insfrting nfw rows to b <dodf>FiltfrfdRowSft</dodf> instbndf.
      *
-     * @param value An <code>Object</code> value which needs to be checked,
-     * whether it can be part of this <code>FilterRowSet</code>.
+     * @pbrbm vbluf An <dodf>Objfdt</dodf> vbluf wiidi nffds to bf difdkfd,
+     * wiftifr it dbn bf pbrt of tiis <dodf>FiltfrRowSft</dodf>.
      *
-     * @param columnName a <code>String</code> object that must match the
-     *        SQL name of a column in this <code>RowSet</code>, ignoring case. This must
-     *        have been passed to <code>Predicate</code> as one of the columns for filtering
-     *        while initializing a <code>Predicate</code>
+     * @pbrbm dolumnNbmf b <dodf>String</dodf> objfdt tibt must mbtdi tif
+     *        SQL nbmf of b dolumn in tiis <dodf>RowSft</dodf>, ignoring dbsf. Tiis must
+     *        ibvf bffn pbssfd to <dodf>Prfdidbtf</dodf> bs onf of tif dolumns for filtfring
+     *        wiilf initiblizing b <dodf>Prfdidbtf</dodf>
      *
-     * @return <code>true</code> if value lies within the filter; <code>false</code> otherwise
+     * @rfturn <dodf>truf</dodf> if vbluf lifs witiin tif filtfr; <dodf>fblsf</dodf> otifrwisf
      *
-     * @throws SQLException if the column is not part of filtering criteria
+     * @tirows SQLExdfption if tif dolumn is not pbrt of filtfring dritfrib
      */
-    public boolean evaluate(Object value, String columnName) throws SQLException;
+    publid boolfbn fvblubtf(Objfdt vbluf, String dolumnNbmf) tirows SQLExdfption;
 
 }

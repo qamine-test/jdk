@@ -1,1175 +1,1175 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
-<html>
-<head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<itml>
+<ifbd>
 <!--
-Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
 
-<title>JPEG Metadata Format Specification and Usage Notes</title>
-</head>
+<titlf>JPEG Mftbdbtb Formbt Spfdifidbtion bnd Usbgf Notfs</titlf>
+</ifbd>
 
-<body bgcolor="white">
+<body bgdolor="wiitf">
 
-<center><h1>
-JPEG Metadata Format Specification and Usage Notes
-</h1></center>
-
-<p>
-<a href=#metadata>JPEG Metadata</a><br>
-<a href=#abbrev>Abbreviated Streams</a><br>
-<a href=#tables>Sources of Tables</a><br>
-<a href=#color>Colorspace Transformations and Conventional Markers</a><br>
-<a href=#thumbs>Thumbnail Images</a><br>
-<a href=#prog>Progressive Encoding</a><br>
-<a href=#tree>Native Metadata Format Tree Structure and Editing</a><br>
-<a href=#image>Image Metadata DTD</a><br>
-<a href=#stream>Stream Metadata DTD</a>
-<p>
-<bold>NOTE</bold>: It is important to call <code>dispose()</code> 
-on the JPEG reader and writer objects when they are no longer needed, as 
-they consume significant native resources which are not adequately recovered 
-by garbage collection.  Both reader and writer call <code>dispose()</code> 
-in their finalizers, but those finalizers may not be called before the native 
-code has exhausted native memory.
+<dfntfr><i1>
+JPEG Mftbdbtb Formbt Spfdifidbtion bnd Usbgf Notfs
+</i1></dfntfr>
 
 <p>
-
-The JPEG writer does not support replacing pixels.
+<b irff=#mftbdbtb>JPEG Mftbdbtb</b><br>
+<b irff=#bbbrfv>Abbrfvibtfd Strfbms</b><br>
+<b irff=#tbblfs>Sourdfs of Tbblfs</b><br>
+<b irff=#dolor>Colorspbdf Trbnsformbtions bnd Convfntionbl Mbrkfrs</b><br>
+<b irff=#tiumbs>Tiumbnbil Imbgfs</b><br>
+<b irff=#prog>Progrfssivf Endoding</b><br>
+<b irff=#trff>Nbtivf Mftbdbtb Formbt Trff Strudturf bnd Editing</b><br>
+<b irff=#imbgf>Imbgf Mftbdbtb DTD</b><br>
+<b irff=#strfbm>Strfbm Mftbdbtb DTD</b>
+<p>
+<bold>NOTE</bold>: It is importbnt to dbll <dodf>disposf()</dodf> 
+on tif JPEG rfbdfr bnd writfr objfdts wifn tify brf no longfr nffdfd, bs 
+tify donsumf signifidbnt nbtivf rfsourdfs wiidi brf not bdfqubtfly rfdovfrfd 
+by gbrbbgf dollfdtion.  Boti rfbdfr bnd writfr dbll <dodf>disposf()</dodf> 
+in tifir finblizfrs, but tiosf finblizfrs mby not bf dbllfd bfforf tif nbtivf 
+dodf ibs fxibustfd nbtivf mfmory.
 
 <p>
-<h2>
-<a name=metadata>JPEG Metadata</a>
-</h2>
-JPEG metadata consists of the data contained in marker segments in a JPEG
-stream.  The image metadata object returned from a read describes the
-contents of the marker segments between the <code>SOI</code> marker and 
-the <code>EOI</code> marker for that image.  The image metadata object 
-passed into a write determines the contents of the stream between the 
-<code>SOI</code> marker and the <code>EOI</code> marker for that image, 
-subject to the controls in any <code>ImageWriteParam</code>.
+
+Tif JPEG writfr dofs not support rfplbding pixfls.
 
 <p>
-Stream metadata is used only for tables-only images found (or to be 
-placed) at the beginning of a stream containing abbreviated images.  
-Tables-only images are not treated as images and do not consume an 
-image index.  The stream metadata object returned from a read describes the
-contents of the marker segments between the <code>SOI</code> marker and 
-the <code>EOI</code> marker for the single tables-only image at the 
-beginning of the stream, if one is present.  If no tables-only image is 
-present at the front of the stream, the <code>getStreamMetadata</code> 
-method of <code>ImageReader</code> returns <code>null</code>.  If 
-stream metadata is provided to the writer, a single tables-only image 
-containing the tables from the stream metadata object will be written at 
-the beginning of the stream.  If the stream metadata object contains no
-tables, default tables will be written.  As the sole purpose of stream
-metadata is for specifying tables-only images at the front of abbreviated 
-streams, the stream metadata argument is useful only on the 
-<code>ImageWriter.prepareWriteSequence</code> method.  It is ignored on all 
-other methods.
+<i2>
+<b nbmf=mftbdbtb>JPEG Mftbdbtb</b>
+</i2>
+JPEG mftbdbtb donsists of tif dbtb dontbinfd in mbrkfr sfgmfnts in b JPEG
+strfbm.  Tif imbgf mftbdbtb objfdt rfturnfd from b rfbd dfsdribfs tif
+dontfnts of tif mbrkfr sfgmfnts bftwffn tif <dodf>SOI</dodf> mbrkfr bnd 
+tif <dodf>EOI</dodf> mbrkfr for tibt imbgf.  Tif imbgf mftbdbtb objfdt 
+pbssfd into b writf dftfrminfs tif dontfnts of tif strfbm bftwffn tif 
+<dodf>SOI</dodf> mbrkfr bnd tif <dodf>EOI</dodf> mbrkfr for tibt imbgf, 
+subjfdt to tif dontrols in bny <dodf>ImbgfWritfPbrbm</dodf>.
+
+<p>
+Strfbm mftbdbtb is usfd only for tbblfs-only imbgfs found (or to bf 
+plbdfd) bt tif bfginning of b strfbm dontbining bbbrfvibtfd imbgfs.  
+Tbblfs-only imbgfs brf not trfbtfd bs imbgfs bnd do not donsumf bn 
+imbgf indfx.  Tif strfbm mftbdbtb objfdt rfturnfd from b rfbd dfsdribfs tif
+dontfnts of tif mbrkfr sfgmfnts bftwffn tif <dodf>SOI</dodf> mbrkfr bnd 
+tif <dodf>EOI</dodf> mbrkfr for tif singlf tbblfs-only imbgf bt tif 
+bfginning of tif strfbm, if onf is prfsfnt.  If no tbblfs-only imbgf is 
+prfsfnt bt tif front of tif strfbm, tif <dodf>gftStrfbmMftbdbtb</dodf> 
+mftiod of <dodf>ImbgfRfbdfr</dodf> rfturns <dodf>null</dodf>.  If 
+strfbm mftbdbtb is providfd to tif writfr, b singlf tbblfs-only imbgf 
+dontbining tif tbblfs from tif strfbm mftbdbtb objfdt will bf writtfn bt 
+tif bfginning of tif strfbm.  If tif strfbm mftbdbtb objfdt dontbins no
+tbblfs, dffbult tbblfs will bf writtfn.  As tif solf purposf of strfbm
+mftbdbtb is for spfdifying tbblfs-only imbgfs bt tif front of bbbrfvibtfd 
+strfbms, tif strfbm mftbdbtb brgumfnt is usfful only on tif 
+<dodf>ImbgfWritfr.prfpbrfWritfSfqufndf</dodf> mftiod.  It is ignorfd on bll 
+otifr mftiods.
 
 <p> 
-The <code>ImageWriter.getDefaultStreamMetadata</code> method returns an 
-object containing the tables from the <code>ImageWriteParam</code> argument, 
-if it is a <code>JPEGImageWriteParam</code> and contains tables.  Otherwise, 
-the returned object will contain default tables.
+Tif <dodf>ImbgfWritfr.gftDffbultStrfbmMftbdbtb</dodf> mftiod rfturns bn 
+objfdt dontbining tif tbblfs from tif <dodf>ImbgfWritfPbrbm</dodf> brgumfnt, 
+if it is b <dodf>JPEGImbgfWritfPbrbm</dodf> bnd dontbins tbblfs.  Otifrwisf, 
+tif rfturnfd objfdt will dontbin dffbult tbblfs.
 
-<p>The <code>ImageWriter.getDefaultImageMetadata</code> method returns a 
-metadata object containing <bold>no</bold> tables if the 
-<code>ImageWriteParam</code> argument contains tables.  Otherwise the 
-returned metadata object will contain default visually lossless tables.  
-Of course, only a <code>JPEGImageWriteParam</code> may contain tables.
-
-<p>
-If <code>ignoreMetadata</code> is set to <code>true</code> when the input
-is set on the reader, stream metadata will not be available, but image
-metadata will.
+<p>Tif <dodf>ImbgfWritfr.gftDffbultImbgfMftbdbtb</dodf> mftiod rfturns b 
+mftbdbtb objfdt dontbining <bold>no</bold> tbblfs if tif 
+<dodf>ImbgfWritfPbrbm</dodf> brgumfnt dontbins tbblfs.  Otifrwisf tif 
+rfturnfd mftbdbtb objfdt will dontbin dffbult visublly losslfss tbblfs.  
+Of doursf, only b <dodf>JPEGImbgfWritfPbrbm</dodf> mby dontbin tbblfs.
 
 <p>
-<h2>
-<a name=abbrev>Abbreviated Streams</a>
-</h2>
-Both the reader and the writer retain their tables from one operation to the 
-next, thus permitting the use of abbreviated streams quite naturally, with a 
-few minor restrictions:  
+If <dodf>ignorfMftbdbtb</dodf> is sft to <dodf>truf</dodf> wifn tif input
+is sft on tif rfbdfr, strfbm mftbdbtb will not bf bvbilbblf, but imbgf
+mftbdbtb will.
+
+<p>
+<i2>
+<b nbmf=bbbrfv>Abbrfvibtfd Strfbms</b>
+</i2>
+Boti tif rfbdfr bnd tif writfr rftbin tifir tbblfs from onf opfrbtion to tif 
+nfxt, tius pfrmitting tif usf of bbbrfvibtfd strfbms quitf nbturblly, witi b 
+ffw minor rfstridtions:  
 <ol>
-  <li> Abbreviated streams may contain only one tables-only image, which must 
-       come first in the stream.  Subsequent tables-only images will cause
-       undefined behavior.</li>
-  <li> Abbreviated streams must be read fully and in order.  No random access
-       is allowed, in either direction.  The same image may be read multiple 
-       times.  If a call is made with an image index that is not the same as
-       or one greater than the most recent call (or 0 if no calls have been
-       made), then an <code>IllegalArgumentException</code> is thrown.</li>
+  <li> Abbrfvibtfd strfbms mby dontbin only onf tbblfs-only imbgf, wiidi must 
+       domf first in tif strfbm.  Subsfqufnt tbblfs-only imbgfs will dbusf
+       undffinfd bfibvior.</li>
+  <li> Abbrfvibtfd strfbms must bf rfbd fully bnd in ordfr.  No rbndom bddfss
+       is bllowfd, in fitifr dirfdtion.  Tif sbmf imbgf mby bf rfbd multiplf 
+       timfs.  If b dbll is mbdf witi bn imbgf indfx tibt is not tif sbmf bs
+       or onf grfbtfr tibn tif most rfdfnt dbll (or 0 if no dblls ibvf bffn
+       mbdf), tifn bn <dodf>IllfgblArgumfntExdfption</dodf> is tirown.</li>
 </ol>
-These restrictions mean that streams may contain abbreviated images 
-interspersed with images containing tables.  As required by JPEG, any tables
-appearing in the stream override previous tables, regardless of the source
-of the previous tables.  
+Tifsf rfstridtions mfbn tibt strfbms mby dontbin bbbrfvibtfd imbgfs 
+intfrspfrsfd witi imbgfs dontbining tbblfs.  As rfquirfd by JPEG, bny tbblfs
+bppfbring in tif strfbm ovfrridf prfvious tbblfs, rfgbrdlfss of tif sourdf
+of tif prfvious tbblfs.  
 
 <p>
-Note that once a tables-only image has been read, it's contents is available
-as stream metadata from the reader until either another tables-only image
-is read from another stream or the reader is reset.  Changing the input does
-not reset the stream metadata.  This is useful for reading the tables from
-one file, then changing the input to read an abbreviated stream containing 
-a sequence of images.  The tables will be used automatically, and will remain
-available as "stream" metadata.
+Notf tibt ondf b tbblfs-only imbgf ibs bffn rfbd, it's dontfnts is bvbilbblf
+bs strfbm mftbdbtb from tif rfbdfr until fitifr bnotifr tbblfs-only imbgf
+is rfbd from bnotifr strfbm or tif rfbdfr is rfsft.  Cibnging tif input dofs
+not rfsft tif strfbm mftbdbtb.  Tiis is usfful for rfbding tif tbblfs from
+onf filf, tifn dibnging tif input to rfbd bn bbbrfvibtfd strfbm dontbining 
+b sfqufndf of imbgfs.  Tif tbblfs will bf usfd butombtidblly, bnd will rfmbin
+bvbilbblf bs "strfbm" mftbdbtb.
 
 <p>
-Abbreviated streams are written using the sequence methods of 
-<code>ImageWriter</code>.  Stream metadata is used to write a tables-only 
-image at the beginning of the stream, and the tables are set up for use, using
-<code>ImageWriter.prepareWriteSequence</code>.  If no stream metadata is 
-supplied to <code>ImageWriter.prepareWriteSequence</code>, then no 
-tables-only image is written.  If stream metadata containing no tables is
-supplied to <code>ImageWriter.prepareWriteSequence</code>, then a tables-only
-image containing default visually lossless tables is written.
+Abbrfvibtfd strfbms brf writtfn using tif sfqufndf mftiods of 
+<dodf>ImbgfWritfr</dodf>.  Strfbm mftbdbtb is usfd to writf b tbblfs-only 
+imbgf bt tif bfginning of tif strfbm, bnd tif tbblfs brf sft up for usf, using
+<dodf>ImbgfWritfr.prfpbrfWritfSfqufndf</dodf>.  If no strfbm mftbdbtb is 
+supplifd to <dodf>ImbgfWritfr.prfpbrfWritfSfqufndf</dodf>, tifn no 
+tbblfs-only imbgf is writtfn.  If strfbm mftbdbtb dontbining no tbblfs is
+supplifd to <dodf>ImbgfWritfr.prfpbrfWritfSfqufndf</dodf>, tifn b tbblfs-only
+imbgf dontbining dffbult visublly losslfss tbblfs is writtfn.
 
-<h2>
-<a name=tables>Sources of Tables</a>
-</h2>
+<i2>
+<b nbmf=tbblfs>Sourdfs of Tbblfs</b>
+</i2>
 <p>
-Images are written with tables if tables are present in their metadata objects 
-or without them if no tables are present in their metadata objects.  If no
-metadata object is present then the tables are written.  The tables used for 
-compression are taken from one of the following sources, which are consulted 
-in order: 
+Imbgfs brf writtfn witi tbblfs if tbblfs brf prfsfnt in tifir mftbdbtb objfdts 
+or witiout tifm if no tbblfs brf prfsfnt in tifir mftbdbtb objfdts.  If no
+mftbdbtb objfdt is prfsfnt tifn tif tbblfs brf writtfn.  Tif tbblfs usfd for 
+domprfssion brf tbkfn from onf of tif following sourdfs, wiidi brf donsultfd 
+in ordfr: 
 <ol>
-  <li> If there is an <code>ImageWriteParam</code> and the compression mode is
-       set to <code>EXPLICIT</code>, default tables constructed using the
-       quality setting are used.  They are written only if the metadata 
-       contains tables or if there is no metadata, but they replace the 
-       tables in the metadata.</li>
-  <li> If there is an <code>ImageWriteParam</code> and the compression mode is
-       set to <code>DEFAULT</code>, default visually lossles tables are used.
-       They are written only if the metadata contains tables or if
-       there is no metadata, but they replace the tables in the
-       metadata.</li>
-  <li> Otherwise the compression mode on the <code>ImageWriteParam</code> must
-       be MODE_COPY_FROM_<code>METADATA</code>, in which case the following
-       are used:
+  <li> If tifrf is bn <dodf>ImbgfWritfPbrbm</dodf> bnd tif domprfssion modf is
+       sft to <dodf>EXPLICIT</dodf>, dffbult tbblfs donstrudtfd using tif
+       qublity sftting brf usfd.  Tify brf writtfn only if tif mftbdbtb 
+       dontbins tbblfs or if tifrf is no mftbdbtb, but tify rfplbdf tif 
+       tbblfs in tif mftbdbtb.</li>
+  <li> If tifrf is bn <dodf>ImbgfWritfPbrbm</dodf> bnd tif domprfssion modf is
+       sft to <dodf>DEFAULT</dodf>, dffbult visublly losslfs tbblfs brf usfd.
+       Tify brf writtfn only if tif mftbdbtb dontbins tbblfs or if
+       tifrf is no mftbdbtb, but tify rfplbdf tif tbblfs in tif
+       mftbdbtb.</li>
+  <li> Otifrwisf tif domprfssion modf on tif <dodf>ImbgfWritfPbrbm</dodf> must
+       bf MODE_COPY_FROM_<dodf>METADATA</dodf>, in wiidi dbsf tif following
+       brf usfd:
     <ol>
-      <li> the tables in the image metadata, if present</li>
-      <li> the tables in the stream metadata, if present</li>
-      <li> the tables in the <code>JPEGImageWriteParam</code>, if present</li>
-      <li> default visually lossless tables</li>
-    </ol> Tables are written only if they are taken from image metadata.
+      <li> tif tbblfs in tif imbgf mftbdbtb, if prfsfnt</li>
+      <li> tif tbblfs in tif strfbm mftbdbtb, if prfsfnt</li>
+      <li> tif tbblfs in tif <dodf>JPEGImbgfWritfPbrbm</dodf>, if prfsfnt</li>
+      <li> dffbult visublly losslfss tbblfs</li>
+    </ol> Tbblfs brf writtfn only if tify brf tbkfn from imbgf mftbdbtb.
   </li>
 </ol>
 
-This ordering implements the design intention that tables should be included 
-in <code>JPEGImageWriteParam</code>s only as a means of specifying tables 
-when no other source is available, and this can occur only when writing to an
-abbreviated stream without tables using known non-standard tables for 
-compression.
+Tiis ordfring implfmfnts tif dfsign intfntion tibt tbblfs siould bf indludfd 
+in <dodf>JPEGImbgfWritfPbrbm</dodf>s only bs b mfbns of spfdifying tbblfs 
+wifn no otifr sourdf is bvbilbblf, bnd tiis dbn oddur only wifn writing to bn
+bbbrfvibtfd strfbm witiout tbblfs using known non-stbndbrd tbblfs for 
+domprfssion.
 
 <p>
-When reading, tables in a <code>JPEGImageReadParam</code> are consulted only 
-if tables have not been set by any previous read.  Tables set from a 
-<code>JPEGImageReadParam</code> are overridden by any tables present in the 
-stream being read.
+Wifn rfbding, tbblfs in b <dodf>JPEGImbgfRfbdPbrbm</dodf> brf donsultfd only 
+if tbblfs ibvf not bffn sft by bny prfvious rfbd.  Tbblfs sft from b 
+<dodf>JPEGImbgfRfbdPbrbm</dodf> brf ovfrriddfn by bny tbblfs prfsfnt in tif 
+strfbm bfing rfbd.
 
 <p>
-Note that if no image metadata object is specified for a particular image, a 
-default object is used, which includes default tables.
+Notf tibt if no imbgf mftbdbtb objfdt is spfdififd for b pbrtidulbr imbgf, b 
+dffbult objfdt is usfd, wiidi indludfs dffbult tbblfs.
 
 <p>
-<h2>
-<a name=color>Colorspace Transformations and Conventional Markers</a>
-</h2>
-Colorspace transformations are controlled by the destination type for
-both reading and writing of images.  When <code>Raster</code>s are
-read, no colorspace transformation is performed, and any destination type 
-is ignored.  A warning is sent to any listeners if a destination type is 
-specified in this case.  When <code>Raster</code>s are written, any 
-destination type is used to interpret the bands.  This might result in a
-JFIF or Adobe header being written, or different component ids being written 
-to the frame and scan headers.  If values present in a metadata object do not 
-match the destination type, the destination type is used and a warning is sent 
-to any listeners.
+<i2>
+<b nbmf=dolor>Colorspbdf Trbnsformbtions bnd Convfntionbl Mbrkfrs</b>
+</i2>
+Colorspbdf trbnsformbtions brf dontrollfd by tif dfstinbtion typf for
+boti rfbding bnd writing of imbgfs.  Wifn <dodf>Rbstfr</dodf>s brf
+rfbd, no dolorspbdf trbnsformbtion is pfrformfd, bnd bny dfstinbtion typf 
+is ignorfd.  A wbrning is sfnt to bny listfnfrs if b dfstinbtion typf is 
+spfdififd in tiis dbsf.  Wifn <dodf>Rbstfr</dodf>s brf writtfn, bny 
+dfstinbtion typf is usfd to intfrprft tif bbnds.  Tiis migit rfsult in b
+JFIF or Adobf ifbdfr bfing writtfn, or difffrfnt domponfnt ids bfing writtfn 
+to tif frbmf bnd sdbn ifbdfrs.  If vblufs prfsfnt in b mftbdbtb objfdt do not 
+mbtdi tif dfstinbtion typf, tif dfstinbtion typf is usfd bnd b wbrning is sfnt 
+to bny listfnfrs.
 
 <p>
 
-<a name=optcolor><b>Optional ColorSpace support:</b></a>
-Handling of PhotoYCC (YCC), PhotoYCCA (YCCA), RGBA and YCbCrA color spaces
-by the standard plugin, as described below, is dependent on capabilities
-of the libraries used to interpret the JPEG data. Thus all consequential
-behaviors are optional. If the support is not available when decoding,
-the color space will be treated as unrecognized and the appropriate
-default color space for the specified number of component channels
-may be used.
-When writing, an Exception may be thrown if no suitable conversion
-can be applied before encoding.
-But where the support for these color spaces is available, the behavior
-must be as documented. 
+<b nbmf=optdolor><b>Optionbl ColorSpbdf support:</b></b>
+Hbndling of PiotoYCC (YCC), PiotoYCCA (YCCA), RGBA bnd YCbCrA dolor spbdfs
+by tif stbndbrd plugin, bs dfsdribfd bflow, is dfpfndfnt on dbpbbilitifs
+of tif librbrifs usfd to intfrprft tif JPEG dbtb. Tius bll donsfqufntibl
+bfibviors brf optionbl. If tif support is not bvbilbblf wifn dfdoding,
+tif dolor spbdf will bf trfbtfd bs unrfdognizfd bnd tif bppropribtf
+dffbult dolor spbdf for tif spfdififd numbfr of domponfnt dibnnfls
+mby bf usfd.
+Wifn writing, bn Exdfption mby bf tirown if no suitbblf donvfrsion
+dbn bf bpplifd bfforf fndoding.
+But wifrf tif support for tifsf dolor spbdfs is bvbilbblf, tif bfibvior
+must bf bs dodumfntfd. 
 <p>
 
-When reading, the contents of the stream are interpreted by the usual
-JPEG conventions, as follows:
+Wifn rfbding, tif dontfnts of tif strfbm brf intfrprftfd by tif usubl
+JPEG donvfntions, bs follows:
 
 <ul>
-  <li> If a JFIF <code>APP0</code> marker segment is present, the colorspace
-       is known to be either grayscale or YCbCr.  If an <code>APP2</code>
-       marker segment containing an embedded ICC profile is also present, then
-       the YCbCr is converted to RGB according to the formulas given in the
-       JFIF spec, and the ICC profile is assumed to refer to the resulting RGB
-       space.
+  <li> If b JFIF <dodf>APP0</dodf> mbrkfr sfgmfnt is prfsfnt, tif dolorspbdf
+       is known to bf fitifr grbysdblf or YCbCr.  If bn <dodf>APP2</dodf>
+       mbrkfr sfgmfnt dontbining bn fmbfddfd ICC profilf is blso prfsfnt, tifn
+       tif YCbCr is donvfrtfd to RGB bddording to tif formulbs givfn in tif
+       JFIF spfd, bnd tif ICC profilf is bssumfd to rfffr to tif rfsulting RGB
+       spbdf.
   <p>
-  <li> If an Adobe <code>APP14</code> marker segment is present, the 
-       colorspace is determined by consulting the <code>transform</code> flag.
-       The <code>transform</code> flag takes one of three values:
+  <li> If bn Adobf <dodf>APP14</dodf> mbrkfr sfgmfnt is prfsfnt, tif 
+       dolorspbdf is dftfrminfd by donsulting tif <dodf>trbnsform</dodf> flbg.
+       Tif <dodf>trbnsform</dodf> flbg tbkfs onf of tirff vblufs:
     <ul>
-      <li> 2 - The image is encoded as YCCK (implicitly converted from
-           CMYK on encoding).
+      <li> 2 - Tif imbgf is fndodfd bs YCCK (impliditly donvfrtfd from
+           CMYK on fndoding).
 
-      <li> 1 - The image is encoded as YCbCr (implicitly converted from RGB
-           on encoding).
+      <li> 1 - Tif imbgf is fndodfd bs YCbCr (impliditly donvfrtfd from RGB
+           on fndoding).
 
-      <li> 0 - Unknown.  3-channel images are assumed to be RGB, 4-channel 
-           images are assumed to be CMYK.
+      <li> 0 - Unknown.  3-dibnnfl imbgfs brf bssumfd to bf RGB, 4-dibnnfl 
+           imbgfs brf bssumfd to bf CMYK.
     </ul>
    <p>
-  <li> If neither marker segment is present, the following procedure is
-       followed: Single-channel images are assumed to be grayscale, and
-       2-channel images are assumed to be grayscale with an alpha channel.
-       For 3- and 4-channel images, the component ids are consulted.  If these
-       values are 1-3 for a 3-channel image, then the image is assumed to be
-       YCbCr. Subject to the availability of the
-       <a href=#optcolor>optional color space support</a>
-       described above, if these values are 1-4 for a 4-channel image,
-       then the image is assumed to be YCbCrA. 
-       If these values are > 4, they are checked 
-       against the ASCII codes for 'R', 'G', 'B', 'A', 'C', 'c'.  These can 
-       encode the following colorspaces:
+  <li> If nfitifr mbrkfr sfgmfnt is prfsfnt, tif following prodfdurf is
+       followfd: Singlf-dibnnfl imbgfs brf bssumfd to bf grbysdblf, bnd
+       2-dibnnfl imbgfs brf bssumfd to bf grbysdblf witi bn blpib dibnnfl.
+       For 3- bnd 4-dibnnfl imbgfs, tif domponfnt ids brf donsultfd.  If tifsf
+       vblufs brf 1-3 for b 3-dibnnfl imbgf, tifn tif imbgf is bssumfd to bf
+       YCbCr. Subjfdt to tif bvbilbbility of tif
+       <b irff=#optdolor>optionbl dolor spbdf support</b>
+       dfsdribfd bbovf, if tifsf vblufs brf 1-4 for b 4-dibnnfl imbgf,
+       tifn tif imbgf is bssumfd to bf YCbCrA. 
+       If tifsf vblufs brf > 4, tify brf difdkfd 
+       bgbinst tif ASCII dodfs for 'R', 'G', 'B', 'A', 'C', 'd'.  Tifsf dbn 
+       fndodf tif following dolorspbdfs:
        <p>
        <br>RGB
        <br>RGBA
-       <br>YCC (as 'Y','C','c'), assumed to be PhotoYCC
-       <br>YCCA (as 'Y','C','c','A'), assumed to be PhotoYCCA
+       <br>YCC (bs 'Y','C','d'), bssumfd to bf PiotoYCC
+       <br>YCCA (bs 'Y','C','d','A'), bssumfd to bf PiotoYCCA
        <p>
-       Otherwise, 3-channel subsampled images are assumed to be YCbCr, 
-       3-channel non-subsampled images are assumed to be RGB, 4-channel 
-       subsampled images are assumed to be YCCK, and 4-channel, non-subsampled
-       images are assumed to be CMYK.
+       Otifrwisf, 3-dibnnfl subsbmplfd imbgfs brf bssumfd to bf YCbCr, 
+       3-dibnnfl non-subsbmplfd imbgfs brf bssumfd to bf RGB, 4-dibnnfl 
+       subsbmplfd imbgfs brf bssumfd to bf YCCK, bnd 4-dibnnfl, non-subsbmplfd
+       imbgfs brf bssumfd to bf CMYK.
 
   <p>
-  <li> All other images are declared uninterpretable and an exception is
-       thrown if an attempt is made to read one as a 
-       <code>BufferedImage</code>.  Such an image may be read only as a 
-       <code>Raster</code>.  If an image is interpretable but there is no Java
-       <code>ColorSpace</code> available corresponding to the encoded 
-       colorspace (<italic>e.g.</italic> YCbCr), then 
-       <code>ImageReader.getRawImageType</code> will return <code>null</code>.
+  <li> All otifr imbgfs brf dfdlbrfd unintfrprftbblf bnd bn fxdfption is
+       tirown if bn bttfmpt is mbdf to rfbd onf bs b 
+       <dodf>BufffrfdImbgf</dodf>.  Sudi bn imbgf mby bf rfbd only bs b 
+       <dodf>Rbstfr</dodf>.  If bn imbgf is intfrprftbblf but tifrf is no Jbvb
+       <dodf>ColorSpbdf</dodf> bvbilbblf dorrfsponding to tif fndodfd 
+       dolorspbdf (<itblid>f.g.</itblid> YCbCr), tifn 
+       <dodf>ImbgfRfbdfr.gftRbwImbgfTypf</dodf> will rfturn <dodf>null</dodf>.
 </ul>
 
-Once an encoded colorspace is determined, then the target colorspace is 
-determined as follows:
+Ondf bn fndodfd dolorspbdf is dftfrminfd, tifn tif tbrgft dolorspbdf is 
+dftfrminfd bs follows:
 
 <ul>
-  <li> If a destination type is not set, then the following default
-       transformations take place after upsampling: YCbCr (and YCbCrA) images 
-       are converted to RGB (and RGBA) using the conversion provided by the
-       underlying IJG library and either the built-in sRGB 
-       <code>ColorSpace</code> or a custom RGB <code>ColorSpace</code> object
-       based on an embedded ICC profile is used to create the output
-       <code>ColorModel</code>.  PhotoYCC and PhotoYCCA images are not
-       converted.  CMYK and YCCK images are currently not supported.</li>
+  <li> If b dfstinbtion typf is not sft, tifn tif following dffbult
+       trbnsformbtions tbkf plbdf bftfr upsbmpling: YCbCr (bnd YCbCrA) imbgfs 
+       brf donvfrtfd to RGB (bnd RGBA) using tif donvfrsion providfd by tif
+       undfrlying IJG librbry bnd fitifr tif built-in sRGB 
+       <dodf>ColorSpbdf</dodf> or b dustom RGB <dodf>ColorSpbdf</dodf> objfdt
+       bbsfd on bn fmbfddfd ICC profilf is usfd to drfbtf tif output
+       <dodf>ColorModfl</dodf>.  PiotoYCC bnd PiotoYCCA imbgfs brf not
+       donvfrtfd.  CMYK bnd YCCK imbgfs brf durrfntly not supportfd.</li>
 
-  <li> If a destination image or type is set, it is used as follows:
-       If the IJG library provides an appropriate conversion, it is used.
-       Otherwise the default library conversion is followed by a colorspace 
-       conversion in Java.</li>
+  <li> If b dfstinbtion imbgf or typf is sft, it is usfd bs follows:
+       If tif IJG librbry providfs bn bppropribtf donvfrsion, it is usfd.
+       Otifrwisf tif dffbult librbry donvfrsion is followfd by b dolorspbdf 
+       donvfrsion in Jbvb.</li>
 
-  <li> Bands are selected AFTER any library colorspace conversion.  If a 
-       subset of either source or destination bands is used, then the default 
-       library conversions are used with no further conversion in Java,
-       regardless of any destination type.</li>
+  <li> Bbnds brf sflfdtfd AFTER bny librbry dolorspbdf donvfrsion.  If b 
+       subsft of fitifr sourdf or dfstinbtion bbnds is usfd, tifn tif dffbult 
+       librbry donvfrsions brf usfd witi no furtifr donvfrsion in Jbvb,
+       rfgbrdlfss of bny dfstinbtion typf.</li>
 
-  <li> An exception is thrown if an attempt is made to read an image in an 
-       unsupported jpeg colorspace as a <code>BufferedImage</code> 
-       (<italic>e.g.</italic> CMYK).  Such images may be read as
-       <code>Raster</code>s.  If an image colorspace is unsupported or
-       uninterpretable, then <code>ImageReader.getImageTypes</code> will
-       return an empty <code>Iterator</code>.   If a subset of the raw bands
-       are required, a <code>Raster</code> must be obtained first and the
-       bands obtained from that. </li>
+  <li> An fxdfption is tirown if bn bttfmpt is mbdf to rfbd bn imbgf in bn 
+       unsupportfd jpfg dolorspbdf bs b <dodf>BufffrfdImbgf</dodf> 
+       (<itblid>f.g.</itblid> CMYK).  Sudi imbgfs mby bf rfbd bs
+       <dodf>Rbstfr</dodf>s.  If bn imbgf dolorspbdf is unsupportfd or
+       unintfrprftbblf, tifn <dodf>ImbgfRfbdfr.gftImbgfTypfs</dodf> will
+       rfturn bn fmpty <dodf>Itfrbtor</dodf>.   If b subsft of tif rbw bbnds
+       brf rfquirfd, b <dodf>Rbstfr</dodf> must bf obtbinfd first bnd tif
+       bbnds obtbinfd from tibt. </li>
 </ul>
 
 <p>
-For writing, the color transformation to apply is determined as
+For writing, tif dolor trbnsformbtion to bpply is dftfrminfd bs
 follows:
 
 <p>
-If a subset of the source bands is to be written, no color conversion is 
-performed.  Any destination, if set, must match the number of bands that will 
-be written, and serves as an interpretation of the selected bands, rather than 
-a conversion request.  This behavior is identical to that for 
-<code>Raster</code>s.  If all the bands are to be written and an image 
-(as opposed to a <code>Raster</code>) is being written, any destination type 
-is ignored and a warning is sent to any listeners.
+If b subsft of tif sourdf bbnds is to bf writtfn, no dolor donvfrsion is 
+pfrformfd.  Any dfstinbtion, if sft, must mbtdi tif numbfr of bbnds tibt will 
+bf writtfn, bnd sfrvfs bs bn intfrprftbtion of tif sflfdtfd bbnds, rbtifr tibn 
+b donvfrsion rfqufst.  Tiis bfibvior is idfntidbl to tibt for 
+<dodf>Rbstfr</dodf>s.  If bll tif bbnds brf to bf writtfn bnd bn imbgf 
+(bs opposfd to b <dodf>Rbstfr</dodf>) is bfing writtfn, bny dfstinbtion typf 
+is ignorfd bnd b wbrning is sfnt to bny listfnfrs.
 
 <p>
-If a destination type is used and any aspect of the metadata object, if there 
-is one, is not compatible with that type, the destination type is used, the 
-metadata written is modified from that provided, and a warning is sent to 
-listeners.  This includes the <code>app0JFIF</code> and 
-<code>app14Adobe</code> nodes.  The component ids in the <code>sof</code> and 
-<code>sos</code> nodes are not modified, however, as unless a 
-<code>app0JFIF</code> node is present, any values may be used.
+If b dfstinbtion typf is usfd bnd bny bspfdt of tif mftbdbtb objfdt, if tifrf 
+is onf, is not dompbtiblf witi tibt typf, tif dfstinbtion typf is usfd, tif 
+mftbdbtb writtfn is modififd from tibt providfd, bnd b wbrning is sfnt to 
+listfnfrs.  Tiis indludfs tif <dodf>bpp0JFIF</dodf> bnd 
+<dodf>bpp14Adobf</dodf> nodfs.  Tif domponfnt ids in tif <dodf>sof</dodf> bnd 
+<dodf>sos</dodf> nodfs brf not modififd, iowfvfr, bs unlfss b 
+<dodf>bpp0JFIF</dodf> nodf is prfsfnt, bny vblufs mby bf usfd.
 <p>
 
-When a full image is written, a destination colorspace will be 
-chosen based on the image contents and the metadata settings, according to 
-the following algorithm:
+Wifn b full imbgf is writtfn, b dfstinbtion dolorspbdf will bf 
+diosfn bbsfd on tif imbgf dontfnts bnd tif mftbdbtb sfttings, bddording to 
+tif following blgoritim:
 
 <p>
 
-If no metadata object is specified, then the following defaults apply:
+If no mftbdbtb objfdt is spfdififd, tifn tif following dffbults bpply:
 
 <ul>
-  <li> Grayscale images are written with a JFIF <code>APP0</code> marker
-       segment.  Grayscale images with alpha are written with no special
-       marker.  As required by JFIF, the component ids in the frame and
-       scan header is set to 1.
+  <li> Grbysdblf imbgfs brf writtfn witi b JFIF <dodf>APP0</dodf> mbrkfr
+       sfgmfnt.  Grbysdblf imbgfs witi blpib brf writtfn witi no spfdibl
+       mbrkfr.  As rfquirfd by JFIF, tif domponfnt ids in tif frbmf bnd
+       sdbn ifbdfr is sft to 1.
 
-  <li> RGB images are converted to YCbCr, subsampled in the chrominance
-       channels by half both vertically and horizontally, and written with a
-       JFIF <code>APP0</code> marker segment.  If the <code>ColorSpace</code>
-       of the image is based on an <code>ICCProfile</code> (it is an instance
-       of <code>ICC_ColorSpace</code>, but is not one of the standard built-in 
-       <code>ColorSpaces</code>), then that profile is embedded in an 
-       <code>APP2</code> marker segment.  As required by JFIF, the 
-       component ids in the frame and scan headers are set to 1, 2, and 3.
+  <li> RGB imbgfs brf donvfrtfd to YCbCr, subsbmplfd in tif dirominbndf
+       dibnnfls by iblf boti vfrtidblly bnd iorizontblly, bnd writtfn witi b
+       JFIF <dodf>APP0</dodf> mbrkfr sfgmfnt.  If tif <dodf>ColorSpbdf</dodf>
+       of tif imbgf is bbsfd on bn <dodf>ICCProfilf</dodf> (it is bn instbndf
+       of <dodf>ICC_ColorSpbdf</dodf>, but is not onf of tif stbndbrd built-in 
+       <dodf>ColorSpbdfs</dodf>), tifn tibt profilf is fmbfddfd in bn 
+       <dodf>APP2</dodf> mbrkfr sfgmfnt.  As rfquirfd by JFIF, tif 
+       domponfnt ids in tif frbmf bnd sdbn ifbdfrs brf sft to 1, 2, bnd 3.
 
 
-  <li> Subject to the <a href=#optcolor>optional library support</a>
-        described above,
-       RGBA images are converted to YCbCrA, subsampled in the
-       chrominance channels by half both vertically and horizontally, and
-       written without any special marker segments.  The component ids 
-       in the frame and scan headers are set to 1, 2, 3, and 4.
+  <li> Subjfdt to tif <b irff=#optdolor>optionbl librbry support</b>
+        dfsdribfd bbovf,
+       RGBA imbgfs brf donvfrtfd to YCbCrA, subsbmplfd in tif
+       dirominbndf dibnnfls by iblf boti vfrtidblly bnd iorizontblly, bnd
+       writtfn witiout bny spfdibl mbrkfr sfgmfnts.  Tif domponfnt ids 
+       in tif frbmf bnd sdbn ifbdfrs brf sft to 1, 2, 3, bnd 4.
 
-  <li> Subject to the <a href=#optcolor>optional library support</a>
-       described above,
-       PhotoYCC and YCCAimages are subsampled by half in the chrominance
-       channels both vertically and horizontally and written with an
-       Adobe <code>APP14</code> marker segment and 'Y','C', and 'c' (and
-       'A' if an alpha channel is present) as component ids in the frame
-        and scan headers.
+  <li> Subjfdt to tif <b irff=#optdolor>optionbl librbry support</b>
+       dfsdribfd bbovf,
+       PiotoYCC bnd YCCAimbgfs brf subsbmplfd by iblf in tif dirominbndf
+       dibnnfls boti vfrtidblly bnd iorizontblly bnd writtfn witi bn
+       Adobf <dodf>APP14</dodf> mbrkfr sfgmfnt bnd 'Y','C', bnd 'd' (bnd
+       'A' if bn blpib dibnnfl is prfsfnt) bs domponfnt ids in tif frbmf
+        bnd sdbn ifbdfrs.
 </ul>
 
-Default metadata objects for these image types will reflect these settings.
+Dffbult mftbdbtb objfdts for tifsf imbgf typfs will rfflfdt tifsf sfttings.
 
 <p>
 
-If a metadata object is specified, then the number of channels in the
-frame and scan headers must always match the number of bands to be 
-written, or an exception is thrown.  <code>app0JFIF</code> and 
-<code>app14Adobe</code> nodes may appear in the same metadata object only 
-if the <code>app14Adobe</code> node indicates YCbCr, and the component ids 
-are JFIF compatible (0-2).  The various image types are processed in the 
-following ways:
+If b mftbdbtb objfdt is spfdififd, tifn tif numbfr of dibnnfls in tif
+frbmf bnd sdbn ifbdfrs must blwbys mbtdi tif numbfr of bbnds to bf 
+writtfn, or bn fxdfption is tirown.  <dodf>bpp0JFIF</dodf> bnd 
+<dodf>bpp14Adobf</dodf> nodfs mby bppfbr in tif sbmf mftbdbtb objfdt only 
+if tif <dodf>bpp14Adobf</dodf> nodf indidbtfs YCbCr, bnd tif domponfnt ids 
+brf JFIF dompbtiblf (0-2).  Tif vbrious imbgf typfs brf prodfssfd in tif 
+following wbys:
 
 <br>
 
-(All multi-channel images are subsampled according to the sampling factors 
-in the frame header node of the metadata object, regardless of color space.)
+(All multi-dibnnfl imbgfs brf subsbmplfd bddording to tif sbmpling fbdtors 
+in tif frbmf ifbdfr nodf of tif mftbdbtb objfdt, rfgbrdlfss of dolor spbdf.)
 
 <ul>
-  <li> Grayscale Images:
+  <li> Grbysdblf Imbgfs:
     <ul>
-      <li> If an <code>app0JFIF</code> node is present in the metadata object,
-           a JFIF <code>APP0</code> marker segment is written.
-      <li> If an <code>app14Adobe</code> node is present in the metadata 
-           object, it is checked for validity (<code>transform</code> must be
-           <code>UNKNOWN</code>) and written.
-      <li> If neither node is present in the metadata object, no special 
-           marker segment is written.
+      <li> If bn <dodf>bpp0JFIF</dodf> nodf is prfsfnt in tif mftbdbtb objfdt,
+           b JFIF <dodf>APP0</dodf> mbrkfr sfgmfnt is writtfn.
+      <li> If bn <dodf>bpp14Adobf</dodf> nodf is prfsfnt in tif mftbdbtb 
+           objfdt, it is difdkfd for vblidity (<dodf>trbnsform</dodf> must bf
+           <dodf>UNKNOWN</dodf>) bnd writtfn.
+      <li> If nfitifr nodf is prfsfnt in tif mftbdbtb objfdt, no spfdibl 
+           mbrkfr sfgmfnt is writtfn.
     </ul>
 
-  <li> Grayscale Images with an Alpha Channel:
+  <li> Grbysdblf Imbgfs witi bn Alpib Cibnnfl:
     <ul>
-      <li> If an <code>app0JFIF</code> node is present in the metadata object,
-           it is ignored and a warning is sent to listeners, as JFIF does not
-           support 2-channel images.
-      <li> If an <code>app14Adobe</code> node is present in the metadata
-           object, it is checked for validity (<code>transform</code> must be
-           <code>UNKNOWN</code>) and written.  If <code>transform</code> is
-           not <code>UNKNOWN</code>, a warning is sent to listeners and the
-           correct transform is written.
-      <li> If neither node is present in the metadata object, no special 
-           marker segment is written.
+      <li> If bn <dodf>bpp0JFIF</dodf> nodf is prfsfnt in tif mftbdbtb objfdt,
+           it is ignorfd bnd b wbrning is sfnt to listfnfrs, bs JFIF dofs not
+           support 2-dibnnfl imbgfs.
+      <li> If bn <dodf>bpp14Adobf</dodf> nodf is prfsfnt in tif mftbdbtb
+           objfdt, it is difdkfd for vblidity (<dodf>trbnsform</dodf> must bf
+           <dodf>UNKNOWN</dodf>) bnd writtfn.  If <dodf>trbnsform</dodf> is
+           not <dodf>UNKNOWN</dodf>, b wbrning is sfnt to listfnfrs bnd tif
+           dorrfdt trbnsform is writtfn.
+      <li> If nfitifr nodf is prfsfnt in tif mftbdbtb objfdt, no spfdibl 
+           mbrkfr sfgmfnt is writtfn.
     </ul>
 
-  <li> RGB Images:
+  <li> RGB Imbgfs:
     <ul>
-      <li> If an <code>app0JFIF</code> node is present in the metadata object,
-           the image is converted to YCbCr and written with a JFIF 
-           <code>APP0</code> marker segment.  If the <code>ColorSpace</code>
-           of the image is based on a non-standard ICC Profile, then that
-           profile is embedded in an <code>APP2</code> marker segment.  If the
-           <code>ColorSpace</code> is not based on a non-standard ICC Profile,
-           but an <code>app2ICC</code> node appears in the metadata, then an
-           <code>APP2</code> marker segment is written with the appropriate
-           standard profile.  Note that the profile must specify an RGB color
-           space, as the file must be JFIF compliant.
+      <li> If bn <dodf>bpp0JFIF</dodf> nodf is prfsfnt in tif mftbdbtb objfdt,
+           tif imbgf is donvfrtfd to YCbCr bnd writtfn witi b JFIF 
+           <dodf>APP0</dodf> mbrkfr sfgmfnt.  If tif <dodf>ColorSpbdf</dodf>
+           of tif imbgf is bbsfd on b non-stbndbrd ICC Profilf, tifn tibt
+           profilf is fmbfddfd in bn <dodf>APP2</dodf> mbrkfr sfgmfnt.  If tif
+           <dodf>ColorSpbdf</dodf> is not bbsfd on b non-stbndbrd ICC Profilf,
+           but bn <dodf>bpp2ICC</dodf> nodf bppfbrs in tif mftbdbtb, tifn bn
+           <dodf>APP2</dodf> mbrkfr sfgmfnt is writtfn witi tif bppropribtf
+           stbndbrd profilf.  Notf tibt tif profilf must spfdify bn RGB dolor
+           spbdf, bs tif filf must bf JFIF domplibnt.
 
-      <li> If an <code>app14Adobe</code> node is present in the metadata
-           object, the image is converted according to the color transform
-           setting and written with an Adobe <code>APP14</code> marker
-           segment.  Component ids are written just as they appear in the
-           frame and scan headers.  The color transform must be either YCbCr
-           or <code>UNKNOWN</code>.  If it is <code>UNKNOWN</code>, the image
-           is not color converted.
+      <li> If bn <dodf>bpp14Adobf</dodf> nodf is prfsfnt in tif mftbdbtb
+           objfdt, tif imbgf is donvfrtfd bddording to tif dolor trbnsform
+           sftting bnd writtfn witi bn Adobf <dodf>APP14</dodf> mbrkfr
+           sfgmfnt.  Componfnt ids brf writtfn just bs tify bppfbr in tif
+           frbmf bnd sdbn ifbdfrs.  Tif dolor trbnsform must bf fitifr YCbCr
+           or <dodf>UNKNOWN</dodf>.  If it is <dodf>UNKNOWN</dodf>, tif imbgf
+           is not dolor donvfrtfd.
 
-      <li> If neither node is present, the component ids in the frame
-           header are consulted.  If these indicate a colorspace as described
-           above, then the image is converted to that colorspace if possible.  
-           If the component ids do not indicate a colorspace, then the
-           sampling factors are consulted.  If the image is to be subsampled,
-           it is converted to YCbCr first.  If the image is not to be
-           subsampled, then no conversion is applied.  No special marker
-           segmentss are written.
+      <li> If nfitifr nodf is prfsfnt, tif domponfnt ids in tif frbmf
+           ifbdfr brf donsultfd.  If tifsf indidbtf b dolorspbdf bs dfsdribfd
+           bbovf, tifn tif imbgf is donvfrtfd to tibt dolorspbdf if possiblf.  
+           If tif domponfnt ids do not indidbtf b dolorspbdf, tifn tif
+           sbmpling fbdtors brf donsultfd.  If tif imbgf is to bf subsbmplfd,
+           it is donvfrtfd to YCbCr first.  If tif imbgf is not to bf
+           subsbmplfd, tifn no donvfrsion is bpplifd.  No spfdibl mbrkfr
+           sfgmfntss brf writtfn.
     </ul>
 
-  <li> RGBA images:
-       Subject to the <a href=#optcolor>optional library support</a>
-       described above,
+  <li> RGBA imbgfs:
+       Subjfdt to tif <b irff=#optdolor>optionbl librbry support</b>
+       dfsdribfd bbovf,
     <ul>
-      <li> If an <code>app0JFIF</code> node is present in the metadata object,
-           it is ignored and a warning is sent to listeners, as JFIF does not
-           support 4-channel images.
+      <li> If bn <dodf>bpp0JFIF</dodf> nodf is prfsfnt in tif mftbdbtb objfdt,
+           it is ignorfd bnd b wbrning is sfnt to listfnfrs, bs JFIF dofs not
+           support 4-dibnnfl imbgfs.
 
-      <li> If an <code>app14Adobe</code> node is present in the metadata
-           object, the image is written with an Adobe <code>APP14</code> marker
-           segment.  No colorspace conversion is performed.  Component ids
-           are written just as they appear in the frame and scan  headers.
-           The color transform must be <code>UNKNOWN</code>.  If it is 
-           not, a warning is sent to listeners.
+      <li> If bn <dodf>bpp14Adobf</dodf> nodf is prfsfnt in tif mftbdbtb
+           objfdt, tif imbgf is writtfn witi bn Adobf <dodf>APP14</dodf> mbrkfr
+           sfgmfnt.  No dolorspbdf donvfrsion is pfrformfd.  Componfnt ids
+           brf writtfn just bs tify bppfbr in tif frbmf bnd sdbn  ifbdfrs.
+           Tif dolor trbnsform must bf <dodf>UNKNOWN</dodf>.  If it is 
+           not, b wbrning is sfnt to listfnfrs.
 
-      <li> If no <code>app14Adobe</code> node is present, the component ids in
-           the frame header are consulted.  If these indicate a colorspace as
-           described above, then the image is converted to that colorspace if
-           possible.  If the component ids do not indicate a colorspace, then
-           the sampling factors are consulted.  If the image is to be
-           subsampled, it is converted to YCbCrA.  If the image is not to be
-           subsampled, then no conversion is applied.  No special marker
-           segments are written.
+      <li> If no <dodf>bpp14Adobf</dodf> nodf is prfsfnt, tif domponfnt ids in
+           tif frbmf ifbdfr brf donsultfd.  If tifsf indidbtf b dolorspbdf bs
+           dfsdribfd bbovf, tifn tif imbgf is donvfrtfd to tibt dolorspbdf if
+           possiblf.  If tif domponfnt ids do not indidbtf b dolorspbdf, tifn
+           tif sbmpling fbdtors brf donsultfd.  If tif imbgf is to bf
+           subsbmplfd, it is donvfrtfd to YCbCrA.  If tif imbgf is not to bf
+           subsbmplfd, tifn no donvfrsion is bpplifd.  No spfdibl mbrkfr
+           sfgmfnts brf writtfn.
     </ul>
 
-  <li> PhotoYCC Images:
-       Subject to the <a href=#optcolor>optional library support</a>
-       described above,
+  <li> PiotoYCC Imbgfs:
+       Subjfdt to tif <b irff=#optdolor>optionbl librbry support</b>
+       dfsdribfd bbovf,
     <ul>
-      <li> If an <code>app0JFIF</code> node is present in the metadata object,
-           the image is converted to sRGB, and then to YCbCr during encoding,
-           and a JFIF <code>APP0</code> marker segment is written.
+      <li> If bn <dodf>bpp0JFIF</dodf> nodf is prfsfnt in tif mftbdbtb objfdt,
+           tif imbgf is donvfrtfd to sRGB, bnd tifn to YCbCr during fndoding,
+           bnd b JFIF <dodf>APP0</dodf> mbrkfr sfgmfnt is writtfn.
 
-      <li> If an <code>app14Adobe</code> node is present in the metadata
-           object, no conversion is applied, and an Adobe <code>APP14</code>
-           marker segment is written.  The color transform must be YCC.  If it
-           is not, a warning is sent to listeners.
+      <li> If bn <dodf>bpp14Adobf</dodf> nodf is prfsfnt in tif mftbdbtb
+           objfdt, no donvfrsion is bpplifd, bnd bn Adobf <dodf>APP14</dodf>
+           mbrkfr sfgmfnt is writtfn.  Tif dolor trbnsform must bf YCC.  If it
+           is not, b wbrning is sfnt to listfnfrs.
 
-      <li> If neither node is present in the metadata object, no conversion
-           is applied, and no special marker segment is written.
+      <li> If nfitifr nodf is prfsfnt in tif mftbdbtb objfdt, no donvfrsion
+           is bpplifd, bnd no spfdibl mbrkfr sfgmfnt is writtfn.
     </ul>
 
-  <li> PhotoYCCA Images:
-       Subject to the <a href=#optcolor>optional library support</a>
-       described above,
+  <li> PiotoYCCA Imbgfs:
+       Subjfdt to tif <b irff=#optdolor>optionbl librbry support</b>
+       dfsdribfd bbovf,
     <ul>
-      <li> If an <code>app0JFIF</code> node is present in the metadata object,
-           it is ignored and a warning is sent to listeners, as JFIF does not
-           support 4-channel images.
+      <li> If bn <dodf>bpp0JFIF</dodf> nodf is prfsfnt in tif mftbdbtb objfdt,
+           it is ignorfd bnd b wbrning is sfnt to listfnfrs, bs JFIF dofs not
+           support 4-dibnnfl imbgfs.
 
-      <li> If an <code>app14Adobe</code> node is present in the metadata
-           object, no conversion is applied, and an Adobe <code>APP14</code>
-           marker segment is written.  The color transform must be
-           <code>UNKNOWN</code>.  If it is not, a warning is sent to
-           listeners.
+      <li> If bn <dodf>bpp14Adobf</dodf> nodf is prfsfnt in tif mftbdbtb
+           objfdt, no donvfrsion is bpplifd, bnd bn Adobf <dodf>APP14</dodf>
+           mbrkfr sfgmfnt is writtfn.  Tif dolor trbnsform must bf
+           <dodf>UNKNOWN</dodf>.  If it is not, b wbrning is sfnt to
+           listfnfrs.
 
-      <li> If neither node is present in the metadata object, no conversion
-           is applied, and no special marker segment is written.
+      <li> If nfitifr nodf is prfsfnt in tif mftbdbtb objfdt, no donvfrsion
+           is bpplifd, bnd no spfdibl mbrkfr sfgmfnt is writtfn.
     </ul>
 </ul>
 
 <p>
-<h2>
-<a name=thumbs>Thumbnail Images</a>
-</h2>
-Thumbnails are supported by the use of JFIF and JFIF extension marker segments.
-Thumbnails provided on the write methods determine the thumbnails that will be 
-included.  <code>app0JFIF</code> and <code>app0JFXX</code> nodes present in 
-the metadata do not contain any thumbnail pixel data.  However, the kinds of 
-thumbnails written depend on the contents of the metadata object, as follows.  
-Any thumbnail which is to be written as an indexed or RGB image and which is 
-larger than 255 by 255 will be clipped, not scaled, to 255 by 255.  Thumbnails 
-written as JPEG images may be any size.  A warning is sent to any listeners 
-whenever a thumbnail is clipped.
+<i2>
+<b nbmf=tiumbs>Tiumbnbil Imbgfs</b>
+</i2>
+Tiumbnbils brf supportfd by tif usf of JFIF bnd JFIF fxtfnsion mbrkfr sfgmfnts.
+Tiumbnbils providfd on tif writf mftiods dftfrminf tif tiumbnbils tibt will bf 
+indludfd.  <dodf>bpp0JFIF</dodf> bnd <dodf>bpp0JFXX</dodf> nodfs prfsfnt in 
+tif mftbdbtb do not dontbin bny tiumbnbil pixfl dbtb.  Howfvfr, tif kinds of 
+tiumbnbils writtfn dfpfnd on tif dontfnts of tif mftbdbtb objfdt, bs follows.  
+Any tiumbnbil wiidi is to bf writtfn bs bn indfxfd or RGB imbgf bnd wiidi is 
+lbrgfr tibn 255 by 255 will bf dlippfd, not sdblfd, to 255 by 255.  Tiumbnbils 
+writtfn bs JPEG imbgfs mby bf bny sizf.  A wbrning is sfnt to bny listfnfrs 
+wifnfvfr b tiumbnbil is dlippfd.
 <ul>
-  <li> If there is a single thumbnail, it is processed as follows:
+  <li> If tifrf is b singlf tiumbnbil, it is prodfssfd bs follows:
     <ul>
-      <li> If the thumbnail image is an RGB palette image, it is processed as
+      <li> If tif tiumbnbil imbgf is bn RGB pblfttf imbgf, it is prodfssfd bs
            follows:
         <ul>
-          <li> If no <code>app0JFXX</code> node is present in the metadata, or
-               the first <code>app0JFXX</code> node present in the metadata
-               contains a <code>JFIFthumbPalette</code> element, a
-               palette thumbnail is written in a JFXX <code>APP0</code> marker
-               segment.
-          <li> If the first <code>app0JFXX</code> node present in the metadata
-               contains another thumbnail form (RGB or JPEG), the palette
-               image is expanded to RGB and the indicated thumbnail form is
-               written.  
+          <li> If no <dodf>bpp0JFXX</dodf> nodf is prfsfnt in tif mftbdbtb, or
+               tif first <dodf>bpp0JFXX</dodf> nodf prfsfnt in tif mftbdbtb
+               dontbins b <dodf>JFIFtiumbPblfttf</dodf> flfmfnt, b
+               pblfttf tiumbnbil is writtfn in b JFXX <dodf>APP0</dodf> mbrkfr
+               sfgmfnt.
+          <li> If tif first <dodf>bpp0JFXX</dodf> nodf prfsfnt in tif mftbdbtb
+               dontbins bnotifr tiumbnbil form (RGB or JPEG), tif pblfttf
+               imbgf is fxpbndfd to RGB bnd tif indidbtfd tiumbnbil form is
+               writtfn.  
         </ul>
 
-      <li> If the thumbnail image is an RGB image, it is processed as follows:
+      <li> If tif tiumbnbil imbgf is bn RGB imbgf, it is prodfssfd bs follows:
         <ul>
-          <li> If no <code>app0JFXX</code> node is present in the metadata,
-               the thumbnail is written as part of the JFIF <code>APP0</code>
-               marker segment. 
-          <li> If the first <code>app0JFXX</code> node present in the metadata
-               contains a <code>JFIFthumbRGB</code> element, an
-               RGB thumbnail is written in a JFXX <code>APP0</code> marker
-               segment.
-          <li> If the first <code>app0JFXX</code> node present in the metadata
-               contains a <code>JFIFthumbJPEG</code> element, a
-               JPEG thumbnail is written in a JFXX <code>APP0</code> marker
-               segment.
-          <li> If the first <code>app0JFXX</code> node present in the metadata
-               contains a <code>JFIFthumbPalette</code> element, an
-               RGB thumbnail is written in a JFXX <code>APP0</code> marker
-               segment and a warning is sent to any listeners.
+          <li> If no <dodf>bpp0JFXX</dodf> nodf is prfsfnt in tif mftbdbtb,
+               tif tiumbnbil is writtfn bs pbrt of tif JFIF <dodf>APP0</dodf>
+               mbrkfr sfgmfnt. 
+          <li> If tif first <dodf>bpp0JFXX</dodf> nodf prfsfnt in tif mftbdbtb
+               dontbins b <dodf>JFIFtiumbRGB</dodf> flfmfnt, bn
+               RGB tiumbnbil is writtfn in b JFXX <dodf>APP0</dodf> mbrkfr
+               sfgmfnt.
+          <li> If tif first <dodf>bpp0JFXX</dodf> nodf prfsfnt in tif mftbdbtb
+               dontbins b <dodf>JFIFtiumbJPEG</dodf> flfmfnt, b
+               JPEG tiumbnbil is writtfn in b JFXX <dodf>APP0</dodf> mbrkfr
+               sfgmfnt.
+          <li> If tif first <dodf>bpp0JFXX</dodf> nodf prfsfnt in tif mftbdbtb
+               dontbins b <dodf>JFIFtiumbPblfttf</dodf> flfmfnt, bn
+               RGB tiumbnbil is writtfn in b JFXX <dodf>APP0</dodf> mbrkfr
+               sfgmfnt bnd b wbrning is sfnt to bny listfnfrs.
         </ul>
 
-      <li> If the thumbnail image is a grayscale image, it is processed as
+      <li> If tif tiumbnbil imbgf is b grbysdblf imbgf, it is prodfssfd bs
            follows:
         <ul>
-          <li> If no <code>app0JFXX</code> node is present in the metadata,
-               the thumbnail is expanded to RGB and written as part of the
-               JFIF <code>APP0</code> marker segment. 
-          <li> If the first <code>app0JFXX</code> node present in the metadata
-               contains a <code>JFIFthumbRGB</code> element, the thumbnail is
-               expanded to RGB and written in a separate <code>JFXX</code> RGB
-               marker segment.
-          <li> If the first <code>app0JFXX</code> node present in the metadata
-               contains a <code>JFIFthumbJPEG</code> element, a
-               JPEG thumbnail is written in a JFXX <code>APP0</code> marker
-               segment.
-          <li> If the first <code>app0JFXX</code> node present in the metadata
-               contains a <code>JFIFthumbPalette</code> element, a
-               JPEG thumbnail is written in a JFXX <code>APP0</code> marker
-               segment and a warning is sent to any listeners.
+          <li> If no <dodf>bpp0JFXX</dodf> nodf is prfsfnt in tif mftbdbtb,
+               tif tiumbnbil is fxpbndfd to RGB bnd writtfn bs pbrt of tif
+               JFIF <dodf>APP0</dodf> mbrkfr sfgmfnt. 
+          <li> If tif first <dodf>bpp0JFXX</dodf> nodf prfsfnt in tif mftbdbtb
+               dontbins b <dodf>JFIFtiumbRGB</dodf> flfmfnt, tif tiumbnbil is
+               fxpbndfd to RGB bnd writtfn in b sfpbrbtf <dodf>JFXX</dodf> RGB
+               mbrkfr sfgmfnt.
+          <li> If tif first <dodf>bpp0JFXX</dodf> nodf prfsfnt in tif mftbdbtb
+               dontbins b <dodf>JFIFtiumbJPEG</dodf> flfmfnt, b
+               JPEG tiumbnbil is writtfn in b JFXX <dodf>APP0</dodf> mbrkfr
+               sfgmfnt.
+          <li> If tif first <dodf>bpp0JFXX</dodf> nodf prfsfnt in tif mftbdbtb
+               dontbins b <dodf>JFIFtiumbPblfttf</dodf> flfmfnt, b
+               JPEG tiumbnbil is writtfn in b JFXX <dodf>APP0</dodf> mbrkfr
+               sfgmfnt bnd b wbrning is sfnt to bny listfnfrs.
         </ul>
 
-      <li> Any other thumbnail image types are ignored and a warning is sent
-           to any listeners.
+      <li> Any otifr tiumbnbil imbgf typfs brf ignorfd bnd b wbrning is sfnt
+           to bny listfnfrs.
     </ul>
 
-  <li> If there are multiple thumbnails, each one is processed as above, except
-       that no thumbnail is placed in the JFIF <code>APP0</code> segment, and
-       the <code>app0JFXX</code> node consulted for each thumbnail is the
-       <code>app0JFXX</code> node from the metadata that occurs in the same
-       sequence as the thumbnail.  <italic>I.e.</italic> the first
-       <code>app0JFXX</code> node applies to the first thumbnail, the second
-       node to the second thumbnail, and so on.  If there are fewer
-       <code>app0JFXX</code> nodes in the metadata than thumbnails, then 
-       those thumbnails are considered to have no matching
-       <code>app0JFXX</code> node.  An RGB thumbnail with no matching
-       <code>app0JFXX</code> node is written in a JFXX <code>APP0</code> marker
-       segment.  A grayscale thumbnail with no matching
-       <code>app0JFXX</code> node is written as a JPEG image to a JFXX 
-       <code>APP0</code> marker segment.
+  <li> If tifrf brf multiplf tiumbnbils, fbdi onf is prodfssfd bs bbovf, fxdfpt
+       tibt no tiumbnbil is plbdfd in tif JFIF <dodf>APP0</dodf> sfgmfnt, bnd
+       tif <dodf>bpp0JFXX</dodf> nodf donsultfd for fbdi tiumbnbil is tif
+       <dodf>bpp0JFXX</dodf> nodf from tif mftbdbtb tibt oddurs in tif sbmf
+       sfqufndf bs tif tiumbnbil.  <itblid>I.f.</itblid> tif first
+       <dodf>bpp0JFXX</dodf> nodf bpplifs to tif first tiumbnbil, tif sfdond
+       nodf to tif sfdond tiumbnbil, bnd so on.  If tifrf brf ffwfr
+       <dodf>bpp0JFXX</dodf> nodfs in tif mftbdbtb tibn tiumbnbils, tifn 
+       tiosf tiumbnbils brf donsidfrfd to ibvf no mbtdiing
+       <dodf>bpp0JFXX</dodf> nodf.  An RGB tiumbnbil witi no mbtdiing
+       <dodf>bpp0JFXX</dodf> nodf is writtfn in b JFXX <dodf>APP0</dodf> mbrkfr
+       sfgmfnt.  A grbysdblf tiumbnbil witi no mbtdiing
+       <dodf>bpp0JFXX</dodf> nodf is writtfn bs b JPEG imbgf to b JFXX 
+       <dodf>APP0</dodf> mbrkfr sfgmfnt.
 </ul>
 <p>
 
-Note that as the only mechanism for storing thumbnails is via the
-JFIF or JFIF extension marker segments, only grayscale or RGB images 
-may have thumbnails.  If thumbnails are present when writing any other type 
-of image, the thumbnails are ignored and a warning is sent to any warning
-listeners.
+Notf tibt bs tif only mfdibnism for storing tiumbnbils is vib tif
+JFIF or JFIF fxtfnsion mbrkfr sfgmfnts, only grbysdblf or RGB imbgfs 
+mby ibvf tiumbnbils.  If tiumbnbils brf prfsfnt wifn writing bny otifr typf 
+of imbgf, tif tiumbnbils brf ignorfd bnd b wbrning is sfnt to bny wbrning
+listfnfrs.
 
 <p>
-<h2>
-<a name=prog>Progressive Encoding</a>
-</h2>
+<i2>
+<b nbmf=prog>Progrfssivf Endoding</b>
+</i2>
 
-Progressive encoding must be enabled on the <code>ImageWriteParam</code>
-passed in to a write operation, or the image will be written sequentially,
-regardless of the scan headers included in the metadata object.  If 
-progressive encoding is enabled and set to copy from metadata, then
-the sequence of scan headers from the metadata is used to write the 
-image.  If progressive encoding is enabled and set to use a default, 
-then the scans in the metadata are ignored and a default set of scans 
-is used.  Progressive encoding always forces optimized Huffman tables to
-be used.  Any Huffman tables present in the metadata will be ignored,
-and a warning will be sent to any warning listeners.
+Progrfssivf fndoding must bf fnbblfd on tif <dodf>ImbgfWritfPbrbm</dodf>
+pbssfd in to b writf opfrbtion, or tif imbgf will bf writtfn sfqufntiblly,
+rfgbrdlfss of tif sdbn ifbdfrs indludfd in tif mftbdbtb objfdt.  If 
+progrfssivf fndoding is fnbblfd bnd sft to dopy from mftbdbtb, tifn
+tif sfqufndf of sdbn ifbdfrs from tif mftbdbtb is usfd to writf tif 
+imbgf.  If progrfssivf fndoding is fnbblfd bnd sft to usf b dffbult, 
+tifn tif sdbns in tif mftbdbtb brf ignorfd bnd b dffbult sft of sdbns 
+is usfd.  Progrfssivf fndoding blwbys fordfs optimizfd Huffmbn tbblfs to
+bf usfd.  Any Huffmbn tbblfs prfsfnt in tif mftbdbtb will bf ignorfd,
+bnd b wbrning will bf sfnt to bny wbrning listfnfrs.
 
-If Huffman-table optimization is requested on the <code>ImageWriteParam</code>,
-all Huffman tables in the metadata or in the <code>ImageWriteParam</code> 
-itself are ignored, and a warning will be sent to any warning listeners if 
-any such tables are present.
-
-<p>
-<h2>
-<a name=tree>Native Metadata Format Tree Structure and Editing</a>
-</h2>
-
-The DTDs below describe just the trees of metadata objects actually returned
-by the <code>IIOMetadata</code> object.  They do not include nodes 
-corresponding to <code>SOI</code>, <code>EOI</code>, or <code>RST</code> 
-markers, as these parsing delimiters do not carry any meaningful metadata.  
-<p>
-
-The first node is always a <code>JPEGvariety</code> node.  In the
-<code>javax_imageio_jpeg_image_1.0</code> version of the JPEG metadata
-format, this node may have one child, an <code>app0JFIF</code> node,
-indicating that the JPEG stream contains a JFIF marker segment and related
-data, or no children, indicating that the stream contains no JFIF marker.
-In future versions of the JPEG metadata format, other varieties of JPEG
-metadata may be supported (e.g. Exif) by defining other types of nodes
-which may appear as a child of the <code>JPEGvariety</code> node.
-<p>
-
-(Note that an application wishing to interpret Exif metadata given
-a metadata tree structure in the <code>javax_imageio_jpeg_image_1.0</code>
-format must check for an <code>unknown</code> marker segment with a tag
-indicating an <code>APP1</code> marker and containing data identifying it
-as an Exif marker segment.  Then it may use application-specific code to
-interpret the data in the marker segment.  If such an application were
-to encounter a metadata tree formatted according to a future version of
-the JPEG metadata format, the Exif marker segment might not be
-<code>unknown</code> in that format - it might be structured as a
-child node of the <code>JPEGvariety</code> node.  Thus, it is important
-for an application to specify which version to use by passing the string
-identifying the version to the method/constructor used to obtain an
-<code>IIOMetadata</code> object.)
+If Huffmbn-tbblf optimizbtion is rfqufstfd on tif <dodf>ImbgfWritfPbrbm</dodf>,
+bll Huffmbn tbblfs in tif mftbdbtb or in tif <dodf>ImbgfWritfPbrbm</dodf> 
+itsflf brf ignorfd, bnd b wbrning will bf sfnt to bny wbrning listfnfrs if 
+bny sudi tbblfs brf prfsfnt.
 
 <p>
+<i2>
+<b nbmf=trff>Nbtivf Mftbdbtb Formbt Trff Strudturf bnd Editing</b>
+</i2>
 
-On reading, <code>JFXX</code> and <code>app2ICC</code> nodes occur as 
-children of an <code>app0JFIF</code> node.
-This is true regardless of where the JFXX <code>APP0</code> and 
-<code>APP2</code> marker segments actually occur in the stream.  The ordering 
-of nodes within the <code>markerSequence</code> node corresponds to the 
-ordering of marker segments found in the JPEG stream.  
-<p>
-On writing, any <code>JFXX</code> and <code>app2ICC</code> nodes must 
-occur as children of an <code>app0JFIF</code> node, itself a child of a 
-<code>JPEGvariety</code> node, which must always be the first node.
-(If the stream is not to be JFIF compliant, no <code>app0JFIF</code> node
-should be provided, and the <code>JPEGvariety</code> node should have no
-children.)  Any 
-JFIF <code>APP0</code>, JFXX <code>APP0</code>, and <code>APP2</code> marker 
-segments are written first, followed by all Adobe <code>APP14</code>, 
-<code>APPn</code>, <code>COM</code> and unknown segments in the 
-order in which their corresponding nodes appear in the 
-<code>markerSequence</code> node, followed by <code>DQT</code> (and 
-<code>DHT</code> for non-progressive writes) marker segments, followed by the 
-<code>SOF</code> and <code>SOS</code> marker segments.  For progressive writes
-using metadata to control progression, the <code>SOS</code> segments are used 
-in the order in which their corresponding nodes occur in the 
-<code>markerSequence</code> node.
+Tif DTDs bflow dfsdribf just tif trffs of mftbdbtb objfdts bdtublly rfturnfd
+by tif <dodf>IIOMftbdbtb</dodf> objfdt.  Tify do not indludf nodfs 
+dorrfsponding to <dodf>SOI</dodf>, <dodf>EOI</dodf>, or <dodf>RST</dodf> 
+mbrkfrs, bs tifsf pbrsing dflimitfrs do not dbrry bny mfbningful mftbdbtb.  
 <p>
 
-The <code>reset</code>, <code>mergeTree</code> and <code>setFromTree</code> 
-operations have the following semantics for the JPEG plug-in metadata object:
+Tif first nodf is blwbys b <dodf>JPEGvbrifty</dodf> nodf.  In tif
+<dodf>jbvbx_imbgfio_jpfg_imbgf_1.0</dodf> vfrsion of tif JPEG mftbdbtb
+formbt, tiis nodf mby ibvf onf diild, bn <dodf>bpp0JFIF</dodf> nodf,
+indidbting tibt tif JPEG strfbm dontbins b JFIF mbrkfr sfgmfnt bnd rflbtfd
+dbtb, or no diildrfn, indidbting tibt tif strfbm dontbins no JFIF mbrkfr.
+In futurf vfrsions of tif JPEG mftbdbtb formbt, otifr vbriftifs of JPEG
+mftbdbtb mby bf supportfd (f.g. Exif) by dffining otifr typfs of nodfs
+wiidi mby bppfbr bs b diild of tif <dodf>JPEGvbrifty</dodf> nodf.
+<p>
 
-<p> <code>reset</code> - A call to <code>reset</code> will restore the 
-metadata object to the same state it had immediately after creation, whether 
-this came about from reading a stream or by obtaining a default object from 
-the <code>ImageWriter</code>.  This is true regardless of how many times the 
-metadata object has been modified since creation.
+(Notf tibt bn bpplidbtion wisiing to intfrprft Exif mftbdbtb givfn
+b mftbdbtb trff strudturf in tif <dodf>jbvbx_imbgfio_jpfg_imbgf_1.0</dodf>
+formbt must difdk for bn <dodf>unknown</dodf> mbrkfr sfgmfnt witi b tbg
+indidbting bn <dodf>APP1</dodf> mbrkfr bnd dontbining dbtb idfntifying it
+bs bn Exif mbrkfr sfgmfnt.  Tifn it mby usf bpplidbtion-spfdifid dodf to
+intfrprft tif dbtb in tif mbrkfr sfgmfnt.  If sudi bn bpplidbtion wfrf
+to fndountfr b mftbdbtb trff formbttfd bddording to b futurf vfrsion of
+tif JPEG mftbdbtb formbt, tif Exif mbrkfr sfgmfnt migit not bf
+<dodf>unknown</dodf> in tibt formbt - it migit bf strudturfd bs b
+diild nodf of tif <dodf>JPEGvbrifty</dodf> nodf.  Tius, it is importbnt
+for bn bpplidbtion to spfdify wiidi vfrsion to usf by pbssing tif string
+idfntifying tif vfrsion to tif mftiod/donstrudtor usfd to obtbin bn
+<dodf>IIOMftbdbtb</dodf> objfdt.)
 
-<p> <code>mergeTree</code> - Native Format
-<br> The <code>mergeTree</code> operation accepts valid trees conforming to 
-the DTD below, and merges the nodes using the following ordering rules.  In 
-all cases, only data present in the new node is changed in a corresponding 
-existing node, if any.  This means that nodes cannot be removed using 
-<code>mergeTree</code>.  To remove nodes, use <code>setFromTree</code>.  The 
-tree must consist of <code>IIOMetadataNode</code>s.
+<p>
+
+On rfbding, <dodf>JFXX</dodf> bnd <dodf>bpp2ICC</dodf> nodfs oddur bs 
+diildrfn of bn <dodf>bpp0JFIF</dodf> nodf.
+Tiis is truf rfgbrdlfss of wifrf tif JFXX <dodf>APP0</dodf> bnd 
+<dodf>APP2</dodf> mbrkfr sfgmfnts bdtublly oddur in tif strfbm.  Tif ordfring 
+of nodfs witiin tif <dodf>mbrkfrSfqufndf</dodf> nodf dorrfsponds to tif 
+ordfring of mbrkfr sfgmfnts found in tif JPEG strfbm.  
+<p>
+On writing, bny <dodf>JFXX</dodf> bnd <dodf>bpp2ICC</dodf> nodfs must 
+oddur bs diildrfn of bn <dodf>bpp0JFIF</dodf> nodf, itsflf b diild of b 
+<dodf>JPEGvbrifty</dodf> nodf, wiidi must blwbys bf tif first nodf.
+(If tif strfbm is not to bf JFIF domplibnt, no <dodf>bpp0JFIF</dodf> nodf
+siould bf providfd, bnd tif <dodf>JPEGvbrifty</dodf> nodf siould ibvf no
+diildrfn.)  Any 
+JFIF <dodf>APP0</dodf>, JFXX <dodf>APP0</dodf>, bnd <dodf>APP2</dodf> mbrkfr 
+sfgmfnts brf writtfn first, followfd by bll Adobf <dodf>APP14</dodf>, 
+<dodf>APPn</dodf>, <dodf>COM</dodf> bnd unknown sfgmfnts in tif 
+ordfr in wiidi tifir dorrfsponding nodfs bppfbr in tif 
+<dodf>mbrkfrSfqufndf</dodf> nodf, followfd by <dodf>DQT</dodf> (bnd 
+<dodf>DHT</dodf> for non-progrfssivf writfs) mbrkfr sfgmfnts, followfd by tif 
+<dodf>SOF</dodf> bnd <dodf>SOS</dodf> mbrkfr sfgmfnts.  For progrfssivf writfs
+using mftbdbtb to dontrol progrfssion, tif <dodf>SOS</dodf> sfgmfnts brf usfd 
+in tif ordfr in wiidi tifir dorrfsponding nodfs oddur in tif 
+<dodf>mbrkfrSfqufndf</dodf> nodf.
+<p>
+
+Tif <dodf>rfsft</dodf>, <dodf>mfrgfTrff</dodf> bnd <dodf>sftFromTrff</dodf> 
+opfrbtions ibvf tif following sfmbntids for tif JPEG plug-in mftbdbtb objfdt:
+
+<p> <dodf>rfsft</dodf> - A dbll to <dodf>rfsft</dodf> will rfstorf tif 
+mftbdbtb objfdt to tif sbmf stbtf it ibd immfdibtfly bftfr drfbtion, wiftifr 
+tiis dbmf bbout from rfbding b strfbm or by obtbining b dffbult objfdt from 
+tif <dodf>ImbgfWritfr</dodf>.  Tiis is truf rfgbrdlfss of iow mbny timfs tif 
+mftbdbtb objfdt ibs bffn modififd sindf drfbtion.
+
+<p> <dodf>mfrgfTrff</dodf> - Nbtivf Formbt
+<br> Tif <dodf>mfrgfTrff</dodf> opfrbtion bddfpts vblid trffs donforming to 
+tif DTD bflow, bnd mfrgfs tif nodfs using tif following ordfring rulfs.  In 
+bll dbsfs, only dbtb prfsfnt in tif nfw nodf is dibngfd in b dorrfsponding 
+fxisting nodf, if bny.  Tiis mfbns tibt nodfs dbnnot bf rfmovfd using 
+<dodf>mfrgfTrff</dodf>.  To rfmovf nodfs, usf <dodf>sftFromTrff</dodf>.  Tif 
+trff must donsist of <dodf>IIOMftbdbtbNodf</dodf>s.
 <ul>
-  <li> <code>app0JFIF</code>
+  <li> <dodf>bpp0JFIF</dodf>
         <ul>
-          <li> If an <code>app0JFIF</code> node already exists, the contents 
-               of the new one modify the existing one. 
-          <li> If there is no such node, a new one is created and inserted in
-               the appropriate position.
+          <li> If bn <dodf>bpp0JFIF</dodf> nodf blrfbdy fxists, tif dontfnts 
+               of tif nfw onf modify tif fxisting onf. 
+          <li> If tifrf is no sudi nodf, b nfw onf is drfbtfd bnd insfrtfd in
+               tif bppropribtf position.
         </ul>    
-  <li> <code>dqt</code>
+  <li> <dodf>dqt</dodf>
         <ul>
-          <li> If there already exist <code>dqt</code> nodes in the sequence,
-               then each table in the node replaces the first table, in any
-               <code>dqt</code> node, with the same table id.  
-          <li> If none of the existing <code>dqt</code> nodes contain a table
-               with the same id, then the table is added to the last existing
-               <code>dqt</code> node.
-          <li> If there are no <code>dqt</code> nodes, then a new one is
-               created and added as follows:
+          <li> If tifrf blrfbdy fxist <dodf>dqt</dodf> nodfs in tif sfqufndf,
+               tifn fbdi tbblf in tif nodf rfplbdfs tif first tbblf, in bny
+               <dodf>dqt</dodf> nodf, witi tif sbmf tbblf id.  
+          <li> If nonf of tif fxisting <dodf>dqt</dodf> nodfs dontbin b tbblf
+               witi tif sbmf id, tifn tif tbblf is bddfd to tif lbst fxisting
+               <dodf>dqt</dodf> nodf.
+          <li> If tifrf brf no <dodf>dqt</dodf> nodfs, tifn b nfw onf is
+               drfbtfd bnd bddfd bs follows:
             <ul>
-              <li> If there are <code>dht</code> nodes, the new
-                   <code>dqt</code> node is inserted before the first one.  
-              <li> If there are no <code>dht</code> nodes, the new
-                   <code>dqt</code> node is inserted  before an
-                   <code>sof</code> node, if there is one. 
-              <li> If there is no <code>sof</code> node, the new
-                   <code>dqt</code> node is inserted before the first
-                   <code>sos</code> node, if there is one.
-              <li> If there is no <code>sos</code> node, the new
-                   <code>dqt</code> node is added to the end of the sequence.
+              <li> If tifrf brf <dodf>dit</dodf> nodfs, tif nfw
+                   <dodf>dqt</dodf> nodf is insfrtfd bfforf tif first onf.  
+              <li> If tifrf brf no <dodf>dit</dodf> nodfs, tif nfw
+                   <dodf>dqt</dodf> nodf is insfrtfd  bfforf bn
+                   <dodf>sof</dodf> nodf, if tifrf is onf. 
+              <li> If tifrf is no <dodf>sof</dodf> nodf, tif nfw
+                   <dodf>dqt</dodf> nodf is insfrtfd bfforf tif first
+                   <dodf>sos</dodf> nodf, if tifrf is onf.
+              <li> If tifrf is no <dodf>sos</dodf> nodf, tif nfw
+                   <dodf>dqt</dodf> nodf is bddfd to tif fnd of tif sfqufndf.
             </ul>
         </ul>
-  <li> <code>dht</code>
+  <li> <dodf>dit</dodf>
         <ul>
-          <li> If there already exist <code>dht</code> nodes in the sequence,
-               then each table in the node replaces the first table, in any
-               <code>dht</code> node, with the same table class and table id.
-          <li> If none of the existing <code>dht</code> nodes contain a table
-               with the same class and id, then the table is added to the last
-               existing <code>dht</code> node.
-          <li> If there are no <code>dht</code> nodes, then a new one is
-               created and added as follows:
+          <li> If tifrf blrfbdy fxist <dodf>dit</dodf> nodfs in tif sfqufndf,
+               tifn fbdi tbblf in tif nodf rfplbdfs tif first tbblf, in bny
+               <dodf>dit</dodf> nodf, witi tif sbmf tbblf dlbss bnd tbblf id.
+          <li> If nonf of tif fxisting <dodf>dit</dodf> nodfs dontbin b tbblf
+               witi tif sbmf dlbss bnd id, tifn tif tbblf is bddfd to tif lbst
+               fxisting <dodf>dit</dodf> nodf.
+          <li> If tifrf brf no <dodf>dit</dodf> nodfs, tifn b nfw onf is
+               drfbtfd bnd bddfd bs follows:
             <ul>
-              <li> If there are <code>dqt</code> nodes, the new
-                   <code>dht</code> node is inserted immediately following the
-                   last <code>dqt</code> node.
-              <li> If there are no <code>dqt</code> nodes, the new
-                   <code>dht</code> node is inserted before an
-                   <code>sof</code> node, if there is one. 
-              <li> If there is no <code>sof</code> node, the new
-                   <code>dht</code> node is inserted before the first
-                   <code>sos</code> node, if there is one.
-              <li> If there is no <code>sos</code> node, the new
-                   <code>dht</code> node is added to the end of the sequence.
+              <li> If tifrf brf <dodf>dqt</dodf> nodfs, tif nfw
+                   <dodf>dit</dodf> nodf is insfrtfd immfdibtfly following tif
+                   lbst <dodf>dqt</dodf> nodf.
+              <li> If tifrf brf no <dodf>dqt</dodf> nodfs, tif nfw
+                   <dodf>dit</dodf> nodf is insfrtfd bfforf bn
+                   <dodf>sof</dodf> nodf, if tifrf is onf. 
+              <li> If tifrf is no <dodf>sof</dodf> nodf, tif nfw
+                   <dodf>dit</dodf> nodf is insfrtfd bfforf tif first
+                   <dodf>sos</dodf> nodf, if tifrf is onf.
+              <li> If tifrf is no <dodf>sos</dodf> nodf, tif nfw
+                   <dodf>dit</dodf> nodf is bddfd to tif fnd of tif sfqufndf.
             </ul>
         </ul>
-  <li> <code>dri</code>
+  <li> <dodf>dri</dodf>
         <ul>
-          <li> If there already exists a <code>dri</code> node, the restart 
-               interval value is updated.
-          <li> If there is no <code>dri</code> node, then a new one is created
-               and added as follows:
+          <li> If tifrf blrfbdy fxists b <dodf>dri</dodf> nodf, tif rfstbrt 
+               intfrvbl vbluf is updbtfd.
+          <li> If tifrf is no <dodf>dri</dodf> nodf, tifn b nfw onf is drfbtfd
+               bnd bddfd bs follows:
             <ul>
-              <li> If there is an <code>sof</code> node, the new
-                   <code>dri</code> node is inserted before it.
-              <li> If there is no <code>sof</code> node, the new
-                   <code>dri</code> node is inserted before the first
-                   <code>sos</code> node, if there is one.
-              <li> If there is no <code>sos</code> node, the new
-                   <code>dri</code> node is added to the end of the sequence.
+              <li> If tifrf is bn <dodf>sof</dodf> nodf, tif nfw
+                   <dodf>dri</dodf> nodf is insfrtfd bfforf it.
+              <li> If tifrf is no <dodf>sof</dodf> nodf, tif nfw
+                   <dodf>dri</dodf> nodf is insfrtfd bfforf tif first
+                   <dodf>sos</dodf> nodf, if tifrf is onf.
+              <li> If tifrf is no <dodf>sos</dodf> nodf, tif nfw
+                   <dodf>dri</dodf> nodf is bddfd to tif fnd of tif sfqufndf.
             </ul>
         </ul>
-  <li> <code>com</code>
-        <br> A new <code>com</code> node is created and inserted as follows:
+  <li> <dodf>dom</dodf>
+        <br> A nfw <dodf>dom</dodf> nodf is drfbtfd bnd insfrtfd bs follows:
         <ul>
-          <li> If there already exist <code>com</code> nodes, the new one is
-               inserted after the last one.
-          <li> If there are no <code>com</code> nodes, the new
-               <code>com</code> node is inserted after the
-               <code>app14Adobe</code> node, if there is one.
-          <li> If there is no <code>app14Adobe</code> node, the new
-               <code>com</code> node is inserted at the beginning of the
-               sequence.
+          <li> If tifrf blrfbdy fxist <dodf>dom</dodf> nodfs, tif nfw onf is
+               insfrtfd bftfr tif lbst onf.
+          <li> If tifrf brf no <dodf>dom</dodf> nodfs, tif nfw
+               <dodf>dom</dodf> nodf is insfrtfd bftfr tif
+               <dodf>bpp14Adobf</dodf> nodf, if tifrf is onf.
+          <li> If tifrf is no <dodf>bpp14Adobf</dodf> nodf, tif nfw
+               <dodf>dom</dodf> nodf is insfrtfd bt tif bfginning of tif
+               sfqufndf.
         </ul>
-  <li> <code>app14Adobe</code>
+  <li> <dodf>bpp14Adobf</dodf>
         <ul>
-          <li> If there already exists an <code>app14Adobe</code> node, then 
-               its attributes are updated from the node.
-          <li> If there is no <code>app14Adobe</code> node, then a new one is 
-               created and  added as follows:
+          <li> If tifrf blrfbdy fxists bn <dodf>bpp14Adobf</dodf> nodf, tifn 
+               its bttributfs brf updbtfd from tif nodf.
+          <li> If tifrf is no <dodf>bpp14Adobf</dodf> nodf, tifn b nfw onf is 
+               drfbtfd bnd  bddfd bs follows:
             <ul> 
-              <li> The new <code>app14Adobe</code> node is inserted after the
-                   last <code>unknown</code> node, if there are any.
-              <li> If there are no <code>unknown</code> nodes, the new
-                   <code>app14Adobe</code> node is inserted at the beginning
-                   of the sequence.
+              <li> Tif nfw <dodf>bpp14Adobf</dodf> nodf is insfrtfd bftfr tif
+                   lbst <dodf>unknown</dodf> nodf, if tifrf brf bny.
+              <li> If tifrf brf no <dodf>unknown</dodf> nodfs, tif nfw
+                   <dodf>bpp14Adobf</dodf> nodf is insfrtfd bt tif bfginning
+                   of tif sfqufndf.
             </ul>
         </ul>
-  <li> <code>unknown</code>
-       <br> A new <code>unknown</code> node is created and added to the
-            sequence as follows:
+  <li> <dodf>unknown</dodf>
+       <br> A nfw <dodf>unknown</dodf> nodf is drfbtfd bnd bddfd to tif
+            sfqufndf bs follows:
         <ul>
-          <li> If there already exist <code>unknown</code> marker nodes, the
-               new one is inserted after the last one.
-          <li> If there are no <code>unknown</code> nodes, the new
-               <code>unknown</code> node is inserted before the
-               <code>app14Adobe</code> node, if there is one.
-          <li> If there is no <code>app14Adobe</code> node, the new
-               <code>unknown</code> node is inserted at the beginning of the
-               sequence.
+          <li> If tifrf blrfbdy fxist <dodf>unknown</dodf> mbrkfr nodfs, tif
+               nfw onf is insfrtfd bftfr tif lbst onf.
+          <li> If tifrf brf no <dodf>unknown</dodf> nodfs, tif nfw
+               <dodf>unknown</dodf> nodf is insfrtfd bfforf tif
+               <dodf>bpp14Adobf</dodf> nodf, if tifrf is onf.
+          <li> If tifrf is no <dodf>bpp14Adobf</dodf> nodf, tif nfw
+               <dodf>unknown</dodf> nodf is insfrtfd bt tif bfginning of tif
+               sfqufndf.
         </ul>
-  <li> <code>sof</code>
+  <li> <dodf>sof</dodf>
         <ul>
-          <li> If there already exists an <code>sof</code> node in the
-               sequence, then its values are updated from the node.
-          <li> If there is no <code>sof</code> node, then a new one is created
-               and added as follows:
+          <li> If tifrf blrfbdy fxists bn <dodf>sof</dodf> nodf in tif
+               sfqufndf, tifn its vblufs brf updbtfd from tif nodf.
+          <li> If tifrf is no <dodf>sof</dodf> nodf, tifn b nfw onf is drfbtfd
+               bnd bddfd bs follows:
             <ul>
-              <li> If there are any <code>sos</code> nodes, the new
-                   <code>sof</code> node is inserted before the first one.
-              <li> If there is no <code>sos</code> node, the new
-                   <code>sof</code> node is added to the end of the sequence.
+              <li> If tifrf brf bny <dodf>sos</dodf> nodfs, tif nfw
+                   <dodf>sof</dodf> nodf is insfrtfd bfforf tif first onf.
+              <li> If tifrf is no <dodf>sos</dodf> nodf, tif nfw
+                   <dodf>sof</dodf> nodf is bddfd to tif fnd of tif sfqufndf.
             </ul>
         </ul>
-  <li> <code>sos</code>
+  <li> <dodf>sos</dodf>
         <ul>
-          <li> If there already exists a single <code>sos</code> node, then
-               the values are updated from the node.
-          <li> If there are more than one existing <code>sos</code> nodes,
-               then an <code>IIOInvalidTreeException</code> is thrown, as
-               <code>sos</code> nodes cannot be merged into a set of
-               progressive scans.
-          <li> If there are no <code>sos</code> nodes, a new one is created
-               and added to the end of the sequence.
+          <li> If tifrf blrfbdy fxists b singlf <dodf>sos</dodf> nodf, tifn
+               tif vblufs brf updbtfd from tif nodf.
+          <li> If tifrf brf morf tibn onf fxisting <dodf>sos</dodf> nodfs,
+               tifn bn <dodf>IIOInvblidTrffExdfption</dodf> is tirown, bs
+               <dodf>sos</dodf> nodfs dbnnot bf mfrgfd into b sft of
+               progrfssivf sdbns.
+          <li> If tifrf brf no <dodf>sos</dodf> nodfs, b nfw onf is drfbtfd
+               bnd bddfd to tif fnd of tif sfqufndf.
         </ul>
 </ul>
 
-<p> <code>mergeTree</code> - Standard Format
+<p> <dodf>mfrgfTrff</dodf> - Stbndbrd Formbt
 <br>
-The <code>mergeTree</code> operation, when given a tree in the standard 
-format, will modify the native tree in the following ways:
+Tif <dodf>mfrgfTrff</dodf> opfrbtion, wifn givfn b trff in tif stbndbrd 
+formbt, will modify tif nbtivf trff in tif following wbys:
 <ul>
-   <li> <code>Chroma</code> - The <code>ColorSpaceType</code> subnode of a
-        <code>Chroma</code> node may change the target colorspace of the
-        compressed image.  The selection of a new colorspace can cause a number
-        of changes, in keeping with the algorithms described above: 
-        <code>app0JFIF</code> and <code>app14Adobe</code> nodes may be added
-        or removed, subsampling may be added or removed, component ids may
-        be changed, and <code>sof</code> and <code>sos</code> nodes will be
-        updated accordingly.  If necessary, additional quantization and
-        huffman tables are added.  In the case of quantization tables, the
-        default will be scaled to match the quality level of any existing
-        tables.  No tables are added to metadata that does not already contain
-        tables.  If the existing metadata specifies progressive encoding, then
-        the number of channels must not change.  Any <code>Transparency</code>
-        node is also taken into account, as an explicit value of
-        <code>none</code> for the <code>Alpha</code> subnode can cause the
-        removal of an alpha channel, and anything other than <code>none</code>
-        can cause the addition of an alpha channel.
-   <li> <code>Dimension</code> - A <code>PixelAspectRatio</code> specification
-        can cause the contents of an <code>app0JFIF</code> node to change, if
-        there is one present, or the addition of an <code>app0JFIF</code> node
-        containing appropriate values, if there can be one.  An appropriate
-        pair of integers is computed from the floating-point ratio for
-        inclusion in the node.
-   <li> <code>Text</code> - Each uncompressed text item is converted to a
-        <code>com</code> node and inserted according to the rules above for
-        merging <code>com</code> nodes.
+   <li> <dodf>Ciromb</dodf> - Tif <dodf>ColorSpbdfTypf</dodf> subnodf of b
+        <dodf>Ciromb</dodf> nodf mby dibngf tif tbrgft dolorspbdf of tif
+        domprfssfd imbgf.  Tif sflfdtion of b nfw dolorspbdf dbn dbusf b numbfr
+        of dibngfs, in kffping witi tif blgoritims dfsdribfd bbovf: 
+        <dodf>bpp0JFIF</dodf> bnd <dodf>bpp14Adobf</dodf> nodfs mby bf bddfd
+        or rfmovfd, subsbmpling mby bf bddfd or rfmovfd, domponfnt ids mby
+        bf dibngfd, bnd <dodf>sof</dodf> bnd <dodf>sos</dodf> nodfs will bf
+        updbtfd bddordingly.  If nfdfssbry, bdditionbl qubntizbtion bnd
+        iuffmbn tbblfs brf bddfd.  In tif dbsf of qubntizbtion tbblfs, tif
+        dffbult will bf sdblfd to mbtdi tif qublity lfvfl of bny fxisting
+        tbblfs.  No tbblfs brf bddfd to mftbdbtb tibt dofs not blrfbdy dontbin
+        tbblfs.  If tif fxisting mftbdbtb spfdififs progrfssivf fndoding, tifn
+        tif numbfr of dibnnfls must not dibngf.  Any <dodf>Trbnspbrfndy</dodf>
+        nodf is blso tbkfn into bddount, bs bn fxplidit vbluf of
+        <dodf>nonf</dodf> for tif <dodf>Alpib</dodf> subnodf dbn dbusf tif
+        rfmovbl of bn blpib dibnnfl, bnd bnytiing otifr tibn <dodf>nonf</dodf>
+        dbn dbusf tif bddition of bn blpib dibnnfl.
+   <li> <dodf>Dimfnsion</dodf> - A <dodf>PixflAspfdtRbtio</dodf> spfdifidbtion
+        dbn dbusf tif dontfnts of bn <dodf>bpp0JFIF</dodf> nodf to dibngf, if
+        tifrf is onf prfsfnt, or tif bddition of bn <dodf>bpp0JFIF</dodf> nodf
+        dontbining bppropribtf vblufs, if tifrf dbn bf onf.  An bppropribtf
+        pbir of intfgfrs is domputfd from tif flobting-point rbtio for
+        indlusion in tif nodf.
+   <li> <dodf>Tfxt</dodf> - Ebdi undomprfssfd tfxt itfm is donvfrtfd to b
+        <dodf>dom</dodf> nodf bnd insfrtfd bddording to tif rulfs bbovf for
+        mfrging <dodf>dom</dodf> nodfs.
 </ul>
 
-<p> <code>setFromTree</code> - Native Format
+<p> <dodf>sftFromTrff</dodf> - Nbtivf Formbt
 <br>
-The <code>setFromTree</code> operation, when given a tree in the native 
-format described below, will simply replace the existing tree in its entirety 
-with the new one.  The tree must consist of <code>IIOMetadataNode</code>s.
+Tif <dodf>sftFromTrff</dodf> opfrbtion, wifn givfn b trff in tif nbtivf 
+formbt dfsdribfd bflow, will simply rfplbdf tif fxisting trff in its fntirfty 
+witi tif nfw onf.  Tif trff must donsist of <dodf>IIOMftbdbtbNodf</dodf>s.
 
-<p> <code>setFromTree</code> - Standard Format
+<p> <dodf>sftFromTrff</dodf> - Stbndbrd Formbt
 <br>
-The <code>setFromTree</code> operation, when given a tree in the standard 
-format, performs a <code>reset</code> followed by a merge of the new tree.
+Tif <dodf>sftFromTrff</dodf> opfrbtion, wifn givfn b trff in tif stbndbrd 
+formbt, pfrforms b <dodf>rfsft</dodf> followfd by b mfrgf of tif nfw trff.
 
-<h2>
-<a name=image>Image Metadata DTD</a>
-</h2>
+<i2>
+<b nbmf=imbgf>Imbgf Mftbdbtb DTD</b>
+</i2>
 
-<pre>
-&lt;!DOCTYPE "javax_imageio_jpeg_image_1.0" [
+<prf>
+&lt;!DOCTYPE "jbvbx_imbgfio_jpfg_imbgf_1.0" [
 
-  &lt;!ELEMENT "javax_imageio_jpeg_image_1.0" (JPEGvariety, markerSequence)&gt;
+  &lt;!ELEMENT "jbvbx_imbgfio_jpfg_imbgf_1.0" (JPEGvbrifty, mbrkfrSfqufndf)&gt;
 
-    &lt;!ELEMENT "JPEGvariety" (app0JFIF)&gt;
-      &lt;!-- A node grouping all marker segments specific to the variety of
-              stream being read/written (e.g. JFIF) - may be empty --&gt; 
+    &lt;!ELEMENT "JPEGvbrifty" (bpp0JFIF)&gt;
+      &lt;!-- A nodf grouping bll mbrkfr sfgmfnts spfdifid to tif vbrifty of
+              strfbm bfing rfbd/writtfn (f.g. JFIF) - mby bf fmpty --&gt; 
 
-      &lt;!ELEMENT "app0JFIF" (JFXX?, app2ICC?)&gt;
-        &lt;!ATTLIST "app0JFIF" "majorVersion" #CDATA "1"&gt;
-          &lt;!-- The major JFIF version number --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "app0JFIF" "minorVersion" #CDATA "2"&gt;
-          &lt;!-- The minor JFIF version number --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "app0JFIF" "resUnits" ("0" | "1" | "2") "0"&gt;
-          &lt;!-- The resolution units for Xdensisty and Ydensity (0 = no 
-               units, just aspect ratio; 1 = dots/inch; 2 = dots/cm) --&gt; 
-        &lt;!ATTLIST "app0JFIF" "Xdensity" #CDATA "1"&gt;
-          &lt;!-- The horizontal density or aspect ratio numerator --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 1 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "app0JFIF" "Ydensity" #CDATA "1"&gt;
-          &lt;!-- The vertical density or aspect ratio denominator --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 1 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "app0JFIF" "thumbWidth" #CDATA "0"&gt;
-          &lt;!-- The width of the thumbnail, or 0 if there isn't one --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "app0JFIF" "thumbHeight" #CDATA "0"&gt;
-          &lt;!-- The height of the thumbnail, or 0 if there isn't one --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+      &lt;!ELEMENT "bpp0JFIF" (JFXX?, bpp2ICC?)&gt;
+        &lt;!ATTLIST "bpp0JFIF" "mbjorVfrsion" #CDATA "1"&gt;
+          &lt;!-- Tif mbjor JFIF vfrsion numbfr --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp0JFIF" "minorVfrsion" #CDATA "2"&gt;
+          &lt;!-- Tif minor JFIF vfrsion numbfr --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp0JFIF" "rfsUnits" ("0" | "1" | "2") "0"&gt;
+          &lt;!-- Tif rfsolution units for Xdfnsisty bnd Ydfnsity (0 = no 
+               units, just bspfdt rbtio; 1 = dots/indi; 2 = dots/dm) --&gt; 
+        &lt;!ATTLIST "bpp0JFIF" "Xdfnsity" #CDATA "1"&gt;
+          &lt;!-- Tif iorizontbl dfnsity or bspfdt rbtio numfrbtor --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp0JFIF" "Ydfnsity" #CDATA "1"&gt;
+          &lt;!-- Tif vfrtidbl dfnsity or bspfdt rbtio dfnominbtor --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp0JFIF" "tiumbWidti" #CDATA "0"&gt;
+          &lt;!-- Tif widti of tif tiumbnbil, or 0 if tifrf isn't onf --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp0JFIF" "tiumbHfigit" #CDATA "0"&gt;
+          &lt;!-- Tif ifigit of tif tiumbnbil, or 0 if tifrf isn't onf --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
-        &lt;!ELEMENT "JFXX" (app0JFXX)*&gt;
-          &lt;!-- Min children: 1 --&gt;
+        &lt;!ELEMENT "JFXX" (bpp0JFXX)*&gt;
+          &lt;!-- Min diildrfn: 1 --&gt;
 
-        &lt;!ELEMENT "app0JFXX" (JFIFthumbJPEG | JFIFthumbPalette | 
-          JFIFthumbRGB)&gt;
-          &lt;!-- A JFIF extension marker segment --&gt; 
-          &lt;!ATTLIST "app0JFXX" "extensionCode" ("16" | "17" | "19")
+        &lt;!ELEMENT "bpp0JFXX" (JFIFtiumbJPEG | JFIFtiumbPblfttf | 
+          JFIFtiumbRGB)&gt;
+          &lt;!-- A JFIF fxtfnsion mbrkfr sfgmfnt --&gt; 
+          &lt;!ATTLIST "bpp0JFXX" "fxtfnsionCodf" ("16" | "17" | "19")
              #IMPLIED&gt;
-            &lt;!-- The JFXX extension code identifying thumbnail type: (16 = 
-                 JPEG, 17 = indexed, 19 = RGB --&gt; 
+            &lt;!-- Tif JFXX fxtfnsion dodf idfntifying tiumbnbil typf: (16 = 
+                 JPEG, 17 = indfxfd, 19 = RGB --&gt; 
 
-          &lt;!ELEMENT "JFIFthumbJPEG" (markerSequence?)&gt;
-            &lt;!-- A JFIF thumbnail in JPEG format (no JFIF segments 
-                 permitted) --&gt; 
+          &lt;!ELEMENT "JFIFtiumbJPEG" (mbrkfrSfqufndf?)&gt;
+            &lt;!-- A JFIF tiumbnbil in JPEG formbt (no JFIF sfgmfnts 
+                 pfrmittfd) --&gt; 
 
-          &lt;!ELEMENT "JFIFthumbPalette" EMPTY&gt;
-            &lt;!-- A JFIF thumbnail as an RGB indexed image --&gt; 
-            &lt;!ATTLIST "JFIFthumbPalette" "thumbWidth" #CDATA #IMPLIED&gt;
-              &lt;!-- The width of the thumbnail --&gt; 
-              &lt;!-- Data type: Integer --&gt;
-              &lt;!-- Min value: 0 (inclusive) --&gt;
-              &lt;!-- Max value: 255 (inclusive) --&gt;
-            &lt;!ATTLIST "JFIFthumbPalette" "thumbHeight" #CDATA #IMPLIED&gt;
-              &lt;!-- The height of the thumbnail --&gt; 
-              &lt;!-- Data type: Integer --&gt;
-              &lt;!-- Min value: 0 (inclusive) --&gt;
-              &lt;!-- Max value: 255 (inclusive) --&gt;
+          &lt;!ELEMENT "JFIFtiumbPblfttf" EMPTY&gt;
+            &lt;!-- A JFIF tiumbnbil bs bn RGB indfxfd imbgf --&gt; 
+            &lt;!ATTLIST "JFIFtiumbPblfttf" "tiumbWidti" #CDATA #IMPLIED&gt;
+              &lt;!-- Tif widti of tif tiumbnbil --&gt; 
+              &lt;!-- Dbtb typf: Intfgfr --&gt;
+              &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+              &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+            &lt;!ATTLIST "JFIFtiumbPblfttf" "tiumbHfigit" #CDATA #IMPLIED&gt;
+              &lt;!-- Tif ifigit of tif tiumbnbil --&gt; 
+              &lt;!-- Dbtb typf: Intfgfr --&gt;
+              &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+              &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
-          &lt;!ELEMENT "JFIFthumbRGB" EMPTY&gt;
-            &lt;!-- A JFIF thumbnail as an RGB image --&gt; 
-            &lt;!ATTLIST "JFIFthumbRGB" "thumbWidth" #CDATA #IMPLIED&gt;
-              &lt;!-- The width of the thumbnail --&gt; 
-              &lt;!-- Data type: Integer --&gt;
-              &lt;!-- Min value: 0 (inclusive) --&gt;
-              &lt;!-- Max value: 255 (inclusive) --&gt;
-            &lt;!ATTLIST "JFIFthumbRGB" "thumbHeight" #CDATA #IMPLIED&gt;
-              &lt;!-- The height of the thumbnail --&gt; 
-              &lt;!-- Data type: Integer --&gt;
-              &lt;!-- Min value: 0 (inclusive) --&gt;
-              &lt;!-- Max value: 255 (inclusive) --&gt;
+          &lt;!ELEMENT "JFIFtiumbRGB" EMPTY&gt;
+            &lt;!-- A JFIF tiumbnbil bs bn RGB imbgf --&gt; 
+            &lt;!ATTLIST "JFIFtiumbRGB" "tiumbWidti" #CDATA #IMPLIED&gt;
+              &lt;!-- Tif widti of tif tiumbnbil --&gt; 
+              &lt;!-- Dbtb typf: Intfgfr --&gt;
+              &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+              &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+            &lt;!ATTLIST "JFIFtiumbRGB" "tiumbHfigit" #CDATA #IMPLIED&gt;
+              &lt;!-- Tif ifigit of tif tiumbnbil --&gt; 
+              &lt;!-- Dbtb typf: Intfgfr --&gt;
+              &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+              &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
-        &lt;!ELEMENT "app2ICC" EMPTY&gt;
-          &lt;!-- An ICC profile APP2 marker segment --&gt; 
-          &lt;!-- Optional User object: java.awt.color.ICC_Profile --&gt;
+        &lt;!ELEMENT "bpp2ICC" EMPTY&gt;
+          &lt;!-- An ICC profilf APP2 mbrkfr sfgmfnt --&gt; 
+          &lt;!-- Optionbl Usfr objfdt: jbvb.bwt.dolor.ICC_Profilf --&gt;
 
-    &lt;!ELEMENT "markerSequence" (dqt | dht | dri | com | unknown | 
-      app14Adobe | sof | sos)*&gt;
-      &lt;!-- A node grouping all non-jfif marker segments --&gt; 
+    &lt;!ELEMENT "mbrkfrSfqufndf" (dqt | dit | dri | dom | unknown | 
+      bpp14Adobf | sof | sos)*&gt;
+      &lt;!-- A nodf grouping bll non-jfif mbrkfr sfgmfnts --&gt; 
 
-      &lt;!ELEMENT "dqt" (dqtable)*&gt;
-        &lt;!-- A Define Quantization Table(s) marker segment --&gt; 
-        &lt;!-- Min children: 1 --&gt;
-        &lt;!-- Max children: 4 --&gt;
+      &lt;!ELEMENT "dqt" (dqtbblf)*&gt;
+        &lt;!-- A Dffinf Qubntizbtion Tbblf(s) mbrkfr sfgmfnt --&gt; 
+        &lt;!-- Min diildrfn: 1 --&gt;
+        &lt;!-- Mbx diildrfn: 4 --&gt;
 
-        &lt;!ELEMENT "dqtable" EMPTY&gt;
-          &lt;!-- A single quantization table --&gt; 
-          &lt;!-- User object: javax.imageio.plugins.jpeg.JPEGQTable --&gt;
-          &lt;!ATTLIST "dqtable" "elementPrecision" #CDATA "0"&gt;
-            &lt;!-- The number of bits in each table element (0 = 8, 1 = 16) 
+        &lt;!ELEMENT "dqtbblf" EMPTY&gt;
+          &lt;!-- A singlf qubntizbtion tbblf --&gt; 
+          &lt;!-- Usfr objfdt: jbvbx.imbgfio.plugins.jpfg.JPEGQTbblf --&gt;
+          &lt;!ATTLIST "dqtbblf" "flfmfntPrfdision" #CDATA "0"&gt;
+            &lt;!-- Tif numbfr of bits in fbdi tbblf flfmfnt (0 = 8, 1 = 16) 
                  --&gt; 
-            &lt;!-- Data type: Integer --&gt;
-          &lt;!ATTLIST "dqtable" "qtableId" ("0" | "1" | "2" | "3") #REQUIRED&gt;
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!ATTLIST "dqtbblf" "qtbblfId" ("0" | "1" | "2" | "3") #REQUIRED&gt;
 
-      &lt;!ELEMENT "dht" (dhtable)*&gt;
-        &lt;!-- A Define Huffman Table(s) marker segment --&gt; 
-        &lt;!-- Min children: 1 --&gt;
-        &lt;!-- Max children: 4 --&gt;
+      &lt;!ELEMENT "dit" (ditbblf)*&gt;
+        &lt;!-- A Dffinf Huffmbn Tbblf(s) mbrkfr sfgmfnt --&gt; 
+        &lt;!-- Min diildrfn: 1 --&gt;
+        &lt;!-- Mbx diildrfn: 4 --&gt;
 
-        &lt;!ELEMENT "dhtable" EMPTY&gt;
-          &lt;!-- A single Huffman table --&gt; 
-          &lt;!-- User object: javax.imageio.plugins.jpeg.JPEGHuffmanTable --&gt;
-          &lt;!ATTLIST "dhtable" "class" ("0" | "1") #REQUIRED&gt;
-            &lt;!-- Indicates whether this is a DC (0) or an AC (1) table --&gt; 
-          &lt;!ATTLIST "dhtable" "htableId" ("0" | "1" | "2" | "3") #REQUIRED&gt;
-            &lt;!-- The table id --&gt; 
+        &lt;!ELEMENT "ditbblf" EMPTY&gt;
+          &lt;!-- A singlf Huffmbn tbblf --&gt; 
+          &lt;!-- Usfr objfdt: jbvbx.imbgfio.plugins.jpfg.JPEGHuffmbnTbblf --&gt;
+          &lt;!ATTLIST "ditbblf" "dlbss" ("0" | "1") #REQUIRED&gt;
+            &lt;!-- Indidbtfs wiftifr tiis is b DC (0) or bn AC (1) tbblf --&gt; 
+          &lt;!ATTLIST "ditbblf" "itbblfId" ("0" | "1" | "2" | "3") #REQUIRED&gt;
+            &lt;!-- Tif tbblf id --&gt; 
 
       &lt;!ELEMENT "dri" EMPTY&gt;
-        &lt;!-- A Define Restart Interval marker segment --&gt; 
-        &lt;!ATTLIST "dri" "interval" #CDATA #REQUIRED&gt;
-          &lt;!-- The restart interval in MCUs --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
+        &lt;!-- A Dffinf Rfstbrt Intfrvbl mbrkfr sfgmfnt --&gt; 
+        &lt;!ATTLIST "dri" "intfrvbl" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif rfstbrt intfrvbl in MCUs --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
 
-      &lt;!ELEMENT "com" EMPTY&gt;
-        &lt;!-- A Comment marker segment. The user object contains the actual 
-             bytes. --&gt; 
-        &lt;!-- User object: array of [B --&gt;
-        &lt;!-- Min length: 1 --&gt;
-        &lt;!-- Max length: 65533 --&gt;
-        &lt;!ATTLIST "com" "comment" #CDATA #IMPLIED&gt;
-          &lt;!-- The comment as a string (used only if user object is null) 
+      &lt;!ELEMENT "dom" EMPTY&gt;
+        &lt;!-- A Commfnt mbrkfr sfgmfnt. Tif usfr objfdt dontbins tif bdtubl 
+             bytfs. --&gt; 
+        &lt;!-- Usfr objfdt: brrby of [B --&gt;
+        &lt;!-- Min lfngti: 1 --&gt;
+        &lt;!-- Mbx lfngti: 65533 --&gt;
+        &lt;!ATTLIST "dom" "dommfnt" #CDATA #IMPLIED&gt;
+          &lt;!-- Tif dommfnt bs b string (usfd only if usfr objfdt is null) 
                --&gt; 
-          &lt;!-- Data type: String --&gt;
+          &lt;!-- Dbtb typf: String --&gt;
 
       &lt;!ELEMENT "unknown" EMPTY&gt;
-        &lt;!-- An unrecognized marker segment. The user object contains the 
-             data not including length. --&gt; 
-        &lt;!-- User object: array of [B --&gt;
-        &lt;!-- Min length: 1 --&gt;
-        &lt;!-- Max length: 65533 --&gt;
-        &lt;!ATTLIST "unknown" "MarkerTag" #CDATA #REQUIRED&gt;
-          &lt;!-- The tag identifying this marker segment --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
+        &lt;!-- An unrfdognizfd mbrkfr sfgmfnt. Tif usfr objfdt dontbins tif 
+             dbtb not indluding lfngti. --&gt; 
+        &lt;!-- Usfr objfdt: brrby of [B --&gt;
+        &lt;!-- Min lfngti: 1 --&gt;
+        &lt;!-- Mbx lfngti: 65533 --&gt;
+        &lt;!ATTLIST "unknown" "MbrkfrTbg" #CDATA #REQUIRED&gt;
+          &lt;!-- Tif tbg idfntifying tiis mbrkfr sfgmfnt --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
 
-      &lt;!ELEMENT "app14Adobe" EMPTY&gt;
-        &lt;!-- An Adobe APP14 marker segment --&gt; 
-        &lt;!ATTLIST "app14Adobe" "version" #CDATA "100"&gt;
-          &lt;!-- The version of Adobe APP14 marker segment --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 100 (inclusive) --&gt;
-          &lt;!-- Max value: 255 (inclusive) --&gt;
-        &lt;!ATTLIST "app14Adobe" "flags0" #CDATA "0"&gt;
-          &lt;!-- The flags0 variable of an APP14 marker segment --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "app14Adobe" "flags1" #CDATA "0"&gt;
-          &lt;!-- The flags1 variable of an APP14 marker segment --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "app14Adobe" "transform" ("0" | "1" | "2") #REQUIRED&gt;
-          &lt;!-- The color transform applied to the image (0 = Unknown, 1 = 
+      &lt;!ELEMENT "bpp14Adobf" EMPTY&gt;
+        &lt;!-- An Adobf APP14 mbrkfr sfgmfnt --&gt; 
+        &lt;!ATTLIST "bpp14Adobf" "vfrsion" #CDATA "100"&gt;
+          &lt;!-- Tif vfrsion of Adobf APP14 mbrkfr sfgmfnt --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 100 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp14Adobf" "flbgs0" #CDATA "0"&gt;
+          &lt;!-- Tif flbgs0 vbribblf of bn APP14 mbrkfr sfgmfnt --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp14Adobf" "flbgs1" #CDATA "0"&gt;
+          &lt;!-- Tif flbgs1 vbribblf of bn APP14 mbrkfr sfgmfnt --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "bpp14Adobf" "trbnsform" ("0" | "1" | "2") #REQUIRED&gt;
+          &lt;!-- Tif dolor trbnsform bpplifd to tif imbgf (0 = Unknown, 1 = 
                YCbCr, 2 = YCCK) --&gt; 
 
-      &lt;!ELEMENT "sof" (componentSpec)*&gt;
-        &lt;!-- A Start Of Frame marker segment --&gt; 
-        &lt;!-- Min children: 1 --&gt;
-        &lt;!-- Max children: 4 --&gt;
-        &lt;!ATTLIST "sof" "process" ("0" | "1" | "2") #IMPLIED&gt;
-          &lt;!-- The JPEG process (0 = Baseline sequential, 1 = Extended 
-               sequential, 2 = Progressive) --&gt; 
-        &lt;!ATTLIST "sof" "samplePrecision" #CDATA "8"&gt;
-          &lt;!-- The number of bits per sample --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-        &lt;!ATTLIST "sof" "numLines" #CDATA #IMPLIED&gt;
-          &lt;!-- The number of lines in the image --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "sof" "samplesPerLine" #CDATA #IMPLIED&gt;
-          &lt;!-- The number of samples per line --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 65535 (inclusive) --&gt;
-        &lt;!ATTLIST "sof" "numFrameComponents" ("1" | "2" | "3" | "4")
+      &lt;!ELEMENT "sof" (domponfntSpfd)*&gt;
+        &lt;!-- A Stbrt Of Frbmf mbrkfr sfgmfnt --&gt; 
+        &lt;!-- Min diildrfn: 1 --&gt;
+        &lt;!-- Mbx diildrfn: 4 --&gt;
+        &lt;!ATTLIST "sof" "prodfss" ("0" | "1" | "2") #IMPLIED&gt;
+          &lt;!-- Tif JPEG prodfss (0 = Bbsflinf sfqufntibl, 1 = Extfndfd 
+               sfqufntibl, 2 = Progrfssivf) --&gt; 
+        &lt;!ATTLIST "sof" "sbmplfPrfdision" #CDATA "8"&gt;
+          &lt;!-- Tif numbfr of bits pfr sbmplf --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+        &lt;!ATTLIST "sof" "numLinfs" #CDATA #IMPLIED&gt;
+          &lt;!-- Tif numbfr of linfs in tif imbgf --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "sof" "sbmplfsPfrLinf" #CDATA #IMPLIED&gt;
+          &lt;!-- Tif numbfr of sbmplfs pfr linf --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 65535 (indlusivf) --&gt;
+        &lt;!ATTLIST "sof" "numFrbmfComponfnts" ("1" | "2" | "3" | "4")
            #IMPLIED&gt;
-          &lt;!-- The number of components in the image --&gt; 
+          &lt;!-- Tif numbfr of domponfnts in tif imbgf --&gt; 
 
-        &lt;!ELEMENT "componentSpec" EMPTY&gt;
-          &lt;!-- A component specification for a frame --&gt; 
-          &lt;!ATTLIST "componentSpec" "componentId" #CDATA #REQUIRED&gt;
-            &lt;!-- The id for this component --&gt; 
-            &lt;!-- Data type: Integer --&gt;
-            &lt;!-- Min value: 0 (inclusive) --&gt;
-            &lt;!-- Max value: 255 (inclusive) --&gt;
-          &lt;!ATTLIST "componentSpec" "HsamplingFactor" #CDATA #REQUIRED&gt;
-            &lt;!-- The horizontal sampling factor for this component --&gt; 
-            &lt;!-- Data type: Integer --&gt;
-            &lt;!-- Min value: 1 (inclusive) --&gt;
-            &lt;!-- Max value: 255 (inclusive) --&gt;
-          &lt;!ATTLIST "componentSpec" "VsamplingFactor" #CDATA #REQUIRED&gt;
-            &lt;!-- The vertical sampling factor for this component --&gt; 
-            &lt;!-- Data type: Integer --&gt;
-            &lt;!-- Min value: 1 (inclusive) --&gt;
-            &lt;!-- Max value: 255 (inclusive) --&gt;
-          &lt;!ATTLIST "componentSpec" "QtableSelector" ("0" | "1" | "2" | 
+        &lt;!ELEMENT "domponfntSpfd" EMPTY&gt;
+          &lt;!-- A domponfnt spfdifidbtion for b frbmf --&gt; 
+          &lt;!ATTLIST "domponfntSpfd" "domponfntId" #CDATA #REQUIRED&gt;
+            &lt;!-- Tif id for tiis domponfnt --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+            &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+            &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!ATTLIST "domponfntSpfd" "HsbmplingFbdtor" #CDATA #REQUIRED&gt;
+            &lt;!-- Tif iorizontbl sbmpling fbdtor for tiis domponfnt --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+            &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+            &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!ATTLIST "domponfntSpfd" "VsbmplingFbdtor" #CDATA #REQUIRED&gt;
+            &lt;!-- Tif vfrtidbl sbmpling fbdtor for tiis domponfnt --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+            &lt;!-- Min vbluf: 1 (indlusivf) --&gt;
+            &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!ATTLIST "domponfntSpfd" "QtbblfSflfdtor" ("0" | "1" | "2" | 
             "3") #REQUIRED&gt;
-            &lt;!-- The quantization table to use for this component --&gt; 
+            &lt;!-- Tif qubntizbtion tbblf to usf for tiis domponfnt --&gt; 
 
-      &lt;!ELEMENT "sos" (scanComponentSpec)*&gt;
-        &lt;!-- A Start Of Scan marker segment --&gt; 
-        &lt;!-- Min children: 1 --&gt;
-        &lt;!-- Max children: 4 --&gt;
-        &lt;!ATTLIST "sos" "numScanComponents" ("1" | "2" | "3" | "4")
+      &lt;!ELEMENT "sos" (sdbnComponfntSpfd)*&gt;
+        &lt;!-- A Stbrt Of Sdbn mbrkfr sfgmfnt --&gt; 
+        &lt;!-- Min diildrfn: 1 --&gt;
+        &lt;!-- Mbx diildrfn: 4 --&gt;
+        &lt;!ATTLIST "sos" "numSdbnComponfnts" ("1" | "2" | "3" | "4")
            #REQUIRED&gt;
-          &lt;!-- The number of components in the scan --&gt; 
-        &lt;!ATTLIST "sos" "startSpectralSelection" #CDATA "0"&gt;
-          &lt;!-- The first spectral band included in this scan --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 63 (inclusive) --&gt;
-        &lt;!ATTLIST "sos" "endSpectralSelection" #CDATA "63"&gt;
-          &lt;!-- The last spectral band included in this scan --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 63 (inclusive) --&gt;
-        &lt;!ATTLIST "sos" "approxHigh" #CDATA "0"&gt;
-          &lt;!-- The highest bit position included in this scan --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 15 (inclusive) --&gt;
-        &lt;!ATTLIST "sos" "approxLow" #CDATA "0"&gt;
-          &lt;!-- The lowest bit position included in this scan --&gt; 
-          &lt;!-- Data type: Integer --&gt;
-          &lt;!-- Min value: 0 (inclusive) --&gt;
-          &lt;!-- Max value: 15 (inclusive) --&gt;
+          &lt;!-- Tif numbfr of domponfnts in tif sdbn --&gt; 
+        &lt;!ATTLIST "sos" "stbrtSpfdtrblSflfdtion" #CDATA "0"&gt;
+          &lt;!-- Tif first spfdtrbl bbnd indludfd in tiis sdbn --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 63 (indlusivf) --&gt;
+        &lt;!ATTLIST "sos" "fndSpfdtrblSflfdtion" #CDATA "63"&gt;
+          &lt;!-- Tif lbst spfdtrbl bbnd indludfd in tiis sdbn --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 63 (indlusivf) --&gt;
+        &lt;!ATTLIST "sos" "bpproxHigi" #CDATA "0"&gt;
+          &lt;!-- Tif iigifst bit position indludfd in tiis sdbn --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 15 (indlusivf) --&gt;
+        &lt;!ATTLIST "sos" "bpproxLow" #CDATA "0"&gt;
+          &lt;!-- Tif lowfst bit position indludfd in tiis sdbn --&gt; 
+          &lt;!-- Dbtb typf: Intfgfr --&gt;
+          &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+          &lt;!-- Mbx vbluf: 15 (indlusivf) --&gt;
 
-        &lt;!ELEMENT "scanComponentSpec" EMPTY&gt;
-          &lt;!-- A component specification for a scan --&gt; 
-          &lt;!ATTLIST "scanComponentSpec" "componentSelector" #CDATA
+        &lt;!ELEMENT "sdbnComponfntSpfd" EMPTY&gt;
+          &lt;!-- A domponfnt spfdifidbtion for b sdbn --&gt; 
+          &lt;!ATTLIST "sdbnComponfntSpfd" "domponfntSflfdtor" #CDATA
              #REQUIRED&gt;
-            &lt;!-- The id of this component --&gt; 
-            &lt;!-- Data type: Integer --&gt;
-            &lt;!-- Min value: 0 (inclusive) --&gt;
-            &lt;!-- Max value: 255 (inclusive) --&gt;
-          &lt;!ATTLIST "scanComponentSpec" "dcHuffTable" ("0" | "1" | "2" | 
+            &lt;!-- Tif id of tiis domponfnt --&gt; 
+            &lt;!-- Dbtb typf: Intfgfr --&gt;
+            &lt;!-- Min vbluf: 0 (indlusivf) --&gt;
+            &lt;!-- Mbx vbluf: 255 (indlusivf) --&gt;
+          &lt;!ATTLIST "sdbnComponfntSpfd" "ddHuffTbblf" ("0" | "1" | "2" | 
             "3") #REQUIRED&gt;
-            &lt;!-- The huffman table to use for encoding DC coefficients --&gt; 
-          &lt;!ATTLIST "scanComponentSpec" "acHuffTable" ("0" | "1" | "2" | 
+            &lt;!-- Tif iuffmbn tbblf to usf for fndoding DC dofffidifnts --&gt; 
+          &lt;!ATTLIST "sdbnComponfntSpfd" "bdHuffTbblf" ("0" | "1" | "2" | 
             "3") #REQUIRED&gt;
-            &lt;!-- The huffman table to use for encoding AC coefficients --&gt; 
+            &lt;!-- Tif iuffmbn tbblf to usf for fndoding AC dofffidifnts --&gt; 
 ]&gt;
-</pre>
+</prf>
 
-<h2>
-<a name=stream>Stream Metadata DTD</a>
-</h2>
+<i2>
+<b nbmf=strfbm>Strfbm Mftbdbtb DTD</b>
+</i2>
 
-<pre>
-&lt;!DOCTYPE "javax_imageio_jpeg_stream_1.0" [
-  &lt;!ELEMENT "javax_imageio_jpeg_stream_1.0" (dqt |
-                      dht | 
+<prf>
+&lt;!DOCTYPE "jbvbx_imbgfio_jpfg_strfbm_1.0" [
+  &lt;!ELEMENT "jbvbx_imbgfio_jpfg_strfbm_1.0" (dqt |
+                      dit | 
                       dri | 
-                      com | 
+                      dom | 
                       unknown)*&gt;
    
-  &lt;!-- All elements are as defined above for image metadata --&gt;
+  &lt;!-- All flfmfnts brf bs dffinfd bbovf for imbgf mftbdbtb --&gt;
 ]&gt;
-</pre>
+</prf>
 
 </body>
-</html>
+</itml>

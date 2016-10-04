@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.bnnotbtion;
+import jbvb.lbng.rfflfdt.Mfthod;
+
+/**
+ * Thrown to indidbtf thbt b progrbm hbs bttfmptfd to bddfss bn flfmfnt of
+ * bn bnnotbtion whosf typf hbs dhbngfd bftfr thf bnnotbtion wbs dompilfd
+ * (or sfriblizfd).
+ * This fxdfption dbn bf thrown by thf {@linkplbin
+ * jbvb.lbng.rfflfdt.AnnotbtfdElfmfnt API usfd to rfbd bnnotbtions
+ * rfflfdtivfly}.
+ *
+ * @buthor  Josh Blodh
+ * @sff     jbvb.lbng.rfflfdt.AnnotbtfdElfmfnt
+ * @sindf 1.5
+ */
+publid dlbss AnnotbtionTypfMismbtdhExdfption fxtfnds RuntimfExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 8125925355765570191L;
+
+    /**
+     * Thf <tt>Mfthod</tt> objfdt for thf bnnotbtion flfmfnt.
+     */
+    privbtf finbl Mfthod flfmfnt;
+
+    /**
+     * Thf (frronfous) typf of dbtb found in thf bnnotbtion.  This string
+     * mby, but is not rfquirfd to, dontbin thf vbluf bs wfll.  Thf fxbdt
+     * formbt of thf string is unspfdififd.
+     */
+    privbtf finbl String foundTypf;
+
+    /**
+     * Construdts bn AnnotbtionTypfMismbtdhExdfption for thf spfdififd
+     * bnnotbtion typf flfmfnt bnd found dbtb typf.
+     *
+     * @pbrbm flfmfnt thf <tt>Mfthod</tt> objfdt for thf bnnotbtion flfmfnt
+     * @pbrbm foundTypf thf (frronfous) typf of dbtb found in thf bnnotbtion.
+     *        This string mby, but is not rfquirfd to, dontbin thf vbluf
+     *        bs wfll.  Thf fxbdt formbt of thf string is unspfdififd.
+     */
+    publid AnnotbtionTypfMismbtdhExdfption(Mfthod flfmfnt, String foundTypf) {
+        supfr("Indorrfdtly typfd dbtb found for bnnotbtion flfmfnt " + flfmfnt
+              + " (Found dbtb of typf " + foundTypf + ")");
+        this.flfmfnt = flfmfnt;
+        this.foundTypf = foundTypf;
+    }
+
+    /**
+     * Rfturns thf <tt>Mfthod</tt> objfdt for thf indorrfdtly typfd flfmfnt.
+     *
+     * @rfturn thf <tt>Mfthod</tt> objfdt for thf indorrfdtly typfd flfmfnt
+     */
+    publid Mfthod flfmfnt() {
+        rfturn this.flfmfnt;
+    }
+
+    /**
+     * Rfturns thf typf of dbtb found in thf indorrfdtly typfd flfmfnt.
+     * Thf rfturnfd string mby, but is not rfquirfd to, dontbin thf vbluf
+     * bs wfll.  Thf fxbdt formbt of thf string is unspfdififd.
+     *
+     * @rfturn thf typf of dbtb found in thf indorrfdtly typfd flfmfnt
+     */
+    publid String foundTypf() {
+        rfturn this.foundTypf;
+    }
+}

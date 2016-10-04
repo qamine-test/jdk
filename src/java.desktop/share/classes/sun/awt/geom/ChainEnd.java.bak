@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.geom;
+pbdkbgf sun.bwt.gfom;
 
-final class ChainEnd {
-    CurveLink head;
-    CurveLink tail;
-    ChainEnd partner;
-    int etag;
+finbl dlbss CibinEnd {
+    CurvfLink ifbd;
+    CurvfLink tbil;
+    CibinEnd pbrtnfr;
+    int ftbg;
 
-    public ChainEnd(CurveLink first, ChainEnd partner) {
-        this.head = first;
-        this.tail = first;
-        this.partner = partner;
-        this.etag = first.getEdgeTag();
+    publid CibinEnd(CurvfLink first, CibinEnd pbrtnfr) {
+        tiis.ifbd = first;
+        tiis.tbil = first;
+        tiis.pbrtnfr = pbrtnfr;
+        tiis.ftbg = first.gftEdgfTbg();
     }
 
-    public CurveLink getChain() {
-        return head;
+    publid CurvfLink gftCibin() {
+        rfturn ifbd;
     }
 
-    public void setOtherEnd(ChainEnd partner) {
-        this.partner = partner;
+    publid void sftOtifrEnd(CibinEnd pbrtnfr) {
+        tiis.pbrtnfr = pbrtnfr;
     }
 
-    public ChainEnd getPartner() {
-        return partner;
+    publid CibinEnd gftPbrtnfr() {
+        rfturn pbrtnfr;
     }
 
     /*
-     * Returns head of a complete chain to be added to subcurves
-     * or null if the links did not complete such a chain.
+     * Rfturns ifbd of b domplftf dibin to bf bddfd to subdurvfs
+     * or null if tif links did not domplftf sudi b dibin.
      */
-    public CurveLink linkTo(ChainEnd that) {
-        if (etag == AreaOp.ETAG_IGNORE ||
-            that.etag == AreaOp.ETAG_IGNORE)
+    publid CurvfLink linkTo(CibinEnd tibt) {
+        if (ftbg == ArfbOp.ETAG_IGNORE ||
+            tibt.ftbg == ArfbOp.ETAG_IGNORE)
         {
-            throw new InternalError("ChainEnd linked more than once!");
+            tirow nfw IntfrnblError("CibinEnd linkfd morf tibn ondf!");
         }
-        if (etag == that.etag) {
-            throw new InternalError("Linking chains of the same type!");
+        if (ftbg == tibt.ftbg) {
+            tirow nfw IntfrnblError("Linking dibins of tif sbmf typf!");
         }
-        ChainEnd enter, exit;
-        // assert(partner.etag != that.partner.etag);
-        if (etag == AreaOp.ETAG_ENTER) {
-            enter = this;
-            exit = that;
-        } else {
-            enter = that;
-            exit = this;
+        CibinEnd fntfr, fxit;
+        // bssfrt(pbrtnfr.ftbg != tibt.pbrtnfr.ftbg);
+        if (ftbg == ArfbOp.ETAG_ENTER) {
+            fntfr = tiis;
+            fxit = tibt;
+        } flsf {
+            fntfr = tibt;
+            fxit = tiis;
         }
-        // Now make sure these ChainEnds are not linked to any others...
-        etag = AreaOp.ETAG_IGNORE;
-        that.etag = AreaOp.ETAG_IGNORE;
-        // Now link everything up...
-        enter.tail.setNext(exit.head);
-        enter.tail = exit.tail;
-        if (partner == that) {
-            // Curve has closed on itself...
-            return enter.head;
+        // Now mbkf surf tifsf CibinEnds brf not linkfd to bny otifrs...
+        ftbg = ArfbOp.ETAG_IGNORE;
+        tibt.ftbg = ArfbOp.ETAG_IGNORE;
+        // Now link fvfrytiing up...
+        fntfr.tbil.sftNfxt(fxit.ifbd);
+        fntfr.tbil = fxit.tbil;
+        if (pbrtnfr == tibt) {
+            // Curvf ibs dlosfd on itsflf...
+            rfturn fntfr.ifbd;
         }
-        // Link this chain into one end of the chain formed by the partners
-        ChainEnd otherenter = exit.partner;
-        ChainEnd otherexit = enter.partner;
-        otherenter.partner = otherexit;
-        otherexit.partner = otherenter;
-        if (enter.head.getYTop() < otherenter.head.getYTop()) {
-            enter.tail.setNext(otherenter.head);
-            otherenter.head = enter.head;
-        } else {
-            otherexit.tail.setNext(enter.head);
-            otherexit.tail = enter.tail;
+        // Link tiis dibin into onf fnd of tif dibin formfd by tif pbrtnfrs
+        CibinEnd otifrfntfr = fxit.pbrtnfr;
+        CibinEnd otifrfxit = fntfr.pbrtnfr;
+        otifrfntfr.pbrtnfr = otifrfxit;
+        otifrfxit.pbrtnfr = otifrfntfr;
+        if (fntfr.ifbd.gftYTop() < otifrfntfr.ifbd.gftYTop()) {
+            fntfr.tbil.sftNfxt(otifrfntfr.ifbd);
+            otifrfntfr.ifbd = fntfr.ifbd;
+        } flsf {
+            otifrfxit.tbil.sftNfxt(fntfr.ifbd);
+            otifrfxit.tbil = fntfr.tbil;
         }
-        return null;
+        rfturn null;
     }
 
-    public void addLink(CurveLink newlink) {
-        if (etag == AreaOp.ETAG_ENTER) {
-            tail.setNext(newlink);
-            tail = newlink;
-        } else {
-            newlink.setNext(head);
-            head = newlink;
+    publid void bddLink(CurvfLink nfwlink) {
+        if (ftbg == ArfbOp.ETAG_ENTER) {
+            tbil.sftNfxt(nfwlink);
+            tbil = nfwlink;
+        } flsf {
+            nfwlink.sftNfxt(ifbd);
+            ifbd = nfwlink;
         }
     }
 
-    public double getX() {
-        if (etag == AreaOp.ETAG_ENTER) {
-            return tail.getXBot();
-        } else {
-            return head.getXBot();
+    publid doublf gftX() {
+        if (ftbg == ArfbOp.ETAG_ENTER) {
+            rfturn tbil.gftXBot();
+        } flsf {
+            rfturn ifbd.gftXBot();
         }
     }
 }

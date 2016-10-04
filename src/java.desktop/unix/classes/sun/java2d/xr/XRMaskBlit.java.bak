@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.xr;
+pbdkbgf sun.jbvb2d.xr;
 
-import static sun.java2d.loops.CompositeType.SrcNoEa;
-import static sun.java2d.loops.CompositeType.SrcOver;
+import stbtid sun.jbvb2d.loops.CompositfTypf.SrdNoEb;
+import stbtid sun.jbvb2d.loops.CompositfTypf.SrdOvfr;
 
-import java.awt.Composite;
+import jbvb.bwt.Compositf;
 
-import sun.awt.*;
-import sun.java2d.*;
-import sun.java2d.loops.*;
-import sun.java2d.pipe.Region;
+import sun.bwt.*;
+import sun.jbvb2d.*;
+import sun.jbvb2d.loops.*;
+import sun.jbvb2d.pipf.Rfgion;
 
 /**
- * For XRender there is no "blit", everything is just a fill with Repeat or Not.
- * So basically this just quite the same as MaskFill.
+ * For XRfndfr tifrf is no "blit", fvfrytiing is just b fill witi Rfpfbt or Not.
+ * So bbsidblly tiis just quitf tif sbmf bs MbskFill.
  *
- * @author Clemens Eisserer
+ * @butior Clfmfns Eissfrfr
  */
-public class XRMaskBlit extends MaskBlit {
-    static void register() {
-        GraphicsPrimitive[] primitives = {
-                new XRMaskBlit(XRSurfaceData.IntArgbPreX11, SrcOver,
-                               XRSurfaceData.IntArgbPreX11),
-                new XRMaskBlit(XRSurfaceData.IntRgbX11, SrcOver,
-                               XRSurfaceData.IntRgbX11),
-                new XRMaskBlit(XRSurfaceData.IntArgbPreX11, SrcNoEa,
-                               XRSurfaceData.IntRgbX11),
-                new XRMaskBlit(XRSurfaceData.IntRgbX11, SrcNoEa,
-                               XRSurfaceData.IntArgbPreX11)
+publid dlbss XRMbskBlit fxtfnds MbskBlit {
+    stbtid void rfgistfr() {
+        GrbpiidsPrimitivf[] primitivfs = {
+                nfw XRMbskBlit(XRSurfbdfDbtb.IntArgbPrfX11, SrdOvfr,
+                               XRSurfbdfDbtb.IntArgbPrfX11),
+                nfw XRMbskBlit(XRSurfbdfDbtb.IntRgbX11, SrdOvfr,
+                               XRSurfbdfDbtb.IntRgbX11),
+                nfw XRMbskBlit(XRSurfbdfDbtb.IntArgbPrfX11, SrdNoEb,
+                               XRSurfbdfDbtb.IntRgbX11),
+                nfw XRMbskBlit(XRSurfbdfDbtb.IntRgbX11, SrdNoEb,
+                               XRSurfbdfDbtb.IntArgbPrfX11)
                 };
-        GraphicsPrimitiveMgr.register(primitives);
+        GrbpiidsPrimitivfMgr.rfgistfr(primitivfs);
     }
 
-    public XRMaskBlit(SurfaceType srcType, CompositeType compType,
-            SurfaceType dstType) {
-        super(srcType, CompositeType.AnyAlpha, dstType);
+    publid XRMbskBlit(SurfbdfTypf srdTypf, CompositfTypf dompTypf,
+            SurfbdfTypf dstTypf) {
+        supfr(srdTypf, CompositfTypf.AnyAlpib, dstTypf);
     }
 
-    protected native void maskBlit(long srcXsdo, long dstxsdo, int srcx,
-            int srcy, int dstx, int dsty, int w, int h, int maskoff,
-            int maskscan, int masklen, byte[] mask);
+    protfdtfd nbtivf void mbskBlit(long srdXsdo, long dstxsdo, int srdx,
+            int srdy, int dstx, int dsty, int w, int i, int mbskoff,
+            int mbsksdbn, int mbsklfn, bytf[] mbsk);
 
-    public void MaskBlit(SurfaceData src, SurfaceData dst, Composite comp,
-            Region clip, int srcx, int srcy, int dstx, int dsty, int width,
-            int height, byte[] mask, int maskoff, int maskscan) {
-        if (width <= 0 || height <= 0) {
-            return;
+    publid void MbskBlit(SurfbdfDbtb srd, SurfbdfDbtb dst, Compositf domp,
+            Rfgion dlip, int srdx, int srdy, int dstx, int dsty, int widti,
+            int ifigit, bytf[] mbsk, int mbskoff, int mbsksdbn) {
+        if (widti <= 0 || ifigit <= 0) {
+            rfturn;
         }
 
         try {
-            SunToolkit.awtLock();
+            SunToolkit.bwtLodk();
 
-            XRSurfaceData x11sd = (XRSurfaceData) src;
-            x11sd.validateAsSource(null, XRUtils.RepeatNone, XRUtils.FAST);
+            XRSurfbdfDbtb x11sd = (XRSurfbdfDbtb) srd;
+            x11sd.vblidbtfAsSourdf(null, XRUtils.RfpfbtNonf, XRUtils.FAST);
 
-            XRCompositeManager maskBuffer = x11sd.maskBuffer;
-            XRSurfaceData x11dst = (XRSurfaceData) dst;
-            x11dst.validateAsDestination(null, clip);
+            XRCompositfMbnbgfr mbskBufffr = x11sd.mbskBufffr;
+            XRSurfbdfDbtb x11dst = (XRSurfbdfDbtb) dst;
+            x11dst.vblidbtfAsDfstinbtion(null, dlip);
 
-            int maskPict = maskBuffer.getMaskBuffer().
-                         uploadMask(width, height, maskscan, maskoff, mask);
-            maskBuffer.XRComposite(x11sd.getPicture(), maskPict, x11dst.getPicture(),
-                                  srcx, srcy, 0, 0, dstx, dsty, width, height);
-            maskBuffer.getMaskBuffer().clearUploadMask(maskPict, width, height);
-        } finally {
-            SunToolkit.awtUnlock();
+            int mbskPidt = mbskBufffr.gftMbskBufffr().
+                         uplobdMbsk(widti, ifigit, mbsksdbn, mbskoff, mbsk);
+            mbskBufffr.XRCompositf(x11sd.gftPidturf(), mbskPidt, x11dst.gftPidturf(),
+                                  srdx, srdy, 0, 0, dstx, dsty, widti, ifigit);
+            mbskBufffr.gftMbskBufffr().dlfbrUplobdMbsk(mbskPidt, widti, ifigit);
+        } finblly {
+            SunToolkit.bwtUnlodk();
         }
     }
 }

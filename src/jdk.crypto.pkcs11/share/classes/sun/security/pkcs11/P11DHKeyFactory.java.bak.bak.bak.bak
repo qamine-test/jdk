@@ -1,0 +1,263 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds11;
+
+import jbvb.mbth.BigIntfgfr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+
+import jbvbx.drypto.intfrfbdfs.*;
+import jbvbx.drypto.spfd.*;
+
+import stbtid sun.sfdurity.pkds11.TfmplbtfMbnbgfr.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
+
+/**
+ * DH KfyFbdtory implfmfntbtion.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.5
+ */
+finbl dlbss P11DHKfyFbdtory fxtfnds P11KfyFbdtory {
+
+    P11DHKfyFbdtory(Tokfn tokfn, String blgorithm) {
+        supfr(tokfn, blgorithm);
+    }
+
+    PublidKfy implTrbnslbtfPublidKfy(PublidKfy kfy) throws InvblidKfyExdfption {
+        try {
+            if (kfy instbndfof DHPublidKfy) {
+                DHPublidKfy dhKfy = (DHPublidKfy)kfy;
+                DHPbrbmftfrSpfd pbrbms = dhKfy.gftPbrbms();
+                rfturn gfnfrbtfPublid(
+                    dhKfy.gftY(),
+                    pbrbms.gftP(),
+                    pbrbms.gftG()
+                );
+            } flsf if ("X.509".fqubls(kfy.gftFormbt())) {
+                // lft SunJCE providfr pbrsf for us, thfn rfdursf
+                try {
+                    KfyFbdtory fbdtory = implGftSoftwbrfFbdtory();
+                    kfy = (PublidKfy)fbdtory.trbnslbtfKfy(kfy);
+                    rfturn implTrbnslbtfPublidKfy(kfy);
+                } dbtdh (GfnfrblSfdurityExdfption f) {
+                    throw nfw InvblidKfyExdfption("Could not trbnslbtf kfy", f);
+                }
+            } flsf {
+                throw nfw InvblidKfyExdfption("PublidKfy must bf instbndf "
+                        + "of DHPublidKfy or hbvf X.509 fndoding");
+            }
+        } dbtdh (PKCS11Exdfption f) {
+            throw nfw InvblidKfyExdfption("Could not drfbtf DH publid kfy", f);
+        }
+    }
+
+    PrivbtfKfy implTrbnslbtfPrivbtfKfy(PrivbtfKfy kfy)
+            throws InvblidKfyExdfption {
+        try {
+            if (kfy instbndfof DHPrivbtfKfy) {
+                DHPrivbtfKfy dhKfy = (DHPrivbtfKfy)kfy;
+                DHPbrbmftfrSpfd pbrbms = dhKfy.gftPbrbms();
+                rfturn gfnfrbtfPrivbtf(
+                    dhKfy.gftX(),
+                    pbrbms.gftP(),
+                    pbrbms.gftG()
+                );
+            } flsf if ("PKCS#8".fqubls(kfy.gftFormbt())) {
+                // lft SunJCE providfr pbrsf for us, thfn rfdursf
+                try {
+                    KfyFbdtory fbdtory = implGftSoftwbrfFbdtory();
+                    kfy = (PrivbtfKfy)fbdtory.trbnslbtfKfy(kfy);
+                    rfturn implTrbnslbtfPrivbtfKfy(kfy);
+                } dbtdh (GfnfrblSfdurityExdfption f) {
+                    throw nfw InvblidKfyExdfption("Could not trbnslbtf kfy", f);
+                }
+            } flsf {
+                throw nfw InvblidKfyExdfption("PrivbtfKfy must bf instbndf "
+                        + "of DHPrivbtfKfy or hbvf PKCS#8 fndoding");
+            }
+        } dbtdh (PKCS11Exdfption f) {
+            throw nfw InvblidKfyExdfption("Could not drfbtf DH privbtf kfy", f);
+        }
+    }
+
+    // sff JCA spfd
+    protfdtfd PublidKfy fnginfGfnfrbtfPublid(KfySpfd kfySpfd)
+            throws InvblidKfySpfdExdfption {
+        tokfn.fnsurfVblid();
+        if (kfySpfd instbndfof X509EndodfdKfySpfd) {
+            try {
+                KfyFbdtory fbdtory = implGftSoftwbrfFbdtory();
+                PublidKfy kfy = fbdtory.gfnfrbtfPublid(kfySpfd);
+                rfturn implTrbnslbtfPublidKfy(kfy);
+            } dbtdh (GfnfrblSfdurityExdfption f) {
+                throw nfw InvblidKfySpfdExdfption
+                        ("Could not drfbtf DH publid kfy", f);
+            }
+        }
+        if (kfySpfd instbndfof DHPublidKfySpfd == fblsf) {
+            throw nfw InvblidKfySpfdExdfption("Only DHPublidKfySpfd bnd "
+                + "X509EndodfdKfySpfd supportfd for DH publid kfys");
+        }
+        try {
+            DHPublidKfySpfd ds = (DHPublidKfySpfd)kfySpfd;
+            rfturn gfnfrbtfPublid(
+                ds.gftY(),
+                ds.gftP(),
+                ds.gftG()
+            );
+        } dbtdh (PKCS11Exdfption f) {
+            throw nfw InvblidKfySpfdExdfption
+                ("Could not drfbtf DH publid kfy", f);
+        }
+    }
+
+    // sff JCA spfd
+    protfdtfd PrivbtfKfy fnginfGfnfrbtfPrivbtf(KfySpfd kfySpfd)
+            throws InvblidKfySpfdExdfption {
+        tokfn.fnsurfVblid();
+        if (kfySpfd instbndfof PKCS8EndodfdKfySpfd) {
+            try {
+                KfyFbdtory fbdtory = implGftSoftwbrfFbdtory();
+                PrivbtfKfy kfy = fbdtory.gfnfrbtfPrivbtf(kfySpfd);
+                rfturn implTrbnslbtfPrivbtfKfy(kfy);
+            } dbtdh (GfnfrblSfdurityExdfption f) {
+                throw nfw InvblidKfySpfdExdfption
+                        ("Could not drfbtf DH privbtf kfy", f);
+            }
+        }
+        if (kfySpfd instbndfof DHPrivbtfKfySpfd == fblsf) {
+            throw nfw InvblidKfySpfdExdfption("Only DHPrivbtfKfySpfd bnd "
+                + "PKCS8EndodfdKfySpfd supportfd for DH privbtf kfys");
+        }
+        try {
+            DHPrivbtfKfySpfd ds = (DHPrivbtfKfySpfd)kfySpfd;
+            rfturn gfnfrbtfPrivbtf(
+                ds.gftX(),
+                ds.gftP(),
+                ds.gftG()
+            );
+        } dbtdh (PKCS11Exdfption f) {
+            throw nfw InvblidKfySpfdExdfption
+                ("Could not drfbtf DH privbtf kfy", f);
+        }
+    }
+
+    privbtf PublidKfy gfnfrbtfPublid(BigIntfgfr y, BigIntfgfr p, BigIntfgfr g)
+            throws PKCS11Exdfption {
+        CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+            nfw CK_ATTRIBUTE(CKA_CLASS, CKO_PUBLIC_KEY),
+            nfw CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_DH),
+            nfw CK_ATTRIBUTE(CKA_VALUE, y),
+            nfw CK_ATTRIBUTE(CKA_PRIME, p),
+            nfw CK_ATTRIBUTE(CKA_BASE, g),
+        };
+        bttributfs = tokfn.gftAttributfs
+                (O_IMPORT, CKO_PUBLIC_KEY, CKK_DH, bttributfs);
+        Sfssion sfssion = null;
+        try {
+            sfssion = tokfn.gftObjSfssion();
+            long kfyID = tokfn.p11.C_CrfbtfObjfdt(sfssion.id(), bttributfs);
+            rfturn P11Kfy.publidKfy
+                (sfssion, kfyID, "DH", p.bitLfngth(), bttributfs);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
+        }
+    }
+
+    privbtf PrivbtfKfy gfnfrbtfPrivbtf(BigIntfgfr x, BigIntfgfr p,
+            BigIntfgfr g) throws PKCS11Exdfption {
+        CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+            nfw CK_ATTRIBUTE(CKA_CLASS, CKO_PRIVATE_KEY),
+            nfw CK_ATTRIBUTE(CKA_KEY_TYPE, CKK_DH),
+            nfw CK_ATTRIBUTE(CKA_VALUE, x),
+            nfw CK_ATTRIBUTE(CKA_PRIME, p),
+            nfw CK_ATTRIBUTE(CKA_BASE, g),
+        };
+        bttributfs = tokfn.gftAttributfs
+                (O_IMPORT, CKO_PRIVATE_KEY, CKK_DH, bttributfs);
+        Sfssion sfssion = null;
+        try {
+            sfssion = tokfn.gftObjSfssion();
+            long kfyID = tokfn.p11.C_CrfbtfObjfdt(sfssion.id(), bttributfs);
+            rfturn P11Kfy.privbtfKfy
+                (sfssion, kfyID, "DH", p.bitLfngth(), bttributfs);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
+        }
+    }
+
+    <T fxtfnds KfySpfd> T implGftPublidKfySpfd(P11Kfy kfy, Clbss<T> kfySpfd,
+            Sfssion[] sfssion) throws PKCS11Exdfption, InvblidKfySpfdExdfption {
+        if (DHPublidKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+            sfssion[0] = tokfn.gftObjSfssion();
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_VALUE),
+                nfw CK_ATTRIBUTE(CKA_PRIME),
+                nfw CK_ATTRIBUTE(CKA_BASE),
+            };
+            tokfn.p11.C_GftAttributfVbluf(sfssion[0].id(), kfy.kfyID, bttributfs);
+            KfySpfd spfd = nfw DHPublidKfySpfd(
+                bttributfs[0].gftBigIntfgfr(),
+                bttributfs[1].gftBigIntfgfr(),
+                bttributfs[2].gftBigIntfgfr()
+            );
+            rfturn kfySpfd.dbst(spfd);
+        } flsf { // X.509 hbndlfd in supfrdlbss
+            throw nfw InvblidKfySpfdExdfption("Only DHPublidKfySpfd bnd "
+                + "X509EndodfdKfySpfd supportfd for DH publid kfys");
+        }
+    }
+
+    <T fxtfnds KfySpfd> T implGftPrivbtfKfySpfd(P11Kfy kfy, Clbss<T> kfySpfd,
+            Sfssion[] sfssion) throws PKCS11Exdfption, InvblidKfySpfdExdfption {
+        if (DHPrivbtfKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+            sfssion[0] = tokfn.gftObjSfssion();
+            CK_ATTRIBUTE[] bttributfs = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_VALUE),
+                nfw CK_ATTRIBUTE(CKA_PRIME),
+                nfw CK_ATTRIBUTE(CKA_BASE),
+            };
+            tokfn.p11.C_GftAttributfVbluf(sfssion[0].id(), kfy.kfyID, bttributfs);
+            KfySpfd spfd = nfw DHPrivbtfKfySpfd(
+                bttributfs[0].gftBigIntfgfr(),
+                bttributfs[1].gftBigIntfgfr(),
+                bttributfs[2].gftBigIntfgfr()
+            );
+            rfturn kfySpfd.dbst(spfd);
+        } flsf { // PKCS#8 hbndlfd in supfrdlbss
+            throw nfw InvblidKfySpfdExdfption("Only DHPrivbtfKfySpfd "
+                + "bnd PKCS8EndodfdKfySpfd supportfd for DH privbtf kfys");
+        }
+    }
+
+    KfyFbdtory implGftSoftwbrfFbdtory() throws GfnfrblSfdurityExdfption {
+        rfturn KfyFbdtory.gftInstbndf("DH", P11Util.gftSunJdfProvidfr());
+    }
+
+}

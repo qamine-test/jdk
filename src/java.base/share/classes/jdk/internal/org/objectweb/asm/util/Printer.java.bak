@@ -1,48 +1,48 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * ASM: a very small and fast Java bytecode manipulation framework
- * Copyright (c) 2000-2011 INRIA, France Telecom
- * All rights reserved.
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyrigit (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the copyright holders nor the names of its
- *    contributors may be used to endorse or promote products derived from
- *    this software without specific prior written permission.
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *    notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *    dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
+ * 3. Nfitifr tif nbmf of tif dopyrigit ioldfrs nor tif nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
@@ -56,44 +56,44 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-package jdk.internal.org.objectweb.asm.util;
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.util;
 
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.io.PrintWritfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-import jdk.internal.org.objectweb.asm.Attribute;
-import jdk.internal.org.objectweb.asm.Handle;
-import jdk.internal.org.objectweb.asm.Label;
-import jdk.internal.org.objectweb.asm.Opcodes;
-import jdk.internal.org.objectweb.asm.TypePath;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Attributf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Lbbfl;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.TypfPbti;
 
 /**
- * An abstract converter from visit events to text.
+ * An bbstrbdt donvfrtfr from visit fvfnts to tfxt.
  *
- * @author Eric Bruneton
+ * @butior Erid Brunfton
  */
-public abstract class Printer {
+publid bbstrbdt dlbss Printfr {
 
     /**
-     * The names of the Java Virtual Machine opcodes.
+     * Tif nbmfs of tif Jbvb Virtubl Mbdiinf opdodfs.
      */
-    public static final String[] OPCODES;
+    publid stbtid finbl String[] OPCODES;
 
     /**
-     * The names of the for <code>operand</code> parameter values of the
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitIntInsn} method when
-     * <code>opcode</code> is <code>NEWARRAY</code>.
+     * Tif nbmfs of tif for <dodf>opfrbnd</dodf> pbrbmftfr vblufs of tif
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitIntInsn} mftiod wifn
+     * <dodf>opdodf</dodf> is <dodf>NEWARRAY</dodf>.
      */
-    public static final String[] TYPES;
+    publid stbtid finbl String[] TYPES;
 
     /**
-     * The names of the <code>tag</code> field values for
-     * {@link jdk.internal.org.objectweb.asm.Handle}.
+     * Tif nbmfs of tif <dodf>tbg</dodf> fifld vblufs for
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.Hbndlf}.
      */
-    public static final String[] HANDLE_TAG;
+    publid stbtid finbl String[] HANDLE_TAG;
 
-    static {
+    stbtid {
         String s = "NOP,ACONST_NULL,ICONST_M1,ICONST_0,ICONST_1,ICONST_2,"
                 + "ICONST_3,ICONST_4,ICONST_5,LCONST_0,LCONST_1,FCONST_0,"
                 + "FCONST_1,FCONST_2,DCONST_0,DCONST_1,BIPUSH,SIPUSH,LDC,,,"
@@ -114,20 +114,20 @@ public abstract class Printer {
                 + "INVOKESTATIC,INVOKEINTERFACE,INVOKEDYNAMIC,NEW,NEWARRAY,"
                 + "ANEWARRAY,ARRAYLENGTH,ATHROW,CHECKCAST,INSTANCEOF,"
                 + "MONITORENTER,MONITOREXIT,,MULTIANEWARRAY,IFNULL,IFNONNULL,";
-        OPCODES = new String[200];
+        OPCODES = nfw String[200];
         int i = 0;
         int j = 0;
         int l;
-        while ((l = s.indexOf(',', j)) > 0) {
+        wiilf ((l = s.indfxOf(',', j)) > 0) {
             OPCODES[i++] = j + 1 == l ? null : s.substring(j, l);
             j = l + 1;
         }
 
         s = "T_BOOLEAN,T_CHAR,T_FLOAT,T_DOUBLE,T_BYTE,T_SHORT,T_INT,T_LONG,";
-        TYPES = new String[12];
+        TYPES = nfw String[12];
         j = 0;
         i = 4;
-        while ((l = s.indexOf(',', j)) > 0) {
+        wiilf ((l = s.indfxOf(',', j)) > 0) {
             TYPES[i++] = s.substring(j, l);
             j = l + 1;
         }
@@ -135,482 +135,482 @@ public abstract class Printer {
         s = "H_GETFIELD,H_GETSTATIC,H_PUTFIELD,H_PUTSTATIC,"
                 + "H_INVOKEVIRTUAL,H_INVOKESTATIC,H_INVOKESPECIAL,"
                 + "H_NEWINVOKESPECIAL,H_INVOKEINTERFACE,";
-        HANDLE_TAG = new String[10];
+        HANDLE_TAG = nfw String[10];
         j = 0;
         i = 1;
-        while ((l = s.indexOf(',', j)) > 0) {
+        wiilf ((l = s.indfxOf(',', j)) > 0) {
             HANDLE_TAG[i++] = s.substring(j, l);
             j = l + 1;
         }
     }
 
     /**
-     * The ASM API version implemented by this class. The value of this field
-     * must be one of {@link Opcodes#ASM4} or {@link Opcodes#ASM5}.
+     * Tif ASM API vfrsion implfmfntfd by tiis dlbss. Tif vbluf of tiis fifld
+     * must bf onf of {@link Opdodfs#ASM4} or {@link Opdodfs#ASM5}.
      */
-    protected final int api;
+    protfdtfd finbl int bpi;
 
     /**
-     * A buffer that can be used to create strings.
+     * A bufffr tibt dbn bf usfd to drfbtf strings.
      */
-    protected final StringBuffer buf;
+    protfdtfd finbl StringBufffr buf;
 
     /**
-     * The text to be printed. Since the code of methods is not necessarily
-     * visited in sequential order, one method after the other, but can be
-     * interlaced (some instructions from method one, then some instructions
-     * from method two, then some instructions from method one again...), it is
-     * not possible to print the visited instructions directly to a sequential
-     * stream. A class is therefore printed in a two steps process: a string
-     * tree is constructed during the visit, and printed to a sequential stream
-     * at the end of the visit. This string tree is stored in this field, as a
-     * string list that can contain other string lists, which can themselves
-     * contain other string lists, and so on.
+     * Tif tfxt to bf printfd. Sindf tif dodf of mftiods is not nfdfssbrily
+     * visitfd in sfqufntibl ordfr, onf mftiod bftfr tif otifr, but dbn bf
+     * intfrlbdfd (somf instrudtions from mftiod onf, tifn somf instrudtions
+     * from mftiod two, tifn somf instrudtions from mftiod onf bgbin...), it is
+     * not possiblf to print tif visitfd instrudtions dirfdtly to b sfqufntibl
+     * strfbm. A dlbss is tifrfforf printfd in b two stfps prodfss: b string
+     * trff is donstrudtfd during tif visit, bnd printfd to b sfqufntibl strfbm
+     * bt tif fnd of tif visit. Tiis string trff is storfd in tiis fifld, bs b
+     * string list tibt dbn dontbin otifr string lists, wiidi dbn tifmsflvfs
+     * dontbin otifr string lists, bnd so on.
      */
-    public final List<Object> text;
+    publid finbl List<Objfdt> tfxt;
 
     /**
-     * Constructs a new {@link Printer}.
+     * Construdts b nfw {@link Printfr}.
      */
-    protected Printer(final int api) {
-        this.api = api;
-        this.buf = new StringBuffer();
-        this.text = new ArrayList<Object>();
+    protfdtfd Printfr(finbl int bpi) {
+        tiis.bpi = bpi;
+        tiis.buf = nfw StringBufffr();
+        tiis.tfxt = nfw ArrbyList<Objfdt>();
     }
 
     /**
-     * Class header. See {@link jdk.internal.org.objectweb.asm.ClassVisitor#visit}.
+     * Clbss ifbdfr. Sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor#visit}.
      */
-    public abstract void visit(final int version, final int access,
-            final String name, final String signature, final String superName,
-            final String[] interfaces);
+    publid bbstrbdt void visit(finbl int vfrsion, finbl int bddfss,
+            finbl String nbmf, finbl String signbturf, finbl String supfrNbmf,
+            finbl String[] intfrfbdfs);
 
     /**
-     * Class source. See {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitSource}.
+     * Clbss sourdf. Sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor#visitSourdf}.
      */
-    public abstract void visitSource(final String file, final String debug);
+    publid bbstrbdt void visitSourdf(finbl String filf, finbl String dfbug);
 
     /**
-     * Class outer class. See
-     * {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitOuterClass}.
+     * Clbss outfr dlbss. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor#visitOutfrClbss}.
      */
-    public abstract void visitOuterClass(final String owner, final String name,
-            final String desc);
+    publid bbstrbdt void visitOutfrClbss(finbl String ownfr, finbl String nbmf,
+            finbl String dfsd);
 
     /**
-     * Class annotation. See
-     * {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitAnnotation}.
+     * Clbss bnnotbtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor#visitAnnotbtion}.
      */
-    public abstract Printer visitClassAnnotation(final String desc,
-            final boolean visible);
+    publid bbstrbdt Printfr visitClbssAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf);
 
     /**
-     * Class type annotation. See
-     * {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitTypeAnnotation}.
+     * Clbss typf bnnotbtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor#visitTypfAnnotbtion}.
      */
-    public Printer visitClassTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        throw new RuntimeException("Must be overriden");
+    publid Printfr visitClbssTypfAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        tirow nfw RuntimfExdfption("Must bf ovfrridfn");
     }
 
     /**
-     * Class attribute. See
-     * {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitAttribute}.
+     * Clbss bttributf. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor#visitAttributf}.
      */
-    public abstract void visitClassAttribute(final Attribute attr);
+    publid bbstrbdt void visitClbssAttributf(finbl Attributf bttr);
 
     /**
-     * Class inner name. See
-     * {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitInnerClass}.
+     * Clbss innfr nbmf. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor#visitInnfrClbss}.
      */
-    public abstract void visitInnerClass(final String name,
-            final String outerName, final String innerName, final int access);
+    publid bbstrbdt void visitInnfrClbss(finbl String nbmf,
+            finbl String outfrNbmf, finbl String innfrNbmf, finbl int bddfss);
 
     /**
-     * Class field. See {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitField}.
+     * Clbss fifld. Sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor#visitFifld}.
      */
-    public abstract Printer visitField(final int access, final String name,
-            final String desc, final String signature, final Object value);
+    publid bbstrbdt Printfr visitFifld(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl Objfdt vbluf);
 
     /**
-     * Class method. See {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitMethod}.
+     * Clbss mftiod. Sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor#visitMftiod}.
      */
-    public abstract Printer visitMethod(final int access, final String name,
-            final String desc, final String signature, final String[] exceptions);
+    publid bbstrbdt Printfr visitMftiod(finbl int bddfss, finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl String[] fxdfptions);
 
     /**
-     * Class end. See {@link jdk.internal.org.objectweb.asm.ClassVisitor#visitEnd}.
+     * Clbss fnd. Sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.ClbssVisitor#visitEnd}.
      */
-    public abstract void visitClassEnd();
+    publid bbstrbdt void visitClbssEnd();
 
     // ------------------------------------------------------------------------
-    // Annotations
-    // ------------------------------------------------------------------------
-
-    /**
-     * Annotation value. See {@link jdk.internal.org.objectweb.asm.AnnotationVisitor#visit}.
-     */
-    public abstract void visit(final String name, final Object value);
-
-    /**
-     * Annotation enum value. See
-     * {@link jdk.internal.org.objectweb.asm.AnnotationVisitor#visitEnum}.
-     */
-    public abstract void visitEnum(final String name, final String desc,
-            final String value);
-
-    /**
-     * Nested annotation value. See
-     * {@link jdk.internal.org.objectweb.asm.AnnotationVisitor#visitAnnotation}.
-     */
-    public abstract Printer visitAnnotation(final String name, final String desc);
-
-    /**
-     * Annotation array value. See
-     * {@link jdk.internal.org.objectweb.asm.AnnotationVisitor#visitArray}.
-     */
-    public abstract Printer visitArray(final String name);
-
-    /**
-     * Annotation end. See {@link jdk.internal.org.objectweb.asm.AnnotationVisitor#visitEnd}.
-     */
-    public abstract void visitAnnotationEnd();
-
-    // ------------------------------------------------------------------------
-    // Fields
+    // Annotbtions
     // ------------------------------------------------------------------------
 
     /**
-     * Field annotation. See
-     * {@link jdk.internal.org.objectweb.asm.FieldVisitor#visitAnnotation}.
+     * Annotbtion vbluf. Sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.AnnotbtionVisitor#visit}.
      */
-    public abstract Printer visitFieldAnnotation(final String desc,
-            final boolean visible);
+    publid bbstrbdt void visit(finbl String nbmf, finbl Objfdt vbluf);
 
     /**
-     * Field type annotation. See
-     * {@link jdk.internal.org.objectweb.asm.FieldVisitor#visitTypeAnnotation}.
+     * Annotbtion fnum vbluf. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.AnnotbtionVisitor#visitEnum}.
      */
-    public Printer visitFieldTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        throw new RuntimeException("Must be overriden");
+    publid bbstrbdt void visitEnum(finbl String nbmf, finbl String dfsd,
+            finbl String vbluf);
+
+    /**
+     * Nfstfd bnnotbtion vbluf. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.AnnotbtionVisitor#visitAnnotbtion}.
+     */
+    publid bbstrbdt Printfr visitAnnotbtion(finbl String nbmf, finbl String dfsd);
+
+    /**
+     * Annotbtion brrby vbluf. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.AnnotbtionVisitor#visitArrby}.
+     */
+    publid bbstrbdt Printfr visitArrby(finbl String nbmf);
+
+    /**
+     * Annotbtion fnd. Sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.AnnotbtionVisitor#visitEnd}.
+     */
+    publid bbstrbdt void visitAnnotbtionEnd();
+
+    // ------------------------------------------------------------------------
+    // Fiflds
+    // ------------------------------------------------------------------------
+
+    /**
+     * Fifld bnnotbtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.FifldVisitor#visitAnnotbtion}.
+     */
+    publid bbstrbdt Printfr visitFifldAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf);
+
+    /**
+     * Fifld typf bnnotbtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.FifldVisitor#visitTypfAnnotbtion}.
+     */
+    publid Printfr visitFifldTypfAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        tirow nfw RuntimfExdfption("Must bf ovfrridfn");
     }
 
     /**
-     * Field attribute. See
-     * {@link jdk.internal.org.objectweb.asm.FieldVisitor#visitAttribute}.
+     * Fifld bttributf. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.FifldVisitor#visitAttributf}.
      */
-    public abstract void visitFieldAttribute(final Attribute attr);
+    publid bbstrbdt void visitFifldAttributf(finbl Attributf bttr);
 
     /**
-     * Field end. See {@link jdk.internal.org.objectweb.asm.FieldVisitor#visitEnd}.
+     * Fifld fnd. Sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.FifldVisitor#visitEnd}.
      */
-    public abstract void visitFieldEnd();
+    publid bbstrbdt void visitFifldEnd();
 
     // ------------------------------------------------------------------------
-    // Methods
+    // Mftiods
     // ------------------------------------------------------------------------
 
     /**
-     * Method parameter. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitParameter(String, int)}.
+     * Mftiod pbrbmftfr. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitPbrbmftfr(String, int)}.
      */
-    public void visitParameter(String name, int access) {
-        throw new RuntimeException("Must be overriden");
+    publid void visitPbrbmftfr(String nbmf, int bddfss) {
+        tirow nfw RuntimfExdfption("Must bf ovfrridfn");
     }
 
     /**
-     * Method default annotation. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitAnnotationDefault}.
+     * Mftiod dffbult bnnotbtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitAnnotbtionDffbult}.
      */
-    public abstract Printer visitAnnotationDefault();
+    publid bbstrbdt Printfr visitAnnotbtionDffbult();
 
     /**
-     * Method annotation. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitAnnotation}.
+     * Mftiod bnnotbtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitAnnotbtion}.
      */
-    public abstract Printer visitMethodAnnotation(final String desc,
-            final boolean visible);
+    publid bbstrbdt Printfr visitMftiodAnnotbtion(finbl String dfsd,
+            finbl boolfbn visiblf);
 
     /**
-     * Method type annotation. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitTypeAnnotation}.
+     * Mftiod typf bnnotbtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitTypfAnnotbtion}.
      */
-    public Printer visitMethodTypeAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        throw new RuntimeException("Must be overriden");
+    publid Printfr visitMftiodTypfAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        tirow nfw RuntimfExdfption("Must bf ovfrridfn");
     }
 
     /**
-     * Method parameter annotation. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitParameterAnnotation}.
+     * Mftiod pbrbmftfr bnnotbtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitPbrbmftfrAnnotbtion}.
      */
-    public abstract Printer visitParameterAnnotation(final int parameter,
-            final String desc, final boolean visible);
+    publid bbstrbdt Printfr visitPbrbmftfrAnnotbtion(finbl int pbrbmftfr,
+            finbl String dfsd, finbl boolfbn visiblf);
 
     /**
-     * Method attribute. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitAttribute}.
+     * Mftiod bttributf. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitAttributf}.
      */
-    public abstract void visitMethodAttribute(final Attribute attr);
+    publid bbstrbdt void visitMftiodAttributf(finbl Attributf bttr);
 
     /**
-     * Method start. See {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitCode}.
+     * Mftiod stbrt. Sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitCodf}.
      */
-    public abstract void visitCode();
+    publid bbstrbdt void visitCodf();
 
     /**
-     * Method stack frame. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitFrame}.
+     * Mftiod stbdk frbmf. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitFrbmf}.
      */
-    public abstract void visitFrame(final int type, final int nLocal,
-            final Object[] local, final int nStack, final Object[] stack);
+    publid bbstrbdt void visitFrbmf(finbl int typf, finbl int nLodbl,
+            finbl Objfdt[] lodbl, finbl int nStbdk, finbl Objfdt[] stbdk);
 
     /**
-     * Method instruction. See {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitInsn}
+     * Mftiod instrudtion. Sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitInsn}
      * .
      */
-    public abstract void visitInsn(final int opcode);
+    publid bbstrbdt void visitInsn(finbl int opdodf);
 
     /**
-     * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitIntInsn}.
+     * Mftiod instrudtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitIntInsn}.
      */
-    public abstract void visitIntInsn(final int opcode, final int operand);
+    publid bbstrbdt void visitIntInsn(finbl int opdodf, finbl int opfrbnd);
 
     /**
-     * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitVarInsn}.
+     * Mftiod instrudtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitVbrInsn}.
      */
-    public abstract void visitVarInsn(final int opcode, final int var);
+    publid bbstrbdt void visitVbrInsn(finbl int opdodf, finbl int vbr);
 
     /**
-     * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitTypeInsn}.
+     * Mftiod instrudtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitTypfInsn}.
      */
-    public abstract void visitTypeInsn(final int opcode, final String type);
+    publid bbstrbdt void visitTypfInsn(finbl int opdodf, finbl String typf);
 
     /**
-     * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitFieldInsn}.
+     * Mftiod instrudtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitFifldInsn}.
      */
-    public abstract void visitFieldInsn(final int opcode, final String owner,
-            final String name, final String desc);
+    publid bbstrbdt void visitFifldInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd);
 
     /**
-     * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitMethodInsn}.
+     * Mftiod instrudtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitMftiodInsn}.
      */
-    @Deprecated
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc) {
-        if (api >= Opcodes.ASM5) {
-            boolean itf = opcode == Opcodes.INVOKEINTERFACE;
-            visitMethodInsn(opcode, owner, name, desc, itf);
-            return;
+    @Dfprfdbtfd
+    publid void visitMftiodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd) {
+        if (bpi >= Opdodfs.ASM5) {
+            boolfbn itf = opdodf == Opdodfs.INVOKEINTERFACE;
+            visitMftiodInsn(opdodf, ownfr, nbmf, dfsd, itf);
+            rfturn;
         }
-        throw new RuntimeException("Must be overriden");
+        tirow nfw RuntimfExdfption("Must bf ovfrridfn");
     }
 
     /**
-     * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitMethodInsn}.
+     * Mftiod instrudtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitMftiodInsn}.
      */
-    public void visitMethodInsn(final int opcode, final String owner,
-            final String name, final String desc, final boolean itf) {
-        if (api < Opcodes.ASM5) {
-            if (itf != (opcode == Opcodes.INVOKEINTERFACE)) {
-                throw new IllegalArgumentException(
-                        "INVOKESPECIAL/STATIC on interfaces require ASM 5");
+    publid void visitMftiodInsn(finbl int opdodf, finbl String ownfr,
+            finbl String nbmf, finbl String dfsd, finbl boolfbn itf) {
+        if (bpi < Opdodfs.ASM5) {
+            if (itf != (opdodf == Opdodfs.INVOKEINTERFACE)) {
+                tirow nfw IllfgblArgumfntExdfption(
+                        "INVOKESPECIAL/STATIC on intfrfbdfs rfquirf ASM 5");
             }
-            visitMethodInsn(opcode, owner, name, desc);
-            return;
+            visitMftiodInsn(opdodf, ownfr, nbmf, dfsd);
+            rfturn;
         }
-        throw new RuntimeException("Must be overriden");
+        tirow nfw RuntimfExdfption("Must bf ovfrridfn");
     }
 
     /**
-     * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitInvokeDynamicInsn}.
+     * Mftiod instrudtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitInvokfDynbmidInsn}.
      */
-    public abstract void visitInvokeDynamicInsn(String name, String desc,
-            Handle bsm, Object... bsmArgs);
+    publid bbstrbdt void visitInvokfDynbmidInsn(String nbmf, String dfsd,
+            Hbndlf bsm, Objfdt... bsmArgs);
 
     /**
-     * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitJumpInsn}.
+     * Mftiod instrudtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitJumpInsn}.
      */
-    public abstract void visitJumpInsn(final int opcode, final Label label);
+    publid bbstrbdt void visitJumpInsn(finbl int opdodf, finbl Lbbfl lbbfl);
 
     /**
-     * Method label. See {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitLabel}.
+     * Mftiod lbbfl. Sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitLbbfl}.
      */
-    public abstract void visitLabel(final Label label);
+    publid bbstrbdt void visitLbbfl(finbl Lbbfl lbbfl);
 
     /**
-     * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitLdcInsn}.
+     * Mftiod instrudtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitLddInsn}.
      */
-    public abstract void visitLdcInsn(final Object cst);
+    publid bbstrbdt void visitLddInsn(finbl Objfdt dst);
 
     /**
-     * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitIincInsn}.
+     * Mftiod instrudtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitIindInsn}.
      */
-    public abstract void visitIincInsn(final int var, final int increment);
+    publid bbstrbdt void visitIindInsn(finbl int vbr, finbl int indrfmfnt);
 
     /**
-     * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitTableSwitchInsn}.
+     * Mftiod instrudtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitTbblfSwitdiInsn}.
      */
-    public abstract void visitTableSwitchInsn(final int min, final int max,
-            final Label dflt, final Label... labels);
+    publid bbstrbdt void visitTbblfSwitdiInsn(finbl int min, finbl int mbx,
+            finbl Lbbfl dflt, finbl Lbbfl... lbbfls);
 
     /**
-     * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitLookupSwitchInsn}.
+     * Mftiod instrudtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitLookupSwitdiInsn}.
      */
-    public abstract void visitLookupSwitchInsn(final Label dflt,
-            final int[] keys, final Label[] labels);
+    publid bbstrbdt void visitLookupSwitdiInsn(finbl Lbbfl dflt,
+            finbl int[] kfys, finbl Lbbfl[] lbbfls);
 
     /**
-     * Method instruction. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitMultiANewArrayInsn}.
+     * Mftiod instrudtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitMultiANfwArrbyInsn}.
      */
-    public abstract void visitMultiANewArrayInsn(final String desc,
-            final int dims);
+    publid bbstrbdt void visitMultiANfwArrbyInsn(finbl String dfsd,
+            finbl int dims);
 
     /**
-     * Instruction type annotation. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitInsnAnnotation}.
+     * Instrudtion typf bnnotbtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitInsnAnnotbtion}.
      */
-    public Printer visitInsnAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        throw new RuntimeException("Must be overriden");
+    publid Printfr visitInsnAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        tirow nfw RuntimfExdfption("Must bf ovfrridfn");
     }
 
     /**
-     * Method exception handler. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitTryCatchBlock}.
+     * Mftiod fxdfption ibndlfr. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitTryCbtdiBlodk}.
      */
-    public abstract void visitTryCatchBlock(final Label start, final Label end,
-            final Label handler, final String type);
+    publid bbstrbdt void visitTryCbtdiBlodk(finbl Lbbfl stbrt, finbl Lbbfl fnd,
+            finbl Lbbfl ibndlfr, finbl String typf);
 
     /**
-     * Try catch block type annotation. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitTryCatchAnnotation}.
+     * Try dbtdi blodk typf bnnotbtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitTryCbtdiAnnotbtion}.
      */
-    public Printer visitTryCatchAnnotation(final int typeRef,
-            final TypePath typePath, final String desc, final boolean visible) {
-        throw new RuntimeException("Must be overriden");
+    publid Printfr visitTryCbtdiAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl String dfsd, finbl boolfbn visiblf) {
+        tirow nfw RuntimfExdfption("Must bf ovfrridfn");
     }
 
     /**
-     * Method debug info. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitLocalVariable}.
+     * Mftiod dfbug info. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitLodblVbribblf}.
      */
-    public abstract void visitLocalVariable(final String name,
-            final String desc, final String signature, final Label start,
-            final Label end, final int index);
+    publid bbstrbdt void visitLodblVbribblf(finbl String nbmf,
+            finbl String dfsd, finbl String signbturf, finbl Lbbfl stbrt,
+            finbl Lbbfl fnd, finbl int indfx);
 
     /**
-     * Local variable type annotation. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitTryCatchAnnotation}.
+     * Lodbl vbribblf typf bnnotbtion. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitTryCbtdiAnnotbtion}.
      */
-    public Printer visitLocalVariableAnnotation(final int typeRef,
-            final TypePath typePath, final Label[] start, final Label[] end,
-            final int[] index, final String desc, final boolean visible) {
-        throw new RuntimeException("Must be overriden");
+    publid Printfr visitLodblVbribblfAnnotbtion(finbl int typfRff,
+            finbl TypfPbti typfPbti, finbl Lbbfl[] stbrt, finbl Lbbfl[] fnd,
+            finbl int[] indfx, finbl String dfsd, finbl boolfbn visiblf) {
+        tirow nfw RuntimfExdfption("Must bf ovfrridfn");
     }
 
     /**
-     * Method debug info. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitLineNumber}.
+     * Mftiod dfbug info. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitLinfNumbfr}.
      */
-    public abstract void visitLineNumber(final int line, final Label start);
+    publid bbstrbdt void visitLinfNumbfr(finbl int linf, finbl Lbbfl stbrt);
 
     /**
-     * Method max stack and max locals. See
-     * {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitMaxs}.
+     * Mftiod mbx stbdk bnd mbx lodbls. Sff
+     * {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitMbxs}.
      */
-    public abstract void visitMaxs(final int maxStack, final int maxLocals);
+    publid bbstrbdt void visitMbxs(finbl int mbxStbdk, finbl int mbxLodbls);
 
     /**
-     * Method end. See {@link jdk.internal.org.objectweb.asm.MethodVisitor#visitEnd}.
+     * Mftiod fnd. Sff {@link jdk.intfrnbl.org.objfdtwfb.bsm.MftiodVisitor#visitEnd}.
      */
-    public abstract void visitMethodEnd();
+    publid bbstrbdt void visitMftiodEnd();
 
     /**
-     * Returns the text constructed by this visitor.
+     * Rfturns tif tfxt donstrudtfd by tiis visitor.
      *
-     * @return the text constructed by this visitor.
+     * @rfturn tif tfxt donstrudtfd by tiis visitor.
      */
-    public List<Object> getText() {
-        return text;
+    publid List<Objfdt> gftTfxt() {
+        rfturn tfxt;
     }
 
     /**
-     * Prints the text constructed by this visitor.
+     * Prints tif tfxt donstrudtfd by tiis visitor.
      *
-     * @param pw
-     *            the print writer to be used.
+     * @pbrbm pw
+     *            tif print writfr to bf usfd.
      */
-    public void print(final PrintWriter pw) {
-        printList(pw, text);
+    publid void print(finbl PrintWritfr pw) {
+        printList(pw, tfxt);
     }
 
     /**
-     * Appends a quoted string to a given buffer.
+     * Appfnds b quotfd string to b givfn bufffr.
      *
-     * @param buf
-     *            the buffer where the string must be added.
-     * @param s
-     *            the string to be added.
+     * @pbrbm buf
+     *            tif bufffr wifrf tif string must bf bddfd.
+     * @pbrbm s
+     *            tif string to bf bddfd.
      */
-    public static void appendString(final StringBuffer buf, final String s) {
-        buf.append('\"');
-        for (int i = 0; i < s.length(); ++i) {
-            char c = s.charAt(i);
-            if (c == '\n') {
-                buf.append("\\n");
-            } else if (c == '\r') {
-                buf.append("\\r");
-            } else if (c == '\\') {
-                buf.append("\\\\");
-            } else if (c == '"') {
-                buf.append("\\\"");
-            } else if (c < 0x20 || c > 0x7f) {
-                buf.append("\\u");
-                if (c < 0x10) {
-                    buf.append("000");
-                } else if (c < 0x100) {
-                    buf.append("00");
-                } else if (c < 0x1000) {
-                    buf.append('0');
+    publid stbtid void bppfndString(finbl StringBufffr buf, finbl String s) {
+        buf.bppfnd('\"');
+        for (int i = 0; i < s.lfngti(); ++i) {
+            dibr d = s.dibrAt(i);
+            if (d == '\n') {
+                buf.bppfnd("\\n");
+            } flsf if (d == '\r') {
+                buf.bppfnd("\\r");
+            } flsf if (d == '\\') {
+                buf.bppfnd("\\\\");
+            } flsf if (d == '"') {
+                buf.bppfnd("\\\"");
+            } flsf if (d < 0x20 || d > 0x7f) {
+                buf.bppfnd("\\u");
+                if (d < 0x10) {
+                    buf.bppfnd("000");
+                } flsf if (d < 0x100) {
+                    buf.bppfnd("00");
+                } flsf if (d < 0x1000) {
+                    buf.bppfnd('0');
                 }
-                buf.append(Integer.toString(c, 16));
-            } else {
-                buf.append(c);
+                buf.bppfnd(Intfgfr.toString(d, 16));
+            } flsf {
+                buf.bppfnd(d);
             }
         }
-        buf.append('\"');
+        buf.bppfnd('\"');
     }
 
     /**
-     * Prints the given string tree.
+     * Prints tif givfn string trff.
      *
-     * @param pw
-     *            the writer to be used to print the tree.
-     * @param l
-     *            a string tree, i.e., a string list that can contain other
-     *            string lists, and so on recursively.
+     * @pbrbm pw
+     *            tif writfr to bf usfd to print tif trff.
+     * @pbrbm l
+     *            b string trff, i.f., b string list tibt dbn dontbin otifr
+     *            string lists, bnd so on rfdursivfly.
      */
-    static void printList(final PrintWriter pw, final List<?> l) {
-        for (int i = 0; i < l.size(); ++i) {
-            Object o = l.get(i);
-            if (o instanceof List) {
+    stbtid void printList(finbl PrintWritfr pw, finbl List<?> l) {
+        for (int i = 0; i < l.sizf(); ++i) {
+            Objfdt o = l.gft(i);
+            if (o instbndfof List) {
                 printList(pw, (List<?>) o);
-            } else {
+            } flsf {
                 pw.print(o.toString());
             }
         }

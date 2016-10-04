@@ -1,0 +1,177 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.sfdurity.dfrt;
+
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.NoSudhProvidfrExdfption;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.SignbturfExdfption;
+
+/**
+ * <p>Abstrbdt dlbss for mbnbging b vbrifty of idfntity dfrtifidbtfs.
+ * An idfntity dfrtifidbtf is b gubrbntff by b prindipbl thbt
+ * b publid kfy is thbt of bnothfr prindipbl.  (A prindipbl rfprfsfnts
+ * bn fntity sudh bs bn individubl usfr, b group, or b dorporbtion.)
+ *<p>
+ * This dlbss is bn bbstrbdtion for dfrtifidbtfs thbt hbvf difffrfnt
+ * formbts but importbnt dommon usfs.  For fxbmplf, difffrfnt typfs of
+ * dfrtifidbtfs, sudh bs X.509 bnd PGP, shbrf gfnfrbl dfrtifidbtf
+ * fundtionblity (likf fndoding bnd vfrifying) bnd
+ * somf typfs of informbtion (likf b publid kfy).
+ * <p>
+ * X.509, PGP, bnd SDSI dfrtifidbtfs dbn bll bf implfmfntfd by
+ * subdlbssing thf Cfrtifidbtf dlbss, fvfn though thfy dontbin difffrfnt
+ * sfts of informbtion, bnd thfy storf bnd rftrifvf thf informbtion in
+ * difffrfnt wbys.
+ *
+ * <p><fm>Notf: Thf dlbssfs in thf pbdkbgf {@dodf jbvbx.sfdurity.dfrt}
+ * fxist for dompbtibility with fbrlifr vfrsions of thf
+ * Jbvb Sfdurf Sodkfts Extfnsion (JSSE). Nfw bpplidbtions should instfbd
+ * usf thf stbndbrd Jbvb SE dfrtifidbtf dlbssfs lodbtfd in
+ * {@dodf jbvb.sfdurity.dfrt}.</fm></p>
+ *
+ * @sindf 1.4
+ * @sff X509Cfrtifidbtf
+ *
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+publid bbstrbdt dlbss Cfrtifidbtf {
+
+    /**
+     * Compbrfs this dfrtifidbtf for fqublity with thf spfdififd
+     * objfdt. If thf {@dodf othfr} objfdt is bn
+     * {@dodf instbndfof} {@dodf Cfrtifidbtf}, thfn
+     * its fndodfd form is rftrifvfd bnd dompbrfd with thf
+     * fndodfd form of this dfrtifidbtf.
+     *
+     * @pbrbm othfr thf objfdt to tfst for fqublity with this dfrtifidbtf.
+     * @rfturn truf if thf fndodfd forms of thf two dfrtifidbtfs
+     *         mbtdh, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (this == othfr)
+            rfturn truf;
+        if (!(othfr instbndfof Cfrtifidbtf))
+            rfturn fblsf;
+        try {
+            bytf[] thisCfrt = this.gftEndodfd();
+            bytf[] othfrCfrt = ((Cfrtifidbtf)othfr).gftEndodfd();
+
+            if (thisCfrt.lfngth != othfrCfrt.lfngth)
+                rfturn fblsf;
+            for (int i = 0; i < thisCfrt.lfngth; i++)
+                 if (thisCfrt[i] != othfrCfrt[i])
+                     rfturn fblsf;
+            rfturn truf;
+        } dbtdh (CfrtifidbtfExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Rfturns b hbshdodf vbluf for this dfrtifidbtf from its
+     * fndodfd form.
+     *
+     * @rfturn thf hbshdodf vbluf.
+     */
+    publid int hbshCodf() {
+        int     rftvbl = 0;
+        try {
+            bytf[] dfrtDbtb = this.gftEndodfd();
+            for (int i = 1; i < dfrtDbtb.lfngth; i++) {
+                 rftvbl += dfrtDbtb[i] * i;
+            }
+            rfturn (rftvbl);
+        } dbtdh (CfrtifidbtfExdfption f) {
+            rfturn (rftvbl);
+        }
+    }
+
+    /**
+     * Rfturns thf fndodfd form of this dfrtifidbtf. It is
+     * bssumfd thbt fbdh dfrtifidbtf typf would hbvf only b singlf
+     * form of fndoding; for fxbmplf, X.509 dfrtifidbtfs would
+     * bf fndodfd bs ASN.1 DER.
+     *
+     * @rfturn fndodfd form of this dfrtifidbtf
+     * @fxdfption CfrtifidbtfEndodingExdfption on intfrnbl dfrtifidbtf
+     *            fndoding fbilurf
+     */
+    publid bbstrbdt bytf[] gftEndodfd() throws CfrtifidbtfEndodingExdfption;
+
+    /**
+     * Vfrififs thbt this dfrtifidbtf wbs signfd using thf
+     * privbtf kfy thbt dorrfsponds to thf spfdififd publid kfy.
+     *
+     * @pbrbm kfy thf PublidKfy usfd to dbrry out thf vfrifidbtion.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption on unsupportfd signbturf
+     * blgorithms.
+     * @fxdfption InvblidKfyExdfption on indorrfdt kfy.
+     * @fxdfption NoSudhProvidfrExdfption if thfrf's no dffbult providfr.
+     * @fxdfption SignbturfExdfption on signbturf frrors.
+     * @fxdfption CfrtifidbtfExdfption on fndoding frrors.
+     */
+    publid bbstrbdt void vfrify(PublidKfy kfy)
+        throws CfrtifidbtfExdfption, NoSudhAlgorithmExdfption,
+        InvblidKfyExdfption, NoSudhProvidfrExdfption,
+        SignbturfExdfption;
+
+    /**
+     * Vfrififs thbt this dfrtifidbtf wbs signfd using thf
+     * privbtf kfy thbt dorrfsponds to thf spfdififd publid kfy.
+     * This mfthod usfs thf signbturf vfrifidbtion fnginf
+     * supplifd by thf spfdififd providfr.
+     *
+     * @pbrbm kfy thf PublidKfy usfd to dbrry out thf vfrifidbtion.
+     * @pbrbm sigProvidfr thf nbmf of thf signbturf providfr.
+     * @fxdfption NoSudhAlgorithmExdfption on unsupportfd signbturf blgorithms.
+     * @fxdfption InvblidKfyExdfption on indorrfdt kfy.
+     * @fxdfption NoSudhProvidfrExdfption on indorrfdt providfr.
+     * @fxdfption SignbturfExdfption on signbturf frrors.
+     * @fxdfption CfrtifidbtfExdfption on fndoding frrors.
+     */
+    publid bbstrbdt void vfrify(PublidKfy kfy, String sigProvidfr)
+        throws CfrtifidbtfExdfption, NoSudhAlgorithmExdfption,
+        InvblidKfyExdfption, NoSudhProvidfrExdfption,
+        SignbturfExdfption;
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this dfrtifidbtf.
+     *
+     * @rfturn b string rfprfsfntbtion of this dfrtifidbtf.
+     */
+    publid bbstrbdt String toString();
+
+    /**
+     * Gfts thf publid kfy from this dfrtifidbtf.
+     *
+     * @rfturn thf publid kfy.
+     */
+    publid bbstrbdt PublidKfy gftPublidKfy();
+}

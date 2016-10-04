@@ -1,0 +1,139 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id: DOMX509IssufrSfribl.jbvb 1333415 2012-05-03 12:03:51Z dohfigfb $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvbx.xml.drypto.*;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import jbvbx.xml.drypto.dsig.*;
+import jbvbx.xml.drypto.dsig.kfyinfo.X509IssufrSfribl;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
+
+/**
+ * DOM-bbsfd implfmfntbtion of X509IssufrSfribl.
+ *
+ * @buthor Sfbn Mullbn
+ */
+publid finbl dlbss DOMX509IssufrSfribl fxtfnds DOMStrudturf
+    implfmfnts X509IssufrSfribl {
+
+    privbtf finbl String issufrNbmf;
+    privbtf finbl BigIntfgfr sfriblNumbfr;
+
+    /**
+     * Crfbtfs b <dodf>DOMX509IssufrSfribl</dodf> dontbining thf spfdififd
+     * issufr distinguishfd nbmf/sfribl numbfr pbir.
+     *
+     * @pbrbm issufrNbmf thf X.509 issufr distinguishfd nbmf in RFC 2253
+     *    String formbt
+     * @pbrbm sfriblNumbfr thf sfribl numbfr
+     * @throws IllfgblArgumfntExdfption if thf formbt of <dodf>issufrNbmf</dodf>
+     *    is not RFC 2253 domplibnt
+     * @throws NullPointfrExdfption if <dodf>issufrNbmf</dodf> or
+     *    <dodf>sfriblNumbfr</dodf> is <dodf>null</dodf>
+     */
+    publid DOMX509IssufrSfribl(String issufrNbmf, BigIntfgfr sfriblNumbfr) {
+        if (issufrNbmf == null) {
+            throw nfw NullPointfrExdfption("issufrNbmf dbnnot bf null");
+        }
+        if (sfriblNumbfr == null) {
+            throw nfw NullPointfrExdfption("sfriblNumbfr dbnnot bf null");
+        }
+        // dhfdk thbt issufr distinguishfd nbmf donforms to RFC 2253
+        nfw X500Prindipbl(issufrNbmf);
+        this.issufrNbmf = issufrNbmf;
+        this.sfriblNumbfr = sfriblNumbfr;
+    }
+
+    /**
+     * Crfbtfs b <dodf>DOMX509IssufrSfribl</dodf> from bn flfmfnt.
+     *
+     * @pbrbm isElfm bn X509IssufrSfribl flfmfnt
+     */
+    publid DOMX509IssufrSfribl(Elfmfnt isElfm) throws MbrshblExdfption {
+        Elfmfnt iNElfm = DOMUtils.gftFirstChildElfmfnt(isElfm,
+                                                       "X509IssufrNbmf");
+        Elfmfnt sNElfm = DOMUtils.gftNfxtSiblingElfmfnt(iNElfm,
+                                                        "X509SfriblNumbfr");
+        issufrNbmf = iNElfm.gftFirstChild().gftNodfVbluf();
+        sfriblNumbfr = nfw BigIntfgfr(sNElfm.gftFirstChild().gftNodfVbluf());
+    }
+
+    publid String gftIssufrNbmf() {
+        rfturn issufrNbmf;
+    }
+
+    publid BigIntfgfr gftSfriblNumbfr() {
+        rfturn sfriblNumbfr;
+    }
+
+    publid void mbrshbl(Nodf pbrfnt, String dsPrffix, DOMCryptoContfxt dontfxt)
+        throws MbrshblExdfption
+    {
+        Dodumfnt ownfrDod = DOMUtils.gftOwnfrDodumfnt(pbrfnt);
+
+        Elfmfnt isElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "X509IssufrSfribl",
+                                                XMLSignbturf.XMLNS, dsPrffix);
+        Elfmfnt inElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "X509IssufrNbmf",
+                                                XMLSignbturf.XMLNS, dsPrffix);
+        Elfmfnt snElfm = DOMUtils.drfbtfElfmfnt(ownfrDod, "X509SfriblNumbfr",
+                                                XMLSignbturf.XMLNS, dsPrffix);
+        inElfm.bppfndChild(ownfrDod.drfbtfTfxtNodf(issufrNbmf));
+        snElfm.bppfndChild(ownfrDod.drfbtfTfxtNodf(sfriblNumbfr.toString()));
+        isElfm.bppfndChild(inElfm);
+        isElfm.bppfndChild(snElfm);
+        pbrfnt.bppfndChild(isElfm);
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (!(obj instbndfof X509IssufrSfribl)) {
+            rfturn fblsf;
+        }
+        X509IssufrSfribl ois = (X509IssufrSfribl)obj;
+        rfturn (issufrNbmf.fqubls(ois.gftIssufrNbmf()) &&
+                sfriblNumbfr.fqubls(ois.gftSfriblNumbfr()));
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        int rfsult = 17;
+        rfsult = 31 * rfsult + issufrNbmf.hbshCodf();
+        rfsult = 31 * rfsult + sfriblNumbfr.hbshCodf();
+
+        rfturn rfsult;
+    }
+}

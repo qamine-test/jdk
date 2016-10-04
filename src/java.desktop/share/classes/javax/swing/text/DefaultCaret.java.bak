@@ -1,472 +1,472 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.datatransfer.*;
-import java.beans.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import java.util.EventListener;
-import sun.swing.SwingUtilities2;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.dbtbtrbnsffr.*;
+import jbvb.bfbns.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.io.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvb.util.EvfntListfnfr;
+import sun.swing.SwingUtilitifs2;
 
 /**
- * A default implementation of Caret.  The caret is rendered as
- * a vertical line in the color specified by the CaretColor property
- * of the associated JTextComponent.  It can blink at the rate specified
- * by the BlinkRate property.
+ * A dffbult implfmfntbtion of Cbrft.  Tif dbrft is rfndfrfd bs
+ * b vfrtidbl linf in tif dolor spfdififd by tif CbrftColor propfrty
+ * of tif bssodibtfd JTfxtComponfnt.  It dbn blink bt tif rbtf spfdififd
+ * by tif BlinkRbtf propfrty.
  * <p>
- * This implementation expects two sources of asynchronous notification.
- * The timer thread fires asynchronously, and causes the caret to simply
- * repaint the most recent bounding box.  The caret also tracks change
- * as the document is modified.  Typically this will happen on the
- * event dispatch thread as a result of some mouse or keyboard event.
- * The caret behavior on both synchronous and asynchronous documents updates
- * is controlled by <code>UpdatePolicy</code> property. The repaint of the
- * new caret location will occur on the event thread in any case, as calls to
- * <code>modelToView</code> are only safe on the event thread.
+ * Tiis implfmfntbtion fxpfdts two sourdfs of bsyndironous notifidbtion.
+ * Tif timfr tirfbd firfs bsyndironously, bnd dbusfs tif dbrft to simply
+ * rfpbint tif most rfdfnt bounding box.  Tif dbrft blso trbdks dibngf
+ * bs tif dodumfnt is modififd.  Typidblly tiis will ibppfn on tif
+ * fvfnt dispbtdi tirfbd bs b rfsult of somf mousf or kfybobrd fvfnt.
+ * Tif dbrft bfibvior on boti syndironous bnd bsyndironous dodumfnts updbtfs
+ * is dontrollfd by <dodf>UpdbtfPolidy</dodf> propfrty. Tif rfpbint of tif
+ * nfw dbrft lodbtion will oddur on tif fvfnt tirfbd in bny dbsf, bs dblls to
+ * <dodf>modflToVifw</dodf> brf only sbff on tif fvfnt tirfbd.
  * <p>
- * The caret acts as a mouse and focus listener on the text component
- * it has been installed in, and defines the caret semantics based upon
- * those events.  The listener methods can be reimplemented to change the
- * semantics.
- * By default, the first mouse button will be used to set focus and caret
- * position.  Dragging the mouse pointer with the first mouse button will
- * sweep out a selection that is contiguous in the model.  If the associated
- * text component is editable, the caret will become visible when focus
- * is gained, and invisible when focus is lost.
+ * Tif dbrft bdts bs b mousf bnd fodus listfnfr on tif tfxt domponfnt
+ * it ibs bffn instbllfd in, bnd dffinfs tif dbrft sfmbntids bbsfd upon
+ * tiosf fvfnts.  Tif listfnfr mftiods dbn bf rfimplfmfntfd to dibngf tif
+ * sfmbntids.
+ * By dffbult, tif first mousf button will bf usfd to sft fodus bnd dbrft
+ * position.  Drbgging tif mousf pointfr witi tif first mousf button will
+ * swffp out b sflfdtion tibt is dontiguous in tif modfl.  If tif bssodibtfd
+ * tfxt domponfnt is fditbblf, tif dbrft will bfdomf visiblf wifn fodus
+ * is gbinfd, bnd invisiblf wifn fodus is lost.
  * <p>
- * The Highlighter bound to the associated text component is used to
- * render the selection by default.
- * Selection appearance can be customized by supplying a
- * painter to use for the highlights.  By default a painter is used that
- * will render a solid color as specified in the associated text component
- * in the <code>SelectionColor</code> property.  This can easily be changed
- * by reimplementing the
- * {@link #getSelectionPainter getSelectionPainter}
- * method.
+ * Tif Higiligitfr bound to tif bssodibtfd tfxt domponfnt is usfd to
+ * rfndfr tif sflfdtion by dffbult.
+ * Sflfdtion bppfbrbndf dbn bf dustomizfd by supplying b
+ * pbintfr to usf for tif iigiligits.  By dffbult b pbintfr is usfd tibt
+ * will rfndfr b solid dolor bs spfdififd in tif bssodibtfd tfxt domponfnt
+ * in tif <dodf>SflfdtionColor</dodf> propfrty.  Tiis dbn fbsily bf dibngfd
+ * by rfimplfmfnting tif
+ * {@link #gftSflfdtionPbintfr gftSflfdtionPbintfr}
+ * mftiod.
  * <p>
- * A customized caret appearance can be achieved by reimplementing
- * the paint method.  If the paint method is changed, the damage method
- * should also be reimplemented to cause a repaint for the area needed
- * to render the caret.  The caret extends the Rectangle class which
- * is used to hold the bounding box for where the caret was last rendered.
- * This enables the caret to repaint in a thread-safe manner when the
- * caret moves without making a call to modelToView which is unstable
- * between model updates and view repair (i.e. the order of delivery
- * to DocumentListeners is not guaranteed).
+ * A dustomizfd dbrft bppfbrbndf dbn bf bdiifvfd by rfimplfmfnting
+ * tif pbint mftiod.  If tif pbint mftiod is dibngfd, tif dbmbgf mftiod
+ * siould blso bf rfimplfmfntfd to dbusf b rfpbint for tif brfb nffdfd
+ * to rfndfr tif dbrft.  Tif dbrft fxtfnds tif Rfdtbnglf dlbss wiidi
+ * is usfd to iold tif bounding box for wifrf tif dbrft wbs lbst rfndfrfd.
+ * Tiis fnbblfs tif dbrft to rfpbint in b tirfbd-sbff mbnnfr wifn tif
+ * dbrft movfs witiout mbking b dbll to modflToVifw wiidi is unstbblf
+ * bftwffn modfl updbtfs bnd vifw rfpbir (i.f. tif ordfr of dflivfry
+ * to DodumfntListfnfrs is not gubrbntffd).
  * <p>
- * The magic caret position is set to null when the caret position changes.
- * A timer is used to determine the new location (after the caret change).
- * When the timer fires, if the magic caret position is still null it is
- * reset to the current caret position. Any actions that change
- * the caret position and want the magic caret position to remain the
- * same, must remember the magic caret position, change the cursor, and
- * then set the magic caret position to its original value. This has the
- * benefit that only actions that want the magic caret position to persist
- * (such as open/down) need to know about it.
+ * Tif mbgid dbrft position is sft to null wifn tif dbrft position dibngfs.
+ * A timfr is usfd to dftfrminf tif nfw lodbtion (bftfr tif dbrft dibngf).
+ * Wifn tif timfr firfs, if tif mbgid dbrft position is still null it is
+ * rfsft to tif durrfnt dbrft position. Any bdtions tibt dibngf
+ * tif dbrft position bnd wbnt tif mbgid dbrft position to rfmbin tif
+ * sbmf, must rfmfmbfr tif mbgid dbrft position, dibngf tif dursor, bnd
+ * tifn sft tif mbgid dbrft position to its originbl vbluf. Tiis ibs tif
+ * bfnffit tibt only bdtions tibt wbnt tif mbgid dbrft position to pfrsist
+ * (sudi bs opfn/down) nffd to know bbout it.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author  Timothy Prinzing
- * @see     Caret
+ * @butior  Timotiy Prinzing
+ * @sff     Cbrft
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class DefaultCaret extends Rectangle implements Caret, FocusListener, MouseListener, MouseMotionListener {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultCbrft fxtfnds Rfdtbnglf implfmfnts Cbrft, FodusListfnfr, MousfListfnfr, MousfMotionListfnfr {
 
     /**
-     * Indicates that the caret position is to be updated only when
-     * document changes are performed on the Event Dispatching Thread.
-     * @see #setUpdatePolicy
-     * @see #getUpdatePolicy
-     * @since 1.5
+     * Indidbtfs tibt tif dbrft position is to bf updbtfd only wifn
+     * dodumfnt dibngfs brf pfrformfd on tif Evfnt Dispbtdiing Tirfbd.
+     * @sff #sftUpdbtfPolidy
+     * @sff #gftUpdbtfPolidy
+     * @sindf 1.5
      */
-    public static final int UPDATE_WHEN_ON_EDT = 0;
+    publid stbtid finbl int UPDATE_WHEN_ON_EDT = 0;
 
     /**
-     * Indicates that the caret should remain at the same
-     * absolute position in the document regardless of any document
-     * updates, except when the document length becomes less than
-     * the current caret position due to removal. In that case the caret
-     * position is adjusted to the end of the document.
+     * Indidbtfs tibt tif dbrft siould rfmbin bt tif sbmf
+     * bbsolutf position in tif dodumfnt rfgbrdlfss of bny dodumfnt
+     * updbtfs, fxdfpt wifn tif dodumfnt lfngti bfdomfs lfss tibn
+     * tif durrfnt dbrft position duf to rfmovbl. In tibt dbsf tif dbrft
+     * position is bdjustfd to tif fnd of tif dodumfnt.
      *
-     * @see #setUpdatePolicy
-     * @see #getUpdatePolicy
-     * @since 1.5
+     * @sff #sftUpdbtfPolidy
+     * @sff #gftUpdbtfPolidy
+     * @sindf 1.5
      */
-    public static final int NEVER_UPDATE = 1;
+    publid stbtid finbl int NEVER_UPDATE = 1;
 
     /**
-     * Indicates that the caret position is to be <b>always</b>
-     * updated accordingly to the document changes regardless whether
-     * the document updates are performed on the Event Dispatching Thread
+     * Indidbtfs tibt tif dbrft position is to bf <b>blwbys</b>
+     * updbtfd bddordingly to tif dodumfnt dibngfs rfgbrdlfss wiftifr
+     * tif dodumfnt updbtfs brf pfrformfd on tif Evfnt Dispbtdiing Tirfbd
      * or not.
      *
-     * @see #setUpdatePolicy
-     * @see #getUpdatePolicy
-     * @since 1.5
+     * @sff #sftUpdbtfPolidy
+     * @sff #gftUpdbtfPolidy
+     * @sindf 1.5
      */
-    public static final int ALWAYS_UPDATE = 2;
+    publid stbtid finbl int ALWAYS_UPDATE = 2;
 
     /**
-     * Constructs a default caret.
+     * Construdts b dffbult dbrft.
      */
-    public DefaultCaret() {
+    publid DffbultCbrft() {
     }
 
     /**
-     * Sets the caret movement policy on the document updates. Normally
-     * the caret updates its absolute position within the document on
-     * insertions occurred before or at the caret position and
-     * on removals before the caret position. 'Absolute position'
-     * means here the position relative to the start of the document.
-     * For example if
-     * a character is typed within editable text component it is inserted
-     * at the caret position and the caret moves to the next absolute
-     * position within the document due to insertion and if
-     * <code>BACKSPACE</code> is typed then caret decreases its absolute
-     * position due to removal of a character before it. Sometimes
-     * it may be useful to turn off the caret position updates so that
-     * the caret stays at the same absolute position within the
-     * document position regardless of any document updates.
+     * Sfts tif dbrft movfmfnt polidy on tif dodumfnt updbtfs. Normblly
+     * tif dbrft updbtfs its bbsolutf position witiin tif dodumfnt on
+     * insfrtions oddurrfd bfforf or bt tif dbrft position bnd
+     * on rfmovbls bfforf tif dbrft position. 'Absolutf position'
+     * mfbns ifrf tif position rflbtivf to tif stbrt of tif dodumfnt.
+     * For fxbmplf if
+     * b dibrbdtfr is typfd witiin fditbblf tfxt domponfnt it is insfrtfd
+     * bt tif dbrft position bnd tif dbrft movfs to tif nfxt bbsolutf
+     * position witiin tif dodumfnt duf to insfrtion bnd if
+     * <dodf>BACKSPACE</dodf> is typfd tifn dbrft dfdrfbsfs its bbsolutf
+     * position duf to rfmovbl of b dibrbdtfr bfforf it. Somftimfs
+     * it mby bf usfful to turn off tif dbrft position updbtfs so tibt
+     * tif dbrft stbys bt tif sbmf bbsolutf position witiin tif
+     * dodumfnt position rfgbrdlfss of bny dodumfnt updbtfs.
      * <p>
-     * The following update policies are allowed:
+     * Tif following updbtf polidifs brf bllowfd:
      * <ul>
-     *   <li><code>NEVER_UPDATE</code>: the caret stays at the same
-     *       absolute position in the document regardless of any document
-     *       updates, except when document length becomes less than
-     *       the current caret position due to removal. In that case caret
-     *       position is adjusted to the end of the document.
-     *       The caret doesn't try to keep itself visible by scrolling
-     *       the associated view when using this policy. </li>
-     *   <li><code>ALWAYS_UPDATE</code>: the caret always tracks document
-     *       changes. For regular changes it increases its position
-     *       if an insertion occurs before or at its current position,
-     *       and decreases position if a removal occurs before
-     *       its current position. For undo/redo updates it is always
-     *       moved to the position where update occurred. The caret
-     *       also tries to keep itself visible by calling
-     *       <code>adjustVisibility</code> method.</li>
-     *   <li><code>UPDATE_WHEN_ON_EDT</code>: acts like <code>ALWAYS_UPDATE</code>
-     *       if the document updates are performed on the Event Dispatching Thread
-     *       and like <code>NEVER_UPDATE</code> if updates are performed on
-     *       other thread. </li>
+     *   <li><dodf>NEVER_UPDATE</dodf>: tif dbrft stbys bt tif sbmf
+     *       bbsolutf position in tif dodumfnt rfgbrdlfss of bny dodumfnt
+     *       updbtfs, fxdfpt wifn dodumfnt lfngti bfdomfs lfss tibn
+     *       tif durrfnt dbrft position duf to rfmovbl. In tibt dbsf dbrft
+     *       position is bdjustfd to tif fnd of tif dodumfnt.
+     *       Tif dbrft dofsn't try to kffp itsflf visiblf by sdrolling
+     *       tif bssodibtfd vifw wifn using tiis polidy. </li>
+     *   <li><dodf>ALWAYS_UPDATE</dodf>: tif dbrft blwbys trbdks dodumfnt
+     *       dibngfs. For rfgulbr dibngfs it indrfbsfs its position
+     *       if bn insfrtion oddurs bfforf or bt its durrfnt position,
+     *       bnd dfdrfbsfs position if b rfmovbl oddurs bfforf
+     *       its durrfnt position. For undo/rfdo updbtfs it is blwbys
+     *       movfd to tif position wifrf updbtf oddurrfd. Tif dbrft
+     *       blso trifs to kffp itsflf visiblf by dblling
+     *       <dodf>bdjustVisibility</dodf> mftiod.</li>
+     *   <li><dodf>UPDATE_WHEN_ON_EDT</dodf>: bdts likf <dodf>ALWAYS_UPDATE</dodf>
+     *       if tif dodumfnt updbtfs brf pfrformfd on tif Evfnt Dispbtdiing Tirfbd
+     *       bnd likf <dodf>NEVER_UPDATE</dodf> if updbtfs brf pfrformfd on
+     *       otifr tirfbd. </li>
      * </ul> <p>
-     * The default property value is <code>UPDATE_WHEN_ON_EDT</code>.
+     * Tif dffbult propfrty vbluf is <dodf>UPDATE_WHEN_ON_EDT</dodf>.
      *
-     * @param policy one of the following values : <code>UPDATE_WHEN_ON_EDT</code>,
-     * <code>NEVER_UPDATE</code>, <code>ALWAYS_UPDATE</code>
-     * @throws IllegalArgumentException if invalid value is passed
+     * @pbrbm polidy onf of tif following vblufs : <dodf>UPDATE_WHEN_ON_EDT</dodf>,
+     * <dodf>NEVER_UPDATE</dodf>, <dodf>ALWAYS_UPDATE</dodf>
+     * @tirows IllfgblArgumfntExdfption if invblid vbluf is pbssfd
      *
-     * @see #getUpdatePolicy
-     * @see #adjustVisibility
-     * @see #UPDATE_WHEN_ON_EDT
-     * @see #NEVER_UPDATE
-     * @see #ALWAYS_UPDATE
+     * @sff #gftUpdbtfPolidy
+     * @sff #bdjustVisibility
+     * @sff #UPDATE_WHEN_ON_EDT
+     * @sff #NEVER_UPDATE
+     * @sff #ALWAYS_UPDATE
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public void setUpdatePolicy(int policy) {
-        updatePolicy = policy;
+    publid void sftUpdbtfPolidy(int polidy) {
+        updbtfPolidy = polidy;
     }
 
     /**
-     * Gets the caret movement policy on document updates.
+     * Gfts tif dbrft movfmfnt polidy on dodumfnt updbtfs.
      *
-     * @return one of the following values : <code>UPDATE_WHEN_ON_EDT</code>,
-     * <code>NEVER_UPDATE</code>, <code>ALWAYS_UPDATE</code>
+     * @rfturn onf of tif following vblufs : <dodf>UPDATE_WHEN_ON_EDT</dodf>,
+     * <dodf>NEVER_UPDATE</dodf>, <dodf>ALWAYS_UPDATE</dodf>
      *
-     * @see #setUpdatePolicy
-     * @see #UPDATE_WHEN_ON_EDT
-     * @see #NEVER_UPDATE
-     * @see #ALWAYS_UPDATE
+     * @sff #sftUpdbtfPolidy
+     * @sff #UPDATE_WHEN_ON_EDT
+     * @sff #NEVER_UPDATE
+     * @sff #ALWAYS_UPDATE
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public int getUpdatePolicy() {
-        return updatePolicy;
+    publid int gftUpdbtfPolidy() {
+        rfturn updbtfPolidy;
     }
 
     /**
-     * Gets the text editor component that this caret is
+     * Gfts tif tfxt fditor domponfnt tibt tiis dbrft is
      * is bound to.
      *
-     * @return the component
+     * @rfturn tif domponfnt
      */
-    protected final JTextComponent getComponent() {
-        return component;
+    protfdtfd finbl JTfxtComponfnt gftComponfnt() {
+        rfturn domponfnt;
     }
 
     /**
-     * Cause the caret to be painted.  The repaint
-     * area is the bounding box of the caret (i.e.
-     * the caret rectangle or <em>this</em>).
+     * Cbusf tif dbrft to bf pbintfd.  Tif rfpbint
+     * brfb is tif bounding box of tif dbrft (i.f.
+     * tif dbrft rfdtbnglf or <fm>tiis</fm>).
      * <p>
-     * This method is thread safe, although most Swing methods
-     * are not. Please see
-     * <A HREF="http://docs.oracle.com/javase/tutorial/uiswing/concurrency/index.html">Concurrency
-     * in Swing</A> for more information.
+     * Tiis mftiod is tirfbd sbff, bltiougi most Swing mftiods
+     * brf not. Plfbsf sff
+     * <A HREF="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dondurrfndy/indfx.itml">Condurrfndy
+     * in Swing</A> for morf informbtion.
      */
-    protected final synchronized void repaint() {
-        if (component != null) {
-            component.repaint(x, y, width, height);
+    protfdtfd finbl syndironizfd void rfpbint() {
+        if (domponfnt != null) {
+            domponfnt.rfpbint(x, y, widti, ifigit);
         }
     }
 
     /**
-     * Damages the area surrounding the caret to cause
-     * it to be repainted in a new location.  If paint()
-     * is reimplemented, this method should also be
-     * reimplemented.  This method should update the
-     * caret bounds (x, y, width, and height).
+     * Dbmbgfs tif brfb surrounding tif dbrft to dbusf
+     * it to bf rfpbintfd in b nfw lodbtion.  If pbint()
+     * is rfimplfmfntfd, tiis mftiod siould blso bf
+     * rfimplfmfntfd.  Tiis mftiod siould updbtf tif
+     * dbrft bounds (x, y, widti, bnd ifigit).
      *
-     * @param r  the current location of the caret
-     * @see #paint
+     * @pbrbm r  tif durrfnt lodbtion of tif dbrft
+     * @sff #pbint
      */
-    protected synchronized void damage(Rectangle r) {
+    protfdtfd syndironizfd void dbmbgf(Rfdtbnglf r) {
         if (r != null) {
-            int damageWidth = getCaretWidth(r.height);
-            x = r.x - 4 - (damageWidth >> 1);
+            int dbmbgfWidti = gftCbrftWidti(r.ifigit);
+            x = r.x - 4 - (dbmbgfWidti >> 1);
             y = r.y;
-            width = 9 + damageWidth;
-            height = r.height;
-            repaint();
+            widti = 9 + dbmbgfWidti;
+            ifigit = r.ifigit;
+            rfpbint();
         }
     }
 
     /**
-     * Scrolls the associated view (if necessary) to make
-     * the caret visible.  Since how this should be done
-     * is somewhat of a policy, this method can be
-     * reimplemented to change the behavior.  By default
-     * the scrollRectToVisible method is called on the
-     * associated component.
+     * Sdrolls tif bssodibtfd vifw (if nfdfssbry) to mbkf
+     * tif dbrft visiblf.  Sindf iow tiis siould bf donf
+     * is somfwibt of b polidy, tiis mftiod dbn bf
+     * rfimplfmfntfd to dibngf tif bfibvior.  By dffbult
+     * tif sdrollRfdtToVisiblf mftiod is dbllfd on tif
+     * bssodibtfd domponfnt.
      *
-     * @param nloc the new position to scroll to
+     * @pbrbm nlod tif nfw position to sdroll to
      */
-    protected void adjustVisibility(Rectangle nloc) {
-        if(component == null) {
-            return;
+    protfdtfd void bdjustVisibility(Rfdtbnglf nlod) {
+        if(domponfnt == null) {
+            rfturn;
         }
-        if (SwingUtilities.isEventDispatchThread()) {
-                component.scrollRectToVisible(nloc);
-        } else {
-            SwingUtilities.invokeLater(new SafeScroller(nloc));
+        if (SwingUtilitifs.isEvfntDispbtdiTirfbd()) {
+                domponfnt.sdrollRfdtToVisiblf(nlod);
+        } flsf {
+            SwingUtilitifs.invokfLbtfr(nfw SbffSdrollfr(nlod));
         }
     }
 
     /**
-     * Gets the painter for the Highlighter.
+     * Gfts tif pbintfr for tif Higiligitfr.
      *
-     * @return the painter
+     * @rfturn tif pbintfr
      */
-    protected Highlighter.HighlightPainter getSelectionPainter() {
-        return DefaultHighlighter.DefaultPainter;
+    protfdtfd Higiligitfr.HigiligitPbintfr gftSflfdtionPbintfr() {
+        rfturn DffbultHigiligitfr.DffbultPbintfr;
     }
 
     /**
-     * Tries to set the position of the caret from
-     * the coordinates of a mouse event, using viewToModel().
+     * Trifs to sft tif position of tif dbrft from
+     * tif doordinbtfs of b mousf fvfnt, using vifwToModfl().
      *
-     * @param e the mouse event
+     * @pbrbm f tif mousf fvfnt
      */
-    protected void positionCaret(MouseEvent e) {
-        Point pt = new Point(e.getX(), e.getY());
-        Position.Bias[] biasRet = new Position.Bias[1];
-        int pos = component.getUI().viewToModel(component, pt, biasRet);
-        if(biasRet[0] == null)
-            biasRet[0] = Position.Bias.Forward;
+    protfdtfd void positionCbrft(MousfEvfnt f) {
+        Point pt = nfw Point(f.gftX(), f.gftY());
+        Position.Bibs[] bibsRft = nfw Position.Bibs[1];
+        int pos = domponfnt.gftUI().vifwToModfl(domponfnt, pt, bibsRft);
+        if(bibsRft[0] == null)
+            bibsRft[0] = Position.Bibs.Forwbrd;
         if (pos >= 0) {
-            setDot(pos, biasRet[0]);
+            sftDot(pos, bibsRft[0]);
         }
     }
 
     /**
-     * Tries to move the position of the caret from
-     * the coordinates of a mouse event, using viewToModel().
-     * This will cause a selection if the dot and mark
-     * are different.
+     * Trifs to movf tif position of tif dbrft from
+     * tif doordinbtfs of b mousf fvfnt, using vifwToModfl().
+     * Tiis will dbusf b sflfdtion if tif dot bnd mbrk
+     * brf difffrfnt.
      *
-     * @param e the mouse event
+     * @pbrbm f tif mousf fvfnt
      */
-    protected void moveCaret(MouseEvent e) {
-        Point pt = new Point(e.getX(), e.getY());
-        Position.Bias[] biasRet = new Position.Bias[1];
-        int pos = component.getUI().viewToModel(component, pt, biasRet);
-        if(biasRet[0] == null)
-            biasRet[0] = Position.Bias.Forward;
+    protfdtfd void movfCbrft(MousfEvfnt f) {
+        Point pt = nfw Point(f.gftX(), f.gftY());
+        Position.Bibs[] bibsRft = nfw Position.Bibs[1];
+        int pos = domponfnt.gftUI().vifwToModfl(domponfnt, pt, bibsRft);
+        if(bibsRft[0] == null)
+            bibsRft[0] = Position.Bibs.Forwbrd;
         if (pos >= 0) {
-            moveDot(pos, biasRet[0]);
+            movfDot(pos, bibsRft[0]);
         }
     }
 
-    // --- FocusListener methods --------------------------
+    // --- FodusListfnfr mftiods --------------------------
 
     /**
-     * Called when the component containing the caret gains
-     * focus.  This is implemented to set the caret to visible
-     * if the component is editable.
+     * Cbllfd wifn tif domponfnt dontbining tif dbrft gbins
+     * fodus.  Tiis is implfmfntfd to sft tif dbrft to visiblf
+     * if tif domponfnt is fditbblf.
      *
-     * @param e the focus event
-     * @see FocusListener#focusGained
+     * @pbrbm f tif fodus fvfnt
+     * @sff FodusListfnfr#fodusGbinfd
      */
-    public void focusGained(FocusEvent e) {
-        if (component.isEnabled()) {
-            if (component.isEditable()) {
-                setVisible(true);
+    publid void fodusGbinfd(FodusEvfnt f) {
+        if (domponfnt.isEnbblfd()) {
+            if (domponfnt.isEditbblf()) {
+                sftVisiblf(truf);
             }
-            setSelectionVisible(true);
+            sftSflfdtionVisiblf(truf);
         }
     }
 
     /**
-     * Called when the component containing the caret loses
-     * focus.  This is implemented to set the caret to visibility
-     * to false.
+     * Cbllfd wifn tif domponfnt dontbining tif dbrft losfs
+     * fodus.  Tiis is implfmfntfd to sft tif dbrft to visibility
+     * to fblsf.
      *
-     * @param e the focus event
-     * @see FocusListener#focusLost
+     * @pbrbm f tif fodus fvfnt
+     * @sff FodusListfnfr#fodusLost
      */
-    public void focusLost(FocusEvent e) {
-        setVisible(false);
-        setSelectionVisible(ownsSelection || e.isTemporary());
+    publid void fodusLost(FodusEvfnt f) {
+        sftVisiblf(fblsf);
+        sftSflfdtionVisiblf(ownsSflfdtion || f.isTfmporbry());
     }
 
 
     /**
-     * Selects word based on the MouseEvent
+     * Sflfdts word bbsfd on tif MousfEvfnt
      */
-    private void selectWord(MouseEvent e) {
-        if (selectedWordEvent != null
-            && selectedWordEvent.getX() == e.getX()
-            && selectedWordEvent.getY() == e.getY()) {
-            //we already done selection for this
-            return;
+    privbtf void sflfdtWord(MousfEvfnt f) {
+        if (sflfdtfdWordEvfnt != null
+            && sflfdtfdWordEvfnt.gftX() == f.gftX()
+            && sflfdtfdWordEvfnt.gftY() == f.gftY()) {
+            //wf blrfbdy donf sflfdtion for tiis
+            rfturn;
         }
-                    Action a = null;
-                    ActionMap map = getComponent().getActionMap();
-                    if (map != null) {
-                        a = map.get(DefaultEditorKit.selectWordAction);
+                    Adtion b = null;
+                    AdtionMbp mbp = gftComponfnt().gftAdtionMbp();
+                    if (mbp != null) {
+                        b = mbp.gft(DffbultEditorKit.sflfdtWordAdtion);
                     }
-                    if (a == null) {
-                        if (selectWord == null) {
-                            selectWord = new DefaultEditorKit.SelectWordAction();
+                    if (b == null) {
+                        if (sflfdtWord == null) {
+                            sflfdtWord = nfw DffbultEditorKit.SflfdtWordAdtion();
                         }
-                        a = selectWord;
+                        b = sflfdtWord;
                     }
-                    a.actionPerformed(new ActionEvent(getComponent(),
-                                                      ActionEvent.ACTION_PERFORMED, null, e.getWhen(), e.getModifiers()));
-        selectedWordEvent = e;
+                    b.bdtionPfrformfd(nfw AdtionEvfnt(gftComponfnt(),
+                                                      AdtionEvfnt.ACTION_PERFORMED, null, f.gftWifn(), f.gftModififrs()));
+        sflfdtfdWordEvfnt = f;
     }
 
-    // --- MouseListener methods -----------------------------------
+    // --- MousfListfnfr mftiods -----------------------------------
 
     /**
-     * Called when the mouse is clicked.  If the click was generated
-     * from button1, a double click selects a word,
-     * and a triple click the current line.
+     * Cbllfd wifn tif mousf is dlidkfd.  If tif dlidk wbs gfnfrbtfd
+     * from button1, b doublf dlidk sflfdts b word,
+     * bnd b triplf dlidk tif durrfnt linf.
      *
-     * @param e the mouse event
-     * @see MouseListener#mouseClicked
+     * @pbrbm f tif mousf fvfnt
+     * @sff MousfListfnfr#mousfClidkfd
      */
-    public void mouseClicked(MouseEvent e) {
-        if (getComponent() == null) {
-            return;
+    publid void mousfClidkfd(MousfEvfnt f) {
+        if (gftComponfnt() == null) {
+            rfturn;
         }
 
-        int nclicks = SwingUtilities2.getAdjustedClickCount(getComponent(), e);
+        int ndlidks = SwingUtilitifs2.gftAdjustfdClidkCount(gftComponfnt(), f);
 
-        if (! e.isConsumed()) {
-            if (SwingUtilities.isLeftMouseButton(e)) {
-                // mouse 1 behavior
-                if(nclicks == 1) {
-                    selectedWordEvent = null;
-                } else if(nclicks == 2
-                          && SwingUtilities2.canEventAccessSystemClipboard(e)) {
-                    selectWord(e);
-                    selectedWordEvent = null;
-                } else if(nclicks == 3
-                          && SwingUtilities2.canEventAccessSystemClipboard(e)) {
-                    Action a = null;
-                    ActionMap map = getComponent().getActionMap();
-                    if (map != null) {
-                        a = map.get(DefaultEditorKit.selectLineAction);
+        if (! f.isConsumfd()) {
+            if (SwingUtilitifs.isLfftMousfButton(f)) {
+                // mousf 1 bfibvior
+                if(ndlidks == 1) {
+                    sflfdtfdWordEvfnt = null;
+                } flsf if(ndlidks == 2
+                          && SwingUtilitifs2.dbnEvfntAddfssSystfmClipbobrd(f)) {
+                    sflfdtWord(f);
+                    sflfdtfdWordEvfnt = null;
+                } flsf if(ndlidks == 3
+                          && SwingUtilitifs2.dbnEvfntAddfssSystfmClipbobrd(f)) {
+                    Adtion b = null;
+                    AdtionMbp mbp = gftComponfnt().gftAdtionMbp();
+                    if (mbp != null) {
+                        b = mbp.gft(DffbultEditorKit.sflfdtLinfAdtion);
                     }
-                    if (a == null) {
-                        if (selectLine == null) {
-                            selectLine = new DefaultEditorKit.SelectLineAction();
+                    if (b == null) {
+                        if (sflfdtLinf == null) {
+                            sflfdtLinf = nfw DffbultEditorKit.SflfdtLinfAdtion();
                         }
-                        a = selectLine;
+                        b = sflfdtLinf;
                     }
-                    a.actionPerformed(new ActionEvent(getComponent(),
-                                                      ActionEvent.ACTION_PERFORMED, null, e.getWhen(), e.getModifiers()));
+                    b.bdtionPfrformfd(nfw AdtionEvfnt(gftComponfnt(),
+                                                      AdtionEvfnt.ACTION_PERFORMED, null, f.gftWifn(), f.gftModififrs()));
                 }
-            } else if (SwingUtilities.isMiddleMouseButton(e)) {
-                // mouse 2 behavior
-                if (nclicks == 1 && component.isEditable() && component.isEnabled()
-                    && SwingUtilities2.canEventAccessSystemClipboard(e)) {
-                    // paste system selection, if it exists
-                    JTextComponent c = (JTextComponent) e.getSource();
-                    if (c != null) {
+            } flsf if (SwingUtilitifs.isMiddlfMousfButton(f)) {
+                // mousf 2 bfibvior
+                if (ndlidks == 1 && domponfnt.isEditbblf() && domponfnt.isEnbblfd()
+                    && SwingUtilitifs2.dbnEvfntAddfssSystfmClipbobrd(f)) {
+                    // pbstf systfm sflfdtion, if it fxists
+                    JTfxtComponfnt d = (JTfxtComponfnt) f.gftSourdf();
+                    if (d != null) {
                         try {
-                            Toolkit tk = c.getToolkit();
-                            Clipboard buffer = tk.getSystemSelection();
-                            if (buffer != null) {
-                                // platform supports system selections, update it.
-                                adjustCaret(e);
-                                TransferHandler th = c.getTransferHandler();
-                                if (th != null) {
-                                    Transferable trans = null;
+                            Toolkit tk = d.gftToolkit();
+                            Clipbobrd bufffr = tk.gftSystfmSflfdtion();
+                            if (bufffr != null) {
+                                // plbtform supports systfm sflfdtions, updbtf it.
+                                bdjustCbrft(f);
+                                TrbnsffrHbndlfr ti = d.gftTrbnsffrHbndlfr();
+                                if (ti != null) {
+                                    Trbnsffrbblf trbns = null;
 
                                     try {
-                                        trans = buffer.getContents(null);
-                                    } catch (IllegalStateException ise) {
-                                        // clipboard was unavailable
-                                        UIManager.getLookAndFeel().provideErrorFeedback(c);
+                                        trbns = bufffr.gftContfnts(null);
+                                    } dbtdi (IllfgblStbtfExdfption isf) {
+                                        // dlipbobrd wbs unbvbilbblf
+                                        UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(d);
                                     }
 
-                                    if (trans != null) {
-                                        th.importData(c, trans);
+                                    if (trbns != null) {
+                                        ti.importDbtb(d, trbns);
                                     }
                                 }
-                                adjustFocus(true);
+                                bdjustFodus(truf);
                             }
-                        } catch (HeadlessException he) {
-                            // do nothing... there is no system clipboard
+                        } dbtdi (HfbdlfssExdfption if) {
+                            // do notiing... tifrf is no systfm dlipbobrd
                         }
                     }
                 }
@@ -475,655 +475,655 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
     }
 
     /**
-     * If button 1 is pressed, this is implemented to
-     * request focus on the associated text component,
-     * and to set the caret position. If the shift key is held down,
-     * the caret will be moved, potentially resulting in a selection,
-     * otherwise the
-     * caret position will be set to the new location.  If the component
-     * is not enabled, there will be no request for focus.
+     * If button 1 is prfssfd, tiis is implfmfntfd to
+     * rfqufst fodus on tif bssodibtfd tfxt domponfnt,
+     * bnd to sft tif dbrft position. If tif siift kfy is ifld down,
+     * tif dbrft will bf movfd, potfntiblly rfsulting in b sflfdtion,
+     * otifrwisf tif
+     * dbrft position will bf sft to tif nfw lodbtion.  If tif domponfnt
+     * is not fnbblfd, tifrf will bf no rfqufst for fodus.
      *
-     * @param e the mouse event
-     * @see MouseListener#mousePressed
+     * @pbrbm f tif mousf fvfnt
+     * @sff MousfListfnfr#mousfPrfssfd
      */
-    public void mousePressed(MouseEvent e) {
-        int nclicks = SwingUtilities2.getAdjustedClickCount(getComponent(), e);
+    publid void mousfPrfssfd(MousfEvfnt f) {
+        int ndlidks = SwingUtilitifs2.gftAdjustfdClidkCount(gftComponfnt(), f);
 
-        if (SwingUtilities.isLeftMouseButton(e)) {
-            if (e.isConsumed()) {
-                shouldHandleRelease = true;
-            } else {
-                shouldHandleRelease = false;
-                adjustCaretAndFocus(e);
-                if (nclicks == 2
-                    && SwingUtilities2.canEventAccessSystemClipboard(e)) {
-                    selectWord(e);
+        if (SwingUtilitifs.isLfftMousfButton(f)) {
+            if (f.isConsumfd()) {
+                siouldHbndlfRflfbsf = truf;
+            } flsf {
+                siouldHbndlfRflfbsf = fblsf;
+                bdjustCbrftAndFodus(f);
+                if (ndlidks == 2
+                    && SwingUtilitifs2.dbnEvfntAddfssSystfmClipbobrd(f)) {
+                    sflfdtWord(f);
                 }
             }
         }
     }
 
-    void adjustCaretAndFocus(MouseEvent e) {
-        adjustCaret(e);
-        adjustFocus(false);
+    void bdjustCbrftAndFodus(MousfEvfnt f) {
+        bdjustCbrft(f);
+        bdjustFodus(fblsf);
     }
 
     /**
-     * Adjusts the caret location based on the MouseEvent.
+     * Adjusts tif dbrft lodbtion bbsfd on tif MousfEvfnt.
      */
-    private void adjustCaret(MouseEvent e) {
-        if ((e.getModifiers() & ActionEvent.SHIFT_MASK) != 0 &&
-            getDot() != -1) {
-            moveCaret(e);
-        } else if (!e.isPopupTrigger()) {
-            positionCaret(e);
+    privbtf void bdjustCbrft(MousfEvfnt f) {
+        if ((f.gftModififrs() & AdtionEvfnt.SHIFT_MASK) != 0 &&
+            gftDot() != -1) {
+            movfCbrft(f);
+        } flsf if (!f.isPopupTriggfr()) {
+            positionCbrft(f);
         }
     }
 
     /**
-     * Adjusts the focus, if necessary.
+     * Adjusts tif fodus, if nfdfssbry.
      *
-     * @param inWindow if true indicates requestFocusInWindow should be used
+     * @pbrbm inWindow if truf indidbtfs rfqufstFodusInWindow siould bf usfd
      */
-    private void adjustFocus(boolean inWindow) {
-        if ((component != null) && component.isEnabled() &&
-                                   component.isRequestFocusEnabled()) {
+    privbtf void bdjustFodus(boolfbn inWindow) {
+        if ((domponfnt != null) && domponfnt.isEnbblfd() &&
+                                   domponfnt.isRfqufstFodusEnbblfd()) {
             if (inWindow) {
-                component.requestFocusInWindow();
+                domponfnt.rfqufstFodusInWindow();
             }
-            else {
-                component.requestFocus();
+            flsf {
+                domponfnt.rfqufstFodus();
             }
         }
     }
 
     /**
-     * Called when the mouse is released.
+     * Cbllfd wifn tif mousf is rflfbsfd.
      *
-     * @param e the mouse event
-     * @see MouseListener#mouseReleased
+     * @pbrbm f tif mousf fvfnt
+     * @sff MousfListfnfr#mousfRflfbsfd
      */
-    public void mouseReleased(MouseEvent e) {
-        if (!e.isConsumed()
-                && shouldHandleRelease
-                && SwingUtilities.isLeftMouseButton(e)) {
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        if (!f.isConsumfd()
+                && siouldHbndlfRflfbsf
+                && SwingUtilitifs.isLfftMousfButton(f)) {
 
-            adjustCaretAndFocus(e);
+            bdjustCbrftAndFodus(f);
         }
     }
 
     /**
-     * Called when the mouse enters a region.
+     * Cbllfd wifn tif mousf fntfrs b rfgion.
      *
-     * @param e the mouse event
-     * @see MouseListener#mouseEntered
+     * @pbrbm f tif mousf fvfnt
+     * @sff MousfListfnfr#mousfEntfrfd
      */
-    public void mouseEntered(MouseEvent e) {
+    publid void mousfEntfrfd(MousfEvfnt f) {
     }
 
     /**
-     * Called when the mouse exits a region.
+     * Cbllfd wifn tif mousf fxits b rfgion.
      *
-     * @param e the mouse event
-     * @see MouseListener#mouseExited
+     * @pbrbm f tif mousf fvfnt
+     * @sff MousfListfnfr#mousfExitfd
      */
-    public void mouseExited(MouseEvent e) {
+    publid void mousfExitfd(MousfEvfnt f) {
     }
 
-    // --- MouseMotionListener methods -------------------------
+    // --- MousfMotionListfnfr mftiods -------------------------
 
     /**
-     * Moves the caret position
-     * according to the mouse pointer's current
-     * location.  This effectively extends the
-     * selection.  By default, this is only done
-     * for mouse button 1.
+     * Movfs tif dbrft position
+     * bddording to tif mousf pointfr's durrfnt
+     * lodbtion.  Tiis ffffdtivfly fxtfnds tif
+     * sflfdtion.  By dffbult, tiis is only donf
+     * for mousf button 1.
      *
-     * @param e the mouse event
-     * @see MouseMotionListener#mouseDragged
+     * @pbrbm f tif mousf fvfnt
+     * @sff MousfMotionListfnfr#mousfDrbggfd
      */
-    public void mouseDragged(MouseEvent e) {
-        if ((! e.isConsumed()) && SwingUtilities.isLeftMouseButton(e)) {
-            moveCaret(e);
+    publid void mousfDrbggfd(MousfEvfnt f) {
+        if ((! f.isConsumfd()) && SwingUtilitifs.isLfftMousfButton(f)) {
+            movfCbrft(f);
         }
     }
 
     /**
-     * Called when the mouse is moved.
+     * Cbllfd wifn tif mousf is movfd.
      *
-     * @param e the mouse event
-     * @see MouseMotionListener#mouseMoved
+     * @pbrbm f tif mousf fvfnt
+     * @sff MousfMotionListfnfr#mousfMovfd
      */
-    public void mouseMoved(MouseEvent e) {
+    publid void mousfMovfd(MousfEvfnt f) {
     }
 
-    // ---- Caret methods ---------------------------------
+    // ---- Cbrft mftiods ---------------------------------
 
     /**
-     * Renders the caret as a vertical line.  If this is reimplemented
-     * the damage method should also be reimplemented as it assumes the
-     * shape of the caret is a vertical line.  Sets the caret color to
-     * the value returned by getCaretColor().
+     * Rfndfrs tif dbrft bs b vfrtidbl linf.  If tiis is rfimplfmfntfd
+     * tif dbmbgf mftiod siould blso bf rfimplfmfntfd bs it bssumfs tif
+     * sibpf of tif dbrft is b vfrtidbl linf.  Sfts tif dbrft dolor to
+     * tif vbluf rfturnfd by gftCbrftColor().
      * <p>
-     * If there are multiple text directions present in the associated
-     * document, a flag indicating the caret bias will be rendered.
-     * This will occur only if the associated document is a subclass
-     * of AbstractDocument and there are multiple bidi levels present
-     * in the bidi element structure (i.e. the text has multiple
-     * directions associated with it).
+     * If tifrf brf multiplf tfxt dirfdtions prfsfnt in tif bssodibtfd
+     * dodumfnt, b flbg indidbting tif dbrft bibs will bf rfndfrfd.
+     * Tiis will oddur only if tif bssodibtfd dodumfnt is b subdlbss
+     * of AbstrbdtDodumfnt bnd tifrf brf multiplf bidi lfvfls prfsfnt
+     * in tif bidi flfmfnt strudturf (i.f. tif tfxt ibs multiplf
+     * dirfdtions bssodibtfd witi it).
      *
-     * @param g the graphics context
-     * @see #damage
+     * @pbrbm g tif grbpiids dontfxt
+     * @sff #dbmbgf
      */
-    public void paint(Graphics g) {
-        if(isVisible()) {
+    publid void pbint(Grbpiids g) {
+        if(isVisiblf()) {
             try {
-                TextUI mapper = component.getUI();
-                Rectangle r = mapper.modelToView(component, dot, dotBias);
+                TfxtUI mbppfr = domponfnt.gftUI();
+                Rfdtbnglf r = mbppfr.modflToVifw(domponfnt, dot, dotBibs);
 
-                if ((r == null) || ((r.width == 0) && (r.height == 0))) {
-                    return;
+                if ((r == null) || ((r.widti == 0) && (r.ifigit == 0))) {
+                    rfturn;
                 }
-                if (width > 0 && height > 0 &&
-                                !this._contains(r.x, r.y, r.width, r.height)) {
-                    // We seem to have gotten out of sync and no longer
-                    // contain the right location, adjust accordingly.
-                    Rectangle clip = g.getClipBounds();
+                if (widti > 0 && ifigit > 0 &&
+                                !tiis._dontbins(r.x, r.y, r.widti, r.ifigit)) {
+                    // Wf sffm to ibvf gottfn out of synd bnd no longfr
+                    // dontbin tif rigit lodbtion, bdjust bddordingly.
+                    Rfdtbnglf dlip = g.gftClipBounds();
 
-                    if (clip != null && !clip.contains(this)) {
-                        // Clip doesn't contain the old location, force it
-                        // to be repainted lest we leave a caret around.
-                        repaint();
+                    if (dlip != null && !dlip.dontbins(tiis)) {
+                        // Clip dofsn't dontbin tif old lodbtion, fordf it
+                        // to bf rfpbintfd lfst wf lfbvf b dbrft bround.
+                        rfpbint();
                     }
-                    // This will potentially cause a repaint of something
-                    // we're already repainting, but without changing the
-                    // semantics of damage we can't really get around this.
-                    damage(r);
+                    // Tiis will potfntiblly dbusf b rfpbint of somftiing
+                    // wf'rf blrfbdy rfpbinting, but witiout dibnging tif
+                    // sfmbntids of dbmbgf wf dbn't rfblly gft bround tiis.
+                    dbmbgf(r);
                 }
-                g.setColor(component.getCaretColor());
-                int paintWidth = getCaretWidth(r.height);
-                r.x -= paintWidth  >> 1;
-                g.fillRect(r.x, r.y, paintWidth, r.height);
+                g.sftColor(domponfnt.gftCbrftColor());
+                int pbintWidti = gftCbrftWidti(r.ifigit);
+                r.x -= pbintWidti  >> 1;
+                g.fillRfdt(r.x, r.y, pbintWidti, r.ifigit);
 
-                // see if we should paint a flag to indicate the bias
-                // of the caret.
-                // PENDING(prinz) this should be done through
-                // protected methods so that alternative LAF
-                // will show bidi information.
-                Document doc = component.getDocument();
-                if (doc instanceof AbstractDocument) {
-                    Element bidi = ((AbstractDocument)doc).getBidiRootElement();
-                    if ((bidi != null) && (bidi.getElementCount() > 1)) {
-                        // there are multiple directions present.
-                        flagXPoints[0] = r.x + ((dotLTR) ? paintWidth : 0);
-                        flagYPoints[0] = r.y;
-                        flagXPoints[1] = flagXPoints[0];
-                        flagYPoints[1] = flagYPoints[0] + 4;
-                        flagXPoints[2] = flagXPoints[0] + ((dotLTR) ? 4 : -4);
-                        flagYPoints[2] = flagYPoints[0];
-                        g.fillPolygon(flagXPoints, flagYPoints, 3);
+                // sff if wf siould pbint b flbg to indidbtf tif bibs
+                // of tif dbrft.
+                // PENDING(prinz) tiis siould bf donf tirougi
+                // protfdtfd mftiods so tibt bltfrnbtivf LAF
+                // will siow bidi informbtion.
+                Dodumfnt dod = domponfnt.gftDodumfnt();
+                if (dod instbndfof AbstrbdtDodumfnt) {
+                    Elfmfnt bidi = ((AbstrbdtDodumfnt)dod).gftBidiRootElfmfnt();
+                    if ((bidi != null) && (bidi.gftElfmfntCount() > 1)) {
+                        // tifrf brf multiplf dirfdtions prfsfnt.
+                        flbgXPoints[0] = r.x + ((dotLTR) ? pbintWidti : 0);
+                        flbgYPoints[0] = r.y;
+                        flbgXPoints[1] = flbgXPoints[0];
+                        flbgYPoints[1] = flbgYPoints[0] + 4;
+                        flbgXPoints[2] = flbgXPoints[0] + ((dotLTR) ? 4 : -4);
+                        flbgYPoints[2] = flbgYPoints[0];
+                        g.fillPolygon(flbgXPoints, flbgYPoints, 3);
                     }
                 }
-            } catch (BadLocationException e) {
-                // can't render I guess
-                //System.err.println("Can't render cursor");
+            } dbtdi (BbdLodbtionExdfption f) {
+                // dbn't rfndfr I gufss
+                //Systfm.frr.println("Cbn't rfndfr dursor");
             }
         }
     }
 
     /**
-     * Called when the UI is being installed into the
-     * interface of a JTextComponent.  This can be used
-     * to gain access to the model that is being navigated
-     * by the implementation of this interface.  Sets the dot
-     * and mark to 0, and establishes document, property change,
-     * focus, mouse, and mouse motion listeners.
+     * Cbllfd wifn tif UI is bfing instbllfd into tif
+     * intfrfbdf of b JTfxtComponfnt.  Tiis dbn bf usfd
+     * to gbin bddfss to tif modfl tibt is bfing nbvigbtfd
+     * by tif implfmfntbtion of tiis intfrfbdf.  Sfts tif dot
+     * bnd mbrk to 0, bnd fstbblisifs dodumfnt, propfrty dibngf,
+     * fodus, mousf, bnd mousf motion listfnfrs.
      *
-     * @param c the component
-     * @see Caret#install
+     * @pbrbm d tif domponfnt
+     * @sff Cbrft#instbll
      */
-    public void install(JTextComponent c) {
-        component = c;
-        Document doc = c.getDocument();
-        dot = mark = 0;
-        dotLTR = markLTR = true;
-        dotBias = markBias = Position.Bias.Forward;
-        if (doc != null) {
-            doc.addDocumentListener(handler);
+    publid void instbll(JTfxtComponfnt d) {
+        domponfnt = d;
+        Dodumfnt dod = d.gftDodumfnt();
+        dot = mbrk = 0;
+        dotLTR = mbrkLTR = truf;
+        dotBibs = mbrkBibs = Position.Bibs.Forwbrd;
+        if (dod != null) {
+            dod.bddDodumfntListfnfr(ibndlfr);
         }
-        c.addPropertyChangeListener(handler);
-        c.addFocusListener(this);
-        c.addMouseListener(this);
-        c.addMouseMotionListener(this);
+        d.bddPropfrtyCibngfListfnfr(ibndlfr);
+        d.bddFodusListfnfr(tiis);
+        d.bddMousfListfnfr(tiis);
+        d.bddMousfMotionListfnfr(tiis);
 
-        // if the component already has focus, it won't
-        // be notified.
-        if (component.hasFocus()) {
-            focusGained(null);
-        }
-
-        Number ratio = (Number) c.getClientProperty("caretAspectRatio");
-        if (ratio != null) {
-            aspectRatio = ratio.floatValue();
-        } else {
-            aspectRatio = -1;
+        // if tif domponfnt blrfbdy ibs fodus, it won't
+        // bf notififd.
+        if (domponfnt.ibsFodus()) {
+            fodusGbinfd(null);
         }
 
-        Integer width = (Integer) c.getClientProperty("caretWidth");
-        if (width != null) {
-            caretWidth = width.intValue();
-        } else {
-            caretWidth = -1;
+        Numbfr rbtio = (Numbfr) d.gftClifntPropfrty("dbrftAspfdtRbtio");
+        if (rbtio != null) {
+            bspfdtRbtio = rbtio.flobtVbluf();
+        } flsf {
+            bspfdtRbtio = -1;
+        }
+
+        Intfgfr widti = (Intfgfr) d.gftClifntPropfrty("dbrftWidti");
+        if (widti != null) {
+            dbrftWidti = widti.intVbluf();
+        } flsf {
+            dbrftWidti = -1;
         }
     }
 
     /**
-     * Called when the UI is being removed from the
-     * interface of a JTextComponent.  This is used to
-     * unregister any listeners that were attached.
+     * Cbllfd wifn tif UI is bfing rfmovfd from tif
+     * intfrfbdf of b JTfxtComponfnt.  Tiis is usfd to
+     * unrfgistfr bny listfnfrs tibt wfrf bttbdifd.
      *
-     * @param c the component
-     * @see Caret#deinstall
+     * @pbrbm d tif domponfnt
+     * @sff Cbrft#dfinstbll
      */
-    public void deinstall(JTextComponent c) {
-        c.removeMouseListener(this);
-        c.removeMouseMotionListener(this);
-        c.removeFocusListener(this);
-        c.removePropertyChangeListener(handler);
-        Document doc = c.getDocument();
-        if (doc != null) {
-            doc.removeDocumentListener(handler);
+    publid void dfinstbll(JTfxtComponfnt d) {
+        d.rfmovfMousfListfnfr(tiis);
+        d.rfmovfMousfMotionListfnfr(tiis);
+        d.rfmovfFodusListfnfr(tiis);
+        d.rfmovfPropfrtyCibngfListfnfr(ibndlfr);
+        Dodumfnt dod = d.gftDodumfnt();
+        if (dod != null) {
+            dod.rfmovfDodumfntListfnfr(ibndlfr);
         }
-        synchronized(this) {
-            component = null;
+        syndironizfd(tiis) {
+            domponfnt = null;
         }
-        if (flasher != null) {
-            flasher.stop();
+        if (flbsifr != null) {
+            flbsifr.stop();
         }
 
 
     }
 
     /**
-     * Adds a listener to track whenever the caret position has
-     * been changed.
+     * Adds b listfnfr to trbdk wifnfvfr tif dbrft position ibs
+     * bffn dibngfd.
      *
-     * @param l the listener
-     * @see Caret#addChangeListener
+     * @pbrbm l tif listfnfr
+     * @sff Cbrft#bddCibngfListfnfr
      */
-    public void addChangeListener(ChangeListener l) {
-        listenerList.add(ChangeListener.class, l);
+    publid void bddCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.bdd(CibngfListfnfr.dlbss, l);
     }
 
     /**
-     * Removes a listener that was tracking caret position changes.
+     * Rfmovfs b listfnfr tibt wbs trbdking dbrft position dibngfs.
      *
-     * @param l the listener
-     * @see Caret#removeChangeListener
+     * @pbrbm l tif listfnfr
+     * @sff Cbrft#rfmovfCibngfListfnfr
      */
-    public void removeChangeListener(ChangeListener l) {
-        listenerList.remove(ChangeListener.class, l);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr l) {
+        listfnfrList.rfmovf(CibngfListfnfr.dlbss, l);
     }
 
     /**
-     * Returns an array of all the change listeners
-     * registered on this caret.
+     * Rfturns bn brrby of bll tif dibngf listfnfrs
+     * rfgistfrfd on tiis dbrft.
      *
-     * @return all of this caret's <code>ChangeListener</code>s
-     *         or an empty
-     *         array if no change listeners are currently registered
+     * @rfturn bll of tiis dbrft's <dodf>CibngfListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no dibngf listfnfrs brf durrfntly rfgistfrfd
      *
-     * @see #addChangeListener
-     * @see #removeChangeListener
+     * @sff #bddCibngfListfnfr
+     * @sff #rfmovfCibngfListfnfr
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    publid CibngfListfnfr[] gftCibngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(CibngfListfnfr.dlbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is lazily created using the parameters passed into
-     * the fire method.  The listener list is processed last to first.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is lbzily drfbtfd using tif pbrbmftfrs pbssfd into
+     * tif firf mftiod.  Tif listfnfr list is prodfssfd lbst to first.
      *
-     * @see EventListenerList
+     * @sff EvfntListfnfrList
      */
-    protected void fireStateChanged() {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==ChangeListener.class) {
-                // Lazily create the event:
-                if (changeEvent == null)
-                    changeEvent = new ChangeEvent(this);
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+    protfdtfd void firfStbtfCibngfd() {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==CibngfListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                if (dibngfEvfnt == null)
+                    dibngfEvfnt = nfw CibngfEvfnt(tiis);
+                ((CibngfListfnfr)listfnfrs[i+1]).stbtfCibngfd(dibngfEvfnt);
             }
         }
     }
 
     /**
-     * Returns an array of all the objects currently registered
-     * as <code><em>Foo</em>Listener</code>s
-     * upon this caret.
-     * <code><em>Foo</em>Listener</code>s are registered using the
-     * <code>add<em>Foo</em>Listener</code> method.
+     * Rfturns bn brrby of bll tif objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon tiis dbrft.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using tif
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mftiod.
      *
      * <p>
      *
-     * You can specify the <code>listenerType</code> argument
-     * with a class literal,
-     * such as
-     * <code><em>Foo</em>Listener.class</code>.
-     * For example, you can query a
-     * <code>DefaultCaret</code> <code>c</code>
-     * for its change listeners with the following code:
+     * You dbn spfdify tif <dodf>listfnfrTypf</dodf> brgumfnt
+     * witi b dlbss litfrbl,
+     * sudi bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>DffbultCbrft</dodf> <dodf>d</dodf>
+     * for its dibngf listfnfrs witi tif following dodf:
      *
-     * <pre>ChangeListener[] cls = (ChangeListener[])(c.getListeners(ChangeListener.class));</pre>
+     * <prf>CibngfListfnfr[] dls = (CibngfListfnfr[])(d.gftListfnfrs(CibngfListfnfr.dlbss));</prf>
      *
-     * If no such listeners exist, this method returns an empty array.
+     * If no sudi listfnfrs fxist, tiis mftiod rfturns bn fmpty brrby.
      *
-     * @param listenerType the type of listeners requested; this parameter
-     *          should specify an interface that descends from
-     *          <code>java.util.EventListener</code>
-     * @return an array of all objects registered as
-     *          <code><em>Foo</em>Listener</code>s on this component,
-     *          or an empty array if no such
-     *          listeners have been added
-     * @exception ClassCastException if <code>listenerType</code>
-     *          doesn't specify a class or interface that implements
-     *          <code>java.util.EventListener</code>
+     * @pbrbm listfnfrTypf tif typf of listfnfrs rfqufstfd; tiis pbrbmftfr
+     *          siould spfdify bn intfrfbdf tibt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on tiis domponfnt,
+     *          or bn fmpty brrby if no sudi
+     *          listfnfrs ibvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf tibt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
      *
-     * @see #getChangeListeners
+     * @sff #gftCibngfListfnfrs
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public <T extends EventListener> T[] getListeners(Class<T> listenerType) {
-        return listenerList.getListeners(listenerType);
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
     }
 
     /**
-     * Changes the selection visibility.
+     * Cibngfs tif sflfdtion visibility.
      *
-     * @param vis the new visibility
+     * @pbrbm vis tif nfw visibility
      */
-    public void setSelectionVisible(boolean vis) {
-        if (vis != selectionVisible) {
-            selectionVisible = vis;
-            if (selectionVisible) {
-                // show
-                Highlighter h = component.getHighlighter();
-                if ((dot != mark) && (h != null) && (selectionTag == null)) {
-                    int p0 = Math.min(dot, mark);
-                    int p1 = Math.max(dot, mark);
-                    Highlighter.HighlightPainter p = getSelectionPainter();
+    publid void sftSflfdtionVisiblf(boolfbn vis) {
+        if (vis != sflfdtionVisiblf) {
+            sflfdtionVisiblf = vis;
+            if (sflfdtionVisiblf) {
+                // siow
+                Higiligitfr i = domponfnt.gftHigiligitfr();
+                if ((dot != mbrk) && (i != null) && (sflfdtionTbg == null)) {
+                    int p0 = Mbti.min(dot, mbrk);
+                    int p1 = Mbti.mbx(dot, mbrk);
+                    Higiligitfr.HigiligitPbintfr p = gftSflfdtionPbintfr();
                     try {
-                        selectionTag = h.addHighlight(p0, p1, p);
-                    } catch (BadLocationException bl) {
-                        selectionTag = null;
+                        sflfdtionTbg = i.bddHigiligit(p0, p1, p);
+                    } dbtdi (BbdLodbtionExdfption bl) {
+                        sflfdtionTbg = null;
                     }
                 }
-            } else {
-                // hide
-                if (selectionTag != null) {
-                    Highlighter h = component.getHighlighter();
-                    h.removeHighlight(selectionTag);
-                    selectionTag = null;
+            } flsf {
+                // iidf
+                if (sflfdtionTbg != null) {
+                    Higiligitfr i = domponfnt.gftHigiligitfr();
+                    i.rfmovfHigiligit(sflfdtionTbg);
+                    sflfdtionTbg = null;
                 }
             }
         }
     }
 
     /**
-     * Checks whether the current selection is visible.
+     * Cifdks wiftifr tif durrfnt sflfdtion is visiblf.
      *
-     * @return true if the selection is visible
+     * @rfturn truf if tif sflfdtion is visiblf
      */
-    public boolean isSelectionVisible() {
-        return selectionVisible;
+    publid boolfbn isSflfdtionVisiblf() {
+        rfturn sflfdtionVisiblf;
     }
 
     /**
-     * Determines if the caret is currently active.
+     * Dftfrminfs if tif dbrft is durrfntly bdtivf.
      * <p>
-     * This method returns whether or not the <code>Caret</code>
-     * is currently in a blinking state. It does not provide
-     * information as to whether it is currently blinked on or off.
-     * To determine if the caret is currently painted use the
-     * <code>isVisible</code> method.
+     * Tiis mftiod rfturns wiftifr or not tif <dodf>Cbrft</dodf>
+     * is durrfntly in b blinking stbtf. It dofs not providf
+     * informbtion bs to wiftifr it is durrfntly blinkfd on or off.
+     * To dftfrminf if tif dbrft is durrfntly pbintfd usf tif
+     * <dodf>isVisiblf</dodf> mftiod.
      *
-     * @return <code>true</code> if active else <code>false</code>
-     * @see #isVisible
+     * @rfturn <dodf>truf</dodf> if bdtivf flsf <dodf>fblsf</dodf>
+     * @sff #isVisiblf
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public boolean isActive() {
-        return active;
+    publid boolfbn isAdtivf() {
+        rfturn bdtivf;
     }
 
     /**
-     * Indicates whether or not the caret is currently visible. As the
-     * caret flashes on and off the return value of this will change
-     * between true, when the caret is painted, and false, when the
-     * caret is not painted. <code>isActive</code> indicates whether
-     * or not the caret is in a blinking state, such that it <b>can</b>
-     * be visible, and <code>isVisible</code> indicates whether or not
-     * the caret <b>is</b> actually visible.
+     * Indidbtfs wiftifr or not tif dbrft is durrfntly visiblf. As tif
+     * dbrft flbsifs on bnd off tif rfturn vbluf of tiis will dibngf
+     * bftwffn truf, wifn tif dbrft is pbintfd, bnd fblsf, wifn tif
+     * dbrft is not pbintfd. <dodf>isAdtivf</dodf> indidbtfs wiftifr
+     * or not tif dbrft is in b blinking stbtf, sudi tibt it <b>dbn</b>
+     * bf visiblf, bnd <dodf>isVisiblf</dodf> indidbtfs wiftifr or not
+     * tif dbrft <b>is</b> bdtublly visiblf.
      * <p>
-     * Subclasses that wish to render a different flashing caret
-     * should override paint and only paint the caret if this method
-     * returns true.
+     * Subdlbssfs tibt wisi to rfndfr b difffrfnt flbsiing dbrft
+     * siould ovfrridf pbint bnd only pbint tif dbrft if tiis mftiod
+     * rfturns truf.
      *
-     * @return true if visible else false
-     * @see Caret#isVisible
-     * @see #isActive
+     * @rfturn truf if visiblf flsf fblsf
+     * @sff Cbrft#isVisiblf
+     * @sff #isAdtivf
      */
-    public boolean isVisible() {
-        return visible;
+    publid boolfbn isVisiblf() {
+        rfturn visiblf;
     }
 
     /**
-     * Sets the caret visibility, and repaints the caret.
-     * It is important to understand the relationship between this method,
-     * <code>isVisible</code> and <code>isActive</code>.
-     * Calling this method with a value of <code>true</code> activates the
-     * caret blinking. Setting it to <code>false</code> turns it completely off.
-     * To determine whether the blinking is active, you should call
-     * <code>isActive</code>. In effect, <code>isActive</code> is an
-     * appropriate corresponding "getter" method for this one.
-     * <code>isVisible</code> can be used to fetch the current
-     * visibility status of the caret, meaning whether or not it is currently
-     * painted. This status will change as the caret blinks on and off.
+     * Sfts tif dbrft visibility, bnd rfpbints tif dbrft.
+     * It is importbnt to undfrstbnd tif rflbtionsiip bftwffn tiis mftiod,
+     * <dodf>isVisiblf</dodf> bnd <dodf>isAdtivf</dodf>.
+     * Cblling tiis mftiod witi b vbluf of <dodf>truf</dodf> bdtivbtfs tif
+     * dbrft blinking. Sftting it to <dodf>fblsf</dodf> turns it domplftfly off.
+     * To dftfrminf wiftifr tif blinking is bdtivf, you siould dbll
+     * <dodf>isAdtivf</dodf>. In ffffdt, <dodf>isAdtivf</dodf> is bn
+     * bppropribtf dorrfsponding "gfttfr" mftiod for tiis onf.
+     * <dodf>isVisiblf</dodf> dbn bf usfd to fftdi tif durrfnt
+     * visibility stbtus of tif dbrft, mfbning wiftifr or not it is durrfntly
+     * pbintfd. Tiis stbtus will dibngf bs tif dbrft blinks on bnd off.
      * <p>
-     * Here's a list showing the potential return values of both
-     * <code>isActive</code> and <code>isVisible</code>
-     * after calling this method:
+     * Hfrf's b list siowing tif potfntibl rfturn vblufs of boti
+     * <dodf>isAdtivf</dodf> bnd <dodf>isVisiblf</dodf>
+     * bftfr dblling tiis mftiod:
      * <p>
-     * <b><code>setVisible(true)</code></b>:
+     * <b><dodf>sftVisiblf(truf)</dodf></b>:
      * <ul>
-     *     <li>isActive(): true</li>
-     *     <li>isVisible(): true or false depending on whether
-     *         or not the caret is blinked on or off</li>
+     *     <li>isAdtivf(): truf</li>
+     *     <li>isVisiblf(): truf or fblsf dfpfnding on wiftifr
+     *         or not tif dbrft is blinkfd on or off</li>
      * </ul>
      * <p>
-     * <b><code>setVisible(false)</code></b>:
+     * <b><dodf>sftVisiblf(fblsf)</dodf></b>:
      * <ul>
-     *     <li>isActive(): false</li>
-     *     <li>isVisible(): false</li>
+     *     <li>isAdtivf(): fblsf</li>
+     *     <li>isVisiblf(): fblsf</li>
      * </ul>
      *
-     * @param e the visibility specifier
-     * @see #isActive
-     * @see Caret#setVisible
+     * @pbrbm f tif visibility spfdififr
+     * @sff #isAdtivf
+     * @sff Cbrft#sftVisiblf
      */
-    public void setVisible(boolean e) {
-        // focus lost notification can come in later after the
-        // caret has been deinstalled, in which case the component
-        // will be null.
-        active = e;
-        if (component != null) {
-            TextUI mapper = component.getUI();
-            if (visible != e) {
-                visible = e;
-                // repaint the caret
+    publid void sftVisiblf(boolfbn f) {
+        // fodus lost notifidbtion dbn domf in lbtfr bftfr tif
+        // dbrft ibs bffn dfinstbllfd, in wiidi dbsf tif domponfnt
+        // will bf null.
+        bdtivf = f;
+        if (domponfnt != null) {
+            TfxtUI mbppfr = domponfnt.gftUI();
+            if (visiblf != f) {
+                visiblf = f;
+                // rfpbint tif dbrft
                 try {
-                    Rectangle loc = mapper.modelToView(component, dot,dotBias);
-                    damage(loc);
-                } catch (BadLocationException badloc) {
-                    // hmm... not legally positioned
+                    Rfdtbnglf lod = mbppfr.modflToVifw(domponfnt, dot,dotBibs);
+                    dbmbgf(lod);
+                } dbtdi (BbdLodbtionExdfption bbdlod) {
+                    // imm... not lfgblly positionfd
                 }
             }
         }
-        if (flasher != null) {
-            if (visible) {
-                flasher.start();
-            } else {
-                flasher.stop();
+        if (flbsifr != null) {
+            if (visiblf) {
+                flbsifr.stbrt();
+            } flsf {
+                flbsifr.stop();
             }
         }
     }
 
     /**
-     * Sets the caret blink rate.
+     * Sfts tif dbrft blink rbtf.
      *
-     * @param rate the rate in milliseconds, 0 to stop blinking
-     * @see Caret#setBlinkRate
+     * @pbrbm rbtf tif rbtf in millisfdonds, 0 to stop blinking
+     * @sff Cbrft#sftBlinkRbtf
      */
-    public void setBlinkRate(int rate) {
-        if (rate != 0) {
-            if (flasher == null) {
-                flasher = new Timer(rate, handler);
+    publid void sftBlinkRbtf(int rbtf) {
+        if (rbtf != 0) {
+            if (flbsifr == null) {
+                flbsifr = nfw Timfr(rbtf, ibndlfr);
             }
-            flasher.setDelay(rate);
-        } else {
-            if (flasher != null) {
-                flasher.stop();
-                flasher.removeActionListener(handler);
-                flasher = null;
-            }
-        }
-    }
-
-    /**
-     * Gets the caret blink rate.
-     *
-     * @return the delay in milliseconds.  If this is
-     *  zero the caret will not blink.
-     * @see Caret#getBlinkRate
-     */
-    public int getBlinkRate() {
-        return (flasher == null) ? 0 : flasher.getDelay();
-    }
-
-    /**
-     * Fetches the current position of the caret.
-     *
-     * @return the position &gt;= 0
-     * @see Caret#getDot
-     */
-    public int getDot() {
-        return dot;
-    }
-
-    /**
-     * Fetches the current position of the mark.  If there is a selection,
-     * the dot and mark will not be the same.
-     *
-     * @return the position &gt;= 0
-     * @see Caret#getMark
-     */
-    public int getMark() {
-        return mark;
-    }
-
-    /**
-     * Sets the caret position and mark to the specified position,
-     * with a forward bias. This implicitly sets the
-     * selection range to zero.
-     *
-     * @param dot the position &gt;= 0
-     * @see #setDot(int, Position.Bias)
-     * @see Caret#setDot
-     */
-    public void setDot(int dot) {
-        setDot(dot, Position.Bias.Forward);
-    }
-
-    /**
-     * Moves the caret position to the specified position,
-     * with a forward bias.
-     *
-     * @param dot the position &gt;= 0
-     * @see #moveDot(int, javax.swing.text.Position.Bias)
-     * @see Caret#moveDot
-     */
-    public void moveDot(int dot) {
-        moveDot(dot, Position.Bias.Forward);
-    }
-
-    // ---- Bidi methods (we could put these in a subclass)
-
-    /**
-     * Moves the caret position to the specified position, with the
-     * specified bias.
-     *
-     * @param dot the position &gt;= 0
-     * @param dotBias the bias for this position, not <code>null</code>
-     * @throws IllegalArgumentException if the bias is <code>null</code>
-     * @see Caret#moveDot
-     * @since 1.6
-     */
-    public void moveDot(int dot, Position.Bias dotBias) {
-        if (dotBias == null) {
-            throw new IllegalArgumentException("null bias");
-        }
-
-        if (! component.isEnabled()) {
-            // don't allow selection on disabled components.
-            setDot(dot, dotBias);
-            return;
-        }
-        if (dot != this.dot) {
-            NavigationFilter filter = component.getNavigationFilter();
-
-            if (filter != null) {
-                filter.moveDot(getFilterBypass(), dot, dotBias);
-            }
-            else {
-                handleMoveDot(dot, dotBias);
+            flbsifr.sftDflby(rbtf);
+        } flsf {
+            if (flbsifr != null) {
+                flbsifr.stop();
+                flbsifr.rfmovfAdtionListfnfr(ibndlfr);
+                flbsifr = null;
             }
         }
     }
 
-    void handleMoveDot(int dot, Position.Bias dotBias) {
-        changeCaretPosition(dot, dotBias);
+    /**
+     * Gfts tif dbrft blink rbtf.
+     *
+     * @rfturn tif dflby in millisfdonds.  If tiis is
+     *  zfro tif dbrft will not blink.
+     * @sff Cbrft#gftBlinkRbtf
+     */
+    publid int gftBlinkRbtf() {
+        rfturn (flbsifr == null) ? 0 : flbsifr.gftDflby();
+    }
 
-        if (selectionVisible) {
-            Highlighter h = component.getHighlighter();
-            if (h != null) {
-                int p0 = Math.min(dot, mark);
-                int p1 = Math.max(dot, mark);
+    /**
+     * Fftdifs tif durrfnt position of tif dbrft.
+     *
+     * @rfturn tif position &gt;= 0
+     * @sff Cbrft#gftDot
+     */
+    publid int gftDot() {
+        rfturn dot;
+    }
 
-                // if p0 == p1 then there should be no highlight, remove it if necessary
+    /**
+     * Fftdifs tif durrfnt position of tif mbrk.  If tifrf is b sflfdtion,
+     * tif dot bnd mbrk will not bf tif sbmf.
+     *
+     * @rfturn tif position &gt;= 0
+     * @sff Cbrft#gftMbrk
+     */
+    publid int gftMbrk() {
+        rfturn mbrk;
+    }
+
+    /**
+     * Sfts tif dbrft position bnd mbrk to tif spfdififd position,
+     * witi b forwbrd bibs. Tiis impliditly sfts tif
+     * sflfdtion rbngf to zfro.
+     *
+     * @pbrbm dot tif position &gt;= 0
+     * @sff #sftDot(int, Position.Bibs)
+     * @sff Cbrft#sftDot
+     */
+    publid void sftDot(int dot) {
+        sftDot(dot, Position.Bibs.Forwbrd);
+    }
+
+    /**
+     * Movfs tif dbrft position to tif spfdififd position,
+     * witi b forwbrd bibs.
+     *
+     * @pbrbm dot tif position &gt;= 0
+     * @sff #movfDot(int, jbvbx.swing.tfxt.Position.Bibs)
+     * @sff Cbrft#movfDot
+     */
+    publid void movfDot(int dot) {
+        movfDot(dot, Position.Bibs.Forwbrd);
+    }
+
+    // ---- Bidi mftiods (wf dould put tifsf in b subdlbss)
+
+    /**
+     * Movfs tif dbrft position to tif spfdififd position, witi tif
+     * spfdififd bibs.
+     *
+     * @pbrbm dot tif position &gt;= 0
+     * @pbrbm dotBibs tif bibs for tiis position, not <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if tif bibs is <dodf>null</dodf>
+     * @sff Cbrft#movfDot
+     * @sindf 1.6
+     */
+    publid void movfDot(int dot, Position.Bibs dotBibs) {
+        if (dotBibs == null) {
+            tirow nfw IllfgblArgumfntExdfption("null bibs");
+        }
+
+        if (! domponfnt.isEnbblfd()) {
+            // don't bllow sflfdtion on disbblfd domponfnts.
+            sftDot(dot, dotBibs);
+            rfturn;
+        }
+        if (dot != tiis.dot) {
+            NbvigbtionFiltfr filtfr = domponfnt.gftNbvigbtionFiltfr();
+
+            if (filtfr != null) {
+                filtfr.movfDot(gftFiltfrBypbss(), dot, dotBibs);
+            }
+            flsf {
+                ibndlfMovfDot(dot, dotBibs);
+            }
+        }
+    }
+
+    void ibndlfMovfDot(int dot, Position.Bibs dotBibs) {
+        dibngfCbrftPosition(dot, dotBibs);
+
+        if (sflfdtionVisiblf) {
+            Higiligitfr i = domponfnt.gftHigiligitfr();
+            if (i != null) {
+                int p0 = Mbti.min(dot, mbrk);
+                int p1 = Mbti.mbx(dot, mbrk);
+
+                // if p0 == p1 tifn tifrf siould bf no iigiligit, rfmovf it if nfdfssbry
                 if (p0 == p1) {
-                    if (selectionTag != null) {
-                        h.removeHighlight(selectionTag);
-                        selectionTag = null;
+                    if (sflfdtionTbg != null) {
+                        i.rfmovfHigiligit(sflfdtionTbg);
+                        sflfdtionTbg = null;
                     }
-                // otherwise, change or add the highlight
-                } else {
+                // otifrwisf, dibngf or bdd tif iigiligit
+                } flsf {
                     try {
-                        if (selectionTag != null) {
-                            h.changeHighlight(selectionTag, p0, p1);
-                        } else {
-                            Highlighter.HighlightPainter p = getSelectionPainter();
-                            selectionTag = h.addHighlight(p0, p1, p);
+                        if (sflfdtionTbg != null) {
+                            i.dibngfHigiligit(sflfdtionTbg, p0, p1);
+                        } flsf {
+                            Higiligitfr.HigiligitPbintfr p = gftSflfdtionPbintfr();
+                            sflfdtionTbg = i.bddHigiligit(p0, p1, p);
                         }
-                    } catch (BadLocationException e) {
-                        throw new StateInvariantError("Bad caret position");
+                    } dbtdi (BbdLodbtionExdfption f) {
+                        tirow nfw StbtfInvbribntError("Bbd dbrft position");
                     }
                 }
             }
@@ -1131,791 +1131,791 @@ public class DefaultCaret extends Rectangle implements Caret, FocusListener, Mou
     }
 
     /**
-     * Sets the caret position and mark to the specified position, with the
-     * specified bias. This implicitly sets the selection range
-     * to zero.
+     * Sfts tif dbrft position bnd mbrk to tif spfdififd position, witi tif
+     * spfdififd bibs. Tiis impliditly sfts tif sflfdtion rbngf
+     * to zfro.
      *
-     * @param dot the position &gt;= 0
-     * @param dotBias the bias for this position, not <code>null</code>
-     * @throws IllegalArgumentException if the bias is <code>null</code>
-     * @see Caret#setDot
-     * @since 1.6
+     * @pbrbm dot tif position &gt;= 0
+     * @pbrbm dotBibs tif bibs for tiis position, not <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if tif bibs is <dodf>null</dodf>
+     * @sff Cbrft#sftDot
+     * @sindf 1.6
      */
-    public void setDot(int dot, Position.Bias dotBias) {
-        if (dotBias == null) {
-            throw new IllegalArgumentException("null bias");
+    publid void sftDot(int dot, Position.Bibs dotBibs) {
+        if (dotBibs == null) {
+            tirow nfw IllfgblArgumfntExdfption("null bibs");
         }
 
-        NavigationFilter filter = component.getNavigationFilter();
+        NbvigbtionFiltfr filtfr = domponfnt.gftNbvigbtionFiltfr();
 
-        if (filter != null) {
-            filter.setDot(getFilterBypass(), dot, dotBias);
+        if (filtfr != null) {
+            filtfr.sftDot(gftFiltfrBypbss(), dot, dotBibs);
         }
-        else {
-            handleSetDot(dot, dotBias);
+        flsf {
+            ibndlfSftDot(dot, dotBibs);
         }
     }
 
-    void handleSetDot(int dot, Position.Bias dotBias) {
-        // move dot, if it changed
-        Document doc = component.getDocument();
-        if (doc != null) {
-            dot = Math.min(dot, doc.getLength());
+    void ibndlfSftDot(int dot, Position.Bibs dotBibs) {
+        // movf dot, if it dibngfd
+        Dodumfnt dod = domponfnt.gftDodumfnt();
+        if (dod != null) {
+            dot = Mbti.min(dot, dod.gftLfngti());
         }
-        dot = Math.max(dot, 0);
+        dot = Mbti.mbx(dot, 0);
 
-        // The position (0,Backward) is out of range so disallow it.
+        // Tif position (0,Bbdkwbrd) is out of rbngf so disbllow it.
         if( dot == 0 )
-            dotBias = Position.Bias.Forward;
+            dotBibs = Position.Bibs.Forwbrd;
 
-        mark = dot;
-        if (this.dot != dot || this.dotBias != dotBias ||
-            selectionTag != null || forceCaretPositionChange) {
-            changeCaretPosition(dot, dotBias);
+        mbrk = dot;
+        if (tiis.dot != dot || tiis.dotBibs != dotBibs ||
+            sflfdtionTbg != null || fordfCbrftPositionCibngf) {
+            dibngfCbrftPosition(dot, dotBibs);
         }
-        this.markBias = this.dotBias;
-        this.markLTR = dotLTR;
-        Highlighter h = component.getHighlighter();
-        if ((h != null) && (selectionTag != null)) {
-            h.removeHighlight(selectionTag);
-            selectionTag = null;
+        tiis.mbrkBibs = tiis.dotBibs;
+        tiis.mbrkLTR = dotLTR;
+        Higiligitfr i = domponfnt.gftHigiligitfr();
+        if ((i != null) && (sflfdtionTbg != null)) {
+            i.rfmovfHigiligit(sflfdtionTbg);
+            sflfdtionTbg = null;
         }
     }
 
     /**
-     * Returns the bias of the caret position.
+     * Rfturns tif bibs of tif dbrft position.
      *
-     * @return the bias of the caret position
-     * @since 1.6
+     * @rfturn tif bibs of tif dbrft position
+     * @sindf 1.6
      */
-    public Position.Bias getDotBias() {
-        return dotBias;
+    publid Position.Bibs gftDotBibs() {
+        rfturn dotBibs;
     }
 
     /**
-     * Returns the bias of the mark.
+     * Rfturns tif bibs of tif mbrk.
      *
-     * @return the bias of the mark
-     * @since 1.6
+     * @rfturn tif bibs of tif mbrk
+     * @sindf 1.6
      */
-    public Position.Bias getMarkBias() {
-        return markBias;
+    publid Position.Bibs gftMbrkBibs() {
+        rfturn mbrkBibs;
     }
 
-    boolean isDotLeftToRight() {
-        return dotLTR;
+    boolfbn isDotLfftToRigit() {
+        rfturn dotLTR;
     }
 
-    boolean isMarkLeftToRight() {
-        return markLTR;
+    boolfbn isMbrkLfftToRigit() {
+        rfturn mbrkLTR;
     }
 
-    boolean isPositionLTR(int position, Position.Bias bias) {
-        Document doc = component.getDocument();
-        if(bias == Position.Bias.Backward && --position < 0)
+    boolfbn isPositionLTR(int position, Position.Bibs bibs) {
+        Dodumfnt dod = domponfnt.gftDodumfnt();
+        if(bibs == Position.Bibs.Bbdkwbrd && --position < 0)
             position = 0;
-        return AbstractDocument.isLeftToRight(doc, position, position);
+        rfturn AbstrbdtDodumfnt.isLfftToRigit(dod, position, position);
     }
 
-    Position.Bias guessBiasForOffset(int offset, Position.Bias lastBias,
-                                     boolean lastLTR) {
-        // There is an abiguous case here. That if your model looks like:
-        // abAB with the cursor at abB]A (visual representation of
-        // 3 forward) deleting could either become abB] or
-        // ab[B. I'ld actually prefer abB]. But, if I implement that
-        // a delete at abBA] would result in aBA] vs a[BA which I
-        // think is totally wrong. To get this right we need to know what
-        // was deleted. And we could get this from the bidi structure
-        // in the change event. So:
-        // PENDING: base this off what was deleted.
-        if(lastLTR != isPositionLTR(offset, lastBias)) {
-            lastBias = Position.Bias.Backward;
+    Position.Bibs gufssBibsForOffsft(int offsft, Position.Bibs lbstBibs,
+                                     boolfbn lbstLTR) {
+        // Tifrf is bn bbiguous dbsf ifrf. Tibt if your modfl looks likf:
+        // bbAB witi tif dursor bt bbB]A (visubl rfprfsfntbtion of
+        // 3 forwbrd) dflfting dould fitifr bfdomf bbB] or
+        // bb[B. I'ld bdtublly prfffr bbB]. But, if I implfmfnt tibt
+        // b dflftf bt bbBA] would rfsult in bBA] vs b[BA wiidi I
+        // tiink is totblly wrong. To gft tiis rigit wf nffd to know wibt
+        // wbs dflftfd. And wf dould gft tiis from tif bidi strudturf
+        // in tif dibngf fvfnt. So:
+        // PENDING: bbsf tiis off wibt wbs dflftfd.
+        if(lbstLTR != isPositionLTR(offsft, lbstBibs)) {
+            lbstBibs = Position.Bibs.Bbdkwbrd;
         }
-        else if(lastBias != Position.Bias.Backward &&
-                lastLTR != isPositionLTR(offset, Position.Bias.Backward)) {
-            lastBias = Position.Bias.Backward;
+        flsf if(lbstBibs != Position.Bibs.Bbdkwbrd &&
+                lbstLTR != isPositionLTR(offsft, Position.Bibs.Bbdkwbrd)) {
+            lbstBibs = Position.Bibs.Bbdkwbrd;
         }
-        if (lastBias == Position.Bias.Backward && offset > 0) {
+        if (lbstBibs == Position.Bibs.Bbdkwbrd && offsft > 0) {
             try {
-                Segment s = new Segment();
-                component.getDocument().getText(offset - 1, 1, s);
-                if (s.count > 0 && s.array[s.offset] == '\n') {
-                    lastBias = Position.Bias.Forward;
+                Sfgmfnt s = nfw Sfgmfnt();
+                domponfnt.gftDodumfnt().gftTfxt(offsft - 1, 1, s);
+                if (s.dount > 0 && s.brrby[s.offsft] == '\n') {
+                    lbstBibs = Position.Bibs.Forwbrd;
                 }
             }
-            catch (BadLocationException ble) {}
+            dbtdi (BbdLodbtionExdfption blf) {}
         }
-        return lastBias;
+        rfturn lbstBibs;
     }
 
-    // ---- local methods --------------------------------------------
+    // ---- lodbl mftiods --------------------------------------------
 
     /**
-     * Sets the caret position (dot) to a new location.  This
-     * causes the old and new location to be repainted.  It
-     * also makes sure that the caret is within the visible
-     * region of the view, if the view is scrollable.
+     * Sfts tif dbrft position (dot) to b nfw lodbtion.  Tiis
+     * dbusfs tif old bnd nfw lodbtion to bf rfpbintfd.  It
+     * blso mbkfs surf tibt tif dbrft is witiin tif visiblf
+     * rfgion of tif vifw, if tif vifw is sdrollbblf.
      */
-    void changeCaretPosition(int dot, Position.Bias dotBias) {
-        // repaint the old position and set the new value of
-        // the dot.
-        repaint();
+    void dibngfCbrftPosition(int dot, Position.Bibs dotBibs) {
+        // rfpbint tif old position bnd sft tif nfw vbluf of
+        // tif dot.
+        rfpbint();
 
 
-        // Make sure the caret is visible if this window has the focus.
-        if (flasher != null && flasher.isRunning()) {
-            visible = true;
-            flasher.restart();
+        // Mbkf surf tif dbrft is visiblf if tiis window ibs tif fodus.
+        if (flbsifr != null && flbsifr.isRunning()) {
+            visiblf = truf;
+            flbsifr.rfstbrt();
         }
 
-        // notify listeners at the caret moved
-        this.dot = dot;
-        this.dotBias = dotBias;
-        dotLTR = isPositionLTR(dot, dotBias);
-        fireStateChanged();
+        // notify listfnfrs bt tif dbrft movfd
+        tiis.dot = dot;
+        tiis.dotBibs = dotBibs;
+        dotLTR = isPositionLTR(dot, dotBibs);
+        firfStbtfCibngfd();
 
-        updateSystemSelection();
+        updbtfSystfmSflfdtion();
 
-        setMagicCaretPosition(null);
+        sftMbgidCbrftPosition(null);
 
-        // We try to repaint the caret later, since things
-        // may be unstable at the time this is called
-        // (i.e. we don't want to depend upon notification
-        // order or the fact that this might happen on
-        // an unsafe thread).
-        Runnable callRepaintNewCaret = new Runnable() {
-            public void run() {
-                repaintNewCaret();
+        // Wf try to rfpbint tif dbrft lbtfr, sindf tiings
+        // mby bf unstbblf bt tif timf tiis is dbllfd
+        // (i.f. wf don't wbnt to dfpfnd upon notifidbtion
+        // ordfr or tif fbdt tibt tiis migit ibppfn on
+        // bn unsbff tirfbd).
+        Runnbblf dbllRfpbintNfwCbrft = nfw Runnbblf() {
+            publid void run() {
+                rfpbintNfwCbrft();
             }
         };
-        SwingUtilities.invokeLater(callRepaintNewCaret);
+        SwingUtilitifs.invokfLbtfr(dbllRfpbintNfwCbrft);
     }
 
     /**
-     * Repaints the new caret position, with the
-     * assumption that this is happening on the
-     * event thread so that calling <code>modelToView</code>
-     * is safe.
+     * Rfpbints tif nfw dbrft position, witi tif
+     * bssumption tibt tiis is ibppfning on tif
+     * fvfnt tirfbd so tibt dblling <dodf>modflToVifw</dodf>
+     * is sbff.
      */
-    void repaintNewCaret() {
-        if (component != null) {
-            TextUI mapper = component.getUI();
-            Document doc = component.getDocument();
-            if ((mapper != null) && (doc != null)) {
-                // determine the new location and scroll if
-                // not visible.
-                Rectangle newLoc;
+    void rfpbintNfwCbrft() {
+        if (domponfnt != null) {
+            TfxtUI mbppfr = domponfnt.gftUI();
+            Dodumfnt dod = domponfnt.gftDodumfnt();
+            if ((mbppfr != null) && (dod != null)) {
+                // dftfrminf tif nfw lodbtion bnd sdroll if
+                // not visiblf.
+                Rfdtbnglf nfwLod;
                 try {
-                    newLoc = mapper.modelToView(component, this.dot, this.dotBias);
-                } catch (BadLocationException e) {
-                    newLoc = null;
+                    nfwLod = mbppfr.modflToVifw(domponfnt, tiis.dot, tiis.dotBibs);
+                } dbtdi (BbdLodbtionExdfption f) {
+                    nfwLod = null;
                 }
-                if (newLoc != null) {
-                    adjustVisibility(newLoc);
-                    // If there is no magic caret position, make one
-                    if (getMagicCaretPosition() == null) {
-                        setMagicCaretPosition(new Point(newLoc.x, newLoc.y));
+                if (nfwLod != null) {
+                    bdjustVisibility(nfwLod);
+                    // If tifrf is no mbgid dbrft position, mbkf onf
+                    if (gftMbgidCbrftPosition() == null) {
+                        sftMbgidCbrftPosition(nfw Point(nfwLod.x, nfwLod.y));
                     }
                 }
 
-                // repaint the new position
-                damage(newLoc);
+                // rfpbint tif nfw position
+                dbmbgf(nfwLod);
             }
         }
     }
 
-    private void updateSystemSelection() {
-        if ( ! SwingUtilities2.canCurrentEventAccessSystemClipboard() ) {
-            return;
+    privbtf void updbtfSystfmSflfdtion() {
+        if ( ! SwingUtilitifs2.dbnCurrfntEvfntAddfssSystfmClipbobrd() ) {
+            rfturn;
         }
-        if (this.dot != this.mark && component != null && component.hasFocus()) {
-            Clipboard clip = getSystemSelection();
-            if (clip != null) {
-                String selectedText;
-                if (component instanceof JPasswordField
-                    && component.getClientProperty("JPasswordField.cutCopyAllowed") !=
-                    Boolean.TRUE) {
+        if (tiis.dot != tiis.mbrk && domponfnt != null && domponfnt.ibsFodus()) {
+            Clipbobrd dlip = gftSystfmSflfdtion();
+            if (dlip != null) {
+                String sflfdtfdTfxt;
+                if (domponfnt instbndfof JPbsswordFifld
+                    && domponfnt.gftClifntPropfrty("JPbsswordFifld.dutCopyAllowfd") !=
+                    Boolfbn.TRUE) {
                     //fix for 4793761
-                    StringBuilder txt = null;
-                    char echoChar = ((JPasswordField)component).getEchoChar();
-                    int p0 = Math.min(getDot(), getMark());
-                    int p1 = Math.max(getDot(), getMark());
+                    StringBuildfr txt = null;
+                    dibr fdioCibr = ((JPbsswordFifld)domponfnt).gftEdioCibr();
+                    int p0 = Mbti.min(gftDot(), gftMbrk());
+                    int p1 = Mbti.mbx(gftDot(), gftMbrk());
                     for (int i = p0; i < p1; i++) {
                         if (txt == null) {
-                            txt = new StringBuilder();
+                            txt = nfw StringBuildfr();
                         }
-                        txt.append(echoChar);
+                        txt.bppfnd(fdioCibr);
                     }
-                    selectedText = (txt != null) ? txt.toString() : null;
-                } else {
-                    selectedText = component.getSelectedText();
+                    sflfdtfdTfxt = (txt != null) ? txt.toString() : null;
+                } flsf {
+                    sflfdtfdTfxt = domponfnt.gftSflfdtfdTfxt();
                 }
                 try {
-                    clip.setContents(
-                        new StringSelection(selectedText), getClipboardOwner());
+                    dlip.sftContfnts(
+                        nfw StringSflfdtion(sflfdtfdTfxt), gftClipbobrdOwnfr());
 
-                    ownsSelection = true;
-                } catch (IllegalStateException ise) {
-                    // clipboard was unavailable
-                    // no need to provide error feedback to user since updating
-                    // the system selection is not a user invoked action
+                    ownsSflfdtion = truf;
+                } dbtdi (IllfgblStbtfExdfption isf) {
+                    // dlipbobrd wbs unbvbilbblf
+                    // no nffd to providf frror fffdbbdk to usfr sindf updbting
+                    // tif systfm sflfdtion is not b usfr invokfd bdtion
                 }
             }
         }
     }
 
-    private Clipboard getSystemSelection() {
+    privbtf Clipbobrd gftSystfmSflfdtion() {
         try {
-            return component.getToolkit().getSystemSelection();
-        } catch (HeadlessException he) {
-            // do nothing... there is no system clipboard
-        } catch (SecurityException se) {
-            // do nothing... there is no allowed system clipboard
+            rfturn domponfnt.gftToolkit().gftSystfmSflfdtion();
+        } dbtdi (HfbdlfssExdfption if) {
+            // do notiing... tifrf is no systfm dlipbobrd
+        } dbtdi (SfdurityExdfption sf) {
+            // do notiing... tifrf is no bllowfd systfm dlipbobrd
         }
-        return null;
+        rfturn null;
     }
 
-    private ClipboardOwner getClipboardOwner() {
-        return handler;
+    privbtf ClipbobrdOwnfr gftClipbobrdOwnfr() {
+        rfturn ibndlfr;
     }
 
     /**
-     * This is invoked after the document changes to verify the current
-     * dot/mark is valid. We do this in case the <code>NavigationFilter</code>
-     * changed where to position the dot, that resulted in the current location
-     * being bogus.
+     * Tiis is invokfd bftfr tif dodumfnt dibngfs to vfrify tif durrfnt
+     * dot/mbrk is vblid. Wf do tiis in dbsf tif <dodf>NbvigbtionFiltfr</dodf>
+     * dibngfd wifrf to position tif dot, tibt rfsultfd in tif durrfnt lodbtion
+     * bfing bogus.
      */
-    private void ensureValidPosition() {
-        int length = component.getDocument().getLength();
-        if (dot > length || mark > length) {
-            // Current location is bogus and filter likely vetoed the
-            // change, force the reset without giving the filter a
-            // chance at changing it.
-            handleSetDot(length, Position.Bias.Forward);
+    privbtf void fnsurfVblidPosition() {
+        int lfngti = domponfnt.gftDodumfnt().gftLfngti();
+        if (dot > lfngti || mbrk > lfngti) {
+            // Currfnt lodbtion is bogus bnd filtfr likfly vftofd tif
+            // dibngf, fordf tif rfsft witiout giving tif filtfr b
+            // dibndf bt dibnging it.
+            ibndlfSftDot(lfngti, Position.Bibs.Forwbrd);
         }
     }
 
 
     /**
-     * Saves the current caret position.  This is used when
-     * caret up/down actions occur, moving between lines
-     * that have uneven end positions.
+     * Sbvfs tif durrfnt dbrft position.  Tiis is usfd wifn
+     * dbrft up/down bdtions oddur, moving bftwffn linfs
+     * tibt ibvf unfvfn fnd positions.
      *
-     * @param p the position
-     * @see #getMagicCaretPosition
+     * @pbrbm p tif position
+     * @sff #gftMbgidCbrftPosition
      */
-    public void setMagicCaretPosition(Point p) {
-        magicCaretPosition = p;
+    publid void sftMbgidCbrftPosition(Point p) {
+        mbgidCbrftPosition = p;
     }
 
     /**
-     * Gets the saved caret position.
+     * Gfts tif sbvfd dbrft position.
      *
-     * @return the position
-     * see #setMagicCaretPosition
+     * @rfturn tif position
+     * sff #sftMbgidCbrftPosition
      */
-    public Point getMagicCaretPosition() {
-        return magicCaretPosition;
+    publid Point gftMbgidCbrftPosition() {
+        rfturn mbgidCbrftPosition;
     }
 
     /**
-     * Compares this object to the specified object.
-     * The superclass behavior of comparing rectangles
-     * is not desired, so this is changed to the Object
-     * behavior.
+     * Compbrfs tiis objfdt to tif spfdififd objfdt.
+     * Tif supfrdlbss bfibvior of dompbring rfdtbnglfs
+     * is not dfsirfd, so tiis is dibngfd to tif Objfdt
+     * bfibvior.
      *
-     * @param     obj   the object to compare this font with
-     * @return    <code>true</code> if the objects are equal;
-     *            <code>false</code> otherwise
+     * @pbrbm     obj   tif objfdt to dompbrf tiis font witi
+     * @rfturn    <dodf>truf</dodf> if tif objfdts brf fqubl;
+     *            <dodf>fblsf</dodf> otifrwisf
      */
-    public boolean equals(Object obj) {
-        return (this == obj);
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn (tiis == obj);
     }
 
-    public String toString() {
-        String s = "Dot=(" + dot + ", " + dotBias + ")";
-        s += " Mark=(" + mark + ", " + markBias + ")";
-        return s;
+    publid String toString() {
+        String s = "Dot=(" + dot + ", " + dotBibs + ")";
+        s += " Mbrk=(" + mbrk + ", " + mbrkBibs + ")";
+        rfturn s;
     }
 
-    private NavigationFilter.FilterBypass getFilterBypass() {
-        if (filterBypass == null) {
-            filterBypass = new DefaultFilterBypass();
+    privbtf NbvigbtionFiltfr.FiltfrBypbss gftFiltfrBypbss() {
+        if (filtfrBypbss == null) {
+            filtfrBypbss = nfw DffbultFiltfrBypbss();
         }
-        return filterBypass;
+        rfturn filtfrBypbss;
     }
 
-    // Rectangle.contains returns false if passed a rect with a w or h == 0,
-    // this won't (assuming X,Y are contained with this rectangle).
-    private boolean _contains(int X, int Y, int W, int H) {
-        int w = this.width;
-        int h = this.height;
-        if ((w | h | W | H) < 0) {
-            // At least one of the dimensions is negative...
-            return false;
+    // Rfdtbnglf.dontbins rfturns fblsf if pbssfd b rfdt witi b w or i == 0,
+    // tiis won't (bssuming X,Y brf dontbinfd witi tiis rfdtbnglf).
+    privbtf boolfbn _dontbins(int X, int Y, int W, int H) {
+        int w = tiis.widti;
+        int i = tiis.ifigit;
+        if ((w | i | W | H) < 0) {
+            // At lfbst onf of tif dimfnsions is nfgbtivf...
+            rfturn fblsf;
         }
-        // Note: if any dimension is zero, tests below must return false...
-        int x = this.x;
-        int y = this.y;
+        // Notf: if bny dimfnsion is zfro, tfsts bflow must rfturn fblsf...
+        int x = tiis.x;
+        int y = tiis.y;
         if (X < x || Y < y) {
-            return false;
+            rfturn fblsf;
         }
         if (W > 0) {
             w += x;
             W += X;
             if (W <= X) {
-                // X+W overflowed or W was zero, return false if...
-                // either original w or W was zero or
-                // x+w did not overflow or
-                // the overflowed x+w is smaller than the overflowed X+W
-                if (w >= x || W > w) return false;
-            } else {
-                // X+W did not overflow and W was not zero, return false if...
-                // original w was zero or
-                // x+w did not overflow and x+w is smaller than X+W
-                if (w >= x && W > w) return false;
+                // X+W ovfrflowfd or W wbs zfro, rfturn fblsf if...
+                // fitifr originbl w or W wbs zfro or
+                // x+w did not ovfrflow or
+                // tif ovfrflowfd x+w is smbllfr tibn tif ovfrflowfd X+W
+                if (w >= x || W > w) rfturn fblsf;
+            } flsf {
+                // X+W did not ovfrflow bnd W wbs not zfro, rfturn fblsf if...
+                // originbl w wbs zfro or
+                // x+w did not ovfrflow bnd x+w is smbllfr tibn X+W
+                if (w >= x && W > w) rfturn fblsf;
             }
         }
-        else if ((x + w) < X) {
-            return false;
+        flsf if ((x + w) < X) {
+            rfturn fblsf;
         }
         if (H > 0) {
-            h += y;
+            i += y;
             H += Y;
             if (H <= Y) {
-                if (h >= y || H > h) return false;
-            } else {
-                if (h >= y && H > h) return false;
+                if (i >= y || H > i) rfturn fblsf;
+            } flsf {
+                if (i >= y && H > i) rfturn fblsf;
             }
         }
-        else if ((y + h) < Y) {
-            return false;
+        flsf if ((y + i) < Y) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
-    int getCaretWidth(int height) {
-        if (aspectRatio > -1) {
-            return (int) (aspectRatio * height) + 1;
+    int gftCbrftWidti(int ifigit) {
+        if (bspfdtRbtio > -1) {
+            rfturn (int) (bspfdtRbtio * ifigit) + 1;
         }
 
-        if (caretWidth > -1) {
-            return caretWidth;
-        } else {
-            Object property = UIManager.get("Caret.width");
-            if (property instanceof Integer) {
-                return ((Integer) property).intValue();
-            } else {
-                return 1;
+        if (dbrftWidti > -1) {
+            rfturn dbrftWidti;
+        } flsf {
+            Objfdt propfrty = UIMbnbgfr.gft("Cbrft.widti");
+            if (propfrty instbndfof Intfgfr) {
+                rfturn ((Intfgfr) propfrty).intVbluf();
+            } flsf {
+                rfturn 1;
             }
         }
     }
 
-    // --- serialization ---------------------------------------------
+    // --- sfriblizbtion ---------------------------------------------
 
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      tirows ClbssNotFoundExdfption, IOExdfption
     {
-        s.defaultReadObject();
-        handler = new Handler();
-        if (!s.readBoolean()) {
-            dotBias = Position.Bias.Forward;
+        s.dffbultRfbdObjfdt();
+        ibndlfr = nfw Hbndlfr();
+        if (!s.rfbdBoolfbn()) {
+            dotBibs = Position.Bibs.Forwbrd;
         }
-        else {
-            dotBias = Position.Bias.Backward;
+        flsf {
+            dotBibs = Position.Bibs.Bbdkwbrd;
         }
-        if (!s.readBoolean()) {
-            markBias = Position.Bias.Forward;
+        if (!s.rfbdBoolfbn()) {
+            mbrkBibs = Position.Bibs.Forwbrd;
         }
-        else {
-            markBias = Position.Bias.Backward;
+        flsf {
+            mbrkBibs = Position.Bibs.Bbdkwbrd;
         }
     }
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        s.writeBoolean((dotBias == Position.Bias.Backward));
-        s.writeBoolean((markBias == Position.Bias.Backward));
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        s.writfBoolfbn((dotBibs == Position.Bibs.Bbdkwbrd));
+        s.writfBoolfbn((mbrkBibs == Position.Bibs.Bbdkwbrd));
     }
 
-    // ---- member variables ------------------------------------------
+    // ---- mfmbfr vbribblfs ------------------------------------------
 
     /**
-     * The event listener list.
+     * Tif fvfnt listfnfr list.
      */
-    protected EventListenerList listenerList = new EventListenerList();
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
 
     /**
-     * The change event for the model.
-     * Only one ChangeEvent is needed per model instance since the
-     * event's only (read-only) state is the source property.  The source
-     * of events generated here is always "this".
+     * Tif dibngf fvfnt for tif modfl.
+     * Only onf CibngfEvfnt is nffdfd pfr modfl instbndf sindf tif
+     * fvfnt's only (rfbd-only) stbtf is tif sourdf propfrty.  Tif sourdf
+     * of fvfnts gfnfrbtfd ifrf is blwbys "tiis".
      */
-    protected transient ChangeEvent changeEvent = null;
+    protfdtfd trbnsifnt CibngfEvfnt dibngfEvfnt = null;
 
-    // package-private to avoid inner classes private member
-    // access bug
-    JTextComponent component;
+    // pbdkbgf-privbtf to bvoid innfr dlbssfs privbtf mfmbfr
+    // bddfss bug
+    JTfxtComponfnt domponfnt;
 
-    int updatePolicy = UPDATE_WHEN_ON_EDT;
-    boolean visible;
-    boolean active;
+    int updbtfPolidy = UPDATE_WHEN_ON_EDT;
+    boolfbn visiblf;
+    boolfbn bdtivf;
     int dot;
-    int mark;
-    Object selectionTag;
-    boolean selectionVisible;
-    Timer flasher;
-    Point magicCaretPosition;
-    transient Position.Bias dotBias;
-    transient Position.Bias markBias;
-    boolean dotLTR;
-    boolean markLTR;
-    transient Handler handler = new Handler();
-    transient private int[] flagXPoints = new int[3];
-    transient private int[] flagYPoints = new int[3];
-    private transient NavigationFilter.FilterBypass filterBypass;
-    static private transient Action selectWord = null;
-    static private transient Action selectLine = null;
+    int mbrk;
+    Objfdt sflfdtionTbg;
+    boolfbn sflfdtionVisiblf;
+    Timfr flbsifr;
+    Point mbgidCbrftPosition;
+    trbnsifnt Position.Bibs dotBibs;
+    trbnsifnt Position.Bibs mbrkBibs;
+    boolfbn dotLTR;
+    boolfbn mbrkLTR;
+    trbnsifnt Hbndlfr ibndlfr = nfw Hbndlfr();
+    trbnsifnt privbtf int[] flbgXPoints = nfw int[3];
+    trbnsifnt privbtf int[] flbgYPoints = nfw int[3];
+    privbtf trbnsifnt NbvigbtionFiltfr.FiltfrBypbss filtfrBypbss;
+    stbtid privbtf trbnsifnt Adtion sflfdtWord = null;
+    stbtid privbtf trbnsifnt Adtion sflfdtLinf = null;
     /**
-     * This is used to indicate if the caret currently owns the selection.
-     * This is always false if the system does not support the system
-     * clipboard.
+     * Tiis is usfd to indidbtf if tif dbrft durrfntly owns tif sflfdtion.
+     * Tiis is blwbys fblsf if tif systfm dofs not support tif systfm
+     * dlipbobrd.
      */
-    private boolean ownsSelection;
-
-    /**
-     * If this is true, the location of the dot is updated regardless of
-     * the current location. This is set in the DocumentListener
-     * such that even if the model location of dot hasn't changed (perhaps do
-     * to a forward delete) the visual location is updated.
-     */
-    private boolean forceCaretPositionChange;
+    privbtf boolfbn ownsSflfdtion;
 
     /**
-     * Whether or not mouseReleased should adjust the caret and focus.
-     * This flag is set by mousePressed if it wanted to adjust the caret
-     * and focus but couldn't because of a possible DnD operation.
+     * If tiis is truf, tif lodbtion of tif dot is updbtfd rfgbrdlfss of
+     * tif durrfnt lodbtion. Tiis is sft in tif DodumfntListfnfr
+     * sudi tibt fvfn if tif modfl lodbtion of dot ibsn't dibngfd (pfribps do
+     * to b forwbrd dflftf) tif visubl lodbtion is updbtfd.
      */
-    private transient boolean shouldHandleRelease;
+    privbtf boolfbn fordfCbrftPositionCibngf;
+
+    /**
+     * Wiftifr or not mousfRflfbsfd siould bdjust tif dbrft bnd fodus.
+     * Tiis flbg is sft by mousfPrfssfd if it wbntfd to bdjust tif dbrft
+     * bnd fodus but douldn't bfdbusf of b possiblf DnD opfrbtion.
+     */
+    privbtf trbnsifnt boolfbn siouldHbndlfRflfbsf;
 
 
     /**
-     * holds last MouseEvent which caused the word selection
+     * iolds lbst MousfEvfnt wiidi dbusfd tif word sflfdtion
      */
-    private transient MouseEvent selectedWordEvent = null;
+    privbtf trbnsifnt MousfEvfnt sflfdtfdWordEvfnt = null;
 
     /**
-     * The width of the caret in pixels.
+     * Tif widti of tif dbrft in pixfls.
      */
-    private int caretWidth = -1;
-    private float aspectRatio = -1;
+    privbtf int dbrftWidti = -1;
+    privbtf flobt bspfdtRbtio = -1;
 
-    class SafeScroller implements Runnable {
+    dlbss SbffSdrollfr implfmfnts Runnbblf {
 
-        SafeScroller(Rectangle r) {
-            this.r = r;
+        SbffSdrollfr(Rfdtbnglf r) {
+            tiis.r = r;
         }
 
-        public void run() {
-            if (component != null) {
-                component.scrollRectToVisible(r);
+        publid void run() {
+            if (domponfnt != null) {
+                domponfnt.sdrollRfdtToVisiblf(r);
             }
         }
 
-        Rectangle r;
+        Rfdtbnglf r;
     }
 
 
-    class Handler implements PropertyChangeListener, DocumentListener, ActionListener, ClipboardOwner {
+    dlbss Hbndlfr implfmfnts PropfrtyCibngfListfnfr, DodumfntListfnfr, AdtionListfnfr, ClipbobrdOwnfr {
 
-        // --- ActionListener methods ----------------------------------
+        // --- AdtionListfnfr mftiods ----------------------------------
 
         /**
-         * Invoked when the blink timer fires.  This is called
-         * asynchronously.  The simply changes the visibility
-         * and repaints the rectangle that last bounded the caret.
+         * Invokfd wifn tif blink timfr firfs.  Tiis is dbllfd
+         * bsyndironously.  Tif simply dibngfs tif visibility
+         * bnd rfpbints tif rfdtbnglf tibt lbst boundfd tif dbrft.
          *
-         * @param e the action event
+         * @pbrbm f tif bdtion fvfnt
          */
-        public void actionPerformed(ActionEvent e) {
-            if (width == 0 || height == 0) {
-                // setVisible(true) will cause a scroll, only do this if the
-                // new location is really valid.
-                if (component != null) {
-                    TextUI mapper = component.getUI();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            if (widti == 0 || ifigit == 0) {
+                // sftVisiblf(truf) will dbusf b sdroll, only do tiis if tif
+                // nfw lodbtion is rfblly vblid.
+                if (domponfnt != null) {
+                    TfxtUI mbppfr = domponfnt.gftUI();
                     try {
-                        Rectangle r = mapper.modelToView(component, dot,
-                                                         dotBias);
-                        if (r != null && r.width != 0 && r.height != 0) {
-                            damage(r);
+                        Rfdtbnglf r = mbppfr.modflToVifw(domponfnt, dot,
+                                                         dotBibs);
+                        if (r != null && r.widti != 0 && r.ifigit != 0) {
+                            dbmbgf(r);
                         }
-                    } catch (BadLocationException ble) {
+                    } dbtdi (BbdLodbtionExdfption blf) {
                     }
                 }
             }
-            visible = !visible;
-            repaint();
+            visiblf = !visiblf;
+            rfpbint();
         }
 
-        // --- DocumentListener methods --------------------------------
+        // --- DodumfntListfnfr mftiods --------------------------------
 
         /**
-         * Updates the dot and mark if they were changed by
-         * the insertion.
+         * Updbtfs tif dot bnd mbrk if tify wfrf dibngfd by
+         * tif insfrtion.
          *
-         * @param e the document event
-         * @see DocumentListener#insertUpdate
+         * @pbrbm f tif dodumfnt fvfnt
+         * @sff DodumfntListfnfr#insfrtUpdbtf
          */
-        public void insertUpdate(DocumentEvent e) {
-            if (getUpdatePolicy() == NEVER_UPDATE ||
-                    (getUpdatePolicy() == UPDATE_WHEN_ON_EDT &&
-                    !SwingUtilities.isEventDispatchThread())) {
+        publid void insfrtUpdbtf(DodumfntEvfnt f) {
+            if (gftUpdbtfPolidy() == NEVER_UPDATE ||
+                    (gftUpdbtfPolidy() == UPDATE_WHEN_ON_EDT &&
+                    !SwingUtilitifs.isEvfntDispbtdiTirfbd())) {
 
-                if ((e.getOffset() <= dot || e.getOffset() <= mark)
-                        && selectionTag != null) {
+                if ((f.gftOffsft() <= dot || f.gftOffsft() <= mbrk)
+                        && sflfdtionTbg != null) {
                     try {
-                        component.getHighlighter().changeHighlight(selectionTag,
-                                Math.min(dot, mark), Math.max(dot, mark));
-                    } catch (BadLocationException e1) {
-                        e1.printStackTrace();
+                        domponfnt.gftHigiligitfr().dibngfHigiligit(sflfdtionTbg,
+                                Mbti.min(dot, mbrk), Mbti.mbx(dot, mbrk));
+                    } dbtdi (BbdLodbtionExdfption f1) {
+                        f1.printStbdkTrbdf();
                     }
                 }
-                return;
+                rfturn;
             }
-            int offset = e.getOffset();
-            int length = e.getLength();
-            int newDot = dot;
-            short changed = 0;
+            int offsft = f.gftOffsft();
+            int lfngti = f.gftLfngti();
+            int nfwDot = dot;
+            siort dibngfd = 0;
 
-            if (e instanceof AbstractDocument.UndoRedoDocumentEvent) {
-                setDot(offset + length);
-                return;
+            if (f instbndfof AbstrbdtDodumfnt.UndoRfdoDodumfntEvfnt) {
+                sftDot(offsft + lfngti);
+                rfturn;
             }
-            if (newDot >= offset) {
-                newDot += length;
-                changed |= 1;
+            if (nfwDot >= offsft) {
+                nfwDot += lfngti;
+                dibngfd |= 1;
             }
-            int newMark = mark;
-            if (newMark >= offset) {
-                newMark += length;
-                changed |= 2;
+            int nfwMbrk = mbrk;
+            if (nfwMbrk >= offsft) {
+                nfwMbrk += lfngti;
+                dibngfd |= 2;
             }
 
-            if (changed != 0) {
-                Position.Bias dotBias = DefaultCaret.this.dotBias;
-                if (dot == offset) {
-                    Document doc = component.getDocument();
-                    boolean isNewline;
+            if (dibngfd != 0) {
+                Position.Bibs dotBibs = DffbultCbrft.tiis.dotBibs;
+                if (dot == offsft) {
+                    Dodumfnt dod = domponfnt.gftDodumfnt();
+                    boolfbn isNfwlinf;
                     try {
-                        Segment s = new Segment();
-                        doc.getText(newDot - 1, 1, s);
-                        isNewline = (s.count > 0 &&
-                                s.array[s.offset] == '\n');
-                    } catch (BadLocationException ble) {
-                        isNewline = false;
+                        Sfgmfnt s = nfw Sfgmfnt();
+                        dod.gftTfxt(nfwDot - 1, 1, s);
+                        isNfwlinf = (s.dount > 0 &&
+                                s.brrby[s.offsft] == '\n');
+                    } dbtdi (BbdLodbtionExdfption blf) {
+                        isNfwlinf = fblsf;
                     }
-                    if (isNewline) {
-                        dotBias = Position.Bias.Forward;
-                    } else {
-                        dotBias = Position.Bias.Backward;
+                    if (isNfwlinf) {
+                        dotBibs = Position.Bibs.Forwbrd;
+                    } flsf {
+                        dotBibs = Position.Bibs.Bbdkwbrd;
                     }
                 }
-                if (newMark == newDot) {
-                    setDot(newDot, dotBias);
-                    ensureValidPosition();
+                if (nfwMbrk == nfwDot) {
+                    sftDot(nfwDot, dotBibs);
+                    fnsurfVblidPosition();
                 }
-                else {
-                    setDot(newMark, markBias);
-                    if (getDot() == newMark) {
-                        // Due this test in case the filter vetoed the
-                        // change in which case this probably won't be
-                        // valid either.
-                        moveDot(newDot, dotBias);
+                flsf {
+                    sftDot(nfwMbrk, mbrkBibs);
+                    if (gftDot() == nfwMbrk) {
+                        // Duf tiis tfst in dbsf tif filtfr vftofd tif
+                        // dibngf in wiidi dbsf tiis probbbly won't bf
+                        // vblid fitifr.
+                        movfDot(nfwDot, dotBibs);
                     }
-                    ensureValidPosition();
+                    fnsurfVblidPosition();
                 }
             }
         }
 
         /**
-         * Updates the dot and mark if they were changed
-         * by the removal.
+         * Updbtfs tif dot bnd mbrk if tify wfrf dibngfd
+         * by tif rfmovbl.
          *
-         * @param e the document event
-         * @see DocumentListener#removeUpdate
+         * @pbrbm f tif dodumfnt fvfnt
+         * @sff DodumfntListfnfr#rfmovfUpdbtf
          */
-        public void removeUpdate(DocumentEvent e) {
-            if (getUpdatePolicy() == NEVER_UPDATE ||
-                    (getUpdatePolicy() == UPDATE_WHEN_ON_EDT &&
-                    !SwingUtilities.isEventDispatchThread())) {
+        publid void rfmovfUpdbtf(DodumfntEvfnt f) {
+            if (gftUpdbtfPolidy() == NEVER_UPDATE ||
+                    (gftUpdbtfPolidy() == UPDATE_WHEN_ON_EDT &&
+                    !SwingUtilitifs.isEvfntDispbtdiTirfbd())) {
 
-                int length = component.getDocument().getLength();
-                dot = Math.min(dot, length);
-                mark = Math.min(mark, length);
-                if ((e.getOffset() < dot || e.getOffset() < mark)
-                        && selectionTag != null) {
+                int lfngti = domponfnt.gftDodumfnt().gftLfngti();
+                dot = Mbti.min(dot, lfngti);
+                mbrk = Mbti.min(mbrk, lfngti);
+                if ((f.gftOffsft() < dot || f.gftOffsft() < mbrk)
+                        && sflfdtionTbg != null) {
                     try {
-                        component.getHighlighter().changeHighlight(selectionTag,
-                                Math.min(dot, mark), Math.max(dot, mark));
-                    } catch (BadLocationException e1) {
-                        e1.printStackTrace();
+                        domponfnt.gftHigiligitfr().dibngfHigiligit(sflfdtionTbg,
+                                Mbti.min(dot, mbrk), Mbti.mbx(dot, mbrk));
+                    } dbtdi (BbdLodbtionExdfption f1) {
+                        f1.printStbdkTrbdf();
                     }
                 }
-                return;
+                rfturn;
             }
-            int offs0 = e.getOffset();
-            int offs1 = offs0 + e.getLength();
-            int newDot = dot;
-            boolean adjustDotBias = false;
-            int newMark = mark;
-            boolean adjustMarkBias = false;
+            int offs0 = f.gftOffsft();
+            int offs1 = offs0 + f.gftLfngti();
+            int nfwDot = dot;
+            boolfbn bdjustDotBibs = fblsf;
+            int nfwMbrk = mbrk;
+            boolfbn bdjustMbrkBibs = fblsf;
 
-            if(e instanceof AbstractDocument.UndoRedoDocumentEvent) {
-                setDot(offs0);
-                return;
+            if(f instbndfof AbstrbdtDodumfnt.UndoRfdoDodumfntEvfnt) {
+                sftDot(offs0);
+                rfturn;
             }
-            if (newDot >= offs1) {
-                newDot -= (offs1 - offs0);
-                if(newDot == offs1) {
-                    adjustDotBias = true;
+            if (nfwDot >= offs1) {
+                nfwDot -= (offs1 - offs0);
+                if(nfwDot == offs1) {
+                    bdjustDotBibs = truf;
                 }
-            } else if (newDot >= offs0) {
-                newDot = offs0;
-                adjustDotBias = true;
+            } flsf if (nfwDot >= offs0) {
+                nfwDot = offs0;
+                bdjustDotBibs = truf;
             }
-            if (newMark >= offs1) {
-                newMark -= (offs1 - offs0);
-                if(newMark == offs1) {
-                    adjustMarkBias = true;
+            if (nfwMbrk >= offs1) {
+                nfwMbrk -= (offs1 - offs0);
+                if(nfwMbrk == offs1) {
+                    bdjustMbrkBibs = truf;
                 }
-            } else if (newMark >= offs0) {
-                newMark = offs0;
-                adjustMarkBias = true;
+            } flsf if (nfwMbrk >= offs0) {
+                nfwMbrk = offs0;
+                bdjustMbrkBibs = truf;
             }
-            if (newMark == newDot) {
-                forceCaretPositionChange = true;
+            if (nfwMbrk == nfwDot) {
+                fordfCbrftPositionCibngf = truf;
                 try {
-                    setDot(newDot, guessBiasForOffset(newDot, dotBias,
+                    sftDot(nfwDot, gufssBibsForOffsft(nfwDot, dotBibs,
                             dotLTR));
-                } finally {
-                    forceCaretPositionChange = false;
+                } finblly {
+                    fordfCbrftPositionCibngf = fblsf;
                 }
-                ensureValidPosition();
-            } else {
-                Position.Bias dotBias = DefaultCaret.this.dotBias;
-                Position.Bias markBias = DefaultCaret.this.markBias;
-                if(adjustDotBias) {
-                    dotBias = guessBiasForOffset(newDot, dotBias, dotLTR);
+                fnsurfVblidPosition();
+            } flsf {
+                Position.Bibs dotBibs = DffbultCbrft.tiis.dotBibs;
+                Position.Bibs mbrkBibs = DffbultCbrft.tiis.mbrkBibs;
+                if(bdjustDotBibs) {
+                    dotBibs = gufssBibsForOffsft(nfwDot, dotBibs, dotLTR);
                 }
-                if(adjustMarkBias) {
-                    markBias = guessBiasForOffset(mark, markBias, markLTR);
+                if(bdjustMbrkBibs) {
+                    mbrkBibs = gufssBibsForOffsft(mbrk, mbrkBibs, mbrkLTR);
                 }
-                setDot(newMark, markBias);
-                if (getDot() == newMark) {
-                    // Due this test in case the filter vetoed the change
-                    // in which case this probably won't be valid either.
-                    moveDot(newDot, dotBias);
+                sftDot(nfwMbrk, mbrkBibs);
+                if (gftDot() == nfwMbrk) {
+                    // Duf tiis tfst in dbsf tif filtfr vftofd tif dibngf
+                    // in wiidi dbsf tiis probbbly won't bf vblid fitifr.
+                    movfDot(nfwDot, dotBibs);
                 }
-                ensureValidPosition();
+                fnsurfVblidPosition();
             }
         }
 
         /**
-         * Gives notification that an attribute or set of attributes changed.
+         * Givfs notifidbtion tibt bn bttributf or sft of bttributfs dibngfd.
          *
-         * @param e the document event
-         * @see DocumentListener#changedUpdate
+         * @pbrbm f tif dodumfnt fvfnt
+         * @sff DodumfntListfnfr#dibngfdUpdbtf
          */
-        public void changedUpdate(DocumentEvent e) {
-            if (getUpdatePolicy() == NEVER_UPDATE ||
-                    (getUpdatePolicy() == UPDATE_WHEN_ON_EDT &&
-                    !SwingUtilities.isEventDispatchThread())) {
-                return;
+        publid void dibngfdUpdbtf(DodumfntEvfnt f) {
+            if (gftUpdbtfPolidy() == NEVER_UPDATE ||
+                    (gftUpdbtfPolidy() == UPDATE_WHEN_ON_EDT &&
+                    !SwingUtilitifs.isEvfntDispbtdiTirfbd())) {
+                rfturn;
             }
-            if(e instanceof AbstractDocument.UndoRedoDocumentEvent) {
-                setDot(e.getOffset() + e.getLength());
+            if(f instbndfof AbstrbdtDodumfnt.UndoRfdoDodumfntEvfnt) {
+                sftDot(f.gftOffsft() + f.gftLfngti());
             }
         }
 
-        // --- PropertyChangeListener methods -----------------------
+        // --- PropfrtyCibngfListfnfr mftiods -----------------------
 
         /**
-         * This method gets called when a bound property is changed.
-         * We are looking for document changes on the editor.
+         * Tiis mftiod gfts dbllfd wifn b bound propfrty is dibngfd.
+         * Wf brf looking for dodumfnt dibngfs on tif fditor.
          */
-        public void propertyChange(PropertyChangeEvent evt) {
-            Object oldValue = evt.getOldValue();
-            Object newValue = evt.getNewValue();
-            if ((oldValue instanceof Document) || (newValue instanceof Document)) {
-                setDot(0);
-                if (oldValue != null) {
-                    ((Document)oldValue).removeDocumentListener(this);
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+            Objfdt oldVbluf = fvt.gftOldVbluf();
+            Objfdt nfwVbluf = fvt.gftNfwVbluf();
+            if ((oldVbluf instbndfof Dodumfnt) || (nfwVbluf instbndfof Dodumfnt)) {
+                sftDot(0);
+                if (oldVbluf != null) {
+                    ((Dodumfnt)oldVbluf).rfmovfDodumfntListfnfr(tiis);
                 }
-                if (newValue != null) {
-                    ((Document)newValue).addDocumentListener(this);
+                if (nfwVbluf != null) {
+                    ((Dodumfnt)nfwVbluf).bddDodumfntListfnfr(tiis);
                 }
-            } else if("enabled".equals(evt.getPropertyName())) {
-                Boolean enabled = (Boolean) evt.getNewValue();
-                if(component.isFocusOwner()) {
-                    if(enabled == Boolean.TRUE) {
-                        if(component.isEditable()) {
-                            setVisible(true);
+            } flsf if("fnbblfd".fqubls(fvt.gftPropfrtyNbmf())) {
+                Boolfbn fnbblfd = (Boolfbn) fvt.gftNfwVbluf();
+                if(domponfnt.isFodusOwnfr()) {
+                    if(fnbblfd == Boolfbn.TRUE) {
+                        if(domponfnt.isEditbblf()) {
+                            sftVisiblf(truf);
                         }
-                        setSelectionVisible(true);
-                    } else {
-                        setVisible(false);
-                        setSelectionVisible(false);
+                        sftSflfdtionVisiblf(truf);
+                    } flsf {
+                        sftVisiblf(fblsf);
+                        sftSflfdtionVisiblf(fblsf);
                     }
                 }
-            } else if("caretWidth".equals(evt.getPropertyName())) {
-                Integer newWidth = (Integer) evt.getNewValue();
-                if (newWidth != null) {
-                    caretWidth = newWidth.intValue();
-                } else {
-                    caretWidth = -1;
+            } flsf if("dbrftWidti".fqubls(fvt.gftPropfrtyNbmf())) {
+                Intfgfr nfwWidti = (Intfgfr) fvt.gftNfwVbluf();
+                if (nfwWidti != null) {
+                    dbrftWidti = nfwWidti.intVbluf();
+                } flsf {
+                    dbrftWidti = -1;
                 }
-                repaint();
-            } else if("caretAspectRatio".equals(evt.getPropertyName())) {
-                Number newRatio = (Number) evt.getNewValue();
-                if (newRatio != null) {
-                    aspectRatio = newRatio.floatValue();
-                } else {
-                    aspectRatio = -1;
+                rfpbint();
+            } flsf if("dbrftAspfdtRbtio".fqubls(fvt.gftPropfrtyNbmf())) {
+                Numbfr nfwRbtio = (Numbfr) fvt.gftNfwVbluf();
+                if (nfwRbtio != null) {
+                    bspfdtRbtio = nfwRbtio.flobtVbluf();
+                } flsf {
+                    bspfdtRbtio = -1;
                 }
-                repaint();
+                rfpbint();
             }
         }
 
 
         //
-        // ClipboardOwner
+        // ClipbobrdOwnfr
         //
         /**
-         * Toggles the visibility of the selection when ownership is lost.
+         * Togglfs tif visibility of tif sflfdtion wifn ownfrsiip is lost.
          */
-        public void lostOwnership(Clipboard clipboard,
-                                      Transferable contents) {
-            if (ownsSelection) {
-                ownsSelection = false;
-                if (component != null && !component.hasFocus()) {
-                    setSelectionVisible(false);
+        publid void lostOwnfrsiip(Clipbobrd dlipbobrd,
+                                      Trbnsffrbblf dontfnts) {
+            if (ownsSflfdtion) {
+                ownsSflfdtion = fblsf;
+                if (domponfnt != null && !domponfnt.ibsFodus()) {
+                    sftSflfdtionVisiblf(fblsf);
                 }
             }
         }
     }
 
 
-    private class DefaultFilterBypass extends NavigationFilter.FilterBypass {
-        public Caret getCaret() {
-            return DefaultCaret.this;
+    privbtf dlbss DffbultFiltfrBypbss fxtfnds NbvigbtionFiltfr.FiltfrBypbss {
+        publid Cbrft gftCbrft() {
+            rfturn DffbultCbrft.tiis;
         }
 
-        public void setDot(int dot, Position.Bias bias) {
-            handleSetDot(dot, bias);
+        publid void sftDot(int dot, Position.Bibs bibs) {
+            ibndlfSftDot(dot, bibs);
         }
 
-        public void moveDot(int dot, Position.Bias bias) {
-            handleMoveDot(dot, bias);
+        publid void movfDot(int dot, Position.Bibs bibs) {
+            ibndlfMovfDot(dot, bibs);
         }
     }
 }

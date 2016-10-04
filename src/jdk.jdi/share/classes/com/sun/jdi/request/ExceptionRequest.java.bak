@@ -1,156 +1,156 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi.request;
+pbdkbgf dom.sun.jdi.rfqufst;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
 /**
- * Request for notification when an exception occurs in the target VM.
- * When an enabled ExceptionRequest is satisfied, an
- * {@link com.sun.jdi.event.EventSet event set} containing an
- * {@link com.sun.jdi.event.ExceptionEvent ExceptionEvent} will be placed
- * on the {@link com.sun.jdi.event.EventQueue EventQueue}.
- * The collection of existing ExceptionRequests is
- * managed by the {@link EventRequestManager}
+ * Rfqufst for notifidbtion wifn bn fxdfption oddurs in tif tbrgft VM.
+ * Wifn bn fnbblfd ExdfptionRfqufst is sbtisfifd, bn
+ * {@link dom.sun.jdi.fvfnt.EvfntSft fvfnt sft} dontbining bn
+ * {@link dom.sun.jdi.fvfnt.ExdfptionEvfnt ExdfptionEvfnt} will bf plbdfd
+ * on tif {@link dom.sun.jdi.fvfnt.EvfntQufuf EvfntQufuf}.
+ * Tif dollfdtion of fxisting ExdfptionRfqufsts is
+ * mbnbgfd by tif {@link EvfntRfqufstMbnbgfr}
  *
- * @see com.sun.jdi.event.ExceptionEvent
- * @see com.sun.jdi.event.EventQueue
- * @see EventRequestManager
+ * @sff dom.sun.jdi.fvfnt.ExdfptionEvfnt
+ * @sff dom.sun.jdi.fvfnt.EvfntQufuf
+ * @sff EvfntRfqufstMbnbgfr
  *
- * @author Robert Field
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface ExceptionRequest extends EventRequest {
+@jdk.Exportfd
+publid intfrfbdf ExdfptionRfqufst fxtfnds EvfntRfqufst {
 
     /**
-     * Returns exception type for which exception events are requested.
-     * @return
-     * The exception (and its subclasses) requested
-     * with {@link EventRequestManager#createExceptionRequest}, or
-     * null if, as by default, all exceptions are requested.
+     * Rfturns fxdfption typf for wiidi fxdfption fvfnts brf rfqufstfd.
+     * @rfturn
+     * Tif fxdfption (bnd its subdlbssfs) rfqufstfd
+     * witi {@link EvfntRfqufstMbnbgfr#drfbtfExdfptionRfqufst}, or
+     * null if, bs by dffbult, bll fxdfptions brf rfqufstfd.
      */
-    ReferenceType exception();
+    RfffrfndfTypf fxdfption();
 
     /**
-     * Returns whether caught exceptions of the requested type
-     * will generate events when they are thrown.
+     * Rfturns wiftifr dbugit fxdfptions of tif rfqufstfd typf
+     * will gfnfrbtf fvfnts wifn tify brf tirown.
      * <p>
-     * Note that at the time an exception is thrown, it is not always
-     * possible to determine whether it is truly caught. See
-     * {@link com.sun.jdi.event.ExceptionEvent#catchLocation} for
-     * details.
-     * @return
-     * boolean true if caught exceptions will be reported, false
-     * otherwise.
+     * Notf tibt bt tif timf bn fxdfption is tirown, it is not blwbys
+     * possiblf to dftfrminf wiftifr it is truly dbugit. Sff
+     * {@link dom.sun.jdi.fvfnt.ExdfptionEvfnt#dbtdiLodbtion} for
+     * dftbils.
+     * @rfturn
+     * boolfbn truf if dbugit fxdfptions will bf rfportfd, fblsf
+     * otifrwisf.
      */
-    boolean notifyCaught();
+    boolfbn notifyCbugit();
 
     /**
-     * Returns whether uncaught exceptions of the requested type
-     * will generate events when they are thrown.
+     * Rfturns wiftifr undbugit fxdfptions of tif rfqufstfd typf
+     * will gfnfrbtf fvfnts wifn tify brf tirown.
      * <p>
-     * Note that at the time an exception is thrown, it is not always
-     * possible to determine whether it is truly uncaught. See
-     * {@link com.sun.jdi.event.ExceptionEvent#catchLocation} for
-     * details.
-     * @return
-     * boolean true if caught exceptions will be reported, false
-     * otherwise.
+     * Notf tibt bt tif timf bn fxdfption is tirown, it is not blwbys
+     * possiblf to dftfrminf wiftifr it is truly undbugit. Sff
+     * {@link dom.sun.jdi.fvfnt.ExdfptionEvfnt#dbtdiLodbtion} for
+     * dftbils.
+     * @rfturn
+     * boolfbn truf if dbugit fxdfptions will bf rfportfd, fblsf
+     * otifrwisf.
      */
-    boolean notifyUncaught();
+    boolfbn notifyUndbugit();
 
     /**
-     * Restricts the events generated by this request to those in
-     * the given thread.
-     * @param thread the thread to filter on.
-     * @throws InvalidRequestStateException if this request is currently
-     * enabled or has been deleted.
-     * Filters may be added only to disabled requests.
+     * Rfstridts tif fvfnts gfnfrbtfd by tiis rfqufst to tiosf in
+     * tif givfn tirfbd.
+     * @pbrbm tirfbd tif tirfbd to filtfr on.
+     * @tirows InvblidRfqufstStbtfExdfption if tiis rfqufst is durrfntly
+     * fnbblfd or ibs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
      */
-    void addThreadFilter(ThreadReference thread);
+    void bddTirfbdFiltfr(TirfbdRfffrfndf tirfbd);
 
     /**
-     * Restricts the events generated by this request to those whose
-     * location is in the given reference type or any of its subtypes.
-     * An event will be generated for any location in a reference type
-     * that can be safely cast to the given reference type.
+     * Rfstridts tif fvfnts gfnfrbtfd by tiis rfqufst to tiosf wiosf
+     * lodbtion is in tif givfn rfffrfndf typf or bny of its subtypfs.
+     * An fvfnt will bf gfnfrbtfd for bny lodbtion in b rfffrfndf typf
+     * tibt dbn bf sbffly dbst to tif givfn rfffrfndf typf.
      *
-     * @param refType the reference type to filter on.
-     * @throws InvalidRequestStateException if this request is currently
-     * enabled or has been deleted.
-     * Filters may be added only to disabled requests.
+     * @pbrbm rffTypf tif rfffrfndf typf to filtfr on.
+     * @tirows InvblidRfqufstStbtfExdfption if tiis rfqufst is durrfntly
+     * fnbblfd or ibs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
      */
-    void addClassFilter(ReferenceType refType);
+    void bddClbssFiltfr(RfffrfndfTypf rffTypf);
 
     /**
-     * Restricts the events generated by this request to those
-     * whose location is in a class whose name matches a restricted
-     * regular expression. Regular expressions are limited
-     * to exact matches and patterns that begin with '*' or end with '*';
-     * for example, "*.Foo" or "java.*".
+     * Rfstridts tif fvfnts gfnfrbtfd by tiis rfqufst to tiosf
+     * wiosf lodbtion is in b dlbss wiosf nbmf mbtdifs b rfstridtfd
+     * rfgulbr fxprfssion. Rfgulbr fxprfssions brf limitfd
+     * to fxbdt mbtdifs bnd pbttfrns tibt bfgin witi '*' or fnd witi '*';
+     * for fxbmplf, "*.Foo" or "jbvb.*".
      *
-     * @param classPattern the pattern String to filter for.
-     * @throws InvalidRequestStateException if this request is currently
-     * enabled or has been deleted.
-     * Filters may be added only to disabled requests.
+     * @pbrbm dlbssPbttfrn tif pbttfrn String to filtfr for.
+     * @tirows InvblidRfqufstStbtfExdfption if tiis rfqufst is durrfntly
+     * fnbblfd or ibs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
      */
-    void addClassFilter(String classPattern);
+    void bddClbssFiltfr(String dlbssPbttfrn);
 
     /**
-     * Restricts the events generated by this request to those
-     * whose location is in a class whose name does <b>not</b> match a
-     * restricted regular expression. Regular expressions are limited
-     * to exact matches and patterns that begin with '*' or end with '*';
-     * for example, "*.Foo" or "java.*".
+     * Rfstridts tif fvfnts gfnfrbtfd by tiis rfqufst to tiosf
+     * wiosf lodbtion is in b dlbss wiosf nbmf dofs <b>not</b> mbtdi b
+     * rfstridtfd rfgulbr fxprfssion. Rfgulbr fxprfssions brf limitfd
+     * to fxbdt mbtdifs bnd pbttfrns tibt bfgin witi '*' or fnd witi '*';
+     * for fxbmplf, "*.Foo" or "jbvb.*".
      *
-     * @param classPattern the pattern String to filter against.
-     * @throws InvalidRequestStateException if this request is currently
-     * enabled or has been deleted.
-     * Filters may be added only to disabled requests.
+     * @pbrbm dlbssPbttfrn tif pbttfrn String to filtfr bgbinst.
+     * @tirows InvblidRfqufstStbtfExdfption if tiis rfqufst is durrfntly
+     * fnbblfd or ibs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
      */
-    void addClassExclusionFilter(String classPattern);
+    void bddClbssExdlusionFiltfr(String dlbssPbttfrn);
 
     /**
-     * Restricts the events generated by this request to those in
-     * which the currently executing instance ("this") is the object
-     * specified.
+     * Rfstridts tif fvfnts gfnfrbtfd by tiis rfqufst to tiosf in
+     * wiidi tif durrfntly fxfduting instbndf ("tiis") is tif objfdt
+     * spfdififd.
      * <P>
-     * Not all targets support this operation.
-     * Use {@link VirtualMachine#canUseInstanceFilters()}
-     * to determine if the operation is supported.
-     * @since 1.4
-     * @param instance the object which must be the current instance
-     * in order to pass this filter.
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support this
-     * operation.
-     * @throws InvalidRequestStateException if this request is currently
-     * enabled or has been deleted.
-     * Filters may be added only to disabled requests.
+     * Not bll tbrgfts support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnUsfInstbndfFiltfrs()}
+     * to dftfrminf if tif opfrbtion is supportfd.
+     * @sindf 1.4
+     * @pbrbm instbndf tif objfdt wiidi must bf tif durrfnt instbndf
+     * in ordfr to pbss tiis filtfr.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support tiis
+     * opfrbtion.
+     * @tirows InvblidRfqufstStbtfExdfption if tiis rfqufst is durrfntly
+     * fnbblfd or ibs bffn dflftfd.
+     * Filtfrs mby bf bddfd only to disbblfd rfqufsts.
      */
-    void addInstanceFilter(ObjectReference instance);
+    void bddInstbndfFiltfr(ObjfdtRfffrfndf instbndf);
 }

@@ -1,176 +1,176 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.print;
+pbdkbgf jbvbx.print;
 
-import javax.print.attribute.PrintJobAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.event.PrintJobAttributeListener;
-import javax.print.event.PrintJobListener;
-import javax.print.PrintException;
+import jbvbx.print.bttributf.PrintJobAttributfSft;
+import jbvbx.print.bttributf.PrintRfqufstAttributfSft;
+import jbvbx.print.fvfnt.PrintJobAttributfListfnfr;
+import jbvbx.print.fvfnt.PrintJobListfnfr;
+import jbvbx.print.PrintExdfption;
 
 /**
  *
- * This interface represents a print job that can print a specified
- * document with a set of job attributes.  An object implementing
- * this interface is obtained from a print service.
+ * Tiis intfrfbdf rfprfsfnts b print job tibt dbn print b spfdififd
+ * dodumfnt witi b sft of job bttributfs.  An objfdt implfmfnting
+ * tiis intfrfbdf is obtbinfd from b print sfrvidf.
  *
  */
 
-public interface DocPrintJob {
+publid intfrfbdf DodPrintJob {
 
     /**
-     * Determines the {@link PrintService} object to which this print job
-     * object is bound.
+     * Dftfrminfs tif {@link PrintSfrvidf} objfdt to wiidi tiis print job
+     * objfdt is bound.
      *
-     * @return  <code>PrintService</code> object.
+     * @rfturn  <dodf>PrintSfrvidf</dodf> objfdt.
      *
      */
-    public PrintService getPrintService();
+    publid PrintSfrvidf gftPrintSfrvidf();
 
     /**
-     * Obtains this Print Job's set of printing attributes.
-     * The returned attribute set object is unmodifiable.
-     * The returned attribute set object is a "snapshot" of this Print Job's
-     * attribute set at the time of the {@link #getAttributes()} method
-     * call; that is, the returned attribute set's object's contents will
-     * not be updated if this Print Job's attribute set's contents change
-     * in the future. To detect changes in attribute values, call
-     * <code>getAttributes()</code> again and compare the new attribute
-     * set to the previous attribute set; alternatively, register a
-     * listener for print job events.
-     * The returned value may be an empty set but should not be null.
-     * @return the print job attributes
+     * Obtbins tiis Print Job's sft of printing bttributfs.
+     * Tif rfturnfd bttributf sft objfdt is unmodifibblf.
+     * Tif rfturnfd bttributf sft objfdt is b "snbpsiot" of tiis Print Job's
+     * bttributf sft bt tif timf of tif {@link #gftAttributfs()} mftiod
+     * dbll; tibt is, tif rfturnfd bttributf sft's objfdt's dontfnts will
+     * not bf updbtfd if tiis Print Job's bttributf sft's dontfnts dibngf
+     * in tif futurf. To dftfdt dibngfs in bttributf vblufs, dbll
+     * <dodf>gftAttributfs()</dodf> bgbin bnd dompbrf tif nfw bttributf
+     * sft to tif prfvious bttributf sft; bltfrnbtivfly, rfgistfr b
+     * listfnfr for print job fvfnts.
+     * Tif rfturnfd vbluf mby bf bn fmpty sft but siould not bf null.
+     * @rfturn tif print job bttributfs
      */
-     public PrintJobAttributeSet getAttributes();
+     publid PrintJobAttributfSft gftAttributfs();
 
     /**
-     * Registers a listener for event occurring during this print job.
-     * If listener is null, no exception is thrown and no action is
-     * performed.
-     * If listener is already registered, it will be registered again.
-     * @see #removePrintJobListener
+     * Rfgistfrs b listfnfr for fvfnt oddurring during tiis print job.
+     * If listfnfr is null, no fxdfption is tirown bnd no bdtion is
+     * pfrformfd.
+     * If listfnfr is blrfbdy rfgistfrfd, it will bf rfgistfrfd bgbin.
+     * @sff #rfmovfPrintJobListfnfr
      *
-     * @param listener  The object implementing the listener interface
-     *
-     */
-    public void addPrintJobListener(PrintJobListener listener);
-
-    /**
-     * Removes a listener from this print job.
-     * This method performs no function, nor does it throw an exception,
-     * if the listener specified by the argument was not previously added
-     * to this component. If listener is null, no exception is thrown and
-     * no action is performed. If a listener was registered more than once
-     * only one of the registrations will be removed.
-     * @see #addPrintJobListener
-     *
-     * @param listener  The object implementing the listener interface
-     */
-    public void removePrintJobListener(PrintJobListener listener);
-
-    /**
-     * Registers a listener for changes in the specified attributes.
-     * If listener is null, no exception is thrown and no action is
-     * performed.
-     * To determine the attribute updates that may be reported by this job,
-     * a client can call <code>getAttributes()</code> and identify the
-     * subset that are interesting and likely to be reported to the
-     * listener. Clients expecting to be updated about changes in a
-     * specific job attribute should verify it is in that set, but
-     * updates about an attribute will be made only if it changes and this
-     * is detected by the job. Also updates may be subject to batching
-     * by the job. To minimize overhead in print job processing it is
-     * recommended to listen on only that subset of attributes which
-     * are likely to change.
-     * If the specified set is empty no attribute updates will be reported
-     * to the listener.
-     * If the attribute set is null, then this means to listen on all
-     * dynamic attributes that the job supports. This may result in no
-     * update notifications if a job can not report any attribute updates.
-     *
-     * If listener is already registered, it will be registered again.
-     * @see #removePrintJobAttributeListener
-     *
-     * @param listener  The object implementing the listener interface
-     * @param attributes The attributes to listen on, or null to mean
-     * all attributes that can change, as determined by the job.
-     */
-    public void addPrintJobAttributeListener(
-                                  PrintJobAttributeListener listener,
-                                  PrintJobAttributeSet attributes);
-
-    /**
-     * Removes an attribute listener from this print job.
-     * This method performs no function, nor does it throw an exception,
-     * if the listener specified by the argument was not previously added
-     * to this component. If the listener is null, no exception is thrown
-     * and no action is performed.
-     * If a listener is registered more than once, even for a different
-     * set of attributes, no guarantee is made which listener is removed.
-     * @see #addPrintJobAttributeListener
-     *
-     * @param listener  The object implementing the listener interface
+     * @pbrbm listfnfr  Tif objfdt implfmfnting tif listfnfr intfrfbdf
      *
      */
-    public void removePrintJobAttributeListener(
-                                      PrintJobAttributeListener listener);
+    publid void bddPrintJobListfnfr(PrintJobListfnfr listfnfr);
 
     /**
-     * Prints a document with the specified job attributes.
-     * This method should only be called once for a given print job.
-     * Calling it again will not result in a new job being spooled to
-     * the printer. The service implementation will define policy
-     * for service interruption and recovery.
-     * When the print method returns, printing may not yet have completed as
-     * printing may happen asynchronously, perhaps in a different thread.
-     * Application clients which  want to monitor the success or failure
-     * should register a PrintJobListener.
+     * Rfmovfs b listfnfr from tiis print job.
+     * Tiis mftiod pfrforms no fundtion, nor dofs it tirow bn fxdfption,
+     * if tif listfnfr spfdififd by tif brgumfnt wbs not prfviously bddfd
+     * to tiis domponfnt. If listfnfr is null, no fxdfption is tirown bnd
+     * no bdtion is pfrformfd. If b listfnfr wbs rfgistfrfd morf tibn ondf
+     * only onf of tif rfgistrbtions will bf rfmovfd.
+     * @sff #bddPrintJobListfnfr
+     *
+     * @pbrbm listfnfr  Tif objfdt implfmfnting tif listfnfr intfrfbdf
+     */
+    publid void rfmovfPrintJobListfnfr(PrintJobListfnfr listfnfr);
+
+    /**
+     * Rfgistfrs b listfnfr for dibngfs in tif spfdififd bttributfs.
+     * If listfnfr is null, no fxdfption is tirown bnd no bdtion is
+     * pfrformfd.
+     * To dftfrminf tif bttributf updbtfs tibt mby bf rfportfd by tiis job,
+     * b dlifnt dbn dbll <dodf>gftAttributfs()</dodf> bnd idfntify tif
+     * subsft tibt brf intfrfsting bnd likfly to bf rfportfd to tif
+     * listfnfr. Clifnts fxpfdting to bf updbtfd bbout dibngfs in b
+     * spfdifid job bttributf siould vfrify it is in tibt sft, but
+     * updbtfs bbout bn bttributf will bf mbdf only if it dibngfs bnd tiis
+     * is dftfdtfd by tif job. Also updbtfs mby bf subjfdt to bbtdiing
+     * by tif job. To minimizf ovfrifbd in print job prodfssing it is
+     * rfdommfndfd to listfn on only tibt subsft of bttributfs wiidi
+     * brf likfly to dibngf.
+     * If tif spfdififd sft is fmpty no bttributf updbtfs will bf rfportfd
+     * to tif listfnfr.
+     * If tif bttributf sft is null, tifn tiis mfbns to listfn on bll
+     * dynbmid bttributfs tibt tif job supports. Tiis mby rfsult in no
+     * updbtf notifidbtions if b job dbn not rfport bny bttributf updbtfs.
+     *
+     * If listfnfr is blrfbdy rfgistfrfd, it will bf rfgistfrfd bgbin.
+     * @sff #rfmovfPrintJobAttributfListfnfr
+     *
+     * @pbrbm listfnfr  Tif objfdt implfmfnting tif listfnfr intfrfbdf
+     * @pbrbm bttributfs Tif bttributfs to listfn on, or null to mfbn
+     * bll bttributfs tibt dbn dibngf, bs dftfrminfd by tif job.
+     */
+    publid void bddPrintJobAttributfListfnfr(
+                                  PrintJobAttributfListfnfr listfnfr,
+                                  PrintJobAttributfSft bttributfs);
+
+    /**
+     * Rfmovfs bn bttributf listfnfr from tiis print job.
+     * Tiis mftiod pfrforms no fundtion, nor dofs it tirow bn fxdfption,
+     * if tif listfnfr spfdififd by tif brgumfnt wbs not prfviously bddfd
+     * to tiis domponfnt. If tif listfnfr is null, no fxdfption is tirown
+     * bnd no bdtion is pfrformfd.
+     * If b listfnfr is rfgistfrfd morf tibn ondf, fvfn for b difffrfnt
+     * sft of bttributfs, no gubrbntff is mbdf wiidi listfnfr is rfmovfd.
+     * @sff #bddPrintJobAttributfListfnfr
+     *
+     * @pbrbm listfnfr  Tif objfdt implfmfnting tif listfnfr intfrfbdf
+     *
+     */
+    publid void rfmovfPrintJobAttributfListfnfr(
+                                      PrintJobAttributfListfnfr listfnfr);
+
+    /**
+     * Prints b dodumfnt witi tif spfdififd job bttributfs.
+     * Tiis mftiod siould only bf dbllfd ondf for b givfn print job.
+     * Cblling it bgbin will not rfsult in b nfw job bfing spoolfd to
+     * tif printfr. Tif sfrvidf implfmfntbtion will dffinf polidy
+     * for sfrvidf intfrruption bnd rfdovfry.
+     * Wifn tif print mftiod rfturns, printing mby not yft ibvf domplftfd bs
+     * printing mby ibppfn bsyndironously, pfribps in b difffrfnt tirfbd.
+     * Applidbtion dlifnts wiidi  wbnt to monitor tif suddfss or fbilurf
+     * siould rfgistfr b PrintJobListfnfr.
      * <p>
-     * Print service implementors should close any print data streams (ie
-     * Reader or InputStream implementations) that they obtain
-     * from the client doc. Robust clients may still wish to verify this.
-     * An exception is always generated if a <code>DocFlavor</code> cannot
-     * be printed.
+     * Print sfrvidf implfmfntors siould dlosf bny print dbtb strfbms (if
+     * Rfbdfr or InputStrfbm implfmfntbtions) tibt tify obtbin
+     * from tif dlifnt dod. Robust dlifnts mby still wisi to vfrify tiis.
+     * An fxdfption is blwbys gfnfrbtfd if b <dodf>DodFlbvor</dodf> dbnnot
+     * bf printfd.
      *
-     * @param doc       The document to be printed. If must be a flavor
-     *                                  supported by this PrintJob.
+     * @pbrbm dod       Tif dodumfnt to bf printfd. If must bf b flbvor
+     *                                  supportfd by tiis PrintJob.
      *
-     * @param attributes The job attributes to be applied to this print job.
-     *        If this parameter is null then the default attributes are used.
-     * @throws PrintException The exception additionally may implement
-     * an interface that more precisely describes the cause of the
-     * exception
+     * @pbrbm bttributfs Tif job bttributfs to bf bpplifd to tiis print job.
+     *        If tiis pbrbmftfr is null tifn tif dffbult bttributfs brf usfd.
+     * @tirows PrintExdfption Tif fxdfption bdditionblly mby implfmfnt
+     * bn intfrfbdf tibt morf prfdisfly dfsdribfs tif dbusf of tif
+     * fxdfption
      * <ul>
-     * <li>FlavorException.
-     *  If the document has a flavor not supported by this print job.
-     * <li>AttributeException.
-     *  If one or more of the attributes are not valid for this print job.
+     * <li>FlbvorExdfption.
+     *  If tif dodumfnt ibs b flbvor not supportfd by tiis print job.
+     * <li>AttributfExdfption.
+     *  If onf or morf of tif bttributfs brf not vblid for tiis print job.
      * </ul>
      */
-    public void print(Doc doc, PrintRequestAttributeSet attributes)
-          throws PrintException;
+    publid void print(Dod dod, PrintRfqufstAttributfSft bttributfs)
+          tirows PrintExdfption;
 
 }

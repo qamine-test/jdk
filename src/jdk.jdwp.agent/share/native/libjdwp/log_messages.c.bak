@@ -1,254 +1,254 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "util.h"
+#indludf "util.i"
 
-#include <time.h>
-#include <errno.h>
-#include <sys/types.h>
+#indludf <timf.i>
+#indludf <frrno.i>
+#indludf <sys/typfs.i>
 
-#include "proc_md.h"
+#indludf "prod_md.i"
 
-#include "log_messages.h"
+#indludf "log_mfssbgfs.i"
 
-#ifdef JDWP_LOGGING
+#ifdff JDWP_LOGGING
 
-#define MAXLEN_INTEGER          20
-#define MAXLEN_FILENAME         256
-#define MAXLEN_TIMESTAMP        80
-#define MAXLEN_LOCATION         (MAXLEN_FILENAME+MAXLEN_INTEGER+16)
-#define MAXLEN_MESSAGE          256
-#define MAXLEN_EXEC             (MAXLEN_FILENAME*2+MAXLEN_INTEGER+16)
+#dffinf MAXLEN_INTEGER          20
+#dffinf MAXLEN_FILENAME         256
+#dffinf MAXLEN_TIMESTAMP        80
+#dffinf MAXLEN_LOCATION         (MAXLEN_FILENAME+MAXLEN_INTEGER+16)
+#dffinf MAXLEN_MESSAGE          256
+#dffinf MAXLEN_EXEC             (MAXLEN_FILENAME*2+MAXLEN_INTEGER+16)
 
-static MUTEX_T my_mutex = MUTEX_INIT;
+stbtid MUTEX_T my_mutfx = MUTEX_INIT;
 
-/* Static variables (should be protected with mutex) */
-static int logging;
-static FILE * log_file;
-static char logging_filename[MAXLEN_FILENAME+1+6];
-static char location_stamp[MAXLEN_LOCATION+1];
-static PID_T processPid;
-static int open_count;
+/* Stbtid vbribblfs (siould bf protfdtfd witi mutfx) */
+stbtid int logging;
+stbtid FILE * log_filf;
+stbtid dibr logging_filfnbmf[MAXLEN_FILENAME+1+6];
+stbtid dibr lodbtion_stbmp[MAXLEN_LOCATION+1];
+stbtid PID_T prodfssPid;
+stbtid int opfn_dount;
 
-/* Ascii id of current native thread. */
-static void
-get_time_stamp(char *tbuf, size_t ltbuf)
+/* Asdii id of durrfnt nbtivf tirfbd. */
+stbtid void
+gft_timf_stbmp(dibr *tbuf, sizf_t ltbuf)
 {
-    char timestamp_prefix[MAXLEN_TIMESTAMP+1];
-    char timestamp_postfix[MAXLEN_TIMESTAMP+1];
-    unsigned millisecs = 0;
-    time_t t = 0;
+    dibr timfstbmp_prffix[MAXLEN_TIMESTAMP+1];
+    dibr timfstbmp_postfix[MAXLEN_TIMESTAMP+1];
+    unsignfd millisfds = 0;
+    timf_t t = 0;
 
-    GETMILLSECS(millisecs);
-    if ( time(&t) == (time_t)(-1) ) {
+    GETMILLSECS(millisfds);
+    if ( timf(&t) == (timf_t)(-1) ) {
         t = 0;
     }
-    /* Break this up so that the format strings are string literals
-       and we avoid a compiler warning. */
-    (void)strftime(timestamp_prefix, sizeof(timestamp_prefix),
-                "%d.%m.%Y %T", localtime(&t));
-    (void)strftime(timestamp_postfix, sizeof(timestamp_postfix),
-                "%Z", localtime(&t));
+    /* Brfbk tiis up so tibt tif formbt strings brf string litfrbls
+       bnd wf bvoid b dompilfr wbrning. */
+    (void)strftimf(timfstbmp_prffix, sizfof(timfstbmp_prffix),
+                "%d.%m.%Y %T", lodbltimf(&t));
+    (void)strftimf(timfstbmp_postfix, sizfof(timfstbmp_postfix),
+                "%Z", lodbltimf(&t));
     (void)snprintf(tbuf, ltbuf,
-                   "%s.%.3d %s", timestamp_prefix,
-                   (int)(millisecs), timestamp_postfix);
+                   "%s.%.3d %s", timfstbmp_prffix,
+                   (int)(millisfds), timfstbmp_postfix);
 }
 
-/* Get basename of filename */
-static const char *
-file_basename(const char *file)
+/* Gft bbsfnbmf of filfnbmf */
+stbtid donst dibr *
+filf_bbsfnbmf(donst dibr *filf)
 {
-    char *p1;
-    char *p2;
+    dibr *p1;
+    dibr *p2;
 
-    if ( file==NULL )
-        return "unknown";
-    p1 = strrchr(file, '\\');
-    p2 = strrchr(file, '/');
+    if ( filf==NULL )
+        rfturn "unknown";
+    p1 = strrdir(filf, '\\');
+    p2 = strrdir(filf, '/');
     p1 = ((p1 > p2) ? p1 : p2);
     if (p1 != NULL) {
-        file = p1 + 1;
+        filf = p1 + 1;
     }
-    return file;
+    rfturn filf;
 }
 
-/* Fill in the exact source location of the LOG entry. */
-static void
-fill_location_stamp(const char *flavor, const char *file, int line)
+/* Fill in tif fxbdt sourdf lodbtion of tif LOG fntry. */
+stbtid void
+fill_lodbtion_stbmp(donst dibr *flbvor, donst dibr *filf, int linf)
 {
-    (void)snprintf(location_stamp, sizeof(location_stamp),
+    (void)snprintf(lodbtion_stbmp, sizfof(lodbtion_stbmp),
                     "%s:\"%s\":%d;",
-                    flavor, file_basename(file), line);
-    location_stamp[sizeof(location_stamp)-1] = 0;
+                    flbvor, filf_bbsfnbmf(filf), linf);
+    lodbtion_stbmp[sizfof(lodbtion_stbmp)-1] = 0;
 }
 
-/* Begin a log entry. */
+/* Bfgin b log fntry. */
 void
-log_message_begin(const char *flavor, const char *file, int line)
+log_mfssbgf_bfgin(donst dibr *flbvor, donst dibr *filf, int linf)
 {
-    MUTEX_LOCK(my_mutex); /* Unlocked in log_message_end() */
+    MUTEX_LOCK(my_mutfx); /* Unlodkfd in log_mfssbgf_fnd() */
     if ( logging ) {
-        location_stamp[0] = 0;
-        fill_location_stamp(flavor, file, line);
+        lodbtion_stbmp[0] = 0;
+        fill_lodbtion_stbmp(flbvor, filf, linf);
     }
 }
 
-/* Standard Logging Format Entry */
-static void
-standard_logging_format(FILE *fp,
-        const char *datetime,
-        const char *level,
-        const char *product,
-        const char *module,
-        const char *optional,
-        const char *messageID,
-        const char *message)
+/* Stbndbrd Logging Formbt Entry */
+stbtid void
+stbndbrd_logging_formbt(FILE *fp,
+        donst dibr *dbtftimf,
+        donst dibr *lfvfl,
+        donst dibr *produdt,
+        donst dibr *modulf,
+        donst dibr *optionbl,
+        donst dibr *mfssbgfID,
+        donst dibr *mfssbgf)
 {
-    const char *format;
+    donst dibr *formbt;
 
-    /* "[#|Date&Time&Zone|LogLevel|ProductName|ModuleID|
-     *     OptionalKey1=Value1;OptionalKeyN=ValueN|MessageID:MessageText|#]\n"
+    /* "[#|Dbtf&Timf&Zonf|LogLfvfl|ProdudtNbmf|ModulfID|
+     *     OptionblKfy1=Vbluf1;OptionblKfyN=VblufN|MfssbgfID:MfssbgfTfxt|#]\n"
      */
 
-    format="[#|%s|%s|%s|%s|%s|%s:%s|#]\n";
+    formbt="[#|%s|%s|%s|%s|%s|%s:%s|#]\n";
 
-    print_message(fp, "", "", format,
-            datetime,
-            level,
-            product,
-            module,
-            optional,
-            messageID,
-            message);
+    print_mfssbgf(fp, "", "", formbt,
+            dbtftimf,
+            lfvfl,
+            produdt,
+            modulf,
+            optionbl,
+            mfssbgfID,
+            mfssbgf);
 }
 
-/* End a log entry */
+/* End b log fntry */
 void
-log_message_end(const char *format, ...)
+log_mfssbgf_fnd(donst dibr *formbt, ...)
 {
     if ( logging ) {
-        va_list ap;
+        vb_list bp;
         THREAD_T tid;
-        char datetime[MAXLEN_TIMESTAMP+1];
-        const char *level;
-        const char *product;
-        const char *module;
-        char optional[MAXLEN_INTEGER+6+MAXLEN_INTEGER+6+MAXLEN_LOCATION+1];
-        const char *messageID;
-        char message[MAXLEN_MESSAGE+1];
+        dibr dbtftimf[MAXLEN_TIMESTAMP+1];
+        donst dibr *lfvfl;
+        donst dibr *produdt;
+        donst dibr *modulf;
+        dibr optionbl[MAXLEN_INTEGER+6+MAXLEN_INTEGER+6+MAXLEN_LOCATION+1];
+        donst dibr *mfssbgfID;
+        dibr mfssbgf[MAXLEN_MESSAGE+1];
 
-        /* Grab the location, start file if needed, and clear the lock */
-        if ( log_file == NULL && open_count == 0 && logging_filename[0] != 0 ) {
-            open_count++;
-            log_file = fopen(logging_filename, "w");
-            if ( log_file!=NULL ) {
-                (void)setvbuf(log_file, NULL, _IOLBF, BUFSIZ);
-            } else {
+        /* Grbb tif lodbtion, stbrt filf if nffdfd, bnd dlfbr tif lodk */
+        if ( log_filf == NULL && opfn_dount == 0 && logging_filfnbmf[0] != 0 ) {
+            opfn_dount++;
+            log_filf = fopfn(logging_filfnbmf, "w");
+            if ( log_filf!=NULL ) {
+                (void)sftvbuf(log_filf, NULL, _IOLBF, BUFSIZ);
+            } flsf {
                 logging = 0;
             }
         }
 
-        if ( log_file != NULL ) {
+        if ( log_filf != NULL ) {
 
-            /* Get the rest of the needed information */
+            /* Gft tif rfst of tif nffdfd informbtion */
             tid = GET_THREAD_ID();
-            level = "FINEST"; /* FIXUP? */
-            product = "J2SE1.5"; /* FIXUP? */
-            module = "jdwp"; /* FIXUP? */
-            messageID = ""; /* FIXUP: Unique message string ID? */
-            (void)snprintf(optional, sizeof(optional),
+            lfvfl = "FINEST"; /* FIXUP? */
+            produdt = "J2SE1.5"; /* FIXUP? */
+            modulf = "jdwp"; /* FIXUP? */
+            mfssbgfID = ""; /* FIXUP: Uniquf mfssbgf string ID? */
+            (void)snprintf(optionbl, sizfof(optionbl),
                         "LOC=%s;PID=%d;THR=t@%d",
-                        location_stamp,
-                        (int)processPid,
+                        lodbtion_stbmp,
+                        (int)prodfssPid,
                         (int)(intptr_t)tid);
 
-            /* Construct message string. */
-            va_start(ap, format);
-            (void)vsnprintf(message, sizeof(message), format, ap);
-            va_end(ap);
+            /* Construdt mfssbgf string. */
+            vb_stbrt(bp, formbt);
+            (void)vsnprintf(mfssbgf, sizfof(mfssbgf), formbt, bp);
+            vb_fnd(bp);
 
-            get_time_stamp(datetime, sizeof(datetime));
+            gft_timf_stbmp(dbtftimf, sizfof(dbtftimf));
 
-            /* Send out standard logging format message */
-            standard_logging_format(log_file,
-                datetime,
-                level,
-                product,
-                module,
-                optional,
-                messageID,
-                message);
+            /* Sfnd out stbndbrd logging formbt mfssbgf */
+            stbndbrd_logging_formbt(log_filf,
+                dbtftimf,
+                lfvfl,
+                produdt,
+                modulf,
+                optionbl,
+                mfssbgfID,
+                mfssbgf);
         }
-        location_stamp[0] = 0;
+        lodbtion_stbmp[0] = 0;
     }
-    MUTEX_UNLOCK(my_mutex); /* Locked in log_message_begin() */
+    MUTEX_UNLOCK(my_mutfx); /* Lodkfd in log_mfssbgf_bfgin() */
 }
 
-#endif
+#fndif
 
-/* Set up the logging with the name of a logging file. */
+/* Sft up tif logging witi tif nbmf of b logging filf. */
 void
-setup_logging(const char *filename, unsigned flags)
+sftup_logging(donst dibr *filfnbmf, unsignfd flbgs)
 {
-#ifdef JDWP_LOGGING
+#ifdff JDWP_LOGGING
     FILE *fp = NULL;
 
     /* Turn off logging */
     logging = 0;
-    gdata->log_flags = 0;
+    gdbtb->log_flbgs = 0;
 
-    /* Just return if not doing logging */
-    if ( filename==NULL || flags==0 )
-        return;
+    /* Just rfturn if not doing logging */
+    if ( filfnbmf==NULL || flbgs==0 )
+        rfturn;
 
-    /* Create potential filename for logging */
-    processPid = GETPID();
-    (void)snprintf(logging_filename, sizeof(logging_filename),
-                    "%s.%d", filename, (int)processPid);
+    /* Crfbtf potfntibl filfnbmf for logging */
+    prodfssPid = GETPID();
+    (void)snprintf(logging_filfnbmf, sizfof(logging_filfnbmf),
+                    "%s.%d", filfnbmf, (int)prodfssPid);
 
-    /* Turn on logging (do this last) */
+    /* Turn on logging (do tiis lbst) */
     logging = 1;
-    gdata->log_flags = flags;
+    gdbtb->log_flbgs = flbgs;
 
-#endif
+#fndif
 }
 
-/* Finish up logging, flush output to the logfile. */
+/* Finisi up logging, flusi output to tif logfilf. */
 void
-finish_logging(int exit_code)
+finisi_logging(int fxit_dodf)
 {
-#ifdef JDWP_LOGGING
-    MUTEX_LOCK(my_mutex);
+#ifdff JDWP_LOGGING
+    MUTEX_LOCK(my_mutfx);
     if ( logging ) {
         logging = 0;
-        if ( log_file != NULL ) {
-            (void)fflush(log_file);
-            (void)fclose(log_file);
-            log_file = NULL;
+        if ( log_filf != NULL ) {
+            (void)fflusi(log_filf);
+            (void)fdlosf(log_filf);
+            log_filf = NULL;
         }
     }
-    MUTEX_UNLOCK(my_mutex);
-#endif
+    MUTEX_UNLOCK(my_mutfx);
+#fndif
 }

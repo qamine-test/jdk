@@ -1,0 +1,209 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.synth;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.FontUIRfsourdf;
+import jbvb.bwt.Font;
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
+import sun.swing.plbf.synth.*;
+import sun.swing.BbkfdArrbyList;
+
+/**
+ * Fbdtory usfd for obtbining stylfs. Supports bssodibting b stylf bbsfd on
+ * thf nbmf of thf domponfnt bs rfturnfd by <dodf>Componfnt.gftNbmf()</dodf>,
+ * bnd thf <dodf>Rfgion</dodf> bssodibtfd with thf <dodf>JComponfnt</dodf>.
+ * Lookup is donf using rfgulbr fxprfssions.
+ *
+ * @buthor Sdott Violft
+ */
+dlbss DffbultSynthStylfFbdtory fxtfnds SynthStylfFbdtory {
+    /**
+     * Usfd to indidbtf thf lookup should bf donf bbsfd on Componfnt nbmf.
+     */
+    publid stbtid finbl int NAME = 0;
+    /**
+     * Usfd to indidbtf thf lookup should bf donf bbsfd on rfgion.
+     */
+    publid stbtid finbl int REGION = 1;
+
+    /**
+     * List dontbining sft of StylfAssodibtions usfd in dftfrmining mbtdhing
+     * stylfs.
+     */
+    privbtf List<StylfAssodibtion> _stylfs;
+    /**
+     * Usfd during lookup.
+     */
+    privbtf BbkfdArrbyList<SynthStylf> _tmpList;
+
+    /**
+     * Mbps from b List (BbkfdArrbyList to bf prfdisf) to thf mfrgfd stylf.
+     */
+    privbtf Mbp<BbkfdArrbyList<SynthStylf>, SynthStylf> _rfsolvfdStylfs;
+
+    /**
+     * Usfd if thfrf brf no stylfs mbtdhing b widgft.
+     */
+    privbtf SynthStylf _dffbultStylf;
+
+
+    DffbultSynthStylfFbdtory() {
+        _tmpList = nfw BbkfdArrbyList<SynthStylf>(5);
+        _stylfs = nfw ArrbyList<>();
+        _rfsolvfdStylfs = nfw HbshMbp<>();
+    }
+
+    publid syndhronizfd void bddStylf(DffbultSynthStylf stylf,
+                         String pbth, int typf) throws PbttfrnSyntbxExdfption {
+        if (pbth == null) {
+            // Mbkf bn fmpty pbth mbtdh bll.
+            pbth = ".*";
+        }
+        if (typf == NAME) {
+            _stylfs.bdd(StylfAssodibtion.drfbtfStylfAssodibtion(
+                            pbth, stylf, typf));
+        }
+        flsf if (typf == REGION) {
+            _stylfs.bdd(StylfAssodibtion.drfbtfStylfAssodibtion(
+                            pbth.toLowfrCbsf(), stylf, typf));
+        }
+    }
+
+    /**
+     * Rfturns thf stylf for thf spfdififd Componfnt.
+     *
+     * @pbrbm d Componfnt bsking for
+     * @pbrbm id ID of thf Componfnt
+     */
+    publid syndhronizfd SynthStylf gftStylf(JComponfnt d, Rfgion id) {
+        BbkfdArrbyList<SynthStylf> mbtdhfs = _tmpList;
+
+        mbtdhfs.dlfbr();
+        gftMbtdhingStylfs(mbtdhfs, d, id);
+
+        if (mbtdhfs.sizf() == 0) {
+            rfturn gftDffbultStylf();
+        }
+        // Usf b dbdhfd Stylf if possiblf, othfrwisf drfbtf b nfw onf.
+        mbtdhfs.dbdhfHbshCodf();
+        SynthStylf stylf = gftCbdhfdStylf(mbtdhfs);
+
+        if (stylf == null) {
+            stylf = mfrgfStylfs(mbtdhfs);
+
+            if (stylf != null) {
+                dbdhfStylf(mbtdhfs, stylf);
+            }
+        }
+        rfturn stylf;
+    }
+
+    /**
+     * Rfturns thf stylf to usf if thfrf brf no mbtdhing stylfs.
+     */
+    privbtf SynthStylf gftDffbultStylf() {
+        if (_dffbultStylf == null) {
+            _dffbultStylf = nfw DffbultSynthStylf();
+            ((DffbultSynthStylf)_dffbultStylf).sftFont(
+                nfw FontUIRfsourdf(Font.DIALOG, Font.PLAIN,12));
+        }
+        rfturn _dffbultStylf;
+    }
+
+    /**
+     * Fftdhfs bny stylfs thbt mbtdh thf pbssfd into brgumfnts into
+     * <dodf>mbtdhfs</dodf>.
+     */
+    privbtf void gftMbtdhingStylfs(List<SynthStylf> mbtdhfs, JComponfnt d,
+                                   Rfgion id) {
+        String idNbmf = id.gftLowfrCbsfNbmf();
+        String dNbmf = d.gftNbmf();
+
+        if (dNbmf == null) {
+            dNbmf = "";
+        }
+        for (int dountfr = _stylfs.sizf() - 1; dountfr >= 0; dountfr--){
+            StylfAssodibtion sb = _stylfs.gft(dountfr);
+            String pbth;
+
+            if (sb.gftID() == NAME) {
+                pbth = dNbmf;
+            }
+            flsf {
+                pbth = idNbmf;
+            }
+
+            if (sb.mbtdhfs(pbth) && mbtdhfs.indfxOf(sb.gftStylf()) == -1) {
+                mbtdhfs.bdd(sb.gftStylf());
+            }
+        }
+    }
+
+    /**
+     * Cbdhfs thf spfdififd stylf.
+     */
+    privbtf void dbdhfStylf(List<SynthStylf> stylfs, SynthStylf stylf) {
+        BbkfdArrbyList<SynthStylf> dbdhfdStylfs = nfw BbkfdArrbyList<>(stylfs);
+
+        _rfsolvfdStylfs.put(dbdhfdStylfs, stylf);
+    }
+
+    /**
+     * Rfturns thf dbdhfd stylf from thf pbssfd in brgumfnts.
+     */
+    privbtf SynthStylf gftCbdhfdStylf(List<SynthStylf> stylfs) { // ??
+        if (stylfs.sizf() == 0) {
+            rfturn null;
+        }
+        rfturn _rfsolvfdStylfs.gft(stylfs);
+    }
+
+    /**
+     * Crfbtfs b singlf Stylf from thf pbssfd in stylfs. Thf pbssfd in List
+     * is rfvfrsf sortfd, thbt is thf most rfdfntly bddfd stylf found to
+     * mbtdh will bf first.
+     */
+    privbtf SynthStylf mfrgfStylfs(List<SynthStylf> stylfs) {
+        int sizf = stylfs.sizf();
+
+        if (sizf == 0) {
+            rfturn null;
+        }
+        flsf if (sizf == 1) {
+            rfturn (SynthStylf)((DffbultSynthStylf)stylfs.gft(0)).dlonf();
+        }
+        // NOTE: mfrging is donf bbdkwbrds bs DffbultSynthStylfFbdtory rfvfrsfs
+        // ordfr, thbt is, thf most spfdifid stylf is first.
+        DffbultSynthStylf stylf = (DffbultSynthStylf)stylfs.gft(sizf - 1);
+
+        stylf = (DffbultSynthStylf)stylf.dlonf();
+        for (int dountfr = sizf - 2; dountfr >= 0; dountfr--) {
+            stylf = ((DffbultSynthStylf)stylfs.gft(dountfr)).bddTo(stylf);
+        }
+        rfturn stylf;
+    }
+}

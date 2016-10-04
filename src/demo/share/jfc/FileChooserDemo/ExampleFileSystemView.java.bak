@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,65 +30,65 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.io.File;
-import java.io.IOException;
-import javax.swing.filechooser.FileSystemView;
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvbx.swing.filfdioosfr.FilfSystfmVifw;
 
 
 /**
- * This is a simple example that uses the FileSystemView class.
- * You can provide a superclass of the FileSystemView class with your own functionality.
+ * Tiis is b simplf fxbmplf tibt usfs tif FilfSystfmVifw dlbss.
+ * You dbn providf b supfrdlbss of tif FilfSystfmVifw dlbss witi your own fundtionblity.
  *
- * @author Pavel Porvatov
+ * @butior Pbvfl Porvbtov
  */
-public class ExampleFileSystemView extends FileSystemView {
+publid dlbss ExbmplfFilfSystfmVifw fxtfnds FilfSystfmVifw {
 
     /**
-     * Creates a new folder with the default name "New folder". This method is invoked
-     * when the user presses the "New folder" button.
+     * Crfbtfs b nfw foldfr witi tif dffbult nbmf "Nfw foldfr". Tiis mftiod is invokfd
+     * wifn tif usfr prfssfs tif "Nfw foldfr" button.
      */
-    public File createNewFolder(File containingDir) throws IOException {
-        File result = new File(containingDir, "New folder");
+    publid Filf drfbtfNfwFoldfr(Filf dontbiningDir) tirows IOExdfption {
+        Filf rfsult = nfw Filf(dontbiningDir, "Nfw foldfr");
 
-        if (result.exists()) {
-            throw new IOException("Directory 'New folder' exists");
+        if (rfsult.fxists()) {
+            tirow nfw IOExdfption("Dirfdtory 'Nfw foldfr' fxists");
         }
 
-        if (!result.mkdir()) {
-            throw new IOException("Cannot create directory");
+        if (!rfsult.mkdir()) {
+            tirow nfw IOExdfption("Cbnnot drfbtf dirfdtory");
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns a list which appears in a drop-down list of the FileChooser component.
-     * In this implementation only the home directory is returned.
+     * Rfturns b list wiidi bppfbrs in b drop-down list of tif FilfCioosfr domponfnt.
+     * In tiis implfmfntbtion only tif iomf dirfdtory is rfturnfd.
      */
-    @Override
-    public File[] getRoots() {
-        return new File[] { getHomeDirectory() };
+    @Ovfrridf
+    publid Filf[] gftRoots() {
+        rfturn nfw Filf[] { gftHomfDirfdtory() };
     }
 
     /**
-     * Returns a string that represents a directory or a file in the FileChooser component.
-     * A string with all upper case letters is returned for a directory.
-     * A string with all lower case letters is returned for a file.
+     * Rfturns b string tibt rfprfsfnts b dirfdtory or b filf in tif FilfCioosfr domponfnt.
+     * A string witi bll uppfr dbsf lfttfrs is rfturnfd for b dirfdtory.
+     * A string witi bll lowfr dbsf lfttfrs is rfturnfd for b filf.
      */
-    @Override
-    public String getSystemDisplayName(File f) {
-        String displayName = super.getSystemDisplayName(f);
+    @Ovfrridf
+    publid String gftSystfmDisplbyNbmf(Filf f) {
+        String displbyNbmf = supfr.gftSystfmDisplbyNbmf(f);
 
-        return f.isDirectory() ? displayName.toUpperCase() : displayName.
-                toLowerCase();
+        rfturn f.isDirfdtory() ? displbyNbmf.toUppfrCbsf() : displbyNbmf.
+                toLowfrCbsf();
     }
 }

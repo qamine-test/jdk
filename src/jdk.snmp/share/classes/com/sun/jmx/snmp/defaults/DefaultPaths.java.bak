@@ -1,50 +1,50 @@
 /*
- * Copyright (c) 2002, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp.defaults;
+pbdkbgf dom.sun.jmx.snmp.dffbults;
 
 
-// java import
+// jbvb import
 //
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import jbvb.io.Filf;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.util.StringTokfnizfr;
 
 /**
- * This class represents a set of default directories used by Java DMK.
+ * Tiis dlbss rfprfsfnts b sft of dffbult dirfdtorifs usfd by Jbvb DMK.
  *
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @since 1.5
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sindf 1.5
  */
-public class DefaultPaths {
-    private static final String INSTALL_PATH_RESOURCE_NAME = "com/sun/jdmk/defaults/install.path";
-    // private constructor defined to "hide" the default public constructor
-    private DefaultPaths() {
+publid dlbss DffbultPbtis {
+    privbtf stbtid finbl String INSTALL_PATH_RESOURCE_NAME = "dom/sun/jdmk/dffbults/instbll.pbti";
+    // privbtf donstrudtor dffinfd to "iidf" tif dffbult publid donstrudtor
+    privbtf DffbultPbtis() {
 
     }
 
@@ -52,194 +52,194 @@ public class DefaultPaths {
     //----------------------
 
     /**
-     * Returns the installation directory for Java DMK.
+     * Rfturns tif instbllbtion dirfdtory for Jbvb DMK.
      *
-     * The default value of the installation directory is:
-     * <CODE>&lt;base_dir&gt; + File.separator + SUNWjdmk + File.separator + jdmk5.0 </CODE>
+     * Tif dffbult vbluf of tif instbllbtion dirfdtory is:
+     * <CODE>&lt;bbsf_dir&gt; + Filf.sfpbrbtor + SUNWjdmk + Filf.sfpbrbtor + jdmk5.0 </CODE>
      *
-     * @return Java DMK installation directory.
+     * @rfturn Jbvb DMK instbllbtion dirfdtory.
      */
-    public static String getInstallDir() {
-        if (installDir == null)
-            return useRessourceFile();
-        else
-            return installDir;
+    publid stbtid String gftInstbllDir() {
+        if (instbllDir == null)
+            rfturn usfRfssourdfFilf();
+        flsf
+            rfturn instbllDir;
     }
 
     /**
-     * Returns the installation directory for Java DMK concatenated with dirname.
+     * Rfturns tif instbllbtion dirfdtory for Jbvb DMK dondbtfnbtfd witi dirnbmf.
      *
-     * The default value of the installation directory is:
-     * <CODE>&lt;base_dir&gt; + File.separator + SUNWjdmk + File.separator + jdmk5.0 </CODE>
+     * Tif dffbult vbluf of tif instbllbtion dirfdtory is:
+     * <CODE>&lt;bbsf_dir&gt; + Filf.sfpbrbtor + SUNWjdmk + Filf.sfpbrbtor + jdmk5.0 </CODE>
      *
-     * @param dirname The directory to be appended.
+     * @pbrbm dirnbmf Tif dirfdtory to bf bppfndfd.
      *
-     * @return Java DMK installation directory + <CODE>File.separator</CODE> + <CODE>dirname</CODE>.
+     * @rfturn Jbvb DMK instbllbtion dirfdtory + <CODE>Filf.sfpbrbtor</CODE> + <CODE>dirnbmf</CODE>.
      */
-    public static String getInstallDir(String dirname) {
-        if (installDir == null) {
-            if (dirname == null) {
-                return getInstallDir();
-            } else {
-                return getInstallDir() + File.separator + dirname;
+    publid stbtid String gftInstbllDir(String dirnbmf) {
+        if (instbllDir == null) {
+            if (dirnbmf == null) {
+                rfturn gftInstbllDir();
+            } flsf {
+                rfturn gftInstbllDir() + Filf.sfpbrbtor + dirnbmf;
             }
-        } else {
-            if (dirname == null) {
-                return installDir;
-            } else {
-                return installDir + File.separator + dirname;
-            }
-        }
-    }
-
-    /**
-     * Sets the installation directory for Java DMK.
-     *
-     * @param dirname The directory where Java DMK resides.
-     */
-    public static void setInstallDir(String dirname) {
-        installDir = dirname;
-    }
-
-    /**
-     * Returns the <CODE>etc</CODE> directory for Java DMK.
-     * <P>
-     * The default value of the <CODE>etc</CODE> directory is:
-     * <UL>
-     * <LI><CODE>DefaultPaths.getInstallDir("etc")</CODE>.
-     * </UL>
-     *
-     * @return Java DMK <CODE>etc</CODE> directory.
-     */
-    public static String getEtcDir() {
-        if (etcDir == null)
-            return getInstallDir("etc");
-        else
-            return etcDir;
-    }
-
-    /**
-     * Returns the <CODE>etc</CODE> directory for Java DMK concatenated with dirname.
-     * <P>
-     * The default value of the <CODE>etc</CODE> directory is:
-     * <UL>
-     * <LI><CODE>DefaultPaths.getInstallDir("etc")</CODE>.
-     * </UL>
-     *
-     * @param dirname The directory to be appended.
-     *
-     * @return Java DMK <CODE>etc</CODE> directory + <CODE>File.separator</CODE> + <CODE>dirname</CODE>.
-     */
-    public static String getEtcDir(String dirname) {
-        if (etcDir == null) {
-            if (dirname == null) {
-                return getEtcDir();
-            } else {
-                return getEtcDir() + File.separator + dirname;
-            }
-        } else {
-            if (dirname == null) {
-                return etcDir;
-            } else {
-                return etcDir + File.separator + dirname;
+        } flsf {
+            if (dirnbmf == null) {
+                rfturn instbllDir;
+            } flsf {
+                rfturn instbllDir + Filf.sfpbrbtor + dirnbmf;
             }
         }
     }
 
     /**
-     * Sets the <CODE>etc</CODE> directory for Java DMK.
+     * Sfts tif instbllbtion dirfdtory for Jbvb DMK.
      *
-     * @param dirname The <CODE>etc</CODE> directory for Java DMK.
+     * @pbrbm dirnbmf Tif dirfdtory wifrf Jbvb DMK rfsidfs.
      */
-    public static void setEtcDir(String dirname) {
-        etcDir = dirname;
+    publid stbtid void sftInstbllDir(String dirnbmf) {
+        instbllDir = dirnbmf;
     }
 
     /**
-     * Returns the <CODE>tmp</CODE> directory for the product.
+     * Rfturns tif <CODE>ftd</CODE> dirfdtory for Jbvb DMK.
      * <P>
-     * The default value of the <CODE>tmp</CODE> directory is:
+     * Tif dffbult vbluf of tif <CODE>ftd</CODE> dirfdtory is:
      * <UL>
-     * <LI><CODE>DefaultPaths.getInstallDir("tmp")</CODE>.
+     * <LI><CODE>DffbultPbtis.gftInstbllDir("ftd")</CODE>.
      * </UL>
      *
-     * @return Java DMK <CODE>tmp</CODE> directory.
+     * @rfturn Jbvb DMK <CODE>ftd</CODE> dirfdtory.
      */
-    public static String getTmpDir() {
+    publid stbtid String gftEtdDir() {
+        if (ftdDir == null)
+            rfturn gftInstbllDir("ftd");
+        flsf
+            rfturn ftdDir;
+    }
+
+    /**
+     * Rfturns tif <CODE>ftd</CODE> dirfdtory for Jbvb DMK dondbtfnbtfd witi dirnbmf.
+     * <P>
+     * Tif dffbult vbluf of tif <CODE>ftd</CODE> dirfdtory is:
+     * <UL>
+     * <LI><CODE>DffbultPbtis.gftInstbllDir("ftd")</CODE>.
+     * </UL>
+     *
+     * @pbrbm dirnbmf Tif dirfdtory to bf bppfndfd.
+     *
+     * @rfturn Jbvb DMK <CODE>ftd</CODE> dirfdtory + <CODE>Filf.sfpbrbtor</CODE> + <CODE>dirnbmf</CODE>.
+     */
+    publid stbtid String gftEtdDir(String dirnbmf) {
+        if (ftdDir == null) {
+            if (dirnbmf == null) {
+                rfturn gftEtdDir();
+            } flsf {
+                rfturn gftEtdDir() + Filf.sfpbrbtor + dirnbmf;
+            }
+        } flsf {
+            if (dirnbmf == null) {
+                rfturn ftdDir;
+            } flsf {
+                rfturn ftdDir + Filf.sfpbrbtor + dirnbmf;
+            }
+        }
+    }
+
+    /**
+     * Sfts tif <CODE>ftd</CODE> dirfdtory for Jbvb DMK.
+     *
+     * @pbrbm dirnbmf Tif <CODE>ftd</CODE> dirfdtory for Jbvb DMK.
+     */
+    publid stbtid void sftEtdDir(String dirnbmf) {
+        ftdDir = dirnbmf;
+    }
+
+    /**
+     * Rfturns tif <CODE>tmp</CODE> dirfdtory for tif produdt.
+     * <P>
+     * Tif dffbult vbluf of tif <CODE>tmp</CODE> dirfdtory is:
+     * <UL>
+     * <LI><CODE>DffbultPbtis.gftInstbllDir("tmp")</CODE>.
+     * </UL>
+     *
+     * @rfturn Jbvb DMK <CODE>tmp</CODE> dirfdtory.
+     */
+    publid stbtid String gftTmpDir() {
          if (tmpDir == null)
-            return getInstallDir("tmp");
-        else
-            return tmpDir;
+            rfturn gftInstbllDir("tmp");
+        flsf
+            rfturn tmpDir;
     }
 
     /**
-     * Returns the <CODE>tmp</CODE> directory for Java DMK concatenated with dirname.
+     * Rfturns tif <CODE>tmp</CODE> dirfdtory for Jbvb DMK dondbtfnbtfd witi dirnbmf.
      * <P>
-     * The default value of the <CODE>tmp</CODE> directory is:
+     * Tif dffbult vbluf of tif <CODE>tmp</CODE> dirfdtory is:
      * <UL>
-     * <LI><CODE>DefaultPaths.getInstallDir("tmp")</CODE>.
+     * <LI><CODE>DffbultPbtis.gftInstbllDir("tmp")</CODE>.
      * </UL>
      *
-     * @param dirname The directory to be appended.
+     * @pbrbm dirnbmf Tif dirfdtory to bf bppfndfd.
      *
-     * @return Java DMK <CODE>tmp</CODE> directory + <CODE>File.separator</CODE> + <CODE>dirname</CODE>.
+     * @rfturn Jbvb DMK <CODE>tmp</CODE> dirfdtory + <CODE>Filf.sfpbrbtor</CODE> + <CODE>dirnbmf</CODE>.
      */
-    public static String getTmpDir(String dirname) {
+    publid stbtid String gftTmpDir(String dirnbmf) {
         if (tmpDir == null) {
-            if (dirname == null) {
-                return getTmpDir();
-            } else {
-                return getTmpDir() + File.separator + dirname;
+            if (dirnbmf == null) {
+                rfturn gftTmpDir();
+            } flsf {
+                rfturn gftTmpDir() + Filf.sfpbrbtor + dirnbmf;
             }
-        } else {
-            if (dirname == null) {
-                return tmpDir;
-            } else {
-                return tmpDir + File.separator + dirname;
+        } flsf {
+            if (dirnbmf == null) {
+                rfturn tmpDir;
+            } flsf {
+                rfturn tmpDir + Filf.sfpbrbtor + dirnbmf;
             }
         }
     }
 
     /**
-     * Sets the <CODE>tmp</CODE> directory for the product
+     * Sfts tif <CODE>tmp</CODE> dirfdtory for tif produdt
      *
-     * @param dirname The <CODE>tmp</CODE> directory for Java DMK.
+     * @pbrbm dirnbmf Tif <CODE>tmp</CODE> dirfdtory for Jbvb DMK.
      */
-    public static void setTmpDir(String dirname) {
-        tmpDir = dirname;
+    publid stbtid void sftTmpDir(String dirnbmf) {
+        tmpDir = dirnbmf;
     }
 
 
     // PRIVATE STATIC METHODS
     //-----------------------
 
-    private static String useRessourceFile() {
-        InputStream in = null;
-        BufferedReader r = null;
+    privbtf stbtid String usfRfssourdfFilf() {
+        InputStrfbm in = null;
+        BufffrfdRfbdfr r = null;
         try {
             in =
-                DefaultPaths.class.getClassLoader().getResourceAsStream(INSTALL_PATH_RESOURCE_NAME);
-            if(in == null) return null;
-            r = new BufferedReader(new InputStreamReader(in));
-            installDir = r.readLine();
-        }catch(Exception e) {
+                DffbultPbtis.dlbss.gftClbssLobdfr().gftRfsourdfAsStrfbm(INSTALL_PATH_RESOURCE_NAME);
+            if(in == null) rfturn null;
+            r = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(in));
+            instbllDir = r.rfbdLinf();
+        }dbtdi(Exdfption f) {
         }
-        finally {
+        finblly {
             try {
-                if(in != null) in.close();
-                if(r != null) r.close();
-            }catch(Exception e) {}
+                if(in != null) in.dlosf();
+                if(r != null) r.dlosf();
+            }dbtdi(Exdfption f) {}
         }
-        return installDir;
+        rfturn instbllDir;
     }
 
     // PRIVATE VARIABLES
     //------------------
 
     /**
-     * Directories used by Java DMK.
+     * Dirfdtorifs usfd by Jbvb DMK.
      */
-    private static String etcDir;
-    private static String tmpDir;
-    private static String installDir;
+    privbtf stbtid String ftdDir;
+    privbtf stbtid String tmpDir;
+    privbtf stbtid String instbllDir;
 }

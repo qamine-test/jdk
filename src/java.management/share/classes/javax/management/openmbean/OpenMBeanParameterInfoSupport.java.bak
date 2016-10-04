@@ -1,627 +1,627 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.management.openmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
 
 
-// java import
+// jbvb import
 //
-import java.util.Set;
-import javax.management.Descriptor;
-import javax.management.DescriptorRead;  // for Javadoc
-import javax.management.ImmutableDescriptor;
-import javax.management.MBeanParameterInfo;
+import jbvb.util.Sft;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.DfsdriptorRfbd;  // for Jbvbdod
+import jbvbx.mbnbgfmfnt.ImmutbblfDfsdriptor;
+import jbvbx.mbnbgfmfnt.MBfbnPbrbmftfrInfo;
 
-// OpenMBeanAttributeInfoSupport and this class are very similar
-// but can't easily be refactored because there's no multiple inheritance.
-// The best we can do for refactoring is to put a bunch of static methods
-// in OpenMBeanAttributeInfoSupport and import them here.
-import static javax.management.openmbean.OpenMBeanAttributeInfoSupport.*;
+// OpfnMBfbnAttributfInfoSupport bnd tiis dlbss brf vfry similbr
+// but dbn't fbsily bf rffbdtorfd bfdbusf tifrf's no multiplf inifritbndf.
+// Tif bfst wf dbn do for rffbdtoring is to put b bundi of stbtid mftiods
+// in OpfnMBfbnAttributfInfoSupport bnd import tifm ifrf.
+import stbtid jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnAttributfInfoSupport.*;
 
 /**
- * Describes a parameter used in one or more operations or
- * constructors of an open MBean.
+ * Dfsdribfs b pbrbmftfr usfd in onf or morf opfrbtions or
+ * donstrudtors of bn opfn MBfbn.
  *
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class OpenMBeanParameterInfoSupport
-    extends MBeanParameterInfo
-    implements OpenMBeanParameterInfo {
+publid dlbss OpfnMBfbnPbrbmftfrInfoSupport
+    fxtfnds MBfbnPbrbmftfrInfo
+    implfmfnts OpfnMBfbnPbrbmftfrInfo {
 
-    /* Serial version */
-    static final long serialVersionUID = -7235016873758443122L;
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = -7235016873758443122L;
 
     /**
-     * @serial The open mbean parameter's <i>open type</i>
+     * @sfribl Tif opfn mbfbn pbrbmftfr's <i>opfn typf</i>
      */
-    private OpenType<?>    openType;
+    privbtf OpfnTypf<?>    opfnTypf;
 
     /**
-     * @serial The open mbean parameter's default value
+     * @sfribl Tif opfn mbfbn pbrbmftfr's dffbult vbluf
      */
-    private Object      defaultValue    = null;
+    privbtf Objfdt      dffbultVbluf    = null;
 
     /**
-     * @serial The open mbean parameter's legal values. This {@link
-     * Set} is unmodifiable
+     * @sfribl Tif opfn mbfbn pbrbmftfr's lfgbl vblufs. Tiis {@link
+     * Sft} is unmodifibblf
      */
-    private Set<?> legalValues     = null;  // to be constructed unmodifiable
+    privbtf Sft<?> lfgblVblufs     = null;  // to bf donstrudtfd unmodifibblf
 
     /**
-     * @serial The open mbean parameter's min value
+     * @sfribl Tif opfn mbfbn pbrbmftfr's min vbluf
      */
-    private Comparable<?> minValue        = null;
+    privbtf Compbrbblf<?> minVbluf        = null;
 
     /**
-     * @serial The open mbean parameter's max value
+     * @sfribl Tif opfn mbfbn pbrbmftfr's mbx vbluf
      */
-    private Comparable<?> maxValue        = null;
+    privbtf Compbrbblf<?> mbxVbluf        = null;
 
 
-    // As this instance is immutable, these two values need only
-    // be calculated once.
-    private transient Integer myHashCode = null;        // As this instance is immutable, these two values
-    private transient String  myToString = null;        // need only be calculated once.
+    // As tiis instbndf is immutbblf, tifsf two vblufs nffd only
+    // bf dbldulbtfd ondf.
+    privbtf trbnsifnt Intfgfr myHbsiCodf = null;        // As tiis instbndf is immutbblf, tifsf two vblufs
+    privbtf trbnsifnt String  myToString = null;        // nffd only bf dbldulbtfd ondf.
 
 
     /**
-     * Constructs an {@code OpenMBeanParameterInfoSupport} instance,
-     * which describes the parameter used in one or more operations or
-     * constructors of a class of open MBeans, with the specified
-     * {@code name}, {@code openType} and {@code description}.
+     * Construdts bn {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndf,
+     * wiidi dfsdribfs tif pbrbmftfr usfd in onf or morf opfrbtions or
+     * donstrudtors of b dlbss of opfn MBfbns, witi tif spfdififd
+     * {@dodf nbmf}, {@dodf opfnTypf} bnd {@dodf dfsdription}.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbmf  dbnnot bf b null or fmpty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm dfsdription  dbnnot bf b null or fmpty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm opfnTypf  dbnnot bf null.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string, or {@dodf opfnTypf} is
      * null.
      */
-    public OpenMBeanParameterInfoSupport(String name,
-                                         String description,
-                                         OpenType<?> openType) {
-        this(name, description, openType, (Descriptor) null);
+    publid OpfnMBfbnPbrbmftfrInfoSupport(String nbmf,
+                                         String dfsdription,
+                                         OpfnTypf<?> opfnTypf) {
+        tiis(nbmf, dfsdription, opfnTypf, (Dfsdriptor) null);
     }
 
     /**
-     * Constructs an {@code OpenMBeanParameterInfoSupport} instance,
-     * which describes the parameter used in one or more operations or
-     * constructors of a class of open MBeans, with the specified
-     * {@code name}, {@code openType}, {@code description},
-     * and {@code descriptor}.
+     * Construdts bn {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndf,
+     * wiidi dfsdribfs tif pbrbmftfr usfd in onf or morf opfrbtions or
+     * donstrudtors of b dlbss of opfn MBfbns, witi tif spfdififd
+     * {@dodf nbmf}, {@dodf opfnTypf}, {@dodf dfsdription},
+     * bnd {@dodf dfsdriptor}.
      *
-     * <p>The {@code descriptor} can contain entries that will define
-     * the values returned by certain methods of this class, as
-     * explained in the <a href="package-summary.html#constraints">
-     * package description</a>.
+     * <p>Tif {@dodf dfsdriptor} dbn dontbin fntrifs tibt will dffinf
+     * tif vblufs rfturnfd by dfrtbin mftiods of tiis dlbss, bs
+     * fxplbinfd in tif <b irff="pbdkbgf-summbry.itml#donstrbints">
+     * pbdkbgf dfsdription</b>.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbmf  dbnnot bf b null or fmpty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm dfsdription  dbnnot bf b null or fmpty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm opfnTypf  dbnnot bf null.
      *
-     * @param descriptor The descriptor for the parameter.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm dfsdriptor Tif dfsdriptor for tif pbrbmftfr.  Tiis mby bf null
+     * wiidi is fquivblfnt to bn fmpty dfsdriptor.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
-     * null, or the descriptor entries are invalid as described in the
-     * <a href="package-summary.html#constraints">package
-     * description</a>.
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string, or {@dodf opfnTypf} is
+     * null, or tif dfsdriptor fntrifs brf invblid bs dfsdribfd in tif
+     * <b irff="pbdkbgf-summbry.itml#donstrbints">pbdkbgf
+     * dfsdription</b>.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public OpenMBeanParameterInfoSupport(String name,
-                                         String description,
-                                         OpenType<?> openType,
-                                         Descriptor descriptor) {
+    publid OpfnMBfbnPbrbmftfrInfoSupport(String nbmf,
+                                         String dfsdription,
+                                         OpfnTypf<?> opfnTypf,
+                                         Dfsdriptor dfsdriptor) {
 
 
-        // Construct parent's state
+        // Construdt pbrfnt's stbtf
         //
-        super(name,
-              (openType==null) ? null : openType.getClassName(),
-              description,
-              ImmutableDescriptor.union(descriptor,(openType==null)?null:
-                openType.getDescriptor()));
+        supfr(nbmf,
+              (opfnTypf==null) ? null : opfnTypf.gftClbssNbmf(),
+              dfsdription,
+              ImmutbblfDfsdriptor.union(dfsdriptor,(opfnTypf==null)?null:
+                opfnTypf.gftDfsdriptor()));
 
-        // Initialize this instance's specific state
+        // Initiblizf tiis instbndf's spfdifid stbtf
         //
-        this.openType = openType;
+        tiis.opfnTypf = opfnTypf;
 
-        descriptor = getDescriptor();  // replace null by empty
-        this.defaultValue = valueFrom(descriptor, "defaultValue", openType);
-        this.legalValues = valuesFrom(descriptor, "legalValues", openType);
-        this.minValue = comparableValueFrom(descriptor, "minValue", openType);
-        this.maxValue = comparableValueFrom(descriptor, "maxValue", openType);
+        dfsdriptor = gftDfsdriptor();  // rfplbdf null by fmpty
+        tiis.dffbultVbluf = vblufFrom(dfsdriptor, "dffbultVbluf", opfnTypf);
+        tiis.lfgblVblufs = vblufsFrom(dfsdriptor, "lfgblVblufs", opfnTypf);
+        tiis.minVbluf = dompbrbblfVblufFrom(dfsdriptor, "minVbluf", opfnTypf);
+        tiis.mbxVbluf = dompbrbblfVblufFrom(dfsdriptor, "mbxVbluf", opfnTypf);
 
         try {
-            check(this);
-        } catch (OpenDataException e) {
-            throw new IllegalArgumentException(e.getMessage(), e);
+            difdk(tiis);
+        } dbtdi (OpfnDbtbExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f.gftMfssbgf(), f);
         }
     }
 
 
     /**
-     * Constructs an {@code OpenMBeanParameterInfoSupport} instance,
-     * which describes the parameter used in one or more operations or
-     * constructors of a class of open MBeans, with the specified
-     * {@code name}, {@code openType}, {@code description} and {@code
-     * defaultValue}.
+     * Construdts bn {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndf,
+     * wiidi dfsdribfs tif pbrbmftfr usfd in onf or morf opfrbtions or
+     * donstrudtors of b dlbss of opfn MBfbns, witi tif spfdififd
+     * {@dodf nbmf}, {@dodf opfnTypf}, {@dodf dfsdription} bnd {@dodf
+     * dffbultVbluf}.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbmf  dbnnot bf b null or fmpty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm dfsdription  dbnnot bf b null or fmpty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm opfnTypf  dbnnot bf null.
      *
-     * @param defaultValue must be a valid value for the {@code
-     * openType} specified for this parameter; default value not
-     * supported for {@code ArrayType} and {@code TabularType}; can be
-     * null, in which case it means that no default value is set.
+     * @pbrbm dffbultVbluf must bf b vblid vbluf for tif {@dodf
+     * opfnTypf} spfdififd for tiis pbrbmftfr; dffbult vbluf not
+     * supportfd for {@dodf ArrbyTypf} bnd {@dodf TbbulbrTypf}; dbn bf
+     * null, in wiidi dbsf it mfbns tibt no dffbult vbluf is sft.
      *
-     * @param <T> allows the compiler to check that the {@code defaultValue},
-     * if non-null, has the correct Java type for the given {@code openType}.
+     * @pbrbm <T> bllows tif dompilfr to difdk tibt tif {@dodf dffbultVbluf},
+     * if non-null, ibs tif dorrfdt Jbvb typf for tif givfn {@dodf opfnTypf}.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string, or {@dodf opfnTypf} is
      * null.
      *
-     * @throws OpenDataException if {@code defaultValue} is not a
-     * valid value for the specified {@code openType}, or {@code
-     * defaultValue} is non null and {@code openType} is an {@code
-     * ArrayType} or a {@code TabularType}.
+     * @tirows OpfnDbtbExdfption if {@dodf dffbultVbluf} is not b
+     * vblid vbluf for tif spfdififd {@dodf opfnTypf}, or {@dodf
+     * dffbultVbluf} is non null bnd {@dodf opfnTypf} is bn {@dodf
+     * ArrbyTypf} or b {@dodf TbbulbrTypf}.
      */
-    public <T> OpenMBeanParameterInfoSupport(String   name,
-                                             String   description,
-                                             OpenType<T> openType,
-                                             T        defaultValue)
-            throws OpenDataException {
-        this(name, description, openType, defaultValue, (T[]) null);
+    publid <T> OpfnMBfbnPbrbmftfrInfoSupport(String   nbmf,
+                                             String   dfsdription,
+                                             OpfnTypf<T> opfnTypf,
+                                             T        dffbultVbluf)
+            tirows OpfnDbtbExdfption {
+        tiis(nbmf, dfsdription, opfnTypf, dffbultVbluf, (T[]) null);
     }
 
     /**
-     * <p>Constructs an {@code OpenMBeanParameterInfoSupport} instance,
-     * which describes the parameter used in one or more operations or
-     * constructors of a class of open MBeans, with the specified
-     * {@code name}, {@code openType}, {@code description}, {@code
-     * defaultValue} and {@code legalValues}.</p>
+     * <p>Construdts bn {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndf,
+     * wiidi dfsdribfs tif pbrbmftfr usfd in onf or morf opfrbtions or
+     * donstrudtors of b dlbss of opfn MBfbns, witi tif spfdififd
+     * {@dodf nbmf}, {@dodf opfnTypf}, {@dodf dfsdription}, {@dodf
+     * dffbultVbluf} bnd {@dodf lfgblVblufs}.</p>
      *
-     * <p>The contents of {@code legalValues} are copied, so subsequent
-     * modifications of the array referenced by {@code legalValues}
-     * have no impact on this {@code OpenMBeanParameterInfoSupport}
-     * instance.</p>
+     * <p>Tif dontfnts of {@dodf lfgblVblufs} brf dopifd, so subsfqufnt
+     * modifidbtions of tif brrby rfffrfndfd by {@dodf lfgblVblufs}
+     * ibvf no impbdt on tiis {@dodf OpfnMBfbnPbrbmftfrInfoSupport}
+     * instbndf.</p>
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbmf  dbnnot bf b null or fmpty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm dfsdription  dbnnot bf b null or fmpty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm opfnTypf  dbnnot bf null.
      *
-     * @param defaultValue must be a valid value for the {@code
-     * openType} specified for this parameter; default value not
-     * supported for {@code ArrayType} and {@code TabularType}; can be
-     * null, in which case it means that no default value is set.
+     * @pbrbm dffbultVbluf must bf b vblid vbluf for tif {@dodf
+     * opfnTypf} spfdififd for tiis pbrbmftfr; dffbult vbluf not
+     * supportfd for {@dodf ArrbyTypf} bnd {@dodf TbbulbrTypf}; dbn bf
+     * null, in wiidi dbsf it mfbns tibt no dffbult vbluf is sft.
      *
-     * @param legalValues each contained value must be valid for the
-     * {@code openType} specified for this parameter; legal values not
-     * supported for {@code ArrayType} and {@code TabularType}; can be
-     * null or empty.
+     * @pbrbm lfgblVblufs fbdi dontbinfd vbluf must bf vblid for tif
+     * {@dodf opfnTypf} spfdififd for tiis pbrbmftfr; lfgbl vblufs not
+     * supportfd for {@dodf ArrbyTypf} bnd {@dodf TbbulbrTypf}; dbn bf
+     * null or fmpty.
      *
-     * @param <T> allows the compiler to check that the {@code
-     * defaultValue} and {@code legalValues}, if non-null, have the
-     * correct Java type for the given {@code openType}.
+     * @pbrbm <T> bllows tif dompilfr to difdk tibt tif {@dodf
+     * dffbultVbluf} bnd {@dodf lfgblVblufs}, if non-null, ibvf tif
+     * dorrfdt Jbvb typf for tif givfn {@dodf opfnTypf}.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string, or {@dodf opfnTypf} is
      * null.
      *
-     * @throws OpenDataException if {@code defaultValue} is not a
-     * valid value for the specified {@code openType}, or one value in
-     * {@code legalValues} is not valid for the specified {@code
-     * openType}, or {@code defaultValue} is non null and {@code
-     * openType} is an {@code ArrayType} or a {@code TabularType}, or
-     * {@code legalValues} is non null and non empty and {@code
-     * openType} is an {@code ArrayType} or a {@code TabularType}, or
-     * {@code legalValues} is non null and non empty and {@code
-     * defaultValue} is not contained in {@code legalValues}.
+     * @tirows OpfnDbtbExdfption if {@dodf dffbultVbluf} is not b
+     * vblid vbluf for tif spfdififd {@dodf opfnTypf}, or onf vbluf in
+     * {@dodf lfgblVblufs} is not vblid for tif spfdififd {@dodf
+     * opfnTypf}, or {@dodf dffbultVbluf} is non null bnd {@dodf
+     * opfnTypf} is bn {@dodf ArrbyTypf} or b {@dodf TbbulbrTypf}, or
+     * {@dodf lfgblVblufs} is non null bnd non fmpty bnd {@dodf
+     * opfnTypf} is bn {@dodf ArrbyTypf} or b {@dodf TbbulbrTypf}, or
+     * {@dodf lfgblVblufs} is non null bnd non fmpty bnd {@dodf
+     * dffbultVbluf} is not dontbinfd in {@dodf lfgblVblufs}.
      */
-    public <T> OpenMBeanParameterInfoSupport(String   name,
-                                             String   description,
-                                             OpenType<T> openType,
-                                             T        defaultValue,
-                                             T[]      legalValues)
-            throws OpenDataException {
-        this(name, description, openType,
-             defaultValue, legalValues, null, null);
+    publid <T> OpfnMBfbnPbrbmftfrInfoSupport(String   nbmf,
+                                             String   dfsdription,
+                                             OpfnTypf<T> opfnTypf,
+                                             T        dffbultVbluf,
+                                             T[]      lfgblVblufs)
+            tirows OpfnDbtbExdfption {
+        tiis(nbmf, dfsdription, opfnTypf,
+             dffbultVbluf, lfgblVblufs, null, null);
     }
 
 
     /**
-     * Constructs an {@code OpenMBeanParameterInfoSupport} instance,
-     * which describes the parameter used in one or more operations or
-     * constructors of a class of open MBeans, with the specified
-     * {@code name}, {@code openType}, {@code description}, {@code
-     * defaultValue}, {@code minValue} and {@code maxValue}.
+     * Construdts bn {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndf,
+     * wiidi dfsdribfs tif pbrbmftfr usfd in onf or morf opfrbtions or
+     * donstrudtors of b dlbss of opfn MBfbns, witi tif spfdififd
+     * {@dodf nbmf}, {@dodf opfnTypf}, {@dodf dfsdription}, {@dodf
+     * dffbultVbluf}, {@dodf minVbluf} bnd {@dodf mbxVbluf}.
      *
-     * It is possible to specify minimal and maximal values only for
-     * an open type whose values are {@code Comparable}.
+     * It is possiblf to spfdify minimbl bnd mbximbl vblufs only for
+     * bn opfn typf wiosf vblufs brf {@dodf Compbrbblf}.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbmf  dbnnot bf b null or fmpty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm dfsdription  dbnnot bf b null or fmpty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm opfnTypf  dbnnot bf null.
      *
-     * @param defaultValue must be a valid value for the {@code
-     * openType} specified for this parameter; default value not
-     * supported for {@code ArrayType} and {@code TabularType}; can be
-     * null, in which case it means that no default value is set.
+     * @pbrbm dffbultVbluf must bf b vblid vbluf for tif {@dodf
+     * opfnTypf} spfdififd for tiis pbrbmftfr; dffbult vbluf not
+     * supportfd for {@dodf ArrbyTypf} bnd {@dodf TbbulbrTypf}; dbn bf
+     * null, in wiidi dbsf it mfbns tibt no dffbult vbluf is sft.
      *
-     * @param minValue must be valid for the {@code openType}
-     * specified for this parameter; can be null, in which case it
-     * means that no minimal value is set.
+     * @pbrbm minVbluf must bf vblid for tif {@dodf opfnTypf}
+     * spfdififd for tiis pbrbmftfr; dbn bf null, in wiidi dbsf it
+     * mfbns tibt no minimbl vbluf is sft.
      *
-     * @param maxValue must be valid for the {@code openType}
-     * specified for this parameter; can be null, in which case it
-     * means that no maximal value is set.
+     * @pbrbm mbxVbluf must bf vblid for tif {@dodf opfnTypf}
+     * spfdififd for tiis pbrbmftfr; dbn bf null, in wiidi dbsf it
+     * mfbns tibt no mbximbl vbluf is sft.
      *
-     * @param <T> allows the compiler to check that the {@code
-     * defaultValue}, {@code minValue}, and {@code maxValue}, if
-     * non-null, have the correct Java type for the given {@code
-     * openType}.
+     * @pbrbm <T> bllows tif dompilfr to difdk tibt tif {@dodf
+     * dffbultVbluf}, {@dodf minVbluf}, bnd {@dodf mbxVbluf}, if
+     * non-null, ibvf tif dorrfdt Jbvb typf for tif givfn {@dodf
+     * opfnTypf}.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string, or {@dodf opfnTypf} is
      * null.
      *
-     * @throws OpenDataException if {@code defaultValue}, {@code
-     * minValue} or {@code maxValue} is not a valid value for the
-     * specified {@code openType}, or {@code defaultValue} is non null
-     * and {@code openType} is an {@code ArrayType} or a {@code
-     * TabularType}, or both {@code minValue} and {@code maxValue} are
-     * non-null and {@code minValue.compareTo(maxValue) > 0} is {@code
-     * true}, or both {@code defaultValue} and {@code minValue} are
-     * non-null and {@code minValue.compareTo(defaultValue) > 0} is
-     * {@code true}, or both {@code defaultValue} and {@code maxValue}
-     * are non-null and {@code defaultValue.compareTo(maxValue) > 0}
-     * is {@code true}.
+     * @tirows OpfnDbtbExdfption if {@dodf dffbultVbluf}, {@dodf
+     * minVbluf} or {@dodf mbxVbluf} is not b vblid vbluf for tif
+     * spfdififd {@dodf opfnTypf}, or {@dodf dffbultVbluf} is non null
+     * bnd {@dodf opfnTypf} is bn {@dodf ArrbyTypf} or b {@dodf
+     * TbbulbrTypf}, or boti {@dodf minVbluf} bnd {@dodf mbxVbluf} brf
+     * non-null bnd {@dodf minVbluf.dompbrfTo(mbxVbluf) > 0} is {@dodf
+     * truf}, or boti {@dodf dffbultVbluf} bnd {@dodf minVbluf} brf
+     * non-null bnd {@dodf minVbluf.dompbrfTo(dffbultVbluf) > 0} is
+     * {@dodf truf}, or boti {@dodf dffbultVbluf} bnd {@dodf mbxVbluf}
+     * brf non-null bnd {@dodf dffbultVbluf.dompbrfTo(mbxVbluf) > 0}
+     * is {@dodf truf}.
      */
-    public <T> OpenMBeanParameterInfoSupport(String     name,
-                                             String     description,
-                                             OpenType<T>   openType,
-                                             T          defaultValue,
-                                             Comparable<T> minValue,
-                                             Comparable<T> maxValue)
-            throws OpenDataException {
-        this(name, description, openType,
-             defaultValue, null, minValue, maxValue);
+    publid <T> OpfnMBfbnPbrbmftfrInfoSupport(String     nbmf,
+                                             String     dfsdription,
+                                             OpfnTypf<T>   opfnTypf,
+                                             T          dffbultVbluf,
+                                             Compbrbblf<T> minVbluf,
+                                             Compbrbblf<T> mbxVbluf)
+            tirows OpfnDbtbExdfption {
+        tiis(nbmf, dfsdription, opfnTypf,
+             dffbultVbluf, null, minVbluf, mbxVbluf);
     }
 
-    private <T> OpenMBeanParameterInfoSupport(String name,
-                                              String description,
-                                              OpenType<T> openType,
-                                              T defaultValue,
-                                              T[] legalValues,
-                                              Comparable<T> minValue,
-                                              Comparable<T> maxValue)
-            throws OpenDataException {
-        super(name,
-              (openType == null) ? null : openType.getClassName(),
-              description,
-              makeDescriptor(openType,
-                             defaultValue, legalValues, minValue, maxValue));
+    privbtf <T> OpfnMBfbnPbrbmftfrInfoSupport(String nbmf,
+                                              String dfsdription,
+                                              OpfnTypf<T> opfnTypf,
+                                              T dffbultVbluf,
+                                              T[] lfgblVblufs,
+                                              Compbrbblf<T> minVbluf,
+                                              Compbrbblf<T> mbxVbluf)
+            tirows OpfnDbtbExdfption {
+        supfr(nbmf,
+              (opfnTypf == null) ? null : opfnTypf.gftClbssNbmf(),
+              dfsdription,
+              mbkfDfsdriptor(opfnTypf,
+                             dffbultVbluf, lfgblVblufs, minVbluf, mbxVbluf));
 
-        this.openType = openType;
+        tiis.opfnTypf = opfnTypf;
 
-        Descriptor d = getDescriptor();
-        this.defaultValue = defaultValue;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-        // We already converted the array into an unmodifiable Set
-        // in the descriptor.
-        this.legalValues = (Set<?>) d.getFieldValue("legalValues");
+        Dfsdriptor d = gftDfsdriptor();
+        tiis.dffbultVbluf = dffbultVbluf;
+        tiis.minVbluf = minVbluf;
+        tiis.mbxVbluf = mbxVbluf;
+        // Wf blrfbdy donvfrtfd tif brrby into bn unmodifibblf Sft
+        // in tif dfsdriptor.
+        tiis.lfgblVblufs = (Sft<?>) d.gftFifldVbluf("lfgblVblufs");
 
-        check(this);
+        difdk(tiis);
     }
 
     /**
-     * An object serialized in a version of the API before Descriptors were
-     * added to this class will have an empty or null Descriptor.
-     * For consistency with our
-     * behavior in this version, we must replace the object with one
-     * where the Descriptors reflect the same values of openType, defaultValue,
-     * etc.
+     * An objfdt sfriblizfd in b vfrsion of tif API bfforf Dfsdriptors wfrf
+     * bddfd to tiis dlbss will ibvf bn fmpty or null Dfsdriptor.
+     * For donsistfndy witi our
+     * bfibvior in tiis vfrsion, wf must rfplbdf tif objfdt witi onf
+     * wifrf tif Dfsdriptors rfflfdt tif sbmf vblufs of opfnTypf, dffbultVbluf,
+     * ftd.
      **/
-    private Object readResolve() {
-        if (getDescriptor().getFieldNames().length == 0) {
-            // This noise allows us to avoid "unchecked" warnings without
-            // having to suppress them explicitly.
-            OpenType<Object> xopenType = cast(openType);
-            Set<Object> xlegalValues = cast(legalValues);
-            Comparable<Object> xminValue = cast(minValue);
-            Comparable<Object> xmaxValue = cast(maxValue);
-            return new OpenMBeanParameterInfoSupport(
-                    name, description, openType,
-                    makeDescriptor(xopenType, defaultValue, xlegalValues,
-                                   xminValue, xmaxValue));
-        } else
-            return this;
+    privbtf Objfdt rfbdRfsolvf() {
+        if (gftDfsdriptor().gftFifldNbmfs().lfngti == 0) {
+            // Tiis noisf bllows us to bvoid "undifdkfd" wbrnings witiout
+            // ibving to supprfss tifm fxpliditly.
+            OpfnTypf<Objfdt> xopfnTypf = dbst(opfnTypf);
+            Sft<Objfdt> xlfgblVblufs = dbst(lfgblVblufs);
+            Compbrbblf<Objfdt> xminVbluf = dbst(minVbluf);
+            Compbrbblf<Objfdt> xmbxVbluf = dbst(mbxVbluf);
+            rfturn nfw OpfnMBfbnPbrbmftfrInfoSupport(
+                    nbmf, dfsdription, opfnTypf,
+                    mbkfDfsdriptor(xopfnTypf, dffbultVbluf, xlfgblVblufs,
+                                   xminVbluf, xmbxVbluf));
+        } flsf
+            rfturn tiis;
     }
 
     /**
-     * Returns the open type for the values of the parameter described
-     * by this {@code OpenMBeanParameterInfoSupport} instance.
+     * Rfturns tif opfn typf for tif vblufs of tif pbrbmftfr dfsdribfd
+     * by tiis {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndf.
      */
-    public OpenType<?> getOpenType() {
-        return openType;
+    publid OpfnTypf<?> gftOpfnTypf() {
+        rfturn opfnTypf;
     }
 
     /**
-     * Returns the default value for the parameter described by this
-     * {@code OpenMBeanParameterInfoSupport} instance, if specified,
-     * or {@code null} otherwise.
+     * Rfturns tif dffbult vbluf for tif pbrbmftfr dfsdribfd by tiis
+     * {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndf, if spfdififd,
+     * or {@dodf null} otifrwisf.
      */
-    public Object getDefaultValue() {
+    publid Objfdt gftDffbultVbluf() {
 
-        // Special case for ArrayType and TabularType
-        // [JF] TODO: clone it so that it cannot be altered,
-        // [JF] TODO: if we decide to support defaultValue as an array itself.
-        // [JF] As of today (oct 2000) it is not supported so
-        // defaultValue is null for arrays. Nothing to do.
+        // Spfdibl dbsf for ArrbyTypf bnd TbbulbrTypf
+        // [JF] TODO: dlonf it so tibt it dbnnot bf bltfrfd,
+        // [JF] TODO: if wf dfdidf to support dffbultVbluf bs bn brrby itsflf.
+        // [JF] As of todby (odt 2000) it is not supportfd so
+        // dffbultVbluf is null for brrbys. Notiing to do.
 
-        return defaultValue;
+        rfturn dffbultVbluf;
     }
 
     /**
-     * Returns an unmodifiable Set of legal values for the parameter
-     * described by this {@code OpenMBeanParameterInfoSupport}
-     * instance, if specified, or {@code null} otherwise.
+     * Rfturns bn unmodifibblf Sft of lfgbl vblufs for tif pbrbmftfr
+     * dfsdribfd by tiis {@dodf OpfnMBfbnPbrbmftfrInfoSupport}
+     * instbndf, if spfdififd, or {@dodf null} otifrwisf.
      */
-    public Set<?> getLegalValues() {
+    publid Sft<?> gftLfgblVblufs() {
 
-        // Special case for ArrayType and TabularType
-        // [JF] TODO: clone values so that they cannot be altered,
-        // [JF] TODO: if we decide to support LegalValues as an array itself.
-        // [JF] As of today (oct 2000) it is not supported so
-        // legalValues is null for arrays. Nothing to do.
+        // Spfdibl dbsf for ArrbyTypf bnd TbbulbrTypf
+        // [JF] TODO: dlonf vblufs so tibt tify dbnnot bf bltfrfd,
+        // [JF] TODO: if wf dfdidf to support LfgblVblufs bs bn brrby itsflf.
+        // [JF] As of todby (odt 2000) it is not supportfd so
+        // lfgblVblufs is null for brrbys. Notiing to do.
 
-        // Returns our legalValues Set (set was constructed unmodifiable)
-        return (legalValues);
+        // Rfturns our lfgblVblufs Sft (sft wbs donstrudtfd unmodifibblf)
+        rfturn (lfgblVblufs);
     }
 
     /**
-     * Returns the minimal value for the parameter described by this
-     * {@code OpenMBeanParameterInfoSupport} instance, if specified,
-     * or {@code null} otherwise.
+     * Rfturns tif minimbl vbluf for tif pbrbmftfr dfsdribfd by tiis
+     * {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndf, if spfdififd,
+     * or {@dodf null} otifrwisf.
      */
-    public Comparable<?> getMinValue() {
+    publid Compbrbblf<?> gftMinVbluf() {
 
-        // Note: only comparable values have a minValue, so that's not
-        // the case of arrays and tabulars (always null).
+        // Notf: only dompbrbblf vblufs ibvf b minVbluf, so tibt's not
+        // tif dbsf of brrbys bnd tbbulbrs (blwbys null).
 
-        return minValue;
+        rfturn minVbluf;
     }
 
     /**
-     * Returns the maximal value for the parameter described by this
-     * {@code OpenMBeanParameterInfoSupport} instance, if specified,
-     * or {@code null} otherwise.
+     * Rfturns tif mbximbl vbluf for tif pbrbmftfr dfsdribfd by tiis
+     * {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndf, if spfdififd,
+     * or {@dodf null} otifrwisf.
      */
-    public Comparable<?> getMaxValue() {
+    publid Compbrbblf<?> gftMbxVbluf() {
 
-        // Note: only comparable values have a maxValue, so that's not
-        // the case of arrays and tabulars (always null).
+        // Notf: only dompbrbblf vblufs ibvf b mbxVbluf, so tibt's not
+        // tif dbsf of brrbys bnd tbbulbrs (blwbys null).
 
-        return maxValue;
+        rfturn mbxVbluf;
     }
 
     /**
-     * Returns {@code true} if this {@code
-     * OpenMBeanParameterInfoSupport} instance specifies a non-null
-     * default value for the described parameter, {@code false}
-     * otherwise.
+     * Rfturns {@dodf truf} if tiis {@dodf
+     * OpfnMBfbnPbrbmftfrInfoSupport} instbndf spfdififs b non-null
+     * dffbult vbluf for tif dfsdribfd pbrbmftfr, {@dodf fblsf}
+     * otifrwisf.
      */
-    public boolean hasDefaultValue() {
+    publid boolfbn ibsDffbultVbluf() {
 
-        return (defaultValue != null);
+        rfturn (dffbultVbluf != null);
     }
 
     /**
-     * Returns {@code true} if this {@code
-     * OpenMBeanParameterInfoSupport} instance specifies a non-null
-     * set of legal values for the described parameter, {@code false}
-     * otherwise.
+     * Rfturns {@dodf truf} if tiis {@dodf
+     * OpfnMBfbnPbrbmftfrInfoSupport} instbndf spfdififs b non-null
+     * sft of lfgbl vblufs for tif dfsdribfd pbrbmftfr, {@dodf fblsf}
+     * otifrwisf.
      */
-    public boolean hasLegalValues() {
+    publid boolfbn ibsLfgblVblufs() {
 
-        return (legalValues != null);
+        rfturn (lfgblVblufs != null);
     }
 
     /**
-     * Returns {@code true} if this {@code
-     * OpenMBeanParameterInfoSupport} instance specifies a non-null
-     * minimal value for the described parameter, {@code false}
-     * otherwise.
+     * Rfturns {@dodf truf} if tiis {@dodf
+     * OpfnMBfbnPbrbmftfrInfoSupport} instbndf spfdififs b non-null
+     * minimbl vbluf for tif dfsdribfd pbrbmftfr, {@dodf fblsf}
+     * otifrwisf.
      */
-    public boolean hasMinValue() {
+    publid boolfbn ibsMinVbluf() {
 
-        return (minValue != null);
+        rfturn (minVbluf != null);
     }
 
     /**
-     * Returns {@code true} if this {@code
-     * OpenMBeanParameterInfoSupport} instance specifies a non-null
-     * maximal value for the described parameter, {@code false}
-     * otherwise.
+     * Rfturns {@dodf truf} if tiis {@dodf
+     * OpfnMBfbnPbrbmftfrInfoSupport} instbndf spfdififs b non-null
+     * mbximbl vbluf for tif dfsdribfd pbrbmftfr, {@dodf fblsf}
+     * otifrwisf.
      */
-    public boolean hasMaxValue() {
+    publid boolfbn ibsMbxVbluf() {
 
-        return (maxValue != null);
+        rfturn (mbxVbluf != null);
     }
 
 
     /**
-     * Tests whether {@code obj} is a valid value for the parameter
-     * described by this {@code OpenMBeanParameterInfo} instance.
+     * Tfsts wiftifr {@dodf obj} is b vblid vbluf for tif pbrbmftfr
+     * dfsdribfd by tiis {@dodf OpfnMBfbnPbrbmftfrInfo} instbndf.
      *
-     * @param obj the object to be tested.
+     * @pbrbm obj tif objfdt to bf tfstfd.
      *
-     * @return {@code true} if {@code obj} is a valid value
-     * for the parameter described by this
-     * {@code OpenMBeanParameterInfo} instance,
-     * {@code false} otherwise.
+     * @rfturn {@dodf truf} if {@dodf obj} is b vblid vbluf
+     * for tif pbrbmftfr dfsdribfd by tiis
+     * {@dodf OpfnMBfbnPbrbmftfrInfo} instbndf,
+     * {@dodf fblsf} otifrwisf.
      */
-    public boolean isValue(Object obj) {
-        return OpenMBeanAttributeInfoSupport.isValue(this, obj);
-        // compiler bug? should be able to omit class name here
-        // also below in toString and hashCode
+    publid boolfbn isVbluf(Objfdt obj) {
+        rfturn OpfnMBfbnAttributfInfoSupport.isVbluf(tiis, obj);
+        // dompilfr bug? siould bf bblf to omit dlbss nbmf ifrf
+        // blso bflow in toString bnd ibsiCodf
     }
 
 
-    /* ***  Commodity methods from java.lang.Object  *** */
+    /* ***  Commodity mftiods from jbvb.lbng.Objfdt  *** */
 
 
     /**
-     * <p>Compares the specified {@code obj} parameter with this {@code
-     * OpenMBeanParameterInfoSupport} instance for equality.</p>
+     * <p>Compbrfs tif spfdififd {@dodf obj} pbrbmftfr witi tiis {@dodf
+     * OpfnMBfbnPbrbmftfrInfoSupport} instbndf for fqublity.</p>
      *
-     * <p>Returns {@code true} if and only if all of the following
-     * statements are true:
+     * <p>Rfturns {@dodf truf} if bnd only if bll of tif following
+     * stbtfmfnts brf truf:
      *
      * <ul>
-     * <li>{@code obj} is non null,</li>
-     * <li>{@code obj} also implements the {@code OpenMBeanParameterInfo}
-     * interface,</li>
-     * <li>their names are equal</li>
-     * <li>their open types are equal</li>
-     * <li>their default, min, max and legal values are equal.</li>
+     * <li>{@dodf obj} is non null,</li>
+     * <li>{@dodf obj} blso implfmfnts tif {@dodf OpfnMBfbnPbrbmftfrInfo}
+     * intfrfbdf,</li>
+     * <li>tifir nbmfs brf fqubl</li>
+     * <li>tifir opfn typfs brf fqubl</li>
+     * <li>tifir dffbult, min, mbx bnd lfgbl vblufs brf fqubl.</li>
      * </ul>
-     * This ensures that this {@code equals} method works properly for
-     * {@code obj} parameters which are different implementations of
-     * the {@code OpenMBeanParameterInfo} interface.
+     * Tiis fnsurfs tibt tiis {@dodf fqubls} mftiod works propfrly for
+     * {@dodf obj} pbrbmftfrs wiidi brf difffrfnt implfmfntbtions of
+     * tif {@dodf OpfnMBfbnPbrbmftfrInfo} intfrfbdf.
      *
-     * <p>If {@code obj} also implements {@link DescriptorRead}, then its
-     * {@link DescriptorRead#getDescriptor() getDescriptor()} method must
-     * also return the same value as for this object.</p>
+     * <p>If {@dodf obj} blso implfmfnts {@link DfsdriptorRfbd}, tifn its
+     * {@link DfsdriptorRfbd#gftDfsdriptor() gftDfsdriptor()} mftiod must
+     * blso rfturn tif sbmf vbluf bs for tiis objfdt.</p>
      *
-     * @param obj the object to be compared for equality with this
-     * {@code OpenMBeanParameterInfoSupport} instance.
+     * @pbrbm obj tif objfdt to bf dompbrfd for fqublity witi tiis
+     * {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndf.
      *
-     * @return {@code true} if the specified object is equal to this
-     * {@code OpenMBeanParameterInfoSupport} instance.
+     * @rfturn {@dodf truf} if tif spfdififd objfdt is fqubl to tiis
+     * {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndf.
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof OpenMBeanParameterInfo))
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof OpfnMBfbnPbrbmftfrInfo))
+            rfturn fblsf;
 
-        OpenMBeanParameterInfo other = (OpenMBeanParameterInfo) obj;
+        OpfnMBfbnPbrbmftfrInfo otifr = (OpfnMBfbnPbrbmftfrInfo) obj;
 
-        return equal(this, other);
+        rfturn fqubl(tiis, otifr);
     }
 
     /**
-     * <p>Returns the hash code value for this {@code
-     * OpenMBeanParameterInfoSupport} instance.</p>
+     * <p>Rfturns tif ibsi dodf vbluf for tiis {@dodf
+     * OpfnMBfbnPbrbmftfrInfoSupport} instbndf.</p>
      *
-     * <p>The hash code of an {@code OpenMBeanParameterInfoSupport}
-     * instance is the sum of the hash codes of all elements of
-     * information used in {@code equals} comparisons (ie: its name,
-     * its <i>open type</i>, its default, min, max and legal
-     * values, and its Descriptor).
+     * <p>Tif ibsi dodf of bn {@dodf OpfnMBfbnPbrbmftfrInfoSupport}
+     * instbndf is tif sum of tif ibsi dodfs of bll flfmfnts of
+     * informbtion usfd in {@dodf fqubls} dompbrisons (if: its nbmf,
+     * its <i>opfn typf</i>, its dffbult, min, mbx bnd lfgbl
+     * vblufs, bnd its Dfsdriptor).
      *
-     * <p>This ensures that {@code t1.equals(t2)} implies that {@code
-     * t1.hashCode()==t2.hashCode()} for any two {@code
-     * OpenMBeanParameterInfoSupport} instances {@code t1} and {@code
-     * t2}, as required by the general contract of the method {@link
-     * Object#hashCode() Object.hashCode()}.
+     * <p>Tiis fnsurfs tibt {@dodf t1.fqubls(t2)} implifs tibt {@dodf
+     * t1.ibsiCodf()==t2.ibsiCodf()} for bny two {@dodf
+     * OpfnMBfbnPbrbmftfrInfoSupport} instbndfs {@dodf t1} bnd {@dodf
+     * t2}, bs rfquirfd by tif gfnfrbl dontrbdt of tif mftiod {@link
+     * Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.
      *
-     * <p>However, note that another instance of a class implementing
-     * the {@code OpenMBeanParameterInfo} interface may be equal to
-     * this {@code OpenMBeanParameterInfoSupport} instance as defined
-     * by {@link #equals(java.lang.Object)}, but may have a different
-     * hash code if it is calculated differently.
+     * <p>Howfvfr, notf tibt bnotifr instbndf of b dlbss implfmfnting
+     * tif {@dodf OpfnMBfbnPbrbmftfrInfo} intfrfbdf mby bf fqubl to
+     * tiis {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndf bs dffinfd
+     * by {@link #fqubls(jbvb.lbng.Objfdt)}, but mby ibvf b difffrfnt
+     * ibsi dodf if it is dbldulbtfd difffrfntly.
      *
-     * <p>As {@code OpenMBeanParameterInfoSupport} instances are
-     * immutable, the hash code for this instance is calculated once,
-     * on the first call to {@code hashCode}, and then the same value
-     * is returned for subsequent calls.
+     * <p>As {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndfs brf
+     * immutbblf, tif ibsi dodf for tiis instbndf is dbldulbtfd ondf,
+     * on tif first dbll to {@dodf ibsiCodf}, bnd tifn tif sbmf vbluf
+     * is rfturnfd for subsfqufnt dblls.
      *
-     * @return the hash code value for this {@code
-     * OpenMBeanParameterInfoSupport} instance
+     * @rfturn tif ibsi dodf vbluf for tiis {@dodf
+     * OpfnMBfbnPbrbmftfrInfoSupport} instbndf
      */
-    public int hashCode() {
+    publid int ibsiCodf() {
 
-        // Calculate the hash code value if it has not yet been done
-        // (ie 1st call to hashCode())
+        // Cbldulbtf tif ibsi dodf vbluf if it ibs not yft bffn donf
+        // (if 1st dbll to ibsiCodf())
         //
-        if (myHashCode == null)
-            myHashCode = OpenMBeanAttributeInfoSupport.hashCode(this);
+        if (myHbsiCodf == null)
+            myHbsiCodf = OpfnMBfbnAttributfInfoSupport.ibsiCodf(tiis);
 
-        // return always the same hash code for this instance (immutable)
+        // rfturn blwbys tif sbmf ibsi dodf for tiis instbndf (immutbblf)
         //
-        return myHashCode.intValue();
+        rfturn myHbsiCodf.intVbluf();
     }
 
     /**
-     * Returns a string representation of this
-     * {@code OpenMBeanParameterInfoSupport} instance.
+     * Rfturns b string rfprfsfntbtion of tiis
+     * {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndf.
      * <p>
-     * The string representation consists of the name of this class (i.e.
-     * {@code javax.management.openmbean.OpenMBeanParameterInfoSupport}),
-     * the string representation of the name and open type of the described
-     * parameter, the string representation of its default, min, max and legal
-     * values and the string representation of its descriptor.
+     * Tif string rfprfsfntbtion donsists of tif nbmf of tiis dlbss (i.f.
+     * {@dodf jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnPbrbmftfrInfoSupport}),
+     * tif string rfprfsfntbtion of tif nbmf bnd opfn typf of tif dfsdribfd
+     * pbrbmftfr, tif string rfprfsfntbtion of its dffbult, min, mbx bnd lfgbl
+     * vblufs bnd tif string rfprfsfntbtion of its dfsdriptor.
      * <p>
-     * As {@code OpenMBeanParameterInfoSupport} instances are immutable,
-     * the string representation for this instance is calculated once,
-     * on the first call to {@code toString}, and then the same value
-     * is returned for subsequent calls.
+     * As {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndfs brf immutbblf,
+     * tif string rfprfsfntbtion for tiis instbndf is dbldulbtfd ondf,
+     * on tif first dbll to {@dodf toString}, bnd tifn tif sbmf vbluf
+     * is rfturnfd for subsfqufnt dblls.
      *
-     * @return a string representation of this
-     * {@code OpenMBeanParameterInfoSupport} instance.
+     * @rfturn b string rfprfsfntbtion of tiis
+     * {@dodf OpfnMBfbnPbrbmftfrInfoSupport} instbndf.
      */
-    public String toString() {
+    publid String toString() {
 
-        // Calculate the string value if it has not yet been done (ie
-        // 1st call to toString())
+        // Cbldulbtf tif string vbluf if it ibs not yft bffn donf (if
+        // 1st dbll to toString())
         //
         if (myToString == null)
-            myToString = OpenMBeanAttributeInfoSupport.toString(this);
+            myToString = OpfnMBfbnAttributfInfoSupport.toString(tiis);
 
-        // return always the same string representation for this
-        // instance (immutable)
+        // rfturn blwbys tif sbmf string rfprfsfntbtion for tiis
+        // instbndf (immutbblf)
         //
-        return myToString;
+        rfturn myToString;
     }
 
 }

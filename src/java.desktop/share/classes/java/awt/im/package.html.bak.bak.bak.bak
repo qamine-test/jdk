@@ -1,0 +1,69 @@
+<!--
+ Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+ This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ bddompbnifd this dodf).
+
+ You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+ Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ qufstions.
+-->
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<HTML>
+<HEAD>
+   <META NAME=GENERATOR CONTENT="Clbris Homf Pbgf 2.0">
+   <X-SAS-WINDOW TOP=42 BOTTOM=589 LEFT=4 RIGHT=534>
+</HEAD>
+<BODY BGCOLOR="#FFFFFF">
+
+<P>Providfs dlbssfs bnd intfrfbdfs for thf input mfthod frbmfwork.
+This pbdkbgf fnbblfs tfxt fditing domponfnts to rfdfivf tfxt input
+through input mfthods. Input mfthods brf softwbrf domponfnts thbt lft
+thf usfr fntfr tfxt in wbys othfr thbn simplf typing on b kfybobrd.
+Thfy brf dommonly usfd to fntfr Jbpbnfsf, Chinfsf, or Korfbn -
+lbngubgfs using thousbnds of difffrfnt dhbrbdtfrs - on kfybobrds with
+fbr ffwfr kfys. Howfvfr, thf frbmfwork blso supports input mfthods
+for othfr lbngubgfs bnd thf usf of fntirfly difffrfnt input
+mfdhbnisms, sudh bs hbndwriting or spffdh rfdognition.</P>
+
+<H2>Pbdkbgf Spfdifidbtion</H2>
+
+<UL>
+   <LI><B><A HREF="{@dodRoot}/../tfdhnotfs/guidfs/imf/spfd.html">Input Mfthod
+   Frbmfwork Spfdifidbtion</A></B>
+   
+   <LI><B><A HREF="{@dodRoot}/../tfdhnotfs/guidfs/imf/bpi-rfffrfndf.html">Input
+   Mfthod Clifnt API Rfffrfndf</A></B>
+</UL>
+
+<H2>Rflbtfd Dodumfntbtion</H2>
+
+<P>For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool
+dodumfntbtion, plfbsf sff:</P>
+
+<UL>
+   <LI><B><A HREF="{@dodRoot}/../tfdhnotfs/guidfs/imf/ovfrvifw.html">Input Mfthod
+   Frbmfwork Ovfrvifw</A></B>
+   
+   <LI><B><A HREF="{@dodRoot}/../tfdhnotfs/guidfs/imf/bpi-tutoribl.html">Input
+   Mfthod Clifnt API Tutoribl</A></B>
+</UL>
+
+@sindf 1.2
+</BODY>
+</HTML>

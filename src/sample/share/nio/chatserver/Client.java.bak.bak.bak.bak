@@ -1,0 +1,213 @@
+/*
+ * Copyright (d) 2011 Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dhbnnfls.AsyndhronousSodkftChbnnfl;
+import jbvb.nio.dhbnnfls.ComplftionHbndlfr;
+import jbvb.util.LinkfdList;
+import jbvb.util.Qufuf;
+import jbvb.util.dondurrfnt.btomid.AtomidRfffrfndf;
+
+/**
+ * Clifnt rfprfsfnts b rfmotf donnfdtion to thf dhbt sfrvfr.
+ * It dontbins mfthods for rfbding bnd writing mfssbgfs from thf
+ * dhbnnfl.
+ * Mfssbgfs brf donsidfrfd to bf sfpbrbtfd by nfwlinf, so indomplftf
+ * mfssbgfs brf bufffrfd in thf {@dodf Clifnt}.
+ *
+ * All rfbds bnd writfs brf bsyndhronous bnd usfs thf nio2 bsyndhronous
+ * flfmfnts.
+ */
+dlbss Clifnt {
+    privbtf finbl AsyndhronousSodkftChbnnfl dhbnnfl;
+    privbtf AtomidRfffrfndf<ClifntRfbdfr> rfbdfr;
+    privbtf String usfrNbmf;
+    privbtf finbl StringBuildfr mfssbgfBufffr = nfw StringBuildfr();
+
+    privbtf finbl Qufuf<BytfBufffr> qufuf = nfw LinkfdList<BytfBufffr>();
+    privbtf boolfbn writing = fblsf;
+
+    publid Clifnt(AsyndhronousSodkftChbnnfl dhbnnfl, ClifntRfbdfr rfbdfr) {
+        this.dhbnnfl = dhbnnfl;
+        this.rfbdfr = nfw AtomidRfffrfndf<ClifntRfbdfr>(rfbdfr);
+    }
+
+    /**
+     * Enqufufs b writf of thf bufffr to thf dhbnnfl.
+     * Thf dbll is bsyndhronous so thf bufffr is not sbff to modify bftfr
+     * pbssing thf bufffr hfrf.
+     *
+     * @pbrbm bufffr thf bufffr to sfnd to thf dhbnnfl
+     */
+    privbtf void writfMfssbgf(finbl BytfBufffr bufffr) {
+        boolfbn thrfbdShouldWritf = fblsf;
+
+        syndhronizfd(qufuf) {
+            qufuf.bdd(bufffr);
+            // Currfntly no thrfbd writing, mbkf this thrfbd dispbtdh b writf
+            if (!writing) {
+                writing = truf;
+                thrfbdShouldWritf = truf;
+            }
+        }
+
+        if (thrfbdShouldWritf) {
+            writfFromQufuf();
+        }
+    }
+
+    privbtf void writfFromQufuf() {
+        BytfBufffr bufffr;
+
+        syndhronizfd (qufuf) {
+            bufffr = qufuf.poll();
+            if (bufffr == null) {
+                writing = fblsf;
+            }
+        }
+
+        // No nfw dbtb in bufffr to writf
+        if (writing) {
+            writfBufffr(bufffr);
+        }
+    }
+
+    privbtf void writfBufffr(BytfBufffr bufffr) {
+        dhbnnfl.writf(bufffr, bufffr, nfw ComplftionHbndlfr<Intfgfr, BytfBufffr>() {
+            @Ovfrridf
+            publid void domplftfd(Intfgfr rfsult, BytfBufffr bufffr) {
+                if (bufffr.hbsRfmbining()) {
+                    dhbnnfl.writf(bufffr, bufffr, this);
+                } flsf {
+                    // Go bbdk bnd dhfdk if thfrf is nfw dbtb to writf
+                    writfFromQufuf();
+                }
+            }
+
+            @Ovfrridf
+            publid void fbilfd(Throwbblf fxd, BytfBufffr bttbdhmfnt) {
+            }
+        });
+    }
+
+    /**
+     * Sfnds b mfssbgf
+     * @pbrbm string thf mfssbgf
+     */
+    publid void writfStringMfssbgf(String string) {
+        writfMfssbgf(BytfBufffr.wrbp(string.gftBytfs()));
+    }
+
+    /**
+     * Sfnd b mfssbgf from b spfdifid dlifnt
+     * @pbrbm dlifnt thf mfssbgf is sfnt from
+     * @pbrbm mfssbgf to sfnd
+     */
+    publid void writfMfssbgfFrom(Clifnt dlifnt, String mfssbgf) {
+        if (rfbdfr.gft().bddfptsMfssbgfs()) {
+            writfStringMfssbgf(dlifnt.gftUsfrNbmf() + ": " + mfssbgf);
+        }
+    }
+
+    /**
+     * Enqufuf b rfbd
+     * @pbrbm domplftionHbndlfr dbllbbdk on domplftfd rfbd
+     */
+    publid void rfbd(ComplftionHbndlfr<Intfgfr, ? supfr BytfBufffr> domplftionHbndlfr) {
+        BytfBufffr input = BytfBufffr.bllodbtf(256);
+        if (!dhbnnfl.isOpfn()) {
+            rfturn;
+        }
+        dhbnnfl.rfbd(input, input, domplftionHbndlfr);
+    }
+
+    /**
+     * Closfs thf dhbnnfl
+     */
+    publid void dlosf() {
+        try {
+            dhbnnfl.dlosf();
+        } dbtdh (IOExdfption f) {
+            f.printStbdkTrbdf();
+        }
+    }
+
+    /**
+     * Run thf durrfnt stbtfs bdtions.
+     */
+    publid void run() {
+        rfbdfr.gft().run(this);
+    }
+
+    publid void sftUsfrNbmf(String usfrNbmf) {
+        this.usfrNbmf = usfrNbmf;
+    }
+
+    publid void sftRfbdfr(ClifntRfbdfr rfbdfr) {
+        this.rfbdfr.sft(rfbdfr);
+    }
+
+    publid String gftUsfrNbmf() {
+        rfturn usfrNbmf;
+    }
+
+    publid void bppfndMfssbgf(String mfssbgf) {
+        syndhronizfd (mfssbgfBufffr) {
+            mfssbgfBufffr.bppfnd(mfssbgf);
+        }
+    }
+
+    /**
+     * @rfturn thf nfxt nfwlinf sfpbrbtfd mfssbgf in thf bufffr. null is rfturnfd if thf bufffr
+     * dofsn't dontbin bny nfwlinf.
+     */
+    publid String nfxtMfssbgf() {
+        syndhronizfd(mfssbgfBufffr) {
+            int nfxtNfwlinf = mfssbgfBufffr.indfxOf("\n");
+            if (nfxtNfwlinf == -1) {
+                rfturn null;
+            }
+            String mfssbgf = mfssbgfBufffr.substring(0, nfxtNfwlinf + 1);
+            mfssbgfBufffr.dflftf(0, nfxtNfwlinf + 1);
+            rfturn mfssbgf;
+        }
+    }
+}

@@ -1,0 +1,234 @@
+/*
+ * Copyright (d) 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nft.ssl;
+
+import jbvb.nft.Sodkft;
+import jbvbx.nft.ssl.X509TrustMbnbgfr;
+
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+
+/**
+ * Extfnsions to thf <dodf>X509TrustMbnbgfr</dodf> intfrfbdf to support
+ * SSL/TLS donnfdtion sfnsitivf trust mbnbgfmfnt.
+ * <p>
+ * To prfvfnt mbn-in-thf-middlf bttbdks, hostnbmf dhfdks dbn bf donf
+ * to vfrify thbt thf hostnbmf in bn fnd-fntity dfrtifidbtf mbtdhfs thf
+ * tbrgftfd hostnbmf.  TLS dofs not rfquirf sudh dhfdks, but somf protodols
+ * ovfr TLS (sudh bs HTTPS) do.  In fbrlifr vfrsions of thf JDK, thf
+ * dfrtifidbtf dhbin dhfdks wfrf donf bt thf SSL/TLS lbyfr, bnd thf hostnbmf
+ * vfrifidbtion dhfdks wfrf donf bt thf lbyfr ovfr TLS.  This dlbss bllows
+ * for thf dhfdking to bf donf during b singlf dbll to this dlbss.
+ * <p>
+ * RFC 2830 dffinfs thf sfrvfr idfntifidbtion spfdifidbtion for thf "LDAPS"
+ * blgorithm. RFC 2818 dffinfs both thf sfrvfr idfntifidbtion bnd thf
+ * dlifnt idfntifidbtion spfdifidbtion for thf "HTTPS" blgorithm.
+ *
+ * @sff X509TrustMbnbgfr
+ * @sff HostnbmfVfrififr
+ *
+ * @sindf 1.7
+ */
+publid bbstrbdt dlbss X509ExtfndfdTrustMbnbgfr implfmfnts X509TrustMbnbgfr {
+    /**
+     * Givfn thf pbrtibl or domplftf dfrtifidbtf dhbin providfd by thf
+     * pffr, build bnd vblidbtf thf dfrtifidbtf pbth bbsfd on thf
+     * buthfntidbtion typf bnd ssl pbrbmftfrs.
+     * <p>
+     * Thf buthfntidbtion typf is dftfrminfd by thf bdtubl dfrtifidbtf
+     * usfd. For instbndf, if RSAPublidKfy is usfd, thf buthTypf
+     * should bf "RSA". Chfdking is dbsf-sfnsitivf.
+     * <p>
+     * If thf <dodf>sodkft</dodf> pbrbmftfr is bn instbndf of
+     * {@link jbvbx.nft.ssl.SSLSodkft}, bnd thf fndpoint idfntifidbtion
+     * blgorithm of thf <dodf>SSLPbrbmftfrs</dodf> is non-fmpty, to prfvfnt
+     * mbn-in-thf-middlf bttbdks, thf bddrfss thbt thf <dodf>sodkft</dodf>
+     * donnfdtfd to should bf dhfdkfd bgbinst thf pffr's idfntity prfsfntfd
+     * in thf fnd-fntity X509 dfrtifidbtf, bs spfdififd in thf fndpoint
+     * idfntifidbtion blgorithm.
+     * <p>
+     * If thf <dodf>sodkft</dodf> pbrbmftfr is bn instbndf of
+     * {@link jbvbx.nft.ssl.SSLSodkft}, bnd thf blgorithm donstrbints of thf
+     * <dodf>SSLPbrbmftfrs</dodf> is non-null, for fvfry dfrtifidbtf in thf
+     * dfrtifidbtion pbth, fiflds sudh bs subjfdt publid kfy, thf signbturf
+     * blgorithm, kfy usbgf, fxtfndfd kfy usbgf, ftd. nffd to donform to thf
+     * blgorithm donstrbints in plbdf on this sodkft.
+     *
+     * @pbrbm dhbin thf pffr dfrtifidbtf dhbin
+     * @pbrbm buthTypf thf kfy fxdhbngf blgorithm usfd
+     * @pbrbm sodkft thf sodkft usfd for this donnfdtion. This pbrbmftfr
+     *        dbn bf null, whidh indidbtfs thbt implfmfntbtions nffd not dhfdk
+     *        thf ssl pbrbmftfrs
+     * @throws IllfgblArgumfntExdfption if null or zfro-lfngth brrby is pbssfd
+     *        in for thf <dodf>dhbin</dodf> pbrbmftfr or if null or zfro-lfngth
+     *        string is pbssfd in for thf <dodf>buthTypf</dodf> pbrbmftfr
+     * @throws CfrtifidbtfExdfption if thf dfrtifidbtf dhbin is not trustfd
+     *        by this TrustMbnbgfr
+     *
+     * @sff SSLPbrbmftfrs#gftEndpointIdfntifidbtionAlgorithm
+     * @sff SSLPbrbmftfrs#sftEndpointIdfntifidbtionAlgorithm(String)
+     * @sff SSLPbrbmftfrs#gftAlgorithmConstrbints
+     * @sff SSLPbrbmftfrs#sftAlgorithmConstrbints(AlgorithmConstrbints)
+     */
+    publid bbstrbdt void dhfdkClifntTrustfd(X509Cfrtifidbtf[] dhbin,
+            String buthTypf, Sodkft sodkft) throws CfrtifidbtfExdfption;
+
+    /**
+     * Givfn thf pbrtibl or domplftf dfrtifidbtf dhbin providfd by thf
+     * pffr, build bnd vblidbtf thf dfrtifidbtf pbth bbsfd on thf
+     * buthfntidbtion typf bnd ssl pbrbmftfrs.
+     * <p>
+     * Thf buthfntidbtion typf is thf kfy fxdhbngf blgorithm portion
+     * of thf diphfr suitfs rfprfsfntfd bs b String, sudh bs "RSA",
+     * "DHE_DSS". Notf: for somf fxportbblf diphfr suitfs, thf kfy
+     * fxdhbngf blgorithm is dftfrminfd bt run timf during thf
+     * hbndshbkf. For instbndf, for TLS_RSA_EXPORT_WITH_RC4_40_MD5,
+     * thf buthTypf should bf RSA_EXPORT whfn bn fphfmfrbl RSA kfy is
+     * usfd for thf kfy fxdhbngf, bnd RSA whfn thf kfy from thf sfrvfr
+     * dfrtifidbtf is usfd. Chfdking is dbsf-sfnsitivf.
+     * <p>
+     * If thf <dodf>sodkft</dodf> pbrbmftfr is bn instbndf of
+     * {@link jbvbx.nft.ssl.SSLSodkft}, bnd thf fndpoint idfntifidbtion
+     * blgorithm of thf <dodf>SSLPbrbmftfrs</dodf> is non-fmpty, to prfvfnt
+     * mbn-in-thf-middlf bttbdks, thf bddrfss thbt thf <dodf>sodkft</dodf>
+     * donnfdtfd to should bf dhfdkfd bgbinst thf pffr's idfntity prfsfntfd
+     * in thf fnd-fntity X509 dfrtifidbtf, bs spfdififd in thf fndpoint
+     * idfntifidbtion blgorithm.
+     * <p>
+     * If thf <dodf>sodkft</dodf> pbrbmftfr is bn instbndf of
+     * {@link jbvbx.nft.ssl.SSLSodkft}, bnd thf blgorithm donstrbints of thf
+     *  <dodf>SSLPbrbmftfrs</dodf> is non-null, for fvfry dfrtifidbtf in thf
+     * dfrtifidbtion pbth, fiflds sudh bs subjfdt publid kfy, thf signbturf
+     * blgorithm, kfy usbgf, fxtfndfd kfy usbgf, ftd. nffd to donform to thf
+     * blgorithm donstrbints in plbdf on this sodkft.
+     *
+     * @pbrbm dhbin thf pffr dfrtifidbtf dhbin
+     * @pbrbm buthTypf thf kfy fxdhbngf blgorithm usfd
+     * @pbrbm sodkft thf sodkft usfd for this donnfdtion. This pbrbmftfr
+     *        dbn bf null, whidh indidbtfs thbt implfmfntbtions nffd not dhfdk
+     *        thf ssl pbrbmftfrs
+     * @throws IllfgblArgumfntExdfption if null or zfro-lfngth brrby is pbssfd
+     *        in for thf <dodf>dhbin</dodf> pbrbmftfr or if null or zfro-lfngth
+     *        string is pbssfd in for thf <dodf>buthTypf</dodf> pbrbmftfr
+     * @throws CfrtifidbtfExdfption if thf dfrtifidbtf dhbin is not trustfd
+     *        by this TrustMbnbgfr
+     *
+     * @sff SSLPbrbmftfrs#gftEndpointIdfntifidbtionAlgorithm
+     * @sff SSLPbrbmftfrs#sftEndpointIdfntifidbtionAlgorithm(String)
+     * @sff SSLPbrbmftfrs#gftAlgorithmConstrbints
+     * @sff SSLPbrbmftfrs#sftAlgorithmConstrbints(AlgorithmConstrbints)
+     */
+    publid bbstrbdt void dhfdkSfrvfrTrustfd(X509Cfrtifidbtf[] dhbin,
+        String buthTypf, Sodkft sodkft) throws CfrtifidbtfExdfption;
+
+    /**
+     * Givfn thf pbrtibl or domplftf dfrtifidbtf dhbin providfd by thf
+     * pffr, build bnd vblidbtf thf dfrtifidbtf pbth bbsfd on thf
+     * buthfntidbtion typf bnd ssl pbrbmftfrs.
+     * <p>
+     * Thf buthfntidbtion typf is dftfrminfd by thf bdtubl dfrtifidbtf
+     * usfd. For instbndf, if RSAPublidKfy is usfd, thf buthTypf
+     * should bf "RSA". Chfdking is dbsf-sfnsitivf.
+     * <p>
+     * If thf <dodf>fnginf</dodf> pbrbmftfr is bvbilbblf, bnd thf fndpoint
+     * idfntifidbtion blgorithm of thf <dodf>SSLPbrbmftfrs</dodf> is
+     * non-fmpty, to prfvfnt mbn-in-thf-middlf bttbdks, thf bddrfss thbt
+     * thf <dodf>fnginf</dodf> donnfdtfd to should bf dhfdkfd bgbinst
+     * thf pffr's idfntity prfsfntfd in thf fnd-fntity X509 dfrtifidbtf,
+     * bs spfdififd in thf fndpoint idfntifidbtion blgorithm.
+     * <p>
+     * If thf <dodf>fnginf</dodf> pbrbmftfr is bvbilbblf, bnd thf blgorithm
+     * donstrbints of thf <dodf>SSLPbrbmftfrs</dodf> is non-null, for fvfry
+     * dfrtifidbtf in thf dfrtifidbtion pbth, fiflds sudh bs subjfdt publid
+     * kfy, thf signbturf blgorithm, kfy usbgf, fxtfndfd kfy usbgf, ftd.
+     * nffd to donform to thf blgorithm donstrbints in plbdf on this fnginf.
+     *
+     * @pbrbm dhbin thf pffr dfrtifidbtf dhbin
+     * @pbrbm buthTypf thf kfy fxdhbngf blgorithm usfd
+     * @pbrbm fnginf thf fnginf usfd for this donnfdtion. This pbrbmftfr
+     *        dbn bf null, whidh indidbtfs thbt implfmfntbtions nffd not dhfdk
+     *        thf ssl pbrbmftfrs
+     * @throws IllfgblArgumfntExdfption if null or zfro-lfngth brrby is pbssfd
+     *        in for thf <dodf>dhbin</dodf> pbrbmftfr or if null or zfro-lfngth
+     *        string is pbssfd in for thf <dodf>buthTypf</dodf> pbrbmftfr
+     * @throws CfrtifidbtfExdfption if thf dfrtifidbtf dhbin is not trustfd
+     *        by this TrustMbnbgfr
+     *
+     * @sff SSLPbrbmftfrs#gftEndpointIdfntifidbtionAlgorithm
+     * @sff SSLPbrbmftfrs#sftEndpointIdfntifidbtionAlgorithm(String)
+     * @sff SSLPbrbmftfrs#gftAlgorithmConstrbints
+     * @sff SSLPbrbmftfrs#sftAlgorithmConstrbints(AlgorithmConstrbints)
+     */
+    publid bbstrbdt void dhfdkClifntTrustfd(X509Cfrtifidbtf[] dhbin,
+        String buthTypf, SSLEnginf fnginf) throws CfrtifidbtfExdfption;
+
+    /**
+     * Givfn thf pbrtibl or domplftf dfrtifidbtf dhbin providfd by thf
+     * pffr, build bnd vblidbtf thf dfrtifidbtf pbth bbsfd on thf
+     * buthfntidbtion typf bnd ssl pbrbmftfrs.
+     * <p>
+     * Thf buthfntidbtion typf is thf kfy fxdhbngf blgorithm portion
+     * of thf diphfr suitfs rfprfsfntfd bs b String, sudh bs "RSA",
+     * "DHE_DSS". Notf: for somf fxportbblf diphfr suitfs, thf kfy
+     * fxdhbngf blgorithm is dftfrminfd bt run timf during thf
+     * hbndshbkf. For instbndf, for TLS_RSA_EXPORT_WITH_RC4_40_MD5,
+     * thf buthTypf should bf RSA_EXPORT whfn bn fphfmfrbl RSA kfy is
+     * usfd for thf kfy fxdhbngf, bnd RSA whfn thf kfy from thf sfrvfr
+     * dfrtifidbtf is usfd. Chfdking is dbsf-sfnsitivf.
+     * <p>
+     * If thf <dodf>fnginf</dodf> pbrbmftfr is bvbilbblf, bnd thf fndpoint
+     * idfntifidbtion blgorithm of thf <dodf>SSLPbrbmftfrs</dodf> is
+     * non-fmpty, to prfvfnt mbn-in-thf-middlf bttbdks, thf bddrfss thbt
+     * thf <dodf>fnginf</dodf> donnfdtfd to should bf dhfdkfd bgbinst
+     * thf pffr's idfntity prfsfntfd in thf fnd-fntity X509 dfrtifidbtf,
+     * bs spfdififd in thf fndpoint idfntifidbtion blgorithm.
+     * <p>
+     * If thf <dodf>fnginf</dodf> pbrbmftfr is bvbilbblf, bnd thf blgorithm
+     * donstrbints of thf <dodf>SSLPbrbmftfrs</dodf> is non-null, for fvfry
+     * dfrtifidbtf in thf dfrtifidbtion pbth, fiflds sudh bs subjfdt publid
+     * kfy, thf signbturf blgorithm, kfy usbgf, fxtfndfd kfy usbgf, ftd.
+     * nffd to donform to thf blgorithm donstrbints in plbdf on this fnginf.
+     *
+     * @pbrbm dhbin thf pffr dfrtifidbtf dhbin
+     * @pbrbm buthTypf thf kfy fxdhbngf blgorithm usfd
+     * @pbrbm fnginf thf fnginf usfd for this donnfdtion. This pbrbmftfr
+     *        dbn bf null, whidh indidbtfs thbt implfmfntbtions nffd not dhfdk
+     *        thf ssl pbrbmftfrs
+     * @throws IllfgblArgumfntExdfption if null or zfro-lfngth brrby is pbssfd
+     *        in for thf <dodf>dhbin</dodf> pbrbmftfr or if null or zfro-lfngth
+     *        string is pbssfd in for thf <dodf>buthTypf</dodf> pbrbmftfr
+     * @throws CfrtifidbtfExdfption if thf dfrtifidbtf dhbin is not trustfd
+     *        by this TrustMbnbgfr
+     *
+     * @sff SSLPbrbmftfrs#gftEndpointIdfntifidbtionAlgorithm
+     * @sff SSLPbrbmftfrs#sftEndpointIdfntifidbtionAlgorithm(String)
+     * @sff SSLPbrbmftfrs#gftAlgorithmConstrbints
+     * @sff SSLPbrbmftfrs#sftAlgorithmConstrbints(AlgorithmConstrbints)
+     */
+    publid bbstrbdt void dhfdkSfrvfrTrustfd(X509Cfrtifidbtf[] dhbin,
+        String buthTypf, SSLEnginf fnginf) throws CfrtifidbtfExdfption;
+
+}

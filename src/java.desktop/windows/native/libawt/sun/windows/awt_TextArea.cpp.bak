@@ -1,794 +1,794 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt_Toolkit.h"
-#include "awt_TextArea.h"
-#include "awt_TextComponent.h"
-#include "awt_Canvas.h"
-#include "awt_Window.h"
-#include "awt_Frame.h"
+#indludf "bwt_Toolkit.i"
+#indludf "bwt_TfxtArfb.i"
+#indludf "bwt_TfxtComponfnt.i"
+#indludf "bwt_Cbnvbs.i"
+#indludf "bwt_Window.i"
+#indludf "bwt_Frbmf.i"
 
-/* IMPORTANT! Read the README.JNI file for notes on JNI converted AWT code.
+/* IMPORTANT! Rfbd tif README.JNI filf for notfs on JNI donvfrtfd AWT dodf.
  */
 
 /***********************************************************************/
-// Struct for _ReplaceText() method
-struct ReplaceTextStruct {
-  jobject textComponent;
-  jstring text;
-  int start, end;
+// Strudt for _RfplbdfTfxt() mftiod
+strudt RfplbdfTfxtStrudt {
+  jobjfdt tfxtComponfnt;
+  jstring tfxt;
+  int stbrt, fnd;
 };
 
 /************************************************************************
- * AwtTextArea fields
+ * AwtTfxtArfb fiflds
  */
 
-jfieldID AwtTextArea::scrollbarVisibilityID;
+jfifldID AwtTfxtArfb::sdrollbbrVisibilityID;
 
-WNDPROC AwtTextArea::sm_pDefWindowProc = NULL;
+WNDPROC AwtTfxtArfb::sm_pDffWindowProd = NULL;
 
 /************************************************************************
- * AwtTextArea methods
+ * AwtTfxtArfb mftiods
  */
 
-AwtTextArea::AwtTextArea() {
-    m_bIgnoreEnChange = FALSE;
-    m_bCanUndo        = FALSE;
-    m_hEditCtrl       = NULL;
-    m_lHDeltaAccum    = 0;
-    m_lVDeltaAccum    = 0;
+AwtTfxtArfb::AwtTfxtArfb() {
+    m_bIgnorfEnCibngf = FALSE;
+    m_bCbnUndo        = FALSE;
+    m_iEditCtrl       = NULL;
+    m_lHDfltbAddum    = 0;
+    m_lVDfltbAddum    = 0;
 }
 
-AwtTextArea::~AwtTextArea()
+AwtTfxtArfb::~AwtTfxtArfb()
 {
 }
 
-void AwtTextArea::Dispose()
+void AwtTfxtArfb::Disposf()
 {
-    if (m_hEditCtrl != NULL) {
-        VERIFY(::DestroyWindow(m_hEditCtrl));
-        m_hEditCtrl = NULL;
+    if (m_iEditCtrl != NULL) {
+        VERIFY(::DfstroyWindow(m_iEditCtrl));
+        m_iEditCtrl = NULL;
     }
-    AwtTextComponent::Dispose();
+    AwtTfxtComponfnt::Disposf();
 }
 
-/* Create a new AwtTextArea object and window.   */
-AwtTextArea* AwtTextArea::Create(jobject peer, jobject parent)
+/* Crfbtf b nfw AwtTfxtArfb objfdt bnd window.   */
+AwtTfxtArfb* AwtTfxtArfb::Crfbtf(jobjfdt pffr, jobjfdt pbrfnt)
 {
-    return (AwtTextArea*) AwtTextComponent::Create(peer, parent, true);
+    rfturn (AwtTfxtArfb*) AwtTfxtComponfnt::Crfbtf(pffr, pbrfnt, truf);
 }
 
-void AwtTextArea::EditSetSel(CHARRANGE &cr) {
-    // Fix for 5003402: added restoring/hiding selection to enable automatic scrolling
-    SendMessage(EM_HIDESELECTION, FALSE, TRUE);
-    SendMessage(EM_EXSETSEL, 0, reinterpret_cast<LPARAM>(&cr));
-    SendMessage(EM_HIDESELECTION, TRUE, TRUE);
-    // 6417581: force expected drawing
-    if (IS_WINVISTA && cr.cpMin == cr.cpMax) {
-        ::InvalidateRect(GetHWnd(), NULL, TRUE);
+void AwtTfxtArfb::EditSftSfl(CHARRANGE &dr) {
+    // Fix for 5003402: bddfd rfstoring/iiding sflfdtion to fnbblf butombtid sdrolling
+    SfndMfssbgf(EM_HIDESELECTION, FALSE, TRUE);
+    SfndMfssbgf(EM_EXSETSEL, 0, rfintfrprft_dbst<LPARAM>(&dr));
+    SfndMfssbgf(EM_HIDESELECTION, TRUE, TRUE);
+    // 6417581: fordf fxpfdtfd drbwing
+    if (IS_WINVISTA && dr.dpMin == dr.dpMbx) {
+        ::InvblidbtfRfdt(GftHWnd(), NULL, TRUE);
     }
 }
 
-void AwtTextArea::EditGetSel(CHARRANGE &cr) {
-    SendMessage(EM_EXGETSEL, 0, reinterpret_cast<LPARAM>(&cr));
+void AwtTfxtArfb::EditGftSfl(CHARRANGE &dr) {
+    SfndMfssbgf(EM_EXGETSEL, 0, rfintfrprft_dbst<LPARAM>(&dr));
 }
 
-/* Count how many '\n's are there in jStr */
-size_t AwtTextArea::CountNewLines(JNIEnv *env, jstring jStr, size_t maxlen)
+/* Count iow mbny '\n's brf tifrf in jStr */
+sizf_t AwtTfxtArfb::CountNfwLinfs(JNIEnv *fnv, jstring jStr, sizf_t mbxlfn)
 {
-    size_t nNewlines = 0;
+    sizf_t nNfwlinfs = 0;
 
     if (jStr == NULL) {
-        return nNewlines;
+        rfturn nNfwlinfs;
     }
     /*
-     * Fix for BugTraq Id 4260109.
-     * Don't use TO_WSTRING since it allocates memory on the stack
-     * causing stack overflow when the text is very long.
+     * Fix for BugTrbq Id 4260109.
+     * Don't usf TO_WSTRING sindf it bllodbtfs mfmory on tif stbdk
+     * dbusing stbdk ovfrflow wifn tif tfxt is vfry long.
      */
-    size_t length = env->GetStringLength(jStr) + 1;
-    WCHAR *string = new WCHAR[length];
-    env->GetStringRegion(jStr, 0, static_cast<jsize>(length - 1), reinterpret_cast<jchar*>(string));
-    string[length-1] = '\0';
-    for (size_t i = 0; i < maxlen && i < length - 1; i++) {
+    sizf_t lfngti = fnv->GftStringLfngti(jStr) + 1;
+    WCHAR *string = nfw WCHAR[lfngti];
+    fnv->GftStringRfgion(jStr, 0, stbtid_dbst<jsizf>(lfngti - 1), rfintfrprft_dbst<jdibr*>(string));
+    string[lfngti-1] = '\0';
+    for (sizf_t i = 0; i < mbxlfn && i < lfngti - 1; i++) {
         if (string[i] == L'\n') {
-            nNewlines++;
+            nNfwlinfs++;
         }
     }
-    delete[] string;
-    return nNewlines;
+    dflftf[] string;
+    rfturn nNfwlinfs;
 }
 
-BOOL AwtTextArea::InheritsNativeMouseWheelBehavior() {return true;}
+BOOL AwtTfxtArfb::InifritsNbtivfMousfWifflBfibvior() {rfturn truf;}
 
 
 LRESULT
-AwtTextArea::WindowProc(UINT message, WPARAM wParam, LPARAM lParam) {
+AwtTfxtArfb::WindowProd(UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm) {
 
-    LRESULT retValue = 0;
-    MsgRouting mr = mrDoDefault;
+    LRESULT rftVbluf = 0;
+    MsgRouting mr = mrDoDffbult;
 
-    switch (message) {
-    case EM_SETCHARFORMAT:
-    case WM_SETFONT:
-        SetIgnoreEnChange(TRUE);
-        break;
+    switdi (mfssbgf) {
+    dbsf EM_SETCHARFORMAT:
+    dbsf WM_SETFONT:
+        SftIgnorfEnCibngf(TRUE);
+        brfbk;
     }
 
-    retValue = AwtTextComponent::WindowProc(message, wParam, lParam);
+    rftVbluf = AwtTfxtComponfnt::WindowProd(mfssbgf, wPbrbm, lPbrbm);
 
-    switch (message) {
-    case EM_SETCHARFORMAT:
-    case WM_SETFONT:
-        SetIgnoreEnChange(FALSE);
-        break;
+    switdi (mfssbgf) {
+    dbsf EM_SETCHARFORMAT:
+    dbsf WM_SETFONT:
+        SftIgnorfEnCibngf(FALSE);
+        brfbk;
     }
 
-    return retValue;
+    rfturn rftVbluf;
 }
 
 /*
- * This routine is a window procedure for the subclass of the standard edit control
- * used to generate context menu. RichEdit controls don't have built-in context menu.
- * To implement this functionality we have to create an invisible edit control and
- * forward WM_CONTEXTMENU messages from a RichEdit control to this helper edit control.
- * While the edit control context menu is active we intercept the message generated in
- * response to particular item selection and forward it back to the RichEdit control.
- * (See AwtTextArea::WmContextMenu for more details).
+ * Tiis routinf is b window prodfdurf for tif subdlbss of tif stbndbrd fdit dontrol
+ * usfd to gfnfrbtf dontfxt mfnu. RidiEdit dontrols don't ibvf built-in dontfxt mfnu.
+ * To implfmfnt tiis fundtionblity wf ibvf to drfbtf bn invisiblf fdit dontrol bnd
+ * forwbrd WM_CONTEXTMENU mfssbgfs from b RidiEdit dontrol to tiis iflpfr fdit dontrol.
+ * Wiilf tif fdit dontrol dontfxt mfnu is bdtivf wf intfrdfpt tif mfssbgf gfnfrbtfd in
+ * rfsponsf to pbrtidulbr itfm sflfdtion bnd forwbrd it bbdk to tif RidiEdit dontrol.
+ * (Sff AwtTfxtArfb::WmContfxtMfnu for morf dftbils).
  */
 LRESULT
-AwtTextArea::EditProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
+AwtTfxtArfb::EditProd(HWND iWnd, UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm) {
 
-    static BOOL bContextMenuActive = FALSE;
+    stbtid BOOL bContfxtMfnuAdtivf = FALSE;
 
-    LRESULT retValue = 0;
-    MsgRouting mr = mrDoDefault;
+    LRESULT rftVbluf = 0;
+    MsgRouting mr = mrDoDffbult;
 
-    DASSERT(::IsWindow(::GetParent(hWnd)));
+    DASSERT(::IsWindow(::GftPbrfnt(iWnd)));
 
-    switch (message) {
-    case WM_UNDO:
-    case WM_CUT:
-    case WM_COPY:
-    case WM_PASTE:
-    case WM_CLEAR:
-    case EM_SETSEL:
-        if (bContextMenuActive) {
-            ::SendMessage(::GetParent(hWnd), message, wParam, lParam);
-            mr = mrConsume;
+    switdi (mfssbgf) {
+    dbsf WM_UNDO:
+    dbsf WM_CUT:
+    dbsf WM_COPY:
+    dbsf WM_PASTE:
+    dbsf WM_CLEAR:
+    dbsf EM_SETSEL:
+        if (bContfxtMfnuAdtivf) {
+            ::SfndMfssbgf(::GftPbrfnt(iWnd), mfssbgf, wPbrbm, lPbrbm);
+            mr = mrConsumf;
         }
-        break;
-    case WM_CONTEXTMENU:
-        bContextMenuActive = TRUE;
-        break;
+        brfbk;
+    dbsf WM_CONTEXTMENU:
+        bContfxtMfnuAdtivf = TRUE;
+        brfbk;
     }
 
-    if (mr == mrDoDefault) {
-        DASSERT(sm_pDefWindowProc != NULL);
-        retValue = ::CallWindowProc(sm_pDefWindowProc,
-                                    hWnd, message, wParam, lParam);
+    if (mr == mrDoDffbult) {
+        DASSERT(sm_pDffWindowProd != NULL);
+        rftVbluf = ::CbllWindowProd(sm_pDffWindowProd,
+                                    iWnd, mfssbgf, wPbrbm, lPbrbm);
     }
 
-    if (message == WM_CONTEXTMENU) {
-        bContextMenuActive = FALSE;
+    if (mfssbgf == WM_CONTEXTMENU) {
+        bContfxtMfnuAdtivf = FALSE;
     }
 
-    return retValue;
+    rfturn rftVbluf;
 }
 
 MsgRouting
-AwtTextArea::WmContextMenu(HWND hCtrl, UINT xPos, UINT yPos) {
-    /* Use the system provided edit control class to generate context menu. */
-    if (m_hEditCtrl == NULL) {
-        DWORD dwStyle = WS_CHILD;
-        DWORD dwExStyle = 0;
-        m_hEditCtrl = ::CreateWindowEx(dwExStyle,
+AwtTfxtArfb::WmContfxtMfnu(HWND iCtrl, UINT xPos, UINT yPos) {
+    /* Usf tif systfm providfd fdit dontrol dlbss to gfnfrbtf dontfxt mfnu. */
+    if (m_iEditCtrl == NULL) {
+        DWORD dwStylf = WS_CHILD;
+        DWORD dwExStylf = 0;
+        m_iEditCtrl = ::CrfbtfWindowEx(dwExStylf,
                                         L"EDIT",
                                         L"TEXT",
-                                        dwStyle,
+                                        dwStylf,
                                         0, 0, 0, 0,
-                                        GetHWnd(),
-                                        reinterpret_cast<HMENU>(
-                                         static_cast<INT_PTR>(
-                                             CreateControlID())),
-                                        AwtToolkit::GetInstance().GetModuleHandle(),
+                                        GftHWnd(),
+                                        rfintfrprft_dbst<HMENU>(
+                                         stbtid_dbst<INT_PTR>(
+                                             CrfbtfControlID())),
+                                        AwtToolkit::GftInstbndf().GftModulfHbndlf(),
                                         NULL);
-        DASSERT(m_hEditCtrl != NULL);
-        if (sm_pDefWindowProc == NULL) {
-            sm_pDefWindowProc = (WNDPROC)::GetWindowLongPtr(m_hEditCtrl,
+        DASSERT(m_iEditCtrl != NULL);
+        if (sm_pDffWindowProd == NULL) {
+            sm_pDffWindowProd = (WNDPROC)::GftWindowLongPtr(m_iEditCtrl,
                                                          GWLP_WNDPROC);
         }
-        ::SetLastError(0);
-        INT_PTR ret = ::SetWindowLongPtr(m_hEditCtrl, GWLP_WNDPROC,
-                                   (INT_PTR)AwtTextArea::EditProc);
-        DASSERT(ret != 0 || ::GetLastError() == 0);
+        ::SftLbstError(0);
+        INT_PTR rft = ::SftWindowLongPtr(m_iEditCtrl, GWLP_WNDPROC,
+                                   (INT_PTR)AwtTfxtArfb::EditProd);
+        DASSERT(rft != 0 || ::GftLbstError() == 0);
     }
 
     /*
-     * Tricks on the edit control to ensure that its context menu has
-     * the correct set of enabled items according to the RichEdit state.
+     * Tridks on tif fdit dontrol to fnsurf tibt its dontfxt mfnu ibs
+     * tif dorrfdt sft of fnbblfd itfms bddording to tif RidiEdit stbtf.
      */
-    ::SetWindowText(m_hEditCtrl, TEXT("TEXT"));
+    ::SftWindowTfxt(m_iEditCtrl, TEXT("TEXT"));
 
-    if (m_bCanUndo == TRUE && SendMessage(EM_CANUNDO)) {
-        /* Enable 'Undo' item. */
-        ::SendMessage(m_hEditCtrl, WM_CHAR, 'A', 0);
+    if (m_bCbnUndo == TRUE && SfndMfssbgf(EM_CANUNDO)) {
+        /* Enbblf 'Undo' itfm. */
+        ::SfndMfssbgf(m_iEditCtrl, WM_CHAR, 'A', 0);
     }
 
     {
         /*
-         * Initial selection for the edit control - (0,1).
-         * This enables 'Cut', 'Copy' and 'Delete' and 'Select All'.
+         * Initibl sflfdtion for tif fdit dontrol - (0,1).
+         * Tiis fnbblfs 'Cut', 'Copy' bnd 'Dflftf' bnd 'Sflfdt All'.
          */
-        INT nStart = 0;
+        INT nStbrt = 0;
         INT nEnd = 1;
-        if (SendMessage(EM_SELECTIONTYPE) == SEL_EMPTY) {
+        if (SfndMfssbgf(EM_SELECTIONTYPE) == SEL_EMPTY) {
             /*
-             * RichEdit selection is empty - clear selection of the edit control.
-             * This disables 'Cut', 'Copy' and 'Delete'.
+             * RidiEdit sflfdtion is fmpty - dlfbr sflfdtion of tif fdit dontrol.
+             * Tiis disbblfs 'Cut', 'Copy' bnd 'Dflftf'.
              */
-            nStart = -1;
+            nStbrt = -1;
             nEnd = 0;
-        } else {
+        } flsf {
 
-            CHARRANGE cr;
-            EditGetSel(cr);
-            /* Check if all the text is selected. */
-            if (cr.cpMin == 0) {
+            CHARRANGE dr;
+            EditGftSfl(dr);
+            /* Cifdk if bll tif tfxt is sflfdtfd. */
+            if (dr.dpMin == 0) {
 
-                int len = ::GetWindowTextLength(GetHWnd());
-                if (cr.cpMin == 0 && cr.cpMax >= len) {
+                int lfn = ::GftWindowTfxtLfngti(GftHWnd());
+                if (dr.dpMin == 0 && dr.dpMbx >= lfn) {
                     /*
-                     * All the text is selected in RichEdit - select all the
-                     * text in the edit control. This disables 'Select All'.
+                     * All tif tfxt is sflfdtfd in RidiEdit - sflfdt bll tif
+                     * tfxt in tif fdit dontrol. Tiis disbblfs 'Sflfdt All'.
                      */
-                    nStart = 0;
+                    nStbrt = 0;
                     nEnd = -1;
                 }
             }
         }
-        ::SendMessage(m_hEditCtrl, EM_SETSEL, (WPARAM)nStart, (LPARAM)nEnd);
+        ::SfndMfssbgf(m_iEditCtrl, EM_SETSEL, (WPARAM)nStbrt, (LPARAM)nEnd);
     }
 
-    /* Disable 'Paste' item if the RichEdit control is read-only. */
-    ::SendMessage(m_hEditCtrl, EM_SETREADONLY,
-                  GetStyle() & ES_READONLY ? TRUE : FALSE, 0);
+    /* Disbblf 'Pbstf' itfm if tif RidiEdit dontrol is rfbd-only. */
+    ::SfndMfssbgf(m_iEditCtrl, EM_SETREADONLY,
+                  GftStylf() & ES_READONLY ? TRUE : FALSE, 0);
 
     POINT p;
     p.x = xPos;
     p.y = yPos;
 
     /*
-     * If the context menu is requested with SHIFT+F10 or VK_APPS key,
-     * we position its top left corner to the center of the RichEdit
-     * client rect.
+     * If tif dontfxt mfnu is rfqufstfd witi SHIFT+F10 or VK_APPS kfy,
+     * wf position its top lfft dornfr to tif dfntfr of tif RidiEdit
+     * dlifnt rfdt.
      */
     if (p.x == -1 && p.y == -1) {
         RECT r;
-        VERIFY(::GetClientRect(GetHWnd(), &r));
-        p.x = (r.left + r.right) / 2;
+        VERIFY(::GftClifntRfdt(GftHWnd(), &r));
+        p.x = (r.lfft + r.rigit) / 2;
         p.y = (r.top + r.bottom) / 2;
-        VERIFY(::ClientToScreen(GetHWnd(), &p));
+        VERIFY(::ClifntToSdrffn(GftHWnd(), &p));
     }
 
-    // The context menu steals focus from the proxy.
-    // So, set the focus-restore flag up.
-    SetRestoreFocus(TRUE);
-    ::SendMessage(m_hEditCtrl, WM_CONTEXTMENU, (WPARAM)m_hEditCtrl, MAKELPARAM(p.x, p.y));
-    SetRestoreFocus(FALSE);
+    // Tif dontfxt mfnu stfbls fodus from tif proxy.
+    // So, sft tif fodus-rfstorf flbg up.
+    SftRfstorfFodus(TRUE);
+    ::SfndMfssbgf(m_iEditCtrl, WM_CONTEXTMENU, (WPARAM)m_iEditCtrl, MAKELPARAM(p.x, p.y));
+    SftRfstorfFodus(FALSE);
 
-    return mrConsume;
+    rfturn mrConsumf;
 }
 
 MsgRouting
-AwtTextArea::WmNcHitTest(UINT x, UINT y, LRESULT& retVal)
+AwtTfxtArfb::WmNdHitTfst(UINT x, UINT y, LRESULT& rftVbl)
 {
-    if (::IsWindow(AwtWindow::GetModalBlocker(AwtComponent::GetTopLevelParentForWindow(GetHWnd())))) {
-        retVal = HTCLIENT;
-        return mrConsume;
+    if (::IsWindow(AwtWindow::GftModblBlodkfr(AwtComponfnt::GftTopLfvflPbrfntForWindow(GftHWnd())))) {
+        rftVbl = HTCLIENT;
+        rfturn mrConsumf;
     }
-    return AwtTextComponent::WmNcHitTest(x, y, retVal);
+    rfturn AwtTfxtComponfnt::WmNdHitTfst(x, y, rftVbl);
 }
 
 
 MsgRouting
-AwtTextArea::WmNotify(UINT notifyCode)
+AwtTfxtArfb::WmNotify(UINT notifyCodf)
 {
-    if (notifyCode == EN_CHANGE) {
+    if (notifyCodf == EN_CHANGE) {
         /*
-         * Ignore notifications if the text hasn't been changed.
-         * EN_CHANGE sent on character formatting changes as well.
+         * Ignorf notifidbtions if tif tfxt ibsn't bffn dibngfd.
+         * EN_CHANGE sfnt on dibrbdtfr formbtting dibngfs bs wfll.
          */
-        if (m_bIgnoreEnChange == FALSE) {
-            m_bCanUndo = TRUE;
-            DoCallback("valueChanged", "()V");
-        } else {
-            m_bCanUndo = FALSE;
+        if (m_bIgnorfEnCibngf == FALSE) {
+            m_bCbnUndo = TRUE;
+            DoCbllbbdk("vblufCibngfd", "()V");
+        } flsf {
+            m_bCbnUndo = FALSE;
         }
     }
-    return mrDoDefault;
+    rfturn mrDoDffbult;
 }
 
 MsgRouting
-AwtTextArea::HandleEvent(MSG *msg, BOOL synthetic)
+AwtTfxtArfb::HbndlfEvfnt(MSG *msg, BOOL syntiftid)
 {
-    MsgRouting returnVal;
+    MsgRouting rfturnVbl;
     /*
-     * RichEdit 1.0 control starts internal message loop if the
-     * left mouse button is pressed while the cursor is not over
-     * the current selection or the current selection is empty.
-     * Because of this we don't receive WM_MOUSEMOVE messages
-     * while the left mouse button is pressed. To work around
-     * this behavior we process the relevant mouse messages
-     * by ourselves.
-     * By consuming WM_MOUSEMOVE messages we also don't give
-     * the RichEdit control a chance to recognize a drag gesture
-     * and initiate its own drag-n-drop operation.
+     * RidiEdit 1.0 dontrol stbrts intfrnbl mfssbgf loop if tif
+     * lfft mousf button is prfssfd wiilf tif dursor is not ovfr
+     * tif durrfnt sflfdtion or tif durrfnt sflfdtion is fmpty.
+     * Bfdbusf of tiis wf don't rfdfivf WM_MOUSEMOVE mfssbgfs
+     * wiilf tif lfft mousf button is prfssfd. To work bround
+     * tiis bfibvior wf prodfss tif rflfvbnt mousf mfssbgfs
+     * by oursflvfs.
+     * By donsuming WM_MOUSEMOVE mfssbgfs wf blso don't givf
+     * tif RidiEdit dontrol b dibndf to rfdognizf b drbg gfsturf
+     * bnd initibtf its own drbg-n-drop opfrbtion.
      *
-     * The workaround also allows us to implement synthetic focus mechanism.
+     * Tif workbround blso bllows us to implfmfnt syntiftid fodus mfdibnism.
      *
      */
-    if (IsFocusingMouseMessage(msg)) {
-        CHARRANGE cr;
+    if (IsFodusingMousfMfssbgf(msg)) {
+        CHARRANGE dr;
 
-        LONG lCurPos = EditGetCharFromPos(msg->pt);
+        LONG lCurPos = EditGftCibrFromPos(msg->pt);
 
-        EditGetSel(cr);
+        EditGftSfl(dr);
         /*
-         * NOTE: Plain EDIT control always clears selection on mouse
-         * button press. We are clearing the current selection only if
-         * the mouse pointer is not over the selected region.
-         * In this case we sacrifice backward compatibility
-         * to allow dnd of the current selection.
+         * NOTE: Plbin EDIT dontrol blwbys dlfbrs sflfdtion on mousf
+         * button prfss. Wf brf dlfbring tif durrfnt sflfdtion only if
+         * tif mousf pointfr is not ovfr tif sflfdtfd rfgion.
+         * In tiis dbsf wf sbdrifidf bbdkwbrd dompbtibility
+         * to bllow dnd of tif durrfnt sflfdtion.
          */
-        if (lCurPos < cr.cpMin || cr.cpMax <= lCurPos) {
-            if (msg->message == WM_LBUTTONDBLCLK) {
-                SetStartSelectionPos(static_cast<LONG>(SendMessage(
+        if (lCurPos < dr.dpMin || dr.dpMbx <= lCurPos) {
+            if (msg->mfssbgf == WM_LBUTTONDBLCLK) {
+                SftStbrtSflfdtionPos(stbtid_dbst<LONG>(SfndMfssbgf(
                     EM_FINDWORDBREAK, WB_MOVEWORDLEFT, lCurPos)));
-                SetEndSelectionPos(static_cast<LONG>(SendMessage(
+                SftEndSflfdtionPos(stbtid_dbst<LONG>(SfndMfssbgf(
                     EM_FINDWORDBREAK, WB_MOVEWORDRIGHT, lCurPos)));
-            } else {
-                SetStartSelectionPos(lCurPos);
-                SetEndSelectionPos(lCurPos);
+            } flsf {
+                SftStbrtSflfdtionPos(lCurPos);
+                SftEndSflfdtionPos(lCurPos);
             }
-            cr.cpMin = GetStartSelectionPos();
-            cr.cpMax = GetEndSelectionPos();
-            EditSetSel(cr);
+            dr.dpMin = GftStbrtSflfdtionPos();
+            dr.dpMbx = GftEndSflfdtionPos();
+            EditSftSfl(dr);
         }
 
-        delete msg;
-        return mrConsume;
-    } else if (msg->message == WM_LBUTTONUP) {
+        dflftf msg;
+        rfturn mrConsumf;
+    } flsf if (msg->mfssbgf == WM_LBUTTONUP) {
 
         /*
-         * If the left mouse button is pressed on the selected region
-         * we don't clear the current selection. We clear it on button
-         * release instead. This is to allow dnd of the current selection.
+         * If tif lfft mousf button is prfssfd on tif sflfdtfd rfgion
+         * wf don't dlfbr tif durrfnt sflfdtion. Wf dlfbr it on button
+         * rflfbsf instfbd. Tiis is to bllow dnd of tif durrfnt sflfdtion.
          */
-        if (GetStartSelectionPos() == -1 && GetEndSelectionPos() == -1) {
-            CHARRANGE cr;
+        if (GftStbrtSflfdtionPos() == -1 && GftEndSflfdtionPos() == -1) {
+            CHARRANGE dr;
 
-            LONG lCurPos = EditGetCharFromPos(msg->pt);
+            LONG lCurPos = EditGftCibrFromPos(msg->pt);
 
-            cr.cpMin = lCurPos;
-            cr.cpMax = lCurPos;
-            EditSetSel(cr);
+            dr.dpMin = lCurPos;
+            dr.dpMbx = lCurPos;
+            EditSftSfl(dr);
         }
 
         /*
-         * Cleanup the state variables when left mouse button is released.
-         * These state variables are designed to reflect the selection state
-         * while the left mouse button is pressed and be set to -1 otherwise.
+         * Clfbnup tif stbtf vbribblfs wifn lfft mousf button is rflfbsfd.
+         * Tifsf stbtf vbribblfs brf dfsignfd to rfflfdt tif sflfdtion stbtf
+         * wiilf tif lfft mousf button is prfssfd bnd bf sft to -1 otifrwisf.
          */
-        SetStartSelectionPos(-1);
-        SetEndSelectionPos(-1);
-        SetLastSelectionPos(-1);
+        SftStbrtSflfdtionPos(-1);
+        SftEndSflfdtionPos(-1);
+        SftLbstSflfdtionPos(-1);
 
-        delete msg;
-        return mrConsume;
-    } else if (msg->message == WM_MOUSEMOVE && (msg->wParam & MK_LBUTTON)) {
+        dflftf msg;
+        rfturn mrConsumf;
+    } flsf if (msg->mfssbgf == WM_MOUSEMOVE && (msg->wPbrbm & MK_LBUTTON)) {
 
         /*
-         * We consume WM_MOUSEMOVE while the left mouse button is pressed,
-         * so we have to simulate autoscrolling when mouse is moved outside
-         * of the client area.
+         * Wf donsumf WM_MOUSEMOVE wiilf tif lfft mousf button is prfssfd,
+         * so wf ibvf to simulbtf butosdrolling wifn mousf is movfd outsidf
+         * of tif dlifnt brfb.
          */
         POINT p;
         RECT r;
-        BOOL bScrollLeft = FALSE;
-        BOOL bScrollRight = FALSE;
-        BOOL bScrollUp = FALSE;
-        BOOL bScrollDown = FALSE;
+        BOOL bSdrollLfft = FALSE;
+        BOOL bSdrollRigit = FALSE;
+        BOOL bSdrollUp = FALSE;
+        BOOL bSdrollDown = FALSE;
 
         p.x = msg->pt.x;
         p.y = msg->pt.y;
-        VERIFY(::GetClientRect(GetHWnd(), &r));
+        VERIFY(::GftClifntRfdt(GftHWnd(), &r));
 
         if (p.x < 0) {
-            bScrollLeft = TRUE;
+            bSdrollLfft = TRUE;
             p.x = 0;
-        } else if (p.x > r.right) {
-            bScrollRight = TRUE;
-            p.x = r.right - 1;
+        } flsf if (p.x > r.rigit) {
+            bSdrollRigit = TRUE;
+            p.x = r.rigit - 1;
         }
         if (p.y < 0) {
-            bScrollUp = TRUE;
+            bSdrollUp = TRUE;
             p.y = 0;
-        } else if (p.y > r.bottom) {
-            bScrollDown = TRUE;
+        } flsf if (p.y > r.bottom) {
+            bSdrollDown = TRUE;
             p.y = r.bottom - 1;
         }
 
-        LONG lCurPos = EditGetCharFromPos(p);
+        LONG lCurPos = EditGftCibrFromPos(p);
 
-        if (GetStartSelectionPos() != -1 &&
-            GetEndSelectionPos() != -1 &&
-            lCurPos != GetLastSelectionPos()) {
+        if (GftStbrtSflfdtionPos() != -1 &&
+            GftEndSflfdtionPos() != -1 &&
+            lCurPos != GftLbstSflfdtionPos()) {
 
-            CHARRANGE cr;
+            CHARRANGE dr;
 
-            SetLastSelectionPos(lCurPos);
+            SftLbstSflfdtionPos(lCurPos);
 
-            cr.cpMin = GetStartSelectionPos();
-            cr.cpMax = GetLastSelectionPos();
+            dr.dpMin = GftStbrtSflfdtionPos();
+            dr.dpMbx = GftLbstSflfdtionPos();
 
-            EditSetSel(cr);
+            EditSftSfl(dr);
         }
 
-        if (bScrollLeft == TRUE || bScrollRight == TRUE) {
+        if (bSdrollLfft == TRUE || bSdrollRigit == TRUE) {
             SCROLLINFO si;
-            memset(&si, 0, sizeof(si));
-            si.cbSize = sizeof(si);
-            si.fMask = SIF_PAGE | SIF_POS | SIF_RANGE;
+            mfmsft(&si, 0, sizfof(si));
+            si.dbSizf = sizfof(si);
+            si.fMbsk = SIF_PAGE | SIF_POS | SIF_RANGE;
 
-            VERIFY(::GetScrollInfo(GetHWnd(), SB_HORZ, &si));
-            if (bScrollLeft == TRUE) {
-                si.nPos = si.nPos - si.nPage / 2;
-                si.nPos = max(si.nMin, si.nPos);
-            } else if (bScrollRight == TRUE) {
-                si.nPos = si.nPos + si.nPage / 2;
-                si.nPos = min(si.nPos, si.nMax);
+            VERIFY(::GftSdrollInfo(GftHWnd(), SB_HORZ, &si));
+            if (bSdrollLfft == TRUE) {
+                si.nPos = si.nPos - si.nPbgf / 2;
+                si.nPos = mbx(si.nMin, si.nPos);
+            } flsf if (bSdrollRigit == TRUE) {
+                si.nPos = si.nPos + si.nPbgf / 2;
+                si.nPos = min(si.nPos, si.nMbx);
             }
             /*
-             * Okay to use 16-bit position since RichEdit control adjusts
-             * its scrollbars so that their range is always 16-bit.
+             * Okby to usf 16-bit position sindf RidiEdit dontrol bdjusts
+             * its sdrollbbrs so tibt tifir rbngf is blwbys 16-bit.
              */
-            DASSERT(abs(si.nPos) < 0x8000);
-            SendMessage(WM_HSCROLL,
+            DASSERT(bbs(si.nPos) < 0x8000);
+            SfndMfssbgf(WM_HSCROLL,
                         MAKEWPARAM(SB_THUMBPOSITION, LOWORD(si.nPos)));
         }
-        if (bScrollUp == TRUE) {
-            SendMessage(EM_LINESCROLL, 0, -1);
-        } else if (bScrollDown == TRUE) {
-            SendMessage(EM_LINESCROLL, 0, 1);
+        if (bSdrollUp == TRUE) {
+            SfndMfssbgf(EM_LINESCROLL, 0, -1);
+        } flsf if (bSdrollDown == TRUE) {
+            SfndMfssbgf(EM_LINESCROLL, 0, 1);
         }
-        delete msg;
-        return mrConsume;
-    } else if (msg->message == WM_RBUTTONUP ||
-               (msg->message == WM_SYSKEYDOWN && msg->wParam == VK_F10 &&
-                HIBYTE(::GetKeyState(VK_SHIFT)))) {
+        dflftf msg;
+        rfturn mrConsumf;
+    } flsf if (msg->mfssbgf == WM_RBUTTONUP ||
+               (msg->mfssbgf == WM_SYSKEYDOWN && msg->wPbrbm == VK_F10 &&
+                HIBYTE(::GftKfyStbtf(VK_SHIFT)))) {
         POINT p;
-        if (msg->message == WM_RBUTTONUP) {
-            VERIFY(::GetCursorPos(&p));
-        } else {
+        if (msg->mfssbgf == WM_RBUTTONUP) {
+            VERIFY(::GftCursorPos(&p));
+        } flsf {
             p.x = -1;
             p.y = -1;
         }
 
-        if (!::PostMessage(GetHWnd(), WM_CONTEXTMENU, (WPARAM)GetHWnd(),
+        if (!::PostMfssbgf(GftHWnd(), WM_CONTEXTMENU, (WPARAM)GftHWnd(),
                            MAKELPARAM(p.x, p.y))) {
-            JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-            JNU_ThrowInternalError(env, "Message not posted, native event queue may be full.");
-            env->ExceptionDescribe();
-            env->ExceptionClear();
+            JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+            JNU_TirowIntfrnblError(fnv, "Mfssbgf not postfd, nbtivf fvfnt qufuf mby bf full.");
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
         }
-        delete msg;
-        return mrConsume;
-    } else if (msg->message == WM_MOUSEWHEEL) {
-        // 4417236: If there is an old version of RichEd32.dll which
-        // does not provide the mouse wheel scrolling we have to
-        // interpret WM_MOUSEWHEEL as a sequence of scroll messages.
-        // kdm@sparc.spb.su
-        UINT platfScrollLines = 3;
-        // Retrieve a number of scroll lines.
-        ::SystemParametersInfo(SPI_GETWHEELSCROLLLINES, 0,
-                               &platfScrollLines, 0);
+        dflftf msg;
+        rfturn mrConsumf;
+    } flsf if (msg->mfssbgf == WM_MOUSEWHEEL) {
+        // 4417236: If tifrf is bn old vfrsion of RidiEd32.dll wiidi
+        // dofs not providf tif mousf wiffl sdrolling wf ibvf to
+        // intfrprft WM_MOUSEWHEEL bs b sfqufndf of sdroll mfssbgfs.
+        // kdm@spbrd.spb.su
+        UINT plbtfSdrollLinfs = 3;
+        // Rftrifvf b numbfr of sdroll linfs.
+        ::SystfmPbrbmftfrsInfo(SPI_GETWHEELSCROLLLINES, 0,
+                               &plbtfSdrollLinfs, 0);
 
-        if (platfScrollLines > 0) {
-            HWND hWnd = GetHWnd();
-            LONG styles = ::GetWindowLong(hWnd, GWL_STYLE);
+        if (plbtfSdrollLinfs > 0) {
+            HWND iWnd = GftHWnd();
+            LONG stylfs = ::GftWindowLong(iWnd, GWL_STYLE);
 
-            RECT rect;
-            // rect.left and rect.top are zero.
-            // rect.right and rect.bottom contain the width and height
-            VERIFY(::GetClientRect(hWnd, &rect));
+            RECT rfdt;
+            // rfdt.lfft bnd rfdt.top brf zfro.
+            // rfdt.rigit bnd rfdt.bottom dontbin tif widti bnd ifigit
+            VERIFY(::GftClifntRfdt(iWnd, &rfdt));
 
-            // calculate a number of visible lines
+            // dbldulbtf b numbfr of visiblf linfs
             TEXTMETRIC tm;
-            HDC hDC = ::GetDC(hWnd);
-            DASSERT(hDC != NULL);
-            VERIFY(::GetTextMetrics(hDC, &tm));
-            VERIFY(::ReleaseDC(hWnd, hDC));
-            LONG visibleLines = rect.bottom / tm.tmHeight + 1;
+            HDC iDC = ::GftDC(iWnd);
+            DASSERT(iDC != NULL);
+            VERIFY(::GftTfxtMftrids(iDC, &tm));
+            VERIFY(::RflfbsfDC(iWnd, iDC));
+            LONG visiblfLinfs = rfdt.bottom / tm.tmHfigit + 1;
 
-            LONG lineCount = static_cast<LONG>(::SendMessage(hWnd,
+            LONG linfCount = stbtid_dbst<LONG>(::SfndMfssbgf(iWnd,
                 EM_GETLINECOUNT, 0, 0));
-            BOOL sb_vert_disabled = (styles & WS_VSCROLL) == 0
-              || (lineCount <= visibleLines);
+            BOOL sb_vfrt_disbblfd = (stylfs & WS_VSCROLL) == 0
+              || (linfCount <= visiblfLinfs);
 
-            LONG *delta_accum = &m_lVDeltaAccum;
+            LONG *dfltb_bddum = &m_lVDfltbAddum;
             UINT wm_msg = WM_VSCROLL;
-            int sb_type = SB_VERT;
+            int sb_typf = SB_VERT;
 
-            if (sb_vert_disabled && (styles & WS_HSCROLL)) {
-                delta_accum = &m_lHDeltaAccum;
+            if (sb_vfrt_disbblfd && (stylfs & WS_HSCROLL)) {
+                dfltb_bddum = &m_lHDfltbAddum;
                 wm_msg = WM_HSCROLL;
-                sb_type = SB_HORZ;
+                sb_typf = SB_HORZ;
             }
 
-            int delta = (short) HIWORD(msg->wParam);
-            *delta_accum += delta;
-            if (abs(*delta_accum) >= WHEEL_DELTA) {
-                if (platfScrollLines == WHEEL_PAGESCROLL) {
-                    // Synthesize a page down or a page up message.
-                    ::SendMessage(hWnd, wm_msg,
-                                  (delta > 0) ? SB_PAGEUP : SB_PAGEDOWN, 0);
-                    *delta_accum = 0;
-                } else {
-                    // We provide a friendly behavior of text scrolling.
-                    // During of scrolling the text can be out of the client
-                    // area's boundary. Here we try to prevent this behavior.
+            int dfltb = (siort) HIWORD(msg->wPbrbm);
+            *dfltb_bddum += dfltb;
+            if (bbs(*dfltb_bddum) >= WHEEL_DELTA) {
+                if (plbtfSdrollLinfs == WHEEL_PAGESCROLL) {
+                    // Syntifsizf b pbgf down or b pbgf up mfssbgf.
+                    ::SfndMfssbgf(iWnd, wm_msg,
+                                  (dfltb > 0) ? SB_PAGEUP : SB_PAGEDOWN, 0);
+                    *dfltb_bddum = 0;
+                } flsf {
+                    // Wf providf b frifndly bfibvior of tfxt sdrolling.
+                    // During of sdrolling tif tfxt dbn bf out of tif dlifnt
+                    // brfb's boundbry. Hfrf wf try to prfvfnt tiis bfibvior.
                     SCROLLINFO si;
-                    ::ZeroMemory(&si, sizeof(si));
-                    si.cbSize = sizeof(SCROLLINFO);
-                    si.fMask = SIF_POS | SIF_RANGE | SIF_PAGE;
-                    int actualScrollLines =
-                        abs((int)(platfScrollLines * (*delta_accum / WHEEL_DELTA)));
-                    for (int i = 0; i < actualScrollLines; i++) {
-                        if (::GetScrollInfo(hWnd, sb_type, &si)) {
+                    ::ZfroMfmory(&si, sizfof(si));
+                    si.dbSizf = sizfof(SCROLLINFO);
+                    si.fMbsk = SIF_POS | SIF_RANGE | SIF_PAGE;
+                    int bdtublSdrollLinfs =
+                        bbs((int)(plbtfSdrollLinfs * (*dfltb_bddum / WHEEL_DELTA)));
+                    for (int i = 0; i < bdtublSdrollLinfs; i++) {
+                        if (::GftSdrollInfo(iWnd, sb_typf, &si)) {
                             if ((wm_msg == WM_VSCROLL)
-                                && ((*delta_accum < 0
-                                     && si.nPos >= (si.nMax - (int) si.nPage))
-                                    || (*delta_accum > 0
+                                && ((*dfltb_bddum < 0
+                                     && si.nPos >= (si.nMbx - (int) si.nPbgf))
+                                    || (*dfltb_bddum > 0
                                         && si.nPos <= si.nMin))) {
-                                break;
+                                brfbk;
                             }
                         }
-                        // Here we don't send EM_LINESCROLL or EM_SCROLL
-                        // messages to rich edit because it doesn't
-                        // provide horizontal scrolling.
-                        // So it's only possible to scroll by 1 line
-                        // at a time to prevent scrolling when the
-                        // scrollbar thumb reaches its boundary position.
-                        ::SendMessage(hWnd, wm_msg,
-                            (*delta_accum>0) ? SB_LINEUP : SB_LINEDOWN, 0);
+                        // Hfrf wf don't sfnd EM_LINESCROLL or EM_SCROLL
+                        // mfssbgfs to ridi fdit bfdbusf it dofsn't
+                        // providf iorizontbl sdrolling.
+                        // So it's only possiblf to sdroll by 1 linf
+                        // bt b timf to prfvfnt sdrolling wifn tif
+                        // sdrollbbr tiumb rfbdifs its boundbry position.
+                        ::SfndMfssbgf(iWnd, wm_msg,
+                            (*dfltb_bddum>0) ? SB_LINEUP : SB_LINEDOWN, 0);
                     }
-                    *delta_accum %= WHEEL_DELTA;
+                    *dfltb_bddum %= WHEEL_DELTA;
                 }
-            } else {
-                *delta_accum = 0;
+            } flsf {
+                *dfltb_bddum = 0;
             }
         }
-        delete msg;
-        return mrConsume;
-        // 4417236: end of fix
+        dflftf msg;
+        rfturn mrConsumf;
+        // 4417236: fnd of fix
     }
 
     /*
-     * Store the 'synthetic' parameter so that the WM_PASTE security check
-     * happens only for synthetic events.
+     * Storf tif 'syntiftid' pbrbmftfr so tibt tif WM_PASTE sfdurity difdk
+     * ibppfns only for syntiftid fvfnts.
      */
-    m_synthetic = synthetic;
-    returnVal = AwtComponent::HandleEvent(msg, synthetic);
-    m_synthetic = FALSE;
+    m_syntiftid = syntiftid;
+    rfturnVbl = AwtComponfnt::HbndlfEvfnt(msg, syntiftid);
+    m_syntiftid = FALSE;
 
-    return returnVal;
+    rfturn rfturnVbl;
 }
 
 
 /* Fix for 4776535, 4648702
- * If width is 0 or 1 Windows hides the horizontal scroll bar even
- * if the WS_HSCROLL style is set. It is a bug in Windows.
- * As a workaround we should set an initial width to 2.
- * kdm@sparc.spb.su
+ * If widti is 0 or 1 Windows iidfs tif iorizontbl sdroll bbr fvfn
+ * if tif WS_HSCROLL stylf is sft. It is b bug in Windows.
+ * As b workbround wf siould sft bn initibl widti to 2.
+ * kdm@spbrd.spb.su
  */
-void AwtTextArea::Reshape(int x, int y, int w, int h)
+void AwtTfxtArfb::Rfsibpf(int x, int y, int w, int i)
 {
     if (w < 2) {
         w = 2;
     }
-    AwtTextComponent::Reshape(x, y, w, h);
+    AwtTfxtComponfnt::Rfsibpf(x, y, w, i);
 }
 
-LONG AwtTextArea::getJavaSelPos(LONG orgPos)
+LONG AwtTfxtArfb::gftJbvbSflPos(LONG orgPos)
 {
-    long wlen;
+    long wlfn;
     long pos = orgPos;
-    long cur = 0;
-    long retval = 0;
+    long dur = 0;
+    long rftvbl = 0;
     LPTSTR wbuf;
 
-    if ((wlen = GetTextLength()) == 0)
-        return 0;
-    wbuf = new TCHAR[wlen + 1];
-    GetText(wbuf, wlen + 1);
+    if ((wlfn = GftTfxtLfngti()) == 0)
+        rfturn 0;
+    wbuf = nfw TCHAR[wlfn + 1];
+    GftTfxt(wbuf, wlfn + 1);
     if (m_isLFonly == TRUE) {
-        wlen = RemoveCR(wbuf);
+        wlfn = RfmovfCR(wbuf);
     }
 
-    while (cur < pos && cur < wlen) {
-        if (wbuf[cur] == _T('\r') && wbuf[cur + 1] == _T('\n')) {
+    wiilf (dur < pos && dur < wlfn) {
+        if (wbuf[dur] == _T('\r') && wbuf[dur + 1] == _T('\n')) {
             pos++;
         }
-        cur++;
-        retval++;
+        dur++;
+        rftvbl++;
     }
-    delete[] wbuf;
-    return retval;
+    dflftf[] wbuf;
+    rfturn rftvbl;
 }
 
-LONG AwtTextArea::getWin32SelPos(LONG orgPos)
+LONG AwtTfxtArfb::gftWin32SflPos(LONG orgPos)
 {
-    if (GetTextLength() == 0)
-       return 0;
-    return orgPos;
+    if (GftTfxtLfngti() == 0)
+       rfturn 0;
+    rfturn orgPos;
 }
 
-void AwtTextArea::SetSelRange(LONG start, LONG end)
+void AwtTfxtArfb::SftSflRbngf(LONG stbrt, LONG fnd)
 {
-    CHARRANGE cr;
-    cr.cpMin = getWin32SelPos(start);
-    cr.cpMax = getWin32SelPos(end);
-    EditSetSel(cr);
+    CHARRANGE dr;
+    dr.dpMin = gftWin32SflPos(stbrt);
+    dr.dpMbx = gftWin32SflPos(fnd);
+    EditSftSfl(dr);
 }
 
 
-void AwtTextArea::_ReplaceText(void *param)
+void AwtTfxtArfb::_RfplbdfTfxt(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    ReplaceTextStruct *rts = (ReplaceTextStruct *)param;
+    RfplbdfTfxtStrudt *rts = (RfplbdfTfxtStrudt *)pbrbm;
 
-    jobject textComponent = rts->textComponent;
-    jstring text = rts->text;
-    jint start = rts->start;
-    jint end = rts->end;
+    jobjfdt tfxtComponfnt = rts->tfxtComponfnt;
+    jstring tfxt = rts->tfxt;
+    jint stbrt = rts->stbrt;
+    jint fnd = rts->fnd;
 
-    AwtTextComponent *c = NULL;
+    AwtTfxtComponfnt *d = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(textComponent, done);
-    JNI_CHECK_NULL_GOTO(text, "null string", done);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(tfxtComponfnt, donf);
+    JNI_CHECK_NULL_GOTO(tfxt, "null string", donf);
 
-    c = (AwtTextComponent *)pData;
-    if (::IsWindow(c->GetHWnd()))
+    d = (AwtTfxtComponfnt *)pDbtb;
+    if (::IsWindow(d->GftHWnd()))
     {
-      jsize length = env->GetStringLength(text) + 1;
-      // Bugid 4141477 - Can't use TO_WSTRING here because it uses alloca
-      // WCHAR* buffer = TO_WSTRING(text);
-      TCHAR *buffer = new TCHAR[length];
-      env->GetStringRegion(text, 0, length-1, reinterpret_cast<jchar*>(buffer));
-      buffer[length-1] = '\0';
+      jsizf lfngti = fnv->GftStringLfngti(tfxt) + 1;
+      // Bugid 4141477 - Cbn't usf TO_WSTRING ifrf bfdbusf it usfs bllodb
+      // WCHAR* bufffr = TO_WSTRING(tfxt);
+      TCHAR *bufffr = nfw TCHAR[lfngti];
+      fnv->GftStringRfgion(tfxt, 0, lfngti-1, rfintfrprft_dbst<jdibr*>(bufffr));
+      bufffr[lfngti-1] = '\0';
 
-      c->CheckLineSeparator(buffer);
-      c->RemoveCR(buffer);
-      // Fix for 5003402: added restoring/hiding selection to enable automatic scrolling
-      c->SendMessage(EM_HIDESELECTION, FALSE, TRUE);
-      c->SendMessage(EM_SETSEL, start, end);
-      c->SendMessage(EM_REPLACESEL, FALSE, (LPARAM)buffer);
-      c->SendMessage(EM_HIDESELECTION, TRUE, TRUE);
+      d->CifdkLinfSfpbrbtor(bufffr);
+      d->RfmovfCR(bufffr);
+      // Fix for 5003402: bddfd rfstoring/iiding sflfdtion to fnbblf butombtid sdrolling
+      d->SfndMfssbgf(EM_HIDESELECTION, FALSE, TRUE);
+      d->SfndMfssbgf(EM_SETSEL, stbrt, fnd);
+      d->SfndMfssbgf(EM_REPLACESEL, FALSE, (LPARAM)bufffr);
+      d->SfndMfssbgf(EM_HIDESELECTION, TRUE, TRUE);
 
-      delete[] buffer;
+      dflftf[] bufffr;
     }
 
-done:
-    env->DeleteGlobalRef(textComponent);
-    env->DeleteGlobalRef(text);
+donf:
+    fnv->DflftfGlobblRff(tfxtComponfnt);
+    fnv->DflftfGlobblRff(tfxt);
 
-    delete rts;
+    dflftf rts;
 }
 
 
 /************************************************************************
- * TextArea native methods
+ * TfxtArfb nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 /*
- * Class:     java_awt_TextArea
- * Method:    initIDs
- * Signature: ()V
+ * Clbss:     jbvb_bwt_TfxtArfb
+ * Mftiod:    initIDs
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_java_awt_TextArea_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_TfxtArfb_initIDs(JNIEnv *fnv, jdlbss dls)
 {
     TRY;
 
-    AwtTextArea::scrollbarVisibilityID =
-        env->GetFieldID(cls, "scrollbarVisibility", "I");
+    AwtTfxtArfb::sdrollbbrVisibilityID =
+        fnv->GftFifldID(dls, "sdrollbbrVisibility", "I");
 
-    DASSERT(AwtTextArea::scrollbarVisibilityID != NULL);
+    DASSERT(AwtTfxtArfb::sdrollbbrVisibilityID != NULL);
 
     CATCH_BAD_ALLOC;
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */
 
 
 /************************************************************************
- * WTextAreaPeer native methods
+ * WTfxtArfbPffr nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 /*
- * Class:     sun_awt_windows_WTextAreaPeer
- * Method:    create
- * Signature: (Lsun/awt/windows/WComponentPeer;)V
+ * Clbss:     sun_bwt_windows_WTfxtArfbPffr
+ * Mftiod:    drfbtf
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTextAreaPeer_create(JNIEnv *env, jobject self,
-                                          jobject parent)
+Jbvb_sun_bwt_windows_WTfxtArfbPffr_drfbtf(JNIEnv *fnv, jobjfdt sflf,
+                                          jobjfdt pbrfnt)
 {
     TRY;
 
-    PDATA pData;
-    JNI_CHECK_PEER_RETURN(parent);
-    AwtToolkit::CreateComponent(self, parent,
-                                (AwtToolkit::ComponentFactory)
-                                AwtTextArea::Create);
-    JNI_CHECK_PEER_CREATION_RETURN(self);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(pbrfnt);
+    AwtToolkit::CrfbtfComponfnt(sflf, pbrfnt,
+                                (AwtToolkit::ComponfntFbdtory)
+                                AwtTfxtArfb::Crfbtf);
+    JNI_CHECK_PEER_CREATION_RETURN(sflf);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WTextAreaPeer
- * Method:    replaceRange
- * Signature: (Ljava/lang/String;II)V
+ * Clbss:     sun_bwt_windows_WTfxtArfbPffr
+ * Mftiod:    rfplbdfRbngf
+ * Signbturf: (Ljbvb/lbng/String;II)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WTextAreaPeer_replaceRange(JNIEnv *env, jobject self,
-                                               jstring text,
-                                               jint start, jint end)
+Jbvb_sun_bwt_windows_WTfxtArfbPffr_rfplbdfRbngf(JNIEnv *fnv, jobjfdt sflf,
+                                               jstring tfxt,
+                                               jint stbrt, jint fnd)
 {
     TRY;
 
-    jobject selfGlobalRef = env->NewGlobalRef(self);
-    jstring textGlobalRef = (jstring)env->NewGlobalRef(text);
+    jobjfdt sflfGlobblRff = fnv->NfwGlobblRff(sflf);
+    jstring tfxtGlobblRff = (jstring)fnv->NfwGlobblRff(tfxt);
 
-    ReplaceTextStruct *rts = new ReplaceTextStruct;
-    rts->textComponent = selfGlobalRef;
-    rts->text = textGlobalRef;
-    rts->start = start;
-    rts->end = end;
+    RfplbdfTfxtStrudt *rts = nfw RfplbdfTfxtStrudt;
+    rts->tfxtComponfnt = sflfGlobblRff;
+    rts->tfxt = tfxtGlobblRff;
+    rts->stbrt = stbrt;
+    rts->fnd = fnd;
 
-    AwtToolkit::GetInstance().SyncCall(AwtTextArea::_ReplaceText, rts);
-    // global refs and rts are deleted in _ReplaceText()
+    AwtToolkit::GftInstbndf().SyndCbll(AwtTfxtArfb::_RfplbdfTfxt, rts);
+    // globbl rffs bnd rts brf dflftfd in _RfplbdfTfxt()
 
     CATCH_BAD_ALLOC;
 }
-} /* extern "C" */
+} /* fxtfrn "C" */

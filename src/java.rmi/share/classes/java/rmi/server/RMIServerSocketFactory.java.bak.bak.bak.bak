@@ -1,0 +1,74 @@
+/*
+ * Copyright (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.sfrvfr;
+
+import jbvb.io.*;
+import jbvb.nft.*;
+
+/**
+ * An <dodf>RMISfrvfrSodkftFbdtory</dodf> instbndf is usfd by thf RMI runtimf
+ * in ordfr to obtbin sfrvfr sodkfts for RMI dblls.  A rfmotf objfdt dbn bf
+ * bssodibtfd with bn <dodf>RMISfrvfrSodkftFbdtory</dodf> whfn it is
+ * drfbtfd/fxportfd vib thf donstrudtors or <dodf>fxportObjfdt</dodf> mfthods
+ * of <dodf>jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt</dodf> bnd
+ * <dodf>jbvb.rmi.bdtivbtion.Adtivbtbblf</dodf> .
+ *
+ * <p>An <dodf>RMISfrvfrSodkftFbdtory</dodf> instbndf bssodibtfd with b rfmotf
+ * objfdt is usfd to obtbin thf <dodf>SfrvfrSodkft</dodf> usfd to bddfpt
+ * indoming dblls from dlifnts.
+ *
+ * <p>An <dodf>RMISfrvfrSodkftFbdtory</dodf> instbndf dbn blso bf bssodibtfd
+ * with b rfmotf objfdt rfgistry so thbt dlifnts dbn usf dustom sodkft
+ * dommunidbtion with b rfmotf objfdt rfgistry.
+ *
+ * <p>An implfmfntbtion of this intfrfbdf
+ * should implfmfnt {@link Objfdt#fqubls} to rfturn <dodf>truf</dodf> whfn
+ * pbssfd bn instbndf thbt rfprfsfnts thf sbmf (fundtionblly fquivblfnt)
+ * sfrvfr sodkft fbdtory, bnd <dodf>fblsf</dodf> othfrwisf (bnd it should blso
+ * implfmfnt {@link Objfdt#hbshCodf} donsistfntly with its
+ * <dodf>Objfdt.fqubls</dodf> implfmfntbtion).
+ *
+ * @buthor  Ann Wollrbth
+ * @buthor  Pftfr Jonfs
+ * @sindf   1.2
+ * @sff     jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt
+ * @sff     jbvb.rmi.bdtivbtion.Adtivbtbblf
+ * @sff     jbvb.rmi.rfgistry.LodbtfRfgistry
+ */
+publid intfrfbdf RMISfrvfrSodkftFbdtory {
+
+    /**
+     * Crfbtf b sfrvfr sodkft on thf spfdififd port (port 0 indidbtfs
+     * bn bnonymous port).
+     * @pbrbm  port thf port numbfr
+     * @rfturn thf sfrvfr sodkft on thf spfdififd port
+     * @fxdfption IOExdfption if bn I/O frror oddurs during sfrvfr sodkft
+     * drfbtion
+     * @sindf 1.2
+     */
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port)
+        throws IOExdfption;
+}

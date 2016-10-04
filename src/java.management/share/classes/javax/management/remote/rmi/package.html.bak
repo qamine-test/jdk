@@ -1,404 +1,404 @@
-<html>
-<head>
-    <title>RMI connector</title>
+<itml>
+<ifbd>
+    <titlf>RMI donnfdtor</titlf>
 <!--
-Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
-</head>
-<body bgcolor="white">
-    <p>The RMI connector is a connector for the JMX Remote API that
-      uses RMI to transmit client requests to a remote MBean server.
-      This package defines the classes that the user of an RMI
-      connector needs to reference directly, for both the client and
-      server sides.  It also defines certain classes that the user
-      will not usually reference directly, but that must be defined so
-      that different implementations of the RMI connector can
-      interoperate.</p>
+</ifbd>
+<body bgdolor="wiitf">
+    <p>Tif RMI donnfdtor is b donnfdtor for tif JMX Rfmotf API tibt
+      usfs RMI to trbnsmit dlifnt rfqufsts to b rfmotf MBfbn sfrvfr.
+      Tiis pbdkbgf dffinfs tif dlbssfs tibt tif usfr of bn RMI
+      donnfdtor nffds to rfffrfndf dirfdtly, for boti tif dlifnt bnd
+      sfrvfr sidfs.  It blso dffinfs dfrtbin dlbssfs tibt tif usfr
+      will not usublly rfffrfndf dirfdtly, but tibt must bf dffinfd so
+      tibt difffrfnt implfmfntbtions of tif RMI donnfdtor dbn
+      intfropfrbtf.</p>
 
-    <p>The RMI connector supports the JRMP transport for RMI, and
-      optionally the IIOP transport.</p>
+    <p>Tif RMI donnfdtor supports tif JRMP trbnsport for RMI, bnd
+      optionblly tif IIOP trbnsport.</p>
 
-    <p>Like most connectors in the JMX Remote API, an RMI connector
-      usually has an address, which
-      is a {@link javax.management.remote.JMXServiceURL
-      JMXServiceURL}.  The protocol part of this address is
-      <code>rmi</code> for a connector that uses the default RMI
-      transport (JRMP), or <code>iiop</code> for a connector that
-      uses RMI/IIOP.</p>
+    <p>Likf most donnfdtors in tif JMX Rfmotf API, bn RMI donnfdtor
+      usublly ibs bn bddrfss, wiidi
+      is b {@link jbvbx.mbnbgfmfnt.rfmotf.JMXSfrvidfURL
+      JMXSfrvidfURL}.  Tif protodol pbrt of tiis bddrfss is
+      <dodf>rmi</dodf> for b donnfdtor tibt usfs tif dffbult RMI
+      trbnsport (JRMP), or <dodf>iiop</dodf> for b donnfdtor tibt
+      usfs RMI/IIOP.</p>
 
-    <p>There are two forms for RMI connector addresses:</p>
+    <p>Tifrf brf two forms for RMI donnfdtor bddrfssfs:</p>
 
     <ul>
       <li>
-	In the <em>JNDI form</em>, the URL indicates <em>where to find
-	an RMI stub for the connector</em>.  This RMI stub is a Java
-	object of type {@link javax.management.remote.rmi.RMIServer
-	RMIServer} that gives remote access to the connector server.
-	With this address form, the RMI stub is obtained from an
-	external directory entry included in the URL.  An external
-	directory is any directory recognized by {@link javax.naming
-	JNDI}, typically the RMI registry, LDAP, or COS Naming.
+	In tif <fm>JNDI form</fm>, tif URL indidbtfs <fm>wifrf to find
+	bn RMI stub for tif donnfdtor</fm>.  Tiis RMI stub is b Jbvb
+	objfdt of typf {@link jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfr
+	RMISfrvfr} tibt givfs rfmotf bddfss to tif donnfdtor sfrvfr.
+	Witi tiis bddrfss form, tif RMI stub is obtbinfd from bn
+	fxtfrnbl dirfdtory fntry indludfd in tif URL.  An fxtfrnbl
+	dirfdtory is bny dirfdtory rfdognizfd by {@link jbvbx.nbming
+	JNDI}, typidblly tif RMI rfgistry, LDAP, or COS Nbming.
 
       <li>
-	In the <em>encoded form</em>, the URL directly includes the
-	information needed to connect to the connector server.  When
-	using RMI/JRMP, the encoded form is the serialized RMI stub
-	for the server object, encoded using BASE64 without embedded
-	newlines.  When using RMI/IIOP, the encoded form is the CORBA
-	IOR for the server object.
+	In tif <fm>fndodfd form</fm>, tif URL dirfdtly indludfs tif
+	informbtion nffdfd to donnfdt to tif donnfdtor sfrvfr.  Wifn
+	using RMI/JRMP, tif fndodfd form is tif sfriblizfd RMI stub
+	for tif sfrvfr objfdt, fndodfd using BASE64 witiout fmbfddfd
+	nfwlinfs.  Wifn using RMI/IIOP, tif fndodfd form is tif CORBA
+	IOR for tif sfrvfr objfdt.
     </ul>
     
-    <p>Addresses are covered in more detail below.</p>
+    <p>Addrfssfs brf dovfrfd in morf dftbil bflow.</p>
 
 
-    <h3>Creating an RMI connector server</h3>
+    <i3>Crfbting bn RMI donnfdtor sfrvfr</i3>
 
-    <p>The usual way to create an RMI connector server is to supply an
-      RMI connector address to the method {@link
-      javax.management.remote.JMXConnectorServerFactory#newJMXConnectorServer
-      JMXConnectorServerFactory.newJMXConnectorServer}.  The MBean
-      server to which the connector server is attached can be
-      specified as a parameter to that method.  Alternatively, the
-      connector server can be registered as an MBean in that MBean
-      server.</p>
+    <p>Tif usubl wby to drfbtf bn RMI donnfdtor sfrvfr is to supply bn
+      RMI donnfdtor bddrfss to tif mftiod {@link
+      jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorSfrvfrFbdtory#nfwJMXConnfdtorSfrvfr
+      JMXConnfdtorSfrvfrFbdtory.nfwJMXConnfdtorSfrvfr}.  Tif MBfbn
+      sfrvfr to wiidi tif donnfdtor sfrvfr is bttbdifd dbn bf
+      spfdififd bs b pbrbmftfr to tibt mftiod.  Altfrnbtivfly, tif
+      donnfdtor sfrvfr dbn bf rfgistfrfd bs bn MBfbn in tibt MBfbn
+      sfrvfr.</p>
 
-    <p>An RMI connector server can also be created by constructing an
-      instance of {@link
-      javax.management.remote.rmi.RMIConnectorServer
-      RMIConnectorServer}, explicitly or through the MBean server's
-      <code>createMBean</code> method.</p>
+    <p>An RMI donnfdtor sfrvfr dbn blso bf drfbtfd by donstrudting bn
+      instbndf of {@link
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtorSfrvfr
+      RMIConnfdtorSfrvfr}, fxpliditly or tirougi tif MBfbn sfrvfr's
+      <dodf>drfbtfMBfbn</dodf> mftiod.</p>
 
-    <h4>Choosing the RMI transport</h4>
+    <i4>Cioosing tif RMI trbnsport</i4>
 
-    <p>You can choose the RMI transport (JRMP or IIOP) by specifying
-      <code>rmi</code> or <code>iiop</code> in the
-      <code><em>protocol</em></code> part of the
-      <code>serviceURL</code> when creating the connector server.  You
-      can also create specialized connector servers by instantiating
-      an appropriate subclass of {@link
-      javax.management.remote.rmi.RMIServerImpl RMIServerImpl} and
-      supplying it to the <code>RMIConnectorServer</code>
-      constructor.</p>
+    <p>You dbn dioosf tif RMI trbnsport (JRMP or IIOP) by spfdifying
+      <dodf>rmi</dodf> or <dodf>iiop</dodf> in tif
+      <dodf><fm>protodol</fm></dodf> pbrt of tif
+      <dodf>sfrvidfURL</dodf> wifn drfbting tif donnfdtor sfrvfr.  You
+      dbn blso drfbtf spfdiblizfd donnfdtor sfrvfrs by instbntibting
+      bn bppropribtf subdlbss of {@link
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl RMISfrvfrImpl} bnd
+      supplying it to tif <dodf>RMIConnfdtorSfrvfr</dodf>
+      donstrudtor.</p>
 
 
-    <h4><a name="servergen">Connector addresses generated by the
-	server</a></h4>
+    <i4><b nbmf="sfrvfrgfn">Connfdtor bddrfssfs gfnfrbtfd by tif
+	sfrvfr</b></i4>
 
-    <p>If the <code>serviceURL</code> you specify has an empty URL
-      path (after the optional host and port), or if you do not
-      specify a <code>serviceURL</code>, then the connector server
-      will fabricate a new <code>JMXServiceURL</code> that clients can
-      use to connect:</p>
+    <p>If tif <dodf>sfrvidfURL</dodf> you spfdify ibs bn fmpty URL
+      pbti (bftfr tif optionbl iost bnd port), or if you do not
+      spfdify b <dodf>sfrvidfURL</dodf>, tifn tif donnfdtor sfrvfr
+      will fbbridbtf b nfw <dodf>JMXSfrvidfURL</dodf> tibt dlifnts dbn
+      usf to donnfdt:</p>
 
     <ul>
 
-      <li><p>If the <code>serviceURL</code> looks like:</p>
+      <li><p>If tif <dodf>sfrvidfURL</dodf> looks likf:</p>
 
-	<pre>
-	<code>service:jmx:rmi://<em>host</em>:<em>port</em></code>
-	</pre>
+	<prf>
+	<dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm></dodf>
+	</prf>
 
-	<p>then the connector server will generate an {@link
-	javax.management.remote.rmi.RMIJRMPServerImpl
-	RMIJRMPServerImpl} and the returned <code>JMXServiceURL</code>
-	looks like:</p>
+	<p>tifn tif donnfdtor sfrvfr will gfnfrbtf bn {@link
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIJRMPSfrvfrImpl
+	RMIJRMPSfrvfrImpl} bnd tif rfturnfd <dodf>JMXSfrvidfURL</dodf>
+	looks likf:</p>
 
-	<pre>
-	<code>service:jmx:rmi://<em>host</em>:<em>port</em>/stub/<em>XXXX</em></code>
-	</pre>
+	<prf>
+	<dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm>/stub/<fm>XXXX</fm></dodf>
+	</prf>
 
-	<p>where <code><em>XXXX</em></code> is the serialized form of the
-	stub for the generated object, encoded in BASE64 without
-	newlines.</p>
+	<p>wifrf <dodf><fm>XXXX</fm></dodf> is tif sfriblizfd form of tif
+	stub for tif gfnfrbtfd objfdt, fndodfd in BASE64 witiout
+	nfwlinfs.</p>
 
-      <li><p>If the <code>serviceURL</code> looks like:</p>
+      <li><p>If tif <dodf>sfrvidfURL</dodf> looks likf:</p>
 
-	<pre>
-	<code>service:jmx:iiop://<em>host</em>:<em>port</em></code>
-	</pre>
+	<prf>
+	<dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm></dodf>
+	</prf>
 	
-	<p>then the connector server will generate an {@link
-	javax.management.remote.rmi.RMIIIOPServerImpl
-	RMIIIOPServerImpl} and the returned
-	<code>JMXServiceURL</code> looks like:</p>
+	<p>tifn tif donnfdtor sfrvfr will gfnfrbtf bn {@link
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIIIOPSfrvfrImpl
+	RMIIIOPSfrvfrImpl} bnd tif rfturnfd
+	<dodf>JMXSfrvidfURL</dodf> looks likf:</p>
 
-	<pre>
-	<code>service:jmx:iiop://<em>host</em>:<em>port</em>/ior/IOR:<em>XXXX</em></code>
-	</pre>
+	<prf>
+	<dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm>/ior/IOR:<fm>XXXX</fm></dodf>
+	</prf>
 
-	<p>where <code>IOR:<em>XXXX</em></code> is the standard CORBA
-	encoding of the Interoperable Object Reference for the
-	generated object.</p>
+	<p>wifrf <dodf>IOR:<fm>XXXX</fm></dodf> is tif stbndbrd CORBA
+	fndoding of tif Intfropfrbblf Objfdt Rfffrfndf for tif
+	gfnfrbtfd objfdt.</p>
 
-      <li><p>If there is no <code>serviceURL</code>, there must be a
-	user-provided <code>RMIServerImpl</code>.  If the {@link
-	javax.management.remote.rmi.RMIServerImpl#toStub toStub}
-	method on this object returns an instance of {@link
-	javax.rmi.CORBA.Stub}, then the connector server will generate
-	a <code>JMXServiceURL</code> using the <code>iiop</code>
-	form above.  Otherwise, it will generate a
-	<code>JMXServiceURL</code> using the <code>rmi</code>
+      <li><p>If tifrf is no <dodf>sfrvidfURL</dodf>, tifrf must bf b
+	usfr-providfd <dodf>RMISfrvfrImpl</dodf>.  If tif {@link
+	jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl#toStub toStub}
+	mftiod on tiis objfdt rfturns bn instbndf of {@link
+	jbvbx.rmi.CORBA.Stub}, tifn tif donnfdtor sfrvfr will gfnfrbtf
+	b <dodf>JMXSfrvidfURL</dodf> using tif <dodf>iiop</dodf>
+	form bbovf.  Otifrwisf, it will gfnfrbtf b
+	<dodf>JMXSfrvidfURL</dodf> using tif <dodf>rmi</dodf>
 	form.</p>
 
     </ul>
 
-    <p>The <code><em>host</em></code> in a user-provided
-      <code>serviceURL</code> is optional.  If present, it is copied
-      into the generated <code>JMXServiceURL</code> but otherwise
-      ignored.  If absent, the generated <code>JXMServiceURL</code>
-      will have the local host name.</p>
+    <p>Tif <dodf><fm>iost</fm></dodf> in b usfr-providfd
+      <dodf>sfrvidfURL</dodf> is optionbl.  If prfsfnt, it is dopifd
+      into tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> but otifrwisf
+      ignorfd.  If bbsfnt, tif gfnfrbtfd <dodf>JXMSfrvidfURL</dodf>
+      will ibvf tif lodbl iost nbmf.</p>
 
-    <p>The <code><em>port</em></code> in a user-provided
-      <code>serviceURL</code> is also optional.  If present, it is
-      also copied into the generated <code>JMXServiceURL</code>;
-      otherwise, the generated <code>JMXServiceURL</code> has no port.
-      For an <code>serviceURL</code> using the <code>rmi</code>
-      protocol, the <code><em>port</em></code>, if present, indicates
-      what port the generated remote object should be exported on.  It
-      has no other effect.</p>
+    <p>Tif <dodf><fm>port</fm></dodf> in b usfr-providfd
+      <dodf>sfrvidfURL</dodf> is blso optionbl.  If prfsfnt, it is
+      blso dopifd into tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf>;
+      otifrwisf, tif gfnfrbtfd <dodf>JMXSfrvidfURL</dodf> ibs no port.
+      For bn <dodf>sfrvidfURL</dodf> using tif <dodf>rmi</dodf>
+      protodol, tif <dodf><fm>port</fm></dodf>, if prfsfnt, indidbtfs
+      wibt port tif gfnfrbtfd rfmotf objfdt siould bf fxportfd on.  It
+      ibs no otifr ffffdt.</p>
 
-    <p>If the user provides an <code>RMIServerImpl</code> rather than a
-      <code>JMXServiceURL</code>, then the generated
-      <code>JMXServiceURL</code> will have the local host name in its
-      <code><em>host</em></code> part and no
-      <code><em>port</em></code>.</p>
+    <p>If tif usfr providfs bn <dodf>RMISfrvfrImpl</dodf> rbtifr tibn b
+      <dodf>JMXSfrvidfURL</dodf>, tifn tif gfnfrbtfd
+      <dodf>JMXSfrvidfURL</dodf> will ibvf tif lodbl iost nbmf in its
+      <dodf><fm>iost</fm></dodf> pbrt bnd no
+      <dodf><fm>port</fm></dodf>.</p>
 
 
-    <h4><a name="directory">Connector addresses based on directory
-	entries</a></h4>
+    <i4><b nbmf="dirfdtory">Connfdtor bddrfssfs bbsfd on dirfdtory
+	fntrifs</b></i4>
 
-    <p>As an alternative to the generated addresses just described,
-      the <code>serviceURL</code> address supplied when creating a
-      connector server can specify a <em>directory address</em> in
-      which to store the provided or generated <code>RMIServer</code>
-      stub.  This directory address is then used by both client and
-      server.</p>
+    <p>As bn bltfrnbtivf to tif gfnfrbtfd bddrfssfs just dfsdribfd,
+      tif <dodf>sfrvidfURL</dodf> bddrfss supplifd wifn drfbting b
+      donnfdtor sfrvfr dbn spfdify b <fm>dirfdtory bddrfss</fm> in
+      wiidi to storf tif providfd or gfnfrbtfd <dodf>RMISfrvfr</dodf>
+      stub.  Tiis dirfdtory bddrfss is tifn usfd by boti dlifnt bnd
+      sfrvfr.</p>
 
-    <p>In this case, the <code>serviceURL</code> has one of these two
+    <p>In tiis dbsf, tif <dodf>sfrvidfURL</dodf> ibs onf of tifsf two
       forms:</p>
 
-    <pre>
-    <code>service:jmx:rmi://<em>host</em>:<em>port</em>/jndi/<em>jndi-name</em></code>
-    <code>service:jmx:iiop://<em>host</em>:<em>port</em>/jndi/<em>jndi-name</em></code>
-    </pre>
+    <prf>
+    <dodf>sfrvidf:jmx:rmi://<fm>iost</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
+    <dodf>sfrvidf:jmx:iiop://<fm>iost</fm>:<fm>port</fm>/jndi/<fm>jndi-nbmf</fm></dodf>
+    </prf>
 
-    <p>Here, <code><em>jndi-name</em></code> is a string that can be
-      supplied to {@link javax.naming.InitialContext#bind
-      javax.naming.InitialContext.bind}.</p>
+    <p>Hfrf, <dodf><fm>jndi-nbmf</fm></dodf> is b string tibt dbn bf
+      supplifd to {@link jbvbx.nbming.InitiblContfxt#bind
+      jbvbx.nbming.InitiblContfxt.bind}.</p>
 
-    <p>As usual, the <code><em>host</em></code> and
-      <code>:<em>port</em></code> can be omitted.</p>
+    <p>As usubl, tif <dodf><fm>iost</fm></dodf> bnd
+      <dodf>:<fm>port</fm></dodf> dbn bf omittfd.</p>
 
-    <p>The connector server will generate an
-      <code>RMIServerImpl</code> based on the protocol
-      (<code>rmi</code> or <code>iiop</code>) and, for
-      <code>rmi</code>, the <code><em>port</em></code> if any.  When
-      the connector server is started, it will derive a stub from this
-      object using its {@link
-      javax.management.remote.rmi.RMIServerImpl#toStub toStub} method
-      and store the object using the given
-      <code><em>jndi-name</em></code>.  The properties defined by the
-      JNDI API are consulted as usual.</p>
+    <p>Tif donnfdtor sfrvfr will gfnfrbtf bn
+      <dodf>RMISfrvfrImpl</dodf> bbsfd on tif protodol
+      (<dodf>rmi</dodf> or <dodf>iiop</dodf>) bnd, for
+      <dodf>rmi</dodf>, tif <dodf><fm>port</fm></dodf> if bny.  Wifn
+      tif donnfdtor sfrvfr is stbrtfd, it will dfrivf b stub from tiis
+      objfdt using its {@link
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfrImpl#toStub toStub} mftiod
+      bnd storf tif objfdt using tif givfn
+      <dodf><fm>jndi-nbmf</fm></dodf>.  Tif propfrtifs dffinfd by tif
+      JNDI API brf donsultfd bs usubl.</p>
 
-    <p>For example, if the <code>JMXServiceURL</code> is:
+    <p>For fxbmplf, if tif <dodf>JMXSfrvidfURL</dodf> is:
 
-      <pre>
-      <code>service:jmx:rmi://ignoredhost/jndi/rmi://myhost/myname</code>
-      </pre>
+      <prf>
+      <dodf>sfrvidf:jmx:rmi://ignorfdiost/jndi/rmi://myiost/mynbmf</dodf>
+      </prf>
 
-      then the connector server will generate an
-      <code>RMIJRMPServerImpl</code> and store its stub using the JNDI
-      name
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      <dodf>RMIJRMPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      nbmf
 
-      <pre>
-      <code>rmi://myhost/myname</code>
-      </pre>
+      <prf>
+      <dodf>rmi://myiost/mynbmf</dodf>
+      </prf>
 
-      which means entry <code>myname</code> in the RMI registry
-      running on the default port of host <code>myhost</code>.  Note
-      that the RMI registry only allows registration from the local
-      host.  So, in this case, <code>myhost</code> must be the name
-      (or a name) of the host that the connector server is running
+      wiidi mfbns fntry <dodf>mynbmf</dodf> in tif RMI rfgistry
+      running on tif dffbult port of iost <dodf>myiost</dodf>.  Notf
+      tibt tif RMI rfgistry only bllows rfgistrbtion from tif lodbl
+      iost.  So, in tiis dbsf, <dodf>myiost</dodf> must bf tif nbmf
+      (or b nbmf) of tif iost tibt tif donnfdtor sfrvfr is running
       on.
 
-    <p>In this <code>JMXServiceURL</code>, the first <code>rmi:</code>
-      specifies the RMI
-      connector, while the second <code>rmi:</code> specifies the RMI
-      registry.
+    <p>In tiis <dodf>JMXSfrvidfURL</dodf>, tif first <dodf>rmi:</dodf>
+      spfdififs tif RMI
+      donnfdtor, wiilf tif sfdond <dodf>rmi:</dodf> spfdififs tif RMI
+      rfgistry.
 
-    <p>As another example, if the <code>JMXServiceURL</code> is:
+    <p>As bnotifr fxbmplf, if tif <dodf>JMXSfrvidfURL</dodf> is:
 
-      <pre>
-      <code>service:jmx:iiop://ignoredhost/jndi/ldap://dirhost:9999/cn=this,ou=that</code>
-      </pre>
+      <prf>
+      <dodf>sfrvidf:jmx:iiop://ignorfdiost/jndi/ldbp://diriost:9999/dn=tiis,ou=tibt</dodf>
+      </prf>
 
-      then the connector server will generate an
-      <code>RMIIIOPServerImpl</code> and store its stub using the JNDI
-      name
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      nbmf
 
-      <pre>
-      <code>ldap://dirhost:9999/cn=this,ou=that</code>
-      </pre>
+      <prf>
+      <dodf>ldbp://diriost:9999/dn=tiis,ou=tibt</dodf>
+      </prf>
 
-      which means entry <code>cn=this,ou=that</code> in the LDAP
-      directory running on port 9999 of host <code>dirhost</code>.
+      wiidi mfbns fntry <dodf>dn=tiis,ou=tibt</dodf> in tif LDAP
+      dirfdtory running on port 9999 of iost <dodf>diriost</dodf>.
 
-    <p>If the <code>JMXServiceURL</code> is:
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> is:
 
-      <pre>
-      <code>service:jmx:iiop://ignoredhost/jndi/cn=this,ou=that</code>
-      </pre>
+      <prf>
+      <dodf>sfrvidf:jmx:iiop://ignorfdiost/jndi/dn=tiis,ou=tibt</dodf>
+      </prf>
 
-      then the connector server will generate an
-      <code>RMIIIOPServerImpl</code> and store its stub using the JNDI
-      name
+      tifn tif donnfdtor sfrvfr will gfnfrbtf bn
+      <dodf>RMIIIOPSfrvfrImpl</dodf> bnd storf its stub using tif JNDI
+      nbmf
 
-      <pre>
-      <code>cn=this,ou=that</code>
-      </pre>
+      <prf>
+      <dodf>dn=tiis,ou=tibt</dodf>
+      </prf>
 
-      For this case to work, the JNDI API must have been configured
-      appropriately to supply the information about what directory to
-      use.
+      For tiis dbsf to work, tif JNDI API must ibvf bffn donfigurfd
+      bppropribtfly to supply tif informbtion bbout wibt dirfdtory to
+      usf.
 
-    <p>In these examples, the host name <code>ignoredhost</code> is
-      not used by the connector server or its clients.  It can be
-      omitted, for example:</p>
+    <p>In tifsf fxbmplfs, tif iost nbmf <dodf>ignorfdiost</dodf> is
+      not usfd by tif donnfdtor sfrvfr or its dlifnts.  It dbn bf
+      omittfd, for fxbmplf:</p>
 
-      <pre>
-      <code>service:jmx:iiop:///jndi/cn=this,ou=that</code>
-      </pre>
+      <prf>
+      <dodf>sfrvidf:jmx:iiop:///jndi/dn=tiis,ou=tibt</dodf>
+      </prf>
 
-    <p>However, it is good practice to use the name of the host
-      where the connector server is running.  This is often different
-      from the name of the directory host.</p>
-
-
-    <h4>Connector server attributes</h4>
-
-    <p>When using the default JRMP transport, RMI socket factories can
-      be specified using the attributes
-      <code>jmx.remote.rmi.client.socket.factory</code> and
-      <code>jmx.remote.rmi.server.socket.factory</code> in the
-      <code>environment</code> given to the
-      <code>RMIConnectorServer</code> constructor.  The values of these
-      attributes must be of type {@link
-      java.rmi.server.RMIClientSocketFactory} and {@link
-      java.rmi.server.RMIServerSocketFactory}, respectively.  These
-      factories are used when creating the RMI objects associated with
-      the connector.</p>
-
-    <h3>Creating an RMI connector client</h3>
-
-    <p>An RMI connector client is usually constructed using {@link
-      javax.management.remote.JMXConnectorFactory}, with a
-      <code>JMXServiceURL</code> that has <code>rmi</code> or
-      <code>iiop</code> as its protocol.</p>
-
-    <p>If the <code>JMXServiceURL</code> was generated by the server,
-      as described above under <a href="#servergen">"connector
-      addresses generated by the server"</a>, then the client will
-      need to obtain it directly or indirectly from the server.
-      Typically, the server makes the <code>JMXServiceURL</code>
-      available by storing it in a file or a lookup service.</p>
-
-    <p>If the <code>JMXServiceURL</code> uses the directory syntax, as
-      described above under <a href="#directory">"connector addresses
-      based on directory entries"</a>, then the client may obtain it
-      as just explained, or client and server may both know the
-      appropriate directory entry to use.  For example, if the
-      connector server for the Whatsit agent uses the entry
-      <code>whatsit-agent-connector</code> in the RMI registry on host
-      <code>myhost</code>, then client and server can both know
-      that the appropriate <code>JMXServiceURL</code> is:</p>
-
-    <pre>
-    <code>service:jmx:rmi:///jndi/rmi://myhost/whatsit-agent-connector</code>
-    </pre>
-
-    <p>If you have an RMI stub of type {@link
-      javax.management.remote.rmi.RMIServer RMIServer}, you can
-      construct an RMI connection directly by using the appropriate
-      constructor of {@link javax.management.remote.rmi.RMIConnector
-      RMIConnector}.</p>
+    <p>Howfvfr, it is good prbdtidf to usf tif nbmf of tif iost
+      wifrf tif donnfdtor sfrvfr is running.  Tiis is oftfn difffrfnt
+      from tif nbmf of tif dirfdtory iost.</p>
 
 
-    <h3>Specifying an ORB for the RMI/IIOP connector</h3>
+    <i4>Connfdtor sfrvfr bttributfs</i4>
 
-    <p>When using the IIOP transport, the client and server can
-      specify what ORB to use
-      with the attribute <code>java.naming.corba.orb</code>.
-      Connection to the ORB happens at {@link 
-      javax.management.remote.rmi.RMIConnectorServer#start() start} time 
-      for the connector server, and at {@link 
-      javax.management.remote.rmi.RMIConnector#connect(java.util.Map) 
-      connect} time for the connector client.
-      If the <code>java.naming.corba.orb</code> attribute is contained
-      in the environment Map, then its value (an {@link 
-      org.omg.CORBA.ORB ORB}), is used to connect the IIOP Stubs. 
-      Otherwise, a new org.omg.CORBA.ORB is created by calling {@link 
+    <p>Wifn using tif dffbult JRMP trbnsport, RMI sodkft fbdtorifs dbn
+      bf spfdififd using tif bttributfs
+      <dodf>jmx.rfmotf.rmi.dlifnt.sodkft.fbdtory</dodf> bnd
+      <dodf>jmx.rfmotf.rmi.sfrvfr.sodkft.fbdtory</dodf> in tif
+      <dodf>fnvironmfnt</dodf> givfn to tif
+      <dodf>RMIConnfdtorSfrvfr</dodf> donstrudtor.  Tif vblufs of tifsf
+      bttributfs must bf of typf {@link
+      jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory} bnd {@link
+      jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory}, rfspfdtivfly.  Tifsf
+      fbdtorifs brf usfd wifn drfbting tif RMI objfdts bssodibtfd witi
+      tif donnfdtor.</p>
+
+    <i3>Crfbting bn RMI donnfdtor dlifnt</i3>
+
+    <p>An RMI donnfdtor dlifnt is usublly donstrudtfd using {@link
+      jbvbx.mbnbgfmfnt.rfmotf.JMXConnfdtorFbdtory}, witi b
+      <dodf>JMXSfrvidfURL</dodf> tibt ibs <dodf>rmi</dodf> or
+      <dodf>iiop</dodf> bs its protodol.</p>
+
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> wbs gfnfrbtfd by tif sfrvfr,
+      bs dfsdribfd bbovf undfr <b irff="#sfrvfrgfn">"donnfdtor
+      bddrfssfs gfnfrbtfd by tif sfrvfr"</b>, tifn tif dlifnt will
+      nffd to obtbin it dirfdtly or indirfdtly from tif sfrvfr.
+      Typidblly, tif sfrvfr mbkfs tif <dodf>JMXSfrvidfURL</dodf>
+      bvbilbblf by storing it in b filf or b lookup sfrvidf.</p>
+
+    <p>If tif <dodf>JMXSfrvidfURL</dodf> usfs tif dirfdtory syntbx, bs
+      dfsdribfd bbovf undfr <b irff="#dirfdtory">"donnfdtor bddrfssfs
+      bbsfd on dirfdtory fntrifs"</b>, tifn tif dlifnt mby obtbin it
+      bs just fxplbinfd, or dlifnt bnd sfrvfr mby boti know tif
+      bppropribtf dirfdtory fntry to usf.  For fxbmplf, if tif
+      donnfdtor sfrvfr for tif Wibtsit bgfnt usfs tif fntry
+      <dodf>wibtsit-bgfnt-donnfdtor</dodf> in tif RMI rfgistry on iost
+      <dodf>myiost</dodf>, tifn dlifnt bnd sfrvfr dbn boti know
+      tibt tif bppropribtf <dodf>JMXSfrvidfURL</dodf> is:</p>
+
+    <prf>
+    <dodf>sfrvidf:jmx:rmi:///jndi/rmi://myiost/wibtsit-bgfnt-donnfdtor</dodf>
+    </prf>
+
+    <p>If you ibvf bn RMI stub of typf {@link
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMISfrvfr RMISfrvfr}, you dbn
+      donstrudt bn RMI donnfdtion dirfdtly by using tif bppropribtf
+      donstrudtor of {@link jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor
+      RMIConnfdtor}.</p>
+
+
+    <i3>Spfdifying bn ORB for tif RMI/IIOP donnfdtor</i3>
+
+    <p>Wifn using tif IIOP trbnsport, tif dlifnt bnd sfrvfr dbn
+      spfdify wibt ORB to usf
+      witi tif bttributf <dodf>jbvb.nbming.dorbb.orb</dodf>.
+      Connfdtion to tif ORB ibppfns bt {@link 
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtorSfrvfr#stbrt() stbrt} timf 
+      for tif donnfdtor sfrvfr, bnd bt {@link 
+      jbvbx.mbnbgfmfnt.rfmotf.rmi.RMIConnfdtor#donnfdt(jbvb.util.Mbp) 
+      donnfdt} timf for tif donnfdtor dlifnt.
+      If tif <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is dontbinfd
+      in tif fnvironmfnt Mbp, tifn its vbluf (bn {@link 
+      org.omg.CORBA.ORB ORB}), is usfd to donnfdt tif IIOP Stubs. 
+      Otifrwisf, b nfw org.omg.CORBA.ORB is drfbtfd by dblling {@link 
       org.omg.CORBA.ORB
-      org.omg.CORBA.ORB.init((String[])null,(Properties)null)}.  A
-      later RMI connector client or server in the same JVM can reuse
-      this ORB, or it can create another one in the same way.</p>
+      org.omg.CORBA.ORB.init((String[])null,(Propfrtifs)null)}.  A
+      lbtfr RMI donnfdtor dlifnt or sfrvfr in tif sbmf JVM dbn rfusf
+      tiis ORB, or it dbn drfbtf bnotifr onf in tif sbmf wby.</p>
 
-     <p>If the <code>java.naming.corba.orb</code> attribute is 
-      specified and does not point to an {@link org.omg.CORBA.ORB ORB},
-      then an <code>{@link java.lang.IllegalArgumentException}</code> 
-      will be thrown.</p>
+     <p>If tif <dodf>jbvb.nbming.dorbb.orb</dodf> bttributf is 
+      spfdififd bnd dofs not point to bn {@link org.omg.CORBA.ORB ORB},
+      tifn bn <dodf>{@link jbvb.lbng.IllfgblArgumfntExdfption}</dodf> 
+      will bf tirown.</p>
 
-     <p>The mechanism described here does not apply when the IIOP
-      Remote objects (Stubs or Servers) are created and connected to
-      an ORB manually before being passed to the RMIConnector and
-      RMIConnectorServer.</p>
+     <p>Tif mfdibnism dfsdribfd ifrf dofs not bpply wifn tif IIOP
+      Rfmotf objfdts (Stubs or Sfrvfrs) brf drfbtfd bnd donnfdtfd to
+      bn ORB mbnublly bfforf bfing pbssfd to tif RMIConnfdtor bnd
+      RMIConnfdtorSfrvfr.</p>
 
 
-    <h3>Dynamic code downloading</h3>
+    <i3>Dynbmid dodf downlobding</i3>
 
-    <p>If an RMI connector client or server receives from its peer an
-      instance of a class that it does not know, and if dynamic code
-      downloading is active for the RMI connection, then the class can
-      be downloaded from a codebase specified by the peer.  The
-      article <a
-    href="{@docRoot}/../technotes/guides/rmi/codebase.html"><em>Dynamic
-    code downloading using Java RMI</em></a> explains this in more
-    detail.</p>
+    <p>If bn RMI donnfdtor dlifnt or sfrvfr rfdfivfs from its pffr bn
+      instbndf of b dlbss tibt it dofs not know, bnd if dynbmid dodf
+      downlobding is bdtivf for tif RMI donnfdtion, tifn tif dlbss dbn
+      bf downlobdfd from b dodfbbsf spfdififd by tif pffr.  Tif
+      brtidlf <b
+    irff="{@dodRoot}/../tfdinotfs/guidfs/rmi/dodfbbsf.itml"><fm>Dynbmid
+    dodf downlobding using Jbvb RMI</fm></b> fxplbins tiis in morf
+    dftbil.</p>
 
  
-    @see <a href="{@docRoot}/../technotes/guides/rmi/index.html">
-	Java<sup><font size="-1">TM</font></sup> Remote Method
-	Invocation (RMI)</a>
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/rmi/indfx.itml">
+	Jbvb<sup><font sizf="-1">TM</font></sup> Rfmotf Mftiod
+	Invodbtion (RMI)</b>
 
-    @see <a href="{@docRoot}/../technotes/guides/jndi/index.html">
-	Java Naming and Directory Interface<sup><font
-	size="-1">TM</font></sup> (JNDI)</a>
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jndi/indfx.itml">
+	Jbvb Nbming bnd Dirfdtory Intfrfbdf<sup><font
+	sizf="-1">TM</font></sup> (JNDI)</b>
 
-    @see <a href="http://www.ietf.org/rfc/rfc2045.txt">RFC 2045,
-    section 6.8, "Base64 Content-Transfer-Encoding"</a>
+    @sff <b irff="ittp://www.iftf.org/rfd/rfd2045.txt">RFC 2045,
+    sfdtion 6.8, "Bbsf64 Contfnt-Trbnsffr-Endoding"</b>
 
 
-    @since 1.5
+    @sindf 1.5
 
   </body>
-</html>
+</itml>

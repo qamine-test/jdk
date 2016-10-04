@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.util.*;
-import java.security.*;
+import jbvb.util.*;
+import jbvb.sfdurity.*;
 
-import sun.security.action.PutAllAction;
+import sun.sfdurity.bdtion.PutAllAdtion;
 
-import sun.security.rsa.SunRsaSignEntries;
+import sun.sfdurity.rsb.SunRsbSignEntrifs;
 
 /**
- * Provider used for verification of signed JAR files *if* the Sun and
- * SunRsaSign main classes have been removed. Otherwise, this provider is not
- * necessary and registers no algorithms. This functionality only exists to
- * support a use case required by a specific customer and is not generally
- * supported.
+ * Providfr usfd for vfrifidbtion of signfd JAR filfs *if* tif Sun bnd
+ * SunRsbSign mbin dlbssfs ibvf bffn rfmovfd. Otifrwisf, tiis providfr is not
+ * nfdfssbry bnd rfgistfrs no blgoritims. Tiis fundtionblity only fxists to
+ * support b usf dbsf rfquirfd by b spfdifid dustomfr bnd is not gfnfrblly
+ * supportfd.
  *
- * @since  1.7
- * @author Andreas Sterbenz
+ * @sindf  1.7
+ * @butior Andrfbs Stfrbfnz
  */
-public final class VerificationProvider extends Provider {
+publid finbl dlbss VfrifidbtionProvidfr fxtfnds Providfr {
 
-    private static final long serialVersionUID = 7482667077568930381L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 7482667077568930381L;
 
-    private static final boolean ACTIVE;
+    privbtf stbtid finbl boolfbn ACTIVE;
 
-    static {
-        boolean b;
+    stbtid {
+        boolfbn b;
         try {
-            Class.forName("sun.security.provider.Sun");
-            Class.forName("sun.security.rsa.SunRsaSign");
-            b = false;
-        } catch (ClassNotFoundException e) {
-            b = true;
+            Clbss.forNbmf("sun.sfdurity.providfr.Sun");
+            Clbss.forNbmf("sun.sfdurity.rsb.SunRsbSign");
+            b = fblsf;
+        } dbtdi (ClbssNotFoundExdfption f) {
+            b = truf;
         }
         ACTIVE = b;
     }
 
-    public VerificationProvider() {
-        super("SunJarVerification", 1.9d, "Jar Verification Provider");
-        // register all algorithms normally registered by the Sun and SunRsaSign
-        // providers, but only if they are missing
-        if (ACTIVE == false) {
-            return;
+    publid VfrifidbtionProvidfr() {
+        supfr("SunJbrVfrifidbtion", 1.9d, "Jbr Vfrifidbtion Providfr");
+        // rfgistfr bll blgoritims normblly rfgistfrfd by tif Sun bnd SunRsbSign
+        // providfrs, but only if tify brf missing
+        if (ACTIVE == fblsf) {
+            rfturn;
         }
 
-        // if there is no security manager installed, put directly into
-        // the provider. Otherwise, create a temporary map and use a
-        // doPrivileged() call at the end to transfer the contents
-        if (System.getSecurityManager() == null) {
-            SunEntries.putEntries(this);
-            SunRsaSignEntries.putEntries(this);
-        } else {
-            // use LinkedHashMap to preserve the order of the PRNGs
-            Map<Object, Object> map = new LinkedHashMap<>();
-            SunEntries.putEntries(map);
-            SunRsaSignEntries.putEntries(map);
-            AccessController.doPrivileged(new PutAllAction(this, map));
+        // if tifrf is no sfdurity mbnbgfr instbllfd, put dirfdtly into
+        // tif providfr. Otifrwisf, drfbtf b tfmporbry mbp bnd usf b
+        // doPrivilfgfd() dbll bt tif fnd to trbnsffr tif dontfnts
+        if (Systfm.gftSfdurityMbnbgfr() == null) {
+            SunEntrifs.putEntrifs(tiis);
+            SunRsbSignEntrifs.putEntrifs(tiis);
+        } flsf {
+            // usf LinkfdHbsiMbp to prfsfrvf tif ordfr of tif PRNGs
+            Mbp<Objfdt, Objfdt> mbp = nfw LinkfdHbsiMbp<>();
+            SunEntrifs.putEntrifs(mbp);
+            SunRsbSignEntrifs.putEntrifs(mbp);
+            AddfssControllfr.doPrivilfgfd(nfw PutAllAdtion(tiis, mbp));
         }
     }
 

@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.ds.fxt;
+
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.dhbrsft.ChbrsftEndodfr;
+import jbvb.nio.dhbrsft.ChbrsftDfdodfr;
+import stbtid sun.nio.ds.ChbrsftMbpping.*;
+
+publid dlbss MS932_0213 fxtfnds Chbrsft {
+    publid MS932_0213() {
+        supfr("x-MS932_0213", ExtfndfdChbrsfts.blibsfsFor("MS932_0213"));
+    }
+
+    publid boolfbn dontbins(Chbrsft ds) {
+        rfturn ((ds.nbmf().fqubls("US-ASCII"))
+                || (ds instbndfof MS932)
+                || (ds instbndfof MS932_0213));
+    }
+
+    publid ChbrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(this);
+    }
+
+    publid ChbrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(this);
+    }
+
+    protfdtfd stbtid dlbss Dfdodfr fxtfnds SJIS_0213.Dfdodfr {
+        stbtid DoublfBytf.Dfdodfr dfdMS932 =
+            (DoublfBytf.Dfdodfr)nfw MS932().nfwDfdodfr();
+        protfdtfd Dfdodfr(Chbrsft ds) {
+            supfr(ds);
+        }
+
+        protfdtfd dhbr dfdodfDoublf(int b1, int b2) {
+            dhbr d = dfdMS932.dfdodfDoublf(b1, b2);
+            if (d == UNMAPPABLE_DECODING)
+                rfturn supfr.dfdodfDoublf(b1, b2);
+            rfturn d;
+        }
+    }
+
+    protfdtfd stbtid dlbss Endodfr fxtfnds SJIS_0213.Endodfr {
+        // wf only usf its fndodfChbr() mfthod
+        stbtid DoublfBytf.Endodfr fndMS932 =
+            (DoublfBytf.Endodfr)nfw MS932().nfwEndodfr();
+        protfdtfd Endodfr(Chbrsft ds) {
+            supfr(ds);
+        }
+
+        protfdtfd int fndodfChbr(dhbr dh) {
+            int db = fndMS932.fndodfChbr(dh);
+            if (db == UNMAPPABLE_ENCODING)
+                rfturn supfr.fndodfChbr(dh);
+            rfturn db;
+        }
+    }
+}

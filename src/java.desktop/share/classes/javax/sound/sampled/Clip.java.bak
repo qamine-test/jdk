@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.sampled;
+pbdkbgf jbvbx.sound.sbmplfd;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
 /**
- * The {@code Clip} interface represents a special kind of data line whose audio
- * data can be loaded prior to playback, instead of being streamed in real time.
+ * Tif {@dodf Clip} intfrfbdf rfprfsfnts b spfdibl kind of dbtb linf wiosf budio
+ * dbtb dbn bf lobdfd prior to plbybbdk, instfbd of bfing strfbmfd in rfbl timf.
  * <p>
- * Because the data is pre-loaded and has a known length, you can set a clip to
- * start playing at any position in its audio data. You can also create a loop,
- * so that when the clip is played it will cycle repeatedly. Loops are specified
- * with a starting and ending sample frame, along with the number of times that
- * the loop should be played.
+ * Bfdbusf tif dbtb is prf-lobdfd bnd ibs b known lfngti, you dbn sft b dlip to
+ * stbrt plbying bt bny position in its budio dbtb. You dbn blso drfbtf b loop,
+ * so tibt wifn tif dlip is plbyfd it will dydlf rfpfbtfdly. Loops brf spfdififd
+ * witi b stbrting bnd fnding sbmplf frbmf, blong witi tif numbfr of timfs tibt
+ * tif loop siould bf plbyfd.
  * <p>
- * Clips may be obtained from a {@link Mixer} that supports lines of this type.
- * Data is loaded into a clip when it is opened.
+ * Clips mby bf obtbinfd from b {@link Mixfr} tibt supports linfs of tiis typf.
+ * Dbtb is lobdfd into b dlip wifn it is opfnfd.
  * <p>
- * Playback of an audio clip may be started and stopped using the
- * {@link #start start} and {@link #stop stop} methods. These methods do not
- * reset the media position; {@code start} causes playback to continue from the
- * position where playback was last stopped. To restart playback from the
- * beginning of the clip's audio data, simply follow the invocation of
- * {@code stop} with {@code setFramePosition(0)}, which rewinds the media to the
- * beginning of the clip.
+ * Plbybbdk of bn budio dlip mby bf stbrtfd bnd stoppfd using tif
+ * {@link #stbrt stbrt} bnd {@link #stop stop} mftiods. Tifsf mftiods do not
+ * rfsft tif mfdib position; {@dodf stbrt} dbusfs plbybbdk to dontinuf from tif
+ * position wifrf plbybbdk wbs lbst stoppfd. To rfstbrt plbybbdk from tif
+ * bfginning of tif dlip's budio dbtb, simply follow tif invodbtion of
+ * {@dodf stop} witi {@dodf sftFrbmfPosition(0)}, wiidi rfwinds tif mfdib to tif
+ * bfginning of tif dlip.
  *
- * @author Kara Kytle
- * @since 1.3
+ * @butior Kbrb Kytlf
+ * @sindf 1.3
  */
-public interface Clip extends DataLine {
+publid intfrfbdf Clip fxtfnds DbtbLinf {
 
     /**
-     * A value indicating that looping should continue indefinitely rather than
-     * complete after a specific number of loops.
+     * A vbluf indidbting tibt looping siould dontinuf indffinitfly rbtifr tibn
+     * domplftf bftfr b spfdifid numbfr of loops.
      *
-     * @see #loop
+     * @sff #loop
      */
     int LOOP_CONTINUOUSLY = -1;
 
     /**
-     * Opens the clip, meaning that it should acquire any required system
-     * resources and become operational. The clip is opened with the format and
-     * audio data indicated. If this operation succeeds, the line is marked as
-     * open and an {@link LineEvent.Type#OPEN OPEN} event is dispatched to the
-     * line's listeners.
+     * Opfns tif dlip, mfbning tibt it siould bdquirf bny rfquirfd systfm
+     * rfsourdfs bnd bfdomf opfrbtionbl. Tif dlip is opfnfd witi tif formbt bnd
+     * budio dbtb indidbtfd. If tiis opfrbtion suddffds, tif linf is mbrkfd bs
+     * opfn bnd bn {@link LinfEvfnt.Typf#OPEN OPEN} fvfnt is dispbtdifd to tif
+     * linf's listfnfrs.
      * <p>
-     * Invoking this method on a line which is already open is illegal and may
-     * result in an {@code IllegalStateException}.
+     * Invoking tiis mftiod on b linf wiidi is blrfbdy opfn is illfgbl bnd mby
+     * rfsult in bn {@dodf IllfgblStbtfExdfption}.
      * <p>
-     * Note that some lines, once closed, cannot be reopened. Attempts to reopen
-     * such a line will always result in a {@code LineUnavailableException}.
+     * Notf tibt somf linfs, ondf dlosfd, dbnnot bf rfopfnfd. Attfmpts to rfopfn
+     * sudi b linf will blwbys rfsult in b {@dodf LinfUnbvbilbblfExdfption}.
      *
-     * @param  format the format of the supplied audio data
-     * @param  data a byte array containing audio data to load into the clip
-     * @param  offset the point at which to start copying, expressed in
-     *         <em>bytes</em> from the beginning of the array
-     * @param  bufferSize the number of <em>bytes</em> of data to load into the
-     *         clip from the array
-     * @throws LineUnavailableException if the line cannot be opened due to
-     *         resource restrictions
-     * @throws IllegalArgumentException if the buffer size does not represent an
-     *         integral number of sample frames, or if {@code format} is not
-     *         fully specified or invalid
-     * @throws IllegalStateException if the line is already open
-     * @throws SecurityException if the line cannot be opened due to security
-     *         restrictions
-     * @see #close
-     * @see #isOpen
-     * @see LineListener
+     * @pbrbm  formbt tif formbt of tif supplifd budio dbtb
+     * @pbrbm  dbtb b bytf brrby dontbining budio dbtb to lobd into tif dlip
+     * @pbrbm  offsft tif point bt wiidi to stbrt dopying, fxprfssfd in
+     *         <fm>bytfs</fm> from tif bfginning of tif brrby
+     * @pbrbm  bufffrSizf tif numbfr of <fm>bytfs</fm> of dbtb to lobd into tif
+     *         dlip from tif brrby
+     * @tirows LinfUnbvbilbblfExdfption if tif linf dbnnot bf opfnfd duf to
+     *         rfsourdf rfstridtions
+     * @tirows IllfgblArgumfntExdfption if tif bufffr sizf dofs not rfprfsfnt bn
+     *         intfgrbl numbfr of sbmplf frbmfs, or if {@dodf formbt} is not
+     *         fully spfdififd or invblid
+     * @tirows IllfgblStbtfExdfption if tif linf is blrfbdy opfn
+     * @tirows SfdurityExdfption if tif linf dbnnot bf opfnfd duf to sfdurity
+     *         rfstridtions
+     * @sff #dlosf
+     * @sff #isOpfn
+     * @sff LinfListfnfr
      */
-    void open(AudioFormat format, byte[] data, int offset, int bufferSize)
-            throws LineUnavailableException;
+    void opfn(AudioFormbt formbt, bytf[] dbtb, int offsft, int bufffrSizf)
+            tirows LinfUnbvbilbblfExdfption;
 
     /**
-     * Opens the clip with the format and audio data present in the provided
-     * audio input stream. Opening a clip means that it should acquire any
-     * required system resources and become operational. If this operation input
-     * stream. If this operation succeeds, the line is marked open and an
-     * {@link LineEvent.Type#OPEN OPEN} event is dispatched to the line's
-     * listeners.
+     * Opfns tif dlip witi tif formbt bnd budio dbtb prfsfnt in tif providfd
+     * budio input strfbm. Opfning b dlip mfbns tibt it siould bdquirf bny
+     * rfquirfd systfm rfsourdfs bnd bfdomf opfrbtionbl. If tiis opfrbtion input
+     * strfbm. If tiis opfrbtion suddffds, tif linf is mbrkfd opfn bnd bn
+     * {@link LinfEvfnt.Typf#OPEN OPEN} fvfnt is dispbtdifd to tif linf's
+     * listfnfrs.
      * <p>
-     * Invoking this method on a line which is already open is illegal and may
-     * result in an {@code IllegalStateException}.
+     * Invoking tiis mftiod on b linf wiidi is blrfbdy opfn is illfgbl bnd mby
+     * rfsult in bn {@dodf IllfgblStbtfExdfption}.
      * <p>
-     * Note that some lines, once closed, cannot be reopened. Attempts to reopen
-     * such a line will always result in a {@code LineUnavailableException}.
+     * Notf tibt somf linfs, ondf dlosfd, dbnnot bf rfopfnfd. Attfmpts to rfopfn
+     * sudi b linf will blwbys rfsult in b {@dodf LinfUnbvbilbblfExdfption}.
      *
-     * @param  stream an audio input stream from which audio data will be read
-     *         into the clip
-     * @throws LineUnavailableException if the line cannot be opened due to
-     *         resource restrictions
-     * @throws IOException if an I/O exception occurs during reading of the
-     *         stream
-     * @throws IllegalArgumentException if the stream's audio format is not
-     *         fully specified or invalid
-     * @throws IllegalStateException if the line is already open
-     * @throws SecurityException if the line cannot be opened due to security
-     *         restrictions
-     * @see #close
-     * @see #isOpen
-     * @see LineListener
+     * @pbrbm  strfbm bn budio input strfbm from wiidi budio dbtb will bf rfbd
+     *         into tif dlip
+     * @tirows LinfUnbvbilbblfExdfption if tif linf dbnnot bf opfnfd duf to
+     *         rfsourdf rfstridtions
+     * @tirows IOExdfption if bn I/O fxdfption oddurs during rfbding of tif
+     *         strfbm
+     * @tirows IllfgblArgumfntExdfption if tif strfbm's budio formbt is not
+     *         fully spfdififd or invblid
+     * @tirows IllfgblStbtfExdfption if tif linf is blrfbdy opfn
+     * @tirows SfdurityExdfption if tif linf dbnnot bf opfnfd duf to sfdurity
+     *         rfstridtions
+     * @sff #dlosf
+     * @sff #isOpfn
+     * @sff LinfListfnfr
      */
-    void open(AudioInputStream stream)
-            throws LineUnavailableException, IOException;
+    void opfn(AudioInputStrfbm strfbm)
+            tirows LinfUnbvbilbblfExdfption, IOExdfption;
 
     /**
-     * Obtains the media length in sample frames.
+     * Obtbins tif mfdib lfngti in sbmplf frbmfs.
      *
-     * @return the media length, expressed in sample frames, or
-     *         {@code AudioSystem.NOT_SPECIFIED} if the line is not open
-     * @see AudioSystem#NOT_SPECIFIED
+     * @rfturn tif mfdib lfngti, fxprfssfd in sbmplf frbmfs, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED} if tif linf is not opfn
+     * @sff AudioSystfm#NOT_SPECIFIED
      */
-    int getFrameLength();
+    int gftFrbmfLfngti();
 
     /**
-     * Obtains the media duration in microseconds.
+     * Obtbins tif mfdib durbtion in midrosfdonds.
      *
-     * @return the media duration, expressed in microseconds, or
-     *         {@code AudioSystem.NOT_SPECIFIED} if the line is not open
-     * @see AudioSystem#NOT_SPECIFIED
+     * @rfturn tif mfdib durbtion, fxprfssfd in midrosfdonds, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED} if tif linf is not opfn
+     * @sff AudioSystfm#NOT_SPECIFIED
      */
-    long getMicrosecondLength();
+    long gftMidrosfdondLfngti();
 
     /**
-     * Sets the media position in sample frames. The position is zero-based; the
-     * first frame is frame number zero. When the clip begins playing the next
-     * time, it will start by playing the frame at this position.
+     * Sfts tif mfdib position in sbmplf frbmfs. Tif position is zfro-bbsfd; tif
+     * first frbmf is frbmf numbfr zfro. Wifn tif dlip bfgins plbying tif nfxt
+     * timf, it will stbrt by plbying tif frbmf bt tiis position.
      * <p>
-     * To obtain the current position in sample frames, use the
-     * {@link DataLine#getFramePosition getFramePosition} method of
-     * {@code DataLine}.
+     * To obtbin tif durrfnt position in sbmplf frbmfs, usf tif
+     * {@link DbtbLinf#gftFrbmfPosition gftFrbmfPosition} mftiod of
+     * {@dodf DbtbLinf}.
      *
-     * @param  frames the desired new media position, expressed in sample frames
+     * @pbrbm  frbmfs tif dfsirfd nfw mfdib position, fxprfssfd in sbmplf frbmfs
      */
-    void setFramePosition(int frames);
+    void sftFrbmfPosition(int frbmfs);
 
     /**
-     * Sets the media position in microseconds. When the clip begins playing the
-     * next time, it will start at this position. The level of precision is not
-     * guaranteed. For example, an implementation might calculate the
-     * microsecond position from the current frame position and the audio sample
-     * frame rate. The precision in microseconds would then be limited to the
-     * number of microseconds per sample frame.
+     * Sfts tif mfdib position in midrosfdonds. Wifn tif dlip bfgins plbying tif
+     * nfxt timf, it will stbrt bt tiis position. Tif lfvfl of prfdision is not
+     * gubrbntffd. For fxbmplf, bn implfmfntbtion migit dbldulbtf tif
+     * midrosfdond position from tif durrfnt frbmf position bnd tif budio sbmplf
+     * frbmf rbtf. Tif prfdision in midrosfdonds would tifn bf limitfd to tif
+     * numbfr of midrosfdonds pfr sbmplf frbmf.
      * <p>
-     * To obtain the current position in microseconds, use the
-     * {@link DataLine#getMicrosecondPosition getMicrosecondPosition} method of
-     * {@code DataLine}.
+     * To obtbin tif durrfnt position in midrosfdonds, usf tif
+     * {@link DbtbLinf#gftMidrosfdondPosition gftMidrosfdondPosition} mftiod of
+     * {@dodf DbtbLinf}.
      *
-     * @param  microseconds the desired new media position, expressed in
-     *         microseconds
+     * @pbrbm  midrosfdonds tif dfsirfd nfw mfdib position, fxprfssfd in
+     *         midrosfdonds
      */
-    void setMicrosecondPosition(long microseconds);
+    void sftMidrosfdondPosition(long midrosfdonds);
 
     /**
-     * Sets the first and last sample frames that will be played in the loop.
-     * The ending point must be greater than or equal to the starting point, and
-     * both must fall within the the size of the loaded media. A value of 0 for
-     * the starting point means the beginning of the loaded media. Similarly, a
-     * value of -1 for the ending point indicates the last frame of the media.
+     * Sfts tif first bnd lbst sbmplf frbmfs tibt will bf plbyfd in tif loop.
+     * Tif fnding point must bf grfbtfr tibn or fqubl to tif stbrting point, bnd
+     * boti must fbll witiin tif tif sizf of tif lobdfd mfdib. A vbluf of 0 for
+     * tif stbrting point mfbns tif bfginning of tif lobdfd mfdib. Similbrly, b
+     * vbluf of -1 for tif fnding point indidbtfs tif lbst frbmf of tif mfdib.
      *
-     * @param  start the loop's starting position, in sample frames (zero-based)
-     * @param  end the loop's ending position, in sample frames (zero-based),
-     *         or -1 to indicate the final frame
-     * @throws IllegalArgumentException if the requested loop points cannot be
-     *         set, usually because one or both falls outside the media's
-     *         duration or because the ending point is before the starting point
+     * @pbrbm  stbrt tif loop's stbrting position, in sbmplf frbmfs (zfro-bbsfd)
+     * @pbrbm  fnd tif loop's fnding position, in sbmplf frbmfs (zfro-bbsfd),
+     *         or -1 to indidbtf tif finbl frbmf
+     * @tirows IllfgblArgumfntExdfption if tif rfqufstfd loop points dbnnot bf
+     *         sft, usublly bfdbusf onf or boti fblls outsidf tif mfdib's
+     *         durbtion or bfdbusf tif fnding point is bfforf tif stbrting point
      */
-    void setLoopPoints(int start, int end);
+    void sftLoopPoints(int stbrt, int fnd);
 
     /**
-     * Starts looping playback from the current position. Playback will continue
-     * to the loop's end point, then loop back to the loop start point
-     * {@code count} times, and finally continue playback to the end of the
-     * clip.
+     * Stbrts looping plbybbdk from tif durrfnt position. Plbybbdk will dontinuf
+     * to tif loop's fnd point, tifn loop bbdk to tif loop stbrt point
+     * {@dodf dount} timfs, bnd finblly dontinuf plbybbdk to tif fnd of tif
+     * dlip.
      * <p>
-     * If the current position when this method is invoked is greater than the
-     * loop end point, playback simply continues to the end of the clip without
+     * If tif durrfnt position wifn tiis mftiod is invokfd is grfbtfr tibn tif
+     * loop fnd point, plbybbdk simply dontinufs to tif fnd of tif dlip witiout
      * looping.
      * <p>
-     * A {@code count} value of 0 indicates that any current looping should
-     * cease and playback should continue to the end of the clip. The behavior
-     * is undefined when this method is invoked with any other value during a
-     * loop operation.
+     * A {@dodf dount} vbluf of 0 indidbtfs tibt bny durrfnt looping siould
+     * dfbsf bnd plbybbdk siould dontinuf to tif fnd of tif dlip. Tif bfibvior
+     * is undffinfd wifn tiis mftiod is invokfd witi bny otifr vbluf during b
+     * loop opfrbtion.
      * <p>
-     * If playback is stopped during looping, the current loop status is
-     * cleared; the behavior of subsequent loop and start requests is not
-     * affected by an interrupted loop operation.
+     * If plbybbdk is stoppfd during looping, tif durrfnt loop stbtus is
+     * dlfbrfd; tif bfibvior of subsfqufnt loop bnd stbrt rfqufsts is not
+     * bfffdtfd by bn intfrruptfd loop opfrbtion.
      *
-     * @param  count the number of times playback should loop back from the
-     *         loop's end position to the loop's start position, or
-     *         {@link #LOOP_CONTINUOUSLY} to indicate that looping should
-     *         continue until interrupted
+     * @pbrbm  dount tif numbfr of timfs plbybbdk siould loop bbdk from tif
+     *         loop's fnd position to tif loop's stbrt position, or
+     *         {@link #LOOP_CONTINUOUSLY} to indidbtf tibt looping siould
+     *         dontinuf until intfrruptfd
      */
-    void loop(int count);
+    void loop(int dount);
 }

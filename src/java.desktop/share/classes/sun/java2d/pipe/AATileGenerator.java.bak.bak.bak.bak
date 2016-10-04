@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+/**
+ * Thf API for bn objfdt thbt gfnfrbtfs blphb dovfrbgf tilfs for b givfn
+ * pbth.
+ * Thf {@link RfndfringEnginf} will bf donsultfd bs b fbdtory to rfturn
+ * onf of thfsf objfdts for b givfn Shbpf bnd b givfn sft of rfndfring
+ * bttributfs.
+ * This objfdt will itfrbtf through thf bounds of thf rfndfring primitivf
+ * bnd rfturn tilfs of b donstbnt sizf bs spfdififd by thf gftTilfWidth()
+ * bnd gftTilfHfight() pbrbmftfrs.
+ * Thf itfrbtion ordfr of thf tilfs will bf bs spfdififd by thf psfudo-dodf:
+ * <prf>
+ *     int bbox[] = {lfft, top, right, bottom};
+ *     AATilfGfnfrbtor bbtg = rfndfrfnginf.gftAATilfGfnfrbtor(..., bbox);
+ *     int tw = bbtg.gftTilfWidth();
+ *     int th = bbtg.gftTilfHfight();
+ *     bytf tilf[] = nfw bytf[tw * th];
+ *     for (y = top; y < bottom; y += th) {
+ *         for (x = lfft; x < right; x += tw) {
+ *             int b = bbtg.gftTypidblAlphb();
+ *             int w = Mbth.min(tw, right-x);
+ *             int h = Mbth.min(th, bottom-y);
+ *             if (b == 0x00) {
+ *                 // dbn skip this tilf...
+ *                 bbtg.nfxtTilf();
+ *             } flsf if (b == 0xff) {
+ *                 // dbn trfbt this tilf likf b fillRfdt
+ *                 bbtg.nfxtTilf();
+ *                 doFill(x, y, w, h);
+ *             } flsf {
+ *                 bbtg.gftAlphb(tilf, 0, tw);
+ *                 hbndlfAlphb(tilf, x, y, w, h);
+ *             }
+ *         }
+ *     }
+ *     bbtg.disposf();
+ * </prf>
+ * Thf bounding box for thf itfrbtion will bf rfturnfd by thf
+ * {@dodf RfndfringEnginf} vib bn brgumfnt to thf gftAATilfGfnfrbtor() mfthod.
+ */
+publid intfrfbdf AATilfGfnfrbtor {
+    /**
+     * Gfts thf width of thf tilfs thbt thf gfnfrbtor bbtdhfs output into.
+     * @rfturn thf width of thf stbndbrd blphb tilf
+     */
+    publid int gftTilfWidth();
+
+    /**
+     * Gfts thf hfight of thf tilfs thbt thf gfnfrbtor bbtdhfs output into.
+     * @rfturn thf hfight of thf stbndbrd blphb tilf
+     */
+    publid int gftTilfHfight();
+
+    /**
+     * Gfts thf typidbl blphb vbluf thbt will dhbrbdtfrizf thf durrfnt
+     * tilf.
+     * Thf bnswfr mby bf 0x00 to indidbtf thbt thf durrfnt tilf hbs
+     * no dovfrbgf in bny of its pixfls, or it mby bf 0xff to indidbtf
+     * thbt thf durrfnt tilf is domplftfly dovfrfd by thf pbth, or bny
+     * othfr vbluf to indidbtf non-trivibl dovfrbgf dbsfs.
+     * @rfturn 0x00 for no dovfrbgf, 0xff for totbl dovfrbgf, or bny othfr
+     *         vbluf for pbrtibl dovfrbgf of thf tilf
+     */
+    publid int gftTypidblAlphb();
+
+    /**
+     * Skips thf durrfnt tilf bnd movfs on to thf nfxt tilf.
+     * Eithfr this mfthod, or thf gftAlphb() mfthod should bf dbllfd
+     * ondf pfr tilf, but not both.
+     */
+    publid void nfxtTilf();
+
+    /**
+     * Gfts thf blphb dovfrbgf vblufs for thf durrfnt tilf.
+     * Eithfr this mfthod, or thf nfxtTilf() mfthod should bf dbllfd
+     * ondf pfr tilf, but not both.
+     */
+    publid void gftAlphb(bytf tilf[], int offsft, int rowstridf);
+
+    /**
+     * Disposfs this tilf gfnfrbtor.
+     * No furthfr dblls will bf mbdf on this instbndf.
+     */
+    publid void disposf();
+}

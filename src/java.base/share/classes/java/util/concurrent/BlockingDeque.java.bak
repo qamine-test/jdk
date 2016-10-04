@@ -1,651 +1,651 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
-import java.util.*;
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.*;
 
 /**
- * A {@link Deque} that additionally supports blocking operations that wait
- * for the deque to become non-empty when retrieving an element, and wait for
- * space to become available in the deque when storing an element.
+ * A {@link Dfquf} tibt bdditionblly supports blodking opfrbtions tibt wbit
+ * for tif dfquf to bfdomf non-fmpty wifn rftrifving bn flfmfnt, bnd wbit for
+ * spbdf to bfdomf bvbilbblf in tif dfquf wifn storing bn flfmfnt.
  *
- * <p>{@code BlockingDeque} methods come in four forms, with different ways
- * of handling operations that cannot be satisfied immediately, but may be
- * satisfied at some point in the future:
- * one throws an exception, the second returns a special value (either
- * {@code null} or {@code false}, depending on the operation), the third
- * blocks the current thread indefinitely until the operation can succeed,
- * and the fourth blocks for only a given maximum time limit before giving
- * up.  These methods are summarized in the following table:
+ * <p>{@dodf BlodkingDfquf} mftiods domf in four forms, witi difffrfnt wbys
+ * of ibndling opfrbtions tibt dbnnot bf sbtisfifd immfdibtfly, but mby bf
+ * sbtisfifd bt somf point in tif futurf:
+ * onf tirows bn fxdfption, tif sfdond rfturns b spfdibl vbluf (fitifr
+ * {@dodf null} or {@dodf fblsf}, dfpfnding on tif opfrbtion), tif tiird
+ * blodks tif durrfnt tirfbd indffinitfly until tif opfrbtion dbn suddffd,
+ * bnd tif fourti blodks for only b givfn mbximum timf limit bfforf giving
+ * up.  Tifsf mftiods brf summbrizfd in tif following tbblf:
  *
- * <table BORDER CELLPADDING=3 CELLSPACING=1>
- * <caption>Summary of BlockingDeque methods</caption>
+ * <tbblf BORDER CELLPADDING=3 CELLSPACING=1>
+ * <dbption>Summbry of BlodkingDfquf mftiods</dbption>
  *  <tr>
- *    <td ALIGN=CENTER COLSPAN = 5> <b>First Element (Head)</b></td>
+ *    <td ALIGN=CENTER COLSPAN = 5> <b>First Elfmfnt (Hfbd)</b></td>
  *  </tr>
  *  <tr>
  *    <td></td>
- *    <td ALIGN=CENTER><em>Throws exception</em></td>
- *    <td ALIGN=CENTER><em>Special value</em></td>
- *    <td ALIGN=CENTER><em>Blocks</em></td>
- *    <td ALIGN=CENTER><em>Times out</em></td>
+ *    <td ALIGN=CENTER><fm>Tirows fxdfption</fm></td>
+ *    <td ALIGN=CENTER><fm>Spfdibl vbluf</fm></td>
+ *    <td ALIGN=CENTER><fm>Blodks</fm></td>
+ *    <td ALIGN=CENTER><fm>Timfs out</fm></td>
  *  </tr>
  *  <tr>
- *    <td><b>Insert</b></td>
- *    <td>{@link #addFirst addFirst(e)}</td>
- *    <td>{@link #offerFirst(Object) offerFirst(e)}</td>
- *    <td>{@link #putFirst putFirst(e)}</td>
- *    <td>{@link #offerFirst(Object, long, TimeUnit) offerFirst(e, time, unit)}</td>
+ *    <td><b>Insfrt</b></td>
+ *    <td>{@link #bddFirst bddFirst(f)}</td>
+ *    <td>{@link #offfrFirst(Objfdt) offfrFirst(f)}</td>
+ *    <td>{@link #putFirst putFirst(f)}</td>
+ *    <td>{@link #offfrFirst(Objfdt, long, TimfUnit) offfrFirst(f, timf, unit)}</td>
  *  </tr>
  *  <tr>
- *    <td><b>Remove</b></td>
- *    <td>{@link #removeFirst removeFirst()}</td>
+ *    <td><b>Rfmovf</b></td>
+ *    <td>{@link #rfmovfFirst rfmovfFirst()}</td>
  *    <td>{@link #pollFirst pollFirst()}</td>
- *    <td>{@link #takeFirst takeFirst()}</td>
- *    <td>{@link #pollFirst(long, TimeUnit) pollFirst(time, unit)}</td>
+ *    <td>{@link #tbkfFirst tbkfFirst()}</td>
+ *    <td>{@link #pollFirst(long, TimfUnit) pollFirst(timf, unit)}</td>
  *  </tr>
  *  <tr>
- *    <td><b>Examine</b></td>
- *    <td>{@link #getFirst getFirst()}</td>
- *    <td>{@link #peekFirst peekFirst()}</td>
- *    <td><em>not applicable</em></td>
- *    <td><em>not applicable</em></td>
+ *    <td><b>Exbminf</b></td>
+ *    <td>{@link #gftFirst gftFirst()}</td>
+ *    <td>{@link #pffkFirst pffkFirst()}</td>
+ *    <td><fm>not bpplidbblf</fm></td>
+ *    <td><fm>not bpplidbblf</fm></td>
  *  </tr>
  *  <tr>
- *    <td ALIGN=CENTER COLSPAN = 5> <b>Last Element (Tail)</b></td>
+ *    <td ALIGN=CENTER COLSPAN = 5> <b>Lbst Elfmfnt (Tbil)</b></td>
  *  </tr>
  *  <tr>
  *    <td></td>
- *    <td ALIGN=CENTER><em>Throws exception</em></td>
- *    <td ALIGN=CENTER><em>Special value</em></td>
- *    <td ALIGN=CENTER><em>Blocks</em></td>
- *    <td ALIGN=CENTER><em>Times out</em></td>
+ *    <td ALIGN=CENTER><fm>Tirows fxdfption</fm></td>
+ *    <td ALIGN=CENTER><fm>Spfdibl vbluf</fm></td>
+ *    <td ALIGN=CENTER><fm>Blodks</fm></td>
+ *    <td ALIGN=CENTER><fm>Timfs out</fm></td>
  *  </tr>
  *  <tr>
- *    <td><b>Insert</b></td>
- *    <td>{@link #addLast addLast(e)}</td>
- *    <td>{@link #offerLast(Object) offerLast(e)}</td>
- *    <td>{@link #putLast putLast(e)}</td>
- *    <td>{@link #offerLast(Object, long, TimeUnit) offerLast(e, time, unit)}</td>
+ *    <td><b>Insfrt</b></td>
+ *    <td>{@link #bddLbst bddLbst(f)}</td>
+ *    <td>{@link #offfrLbst(Objfdt) offfrLbst(f)}</td>
+ *    <td>{@link #putLbst putLbst(f)}</td>
+ *    <td>{@link #offfrLbst(Objfdt, long, TimfUnit) offfrLbst(f, timf, unit)}</td>
  *  </tr>
  *  <tr>
- *    <td><b>Remove</b></td>
- *    <td>{@link #removeLast() removeLast()}</td>
- *    <td>{@link #pollLast() pollLast()}</td>
- *    <td>{@link #takeLast takeLast()}</td>
- *    <td>{@link #pollLast(long, TimeUnit) pollLast(time, unit)}</td>
+ *    <td><b>Rfmovf</b></td>
+ *    <td>{@link #rfmovfLbst() rfmovfLbst()}</td>
+ *    <td>{@link #pollLbst() pollLbst()}</td>
+ *    <td>{@link #tbkfLbst tbkfLbst()}</td>
+ *    <td>{@link #pollLbst(long, TimfUnit) pollLbst(timf, unit)}</td>
  *  </tr>
  *  <tr>
- *    <td><b>Examine</b></td>
- *    <td>{@link #getLast getLast()}</td>
- *    <td>{@link #peekLast peekLast()}</td>
- *    <td><em>not applicable</em></td>
- *    <td><em>not applicable</em></td>
+ *    <td><b>Exbminf</b></td>
+ *    <td>{@link #gftLbst gftLbst()}</td>
+ *    <td>{@link #pffkLbst pffkLbst()}</td>
+ *    <td><fm>not bpplidbblf</fm></td>
+ *    <td><fm>not bpplidbblf</fm></td>
  *  </tr>
- * </table>
+ * </tbblf>
  *
- * <p>Like any {@link BlockingQueue}, a {@code BlockingDeque} is thread safe,
- * does not permit null elements, and may (or may not) be
- * capacity-constrained.
+ * <p>Likf bny {@link BlodkingQufuf}, b {@dodf BlodkingDfquf} is tirfbd sbff,
+ * dofs not pfrmit null flfmfnts, bnd mby (or mby not) bf
+ * dbpbdity-donstrbinfd.
  *
- * <p>A {@code BlockingDeque} implementation may be used directly as a FIFO
- * {@code BlockingQueue}. The methods inherited from the
- * {@code BlockingQueue} interface are precisely equivalent to
- * {@code BlockingDeque} methods as indicated in the following table:
+ * <p>A {@dodf BlodkingDfquf} implfmfntbtion mby bf usfd dirfdtly bs b FIFO
+ * {@dodf BlodkingQufuf}. Tif mftiods inifritfd from tif
+ * {@dodf BlodkingQufuf} intfrfbdf brf prfdisfly fquivblfnt to
+ * {@dodf BlodkingDfquf} mftiods bs indidbtfd in tif following tbblf:
  *
- * <table BORDER CELLPADDING=3 CELLSPACING=1>
- * <caption>Comparison of BlockingQueue and BlockingDeque methods</caption>
+ * <tbblf BORDER CELLPADDING=3 CELLSPACING=1>
+ * <dbption>Compbrison of BlodkingQufuf bnd BlodkingDfquf mftiods</dbption>
  *  <tr>
- *    <td ALIGN=CENTER> <b>{@code BlockingQueue} Method</b></td>
- *    <td ALIGN=CENTER> <b>Equivalent {@code BlockingDeque} Method</b></td>
+ *    <td ALIGN=CENTER> <b>{@dodf BlodkingQufuf} Mftiod</b></td>
+ *    <td ALIGN=CENTER> <b>Equivblfnt {@dodf BlodkingDfquf} Mftiod</b></td>
  *  </tr>
  *  <tr>
- *    <td ALIGN=CENTER COLSPAN = 2> <b>Insert</b></td>
+ *    <td ALIGN=CENTER COLSPAN = 2> <b>Insfrt</b></td>
  *  </tr>
  *  <tr>
- *    <td>{@link #add(Object) add(e)}</td>
- *    <td>{@link #addLast(Object) addLast(e)}</td>
+ *    <td>{@link #bdd(Objfdt) bdd(f)}</td>
+ *    <td>{@link #bddLbst(Objfdt) bddLbst(f)}</td>
  *  </tr>
  *  <tr>
- *    <td>{@link #offer(Object) offer(e)}</td>
- *    <td>{@link #offerLast(Object) offerLast(e)}</td>
+ *    <td>{@link #offfr(Objfdt) offfr(f)}</td>
+ *    <td>{@link #offfrLbst(Objfdt) offfrLbst(f)}</td>
  *  </tr>
  *  <tr>
- *    <td>{@link #put(Object) put(e)}</td>
- *    <td>{@link #putLast(Object) putLast(e)}</td>
+ *    <td>{@link #put(Objfdt) put(f)}</td>
+ *    <td>{@link #putLbst(Objfdt) putLbst(f)}</td>
  *  </tr>
  *  <tr>
- *    <td>{@link #offer(Object, long, TimeUnit) offer(e, time, unit)}</td>
- *    <td>{@link #offerLast(Object, long, TimeUnit) offerLast(e, time, unit)}</td>
+ *    <td>{@link #offfr(Objfdt, long, TimfUnit) offfr(f, timf, unit)}</td>
+ *    <td>{@link #offfrLbst(Objfdt, long, TimfUnit) offfrLbst(f, timf, unit)}</td>
  *  </tr>
  *  <tr>
- *    <td ALIGN=CENTER COLSPAN = 2> <b>Remove</b></td>
+ *    <td ALIGN=CENTER COLSPAN = 2> <b>Rfmovf</b></td>
  *  </tr>
  *  <tr>
- *    <td>{@link #remove() remove()}</td>
- *    <td>{@link #removeFirst() removeFirst()}</td>
+ *    <td>{@link #rfmovf() rfmovf()}</td>
+ *    <td>{@link #rfmovfFirst() rfmovfFirst()}</td>
  *  </tr>
  *  <tr>
  *    <td>{@link #poll() poll()}</td>
  *    <td>{@link #pollFirst() pollFirst()}</td>
  *  </tr>
  *  <tr>
- *    <td>{@link #take() take()}</td>
- *    <td>{@link #takeFirst() takeFirst()}</td>
+ *    <td>{@link #tbkf() tbkf()}</td>
+ *    <td>{@link #tbkfFirst() tbkfFirst()}</td>
  *  </tr>
  *  <tr>
- *    <td>{@link #poll(long, TimeUnit) poll(time, unit)}</td>
- *    <td>{@link #pollFirst(long, TimeUnit) pollFirst(time, unit)}</td>
+ *    <td>{@link #poll(long, TimfUnit) poll(timf, unit)}</td>
+ *    <td>{@link #pollFirst(long, TimfUnit) pollFirst(timf, unit)}</td>
  *  </tr>
  *  <tr>
- *    <td ALIGN=CENTER COLSPAN = 2> <b>Examine</b></td>
+ *    <td ALIGN=CENTER COLSPAN = 2> <b>Exbminf</b></td>
  *  </tr>
  *  <tr>
- *    <td>{@link #element() element()}</td>
- *    <td>{@link #getFirst() getFirst()}</td>
+ *    <td>{@link #flfmfnt() flfmfnt()}</td>
+ *    <td>{@link #gftFirst() gftFirst()}</td>
  *  </tr>
  *  <tr>
- *    <td>{@link #peek() peek()}</td>
- *    <td>{@link #peekFirst() peekFirst()}</td>
+ *    <td>{@link #pffk() pffk()}</td>
+ *    <td>{@link #pffkFirst() pffkFirst()}</td>
  *  </tr>
- * </table>
+ * </tbblf>
  *
- * <p>Memory consistency effects: As with other concurrent
- * collections, actions in a thread prior to placing an object into a
- * {@code BlockingDeque}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * actions subsequent to the access or removal of that element from
- * the {@code BlockingDeque} in another thread.
+ * <p>Mfmory donsistfndy ffffdts: As witi otifr dondurrfnt
+ * dollfdtions, bdtions in b tirfbd prior to plbding bn objfdt into b
+ * {@dodf BlodkingDfquf}
+ * <b irff="pbdkbgf-summbry.itml#MfmoryVisibility"><i>ibppfn-bfforf</i></b>
+ * bdtions subsfqufnt to tif bddfss or rfmovbl of tibt flfmfnt from
+ * tif {@dodf BlodkingDfquf} in bnotifr tirfbd.
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @since 1.6
- * @author Doug Lea
- * @param <E> the type of elements held in this collection
+ * @sindf 1.6
+ * @butior Doug Lfb
+ * @pbrbm <E> tif typf of flfmfnts ifld in tiis dollfdtion
  */
-public interface BlockingDeque<E> extends BlockingQueue<E>, Deque<E> {
+publid intfrfbdf BlodkingDfquf<E> fxtfnds BlodkingQufuf<E>, Dfquf<E> {
     /*
-     * We have "diamond" multiple interface inheritance here, and that
-     * introduces ambiguities.  Methods might end up with different
-     * specs depending on the branch chosen by javadoc.  Thus a lot of
-     * methods specs here are copied from superinterfaces.
+     * Wf ibvf "dibmond" multiplf intfrfbdf inifritbndf ifrf, bnd tibt
+     * introdudfs bmbiguitifs.  Mftiods migit fnd up witi difffrfnt
+     * spfds dfpfnding on tif brbndi diosfn by jbvbdod.  Tius b lot of
+     * mftiods spfds ifrf brf dopifd from supfrintfrfbdfs.
      */
 
     /**
-     * Inserts the specified element at the front of this deque if it is
-     * possible to do so immediately without violating capacity restrictions,
-     * throwing an {@code IllegalStateException} if no space is currently
-     * available.  When using a capacity-restricted deque, it is generally
-     * preferable to use {@link #offerFirst(Object) offerFirst}.
+     * Insfrts tif spfdififd flfmfnt bt tif front of tiis dfquf if it is
+     * possiblf to do so immfdibtfly witiout violbting dbpbdity rfstridtions,
+     * tirowing bn {@dodf IllfgblStbtfExdfption} if no spbdf is durrfntly
+     * bvbilbblf.  Wifn using b dbpbdity-rfstridtfd dfquf, it is gfnfrblly
+     * prfffrbblf to usf {@link #offfrFirst(Objfdt) offfrFirst}.
      *
-     * @param e the element to add
-     * @throws IllegalStateException {@inheritDoc}
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @pbrbm f tif flfmfnt to bdd
+     * @tirows IllfgblStbtfExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    void addFirst(E e);
+    void bddFirst(E f);
 
     /**
-     * Inserts the specified element at the end of this deque if it is
-     * possible to do so immediately without violating capacity restrictions,
-     * throwing an {@code IllegalStateException} if no space is currently
-     * available.  When using a capacity-restricted deque, it is generally
-     * preferable to use {@link #offerLast(Object) offerLast}.
+     * Insfrts tif spfdififd flfmfnt bt tif fnd of tiis dfquf if it is
+     * possiblf to do so immfdibtfly witiout violbting dbpbdity rfstridtions,
+     * tirowing bn {@dodf IllfgblStbtfExdfption} if no spbdf is durrfntly
+     * bvbilbblf.  Wifn using b dbpbdity-rfstridtfd dfquf, it is gfnfrblly
+     * prfffrbblf to usf {@link #offfrLbst(Objfdt) offfrLbst}.
      *
-     * @param e the element to add
-     * @throws IllegalStateException {@inheritDoc}
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @pbrbm f tif flfmfnt to bdd
+     * @tirows IllfgblStbtfExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    void addLast(E e);
+    void bddLbst(E f);
 
     /**
-     * Inserts the specified element at the front of this deque if it is
-     * possible to do so immediately without violating capacity restrictions,
-     * returning {@code true} upon success and {@code false} if no space is
-     * currently available.
-     * When using a capacity-restricted deque, this method is generally
-     * preferable to the {@link #addFirst(Object) addFirst} method, which can
-     * fail to insert an element only by throwing an exception.
+     * Insfrts tif spfdififd flfmfnt bt tif front of tiis dfquf if it is
+     * possiblf to do so immfdibtfly witiout violbting dbpbdity rfstridtions,
+     * rfturning {@dodf truf} upon suddfss bnd {@dodf fblsf} if no spbdf is
+     * durrfntly bvbilbblf.
+     * Wifn using b dbpbdity-rfstridtfd dfquf, tiis mftiod is gfnfrblly
+     * prfffrbblf to tif {@link #bddFirst(Objfdt) bddFirst} mftiod, wiidi dbn
+     * fbil to insfrt bn flfmfnt only by tirowing bn fxdfption.
      *
-     * @param e the element to add
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @pbrbm f tif flfmfnt to bdd
+     * @tirows ClbssCbstExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    boolean offerFirst(E e);
+    boolfbn offfrFirst(E f);
 
     /**
-     * Inserts the specified element at the end of this deque if it is
-     * possible to do so immediately without violating capacity restrictions,
-     * returning {@code true} upon success and {@code false} if no space is
-     * currently available.
-     * When using a capacity-restricted deque, this method is generally
-     * preferable to the {@link #addLast(Object) addLast} method, which can
-     * fail to insert an element only by throwing an exception.
+     * Insfrts tif spfdififd flfmfnt bt tif fnd of tiis dfquf if it is
+     * possiblf to do so immfdibtfly witiout violbting dbpbdity rfstridtions,
+     * rfturning {@dodf truf} upon suddfss bnd {@dodf fblsf} if no spbdf is
+     * durrfntly bvbilbblf.
+     * Wifn using b dbpbdity-rfstridtfd dfquf, tiis mftiod is gfnfrblly
+     * prfffrbblf to tif {@link #bddLbst(Objfdt) bddLbst} mftiod, wiidi dbn
+     * fbil to insfrt bn flfmfnt only by tirowing bn fxdfption.
      *
-     * @param e the element to add
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @pbrbm f tif flfmfnt to bdd
+     * @tirows ClbssCbstExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    boolean offerLast(E e);
+    boolfbn offfrLbst(E f);
 
     /**
-     * Inserts the specified element at the front of this deque,
-     * waiting if necessary for space to become available.
+     * Insfrts tif spfdififd flfmfnt bt tif front of tiis dfquf,
+     * wbiting if nfdfssbry for spbdf to bfdomf bvbilbblf.
      *
-     * @param e the element to add
-     * @throws InterruptedException if interrupted while waiting
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this deque
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this deque
+     * @pbrbm f tif flfmfnt to bdd
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis dfquf
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tif spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis dfquf
      */
-    void putFirst(E e) throws InterruptedException;
+    void putFirst(E f) tirows IntfrruptfdExdfption;
 
     /**
-     * Inserts the specified element at the end of this deque,
-     * waiting if necessary for space to become available.
+     * Insfrts tif spfdififd flfmfnt bt tif fnd of tiis dfquf,
+     * wbiting if nfdfssbry for spbdf to bfdomf bvbilbblf.
      *
-     * @param e the element to add
-     * @throws InterruptedException if interrupted while waiting
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this deque
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this deque
+     * @pbrbm f tif flfmfnt to bdd
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis dfquf
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tif spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis dfquf
      */
-    void putLast(E e) throws InterruptedException;
+    void putLbst(E f) tirows IntfrruptfdExdfption;
 
     /**
-     * Inserts the specified element at the front of this deque,
-     * waiting up to the specified wait time if necessary for space to
-     * become available.
+     * Insfrts tif spfdififd flfmfnt bt tif front of tiis dfquf,
+     * wbiting up to tif spfdififd wbit timf if nfdfssbry for spbdf to
+     * bfdomf bvbilbblf.
      *
-     * @param e the element to add
-     * @param timeout how long to wait before giving up, in units of
-     *        {@code unit}
-     * @param unit a {@code TimeUnit} determining how to interpret the
-     *        {@code timeout} parameter
-     * @return {@code true} if successful, or {@code false} if
-     *         the specified waiting time elapses before space is available
-     * @throws InterruptedException if interrupted while waiting
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this deque
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this deque
+     * @pbrbm f tif flfmfnt to bdd
+     * @pbrbm timfout iow long to wbit bfforf giving up, in units of
+     *        {@dodf unit}
+     * @pbrbm unit b {@dodf TimfUnit} dftfrmining iow to intfrprft tif
+     *        {@dodf timfout} pbrbmftfr
+     * @rfturn {@dodf truf} if suddfssful, or {@dodf fblsf} if
+     *         tif spfdififd wbiting timf flbpsfs bfforf spbdf is bvbilbblf
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis dfquf
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tif spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis dfquf
      */
-    boolean offerFirst(E e, long timeout, TimeUnit unit)
-        throws InterruptedException;
+    boolfbn offfrFirst(E f, long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption;
 
     /**
-     * Inserts the specified element at the end of this deque,
-     * waiting up to the specified wait time if necessary for space to
-     * become available.
+     * Insfrts tif spfdififd flfmfnt bt tif fnd of tiis dfquf,
+     * wbiting up to tif spfdififd wbit timf if nfdfssbry for spbdf to
+     * bfdomf bvbilbblf.
      *
-     * @param e the element to add
-     * @param timeout how long to wait before giving up, in units of
-     *        {@code unit}
-     * @param unit a {@code TimeUnit} determining how to interpret the
-     *        {@code timeout} parameter
-     * @return {@code true} if successful, or {@code false} if
-     *         the specified waiting time elapses before space is available
-     * @throws InterruptedException if interrupted while waiting
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this deque
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this deque
+     * @pbrbm f tif flfmfnt to bdd
+     * @pbrbm timfout iow long to wbit bfforf giving up, in units of
+     *        {@dodf unit}
+     * @pbrbm unit b {@dodf TimfUnit} dftfrmining iow to intfrprft tif
+     *        {@dodf timfout} pbrbmftfr
+     * @rfturn {@dodf truf} if suddfssful, or {@dodf fblsf} if
+     *         tif spfdififd wbiting timf flbpsfs bfforf spbdf is bvbilbblf
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis dfquf
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tif spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis dfquf
      */
-    boolean offerLast(E e, long timeout, TimeUnit unit)
-        throws InterruptedException;
+    boolfbn offfrLbst(E f, long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption;
 
     /**
-     * Retrieves and removes the first element of this deque, waiting
-     * if necessary until an element becomes available.
+     * Rftrifvfs bnd rfmovfs tif first flfmfnt of tiis dfquf, wbiting
+     * if nfdfssbry until bn flfmfnt bfdomfs bvbilbblf.
      *
-     * @return the head of this deque
-     * @throws InterruptedException if interrupted while waiting
+     * @rfturn tif ifbd of tiis dfquf
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
      */
-    E takeFirst() throws InterruptedException;
+    E tbkfFirst() tirows IntfrruptfdExdfption;
 
     /**
-     * Retrieves and removes the last element of this deque, waiting
-     * if necessary until an element becomes available.
+     * Rftrifvfs bnd rfmovfs tif lbst flfmfnt of tiis dfquf, wbiting
+     * if nfdfssbry until bn flfmfnt bfdomfs bvbilbblf.
      *
-     * @return the tail of this deque
-     * @throws InterruptedException if interrupted while waiting
+     * @rfturn tif tbil of tiis dfquf
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
      */
-    E takeLast() throws InterruptedException;
+    E tbkfLbst() tirows IntfrruptfdExdfption;
 
     /**
-     * Retrieves and removes the first element of this deque, waiting
-     * up to the specified wait time if necessary for an element to
-     * become available.
+     * Rftrifvfs bnd rfmovfs tif first flfmfnt of tiis dfquf, wbiting
+     * up to tif spfdififd wbit timf if nfdfssbry for bn flfmfnt to
+     * bfdomf bvbilbblf.
      *
-     * @param timeout how long to wait before giving up, in units of
-     *        {@code unit}
-     * @param unit a {@code TimeUnit} determining how to interpret the
-     *        {@code timeout} parameter
-     * @return the head of this deque, or {@code null} if the specified
-     *         waiting time elapses before an element is available
-     * @throws InterruptedException if interrupted while waiting
+     * @pbrbm timfout iow long to wbit bfforf giving up, in units of
+     *        {@dodf unit}
+     * @pbrbm unit b {@dodf TimfUnit} dftfrmining iow to intfrprft tif
+     *        {@dodf timfout} pbrbmftfr
+     * @rfturn tif ifbd of tiis dfquf, or {@dodf null} if tif spfdififd
+     *         wbiting timf flbpsfs bfforf bn flfmfnt is bvbilbblf
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
      */
-    E pollFirst(long timeout, TimeUnit unit)
-        throws InterruptedException;
+    E pollFirst(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption;
 
     /**
-     * Retrieves and removes the last element of this deque, waiting
-     * up to the specified wait time if necessary for an element to
-     * become available.
+     * Rftrifvfs bnd rfmovfs tif lbst flfmfnt of tiis dfquf, wbiting
+     * up to tif spfdififd wbit timf if nfdfssbry for bn flfmfnt to
+     * bfdomf bvbilbblf.
      *
-     * @param timeout how long to wait before giving up, in units of
-     *        {@code unit}
-     * @param unit a {@code TimeUnit} determining how to interpret the
-     *        {@code timeout} parameter
-     * @return the tail of this deque, or {@code null} if the specified
-     *         waiting time elapses before an element is available
-     * @throws InterruptedException if interrupted while waiting
+     * @pbrbm timfout iow long to wbit bfforf giving up, in units of
+     *        {@dodf unit}
+     * @pbrbm unit b {@dodf TimfUnit} dftfrmining iow to intfrprft tif
+     *        {@dodf timfout} pbrbmftfr
+     * @rfturn tif tbil of tiis dfquf, or {@dodf null} if tif spfdififd
+     *         wbiting timf flbpsfs bfforf bn flfmfnt is bvbilbblf
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
      */
-    E pollLast(long timeout, TimeUnit unit)
-        throws InterruptedException;
+    E pollLbst(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption;
 
     /**
-     * Removes the first occurrence of the specified element from this deque.
-     * If the deque does not contain the element, it is unchanged.
-     * More formally, removes the first element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
-     * Returns {@code true} if this deque contained the specified element
-     * (or equivalently, if this deque changed as a result of the call).
+     * Rfmovfs tif first oddurrfndf of tif spfdififd flfmfnt from tiis dfquf.
+     * If tif dfquf dofs not dontbin tif flfmfnt, it is undibngfd.
+     * Morf formblly, rfmovfs tif first flfmfnt {@dodf f} sudi tibt
+     * {@dodf o.fqubls(f)} (if sudi bn flfmfnt fxists).
+     * Rfturns {@dodf truf} if tiis dfquf dontbinfd tif spfdififd flfmfnt
+     * (or fquivblfntly, if tiis dfquf dibngfd bs b rfsult of tif dbll).
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if an element was removed as a result of this call
-     * @throws ClassCastException if the class of the specified element
-     *         is incompatible with this deque
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
+     * @pbrbm o flfmfnt to bf rfmovfd from tiis dfquf, if prfsfnt
+     * @rfturn {@dodf truf} if bn flfmfnt wbs rfmovfd bs b rfsult of tiis dbll
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         is indompbtiblf witi tiis dfquf
+     *         (<b irff="../Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     *         (<b irff="../Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
      */
-    boolean removeFirstOccurrence(Object o);
+    boolfbn rfmovfFirstOddurrfndf(Objfdt o);
 
     /**
-     * Removes the last occurrence of the specified element from this deque.
-     * If the deque does not contain the element, it is unchanged.
-     * More formally, removes the last element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
-     * Returns {@code true} if this deque contained the specified element
-     * (or equivalently, if this deque changed as a result of the call).
+     * Rfmovfs tif lbst oddurrfndf of tif spfdififd flfmfnt from tiis dfquf.
+     * If tif dfquf dofs not dontbin tif flfmfnt, it is undibngfd.
+     * Morf formblly, rfmovfs tif lbst flfmfnt {@dodf f} sudi tibt
+     * {@dodf o.fqubls(f)} (if sudi bn flfmfnt fxists).
+     * Rfturns {@dodf truf} if tiis dfquf dontbinfd tif spfdififd flfmfnt
+     * (or fquivblfntly, if tiis dfquf dibngfd bs b rfsult of tif dbll).
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if an element was removed as a result of this call
-     * @throws ClassCastException if the class of the specified element
-     *         is incompatible with this deque
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
+     * @pbrbm o flfmfnt to bf rfmovfd from tiis dfquf, if prfsfnt
+     * @rfturn {@dodf truf} if bn flfmfnt wbs rfmovfd bs b rfsult of tiis dbll
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         is indompbtiblf witi tiis dfquf
+     *         (<b irff="../Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     *         (<b irff="../Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
      */
-    boolean removeLastOccurrence(Object o);
+    boolfbn rfmovfLbstOddurrfndf(Objfdt o);
 
-    // *** BlockingQueue methods ***
+    // *** BlodkingQufuf mftiods ***
 
     /**
-     * Inserts the specified element into the queue represented by this deque
-     * (in other words, at the tail of this deque) if it is possible to do so
-     * immediately without violating capacity restrictions, returning
-     * {@code true} upon success and throwing an
-     * {@code IllegalStateException} if no space is currently available.
-     * When using a capacity-restricted deque, it is generally preferable to
-     * use {@link #offer(Object) offer}.
+     * Insfrts tif spfdififd flfmfnt into tif qufuf rfprfsfntfd by tiis dfquf
+     * (in otifr words, bt tif tbil of tiis dfquf) if it is possiblf to do so
+     * immfdibtfly witiout violbting dbpbdity rfstridtions, rfturning
+     * {@dodf truf} upon suddfss bnd tirowing bn
+     * {@dodf IllfgblStbtfExdfption} if no spbdf is durrfntly bvbilbblf.
+     * Wifn using b dbpbdity-rfstridtfd dfquf, it is gfnfrblly prfffrbblf to
+     * usf {@link #offfr(Objfdt) offfr}.
      *
-     * <p>This method is equivalent to {@link #addLast(Object) addLast}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #bddLbst(Objfdt) bddLbst}.
      *
-     * @param e the element to add
-     * @throws IllegalStateException {@inheritDoc}
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this deque
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this deque
+     * @pbrbm f tif flfmfnt to bdd
+     * @tirows IllfgblStbtfExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis dfquf
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tif spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis dfquf
      */
-    boolean add(E e);
+    boolfbn bdd(E f);
 
     /**
-     * Inserts the specified element into the queue represented by this deque
-     * (in other words, at the tail of this deque) if it is possible to do so
-     * immediately without violating capacity restrictions, returning
-     * {@code true} upon success and {@code false} if no space is currently
-     * available.  When using a capacity-restricted deque, this method is
-     * generally preferable to the {@link #add} method, which can fail to
-     * insert an element only by throwing an exception.
+     * Insfrts tif spfdififd flfmfnt into tif qufuf rfprfsfntfd by tiis dfquf
+     * (in otifr words, bt tif tbil of tiis dfquf) if it is possiblf to do so
+     * immfdibtfly witiout violbting dbpbdity rfstridtions, rfturning
+     * {@dodf truf} upon suddfss bnd {@dodf fblsf} if no spbdf is durrfntly
+     * bvbilbblf.  Wifn using b dbpbdity-rfstridtfd dfquf, tiis mftiod is
+     * gfnfrblly prfffrbblf to tif {@link #bdd} mftiod, wiidi dbn fbil to
+     * insfrt bn flfmfnt only by tirowing bn fxdfption.
      *
-     * <p>This method is equivalent to {@link #offerLast(Object) offerLast}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #offfrLbst(Objfdt) offfrLbst}.
      *
-     * @param e the element to add
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this deque
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this deque
+     * @pbrbm f tif flfmfnt to bdd
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis dfquf
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tif spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis dfquf
      */
-    boolean offer(E e);
+    boolfbn offfr(E f);
 
     /**
-     * Inserts the specified element into the queue represented by this deque
-     * (in other words, at the tail of this deque), waiting if necessary for
-     * space to become available.
+     * Insfrts tif spfdififd flfmfnt into tif qufuf rfprfsfntfd by tiis dfquf
+     * (in otifr words, bt tif tbil of tiis dfquf), wbiting if nfdfssbry for
+     * spbdf to bfdomf bvbilbblf.
      *
-     * <p>This method is equivalent to {@link #putLast(Object) putLast}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #putLbst(Objfdt) putLbst}.
      *
-     * @param e the element to add
-     * @throws InterruptedException {@inheritDoc}
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this deque
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this deque
+     * @pbrbm f tif flfmfnt to bdd
+     * @tirows IntfrruptfdExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis dfquf
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tif spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis dfquf
      */
-    void put(E e) throws InterruptedException;
+    void put(E f) tirows IntfrruptfdExdfption;
 
     /**
-     * Inserts the specified element into the queue represented by this deque
-     * (in other words, at the tail of this deque), waiting up to the
-     * specified wait time if necessary for space to become available.
+     * Insfrts tif spfdififd flfmfnt into tif qufuf rfprfsfntfd by tiis dfquf
+     * (in otifr words, bt tif tbil of tiis dfquf), wbiting up to tif
+     * spfdififd wbit timf if nfdfssbry for spbdf to bfdomf bvbilbblf.
      *
-     * <p>This method is equivalent to
-     * {@link #offerLast(Object,long,TimeUnit) offerLast}.
+     * <p>Tiis mftiod is fquivblfnt to
+     * {@link #offfrLbst(Objfdt,long,TimfUnit) offfrLbst}.
      *
-     * @param e the element to add
-     * @return {@code true} if the element was added to this deque, else
-     *         {@code false}
-     * @throws InterruptedException {@inheritDoc}
-     * @throws ClassCastException if the class of the specified element
-     *         prevents it from being added to this deque
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException if some property of the specified
-     *         element prevents it from being added to this deque
+     * @pbrbm f tif flfmfnt to bdd
+     * @rfturn {@dodf truf} if tif flfmfnt wbs bddfd to tiis dfquf, flsf
+     *         {@dodf fblsf}
+     * @tirows IntfrruptfdExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to tiis dfquf
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption if somf propfrty of tif spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to tiis dfquf
      */
-    boolean offer(E e, long timeout, TimeUnit unit)
-        throws InterruptedException;
+    boolfbn offfr(E f, long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption;
 
     /**
-     * Retrieves and removes the head of the queue represented by this deque
-     * (in other words, the first element of this deque).
-     * This method differs from {@link #poll poll} only in that it
-     * throws an exception if this deque is empty.
+     * Rftrifvfs bnd rfmovfs tif ifbd of tif qufuf rfprfsfntfd by tiis dfquf
+     * (in otifr words, tif first flfmfnt of tiis dfquf).
+     * Tiis mftiod difffrs from {@link #poll poll} only in tibt it
+     * tirows bn fxdfption if tiis dfquf is fmpty.
      *
-     * <p>This method is equivalent to {@link #removeFirst() removeFirst}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #rfmovfFirst() rfmovfFirst}.
      *
-     * @return the head of the queue represented by this deque
-     * @throws NoSuchElementException if this deque is empty
+     * @rfturn tif ifbd of tif qufuf rfprfsfntfd by tiis dfquf
+     * @tirows NoSudiElfmfntExdfption if tiis dfquf is fmpty
      */
-    E remove();
+    E rfmovf();
 
     /**
-     * Retrieves and removes the head of the queue represented by this deque
-     * (in other words, the first element of this deque), or returns
-     * {@code null} if this deque is empty.
+     * Rftrifvfs bnd rfmovfs tif ifbd of tif qufuf rfprfsfntfd by tiis dfquf
+     * (in otifr words, tif first flfmfnt of tiis dfquf), or rfturns
+     * {@dodf null} if tiis dfquf is fmpty.
      *
-     * <p>This method is equivalent to {@link #pollFirst()}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #pollFirst()}.
      *
-     * @return the head of this deque, or {@code null} if this deque is empty
+     * @rfturn tif ifbd of tiis dfquf, or {@dodf null} if tiis dfquf is fmpty
      */
     E poll();
 
     /**
-     * Retrieves and removes the head of the queue represented by this deque
-     * (in other words, the first element of this deque), waiting if
-     * necessary until an element becomes available.
+     * Rftrifvfs bnd rfmovfs tif ifbd of tif qufuf rfprfsfntfd by tiis dfquf
+     * (in otifr words, tif first flfmfnt of tiis dfquf), wbiting if
+     * nfdfssbry until bn flfmfnt bfdomfs bvbilbblf.
      *
-     * <p>This method is equivalent to {@link #takeFirst() takeFirst}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #tbkfFirst() tbkfFirst}.
      *
-     * @return the head of this deque
-     * @throws InterruptedException if interrupted while waiting
+     * @rfturn tif ifbd of tiis dfquf
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
      */
-    E take() throws InterruptedException;
+    E tbkf() tirows IntfrruptfdExdfption;
 
     /**
-     * Retrieves and removes the head of the queue represented by this deque
-     * (in other words, the first element of this deque), waiting up to the
-     * specified wait time if necessary for an element to become available.
+     * Rftrifvfs bnd rfmovfs tif ifbd of tif qufuf rfprfsfntfd by tiis dfquf
+     * (in otifr words, tif first flfmfnt of tiis dfquf), wbiting up to tif
+     * spfdififd wbit timf if nfdfssbry for bn flfmfnt to bfdomf bvbilbblf.
      *
-     * <p>This method is equivalent to
-     * {@link #pollFirst(long,TimeUnit) pollFirst}.
+     * <p>Tiis mftiod is fquivblfnt to
+     * {@link #pollFirst(long,TimfUnit) pollFirst}.
      *
-     * @return the head of this deque, or {@code null} if the
-     *         specified waiting time elapses before an element is available
-     * @throws InterruptedException if interrupted while waiting
+     * @rfturn tif ifbd of tiis dfquf, or {@dodf null} if tif
+     *         spfdififd wbiting timf flbpsfs bfforf bn flfmfnt is bvbilbblf
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
      */
-    E poll(long timeout, TimeUnit unit)
-        throws InterruptedException;
+    E poll(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption;
 
     /**
-     * Retrieves, but does not remove, the head of the queue represented by
-     * this deque (in other words, the first element of this deque).
-     * This method differs from {@link #peek peek} only in that it throws an
-     * exception if this deque is empty.
+     * Rftrifvfs, but dofs not rfmovf, tif ifbd of tif qufuf rfprfsfntfd by
+     * tiis dfquf (in otifr words, tif first flfmfnt of tiis dfquf).
+     * Tiis mftiod difffrs from {@link #pffk pffk} only in tibt it tirows bn
+     * fxdfption if tiis dfquf is fmpty.
      *
-     * <p>This method is equivalent to {@link #getFirst() getFirst}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #gftFirst() gftFirst}.
      *
-     * @return the head of this deque
-     * @throws NoSuchElementException if this deque is empty
+     * @rfturn tif ifbd of tiis dfquf
+     * @tirows NoSudiElfmfntExdfption if tiis dfquf is fmpty
      */
-    E element();
+    E flfmfnt();
 
     /**
-     * Retrieves, but does not remove, the head of the queue represented by
-     * this deque (in other words, the first element of this deque), or
-     * returns {@code null} if this deque is empty.
+     * Rftrifvfs, but dofs not rfmovf, tif ifbd of tif qufuf rfprfsfntfd by
+     * tiis dfquf (in otifr words, tif first flfmfnt of tiis dfquf), or
+     * rfturns {@dodf null} if tiis dfquf is fmpty.
      *
-     * <p>This method is equivalent to {@link #peekFirst() peekFirst}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #pffkFirst() pffkFirst}.
      *
-     * @return the head of this deque, or {@code null} if this deque is empty
+     * @rfturn tif ifbd of tiis dfquf, or {@dodf null} if tiis dfquf is fmpty
      */
-    E peek();
+    E pffk();
 
     /**
-     * Removes the first occurrence of the specified element from this deque.
-     * If the deque does not contain the element, it is unchanged.
-     * More formally, removes the first element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
-     * Returns {@code true} if this deque contained the specified element
-     * (or equivalently, if this deque changed as a result of the call).
+     * Rfmovfs tif first oddurrfndf of tif spfdififd flfmfnt from tiis dfquf.
+     * If tif dfquf dofs not dontbin tif flfmfnt, it is undibngfd.
+     * Morf formblly, rfmovfs tif first flfmfnt {@dodf f} sudi tibt
+     * {@dodf o.fqubls(f)} (if sudi bn flfmfnt fxists).
+     * Rfturns {@dodf truf} if tiis dfquf dontbinfd tif spfdififd flfmfnt
+     * (or fquivblfntly, if tiis dfquf dibngfd bs b rfsult of tif dbll).
      *
-     * <p>This method is equivalent to
-     * {@link #removeFirstOccurrence(Object) removeFirstOccurrence}.
+     * <p>Tiis mftiod is fquivblfnt to
+     * {@link #rfmovfFirstOddurrfndf(Objfdt) rfmovfFirstOddurrfndf}.
      *
-     * @param o element to be removed from this deque, if present
-     * @return {@code true} if this deque changed as a result of the call
-     * @throws ClassCastException if the class of the specified element
-     *         is incompatible with this deque
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
+     * @pbrbm o flfmfnt to bf rfmovfd from tiis dfquf, if prfsfnt
+     * @rfturn {@dodf truf} if tiis dfquf dibngfd bs b rfsult of tif dbll
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         is indompbtiblf witi tiis dfquf
+     *         (<b irff="../Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     *         (<b irff="../Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
      */
-    boolean remove(Object o);
+    boolfbn rfmovf(Objfdt o);
 
     /**
-     * Returns {@code true} if this deque contains the specified element.
-     * More formally, returns {@code true} if and only if this deque contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * Rfturns {@dodf truf} if tiis dfquf dontbins tif spfdififd flfmfnt.
+     * Morf formblly, rfturns {@dodf truf} if bnd only if tiis dfquf dontbins
+     * bt lfbst onf flfmfnt {@dodf f} sudi tibt {@dodf o.fqubls(f)}.
      *
-     * @param o object to be checked for containment in this deque
-     * @return {@code true} if this deque contains the specified element
-     * @throws ClassCastException if the class of the specified element
-     *         is incompatible with this deque
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
-     * @throws NullPointerException if the specified element is null
-     *         (<a href="../Collection.html#optional-restrictions">optional</a>)
+     * @pbrbm o objfdt to bf difdkfd for dontbinmfnt in tiis dfquf
+     * @rfturn {@dodf truf} if tiis dfquf dontbins tif spfdififd flfmfnt
+     * @tirows ClbssCbstExdfption if tif dlbss of tif spfdififd flfmfnt
+     *         is indompbtiblf witi tiis dfquf
+     *         (<b irff="../Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     *         (<b irff="../Collfdtion.itml#optionbl-rfstridtions">optionbl</b>)
      */
-    public boolean contains(Object o);
+    publid boolfbn dontbins(Objfdt o);
 
     /**
-     * Returns the number of elements in this deque.
+     * Rfturns tif numbfr of flfmfnts in tiis dfquf.
      *
-     * @return the number of elements in this deque
+     * @rfturn tif numbfr of flfmfnts in tiis dfquf
      */
-    public int size();
+    publid int sizf();
 
     /**
-     * Returns an iterator over the elements in this deque in proper sequence.
-     * The elements will be returned in order from first (head) to last (tail).
+     * Rfturns bn itfrbtor ovfr tif flfmfnts in tiis dfquf in propfr sfqufndf.
+     * Tif flfmfnts will bf rfturnfd in ordfr from first (ifbd) to lbst (tbil).
      *
-     * @return an iterator over the elements in this deque in proper sequence
+     * @rfturn bn itfrbtor ovfr tif flfmfnts in tiis dfquf in propfr sfqufndf
      */
-    Iterator<E> iterator();
+    Itfrbtor<E> itfrbtor();
 
-    // *** Stack methods ***
+    // *** Stbdk mftiods ***
 
     /**
-     * Pushes an element onto the stack represented by this deque (in other
-     * words, at the head of this deque) if it is possible to do so
-     * immediately without violating capacity restrictions, throwing an
-     * {@code IllegalStateException} if no space is currently available.
+     * Pusifs bn flfmfnt onto tif stbdk rfprfsfntfd by tiis dfquf (in otifr
+     * words, bt tif ifbd of tiis dfquf) if it is possiblf to do so
+     * immfdibtfly witiout violbting dbpbdity rfstridtions, tirowing bn
+     * {@dodf IllfgblStbtfExdfption} if no spbdf is durrfntly bvbilbblf.
      *
-     * <p>This method is equivalent to {@link #addFirst(Object) addFirst}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #bddFirst(Objfdt) bddFirst}.
      *
-     * @throws IllegalStateException {@inheritDoc}
-     * @throws ClassCastException {@inheritDoc}
-     * @throws NullPointerException if the specified element is null
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows IllfgblStbtfExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if tif spfdififd flfmfnt is null
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    void push(E e);
+    void pusi(E f);
 }

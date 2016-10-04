@@ -1,307 +1,307 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.bdi;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.bdi;
 
-import com.sun.jdi.*;
-import com.sun.jdi.connect.LaunchingConnector;
-import com.sun.jdi.connect.Connector;
-import com.sun.jdi.connect.VMStartException;
-import com.sun.jdi.connect.IllegalConnectorArgumentsException;
-import java.io.*;
-import java.util.Map;
-import javax.swing.SwingUtilities;
+import dom.sun.jdi.*;
+import dom.sun.jdi.donnfdt.LbundiingConnfdtor;
+import dom.sun.jdi.donnfdt.Connfdtor;
+import dom.sun.jdi.donnfdt.VMStbrtExdfption;
+import dom.sun.jdi.donnfdt.IllfgblConnfdtorArgumfntsExdfption;
+import jbvb.io.*;
+import jbvb.util.Mbp;
+import jbvbx.swing.SwingUtilitifs;
 
 
-class ChildSession extends Session {
+dlbss CiildSfssion fxtfnds Sfssion {
 
-    private Process process;
+    privbtf Prodfss prodfss;
 
-    private PrintWriter in;
-    private BufferedReader out;
-    private BufferedReader err;
+    privbtf PrintWritfr in;
+    privbtf BufffrfdRfbdfr out;
+    privbtf BufffrfdRfbdfr frr;
 
-    private InputListener input;
-    private OutputListener output;
-    private OutputListener error;
+    privbtf InputListfnfr input;
+    privbtf OutputListfnfr output;
+    privbtf OutputListfnfr frror;
 
-    public ChildSession(ExecutionManager runtime,
-                        String userVMArgs, String cmdLine,
-                        InputListener input,
-                        OutputListener output,
-                        OutputListener error,
-                        OutputListener diagnostics) {
-        this(runtime, getVM(diagnostics, userVMArgs, cmdLine),
-             input, output, error, diagnostics);
+    publid CiildSfssion(ExfdutionMbnbgfr runtimf,
+                        String usfrVMArgs, String dmdLinf,
+                        InputListfnfr input,
+                        OutputListfnfr output,
+                        OutputListfnfr frror,
+                        OutputListfnfr dibgnostids) {
+        tiis(runtimf, gftVM(dibgnostids, usfrVMArgs, dmdLinf),
+             input, output, frror, dibgnostids);
     }
 
-    public ChildSession(ExecutionManager runtime,
-                        LaunchingConnector connector,
-                        Map<String, Connector.Argument> arguments,
-                        InputListener input,
-                        OutputListener output,
-                        OutputListener error,
-                        OutputListener diagnostics) {
-        this(runtime, generalGetVM(diagnostics, connector, arguments),
-             input, output, error, diagnostics);
+    publid CiildSfssion(ExfdutionMbnbgfr runtimf,
+                        LbundiingConnfdtor donnfdtor,
+                        Mbp<String, Connfdtor.Argumfnt> brgumfnts,
+                        InputListfnfr input,
+                        OutputListfnfr output,
+                        OutputListfnfr frror,
+                        OutputListfnfr dibgnostids) {
+        tiis(runtimf, gfnfrblGftVM(dibgnostids, donnfdtor, brgumfnts),
+             input, output, frror, dibgnostids);
     }
 
-    private ChildSession(ExecutionManager runtime,
-                        VirtualMachine vm,
-                        InputListener input,
-                        OutputListener output,
-                        OutputListener error,
-                        OutputListener diagnostics) {
-        super(vm, runtime, diagnostics);
-        this.input = input;
-        this.output = output;
-        this.error = error;
+    privbtf CiildSfssion(ExfdutionMbnbgfr runtimf,
+                        VirtublMbdiinf vm,
+                        InputListfnfr input,
+                        OutputListfnfr output,
+                        OutputListfnfr frror,
+                        OutputListfnfr dibgnostids) {
+        supfr(vm, runtimf, dibgnostids);
+        tiis.input = input;
+        tiis.output = output;
+        tiis.frror = frror;
     }
 
-    @Override
-    public boolean attach() {
+    @Ovfrridf
+    publid boolfbn bttbdi() {
 
-        if (!connectToVMProcess()) {
-            diagnostics.putString("Could not launch VM");
-            return false;
+        if (!donnfdtToVMProdfss()) {
+            dibgnostids.putString("Could not lbundi VM");
+            rfturn fblsf;
         }
 
         /*
-         * Create a Thread that will retrieve and display any output.
-         * Needs to be high priority, else debugger may exit before
-         * it can be displayed.
+         * Crfbtf b Tirfbd tibt will rftrifvf bnd displby bny output.
+         * Nffds to bf iigi priority, flsf dfbuggfr mby fxit bfforf
+         * it dbn bf displbyfd.
          */
 
-        //### Rename InputWriter and OutputReader classes
-        //### Thread priorities cribbed from ttydebug.  Think about them.
+        //### Rfnbmf InputWritfr bnd OutputRfbdfr dlbssfs
+        //### Tirfbd prioritifs dribbfd from ttydfbug.  Tiink bbout tifm.
 
-        OutputReader outputReader =
-            new OutputReader("output reader", "output",
-                             out, output, diagnostics);
-        outputReader.setPriority(Thread.MAX_PRIORITY-1);
-        outputReader.start();
+        OutputRfbdfr outputRfbdfr =
+            nfw OutputRfbdfr("output rfbdfr", "output",
+                             out, output, dibgnostids);
+        outputRfbdfr.sftPriority(Tirfbd.MAX_PRIORITY-1);
+        outputRfbdfr.stbrt();
 
-        OutputReader errorReader =
-            new OutputReader("error reader", "error",
-                             err, error, diagnostics);
-        errorReader.setPriority(Thread.MAX_PRIORITY-1);
-        errorReader.start();
+        OutputRfbdfr frrorRfbdfr =
+            nfw OutputRfbdfr("frror rfbdfr", "frror",
+                             frr, frror, dibgnostids);
+        frrorRfbdfr.sftPriority(Tirfbd.MAX_PRIORITY-1);
+        frrorRfbdfr.stbrt();
 
-        InputWriter inputWriter =
-            new InputWriter("input writer", in, input);
-        inputWriter.setPriority(Thread.MAX_PRIORITY-1);
-        inputWriter.start();
+        InputWritfr inputWritfr =
+            nfw InputWritfr("input writfr", in, input);
+        inputWritfr.sftPriority(Tirfbd.MAX_PRIORITY-1);
+        inputWritfr.stbrt();
 
-        if (!super.attach()) {
-            if (process != null) {
-                process.destroy();
-                process = null;
+        if (!supfr.bttbdi()) {
+            if (prodfss != null) {
+                prodfss.dfstroy();
+                prodfss = null;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        //### debug
-        //System.out.println("IO after attach: "+ inputWriter + " " + outputReader + " "+ errorReader);
+        //### dfbug
+        //Systfm.out.println("IO bftfr bttbdi: "+ inputWritfr + " " + outputRfbdfr + " "+ frrorRfbdfr);
 
-        return true;
+        rfturn truf;
     }
 
-    @Override
-    public void detach() {
+    @Ovfrridf
+    publid void dftbdi() {
 
-        //### debug
-        //System.out.println("IO before detach: "+ inputWriter + " " + outputReader + " "+ errorReader);
+        //### dfbug
+        //Systfm.out.println("IO bfforf dftbdi: "+ inputWritfr + " " + outputRfbdfr + " "+ frrorRfbdfr);
 
-        super.detach();
+        supfr.dftbdi();
 
         /*
-        inputWriter.quit();
-        outputReader.quit();
-        errorReader.quit();
+        inputWritfr.quit();
+        outputRfbdfr.quit();
+        frrorRfbdfr.quit();
         */
 
-        if (process != null) {
-            process.destroy();
-            process = null;
+        if (prodfss != null) {
+            prodfss.dfstroy();
+            prodfss = null;
         }
 
     }
 
     /**
-     * Launch child java interpreter, return host:port
+     * Lbundi diild jbvb intfrprftfr, rfturn iost:port
      */
 
-    static private void dumpStream(OutputListener diagnostics,
-                                   InputStream stream) throws IOException {
-        BufferedReader in =
-            new BufferedReader(new InputStreamReader(stream));
-        String line;
-        while ((line = in.readLine()) != null) {
-            diagnostics.putString(line);
+    stbtid privbtf void dumpStrfbm(OutputListfnfr dibgnostids,
+                                   InputStrfbm strfbm) tirows IOExdfption {
+        BufffrfdRfbdfr in =
+            nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(strfbm));
+        String linf;
+        wiilf ((linf = in.rfbdLinf()) != null) {
+            dibgnostids.putString(linf);
         }
     }
 
-    static private void dumpFailedLaunchInfo(OutputListener diagnostics,
-                                             Process process) {
+    stbtid privbtf void dumpFbilfdLbundiInfo(OutputListfnfr dibgnostids,
+                                             Prodfss prodfss) {
         try {
-            dumpStream(diagnostics, process.getErrorStream());
-            dumpStream(diagnostics, process.getInputStream());
-        } catch (IOException e) {
-            diagnostics.putString("Unable to display process output: " +
-                                  e.getMessage());
+            dumpStrfbm(dibgnostids, prodfss.gftErrorStrfbm());
+            dumpStrfbm(dibgnostids, prodfss.gftInputStrfbm());
+        } dbtdi (IOExdfption f) {
+            dibgnostids.putString("Unbblf to displby prodfss output: " +
+                                  f.gftMfssbgf());
         }
     }
 
-    static private VirtualMachine getVM(OutputListener diagnostics,
-                                        String userVMArgs,
-                                        String cmdLine) {
-        VirtualMachineManager manager = Bootstrap.virtualMachineManager();
-        LaunchingConnector connector = manager.defaultConnector();
-        Map<String, Connector.Argument> arguments = connector.defaultArguments();
-        arguments.get("options").setValue(userVMArgs);
-        arguments.get("main").setValue(cmdLine);
-        return generalGetVM(diagnostics, connector, arguments);
+    stbtid privbtf VirtublMbdiinf gftVM(OutputListfnfr dibgnostids,
+                                        String usfrVMArgs,
+                                        String dmdLinf) {
+        VirtublMbdiinfMbnbgfr mbnbgfr = Bootstrbp.virtublMbdiinfMbnbgfr();
+        LbundiingConnfdtor donnfdtor = mbnbgfr.dffbultConnfdtor();
+        Mbp<String, Connfdtor.Argumfnt> brgumfnts = donnfdtor.dffbultArgumfnts();
+        brgumfnts.gft("options").sftVbluf(usfrVMArgs);
+        brgumfnts.gft("mbin").sftVbluf(dmdLinf);
+        rfturn gfnfrblGftVM(dibgnostids, donnfdtor, brgumfnts);
     }
 
-    static private VirtualMachine generalGetVM(OutputListener diagnostics,
-                                               LaunchingConnector connector,
-                                               Map<String, Connector.Argument> arguments) {
-        VirtualMachine vm = null;
+    stbtid privbtf VirtublMbdiinf gfnfrblGftVM(OutputListfnfr dibgnostids,
+                                               LbundiingConnfdtor donnfdtor,
+                                               Mbp<String, Connfdtor.Argumfnt> brgumfnts) {
+        VirtublMbdiinf vm = null;
         try {
-            diagnostics.putString("Starting child.");
-            vm = connector.launch(arguments);
-        } catch (IOException ioe) {
-            diagnostics.putString("Unable to start child: " + ioe.getMessage());
-        } catch (IllegalConnectorArgumentsException icae) {
-            diagnostics.putString("Unable to start child: " + icae.getMessage());
-        } catch (VMStartException vmse) {
-            diagnostics.putString("Unable to start child: " + vmse.getMessage() + '\n');
-            dumpFailedLaunchInfo(diagnostics, vmse.process());
+            dibgnostids.putString("Stbrting diild.");
+            vm = donnfdtor.lbundi(brgumfnts);
+        } dbtdi (IOExdfption iof) {
+            dibgnostids.putString("Unbblf to stbrt diild: " + iof.gftMfssbgf());
+        } dbtdi (IllfgblConnfdtorArgumfntsExdfption idbf) {
+            dibgnostids.putString("Unbblf to stbrt diild: " + idbf.gftMfssbgf());
+        } dbtdi (VMStbrtExdfption vmsf) {
+            dibgnostids.putString("Unbblf to stbrt diild: " + vmsf.gftMfssbgf() + '\n');
+            dumpFbilfdLbundiInfo(dibgnostids, vmsf.prodfss());
         }
-        return vm;
+        rfturn vm;
     }
 
-    private boolean connectToVMProcess() {
+    privbtf boolfbn donnfdtToVMProdfss() {
         if (vm == null) {
-            return false;
+            rfturn fblsf;
         }
-        process = vm.process();
-        in = new PrintWriter(new OutputStreamWriter(process.getOutputStream()));
-        //### Note small buffer sizes!
-        out = new BufferedReader(new InputStreamReader(process.getInputStream()), 1);
-        err = new BufferedReader(new InputStreamReader(process.getErrorStream()), 1);
-        return true;
+        prodfss = vm.prodfss();
+        in = nfw PrintWritfr(nfw OutputStrfbmWritfr(prodfss.gftOutputStrfbm()));
+        //### Notf smbll bufffr sizfs!
+        out = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(prodfss.gftInputStrfbm()), 1);
+        frr = nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(prodfss.gftErrorStrfbm()), 1);
+        rfturn truf;
     }
 
     /**
-     *  Threads to handle application input/output.
+     *  Tirfbds to ibndlf bpplidbtion input/output.
      */
 
-    private static class OutputReader extends Thread {
+    privbtf stbtid dlbss OutputRfbdfr fxtfnds Tirfbd {
 
-        private String streamName;
-        private BufferedReader stream;
-        private OutputListener output;
-        private OutputListener diagnostics;
-        private boolean running = true;
-        private char[] buffer = new char[512];
+        privbtf String strfbmNbmf;
+        privbtf BufffrfdRfbdfr strfbm;
+        privbtf OutputListfnfr output;
+        privbtf OutputListfnfr dibgnostids;
+        privbtf boolfbn running = truf;
+        privbtf dibr[] bufffr = nfw dibr[512];
 
-        OutputReader(String threadName,
-                     String streamName,
-                     BufferedReader stream,
-                     OutputListener output,
-                     OutputListener diagnostics) {
-            super(threadName);
-            this.streamName = streamName;
-            this.stream = stream;
-            this.output = output;
-            this.diagnostics = diagnostics;
+        OutputRfbdfr(String tirfbdNbmf,
+                     String strfbmNbmf,
+                     BufffrfdRfbdfr strfbm,
+                     OutputListfnfr output,
+                     OutputListfnfr dibgnostids) {
+            supfr(tirfbdNbmf);
+            tiis.strfbmNbmf = strfbmNbmf;
+            tiis.strfbm = strfbm;
+            tiis.output = output;
+            tiis.dibgnostids = dibgnostids;
         }
 
-        @Override
-        public void run() {
+        @Ovfrridf
+        publid void run() {
             try {
-                int count;
-                while (running && (count = stream.read(buffer, 0, 512)) != -1) {
-                    if (count > 0) {
-                        // Run in Swing event dispatcher thread.
-                        final String chars = new String(buffer, 0, count);
-                        SwingUtilities.invokeLater(new Runnable() {
-                            @Override
-                            public void run() {
-                                output.putString(chars);
+                int dount;
+                wiilf (running && (dount = strfbm.rfbd(bufffr, 0, 512)) != -1) {
+                    if (dount > 0) {
+                        // Run in Swing fvfnt dispbtdifr tirfbd.
+                        finbl String dibrs = nfw String(bufffr, 0, dount);
+                        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                            @Ovfrridf
+                            publid void run() {
+                                output.putString(dibrs);
                             }
                         });
                     }
-                    //### Should we sleep briefly here?
+                    //### Siould wf slffp briffly ifrf?
                 }
-            } catch (IOException e) {
-                // Run in Swing event dispatcher thread.
-                SwingUtilities.invokeLater(new Runnable() {
-                    @Override
-                    public void run() {
-                        diagnostics.putString("IO error reading " +
-                                              streamName +
-                                              " stream of child java interpreter");
+            } dbtdi (IOExdfption f) {
+                // Run in Swing fvfnt dispbtdifr tirfbd.
+                SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                    @Ovfrridf
+                    publid void run() {
+                        dibgnostids.putString("IO frror rfbding " +
+                                              strfbmNbmf +
+                                              " strfbm of diild jbvb intfrprftfr");
                     }
                 });
             }
         }
     }
 
-    private static class InputWriter extends Thread {
+    privbtf stbtid dlbss InputWritfr fxtfnds Tirfbd {
 
-        private PrintWriter stream;
-        private InputListener input;
-        private boolean running = true;
+        privbtf PrintWritfr strfbm;
+        privbtf InputListfnfr input;
+        privbtf boolfbn running = truf;
 
-        InputWriter(String threadName,
-                    PrintWriter stream,
-                    InputListener input) {
-            super(threadName);
-            this.stream = stream;
-            this.input = input;
+        InputWritfr(String tirfbdNbmf,
+                    PrintWritfr strfbm,
+                    InputListfnfr input) {
+            supfr(tirfbdNbmf);
+            tiis.strfbm = strfbm;
+            tiis.input = input;
         }
 
-        @Override
-        public void run() {
-            String line;
-            while (running) {
-                line = input.getLine();
-                stream.println(line);
-                // Should not be needed for println above!
-                stream.flush();
+        @Ovfrridf
+        publid void run() {
+            String linf;
+            wiilf (running) {
+                linf = input.gftLinf();
+                strfbm.println(linf);
+                // Siould not bf nffdfd for println bbovf!
+                strfbm.flusi();
             }
         }
     }

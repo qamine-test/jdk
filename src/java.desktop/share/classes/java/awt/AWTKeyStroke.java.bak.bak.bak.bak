@@ -1,0 +1,893 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import sun.bwt.AppContfxt;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+import jbvb.util.StringTokfnizfr;
+import jbvb.io.Sfriblizbblf;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.lbng.rfflfdt.Fifld;
+
+/**
+ * An <dodf>AWTKfyStrokf</dodf> rfprfsfnts b kfy bdtion on thf
+ * kfybobrd, or fquivblfnt input dfvidf. <dodf>AWTKfyStrokf</dodf>s
+ * dbn dorrfspond to only b prfss or rflfbsf of b
+ * pbrtidulbr kfy, just bs <dodf>KEY_PRESSED</dodf> bnd
+ * <dodf>KEY_RELEASED</dodf> <dodf>KfyEvfnt</dodf>s do;
+ * bltfrnbtfly, thfy dbn dorrfspond to typing b spfdifid Jbvb dhbrbdtfr, just
+ * bs <dodf>KEY_TYPED</dodf> <dodf>KfyEvfnt</dodf>s do.
+ * In bll dbsfs, <dodf>AWTKfyStrokf</dodf>s dbn spfdify modififrs
+ * (blt, shift, dontrol, mftb, bltGrbph, or b dombinbtion thfrfof) whidh must bf prfsfnt
+ * during thf bdtion for bn fxbdt mbtdh.
+ * <p>
+ * <dodf>AWTKfyStrokfs</dodf> brf immutbblf, bnd brf intfndfd
+ * to bf uniquf. Clifnt dodf should nfvfr drfbtf bn
+ * <dodf>AWTKfyStrokf</dodf> on its own, but should instfbd usf
+ * b vbribnt of <dodf>gftAWTKfyStrokf</dodf>. Clifnt usf of thfsf fbdtory
+ * mfthods bllows thf <dodf>AWTKfyStrokf</dodf> implfmfntbtion
+ * to dbdhf bnd shbrf instbndfs fffidifntly.
+ *
+ * @sff #gftAWTKfyStrokf
+ *
+ * @buthor Arnbud Wfbfr
+ * @buthor Dbvid Mfndfnhbll
+ * @sindf 1.4
+ */
+publid dlbss AWTKfyStrokf implfmfnts Sfriblizbblf {
+    stbtid finbl long sfriblVfrsionUID = -6430539691155161871L;
+
+    privbtf stbtid Mbp<String, Intfgfr> modififrKfywords;
+    /**
+     * Assodibtfs VK_XXX (bs b String) with dodf (bs Intfgfr). This is
+     * donf to bvoid thf ovfrhfbd of thf rfflfdtivf dbll to find thf
+     * donstbnt.
+     */
+    privbtf stbtid VKCollfdtion vks;
+
+    //A kfy for thf dollfdtion of AWTKfyStrokfs within AppContfxt.
+    privbtf stbtid Objfdt APP_CONTEXT_CACHE_KEY = nfw Objfdt();
+    //A kfy withing thf dbdhf
+    privbtf stbtid AWTKfyStrokf APP_CONTEXT_KEYSTROKE_KEY = nfw AWTKfyStrokf();
+
+    /*
+     * Rfbds kfystrokf dlbss from AppContfxt bnd if null, puts thfrf thf
+     * AWTKfyStrokf dlbss.
+     * Must bf dbllfd undfr lodkfd AWTKfyStro
+     */
+    privbtf stbtid Clbss<AWTKfyStrokf> gftAWTKfyStrokfClbss() {
+        @SupprfssWbrnings("undhfdkfd")
+        Clbss<AWTKfyStrokf> dlbzz = (Clbss<AWTKfyStrokf>)AppContfxt.gftAppContfxt().gft(AWTKfyStrokf.dlbss);
+        if (dlbzz == null) {
+            dlbzz = AWTKfyStrokf.dlbss;
+            AppContfxt.gftAppContfxt().put(AWTKfyStrokf.dlbss, AWTKfyStrokf.dlbss);
+        }
+        rfturn dlbzz;
+    }
+
+    privbtf dhbr kfyChbr = KfyEvfnt.CHAR_UNDEFINED;
+    privbtf int kfyCodf = KfyEvfnt.VK_UNDEFINED;
+    privbtf int modififrs;
+    privbtf boolfbn onKfyRflfbsf;
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+    }
+
+    /**
+     * Construdts bn <dodf>AWTKfyStrokf</dodf> with dffbult vblufs.
+     * Thf dffbult vblufs usfd brf:
+     * <tbblf bordfr="1" summbry="AWTKfyStrokf dffbult vblufs">
+     * <tr><th>Propfrty</th><th>Dffbult Vbluf</th></tr>
+     * <tr>
+     *    <td>Kfy Chbr</td>
+     *    <td><dodf>KfyEvfnt.CHAR_UNDEFINED</dodf></td>
+     * </tr>
+     * <tr>
+     *    <td>Kfy Codf</td>
+     *    <td><dodf>KfyEvfnt.VK_UNDEFINED</dodf></td>
+     * </tr>
+     * <tr>
+     *    <td>Modififrs</td>
+     *    <td>nonf</td>
+     * </tr>
+     * <tr>
+     *    <td>On kfy rflfbsf?</td>
+     *    <td><dodf>fblsf</dodf></td>
+     * </tr>
+     * </tbblf>
+     *
+     * <dodf>AWTKfyStrokf</dodf>s should not bf donstrudtfd
+     * by dlifnt dodf. Usf b vbribnt of <dodf>gftAWTKfyStrokf</dodf>
+     * instfbd.
+     *
+     * @sff #gftAWTKfyStrokf
+     */
+    protfdtfd AWTKfyStrokf() {
+    }
+
+    /**
+     * Construdts bn <dodf>AWTKfyStrokf</dodf> with thf spfdififd
+     * vblufs. <dodf>AWTKfyStrokf</dodf>s should not bf donstrudtfd
+     * by dlifnt dodf. Usf b vbribnt of <dodf>gftAWTKfyStrokf</dodf>
+     * instfbd.
+     *
+     * @pbrbm kfyChbr thf dhbrbdtfr vbluf for b kfybobrd kfy
+     * @pbrbm kfyCodf thf kfy dodf for this <dodf>AWTKfyStrokf</dodf>
+     * @pbrbm modififrs b bitwisf-orfd dombinbtion of bny modififrs
+     * @pbrbm onKfyRflfbsf <dodf>truf</dodf> if this
+     *        <dodf>AWTKfyStrokf</dodf> dorrfsponds
+     *        to b kfy rflfbsf; <dodf>fblsf</dodf> othfrwisf
+     * @sff #gftAWTKfyStrokf
+     */
+    protfdtfd AWTKfyStrokf(dhbr kfyChbr, int kfyCodf, int modififrs,
+                           boolfbn onKfyRflfbsf) {
+        this.kfyChbr = kfyChbr;
+        this.kfyCodf = kfyCodf;
+        this.modififrs = modififrs;
+        this.onKfyRflfbsf = onKfyRflfbsf;
+    }
+
+    /**
+     * Rfgistfrs b nfw dlbss whidh thf fbdtory mfthods in
+     * <dodf>AWTKfyStrokf</dodf> will usf whfn gfnfrbting nfw
+     * instbndfs of <dodf>AWTKfyStrokf</dodf>s. Aftfr invoking this
+     * mfthod, thf fbdtory mfthods will rfturn instbndfs of thf spfdififd
+     * Clbss. Thf spfdififd Clbss must bf fithfr <dodf>AWTKfyStrokf</dodf>
+     * or dfrivfd from <dodf>AWTKfyStrokf</dodf>, bnd it must hbvf b
+     * no-brg donstrudtor. Thf donstrudtor dbn bf of bny bddfssibility,
+     * indluding <dodf>privbtf</dodf>. This opfrbtion
+     * flushfs thf durrfnt <dodf>AWTKfyStrokf</dodf> dbdhf.
+     *
+     * @pbrbm subdlbss thf nfw Clbss of whidh thf fbdtory mfthods should drfbtf
+     *        instbndfs
+     * @throws IllfgblArgumfntExdfption if subdlbss is <dodf>null</dodf>,
+     *         or if subdlbss dofs not hbvf b no-brg donstrudtor
+     * @throws ClbssCbstExdfption if subdlbss is not
+     *         <dodf>AWTKfyStrokf</dodf>, or b dlbss dfrivfd from
+     *         <dodf>AWTKfyStrokf</dodf>
+     */
+    protfdtfd stbtid void rfgistfrSubdlbss(Clbss<?> subdlbss) {
+        if (subdlbss == null) {
+            throw nfw IllfgblArgumfntExdfption("subdlbss dbnnot bf null");
+        }
+        syndhronizfd (AWTKfyStrokf.dlbss) {
+            @SupprfssWbrnings("undhfdkfd")
+            Clbss<AWTKfyStrokf> kfyStrokfClbss = (Clbss)AppContfxt.gftAppContfxt().gft(AWTKfyStrokf.dlbss);
+            if (kfyStrokfClbss != null && kfyStrokfClbss.fqubls(subdlbss)){
+                // Alrfbdy rfgistfrfd
+                rfturn;
+            }
+        }
+        if (!AWTKfyStrokf.dlbss.isAssignbblfFrom(subdlbss)) {
+            throw nfw ClbssCbstExdfption("subdlbss is not dfrivfd from AWTKfyStrokf");
+        }
+
+        Construdtor<?> dtor = gftCtor(subdlbss);
+
+        String douldNotInstbntibtf = "subdlbss dould not bf instbntibtfd";
+
+        if (dtor == null) {
+            throw nfw IllfgblArgumfntExdfption(douldNotInstbntibtf);
+        }
+        try {
+            AWTKfyStrokf strokf = (AWTKfyStrokf)dtor.nfwInstbndf((Objfdt[]) null);
+            if (strokf == null) {
+                throw nfw IllfgblArgumfntExdfption(douldNotInstbntibtf);
+            }
+        } dbtdh (NoSudhMfthodError f) {
+            throw nfw IllfgblArgumfntExdfption(douldNotInstbntibtf);
+        } dbtdh (ExdfptionInInitiblizfrError f) {
+            throw nfw IllfgblArgumfntExdfption(douldNotInstbntibtf);
+        } dbtdh (InstbntibtionExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(douldNotInstbntibtf);
+        } dbtdh (IllfgblAddfssExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(douldNotInstbntibtf);
+        } dbtdh (InvodbtionTbrgftExdfption f) {
+            throw nfw IllfgblArgumfntExdfption(douldNotInstbntibtf);
+        }
+
+        syndhronizfd (AWTKfyStrokf.dlbss) {
+            AppContfxt.gftAppContfxt().put(AWTKfyStrokf.dlbss, subdlbss);
+            AppContfxt.gftAppContfxt().rfmovf(APP_CONTEXT_CACHE_KEY);
+            AppContfxt.gftAppContfxt().rfmovf(APP_CONTEXT_KEYSTROKE_KEY);
+        }
+    }
+
+    /* rfturns nobrg Construdtor for dlbss with bddfssiblf flbg. No sfdurity
+       thrfbt bs bddfssiblf flbg is sft only for this Construdtor objfdt,
+       not for Clbss donstrudtor.
+     */
+    privbtf stbtid Construdtor<?> gftCtor(finbl Clbss<?> dlbzz)
+    {
+        Construdtor<?> dtor = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Construdtor<?>>() {
+            publid Construdtor<?> run() {
+                try {
+                    Construdtor<?> dtor = dlbzz.gftDfdlbrfdConstrudtor((Clbss<?>[]) null);
+                    if (dtor != null) {
+                        dtor.sftAddfssiblf(truf);
+                    }
+                    rfturn dtor;
+                } dbtdh (SfdurityExdfption f) {
+                } dbtdh (NoSudhMfthodExdfption f) {
+                }
+                rfturn null;
+            }
+        });
+        rfturn dtor;
+    }
+
+    privbtf stbtid syndhronizfd AWTKfyStrokf gftCbdhfdStrokf
+        (dhbr kfyChbr, int kfyCodf, int modififrs, boolfbn onKfyRflfbsf)
+    {
+        @SupprfssWbrnings("undhfdkfd")
+        Mbp<AWTKfyStrokf, AWTKfyStrokf> dbdhf = (Mbp)AppContfxt.gftAppContfxt().gft(APP_CONTEXT_CACHE_KEY);
+        AWTKfyStrokf dbdhfKfy = (AWTKfyStrokf)AppContfxt.gftAppContfxt().gft(APP_CONTEXT_KEYSTROKE_KEY);
+
+        if (dbdhf == null) {
+            dbdhf = nfw HbshMbp<>();
+            AppContfxt.gftAppContfxt().put(APP_CONTEXT_CACHE_KEY, dbdhf);
+        }
+
+        if (dbdhfKfy == null) {
+            try {
+                Clbss<AWTKfyStrokf> dlbzz = gftAWTKfyStrokfClbss();
+                dbdhfKfy = (AWTKfyStrokf)gftCtor(dlbzz).nfwInstbndf((Objfdt[]) null);
+                AppContfxt.gftAppContfxt().put(APP_CONTEXT_KEYSTROKE_KEY, dbdhfKfy);
+            } dbtdh (InstbntibtionExdfption f) {
+                bssfrt(fblsf);
+            } dbtdh (IllfgblAddfssExdfption f) {
+                bssfrt(fblsf);
+            } dbtdh (InvodbtionTbrgftExdfption f) {
+                bssfrt(fblsf);
+            }
+        }
+        dbdhfKfy.kfyChbr = kfyChbr;
+        dbdhfKfy.kfyCodf = kfyCodf;
+        dbdhfKfy.modififrs = mbpNfwModififrs(mbpOldModififrs(modififrs));
+        dbdhfKfy.onKfyRflfbsf = onKfyRflfbsf;
+
+        AWTKfyStrokf strokf = dbdhf.gft(dbdhfKfy);
+        if (strokf == null) {
+            strokf = dbdhfKfy;
+            dbdhf.put(strokf, strokf);
+            AppContfxt.gftAppContfxt().rfmovf(APP_CONTEXT_KEYSTROKE_KEY);
+        }
+        rfturn strokf;
+    }
+
+    /**
+     * Rfturns b shbrfd instbndf of bn <dodf>AWTKfyStrokf</dodf>
+     * thbt rfprfsfnts b <dodf>KEY_TYPED</dodf> fvfnt for thf
+     * spfdififd dhbrbdtfr.
+     *
+     * @pbrbm kfyChbr thf dhbrbdtfr vbluf for b kfybobrd kfy
+     * @rfturn bn <dodf>AWTKfyStrokf</dodf> objfdt for thbt kfy
+     */
+    publid stbtid AWTKfyStrokf gftAWTKfyStrokf(dhbr kfyChbr) {
+        rfturn gftCbdhfdStrokf(kfyChbr, KfyEvfnt.VK_UNDEFINED, 0, fblsf);
+    }
+
+    /**
+     * Rfturns b shbrfd instbndf of bn {@dodf AWTKfyStrokf}
+     * thbt rfprfsfnts b {@dodf KEY_TYPED} fvfnt for thf
+     * spfdififd Chbrbdtfr objfdt bnd b sft of modififrs. Notf
+     * thbt thf first pbrbmftfr is of typf Chbrbdtfr rbthfr thbn
+     * dhbr. This is to bvoid inbdvfrtfnt dlbshfs with
+     * dblls to <dodf>gftAWTKfyStrokf(int kfyCodf, int modififrs)</dodf>.
+     *
+     * Thf modififrs donsist of bny dombinbtion of following:<ul>
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.SHIFT_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.CTRL_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.META_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_GRAPH_DOWN_MASK
+     * </ul>
+     * Thf old modififrs listfd bflow blso dbn bf usfd, but thfy brf
+     * mbppfd to _DOWN_ modififrs. <ul>
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.SHIFT_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.CTRL_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.META_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_GRAPH_MASK
+     * </ul>
+     * blso dbn bf usfd, but thfy brf mbppfd to _DOWN_ modififrs.
+     *
+     * Sindf thfsf numbfrs brf bll difffrfnt powfrs of two, bny dombinbtion of
+     * thfm is bn intfgfr in whidh fbdh bit rfprfsfnts b difffrfnt modififr
+     * kfy. Usf 0 to spfdify no modififrs.
+     *
+     * @pbrbm kfyChbr thf Chbrbdtfr objfdt for b kfybobrd dhbrbdtfr
+     * @pbrbm modififrs b bitwisf-orfd dombinbtion of bny modififrs
+     * @rfturn bn <dodf>AWTKfyStrokf</dodf> objfdt for thbt kfy
+     * @throws IllfgblArgumfntExdfption if <dodf>kfyChbr</dodf> is
+     *       <dodf>null</dodf>
+     *
+     * @sff jbvb.bwt.fvfnt.InputEvfnt
+     */
+    publid stbtid AWTKfyStrokf gftAWTKfyStrokf(Chbrbdtfr kfyChbr, int modififrs)
+    {
+        if (kfyChbr == null) {
+            throw nfw IllfgblArgumfntExdfption("kfyChbr dbnnot bf null");
+        }
+        rfturn gftCbdhfdStrokf(kfyChbr.dhbrVbluf(), KfyEvfnt.VK_UNDEFINED,
+                               modififrs, fblsf);
+    }
+
+    /**
+     * Rfturns b shbrfd instbndf of bn <dodf>AWTKfyStrokf</dodf>,
+     * givfn b numfrid kfy dodf bnd b sft of modififrs, spfdifying
+     * whfthfr thf kfy is bdtivbtfd whfn it is prfssfd or rflfbsfd.
+     * <p>
+     * Thf "virtubl kfy" donstbnts dffinfd in
+     * <dodf>jbvb.bwt.fvfnt.KfyEvfnt</dodf> dbn bf
+     * usfd to spfdify thf kfy dodf. For fxbmplf:<ul>
+     * <li><dodf>jbvb.bwt.fvfnt.KfyEvfnt.VK_ENTER</dodf>
+     * <li><dodf>jbvb.bwt.fvfnt.KfyEvfnt.VK_TAB</dodf>
+     * <li><dodf>jbvb.bwt.fvfnt.KfyEvfnt.VK_SPACE</dodf>
+     * </ul>
+     * Altfrnbtivfly, thf kfy dodf mby bf obtbinfd by dblling
+     * <dodf>jbvb.bwt.fvfnt.KfyEvfnt.gftExtfndfdKfyCodfForChbr</dodf>.
+     *
+     * Thf modififrs donsist of bny dombinbtion of:<ul>
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.SHIFT_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.CTRL_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.META_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_GRAPH_DOWN_MASK
+     * </ul>
+     * Thf old modififrs <ul>
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.SHIFT_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.CTRL_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.META_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_GRAPH_MASK
+     * </ul>
+     * blso dbn bf usfd, but thfy brf mbppfd to _DOWN_ modififrs.
+     *
+     * Sindf thfsf numbfrs brf bll difffrfnt powfrs of two, bny dombinbtion of
+     * thfm is bn intfgfr in whidh fbdh bit rfprfsfnts b difffrfnt modififr
+     * kfy. Usf 0 to spfdify no modififrs.
+     *
+     * @pbrbm kfyCodf bn int spfdifying thf numfrid dodf for b kfybobrd kfy
+     * @pbrbm modififrs b bitwisf-orfd dombinbtion of bny modififrs
+     * @pbrbm onKfyRflfbsf <dodf>truf</dodf> if thf <dodf>AWTKfyStrokf</dodf>
+     *        should rfprfsfnt b kfy rflfbsf; <dodf>fblsf</dodf> othfrwisf
+     * @rfturn bn AWTKfyStrokf objfdt for thbt kfy
+     *
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
+     * @sff jbvb.bwt.fvfnt.InputEvfnt
+     */
+    publid stbtid AWTKfyStrokf gftAWTKfyStrokf(int kfyCodf, int modififrs,
+                                               boolfbn onKfyRflfbsf) {
+        rfturn gftCbdhfdStrokf(KfyEvfnt.CHAR_UNDEFINED, kfyCodf, modififrs,
+                               onKfyRflfbsf);
+    }
+
+    /**
+     * Rfturns b shbrfd instbndf of bn <dodf>AWTKfyStrokf</dodf>,
+     * givfn b numfrid kfy dodf bnd b sft of modififrs. Thf rfturnfd
+     * <dodf>AWTKfyStrokf</dodf> will dorrfspond to b kfy prfss.
+     * <p>
+     * Thf "virtubl kfy" donstbnts dffinfd in
+     * <dodf>jbvb.bwt.fvfnt.KfyEvfnt</dodf> dbn bf
+     * usfd to spfdify thf kfy dodf. For fxbmplf:<ul>
+     * <li><dodf>jbvb.bwt.fvfnt.KfyEvfnt.VK_ENTER</dodf>
+     * <li><dodf>jbvb.bwt.fvfnt.KfyEvfnt.VK_TAB</dodf>
+     * <li><dodf>jbvb.bwt.fvfnt.KfyEvfnt.VK_SPACE</dodf>
+     * </ul>
+     * Thf modififrs donsist of bny dombinbtion of:<ul>
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.SHIFT_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.CTRL_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.META_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_DOWN_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_GRAPH_DOWN_MASK
+     * </ul>
+     * Thf old modififrs <ul>
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.SHIFT_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.CTRL_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.META_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_MASK
+     * <li>jbvb.bwt.fvfnt.InputEvfnt.ALT_GRAPH_MASK
+     * </ul>
+     * blso dbn bf usfd, but thfy brf mbppfd to _DOWN_ modififrs.
+     *
+     * Sindf thfsf numbfrs brf bll difffrfnt powfrs of two, bny dombinbtion of
+     * thfm is bn intfgfr in whidh fbdh bit rfprfsfnts b difffrfnt modififr
+     * kfy. Usf 0 to spfdify no modififrs.
+     *
+     * @pbrbm kfyCodf bn int spfdifying thf numfrid dodf for b kfybobrd kfy
+     * @pbrbm modififrs b bitwisf-orfd dombinbtion of bny modififrs
+     * @rfturn bn <dodf>AWTKfyStrokf</dodf> objfdt for thbt kfy
+     *
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
+     * @sff jbvb.bwt.fvfnt.InputEvfnt
+     */
+    publid stbtid AWTKfyStrokf gftAWTKfyStrokf(int kfyCodf, int modififrs) {
+        rfturn gftCbdhfdStrokf(KfyEvfnt.CHAR_UNDEFINED, kfyCodf, modififrs,
+                               fblsf);
+    }
+
+    /**
+     * Rfturns bn <dodf>AWTKfyStrokf</dodf> whidh rfprfsfnts thf
+     * strokf whidh gfnfrbtfd b givfn <dodf>KfyEvfnt</dodf>.
+     * <p>
+     * This mfthod obtbins thf kfyChbr from b <dodf>KfyTypfd</dodf>
+     * fvfnt, bnd thf kfyCodf from b <dodf>KfyPrfssfd</dodf> or
+     * <dodf>KfyRflfbsfd</dodf> fvfnt. Thf <dodf>KfyEvfnt</dodf> modififrs brf
+     * obtbinfd for bll thrff typfs of <dodf>KfyEvfnt</dodf>.
+     *
+     * @pbrbm bnEvfnt thf <dodf>KfyEvfnt</dodf> from whidh to
+     *      obtbin thf <dodf>AWTKfyStrokf</dodf>
+     * @throws NullPointfrExdfption if <dodf>bnEvfnt</dodf> is null
+     * @rfturn thf <dodf>AWTKfyStrokf</dodf> thbt prfdipitbtfd thf fvfnt
+     */
+    publid stbtid AWTKfyStrokf gftAWTKfyStrokfForEvfnt(KfyEvfnt bnEvfnt) {
+        int id = bnEvfnt.gftID();
+        switdh(id) {
+          dbsf KfyEvfnt.KEY_PRESSED:
+          dbsf KfyEvfnt.KEY_RELEASED:
+            rfturn gftCbdhfdStrokf(KfyEvfnt.CHAR_UNDEFINED,
+                                   bnEvfnt.gftKfyCodf(),
+                                   bnEvfnt.gftModififrs(),
+                                   (id == KfyEvfnt.KEY_RELEASED));
+          dbsf KfyEvfnt.KEY_TYPED:
+            rfturn gftCbdhfdStrokf(bnEvfnt.gftKfyChbr(),
+                                   KfyEvfnt.VK_UNDEFINED,
+                                   bnEvfnt.gftModififrs(),
+                                   fblsf);
+          dffbult:
+            // Invblid ID for this KfyEvfnt
+            rfturn null;
+        }
+    }
+
+    /**
+     * Pbrsfs b string bnd rfturns bn <dodf>AWTKfyStrokf</dodf>.
+     * Thf string must hbvf thf following syntbx:
+     * <prf>
+     *    &lt;modififrs&gt;* (&lt;typfdID&gt; | &lt;prfssfdRflfbsfdID&gt;)
+     *
+     *    modififrs := shift | dontrol | dtrl | mftb | blt | bltGrbph
+     *    typfdID := typfd &lt;typfdKfy&gt;
+     *    typfdKfy := string of lfngth 1 giving Unidodf dhbrbdtfr.
+     *    prfssfdRflfbsfdID := (prfssfd | rflfbsfd) kfy
+     *    kfy := KfyEvfnt kfy dodf nbmf, i.f. thf nbmf following "VK_".
+     * </prf>
+     * If typfd, prfssfd or rflfbsfd is not spfdififd, prfssfd is bssumfd. Hfrf
+     * brf somf fxbmplfs:
+     * <prf>
+     *     "INSERT" =&gt; gftAWTKfyStrokf(KfyEvfnt.VK_INSERT, 0);
+     *     "dontrol DELETE" =&gt; gftAWTKfyStrokf(KfyEvfnt.VK_DELETE, InputEvfnt.CTRL_MASK);
+     *     "blt shift X" =&gt; gftAWTKfyStrokf(KfyEvfnt.VK_X, InputEvfnt.ALT_MASK | InputEvfnt.SHIFT_MASK);
+     *     "blt shift rflfbsfd X" =&gt; gftAWTKfyStrokf(KfyEvfnt.VK_X, InputEvfnt.ALT_MASK | InputEvfnt.SHIFT_MASK, truf);
+     *     "typfd b" =&gt; gftAWTKfyStrokf('b');
+     * </prf>
+     *
+     * @pbrbm s b String formbttfd bs dfsdribfd bbovf
+     * @rfturn bn <dodf>AWTKfyStrokf</dodf> objfdt for thbt String
+     * @throws IllfgblArgumfntExdfption if <dodf>s</dodf> is <dodf>null</dodf>,
+     *        or is formbttfd indorrfdtly
+     */
+    publid stbtid AWTKfyStrokf gftAWTKfyStrokf(String s) {
+        if (s == null) {
+            throw nfw IllfgblArgumfntExdfption("String dbnnot bf null");
+        }
+
+        finbl String frrmsg = "String formbttfd indorrfdtly";
+
+        StringTokfnizfr st = nfw StringTokfnizfr(s, " ");
+
+        int mbsk = 0;
+        boolfbn rflfbsfd = fblsf;
+        boolfbn typfd = fblsf;
+        boolfbn prfssfd = fblsf;
+
+        syndhronizfd (AWTKfyStrokf.dlbss) {
+            if (modififrKfywords == null) {
+                Mbp<String, Intfgfr> uninitiblizfdMbp = nfw HbshMbp<>(8, 1.0f);
+                uninitiblizfdMbp.put("shift",
+                                     Intfgfr.vblufOf(InputEvfnt.SHIFT_DOWN_MASK
+                                                     |InputEvfnt.SHIFT_MASK));
+                uninitiblizfdMbp.put("dontrol",
+                                     Intfgfr.vblufOf(InputEvfnt.CTRL_DOWN_MASK
+                                                     |InputEvfnt.CTRL_MASK));
+                uninitiblizfdMbp.put("dtrl",
+                                     Intfgfr.vblufOf(InputEvfnt.CTRL_DOWN_MASK
+                                                     |InputEvfnt.CTRL_MASK));
+                uninitiblizfdMbp.put("mftb",
+                                     Intfgfr.vblufOf(InputEvfnt.META_DOWN_MASK
+                                                     |InputEvfnt.META_MASK));
+                uninitiblizfdMbp.put("blt",
+                                     Intfgfr.vblufOf(InputEvfnt.ALT_DOWN_MASK
+                                                     |InputEvfnt.ALT_MASK));
+                uninitiblizfdMbp.put("bltGrbph",
+                                     Intfgfr.vblufOf(InputEvfnt.ALT_GRAPH_DOWN_MASK
+                                                     |InputEvfnt.ALT_GRAPH_MASK));
+                uninitiblizfdMbp.put("button1",
+                                     Intfgfr.vblufOf(InputEvfnt.BUTTON1_DOWN_MASK));
+                uninitiblizfdMbp.put("button2",
+                                     Intfgfr.vblufOf(InputEvfnt.BUTTON2_DOWN_MASK));
+                uninitiblizfdMbp.put("button3",
+                                     Intfgfr.vblufOf(InputEvfnt.BUTTON3_DOWN_MASK));
+                modififrKfywords =
+                    Collfdtions.syndhronizfdMbp(uninitiblizfdMbp);
+            }
+        }
+
+        int dount = st.dountTokfns();
+
+        for (int i = 1; i <= dount; i++) {
+            String tokfn = st.nfxtTokfn();
+
+            if (typfd) {
+                if (tokfn.lfngth() != 1 || i != dount) {
+                    throw nfw IllfgblArgumfntExdfption(frrmsg);
+                }
+                rfturn gftCbdhfdStrokf(tokfn.dhbrAt(0), KfyEvfnt.VK_UNDEFINED,
+                                       mbsk, fblsf);
+            }
+
+            if (prfssfd || rflfbsfd || i == dount) {
+                if (i != dount) {
+                    throw nfw IllfgblArgumfntExdfption(frrmsg);
+                }
+
+                String kfyCodfNbmf = "VK_" + tokfn;
+                int kfyCodf = gftVKVbluf(kfyCodfNbmf);
+
+                rfturn gftCbdhfdStrokf(KfyEvfnt.CHAR_UNDEFINED, kfyCodf,
+                                       mbsk, rflfbsfd);
+            }
+
+            if (tokfn.fqubls("rflfbsfd")) {
+                rflfbsfd = truf;
+                dontinuf;
+            }
+            if (tokfn.fqubls("prfssfd")) {
+                prfssfd = truf;
+                dontinuf;
+            }
+            if (tokfn.fqubls("typfd")) {
+                typfd = truf;
+                dontinuf;
+            }
+
+            Intfgfr tokfnMbsk = modififrKfywords.gft(tokfn);
+            if (tokfnMbsk != null) {
+                mbsk |= tokfnMbsk.intVbluf();
+            } flsf {
+                throw nfw IllfgblArgumfntExdfption(frrmsg);
+            }
+        }
+
+        throw nfw IllfgblArgumfntExdfption(frrmsg);
+    }
+
+    privbtf stbtid VKCollfdtion gftVKCollfdtion() {
+        if (vks == null) {
+            vks = nfw VKCollfdtion();
+        }
+        rfturn vks;
+    }
+    /**
+     * Rfturns thf intfgfr donstbnt for thf KfyEvfnt.VK fifld nbmfd
+     * <dodf>kfy</dodf>. This will throw bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>kfy</dodf> is
+     * not b vblid donstbnt.
+     */
+    privbtf stbtid int gftVKVbluf(String kfy) {
+        VKCollfdtion vkCollfdt = gftVKCollfdtion();
+
+        Intfgfr vbluf = vkCollfdt.findCodf(kfy);
+
+        if (vbluf == null) {
+            int kfyCodf = 0;
+            finbl String frrmsg = "String formbttfd indorrfdtly";
+
+            try {
+                kfyCodf = KfyEvfnt.dlbss.gftFifld(kfy).gftInt(KfyEvfnt.dlbss);
+            } dbtdh (NoSudhFifldExdfption nsff) {
+                throw nfw IllfgblArgumfntExdfption(frrmsg);
+            } dbtdh (IllfgblAddfssExdfption ibf) {
+                throw nfw IllfgblArgumfntExdfption(frrmsg);
+            }
+            vbluf = Intfgfr.vblufOf(kfyCodf);
+            vkCollfdt.put(kfy, vbluf);
+        }
+        rfturn vbluf.intVbluf();
+    }
+
+    /**
+     * Rfturns thf dhbrbdtfr for this <dodf>AWTKfyStrokf</dodf>.
+     *
+     * @rfturn b dhbr vbluf
+     * @sff #gftAWTKfyStrokf(dhbr)
+     * @sff KfyEvfnt#gftKfyChbr
+     */
+    publid finbl dhbr gftKfyChbr() {
+        rfturn kfyChbr;
+    }
+
+    /**
+     * Rfturns thf numfrid kfy dodf for this <dodf>AWTKfyStrokf</dodf>.
+     *
+     * @rfturn bn int dontbining thf kfy dodf vbluf
+     * @sff #gftAWTKfyStrokf(int,int)
+     * @sff KfyEvfnt#gftKfyCodf
+     */
+    publid finbl int gftKfyCodf() {
+        rfturn kfyCodf;
+    }
+
+    /**
+     * Rfturns thf modififr kfys for this <dodf>AWTKfyStrokf</dodf>.
+     *
+     * @rfturn bn int dontbining thf modififrs
+     * @sff #gftAWTKfyStrokf(int,int)
+     */
+    publid finbl int gftModififrs() {
+        rfturn modififrs;
+    }
+
+    /**
+     * Rfturns whfthfr this <dodf>AWTKfyStrokf</dodf> rfprfsfnts b kfy rflfbsf.
+     *
+     * @rfturn <dodf>truf</dodf> if this <dodf>AWTKfyStrokf</dodf>
+     *          rfprfsfnts b kfy rflfbsf; <dodf>fblsf</dodf> othfrwisf
+     * @sff #gftAWTKfyStrokf(int,int,boolfbn)
+     */
+    publid finbl boolfbn isOnKfyRflfbsf() {
+        rfturn onKfyRflfbsf;
+    }
+
+    /**
+     * Rfturns thf typf of <dodf>KfyEvfnt</dodf> whidh dorrfsponds to
+     * this <dodf>AWTKfyStrokf</dodf>.
+     *
+     * @rfturn <dodf>KfyEvfnt.KEY_PRESSED</dodf>,
+     *         <dodf>KfyEvfnt.KEY_TYPED</dodf>,
+     *         or <dodf>KfyEvfnt.KEY_RELEASED</dodf>
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
+     */
+    publid finbl int gftKfyEvfntTypf() {
+        if (kfyCodf == KfyEvfnt.VK_UNDEFINED) {
+            rfturn KfyEvfnt.KEY_TYPED;
+        } flsf {
+            rfturn (onKfyRflfbsf)
+                ? KfyEvfnt.KEY_RELEASED
+                : KfyEvfnt.KEY_PRESSED;
+        }
+    }
+
+    /**
+     * Rfturns b numfrid vbluf for this objfdt thbt is likfly to bf uniquf,
+     * mbking it b good dhoidf bs thf indfx vbluf in b hbsh tbblf.
+     *
+     * @rfturn bn int thbt rfprfsfnts this objfdt
+     */
+    publid int hbshCodf() {
+        rfturn (((int)kfyChbr) + 1) * (2 * (kfyCodf + 1)) * (modififrs + 1) +
+            (onKfyRflfbsf ? 1 : 2);
+    }
+
+    /**
+     * Rfturns truf if this objfdt is idfntidbl to thf spfdififd objfdt.
+     *
+     * @pbrbm bnObjfdt thf Objfdt to dompbrf this objfdt to
+     * @rfturn truf if thf objfdts brf idfntidbl
+     */
+    publid finbl boolfbn fqubls(Objfdt bnObjfdt) {
+        if (bnObjfdt instbndfof AWTKfyStrokf) {
+            AWTKfyStrokf ks = (AWTKfyStrokf)bnObjfdt;
+            rfturn (ks.kfyChbr == kfyChbr && ks.kfyCodf == kfyCodf &&
+                    ks.onKfyRflfbsf == onKfyRflfbsf &&
+                    ks.modififrs == modififrs);
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b string thbt displbys bnd idfntififs this objfdt's propfrtifs.
+     * Thf <dodf>String</dodf> rfturnfd by this mfthod dbn bf pbssfd
+     * bs b pbrbmftfr to <dodf>gftAWTKfyStrokf(String)</dodf> to produdf
+     * b kfy strokf fqubl to this kfy strokf.
+     *
+     * @rfturn b String rfprfsfntbtion of this objfdt
+     * @sff #gftAWTKfyStrokf(String)
+     */
+    publid String toString() {
+        if (kfyCodf == KfyEvfnt.VK_UNDEFINED) {
+            rfturn gftModififrsTfxt(modififrs) + "typfd " + kfyChbr;
+        } flsf {
+            rfturn gftModififrsTfxt(modififrs) +
+                (onKfyRflfbsf ? "rflfbsfd" : "prfssfd") + " " +
+                gftVKTfxt(kfyCodf);
+        }
+    }
+
+    stbtid String gftModififrsTfxt(int modififrs) {
+        StringBuildfr buf = nfw StringBuildfr();
+
+        if ((modififrs & InputEvfnt.SHIFT_DOWN_MASK) != 0 ) {
+            buf.bppfnd("shift ");
+        }
+        if ((modififrs & InputEvfnt.CTRL_DOWN_MASK) != 0 ) {
+            buf.bppfnd("dtrl ");
+        }
+        if ((modififrs & InputEvfnt.META_DOWN_MASK) != 0 ) {
+            buf.bppfnd("mftb ");
+        }
+        if ((modififrs & InputEvfnt.ALT_DOWN_MASK) != 0 ) {
+            buf.bppfnd("blt ");
+        }
+        if ((modififrs & InputEvfnt.ALT_GRAPH_DOWN_MASK) != 0 ) {
+            buf.bppfnd("bltGrbph ");
+        }
+        if ((modififrs & InputEvfnt.BUTTON1_DOWN_MASK) != 0 ) {
+            buf.bppfnd("button1 ");
+        }
+        if ((modififrs & InputEvfnt.BUTTON2_DOWN_MASK) != 0 ) {
+            buf.bppfnd("button2 ");
+        }
+        if ((modififrs & InputEvfnt.BUTTON3_DOWN_MASK) != 0 ) {
+            buf.bppfnd("button3 ");
+        }
+
+        rfturn buf.toString();
+    }
+
+    stbtid String gftVKTfxt(int kfyCodf) {
+        VKCollfdtion vkCollfdt = gftVKCollfdtion();
+        Intfgfr kfy = Intfgfr.vblufOf(kfyCodf);
+        String nbmf = vkCollfdt.findNbmf(kfy);
+        if (nbmf != null) {
+            rfturn nbmf.substring(3);
+        }
+        int fxpfdtfd_modififrs =
+            (Modififr.PUBLIC | Modififr.STATIC | Modififr.FINAL);
+
+        Fifld[] fiflds = KfyEvfnt.dlbss.gftDfdlbrfdFiflds();
+        for (int i = 0; i < fiflds.lfngth; i++) {
+            try {
+                if (fiflds[i].gftModififrs() == fxpfdtfd_modififrs
+                    && fiflds[i].gftTypf() == Intfgfr.TYPE
+                    && fiflds[i].gftNbmf().stbrtsWith("VK_")
+                    && fiflds[i].gftInt(KfyEvfnt.dlbss) == kfyCodf)
+                {
+                    nbmf = fiflds[i].gftNbmf();
+                    vkCollfdt.put(nbmf, kfy);
+                    rfturn nbmf.substring(3);
+                }
+            } dbtdh (IllfgblAddfssExdfption f) {
+                bssfrt(fblsf);
+            }
+        }
+        rfturn "UNKNOWN";
+    }
+
+    /**
+     * Rfturns b dbdhfd instbndf of <dodf>AWTKfyStrokf</dodf> (or b subdlbss of
+     * <dodf>AWTKfyStrokf</dodf>) whidh is fqubl to this instbndf.
+     *
+     * @rfturn b dbdhfd instbndf whidh is fqubl to this instbndf
+     * @throws jbvb.io.ObjfdtStrfbmExdfption if b sfriblizbtion problfm oddurs
+     */
+    protfdtfd Objfdt rfbdRfsolvf() throws jbvb.io.ObjfdtStrfbmExdfption {
+        syndhronizfd (AWTKfyStrokf.dlbss) {
+            if (gftClbss().fqubls(gftAWTKfyStrokfClbss())) {
+                rfturn  gftCbdhfdStrokf(kfyChbr, kfyCodf, modififrs, onKfyRflfbsf);
+            }
+        }
+        rfturn this;
+    }
+
+    privbtf stbtid int mbpOldModififrs(int modififrs) {
+        if ((modififrs & InputEvfnt.SHIFT_MASK) != 0) {
+            modififrs |= InputEvfnt.SHIFT_DOWN_MASK;
+        }
+        if ((modififrs & InputEvfnt.ALT_MASK) != 0) {
+            modififrs |= InputEvfnt.ALT_DOWN_MASK;
+        }
+        if ((modififrs & InputEvfnt.ALT_GRAPH_MASK) != 0) {
+            modififrs |= InputEvfnt.ALT_GRAPH_DOWN_MASK;
+        }
+        if ((modififrs & InputEvfnt.CTRL_MASK) != 0) {
+            modififrs |= InputEvfnt.CTRL_DOWN_MASK;
+        }
+        if ((modififrs & InputEvfnt.META_MASK) != 0) {
+            modififrs |= InputEvfnt.META_DOWN_MASK;
+        }
+
+        modififrs &= InputEvfnt.SHIFT_DOWN_MASK
+            | InputEvfnt.ALT_DOWN_MASK
+            | InputEvfnt.ALT_GRAPH_DOWN_MASK
+            | InputEvfnt.CTRL_DOWN_MASK
+            | InputEvfnt.META_DOWN_MASK
+            | InputEvfnt.BUTTON1_DOWN_MASK
+            | InputEvfnt.BUTTON2_DOWN_MASK
+            | InputEvfnt.BUTTON3_DOWN_MASK;
+
+        rfturn modififrs;
+    }
+
+    privbtf stbtid int mbpNfwModififrs(int modififrs) {
+        if ((modififrs & InputEvfnt.SHIFT_DOWN_MASK) != 0) {
+            modififrs |= InputEvfnt.SHIFT_MASK;
+        }
+        if ((modififrs & InputEvfnt.ALT_DOWN_MASK) != 0) {
+            modififrs |= InputEvfnt.ALT_MASK;
+        }
+        if ((modififrs & InputEvfnt.ALT_GRAPH_DOWN_MASK) != 0) {
+            modififrs |= InputEvfnt.ALT_GRAPH_MASK;
+        }
+        if ((modififrs & InputEvfnt.CTRL_DOWN_MASK) != 0) {
+            modififrs |= InputEvfnt.CTRL_MASK;
+        }
+        if ((modififrs & InputEvfnt.META_DOWN_MASK) != 0) {
+            modififrs |= InputEvfnt.META_MASK;
+        }
+
+        rfturn modififrs;
+    }
+
+}
+
+dlbss VKCollfdtion {
+    Mbp<Intfgfr, String> dodf2nbmf;
+    Mbp<String, Intfgfr> nbmf2dodf;
+
+    publid VKCollfdtion() {
+        dodf2nbmf = nfw HbshMbp<>();
+        nbmf2dodf = nfw HbshMbp<>();
+    }
+
+    publid syndhronizfd void put(String nbmf, Intfgfr dodf) {
+        bssfrt((nbmf != null) && (dodf != null));
+        bssfrt(findNbmf(dodf) == null);
+        bssfrt(findCodf(nbmf) == null);
+        dodf2nbmf.put(dodf, nbmf);
+        nbmf2dodf.put(nbmf, dodf);
+    }
+
+    publid syndhronizfd Intfgfr findCodf(String nbmf) {
+        bssfrt(nbmf != null);
+        rfturn nbmf2dodf.gft(nbmf);
+    }
+
+    publid syndhronizfd String findNbmf(Intfgfr dodf) {
+        bssfrt(dodf != null);
+        rfturn dodf2nbmf.gft(dodf);
+    }
+}

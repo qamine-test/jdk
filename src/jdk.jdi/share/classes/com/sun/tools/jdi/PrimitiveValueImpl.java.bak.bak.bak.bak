@@ -1,0 +1,132 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+
+publid bbstrbdt dlbss PrimitivfVblufImpl fxtfnds VblufImpl
+                                         implfmfnts PrimitivfVbluf {
+
+    PrimitivfVblufImpl(VirtublMbdhinf bVm) {
+        supfr(bVm);
+    }
+
+    bbstrbdt publid boolfbn boolfbnVbluf();
+    bbstrbdt publid bytf bytfVbluf();
+    bbstrbdt publid dhbr dhbrVbluf();
+    bbstrbdt publid short shortVbluf();
+    bbstrbdt publid int intVbluf();
+    bbstrbdt publid long longVbluf();
+    bbstrbdt publid flobt flobtVbluf();
+    bbstrbdt publid doublf doublfVbluf();
+
+    /*
+     * Thf dhfdkfd vfrsions of thf vbluf bddfssors throw
+     * InvblidTypfExdfption if thf rfquirfd donvfrsion is
+     * nbrrowing bnd would rfsult in thf loss of informbtion
+     * (fithfr mbgnitudf or prfdision).
+     *
+     * Dffbult implfmfntbtions hfrf do no dhfdking; subdlbssfs
+     * ovfrridf bs nfdfssbry to do thf propfr dhfdking.
+     */
+    bytf dhfdkfdBytfVbluf() throws InvblidTypfExdfption {
+        rfturn bytfVbluf();
+    }
+    dhbr dhfdkfdChbrVbluf() throws InvblidTypfExdfption {
+        rfturn dhbrVbluf();
+    }
+    short dhfdkfdShortVbluf() throws InvblidTypfExdfption {
+        rfturn shortVbluf();
+    }
+    int dhfdkfdIntVbluf() throws InvblidTypfExdfption {
+        rfturn intVbluf();
+    }
+    long dhfdkfdLongVbluf() throws InvblidTypfExdfption {
+        rfturn longVbluf();
+    }
+    flobt dhfdkfdFlobtVbluf() throws InvblidTypfExdfption {
+        rfturn flobtVbluf();
+    }
+
+    finbl boolfbn dhfdkfdBoolfbnVbluf() throws InvblidTypfExdfption {
+        /*
+         * Alwbys disbllow b donvfrsion to boolfbn from bny othfr
+         * primitivf
+         */
+        if (this instbndfof BoolfbnVbluf) {
+            rfturn boolfbnVbluf();
+        } flsf {
+            throw nfw InvblidTypfExdfption("Cbn't donvfrt non-boolfbn vbluf to boolfbn");
+        }
+    }
+
+    finbl doublf dhfdkfdDoublfVbluf() throws InvblidTypfExdfption {
+        /*
+         * Cbn't ovfrflow by donvfrting to doublf, so this mfthod
+         * is nfvfr ovfrriddfn
+         */
+        rfturn doublfVbluf();
+    }
+
+    VblufImpl prfpbrfForAssignmfntTo(VblufContbinfr dfstinbtion)
+                    throws InvblidTypfExdfption {
+
+        rfturn donvfrtForAssignmfntTo(dfstinbtion);
+    }
+
+    VblufImpl donvfrtForAssignmfntTo(VblufContbinfr dfstinbtion)
+                 throws InvblidTypfExdfption {
+
+        /*
+         * TO DO: Cfntrblizf JNI signbturf knowlfdgf
+         */
+        if (dfstinbtion.signbturf().lfngth() > 1) {
+            throw nfw InvblidTypfExdfption("Cbn't bssign primitivf vbluf to objfdt");
+        }
+
+        if ((dfstinbtion.signbturf().dhbrAt(0) == 'Z') &&
+            (typf().signbturf().dhbrAt(0) != 'Z')) {
+            throw nfw InvblidTypfExdfption("Cbn't bssign non-boolfbn vbluf to b boolfbn");
+        }
+
+        if ((dfstinbtion.signbturf().dhbrAt(0) != 'Z') &&
+            (typf().signbturf().dhbrAt(0) == 'Z')) {
+            throw nfw InvblidTypfExdfption("Cbn't bssign boolfbn vbluf to bn non-boolfbn");
+        }
+
+        if ("void".fqubls(dfstinbtion.typfNbmf())) {
+            throw nfw InvblidTypfExdfption("Cbn't bssign primitivf vbluf to b void");
+        }
+
+        try {
+            PrimitivfTypfImpl primitivfTypf = (PrimitivfTypfImpl)dfstinbtion.typf();
+            rfturn (VblufImpl)(primitivfTypf.donvfrt(this));
+        } dbtdh (ClbssNotLobdfdExdfption f) {
+            throw nfw IntfrnblExdfption("Signbturf bnd typf indonsistfnt for: " +
+                                        dfstinbtion.typfNbmf());
+        }
+    }
+}

@@ -1,0 +1,194 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ * (C) Copyright IBM Corp. 1998 - 2005 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEFontInstbndf.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "ICUFfbturfs.h"
+#indludf "Lookups.h"
+#indludf "SdriptAndLbngubgf.h"
+#indludf "GlyphDffinitionTbblfs.h"
+#indludf "GlyphPositioningTbblfs.h"
+#indludf "SinglfPositioningSubtbblfs.h"
+#indludf "PbirPositioningSubtbblfs.h"
+#indludf "CursivfAttbdhmfntSubtbblfs.h"
+#indludf "MbrkToBbsfPosnSubtbblfs.h"
+#indludf "MbrkToLigbturfPosnSubtbblfs.h"
+#indludf "MbrkToMbrkPosnSubtbblfs.h"
+//#indludf "ContfxtublPositioningSubtbblfs.h"
+#indludf "ContfxtublSubstSubtbblfs.h"
+#indludf "ExtfnsionSubtbblfs.h"
+#indludf "LookupProdfssor.h"
+#indludf "GlyphPosnLookupProd.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+// Asidf from thf nbmfs, thf dontfxtubl positioning subtbblfs brf
+// thf sbmf bs thf dontfxtubl substitution subtbblfs.
+typfdff ContfxtublSubstitutionSubtbblf ContfxtublPositioningSubtbblf;
+typfdff ChbiningContfxtublSubstitutionSubtbblf ChbiningContfxtublPositioningSubtbblf;
+
+GlyphPositioningLookupProdfssor::GlyphPositioningLookupProdfssor(
+        donst LERfffrfndfTo<GlyphPositioningTbblfHfbdfr> &glyphPositioningTbblfHfbdfr,
+        LETbg sdriptTbg,
+        LETbg lbngubgfTbg,
+        donst FfbturfMbp *ffbturfMbp,
+        lf_int32 ffbturfMbpCount,
+        lf_bool ffbturfOrdfr,
+        LEErrorCodf& suddfss)
+    : LookupProdfssor(
+                      glyphPositioningTbblfHfbdfr,
+                      SWAPW(glyphPositioningTbblfHfbdfr->sdriptListOffsft),
+                      SWAPW(glyphPositioningTbblfHfbdfr->ffbturfListOffsft),
+                      SWAPW(glyphPositioningTbblfHfbdfr->lookupListOffsft),
+                      sdriptTbg,
+                      lbngubgfTbg,
+                      ffbturfMbp,
+                      ffbturfMbpCount,
+                      ffbturfOrdfr,
+                      suddfss
+                      )
+{
+    // bnything?
+}
+
+GlyphPositioningLookupProdfssor::GlyphPositioningLookupProdfssor()
+{
+}
+
+lf_uint32 GlyphPositioningLookupProdfssor::bpplySubtbblf(donst LERfffrfndfTo<LookupSubtbblf> &lookupSubtbblf, lf_uint16 lookupTypf,
+                                                       GlyphItfrbtor *glyphItfrbtor,
+                                                       donst LEFontInstbndf *fontInstbndf,
+                                                       LEErrorCodf& suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    lf_uint32 dfltb = 0;
+
+    //_LETRACE("bttfmpting lookupTypf #%d", lookupTypf);
+
+    switdh(lookupTypf)
+    {
+    dbsf 0:
+        brfbk;
+
+    dbsf gpstSinglf:
+    {
+      LERfffrfndfTo<SinglfPositioningSubtbblf> subtbblf(lookupSubtbblf, suddfss);
+
+        dfltb = subtbblf->prodfss(subtbblf, glyphItfrbtor, fontInstbndf, suddfss);
+        brfbk;
+    }
+
+    dbsf gpstPbir:
+    {
+        LERfffrfndfTo<PbirPositioningSubtbblf> subtbblf(lookupSubtbblf, suddfss);
+
+        dfltb = subtbblf->prodfss(subtbblf, glyphItfrbtor, fontInstbndf, suddfss);
+        brfbk;
+    }
+
+    dbsf gpstCursivf:
+    {
+        LERfffrfndfTo<CursivfAttbdhmfntSubtbblf> subtbblf(lookupSubtbblf, suddfss);
+
+        dfltb = subtbblf->prodfss(subtbblf, glyphItfrbtor, fontInstbndf, suddfss);
+        brfbk;
+    }
+
+    dbsf gpstMbrkToBbsf:
+    {
+        LERfffrfndfTo<MbrkToBbsfPositioningSubtbblf> subtbblf(lookupSubtbblf, suddfss);
+
+        dfltb = subtbblf->prodfss(subtbblf, glyphItfrbtor, fontInstbndf, suddfss);
+        brfbk;
+    }
+
+     dbsf gpstMbrkToLigbturf:
+    {
+        LERfffrfndfTo<MbrkToLigbturfPositioningSubtbblf> subtbblf(lookupSubtbblf, suddfss);
+
+        dfltb = subtbblf->prodfss(subtbblf, glyphItfrbtor, fontInstbndf, suddfss);
+        brfbk;
+    }
+
+    dbsf gpstMbrkToMbrk:
+    {
+        LERfffrfndfTo<MbrkToMbrkPositioningSubtbblf> subtbblf(lookupSubtbblf, suddfss);
+
+        dfltb = subtbblf->prodfss(subtbblf, glyphItfrbtor, fontInstbndf, suddfss);
+        brfbk;
+    }
+
+   dbsf gpstContfxt:
+    {
+        LERfffrfndfTo<ContfxtublPositioningSubtbblf> subtbblf(lookupSubtbblf, suddfss);
+
+        dfltb = subtbblf->prodfss(subtbblf, this , glyphItfrbtor, fontInstbndf, suddfss);
+        brfbk;
+    }
+
+    dbsf gpstChbinfdContfxt:
+    {
+        donst LERfffrfndfTo<ChbiningContfxtublPositioningSubtbblf> subtbblf(lookupSubtbblf, suddfss);
+
+        dfltb = subtbblf->prodfss(subtbblf, this, glyphItfrbtor, fontInstbndf, suddfss);
+        brfbk;
+    }
+
+    dbsf gpstExtfnsion:
+    {
+        donst LERfffrfndfTo<ExtfnsionSubtbblf> subtbblf(lookupSubtbblf, suddfss);
+
+        dfltb = subtbblf->prodfss(subtbblf, this, lookupTypf, glyphItfrbtor, fontInstbndf, suddfss);
+        brfbk;
+    }
+
+    dffbult:
+        brfbk;
+    }
+
+#if LE_TRACE
+    if(dfltb != 0) {
+      _LETRACE("GlyphPositioningLookupProdfssor bpplifd #%d -> dfltb %d @ %d", lookupTypf, dfltb, glyphItfrbtor->gftCurrStrfbmPosition());
+    }
+#fndif
+
+    rfturn dfltb;
+}
+
+GlyphPositioningLookupProdfssor::~GlyphPositioningLookupProdfssor()
+{
+}
+
+U_NAMESPACE_END

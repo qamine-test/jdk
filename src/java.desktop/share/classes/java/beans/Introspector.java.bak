@@ -1,676 +1,676 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import com.sun.beans.TypeResolver;
-import com.sun.beans.WeakCache;
-import com.sun.beans.finder.ClassFinder;
-import com.sun.beans.introspect.ClassInfo;
-import com.sun.beans.introspect.EventSetInfo;
-import com.sun.beans.introspect.PropertyInfo;
+import dom.sun.bfbns.TypfRfsolvfr;
+import dom.sun.bfbns.WfbkCbdif;
+import dom.sun.bfbns.findfr.ClbssFindfr;
+import dom.sun.bfbns.introspfdt.ClbssInfo;
+import dom.sun.bfbns.introspfdt.EvfntSftInfo;
+import dom.sun.bfbns.introspfdt.PropfrtyInfo;
 
-import java.awt.Component;
+import jbvb.bwt.Componfnt;
 
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Typf;
 
-import java.util.Map;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.EventObject;
-import java.util.List;
-import java.util.TreeMap;
+import jbvb.util.Mbp;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.EvfntObjfdt;
+import jbvb.util.List;
+import jbvb.util.TrffMbp;
 
-import sun.misc.SharedSecrets;
-import sun.reflect.misc.ReflectUtil;
+import sun.misd.SibrfdSfdrfts;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * The Introspector class provides a standard way for tools to learn about
- * the properties, events, and methods supported by a target Java Bean.
+ * Tif Introspfdtor dlbss providfs b stbndbrd wby for tools to lfbrn bbout
+ * tif propfrtifs, fvfnts, bnd mftiods supportfd by b tbrgft Jbvb Bfbn.
  * <p>
- * For each of those three kinds of information, the Introspector will
- * separately analyze the bean's class and superclasses looking for
- * either explicit or implicit information and use that information to
- * build a BeanInfo object that comprehensively describes the target bean.
+ * For fbdi of tiosf tirff kinds of informbtion, tif Introspfdtor will
+ * sfpbrbtfly bnblyzf tif bfbn's dlbss bnd supfrdlbssfs looking for
+ * fitifr fxplidit or implidit informbtion bnd usf tibt informbtion to
+ * build b BfbnInfo objfdt tibt domprfifnsivfly dfsdribfs tif tbrgft bfbn.
  * <p>
- * For each class "Foo", explicit information may be available if there exists
- * a corresponding "FooBeanInfo" class that provides a non-null value when
- * queried for the information.   We first look for the BeanInfo class by
- * taking the full package-qualified name of the target bean class and
- * appending "BeanInfo" to form a new class name.  If this fails, then
- * we take the final classname component of this name, and look for that
- * class in each of the packages specified in the BeanInfo package search
- * path.
+ * For fbdi dlbss "Foo", fxplidit informbtion mby bf bvbilbblf if tifrf fxists
+ * b dorrfsponding "FooBfbnInfo" dlbss tibt providfs b non-null vbluf wifn
+ * qufrifd for tif informbtion.   Wf first look for tif BfbnInfo dlbss by
+ * tbking tif full pbdkbgf-qublififd nbmf of tif tbrgft bfbn dlbss bnd
+ * bppfnding "BfbnInfo" to form b nfw dlbss nbmf.  If tiis fbils, tifn
+ * wf tbkf tif finbl dlbssnbmf domponfnt of tiis nbmf, bnd look for tibt
+ * dlbss in fbdi of tif pbdkbgfs spfdififd in tif BfbnInfo pbdkbgf sfbrdi
+ * pbti.
  * <p>
- * Thus for a class such as "sun.xyz.OurButton" we would first look for a
- * BeanInfo class called "sun.xyz.OurButtonBeanInfo" and if that failed we'd
- * look in each package in the BeanInfo search path for an OurButtonBeanInfo
- * class.  With the default search path, this would mean looking for
- * "sun.beans.infos.OurButtonBeanInfo".
+ * Tius for b dlbss sudi bs "sun.xyz.OurButton" wf would first look for b
+ * BfbnInfo dlbss dbllfd "sun.xyz.OurButtonBfbnInfo" bnd if tibt fbilfd wf'd
+ * look in fbdi pbdkbgf in tif BfbnInfo sfbrdi pbti for bn OurButtonBfbnInfo
+ * dlbss.  Witi tif dffbult sfbrdi pbti, tiis would mfbn looking for
+ * "sun.bfbns.infos.OurButtonBfbnInfo".
  * <p>
- * If a class provides explicit BeanInfo about itself then we add that to
- * the BeanInfo information we obtained from analyzing any derived classes,
- * but we regard the explicit information as being definitive for the current
- * class and its base classes, and do not proceed any further up the superclass
- * chain.
+ * If b dlbss providfs fxplidit BfbnInfo bbout itsflf tifn wf bdd tibt to
+ * tif BfbnInfo informbtion wf obtbinfd from bnblyzing bny dfrivfd dlbssfs,
+ * but wf rfgbrd tif fxplidit informbtion bs bfing dffinitivf for tif durrfnt
+ * dlbss bnd its bbsf dlbssfs, bnd do not prodffd bny furtifr up tif supfrdlbss
+ * dibin.
  * <p>
- * If we don't find explicit BeanInfo on a class, we use low-level
- * reflection to study the methods of the class and apply standard design
- * patterns to identify property accessors, event sources, or public
- * methods.  We then proceed to analyze the class's superclass and add
- * in the information from it (and possibly on up the superclass chain).
+ * If wf don't find fxplidit BfbnInfo on b dlbss, wf usf low-lfvfl
+ * rfflfdtion to study tif mftiods of tif dlbss bnd bpply stbndbrd dfsign
+ * pbttfrns to idfntify propfrty bddfssors, fvfnt sourdfs, or publid
+ * mftiods.  Wf tifn prodffd to bnblyzf tif dlbss's supfrdlbss bnd bdd
+ * in tif informbtion from it (bnd possibly on up tif supfrdlbss dibin).
  * <p>
- * For more information about introspection and design patterns, please
- * consult the
- *  <a href="http://www.oracle.com/technetwork/java/javase/documentation/spec-136004.html">JavaBeans&trade; specification</a>.
+ * For morf informbtion bbout introspfdtion bnd dfsign pbttfrns, plfbsf
+ * donsult tif
+ *  <b irff="ittp://www.orbdlf.dom/tfdinftwork/jbvb/jbvbsf/dodumfntbtion/spfd-136004.itml">JbvbBfbns&trbdf; spfdifidbtion</b>.
  *
- * @since 1.1
+ * @sindf 1.1
  */
 
-public class Introspector {
+publid dlbss Introspfdtor {
 
-    // Flags that can be used to control getBeanInfo:
+    // Flbgs tibt dbn bf usfd to dontrol gftBfbnInfo:
     /**
-     * Flag to indicate to use of all beaninfo.
-     * @since 1.2
+     * Flbg to indidbtf to usf of bll bfbninfo.
+     * @sindf 1.2
      */
-    public final static int USE_ALL_BEANINFO           = 1;
+    publid finbl stbtid int USE_ALL_BEANINFO           = 1;
     /**
-     * Flag to indicate to ignore immediate beaninfo.
-     * @since 1.2
+     * Flbg to indidbtf to ignorf immfdibtf bfbninfo.
+     * @sindf 1.2
      */
-    public final static int IGNORE_IMMEDIATE_BEANINFO  = 2;
+    publid finbl stbtid int IGNORE_IMMEDIATE_BEANINFO  = 2;
     /**
-     * Flag to indicate to ignore all beaninfo.
-     * @since 1.2
+     * Flbg to indidbtf to ignorf bll bfbninfo.
+     * @sindf 1.2
      */
-    public final static int IGNORE_ALL_BEANINFO        = 3;
+    publid finbl stbtid int IGNORE_ALL_BEANINFO        = 3;
 
-    // Static Caches to speed up introspection.
-    private static final WeakCache<Class<?>, Method[]> declaredMethodCache = new WeakCache<>();
+    // Stbtid Cbdifs to spffd up introspfdtion.
+    privbtf stbtid finbl WfbkCbdif<Clbss<?>, Mftiod[]> dfdlbrfdMftiodCbdif = nfw WfbkCbdif<>();
 
-    private Class<?> beanClass;
-    private BeanInfo explicitBeanInfo;
-    private BeanInfo superBeanInfo;
-    private BeanInfo additionalBeanInfo[];
+    privbtf Clbss<?> bfbnClbss;
+    privbtf BfbnInfo fxpliditBfbnInfo;
+    privbtf BfbnInfo supfrBfbnInfo;
+    privbtf BfbnInfo bdditionblBfbnInfo[];
 
-    private boolean propertyChangeSource = false;
+    privbtf boolfbn propfrtyCibngfSourdf = fblsf;
 
-    // These should be removed.
-    private String defaultEventName;
-    private String defaultPropertyName;
-    private int defaultEventIndex = -1;
-    private int defaultPropertyIndex = -1;
+    // Tifsf siould bf rfmovfd.
+    privbtf String dffbultEvfntNbmf;
+    privbtf String dffbultPropfrtyNbmf;
+    privbtf int dffbultEvfntIndfx = -1;
+    privbtf int dffbultPropfrtyIndfx = -1;
 
-    // Methods maps from Method names to MethodDescriptors
-    private Map<String, MethodDescriptor> methods;
+    // Mftiods mbps from Mftiod nbmfs to MftiodDfsdriptors
+    privbtf Mbp<String, MftiodDfsdriptor> mftiods;
 
-    // properties maps from String names to PropertyDescriptors
-    private Map<String, PropertyDescriptor> properties;
+    // propfrtifs mbps from String nbmfs to PropfrtyDfsdriptors
+    privbtf Mbp<String, PropfrtyDfsdriptor> propfrtifs;
 
-    // events maps from String names to EventSetDescriptors
-    private Map<String, EventSetDescriptor> events;
+    // fvfnts mbps from String nbmfs to EvfntSftDfsdriptors
+    privbtf Mbp<String, EvfntSftDfsdriptor> fvfnts;
 
-    private final static EventSetDescriptor[] EMPTY_EVENTSETDESCRIPTORS = new EventSetDescriptor[0];
+    privbtf finbl stbtid EvfntSftDfsdriptor[] EMPTY_EVENTSETDESCRIPTORS = nfw EvfntSftDfsdriptor[0];
 
-    static final String ADD_PREFIX = "add";
-    static final String REMOVE_PREFIX = "remove";
-    static final String GET_PREFIX = "get";
-    static final String SET_PREFIX = "set";
-    static final String IS_PREFIX = "is";
+    stbtid finbl String ADD_PREFIX = "bdd";
+    stbtid finbl String REMOVE_PREFIX = "rfmovf";
+    stbtid finbl String GET_PREFIX = "gft";
+    stbtid finbl String SET_PREFIX = "sft";
+    stbtid finbl String IS_PREFIX = "is";
 
-    // register with SharedSecrets for JMX usage
-    static {
-        SharedSecrets.setJavaBeansIntrospectorAccess((clazz, property) -> {
-            BeanInfo bi = Introspector.getBeanInfo(clazz);
-            PropertyDescriptor[] pds = bi.getPropertyDescriptors();
-            for (PropertyDescriptor pd: pds) {
-                if (pd.getName().equals(property)) {
-                    return pd.getReadMethod();
+    // rfgistfr witi SibrfdSfdrfts for JMX usbgf
+    stbtid {
+        SibrfdSfdrfts.sftJbvbBfbnsIntrospfdtorAddfss((dlbzz, propfrty) -> {
+            BfbnInfo bi = Introspfdtor.gftBfbnInfo(dlbzz);
+            PropfrtyDfsdriptor[] pds = bi.gftPropfrtyDfsdriptors();
+            for (PropfrtyDfsdriptor pd: pds) {
+                if (pd.gftNbmf().fqubls(propfrty)) {
+                    rfturn pd.gftRfbdMftiod();
                 }
             }
-            return null;
+            rfturn null;
         });
     }
 
     //======================================================================
-    //                          Public methods
+    //                          Publid mftiods
     //======================================================================
 
     /**
-     * Introspect on a Java Bean and learn about all its properties, exposed
-     * methods, and events.
+     * Introspfdt on b Jbvb Bfbn bnd lfbrn bbout bll its propfrtifs, fxposfd
+     * mftiods, bnd fvfnts.
      * <p>
-     * If the BeanInfo class for a Java Bean has been previously Introspected
-     * then the BeanInfo class is retrieved from the BeanInfo cache.
+     * If tif BfbnInfo dlbss for b Jbvb Bfbn ibs bffn prfviously Introspfdtfd
+     * tifn tif BfbnInfo dlbss is rftrifvfd from tif BfbnInfo dbdif.
      *
-     * @param beanClass  The bean class to be analyzed.
-     * @return  A BeanInfo object describing the target bean.
-     * @exception IntrospectionException if an exception occurs during
-     *              introspection.
-     * @see #flushCaches
-     * @see #flushFromCaches
+     * @pbrbm bfbnClbss  Tif bfbn dlbss to bf bnblyzfd.
+     * @rfturn  A BfbnInfo objfdt dfsdribing tif tbrgft bfbn.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
+     * @sff #flusiCbdifs
+     * @sff #flusiFromCbdifs
      */
-    public static BeanInfo getBeanInfo(Class<?> beanClass)
-        throws IntrospectionException
+    publid stbtid BfbnInfo gftBfbnInfo(Clbss<?> bfbnClbss)
+        tirows IntrospfdtionExdfption
     {
-        if (!ReflectUtil.isPackageAccessible(beanClass)) {
-            return (new Introspector(beanClass, null, USE_ALL_BEANINFO)).getBeanInfo();
+        if (!RfflfdtUtil.isPbdkbgfAddfssiblf(bfbnClbss)) {
+            rfturn (nfw Introspfdtor(bfbnClbss, null, USE_ALL_BEANINFO)).gftBfbnInfo();
         }
-        ThreadGroupContext context = ThreadGroupContext.getContext();
-        BeanInfo beanInfo;
-        synchronized (declaredMethodCache) {
-            beanInfo = context.getBeanInfo(beanClass);
+        TirfbdGroupContfxt dontfxt = TirfbdGroupContfxt.gftContfxt();
+        BfbnInfo bfbnInfo;
+        syndironizfd (dfdlbrfdMftiodCbdif) {
+            bfbnInfo = dontfxt.gftBfbnInfo(bfbnClbss);
         }
-        if (beanInfo == null) {
-            beanInfo = new Introspector(beanClass, null, USE_ALL_BEANINFO).getBeanInfo();
-            synchronized (declaredMethodCache) {
-                context.putBeanInfo(beanClass, beanInfo);
+        if (bfbnInfo == null) {
+            bfbnInfo = nfw Introspfdtor(bfbnClbss, null, USE_ALL_BEANINFO).gftBfbnInfo();
+            syndironizfd (dfdlbrfdMftiodCbdif) {
+                dontfxt.putBfbnInfo(bfbnClbss, bfbnInfo);
             }
         }
-        return beanInfo;
+        rfturn bfbnInfo;
     }
 
     /**
-     * Introspect on a Java bean and learn about all its properties, exposed
-     * methods, and events, subject to some control flags.
+     * Introspfdt on b Jbvb bfbn bnd lfbrn bbout bll its propfrtifs, fxposfd
+     * mftiods, bnd fvfnts, subjfdt to somf dontrol flbgs.
      * <p>
-     * If the BeanInfo class for a Java Bean has been previously Introspected
-     * based on the same arguments then the BeanInfo class is retrieved
-     * from the BeanInfo cache.
+     * If tif BfbnInfo dlbss for b Jbvb Bfbn ibs bffn prfviously Introspfdtfd
+     * bbsfd on tif sbmf brgumfnts tifn tif BfbnInfo dlbss is rftrifvfd
+     * from tif BfbnInfo dbdif.
      *
-     * @param beanClass  The bean class to be analyzed.
-     * @param flags  Flags to control the introspection.
-     *     If flags == USE_ALL_BEANINFO then we use all of the BeanInfo
-     *          classes we can discover.
-     *     If flags == IGNORE_IMMEDIATE_BEANINFO then we ignore any
-     *           BeanInfo associated with the specified beanClass.
-     *     If flags == IGNORE_ALL_BEANINFO then we ignore all BeanInfo
-     *           associated with the specified beanClass or any of its
-     *           parent classes.
-     * @return  A BeanInfo object describing the target bean.
-     * @exception IntrospectionException if an exception occurs during
-     *              introspection.
-     * @since 1.2
+     * @pbrbm bfbnClbss  Tif bfbn dlbss to bf bnblyzfd.
+     * @pbrbm flbgs  Flbgs to dontrol tif introspfdtion.
+     *     If flbgs == USE_ALL_BEANINFO tifn wf usf bll of tif BfbnInfo
+     *          dlbssfs wf dbn disdovfr.
+     *     If flbgs == IGNORE_IMMEDIATE_BEANINFO tifn wf ignorf bny
+     *           BfbnInfo bssodibtfd witi tif spfdififd bfbnClbss.
+     *     If flbgs == IGNORE_ALL_BEANINFO tifn wf ignorf bll BfbnInfo
+     *           bssodibtfd witi tif spfdififd bfbnClbss or bny of its
+     *           pbrfnt dlbssfs.
+     * @rfturn  A BfbnInfo objfdt dfsdribing tif tbrgft bfbn.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
+     * @sindf 1.2
      */
-    public static BeanInfo getBeanInfo(Class<?> beanClass, int flags)
-                                                throws IntrospectionException {
-        return getBeanInfo(beanClass, null, flags);
+    publid stbtid BfbnInfo gftBfbnInfo(Clbss<?> bfbnClbss, int flbgs)
+                                                tirows IntrospfdtionExdfption {
+        rfturn gftBfbnInfo(bfbnClbss, null, flbgs);
     }
 
     /**
-     * Introspect on a Java bean and learn all about its properties, exposed
-     * methods, below a given "stop" point.
+     * Introspfdt on b Jbvb bfbn bnd lfbrn bll bbout its propfrtifs, fxposfd
+     * mftiods, bflow b givfn "stop" point.
      * <p>
-     * If the BeanInfo class for a Java Bean has been previously Introspected
-     * based on the same arguments, then the BeanInfo class is retrieved
-     * from the BeanInfo cache.
-     * @return the BeanInfo for the bean
-     * @param beanClass The bean class to be analyzed.
-     * @param stopClass The baseclass at which to stop the analysis.  Any
-     *    methods/properties/events in the stopClass or in its baseclasses
-     *    will be ignored in the analysis.
-     * @exception IntrospectionException if an exception occurs during
-     *              introspection.
+     * If tif BfbnInfo dlbss for b Jbvb Bfbn ibs bffn prfviously Introspfdtfd
+     * bbsfd on tif sbmf brgumfnts, tifn tif BfbnInfo dlbss is rftrifvfd
+     * from tif BfbnInfo dbdif.
+     * @rfturn tif BfbnInfo for tif bfbn
+     * @pbrbm bfbnClbss Tif bfbn dlbss to bf bnblyzfd.
+     * @pbrbm stopClbss Tif bbsfdlbss bt wiidi to stop tif bnblysis.  Any
+     *    mftiods/propfrtifs/fvfnts in tif stopClbss or in its bbsfdlbssfs
+     *    will bf ignorfd in tif bnblysis.
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during
+     *              introspfdtion.
      */
-    public static BeanInfo getBeanInfo(Class<?> beanClass, Class<?> stopClass)
-                                                throws IntrospectionException {
-        return getBeanInfo(beanClass, stopClass, USE_ALL_BEANINFO);
+    publid stbtid BfbnInfo gftBfbnInfo(Clbss<?> bfbnClbss, Clbss<?> stopClbss)
+                                                tirows IntrospfdtionExdfption {
+        rfturn gftBfbnInfo(bfbnClbss, stopClbss, USE_ALL_BEANINFO);
     }
 
     /**
-     * Introspect on a Java Bean and learn about all its properties,
-     * exposed methods and events, below a given {@code stopClass} point
-     * subject to some control {@code flags}.
+     * Introspfdt on b Jbvb Bfbn bnd lfbrn bbout bll its propfrtifs,
+     * fxposfd mftiods bnd fvfnts, bflow b givfn {@dodf stopClbss} point
+     * subjfdt to somf dontrol {@dodf flbgs}.
      * <dl>
      *  <dt>USE_ALL_BEANINFO</dt>
-     *  <dd>Any BeanInfo that can be discovered will be used.</dd>
+     *  <dd>Any BfbnInfo tibt dbn bf disdovfrfd will bf usfd.</dd>
      *  <dt>IGNORE_IMMEDIATE_BEANINFO</dt>
-     *  <dd>Any BeanInfo associated with the specified {@code beanClass} will be ignored.</dd>
+     *  <dd>Any BfbnInfo bssodibtfd witi tif spfdififd {@dodf bfbnClbss} will bf ignorfd.</dd>
      *  <dt>IGNORE_ALL_BEANINFO</dt>
-     *  <dd>Any BeanInfo associated with the specified {@code beanClass}
-     *      or any of its parent classes will be ignored.</dd>
+     *  <dd>Any BfbnInfo bssodibtfd witi tif spfdififd {@dodf bfbnClbss}
+     *      or bny of its pbrfnt dlbssfs will bf ignorfd.</dd>
      * </dl>
-     * Any methods/properties/events in the {@code stopClass}
-     * or in its parent classes will be ignored in the analysis.
+     * Any mftiods/propfrtifs/fvfnts in tif {@dodf stopClbss}
+     * or in its pbrfnt dlbssfs will bf ignorfd in tif bnblysis.
      * <p>
-     * If the BeanInfo class for a Java Bean has been
-     * previously introspected based on the same arguments then
-     * the BeanInfo class is retrieved from the BeanInfo cache.
+     * If tif BfbnInfo dlbss for b Jbvb Bfbn ibs bffn
+     * prfviously introspfdtfd bbsfd on tif sbmf brgumfnts tifn
+     * tif BfbnInfo dlbss is rftrifvfd from tif BfbnInfo dbdif.
      *
-     * @param beanClass  the bean class to be analyzed
-     * @param stopClass  the parent class at which to stop the analysis
-     * @param flags      flags to control the introspection
-     * @return a BeanInfo object describing the target bean
-     * @exception IntrospectionException if an exception occurs during introspection
+     * @pbrbm bfbnClbss  tif bfbn dlbss to bf bnblyzfd
+     * @pbrbm stopClbss  tif pbrfnt dlbss bt wiidi to stop tif bnblysis
+     * @pbrbm flbgs      flbgs to dontrol tif introspfdtion
+     * @rfturn b BfbnInfo objfdt dfsdribing tif tbrgft bfbn
+     * @fxdfption IntrospfdtionExdfption if bn fxdfption oddurs during introspfdtion
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static BeanInfo getBeanInfo(Class<?> beanClass, Class<?> stopClass,
-                                        int flags) throws IntrospectionException {
-        BeanInfo bi;
-        if (stopClass == null && flags == USE_ALL_BEANINFO) {
-            // Same parameters to take advantage of caching.
-            bi = getBeanInfo(beanClass);
-        } else {
-            bi = (new Introspector(beanClass, stopClass, flags)).getBeanInfo();
+    publid stbtid BfbnInfo gftBfbnInfo(Clbss<?> bfbnClbss, Clbss<?> stopClbss,
+                                        int flbgs) tirows IntrospfdtionExdfption {
+        BfbnInfo bi;
+        if (stopClbss == null && flbgs == USE_ALL_BEANINFO) {
+            // Sbmf pbrbmftfrs to tbkf bdvbntbgf of dbdiing.
+            bi = gftBfbnInfo(bfbnClbss);
+        } flsf {
+            bi = (nfw Introspfdtor(bfbnClbss, stopClbss, flbgs)).gftBfbnInfo();
         }
-        return bi;
+        rfturn bi;
 
-        // Old behaviour: Make an independent copy of the BeanInfo.
-        //return new GenericBeanInfo(bi);
+        // Old bfibviour: Mbkf bn indfpfndfnt dopy of tif BfbnInfo.
+        //rfturn nfw GfnfridBfbnInfo(bi);
     }
 
 
     /**
-     * Utility method to take a string and convert it to normal Java variable
-     * name capitalization.  This normally means converting the first
-     * character from upper case to lower case, but in the (unusual) special
-     * case when there is more than one character and both the first and
-     * second characters are upper case, we leave it alone.
+     * Utility mftiod to tbkf b string bnd donvfrt it to normbl Jbvb vbribblf
+     * nbmf dbpitblizbtion.  Tiis normblly mfbns donvfrting tif first
+     * dibrbdtfr from uppfr dbsf to lowfr dbsf, but in tif (unusubl) spfdibl
+     * dbsf wifn tifrf is morf tibn onf dibrbdtfr bnd boti tif first bnd
+     * sfdond dibrbdtfrs brf uppfr dbsf, wf lfbvf it blonf.
      * <p>
-     * Thus "FooBah" becomes "fooBah" and "X" becomes "x", but "URL" stays
-     * as "URL".
+     * Tius "FooBbi" bfdomfs "fooBbi" bnd "X" bfdomfs "x", but "URL" stbys
+     * bs "URL".
      *
-     * @param  name The string to be decapitalized.
-     * @return  The decapitalized version of the string.
+     * @pbrbm  nbmf Tif string to bf dfdbpitblizfd.
+     * @rfturn  Tif dfdbpitblizfd vfrsion of tif string.
      */
-    public static String decapitalize(String name) {
-        if (name == null || name.length() == 0) {
-            return name;
+    publid stbtid String dfdbpitblizf(String nbmf) {
+        if (nbmf == null || nbmf.lfngti() == 0) {
+            rfturn nbmf;
         }
-        if (name.length() > 1 && Character.isUpperCase(name.charAt(1)) &&
-                        Character.isUpperCase(name.charAt(0))){
-            return name;
+        if (nbmf.lfngti() > 1 && Cibrbdtfr.isUppfrCbsf(nbmf.dibrAt(1)) &&
+                        Cibrbdtfr.isUppfrCbsf(nbmf.dibrAt(0))){
+            rfturn nbmf;
         }
-        char chars[] = name.toCharArray();
-        chars[0] = Character.toLowerCase(chars[0]);
-        return new String(chars);
+        dibr dibrs[] = nbmf.toCibrArrby();
+        dibrs[0] = Cibrbdtfr.toLowfrCbsf(dibrs[0]);
+        rfturn nfw String(dibrs);
     }
 
     /**
-     * Gets the list of package names that will be used for
-     *          finding BeanInfo classes.
+     * Gfts tif list of pbdkbgf nbmfs tibt will bf usfd for
+     *          finding BfbnInfo dlbssfs.
      *
-     * @return  The array of package names that will be searched in
-     *          order to find BeanInfo classes. The default value
-     *          for this array is implementation-dependent; e.g.
-     *          Sun implementation initially sets to {"sun.beans.infos"}.
+     * @rfturn  Tif brrby of pbdkbgf nbmfs tibt will bf sfbrdifd in
+     *          ordfr to find BfbnInfo dlbssfs. Tif dffbult vbluf
+     *          for tiis brrby is implfmfntbtion-dfpfndfnt; f.g.
+     *          Sun implfmfntbtion initiblly sfts to {"sun.bfbns.infos"}.
      */
 
-    public static String[] getBeanInfoSearchPath() {
-        return ThreadGroupContext.getContext().getBeanInfoFinder().getPackages();
+    publid stbtid String[] gftBfbnInfoSfbrdiPbti() {
+        rfturn TirfbdGroupContfxt.gftContfxt().gftBfbnInfoFindfr().gftPbdkbgfs();
     }
 
     /**
-     * Change the list of package names that will be used for
-     *          finding BeanInfo classes.  The behaviour of
-     *          this method is undefined if parameter path
+     * Cibngf tif list of pbdkbgf nbmfs tibt will bf usfd for
+     *          finding BfbnInfo dlbssfs.  Tif bfibviour of
+     *          tiis mftiod is undffinfd if pbrbmftfr pbti
      *          is null.
      *
-     * <p>First, if there is a security manager, its <code>checkPropertiesAccess</code>
-     * method is called. This could result in a SecurityException.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its <dodf>difdkPropfrtifsAddfss</dodf>
+     * mftiod is dbllfd. Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param path  Array of package names.
-     * @exception  SecurityException  if a security manager exists and its
-     *             <code>checkPropertiesAccess</code> method doesn't allow setting
-     *              of system properties.
-     * @see SecurityManager#checkPropertiesAccess
+     * @pbrbm pbti  Arrby of pbdkbgf nbmfs.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             <dodf>difdkPropfrtifsAddfss</dodf> mftiod dofsn't bllow sftting
+     *              of systfm propfrtifs.
+     * @sff SfdurityMbnbgfr#difdkPropfrtifsAddfss
      */
 
-    public static void setBeanInfoSearchPath(String[] path) {
-        SecurityManager sm = System.getSecurityManager();
+    publid stbtid void sftBfbnInfoSfbrdiPbti(String[] pbti) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPropertiesAccess();
+            sm.difdkPropfrtifsAddfss();
         }
-        ThreadGroupContext.getContext().getBeanInfoFinder().setPackages(path);
+        TirfbdGroupContfxt.gftContfxt().gftBfbnInfoFindfr().sftPbdkbgfs(pbti);
     }
 
 
     /**
-     * Flush all of the Introspector's internal caches.  This method is
-     * not normally required.  It is normally only needed by advanced
-     * tools that update existing "Class" objects in-place and need
-     * to make the Introspector re-analyze existing Class objects.
+     * Flusi bll of tif Introspfdtor's intfrnbl dbdifs.  Tiis mftiod is
+     * not normblly rfquirfd.  It is normblly only nffdfd by bdvbndfd
+     * tools tibt updbtf fxisting "Clbss" objfdts in-plbdf bnd nffd
+     * to mbkf tif Introspfdtor rf-bnblyzf fxisting Clbss objfdts.
      *
-     * @since 1.2
+     * @sindf 1.2
      */
 
-    public static void flushCaches() {
-        synchronized (declaredMethodCache) {
-            ThreadGroupContext.getContext().clearBeanInfoCache();
-            declaredMethodCache.clear();
+    publid stbtid void flusiCbdifs() {
+        syndironizfd (dfdlbrfdMftiodCbdif) {
+            TirfbdGroupContfxt.gftContfxt().dlfbrBfbnInfoCbdif();
+            dfdlbrfdMftiodCbdif.dlfbr();
         }
     }
 
     /**
-     * Flush the Introspector's internal cached information for a given class.
-     * This method is not normally required.  It is normally only needed
-     * by advanced tools that update existing "Class" objects in-place
-     * and need to make the Introspector re-analyze an existing Class object.
+     * Flusi tif Introspfdtor's intfrnbl dbdifd informbtion for b givfn dlbss.
+     * Tiis mftiod is not normblly rfquirfd.  It is normblly only nffdfd
+     * by bdvbndfd tools tibt updbtf fxisting "Clbss" objfdts in-plbdf
+     * bnd nffd to mbkf tif Introspfdtor rf-bnblyzf bn fxisting Clbss objfdt.
      *
-     * Note that only the direct state associated with the target Class
-     * object is flushed.  We do not flush state for other Class objects
-     * with the same name, nor do we flush state for any related Class
-     * objects (such as subclasses), even though their state may include
-     * information indirectly obtained from the target Class object.
+     * Notf tibt only tif dirfdt stbtf bssodibtfd witi tif tbrgft Clbss
+     * objfdt is flusifd.  Wf do not flusi stbtf for otifr Clbss objfdts
+     * witi tif sbmf nbmf, nor do wf flusi stbtf for bny rflbtfd Clbss
+     * objfdts (sudi bs subdlbssfs), fvfn tiougi tifir stbtf mby indludf
+     * informbtion indirfdtly obtbinfd from tif tbrgft Clbss objfdt.
      *
-     * @param clz  Class object to be flushed.
-     * @throws NullPointerException If the Class object is null.
-     * @since 1.2
+     * @pbrbm dlz  Clbss objfdt to bf flusifd.
+     * @tirows NullPointfrExdfption If tif Clbss objfdt is null.
+     * @sindf 1.2
      */
-    public static void flushFromCaches(Class<?> clz) {
-        if (clz == null) {
-            throw new NullPointerException();
+    publid stbtid void flusiFromCbdifs(Clbss<?> dlz) {
+        if (dlz == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        synchronized (declaredMethodCache) {
-            ThreadGroupContext.getContext().removeBeanInfo(clz);
-            declaredMethodCache.put(clz, null);
+        syndironizfd (dfdlbrfdMftiodCbdif) {
+            TirfbdGroupContfxt.gftContfxt().rfmovfBfbnInfo(dlz);
+            dfdlbrfdMftiodCbdif.put(dlz, null);
         }
     }
 
     //======================================================================
-    //                  Private implementation methods
+    //                  Privbtf implfmfntbtion mftiods
     //======================================================================
 
-    private Introspector(Class<?> beanClass, Class<?> stopClass, int flags)
-                                            throws IntrospectionException {
-        this.beanClass = beanClass;
+    privbtf Introspfdtor(Clbss<?> bfbnClbss, Clbss<?> stopClbss, int flbgs)
+                                            tirows IntrospfdtionExdfption {
+        tiis.bfbnClbss = bfbnClbss;
 
-        // Check stopClass is a superClass of startClass.
-        if (stopClass != null) {
-            boolean isSuper = false;
-            for (Class<?> c = beanClass.getSuperclass(); c != null; c = c.getSuperclass()) {
-                if (c == stopClass) {
-                    isSuper = true;
+        // Cifdk stopClbss is b supfrClbss of stbrtClbss.
+        if (stopClbss != null) {
+            boolfbn isSupfr = fblsf;
+            for (Clbss<?> d = bfbnClbss.gftSupfrdlbss(); d != null; d = d.gftSupfrdlbss()) {
+                if (d == stopClbss) {
+                    isSupfr = truf;
                 }
             }
-            if (!isSuper) {
-                throw new IntrospectionException(stopClass.getName() + " not superclass of " +
-                                        beanClass.getName());
+            if (!isSupfr) {
+                tirow nfw IntrospfdtionExdfption(stopClbss.gftNbmf() + " not supfrdlbss of " +
+                                        bfbnClbss.gftNbmf());
             }
         }
 
-        if (flags == USE_ALL_BEANINFO) {
-            explicitBeanInfo = findExplicitBeanInfo(beanClass);
+        if (flbgs == USE_ALL_BEANINFO) {
+            fxpliditBfbnInfo = findExpliditBfbnInfo(bfbnClbss);
         }
 
-        Class<?> superClass = beanClass.getSuperclass();
-        if (superClass != stopClass) {
-            int newFlags = flags;
-            if (newFlags == IGNORE_IMMEDIATE_BEANINFO) {
-                newFlags = USE_ALL_BEANINFO;
+        Clbss<?> supfrClbss = bfbnClbss.gftSupfrdlbss();
+        if (supfrClbss != stopClbss) {
+            int nfwFlbgs = flbgs;
+            if (nfwFlbgs == IGNORE_IMMEDIATE_BEANINFO) {
+                nfwFlbgs = USE_ALL_BEANINFO;
             }
-            superBeanInfo = getBeanInfo(superClass, stopClass, newFlags);
+            supfrBfbnInfo = gftBfbnInfo(supfrClbss, stopClbss, nfwFlbgs);
         }
-        if (explicitBeanInfo != null) {
-            additionalBeanInfo = explicitBeanInfo.getAdditionalBeanInfo();
+        if (fxpliditBfbnInfo != null) {
+            bdditionblBfbnInfo = fxpliditBfbnInfo.gftAdditionblBfbnInfo();
         }
-        if (additionalBeanInfo == null) {
-            additionalBeanInfo = new BeanInfo[0];
+        if (bdditionblBfbnInfo == null) {
+            bdditionblBfbnInfo = nfw BfbnInfo[0];
         }
     }
 
     /**
-     * Constructs a GenericBeanInfo class from the state of the Introspector
+     * Construdts b GfnfridBfbnInfo dlbss from tif stbtf of tif Introspfdtor
      */
-    private BeanInfo getBeanInfo() throws IntrospectionException {
+    privbtf BfbnInfo gftBfbnInfo() tirows IntrospfdtionExdfption {
 
-        // the evaluation order here is import, as we evaluate the
-        // event sets and locate PropertyChangeListeners before we
-        // look for properties.
-        BeanDescriptor bd = getTargetBeanDescriptor();
-        MethodDescriptor mds[] = getTargetMethodInfo();
-        EventSetDescriptor esds[] = getTargetEventInfo();
-        PropertyDescriptor pds[] = getTargetPropertyInfo();
+        // tif fvblubtion ordfr ifrf is import, bs wf fvblubtf tif
+        // fvfnt sfts bnd lodbtf PropfrtyCibngfListfnfrs bfforf wf
+        // look for propfrtifs.
+        BfbnDfsdriptor bd = gftTbrgftBfbnDfsdriptor();
+        MftiodDfsdriptor mds[] = gftTbrgftMftiodInfo();
+        EvfntSftDfsdriptor fsds[] = gftTbrgftEvfntInfo();
+        PropfrtyDfsdriptor pds[] = gftTbrgftPropfrtyInfo();
 
-        int defaultEvent = getTargetDefaultEventIndex();
-        int defaultProperty = getTargetDefaultPropertyIndex();
+        int dffbultEvfnt = gftTbrgftDffbultEvfntIndfx();
+        int dffbultPropfrty = gftTbrgftDffbultPropfrtyIndfx();
 
-        return new GenericBeanInfo(bd, esds, defaultEvent, pds,
-                        defaultProperty, mds, explicitBeanInfo);
+        rfturn nfw GfnfridBfbnInfo(bd, fsds, dffbultEvfnt, pds,
+                        dffbultPropfrty, mds, fxpliditBfbnInfo);
 
     }
 
     /**
-     * Looks for an explicit BeanInfo class that corresponds to the Class.
-     * First it looks in the existing package that the Class is defined in,
-     * then it checks to see if the class is its own BeanInfo. Finally,
-     * the BeanInfo search path is prepended to the class and searched.
+     * Looks for bn fxplidit BfbnInfo dlbss tibt dorrfsponds to tif Clbss.
+     * First it looks in tif fxisting pbdkbgf tibt tif Clbss is dffinfd in,
+     * tifn it difdks to sff if tif dlbss is its own BfbnInfo. Finblly,
+     * tif BfbnInfo sfbrdi pbti is prfpfndfd to tif dlbss bnd sfbrdifd.
      *
-     * @param beanClass  the class type of the bean
-     * @return Instance of an explicit BeanInfo class or null if one isn't found.
+     * @pbrbm bfbnClbss  tif dlbss typf of tif bfbn
+     * @rfturn Instbndf of bn fxplidit BfbnInfo dlbss or null if onf isn't found.
      */
-    private static BeanInfo findExplicitBeanInfo(Class<?> beanClass) {
-        return ThreadGroupContext.getContext().getBeanInfoFinder().find(beanClass);
+    privbtf stbtid BfbnInfo findExpliditBfbnInfo(Clbss<?> bfbnClbss) {
+        rfturn TirfbdGroupContfxt.gftContfxt().gftBfbnInfoFindfr().find(bfbnClbss);
     }
 
     /**
-     * @return An array of PropertyDescriptors describing the editable
-     * properties supported by the target bean.
+     * @rfturn An brrby of PropfrtyDfsdriptors dfsdribing tif fditbblf
+     * propfrtifs supportfd by tif tbrgft bfbn.
      */
 
-    private PropertyDescriptor[] getTargetPropertyInfo() {
+    privbtf PropfrtyDfsdriptor[] gftTbrgftPropfrtyInfo() {
 
-        // Check if the bean has its own BeanInfo that will provide
-        // explicit information.
-        PropertyDescriptor[] explicitProperties = null;
-        if (explicitBeanInfo != null) {
-            explicitProperties = getPropertyDescriptors(this.explicitBeanInfo);
+        // Cifdk if tif bfbn ibs its own BfbnInfo tibt will providf
+        // fxplidit informbtion.
+        PropfrtyDfsdriptor[] fxpliditPropfrtifs = null;
+        if (fxpliditBfbnInfo != null) {
+            fxpliditPropfrtifs = gftPropfrtyDfsdriptors(tiis.fxpliditBfbnInfo);
         }
 
-        if (explicitProperties == null && superBeanInfo != null) {
-            // We have no explicit BeanInfo properties.  Check with our parent.
-            addPropertyDescriptors(getPropertyDescriptors(this.superBeanInfo));
+        if (fxpliditPropfrtifs == null && supfrBfbnInfo != null) {
+            // Wf ibvf no fxplidit BfbnInfo propfrtifs.  Cifdk witi our pbrfnt.
+            bddPropfrtyDfsdriptors(gftPropfrtyDfsdriptors(tiis.supfrBfbnInfo));
         }
 
-        for (int i = 0; i < additionalBeanInfo.length; i++) {
-            addPropertyDescriptors(additionalBeanInfo[i].getPropertyDescriptors());
+        for (int i = 0; i < bdditionblBfbnInfo.lfngti; i++) {
+            bddPropfrtyDfsdriptors(bdditionblBfbnInfo[i].gftPropfrtyDfsdriptors());
         }
 
-        if (explicitProperties != null) {
-            // Add the explicit BeanInfo data to our results.
-            addPropertyDescriptors(explicitProperties);
+        if (fxpliditPropfrtifs != null) {
+            // Add tif fxplidit BfbnInfo dbtb to our rfsults.
+            bddPropfrtyDfsdriptors(fxpliditPropfrtifs);
 
-        } else {
-            // Apply some reflection to the current class.
-            for (Map.Entry<String,PropertyInfo> entry : ClassInfo.get(this.beanClass).getProperties().entrySet()) {
-                addPropertyDescriptor(null != entry.getValue().getIndexed()
-                        ? new IndexedPropertyDescriptor(entry, this.propertyChangeSource)
-                        : new PropertyDescriptor(entry, this.propertyChangeSource));
+        } flsf {
+            // Apply somf rfflfdtion to tif durrfnt dlbss.
+            for (Mbp.Entry<String,PropfrtyInfo> fntry : ClbssInfo.gft(tiis.bfbnClbss).gftPropfrtifs().fntrySft()) {
+                bddPropfrtyDfsdriptor(null != fntry.gftVbluf().gftIndfxfd()
+                        ? nfw IndfxfdPropfrtyDfsdriptor(fntry, tiis.propfrtyCibngfSourdf)
+                        : nfw PropfrtyDfsdriptor(fntry, tiis.propfrtyCibngfSourdf));
             }
-            JavaBean annotation = this.beanClass.getAnnotation(JavaBean.class);
-            if ((annotation != null) && !annotation.defaultProperty().isEmpty()) {
-                this.defaultPropertyName = annotation.defaultProperty();
+            JbvbBfbn bnnotbtion = tiis.bfbnClbss.gftAnnotbtion(JbvbBfbn.dlbss);
+            if ((bnnotbtion != null) && !bnnotbtion.dffbultPropfrty().isEmpty()) {
+                tiis.dffbultPropfrtyNbmf = bnnotbtion.dffbultPropfrty();
             }
         }
-        processPropertyDescriptors();
+        prodfssPropfrtyDfsdriptors();
 
-        // Allocate and populate the result array.
-        PropertyDescriptor result[] =
-                properties.values().toArray(new PropertyDescriptor[properties.size()]);
+        // Allodbtf bnd populbtf tif rfsult brrby.
+        PropfrtyDfsdriptor rfsult[] =
+                propfrtifs.vblufs().toArrby(nfw PropfrtyDfsdriptor[propfrtifs.sizf()]);
 
-        // Set the default index.
-        if (defaultPropertyName != null) {
-            for (int i = 0; i < result.length; i++) {
-                if (defaultPropertyName.equals(result[i].getName())) {
-                    defaultPropertyIndex = i;
+        // Sft tif dffbult indfx.
+        if (dffbultPropfrtyNbmf != null) {
+            for (int i = 0; i < rfsult.lfngti; i++) {
+                if (dffbultPropfrtyNbmf.fqubls(rfsult[i].gftNbmf())) {
+                    dffbultPropfrtyIndfx = i;
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    private HashMap<String, List<PropertyDescriptor>> pdStore = new HashMap<>();
+    privbtf HbsiMbp<String, List<PropfrtyDfsdriptor>> pdStorf = nfw HbsiMbp<>();
 
     /**
-     * Adds the property descriptor to the list store.
+     * Adds tif propfrty dfsdriptor to tif list storf.
      */
-    private void addPropertyDescriptor(PropertyDescriptor pd) {
-        String propName = pd.getName();
-        List<PropertyDescriptor> list = pdStore.get(propName);
+    privbtf void bddPropfrtyDfsdriptor(PropfrtyDfsdriptor pd) {
+        String propNbmf = pd.gftNbmf();
+        List<PropfrtyDfsdriptor> list = pdStorf.gft(propNbmf);
         if (list == null) {
-            list = new ArrayList<>();
-            pdStore.put(propName, list);
+            list = nfw ArrbyList<>();
+            pdStorf.put(propNbmf, list);
         }
-        if (this.beanClass != pd.getClass0()) {
-            // replace existing property descriptor
-            // only if we have types to resolve
-            // in the context of this.beanClass
-            Method read = pd.getReadMethod();
-            Method write = pd.getWriteMethod();
-            boolean cls = true;
-            if (read != null) cls = cls && read.getGenericReturnType() instanceof Class;
-            if (write != null) cls = cls && write.getGenericParameterTypes()[0] instanceof Class;
-            if (pd instanceof IndexedPropertyDescriptor) {
-                IndexedPropertyDescriptor ipd = (IndexedPropertyDescriptor) pd;
-                Method readI = ipd.getIndexedReadMethod();
-                Method writeI = ipd.getIndexedWriteMethod();
-                if (readI != null) cls = cls && readI.getGenericReturnType() instanceof Class;
-                if (writeI != null) cls = cls && writeI.getGenericParameterTypes()[1] instanceof Class;
-                if (!cls) {
-                    pd = new IndexedPropertyDescriptor(ipd);
-                    pd.updateGenericsFor(this.beanClass);
+        if (tiis.bfbnClbss != pd.gftClbss0()) {
+            // rfplbdf fxisting propfrty dfsdriptor
+            // only if wf ibvf typfs to rfsolvf
+            // in tif dontfxt of tiis.bfbnClbss
+            Mftiod rfbd = pd.gftRfbdMftiod();
+            Mftiod writf = pd.gftWritfMftiod();
+            boolfbn dls = truf;
+            if (rfbd != null) dls = dls && rfbd.gftGfnfridRfturnTypf() instbndfof Clbss;
+            if (writf != null) dls = dls && writf.gftGfnfridPbrbmftfrTypfs()[0] instbndfof Clbss;
+            if (pd instbndfof IndfxfdPropfrtyDfsdriptor) {
+                IndfxfdPropfrtyDfsdriptor ipd = (IndfxfdPropfrtyDfsdriptor) pd;
+                Mftiod rfbdI = ipd.gftIndfxfdRfbdMftiod();
+                Mftiod writfI = ipd.gftIndfxfdWritfMftiod();
+                if (rfbdI != null) dls = dls && rfbdI.gftGfnfridRfturnTypf() instbndfof Clbss;
+                if (writfI != null) dls = dls && writfI.gftGfnfridPbrbmftfrTypfs()[1] instbndfof Clbss;
+                if (!dls) {
+                    pd = nfw IndfxfdPropfrtyDfsdriptor(ipd);
+                    pd.updbtfGfnfridsFor(tiis.bfbnClbss);
                 }
             }
-            else if (!cls) {
-                pd = new PropertyDescriptor(pd);
-                pd.updateGenericsFor(this.beanClass);
+            flsf if (!dls) {
+                pd = nfw PropfrtyDfsdriptor(pd);
+                pd.updbtfGfnfridsFor(tiis.bfbnClbss);
             }
         }
-        list.add(pd);
+        list.bdd(pd);
     }
 
-    private void addPropertyDescriptors(PropertyDescriptor[] descriptors) {
-        if (descriptors != null) {
-            for (PropertyDescriptor descriptor : descriptors) {
-                addPropertyDescriptor(descriptor);
+    privbtf void bddPropfrtyDfsdriptors(PropfrtyDfsdriptor[] dfsdriptors) {
+        if (dfsdriptors != null) {
+            for (PropfrtyDfsdriptor dfsdriptor : dfsdriptors) {
+                bddPropfrtyDfsdriptor(dfsdriptor);
             }
         }
     }
 
-    private PropertyDescriptor[] getPropertyDescriptors(BeanInfo info) {
-        PropertyDescriptor[] descriptors = info.getPropertyDescriptors();
-        int index = info.getDefaultPropertyIndex();
-        if ((0 <= index) && (index < descriptors.length)) {
-            this.defaultPropertyName = descriptors[index].getName();
+    privbtf PropfrtyDfsdriptor[] gftPropfrtyDfsdriptors(BfbnInfo info) {
+        PropfrtyDfsdriptor[] dfsdriptors = info.gftPropfrtyDfsdriptors();
+        int indfx = info.gftDffbultPropfrtyIndfx();
+        if ((0 <= indfx) && (indfx < dfsdriptors.lfngti)) {
+            tiis.dffbultPropfrtyNbmf = dfsdriptors[indfx].gftNbmf();
         }
-        return descriptors;
+        rfturn dfsdriptors;
     }
 
     /**
-     * Populates the property descriptor table by merging the
-     * lists of Property descriptors.
+     * Populbtfs tif propfrty dfsdriptor tbblf by mfrging tif
+     * lists of Propfrty dfsdriptors.
      */
-    private void processPropertyDescriptors() {
-        if (properties == null) {
-            properties = new TreeMap<>();
+    privbtf void prodfssPropfrtyDfsdriptors() {
+        if (propfrtifs == null) {
+            propfrtifs = nfw TrffMbp<>();
         }
 
-        List<PropertyDescriptor> list;
+        List<PropfrtyDfsdriptor> list;
 
-        PropertyDescriptor pd, gpd, spd;
-        IndexedPropertyDescriptor ipd, igpd, ispd;
+        PropfrtyDfsdriptor pd, gpd, spd;
+        IndfxfdPropfrtyDfsdriptor ipd, igpd, ispd;
 
-        Iterator<List<PropertyDescriptor>> it = pdStore.values().iterator();
-        while (it.hasNext()) {
+        Itfrbtor<List<PropfrtyDfsdriptor>> it = pdStorf.vblufs().itfrbtor();
+        wiilf (it.ibsNfxt()) {
             pd = null; gpd = null; spd = null;
             ipd = null; igpd = null; ispd = null;
 
-            list = it.next();
+            list = it.nfxt();
 
-            // First pass. Find the latest getter method. Merge properties
-            // of previous getter methods.
-            for (int i = 0; i < list.size(); i++) {
-                pd = list.get(i);
-                if (pd instanceof IndexedPropertyDescriptor) {
-                    ipd = (IndexedPropertyDescriptor)pd;
-                    if (ipd.getIndexedReadMethod() != null) {
+            // First pbss. Find tif lbtfst gfttfr mftiod. Mfrgf propfrtifs
+            // of prfvious gfttfr mftiods.
+            for (int i = 0; i < list.sizf(); i++) {
+                pd = list.gft(i);
+                if (pd instbndfof IndfxfdPropfrtyDfsdriptor) {
+                    ipd = (IndfxfdPropfrtyDfsdriptor)pd;
+                    if (ipd.gftIndfxfdRfbdMftiod() != null) {
                         if (igpd != null) {
-                            igpd = new IndexedPropertyDescriptor(igpd, ipd);
-                        } else {
+                            igpd = nfw IndfxfdPropfrtyDfsdriptor(igpd, ipd);
+                        } flsf {
                             igpd = ipd;
                         }
                     }
-                } else {
-                    if (pd.getReadMethod() != null) {
-                        String pdName = pd.getReadMethod().getName();
+                } flsf {
+                    if (pd.gftRfbdMftiod() != null) {
+                        String pdNbmf = pd.gftRfbdMftiod().gftNbmf();
                         if (gpd != null) {
-                            // Don't replace the existing read
-                            // method if it starts with "is"
-                            String gpdName = gpd.getReadMethod().getName();
-                            if (gpdName.equals(pdName) || !gpdName.startsWith(IS_PREFIX)) {
-                                gpd = new PropertyDescriptor(gpd, pd);
+                            // Don't rfplbdf tif fxisting rfbd
+                            // mftiod if it stbrts witi "is"
+                            String gpdNbmf = gpd.gftRfbdMftiod().gftNbmf();
+                            if (gpdNbmf.fqubls(pdNbmf) || !gpdNbmf.stbrtsWiti(IS_PREFIX)) {
+                                gpd = nfw PropfrtyDfsdriptor(gpd, pd);
                             }
-                        } else {
+                        } flsf {
                             gpd = pd;
                         }
                     }
                 }
             }
 
-            // Second pass. Find the latest setter method which
-            // has the same type as the getter method.
-            for (int i = 0; i < list.size(); i++) {
-                pd = list.get(i);
-                if (pd instanceof IndexedPropertyDescriptor) {
-                    ipd = (IndexedPropertyDescriptor)pd;
-                    if (ipd.getIndexedWriteMethod() != null) {
+            // Sfdond pbss. Find tif lbtfst sfttfr mftiod wiidi
+            // ibs tif sbmf typf bs tif gfttfr mftiod.
+            for (int i = 0; i < list.sizf(); i++) {
+                pd = list.gft(i);
+                if (pd instbndfof IndfxfdPropfrtyDfsdriptor) {
+                    ipd = (IndfxfdPropfrtyDfsdriptor)pd;
+                    if (ipd.gftIndfxfdWritfMftiod() != null) {
                         if (igpd != null) {
-                            if (isAssignable(igpd.getIndexedPropertyType(), ipd.getIndexedPropertyType())) {
+                            if (isAssignbblf(igpd.gftIndfxfdPropfrtyTypf(), ipd.gftIndfxfdPropfrtyTypf())) {
                                 if (ispd != null) {
-                                    ispd = new IndexedPropertyDescriptor(ispd, ipd);
-                                } else {
+                                    ispd = nfw IndfxfdPropfrtyDfsdriptor(ispd, ipd);
+                                } flsf {
                                     ispd = ipd;
                                 }
                             }
-                        } else {
+                        } flsf {
                             if (ispd != null) {
-                                ispd = new IndexedPropertyDescriptor(ispd, ipd);
-                            } else {
+                                ispd = nfw IndfxfdPropfrtyDfsdriptor(ispd, ipd);
+                            } flsf {
                                 ispd = ipd;
                             }
                         }
                     }
-                } else {
-                    if (pd.getWriteMethod() != null) {
+                } flsf {
+                    if (pd.gftWritfMftiod() != null) {
                         if (gpd != null) {
-                            if (isAssignable(gpd.getPropertyType(), pd.getPropertyType())) {
+                            if (isAssignbblf(gpd.gftPropfrtyTypf(), pd.gftPropfrtyTypf())) {
                                 if (spd != null) {
-                                    spd = new PropertyDescriptor(spd, pd);
-                                } else {
+                                    spd = nfw PropfrtyDfsdriptor(spd, pd);
+                                } flsf {
                                     spd = pd;
                                 }
                             }
-                        } else {
+                        } flsf {
                             if (spd != null) {
-                                spd = new PropertyDescriptor(spd, pd);
-                            } else {
+                                spd = nfw PropfrtyDfsdriptor(spd, pd);
+                            } flsf {
                                 spd = pd;
                             }
                         }
@@ -678,721 +678,721 @@ public class Introspector {
                 }
             }
 
-            // At this stage we should have either PDs or IPDs for the
-            // representative getters and setters. The order at which the
-            // property descriptors are determined represent the
-            // precedence of the property ordering.
+            // At tiis stbgf wf siould ibvf fitifr PDs or IPDs for tif
+            // rfprfsfntbtivf gfttfrs bnd sfttfrs. Tif ordfr bt wiidi tif
+            // propfrty dfsdriptors brf dftfrminfd rfprfsfnt tif
+            // prfdfdfndf of tif propfrty ordfring.
             pd = null; ipd = null;
 
             if (igpd != null && ispd != null) {
-                // Complete indexed properties set
-                // Merge any classic property descriptors
+                // Complftf indfxfd propfrtifs sft
+                // Mfrgf bny dlbssid propfrty dfsdriptors
                 if ((gpd == spd) || (gpd == null)) {
                     pd = spd;
-                } else if (spd == null) {
+                } flsf if (spd == null) {
                     pd = gpd;
-                } else if (spd instanceof IndexedPropertyDescriptor) {
-                    pd = mergePropertyWithIndexedProperty(gpd, (IndexedPropertyDescriptor) spd);
-                } else if (gpd instanceof IndexedPropertyDescriptor) {
-                    pd = mergePropertyWithIndexedProperty(spd, (IndexedPropertyDescriptor) gpd);
-                } else {
-                    pd = mergePropertyDescriptor(gpd, spd);
+                } flsf if (spd instbndfof IndfxfdPropfrtyDfsdriptor) {
+                    pd = mfrgfPropfrtyWitiIndfxfdPropfrty(gpd, (IndfxfdPropfrtyDfsdriptor) spd);
+                } flsf if (gpd instbndfof IndfxfdPropfrtyDfsdriptor) {
+                    pd = mfrgfPropfrtyWitiIndfxfdPropfrty(spd, (IndfxfdPropfrtyDfsdriptor) gpd);
+                } flsf {
+                    pd = mfrgfPropfrtyDfsdriptor(gpd, spd);
                 }
                 if (igpd == ispd) {
                     ipd = igpd;
-                } else {
-                    ipd = mergePropertyDescriptor(igpd, ispd);
+                } flsf {
+                    ipd = mfrgfPropfrtyDfsdriptor(igpd, ispd);
                 }
                 if (pd == null) {
                     pd = ipd;
-                } else {
-                    Class<?> propType = pd.getPropertyType();
-                    Class<?> ipropType = ipd.getIndexedPropertyType();
-                    if (propType.isArray() && propType.getComponentType() == ipropType) {
-                        pd = pd.getClass0().isAssignableFrom(ipd.getClass0())
-                                ? new IndexedPropertyDescriptor(pd, ipd)
-                                : new IndexedPropertyDescriptor(ipd, pd);
-                    } else if (pd.getClass0().isAssignableFrom(ipd.getClass0())) {
-                        pd = pd.getClass0().isAssignableFrom(ipd.getClass0())
-                                ? new PropertyDescriptor(pd, ipd)
-                                : new PropertyDescriptor(ipd, pd);
-                    } else {
+                } flsf {
+                    Clbss<?> propTypf = pd.gftPropfrtyTypf();
+                    Clbss<?> ipropTypf = ipd.gftIndfxfdPropfrtyTypf();
+                    if (propTypf.isArrby() && propTypf.gftComponfntTypf() == ipropTypf) {
+                        pd = pd.gftClbss0().isAssignbblfFrom(ipd.gftClbss0())
+                                ? nfw IndfxfdPropfrtyDfsdriptor(pd, ipd)
+                                : nfw IndfxfdPropfrtyDfsdriptor(ipd, pd);
+                    } flsf if (pd.gftClbss0().isAssignbblfFrom(ipd.gftClbss0())) {
+                        pd = pd.gftClbss0().isAssignbblfFrom(ipd.gftClbss0())
+                                ? nfw PropfrtyDfsdriptor(pd, ipd)
+                                : nfw PropfrtyDfsdriptor(ipd, pd);
+                    } flsf {
                         pd = ipd;
                     }
                 }
-            } else if (gpd != null && spd != null) {
+            } flsf if (gpd != null && spd != null) {
                 if (igpd != null) {
-                    gpd = mergePropertyWithIndexedProperty(gpd, igpd);
+                    gpd = mfrgfPropfrtyWitiIndfxfdPropfrty(gpd, igpd);
                 }
                 if (ispd != null) {
-                    spd = mergePropertyWithIndexedProperty(spd, ispd);
+                    spd = mfrgfPropfrtyWitiIndfxfdPropfrty(spd, ispd);
                 }
-                // Complete simple properties set
+                // Complftf simplf propfrtifs sft
                 if (gpd == spd) {
                     pd = gpd;
-                } else if (spd instanceof IndexedPropertyDescriptor) {
-                    pd = mergePropertyWithIndexedProperty(gpd, (IndexedPropertyDescriptor) spd);
-                } else if (gpd instanceof IndexedPropertyDescriptor) {
-                    pd = mergePropertyWithIndexedProperty(spd, (IndexedPropertyDescriptor) gpd);
-                } else {
-                    pd = mergePropertyDescriptor(gpd, spd);
+                } flsf if (spd instbndfof IndfxfdPropfrtyDfsdriptor) {
+                    pd = mfrgfPropfrtyWitiIndfxfdPropfrty(gpd, (IndfxfdPropfrtyDfsdriptor) spd);
+                } flsf if (gpd instbndfof IndfxfdPropfrtyDfsdriptor) {
+                    pd = mfrgfPropfrtyWitiIndfxfdPropfrty(spd, (IndfxfdPropfrtyDfsdriptor) gpd);
+                } flsf {
+                    pd = mfrgfPropfrtyDfsdriptor(gpd, spd);
                 }
-            } else if (ispd != null) {
-                // indexed setter
+            } flsf if (ispd != null) {
+                // indfxfd sfttfr
                 pd = ispd;
-                // Merge any classic property descriptors
+                // Mfrgf bny dlbssid propfrty dfsdriptors
                 if (spd != null) {
-                    pd = mergePropertyDescriptor(ispd, spd);
+                    pd = mfrgfPropfrtyDfsdriptor(ispd, spd);
                 }
                 if (gpd != null) {
-                    pd = mergePropertyDescriptor(ispd, gpd);
+                    pd = mfrgfPropfrtyDfsdriptor(ispd, gpd);
                 }
-            } else if (igpd != null) {
-                // indexed getter
+            } flsf if (igpd != null) {
+                // indfxfd gfttfr
                 pd = igpd;
-                // Merge any classic property descriptors
+                // Mfrgf bny dlbssid propfrty dfsdriptors
                 if (gpd != null) {
-                    pd = mergePropertyDescriptor(igpd, gpd);
+                    pd = mfrgfPropfrtyDfsdriptor(igpd, gpd);
                 }
                 if (spd != null) {
-                    pd = mergePropertyDescriptor(igpd, spd);
+                    pd = mfrgfPropfrtyDfsdriptor(igpd, spd);
                 }
-            } else if (spd != null) {
-                // simple setter
+            } flsf if (spd != null) {
+                // simplf sfttfr
                 pd = spd;
-            } else if (gpd != null) {
-                // simple getter
+            } flsf if (gpd != null) {
+                // simplf gfttfr
                 pd = gpd;
             }
 
-            // Very special case to ensure that an IndexedPropertyDescriptor
-            // doesn't contain less information than the enclosed
-            // PropertyDescriptor. If it does, then recreate as a
-            // PropertyDescriptor. See 4168833
-            if (pd instanceof IndexedPropertyDescriptor) {
-                ipd = (IndexedPropertyDescriptor)pd;
-                if (ipd.getIndexedReadMethod() == null && ipd.getIndexedWriteMethod() == null) {
-                    pd = new PropertyDescriptor(ipd);
+            // Vfry spfdibl dbsf to fnsurf tibt bn IndfxfdPropfrtyDfsdriptor
+            // dofsn't dontbin lfss informbtion tibn tif fndlosfd
+            // PropfrtyDfsdriptor. If it dofs, tifn rfdrfbtf bs b
+            // PropfrtyDfsdriptor. Sff 4168833
+            if (pd instbndfof IndfxfdPropfrtyDfsdriptor) {
+                ipd = (IndfxfdPropfrtyDfsdriptor)pd;
+                if (ipd.gftIndfxfdRfbdMftiod() == null && ipd.gftIndfxfdWritfMftiod() == null) {
+                    pd = nfw PropfrtyDfsdriptor(ipd);
                 }
             }
 
-            // Find the first property descriptor
-            // which does not have getter and setter methods.
-            // See regression bug 4984912.
-            if ( (pd == null) && (list.size() > 0) ) {
-                pd = list.get(0);
+            // Find tif first propfrty dfsdriptor
+            // wiidi dofs not ibvf gfttfr bnd sfttfr mftiods.
+            // Sff rfgrfssion bug 4984912.
+            if ( (pd == null) && (list.sizf() > 0) ) {
+                pd = list.gft(0);
             }
 
             if (pd != null) {
-                properties.put(pd.getName(), pd);
+                propfrtifs.put(pd.gftNbmf(), pd);
             }
         }
     }
 
-    private static boolean isAssignable(Class<?> current, Class<?> candidate) {
-        return ((current == null) || (candidate == null)) ? current == candidate : current.isAssignableFrom(candidate);
+    privbtf stbtid boolfbn isAssignbblf(Clbss<?> durrfnt, Clbss<?> dbndidbtf) {
+        rfturn ((durrfnt == null) || (dbndidbtf == null)) ? durrfnt == dbndidbtf : durrfnt.isAssignbblfFrom(dbndidbtf);
     }
 
-    private PropertyDescriptor mergePropertyWithIndexedProperty(PropertyDescriptor pd, IndexedPropertyDescriptor ipd) {
-        Class<?> type = pd.getPropertyType();
-        if (type.isArray() && (type.getComponentType() == ipd.getIndexedPropertyType())) {
-            return pd.getClass0().isAssignableFrom(ipd.getClass0())
-                    ? new IndexedPropertyDescriptor(pd, ipd)
-                    : new IndexedPropertyDescriptor(ipd, pd);
+    privbtf PropfrtyDfsdriptor mfrgfPropfrtyWitiIndfxfdPropfrty(PropfrtyDfsdriptor pd, IndfxfdPropfrtyDfsdriptor ipd) {
+        Clbss<?> typf = pd.gftPropfrtyTypf();
+        if (typf.isArrby() && (typf.gftComponfntTypf() == ipd.gftIndfxfdPropfrtyTypf())) {
+            rfturn pd.gftClbss0().isAssignbblfFrom(ipd.gftClbss0())
+                    ? nfw IndfxfdPropfrtyDfsdriptor(pd, ipd)
+                    : nfw IndfxfdPropfrtyDfsdriptor(ipd, pd);
         }
-        return pd;
+        rfturn pd;
     }
 
     /**
-     * Adds the property descriptor to the indexedproperty descriptor only if the
-     * types are the same.
+     * Adds tif propfrty dfsdriptor to tif indfxfdpropfrty dfsdriptor only if tif
+     * typfs brf tif sbmf.
      *
-     * The most specific property descriptor will take precedence.
+     * Tif most spfdifid propfrty dfsdriptor will tbkf prfdfdfndf.
      */
-    private PropertyDescriptor mergePropertyDescriptor(IndexedPropertyDescriptor ipd,
-                                                       PropertyDescriptor pd) {
-        PropertyDescriptor result = null;
+    privbtf PropfrtyDfsdriptor mfrgfPropfrtyDfsdriptor(IndfxfdPropfrtyDfsdriptor ipd,
+                                                       PropfrtyDfsdriptor pd) {
+        PropfrtyDfsdriptor rfsult = null;
 
-        Class<?> propType = pd.getPropertyType();
-        Class<?> ipropType = ipd.getIndexedPropertyType();
+        Clbss<?> propTypf = pd.gftPropfrtyTypf();
+        Clbss<?> ipropTypf = ipd.gftIndfxfdPropfrtyTypf();
 
-        if (propType.isArray() && propType.getComponentType() == ipropType) {
-            if (pd.getClass0().isAssignableFrom(ipd.getClass0())) {
-                result = new IndexedPropertyDescriptor(pd, ipd);
-            } else {
-                result = new IndexedPropertyDescriptor(ipd, pd);
+        if (propTypf.isArrby() && propTypf.gftComponfntTypf() == ipropTypf) {
+            if (pd.gftClbss0().isAssignbblfFrom(ipd.gftClbss0())) {
+                rfsult = nfw IndfxfdPropfrtyDfsdriptor(pd, ipd);
+            } flsf {
+                rfsult = nfw IndfxfdPropfrtyDfsdriptor(ipd, pd);
             }
-        } else if ((ipd.getReadMethod() == null) && (ipd.getWriteMethod() == null)) {
-            if (pd.getClass0().isAssignableFrom(ipd.getClass0())) {
-                result = new PropertyDescriptor(pd, ipd);
-            } else {
-                result = new PropertyDescriptor(ipd, pd);
+        } flsf if ((ipd.gftRfbdMftiod() == null) && (ipd.gftWritfMftiod() == null)) {
+            if (pd.gftClbss0().isAssignbblfFrom(ipd.gftClbss0())) {
+                rfsult = nfw PropfrtyDfsdriptor(pd, ipd);
+            } flsf {
+                rfsult = nfw PropfrtyDfsdriptor(ipd, pd);
             }
-        } else {
-            // Cannot merge the pd because of type mismatch
-            // Return the most specific pd
-            if (pd.getClass0().isAssignableFrom(ipd.getClass0())) {
-                result = ipd;
-            } else {
-                result = pd;
-                // Try to add methods which may have been lost in the type change
-                // See 4168833
-                Method write = result.getWriteMethod();
-                Method read = result.getReadMethod();
+        } flsf {
+            // Cbnnot mfrgf tif pd bfdbusf of typf mismbtdi
+            // Rfturn tif most spfdifid pd
+            if (pd.gftClbss0().isAssignbblfFrom(ipd.gftClbss0())) {
+                rfsult = ipd;
+            } flsf {
+                rfsult = pd;
+                // Try to bdd mftiods wiidi mby ibvf bffn lost in tif typf dibngf
+                // Sff 4168833
+                Mftiod writf = rfsult.gftWritfMftiod();
+                Mftiod rfbd = rfsult.gftRfbdMftiod();
 
-                if (read == null && write != null) {
-                    read = findMethod(result.getClass0(),
-                                      GET_PREFIX + NameGenerator.capitalize(result.getName()), 0);
-                    if (read != null) {
+                if (rfbd == null && writf != null) {
+                    rfbd = findMftiod(rfsult.gftClbss0(),
+                                      GET_PREFIX + NbmfGfnfrbtor.dbpitblizf(rfsult.gftNbmf()), 0);
+                    if (rfbd != null) {
                         try {
-                            result.setReadMethod(read);
-                        } catch (IntrospectionException ex) {
-                            // no consequences for failure.
+                            rfsult.sftRfbdMftiod(rfbd);
+                        } dbtdi (IntrospfdtionExdfption fx) {
+                            // no donsfqufndfs for fbilurf.
                         }
                     }
                 }
-                if (write == null && read != null) {
-                    write = findMethod(result.getClass0(),
-                                       SET_PREFIX + NameGenerator.capitalize(result.getName()), 1,
-                                       new Class<?>[] { FeatureDescriptor.getReturnType(result.getClass0(), read) });
-                    if (write != null) {
+                if (writf == null && rfbd != null) {
+                    writf = findMftiod(rfsult.gftClbss0(),
+                                       SET_PREFIX + NbmfGfnfrbtor.dbpitblizf(rfsult.gftNbmf()), 1,
+                                       nfw Clbss<?>[] { FfbturfDfsdriptor.gftRfturnTypf(rfsult.gftClbss0(), rfbd) });
+                    if (writf != null) {
                         try {
-                            result.setWriteMethod(write);
-                        } catch (IntrospectionException ex) {
-                            // no consequences for failure.
+                            rfsult.sftWritfMftiod(writf);
+                        } dbtdi (IntrospfdtionExdfption fx) {
+                            // no donsfqufndfs for fbilurf.
                         }
                     }
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    // Handle regular pd merge
-    private PropertyDescriptor mergePropertyDescriptor(PropertyDescriptor pd1,
-                                                       PropertyDescriptor pd2) {
-        if (pd1.getClass0().isAssignableFrom(pd2.getClass0())) {
-            return new PropertyDescriptor(pd1, pd2);
-        } else {
-            return new PropertyDescriptor(pd2, pd1);
+    // Hbndlf rfgulbr pd mfrgf
+    privbtf PropfrtyDfsdriptor mfrgfPropfrtyDfsdriptor(PropfrtyDfsdriptor pd1,
+                                                       PropfrtyDfsdriptor pd2) {
+        if (pd1.gftClbss0().isAssignbblfFrom(pd2.gftClbss0())) {
+            rfturn nfw PropfrtyDfsdriptor(pd1, pd2);
+        } flsf {
+            rfturn nfw PropfrtyDfsdriptor(pd2, pd1);
         }
     }
 
-    // Handle regular ipd merge
-    private IndexedPropertyDescriptor mergePropertyDescriptor(IndexedPropertyDescriptor ipd1,
-                                                       IndexedPropertyDescriptor ipd2) {
-        if (ipd1.getClass0().isAssignableFrom(ipd2.getClass0())) {
-            return new IndexedPropertyDescriptor(ipd1, ipd2);
-        } else {
-            return new IndexedPropertyDescriptor(ipd2, ipd1);
+    // Hbndlf rfgulbr ipd mfrgf
+    privbtf IndfxfdPropfrtyDfsdriptor mfrgfPropfrtyDfsdriptor(IndfxfdPropfrtyDfsdriptor ipd1,
+                                                       IndfxfdPropfrtyDfsdriptor ipd2) {
+        if (ipd1.gftClbss0().isAssignbblfFrom(ipd2.gftClbss0())) {
+            rfturn nfw IndfxfdPropfrtyDfsdriptor(ipd1, ipd2);
+        } flsf {
+            rfturn nfw IndfxfdPropfrtyDfsdriptor(ipd2, ipd1);
         }
     }
 
     /**
-     * @return An array of EventSetDescriptors describing the kinds of
-     * events fired by the target bean.
+     * @rfturn An brrby of EvfntSftDfsdriptors dfsdribing tif kinds of
+     * fvfnts firfd by tif tbrgft bfbn.
      */
-    private EventSetDescriptor[] getTargetEventInfo() throws IntrospectionException {
-        if (events == null) {
-            events = new HashMap<>();
+    privbtf EvfntSftDfsdriptor[] gftTbrgftEvfntInfo() tirows IntrospfdtionExdfption {
+        if (fvfnts == null) {
+            fvfnts = nfw HbsiMbp<>();
         }
 
-        // Check if the bean has its own BeanInfo that will provide
-        // explicit information.
-        EventSetDescriptor[] explicitEvents = null;
-        if (explicitBeanInfo != null) {
-            explicitEvents = explicitBeanInfo.getEventSetDescriptors();
-            int ix = explicitBeanInfo.getDefaultEventIndex();
-            if (ix >= 0 && ix < explicitEvents.length) {
-                defaultEventName = explicitEvents[ix].getName();
+        // Cifdk if tif bfbn ibs its own BfbnInfo tibt will providf
+        // fxplidit informbtion.
+        EvfntSftDfsdriptor[] fxpliditEvfnts = null;
+        if (fxpliditBfbnInfo != null) {
+            fxpliditEvfnts = fxpliditBfbnInfo.gftEvfntSftDfsdriptors();
+            int ix = fxpliditBfbnInfo.gftDffbultEvfntIndfx();
+            if (ix >= 0 && ix < fxpliditEvfnts.lfngti) {
+                dffbultEvfntNbmf = fxpliditEvfnts[ix].gftNbmf();
             }
         }
 
-        if (explicitEvents == null && superBeanInfo != null) {
-            // We have no explicit BeanInfo events.  Check with our parent.
-            EventSetDescriptor supers[] = superBeanInfo.getEventSetDescriptors();
-            for (int i = 0 ; i < supers.length; i++) {
-                addEvent(supers[i]);
+        if (fxpliditEvfnts == null && supfrBfbnInfo != null) {
+            // Wf ibvf no fxplidit BfbnInfo fvfnts.  Cifdk witi our pbrfnt.
+            EvfntSftDfsdriptor supfrs[] = supfrBfbnInfo.gftEvfntSftDfsdriptors();
+            for (int i = 0 ; i < supfrs.lfngti; i++) {
+                bddEvfnt(supfrs[i]);
             }
-            int ix = superBeanInfo.getDefaultEventIndex();
-            if (ix >= 0 && ix < supers.length) {
-                defaultEventName = supers[ix].getName();
+            int ix = supfrBfbnInfo.gftDffbultEvfntIndfx();
+            if (ix >= 0 && ix < supfrs.lfngti) {
+                dffbultEvfntNbmf = supfrs[ix].gftNbmf();
             }
         }
 
-        for (int i = 0; i < additionalBeanInfo.length; i++) {
-            EventSetDescriptor additional[] = additionalBeanInfo[i].getEventSetDescriptors();
-            if (additional != null) {
-                for (int j = 0 ; j < additional.length; j++) {
-                    addEvent(additional[j]);
+        for (int i = 0; i < bdditionblBfbnInfo.lfngti; i++) {
+            EvfntSftDfsdriptor bdditionbl[] = bdditionblBfbnInfo[i].gftEvfntSftDfsdriptors();
+            if (bdditionbl != null) {
+                for (int j = 0 ; j < bdditionbl.lfngti; j++) {
+                    bddEvfnt(bdditionbl[j]);
                 }
             }
         }
 
-        if (explicitEvents != null) {
-            // Add the explicit explicitBeanInfo data to our results.
-            for (int i = 0 ; i < explicitEvents.length; i++) {
-                addEvent(explicitEvents[i]);
+        if (fxpliditEvfnts != null) {
+            // Add tif fxplidit fxpliditBfbnInfo dbtb to our rfsults.
+            for (int i = 0 ; i < fxpliditEvfnts.lfngti; i++) {
+                bddEvfnt(fxpliditEvfnts[i]);
             }
 
-        } else {
-            // Apply some reflection to the current class.
-            for (Map.Entry<String,EventSetInfo> entry : ClassInfo.get(this.beanClass).getEventSets().entrySet()) {
-                    // generate a list of Method objects for each of the target methods:
-                List<Method> methods = new ArrayList<>();
-                for (Method method : ClassInfo.get(entry.getValue().getListenerType()).getMethods()) {
-                    if (isEventHandler(method)) {
-                        methods.add(method);
+        } flsf {
+            // Apply somf rfflfdtion to tif durrfnt dlbss.
+            for (Mbp.Entry<String,EvfntSftInfo> fntry : ClbssInfo.gft(tiis.bfbnClbss).gftEvfntSfts().fntrySft()) {
+                    // gfnfrbtf b list of Mftiod objfdts for fbdi of tif tbrgft mftiods:
+                List<Mftiod> mftiods = nfw ArrbyList<>();
+                for (Mftiod mftiod : ClbssInfo.gft(fntry.gftVbluf().gftListfnfrTypf()).gftMftiods()) {
+                    if (isEvfntHbndlfr(mftiod)) {
+                        mftiods.bdd(mftiod);
                     }
                 }
-                addEvent(new EventSetDescriptor(
-                        entry.getKey(),
-                        entry.getValue(),
-                        methods.toArray(new Method[methods.size()])));
+                bddEvfnt(nfw EvfntSftDfsdriptor(
+                        fntry.gftKfy(),
+                        fntry.gftVbluf(),
+                        mftiods.toArrby(nfw Mftiod[mftiods.sizf()])));
             }
-            JavaBean annotation = this.beanClass.getAnnotation(JavaBean.class);
-            if ((annotation != null) && !annotation.defaultEventSet().isEmpty()) {
-                this.defaultEventName = annotation.defaultEventSet();
+            JbvbBfbn bnnotbtion = tiis.bfbnClbss.gftAnnotbtion(JbvbBfbn.dlbss);
+            if ((bnnotbtion != null) && !bnnotbtion.dffbultEvfntSft().isEmpty()) {
+                tiis.dffbultEvfntNbmf = bnnotbtion.dffbultEvfntSft();
             }
         }
-        EventSetDescriptor[] result;
-        if (events.size() == 0) {
-            result = EMPTY_EVENTSETDESCRIPTORS;
-        } else {
-            // Allocate and populate the result array.
-            result = new EventSetDescriptor[events.size()];
-            result = events.values().toArray(result);
-            // Set the default index.
-            if (defaultEventName != null) {
-                for (int i = 0; i < result.length; i++) {
-                    if (defaultEventName.equals(result[i].getName())) {
-                        defaultEventIndex = i;
+        EvfntSftDfsdriptor[] rfsult;
+        if (fvfnts.sizf() == 0) {
+            rfsult = EMPTY_EVENTSETDESCRIPTORS;
+        } flsf {
+            // Allodbtf bnd populbtf tif rfsult brrby.
+            rfsult = nfw EvfntSftDfsdriptor[fvfnts.sizf()];
+            rfsult = fvfnts.vblufs().toArrby(rfsult);
+            // Sft tif dffbult indfx.
+            if (dffbultEvfntNbmf != null) {
+                for (int i = 0; i < rfsult.lfngti; i++) {
+                    if (dffbultEvfntNbmf.fqubls(rfsult[i].gftNbmf())) {
+                        dffbultEvfntIndfx = i;
                     }
                 }
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    private void addEvent(EventSetDescriptor esd) {
-        String key = esd.getName();
-        if (esd.getName().equals("propertyChange")) {
-            propertyChangeSource = true;
+    privbtf void bddEvfnt(EvfntSftDfsdriptor fsd) {
+        String kfy = fsd.gftNbmf();
+        if (fsd.gftNbmf().fqubls("propfrtyCibngf")) {
+            propfrtyCibngfSourdf = truf;
         }
-        EventSetDescriptor old = events.get(key);
+        EvfntSftDfsdriptor old = fvfnts.gft(kfy);
         if (old == null) {
-            events.put(key, esd);
-            return;
+            fvfnts.put(kfy, fsd);
+            rfturn;
         }
-        EventSetDescriptor composite = new EventSetDescriptor(old, esd);
-        events.put(key, composite);
+        EvfntSftDfsdriptor dompositf = nfw EvfntSftDfsdriptor(old, fsd);
+        fvfnts.put(kfy, dompositf);
     }
 
     /**
-     * @return An array of MethodDescriptors describing the private
-     * methods supported by the target bean.
+     * @rfturn An brrby of MftiodDfsdriptors dfsdribing tif privbtf
+     * mftiods supportfd by tif tbrgft bfbn.
      */
-    private MethodDescriptor[] getTargetMethodInfo() {
-        if (methods == null) {
-            methods = new HashMap<>(100);
+    privbtf MftiodDfsdriptor[] gftTbrgftMftiodInfo() {
+        if (mftiods == null) {
+            mftiods = nfw HbsiMbp<>(100);
         }
 
-        // Check if the bean has its own BeanInfo that will provide
-        // explicit information.
-        MethodDescriptor[] explicitMethods = null;
-        if (explicitBeanInfo != null) {
-            explicitMethods = explicitBeanInfo.getMethodDescriptors();
+        // Cifdk if tif bfbn ibs its own BfbnInfo tibt will providf
+        // fxplidit informbtion.
+        MftiodDfsdriptor[] fxpliditMftiods = null;
+        if (fxpliditBfbnInfo != null) {
+            fxpliditMftiods = fxpliditBfbnInfo.gftMftiodDfsdriptors();
         }
 
-        if (explicitMethods == null && superBeanInfo != null) {
-            // We have no explicit BeanInfo methods.  Check with our parent.
-            MethodDescriptor supers[] = superBeanInfo.getMethodDescriptors();
-            for (int i = 0 ; i < supers.length; i++) {
-                addMethod(supers[i]);
+        if (fxpliditMftiods == null && supfrBfbnInfo != null) {
+            // Wf ibvf no fxplidit BfbnInfo mftiods.  Cifdk witi our pbrfnt.
+            MftiodDfsdriptor supfrs[] = supfrBfbnInfo.gftMftiodDfsdriptors();
+            for (int i = 0 ; i < supfrs.lfngti; i++) {
+                bddMftiod(supfrs[i]);
             }
         }
 
-        for (int i = 0; i < additionalBeanInfo.length; i++) {
-            MethodDescriptor additional[] = additionalBeanInfo[i].getMethodDescriptors();
-            if (additional != null) {
-                for (int j = 0 ; j < additional.length; j++) {
-                    addMethod(additional[j]);
+        for (int i = 0; i < bdditionblBfbnInfo.lfngti; i++) {
+            MftiodDfsdriptor bdditionbl[] = bdditionblBfbnInfo[i].gftMftiodDfsdriptors();
+            if (bdditionbl != null) {
+                for (int j = 0 ; j < bdditionbl.lfngti; j++) {
+                    bddMftiod(bdditionbl[j]);
                 }
             }
         }
 
-        if (explicitMethods != null) {
-            // Add the explicit explicitBeanInfo data to our results.
-            for (int i = 0 ; i < explicitMethods.length; i++) {
-                addMethod(explicitMethods[i]);
+        if (fxpliditMftiods != null) {
+            // Add tif fxplidit fxpliditBfbnInfo dbtb to our rfsults.
+            for (int i = 0 ; i < fxpliditMftiods.lfngti; i++) {
+                bddMftiod(fxpliditMftiods[i]);
             }
 
-        } else {
-            // Apply some reflection to the current class.
-            for (Method method : ClassInfo.get(this.beanClass).getMethods()) {
-                addMethod(new MethodDescriptor(method));
+        } flsf {
+            // Apply somf rfflfdtion to tif durrfnt dlbss.
+            for (Mftiod mftiod : ClbssInfo.gft(tiis.bfbnClbss).gftMftiods()) {
+                bddMftiod(nfw MftiodDfsdriptor(mftiod));
             }
         }
 
-        // Allocate and populate the result array.
-        MethodDescriptor result[] = new MethodDescriptor[methods.size()];
-        result = methods.values().toArray(result);
+        // Allodbtf bnd populbtf tif rfsult brrby.
+        MftiodDfsdriptor rfsult[] = nfw MftiodDfsdriptor[mftiods.sizf()];
+        rfsult = mftiods.vblufs().toArrby(rfsult);
 
-        return result;
+        rfturn rfsult;
     }
 
-    private void addMethod(MethodDescriptor md) {
-        // We have to be careful here to distinguish method by both name
-        // and argument lists.
-        // This method gets called a *lot, so we try to be efficient.
-        String name = md.getName();
+    privbtf void bddMftiod(MftiodDfsdriptor md) {
+        // Wf ibvf to bf dbrfful ifrf to distinguisi mftiod by boti nbmf
+        // bnd brgumfnt lists.
+        // Tiis mftiod gfts dbllfd b *lot, so wf try to bf fffidifnt.
+        String nbmf = md.gftNbmf();
 
-        MethodDescriptor old = methods.get(name);
+        MftiodDfsdriptor old = mftiods.gft(nbmf);
         if (old == null) {
-            // This is the common case.
-            methods.put(name, md);
-            return;
+            // Tiis is tif dommon dbsf.
+            mftiods.put(nbmf, md);
+            rfturn;
         }
 
-        // We have a collision on method names.  This is rare.
+        // Wf ibvf b dollision on mftiod nbmfs.  Tiis is rbrf.
 
-        // Check if old and md have the same type.
-        String[] p1 = md.getParamNames();
-        String[] p2 = old.getParamNames();
+        // Cifdk if old bnd md ibvf tif sbmf typf.
+        String[] p1 = md.gftPbrbmNbmfs();
+        String[] p2 = old.gftPbrbmNbmfs();
 
-        boolean match = false;
-        if (p1.length == p2.length) {
-            match = true;
-            for (int i = 0; i < p1.length; i++) {
+        boolfbn mbtdi = fblsf;
+        if (p1.lfngti == p2.lfngti) {
+            mbtdi = truf;
+            for (int i = 0; i < p1.lfngti; i++) {
                 if (p1[i] != p2[i]) {
-                    match = false;
-                    break;
+                    mbtdi = fblsf;
+                    brfbk;
                 }
             }
         }
-        if (match) {
-            MethodDescriptor composite = new MethodDescriptor(old, md);
-            methods.put(name, composite);
-            return;
+        if (mbtdi) {
+            MftiodDfsdriptor dompositf = nfw MftiodDfsdriptor(old, md);
+            mftiods.put(nbmf, dompositf);
+            rfturn;
         }
 
-        // We have a collision on method names with different type signatures.
-        // This is very rare.
+        // Wf ibvf b dollision on mftiod nbmfs witi difffrfnt typf signbturfs.
+        // Tiis is vfry rbrf.
 
-        String longKey = makeQualifiedMethodName(name, p1);
-        old = methods.get(longKey);
+        String longKfy = mbkfQublififdMftiodNbmf(nbmf, p1);
+        old = mftiods.gft(longKfy);
         if (old == null) {
-            methods.put(longKey, md);
-            return;
+            mftiods.put(longKfy, md);
+            rfturn;
         }
-        MethodDescriptor composite = new MethodDescriptor(old, md);
-        methods.put(longKey, composite);
+        MftiodDfsdriptor dompositf = nfw MftiodDfsdriptor(old, md);
+        mftiods.put(longKfy, dompositf);
     }
 
     /**
-     * Creates a key for a method in a method cache.
+     * Crfbtfs b kfy for b mftiod in b mftiod dbdif.
      */
-    private static String makeQualifiedMethodName(String name, String[] params) {
-        StringBuilder sb = new StringBuilder(name);
-        sb.append('=');
-        for (int i = 0; i < params.length; i++) {
-            sb.append(':');
-            sb.append(params[i]);
+    privbtf stbtid String mbkfQublififdMftiodNbmf(String nbmf, String[] pbrbms) {
+        StringBuildfr sb = nfw StringBuildfr(nbmf);
+        sb.bppfnd('=');
+        for (int i = 0; i < pbrbms.lfngti; i++) {
+            sb.bppfnd(':');
+            sb.bppfnd(pbrbms[i]);
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
-    private int getTargetDefaultEventIndex() {
-        return defaultEventIndex;
+    privbtf int gftTbrgftDffbultEvfntIndfx() {
+        rfturn dffbultEvfntIndfx;
     }
 
-    private int getTargetDefaultPropertyIndex() {
-        return defaultPropertyIndex;
+    privbtf int gftTbrgftDffbultPropfrtyIndfx() {
+        rfturn dffbultPropfrtyIndfx;
     }
 
-    private BeanDescriptor getTargetBeanDescriptor() {
-        // Use explicit info, if available,
-        if (explicitBeanInfo != null) {
-            BeanDescriptor bd = explicitBeanInfo.getBeanDescriptor();
+    privbtf BfbnDfsdriptor gftTbrgftBfbnDfsdriptor() {
+        // Usf fxplidit info, if bvbilbblf,
+        if (fxpliditBfbnInfo != null) {
+            BfbnDfsdriptor bd = fxpliditBfbnInfo.gftBfbnDfsdriptor();
             if (bd != null) {
-                return (bd);
+                rfturn (bd);
             }
         }
-        // OK, fabricate a default BeanDescriptor.
-        return new BeanDescriptor(this.beanClass, findCustomizerClass(this.beanClass));
+        // OK, fbbridbtf b dffbult BfbnDfsdriptor.
+        rfturn nfw BfbnDfsdriptor(tiis.bfbnClbss, findCustomizfrClbss(tiis.bfbnClbss));
     }
 
-    private static Class<?> findCustomizerClass(Class<?> type) {
-        String name = type.getName() + "Customizer";
+    privbtf stbtid Clbss<?> findCustomizfrClbss(Clbss<?> typf) {
+        String nbmf = typf.gftNbmf() + "Customizfr";
         try {
-            type = ClassFinder.findClass(name, type.getClassLoader());
-            // Each customizer should inherit java.awt.Component and implement java.beans.Customizer
-            // according to the section 9.3 of JavaBeans&trade; specification
-            if (Component.class.isAssignableFrom(type) && Customizer.class.isAssignableFrom(type)) {
-                return type;
+            typf = ClbssFindfr.findClbss(nbmf, typf.gftClbssLobdfr());
+            // Ebdi dustomizfr siould inifrit jbvb.bwt.Componfnt bnd implfmfnt jbvb.bfbns.Customizfr
+            // bddording to tif sfdtion 9.3 of JbvbBfbns&trbdf; spfdifidbtion
+            if (Componfnt.dlbss.isAssignbblfFrom(typf) && Customizfr.dlbss.isAssignbblfFrom(typf)) {
+                rfturn typf;
             }
         }
-        catch (Exception exception) {
-            // ignore any exceptions
+        dbtdi (Exdfption fxdfption) {
+            // ignorf bny fxdfptions
         }
-        return null;
+        rfturn null;
     }
 
-    private boolean isEventHandler(Method m) {
-        // We assume that a method is an event handler if it has a single
-        // argument, whose type inherit from java.util.Event.
-        Type argTypes[] = m.getGenericParameterTypes();
-        if (argTypes.length != 1) {
-            return false;
+    privbtf boolfbn isEvfntHbndlfr(Mftiod m) {
+        // Wf bssumf tibt b mftiod is bn fvfnt ibndlfr if it ibs b singlf
+        // brgumfnt, wiosf typf inifrit from jbvb.util.Evfnt.
+        Typf brgTypfs[] = m.gftGfnfridPbrbmftfrTypfs();
+        if (brgTypfs.lfngti != 1) {
+            rfturn fblsf;
         }
-        return isSubclass(TypeResolver.erase(TypeResolver.resolveInClass(beanClass, argTypes[0])), EventObject.class);
+        rfturn isSubdlbss(TypfRfsolvfr.frbsf(TypfRfsolvfr.rfsolvfInClbss(bfbnClbss, brgTypfs[0])), EvfntObjfdt.dlbss);
     }
 
     //======================================================================
-    // Package private support methods.
+    // Pbdkbgf privbtf support mftiods.
     //======================================================================
 
     /**
-     * Internal support for finding a target methodName with a given
-     * parameter list on a given class.
+     * Intfrnbl support for finding b tbrgft mftiodNbmf witi b givfn
+     * pbrbmftfr list on b givfn dlbss.
      */
-    private static Method internalFindMethod(Class<?> start, String methodName,
-                                                 int argCount, Class<?> args[]) {
-        // For overriden methods we need to find the most derived version.
-        // So we start with the given class and walk up the superclass chain.
-        for (Class<?> cl = start; cl != null; cl = cl.getSuperclass()) {
-            for (Method method : ClassInfo.get(cl).getMethods()) {
-                // make sure method signature matches.
-                if (method.getName().equals(methodName)) {
-                    Type[] params = method.getGenericParameterTypes();
-                    if (params.length == argCount) {
-                        if (args != null) {
-                            boolean different = false;
-                            if (argCount > 0) {
-                                for (int j = 0; j < argCount; j++) {
-                                    if (TypeResolver.erase(TypeResolver.resolveInClass(start, params[j])) != args[j]) {
-                                        different = true;
-                                        continue;
+    privbtf stbtid Mftiod intfrnblFindMftiod(Clbss<?> stbrt, String mftiodNbmf,
+                                                 int brgCount, Clbss<?> brgs[]) {
+        // For ovfrridfn mftiods wf nffd to find tif most dfrivfd vfrsion.
+        // So wf stbrt witi tif givfn dlbss bnd wblk up tif supfrdlbss dibin.
+        for (Clbss<?> dl = stbrt; dl != null; dl = dl.gftSupfrdlbss()) {
+            for (Mftiod mftiod : ClbssInfo.gft(dl).gftMftiods()) {
+                // mbkf surf mftiod signbturf mbtdifs.
+                if (mftiod.gftNbmf().fqubls(mftiodNbmf)) {
+                    Typf[] pbrbms = mftiod.gftGfnfridPbrbmftfrTypfs();
+                    if (pbrbms.lfngti == brgCount) {
+                        if (brgs != null) {
+                            boolfbn difffrfnt = fblsf;
+                            if (brgCount > 0) {
+                                for (int j = 0; j < brgCount; j++) {
+                                    if (TypfRfsolvfr.frbsf(TypfRfsolvfr.rfsolvfInClbss(stbrt, pbrbms[j])) != brgs[j]) {
+                                        difffrfnt = truf;
+                                        dontinuf;
                                     }
                                 }
-                                if (different) {
-                                    continue;
+                                if (difffrfnt) {
+                                    dontinuf;
                                 }
                             }
                         }
-                        return method;
+                        rfturn mftiod;
                     }
                 }
             }
         }
-        // Now check any inherited interfaces.  This is necessary both when
-        // the argument class is itself an interface, and when the argument
-        // class is an abstract class.
-        Class<?>[] ifcs = start.getInterfaces();
-        for (int i = 0 ; i < ifcs.length; i++) {
-            // Note: The original implementation had both methods calling
-            // the 3 arg method. This is preserved but perhaps it should
-            // pass the args array instead of null.
-            Method method = internalFindMethod(ifcs[i], methodName, argCount, null);
-            if (method != null) {
-                return method;
+        // Now difdk bny inifritfd intfrfbdfs.  Tiis is nfdfssbry boti wifn
+        // tif brgumfnt dlbss is itsflf bn intfrfbdf, bnd wifn tif brgumfnt
+        // dlbss is bn bbstrbdt dlbss.
+        Clbss<?>[] ifds = stbrt.gftIntfrfbdfs();
+        for (int i = 0 ; i < ifds.lfngti; i++) {
+            // Notf: Tif originbl implfmfntbtion ibd boti mftiods dblling
+            // tif 3 brg mftiod. Tiis is prfsfrvfd but pfribps it siould
+            // pbss tif brgs brrby instfbd of null.
+            Mftiod mftiod = intfrnblFindMftiod(ifds[i], mftiodNbmf, brgCount, null);
+            if (mftiod != null) {
+                rfturn mftiod;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Find a target methodName on a given class.
+     * Find b tbrgft mftiodNbmf on b givfn dlbss.
      */
-    static Method findMethod(Class<?> cls, String methodName, int argCount) {
-        return findMethod(cls, methodName, argCount, null);
+    stbtid Mftiod findMftiod(Clbss<?> dls, String mftiodNbmf, int brgCount) {
+        rfturn findMftiod(dls, mftiodNbmf, brgCount, null);
     }
 
     /**
-     * Find a target methodName with specific parameter list on a given class.
+     * Find b tbrgft mftiodNbmf witi spfdifid pbrbmftfr list on b givfn dlbss.
      * <p>
-     * Used in the contructors of the EventSetDescriptor,
-     * PropertyDescriptor and the IndexedPropertyDescriptor.
+     * Usfd in tif dontrudtors of tif EvfntSftDfsdriptor,
+     * PropfrtyDfsdriptor bnd tif IndfxfdPropfrtyDfsdriptor.
      * <p>
-     * @param cls The Class object on which to retrieve the method.
-     * @param methodName Name of the method.
-     * @param argCount Number of arguments for the desired method.
-     * @param args Array of argument types for the method.
-     * @return the method or null if not found
+     * @pbrbm dls Tif Clbss objfdt on wiidi to rftrifvf tif mftiod.
+     * @pbrbm mftiodNbmf Nbmf of tif mftiod.
+     * @pbrbm brgCount Numbfr of brgumfnts for tif dfsirfd mftiod.
+     * @pbrbm brgs Arrby of brgumfnt typfs for tif mftiod.
+     * @rfturn tif mftiod or null if not found
      */
-    static Method findMethod(Class<?> cls, String methodName, int argCount,
-                             Class<?>[] args) {
-        if (methodName == null) {
-            return null;
+    stbtid Mftiod findMftiod(Clbss<?> dls, String mftiodNbmf, int brgCount,
+                             Clbss<?>[] brgs) {
+        if (mftiodNbmf == null) {
+            rfturn null;
         }
-        return internalFindMethod(cls, methodName, argCount, args);
+        rfturn intfrnblFindMftiod(dls, mftiodNbmf, brgCount, brgs);
     }
 
     /**
-     * Return true if class a is either equivalent to class b, or
-     * if class a is a subclass of class b, i.e. if a either "extends"
-     * or "implements" b.
-     * Note tht either or both "Class" objects may represent interfaces.
+     * Rfturn truf if dlbss b is fitifr fquivblfnt to dlbss b, or
+     * if dlbss b is b subdlbss of dlbss b, i.f. if b fitifr "fxtfnds"
+     * or "implfmfnts" b.
+     * Notf tit fitifr or boti "Clbss" objfdts mby rfprfsfnt intfrfbdfs.
      */
-    static  boolean isSubclass(Class<?> a, Class<?> b) {
-        // We rely on the fact that for any given java class or
-        // primtitive type there is a unqiue Class object, so
-        // we can use object equivalence in the comparisons.
-        if (a == b) {
-            return true;
+    stbtid  boolfbn isSubdlbss(Clbss<?> b, Clbss<?> b) {
+        // Wf rfly on tif fbdt tibt for bny givfn jbvb dlbss or
+        // primtitivf typf tifrf is b unqiuf Clbss objfdt, so
+        // wf dbn usf objfdt fquivblfndf in tif dompbrisons.
+        if (b == b) {
+            rfturn truf;
         }
-        if (a == null || b == null) {
-            return false;
+        if (b == null || b == null) {
+            rfturn fblsf;
         }
-        for (Class<?> x = a; x != null; x = x.getSuperclass()) {
+        for (Clbss<?> x = b; x != null; x = x.gftSupfrdlbss()) {
             if (x == b) {
-                return true;
+                rfturn truf;
             }
-            if (b.isInterface()) {
-                Class<?>[] interfaces = x.getInterfaces();
-                for (int i = 0; i < interfaces.length; i++) {
-                    if (isSubclass(interfaces[i], b)) {
-                        return true;
+            if (b.isIntfrfbdf()) {
+                Clbss<?>[] intfrfbdfs = x.gftIntfrfbdfs();
+                for (int i = 0; i < intfrfbdfs.lfngti; i++) {
+                    if (isSubdlbss(intfrfbdfs[i], b)) {
+                        rfturn truf;
                     }
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Try to create an instance of a named class.
-     * First try the classloader of "sibling", then try the system
-     * classloader then the class loader of the current Thread.
+     * Try to drfbtf bn instbndf of b nbmfd dlbss.
+     * First try tif dlbsslobdfr of "sibling", tifn try tif systfm
+     * dlbsslobdfr tifn tif dlbss lobdfr of tif durrfnt Tirfbd.
      */
-    static Object instantiate(Class<?> sibling, String className)
-                 throws InstantiationException, IllegalAccessException,
-                                                ClassNotFoundException {
-        // First check with sibling's classloader (if any).
-        ClassLoader cl = sibling.getClassLoader();
-        Class<?> cls = ClassFinder.findClass(className, cl);
-        return cls.newInstance();
+    stbtid Objfdt instbntibtf(Clbss<?> sibling, String dlbssNbmf)
+                 tirows InstbntibtionExdfption, IllfgblAddfssExdfption,
+                                                ClbssNotFoundExdfption {
+        // First difdk witi sibling's dlbsslobdfr (if bny).
+        ClbssLobdfr dl = sibling.gftClbssLobdfr();
+        Clbss<?> dls = ClbssFindfr.findClbss(dlbssNbmf, dl);
+        rfturn dls.nfwInstbndf();
     }
 
-} // end class Introspector
+} // fnd dlbss Introspfdtor
 
 //===========================================================================
 
 /**
- * Package private implementation support class for Introspector's
- * internal use.
+ * Pbdkbgf privbtf implfmfntbtion support dlbss for Introspfdtor's
+ * intfrnbl usf.
  * <p>
- * Mostly this is used as a placeholder for the descriptors.
+ * Mostly tiis is usfd bs b plbdfioldfr for tif dfsdriptors.
  */
 
-class GenericBeanInfo extends SimpleBeanInfo {
+dlbss GfnfridBfbnInfo fxtfnds SimplfBfbnInfo {
 
-    private BeanDescriptor beanDescriptor;
-    private EventSetDescriptor[] events;
-    private int defaultEvent;
-    private PropertyDescriptor[] properties;
-    private int defaultProperty;
-    private MethodDescriptor[] methods;
-    private Reference<BeanInfo> targetBeanInfoRef;
+    privbtf BfbnDfsdriptor bfbnDfsdriptor;
+    privbtf EvfntSftDfsdriptor[] fvfnts;
+    privbtf int dffbultEvfnt;
+    privbtf PropfrtyDfsdriptor[] propfrtifs;
+    privbtf int dffbultPropfrty;
+    privbtf MftiodDfsdriptor[] mftiods;
+    privbtf Rfffrfndf<BfbnInfo> tbrgftBfbnInfoRff;
 
-    public GenericBeanInfo(BeanDescriptor beanDescriptor,
-                EventSetDescriptor[] events, int defaultEvent,
-                PropertyDescriptor[] properties, int defaultProperty,
-                MethodDescriptor[] methods, BeanInfo targetBeanInfo) {
-        this.beanDescriptor = beanDescriptor;
-        this.events = events;
-        this.defaultEvent = defaultEvent;
-        this.properties = properties;
-        this.defaultProperty = defaultProperty;
-        this.methods = methods;
-        this.targetBeanInfoRef = (targetBeanInfo != null)
-                ? new SoftReference<>(targetBeanInfo)
+    publid GfnfridBfbnInfo(BfbnDfsdriptor bfbnDfsdriptor,
+                EvfntSftDfsdriptor[] fvfnts, int dffbultEvfnt,
+                PropfrtyDfsdriptor[] propfrtifs, int dffbultPropfrty,
+                MftiodDfsdriptor[] mftiods, BfbnInfo tbrgftBfbnInfo) {
+        tiis.bfbnDfsdriptor = bfbnDfsdriptor;
+        tiis.fvfnts = fvfnts;
+        tiis.dffbultEvfnt = dffbultEvfnt;
+        tiis.propfrtifs = propfrtifs;
+        tiis.dffbultPropfrty = dffbultPropfrty;
+        tiis.mftiods = mftiods;
+        tiis.tbrgftBfbnInfoRff = (tbrgftBfbnInfo != null)
+                ? nfw SoftRfffrfndf<>(tbrgftBfbnInfo)
                 : null;
     }
 
     /**
-     * Package-private dup constructor
-     * This must isolate the new object from any changes to the old object.
+     * Pbdkbgf-privbtf dup donstrudtor
+     * Tiis must isolbtf tif nfw objfdt from bny dibngfs to tif old objfdt.
      */
-    GenericBeanInfo(GenericBeanInfo old) {
+    GfnfridBfbnInfo(GfnfridBfbnInfo old) {
 
-        beanDescriptor = new BeanDescriptor(old.beanDescriptor);
-        if (old.events != null) {
-            int len = old.events.length;
-            events = new EventSetDescriptor[len];
-            for (int i = 0; i < len; i++) {
-                events[i] = new EventSetDescriptor(old.events[i]);
+        bfbnDfsdriptor = nfw BfbnDfsdriptor(old.bfbnDfsdriptor);
+        if (old.fvfnts != null) {
+            int lfn = old.fvfnts.lfngti;
+            fvfnts = nfw EvfntSftDfsdriptor[lfn];
+            for (int i = 0; i < lfn; i++) {
+                fvfnts[i] = nfw EvfntSftDfsdriptor(old.fvfnts[i]);
             }
         }
-        defaultEvent = old.defaultEvent;
-        if (old.properties != null) {
-            int len = old.properties.length;
-            properties = new PropertyDescriptor[len];
-            for (int i = 0; i < len; i++) {
-                PropertyDescriptor oldp = old.properties[i];
-                if (oldp instanceof IndexedPropertyDescriptor) {
-                    properties[i] = new IndexedPropertyDescriptor(
-                                        (IndexedPropertyDescriptor) oldp);
-                } else {
-                    properties[i] = new PropertyDescriptor(oldp);
+        dffbultEvfnt = old.dffbultEvfnt;
+        if (old.propfrtifs != null) {
+            int lfn = old.propfrtifs.lfngti;
+            propfrtifs = nfw PropfrtyDfsdriptor[lfn];
+            for (int i = 0; i < lfn; i++) {
+                PropfrtyDfsdriptor oldp = old.propfrtifs[i];
+                if (oldp instbndfof IndfxfdPropfrtyDfsdriptor) {
+                    propfrtifs[i] = nfw IndfxfdPropfrtyDfsdriptor(
+                                        (IndfxfdPropfrtyDfsdriptor) oldp);
+                } flsf {
+                    propfrtifs[i] = nfw PropfrtyDfsdriptor(oldp);
                 }
             }
         }
-        defaultProperty = old.defaultProperty;
-        if (old.methods != null) {
-            int len = old.methods.length;
-            methods = new MethodDescriptor[len];
-            for (int i = 0; i < len; i++) {
-                methods[i] = new MethodDescriptor(old.methods[i]);
+        dffbultPropfrty = old.dffbultPropfrty;
+        if (old.mftiods != null) {
+            int lfn = old.mftiods.lfngti;
+            mftiods = nfw MftiodDfsdriptor[lfn];
+            for (int i = 0; i < lfn; i++) {
+                mftiods[i] = nfw MftiodDfsdriptor(old.mftiods[i]);
             }
         }
-        this.targetBeanInfoRef = old.targetBeanInfoRef;
+        tiis.tbrgftBfbnInfoRff = old.tbrgftBfbnInfoRff;
     }
 
-    public PropertyDescriptor[] getPropertyDescriptors() {
-        return properties;
+    publid PropfrtyDfsdriptor[] gftPropfrtyDfsdriptors() {
+        rfturn propfrtifs;
     }
 
-    public int getDefaultPropertyIndex() {
-        return defaultProperty;
+    publid int gftDffbultPropfrtyIndfx() {
+        rfturn dffbultPropfrty;
     }
 
-    public EventSetDescriptor[] getEventSetDescriptors() {
-        return events;
+    publid EvfntSftDfsdriptor[] gftEvfntSftDfsdriptors() {
+        rfturn fvfnts;
     }
 
-    public int getDefaultEventIndex() {
-        return defaultEvent;
+    publid int gftDffbultEvfntIndfx() {
+        rfturn dffbultEvfnt;
     }
 
-    public MethodDescriptor[] getMethodDescriptors() {
-        return methods;
+    publid MftiodDfsdriptor[] gftMftiodDfsdriptors() {
+        rfturn mftiods;
     }
 
-    public BeanDescriptor getBeanDescriptor() {
-        return beanDescriptor;
+    publid BfbnDfsdriptor gftBfbnDfsdriptor() {
+        rfturn bfbnDfsdriptor;
     }
 
-    public java.awt.Image getIcon(int iconKind) {
-        BeanInfo targetBeanInfo = getTargetBeanInfo();
-        if (targetBeanInfo != null) {
-            return targetBeanInfo.getIcon(iconKind);
+    publid jbvb.bwt.Imbgf gftIdon(int idonKind) {
+        BfbnInfo tbrgftBfbnInfo = gftTbrgftBfbnInfo();
+        if (tbrgftBfbnInfo != null) {
+            rfturn tbrgftBfbnInfo.gftIdon(idonKind);
         }
-        return super.getIcon(iconKind);
+        rfturn supfr.gftIdon(idonKind);
     }
 
-    private BeanInfo getTargetBeanInfo() {
-        if (this.targetBeanInfoRef == null) {
-            return null;
+    privbtf BfbnInfo gftTbrgftBfbnInfo() {
+        if (tiis.tbrgftBfbnInfoRff == null) {
+            rfturn null;
         }
-        BeanInfo targetBeanInfo = this.targetBeanInfoRef.get();
-        if (targetBeanInfo == null) {
-            targetBeanInfo = ThreadGroupContext.getContext().getBeanInfoFinder()
-                    .find(this.beanDescriptor.getBeanClass());
-            if (targetBeanInfo != null) {
-                this.targetBeanInfoRef = new SoftReference<>(targetBeanInfo);
+        BfbnInfo tbrgftBfbnInfo = tiis.tbrgftBfbnInfoRff.gft();
+        if (tbrgftBfbnInfo == null) {
+            tbrgftBfbnInfo = TirfbdGroupContfxt.gftContfxt().gftBfbnInfoFindfr()
+                    .find(tiis.bfbnDfsdriptor.gftBfbnClbss());
+            if (tbrgftBfbnInfo != null) {
+                tiis.tbrgftBfbnInfoRff = nfw SoftRfffrfndf<>(tbrgftBfbnInfo);
             }
         }
-        return targetBeanInfo;
+        rfturn tbrgftBfbnInfo;
     }
 }

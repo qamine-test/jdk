@@ -1,415 +1,415 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+#indludf <stdio.i>
+#indludf <string.i>
+#indludf <stdlib.i>
 
-#include <ctype.h>
-#include <sys/utsname.h>
+#indludf <dtypf.i>
+#indludf <sys/utsnbmf.i>
 
-#include <jni.h>
-#include <jni_util.h>
-#include "fontscalerdefs.h"
-#include "X11FontScaler.h"
+#indludf <jni.i>
+#indludf <jni_util.i>
+#indludf "fontsdblfrdffs.i"
+#indludf "X11FontSdblfr.i"
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <awt.h>
+#indludf <X11/Xlib.i>
+#indludf <X11/Xutil.i>
+#indludf <bwt.i>
 
-static GC pixmapGC = 0;
-static Pixmap pixmap = 0;
-static Atom psAtom = 0;
-static Atom fullNameAtom = 0;
-static int pixmapWidth = 0;
-static int pixmapHeight = 0;
+stbtid GC pixmbpGC = 0;
+stbtid Pixmbp pixmbp = 0;
+stbtid Atom psAtom = 0;
+stbtid Atom fullNbmfAtom = 0;
+stbtid int pixmbpWidti = 0;
+stbtid int pixmbpHfigit = 0;
 
-#define FONT_AWT_LOCK() \
-env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2); \
+#dffinf FONT_AWT_LOCK() \
+fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2); \
 AWT_LOCK();
 
-int CreatePixmapAndGC (int width, int height)
+int CrfbtfPixmbpAndGC (int widti, int ifigit)
 {
-    /* REMIND: use the actual screen, not the default screen */
-    Window awt_defaultRoot =
-        RootWindow(awt_display, DefaultScreen(awt_display));
+    /* REMIND: usf tif bdtubl sdrffn, not tif dffbult sdrffn */
+    Window bwt_dffbultRoot =
+        RootWindow(bwt_displby, DffbultSdrffn(bwt_displby));
 
-    if (width < 100) {
-      width = 100;
+    if (widti < 100) {
+      widti = 100;
     }
-    if (height < 100) {
-      height = 100;
+    if (ifigit < 100) {
+      ifigit = 100;
     }
-    pixmapHeight = height;
-    pixmapWidth = width;
-    if (pixmap != 0) {
-      XFreePixmap (awt_display, pixmap);
+    pixmbpHfigit = ifigit;
+    pixmbpWidti = widti;
+    if (pixmbp != 0) {
+      XFrffPixmbp (bwt_displby, pixmbp);
     }
-    if (pixmapGC != NULL) {
-      XFreeGC (awt_display, pixmapGC);
+    if (pixmbpGC != NULL) {
+      XFrffGC (bwt_displby, pixmbpGC);
     }
-    pixmap = XCreatePixmap (awt_display, awt_defaultRoot, pixmapWidth,
-                          pixmapHeight, 1);
-    if (pixmap == 0) {
-      return BadAlloc;
+    pixmbp = XCrfbtfPixmbp (bwt_displby, bwt_dffbultRoot, pixmbpWidti,
+                          pixmbpHfigit, 1);
+    if (pixmbp == 0) {
+      rfturn BbdAllod;
     }
-    pixmapGC = XCreateGC (awt_display, pixmap, 0, 0);
-    if (pixmapGC == NULL) {
-      return BadAlloc;
+    pixmbpGC = XCrfbtfGC (bwt_displby, pixmbp, 0, 0);
+    if (pixmbpGC == NULL) {
+      rfturn BbdAllod;
     }
-    XFillRectangle (awt_display, pixmap, pixmapGC, 0, 0, pixmapWidth,
-                  pixmapHeight);
-    XSetForeground (awt_display, pixmapGC, 1);
-    return Success;
+    XFillRfdtbnglf (bwt_displby, pixmbp, pixmbpGC, 0, 0, pixmbpWidti,
+                  pixmbpHfigit);
+    XSftForfground (bwt_displby, pixmbpGC, 1);
+    rfturn Suddfss;
 }
 
-#ifdef DUMP_IMAGES
+#ifdff DUMP_IMAGES
 
-static void dumpXImage(XImage *ximage)
+stbtid void dumpXImbgf(XImbgf *ximbgf)
 {
-    int height = ximage->height;
-    int width = ximage->width;
+    int ifigit = ximbgf->ifigit;
+    int widti = ximbgf->widti;
     int row;
-    int column;
+    int dolumn;
 
-    fprintf(stderr, "-------------------------------------------\n");
-    for (row = 0; row < height; ++row) {
-      for (column = 0; column < width; ++column) {
-          int pixel = ximage->f.get_pixel(ximage, column, row);
-          fprintf(stderr, (pixel == 0) ? "  " : "XX");
+    fprintf(stdfrr, "-------------------------------------------\n");
+    for (row = 0; row < ifigit; ++row) {
+      for (dolumn = 0; dolumn < widti; ++dolumn) {
+          int pixfl = ximbgf->f.gft_pixfl(ximbgf, dolumn, row);
+          fprintf(stdfrr, (pixfl == 0) ? "  " : "XX");
       }
-      fprintf(stderr, "\n");
+      fprintf(stdfrr, "\n");
     }
-    fprintf(stderr, "-------------------------------------------\n");
+    fprintf(stdfrr, "-------------------------------------------\n");
 }
 
-#endif
+#fndif
 
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 
-JNIEXPORT int JNICALL AWTCountFonts(char* xlfd) {
-#ifdef HEADLESS
-    return 0;
-#else
-    char **names;
-    int count;
-    JNIEnv *env;
+JNIEXPORT int JNICALL AWTCountFonts(dibr* xlfd) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    dibr **nbmfs;
+    int dount;
+    JNIEnv *fnv;
     FONT_AWT_LOCK();
-    names = XListFonts(awt_display, xlfd, 3, &count);
-    XFreeFontNames(names);
+    nbmfs = XListFonts(bwt_displby, xlfd, 3, &dount);
+    XFrffFontNbmfs(nbmfs);
     AWT_UNLOCK();
-    return count;
-#endif /* !HEADLESS */
+    rfturn dount;
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT void JNICALL AWTLoadFont(char* name, AWTFont *pReturn) {
-    JNIEnv *env;
-    *pReturn = NULL;
-#ifndef HEADLESS
+JNIEXPORT void JNICALL AWTLobdFont(dibr* nbmf, AWTFont *pRfturn) {
+    JNIEnv *fnv;
+    *pRfturn = NULL;
+#ifndff HEADLESS
     FONT_AWT_LOCK();
-    *pReturn = (AWTFont)XLoadQueryFont(awt_display, name);
+    *pRfturn = (AWTFont)XLobdQufryFont(bwt_displby, nbmf);
     AWT_UNLOCK();
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT void JNICALL AWTFreeFont(AWTFont font) {
-#ifndef HEADLESS
-    JNIEnv *env;
+JNIEXPORT void JNICALL AWTFrffFont(AWTFont font) {
+#ifndff HEADLESS
+    JNIEnv *fnv;
     FONT_AWT_LOCK();
-    XFreeFont(awt_display, (XFontStruct *)font);
+    XFrffFont(bwt_displby, (XFontStrudt *)font);
     AWT_UNLOCK();
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT unsigned JNICALL AWTFontMinByte1(AWTFont font) {
-#ifdef HEADLESS
-    return 0;
-#else
-    return ((XFontStruct *)font)->min_byte1;
-#endif /* !HEADLESS */
+JNIEXPORT unsignfd JNICALL AWTFontMinBytf1(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XFontStrudt *)font)->min_bytf1;
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT unsigned JNICALL AWTFontMaxByte1(AWTFont font) {
-#ifdef HEADLESS
-    return 0;
-#else
-    return ((XFontStruct *)font)->max_byte1;
-#endif /* !HEADLESS */
+JNIEXPORT unsignfd JNICALL AWTFontMbxBytf1(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XFontStrudt *)font)->mbx_bytf1;
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT unsigned JNICALL AWTFontMinCharOrByte2(AWTFont font) {
-#ifdef HEADLESS
-    return 0;
-#else
-    return ((XFontStruct *)font)->min_char_or_byte2;
-#endif /* !HEADLESS */
+JNIEXPORT unsignfd JNICALL AWTFontMinCibrOrBytf2(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XFontStrudt *)font)->min_dibr_or_bytf2;
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT unsigned JNICALL AWTFontMaxCharOrByte2(AWTFont font) {
-#ifdef HEADLESS
-    return 0;
-#else
-    return ((XFontStruct *)font)->max_char_or_byte2;
-#endif /* !HEADLESS */
+JNIEXPORT unsignfd JNICALL AWTFontMbxCibrOrBytf2(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XFontStrudt *)font)->mbx_dibr_or_bytf2;
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT unsigned JNICALL AWTFontDefaultChar(AWTFont font) {
-#ifdef HEADLESS
-    return 0;
-#else
-    return ((XFontStruct *)font)->default_char;
-#endif /* !HEADLESS */
+JNIEXPORT unsignfd JNICALL AWTFontDffbultCibr(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XFontStrudt *)font)->dffbult_dibr;
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT AWTChar JNICALL AWTFontPerChar(AWTFont font, int index) {
-#ifdef HEADLESS
-    return NULL;
-#else
-    XFontStruct *fXFont = (XFontStruct *)font;
-    XCharStruct *perChar = fXFont->per_char;
-    if (perChar == NULL) {
-        return NULL;
+JNIEXPORT AWTCibr JNICALL AWTFontPfrCibr(AWTFont font, int indfx) {
+#ifdff HEADLESS
+    rfturn NULL;
+#flsf
+    XFontStrudt *fXFont = (XFontStrudt *)font;
+    XCibrStrudt *pfrCibr = fXFont->pfr_dibr;
+    if (pfrCibr == NULL) {
+        rfturn NULL;
     }
-    return (AWTChar)&(perChar[index]);
-#endif /* !HEADLESS */
+    rfturn (AWTCibr)&(pfrCibr[indfx]);
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT AWTChar JNICALL AWTFontMaxBounds(AWTFont font) {
-#ifdef HEADLESS
-    return 0;
-#else
-    return (AWTChar)&((XFontStruct *)font)->max_bounds;
-#endif /* !HEADLESS */
-}
-
-
-JNIEXPORT int JNICALL AWTFontAscent(AWTFont font) {
-#ifdef HEADLESS
-    return 0;
-#else
-    return ((XFontStruct *)font)->ascent;
-#endif /* !HEADLESS */
+JNIEXPORT AWTCibr JNICALL AWTFontMbxBounds(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn (AWTCibr)&((XFontStrudt *)font)->mbx_bounds;
+#fndif /* !HEADLESS */
 }
 
 
-JNIEXPORT int JNICALL AWTFontDescent(AWTFont font) {
-#ifdef HEADLESS
-    return 0;
-#else
-    return ((XFontStruct *)font)->descent;
-#endif /* !HEADLESS */
+JNIEXPORT int JNICALL AWTFontAsdfnt(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XFontStrudt *)font)->bsdfnt;
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT void JNICALL AWTFontTextExtents16(AWTFont font,
-                                            AWTChar2b* xChar,
-                                            AWTChar* overall) {
-#ifndef HEADLESS
-    JNIEnv *env;
-    int ascent, descent, direction;
-    XFontStruct* xFont = (XFontStruct*)font;
-    XCharStruct* newChar = (XCharStruct*)malloc(sizeof(XCharStruct));
-    *overall = (AWTChar)newChar;
-    /* There is a claim from the pre 1.5 source base that the info in the
-     * XFontStruct is flaky for 16 byte chars. This seems plausible as
-     * for info to be valid, that struct would need a large number of
-     * XCharStructs. But there's nothing in the X APIs which warns you of
-     * this. If it really is flaky you must question why there's an
-     * XTextExtents16 API call. Try XTextExtents16 for now and if it fails
-     * go back to XQueryTextExtents16 in this function.
-     * Indeed the metrics from the Solaris 9 JA font
-     * -ricoh-gothic-medium-r-normal--*-140-72-72-m-*-jisx0208.1983-0
-     * do appear different so revert to the query api
+
+JNIEXPORT int JNICALL AWTFontDfsdfnt(AWTFont font) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XFontStrudt *)font)->dfsdfnt;
+#fndif /* !HEADLESS */
+}
+
+JNIEXPORT void JNICALL AWTFontTfxtExtfnts16(AWTFont font,
+                                            AWTCibr2b* xCibr,
+                                            AWTCibr* ovfrbll) {
+#ifndff HEADLESS
+    JNIEnv *fnv;
+    int bsdfnt, dfsdfnt, dirfdtion;
+    XFontStrudt* xFont = (XFontStrudt*)font;
+    XCibrStrudt* nfwCibr = (XCibrStrudt*)mbllod(sizfof(XCibrStrudt));
+    *ovfrbll = (AWTCibr)nfwCibr;
+    /* Tifrf is b dlbim from tif prf 1.5 sourdf bbsf tibt tif info in tif
+     * XFontStrudt is flbky for 16 bytf dibrs. Tiis sffms plbusiblf bs
+     * for info to bf vblid, tibt strudt would nffd b lbrgf numbfr of
+     * XCibrStrudts. But tifrf's notiing in tif X APIs wiidi wbrns you of
+     * tiis. If it rfblly is flbky you must qufstion wiy tifrf's bn
+     * XTfxtExtfnts16 API dbll. Try XTfxtExtfnts16 for now bnd if it fbils
+     * go bbdk to XQufryTfxtExtfnts16 in tiis fundtion.
+     * Indffd tif mftrids from tif Solbris 9 JA font
+     * -ridoi-gotiid-mfdium-r-normbl--*-140-72-72-m-*-jisx0208.1983-0
+     * do bppfbr difffrfnt so rfvfrt to tif qufry bpi
      */
     FONT_AWT_LOCK();
-    XQueryTextExtents16(awt_display,xFont->fid, xChar, 1,
-                        &direction, &ascent, &descent, newChar);
-/* XTextExtents16(xFont, xChar, 1, &direction, &ascent, &descent, newChar);  */
+    XQufryTfxtExtfnts16(bwt_displby,xFont->fid, xCibr, 1,
+                        &dirfdtion, &bsdfnt, &dfsdfnt, nfwCibr);
+/* XTfxtExtfnts16(xFont, xCibr, 1, &dirfdtion, &bsdfnt, &dfsdfnt, nfwCibr);  */
     AWT_UNLOCK();
-#endif /* !HEADLESS */
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT void JNICALL AWTFreeChar(AWTChar xChar) {
-#ifndef HEADLESS
-    free(xChar);
-#endif /* !HEADLESS */
+JNIEXPORT void JNICALL AWTFrffCibr(AWTCibr xCibr) {
+#ifndff HEADLESS
+    frff(xCibr);
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT jlong JNICALL AWTFontGenerateImage(AWTFont pFont, AWTChar2b* xChar) {
+JNIEXPORT jlong JNICALL AWTFontGfnfrbtfImbgf(AWTFont pFont, AWTCibr2b* xCibr) {
 
-#ifndef HEADLESS
+#ifndff HEADLESS
 
-    int width, height, direction, ascent, descent;
-    GlyphInfo *glyphInfo;
-    XFontStruct* xFont = (XFontStruct*)pFont;
-    XCharStruct xcs;
-    XImage *ximage;
-    int h, i, j, nbytes;
-    unsigned char *srcRow, *dstRow, *dstByte;
-    int wholeByteCount, remainingBitsCount;
-    unsigned int imageSize;
-    JNIEnv *env;
+    int widti, ifigit, dirfdtion, bsdfnt, dfsdfnt;
+    GlypiInfo *glypiInfo;
+    XFontStrudt* xFont = (XFontStrudt*)pFont;
+    XCibrStrudt xds;
+    XImbgf *ximbgf;
+    int i, i, j, nbytfs;
+    unsignfd dibr *srdRow, *dstRow, *dstBytf;
+    int wiolfBytfCount, rfmbiningBitsCount;
+    unsignfd int imbgfSizf;
+    JNIEnv *fnv;
 
     FONT_AWT_LOCK();
-/*     XTextExtents16(xFont, xChar, 1, &direction, &ascent, &descent, &xcs); */
-    XQueryTextExtents16(awt_display,xFont->fid, xChar, 1,
-                        &direction, &ascent, &descent, &xcs);
-    width = xcs.rbearing - xcs.lbearing;
-    height = xcs.ascent+xcs.descent;
-    imageSize = width*height;
+/*     XTfxtExtfnts16(xFont, xCibr, 1, &dirfdtion, &bsdfnt, &dfsdfnt, &xds); */
+    XQufryTfxtExtfnts16(bwt_displby,xFont->fid, xCibr, 1,
+                        &dirfdtion, &bsdfnt, &dfsdfnt, &xds);
+    widti = xds.rbfbring - xds.lbfbring;
+    ifigit = xds.bsdfnt+xds.dfsdfnt;
+    imbgfSizf = widti*ifigit;
 
-    glyphInfo = (GlyphInfo*)malloc(sizeof(GlyphInfo)+imageSize);
-    glyphInfo->cellInfo = NULL;
-    glyphInfo->width = width;
-    glyphInfo->height = height;
-    glyphInfo->topLeftX = xcs.lbearing;
-    glyphInfo->topLeftY = -xcs.ascent;
-    glyphInfo->advanceX = xcs.width;
-    glyphInfo->advanceY = 0;
+    glypiInfo = (GlypiInfo*)mbllod(sizfof(GlypiInfo)+imbgfSizf);
+    glypiInfo->dfllInfo = NULL;
+    glypiInfo->widti = widti;
+    glypiInfo->ifigit = ifigit;
+    glypiInfo->topLfftX = xds.lbfbring;
+    glypiInfo->topLfftY = -xds.bsdfnt;
+    glypiInfo->bdvbndfX = xds.widti;
+    glypiInfo->bdvbndfY = 0;
 
-    if (imageSize == 0) {
-        glyphInfo->image = NULL;
+    if (imbgfSizf == 0) {
+        glypiInfo->imbgf = NULL;
         AWT_UNLOCK();
-        return (jlong)(uintptr_t)glyphInfo;
-    } else {
-        glyphInfo->image = (unsigned char*)glyphInfo+sizeof(GlyphInfo);
+        rfturn (jlong)(uintptr_t)glypiInfo;
+    } flsf {
+        glypiInfo->imbgf = (unsignfd dibr*)glypiInfo+sizfof(GlypiInfo);
     }
 
-    if ((pixmap == 0) || (width > pixmapWidth) || (height > pixmapHeight)) {
-        if (CreatePixmapAndGC(width, height) != Success) {
-            glyphInfo->image = NULL;
+    if ((pixmbp == 0) || (widti > pixmbpWidti) || (ifigit > pixmbpHfigit)) {
+        if (CrfbtfPixmbpAndGC(widti, ifigit) != Suddfss) {
+            glypiInfo->imbgf = NULL;
             AWT_UNLOCK();
-            return (jlong)(uintptr_t)glyphInfo;
+            rfturn (jlong)(uintptr_t)glypiInfo;
         }
     }
 
-    XSetFont(awt_display, pixmapGC, xFont->fid);
-    XSetForeground(awt_display, pixmapGC, 0);
-    XFillRectangle(awt_display, pixmap, pixmapGC, 0, 0,
-                   pixmapWidth, pixmapHeight);
-    XSetForeground(awt_display, pixmapGC, 1);
-    XDrawString16(awt_display, pixmap, pixmapGC,
-                  -xcs.lbearing, xcs.ascent, xChar, 1);
-    ximage = XGetImage(awt_display, pixmap, 0, 0, width, height,
-                       AllPlanes, XYPixmap);
+    XSftFont(bwt_displby, pixmbpGC, xFont->fid);
+    XSftForfground(bwt_displby, pixmbpGC, 0);
+    XFillRfdtbnglf(bwt_displby, pixmbp, pixmbpGC, 0, 0,
+                   pixmbpWidti, pixmbpHfigit);
+    XSftForfground(bwt_displby, pixmbpGC, 1);
+    XDrbwString16(bwt_displby, pixmbp, pixmbpGC,
+                  -xds.lbfbring, xds.bsdfnt, xCibr, 1);
+    ximbgf = XGftImbgf(bwt_displby, pixmbp, 0, 0, widti, ifigit,
+                       AllPlbnfs, XYPixmbp);
 
-    if (ximage == NULL) {
-        glyphInfo->image = NULL;
+    if (ximbgf == NULL) {
+        glypiInfo->imbgf = NULL;
         AWT_UNLOCK();
-        return (jlong)(uintptr_t)glyphInfo;
+        rfturn (jlong)(uintptr_t)glypiInfo;
     }
 
-#ifdef DUMP_IMAGES
-    dumpXImage(ximage);
-#endif
+#ifdff DUMP_IMAGES
+    dumpXImbgf(ximbgf);
+#fndif
 
-    nbytes =  ximage->bytes_per_line;
-    srcRow = (unsigned char*)ximage->data;
-    dstRow = (unsigned char*)glyphInfo->image;
-    wholeByteCount = width >> 3;
-    remainingBitsCount = width & 7;
+    nbytfs =  ximbgf->bytfs_pfr_linf;
+    srdRow = (unsignfd dibr*)ximbgf->dbtb;
+    dstRow = (unsignfd dibr*)glypiInfo->imbgf;
+    wiolfBytfCount = widti >> 3;
+    rfmbiningBitsCount = widti & 7;
 
-    for (h=0; h<height; h++) {
-        const UInt8* src8 = srcRow;
-        UInt8 *dstByte = dstRow;
-        UInt32 srcValue;
+    for (i=0; i<ifigit; i++) {
+        donst UInt8* srd8 = srdRow;
+        UInt8 *dstBytf = dstRow;
+        UInt32 srdVbluf;
 
-        srcRow += nbytes;
-        dstRow += width;
+        srdRow += nbytfs;
+        dstRow += widti;
 
-        for (i = 0; i < wholeByteCount; i++) {
-            srcValue = *src8++;
+        for (i = 0; i < wiolfBytfCount; i++) {
+            srdVbluf = *srd8++;
             for (j = 0; j < 8; j++) {
-                if (ximage->bitmap_bit_order == LSBFirst) {
-                    *dstByte++ = (srcValue & 0x01) ? 0xFF : 0;
-                    srcValue >>= 1;
-                } else {                /* MSBFirst */
-                    *dstByte++ = (srcValue & 0x80) ? 0xFF : 0;
-                    srcValue <<= 1;
+                if (ximbgf->bitmbp_bit_ordfr == LSBFirst) {
+                    *dstBytf++ = (srdVbluf & 0x01) ? 0xFF : 0;
+                    srdVbluf >>= 1;
+                } flsf {                /* MSBFirst */
+                    *dstBytf++ = (srdVbluf & 0x80) ? 0xFF : 0;
+                    srdVbluf <<= 1;
                 }
             }
         }
-        if (remainingBitsCount) {
-            srcValue = *src8;
-            for (j = 0; j < remainingBitsCount; j++) {
-                if (ximage->bitmap_bit_order == LSBFirst) {
-                    *dstByte++ = (srcValue & 0x01) ? 0xFF : 0;
-                    srcValue >>= 1;
-                } else {                /* MSBFirst */
-                    *dstByte++ = (srcValue & 0x80) ? 0xFF : 0;
-                    srcValue <<= 1;
+        if (rfmbiningBitsCount) {
+            srdVbluf = *srd8;
+            for (j = 0; j < rfmbiningBitsCount; j++) {
+                if (ximbgf->bitmbp_bit_ordfr == LSBFirst) {
+                    *dstBytf++ = (srdVbluf & 0x01) ? 0xFF : 0;
+                    srdVbluf >>= 1;
+                } flsf {                /* MSBFirst */
+                    *dstBytf++ = (srdVbluf & 0x80) ? 0xFF : 0;
+                    srdVbluf <<= 1;
                 }
             }
         }
     }
 
-    XDestroyImage (ximage);
+    XDfstroyImbgf (ximbgf);
     AWT_UNLOCK();
-    return (jlong)(uintptr_t)glyphInfo;
-#else
-    return (jlong)0;
-#endif /* !HEADLESS */
+    rfturn (jlong)(uintptr_t)glypiInfo;
+#flsf
+    rfturn (jlong)0;
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT short JNICALL AWTCharAdvance(AWTChar xChar) {
-#ifdef HEADLESS
-    return 0;
-#else
-    return ((XCharStruct *)xChar)->width;
-#endif /* !HEADLESS */
+JNIEXPORT siort JNICALL AWTCibrAdvbndf(AWTCibr xCibr) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XCibrStrudt *)xCibr)->widti;
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT short JNICALL AWTCharLBearing(AWTChar xChar) {
-#ifdef HEADLESS
-    return 0;
-#else
-    return ((XCharStruct *)xChar)->lbearing;
-#endif /* !HEADLESS */
+JNIEXPORT siort JNICALL AWTCibrLBfbring(AWTCibr xCibr) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XCibrStrudt *)xCibr)->lbfbring;
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT short JNICALL AWTCharRBearing(AWTChar xChar) {
-#ifdef HEADLESS
-    return 0;
-#else
-    return ((XCharStruct *)xChar)->rbearing;
-#endif /* !HEADLESS */
+JNIEXPORT siort JNICALL AWTCibrRBfbring(AWTCibr xCibr) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XCibrStrudt *)xCibr)->rbfbring;
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT short JNICALL AWTCharAscent(AWTChar xChar) {
-#ifdef HEADLESS
-    return 0;
-#else
-    return ((XCharStruct *)xChar)->ascent;
-#endif /* !HEADLESS */
+JNIEXPORT siort JNICALL AWTCibrAsdfnt(AWTCibr xCibr) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XCibrStrudt *)xCibr)->bsdfnt;
+#fndif /* !HEADLESS */
 }
 
-JNIEXPORT short JNICALL AWTCharDescent(AWTChar xChar) {
-#ifdef HEADLESS
-    return 0;
-#else
-    return ((XCharStruct *)xChar)->descent;
-#endif /* !HEADLESS */
+JNIEXPORT siort JNICALL AWTCibrDfsdfnt(AWTCibr xCibr) {
+#ifdff HEADLESS
+    rfturn 0;
+#flsf
+    rfturn ((XCibrStrudt *)xCibr)->dfsdfnt;
+#fndif /* !HEADLESS */
 }

@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns.dfdodfr;
+
+import dom.sun.bfbns.findfr.MfthodFindfr;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+
+import sun.rfflfdt.misd.MfthodUtil;
+
+/**
+ * This dlbss is intfndfd to hbndlf &lt;mfthod&gt; flfmfnt.
+ * It dfsdribfs invodbtion of thf mfthod.
+ * Thf {@dodf nbmf} bttributf dfnotfs
+ * thf nbmf of thf mfthod to invokf.
+ * If thf {@dodf dlbss} bttributf is spfdififd
+ * this flfmfnt invokfs stbtid mfthod of spfdififd dlbss.
+ * Thf innfr flfmfnts spfdififs thf brgumfnts of thf mfthod.
+ * For fxbmplf:<prf>
+ * &lt;mfthod nbmf="vblufOf" dlbss="jbvb.lbng.Long"&gt;
+ *     &lt;string&gt;10&lt;/string&gt;
+ * &lt;/mfthod&gt;</prf>
+ * is fquivblfnt to {@dodf Long.vblufOf("10")} in Jbvb dodf.
+ * <p>Thf following bttributfs brf supportfd:
+ * <dl>
+ * <dt>nbmf
+ * <dd>thf mfthod nbmf
+ * <dt>dlbss
+ * <dd>thf typf of objfdt for instbntibtion
+ * <dt>id
+ * <dd>thf idfntififr of thf vbribblf thbt is intfndfd to storf thf rfsult
+ * </dl>
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+finbl dlbss MfthodElfmfntHbndlfr fxtfnds NfwElfmfntHbndlfr {
+    privbtf String nbmf;
+
+    /**
+     * Pbrsfs bttributfs of thf flfmfnt.
+     * Thf following bttributfs brf supportfd:
+     * <dl>
+     * <dt>nbmf
+     * <dd>thf mfthod nbmf
+     * <dt>dlbss
+     * <dd>thf typf of objfdt for instbntibtion
+     * <dt>id
+     * <dd>thf idfntififr of thf vbribblf thbt is intfndfd to storf thf rfsult
+     * </dl>
+     *
+     * @pbrbm nbmf   thf bttributf nbmf
+     * @pbrbm vbluf  thf bttributf vbluf
+     */
+    @Ovfrridf
+    publid void bddAttributf(String nbmf, String vbluf) {
+        if (nbmf.fqubls("nbmf")) { // NON-NLS: thf bttributf nbmf
+            this.nbmf = vbluf;
+        } flsf {
+            supfr.bddAttributf(nbmf, vbluf);
+        }
+    }
+
+    /**
+     * Rfturns thf rfsult of mfthod fxfdution.
+     *
+     * @pbrbm typf  thf bbsf dlbss
+     * @pbrbm brgs  thf brrby of brgumfnts
+     * @rfturn thf vbluf of this flfmfnt
+     * @throws Exdfption if dbldulbtion is fbilfd
+     */
+    @Ovfrridf
+    protfdtfd VblufObjfdt gftVblufObjfdt(Clbss<?> typf, Objfdt[] brgs) throws Exdfption {
+        Objfdt bfbn = gftContfxtBfbn();
+        Clbss<?>[] typfs = gftArgumfntTypfs(brgs);
+        Mfthod mfthod = (typf != null)
+                ? MfthodFindfr.findStbtidMfthod(typf, this.nbmf, typfs)
+                : MfthodFindfr.findMfthod(bfbn.gftClbss(), this.nbmf, typfs);
+
+        if (mfthod.isVbrArgs()) {
+            brgs = gftArgumfnts(brgs, mfthod.gftPbrbmftfrTypfs());
+        }
+        Objfdt vbluf = MfthodUtil.invokf(mfthod, bfbn, brgs);
+        rfturn mfthod.gftRfturnTypf().fqubls(void.dlbss)
+                ? VblufObjfdtImpl.VOID
+                : VblufObjfdtImpl.drfbtf(vbluf);
+    }
+}

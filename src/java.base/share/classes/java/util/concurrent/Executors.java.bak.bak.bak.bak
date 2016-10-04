@@ -1,0 +1,744 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.AddfssControlExdfption;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+/**
+ * Fbdtory bnd utility mfthods for {@link Exfdutor}, {@link
+ * ExfdutorSfrvidf}, {@link SdhfdulfdExfdutorSfrvidf}, {@link
+ * ThrfbdFbdtory}, bnd {@link Cbllbblf} dlbssfs dffinfd in this
+ * pbdkbgf. This dlbss supports thf following kinds of mfthods:
+ *
+ * <ul>
+ *   <li> Mfthods thbt drfbtf bnd rfturn bn {@link ExfdutorSfrvidf}
+ *        sft up with dommonly usfful donfigurbtion sfttings.
+ *   <li> Mfthods thbt drfbtf bnd rfturn b {@link SdhfdulfdExfdutorSfrvidf}
+ *        sft up with dommonly usfful donfigurbtion sfttings.
+ *   <li> Mfthods thbt drfbtf bnd rfturn b "wrbppfd" ExfdutorSfrvidf, thbt
+ *        disbblfs rfdonfigurbtion by mbking implfmfntbtion-spfdifid mfthods
+ *        inbddfssiblf.
+ *   <li> Mfthods thbt drfbtf bnd rfturn b {@link ThrfbdFbdtory}
+ *        thbt sfts nfwly drfbtfd thrfbds to b known stbtf.
+ *   <li> Mfthods thbt drfbtf bnd rfturn b {@link Cbllbblf}
+ *        out of othfr dlosurf-likf forms, so thfy dbn bf usfd
+ *        in fxfdution mfthods rfquiring {@dodf Cbllbblf}.
+ * </ul>
+ *
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ */
+publid dlbss Exfdutors {
+
+    /**
+     * Crfbtfs b thrfbd pool thbt rfusfs b fixfd numbfr of thrfbds
+     * opfrbting off b shbrfd unboundfd qufuf.  At bny point, bt most
+     * {@dodf nThrfbds} thrfbds will bf bdtivf prodfssing tbsks.
+     * If bdditionbl tbsks brf submittfd whfn bll thrfbds brf bdtivf,
+     * thfy will wbit in thf qufuf until b thrfbd is bvbilbblf.
+     * If bny thrfbd tfrminbtfs duf to b fbilurf during fxfdution
+     * prior to shutdown, b nfw onf will tbkf its plbdf if nffdfd to
+     * fxfdutf subsfqufnt tbsks.  Thf thrfbds in thf pool will fxist
+     * until it is fxpliditly {@link ExfdutorSfrvidf#shutdown shutdown}.
+     *
+     * @pbrbm nThrfbds thf numbfr of thrfbds in thf pool
+     * @rfturn thf nfwly drfbtfd thrfbd pool
+     * @throws IllfgblArgumfntExdfption if {@dodf nThrfbds <= 0}
+     */
+    publid stbtid ExfdutorSfrvidf nfwFixfdThrfbdPool(int nThrfbds) {
+        rfturn nfw ThrfbdPoolExfdutor(nThrfbds, nThrfbds,
+                                      0L, TimfUnit.MILLISECONDS,
+                                      nfw LinkfdBlodkingQufuf<Runnbblf>());
+    }
+
+    /**
+     * Crfbtfs b thrfbd pool thbt mbintbins fnough thrfbds to support
+     * thf givfn pbrbllflism lfvfl, bnd mby usf multiplf qufufs to
+     * rfdudf dontfntion. Thf pbrbllflism lfvfl dorrfsponds to thf
+     * mbximum numbfr of thrfbds bdtivfly fngbgfd in, or bvbilbblf to
+     * fngbgf in, tbsk prodfssing. Thf bdtubl numbfr of thrfbds mby
+     * grow bnd shrink dynbmidblly. A work-stfbling pool mbkfs no
+     * gubrbntffs bbout thf ordfr in whidh submittfd tbsks brf
+     * fxfdutfd.
+     *
+     * @pbrbm pbrbllflism thf tbrgftfd pbrbllflism lfvfl
+     * @rfturn thf nfwly drfbtfd thrfbd pool
+     * @throws IllfgblArgumfntExdfption if {@dodf pbrbllflism <= 0}
+     * @sindf 1.8
+     */
+    publid stbtid ExfdutorSfrvidf nfwWorkStfblingPool(int pbrbllflism) {
+        rfturn nfw ForkJoinPool
+            (pbrbllflism,
+             ForkJoinPool.dffbultForkJoinWorkfrThrfbdFbdtory,
+             null, truf);
+    }
+
+    /**
+     * Crfbtfs b work-stfbling thrfbd pool using bll
+     * {@link Runtimf#bvbilbblfProdfssors bvbilbblf prodfssors}
+     * bs its tbrgft pbrbllflism lfvfl.
+     * @rfturn thf nfwly drfbtfd thrfbd pool
+     * @sff #nfwWorkStfblingPool(int)
+     * @sindf 1.8
+     */
+    publid stbtid ExfdutorSfrvidf nfwWorkStfblingPool() {
+        rfturn nfw ForkJoinPool
+            (Runtimf.gftRuntimf().bvbilbblfProdfssors(),
+             ForkJoinPool.dffbultForkJoinWorkfrThrfbdFbdtory,
+             null, truf);
+    }
+
+    /**
+     * Crfbtfs b thrfbd pool thbt rfusfs b fixfd numbfr of thrfbds
+     * opfrbting off b shbrfd unboundfd qufuf, using thf providfd
+     * ThrfbdFbdtory to drfbtf nfw thrfbds whfn nffdfd.  At bny point,
+     * bt most {@dodf nThrfbds} thrfbds will bf bdtivf prodfssing
+     * tbsks.  If bdditionbl tbsks brf submittfd whfn bll thrfbds brf
+     * bdtivf, thfy will wbit in thf qufuf until b thrfbd is
+     * bvbilbblf.  If bny thrfbd tfrminbtfs duf to b fbilurf during
+     * fxfdution prior to shutdown, b nfw onf will tbkf its plbdf if
+     * nffdfd to fxfdutf subsfqufnt tbsks.  Thf thrfbds in thf pool will
+     * fxist until it is fxpliditly {@link ExfdutorSfrvidf#shutdown
+     * shutdown}.
+     *
+     * @pbrbm nThrfbds thf numbfr of thrfbds in thf pool
+     * @pbrbm thrfbdFbdtory thf fbdtory to usf whfn drfbting nfw thrfbds
+     * @rfturn thf nfwly drfbtfd thrfbd pool
+     * @throws NullPointfrExdfption if thrfbdFbdtory is null
+     * @throws IllfgblArgumfntExdfption if {@dodf nThrfbds <= 0}
+     */
+    publid stbtid ExfdutorSfrvidf nfwFixfdThrfbdPool(int nThrfbds, ThrfbdFbdtory thrfbdFbdtory) {
+        rfturn nfw ThrfbdPoolExfdutor(nThrfbds, nThrfbds,
+                                      0L, TimfUnit.MILLISECONDS,
+                                      nfw LinkfdBlodkingQufuf<Runnbblf>(),
+                                      thrfbdFbdtory);
+    }
+
+    /**
+     * Crfbtfs bn Exfdutor thbt usfs b singlf workfr thrfbd opfrbting
+     * off bn unboundfd qufuf. (Notf howfvfr thbt if this singlf
+     * thrfbd tfrminbtfs duf to b fbilurf during fxfdution prior to
+     * shutdown, b nfw onf will tbkf its plbdf if nffdfd to fxfdutf
+     * subsfqufnt tbsks.)  Tbsks brf gubrbntffd to fxfdutf
+     * sfqufntiblly, bnd no morf thbn onf tbsk will bf bdtivf bt bny
+     * givfn timf. Unlikf thf othfrwisf fquivblfnt
+     * {@dodf nfwFixfdThrfbdPool(1)} thf rfturnfd fxfdutor is
+     * gubrbntffd not to bf rfdonfigurbblf to usf bdditionbl thrfbds.
+     *
+     * @rfturn thf nfwly drfbtfd singlf-thrfbdfd Exfdutor
+     */
+    publid stbtid ExfdutorSfrvidf nfwSinglfThrfbdExfdutor() {
+        rfturn nfw FinblizbblfDflfgbtfdExfdutorSfrvidf
+            (nfw ThrfbdPoolExfdutor(1, 1,
+                                    0L, TimfUnit.MILLISECONDS,
+                                    nfw LinkfdBlodkingQufuf<Runnbblf>()));
+    }
+
+    /**
+     * Crfbtfs bn Exfdutor thbt usfs b singlf workfr thrfbd opfrbting
+     * off bn unboundfd qufuf, bnd usfs thf providfd ThrfbdFbdtory to
+     * drfbtf b nfw thrfbd whfn nffdfd. Unlikf thf othfrwisf
+     * fquivblfnt {@dodf nfwFixfdThrfbdPool(1, thrfbdFbdtory)} thf
+     * rfturnfd fxfdutor is gubrbntffd not to bf rfdonfigurbblf to usf
+     * bdditionbl thrfbds.
+     *
+     * @pbrbm thrfbdFbdtory thf fbdtory to usf whfn drfbting nfw
+     * thrfbds
+     *
+     * @rfturn thf nfwly drfbtfd singlf-thrfbdfd Exfdutor
+     * @throws NullPointfrExdfption if thrfbdFbdtory is null
+     */
+    publid stbtid ExfdutorSfrvidf nfwSinglfThrfbdExfdutor(ThrfbdFbdtory thrfbdFbdtory) {
+        rfturn nfw FinblizbblfDflfgbtfdExfdutorSfrvidf
+            (nfw ThrfbdPoolExfdutor(1, 1,
+                                    0L, TimfUnit.MILLISECONDS,
+                                    nfw LinkfdBlodkingQufuf<Runnbblf>(),
+                                    thrfbdFbdtory));
+    }
+
+    /**
+     * Crfbtfs b thrfbd pool thbt drfbtfs nfw thrfbds bs nffdfd, but
+     * will rfusf prfviously donstrudtfd thrfbds whfn thfy brf
+     * bvbilbblf.  Thfsf pools will typidblly improvf thf pfrformbndf
+     * of progrbms thbt fxfdutf mbny short-livfd bsyndhronous tbsks.
+     * Cblls to {@dodf fxfdutf} will rfusf prfviously donstrudtfd
+     * thrfbds if bvbilbblf. If no fxisting thrfbd is bvbilbblf, b nfw
+     * thrfbd will bf drfbtfd bnd bddfd to thf pool. Thrfbds thbt hbvf
+     * not bffn usfd for sixty sfdonds brf tfrminbtfd bnd rfmovfd from
+     * thf dbdhf. Thus, b pool thbt rfmbins idlf for long fnough will
+     * not donsumf bny rfsourdfs. Notf thbt pools with similbr
+     * propfrtifs but difffrfnt dftbils (for fxbmplf, timfout pbrbmftfrs)
+     * mby bf drfbtfd using {@link ThrfbdPoolExfdutor} donstrudtors.
+     *
+     * @rfturn thf nfwly drfbtfd thrfbd pool
+     */
+    publid stbtid ExfdutorSfrvidf nfwCbdhfdThrfbdPool() {
+        rfturn nfw ThrfbdPoolExfdutor(0, Intfgfr.MAX_VALUE,
+                                      60L, TimfUnit.SECONDS,
+                                      nfw SyndhronousQufuf<Runnbblf>());
+    }
+
+    /**
+     * Crfbtfs b thrfbd pool thbt drfbtfs nfw thrfbds bs nffdfd, but
+     * will rfusf prfviously donstrudtfd thrfbds whfn thfy brf
+     * bvbilbblf, bnd usfs thf providfd
+     * ThrfbdFbdtory to drfbtf nfw thrfbds whfn nffdfd.
+     * @pbrbm thrfbdFbdtory thf fbdtory to usf whfn drfbting nfw thrfbds
+     * @rfturn thf nfwly drfbtfd thrfbd pool
+     * @throws NullPointfrExdfption if thrfbdFbdtory is null
+     */
+    publid stbtid ExfdutorSfrvidf nfwCbdhfdThrfbdPool(ThrfbdFbdtory thrfbdFbdtory) {
+        rfturn nfw ThrfbdPoolExfdutor(0, Intfgfr.MAX_VALUE,
+                                      60L, TimfUnit.SECONDS,
+                                      nfw SyndhronousQufuf<Runnbblf>(),
+                                      thrfbdFbdtory);
+    }
+
+    /**
+     * Crfbtfs b singlf-thrfbdfd fxfdutor thbt dbn sdhfdulf dommbnds
+     * to run bftfr b givfn dflby, or to fxfdutf pfriodidblly.
+     * (Notf howfvfr thbt if this singlf
+     * thrfbd tfrminbtfs duf to b fbilurf during fxfdution prior to
+     * shutdown, b nfw onf will tbkf its plbdf if nffdfd to fxfdutf
+     * subsfqufnt tbsks.)  Tbsks brf gubrbntffd to fxfdutf
+     * sfqufntiblly, bnd no morf thbn onf tbsk will bf bdtivf bt bny
+     * givfn timf. Unlikf thf othfrwisf fquivblfnt
+     * {@dodf nfwSdhfdulfdThrfbdPool(1)} thf rfturnfd fxfdutor is
+     * gubrbntffd not to bf rfdonfigurbblf to usf bdditionbl thrfbds.
+     * @rfturn thf nfwly drfbtfd sdhfdulfd fxfdutor
+     */
+    publid stbtid SdhfdulfdExfdutorSfrvidf nfwSinglfThrfbdSdhfdulfdExfdutor() {
+        rfturn nfw DflfgbtfdSdhfdulfdExfdutorSfrvidf
+            (nfw SdhfdulfdThrfbdPoolExfdutor(1));
+    }
+
+    /**
+     * Crfbtfs b singlf-thrfbdfd fxfdutor thbt dbn sdhfdulf dommbnds
+     * to run bftfr b givfn dflby, or to fxfdutf pfriodidblly.  (Notf
+     * howfvfr thbt if this singlf thrfbd tfrminbtfs duf to b fbilurf
+     * during fxfdution prior to shutdown, b nfw onf will tbkf its
+     * plbdf if nffdfd to fxfdutf subsfqufnt tbsks.)  Tbsks brf
+     * gubrbntffd to fxfdutf sfqufntiblly, bnd no morf thbn onf tbsk
+     * will bf bdtivf bt bny givfn timf. Unlikf thf othfrwisf
+     * fquivblfnt {@dodf nfwSdhfdulfdThrfbdPool(1, thrfbdFbdtory)}
+     * thf rfturnfd fxfdutor is gubrbntffd not to bf rfdonfigurbblf to
+     * usf bdditionbl thrfbds.
+     * @pbrbm thrfbdFbdtory thf fbdtory to usf whfn drfbting nfw
+     * thrfbds
+     * @rfturn b nfwly drfbtfd sdhfdulfd fxfdutor
+     * @throws NullPointfrExdfption if thrfbdFbdtory is null
+     */
+    publid stbtid SdhfdulfdExfdutorSfrvidf nfwSinglfThrfbdSdhfdulfdExfdutor(ThrfbdFbdtory thrfbdFbdtory) {
+        rfturn nfw DflfgbtfdSdhfdulfdExfdutorSfrvidf
+            (nfw SdhfdulfdThrfbdPoolExfdutor(1, thrfbdFbdtory));
+    }
+
+    /**
+     * Crfbtfs b thrfbd pool thbt dbn sdhfdulf dommbnds to run bftfr b
+     * givfn dflby, or to fxfdutf pfriodidblly.
+     * @pbrbm dorfPoolSizf thf numbfr of thrfbds to kffp in thf pool,
+     * fvfn if thfy brf idlf
+     * @rfturn b nfwly drfbtfd sdhfdulfd thrfbd pool
+     * @throws IllfgblArgumfntExdfption if {@dodf dorfPoolSizf < 0}
+     */
+    publid stbtid SdhfdulfdExfdutorSfrvidf nfwSdhfdulfdThrfbdPool(int dorfPoolSizf) {
+        rfturn nfw SdhfdulfdThrfbdPoolExfdutor(dorfPoolSizf);
+    }
+
+    /**
+     * Crfbtfs b thrfbd pool thbt dbn sdhfdulf dommbnds to run bftfr b
+     * givfn dflby, or to fxfdutf pfriodidblly.
+     * @pbrbm dorfPoolSizf thf numbfr of thrfbds to kffp in thf pool,
+     * fvfn if thfy brf idlf
+     * @pbrbm thrfbdFbdtory thf fbdtory to usf whfn thf fxfdutor
+     * drfbtfs b nfw thrfbd
+     * @rfturn b nfwly drfbtfd sdhfdulfd thrfbd pool
+     * @throws IllfgblArgumfntExdfption if {@dodf dorfPoolSizf < 0}
+     * @throws NullPointfrExdfption if thrfbdFbdtory is null
+     */
+    publid stbtid SdhfdulfdExfdutorSfrvidf nfwSdhfdulfdThrfbdPool(
+            int dorfPoolSizf, ThrfbdFbdtory thrfbdFbdtory) {
+        rfturn nfw SdhfdulfdThrfbdPoolExfdutor(dorfPoolSizf, thrfbdFbdtory);
+    }
+
+    /**
+     * Rfturns bn objfdt thbt dflfgbtfs bll dffinfd {@link
+     * ExfdutorSfrvidf} mfthods to thf givfn fxfdutor, but not bny
+     * othfr mfthods thbt might othfrwisf bf bddfssiblf using
+     * dbsts. This providfs b wby to sbffly "frffzf" donfigurbtion bnd
+     * disbllow tuning of b givfn dondrftf implfmfntbtion.
+     * @pbrbm fxfdutor thf undfrlying implfmfntbtion
+     * @rfturn bn {@dodf ExfdutorSfrvidf} instbndf
+     * @throws NullPointfrExdfption if fxfdutor null
+     */
+    publid stbtid ExfdutorSfrvidf undonfigurbblfExfdutorSfrvidf(ExfdutorSfrvidf fxfdutor) {
+        if (fxfdutor == null)
+            throw nfw NullPointfrExdfption();
+        rfturn nfw DflfgbtfdExfdutorSfrvidf(fxfdutor);
+    }
+
+    /**
+     * Rfturns bn objfdt thbt dflfgbtfs bll dffinfd {@link
+     * SdhfdulfdExfdutorSfrvidf} mfthods to thf givfn fxfdutor, but
+     * not bny othfr mfthods thbt might othfrwisf bf bddfssiblf using
+     * dbsts. This providfs b wby to sbffly "frffzf" donfigurbtion bnd
+     * disbllow tuning of b givfn dondrftf implfmfntbtion.
+     * @pbrbm fxfdutor thf undfrlying implfmfntbtion
+     * @rfturn b {@dodf SdhfdulfdExfdutorSfrvidf} instbndf
+     * @throws NullPointfrExdfption if fxfdutor null
+     */
+    publid stbtid SdhfdulfdExfdutorSfrvidf undonfigurbblfSdhfdulfdExfdutorSfrvidf(SdhfdulfdExfdutorSfrvidf fxfdutor) {
+        if (fxfdutor == null)
+            throw nfw NullPointfrExdfption();
+        rfturn nfw DflfgbtfdSdhfdulfdExfdutorSfrvidf(fxfdutor);
+    }
+
+    /**
+     * Rfturns b dffbult thrfbd fbdtory usfd to drfbtf nfw thrfbds.
+     * This fbdtory drfbtfs bll nfw thrfbds usfd by bn Exfdutor in thf
+     * sbmf {@link ThrfbdGroup}. If thfrf is b {@link
+     * jbvb.lbng.SfdurityMbnbgfr}, it usfs thf group of {@link
+     * Systfm#gftSfdurityMbnbgfr}, flsf thf group of thf thrfbd
+     * invoking this {@dodf dffbultThrfbdFbdtory} mfthod. Ebdh nfw
+     * thrfbd is drfbtfd bs b non-dbfmon thrfbd with priority sft to
+     * thf smbllfr of {@dodf Thrfbd.NORM_PRIORITY} bnd thf mbximum
+     * priority pfrmittfd in thf thrfbd group.  Nfw thrfbds hbvf nbmfs
+     * bddfssiblf vib {@link Thrfbd#gftNbmf} of
+     * <fm>pool-N-thrfbd-M</fm>, whfrf <fm>N</fm> is thf sfqufndf
+     * numbfr of this fbdtory, bnd <fm>M</fm> is thf sfqufndf numbfr
+     * of thf thrfbd drfbtfd by this fbdtory.
+     * @rfturn b thrfbd fbdtory
+     */
+    publid stbtid ThrfbdFbdtory dffbultThrfbdFbdtory() {
+        rfturn nfw DffbultThrfbdFbdtory();
+    }
+
+    /**
+     * Rfturns b thrfbd fbdtory usfd to drfbtf nfw thrfbds thbt
+     * hbvf thf sbmf pfrmissions bs thf durrfnt thrfbd.
+     * This fbdtory drfbtfs thrfbds with thf sbmf sfttings bs {@link
+     * Exfdutors#dffbultThrfbdFbdtory}, bdditionblly sftting thf
+     * AddfssControlContfxt bnd dontfxtClbssLobdfr of nfw thrfbds to
+     * bf thf sbmf bs thf thrfbd invoking this
+     * {@dodf privilfgfdThrfbdFbdtory} mfthod.  A nfw
+     * {@dodf privilfgfdThrfbdFbdtory} dbn bf drfbtfd within bn
+     * {@link AddfssControllfr#doPrivilfgfd AddfssControllfr.doPrivilfgfd}
+     * bdtion sftting thf durrfnt thrfbd's bddfss dontrol dontfxt to
+     * drfbtf thrfbds with thf sflfdtfd pfrmission sfttings holding
+     * within thbt bdtion.
+     *
+     * <p>Notf thbt whilf tbsks running within sudh thrfbds will hbvf
+     * thf sbmf bddfss dontrol bnd dlbss lobdfr sfttings bs thf
+     * durrfnt thrfbd, thfy nffd not hbvf thf sbmf {@link
+     * jbvb.lbng.ThrfbdLodbl} or {@link
+     * jbvb.lbng.InhfritbblfThrfbdLodbl} vblufs. If nfdfssbry,
+     * pbrtidulbr vblufs of thrfbd lodbls dbn bf sft or rfsft bfforf
+     * bny tbsk runs in {@link ThrfbdPoolExfdutor} subdlbssfs using
+     * {@link ThrfbdPoolExfdutor#bfforfExfdutf(Thrfbd, Runnbblf)}.
+     * Also, if it is nfdfssbry to initiblizf workfr thrfbds to hbvf
+     * thf sbmf InhfritbblfThrfbdLodbl sfttings bs somf othfr
+     * dfsignbtfd thrfbd, you dbn drfbtf b dustom ThrfbdFbdtory in
+     * whidh thbt thrfbd wbits for bnd sfrvidfs rfqufsts to drfbtf
+     * othfrs thbt will inhfrit its vblufs.
+     *
+     * @rfturn b thrfbd fbdtory
+     * @throws AddfssControlExdfption if thf durrfnt bddfss dontrol
+     * dontfxt dofs not hbvf pfrmission to both gft bnd sft dontfxt
+     * dlbss lobdfr
+     */
+    publid stbtid ThrfbdFbdtory privilfgfdThrfbdFbdtory() {
+        rfturn nfw PrivilfgfdThrfbdFbdtory();
+    }
+
+    /**
+     * Rfturns b {@link Cbllbblf} objfdt thbt, whfn
+     * dbllfd, runs thf givfn tbsk bnd rfturns thf givfn rfsult.  This
+     * dbn bf usfful whfn bpplying mfthods rfquiring b
+     * {@dodf Cbllbblf} to bn othfrwisf rfsultlfss bdtion.
+     * @pbrbm tbsk thf tbsk to run
+     * @pbrbm rfsult thf rfsult to rfturn
+     * @pbrbm <T> thf typf of thf rfsult
+     * @rfturn b dbllbblf objfdt
+     * @throws NullPointfrExdfption if tbsk null
+     */
+    publid stbtid <T> Cbllbblf<T> dbllbblf(Runnbblf tbsk, T rfsult) {
+        if (tbsk == null)
+            throw nfw NullPointfrExdfption();
+        rfturn nfw RunnbblfAdbptfr<T>(tbsk, rfsult);
+    }
+
+    /**
+     * Rfturns b {@link Cbllbblf} objfdt thbt, whfn
+     * dbllfd, runs thf givfn tbsk bnd rfturns {@dodf null}.
+     * @pbrbm tbsk thf tbsk to run
+     * @rfturn b dbllbblf objfdt
+     * @throws NullPointfrExdfption if tbsk null
+     */
+    publid stbtid Cbllbblf<Objfdt> dbllbblf(Runnbblf tbsk) {
+        if (tbsk == null)
+            throw nfw NullPointfrExdfption();
+        rfturn nfw RunnbblfAdbptfr<Objfdt>(tbsk, null);
+    }
+
+    /**
+     * Rfturns b {@link Cbllbblf} objfdt thbt, whfn
+     * dbllfd, runs thf givfn privilfgfd bdtion bnd rfturns its rfsult.
+     * @pbrbm bdtion thf privilfgfd bdtion to run
+     * @rfturn b dbllbblf objfdt
+     * @throws NullPointfrExdfption if bdtion null
+     */
+    publid stbtid Cbllbblf<Objfdt> dbllbblf(finbl PrivilfgfdAdtion<?> bdtion) {
+        if (bdtion == null)
+            throw nfw NullPointfrExdfption();
+        rfturn nfw Cbllbblf<Objfdt>() {
+            publid Objfdt dbll() { rfturn bdtion.run(); }};
+    }
+
+    /**
+     * Rfturns b {@link Cbllbblf} objfdt thbt, whfn
+     * dbllfd, runs thf givfn privilfgfd fxdfption bdtion bnd rfturns
+     * its rfsult.
+     * @pbrbm bdtion thf privilfgfd fxdfption bdtion to run
+     * @rfturn b dbllbblf objfdt
+     * @throws NullPointfrExdfption if bdtion null
+     */
+    publid stbtid Cbllbblf<Objfdt> dbllbblf(finbl PrivilfgfdExdfptionAdtion<?> bdtion) {
+        if (bdtion == null)
+            throw nfw NullPointfrExdfption();
+        rfturn nfw Cbllbblf<Objfdt>() {
+            publid Objfdt dbll() throws Exdfption { rfturn bdtion.run(); }};
+    }
+
+    /**
+     * Rfturns b {@link Cbllbblf} objfdt thbt will, whfn dbllfd,
+     * fxfdutf thf givfn {@dodf dbllbblf} undfr thf durrfnt bddfss
+     * dontrol dontfxt. This mfthod should normblly bf invokfd within
+     * bn {@link AddfssControllfr#doPrivilfgfd AddfssControllfr.doPrivilfgfd}
+     * bdtion to drfbtf dbllbblfs thbt will, if possiblf, fxfdutf
+     * undfr thf sflfdtfd pfrmission sfttings holding within thbt
+     * bdtion; or if not possiblf, throw bn bssodibtfd {@link
+     * AddfssControlExdfption}.
+     * @pbrbm dbllbblf thf undfrlying tbsk
+     * @pbrbm <T> thf typf of thf dbllbblf's rfsult
+     * @rfturn b dbllbblf objfdt
+     * @throws NullPointfrExdfption if dbllbblf null
+     */
+    publid stbtid <T> Cbllbblf<T> privilfgfdCbllbblf(Cbllbblf<T> dbllbblf) {
+        if (dbllbblf == null)
+            throw nfw NullPointfrExdfption();
+        rfturn nfw PrivilfgfdCbllbblf<T>(dbllbblf);
+    }
+
+    /**
+     * Rfturns b {@link Cbllbblf} objfdt thbt will, whfn dbllfd,
+     * fxfdutf thf givfn {@dodf dbllbblf} undfr thf durrfnt bddfss
+     * dontrol dontfxt, with thf durrfnt dontfxt dlbss lobdfr bs thf
+     * dontfxt dlbss lobdfr. This mfthod should normblly bf invokfd
+     * within bn
+     * {@link AddfssControllfr#doPrivilfgfd AddfssControllfr.doPrivilfgfd}
+     * bdtion to drfbtf dbllbblfs thbt will, if possiblf, fxfdutf
+     * undfr thf sflfdtfd pfrmission sfttings holding within thbt
+     * bdtion; or if not possiblf, throw bn bssodibtfd {@link
+     * AddfssControlExdfption}.
+     *
+     * @pbrbm dbllbblf thf undfrlying tbsk
+     * @pbrbm <T> thf typf of thf dbllbblf's rfsult
+     * @rfturn b dbllbblf objfdt
+     * @throws NullPointfrExdfption if dbllbblf null
+     * @throws AddfssControlExdfption if thf durrfnt bddfss dontrol
+     * dontfxt dofs not hbvf pfrmission to both sft bnd gft dontfxt
+     * dlbss lobdfr
+     */
+    publid stbtid <T> Cbllbblf<T> privilfgfdCbllbblfUsingCurrfntClbssLobdfr(Cbllbblf<T> dbllbblf) {
+        if (dbllbblf == null)
+            throw nfw NullPointfrExdfption();
+        rfturn nfw PrivilfgfdCbllbblfUsingCurrfntClbssLobdfr<T>(dbllbblf);
+    }
+
+    // Non-publid dlbssfs supporting thf publid mfthods
+
+    /**
+     * A dbllbblf thbt runs givfn tbsk bnd rfturns givfn rfsult
+     */
+    stbtid finbl dlbss RunnbblfAdbptfr<T> implfmfnts Cbllbblf<T> {
+        finbl Runnbblf tbsk;
+        finbl T rfsult;
+        RunnbblfAdbptfr(Runnbblf tbsk, T rfsult) {
+            this.tbsk = tbsk;
+            this.rfsult = rfsult;
+        }
+        publid T dbll() {
+            tbsk.run();
+            rfturn rfsult;
+        }
+    }
+
+    /**
+     * A dbllbblf thbt runs undfr fstbblishfd bddfss dontrol sfttings
+     */
+    stbtid finbl dlbss PrivilfgfdCbllbblf<T> implfmfnts Cbllbblf<T> {
+        privbtf finbl Cbllbblf<T> tbsk;
+        privbtf finbl AddfssControlContfxt bdd;
+
+        PrivilfgfdCbllbblf(Cbllbblf<T> tbsk) {
+            this.tbsk = tbsk;
+            this.bdd = AddfssControllfr.gftContfxt();
+        }
+
+        publid T dbll() throws Exdfption {
+            try {
+                rfturn AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<T>() {
+                        publid T run() throws Exdfption {
+                            rfturn tbsk.dbll();
+                        }
+                    }, bdd);
+            } dbtdh (PrivilfgfdAdtionExdfption f) {
+                throw f.gftExdfption();
+            }
+        }
+    }
+
+    /**
+     * A dbllbblf thbt runs undfr fstbblishfd bddfss dontrol sfttings bnd
+     * durrfnt ClbssLobdfr
+     */
+    stbtid finbl dlbss PrivilfgfdCbllbblfUsingCurrfntClbssLobdfr<T> implfmfnts Cbllbblf<T> {
+        privbtf finbl Cbllbblf<T> tbsk;
+        privbtf finbl AddfssControlContfxt bdd;
+        privbtf finbl ClbssLobdfr ddl;
+
+        PrivilfgfdCbllbblfUsingCurrfntClbssLobdfr(Cbllbblf<T> tbsk) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                // Cblls to gftContfxtClbssLobdfr from this dlbss
+                // nfvfr triggfr b sfdurity dhfdk, but wf dhfdk
+                // whfthfr our dbllfrs hbvf this pfrmission bnywbys.
+                sm.dhfdkPfrmission(SfdurityConstbnts.GET_CLASSLOADER_PERMISSION);
+
+                // Whfthfr sftContfxtClbssLobdfr turns out to bf nfdfssbry
+                // or not, wf fbil fbst if pfrmission is not bvbilbblf.
+                sm.dhfdkPfrmission(nfw RuntimfPfrmission("sftContfxtClbssLobdfr"));
+            }
+            this.tbsk = tbsk;
+            this.bdd = AddfssControllfr.gftContfxt();
+            this.ddl = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+        }
+
+        publid T dbll() throws Exdfption {
+            try {
+                rfturn AddfssControllfr.doPrivilfgfd(
+                    nfw PrivilfgfdExdfptionAdtion<T>() {
+                        publid T run() throws Exdfption {
+                            Thrfbd t = Thrfbd.durrfntThrfbd();
+                            ClbssLobdfr dl = t.gftContfxtClbssLobdfr();
+                            if (ddl == dl) {
+                                rfturn tbsk.dbll();
+                            } flsf {
+                                t.sftContfxtClbssLobdfr(ddl);
+                                try {
+                                    rfturn tbsk.dbll();
+                                } finblly {
+                                    t.sftContfxtClbssLobdfr(dl);
+                                }
+                            }
+                        }
+                    }, bdd);
+            } dbtdh (PrivilfgfdAdtionExdfption f) {
+                throw f.gftExdfption();
+            }
+        }
+    }
+
+    /**
+     * Thf dffbult thrfbd fbdtory
+     */
+    stbtid dlbss DffbultThrfbdFbdtory implfmfnts ThrfbdFbdtory {
+        privbtf stbtid finbl AtomidIntfgfr poolNumbfr = nfw AtomidIntfgfr(1);
+        privbtf finbl ThrfbdGroup group;
+        privbtf finbl AtomidIntfgfr thrfbdNumbfr = nfw AtomidIntfgfr(1);
+        privbtf finbl String nbmfPrffix;
+
+        DffbultThrfbdFbdtory() {
+            SfdurityMbnbgfr s = Systfm.gftSfdurityMbnbgfr();
+            group = (s != null) ? s.gftThrfbdGroup() :
+                                  Thrfbd.durrfntThrfbd().gftThrfbdGroup();
+            nbmfPrffix = "pool-" +
+                          poolNumbfr.gftAndIndrfmfnt() +
+                         "-thrfbd-";
+        }
+
+        publid Thrfbd nfwThrfbd(Runnbblf r) {
+            Thrfbd t = nfw Thrfbd(group, r,
+                                  nbmfPrffix + thrfbdNumbfr.gftAndIndrfmfnt(),
+                                  0);
+            if (t.isDbfmon())
+                t.sftDbfmon(fblsf);
+            if (t.gftPriority() != Thrfbd.NORM_PRIORITY)
+                t.sftPriority(Thrfbd.NORM_PRIORITY);
+            rfturn t;
+        }
+    }
+
+    /**
+     * Thrfbd fbdtory dbpturing bddfss dontrol dontfxt bnd dlbss lobdfr
+     */
+    stbtid dlbss PrivilfgfdThrfbdFbdtory fxtfnds DffbultThrfbdFbdtory {
+        privbtf finbl AddfssControlContfxt bdd;
+        privbtf finbl ClbssLobdfr ddl;
+
+        PrivilfgfdThrfbdFbdtory() {
+            supfr();
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+            if (sm != null) {
+                // Cblls to gftContfxtClbssLobdfr from this dlbss
+                // nfvfr triggfr b sfdurity dhfdk, but wf dhfdk
+                // whfthfr our dbllfrs hbvf this pfrmission bnywbys.
+                sm.dhfdkPfrmission(SfdurityConstbnts.GET_CLASSLOADER_PERMISSION);
+
+                // Fbil fbst
+                sm.dhfdkPfrmission(nfw RuntimfPfrmission("sftContfxtClbssLobdfr"));
+            }
+            this.bdd = AddfssControllfr.gftContfxt();
+            this.ddl = Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+        }
+
+        publid Thrfbd nfwThrfbd(finbl Runnbblf r) {
+            rfturn supfr.nfwThrfbd(nfw Runnbblf() {
+                publid void run() {
+                    AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                        publid Void run() {
+                            Thrfbd.durrfntThrfbd().sftContfxtClbssLobdfr(ddl);
+                            r.run();
+                            rfturn null;
+                        }
+                    }, bdd);
+                }
+            });
+        }
+    }
+
+    /**
+     * A wrbppfr dlbss thbt fxposfs only thf ExfdutorSfrvidf mfthods
+     * of bn ExfdutorSfrvidf implfmfntbtion.
+     */
+    stbtid dlbss DflfgbtfdExfdutorSfrvidf fxtfnds AbstrbdtExfdutorSfrvidf {
+        privbtf finbl ExfdutorSfrvidf f;
+        DflfgbtfdExfdutorSfrvidf(ExfdutorSfrvidf fxfdutor) { f = fxfdutor; }
+        publid void fxfdutf(Runnbblf dommbnd) { f.fxfdutf(dommbnd); }
+        publid void shutdown() { f.shutdown(); }
+        publid List<Runnbblf> shutdownNow() { rfturn f.shutdownNow(); }
+        publid boolfbn isShutdown() { rfturn f.isShutdown(); }
+        publid boolfbn isTfrminbtfd() { rfturn f.isTfrminbtfd(); }
+        publid boolfbn bwbitTfrminbtion(long timfout, TimfUnit unit)
+            throws IntfrruptfdExdfption {
+            rfturn f.bwbitTfrminbtion(timfout, unit);
+        }
+        publid Futurf<?> submit(Runnbblf tbsk) {
+            rfturn f.submit(tbsk);
+        }
+        publid <T> Futurf<T> submit(Cbllbblf<T> tbsk) {
+            rfturn f.submit(tbsk);
+        }
+        publid <T> Futurf<T> submit(Runnbblf tbsk, T rfsult) {
+            rfturn f.submit(tbsk, rfsult);
+        }
+        publid <T> List<Futurf<T>> invokfAll(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks)
+            throws IntfrruptfdExdfption {
+            rfturn f.invokfAll(tbsks);
+        }
+        publid <T> List<Futurf<T>> invokfAll(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks,
+                                             long timfout, TimfUnit unit)
+            throws IntfrruptfdExdfption {
+            rfturn f.invokfAll(tbsks, timfout, unit);
+        }
+        publid <T> T invokfAny(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks)
+            throws IntfrruptfdExdfption, ExfdutionExdfption {
+            rfturn f.invokfAny(tbsks);
+        }
+        publid <T> T invokfAny(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks,
+                               long timfout, TimfUnit unit)
+            throws IntfrruptfdExdfption, ExfdutionExdfption, TimfoutExdfption {
+            rfturn f.invokfAny(tbsks, timfout, unit);
+        }
+    }
+
+    stbtid dlbss FinblizbblfDflfgbtfdExfdutorSfrvidf
+        fxtfnds DflfgbtfdExfdutorSfrvidf {
+        FinblizbblfDflfgbtfdExfdutorSfrvidf(ExfdutorSfrvidf fxfdutor) {
+            supfr(fxfdutor);
+        }
+        protfdtfd void finblizf() {
+            supfr.shutdown();
+        }
+    }
+
+    /**
+     * A wrbppfr dlbss thbt fxposfs only thf SdhfdulfdExfdutorSfrvidf
+     * mfthods of b SdhfdulfdExfdutorSfrvidf implfmfntbtion.
+     */
+    stbtid dlbss DflfgbtfdSdhfdulfdExfdutorSfrvidf
+            fxtfnds DflfgbtfdExfdutorSfrvidf
+            implfmfnts SdhfdulfdExfdutorSfrvidf {
+        privbtf finbl SdhfdulfdExfdutorSfrvidf f;
+        DflfgbtfdSdhfdulfdExfdutorSfrvidf(SdhfdulfdExfdutorSfrvidf fxfdutor) {
+            supfr(fxfdutor);
+            f = fxfdutor;
+        }
+        publid SdhfdulfdFuturf<?> sdhfdulf(Runnbblf dommbnd, long dflby, TimfUnit unit) {
+            rfturn f.sdhfdulf(dommbnd, dflby, unit);
+        }
+        publid <V> SdhfdulfdFuturf<V> sdhfdulf(Cbllbblf<V> dbllbblf, long dflby, TimfUnit unit) {
+            rfturn f.sdhfdulf(dbllbblf, dflby, unit);
+        }
+        publid SdhfdulfdFuturf<?> sdhfdulfAtFixfdRbtf(Runnbblf dommbnd, long initiblDflby, long pfriod, TimfUnit unit) {
+            rfturn f.sdhfdulfAtFixfdRbtf(dommbnd, initiblDflby, pfriod, unit);
+        }
+        publid SdhfdulfdFuturf<?> sdhfdulfWithFixfdDflby(Runnbblf dommbnd, long initiblDflby, long dflby, TimfUnit unit) {
+            rfturn f.sdhfdulfWithFixfdDflby(dommbnd, initiblDflby, dflby, unit);
+        }
+    }
+
+    /** Cbnnot instbntibtf. */
+    privbtf Exfdutors() {}
+}

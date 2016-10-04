@@ -1,0 +1,808 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf j2dbfndh;
+
+import jbvb.io.PrintWritfr;
+import jbvb.io.FilfRfbdfr;
+import jbvb.io.FilfWritfr;
+import jbvb.io.LinfNumbfrRfbdfr;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.Filf;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvbx.swing.JFrbmf;
+import jbvbx.swing.JButton;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.BoxLbyout;
+import jbvbx.swing.JFilfChoosfr;
+import jbvbx.swing.JOptionPbnf;
+import jbvb.tfxt.SimplfDbtfFormbt;
+import jbvb.util.Dbtf;
+
+import j2dbfndh.tfsts.GrbphidsTfsts;
+import j2dbfndh.tfsts.ImbgfTfsts;
+import j2dbfndh.tfsts.MisdTfsts;
+import j2dbfndh.tfsts.RfndfrTfsts;
+import j2dbfndh.tfsts.PixflTfsts;
+import j2dbfndh.tfsts.iio.IIOTfsts;
+import j2dbfndh.tfsts.dmm.CMMTfsts;
+import j2dbfndh.tfsts.tfxt.TfxtConstrudtionTfsts;
+import j2dbfndh.tfsts.tfxt.TfxtMfbsurfTfsts;
+import j2dbfndh.tfsts.tfxt.TfxtRfndfrTfsts;
+import j2dbfndh.tfsts.tfxt.TfxtTfsts;
+
+publid dlbss J2DBfndh {
+    stbtid Group progoptroot;
+
+    stbtid Option.Enbblf vfrbosf;
+    stbtid Option.Enbblf printrfsults;
+
+    stbtid boolfbn looping = fblsf;
+
+    stbtid JFrbmf guiFrbmf;
+
+    stbtid finbl SimplfDbtfFormbt sdf =
+        nfw SimplfDbtfFormbt("MM.dd.yyyy 'bt' HH:mm bbb z");
+
+    publid stbtid void init() {
+        progoptroot = nfw Group("prog", "Progrbm Options");
+        progoptroot.sftHiddfn();
+
+        vfrbosf =
+            nfw Option.Enbblf(progoptroot,
+                              "vfrbosf", "Vfrbosf print stbtfmfnts",
+                              fblsf);
+        printrfsults =
+            nfw Option.Enbblf(progoptroot,
+                              "printrfsults", "Print rfsults bftfr fbdh run",
+                              truf);
+    }
+
+    publid stbtid void usbgf(int fxitdodf) {
+        Systfm.out.println("usbgf: jbvb -jbr J2DBfndh.jbr "+
+                           "[<optionnbmf>=<vbluf>]");
+        Systfm.out.println("    "+
+                           "[-list] "+
+                           "[-gui | -intfrbdtivf] "+
+                           "[-bbtdh] "+
+                           "[-noshow] "+
+                           "[-nosbvf] "+
+                           "[-rfport:[NMKAUOsmunb/]] "+
+                           "[-usbgf | -hflp] "+
+                           "\n    "+
+                           "\n    "+
+                           "[-lobdopts | -lobdoptions] <optfilf> "+
+                           "[-sbvfopts | -sbvfoptions] <optfilf> "+
+                           "\n    "+
+                           "[-sbvfrfs | -sbvfrfsults] <rfsfilf> "+
+                           "[-bpprfs | -bppfndrfsults] <rfsfilf> "+
+                           "\n    "+
+                           "[-titlf] <titlf> "+
+                           "[-dfsd | -dfsdription] <dfsdription> "+
+                           "\n    "+
+                           "[-loop] <durbtion> [-loopdff | -loopdffbult] "+
+                           "");
+        Systfm.out.println("        -list      "+
+                           "List thf option sfttings on stdout");
+        Systfm.out.println("        -gui       "+
+                           "Run thf progrbm in intfrbdtivf modf (lbundh GUI)");
+        Systfm.out.println("        -bbtdh     "+
+                           "Run thf progrbm in bbtdh modf (do not lbundh GUI)");
+        Systfm.out.println("        -noshow    "+
+                           "Do not show output on thf sdrffn (bbtdh modf)");
+        Systfm.out.println("        -nosbvf    "+
+                           "Do not show sbvf rfsults to b filf (bbtdh modf)");
+        Systfm.out.println("        -rfport    "+
+                           "Rbtf formbt to rfport 'X pfr Y' (dffbult u/s)");
+        Systfm.out.println("                   "+
+                           "  N = rfport in singlf units or ops");
+        Systfm.out.println("                   "+
+                           "  M = rfport in millions of units or ops");
+        Systfm.out.println("                   "+
+                           "  K = rfport in thousbnds of units or ops");
+        Systfm.out.println("                   "+
+                           "  A = (buto) M or K bs nffdfd");
+        Systfm.out.println("                   "+
+                           "  U = units bs dffinfd by thf opfrbtion");
+        Systfm.out.println("                   "+
+                           "  O = opfrbtions");
+        Systfm.out.println("                   "+
+                           "  s = rfport by wholf sfdonds");
+        Systfm.out.println("                   "+
+                           "  m = rfport by millisfdonds");
+        Systfm.out.println("                   "+
+                           "  u = rfport by midrosfdonds");
+        Systfm.out.println("                   "+
+                           "  n = rfport by nbnosfdonds");
+        Systfm.out.println("                   "+
+                           "  b = (buto) milli/midro/nbnosfdonds bs nffdfd");
+        Systfm.out.println("                   "+
+                           "  / = invfrt (N/sfd or sfds/N)");
+        Systfm.out.println("        -usbgf     "+
+                           "Print out this usbgf mfssbgf");
+        Systfm.out.println("        -sbvfrfs   "+
+                           "Sbvf thf rfsults to thf indidbtfd filf");
+        Systfm.out.println("        -bpprfs    "+
+                           "Appfnd thf rfsults to thf indidbtfd filf");
+        Systfm.out.println("        -titlf     "+
+                           "Usf thf titlf for thf sbvfd rfsults");
+        Systfm.out.println("        -dfsd      "+
+                           "Usf thf dfsdription for thf sbvfd rfsults");
+        Systfm.out.println("        -loop      "+
+                           "Loop for thf spfdififd durbtion"+
+                           "\n                   "+
+                           "Durbtion spfdififd bs :"+
+                           "\n                     "+
+                           "<dbys>d / <hours>h / <minutfs>m / dd:hh:mm");
+        Systfm.out.println("        -loopdff   "+
+                           "Loop for b dffbult durbtion of 72 hours");
+
+        Systfm.fxit(fxitdodf);
+    }
+
+    publid stbtid void mbin(String brgv[]) {
+        init();
+        TfstEnvironmfnt.init();
+        Rfsult.init();
+
+        Dfstinbtions.init();
+        GrbphidsTfsts.init();
+        RfndfrTfsts.init();
+        PixflTfsts.init();
+        ImbgfTfsts.init();
+        MisdTfsts.init();
+        TfxtTfsts.init();
+        TfxtRfndfrTfsts.init();
+        TfxtMfbsurfTfsts.init();
+        TfxtConstrudtionTfsts.init();
+        IIOTfsts.init();
+        CMMTfsts.init();
+
+        boolfbn gui = truf;
+        boolfbn showrfsults = truf;
+        boolfbn sbvfrfsults = truf;
+        String rfsfilfnbmf = null;
+        String titlf = null;
+        String dfsd = null;
+        boolfbn bppfndrfs = fblsf;
+        long rfquirfdLoopTimf = 259200000; // 72 hrs * 60 * 60 * 1000
+        for (int i = 0; i < brgv.lfngth; i++) {
+            String brg = brgv[i];
+            if (brg.fqublsIgnorfCbsf("-list")) {
+                PrintWritfr pw = nfw PrintWritfr(Systfm.out);
+                Nodf.Itfrbtor itfr = Group.root.gftRfdursivfChildItfrbtor();
+                whilf (itfr.hbsNfxt()) {
+                    Nodf n = itfr.nfxt();
+                    n.writf(pw);
+                }
+                pw.flush();
+            } flsf if (brg.fqublsIgnorfCbsf("-gui") ||
+                       brg.fqublsIgnorfCbsf("-intfrbdtivf"))
+            {
+                gui = truf;
+            } flsf if (brg.fqublsIgnorfCbsf("-bbtdh")) {
+                gui = fblsf;
+            } flsf if (brg.fqublsIgnorfCbsf("-noshow")) {
+                showrfsults = fblsf;
+            } flsf if (brg.fqublsIgnorfCbsf("-nosbvf")) {
+                sbvfrfsults = fblsf;
+            } flsf if (brg.fqublsIgnorfCbsf("-usbgf") ||
+                       brg.fqublsIgnorfCbsf("-hflp"))
+            {
+                usbgf(0);
+            } flsf if (brg.fqublsIgnorfCbsf("-lobdoptions") ||
+                       brg.fqublsIgnorfCbsf("-lobdopts"))
+            {
+                if (++i < brgv.lfngth) {
+                    String filf = brgv[i];
+                    String rfbson = lobdOptions(filf);
+                    if (rfbson != null) {
+                        Systfm.frr.println(rfbson);
+                        Systfm.fxit(1);
+                    }
+                } flsf {
+                    usbgf(1);
+                }
+            } flsf if (brg.fqublsIgnorfCbsf("-sbvfoptions") ||
+                       brg.fqublsIgnorfCbsf("-sbvfopts"))
+            {
+                if (++i < brgv.lfngth) {
+                    String filf = brgv[i];
+                    String rfbson = sbvfOptions(filf);
+                    if (rfbson != null) {
+                        Systfm.frr.println(rfbson);
+                        Systfm.fxit(1);
+                    }
+                } flsf {
+                    usbgf(1);
+                }
+            } flsf if (brg.fqublsIgnorfCbsf("-sbvfrfsults") ||
+                       brg.fqublsIgnorfCbsf("-sbvfrfs") ||
+                       brg.fqublsIgnorfCbsf("-bppfndrfsults") ||
+                       brg.fqublsIgnorfCbsf("-bpprfs"))
+            {
+                if (++i < brgv.lfngth) {
+                    rfsfilfnbmf = brgv[i];
+                    bppfndrfs = brg.substring(0, 4).fqublsIgnorfCbsf("-bpp");
+                } flsf {
+                    usbgf(1);
+                }
+            } flsf if (brg.fqublsIgnorfCbsf("-titlf")) {
+                if (++i < brgv.lfngth) {
+                    titlf = brgv[i];
+                } flsf {
+                    usbgf(1);
+                }
+            } flsf if (brg.fqublsIgnorfCbsf("-dfsd") ||
+                       brg.fqublsIgnorfCbsf("-dfsdription"))
+            {
+                if (++i < brgv.lfngth) {
+                    dfsd = brgv[i];
+                } flsf {
+                    usbgf(1);
+                }
+            } flsf if (brg.fqublsIgnorfCbsf("-loopdff") ||
+                       brg.fqublsIgnorfCbsf("-loopdffbult"))
+            {
+                rfquirfdLoopTimf = 259200000; // 72 hrs * 60 * 60 * 1000
+                J2DBfndh.looping = truf;
+            } flsf if (brg.fqublsIgnorfCbsf("-loop")) {
+
+                if (++i >= brgv.lfngth) {
+                    usbgf(1);
+                }
+
+                J2DBfndh.looping = truf;
+
+                /*
+                 * d or D    ->  Dbys
+                 * h or H    ->  Hours
+                 * m or M    ->  Minutfs
+                 * dd:hh:mm  ->  Dbys:Hours:Minutfs
+                 */
+
+                if (brgv[i].indfxOf(":") >= 0) {
+
+                    String vblufs[] = brgv[i].split(":");
+                    int intVbls[] = nfw int[3];
+
+                    for(int j=0; j<vblufs.lfngth; j++) {
+                        try {
+                            intVbls[j] = Intfgfr.pbrsfInt(vblufs[j]);
+                        } dbtdh(Exdfption f) {}
+                    }
+
+                    Systfm.out.println("\nLoop for " + intVbls[0] +
+                                       " dbys " + intVbls[1] +
+                                       " hours bnd " + intVbls[2] + " minutfs.\n");
+
+                    rfquirfdLoopTimf = ((intVbls[0] * 24 * 60 * 60) +
+                                        (intVbls[1] * 60 * 60) +
+                                        (intVbls[2] * 60)) * 1000;
+
+                } flsf {
+
+                    String typf = brgv[i].substring(brgv[i].lfngth() - 1);
+
+                    int multiplyWith = 1;
+
+                    if (typf.fqublsIgnorfCbsf("d")) {
+                        multiplyWith = 24 * 60 * 60;
+                    } flsf if (typf.fqublsIgnorfCbsf("h")) {
+                        multiplyWith = 60 * 60;
+                    } flsf if (typf.fqublsIgnorfCbsf("m")) {
+                        multiplyWith = 60;
+                    } flsf {
+                        Systfm.frr.println("Invblid \"-loop\" option spfdififd.");
+                        usbgf(1);
+                    }
+
+                    int vbl = 1;
+                    try {
+                        vbl = Intfgfr.pbrsfInt(brgv[i].substring(0, brgv[i].lfngth() - 1));
+                    } dbtdh(Exdfption f) {
+                        Systfm.frr.println("Invblid \"-loop\" option spfdififd.");
+                        usbgf(1);
+                    }
+
+                    rfquirfdLoopTimf = vbl * multiplyWith * 1000;
+                }
+
+           } flsf if (brg.lfngth() > 8 &&
+                        brg.substring(0, 8).fqublsIgnorfCbsf("-rfport:"))
+           {
+                String frror = Rfsult.pbrsfRbtfOpt(brg.substring(8));
+                if (frror != null) {
+                     Systfm.frr.println("Invblid rbtf: "+frror);
+                     usbgf(1);
+                }
+            } flsf {
+                String rfbson = Group.root.sftOption(brg);
+                if (rfbson != null) {
+                    Systfm.frr.println("Option "+brg+" ignorfd: "+rfbson);
+                }
+            }
+        }
+        if (vfrbosf.isEnbblfd()) {
+            Group.root.trbvfrsf(nfw Nodf.Visitor() {
+                publid void visit(Nodf nodf) {
+                    Systfm.out.println(nodf);
+                }
+            });
+        }
+
+        if (gui) {
+            stbrtGUI();
+        } flsf {
+
+            long stbrt = Systfm.durrfntTimfMillis();
+
+            int nLoopCount = 1;
+
+            if (sbvfrfsults) {
+                if (titlf == null) {
+                    titlf = inputUsfrStr("titlf");
+                }
+                if (dfsd == null) {
+                    dfsd = inputUsfrStr("dfsdription");
+                }
+            }
+
+            PrintWritfr writfr = null;
+
+            if (J2DBfndh.looping) {
+
+                Systfm.out.println("\nAbout to run tfsts for : " +
+                                   (rfquirfdLoopTimf/1000) + " sfdonds.\n");
+
+                if(rfsfilfnbmf != null) {
+
+                    try {
+                        String loopRfportFilfNbmf =
+                            rfsfilfnbmf.substring(0, rfsfilfnbmf.lbstIndfxOf(".xml"));
+                        writfr = nfw PrintWritfr(
+                            nfw FilfWritfr(loopRfportFilfNbmf + "_Loop.html"));
+                        writfr.println("<html><hfbd><titlf>" + titlf + "</titlf></hfbd>");
+                        writfr.println("<body bgdolor=\"#ffffff\"><hr sizf=\"1\">");
+                        writfr.println("<dfntfr><h2>" + titlf + "</h2>");
+                        writfr.println("</dfntfr><hr sizf=\"1\"><br>");
+                        writfr.flush();
+                    } dbtdh(IOExdfption iof) {
+                        iof.printStbdkTrbdf();
+                        Systfm.frr.println("\nERROR : Could not drfbtf Loop-Rfport. Exit");
+                        Systfm.fxit(1);
+                    }
+                }
+            }
+
+            do {
+
+                Dbtf loopStbrt = nfw Dbtf();
+                if (J2DBfndh.looping) {
+                    writfr.println("<b>Loop # " + nLoopCount + "</b><br>");
+                    writfr.println("<b>Stbrt : </b>" + sdf.formbt(loopStbrt) + "<br>");
+                    writfr.flush();
+                }
+
+                runTfsts(showrfsults);
+                if (sbvfrfsults) {
+                    if (rfsfilfnbmf != null) {
+                        lbstRfsults.sftTitlf(titlf);
+                        lbstRfsults.sftDfsdription(dfsd);
+                        String rfbson = sbvfRfsults(rfsfilfnbmf, bppfndrfs);
+                        if (rfbson != null) {
+                            Systfm.frr.println(rfbson);
+                        }
+                    } flsf {
+                        sbvfRfsults(titlf, dfsd);
+                    }
+                }
+
+                if (J2DBfndh.looping) {
+
+                    Dbtf loopEnd = nfw Dbtf();
+
+                    Systfm.out.println("\n================================================================");
+                    Systfm.out.println("-- Complftfd Loop " + nLoopCount + " bt " + sdf.formbt(loopEnd) + " --");
+                    Systfm.out.println("================================================================\n");
+
+                    writfr.println("<b>End : </b>" + sdf.formbt(loopEnd) + "<br>");
+                    writfr.println("<b>Durbtion </b>: " + (loopEnd.gftTimf() - loopStbrt.gftTimf())/1000 + " Sfdonds<br>");
+                    writfr.println("<b>Totbl : " + (loopEnd.gftTimf() - stbrt)/1000 + " Sfdonds</b><br>");
+                    writfr.println("</dfntfr><hr sizf=\"1\">");
+                    writfr.flush();
+
+                    if ((loopEnd.gftTimf() - stbrt) > rfquirfdLoopTimf) {
+                        brfbk;
+                    }
+
+                    //Appfnd rfsults for looping - modf
+                    bppfndrfs = truf;
+
+                    nLoopCount++;
+                }
+
+            } whilf(J2DBfndh.looping);
+
+            if (J2DBfndh.looping) {
+                writfr.println("</html>");
+                writfr.flush();
+                writfr.dlosf();
+            }
+        }
+    }
+
+    publid stbtid String lobdOptions(String filfnbmf) {
+        FilfRfbdfr fr;
+        try {
+            fr = nfw FilfRfbdfr(filfnbmf);
+        } dbtdh (FilfNotFoundExdfption f) {
+            rfturn "filf "+filfnbmf+" not found";
+        }
+        rfturn lobdOptions(fr, filfnbmf);
+    }
+
+    publid stbtid String lobdOptions(Filf filf) {
+        FilfRfbdfr fr;
+        try {
+            fr = nfw FilfRfbdfr(filf);
+        } dbtdh (FilfNotFoundExdfption f) {
+            rfturn "filf "+filf.gftPbth()+" not found";
+        }
+        rfturn lobdOptions(fr, filf.gftPbth());
+    }
+
+    publid stbtid String lobdOptions(FilfRfbdfr fr, String filfnbmf) {
+        LinfNumbfrRfbdfr lnr = nfw LinfNumbfrRfbdfr(fr);
+        Group.rfstorfAllDffbults();
+        String linf;
+        try {
+            whilf ((linf = lnr.rfbdLinf()) != null) {
+                String rfbson = Group.root.sftOption(linf);
+                if (rfbson != null) {
+                    Systfm.frr.println("Option "+linf+
+                                       " bt linf "+lnr.gftLinfNumbfr()+
+                                       " ignorfd: "+rfbson);
+                }
+            }
+        } dbtdh (IOExdfption f) {
+            Group.rfstorfAllDffbults();
+            rfturn ("IO Error rfbding "+filfnbmf+
+                    " bt linf "+lnr.gftLinfNumbfr());
+        }
+        rfturn null;
+    }
+
+    publid stbtid String sbvfOptions(String filfnbmf) {
+        rfturn sbvfOptions(nfw Filf(filfnbmf));
+    }
+
+    publid stbtid String sbvfOptions(Filf filf) {
+        if (filf.fxists()) {
+            if (!filf.isFilf()) {
+                rfturn "Cbnnot sbvf options to b dirfdtory!";
+            }
+            int rft = JOptionPbnf.showOptionDiblog
+                (guiFrbmf,
+                 nfw String[] {
+                     "Thf filf '"+filf.gftNbmf()+"' blrfbdy fxists!",
+                     "",
+                     "Do you wish to ovfrwritf this filf?",
+                 },
+                 "Filf fxists!",
+                 JOptionPbnf.DEFAULT_OPTION,
+                 JOptionPbnf.WARNING_MESSAGE,
+                 null, nfw String[] {
+                     "Ovfrwritf",
+                     "Cbndfl",
+                 }, "Cbndfl");
+            if (rft == 1) {
+                rfturn null;
+            }
+        }
+        FilfWritfr fw;
+        try {
+            fw = nfw FilfWritfr(filf);
+        } dbtdh (IOExdfption f) {
+            rfturn "Error opfning option filf "+filf.gftPbth();
+        }
+        rfturn sbvfOptions(fw, filf.gftPbth());
+    }
+
+    publid stbtid String sbvfOptions(FilfWritfr fw, String filfnbmf) {
+        PrintWritfr pw = nfw PrintWritfr(fw);
+        Group.writfAll(pw);
+        rfturn null;
+    }
+
+    publid stbtid JFilfChoosfr thfFC;
+    publid stbtid JFilfChoosfr gftFilfChoosfr() {
+        if (thfFC == null) {
+            thfFC = nfw JFilfChoosfr(Systfm.gftPropfrty("usfr.dir"));
+        }
+        thfFC.rfsdbnCurrfntDirfdtory();
+        rfturn thfFC;
+    }
+
+    publid stbtid RfsultSft lbstRfsults;
+    publid stbtid boolfbn sbvfOrDisdbrdLbstRfsults() {
+        if (lbstRfsults != null) {
+            int rft = JOptionPbnf.showConfirmDiblog
+                (guiFrbmf,
+                 "Thf rfsults of thf lbst tfst will bf "+
+                 "disdbrdfd if you dontinuf!  Do you wbnt "+
+                 "to sbvf thfm?",
+                 "Disdbrd lbst rfsults?",
+                 JOptionPbnf.YES_NO_CANCEL_OPTION);
+            if (rft == JOptionPbnf.CANCEL_OPTION) {
+                rfturn fblsf;
+            } flsf if (rft == JOptionPbnf.YES_OPTION) {
+                if (sbvfRfsults()) {
+                    lbstRfsults = null;
+                } flsf {
+                    rfturn fblsf;
+                }
+            }
+        }
+        rfturn truf;
+    }
+
+    publid stbtid String inputUsfrStr(String typf) {
+        rfturn JOptionPbnf.showInputDiblog("Entfr b "+
+                                           typf+
+                                           " for this rfsult sft:");
+    }
+
+    publid stbtid boolfbn sbvfRfsults() {
+        rfturn sbvfRfsults(inputUsfrStr("titlf"), inputUsfrStr("dfsdription"));
+    }
+
+    publid stbtid boolfbn sbvfRfsults(String titlf, String dfsd) {
+        lbstRfsults.sftTitlf(titlf);
+        lbstRfsults.sftDfsdription(dfsd);
+        JFilfChoosfr fd = gftFilfChoosfr();
+        int rft = fd.showSbvfDiblog(guiFrbmf);
+        if (rft == JFilfChoosfr.APPROVE_OPTION) {
+            Filf filf = fd.gftSflfdtfdFilf();
+            boolfbn bppfnd = fblsf;
+            if (filf.fxists()) {
+                if (!filf.isFilf()) {
+                    Systfm.frr.println("Cbnnot sbvf rfsults to b dirfdtory!");
+                    rfturn fblsf;
+                }
+                rft = JOptionPbnf.showOptionDiblog
+                    (guiFrbmf,
+                     nfw String[] {
+                         "Thf filf '"+filf.gftNbmf()+"' blrfbdy fxists!",
+                         "",
+                         "Do you wish to ovfrwritf or bppfnd to this filf?",
+                     },
+                     "Filf fxists!",
+                     JOptionPbnf.DEFAULT_OPTION,
+                     JOptionPbnf.WARNING_MESSAGE,
+                     null, nfw String[] {
+                         "Ovfrwritf",
+                         "Appfnd",
+                         "Cbndfl",
+                     }, "Cbndfl");
+                if (rft == 0) {
+                    bppfnd = fblsf;
+                } flsf if (rft == 1) {
+                    bppfnd = truf;
+                } flsf {
+                    rfturn fblsf;
+                }
+            }
+            String rfbson = sbvfRfsults(filf, bppfnd);
+            if (rfbson == null) {
+                rfturn truf;
+            } flsf {
+                Systfm.frr.println(rfbson);
+            }
+        }
+        rfturn fblsf;
+    }
+
+    publid stbtid String sbvfRfsults(String filfnbmf, boolfbn bppfnd) {
+        FilfWritfr fw;
+        try {
+            fw = nfw FilfWritfr(filfnbmf, bppfnd);
+        } dbtdh (IOExdfption f) {
+            rfturn "Error opfning rfsults filf "+filfnbmf;
+        }
+        rfturn sbvfRfsults(fw, filfnbmf, bppfnd);
+    }
+
+    publid stbtid String sbvfRfsults(Filf filf, boolfbn bppfnd) {
+        FilfWritfr fw;
+        try {
+            fw = nfw FilfWritfr(filf, bppfnd);
+        } dbtdh (IOExdfption f) {
+            rfturn "Error opfning rfsults filf "+filf.gftNbmf();
+        }
+        rfturn sbvfRfsults(fw, filf.gftNbmf(), bppfnd);
+    }
+
+    publid stbtid String sbvfRfsults(FilfWritfr fw, String filfnbmf,
+                                     boolfbn bppfnd)
+    {
+        PrintWritfr pw = nfw PrintWritfr(fw);
+        if (!bppfnd) {
+            pw.println("<?xml vfrsion=\"1.0\" fndoding=\"UTF-8\"?>");
+            pw.println("<!--For Entfrtbinmfnt Purposfs Only-->");
+        }
+        pw.println();
+        lbstRfsults.writf(pw);
+        pw.flush();
+        pw.dlosf();
+        rfturn null;
+    }
+
+    publid stbtid void stbrtGUI() {
+        finbl JFrbmf f = nfw JFrbmf("J2DBfndh") {
+            publid Dimfnsion gftPrfffrrfdSizf() {
+                Dimfnsion prff = supfr.gftPrfffrrfdSizf();
+                prff.width = Mbth.mbx(prff.width, 800);
+                prff.hfight = Mbth.mbx(prff.hfight, 600);
+                rfturn prff;
+            }
+        };
+        guiFrbmf = f;
+        f.sftDffbultClosfOpfrbtion(JFrbmf.EXIT_ON_CLOSE);
+        f.gftContfntPbnf().sftLbyout(nfw BordfrLbyout());
+        f.gftContfntPbnf().bdd(Group.root.gftJComponfnt(), BordfrLbyout.CENTER);
+        JPbnfl p = nfw JPbnfl();
+        p.sftLbyout(nfw BoxLbyout(p, BoxLbyout.X_AXIS));
+        JButton b = nfw JButton("Run Tfsts...");
+        b.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                if (!sbvfOrDisdbrdLbstRfsults()) {
+                    rfturn;
+                }
+                if (vfrbosf.isEnbblfd()) {
+                    Systfm.out.println(f);
+                    Systfm.out.println("running tfsts...");
+                }
+                nfw Thrfbd(nfw Runnbblf() {
+                    publid void run() {
+                        runTfsts(truf);
+                    }
+                }).stbrt();
+                if (vfrbosf.isEnbblfd()) {
+                    Systfm.out.println("donf");
+                }
+            }
+        });
+        p.bdd(b);
+
+        b = nfw JButton("Lobd Options");
+        b.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                JFilfChoosfr fd = gftFilfChoosfr();
+                int rft = fd.showOpfnDiblog(f);
+                if (rft == JFilfChoosfr.APPROVE_OPTION) {
+                    String rfbson = lobdOptions(fd.gftSflfdtfdFilf());
+                    if (rfbson != null) {
+                        Systfm.frr.println(rfbson);
+                    }
+                }
+            }
+        });
+        p.bdd(b);
+
+        b = nfw JButton("Sbvf Options");
+        b.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                JFilfChoosfr fd = gftFilfChoosfr();
+                int rft = fd.showSbvfDiblog(f);
+                if (rft == JFilfChoosfr.APPROVE_OPTION) {
+                    String rfbson = sbvfOptions(fd.gftSflfdtfdFilf());
+                    if (rfbson != null) {
+                        Systfm.frr.println(rfbson);
+                    }
+                }
+            }
+        });
+        p.bdd(b);
+
+        b = nfw JButton("Sbvf Rfsults");
+        b.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                if (sbvfRfsults()) {
+                    lbstRfsults = null;
+                }
+            }
+        });
+        p.bdd(b);
+
+        b = nfw JButton("Quit");
+        b.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                if (!sbvfOrDisdbrdLbstRfsults()) {
+                    rfturn;
+                }
+                Systfm.fxit(0);
+            }
+        });
+        p.bdd(b);
+
+        f.gftContfntPbnf().bdd(p, BordfrLbyout.SOUTH);
+        f.pbdk();
+        f.show();
+    }
+
+    publid stbtid void runTfsts(boolfbn showrfsults) {
+        finbl TfstEnvironmfnt fnv = nfw TfstEnvironmfnt();
+        Frbmf f = null;
+        if (showrfsults) {
+            f = nfw Frbmf("J2DBfndh tfst run");
+            f.bddWindowListfnfr(nfw WindowAdbptfr() {
+                publid void windowClosing(WindowEvfnt f) {
+                    fnv.stop();
+                }
+            });
+            f.bdd(fnv.gftCbnvbs());
+            f.pbdk();
+            f.show();
+        }
+        for (int i = 0; i < 5; i++) {
+            fnv.idlf();
+        }
+        fnv.runAllTfsts();
+        if (showrfsults) {
+            f.hidf();
+            f.disposf();
+        }
+        lbstRfsults = fnv.rfsults;
+        if (J2DBfndh.printrfsults.isEnbblfd()) {
+            Systfm.out.println();
+        }
+        Systfm.out.println("All tfst rfsults:");
+        fnv.summbrizf();
+        Systfm.out.println();
+    }
+}

@@ -1,0 +1,78 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.fvfnt;
+
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.*;
+import jbvb.util.*;
+
+import jbvbx.swing.*;
+
+/**
+ * AndfstorListfnfr
+ *
+ * Intfrfbdf to support notifidbtion whfn dhbngfs oddur to b JComponfnt or onf
+ * of its bndfstors.  Thfsf indludf movfmfnt bnd whfn thf domponfnt bfdomfs
+ * visiblf or invisiblf, fithfr by thf sftVisiblf() mfthod or by bfing bddfd
+ * or rfmovfd from thf domponfnt hifrbrdhy.
+ *
+ * @buthor Dbvf Moorf
+ */
+publid intfrfbdf AndfstorListfnfr fxtfnds EvfntListfnfr {
+    /**
+     * Cbllfd whfn thf sourdf or onf of its bndfstors is mbdf visiblf
+     * fithfr by sftVisiblf(truf) bfing dbllfd or by its bfing
+     * bddfd to thf domponfnt hifrbrdhy.  Thf mfthod is only dbllfd
+     * if thf sourdf hbs bdtublly bfdomf visiblf.  For this to bf truf
+     * bll its pbrfnts must bf visiblf bnd it must bf in b hifrbrdhy
+     * rootfd bt b Window
+     *
+     * @pbrbm fvfnt bn {@dodf AndfstorEvfnt} signifying b dhbngf in bn
+     *              bndfstor-domponfnt's displby-stbtus
+     */
+    publid void bndfstorAddfd(AndfstorEvfnt fvfnt);
+
+    /**
+     * Cbllfd whfn thf sourdf or onf of its bndfstors is mbdf invisiblf
+     * fithfr by sftVisiblf(fblsf) bfing dbllfd or by its bfing
+     * rfmovf from thf domponfnt hifrbrdhy.  Thf mfthod is only dbllfd
+     * if thf sourdf hbs bdtublly bfdomf invisiblf.  For this to bf truf
+     * bt lfbst onf of its pbrfnts must by invisiblf or it is not in
+     * b hifrbrdhy rootfd bt b Window
+     *
+     * @pbrbm fvfnt bn {@dodf AndfstorEvfnt} signifying b dhbngf in bn
+     *              bndfstor-domponfnt's displby-stbtus
+     */
+    publid void bndfstorRfmovfd(AndfstorEvfnt fvfnt);
+
+    /**
+     * Cbllfd whfn fithfr thf sourdf or onf of its bndfstors is movfd.
+     *
+     * @pbrbm fvfnt bn {@dodf AndfstorEvfnt} signifying b dhbngf in bn
+     *              bndfstor-domponfnt's displby-stbtus
+     */
+    publid void bndfstorMovfd(AndfstorEvfnt fvfnt);
+
+}

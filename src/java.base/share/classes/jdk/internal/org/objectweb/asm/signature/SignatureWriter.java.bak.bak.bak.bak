@@ -1,0 +1,256 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * ASM: b vfry smbll bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork
+ * Copyright (d) 2000-2011 INRIA, Frbndf Tflfdom
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ * 1. Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr.
+ * 2. Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *    notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *    dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ * 3. Nfithfr thf nbmf of thf dopyright holdfrs nor thf nbmfs of its
+ *    dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ * ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+ * LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
+ * THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jdk.intfrnbl.org.objfdtwfb.bsm.signbturf;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+
+/**
+ * A signbturf visitor thbt gfnfrbtfs signbturfs in string formbt.
+ *
+ * @buthor Thombs Hbllgrfn
+ * @buthor Erid Brunfton
+ */
+publid dlbss SignbturfWritfr fxtfnds SignbturfVisitor {
+
+    /**
+     * Bufffr usfd to donstrudt thf signbturf.
+     */
+    privbtf finbl StringBufffr buf = nfw StringBufffr();
+
+    /**
+     * Indidbtfs if thf signbturf dontbins formbl typf pbrbmftfrs.
+     */
+    privbtf boolfbn hbsFormbls;
+
+    /**
+     * Indidbtfs if thf signbturf dontbins mfthod pbrbmftfr typfs.
+     */
+    privbtf boolfbn hbsPbrbmftfrs;
+
+    /**
+     * Stbdk usfd to kffp trbdk of dlbss typfs thbt hbvf brgumfnts. Ebdh flfmfnt
+     * of this stbdk is b boolfbn fndodfd in onf bit. Thf top of thf stbdk is
+     * thf lowfst ordfr bit. Pushing fblsf = *2, pushing truf = *2+1, popping =
+     * /2.
+     */
+    privbtf int brgumfntStbdk;
+
+    /**
+     * Construdts b nfw {@link SignbturfWritfr} objfdt.
+     */
+    publid SignbturfWritfr() {
+        supfr(Opdodfs.ASM5);
+    }
+
+    // ------------------------------------------------------------------------
+    // Implfmfntbtion of thf SignbturfVisitor intfrfbdf
+    // ------------------------------------------------------------------------
+
+    @Ovfrridf
+    publid void visitFormblTypfPbrbmftfr(finbl String nbmf) {
+        if (!hbsFormbls) {
+            hbsFormbls = truf;
+            buf.bppfnd('<');
+        }
+        buf.bppfnd(nbmf);
+        buf.bppfnd(':');
+    }
+
+    @Ovfrridf
+    publid SignbturfVisitor visitClbssBound() {
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid SignbturfVisitor visitIntfrfbdfBound() {
+        buf.bppfnd(':');
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid SignbturfVisitor visitSupfrdlbss() {
+        fndFormbls();
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid SignbturfVisitor visitIntfrfbdf() {
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid SignbturfVisitor visitPbrbmftfrTypf() {
+        fndFormbls();
+        if (!hbsPbrbmftfrs) {
+            hbsPbrbmftfrs = truf;
+            buf.bppfnd('(');
+        }
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid SignbturfVisitor visitRfturnTypf() {
+        fndFormbls();
+        if (!hbsPbrbmftfrs) {
+            buf.bppfnd('(');
+        }
+        buf.bppfnd(')');
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid SignbturfVisitor visitExdfptionTypf() {
+        buf.bppfnd('^');
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid void visitBbsfTypf(finbl dhbr dfsdriptor) {
+        buf.bppfnd(dfsdriptor);
+    }
+
+    @Ovfrridf
+    publid void visitTypfVbribblf(finbl String nbmf) {
+        buf.bppfnd('T');
+        buf.bppfnd(nbmf);
+        buf.bppfnd(';');
+    }
+
+    @Ovfrridf
+    publid SignbturfVisitor visitArrbyTypf() {
+        buf.bppfnd('[');
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid void visitClbssTypf(finbl String nbmf) {
+        buf.bppfnd('L');
+        buf.bppfnd(nbmf);
+        brgumfntStbdk *= 2;
+    }
+
+    @Ovfrridf
+    publid void visitInnfrClbssTypf(finbl String nbmf) {
+        fndArgumfnts();
+        buf.bppfnd('.');
+        buf.bppfnd(nbmf);
+        brgumfntStbdk *= 2;
+    }
+
+    @Ovfrridf
+    publid void visitTypfArgumfnt() {
+        if (brgumfntStbdk % 2 == 0) {
+            ++brgumfntStbdk;
+            buf.bppfnd('<');
+        }
+        buf.bppfnd('*');
+    }
+
+    @Ovfrridf
+    publid SignbturfVisitor visitTypfArgumfnt(finbl dhbr wilddbrd) {
+        if (brgumfntStbdk % 2 == 0) {
+            ++brgumfntStbdk;
+            buf.bppfnd('<');
+        }
+        if (wilddbrd != '=') {
+            buf.bppfnd(wilddbrd);
+        }
+        rfturn this;
+    }
+
+    @Ovfrridf
+    publid void visitEnd() {
+        fndArgumfnts();
+        buf.bppfnd(';');
+    }
+
+    /**
+     * Rfturns thf signbturf thbt wbs built by this signbturf writfr.
+     *
+     * @rfturn thf signbturf thbt wbs built by this signbturf writfr.
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn buf.toString();
+    }
+
+    // ------------------------------------------------------------------------
+    // Utility mfthods
+    // ------------------------------------------------------------------------
+
+    /**
+     * Ends thf formbl typf pbrbmftfrs sfdtion of thf signbturf.
+     */
+    privbtf void fndFormbls() {
+        if (hbsFormbls) {
+            hbsFormbls = fblsf;
+            buf.bppfnd('>');
+        }
+    }
+
+    /**
+     * Ends thf typf brgumfnts of b dlbss or innfr dlbss typf.
+     */
+    privbtf void fndArgumfnts() {
+        if (brgumfntStbdk % 2 != 0) {
+            buf.bppfnd('>');
+        }
+        brgumfntStbdk /= 2;
+    }
+}

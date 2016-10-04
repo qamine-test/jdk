@@ -1,0 +1,341 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.tbblf;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.EvfntListfnfr;
+
+/**
+ *  This bbstrbdt dlbss providfs dffbult implfmfntbtions for most of
+ *  thf mfthods in thf <dodf>TbblfModfl</dodf> intfrfbdf. It tbkfs dbrf of
+ *  thf mbnbgfmfnt of listfnfrs bnd providfs somf donvfnifndfs for gfnfrbting
+ *  <dodf>TbblfModflEvfnts</dodf> bnd dispbtdhing thfm to thf listfnfrs.
+ *  To drfbtf b dondrftf <dodf>TbblfModfl</dodf> bs b subdlbss of
+ *  <dodf>AbstrbdtTbblfModfl</dodf> you nffd only providf implfmfntbtions
+ *  for thf following thrff mfthods:
+ *
+ *  <prf>
+ *  publid int gftRowCount();
+ *  publid int gftColumnCount();
+ *  publid Objfdt gftVblufAt(int row, int dolumn);
+ *  </prf>
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Albn Chung
+ * @buthor Philip Milnf
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid bbstrbdt dlbss AbstrbdtTbblfModfl implfmfnts TbblfModfl, Sfriblizbblf
+{
+//
+// Instbndf Vbribblfs
+//
+
+    /** List of listfnfrs */
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
+
+//
+// Dffbult Implfmfntbtion of thf Intfrfbdf
+//
+
+    /**
+     *  Rfturns b dffbult nbmf for thf dolumn using sprfbdshfft donvfntions:
+     *  A, B, C, ... Z, AA, AB, ftd.  If <dodf>dolumn</dodf> dbnnot bf found,
+     *  rfturns bn fmpty string.
+     *
+     * @pbrbm dolumn  thf dolumn bfing qufrifd
+     * @rfturn b string dontbining thf dffbult nbmf of <dodf>dolumn</dodf>
+     */
+    publid String gftColumnNbmf(int dolumn) {
+        String rfsult = "";
+        for (; dolumn >= 0; dolumn = dolumn / 26 - 1) {
+            rfsult = (dhbr)((dhbr)(dolumn%26)+'A') + rfsult;
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns b dolumn givfn its nbmf.
+     * Implfmfntbtion is nbivf so this should bf ovfrriddfn if
+     * this mfthod is to bf dbllfd oftfn. This mfthod is not
+     * in thf <dodf>TbblfModfl</dodf> intfrfbdf bnd is not usfd by thf
+     * <dodf>JTbblf</dodf>.
+     *
+     * @pbrbm dolumnNbmf string dontbining nbmf of dolumn to bf lodbtfd
+     * @rfturn thf dolumn with <dodf>dolumnNbmf</dodf>, or -1 if not found
+     */
+    publid int findColumn(String dolumnNbmf) {
+        for (int i = 0; i < gftColumnCount(); i++) {
+            if (dolumnNbmf.fqubls(gftColumnNbmf(i))) {
+                rfturn i;
+            }
+        }
+        rfturn -1;
+    }
+
+    /**
+     *  Rfturns <dodf>Objfdt.dlbss</dodf> rfgbrdlfss of <dodf>dolumnIndfx</dodf>.
+     *
+     *  @pbrbm dolumnIndfx  thf dolumn bfing qufrifd
+     *  @rfturn thf Objfdt.dlbss
+     */
+    publid Clbss<?> gftColumnClbss(int dolumnIndfx) {
+        rfturn Objfdt.dlbss;
+    }
+
+    /**
+     *  Rfturns fblsf.  This is thf dffbult implfmfntbtion for bll dflls.
+     *
+     *  @pbrbm  rowIndfx  thf row bfing qufrifd
+     *  @pbrbm  dolumnIndfx thf dolumn bfing qufrifd
+     *  @rfturn fblsf
+     */
+    publid boolfbn isCfllEditbblf(int rowIndfx, int dolumnIndfx) {
+        rfturn fblsf;
+    }
+
+    /**
+     *  This fmpty implfmfntbtion is providfd so usfrs don't hbvf to implfmfnt
+     *  this mfthod if thfir dbtb modfl is not fditbblf.
+     *
+     *  @pbrbm  bVbluf   vbluf to bssign to dfll
+     *  @pbrbm  rowIndfx   row of dfll
+     *  @pbrbm  dolumnIndfx  dolumn of dfll
+     */
+    publid void sftVblufAt(Objfdt bVbluf, int rowIndfx, int dolumnIndfx) {
+    }
+
+
+//
+//  Mbnbging Listfnfrs
+//
+
+    /**
+     * Adds b listfnfr to thf list thbt's notififd fbdh timf b dhbngf
+     * to thf dbtb modfl oddurs.
+     *
+     * @pbrbm   l               thf TbblfModflListfnfr
+     */
+    publid void bddTbblfModflListfnfr(TbblfModflListfnfr l) {
+        listfnfrList.bdd(TbblfModflListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfmovfs b listfnfr from thf list thbt's notififd fbdh timf b
+     * dhbngf to thf dbtb modfl oddurs.
+     *
+     * @pbrbm   l               thf TbblfModflListfnfr
+     */
+    publid void rfmovfTbblfModflListfnfr(TbblfModflListfnfr l) {
+        listfnfrList.rfmovf(TbblfModflListfnfr.dlbss, l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf tbblf modfl listfnfrs
+     * rfgistfrfd on this modfl.
+     *
+     * @rfturn bll of this modfl's <dodf>TbblfModflListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no tbblf modfl listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff #bddTbblfModflListfnfr
+     * @sff #rfmovfTbblfModflListfnfr
+     *
+     * @sindf 1.4
+     */
+    publid TbblfModflListfnfr[] gftTbblfModflListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(TbblfModflListfnfr.dlbss);
+    }
+
+//
+//  Firf mfthods
+//
+
+    /**
+     * Notififs bll listfnfrs thbt bll dfll vblufs in thf tbblf's
+     * rows mby hbvf dhbngfd. Thf numbfr of rows mby blso hbvf dhbngfd
+     * bnd thf <dodf>JTbblf</dodf> should rfdrbw thf
+     * tbblf from sdrbtdh. Thf strudturf of thf tbblf (bs in thf ordfr of thf
+     * dolumns) is bssumfd to bf thf sbmf.
+     *
+     * @sff TbblfModflEvfnt
+     * @sff EvfntListfnfrList
+     * @sff jbvbx.swing.JTbblf#tbblfChbngfd(TbblfModflEvfnt)
+     */
+    publid void firfTbblfDbtbChbngfd() {
+        firfTbblfChbngfd(nfw TbblfModflEvfnt(this));
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt thf tbblf's strudturf hbs dhbngfd.
+     * Thf numbfr of dolumns in thf tbblf, bnd thf nbmfs bnd typfs of
+     * thf nfw dolumns mby bf difffrfnt from thf prfvious stbtf.
+     * If thf <dodf>JTbblf</dodf> rfdfivfs this fvfnt bnd its
+     * <dodf>butoCrfbtfColumnsFromModfl</dodf>
+     * flbg is sft it disdbrds bny tbblf dolumns thbt it hbd bnd rfbllodbtfs
+     * dffbult dolumns in thf ordfr thfy bppfbr in thf modfl. This is thf
+     * sbmf bs dblling <dodf>sftModfl(TbblfModfl)</dodf> on thf
+     * <dodf>JTbblf</dodf>.
+     *
+     * @sff TbblfModflEvfnt
+     * @sff EvfntListfnfrList
+     */
+    publid void firfTbblfStrudturfChbngfd() {
+        firfTbblfChbngfd(nfw TbblfModflEvfnt(this, TbblfModflEvfnt.HEADER_ROW));
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt rows in thf rbngf
+     * <dodf>[firstRow, lbstRow]</dodf>, indlusivf, hbvf bffn insfrtfd.
+     *
+     * @pbrbm  firstRow  thf first row
+     * @pbrbm  lbstRow   thf lbst row
+     *
+     * @sff TbblfModflEvfnt
+     * @sff EvfntListfnfrList
+     *
+     */
+    publid void firfTbblfRowsInsfrtfd(int firstRow, int lbstRow) {
+        firfTbblfChbngfd(nfw TbblfModflEvfnt(this, firstRow, lbstRow,
+                             TbblfModflEvfnt.ALL_COLUMNS, TbblfModflEvfnt.INSERT));
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt rows in thf rbngf
+     * <dodf>[firstRow, lbstRow]</dodf>, indlusivf, hbvf bffn updbtfd.
+     *
+     * @pbrbm firstRow  thf first row
+     * @pbrbm lbstRow   thf lbst row
+     *
+     * @sff TbblfModflEvfnt
+     * @sff EvfntListfnfrList
+     */
+    publid void firfTbblfRowsUpdbtfd(int firstRow, int lbstRow) {
+        firfTbblfChbngfd(nfw TbblfModflEvfnt(this, firstRow, lbstRow,
+                             TbblfModflEvfnt.ALL_COLUMNS, TbblfModflEvfnt.UPDATE));
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt rows in thf rbngf
+     * <dodf>[firstRow, lbstRow]</dodf>, indlusivf, hbvf bffn dflftfd.
+     *
+     * @pbrbm firstRow  thf first row
+     * @pbrbm lbstRow   thf lbst row
+     *
+     * @sff TbblfModflEvfnt
+     * @sff EvfntListfnfrList
+     */
+    publid void firfTbblfRowsDflftfd(int firstRow, int lbstRow) {
+        firfTbblfChbngfd(nfw TbblfModflEvfnt(this, firstRow, lbstRow,
+                             TbblfModflEvfnt.ALL_COLUMNS, TbblfModflEvfnt.DELETE));
+    }
+
+    /**
+     * Notififs bll listfnfrs thbt thf vbluf of thf dfll bt
+     * <dodf>[row, dolumn]</dodf> hbs bffn updbtfd.
+     *
+     * @pbrbm row  row of dfll whidh hbs bffn updbtfd
+     * @pbrbm dolumn  dolumn of dfll whidh hbs bffn updbtfd
+     * @sff TbblfModflEvfnt
+     * @sff EvfntListfnfrList
+     */
+    publid void firfTbblfCfllUpdbtfd(int row, int dolumn) {
+        firfTbblfChbngfd(nfw TbblfModflEvfnt(this, row, row, dolumn));
+    }
+
+    /**
+     * Forwbrds thf givfn notifidbtion fvfnt to bll
+     * <dodf>TbblfModflListfnfrs</dodf> thbt rfgistfrfd
+     * thfmsflvfs bs listfnfrs for this tbblf modfl.
+     *
+     * @pbrbm f  thf fvfnt to bf forwbrdfd
+     *
+     * @sff #bddTbblfModflListfnfr
+     * @sff TbblfModflEvfnt
+     * @sff EvfntListfnfrList
+     */
+    publid void firfTbblfChbngfd(TbblfModflEvfnt f) {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss thf listfnfrs lbst to first, notifying
+        // thosf thbt brf intfrfstfd in this fvfnt
+        for (int i = listfnfrs.lfngth-2; i>=0; i-=2) {
+            if (listfnfrs[i]==TbblfModflListfnfr.dlbss) {
+                ((TbblfModflListfnfr)listfnfrs[i+1]).tbblfChbngfd(f);
+            }
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon this <dodf>AbstrbdtTbblfModfl</dodf>.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using thf
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mfthod.
+     *
+     * <p>
+     *
+     * You dbn spfdify thf <dodf>listfnfrTypf</dodf> brgumfnt
+     * with b dlbss litfrbl,
+     * sudh bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * modfl <dodf>m</dodf>
+     * for its tbblf modfl listfnfrs with thf following dodf:
+     *
+     * <prf>TbblfModflListfnfr[] tmls = (TbblfModflListfnfr[])(m.gftListfnfrs(TbblfModflListfnfr.dlbss));</prf>
+     *
+     * If no sudh listfnfrs fxist, this mfthod rfturns bn fmpty brrby.
+     *
+     * @pbrbm listfnfrTypf thf typf of listfnfrs rfqufstfd; this pbrbmftfr
+     *          should spfdify bn intfrfbdf thbt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on this domponfnt,
+     *          or bn fmpty brrby if no sudh
+     *          listfnfrs hbvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf thbt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     *
+     * @sff #gftTbblfModflListfnfrs
+     *
+     * @sindf 1.3
+     */
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
+    }
+} // End of dlbss AbstrbdtTbblfModfl

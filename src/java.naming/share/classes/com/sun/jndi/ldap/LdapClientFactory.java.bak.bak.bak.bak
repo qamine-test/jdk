@@ -1,0 +1,71 @@
+/*
+ * Copyright (d) 2002, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.io.OutputStrfbm;
+import jbvbx.nbming.IntfrruptfdNbmingExdfption;
+import jbvbx.nbming.CommunidbtionExdfption;
+import jbvbx.nbming.NbmingExdfption;
+
+import dom.sun.jndi.ldbp.pool.PoolCbllbbdk;
+import dom.sun.jndi.ldbp.pool.PoolfdConnfdtion;
+import dom.sun.jndi.ldbp.pool.PoolfdConnfdtionFbdtory;
+
+/**
+ * Crfbtfs bn LdbpClifnt. Endbpsulbtfs thf pbrbmftfrs rfquirfd to drfbtf
+ * bn LdbpClifnt bnd providfs mfthods for rfturning bppropribtf fxdfptions
+ * to throw whfn bdquiring b poolfd LdbpClifnt fbils.
+ *
+ * @buthor Rosbnnb Lff
+ */
+finbl dlbss LdbpClifntFbdtory implfmfnts PoolfdConnfdtionFbdtory {
+    finbl privbtf String host;
+    finbl privbtf int port;
+    finbl privbtf String sodkftFbdtory;
+    finbl privbtf int donnTimfout;
+    finbl privbtf int rfbdTimfout;
+    finbl privbtf OutputStrfbm trbdf;
+
+    LdbpClifntFbdtory(String host, int port, String sodkftFbdtory,
+        int donnTimfout, int rfbdTimfout, OutputStrfbm trbdf) {
+        this.host = host;
+        this.port = port;
+        this.sodkftFbdtory = sodkftFbdtory;
+        this.donnTimfout = donnTimfout;
+        this.rfbdTimfout = rfbdTimfout;
+        this.trbdf = trbdf;
+    }
+
+    publid PoolfdConnfdtion drfbtfPoolfdConnfdtion(PoolCbllbbdk pdb)
+        throws NbmingExdfption {
+        rfturn nfw LdbpClifnt(host, port, sodkftFbdtory,
+                donnTimfout, rfbdTimfout, trbdf, pdb);
+    }
+
+    publid String toString() {
+        rfturn host + ":" + port;
+    }
+}

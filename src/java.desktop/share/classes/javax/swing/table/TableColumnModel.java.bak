@@ -1,244 +1,244 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.table;
+pbdkbgf jbvbx.swing.tbblf;
 
-import java.util.Enumeration;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.*;
-import javax.swing.*;
+import jbvb.util.Enumfrbtion;
+import jbvbx.swing.fvfnt.CibngfEvfnt;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.*;
 
 
 /**
- * Defines the requirements for a table column model object suitable for
- * use with <code>JTable</code>.
+ * Dffinfs tif rfquirfmfnts for b tbblf dolumn modfl objfdt suitbblf for
+ * usf witi <dodf>JTbblf</dodf>.
  *
- * @author Alan Chung
- * @author Philip Milne
- * @see DefaultTableColumnModel
+ * @butior Albn Ciung
+ * @butior Piilip Milnf
+ * @sff DffbultTbblfColumnModfl
  */
-public interface TableColumnModel
+publid intfrfbdf TbblfColumnModfl
 {
 //
-// Modifying the model
+// Modifying tif modfl
 //
 
     /**
-     *  Appends <code>aColumn</code> to the end of the
-     *  <code>tableColumns</code> array.
-     *  This method posts a <code>columnAdded</code>
-     *  event to its listeners.
+     *  Appfnds <dodf>bColumn</dodf> to tif fnd of tif
+     *  <dodf>tbblfColumns</dodf> brrby.
+     *  Tiis mftiod posts b <dodf>dolumnAddfd</dodf>
+     *  fvfnt to its listfnfrs.
      *
-     * @param   aColumn         the <code>TableColumn</code> to be added
-     * @see     #removeColumn
+     * @pbrbm   bColumn         tif <dodf>TbblfColumn</dodf> to bf bddfd
+     * @sff     #rfmovfColumn
      */
-    public void addColumn(TableColumn aColumn);
+    publid void bddColumn(TbblfColumn bColumn);
 
     /**
-     *  Deletes the <code>TableColumn</code> <code>column</code> from the
-     *  <code>tableColumns</code> array.  This method will do nothing if
-     *  <code>column</code> is not in the table's column list.
-     *  This method posts a <code>columnRemoved</code>
-     *  event to its listeners.
+     *  Dflftfs tif <dodf>TbblfColumn</dodf> <dodf>dolumn</dodf> from tif
+     *  <dodf>tbblfColumns</dodf> brrby.  Tiis mftiod will do notiing if
+     *  <dodf>dolumn</dodf> is not in tif tbblf's dolumn list.
+     *  Tiis mftiod posts b <dodf>dolumnRfmovfd</dodf>
+     *  fvfnt to its listfnfrs.
      *
-     * @param   column          the <code>TableColumn</code> to be removed
-     * @see     #addColumn
+     * @pbrbm   dolumn          tif <dodf>TbblfColumn</dodf> to bf rfmovfd
+     * @sff     #bddColumn
      */
-    public void removeColumn(TableColumn column);
+    publid void rfmovfColumn(TbblfColumn dolumn);
 
     /**
-     * Moves the column and its header at <code>columnIndex</code> to
-     * <code>newIndex</code>.  The old column at <code>columnIndex</code>
-     * will now be found at <code>newIndex</code>.  The column that used
-     * to be at <code>newIndex</code> is shifted left or right
-     * to make room.  This will not move any columns if
-     * <code>columnIndex</code> equals <code>newIndex</code>.  This method
-     * posts a <code>columnMoved</code> event to its listeners.
+     * Movfs tif dolumn bnd its ifbdfr bt <dodf>dolumnIndfx</dodf> to
+     * <dodf>nfwIndfx</dodf>.  Tif old dolumn bt <dodf>dolumnIndfx</dodf>
+     * will now bf found bt <dodf>nfwIndfx</dodf>.  Tif dolumn tibt usfd
+     * to bf bt <dodf>nfwIndfx</dodf> is siiftfd lfft or rigit
+     * to mbkf room.  Tiis will not movf bny dolumns if
+     * <dodf>dolumnIndfx</dodf> fqubls <dodf>nfwIndfx</dodf>.  Tiis mftiod
+     * posts b <dodf>dolumnMovfd</dodf> fvfnt to its listfnfrs.
      *
-     * @param   columnIndex                     the index of column to be moved
-     * @param   newIndex                        index of the column's new location
-     * @exception IllegalArgumentException      if <code>columnIndex</code> or
-     *                                          <code>newIndex</code>
-     *                                          are not in the valid range
+     * @pbrbm   dolumnIndfx                     tif indfx of dolumn to bf movfd
+     * @pbrbm   nfwIndfx                        indfx of tif dolumn's nfw lodbtion
+     * @fxdfption IllfgblArgumfntExdfption      if <dodf>dolumnIndfx</dodf> or
+     *                                          <dodf>nfwIndfx</dodf>
+     *                                          brf not in tif vblid rbngf
      */
-    public void moveColumn(int columnIndex, int newIndex);
+    publid void movfColumn(int dolumnIndfx, int nfwIndfx);
 
     /**
-     * Sets the <code>TableColumn</code>'s column margin to
-     * <code>newMargin</code>.  This method posts
-     * a <code>columnMarginChanged</code> event to its listeners.
+     * Sfts tif <dodf>TbblfColumn</dodf>'s dolumn mbrgin to
+     * <dodf>nfwMbrgin</dodf>.  Tiis mftiod posts
+     * b <dodf>dolumnMbrginCibngfd</dodf> fvfnt to its listfnfrs.
      *
-     * @param   newMargin       the width, in pixels, of the new column margins
-     * @see     #getColumnMargin
+     * @pbrbm   nfwMbrgin       tif widti, in pixfls, of tif nfw dolumn mbrgins
+     * @sff     #gftColumnMbrgin
      */
-    public void setColumnMargin(int newMargin);
+    publid void sftColumnMbrgin(int nfwMbrgin);
 
 //
-// Querying the model
-//
-
-    /**
-     * Returns the number of columns in the model.
-     * @return the number of columns in the model
-     */
-    public int getColumnCount();
-
-    /**
-     * Returns an <code>Enumeration</code> of all the columns in the model.
-     * @return an <code>Enumeration</code> of all the columns in the model
-     */
-    public Enumeration<TableColumn> getColumns();
-
-    /**
-     * Returns the index of the first column in the table
-     * whose identifier is equal to <code>identifier</code>,
-     * when compared using <code>equals</code>.
-     *
-     * @param           columnIdentifier        the identifier object
-     * @return          the index of the first table column
-     *                  whose identifier is equal to <code>identifier</code>
-     * @exception IllegalArgumentException      if <code>identifier</code>
-     *                          is <code>null</code>, or no
-     *                          <code>TableColumn</code> has this
-     *                          <code>identifier</code>
-     * @see             #getColumn
-     */
-    public int getColumnIndex(Object columnIdentifier);
-
-    /**
-     * Returns the <code>TableColumn</code> object for the column at
-     * <code>columnIndex</code>.
-     *
-     * @param   columnIndex     the index of the desired column
-     * @return  the <code>TableColumn</code> object for
-     *                          the column at <code>columnIndex</code>
-     */
-    public TableColumn getColumn(int columnIndex);
-
-    /**
-     * Returns the width between the cells in each column.
-     * @return the margin, in pixels, between the cells
-     */
-    public int getColumnMargin();
-
-    /**
-     * Returns the index of the column that lies on the
-     * horizontal point, <code>xPosition</code>;
-     * or -1 if it lies outside the any of the column's bounds.
-     *
-     * In keeping with Swing's separable model architecture, a
-     * TableColumnModel does not know how the table columns actually appear on
-     * screen.  The visual presentation of the columns is the responsibility
-     * of the view/controller object using this model (typically JTable).  The
-     * view/controller need not display the columns sequentially from left to
-     * right.  For example, columns could be displayed from right to left to
-     * accommodate a locale preference or some columns might be hidden at the
-     * request of the user.  Because the model does not know how the columns
-     * are laid out on screen, the given <code>xPosition</code> should not be
-     * considered to be a coordinate in 2D graphics space.  Instead, it should
-     * be considered to be a width from the start of the first column in the
-     * model.  If the column index for a given X coordinate in 2D space is
-     * required, <code>JTable.columnAtPoint</code> can be used instead.
-     *
-     * @param xPosition  width from the start of the first column in
-     * the model.
-     *
-     * @return  the index of the column; or -1 if no column is found
-     * @see javax.swing.JTable#columnAtPoint
-     */
-    public int getColumnIndexAtX(int xPosition);
-
-    /**
-     * Returns the total width of all the columns.
-     * @return the total computed width of all columns
-     */
-    public int getTotalColumnWidth();
-
-//
-// Selection
+// Qufrying tif modfl
 //
 
     /**
-     * Sets whether the columns in this model may be selected.
-     * @param flag   true if columns may be selected; otherwise false
-     * @see #getColumnSelectionAllowed
+     * Rfturns tif numbfr of dolumns in tif modfl.
+     * @rfturn tif numbfr of dolumns in tif modfl
      */
-    public void setColumnSelectionAllowed(boolean flag);
+    publid int gftColumnCount();
 
     /**
-     * Returns true if columns may be selected.
-     * @return true if columns may be selected
-     * @see #setColumnSelectionAllowed
+     * Rfturns bn <dodf>Enumfrbtion</dodf> of bll tif dolumns in tif modfl.
+     * @rfturn bn <dodf>Enumfrbtion</dodf> of bll tif dolumns in tif modfl
      */
-    public boolean getColumnSelectionAllowed();
+    publid Enumfrbtion<TbblfColumn> gftColumns();
 
     /**
-     * Returns an array of indicies of all selected columns.
-     * @return an array of integers containing the indicies of all
-     *          selected columns; or an empty array if nothing is selected
-     */
-    public int[] getSelectedColumns();
-
-    /**
-     * Returns the number of selected columns.
+     * Rfturns tif indfx of tif first dolumn in tif tbblf
+     * wiosf idfntififr is fqubl to <dodf>idfntififr</dodf>,
+     * wifn dompbrfd using <dodf>fqubls</dodf>.
      *
-     * @return the number of selected columns; or 0 if no columns are selected
+     * @pbrbm           dolumnIdfntififr        tif idfntififr objfdt
+     * @rfturn          tif indfx of tif first tbblf dolumn
+     *                  wiosf idfntififr is fqubl to <dodf>idfntififr</dodf>
+     * @fxdfption IllfgblArgumfntExdfption      if <dodf>idfntififr</dodf>
+     *                          is <dodf>null</dodf>, or no
+     *                          <dodf>TbblfColumn</dodf> ibs tiis
+     *                          <dodf>idfntififr</dodf>
+     * @sff             #gftColumn
      */
-    public int getSelectedColumnCount();
+    publid int gftColumnIndfx(Objfdt dolumnIdfntififr);
 
     /**
-     * Sets the selection model.
+     * Rfturns tif <dodf>TbblfColumn</dodf> objfdt for tif dolumn bt
+     * <dodf>dolumnIndfx</dodf>.
      *
-     * @param newModel  a <code>ListSelectionModel</code> object
-     * @see #getSelectionModel
+     * @pbrbm   dolumnIndfx     tif indfx of tif dfsirfd dolumn
+     * @rfturn  tif <dodf>TbblfColumn</dodf> objfdt for
+     *                          tif dolumn bt <dodf>dolumnIndfx</dodf>
      */
-    public void setSelectionModel(ListSelectionModel newModel);
+    publid TbblfColumn gftColumn(int dolumnIndfx);
 
     /**
-     * Returns the current selection model.
-     *
-     * @return a <code>ListSelectionModel</code> object
-     * @see #setSelectionModel
+     * Rfturns tif widti bftwffn tif dflls in fbdi dolumn.
+     * @rfturn tif mbrgin, in pixfls, bftwffn tif dflls
      */
-    public ListSelectionModel getSelectionModel();
+    publid int gftColumnMbrgin();
+
+    /**
+     * Rfturns tif indfx of tif dolumn tibt lifs on tif
+     * iorizontbl point, <dodf>xPosition</dodf>;
+     * or -1 if it lifs outsidf tif bny of tif dolumn's bounds.
+     *
+     * In kffping witi Swing's sfpbrbblf modfl brdiitfdturf, b
+     * TbblfColumnModfl dofs not know iow tif tbblf dolumns bdtublly bppfbr on
+     * sdrffn.  Tif visubl prfsfntbtion of tif dolumns is tif rfsponsibility
+     * of tif vifw/dontrollfr objfdt using tiis modfl (typidblly JTbblf).  Tif
+     * vifw/dontrollfr nffd not displby tif dolumns sfqufntiblly from lfft to
+     * rigit.  For fxbmplf, dolumns dould bf displbyfd from rigit to lfft to
+     * bddommodbtf b lodblf prfffrfndf or somf dolumns migit bf iiddfn bt tif
+     * rfqufst of tif usfr.  Bfdbusf tif modfl dofs not know iow tif dolumns
+     * brf lbid out on sdrffn, tif givfn <dodf>xPosition</dodf> siould not bf
+     * donsidfrfd to bf b doordinbtf in 2D grbpiids spbdf.  Instfbd, it siould
+     * bf donsidfrfd to bf b widti from tif stbrt of tif first dolumn in tif
+     * modfl.  If tif dolumn indfx for b givfn X doordinbtf in 2D spbdf is
+     * rfquirfd, <dodf>JTbblf.dolumnAtPoint</dodf> dbn bf usfd instfbd.
+     *
+     * @pbrbm xPosition  widti from tif stbrt of tif first dolumn in
+     * tif modfl.
+     *
+     * @rfturn  tif indfx of tif dolumn; or -1 if no dolumn is found
+     * @sff jbvbx.swing.JTbblf#dolumnAtPoint
+     */
+    publid int gftColumnIndfxAtX(int xPosition);
+
+    /**
+     * Rfturns tif totbl widti of bll tif dolumns.
+     * @rfturn tif totbl domputfd widti of bll dolumns
+     */
+    publid int gftTotblColumnWidti();
 
 //
-// Listener
+// Sflfdtion
 //
 
     /**
-     * Adds a listener for table column model events.
-     *
-     * @param x  a <code>TableColumnModelListener</code> object
+     * Sfts wiftifr tif dolumns in tiis modfl mby bf sflfdtfd.
+     * @pbrbm flbg   truf if dolumns mby bf sflfdtfd; otifrwisf fblsf
+     * @sff #gftColumnSflfdtionAllowfd
      */
-    public void addColumnModelListener(TableColumnModelListener x);
+    publid void sftColumnSflfdtionAllowfd(boolfbn flbg);
 
     /**
-     * Removes a listener for table column model events.
-     *
-     * @param x  a <code>TableColumnModelListener</code> object
+     * Rfturns truf if dolumns mby bf sflfdtfd.
+     * @rfturn truf if dolumns mby bf sflfdtfd
+     * @sff #sftColumnSflfdtionAllowfd
      */
-    public void removeColumnModelListener(TableColumnModelListener x);
+    publid boolfbn gftColumnSflfdtionAllowfd();
+
+    /**
+     * Rfturns bn brrby of indidifs of bll sflfdtfd dolumns.
+     * @rfturn bn brrby of intfgfrs dontbining tif indidifs of bll
+     *          sflfdtfd dolumns; or bn fmpty brrby if notiing is sflfdtfd
+     */
+    publid int[] gftSflfdtfdColumns();
+
+    /**
+     * Rfturns tif numbfr of sflfdtfd dolumns.
+     *
+     * @rfturn tif numbfr of sflfdtfd dolumns; or 0 if no dolumns brf sflfdtfd
+     */
+    publid int gftSflfdtfdColumnCount();
+
+    /**
+     * Sfts tif sflfdtion modfl.
+     *
+     * @pbrbm nfwModfl  b <dodf>ListSflfdtionModfl</dodf> objfdt
+     * @sff #gftSflfdtionModfl
+     */
+    publid void sftSflfdtionModfl(ListSflfdtionModfl nfwModfl);
+
+    /**
+     * Rfturns tif durrfnt sflfdtion modfl.
+     *
+     * @rfturn b <dodf>ListSflfdtionModfl</dodf> objfdt
+     * @sff #sftSflfdtionModfl
+     */
+    publid ListSflfdtionModfl gftSflfdtionModfl();
+
+//
+// Listfnfr
+//
+
+    /**
+     * Adds b listfnfr for tbblf dolumn modfl fvfnts.
+     *
+     * @pbrbm x  b <dodf>TbblfColumnModflListfnfr</dodf> objfdt
+     */
+    publid void bddColumnModflListfnfr(TbblfColumnModflListfnfr x);
+
+    /**
+     * Rfmovfs b listfnfr for tbblf dolumn modfl fvfnts.
+     *
+     * @pbrbm x  b <dodf>TbblfColumnModflListfnfr</dodf> objfdt
+     */
+    publid void rfmovfColumnModflListfnfr(TbblfColumnModflListfnfr x);
 }

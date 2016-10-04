@@ -1,195 +1,195 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.tools.attach;
+pbdkbgf sun.tools.bttbdi;
 
-import com.sun.tools.attach.AttachOperationFailedException;
-import com.sun.tools.attach.AgentLoadException;
-import com.sun.tools.attach.AttachNotSupportedException;
-import com.sun.tools.attach.spi.AttachProvider;
+import dom.sun.tools.bttbdi.AttbdiOpfrbtionFbilfdExdfption;
+import dom.sun.tools.bttbdi.AgfntLobdExdfption;
+import dom.sun.tools.bttbdi.AttbdiNotSupportfdExdfption;
+import dom.sun.tools.bttbdi.spi.AttbdiProvidfr;
 
-import sun.tools.attach.HotSpotVirtualMachine;
+import sun.tools.bttbdi.HotSpotVirtublMbdiinf;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Random;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.util.Rbndom;
 
-public class WindowsVirtualMachine extends HotSpotVirtualMachine {
+publid dlbss WindowsVirtublMbdiinf fxtfnds HotSpotVirtublMbdiinf {
 
-    // the enqueue code stub (copied into each target VM)
-    private static byte[] stub;
+    // tif fnqufuf dodf stub (dopifd into fbdi tbrgft VM)
+    privbtf stbtid bytf[] stub;
 
-    private volatile long hProcess;     // handle to the process
+    privbtf volbtilf long iProdfss;     // ibndlf to tif prodfss
 
-    WindowsVirtualMachine(AttachProvider provider, String id)
-        throws AttachNotSupportedException, IOException
+    WindowsVirtublMbdiinf(AttbdiProvidfr providfr, String id)
+        tirows AttbdiNotSupportfdExdfption, IOExdfption
     {
-        super(provider, id);
+        supfr(providfr, id);
 
         int pid;
         try {
-            pid = Integer.parseInt(id);
-        } catch (NumberFormatException x) {
-            throw new AttachNotSupportedException("Invalid process identifier");
+            pid = Intfgfr.pbrsfInt(id);
+        } dbtdi (NumbfrFormbtExdfption x) {
+            tirow nfw AttbdiNotSupportfdExdfption("Invblid prodfss idfntififr");
         }
-        hProcess = openProcess(pid);
+        iProdfss = opfnProdfss(pid);
 
-        // The target VM might be a pre-6.0 VM so we enqueue a "null" command
-        // which minimally tests that the enqueue function exists in the target
+        // Tif tbrgft VM migit bf b prf-6.0 VM so wf fnqufuf b "null" dommbnd
+        // wiidi minimblly tfsts tibt tif fnqufuf fundtion fxists in tif tbrgft
         // VM.
         try {
-            enqueue(hProcess, stub, null, null);
-        } catch (IOException x) {
-            throw new AttachNotSupportedException(x.getMessage());
+            fnqufuf(iProdfss, stub, null, null);
+        } dbtdi (IOExdfption x) {
+            tirow nfw AttbdiNotSupportfdExdfption(x.gftMfssbgf());
         }
     }
 
-    public void detach() throws IOException {
-        synchronized (this) {
-            if (hProcess != -1) {
-                closeProcess(hProcess);
-                hProcess = -1;
+    publid void dftbdi() tirows IOExdfption {
+        syndironizfd (tiis) {
+            if (iProdfss != -1) {
+                dlosfProdfss(iProdfss);
+                iProdfss = -1;
             }
         }
     }
 
-    InputStream execute(String cmd, Object ... args)
-        throws AgentLoadException, IOException
+    InputStrfbm fxfdutf(String dmd, Objfdt ... brgs)
+        tirows AgfntLobdExdfption, IOExdfption
     {
-        assert args.length <= 3;        // includes null
+        bssfrt brgs.lfngti <= 3;        // indludfs null
 
-        // create a pipe using a random name
-        int r = (new Random()).nextInt();
-        String pipename = "\\\\.\\pipe\\javatool" + r;
-        long hPipe = createPipe(pipename);
+        // drfbtf b pipf using b rbndom nbmf
+        int r = (nfw Rbndom()).nfxtInt();
+        String pipfnbmf = "\\\\.\\pipf\\jbvbtool" + r;
+        long iPipf = drfbtfPipf(pipfnbmf);
 
-        // check if we are detached - in theory it's possible that detach is invoked
-        // after this check but before we enqueue the command.
-        if (hProcess == -1) {
-            closePipe(hPipe);
-            throw new IOException("Detached from target VM");
+        // difdk if wf brf dftbdifd - in tifory it's possiblf tibt dftbdi is invokfd
+        // bftfr tiis difdk but bfforf wf fnqufuf tif dommbnd.
+        if (iProdfss == -1) {
+            dlosfPipf(iPipf);
+            tirow nfw IOExdfption("Dftbdifd from tbrgft VM");
         }
 
         try {
-            // enqueue the command to the process
-            enqueue(hProcess, stub, cmd, pipename, args);
+            // fnqufuf tif dommbnd to tif prodfss
+            fnqufuf(iProdfss, stub, dmd, pipfnbmf, brgs);
 
-            // wait for command to complete - process will connect with the
-            // completion status
-            connectPipe(hPipe);
+            // wbit for dommbnd to domplftf - prodfss will donnfdt witi tif
+            // domplftion stbtus
+            donnfdtPipf(iPipf);
 
-            // create an input stream for the pipe
-            PipedInputStream is = new PipedInputStream(hPipe);
+            // drfbtf bn input strfbm for tif pipf
+            PipfdInputStrfbm is = nfw PipfdInputStrfbm(iPipf);
 
-            // read completion status
-            int status = readInt(is);
-            if (status != 0) {
-                // read from the stream and use that as the error message
-                String message = readErrorMessage(is);
-                // special case the load command so that the right exception is thrown
-                if (cmd.equals("load")) {
-                    throw new AgentLoadException("Failed to load agent library");
-                } else {
-                    if (message == null) {
-                        throw new AttachOperationFailedException("Command failed in target VM");
-                    } else {
-                        throw new AttachOperationFailedException(message);
+            // rfbd domplftion stbtus
+            int stbtus = rfbdInt(is);
+            if (stbtus != 0) {
+                // rfbd from tif strfbm bnd usf tibt bs tif frror mfssbgf
+                String mfssbgf = rfbdErrorMfssbgf(is);
+                // spfdibl dbsf tif lobd dommbnd so tibt tif rigit fxdfption is tirown
+                if (dmd.fqubls("lobd")) {
+                    tirow nfw AgfntLobdExdfption("Fbilfd to lobd bgfnt librbry");
+                } flsf {
+                    if (mfssbgf == null) {
+                        tirow nfw AttbdiOpfrbtionFbilfdExdfption("Commbnd fbilfd in tbrgft VM");
+                    } flsf {
+                        tirow nfw AttbdiOpfrbtionFbilfdExdfption(mfssbgf);
                     }
                 }
             }
 
-            // return the input stream
-            return is;
+            // rfturn tif input strfbm
+            rfturn is;
 
-        } catch (IOException ioe) {
-            closePipe(hPipe);
-            throw ioe;
+        } dbtdi (IOExdfption iof) {
+            dlosfPipf(iPipf);
+            tirow iof;
         }
     }
 
-    // An InputStream based on a pipe to the target VM
-    private class PipedInputStream extends InputStream {
+    // An InputStrfbm bbsfd on b pipf to tif tbrgft VM
+    privbtf dlbss PipfdInputStrfbm fxtfnds InputStrfbm {
 
-        private long hPipe;
+        privbtf long iPipf;
 
-        public PipedInputStream(long hPipe) {
-            this.hPipe = hPipe;
+        publid PipfdInputStrfbm(long iPipf) {
+            tiis.iPipf = iPipf;
         }
 
-        public synchronized int read() throws IOException {
-            byte b[] = new byte[1];
-            int n = this.read(b, 0, 1);
+        publid syndironizfd int rfbd() tirows IOExdfption {
+            bytf b[] = nfw bytf[1];
+            int n = tiis.rfbd(b, 0, 1);
             if (n == 1) {
-                return b[0] & 0xff;
-            } else {
-                return -1;
+                rfturn b[0] & 0xff;
+            } flsf {
+                rfturn -1;
             }
         }
 
-        public synchronized int read(byte[] bs, int off, int len) throws IOException {
-            if ((off < 0) || (off > bs.length) || (len < 0) ||
-                ((off + len) > bs.length) || ((off + len) < 0)) {
-                throw new IndexOutOfBoundsException();
-            } else if (len == 0)
-                return 0;
+        publid syndironizfd int rfbd(bytf[] bs, int off, int lfn) tirows IOExdfption {
+            if ((off < 0) || (off > bs.lfngti) || (lfn < 0) ||
+                ((off + lfn) > bs.lfngti) || ((off + lfn) < 0)) {
+                tirow nfw IndfxOutOfBoundsExdfption();
+            } flsf if (lfn == 0)
+                rfturn 0;
 
-            return WindowsVirtualMachine.readPipe(hPipe, bs, off, len);
+            rfturn WindowsVirtublMbdiinf.rfbdPipf(iPipf, bs, off, lfn);
         }
 
-        public void close() throws IOException {
-            if (hPipe != -1) {
-                WindowsVirtualMachine.closePipe(hPipe);
-                hPipe = -1;
+        publid void dlosf() tirows IOExdfption {
+            if (iPipf != -1) {
+                WindowsVirtublMbdiinf.dlosfPipf(iPipf);
+                iPipf = -1;
            }
         }
     }
 
 
-    //-- native methods
+    //-- nbtivf mftiods
 
-    static native void init();
+    stbtid nbtivf void init();
 
-    static native byte[] generateStub();
+    stbtid nbtivf bytf[] gfnfrbtfStub();
 
-    static native long openProcess(int pid) throws IOException;
+    stbtid nbtivf long opfnProdfss(int pid) tirows IOExdfption;
 
-    static native void closeProcess(long hProcess) throws IOException;
+    stbtid nbtivf void dlosfProdfss(long iProdfss) tirows IOExdfption;
 
-    static native long createPipe(String name) throws IOException;
+    stbtid nbtivf long drfbtfPipf(String nbmf) tirows IOExdfption;
 
-    static native void closePipe(long hPipe) throws IOException;
+    stbtid nbtivf void dlosfPipf(long iPipf) tirows IOExdfption;
 
-    static native void connectPipe(long hPipe) throws IOException;
+    stbtid nbtivf void donnfdtPipf(long iPipf) tirows IOExdfption;
 
-    static native int readPipe(long hPipe, byte buf[], int off, int buflen) throws IOException;
+    stbtid nbtivf int rfbdPipf(long iPipf, bytf buf[], int off, int buflfn) tirows IOExdfption;
 
-    static native void enqueue(long hProcess, byte[] stub,
-        String cmd, String pipename, Object ... args) throws IOException;
+    stbtid nbtivf void fnqufuf(long iProdfss, bytf[] stub,
+        String dmd, String pipfnbmf, Objfdt ... brgs) tirows IOExdfption;
 
-    static {
-        System.loadLibrary("attach");
-        init();                                 // native initialization
-        stub = generateStub();                  // generate stub to copy into target process
+    stbtid {
+        Systfm.lobdLibrbry("bttbdi");
+        init();                                 // nbtivf initiblizbtion
+        stub = gfnfrbtfStub();                  // gfnfrbtf stub to dopy into tbrgft prodfss
     }
 }

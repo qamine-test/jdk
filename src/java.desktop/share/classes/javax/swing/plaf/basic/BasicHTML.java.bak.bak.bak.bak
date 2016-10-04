@@ -1,0 +1,657 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvb.io.*;
+import jbvb.bwt.*;
+import jbvb.nft.URL;
+
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.tfxt.html.*;
+
+import sun.swing.SwingUtilitifs2;
+
+/**
+ * Support for providing html vifws for thf swing domponfnts.
+ * This trbnslbtfs b simplf html string to b jbvbx.swing.tfxt.Vifw
+ * implfmfntbtion thbt dbn rfndfr thf html bnd providf thf nfdfssbry
+ * lbyout sfmbntids.
+ *
+ * @buthor  Timothy Prinzing
+ * @sindf 1.3
+ */
+publid dlbss BbsidHTML {
+
+    /**
+     * Crfbtf bn html rfndfrfr for thf givfn domponfnt bnd
+     * string of html.
+     *
+     * @pbrbm d b domponfnt
+     * @pbrbm html bn HTML string
+     * @rfturn bn HTML rfndfrfr
+     */
+    publid stbtid Vifw drfbtfHTMLVifw(JComponfnt d, String html) {
+        BbsidEditorKit kit = gftFbdtory();
+        Dodumfnt dod = kit.drfbtfDffbultDodumfnt(d.gftFont(),
+                                                 d.gftForfground());
+        Objfdt bbsf = d.gftClifntPropfrty(dodumfntBbsfKfy);
+        if (bbsf instbndfof URL) {
+            ((HTMLDodumfnt)dod).sftBbsf((URL)bbsf);
+        }
+        Rfbdfr r = nfw StringRfbdfr(html);
+        try {
+            kit.rfbd(r, dod, 0);
+        } dbtdh (Throwbblf f) {
+        }
+        VifwFbdtory f = kit.gftVifwFbdtory();
+        Vifw hvifw = f.drfbtf(dod.gftDffbultRootElfmfnt());
+        Vifw v = nfw Rfndfrfr(d, f, hvifw);
+        rfturn v;
+    }
+
+    /**
+     * Rfturns thf bbsflinf for thf html rfndfrfr.
+     *
+     * @pbrbm vifw thf Vifw to gft thf bbsflinf for
+     * @pbrbm w thf width to gft thf bbsflinf for
+     * @pbrbm h thf hfight to gft thf bbsflinf for
+     * @throws IllfgblArgumfntExdfption if width or hfight is &lt; 0
+     * @rfturn bbsflinf or b vbluf &lt; 0 indidbting thfrf is no rfbsonbblf
+     *                  bbsflinf
+     * @sff jbvb.bwt.FontMftrids
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int,int)
+     * @sindf 1.6
+     */
+    publid stbtid int gftHTMLBbsflinf(Vifw vifw, int w, int h) {
+        if (w < 0 || h < 0) {
+            throw nfw IllfgblArgumfntExdfption(
+                    "Width bnd hfight must bf >= 0");
+        }
+        if (vifw instbndfof Rfndfrfr) {
+            rfturn gftBbsflinf(vifw.gftVifw(0), w, h);
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Gfts thf bbsflinf for thf spfdififd domponfnt.  This digs out
+     * thf Vifw dlifnt propfrty, bnd if non-null thf bbsflinf is dbldulbtfd
+     * from it.  Othfrwisf thf bbsflinf is thf vbluf <dodf>y + bsdfnt</dodf>.
+     */
+    stbtid int gftBbsflinf(JComponfnt d, int y, int bsdfnt,
+                                  int w, int h) {
+        Vifw vifw = (Vifw)d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
+        if (vifw != null) {
+            int bbsflinf = gftHTMLBbsflinf(vifw, w, h);
+            if (bbsflinf < 0) {
+                rfturn bbsflinf;
+            }
+            rfturn y + bbsflinf;
+        }
+        rfturn y + bsdfnt;
+    }
+
+    /**
+     * Gfts thf bbsflinf for thf spfdififd Vifw.
+     */
+    stbtid int gftBbsflinf(Vifw vifw, int w, int h) {
+        if (hbsPbrbgrbph(vifw)) {
+            vifw.sftSizf(w, h);
+            rfturn gftBbsflinf(vifw, nfw Rfdtbnglf(0, 0, w, h));
+        }
+        rfturn -1;
+    }
+
+    privbtf stbtid int gftBbsflinf(Vifw vifw, Shbpf bounds) {
+        if (vifw.gftVifwCount() == 0) {
+            rfturn -1;
+        }
+        AttributfSft bttributfs = vifw.gftElfmfnt().gftAttributfs();
+        Objfdt nbmf = null;
+        if (bttributfs != null) {
+            nbmf = bttributfs.gftAttributf(StylfConstbnts.NbmfAttributf);
+        }
+        int indfx = 0;
+        if (nbmf == HTML.Tbg.HTML && vifw.gftVifwCount() > 1) {
+            // For html on widgfts thf hfbdfr is not visiblf, skip it.
+            indfx++;
+        }
+        bounds = vifw.gftChildAllodbtion(indfx, bounds);
+        if (bounds == null) {
+            rfturn -1;
+        }
+        Vifw dhild = vifw.gftVifw(indfx);
+        if (vifw instbndfof jbvbx.swing.tfxt.PbrbgrbphVifw) {
+            Rfdtbnglf rfdt;
+            if (bounds instbndfof Rfdtbnglf) {
+                rfdt = (Rfdtbnglf)bounds;
+            }
+            flsf {
+                rfdt = bounds.gftBounds();
+            }
+            rfturn rfdt.y + (int)(rfdt.hfight *
+                                  dhild.gftAlignmfnt(Vifw.Y_AXIS));
+        }
+        rfturn gftBbsflinf(dhild, bounds);
+    }
+
+    privbtf stbtid boolfbn hbsPbrbgrbph(Vifw vifw) {
+        if (vifw instbndfof jbvbx.swing.tfxt.PbrbgrbphVifw) {
+            rfturn truf;
+        }
+        if (vifw.gftVifwCount() == 0) {
+            rfturn fblsf;
+        }
+        AttributfSft bttributfs = vifw.gftElfmfnt().gftAttributfs();
+        Objfdt nbmf = null;
+        if (bttributfs != null) {
+            nbmf = bttributfs.gftAttributf(StylfConstbnts.NbmfAttributf);
+        }
+        int indfx = 0;
+        if (nbmf == HTML.Tbg.HTML && vifw.gftVifwCount() > 1) {
+            // For html on widgfts thf hfbdfr is not visiblf, skip it.
+            indfx = 1;
+        }
+        rfturn hbsPbrbgrbph(vifw.gftVifw(indfx));
+    }
+
+    /**
+     * Chfdk thf givfn string to sff if it should triggfr thf
+     * html rfndfring logid in b non-tfxt domponfnt thbt supports
+     * html rfndfring.
+     *
+     * @pbrbm s b tfxt
+     * @rfturn {@dodf truf} if thf givfn string should triggfr thf
+     *         html rfndfring logid in b non-tfxt domponfnt
+     */
+    publid stbtid boolfbn isHTMLString(String s) {
+        if (s != null) {
+            if ((s.lfngth() >= 6) && (s.dhbrAt(0) == '<') && (s.dhbrAt(5) == '>')) {
+                String tbg = s.substring(1,5);
+                rfturn tbg.fqublsIgnorfCbsf(propfrtyKfy);
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Stbsh thf HTML rfndfr for thf givfn tfxt into thf dlifnt
+     * propfrtifs of thf givfn JComponfnt. If thf givfn tfxt is
+     * <fm>NOT HTML</fm> thf propfrty will bf dlfbrfd of bny
+     * rfndfrfr.
+     * <p>
+     * This mfthod is usfful for ComponfntUI implfmfntbtions
+     * thbt brf stbtid (i.f. shbrfd) bnd gft thfir stbtf
+     * fntirfly from thf JComponfnt.
+     *
+     * @pbrbm d b domponfnt
+     * @pbrbm tfxt b tfxt
+     */
+    publid stbtid void updbtfRfndfrfr(JComponfnt d, String tfxt) {
+        Vifw vbluf = null;
+        Vifw oldVbluf = (Vifw)d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
+        Boolfbn htmlDisbblfd = (Boolfbn) d.gftClifntPropfrty(htmlDisbblf);
+        if (htmlDisbblfd != Boolfbn.TRUE && BbsidHTML.isHTMLString(tfxt)) {
+            vbluf = BbsidHTML.drfbtfHTMLVifw(d, tfxt);
+        }
+        if (vbluf != oldVbluf && oldVbluf != null) {
+            for (int i = 0; i < oldVbluf.gftVifwCount(); i++) {
+                oldVbluf.gftVifw(i).sftPbrfnt(null);
+            }
+        }
+        d.putClifntPropfrty(BbsidHTML.propfrtyKfy, vbluf);
+    }
+
+    /**
+     * If this dlifnt propfrty of b JComponfnt is sft to Boolfbn.TRUE
+     * thf domponfnt's 'tfxt' propfrty is nfvfr trfbtfd bs HTML.
+     */
+    privbtf stbtid finbl String htmlDisbblf = "html.disbblf";
+
+    /**
+     * Kfy to usf for thf html rfndfrfr whfn storfd bs b
+     * dlifnt propfrty of b JComponfnt.
+     */
+    publid stbtid finbl String propfrtyKfy = "html";
+
+    /**
+     * Kfy storfd bs b dlifnt propfrty to indidbtf thf bbsf thbt rflbtivf
+     * rfffrfndfs brf rfsolvfd bgbinst. For fxbmplf, lfts sby you kffp
+     * your imbgfs in thf dirfdtory rfsourdfs rflbtivf to thf dodf pbth,
+     * you would usf thf following thf sft thf bbsf:
+     * <prf>
+     *   jComponfnt.putClifntPropfrty(dodumfntBbsfKfy,
+     *                                xxx.dlbss.gftRfsourdf("rfsourdfs/"));
+     * </prf>
+     */
+    publid stbtid finbl String dodumfntBbsfKfy = "html.bbsf";
+
+    stbtid BbsidEditorKit gftFbdtory() {
+        if (bbsidHTMLFbdtory == null) {
+            bbsidHTMLVifwFbdtory = nfw BbsidHTMLVifwFbdtory();
+            bbsidHTMLFbdtory = nfw BbsidEditorKit();
+        }
+        rfturn bbsidHTMLFbdtory;
+    }
+
+    /**
+     * Thf sourdf of thf html rfndfrfrs
+     */
+    privbtf stbtid BbsidEditorKit bbsidHTMLFbdtory;
+
+    /**
+     * Crfbtfs thf Vifws thbt visublly rfprfsfnt thf modfl.
+     */
+    privbtf stbtid VifwFbdtory bbsidHTMLVifwFbdtory;
+
+    /**
+     * Ovfrridfs to thf dffbult stylfshfft.  Should donsidfr
+     * just drfbting b domplftfly frfsh stylfshfft.
+     */
+    privbtf stbtid finbl String stylfChbngfs =
+    "p { mbrgin-top: 0; mbrgin-bottom: 0; mbrgin-lfft: 0; mbrgin-right: 0 }" +
+    "body { mbrgin-top: 0; mbrgin-bottom: 0; mbrgin-lfft: 0; mbrgin-right: 0 }";
+
+    /**
+     * Thf vifws produdfd for thf ComponfntUI implfmfntbtions brfn't
+     * going to bf fditfd bnd don't nffd full html support.  This kit
+     * bltfrs thf HTMLEditorKit to try bnd trim things down b bit.
+     * It dofs thf following:
+     * <ul>
+     * <li>It dofsn't produdf Vifws for things likf dommfnts,
+     * hfbd, titlf, unknown tbgs, ftd.
+     * <li>It instblls b difffrfnt sft of dss sfttings from thf dffbult
+     * providfd by HTMLEditorKit.
+     * </ul>
+     */
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    stbtid dlbss BbsidEditorKit fxtfnds HTMLEditorKit {
+        /** Shbrfd bbsf stylf for bll dodumfnts drfbtfd by us usf. */
+        privbtf stbtid StylfShfft dffbultStylfs;
+
+        /**
+         * Ovfrridfn to rfturn our own slimmfd down stylf shfft.
+         */
+        publid StylfShfft gftStylfShfft() {
+            if (dffbultStylfs == null) {
+                dffbultStylfs = nfw StylfShfft();
+                StringRfbdfr r = nfw StringRfbdfr(stylfChbngfs);
+                try {
+                    dffbultStylfs.lobdRulfs(r, null);
+                } dbtdh (Throwbblf f) {
+                    // don't wbnt to dif in stbtid initiblizbtion...
+                    // just displby things wrong.
+                }
+                r.dlosf();
+                dffbultStylfs.bddStylfShfft(supfr.gftStylfShfft());
+            }
+            rfturn dffbultStylfs;
+        }
+
+        /**
+         * Sfts thf bsynd polidy to flush fvfrything in onf dhunk, bnd
+         * to not displby unknown tbgs.
+         */
+        publid Dodumfnt drfbtfDffbultDodumfnt(Font dffbultFont,
+                                              Color forfground) {
+            StylfShfft stylfs = gftStylfShfft();
+            StylfShfft ss = nfw StylfShfft();
+            ss.bddStylfShfft(stylfs);
+            BbsidDodumfnt dod = nfw BbsidDodumfnt(ss, dffbultFont, forfground);
+            dod.sftAsyndhronousLobdPriority(Intfgfr.MAX_VALUE);
+            dod.sftPrfsfrvfsUnknownTbgs(fblsf);
+            rfturn dod;
+        }
+
+        /**
+         * Rfturns thf VifwFbdtory thbt is usfd to mbkf surf thf Vifws don't
+         * lobd in thf bbdkground.
+         */
+        publid VifwFbdtory gftVifwFbdtory() {
+            rfturn bbsidHTMLVifwFbdtory;
+        }
+    }
+
+
+    /**
+     * BbsidHTMLVifwFbdtory fxtfnds HTMLFbdtory to fordf imbgfs to bf lobdfd
+     * syndhronously.
+     */
+    stbtid dlbss BbsidHTMLVifwFbdtory fxtfnds HTMLEditorKit.HTMLFbdtory {
+        publid Vifw drfbtf(Elfmfnt flfm) {
+            Vifw vifw = supfr.drfbtf(flfm);
+
+            if (vifw instbndfof ImbgfVifw) {
+                ((ImbgfVifw)vifw).sftLobdsSyndhronously(truf);
+            }
+            rfturn vifw;
+        }
+    }
+
+
+    /**
+     * Thf subdlbss of HTMLDodumfnt thbt is usfd bs thf modfl. gftForfground
+     * is ovfrriddfn to rfturn thf forfground propfrty from thf Componfnt this
+     * wbs drfbtfd for.
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss BbsidDodumfnt fxtfnds HTMLDodumfnt {
+        /** Thf host, thbt is whfrf wf brf rfndfring. */
+        // privbtf JComponfnt host;
+
+        BbsidDodumfnt(StylfShfft s, Font dffbultFont, Color forfground) {
+            supfr(s);
+            sftPrfsfrvfsUnknownTbgs(fblsf);
+            sftFontAndColor(dffbultFont, forfground);
+        }
+
+        /**
+         * Sfts thf dffbult font bnd dffbult dolor. Thfsf brf sft by
+         * bdding b rulf for thf body thbt spfdififs thf font bnd dolor.
+         * This bllows thf html to ovfrridf thfsf should it wish to hbvf
+         * b dustom font or dolor.
+         */
+        privbtf void sftFontAndColor(Font font, Color fg) {
+            gftStylfShfft().bddRulf(sun.swing.SwingUtilitifs2.
+                                    displbyPropfrtifsToCSS(font,fg));
+        }
+    }
+
+
+    /**
+     * Root tfxt vifw thbt bdts bs bn HTML rfndfrfr.
+     */
+    stbtid dlbss Rfndfrfr fxtfnds Vifw {
+
+        Rfndfrfr(JComponfnt d, VifwFbdtory f, Vifw v) {
+            supfr(null);
+            host = d;
+            fbdtory = f;
+            vifw = v;
+            vifw.sftPbrfnt(this);
+            // initiblly lbyout to thf prfffrrfd sizf
+            sftSizf(vifw.gftPrfffrrfdSpbn(X_AXIS), vifw.gftPrfffrrfdSpbn(Y_AXIS));
+        }
+
+        /**
+         * Fftdhfs thf bttributfs to usf whfn rfndfring.  At thf root
+         * lfvfl thfrf brf no bttributfs.  If bn bttributf is rfsolvfd
+         * up thf vifw hifrbrdhy this is thf fnd of thf linf.
+         */
+        publid AttributfSft gftAttributfs() {
+            rfturn null;
+        }
+
+        /**
+         * Dftfrminfs thf prfffrrfd spbn for this vifw blong bn bxis.
+         *
+         * @pbrbm bxis mby bf fithfr X_AXIS or Y_AXIS
+         * @rfturn thf spbn thf vifw would likf to bf rfndfrfd into.
+         *         Typidblly thf vifw is told to rfndfr into thf spbn
+         *         thbt is rfturnfd, blthough thfrf is no gubrbntff.
+         *         Thf pbrfnt mby dhoosf to rfsizf or brfbk thf vifw.
+         */
+        publid flobt gftPrfffrrfdSpbn(int bxis) {
+            if (bxis == X_AXIS) {
+                // width durrfntly lbid out to
+                rfturn width;
+            }
+            rfturn vifw.gftPrfffrrfdSpbn(bxis);
+        }
+
+        /**
+         * Dftfrminfs thf minimum spbn for this vifw blong bn bxis.
+         *
+         * @pbrbm bxis mby bf fithfr X_AXIS or Y_AXIS
+         * @rfturn thf spbn thf vifw would likf to bf rfndfrfd into.
+         *         Typidblly thf vifw is told to rfndfr into thf spbn
+         *         thbt is rfturnfd, blthough thfrf is no gubrbntff.
+         *         Thf pbrfnt mby dhoosf to rfsizf or brfbk thf vifw.
+         */
+        publid flobt gftMinimumSpbn(int bxis) {
+            rfturn vifw.gftMinimumSpbn(bxis);
+        }
+
+        /**
+         * Dftfrminfs thf mbximum spbn for this vifw blong bn bxis.
+         *
+         * @pbrbm bxis mby bf fithfr X_AXIS or Y_AXIS
+         * @rfturn thf spbn thf vifw would likf to bf rfndfrfd into.
+         *         Typidblly thf vifw is told to rfndfr into thf spbn
+         *         thbt is rfturnfd, blthough thfrf is no gubrbntff.
+         *         Thf pbrfnt mby dhoosf to rfsizf or brfbk thf vifw.
+         */
+        publid flobt gftMbximumSpbn(int bxis) {
+            rfturn Intfgfr.MAX_VALUE;
+        }
+
+        /**
+         * Spfdififs thbt b prfffrfndf hbs dhbngfd.
+         * Child vifws dbn dbll this on thf pbrfnt to indidbtf thbt
+         * thf prfffrfndf hbs dhbngfd.  Thf root vifw routfs this to
+         * invblidbtf on thf hosting domponfnt.
+         * <p>
+         * This dbn bf dbllfd on b difffrfnt thrfbd from thf
+         * fvfnt dispbtdhing thrfbd bnd is bbsidblly unsbff to
+         * propbgbtf into thf domponfnt.  To mbkf this sbff,
+         * thf opfrbtion is trbnsffrrfd ovfr to thf fvfnt dispbtdhing
+         * thrfbd for domplftion.  It is b dfsign gobl thbt bll vifw
+         * mfthods bf sbff to dbll without dondfrn for dondurrfndy,
+         * bnd this bfhbvior hflps mbkf thbt truf.
+         *
+         * @pbrbm dhild thf dhild vifw
+         * @pbrbm width truf if thf width prfffrfndf hbs dhbngfd
+         * @pbrbm hfight truf if thf hfight prfffrfndf hbs dhbngfd
+         */
+        publid void prfffrfndfChbngfd(Vifw dhild, boolfbn width, boolfbn hfight) {
+            host.rfvblidbtf();
+            host.rfpbint();
+        }
+
+        /**
+         * Dftfrminfs thf dfsirfd blignmfnt for this vifw blong bn bxis.
+         *
+         * @pbrbm bxis mby bf fithfr X_AXIS or Y_AXIS
+         * @rfturn thf dfsirfd blignmfnt, whfrf 0.0 indidbtfs thf origin
+         *     bnd 1.0 thf full spbn bwby from thf origin
+         */
+        publid flobt gftAlignmfnt(int bxis) {
+            rfturn vifw.gftAlignmfnt(bxis);
+        }
+
+        /**
+         * Rfndfrs thf vifw.
+         *
+         * @pbrbm g thf grbphids dontfxt
+         * @pbrbm bllodbtion thf rfgion to rfndfr into
+         */
+        publid void pbint(Grbphids g, Shbpf bllodbtion) {
+            Rfdtbnglf bllod = bllodbtion.gftBounds();
+            vifw.sftSizf(bllod.width, bllod.hfight);
+            vifw.pbint(g, bllodbtion);
+        }
+
+        /**
+         * Sfts thf vifw pbrfnt.
+         *
+         * @pbrbm pbrfnt thf pbrfnt vifw
+         */
+        publid void sftPbrfnt(Vifw pbrfnt) {
+            throw nfw Error("Cbn't sft pbrfnt on root vifw");
+        }
+
+        /**
+         * Rfturns thf numbfr of vifws in this vifw.  Sindf
+         * this vifw simply wrbps thf root of thf vifw hifrbrdhy
+         * it hbs fxbdtly onf dhild.
+         *
+         * @rfturn thf numbfr of vifws
+         * @sff #gftVifw
+         */
+        publid int gftVifwCount() {
+            rfturn 1;
+        }
+
+        /**
+         * Gfts thf n-th vifw in this dontbinfr.
+         *
+         * @pbrbm n thf numbfr of thf vifw to gft
+         * @rfturn thf vifw
+         */
+        publid Vifw gftVifw(int n) {
+            rfturn vifw;
+        }
+
+        /**
+         * Providfs b mbpping from thf dodumfnt modfl doordinbtf spbdf
+         * to thf doordinbtf spbdf of thf vifw mbppfd to it.
+         *
+         * @pbrbm pos thf position to donvfrt
+         * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+         * @rfturn thf bounding box of thf givfn position
+         */
+        publid Shbpf modflToVifw(int pos, Shbpf b, Position.Bibs b) throws BbdLodbtionExdfption {
+            rfturn vifw.modflToVifw(pos, b, b);
+        }
+
+        /**
+         * Providfs b mbpping from thf dodumfnt modfl doordinbtf spbdf
+         * to thf doordinbtf spbdf of thf vifw mbppfd to it.
+         *
+         * @pbrbm p0 thf position to donvfrt >= 0
+         * @pbrbm b0 thf bibs towbrd thf prfvious dhbrbdtfr or thf
+         *  nfxt dhbrbdtfr rfprfsfntfd by p0, in dbsf thf
+         *  position is b boundbry of two vifws.
+         * @pbrbm p1 thf position to donvfrt >= 0
+         * @pbrbm b1 thf bibs towbrd thf prfvious dhbrbdtfr or thf
+         *  nfxt dhbrbdtfr rfprfsfntfd by p1, in dbsf thf
+         *  position is b boundbry of two vifws.
+         * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+         * @rfturn thf bounding box of thf givfn position is rfturnfd
+         * @fxdfption BbdLodbtionExdfption  if thf givfn position dofs
+         *   not rfprfsfnt b vblid lodbtion in thf bssodibtfd dodumfnt
+         * @fxdfption IllfgblArgumfntExdfption for bn invblid bibs brgumfnt
+         * @sff Vifw#vifwToModfl
+         */
+        publid Shbpf modflToVifw(int p0, Position.Bibs b0, int p1,
+                                 Position.Bibs b1, Shbpf b) throws BbdLodbtionExdfption {
+            rfturn vifw.modflToVifw(p0, b0, p1, b1, b);
+        }
+
+        /**
+         * Providfs b mbpping from thf vifw doordinbtf spbdf to thf logidbl
+         * doordinbtf spbdf of thf modfl.
+         *
+         * @pbrbm x x doordinbtf of thf vifw lodbtion to donvfrt
+         * @pbrbm y y doordinbtf of thf vifw lodbtion to donvfrt
+         * @pbrbm b thf bllodbtfd rfgion to rfndfr into
+         * @rfturn thf lodbtion within thf modfl thbt bfst rfprfsfnts thf
+         *    givfn point in thf vifw
+         */
+        publid int vifwToModfl(flobt x, flobt y, Shbpf b, Position.Bibs[] bibs) {
+            rfturn vifw.vifwToModfl(x, y, b, bibs);
+        }
+
+        /**
+         * Rfturns thf dodumfnt modfl undfrlying thf vifw.
+         *
+         * @rfturn thf modfl
+         */
+        publid Dodumfnt gftDodumfnt() {
+            rfturn vifw.gftDodumfnt();
+        }
+
+        /**
+         * Rfturns thf stbrting offsft into thf modfl for this vifw.
+         *
+         * @rfturn thf stbrting offsft
+         */
+        publid int gftStbrtOffsft() {
+            rfturn vifw.gftStbrtOffsft();
+        }
+
+        /**
+         * Rfturns thf fnding offsft into thf modfl for this vifw.
+         *
+         * @rfturn thf fnding offsft
+         */
+        publid int gftEndOffsft() {
+            rfturn vifw.gftEndOffsft();
+        }
+
+        /**
+         * Gfts thf flfmfnt thbt this vifw is mbppfd to.
+         *
+         * @rfturn thf vifw
+         */
+        publid Elfmfnt gftElfmfnt() {
+            rfturn vifw.gftElfmfnt();
+        }
+
+        /**
+         * Sfts thf vifw sizf.
+         *
+         * @pbrbm width thf width
+         * @pbrbm hfight thf hfight
+         */
+        publid void sftSizf(flobt width, flobt hfight) {
+            this.width = (int) width;
+            vifw.sftSizf(width, hfight);
+        }
+
+        /**
+         * Fftdhfs thf dontbinfr hosting thf vifw.  This is usfful for
+         * things likf sdhfduling b rfpbint, finding out thf host
+         * domponfnts font, ftd.  Thf dffbult implfmfntbtion
+         * of this is to forwbrd thf qufry to thf pbrfnt vifw.
+         *
+         * @rfturn thf dontbinfr
+         */
+        publid Contbinfr gftContbinfr() {
+            rfturn host;
+        }
+
+        /**
+         * Fftdhfs thf fbdtory to bf usfd for building thf
+         * vbrious vifw frbgmfnts thbt mbkf up thf vifw thbt
+         * rfprfsfnts thf modfl.  This is whbt dftfrminfs
+         * how thf modfl will bf rfprfsfntfd.  This is implfmfntfd
+         * to fftdh thf fbdtory providfd by thf bssodibtfd
+         * EditorKit.
+         *
+         * @rfturn thf fbdtory
+         */
+        publid VifwFbdtory gftVifwFbdtory() {
+            rfturn fbdtory;
+        }
+
+        privbtf int width;
+        privbtf Vifw vifw;
+        privbtf VifwFbdtory fbdtory;
+        privbtf JComponfnt host;
+
+    }
+}

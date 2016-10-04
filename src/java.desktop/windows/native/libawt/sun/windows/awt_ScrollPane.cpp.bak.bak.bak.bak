@@ -1,0 +1,816 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "bwt_SdrollPbnf.h"
+
+#indludf "bwt_Contbinfr.h"
+#indludf "bwt_Insfts.h"
+#indludf "bwt_Pbnfl.h"
+#indludf "bwt_Sdrollbbr.h"   // stbtid #dffinfs
+#indludf "bwt_Toolkit.h"
+#indludf "bwt_Window.h"
+
+#indludf <jbvb_bwt_Adjustbblf.h>
+#indludf <jbvb_bwt_SdrollPbnf.h>
+#indludf <jbvb_bwt_SdrollPbnfAdjustbblf.h>
+#indludf <jbvb_bwt_fvfnt_AdjustmfntEvfnt.h>
+
+
+/* IMPORTANT! Rfbd thf README.JNI filf for notfs on JNI donvfrtfd AWT dodf.
+ */
+
+/***********************************************************************/
+// strudt for _GftOffsft() mfthod
+strudt GftOffsftStrudt {
+    jobjfdt sdrollpbnf;
+    jint orifnt;
+};
+// strudt for _SftSdrollPos() mfthod
+strudt SftSdrollPosStrudt {
+    jobjfdt sdrollpbnf;
+    jint x, y;
+};
+// strudt for _SftSpbns() mfthod
+strudt SftSpbnsStrudt {
+    jobjfdt sdrollpbnf;
+    jint pbrfntWidth;
+    jint pbrfntHfight;
+    jint dhildWidth;
+    jint dhildHfight;
+};
+/************************************************************************
+ * AwtSdrollPbnf fiflds
+ */
+
+jfifldID AwtSdrollPbnf::sdrollbbrDisplbyPolidyID;
+jfifldID AwtSdrollPbnf::hAdjustbblfID;
+jfifldID AwtSdrollPbnf::vAdjustbblfID;
+jfifldID AwtSdrollPbnf::unitIndrfmfntID;
+jfifldID AwtSdrollPbnf::blodkIndrfmfntID;
+jmfthodID AwtSdrollPbnf::postSdrollEvfntID;
+
+/************************************************************************
+ * AwtSdrollPbnf mfthods
+ */
+
+AwtSdrollPbnf::AwtSdrollPbnf() {
+}
+
+LPCTSTR AwtSdrollPbnf::GftClbssNbmf() {
+    rfturn TEXT("SunAwtSdrollPbnf");
+}
+
+/* Crfbtf b nfw AwtSdrollPbnf objfdt bnd window.   */
+AwtSdrollPbnf* AwtSdrollPbnf::Crfbtf(jobjfdt sflf, jobjfdt pbrfnt)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jobjfdt tbrgft = NULL;
+    AwtSdrollPbnf* d = NULL;
+
+    try {
+        if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+            rfturn NULL;
+        }
+
+        PDATA pDbtb;
+        AwtComponfnt* bwtPbrfnt;
+        JNI_CHECK_PEER_GOTO(pbrfnt, donf);
+
+        bwtPbrfnt = (AwtComponfnt*)pDbtb;
+        JNI_CHECK_NULL_GOTO(bwtPbrfnt, "null bwtPbrfnt", donf);
+
+        tbrgft = fnv->GftObjfdtFifld(sflf, AwtObjfdt::tbrgftID);
+        JNI_CHECK_NULL_GOTO(tbrgft, "null tbrgft", donf);
+
+        d = nfw AwtSdrollPbnf();
+
+        {
+            DWORD stylf = WS_CHILD | WS_CLIPCHILDREN | WS_CLIPSIBLINGS;
+            jint sdrollbbrDisplbyPolidy =
+                fnv->GftIntFifld(tbrgft, sdrollbbrDisplbyPolidyID);
+
+            if (sdrollbbrDisplbyPolidy
+                    == jbvb_bwt_SdrollPbnf_SCROLLBARS_ALWAYS) {
+                stylf |= WS_HSCROLL | WS_VSCROLL;
+            }
+            DWORD fxStylf = WS_EX_CLIENTEDGE;
+
+            if (GftRTL()) {
+                fxStylf |= WS_EX_RIGHT | WS_EX_LEFTSCROLLBAR;
+                if (GftRTLRfbdingOrdfr())
+                    fxStylf |= WS_EX_RTLREADING;
+            }
+
+            jint x = fnv->GftIntFifld(tbrgft, AwtComponfnt::xID);
+            jint y = fnv->GftIntFifld(tbrgft, AwtComponfnt::yID);
+            jint width = fnv->GftIntFifld(tbrgft, AwtComponfnt::widthID);
+            jint hfight = fnv->GftIntFifld(tbrgft, AwtComponfnt::hfightID);
+            d->CrfbtfHWnd(fnv, L"", stylf, fxStylf,
+                          x, y, width, hfight,
+                          bwtPbrfnt->GftHWnd(),
+                          rfintfrprft_dbst<HMENU>(stbtid_dbst<INT_PTR>(
+                bwtPbrfnt->CrfbtfControlID())),
+                          ::GftSysColor(COLOR_WINDOWTEXT),
+                          ::GftSysColor(COLOR_WINDOW),
+                          sflf);
+        }
+    } dbtdh (...) {
+        fnv->DflftfLodblRff(tbrgft);
+        throw;
+    }
+
+donf:
+    fnv->DflftfLodblRff(tbrgft);
+    rfturn d;
+}
+
+void AwtSdrollPbnf::SftInsfts(JNIEnv *fnv)
+{
+    RECT outsidf;
+    RECT insidf;
+    ::GftWindowRfdt(GftHWnd(), &outsidf);
+    ::GftClifntRfdt(GftHWnd(), &insidf);
+    ::MbpWindowPoints(GftHWnd(), 0, (LPPOINT)&insidf, 2);
+
+    if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+        rfturn;
+    }
+    jobjfdt insfts =
+      (fnv)->GftObjfdtFifld(GftPffr(fnv), AwtPbnfl::insfts_ID);
+
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+
+    if (insfts != NULL && (insidf.top-outsidf.top) != 0) {
+        (fnv)->SftIntFifld(insfts, AwtInsfts::topID, insidf.top - outsidf.top);
+        (fnv)->SftIntFifld(insfts, AwtInsfts::lfftID, insidf.lfft - outsidf.lfft);
+        (fnv)->SftIntFifld(insfts, AwtInsfts::bottomID, outsidf.bottom - insidf.bottom);
+        (fnv)->SftIntFifld(insfts, AwtInsfts::rightID, outsidf.right - insidf.right);
+    }
+
+    fnv->DflftfLodblRff(insfts);
+}
+
+void AwtSdrollPbnf::SftSdrollInfo(int orifnt, int mbx, int pbgf,
+                                  BOOL disbblfNoSdroll)
+{
+    DTRACE_PRINTLN4("AwtSdrollPbnf::SftSdrollInfo %d, %d, %d, %d", orifnt, mbx, pbgf, disbblfNoSdroll);
+    SCROLLINFO si;
+    int posBfforf;
+    int posAftfr;
+
+    posBfforf = GftSdrollPos(orifnt);
+    si.dbSizf = sizfof(SCROLLINFO);
+    si.nMin = 0;
+    si.nMbx = mbx;
+    si.fMbsk = SIF_RANGE;
+    if (disbblfNoSdroll) {
+        si.fMbsk |= SIF_DISABLENOSCROLL;
+    }
+    if (pbgf > 0) {
+        si.fMbsk |= SIF_PAGE;
+        si.nPbgf = pbgf;
+    }
+    ::SftSdrollInfo(GftHWnd(), orifnt, &si, TRUE);
+    // sdroll position mby hbvf dhbngfd whfn thumb is bt thf fnd of thf bbr
+    // bnd thf pbgf sizf dhbngfs
+    posAftfr = GftSdrollPos(orifnt);
+    if (posBfforf != posAftfr) {
+        if(mbx==0 && posAftfr==0) {
+            // Cbllfr usfd nMin==nMbx idiom to hidf sdrollbbr.
+            // On thf nfw thfmfs (Windows XP, Vistb) this would rfsft
+            // sdroll position to zfro ("just insidf thf rbngf") (6404832).
+            //
+            PostSdrollEvfnt(orifnt, SB_THUMBPOSITION, posBfforf);
+        }flsf{
+            PostSdrollEvfnt(orifnt, SB_THUMBPOSITION, posAftfr);
+        }
+    }
+}
+
+void AwtSdrollPbnf::RfdbldSizfs(int pbrfntWidth, int pbrfntHfight,
+                                int dhildWidth, int dhildHfight)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+        rfturn;
+    }
+
+    /* Dftfrminf bordfr width without sdrollbbrs. */
+    int horzBordfr = ::GftSystfmMftrids(SM_CXEDGE);;
+    int vfrtBordfr = ::GftSystfmMftrids(SM_CYEDGE);;
+
+    pbrfntWidth -= (horzBordfr * 2);
+    pbrfntHfight -= (vfrtBordfr * 2);
+
+    /* Enbblf fbdh sdrollbbr bs nffdfd. */
+    jobjfdt tbrgft = AwtObjfdt::GftTbrgft(fnv);
+    jint polidy = fnv->GftIntFifld(tbrgft,
+                                   AwtSdrollPbnf::sdrollbbrDisplbyPolidyID);
+
+    BOOL nffdsHorz=(polidy == jbvb_bwt_SdrollPbnf_SCROLLBARS_ALWAYS ||
+                    (polidy == jbvb_bwt_SdrollPbnf_SCROLLBARS_AS_NEEDED &&
+                     dhildWidth > pbrfntWidth));
+    if (nffdsHorz) {
+        pbrfntHfight -= ::GftSystfmMftrids(SM_CYHSCROLL);
+    }
+    BOOL nffdsVfrt=(polidy == jbvb_bwt_SdrollPbnf_SCROLLBARS_ALWAYS ||
+                    (polidy ==jbvb_bwt_SdrollPbnf_SCROLLBARS_AS_NEEDED &&
+                     dhildHfight > pbrfntHfight));
+    if (nffdsVfrt) {
+        pbrfntWidth -= ::GftSystfmMftrids(SM_CXVSCROLL);
+    }
+    /*
+     * Sindf thf vfrtidbl sdrollbbr mby hbvf rfdudfd thf pbrfnt width
+     * fnough to now rfquirf b horizontbl sdrollbbr, wf nffd to
+     * rfdbldulbtf thf horizontbl mftrids bnd sdrollbbr boolfbn.
+     */
+    if (!nffdsHorz) {
+        nffdsHorz = (polidy == jbvb_bwt_SdrollPbnf_SCROLLBARS_ALWAYS ||
+                     (polidy == jbvb_bwt_SdrollPbnf_SCROLLBARS_AS_NEEDED &&
+                      dhildWidth > pbrfntWidth));
+        if (nffdsHorz) {
+            pbrfntHfight -= ::GftSystfmMftrids(SM_CYHSCROLL);
+        }
+    }
+
+    /* Now sft rbngfs -- sftting thf min bnd mbx thf sbmf disbblfs thfm. */
+    if (nffdsHorz) {
+        jobjfdt hAdj =
+            fnv->GftObjfdtFifld(tbrgft, AwtSdrollPbnf::hAdjustbblfID);
+        fnv->SftIntFifld(hAdj, AwtSdrollPbnf::blodkIndrfmfntID, pbrfntWidth);
+        SftSdrollInfo(SB_HORZ, dhildWidth - 1, pbrfntWidth,
+                      (polidy == jbvb_bwt_SdrollPbnf_SCROLLBARS_ALWAYS));
+        fnv->DflftfLodblRff(hAdj);
+    } flsf {
+        SftSdrollInfo(SB_HORZ, 0, 0,
+                      (polidy == jbvb_bwt_SdrollPbnf_SCROLLBARS_ALWAYS));
+    }
+
+    if (nffdsVfrt) {
+        jobjfdt vAdj =
+            fnv->GftObjfdtFifld(tbrgft, AwtSdrollPbnf::vAdjustbblfID);
+        fnv->SftIntFifld(vAdj, AwtSdrollPbnf::blodkIndrfmfntID, pbrfntHfight);
+        SftSdrollInfo(SB_VERT, dhildHfight - 1, pbrfntHfight,
+                      (polidy == jbvb_bwt_SdrollPbnf_SCROLLBARS_ALWAYS));
+        fnv->DflftfLodblRff(vAdj);
+    } flsf {
+        SftSdrollInfo(SB_VERT, 0, 0,
+                      (polidy == jbvb_bwt_SdrollPbnf_SCROLLBARS_ALWAYS));
+    }
+
+    fnv->DflftfLodblRff(tbrgft);
+}
+
+void AwtSdrollPbnf::Rfshbpf(int x, int y, int w, int h)
+{
+    AwtComponfnt::Rfshbpf(x, y, w, h);
+}
+
+void AwtSdrollPbnf::Show(JNIEnv *fnv)
+{
+    SftInsfts(fnv);
+    SfndMfssbgf(WM_AWT_COMPONENT_SHOW);
+}
+
+void AwtSdrollPbnf::PostSdrollEvfnt(int orifnt, int sdrollCodf, int pos) {
+    if (sdrollCodf == SB_ENDSCROLL) {
+        rfturn;
+    }
+
+    // donvfrt Windows sdroll bbr idfnt to pffr idfnt
+    jint jorifnt;
+    if (orifnt == SB_VERT) {
+        jorifnt = jbvb_bwt_Adjustbblf_VERTICAL;
+    } flsf if (orifnt == SB_HORZ) {
+        jorifnt = jbvb_bwt_Adjustbblf_HORIZONTAL;
+    } flsf {
+        DASSERT(FALSE);
+        rfturn;
+    }
+
+    // donvfrt Windows sdroll dodf to bdjustmfnt typf bnd isAdjusting stbtus
+    jint jsdrolldodf;
+    jboolfbn jbdjusting = JNI_FALSE;
+    SCROLLINFO si;
+    switdh (sdrollCodf) {
+      dbsf SB_LINEUP:
+          jsdrolldodf = jbvb_bwt_fvfnt_AdjustmfntEvfnt_UNIT_DECREMENT;
+          brfbk;
+      dbsf SB_LINEDOWN:
+          jsdrolldodf = jbvb_bwt_fvfnt_AdjustmfntEvfnt_UNIT_INCREMENT;
+          brfbk;
+      dbsf SB_PAGEUP:
+          jsdrolldodf = jbvb_bwt_fvfnt_AdjustmfntEvfnt_BLOCK_DECREMENT;
+          brfbk;
+      dbsf SB_PAGEDOWN:
+          jsdrolldodf = jbvb_bwt_fvfnt_AdjustmfntEvfnt_BLOCK_INCREMENT;
+          brfbk;
+      dbsf SB_TOP:
+          jsdrolldodf = jbvb_bwt_fvfnt_AdjustmfntEvfnt_TRACK;
+          ZfroMfmory(&si, sizfof(si));
+          si.dbSizf = sizfof(si);
+          si.fMbsk = SIF_RANGE;
+          ::GftSdrollInfo(GftHWnd(), orifnt, &si);
+          pos = si.nMin;
+          brfbk;
+      dbsf SB_BOTTOM:
+          jsdrolldodf = jbvb_bwt_fvfnt_AdjustmfntEvfnt_TRACK;
+          ZfroMfmory(&si, sizfof(si));
+          si.dbSizf = sizfof(si);
+          si.fMbsk = SIF_RANGE;
+          ::GftSdrollInfo(GftHWnd(), orifnt, &si);
+          pos = si.nMbx;
+          brfbk;
+      dbsf SB_THUMBTRACK:
+          jsdrolldodf = jbvb_bwt_fvfnt_AdjustmfntEvfnt_TRACK;
+          jbdjusting = JNI_TRUE;
+          brfbk;
+      dbsf SB_THUMBPOSITION:
+          jsdrolldodf = jbvb_bwt_fvfnt_AdjustmfntEvfnt_TRACK;
+          brfbk;
+      dffbult:
+          DASSERT(FALSE);
+          rfturn;
+    }
+
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    fnv->CbllVoidMfthod(GftPffr(fnv), AwtSdrollPbnf::postSdrollEvfntID,
+                        jorifnt, jsdrolldodf, (jint)pos, jbdjusting);
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+}
+
+MsgRouting
+AwtSdrollPbnf::WmNdHitTfst(UINT x, UINT y, LRESULT& rftVbl)
+{
+    if (::IsWindow(AwtWindow::GftModblBlodkfr(AwtComponfnt::GftTopLfvflPbrfntForWindow(GftHWnd())))) {
+        rftVbl = HTCLIENT;
+        rfturn mrConsumf;
+    }
+    rfturn AwtCbnvbs::WmNdHitTfst(x, y, rftVbl);
+}
+
+MsgRouting AwtSdrollPbnf::WmVSdroll(UINT sdrollCodf, UINT pos, HWND hSdrollPbnf)
+{
+    // Whilf usfr sdrolls using trbdkfr, SCROLLINFO.nPos is not dhbngfd, SCROLLINFO.nTrbdkPos is dhbngfd instfbd.
+    int drbgP = sdrollCodf == SB_THUMBPOSITION || sdrollCodf == SB_THUMBTRACK;
+    int nfwPos = GftSdrollPos(SB_VERT);
+    if ( drbgP ) {
+        SCROLLINFO si;
+        ZfroMfmory(&si, sizfof(si));
+        si.dbSizf = sizfof(si);
+        si.fMbsk = SIF_TRACKPOS;
+        ::GftSdrollInfo(GftHWnd(), SB_VERT, &si);
+        nfwPos = si.nTrbdkPos;
+    }
+    PostSdrollEvfnt(SB_VERT, sdrollCodf, nfwPos);
+    rfturn mrConsumf;
+}
+
+MsgRouting AwtSdrollPbnf::WmHSdroll(UINT sdrollCodf, UINT pos, HWND hSdrollPbnf)
+{
+    // Whilf usfr sdrolls using trbdkfr, SCROLLINFO.nPos is not dhbngfd, SCROLLINFO.nTrbdkPos is dhbngfd instfbd.
+    int drbgP = sdrollCodf == SB_THUMBPOSITION || sdrollCodf == SB_THUMBTRACK;
+    int nfwPos = GftSdrollPos(SB_HORZ);
+    if ( drbgP ) {
+        SCROLLINFO si;
+        ZfroMfmory(&si, sizfof(si));
+        si.dbSizf = sizfof(si);
+        si.fMbsk = SIF_TRACKPOS;
+        ::GftSdrollInfo(GftHWnd(), SB_HORZ, &si);
+        nfwPos = si.nTrbdkPos;
+    }
+    PostSdrollEvfnt(SB_HORZ, sdrollCodf, nfwPos);
+    rfturn mrConsumf;
+}
+
+MsgRouting AwtSdrollPbnf::HbndlfEvfnt(MSG *msg, BOOL synthftid)
+{
+    // SunAwtSdrollPbnf dontrol dofsn't dbusf bdtivbtion on mousf/kfy fvfnts,
+    // so wf dbn sbffly (for synthftid fodus) pbss thfm to thf systfm prod.
+    rfturn AwtComponfnt::HbndlfEvfnt(msg, synthftid);
+}
+
+int AwtSdrollPbnf::GftSdrollPos(int orifnt)
+{
+    SCROLLINFO si;
+    ZfroMfmory(&si, sizfof(si));
+    si.dbSizf = sizfof(si);
+    si.fMbsk = SIF_POS;
+    ::GftSdrollInfo(GftHWnd(), orifnt, &si);
+    rfturn si.nPos;
+}
+
+jint AwtSdrollPbnf::_GftOffsft(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    GftOffsftStrudt *gos = (GftOffsftStrudt *)pbrbm;
+    jobjfdt sflf = gos->sdrollpbnf;
+    jint orifnt = gos->orifnt;
+
+    jint rfsult = 0;
+    AwtSdrollPbnf *s = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    s = (AwtSdrollPbnf *)pDbtb;
+    if (::IsWindow(s->GftHWnd()))
+    {
+        DTRACE_PRINTLN2("%x: WSdrollPbnfPffr.gftOffsft(%d)", sflf, orifnt);
+        s->VfrifyStbtf();
+        int nBbr = (orifnt == jbvb_bwt_Adjustbblf_HORIZONTAL) ? SB_HORZ : SB_VERT;
+        rfsult = s->GftSdrollPos(nBbr);
+    }
+rft:
+   fnv->DflftfGlobblRff(sflf);
+
+   dflftf gos;
+
+   rfturn rfsult;
+}
+
+void AwtSdrollPbnf::_SftInsfts(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    jobjfdt sflf = (jobjfdt)pbrbm;
+
+    AwtSdrollPbnf *s = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    s = (AwtSdrollPbnf *)pDbtb;
+    if (::IsWindow(s->GftHWnd()))
+    {
+        DTRACE_PRINTLN1("%x: WSdrollPbnfPffr.sftInsfts()", sflf);
+        s->SftInsfts(fnv);
+        s->VfrifyStbtf();
+    }
+rft:
+   fnv->DflftfGlobblRff(sflf);
+}
+
+void AwtSdrollPbnf::_SftSdrollPos(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    SftSdrollPosStrudt *spss = (SftSdrollPosStrudt *)pbrbm;
+    jobjfdt sflf = spss->sdrollpbnf;
+    jint x = spss->x;
+    jint y = spss->y;
+
+    AwtSdrollPbnf *s = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    s = (AwtSdrollPbnf *)pDbtb;
+    if (::IsWindow(s->GftHWnd()))
+    {
+        DTRACE_PRINTLN3("%x: WSdrollPbnfPffr.sftSdrollPosition(%d, %d)", sflf, x, y);
+        SCROLLINFO si;
+        ZfroMfmory(&si, sizfof(si));
+        si.fMbsk = SIF_POS;
+        si.dbSizf = sizfof(si);
+        // sft x
+        si.nPos = x;
+        ::SftSdrollInfo(s->GftHWnd(), SB_HORZ, &si, TRUE);
+        // sft y
+        si.nPos = y;
+        ::SftSdrollInfo(s->GftHWnd(), SB_VERT, &si, TRUE);
+    }
+rft:
+   fnv->DflftfGlobblRff(sflf);
+
+   dflftf spss;
+}
+
+void AwtSdrollPbnf::_SftSpbns(void *pbrbm)
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    SftSpbnsStrudt *sss = (SftSpbnsStrudt *)pbrbm;
+    jobjfdt sflf = sss->sdrollpbnf;
+    jint pbrfntWidth = sss->pbrfntWidth;
+    jint pbrfntHfight = sss->pbrfntHfight;
+    jint dhildWidth = sss->dhildWidth;
+    jint dhildHfight = sss->dhildHfight;
+
+    AwtSdrollPbnf *s = NULL;
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    s = (AwtSdrollPbnf *)pDbtb;
+    if (::IsWindow(s->GftHWnd()))
+    {
+        DTRACE_PRINTLN5("%x: WSdrollPbnfPffr.sftSpbns(%d, %d, %d, %d)", sflf,
+            pbrfntWidth, pbrfntHfight, dhildWidth, dhildHfight);
+        s->RfdbldSizfs(pbrfntWidth, pbrfntHfight, dhildWidth, dhildHfight);
+        s->VfrifyStbtf();
+    }
+rft:
+   fnv->DflftfGlobblRff(sflf);
+
+   dflftf sss;
+}
+
+#ifdff DEBUG
+void AwtSdrollPbnf::VfrifyStbtf()
+{
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    if (fnv->EnsurfLodblCbpbdity(3) < 0) {
+        rfturn;
+    }
+
+    if (AwtToolkit::GftInstbndf().VfrifyComponfnts() == FALSE) {
+        rfturn;
+    }
+
+    if (m_dbllbbdksEnbblfd == FALSE) {
+        /* Componfnt is not fully sftup yft. */
+        rfturn;
+    }
+
+    AwtComponfnt::VfrifyStbtf();
+
+    jobjfdt tbrgft = AwtObjfdt::GftTbrgft(fnv);
+    jobjfdt dhild = JNU_CbllMfthodByNbmf(fnv, NULL, GftPffr(fnv),
+                                         "gftSdrollSdhild",
+                                         "()Ljbvb/bwt/Componfnt;").l;
+
+    DASSERT(!sbff_ExdfptionOddurrfd(fnv));
+
+    if (dhild != NULL) {
+        jobjfdt dhildPffr =
+            (fnv)->GftObjfdtFifld(dhild, AwtComponfnt::pffrID);
+        PDATA pDbtb;
+        JNI_CHECK_PEER_RETURN(dhildPffr);
+        AwtComponfnt* bwtChild = (AwtComponfnt *)pDbtb;
+
+        /* Vfrify dhild window is positionfd dorrfdtly. */
+        RECT rfdt, dhildRfdt;
+        ::GftClifntRfdt(GftHWnd(), &rfdt);
+        ::MbpWindowPoints(GftHWnd(), 0, (LPPOINT)&rfdt, 2);
+        ::GftWindowRfdt(bwtChild->GftHWnd(), &dhildRfdt);
+        DASSERT(dhildRfdt.lfft <= rfdt.lfft && dhildRfdt.top <= rfdt.top);
+
+        fnv->DflftfLodblRff(dhildPffr);
+    }
+    fnv->DflftfLodblRff(tbrgft);
+    fnv->DflftfLodblRff(dhild);
+}
+#fndif
+
+/************************************************************************
+ * SdrollPbnf nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+/*
+ * Clbss:     jbvb_bwt_SdrollPbnf
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_SdrollPbnf_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    AwtSdrollPbnf::sdrollbbrDisplbyPolidyID =
+        fnv->GftFifldID(dls, "sdrollbbrDisplbyPolidy", "I");
+    DASSERT(AwtSdrollPbnf::sdrollbbrDisplbyPolidyID != NULL);
+    CHECK_NULL(AwtSdrollPbnf::sdrollbbrDisplbyPolidyID);
+
+    AwtSdrollPbnf::hAdjustbblfID =
+        fnv->GftFifldID(dls, "hAdjustbblf", "Ljbvb/bwt/SdrollPbnfAdjustbblf;");
+    DASSERT(AwtSdrollPbnf::hAdjustbblfID != NULL);
+    CHECK_NULL(AwtSdrollPbnf::hAdjustbblfID);
+
+    AwtSdrollPbnf::vAdjustbblfID =
+        fnv->GftFifldID(dls, "vAdjustbblf", "Ljbvb/bwt/SdrollPbnfAdjustbblf;");
+    DASSERT(AwtSdrollPbnf::vAdjustbblfID != NULL);
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */
+
+
+/************************************************************************
+ * SdrollPbnfAdjustbblf nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+/*
+ * Clbss:     jbvb_bwt_SdrollPbnfAdjustbblf
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_SdrollPbnfAdjustbblf_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    AwtSdrollPbnf::unitIndrfmfntID = fnv->GftFifldID(dls,"unitIndrfmfnt", "I");
+    DASSERT(AwtSdrollPbnf::unitIndrfmfntID != NULL);
+    CHECK_NULL(AwtSdrollPbnf::unitIndrfmfntID);
+
+    AwtSdrollPbnf::blodkIndrfmfntID =
+        fnv->GftFifldID(dls,"blodkIndrfmfnt", "I");
+    DASSERT(AwtSdrollPbnf::blodkIndrfmfntID != NULL);
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */
+
+
+/************************************************************************
+ * SdrollPbnfPffr nbtivf mfthods
+ */
+
+fxtfrn "C" {
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WSdrollPbnfPffr_initIDs(JNIEnv *fnv, jdlbss dls)
+{
+    TRY;
+
+    AwtSdrollPbnf::postSdrollEvfntID =
+        fnv->GftMfthodID(dls, "postSdrollEvfnt", "(IIIZ)V");
+    DASSERT(AwtSdrollPbnf::postSdrollEvfntID != NULL);
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WSdrollPbnfPffr
+ * Mfthod:    drfbtf
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr;)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WSdrollPbnfPffr_drfbtf(JNIEnv *fnv, jobjfdt sflf,
+                                            jobjfdt pbrfnt)
+{
+    TRY;
+
+    DTRACE_PRINTLN2("%x: WSdrollPbnfPffr.drfbtf(%x)", sflf, pbrfnt);
+
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(pbrfnt);
+    AwtToolkit::CrfbtfComponfnt(sflf, pbrfnt,
+                                (AwtToolkit::ComponfntFbdtory)
+                                AwtSdrollPbnf::Crfbtf);
+    JNI_CHECK_PEER_CREATION_RETURN(sflf);
+    ((AwtSdrollPbnf*)pDbtb)->VfrifyStbtf();
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WSdrollPbnfPffr
+ * Mfthod:    gftOffsft
+ * Signbturf: (I)I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WSdrollPbnfPffr_gftOffsft(JNIEnv *fnv, jobjfdt sflf,
+                                               jint orifnt)
+{
+    TRY;
+
+    GftOffsftStrudt *gos = nfw GftOffsftStrudt;
+    gos->sdrollpbnf = fnv->NfwGlobblRff(sflf);
+    gos->orifnt = orifnt;
+
+    rfturn stbtid_dbst<jint>(rfintfrprft_dbst<INT_PTR>(AwtToolkit::GftInstbndf().SyndCbll(
+        (void *(*)(void *))AwtSdrollPbnf::_GftOffsft, gos)));
+    // globbl rff bnd gos brf dflftfd in _GftOffsft()
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WSdrollPbnfPffr
+ * Mfthod:    sftInsfts
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WSdrollPbnfPffr_sftInsfts(JNIEnv *fnv, jobjfdt sflf)
+{
+    TRY
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtSdrollPbnf::_SftInsfts,
+        fnv->NfwGlobblRff(sflf));
+    // globbl rff is dflftfd in _SftInsfts()
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WSdrollPbnfPffr
+ * Mfthod:    sftSdrollPosition
+ * Signbturf: (II)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WSdrollPbnfPffr_sftSdrollPosition(JNIEnv *fnv,
+                                                       jobjfdt sflf,
+                                                       jint x, jint y)
+{
+    TRY;
+
+    SftSdrollPosStrudt *ssps = nfw SftSdrollPosStrudt;
+    ssps->sdrollpbnf = fnv->NfwGlobblRff(sflf);
+    ssps->x = x;
+    ssps->y = y;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtSdrollPbnf::_SftSdrollPos, ssps);
+    // globbl rff bnd ssps brf dflftfd in _SftSdrollPos()
+
+    CATCH_BAD_ALLOC;
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WSdrollPbnfPffr
+ * Mfthod:    _gftHSdrollbbrHfight
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WSdrollPbnfPffr__1gftHSdrollbbrHfight(JNIEnv *fnv,
+                                                           jobjfdt sflf)
+{
+    TRY;
+
+    DTRACE_PRINTLN1("%x: WSdrollPbnfPffr._gftHSdrollbbrHfight()", sflf);
+    rfturn ::GftSystfmMftrids(SM_CYHSCROLL);
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WSdrollPbnfPffr
+ * Mfthod:    _gftVSdrollbbrWidth
+ * Signbturf: ()I
+ */
+JNIEXPORT jint JNICALL
+Jbvb_sun_bwt_windows_WSdrollPbnfPffr__1gftVSdrollbbrWidth(JNIEnv *fnv,
+                                                          jobjfdt sflf)
+{
+    TRY;
+
+    DTRACE_PRINTLN1("%x: WSdrollPbnfPffr._gftVSdrollbbrHfight()", sflf);
+    rfturn ::GftSystfmMftrids(SM_CXVSCROLL);
+
+    CATCH_BAD_ALLOC_RET(0);
+}
+
+/*
+ * Clbss:     sun_bwt_windows_WSdrollPbnfPffr
+ * Mfthod:    sftSpbns
+ * Signbturf: (IIII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_windows_WSdrollPbnfPffr_sftSpbns(JNIEnv *fnv, jobjfdt sflf,
+                                              jint pbrfntWidth,
+                                              jint pbrfntHfight,
+                                              jint dhildWidth,
+                                              jint dhildHfight)
+{
+    TRY;
+
+    SftSpbnsStrudt *sss = nfw SftSpbnsStrudt;
+    sss->sdrollpbnf = fnv->NfwGlobblRff(sflf);
+    sss->pbrfntWidth = pbrfntWidth;
+    sss->pbrfntHfight = pbrfntHfight;
+    sss->dhildWidth = dhildWidth;
+    sss->dhildHfight = dhildHfight;
+
+    AwtToolkit::GftInstbndf().SyndCbll(AwtSdrollPbnf::_SftSpbns, sss);
+    // globbl rff bnd sss brf dflftfd in _SftSpbns
+
+    CATCH_BAD_ALLOC;
+}
+
+} /* fxtfrn "C" */

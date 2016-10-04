@@ -1,320 +1,320 @@
 /*
- * Copyright (c) 1997, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import javax.swing.plaf.basic.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
-import static com.sun.java.swing.plaf.windows.TMSchema.Part.*;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
-import sun.awt.AppContext;
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdifmb.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdifmb.Pbrt.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
+import sun.bwt.AppContfxt;
 
 
 /**
  * Windows button.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  *
- * @author Jeff Dinkins
+ * @butior Jfff Dinkins
  *
  */
-public class WindowsButtonUI extends BasicButtonUI
+publid dlbss WindowsButtonUI fxtfnds BbsidButtonUI
 {
-    protected int dashedRectGapX;
-    protected int dashedRectGapY;
-    protected int dashedRectGapWidth;
-    protected int dashedRectGapHeight;
+    protfdtfd int dbsifdRfdtGbpX;
+    protfdtfd int dbsifdRfdtGbpY;
+    protfdtfd int dbsifdRfdtGbpWidti;
+    protfdtfd int dbsifdRfdtGbpHfigit;
 
-    protected Color focusColor;
+    protfdtfd Color fodusColor;
 
-    private boolean defaults_initialized = false;
+    privbtf boolfbn dffbults_initiblizfd = fblsf;
 
-    private static final Object WINDOWS_BUTTON_UI_KEY = new Object();
+    privbtf stbtid finbl Objfdt WINDOWS_BUTTON_UI_KEY = nfw Objfdt();
 
     // ********************************
-    //          Create PLAF
+    //          Crfbtf PLAF
     // ********************************
-    public static ComponentUI createUI(JComponent c) {
-        AppContext appContext = AppContext.getAppContext();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
         WindowsButtonUI windowsButtonUI =
-                (WindowsButtonUI) appContext.get(WINDOWS_BUTTON_UI_KEY);
+                (WindowsButtonUI) bppContfxt.gft(WINDOWS_BUTTON_UI_KEY);
         if (windowsButtonUI == null) {
-            windowsButtonUI = new WindowsButtonUI();
-            appContext.put(WINDOWS_BUTTON_UI_KEY, windowsButtonUI);
+            windowsButtonUI = nfw WindowsButtonUI();
+            bppContfxt.put(WINDOWS_BUTTON_UI_KEY, windowsButtonUI);
         }
-        return windowsButtonUI;
+        rfturn windowsButtonUI;
     }
 
 
     // ********************************
-    //            Defaults
+    //            Dffbults
     // ********************************
-    protected void installDefaults(AbstractButton b) {
-        super.installDefaults(b);
-        if(!defaults_initialized) {
-            String pp = getPropertyPrefix();
-            dashedRectGapX = UIManager.getInt(pp + "dashedRectGapX");
-            dashedRectGapY = UIManager.getInt(pp + "dashedRectGapY");
-            dashedRectGapWidth = UIManager.getInt(pp + "dashedRectGapWidth");
-            dashedRectGapHeight = UIManager.getInt(pp + "dashedRectGapHeight");
-            focusColor = UIManager.getColor(pp + "focus");
-            defaults_initialized = true;
+    protfdtfd void instbllDffbults(AbstrbdtButton b) {
+        supfr.instbllDffbults(b);
+        if(!dffbults_initiblizfd) {
+            String pp = gftPropfrtyPrffix();
+            dbsifdRfdtGbpX = UIMbnbgfr.gftInt(pp + "dbsifdRfdtGbpX");
+            dbsifdRfdtGbpY = UIMbnbgfr.gftInt(pp + "dbsifdRfdtGbpY");
+            dbsifdRfdtGbpWidti = UIMbnbgfr.gftInt(pp + "dbsifdRfdtGbpWidti");
+            dbsifdRfdtGbpHfigit = UIMbnbgfr.gftInt(pp + "dbsifdRfdtGbpHfigit");
+            fodusColor = UIMbnbgfr.gftColor(pp + "fodus");
+            dffbults_initiblizfd = truf;
         }
 
-        XPStyle xp = XPStyle.getXP();
+        XPStylf xp = XPStylf.gftXP();
         if (xp != null) {
-            b.setBorder(xp.getBorder(b, getXPButtonType(b)));
-            LookAndFeel.installProperty(b, "rolloverEnabled", Boolean.TRUE);
+            b.sftBordfr(xp.gftBordfr(b, gftXPButtonTypf(b)));
+            LookAndFffl.instbllPropfrty(b, "rollovfrEnbblfd", Boolfbn.TRUE);
         }
     }
 
-    protected void uninstallDefaults(AbstractButton b) {
-        super.uninstallDefaults(b);
-        defaults_initialized = false;
+    protfdtfd void uninstbllDffbults(AbstrbdtButton b) {
+        supfr.uninstbllDffbults(b);
+        dffbults_initiblizfd = fblsf;
     }
 
-    protected Color getFocusColor() {
-        return focusColor;
+    protfdtfd Color gftFodusColor() {
+        rfturn fodusColor;
     }
 
     // ********************************
-    //         Paint Methods
+    //         Pbint Mftiods
     // ********************************
 
     /**
-     * Overridden method to render the text without the mnemonic
+     * Ovfrriddfn mftiod to rfndfr tif tfxt witiout tif mnfmonid
      */
-    protected void paintText(Graphics g, AbstractButton b, Rectangle textRect, String text) {
-        WindowsGraphicsUtils.paintText(g, b, textRect, text, getTextShiftOffset());
+    protfdtfd void pbintTfxt(Grbpiids g, AbstrbdtButton b, Rfdtbnglf tfxtRfdt, String tfxt) {
+        WindowsGrbpiidsUtils.pbintTfxt(g, b, tfxtRfdt, tfxt, gftTfxtSiiftOffsft());
     }
 
-    protected void paintFocus(Graphics g, AbstractButton b, Rectangle viewRect, Rectangle textRect, Rectangle iconRect){
+    protfdtfd void pbintFodus(Grbpiids g, AbstrbdtButton b, Rfdtbnglf vifwRfdt, Rfdtbnglf tfxtRfdt, Rfdtbnglf idonRfdt){
 
-        // focus painted same color as text on Basic??
-        int width = b.getWidth();
-        int height = b.getHeight();
-        g.setColor(getFocusColor());
-        BasicGraphicsUtils.drawDashedRect(g, dashedRectGapX, dashedRectGapY,
-                                          width - dashedRectGapWidth, height - dashedRectGapHeight);
+        // fodus pbintfd sbmf dolor bs tfxt on Bbsid??
+        int widti = b.gftWidti();
+        int ifigit = b.gftHfigit();
+        g.sftColor(gftFodusColor());
+        BbsidGrbpiidsUtils.drbwDbsifdRfdt(g, dbsifdRfdtGbpX, dbsifdRfdtGbpY,
+                                          widti - dbsifdRfdtGbpWidti, ifigit - dbsifdRfdtGbpHfigit);
     }
 
-    protected void paintButtonPressed(Graphics g, AbstractButton b){
-        setTextShiftOffset();
+    protfdtfd void pbintButtonPrfssfd(Grbpiids g, AbstrbdtButton b){
+        sftTfxtSiiftOffsft();
     }
 
     // ********************************
-    //          Layout Methods
+    //          Lbyout Mftiods
     // ********************************
-    public Dimension getPreferredSize(JComponent c) {
-        Dimension d = super.getPreferredSize(c);
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        Dimfnsion d = supfr.gftPrfffrrfdSizf(d);
 
-        /* Ensure that the width and height of the button is odd,
-         * to allow for the focus line if focus is painted
+        /* Ensurf tibt tif widti bnd ifigit of tif button is odd,
+         * to bllow for tif fodus linf if fodus is pbintfd
          */
-        AbstractButton b = (AbstractButton)c;
-        if (d != null && b.isFocusPainted()) {
-            if(d.width % 2 == 0) { d.width += 1; }
-            if(d.height % 2 == 0) { d.height += 1; }
+        AbstrbdtButton b = (AbstrbdtButton)d;
+        if (d != null && b.isFodusPbintfd()) {
+            if(d.widti % 2 == 0) { d.widti += 1; }
+            if(d.ifigit % 2 == 0) { d.ifigit += 1; }
         }
-        return d;
+        rfturn d;
     }
 
 
-    /* These rectangles/insets are allocated once for all
-     * ButtonUI.paint() calls.  Re-using rectangles rather than
-     * allocating them in each paint call substantially reduced the time
-     * it took paint to run.  Obviously, this method can't be re-entered.
+    /* Tifsf rfdtbnglfs/insfts brf bllodbtfd ondf for bll
+     * ButtonUI.pbint() dblls.  Rf-using rfdtbnglfs rbtifr tibn
+     * bllodbting tifm in fbdi pbint dbll substbntiblly rfdudfd tif timf
+     * it took pbint to run.  Obviously, tiis mftiod dbn't bf rf-fntfrfd.
      */
-    private Rectangle viewRect = new Rectangle();
+    privbtf Rfdtbnglf vifwRfdt = nfw Rfdtbnglf();
 
-    public void paint(Graphics g, JComponent c) {
-        if (XPStyle.getXP() != null) {
-            WindowsButtonUI.paintXPButtonBackground(g, c);
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        if (XPStylf.gftXP() != null) {
+            WindowsButtonUI.pbintXPButtonBbdkground(g, d);
         }
-        super.paint(g, c);
+        supfr.pbint(g, d);
     }
 
-    static Part getXPButtonType(AbstractButton b) {
-        if(b instanceof JCheckBox) {
-            return Part.BP_CHECKBOX;
+    stbtid Pbrt gftXPButtonTypf(AbstrbdtButton b) {
+        if(b instbndfof JCifdkBox) {
+            rfturn Pbrt.BP_CHECKBOX;
         }
-        if(b instanceof JRadioButton) {
-            return Part.BP_RADIOBUTTON;
+        if(b instbndfof JRbdioButton) {
+            rfturn Pbrt.BP_RADIOBUTTON;
         }
-        boolean toolbar = (b.getParent() instanceof JToolBar);
-        return toolbar ? Part.TP_BUTTON : Part.BP_PUSHBUTTON;
+        boolfbn toolbbr = (b.gftPbrfnt() instbndfof JToolBbr);
+        rfturn toolbbr ? Pbrt.TP_BUTTON : Pbrt.BP_PUSHBUTTON;
     }
 
-    static State getXPButtonState(AbstractButton b) {
-        Part part = getXPButtonType(b);
-        ButtonModel model = b.getModel();
-        State state = State.NORMAL;
-        switch (part) {
-        case BP_RADIOBUTTON:
-            /* falls through */
-        case BP_CHECKBOX:
-            if (! model.isEnabled()) {
-                state = (model.isSelected()) ? State.CHECKEDDISABLED
-                    : State.UNCHECKEDDISABLED;
-            } else if (model.isPressed() && model.isArmed()) {
-                state = (model.isSelected()) ? State.CHECKEDPRESSED
-                    : State.UNCHECKEDPRESSED;
-            } else if (model.isRollover()) {
-                state = (model.isSelected()) ? State.CHECKEDHOT
-                    : State.UNCHECKEDHOT;
-            } else {
-                state = (model.isSelected()) ? State.CHECKEDNORMAL
-                    : State.UNCHECKEDNORMAL;
+    stbtid Stbtf gftXPButtonStbtf(AbstrbdtButton b) {
+        Pbrt pbrt = gftXPButtonTypf(b);
+        ButtonModfl modfl = b.gftModfl();
+        Stbtf stbtf = Stbtf.NORMAL;
+        switdi (pbrt) {
+        dbsf BP_RADIOBUTTON:
+            /* fblls tirougi */
+        dbsf BP_CHECKBOX:
+            if (! modfl.isEnbblfd()) {
+                stbtf = (modfl.isSflfdtfd()) ? Stbtf.CHECKEDDISABLED
+                    : Stbtf.UNCHECKEDDISABLED;
+            } flsf if (modfl.isPrfssfd() && modfl.isArmfd()) {
+                stbtf = (modfl.isSflfdtfd()) ? Stbtf.CHECKEDPRESSED
+                    : Stbtf.UNCHECKEDPRESSED;
+            } flsf if (modfl.isRollovfr()) {
+                stbtf = (modfl.isSflfdtfd()) ? Stbtf.CHECKEDHOT
+                    : Stbtf.UNCHECKEDHOT;
+            } flsf {
+                stbtf = (modfl.isSflfdtfd()) ? Stbtf.CHECKEDNORMAL
+                    : Stbtf.UNCHECKEDNORMAL;
             }
-            break;
-        case BP_PUSHBUTTON:
-            /* falls through */
-        case TP_BUTTON:
-            boolean toolbar = (b.getParent() instanceof JToolBar);
-            if (toolbar) {
-                if (model.isArmed() && model.isPressed()) {
-                    state = State.PRESSED;
-                } else if (!model.isEnabled()) {
-                    state = State.DISABLED;
-                } else if (model.isSelected() && model.isRollover()) {
-                    state = State.HOTCHECKED;
-                } else if (model.isSelected()) {
-                    state = State.CHECKED;
-                } else if (model.isRollover()) {
-                    state = State.HOT;
-                } else if (b.hasFocus()) {
-                    state = State.HOT;
+            brfbk;
+        dbsf BP_PUSHBUTTON:
+            /* fblls tirougi */
+        dbsf TP_BUTTON:
+            boolfbn toolbbr = (b.gftPbrfnt() instbndfof JToolBbr);
+            if (toolbbr) {
+                if (modfl.isArmfd() && modfl.isPrfssfd()) {
+                    stbtf = Stbtf.PRESSED;
+                } flsf if (!modfl.isEnbblfd()) {
+                    stbtf = Stbtf.DISABLED;
+                } flsf if (modfl.isSflfdtfd() && modfl.isRollovfr()) {
+                    stbtf = Stbtf.HOTCHECKED;
+                } flsf if (modfl.isSflfdtfd()) {
+                    stbtf = Stbtf.CHECKED;
+                } flsf if (modfl.isRollovfr()) {
+                    stbtf = Stbtf.HOT;
+                } flsf if (b.ibsFodus()) {
+                    stbtf = Stbtf.HOT;
                 }
-            } else {
-                if ((model.isArmed() && model.isPressed())
-                      || model.isSelected()) {
-                    state = State.PRESSED;
-                } else if (!model.isEnabled()) {
-                    state = State.DISABLED;
-                } else if (model.isRollover() || model.isPressed()) {
-                    state = State.HOT;
-                } else if (b instanceof JButton
-                           && ((JButton)b).isDefaultButton()) {
-                    state = State.DEFAULTED;
-                } else if (b.hasFocus()) {
-                    state = State.HOT;
+            } flsf {
+                if ((modfl.isArmfd() && modfl.isPrfssfd())
+                      || modfl.isSflfdtfd()) {
+                    stbtf = Stbtf.PRESSED;
+                } flsf if (!modfl.isEnbblfd()) {
+                    stbtf = Stbtf.DISABLED;
+                } flsf if (modfl.isRollovfr() || modfl.isPrfssfd()) {
+                    stbtf = Stbtf.HOT;
+                } flsf if (b instbndfof JButton
+                           && ((JButton)b).isDffbultButton()) {
+                    stbtf = Stbtf.DEFAULTED;
+                } flsf if (b.ibsFodus()) {
+                    stbtf = Stbtf.HOT;
                 }
             }
-            break;
-        default :
-            state = State.NORMAL;
+            brfbk;
+        dffbult :
+            stbtf = Stbtf.NORMAL;
         }
 
-        return state;
+        rfturn stbtf;
     }
 
-    static void paintXPButtonBackground(Graphics g, JComponent c) {
-        AbstractButton b = (AbstractButton)c;
+    stbtid void pbintXPButtonBbdkground(Grbpiids g, JComponfnt d) {
+        AbstrbdtButton b = (AbstrbdtButton)d;
 
-        XPStyle xp = XPStyle.getXP();
+        XPStylf xp = XPStylf.gftXP();
 
-        Part part = getXPButtonType(b);
+        Pbrt pbrt = gftXPButtonTypf(b);
 
-        if (b.isContentAreaFilled() && xp != null) {
+        if (b.isContfntArfbFillfd() && xp != null) {
 
-            Skin skin = xp.getSkin(b, part);
+            Skin skin = xp.gftSkin(b, pbrt);
 
-            State state = getXPButtonState(b);
-            Dimension d = c.getSize();
+            Stbtf stbtf = gftXPButtonStbtf(b);
+            Dimfnsion d = d.gftSizf();
             int dx = 0;
             int dy = 0;
-            int dw = d.width;
-            int dh = d.height;
+            int dw = d.widti;
+            int di = d.ifigit;
 
-            Border border = c.getBorder();
-            Insets insets;
-            if (border != null) {
-                // Note: The border may be compound, containing an outer
-                // opaque border (supplied by the application), plus an
-                // inner transparent margin border. We want to size the
-                // background to fill the transparent part, but stay
-                // inside the opaque part.
-                insets = WindowsButtonUI.getOpaqueInsets(border, c);
-            } else {
-                insets = c.getInsets();
+            Bordfr bordfr = d.gftBordfr();
+            Insfts insfts;
+            if (bordfr != null) {
+                // Notf: Tif bordfr mby bf dompound, dontbining bn outfr
+                // opbquf bordfr (supplifd by tif bpplidbtion), plus bn
+                // innfr trbnspbrfnt mbrgin bordfr. Wf wbnt to sizf tif
+                // bbdkground to fill tif trbnspbrfnt pbrt, but stby
+                // insidf tif opbquf pbrt.
+                insfts = WindowsButtonUI.gftOpbqufInsfts(bordfr, d);
+            } flsf {
+                insfts = d.gftInsfts();
             }
-            if (insets != null) {
-                dx += insets.left;
-                dy += insets.top;
-                dw -= (insets.left + insets.right);
-                dh -= (insets.top + insets.bottom);
+            if (insfts != null) {
+                dx += insfts.lfft;
+                dy += insfts.top;
+                dw -= (insfts.lfft + insfts.rigit);
+                di -= (insfts.top + insfts.bottom);
             }
-            skin.paintSkin(g, dx, dy, dw, dh, state);
+            skin.pbintSkin(g, dx, dy, dw, di, stbtf);
         }
     }
 
     /**
-     * returns - b.getBorderInsets(c) if border is opaque
-     *         - null if border is completely non-opaque
-     *         - somewhere inbetween if border is compound and
-     *              outside border is opaque and inside isn't
+     * rfturns - b.gftBordfrInsfts(d) if bordfr is opbquf
+     *         - null if bordfr is domplftfly non-opbquf
+     *         - somfwifrf inbftwffn if bordfr is dompound bnd
+     *              outsidf bordfr is opbquf bnd insidf isn't
      */
-    private static Insets getOpaqueInsets(Border b, Component c) {
+    privbtf stbtid Insfts gftOpbqufInsfts(Bordfr b, Componfnt d) {
         if (b == null) {
-            return null;
+            rfturn null;
         }
-        if (b.isBorderOpaque()) {
-            return b.getBorderInsets(c);
-        } else if (b instanceof CompoundBorder) {
-            CompoundBorder cb = (CompoundBorder)b;
-            Insets iOut = getOpaqueInsets(cb.getOutsideBorder(), c);
-            if (iOut != null && iOut.equals(cb.getOutsideBorder().getBorderInsets(c))) {
-                // Outside border is opaque, keep looking
-                Insets iIn = getOpaqueInsets(cb.getInsideBorder(), c);
+        if (b.isBordfrOpbquf()) {
+            rfturn b.gftBordfrInsfts(d);
+        } flsf if (b instbndfof CompoundBordfr) {
+            CompoundBordfr db = (CompoundBordfr)b;
+            Insfts iOut = gftOpbqufInsfts(db.gftOutsidfBordfr(), d);
+            if (iOut != null && iOut.fqubls(db.gftOutsidfBordfr().gftBordfrInsfts(d))) {
+                // Outsidf bordfr is opbquf, kffp looking
+                Insfts iIn = gftOpbqufInsfts(db.gftInsidfBordfr(), d);
                 if (iIn == null) {
-                    // Inside is non-opaque, use outside insets
-                    return iOut;
-                } else {
-                    // Found non-opaque somewhere in the inside (which is
-                    // also compound).
-                    return new Insets(iOut.top + iIn.top, iOut.left + iIn.left,
-                                      iOut.bottom + iIn.bottom, iOut.right + iIn.right);
+                    // Insidf is non-opbquf, usf outsidf insfts
+                    rfturn iOut;
+                } flsf {
+                    // Found non-opbquf somfwifrf in tif insidf (wiidi is
+                    // blso dompound).
+                    rfturn nfw Insfts(iOut.top + iIn.top, iOut.lfft + iIn.lfft,
+                                      iOut.bottom + iIn.bottom, iOut.rigit + iIn.rigit);
                 }
-            } else {
-                // Outside is either all non-opaque or has non-opaque
-                // border inside another compound border
-                return iOut;
+            } flsf {
+                // Outsidf is fitifr bll non-opbquf or ibs non-opbquf
+                // bordfr insidf bnotifr dompound bordfr
+                rfturn iOut;
             }
-        } else {
-            return null;
+        } flsf {
+            rfturn null;
         }
     }
 }

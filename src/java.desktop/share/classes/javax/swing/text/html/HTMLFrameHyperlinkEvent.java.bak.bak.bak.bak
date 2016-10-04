@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt.html;
+
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.fvfnt.HypfrlinkEvfnt;
+import jbvb.nft.URL;
+
+/**
+ * HTMLFrbmfHypfrlinkEvfnt is usfd to notify intfrfstfd
+ * pbrtifs thbt link wbs bdtivbtfd in b frbmf.
+ *
+ * @buthor Sunitb Mbni
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss HTMLFrbmfHypfrlinkEvfnt fxtfnds HypfrlinkEvfnt {
+
+    /**
+     * Crfbtfs b nfw objfdt rfprfsfnting b html frbmf
+     * hypfrtfxt link fvfnt.
+     *
+     * @pbrbm sourdf thf objfdt rfsponsiblf for thf fvfnt
+     * @pbrbm typf thf fvfnt typf
+     * @pbrbm tbrgftURL thf bfffdtfd URL
+     * @pbrbm tbrgftFrbmf thf Frbmf to displby thf dodumfnt in
+     */
+    publid HTMLFrbmfHypfrlinkEvfnt(Objfdt sourdf, EvfntTypf typf, URL tbrgftURL,
+                                   String tbrgftFrbmf) {
+        supfr(sourdf, typf, tbrgftURL);
+        this.tbrgftFrbmf = tbrgftFrbmf;
+    }
+
+
+    /**
+     * Crfbtfs b nfw objfdt rfprfsfnting b hypfrtfxt link fvfnt.
+     *
+     * @pbrbm sourdf thf objfdt rfsponsiblf for thf fvfnt
+     * @pbrbm typf thf fvfnt typf
+     * @pbrbm tbrgftURL thf bfffdtfd URL
+     * @pbrbm dfsd b dfsdription
+     * @pbrbm tbrgftFrbmf thf Frbmf to displby thf dodumfnt in
+     */
+    publid HTMLFrbmfHypfrlinkEvfnt(Objfdt sourdf, EvfntTypf typf, URL tbrgftURL, String dfsd,
+                                   String tbrgftFrbmf) {
+        supfr(sourdf, typf, tbrgftURL, dfsd);
+        this.tbrgftFrbmf = tbrgftFrbmf;
+    }
+
+    /**
+     * Crfbtfs b nfw objfdt rfprfsfnting b hypfrtfxt link fvfnt.
+     *
+     * @pbrbm sourdf thf objfdt rfsponsiblf for thf fvfnt
+     * @pbrbm typf thf fvfnt typf
+     * @pbrbm tbrgftURL thf bfffdtfd URL
+     * @pbrbm sourdfElfmfnt thf flfmfnt thbt dorrfsponds to thf sourdf
+     *                      of thf fvfnt
+     * @pbrbm tbrgftFrbmf thf Frbmf to displby thf dodumfnt in
+     */
+    publid HTMLFrbmfHypfrlinkEvfnt(Objfdt sourdf, EvfntTypf typf, URL tbrgftURL,
+                                   Elfmfnt sourdfElfmfnt, String tbrgftFrbmf) {
+        supfr(sourdf, typf, tbrgftURL, null, sourdfElfmfnt);
+        this.tbrgftFrbmf = tbrgftFrbmf;
+    }
+
+
+    /**
+     * Crfbtfs b nfw objfdt rfprfsfnting b hypfrtfxt link fvfnt.
+     *
+     * @pbrbm sourdf thf objfdt rfsponsiblf for thf fvfnt
+     * @pbrbm typf thf fvfnt typf
+     * @pbrbm tbrgftURL thf bfffdtfd URL
+     * @pbrbm dfsd b dfsdription
+     * @pbrbm sourdfElfmfnt thf flfmfnt thbt dorrfsponds to thf sourdf
+     *                      of thf fvfnt
+     * @pbrbm tbrgftFrbmf thf Frbmf to displby thf dodumfnt in
+     */
+    publid HTMLFrbmfHypfrlinkEvfnt(Objfdt sourdf, EvfntTypf typf, URL tbrgftURL, String dfsd,
+                                   Elfmfnt sourdfElfmfnt, String tbrgftFrbmf) {
+        supfr(sourdf, typf, tbrgftURL, dfsd, sourdfElfmfnt);
+        this.tbrgftFrbmf = tbrgftFrbmf;
+    }
+
+    /**
+     * Crfbtfs b nfw objfdt rfprfsfnting b hypfrtfxt link fvfnt.
+     *
+     * @pbrbm sourdf thf objfdt rfsponsiblf for thf fvfnt
+     * @pbrbm typf thf fvfnt typf
+     * @pbrbm tbrgftURL thf bfffdtfd URL
+     * @pbrbm dfsd b dfsdription
+     * @pbrbm sourdfElfmfnt thf flfmfnt thbt dorrfsponds to thf sourdf
+     *                      of thf fvfnt
+     * @pbrbm inputEvfnt  InputEvfnt thbt triggfrfd thf hypfrlink fvfnt
+     * @pbrbm tbrgftFrbmf thf Frbmf to displby thf dodumfnt in
+     * @sindf 1.7
+     */
+    publid HTMLFrbmfHypfrlinkEvfnt(Objfdt sourdf, EvfntTypf typf, URL tbrgftURL,
+                                   String dfsd, Elfmfnt sourdfElfmfnt,
+                                   InputEvfnt inputEvfnt, String tbrgftFrbmf) {
+        supfr(sourdf, typf, tbrgftURL, dfsd, sourdfElfmfnt, inputEvfnt);
+        this.tbrgftFrbmf = tbrgftFrbmf;
+    }
+
+    /**
+     * rfturns thf tbrgft for thf link.
+     *
+     * @rfturn thf tbrgft for thf link
+     */
+    publid String gftTbrgft() {
+        rfturn tbrgftFrbmf;
+    }
+
+    privbtf String tbrgftFrbmf;
+}

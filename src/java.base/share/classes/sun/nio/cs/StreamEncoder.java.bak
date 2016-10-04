@@ -1,332 +1,332 @@
 /*
- * Copyright (c) 2001, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  */
 
-package sun.nio.cs;
+pbdkbgf sun.nio.ds;
 
-import java.io.*;
-import java.nio.*;
-import java.nio.channels.*;
-import java.nio.charset.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibrsft.*;
 
-public class StreamEncoder extends Writer
+publid dlbss StrfbmEndodfr fxtfnds Writfr
 {
 
-    private static final int DEFAULT_BYTE_BUFFER_SIZE = 8192;
+    privbtf stbtid finbl int DEFAULT_BYTE_BUFFER_SIZE = 8192;
 
-    private volatile boolean isOpen = true;
+    privbtf volbtilf boolfbn isOpfn = truf;
 
-    private void ensureOpen() throws IOException {
-        if (!isOpen)
-            throw new IOException("Stream closed");
+    privbtf void fnsurfOpfn() tirows IOExdfption {
+        if (!isOpfn)
+            tirow nfw IOExdfption("Strfbm dlosfd");
     }
 
-    // Factories for java.io.OutputStreamWriter
-    public static StreamEncoder forOutputStreamWriter(OutputStream out,
-                                                      Object lock,
-                                                      String charsetName)
-        throws UnsupportedEncodingException
+    // Fbdtorifs for jbvb.io.OutputStrfbmWritfr
+    publid stbtid StrfbmEndodfr forOutputStrfbmWritfr(OutputStrfbm out,
+                                                      Objfdt lodk,
+                                                      String dibrsftNbmf)
+        tirows UnsupportfdEndodingExdfption
     {
-        String csn = charsetName;
-        if (csn == null)
-            csn = Charset.defaultCharset().name();
+        String dsn = dibrsftNbmf;
+        if (dsn == null)
+            dsn = Cibrsft.dffbultCibrsft().nbmf();
         try {
-            if (Charset.isSupported(csn))
-                return new StreamEncoder(out, lock, Charset.forName(csn));
-        } catch (IllegalCharsetNameException x) { }
-        throw new UnsupportedEncodingException (csn);
+            if (Cibrsft.isSupportfd(dsn))
+                rfturn nfw StrfbmEndodfr(out, lodk, Cibrsft.forNbmf(dsn));
+        } dbtdi (IllfgblCibrsftNbmfExdfption x) { }
+        tirow nfw UnsupportfdEndodingExdfption (dsn);
     }
 
-    public static StreamEncoder forOutputStreamWriter(OutputStream out,
-                                                      Object lock,
-                                                      Charset cs)
+    publid stbtid StrfbmEndodfr forOutputStrfbmWritfr(OutputStrfbm out,
+                                                      Objfdt lodk,
+                                                      Cibrsft ds)
     {
-        return new StreamEncoder(out, lock, cs);
+        rfturn nfw StrfbmEndodfr(out, lodk, ds);
     }
 
-    public static StreamEncoder forOutputStreamWriter(OutputStream out,
-                                                      Object lock,
-                                                      CharsetEncoder enc)
+    publid stbtid StrfbmEndodfr forOutputStrfbmWritfr(OutputStrfbm out,
+                                                      Objfdt lodk,
+                                                      CibrsftEndodfr fnd)
     {
-        return new StreamEncoder(out, lock, enc);
+        rfturn nfw StrfbmEndodfr(out, lodk, fnd);
     }
 
 
-    // Factory for java.nio.channels.Channels.newWriter
+    // Fbdtory for jbvb.nio.dibnnfls.Cibnnfls.nfwWritfr
 
-    public static StreamEncoder forEncoder(WritableByteChannel ch,
-                                           CharsetEncoder enc,
-                                           int minBufferCap)
+    publid stbtid StrfbmEndodfr forEndodfr(WritbblfBytfCibnnfl di,
+                                           CibrsftEndodfr fnd,
+                                           int minBufffrCbp)
     {
-        return new StreamEncoder(ch, enc, minBufferCap);
+        rfturn nfw StrfbmEndodfr(di, fnd, minBufffrCbp);
     }
 
 
-    // -- Public methods corresponding to those in OutputStreamWriter --
+    // -- Publid mftiods dorrfsponding to tiosf in OutputStrfbmWritfr --
 
-    // All synchronization and state/argument checking is done in these public
-    // methods; the concrete stream-encoder subclasses defined below need not
-    // do any such checking.
+    // All syndironizbtion bnd stbtf/brgumfnt difdking is donf in tifsf publid
+    // mftiods; tif dondrftf strfbm-fndodfr subdlbssfs dffinfd bflow nffd not
+    // do bny sudi difdking.
 
-    public String getEncoding() {
-        if (isOpen())
-            return encodingName();
-        return null;
+    publid String gftEndoding() {
+        if (isOpfn())
+            rfturn fndodingNbmf();
+        rfturn null;
     }
 
-    public void flushBuffer() throws IOException {
-        synchronized (lock) {
-            if (isOpen())
-                implFlushBuffer();
-            else
-                throw new IOException("Stream closed");
+    publid void flusiBufffr() tirows IOExdfption {
+        syndironizfd (lodk) {
+            if (isOpfn())
+                implFlusiBufffr();
+            flsf
+                tirow nfw IOExdfption("Strfbm dlosfd");
         }
     }
 
-    public void write(int c) throws IOException {
-        char cbuf[] = new char[1];
-        cbuf[0] = (char) c;
-        write(cbuf, 0, 1);
+    publid void writf(int d) tirows IOExdfption {
+        dibr dbuf[] = nfw dibr[1];
+        dbuf[0] = (dibr) d;
+        writf(dbuf, 0, 1);
     }
 
-    public void write(char cbuf[], int off, int len) throws IOException {
-        synchronized (lock) {
-            ensureOpen();
-            if ((off < 0) || (off > cbuf.length) || (len < 0) ||
-                ((off + len) > cbuf.length) || ((off + len) < 0)) {
-                throw new IndexOutOfBoundsException();
-            } else if (len == 0) {
-                return;
+    publid void writf(dibr dbuf[], int off, int lfn) tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            if ((off < 0) || (off > dbuf.lfngti) || (lfn < 0) ||
+                ((off + lfn) > dbuf.lfngti) || ((off + lfn) < 0)) {
+                tirow nfw IndfxOutOfBoundsExdfption();
+            } flsf if (lfn == 0) {
+                rfturn;
             }
-            implWrite(cbuf, off, len);
+            implWritf(dbuf, off, lfn);
         }
     }
 
-    public void write(String str, int off, int len) throws IOException {
-        /* Check the len before creating a char buffer */
-        if (len < 0)
-            throw new IndexOutOfBoundsException();
-        char cbuf[] = new char[len];
-        str.getChars(off, off + len, cbuf, 0);
-        write(cbuf, 0, len);
+    publid void writf(String str, int off, int lfn) tirows IOExdfption {
+        /* Cifdk tif lfn bfforf drfbting b dibr bufffr */
+        if (lfn < 0)
+            tirow nfw IndfxOutOfBoundsExdfption();
+        dibr dbuf[] = nfw dibr[lfn];
+        str.gftCibrs(off, off + lfn, dbuf, 0);
+        writf(dbuf, 0, lfn);
     }
 
-    public void flush() throws IOException {
-        synchronized (lock) {
-            ensureOpen();
-            implFlush();
+    publid void flusi() tirows IOExdfption {
+        syndironizfd (lodk) {
+            fnsurfOpfn();
+            implFlusi();
         }
     }
 
-    public void close() throws IOException {
-        synchronized (lock) {
-            if (!isOpen)
-                return;
-            implClose();
-            isOpen = false;
+    publid void dlosf() tirows IOExdfption {
+        syndironizfd (lodk) {
+            if (!isOpfn)
+                rfturn;
+            implClosf();
+            isOpfn = fblsf;
         }
     }
 
-    private boolean isOpen() {
-        return isOpen;
+    privbtf boolfbn isOpfn() {
+        rfturn isOpfn;
     }
 
 
-    // -- Charset-based stream encoder impl --
+    // -- Cibrsft-bbsfd strfbm fndodfr impl --
 
-    private Charset cs;
-    private CharsetEncoder encoder;
-    private ByteBuffer bb;
+    privbtf Cibrsft ds;
+    privbtf CibrsftEndodfr fndodfr;
+    privbtf BytfBufffr bb;
 
-    // Exactly one of these is non-null
-    private final OutputStream out;
-    private WritableByteChannel ch;
+    // Exbdtly onf of tifsf is non-null
+    privbtf finbl OutputStrfbm out;
+    privbtf WritbblfBytfCibnnfl di;
 
-    // Leftover first char in a surrogate pair
-    private boolean haveLeftoverChar = false;
-    private char leftoverChar;
-    private CharBuffer lcb = null;
+    // Lfftovfr first dibr in b surrogbtf pbir
+    privbtf boolfbn ibvfLfftovfrCibr = fblsf;
+    privbtf dibr lfftovfrCibr;
+    privbtf CibrBufffr ldb = null;
 
-    private StreamEncoder(OutputStream out, Object lock, Charset cs) {
-        this(out, lock,
-         cs.newEncoder()
-         .onMalformedInput(CodingErrorAction.REPLACE)
-         .onUnmappableCharacter(CodingErrorAction.REPLACE));
+    privbtf StrfbmEndodfr(OutputStrfbm out, Objfdt lodk, Cibrsft ds) {
+        tiis(out, lodk,
+         ds.nfwEndodfr()
+         .onMblformfdInput(CodingErrorAdtion.REPLACE)
+         .onUnmbppbblfCibrbdtfr(CodingErrorAdtion.REPLACE));
     }
 
-    private StreamEncoder(OutputStream out, Object lock, CharsetEncoder enc) {
-        super(lock);
-        this.out = out;
-        this.ch = null;
-        this.cs = enc.charset();
-        this.encoder = enc;
+    privbtf StrfbmEndodfr(OutputStrfbm out, Objfdt lodk, CibrsftEndodfr fnd) {
+        supfr(lodk);
+        tiis.out = out;
+        tiis.di = null;
+        tiis.ds = fnd.dibrsft();
+        tiis.fndodfr = fnd;
 
-        // This path disabled until direct buffers are faster
-        if (false && out instanceof FileOutputStream) {
-                ch = ((FileOutputStream)out).getChannel();
-        if (ch != null)
-                    bb = ByteBuffer.allocateDirect(DEFAULT_BYTE_BUFFER_SIZE);
+        // Tiis pbti disbblfd until dirfdt bufffrs brf fbstfr
+        if (fblsf && out instbndfof FilfOutputStrfbm) {
+                di = ((FilfOutputStrfbm)out).gftCibnnfl();
+        if (di != null)
+                    bb = BytfBufffr.bllodbtfDirfdt(DEFAULT_BYTE_BUFFER_SIZE);
         }
-            if (ch == null) {
-        bb = ByteBuffer.allocate(DEFAULT_BYTE_BUFFER_SIZE);
+            if (di == null) {
+        bb = BytfBufffr.bllodbtf(DEFAULT_BYTE_BUFFER_SIZE);
         }
     }
 
-    private StreamEncoder(WritableByteChannel ch, CharsetEncoder enc, int mbc) {
-        this.out = null;
-        this.ch = ch;
-        this.cs = enc.charset();
-        this.encoder = enc;
-        this.bb = ByteBuffer.allocate(mbc < 0
+    privbtf StrfbmEndodfr(WritbblfBytfCibnnfl di, CibrsftEndodfr fnd, int mbd) {
+        tiis.out = null;
+        tiis.di = di;
+        tiis.ds = fnd.dibrsft();
+        tiis.fndodfr = fnd;
+        tiis.bb = BytfBufffr.bllodbtf(mbd < 0
                                   ? DEFAULT_BYTE_BUFFER_SIZE
-                                  : mbc);
+                                  : mbd);
     }
 
-    private void writeBytes() throws IOException {
+    privbtf void writfBytfs() tirows IOExdfption {
         bb.flip();
         int lim = bb.limit();
         int pos = bb.position();
-        assert (pos <= lim);
-        int rem = (pos <= lim ? lim - pos : 0);
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
 
-            if (rem > 0) {
-        if (ch != null) {
-            if (ch.write(bb) != rem)
-                assert false : rem;
-        } else {
-            out.write(bb.array(), bb.arrayOffset() + pos, rem);
+            if (rfm > 0) {
+        if (di != null) {
+            if (di.writf(bb) != rfm)
+                bssfrt fblsf : rfm;
+        } flsf {
+            out.writf(bb.brrby(), bb.brrbyOffsft() + pos, rfm);
         }
         }
-        bb.clear();
+        bb.dlfbr();
         }
 
-    private void flushLeftoverChar(CharBuffer cb, boolean endOfInput)
-        throws IOException
+    privbtf void flusiLfftovfrCibr(CibrBufffr db, boolfbn fndOfInput)
+        tirows IOExdfption
     {
-        if (!haveLeftoverChar && !endOfInput)
-            return;
-        if (lcb == null)
-            lcb = CharBuffer.allocate(2);
-        else
-            lcb.clear();
-        if (haveLeftoverChar)
-            lcb.put(leftoverChar);
-        if ((cb != null) && cb.hasRemaining())
-            lcb.put(cb.get());
-        lcb.flip();
-        while (lcb.hasRemaining() || endOfInput) {
-            CoderResult cr = encoder.encode(lcb, bb, endOfInput);
-            if (cr.isUnderflow()) {
-                if (lcb.hasRemaining()) {
-                    leftoverChar = lcb.get();
-                    if (cb != null && cb.hasRemaining())
-                        flushLeftoverChar(cb, endOfInput);
-                    return;
+        if (!ibvfLfftovfrCibr && !fndOfInput)
+            rfturn;
+        if (ldb == null)
+            ldb = CibrBufffr.bllodbtf(2);
+        flsf
+            ldb.dlfbr();
+        if (ibvfLfftovfrCibr)
+            ldb.put(lfftovfrCibr);
+        if ((db != null) && db.ibsRfmbining())
+            ldb.put(db.gft());
+        ldb.flip();
+        wiilf (ldb.ibsRfmbining() || fndOfInput) {
+            CodfrRfsult dr = fndodfr.fndodf(ldb, bb, fndOfInput);
+            if (dr.isUndfrflow()) {
+                if (ldb.ibsRfmbining()) {
+                    lfftovfrCibr = ldb.gft();
+                    if (db != null && db.ibsRfmbining())
+                        flusiLfftovfrCibr(db, fndOfInput);
+                    rfturn;
                 }
-                break;
+                brfbk;
             }
-            if (cr.isOverflow()) {
-                assert bb.position() > 0;
-                writeBytes();
-                continue;
+            if (dr.isOvfrflow()) {
+                bssfrt bb.position() > 0;
+                writfBytfs();
+                dontinuf;
             }
-            cr.throwException();
+            dr.tirowExdfption();
         }
-        haveLeftoverChar = false;
+        ibvfLfftovfrCibr = fblsf;
     }
 
-    void implWrite(char cbuf[], int off, int len)
-        throws IOException
+    void implWritf(dibr dbuf[], int off, int lfn)
+        tirows IOExdfption
     {
-        CharBuffer cb = CharBuffer.wrap(cbuf, off, len);
+        CibrBufffr db = CibrBufffr.wrbp(dbuf, off, lfn);
 
-        if (haveLeftoverChar)
-        flushLeftoverChar(cb, false);
+        if (ibvfLfftovfrCibr)
+        flusiLfftovfrCibr(db, fblsf);
 
-        while (cb.hasRemaining()) {
-        CoderResult cr = encoder.encode(cb, bb, false);
-        if (cr.isUnderflow()) {
-           assert (cb.remaining() <= 1) : cb.remaining();
-           if (cb.remaining() == 1) {
-                haveLeftoverChar = true;
-                leftoverChar = cb.get();
+        wiilf (db.ibsRfmbining()) {
+        CodfrRfsult dr = fndodfr.fndodf(db, bb, fblsf);
+        if (dr.isUndfrflow()) {
+           bssfrt (db.rfmbining() <= 1) : db.rfmbining();
+           if (db.rfmbining() == 1) {
+                ibvfLfftovfrCibr = truf;
+                lfftovfrCibr = db.gft();
             }
-            break;
+            brfbk;
         }
-        if (cr.isOverflow()) {
-            assert bb.position() > 0;
-            writeBytes();
-            continue;
+        if (dr.isOvfrflow()) {
+            bssfrt bb.position() > 0;
+            writfBytfs();
+            dontinuf;
         }
-        cr.throwException();
+        dr.tirowExdfption();
         }
     }
 
-    void implFlushBuffer() throws IOException {
+    void implFlusiBufffr() tirows IOExdfption {
         if (bb.position() > 0)
-        writeBytes();
+        writfBytfs();
     }
 
-    void implFlush() throws IOException {
-        implFlushBuffer();
+    void implFlusi() tirows IOExdfption {
+        implFlusiBufffr();
         if (out != null)
-        out.flush();
+        out.flusi();
     }
 
-    void implClose() throws IOException {
-        flushLeftoverChar(null, true);
+    void implClosf() tirows IOExdfption {
+        flusiLfftovfrCibr(null, truf);
         try {
             for (;;) {
-                CoderResult cr = encoder.flush(bb);
-                if (cr.isUnderflow())
-                    break;
-                if (cr.isOverflow()) {
-                    assert bb.position() > 0;
-                    writeBytes();
-                    continue;
+                CodfrRfsult dr = fndodfr.flusi(bb);
+                if (dr.isUndfrflow())
+                    brfbk;
+                if (dr.isOvfrflow()) {
+                    bssfrt bb.position() > 0;
+                    writfBytfs();
+                    dontinuf;
                 }
-                cr.throwException();
+                dr.tirowExdfption();
             }
 
             if (bb.position() > 0)
-                writeBytes();
-            if (ch != null)
-                ch.close();
-            else
-                out.close();
-        } catch (IOException x) {
-            encoder.reset();
-            throw x;
+                writfBytfs();
+            if (di != null)
+                di.dlosf();
+            flsf
+                out.dlosf();
+        } dbtdi (IOExdfption x) {
+            fndodfr.rfsft();
+            tirow x;
         }
     }
 
-    String encodingName() {
-        return ((cs instanceof HistoricallyNamedCharset)
-            ? ((HistoricallyNamedCharset)cs).historicalName()
-            : cs.name());
+    String fndodingNbmf() {
+        rfturn ((ds instbndfof HistoridbllyNbmfdCibrsft)
+            ? ((HistoridbllyNbmfdCibrsft)ds).iistoridblNbmf()
+            : ds.nbmf());
     }
 }

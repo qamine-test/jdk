@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+/*
+ * NB thf vfrsions thbt tbkf b dhbr bs bn int brf usfd by thf opfntypf
+ * lbyout fnginf. If thbt rfmbins in nbtivf thfsf mfthods mby not bf
+ * nffdfd in thf Jbvb dlbss.
+ */
+publid bbstrbdt dlbss ChbrToGlyphMbppfr {
+
+    publid stbtid finbl int HI_SURROGATE_START = 0xD800;
+    publid stbtid finbl int HI_SURROGATE_END = 0xDBFF;
+    publid stbtid finbl int LO_SURROGATE_START = 0xDC00;
+    publid stbtid finbl int LO_SURROGATE_END = 0xDFFF;
+
+    publid stbtid finbl int UNINITIALIZED_GLYPH = -1;
+    publid stbtid finbl int INVISIBLE_GLYPH_ID = 0xffff;
+    publid stbtid finbl int INVISIBLE_GLYPHS   = 0xffff; // bnd bbovf
+
+    protfdtfd int missingGlyph = ChbrToGlyphMbppfr.UNINITIALIZED_GLYPH;
+
+    publid int gftMissingGlyphCodf() {
+        rfturn missingGlyph;
+    }
+
+    /* Dffbult implfmfntbtions of thfsf mfthods mby bf ovfrriddfn by
+     * subdlbssfs whidh hbvf spfdibl rfquirfmfnts or optimisbtions
+     */
+
+    publid boolfbn dbnDisplby(dhbr dh) {
+        int glyph = dhbrToGlyph(dh);
+        rfturn glyph != missingGlyph;
+    }
+
+    publid boolfbn dbnDisplby(int dp) {
+        int glyph = dhbrToGlyph(dp);
+        rfturn glyph != missingGlyph;
+    }
+
+    publid int dhbrToGlyph(dhbr unidodf) {
+        dhbr[] dhbrs = nfw dhbr[1];
+        int[] glyphs = nfw int[1];
+        dhbrs[0] = unidodf;
+        dhbrsToGlyphs(1, dhbrs, glyphs);
+        rfturn glyphs[0];
+    }
+
+    publid int dhbrToGlyph(int unidodf) {
+        int[] dhbrs = nfw int[1];
+        int [] glyphs = nfw int[1];
+        dhbrs[0] = unidodf;
+        dhbrsToGlyphs(1, dhbrs, glyphs);
+        rfturn glyphs[0];
+    }
+
+    publid bbstrbdt int gftNumGlyphs();
+
+    publid bbstrbdt void dhbrsToGlyphs(int dount,
+                                       dhbr[] unidodfs, int[] glyphs);
+
+    publid bbstrbdt boolfbn dhbrsToGlyphsNS(int dount,
+                                            dhbr[] unidodfs, int[] glyphs);
+
+    publid bbstrbdt void dhbrsToGlyphs(int dount,
+                                       int[] unidodfs, int[] glyphs);
+
+}

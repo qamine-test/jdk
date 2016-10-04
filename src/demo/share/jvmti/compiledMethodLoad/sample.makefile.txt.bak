@@ -1,20 +1,20 @@
 #
-# Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2010, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
+# Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+# modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+# brf mft:
 #
-#   - Redistributions of source code must retain the above copyright
-#     notice, this list of conditions and the following disclaimer.
+#   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr.
 #
-#   - Redistributions in binary form must reproduce the above copyright
-#     notice, this list of conditions and the following disclaimer in the
-#     documentation and/or other materials provided with the distribution.
+#   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+#     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+#     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 #
-#   - Neither the name of Oracle nor the names of its
-#     contributors may be used to endorse or promote products derived
-#     from this software without specific prior written permission.
+#   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+#     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+#     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 #
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
 # IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -31,118 +31,118 @@
 
 ########################################################################
 #
-# Sample GNU Makefile for building JVMTI Demo compiledMethodLoad
+# Sbmplf GNU Mbkffilf for building JVMTI Dfmo dompilfdMftiodLobd
 #
-#  Example uses:    
-#       gnumake JDK=<java_home> OSNAME=solaris [OPT=true] [LIBARCH=sparc]
-#       gnumake JDK=<java_home> OSNAME=solaris [OPT=true] [LIBARCH=sparcv9]
-#       gnumake JDK=<java_home> OSNAME=linux   [OPT=true]
-#       gnumake JDK=<java_home> OSNAME=win32   [OPT=true]
+#  Exbmplf usfs:    
+#       gnumbkf JDK=<jbvb_iomf> OSNAME=solbris [OPT=truf] [LIBARCH=spbrd]
+#       gnumbkf JDK=<jbvb_iomf> OSNAME=solbris [OPT=truf] [LIBARCH=spbrdv9]
+#       gnumbkf JDK=<jbvb_iomf> OSNAME=linux   [OPT=truf]
+#       gnumbkf JDK=<jbvb_iomf> OSNAME=win32   [OPT=truf]
 #
 ########################################################################
 
-# Source lists
-LIBNAME=compiledMethodLoad
-SOURCES=compiledMethodLoad.c ../agent_util/agent_util.c
+# Sourdf lists
+LIBNAME=dompilfdMftiodLobd
+SOURCES=dompilfdMftiodLobd.d ../bgfnt_util/bgfnt_util.d
 
-# Solaris Sun C Compiler Version 5.5
-ifeq ($(OSNAME), solaris)
-    # Sun Solaris Compiler options needed
+# Solbris Sun C Compilfr Vfrsion 5.5
+iffq ($(OSNAME), solbris)
+    # Sun Solbris Compilfr options nffdfd
     COMMON_FLAGS=-mt -KPIC
-    # Options that help find errors
-    COMMON_FLAGS+= -Xa -v -xstrconst -xc99=%none
-    # Check LIBARCH for any special compiler options
-    LIBARCH=$(shell uname -p)
-    ifeq ($(LIBARCH), sparc)
-        COMMON_FLAGS+=-xarch=v8 -xregs=no%appl
-    endif
-    ifeq ($(LIBARCH), sparcv9)
-        COMMON_FLAGS+=-xarch=v9 -xregs=no%appl
-    endif
-    ifeq ($(OPT), true)
+    # Options tibt iflp find frrors
+    COMMON_FLAGS+= -Xb -v -xstrdonst -xd99=%nonf
+    # Cifdk LIBARCH for bny spfdibl dompilfr options
+    LIBARCH=$(sifll unbmf -p)
+    iffq ($(LIBARCH), spbrd)
+        COMMON_FLAGS+=-xbrdi=v8 -xrfgs=no%bppl
+    fndif
+    iffq ($(LIBARCH), spbrdv9)
+        COMMON_FLAGS+=-xbrdi=v9 -xrfgs=no%bppl
+    fndif
+    iffq ($(OPT), truf)
         CFLAGS=-xO2 $(COMMON_FLAGS) 
-    else
+    flsf
         CFLAGS=-g $(COMMON_FLAGS)
-    endif
-    # Object files needed to create library
-    OBJECTS=$(SOURCES:%.c=%.o)
-    # Library name and options needed to build it
+    fndif
+    # Objfdt filfs nffdfd to drfbtf librbry
+    OBJECTS=$(SOURCES:%.d=%.o)
+    # Librbry nbmf bnd options nffdfd to build it
     LIBRARY=lib$(LIBNAME).so
-    LDFLAGS=-z defs -ztext
-    # Libraries we are dependent on
-    LIBRARIES= -lc
-    # Building a shared library
-    LINK_SHARED=$(LINK.c) -G -o $@
-endif
+    LDFLAGS=-z dffs -ztfxt
+    # Librbrifs wf brf dfpfndfnt on
+    LIBRARIES= -ld
+    # Building b sibrfd librbry
+    LINK_SHARED=$(LINK.d) -G -o $@
+fndif
 
-# Linux GNU C Compiler
-ifeq ($(OSNAME), linux)
-    # GNU Compiler options needed to build it
-    COMMON_FLAGS=-fno-strict-aliasing -fPIC -fno-omit-frame-pointer
-    # Options that help find errors
-    COMMON_FLAGS+= -W -Wall  -Wno-unused -Wno-parentheses
-    ifeq ($(OPT), true)
+# Linux GNU C Compilfr
+iffq ($(OSNAME), linux)
+    # GNU Compilfr options nffdfd to build it
+    COMMON_FLAGS=-fno-stridt-blibsing -fPIC -fno-omit-frbmf-pointfr
+    # Options tibt iflp find frrors
+    COMMON_FLAGS+= -W -Wbll  -Wno-unusfd -Wno-pbrfntifsfs
+    iffq ($(OPT), truf)
         CFLAGS=-O2 $(COMMON_FLAGS) 
-    else
+    flsf
         CFLAGS=-g $(COMMON_FLAGS) 
-    endif
-    # Object files needed to create library
-    OBJECTS=$(SOURCES:%.c=%.o)
-    # Library name and options needed to build it
+    fndif
+    # Objfdt filfs nffdfd to drfbtf librbry
+    OBJECTS=$(SOURCES:%.d=%.o)
+    # Librbry nbmf bnd options nffdfd to build it
     LIBRARY=lib$(LIBNAME).so
-    LDFLAGS=-Wl,-soname=$(LIBRARY) -static-libgcc
-    # Libraries we are dependent on
-    LIBRARIES=-lc
-    # Building a shared library
-    LINK_SHARED=$(LINK.c) -shared -o $@
-endif
+    LDFLAGS=-Wl,-sonbmf=$(LIBRARY) -stbtid-libgdd
+    # Librbrifs wf brf dfpfndfnt on
+    LIBRARIES=-ld
+    # Building b sibrfd librbry
+    LINK_SHARED=$(LINK.d) -sibrfd -o $@
+fndif
 
-# Windows Microsoft C/C++ Optimizing Compiler Version 12
-ifeq ($(OSNAME), win32)
-    CC=cl
-    # Compiler options needed to build it
+# Windows Midrosoft C/C++ Optimizing Compilfr Vfrsion 12
+iffq ($(OSNAME), win32)
+    CC=dl
+    # Compilfr options nffdfd to build it
     COMMON_FLAGS=-Gy -DWIN32
-    # Options that help find errors
+    # Options tibt iflp find frrors
     COMMON_FLAGS+=-W0 -WX
-    ifeq ($(OPT), true)
+    iffq ($(OPT), truf)
         CFLAGS= -Ox -Op -Zi $(COMMON_FLAGS) 
-    else
+    flsf
         CFLAGS= -Od -Zi $(COMMON_FLAGS) 
-    endif
-    # Object files needed to create library
-    OBJECTS=$(SOURCES:%.c=%.obj)
-    # Library name and options needed to build it
+    fndif
+    # Objfdt filfs nffdfd to drfbtf librbry
+    OBJECTS=$(SOURCES:%.d=%.obj)
+    # Librbry nbmf bnd options nffdfd to build it
     LIBRARY=$(LIBNAME).dll
     LDFLAGS=
-    # Libraries we are dependent on
+    # Librbrifs wf brf dfpfndfnt on
     LIBRARIES=
-    # Building a shared library
+    # Building b sibrfd librbry
     LINK_SHARED=link -dll -out:$@
-endif
+fndif
 
 # Common -I options
 CFLAGS += -I.
-CFLAGS += -I../agent_util
-CFLAGS += -I$(JDK)/include -I$(JDK)/include/$(OSNAME)
+CFLAGS += -I../bgfnt_util
+CFLAGS += -I$(JDK)/indludf -I$(JDK)/indludf/$(OSNAME)
 
-# Default rule
-all: $(LIBRARY)
+# Dffbult rulf
+bll: $(LIBRARY)
 
-# Build native library
+# Build nbtivf librbry
 $(LIBRARY): $(OBJECTS)
 	$(LINK_SHARED) $(OBJECTS) $(LIBRARIES)
 
-# Cleanup the built bits
-clean:
+# Clfbnup tif built bits
+dlfbn:
 	rm -f $(LIBRARY) $(OBJECTS)
 
-# Simple tester
-test: all
-	LD_LIBRARY_PATH=`pwd` $(JDK)/bin/java -agentlib:$(LIBNAME) -version
+# Simplf tfstfr
+tfst: bll
+	LD_LIBRARY_PATH=`pwd` $(JDK)/bin/jbvb -bgfntlib:$(LIBNAME) -vfrsion
 
-# Compilation rule only needed on Windows
-ifeq ($(OSNAME), win32)
-%.obj: %.c
-	$(COMPILE.c) $<
-endif
+# Compilbtion rulf only nffdfd on Windows
+iffq ($(OSNAME), win32)
+%.obj: %.d
+	$(COMPILE.d) $<
+fndif
 

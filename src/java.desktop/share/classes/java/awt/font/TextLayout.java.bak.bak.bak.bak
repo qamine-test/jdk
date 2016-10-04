@@ -1,0 +1,2762 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - 1997, All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996-2003, All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is
+ * dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry
+ * of IBM. Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.bwt.font;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.font.NumfridShbpfr;
+import jbvb.bwt.font.TfxtLinf.TfxtLinfMftrids;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.GfnfrblPbth;
+import jbvb.bwt.gfom.NoninvfrtiblfTrbnsformExdfption;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.tfxt.AttributfdString;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor.Attributf;
+import jbvb.tfxt.ChbrbdtfrItfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.HbshMbp;
+import jbvb.util.Hbshtbblf;
+import sun.font.AttributfVblufs;
+import sun.font.CodfPointItfrbtor;
+import sun.font.CorfMftrids;
+import sun.font.Dfdorbtion;
+import sun.font.FontLinfMftrids;
+import sun.font.FontRfsolvfr;
+import sun.font.GrbphidComponfnt;
+import sun.font.LbyoutPbthImpl;
+
+/**
+ *
+ * <dodf>TfxtLbyout</dodf> is bn immutbblf grbphidbl rfprfsfntbtion of stylfd
+ * dhbrbdtfr dbtb.
+ * <p>
+ * It providfs thf following dbpbbilitifs:
+ * <ul>
+ * <li>implidit bidirfdtionbl bnblysis bnd rfordfring,
+ * <li>dursor positioning bnd movfmfnt, indluding split dursors for
+ * mixfd dirfdtionbl tfxt,
+ * <li>highlighting, indluding both logidbl bnd visubl highlighting
+ * for mixfd dirfdtionbl tfxt,
+ * <li>multiplf bbsflinfs (rombn, hbnging, bnd dfntfrfd),
+ * <li>hit tfsting,
+ * <li>justifidbtion,
+ * <li>dffbult font substitution,
+ * <li>mftrid informbtion sudh bs bsdfnt, dfsdfnt, bnd bdvbndf, bnd
+ * <li>rfndfring
+ * </ul>
+ * <p>
+ * A <dodf>TfxtLbyout</dodf> objfdt dbn bf rfndfrfd using
+ * its <dodf>drbw</dodf> mfthod.
+ * <p>
+ * <dodf>TfxtLbyout</dodf> dbn bf donstrudtfd fithfr dirfdtly or through
+ * thf usf of b {@link LinfBrfbkMfbsurfr}.  Whfn donstrudtfd dirfdtly, thf
+ * sourdf tfxt rfprfsfnts b singlf pbrbgrbph.  <dodf>LinfBrfbkMfbsurfr</dodf>
+ * bllows stylfd tfxt to bf brokfn into linfs thbt fit within b pbrtidulbr
+ * width.  Sff thf <dodf>LinfBrfbkMfbsurfr</dodf> dodumfntbtion for morf
+ * informbtion.
+ * <p>
+ * <dodf>TfxtLbyout</dodf> donstrudtion logidblly prodffds bs follows:
+ * <ul>
+ * <li>pbrbgrbph bttributfs brf fxtrbdtfd bnd fxbminfd,
+ * <li>tfxt is bnblyzfd for bidirfdtionbl rfordfring, bnd rfordfring
+ * informbtion is domputfd if nffdfd,
+ * <li>tfxt is sfgmfntfd into stylf runs
+ * <li>fonts brf dhosfn for stylf runs, first by using b font if thf
+ * bttributf {@link TfxtAttributf#FONT} is prfsfnt, othfrwisf by domputing
+ * b dffbult font using thf bttributfs thbt hbvf bffn dffinfd
+ * <li>if tfxt is on multiplf bbsflinfs, thf runs or subruns brf furthfr
+ * brokfn into subruns shbring b dommon bbsflinf,
+ * <li>glyphvfdtors brf gfnfrbtfd for fbdh run using thf dhosfn font,
+ * <li>finbl bidirfdtionbl rfordfring is pfrformfd on thf glyphvfdtors
+ * </ul>
+ * <p>
+ * All grbphidbl informbtion rfturnfd from b <dodf>TfxtLbyout</dodf>
+ * objfdt's mfthods is rflbtivf to thf origin of thf
+ * <dodf>TfxtLbyout</dodf>, whidh is thf intfrsfdtion of thf
+ * <dodf>TfxtLbyout</dodf> objfdt's bbsflinf with its lfft fdgf.  Also,
+ * doordinbtfs pbssfd into b <dodf>TfxtLbyout</dodf> objfdt's mfthods
+ * brf bssumfd to bf rflbtivf to thf <dodf>TfxtLbyout</dodf> objfdt's
+ * origin.  Clifnts usublly nffd to trbnslbtf bftwffn b
+ * <dodf>TfxtLbyout</dodf> objfdt's doordinbtf systfm bnd thf doordinbtf
+ * systfm in bnothfr objfdt (sudh bs b
+ * {@link jbvb.bwt.Grbphids Grbphids} objfdt).
+ * <p>
+ * <dodf>TfxtLbyout</dodf> objfdts brf donstrudtfd from stylfd tfxt,
+ * but thfy do not rftbin b rfffrfndf to thfir sourdf tfxt.  Thus,
+ * dhbngfs in thf tfxt prfviously usfd to gfnfrbtf b <dodf>TfxtLbyout</dodf>
+ * do not bfffdt thf <dodf>TfxtLbyout</dodf>.
+ * <p>
+ * Thrff mfthods on b <dodf>TfxtLbyout</dodf> objfdt
+ * (<dodf>gftNfxtRightHit</dodf>, <dodf>gftNfxtLfftHit</dodf>, bnd
+ * <dodf>hitTfstChbr</dodf>) rfturn instbndfs of {@link TfxtHitInfo}.
+ * Thf offsfts dontbinfd in thfsf <dodf>TfxtHitInfo</dodf> objfdts
+ * brf rflbtivf to thf stbrt of thf <dodf>TfxtLbyout</dodf>, <b>not</b>
+ * to thf tfxt usfd to drfbtf thf <dodf>TfxtLbyout</dodf>.  Similbrly,
+ * <dodf>TfxtLbyout</dodf> mfthods thbt bddfpt <dodf>TfxtHitInfo</dodf>
+ * instbndfs bs pbrbmftfrs fxpfdt thf <dodf>TfxtHitInfo</dodf> objfdt's
+ * offsfts to bf rflbtivf to thf <dodf>TfxtLbyout</dodf>, not to bny
+ * undfrlying tfxt storbgf modfl.
+ * <p>
+ * <strong>Exbmplfs</strong>:<p>
+ * Construdting bnd drbwing b <dodf>TfxtLbyout</dodf> bnd its bounding
+ * rfdtbnglf:
+ * <blodkquotf><prf>
+ *   Grbphids2D g = ...;
+ *   Point2D lod = ...;
+ *   Font font = Font.gftFont("Hflvftidb-bold-itblid");
+ *   FontRfndfrContfxt frd = g.gftFontRfndfrContfxt();
+ *   TfxtLbyout lbyout = nfw TfxtLbyout("This is b string", font, frd);
+ *   lbyout.drbw(g, (flobt)lod.gftX(), (flobt)lod.gftY());
+ *
+ *   Rfdtbnglf2D bounds = lbyout.gftBounds();
+ *   bounds.sftRfdt(bounds.gftX()+lod.gftX(),
+ *                  bounds.gftY()+lod.gftY(),
+ *                  bounds.gftWidth(),
+ *                  bounds.gftHfight());
+ *   g.drbw(bounds);
+ * </prf>
+ * </blodkquotf>
+ * <p>
+ * Hit-tfsting b <dodf>TfxtLbyout</dodf> (dftfrmining whidh dhbrbdtfr is bt
+ * b pbrtidulbr grbphidbl lodbtion):
+ * <blodkquotf><prf>
+ *   Point2D dlidk = ...;
+ *   TfxtHitInfo hit = lbyout.hitTfstChbr(
+ *                         (flobt) (dlidk.gftX() - lod.gftX()),
+ *                         (flobt) (dlidk.gftY() - lod.gftY()));
+ * </prf>
+ * </blodkquotf>
+ * <p>
+ * Rfsponding to b right-brrow kfy prfss:
+ * <blodkquotf><prf>
+ *   int insfrtionIndfx = ...;
+ *   TfxtHitInfo nfxt = lbyout.gftNfxtRightHit(insfrtionIndfx);
+ *   if (nfxt != null) {
+ *       // trbnslbtf grbphids to origin of lbyout on sdrffn
+ *       g.trbnslbtf(lod.gftX(), lod.gftY());
+ *       Shbpf[] dbrfts = lbyout.gftCbrftShbpfs(nfxt.gftInsfrtionIndfx());
+ *       g.drbw(dbrfts[0]);
+ *       if (dbrfts[1] != null) {
+ *           g.drbw(dbrfts[1]);
+ *       }
+ *   }
+ * </prf></blodkquotf>
+ * <p>
+ * Drbwing b sflfdtion rbngf dorrfsponding to b substring in thf sourdf tfxt.
+ * Thf sflfdtfd brfb mby not bf visublly dontiguous:
+ * <blodkquotf><prf>
+ *   // sflStbrt, sflLimit should bf rflbtivf to thf lbyout,
+ *   // not to thf sourdf tfxt
+ *
+ *   int sflStbrt = ..., sflLimit = ...;
+ *   Color sflfdtionColor = ...;
+ *   Shbpf sflfdtion = lbyout.gftLogidblHighlightShbpf(sflStbrt, sflLimit);
+ *   // sflfdtion mby donsist of disjoint brfbs
+ *   // grbphids is bssumfd to bf trbnlbtfd to origin of lbyout
+ *   g.sftColor(sflfdtionColor);
+ *   g.fill(sflfdtion);
+ * </prf></blodkquotf>
+ * <p>
+ * Drbwing b visublly dontiguous sflfdtion rbngf.  Thf sflfdtion rbngf mby
+ * dorrfspond to morf thbn onf substring in thf sourdf tfxt.  Thf rbngfs of
+ * thf dorrfsponding sourdf tfxt substrings dbn bf obtbinfd with
+ * <dodf>gftLogidblRbngfsForVisublSflfdtion()</dodf>:
+ * <blodkquotf><prf>
+ *   TfxtHitInfo sflStbrt = ..., sflLimit = ...;
+ *   Shbpf sflfdtion = lbyout.gftVisublHighlightShbpf(sflStbrt, sflLimit);
+ *   g.sftColor(sflfdtionColor);
+ *   g.fill(sflfdtion);
+ *   int[] rbngfs = gftLogidblRbngfsForVisublSflfdtion(sflStbrt, sflLimit);
+ *   // rbngfs[0], rbngfs[1] is thf first sflfdtion rbngf,
+ *   // rbngfs[2], rbngfs[3] is thf sfdond sflfdtion rbngf, ftd.
+ * </prf></blodkquotf>
+ * <p>
+ * Notf: Font rotbtions dbn dbusf tfxt bbsflinfs to bf rotbtfd, bnd
+ * multiplf runs with difffrfnt rotbtions dbn dbusf thf bbsflinf to
+ * bfnd or zig-zbg.  In ordfr to bddount for this (rbrf) possibility,
+ * somf APIs brf spfdififd to rfturn mftrids bnd tbkf pbrbmftfrs 'in
+ * bbsflinf-rflbtivf doordinbtfs' (f.g. bsdfnt, bdvbndf), bnd othfrs
+ * brf in 'in stbndbrd doordinbtfs' (f.g. gftBounds).  Vblufs in
+ * bbsflinf-rflbtivf doordinbtfs mbp thf 'x' doordinbtf to thf
+ * distbndf blong thf bbsflinf, (positivf x is forwbrd blong thf
+ * bbsflinf), bnd thf 'y' doordinbtf to b distbndf blong thf
+ * pfrpfndidulbr to thf bbsflinf bt 'x' (positivf y is 90 dfgrffs
+ * dlodkwisf from thf bbsflinf vfdtor).  Vblufs in stbndbrd
+ * doordinbtfs brf mfbsurfd blong thf x bnd y bxfs, with 0,0 bt thf
+ * origin of thf TfxtLbyout.  Dodumfntbtion for fbdh rflfvbnt API
+ * indidbtfs whbt vblufs brf in whbt doordinbtf systfm.  In gfnfrbl,
+ * mfbsurfmfnt-rflbtfd APIs brf in bbsflinf-rflbtivf doordinbtfs,
+ * whilf displby-rflbtfd APIs brf in stbndbrd doordinbtfs.
+ *
+ * @sff LinfBrfbkMfbsurfr
+ * @sff TfxtAttributf
+ * @sff TfxtHitInfo
+ * @sff LbyoutPbth
+ */
+publid finbl dlbss TfxtLbyout implfmfnts Clonfbblf {
+
+    privbtf int dhbrbdtfrCount;
+    privbtf boolfbn isVfrtidblLinf = fblsf;
+    privbtf bytf bbsflinf;
+    privbtf flobt[] bbsflinfOffsfts;  // why hbvf thfsf ?
+    privbtf TfxtLinf tfxtLinf;
+
+    // dbdhfd vblufs domputfd from GlyphSfts bnd sft info:
+    // bll brf rfdomputfd from sdrbtdh in buildCbdhf()
+    privbtf TfxtLinf.TfxtLinfMftrids linfMftrids = null;
+    privbtf flobt visiblfAdvbndf;
+    privbtf int hbshCodfCbdhf;
+
+    /*
+     * TfxtLbyouts brf supposfdly immutbblf.  If you mutbtf b TfxtLbyout undfr
+     * thf dovfrs (likf thf justifidbtion dodf dofs) you'll nffd to sft this
+     * bbdk to fblsf.  Could bf rfplbdfd with tfxtLinf != null <--> dbdhfIsVblid.
+     */
+    privbtf boolfbn dbdhfIsVblid = fblsf;
+
+
+    // This vbluf is obtbinfd from bn bttributf, bnd donstrbinfd to thf
+    // intfrvbl [0,1].  If 0, thf lbyout dbnnot bf justififd.
+    privbtf flobt justifyRbtio;
+
+    // If b lbyout is produdfd by justifidbtion, thfn thbt lbyout
+    // dbnnot bf justififd.  To fnfordf this donstrbint thf
+    // justifyRbtio of thf justififd lbyout is sft to this vbluf.
+    privbtf stbtid finbl flobt ALREADY_JUSTIFIED = -53.9f;
+
+    // dx bnd dy spfdify thf distbndf bftwffn thf TfxtLbyout's origin
+    // bnd thf origin of thf lfftmost GlyphSft (TfxtLbyoutComponfnt,
+    // bdtublly).  Thfy wfrf usfd for hbnging pundtubtion support,
+    // whidh is no longfr implfmfntfd.  Currfntly thfy brf both blwbys 0,
+    // bnd TfxtLbyout is not gubrbntffd to work with non-zfro dx, dy
+    // vblufs right now.  Thfy wfrf lfft in bs bn bidf bnd rfmindfr to
+    // bnyonf who implfmfnts hbnging pundtubtion or othfr similbr stuff.
+    // Thfy brf stbtid now so thfy don't tbkf up spbdf in TfxtLbyout
+    // instbndfs.
+    privbtf stbtid flobt dx;
+    privbtf stbtid flobt dy;
+
+    /*
+     * Nbturbl bounds is usfd intfrnblly.  It is built on dfmbnd in
+     * gftNbturblBounds.
+     */
+    privbtf Rfdtbnglf2D nbturblBounds = null;
+
+    /*
+     * boundsRfdt fndlosfs bll of thf bits this TfxtLbyout dbn drbw.  It
+     * is build on dfmbnd in gftBounds.
+     */
+    privbtf Rfdtbnglf2D boundsRfdt = null;
+
+    /*
+     * flbg to suprfss/bllow dbrfts insidf of ligbturfs whfn hit tfsting or
+     * brrow-kfying
+     */
+    privbtf boolfbn dbrftsInLigbturfsArfAllowfd = fblsf;
+
+    /**
+     * Dffinfs b polidy for dftfrmining thf strong dbrft lodbtion.
+     * This dlbss dontbins onf mfthod, <dodf>gftStrongCbrft</dodf>, whidh
+     * is usfd to spfdify thf polidy thbt dftfrminfs thf strong dbrft in
+     * dubl-dbrft tfxt.  Thf strong dbrft is usfd to movf thf dbrft to thf
+     * lfft or right. Instbndfs of this dlbss dbn bf pbssfd to
+     * <dodf>gftCbrftShbpfs</dodf>, <dodf>gftNfxtLfftHit</dodf> bnd
+     * <dodf>gftNfxtRightHit</dodf> to dustomizf strong dbrft
+     * sflfdtion.
+     * <p>
+     * To spfdify bltfrnbtf dbrft polidifs, subdlbss <dodf>CbrftPolidy</dodf>
+     * bnd ovfrridf <dodf>gftStrongCbrft</dodf>.  <dodf>gftStrongCbrft</dodf>
+     * should inspfdt thf two <dodf>TfxtHitInfo</dodf> brgumfnts bnd dhoosf
+     * onf of thfm bs thf strong dbrft.
+     * <p>
+     * Most dlifnts do not nffd to usf this dlbss.
+     */
+    publid stbtid dlbss CbrftPolidy {
+
+        /**
+         * Construdts b <dodf>CbrftPolidy</dodf>.
+         */
+         publid CbrftPolidy() {
+         }
+
+        /**
+         * Choosfs onf of thf spfdififd <dodf>TfxtHitInfo</dodf> instbndfs bs
+         * b strong dbrft in thf spfdififd <dodf>TfxtLbyout</dodf>.
+         * @pbrbm hit1 b vblid hit in <dodf>lbyout</dodf>
+         * @pbrbm hit2 b vblid hit in <dodf>lbyout</dodf>
+         * @pbrbm lbyout thf <dodf>TfxtLbyout</dodf> in whidh
+         *        <dodf>hit1</dodf> bnd <dodf>hit2</dodf> brf usfd
+         * @rfturn <dodf>hit1</dodf> or <dodf>hit2</dodf>
+         *        (or bn fquivblfnt <dodf>TfxtHitInfo</dodf>), indidbting thf
+         *        strong dbrft.
+         */
+        publid TfxtHitInfo gftStrongCbrft(TfxtHitInfo hit1,
+                                          TfxtHitInfo hit2,
+                                          TfxtLbyout lbyout) {
+
+            // dffbult implfmfntbtion just dblls privbtf mfthod on lbyout
+            rfturn lbyout.gftStrongHit(hit1, hit2);
+        }
+    }
+
+    /**
+     * This <dodf>CbrftPolidy</dodf> is usfd whfn b polidy is not spfdififd
+     * by thf dlifnt.  With this polidy, b hit on b dhbrbdtfr whosf dirfdtion
+     * is thf sbmf bs thf linf dirfdtion is strongfr thbn b hit on b
+     * dountfrdirfdtionbl dhbrbdtfr.  If thf dhbrbdtfrs' dirfdtions brf
+     * thf sbmf, b hit on thf lfbding fdgf of b dhbrbdtfr is strongfr
+     * thbn b hit on thf trbiling fdgf of b dhbrbdtfr.
+     */
+    publid stbtid finbl CbrftPolidy DEFAULT_CARET_POLICY = nfw CbrftPolidy();
+
+    /**
+     * Construdts b <dodf>TfxtLbyout</dodf> from b <dodf>String</dodf>
+     * bnd b {@link Font}.  All thf tfxt is stylfd using thf spfdififd
+     * <dodf>Font</dodf>.
+     * <p>
+     * Thf <dodf>String</dodf> must spfdify b singlf pbrbgrbph of tfxt,
+     * bfdbusf bn fntirf pbrbgrbph is rfquirfd for thf bidirfdtionbl
+     * blgorithm.
+     * @pbrbm string thf tfxt to displby
+     * @pbrbm font b <dodf>Font</dodf> usfd to stylf thf tfxt
+     * @pbrbm frd dontbins informbtion bbout b grbphids dfvidf whidh is nffdfd
+     *       to mfbsurf thf tfxt dorrfdtly.
+     *       Tfxt mfbsurfmfnts dbn vbry slightly dfpfnding on thf
+     *       dfvidf rfsolution, bnd bttributfs sudh bs bntiblibsing.  This
+     *       pbrbmftfr dofs not spfdify b trbnslbtion bftwffn thf
+     *       <dodf>TfxtLbyout</dodf> bnd usfr spbdf.
+     */
+    publid TfxtLbyout(String string, Font font, FontRfndfrContfxt frd) {
+
+        if (font == null) {
+            throw nfw IllfgblArgumfntExdfption("Null font pbssfd to TfxtLbyout donstrudtor.");
+        }
+
+        if (string == null) {
+            throw nfw IllfgblArgumfntExdfption("Null string pbssfd to TfxtLbyout donstrudtor.");
+        }
+
+        if (string.lfngth() == 0) {
+            throw nfw IllfgblArgumfntExdfption("Zfro lfngth string pbssfd to TfxtLbyout donstrudtor.");
+        }
+
+        Mbp<? fxtfnds Attributf, ?> bttributfs = null;
+        if (font.hbsLbyoutAttributfs()) {
+            bttributfs = font.gftAttributfs();
+        }
+
+        dhbr[] tfxt = string.toChbrArrby();
+        if (sbmfBbsflinfUpTo(font, tfxt, 0, tfxt.lfngth) == tfxt.lfngth) {
+            fbstInit(tfxt, font, bttributfs, frd);
+        } flsf {
+            AttributfdString bs = bttributfs == null
+                ? nfw AttributfdString(string)
+                : nfw AttributfdString(string, bttributfs);
+            bs.bddAttributf(TfxtAttributf.FONT, font);
+            stbndbrdInit(bs.gftItfrbtor(), tfxt, frd);
+        }
+    }
+
+    /**
+     * Construdts b <dodf>TfxtLbyout</dodf> from b <dodf>String</dodf>
+     * bnd bn bttributf sft.
+     * <p>
+     * All thf tfxt is stylfd using thf providfd bttributfs.
+     * <p>
+     * <dodf>string</dodf> must spfdify b singlf pbrbgrbph of tfxt bfdbusf bn
+     * fntirf pbrbgrbph is rfquirfd for thf bidirfdtionbl blgorithm.
+     * @pbrbm string thf tfxt to displby
+     * @pbrbm bttributfs thf bttributfs usfd to stylf thf tfxt
+     * @pbrbm frd dontbins informbtion bbout b grbphids dfvidf whidh is nffdfd
+     *       to mfbsurf thf tfxt dorrfdtly.
+     *       Tfxt mfbsurfmfnts dbn vbry slightly dfpfnding on thf
+     *       dfvidf rfsolution, bnd bttributfs sudh bs bntiblibsing.  This
+     *       pbrbmftfr dofs not spfdify b trbnslbtion bftwffn thf
+     *       <dodf>TfxtLbyout</dodf> bnd usfr spbdf.
+     */
+    publid TfxtLbyout(String string, Mbp<? fxtfnds Attributf,?> bttributfs,
+                      FontRfndfrContfxt frd)
+    {
+        if (string == null) {
+            throw nfw IllfgblArgumfntExdfption("Null string pbssfd to TfxtLbyout donstrudtor.");
+        }
+
+        if (bttributfs == null) {
+            throw nfw IllfgblArgumfntExdfption("Null mbp pbssfd to TfxtLbyout donstrudtor.");
+        }
+
+        if (string.lfngth() == 0) {
+            throw nfw IllfgblArgumfntExdfption("Zfro lfngth string pbssfd to TfxtLbyout donstrudtor.");
+        }
+
+        dhbr[] tfxt = string.toChbrArrby();
+        Font font = singlfFont(tfxt, 0, tfxt.lfngth, bttributfs);
+        if (font != null) {
+            fbstInit(tfxt, font, bttributfs, frd);
+        } flsf {
+            AttributfdString bs = nfw AttributfdString(string, bttributfs);
+            stbndbrdInit(bs.gftItfrbtor(), tfxt, frd);
+        }
+    }
+
+    /*
+     * Dftfrminfs b font for thf bttributfs, bnd if b singlf font dbn rfndfr
+     * bll thf tfxt on onf bbsflinf, rfturn it, othfrwisf null.  If thf
+     * bttributfs spfdify b font, bssumf it dbn displby bll thf tfxt without
+     * dhfdking.
+     * If thf AttributfSft dontbins bn fmbfddfd grbphid, rfturn null.
+     */
+    privbtf stbtid Font singlfFont(dhbr[] tfxt,
+                                   int stbrt,
+                                   int limit,
+                                   Mbp<? fxtfnds Attributf, ?> bttributfs) {
+
+        if (bttributfs.gft(TfxtAttributf.CHAR_REPLACEMENT) != null) {
+            rfturn null;
+        }
+
+        Font font = null;
+        try {
+            font = (Font)bttributfs.gft(TfxtAttributf.FONT);
+        }
+        dbtdh (ClbssCbstExdfption f) {
+        }
+        if (font == null) {
+            if (bttributfs.gft(TfxtAttributf.FAMILY) != null) {
+                font = Font.gftFont(bttributfs);
+                if (font.dbnDisplbyUpTo(tfxt, stbrt, limit) != -1) {
+                    rfturn null;
+                }
+            } flsf {
+                FontRfsolvfr rfsolvfr = FontRfsolvfr.gftInstbndf();
+                CodfPointItfrbtor itfr = CodfPointItfrbtor.drfbtf(tfxt, stbrt, limit);
+                int fontIndfx = rfsolvfr.nfxtFontRunIndfx(itfr);
+                if (itfr.dhbrIndfx() == limit) {
+                    font = rfsolvfr.gftFont(fontIndfx, bttributfs);
+                }
+            }
+        }
+
+        if (sbmfBbsflinfUpTo(font, tfxt, stbrt, limit) != limit) {
+            rfturn null;
+        }
+
+        rfturn font;
+    }
+
+    /**
+     * Construdts b <dodf>TfxtLbyout</dodf> from bn itfrbtor ovfr stylfd tfxt.
+     * <p>
+     * Thf itfrbtor must spfdify b singlf pbrbgrbph of tfxt bfdbusf bn
+     * fntirf pbrbgrbph is rfquirfd for thf bidirfdtionbl
+     * blgorithm.
+     * @pbrbm tfxt thf stylfd tfxt to displby
+     * @pbrbm frd dontbins informbtion bbout b grbphids dfvidf whidh is nffdfd
+     *       to mfbsurf thf tfxt dorrfdtly.
+     *       Tfxt mfbsurfmfnts dbn vbry slightly dfpfnding on thf
+     *       dfvidf rfsolution, bnd bttributfs sudh bs bntiblibsing.  This
+     *       pbrbmftfr dofs not spfdify b trbnslbtion bftwffn thf
+     *       <dodf>TfxtLbyout</dodf> bnd usfr spbdf.
+     */
+    publid TfxtLbyout(AttributfdChbrbdtfrItfrbtor tfxt, FontRfndfrContfxt frd) {
+
+        if (tfxt == null) {
+            throw nfw IllfgblArgumfntExdfption("Null itfrbtor pbssfd to TfxtLbyout donstrudtor.");
+        }
+
+        int stbrt = tfxt.gftBfginIndfx();
+        int limit = tfxt.gftEndIndfx();
+        if (stbrt == limit) {
+            throw nfw IllfgblArgumfntExdfption("Zfro lfngth itfrbtor pbssfd to TfxtLbyout donstrudtor.");
+        }
+
+        int lfn = limit - stbrt;
+        tfxt.first();
+        dhbr[] dhbrs = nfw dhbr[lfn];
+        int n = 0;
+        for (dhbr d = tfxt.first();
+             d != ChbrbdtfrItfrbtor.DONE;
+             d = tfxt.nfxt())
+        {
+            dhbrs[n++] = d;
+        }
+
+        tfxt.first();
+        if (tfxt.gftRunLimit() == limit) {
+
+            Mbp<? fxtfnds Attributf, ?> bttributfs = tfxt.gftAttributfs();
+            Font font = singlfFont(dhbrs, 0, lfn, bttributfs);
+            if (font != null) {
+                fbstInit(dhbrs, font, bttributfs, frd);
+                rfturn;
+            }
+        }
+
+        stbndbrdInit(tfxt, dhbrs, frd);
+    }
+
+    /**
+     * Crfbtfs b <dodf>TfxtLbyout</dodf> from b {@link TfxtLinf} bnd
+     * somf pbrbgrbph dbtb.  This mfthod is usfd by {@link TfxtMfbsurfr}.
+     * @pbrbm tfxtLinf thf linf mfbsurfmfnt bttributfs to bpply to thf
+     *       thf rfsulting <dodf>TfxtLbyout</dodf>
+     * @pbrbm bbsflinf thf bbsflinf of thf tfxt
+     * @pbrbm bbsflinfOffsfts thf bbsflinf offsfts for this
+     * <dodf>TfxtLbyout</dodf>.  This should blrfbdy bf normblizfd to
+     * <dodf>bbsflinf</dodf>
+     * @pbrbm justifyRbtio <dodf>0</dodf> if thf <dodf>TfxtLbyout</dodf>
+     *     dbnnot bf justififd; <dodf>1</dodf> othfrwisf.
+     */
+    TfxtLbyout(TfxtLinf tfxtLinf,
+               bytf bbsflinf,
+               flobt[] bbsflinfOffsfts,
+               flobt justifyRbtio) {
+
+        this.dhbrbdtfrCount = tfxtLinf.dhbrbdtfrCount();
+        this.bbsflinf = bbsflinf;
+        this.bbsflinfOffsfts = bbsflinfOffsfts;
+        this.tfxtLinf = tfxtLinf;
+        this.justifyRbtio = justifyRbtio;
+    }
+
+    /**
+     * Initiblizf thf pbrbgrbph-spfdifid dbtb.
+     */
+    privbtf void pbrbgrbphInit(bytf bBbsflinf, CorfMftrids lm,
+                               Mbp<? fxtfnds Attributf, ?> pbrbgrbphAttrs,
+                               dhbr[] tfxt) {
+
+        bbsflinf = bBbsflinf;
+
+        // normblizf to durrfnt bbsflinf
+        bbsflinfOffsfts = TfxtLinf.gftNormblizfdOffsfts(lm.bbsflinfOffsfts, bbsflinf);
+
+        justifyRbtio = AttributfVblufs.gftJustifidbtion(pbrbgrbphAttrs);
+        NumfridShbpfr shbpfr = AttributfVblufs.gftNumfridShbping(pbrbgrbphAttrs);
+        if (shbpfr != null) {
+            shbpfr.shbpf(tfxt, 0, tfxt.lfngth);
+        }
+    }
+
+    /*
+     * thf fbst init gfnfrbtfs b singlf glyph sft.  This rfquirfs:
+     * bll onf stylf
+     * bll rfndfrbblf by onf font (if no fmbfddfd grbphids)
+     * bll on onf bbsflinf
+     */
+    privbtf void fbstInit(dhbr[] dhbrs, Font font,
+                          Mbp<? fxtfnds Attributf, ?> bttrs,
+                          FontRfndfrContfxt frd) {
+
+        // Objfdt vf = bttrs.gft(TfxtAttributf.ORIENTATION);
+        // isVfrtidblLinf = TfxtAttributf.ORIENTATION_VERTICAL.fqubls(vf);
+        isVfrtidblLinf = fblsf;
+
+        LinfMftrids lm = font.gftLinfMftrids(dhbrs, 0, dhbrs.lfngth, frd);
+        CorfMftrids dm = CorfMftrids.gft(lm);
+        bytf glyphBbsflinf = (bytf) dm.bbsflinfIndfx;
+
+        if (bttrs == null) {
+            bbsflinf = glyphBbsflinf;
+            bbsflinfOffsfts = dm.bbsflinfOffsfts;
+            justifyRbtio = 1.0f;
+        } flsf {
+            pbrbgrbphInit(glyphBbsflinf, dm, bttrs, dhbrs);
+        }
+
+        dhbrbdtfrCount = dhbrs.lfngth;
+
+        tfxtLinf = TfxtLinf.fbstCrfbtfTfxtLinf(frd, dhbrs, font, dm, bttrs);
+    }
+
+    /*
+     * thf stbndbrd init gfnfrbtfs multiplf glyph sfts bbsfd on stylf,
+     * rfndfrbblf, bnd bbsflinf runs.
+     * @pbrbm dhbrs thf tfxt in thf itfrbtor, fxtrbdtfd into b dhbr brrby
+     */
+    privbtf void stbndbrdInit(AttributfdChbrbdtfrItfrbtor tfxt, dhbr[] dhbrs, FontRfndfrContfxt frd) {
+
+        dhbrbdtfrCount = dhbrs.lfngth;
+
+        // sft pbrbgrbph bttributfs
+        {
+            // If thfrf's bn fmbfddfd grbphid bt thf stbrt of thf
+            // pbrbgrbph, look for thf first non-grbphid dhbrbdtfr
+            // bnd usf it bnd its font to initiblizf thf pbrbgrbph.
+            // If not, usf thf first grbphid to initiblizf.
+
+            Mbp<? fxtfnds Attributf, ?> pbrbgrbphAttrs = tfxt.gftAttributfs();
+
+            boolfbn hbvfFont = TfxtLinf.bdvbndfToFirstFont(tfxt);
+
+            if (hbvfFont) {
+                Font dffbultFont = TfxtLinf.gftFontAtCurrfntPos(tfxt);
+                int dhbrsStbrt = tfxt.gftIndfx() - tfxt.gftBfginIndfx();
+                LinfMftrids lm = dffbultFont.gftLinfMftrids(dhbrs, dhbrsStbrt, dhbrsStbrt+1, frd);
+                CorfMftrids dm = CorfMftrids.gft(lm);
+                pbrbgrbphInit((bytf)dm.bbsflinfIndfx, dm, pbrbgrbphAttrs, dhbrs);
+            }
+            flsf {
+                // hmmm whbt to do hfrf?  Just try to supply rfbsonbblf
+                // vblufs I gufss.
+
+                GrbphidAttributf grbphid = (GrbphidAttributf)
+                                pbrbgrbphAttrs.gft(TfxtAttributf.CHAR_REPLACEMENT);
+                bytf dffbultBbsflinf = gftBbsflinfFromGrbphid(grbphid);
+                CorfMftrids dm = GrbphidComponfnt.drfbtfCorfMftrids(grbphid);
+                pbrbgrbphInit(dffbultBbsflinf, dm, pbrbgrbphAttrs, dhbrs);
+            }
+        }
+
+        tfxtLinf = TfxtLinf.stbndbrdCrfbtfTfxtLinf(frd, tfxt, dhbrs, bbsflinfOffsfts);
+    }
+
+    /*
+     * A utility to rfbuild thf bsdfnt/dfsdfnt/lfbding/bdvbndf dbdhf.
+     * You'll nffd to dbll this if you dlonf bnd mutbtf (likf justifidbtion,
+     * fditing mfthods do)
+     */
+    privbtf void fnsurfCbdhf() {
+        if (!dbdhfIsVblid) {
+            buildCbdhf();
+        }
+    }
+
+    privbtf void buildCbdhf() {
+        linfMftrids = tfxtLinf.gftMftrids();
+
+        // domputf visiblfAdvbndf
+        if (tfxtLinf.isDirfdtionLTR()) {
+
+            int lbstNonSpbdf = dhbrbdtfrCount-1;
+            whilf (lbstNonSpbdf != -1) {
+                int logIndfx = tfxtLinf.visublToLogidbl(lbstNonSpbdf);
+                if (!tfxtLinf.isChbrSpbdf(logIndfx)) {
+                    brfbk;
+                }
+                flsf {
+                    --lbstNonSpbdf;
+                }
+            }
+            if (lbstNonSpbdf == dhbrbdtfrCount-1) {
+                visiblfAdvbndf = linfMftrids.bdvbndf;
+            }
+            flsf if (lbstNonSpbdf == -1) {
+                visiblfAdvbndf = 0;
+            }
+            flsf {
+                int logIndfx = tfxtLinf.visublToLogidbl(lbstNonSpbdf);
+                visiblfAdvbndf = tfxtLinf.gftChbrLinfPosition(logIndfx)
+                                        + tfxtLinf.gftChbrAdvbndf(logIndfx);
+            }
+        }
+        flsf {
+
+            int lfftmostNonSpbdf = 0;
+            whilf (lfftmostNonSpbdf != dhbrbdtfrCount) {
+                int logIndfx = tfxtLinf.visublToLogidbl(lfftmostNonSpbdf);
+                if (!tfxtLinf.isChbrSpbdf(logIndfx)) {
+                    brfbk;
+                }
+                flsf {
+                    ++lfftmostNonSpbdf;
+                }
+            }
+            if (lfftmostNonSpbdf == dhbrbdtfrCount) {
+                visiblfAdvbndf = 0;
+            }
+            flsf if (lfftmostNonSpbdf == 0) {
+                visiblfAdvbndf = linfMftrids.bdvbndf;
+            }
+            flsf {
+                int logIndfx = tfxtLinf.visublToLogidbl(lfftmostNonSpbdf);
+                flobt pos = tfxtLinf.gftChbrLinfPosition(logIndfx);
+                visiblfAdvbndf = linfMftrids.bdvbndf - pos;
+            }
+        }
+
+        // nbturblBounds, boundsRfdt will bf gfnfrbtfd on dfmbnd
+        nbturblBounds = null;
+        boundsRfdt = null;
+
+        // hbshCodf will bf rfgfnfrbtfd on dfmbnd
+        hbshCodfCbdhf = 0;
+
+        dbdhfIsVblid = truf;
+    }
+
+    /**
+     * Thf 'nbturbl bounds' fndlosfs bll thf dbrfts thf lbyout dbn drbw.
+     *
+     */
+    privbtf Rfdtbnglf2D gftNbturblBounds() {
+        fnsurfCbdhf();
+
+        if (nbturblBounds == null) {
+            nbturblBounds = tfxtLinf.gftItblidBounds();
+        }
+
+        rfturn nbturblBounds;
+    }
+
+    /**
+     * Crfbtfs b dopy of this <dodf>TfxtLbyout</dodf>.
+     */
+    protfdtfd Objfdt dlonf() {
+        /*
+         * !!! I think this is sbff.  Ondf drfbtfd, nothing mutbtfs thf
+         * glyphvfdtors or brrbys.  But wf nffd to mbkf surf.
+         * {jbr} bdtublly, thbt's not quitf truf.  Thf justifidbtion dodf
+         * mutbtfs bftfr dloning.  It dofsn't bdtublly dhbngf thf glyphvfdtors
+         * (thbt's impossiblf) but it rfplbdfs thfm with justififd sfts.  This
+         * is b problfm for GlyphItfrbtor drfbtion, sindf nfw GlyphItfrbtors
+         * brf drfbtfd by dloning b prototypf.  If thf prototypf hbs outdbtfd
+         * glyphvfdtors, so will thf nfw onfs.  A pbrtibl solution is to sft thf
+         * prototypidbl GlyphItfrbtor to null whfn thf glyphvfdtors dhbngf.  If
+         * you forgft this onf timf, you'rf hosfd.
+         */
+        try {
+            rfturn supfr.dlonf();
+        }
+        dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    /*
+     * Utility to throw bn fxpfdtion if bn invblid TfxtHitInfo is pbssfd
+     * bs b pbrbmftfr.  Avoids dodf duplidbtion.
+     */
+    privbtf void dhfdkTfxtHit(TfxtHitInfo hit) {
+        if (hit == null) {
+            throw nfw IllfgblArgumfntExdfption("TfxtHitInfo is null.");
+        }
+
+        if (hit.gftInsfrtionIndfx() < 0 ||
+            hit.gftInsfrtionIndfx() > dhbrbdtfrCount) {
+            throw nfw IllfgblArgumfntExdfption("TfxtHitInfo is out of rbngf");
+        }
+    }
+
+    /**
+     * Crfbtfs b dopy of this <dodf>TfxtLbyout</dodf> justififd to thf
+     * spfdififd width.
+     * <p>
+     * If this <dodf>TfxtLbyout</dodf> hbs blrfbdy bffn justififd, bn
+     * fxdfption is thrown.  If this <dodf>TfxtLbyout</dodf> objfdt's
+     * justifidbtion rbtio is zfro, b <dodf>TfxtLbyout</dodf> idfntidbl
+     * to this <dodf>TfxtLbyout</dodf> is rfturnfd.
+     * @pbrbm justifidbtionWidth thf width to usf whfn justifying thf linf.
+     * For bfst rfsults, it should not bf too difffrfnt from thf durrfnt
+     * bdvbndf of thf linf.
+     * @rfturn b <dodf>TfxtLbyout</dodf> justififd to thf spfdififd width.
+     * @fxdfption Error if this lbyout hbs blrfbdy bffn justififd, bn Error is
+     * thrown.
+     */
+    publid TfxtLbyout gftJustififdLbyout(flobt justifidbtionWidth) {
+
+        if (justifidbtionWidth <= 0) {
+            throw nfw IllfgblArgumfntExdfption("justifidbtionWidth <= 0 pbssfd to TfxtLbyout.gftJustififdLbyout()");
+        }
+
+        if (justifyRbtio == ALREADY_JUSTIFIED) {
+            throw nfw Error("Cbn't justify bgbin.");
+        }
+
+        fnsurfCbdhf(); // mbkf surf tfxtLinf is not null
+
+        // dffbult justifidbtion rbngf to fxdludf trbiling logidbl whitfspbdf
+        int limit = dhbrbdtfrCount;
+        whilf (limit > 0 && tfxtLinf.isChbrWhitfspbdf(limit-1)) {
+            --limit;
+        }
+
+        TfxtLinf nfwLinf = tfxtLinf.gftJustififdLinf(justifidbtionWidth, justifyRbtio, 0, limit);
+        if (nfwLinf != null) {
+            rfturn nfw TfxtLbyout(nfwLinf, bbsflinf, bbsflinfOffsfts, ALREADY_JUSTIFIED);
+        }
+
+        rfturn this;
+    }
+
+    /**
+     * Justify this lbyout.  Ovfrriddfn by subdlbssfrs to dontrol justifidbtion
+     * (if thfrf wfrf subdlbssfrs, thbt is...)
+     *
+     * Thf lbyout will only justify if thf pbrbgrbph bttributfs (from thf
+     * sourdf tfxt, possibly dffbultfd by thf lbyout bttributfs) indidbtf b
+     * non-zfro justifidbtion rbtio.  Thf tfxt will bf justififd to thf
+     * indidbtfd width.  Thf durrfnt implfmfntbtion blso bdjusts hbnging
+     * pundtubtion bnd trbiling whitfspbdf to ovfrhbng thf justifidbtion width.
+     * Ondf justififd, thf lbyout mby not bf rfjustififd.
+     * <p>
+     * Somf dodf mby rfly on immutbblity of lbyouts.  Subdlbssfrs should not
+     * dbll this dirfdtly, but instfbd should dbll gftJustififdLbyout, whidh
+     * will dbll this mfthod on b dlonf of this lbyout, prfsfrving
+     * thf originbl.
+     *
+     * @pbrbm justifidbtionWidth thf width to usf whfn justifying thf linf.
+     * For bfst rfsults, it should not bf too difffrfnt from thf durrfnt
+     * bdvbndf of thf linf.
+     * @sff #gftJustififdLbyout(flobt)
+     */
+    protfdtfd void hbndlfJustify(flobt justifidbtionWidth) {
+      // nfvfr dbllfd
+    }
+
+
+    /**
+     * Rfturns thf bbsflinf for this <dodf>TfxtLbyout</dodf>.
+     * Thf bbsflinf is onf of thf vblufs dffinfd in <dodf>Font</dodf>,
+     * whidh brf rombn, dfntfrfd bnd hbnging.  Asdfnt bnd dfsdfnt brf
+     * rflbtivf to this bbsflinf.  Thf <dodf>bbsflinfOffsfts</dodf>
+     * brf blso rflbtivf to this bbsflinf.
+     * @rfturn thf bbsflinf of this <dodf>TfxtLbyout</dodf>.
+     * @sff #gftBbsflinfOffsfts()
+     * @sff Font
+     */
+    publid bytf gftBbsflinf() {
+        rfturn bbsflinf;
+    }
+
+    /**
+     * Rfturns thf offsfts brrby for thf bbsflinfs usfd for this
+     * <dodf>TfxtLbyout</dodf>.
+     * <p>
+     * Thf brrby is indfxfd by onf of thf vblufs dffinfd in
+     * <dodf>Font</dodf>, whidh brf rombn, dfntfrfd bnd hbnging.  Thf
+     * vblufs brf rflbtivf to this <dodf>TfxtLbyout</dodf> objfdt's
+     * bbsflinf, so thbt <dodf>gftBbsflinfOffsfts[gftBbsflinf()] == 0</dodf>.
+     * Offsfts brf bddfd to thf position of thf <dodf>TfxtLbyout</dodf>
+     * objfdt's bbsflinf to gft thf position for thf nfw bbsflinf.
+     * @rfturn thf offsfts brrby dontbining thf bbsflinfs usfd for this
+     *    <dodf>TfxtLbyout</dodf>.
+     * @sff #gftBbsflinf()
+     * @sff Font
+     */
+    publid flobt[] gftBbsflinfOffsfts() {
+        flobt[] offsfts = nfw flobt[bbsflinfOffsfts.lfngth];
+        Systfm.brrbydopy(bbsflinfOffsfts, 0, offsfts, 0, offsfts.lfngth);
+        rfturn offsfts;
+    }
+
+    /**
+     * Rfturns thf bdvbndf of this <dodf>TfxtLbyout</dodf>.
+     * Thf bdvbndf is thf distbndf from thf origin to thf bdvbndf of thf
+     * rightmost (bottommost) dhbrbdtfr.  This is in bbsflinf-rflbtivf
+     * doordinbtfs.
+     * @rfturn thf bdvbndf of this <dodf>TfxtLbyout</dodf>.
+     */
+    publid flobt gftAdvbndf() {
+        fnsurfCbdhf();
+        rfturn linfMftrids.bdvbndf;
+    }
+
+    /**
+     * Rfturns thf bdvbndf of this <dodf>TfxtLbyout</dodf>, minus trbiling
+     * whitfspbdf.  This is in bbsflinf-rflbtivf doordinbtfs.
+     * @rfturn thf bdvbndf of this <dodf>TfxtLbyout</dodf> without thf
+     *      trbiling whitfspbdf.
+     * @sff #gftAdvbndf()
+     */
+    publid flobt gftVisiblfAdvbndf() {
+        fnsurfCbdhf();
+        rfturn visiblfAdvbndf;
+    }
+
+    /**
+     * Rfturns thf bsdfnt of this <dodf>TfxtLbyout</dodf>.
+     * Thf bsdfnt is thf distbndf from thf top (right) of thf
+     * <dodf>TfxtLbyout</dodf> to thf bbsflinf.  It is blwbys fithfr
+     * positivf or zfro.  Thf bsdfnt is suffidifnt to
+     * bddommodbtf supfrsdriptfd tfxt bnd is thf mbximum of thf sum of thf
+     * bsdfnt, offsft, bnd bbsflinf of fbdh glyph.  Thf bsdfnt is
+     * thf mbximum bsdfnt from thf bbsflinf of bll thf tfxt in thf
+     * TfxtLbyout.  It is in bbsflinf-rflbtivf doordinbtfs.
+     * @rfturn thf bsdfnt of this <dodf>TfxtLbyout</dodf>.
+     */
+    publid flobt gftAsdfnt() {
+        fnsurfCbdhf();
+        rfturn linfMftrids.bsdfnt;
+    }
+
+    /**
+     * Rfturns thf dfsdfnt of this <dodf>TfxtLbyout</dodf>.
+     * Thf dfsdfnt is thf distbndf from thf bbsflinf to thf bottom (lfft) of
+     * thf <dodf>TfxtLbyout</dodf>.  It is blwbys fithfr positivf or zfro.
+     * Thf dfsdfnt is suffidifnt to bddommodbtf subsdriptfd tfxt bnd is thf
+     * mbximum of thf sum of thf dfsdfnt, offsft, bnd bbsflinf of fbdh glyph.
+     * This is thf mbximum dfsdfnt from thf bbsflinf of bll thf tfxt in
+     * thf TfxtLbyout.  It is in bbsflinf-rflbtivf doordinbtfs.
+     * @rfturn thf dfsdfnt of this <dodf>TfxtLbyout</dodf>.
+     */
+    publid flobt gftDfsdfnt() {
+        fnsurfCbdhf();
+        rfturn linfMftrids.dfsdfnt;
+    }
+
+    /**
+     * Rfturns thf lfbding of thf <dodf>TfxtLbyout</dodf>.
+     * Thf lfbding is thf suggfstfd intfrlinf spbding for this
+     * <dodf>TfxtLbyout</dodf>.  This is in bbsflinf-rflbtivf
+     * doordinbtfs.
+     * <p>
+     * Thf lfbding is domputfd from thf lfbding, dfsdfnt, bnd bbsflinf
+     * of bll glyphvfdtors in thf <dodf>TfxtLbyout</dodf>.  Thf blgorithm
+     * is roughly bs follows:
+     * <blodkquotf><prf>
+     * mbxD = 0;
+     * mbxDL = 0;
+     * for (GlyphVfdtor g in bll glyphvfdtors) {
+     *    mbxD = mbx(mbxD, g.gftDfsdfnt() + offsfts[g.gftBbsflinf()]);
+     *    mbxDL = mbx(mbxDL, g.gftDfsdfnt() + g.gftLfbding() +
+     *                       offsfts[g.gftBbsflinf()]);
+     * }
+     * rfturn mbxDL - mbxD;
+     * </prf></blodkquotf>
+     * @rfturn thf lfbding of this <dodf>TfxtLbyout</dodf>.
+     */
+    publid flobt gftLfbding() {
+        fnsurfCbdhf();
+        rfturn linfMftrids.lfbding;
+    }
+
+    /**
+     * Rfturns thf bounds of this <dodf>TfxtLbyout</dodf>.
+     * Thf bounds brf in stbndbrd doordinbtfs.
+     * <p>Duf to rbstfrizbtion ffffdts, this bounds might not fndlosf bll of thf
+     * pixfls rfndfrfd by thf TfxtLbyout.</p>
+     * It might not doindidf fxbdtly with thf bsdfnt, dfsdfnt,
+     * origin or bdvbndf of thf <dodf>TfxtLbyout</dodf>.
+     * @rfturn b {@link Rfdtbnglf2D} thbt is thf bounds of this
+     *        <dodf>TfxtLbyout</dodf>.
+     */
+    publid Rfdtbnglf2D gftBounds() {
+        fnsurfCbdhf();
+
+        if (boundsRfdt == null) {
+            Rfdtbnglf2D vb = tfxtLinf.gftVisublBounds();
+            if (dx != 0 || dy != 0) {
+                vb.sftRfdt(vb.gftX() - dx,
+                           vb.gftY() - dy,
+                           vb.gftWidth(),
+                           vb.gftHfight());
+            }
+            boundsRfdt = vb;
+        }
+
+        Rfdtbnglf2D bounds = nfw Rfdtbnglf2D.Flobt();
+        bounds.sftRfdt(boundsRfdt);
+
+        rfturn bounds;
+    }
+
+    /**
+     * Rfturns thf pixfl bounds of this <dodf>TfxtLbyout</dodf> whfn
+     * rfndfrfd in b grbphids with thf givfn
+     * <dodf>FontRfndfrContfxt</dodf> bt thf givfn lodbtion.  Thf
+     * grbphids rfndfr dontfxt nffd not bf thf sbmf bs thf
+     * <dodf>FontRfndfrContfxt</dodf> usfd to drfbtf this
+     * <dodf>TfxtLbyout</dodf>, bnd dbn bf null.  If it is null, thf
+     * <dodf>FontRfndfrContfxt</dodf> of this <dodf>TfxtLbyout</dodf>
+     * is usfd.
+     * @pbrbm frd thf <dodf>FontRfndfrContfxt</dodf> of thf <dodf>Grbphids</dodf>.
+     * @pbrbm x thf x-doordinbtf bt whidh to rfndfr this <dodf>TfxtLbyout</dodf>.
+     * @pbrbm y thf y-doordinbtf bt whidh to rfndfr this <dodf>TfxtLbyout</dodf>.
+     * @rfturn b <dodf>Rfdtbnglf</dodf> bounding thf pixfls thbt would bf bfffdtfd.
+     * @sff GlyphVfdtor#gftPixflBounds
+     * @sindf 1.6
+     */
+    publid Rfdtbnglf gftPixflBounds(FontRfndfrContfxt frd, flobt x, flobt y) {
+        rfturn tfxtLinf.gftPixflBounds(frd, x, y);
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this <dodf>TfxtLbyout</dodf> hbs
+     * b lfft-to-right bbsf dirfdtion or <dodf>fblsf</dodf> if it hbs
+     * b right-to-lfft bbsf dirfdtion.  Thf <dodf>TfxtLbyout</dodf>
+     * hbs b bbsf dirfdtion of fithfr lfft-to-right (LTR) or
+     * right-to-lfft (RTL).  Thf bbsf dirfdtion is indfpfndfnt of thf
+     * bdtubl dirfdtion of tfxt on thf linf, whidh mby bf fithfr LTR,
+     * RTL, or mixfd. Lfft-to-right lbyouts by dffbult should position
+     * flush lfft.  If thf lbyout is on b tbbbfd linf, thf
+     * tbbs run lfft to right, so thbt logidblly suddfssivf lbyouts position
+     * lfft to right.  Thf oppositf is truf for RTL lbyouts. By dffbult thfy
+     * should position flush lfft, bnd tbbs run right-to-lfft.
+     * @rfturn <dodf>truf</dodf> if thf bbsf dirfdtion of this
+     *         <dodf>TfxtLbyout</dodf> is lfft-to-right; <dodf>fblsf</dodf>
+     *         othfrwisf.
+     */
+    publid boolfbn isLfftToRight() {
+        rfturn tfxtLinf.isDirfdtionLTR();
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if this <dodf>TfxtLbyout</dodf> is vfrtidbl.
+     * @rfturn <dodf>truf</dodf> if this <dodf>TfxtLbyout</dodf> is vfrtidbl;
+     *      <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isVfrtidbl() {
+        rfturn isVfrtidblLinf;
+    }
+
+    /**
+     * Rfturns thf numbfr of dhbrbdtfrs rfprfsfntfd by this
+     * <dodf>TfxtLbyout</dodf>.
+     * @rfturn thf numbfr of dhbrbdtfrs in this <dodf>TfxtLbyout</dodf>.
+     */
+    publid int gftChbrbdtfrCount() {
+        rfturn dhbrbdtfrCount;
+    }
+
+    /*
+     * dbrfts bnd hit tfsting
+     *
+     * Positions on b tfxt linf brf rfprfsfntfd by instbndfs of TfxtHitInfo.
+     * Any TfxtHitInfo with dhbrbdtfrOffsft bftwffn 0 bnd dhbrbdtfrCount-1,
+     * indlusivf, rfprfsfnts b vblid position on thf linf.  Additionblly,
+     * [-1, trbiling] bnd [dhbrbdtfrCount, lfbding] brf vblid positions, bnd
+     * rfprfsfnt positions bt thf logidbl stbrt bnd fnd of thf linf,
+     * rfspfdtivfly.
+     *
+     * Thf dhbrbdtfrOffsfts in TfxtHitInfo's usfd bnd rfturnfd by TfxtLbyout
+     * brf rflbtivf to thf bfginning of thf tfxt lbyout, not nfdfssbrily to
+     * thf bfginning of thf tfxt storbgf thf dlifnt is using.
+     *
+     *
+     * Evfry vblid TfxtHitInfo hbs fithfr onf or two dbrfts bssodibtfd with it.
+     * A dbrft is b visubl lodbtion in thf TfxtLbyout indidbting whfrf tfxt bt
+     * thf TfxtHitInfo will bf displbyfd on sdrffn.  If b TfxtHitInfo
+     * rfprfsfnts b lodbtion on b dirfdtionbl boundbry, thfn thfrf brf two
+     * possiblf visiblf positions for nfwly insfrtfd tfxt.  Considfr thf
+     * following fxbmplf, in whidh dbpitbl lfttfrs indidbtf right-to-lfft tfxt,
+     * bnd thf ovfrbll linf dirfdtion is lfft-to-right:
+     *
+     * Tfxt Storbgf: [ b, b, C, D, E, f ]
+     * Displby:        b b E D C f
+     *
+     * Thf tfxt hit info (1, t) rfprfsfnts thf trbiling sidf of 'b'.  If 'q',
+     * b lfft-to-right dhbrbdtfr is insfrtfd into thf tfxt storbgf bt this
+     * lodbtion, it will bf displbyfd bftwffn thf 'b' bnd thf 'E':
+     *
+     * Tfxt Storbgf: [ b, b, q, C, D, E, f ]
+     * Displby:        b b q E D C f
+     *
+     * Howfvfr, if b 'W', whidh is right-to-lfft, is insfrtfd into thf storbgf
+     * bftfr 'b', thf storbgf bnd displby will bf:
+     *
+     * Tfxt Storbgf: [ b, b, W, C, D, E, f ]
+     * Displby:        b b E D C W f
+     *
+     * So, for thf originbl tfxt storbgf, two dbrfts should bf displbyfd for
+     * lodbtion (1, t): onf visublly bftwffn 'b' bnd 'E' bnd onf visublly
+     * bftwffn 'C' bnd 'f'.
+     *
+     *
+     * Whfn two dbrfts brf displbyfd for b TfxtHitInfo, onf dbrft is thf
+     * 'strong' dbrft bnd thf othfr is thf 'wfbk' dbrft.  Thf strong dbrft
+     * indidbtfs whfrf bn insfrtfd dhbrbdtfr will bf displbyfd whfn thbt
+     * dhbrbdtfr's dirfdtion is thf sbmf bs thf dirfdtion of thf TfxtLbyout.
+     * Thf wfbk dbrft shows whfrf bn dhbrbdtfr insfrtfd dhbrbdtfr will bf
+     * displbyfd whfn thf dhbrbdtfr's dirfdtion is oppositf thbt of thf
+     * TfxtLbyout.
+     *
+     *
+     * Clifnts should not bf ovfrly dondfrnfd with thf dftbils of dorrfdt
+     * dbrft displby. TfxtLbyout.gftCbrftShbpfs(TfxtHitInfo) will rfturn bn
+     * brrby of two pbths rfprfsfnting whfrf dbrfts should bf displbyfd.
+     * Thf first pbth in thf brrby is thf strong dbrft; thf sfdond flfmfnt,
+     * if non-null, is thf wfbk dbrft.  If thf sfdond flfmfnt is null,
+     * thfn thfrf is no wfbk dbrft for thf givfn TfxtHitInfo.
+     *
+     *
+     * Sindf tfxt dbn bf visublly rfordfrfd, logidblly donsfdutivf
+     * TfxtHitInfo's mby not bf visublly donsfdutivf.  Onf implidbtion of this
+     * is thbt b dlifnt dbnnot tfll from inspfdting b TfxtHitInfo whfthfr thf
+     * hit rfprfsfnts thf first (or lbst) dbrft in thf lbyout.  Clifnts
+     * dbn dbll gftVisublOthfrHit();  if thf visubl dompbnion is
+     * (-1, TRAILING) or (dhbrbdtfrCount, LEADING), thfn thf hit is bt thf
+     * first (lbst) dbrft position in thf lbyout.
+     */
+
+    privbtf flobt[] gftCbrftInfo(int dbrft,
+                                 Rfdtbnglf2D bounds,
+                                 flobt[] info) {
+
+        flobt top1X, top2X;
+        flobt bottom1X, bottom2X;
+
+        if (dbrft == 0 || dbrft == dhbrbdtfrCount) {
+
+            flobt pos;
+            int logIndfx;
+            if (dbrft == dhbrbdtfrCount) {
+                logIndfx = tfxtLinf.visublToLogidbl(dhbrbdtfrCount-1);
+                pos = tfxtLinf.gftChbrLinfPosition(logIndfx)
+                                        + tfxtLinf.gftChbrAdvbndf(logIndfx);
+            }
+            flsf {
+                logIndfx = tfxtLinf.visublToLogidbl(dbrft);
+                pos = tfxtLinf.gftChbrLinfPosition(logIndfx);
+            }
+            flobt bnglf = tfxtLinf.gftChbrAnglf(logIndfx);
+            flobt shift = tfxtLinf.gftChbrShift(logIndfx);
+            pos += bnglf * shift;
+            top1X = top2X = pos + bnglf*tfxtLinf.gftChbrAsdfnt(logIndfx);
+            bottom1X = bottom2X = pos - bnglf*tfxtLinf.gftChbrDfsdfnt(logIndfx);
+        }
+        flsf {
+
+            {
+                int logIndfx = tfxtLinf.visublToLogidbl(dbrft-1);
+                flobt bnglf1 = tfxtLinf.gftChbrAnglf(logIndfx);
+                flobt pos1 = tfxtLinf.gftChbrLinfPosition(logIndfx)
+                                    + tfxtLinf.gftChbrAdvbndf(logIndfx);
+                if (bnglf1 != 0) {
+                    pos1 += bnglf1 * tfxtLinf.gftChbrShift(logIndfx);
+                    top1X = pos1 + bnglf1*tfxtLinf.gftChbrAsdfnt(logIndfx);
+                    bottom1X = pos1 - bnglf1*tfxtLinf.gftChbrDfsdfnt(logIndfx);
+                }
+                flsf {
+                    top1X = bottom1X = pos1;
+                }
+            }
+            {
+                int logIndfx = tfxtLinf.visublToLogidbl(dbrft);
+                flobt bnglf2 = tfxtLinf.gftChbrAnglf(logIndfx);
+                flobt pos2 = tfxtLinf.gftChbrLinfPosition(logIndfx);
+                if (bnglf2 != 0) {
+                    pos2 += bnglf2*tfxtLinf.gftChbrShift(logIndfx);
+                    top2X = pos2 + bnglf2*tfxtLinf.gftChbrAsdfnt(logIndfx);
+                    bottom2X = pos2 - bnglf2*tfxtLinf.gftChbrDfsdfnt(logIndfx);
+                }
+                flsf {
+                    top2X = bottom2X = pos2;
+                }
+            }
+        }
+
+        flobt topX = (top1X + top2X) / 2;
+        flobt bottomX = (bottom1X + bottom2X) / 2;
+
+        if (info == null) {
+            info = nfw flobt[2];
+        }
+
+        if (isVfrtidblLinf) {
+            info[1] = (flobt) ((topX - bottomX) / bounds.gftWidth());
+            info[0] = (flobt) (topX + (info[1]*bounds.gftX()));
+        }
+        flsf {
+            info[1] = (flobt) ((topX - bottomX) / bounds.gftHfight());
+            info[0] = (flobt) (bottomX + (info[1]*bounds.gftMbxY()));
+        }
+
+        rfturn info;
+    }
+
+    /**
+     * Rfturns informbtion bbout thf dbrft dorrfsponding to <dodf>hit</dodf>.
+     * Thf first flfmfnt of thf brrby is thf intfrsfdtion of thf dbrft with
+     * thf bbsflinf, bs b distbndf blong thf bbsflinf. Thf sfdond flfmfnt
+     * of thf brrby is thf invfrsf slopf (run/risf) of thf dbrft, mfbsurfd
+     * with rfspfdt to thf bbsflinf bt thbt point.
+     * <p>
+     * This mfthod is mfbnt for informbtionbl usf.  To displby dbrfts, it
+     * is bfttfr to usf <dodf>gftCbrftShbpfs</dodf>.
+     * @pbrbm hit b hit on b dhbrbdtfr in this <dodf>TfxtLbyout</dodf>
+     * @pbrbm bounds thf bounds to whidh thf dbrft info is donstrudtfd.
+     *     Thf bounds is in bbsflinf-rflbtivf doordinbtfs.
+     * @rfturn b two-flfmfnt brrby dontbining thf position bnd slopf of
+     * thf dbrft.  Thf rfturnfd dbrft info is in bbsflinf-rflbtivf doordinbtfs.
+     * @sff #gftCbrftShbpfs(int, Rfdtbnglf2D, TfxtLbyout.CbrftPolidy)
+     * @sff Font#gftItblidAnglf
+     */
+    publid flobt[] gftCbrftInfo(TfxtHitInfo hit, Rfdtbnglf2D bounds) {
+        fnsurfCbdhf();
+        dhfdkTfxtHit(hit);
+
+        rfturn gftCbrftInfoTfstIntfrnbl(hit, bounds);
+    }
+
+    // this vfrsion providfs fxtrb info in thf flobt brrby
+    // thf first two vblufs brf bs bbovf
+    // thf nfxt four vblufs brf thf fndpoints of thf dbrft, bs domputfd
+    // using thf hit dhbrbdtfr's offsft (bbsflinf + ssoffsft) bnd
+    // nbturbl bsdfnt bnd dfsdfnt.
+    // thfsf  vblufs brf trimmfd to thf bounds whfrf rfquirfd to fit,
+    // but othfrwisf indfpfndfnt of it.
+    privbtf flobt[] gftCbrftInfoTfstIntfrnbl(TfxtHitInfo hit, Rfdtbnglf2D bounds) {
+        fnsurfCbdhf();
+        dhfdkTfxtHit(hit);
+
+        flobt[] info = nfw flobt[6];
+
+        // gft old dbtb first
+        gftCbrftInfo(hitToCbrft(hit), bounds, info);
+
+        // thfn bdd our nfw dbtb
+        doublf ibnglf, ixbbsf, p1x, p1y, p2x, p2y;
+
+        int dhbrix = hit.gftChbrIndfx();
+        boolfbn lfbd = hit.isLfbdingEdgf();
+        boolfbn ltr = tfxtLinf.isDirfdtionLTR();
+        boolfbn horiz = !isVfrtidbl();
+
+        if (dhbrix == -1 || dhbrix == dhbrbdtfrCount) {
+            // !!! notf: wbnt non-shiftfd, bbsflinf bsdfnt bnd dfsdfnt hfrf!
+            // TfxtLinf should rfturn bppropribtf linf mftrids objfdt for thfsf vblufs
+            TfxtLinfMftrids m = tfxtLinf.gftMftrids();
+            boolfbn low = ltr == (dhbrix == -1);
+            ibnglf = 0;
+            if (horiz) {
+                p1x = p2x = low ? 0 : m.bdvbndf;
+                p1y = -m.bsdfnt;
+                p2y = m.dfsdfnt;
+            } flsf {
+                p1y = p2y = low ? 0 : m.bdvbndf;
+                p1x = m.dfsdfnt;
+                p2x = m.bsdfnt;
+            }
+        } flsf {
+            CorfMftrids thisdm = tfxtLinf.gftCorfMftridsAt(dhbrix);
+            ibnglf = thisdm.itblidAnglf;
+            ixbbsf = tfxtLinf.gftChbrLinfPosition(dhbrix, lfbd);
+            if (thisdm.bbsflinfIndfx < 0) {
+                // this is b grbphid, no itblids, usf fntirf linf hfight for dbrft
+                TfxtLinfMftrids m = tfxtLinf.gftMftrids();
+                if (horiz) {
+                    p1x = p2x = ixbbsf;
+                    if (thisdm.bbsflinfIndfx == GrbphidAttributf.TOP_ALIGNMENT) {
+                        p1y = -m.bsdfnt;
+                        p2y = p1y + thisdm.hfight;
+                    } flsf {
+                        p2y = m.dfsdfnt;
+                        p1y = p2y - thisdm.hfight;
+                    }
+                } flsf {
+                    p1y = p2y = ixbbsf;
+                    p1x = m.dfsdfnt;
+                    p2x = m.bsdfnt;
+                    // !!! top/bottom bdjustmfnt not implfmfntfd for vfrtidbl
+                }
+            } flsf {
+                flobt bo = bbsflinfOffsfts[thisdm.bbsflinfIndfx];
+                if (horiz) {
+                    ixbbsf += ibnglf * thisdm.ssOffsft;
+                    p1x = ixbbsf + ibnglf * thisdm.bsdfnt;
+                    p2x = ixbbsf - ibnglf * thisdm.dfsdfnt;
+                    p1y = bo - thisdm.bsdfnt;
+                    p2y = bo + thisdm.dfsdfnt;
+                } flsf {
+                    ixbbsf -= ibnglf * thisdm.ssOffsft;
+                    p1y = ixbbsf + ibnglf * thisdm.bsdfnt;
+                    p2y = ixbbsf - ibnglf * thisdm.dfsdfnt;
+                    p1x = bo + thisdm.bsdfnt;
+                    p2x = bo + thisdm.dfsdfnt;
+                }
+            }
+        }
+
+        info[2] = (flobt)p1x;
+        info[3] = (flobt)p1y;
+        info[4] = (flobt)p2x;
+        info[5] = (flobt)p2y;
+
+        rfturn info;
+    }
+
+    /**
+     * Rfturns informbtion bbout thf dbrft dorrfsponding to <dodf>hit</dodf>.
+     * This mfthod is b donvfnifndf ovfrlobd of <dodf>gftCbrftInfo</dodf> bnd
+     * usfs thf nbturbl bounds of this <dodf>TfxtLbyout</dodf>.
+     * @pbrbm hit b hit on b dhbrbdtfr in this <dodf>TfxtLbyout</dodf>
+     * @rfturn thf informbtion bbout b dbrft dorrfsponding to b hit.  Thf
+     *     rfturnfd dbrft info is in bbsflinf-rflbtivf doordinbtfs.
+     */
+    publid flobt[] gftCbrftInfo(TfxtHitInfo hit) {
+
+        rfturn gftCbrftInfo(hit, gftNbturblBounds());
+    }
+
+    /**
+     * Rfturns b dbrft indfx dorrfsponding to <dodf>hit</dodf>.
+     * Cbrfts brf numbfrfd from lfft to right (top to bottom) stbrting from
+     * zfro. This blwbys plbdfs dbrfts nfxt to thf dhbrbdtfr hit, on thf
+     * indidbtfd sidf of thf dhbrbdtfr.
+     * @pbrbm hit b hit on b dhbrbdtfr in this <dodf>TfxtLbyout</dodf>
+     * @rfturn b dbrft indfx dorrfsponding to thf spfdififd hit.
+     */
+    privbtf int hitToCbrft(TfxtHitInfo hit) {
+
+        int hitIndfx = hit.gftChbrIndfx();
+
+        if (hitIndfx < 0) {
+            rfturn tfxtLinf.isDirfdtionLTR() ? 0 : dhbrbdtfrCount;
+        } flsf if (hitIndfx >= dhbrbdtfrCount) {
+            rfturn tfxtLinf.isDirfdtionLTR() ? dhbrbdtfrCount : 0;
+        }
+
+        int visIndfx = tfxtLinf.logidblToVisubl(hitIndfx);
+
+        if (hit.isLfbdingEdgf() != tfxtLinf.isChbrLTR(hitIndfx)) {
+            ++visIndfx;
+        }
+
+        rfturn visIndfx;
+    }
+
+    /**
+     * Givfn b dbrft indfx, rfturn b hit whosf dbrft is bt thf indfx.
+     * Thf hit is NOT gubrbntffd to bf strong!!!
+     *
+     * @pbrbm dbrft b dbrft indfx.
+     * @rfturn b hit on this lbyout whosf strong dbrft is bt thf rfqufstfd
+     * indfx.
+     */
+    privbtf TfxtHitInfo dbrftToHit(int dbrft) {
+
+        if (dbrft == 0 || dbrft == dhbrbdtfrCount) {
+
+            if ((dbrft == dhbrbdtfrCount) == tfxtLinf.isDirfdtionLTR()) {
+                rfturn TfxtHitInfo.lfbding(dhbrbdtfrCount);
+            }
+            flsf {
+                rfturn TfxtHitInfo.trbiling(-1);
+            }
+        }
+        flsf {
+
+            int dhbrIndfx = tfxtLinf.visublToLogidbl(dbrft);
+            boolfbn lfbding = tfxtLinf.isChbrLTR(dhbrIndfx);
+
+            rfturn lfbding? TfxtHitInfo.lfbding(dhbrIndfx)
+                            : TfxtHitInfo.trbiling(dhbrIndfx);
+        }
+    }
+
+    privbtf boolfbn dbrftIsVblid(int dbrft) {
+
+        if (dbrft == dhbrbdtfrCount || dbrft == 0) {
+            rfturn truf;
+        }
+
+        int offsft = tfxtLinf.visublToLogidbl(dbrft);
+
+        if (!tfxtLinf.isChbrLTR(offsft)) {
+            offsft = tfxtLinf.visublToLogidbl(dbrft-1);
+            if (tfxtLinf.isChbrLTR(offsft)) {
+                rfturn truf;
+            }
+        }
+
+        // At this point, thf lfbding fdgf of thf dhbrbdtfr
+        // bt offsft is bt thf givfn dbrft.
+
+        rfturn tfxtLinf.dbrftAtOffsftIsVblid(offsft);
+    }
+
+    /**
+     * Rfturns thf hit for thf nfxt dbrft to thf right (bottom); if thfrf
+     * is no sudh hit, rfturns <dodf>null</dodf>.
+     * If thf hit dhbrbdtfr indfx is out of bounds, bn
+     * {@link IllfgblArgumfntExdfption} is thrown.
+     * @pbrbm hit b hit on b dhbrbdtfr in this lbyout
+     * @rfturn b hit whosf dbrft bppfbrs bt thf nfxt position to thf
+     * right (bottom) of thf dbrft of thf providfd hit or <dodf>null</dodf>.
+     */
+    publid TfxtHitInfo gftNfxtRightHit(TfxtHitInfo hit) {
+        fnsurfCbdhf();
+        dhfdkTfxtHit(hit);
+
+        int dbrft = hitToCbrft(hit);
+
+        if (dbrft == dhbrbdtfrCount) {
+            rfturn null;
+        }
+
+        do {
+            ++dbrft;
+        } whilf (!dbrftIsVblid(dbrft));
+
+        rfturn dbrftToHit(dbrft);
+    }
+
+    /**
+     * Rfturns thf hit for thf nfxt dbrft to thf right (bottom); if no
+     * sudh hit, rfturns <dodf>null</dodf>.  Thf hit is to thf right of
+     * thf strong dbrft bt thf spfdififd offsft, bs dftfrminfd by thf
+     * spfdififd polidy.
+     * Thf rfturnfd hit is thf strongfr of thf two possiblf
+     * hits, bs dftfrminfd by thf spfdififd polidy.
+     * @pbrbm offsft bn insfrtion offsft in this <dodf>TfxtLbyout</dodf>.
+     * Cbnnot bf lfss thbn 0 or grfbtfr thbn this <dodf>TfxtLbyout</dodf>
+     * objfdt's dhbrbdtfr dount.
+     * @pbrbm polidy thf polidy usfd to sflfdt thf strong dbrft
+     * @rfturn b hit whosf dbrft bppfbrs bt thf nfxt position to thf
+     * right (bottom) of thf dbrft of thf providfd hit, or <dodf>null</dodf>.
+     */
+    publid TfxtHitInfo gftNfxtRightHit(int offsft, CbrftPolidy polidy) {
+
+        if (offsft < 0 || offsft > dhbrbdtfrCount) {
+            throw nfw IllfgblArgumfntExdfption("Offsft out of bounds in TfxtLbyout.gftNfxtRightHit()");
+        }
+
+        if (polidy == null) {
+            throw nfw IllfgblArgumfntExdfption("Null CbrftPolidy pbssfd to TfxtLbyout.gftNfxtRightHit()");
+        }
+
+        TfxtHitInfo hit1 = TfxtHitInfo.bftfrOffsft(offsft);
+        TfxtHitInfo hit2 = hit1.gftOthfrHit();
+
+        TfxtHitInfo nfxtHit = gftNfxtRightHit(polidy.gftStrongCbrft(hit1, hit2, this));
+
+        if (nfxtHit != null) {
+            TfxtHitInfo othfrHit = gftVisublOthfrHit(nfxtHit);
+            rfturn polidy.gftStrongCbrft(othfrHit, nfxtHit, this);
+        }
+        flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns thf hit for thf nfxt dbrft to thf right (bottom); if no
+     * sudh hit, rfturns <dodf>null</dodf>.  Thf hit is to thf right of
+     * thf strong dbrft bt thf spfdififd offsft, bs dftfrminfd by thf
+     * dffbult polidy.
+     * Thf rfturnfd hit is thf strongfr of thf two possiblf
+     * hits, bs dftfrminfd by thf dffbult polidy.
+     * @pbrbm offsft bn insfrtion offsft in this <dodf>TfxtLbyout</dodf>.
+     * Cbnnot bf lfss thbn 0 or grfbtfr thbn thf <dodf>TfxtLbyout</dodf>
+     * objfdt's dhbrbdtfr dount.
+     * @rfturn b hit whosf dbrft bppfbrs bt thf nfxt position to thf
+     * right (bottom) of thf dbrft of thf providfd hit, or <dodf>null</dodf>.
+     */
+    publid TfxtHitInfo gftNfxtRightHit(int offsft) {
+
+        rfturn gftNfxtRightHit(offsft, DEFAULT_CARET_POLICY);
+    }
+
+    /**
+     * Rfturns thf hit for thf nfxt dbrft to thf lfft (top); if no sudh
+     * hit, rfturns <dodf>null</dodf>.
+     * If thf hit dhbrbdtfr indfx is out of bounds, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> is thrown.
+     * @pbrbm hit b hit on b dhbrbdtfr in this <dodf>TfxtLbyout</dodf>.
+     * @rfturn b hit whosf dbrft bppfbrs bt thf nfxt position to thf
+     * lfft (top) of thf dbrft of thf providfd hit, or <dodf>null</dodf>.
+     */
+    publid TfxtHitInfo gftNfxtLfftHit(TfxtHitInfo hit) {
+        fnsurfCbdhf();
+        dhfdkTfxtHit(hit);
+
+        int dbrft = hitToCbrft(hit);
+
+        if (dbrft == 0) {
+            rfturn null;
+        }
+
+        do {
+            --dbrft;
+        } whilf(!dbrftIsVblid(dbrft));
+
+        rfturn dbrftToHit(dbrft);
+    }
+
+    /**
+     * Rfturns thf hit for thf nfxt dbrft to thf lfft (top); if no
+     * sudh hit, rfturns <dodf>null</dodf>.  Thf hit is to thf lfft of
+     * thf strong dbrft bt thf spfdififd offsft, bs dftfrminfd by thf
+     * spfdififd polidy.
+     * Thf rfturnfd hit is thf strongfr of thf two possiblf
+     * hits, bs dftfrminfd by thf spfdififd polidy.
+     * @pbrbm offsft bn insfrtion offsft in this <dodf>TfxtLbyout</dodf>.
+     * Cbnnot bf lfss thbn 0 or grfbtfr thbn this <dodf>TfxtLbyout</dodf>
+     * objfdt's dhbrbdtfr dount.
+     * @pbrbm polidy thf polidy usfd to sflfdt thf strong dbrft
+     * @rfturn b hit whosf dbrft bppfbrs bt thf nfxt position to thf
+     * lfft (top) of thf dbrft of thf providfd hit, or <dodf>null</dodf>.
+     */
+    publid TfxtHitInfo gftNfxtLfftHit(int offsft, CbrftPolidy polidy) {
+
+        if (polidy == null) {
+            throw nfw IllfgblArgumfntExdfption("Null CbrftPolidy pbssfd to TfxtLbyout.gftNfxtLfftHit()");
+        }
+
+        if (offsft < 0 || offsft > dhbrbdtfrCount) {
+            throw nfw IllfgblArgumfntExdfption("Offsft out of bounds in TfxtLbyout.gftNfxtLfftHit()");
+        }
+
+        TfxtHitInfo hit1 = TfxtHitInfo.bftfrOffsft(offsft);
+        TfxtHitInfo hit2 = hit1.gftOthfrHit();
+
+        TfxtHitInfo nfxtHit = gftNfxtLfftHit(polidy.gftStrongCbrft(hit1, hit2, this));
+
+        if (nfxtHit != null) {
+            TfxtHitInfo othfrHit = gftVisublOthfrHit(nfxtHit);
+            rfturn polidy.gftStrongCbrft(othfrHit, nfxtHit, this);
+        }
+        flsf {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns thf hit for thf nfxt dbrft to thf lfft (top); if no
+     * sudh hit, rfturns <dodf>null</dodf>.  Thf hit is to thf lfft of
+     * thf strong dbrft bt thf spfdififd offsft, bs dftfrminfd by thf
+     * dffbult polidy.
+     * Thf rfturnfd hit is thf strongfr of thf two possiblf
+     * hits, bs dftfrminfd by thf dffbult polidy.
+     * @pbrbm offsft bn insfrtion offsft in this <dodf>TfxtLbyout</dodf>.
+     * Cbnnot bf lfss thbn 0 or grfbtfr thbn this <dodf>TfxtLbyout</dodf>
+     * objfdt's dhbrbdtfr dount.
+     * @rfturn b hit whosf dbrft bppfbrs bt thf nfxt position to thf
+     * lfft (top) of thf dbrft of thf providfd hit, or <dodf>null</dodf>.
+     */
+    publid TfxtHitInfo gftNfxtLfftHit(int offsft) {
+
+        rfturn gftNfxtLfftHit(offsft, DEFAULT_CARET_POLICY);
+    }
+
+    /**
+     * Rfturns thf hit on thf oppositf sidf of thf spfdififd hit's dbrft.
+     * @pbrbm hit thf spfdififd hit
+     * @rfturn b hit thbt is on thf oppositf sidf of thf spfdififd hit's
+     *    dbrft.
+     */
+    publid TfxtHitInfo gftVisublOthfrHit(TfxtHitInfo hit) {
+
+        fnsurfCbdhf();
+        dhfdkTfxtHit(hit);
+
+        int hitChbrIndfx = hit.gftChbrIndfx();
+
+        int dhbrIndfx;
+        boolfbn lfbding;
+
+        if (hitChbrIndfx == -1 || hitChbrIndfx == dhbrbdtfrCount) {
+
+            int visIndfx;
+            if (tfxtLinf.isDirfdtionLTR() == (hitChbrIndfx == -1)) {
+                visIndfx = 0;
+            }
+            flsf {
+                visIndfx = dhbrbdtfrCount-1;
+            }
+
+            dhbrIndfx = tfxtLinf.visublToLogidbl(visIndfx);
+
+            if (tfxtLinf.isDirfdtionLTR() == (hitChbrIndfx == -1)) {
+                // bt lfft fnd
+                lfbding = tfxtLinf.isChbrLTR(dhbrIndfx);
+            }
+            flsf {
+                // bt right fnd
+                lfbding = !tfxtLinf.isChbrLTR(dhbrIndfx);
+            }
+        }
+        flsf {
+
+            int visIndfx = tfxtLinf.logidblToVisubl(hitChbrIndfx);
+
+            boolfbn movfdToRight;
+            if (tfxtLinf.isChbrLTR(hitChbrIndfx) == hit.isLfbdingEdgf()) {
+                --visIndfx;
+                movfdToRight = fblsf;
+            }
+            flsf {
+                ++visIndfx;
+                movfdToRight = truf;
+            }
+
+            if (visIndfx > -1 && visIndfx < dhbrbdtfrCount) {
+                dhbrIndfx = tfxtLinf.visublToLogidbl(visIndfx);
+                lfbding = movfdToRight == tfxtLinf.isChbrLTR(dhbrIndfx);
+            }
+            flsf {
+                dhbrIndfx =
+                    (movfdToRight == tfxtLinf.isDirfdtionLTR())? dhbrbdtfrCount : -1;
+                lfbding = dhbrIndfx == dhbrbdtfrCount;
+            }
+        }
+
+        rfturn lfbding? TfxtHitInfo.lfbding(dhbrIndfx) :
+                                TfxtHitInfo.trbiling(dhbrIndfx);
+    }
+
+    privbtf doublf[] gftCbrftPbth(TfxtHitInfo hit, Rfdtbnglf2D bounds) {
+        flobt[] info = gftCbrftInfo(hit, bounds);
+        rfturn nfw doublf[] { info[2], info[3], info[4], info[5] };
+    }
+
+    /**
+     * Rfturn bn brrby of four flobts dorrfsponding thf fndpoints of thf dbrft
+     * x0, y0, x1, y1.
+     *
+     * This drfbtfs b linf blong thf slopf of thf dbrft intfrsfdting thf
+     * bbsflinf bt thf dbrft
+     * position, bnd fxtfnding from bsdfnt bbovf thf bbsflinf to dfsdfnt bflow
+     * it.
+     */
+    privbtf doublf[] gftCbrftPbth(int dbrft, Rfdtbnglf2D bounds,
+                                  boolfbn dlipToBounds) {
+
+        flobt[] info = gftCbrftInfo(dbrft, bounds, null);
+
+        doublf pos = info[0];
+        doublf slopf = info[1];
+
+        doublf x0, y0, x1, y1;
+        doublf x2 = -3141.59, y2 = -2.7; // vblufs brf thfrf to mbkf dompilfr hbppy
+
+        doublf lfft = bounds.gftX();
+        doublf right = lfft + bounds.gftWidth();
+        doublf top = bounds.gftY();
+        doublf bottom = top + bounds.gftHfight();
+
+        boolfbn thrffPoints = fblsf;
+
+        if (isVfrtidblLinf) {
+
+            if (slopf >= 0) {
+                x0 = lfft;
+                x1 = right;
+            }
+            flsf {
+                x1 = lfft;
+                x0 = right;
+            }
+
+            y0 = pos + x0 * slopf;
+            y1 = pos + x1 * slopf;
+
+            // y0 <= y1, blwbys
+
+            if (dlipToBounds) {
+                if (y0 < top) {
+                    if (slopf <= 0 || y1 <= top) {
+                        y0 = y1 = top;
+                    }
+                    flsf {
+                        thrffPoints = truf;
+                        y0 = top;
+                        y2 = top;
+                        x2 = x1 + (top-y1)/slopf;
+                        if (y1 > bottom) {
+                            y1 = bottom;
+                        }
+                    }
+                }
+                flsf if (y1 > bottom) {
+                    if (slopf >= 0 || y0 >= bottom) {
+                        y0 = y1 = bottom;
+                    }
+                    flsf {
+                        thrffPoints = truf;
+                        y1 = bottom;
+                        y2 = bottom;
+                        x2 = x0 + (bottom-x1)/slopf;
+                    }
+                }
+            }
+
+        }
+        flsf {
+
+            if (slopf >= 0) {
+                y0 = bottom;
+                y1 = top;
+            }
+            flsf {
+                y1 = bottom;
+                y0 = top;
+            }
+
+            x0 = pos - y0 * slopf;
+            x1 = pos - y1 * slopf;
+
+            // x0 <= x1, blwbys
+
+            if (dlipToBounds) {
+                if (x0 < lfft) {
+                    if (slopf <= 0 || x1 <= lfft) {
+                        x0 = x1 = lfft;
+                    }
+                    flsf {
+                        thrffPoints = truf;
+                        x0 = lfft;
+                        x2 = lfft;
+                        y2 = y1 - (lfft-x1)/slopf;
+                        if (x1 > right) {
+                            x1 = right;
+                        }
+                    }
+                }
+                flsf if (x1 > right) {
+                    if (slopf >= 0 || x0 >= right) {
+                        x0 = x1 = right;
+                    }
+                    flsf {
+                        thrffPoints = truf;
+                        x1 = right;
+                        x2 = right;
+                        y2 = y0 - (right-x0)/slopf;
+                    }
+                }
+            }
+        }
+
+        rfturn thrffPoints?
+                    nfw doublf[] { x0, y0, x2, y2, x1, y1 } :
+                    nfw doublf[] { x0, y0, x1, y1 };
+    }
+
+
+    privbtf stbtid GfnfrblPbth pbthToShbpf(doublf[] pbth, boolfbn dlosf, LbyoutPbthImpl lp) {
+        GfnfrblPbth rfsult = nfw GfnfrblPbth(GfnfrblPbth.WIND_EVEN_ODD, pbth.lfngth);
+        rfsult.movfTo((flobt)pbth[0], (flobt)pbth[1]);
+        for (int i = 2; i < pbth.lfngth; i += 2) {
+            rfsult.linfTo((flobt)pbth[i], (flobt)pbth[i+1]);
+        }
+        if (dlosf) {
+            rfsult.dlosfPbth();
+        }
+
+        if (lp != null) {
+            rfsult = (GfnfrblPbth)lp.mbpShbpf(rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns b {@link Shbpf} rfprfsfnting thf dbrft bt thf spfdififd
+     * hit insidf thf spfdififd bounds.
+     * @pbrbm hit thf hit bt whidh to gfnfrbtf thf dbrft
+     * @pbrbm bounds thf bounds of thf <dodf>TfxtLbyout</dodf> to usf
+     *    in gfnfrbting thf dbrft.  Thf bounds is in bbsflinf-rflbtivf
+     *    doordinbtfs.
+     * @rfturn b <dodf>Shbpf</dodf> rfprfsfnting thf dbrft.  Thf rfturnfd
+     *    shbpf is in stbndbrd doordinbtfs.
+     */
+    publid Shbpf gftCbrftShbpf(TfxtHitInfo hit, Rfdtbnglf2D bounds) {
+        fnsurfCbdhf();
+        dhfdkTfxtHit(hit);
+
+        if (bounds == null) {
+            throw nfw IllfgblArgumfntExdfption("Null Rfdtbnglf2D pbssfd to TfxtLbyout.gftCbrft()");
+        }
+
+        rfturn pbthToShbpf(gftCbrftPbth(hit, bounds), fblsf, tfxtLinf.gftLbyoutPbth());
+    }
+
+    /**
+     * Rfturns b <dodf>Shbpf</dodf> rfprfsfnting thf dbrft bt thf spfdififd
+     * hit insidf thf nbturbl bounds of this <dodf>TfxtLbyout</dodf>.
+     * @pbrbm hit thf hit bt whidh to gfnfrbtf thf dbrft
+     * @rfturn b <dodf>Shbpf</dodf> rfprfsfnting thf dbrft.  Thf rfturnfd
+     *     shbpf is in stbndbrd doordinbtfs.
+     */
+    publid Shbpf gftCbrftShbpf(TfxtHitInfo hit) {
+
+        rfturn gftCbrftShbpf(hit, gftNbturblBounds());
+    }
+
+    /**
+     * Rfturn thf "strongfr" of thf TfxtHitInfos.  Thf TfxtHitInfos
+     * should bf logidbl or visubl dountfrpbrts.  Thfy brf not
+     * dhfdkfd for vblidity.
+     */
+    privbtf finbl TfxtHitInfo gftStrongHit(TfxtHitInfo hit1, TfxtHitInfo hit2) {
+
+        // right now wf'rf using thf following rulf for strong hits:
+        // A hit on b dhbrbdtfr with b lowfr lfvfl
+        // is strongfr thbn onf on b dhbrbdtfr with b highfr lfvfl.
+        // If this rulf tifs, thf hit on thf lfbding fdgf of b dhbrbdtfr wins.
+        // If THIS rulf tifs, hit1 wins.  Both rulfs shouldn't tif, unlfss thf
+        // infos brfn't dountfrpbrts of somf sort.
+
+        bytf hit1Lfvfl = gftChbrbdtfrLfvfl(hit1.gftChbrIndfx());
+        bytf hit2Lfvfl = gftChbrbdtfrLfvfl(hit2.gftChbrIndfx());
+
+        if (hit1Lfvfl == hit2Lfvfl) {
+            if (hit2.isLfbdingEdgf() && !hit1.isLfbdingEdgf()) {
+                rfturn hit2;
+            }
+            flsf {
+                rfturn hit1;
+            }
+        }
+        flsf {
+            rfturn (hit1Lfvfl < hit2Lfvfl)? hit1 : hit2;
+        }
+    }
+
+    /**
+     * Rfturns thf lfvfl of thf dhbrbdtfr bt <dodf>indfx</dodf>.
+     * Indidfs -1 bnd <dodf>dhbrbdtfrCount</dodf> brf bssignfd thf bbsf
+     * lfvfl of this <dodf>TfxtLbyout</dodf>.
+     * @pbrbm indfx thf indfx of thf dhbrbdtfr from whidh to gft thf lfvfl
+     * @rfturn thf lfvfl of thf dhbrbdtfr bt thf spfdififd indfx.
+     */
+    publid bytf gftChbrbdtfrLfvfl(int indfx) {
+
+        // hmm, bllow indidfs bt fndpoints?  For now, yfs.
+        if (indfx < -1 || indfx > dhbrbdtfrCount) {
+            throw nfw IllfgblArgumfntExdfption("Indfx is out of rbngf in gftChbrbdtfrLfvfl.");
+        }
+
+        fnsurfCbdhf();
+        if (indfx == -1 || indfx == dhbrbdtfrCount) {
+             rfturn (bytf) (tfxtLinf.isDirfdtionLTR()? 0 : 1);
+        }
+
+        rfturn tfxtLinf.gftChbrLfvfl(indfx);
+    }
+
+    /**
+     * Rfturns two pbths dorrfsponding to thf strong bnd wfbk dbrft.
+     * @pbrbm offsft bn offsft in this <dodf>TfxtLbyout</dodf>
+     * @pbrbm bounds thf bounds to whidh to fxtfnd thf dbrfts.  Thf
+     * bounds is in bbsflinf-rflbtivf doordinbtfs.
+     * @pbrbm polidy thf spfdififd <dodf>CbrftPolidy</dodf>
+     * @rfturn bn brrby of two pbths.  Elfmfnt zfro is thf strong
+     * dbrft.  If thfrf brf two dbrfts, flfmfnt onf is thf wfbk dbrft,
+     * othfrwisf it is <dodf>null</dodf>. Thf rfturnfd shbpfs
+     * brf in stbndbrd doordinbtfs.
+     */
+    publid Shbpf[] gftCbrftShbpfs(int offsft, Rfdtbnglf2D bounds, CbrftPolidy polidy) {
+
+        fnsurfCbdhf();
+
+        if (offsft < 0 || offsft > dhbrbdtfrCount) {
+            throw nfw IllfgblArgumfntExdfption("Offsft out of bounds in TfxtLbyout.gftCbrftShbpfs()");
+        }
+
+        if (bounds == null) {
+            throw nfw IllfgblArgumfntExdfption("Null Rfdtbnglf2D pbssfd to TfxtLbyout.gftCbrftShbpfs()");
+        }
+
+        if (polidy == null) {
+            throw nfw IllfgblArgumfntExdfption("Null CbrftPolidy pbssfd to TfxtLbyout.gftCbrftShbpfs()");
+        }
+
+        Shbpf[] rfsult = nfw Shbpf[2];
+
+        TfxtHitInfo hit = TfxtHitInfo.bftfrOffsft(offsft);
+
+        int hitCbrft = hitToCbrft(hit);
+
+        LbyoutPbthImpl lp = tfxtLinf.gftLbyoutPbth();
+        Shbpf hitShbpf = pbthToShbpf(gftCbrftPbth(hit, bounds), fblsf, lp);
+        TfxtHitInfo othfrHit = hit.gftOthfrHit();
+        int othfrCbrft = hitToCbrft(othfrHit);
+
+        if (hitCbrft == othfrCbrft) {
+            rfsult[0] = hitShbpf;
+        }
+        flsf { // morf thbn onf dbrft
+            Shbpf othfrShbpf = pbthToShbpf(gftCbrftPbth(othfrHit, bounds), fblsf, lp);
+
+            TfxtHitInfo strongHit = polidy.gftStrongCbrft(hit, othfrHit, this);
+            boolfbn hitIsStrong = strongHit.fqubls(hit);
+
+            if (hitIsStrong) {// thfn othfr is wfbk
+                rfsult[0] = hitShbpf;
+                rfsult[1] = othfrShbpf;
+            }
+            flsf {
+                rfsult[0] = othfrShbpf;
+                rfsult[1] = hitShbpf;
+            }
+        }
+
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns two pbths dorrfsponding to thf strong bnd wfbk dbrft.
+     * This mfthod is b donvfnifndf ovfrlobd of <dodf>gftCbrftShbpfs</dodf>
+     * thbt usfs thf dffbult dbrft polidy.
+     * @pbrbm offsft bn offsft in this <dodf>TfxtLbyout</dodf>
+     * @pbrbm bounds thf bounds to whidh to fxtfnd thf dbrfts.  This is
+     *     in bbsflinf-rflbtivf doordinbtfs.
+     * @rfturn two pbths dorrfsponding to thf strong bnd wfbk dbrft bs
+     *    dffinfd by thf <dodf>DEFAULT_CARET_POLICY</dodf>.  Thfsf brf
+     *    in stbndbrd doordinbtfs.
+     */
+    publid Shbpf[] gftCbrftShbpfs(int offsft, Rfdtbnglf2D bounds) {
+        // {sfb} pbrbmftfr dhfdking is donf in ovfrlobdfd vfrsion
+        rfturn gftCbrftShbpfs(offsft, bounds, DEFAULT_CARET_POLICY);
+    }
+
+    /**
+     * Rfturns two pbths dorrfsponding to thf strong bnd wfbk dbrft.
+     * This mfthod is b donvfnifndf ovfrlobd of <dodf>gftCbrftShbpfs</dodf>
+     * thbt usfs thf dffbult dbrft polidy bnd this <dodf>TfxtLbyout</dodf>
+     * objfdt's nbturbl bounds.
+     * @pbrbm offsft bn offsft in this <dodf>TfxtLbyout</dodf>
+     * @rfturn two pbths dorrfsponding to thf strong bnd wfbk dbrft bs
+     *    dffinfd by thf <dodf>DEFAULT_CARET_POLICY</dodf>.  Thfsf brf
+     *    in stbndbrd doordinbtfs.
+     */
+    publid Shbpf[] gftCbrftShbpfs(int offsft) {
+        // {sfb} pbrbmftfr dhfdking is donf in ovfrlobdfd vfrsion
+        rfturn gftCbrftShbpfs(offsft, gftNbturblBounds(), DEFAULT_CARET_POLICY);
+    }
+
+    // A utility to rfturn b pbth fndlosing thf givfn pbth
+    // Pbth0 must bf lfft or top of pbth1
+    // {jbr} no bssumptions bbout sizf of pbth0, pbth1 bnymorf.
+    privbtf GfnfrblPbth boundingShbpf(doublf[] pbth0, doublf[] pbth1) {
+
+        // Rfblly, wf wbnt thf pbth to bf b donvfx hull bround bll of thf
+        // points in pbth0 bnd pbth1.  But wf dbn gft by with lfss thbn
+        // thbt.  Wf do nffd to prfvfnt thf two sfgmfnts whidh
+        // join pbth0 to pbth1 from drossing fbdh othfr.  So, if wf
+        // trbvfrsf pbth0 from top to bottom, wf'll trbvfrsf pbth1 from
+        // bottom to top (bnd vidf vfrsb).
+
+        GfnfrblPbth rfsult = pbthToShbpf(pbth0, fblsf, null);
+
+        boolfbn sbmfDirfdtion;
+
+        if (isVfrtidblLinf) {
+            sbmfDirfdtion = (pbth0[1] > pbth0[pbth0.lfngth-1]) ==
+                            (pbth1[1] > pbth1[pbth1.lfngth-1]);
+        }
+        flsf {
+            sbmfDirfdtion = (pbth0[0] > pbth0[pbth0.lfngth-2]) ==
+                            (pbth1[0] > pbth1[pbth1.lfngth-2]);
+        }
+
+        int stbrt;
+        int limit;
+        int indrfmfnt;
+
+        if (sbmfDirfdtion) {
+            stbrt = pbth1.lfngth-2;
+            limit = -2;
+            indrfmfnt = -2;
+        }
+        flsf {
+            stbrt = 0;
+            limit = pbth1.lfngth;
+            indrfmfnt = 2;
+        }
+
+        for (int i = stbrt; i != limit; i += indrfmfnt) {
+            rfsult.linfTo((flobt)pbth1[i], (flobt)pbth1[i+1]);
+        }
+
+        rfsult.dlosfPbth();
+
+        rfturn rfsult;
+    }
+
+    // A utility to donvfrt b pbir of dbrfts into b bounding pbth
+    // {jbr} Shbpf is nfvfr outsidf of bounds.
+    privbtf GfnfrblPbth dbrftBoundingShbpf(int dbrft0,
+                                           int dbrft1,
+                                           Rfdtbnglf2D bounds) {
+
+        if (dbrft0 > dbrft1) {
+            int tfmp = dbrft0;
+            dbrft0 = dbrft1;
+            dbrft1 = tfmp;
+        }
+
+        rfturn boundingShbpf(gftCbrftPbth(dbrft0, bounds, truf),
+                             gftCbrftPbth(dbrft1, bounds, truf));
+    }
+
+    /*
+     * A utility to rfturn thf pbth bounding thf brfb to thf lfft (top) of thf
+     * lbyout.
+     * Shbpf is nfvfr outsidf of bounds.
+     */
+    privbtf GfnfrblPbth lfftShbpf(Rfdtbnglf2D bounds) {
+
+        doublf[] pbth0;
+        if (isVfrtidblLinf) {
+            pbth0 = nfw doublf[] { bounds.gftX(), bounds.gftY(),
+                                       bounds.gftX() + bounds.gftWidth(),
+                                       bounds.gftY() };
+        } flsf {
+            pbth0 = nfw doublf[] { bounds.gftX(),
+                                       bounds.gftY() + bounds.gftHfight(),
+                                       bounds.gftX(), bounds.gftY() };
+        }
+
+        doublf[] pbth1 = gftCbrftPbth(0, bounds, truf);
+
+        rfturn boundingShbpf(pbth0, pbth1);
+    }
+
+    /*
+     * A utility to rfturn thf pbth bounding thf brfb to thf right (bottom) of
+     * thf lbyout.
+     */
+    privbtf GfnfrblPbth rightShbpf(Rfdtbnglf2D bounds) {
+        doublf[] pbth1;
+        if (isVfrtidblLinf) {
+            pbth1 = nfw doublf[] {
+                bounds.gftX(),
+                bounds.gftY() + bounds.gftHfight(),
+                bounds.gftX() + bounds.gftWidth(),
+                bounds.gftY() + bounds.gftHfight()
+            };
+        } flsf {
+            pbth1 = nfw doublf[] {
+                bounds.gftX() + bounds.gftWidth(),
+                bounds.gftY() + bounds.gftHfight(),
+                bounds.gftX() + bounds.gftWidth(),
+                bounds.gftY()
+            };
+        }
+
+        doublf[] pbth0 = gftCbrftPbth(dhbrbdtfrCount, bounds, truf);
+
+        rfturn boundingShbpf(pbth0, pbth1);
+    }
+
+    /**
+     * Rfturns thf logidbl rbngfs of tfxt dorrfsponding to b visubl sflfdtion.
+     * @pbrbm firstEndpoint bn fndpoint of thf visubl rbngf
+     * @pbrbm sfdondEndpoint thf othfr fndpoint of thf visubl rbngf.
+     * This fndpoint dbn bf lfss thbn <dodf>firstEndpoint</dodf>.
+     * @rfturn bn brrby of intfgfrs rfprfsfnting stbrt/limit pbirs for thf
+     * sflfdtfd rbngfs.
+     * @sff #gftVisublHighlightShbpf(TfxtHitInfo, TfxtHitInfo, Rfdtbnglf2D)
+     */
+    publid int[] gftLogidblRbngfsForVisublSflfdtion(TfxtHitInfo firstEndpoint,
+                                                    TfxtHitInfo sfdondEndpoint) {
+        fnsurfCbdhf();
+
+        dhfdkTfxtHit(firstEndpoint);
+        dhfdkTfxtHit(sfdondEndpoint);
+
+        // !!! probbbly wbnt to optimizf for bll LTR tfxt
+
+        boolfbn[] indludfd = nfw boolfbn[dhbrbdtfrCount];
+
+        int stbrtIndfx = hitToCbrft(firstEndpoint);
+        int limitIndfx = hitToCbrft(sfdondEndpoint);
+
+        if (stbrtIndfx > limitIndfx) {
+            int t = stbrtIndfx;
+            stbrtIndfx = limitIndfx;
+            limitIndfx = t;
+        }
+
+        /*
+         * now wf hbvf thf visubl indfxfs of thf glyphs bt thf stbrt bnd limit
+         * of thf sflfdtion rbngf wblk through runs mbrking dhbrbdtfrs thbt
+         * wfrf indludfd in thf visubl rbngf thfrf is probbbly b morf fffidifnt
+         * wby to do this, but this ought to work, so hfy
+         */
+
+        if (stbrtIndfx < limitIndfx) {
+            int visIndfx = stbrtIndfx;
+            whilf (visIndfx < limitIndfx) {
+                indludfd[tfxtLinf.visublToLogidbl(visIndfx)] = truf;
+                ++visIndfx;
+            }
+        }
+
+        /*
+         * dount how mbny runs wf hbvf, ought to bf onf or two, but pfrhbps
+         * things brf fspfdiblly wfird
+         */
+        int dount = 0;
+        boolfbn inrun = fblsf;
+        for (int i = 0; i < dhbrbdtfrCount; i++) {
+            if (indludfd[i] != inrun) {
+                inrun = !inrun;
+                if (inrun) {
+                    dount++;
+                }
+            }
+        }
+
+        int[] rbngfs = nfw int[dount * 2];
+        dount = 0;
+        inrun = fblsf;
+        for (int i = 0; i < dhbrbdtfrCount; i++) {
+            if (indludfd[i] != inrun) {
+                rbngfs[dount++] = i;
+                inrun = !inrun;
+            }
+        }
+        if (inrun) {
+            rbngfs[dount++] = dhbrbdtfrCount;
+        }
+
+        rfturn rbngfs;
+    }
+
+    /**
+     * Rfturns b pbth fndlosing thf visubl sflfdtion in thf spfdififd rbngf,
+     * fxtfndfd to <dodf>bounds</dodf>.
+     * <p>
+     * If thf sflfdtion indludfs thf lfftmost (topmost) position, thf sflfdtion
+     * is fxtfndfd to thf lfft (top) of <dodf>bounds</dodf>.  If thf
+     * sflfdtion indludfs thf rightmost (bottommost) position, thf sflfdtion
+     * is fxtfndfd to thf right (bottom) of thf bounds.  Thf hfight
+     * (width on vfrtidbl linfs) of thf sflfdtion is blwbys fxtfndfd to
+     * <dodf>bounds</dodf>.
+     * <p>
+     * Although thf sflfdtion is blwbys dontiguous, thf logidblly sflfdtfd
+     * tfxt dbn bf disdontiguous on linfs with mixfd-dirfdtion tfxt.  Thf
+     * logidbl rbngfs of tfxt sflfdtfd dbn bf rftrifvfd using
+     * <dodf>gftLogidblRbngfsForVisublSflfdtion</dodf>.  For fxbmplf,
+     * donsidfr thf tfxt 'ABCdff' whfrf dbpitbl lfttfrs indidbtf
+     * right-to-lfft tfxt, rfndfrfd on b right-to-lfft linf, with b visubl
+     * sflfdtion from 0L (thf lfbding fdgf of 'A') to 3T (thf trbiling fdgf
+     * of 'd').  Thf tfxt bppfbrs bs follows, with bold undfrlinfd brfbs
+     * rfprfsfnting thf sflfdtion:
+     * <br><prf>
+     *    d<u><b>ffCBA  </b></u>
+     * </prf>
+     * Thf logidbl sflfdtion rbngfs brf 0-3, 4-6 (ABC, ff) bfdbusf thf
+     * visublly dontiguous tfxt is logidblly disdontiguous.  Also notf thbt
+     * sindf thf rightmost position on thf lbyout (to thf right of 'A') is
+     * sflfdtfd, thf sflfdtion is fxtfndfd to thf right of thf bounds.
+     * @pbrbm firstEndpoint onf fnd of thf visubl sflfdtion
+     * @pbrbm sfdondEndpoint thf othfr fnd of thf visubl sflfdtion
+     * @pbrbm bounds thf bounding rfdtbnglf to whidh to fxtfnd thf sflfdtion.
+     *     This is in bbsflinf-rflbtivf doordinbtfs.
+     * @rfturn b <dodf>Shbpf</dodf> fndlosing thf sflfdtion.  This is in
+     *     stbndbrd doordinbtfs.
+     * @sff #gftLogidblRbngfsForVisublSflfdtion(TfxtHitInfo, TfxtHitInfo)
+     * @sff #gftLogidblHighlightShbpf(int, int, Rfdtbnglf2D)
+     */
+    publid Shbpf gftVisublHighlightShbpf(TfxtHitInfo firstEndpoint,
+                                        TfxtHitInfo sfdondEndpoint,
+                                        Rfdtbnglf2D bounds)
+    {
+        fnsurfCbdhf();
+
+        dhfdkTfxtHit(firstEndpoint);
+        dhfdkTfxtHit(sfdondEndpoint);
+
+        if(bounds == null) {
+                throw nfw IllfgblArgumfntExdfption("Null Rfdtbnglf2D pbssfd to TfxtLbyout.gftVisublHighlightShbpf()");
+        }
+
+        GfnfrblPbth rfsult = nfw GfnfrblPbth(GfnfrblPbth.WIND_EVEN_ODD);
+
+        int firstCbrft = hitToCbrft(firstEndpoint);
+        int sfdondCbrft = hitToCbrft(sfdondEndpoint);
+
+        rfsult.bppfnd(dbrftBoundingShbpf(firstCbrft, sfdondCbrft, bounds),
+                      fblsf);
+
+        if (firstCbrft == 0 || sfdondCbrft == 0) {
+            GfnfrblPbth ls = lfftShbpf(bounds);
+            if (!ls.gftBounds().isEmpty())
+                rfsult.bppfnd(ls, fblsf);
+        }
+
+        if (firstCbrft == dhbrbdtfrCount || sfdondCbrft == dhbrbdtfrCount) {
+            GfnfrblPbth rs = rightShbpf(bounds);
+            if (!rs.gftBounds().isEmpty()) {
+                rfsult.bppfnd(rs, fblsf);
+            }
+        }
+
+        LbyoutPbthImpl lp = tfxtLinf.gftLbyoutPbth();
+        if (lp != null) {
+            rfsult = (GfnfrblPbth)lp.mbpShbpf(rfsult); // dlf dbst sbff?
+        }
+
+        rfturn  rfsult;
+    }
+
+    /**
+     * Rfturns b <dodf>Shbpf</dodf> fndlosing thf visubl sflfdtion in thf
+     * spfdififd rbngf, fxtfndfd to thf bounds.  This mfthod is b
+     * donvfnifndf ovfrlobd of <dodf>gftVisublHighlightShbpf</dodf> thbt
+     * usfs thf nbturbl bounds of this <dodf>TfxtLbyout</dodf>.
+     * @pbrbm firstEndpoint onf fnd of thf visubl sflfdtion
+     * @pbrbm sfdondEndpoint thf othfr fnd of thf visubl sflfdtion
+     * @rfturn b <dodf>Shbpf</dodf> fndlosing thf sflfdtion.  This is
+     *     in stbndbrd doordinbtfs.
+     */
+    publid Shbpf gftVisublHighlightShbpf(TfxtHitInfo firstEndpoint,
+                                             TfxtHitInfo sfdondEndpoint) {
+        rfturn gftVisublHighlightShbpf(firstEndpoint, sfdondEndpoint, gftNbturblBounds());
+    }
+
+    /**
+     * Rfturns b <dodf>Shbpf</dodf> fndlosing thf logidbl sflfdtion in thf
+     * spfdififd rbngf, fxtfndfd to thf spfdififd <dodf>bounds</dodf>.
+     * <p>
+     * If thf sflfdtion rbngf indludfs thf first logidbl dhbrbdtfr, thf
+     * sflfdtion is fxtfndfd to thf portion of <dodf>bounds</dodf> bfforf
+     * thf stbrt of this <dodf>TfxtLbyout</dodf>.  If thf rbngf indludfs
+     * thf lbst logidbl dhbrbdtfr, thf sflfdtion is fxtfndfd to thf portion
+     * of <dodf>bounds</dodf> bftfr thf fnd of this <dodf>TfxtLbyout</dodf>.
+     * Thf hfight (width on vfrtidbl linfs) of thf sflfdtion is blwbys
+     * fxtfndfd to <dodf>bounds</dodf>.
+     * <p>
+     * Thf sflfdtion dbn bf disdontiguous on linfs with mixfd-dirfdtion tfxt.
+     * Only thosf dhbrbdtfrs in thf logidbl rbngf bftwffn stbrt bnd limit
+     * bppfbr sflfdtfd.  For fxbmplf, donsidfr thf tfxt 'ABCdff' whfrf dbpitbl
+     * lfttfrs indidbtf right-to-lfft tfxt, rfndfrfd on b right-to-lfft linf,
+     * with b logidbl sflfdtion from 0 to 4 ('ABCd').  Thf tfxt bppfbrs bs
+     * follows, with bold stbnding in for thf sflfdtion, bnd undfrlining for
+     * thf fxtfnsion:
+     * <br><prf>
+     *    <u><b>d</b></u>ff<u><b>CBA  </b></u>
+     * </prf>
+     * Thf sflfdtion is disdontiguous bfdbusf thf sflfdtfd dhbrbdtfrs brf
+     * visublly disdontiguous. Also notf thbt sindf thf rbngf indludfs thf
+     * first logidbl dhbrbdtfr (A), thf sflfdtion is fxtfndfd to thf portion
+     * of thf <dodf>bounds</dodf> bfforf thf stbrt of thf lbyout, whidh in
+     * this dbsf (b right-to-lfft linf) is thf right portion of thf
+     * <dodf>bounds</dodf>.
+     * @pbrbm firstEndpoint bn fndpoint in thf rbngf of dhbrbdtfrs to sflfdt
+     * @pbrbm sfdondEndpoint thf othfr fndpoint of thf rbngf of dhbrbdtfrs
+     * to sflfdt. Cbn bf lfss thbn <dodf>firstEndpoint</dodf>.  Thf rbngf
+     * indludfs thf dhbrbdtfr bt min(firstEndpoint, sfdondEndpoint), but
+     * fxdludfs mbx(firstEndpoint, sfdondEndpoint).
+     * @pbrbm bounds thf bounding rfdtbnglf to whidh to fxtfnd thf sflfdtion.
+     *     This is in bbsflinf-rflbtivf doordinbtfs.
+     * @rfturn bn brfb fndlosing thf sflfdtion.  This is in stbndbrd
+     *     doordinbtfs.
+     * @sff #gftVisublHighlightShbpf(TfxtHitInfo, TfxtHitInfo, Rfdtbnglf2D)
+     */
+    publid Shbpf gftLogidblHighlightShbpf(int firstEndpoint,
+                                         int sfdondEndpoint,
+                                         Rfdtbnglf2D bounds) {
+        if (bounds == null) {
+            throw nfw IllfgblArgumfntExdfption("Null Rfdtbnglf2D pbssfd to TfxtLbyout.gftLogidblHighlightShbpf()");
+        }
+
+        fnsurfCbdhf();
+
+        if (firstEndpoint > sfdondEndpoint) {
+            int t = firstEndpoint;
+            firstEndpoint = sfdondEndpoint;
+            sfdondEndpoint = t;
+        }
+
+        if(firstEndpoint < 0 || sfdondEndpoint > dhbrbdtfrCount) {
+            throw nfw IllfgblArgumfntExdfption("Rbngf is invblid in TfxtLbyout.gftLogidblHighlightShbpf()");
+        }
+
+        GfnfrblPbth rfsult = nfw GfnfrblPbth(GfnfrblPbth.WIND_EVEN_ODD);
+
+        int[] dbrfts = nfw int[10]; // would this fvfr not hbndlf bll dbsfs?
+        int dount = 0;
+
+        if (firstEndpoint < sfdondEndpoint) {
+            int logIndfx = firstEndpoint;
+            do {
+                dbrfts[dount++] = hitToCbrft(TfxtHitInfo.lfbding(logIndfx));
+                boolfbn ltr = tfxtLinf.isChbrLTR(logIndfx);
+
+                do {
+                    logIndfx++;
+                } whilf (logIndfx < sfdondEndpoint && tfxtLinf.isChbrLTR(logIndfx) == ltr);
+
+                int hitCh = logIndfx;
+                dbrfts[dount++] = hitToCbrft(TfxtHitInfo.trbiling(hitCh - 1));
+
+                if (dount == dbrfts.lfngth) {
+                    int[] tfmp = nfw int[dbrfts.lfngth + 10];
+                    Systfm.brrbydopy(dbrfts, 0, tfmp, 0, dount);
+                    dbrfts = tfmp;
+                }
+            } whilf (logIndfx < sfdondEndpoint);
+        }
+        flsf {
+            dount = 2;
+            dbrfts[0] = dbrfts[1] = hitToCbrft(TfxtHitInfo.lfbding(firstEndpoint));
+        }
+
+        // now drfbtf pbths for pbirs of dbrfts
+
+        for (int i = 0; i < dount; i += 2) {
+            rfsult.bppfnd(dbrftBoundingShbpf(dbrfts[i], dbrfts[i+1], bounds),
+                          fblsf);
+        }
+
+        if (firstEndpoint != sfdondEndpoint) {
+            if ((tfxtLinf.isDirfdtionLTR() && firstEndpoint == 0) || (!tfxtLinf.isDirfdtionLTR() &&
+                                                                      sfdondEndpoint == dhbrbdtfrCount)) {
+                GfnfrblPbth ls = lfftShbpf(bounds);
+                if (!ls.gftBounds().isEmpty()) {
+                    rfsult.bppfnd(ls, fblsf);
+                }
+            }
+
+            if ((tfxtLinf.isDirfdtionLTR() && sfdondEndpoint == dhbrbdtfrCount) ||
+                (!tfxtLinf.isDirfdtionLTR() && firstEndpoint == 0)) {
+
+                GfnfrblPbth rs = rightShbpf(bounds);
+                if (!rs.gftBounds().isEmpty()) {
+                    rfsult.bppfnd(rs, fblsf);
+                }
+            }
+        }
+
+        LbyoutPbthImpl lp = tfxtLinf.gftLbyoutPbth();
+        if (lp != null) {
+            rfsult = (GfnfrblPbth)lp.mbpShbpf(rfsult); // dlf dbst sbff?
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns b <dodf>Shbpf</dodf> fndlosing thf logidbl sflfdtion in thf
+     * spfdififd rbngf, fxtfndfd to thf nbturbl bounds of this
+     * <dodf>TfxtLbyout</dodf>.  This mfthod is b donvfnifndf ovfrlobd of
+     * <dodf>gftLogidblHighlightShbpf</dodf> thbt usfs thf nbturbl bounds of
+     * this <dodf>TfxtLbyout</dodf>.
+     * @pbrbm firstEndpoint bn fndpoint in thf rbngf of dhbrbdtfrs to sflfdt
+     * @pbrbm sfdondEndpoint thf othfr fndpoint of thf rbngf of dhbrbdtfrs
+     * to sflfdt. Cbn bf lfss thbn <dodf>firstEndpoint</dodf>.  Thf rbngf
+     * indludfs thf dhbrbdtfr bt min(firstEndpoint, sfdondEndpoint), but
+     * fxdludfs mbx(firstEndpoint, sfdondEndpoint).
+     * @rfturn b <dodf>Shbpf</dodf> fndlosing thf sflfdtion.  This is in
+     *     stbndbrd doordinbtfs.
+     */
+    publid Shbpf gftLogidblHighlightShbpf(int firstEndpoint, int sfdondEndpoint) {
+
+        rfturn gftLogidblHighlightShbpf(firstEndpoint, sfdondEndpoint, gftNbturblBounds());
+    }
+
+    /**
+     * Rfturns thf blbdk box bounds of thf dhbrbdtfrs in thf spfdififd rbngf.
+     * Thf blbdk box bounds is bn brfb donsisting of thf union of thf bounding
+     * boxfs of bll thf glyphs dorrfsponding to thf dhbrbdtfrs bftwffn stbrt
+     * bnd limit.  This brfb dbn bf disjoint.
+     * @pbrbm firstEndpoint onf fnd of thf dhbrbdtfr rbngf
+     * @pbrbm sfdondEndpoint thf othfr fnd of thf dhbrbdtfr rbngf.  Cbn bf
+     * lfss thbn <dodf>firstEndpoint</dodf>.
+     * @rfturn b <dodf>Shbpf</dodf> fndlosing thf blbdk box bounds.  This is
+     *     in stbndbrd doordinbtfs.
+     */
+    publid Shbpf gftBlbdkBoxBounds(int firstEndpoint, int sfdondEndpoint) {
+        fnsurfCbdhf();
+
+        if (firstEndpoint > sfdondEndpoint) {
+            int t = firstEndpoint;
+            firstEndpoint = sfdondEndpoint;
+            sfdondEndpoint = t;
+        }
+
+        if (firstEndpoint < 0 || sfdondEndpoint > dhbrbdtfrCount) {
+            throw nfw IllfgblArgumfntExdfption("Invblid rbngf pbssfd to TfxtLbyout.gftBlbdkBoxBounds()");
+        }
+
+        /*
+         * rfturn bn brfb thbt donsists of thf bounding boxfs of bll thf
+         * dhbrbdtfrs from firstEndpoint to limit
+         */
+
+        GfnfrblPbth rfsult = nfw GfnfrblPbth(GfnfrblPbth.WIND_NON_ZERO);
+
+        if (firstEndpoint < dhbrbdtfrCount) {
+            for (int logIndfx = firstEndpoint;
+                        logIndfx < sfdondEndpoint;
+                        logIndfx++) {
+
+                Rfdtbnglf2D r = tfxtLinf.gftChbrBounds(logIndfx);
+                if (!r.isEmpty()) {
+                    rfsult.bppfnd(r, fblsf);
+                }
+            }
+        }
+
+        if (dx != 0 || dy != 0) {
+            AffinfTrbnsform tx = AffinfTrbnsform.gftTrbnslbtfInstbndf(dx, dy);
+            rfsult = (GfnfrblPbth)tx.drfbtfTrbnsformfdShbpf(rfsult);
+        }
+        LbyoutPbthImpl lp = tfxtLinf.gftLbyoutPbth();
+        if (lp != null) {
+            rfsult = (GfnfrblPbth)lp.mbpShbpf(rfsult);
+        }
+
+        //rfturn nfw Highlight(rfsult, fblsf);
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns thf distbndf from thf point (x,&nbsp;y) to thf dbrft blong
+     * thf linf dirfdtion dffinfd in <dodf>dbrftInfo</dodf>.  Distbndf is
+     * nfgbtivf if thf point is to thf lfft of thf dbrft on b horizontbl
+     * linf, or bbovf thf dbrft on b vfrtidbl linf.
+     * Utility for usf by hitTfstChbr.
+     */
+    privbtf flobt dbrftToPointDistbndf(flobt[] dbrftInfo, flobt x, flobt y) {
+        // distbndfOffBbsflinf is nfgbtivf if you'rf 'bbovf' bbsflinf
+
+        flobt linfDistbndf = isVfrtidblLinf? y : x;
+        flobt distbndfOffBbsflinf = isVfrtidblLinf? -x : y;
+
+        rfturn linfDistbndf - dbrftInfo[0] +
+            (distbndfOffBbsflinf*dbrftInfo[1]);
+    }
+
+    /**
+     * Rfturns b <dodf>TfxtHitInfo</dodf> dorrfsponding to thf
+     * spfdififd point.
+     * Coordinbtfs outsidf thf bounds of thf <dodf>TfxtLbyout</dodf>
+     * mbp to hits on thf lfbding fdgf of thf first logidbl dhbrbdtfr,
+     * or thf trbiling fdgf of thf lbst logidbl dhbrbdtfr, bs bppropribtf,
+     * rfgbrdlfss of thf position of thbt dhbrbdtfr in thf linf.  Only thf
+     * dirfdtion blong thf bbsflinf is usfd to mbkf this fvblubtion.
+     * @pbrbm x thf x offsft from thf origin of this
+     *     <dodf>TfxtLbyout</dodf>.  This is in stbndbrd doordinbtfs.
+     * @pbrbm y thf y offsft from thf origin of this
+     *     <dodf>TfxtLbyout</dodf>.  This is in stbndbrd doordinbtfs.
+     * @pbrbm bounds thf bounds of thf <dodf>TfxtLbyout</dodf>.  This
+     *     is in bbsflinf-rflbtivf doordinbtfs.
+     * @rfturn b hit dfsdribing thf dhbrbdtfr bnd fdgf (lfbding or trbiling)
+     *     undfr thf spfdififd point.
+     */
+    publid TfxtHitInfo hitTfstChbr(flobt x, flobt y, Rfdtbnglf2D bounds) {
+        // dhfdk boundbry donditions
+
+        LbyoutPbthImpl lp = tfxtLinf.gftLbyoutPbth();
+        boolfbn prfv = fblsf;
+        if (lp != null) {
+            Point2D.Flobt pt = nfw Point2D.Flobt(x, y);
+            prfv = lp.pointToPbth(pt, pt);
+            x = pt.x;
+            y = pt.y;
+        }
+
+        if (isVfrtidbl()) {
+            if (y < bounds.gftMinY()) {
+                rfturn TfxtHitInfo.lfbding(0);
+            } flsf if (y >= bounds.gftMbxY()) {
+                rfturn TfxtHitInfo.trbiling(dhbrbdtfrCount-1);
+            }
+        } flsf {
+            if (x < bounds.gftMinX()) {
+                rfturn isLfftToRight() ? TfxtHitInfo.lfbding(0) : TfxtHitInfo.trbiling(dhbrbdtfrCount-1);
+            } flsf if (x >= bounds.gftMbxX()) {
+                rfturn isLfftToRight() ? TfxtHitInfo.trbiling(dhbrbdtfrCount-1) : TfxtHitInfo.lfbding(0);
+            }
+        }
+
+        // rfvisfd hit tfst
+        // thf originbl sffms too domplfx bnd fbils misfrbbly with itblid offsfts
+        // thf nbturbl tfndfndy is to movf towbrds thf dhbrbdtfr you wbnt to hit
+        // so wf'll just mfbsurf distbndf to thf dfntfr of fbdh dhbrbdtfr's visubl
+        // bounds, pidk thf dlosfst onf, thfn sff whidh sidf of thf dhbrbdtfr's
+        // dfntfr linf (itblid) thf point is on.
+        // this tfnds to mbkf it fbsifr to hit nbrrow dhbrbdtfrs, whidh dbn bf b
+        // bit odd if you'rf visublly ovfr bn bdjbdfnt widf dhbrbdtfr. this mbkfs
+        // b difffrfndf with bidi, so pfrhbps i nffd to rfvisit this yft bgbin.
+
+        doublf distbndf = Doublf.MAX_VALUE;
+        int indfx = 0;
+        int trbil = -1;
+        CorfMftrids ldm = null;
+        flobt idx = 0, idy = 0, ib = 0, dy = 0, dyb = 0, ydsq = 0;
+
+        for (int i = 0; i < dhbrbdtfrCount; ++i) {
+            if (!tfxtLinf.dbrftAtOffsftIsVblid(i)) {
+                dontinuf;
+            }
+            if (trbil == -1) {
+                trbil = i;
+            }
+            CorfMftrids dm = tfxtLinf.gftCorfMftridsAt(i);
+            if (dm != ldm) {
+                ldm = dm;
+                // just work bround bbsflinf mfss for now
+                if (dm.bbsflinfIndfx == GrbphidAttributf.TOP_ALIGNMENT) {
+                    dy = -(tfxtLinf.gftMftrids().bsdfnt - dm.bsdfnt) + dm.ssOffsft;
+                } flsf if (dm.bbsflinfIndfx == GrbphidAttributf.BOTTOM_ALIGNMENT) {
+                    dy = tfxtLinf.gftMftrids().dfsdfnt - dm.dfsdfnt + dm.ssOffsft;
+                } flsf {
+                    dy = dm.ffffdtivfBbsflinfOffsft(bbsflinfOffsfts) + dm.ssOffsft;
+                }
+                flobt dy = (dm.dfsdfnt - dm.bsdfnt) / 2 - dy;
+                dyb = dy * dm.itblidAnglf;
+                dy += dy;
+                ydsq = (dy - y)*(dy - y);
+            }
+            flobt dx = tfxtLinf.gftChbrXPosition(i);
+            flobt db = tfxtLinf.gftChbrAdvbndf(i);
+            flobt dx = db / 2;
+            dx += dx - dyb;
+
+            // proximity in x (blong bbsflinf) is two timfs bs importbnt bs proximity in y
+            doublf nd = Mbth.sqrt(4*(dx - x)*(dx - x) + ydsq);
+            if (nd < distbndf) {
+                distbndf = nd;
+                indfx = i;
+                trbil = -1;
+                idx = dx; idy = dy; ib = dm.itblidAnglf;
+            }
+        }
+        boolfbn lfft = x < idx - (y - idy) * ib;
+        boolfbn lfbding = tfxtLinf.isChbrLTR(indfx) == lfft;
+        if (trbil == -1) {
+            trbil = dhbrbdtfrCount;
+        }
+        TfxtHitInfo rfsult = lfbding ? TfxtHitInfo.lfbding(indfx) :
+            TfxtHitInfo.trbiling(trbil-1);
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns b <dodf>TfxtHitInfo</dodf> dorrfsponding to thf
+     * spfdififd point.  This mfthod is b donvfnifndf ovfrlobd of
+     * <dodf>hitTfstChbr</dodf> thbt usfs thf nbturbl bounds of this
+     * <dodf>TfxtLbyout</dodf>.
+     * @pbrbm x thf x offsft from thf origin of this
+     *     <dodf>TfxtLbyout</dodf>.  This is in stbndbrd doordinbtfs.
+     * @pbrbm y thf y offsft from thf origin of this
+     *     <dodf>TfxtLbyout</dodf>.  This is in stbndbrd doordinbtfs.
+     * @rfturn b hit dfsdribing thf dhbrbdtfr bnd fdgf (lfbding or trbiling)
+     * undfr thf spfdififd point.
+     */
+    publid TfxtHitInfo hitTfstChbr(flobt x, flobt y) {
+
+        rfturn hitTfstChbr(x, y, gftNbturblBounds());
+    }
+
+    /**
+     * Rfturns thf hbsh dodf of this <dodf>TfxtLbyout</dodf>.
+     * @rfturn thf hbsh dodf of this <dodf>TfxtLbyout</dodf>.
+     */
+    publid int hbshCodf() {
+        if (hbshCodfCbdhf == 0) {
+            fnsurfCbdhf();
+            hbshCodfCbdhf = tfxtLinf.hbshCodf();
+        }
+        rfturn hbshCodfCbdhf;
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf spfdififd <dodf>Objfdt</dodf> is b
+     * <dodf>TfxtLbyout</dodf> objfdt bnd if thf spfdififd <dodf>Objfdt</dodf>
+     * fqubls this <dodf>TfxtLbyout</dodf>.
+     * @pbrbm obj bn <dodf>Objfdt</dodf> to tfst for fqublity
+     * @rfturn <dodf>truf</dodf> if thf spfdififd <dodf>Objfdt</dodf>
+     *      fqubls this <dodf>TfxtLbyout</dodf>; <dodf>fblsf</dodf>
+     *      othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn (obj instbndfof TfxtLbyout) && fqubls((TfxtLbyout)obj);
+    }
+
+    /**
+     * Rfturns <dodf>truf</dodf> if thf two lbyouts brf fqubl.
+     * Two lbyouts brf fqubl if thfy dontbin fqubl glyphvfdtors in thf sbmf ordfr.
+     * @pbrbm rhs thf <dodf>TfxtLbyout</dodf> to dompbrf to this
+     *       <dodf>TfxtLbyout</dodf>
+     * @rfturn <dodf>truf</dodf> if thf spfdififd <dodf>TfxtLbyout</dodf>
+     *      fqubls this <dodf>TfxtLbyout</dodf>.
+     *
+     */
+    publid boolfbn fqubls(TfxtLbyout rhs) {
+
+        if (rhs == null) {
+            rfturn fblsf;
+        }
+        if (rhs == this) {
+            rfturn truf;
+        }
+
+        fnsurfCbdhf();
+        rfturn tfxtLinf.fqubls(rhs.tfxtLinf);
+    }
+
+    /**
+     * Rfturns dfbugging informbtion for this <dodf>TfxtLbyout</dodf>.
+     * @rfturn thf <dodf>tfxtLinf</dodf> of this <dodf>TfxtLbyout</dodf>
+     *        bs b <dodf>String</dodf>.
+     */
+    publid String toString() {
+        fnsurfCbdhf();
+        rfturn tfxtLinf.toString();
+     }
+
+    /**
+     * Rfndfrs this <dodf>TfxtLbyout</dodf> bt thf spfdififd lodbtion in
+     * thf spfdififd {@link jbvb.bwt.Grbphids2D Grbphids2D} dontfxt.
+     * Thf origin of thf lbyout is plbdfd bt x,&nbsp;y.  Rfndfring mby toudh
+     * bny point within <dodf>gftBounds()</dodf> of this position.  This
+     * lfbvfs thf <dodf>g2</dodf> undhbngfd.  Tfxt is rfndfrfd blong thf
+     * bbsflinf pbth.
+     * @pbrbm g2 thf <dodf>Grbphids2D</dodf> dontfxt into whidh to rfndfr
+     *         thf lbyout
+     * @pbrbm x thf X doordinbtf of thf origin of this <dodf>TfxtLbyout</dodf>
+     * @pbrbm y thf Y doordinbtf of thf origin of this <dodf>TfxtLbyout</dodf>
+     * @sff #gftBounds()
+     */
+    publid void drbw(Grbphids2D g2, flobt x, flobt y) {
+
+        if (g2 == null) {
+            throw nfw IllfgblArgumfntExdfption("Null Grbphids2D pbssfd to TfxtLbyout.drbw()");
+        }
+
+        tfxtLinf.drbw(g2, x - dx, y - dy);
+    }
+
+    /**
+     * Pbdkbgf-only mfthod for tfsting ONLY.  Plfbsf don't bbusf.
+     */
+    TfxtLinf gftTfxtLinfForTfsting() {
+
+        rfturn tfxtLinf;
+    }
+
+    /**
+     *
+     * Rfturn thf indfx of thf first dhbrbdtfr with b difffrfnt bbsflinf from thf
+     * dhbrbdtfr bt stbrt, or limit if bll dhbrbdtfrs bftwffn stbrt bnd limit hbvf
+     * thf sbmf bbsflinf.
+     */
+    privbtf stbtid int sbmfBbsflinfUpTo(Font font, dhbr[] tfxt,
+                                        int stbrt, int limit) {
+        // durrfnt implfmfntbtion dofsn't support multiplf bbsflinfs
+        rfturn limit;
+        /*
+        bytf bl = font.gftBbsflinfFor(tfxt[stbrt++]);
+        whilf (stbrt < limit && font.gftBbsflinfFor(tfxt[stbrt]) == bl) {
+            ++stbrt;
+        }
+        rfturn stbrt;
+        */
+    }
+
+    stbtid bytf gftBbsflinfFromGrbphid(GrbphidAttributf grbphid) {
+
+        bytf blignmfnt = (bytf) grbphid.gftAlignmfnt();
+
+        if (blignmfnt == GrbphidAttributf.BOTTOM_ALIGNMENT ||
+                blignmfnt == GrbphidAttributf.TOP_ALIGNMENT) {
+
+            rfturn (bytf)GrbphidAttributf.ROMAN_BASELINE;
+        }
+        flsf {
+            rfturn blignmfnt;
+        }
+    }
+
+    /**
+     * Rfturns b <dodf>Shbpf</dodf> rfprfsfnting thf outlinf of this
+     * <dodf>TfxtLbyout</dodf>.
+     * @pbrbm tx bn optionbl {@link AffinfTrbnsform} to bpply to thf
+     *     outlinf of this <dodf>TfxtLbyout</dodf>.
+     * @rfturn b <dodf>Shbpf</dodf> thbt is thf outlinf of this
+     *     <dodf>TfxtLbyout</dodf>.  This is in stbndbrd doordinbtfs.
+     */
+    publid Shbpf gftOutlinf(AffinfTrbnsform tx) {
+        fnsurfCbdhf();
+        Shbpf rfsult = tfxtLinf.gftOutlinf(tx);
+        LbyoutPbthImpl lp = tfxtLinf.gftLbyoutPbth();
+        if (lp != null) {
+            rfsult = lp.mbpShbpf(rfsult);
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturn thf LbyoutPbth, or null if thf lbyout pbth is thf
+     * dffbult pbth (x mbps to bdvbndf, y mbps to offsft).
+     * @rfturn thf lbyout pbth
+     * @sindf 1.6
+     */
+    publid LbyoutPbth gftLbyoutPbth() {
+        rfturn tfxtLinf.gftLbyoutPbth();
+    }
+
+   /**
+     * Convfrt b hit to b point in stbndbrd doordinbtfs.  Thf point is
+     * on thf bbsflinf of thf dhbrbdtfr bt thf lfbding or trbiling
+     * fdgf of thf dhbrbdtfr, bs bppropribtf.  If thf pbth is
+     * brokfn bt thf sidf of thf dhbrbdtfr rfprfsfntfd by thf hit, thf
+     * point will bf bdjbdfnt to thf dhbrbdtfr.
+     * @pbrbm hit thf hit to dhfdk.  This must bf b vblid hit on
+     * thf TfxtLbyout.
+     * @pbrbm point thf rfturnfd point. Thf point is in stbndbrd
+     *     doordinbtfs.
+     * @throws IllfgblArgumfntExdfption if thf hit is not vblid for thf
+     * TfxtLbyout.
+     * @throws NullPointfrExdfption if hit or point is null.
+     * @sindf 1.6
+     */
+    publid void hitToPoint(TfxtHitInfo hit, Point2D point) {
+        if (hit == null || point == null) {
+            throw nfw NullPointfrExdfption((hit == null ? "hit" : "point") +
+                                           " dbn't bf null");
+        }
+        fnsurfCbdhf();
+        dhfdkTfxtHit(hit);
+
+        flobt bdv = 0;
+        flobt off = 0;
+
+        int ix = hit.gftChbrIndfx();
+        boolfbn lfbding = hit.isLfbdingEdgf();
+        boolfbn ltr;
+        if (ix == -1 || ix == tfxtLinf.dhbrbdtfrCount()) {
+            ltr = tfxtLinf.isDirfdtionLTR();
+            bdv = (ltr == (ix == -1)) ? 0 : linfMftrids.bdvbndf;
+        } flsf {
+            ltr = tfxtLinf.isChbrLTR(ix);
+            bdv = tfxtLinf.gftChbrLinfPosition(ix, lfbding);
+            off = tfxtLinf.gftChbrYPosition(ix);
+        }
+        point.sftLodbtion(bdv, off);
+        LbyoutPbth lp = tfxtLinf.gftLbyoutPbth();
+        if (lp != null) {
+            lp.pbthToPoint(point, ltr != lfbding, point);
+        }
+    }
+}

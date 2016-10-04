@@ -1,348 +1,348 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.awt.color.ICC_Profile;
-import java.awt.geom.Rectangle2D;
-import java.awt.Rectangle;
-import java.awt.RenderingHints;
-import java.awt.geom.Point2D;
-import java.lang.annotation.Native;
-import sun.awt.image.ImagingLib;
+import jbvb.bwt.dolor.ICC_Profilf;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import sun.bwt.imbgf.ImbgingLib;
 
 /**
- * This class implements a convolution from the source
- * to the destination.
- * Convolution using a convolution kernel is a spatial operation that
- * computes the output pixel from an input pixel by multiplying the kernel
- * with the surround of the input pixel.
- * This allows the output pixel to be affected by the immediate neighborhood
- * in a way that can be mathematically specified with a kernel.
+ * Tiis dlbss implfmfnts b donvolution from tif sourdf
+ * to tif dfstinbtion.
+ * Convolution using b donvolution kfrnfl is b spbtibl opfrbtion tibt
+ * domputfs tif output pixfl from bn input pixfl by multiplying tif kfrnfl
+ * witi tif surround of tif input pixfl.
+ * Tiis bllows tif output pixfl to bf bfffdtfd by tif immfdibtf nfigiboriood
+ * in b wby tibt dbn bf mbtifmbtidblly spfdififd witi b kfrnfl.
  *<p>
- * This class operates with BufferedImage data in which color components are
- * premultiplied with the alpha component.  If the Source BufferedImage has
- * an alpha component, and the color components are not premultiplied with
- * the alpha component, then the data are premultiplied before being
- * convolved.  If the Destination has color components which are not
- * premultiplied, then alpha is divided out before storing into the
- * Destination (if alpha is 0, the color components are set to 0).  If the
- * Destination has no alpha component, then the resulting alpha is discarded
- * after first dividing it out of the color components.
+ * Tiis dlbss opfrbtfs witi BufffrfdImbgf dbtb in wiidi dolor domponfnts brf
+ * prfmultiplifd witi tif blpib domponfnt.  If tif Sourdf BufffrfdImbgf ibs
+ * bn blpib domponfnt, bnd tif dolor domponfnts brf not prfmultiplifd witi
+ * tif blpib domponfnt, tifn tif dbtb brf prfmultiplifd bfforf bfing
+ * donvolvfd.  If tif Dfstinbtion ibs dolor domponfnts wiidi brf not
+ * prfmultiplifd, tifn blpib is dividfd out bfforf storing into tif
+ * Dfstinbtion (if blpib is 0, tif dolor domponfnts brf sft to 0).  If tif
+ * Dfstinbtion ibs no blpib domponfnt, tifn tif rfsulting blpib is disdbrdfd
+ * bftfr first dividing it out of tif dolor domponfnts.
  * <p>
- * Rasters are treated as having no alpha channel.  If the above treatment
- * of the alpha channel in BufferedImages is not desired, it may be avoided
- * by getting the Raster of a source BufferedImage and using the filter method
- * of this class which works with Rasters.
+ * Rbstfrs brf trfbtfd bs ibving no blpib dibnnfl.  If tif bbovf trfbtmfnt
+ * of tif blpib dibnnfl in BufffrfdImbgfs is not dfsirfd, it mby bf bvoidfd
+ * by gftting tif Rbstfr of b sourdf BufffrfdImbgf bnd using tif filtfr mftiod
+ * of tiis dlbss wiidi works witi Rbstfrs.
  * <p>
- * If a RenderingHints object is specified in the constructor, the
- * color rendering hint and the dithering hint may be used when color
- * conversion is required.
+ * If b RfndfringHints objfdt is spfdififd in tif donstrudtor, tif
+ * dolor rfndfring iint bnd tif ditifring iint mby bf usfd wifn dolor
+ * donvfrsion is rfquirfd.
  *<p>
- * Note that the Source and the Destination may not be the same object.
- * @see Kernel
- * @see java.awt.RenderingHints#KEY_COLOR_RENDERING
- * @see java.awt.RenderingHints#KEY_DITHERING
+ * Notf tibt tif Sourdf bnd tif Dfstinbtion mby not bf tif sbmf objfdt.
+ * @sff Kfrnfl
+ * @sff jbvb.bwt.RfndfringHints#KEY_COLOR_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_DITHERING
  */
-public class ConvolveOp implements BufferedImageOp, RasterOp {
-    Kernel kernel;
-    int edgeHint;
-    RenderingHints hints;
+publid dlbss ConvolvfOp implfmfnts BufffrfdImbgfOp, RbstfrOp {
+    Kfrnfl kfrnfl;
+    int fdgfHint;
+    RfndfringHints iints;
     /**
-     * Edge condition constants.
+     * Edgf dondition donstbnts.
      */
 
     /**
-     * Pixels at the edge of the destination image are set to zero.  This
-     * is the default.
+     * Pixfls bt tif fdgf of tif dfstinbtion imbgf brf sft to zfro.  Tiis
+     * is tif dffbult.
      */
 
-    @Native public static final int EDGE_ZERO_FILL = 0;
-
-    /**
-     * Pixels at the edge of the source image are copied to
-     * the corresponding pixels in the destination without modification.
-     */
-    @Native public static final int EDGE_NO_OP     = 1;
+    @Nbtivf publid stbtid finbl int EDGE_ZERO_FILL = 0;
 
     /**
-     * Constructs a ConvolveOp given a Kernel, an edge condition, and a
-     * RenderingHints object (which may be null).
-     * @param kernel the specified <code>Kernel</code>
-     * @param edgeCondition the specified edge condition
-     * @param hints the specified <code>RenderingHints</code> object
-     * @see Kernel
-     * @see #EDGE_NO_OP
-     * @see #EDGE_ZERO_FILL
-     * @see java.awt.RenderingHints
+     * Pixfls bt tif fdgf of tif sourdf imbgf brf dopifd to
+     * tif dorrfsponding pixfls in tif dfstinbtion witiout modifidbtion.
      */
-    public ConvolveOp(Kernel kernel, int edgeCondition, RenderingHints hints) {
-        this.kernel   = kernel;
-        this.edgeHint = edgeCondition;
-        this.hints    = hints;
+    @Nbtivf publid stbtid finbl int EDGE_NO_OP     = 1;
+
+    /**
+     * Construdts b ConvolvfOp givfn b Kfrnfl, bn fdgf dondition, bnd b
+     * RfndfringHints objfdt (wiidi mby bf null).
+     * @pbrbm kfrnfl tif spfdififd <dodf>Kfrnfl</dodf>
+     * @pbrbm fdgfCondition tif spfdififd fdgf dondition
+     * @pbrbm iints tif spfdififd <dodf>RfndfringHints</dodf> objfdt
+     * @sff Kfrnfl
+     * @sff #EDGE_NO_OP
+     * @sff #EDGE_ZERO_FILL
+     * @sff jbvb.bwt.RfndfringHints
+     */
+    publid ConvolvfOp(Kfrnfl kfrnfl, int fdgfCondition, RfndfringHints iints) {
+        tiis.kfrnfl   = kfrnfl;
+        tiis.fdgfHint = fdgfCondition;
+        tiis.iints    = iints;
     }
 
     /**
-     * Constructs a ConvolveOp given a Kernel.  The edge condition
-     * will be EDGE_ZERO_FILL.
-     * @param kernel the specified <code>Kernel</code>
-     * @see Kernel
-     * @see #EDGE_ZERO_FILL
+     * Construdts b ConvolvfOp givfn b Kfrnfl.  Tif fdgf dondition
+     * will bf EDGE_ZERO_FILL.
+     * @pbrbm kfrnfl tif spfdififd <dodf>Kfrnfl</dodf>
+     * @sff Kfrnfl
+     * @sff #EDGE_ZERO_FILL
      */
-    public ConvolveOp(Kernel kernel) {
-        this.kernel   = kernel;
-        this.edgeHint = EDGE_ZERO_FILL;
+    publid ConvolvfOp(Kfrnfl kfrnfl) {
+        tiis.kfrnfl   = kfrnfl;
+        tiis.fdgfHint = EDGE_ZERO_FILL;
     }
 
     /**
-     * Returns the edge condition.
-     * @return the edge condition of this <code>ConvolveOp</code>.
-     * @see #EDGE_NO_OP
-     * @see #EDGE_ZERO_FILL
+     * Rfturns tif fdgf dondition.
+     * @rfturn tif fdgf dondition of tiis <dodf>ConvolvfOp</dodf>.
+     * @sff #EDGE_NO_OP
+     * @sff #EDGE_ZERO_FILL
      */
-    public int getEdgeCondition() {
-        return edgeHint;
+    publid int gftEdgfCondition() {
+        rfturn fdgfHint;
     }
 
     /**
-     * Returns the Kernel.
-     * @return the <code>Kernel</code> of this <code>ConvolveOp</code>.
+     * Rfturns tif Kfrnfl.
+     * @rfturn tif <dodf>Kfrnfl</dodf> of tiis <dodf>ConvolvfOp</dodf>.
      */
-    public final Kernel getKernel() {
-        return (Kernel) kernel.clone();
+    publid finbl Kfrnfl gftKfrnfl() {
+        rfturn (Kfrnfl) kfrnfl.dlonf();
     }
 
     /**
-     * Performs a convolution on BufferedImages.  Each component of the
-     * source image will be convolved (including the alpha component, if
-     * present).
-     * If the color model in the source image is not the same as that
-     * in the destination image, the pixels will be converted
-     * in the destination.  If the destination image is null,
-     * a BufferedImage will be created with the source ColorModel.
-     * The IllegalArgumentException may be thrown if the source is the
-     * same as the destination.
-     * @param src the source <code>BufferedImage</code> to filter
-     * @param dst the destination <code>BufferedImage</code> for the
-     *        filtered <code>src</code>
-     * @return the filtered <code>BufferedImage</code>
-     * @throws NullPointerException if <code>src</code> is <code>null</code>
-     * @throws IllegalArgumentException if <code>src</code> equals
-     *         <code>dst</code>
-     * @throws ImagingOpException if <code>src</code> cannot be filtered
+     * Pfrforms b donvolution on BufffrfdImbgfs.  Ebdi domponfnt of tif
+     * sourdf imbgf will bf donvolvfd (indluding tif blpib domponfnt, if
+     * prfsfnt).
+     * If tif dolor modfl in tif sourdf imbgf is not tif sbmf bs tibt
+     * in tif dfstinbtion imbgf, tif pixfls will bf donvfrtfd
+     * in tif dfstinbtion.  If tif dfstinbtion imbgf is null,
+     * b BufffrfdImbgf will bf drfbtfd witi tif sourdf ColorModfl.
+     * Tif IllfgblArgumfntExdfption mby bf tirown if tif sourdf is tif
+     * sbmf bs tif dfstinbtion.
+     * @pbrbm srd tif sourdf <dodf>BufffrfdImbgf</dodf> to filtfr
+     * @pbrbm dst tif dfstinbtion <dodf>BufffrfdImbgf</dodf> for tif
+     *        filtfrfd <dodf>srd</dodf>
+     * @rfturn tif filtfrfd <dodf>BufffrfdImbgf</dodf>
+     * @tirows NullPointfrExdfption if <dodf>srd</dodf> is <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if <dodf>srd</dodf> fqubls
+     *         <dodf>dst</dodf>
+     * @tirows ImbgingOpExdfption if <dodf>srd</dodf> dbnnot bf filtfrfd
      */
-    public final BufferedImage filter (BufferedImage src, BufferedImage dst) {
-        if (src == null) {
-            throw new NullPointerException("src image is null");
+    publid finbl BufffrfdImbgf filtfr (BufffrfdImbgf srd, BufffrfdImbgf dst) {
+        if (srd == null) {
+            tirow nfw NullPointfrExdfption("srd imbgf is null");
         }
-        if (src == dst) {
-            throw new IllegalArgumentException("src image cannot be the "+
-                                               "same as the dst image");
+        if (srd == dst) {
+            tirow nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf tif "+
+                                               "sbmf bs tif dst imbgf");
         }
 
-        boolean needToConvert = false;
-        ColorModel srcCM = src.getColorModel();
-        ColorModel dstCM;
-        BufferedImage origDst = dst;
+        boolfbn nffdToConvfrt = fblsf;
+        ColorModfl srdCM = srd.gftColorModfl();
+        ColorModfl dstCM;
+        BufffrfdImbgf origDst = dst;
 
-        // Can't convolve an IndexColorModel.  Need to expand it
-        if (srcCM instanceof IndexColorModel) {
-            IndexColorModel icm = (IndexColorModel) srcCM;
-            src = icm.convertToIntDiscrete(src.getRaster(), false);
-            srcCM = src.getColorModel();
+        // Cbn't donvolvf bn IndfxColorModfl.  Nffd to fxpbnd it
+        if (srdCM instbndfof IndfxColorModfl) {
+            IndfxColorModfl idm = (IndfxColorModfl) srdCM;
+            srd = idm.donvfrtToIntDisdrftf(srd.gftRbstfr(), fblsf);
+            srdCM = srd.gftColorModfl();
         }
 
         if (dst == null) {
-            dst = createCompatibleDestImage(src, null);
-            dstCM = srcCM;
+            dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+            dstCM = srdCM;
             origDst = dst;
         }
-        else {
-            dstCM = dst.getColorModel();
-            if (srcCM.getColorSpace().getType() !=
-                dstCM.getColorSpace().getType())
+        flsf {
+            dstCM = dst.gftColorModfl();
+            if (srdCM.gftColorSpbdf().gftTypf() !=
+                dstCM.gftColorSpbdf().gftTypf())
             {
-                needToConvert = true;
-                dst = createCompatibleDestImage(src, null);
-                dstCM = dst.getColorModel();
+                nffdToConvfrt = truf;
+                dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+                dstCM = dst.gftColorModfl();
             }
-            else if (dstCM instanceof IndexColorModel) {
-                dst = createCompatibleDestImage(src, null);
-                dstCM = dst.getColorModel();
+            flsf if (dstCM instbndfof IndfxColorModfl) {
+                dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+                dstCM = dst.gftColorModfl();
             }
         }
 
-        if (ImagingLib.filter(this, src, dst) == null) {
-            throw new ImagingOpException ("Unable to convolve src image");
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
+            tirow nfw ImbgingOpExdfption ("Unbblf to donvolvf srd imbgf");
         }
 
-        if (needToConvert) {
-            ColorConvertOp ccop = new ColorConvertOp(hints);
-            ccop.filter(dst, origDst);
+        if (nffdToConvfrt) {
+            ColorConvfrtOp ddop = nfw ColorConvfrtOp(iints);
+            ddop.filtfr(dst, origDst);
         }
-        else if (origDst != dst) {
-            java.awt.Graphics2D g = origDst.createGraphics();
+        flsf if (origDst != dst) {
+            jbvb.bwt.Grbpiids2D g = origDst.drfbtfGrbpiids();
             try {
-                g.drawImage(dst, 0, 0, null);
-            } finally {
-                g.dispose();
+                g.drbwImbgf(dst, 0, 0, null);
+            } finblly {
+                g.disposf();
             }
         }
 
-        return origDst;
+        rfturn origDst;
     }
 
     /**
-     * Performs a convolution on Rasters.  Each band of the source Raster
-     * will be convolved.
-     * The source and destination must have the same number of bands.
-     * If the destination Raster is null, a new Raster will be created.
-     * The IllegalArgumentException may be thrown if the source is
-     * the same as the destination.
-     * @param src the source <code>Raster</code> to filter
-     * @param dst the destination <code>WritableRaster</code> for the
-     *        filtered <code>src</code>
-     * @return the filtered <code>WritableRaster</code>
-     * @throws NullPointerException if <code>src</code> is <code>null</code>
-     * @throws ImagingOpException if <code>src</code> and <code>dst</code>
-     *         do not have the same number of bands
-     * @throws ImagingOpException if <code>src</code> cannot be filtered
-     * @throws IllegalArgumentException if <code>src</code> equals
-     *         <code>dst</code>
+     * Pfrforms b donvolution on Rbstfrs.  Ebdi bbnd of tif sourdf Rbstfr
+     * will bf donvolvfd.
+     * Tif sourdf bnd dfstinbtion must ibvf tif sbmf numbfr of bbnds.
+     * If tif dfstinbtion Rbstfr is null, b nfw Rbstfr will bf drfbtfd.
+     * Tif IllfgblArgumfntExdfption mby bf tirown if tif sourdf is
+     * tif sbmf bs tif dfstinbtion.
+     * @pbrbm srd tif sourdf <dodf>Rbstfr</dodf> to filtfr
+     * @pbrbm dst tif dfstinbtion <dodf>WritbblfRbstfr</dodf> for tif
+     *        filtfrfd <dodf>srd</dodf>
+     * @rfturn tif filtfrfd <dodf>WritbblfRbstfr</dodf>
+     * @tirows NullPointfrExdfption if <dodf>srd</dodf> is <dodf>null</dodf>
+     * @tirows ImbgingOpExdfption if <dodf>srd</dodf> bnd <dodf>dst</dodf>
+     *         do not ibvf tif sbmf numbfr of bbnds
+     * @tirows ImbgingOpExdfption if <dodf>srd</dodf> dbnnot bf filtfrfd
+     * @tirows IllfgblArgumfntExdfption if <dodf>srd</dodf> fqubls
+     *         <dodf>dst</dodf>
      */
-    public final WritableRaster filter (Raster src, WritableRaster dst) {
+    publid finbl WritbblfRbstfr filtfr (Rbstfr srd, WritbblfRbstfr dst) {
         if (dst == null) {
-            dst = createCompatibleDestRaster(src);
+            dst = drfbtfCompbtiblfDfstRbstfr(srd);
         }
-        else if (src == dst) {
-            throw new IllegalArgumentException("src image cannot be the "+
-                                               "same as the dst image");
+        flsf if (srd == dst) {
+            tirow nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf tif "+
+                                               "sbmf bs tif dst imbgf");
         }
-        else if (src.getNumBands() != dst.getNumBands()) {
-            throw new ImagingOpException("Different number of bands in src "+
-                                         " and dst Rasters");
-        }
-
-        if (ImagingLib.filter(this, src, dst) == null) {
-            throw new ImagingOpException ("Unable to convolve src image");
+        flsf if (srd.gftNumBbnds() != dst.gftNumBbnds()) {
+            tirow nfw ImbgingOpExdfption("Difffrfnt numbfr of bbnds in srd "+
+                                         " bnd dst Rbstfrs");
         }
 
-        return dst;
+        if (ImbgingLib.filtfr(tiis, srd, dst) == null) {
+            tirow nfw ImbgingOpExdfption ("Unbblf to donvolvf srd imbgf");
+        }
+
+        rfturn dst;
     }
 
     /**
-     * Creates a zeroed destination image with the correct size and number
-     * of bands.  If destCM is null, an appropriate ColorModel will be used.
-     * @param src       Source image for the filter operation.
-     * @param destCM    ColorModel of the destination.  Can be null.
-     * @return a destination <code>BufferedImage</code> with the correct
-     *         size and number of bands.
+     * Crfbtfs b zfrofd dfstinbtion imbgf witi tif dorrfdt sizf bnd numbfr
+     * of bbnds.  If dfstCM is null, bn bppropribtf ColorModfl will bf usfd.
+     * @pbrbm srd       Sourdf imbgf for tif filtfr opfrbtion.
+     * @pbrbm dfstCM    ColorModfl of tif dfstinbtion.  Cbn bf null.
+     * @rfturn b dfstinbtion <dodf>BufffrfdImbgf</dodf> witi tif dorrfdt
+     *         sizf bnd numbfr of bbnds.
      */
-    public BufferedImage createCompatibleDestImage(BufferedImage src,
-                                                   ColorModel destCM) {
-        BufferedImage image;
+    publid BufffrfdImbgf drfbtfCompbtiblfDfstImbgf(BufffrfdImbgf srd,
+                                                   ColorModfl dfstCM) {
+        BufffrfdImbgf imbgf;
 
-        int w = src.getWidth();
-        int h = src.getHeight();
+        int w = srd.gftWidti();
+        int i = srd.gftHfigit();
 
-        WritableRaster wr = null;
+        WritbblfRbstfr wr = null;
 
-        if (destCM == null) {
-            destCM = src.getColorModel();
-            // Not much support for ICM
-            if (destCM instanceof IndexColorModel) {
-                destCM = ColorModel.getRGBdefault();
-            } else {
-                /* Create destination image as similar to the source
-                 *  as it possible...
+        if (dfstCM == null) {
+            dfstCM = srd.gftColorModfl();
+            // Not mudi support for ICM
+            if (dfstCM instbndfof IndfxColorModfl) {
+                dfstCM = ColorModfl.gftRGBdffbult();
+            } flsf {
+                /* Crfbtf dfstinbtion imbgf bs similbr to tif sourdf
+                 *  bs it possiblf...
                  */
-                wr = src.getData().createCompatibleWritableRaster(w, h);
+                wr = srd.gftDbtb().drfbtfCompbtiblfWritbblfRbstfr(w, i);
             }
         }
 
         if (wr == null) {
-            /* This is the case when destination color model
-             * was explicitly specified (and it may be not compatible
-             * with source raster structure) or source is indexed image.
-             * We should use destination color model to create compatible
-             * destination raster here.
+            /* Tiis is tif dbsf wifn dfstinbtion dolor modfl
+             * wbs fxpliditly spfdififd (bnd it mby bf not dompbtiblf
+             * witi sourdf rbstfr strudturf) or sourdf is indfxfd imbgf.
+             * Wf siould usf dfstinbtion dolor modfl to drfbtf dompbtiblf
+             * dfstinbtion rbstfr ifrf.
              */
-            wr = destCM.createCompatibleWritableRaster(w, h);
+            wr = dfstCM.drfbtfCompbtiblfWritbblfRbstfr(w, i);
         }
 
-        image = new BufferedImage (destCM, wr,
-                                   destCM.isAlphaPremultiplied(), null);
+        imbgf = nfw BufffrfdImbgf (dfstCM, wr,
+                                   dfstCM.isAlpibPrfmultiplifd(), null);
 
-        return image;
+        rfturn imbgf;
     }
 
     /**
-     * Creates a zeroed destination Raster with the correct size and number
-     * of bands, given this source.
+     * Crfbtfs b zfrofd dfstinbtion Rbstfr witi tif dorrfdt sizf bnd numbfr
+     * of bbnds, givfn tiis sourdf.
      */
-    public WritableRaster createCompatibleDestRaster(Raster src) {
-        return src.createCompatibleWritableRaster();
+    publid WritbblfRbstfr drfbtfCompbtiblfDfstRbstfr(Rbstfr srd) {
+        rfturn srd.drfbtfCompbtiblfWritbblfRbstfr();
     }
 
     /**
-     * Returns the bounding box of the filtered destination image.  Since
-     * this is not a geometric operation, the bounding box does not
-     * change.
+     * Rfturns tif bounding box of tif filtfrfd dfstinbtion imbgf.  Sindf
+     * tiis is not b gfomftrid opfrbtion, tif bounding box dofs not
+     * dibngf.
      */
-    public final Rectangle2D getBounds2D(BufferedImage src) {
-        return getBounds2D(src.getRaster());
+    publid finbl Rfdtbnglf2D gftBounds2D(BufffrfdImbgf srd) {
+        rfturn gftBounds2D(srd.gftRbstfr());
     }
 
     /**
-     * Returns the bounding box of the filtered destination Raster.  Since
-     * this is not a geometric operation, the bounding box does not
-     * change.
+     * Rfturns tif bounding box of tif filtfrfd dfstinbtion Rbstfr.  Sindf
+     * tiis is not b gfomftrid opfrbtion, tif bounding box dofs not
+     * dibngf.
      */
-    public final Rectangle2D getBounds2D(Raster src) {
-        return src.getBounds();
+    publid finbl Rfdtbnglf2D gftBounds2D(Rbstfr srd) {
+        rfturn srd.gftBounds();
     }
 
     /**
-     * Returns the location of the destination point given a
-     * point in the source.  If dstPt is non-null, it will
-     * be used to hold the return value.  Since this is not a geometric
-     * operation, the srcPt will equal the dstPt.
+     * Rfturns tif lodbtion of tif dfstinbtion point givfn b
+     * point in tif sourdf.  If dstPt is non-null, it will
+     * bf usfd to iold tif rfturn vbluf.  Sindf tiis is not b gfomftrid
+     * opfrbtion, tif srdPt will fqubl tif dstPt.
      */
-    public final Point2D getPoint2D(Point2D srcPt, Point2D dstPt) {
+    publid finbl Point2D gftPoint2D(Point2D srdPt, Point2D dstPt) {
         if (dstPt == null) {
-            dstPt = new Point2D.Float();
+            dstPt = nfw Point2D.Flobt();
         }
-        dstPt.setLocation(srcPt.getX(), srcPt.getY());
+        dstPt.sftLodbtion(srdPt.gftX(), srdPt.gftY());
 
-        return dstPt;
+        rfturn dstPt;
     }
 
     /**
-     * Returns the rendering hints for this op.
+     * Rfturns tif rfndfring iints for tiis op.
      */
-    public final RenderingHints getRenderingHints() {
-        return hints;
+    publid finbl RfndfringHints gftRfndfringHints() {
+        rfturn iints;
     }
 }

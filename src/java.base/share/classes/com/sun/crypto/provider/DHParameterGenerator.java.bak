@@ -1,174 +1,174 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.security.*;
-import java.security.spec.*;
-import javax.crypto.spec.DHParameterSpec;
-import javax.crypto.spec.DHGenParameterSpec;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+import jbvbx.drypto.spfd.DHPbrbmftfrSpfd;
+import jbvbx.drypto.spfd.DHGfnPbrbmftfrSpfd;
 
 /*
- * This class generates parameters for the Diffie-Hellman algorithm.
- * The parameters are a prime, a base, and optionally the length in bits of
- * the private value.
+ * Tiis dlbss gfnfrbtfs pbrbmftfrs for tif Diffif-Hfllmbn blgoritim.
+ * Tif pbrbmftfrs brf b primf, b bbsf, bnd optionblly tif lfngti in bits of
+ * tif privbtf vbluf.
  *
- * <p>The Diffie-Hellman parameter generation accepts the size in bits of the
- * prime modulus and the size in bits of the random exponent as input.
- * The size of the prime modulus defaults to 1024 bits.
+ * <p>Tif Diffif-Hfllmbn pbrbmftfr gfnfrbtion bddfpts tif sizf in bits of tif
+ * primf modulus bnd tif sizf in bits of tif rbndom fxponfnt bs input.
+ * Tif sizf of tif primf modulus dffbults to 1024 bits.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  *
- * @see java.security.AlgorithmParameters
- * @see java.security.spec.AlgorithmParameterSpec
- * @see DHParameters
+ * @sff jbvb.sfdurity.AlgoritimPbrbmftfrs
+ * @sff jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd
+ * @sff DHPbrbmftfrs
  */
-public final class DHParameterGenerator
-extends AlgorithmParameterGeneratorSpi {
+publid finbl dlbss DHPbrbmftfrGfnfrbtor
+fxtfnds AlgoritimPbrbmftfrGfnfrbtorSpi {
 
-    // The size in bits of the prime modulus
-    private int primeSize = 1024;
+    // Tif sizf in bits of tif primf modulus
+    privbtf int primfSizf = 1024;
 
-    // The size in bits of the random exponent (private value)
-    private int exponentSize = 0;
+    // Tif sizf in bits of tif rbndom fxponfnt (privbtf vbluf)
+    privbtf int fxponfntSizf = 0;
 
-    // The source of randomness
-    private SecureRandom random = null;
+    // Tif sourdf of rbndomnfss
+    privbtf SfdurfRbndom rbndom = null;
 
-    private static void checkKeySize(int keysize)
-        throws InvalidAlgorithmParameterException {
-        if ((keysize != 2048) &&
-            ((keysize < 512) || (keysize > 1024) || (keysize % 64 != 0))) {
-            throw new InvalidAlgorithmParameterException(
-                "Keysize must be multiple of 64 ranging from "
-                + "512 to 1024 (inclusive), or 2048");
+    privbtf stbtid void difdkKfySizf(int kfysizf)
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+        if ((kfysizf != 2048) &&
+            ((kfysizf < 512) || (kfysizf > 1024) || (kfysizf % 64 != 0))) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                "Kfysizf must bf multiplf of 64 rbnging from "
+                + "512 to 1024 (indlusivf), or 2048");
         }
     }
 
     /**
-     * Initializes this parameter generator for a certain keysize
-     * and source of randomness.
-     * The keysize is specified as the size in bits of the prime modulus.
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor for b dfrtbin kfysizf
+     * bnd sourdf of rbndomnfss.
+     * Tif kfysizf is spfdififd bs tif sizf in bits of tif primf modulus.
      *
-     * @param keysize the keysize (size of prime modulus) in bits
-     * @param random the source of randomness
+     * @pbrbm kfysizf tif kfysizf (sizf of primf modulus) in bits
+     * @pbrbm rbndom tif sourdf of rbndomnfss
      */
-    protected void engineInit(int keysize, SecureRandom random) {
-        // Re-uses DSA parameters and thus have the same range
+    protfdtfd void fnginfInit(int kfysizf, SfdurfRbndom rbndom) {
+        // Rf-usfs DSA pbrbmftfrs bnd tius ibvf tif sbmf rbngf
         try {
-            checkKeySize(keysize);
-        } catch (InvalidAlgorithmParameterException ex) {
-            throw new InvalidParameterException(ex.getMessage());
+            difdkKfySizf(kfysizf);
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption fx) {
+            tirow nfw InvblidPbrbmftfrExdfption(fx.gftMfssbgf());
         }
-        this.primeSize = keysize;
-        this.random = random;
+        tiis.primfSizf = kfysizf;
+        tiis.rbndom = rbndom;
     }
 
     /**
-     * Initializes this parameter generator with a set of parameter
-     * generation values, which specify the size of the prime modulus and
-     * the size of the random exponent, both in bits.
+     * Initiblizfs tiis pbrbmftfr gfnfrbtor witi b sft of pbrbmftfr
+     * gfnfrbtion vblufs, wiidi spfdify tif sizf of tif primf modulus bnd
+     * tif sizf of tif rbndom fxponfnt, boti in bits.
      *
-     * @param params the set of parameter generation values
-     * @param random the source of randomness
+     * @pbrbm pbrbms tif sft of pbrbmftfr gfnfrbtion vblufs
+     * @pbrbm rbndom tif sourdf of rbndomnfss
      *
-     * @exception InvalidAlgorithmParameterException if the given parameter
-     * generation values are inappropriate for this parameter generator
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn pbrbmftfr
+     * gfnfrbtion vblufs brf inbppropribtf for tiis pbrbmftfr gfnfrbtor
      */
-    protected void engineInit(AlgorithmParameterSpec genParamSpec,
-                              SecureRandom random)
-        throws InvalidAlgorithmParameterException {
-        if (!(genParamSpec instanceof DHGenParameterSpec)) {
-            throw new InvalidAlgorithmParameterException
-                ("Inappropriate parameter type");
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd gfnPbrbmSpfd,
+                              SfdurfRbndom rbndom)
+        tirows InvblidAlgoritimPbrbmftfrExdfption {
+        if (!(gfnPbrbmSpfd instbndfof DHGfnPbrbmftfrSpfd)) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("Inbppropribtf pbrbmftfr typf");
         }
 
-        DHGenParameterSpec dhParamSpec = (DHGenParameterSpec)genParamSpec;
+        DHGfnPbrbmftfrSpfd diPbrbmSpfd = (DHGfnPbrbmftfrSpfd)gfnPbrbmSpfd;
 
-        primeSize = dhParamSpec.getPrimeSize();
+        primfSizf = diPbrbmSpfd.gftPrimfSizf();
 
-        // Re-uses DSA parameters and thus have the same range
-        checkKeySize(primeSize);
+        // Rf-usfs DSA pbrbmftfrs bnd tius ibvf tif sbmf rbngf
+        difdkKfySizf(primfSizf);
 
-        exponentSize = dhParamSpec.getExponentSize();
-        if (exponentSize <= 0) {
-            throw new InvalidAlgorithmParameterException
-                ("Exponent size must be greater than zero");
+        fxponfntSizf = diPbrbmSpfd.gftExponfntSizf();
+        if (fxponfntSizf <= 0) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("Exponfnt sizf must bf grfbtfr tibn zfro");
         }
 
-        // Require exponentSize < primeSize
-        if (exponentSize >= primeSize) {
-            throw new InvalidAlgorithmParameterException
-                ("Exponent size must be less than modulus size");
+        // Rfquirf fxponfntSizf < primfSizf
+        if (fxponfntSizf >= primfSizf) {
+            tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                ("Exponfnt sizf must bf lfss tibn modulus sizf");
         }
     }
 
     /**
-     * Generates the parameters.
+     * Gfnfrbtfs tif pbrbmftfrs.
      *
-     * @return the new AlgorithmParameters object
+     * @rfturn tif nfw AlgoritimPbrbmftfrs objfdt
      */
-    protected AlgorithmParameters engineGenerateParameters() {
-        AlgorithmParameters algParams = null;
+    protfdtfd AlgoritimPbrbmftfrs fnginfGfnfrbtfPbrbmftfrs() {
+        AlgoritimPbrbmftfrs blgPbrbms = null;
 
-        if (this.exponentSize == 0) {
-            this.exponentSize = this.primeSize - 1;
+        if (tiis.fxponfntSizf == 0) {
+            tiis.fxponfntSizf = tiis.primfSizf - 1;
         }
 
-        if (this.random == null)
-            this.random = SunJCE.getRandom();
+        if (tiis.rbndom == null)
+            tiis.rbndom = SunJCE.gftRbndom();
 
         try {
-            AlgorithmParameterGenerator paramGen;
-            DSAParameterSpec dsaParamSpec;
+            AlgoritimPbrbmftfrGfnfrbtor pbrbmGfn;
+            DSAPbrbmftfrSpfd dsbPbrbmSpfd;
 
-            paramGen = AlgorithmParameterGenerator.getInstance("DSA");
-            paramGen.init(this.primeSize, random);
-            algParams = paramGen.generateParameters();
-            dsaParamSpec = algParams.getParameterSpec(DSAParameterSpec.class);
+            pbrbmGfn = AlgoritimPbrbmftfrGfnfrbtor.gftInstbndf("DSA");
+            pbrbmGfn.init(tiis.primfSizf, rbndom);
+            blgPbrbms = pbrbmGfn.gfnfrbtfPbrbmftfrs();
+            dsbPbrbmSpfd = blgPbrbms.gftPbrbmftfrSpfd(DSAPbrbmftfrSpfd.dlbss);
 
-            DHParameterSpec dhParamSpec;
-            if (this.exponentSize > 0) {
-                dhParamSpec = new DHParameterSpec(dsaParamSpec.getP(),
-                                                  dsaParamSpec.getG(),
-                                                  this.exponentSize);
-            } else {
-                dhParamSpec = new DHParameterSpec(dsaParamSpec.getP(),
-                                                  dsaParamSpec.getG());
+            DHPbrbmftfrSpfd diPbrbmSpfd;
+            if (tiis.fxponfntSizf > 0) {
+                diPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
+                                                  dsbPbrbmSpfd.gftG(),
+                                                  tiis.fxponfntSizf);
+            } flsf {
+                diPbrbmSpfd = nfw DHPbrbmftfrSpfd(dsbPbrbmSpfd.gftP(),
+                                                  dsbPbrbmSpfd.gftG());
             }
-            algParams = AlgorithmParameters.getInstance("DH",
-                    SunJCE.getInstance());
-            algParams.init(dhParamSpec);
-        } catch (InvalidParameterSpecException e) {
-            // this should never happen
-            throw new RuntimeException(e.getMessage());
-        } catch (NoSuchAlgorithmException e) {
-            // this should never happen, because we provide it
-            throw new RuntimeException(e.getMessage());
+            blgPbrbms = AlgoritimPbrbmftfrs.gftInstbndf("DH",
+                    SunJCE.gftInstbndf());
+            blgPbrbms.init(diPbrbmSpfd);
+        } dbtdi (InvblidPbrbmftfrSpfdExdfption f) {
+            // tiis siould nfvfr ibppfn
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
+        } dbtdi (NoSudiAlgoritimExdfption f) {
+            // tiis siould nfvfr ibppfn, bfdbusf wf providf it
+            tirow nfw RuntimfExdfption(f.gftMfssbgf());
         }
-        return algParams;
+        rfturn blgPbrbms;
     }
 }

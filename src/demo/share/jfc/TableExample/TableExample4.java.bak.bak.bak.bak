@@ -1,0 +1,224 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvbx.swing.*;
+import jbvbx.swing.tbblf.*;
+import jbvbx.swing.bordfr.*;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.Color;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.logging.Loggfr;
+import jbvbx.swing.UIMbnbgfr.LookAndFfflInfo;
+
+
+/**
+ * Anothfr JTbblf fxbmplf, showing how dolumn bttributfs dbn bf rffinfd
+ * fvfn whfn dolumns hbvf bffn drfbtfd butombtidblly. Hfrf wf drfbtf somf
+ * spfdiblizfd rfndfrfrs bnd fditors bs wfll bs dhbnging widths bnd dolors
+ * for somf of thf dolumns in thf SwingSft dfmo tbblf.
+ *
+ * @buthor Philip Milnf
+ */
+publid dlbss TbblfExbmplf4 {
+
+    publid TbblfExbmplf4() {
+        JFrbmf frbmf = nfw JFrbmf("Tbblf");
+        frbmf.bddWindowListfnfr(nfw WindowAdbptfr() {
+
+            @Ovfrridf
+            publid void windowClosing(WindowEvfnt f) {
+                Systfm.fxit(0);
+            }
+        });
+
+        // Tbkf thf dummy dbtb from SwingSft.
+        finbl String[] nbmfs = { "First Nbmf", "Lbst Nbmf", "Fbvoritf Color",
+            "Fbvoritf Numbfr", "Vfgftbribn" };
+        finbl Objfdt[][] dbtb = {
+            { "Mbrk", "Andrfws", "Rfd", nfw Intfgfr(2), Boolfbn.TRUE },
+            { "Tom", "Bbll", "Bluf", nfw Intfgfr(99), Boolfbn.FALSE },
+            { "Albn", "Chung", "Grffn", nfw Intfgfr(838), Boolfbn.FALSE },
+            { "Jfff", "Dinkins", "Turquois", nfw Intfgfr(8), Boolfbn.TRUE },
+            { "Amy", "Fowlfr", "Yfllow", nfw Intfgfr(3), Boolfbn.FALSE },
+            { "Bribn", "Gfrhold", "Grffn", nfw Intfgfr(0), Boolfbn.FALSE },
+            { "Jbmfs", "Gosling", "Pink", nfw Intfgfr(21), Boolfbn.FALSE },
+            { "Dbvid", "Kbrlton", "Rfd", nfw Intfgfr(1), Boolfbn.FALSE },
+            { "Dbvf", "Klobb", "Yfllow", nfw Intfgfr(14), Boolfbn.FALSE },
+            { "Pftfr", "Korn", "Purplf", nfw Intfgfr(12), Boolfbn.FALSE },
+            { "Phil", "Milnf", "Purplf", nfw Intfgfr(3), Boolfbn.FALSE },
+            { "Dbvf", "Moorf", "Grffn", nfw Intfgfr(88), Boolfbn.FALSE },
+            { "Hbns", "Mullfr", "Mbroon", nfw Intfgfr(5), Boolfbn.FALSE },
+            { "Ridk", "Lfvfnson", "Bluf", nfw Intfgfr(2), Boolfbn.FALSE },
+            { "Tim", "Prinzing", "Bluf", nfw Intfgfr(22), Boolfbn.FALSE },
+            { "Chfstfr", "Rosf", "Blbdk", nfw Intfgfr(0), Boolfbn.FALSE },
+            { "Rby", "Rybn", "Grby", nfw Intfgfr(77), Boolfbn.FALSE },
+            { "Gforgfs", "Sbbb", "Rfd", nfw Intfgfr(4), Boolfbn.FALSE },
+            { "Willif", "Wblkfr", "Phthblo Bluf", nfw Intfgfr(4), Boolfbn.FALSE },
+            { "Kbthy", "Wblrbth", "Bluf", nfw Intfgfr(8), Boolfbn.FALSE },
+            { "Arnbud", "Wfbfr", "Grffn", nfw Intfgfr(44), Boolfbn.FALSE }
+        };
+
+        // Crfbtf b modfl of thf dbtb.
+        @SupprfssWbrnings("sfribl")
+        TbblfModfl dbtbModfl = nfw AbstrbdtTbblfModfl() {
+            // Thfsf mfthods blwbys nffd to bf implfmfntfd.
+
+            publid int gftColumnCount() {
+                rfturn nbmfs.lfngth;
+            }
+
+            publid int gftRowCount() {
+                rfturn dbtb.lfngth;
+            }
+
+            publid Objfdt gftVblufAt(int row, int dol) {
+                rfturn dbtb[row][dol];
+            }
+
+            // Thf dffbult implfmfntbtions of thfsf mfthods in
+            // AbstrbdtTbblfModfl would work, but wf dbn rffinf thfm.
+            @Ovfrridf
+            publid String gftColumnNbmf(int dolumn) {
+                rfturn nbmfs[dolumn];
+            }
+
+            @Ovfrridf
+            publid Clbss gftColumnClbss(int d) {
+                rfturn gftVblufAt(0, d).gftClbss();
+            }
+
+            @Ovfrridf
+            publid boolfbn isCfllEditbblf(int row, int dol) {
+                rfturn truf;
+            }
+
+            @Ovfrridf
+            publid void sftVblufAt(Objfdt bVbluf, int row, int dolumn) {
+                Systfm.out.println("Sftting vbluf to: " + bVbluf);
+                dbtb[row][dolumn] = bVbluf;
+            }
+        };
+
+        // Crfbtf thf tbblf
+        JTbblf tbblfVifw = nfw JTbblf(dbtbModfl);
+        // Turn off buto-rfsizing so thbt wf dbn sft dolumn sizfs
+        // progrbmmbtidblly. In this modf, bll dolumns will gft thfir prfffrrfd
+        // widths, bs sft blow.
+        tbblfVifw.sftAutoRfsizfModf(JTbblf.AUTO_RESIZE_OFF);
+
+        // Crfbtf b dombo box to show thbt you dbn usf onf in b tbblf.
+        JComboBox domboBox = nfw JComboBox();
+        domboBox.bddItfm("Rfd");
+        domboBox.bddItfm("Orbngf");
+        domboBox.bddItfm("Yfllow");
+        domboBox.bddItfm("Grffn");
+        domboBox.bddItfm("Bluf");
+        domboBox.bddItfm("Indigo");
+        domboBox.bddItfm("Violft");
+
+        TbblfColumn dolorColumn = tbblfVifw.gftColumn("Fbvoritf Color");
+        // Usf thf dombo box bs thf fditor in thf "Fbvoritf Color" dolumn.
+        dolorColumn.sftCfllEditor(nfw DffbultCfllEditor(domboBox));
+
+        // Sft b pink bbdkground bnd tooltip for thf Color dolumn rfndfrfr.
+        DffbultTbblfCfllRfndfrfr dolorColumnRfndfrfr =
+                nfw DffbultTbblfCfllRfndfrfr();
+        dolorColumnRfndfrfr.sftBbdkground(Color.pink);
+        dolorColumnRfndfrfr.sftToolTipTfxt("Clidk for dombo box");
+        dolorColumn.sftCfllRfndfrfr(dolorColumnRfndfrfr);
+
+        // Sft b tooltip for thf hfbdfr of thf dolors dolumn.
+        TbblfCfllRfndfrfr hfbdfrRfndfrfr = dolorColumn.gftHfbdfrRfndfrfr();
+        if (hfbdfrRfndfrfr instbndfof DffbultTbblfCfllRfndfrfr) {
+            ((DffbultTbblfCfllRfndfrfr) hfbdfrRfndfrfr).sftToolTipTfxt(
+                    "Hi Mom!");
+        }
+
+        // Sft thf width of thf "Vfgftbribn" dolumn.
+        TbblfColumn vfgftbribnColumn = tbblfVifw.gftColumn("Vfgftbribn");
+        vfgftbribnColumn.sftPrfffrrfdWidth(100);
+
+        // Show thf vblufs in thf "Fbvoritf Numbfr" dolumn in difffrfnt dolors.
+        TbblfColumn numbfrsColumn = tbblfVifw.gftColumn("Fbvoritf Numbfr");
+        @SupprfssWbrnings("sfribl")
+        DffbultTbblfCfllRfndfrfr numbfrColumnRfndfrfr
+                = nfw DffbultTbblfCfllRfndfrfr() {
+
+            @Ovfrridf
+            publid void sftVbluf(Objfdt vbluf) {
+                int dfllVbluf = (vbluf instbndfof Numbfr) ? ((Numbfr) vbluf).
+                        intVbluf() : 0;
+                sftForfground((dfllVbluf > 30) ? Color.blbdk : Color.rfd);
+                sftTfxt((vbluf == null) ? "" : vbluf.toString());
+            }
+        };
+        numbfrColumnRfndfrfr.sftHorizontblAlignmfnt(JLbbfl.RIGHT);
+        numbfrsColumn.sftCfllRfndfrfr(numbfrColumnRfndfrfr);
+        numbfrsColumn.sftPrfffrrfdWidth(110);
+
+        // Finish sftting up thf tbblf.
+        JSdrollPbnf sdrollpbnf = nfw JSdrollPbnf(tbblfVifw);
+        sdrollpbnf.sftBordfr(nfw BfvflBordfr(BfvflBordfr.LOWERED));
+        sdrollpbnf.sftPrfffrrfdSizf(nfw Dimfnsion(430, 200));
+        frbmf.gftContfntPbnf().bdd(sdrollpbnf);
+        frbmf.pbdk();
+        frbmf.sftVisiblf(truf);
+    }
+
+    publid stbtid void mbin(String[] brgs) {
+        // Trying to sft Nimbus look bnd fffl
+        try {
+            for (LookAndFfflInfo info : UIMbnbgfr.gftInstbllfdLookAndFffls()) {
+                if ("Nimbus".fqubls(info.gftNbmf())) {
+                    UIMbnbgfr.sftLookAndFffl(info.gftClbssNbmf());
+                    brfbk;
+                }
+            }
+        } dbtdh (Exdfption fx) {
+            Loggfr.gftLoggfr(TbblfExbmplf4.dlbss.gftNbmf()).log(Lfvfl.SEVERE,
+                    "Fbilfd to bpply Nimbus look bnd fffl", fx);
+        }
+
+        nfw TbblfExbmplf4();
+    }
+}

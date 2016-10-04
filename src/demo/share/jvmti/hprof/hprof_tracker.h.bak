@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,55 +30,55 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#ifndef HPROF_TRACKER_H
-#define HPROF_TRACKER_H
+#ifndff HPROF_TRACKER_H
+#dffinf HPROF_TRACKER_H
 
-/* The internal qualified classname */
+/* Tif intfrnbl qublififd dlbssnbmf */
 
-#define OBJECT_CLASS_SIG        "Ljava/lang/Object;"
-#define OBJECT_INIT_NAME        "<init>"
-#define OBJECT_INIT_SIG         "()V"
+#dffinf OBJECT_CLASS_SIG        "Ljbvb/lbng/Objfdt;"
+#dffinf OBJECT_INIT_NAME        "<init>"
+#dffinf OBJECT_INIT_SIG         "()V"
 
-#define TRACKER_PACKAGE         "com/sun/demo/jvmti/hprof"
-#define TRACKER_CLASS_NAME      TRACKER_PACKAGE "/Tracker"
-#define TRACKER_CLASS_SIG       "L" TRACKER_CLASS_NAME ";"
+#dffinf TRACKER_PACKAGE         "dom/sun/dfmo/jvmti/iprof"
+#dffinf TRACKER_CLASS_NAME      TRACKER_PACKAGE "/Trbdkfr"
+#dffinf TRACKER_CLASS_SIG       "L" TRACKER_CLASS_NAME ";"
 
-#define TRACKER_NEWARRAY_NAME        "NewArray"
-#define TRACKER_NEWARRAY_SIG         "(Ljava/lang/Object;)V"
-#define TRACKER_NEWARRAY_NATIVE_NAME "nativeNewArray"
-#define TRACKER_NEWARRAY_NATIVE_SIG  "(Ljava/lang/Object;Ljava/lang/Object;)V"
+#dffinf TRACKER_NEWARRAY_NAME        "NfwArrby"
+#dffinf TRACKER_NEWARRAY_SIG         "(Ljbvb/lbng/Objfdt;)V"
+#dffinf TRACKER_NEWARRAY_NATIVE_NAME "nbtivfNfwArrby"
+#dffinf TRACKER_NEWARRAY_NATIVE_SIG  "(Ljbvb/lbng/Objfdt;Ljbvb/lbng/Objfdt;)V"
 
-#define TRACKER_OBJECT_INIT_NAME        "ObjectInit"
-#define TRACKER_OBJECT_INIT_SIG         "(Ljava/lang/Object;)V"
-#define TRACKER_OBJECT_INIT_NATIVE_NAME "nativeObjectInit"
-#define TRACKER_OBJECT_INIT_NATIVE_SIG  "(Ljava/lang/Object;Ljava/lang/Object;)V"
+#dffinf TRACKER_OBJECT_INIT_NAME        "ObjfdtInit"
+#dffinf TRACKER_OBJECT_INIT_SIG         "(Ljbvb/lbng/Objfdt;)V"
+#dffinf TRACKER_OBJECT_INIT_NATIVE_NAME "nbtivfObjfdtInit"
+#dffinf TRACKER_OBJECT_INIT_NATIVE_SIG  "(Ljbvb/lbng/Objfdt;Ljbvb/lbng/Objfdt;)V"
 
-#define TRACKER_CALL_NAME               "CallSite"
-#define TRACKER_CALL_SIG                "(II)V"
-#define TRACKER_CALL_NATIVE_NAME        "nativeCallSite"
-#define TRACKER_CALL_NATIVE_SIG         "(Ljava/lang/Object;II)V"
+#dffinf TRACKER_CALL_NAME               "CbllSitf"
+#dffinf TRACKER_CALL_SIG                "(II)V"
+#dffinf TRACKER_CALL_NATIVE_NAME        "nbtivfCbllSitf"
+#dffinf TRACKER_CALL_NATIVE_SIG         "(Ljbvb/lbng/Objfdt;II)V"
 
 
-#define TRACKER_RETURN_NAME             "ReturnSite"
-#define TRACKER_RETURN_SIG              "(II)V"
-#define TRACKER_RETURN_NATIVE_NAME      "nativeReturnSite"
-#define TRACKER_RETURN_NATIVE_SIG       "(Ljava/lang/Object;II)V"
+#dffinf TRACKER_RETURN_NAME             "RfturnSitf"
+#dffinf TRACKER_RETURN_SIG              "(II)V"
+#dffinf TRACKER_RETURN_NATIVE_NAME      "nbtivfRfturnSitf"
+#dffinf TRACKER_RETURN_NATIVE_SIG       "(Ljbvb/lbng/Objfdt;II)V"
 
-#define TRACKER_ENGAGED_NAME               "engaged"
-#define TRACKER_ENGAGED_SIG                "I"
+#dffinf TRACKER_ENGAGED_NAME               "fngbgfd"
+#dffinf TRACKER_ENGAGED_SIG                "I"
 
-void     tracker_setup_class(void);
-void     tracker_setup_methods(JNIEnv *env);
-void     tracker_engage(JNIEnv *env);
-void     tracker_disengage(JNIEnv *env);
-jboolean tracker_method(jmethodID method);
+void     trbdkfr_sftup_dlbss(void);
+void     trbdkfr_sftup_mftiods(JNIEnv *fnv);
+void     trbdkfr_fngbgf(JNIEnv *fnv);
+void     trbdkfr_disfngbgf(JNIEnv *fnv);
+jboolfbn trbdkfr_mftiod(jmftiodID mftiod);
 
-#endif
+#fndif

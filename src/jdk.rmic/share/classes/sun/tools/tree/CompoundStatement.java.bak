@@ -1,200 +1,200 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class CompoundStatement extends Statement {
-    Statement args[];
+publid
+dlbss CompoundStbtfmfnt fxtfnds Stbtfmfnt {
+    Stbtfmfnt brgs[];
 
     /**
-     * Constructor
+     * Construdtor
      */
-    public CompoundStatement(long where, Statement args[]) {
-        super(STAT, where);
-        this.args = args;
-        // To avoid the need for subsequent null checks:
-        for (int i = 0 ; i < args.length ; i++) {
-            if (args[i] == null) {
-                args[i] = new CompoundStatement(where, new Statement[0]);
+    publid CompoundStbtfmfnt(long wifrf, Stbtfmfnt brgs[]) {
+        supfr(STAT, wifrf);
+        tiis.brgs = brgs;
+        // To bvoid tif nffd for subsfqufnt null difdks:
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            if (brgs[i] == null) {
+                brgs[i] = nfw CompoundStbtfmfnt(wifrf, nfw Stbtfmfnt[0]);
             }
         }
     }
 
     /**
-     * Insert a new statement at the front.
-     * This is used to introduce an implicit super-class constructor call.
+     * Insfrt b nfw stbtfmfnt bt tif front.
+     * Tiis is usfd to introdudf bn implidit supfr-dlbss donstrudtor dbll.
      */
-    public void insertStatement(Statement s) {
-        Statement newargs[] = new Statement[1+args.length];
-        newargs[0] = s;
-        for (int i = 0 ; i < args.length ; i++) {
-            newargs[i+1] = args[i];
+    publid void insfrtStbtfmfnt(Stbtfmfnt s) {
+        Stbtfmfnt nfwbrgs[] = nfw Stbtfmfnt[1+brgs.lfngti];
+        nfwbrgs[0] = s;
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            nfwbrgs[i+1] = brgs[i];
         }
-        this.args = newargs;
+        tiis.brgs = nfwbrgs;
     }
 
     /**
-     * Check statement
+     * Cifdk stbtfmfnt
      */
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        checkLabel(env, ctx);
-        if (args.length > 0) {
-            vset = reach(env, vset);
-            CheckContext newctx = new CheckContext(ctx, this);
-            // In this environment, 'resolveName' will look for local classes.
-            Environment newenv = Context.newEnvironment(env, newctx);
-            for (int i = 0 ; i < args.length ; i++) {
-                vset = args[i].checkBlockStatement(newenv, newctx, vset, exp);
+    Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        difdkLbbfl(fnv, dtx);
+        if (brgs.lfngti > 0) {
+            vsft = rfbdi(fnv, vsft);
+            CifdkContfxt nfwdtx = nfw CifdkContfxt(dtx, tiis);
+            // In tiis fnvironmfnt, 'rfsolvfNbmf' will look for lodbl dlbssfs.
+            Environmfnt nfwfnv = Contfxt.nfwEnvironmfnt(fnv, nfwdtx);
+            for (int i = 0 ; i < brgs.lfngti ; i++) {
+                vsft = brgs[i].difdkBlodkStbtfmfnt(nfwfnv, nfwdtx, vsft, fxp);
             }
-            vset = vset.join(newctx.vsBreak);
+            vsft = vsft.join(nfwdtx.vsBrfbk);
         }
-        return ctx.removeAdditionalVars(vset);
+        rfturn dtx.rfmovfAdditionblVbrs(vsft);
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Statement inline(Environment env, Context ctx) {
-        ctx = new Context(ctx, this);
-        boolean expand = false;
-        int count = 0;
-        for (int i = 0 ; i < args.length ; i++) {
-            Statement s = args[i];
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
+        dtx = nfw Contfxt(dtx, tiis);
+        boolfbn fxpbnd = fblsf;
+        int dount = 0;
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            Stbtfmfnt s = brgs[i];
             if (s != null) {
-                if ((s = s.inline(env, ctx)) != null) {
-                    if ((s.op == STAT) && (s.labels == null)) {
-                        count += ((CompoundStatement)s).args.length;
-                    } else {
-                        count++;
+                if ((s = s.inlinf(fnv, dtx)) != null) {
+                    if ((s.op == STAT) && (s.lbbfls == null)) {
+                        dount += ((CompoundStbtfmfnt)s).brgs.lfngti;
+                    } flsf {
+                        dount++;
                     }
-                    expand = true;
+                    fxpbnd = truf;
                 }
-                args[i] = s;
+                brgs[i] = s;
             }
         }
-        switch (count) {
-          case 0:
-            return null;
+        switdi (dount) {
+          dbsf 0:
+            rfturn null;
 
-          case 1:
-            for (int i = args.length ; i-- > 0 ;) {
-                if (args[i] != null) {
-                    return eliminate(env, args[i]);
+          dbsf 1:
+            for (int i = brgs.lfngti ; i-- > 0 ;) {
+                if (brgs[i] != null) {
+                    rfturn fliminbtf(fnv, brgs[i]);
                 }
             }
-            break;
+            brfbk;
         }
-        if (expand || (count != args.length)) {
-            Statement newArgs[] = new Statement[count];
-            for (int i = args.length ; i-- > 0 ;) {
-                Statement s = args[i];
+        if (fxpbnd || (dount != brgs.lfngti)) {
+            Stbtfmfnt nfwArgs[] = nfw Stbtfmfnt[dount];
+            for (int i = brgs.lfngti ; i-- > 0 ;) {
+                Stbtfmfnt s = brgs[i];
                 if (s != null) {
-                    if ((s.op == STAT) && (s.labels == null)) {
-                        Statement a[] = ((CompoundStatement)s).args;
-                        for (int j = a.length ; j-- > 0 ; ) {
-                            newArgs[--count] = a[j];
+                    if ((s.op == STAT) && (s.lbbfls == null)) {
+                        Stbtfmfnt b[] = ((CompoundStbtfmfnt)s).brgs;
+                        for (int j = b.lfngti ; j-- > 0 ; ) {
+                            nfwArgs[--dount] = b[j];
                         }
-                    } else {
-                        newArgs[--count] = s;
+                    } flsf {
+                        nfwArgs[--dount] = s;
                     }
                 }
             }
-            args = newArgs;
+            brgs = nfwArgs;
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crfbtf b dopy of tif stbtfmfnt for mftiod inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        CompoundStatement s = (CompoundStatement)clone();
-        s.args = new Statement[args.length];
-        for (int i = 0 ; i < args.length ; i++) {
-            s.args[i] = args[i].copyInline(ctx, valNeeded);
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        CompoundStbtfmfnt s = (CompoundStbtfmfnt)dlonf();
+        s.brgs = nfw Stbtfmfnt[brgs.lfngti];
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            s.brgs[i] = brgs[i].dopyInlinf(dtx, vblNffdfd);
         }
-        return s;
+        rfturn s;
     }
 
     /**
-     * The cost of inlining this statement
+     * Tif dost of inlining tiis stbtfmfnt
      */
-    public int costInline(int thresh, Environment env, Context ctx) {
-        int cost = 0;
-        for (int i = 0 ; (i < args.length) && (cost < thresh) ; i++) {
-            cost += args[i].costInline(thresh, env, ctx);
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+        int dost = 0;
+        for (int i = 0 ; (i < brgs.lfngti) && (dost < tirfsi) ; i++) {
+            dost += brgs[i].dostInlinf(tirfsi, fnv, dtx);
         }
-        return cost;
+        rfturn dost;
     }
 
     /**
-     * Code
+     * Codf
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
-        CodeContext newctx = new CodeContext(ctx, this);
-        for (int i = 0 ; i < args.length ; i++) {
-            args[i].code(env, newctx, asm);
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        CodfContfxt nfwdtx = nfw CodfContfxt(dtx, tiis);
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            brgs[i].dodf(fnv, nfwdtx, bsm);
         }
-        asm.add(newctx.breakLabel);
+        bsm.bdd(nfwdtx.brfbkLbbfl);
     }
 
     /**
-     * Check if the first thing is a constructor invocation
+     * Cifdk if tif first tiing is b donstrudtor invodbtion
      */
-    public Expression firstConstructor() {
-        return (args.length > 0) ? args[0].firstConstructor() : null;
+    publid Exprfssion firstConstrudtor() {
+        rfturn (brgs.lfngti > 0) ? brgs[0].firstConstrudtor() : null;
     }
 
     /**
      * Print
      */
-    public void print(PrintStream out, int indent) {
-        super.print(out, indent);
+    publid void print(PrintStrfbm out, int indfnt) {
+        supfr.print(out, indfnt);
         out.print("{\n");
-        for (int i = 0 ; i < args.length ; i++) {
-            printIndent(out, indent+1);
-            if (args[i] != null) {
-                args[i].print(out, indent + 1);
-            } else {
-                out.print("<empty>");
+        for (int i = 0 ; i < brgs.lfngti ; i++) {
+            printIndfnt(out, indfnt+1);
+            if (brgs[i] != null) {
+                brgs[i].print(out, indfnt + 1);
+            } flsf {
+                out.print("<fmpty>");
             }
             out.print("\n");
         }
-        printIndent(out, indent);
+        printIndfnt(out, indfnt);
         out.print("}");
     }
 }

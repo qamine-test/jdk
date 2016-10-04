@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,195 +30,195 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import javax.swing.*;
-import javax.swing.table.*;
-import javax.swing.border.*;
-import java.awt.Dimension;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.Color;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.UIManager.LookAndFeelInfo;
+import jbvbx.swing.*;
+import jbvbx.swing.tbblf.*;
+import jbvbx.swing.bordfr.*;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.bwt.Color;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.logging.Loggfr;
+import jbvbx.swing.UIMbnbgfr.LookAndFfflInfo;
 
 
 /**
- * Another JTable example, showing how column attributes can be refined
- * even when columns have been created automatically. Here we create some
- * specialized renderers and editors as well as changing widths and colors
- * for some of the columns in the SwingSet demo table.
+ * Anotifr JTbblf fxbmplf, siowing iow dolumn bttributfs dbn bf rffinfd
+ * fvfn wifn dolumns ibvf bffn drfbtfd butombtidblly. Hfrf wf drfbtf somf
+ * spfdiblizfd rfndfrfrs bnd fditors bs wfll bs dibnging widtis bnd dolors
+ * for somf of tif dolumns in tif SwingSft dfmo tbblf.
  *
- * @author Philip Milne
+ * @butior Piilip Milnf
  */
-public class TableExample4 {
+publid dlbss TbblfExbmplf4 {
 
-    public TableExample4() {
-        JFrame frame = new JFrame("Table");
-        frame.addWindowListener(new WindowAdapter() {
+    publid TbblfExbmplf4() {
+        JFrbmf frbmf = nfw JFrbmf("Tbblf");
+        frbmf.bddWindowListfnfr(nfw WindowAdbptfr() {
 
-            @Override
-            public void windowClosing(WindowEvent e) {
-                System.exit(0);
+            @Ovfrridf
+            publid void windowClosing(WindowEvfnt f) {
+                Systfm.fxit(0);
             }
         });
 
-        // Take the dummy data from SwingSet.
-        final String[] names = { "First Name", "Last Name", "Favorite Color",
-            "Favorite Number", "Vegetarian" };
-        final Object[][] data = {
-            { "Mark", "Andrews", "Red", new Integer(2), Boolean.TRUE },
-            { "Tom", "Ball", "Blue", new Integer(99), Boolean.FALSE },
-            { "Alan", "Chung", "Green", new Integer(838), Boolean.FALSE },
-            { "Jeff", "Dinkins", "Turquois", new Integer(8), Boolean.TRUE },
-            { "Amy", "Fowler", "Yellow", new Integer(3), Boolean.FALSE },
-            { "Brian", "Gerhold", "Green", new Integer(0), Boolean.FALSE },
-            { "James", "Gosling", "Pink", new Integer(21), Boolean.FALSE },
-            { "David", "Karlton", "Red", new Integer(1), Boolean.FALSE },
-            { "Dave", "Kloba", "Yellow", new Integer(14), Boolean.FALSE },
-            { "Peter", "Korn", "Purple", new Integer(12), Boolean.FALSE },
-            { "Phil", "Milne", "Purple", new Integer(3), Boolean.FALSE },
-            { "Dave", "Moore", "Green", new Integer(88), Boolean.FALSE },
-            { "Hans", "Muller", "Maroon", new Integer(5), Boolean.FALSE },
-            { "Rick", "Levenson", "Blue", new Integer(2), Boolean.FALSE },
-            { "Tim", "Prinzing", "Blue", new Integer(22), Boolean.FALSE },
-            { "Chester", "Rose", "Black", new Integer(0), Boolean.FALSE },
-            { "Ray", "Ryan", "Gray", new Integer(77), Boolean.FALSE },
-            { "Georges", "Saab", "Red", new Integer(4), Boolean.FALSE },
-            { "Willie", "Walker", "Phthalo Blue", new Integer(4), Boolean.FALSE },
-            { "Kathy", "Walrath", "Blue", new Integer(8), Boolean.FALSE },
-            { "Arnaud", "Weber", "Green", new Integer(44), Boolean.FALSE }
+        // Tbkf tif dummy dbtb from SwingSft.
+        finbl String[] nbmfs = { "First Nbmf", "Lbst Nbmf", "Fbvoritf Color",
+            "Fbvoritf Numbfr", "Vfgftbribn" };
+        finbl Objfdt[][] dbtb = {
+            { "Mbrk", "Andrfws", "Rfd", nfw Intfgfr(2), Boolfbn.TRUE },
+            { "Tom", "Bbll", "Bluf", nfw Intfgfr(99), Boolfbn.FALSE },
+            { "Albn", "Ciung", "Grffn", nfw Intfgfr(838), Boolfbn.FALSE },
+            { "Jfff", "Dinkins", "Turquois", nfw Intfgfr(8), Boolfbn.TRUE },
+            { "Amy", "Fowlfr", "Yfllow", nfw Intfgfr(3), Boolfbn.FALSE },
+            { "Bribn", "Gfriold", "Grffn", nfw Intfgfr(0), Boolfbn.FALSE },
+            { "Jbmfs", "Gosling", "Pink", nfw Intfgfr(21), Boolfbn.FALSE },
+            { "Dbvid", "Kbrlton", "Rfd", nfw Intfgfr(1), Boolfbn.FALSE },
+            { "Dbvf", "Klobb", "Yfllow", nfw Intfgfr(14), Boolfbn.FALSE },
+            { "Pftfr", "Korn", "Purplf", nfw Intfgfr(12), Boolfbn.FALSE },
+            { "Piil", "Milnf", "Purplf", nfw Intfgfr(3), Boolfbn.FALSE },
+            { "Dbvf", "Moorf", "Grffn", nfw Intfgfr(88), Boolfbn.FALSE },
+            { "Hbns", "Mullfr", "Mbroon", nfw Intfgfr(5), Boolfbn.FALSE },
+            { "Ridk", "Lfvfnson", "Bluf", nfw Intfgfr(2), Boolfbn.FALSE },
+            { "Tim", "Prinzing", "Bluf", nfw Intfgfr(22), Boolfbn.FALSE },
+            { "Cifstfr", "Rosf", "Blbdk", nfw Intfgfr(0), Boolfbn.FALSE },
+            { "Rby", "Rybn", "Grby", nfw Intfgfr(77), Boolfbn.FALSE },
+            { "Gforgfs", "Sbbb", "Rfd", nfw Intfgfr(4), Boolfbn.FALSE },
+            { "Willif", "Wblkfr", "Pitiblo Bluf", nfw Intfgfr(4), Boolfbn.FALSE },
+            { "Kbtiy", "Wblrbti", "Bluf", nfw Intfgfr(8), Boolfbn.FALSE },
+            { "Arnbud", "Wfbfr", "Grffn", nfw Intfgfr(44), Boolfbn.FALSE }
         };
 
-        // Create a model of the data.
-        @SuppressWarnings("serial")
-        TableModel dataModel = new AbstractTableModel() {
-            // These methods always need to be implemented.
+        // Crfbtf b modfl of tif dbtb.
+        @SupprfssWbrnings("sfribl")
+        TbblfModfl dbtbModfl = nfw AbstrbdtTbblfModfl() {
+            // Tifsf mftiods blwbys nffd to bf implfmfntfd.
 
-            public int getColumnCount() {
-                return names.length;
+            publid int gftColumnCount() {
+                rfturn nbmfs.lfngti;
             }
 
-            public int getRowCount() {
-                return data.length;
+            publid int gftRowCount() {
+                rfturn dbtb.lfngti;
             }
 
-            public Object getValueAt(int row, int col) {
-                return data[row][col];
+            publid Objfdt gftVblufAt(int row, int dol) {
+                rfturn dbtb[row][dol];
             }
 
-            // The default implementations of these methods in
-            // AbstractTableModel would work, but we can refine them.
-            @Override
-            public String getColumnName(int column) {
-                return names[column];
+            // Tif dffbult implfmfntbtions of tifsf mftiods in
+            // AbstrbdtTbblfModfl would work, but wf dbn rffinf tifm.
+            @Ovfrridf
+            publid String gftColumnNbmf(int dolumn) {
+                rfturn nbmfs[dolumn];
             }
 
-            @Override
-            public Class getColumnClass(int c) {
-                return getValueAt(0, c).getClass();
+            @Ovfrridf
+            publid Clbss gftColumnClbss(int d) {
+                rfturn gftVblufAt(0, d).gftClbss();
             }
 
-            @Override
-            public boolean isCellEditable(int row, int col) {
-                return true;
+            @Ovfrridf
+            publid boolfbn isCfllEditbblf(int row, int dol) {
+                rfturn truf;
             }
 
-            @Override
-            public void setValueAt(Object aValue, int row, int column) {
-                System.out.println("Setting value to: " + aValue);
-                data[row][column] = aValue;
+            @Ovfrridf
+            publid void sftVblufAt(Objfdt bVbluf, int row, int dolumn) {
+                Systfm.out.println("Sftting vbluf to: " + bVbluf);
+                dbtb[row][dolumn] = bVbluf;
             }
         };
 
-        // Create the table
-        JTable tableView = new JTable(dataModel);
-        // Turn off auto-resizing so that we can set column sizes
-        // programmatically. In this mode, all columns will get their preferred
-        // widths, as set blow.
-        tableView.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        // Crfbtf tif tbblf
+        JTbblf tbblfVifw = nfw JTbblf(dbtbModfl);
+        // Turn off buto-rfsizing so tibt wf dbn sft dolumn sizfs
+        // progrbmmbtidblly. In tiis modf, bll dolumns will gft tifir prfffrrfd
+        // widtis, bs sft blow.
+        tbblfVifw.sftAutoRfsizfModf(JTbblf.AUTO_RESIZE_OFF);
 
-        // Create a combo box to show that you can use one in a table.
-        JComboBox comboBox = new JComboBox();
-        comboBox.addItem("Red");
-        comboBox.addItem("Orange");
-        comboBox.addItem("Yellow");
-        comboBox.addItem("Green");
-        comboBox.addItem("Blue");
-        comboBox.addItem("Indigo");
-        comboBox.addItem("Violet");
+        // Crfbtf b dombo box to siow tibt you dbn usf onf in b tbblf.
+        JComboBox domboBox = nfw JComboBox();
+        domboBox.bddItfm("Rfd");
+        domboBox.bddItfm("Orbngf");
+        domboBox.bddItfm("Yfllow");
+        domboBox.bddItfm("Grffn");
+        domboBox.bddItfm("Bluf");
+        domboBox.bddItfm("Indigo");
+        domboBox.bddItfm("Violft");
 
-        TableColumn colorColumn = tableView.getColumn("Favorite Color");
-        // Use the combo box as the editor in the "Favorite Color" column.
-        colorColumn.setCellEditor(new DefaultCellEditor(comboBox));
+        TbblfColumn dolorColumn = tbblfVifw.gftColumn("Fbvoritf Color");
+        // Usf tif dombo box bs tif fditor in tif "Fbvoritf Color" dolumn.
+        dolorColumn.sftCfllEditor(nfw DffbultCfllEditor(domboBox));
 
-        // Set a pink background and tooltip for the Color column renderer.
-        DefaultTableCellRenderer colorColumnRenderer =
-                new DefaultTableCellRenderer();
-        colorColumnRenderer.setBackground(Color.pink);
-        colorColumnRenderer.setToolTipText("Click for combo box");
-        colorColumn.setCellRenderer(colorColumnRenderer);
+        // Sft b pink bbdkground bnd tooltip for tif Color dolumn rfndfrfr.
+        DffbultTbblfCfllRfndfrfr dolorColumnRfndfrfr =
+                nfw DffbultTbblfCfllRfndfrfr();
+        dolorColumnRfndfrfr.sftBbdkground(Color.pink);
+        dolorColumnRfndfrfr.sftToolTipTfxt("Clidk for dombo box");
+        dolorColumn.sftCfllRfndfrfr(dolorColumnRfndfrfr);
 
-        // Set a tooltip for the header of the colors column.
-        TableCellRenderer headerRenderer = colorColumn.getHeaderRenderer();
-        if (headerRenderer instanceof DefaultTableCellRenderer) {
-            ((DefaultTableCellRenderer) headerRenderer).setToolTipText(
+        // Sft b tooltip for tif ifbdfr of tif dolors dolumn.
+        TbblfCfllRfndfrfr ifbdfrRfndfrfr = dolorColumn.gftHfbdfrRfndfrfr();
+        if (ifbdfrRfndfrfr instbndfof DffbultTbblfCfllRfndfrfr) {
+            ((DffbultTbblfCfllRfndfrfr) ifbdfrRfndfrfr).sftToolTipTfxt(
                     "Hi Mom!");
         }
 
-        // Set the width of the "Vegetarian" column.
-        TableColumn vegetarianColumn = tableView.getColumn("Vegetarian");
-        vegetarianColumn.setPreferredWidth(100);
+        // Sft tif widti of tif "Vfgftbribn" dolumn.
+        TbblfColumn vfgftbribnColumn = tbblfVifw.gftColumn("Vfgftbribn");
+        vfgftbribnColumn.sftPrfffrrfdWidti(100);
 
-        // Show the values in the "Favorite Number" column in different colors.
-        TableColumn numbersColumn = tableView.getColumn("Favorite Number");
-        @SuppressWarnings("serial")
-        DefaultTableCellRenderer numberColumnRenderer
-                = new DefaultTableCellRenderer() {
+        // Siow tif vblufs in tif "Fbvoritf Numbfr" dolumn in difffrfnt dolors.
+        TbblfColumn numbfrsColumn = tbblfVifw.gftColumn("Fbvoritf Numbfr");
+        @SupprfssWbrnings("sfribl")
+        DffbultTbblfCfllRfndfrfr numbfrColumnRfndfrfr
+                = nfw DffbultTbblfCfllRfndfrfr() {
 
-            @Override
-            public void setValue(Object value) {
-                int cellValue = (value instanceof Number) ? ((Number) value).
-                        intValue() : 0;
-                setForeground((cellValue > 30) ? Color.black : Color.red);
-                setText((value == null) ? "" : value.toString());
+            @Ovfrridf
+            publid void sftVbluf(Objfdt vbluf) {
+                int dfllVbluf = (vbluf instbndfof Numbfr) ? ((Numbfr) vbluf).
+                        intVbluf() : 0;
+                sftForfground((dfllVbluf > 30) ? Color.blbdk : Color.rfd);
+                sftTfxt((vbluf == null) ? "" : vbluf.toString());
             }
         };
-        numberColumnRenderer.setHorizontalAlignment(JLabel.RIGHT);
-        numbersColumn.setCellRenderer(numberColumnRenderer);
-        numbersColumn.setPreferredWidth(110);
+        numbfrColumnRfndfrfr.sftHorizontblAlignmfnt(JLbbfl.RIGHT);
+        numbfrsColumn.sftCfllRfndfrfr(numbfrColumnRfndfrfr);
+        numbfrsColumn.sftPrfffrrfdWidti(110);
 
-        // Finish setting up the table.
-        JScrollPane scrollpane = new JScrollPane(tableView);
-        scrollpane.setBorder(new BevelBorder(BevelBorder.LOWERED));
-        scrollpane.setPreferredSize(new Dimension(430, 200));
-        frame.getContentPane().add(scrollpane);
-        frame.pack();
-        frame.setVisible(true);
+        // Finisi sftting up tif tbblf.
+        JSdrollPbnf sdrollpbnf = nfw JSdrollPbnf(tbblfVifw);
+        sdrollpbnf.sftBordfr(nfw BfvflBordfr(BfvflBordfr.LOWERED));
+        sdrollpbnf.sftPrfffrrfdSizf(nfw Dimfnsion(430, 200));
+        frbmf.gftContfntPbnf().bdd(sdrollpbnf);
+        frbmf.pbdk();
+        frbmf.sftVisiblf(truf);
     }
 
-    public static void main(String[] args) {
-        // Trying to set Nimbus look and feel
+    publid stbtid void mbin(String[] brgs) {
+        // Trying to sft Nimbus look bnd fffl
         try {
-            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            for (LookAndFfflInfo info : UIMbnbgfr.gftInstbllfdLookAndFffls()) {
+                if ("Nimbus".fqubls(info.gftNbmf())) {
+                    UIMbnbgfr.sftLookAndFffl(info.gftClbssNbmf());
+                    brfbk;
                 }
             }
-        } catch (Exception ex) {
-            Logger.getLogger(TableExample4.class.getName()).log(Level.SEVERE,
-                    "Failed to apply Nimbus look and feel", ex);
+        } dbtdi (Exdfption fx) {
+            Loggfr.gftLoggfr(TbblfExbmplf4.dlbss.gftNbmf()).log(Lfvfl.SEVERE,
+                    "Fbilfd to bpply Nimbus look bnd fffl", fx);
         }
 
-        new TableExample4();
+        nfw TbblfExbmplf4();
     }
 }

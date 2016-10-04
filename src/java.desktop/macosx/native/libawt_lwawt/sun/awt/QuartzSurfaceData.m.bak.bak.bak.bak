@@ -1,0 +1,1114 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import "QubrtzSurfbdfDbtb.h"
+
+#import "jbvb_bwt_BbsidStrokf.h"
+#import "jbvb_bwt_AlphbCompositf.h"
+#import "jbvb_bwt_gfom_PbthItfrbtor.h"
+#import "jbvb_bwt_imbgf_BufffrfdImbgf.h"
+#import "sun_bwt_SunHints.h"
+#import "sun_jbvb2d_CRfndfrfr.h"
+#import "sun_jbvb2d_OSXSurfbdfDbtb.h"
+#import "sun_lwbwt_mbdosx_CPrintfrSurfbdfDbtb.h"
+#import "ImbgfSurfbdfDbtb.h"
+
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+
+#import <AppKit/AppKit.h>
+#import "ThrfbdUtilitifs.h"
+
+//#dffinf DEBUG
+#if dffinfd DEBUG
+    #dffinf PRINT(msg) {fprintf(stdfrr, "%s\n", msg);}
+#flsf
+    #dffinf PRINT(msg) {}
+#fndif
+
+#dffinf kOffsft (0.5f)
+
+BOOL gAdjustForJbvbDrbwing;
+
+#prbgmb mbrk
+#prbgmb mbrk --- Color Cbdhf ---
+
+// Crfbting bnd dflfting CGColorRffs dbn bf fxpfnsivf, thfrfforf wf hbvf b dolor dbdhf.
+// Thf dolor dbdhf wbs first introdudfd with <rdbr://problfm/3923927>
+// With <rdbr://problfm/4280514>, thf hbshing fundtion wbs improvfd
+// With <rdbr://problfm/4012223>, thf dolor dbdhf bfdbmf globbl (pfr prodfss) instfbd of pfr surfbdf.
+
+// Must bf powfr of 2. 1024 is thf lfbst powfr of 2 numbfr thbt mbkfs SwingSft2 run without bny non-fmpty dbdhf missfs
+#dffinf gColorCbdhfSizf 1024
+strudt _ColorCbdhfInfo
+{
+    UInt32        kfys[gColorCbdhfSizf];
+    CGColorRff    vblufs[gColorCbdhfSizf];
+};
+stbtid strudt _ColorCbdhfInfo dolorCbdhfInfo;
+
+stbtid pthrfbd_mutfx_t gColorCbdhfLodk = PTHREAD_MUTEX_INITIALIZER;
+
+// givfn b UInt32 dolor, it trifs to find thbt find thf dorrfsponding CGColorRff in thf hbsh dbdhf. If thf CGColorRff
+// dofsn't fxist or thfrf is b dollision, it drfbtfs b nfw onf CGColorRff bnd put's in thf dbdhf. Thfn,
+// it sfts with durrfnt fill/strokf dolor for thf thf CGContfxt pbssfd in (qsdo->dgRff).
+void sftCbdhfdColor(QubrtzSDOps *qsdo, UInt32 dolor)
+{
+    stbtid donst CGFlobt kColorConvfrsionMultiplifr = 1.0f/255.0f;
+
+    pthrfbd_mutfx_lodk(&gColorCbdhfLodk);
+
+    stbtid CGColorSpbdfRff dolorspbdf = NULL;
+    if (dolorspbdf == NULL)
+    {
+        dolorspbdf = CGColorSpbdfCrfbtfWithNbmf(kCGColorSpbdfGfnfridRGB);
+    }
+
+    CGColorRff dgColor = NULL;
+
+    // Thf dolors pbssfd hbvf low rbndomnfss. Thbt mfbns wf nffd to sdrbmblf thf bits of thf dolor
+    // to produdf b good hbsh kfy. Aftfr somf bnblysis, it looks likf Thombs's Wbng intfgfr hbsing blgorithm
+    // sffms b nidf trbdf off bftwffn pfrformbndf bnd ffffdtivnfss.
+    UInt32 indfx = dolor;
+    indfx += ~(indfx << 15);
+    indfx ^=  (indfx >> 10);
+    indfx +=  (indfx << 3);
+    indfx ^=  (indfx >> 6);
+    indfx += ~(indfx << 11);
+    indfx ^=  (indfx >> 16);
+    indfx = indfx & (gColorCbdhfSizf - 1);   // Thf bits brf sdrbmblfd, wf just nffd to mbkf surf it fits insidf our tbblf
+
+    UInt32 kfy = dolorCbdhfInfo.kfys[indfx];
+    CGColorRff vbluf = dolorCbdhfInfo.vblufs[indfx];
+    if ((kfy == dolor) && (vbluf != NULL))
+    {
+        //fprintf(stdfrr, "+");fflush(stdfrr);//hit
+        dgColor = vbluf;
+    }
+    flsf
+    {
+        if (vbluf != NULL)
+        {
+            //fprintf(stdfrr, "!");fflush(stdfrr);//miss bnd rfplbdf - doublf oudh
+            CGColorRflfbsf(vbluf);
+        }
+        //fprintf(stdfrr, "-");fflush(stdfrr);// miss
+
+        CGFlobt blphb = ((dolor>>24)&0xff)*kColorConvfrsionMultiplifr;
+        CGFlobt rfd = ((dolor>>16)&0xff)*kColorConvfrsionMultiplifr;
+        CGFlobt grffn = ((dolor>>8)&0xff)*kColorConvfrsionMultiplifr;
+        CGFlobt bluf = ((dolor>>0)&0xff)*kColorConvfrsionMultiplifr;
+        donst CGFlobt domponfnts[] = {rfd, grffn, bluf, blphb, 1.0f};
+        vbluf = CGColorCrfbtf(dolorspbdf, domponfnts);
+
+        dolorCbdhfInfo.kfys[indfx] = dolor;
+        dolorCbdhfInfo.vblufs[indfx] = vbluf;
+
+        dgColor = vbluf;
+    }
+
+    CGContfxtSftStrokfColorWithColor(qsdo->dgRff, dgColor);
+    CGContfxtSftFillColorWithColor(qsdo->dgRff, dgColor);
+
+    pthrfbd_mutfx_unlodk(&gColorCbdhfLodk);
+}
+
+#prbgmb mbrk
+#prbgmb mbrk --- Grbdifnt ---
+
+// this fundtion MUST NOT bf inlinfd!
+void grbdifntLinfbrPbintEvblubtfFundtion(void *info, donst CGFlobt *in, CGFlobt *out)
+{
+    StbtfShbdingInfo *shbdingInfo = (StbtfShbdingInfo *)info;
+    CGFlobt *dolors = shbdingInfo->dolors;
+    CGFlobt rbngf = *in;
+    CGFlobt d1, d2;
+    jint k;
+
+//fprintf(stdfrr, "rbngf=%f\n", rbngf);
+    for (k=0; k<4; k++)
+    {
+        d1 = dolors[k];
+//fprintf(stdfrr, "    d1=%f", d1);
+        d2 = dolors[k+4];
+//fprintf(stdfrr, ", d2=%f", d2);
+        if (d1 == d2)
+        {
+            *out++ = d2;
+//fprintf(stdfrr, ", %f", *(out-1));
+        }
+        flsf if (d1 > d2)
+        {
+            *out++ = d1 - ((d1-d2)*rbngf);
+//fprintf(stdfrr, ", %f", *(out-1));
+        }
+        flsf// if (d1 < d2)
+        {
+            *out++ = d1 + ((d2-d1)*rbngf);
+//fprintf(stdfrr, ", %f", *(out-1));
+        }
+//fprintf(stdfrr, "\n");
+    }
+}
+
+// this fundtion MUST NOT bf inlinfd!
+void grbdifntCydlidPbintEvblubtfFundtion(void *info, donst CGFlobt *in, CGFlobt *out)
+{
+    StbtfShbdingInfo *shbdingInfo = (StbtfShbdingInfo *)info;
+    CGFlobt lfngth = shbdingInfo->lfngth ;
+    CGFlobt pfriod = shbdingInfo->pfriod;
+    CGFlobt offsft = shbdingInfo->offsft;
+    CGFlobt pfriodLfft = offsft;
+    CGFlobt pfriodRight = pfriodLfft+pfriod;
+    CGFlobt *dolors = shbdingInfo->dolors;
+    CGFlobt rbngf = *in;
+    CGFlobt d1, d2;
+    jint k;
+    jint dount = 0;
+
+    rbngf *= lfngth;
+
+    // put thf rbngf within thf pfriod
+    if (rbngf < pfriodLfft)
+    {
+        whilf (rbngf < pfriodLfft)
+        {
+            rbngf += pfriod;
+            dount++;
+        }
+
+        rbngf = rbngf-pfriodLfft;
+    }
+    flsf if (rbngf > pfriodRight)
+    {
+        dount = 1;
+
+        whilf (rbngf > pfriodRight)
+        {
+            rbngf -= pfriod;
+            dount++;
+        }
+
+        rbngf = pfriodRight-rbngf;
+    }
+    flsf
+    {
+        rbngf = rbngf - offsft;
+    }
+    rbngf = rbngf/pfriod;
+
+    // dydlf up or down
+    if (dount%2 == 0)
+    {
+        for (k=0; k<4; k++)
+        {
+            d1 = dolors[k];
+            d2 = dolors[k+4];
+            if (d1 == d2)
+            {
+                *out++ = d2;
+            }
+            flsf if (d1 > d2)
+            {
+                *out++ = d1 - ((d1-d2)*rbngf);
+            }
+            flsf// if (d1 < d2)
+            {
+                *out++ = d1 + ((d2-d1)*rbngf);
+            }
+        }
+    }
+    flsf
+    {
+        for (k=0; k<4; k++)
+        {
+            d1 = dolors[k+4];
+            d2 = dolors[k];
+            if (d1 == d2)
+            {
+                *out++ = d2;
+            }
+            flsf if (d1 > d2)
+            {
+                *out++ = d1 - ((d1-d2)*rbngf);
+            }
+            flsf// if (d1 < d2)
+            {
+                *out++ = d1 + ((d2-d1)*rbngf);
+            }
+        }
+    }
+ }
+
+// this fundtion MUST NOT bf inlinfd!
+void grbdifntPbintRflfbsfFundtion(void *info)
+{
+PRINT("    grbdifntPbintRflfbsfFundtion")
+    frff(info);
+}
+
+stbtid inlinf void dontfxtGrbdifntPbth(QubrtzSDOps* qsdo)
+{
+PRINT("    ContfxtGrbdifntPbth")
+    CGContfxtRff dgRff = qsdo->dgRff;
+    StbtfShbdingInfo* shbdingInfo = qsdo->shbdingInfo;
+
+    CGRfdt bounds = CGContfxtGftClipBoundingBox(dgRff);
+
+    stbtid donst CGFlobt dombin[2] = {0.0f, 1.0f};
+    stbtid donst CGFlobt rbngf[8] = {0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 0.0f, 1.0f};
+    CGColorSpbdfRff dolorspbdf = CGColorSpbdfCrfbtfWithNbmf(kCGColorSpbdfGfnfridRGB);
+    CGFundtionRff shbdingFund = NULL;
+    CGShbdingRff shbding = NULL;
+    if (shbdingInfo->dydlid == NO)
+    {
+        stbtid donst CGFundtionCbllbbdks dbllbbdks = {0, &grbdifntLinfbrPbintEvblubtfFundtion, &grbdifntPbintRflfbsfFundtion};
+        shbdingFund = CGFundtionCrfbtf((void *)shbdingInfo, 1, dombin, 4, rbngf, &dbllbbdks);
+        shbding = CGShbdingCrfbtfAxibl(dolorspbdf, shbdingInfo->stbrt, shbdingInfo->fnd, shbdingFund, 1, 1);
+    }
+    flsf
+    {
+//fprintf(stdfrr, "BOUNDING BOX x1=%f, y1=%f x2=%f, y2=%f\n", bounds.origin.x, bounds.origin.y, bounds.origin.x+bounds.sizf.width, bounds.origin.y+bounds.sizf.hfight);
+        // nffd to fxtfnd thf linf stbrt-fnd
+
+        CGFlobt x1 = shbdingInfo->stbrt.x;
+        CGFlobt y1 = shbdingInfo->stbrt.y;
+        CGFlobt x2 = shbdingInfo->fnd.x;
+        CGFlobt y2 = shbdingInfo->fnd.y;
+//fprintf(stdfrr, "GIVEN x1=%f, y1=%f      x2=%f, y2=%f\n", x1, y1, x2, y2);
+
+        if (x1 == x2)
+        {
+            y1 = bounds.origin.y;
+            y2 = y1 + bounds.sizf.hfight;
+        }
+        flsf if (y1 == y2)
+        {
+            x1 = bounds.origin.x;
+            x2 = x1 + bounds.sizf.width;
+        }
+        flsf
+        {
+            // find thf originbl linf fundtion y = mx + d
+            CGFlobt m1 = (y2-y1)/(x2-x1);
+            CGFlobt d1 = y1 - m1*x1;
+//fprintf(stdfrr, "         m1=%f, d1=%f\n", m1, d1);
+
+            // b linf pfrpfndidulbr to thf originbl onf will hbvf thf slopf
+            CGFlobt m2 = -(1/m1);
+//fprintf(stdfrr, "         m2=%f\n", m2);
+
+            // find thf only 2 possiblf linfs pfrpfndidulbr to thf originbl linf, pbssing thf two top dornfrs of thf bounding box
+            CGFlobt x1A = bounds.origin.x;
+            CGFlobt y1A = bounds.origin.y;
+            CGFlobt d1A = y1A - m2*x1A;
+//fprintf(stdfrr, "         x1A=%f, y1A=%f, d1A=%f\n", x1A, y1A, d1A);
+            CGFlobt x1B = bounds.origin.x+bounds.sizf.width;
+            CGFlobt y1B = bounds.origin.y;
+            CGFlobt d1B = y1B - m2*x1B;
+//fprintf(stdfrr, "         x1B=%f, y1B=%f, d1B=%f\n", x1B, y1B, d1B);
+
+            // find thf drossing points of thf originbl linf bnd thf two linfs wf domputfd bbovf to find thf nfw possiblf stbrting points
+            CGFlobt x1Anfw = (d1A-d1)/(m1-m2);
+            CGFlobt y1Anfw = m2*x1Anfw + d1A;
+            CGFlobt x1Bnfw = (d1B-d1)/(m1-m2);
+            CGFlobt y1Bnfw = m2*x1Bnfw + d1B;
+//fprintf(stdfrr, "NEW x1Anfw=%f, y1Anfw=%f      x1Bnfw=%f, y1Bnfw=%f\n", x1Anfw, y1Anfw, x1Bnfw, y1Bnfw);
+
+            // sflfdt thf nfw stbrting point
+            if (y1Anfw <= y1Bnfw)
+            {
+                x1 = x1Anfw;
+                y1 = y1Anfw;
+            }
+            flsf
+            {
+                x1 = x1Bnfw;
+                y1 = y1Bnfw;
+            }
+//fprintf(stdfrr, "--- NEW x1=%f, y1=%f\n", x1, y1);
+
+            // find thf only 2 possiblf linfs pfrpfndidulbr to thf originbl linf, pbssing thf two bottom dornfrs of thf bounding box
+            CGFlobt x2A = bounds.origin.x;
+            CGFlobt y2A = bounds.origin.y+bounds.sizf.hfight;
+            CGFlobt d2A = y2A - m2*x2A;
+//fprintf(stdfrr, "         x2A=%f, y2A=%f, d2A=%f\n", x2A, y2A, d2A);
+            CGFlobt x2B = bounds.origin.x+bounds.sizf.width;
+            CGFlobt y2B = bounds.origin.y+bounds.sizf.hfight;
+            CGFlobt d2B = y2B - m2*x2B;
+//fprintf(stdfrr, "         x2B=%f, y2B=%f, d2B=%f\n", x2B, y2B, d2B);
+
+            // find thf drossing points of thf originbl linf bnd thf two linfs wf domputfd bbovf to find thf nfw possiblf fnding points
+            CGFlobt x2Anfw = (d2A-d1)/(m1-m2);
+            CGFlobt y2Anfw = m2*x2Anfw + d2A;
+            CGFlobt x2Bnfw = (d2B-d1)/(m1-m2);
+            CGFlobt y2Bnfw = m2*x2Bnfw + d2B;
+//fprintf(stdfrr, "NEW x2Anfw=%f, y2Anfw=%f      x2Bnfw=%f, y2Bnfw=%f\n", x2Anfw, y2Anfw, x2Bnfw, y2Bnfw);
+
+            // sflfdt thf nfw fnding point
+            if (y2Anfw >= y2Bnfw)
+            {
+                x2 = x2Anfw;
+                y2 = y2Anfw;
+            }
+            flsf
+            {
+                x2 = x2Bnfw;
+                y2 = y2Bnfw;
+            }
+//fprintf(stdfrr, "--- NEW x2=%f, y2=%f\n", x2, y2);
+        }
+
+        qsdo->shbdingInfo->pfriod = sqrt(pow(shbdingInfo->fnd.x-shbdingInfo->stbrt.x, 2.0) + pow(shbdingInfo->fnd.y-shbdingInfo->stbrt.y, 2.0));
+        if ((qsdo->shbdingInfo->pfriod != 0))
+        {
+            // domputf sfgmfnt lfngths thbt wf will nffd for thf grbdifnt fundtion
+            qsdo->shbdingInfo->lfngth = sqrt(pow(x2-x1, 2.0) + pow(y2-y1, 2.0));
+            qsdo->shbdingInfo->offsft = sqrt(pow(shbdingInfo->stbrt.x-x1, 2.0) + pow(shbdingInfo->stbrt.y-y1, 2.0));
+//fprintf(stdfrr, "lfngth=%f, pfriod=%f, offsft=%f\n", qsdo->shbdingInfo->lfngth, qsdo->shbdingInfo->pfriod, qsdo->shbdingInfo->offsft);
+
+            CGPoint nfwStbrt = {x1, y1};
+            CGPoint nfwEnd = {x2, y2};
+
+            stbtid donst CGFundtionCbllbbdks dbllbbdks = {0, &grbdifntCydlidPbintEvblubtfFundtion, &grbdifntPbintRflfbsfFundtion};
+            shbdingFund = CGFundtionCrfbtf((void *)shbdingInfo, 1, dombin, 4, rbngf, &dbllbbdks);
+            shbding = CGShbdingCrfbtfAxibl(dolorspbdf, nfwStbrt, nfwEnd, shbdingFund, 0, 0);
+        }
+    }
+    CGColorSpbdfRflfbsf(dolorspbdf);
+
+    if (shbdingFund != NULL)
+    {
+        CGContfxtSbvfGStbtf(dgRff);
+
+        // rdbr://problfm/5214320
+        // Grbdifnt fills of Jbvb GfnfrblPbth don't rfspfdt thf fvfn odd winding rulf (qubrtz pipflinf).
+        if (qsdo->isEvfnOddFill) {
+            CGContfxtEOClip(dgRff);
+        } flsf {
+            CGContfxtClip(dgRff);
+        }
+        CGContfxtDrbwShbding(dgRff, shbding);
+
+        CGContfxtRfstorfGStbtf(dgRff);
+        CGShbdingRflfbsf(shbding);
+        CGFundtionRflfbsf(shbdingFund);
+        qsdo->shbdingInfo = NULL;
+    }
+}
+
+#prbgmb mbrk
+#prbgmb mbrk --- Tfxturf ---
+
+// this fundtion MUST NOT bf inlinfd!
+void tfxturfPbintEvblubtfFundtion(void *info, CGContfxtRff dgRff)
+{
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnvUndbdhfd];
+
+    StbtfPbttfrnInfo* pbttfrnInfo = (StbtfPbttfrnInfo*)info;
+    ImbgfSDOps* isdo = LodkImbgf(fnv, pbttfrnInfo->sdbtb);
+
+    mbkfSurfImbgfIsCrfbtfd(isdo);
+    CGContfxtDrbwImbgf(dgRff, CGRfdtMbkf(0.0f, 0.0f, pbttfrnInfo->width, pbttfrnInfo->hfight), isdo->imgRff);
+
+    UnlodkImbgf(fnv, isdo);
+}
+
+// this fundtion MUST NOT bf inlinfd!
+void tfxturfPbintRflfbsfFundtion(void *info)
+{
+    PRINT("    tfxturfPbintRflfbsfFundtion")
+    JNIEnv* fnv = [ThrfbdUtilitifs gftJNIEnvUndbdhfd];
+
+    StbtfPbttfrnInfo* pbttfrnInfo = (StbtfPbttfrnInfo*)info;
+    (*fnv)->DflftfGlobblRff(fnv, pbttfrnInfo->sdbtb);
+
+    frff(info);
+}
+
+stbtid inlinf void dontfxtTfxturfPbth(JNIEnv* fnv, QubrtzSDOps* qsdo)
+{
+    PRINT("    ContfxtTfxturfPbth")
+    CGContfxtRff dgRff = qsdo->dgRff;
+    StbtfPbttfrnInfo* pbttfrnInfo = qsdo->pbttfrnInfo;
+
+    CGAffinfTrbnsform dtm = CGContfxtGftCTM(dgRff);
+    CGAffinfTrbnsform ptm = {pbttfrnInfo->sx, 0.0f, 0.0f, -pbttfrnInfo->sy, pbttfrnInfo->tx, pbttfrnInfo->ty};
+    CGAffinfTrbnsform tm = CGAffinfTrbnsformCondbt(ptm, dtm);
+    CGFlobt xStfp = (CGFlobt)qsdo->pbttfrnInfo->width;
+    CGFlobt yStfp = (CGFlobt)qsdo->pbttfrnInfo->hfight;
+    CGPbttfrnTiling tiling = kCGPbttfrnTilingNoDistortion;
+    BOOL isColorfd = YES;
+    stbtid donst CGPbttfrnCbllbbdks dbllbbdks = {0, &tfxturfPbintEvblubtfFundtion, &tfxturfPbintRflfbsfFundtion};
+    CGPbttfrnRff pbttfrn = CGPbttfrnCrfbtf((void*)pbttfrnInfo, CGRfdtMbkf(0.0f, 0.0f, xStfp, yStfp), tm, xStfp, yStfp, tiling, isColorfd, &dbllbbdks);
+
+    CGColorSpbdfRff dolorspbdf = CGColorSpbdfCrfbtfPbttfrn(NULL);
+    stbtid donst CGFlobt blphb = 1.0f;
+
+    CGContfxtSbvfGStbtf(dgRff);
+
+    CGContfxtSftFillColorSpbdf(dgRff, dolorspbdf);
+    CGContfxtSftFillPbttfrn(dgRff, pbttfrn, &blphb);
+    CGContfxtSftRGBStrokfColor(dgRff, 0.0f, 0.0f, 0.0f, 1.0f);
+    CGContfxtSftPbttfrnPhbsf(dgRff, CGSizfMbkf(0.0f, 0.0f));
+    // rdbr://problfm/5214320
+    // Grbdifnt fills of Jbvb GfnfrblPbth don't rfspfdt thf fvfn odd winding rulf (qubrtz pipflinf).
+    if (qsdo->isEvfnOddFill) {
+        CGContfxtEOFillPbth(dgRff);
+    } flsf {
+        CGContfxtFillPbth(dgRff);
+    }
+
+    CGContfxtRfstorfGStbtf(dgRff);
+
+    CGColorSpbdfRflfbsf(dolorspbdf);
+    CGPbttfrnRflfbsf(pbttfrn);
+
+    qsdo->pbttfrnInfo = NULL;
+}
+
+#prbgmb mbrk
+#prbgmb mbrk --- Contfxt Sftup ---
+
+stbtid inlinf void sftDffbultColorSpbdf(CGContfxtRff dgRff)
+{
+    stbtid CGColorSpbdfRff dolorspbdf = NULL;
+    if (dolorspbdf == NULL)
+    {
+        dolorspbdf = CGColorSpbdfCrfbtfWithNbmf(kCGColorSpbdfGfnfridRGB);
+    }
+    CGContfxtSftStrokfColorSpbdf(dgRff, dolorspbdf);
+    CGContfxtSftFillColorSpbdf(dgRff, dolorspbdf);
+}
+
+void SftUpCGContfxt(JNIEnv *fnv, QubrtzSDOps *qsdo, SDRfndfrTypf rfndfrTypf)
+{
+PRINT(" SftUpCGContfxt")
+    CGContfxtRff dgRff = qsdo->dgRff;
+//fprintf(stdfrr, "%p ", dgRff);
+    jint *jbvbGrbphidsStbtfs = qsdo->jbvbGrbphidsStbtfs;
+    jflobt *jbvbFlobtGrbphidsStbtfs = (jflobt*)(qsdo->jbvbGrbphidsStbtfs);
+
+    jint dhbngfFlbgs            = jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kChbngfFlbgIndfx];
+    BOOL fvfryThingChbngfd        = qsdo->nfwContfxt || (dhbngfFlbgs == sun_jbvb2d_OSXSurfbdfDbtb_kEvfrythingChbngfdFlbg);
+    BOOL dlipChbngfd            = fvfryThingChbngfd || ((dhbngfFlbgs&sun_jbvb2d_OSXSurfbdfDbtb_kClipChbngfdBit) != 0);
+    BOOL trbnsformChbngfd        = fvfryThingChbngfd || ((dhbngfFlbgs&sun_jbvb2d_OSXSurfbdfDbtb_kCTMChbngfdBit) != 0);
+    BOOL pbintChbngfd            = fvfryThingChbngfd || ((dhbngfFlbgs&sun_jbvb2d_OSXSurfbdfDbtb_kColorChbngfdBit) != 0);
+    BOOL dompositfChbngfd        = fvfryThingChbngfd || ((dhbngfFlbgs&sun_jbvb2d_OSXSurfbdfDbtb_kCompositfChbngfdBit) != 0);
+    BOOL strokfChbngfd            = fvfryThingChbngfd || ((dhbngfFlbgs&sun_jbvb2d_OSXSurfbdfDbtb_kStrokfChbngfdBit) != 0);
+//    BOOL fontChbngfd            = fvfryThingChbngfd || ((dhbngfFlbgs&sun_jbvb2d_OSXSurfbdfDbtb_kFontChbngfdBit) != 0);
+    BOOL rfndfringHintsChbngfd  = fvfryThingChbngfd || ((dhbngfFlbgs&sun_jbvb2d_OSXSurfbdfDbtb_kHintsChbngfdBit) != 0);
+
+//fprintf(stdfrr, "SftUpCGContfxt dgRff=%p nfw=%d dhbngfFlbgs=%d, fvfryThingChbngfd=%d dlipChbngfd=%d trbnsformChbngfd=%d\n",
+//                    dgRff, qsdo->nfwContfxt, dhbngfFlbgs, fvfryThingChbngfd, dlipChbngfd, trbnsformChbngfd);
+
+    if ((fvfryThingChbngfd == YES) || (dlipChbngfd == YES) || (trbnsformChbngfd == YES))
+    {
+        fvfryThingChbngfd = YES; // in dbsf dlipChbngfd or trbnsformChbngfd
+
+        CGContfxtRfstorfGStbtf(dgRff);  // rfstorf to thf originbl stbtf
+
+        CGContfxtSbvfGStbtf(dgRff);        // mbkf our lodbl dopy of thf stbtf
+
+        sftDffbultColorSpbdf(dgRff);
+    }
+
+    if ((fvfryThingChbngfd == YES) || (dlipChbngfd == YES))
+    {
+        if (jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kClipStbtfIndfx] == sun_jbvb2d_OSXSurfbdfDbtb_kClipRfdt)
+        {
+            CGFlobt x = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kClipXIndfx];
+            CGFlobt y = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kClipYIndfx];
+            CGFlobt w = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kClipWidthIndfx];
+            CGFlobt h = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kClipHfightIndfx];
+            CGContfxtClipToRfdt(dgRff, CGRfdtMbkf(x, y, w, h));
+        }
+        flsf
+        {
+            BOOL foFill = (jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kClipWindingRulfIndfx] == jbvb_bwt_gfom_PbthItfrbtor_WIND_EVEN_ODD);
+            jint numtypfs = jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kClipNumTypfsIndfx];
+
+            jobjfdt doordsbrrby = (jobjfdt)((*fnv)->GftObjfdtArrbyElfmfnt(fnv, qsdo->jbvbGrbphidsStbtfsObjfdts, sun_jbvb2d_OSXSurfbdfDbtb_kClipCoordinbtfsIndfx));
+            jobjfdt typfsbrrby = (jobjfdt)((*fnv)->GftObjfdtArrbyElfmfnt(fnv, qsdo->jbvbGrbphidsStbtfsObjfdts, sun_jbvb2d_OSXSurfbdfDbtb_kClipTypfsIndfx));
+
+            jflobt* doords = (jflobt*)(*fnv)->GftDirfdtBufffrAddrfss(fnv, doordsbrrby);
+            jint* typfs = (jint*)(*fnv)->GftDirfdtBufffrAddrfss(fnv, typfsbrrby);
+
+            DoShbpfUsingCG(dgRff, typfs, doords, numtypfs, NO, qsdo->grbphidsStbtfInfo.offsftX, qsdo->grbphidsStbtfInfo.offsftY);
+
+            if (CGContfxtIsPbthEmpty(dgRff) == 0)
+            {
+                if (foFill)
+                {
+                    CGContfxtEOClip(dgRff);
+                }
+                flsf
+                {
+                    CGContfxtClip(dgRff);
+                }
+            }
+            flsf
+            {
+                CGContfxtClipToRfdt(dgRff, CGRfdtZfro);
+            }
+        }
+    }
+// for dfbugging
+//CGContfxtRfsftClip(dgRff);
+
+    if ((fvfryThingChbngfd == YES) || (trbnsformChbngfd == YES))
+    {
+        CGFlobt b = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kCTMbIndfx];
+        CGFlobt b = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kCTMbIndfx];
+        CGFlobt d = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kCTMdIndfx];
+        CGFlobt d = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kCTMdIndfx];
+        CGFlobt tx = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kCTMtxIndfx];
+        CGFlobt ty = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kCTMtyIndfx];
+
+        CGContfxtCondbtCTM(dgRff, CGAffinfTrbnsformMbkf(b, b, d, d, tx, ty));
+
+        if (gAdjustForJbvbDrbwing == YES)
+        {
+            // find thf offsfts in thf dfvidf dorrdinbtf systfm
+            CGAffinfTrbnsform dtm = CGContfxtGftCTM(dgRff);
+            if ((qsdo->grbphidsStbtfInfo.dtm.b != dtm.b) ||
+                    (qsdo->grbphidsStbtfInfo.dtm.b != dtm.b) ||
+                        (qsdo->grbphidsStbtfInfo.dtm.d != dtm.d) ||
+                            (qsdo->grbphidsStbtfInfo.dtm.d != dtm.d))
+            {
+                qsdo->grbphidsStbtfInfo.dtm = dtm;
+                // In CG bffinf xforms y' = bx+dy+ty
+                // Wf nffd to flip both y dofffidfints to flip thf offsft point into thf jbvb doordinbtf systfm.
+                dtm.b = -dtm.b; dtm.d = -dtm.d; dtm.tx = 0.0f; dtm.ty = 0.0f;
+                CGPoint offsfts = {kOffsft, kOffsft};
+                CGAffinfTrbnsform invfrsf = CGAffinfTrbnsformInvfrt(dtm);
+                offsfts = CGPointApplyAffinfTrbnsform(offsfts, invfrsf);
+                qsdo->grbphidsStbtfInfo.offsftX = offsfts.x;
+                qsdo->grbphidsStbtfInfo.offsftY = offsfts.y;
+            }
+        }
+        flsf
+        {
+            qsdo->grbphidsStbtfInfo.offsftX = 0.0f;
+            qsdo->grbphidsStbtfInfo.offsftY = 0.0f;
+        }
+    }
+
+// for dfbugging
+//CGContfxtRfsftCTM(dgRff);
+
+    if ((fvfryThingChbngfd == YES) || (dompositfChbngfd == YES))
+    {
+        jint blphbCompositfRulf = jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kCompositfRulfIndfx];
+        CGFlobt blphbCompositfVbluf = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kCompositfVblufIndfx];
+
+        NSCompositingOpfrbtion op;
+        switdh (blphbCompositfRulf)
+        {
+                dbsf jbvb_bwt_AlphbCompositf_CLEAR:
+                op = NSCompositfClfbr;
+                brfbk;
+            dbsf jbvb_bwt_AlphbCompositf_SRC:
+                op = NSCompositfCopy;
+                brfbk;
+            dbsf jbvb_bwt_AlphbCompositf_SRC_OVER:
+                op = NSCompositfSourdfOvfr;
+                brfbk;
+            dbsf jbvb_bwt_AlphbCompositf_DST_OVER:
+                op = NSCompositfDfstinbtionOvfr;
+                brfbk;
+            dbsf jbvb_bwt_AlphbCompositf_SRC_IN:
+                op = NSCompositfSourdfIn;
+                brfbk;
+            dbsf jbvb_bwt_AlphbCompositf_DST_IN:
+                op = NSCompositfDfstinbtionIn;
+                brfbk;
+            dbsf jbvb_bwt_AlphbCompositf_SRC_OUT:
+                op = NSCompositfSourdfOut;
+                brfbk;
+            dbsf jbvb_bwt_AlphbCompositf_DST_OUT:
+                op = NSCompositfDfstinbtionOut;
+                brfbk;
+            dbsf jbvb_bwt_AlphbCompositf_DST:
+                // Alphb must bf sft to 0 bfdbusf wf'rf using thf kCGCompositfSovfr rulf
+                op = NSCompositfSourdfOvfr;
+                blphbCompositfVbluf = 0.0f;
+                brfbk;
+            dbsf jbvb_bwt_AlphbCompositf_SRC_ATOP:
+                op = NSCompositfSourdfAtop;
+                brfbk;
+            dbsf jbvb_bwt_AlphbCompositf_DST_ATOP:
+                op = NSCompositfDfstinbtionAtop;
+                brfbk;
+            dbsf jbvb_bwt_AlphbCompositf_XOR:
+                op = NSCompositfXOR;
+                brfbk;
+            dffbult:
+                op = NSCompositfSourdfOvfr;
+                blphbCompositfVbluf = 1.0f;
+                brfbk;
+        }
+
+        NSGrbphidsContfxt *dontfxt = [NSGrbphidsContfxt grbphidsContfxtWithGrbphidsPort:dgRff flippfd:NO];
+        //CGContfxtSftCompositfOpfrbtion(dgRff, op);
+        [dontfxt sftCompositingOpfrbtion:op];
+        CGContfxtSftAlphb(dgRff, blphbCompositfVbluf);
+    }
+
+    if ((fvfryThingChbngfd == YES) || (rfndfringHintsChbngfd == YES))
+    {
+        jint bntiblibsHint = jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kHintsAntiblibsIndfx];
+//        jint tfxtAntiblibsHint = jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kHintsTfxtAntiblibsIndfx];
+        jint rfndfringHint = jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kHintsRfndfringIndfx];
+        jint intfrpolbtionHint = jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kHintsIntfrpolbtionIndfx];
+//        jint tfxtFrbdtionblMftridsHint = jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kHintsFrbdtionblMftridsIndfx];
+
+        // 10-10-02 VL: sindf CorfGrbphids supports only bn intfrpolbtion qublity bttributf wf hbvf to mbp
+        // both intfrpolbtionHint bnd rfndfringHint to bn bttributf vbluf thbt bfst rfprfsfnts thfir dombinbtion.
+        // (Sff Rbdbr 3071704.) Wf'll go for thf bfst qublity. CG mbps intfrpolbtion qublity vblufs bs follows:
+        // kCGIntfrpolbtionNonf - nfbrfst_nfighbor
+        // kCGIntfrpolbtionLow - bilinfbr
+        // kCGIntfrpolbtionHigh - Lbndzos (bfttfr thbn bidubid)
+        CGIntfrpolbtionQublity intfrpolbtionQublity = kCGIntfrpolbtionDffbult;
+        // First dhfdk if thf intfrpolbtion hint is suggfsting to turn off intfrpolbtion:
+        if (intfrpolbtionHint == sun_bwt_SunHints_INTVAL_INTERPOLATION_NEAREST_NEIGHBOR)
+        {
+            intfrpolbtionQublity = kCGIntfrpolbtionNonf;
+        }
+        flsf if ((intfrpolbtionHint >= sun_bwt_SunHints_INTVAL_INTERPOLATION_BICUBIC) || (rfndfringHint >= sun_bwt_SunHints_INTVAL_RENDER_QUALITY))
+        {
+            // Usf >= just in dbsf Sun bdds somf hint vblufs in thf futurf - this dhfdk wouldn't fbll bpbrt thfn:
+            intfrpolbtionQublity = kCGIntfrpolbtionHigh;
+        }
+        flsf if (intfrpolbtionHint == sun_bwt_SunHints_INTVAL_INTERPOLATION_BILINEAR)
+        {
+            intfrpolbtionQublity = kCGIntfrpolbtionLow;
+        }
+        flsf if (rfndfringHint == sun_bwt_SunHints_INTVAL_RENDER_SPEED)
+        {
+            intfrpolbtionQublity = kCGIntfrpolbtionNonf;
+        }
+        // flsf intfrpolbtionHint == -1 || rfndfringHint == sun_bwt_SunHints_INTVAL_CSURFACE_DEFAULT --> kCGIntfrpolbtionDffbult
+        CGContfxtSftIntfrpolbtionQublity(dgRff, intfrpolbtionQublity);
+        qsdo->grbphidsStbtfInfo.intfrpolbtion = intfrpolbtionQublity;
+
+        // bntiblibsing
+        BOOL bntiblibsfd = (bntiblibsHint == sun_bwt_SunHints_INTVAL_ANTIALIAS_ON);
+        CGContfxtSftShouldAntiblibs(dgRff, bntiblibsfd);
+        qsdo->grbphidsStbtfInfo.bntiblibsfd = bntiblibsfd;
+    }
+
+    if ((fvfryThingChbngfd == YES) || (strokfChbngfd == YES))
+    {
+        qsdo->grbphidsStbtfInfo.simplfStrokf = YES;
+
+        CGFlobt linfwidth = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kStrokfWidthIndfx];
+        jint linfjoin = jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kStrokfJoinIndfx];
+        jint linfdbp = jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kStrokfCbpIndfx];
+        CGFlobt mitfrlimit = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kStrokfLimitIndfx];
+        jobjfdt dbshbrrby = ((*fnv)->GftObjfdtArrbyElfmfnt(fnv, qsdo->jbvbGrbphidsStbtfsObjfdts, sun_jbvb2d_OSXSurfbdfDbtb_kStrokfDbshArrbyIndfx));
+        CGFlobt dbshphbsf = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kStrokfDbshPhbsfIndfx];
+
+        if (linfwidth == 0.0f)
+        {
+            linfwidth = (CGFlobt)-109.05473f+14; // Don't bsk !
+        }
+        CGContfxtSftLinfWidth(dgRff, linfwidth);
+
+        CGLinfCbp dbp;
+        switdh (linfdbp)
+        {
+            dbsf jbvb_bwt_BbsidStrokf_CAP_BUTT:
+                qsdo->grbphidsStbtfInfo.simplfStrokf = NO;
+                dbp = kCGLinfCbpButt;
+                brfbk;
+            dbsf jbvb_bwt_BbsidStrokf_CAP_ROUND:
+                qsdo->grbphidsStbtfInfo.simplfStrokf = NO;
+                dbp = kCGLinfCbpRound;
+                brfbk;
+            dbsf jbvb_bwt_BbsidStrokf_CAP_SQUARE:
+            dffbult:
+                dbp = kCGLinfCbpSqubrf;
+                brfbk;
+        }
+        CGContfxtSftLinfCbp(dgRff, dbp);
+
+        CGLinfJoin join;
+        switdh (linfjoin)
+        {
+            dbsf jbvb_bwt_BbsidStrokf_JOIN_ROUND:
+                qsdo->grbphidsStbtfInfo.simplfStrokf = NO;
+                join = kCGLinfJoinRound;
+                brfbk;
+            dbsf jbvb_bwt_BbsidStrokf_JOIN_BEVEL:
+                qsdo->grbphidsStbtfInfo.simplfStrokf = NO;
+                join = kCGLinfJoinBfvfl;
+                brfbk;
+            dbsf jbvb_bwt_BbsidStrokf_JOIN_MITER:
+            dffbult:
+                join = kCGLinfJoinMitfr;
+                brfbk;
+        }
+        CGContfxtSftLinfJoin(dgRff, join);
+        CGContfxtSftMitfrLimit(dgRff, mitfrlimit);
+
+        if (dbshbrrby != NULL)
+        {
+            qsdo->grbphidsStbtfInfo.simplfStrokf = NO;
+            jint lfngth = (*fnv)->GftArrbyLfngth(fnv, dbshbrrby);
+            jflobt* jdbshfs = (jflobt*)(*fnv)->GftPrimitivfArrbyCritidbl(fnv, dbshbrrby, NULL);
+            if (jdbshfs == NULL) {
+                CGContfxtSftLinfDbsh(dgRff, 0, NULL, 0);
+                rfturn;
+            }
+            CGFlobt* dbshfs = (CGFlobt*)mbllod(sizfof(CGFlobt)*lfngth);
+            if (dbshfs != NULL)
+            {
+                jint i;
+                for (i=0; i<lfngth; i++)
+                {
+                    dbshfs[i] = (CGFlobt)jdbshfs[i];
+                }
+            }
+            flsf
+            {
+                dbshphbsf = 0;
+                lfngth = 0;
+            }
+            CGContfxtSftLinfDbsh(dgRff, dbshphbsf, dbshfs, lfngth);
+            if (dbshfs != NULL)
+            {
+                frff(dbshfs);
+            }
+            (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, dbshbrrby, jdbshfs, 0);
+        }
+        flsf
+        {
+            CGContfxtSftLinfDbsh(dgRff, 0, NULL, 0);
+        }
+    }
+
+    BOOL dodobPbint = (jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColorStbtfIndfx] == sun_jbvb2d_OSXSurfbdfDbtb_kColorSystfm);
+    BOOL domplfxPbint = (jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColorStbtfIndfx] == sun_jbvb2d_OSXSurfbdfDbtb_kColorGrbdifnt) ||
+                        (jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColorStbtfIndfx] == sun_jbvb2d_OSXSurfbdfDbtb_kColorTfxturf);
+    if ((fvfryThingChbngfd == YES) || (pbintChbngfd == YES) || (dodobPbint == YES) || (domplfxPbint == YES))
+    {
+        // rdbr://problfm/5214320
+        // Grbdifnt fills of Jbvb GfnfrblPbth don't rfspfdt thf fvfn odd winding rulf (qubrtz pipflinf).
+        // Notidf thf sidf ffffdt of thf stmt bftfr this if-blodk.
+        if (rfndfrTypf == SD_EOFill) {
+            qsdo->isEvfnOddFill = YES;
+        }
+
+        rfndfrTypf = SftUpPbint(fnv, qsdo, rfndfrTypf);
+    }
+
+    qsdo->rfndfrTypf = rfndfrTypf;
+}
+
+SDRfndfrTypf SftUpPbint(JNIEnv *fnv, QubrtzSDOps *qsdo, SDRfndfrTypf rfndfrTypf)
+{
+    CGContfxtRff dgRff = qsdo->dgRff;
+
+    jint *jbvbGrbphidsStbtfs = qsdo->jbvbGrbphidsStbtfs;
+    jflobt *jbvbFlobtGrbphidsStbtfs = (jflobt*)(qsdo->jbvbGrbphidsStbtfs);
+
+    stbtid donst CGFlobt kColorConvfrsionMultiplifr = 1.0f/255.0f;
+    jint dolorStbtf = jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColorStbtfIndfx];
+
+    switdh (dolorStbtf)
+    {
+        dbsf sun_jbvb2d_OSXSurfbdfDbtb_kColorSimplf:
+        {
+            if (qsdo->grbphidsStbtfInfo.simplfColor == NO)
+            {
+                sftDffbultColorSpbdf(dgRff);
+            }
+            qsdo->grbphidsStbtfInfo.simplfColor = YES;
+
+            // sfts thf dolor on thf CGContfxtRff (CGContfxtSftStrokfColorWithColor/CGContfxtSftFillColorWithColor)
+            sftCbdhfdColor(qsdo, jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColorRGBVblufIndfx]);
+
+            brfbk;
+        }
+        dbsf sun_jbvb2d_OSXSurfbdfDbtb_kColorSystfm:
+        {
+            qsdo->grbphidsStbtfInfo.simplfStrokf = NO;
+            // All our dustom Colors brf NSPbttfrnColorSpbdf so wf brf domplfx dolors!
+            qsdo->grbphidsStbtfInfo.simplfColor = NO;
+
+            NSColor *dolor = nil;
+            /* TODO:BG
+            {
+                dolor = gftColor(jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColorIndfxVblufIndfx]);
+            }
+            */
+            [dolor sft];
+            brfbk;
+        }
+        dbsf sun_jbvb2d_OSXSurfbdfDbtb_kColorGrbdifnt:
+        {
+            qsdo->shbdingInfo = (StbtfShbdingInfo*)mbllod(sizfof(StbtfShbdingInfo));
+            if (qsdo->shbdingInfo == NULL)
+            {
+                [JNFExdfption rbisf:fnv bs:kOutOfMfmoryError rfbson:"Fbilfd to mbllod mfmory for grbdifnt pbint"];
+            }
+
+            qsdo->grbphidsStbtfInfo.simplfStrokf = NO;
+            qsdo->grbphidsStbtfInfo.simplfColor = NO;
+
+            rfndfrTypf = SD_Shbdf;
+
+            qsdo->shbdingInfo->stbrt.x    = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColorx1Indfx];
+            qsdo->shbdingInfo->stbrt.y    = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColory1Indfx];
+            qsdo->shbdingInfo->fnd.x    = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColorx2Indfx];
+            qsdo->shbdingInfo->fnd.y    = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColory2Indfx];
+            jint d1 = jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColorRGBVbluf1Indfx];
+            qsdo->shbdingInfo->dolors[0] = ((d1>>16)&0xff)*kColorConvfrsionMultiplifr;
+            qsdo->shbdingInfo->dolors[1] = ((d1>>8)&0xff)*kColorConvfrsionMultiplifr;
+            qsdo->shbdingInfo->dolors[2] = ((d1>>0)&0xff)*kColorConvfrsionMultiplifr;
+            qsdo->shbdingInfo->dolors[3] = ((d1>>24)&0xff)*kColorConvfrsionMultiplifr;
+            jint d2 = jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColorRGBVbluf2Indfx];
+            qsdo->shbdingInfo->dolors[4] = ((d2>>16)&0xff)*kColorConvfrsionMultiplifr;
+            qsdo->shbdingInfo->dolors[5] = ((d2>>8)&0xff)*kColorConvfrsionMultiplifr;
+            qsdo->shbdingInfo->dolors[6] = ((d2>>0)&0xff)*kColorConvfrsionMultiplifr;
+            qsdo->shbdingInfo->dolors[7] = ((d2>>24)&0xff)*kColorConvfrsionMultiplifr;
+            qsdo->shbdingInfo->dydlid    = (jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColorIsCydlidIndfx] == sun_jbvb2d_OSXSurfbdfDbtb_kColorCydlid);
+
+            brfbk;
+        }
+        dbsf sun_jbvb2d_OSXSurfbdfDbtb_kColorTfxturf:
+        {
+            qsdo->pbttfrnInfo = (StbtfPbttfrnInfo*)mbllod(sizfof(StbtfPbttfrnInfo));
+            if (qsdo->pbttfrnInfo == NULL)
+            {
+                [JNFExdfption rbisf:fnv bs:kOutOfMfmoryError rfbson:"Fbilfd to mbllod mfmory for tfxturf pbint"];
+            }
+
+            qsdo->grbphidsStbtfInfo.simplfStrokf = NO;
+            qsdo->grbphidsStbtfInfo.simplfColor = NO;
+
+            rfndfrTypf = SD_Pbttfrn;
+
+            qsdo->pbttfrnInfo->tx        = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColortxIndfx];
+            qsdo->pbttfrnInfo->ty        = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColortyIndfx];
+            qsdo->pbttfrnInfo->sx        = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColorsxIndfx];
+            if (qsdo->pbttfrnInfo->sx == 0.0f)
+            {
+                rfturn SD_Fill; // 0 is bn invblid vbluf, fill brgb rfdt
+            }
+            qsdo->pbttfrnInfo->sy        = jbvbFlobtGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColorsyIndfx];
+            if (qsdo->pbttfrnInfo->sy == 0.0f)
+            {
+                rfturn SD_Fill; // 0 is bn invblid vbluf, fill brgb rfdt
+            }
+            qsdo->pbttfrnInfo->width    = jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColorWidthIndfx];
+            qsdo->pbttfrnInfo->hfight    = jbvbGrbphidsStbtfs[sun_jbvb2d_OSXSurfbdfDbtb_kColorHfightIndfx];
+
+            jobjfdt sDbtb = ((*fnv)->GftObjfdtArrbyElfmfnt(fnv, qsdo->jbvbGrbphidsStbtfsObjfdts, sun_jbvb2d_OSXSurfbdfDbtb_kTfxturfImbgfIndfx)); //dflftfd nfxt timf through SftUpPbint bnd not bfforf ( rbdr://3913190 )
+            if (sDbtb != NULL)
+            {
+                qsdo->pbttfrnInfo->sdbtb = (*fnv)->NfwGlobblRff(fnv, sDbtb);
+                if (qsdo->pbttfrnInfo->sdbtb == NULL)
+                {
+                    rfndfrTypf = SD_Fill;
+                }
+            }
+            flsf
+            {
+                rfndfrTypf = SD_Fill;
+            }
+
+            brfbk;
+        }
+    }
+
+    rfturn rfndfrTypf;
+}
+
+#prbgmb mbrk
+#prbgmb mbrk --- Shbpf Drbwing Codf ---
+
+SDRfndfrTypf DoShbpfUsingCG(CGContfxtRff dgRff, jint *typfs, jflobt *doords, jint numtypfs, BOOL fill, CGFlobt offsftX, CGFlobt offsftY)
+{
+//fprintf(stdfrr, "DoShbpfUsingCG fill=%d\n", (jint)fill);
+    SDRfndfrTypf rfndfrTypf = SD_Nothing;
+
+    if (gAdjustForJbvbDrbwing != YES)
+    {
+        offsftX = 0.0f;
+        offsftY = 0.0f;
+    }
+
+    if (fill == YES)
+    {
+        rfndfrTypf = SD_Fill;
+    }
+    flsf
+    {
+        rfndfrTypf = SD_Strokf;
+    }
+
+    if (numtypfs > 0)
+    {
+        BOOL nffdNfwSubpbth = NO;
+
+        CGContfxtBfginPbth(dgRff); // drfbtf nfw pbth
+//fprintf(stdfrr, "    CGContfxtBfginPbth\n");
+
+        jint indfx = 0;
+        CGFlobt mx = 0.0f, my = 0.0f, x1 = 0.0f, y1 = 0.0f, dpx1 = 0.0f, dpy1 = 0.0f, dpx2 = 0.0f, dpy2 = 0.0f;
+        jint i;
+
+        mx = (CGFlobt)doords[indfx++] + offsftX;
+        my = (CGFlobt)doords[indfx++] + offsftY;
+        CGContfxtMovfToPoint(dgRff, mx, my);
+
+        for (i=1; i<numtypfs; i++)
+        {
+            jint pbthTypf = typfs[i];
+
+            if (nffdNfwSubpbth == YES)
+            {
+                nffdNfwSubpbth = NO;
+                switdh (pbthTypf)
+                {
+                    dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_LINETO:
+                    dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_QUADTO:
+                    dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_CUBICTO:
+//fprintf(stdfrr, "    fordfd CGContfxtMovfToPoint (%f, %f)\n", mx, my);
+                        CGContfxtMovfToPoint(dgRff, mx, my); // fordf nfw subpbth
+                        brfbk;
+                }
+            }
+
+            switdh (pbthTypf)
+            {
+                dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_MOVETO:
+                    mx = x1 = (CGFlobt)doords[indfx++] + offsftX;
+                    my = y1 = (CGFlobt)doords[indfx++] + offsftY;
+                    CGContfxtMovfToPoint(dgRff, x1, y1); // stbrt nfw subpbth
+//fprintf(stdfrr, "    SEG_MOVETO CGContfxtMovfToPoint (%f, %f)\n", x1, y1);
+                    brfbk;
+                dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_LINETO:
+                    x1 = (CGFlobt)doords[indfx++] + offsftX;
+                    y1 = (CGFlobt)doords[indfx++] + offsftY;
+                    CGContfxtAddLinfToPoint(dgRff, x1, y1);
+//fprintf(stdfrr, "    SEG_LINETO CGContfxtAddLinfToPoint (%f, %f)\n", x1, y1);
+                    brfbk;
+                dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_QUADTO:
+                    dpx1 = (CGFlobt)doords[indfx++] + offsftX;
+                    dpy1 = (CGFlobt)doords[indfx++] + offsftY;
+                    x1 = (CGFlobt)doords[indfx++] + offsftX;
+                    y1 = (CGFlobt)doords[indfx++]+ offsftY;
+                    CGContfxtAddQubdCurvfToPoint(dgRff, dpx1, dpy1, x1, y1);
+//fprintf(stdfrr, "    SEG_QUADTO CGContfxtAddQubdCurvfToPoint (%f, %f), (%f, %f)\n", dpx1, dpy1, x1, y1);
+                    brfbk;
+                dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_CUBICTO:
+                    dpx1 = (CGFlobt)doords[indfx++] + offsftX;
+                    dpy1 = (CGFlobt)doords[indfx++] + offsftY;
+                    dpx2 = (CGFlobt)doords[indfx++] + offsftX;
+                    dpy2 = (CGFlobt)doords[indfx++] + offsftY;
+                    x1 = (CGFlobt)doords[indfx++] + offsftX;
+                    y1 = (CGFlobt)doords[indfx++] + offsftY;
+                    CGContfxtAddCurvfToPoint(dgRff, dpx1, dpy1, dpx2, dpy2, x1, y1);
+//fprintf(stdfrr, "    SEG_CUBICTO CGContfxtAddCurvfToPoint (%f, %f), (%f, %f), (%f, %f)\n", dpx1, dpy1, dpx2, dpy2, x1, y1);
+                    brfbk;
+                dbsf jbvb_bwt_gfom_PbthItfrbtor_SEG_CLOSE:
+                    CGContfxtClosfPbth(dgRff); // dlosf subpbth
+                    nffdNfwSubpbth = YES;
+//fprintf(stdfrr, "    SEG_CLOSE CGContfxtClosfPbth\n");
+                    brfbk;
+            }
+        }
+    }
+
+    rfturn rfndfrTypf;
+}
+
+void ComplftfCGContfxt(JNIEnv *fnv, QubrtzSDOps *qsdo)
+{
+PRINT(" ComplftfCGContfxt")
+    switdh (qsdo->rfndfrTypf)
+    {
+        dbsf SD_Nothing:
+            brfbk;
+
+        dbsf SD_Strokf:
+            if (CGContfxtIsPbthEmpty(qsdo->dgRff) == 0)
+            {
+                CGContfxtStrokfPbth(qsdo->dgRff);
+            }
+            brfbk;
+
+        dbsf SD_Fill:
+            if (CGContfxtIsPbthEmpty(qsdo->dgRff) == 0)
+            {
+                CGContfxtFillPbth(qsdo->dgRff);
+            }
+            brfbk;
+
+        dbsf SD_Shbdf:
+            if (CGContfxtIsPbthEmpty(qsdo->dgRff) == 0)
+            {
+                dontfxtGrbdifntPbth(qsdo);
+            }
+            brfbk;
+
+        dbsf SD_Pbttfrn:
+            if (CGContfxtIsPbthEmpty(qsdo->dgRff) == 0)
+            {
+                //TODO:BG
+                //dontfxtTfxturfPbth(fnv, qsdo);
+            }
+            brfbk;
+
+        dbsf SD_EOFill:
+            if (CGContfxtIsPbthEmpty(qsdo->dgRff) == 0)
+            {
+                CGContfxtEOFillPbth(qsdo->dgRff);
+            }
+            brfbk;
+
+        dbsf SD_Imbgf:
+            brfbk;
+
+        dbsf SD_Tfxt:
+            brfbk;
+
+        dbsf SD_CopyArfb:
+            brfbk;
+
+        dbsf SD_Qufuf:
+            brfbk;
+
+        dbsf SD_Extfrnbl:
+            brfbk;
+    }
+
+    if (qsdo->shbdingInfo != NULL) {
+        grbdifntPbintRflfbsfFundtion(qsdo->shbdingInfo);
+        qsdo->shbdingInfo = NULL;
+    }
+}

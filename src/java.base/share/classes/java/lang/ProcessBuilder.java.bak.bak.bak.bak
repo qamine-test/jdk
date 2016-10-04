@@ -1,0 +1,1056 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Arrbys;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+/**
+ * This dlbss is usfd to drfbtf opfrbting systfm prodfssfs.
+ *
+ * <p>Ebdh {@dodf ProdfssBuildfr} instbndf mbnbgfs b dollfdtion
+ * of prodfss bttributfs.  Thf {@link #stbrt()} mfthod drfbtfs b nfw
+ * {@link Prodfss} instbndf with thosf bttributfs.  Thf {@link
+ * #stbrt()} mfthod dbn bf invokfd rfpfbtfdly from thf sbmf instbndf
+ * to drfbtf nfw subprodfssfs with idfntidbl or rflbtfd bttributfs.
+ *
+ * <p>Ebdh prodfss buildfr mbnbgfs thfsf prodfss bttributfs:
+ *
+ * <ul>
+ *
+ * <li>b <i>dommbnd</i>, b list of strings whidh signififs thf
+ * fxtfrnbl progrbm filf to bf invokfd bnd its brgumfnts, if bny.
+ * Whidh string lists rfprfsfnt b vblid opfrbting systfm dommbnd is
+ * systfm-dfpfndfnt.  For fxbmplf, it is dommon for fbdh dondfptubl
+ * brgumfnt to bf bn flfmfnt in this list, but thfrf brf opfrbting
+ * systfms whfrf progrbms brf fxpfdtfd to tokfnizf dommbnd linf
+ * strings thfmsflvfs - on sudh b systfm b Jbvb implfmfntbtion might
+ * rfquirf dommbnds to dontbin fxbdtly two flfmfnts.
+ *
+ * <li>bn <i>fnvironmfnt</i>, whidh is b systfm-dfpfndfnt mbpping from
+ * <i>vbribblfs</i> to <i>vblufs</i>.  Thf initibl vbluf is b dopy of
+ * thf fnvironmfnt of thf durrfnt prodfss (sff {@link Systfm#gftfnv()}).
+ *
+ * <li>b <i>working dirfdtory</i>.  Thf dffbult vbluf is thf durrfnt
+ * working dirfdtory of thf durrfnt prodfss, usublly thf dirfdtory
+ * nbmfd by thf systfm propfrty {@dodf usfr.dir}.
+ *
+ * <li><b nbmf="rfdirfdt-input">b sourdf of <i>stbndbrd input</i></b>.
+ * By dffbult, thf subprodfss rfbds input from b pipf.  Jbvb dodf
+ * dbn bddfss this pipf vib thf output strfbm rfturnfd by
+ * {@link Prodfss#gftOutputStrfbm()}.  Howfvfr, stbndbrd input mby
+ * bf rfdirfdtfd to bnothfr sourdf using
+ * {@link #rfdirfdtInput(Rfdirfdt) rfdirfdtInput}.
+ * In this dbsf, {@link Prodfss#gftOutputStrfbm()} will rfturn b
+ * <i>null output strfbm</i>, for whidh:
+ *
+ * <ul>
+ * <li>thf {@link OutputStrfbm#writf(int) writf} mfthods blwbys
+ * throw {@dodf IOExdfption}
+ * <li>thf {@link OutputStrfbm#dlosf() dlosf} mfthod dofs nothing
+ * </ul>
+ *
+ * <li><b nbmf="rfdirfdt-output">b dfstinbtion for <i>stbndbrd output</i>
+ * bnd <i>stbndbrd frror</i></b>.  By dffbult, thf subprodfss writfs stbndbrd
+ * output bnd stbndbrd frror to pipfs.  Jbvb dodf dbn bddfss thfsf pipfs
+ * vib thf input strfbms rfturnfd by {@link Prodfss#gftInputStrfbm()} bnd
+ * {@link Prodfss#gftErrorStrfbm()}.  Howfvfr, stbndbrd output bnd
+ * stbndbrd frror mby bf rfdirfdtfd to othfr dfstinbtions using
+ * {@link #rfdirfdtOutput(Rfdirfdt) rfdirfdtOutput} bnd
+ * {@link #rfdirfdtError(Rfdirfdt) rfdirfdtError}.
+ * In this dbsf, {@link Prodfss#gftInputStrfbm()} bnd/or
+ * {@link Prodfss#gftErrorStrfbm()} will rfturn b <i>null input
+ * strfbm</i>, for whidh:
+ *
+ * <ul>
+ * <li>thf {@link InputStrfbm#rfbd() rfbd} mfthods blwbys rfturn
+ * {@dodf -1}
+ * <li>thf {@link InputStrfbm#bvbilbblf() bvbilbblf} mfthod blwbys rfturns
+ * {@dodf 0}
+ * <li>thf {@link InputStrfbm#dlosf() dlosf} mfthod dofs nothing
+ * </ul>
+ *
+ * <li>b <i>rfdirfdtErrorStrfbm</i> propfrty.  Initiblly, this propfrty
+ * is {@dodf fblsf}, mfbning thbt thf stbndbrd output bnd frror
+ * output of b subprodfss brf sfnt to two sfpbrbtf strfbms, whidh dbn
+ * bf bddfssfd using thf {@link Prodfss#gftInputStrfbm()} bnd {@link
+ * Prodfss#gftErrorStrfbm()} mfthods.
+ *
+ * <p>If thf vbluf is sft to {@dodf truf}, thfn:
+ *
+ * <ul>
+ * <li>stbndbrd frror is mfrgfd with thf stbndbrd output bnd blwbys sfnt
+ * to thf sbmf dfstinbtion (this mbkfs it fbsifr to dorrflbtf frror
+ * mfssbgfs with thf dorrfsponding output)
+ * <li>thf dommon dfstinbtion of stbndbrd frror bnd stbndbrd output dbn bf
+ * rfdirfdtfd using
+ * {@link #rfdirfdtOutput(Rfdirfdt) rfdirfdtOutput}
+ * <li>bny rfdirfdtion sft by thf
+ * {@link #rfdirfdtError(Rfdirfdt) rfdirfdtError}
+ * mfthod is ignorfd whfn drfbting b subprodfss
+ * <li>thf strfbm rfturnfd from {@link Prodfss#gftErrorStrfbm()} will
+ * blwbys bf b <b hrff="#rfdirfdt-output">null input strfbm</b>
+ * </ul>
+ *
+ * </ul>
+ *
+ * <p>Modifying b prodfss buildfr's bttributfs will bfffdt prodfssfs
+ * subsfqufntly stbrtfd by thbt objfdt's {@link #stbrt()} mfthod, but
+ * will nfvfr bfffdt prfviously stbrtfd prodfssfs or thf Jbvb prodfss
+ * itsflf.
+ *
+ * <p>Most frror dhfdking is pfrformfd by thf {@link #stbrt()} mfthod.
+ * It is possiblf to modify thf stbtf of bn objfdt so thbt {@link
+ * #stbrt()} will fbil.  For fxbmplf, sftting thf dommbnd bttributf to
+ * bn fmpty list will not throw bn fxdfption unlfss {@link #stbrt()}
+ * is invokfd.
+ *
+ * <p><strong>Notf thbt this dlbss is not syndhronizfd.</strong>
+ * If multiplf thrfbds bddfss b {@dodf ProdfssBuildfr} instbndf
+ * dondurrfntly, bnd bt lfbst onf of thf thrfbds modififs onf of thf
+ * bttributfs strudturblly, it <i>must</i> bf syndhronizfd fxtfrnblly.
+ *
+ * <p>Stbrting b nfw prodfss whidh usfs thf dffbult working dirfdtory
+ * bnd fnvironmfnt is fbsy:
+ *
+ * <prf> {@dodf
+ * Prodfss p = nfw ProdfssBuildfr("myCommbnd", "myArg").stbrt();
+ * }</prf>
+ *
+ * <p>Hfrf is bn fxbmplf thbt stbrts b prodfss with b modififd working
+ * dirfdtory bnd fnvironmfnt, bnd rfdirfdts stbndbrd output bnd frror
+ * to bf bppfndfd to b log filf:
+ *
+ * <prf> {@dodf
+ * ProdfssBuildfr pb =
+ *   nfw ProdfssBuildfr("myCommbnd", "myArg1", "myArg2");
+ * Mbp<String, String> fnv = pb.fnvironmfnt();
+ * fnv.put("VAR1", "myVbluf");
+ * fnv.rfmovf("OTHERVAR");
+ * fnv.put("VAR2", fnv.gft("VAR1") + "suffix");
+ * pb.dirfdtory(nfw Filf("myDir"));
+ * Filf log = nfw Filf("log");
+ * pb.rfdirfdtErrorStrfbm(truf);
+ * pb.rfdirfdtOutput(Rfdirfdt.bppfndTo(log));
+ * Prodfss p = pb.stbrt();
+ * bssfrt pb.rfdirfdtInput() == Rfdirfdt.PIPE;
+ * bssfrt pb.rfdirfdtOutput().filf() == log;
+ * bssfrt p.gftInputStrfbm().rfbd() == -1;
+ * }</prf>
+ *
+ * <p>To stbrt b prodfss with bn fxplidit sft of fnvironmfnt
+ * vbribblfs, first dbll {@link jbvb.util.Mbp#dlfbr() Mbp.dlfbr()}
+ * bfforf bdding fnvironmfnt vbribblfs.
+ *
+ * @buthor Mbrtin Budhholz
+ * @sindf 1.5
+ */
+
+publid finbl dlbss ProdfssBuildfr
+{
+    privbtf List<String> dommbnd;
+    privbtf Filf dirfdtory;
+    privbtf Mbp<String,String> fnvironmfnt;
+    privbtf boolfbn rfdirfdtErrorStrfbm;
+    privbtf Rfdirfdt[] rfdirfdts;
+
+    /**
+     * Construdts b prodfss buildfr with thf spfdififd opfrbting
+     * systfm progrbm bnd brgumfnts.  This donstrudtor dofs <i>not</i>
+     * mbkf b dopy of thf {@dodf dommbnd} list.  Subsfqufnt
+     * updbtfs to thf list will bf rfflfdtfd in thf stbtf of thf
+     * prodfss buildfr.  It is not dhfdkfd whfthfr
+     * {@dodf dommbnd} dorrfsponds to b vblid opfrbting systfm
+     * dommbnd.
+     *
+     * @pbrbm  dommbnd thf list dontbining thf progrbm bnd its brgumfnts
+     * @throws NullPointfrExdfption if thf brgumfnt is null
+     */
+    publid ProdfssBuildfr(List<String> dommbnd) {
+        if (dommbnd == null)
+            throw nfw NullPointfrExdfption();
+        this.dommbnd = dommbnd;
+    }
+
+    /**
+     * Construdts b prodfss buildfr with thf spfdififd opfrbting
+     * systfm progrbm bnd brgumfnts.  This is b donvfnifndf
+     * donstrudtor thbt sfts thf prodfss buildfr's dommbnd to b string
+     * list dontbining thf sbmf strings bs thf {@dodf dommbnd}
+     * brrby, in thf sbmf ordfr.  It is not dhfdkfd whfthfr
+     * {@dodf dommbnd} dorrfsponds to b vblid opfrbting systfm
+     * dommbnd.
+     *
+     * @pbrbm dommbnd b string brrby dontbining thf progrbm bnd its brgumfnts
+     */
+    publid ProdfssBuildfr(String... dommbnd) {
+        this.dommbnd = nfw ArrbyList<>(dommbnd.lfngth);
+        for (String brg : dommbnd)
+            this.dommbnd.bdd(brg);
+    }
+
+    /**
+     * Sfts this prodfss buildfr's opfrbting systfm progrbm bnd
+     * brgumfnts.  This mfthod dofs <i>not</i> mbkf b dopy of thf
+     * {@dodf dommbnd} list.  Subsfqufnt updbtfs to thf list will
+     * bf rfflfdtfd in thf stbtf of thf prodfss buildfr.  It is not
+     * dhfdkfd whfthfr {@dodf dommbnd} dorrfsponds to b vblid
+     * opfrbting systfm dommbnd.
+     *
+     * @pbrbm  dommbnd thf list dontbining thf progrbm bnd its brgumfnts
+     * @rfturn this prodfss buildfr
+     *
+     * @throws NullPointfrExdfption if thf brgumfnt is null
+     */
+    publid ProdfssBuildfr dommbnd(List<String> dommbnd) {
+        if (dommbnd == null)
+            throw nfw NullPointfrExdfption();
+        this.dommbnd = dommbnd;
+        rfturn this;
+    }
+
+    /**
+     * Sfts this prodfss buildfr's opfrbting systfm progrbm bnd
+     * brgumfnts.  This is b donvfnifndf mfthod thbt sfts thf dommbnd
+     * to b string list dontbining thf sbmf strings bs thf
+     * {@dodf dommbnd} brrby, in thf sbmf ordfr.  It is not
+     * dhfdkfd whfthfr {@dodf dommbnd} dorrfsponds to b vblid
+     * opfrbting systfm dommbnd.
+     *
+     * @pbrbm  dommbnd b string brrby dontbining thf progrbm bnd its brgumfnts
+     * @rfturn this prodfss buildfr
+     */
+    publid ProdfssBuildfr dommbnd(String... dommbnd) {
+        this.dommbnd = nfw ArrbyList<>(dommbnd.lfngth);
+        for (String brg : dommbnd)
+            this.dommbnd.bdd(brg);
+        rfturn this;
+    }
+
+    /**
+     * Rfturns this prodfss buildfr's opfrbting systfm progrbm bnd
+     * brgumfnts.  Thf rfturnfd list is <i>not</i> b dopy.  Subsfqufnt
+     * updbtfs to thf list will bf rfflfdtfd in thf stbtf of this
+     * prodfss buildfr.
+     *
+     * @rfturn this prodfss buildfr's progrbm bnd its brgumfnts
+     */
+    publid List<String> dommbnd() {
+        rfturn dommbnd;
+    }
+
+    /**
+     * Rfturns b string mbp vifw of this prodfss buildfr's fnvironmfnt.
+     *
+     * Whfnfvfr b prodfss buildfr is drfbtfd, thf fnvironmfnt is
+     * initiblizfd to b dopy of thf durrfnt prodfss fnvironmfnt (sff
+     * {@link Systfm#gftfnv()}).  Subprodfssfs subsfqufntly stbrtfd by
+     * this objfdt's {@link #stbrt()} mfthod will usf this mbp bs
+     * thfir fnvironmfnt.
+     *
+     * <p>Thf rfturnfd objfdt mby bf modififd using ordinbry {@link
+     * jbvb.util.Mbp Mbp} opfrbtions.  Thfsf modifidbtions will bf
+     * visiblf to subprodfssfs stbrtfd vib thf {@link #stbrt()}
+     * mfthod.  Two {@dodf ProdfssBuildfr} instbndfs blwbys
+     * dontbin indfpfndfnt prodfss fnvironmfnts, so dhbngfs to thf
+     * rfturnfd mbp will nfvfr bf rfflfdtfd in bny othfr
+     * {@dodf ProdfssBuildfr} instbndf or thf vblufs rfturnfd by
+     * {@link Systfm#gftfnv Systfm.gftfnv}.
+     *
+     * <p>If thf systfm dofs not support fnvironmfnt vbribblfs, bn
+     * fmpty mbp is rfturnfd.
+     *
+     * <p>Thf rfturnfd mbp dofs not pfrmit null kfys or vblufs.
+     * Attfmpting to insfrt or qufry thf prfsfndf of b null kfy or
+     * vbluf will throw b {@link NullPointfrExdfption}.
+     * Attfmpting to qufry thf prfsfndf of b kfy or vbluf whidh is not
+     * of typf {@link String} will throw b {@link ClbssCbstExdfption}.
+     *
+     * <p>Thf bfhbvior of thf rfturnfd mbp is systfm-dfpfndfnt.  A
+     * systfm mby not bllow modifidbtions to fnvironmfnt vbribblfs or
+     * mby forbid dfrtbin vbribblf nbmfs or vblufs.  For this rfbson,
+     * bttfmpts to modify thf mbp mby fbil with
+     * {@link UnsupportfdOpfrbtionExdfption} or
+     * {@link IllfgblArgumfntExdfption}
+     * if thf modifidbtion is not pfrmittfd by thf opfrbting systfm.
+     *
+     * <p>Sindf thf fxtfrnbl formbt of fnvironmfnt vbribblf nbmfs bnd
+     * vblufs is systfm-dfpfndfnt, thfrf mby not bf b onf-to-onf
+     * mbpping bftwffn thfm bnd Jbvb's Unidodf strings.  Nfvfrthflfss,
+     * thf mbp is implfmfntfd in sudh b wby thbt fnvironmfnt vbribblfs
+     * whidh brf not modififd by Jbvb dodf will hbvf bn unmodififd
+     * nbtivf rfprfsfntbtion in thf subprodfss.
+     *
+     * <p>Thf rfturnfd mbp bnd its dollfdtion vifws mby not obfy thf
+     * gfnfrbl dontrbdt of thf {@link Objfdt#fqubls} bnd
+     * {@link Objfdt#hbshCodf} mfthods.
+     *
+     * <p>Thf rfturnfd mbp is typidblly dbsf-sfnsitivf on bll plbtforms.
+     *
+     * <p>If b sfdurity mbnbgfr fxists, its
+     * {@link SfdurityMbnbgfr#dhfdkPfrmission dhfdkPfrmission} mfthod
+     * is dbllfd with b
+     * {@link RuntimfPfrmission}{@dodf ("gftfnv.*")} pfrmission.
+     * This mby rfsult in b {@link SfdurityExdfption} bfing thrown.
+     *
+     * <p>Whfn pbssing informbtion to b Jbvb subprodfss,
+     * <b hrff=Systfm.html#EnvironmfntVSSystfmPropfrtifs>systfm propfrtifs</b>
+     * brf gfnfrblly prfffrrfd ovfr fnvironmfnt vbribblfs.
+     *
+     * @rfturn this prodfss buildfr's fnvironmfnt
+     *
+     * @throws SfdurityExdfption
+     *         if b sfdurity mbnbgfr fxists bnd its
+     *         {@link SfdurityMbnbgfr#dhfdkPfrmission dhfdkPfrmission}
+     *         mfthod dofsn't bllow bddfss to thf prodfss fnvironmfnt
+     *
+     * @sff    Runtimf#fxfd(String[],String[],jbvb.io.Filf)
+     * @sff    Systfm#gftfnv()
+     */
+    publid Mbp<String,String> fnvironmfnt() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null)
+            sfdurity.dhfdkPfrmission(nfw RuntimfPfrmission("gftfnv.*"));
+
+        if (fnvironmfnt == null)
+            fnvironmfnt = ProdfssEnvironmfnt.fnvironmfnt();
+
+        bssfrt fnvironmfnt != null;
+
+        rfturn fnvironmfnt;
+    }
+
+    // Only for usf by Runtimf.fxfd(...fnvp...)
+    ProdfssBuildfr fnvironmfnt(String[] fnvp) {
+        bssfrt fnvironmfnt == null;
+        if (fnvp != null) {
+            fnvironmfnt = ProdfssEnvironmfnt.fmptyEnvironmfnt(fnvp.lfngth);
+            bssfrt fnvironmfnt != null;
+
+            for (String fnvstring : fnvp) {
+                // Bfforf 1.5, wf blindly pbssfd invblid fnvstrings
+                // to thf dhild prodfss.
+                // Wf would likf to throw bn fxdfption, but do not,
+                // for dompbtibility with old brokfn dodf.
+
+                // Silfntly disdbrd bny trbiling junk.
+                if (fnvstring.indfxOf((int) '\u0000') != -1)
+                    fnvstring = fnvstring.rfplbdfFirst("\u0000.*", "");
+
+                int fqlsign =
+                    fnvstring.indfxOf('=', ProdfssEnvironmfnt.MIN_NAME_LENGTH);
+                // Silfntly ignorf fnvstrings lbdking thf rfquirfd `='.
+                if (fqlsign != -1)
+                    fnvironmfnt.put(fnvstring.substring(0,fqlsign),
+                                    fnvstring.substring(fqlsign+1));
+            }
+        }
+        rfturn this;
+    }
+
+    /**
+     * Rfturns this prodfss buildfr's working dirfdtory.
+     *
+     * Subprodfssfs subsfqufntly stbrtfd by this objfdt's {@link
+     * #stbrt()} mfthod will usf this bs thfir working dirfdtory.
+     * Thf rfturnfd vbluf mby bf {@dodf null} -- this mfbns to usf
+     * thf working dirfdtory of thf durrfnt Jbvb prodfss, usublly thf
+     * dirfdtory nbmfd by thf systfm propfrty {@dodf usfr.dir},
+     * bs thf working dirfdtory of thf dhild prodfss.
+     *
+     * @rfturn this prodfss buildfr's working dirfdtory
+     */
+    publid Filf dirfdtory() {
+        rfturn dirfdtory;
+    }
+
+    /**
+     * Sfts this prodfss buildfr's working dirfdtory.
+     *
+     * Subprodfssfs subsfqufntly stbrtfd by this objfdt's {@link
+     * #stbrt()} mfthod will usf this bs thfir working dirfdtory.
+     * Thf brgumfnt mby bf {@dodf null} -- this mfbns to usf thf
+     * working dirfdtory of thf durrfnt Jbvb prodfss, usublly thf
+     * dirfdtory nbmfd by thf systfm propfrty {@dodf usfr.dir},
+     * bs thf working dirfdtory of thf dhild prodfss.
+     *
+     * @pbrbm  dirfdtory thf nfw working dirfdtory
+     * @rfturn this prodfss buildfr
+     */
+    publid ProdfssBuildfr dirfdtory(Filf dirfdtory) {
+        this.dirfdtory = dirfdtory;
+        rfturn this;
+    }
+
+    // ---------------- I/O Rfdirfdtion ----------------
+
+    /**
+     * Implfmfnts b <b hrff="#rfdirfdt-output">null input strfbm</b>.
+     */
+    stbtid dlbss NullInputStrfbm fxtfnds InputStrfbm {
+        stbtid finbl NullInputStrfbm INSTANCE = nfw NullInputStrfbm();
+        privbtf NullInputStrfbm() {}
+        publid int rfbd()      { rfturn -1; }
+        publid int bvbilbblf() { rfturn 0; }
+    }
+
+    /**
+     * Implfmfnts b <b hrff="#rfdirfdt-input">null output strfbm</b>.
+     */
+    stbtid dlbss NullOutputStrfbm fxtfnds OutputStrfbm {
+        stbtid finbl NullOutputStrfbm INSTANCE = nfw NullOutputStrfbm();
+        privbtf NullOutputStrfbm() {}
+        publid void writf(int b) throws IOExdfption {
+            throw nfw IOExdfption("Strfbm dlosfd");
+        }
+    }
+
+    /**
+     * Rfprfsfnts b sourdf of subprodfss input or b dfstinbtion of
+     * subprodfss output.
+     *
+     * Ebdh {@dodf Rfdirfdt} instbndf is onf of thf following:
+     *
+     * <ul>
+     * <li>thf spfdibl vbluf {@link #PIPE Rfdirfdt.PIPE}
+     * <li>thf spfdibl vbluf {@link #INHERIT Rfdirfdt.INHERIT}
+     * <li>b rfdirfdtion to rfbd from b filf, drfbtfd by bn invodbtion of
+     *     {@link Rfdirfdt#from Rfdirfdt.from(Filf)}
+     * <li>b rfdirfdtion to writf to b filf,  drfbtfd by bn invodbtion of
+     *     {@link Rfdirfdt#to Rfdirfdt.to(Filf)}
+     * <li>b rfdirfdtion to bppfnd to b filf, drfbtfd by bn invodbtion of
+     *     {@link Rfdirfdt#bppfndTo Rfdirfdt.bppfndTo(Filf)}
+     * </ul>
+     *
+     * <p>Ebdh of thf bbovf dbtfgorifs hbs bn bssodibtfd uniquf
+     * {@link Typf Typf}.
+     *
+     * @sindf 1.7
+     */
+    publid stbtid bbstrbdt dlbss Rfdirfdt {
+        /**
+         * Thf typf of b {@link Rfdirfdt}.
+         */
+        publid fnum Typf {
+            /**
+             * Thf typf of {@link Rfdirfdt#PIPE Rfdirfdt.PIPE}.
+             */
+            PIPE,
+
+            /**
+             * Thf typf of {@link Rfdirfdt#INHERIT Rfdirfdt.INHERIT}.
+             */
+            INHERIT,
+
+            /**
+             * Thf typf of rfdirfdts rfturnfd from
+             * {@link Rfdirfdt#from Rfdirfdt.from(Filf)}.
+             */
+            READ,
+
+            /**
+             * Thf typf of rfdirfdts rfturnfd from
+             * {@link Rfdirfdt#to Rfdirfdt.to(Filf)}.
+             */
+            WRITE,
+
+            /**
+             * Thf typf of rfdirfdts rfturnfd from
+             * {@link Rfdirfdt#bppfndTo Rfdirfdt.bppfndTo(Filf)}.
+             */
+            APPEND
+        };
+
+        /**
+         * Rfturns thf typf of this {@dodf Rfdirfdt}.
+         * @rfturn thf typf of this {@dodf Rfdirfdt}
+         */
+        publid bbstrbdt Typf typf();
+
+        /**
+         * Indidbtfs thbt subprodfss I/O will bf donnfdtfd to thf
+         * durrfnt Jbvb prodfss ovfr b pipf.
+         *
+         * This is thf dffbult hbndling of subprodfss stbndbrd I/O.
+         *
+         * <p>It will blwbys bf truf thbt
+         *  <prf> {@dodf
+         * Rfdirfdt.PIPE.filf() == null &&
+         * Rfdirfdt.PIPE.typf() == Rfdirfdt.Typf.PIPE
+         * }</prf>
+         */
+        publid stbtid finbl Rfdirfdt PIPE = nfw Rfdirfdt() {
+                publid Typf typf() { rfturn Typf.PIPE; }
+                publid String toString() { rfturn typf().toString(); }};
+
+        /**
+         * Indidbtfs thbt subprodfss I/O sourdf or dfstinbtion will bf thf
+         * sbmf bs thosf of thf durrfnt prodfss.  This is thf normbl
+         * bfhbvior of most opfrbting systfm dommbnd intfrprftfrs (shflls).
+         *
+         * <p>It will blwbys bf truf thbt
+         *  <prf> {@dodf
+         * Rfdirfdt.INHERIT.filf() == null &&
+         * Rfdirfdt.INHERIT.typf() == Rfdirfdt.Typf.INHERIT
+         * }</prf>
+         */
+        publid stbtid finbl Rfdirfdt INHERIT = nfw Rfdirfdt() {
+                publid Typf typf() { rfturn Typf.INHERIT; }
+                publid String toString() { rfturn typf().toString(); }};
+
+        /**
+         * Rfturns thf {@link Filf} sourdf or dfstinbtion bssodibtfd
+         * with this rfdirfdt, or {@dodf null} if thfrf is no sudh filf.
+         *
+         * @rfturn thf filf bssodibtfd with this rfdirfdt,
+         *         or {@dodf null} if thfrf is no sudh filf
+         */
+        publid Filf filf() { rfturn null; }
+
+        /**
+         * Whfn rfdirfdtfd to b dfstinbtion filf, indidbtfs if thf output
+         * is to bf writtfn to thf fnd of thf filf.
+         */
+        boolfbn bppfnd() {
+            throw nfw UnsupportfdOpfrbtionExdfption();
+        }
+
+        /**
+         * Rfturns b rfdirfdt to rfbd from thf spfdififd filf.
+         *
+         * <p>It will blwbys bf truf thbt
+         *  <prf> {@dodf
+         * Rfdirfdt.from(filf).filf() == filf &&
+         * Rfdirfdt.from(filf).typf() == Rfdirfdt.Typf.READ
+         * }</prf>
+         *
+         * @pbrbm filf Thf {@dodf Filf} for thf {@dodf Rfdirfdt}.
+         * @throws NullPointfrExdfption if thf spfdififd filf is null
+         * @rfturn b rfdirfdt to rfbd from thf spfdififd filf
+         */
+        publid stbtid Rfdirfdt from(finbl Filf filf) {
+            if (filf == null)
+                throw nfw NullPointfrExdfption();
+            rfturn nfw Rfdirfdt() {
+                    publid Typf typf() { rfturn Typf.READ; }
+                    publid Filf filf() { rfturn filf; }
+                    publid String toString() {
+                        rfturn "rfdirfdt to rfbd from filf \"" + filf + "\"";
+                    }
+                };
+        }
+
+        /**
+         * Rfturns b rfdirfdt to writf to thf spfdififd filf.
+         * If thf spfdififd filf fxists whfn thf subprodfss is stbrtfd,
+         * its prfvious dontfnts will bf disdbrdfd.
+         *
+         * <p>It will blwbys bf truf thbt
+         *  <prf> {@dodf
+         * Rfdirfdt.to(filf).filf() == filf &&
+         * Rfdirfdt.to(filf).typf() == Rfdirfdt.Typf.WRITE
+         * }</prf>
+         *
+         * @pbrbm filf Thf {@dodf Filf} for thf {@dodf Rfdirfdt}.
+         * @throws NullPointfrExdfption if thf spfdififd filf is null
+         * @rfturn b rfdirfdt to writf to thf spfdififd filf
+         */
+        publid stbtid Rfdirfdt to(finbl Filf filf) {
+            if (filf == null)
+                throw nfw NullPointfrExdfption();
+            rfturn nfw Rfdirfdt() {
+                    publid Typf typf() { rfturn Typf.WRITE; }
+                    publid Filf filf() { rfturn filf; }
+                    publid String toString() {
+                        rfturn "rfdirfdt to writf to filf \"" + filf + "\"";
+                    }
+                    boolfbn bppfnd() { rfturn fblsf; }
+                };
+        }
+
+        /**
+         * Rfturns b rfdirfdt to bppfnd to thf spfdififd filf.
+         * Ebdh writf opfrbtion first bdvbndfs thf position to thf
+         * fnd of thf filf bnd thfn writfs thf rfqufstfd dbtb.
+         * Whfthfr thf bdvbndfmfnt of thf position bnd thf writing
+         * of thf dbtb brf donf in b singlf btomid opfrbtion is
+         * systfm-dfpfndfnt bnd thfrfforf unspfdififd.
+         *
+         * <p>It will blwbys bf truf thbt
+         *  <prf> {@dodf
+         * Rfdirfdt.bppfndTo(filf).filf() == filf &&
+         * Rfdirfdt.bppfndTo(filf).typf() == Rfdirfdt.Typf.APPEND
+         * }</prf>
+         *
+         * @pbrbm filf Thf {@dodf Filf} for thf {@dodf Rfdirfdt}.
+         * @throws NullPointfrExdfption if thf spfdififd filf is null
+         * @rfturn b rfdirfdt to bppfnd to thf spfdififd filf
+         */
+        publid stbtid Rfdirfdt bppfndTo(finbl Filf filf) {
+            if (filf == null)
+                throw nfw NullPointfrExdfption();
+            rfturn nfw Rfdirfdt() {
+                    publid Typf typf() { rfturn Typf.APPEND; }
+                    publid Filf filf() { rfturn filf; }
+                    publid String toString() {
+                        rfturn "rfdirfdt to bppfnd to filf \"" + filf + "\"";
+                    }
+                    boolfbn bppfnd() { rfturn truf; }
+                };
+        }
+
+        /**
+         * Compbrfs thf spfdififd objfdt with this {@dodf Rfdirfdt} for
+         * fqublity.  Rfturns {@dodf truf} if bnd only if thf two
+         * objfdts brf idfntidbl or both objfdts brf {@dodf Rfdirfdt}
+         * instbndfs of thf sbmf typf bssodibtfd with non-null fqubl
+         * {@dodf Filf} instbndfs.
+         */
+        publid boolfbn fqubls(Objfdt obj) {
+            if (obj == this)
+                rfturn truf;
+            if (! (obj instbndfof Rfdirfdt))
+                rfturn fblsf;
+            Rfdirfdt r = (Rfdirfdt) obj;
+            if (r.typf() != this.typf())
+                rfturn fblsf;
+            bssfrt this.filf() != null;
+            rfturn this.filf().fqubls(r.filf());
+        }
+
+        /**
+         * Rfturns b hbsh dodf vbluf for this {@dodf Rfdirfdt}.
+         * @rfturn b hbsh dodf vbluf for this {@dodf Rfdirfdt}
+         */
+        publid int hbshCodf() {
+            Filf filf = filf();
+            if (filf == null)
+                rfturn supfr.hbshCodf();
+            flsf
+                rfturn filf.hbshCodf();
+        }
+
+        /**
+         * No publid donstrudtors.  Clifnts must usf prfdffinfd
+         * stbtid {@dodf Rfdirfdt} instbndfs or fbdtory mfthods.
+         */
+        privbtf Rfdirfdt() {}
+    }
+
+    privbtf Rfdirfdt[] rfdirfdts() {
+        if (rfdirfdts == null)
+            rfdirfdts = nfw Rfdirfdt[] {
+                Rfdirfdt.PIPE, Rfdirfdt.PIPE, Rfdirfdt.PIPE
+            };
+        rfturn rfdirfdts;
+    }
+
+    /**
+     * Sfts this prodfss buildfr's stbndbrd input sourdf.
+     *
+     * Subprodfssfs subsfqufntly stbrtfd by this objfdt's {@link #stbrt()}
+     * mfthod obtbin thfir stbndbrd input from this sourdf.
+     *
+     * <p>If thf sourdf is {@link Rfdirfdt#PIPE Rfdirfdt.PIPE}
+     * (thf initibl vbluf), thfn thf stbndbrd input of b
+     * subprodfss dbn bf writtfn to using thf output strfbm
+     * rfturnfd by {@link Prodfss#gftOutputStrfbm()}.
+     * If thf sourdf is sft to bny othfr vbluf, thfn
+     * {@link Prodfss#gftOutputStrfbm()} will rfturn b
+     * <b hrff="#rfdirfdt-input">null output strfbm</b>.
+     *
+     * @pbrbm  sourdf thf nfw stbndbrd input sourdf
+     * @rfturn this prodfss buildfr
+     * @throws IllfgblArgumfntExdfption
+     *         if thf rfdirfdt dofs not dorrfspond to b vblid sourdf
+     *         of dbtb, thbt is, hbs typf
+     *         {@link Rfdirfdt.Typf#WRITE WRITE} or
+     *         {@link Rfdirfdt.Typf#APPEND APPEND}
+     * @sindf  1.7
+     */
+    publid ProdfssBuildfr rfdirfdtInput(Rfdirfdt sourdf) {
+        if (sourdf.typf() == Rfdirfdt.Typf.WRITE ||
+            sourdf.typf() == Rfdirfdt.Typf.APPEND)
+            throw nfw IllfgblArgumfntExdfption(
+                "Rfdirfdt invblid for rfbding: " + sourdf);
+        rfdirfdts()[0] = sourdf;
+        rfturn this;
+    }
+
+    /**
+     * Sfts this prodfss buildfr's stbndbrd output dfstinbtion.
+     *
+     * Subprodfssfs subsfqufntly stbrtfd by this objfdt's {@link #stbrt()}
+     * mfthod sfnd thfir stbndbrd output to this dfstinbtion.
+     *
+     * <p>If thf dfstinbtion is {@link Rfdirfdt#PIPE Rfdirfdt.PIPE}
+     * (thf initibl vbluf), thfn thf stbndbrd output of b subprodfss
+     * dbn bf rfbd using thf input strfbm rfturnfd by {@link
+     * Prodfss#gftInputStrfbm()}.
+     * If thf dfstinbtion is sft to bny othfr vbluf, thfn
+     * {@link Prodfss#gftInputStrfbm()} will rfturn b
+     * <b hrff="#rfdirfdt-output">null input strfbm</b>.
+     *
+     * @pbrbm  dfstinbtion thf nfw stbndbrd output dfstinbtion
+     * @rfturn this prodfss buildfr
+     * @throws IllfgblArgumfntExdfption
+     *         if thf rfdirfdt dofs not dorrfspond to b vblid
+     *         dfstinbtion of dbtb, thbt is, hbs typf
+     *         {@link Rfdirfdt.Typf#READ READ}
+     * @sindf  1.7
+     */
+    publid ProdfssBuildfr rfdirfdtOutput(Rfdirfdt dfstinbtion) {
+        if (dfstinbtion.typf() == Rfdirfdt.Typf.READ)
+            throw nfw IllfgblArgumfntExdfption(
+                "Rfdirfdt invblid for writing: " + dfstinbtion);
+        rfdirfdts()[1] = dfstinbtion;
+        rfturn this;
+    }
+
+    /**
+     * Sfts this prodfss buildfr's stbndbrd frror dfstinbtion.
+     *
+     * Subprodfssfs subsfqufntly stbrtfd by this objfdt's {@link #stbrt()}
+     * mfthod sfnd thfir stbndbrd frror to this dfstinbtion.
+     *
+     * <p>If thf dfstinbtion is {@link Rfdirfdt#PIPE Rfdirfdt.PIPE}
+     * (thf initibl vbluf), thfn thf frror output of b subprodfss
+     * dbn bf rfbd using thf input strfbm rfturnfd by {@link
+     * Prodfss#gftErrorStrfbm()}.
+     * If thf dfstinbtion is sft to bny othfr vbluf, thfn
+     * {@link Prodfss#gftErrorStrfbm()} will rfturn b
+     * <b hrff="#rfdirfdt-output">null input strfbm</b>.
+     *
+     * <p>If thf {@link #rfdirfdtErrorStrfbm rfdirfdtErrorStrfbm}
+     * bttributf hbs bffn sft {@dodf truf}, thfn thf rfdirfdtion sft
+     * by this mfthod hbs no ffffdt.
+     *
+     * @pbrbm  dfstinbtion thf nfw stbndbrd frror dfstinbtion
+     * @rfturn this prodfss buildfr
+     * @throws IllfgblArgumfntExdfption
+     *         if thf rfdirfdt dofs not dorrfspond to b vblid
+     *         dfstinbtion of dbtb, thbt is, hbs typf
+     *         {@link Rfdirfdt.Typf#READ READ}
+     * @sindf  1.7
+     */
+    publid ProdfssBuildfr rfdirfdtError(Rfdirfdt dfstinbtion) {
+        if (dfstinbtion.typf() == Rfdirfdt.Typf.READ)
+            throw nfw IllfgblArgumfntExdfption(
+                "Rfdirfdt invblid for writing: " + dfstinbtion);
+        rfdirfdts()[2] = dfstinbtion;
+        rfturn this;
+    }
+
+    /**
+     * Sfts this prodfss buildfr's stbndbrd input sourdf to b filf.
+     *
+     * <p>This is b donvfnifndf mfthod.  An invodbtion of thf form
+     * {@dodf rfdirfdtInput(filf)}
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     * {@link #rfdirfdtInput(Rfdirfdt) rfdirfdtInput}
+     * {@dodf (Rfdirfdt.from(filf))}.
+     *
+     * @pbrbm  filf thf nfw stbndbrd input sourdf
+     * @rfturn this prodfss buildfr
+     * @sindf  1.7
+     */
+    publid ProdfssBuildfr rfdirfdtInput(Filf filf) {
+        rfturn rfdirfdtInput(Rfdirfdt.from(filf));
+    }
+
+    /**
+     * Sfts this prodfss buildfr's stbndbrd output dfstinbtion to b filf.
+     *
+     * <p>This is b donvfnifndf mfthod.  An invodbtion of thf form
+     * {@dodf rfdirfdtOutput(filf)}
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     * {@link #rfdirfdtOutput(Rfdirfdt) rfdirfdtOutput}
+     * {@dodf (Rfdirfdt.to(filf))}.
+     *
+     * @pbrbm  filf thf nfw stbndbrd output dfstinbtion
+     * @rfturn this prodfss buildfr
+     * @sindf  1.7
+     */
+    publid ProdfssBuildfr rfdirfdtOutput(Filf filf) {
+        rfturn rfdirfdtOutput(Rfdirfdt.to(filf));
+    }
+
+    /**
+     * Sfts this prodfss buildfr's stbndbrd frror dfstinbtion to b filf.
+     *
+     * <p>This is b donvfnifndf mfthod.  An invodbtion of thf form
+     * {@dodf rfdirfdtError(filf)}
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     * {@link #rfdirfdtError(Rfdirfdt) rfdirfdtError}
+     * {@dodf (Rfdirfdt.to(filf))}.
+     *
+     * @pbrbm  filf thf nfw stbndbrd frror dfstinbtion
+     * @rfturn this prodfss buildfr
+     * @sindf  1.7
+     */
+    publid ProdfssBuildfr rfdirfdtError(Filf filf) {
+        rfturn rfdirfdtError(Rfdirfdt.to(filf));
+    }
+
+    /**
+     * Rfturns this prodfss buildfr's stbndbrd input sourdf.
+     *
+     * Subprodfssfs subsfqufntly stbrtfd by this objfdt's {@link #stbrt()}
+     * mfthod obtbin thfir stbndbrd input from this sourdf.
+     * Thf initibl vbluf is {@link Rfdirfdt#PIPE Rfdirfdt.PIPE}.
+     *
+     * @rfturn this prodfss buildfr's stbndbrd input sourdf
+     * @sindf  1.7
+     */
+    publid Rfdirfdt rfdirfdtInput() {
+        rfturn (rfdirfdts == null) ? Rfdirfdt.PIPE : rfdirfdts[0];
+    }
+
+    /**
+     * Rfturns this prodfss buildfr's stbndbrd output dfstinbtion.
+     *
+     * Subprodfssfs subsfqufntly stbrtfd by this objfdt's {@link #stbrt()}
+     * mfthod rfdirfdt thfir stbndbrd output to this dfstinbtion.
+     * Thf initibl vbluf is {@link Rfdirfdt#PIPE Rfdirfdt.PIPE}.
+     *
+     * @rfturn this prodfss buildfr's stbndbrd output dfstinbtion
+     * @sindf  1.7
+     */
+    publid Rfdirfdt rfdirfdtOutput() {
+        rfturn (rfdirfdts == null) ? Rfdirfdt.PIPE : rfdirfdts[1];
+    }
+
+    /**
+     * Rfturns this prodfss buildfr's stbndbrd frror dfstinbtion.
+     *
+     * Subprodfssfs subsfqufntly stbrtfd by this objfdt's {@link #stbrt()}
+     * mfthod rfdirfdt thfir stbndbrd frror to this dfstinbtion.
+     * Thf initibl vbluf is {@link Rfdirfdt#PIPE Rfdirfdt.PIPE}.
+     *
+     * @rfturn this prodfss buildfr's stbndbrd frror dfstinbtion
+     * @sindf  1.7
+     */
+    publid Rfdirfdt rfdirfdtError() {
+        rfturn (rfdirfdts == null) ? Rfdirfdt.PIPE : rfdirfdts[2];
+    }
+
+    /**
+     * Sfts thf sourdf bnd dfstinbtion for subprodfss stbndbrd I/O
+     * to bf thf sbmf bs thosf of thf durrfnt Jbvb prodfss.
+     *
+     * <p>This is b donvfnifndf mfthod.  An invodbtion of thf form
+     *  <prf> {@dodf
+     * pb.inhfritIO()
+     * }</prf>
+     * bfhbvfs in fxbdtly thf sbmf wby bs thf invodbtion
+     *  <prf> {@dodf
+     * pb.rfdirfdtInput(Rfdirfdt.INHERIT)
+     *   .rfdirfdtOutput(Rfdirfdt.INHERIT)
+     *   .rfdirfdtError(Rfdirfdt.INHERIT)
+     * }</prf>
+     *
+     * This givfs bfhbvior fquivblfnt to most opfrbting systfm
+     * dommbnd intfrprftfrs, or thf stbndbrd C librbry fundtion
+     * {@dodf systfm()}.
+     *
+     * @rfturn this prodfss buildfr
+     * @sindf  1.7
+     */
+    publid ProdfssBuildfr inhfritIO() {
+        Arrbys.fill(rfdirfdts(), Rfdirfdt.INHERIT);
+        rfturn this;
+    }
+
+    /**
+     * Tflls whfthfr this prodfss buildfr mfrgfs stbndbrd frror bnd
+     * stbndbrd output.
+     *
+     * <p>If this propfrty is {@dodf truf}, thfn bny frror output
+     * gfnfrbtfd by subprodfssfs subsfqufntly stbrtfd by this objfdt's
+     * {@link #stbrt()} mfthod will bf mfrgfd with thf stbndbrd
+     * output, so thbt both dbn bf rfbd using thf
+     * {@link Prodfss#gftInputStrfbm()} mfthod.  This mbkfs it fbsifr
+     * to dorrflbtf frror mfssbgfs with thf dorrfsponding output.
+     * Thf initibl vbluf is {@dodf fblsf}.
+     *
+     * @rfturn this prodfss buildfr's {@dodf rfdirfdtErrorStrfbm} propfrty
+     */
+    publid boolfbn rfdirfdtErrorStrfbm() {
+        rfturn rfdirfdtErrorStrfbm;
+    }
+
+    /**
+     * Sfts this prodfss buildfr's {@dodf rfdirfdtErrorStrfbm} propfrty.
+     *
+     * <p>If this propfrty is {@dodf truf}, thfn bny frror output
+     * gfnfrbtfd by subprodfssfs subsfqufntly stbrtfd by this objfdt's
+     * {@link #stbrt()} mfthod will bf mfrgfd with thf stbndbrd
+     * output, so thbt both dbn bf rfbd using thf
+     * {@link Prodfss#gftInputStrfbm()} mfthod.  This mbkfs it fbsifr
+     * to dorrflbtf frror mfssbgfs with thf dorrfsponding output.
+     * Thf initibl vbluf is {@dodf fblsf}.
+     *
+     * @pbrbm  rfdirfdtErrorStrfbm thf nfw propfrty vbluf
+     * @rfturn this prodfss buildfr
+     */
+    publid ProdfssBuildfr rfdirfdtErrorStrfbm(boolfbn rfdirfdtErrorStrfbm) {
+        this.rfdirfdtErrorStrfbm = rfdirfdtErrorStrfbm;
+        rfturn this;
+    }
+
+    /**
+     * Stbrts b nfw prodfss using thf bttributfs of this prodfss buildfr.
+     *
+     * <p>Thf nfw prodfss will
+     * invokf thf dommbnd bnd brgumfnts givfn by {@link #dommbnd()},
+     * in b working dirfdtory bs givfn by {@link #dirfdtory()},
+     * with b prodfss fnvironmfnt bs givfn by {@link #fnvironmfnt()}.
+     *
+     * <p>This mfthod dhfdks thbt thf dommbnd is b vblid opfrbting
+     * systfm dommbnd.  Whidh dommbnds brf vblid is systfm-dfpfndfnt,
+     * but bt thf vfry lfbst thf dommbnd must bf b non-fmpty list of
+     * non-null strings.
+     *
+     * <p>A minimbl sft of systfm dfpfndfnt fnvironmfnt vbribblfs mby
+     * bf rfquirfd to stbrt b prodfss on somf opfrbting systfms.
+     * As b rfsult, thf subprodfss mby inhfrit bdditionbl fnvironmfnt vbribblf
+     * sfttings bfyond thosf in thf prodfss buildfr's {@link #fnvironmfnt()}.
+     *
+     * <p>If thfrf is b sfdurity mbnbgfr, its
+     * {@link SfdurityMbnbgfr#dhfdkExfd dhfdkExfd}
+     * mfthod is dbllfd with thf first domponfnt of this objfdt's
+     * {@dodf dommbnd} brrby bs its brgumfnt. This mby rfsult in
+     * b {@link SfdurityExdfption} bfing thrown.
+     *
+     * <p>Stbrting bn opfrbting systfm prodfss is highly systfm-dfpfndfnt.
+     * Among thf mbny things thbt dbn go wrong brf:
+     * <ul>
+     * <li>Thf opfrbting systfm progrbm filf wbs not found.
+     * <li>Addfss to thf progrbm filf wbs dfnifd.
+     * <li>Thf working dirfdtory dofs not fxist.
+     * <li>Invblid dhbrbdtfr in dommbnd brgumfnt, sudh bs NUL.
+     * </ul>
+     *
+     * <p>In sudh dbsfs bn fxdfption will bf thrown.  Thf fxbdt nbturf
+     * of thf fxdfption is systfm-dfpfndfnt, but it will blwbys bf b
+     * subdlbss of {@link IOExdfption}.
+     *
+     * <p>Subsfqufnt modifidbtions to this prodfss buildfr will not
+     * bfffdt thf rfturnfd {@link Prodfss}.
+     *
+     * @rfturn b nfw {@link Prodfss} objfdt for mbnbging thf subprodfss
+     *
+     * @throws NullPointfrExdfption
+     *         if bn flfmfnt of thf dommbnd list is null
+     *
+     * @throws IndfxOutOfBoundsExdfption
+     *         if thf dommbnd is bn fmpty list (hbs sizf {@dodf 0})
+     *
+     * @throws SfdurityExdfption
+     *         if b sfdurity mbnbgfr fxists bnd
+     *         <ul>
+     *
+     *         <li>its
+     *         {@link SfdurityMbnbgfr#dhfdkExfd dhfdkExfd}
+     *         mfthod dofsn't bllow drfbtion of thf subprodfss, or
+     *
+     *         <li>thf stbndbrd input to thf subprodfss wbs
+     *         {@linkplbin #rfdirfdtInput rfdirfdtfd from b filf}
+     *         bnd thf sfdurity mbnbgfr's
+     *         {@link SfdurityMbnbgfr#dhfdkRfbd dhfdkRfbd} mfthod
+     *         dfnifs rfbd bddfss to thf filf, or
+     *
+     *         <li>thf stbndbrd output or stbndbrd frror of thf
+     *         subprodfss wbs
+     *         {@linkplbin #rfdirfdtOutput rfdirfdtfd to b filf}
+     *         bnd thf sfdurity mbnbgfr's
+     *         {@link SfdurityMbnbgfr#dhfdkWritf dhfdkWritf} mfthod
+     *         dfnifs writf bddfss to thf filf
+     *
+     *         </ul>
+     *
+     * @throws IOExdfption if bn I/O frror oddurs
+     *
+     * @sff Runtimf#fxfd(String[], String[], jbvb.io.Filf)
+     */
+    publid Prodfss stbrt() throws IOExdfption {
+        // Must donvfrt to brrby first -- b mblidious usfr-supplifd
+        // list might try to dirdumvfnt thf sfdurity dhfdk.
+        String[] dmdbrrby = dommbnd.toArrby(nfw String[dommbnd.sizf()]);
+        dmdbrrby = dmdbrrby.dlonf();
+
+        for (String brg : dmdbrrby)
+            if (brg == null)
+                throw nfw NullPointfrExdfption();
+        // Throws IndfxOutOfBoundsExdfption if dommbnd is fmpty
+        String prog = dmdbrrby[0];
+
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null)
+            sfdurity.dhfdkExfd(prog);
+
+        String dir = dirfdtory == null ? null : dirfdtory.toString();
+
+        for (int i = 1; i < dmdbrrby.lfngth; i++) {
+            if (dmdbrrby[i].indfxOf('\u0000') >= 0) {
+                throw nfw IOExdfption("invblid null dhbrbdtfr in dommbnd");
+            }
+        }
+
+        try {
+            rfturn ProdfssImpl.stbrt(dmdbrrby,
+                                     fnvironmfnt,
+                                     dir,
+                                     rfdirfdts,
+                                     rfdirfdtErrorStrfbm);
+        } dbtdh (IOExdfption | IllfgblArgumfntExdfption f) {
+            String fxdfptionInfo = ": " + f.gftMfssbgf();
+            Throwbblf dbusf = f;
+            if ((f instbndfof IOExdfption) && sfdurity != null) {
+                // Cbn not disdlosf thf fbil rfbson for rfbd-protfdtfd filfs.
+                try {
+                    sfdurity.dhfdkRfbd(prog);
+                } dbtdh (SfdurityExdfption sf) {
+                    fxdfptionInfo = "";
+                    dbusf = sf;
+                }
+            }
+            // It's mudh fbsifr for us to drfbtf b high-qublity frror
+            // mfssbgf thbn thf low-lfvfl C dodf whidh found thf problfm.
+            throw nfw IOExdfption(
+                "Cbnnot run progrbm \"" + prog + "\""
+                + (dir == null ? "" : " (in dirfdtory \"" + dir + "\")")
+                + fxdfptionInfo,
+                dbusf);
+        }
+    }
+}

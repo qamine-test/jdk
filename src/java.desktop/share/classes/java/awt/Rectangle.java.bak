@@ -1,885 +1,885 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.geom.Rectangle2D;
-import java.beans.Transient;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bfbns.Trbnsifnt;
 
 /**
- * A <code>Rectangle</code> specifies an area in a coordinate space that is
- * enclosed by the <code>Rectangle</code> object's upper-left point
- * {@code (x,y)}
- * in the coordinate space, its width, and its height.
+ * A <dodf>Rfdtbnglf</dodf> spfdififs bn brfb in b doordinbtf spbdf tibt is
+ * fndlosfd by tif <dodf>Rfdtbnglf</dodf> objfdt's uppfr-lfft point
+ * {@dodf (x,y)}
+ * in tif doordinbtf spbdf, its widti, bnd its ifigit.
  * <p>
- * A <code>Rectangle</code> object's <code>width</code> and
- * <code>height</code> are <code>public</code> fields. The constructors
- * that create a <code>Rectangle</code>, and the methods that can modify
- * one, do not prevent setting a negative value for width or height.
+ * A <dodf>Rfdtbnglf</dodf> objfdt's <dodf>widti</dodf> bnd
+ * <dodf>ifigit</dodf> brf <dodf>publid</dodf> fiflds. Tif donstrudtors
+ * tibt drfbtf b <dodf>Rfdtbnglf</dodf>, bnd tif mftiods tibt dbn modify
+ * onf, do not prfvfnt sftting b nfgbtivf vbluf for widti or ifigit.
  * <p>
- * <a name="Empty">
- * A {@code Rectangle} whose width or height is exactly zero has location
- * along those axes with zero dimension, but is otherwise considered empty.</a>
- * The {@link #isEmpty} method will return true for such a {@code Rectangle}.
- * Methods which test if an empty {@code Rectangle} contains or intersects
- * a point or rectangle will always return false if either dimension is zero.
- * Methods which combine such a {@code Rectangle} with a point or rectangle
- * will include the location of the {@code Rectangle} on that axis in the
- * result as if the {@link #add(Point)} method were being called.
+ * <b nbmf="Empty">
+ * A {@dodf Rfdtbnglf} wiosf widti or ifigit is fxbdtly zfro ibs lodbtion
+ * blong tiosf bxfs witi zfro dimfnsion, but is otifrwisf donsidfrfd fmpty.</b>
+ * Tif {@link #isEmpty} mftiod will rfturn truf for sudi b {@dodf Rfdtbnglf}.
+ * Mftiods wiidi tfst if bn fmpty {@dodf Rfdtbnglf} dontbins or intfrsfdts
+ * b point or rfdtbnglf will blwbys rfturn fblsf if fitifr dimfnsion is zfro.
+ * Mftiods wiidi dombinf sudi b {@dodf Rfdtbnglf} witi b point or rfdtbnglf
+ * will indludf tif lodbtion of tif {@dodf Rfdtbnglf} on tibt bxis in tif
+ * rfsult bs if tif {@link #bdd(Point)} mftiod wfrf bfing dbllfd.
  * <p>
- * <a name="NonExistant">
- * A {@code Rectangle} whose width or height is negative has neither
- * location nor dimension along those axes with negative dimensions.
- * Such a {@code Rectangle} is treated as non-existant along those axes.
- * Such a {@code Rectangle} is also empty with respect to containment
- * calculations and methods which test if it contains or intersects a
- * point or rectangle will always return false.
- * Methods which combine such a {@code Rectangle} with a point or rectangle
- * will ignore the {@code Rectangle} entirely in generating the result.
- * If two {@code Rectangle} objects are combined and each has a negative
- * dimension, the result will have at least one negative dimension.
- * </a>
+ * <b nbmf="NonExistbnt">
+ * A {@dodf Rfdtbnglf} wiosf widti or ifigit is nfgbtivf ibs nfitifr
+ * lodbtion nor dimfnsion blong tiosf bxfs witi nfgbtivf dimfnsions.
+ * Sudi b {@dodf Rfdtbnglf} is trfbtfd bs non-fxistbnt blong tiosf bxfs.
+ * Sudi b {@dodf Rfdtbnglf} is blso fmpty witi rfspfdt to dontbinmfnt
+ * dbldulbtions bnd mftiods wiidi tfst if it dontbins or intfrsfdts b
+ * point or rfdtbnglf will blwbys rfturn fblsf.
+ * Mftiods wiidi dombinf sudi b {@dodf Rfdtbnglf} witi b point or rfdtbnglf
+ * will ignorf tif {@dodf Rfdtbnglf} fntirfly in gfnfrbting tif rfsult.
+ * If two {@dodf Rfdtbnglf} objfdts brf dombinfd bnd fbdi ibs b nfgbtivf
+ * dimfnsion, tif rfsult will ibvf bt lfbst onf nfgbtivf dimfnsion.
+ * </b>
  * <p>
- * Methods which affect only the location of a {@code Rectangle} will
- * operate on its location regardless of whether or not it has a negative
- * or zero dimension along either axis.
+ * Mftiods wiidi bfffdt only tif lodbtion of b {@dodf Rfdtbnglf} will
+ * opfrbtf on its lodbtion rfgbrdlfss of wiftifr or not it ibs b nfgbtivf
+ * or zfro dimfnsion blong fitifr bxis.
  * <p>
- * Note that a {@code Rectangle} constructed with the default no-argument
- * constructor will have dimensions of {@code 0x0} and therefore be empty.
- * That {@code Rectangle} will still have a location of {@code (0,0)} and
- * will contribute that location to the union and add operations.
- * Code attempting to accumulate the bounds of a set of points should
- * therefore initially construct the {@code Rectangle} with a specifically
- * negative width and height or it should use the first point in the set
- * to construct the {@code Rectangle}.
- * For example:
- * <pre>{@code
- *     Rectangle bounds = new Rectangle(0, 0, -1, -1);
- *     for (int i = 0; i < points.length; i++) {
- *         bounds.add(points[i]);
+ * Notf tibt b {@dodf Rfdtbnglf} donstrudtfd witi tif dffbult no-brgumfnt
+ * donstrudtor will ibvf dimfnsions of {@dodf 0x0} bnd tifrfforf bf fmpty.
+ * Tibt {@dodf Rfdtbnglf} will still ibvf b lodbtion of {@dodf (0,0)} bnd
+ * will dontributf tibt lodbtion to tif union bnd bdd opfrbtions.
+ * Codf bttfmpting to bddumulbtf tif bounds of b sft of points siould
+ * tifrfforf initiblly donstrudt tif {@dodf Rfdtbnglf} witi b spfdifidblly
+ * nfgbtivf widti bnd ifigit or it siould usf tif first point in tif sft
+ * to donstrudt tif {@dodf Rfdtbnglf}.
+ * For fxbmplf:
+ * <prf>{@dodf
+ *     Rfdtbnglf bounds = nfw Rfdtbnglf(0, 0, -1, -1);
+ *     for (int i = 0; i < points.lfngti; i++) {
+ *         bounds.bdd(points[i]);
  *     }
- * }</pre>
- * or if we know that the points array contains at least one point:
- * <pre>{@code
- *     Rectangle bounds = new Rectangle(points[0]);
- *     for (int i = 1; i < points.length; i++) {
- *         bounds.add(points[i]);
+ * }</prf>
+ * or if wf know tibt tif points brrby dontbins bt lfbst onf point:
+ * <prf>{@dodf
+ *     Rfdtbnglf bounds = nfw Rfdtbnglf(points[0]);
+ *     for (int i = 1; i < points.lfngti; i++) {
+ *         bounds.bdd(points[i]);
  *     }
- * }</pre>
+ * }</prf>
  * <p>
- * This class uses 32-bit integers to store its location and dimensions.
- * Frequently operations may produce a result that exceeds the range of
- * a 32-bit integer.
- * The methods will calculate their results in a way that avoids any
- * 32-bit overflow for intermediate results and then choose the best
- * representation to store the final results back into the 32-bit fields
- * which hold the location and dimensions.
- * The location of the result will be stored into the {@link #x} and
- * {@link #y} fields by clipping the true result to the nearest 32-bit value.
- * The values stored into the {@link #width} and {@link #height} dimension
- * fields will be chosen as the 32-bit values that encompass the largest
- * part of the true result as possible.
- * Generally this means that the dimension will be clipped independently
- * to the range of 32-bit integers except that if the location had to be
- * moved to store it into its pair of 32-bit fields then the dimensions
- * will be adjusted relative to the "best representation" of the location.
- * If the true result had a negative dimension and was therefore
- * non-existant along one or both axes, the stored dimensions will be
- * negative numbers in those axes.
- * If the true result had a location that could be represented within
- * the range of 32-bit integers, but zero dimension along one or both
- * axes, then the stored dimensions will be zero in those axes.
+ * Tiis dlbss usfs 32-bit intfgfrs to storf its lodbtion bnd dimfnsions.
+ * Frfqufntly opfrbtions mby produdf b rfsult tibt fxdffds tif rbngf of
+ * b 32-bit intfgfr.
+ * Tif mftiods will dbldulbtf tifir rfsults in b wby tibt bvoids bny
+ * 32-bit ovfrflow for intfrmfdibtf rfsults bnd tifn dioosf tif bfst
+ * rfprfsfntbtion to storf tif finbl rfsults bbdk into tif 32-bit fiflds
+ * wiidi iold tif lodbtion bnd dimfnsions.
+ * Tif lodbtion of tif rfsult will bf storfd into tif {@link #x} bnd
+ * {@link #y} fiflds by dlipping tif truf rfsult to tif nfbrfst 32-bit vbluf.
+ * Tif vblufs storfd into tif {@link #widti} bnd {@link #ifigit} dimfnsion
+ * fiflds will bf diosfn bs tif 32-bit vblufs tibt fndompbss tif lbrgfst
+ * pbrt of tif truf rfsult bs possiblf.
+ * Gfnfrblly tiis mfbns tibt tif dimfnsion will bf dlippfd indfpfndfntly
+ * to tif rbngf of 32-bit intfgfrs fxdfpt tibt if tif lodbtion ibd to bf
+ * movfd to storf it into its pbir of 32-bit fiflds tifn tif dimfnsions
+ * will bf bdjustfd rflbtivf to tif "bfst rfprfsfntbtion" of tif lodbtion.
+ * If tif truf rfsult ibd b nfgbtivf dimfnsion bnd wbs tifrfforf
+ * non-fxistbnt blong onf or boti bxfs, tif storfd dimfnsions will bf
+ * nfgbtivf numbfrs in tiosf bxfs.
+ * If tif truf rfsult ibd b lodbtion tibt dould bf rfprfsfntfd witiin
+ * tif rbngf of 32-bit intfgfrs, but zfro dimfnsion blong onf or boti
+ * bxfs, tifn tif storfd dimfnsions will bf zfro in tiosf bxfs.
  *
- * @author      Sami Shaio
- * @since 1.0
+ * @butior      Sbmi Sibio
+ * @sindf 1.0
  */
-public class Rectangle extends Rectangle2D
-    implements Shape, java.io.Serializable
+publid dlbss Rfdtbnglf fxtfnds Rfdtbnglf2D
+    implfmfnts Sibpf, jbvb.io.Sfriblizbblf
 {
 
     /**
-     * The X coordinate of the upper-left corner of the <code>Rectangle</code>.
+     * Tif X doordinbtf of tif uppfr-lfft dornfr of tif <dodf>Rfdtbnglf</dodf>.
      *
-     * @serial
-     * @see #setLocation(int, int)
-     * @see #getLocation()
-     * @since 1.0
+     * @sfribl
+     * @sff #sftLodbtion(int, int)
+     * @sff #gftLodbtion()
+     * @sindf 1.0
      */
-    public int x;
+    publid int x;
 
     /**
-     * The Y coordinate of the upper-left corner of the <code>Rectangle</code>.
+     * Tif Y doordinbtf of tif uppfr-lfft dornfr of tif <dodf>Rfdtbnglf</dodf>.
      *
-     * @serial
-     * @see #setLocation(int, int)
-     * @see #getLocation()
-     * @since 1.0
+     * @sfribl
+     * @sff #sftLodbtion(int, int)
+     * @sff #gftLodbtion()
+     * @sindf 1.0
      */
-    public int y;
+    publid int y;
 
     /**
-     * The width of the <code>Rectangle</code>.
-     * @serial
-     * @see #setSize(int, int)
-     * @see #getSize()
-     * @since 1.0
+     * Tif widti of tif <dodf>Rfdtbnglf</dodf>.
+     * @sfribl
+     * @sff #sftSizf(int, int)
+     * @sff #gftSizf()
+     * @sindf 1.0
      */
-    public int width;
+    publid int widti;
 
     /**
-     * The height of the <code>Rectangle</code>.
+     * Tif ifigit of tif <dodf>Rfdtbnglf</dodf>.
      *
-     * @serial
-     * @see #setSize(int, int)
-     * @see #getSize()
-     * @since 1.0
+     * @sfribl
+     * @sff #sftSizf(int, int)
+     * @sff #gftSizf()
+     * @sindf 1.0
      */
-    public int height;
+    publid int ifigit;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-     private static final long serialVersionUID = -4345857070255674764L;
+     privbtf stbtid finbl long sfriblVfrsionUID = -4345857070255674764L;
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblizf JNI fifld bnd mftiod IDs
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose upper-left corner
-     * is at (0,&nbsp;0) in the coordinate space, and whose width and
-     * height are both zero.
+     * Construdts b nfw <dodf>Rfdtbnglf</dodf> wiosf uppfr-lfft dornfr
+     * is bt (0,&nbsp;0) in tif doordinbtf spbdf, bnd wiosf widti bnd
+     * ifigit brf boti zfro.
      */
-    public Rectangle() {
-        this(0, 0, 0, 0);
+    publid Rfdtbnglf() {
+        tiis(0, 0, 0, 0);
     }
 
     /**
-     * Constructs a new <code>Rectangle</code>, initialized to match
-     * the values of the specified <code>Rectangle</code>.
-     * @param r  the <code>Rectangle</code> from which to copy initial values
-     *           to a newly constructed <code>Rectangle</code>
-     * @since 1.1
+     * Construdts b nfw <dodf>Rfdtbnglf</dodf>, initiblizfd to mbtdi
+     * tif vblufs of tif spfdififd <dodf>Rfdtbnglf</dodf>.
+     * @pbrbm r  tif <dodf>Rfdtbnglf</dodf> from wiidi to dopy initibl vblufs
+     *           to b nfwly donstrudtfd <dodf>Rfdtbnglf</dodf>
+     * @sindf 1.1
      */
-    public Rectangle(Rectangle r) {
-        this(r.x, r.y, r.width, r.height);
+    publid Rfdtbnglf(Rfdtbnglf r) {
+        tiis(r.x, r.y, r.widti, r.ifigit);
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose upper-left corner is
-     * specified as
-     * {@code (x,y)} and whose width and height
-     * are specified by the arguments of the same name.
-     * @param     x the specified X coordinate
-     * @param     y the specified Y coordinate
-     * @param     width    the width of the <code>Rectangle</code>
-     * @param     height   the height of the <code>Rectangle</code>
-     * @since 1.0
+     * Construdts b nfw <dodf>Rfdtbnglf</dodf> wiosf uppfr-lfft dornfr is
+     * spfdififd bs
+     * {@dodf (x,y)} bnd wiosf widti bnd ifigit
+     * brf spfdififd by tif brgumfnts of tif sbmf nbmf.
+     * @pbrbm     x tif spfdififd X doordinbtf
+     * @pbrbm     y tif spfdififd Y doordinbtf
+     * @pbrbm     widti    tif widti of tif <dodf>Rfdtbnglf</dodf>
+     * @pbrbm     ifigit   tif ifigit of tif <dodf>Rfdtbnglf</dodf>
+     * @sindf 1.0
      */
-    public Rectangle(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+    publid Rfdtbnglf(int x, int y, int widti, int ifigit) {
+        tiis.x = x;
+        tiis.y = y;
+        tiis.widti = widti;
+        tiis.ifigit = ifigit;
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose upper-left corner
-     * is at (0,&nbsp;0) in the coordinate space, and whose width and
-     * height are specified by the arguments of the same name.
-     * @param width the width of the <code>Rectangle</code>
-     * @param height the height of the <code>Rectangle</code>
+     * Construdts b nfw <dodf>Rfdtbnglf</dodf> wiosf uppfr-lfft dornfr
+     * is bt (0,&nbsp;0) in tif doordinbtf spbdf, bnd wiosf widti bnd
+     * ifigit brf spfdififd by tif brgumfnts of tif sbmf nbmf.
+     * @pbrbm widti tif widti of tif <dodf>Rfdtbnglf</dodf>
+     * @pbrbm ifigit tif ifigit of tif <dodf>Rfdtbnglf</dodf>
      */
-    public Rectangle(int width, int height) {
-        this(0, 0, width, height);
+    publid Rfdtbnglf(int widti, int ifigit) {
+        tiis(0, 0, widti, ifigit);
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose upper-left corner is
-     * specified by the {@link Point} argument, and
-     * whose width and height are specified by the
-     * {@link Dimension} argument.
-     * @param p a <code>Point</code> that is the upper-left corner of
-     * the <code>Rectangle</code>
-     * @param d a <code>Dimension</code>, representing the
-     * width and height of the <code>Rectangle</code>
+     * Construdts b nfw <dodf>Rfdtbnglf</dodf> wiosf uppfr-lfft dornfr is
+     * spfdififd by tif {@link Point} brgumfnt, bnd
+     * wiosf widti bnd ifigit brf spfdififd by tif
+     * {@link Dimfnsion} brgumfnt.
+     * @pbrbm p b <dodf>Point</dodf> tibt is tif uppfr-lfft dornfr of
+     * tif <dodf>Rfdtbnglf</dodf>
+     * @pbrbm d b <dodf>Dimfnsion</dodf>, rfprfsfnting tif
+     * widti bnd ifigit of tif <dodf>Rfdtbnglf</dodf>
      */
-    public Rectangle(Point p, Dimension d) {
-        this(p.x, p.y, d.width, d.height);
+    publid Rfdtbnglf(Point p, Dimfnsion d) {
+        tiis(p.x, p.y, d.widti, d.ifigit);
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose upper-left corner is the
-     * specified <code>Point</code>, and whose width and height are both zero.
-     * @param p a <code>Point</code> that is the top left corner
-     * of the <code>Rectangle</code>
+     * Construdts b nfw <dodf>Rfdtbnglf</dodf> wiosf uppfr-lfft dornfr is tif
+     * spfdififd <dodf>Point</dodf>, bnd wiosf widti bnd ifigit brf boti zfro.
+     * @pbrbm p b <dodf>Point</dodf> tibt is tif top lfft dornfr
+     * of tif <dodf>Rfdtbnglf</dodf>
      */
-    public Rectangle(Point p) {
-        this(p.x, p.y, 0, 0);
+    publid Rfdtbnglf(Point p) {
+        tiis(p.x, p.y, 0, 0);
     }
 
     /**
-     * Constructs a new <code>Rectangle</code> whose top left corner is
-     * (0,&nbsp;0) and whose width and height are specified
-     * by the <code>Dimension</code> argument.
-     * @param d a <code>Dimension</code>, specifying width and height
+     * Construdts b nfw <dodf>Rfdtbnglf</dodf> wiosf top lfft dornfr is
+     * (0,&nbsp;0) bnd wiosf widti bnd ifigit brf spfdififd
+     * by tif <dodf>Dimfnsion</dodf> brgumfnt.
+     * @pbrbm d b <dodf>Dimfnsion</dodf>, spfdifying widti bnd ifigit
      */
-    public Rectangle(Dimension d) {
-        this(0, 0, d.width, d.height);
+    publid Rfdtbnglf(Dimfnsion d) {
+        tiis(0, 0, d.widti, d.ifigit);
     }
 
     /**
-     * Returns the X coordinate of the bounding <code>Rectangle</code> in
-     * <code>double</code> precision.
-     * @return the X coordinate of the bounding <code>Rectangle</code>.
+     * Rfturns tif X doordinbtf of tif bounding <dodf>Rfdtbnglf</dodf> in
+     * <dodf>doublf</dodf> prfdision.
+     * @rfturn tif X doordinbtf of tif bounding <dodf>Rfdtbnglf</dodf>.
      */
-    public double getX() {
-        return x;
+    publid doublf gftX() {
+        rfturn x;
     }
 
     /**
-     * Returns the Y coordinate of the bounding <code>Rectangle</code> in
-     * <code>double</code> precision.
-     * @return the Y coordinate of the bounding <code>Rectangle</code>.
+     * Rfturns tif Y doordinbtf of tif bounding <dodf>Rfdtbnglf</dodf> in
+     * <dodf>doublf</dodf> prfdision.
+     * @rfturn tif Y doordinbtf of tif bounding <dodf>Rfdtbnglf</dodf>.
      */
-    public double getY() {
-        return y;
+    publid doublf gftY() {
+        rfturn y;
     }
 
     /**
-     * Returns the width of the bounding <code>Rectangle</code> in
-     * <code>double</code> precision.
-     * @return the width of the bounding <code>Rectangle</code>.
+     * Rfturns tif widti of tif bounding <dodf>Rfdtbnglf</dodf> in
+     * <dodf>doublf</dodf> prfdision.
+     * @rfturn tif widti of tif bounding <dodf>Rfdtbnglf</dodf>.
      */
-    public double getWidth() {
-        return width;
+    publid doublf gftWidti() {
+        rfturn widti;
     }
 
     /**
-     * Returns the height of the bounding <code>Rectangle</code> in
-     * <code>double</code> precision.
-     * @return the height of the bounding <code>Rectangle</code>.
+     * Rfturns tif ifigit of tif bounding <dodf>Rfdtbnglf</dodf> in
+     * <dodf>doublf</dodf> prfdision.
+     * @rfturn tif ifigit of tif bounding <dodf>Rfdtbnglf</dodf>.
      */
-    public double getHeight() {
-        return height;
+    publid doublf gftHfigit() {
+        rfturn ifigit;
     }
 
     /**
-     * Gets the bounding <code>Rectangle</code> of this <code>Rectangle</code>.
+     * Gfts tif bounding <dodf>Rfdtbnglf</dodf> of tiis <dodf>Rfdtbnglf</dodf>.
      * <p>
-     * This method is included for completeness, to parallel the
-     * <code>getBounds</code> method of
-     * {@link Component}.
-     * @return    a new <code>Rectangle</code>, equal to the
-     * bounding <code>Rectangle</code> for this <code>Rectangle</code>.
-     * @see       java.awt.Component#getBounds
-     * @see       #setBounds(Rectangle)
-     * @see       #setBounds(int, int, int, int)
-     * @since     1.1
+     * Tiis mftiod is indludfd for domplftfnfss, to pbrbllfl tif
+     * <dodf>gftBounds</dodf> mftiod of
+     * {@link Componfnt}.
+     * @rfturn    b nfw <dodf>Rfdtbnglf</dodf>, fqubl to tif
+     * bounding <dodf>Rfdtbnglf</dodf> for tiis <dodf>Rfdtbnglf</dodf>.
+     * @sff       jbvb.bwt.Componfnt#gftBounds
+     * @sff       #sftBounds(Rfdtbnglf)
+     * @sff       #sftBounds(int, int, int, int)
+     * @sindf     1.1
      */
-    @Transient
-    public Rectangle getBounds() {
-        return new Rectangle(x, y, width, height);
+    @Trbnsifnt
+    publid Rfdtbnglf gftBounds() {
+        rfturn nfw Rfdtbnglf(x, y, widti, ifigit);
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public Rectangle2D getBounds2D() {
-        return new Rectangle(x, y, width, height);
+    publid Rfdtbnglf2D gftBounds2D() {
+        rfturn nfw Rfdtbnglf(x, y, widti, ifigit);
     }
 
     /**
-     * Sets the bounding <code>Rectangle</code> of this <code>Rectangle</code>
-     * to match the specified <code>Rectangle</code>.
+     * Sfts tif bounding <dodf>Rfdtbnglf</dodf> of tiis <dodf>Rfdtbnglf</dodf>
+     * to mbtdi tif spfdififd <dodf>Rfdtbnglf</dodf>.
      * <p>
-     * This method is included for completeness, to parallel the
-     * <code>setBounds</code> method of <code>Component</code>.
-     * @param r the specified <code>Rectangle</code>
-     * @see       #getBounds
-     * @see       java.awt.Component#setBounds(java.awt.Rectangle)
-     * @since     1.1
+     * Tiis mftiod is indludfd for domplftfnfss, to pbrbllfl tif
+     * <dodf>sftBounds</dodf> mftiod of <dodf>Componfnt</dodf>.
+     * @pbrbm r tif spfdififd <dodf>Rfdtbnglf</dodf>
+     * @sff       #gftBounds
+     * @sff       jbvb.bwt.Componfnt#sftBounds(jbvb.bwt.Rfdtbnglf)
+     * @sindf     1.1
      */
-    public void setBounds(Rectangle r) {
-        setBounds(r.x, r.y, r.width, r.height);
+    publid void sftBounds(Rfdtbnglf r) {
+        sftBounds(r.x, r.y, r.widti, r.ifigit);
     }
 
     /**
-     * Sets the bounding <code>Rectangle</code> of this
-     * <code>Rectangle</code> to the specified
-     * <code>x</code>, <code>y</code>, <code>width</code>,
-     * and <code>height</code>.
+     * Sfts tif bounding <dodf>Rfdtbnglf</dodf> of tiis
+     * <dodf>Rfdtbnglf</dodf> to tif spfdififd
+     * <dodf>x</dodf>, <dodf>y</dodf>, <dodf>widti</dodf>,
+     * bnd <dodf>ifigit</dodf>.
      * <p>
-     * This method is included for completeness, to parallel the
-     * <code>setBounds</code> method of <code>Component</code>.
-     * @param x the new X coordinate for the upper-left
-     *                    corner of this <code>Rectangle</code>
-     * @param y the new Y coordinate for the upper-left
-     *                    corner of this <code>Rectangle</code>
-     * @param width the new width for this <code>Rectangle</code>
-     * @param height the new height for this <code>Rectangle</code>
-     * @see       #getBounds
-     * @see       java.awt.Component#setBounds(int, int, int, int)
-     * @since     1.1
+     * Tiis mftiod is indludfd for domplftfnfss, to pbrbllfl tif
+     * <dodf>sftBounds</dodf> mftiod of <dodf>Componfnt</dodf>.
+     * @pbrbm x tif nfw X doordinbtf for tif uppfr-lfft
+     *                    dornfr of tiis <dodf>Rfdtbnglf</dodf>
+     * @pbrbm y tif nfw Y doordinbtf for tif uppfr-lfft
+     *                    dornfr of tiis <dodf>Rfdtbnglf</dodf>
+     * @pbrbm widti tif nfw widti for tiis <dodf>Rfdtbnglf</dodf>
+     * @pbrbm ifigit tif nfw ifigit for tiis <dodf>Rfdtbnglf</dodf>
+     * @sff       #gftBounds
+     * @sff       jbvb.bwt.Componfnt#sftBounds(int, int, int, int)
+     * @sindf     1.1
      */
-    public void setBounds(int x, int y, int width, int height) {
-        reshape(x, y, width, height);
+    publid void sftBounds(int x, int y, int widti, int ifigit) {
+        rfsibpf(x, y, widti, ifigit);
     }
 
     /**
-     * Sets the bounds of this {@code Rectangle} to the integer bounds
-     * which encompass the specified {@code x}, {@code y}, {@code width},
-     * and {@code height}.
-     * If the parameters specify a {@code Rectangle} that exceeds the
-     * maximum range of integers, the result will be the best
-     * representation of the specified {@code Rectangle} intersected
-     * with the maximum integer bounds.
-     * @param x the X coordinate of the upper-left corner of
-     *                  the specified rectangle
-     * @param y the Y coordinate of the upper-left corner of
-     *                  the specified rectangle
-     * @param width the width of the specified rectangle
-     * @param height the new height of the specified rectangle
+     * Sfts tif bounds of tiis {@dodf Rfdtbnglf} to tif intfgfr bounds
+     * wiidi fndompbss tif spfdififd {@dodf x}, {@dodf y}, {@dodf widti},
+     * bnd {@dodf ifigit}.
+     * If tif pbrbmftfrs spfdify b {@dodf Rfdtbnglf} tibt fxdffds tif
+     * mbximum rbngf of intfgfrs, tif rfsult will bf tif bfst
+     * rfprfsfntbtion of tif spfdififd {@dodf Rfdtbnglf} intfrsfdtfd
+     * witi tif mbximum intfgfr bounds.
+     * @pbrbm x tif X doordinbtf of tif uppfr-lfft dornfr of
+     *                  tif spfdififd rfdtbnglf
+     * @pbrbm y tif Y doordinbtf of tif uppfr-lfft dornfr of
+     *                  tif spfdififd rfdtbnglf
+     * @pbrbm widti tif widti of tif spfdififd rfdtbnglf
+     * @pbrbm ifigit tif nfw ifigit of tif spfdififd rfdtbnglf
      */
-    public void setRect(double x, double y, double width, double height) {
-        int newx, newy, neww, newh;
+    publid void sftRfdt(doublf x, doublf y, doublf widti, doublf ifigit) {
+        int nfwx, nfwy, nfww, nfwi;
 
-        if (x > 2.0 * Integer.MAX_VALUE) {
-            // Too far in positive X direction to represent...
-            // We cannot even reach the left side of the specified
-            // rectangle even with both x & width set to MAX_VALUE.
-            // The intersection with the "maximal integer rectangle"
-            // is non-existant so we should use a width < 0.
-            // REMIND: Should we try to determine a more "meaningful"
-            // adjusted value for neww than just "-1"?
-            newx = Integer.MAX_VALUE;
-            neww = -1;
-        } else {
-            newx = clip(x, false);
-            if (width >= 0) width += x-newx;
-            neww = clip(width, width >= 0);
+        if (x > 2.0 * Intfgfr.MAX_VALUE) {
+            // Too fbr in positivf X dirfdtion to rfprfsfnt...
+            // Wf dbnnot fvfn rfbdi tif lfft sidf of tif spfdififd
+            // rfdtbnglf fvfn witi boti x & widti sft to MAX_VALUE.
+            // Tif intfrsfdtion witi tif "mbximbl intfgfr rfdtbnglf"
+            // is non-fxistbnt so wf siould usf b widti < 0.
+            // REMIND: Siould wf try to dftfrminf b morf "mfbningful"
+            // bdjustfd vbluf for nfww tibn just "-1"?
+            nfwx = Intfgfr.MAX_VALUE;
+            nfww = -1;
+        } flsf {
+            nfwx = dlip(x, fblsf);
+            if (widti >= 0) widti += x-nfwx;
+            nfww = dlip(widti, widti >= 0);
         }
 
-        if (y > 2.0 * Integer.MAX_VALUE) {
-            // Too far in positive Y direction to represent...
-            newy = Integer.MAX_VALUE;
-            newh = -1;
-        } else {
-            newy = clip(y, false);
-            if (height >= 0) height += y-newy;
-            newh = clip(height, height >= 0);
+        if (y > 2.0 * Intfgfr.MAX_VALUE) {
+            // Too fbr in positivf Y dirfdtion to rfprfsfnt...
+            nfwy = Intfgfr.MAX_VALUE;
+            nfwi = -1;
+        } flsf {
+            nfwy = dlip(y, fblsf);
+            if (ifigit >= 0) ifigit += y-nfwy;
+            nfwi = dlip(ifigit, ifigit >= 0);
         }
 
-        reshape(newx, newy, neww, newh);
+        rfsibpf(nfwx, nfwy, nfww, nfwi);
     }
-    // Return best integer representation for v, clipped to integer
-    // range and floor-ed or ceiling-ed, depending on the boolean.
-    private static int clip(double v, boolean doceil) {
-        if (v <= Integer.MIN_VALUE) {
-            return Integer.MIN_VALUE;
+    // Rfturn bfst intfgfr rfprfsfntbtion for v, dlippfd to intfgfr
+    // rbngf bnd floor-fd or dfiling-fd, dfpfnding on tif boolfbn.
+    privbtf stbtid int dlip(doublf v, boolfbn dodfil) {
+        if (v <= Intfgfr.MIN_VALUE) {
+            rfturn Intfgfr.MIN_VALUE;
         }
-        if (v >= Integer.MAX_VALUE) {
-            return Integer.MAX_VALUE;
+        if (v >= Intfgfr.MAX_VALUE) {
+            rfturn Intfgfr.MAX_VALUE;
         }
-        return (int) (doceil ? Math.ceil(v) : Math.floor(v));
+        rfturn (int) (dodfil ? Mbti.dfil(v) : Mbti.floor(v));
     }
 
     /**
-     * Sets the bounding <code>Rectangle</code> of this
-     * <code>Rectangle</code> to the specified
-     * <code>x</code>, <code>y</code>, <code>width</code>,
-     * and <code>height</code>.
+     * Sfts tif bounding <dodf>Rfdtbnglf</dodf> of tiis
+     * <dodf>Rfdtbnglf</dodf> to tif spfdififd
+     * <dodf>x</dodf>, <dodf>y</dodf>, <dodf>widti</dodf>,
+     * bnd <dodf>ifigit</dodf>.
      *
-     * @param x the new X coordinate for the upper-left
-     *                    corner of this <code>Rectangle</code>
-     * @param y the new Y coordinate for the upper-left
-     *                    corner of this <code>Rectangle</code>
-     * @param width the new width for this <code>Rectangle</code>
-     * @param height the new height for this <code>Rectangle</code>
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>setBounds(int, int, int, int)</code>.
+     * @pbrbm x tif nfw X doordinbtf for tif uppfr-lfft
+     *                    dornfr of tiis <dodf>Rfdtbnglf</dodf>
+     * @pbrbm y tif nfw Y doordinbtf for tif uppfr-lfft
+     *                    dornfr of tiis <dodf>Rfdtbnglf</dodf>
+     * @pbrbm widti tif nfw widti for tiis <dodf>Rfdtbnglf</dodf>
+     * @pbrbm ifigit tif nfw ifigit for tiis <dodf>Rfdtbnglf</dodf>
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftBounds(int, int, int, int)</dodf>.
      */
-    @Deprecated
-    public void reshape(int x, int y, int width, int height) {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
+    @Dfprfdbtfd
+    publid void rfsibpf(int x, int y, int widti, int ifigit) {
+        tiis.x = x;
+        tiis.y = y;
+        tiis.widti = widti;
+        tiis.ifigit = ifigit;
     }
 
     /**
-     * Returns the location of this <code>Rectangle</code>.
+     * Rfturns tif lodbtion of tiis <dodf>Rfdtbnglf</dodf>.
      * <p>
-     * This method is included for completeness, to parallel the
-     * <code>getLocation</code> method of <code>Component</code>.
-     * @return the <code>Point</code> that is the upper-left corner of
-     *                  this <code>Rectangle</code>.
-     * @see       java.awt.Component#getLocation
-     * @see       #setLocation(Point)
-     * @see       #setLocation(int, int)
-     * @since     1.1
+     * Tiis mftiod is indludfd for domplftfnfss, to pbrbllfl tif
+     * <dodf>gftLodbtion</dodf> mftiod of <dodf>Componfnt</dodf>.
+     * @rfturn tif <dodf>Point</dodf> tibt is tif uppfr-lfft dornfr of
+     *                  tiis <dodf>Rfdtbnglf</dodf>.
+     * @sff       jbvb.bwt.Componfnt#gftLodbtion
+     * @sff       #sftLodbtion(Point)
+     * @sff       #sftLodbtion(int, int)
+     * @sindf     1.1
      */
-    public Point getLocation() {
-        return new Point(x, y);
+    publid Point gftLodbtion() {
+        rfturn nfw Point(x, y);
     }
 
     /**
-     * Moves this <code>Rectangle</code> to the specified location.
+     * Movfs tiis <dodf>Rfdtbnglf</dodf> to tif spfdififd lodbtion.
      * <p>
-     * This method is included for completeness, to parallel the
-     * <code>setLocation</code> method of <code>Component</code>.
-     * @param p the <code>Point</code> specifying the new location
-     *                for this <code>Rectangle</code>
-     * @see       java.awt.Component#setLocation(java.awt.Point)
-     * @see       #getLocation
-     * @since     1.1
+     * Tiis mftiod is indludfd for domplftfnfss, to pbrbllfl tif
+     * <dodf>sftLodbtion</dodf> mftiod of <dodf>Componfnt</dodf>.
+     * @pbrbm p tif <dodf>Point</dodf> spfdifying tif nfw lodbtion
+     *                for tiis <dodf>Rfdtbnglf</dodf>
+     * @sff       jbvb.bwt.Componfnt#sftLodbtion(jbvb.bwt.Point)
+     * @sff       #gftLodbtion
+     * @sindf     1.1
      */
-    public void setLocation(Point p) {
-        setLocation(p.x, p.y);
+    publid void sftLodbtion(Point p) {
+        sftLodbtion(p.x, p.y);
     }
 
     /**
-     * Moves this <code>Rectangle</code> to the specified location.
+     * Movfs tiis <dodf>Rfdtbnglf</dodf> to tif spfdififd lodbtion.
      * <p>
-     * This method is included for completeness, to parallel the
-     * <code>setLocation</code> method of <code>Component</code>.
-     * @param x the X coordinate of the new location
-     * @param y the Y coordinate of the new location
-     * @see       #getLocation
-     * @see       java.awt.Component#setLocation(int, int)
-     * @since     1.1
+     * Tiis mftiod is indludfd for domplftfnfss, to pbrbllfl tif
+     * <dodf>sftLodbtion</dodf> mftiod of <dodf>Componfnt</dodf>.
+     * @pbrbm x tif X doordinbtf of tif nfw lodbtion
+     * @pbrbm y tif Y doordinbtf of tif nfw lodbtion
+     * @sff       #gftLodbtion
+     * @sff       jbvb.bwt.Componfnt#sftLodbtion(int, int)
+     * @sindf     1.1
      */
-    public void setLocation(int x, int y) {
-        move(x, y);
+    publid void sftLodbtion(int x, int y) {
+        movf(x, y);
     }
 
     /**
-     * Moves this <code>Rectangle</code> to the specified location.
+     * Movfs tiis <dodf>Rfdtbnglf</dodf> to tif spfdififd lodbtion.
      *
-     * @param x the X coordinate of the new location
-     * @param y the Y coordinate of the new location
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>setLocation(int, int)</code>.
+     * @pbrbm x tif X doordinbtf of tif nfw lodbtion
+     * @pbrbm y tif Y doordinbtf of tif nfw lodbtion
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftLodbtion(int, int)</dodf>.
      */
-    @Deprecated
-    public void move(int x, int y) {
-        this.x = x;
-        this.y = y;
+    @Dfprfdbtfd
+    publid void movf(int x, int y) {
+        tiis.x = x;
+        tiis.y = y;
     }
 
     /**
-     * Translates this <code>Rectangle</code> the indicated distance,
-     * to the right along the X coordinate axis, and
-     * downward along the Y coordinate axis.
-     * @param dx the distance to move this <code>Rectangle</code>
-     *                 along the X axis
-     * @param dy the distance to move this <code>Rectangle</code>
-     *                 along the Y axis
-     * @see       java.awt.Rectangle#setLocation(int, int)
-     * @see       java.awt.Rectangle#setLocation(java.awt.Point)
+     * Trbnslbtfs tiis <dodf>Rfdtbnglf</dodf> tif indidbtfd distbndf,
+     * to tif rigit blong tif X doordinbtf bxis, bnd
+     * downwbrd blong tif Y doordinbtf bxis.
+     * @pbrbm dx tif distbndf to movf tiis <dodf>Rfdtbnglf</dodf>
+     *                 blong tif X bxis
+     * @pbrbm dy tif distbndf to movf tiis <dodf>Rfdtbnglf</dodf>
+     *                 blong tif Y bxis
+     * @sff       jbvb.bwt.Rfdtbnglf#sftLodbtion(int, int)
+     * @sff       jbvb.bwt.Rfdtbnglf#sftLodbtion(jbvb.bwt.Point)
      */
-    public void translate(int dx, int dy) {
-        int oldv = this.x;
-        int newv = oldv + dx;
+    publid void trbnslbtf(int dx, int dy) {
+        int oldv = tiis.x;
+        int nfwv = oldv + dx;
         if (dx < 0) {
-            // moving leftward
-            if (newv > oldv) {
-                // negative overflow
-                // Only adjust width if it was valid (>= 0).
-                if (width >= 0) {
-                    // The right edge is now conceptually at
-                    // newv+width, but we may move newv to prevent
-                    // overflow.  But we want the right edge to
-                    // remain at its new location in spite of the
-                    // clipping.  Think of the following adjustment
-                    // conceptually the same as:
-                    // width += newv; newv = MIN_VALUE; width -= newv;
-                    width += newv - Integer.MIN_VALUE;
-                    // width may go negative if the right edge went past
-                    // MIN_VALUE, but it cannot overflow since it cannot
-                    // have moved more than MIN_VALUE and any non-negative
-                    // number + MIN_VALUE does not overflow.
+            // moving lfftwbrd
+            if (nfwv > oldv) {
+                // nfgbtivf ovfrflow
+                // Only bdjust widti if it wbs vblid (>= 0).
+                if (widti >= 0) {
+                    // Tif rigit fdgf is now dondfptublly bt
+                    // nfwv+widti, but wf mby movf nfwv to prfvfnt
+                    // ovfrflow.  But wf wbnt tif rigit fdgf to
+                    // rfmbin bt its nfw lodbtion in spitf of tif
+                    // dlipping.  Tiink of tif following bdjustmfnt
+                    // dondfptublly tif sbmf bs:
+                    // widti += nfwv; nfwv = MIN_VALUE; widti -= nfwv;
+                    widti += nfwv - Intfgfr.MIN_VALUE;
+                    // widti mby go nfgbtivf if tif rigit fdgf wfnt pbst
+                    // MIN_VALUE, but it dbnnot ovfrflow sindf it dbnnot
+                    // ibvf movfd morf tibn MIN_VALUE bnd bny non-nfgbtivf
+                    // numbfr + MIN_VALUE dofs not ovfrflow.
                 }
-                newv = Integer.MIN_VALUE;
+                nfwv = Intfgfr.MIN_VALUE;
             }
-        } else {
-            // moving rightward (or staying still)
-            if (newv < oldv) {
-                // positive overflow
-                if (width >= 0) {
-                    // Conceptually the same as:
-                    // width += newv; newv = MAX_VALUE; width -= newv;
-                    width += newv - Integer.MAX_VALUE;
-                    // With large widths and large displacements
-                    // we may overflow so we need to check it.
-                    if (width < 0) width = Integer.MAX_VALUE;
+        } flsf {
+            // moving rigitwbrd (or stbying still)
+            if (nfwv < oldv) {
+                // positivf ovfrflow
+                if (widti >= 0) {
+                    // Condfptublly tif sbmf bs:
+                    // widti += nfwv; nfwv = MAX_VALUE; widti -= nfwv;
+                    widti += nfwv - Intfgfr.MAX_VALUE;
+                    // Witi lbrgf widtis bnd lbrgf displbdfmfnts
+                    // wf mby ovfrflow so wf nffd to difdk it.
+                    if (widti < 0) widti = Intfgfr.MAX_VALUE;
                 }
-                newv = Integer.MAX_VALUE;
+                nfwv = Intfgfr.MAX_VALUE;
             }
         }
-        this.x = newv;
+        tiis.x = nfwv;
 
-        oldv = this.y;
-        newv = oldv + dy;
+        oldv = tiis.y;
+        nfwv = oldv + dy;
         if (dy < 0) {
-            // moving upward
-            if (newv > oldv) {
-                // negative overflow
-                if (height >= 0) {
-                    height += newv - Integer.MIN_VALUE;
-                    // See above comment about no overflow in this case
+            // moving upwbrd
+            if (nfwv > oldv) {
+                // nfgbtivf ovfrflow
+                if (ifigit >= 0) {
+                    ifigit += nfwv - Intfgfr.MIN_VALUE;
+                    // Sff bbovf dommfnt bbout no ovfrflow in tiis dbsf
                 }
-                newv = Integer.MIN_VALUE;
+                nfwv = Intfgfr.MIN_VALUE;
             }
-        } else {
-            // moving downward (or staying still)
-            if (newv < oldv) {
-                // positive overflow
-                if (height >= 0) {
-                    height += newv - Integer.MAX_VALUE;
-                    if (height < 0) height = Integer.MAX_VALUE;
+        } flsf {
+            // moving downwbrd (or stbying still)
+            if (nfwv < oldv) {
+                // positivf ovfrflow
+                if (ifigit >= 0) {
+                    ifigit += nfwv - Intfgfr.MAX_VALUE;
+                    if (ifigit < 0) ifigit = Intfgfr.MAX_VALUE;
                 }
-                newv = Integer.MAX_VALUE;
+                nfwv = Intfgfr.MAX_VALUE;
             }
         }
-        this.y = newv;
+        tiis.y = nfwv;
     }
 
     /**
-     * Gets the size of this <code>Rectangle</code>, represented by
-     * the returned <code>Dimension</code>.
+     * Gfts tif sizf of tiis <dodf>Rfdtbnglf</dodf>, rfprfsfntfd by
+     * tif rfturnfd <dodf>Dimfnsion</dodf>.
      * <p>
-     * This method is included for completeness, to parallel the
-     * <code>getSize</code> method of <code>Component</code>.
-     * @return a <code>Dimension</code>, representing the size of
-     *            this <code>Rectangle</code>.
-     * @see       java.awt.Component#getSize
-     * @see       #setSize(Dimension)
-     * @see       #setSize(int, int)
-     * @since     1.1
+     * Tiis mftiod is indludfd for domplftfnfss, to pbrbllfl tif
+     * <dodf>gftSizf</dodf> mftiod of <dodf>Componfnt</dodf>.
+     * @rfturn b <dodf>Dimfnsion</dodf>, rfprfsfnting tif sizf of
+     *            tiis <dodf>Rfdtbnglf</dodf>.
+     * @sff       jbvb.bwt.Componfnt#gftSizf
+     * @sff       #sftSizf(Dimfnsion)
+     * @sff       #sftSizf(int, int)
+     * @sindf     1.1
      */
-    public Dimension getSize() {
-        return new Dimension(width, height);
+    publid Dimfnsion gftSizf() {
+        rfturn nfw Dimfnsion(widti, ifigit);
     }
 
     /**
-     * Sets the size of this <code>Rectangle</code> to match the
-     * specified <code>Dimension</code>.
+     * Sfts tif sizf of tiis <dodf>Rfdtbnglf</dodf> to mbtdi tif
+     * spfdififd <dodf>Dimfnsion</dodf>.
      * <p>
-     * This method is included for completeness, to parallel the
-     * <code>setSize</code> method of <code>Component</code>.
-     * @param d the new size for the <code>Dimension</code> object
-     * @see       java.awt.Component#setSize(java.awt.Dimension)
-     * @see       #getSize
-     * @since     1.1
+     * Tiis mftiod is indludfd for domplftfnfss, to pbrbllfl tif
+     * <dodf>sftSizf</dodf> mftiod of <dodf>Componfnt</dodf>.
+     * @pbrbm d tif nfw sizf for tif <dodf>Dimfnsion</dodf> objfdt
+     * @sff       jbvb.bwt.Componfnt#sftSizf(jbvb.bwt.Dimfnsion)
+     * @sff       #gftSizf
+     * @sindf     1.1
      */
-    public void setSize(Dimension d) {
-        setSize(d.width, d.height);
+    publid void sftSizf(Dimfnsion d) {
+        sftSizf(d.widti, d.ifigit);
     }
 
     /**
-     * Sets the size of this <code>Rectangle</code> to the specified
-     * width and height.
+     * Sfts tif sizf of tiis <dodf>Rfdtbnglf</dodf> to tif spfdififd
+     * widti bnd ifigit.
      * <p>
-     * This method is included for completeness, to parallel the
-     * <code>setSize</code> method of <code>Component</code>.
-     * @param width the new width for this <code>Rectangle</code>
-     * @param height the new height for this <code>Rectangle</code>
-     * @see       java.awt.Component#setSize(int, int)
-     * @see       #getSize
-     * @since     1.1
+     * Tiis mftiod is indludfd for domplftfnfss, to pbrbllfl tif
+     * <dodf>sftSizf</dodf> mftiod of <dodf>Componfnt</dodf>.
+     * @pbrbm widti tif nfw widti for tiis <dodf>Rfdtbnglf</dodf>
+     * @pbrbm ifigit tif nfw ifigit for tiis <dodf>Rfdtbnglf</dodf>
+     * @sff       jbvb.bwt.Componfnt#sftSizf(int, int)
+     * @sff       #gftSizf
+     * @sindf     1.1
      */
-    public void setSize(int width, int height) {
-        resize(width, height);
+    publid void sftSizf(int widti, int ifigit) {
+        rfsizf(widti, ifigit);
     }
 
     /**
-     * Sets the size of this <code>Rectangle</code> to the specified
-     * width and height.
+     * Sfts tif sizf of tiis <dodf>Rfdtbnglf</dodf> to tif spfdififd
+     * widti bnd ifigit.
      *
-     * @param width the new width for this <code>Rectangle</code>
-     * @param height the new height for this <code>Rectangle</code>
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>setSize(int, int)</code>.
+     * @pbrbm widti tif nfw widti for tiis <dodf>Rfdtbnglf</dodf>
+     * @pbrbm ifigit tif nfw ifigit for tiis <dodf>Rfdtbnglf</dodf>
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftSizf(int, int)</dodf>.
      */
-    @Deprecated
-    public void resize(int width, int height) {
-        this.width = width;
-        this.height = height;
+    @Dfprfdbtfd
+    publid void rfsizf(int widti, int ifigit) {
+        tiis.widti = widti;
+        tiis.ifigit = ifigit;
     }
 
     /**
-     * Checks whether or not this <code>Rectangle</code> contains the
-     * specified <code>Point</code>.
-     * @param p the <code>Point</code> to test
-     * @return    <code>true</code> if the specified <code>Point</code>
-     *            is inside this <code>Rectangle</code>;
-     *            <code>false</code> otherwise.
-     * @since     1.1
+     * Cifdks wiftifr or not tiis <dodf>Rfdtbnglf</dodf> dontbins tif
+     * spfdififd <dodf>Point</dodf>.
+     * @pbrbm p tif <dodf>Point</dodf> to tfst
+     * @rfturn    <dodf>truf</dodf> if tif spfdififd <dodf>Point</dodf>
+     *            is insidf tiis <dodf>Rfdtbnglf</dodf>;
+     *            <dodf>fblsf</dodf> otifrwisf.
+     * @sindf     1.1
      */
-    public boolean contains(Point p) {
-        return contains(p.x, p.y);
+    publid boolfbn dontbins(Point p) {
+        rfturn dontbins(p.x, p.y);
     }
 
     /**
-     * Checks whether or not this <code>Rectangle</code> contains the
-     * point at the specified location {@code (x,y)}.
+     * Cifdks wiftifr or not tiis <dodf>Rfdtbnglf</dodf> dontbins tif
+     * point bt tif spfdififd lodbtion {@dodf (x,y)}.
      *
-     * @param  x the specified X coordinate
-     * @param  y the specified Y coordinate
-     * @return    <code>true</code> if the point
-     *            {@code (x,y)} is inside this
-     *            <code>Rectangle</code>;
-     *            <code>false</code> otherwise.
-     * @since     1.1
+     * @pbrbm  x tif spfdififd X doordinbtf
+     * @pbrbm  y tif spfdififd Y doordinbtf
+     * @rfturn    <dodf>truf</dodf> if tif point
+     *            {@dodf (x,y)} is insidf tiis
+     *            <dodf>Rfdtbnglf</dodf>;
+     *            <dodf>fblsf</dodf> otifrwisf.
+     * @sindf     1.1
      */
-    public boolean contains(int x, int y) {
-        return inside(x, y);
+    publid boolfbn dontbins(int x, int y) {
+        rfturn insidf(x, y);
     }
 
     /**
-     * Checks whether or not this <code>Rectangle</code> entirely contains
-     * the specified <code>Rectangle</code>.
+     * Cifdks wiftifr or not tiis <dodf>Rfdtbnglf</dodf> fntirfly dontbins
+     * tif spfdififd <dodf>Rfdtbnglf</dodf>.
      *
-     * @param     r   the specified <code>Rectangle</code>
-     * @return    <code>true</code> if the <code>Rectangle</code>
-     *            is contained entirely inside this <code>Rectangle</code>;
-     *            <code>false</code> otherwise
-     * @since     1.2
+     * @pbrbm     r   tif spfdififd <dodf>Rfdtbnglf</dodf>
+     * @rfturn    <dodf>truf</dodf> if tif <dodf>Rfdtbnglf</dodf>
+     *            is dontbinfd fntirfly insidf tiis <dodf>Rfdtbnglf</dodf>;
+     *            <dodf>fblsf</dodf> otifrwisf
+     * @sindf     1.2
      */
-    public boolean contains(Rectangle r) {
-        return contains(r.x, r.y, r.width, r.height);
+    publid boolfbn dontbins(Rfdtbnglf r) {
+        rfturn dontbins(r.x, r.y, r.widti, r.ifigit);
     }
 
     /**
-     * Checks whether this <code>Rectangle</code> entirely contains
-     * the <code>Rectangle</code>
-     * at the specified location {@code (X,Y)} with the
-     * specified dimensions {@code (W,H)}.
-     * @param     X the specified X coordinate
-     * @param     Y the specified Y coordinate
-     * @param     W   the width of the <code>Rectangle</code>
-     * @param     H   the height of the <code>Rectangle</code>
-     * @return    <code>true</code> if the <code>Rectangle</code> specified by
-     *            {@code (X, Y, W, H)}
-     *            is entirely enclosed inside this <code>Rectangle</code>;
-     *            <code>false</code> otherwise.
-     * @since     1.1
+     * Cifdks wiftifr tiis <dodf>Rfdtbnglf</dodf> fntirfly dontbins
+     * tif <dodf>Rfdtbnglf</dodf>
+     * bt tif spfdififd lodbtion {@dodf (X,Y)} witi tif
+     * spfdififd dimfnsions {@dodf (W,H)}.
+     * @pbrbm     X tif spfdififd X doordinbtf
+     * @pbrbm     Y tif spfdififd Y doordinbtf
+     * @pbrbm     W   tif widti of tif <dodf>Rfdtbnglf</dodf>
+     * @pbrbm     H   tif ifigit of tif <dodf>Rfdtbnglf</dodf>
+     * @rfturn    <dodf>truf</dodf> if tif <dodf>Rfdtbnglf</dodf> spfdififd by
+     *            {@dodf (X, Y, W, H)}
+     *            is fntirfly fndlosfd insidf tiis <dodf>Rfdtbnglf</dodf>;
+     *            <dodf>fblsf</dodf> otifrwisf.
+     * @sindf     1.1
      */
-    public boolean contains(int X, int Y, int W, int H) {
-        int w = this.width;
-        int h = this.height;
-        if ((w | h | W | H) < 0) {
-            // At least one of the dimensions is negative...
-            return false;
+    publid boolfbn dontbins(int X, int Y, int W, int H) {
+        int w = tiis.widti;
+        int i = tiis.ifigit;
+        if ((w | i | W | H) < 0) {
+            // At lfbst onf of tif dimfnsions is nfgbtivf...
+            rfturn fblsf;
         }
-        // Note: if any dimension is zero, tests below must return false...
-        int x = this.x;
-        int y = this.y;
+        // Notf: if bny dimfnsion is zfro, tfsts bflow must rfturn fblsf...
+        int x = tiis.x;
+        int y = tiis.y;
         if (X < x || Y < y) {
-            return false;
+            rfturn fblsf;
         }
         w += x;
         W += X;
         if (W <= X) {
-            // X+W overflowed or W was zero, return false if...
-            // either original w or W was zero or
-            // x+w did not overflow or
-            // the overflowed x+w is smaller than the overflowed X+W
-            if (w >= x || W > w) return false;
-        } else {
-            // X+W did not overflow and W was not zero, return false if...
-            // original w was zero or
-            // x+w did not overflow and x+w is smaller than X+W
-            if (w >= x && W > w) return false;
+            // X+W ovfrflowfd or W wbs zfro, rfturn fblsf if...
+            // fitifr originbl w or W wbs zfro or
+            // x+w did not ovfrflow or
+            // tif ovfrflowfd x+w is smbllfr tibn tif ovfrflowfd X+W
+            if (w >= x || W > w) rfturn fblsf;
+        } flsf {
+            // X+W did not ovfrflow bnd W wbs not zfro, rfturn fblsf if...
+            // originbl w wbs zfro or
+            // x+w did not ovfrflow bnd x+w is smbllfr tibn X+W
+            if (w >= x && W > w) rfturn fblsf;
         }
-        h += y;
+        i += y;
         H += Y;
         if (H <= Y) {
-            if (h >= y || H > h) return false;
-        } else {
-            if (h >= y && H > h) return false;
+            if (i >= y || H > i) rfturn fblsf;
+        } flsf {
+            if (i >= y && H > i) rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Checks whether or not this <code>Rectangle</code> contains the
-     * point at the specified location {@code (X,Y)}.
+     * Cifdks wiftifr or not tiis <dodf>Rfdtbnglf</dodf> dontbins tif
+     * point bt tif spfdififd lodbtion {@dodf (X,Y)}.
      *
-     * @param  X the specified X coordinate
-     * @param  Y the specified Y coordinate
-     * @return    <code>true</code> if the point
-     *            {@code (X,Y)} is inside this
-     *            <code>Rectangle</code>;
-     *            <code>false</code> otherwise.
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>contains(int, int)</code>.
+     * @pbrbm  X tif spfdififd X doordinbtf
+     * @pbrbm  Y tif spfdififd Y doordinbtf
+     * @rfturn    <dodf>truf</dodf> if tif point
+     *            {@dodf (X,Y)} is insidf tiis
+     *            <dodf>Rfdtbnglf</dodf>;
+     *            <dodf>fblsf</dodf> otifrwisf.
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>dontbins(int, int)</dodf>.
      */
-    @Deprecated
-    public boolean inside(int X, int Y) {
-        int w = this.width;
-        int h = this.height;
-        if ((w | h) < 0) {
-            // At least one of the dimensions is negative...
-            return false;
+    @Dfprfdbtfd
+    publid boolfbn insidf(int X, int Y) {
+        int w = tiis.widti;
+        int i = tiis.ifigit;
+        if ((w | i) < 0) {
+            // At lfbst onf of tif dimfnsions is nfgbtivf...
+            rfturn fblsf;
         }
-        // Note: if either dimension is zero, tests below must return false...
-        int x = this.x;
-        int y = this.y;
+        // Notf: if fitifr dimfnsion is zfro, tfsts bflow must rfturn fblsf...
+        int x = tiis.x;
+        int y = tiis.y;
         if (X < x || Y < y) {
-            return false;
+            rfturn fblsf;
         }
         w += x;
-        h += y;
-        //    overflow || intersect
-        return ((w < x || w > X) &&
-                (h < y || h > Y));
+        i += y;
+        //    ovfrflow || intfrsfdt
+        rfturn ((w < x || w > X) &&
+                (i < y || i > Y));
     }
 
     /**
-     * Determines whether or not this <code>Rectangle</code> and the specified
-     * <code>Rectangle</code> intersect. Two rectangles intersect if
-     * their intersection is nonempty.
+     * Dftfrminfs wiftifr or not tiis <dodf>Rfdtbnglf</dodf> bnd tif spfdififd
+     * <dodf>Rfdtbnglf</dodf> intfrsfdt. Two rfdtbnglfs intfrsfdt if
+     * tifir intfrsfdtion is nonfmpty.
      *
-     * @param r the specified <code>Rectangle</code>
-     * @return    <code>true</code> if the specified <code>Rectangle</code>
-     *            and this <code>Rectangle</code> intersect;
-     *            <code>false</code> otherwise.
+     * @pbrbm r tif spfdififd <dodf>Rfdtbnglf</dodf>
+     * @rfturn    <dodf>truf</dodf> if tif spfdififd <dodf>Rfdtbnglf</dodf>
+     *            bnd tiis <dodf>Rfdtbnglf</dodf> intfrsfdt;
+     *            <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean intersects(Rectangle r) {
-        int tw = this.width;
-        int th = this.height;
-        int rw = r.width;
-        int rh = r.height;
-        if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
-            return false;
+    publid boolfbn intfrsfdts(Rfdtbnglf r) {
+        int tw = tiis.widti;
+        int ti = tiis.ifigit;
+        int rw = r.widti;
+        int ri = r.ifigit;
+        if (rw <= 0 || ri <= 0 || tw <= 0 || ti <= 0) {
+            rfturn fblsf;
         }
-        int tx = this.x;
-        int ty = this.y;
+        int tx = tiis.x;
+        int ty = tiis.y;
         int rx = r.x;
         int ry = r.y;
         rw += rx;
-        rh += ry;
+        ri += ry;
         tw += tx;
-        th += ty;
-        //      overflow || intersect
-        return ((rw < rx || rw > tx) &&
-                (rh < ry || rh > ty) &&
+        ti += ty;
+        //      ovfrflow || intfrsfdt
+        rfturn ((rw < rx || rw > tx) &&
+                (ri < ry || ri > ty) &&
                 (tw < tx || tw > rx) &&
-                (th < ty || th > ry));
+                (ti < ty || ti > ry));
     }
 
     /**
-     * Computes the intersection of this <code>Rectangle</code> with the
-     * specified <code>Rectangle</code>. Returns a new <code>Rectangle</code>
-     * that represents the intersection of the two rectangles.
-     * If the two rectangles do not intersect, the result will be
-     * an empty rectangle.
+     * Computfs tif intfrsfdtion of tiis <dodf>Rfdtbnglf</dodf> witi tif
+     * spfdififd <dodf>Rfdtbnglf</dodf>. Rfturns b nfw <dodf>Rfdtbnglf</dodf>
+     * tibt rfprfsfnts tif intfrsfdtion of tif two rfdtbnglfs.
+     * If tif two rfdtbnglfs do not intfrsfdt, tif rfsult will bf
+     * bn fmpty rfdtbnglf.
      *
-     * @param     r   the specified <code>Rectangle</code>
-     * @return    the largest <code>Rectangle</code> contained in both the
-     *            specified <code>Rectangle</code> and in
-     *            this <code>Rectangle</code>; or if the rectangles
-     *            do not intersect, an empty rectangle.
+     * @pbrbm     r   tif spfdififd <dodf>Rfdtbnglf</dodf>
+     * @rfturn    tif lbrgfst <dodf>Rfdtbnglf</dodf> dontbinfd in boti tif
+     *            spfdififd <dodf>Rfdtbnglf</dodf> bnd in
+     *            tiis <dodf>Rfdtbnglf</dodf>; or if tif rfdtbnglfs
+     *            do not intfrsfdt, bn fmpty rfdtbnglf.
      */
-    public Rectangle intersection(Rectangle r) {
-        int tx1 = this.x;
-        int ty1 = this.y;
+    publid Rfdtbnglf intfrsfdtion(Rfdtbnglf r) {
+        int tx1 = tiis.x;
+        int ty1 = tiis.y;
         int rx1 = r.x;
         int ry1 = r.y;
-        long tx2 = tx1; tx2 += this.width;
-        long ty2 = ty1; ty2 += this.height;
-        long rx2 = rx1; rx2 += r.width;
-        long ry2 = ry1; ry2 += r.height;
+        long tx2 = tx1; tx2 += tiis.widti;
+        long ty2 = ty1; ty2 += tiis.ifigit;
+        long rx2 = rx1; rx2 += r.widti;
+        long ry2 = ry1; ry2 += r.ifigit;
         if (tx1 < rx1) tx1 = rx1;
         if (ty1 < ry1) ty1 = ry1;
         if (tx2 > rx2) tx2 = rx2;
         if (ty2 > ry2) ty2 = ry2;
         tx2 -= tx1;
         ty2 -= ty1;
-        // tx2,ty2 will never overflow (they will never be
-        // larger than the smallest of the two source w,h)
-        // they might underflow, though...
-        if (tx2 < Integer.MIN_VALUE) tx2 = Integer.MIN_VALUE;
-        if (ty2 < Integer.MIN_VALUE) ty2 = Integer.MIN_VALUE;
-        return new Rectangle(tx1, ty1, (int) tx2, (int) ty2);
+        // tx2,ty2 will nfvfr ovfrflow (tify will nfvfr bf
+        // lbrgfr tibn tif smbllfst of tif two sourdf w,i)
+        // tify migit undfrflow, tiougi...
+        if (tx2 < Intfgfr.MIN_VALUE) tx2 = Intfgfr.MIN_VALUE;
+        if (ty2 < Intfgfr.MIN_VALUE) ty2 = Intfgfr.MIN_VALUE;
+        rfturn nfw Rfdtbnglf(tx1, ty1, (int) tx2, (int) ty2);
     }
 
     /**
-     * Computes the union of this <code>Rectangle</code> with the
-     * specified <code>Rectangle</code>. Returns a new
-     * <code>Rectangle</code> that
-     * represents the union of the two rectangles.
+     * Computfs tif union of tiis <dodf>Rfdtbnglf</dodf> witi tif
+     * spfdififd <dodf>Rfdtbnglf</dodf>. Rfturns b nfw
+     * <dodf>Rfdtbnglf</dodf> tibt
+     * rfprfsfnts tif union of tif two rfdtbnglfs.
      * <p>
-     * If either {@code Rectangle} has any dimension less than zero
-     * the rules for <a href=#NonExistant>non-existant</a> rectangles
-     * apply.
-     * If only one has a dimension less than zero, then the result
-     * will be a copy of the other {@code Rectangle}.
-     * If both have dimension less than zero, then the result will
-     * have at least one dimension less than zero.
+     * If fitifr {@dodf Rfdtbnglf} ibs bny dimfnsion lfss tibn zfro
+     * tif rulfs for <b irff=#NonExistbnt>non-fxistbnt</b> rfdtbnglfs
+     * bpply.
+     * If only onf ibs b dimfnsion lfss tibn zfro, tifn tif rfsult
+     * will bf b dopy of tif otifr {@dodf Rfdtbnglf}.
+     * If boti ibvf dimfnsion lfss tibn zfro, tifn tif rfsult will
+     * ibvf bt lfbst onf dimfnsion lfss tibn zfro.
      * <p>
-     * If the resulting {@code Rectangle} would have a dimension
-     * too large to be expressed as an {@code int}, the result
-     * will have a dimension of {@code Integer.MAX_VALUE} along
-     * that dimension.
-     * @param r the specified <code>Rectangle</code>
-     * @return    the smallest <code>Rectangle</code> containing both
-     *            the specified <code>Rectangle</code> and this
-     *            <code>Rectangle</code>.
+     * If tif rfsulting {@dodf Rfdtbnglf} would ibvf b dimfnsion
+     * too lbrgf to bf fxprfssfd bs bn {@dodf int}, tif rfsult
+     * will ibvf b dimfnsion of {@dodf Intfgfr.MAX_VALUE} blong
+     * tibt dimfnsion.
+     * @pbrbm r tif spfdififd <dodf>Rfdtbnglf</dodf>
+     * @rfturn    tif smbllfst <dodf>Rfdtbnglf</dodf> dontbining boti
+     *            tif spfdififd <dodf>Rfdtbnglf</dodf> bnd tiis
+     *            <dodf>Rfdtbnglf</dodf>.
      */
-    public Rectangle union(Rectangle r) {
-        long tx2 = this.width;
-        long ty2 = this.height;
+    publid Rfdtbnglf union(Rfdtbnglf r) {
+        long tx2 = tiis.widti;
+        long ty2 = tiis.ifigit;
         if ((tx2 | ty2) < 0) {
-            // This rectangle has negative dimensions...
-            // If r has non-negative dimensions then it is the answer.
-            // If r is non-existant (has a negative dimension), then both
-            // are non-existant and we can return any non-existant rectangle
-            // as an answer.  Thus, returning r meets that criterion.
-            // Either way, r is our answer.
-            return new Rectangle(r);
+            // Tiis rfdtbnglf ibs nfgbtivf dimfnsions...
+            // If r ibs non-nfgbtivf dimfnsions tifn it is tif bnswfr.
+            // If r is non-fxistbnt (ibs b nfgbtivf dimfnsion), tifn boti
+            // brf non-fxistbnt bnd wf dbn rfturn bny non-fxistbnt rfdtbnglf
+            // bs bn bnswfr.  Tius, rfturning r mffts tibt dritfrion.
+            // Eitifr wby, r is our bnswfr.
+            rfturn nfw Rfdtbnglf(r);
         }
-        long rx2 = r.width;
-        long ry2 = r.height;
+        long rx2 = r.widti;
+        long ry2 = r.ifigit;
         if ((rx2 | ry2) < 0) {
-            return new Rectangle(this);
+            rfturn nfw Rfdtbnglf(tiis);
         }
-        int tx1 = this.x;
-        int ty1 = this.y;
+        int tx1 = tiis.x;
+        int ty1 = tiis.y;
         tx2 += tx1;
         ty2 += ty1;
         int rx1 = r.x;
@@ -892,132 +892,132 @@ public class Rectangle extends Rectangle2D
         if (ty2 < ry2) ty2 = ry2;
         tx2 -= tx1;
         ty2 -= ty1;
-        // tx2,ty2 will never underflow since both original rectangles
-        // were already proven to be non-empty
-        // they might overflow, though...
-        if (tx2 > Integer.MAX_VALUE) tx2 = Integer.MAX_VALUE;
-        if (ty2 > Integer.MAX_VALUE) ty2 = Integer.MAX_VALUE;
-        return new Rectangle(tx1, ty1, (int) tx2, (int) ty2);
+        // tx2,ty2 will nfvfr undfrflow sindf boti originbl rfdtbnglfs
+        // wfrf blrfbdy provfn to bf non-fmpty
+        // tify migit ovfrflow, tiougi...
+        if (tx2 > Intfgfr.MAX_VALUE) tx2 = Intfgfr.MAX_VALUE;
+        if (ty2 > Intfgfr.MAX_VALUE) ty2 = Intfgfr.MAX_VALUE;
+        rfturn nfw Rfdtbnglf(tx1, ty1, (int) tx2, (int) ty2);
     }
 
     /**
-     * Adds a point, specified by the integer arguments {@code newx,newy}
-     * to the bounds of this {@code Rectangle}.
+     * Adds b point, spfdififd by tif intfgfr brgumfnts {@dodf nfwx,nfwy}
+     * to tif bounds of tiis {@dodf Rfdtbnglf}.
      * <p>
-     * If this {@code Rectangle} has any dimension less than zero,
-     * the rules for <a href=#NonExistant>non-existant</a>
-     * rectangles apply.
-     * In that case, the new bounds of this {@code Rectangle} will
-     * have a location equal to the specified coordinates and
-     * width and height equal to zero.
+     * If tiis {@dodf Rfdtbnglf} ibs bny dimfnsion lfss tibn zfro,
+     * tif rulfs for <b irff=#NonExistbnt>non-fxistbnt</b>
+     * rfdtbnglfs bpply.
+     * In tibt dbsf, tif nfw bounds of tiis {@dodf Rfdtbnglf} will
+     * ibvf b lodbtion fqubl to tif spfdififd doordinbtfs bnd
+     * widti bnd ifigit fqubl to zfro.
      * <p>
-     * After adding a point, a call to <code>contains</code> with the
-     * added point as an argument does not necessarily return
-     * <code>true</code>. The <code>contains</code> method does not
-     * return <code>true</code> for points on the right or bottom
-     * edges of a <code>Rectangle</code>. Therefore, if the added point
-     * falls on the right or bottom edge of the enlarged
-     * <code>Rectangle</code>, <code>contains</code> returns
-     * <code>false</code> for that point.
-     * If the specified point must be contained within the new
-     * {@code Rectangle}, a 1x1 rectangle should be added instead:
-     * <pre>
-     *     r.add(newx, newy, 1, 1);
-     * </pre>
-     * @param newx the X coordinate of the new point
-     * @param newy the Y coordinate of the new point
+     * Aftfr bdding b point, b dbll to <dodf>dontbins</dodf> witi tif
+     * bddfd point bs bn brgumfnt dofs not nfdfssbrily rfturn
+     * <dodf>truf</dodf>. Tif <dodf>dontbins</dodf> mftiod dofs not
+     * rfturn <dodf>truf</dodf> for points on tif rigit or bottom
+     * fdgfs of b <dodf>Rfdtbnglf</dodf>. Tifrfforf, if tif bddfd point
+     * fblls on tif rigit or bottom fdgf of tif fnlbrgfd
+     * <dodf>Rfdtbnglf</dodf>, <dodf>dontbins</dodf> rfturns
+     * <dodf>fblsf</dodf> for tibt point.
+     * If tif spfdififd point must bf dontbinfd witiin tif nfw
+     * {@dodf Rfdtbnglf}, b 1x1 rfdtbnglf siould bf bddfd instfbd:
+     * <prf>
+     *     r.bdd(nfwx, nfwy, 1, 1);
+     * </prf>
+     * @pbrbm nfwx tif X doordinbtf of tif nfw point
+     * @pbrbm nfwy tif Y doordinbtf of tif nfw point
      */
-    public void add(int newx, int newy) {
-        if ((width | height) < 0) {
-            this.x = newx;
-            this.y = newy;
-            this.width = this.height = 0;
-            return;
+    publid void bdd(int nfwx, int nfwy) {
+        if ((widti | ifigit) < 0) {
+            tiis.x = nfwx;
+            tiis.y = nfwy;
+            tiis.widti = tiis.ifigit = 0;
+            rfturn;
         }
-        int x1 = this.x;
-        int y1 = this.y;
-        long x2 = this.width;
-        long y2 = this.height;
+        int x1 = tiis.x;
+        int y1 = tiis.y;
+        long x2 = tiis.widti;
+        long y2 = tiis.ifigit;
         x2 += x1;
         y2 += y1;
-        if (x1 > newx) x1 = newx;
-        if (y1 > newy) y1 = newy;
-        if (x2 < newx) x2 = newx;
-        if (y2 < newy) y2 = newy;
+        if (x1 > nfwx) x1 = nfwx;
+        if (y1 > nfwy) y1 = nfwy;
+        if (x2 < nfwx) x2 = nfwx;
+        if (y2 < nfwy) y2 = nfwy;
         x2 -= x1;
         y2 -= y1;
-        if (x2 > Integer.MAX_VALUE) x2 = Integer.MAX_VALUE;
-        if (y2 > Integer.MAX_VALUE) y2 = Integer.MAX_VALUE;
-        reshape(x1, y1, (int) x2, (int) y2);
+        if (x2 > Intfgfr.MAX_VALUE) x2 = Intfgfr.MAX_VALUE;
+        if (y2 > Intfgfr.MAX_VALUE) y2 = Intfgfr.MAX_VALUE;
+        rfsibpf(x1, y1, (int) x2, (int) y2);
     }
 
     /**
-     * Adds the specified {@code Point} to the bounds of this
-     * {@code Rectangle}.
+     * Adds tif spfdififd {@dodf Point} to tif bounds of tiis
+     * {@dodf Rfdtbnglf}.
      * <p>
-     * If this {@code Rectangle} has any dimension less than zero,
-     * the rules for <a href=#NonExistant>non-existant</a>
-     * rectangles apply.
-     * In that case, the new bounds of this {@code Rectangle} will
-     * have a location equal to the coordinates of the specified
-     * {@code Point} and width and height equal to zero.
+     * If tiis {@dodf Rfdtbnglf} ibs bny dimfnsion lfss tibn zfro,
+     * tif rulfs for <b irff=#NonExistbnt>non-fxistbnt</b>
+     * rfdtbnglfs bpply.
+     * In tibt dbsf, tif nfw bounds of tiis {@dodf Rfdtbnglf} will
+     * ibvf b lodbtion fqubl to tif doordinbtfs of tif spfdififd
+     * {@dodf Point} bnd widti bnd ifigit fqubl to zfro.
      * <p>
-     * After adding a <code>Point</code>, a call to <code>contains</code>
-     * with the added <code>Point</code> as an argument does not
-     * necessarily return <code>true</code>. The <code>contains</code>
-     * method does not return <code>true</code> for points on the right
-     * or bottom edges of a <code>Rectangle</code>. Therefore if the added
-     * <code>Point</code> falls on the right or bottom edge of the
-     * enlarged <code>Rectangle</code>, <code>contains</code> returns
-     * <code>false</code> for that <code>Point</code>.
-     * If the specified point must be contained within the new
-     * {@code Rectangle}, a 1x1 rectangle should be added instead:
-     * <pre>
-     *     r.add(pt.x, pt.y, 1, 1);
-     * </pre>
-     * @param pt the new <code>Point</code> to add to this
-     *           <code>Rectangle</code>
+     * Aftfr bdding b <dodf>Point</dodf>, b dbll to <dodf>dontbins</dodf>
+     * witi tif bddfd <dodf>Point</dodf> bs bn brgumfnt dofs not
+     * nfdfssbrily rfturn <dodf>truf</dodf>. Tif <dodf>dontbins</dodf>
+     * mftiod dofs not rfturn <dodf>truf</dodf> for points on tif rigit
+     * or bottom fdgfs of b <dodf>Rfdtbnglf</dodf>. Tifrfforf if tif bddfd
+     * <dodf>Point</dodf> fblls on tif rigit or bottom fdgf of tif
+     * fnlbrgfd <dodf>Rfdtbnglf</dodf>, <dodf>dontbins</dodf> rfturns
+     * <dodf>fblsf</dodf> for tibt <dodf>Point</dodf>.
+     * If tif spfdififd point must bf dontbinfd witiin tif nfw
+     * {@dodf Rfdtbnglf}, b 1x1 rfdtbnglf siould bf bddfd instfbd:
+     * <prf>
+     *     r.bdd(pt.x, pt.y, 1, 1);
+     * </prf>
+     * @pbrbm pt tif nfw <dodf>Point</dodf> to bdd to tiis
+     *           <dodf>Rfdtbnglf</dodf>
      */
-    public void add(Point pt) {
-        add(pt.x, pt.y);
+    publid void bdd(Point pt) {
+        bdd(pt.x, pt.y);
     }
 
     /**
-     * Adds a <code>Rectangle</code> to this <code>Rectangle</code>.
-     * The resulting <code>Rectangle</code> is the union of the two
-     * rectangles.
+     * Adds b <dodf>Rfdtbnglf</dodf> to tiis <dodf>Rfdtbnglf</dodf>.
+     * Tif rfsulting <dodf>Rfdtbnglf</dodf> is tif union of tif two
+     * rfdtbnglfs.
      * <p>
-     * If either {@code Rectangle} has any dimension less than 0, the
-     * result will have the dimensions of the other {@code Rectangle}.
-     * If both {@code Rectangle}s have at least one dimension less
-     * than 0, the result will have at least one dimension less than 0.
+     * If fitifr {@dodf Rfdtbnglf} ibs bny dimfnsion lfss tibn 0, tif
+     * rfsult will ibvf tif dimfnsions of tif otifr {@dodf Rfdtbnglf}.
+     * If boti {@dodf Rfdtbnglf}s ibvf bt lfbst onf dimfnsion lfss
+     * tibn 0, tif rfsult will ibvf bt lfbst onf dimfnsion lfss tibn 0.
      * <p>
-     * If either {@code Rectangle} has one or both dimensions equal
-     * to 0, the result along those axes with 0 dimensions will be
-     * equivalent to the results obtained by adding the corresponding
-     * origin coordinate to the result rectangle along that axis,
-     * similar to the operation of the {@link #add(Point)} method,
-     * but contribute no further dimension beyond that.
+     * If fitifr {@dodf Rfdtbnglf} ibs onf or boti dimfnsions fqubl
+     * to 0, tif rfsult blong tiosf bxfs witi 0 dimfnsions will bf
+     * fquivblfnt to tif rfsults obtbinfd by bdding tif dorrfsponding
+     * origin doordinbtf to tif rfsult rfdtbnglf blong tibt bxis,
+     * similbr to tif opfrbtion of tif {@link #bdd(Point)} mftiod,
+     * but dontributf no furtifr dimfnsion bfyond tibt.
      * <p>
-     * If the resulting {@code Rectangle} would have a dimension
-     * too large to be expressed as an {@code int}, the result
-     * will have a dimension of {@code Integer.MAX_VALUE} along
-     * that dimension.
-     * @param  r the specified <code>Rectangle</code>
+     * If tif rfsulting {@dodf Rfdtbnglf} would ibvf b dimfnsion
+     * too lbrgf to bf fxprfssfd bs bn {@dodf int}, tif rfsult
+     * will ibvf b dimfnsion of {@dodf Intfgfr.MAX_VALUE} blong
+     * tibt dimfnsion.
+     * @pbrbm  r tif spfdififd <dodf>Rfdtbnglf</dodf>
      */
-    public void add(Rectangle r) {
-        long tx2 = this.width;
-        long ty2 = this.height;
+    publid void bdd(Rfdtbnglf r) {
+        long tx2 = tiis.widti;
+        long ty2 = tiis.ifigit;
         if ((tx2 | ty2) < 0) {
-            reshape(r.x, r.y, r.width, r.height);
+            rfsibpf(r.x, r.y, r.widti, r.ifigit);
         }
-        long rx2 = r.width;
-        long ry2 = r.height;
+        long rx2 = r.widti;
+        long ry2 = r.ifigit;
         if ((rx2 | ry2) < 0) {
-            return;
+            rfturn;
         }
-        int tx1 = this.x;
-        int ty1 = this.y;
+        int tx1 = tiis.x;
+        int ty1 = tiis.y;
         tx2 += tx1;
         ty2 += ty1;
         int rx1 = r.x;
@@ -1030,186 +1030,186 @@ public class Rectangle extends Rectangle2D
         if (ty2 < ry2) ty2 = ry2;
         tx2 -= tx1;
         ty2 -= ty1;
-        // tx2,ty2 will never underflow since both original
-        // rectangles were non-empty
-        // they might overflow, though...
-        if (tx2 > Integer.MAX_VALUE) tx2 = Integer.MAX_VALUE;
-        if (ty2 > Integer.MAX_VALUE) ty2 = Integer.MAX_VALUE;
-        reshape(tx1, ty1, (int) tx2, (int) ty2);
+        // tx2,ty2 will nfvfr undfrflow sindf boti originbl
+        // rfdtbnglfs wfrf non-fmpty
+        // tify migit ovfrflow, tiougi...
+        if (tx2 > Intfgfr.MAX_VALUE) tx2 = Intfgfr.MAX_VALUE;
+        if (ty2 > Intfgfr.MAX_VALUE) ty2 = Intfgfr.MAX_VALUE;
+        rfsibpf(tx1, ty1, (int) tx2, (int) ty2);
     }
 
     /**
-     * Resizes the <code>Rectangle</code> both horizontally and vertically.
+     * Rfsizfs tif <dodf>Rfdtbnglf</dodf> boti iorizontblly bnd vfrtidblly.
      * <p>
-     * This method modifies the <code>Rectangle</code> so that it is
-     * <code>h</code> units larger on both the left and right side,
-     * and <code>v</code> units larger at both the top and bottom.
+     * Tiis mftiod modififs tif <dodf>Rfdtbnglf</dodf> so tibt it is
+     * <dodf>i</dodf> units lbrgfr on boti tif lfft bnd rigit sidf,
+     * bnd <dodf>v</dodf> units lbrgfr bt boti tif top bnd bottom.
      * <p>
-     * The new <code>Rectangle</code> has {@code (x - h, y - v)}
-     * as its upper-left corner,
-     * width of {@code (width + 2h)},
-     * and a height of {@code (height + 2v)}.
+     * Tif nfw <dodf>Rfdtbnglf</dodf> ibs {@dodf (x - i, y - v)}
+     * bs its uppfr-lfft dornfr,
+     * widti of {@dodf (widti + 2i)},
+     * bnd b ifigit of {@dodf (ifigit + 2v)}.
      * <p>
-     * If negative values are supplied for <code>h</code> and
-     * <code>v</code>, the size of the <code>Rectangle</code>
-     * decreases accordingly.
-     * The {@code grow} method will check for integer overflow
-     * and underflow, but does not check whether the resulting
-     * values of {@code width} and {@code height} grow
-     * from negative to non-negative or shrink from non-negative
-     * to negative.
-     * @param h the horizontal expansion
-     * @param v the vertical expansion
+     * If nfgbtivf vblufs brf supplifd for <dodf>i</dodf> bnd
+     * <dodf>v</dodf>, tif sizf of tif <dodf>Rfdtbnglf</dodf>
+     * dfdrfbsfs bddordingly.
+     * Tif {@dodf grow} mftiod will difdk for intfgfr ovfrflow
+     * bnd undfrflow, but dofs not difdk wiftifr tif rfsulting
+     * vblufs of {@dodf widti} bnd {@dodf ifigit} grow
+     * from nfgbtivf to non-nfgbtivf or sirink from non-nfgbtivf
+     * to nfgbtivf.
+     * @pbrbm i tif iorizontbl fxpbnsion
+     * @pbrbm v tif vfrtidbl fxpbnsion
      */
-    public void grow(int h, int v) {
-        long x0 = this.x;
-        long y0 = this.y;
-        long x1 = this.width;
-        long y1 = this.height;
+    publid void grow(int i, int v) {
+        long x0 = tiis.x;
+        long y0 = tiis.y;
+        long x1 = tiis.widti;
+        long y1 = tiis.ifigit;
         x1 += x0;
         y1 += y0;
 
-        x0 -= h;
+        x0 -= i;
         y0 -= v;
-        x1 += h;
+        x1 += i;
         y1 += v;
 
         if (x1 < x0) {
-            // Non-existant in X direction
-            // Final width must remain negative so subtract x0 before
-            // it is clipped so that we avoid the risk that the clipping
-            // of x0 will reverse the ordering of x0 and x1.
+            // Non-fxistbnt in X dirfdtion
+            // Finbl widti must rfmbin nfgbtivf so subtrbdt x0 bfforf
+            // it is dlippfd so tibt wf bvoid tif risk tibt tif dlipping
+            // of x0 will rfvfrsf tif ordfring of x0 bnd x1.
             x1 -= x0;
-            if (x1 < Integer.MIN_VALUE) x1 = Integer.MIN_VALUE;
-            if (x0 < Integer.MIN_VALUE) x0 = Integer.MIN_VALUE;
-            else if (x0 > Integer.MAX_VALUE) x0 = Integer.MAX_VALUE;
-        } else { // (x1 >= x0)
-            // Clip x0 before we subtract it from x1 in case the clipping
-            // affects the representable area of the rectangle.
-            if (x0 < Integer.MIN_VALUE) x0 = Integer.MIN_VALUE;
-            else if (x0 > Integer.MAX_VALUE) x0 = Integer.MAX_VALUE;
+            if (x1 < Intfgfr.MIN_VALUE) x1 = Intfgfr.MIN_VALUE;
+            if (x0 < Intfgfr.MIN_VALUE) x0 = Intfgfr.MIN_VALUE;
+            flsf if (x0 > Intfgfr.MAX_VALUE) x0 = Intfgfr.MAX_VALUE;
+        } flsf { // (x1 >= x0)
+            // Clip x0 bfforf wf subtrbdt it from x1 in dbsf tif dlipping
+            // bfffdts tif rfprfsfntbblf brfb of tif rfdtbnglf.
+            if (x0 < Intfgfr.MIN_VALUE) x0 = Intfgfr.MIN_VALUE;
+            flsf if (x0 > Intfgfr.MAX_VALUE) x0 = Intfgfr.MAX_VALUE;
             x1 -= x0;
-            // The only way x1 can be negative now is if we clipped
-            // x0 against MIN and x1 is less than MIN - in which case
-            // we want to leave the width negative since the result
-            // did not intersect the representable area.
-            if (x1 < Integer.MIN_VALUE) x1 = Integer.MIN_VALUE;
-            else if (x1 > Integer.MAX_VALUE) x1 = Integer.MAX_VALUE;
+            // Tif only wby x1 dbn bf nfgbtivf now is if wf dlippfd
+            // x0 bgbinst MIN bnd x1 is lfss tibn MIN - in wiidi dbsf
+            // wf wbnt to lfbvf tif widti nfgbtivf sindf tif rfsult
+            // did not intfrsfdt tif rfprfsfntbblf brfb.
+            if (x1 < Intfgfr.MIN_VALUE) x1 = Intfgfr.MIN_VALUE;
+            flsf if (x1 > Intfgfr.MAX_VALUE) x1 = Intfgfr.MAX_VALUE;
         }
 
         if (y1 < y0) {
-            // Non-existant in Y direction
+            // Non-fxistbnt in Y dirfdtion
             y1 -= y0;
-            if (y1 < Integer.MIN_VALUE) y1 = Integer.MIN_VALUE;
-            if (y0 < Integer.MIN_VALUE) y0 = Integer.MIN_VALUE;
-            else if (y0 > Integer.MAX_VALUE) y0 = Integer.MAX_VALUE;
-        } else { // (y1 >= y0)
-            if (y0 < Integer.MIN_VALUE) y0 = Integer.MIN_VALUE;
-            else if (y0 > Integer.MAX_VALUE) y0 = Integer.MAX_VALUE;
+            if (y1 < Intfgfr.MIN_VALUE) y1 = Intfgfr.MIN_VALUE;
+            if (y0 < Intfgfr.MIN_VALUE) y0 = Intfgfr.MIN_VALUE;
+            flsf if (y0 > Intfgfr.MAX_VALUE) y0 = Intfgfr.MAX_VALUE;
+        } flsf { // (y1 >= y0)
+            if (y0 < Intfgfr.MIN_VALUE) y0 = Intfgfr.MIN_VALUE;
+            flsf if (y0 > Intfgfr.MAX_VALUE) y0 = Intfgfr.MAX_VALUE;
             y1 -= y0;
-            if (y1 < Integer.MIN_VALUE) y1 = Integer.MIN_VALUE;
-            else if (y1 > Integer.MAX_VALUE) y1 = Integer.MAX_VALUE;
+            if (y1 < Intfgfr.MIN_VALUE) y1 = Intfgfr.MIN_VALUE;
+            flsf if (y1 > Intfgfr.MAX_VALUE) y1 = Intfgfr.MAX_VALUE;
         }
 
-        reshape((int) x0, (int) y0, (int) x1, (int) y1);
+        rfsibpf((int) x0, (int) y0, (int) x1, (int) y1);
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public boolean isEmpty() {
-        return (width <= 0) || (height <= 0);
+    publid boolfbn isEmpty() {
+        rfturn (widti <= 0) || (ifigit <= 0);
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public int outcode(double x, double y) {
+    publid int outdodf(doublf x, doublf y) {
         /*
-         * Note on casts to double below.  If the arithmetic of
-         * x+w or y+h is done in int, then we may get integer
-         * overflow. By converting to double before the addition
-         * we force the addition to be carried out in double to
-         * avoid overflow in the comparison.
+         * Notf on dbsts to doublf bflow.  If tif britimftid of
+         * x+w or y+i is donf in int, tifn wf mby gft intfgfr
+         * ovfrflow. By donvfrting to doublf bfforf tif bddition
+         * wf fordf tif bddition to bf dbrrifd out in doublf to
+         * bvoid ovfrflow in tif dompbrison.
          *
-         * See bug 4320890 for problems that this can cause.
+         * Sff bug 4320890 for problfms tibt tiis dbn dbusf.
          */
         int out = 0;
-        if (this.width <= 0) {
+        if (tiis.widti <= 0) {
             out |= OUT_LEFT | OUT_RIGHT;
-        } else if (x < this.x) {
+        } flsf if (x < tiis.x) {
             out |= OUT_LEFT;
-        } else if (x > this.x + (double) this.width) {
+        } flsf if (x > tiis.x + (doublf) tiis.widti) {
             out |= OUT_RIGHT;
         }
-        if (this.height <= 0) {
+        if (tiis.ifigit <= 0) {
             out |= OUT_TOP | OUT_BOTTOM;
-        } else if (y < this.y) {
+        } flsf if (y < tiis.y) {
             out |= OUT_TOP;
-        } else if (y > this.y + (double) this.height) {
+        } flsf if (y > tiis.y + (doublf) tiis.ifigit) {
             out |= OUT_BOTTOM;
         }
-        return out;
+        rfturn out;
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public Rectangle2D createIntersection(Rectangle2D r) {
-        if (r instanceof Rectangle) {
-            return intersection((Rectangle) r);
+    publid Rfdtbnglf2D drfbtfIntfrsfdtion(Rfdtbnglf2D r) {
+        if (r instbndfof Rfdtbnglf) {
+            rfturn intfrsfdtion((Rfdtbnglf) r);
         }
-        Rectangle2D dest = new Rectangle2D.Double();
-        Rectangle2D.intersect(this, r, dest);
-        return dest;
+        Rfdtbnglf2D dfst = nfw Rfdtbnglf2D.Doublf();
+        Rfdtbnglf2D.intfrsfdt(tiis, r, dfst);
+        rfturn dfst;
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.2
+     * {@inifritDod}
+     * @sindf 1.2
      */
-    public Rectangle2D createUnion(Rectangle2D r) {
-        if (r instanceof Rectangle) {
-            return union((Rectangle) r);
+    publid Rfdtbnglf2D drfbtfUnion(Rfdtbnglf2D r) {
+        if (r instbndfof Rfdtbnglf) {
+            rfturn union((Rfdtbnglf) r);
         }
-        Rectangle2D dest = new Rectangle2D.Double();
-        Rectangle2D.union(this, r, dest);
-        return dest;
+        Rfdtbnglf2D dfst = nfw Rfdtbnglf2D.Doublf();
+        Rfdtbnglf2D.union(tiis, r, dfst);
+        rfturn dfst;
     }
 
     /**
-     * Checks whether two rectangles are equal.
+     * Cifdks wiftifr two rfdtbnglfs brf fqubl.
      * <p>
-     * The result is <code>true</code> if and only if the argument is not
-     * <code>null</code> and is a <code>Rectangle</code> object that has the
-     * same upper-left corner, width, and height as
-     * this <code>Rectangle</code>.
-     * @param obj the <code>Object</code> to compare with
-     *                this <code>Rectangle</code>
-     * @return    <code>true</code> if the objects are equal;
-     *            <code>false</code> otherwise.
+     * Tif rfsult is <dodf>truf</dodf> if bnd only if tif brgumfnt is not
+     * <dodf>null</dodf> bnd is b <dodf>Rfdtbnglf</dodf> objfdt tibt ibs tif
+     * sbmf uppfr-lfft dornfr, widti, bnd ifigit bs
+     * tiis <dodf>Rfdtbnglf</dodf>.
+     * @pbrbm obj tif <dodf>Objfdt</dodf> to dompbrf witi
+     *                tiis <dodf>Rfdtbnglf</dodf>
+     * @rfturn    <dodf>truf</dodf> if tif objfdts brf fqubl;
+     *            <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof Rectangle) {
-            Rectangle r = (Rectangle)obj;
-            return ((x == r.x) &&
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof Rfdtbnglf) {
+            Rfdtbnglf r = (Rfdtbnglf)obj;
+            rfturn ((x == r.x) &&
                     (y == r.y) &&
-                    (width == r.width) &&
-                    (height == r.height));
+                    (widti == r.widti) &&
+                    (ifigit == r.ifigit));
         }
-        return super.equals(obj);
+        rfturn supfr.fqubls(obj);
     }
 
     /**
-     * Returns a <code>String</code> representing this
-     * <code>Rectangle</code> and its values.
-     * @return a <code>String</code> representing this
-     *               <code>Rectangle</code> object's coordinate and size values.
+     * Rfturns b <dodf>String</dodf> rfprfsfnting tiis
+     * <dodf>Rfdtbnglf</dodf> bnd its vblufs.
+     * @rfturn b <dodf>String</dodf> rfprfsfnting tiis
+     *               <dodf>Rfdtbnglf</dodf> objfdt's doordinbtf bnd sizf vblufs.
      */
-    public String toString() {
-        return getClass().getName() + "[x=" + x + ",y=" + y + ",width=" + width + ",height=" + height + "]";
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[x=" + x + ",y=" + y + ",widti=" + widti + ",ifigit=" + ifigit + "]";
     }
 }

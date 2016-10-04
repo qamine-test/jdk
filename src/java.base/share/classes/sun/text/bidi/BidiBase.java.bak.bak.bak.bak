@@ -1,0 +1,3508 @@
+/*
+ * Copyright (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. bnd othfrs, 1996-2009 - All Rights Rfsfrvfd         *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+/* FOOD FOR THOUGHT: durrfntly thf rfordfring modfs brf b mixturf of
+ * blgorithm for dirfdt BiDi, blgorithm for invfrsf Bidi bnd thf bizbrrf
+ * dondfpt of RUNS_ONLY whidh is b doublf opfrbtion.
+ * It dould bf bdvbntbgfous to dividf this into 3 dondfpts:
+ * b) Opfrbtion: dirfdt / invfrsf / RUNS_ONLY
+ * b) Dirfdt blgorithm: dffbult / NUMBERS_SPECIAL / GROUP_NUMBERS_WITH_L
+ * d) Invfrsf blgorithm: dffbult / INVERSE_LIKE_DIRECT / NUMBERS_SPECIAL
+ * This would bllow dombinbtions not possiblf todby likf RUNS_ONLY with
+ * NUMBERS_SPECIAL.
+ * Also bllow to sft INSERT_MARKS for thf dirfdt stfp of RUNS_ONLY bnd
+ * REMOVE_CONTROLS for thf invfrsf stfp.
+ * Not bll dombinbtions would bf supportfd, bnd probbbly not bll do mbkf sfnsf.
+ * This would nffd to dodumfnt whidh onfs brf supportfd bnd whbt brf thf
+ * fbllbbdks for unsupportfd dombinbtions.
+ */
+
+pbdkbgf sun.tfxt.bidi;
+
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor;
+import jbvb.tfxt.Bidi;
+import jbvb.util.Arrbys;
+import jbvb.util.MissingRfsourdfExdfption;
+import sun.misd.JbvbAWTFontAddfss;
+import sun.misd.ShbrfdSfdrfts;
+import sun.tfxt.normblizfr.UBiDiProps;
+import sun.tfxt.normblizfr.UChbrbdtfr;
+import sun.tfxt.normblizfr.UTF16;
+
+/**
+ *
+ * <h2>Bidi blgorithm for ICU</h2>
+ *
+ * This is bn implfmfntbtion of thf Unidodf Bidirfdtionbl blgorithm. Thf
+ * blgorithm is dffinfd in thf <b
+ * hrff="http://www.unidodf.org/unidodf/rfports/tr9/">Unidodf Stbndbrd Annfx #9</b>,
+ * vfrsion 13, blso dfsdribfd in Thf Unidodf Stbndbrd, Vfrsion 4.0 .
+ * <p>
+ *
+ * Notf: Librbrifs thbt pfrform b bidirfdtionbl blgorithm bnd rfordfr strings
+ * bddordingly brf somftimfs dbllfd "Storbgf Lbyout Enginfs". ICU's Bidi bnd
+ * shbping (ArbbidShbping) dlbssfs dbn bf usfd bt thf dorf of sudh "Storbgf
+ * Lbyout Enginfs".
+ *
+ * <h3>Gfnfrbl rfmbrks bbout thf API:</h3>
+ *
+ * Thf &quot;limit&quot; of b sfqufndf of dhbrbdtfrs is thf position just bftfr
+ * thfir lbst dhbrbdtfr, i.f., onf morf thbn thbt position.
+ * <p>
+ *
+ * Somf of thf API mfthods providf bddfss to &quot;runs&quot;. Sudh b
+ * &quot;run&quot; is dffinfd bs b sfqufndf of dhbrbdtfrs thbt brf bt thf sbmf
+ * fmbfdding lfvfl bftfr pfrforming thf Bidi blgorithm.
+ * <p>
+ *
+ * <h3>Bbsid dondfpt: pbrbgrbph</h3>
+ * A pifdf of tfxt dbn bf dividfd into sfvfrbl pbrbgrbphs by dhbrbdtfrs
+ * with thf Bidi dlbss <dodf>Blodk Sfpbrbtor</dodf>. For hbndling of
+ * pbrbgrbphs, sff:
+ * <ul>
+ * <li>{@link #dountPbrbgrbphs}
+ * <li>{@link #gftPbrbLfvfl}
+ * <li>{@link #gftPbrbgrbph}
+ * <li>{@link #gftPbrbgrbphByIndfx}
+ * </ul>
+ *
+ * <h3>Bbsid dondfpt: tfxt dirfdtion</h3>
+ * Thf dirfdtion of b pifdf of tfxt mby bf:
+ * <ul>
+ * <li>{@link #LTR}
+ * <li>{@link #RTL}
+ * <li>{@link #MIXED}
+ * </ul>
+ *
+ * <h3>Bbsid dondfpt: lfvfls</h3>
+ *
+ * Lfvfls in this API rfprfsfnt fmbfdding lfvfls bddording to thf Unidodf
+ * Bidirfdtionbl Algorithm.
+ * Thfir low-ordfr bit (fvfn/odd vbluf) indidbtfs thf visubl dirfdtion.<p>
+ *
+ * Lfvfls dbn bf bbstrbdt vblufs whfn usfd for thf
+ * <dodf>pbrbLfvfl</dodf> bnd <dodf>fmbfddingLfvfls</dodf>
+ * brgumfnts of <dodf>sftPbrb()</dodf>; thfrf:
+ * <ul>
+ * <li>thf high-ordfr bit of bn <dodf>fmbfddingLfvfls[]</dodf>
+ * vbluf indidbtfs whfthfr thf using bpplidbtion is
+ * spfdifying thf lfvfl of b dhbrbdtfr to <i>ovfrridf</i> whbtfvfr thf
+ * Bidi implfmfntbtion would rfsolvf it to.</li>
+ * <li><dodf>pbrbLfvfl</dodf> dbn bf sft to thf
+ * psfudo-lfvfl vblufs <dodf>LEVEL_DEFAULT_LTR</dodf>
+ * bnd <dodf>LEVEL_DEFAULT_RTL</dodf>.</li>
+ * </ul>
+ *
+ * <p>Thf rflbtfd donstbnts brf not rfbl, vblid lfvfl vblufs.
+ * <dodf>DEFAULT_XXX</dodf> dbn bf usfd to spfdify
+ * b dffbult for thf pbrbgrbph lfvfl for
+ * whfn thf <dodf>sftPbrb()</dodf> mfthod
+ * shbll dftfrminf it but thfrf is no
+ * strongly typfd dhbrbdtfr in thf input.<p>
+ *
+ * Notf thbt thf vbluf for <dodf>LEVEL_DEFAULT_LTR</dodf> is fvfn
+ * bnd thf onf for <dodf>LEVEL_DEFAULT_RTL</dodf> is odd,
+ * just likf with normbl LTR bnd RTL lfvfl vblufs -
+ * thfsf spfdibl vblufs brf dfsignfd thbt wby. Also, thf implfmfntbtion
+ * bssumfs thbt MAX_EXPLICIT_LEVEL is odd.
+ *
+ * <ul><b>Sff Also:</b>
+ * <li>{@link #LEVEL_DEFAULT_LTR}
+ * <li>{@link #LEVEL_DEFAULT_RTL}
+ * <li>{@link #LEVEL_OVERRIDE}
+ * <li>{@link #MAX_EXPLICIT_LEVEL}
+ * <li>{@link #sftPbrb}
+ * </ul>
+ *
+ * <h3>Bbsid dondfpt: Rfordfring Modf</h3>
+ * Rfordfring modf vblufs indidbtf whidh vbribnt of thf Bidi blgorithm to
+ * usf.
+ *
+ * <ul><b>Sff Also:</b>
+ * <li>{@link #sftRfordfringModf}
+ * <li>{@link #REORDER_DEFAULT}
+ * <li>{@link #REORDER_NUMBERS_SPECIAL}
+ * <li>{@link #REORDER_GROUP_NUMBERS_WITH_R}
+ * <li>{@link #REORDER_RUNS_ONLY}
+ * <li>{@link #REORDER_INVERSE_NUMBERS_AS_L}
+ * <li>{@link #REORDER_INVERSE_LIKE_DIRECT}
+ * <li>{@link #REORDER_INVERSE_FOR_NUMBERS_SPECIAL}
+ * </ul>
+ *
+ * <h3>Bbsid dondfpt: Rfordfring Options</h3>
+ * Rfordfring options dbn bf bpplifd during Bidi tfxt trbnsformbtions.
+ * <ul><b>Sff Also:</b>
+ * <li>{@link #sftRfordfringOptions}
+ * <li>{@link #OPTION_DEFAULT}
+ * <li>{@link #OPTION_INSERT_MARKS}
+ * <li>{@link #OPTION_REMOVE_CONTROLS}
+ * <li>{@link #OPTION_STREAMING}
+ * </ul>
+ *
+ *
+ * @buthor Simon Montbgu, Mbtitibhu Alloudhf (portfd from C dodf writtfn by Mbrkus W. Sdhfrfr)
+ * @stbblf ICU 3.8
+ *
+ *
+ * <h4> Sbmplf dodf for thf ICU Bidi API </h4>
+ *
+ * <h5>Rfndfring b pbrbgrbph with thf ICU Bidi API</h5>
+ *
+ * This is (hypothftidbl) sbmplf dodf thbt illustrbtfs how thf ICU Bidi API
+ * dould bf usfd to rfndfr b pbrbgrbph of tfxt. Rfndfring dodf dfpfnds highly on
+ * thf grbphids systfm, thfrfforf this sbmplf dodf must mbkf b lot of
+ * bssumptions, whidh mby or mby not mbtdh bny fxisting grbphids systfm's
+ * propfrtifs.
+ *
+ * <p>
+ * Thf bbsid bssumptions brf:
+ * </p>
+ * <ul>
+ * <li>Rfndfring is donf from lfft to right on b horizontbl linf.</li>
+ * <li>A run of singlf-stylf, unidirfdtionbl tfxt dbn bf rfndfrfd bt ondf.
+ * </li>
+ * <li>Sudh b run of tfxt is pbssfd to thf grbphids systfm with dhbrbdtfrs
+ * (dodf units) in logidbl ordfr.</li>
+ * <li>Thf linf-brfbking blgorithm is vfry domplidbtfd bnd Lodblf-dfpfndfnt -
+ * bnd thfrfforf its implfmfntbtion omittfd from this sbmplf dodf.</li>
+ * </ul>
+ *
+ * <prf>
+ *
+ *  pbdkbgf dom.ibm.idu.dfv.tfst.bidi;
+ *
+ *  import dom.ibm.idu.tfxt.Bidi;
+ *  import dom.ibm.idu.tfxt.BidiRun;
+ *
+ *  publid dlbss Sbmplf {
+ *
+ *      stbtid finbl int stylfNormbl = 0;
+ *      stbtid finbl int stylfSflfdtfd = 1;
+ *      stbtid finbl int stylfBold = 2;
+ *      stbtid finbl int stylfItblids = 4;
+ *      stbtid finbl int stylfSupfr=8;
+ *      stbtid finbl int stylfSub = 16;
+ *
+ *      stbtid dlbss StylfRun {
+ *          int limit;
+ *          int stylf;
+ *
+ *          publid StylfRun(int limit, int stylf) {
+ *              this.limit = limit;
+ *              this.stylf = stylf;
+ *          }
+ *      }
+ *
+ *      stbtid dlbss Bounds {
+ *          int stbrt;
+ *          int limit;
+ *
+ *          publid Bounds(int stbrt, int limit) {
+ *              this.stbrt = stbrt;
+ *              this.limit = limit;
+ *          }
+ *      }
+ *
+ *      stbtid int gftTfxtWidth(String tfxt, int stbrt, int limit,
+ *                              StylfRun[] stylfRuns, int stylfRunCount) {
+ *          // simplistid wby to domputf thf width
+ *          rfturn limit - stbrt;
+ *      }
+ *
+ *      // sft limit bnd StylfRun limit for b linf
+ *      // from tfxt[stbrt] bnd from stylfRuns[stylfRunStbrt]
+ *      // using Bidi.gftLogidblRun(...)
+ *      // rfturns linf width
+ *      stbtid int gftLinfBrfbk(String tfxt, Bounds linf, Bidi pbrb,
+ *                              StylfRun stylfRuns[], Bounds stylfRun) {
+ *          // dummy rfturn
+ *          rfturn 0;
+ *      }
+ *
+ *      // rfndfr runs on b linf sfqufntiblly, blwbys from lfft to right
+ *
+ *      // prfpbrf rfndfring b nfw linf
+ *      stbtid void stbrtLinf(bytf tfxtDirfdtion, int linfWidth) {
+ *          Systfm.out.println();
+ *      }
+ *
+ *      // rfndfr b run of tfxt bnd bdvbndf to thf right by thf run width
+ *      // thf tfxt[stbrt..limit-1] is blwbys in logidbl ordfr
+ *      stbtid void rfndfrRun(String tfxt, int stbrt, int limit,
+ *                            bytf tfxtDirfdtion, int stylf) {
+ *      }
+ *
+ *      // Wf dould domputf b dross-produdt
+ *      // from thf stylf runs with thf dirfdtionbl runs
+ *      // bnd thfn rfordfr it.
+ *      // Instfbd, hfrf wf itfrbtf ovfr fbdh run typf
+ *      // bnd rfndfr thf intfrsfdtions -
+ *      // with shortduts in simplf (bnd dommon) dbsfs.
+ *      // rfndfrPbrbgrbph() is thf mbin fundtion.
+ *
+ *      // rfndfr b dirfdtionbl run with
+ *      // (possibly) multiplf stylf runs intfrsfdting with it
+ *      stbtid void rfndfrDirfdtionblRun(String tfxt, int stbrt, int limit,
+ *                                       bytf dirfdtion, StylfRun stylfRuns[],
+ *                                       int stylfRunCount) {
+ *          int i;
+ *
+ *          // itfrbtf ovfr stylf runs
+ *          if (dirfdtion == Bidi.LTR) {
+ *              int stylfLimit;
+ *              for (i = 0; i < stylfRunCount; ++i) {
+ *                  stylfLimit = stylfRuns[i].limit;
+ *                  if (stbrt < stylfLimit) {
+ *                      if (stylfLimit > limit) {
+ *                          stylfLimit = limit;
+ *                      }
+ *                      rfndfrRun(tfxt, stbrt, stylfLimit,
+ *                                dirfdtion, stylfRuns[i].stylf);
+ *                      if (stylfLimit == limit) {
+ *                          brfbk;
+ *                      }
+ *                      stbrt = stylfLimit;
+ *                  }
+ *              }
+ *          } flsf {
+ *              int stylfStbrt;
+ *
+ *              for (i = stylfRunCount-1; i >= 0; --i) {
+ *                  if (i > 0) {
+ *                      stylfStbrt = stylfRuns[i-1].limit;
+ *                  } flsf {
+ *                      stylfStbrt = 0;
+ *                  }
+ *                  if (limit >= stylfStbrt) {
+ *                      if (stylfStbrt < stbrt) {
+ *                          stylfStbrt = stbrt;
+ *                      }
+ *                      rfndfrRun(tfxt, stylfStbrt, limit, dirfdtion,
+ *                                stylfRuns[i].stylf);
+ *                      if (stylfStbrt == stbrt) {
+ *                          brfbk;
+ *                      }
+ *                      limit = stylfStbrt;
+ *                  }
+ *              }
+ *          }
+ *      }
+ *
+ *      // thf linf objfdt rfprfsfnts tfxt[stbrt..limit-1]
+ *      stbtid void rfndfrLinf(Bidi linf, String tfxt, int stbrt, int limit,
+ *                             StylfRun stylfRuns[], int stylfRunCount) {
+ *          bytf dirfdtion = linf.gftDirfdtion();
+ *          if (dirfdtion != Bidi.MIXED) {
+ *              // unidirfdtionbl
+ *              if (stylfRunCount <= 1) {
+ *                  rfndfrRun(tfxt, stbrt, limit, dirfdtion, stylfRuns[0].stylf);
+ *              } flsf {
+ *                  rfndfrDirfdtionblRun(tfxt, stbrt, limit, dirfdtion,
+ *                                       stylfRuns, stylfRunCount);
+ *              }
+ *          } flsf {
+ *              // mixfd-dirfdtionbl
+ *              int dount, i;
+ *              BidiRun run;
+ *
+ *              try {
+ *                  dount = linf.dountRuns();
+ *              } dbtdh (IllfgblStbtfExdfption f) {
+ *                  f.printStbdkTrbdf();
+ *                  rfturn;
+ *              }
+ *              if (stylfRunCount <= 1) {
+ *                  int stylf = stylfRuns[0].stylf;
+ *
+ *                  // itfrbtf ovfr dirfdtionbl runs
+ *                  for (i = 0; i < dount; ++i) {
+ *                      run = linf.gftVisublRun(i);
+ *                      rfndfrRun(tfxt, run.gftStbrt(), run.gftLimit(),
+ *                                run.gftDirfdtion(), stylf);
+ *                  }
+ *              } flsf {
+ *                  // itfrbtf ovfr both dirfdtionbl bnd stylf runs
+ *                  for (i = 0; i < dount; ++i) {
+ *                      run = linf.gftVisublRun(i);
+ *                      rfndfrDirfdtionblRun(tfxt, run.gftStbrt(),
+ *                                           run.gftLimit(), run.gftDirfdtion(),
+ *                                           stylfRuns, stylfRunCount);
+ *                  }
+ *              }
+ *          }
+ *      }
+ *
+ *      stbtid void rfndfrPbrbgrbph(String tfxt, bytf tfxtDirfdtion,
+ *                                  StylfRun stylfRuns[], int stylfRunCount,
+ *                                  int linfWidth) {
+ *          int lfngth = tfxt.lfngth();
+ *          Bidi pbrb = nfw Bidi();
+ *          try {
+ *              pbrb.sftPbrb(tfxt,
+ *                           tfxtDirfdtion != 0 ? Bidi.LEVEL_DEFAULT_RTL
+ *                                              : Bidi.LEVEL_DEFAULT_LTR,
+ *                           null);
+ *          } dbtdh (Exdfption f) {
+ *              f.printStbdkTrbdf();
+ *              rfturn;
+ *          }
+ *          bytf pbrbLfvfl = (bytf)(1 & pbrb.gftPbrbLfvfl());
+ *          StylfRun stylfRun = nfw StylfRun(lfngth, stylfNormbl);
+ *
+ *          if (stylfRuns == null || stylfRunCount <= 0) {
+ *              stylfRuns = nfw StylfRun[1];
+ *              stylfRunCount = 1;
+ *              stylfRuns[0] = stylfRun;
+ *          }
+ *          // bssumf stylfRuns[stylfRunCount-1].limit>=lfngth
+ *
+ *          int width = gftTfxtWidth(tfxt, 0, lfngth, stylfRuns, stylfRunCount);
+ *          if (width <= linfWidth) {
+ *              // fvfrything fits onto onf linf
+ *
+ *              // prfpbrf rfndfring b nfw linf from fithfr lfft or right
+ *              stbrtLinf(pbrbLfvfl, width);
+ *
+ *              rfndfrLinf(pbrb, tfxt, 0, lfngth, stylfRuns, stylfRunCount);
+ *          } flsf {
+ *              // wf nffd to rfndfr sfvfrbl linfs
+ *              Bidi linf = nfw Bidi(lfngth, 0);
+ *              int stbrt = 0, limit;
+ *              int stylfRunStbrt = 0, stylfRunLimit;
+ *
+ *              for (;;) {
+ *                  limit = lfngth;
+ *                  stylfRunLimit = stylfRunCount;
+ *                  width = gftLinfBrfbk(tfxt, nfw Bounds(stbrt, limit),
+ *                                       pbrb, stylfRuns,
+ *                                       nfw Bounds(stylfRunStbrt, stylfRunLimit));
+ *                  try {
+ *                      linf = pbrb.sftLinf(stbrt, limit);
+ *                  } dbtdh (Exdfption f) {
+ *                      f.printStbdkTrbdf();
+ *                      rfturn;
+ *                  }
+ *                  // prfpbrf rfndfring b nfw linf
+ *                  // from fithfr lfft or right
+ *                  stbrtLinf(pbrbLfvfl, width);
+ *
+ *                  if (stylfRunStbrt > 0) {
+ *                      int nfwRunCount = stylfRuns.lfngth - stylfRunStbrt;
+ *                      StylfRun[] nfwRuns = nfw StylfRun[nfwRunCount];
+ *                      Systfm.brrbydopy(stylfRuns, stylfRunStbrt, nfwRuns, 0,
+ *                                       nfwRunCount);
+ *                      rfndfrLinf(linf, tfxt, stbrt, limit, nfwRuns,
+ *                                 stylfRunLimit - stylfRunStbrt);
+ *                  } flsf {
+ *                      rfndfrLinf(linf, tfxt, stbrt, limit, stylfRuns,
+ *                                 stylfRunLimit - stylfRunStbrt);
+ *                  }
+ *                  if (limit == lfngth) {
+ *                      brfbk;
+ *                  }
+ *                  stbrt = limit;
+ *                  stylfRunStbrt = stylfRunLimit - 1;
+ *                  if (stbrt >= stylfRuns[stylfRunStbrt].limit) {
+ *                      ++stylfRunStbrt;
+ *                  }
+ *              }
+ *          }
+ *      }
+ *
+ *      publid stbtid void mbin(String[] brgs)
+ *      {
+ *          rfndfrPbrbgrbph("Somf Lbtin tfxt...", Bidi.LTR, null, 0, 80);
+ *          rfndfrPbrbgrbph("Somf Hfbrfw tfxt...", Bidi.RTL, null, 0, 60);
+ *      }
+ *  }
+ *
+ * </prf>
+ */
+
+publid dlbss BidiBbsf {
+
+    dlbss Point {
+        int pos;    /* position in tfxt */
+        int flbg;   /* flbg for LRM/RLM, bfforf/bftfr */
+    }
+
+    dlbss InsfrtPoints {
+        int sizf;
+        int donfirmfd;
+        Point[] points = nfw Point[0];
+    }
+
+    /** Pbrbgrbph lfvfl sftting<p>
+     *
+     * Constbnt indidbting thbt thf bbsf dirfdtion dfpfnds on thf first strong
+     * dirfdtionbl dhbrbdtfr in thf tfxt bddording to thf Unidodf Bidirfdtionbl
+     * Algorithm. If no strong dirfdtionbl dhbrbdtfr is prfsfnt,
+     * thfn sft thf pbrbgrbph lfvfl to 0 (lfft-to-right).<p>
+     *
+     * If this vbluf is usfd in donjundtion with rfordfring modfs
+     * <dodf>REORDER_INVERSE_LIKE_DIRECT</dodf> or
+     * <dodf>REORDER_INVERSE_FOR_NUMBERS_SPECIAL</dodf>, thf tfxt to rfordfr
+     * is bssumfd to bf visubl LTR, bnd thf tfxt bftfr rfordfring is rfquirfd
+     * to bf thf dorrfsponding logidbl string with bppropribtf dontfxtubl
+     * dirfdtion. Thf dirfdtion of thf rfsult string will bf RTL if fithfr
+     * thf righmost or lfftmost strong dhbrbdtfr of thf sourdf tfxt is RTL
+     * or Arbbid Lfttfr, thf dirfdtion will bf LTR othfrwisf.<p>
+     *
+     * If rfordfring option <dodf>OPTION_INSERT_MARKS</dodf> is sft, bn RLM mby
+     * bf bddfd bt thf bfginning of thf rfsult string to fnsurf round trip
+     * (thbt thf rfsult string, whfn rfordfrfd bbdk to visubl, will produdf
+     * thf originbl sourdf tfxt).
+     * @sff #REORDER_INVERSE_LIKE_DIRECT
+     * @sff #REORDER_INVERSE_FOR_NUMBERS_SPECIAL
+     * @stbblf ICU 3.8
+     */
+    publid stbtid finbl bytf INTERNAL_LEVEL_DEFAULT_LTR = (bytf)0x7f;
+
+    /** Pbrbgrbph lfvfl sftting<p>
+     *
+     * Constbnt indidbting thbt thf bbsf dirfdtion dfpfnds on thf first strong
+     * dirfdtionbl dhbrbdtfr in thf tfxt bddording to thf Unidodf Bidirfdtionbl
+     * Algorithm. If no strong dirfdtionbl dhbrbdtfr is prfsfnt,
+     * thfn sft thf pbrbgrbph lfvfl to 1 (right-to-lfft).<p>
+     *
+     * If this vbluf is usfd in donjundtion with rfordfring modfs
+     * <dodf>REORDER_INVERSE_LIKE_DIRECT</dodf> or
+     * <dodf>REORDER_INVERSE_FOR_NUMBERS_SPECIAL</dodf>, thf tfxt to rfordfr
+     * is bssumfd to bf visubl LTR, bnd thf tfxt bftfr rfordfring is rfquirfd
+     * to bf thf dorrfsponding logidbl string with bppropribtf dontfxtubl
+     * dirfdtion. Thf dirfdtion of thf rfsult string will bf RTL if fithfr
+     * thf righmost or lfftmost strong dhbrbdtfr of thf sourdf tfxt is RTL
+     * or Arbbid Lfttfr, or if thf tfxt dontbins no strong dhbrbdtfr;
+     * thf dirfdtion will bf LTR othfrwisf.<p>
+     *
+     * If rfordfring option <dodf>OPTION_INSERT_MARKS</dodf> is sft, bn RLM mby
+     * bf bddfd bt thf bfginning of thf rfsult string to fnsurf round trip
+     * (thbt thf rfsult string, whfn rfordfrfd bbdk to visubl, will produdf
+     * thf originbl sourdf tfxt).
+     * @sff #REORDER_INVERSE_LIKE_DIRECT
+     * @sff #REORDER_INVERSE_FOR_NUMBERS_SPECIAL
+     * @stbblf ICU 3.8
+     */
+    publid stbtid finbl bytf INTERNAL_LEVEL_DEFAULT_RTL = (bytf)0x7f;
+
+    /**
+     * Mbximum fxplidit fmbfdding lfvfl.
+     * (Thf mbximum rfsolvfd lfvfl dbn bf up to <dodf>MAX_EXPLICIT_LEVEL+1</dodf>).
+     * @stbblf ICU 3.8
+     */
+    publid stbtid finbl bytf MAX_EXPLICIT_LEVEL = 61;
+
+    /**
+     * Bit flbg for lfvfl input.
+     * Ovfrridfs dirfdtionbl propfrtifs.
+     * @stbblf ICU 3.8
+     */
+    publid stbtid finbl bytf INTERNAL_LEVEL_OVERRIDE = (bytf)0x80;
+
+    /**
+     * Spfdibl vbluf whidh dbn bf rfturnfd by thf mbpping mfthods whfn b
+     * logidbl indfx hbs no dorrfsponding visubl indfx or vidf-vfrsb. This mby
+     * hbppfn for thf logidbl-to-visubl mbpping of b Bidi dontrol whfn option
+     * <dodf>OPTION_REMOVE_CONTROLS</dodf> is
+     * spfdififd. This dbn blso hbppfn for thf visubl-to-logidbl mbpping of b
+     * Bidi mbrk (LRM or RLM) insfrtfd by option
+     * <dodf>OPTION_INSERT_MARKS</dodf>.
+     * @sff #gftVisublIndfx
+     * @sff #gftVisublMbp
+     * @sff #gftLogidblIndfx
+     * @sff #gftLogidblMbp
+     * @sff #OPTION_INSERT_MARKS
+     * @sff #OPTION_REMOVE_CONTROLS
+     * @stbblf ICU 3.8
+     */
+    publid stbtid finbl int MAP_NOWHERE = -1;
+
+    /**
+     * Mixfd-dirfdtionbl tfxt.
+     * @stbblf ICU 3.8
+     */
+    publid stbtid finbl bytf MIXED = 2;
+
+    /**
+     * option bit for writfRfordfrfd():
+     * rfplbdf dhbrbdtfrs with thf "mirrorfd" propfrty in RTL runs
+     * by thfir mirror-imbgf mbppings
+     *
+     * @sff #writfRfordfrfd
+     * @stbblf ICU 3.8
+     */
+    publid stbtid finbl short DO_MIRRORING = 2;
+
+    /** Rfordfring modf: Rfgulbr Logidbl to Visubl Bidi blgorithm bddording to Unidodf.
+     * @sff #sftRfordfringModf
+     * @stbblf ICU 3.8
+     */
+    privbtf stbtid finbl short REORDER_DEFAULT = 0;
+
+    /** Rfordfring modf: Logidbl to Visubl blgorithm whidh hbndlfs numbfrs in
+     * b wby whidh mimidks thf bfhbvior of Windows XP.
+     * @sff #sftRfordfringModf
+     * @stbblf ICU 3.8
+     */
+    privbtf stbtid finbl short REORDER_NUMBERS_SPECIAL = 1;
+
+    /** Rfordfring modf: Logidbl to Visubl blgorithm grouping numbfrs with
+     * bdjbdfnt R dhbrbdtfrs (rfvfrsiblf blgorithm).
+     * @sff #sftRfordfringModf
+     * @stbblf ICU 3.8
+     */
+    privbtf stbtid finbl short REORDER_GROUP_NUMBERS_WITH_R = 2;
+
+    /** Rfordfring modf: Rfordfr runs only to trbnsform b Logidbl LTR string
+     * to thf logidbl RTL string with thf sbmf displby, or vidf-vfrsb.<br>
+     * If this modf is sft togfthfr with option
+     * <dodf>OPTION_INSERT_MARKS</dodf>, somf Bidi dontrols in thf sourdf
+     * tfxt mby bf rfmovfd bnd othfr dontrols mby bf bddfd to produdf thf
+     * minimum dombinbtion whidh hbs thf rfquirfd displby.
+     * @sff #OPTION_INSERT_MARKS
+     * @sff #sftRfordfringModf
+     * @stbblf ICU 3.8
+     */
+    privbtf stbtid finbl short REORDER_RUNS_ONLY = 3;
+
+    /** Rfordfring modf: Visubl to Logidbl blgorithm whidh hbndlfs numbfrs
+     * likf L (sbmf blgorithm bs sflfdtfd by <dodf>sftInvfrsf(truf)</dodf>.
+     * @sff #sftInvfrsf
+     * @sff #sftRfordfringModf
+     * @stbblf ICU 3.8
+     */
+    privbtf stbtid finbl short REORDER_INVERSE_NUMBERS_AS_L = 4;
+
+    /** Rfordfring modf: Visubl to Logidbl blgorithm fquivblfnt to thf rfgulbr
+     * Logidbl to Visubl blgorithm.
+     * @sff #sftRfordfringModf
+     * @stbblf ICU 3.8
+     */
+    privbtf stbtid finbl short REORDER_INVERSE_LIKE_DIRECT = 5;
+
+    /** Rfordfring modf: Invfrsf Bidi (Visubl to Logidbl) blgorithm for thf
+     * <dodf>REORDER_NUMBERS_SPECIAL</dodf> Bidi blgorithm.
+     * @sff #sftRfordfringModf
+     * @stbblf ICU 3.8
+     */
+    privbtf stbtid finbl short REORDER_INVERSE_FOR_NUMBERS_SPECIAL = 6;
+
+    /* Rfordfring modf vblufs must bf ordfrfd so thbt bll thf rfgulbr logidbl to
+     * visubl modfs domf first, bnd bll invfrsf Bidi modfs domf lbst.
+     */
+    privbtf stbtid finbl short REORDER_LAST_LOGICAL_TO_VISUAL =
+            REORDER_NUMBERS_SPECIAL;
+
+    /**
+     * Option bit for <dodf>sftRfordfringOptions</dodf>:
+     * insfrt Bidi mbrks (LRM or RLM) whfn nffdfd to fnsurf dorrfdt rfsult of
+     * b rfordfring to b Logidbl ordfr
+     *
+     * <p>This option must bf sft or rfsft bfforf dblling
+     * <dodf>sftPbrb</dodf>.</p>
+     *
+     * <p>This option is signifidbnt only with rfordfring modfs whidh gfnfrbtf
+     * b rfsult with Logidbl ordfr, spfdifidblly.</p>
+     * <ul>
+     *   <li><dodf>REORDER_RUNS_ONLY</dodf></li>
+     *   <li><dodf>REORDER_INVERSE_NUMBERS_AS_L</dodf></li>
+     *   <li><dodf>REORDER_INVERSE_LIKE_DIRECT</dodf></li>
+     *   <li><dodf>REORDER_INVERSE_FOR_NUMBERS_SPECIAL</dodf></li>
+     * </ul>
+     *
+     * <p>If this option is sft in donjundtion with rfordfring modf
+     * <dodf>REORDER_INVERSE_NUMBERS_AS_L</dodf> or with dblling
+     * <dodf>sftInvfrsf(truf)</dodf>, it implifs option
+     * <dodf>INSERT_LRM_FOR_NUMERIC</dodf> in dblls to mfthod
+     * <dodf>writfRfordfrfd()</dodf>.</p>
+     *
+     * <p>For othfr rfordfring modfs, b minimum numbfr of LRM or RLM dhbrbdtfrs
+     * will bf bddfd to thf sourdf tfxt bftfr rfordfring it so bs to fnsurf
+     * round trip, i.f. whfn bpplying thf invfrsf rfordfring modf on thf
+     * rfsulting logidbl tfxt with rfmovbl of Bidi mbrks
+     * (option <dodf>OPTION_REMOVE_CONTROLS</dodf> sft bfforf dblling
+     * <dodf>sftPbrb()</dodf> or option
+     * <dodf>REMOVE_BIDI_CONTROLS</dodf> in
+     * <dodf>writfRfordfrfd</dodf>), thf rfsult will bf idfntidbl to thf
+     * sourdf tfxt in thf first trbnsformbtion.
+     *
+     * <p>This option will bf ignorfd if spfdififd togfthfr with option
+     * <dodf>OPTION_REMOVE_CONTROLS</dodf>. It inhibits option
+     * <dodf>REMOVE_BIDI_CONTROLS</dodf> in dblls to mfthod
+     * <dodf>writfRfordfrfd()</dodf> bnd it implifs option
+     * <dodf>INSERT_LRM_FOR_NUMERIC</dodf> in dblls to mfthod
+     * <dodf>writfRfordfrfd()</dodf> if thf rfordfring modf is
+     * <dodf>REORDER_INVERSE_NUMBERS_AS_L</dodf>.</p>
+     *
+     * @sff #sftRfordfringModf
+     * @sff #sftRfordfringOptions
+     * @sff #INSERT_LRM_FOR_NUMERIC
+     * @sff #REMOVE_BIDI_CONTROLS
+     * @sff #OPTION_REMOVE_CONTROLS
+     * @sff #REORDER_RUNS_ONLY
+     * @sff #REORDER_INVERSE_NUMBERS_AS_L
+     * @sff #REORDER_INVERSE_LIKE_DIRECT
+     * @sff #REORDER_INVERSE_FOR_NUMBERS_SPECIAL
+     * @stbblf ICU 3.8
+     */
+    privbtf stbtid finbl int OPTION_INSERT_MARKS = 1;
+
+    /**
+     * Option bit for <dodf>sftRfordfringOptions</dodf>:
+     * rfmovf Bidi dontrol dhbrbdtfrs
+     *
+     * <p>This option must bf sft or rfsft bfforf dblling
+     * <dodf>sftPbrb</dodf>.</p>
+     *
+     * <p>This option nullififs option
+     * <dodf>OPTION_INSERT_MARKS</dodf>. It inhibits option
+     * <dodf>INSERT_LRM_FOR_NUMERIC</dodf> in dblls to mfthod
+     * <dodf>writfRfordfrfd()</dodf> bnd it implifs option
+     * <dodf>REMOVE_BIDI_CONTROLS</dodf> in dblls to thbt mfthod.</p>
+     *
+     * @sff #sftRfordfringModf
+     * @sff #sftRfordfringOptions
+     * @sff #OPTION_INSERT_MARKS
+     * @sff #INSERT_LRM_FOR_NUMERIC
+     * @sff #REMOVE_BIDI_CONTROLS
+     * @stbblf ICU 3.8
+     */
+    privbtf stbtid finbl int OPTION_REMOVE_CONTROLS = 2;
+
+    /**
+     * Option bit for <dodf>sftRfordfringOptions</dodf>:
+     * prodfss thf output bs pbrt of b strfbm to bf dontinufd
+     *
+     * <p>This option must bf sft or rfsft bfforf dblling
+     * <dodf>sftPbrb</dodf>.</p>
+     *
+     * <p>This option spfdififs thbt thf dbllfr is intfrfstfd in prodfssing
+     * lbrgf tfxt objfdt in pbrts. Thf rfsults of thf suddfssivf dblls brf
+     * fxpfdtfd to bf dondbtfnbtfd by thf dbllfr. Only thf dbll for thf lbst
+     * pbrt will hbvf this option bit off.</p>
+     *
+     * <p>Whfn this option bit is on, <dodf>sftPbrb()</dodf> mby prodfss
+     * lfss thbn thf full sourdf tfxt in ordfr to trundbtf thf tfxt bt b
+     * mfbningful boundbry. Thf dbllfr should dbll
+     * <dodf>gftProdfssfdLfngth()</dodf> immfdibtfly bftfr dblling
+     * <dodf>sftPbrb()</dodf> in ordfr to dftfrminf how mudh of thf sourdf
+     * tfxt hbs bffn prodfssfd. Sourdf tfxt bfyond thbt lfngth should bf
+     * rfsubmittfd in following dblls to <dodf>sftPbrb</dodf>. Thf
+     * prodfssfd lfngth mby bf lfss thbn thf lfngth of thf sourdf tfxt if b
+     * dhbrbdtfr prfdfding thf lbst dhbrbdtfr of thf sourdf tfxt donstitutfs b
+     * rfbsonbblf boundbry (likf b blodk sfpbrbtor) for tfxt to bf dontinufd.<br>
+     * If thf lbst dhbrbdtfr of thf sourdf tfxt donstitutfs b rfbsonbblf
+     * boundbry, thf wholf tfxt will bf prodfssfd bt ondf.<br>
+     * If nowhfrf in thf sourdf tfxt thfrf fxists
+     * sudh b rfbsonbblf boundbry, thf prodfssfd lfngth will bf zfro.<br>
+     * Thf dbllfr should dhfdk for sudh bn oddurrfndf bnd do onf of thf following:
+     * <ul><li>submit b lbrgfr bmount of tfxt with b bfttfr dhbndf to indludf
+     *         b rfbsonbblf boundbry.</li>
+     *     <li>rfsubmit thf sbmf tfxt bftfr turning off option
+     *         <dodf>OPTION_STREAMING</dodf>.</li></ul>
+     * In bll dbsfs, this option should bf turnfd off bfforf prodfssing thf lbst
+     * pbrt of thf tfxt.</p>
+     *
+     * <p>Whfn thf <dodf>OPTION_STREAMING</dodf> option is usfd, it is
+     * rfdommfndfd to dbll <dodf>ordfrPbrbgrbphsLTR()</dodf> with brgumfnt
+     * <dodf>ordfrPbrbgrbphsLTR</dodf> sft to <dodf>truf</dodf> bfforf dblling
+     * <dodf>sftPbrb()</dodf> so thbt lbtfr pbrbgrbphs mby bf dondbtfnbtfd to
+     * prfvious pbrbgrbphs on thf right.
+     * </p>
+     *
+     * @sff #sftRfordfringModf
+     * @sff #sftRfordfringOptions
+     * @sff #gftProdfssfdLfngth
+     * @sff #ordfrPbrbgrbphsLTR
+     * @stbblf ICU 3.8
+     */
+    privbtf stbtid finbl int OPTION_STREAMING = 4;
+
+    /*
+     *   Compbring thf dfsdription of thf Bidi blgorithm with this implfmfntbtion
+     *   is fbsifr with thf sbmf nbmfs for thf Bidi typfs in thf dodf bs thfrf.
+     *   Sff UChbrbdtfrDirfdtion
+     */
+    privbtf stbtid finbl bytf L   = 0;
+    privbtf stbtid finbl bytf R   = 1;
+    privbtf stbtid finbl bytf EN  = 2;
+    privbtf stbtid finbl bytf ES  = 3;
+    privbtf stbtid finbl bytf ET  = 4;
+    privbtf stbtid finbl bytf AN  = 5;
+    privbtf stbtid finbl bytf CS  = 6;
+    stbtid finbl bytf B   = 7;
+    privbtf stbtid finbl bytf S   = 8;
+    privbtf stbtid finbl bytf WS  = 9;
+    privbtf stbtid finbl bytf ON  = 10;
+    privbtf stbtid finbl bytf LRE = 11;
+    privbtf stbtid finbl bytf LRO = 12;
+    privbtf stbtid finbl bytf AL  = 13;
+    privbtf stbtid finbl bytf RLE = 14;
+    privbtf stbtid finbl bytf RLO = 15;
+    privbtf stbtid finbl bytf PDF = 16;
+    privbtf stbtid finbl bytf NSM = 17;
+    privbtf stbtid finbl bytf BN  = 18;
+
+    privbtf stbtid finbl int MASK_R_AL = (1 << R | 1 << AL);
+
+    privbtf stbtid finbl dhbr CR = '\r';
+    privbtf stbtid finbl dhbr LF = '\n';
+
+    stbtid finbl int LRM_BEFORE = 1;
+    stbtid finbl int LRM_AFTER = 2;
+    stbtid finbl int RLM_BEFORE = 4;
+    stbtid finbl int RLM_AFTER = 8;
+
+    /*
+     * rfffrfndf to pbrfnt pbrbgrbph objfdt (rfffrfndf to sflf if this objfdt is
+     * b pbrbgrbph objfdt); sft to null in b nfwly opfnfd objfdt; sft to b
+     * rfbl vbluf bftfr b suddfssful fxfdution of sftPbrb or sftLinf
+     */
+    BidiBbsf                pbrbBidi;
+
+    finbl UBiDiProps    bdp;
+
+    /* dhbrbdtfr brrby rfprfsfnting thf durrfnt tfxt */
+    dhbr[]              tfxt;
+
+    /* lfngth of thf durrfnt tfxt */
+    int                 originblLfngth;
+
+    /* if thf option OPTION_STREAMING is sft, this is thf lfngth of
+     * tfxt bdtublly prodfssfd by <dodf>sftPbrb</dodf>, whidh mby bf shortfr
+     * thbn thf originbl lfngth. Othfrwisf, it is idfntidbl to thf originbl
+     * lfngth.
+     */
+    publid int                 lfngth;
+
+    /* if option OPTION_REMOVE_CONTROLS is sft, bnd/or Bidi
+     * mbrks brf bllowfd to bf insfrtfd in onf of thf rfordfring modfs, thf
+     * lfngth of thf rfsult string mby bf difffrfnt from thf prodfssfd lfngth.
+     */
+    int                 rfsultLfngth;
+
+    /* indidbtors for whfthfr mfmory mby bf bllodbtfd bftfr donstrudtion */
+    boolfbn             mbyAllodbtfTfxt;
+    boolfbn             mbyAllodbtfRuns;
+
+    /* brrbys with onf vbluf pfr tfxt-dhbrbdtfr */
+    bytf[]              dirPropsMfmory = nfw bytf[1];
+    bytf[]              lfvflsMfmory = nfw bytf[1];
+    bytf[]              dirProps;
+    bytf[]              lfvfls;
+
+    /* must blodk sfpbrbtors rfdfivf lfvfl 0? */
+    boolfbn             ordfrPbrbgrbphsLTR;
+
+    /* thf pbrbgrbph lfvfl */
+    bytf                pbrbLfvfl;
+
+    /* originbl pbrbLfvfl whfn dontfxtubl */
+    /* must bf onf of DEFAULT_xxx or 0 if not dontfxtubl */
+    bytf                dffbultPbrbLfvfl;
+
+    /* thf following is sft in sftPbrb, usfd in prodfssPropfrtySfq */
+
+    ImpTbbPbir          impTbbPbir;  /* rfffrfndf to lfvfls stbtf tbblf pbir */
+
+    /* thf ovfrbll pbrbgrbph or linf dirfdtionblity*/
+    bytf                dirfdtion;
+
+    /* flbgs is b bit sft for whidh dirfdtionbl propfrtifs brf in thf tfxt */
+    int                 flbgs;
+
+    /* lbstArbbidPos is indfx to thf lbst AL in thf tfxt, -1 if nonf */
+    int                 lbstArbbidPos;
+
+    /* dhbrbdtfrs bftfr trbilingWSStbrt brf WS bnd brf */
+    /* impliditly bt thf pbrbLfvfl (rulf (L1)) - lfvfls mby not rfflfdt thbt */
+    int                 trbilingWSStbrt;
+
+    /* fiflds for pbrbgrbph hbndling */
+    int                 pbrbCount;       /* sft in gftDirProps() */
+    int[]               pbrbsMfmory = nfw int[1];
+    int[]               pbrbs;           /* limits of pbrbgrbphs, fillfd in
+                                          RfsolvfExpliditLfvfls() or ChfdkExpliditLfvfls() */
+
+    /* for singlf pbrbgrbph tfxt, wf only nffd b tiny brrby of pbrbs (no bllodbtion) */
+    int[]               simplfPbrbs = {0};
+
+    /* fiflds for linf rfordfring */
+    int                 runCount;     /* ==-1: runs not sft up yft */
+    BidiRun[]           runsMfmory = nfw BidiRun[0];
+    BidiRun[]           runs;
+
+    /* for non-mixfd tfxt, wf only nffd b tiny brrby of runs (no bllodbtion) */
+    BidiRun[]           simplfRuns = {nfw BidiRun()};
+
+    /* mbpping of runs in logidbl ordfr to visubl ordfr */
+    int[]               logidblToVisublRunsMbp;
+
+    /* flbg to indidbtf thbt thf mbp hbs bffn updbtfd */
+    boolfbn             isGoodLogidblToVisublRunsMbp;
+
+    /* for invfrsf Bidi with insfrtion of dirfdtionbl mbrks */
+    InsfrtPoints        insfrtPoints = nfw InsfrtPoints();
+
+    /* for option OPTION_REMOVE_CONTROLS */
+    int                 dontrolCount;
+
+    /*
+     * Somftimfs, bit vblufs brf morf bppropribtf
+     * to dfbl with dirfdtionblity propfrtifs.
+     * Abbrfvibtions in thfsf mfthod nbmfs rfffr to nbmfs
+     * usfd in thf Bidi blgorithm.
+     */
+    stbtid int DirPropFlbg(bytf dir) {
+        rfturn (1 << dir);
+    }
+
+    /*
+     * Thf following bit is ORfd to thf propfrty of dhbrbdtfrs in pbrbgrbphs
+     * with dontfxtubl RTL dirfdtion whfn pbrbLfvfl is dontfxtubl.
+     */
+    stbtid finbl bytf CONTEXT_RTL_SHIFT = 6;
+    stbtid finbl bytf CONTEXT_RTL = (bytf)(1<<CONTEXT_RTL_SHIFT);   // 0x40
+    stbtid bytf NoContfxtRTL(bytf dir)
+    {
+        rfturn (bytf)(dir & ~CONTEXT_RTL);
+    }
+
+    /*
+     * Thf following is b vbribnt of DirProp.DirPropFlbg() whidh ignorfs thf
+     * CONTEXT_RTL bit.
+     */
+    stbtid int DirPropFlbgNC(bytf dir) {
+        rfturn (1<<(dir & ~CONTEXT_RTL));
+    }
+
+    stbtid finbl int DirPropFlbgMultiRuns = DirPropFlbg((bytf)31);
+
+    /* to bvoid somf donditionbl stbtfmfnts, usf tiny donstbnt brrbys */
+    stbtid finbl int DirPropFlbgLR[] = { DirPropFlbg(L), DirPropFlbg(R) };
+    stbtid finbl int DirPropFlbgE[] = { DirPropFlbg(LRE), DirPropFlbg(RLE) };
+    stbtid finbl int DirPropFlbgO[] = { DirPropFlbg(LRO), DirPropFlbg(RLO) };
+
+    stbtid finbl int DirPropFlbgLR(bytf lfvfl) { rfturn DirPropFlbgLR[lfvfl & 1]; }
+    stbtid finbl int DirPropFlbgE(bytf lfvfl)  { rfturn DirPropFlbgE[lfvfl & 1]; }
+    stbtid finbl int DirPropFlbgO(bytf lfvfl)  { rfturn DirPropFlbgO[lfvfl & 1]; }
+
+    /*
+     *  brf thfrf bny dhbrbdtfrs thbt brf LTR?
+     */
+    stbtid finbl int MASK_LTR =
+        DirPropFlbg(L)|DirPropFlbg(EN)|DirPropFlbg(AN)|DirPropFlbg(LRE)|DirPropFlbg(LRO);
+
+    /*
+     *  brf thfrf bny dhbrbdtfrs thbt brf RTL?
+     */
+    stbtid finbl int MASK_RTL = DirPropFlbg(R)|DirPropFlbg(AL)|DirPropFlbg(RLE)|DirPropFlbg(RLO);
+
+    /* fxplidit fmbfdding dodfs */
+    privbtf stbtid finbl int MASK_LRX = DirPropFlbg(LRE)|DirPropFlbg(LRO);
+    privbtf stbtid finbl int MASK_RLX = DirPropFlbg(RLE)|DirPropFlbg(RLO);
+    privbtf stbtid finbl int MASK_EXPLICIT = MASK_LRX|MASK_RLX|DirPropFlbg(PDF);
+    privbtf stbtid finbl int MASK_BN_EXPLICIT = DirPropFlbg(BN)|MASK_EXPLICIT;
+
+    /* pbrbgrbph bnd sfgmfnt sfpbrbtors */
+    privbtf stbtid finbl int MASK_B_S = DirPropFlbg(B)|DirPropFlbg(S);
+
+    /* bll typfs thbt brf dountfd bs Whitf Spbdf or Nfutrbl in somf stfps */
+    stbtid finbl int MASK_WS = MASK_B_S|DirPropFlbg(WS)|MASK_BN_EXPLICIT;
+    privbtf stbtid finbl int MASK_N = DirPropFlbg(ON)|MASK_WS;
+
+    /* typfs thbt brf nfutrbls or dould bfdomfs nfutrbls in (Wn) */
+    privbtf stbtid finbl int MASK_POSSIBLE_N = DirPropFlbg(CS)|DirPropFlbg(ES)|DirPropFlbg(ET)|MASK_N;
+
+    /*
+     * Thfsf typfs mby bf dhbngfd to "f",
+     * thf fmbfdding typf (L or R) of thf run,
+     * in thf Bidi blgorithm (N2)
+     */
+    stbtid finbl int MASK_EMBEDDING = DirPropFlbg(NSM)|MASK_POSSIBLE_N;
+
+    /*
+     *  thf dirProp's L bnd R brf dffinfd to 0 bnd 1 vblufs in UChbrbdtfrDirfdtion.jbvb
+     */
+    privbtf stbtid bytf GftLRFromLfvfl(bytf lfvfl)
+    {
+        rfturn (bytf)(lfvfl & 1);
+    }
+
+    privbtf stbtid boolfbn IsDffbultLfvfl(bytf lfvfl)
+    {
+        rfturn ((lfvfl & INTERNAL_LEVEL_DEFAULT_LTR) == INTERNAL_LEVEL_DEFAULT_LTR);
+    }
+
+    bytf GftPbrbLfvflAt(int indfx)
+    {
+        rfturn (dffbultPbrbLfvfl != 0) ?
+                (bytf)(dirProps[indfx]>>CONTEXT_RTL_SHIFT) : pbrbLfvfl;
+    }
+
+    stbtid boolfbn IsBidiControlChbr(int d)
+    {
+        /* dhfdk for rbngf 0x200d to 0x200f (ZWNJ, ZWJ, LRM, RLM) or
+                           0x202b to 0x202f (LRE, RLE, PDF, LRO, RLO) */
+        rfturn (((d & 0xfffffffd) == 0x200d) || ((d >= 0x202b) && (d <= 0x202f)));
+    }
+
+    publid void vfrifyVblidPbrb()
+    {
+        if (this != this.pbrbBidi) {
+            throw nfw IllfgblStbtfExdfption("");
+        }
+    }
+
+    publid void vfrifyVblidPbrbOrLinf()
+    {
+        BidiBbsf pbrb = this.pbrbBidi;
+        /* vfrify Pbrb */
+        if (this == pbrb) {
+            rfturn;
+        }
+        /* vfrify Linf */
+        if ((pbrb == null) || (pbrb != pbrb.pbrbBidi)) {
+            throw nfw IllfgblStbtfExdfption();
+        }
+    }
+
+    publid void vfrifyRbngf(int indfx, int stbrt, int limit)
+    {
+        if (indfx < stbrt || indfx >= limit) {
+            throw nfw IllfgblArgumfntExdfption("Vbluf " + indfx +
+                      " is out of rbngf " + stbrt + " to " + limit);
+        }
+    }
+
+    publid void vfrifyIndfx(int indfx, int stbrt, int limit)
+    {
+        if (indfx < stbrt || indfx >= limit) {
+            throw nfw ArrbyIndfxOutOfBoundsExdfption("Indfx " + indfx +
+                      " is out of rbngf " + stbrt + " to " + limit);
+        }
+    }
+
+    /**
+     * Allodbtf b <dodf>Bidi</dodf> objfdt with prfbllodbtfd mfmory
+     * for intfrnbl strudturfs.
+     * This mfthod providfs b <dodf>Bidi</dodf> objfdt likf thf dffbult donstrudtor
+     * but it blso prfbllodbtfs mfmory for intfrnbl strudturfs
+     * bddording to thf sizings supplifd by thf dbllfr.<p>
+     * Thf prfbllodbtion dbn bf limitfd to somf of thf intfrnbl mfmory
+     * by sftting somf vblufs to 0 hfrf. Thbt mfbns thbt if, f.g.,
+     * <dodf>mbxRunCount</dodf> dbnnot bf rfbsonbbly prfdftfrminfd bnd should not
+     * bf sft to <dodf>mbxLfngth</dodf> (thf only fbilproof vbluf) to bvoid
+     * wbsting  mfmory, thfn <dodf>mbxRunCount</dodf> dould bf sft to 0 hfrf
+     * bnd thf intfrnbl strudturfs thbt brf bssodibtfd with it will bf bllodbtfd
+     * on dfmbnd, just likf with thf dffbult donstrudtor.
+     *
+     * @pbrbm mbxLfngth is thf mbximum tfxt or linf lfngth thbt intfrnbl mfmory
+     *        will bf prfbllodbtfd for. An bttfmpt to bssodibtf this objfdt with b
+     *        longfr tfxt will fbil, unlfss this vbluf is 0, whidh lfbvfs thf bllodbtion
+     *        up to thf implfmfntbtion.
+     *
+     * @pbrbm mbxRunCount is thf mbximum bntidipbtfd numbfr of sbmf-lfvfl runs
+     *        thbt intfrnbl mfmory will bf prfbllodbtfd for. An bttfmpt to bddfss
+     *        visubl runs on bn objfdt thbt wbs not prfbllodbtfd for bs mbny runs
+     *        bs thf tfxt wbs bdtublly rfsolvfd to will fbil,
+     *        unlfss this vbluf is 0, whidh lfbvfs thf bllodbtion up to thf implfmfntbtion.<br><br>
+     *        Thf numbfr of runs dfpfnds on thf bdtubl tfxt bnd mbybf bnywhfrf bftwffn
+     *        1 bnd <dodf>mbxLfngth</dodf>. It is typidblly smbll.
+     *
+     * @throws IllfgblArgumfntExdfption if mbxLfngth or mbxRunCount is lfss thbn 0
+     * @stbblf ICU 3.8
+     */
+    publid BidiBbsf(int mbxLfngth, int mbxRunCount)
+     {
+        /* dhfdk thf brgumfnt vblufs */
+        if (mbxLfngth < 0 || mbxRunCount < 0) {
+            throw nfw IllfgblArgumfntExdfption();
+        }
+
+        /* rfsft thf objfdt, bll rfffrfndf vbribblfs null, bll flbgs fblsf,
+           bll sizfs 0.
+           In fbdt, wf don't nffd to do bnything, sindf dlbss mfmbfrs brf
+           initiblizfd bs zfro whfn bn instbndf is drfbtfd.
+         */
+        /*
+        mbyAllodbtfTfxt = fblsf;
+        mbyAllodbtfRuns = fblsf;
+        ordfrPbrbgrbphsLTR = fblsf;
+        pbrbCount = 0;
+        runCount = 0;
+        trbilingWSStbrt = 0;
+        flbgs = 0;
+        pbrbLfvfl = 0;
+        dffbultPbrbLfvfl = 0;
+        dirfdtion = 0;
+        */
+        /* gft Bidi propfrtifs */
+        try {
+            bdp = UBiDiProps.gftSinglfton();
+        }
+        dbtdh (IOExdfption f) {
+            throw nfw MissingRfsourdfExdfption(f.gftMfssbgf(), "(BidiProps)", "");
+        }
+
+        /* bllodbtf mfmory for brrbys bs rfqufstfd */
+        if (mbxLfngth > 0) {
+            gftInitiblDirPropsMfmory(mbxLfngth);
+            gftInitiblLfvflsMfmory(mbxLfngth);
+        } flsf {
+            mbyAllodbtfTfxt = truf;
+        }
+
+        if (mbxRunCount > 0) {
+            // if mbxRunCount == 1, usf simplfRuns[]
+            if (mbxRunCount > 1) {
+                gftInitiblRunsMfmory(mbxRunCount);
+            }
+        } flsf {
+            mbyAllodbtfRuns = truf;
+        }
+    }
+
+    /*
+     * Wf brf bllowfd to bllodbtf mfmory if objfdt==null or
+     * mbyAllodbtf==truf for fbdh brrby thbt wf nffd.
+     *
+     * Assumf sizfNffdfd>0.
+     * If objfdt != null, thfn bssumf sizf > 0.
+     */
+    privbtf Objfdt gftMfmory(String lbbfl, Objfdt brrby, Clbss<?> brrbyClbss,
+            boolfbn mbyAllodbtf, int sizfNffdfd)
+    {
+        int lfn = Arrby.gftLfngth(brrby);
+
+        /* wf hbvf bt lfbst fnough mfmory bnd must not bllodbtf */
+        if (sizfNffdfd == lfn) {
+            rfturn brrby;
+        }
+        if (!mbyAllodbtf) {
+            /* wf must not bllodbtf */
+            if (sizfNffdfd <= lfn) {
+                rfturn brrby;
+            }
+            throw nfw OutOfMfmoryError("Fbilfd to bllodbtf mfmory for "
+                                       + lbbfl);
+        }
+        /* wf mby try to grow or shrink */
+        /* FOOD FOR THOUGHT: whfn shrinking it should bf possiblf to bvoid
+           thf bllodbtion bltogfthfr bnd rfly on this.lfngth */
+        try {
+            rfturn Arrby.nfwInstbndf(brrbyClbss, sizfNffdfd);
+        } dbtdh (Exdfption f) {
+            throw nfw OutOfMfmoryError("Fbilfd to bllodbtf mfmory for "
+                                       + lbbfl);
+        }
+    }
+
+    /* hflpfr mfthods for fbdh bllodbtfd brrby */
+    privbtf void gftDirPropsMfmory(boolfbn mbyAllodbtf, int lfn)
+    {
+        Objfdt brrby = gftMfmory("DirProps", dirPropsMfmory, Bytf.TYPE, mbyAllodbtf, lfn);
+        dirPropsMfmory = (bytf[]) brrby;
+    }
+
+    void gftDirPropsMfmory(int lfn)
+    {
+        gftDirPropsMfmory(mbyAllodbtfTfxt, lfn);
+    }
+
+    privbtf void gftLfvflsMfmory(boolfbn mbyAllodbtf, int lfn)
+    {
+        Objfdt brrby = gftMfmory("Lfvfls", lfvflsMfmory, Bytf.TYPE, mbyAllodbtf, lfn);
+        lfvflsMfmory = (bytf[]) brrby;
+    }
+
+    void gftLfvflsMfmory(int lfn)
+    {
+        gftLfvflsMfmory(mbyAllodbtfTfxt, lfn);
+    }
+
+    privbtf void gftRunsMfmory(boolfbn mbyAllodbtf, int lfn)
+    {
+        Objfdt brrby = gftMfmory("Runs", runsMfmory, BidiRun.dlbss, mbyAllodbtf, lfn);
+        runsMfmory = (BidiRun[]) brrby;
+    }
+
+    void gftRunsMfmory(int lfn)
+    {
+        gftRunsMfmory(mbyAllodbtfRuns, lfn);
+    }
+
+    /* bdditionbl mfthods usfd by donstrudtor - blwbys bllow bllodbtion */
+    privbtf void gftInitiblDirPropsMfmory(int lfn)
+    {
+        gftDirPropsMfmory(truf, lfn);
+    }
+
+    privbtf void gftInitiblLfvflsMfmory(int lfn)
+    {
+        gftLfvflsMfmory(truf, lfn);
+    }
+
+    privbtf void gftInitiblPbrbsMfmory(int lfn)
+    {
+        Objfdt brrby = gftMfmory("Pbrbs", pbrbsMfmory, Intfgfr.TYPE, truf, lfn);
+        pbrbsMfmory = (int[]) brrby;
+    }
+
+    privbtf void gftInitiblRunsMfmory(int lfn)
+    {
+        gftRunsMfmory(truf, lfn);
+    }
+
+/* pfrform (P2)..(P3) ------------------------------------------------------- */
+
+    privbtf void gftDirProps()
+    {
+        int i = 0, i0, i1;
+        flbgs = 0;          /* dollfdt bll dirfdtionblitifs in thf tfxt */
+        int udhbr;
+        bytf dirProp;
+        bytf pbrbDirDffbult = 0;   /* initiblizf to bvoid dompilfr wbrnings */
+        boolfbn isDffbultLfvfl = IsDffbultLfvfl(pbrbLfvfl);
+        /* for invfrsf Bidi, thf dffbult pbrb lfvfl is sft to RTL if thfrf is b
+           strong R or AL dhbrbdtfr bt fithfr fnd of thf tfxt                */
+        lbstArbbidPos = -1;
+        dontrolCount = 0;
+
+        finbl int NOT_CONTEXTUAL = 0;         /* 0: not dontfxtubl pbrbLfvfl */
+        finbl int LOOKING_FOR_STRONG = 1;     /* 1: looking for first strong dhbr */
+        finbl int FOUND_STRONG_CHAR = 2;      /* 2: found first strong dhbr       */
+
+        int stbtf;
+        int pbrbStbrt = 0;                    /* indfx of first dhbr in pbrbgrbph */
+        bytf pbrbDir;                         /* == CONTEXT_RTL within pbrbgrbphs
+                                                 stbrting with strong R dhbr      */
+        bytf lbstStrongDir=0;                 /* for dffbult lfvfl & invfrsf Bidi */
+        int lbstStrongLTR=0;                  /* for STREAMING option             */
+
+        if (isDffbultLfvfl) {
+            pbrbDirDffbult = ((pbrbLfvfl & 1) != 0) ? CONTEXT_RTL : 0;
+            pbrbDir = pbrbDirDffbult;
+            lbstStrongDir = pbrbDirDffbult;
+            stbtf = LOOKING_FOR_STRONG;
+        } flsf {
+            stbtf = NOT_CONTEXTUAL;
+            pbrbDir = 0;
+        }
+        /* dount pbrbgrbphs bnd dftfrminf thf pbrbgrbph lfvfl (P2..P3) */
+        /*
+         * sff dommfnt on donstbnt fiflds:
+         * thf LEVEL_DEFAULT_XXX vblufs brf dfsignfd so thbt
+         * thfir low-ordfr bit blonf yiflds thf intfndfd dffbult
+         */
+
+        for (i = 0; i < originblLfngth; /* i is indrfmfntfd in thf loop */) {
+            i0 = i;                     /* indfx of first dodf unit */
+            udhbr = UTF16.dhbrAt(tfxt, 0, originblLfngth, i);
+            i += Chbrbdtfr.dhbrCount(udhbr);
+            i1 = i - 1; /* indfx of lbst dodf unit, gfts thf dirfdtionbl propfrty */
+
+            dirProp = (bytf)bdp.gftClbss(udhbr);
+
+            flbgs |= DirPropFlbg(dirProp);
+            dirProps[i1] = (bytf)(dirProp | pbrbDir);
+            if (i1 > i0) {     /* sft prfvious dodf units' propfrtifs to BN */
+                flbgs |= DirPropFlbg(BN);
+                do {
+                    dirProps[--i1] = (bytf)(BN | pbrbDir);
+                } whilf (i1 > i0);
+            }
+            if (stbtf == LOOKING_FOR_STRONG) {
+                if (dirProp == L) {
+                    stbtf = FOUND_STRONG_CHAR;
+                    if (pbrbDir != 0) {
+                        pbrbDir = 0;
+                        for (i1 = pbrbStbrt; i1 < i; i1++) {
+                            dirProps[i1] &= ~CONTEXT_RTL;
+                        }
+                    }
+                    dontinuf;
+                }
+                if (dirProp == R || dirProp == AL) {
+                    stbtf = FOUND_STRONG_CHAR;
+                    if (pbrbDir == 0) {
+                        pbrbDir = CONTEXT_RTL;
+                        for (i1 = pbrbStbrt; i1 < i; i1++) {
+                            dirProps[i1] |= CONTEXT_RTL;
+                        }
+                    }
+                    dontinuf;
+                }
+            }
+            if (dirProp == L) {
+                lbstStrongDir = 0;
+                lbstStrongLTR = i;      /* i is indfx to nfxt dhbrbdtfr */
+            }
+            flsf if (dirProp == R) {
+                lbstStrongDir = CONTEXT_RTL;
+            }
+            flsf if (dirProp == AL) {
+                lbstStrongDir = CONTEXT_RTL;
+                lbstArbbidPos = i-1;
+            }
+            flsf if (dirProp == B) {
+                if (i < originblLfngth) {   /* B not lbst dhbr in tfxt */
+                    if (!((udhbr == (int)CR) && (tfxt[i] == (int)LF))) {
+                        pbrbCount++;
+                    }
+                    if (isDffbultLfvfl) {
+                        stbtf=LOOKING_FOR_STRONG;
+                        pbrbStbrt = i;        /* i is indfx to nfxt dhbrbdtfr */
+                        pbrbDir = pbrbDirDffbult;
+                        lbstStrongDir = pbrbDirDffbult;
+                    }
+                }
+            }
+        }
+        if (isDffbultLfvfl) {
+            pbrbLfvfl = GftPbrbLfvflAt(0);
+        }
+
+        /* Thf following linf dofs nothing nfw for dontfxtubl pbrbLfvfl, but is
+           nffdfd for bbsolutf pbrbLfvfl.                               */
+        flbgs |= DirPropFlbgLR(pbrbLfvfl);
+
+        if (ordfrPbrbgrbphsLTR && (flbgs & DirPropFlbg(B)) != 0) {
+            flbgs |= DirPropFlbg(L);
+        }
+    }
+
+    /* pfrform (X1)..(X9) ------------------------------------------------------- */
+
+    /* dftfrminf if thf tfxt is mixfd-dirfdtionbl or singlf-dirfdtionbl */
+    privbtf bytf dirfdtionFromFlbgs() {
+        /* if thf tfxt dontbins AN bnd nfutrbls, thfn somf nfutrbls mby bfdomf RTL */
+        if (!((flbgs & MASK_RTL) != 0 ||
+              ((flbgs & DirPropFlbg(AN)) != 0 &&
+               (flbgs & MASK_POSSIBLE_N) != 0))) {
+            rfturn Bidi.DIRECTION_LEFT_TO_RIGHT;
+        } flsf if ((flbgs & MASK_LTR) == 0) {
+            rfturn Bidi.DIRECTION_RIGHT_TO_LEFT;
+        } flsf {
+            rfturn MIXED;
+        }
+    }
+
+    /*
+     * Rfsolvf thf fxplidit lfvfls bs spfdififd by fxplidit fmbfdding dodfs.
+     * Rfdbldulbtf thf flbgs to hbvf thfm rfflfdt thf rfbl propfrtifs
+     * bftfr tbking thf fxplidit fmbfddings into bddount.
+     *
+     * Thf Bidi blgorithm is dfsignfd to rfsult in thf sbmf bfhbvior whfthfr fmbfdding
+     * lfvfls brf fxtfrnblly spfdififd (from "stylfd tfxt", supposfdly thf prfffrrfd
+     * mfthod) or sft by fxplidit fmbfdding dodfs (LRx, RLx, PDF) in thf plbin tfxt.
+     * Thbt is why (X9) instrudts to rfmovf bll fxplidit dodfs (bnd BN).
+     * Howfvfr, in b rfbl implfmfntbtion, this rfmovbl of thfsf dodfs bnd thfir indfx
+     * positions in thf plbin tfxt is undfsirbblf sindf it would rfsult in
+     * rfbllodbtfd, rfindfxfd tfxt.
+     * Instfbd, this implfmfntbtion lfbvfs thf dodfs in thfrf bnd just ignorfs thfm
+     * in thf subsfqufnt prodfssing.
+     * In ordfr to gft thf sbmf rfordfring bfhbvior, positions with b BN or bn
+     * fxplidit fmbfdding dodf just gft thf sbmf lfvfl bssignfd bs thf lbst "rfbl"
+     * dhbrbdtfr.
+     *
+     * Somf implfmfntbtions, not this onf, thfn ovfrwritf somf of thfsf
+     * dirfdtionblity propfrtifs bt "rfbl" sbmf-lfvfl-run boundbrifs by
+     * L or R dodfs so thbt thf rfsolution of wfbk typfs dbn bf pfrformfd on thf
+     * fntirf pbrbgrbph bt ondf instfbd of hbving to pbrsf it ondf morf bnd
+     * pfrform thbt rfsolution on sbmf-lfvfl-runs.
+     * This limits thf sdopf of thf implidit rulfs in ffffdtivfly
+     * thf sbmf wby bs thf run limits.
+     *
+     * Instfbd, this implfmfntbtion dofs not modify thfsf dodfs.
+     * On onf hbnd, thf pbrbgrbph hbs to bf sdbnnfd for sbmf-lfvfl-runs, but
+     * on thf othfr hbnd, this sbvfs bnothfr loop to rfsft thfsf dodfs,
+     * or sbvfs mbking bnd modifying b dopy of dirProps[].
+     *
+     *
+     * Notf thbt (Pn) bnd (Xn) dhbngfd signifidbntly from vfrsion 4 of thf Bidi blgorithm.
+     *
+     *
+     * Hbndling thf stbdk of fxplidit lfvfls (Xn):
+     *
+     * With thf Bidi stbdk of fxplidit lfvfls,
+     * bs pushfd with fbdh LRE, RLE, LRO, bnd RLO bnd poppfd with fbdh PDF,
+     * thf fxplidit lfvfl must nfvfr fxdffd MAX_EXPLICIT_LEVEL==61.
+     *
+     * In ordfr to hbvf b dorrfdt push-pop sfmbntids fvfn in thf dbsf of ovfrflows,
+     * thfrf brf two ovfrflow dountfrs:
+     * - dountOvfr60 is indrfmfntfd with fbdh LRx bt lfvfl 60
+     * - from lfvfl 60, onf RLx indrfbsfs thf lfvfl to 61
+     * - dountOvfr61 is indrfmfntfd with fbdh LRx bnd RLx bt lfvfl 61
+     *
+     * Popping lfvfls with PDF must work in thf oppositf ordfr so thbt lfvfl 61
+     * is dorrfdt bt thf dorrfdt point. Undfrflows (too mbny PDFs) must bf dhfdkfd.
+     *
+     * This implfmfntbtion bssumfs thbt MAX_EXPLICIT_LEVEL is odd.
+     */
+    privbtf bytf rfsolvfExpliditLfvfls() {
+        int i = 0;
+        bytf dirProp;
+        bytf lfvfl = GftPbrbLfvflAt(0);
+
+        bytf dirdt;
+        int pbrbIndfx = 0;
+
+        /* dftfrminf if thf tfxt is mixfd-dirfdtionbl or singlf-dirfdtionbl */
+        dirdt = dirfdtionFromFlbgs();
+
+        /* wf mby not nffd to rfsolvf bny fxplidit lfvfls, but for multiplf
+           pbrbgrbphs wf wbnt to loop on bll dhbrs to sft thf pbrb boundbrifs */
+        if ((dirdt != MIXED) && (pbrbCount == 1)) {
+            /* not mixfd dirfdtionblity: lfvfls don't mbttfr - trbilingWSStbrt will bf 0 */
+        } flsf if ((pbrbCount == 1) &&
+                   ((flbgs & MASK_EXPLICIT) == 0)) {
+            /* mixfd, but bll dhbrbdtfrs brf bt thf sbmf fmbfdding lfvfl */
+            /* or wf brf in "invfrsf Bidi" */
+            /* bnd wf don't hbvf dontfxtubl multiplf pbrbgrbphs with somf B dhbr */
+            /* sft bll lfvfls to thf pbrbgrbph lfvfl */
+            for (i = 0; i < lfngth; ++i) {
+                lfvfls[i] = lfvfl;
+            }
+        } flsf {
+            /* dontinuf to pfrform (Xn) */
+
+            /* (X1) lfvfl is sft for bll dodfs, fmbfddingLfvfl kffps trbdk of thf push/pop opfrbtions */
+            /* both vbribblfs mby dbrry thf LEVEL_OVERRIDE flbg to indidbtf thf ovfrridf stbtus */
+            bytf fmbfddingLfvfl = lfvfl;
+            bytf nfwLfvfl;
+            bytf stbdkTop = 0;
+
+            bytf[] stbdk = nfw bytf[MAX_EXPLICIT_LEVEL];    /* wf nfvfr push bnything >=MAX_EXPLICIT_LEVEL */
+            int dountOvfr60 = 0;
+            int dountOvfr61 = 0;  /* dount ovfrflows of fxplidit lfvfls */
+
+            /* rfdbldulbtf thf flbgs */
+            flbgs = 0;
+
+            for (i = 0; i < lfngth; ++i) {
+                dirProp = NoContfxtRTL(dirProps[i]);
+                switdh(dirProp) {
+                dbsf LRE:
+                dbsf LRO:
+                    /* (X3, X5) */
+                    nfwLfvfl = (bytf)((fmbfddingLfvfl+2) & ~(INTERNAL_LEVEL_OVERRIDE | 1)); /* lfbst grfbtfr fvfn lfvfl */
+                    if (nfwLfvfl <= MAX_EXPLICIT_LEVEL) {
+                        stbdk[stbdkTop] = fmbfddingLfvfl;
+                        ++stbdkTop;
+                        fmbfddingLfvfl = nfwLfvfl;
+                        if (dirProp == LRO) {
+                            fmbfddingLfvfl |= INTERNAL_LEVEL_OVERRIDE;
+                        }
+                        /* wf don't nffd to sft LEVEL_OVERRIDE off for LRE
+                           sindf this hbs blrfbdy bffn donf for nfwLfvfl whidh is
+                           thf sourdf for fmbfddingLfvfl.
+                         */
+                    } flsf if ((fmbfddingLfvfl & ~INTERNAL_LEVEL_OVERRIDE) == MAX_EXPLICIT_LEVEL) {
+                        ++dountOvfr61;
+                    } flsf /* (fmbfddingLfvfl & ~INTERNAL_LEVEL_OVERRIDE) == MAX_EXPLICIT_LEVEL-1 */ {
+                        ++dountOvfr60;
+                    }
+                    flbgs |= DirPropFlbg(BN);
+                    brfbk;
+                dbsf RLE:
+                dbsf RLO:
+                    /* (X2, X4) */
+                    nfwLfvfl=(bytf)(((fmbfddingLfvfl & ~INTERNAL_LEVEL_OVERRIDE) + 1) | 1); /* lfbst grfbtfr odd lfvfl */
+                    if (nfwLfvfl<=MAX_EXPLICIT_LEVEL) {
+                        stbdk[stbdkTop] = fmbfddingLfvfl;
+                        ++stbdkTop;
+                        fmbfddingLfvfl = nfwLfvfl;
+                        if (dirProp == RLO) {
+                            fmbfddingLfvfl |= INTERNAL_LEVEL_OVERRIDE;
+                        }
+                        /* wf don't nffd to sft LEVEL_OVERRIDE off for RLE
+                           sindf this hbs blrfbdy bffn donf for nfwLfvfl whidh is
+                           thf sourdf for fmbfddingLfvfl.
+                         */
+                    } flsf {
+                        ++dountOvfr61;
+                    }
+                    flbgs |= DirPropFlbg(BN);
+                    brfbk;
+                dbsf PDF:
+                    /* (X7) */
+                    /* hbndlf bll thf ovfrflow dbsfs first */
+                    if (dountOvfr61 > 0) {
+                        --dountOvfr61;
+                    } flsf if (dountOvfr60 > 0 && (fmbfddingLfvfl & ~INTERNAL_LEVEL_OVERRIDE) != MAX_EXPLICIT_LEVEL) {
+                        /* hbndlf LRx ovfrflows from lfvfl 60 */
+                        --dountOvfr60;
+                    } flsf if (stbdkTop > 0) {
+                        /* this is thf pop opfrbtion; it blso pops lfvfl 61 whilf dountOvfr60>0 */
+                        --stbdkTop;
+                        fmbfddingLfvfl = stbdk[stbdkTop];
+                    /* } flsf { (undfrflow) */
+                    }
+                    flbgs |= DirPropFlbg(BN);
+                    brfbk;
+                dbsf B:
+                    stbdkTop = 0;
+                    dountOvfr60 = 0;
+                    dountOvfr61 = 0;
+                    lfvfl = GftPbrbLfvflAt(i);
+                    if ((i + 1) < lfngth) {
+                        fmbfddingLfvfl = GftPbrbLfvflAt(i+1);
+                        if (!((tfxt[i] == CR) && (tfxt[i + 1] == LF))) {
+                            pbrbs[pbrbIndfx++] = i+1;
+                        }
+                    }
+                    flbgs |= DirPropFlbg(B);
+                    brfbk;
+                dbsf BN:
+                    /* BN, LRE, RLE, bnd PDF brf supposfd to bf rfmovfd (X9) */
+                    /* thfy will gft thfir lfvfls sft dorrfdtly in bdjustWSLfvfls() */
+                    flbgs |= DirPropFlbg(BN);
+                    brfbk;
+                dffbult:
+                    /* bll othfr typfs gft thf "rfbl" lfvfl */
+                    if (lfvfl != fmbfddingLfvfl) {
+                        lfvfl = fmbfddingLfvfl;
+                        if ((lfvfl & INTERNAL_LEVEL_OVERRIDE) != 0) {
+                            flbgs |= DirPropFlbgO(lfvfl) | DirPropFlbgMultiRuns;
+                        } flsf {
+                            flbgs |= DirPropFlbgE(lfvfl) | DirPropFlbgMultiRuns;
+                        }
+                    }
+                    if ((lfvfl & INTERNAL_LEVEL_OVERRIDE) == 0) {
+                        flbgs |= DirPropFlbg(dirProp);
+                    }
+                    brfbk;
+                }
+
+                /*
+                 * Wf nffd to sft rfbsonbblf lfvfls fvfn on BN dodfs bnd
+                 * fxplidit dodfs bfdbusf wf will lbtfr look bt sbmf-lfvfl runs (X10).
+                 */
+                lfvfls[i] = lfvfl;
+            }
+            if ((flbgs & MASK_EMBEDDING) != 0) {
+                flbgs |= DirPropFlbgLR(pbrbLfvfl);
+            }
+            if (ordfrPbrbgrbphsLTR && (flbgs & DirPropFlbg(B)) != 0) {
+                flbgs |= DirPropFlbg(L);
+            }
+
+            /* subsfqufntly, ignorf thf fxplidit dodfs bnd BN (X9) */
+
+            /* bgbin, dftfrminf if thf tfxt is mixfd-dirfdtionbl or singlf-dirfdtionbl */
+            dirdt = dirfdtionFromFlbgs();
+        }
+
+        rfturn dirdt;
+    }
+
+    /*
+     * Usf b prf-spfdififd fmbfdding lfvfls brrby:
+     *
+     * Adjust thf dirfdtionbl propfrtifs for ovfrridfs (->LEVEL_OVERRIDE),
+     * ignorf bll fxplidit dodfs (X9),
+     * bnd dhfdk bll thf prfsft lfvfls.
+     *
+     * Rfdbldulbtf thf flbgs to hbvf thfm rfflfdt thf rfbl propfrtifs
+     * bftfr tbking thf fxplidit fmbfddings into bddount.
+     */
+    privbtf bytf dhfdkExpliditLfvfls() {
+        bytf dirProp;
+        int i;
+        this.flbgs = 0;     /* dollfdt bll dirfdtionblitifs in thf tfxt */
+        bytf lfvfl;
+        int pbrbIndfx = 0;
+
+        for (i = 0; i < lfngth; ++i) {
+            if (lfvfls[i] == 0) {
+                lfvfls[i] = pbrbLfvfl;
+            }
+            if (MAX_EXPLICIT_LEVEL < (lfvfls[i]&0x7f)) {
+                if ((lfvfls[i] & INTERNAL_LEVEL_OVERRIDE) != 0) {
+                    lfvfls[i] =  (bytf)(pbrbLfvfl|INTERNAL_LEVEL_OVERRIDE);
+                } flsf {
+                    lfvfls[i] = pbrbLfvfl;
+                }
+            }
+            lfvfl = lfvfls[i];
+            dirProp = NoContfxtRTL(dirProps[i]);
+            if ((lfvfl & INTERNAL_LEVEL_OVERRIDE) != 0) {
+                /* kffp thf ovfrridf flbg in lfvfls[i] but bdjust thf flbgs */
+                lfvfl &= ~INTERNAL_LEVEL_OVERRIDE;     /* mbkf thf rbngf dhfdk bflow simplfr */
+                flbgs |= DirPropFlbgO(lfvfl);
+            } flsf {
+                /* sft thf flbgs */
+                flbgs |= DirPropFlbgE(lfvfl) | DirPropFlbg(dirProp);
+            }
+
+            if ((lfvfl < GftPbrbLfvflAt(i) &&
+                    !((0 == lfvfl) && (dirProp == B))) ||
+                    (MAX_EXPLICIT_LEVEL <lfvfl)) {
+                /* lfvfl out of bounds */
+                throw nfw IllfgblArgumfntExdfption("lfvfl " + lfvfl +
+                                                   " out of bounds bt indfx " + i);
+            }
+            if ((dirProp == B) && ((i + 1) < lfngth)) {
+                if (!((tfxt[i] == CR) && (tfxt[i + 1] == LF))) {
+                    pbrbs[pbrbIndfx++] = i + 1;
+                }
+            }
+        }
+        if ((flbgs&MASK_EMBEDDING) != 0) {
+            flbgs |= DirPropFlbgLR(pbrbLfvfl);
+        }
+
+        /* dftfrminf if thf tfxt is mixfd-dirfdtionbl or singlf-dirfdtionbl */
+        rfturn dirfdtionFromFlbgs();
+    }
+
+    /*********************************************************************/
+    /* Thf Propfrtifs stbtf mbdhinf tbblf                                */
+    /*********************************************************************/
+    /*                                                                   */
+    /* All tbblf dflls brf 8 bits:                                       */
+    /*      bits 0..4:  nfxt stbtf                                       */
+    /*      bits 5..7:  bdtion to pfrform (if > 0)                       */
+    /*                                                                   */
+    /* Cflls mby bf of formbt "n" whfrf n rfprfsfnts thf nfxt stbtf      */
+    /* (fxdfpt for thf rightmost dolumn).                                */
+    /* Cflls mby blso bf of formbt "_(x,y)" whfrf x rfprfsfnts bn bdtion */
+    /* to pfrform bnd y rfprfsfnts thf nfxt stbtf.                       */
+    /*                                                                   */
+    /*********************************************************************/
+    /* Dffinitions bnd typf for propfrtifs stbtf tbblfs                  */
+    /*********************************************************************/
+    privbtf stbtid finbl int IMPTABPROPS_COLUMNS = 14;
+    privbtf stbtid finbl int IMPTABPROPS_RES = IMPTABPROPS_COLUMNS - 1;
+    privbtf stbtid short GftStbtfProps(short dfll) {
+        rfturn (short)(dfll & 0x1f);
+    }
+    privbtf stbtid short GftAdtionProps(short dfll) {
+        rfturn (short)(dfll >> 5);
+    }
+
+    privbtf stbtid finbl short groupProp[] =          /* dirProp rfgroupfd */
+    {
+        /*  L   R   EN  ES  ET  AN  CS  B   S   WS  ON  LRE LRO AL  RLE RLO PDF NSM BN  */
+        0,  1,  2,  7,  8,  3,  9,  6,  5,  4,  4,  10, 10, 12, 10, 10, 10, 11, 10
+    };
+    privbtf stbtid finbl short _L  = 0;
+    privbtf stbtid finbl short _R  = 1;
+    privbtf stbtid finbl short _EN = 2;
+    privbtf stbtid finbl short _AN = 3;
+    privbtf stbtid finbl short _ON = 4;
+    privbtf stbtid finbl short _S  = 5;
+    privbtf stbtid finbl short _B  = 6; /* rfdudfd dirProp */
+
+    /*********************************************************************/
+    /*                                                                   */
+    /*      PROPERTIES  STATE  TABLE                                     */
+    /*                                                                   */
+    /* In tbblf impTbbProps,                                             */
+    /*      - thf ON dolumn rfgroups ON bnd WS                           */
+    /*      - thf BN dolumn rfgroups BN, LRE, RLE, LRO, RLO, PDF         */
+    /*      - thf Rfs dolumn is thf rfdudfd propfrty bssignfd to b run   */
+    /*                                                                   */
+    /* Adtion 1: prodfss durrfnt run1, init nfw run1                     */
+    /*        2: init nfw run2                                           */
+    /*        3: prodfss run1, prodfss run2, init nfw run1               */
+    /*        4: prodfss run1, sft run1=run2, init nfw run2              */
+    /*                                                                   */
+    /* Notfs:                                                            */
+    /*  1) This tbblf is usfd in rfsolvfImpliditLfvfls().                */
+    /*  2) This tbblf triggfrs bdtions whfn thfrf is b dhbngf in thf Bidi*/
+    /*     propfrty of indoming dhbrbdtfrs (bdtion 1).                   */
+    /*  3) Most sudh propfrty sfqufndfs brf prodfssfd immfdibtfly (in    */
+    /*     fbdt, pbssfd to prodfssPropfrtySfq().                         */
+    /*  4) Howfvfr, numbfrs brf bssfmblfd bs onf sfqufndf. This mfbns    */
+    /*     thbt undffinfd situbtions (likf CS following digits, until    */
+    /*     it is known if thf nfxt dhbr will bf b digit) brf hfld until  */
+    /*     following dhbrs dffinf thfm.                                  */
+    /*     Exbmplf: digits followfd by CS, thfn domfs bnothfr CS or ON;  */
+    /*              thf digits will bf prodfssfd, thfn thf CS bssignfd   */
+    /*              bs thf stbrt of bn ON sfqufndf (bdtion 3).           */
+    /*  5) Thfrf brf dbsfs whfrf morf thbn onf sfqufndf must bf          */
+    /*     prodfssfd, for instbndf digits followfd by CS followfd by L:  */
+    /*     thf digits must bf prodfssfd bs onf sfqufndf, bnd thf CS      */
+    /*     must bf prodfssfd bs bn ON sfqufndf, bll this bfforf stbrting */
+    /*     bssfmbling dhbrs for thf opfning L sfqufndf.                  */
+    /*                                                                   */
+    /*                                                                   */
+    privbtf stbtid finbl short impTbbProps[][] =
+    {
+/*                        L,     R,    EN,    AN,    ON,     S,     B,    ES,    ET,    CS,    BN,   NSM,    AL,  Rfs */
+/* 0 Init        */ {     1,     2,     4,     5,     7,    15,    17,     7,     9,     7,     0,     7,     3,  _ON },
+/* 1 L           */ {     1,  32+2,  32+4,  32+5,  32+7, 32+15, 32+17,  32+7,  32+9,  32+7,     1,     1,  32+3,   _L },
+/* 2 R           */ {  32+1,     2,  32+4,  32+5,  32+7, 32+15, 32+17,  32+7,  32+9,  32+7,     2,     2,  32+3,   _R },
+/* 3 AL          */ {  32+1,  32+2,  32+6,  32+6,  32+8, 32+16, 32+17,  32+8,  32+8,  32+8,     3,     3,     3,   _R },
+/* 4 EN          */ {  32+1,  32+2,     4,  32+5,  32+7, 32+15, 32+17, 64+10,    11, 64+10,     4,     4,  32+3,  _EN },
+/* 5 AN          */ {  32+1,  32+2,  32+4,     5,  32+7, 32+15, 32+17,  32+7,  32+9, 64+12,     5,     5,  32+3,  _AN },
+/* 6 AL:EN/AN    */ {  32+1,  32+2,     6,     6,  32+8, 32+16, 32+17,  32+8,  32+8, 64+13,     6,     6,  32+3,  _AN },
+/* 7 ON          */ {  32+1,  32+2,  32+4,  32+5,     7, 32+15, 32+17,     7, 64+14,     7,     7,     7,  32+3,  _ON },
+/* 8 AL:ON       */ {  32+1,  32+2,  32+6,  32+6,     8, 32+16, 32+17,     8,     8,     8,     8,     8,  32+3,  _ON },
+/* 9 ET          */ {  32+1,  32+2,     4,  32+5,     7, 32+15, 32+17,     7,     9,     7,     9,     9,  32+3,  _ON },
+/*10 EN+ES/CS    */ {  96+1,  96+2,     4,  96+5, 128+7, 96+15, 96+17, 128+7,128+14, 128+7,    10, 128+7,  96+3,  _EN },
+/*11 EN+ET       */ {  32+1,  32+2,     4,  32+5,  32+7, 32+15, 32+17,  32+7,    11,  32+7,    11,    11,  32+3,  _EN },
+/*12 AN+CS       */ {  96+1,  96+2,  96+4,     5, 128+7, 96+15, 96+17, 128+7,128+14, 128+7,    12, 128+7,  96+3,  _AN },
+/*13 AL:EN/AN+CS */ {  96+1,  96+2,     6,     6, 128+8, 96+16, 96+17, 128+8, 128+8, 128+8,    13, 128+8,  96+3,  _AN },
+/*14 ON+ET       */ {  32+1,  32+2, 128+4,  32+5,     7, 32+15, 32+17,     7,    14,     7,    14,    14,  32+3,  _ON },
+/*15 S           */ {  32+1,  32+2,  32+4,  32+5,  32+7,    15, 32+17,  32+7,  32+9,  32+7,    15,  32+7,  32+3,   _S },
+/*16 AL:S        */ {  32+1,  32+2,  32+6,  32+6,  32+8,    16, 32+17,  32+8,  32+8,  32+8,    16,  32+8,  32+3,   _S },
+/*17 B           */ {  32+1,  32+2,  32+4,  32+5,  32+7, 32+15,    17,  32+7,  32+9,  32+7,    17,  32+7,  32+3,   _B }
+    };
+
+    /*********************************************************************/
+    /* Thf lfvfls stbtf mbdhinf tbblfs                                   */
+    /*********************************************************************/
+    /*                                                                   */
+    /* All tbblf dflls brf 8 bits:                                       */
+    /*      bits 0..3:  nfxt stbtf                                       */
+    /*      bits 4..7:  bdtion to pfrform (if > 0)                       */
+    /*                                                                   */
+    /* Cflls mby bf of formbt "n" whfrf n rfprfsfnts thf nfxt stbtf      */
+    /* (fxdfpt for thf rightmost dolumn).                                */
+    /* Cflls mby blso bf of formbt "_(x,y)" whfrf x rfprfsfnts bn bdtion */
+    /* to pfrform bnd y rfprfsfnts thf nfxt stbtf.                       */
+    /*                                                                   */
+    /* This formbt limits fbdh tbblf to 16 stbtfs fbdh bnd to 15 bdtions.*/
+    /*                                                                   */
+    /*********************************************************************/
+    /* Dffinitions bnd typf for lfvfls stbtf tbblfs                      */
+    /*********************************************************************/
+    privbtf stbtid finbl int IMPTABLEVELS_COLUMNS = _B + 2;
+    privbtf stbtid finbl int IMPTABLEVELS_RES = IMPTABLEVELS_COLUMNS - 1;
+    privbtf stbtid short GftStbtf(bytf dfll) { rfturn (short)(dfll & 0x0f); }
+    privbtf stbtid short GftAdtion(bytf dfll) { rfturn (short)(dfll >> 4); }
+
+    privbtf stbtid dlbss ImpTbbPbir {
+        bytf[][][] imptbb;
+        short[][] impbdt;
+
+        ImpTbbPbir(bytf[][] tbblf1, bytf[][] tbblf2,
+                   short[] bdt1, short[] bdt2) {
+            imptbb = nfw bytf[][][] {tbblf1, tbblf2};
+            impbdt = nfw short[][] {bdt1, bdt2};
+        }
+    }
+
+    /*********************************************************************/
+    /*                                                                   */
+    /*      LEVELS  STATE  TABLES                                        */
+    /*                                                                   */
+    /* In bll lfvfls stbtf tbblfs,                                       */
+    /*      - stbtf 0 is thf initibl stbtf                               */
+    /*      - thf Rfs dolumn is thf indrfmfnt to bdd to thf tfxt lfvfl   */
+    /*        for this propfrty sfqufndf.                                */
+    /*                                                                   */
+    /* Thf impbdt brrbys for fbdh tbblf of b pbir mbp thf lodbl bdtion   */
+    /* numbfrs of thf tbblf to thf totbl list of bdtions. For instbndf,  */
+    /* bdtion 2 in b givfn tbblf dorrfsponds to thf bdtion numbfr whidh  */
+    /* bppfbrs in fntry [2] of thf impbdt brrby for thbt tbblf.          */
+    /* Thf first fntry of bll impbdt brrbys must bf 0.                   */
+    /*                                                                   */
+    /* Adtion 1: init donditionbl sfqufndf                               */
+    /*        2: prfpfnd donditionbl sfqufndf to durrfnt sfqufndf        */
+    /*        3: sft ON sfqufndf to nfw lfvfl - 1                        */
+    /*        4: init EN/AN/ON sfqufndf                                  */
+    /*        5: fix EN/AN/ON sfqufndf followfd by R                     */
+    /*        6: sft prfvious lfvfl sfqufndf to lfvfl 2                  */
+    /*                                                                   */
+    /* Notfs:                                                            */
+    /*  1) Thfsf tbblfs brf usfd in prodfssPropfrtySfq(). Thf input      */
+    /*     is propfrty sfqufndfs bs dftfrminfd by rfsolvfImpliditLfvfls. */
+    /*  2) Most sudh propfrty sfqufndfs brf prodfssfd immfdibtfly        */
+    /*     (lfvfls brf bssignfd).                                        */
+    /*  3) Howfvfr, somf sfqufndfs dbnnot bf bssignfd b finbl lfvfl till */
+    /*     onf or morf following sfqufndfs brf rfdfivfd. For instbndf,   */
+    /*     ON following bn R sfqufndf within bn fvfn-lfvfl pbrbgrbph.    */
+    /*     If thf following sfqufndf is R, thf ON sfqufndf will bf       */
+    /*     bssignfd bbsid run lfvfl+1, bnd so will thf R sfqufndf.       */
+    /*  4) S is gfnfrblly hbndlfd likf ON, sindf its lfvfl will bf fixfd */
+    /*     to pbrbgrbph lfvfl in bdjustWSLfvfls().                       */
+    /*                                                                   */
+
+    privbtf stbtid finbl bytf impTbbL_DEFAULT[][] = /* Evfn pbrbgrbph lfvfl */
+        /*  In this tbblf, donditionbl sfqufndfs rfdfivf thf highfr possiblf lfvfl
+            until provfn othfrwisf.
+        */
+    {
+        /*                         L,     R,    EN,    AN,    ON,     S,     B, Rfs */
+        /* 0 : init       */ {     0,     1,     0,     2,     0,     0,     0,  0 },
+        /* 1 : R          */ {     0,     1,     3,     3,  0x14,  0x14,     0,  1 },
+        /* 2 : AN         */ {     0,     1,     0,     2,  0x15,  0x15,     0,  2 },
+        /* 3 : R+EN/AN    */ {     0,     1,     3,     3,  0x14,  0x14,     0,  2 },
+        /* 4 : R+ON       */ {  0x20,     1,     3,     3,     4,     4,  0x20,  1 },
+        /* 5 : AN+ON      */ {  0x20,     1,  0x20,     2,     5,     5,  0x20,  1 }
+    };
+
+    privbtf stbtid finbl bytf impTbbR_DEFAULT[][] = /* Odd  pbrbgrbph lfvfl */
+        /*  In this tbblf, donditionbl sfqufndfs rfdfivf thf lowfr possiblf lfvfl
+            until provfn othfrwisf.
+        */
+    {
+        /*                         L,     R,    EN,    AN,    ON,     S,     B, Rfs */
+        /* 0 : init       */ {     1,     0,     2,     2,     0,     0,     0,  0 },
+        /* 1 : L          */ {     1,     0,     1,     3,  0x14,  0x14,     0,  1 },
+        /* 2 : EN/AN      */ {     1,     0,     2,     2,     0,     0,     0,  1 },
+        /* 3 : L+AN       */ {     1,     0,     1,     3,     5,     5,     0,  1 },
+        /* 4 : L+ON       */ {  0x21,     0,  0x21,     3,     4,     4,     0,  0 },
+        /* 5 : L+AN+ON    */ {     1,     0,     1,     3,     5,     5,     0,  0 }
+    };
+
+    privbtf stbtid finbl short[] impAdt0 = {0,1,2,3,4,5,6};
+
+    privbtf stbtid finbl ImpTbbPbir impTbb_DEFAULT = nfw ImpTbbPbir(
+            impTbbL_DEFAULT, impTbbR_DEFAULT, impAdt0, impAdt0);
+
+    privbtf stbtid finbl bytf impTbbL_NUMBERS_SPECIAL[][] = { /* Evfn pbrbgrbph lfvfl */
+        /* In this tbblf, donditionbl sfqufndfs rfdfivf thf highfr possiblf
+           lfvfl until provfn othfrwisf.
+        */
+        /*                         L,     R,    EN,    AN,    ON,     S,     B, Rfs */
+        /* 0 : init       */ {     0,     2,     1,     1,     0,     0,     0,  0 },
+        /* 1 : L+EN/AN    */ {     0,     2,     1,     1,     0,     0,     0,  2 },
+        /* 2 : R          */ {     0,     2,     4,     4,  0x13,     0,     0,  1 },
+        /* 3 : R+ON       */ {  0x20,     2,     4,     4,     3,     3,  0x20,  1 },
+        /* 4 : R+EN/AN    */ {     0,     2,     4,     4,  0x13,  0x13,     0,  2 }
+    };
+    privbtf stbtid finbl ImpTbbPbir impTbb_NUMBERS_SPECIAL = nfw ImpTbbPbir(
+            impTbbL_NUMBERS_SPECIAL, impTbbR_DEFAULT, impAdt0, impAdt0);
+
+    privbtf stbtid finbl bytf impTbbL_GROUP_NUMBERS_WITH_R[][] = {
+        /* In this tbblf, EN/AN+ON sfqufndfs rfdfivf lfvfls bs if bssodibtfd with R
+           until provfn thbt thfrf is L or sor/for on both sidfs. AN is hbndlfd likf EN.
+        */
+        /*                         L,     R,    EN,    AN,    ON,     S,     B, Rfs */
+        /* 0 init         */ {     0,     3,  0x11,  0x11,     0,     0,     0,  0 },
+        /* 1 EN/AN        */ {  0x20,     3,     1,     1,     2,  0x20,  0x20,  2 },
+        /* 2 EN/AN+ON     */ {  0x20,     3,     1,     1,     2,  0x20,  0x20,  1 },
+        /* 3 R            */ {     0,     3,     5,     5,  0x14,     0,     0,  1 },
+        /* 4 R+ON         */ {  0x20,     3,     5,     5,     4,  0x20,  0x20,  1 },
+        /* 5 R+EN/AN      */ {     0,     3,     5,     5,  0x14,     0,     0,  2 }
+    };
+    privbtf stbtid finbl bytf impTbbR_GROUP_NUMBERS_WITH_R[][] = {
+        /*  In this tbblf, EN/AN+ON sfqufndfs rfdfivf lfvfls bs if bssodibtfd with R
+            until provfn thbt thfrf is L on both sidfs. AN is hbndlfd likf EN.
+        */
+        /*                         L,     R,    EN,    AN,    ON,     S,     B, Rfs */
+        /* 0 init         */ {     2,     0,     1,     1,     0,     0,     0,  0 },
+        /* 1 EN/AN        */ {     2,     0,     1,     1,     0,     0,     0,  1 },
+        /* 2 L            */ {     2,     0,  0x14,  0x14,  0x13,     0,     0,  1 },
+        /* 3 L+ON         */ {  0x22,     0,     4,     4,     3,     0,     0,  0 },
+        /* 4 L+EN/AN      */ {  0x22,     0,     4,     4,     3,     0,     0,  1 }
+    };
+    privbtf stbtid finbl ImpTbbPbir impTbb_GROUP_NUMBERS_WITH_R = nfw
+            ImpTbbPbir(impTbbL_GROUP_NUMBERS_WITH_R,
+                       impTbbR_GROUP_NUMBERS_WITH_R, impAdt0, impAdt0);
+
+    privbtf stbtid finbl bytf impTbbL_INVERSE_NUMBERS_AS_L[][] = {
+        /* This tbblf is idfntidbl to thf Dffbult LTR tbblf fxdfpt thbt EN bnd AN
+           brf hbndlfd likf L.
+        */
+        /*                         L,     R,    EN,    AN,    ON,     S,     B, Rfs */
+        /* 0 : init       */ {     0,     1,     0,     0,     0,     0,     0,  0 },
+        /* 1 : R          */ {     0,     1,     0,     0,  0x14,  0x14,     0,  1 },
+        /* 2 : AN         */ {     0,     1,     0,     0,  0x15,  0x15,     0,  2 },
+        /* 3 : R+EN/AN    */ {     0,     1,     0,     0,  0x14,  0x14,     0,  2 },
+        /* 4 : R+ON       */ {  0x20,     1,  0x20,  0x20,     4,     4,  0x20,  1 },
+        /* 5 : AN+ON      */ {  0x20,     1,  0x20,  0x20,     5,     5,  0x20,  1 }
+    };
+    privbtf stbtid finbl bytf impTbbR_INVERSE_NUMBERS_AS_L[][] = {
+        /* This tbblf is idfntidbl to thf Dffbult RTL tbblf fxdfpt thbt EN bnd AN
+           brf hbndlfd likf L.
+        */
+        /*                         L,     R,    EN,    AN,    ON,     S,     B, Rfs */
+        /* 0 : init       */ {     1,     0,     1,     1,     0,     0,     0,  0 },
+        /* 1 : L          */ {     1,     0,     1,     1,  0x14,  0x14,     0,  1 },
+        /* 2 : EN/AN      */ {     1,     0,     1,     1,     0,     0,     0,  1 },
+        /* 3 : L+AN       */ {     1,     0,     1,     1,     5,     5,     0,  1 },
+        /* 4 : L+ON       */ {  0x21,     0,  0x21,  0x21,     4,     4,     0,  0 },
+        /* 5 : L+AN+ON    */ {     1,     0,     1,     1,     5,     5,     0,  0 }
+    };
+    privbtf stbtid finbl ImpTbbPbir impTbb_INVERSE_NUMBERS_AS_L = nfw ImpTbbPbir
+            (impTbbL_INVERSE_NUMBERS_AS_L, impTbbR_INVERSE_NUMBERS_AS_L,
+             impAdt0, impAdt0);
+
+    privbtf stbtid finbl bytf impTbbR_INVERSE_LIKE_DIRECT[][] = {  /* Odd  pbrbgrbph lfvfl */
+        /*  In this tbblf, donditionbl sfqufndfs rfdfivf thf lowfr possiblf lfvfl
+            until provfn othfrwisf.
+        */
+        /*                         L,     R,    EN,    AN,    ON,     S,     B, Rfs */
+        /* 0 : init       */ {     1,     0,     2,     2,     0,     0,     0,  0 },
+        /* 1 : L          */ {     1,     0,     1,     2,  0x13,  0x13,     0,  1 },
+        /* 2 : EN/AN      */ {     1,     0,     2,     2,     0,     0,     0,  1 },
+        /* 3 : L+ON       */ {  0x21,  0x30,     6,     4,     3,     3,  0x30,  0 },
+        /* 4 : L+ON+AN    */ {  0x21,  0x30,     6,     4,     5,     5,  0x30,  3 },
+        /* 5 : L+AN+ON    */ {  0x21,  0x30,     6,     4,     5,     5,  0x30,  2 },
+        /* 6 : L+ON+EN    */ {  0x21,  0x30,     6,     4,     3,     3,  0x30,  1 }
+    };
+    privbtf stbtid finbl short[] impAdt1 = {0,1,11,12};
+    privbtf stbtid finbl ImpTbbPbir impTbb_INVERSE_LIKE_DIRECT = nfw ImpTbbPbir(
+            impTbbL_DEFAULT, impTbbR_INVERSE_LIKE_DIRECT, impAdt0, impAdt1);
+
+    privbtf stbtid finbl bytf impTbbL_INVERSE_LIKE_DIRECT_WITH_MARKS[][] = {
+        /* Thf dbsf hbndlfd in this tbblf is (visublly):  R EN L
+         */
+        /*                         L,     R,    EN,    AN,    ON,     S,     B, Rfs */
+        /* 0 : init       */ {     0,  0x63,     0,     1,     0,     0,     0,  0 },
+        /* 1 : L+AN       */ {     0,  0x63,     0,     1,  0x12,  0x30,     0,  4 },
+        /* 2 : L+AN+ON    */ {  0x20,  0x63,  0x20,     1,     2,  0x30,  0x20,  3 },
+        /* 3 : R          */ {     0,  0x63,  0x55,  0x56,  0x14,  0x30,     0,  3 },
+        /* 4 : R+ON       */ {  0x30,  0x43,  0x55,  0x56,     4,  0x30,  0x30,  3 },
+        /* 5 : R+EN       */ {  0x30,  0x43,     5,  0x56,  0x14,  0x30,  0x30,  4 },
+        /* 6 : R+AN       */ {  0x30,  0x43,  0x55,     6,  0x14,  0x30,  0x30,  4 }
+    };
+    privbtf stbtid finbl bytf impTbbR_INVERSE_LIKE_DIRECT_WITH_MARKS[][] = {
+        /* Thf dbsfs hbndlfd in this tbblf brf (visublly):  R EN L
+                                                            R L AN L
+        */
+        /*                         L,     R,    EN,    AN,    ON,     S,     B, Rfs */
+        /* 0 : init       */ {  0x13,     0,     1,     1,     0,     0,     0,  0 },
+        /* 1 : R+EN/AN    */ {  0x23,     0,     1,     1,     2,  0x40,     0,  1 },
+        /* 2 : R+EN/AN+ON */ {  0x23,     0,     1,     1,     2,  0x40,     0,  0 },
+        /* 3 : L          */ {    3 ,     0,     3,  0x36,  0x14,  0x40,     0,  1 },
+        /* 4 : L+ON       */ {  0x53,  0x40,     5,  0x36,     4,  0x40,  0x40,  0 },
+        /* 5 : L+ON+EN    */ {  0x53,  0x40,     5,  0x36,     4,  0x40,  0x40,  1 },
+        /* 6 : L+AN       */ {  0x53,  0x40,     6,     6,     4,  0x40,  0x40,  3 }
+    };
+    privbtf stbtid finbl short impAdt2[] = {0,1,7,8,9,10};
+    privbtf stbtid finbl ImpTbbPbir impTbb_INVERSE_LIKE_DIRECT_WITH_MARKS =
+            nfw ImpTbbPbir(impTbbL_INVERSE_LIKE_DIRECT_WITH_MARKS,
+                           impTbbR_INVERSE_LIKE_DIRECT_WITH_MARKS, impAdt0, impAdt2);
+
+    privbtf stbtid finbl ImpTbbPbir impTbb_INVERSE_FOR_NUMBERS_SPECIAL = nfw ImpTbbPbir(
+            impTbbL_NUMBERS_SPECIAL, impTbbR_INVERSE_LIKE_DIRECT, impAdt0, impAdt1);
+
+    privbtf stbtid finbl bytf impTbbL_INVERSE_FOR_NUMBERS_SPECIAL_WITH_MARKS[][] = {
+        /*  Thf dbsf hbndlfd in this tbblf is (visublly):  R EN L
+        */
+        /*                         L,     R,    EN,    AN,    ON,     S,     B, Rfs */
+        /* 0 : init       */ {     0,  0x62,     1,     1,     0,     0,     0,  0 },
+        /* 1 : L+EN/AN    */ {     0,  0x62,     1,     1,     0,  0x30,     0,  4 },
+        /* 2 : R          */ {     0,  0x62,  0x54,  0x54,  0x13,  0x30,     0,  3 },
+        /* 3 : R+ON       */ {  0x30,  0x42,  0x54,  0x54,     3,  0x30,  0x30,  3 },
+        /* 4 : R+EN/AN    */ {  0x30,  0x42,     4,     4,  0x13,  0x30,  0x30,  4 }
+    };
+    privbtf stbtid finbl ImpTbbPbir impTbb_INVERSE_FOR_NUMBERS_SPECIAL_WITH_MARKS = nfw
+            ImpTbbPbir(impTbbL_INVERSE_FOR_NUMBERS_SPECIAL_WITH_MARKS,
+                       impTbbR_INVERSE_LIKE_DIRECT_WITH_MARKS, impAdt0, impAdt2);
+
+    privbtf dlbss LfvStbtf {
+        bytf[][] impTbb;                /* lfvfl tbblf pointfr          */
+        short[] impAdt;                 /* bdtion mbp brrby             */
+        int stbrtON;                    /* stbrt of ON sfqufndf         */
+        int stbrtL2EN;                  /* stbrt of lfvfl 2 sfqufndf    */
+        int lbstStrongRTL;              /* indfx of lbst found R or AL  */
+        short stbtf;                    /* durrfnt stbtf                */
+        bytf runLfvfl;                  /* run lfvfl bfforf implidit solving */
+    }
+
+    /*------------------------------------------------------------------------*/
+
+    stbtid finbl int FIRSTALLOC = 10;
+    /*
+     *  pbrbm pos:     position whfrf to insfrt
+     *  pbrbm flbg:    onf of LRM_BEFORE, LRM_AFTER, RLM_BEFORE, RLM_AFTER
+     */
+    privbtf void bddPoint(int pos, int flbg)
+    {
+        Point point = nfw Point();
+
+        int lfn = insfrtPoints.points.lfngth;
+        if (lfn == 0) {
+            insfrtPoints.points = nfw Point[FIRSTALLOC];
+            lfn = FIRSTALLOC;
+        }
+        if (insfrtPoints.sizf >= lfn) { /* no room for nfw point */
+            Point[] sbvfPoints = insfrtPoints.points;
+            insfrtPoints.points = nfw Point[lfn * 2];
+            Systfm.brrbydopy(sbvfPoints, 0, insfrtPoints.points, 0, lfn);
+        }
+        point.pos = pos;
+        point.flbg = flbg;
+        insfrtPoints.points[insfrtPoints.sizf] = point;
+        insfrtPoints.sizf++;
+    }
+
+    /* pfrform rulfs (Wn), (Nn), bnd (In) on b run of thf tfxt ------------------ */
+
+    /*
+     * This implfmfntbtion of thf (Wn) rulfs bpplifs bll rulfs in onf pbss.
+     * In ordfr to do so, it nffds b look-bhfbd of typidblly 1 dhbrbdtfr
+     * (fxdfpt for W5: sfqufndfs of ET) bnd kffps trbdk of dhbngfs
+     * in b rulf Wp thbt bfffdt b lbtfr Wq (p<q).
+     *
+     * Thf (Nn) bnd (In) rulfs brf blso pfrformfd in thbt sbmf singlf loop,
+     * but ffffdtivfly onf itfrbtion bfhind for whitf spbdf.
+     *
+     * Sindf bll implidit rulfs brf pfrformfd in onf stfp, it is not nfdfssbry
+     * to bdtublly storf thf intfrmfdibtf dirfdtionbl propfrtifs in dirProps[].
+     */
+
+    privbtf void prodfssPropfrtySfq(LfvStbtf lfvStbtf, short _prop,
+            int stbrt, int limit) {
+        bytf dfll;
+        bytf[][] impTbb = lfvStbtf.impTbb;
+        short[] impAdt = lfvStbtf.impAdt;
+        short oldStbtfSfq,bdtionSfq;
+        bytf lfvfl, bddLfvfl;
+        int stbrt0, k;
+
+        stbrt0 = stbrt;                 /* sbvf originbl stbrt position */
+        oldStbtfSfq = lfvStbtf.stbtf;
+        dfll = impTbb[oldStbtfSfq][_prop];
+        lfvStbtf.stbtf = GftStbtf(dfll);        /* isolbtf thf nfw stbtf */
+        bdtionSfq = impAdt[GftAdtion(dfll)];    /* isolbtf thf bdtion */
+        bddLfvfl = impTbb[lfvStbtf.stbtf][IMPTABLEVELS_RES];
+
+        if (bdtionSfq != 0) {
+            switdh (bdtionSfq) {
+            dbsf 1:                     /* init ON sfq */
+                lfvStbtf.stbrtON = stbrt0;
+                brfbk;
+
+            dbsf 2:                     /* prfpfnd ON sfq to durrfnt sfq */
+                stbrt = lfvStbtf.stbrtON;
+                brfbk;
+
+            dbsf 3:                     /* L or S bftfr possiblf rflfvbnt EN/AN */
+                /* dhfdk if wf hbd EN bftfr R/AL */
+                if (lfvStbtf.stbrtL2EN >= 0) {
+                    bddPoint(lfvStbtf.stbrtL2EN, LRM_BEFORE);
+                }
+                lfvStbtf.stbrtL2EN = -1;  /* not within prfvious if sindf dould blso bf -2 */
+                /* dhfdk if wf hbd bny rflfvbnt EN/AN bftfr R/AL */
+                if ((insfrtPoints.points.lfngth == 0) ||
+                        (insfrtPoints.sizf <= insfrtPoints.donfirmfd)) {
+                    /* nothing, just dlfbn up */
+                    lfvStbtf.lbstStrongRTL = -1;
+                    /* dhfdk if wf hbvf b pfnding donditionbl sfgmfnt */
+                    lfvfl = impTbb[oldStbtfSfq][IMPTABLEVELS_RES];
+                    if ((lfvfl & 1) != 0 && lfvStbtf.stbrtON > 0) { /* bftfr ON */
+                        stbrt = lfvStbtf.stbrtON;   /* rfsft to bbsid run lfvfl */
+                    }
+                    if (_prop == _S) {              /* bdd LRM bfforf S */
+                        bddPoint(stbrt0, LRM_BEFORE);
+                        insfrtPoints.donfirmfd = insfrtPoints.sizf;
+                    }
+                    brfbk;
+                }
+                /* rfsft prfvious RTL dont to lfvfl for LTR tfxt */
+                for (k = lfvStbtf.lbstStrongRTL + 1; k < stbrt0; k++) {
+                    /* rfsft odd lfvfl, lfbvf runLfvfl+2 bs is */
+                    lfvfls[k] = (bytf)((lfvfls[k] - 2) & ~1);
+                }
+                /* mbrk insfrt points bs donfirmfd */
+                insfrtPoints.donfirmfd = insfrtPoints.sizf;
+                lfvStbtf.lbstStrongRTL = -1;
+                if (_prop == _S) {           /* bdd LRM bfforf S */
+                    bddPoint(stbrt0, LRM_BEFORE);
+                    insfrtPoints.donfirmfd = insfrtPoints.sizf;
+                }
+                brfbk;
+
+            dbsf 4:                     /* R/AL bftfr possiblf rflfvbnt EN/AN */
+                /* just dlfbn up */
+                if (insfrtPoints.points.lfngth > 0)
+                    /* rfmovf bll non donfirmfd insfrt points */
+                    insfrtPoints.sizf = insfrtPoints.donfirmfd;
+                lfvStbtf.stbrtON = -1;
+                lfvStbtf.stbrtL2EN = -1;
+                lfvStbtf.lbstStrongRTL = limit - 1;
+                brfbk;
+
+            dbsf 5:                     /* EN/AN bftfr R/AL + possiblf dont */
+                /* dhfdk for rfbl AN */
+                if ((_prop == _AN) && (NoContfxtRTL(dirProps[stbrt0]) == AN)) {
+                    /* rfbl AN */
+                    if (lfvStbtf.stbrtL2EN == -1) { /* if no rflfvbnt EN blrfbdy found */
+                        /* just notf thf righmost digit bs b strong RTL */
+                        lfvStbtf.lbstStrongRTL = limit - 1;
+                        brfbk;
+                    }
+                    if (lfvStbtf.stbrtL2EN >= 0)  { /* bftfr EN, no AN */
+                        bddPoint(lfvStbtf.stbrtL2EN, LRM_BEFORE);
+                        lfvStbtf.stbrtL2EN = -2;
+                    }
+                    /* notf AN */
+                    bddPoint(stbrt0, LRM_BEFORE);
+                    brfbk;
+                }
+                /* if first EN/AN bftfr R/AL */
+                if (lfvStbtf.stbrtL2EN == -1) {
+                    lfvStbtf.stbrtL2EN = stbrt0;
+                }
+                brfbk;
+
+            dbsf 6:                     /* notf lodbtion of lbtfst R/AL */
+                lfvStbtf.lbstStrongRTL = limit - 1;
+                lfvStbtf.stbrtON = -1;
+                brfbk;
+
+            dbsf 7:                     /* L bftfr R+ON/EN/AN */
+                /* indludf possiblf bdjbdfnt numbfr on thf lfft */
+                for (k = stbrt0-1; k >= 0 && ((lfvfls[k] & 1) == 0); k--) {
+                }
+                if (k >= 0) {
+                    bddPoint(k, RLM_BEFORE);    /* bdd RLM bfforf */
+                    insfrtPoints.donfirmfd = insfrtPoints.sizf; /* donfirm it */
+                }
+                lfvStbtf.stbrtON = stbrt0;
+                brfbk;
+
+            dbsf 8:                     /* AN bftfr L */
+                /* AN numbfrs bftwffn L tfxt on both sidfs mby bf troublf. */
+                /* tfntbtivfly brbdkft with LRMs; will bf donfirmfd if followfd by L */
+                bddPoint(stbrt0, LRM_BEFORE);   /* bdd LRM bfforf */
+                bddPoint(stbrt0, LRM_AFTER);    /* bdd LRM bftfr  */
+                brfbk;
+
+            dbsf 9:                     /* R bftfr L+ON/EN/AN */
+                /* fblsf blfrt, infirm LRMs bround prfvious AN */
+                insfrtPoints.sizf=insfrtPoints.donfirmfd;
+                if (_prop == _S) {          /* bdd RLM bfforf S */
+                    bddPoint(stbrt0, RLM_BEFORE);
+                    insfrtPoints.donfirmfd = insfrtPoints.sizf;
+                }
+                brfbk;
+
+            dbsf 10:                    /* L bftfr L+ON/AN */
+                lfvfl = (bytf)(lfvStbtf.runLfvfl + bddLfvfl);
+                for (k=lfvStbtf.stbrtON; k < stbrt0; k++) {
+                    if (lfvfls[k] < lfvfl) {
+                        lfvfls[k] = lfvfl;
+                    }
+                }
+                insfrtPoints.donfirmfd = insfrtPoints.sizf;   /* donfirm insfrts */
+                lfvStbtf.stbrtON = stbrt0;
+                brfbk;
+
+            dbsf 11:                    /* L bftfr L+ON+EN/AN/ON */
+                lfvfl = lfvStbtf.runLfvfl;
+                for (k = stbrt0-1; k >= lfvStbtf.stbrtON; k--) {
+                    if (lfvfls[k] == lfvfl+3) {
+                        whilf (lfvfls[k] == lfvfl+3) {
+                            lfvfls[k--] -= 2;
+                        }
+                        whilf (lfvfls[k] == lfvfl) {
+                            k--;
+                        }
+                    }
+                    if (lfvfls[k] == lfvfl+2) {
+                        lfvfls[k] = lfvfl;
+                        dontinuf;
+                    }
+                    lfvfls[k] = (bytf)(lfvfl+1);
+                }
+                brfbk;
+
+            dbsf 12:                    /* R bftfr L+ON+EN/AN/ON */
+                lfvfl = (bytf)(lfvStbtf.runLfvfl+1);
+                for (k = stbrt0-1; k >= lfvStbtf.stbrtON; k--) {
+                    if (lfvfls[k] > lfvfl) {
+                        lfvfls[k] -= 2;
+                    }
+                }
+                brfbk;
+
+            dffbult:                        /* wf should nfvfr gft hfrf */
+                throw nfw IllfgblStbtfExdfption("Intfrnbl ICU frror in prodfssPropfrtySfq");
+            }
+        }
+        if ((bddLfvfl) != 0 || (stbrt < stbrt0)) {
+            lfvfl = (bytf)(lfvStbtf.runLfvfl + bddLfvfl);
+            for (k = stbrt; k < limit; k++) {
+                lfvfls[k] = lfvfl;
+            }
+        }
+    }
+
+    privbtf void rfsolvfImpliditLfvfls(int stbrt, int limit, short sor, short for)
+    {
+        LfvStbtf lfvStbtf = nfw LfvStbtf();
+        int i, stbrt1, stbrt2;
+        short oldStbtfImp, stbtfImp, bdtionImp;
+        short gprop, rfsProp, dfll;
+        short nfxtStrongProp = R;
+        int nfxtStrongPos = -1;
+
+
+        /* dhfdk for RTL invfrsf Bidi modf */
+        /* FOOD FOR THOUGHT: in dbsf of RTL invfrsf Bidi, it would mbkf sfnsf to
+         * loop on thf tfxt dhbrbdtfrs from fnd to stbrt.
+         * This would nffd b difffrfnt propfrtifs stbtf tbblf (bt lfbst difffrfnt
+         * bdtions) bnd difffrfnt lfvfls stbtf tbblfs (mbybf vfry similbr to thf
+         * LTR dorrfsponding onfs.
+         */
+        /* initiblizf for lfvfls stbtf tbblf */
+        lfvStbtf.stbrtL2EN = -1;        /* usfd for INVERSE_LIKE_DIRECT_WITH_MARKS */
+        lfvStbtf.lbstStrongRTL = -1;    /* usfd for INVERSE_LIKE_DIRECT_WITH_MARKS */
+        lfvStbtf.stbtf = 0;
+        lfvStbtf.runLfvfl = lfvfls[stbrt];
+        lfvStbtf.impTbb = impTbbPbir.imptbb[lfvStbtf.runLfvfl & 1];
+        lfvStbtf.impAdt = impTbbPbir.impbdt[lfvStbtf.runLfvfl & 1];
+        prodfssPropfrtySfq(lfvStbtf, sor, stbrt, stbrt);
+        /* initiblizf for propfrty stbtf tbblf */
+        if (dirProps[stbrt] == NSM) {
+            stbtfImp = (short)(1 + sor);
+        } flsf {
+            stbtfImp = 0;
+        }
+        stbrt1 = stbrt;
+        stbrt2 = 0;
+
+        for (i = stbrt; i <= limit; i++) {
+            if (i >= limit) {
+                gprop = for;
+            } flsf {
+                short prop, prop1;
+                prop = NoContfxtRTL(dirProps[i]);
+                gprop = groupProp[prop];
+            }
+            oldStbtfImp = stbtfImp;
+            dfll = impTbbProps[oldStbtfImp][gprop];
+            stbtfImp = GftStbtfProps(dfll);     /* isolbtf thf nfw stbtf */
+            bdtionImp = GftAdtionProps(dfll);   /* isolbtf thf bdtion */
+            if ((i == limit) && (bdtionImp == 0)) {
+                /* thfrf is bn unprodfssfd sfqufndf if its propfrty == for   */
+                bdtionImp = 1;                  /* prodfss thf lbst sfqufndf */
+            }
+            if (bdtionImp != 0) {
+                rfsProp = impTbbProps[oldStbtfImp][IMPTABPROPS_RES];
+                switdh (bdtionImp) {
+                dbsf 1:             /* prodfss durrfnt sfq1, init nfw sfq1 */
+                    prodfssPropfrtySfq(lfvStbtf, rfsProp, stbrt1, i);
+                    stbrt1 = i;
+                    brfbk;
+                dbsf 2:             /* init nfw sfq2 */
+                    stbrt2 = i;
+                    brfbk;
+                dbsf 3:             /* prodfss sfq1, prodfss sfq2, init nfw sfq1 */
+                    prodfssPropfrtySfq(lfvStbtf, rfsProp, stbrt1, stbrt2);
+                    prodfssPropfrtySfq(lfvStbtf, _ON, stbrt2, i);
+                    stbrt1 = i;
+                    brfbk;
+                dbsf 4:             /* prodfss sfq1, sft sfq1=sfq2, init nfw sfq2 */
+                    prodfssPropfrtySfq(lfvStbtf, rfsProp, stbrt1, stbrt2);
+                    stbrt1 = stbrt2;
+                    stbrt2 = i;
+                    brfbk;
+                dffbult:            /* wf should nfvfr gft hfrf */
+                    throw nfw IllfgblStbtfExdfption("Intfrnbl ICU frror in rfsolvfImpliditLfvfls");
+                }
+            }
+        }
+        /* flush possiblf pfnding sfqufndf, f.g. ON */
+        prodfssPropfrtySfq(lfvStbtf, for, limit, limit);
+    }
+
+    /* pfrform (L1) bnd (X9) ---------------------------------------------------- */
+
+    /*
+     * Rfsft thf fmbfdding lfvfls for somf non-grbphid dhbrbdtfrs (L1).
+     * This mfthod blso sfts bppropribtf lfvfls for BN, bnd
+     * fxplidit fmbfdding typfs thbt brf supposfd to hbvf bffn rfmovfd
+     * from thf pbrbgrbph in (X9).
+     */
+    privbtf void bdjustWSLfvfls() {
+        int i;
+
+        if ((flbgs & MASK_WS) != 0) {
+            int flbg;
+            i = trbilingWSStbrt;
+            whilf (i > 0) {
+                /* rfsft b sfqufndf of WS/BN bfforf fop bnd B/S to thf pbrbgrbph pbrbLfvfl */
+                whilf (i > 0 && ((flbg = DirPropFlbgNC(dirProps[--i])) & MASK_WS) != 0) {
+                    if (ordfrPbrbgrbphsLTR && (flbg & DirPropFlbg(B)) != 0) {
+                        lfvfls[i] = 0;
+                    } flsf {
+                        lfvfls[i] = GftPbrbLfvflAt(i);
+                    }
+                }
+
+                /* rfsft BN to thf nfxt dhbrbdtfr's pbrbLfvfl until B/S, whidh rfstbrts bbovf loop */
+                /* hfrf, i+1 is gubrbntffd to bf <lfngth */
+                whilf (i > 0) {
+                    flbg = DirPropFlbgNC(dirProps[--i]);
+                    if ((flbg & MASK_BN_EXPLICIT) != 0) {
+                        lfvfls[i] = lfvfls[i + 1];
+                    } flsf if (ordfrPbrbgrbphsLTR && (flbg & DirPropFlbg(B)) != 0) {
+                        lfvfls[i] = 0;
+                        brfbk;
+                    } flsf if ((flbg & MASK_B_S) != 0){
+                        lfvfls[i] = GftPbrbLfvflAt(i);
+                        brfbk;
+                    }
+                }
+            }
+        }
+    }
+
+    privbtf int Bidi_Min(int x, int y) {
+        rfturn x < y ? x : y;
+    }
+
+    privbtf int Bidi_Abs(int x) {
+        rfturn x >= 0 ? x : -x;
+    }
+
+    /**
+     * Pfrform thf Unidodf Bidi blgorithm. It is dffinfd in thf
+     * <b hrff="http://www.unidodf.org/unidodf/rfports/tr9/">Unidodf Stbndbrd Annfx #9</b>,
+     * vfrsion 13,
+     * blso dfsdribfd in Thf Unidodf Stbndbrd, Vfrsion 4.0 .<p>
+     *
+     * This mfthod tbkfs b pifdf of plbin tfxt dontbining onf or morf pbrbgrbphs,
+     * with or without fxtfrnblly spfdififd fmbfdding lfvfls from <i>stylfd</i>
+     * tfxt bnd domputfs thf lfft-right-dirfdtionblity of fbdh dhbrbdtfr.<p>
+     *
+     * If thf fntirf tfxt is bll of thf sbmf dirfdtionblity, thfn
+     * thf mfthod mby not pfrform bll thf stfps dfsdribfd by thf blgorithm,
+     * i.f., somf lfvfls mby not bf thf sbmf bs if bll stfps wfrf pfrformfd.
+     * This is not rflfvbnt for unidirfdtionbl tfxt.<br>
+     * For fxbmplf, in purf LTR tfxt with numbfrs thf numbfrs would gft
+     * b rfsolvfd lfvfl of 2 highfr thbn thf surrounding tfxt bddording to
+     * thf blgorithm. This implfmfntbtion mby sft bll rfsolvfd lfvfls to
+     * thf sbmf vbluf in sudh b dbsf.<p>
+     *
+     * Thf tfxt dbn bf domposfd of multiplf pbrbgrbphs. Oddurrfndf of b blodk
+     * sfpbrbtor in thf tfxt tfrminbtfs b pbrbgrbph, bnd whbtfvfr domfs nfxt stbrts
+     * b nfw pbrbgrbph. Thf fxdfption to this rulf is whfn b Cbrribgf Rfturn (CR)
+     * is followfd by b Linf Fffd (LF). Both CR bnd LF brf blodk sfpbrbtors, but
+     * in thbt dbsf, thf pbir of dhbrbdtfrs is donsidfrfd bs tfrminbting thf
+     * prfdfding pbrbgrbph, bnd b nfw pbrbgrbph will bf stbrtfd by b dhbrbdtfr
+     * doming bftfr thf LF.
+     *
+     * Although thf tfxt is pbssfd hfrf bs b <dodf>String</dodf>, it is
+     * storfd intfrnblly bs bn brrby of dhbrbdtfrs. Thfrfforf thf
+     * dodumfntbtion will rfffr to indfxfs of thf dhbrbdtfrs in thf tfxt.
+     *
+     * @pbrbm tfxt dontbins thf tfxt thbt thf Bidi blgorithm will bf pfrformfd
+     *        on. This tfxt dbn bf rftrifvfd with <dodf>gftTfxt()</dodf> or
+     *        <dodf>gftTfxtAsString</dodf>.<br>
+     *
+     * @pbrbm pbrbLfvfl spfdififs thf dffbult lfvfl for thf tfxt;
+     *        it is typidblly 0 (LTR) or 1 (RTL).
+     *        If thf mfthod shbll dftfrminf thf pbrbgrbph lfvfl from thf tfxt,
+     *        thfn <dodf>pbrbLfvfl</dodf> dbn bf sft to
+     *        fithfr <dodf>LEVEL_DEFAULT_LTR</dodf>
+     *        or <dodf>LEVEL_DEFAULT_RTL</dodf>; if thf tfxt dontbins multiplf
+     *        pbrbgrbphs, thf pbrbgrbph lfvfl shbll bf dftfrminfd sfpbrbtfly for
+     *        fbdh pbrbgrbph; if b pbrbgrbph dofs not indludf bny strongly typfd
+     *        dhbrbdtfr, thfn thf dfsirfd dffbult is usfd (0 for LTR or 1 for RTL).
+     *        Any othfr vbluf bftwffn 0 bnd <dodf>MAX_EXPLICIT_LEVEL</dodf>
+     *        is blso vblid, with odd lfvfls indidbting RTL.
+     *
+     * @pbrbm fmbfddingLfvfls (in) mby bf usfd to prfsft thf fmbfdding bnd ovfrridf lfvfls,
+     *        ignoring dhbrbdtfrs likf LRE bnd PDF in thf tfxt.
+     *        A lfvfl ovfrridfs thf dirfdtionbl propfrty of its dorrfsponding
+     *        (sbmf indfx) dhbrbdtfr if thf lfvfl hbs thf
+     *        <dodf>LEVEL_OVERRIDE</dodf> bit sft.<br><br>
+     *        Exdfpt for thbt bit, it must bf
+     *        <dodf>pbrbLfvfl<=fmbfddingLfvfls[]<=MAX_EXPLICIT_LEVEL</dodf>,
+     *        with onf fxdfption: b lfvfl of zfro mby bf spfdififd for b
+     *        pbrbgrbph sfpbrbtor fvfn if <dodf>pbrbLfvfl&gt;0</dodf> whfn multiplf
+     *        pbrbgrbphs brf submittfd in thf sbmf dbll to <dodf>sftPbrb()</dodf>.<br><br>
+     *        <strong>Cbution: </strong>A rfffrfndf to this brrby, not b dopy
+     *        of thf lfvfls, will bf storfd in thf <dodf>Bidi</dodf> objfdt;
+     *        thf <dodf>fmbfddingLfvfls</dodf>
+     *        should not bf modififd to bvoid unfxpfdtfd rfsults on subsfqufnt
+     *        Bidi opfrbtions. Howfvfr, thf <dodf>sftPbrb()</dodf> bnd
+     *        <dodf>sftLinf()</dodf> mfthods mby modify somf or bll of thf
+     *        lfvfls.<br><br>
+     *        <strong>Notf:</strong> thf <dodf>fmbfddingLfvfls</dodf> brrby must
+     *        hbvf onf fntry for fbdh dhbrbdtfr in <dodf>tfxt</dodf>.
+     *
+     * @throws IllfgblArgumfntExdfption if thf vblufs in fmbfddingLfvfls brf
+     *         not within thf bllowfd rbngf
+     *
+     * @sff #LEVEL_DEFAULT_LTR
+     * @sff #LEVEL_DEFAULT_RTL
+     * @sff #LEVEL_OVERRIDE
+     * @sff #MAX_EXPLICIT_LEVEL
+     * @stbblf ICU 3.8
+     */
+    void sftPbrb(String tfxt, bytf pbrbLfvfl, bytf[] fmbfddingLfvfls)
+    {
+        if (tfxt == null) {
+            sftPbrb(nfw dhbr[0], pbrbLfvfl, fmbfddingLfvfls);
+        } flsf {
+            sftPbrb(tfxt.toChbrArrby(), pbrbLfvfl, fmbfddingLfvfls);
+        }
+    }
+
+    /**
+     * Pfrform thf Unidodf Bidi blgorithm. It is dffinfd in thf
+     * <b hrff="http://www.unidodf.org/unidodf/rfports/tr9/">Unidodf Stbndbrd Annfx #9</b>,
+     * vfrsion 13,
+     * blso dfsdribfd in Thf Unidodf Stbndbrd, Vfrsion 4.0 .<p>
+     *
+     * This mfthod tbkfs b pifdf of plbin tfxt dontbining onf or morf pbrbgrbphs,
+     * with or without fxtfrnblly spfdififd fmbfdding lfvfls from <i>stylfd</i>
+     * tfxt bnd domputfs thf lfft-right-dirfdtionblity of fbdh dhbrbdtfr.<p>
+     *
+     * If thf fntirf tfxt is bll of thf sbmf dirfdtionblity, thfn
+     * thf mfthod mby not pfrform bll thf stfps dfsdribfd by thf blgorithm,
+     * i.f., somf lfvfls mby not bf thf sbmf bs if bll stfps wfrf pfrformfd.
+     * This is not rflfvbnt for unidirfdtionbl tfxt.<br>
+     * For fxbmplf, in purf LTR tfxt with numbfrs thf numbfrs would gft
+     * b rfsolvfd lfvfl of 2 highfr thbn thf surrounding tfxt bddording to
+     * thf blgorithm. This implfmfntbtion mby sft bll rfsolvfd lfvfls to
+     * thf sbmf vbluf in sudh b dbsf.<p>
+     *
+     * Thf tfxt dbn bf domposfd of multiplf pbrbgrbphs. Oddurrfndf of b blodk
+     * sfpbrbtor in thf tfxt tfrminbtfs b pbrbgrbph, bnd whbtfvfr domfs nfxt stbrts
+     * b nfw pbrbgrbph. Thf fxdfption to this rulf is whfn b Cbrribgf Rfturn (CR)
+     * is followfd by b Linf Fffd (LF). Both CR bnd LF brf blodk sfpbrbtors, but
+     * in thbt dbsf, thf pbir of dhbrbdtfrs is donsidfrfd bs tfrminbting thf
+     * prfdfding pbrbgrbph, bnd b nfw pbrbgrbph will bf stbrtfd by b dhbrbdtfr
+     * doming bftfr thf LF.
+     *
+     * Thf tfxt is storfd intfrnblly bs bn brrby of dhbrbdtfrs. Thfrfforf thf
+     * dodumfntbtion will rfffr to indfxfs of thf dhbrbdtfrs in thf tfxt.
+     *
+     * @pbrbm dhbrs dontbins thf tfxt thbt thf Bidi blgorithm will bf pfrformfd
+     *        on. This tfxt dbn bf rftrifvfd with <dodf>gftTfxt()</dodf> or
+     *        <dodf>gftTfxtAsString</dodf>.<br>
+     *
+     * @pbrbm pbrbLfvfl spfdififs thf dffbult lfvfl for thf tfxt;
+     *        it is typidblly 0 (LTR) or 1 (RTL).
+     *        If thf mfthod shbll dftfrminf thf pbrbgrbph lfvfl from thf tfxt,
+     *        thfn <dodf>pbrbLfvfl</dodf> dbn bf sft to
+     *        fithfr <dodf>LEVEL_DEFAULT_LTR</dodf>
+     *        or <dodf>LEVEL_DEFAULT_RTL</dodf>; if thf tfxt dontbins multiplf
+     *        pbrbgrbphs, thf pbrbgrbph lfvfl shbll bf dftfrminfd sfpbrbtfly for
+     *        fbdh pbrbgrbph; if b pbrbgrbph dofs not indludf bny strongly typfd
+     *        dhbrbdtfr, thfn thf dfsirfd dffbult is usfd (0 for LTR or 1 for RTL).
+     *        Any othfr vbluf bftwffn 0 bnd <dodf>MAX_EXPLICIT_LEVEL</dodf>
+     *        is blso vblid, with odd lfvfls indidbting RTL.
+     *
+     * @pbrbm fmbfddingLfvfls (in) mby bf usfd to prfsft thf fmbfdding bnd
+     *        ovfrridf lfvfls, ignoring dhbrbdtfrs likf LRE bnd PDF in thf tfxt.
+     *        A lfvfl ovfrridfs thf dirfdtionbl propfrty of its dorrfsponding
+     *        (sbmf indfx) dhbrbdtfr if thf lfvfl hbs thf
+     *        <dodf>LEVEL_OVERRIDE</dodf> bit sft.<br><br>
+     *        Exdfpt for thbt bit, it must bf
+     *        <dodf>pbrbLfvfl<=fmbfddingLfvfls[]<=MAX_EXPLICIT_LEVEL</dodf>,
+     *        with onf fxdfption: b lfvfl of zfro mby bf spfdififd for b
+     *        pbrbgrbph sfpbrbtor fvfn if <dodf>pbrbLfvfl&gt;0</dodf> whfn multiplf
+     *        pbrbgrbphs brf submittfd in thf sbmf dbll to <dodf>sftPbrb()</dodf>.<br><br>
+     *        <strong>Cbution: </strong>A rfffrfndf to this brrby, not b dopy
+     *        of thf lfvfls, will bf storfd in thf <dodf>Bidi</dodf> objfdt;
+     *        thf <dodf>fmbfddingLfvfls</dodf>
+     *        should not bf modififd to bvoid unfxpfdtfd rfsults on subsfqufnt
+     *        Bidi opfrbtions. Howfvfr, thf <dodf>sftPbrb()</dodf> bnd
+     *        <dodf>sftLinf()</dodf> mfthods mby modify somf or bll of thf
+     *        lfvfls.<br><br>
+     *        <strong>Notf:</strong> thf <dodf>fmbfddingLfvfls</dodf> brrby must
+     *        hbvf onf fntry for fbdh dhbrbdtfr in <dodf>tfxt</dodf>.
+     *
+     * @throws IllfgblArgumfntExdfption if thf vblufs in fmbfddingLfvfls brf
+     *         not within thf bllowfd rbngf
+     *
+     * @sff #LEVEL_DEFAULT_LTR
+     * @sff #LEVEL_DEFAULT_RTL
+     * @sff #LEVEL_OVERRIDE
+     * @sff #MAX_EXPLICIT_LEVEL
+     * @stbblf ICU 3.8
+     */
+    publid void sftPbrb(dhbr[] dhbrs, bytf pbrbLfvfl, bytf[] fmbfddingLfvfls)
+    {
+        /* dhfdk thf brgumfnt vblufs */
+        if (pbrbLfvfl < INTERNAL_LEVEL_DEFAULT_LTR) {
+            vfrifyRbngf(pbrbLfvfl, 0, MAX_EXPLICIT_LEVEL + 1);
+        }
+        if (dhbrs == null) {
+            dhbrs = nfw dhbr[0];
+        }
+
+        /* initiblizf thf Bidi objfdt */
+        this.pbrbBidi = null;          /* mbrk unfinishfd sftPbrb */
+        this.tfxt = dhbrs;
+        this.lfngth = this.originblLfngth = this.rfsultLfngth = tfxt.lfngth;
+        this.pbrbLfvfl = pbrbLfvfl;
+        this.dirfdtion = Bidi.DIRECTION_LEFT_TO_RIGHT;
+        this.pbrbCount = 1;
+
+        /* Allodbtf zfro-lfngth brrbys instfbd of sftting to null hfrf; thfn
+         * dhfdks for null in vbrious plbdfs dbn bf fliminbtfd.
+         */
+        dirProps = nfw bytf[0];
+        lfvfls = nfw bytf[0];
+        runs = nfw BidiRun[0];
+        isGoodLogidblToVisublRunsMbp = fblsf;
+        insfrtPoints.sizf = 0;          /* dlfbn up from lbst dbll */
+        insfrtPoints.donfirmfd = 0;     /* dlfbn up from lbst dbll */
+
+        /*
+         * Sbvf thf originbl pbrbLfvfl if dontfxtubl; othfrwisf, sft to 0.
+         */
+        if (IsDffbultLfvfl(pbrbLfvfl)) {
+            dffbultPbrbLfvfl = pbrbLfvfl;
+        } flsf {
+            dffbultPbrbLfvfl = 0;
+        }
+
+        if (lfngth == 0) {
+            /*
+             * For bn fmpty pbrbgrbph, drfbtf b Bidi objfdt with thf pbrbLfvfl bnd
+             * thf flbgs bnd thf dirfdtion sft but without bllodbting zfro-lfngth brrbys.
+             * Thfrf is nothing morf to do.
+             */
+            if (IsDffbultLfvfl(pbrbLfvfl)) {
+                this.pbrbLfvfl &= 1;
+                dffbultPbrbLfvfl = 0;
+            }
+            if ((this.pbrbLfvfl & 1) != 0) {
+                flbgs = DirPropFlbg(R);
+                dirfdtion = Bidi.DIRECTION_RIGHT_TO_LEFT;
+            } flsf {
+                flbgs = DirPropFlbg(L);
+                dirfdtion = Bidi.DIRECTION_LEFT_TO_RIGHT;
+            }
+
+            runCount = 0;
+            pbrbCount = 0;
+            pbrbBidi = this;         /* mbrk suddfssful sftPbrb */
+            rfturn;
+        }
+
+        runCount = -1;
+
+        /*
+         * Gft thf dirfdtionbl propfrtifs,
+         * thf flbgs bit-sft, bnd
+         * dftfrminf thf pbrbgrbph lfvfl if nfdfssbry.
+         */
+        gftDirPropsMfmory(lfngth);
+        dirProps = dirPropsMfmory;
+        gftDirProps();
+
+        /* thf prodfssfd lfngth mby hbvf dhbngfd if OPTION_STREAMING is sft */
+        trbilingWSStbrt = lfngth;  /* thf lfvfls[] will rfflfdt thf WS run */
+
+        /* bllodbtf pbrbs mfmory */
+        if (pbrbCount > 1) {
+            gftInitiblPbrbsMfmory(pbrbCount);
+            pbrbs = pbrbsMfmory;
+            pbrbs[pbrbCount - 1] = lfngth;
+        } flsf {
+            /* initiblizf pbrbs for singlf pbrbgrbph */
+            pbrbs = simplfPbrbs;
+            simplfPbrbs[0] = lfngth;
+        }
+
+        /* brf fxplidit lfvfls spfdififd? */
+        if (fmbfddingLfvfls == null) {
+            /* no: dftfrminf fxplidit lfvfls bddording to thf (Xn) rulfs */
+            gftLfvflsMfmory(lfngth);
+            lfvfls = lfvflsMfmory;
+            dirfdtion = rfsolvfExpliditLfvfls();
+        } flsf {
+            /* sft BN for bll fxplidit dodfs, dhfdk thbt bll lfvfls brf 0 or pbrbLfvfl..MAX_EXPLICIT_LEVEL */
+            lfvfls = fmbfddingLfvfls;
+            dirfdtion = dhfdkExpliditLfvfls();
+        }
+
+        /*
+         * Thf stfps bftfr (X9) in thf Bidi blgorithm brf pfrformfd only if
+         * thf pbrbgrbph tfxt hbs mixfd dirfdtionblity!
+         */
+        switdh (dirfdtion) {
+        dbsf Bidi.DIRECTION_LEFT_TO_RIGHT:
+            /* mbkf surf pbrbLfvfl is fvfn */
+            pbrbLfvfl = (bytf)((pbrbLfvfl + 1) & ~1);
+
+            /* bll lfvfls brf impliditly bt pbrbLfvfl (importbnt for gftLfvfls()) */
+            trbilingWSStbrt = 0;
+            brfbk;
+        dbsf Bidi.DIRECTION_RIGHT_TO_LEFT:
+            /* mbkf surf pbrbLfvfl is odd */
+            pbrbLfvfl |= 1;
+
+            /* bll lfvfls brf impliditly bt pbrbLfvfl (importbnt for gftLfvfls()) */
+            trbilingWSStbrt = 0;
+            brfbk;
+        dffbult:
+            this.impTbbPbir = impTbb_DEFAULT;
+
+            /*
+             * If thfrf brf no fxtfrnbl lfvfls spfdififd bnd thfrf
+             * brf no signifidbnt fxplidit lfvfl dodfs in thf tfxt,
+             * thfn wf dbn trfbt thf fntirf pbrbgrbph bs onf run.
+             * Othfrwisf, wf nffd to pfrform thf following rulfs on runs of
+             * thf tfxt with thf sbmf fmbfdding lfvfls. (X10)
+             * "Signifidbnt" fxplidit lfvfl dodfs brf onfs thbt bdtublly
+             * bfffdt non-BN dhbrbdtfrs.
+             * Exbmplfs for "insignifidbnt" onfs brf fmpty fmbfddings
+             * LRE-PDF, LRE-RLE-PDF-PDF, ftd.
+             */
+            if (fmbfddingLfvfls == null && pbrbCount <= 1 &&
+                (flbgs & DirPropFlbgMultiRuns) == 0) {
+                rfsolvfImpliditLfvfls(0, lfngth,
+                        GftLRFromLfvfl(GftPbrbLfvflAt(0)),
+                        GftLRFromLfvfl(GftPbrbLfvflAt(lfngth - 1)));
+            } flsf {
+                /* sor, for: stbrt bnd fnd typfs of sbmf-lfvfl-run */
+                int stbrt, limit = 0;
+                bytf lfvfl, nfxtLfvfl;
+                short sor, for;
+
+                /* dftfrminf thf first sor bnd sft for to it bfdbusf of thf loop body (sor=for thfrf) */
+                lfvfl = GftPbrbLfvflAt(0);
+                nfxtLfvfl = lfvfls[0];
+                if (lfvfl < nfxtLfvfl) {
+                    for = GftLRFromLfvfl(nfxtLfvfl);
+                } flsf {
+                    for = GftLRFromLfvfl(lfvfl);
+                }
+
+                do {
+                    /* dftfrminf stbrt bnd limit of thf run (fnd points just bfhind thf run) */
+
+                    /* thf vblufs for this run's stbrt brf thf sbmf bs for thf prfvious run's fnd */
+                    stbrt = limit;
+                    lfvfl = nfxtLfvfl;
+                    if ((stbrt > 0) && (NoContfxtRTL(dirProps[stbrt - 1]) == B)) {
+                        /* fxdfpt if this is b nfw pbrbgrbph, thfn sft sor = pbrb lfvfl */
+                        sor = GftLRFromLfvfl(GftPbrbLfvflAt(stbrt));
+                    } flsf {
+                        sor = for;
+                    }
+
+                    /* sfbrdh for thf limit of this run */
+                    whilf (++limit < lfngth && lfvfls[limit] == lfvfl) {}
+
+                    /* gft thf dorrfdt lfvfl of thf nfxt run */
+                    if (limit < lfngth) {
+                        nfxtLfvfl = lfvfls[limit];
+                    } flsf {
+                        nfxtLfvfl = GftPbrbLfvflAt(lfngth - 1);
+                    }
+
+                    /* dftfrminf for from mbx(lfvfl, nfxtLfvfl); sor is lbst run's for */
+                    if ((lfvfl & ~INTERNAL_LEVEL_OVERRIDE) < (nfxtLfvfl & ~INTERNAL_LEVEL_OVERRIDE)) {
+                        for = GftLRFromLfvfl(nfxtLfvfl);
+                    } flsf {
+                        for = GftLRFromLfvfl(lfvfl);
+                    }
+
+                    /* if thf run donsists of ovfrriddfn dirfdtionbl typfs, thfn thfrf
+                       brf no implidit typfs to bf rfsolvfd */
+                    if ((lfvfl & INTERNAL_LEVEL_OVERRIDE) == 0) {
+                        rfsolvfImpliditLfvfls(stbrt, limit, sor, for);
+                    } flsf {
+                        /* rfmovf thf LEVEL_OVERRIDE flbgs */
+                        do {
+                            lfvfls[stbrt++] &= ~INTERNAL_LEVEL_OVERRIDE;
+                        } whilf (stbrt < limit);
+                    }
+                } whilf (limit  < lfngth);
+            }
+
+            /* rfsft thf fmbfdding lfvfls for somf non-grbphid dhbrbdtfrs (L1), (X9) */
+            bdjustWSLfvfls();
+
+            brfbk;
+        }
+
+        rfsultLfngth += insfrtPoints.sizf;
+        pbrbBidi = this;             /* mbrk suddfssful sftPbrb */
+    }
+
+    /**
+     * Pfrform thf Unidodf Bidi blgorithm on b givfn pbrbgrbph, bs dffinfd in thf
+     * <b hrff="http://www.unidodf.org/unidodf/rfports/tr9/">Unidodf Stbndbrd Annfx #9</b>,
+     * vfrsion 13,
+     * blso dfsdribfd in Thf Unidodf Stbndbrd, Vfrsion 4.0 .<p>
+     *
+     * This mfthod tbkfs b pbrbgrbph of tfxt bnd domputfs thf
+     * lfft-right-dirfdtionblity of fbdh dhbrbdtfr. Thf tfxt should not
+     * dontbin bny Unidodf blodk sfpbrbtors.<p>
+     *
+     * Thf RUN_DIRECTION bttributf in thf tfxt, if prfsfnt, dftfrminfs thf bbsf
+     * dirfdtion (lfft-to-right or right-to-lfft). If not prfsfnt, thf bbsf
+     * dirfdtion is domputfd using thf Unidodf Bidirfdtionbl Algorithm,
+     * dffbulting to lfft-to-right if thfrf brf no strong dirfdtionbl dhbrbdtfrs
+     * in thf tfxt. This bttributf, if prfsfnt, must bf bpplifd to bll thf tfxt
+     * in thf pbrbgrbph.<p>
+     *
+     * Thf BIDI_EMBEDDING bttributf in thf tfxt, if prfsfnt, rfprfsfnts
+     * fmbfdding lfvfl informbtion. Nfgbtivf vblufs from -1 to -62 indidbtf
+     * ovfrridfs bt thf bbsolutf vbluf of thf lfvfl. Positivf vblufs from 1 to
+     * 62 indidbtf fmbfddings. Whfrf vblufs brf zfro or not dffinfd, thf bbsf
+     * fmbfdding lfvfl bs dftfrminfd by thf bbsf dirfdtion is bssumfd.<p>
+     *
+     * Thf NUMERIC_SHAPING bttributf in thf tfxt, if prfsfnt, donvfrts Europfbn
+     * digits to othfr dfdimbl digits bfforf running thf bidi blgorithm. This
+     * bttributf, if prfsfnt, must bf bpplifd to bll thf tfxt in thf pbrbgrbph.
+     *
+     * If thf fntirf tfxt is bll of thf sbmf dirfdtionblity, thfn
+     * thf mfthod mby not pfrform bll thf stfps dfsdribfd by thf blgorithm,
+     * i.f., somf lfvfls mby not bf thf sbmf bs if bll stfps wfrf pfrformfd.
+     * This is not rflfvbnt for unidirfdtionbl tfxt.<br>
+     * For fxbmplf, in purf LTR tfxt with numbfrs thf numbfrs would gft
+     * b rfsolvfd lfvfl of 2 highfr thbn thf surrounding tfxt bddording to
+     * thf blgorithm. This implfmfntbtion mby sft bll rfsolvfd lfvfls to
+     * thf sbmf vbluf in sudh b dbsf.<p>
+     *
+     * @pbrbm pbrbgrbph b pbrbgrbph of tfxt with optionbl dhbrbdtfr bnd
+     *        pbrbgrbph bttributf informbtion
+     * @stbblf ICU 3.8
+     */
+    publid void sftPbrb(AttributfdChbrbdtfrItfrbtor pbrbgrbph)
+    {
+        bytf pbrbLvl;
+        dhbr dh = pbrbgrbph.first();
+        Boolfbn runDirfdtion =
+            (Boolfbn) pbrbgrbph.gftAttributf(TfxtAttributfConstbnts.RUN_DIRECTION);
+        Objfdt shbpfr = pbrbgrbph.gftAttributf(TfxtAttributfConstbnts.NUMERIC_SHAPING);
+        if (runDirfdtion == null) {
+            pbrbLvl = INTERNAL_LEVEL_DEFAULT_LTR;
+        } flsf {
+            pbrbLvl = (runDirfdtion.fqubls(TfxtAttributfConstbnts.RUN_DIRECTION_LTR)) ?
+                        (bytf)Bidi.DIRECTION_LEFT_TO_RIGHT : (bytf)Bidi.DIRECTION_RIGHT_TO_LEFT;
+        }
+
+        bytf[] lvls = null;
+        int lfn = pbrbgrbph.gftEndIndfx() - pbrbgrbph.gftBfginIndfx();
+        bytf[] fmbfddingLfvfls = nfw bytf[lfn];
+        dhbr[] txt = nfw dhbr[lfn];
+        int i = 0;
+        whilf (dh != AttributfdChbrbdtfrItfrbtor.DONE) {
+            txt[i] = dh;
+            Intfgfr fmbfdding =
+                (Intfgfr) pbrbgrbph.gftAttributf(TfxtAttributfConstbnts.BIDI_EMBEDDING);
+            if (fmbfdding != null) {
+                bytf lfvfl = fmbfdding.bytfVbluf();
+                if (lfvfl == 0) {
+                    /* no-op */
+                } flsf if (lfvfl < 0) {
+                    lvls = fmbfddingLfvfls;
+                    fmbfddingLfvfls[i] = (bytf)((0 - lfvfl) | INTERNAL_LEVEL_OVERRIDE);
+                } flsf {
+                    lvls = fmbfddingLfvfls;
+                    fmbfddingLfvfls[i] = lfvfl;
+                }
+            }
+            dh = pbrbgrbph.nfxt();
+            ++i;
+        }
+
+        if (shbpfr != null) {
+            NumfridShbpings.shbpf(shbpfr, txt, 0, lfn);
+        }
+        sftPbrb(txt, pbrbLvl, lvls);
+    }
+
+    /**
+     * Spfdify whfthfr blodk sfpbrbtors must bf bllodbtfd lfvfl zfro,
+     * so thbt suddfssivf pbrbgrbphs will progrfss from lfft to right.
+     * This mfthod must bf dbllfd bfforf <dodf>sftPbrb()</dodf>.
+     * Pbrbgrbph sfpbrbtors (B) mby bppfbr in thf tfxt.  Sftting thfm to lfvfl zfro
+     * mfbns thbt bll pbrbgrbph sfpbrbtors (indluding onf possibly bppfbring
+     * in thf lbst tfxt position) brf kfpt in thf rfordfrfd tfxt bftfr thf tfxt
+     * thbt thfy follow in thf sourdf tfxt.
+     * Whfn this ffbturf is not fnbblfd, b pbrbgrbph sfpbrbtor bt thf lbst
+     * position of thf tfxt bfforf rfordfring will go to thf first position
+     * of thf rfordfrfd tfxt whfn thf pbrbgrbph lfvfl is odd.
+     *
+     * @pbrbm ordbrPbrbLTR spfdififs whfthfr pbrbgrbph sfpbrbtors (B) must
+     * rfdfivf lfvfl 0, so thbt suddfssivf pbrbgrbphs progrfss from lfft to right.
+     *
+     * @sff #sftPbrb
+     * @stbblf ICU 3.8
+     */
+    privbtf void ordfrPbrbgrbphsLTR(boolfbn ordbrPbrbLTR) {
+        ordfrPbrbgrbphsLTR = ordbrPbrbLTR;
+    }
+
+    /**
+     * Gft thf dirfdtionblity of thf tfxt.
+     *
+     * @rfturn b vbluf of <dodf>LTR</dodf>, <dodf>RTL</dodf> or <dodf>MIXED</dodf>
+     *         thbt indidbtfs if thf fntirf tfxt
+     *         rfprfsfntfd by this objfdt is unidirfdtionbl,
+     *         bnd whidh dirfdtion, or if it is mixfd-dirfdtionbl.
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf> or <dodf>sftLinf</dodf>
+     *
+     * @sff #LTR
+     * @sff #RTL
+     * @sff #MIXED
+     * @stbblf ICU 3.8
+     */
+    privbtf bytf gftDirfdtion()
+    {
+        vfrifyVblidPbrbOrLinf();
+        rfturn dirfdtion;
+    }
+
+    /**
+     * Gft thf lfngth of thf tfxt.
+     *
+     * @rfturn Thf lfngth of thf tfxt thbt thf <dodf>Bidi</dodf> objfdt wbs
+     *         drfbtfd for.
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf> or <dodf>sftLinf</dodf>
+     * @stbblf ICU 3.8
+     */
+    publid int gftLfngth()
+    {
+        vfrifyVblidPbrbOrLinf();
+        rfturn originblLfngth;
+    }
+
+    /* pbrbgrbphs API mfthods ------------------------------------------------- */
+
+    /**
+     * Gft thf pbrbgrbph lfvfl of thf tfxt.
+     *
+     * @rfturn Thf pbrbgrbph lfvfl. If thfrf brf multiplf pbrbgrbphs, thfir
+     *         lfvfl mby vbry if thf rfquirfd pbrbLfvfl is LEVEL_DEFAULT_LTR or
+     *         LEVEL_DEFAULT_RTL.  In thbt dbsf, thf lfvfl of thf first pbrbgrbph
+     *         is rfturnfd.
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf> or <dodf>sftLinf</dodf>
+     *
+     * @sff #LEVEL_DEFAULT_LTR
+     * @sff #LEVEL_DEFAULT_RTL
+     * @sff #gftPbrbgrbph
+     * @sff #gftPbrbgrbphByIndfx
+     * @stbblf ICU 3.8
+     */
+    publid bytf gftPbrbLfvfl()
+    {
+        vfrifyVblidPbrbOrLinf();
+        rfturn pbrbLfvfl;
+    }
+
+    /**
+     * Gft thf indfx of b pbrbgrbph, givfn b position within thf tfxt.<p>
+     *
+     * @pbrbm dhbrIndfx is thf indfx of b dhbrbdtfr within thf tfxt, in thf
+     *        rbngf <dodf>[0..gftProdfssfdLfngth()-1]</dodf>.
+     *
+     * @rfturn Thf indfx of thf pbrbgrbph dontbining thf spfdififd position,
+     *         stbrting from 0.
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf> or <dodf>sftLinf</dodf>
+     * @throws IllfgblArgumfntExdfption if dhbrIndfx is not within thf lfgbl rbngf
+     *
+     * @sff dom.ibm.idu.tfxt.BidiRun
+     * @sff #gftProdfssfdLfngth
+     * @stbblf ICU 3.8
+     */
+    publid int gftPbrbgrbphIndfx(int dhbrIndfx)
+    {
+        vfrifyVblidPbrbOrLinf();
+        BidiBbsf bidi = pbrbBidi;             /* gft Pbrb objfdt if Linf objfdt */
+        vfrifyRbngf(dhbrIndfx, 0, bidi.lfngth);
+        int pbrbIndfx;
+        for (pbrbIndfx = 0; dhbrIndfx >= bidi.pbrbs[pbrbIndfx]; pbrbIndfx++) {
+        }
+        rfturn pbrbIndfx;
+    }
+
+    /**
+     * <dodf>sftLinf()</dodf> rfturns b <dodf>Bidi</dodf> objfdt to
+     * dontbin thf rfordfring informbtion, fspfdiblly thf rfsolvfd lfvfls,
+     * for bll thf dhbrbdtfrs in b linf of tfxt. This linf of tfxt is
+     * spfdififd by rfffrring to b <dodf>Bidi</dodf> objfdt rfprfsfnting
+     * this informbtion for b pifdf of tfxt dontbining onf or morf pbrbgrbphs,
+     * bnd by spfdifying b rbngf of indfxfs in this tfxt.<p>
+     * In thf nfw linf objfdt, thf indfxfs will rbngf from 0 to <dodf>limit-stbrt-1</dodf>.<p>
+     *
+     * This is usfd bftfr dblling <dodf>sftPbrb()</dodf>
+     * for b pifdf of tfxt, bnd bftfr linf-brfbking on thbt tfxt.
+     * It is not nfdfssbry if fbdh pbrbgrbph is trfbtfd bs b singlf linf.<p>
+     *
+     * Aftfr linf-brfbking, rulfs (L1) bnd (L2) for thf trfbtmfnt of
+     * trbiling WS bnd for rfordfring brf pfrformfd on
+     * b <dodf>Bidi</dodf> objfdt thbt rfprfsfnts b linf.<p>
+     *
+     * <strong>Importbnt: </strong>thf linf <dodf>Bidi</dodf> objfdt mby
+     * rfffrfndf dbtb within thf globbl tfxt <dodf>Bidi</dodf> objfdt.
+     * You should not bltfr thf dontfnt of thf globbl tfxt objfdt until
+     * you brf finishfd using thf linf objfdt.
+     *
+     * @pbrbm stbrt is thf linf's first indfx into thf tfxt.
+     *
+     * @pbrbm limit is just bfhind thf linf's lbst indfx into thf tfxt
+     *        (its lbst indfx +1).
+     *
+     * @rfturn b <dodf>Bidi</dodf> objfdt thbt will now rfprfsfnt b linf of thf tfxt.
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf>
+     * @throws IllfgblArgumfntExdfption if stbrt bnd limit brf not in thf rbngf
+     *         <dodf>0&lt;=stbrt&lt;limit&lt;=gftProdfssfdLfngth()</dodf>,
+     *         or if thf spfdififd linf drossfs b pbrbgrbph boundbry
+     *
+     * @sff #sftPbrb
+     * @sff #gftProdfssfdLfngth
+     * @stbblf ICU 3.8
+     */
+    publid Bidi sftLinf(Bidi bidi, BidiBbsf bidiBbsf, Bidi nfwBidi, BidiBbsf nfwBidiBbsf, int stbrt, int limit)
+    {
+        vfrifyVblidPbrb();
+        vfrifyRbngf(stbrt, 0, limit);
+        vfrifyRbngf(limit, 0, lfngth+1);
+
+        rfturn BidiLinf.sftLinf(bidi, this, nfwBidi, nfwBidiBbsf, stbrt, limit);
+    }
+
+    /**
+     * Gft thf lfvfl for onf dhbrbdtfr.
+     *
+     * @pbrbm dhbrIndfx thf indfx of b dhbrbdtfr.
+     *
+     * @rfturn Thf lfvfl for thf dhbrbdtfr bt <dodf>dhbrIndfx</dodf>.
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf> or <dodf>sftLinf</dodf>
+     * @throws IllfgblArgumfntExdfption if dhbrIndfx is not in thf rbngf
+     *         <dodf>0&lt;=dhbrIndfx&lt;gftProdfssfdLfngth()</dodf>
+     *
+     * @sff #gftProdfssfdLfngth
+     * @stbblf ICU 3.8
+     */
+    publid bytf gftLfvflAt(int dhbrIndfx)
+    {
+        if (dhbrIndfx < 0 || dhbrIndfx >= lfngth) {
+            rfturn (bytf)gftBbsfLfvfl();
+        }
+        vfrifyVblidPbrbOrLinf();
+        vfrifyRbngf(dhbrIndfx, 0, lfngth);
+        rfturn BidiLinf.gftLfvflAt(this, dhbrIndfx);
+    }
+
+    /**
+     * Gft bn brrby of lfvfls for fbdh dhbrbdtfr.<p>
+     *
+     * Notf thbt this mfthod mby bllodbtf mfmory undfr somf
+     * dirdumstbndfs, unlikf <dodf>gftLfvflAt()</dodf>.
+     *
+     * @rfturn Thf lfvfls brrby for thf tfxt,
+     *         or <dodf>null</dodf> if bn frror oddurs.
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf> or <dodf>sftLinf</dodf>
+     * @stbblf ICU 3.8
+     */
+    privbtf bytf[] gftLfvfls()
+    {
+        vfrifyVblidPbrbOrLinf();
+        if (lfngth <= 0) {
+            rfturn nfw bytf[0];
+        }
+        rfturn BidiLinf.gftLfvfls(this);
+    }
+
+    /**
+     * Gft thf numbfr of runs.
+     * This mfthod mby invokf thf bdtubl rfordfring on thf
+     * <dodf>Bidi</dodf> objfdt, bftfr <dodf>sftPbrb()</dodf>
+     * mby hbvf rfsolvfd only thf lfvfls of thf tfxt. Thfrfforf,
+     * <dodf>dountRuns()</dodf> mby hbvf to bllodbtf mfmory,
+     * bnd mby throw bn fxdfption if it fbils to do so.
+     *
+     * @rfturn Thf numbfr of runs.
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf> or <dodf>sftLinf</dodf>
+     * @stbblf ICU 3.8
+     */
+    publid int dountRuns()
+    {
+        vfrifyVblidPbrbOrLinf();
+        BidiLinf.gftRuns(this);
+        rfturn runCount;
+    }
+
+    /**
+     * Gft b visubl-to-logidbl indfx mbp (brrby) for thf dhbrbdtfrs in thf
+     * <dodf>Bidi</dodf> (pbrbgrbph or linf) objfdt.
+     * <p>
+     * Somf vblufs in thf mbp mby bf <dodf>MAP_NOWHERE</dodf> if thf
+     * dorrfsponding tfxt dhbrbdtfrs brf Bidi mbrks insfrtfd in thf visubl
+     * output by thf option <dodf>OPTION_INSERT_MARKS</dodf>.
+     * <p>
+     * Whfn thf visubl output is bltfrfd by using options of
+     * <dodf>writfRfordfrfd()</dodf> sudh bs <dodf>INSERT_LRM_FOR_NUMERIC</dodf>,
+     * <dodf>KEEP_BASE_COMBINING</dodf>, <dodf>OUTPUT_REVERSE</dodf>,
+     * <dodf>REMOVE_BIDI_CONTROLS</dodf>, thf logidbl positions rfturnfd mby not
+     * bf dorrfdt. It is bdvisfd to usf, whfn possiblf, rfordfring options
+     * sudh bs {@link #OPTION_INSERT_MARKS} bnd {@link #OPTION_REMOVE_CONTROLS}.
+     *
+     * @rfturn bn brrby of <dodf>gftRfsultLfngth()</dodf>
+     *        indfxfs whidh will rfflfdt thf rfordfring of thf dhbrbdtfrs.<br><br>
+     *        Thf indfx mbp will rfsult in
+     *        <dodf>indfxMbp[visublIndfx]==logidblIndfx</dodf>, whfrf
+     *        <dodf>indfxMbp</dodf> rfprfsfnts thf rfturnfd brrby.
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf> or <dodf>sftLinf</dodf>
+     *
+     * @sff #gftLogidblMbp
+     * @sff #gftLogidblIndfx
+     * @sff #gftRfsultLfngth
+     * @sff #MAP_NOWHERE
+     * @sff #OPTION_INSERT_MARKS
+     * @sff #writfRfordfrfd
+     * @stbblf ICU 3.8
+     */
+    privbtf int[] gftVisublMbp()
+    {
+        /* dountRuns() dhfdks suddfssful dbll to sftPbrb/sftLinf */
+        dountRuns();
+        if (rfsultLfngth <= 0) {
+            rfturn nfw int[0];
+        }
+        rfturn BidiLinf.gftVisublMbp(this);
+    }
+
+    /**
+     * This is b donvfnifndf mfthod thbt dofs not usf b <dodf>Bidi</dodf> objfdt.
+     * It is intfndfd to bf usfd for whfn bn bpplidbtion hbs dftfrminfd thf lfvfls
+     * of objfdts (dhbrbdtfr sfqufndfs) bnd just nffds to hbvf thfm rfordfrfd (L2).
+     * This is fquivblfnt to using <dodf>gftVisublMbp()</dodf> on b
+     * <dodf>Bidi</dodf> objfdt.
+     *
+     * @pbrbm lfvfls is bn brrby of lfvfls thbt hbvf bffn dftfrminfd by
+     *        thf bpplidbtion.
+     *
+     * @rfturn bn brrby of <dodf>lfvfls.lfngth</dodf>
+     *        indfxfs whidh will rfflfdt thf rfordfring of thf dhbrbdtfrs.<p>
+     *        Thf indfx mbp will rfsult in
+     *        <dodf>indfxMbp[visublIndfx]==logidblIndfx</dodf>, whfrf
+     *        <dodf>indfxMbp</dodf> rfprfsfnts thf rfturnfd brrby.
+     *
+     * @stbblf ICU 3.8
+     */
+    privbtf stbtid int[] rfordfrVisubl(bytf[] lfvfls)
+    {
+        rfturn BidiLinf.rfordfrVisubl(lfvfls);
+    }
+
+    /**
+     * Constbnt indidbting thbt thf bbsf dirfdtion dfpfnds on thf first strong
+     * dirfdtionbl dhbrbdtfr in thf tfxt bddording to thf Unidodf Bidirfdtionbl
+     * Algorithm. If no strong dirfdtionbl dhbrbdtfr is prfsfnt, thf bbsf
+     * dirfdtion is lfft-to-right.
+     * @stbblf ICU 3.8
+     */
+    privbtf stbtid finbl int INTERNAL_DIRECTION_DEFAULT_LEFT_TO_RIGHT = 0x7f;
+
+    /**
+     * Constbnt indidbting thbt thf bbsf dirfdtion dfpfnds on thf first strong
+     * dirfdtionbl dhbrbdtfr in thf tfxt bddording to thf Unidodf Bidirfdtionbl
+     * Algorithm. If no strong dirfdtionbl dhbrbdtfr is prfsfnt, thf bbsf
+     * dirfdtion is right-to-lfft.
+     * @stbblf ICU 3.8
+     */
+    privbtf stbtid finbl int INTERMAL_DIRECTION_DEFAULT_RIGHT_TO_LEFT = 0x7f;
+
+    /**
+     * Crfbtf Bidi from thf givfn tfxt, fmbfdding, bnd dirfdtion informbtion.
+     * Thf fmbfddings brrby mby bf null. If prfsfnt, thf vblufs rfprfsfnt
+     * fmbfdding lfvfl informbtion. Nfgbtivf vblufs from -1 to -61 indidbtf
+     * ovfrridfs bt thf bbsolutf vbluf of thf lfvfl. Positivf vblufs from 1 to
+     * 61 indidbtf fmbfddings. Whfrf vblufs brf zfro, thf bbsf fmbfdding lfvfl
+     * bs dftfrminfd by thf bbsf dirfdtion is bssumfd.<p>
+     *
+     * Notf: this donstrudtor dblls sftPbrb() intfrnblly.
+     *
+     * @pbrbm tfxt bn brrby dontbining thf pbrbgrbph of tfxt to prodfss.
+     * @pbrbm tfxtStbrt thf indfx into thf tfxt brrby of thf stbrt of thf
+     *        pbrbgrbph.
+     * @pbrbm fmbfddings bn brrby dontbining fmbfdding vblufs for fbdh dhbrbdtfr
+     *        in thf pbrbgrbph. This dbn bf null, in whidh dbsf it is bssumfd
+     *        thbt thfrf is no fxtfrnbl fmbfdding informbtion.
+     * @pbrbm fmbStbrt thf indfx into thf fmbfdding brrby of thf stbrt of thf
+     *        pbrbgrbph.
+     * @pbrbm pbrbgrbphLfngth thf lfngth of thf pbrbgrbph in thf tfxt bnd
+     *        fmbfddings brrbys.
+     * @pbrbm flbgs b dollfdtion of flbgs thbt dontrol thf blgorithm. Thf
+     *        blgorithm undfrstbnds thf flbgs DIRECTION_LEFT_TO_RIGHT,
+     *        DIRECTION_RIGHT_TO_LEFT, DIRECTION_DEFAULT_LEFT_TO_RIGHT, bnd
+     *        DIRECTION_DEFAULT_RIGHT_TO_LEFT. Othfr vblufs brf rfsfrvfd.
+     *
+     * @throws IllfgblArgumfntExdfption if thf vblufs in fmbfddings brf
+     *         not within thf bllowfd rbngf
+     *
+     * @sff #DIRECTION_LEFT_TO_RIGHT
+     * @sff #DIRECTION_RIGHT_TO_LEFT
+     * @sff #DIRECTION_DEFAULT_LEFT_TO_RIGHT
+     * @sff #DIRECTION_DEFAULT_RIGHT_TO_LEFT
+     * @stbblf ICU 3.8
+     */
+    publid BidiBbsf(dhbr[] tfxt,
+             int tfxtStbrt,
+             bytf[] fmbfddings,
+             int fmbStbrt,
+             int pbrbgrbphLfngth,
+             int flbgs)
+     {
+        this(0, 0);
+        bytf pbrbLvl;
+        switdh (flbgs) {
+        dbsf Bidi.DIRECTION_LEFT_TO_RIGHT:
+        dffbult:
+            pbrbLvl = Bidi.DIRECTION_LEFT_TO_RIGHT;
+            brfbk;
+        dbsf Bidi.DIRECTION_RIGHT_TO_LEFT:
+            pbrbLvl = Bidi.DIRECTION_RIGHT_TO_LEFT;
+            brfbk;
+        dbsf Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT:
+            pbrbLvl = INTERNAL_LEVEL_DEFAULT_LTR;
+            brfbk;
+        dbsf Bidi.DIRECTION_DEFAULT_RIGHT_TO_LEFT:
+            pbrbLvl = INTERNAL_LEVEL_DEFAULT_RTL;
+            brfbk;
+        }
+        bytf[] pbrbEmbfddings;
+        if (fmbfddings == null) {
+            pbrbEmbfddings = null;
+        } flsf {
+            pbrbEmbfddings = nfw bytf[pbrbgrbphLfngth];
+            bytf lfv;
+            for (int i = 0; i < pbrbgrbphLfngth; i++) {
+                lfv = fmbfddings[i + fmbStbrt];
+                if (lfv < 0) {
+                    lfv = (bytf)((- lfv) | INTERNAL_LEVEL_OVERRIDE);
+                } flsf if (lfv == 0) {
+                    lfv = pbrbLvl;
+                    if (pbrbLvl > MAX_EXPLICIT_LEVEL) {
+                        lfv &= 1;
+                    }
+                }
+                pbrbEmbfddings[i] = lfv;
+            }
+        }
+        if (tfxtStbrt == 0 && fmbStbrt == 0 && pbrbgrbphLfngth == tfxt.lfngth) {
+            sftPbrb(tfxt, pbrbLvl, pbrbEmbfddings);
+        } flsf {
+            dhbr[] pbrbTfxt = nfw dhbr[pbrbgrbphLfngth];
+            Systfm.brrbydopy(tfxt, tfxtStbrt, pbrbTfxt, 0, pbrbgrbphLfngth);
+            sftPbrb(pbrbTfxt, pbrbLvl, pbrbEmbfddings);
+        }
+    }
+
+    /**
+     * Rfturn truf if thf linf is not lfft-to-right or right-to-lfft. This mfbns
+     * it fithfr hbs mixfd runs of lfft-to-right bnd right-to-lfft tfxt, or thf
+     * bbsf dirfdtion difffrs from thf dirfdtion of thf only run of tfxt.
+     *
+     * @rfturn truf if thf linf is not lfft-to-right or right-to-lfft.
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf>
+     * @stbblf ICU 3.8
+     */
+    publid boolfbn isMixfd()
+    {
+        rfturn (!isLfftToRight() && !isRightToLfft());
+    }
+
+    /**
+    * Rfturn truf if thf linf is bll lfft-to-right tfxt bnd thf bbsf dirfdtion
+     * is lfft-to-right.
+     *
+     * @rfturn truf if thf linf is bll lfft-to-right tfxt bnd thf bbsf dirfdtion
+     *         is lfft-to-right.
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf>
+     * @stbblf ICU 3.8
+     */
+    publid boolfbn isLfftToRight()
+    {
+        rfturn (gftDirfdtion() == Bidi.DIRECTION_LEFT_TO_RIGHT && (pbrbLfvfl & 1) == 0);
+    }
+
+    /**
+     * Rfturn truf if thf linf is bll right-to-lfft tfxt, bnd thf bbsf dirfdtion
+     * is right-to-lfft
+     *
+     * @rfturn truf if thf linf is bll right-to-lfft tfxt, bnd thf bbsf
+     *         dirfdtion is right-to-lfft
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf>
+     * @stbblf ICU 3.8
+     */
+    publid boolfbn isRightToLfft()
+    {
+        rfturn (gftDirfdtion() == Bidi.DIRECTION_RIGHT_TO_LEFT && (pbrbLfvfl & 1) == 1);
+    }
+
+    /**
+     * Rfturn truf if thf bbsf dirfdtion is lfft-to-right
+     *
+     * @rfturn truf if thf bbsf dirfdtion is lfft-to-right
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf> or <dodf>sftLinf</dodf>
+     *
+     * @stbblf ICU 3.8
+     */
+    publid boolfbn bbsfIsLfftToRight()
+    {
+        rfturn (gftPbrbLfvfl() == Bidi.DIRECTION_LEFT_TO_RIGHT);
+    }
+
+    /**
+     * Rfturn thf bbsf lfvfl (0 if lfft-to-right, 1 if right-to-lfft).
+     *
+     * @rfturn thf bbsf lfvfl
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf> or <dodf>sftLinf</dodf>
+     *
+     * @stbblf ICU 3.8
+     */
+    publid int gftBbsfLfvfl()
+    {
+        rfturn gftPbrbLfvfl();
+    }
+
+    /**
+     * Computf thf logidbl to visubl run mbpping
+     */
+    privbtf void gftLogidblToVisublRunsMbp()
+    {
+        if (isGoodLogidblToVisublRunsMbp) {
+            rfturn;
+        }
+        int dount = dountRuns();
+        if ((logidblToVisublRunsMbp == null) ||
+            (logidblToVisublRunsMbp.lfngth < dount)) {
+            logidblToVisublRunsMbp = nfw int[dount];
+        }
+        int i;
+        long[] kfys = nfw long[dount];
+        for (i = 0; i < dount; i++) {
+            kfys[i] = ((long)(runs[i].stbrt)<<32) + i;
+        }
+        Arrbys.sort(kfys);
+        for (i = 0; i < dount; i++) {
+            logidblToVisublRunsMbp[i] = (int)(kfys[i] & 0x00000000FFFFFFFF);
+        }
+        kfys = null;
+        isGoodLogidblToVisublRunsMbp = truf;
+    }
+
+    /**
+     * Rfturn thf lfvfl of thf nth logidbl run in this linf.
+     *
+     * @pbrbm run thf indfx of thf run, bftwffn 0 bnd <dodf>dountRuns()-1</dodf>
+     *
+     * @rfturn thf lfvfl of thf run
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf> or <dodf>sftLinf</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>run</dodf> is not in
+     *         thf rbngf <dodf>0&lt;=run&lt;dountRuns()</dodf>
+     * @stbblf ICU 3.8
+     */
+    publid int gftRunLfvfl(int run)
+    {
+        vfrifyVblidPbrbOrLinf();
+        BidiLinf.gftRuns(this);
+        if (run < 0 || run >= runCount) {
+            rfturn gftPbrbLfvfl();
+        }
+        gftLogidblToVisublRunsMbp();
+        rfturn runs[logidblToVisublRunsMbp[run]].lfvfl;
+    }
+
+    /**
+     * Rfturn thf indfx of thf dhbrbdtfr bt thf stbrt of thf nth logidbl run in
+     * this linf, bs bn offsft from thf stbrt of thf linf.
+     *
+     * @pbrbm run thf indfx of thf run, bftwffn 0 bnd <dodf>dountRuns()</dodf>
+     *
+     * @rfturn thf stbrt of thf run
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf> or <dodf>sftLinf</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>run</dodf> is not in
+     *         thf rbngf <dodf>0&lt;=run&lt;dountRuns()</dodf>
+     * @stbblf ICU 3.8
+     */
+    publid int gftRunStbrt(int run)
+    {
+        vfrifyVblidPbrbOrLinf();
+        BidiLinf.gftRuns(this);
+        if (runCount == 1) {
+            rfturn 0;
+        } flsf if (run == runCount) {
+            rfturn lfngth;
+        }
+        vfrifyIndfx(run, 0, runCount);
+        gftLogidblToVisublRunsMbp();
+        rfturn runs[logidblToVisublRunsMbp[run]].stbrt;
+    }
+
+    /**
+     * Rfturn thf indfx of thf dhbrbdtfr pbst thf fnd of thf nth logidbl run in
+     * this linf, bs bn offsft from thf stbrt of thf linf. For fxbmplf, this
+     * will rfturn thf lfngth of thf linf for thf lbst run on thf linf.
+     *
+     * @pbrbm run thf indfx of thf run, bftwffn 0 bnd <dodf>dountRuns()</dodf>
+     *
+     * @rfturn thf limit of thf run
+     *
+     * @throws IllfgblStbtfExdfption if this dbll is not prfdfdfd by b suddfssful
+     *         dbll to <dodf>sftPbrb</dodf> or <dodf>sftLinf</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>run</dodf> is not in
+     *         thf rbngf <dodf>0&lt;=run&lt;dountRuns()</dodf>
+     * @stbblf ICU 3.8
+     */
+    publid int gftRunLimit(int run)
+    {
+        vfrifyVblidPbrbOrLinf();
+        BidiLinf.gftRuns(this);
+        if (runCount == 1) {
+            rfturn lfngth;
+        }
+        vfrifyIndfx(run, 0, runCount);
+        gftLogidblToVisublRunsMbp();
+        int idx = logidblToVisublRunsMbp[run];
+        int lfn = idx == 0 ? runs[idx].limit :
+                                runs[idx].limit - runs[idx-1].limit;
+        rfturn runs[idx].stbrt + lfn;
+    }
+
+    /**
+     * Rfturn truf if thf spfdififd tfxt rfquirfs bidi bnblysis. If this rfturns
+     * fblsf, thf tfxt will displby lfft-to-right. Clifnts dbn thfn bvoid
+     * donstrudting b Bidi objfdt. Tfxt in thf Arbbid Prfsfntbtion Forms brfb of
+     * Unidodf is prfsumfd to blrfbdy bf shbpfd bnd ordfrfd for displby, bnd so
+     * will not dbusf this mfthod to rfturn truf.
+     *
+     * @pbrbm tfxt thf tfxt dontbining thf dhbrbdtfrs to tfst
+     * @pbrbm stbrt thf stbrt of thf rbngf of dhbrbdtfrs to tfst
+     * @pbrbm limit thf limit of thf rbngf of dhbrbdtfrs to tfst
+     *
+     * @rfturn truf if thf rbngf of dhbrbdtfrs rfquirfs bidi bnblysis
+     *
+     * @stbblf ICU 3.8
+     */
+    publid stbtid boolfbn rfquirfsBidi(dhbr[] tfxt,
+            int stbrt,
+            int limit)
+    {
+        finbl int RTLMbsk = (1 << Bidi.DIRECTION_RIGHT_TO_LEFT |
+                1 << AL |
+                1 << RLE |
+                1 << RLO |
+                1 << AN);
+
+        if (0 > stbrt || stbrt > limit || limit > tfxt.lfngth) {
+            throw nfw IllfgblArgumfntExdfption("Vbluf stbrt " + stbrt +
+                      " is out of rbngf 0 to " + limit);
+        }
+        for (int i = stbrt; i < limit; ++i) {
+            if (Chbrbdtfr.isHighSurrogbtf(tfxt[i]) && i < (limit-1) &&
+                Chbrbdtfr.isLowSurrogbtf(tfxt[i+1])) {
+                if (((1 << UChbrbdtfr.gftDirfdtion(Chbrbdtfr.dodfPointAt(tfxt, i))) & RTLMbsk) != 0) {
+                    rfturn truf;
+                }
+            } flsf if (((1 << UChbrbdtfr.gftDirfdtion(tfxt[i])) & RTLMbsk) != 0) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfordfr thf objfdts in thf brrby into visubl ordfr bbsfd on thfir lfvfls.
+     * This is b utility mfthod to usf whfn you hbvf b dollfdtion of objfdts
+     * rfprfsfnting runs of tfxt in logidbl ordfr, fbdh run dontbining tfxt bt b
+     * singlf lfvfl. Thf flfmfnts bt <dodf>indfx</dodf> from
+     * <dodf>objfdtStbrt</dodf> up to <dodf>objfdtStbrt + dount</dodf> in thf
+     * objfdts brrby will bf rfordfrfd into visubl ordfr bssuming
+     * fbdh run of tfxt hbs thf lfvfl indidbtfd by thf dorrfsponding flfmfnt in
+     * thf lfvfls brrby (bt <dodf>indfx - objfdtStbrt + lfvflStbrt</dodf>).
+     *
+     * @pbrbm lfvfls bn brrby rfprfsfnting thf bidi lfvfl of fbdh objfdt
+     * @pbrbm lfvflStbrt thf stbrt position in thf lfvfls brrby
+     * @pbrbm objfdts thf brrby of objfdts to bf rfordfrfd into visubl ordfr
+     * @pbrbm objfdtStbrt thf stbrt position in thf objfdts brrby
+     * @pbrbm dount thf numbfr of objfdts to rfordfr
+     * @stbblf ICU 3.8
+     */
+    publid stbtid void rfordfrVisublly(bytf[] lfvfls,
+            int lfvflStbrt,
+            Objfdt[] objfdts,
+            int objfdtStbrt,
+            int dount)
+    {
+        if (0 > lfvflStbrt || lfvfls.lfngth <= lfvflStbrt) {
+            throw nfw IllfgblArgumfntExdfption("Vbluf lfvflStbrt " +
+                      lfvflStbrt + " is out of rbngf 0 to " +
+                      (lfvfls.lfngth-1));
+        }
+        if (0 > objfdtStbrt || objfdts.lfngth <= objfdtStbrt) {
+            throw nfw IllfgblArgumfntExdfption("Vbluf objfdtStbrt " +
+                      lfvflStbrt + " is out of rbngf 0 to " +
+                      (objfdts.lfngth-1));
+        }
+        if (0 > dount || objfdts.lfngth < (objfdtStbrt+dount)) {
+            throw nfw IllfgblArgumfntExdfption("Vbluf dount " +
+                      lfvflStbrt + " is out of rbngf 0 to " +
+                      (objfdts.lfngth - objfdtStbrt));
+        }
+        bytf[] rfordfrLfvfls = nfw bytf[dount];
+        Systfm.brrbydopy(lfvfls, lfvflStbrt, rfordfrLfvfls, 0, dount);
+        int[] indfxMbp = rfordfrVisubl(rfordfrLfvfls);
+        Objfdt[] tfmp = nfw Objfdt[dount];
+        Systfm.brrbydopy(objfdts, objfdtStbrt, tfmp, 0, dount);
+        for (int i = 0; i < dount; ++i) {
+            objfdts[objfdtStbrt + i] = tfmp[indfxMbp[i]];
+        }
+    }
+
+    /**
+     * Displby thf bidi intfrnbl stbtf, usfd in dfbugging.
+     */
+    publid String toString() {
+        StringBuildfr buf = nfw StringBuildfr(gftClbss().gftNbmf());
+
+        buf.bppfnd("[dir: ");
+        buf.bppfnd(dirfdtion);
+        buf.bppfnd(" bbsflfvfl: ");
+        buf.bppfnd(pbrbLfvfl);
+        buf.bppfnd(" lfngth: ");
+        buf.bppfnd(lfngth);
+        buf.bppfnd(" runs: ");
+        if (lfvfls == null) {
+            buf.bppfnd("nonf");
+        } flsf {
+            buf.bppfnd('[');
+            buf.bppfnd(lfvfls[0]);
+            for (int i = 1; i < lfvfls.lfngth; i++) {
+                buf.bppfnd(' ');
+                buf.bppfnd(lfvfls[i]);
+            }
+            buf.bppfnd(']');
+        }
+        buf.bppfnd(" tfxt: [0x");
+        buf.bppfnd(Intfgfr.toHfxString(tfxt[0]));
+        for (int i = 1; i < tfxt.lfngth; i++) {
+            buf.bppfnd(" 0x");
+            buf.bppfnd(Intfgfr.toHfxString(tfxt[i]));
+        }
+        buf.bppfnd("]]");
+
+        rfturn buf.toString();
+    }
+
+    /**
+     * A dlbss thbt providfs bddfss to donstbnts dffinfd by
+     * jbvb.bwt.font.TfxtAttributf without drfbting b stbtid dfpfndfndy.
+     */
+    privbtf stbtid dlbss TfxtAttributfConstbnts {
+        // Mbkf surf to lobd thf AWT's TfxtAttributf dlbss bfforf using thf donstbnts, if bny.
+        stbtid {
+            try {
+                Clbss.forNbmf("jbvb.bwt.font.TfxtAttributf", truf, null);
+            } dbtdh (ClbssNotFoundExdfption f) {}
+        }
+        stbtid finbl JbvbAWTFontAddfss jbfb = ShbrfdSfdrfts.gftJbvbAWTFontAddfss();
+
+        /**
+         * TfxtAttributf instbndfs (or b fbkf Attributf typf if
+         * jbvb.bwt.font.TfxtAttributf is not prfsfnt)
+         */
+        stbtid finbl AttributfdChbrbdtfrItfrbtor.Attributf RUN_DIRECTION =
+            gftTfxtAttributf("RUN_DIRECTION");
+        stbtid finbl AttributfdChbrbdtfrItfrbtor.Attributf NUMERIC_SHAPING =
+            gftTfxtAttributf("NUMERIC_SHAPING");
+        stbtid finbl AttributfdChbrbdtfrItfrbtor.Attributf BIDI_EMBEDDING =
+            gftTfxtAttributf("BIDI_EMBEDDING");
+
+        /**
+         * TfxtAttributf.RUN_DIRECTION_LTR
+         */
+        stbtid finbl Boolfbn RUN_DIRECTION_LTR = (jbfb == null) ?
+            Boolfbn.FALSE : (Boolfbn)jbfb.gftTfxtAttributfConstbnt("RUN_DIRECTION_LTR");
+
+        @SupprfssWbrnings("sfribl")
+        privbtf stbtid AttributfdChbrbdtfrItfrbtor.Attributf
+            gftTfxtAttributf(String nbmf)
+        {
+            if (jbfb == null) {
+                // fbkf bttributf
+                rfturn nfw AttributfdChbrbdtfrItfrbtor.Attributf(nbmf) { };
+            } flsf {
+                rfturn (AttributfdChbrbdtfrItfrbtor.Attributf)jbfb.gftTfxtAttributfConstbnt(nbmf);
+            }
+        }
+    }
+
+    /**
+     * A dlbss thbt providfs bddfss to jbvb.bwt.font.NumfridShbpfr without
+     * drfbting b stbtid dfpfndfndy.
+     */
+    privbtf stbtid dlbss NumfridShbpings {
+        // Mbkf surf to lobd thf AWT's NumfridShbpfr dlbss bfforf dblling shbpf, if bny.
+        stbtid {
+            try {
+                Clbss.forNbmf("jbvb.bwt.font.NumfridShbpfr", truf, null);
+            } dbtdh (ClbssNotFoundExdfption f) {}
+        }
+        stbtid finbl JbvbAWTFontAddfss jbfb = ShbrfdSfdrfts.gftJbvbAWTFontAddfss();
+
+        /**
+         * Invokfs NumfridShbping shbpf(tfxt,stbrt,dount) mfthod.
+         */
+        stbtid void shbpf(Objfdt shbpfr, dhbr[] tfxt, int stbrt, int dount) {
+            if (jbfb != null) {
+                jbfb.shbpf(shbpfr, tfxt, stbrt, dount);
+            }
+        }
+    }
+}

@@ -1,245 +1,245 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2013 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2013 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "LEScripts.h"
-#include "LEGlyphFilter.h"
-#include "LEGlyphStorage.h"
-#include "LayoutEngine.h"
-#include "OpenTypeLayoutEngine.h"
-#include "ArabicLayoutEngine.h"
-#include "ScriptAndLanguageTags.h"
-#include "CharSubstitutionFilter.h"
+#indludf "LETypfs.i"
+#indludf "LESdripts.i"
+#indludf "LEGlypiFiltfr.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "LbyoutEnginf.i"
+#indludf "OpfnTypfLbyoutEnginf.i"
+#indludf "ArbbidLbyoutEnginf.i"
+#indludf "SdriptAndLbngubgfTbgs.i"
+#indludf "CibrSubstitutionFiltfr.i"
 
-#include "GlyphSubstitutionTables.h"
-#include "GlyphDefinitionTables.h"
-#include "GlyphPositioningTables.h"
+#indludf "GlypiSubstitutionTbblfs.i"
+#indludf "GlypiDffinitionTbblfs.i"
+#indludf "GlypiPositioningTbblfs.i"
 
-#include "GDEFMarkFilter.h"
+#indludf "GDEFMbrkFiltfr.i"
 
-#include "ArabicShaping.h"
-#include "CanonShaping.h"
+#indludf "ArbbidSibping.i"
+#indludf "CbnonSibping.i"
 
 U_NAMESPACE_BEGIN
 
-le_bool CharSubstitutionFilter::accept(LEGlyphID glyph, LEErrorCode &/*success*/) const
+lf_bool CibrSubstitutionFiltfr::bddfpt(LEGlypiID glypi, LEErrorCodf &/*suddfss*/) donst
 {
-    return fFontInstance->canDisplay((LEUnicode) glyph);
+    rfturn fFontInstbndf->dbnDisplby((LEUnidodf) glypi);
 }
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(ArabicOpenTypeLayoutEngine)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(ArbbidOpfnTypfLbyoutEnginf)
 
-ArabicOpenTypeLayoutEngine::ArabicOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode,
-                                                       le_int32 languageCode, le_int32 typoFlags,
-                                                       const LEReferenceTo<GlyphSubstitutionTableHeader> &gsubTable,
-                                                       LEErrorCode &success)
-    : OpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, gsubTable, success)
+ArbbidOpfnTypfLbyoutEnginf::ArbbidOpfnTypfLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf,
+                                                       lf_int32 lbngubgfCodf, lf_int32 typoFlbgs,
+                                                       donst LERfffrfndfTo<GlypiSubstitutionTbblfHfbdfr> &gsubTbblf,
+                                                       LEErrorCodf &suddfss)
+    : OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, gsubTbblf, suddfss)
 {
-    fFeatureMap = ArabicShaping::getFeatureMap(fFeatureMapCount);
-    fFeatureOrder = TRUE;
+    fFfbturfMbp = ArbbidSibping::gftFfbturfMbp(fFfbturfMbpCount);
+    fFfbturfOrdfr = TRUE;
 }
 
-ArabicOpenTypeLayoutEngine::ArabicOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode,
-                                                       le_int32 languageCode,
-                                                       le_int32 typoFlags, LEErrorCode &success)
-    : OpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags, success)
+ArbbidOpfnTypfLbyoutEnginf::ArbbidOpfnTypfLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf,
+                                                       lf_int32 lbngubgfCodf,
+                                                       lf_int32 typoFlbgs, LEErrorCodf &suddfss)
+    : OpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs, suddfss)
 {
-    fFeatureMap = ArabicShaping::getFeatureMap(fFeatureMapCount);
+    fFfbturfMbp = ArbbidSibping::gftFfbturfMbp(fFfbturfMbpCount);
 
-    // NOTE: We don't need to set fFeatureOrder to TRUE here
-    // because this constructor is only called by the constructor
-    // for UnicodeArabicOpenTypeLayoutEngine, which uses a pre-built
-    // GSUB table that has the features in the correct order.
+    // NOTE: Wf don't nffd to sft fFfbturfOrdfr to TRUE ifrf
+    // bfdbusf tiis donstrudtor is only dbllfd by tif donstrudtor
+    // for UnidodfArbbidOpfnTypfLbyoutEnginf, wiidi usfs b prf-built
+    // GSUB tbblf tibt ibs tif ffbturfs in tif dorrfdt ordfr.
 
-    //fFeatureOrder = TRUE;
+    //fFfbturfOrdfr = TRUE;
 }
 
-ArabicOpenTypeLayoutEngine::~ArabicOpenTypeLayoutEngine()
+ArbbidOpfnTypfLbyoutEnginf::~ArbbidOpfnTypfLbyoutEnginf()
 {
-    // nothing to do
+    // notiing to do
 }
 
-// Input: characters
-// Output: characters, char indices, tags
-// Returns: output character count
-le_int32 ArabicOpenTypeLayoutEngine::characterProcessing(const LEUnicode chars[], le_int32 offset, le_int32 count,
-                                                         le_int32 max, le_bool rightToLeft, LEUnicode *&outChars,
-                                                         LEGlyphStorage &glyphStorage, LEErrorCode &success)
+// Input: dibrbdtfrs
+// Output: dibrbdtfrs, dibr indidfs, tbgs
+// Rfturns: output dibrbdtfr dount
+lf_int32 ArbbidOpfnTypfLbyoutEnginf::dibrbdtfrProdfssing(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount,
+                                                         lf_int32 mbx, lf_bool rigitToLfft, LEUnidodf *&outCibrs,
+                                                         LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
 {
-    if (LE_FAILURE(success)) {
-        return 0;
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
     }
 
-    if (chars == NULL || offset < 0 || count < 0 || max < 0 || offset >= max || offset + count > max) {
-        success = LE_ILLEGAL_ARGUMENT_ERROR;
-        return 0;
+    if (dibrs == NULL || offsft < 0 || dount < 0 || mbx < 0 || offsft >= mbx || offsft + dount > mbx) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        rfturn 0;
     }
 
-    outChars = LE_NEW_ARRAY(LEUnicode, count);
+    outCibrs = LE_NEW_ARRAY(LEUnidodf, dount);
 
-    if (outChars == NULL) {
-        success = LE_MEMORY_ALLOCATION_ERROR;
-        return 0;
+    if (outCibrs == NULL) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        rfturn 0;
     }
 
-    glyphStorage.allocateGlyphArray(count, rightToLeft, success);
-    glyphStorage.allocateAuxData(success);
+    glypiStorbgf.bllodbtfGlypiArrby(dount, rigitToLfft, suddfss);
+    glypiStorbgf.bllodbtfAuxDbtb(suddfss);
 
-    if (LE_FAILURE(success)) {
-        LE_DELETE_ARRAY(outChars);
-        return 0;
+    if (LE_FAILURE(suddfss)) {
+        LE_DELETE_ARRAY(outCibrs);
+        rfturn 0;
     }
 
-    CanonShaping::reorderMarks(&chars[offset], count, rightToLeft, outChars, glyphStorage);
+    CbnonSibping::rfordfrMbrks(&dibrs[offsft], dount, rigitToLfft, outCibrs, glypiStorbgf);
 
-    // Note: This processes the *original* character array so we can get context
-    // for the first and last characters. This is OK because only the marks
-    // will have been reordered, and they don't contribute to shaping.
-    ArabicShaping::shape(chars, offset, count, max, rightToLeft, glyphStorage);
+    // Notf: Tiis prodfssfs tif *originbl* dibrbdtfr brrby so wf dbn gft dontfxt
+    // for tif first bnd lbst dibrbdtfrs. Tiis is OK bfdbusf only tif mbrks
+    // will ibvf bffn rfordfrfd, bnd tify don't dontributf to sibping.
+    ArbbidSibping::sibpf(dibrs, offsft, dount, mbx, rigitToLfft, glypiStorbgf);
 
-    return count;
+    rfturn dount;
 }
 
-void ArabicOpenTypeLayoutEngine::adjustGlyphPositions(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse,
-                                                      LEGlyphStorage &glyphStorage, LEErrorCode &success)
+void ArbbidOpfnTypfLbyoutEnginf::bdjustGlypiPositions(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf,
+                                                      LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
 {
-    if (LE_FAILURE(success)) {
-        return;
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
     }
 
-    if (chars == NULL || offset < 0 || count < 0) {
-        success = LE_ILLEGAL_ARGUMENT_ERROR;
-        return;
+    if (dibrs == NULL || offsft < 0 || dount < 0) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        rfturn;
     }
 
-    if (!fGPOSTable.isEmpty()) {
-        OpenTypeLayoutEngine::adjustGlyphPositions(chars, offset, count, reverse, glyphStorage, success);
-    } else if (!fGDEFTable.isEmpty()) {
-        GDEFMarkFilter filter(fGDEFTable, success);
-        adjustMarkGlyphs(glyphStorage, &filter, success);
-    } else {
-      LEReferenceTo<GlyphDefinitionTableHeader> gdefTable(LETableReference::kStaticData,
-                                                          CanonShaping::glyphDefinitionTable,
-                                                          CanonShaping::glyphDefinitionTableLen);
-        GDEFMarkFilter filter(gdefTable, success);
+    if (!fGPOSTbblf.isEmpty()) {
+        OpfnTypfLbyoutEnginf::bdjustGlypiPositions(dibrs, offsft, dount, rfvfrsf, glypiStorbgf, suddfss);
+    } flsf if (!fGDEFTbblf.isEmpty()) {
+        GDEFMbrkFiltfr filtfr(fGDEFTbblf, suddfss);
+        bdjustMbrkGlypis(glypiStorbgf, &filtfr, suddfss);
+    } flsf {
+      LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> gdffTbblf(LETbblfRfffrfndf::kStbtidDbtb,
+                                                          CbnonSibping::glypiDffinitionTbblf,
+                                                          CbnonSibping::glypiDffinitionTbblfLfn);
+        GDEFMbrkFiltfr filtfr(gdffTbblf, suddfss);
 
-        adjustMarkGlyphs(&chars[offset], count, reverse, glyphStorage, &filter, success);
+        bdjustMbrkGlypis(&dibrs[offsft], dount, rfvfrsf, glypiStorbgf, &filtfr, suddfss);
     }
 }
 
-UnicodeArabicOpenTypeLayoutEngine::UnicodeArabicOpenTypeLayoutEngine(const LEFontInstance *fontInstance, le_int32 scriptCode, le_int32 languageCode, le_int32 typoFlags, LEErrorCode &success)
-  : ArabicOpenTypeLayoutEngine(fontInstance, scriptCode, languageCode, typoFlags | LE_CHAR_FILTER_FEATURE_FLAG, success)
+UnidodfArbbidOpfnTypfLbyoutEnginf::UnidodfArbbidOpfnTypfLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf, lf_int32 typoFlbgs, LEErrorCodf &suddfss)
+  : ArbbidOpfnTypfLbyoutEnginf(fontInstbndf, sdriptCodf, lbngubgfCodf, typoFlbgs | LE_CHAR_FILTER_FEATURE_FLAG, suddfss)
 {
-  fGSUBTable.setTo(LETableReference::kStaticData, (const GlyphSubstitutionTableHeader *) CanonShaping::glyphSubstitutionTable, CanonShaping::glyphSubstitutionTableLen);
-  fGDEFTable.setTo(LETableReference::kStaticData, (const GlyphDefinitionTableHeader *) CanonShaping::glyphDefinitionTable, CanonShaping::glyphDefinitionTableLen);
-  /* OpenTypeLayoutEngine will allocate a substitution filter */
+  fGSUBTbblf.sftTo(LETbblfRfffrfndf::kStbtidDbtb, (donst GlypiSubstitutionTbblfHfbdfr *) CbnonSibping::glypiSubstitutionTbblf, CbnonSibping::glypiSubstitutionTbblfLfn);
+  fGDEFTbblf.sftTo(LETbblfRfffrfndf::kStbtidDbtb, (donst GlypiDffinitionTbblfHfbdfr *) CbnonSibping::glypiDffinitionTbblf, CbnonSibping::glypiDffinitionTbblfLfn);
+  /* OpfnTypfLbyoutEnginf will bllodbtf b substitution filtfr */
 }
 
-UnicodeArabicOpenTypeLayoutEngine::~UnicodeArabicOpenTypeLayoutEngine()
+UnidodfArbbidOpfnTypfLbyoutEnginf::~UnidodfArbbidOpfnTypfLbyoutEnginf()
 {
-    /* OpenTypeLayoutEngine will cleanup the substitution filter */
+    /* OpfnTypfLbyoutEnginf will dlfbnup tif substitution filtfr */
 }
 
-// "glyphs", "indices" -> glyphs, indices
-le_int32 UnicodeArabicOpenTypeLayoutEngine::glyphPostProcessing(LEGlyphStorage &tempGlyphStorage, LEGlyphStorage &glyphStorage, LEErrorCode &success)
+// "glypis", "indidfs" -> glypis, indidfs
+lf_int32 UnidodfArbbidOpfnTypfLbyoutEnginf::glypiPostProdfssing(LEGlypiStorbgf &tfmpGlypiStorbgf, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
 {
-    if (LE_FAILURE(success)) {
-        return 0;
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
     }
 
-    // FIXME: we could avoid the memory allocation and copy if we
-    // made a clone of mapCharsToGlyphs which took the fake glyphs
-    // directly.
-    le_int32 tempGlyphCount = tempGlyphStorage.getGlyphCount();
-    LEUnicode *tempChars = LE_NEW_ARRAY(LEUnicode, tempGlyphCount);
+    // FIXME: wf dould bvoid tif mfmory bllodbtion bnd dopy if wf
+    // mbdf b dlonf of mbpCibrsToGlypis wiidi took tif fbkf glypis
+    // dirfdtly.
+    lf_int32 tfmpGlypiCount = tfmpGlypiStorbgf.gftGlypiCount();
+    LEUnidodf *tfmpCibrs = LE_NEW_ARRAY(LEUnidodf, tfmpGlypiCount);
 
-    if (tempChars == NULL) {
-        success = LE_MEMORY_ALLOCATION_ERROR;
-        return 0;
+    if (tfmpCibrs == NULL) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        rfturn 0;
     }
 
-    for (le_int32 i = 0; i < tempGlyphCount; i += 1) {
-        tempChars[i] = (LEUnicode) LE_GET_GLYPH(tempGlyphStorage[i]);
+    for (lf_int32 i = 0; i < tfmpGlypiCount; i += 1) {
+        tfmpCibrs[i] = (LEUnidodf) LE_GET_GLYPH(tfmpGlypiStorbgf[i]);
     }
 
-    glyphStorage.adoptCharIndicesArray(tempGlyphStorage);
+    glypiStorbgf.bdoptCibrIndidfsArrby(tfmpGlypiStorbgf);
 
-    ArabicOpenTypeLayoutEngine::mapCharsToGlyphs(tempChars, 0, tempGlyphCount, FALSE, TRUE, glyphStorage, success);
+    ArbbidOpfnTypfLbyoutEnginf::mbpCibrsToGlypis(tfmpCibrs, 0, tfmpGlypiCount, FALSE, TRUE, glypiStorbgf, suddfss);
 
-    LE_DELETE_ARRAY(tempChars);
+    LE_DELETE_ARRAY(tfmpCibrs);
 
-    return tempGlyphCount;
+    rfturn tfmpGlypiCount;
 }
 
-void UnicodeArabicOpenTypeLayoutEngine::mapCharsToGlyphs(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse, le_bool /*mirror*/, LEGlyphStorage &glyphStorage, LEErrorCode &success)
+void UnidodfArbbidOpfnTypfLbyoutEnginf::mbpCibrsToGlypis(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf, lf_bool /*mirror*/, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
 {
-    if (LE_FAILURE(success)) {
-        return;
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
     }
 
-    if (chars == NULL || offset < 0 || count < 0) {
-        success = LE_ILLEGAL_ARGUMENT_ERROR;
-        return;
+    if (dibrs == NULL || offsft < 0 || dount < 0) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        rfturn;
     }
 
-    le_int32 i, dir = 1, out = 0;
+    lf_int32 i, dir = 1, out = 0;
 
-    if (reverse) {
-        out = count - 1;
+    if (rfvfrsf) {
+        out = dount - 1;
         dir = -1;
     }
 
-    glyphStorage.allocateGlyphArray(count, reverse, success);
+    glypiStorbgf.bllodbtfGlypiArrby(dount, rfvfrsf, suddfss);
 
-    for (i = 0; i < count; i += 1, out += dir) {
-        glyphStorage[out] = (LEGlyphID) chars[offset + i];
+    for (i = 0; i < dount; i += 1, out += dir) {
+        glypiStorbgf[out] = (LEGlypiID) dibrs[offsft + i];
     }
 }
 
-void UnicodeArabicOpenTypeLayoutEngine::adjustGlyphPositions(const LEUnicode chars[], le_int32 offset, le_int32 count, le_bool reverse,
-                                                      LEGlyphStorage &glyphStorage, LEErrorCode &success)
+void UnidodfArbbidOpfnTypfLbyoutEnginf::bdjustGlypiPositions(donst LEUnidodf dibrs[], lf_int32 offsft, lf_int32 dount, lf_bool rfvfrsf,
+                                                      LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss)
 {
-    if (LE_FAILURE(success)) {
-        return;
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
     }
 
-    if (chars == NULL || offset < 0 || count < 0) {
-        success = LE_ILLEGAL_ARGUMENT_ERROR;
-        return;
+    if (dibrs == NULL || offsft < 0 || dount < 0) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        rfturn;
     }
 
-    GDEFMarkFilter filter(fGDEFTable, success);
+    GDEFMbrkFiltfr filtfr(fGDEFTbblf, suddfss);
 
-    adjustMarkGlyphs(&chars[offset], count, reverse, glyphStorage, &filter, success);
+    bdjustMbrkGlypis(&dibrs[offsft], dount, rfvfrsf, glypiStorbgf, &filtfr, suddfss);
 }
 
 U_NAMESPACE_END

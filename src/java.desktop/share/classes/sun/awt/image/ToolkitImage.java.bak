@@ -1,331 +1,331 @@
 /*
- * Copyright (c) 1995, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.image;
+pbdkbgf sun.bwt.imbgf;
 
-import java.util.Hashtable;
-import java.util.Enumeration;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Enumfrbtion;
 
-import java.awt.Component;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.ImageProducer;
-import java.awt.image.ImageConsumer;
-import java.awt.image.ImageObserver;
-import sun.awt.image.ImageRepresentation;
-import sun.awt.image.FileImageSource;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.ImbgfProdudfr;
+import jbvb.bwt.imbgf.ImbgfConsumfr;
+import jbvb.bwt.imbgf.ImbgfObsfrvfr;
+import sun.bwt.imbgf.ImbgfRfprfsfntbtion;
+import sun.bwt.imbgf.FilfImbgfSourdf;
 
-public class ToolkitImage extends Image {
-
-    /**
-     * The object which is used to reconstruct the original image data
-     * as needed.
-     */
-    ImageProducer source;
-
-    InputStreamImageSource src;
-
-    ImageRepresentation imagerep;
-
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        NativeLibLoader.loadLibraries();
-    }
-
-    protected ToolkitImage() {
-    }
+publid dlbss ToolkitImbgf fxtfnds Imbgf {
 
     /**
-     * Construct an image from an ImageProducer object.
+     * Tif objfdt wiidi is usfd to rfdonstrudt tif originbl imbgf dbtb
+     * bs nffdfd.
      */
-    public ToolkitImage(ImageProducer is) {
-        source = is;
-        if (is instanceof InputStreamImageSource) {
-            src = (InputStreamImageSource) is;
-        }
+    ImbgfProdudfr sourdf;
+
+    InputStrfbmImbgfSourdf srd;
+
+    ImbgfRfprfsfntbtion imbgfrfp;
+
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        NbtivfLibLobdfr.lobdLibrbrifs();
     }
 
-    public ImageProducer getSource() {
-        if (src != null) {
-            src.checkSecurity(null, false);
-        }
-        return source;
-    }
-
-    private int width = -1;
-    private int height = -1;
-    private Hashtable<?, ?> properties;
-
-    private int availinfo;
-
-    /**
-     * Return the width of the original image source.
-     * If the width isn't known, then the image is reconstructed.
-     */
-    public int getWidth() {
-        if (src != null) {
-            src.checkSecurity(null, false);
-        }
-        if ((availinfo & ImageObserver.WIDTH) == 0) {
-            reconstruct(ImageObserver.WIDTH);
-        }
-        return width;
+    protfdtfd ToolkitImbgf() {
     }
 
     /**
-     * Return the width of the original image source.
-     * If the width isn't known, then the ImageObserver object will be
-     * notified when the data is available.
+     * Construdt bn imbgf from bn ImbgfProdudfr objfdt.
      */
-    public synchronized int getWidth(ImageObserver iw) {
-        if (src != null) {
-            src.checkSecurity(null, false);
+    publid ToolkitImbgf(ImbgfProdudfr is) {
+        sourdf = is;
+        if (is instbndfof InputStrfbmImbgfSourdf) {
+            srd = (InputStrfbmImbgfSourdf) is;
         }
-        if ((availinfo & ImageObserver.WIDTH) == 0) {
-            addWatcher(iw, true);
-            if ((availinfo & ImageObserver.WIDTH) == 0) {
-                return -1;
+    }
+
+    publid ImbgfProdudfr gftSourdf() {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
+        }
+        rfturn sourdf;
+    }
+
+    privbtf int widti = -1;
+    privbtf int ifigit = -1;
+    privbtf Hbsitbblf<?, ?> propfrtifs;
+
+    privbtf int bvbilinfo;
+
+    /**
+     * Rfturn tif widti of tif originbl imbgf sourdf.
+     * If tif widti isn't known, tifn tif imbgf is rfdonstrudtfd.
+     */
+    publid int gftWidti() {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
+        }
+        if ((bvbilinfo & ImbgfObsfrvfr.WIDTH) == 0) {
+            rfdonstrudt(ImbgfObsfrvfr.WIDTH);
+        }
+        rfturn widti;
+    }
+
+    /**
+     * Rfturn tif widti of tif originbl imbgf sourdf.
+     * If tif widti isn't known, tifn tif ImbgfObsfrvfr objfdt will bf
+     * notififd wifn tif dbtb is bvbilbblf.
+     */
+    publid syndironizfd int gftWidti(ImbgfObsfrvfr iw) {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
+        }
+        if ((bvbilinfo & ImbgfObsfrvfr.WIDTH) == 0) {
+            bddWbtdifr(iw, truf);
+            if ((bvbilinfo & ImbgfObsfrvfr.WIDTH) == 0) {
+                rfturn -1;
             }
         }
-        return width;
+        rfturn widti;
     }
 
     /**
-     * Return the height of the original image source.
-     * If the height isn't known, then the image is reconstructed.
+     * Rfturn tif ifigit of tif originbl imbgf sourdf.
+     * If tif ifigit isn't known, tifn tif imbgf is rfdonstrudtfd.
      */
-    public int getHeight() {
-        if (src != null) {
-            src.checkSecurity(null, false);
+    publid int gftHfigit() {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        if ((availinfo & ImageObserver.HEIGHT) == 0) {
-            reconstruct(ImageObserver.HEIGHT);
+        if ((bvbilinfo & ImbgfObsfrvfr.HEIGHT) == 0) {
+            rfdonstrudt(ImbgfObsfrvfr.HEIGHT);
         }
-        return height;
+        rfturn ifigit;
     }
 
     /**
-     * Return the height of the original image source.
-     * If the height isn't known, then the ImageObserver object will be
-     * notified when the data is available.
+     * Rfturn tif ifigit of tif originbl imbgf sourdf.
+     * If tif ifigit isn't known, tifn tif ImbgfObsfrvfr objfdt will bf
+     * notififd wifn tif dbtb is bvbilbblf.
      */
-    public synchronized int getHeight(ImageObserver iw) {
-        if (src != null) {
-            src.checkSecurity(null, false);
+    publid syndironizfd int gftHfigit(ImbgfObsfrvfr iw) {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        if ((availinfo & ImageObserver.HEIGHT) == 0) {
-            addWatcher(iw, true);
-            if ((availinfo & ImageObserver.HEIGHT) == 0) {
-                return -1;
+        if ((bvbilinfo & ImbgfObsfrvfr.HEIGHT) == 0) {
+            bddWbtdifr(iw, truf);
+            if ((bvbilinfo & ImbgfObsfrvfr.HEIGHT) == 0) {
+                rfturn -1;
             }
         }
-        return height;
+        rfturn ifigit;
     }
 
     /**
-     * Return a property of the image by name.  Individual property names
-     * are defined by the various image formats.  If a property is not
-     * defined for a particular image, then this method will return the
-     * UndefinedProperty object.  If the properties for this image are
-     * not yet known, then this method will return null and the ImageObserver
-     * object will be notified later.  The property name "comment" should
-     * be used to store an optional comment which can be presented to
-     * the user as a description of the image, its source, or its author.
+     * Rfturn b propfrty of tif imbgf by nbmf.  Individubl propfrty nbmfs
+     * brf dffinfd by tif vbrious imbgf formbts.  If b propfrty is not
+     * dffinfd for b pbrtidulbr imbgf, tifn tiis mftiod will rfturn tif
+     * UndffinfdPropfrty objfdt.  If tif propfrtifs for tiis imbgf brf
+     * not yft known, tifn tiis mftiod will rfturn null bnd tif ImbgfObsfrvfr
+     * objfdt will bf notififd lbtfr.  Tif propfrty nbmf "dommfnt" siould
+     * bf usfd to storf bn optionbl dommfnt wiidi dbn bf prfsfntfd to
+     * tif usfr bs b dfsdription of tif imbgf, its sourdf, or its butior.
      */
-    public Object getProperty(String name, ImageObserver observer) {
-        if (name == null) {
-            throw new NullPointerException("null property name is not allowed");
+    publid Objfdt gftPropfrty(String nbmf, ImbgfObsfrvfr obsfrvfr) {
+        if (nbmf == null) {
+            tirow nfw NullPointfrExdfption("null propfrty nbmf is not bllowfd");
         }
 
-        if (src != null) {
-            src.checkSecurity(null, false);
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        if (properties == null) {
-            addWatcher(observer, true);
-            if (properties == null) {
-                return null;
+        if (propfrtifs == null) {
+            bddWbtdifr(obsfrvfr, truf);
+            if (propfrtifs == null) {
+                rfturn null;
             }
         }
-        Object o = properties.get(name);
+        Objfdt o = propfrtifs.gft(nbmf);
         if (o == null) {
-            o = Image.UndefinedProperty;
+            o = Imbgf.UndffinfdPropfrty;
         }
-        return o;
+        rfturn o;
     }
 
-    public boolean hasError() {
-        if (src != null) {
-            src.checkSecurity(null, false);
+    publid boolfbn ibsError() {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        return (availinfo & ImageObserver.ERROR) != 0;
+        rfturn (bvbilinfo & ImbgfObsfrvfr.ERROR) != 0;
     }
 
-    public int check(ImageObserver iw) {
-        if (src != null) {
-            src.checkSecurity(null, false);
+    publid int difdk(ImbgfObsfrvfr iw) {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        if ((availinfo & ImageObserver.ERROR) == 0 &&
-            ((~availinfo) & (ImageObserver.WIDTH |
-                             ImageObserver.HEIGHT |
-                             ImageObserver.PROPERTIES)) != 0) {
-            addWatcher(iw, false);
+        if ((bvbilinfo & ImbgfObsfrvfr.ERROR) == 0 &&
+            ((~bvbilinfo) & (ImbgfObsfrvfr.WIDTH |
+                             ImbgfObsfrvfr.HEIGHT |
+                             ImbgfObsfrvfr.PROPERTIES)) != 0) {
+            bddWbtdifr(iw, fblsf);
         }
-        return availinfo;
+        rfturn bvbilinfo;
     }
 
-    public void preload(ImageObserver iw) {
-        if (src != null) {
-            src.checkSecurity(null, false);
+    publid void prflobd(ImbgfObsfrvfr iw) {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        if ((availinfo & ImageObserver.ALLBITS) == 0) {
-            addWatcher(iw, true);
+        if ((bvbilinfo & ImbgfObsfrvfr.ALLBITS) == 0) {
+            bddWbtdifr(iw, truf);
         }
     }
 
-    private synchronized void addWatcher(ImageObserver iw, boolean load) {
-        if ((availinfo & ImageObserver.ERROR) != 0) {
+    privbtf syndironizfd void bddWbtdifr(ImbgfObsfrvfr iw, boolfbn lobd) {
+        if ((bvbilinfo & ImbgfObsfrvfr.ERROR) != 0) {
             if (iw != null) {
-                iw.imageUpdate(this, ImageObserver.ERROR|ImageObserver.ABORT,
+                iw.imbgfUpdbtf(tiis, ImbgfObsfrvfr.ERROR|ImbgfObsfrvfr.ABORT,
                                -1, -1, -1, -1);
             }
-            return;
+            rfturn;
         }
-        ImageRepresentation ir = getImageRep();
-        ir.addWatcher(iw);
-        if (load) {
-            ir.startProduction();
+        ImbgfRfprfsfntbtion ir = gftImbgfRfp();
+        ir.bddWbtdifr(iw);
+        if (lobd) {
+            ir.stbrtProdudtion();
         }
     }
 
-    private synchronized void reconstruct(int flags) {
-        if ((flags & ~availinfo) != 0) {
-            if ((availinfo & ImageObserver.ERROR) != 0) {
-                return;
+    privbtf syndironizfd void rfdonstrudt(int flbgs) {
+        if ((flbgs & ~bvbilinfo) != 0) {
+            if ((bvbilinfo & ImbgfObsfrvfr.ERROR) != 0) {
+                rfturn;
             }
-            ImageRepresentation ir = getImageRep();
-            ir.startProduction();
-            while ((flags & ~availinfo) != 0) {
+            ImbgfRfprfsfntbtion ir = gftImbgfRfp();
+            ir.stbrtProdudtion();
+            wiilf ((flbgs & ~bvbilinfo) != 0) {
                 try {
-                    wait();
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    return;
+                    wbit();
+                } dbtdi (IntfrruptfdExdfption f) {
+                    Tirfbd.durrfntTirfbd().intfrrupt();
+                    rfturn;
                 }
-                if ((availinfo & ImageObserver.ERROR) != 0) {
-                    return;
+                if ((bvbilinfo & ImbgfObsfrvfr.ERROR) != 0) {
+                    rfturn;
                 }
             }
         }
     }
 
-    synchronized void addInfo(int newinfo) {
-        availinfo |= newinfo;
+    syndironizfd void bddInfo(int nfwinfo) {
+        bvbilinfo |= nfwinfo;
         notifyAll();
     }
 
-    void setDimensions(int w, int h) {
-        width = w;
-        height = h;
-        addInfo(ImageObserver.WIDTH | ImageObserver.HEIGHT);
+    void sftDimfnsions(int w, int i) {
+        widti = w;
+        ifigit = i;
+        bddInfo(ImbgfObsfrvfr.WIDTH | ImbgfObsfrvfr.HEIGHT);
     }
 
-    void setProperties(Hashtable<?, ?> props) {
+    void sftPropfrtifs(Hbsitbblf<?, ?> props) {
         if (props == null) {
-            props = new Hashtable<String, Object>();
+            props = nfw Hbsitbblf<String, Objfdt>();
         }
-        properties = props;
-        addInfo(ImageObserver.PROPERTIES);
+        propfrtifs = props;
+        bddInfo(ImbgfObsfrvfr.PROPERTIES);
     }
 
-    synchronized void infoDone(int status) {
-        if (status == ImageConsumer.IMAGEERROR ||
-            ((~availinfo) & (ImageObserver.WIDTH |
-                             ImageObserver.HEIGHT)) != 0) {
-            addInfo(ImageObserver.ERROR);
-        } else if ((availinfo & ImageObserver.PROPERTIES) == 0) {
-            setProperties(null);
+    syndironizfd void infoDonf(int stbtus) {
+        if (stbtus == ImbgfConsumfr.IMAGEERROR ||
+            ((~bvbilinfo) & (ImbgfObsfrvfr.WIDTH |
+                             ImbgfObsfrvfr.HEIGHT)) != 0) {
+            bddInfo(ImbgfObsfrvfr.ERROR);
+        } flsf if ((bvbilinfo & ImbgfObsfrvfr.PROPERTIES) == 0) {
+            sftPropfrtifs(null);
         }
     }
 
-    public void flush() {
-        if (src != null) {
-            src.checkSecurity(null, false);
+    publid void flusi() {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
 
-        ImageRepresentation ir;
-        synchronized (this) {
-            availinfo &= ~ImageObserver.ERROR;
-            ir = imagerep;
-            imagerep = null;
+        ImbgfRfprfsfntbtion ir;
+        syndironizfd (tiis) {
+            bvbilinfo &= ~ImbgfObsfrvfr.ERROR;
+            ir = imbgfrfp;
+            imbgfrfp = null;
         }
         if (ir != null) {
-            ir.abort();
+            ir.bbort();
         }
-        if (src != null) {
-            src.flush();
+        if (srd != null) {
+            srd.flusi();
         }
     }
 
-    protected ImageRepresentation makeImageRep() {
-        return new ImageRepresentation(this, ColorModel.getRGBdefault(),
-                                       false);
+    protfdtfd ImbgfRfprfsfntbtion mbkfImbgfRfp() {
+        rfturn nfw ImbgfRfprfsfntbtion(tiis, ColorModfl.gftRGBdffbult(),
+                                       fblsf);
     }
 
-    public synchronized ImageRepresentation getImageRep() {
-        if (src != null) {
-            src.checkSecurity(null, false);
+    publid syndironizfd ImbgfRfprfsfntbtion gftImbgfRfp() {
+        if (srd != null) {
+            srd.difdkSfdurity(null, fblsf);
         }
-        if (imagerep == null) {
-            imagerep = makeImageRep();
+        if (imbgfrfp == null) {
+            imbgfrfp = mbkfImbgfRfp();
         }
-        return imagerep;
+        rfturn imbgfrfp;
     }
 
-    public Graphics getGraphics() {
-        throw new UnsupportedOperationException("getGraphics() not valid for images " +
-                                     "created with createImage(producer)");
+    publid Grbpiids gftGrbpiids() {
+        tirow nfw UnsupportfdOpfrbtionExdfption("gftGrbpiids() not vblid for imbgfs " +
+                                     "drfbtfd witi drfbtfImbgf(produdfr)");
     }
 
-    /* this method is needed by printing code */
-    public ColorModel getColorModel() {
-        ImageRepresentation imageRep = getImageRep();
-        return imageRep.getColorModel();
+    /* tiis mftiod is nffdfd by printing dodf */
+    publid ColorModfl gftColorModfl() {
+        ImbgfRfprfsfntbtion imbgfRfp = gftImbgfRfp();
+        rfturn imbgfRfp.gftColorModfl();
     }
 
-    /* this method is needed by printing code */
-    public BufferedImage getBufferedImage() {
-        ImageRepresentation imageRep = getImageRep();
-        return imageRep.getBufferedImage();
+    /* tiis mftiod is nffdfd by printing dodf */
+    publid BufffrfdImbgf gftBufffrfdImbgf() {
+        ImbgfRfprfsfntbtion imbgfRfp = gftImbgfRfp();
+        rfturn imbgfRfp.gftBufffrfdImbgf();
     }
 
-    public void setAccelerationPriority(float priority) {
-        super.setAccelerationPriority(priority);
-        ImageRepresentation imageRep = getImageRep();
-        imageRep.setAccelerationPriority(accelerationPriority);
+    publid void sftAddflfrbtionPriority(flobt priority) {
+        supfr.sftAddflfrbtionPriority(priority);
+        ImbgfRfprfsfntbtion imbgfRfp = gftImbgfRfp();
+        imbgfRfp.sftAddflfrbtionPriority(bddflfrbtionPriority);
     }
 }

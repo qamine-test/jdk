@@ -1,0 +1,207 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.sfdurity.*;
+
+/**
+ * Signbturf implfmfntbtion for thf SSL/TLS RSA Signbturf vbribnt with both
+ * MD5 bnd SHA-1 MfssbgfDigfsts. Usfd for fxplidit RSA sfrvfr buthfntidbtion
+ * (RSA signfd sfrvfr kfy fxdhbngf for RSA_EXPORT bnd DHE_RSA) bnd RSA dlifnt
+ * buthfntidbtion (RSA signfd dfrtifidbtf vfrify mfssbgf).
+ *
+ * It donforms to thf stbndbrd JCA Signbturf API. It is rfgistfrfd in thf
+ * SunJSSE providfr to bvoid morf domplidbtfd gftInstbndf() dodf bnd
+ * nfgbtivf intfrbdtion with thf JCA mfdhbnisms for hbrdwbrf providfrs.
+ *
+ * Thf dlbss should bf instbntibtfd vib thf gftInstbndf() mfthod in this dlbss,
+ * whidh rfturns thf implfmfntbtion from thf prfffrrfd providfr. Thf intfrnbl
+ * implfmfntbtion bllows thf hbshfs to bf fxpliditly sft, whidh is rfquirfd
+ * for RSA dlifnt buthfntidbtion. It dbn bf obtbinfd vib thf
+ * gftIntfrnblInstbndf() mfthod.
+ *
+ * This dlbss is not thrfbd sbff.
+ *
+ */
+publid finbl dlbss RSASignbturf fxtfnds SignbturfSpi {
+
+    privbtf finbl Signbturf rbwRsb;
+    privbtf MfssbgfDigfst md5, shb;
+
+    // flbg indidbting if thf MfssbgfDigfsts brf in rfsft stbtf
+    privbtf boolfbn isRfsft;
+
+    publid RSASignbturf() throws NoSudhAlgorithmExdfption {
+        supfr();
+        rbwRsb = JssfJdf.gftSignbturf(JssfJdf.SIGNATURE_RAWRSA);
+        isRfsft = truf;
+    }
+
+    /**
+     * Gft bn implfmfntbtion for thf RSA signbturf. Follows thf stbndbrd
+     * JCA gftInstbndf() modfl, so it rfturn thf implfmfntbtion from thf
+     * providfr with thf highfst prfdfdfndf, whidh mby bf this dlbss.
+     */
+    stbtid Signbturf gftInstbndf() throws NoSudhAlgorithmExdfption {
+        rfturn JssfJdf.gftSignbturf(JssfJdf.SIGNATURE_SSLRSA);
+    }
+
+    /**
+     * Gft bn intfrnbl implfmfntbtion for thf RSA signbturf. Usfd for RSA
+     * dlifnt buthfntidbtion, whidh nffds thf bbility to sft thf digfsts
+     * to fxtfrnblly providfd vblufs vib thf sftHbshfs() mfthod.
+     */
+    stbtid Signbturf gftIntfrnblInstbndf()
+            throws NoSudhAlgorithmExdfption, NoSudhProvidfrExdfption {
+        rfturn Signbturf.gftInstbndf(JssfJdf.SIGNATURE_SSLRSA, "SunJSSE");
+    }
+
+    /**
+     * Sft thf MD5 bnd SHA hbshfs to thf providfd objfdts.
+     */
+    stbtid void sftHbshfs(Signbturf sig, MfssbgfDigfst md5, MfssbgfDigfst shb) {
+        sig.sftPbrbmftfr("hbshfs", nfw MfssbgfDigfst[] {md5, shb});
+    }
+
+    /**
+     * Rfsft thf MfssbgfDigfsts unlfss thfy brf blrfbdy rfsft.
+     */
+    privbtf void rfsft() {
+        if (isRfsft == fblsf) {
+            md5.rfsft();
+            shb.rfsft();
+            isRfsft = truf;
+        }
+    }
+
+    privbtf stbtid void dhfdkNull(Kfy kfy) throws InvblidKfyExdfption {
+        if (kfy == null) {
+            throw nfw InvblidKfyExdfption("Kfy must not bf null");
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd void fnginfInitVfrify(PublidKfy publidKfy)
+            throws InvblidKfyExdfption {
+        dhfdkNull(publidKfy);
+        rfsft();
+        rbwRsb.initVfrify(publidKfy);
+    }
+
+    @Ovfrridf
+    protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy)
+            throws InvblidKfyExdfption {
+        fnginfInitSign(privbtfKfy, null);
+    }
+
+    @Ovfrridf
+    protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy, SfdurfRbndom rbndom)
+            throws InvblidKfyExdfption {
+        dhfdkNull(privbtfKfy);
+        rfsft();
+        rbwRsb.initSign(privbtfKfy, rbndom);
+    }
+
+    // lbzily initiblizf thf MfssbgfDigfsts
+    privbtf void initDigfsts() {
+        if (md5 == null) {
+            md5 = JssfJdf.gftMD5();
+            shb = JssfJdf.gftSHA();
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd void fnginfUpdbtf(bytf b) {
+        initDigfsts();
+        isRfsft = fblsf;
+        md5.updbtf(b);
+        shb.updbtf(b);
+    }
+
+    @Ovfrridf
+    protfdtfd void fnginfUpdbtf(bytf[] b, int off, int lfn) {
+        initDigfsts();
+        isRfsft = fblsf;
+        md5.updbtf(b, off, lfn);
+        shb.updbtf(b, off, lfn);
+    }
+
+    privbtf bytf[] gftDigfst() throws SignbturfExdfption {
+        try {
+            initDigfsts();
+            bytf[] dbtb = nfw bytf[36];
+            md5.digfst(dbtb, 0, 16);
+            shb.digfst(dbtb, 16, 20);
+            isRfsft = truf;
+            rfturn dbtb;
+        } dbtdh (DigfstExdfption f) {
+            // should nfvfr oddur
+            throw nfw SignbturfExdfption(f);
+        }
+    }
+
+    @Ovfrridf
+    protfdtfd bytf[] fnginfSign() throws SignbturfExdfption {
+        rbwRsb.updbtf(gftDigfst());
+        rfturn rbwRsb.sign();
+    }
+
+    @Ovfrridf
+    protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs) throws SignbturfExdfption {
+        rfturn fnginfVfrify(sigBytfs, 0, sigBytfs.lfngth);
+    }
+
+    @Ovfrridf
+    protfdtfd boolfbn fnginfVfrify(bytf[] sigBytfs, int offsft, int lfngth)
+            throws SignbturfExdfption {
+        rbwRsb.updbtf(gftDigfst());
+        rfturn rbwRsb.vfrify(sigBytfs, offsft, lfngth);
+    }
+
+    @Ovfrridf
+    protfdtfd void fnginfSftPbrbmftfr(String pbrbm, Objfdt vbluf)
+            throws InvblidPbrbmftfrExdfption {
+        if (pbrbm.fqubls("hbshfs") == fblsf) {
+            throw nfw InvblidPbrbmftfrExdfption
+                ("Pbrbmftfr not supportfd: " + pbrbm);
+        }
+        if (vbluf instbndfof MfssbgfDigfst[] == fblsf) {
+            throw nfw InvblidPbrbmftfrExdfption
+                ("vbluf must bf MfssbgfDigfst[]");
+        }
+        MfssbgfDigfst[] digfsts = (MfssbgfDigfst[])vbluf;
+        md5 = digfsts[0];
+        shb = digfsts[1];
+    }
+
+    @Ovfrridf
+    protfdtfd Objfdt fnginfGftPbrbmftfr(String pbrbm)
+            throws InvblidPbrbmftfrExdfption {
+        throw nfw InvblidPbrbmftfrExdfption("Pbrbmftfrs not supportfd");
+    }
+
+}

@@ -1,0 +1,229 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.sfdurity.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.StringTokfnizfr;
+import sun.sfdurity.util.SfdurityConstbnts;
+
+/**
+ * Thf AllPfrmission is b pfrmission thbt implifs bll othfr pfrmissions.
+ * <p>
+ * <b>Notf:</b> Grbnting AllPfrmission should bf donf with fxtrfmf dbrf,
+ * bs it implifs bll othfr pfrmissions. Thus, it grbnts dodf thf bbility
+ * to run with sfdurity
+ * disbblfd.  Extrfmf dbution should bf tbkfn bfforf grbnting sudh
+ * b pfrmission to dodf.  This pfrmission should bf usfd only during tfsting,
+ * or in fxtrfmfly rbrf dbsfs whfrf bn bpplidbtion or bpplft is
+ * domplftfly trustfd bnd bdding thf nfdfssbry pfrmissions to thf polidy
+ * is prohibitivfly dumbfrsomf.
+ *
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.AddfssControllfr
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
+ *
+ *
+ * @buthor Rolbnd Sdhfmfrs
+ *
+ * @sfribl fxdludf
+ */
+
+publid finbl dlbss AllPfrmission fxtfnds Pfrmission {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2916474571451318075L;
+
+    /**
+     * Crfbtfs b nfw AllPfrmission objfdt.
+     */
+    publid AllPfrmission() {
+        supfr("<bll pfrmissions>");
+    }
+
+
+    /**
+     * Crfbtfs b nfw AllPfrmission objfdt. This
+     * donstrudtor fxists for usf by thf {@dodf Polidy} objfdt
+     * to instbntibtf nfw Pfrmission objfdts.
+     *
+     * @pbrbm nbmf ignorfd
+     * @pbrbm bdtions ignorfd.
+     */
+    publid AllPfrmission(String nbmf, String bdtions) {
+        this();
+    }
+
+    /**
+     * Chfdks if thf spfdififd pfrmission is "implifd" by
+     * this objfdt. This mfthod blwbys rfturns truf.
+     *
+     * @pbrbm p thf pfrmission to dhfdk bgbinst.
+     *
+     * @rfturn rfturn
+     */
+    publid boolfbn implifs(Pfrmission p) {
+         rfturn truf;
+    }
+
+    /**
+     * Chfdks two AllPfrmission objfdts for fqublity. Two AllPfrmission
+     * objfdts brf blwbys fqubl.
+     *
+     * @pbrbm obj thf objfdt wf brf tfsting for fqublity with this objfdt.
+     * @rfturn truf if <i>obj</i> is bn AllPfrmission, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn (obj instbndfof AllPfrmission);
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this objfdt.
+     *
+     * @rfturn b hbsh dodf vbluf for this objfdt.
+     */
+
+    publid int hbshCodf() {
+        rfturn 1;
+    }
+
+    /**
+     * Rfturns thf dbnonidbl string rfprfsfntbtion of thf bdtions.
+     *
+     * @rfturn thf bdtions.
+     */
+    publid String gftAdtions() {
+        rfturn "<bll bdtions>";
+    }
+
+    /**
+     * Rfturns b nfw PfrmissionCollfdtion objfdt for storing AllPfrmission
+     * objfdts.
+     * <p>
+     *
+     * @rfturn b nfw PfrmissionCollfdtion objfdt suitbblf for
+     * storing AllPfrmissions.
+     */
+    publid PfrmissionCollfdtion nfwPfrmissionCollfdtion() {
+        rfturn nfw AllPfrmissionCollfdtion();
+    }
+
+}
+
+/**
+ * A AllPfrmissionCollfdtion storfs b dollfdtion
+ * of AllPfrmission pfrmissions. AllPfrmission objfdts
+ * must bf storfd in b mbnnfr thbt bllows thfm to bf insfrtfd in bny
+ * ordfr, but fnbblf thf implifs fundtion to fvblubtf thf implifs
+ * mfthod in bn fffidifnt (bnd donsistfnt) mbnnfr.
+ *
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ *
+ *
+ * @buthor Rolbnd Sdhfmfrs
+ *
+ * @sfribl indludf
+ */
+
+finbl dlbss AllPfrmissionCollfdtion
+    fxtfnds PfrmissionCollfdtion
+    implfmfnts jbvb.io.Sfriblizbblf
+{
+
+    // usf sfriblVfrsionUID from JDK 1.2.2 for intfropfrbbility
+    privbtf stbtid finbl long sfriblVfrsionUID = -4023755556366636806L;
+
+    privbtf boolfbn bll_bllowfd; // truf if bny bll pfrmissions hbvf bffn bddfd
+
+    /**
+     * Crfbtf bn fmpty AllPfrmissions objfdt.
+     *
+     */
+
+    publid AllPfrmissionCollfdtion() {
+        bll_bllowfd = fblsf;
+    }
+
+    /**
+     * Adds b pfrmission to thf AllPfrmissions. Thf kfy for thf hbsh is
+     * pfrmission.pbth.
+     *
+     * @pbrbm pfrmission thf Pfrmission objfdt to bdd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption - if thf pfrmission is not b
+     *                                       AllPfrmission
+     *
+     * @fxdfption SfdurityExdfption - if this AllPfrmissionCollfdtion objfdt
+     *                                hbs bffn mbrkfd rfbdonly
+     */
+
+    publid void bdd(Pfrmission pfrmission) {
+        if (! (pfrmission instbndfof AllPfrmission))
+            throw nfw IllfgblArgumfntExdfption("invblid pfrmission: "+
+                                               pfrmission);
+        if (isRfbdOnly())
+            throw nfw SfdurityExdfption("bttfmpt to bdd b Pfrmission to b rfbdonly PfrmissionCollfdtion");
+
+        bll_bllowfd = truf; // No synd; stblfnfss OK
+    }
+
+    /**
+     * Chfdk bnd sff if this sft of pfrmissions implifs thf pfrmissions
+     * fxprfssfd in "pfrmission".
+     *
+     * @pbrbm pfrmission thf Pfrmission objfdt to dompbrf
+     *
+     * @rfturn blwbys rfturns truf.
+     */
+
+    publid boolfbn implifs(Pfrmission pfrmission) {
+        rfturn bll_bllowfd; // No synd; stblfnfss OK
+    }
+
+    /**
+     * Rfturns bn fnumfrbtion of bll thf AllPfrmission objfdts in thf
+     * dontbinfr.
+     *
+     * @rfturn bn fnumfrbtion of bll thf AllPfrmission objfdts.
+     */
+    publid Enumfrbtion<Pfrmission> flfmfnts() {
+        rfturn nfw Enumfrbtion<Pfrmission>() {
+            privbtf boolfbn hbsMorf = bll_bllowfd;
+
+            publid boolfbn hbsMorfElfmfnts() {
+                rfturn hbsMorf;
+            }
+
+            publid Pfrmission nfxtElfmfnt() {
+                hbsMorf = fblsf;
+                rfturn SfdurityConstbnts.ALL_PERMISSION;
+            }
+        };
+    }
+}

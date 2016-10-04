@@ -1,380 +1,380 @@
 /*
- * Copyright (c) 2001, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt.h"
-#include "awt_Palette.h"
-#include "awt_Component.h"
-#include "img_util_md.h"
-#include "awt_CustomPaletteDef.h"
-#include "Trace.h"
+#indludf "bwt.i"
+#indludf "bwt_Pblfttf.i"
+#indludf "bwt_Componfnt.i"
+#indludf "img_util_md.i"
+#indludf "bwt_CustomPblfttfDff.i"
+#indludf "Trbdf.i"
 
-BOOL AwtPalette::m_useCustomPalette = TRUE;
+BOOL AwtPblfttf::m_usfCustomPblfttf = TRUE;
 
-#define ERROR_GRAY (-1)
-#define NON_GRAY 0
-#define LINEAR_STATIC_GRAY 1
-#define NON_LINEAR_STATIC_GRAY 2
+#dffinf ERROR_GRAY (-1)
+#dffinf NON_GRAY 0
+#dffinf LINEAR_STATIC_GRAY 1
+#dffinf NON_LINEAR_STATIC_GRAY 2
 
 /**
- * Select the palette into the given HDC.  This will
- * allow operations using this HDC to access the palette
- * colors/indices.
+ * Sflfdt tif pblfttf into tif givfn HDC.  Tiis will
+ * bllow opfrbtions using tiis HDC to bddfss tif pblfttf
+ * dolors/indidfs.
  */
-HPALETTE AwtPalette::Select(HDC hDC)
+HPALETTE AwtPblfttf::Sflfdt(HDC iDC)
 {
-    HPALETTE prevPalette = NULL;
-    if (logicalPalette) {
-        BOOL background = !(m_useCustomPalette);
-        prevPalette = ::SelectPalette(hDC, logicalPalette, background);
+    HPALETTE prfvPblfttf = NULL;
+    if (logidblPblfttf) {
+        BOOL bbdkground = !(m_usfCustomPblfttf);
+        prfvPblfttf = ::SflfdtPblfttf(iDC, logidblPblfttf, bbdkground);
     }
-    return prevPalette;
+    rfturn prfvPblfttf;
 }
 
 /**
- * Realize the palette of the given HDC.  This will attempt to
- * install the palette of the HDC onto the device associated with
- * that HDC.
+ * Rfblizf tif pblfttf of tif givfn HDC.  Tiis will bttfmpt to
+ * instbll tif pblfttf of tif HDC onto tif dfvidf bssodibtfd witi
+ * tibt HDC.
  */
-void AwtPalette::Realize(HDC hDC)
+void AwtPblfttf::Rfblizf(HDC iDC)
 {
-    if (logicalPalette) {
-        if (!m_useCustomPalette ||
-            AwtComponent::QueryNewPaletteCalled() ||
-            AwtToolkit::GetInstance().HasDisplayChanged()) {
-            // Fix for bug 4178909, workaround for Windows bug.  Shouldn't
-            // do a RealizePalette until the first QueryNewPalette message
-            // has been processed.
-            // But if we are switching the primary monitor from non-8bpp
-            // to 8bpp mode, we may not get any palette messages during
-            // the display change event.  Go ahead and realize the palette
-            // now anyway in this situation.  This was especially noticeable
-            // on win2k in multimon.  Note that there still seems to be some
-            // problem with actually setting the palette on the primary
-            // screen until after QNP is called, but at least the
-            // secondary devices can correctly realize the palette.
-            ::RealizePalette(hDC);
+    if (logidblPblfttf) {
+        if (!m_usfCustomPblfttf ||
+            AwtComponfnt::QufryNfwPblfttfCbllfd() ||
+            AwtToolkit::GftInstbndf().HbsDisplbyCibngfd()) {
+            // Fix for bug 4178909, workbround for Windows bug.  Siouldn't
+            // do b RfblizfPblfttf until tif first QufryNfwPblfttf mfssbgf
+            // ibs bffn prodfssfd.
+            // But if wf brf switdiing tif primbry monitor from non-8bpp
+            // to 8bpp modf, wf mby not gft bny pblfttf mfssbgfs during
+            // tif displby dibngf fvfnt.  Go bifbd bnd rfblizf tif pblfttf
+            // now bnywby in tiis situbtion.  Tiis wbs fspfdiblly notidfbblf
+            // on win2k in multimon.  Notf tibt tifrf still sffms to bf somf
+            // problfm witi bdtublly sftting tif pblfttf on tif primbry
+            // sdrffn until bftfr QNP is dbllfd, but bt lfbst tif
+            // sfdondbry dfvidfs dbn dorrfdtly rfblizf tif pblfttf.
+            ::RfblizfPblfttf(iDC);
         }
     }
 }
 
 /**
- * Disable the use of our custom palette.  This method is called
- * during initialization if we detect that we are running inside
- * the plugin; we do not want to clobber our parent application's
- * palette with our own in that situation.
+ * Disbblf tif usf of our dustom pblfttf.  Tiis mftiod is dbllfd
+ * during initiblizbtion if wf dftfdt tibt wf brf running insidf
+ * tif plugin; wf do not wbnt to dlobbfr our pbrfnt bpplidbtion's
+ * pblfttf witi our own in tibt situbtion.
  */
-void AwtPalette::DisableCustomPalette()
+void AwtPblfttf::DisbblfCustomPblfttf()
 {
-    m_useCustomPalette = FALSE;
+    m_usfCustomPblfttf = FALSE;
 }
 
 /**
- * Returns whether we are currently using a custom palette.  Used
- * by AwtWin32GraphicsDevice when creating the colorModel of the
- * device.
+ * Rfturns wiftifr wf brf durrfntly using b dustom pblfttf.  Usfd
+ * by AwtWin32GrbpiidsDfvidf wifn drfbting tif dolorModfl of tif
+ * dfvidf.
  */
-BOOL AwtPalette::UseCustomPalette()
+BOOL AwtPblfttf::UsfCustomPblfttf()
 {
-    return m_useCustomPalette;
+    rfturn m_usfCustomPblfttf;
 }
 
 
 /**
- * Constructor.  Initialize the system and logical palettes.
- * used by this object.
+ * Construdtor.  Initiblizf tif systfm bnd logidbl pblfttfs.
+ * usfd by tiis objfdt.
  */
-AwtPalette::AwtPalette(AwtWin32GraphicsDevice *device)
+AwtPblfttf::AwtPblfttf(AwtWin32GrbpiidsDfvidf *dfvidf)
 {
-    this->device = device;
-    Update();
-    UpdateLogical();
+    tiis->dfvidf = dfvidf;
+    Updbtf();
+    UpdbtfLogidbl();
 }
 
 /**
- * Retrieves system palette entries. Includes a workaround for for some
- * video drivers which may not support the GSPE call but may return
- * valid values from this procedure.
+ * Rftrifvfs systfm pblfttf fntrifs. Indludfs b workbround for for somf
+ * vidfo drivfrs wiidi mby not support tif GSPE dbll but mby rfturn
+ * vblid vblufs from tiis prodfdurf.
  */
-int AwtPalette::FetchPaletteEntries(HDC hDC, PALETTEENTRY* pPalEntries)
+int AwtPblfttf::FftdiPblfttfEntrifs(HDC iDC, PALETTEENTRY* pPblEntrifs)
 {
-    LOGPALETTE* pLogPal = 0;
-    HPALETTE hPal = 0;
-    HPALETTE hPalOld = 0;
-    int numEntries;
+    LOGPALETTE* pLogPbl = 0;
+    HPALETTE iPbl = 0;
+    HPALETTE iPblOld = 0;
+    int numEntrifs;
 
-    numEntries = ::GetSystemPaletteEntries(hDC, 0, 256, pPalEntries);
+    numEntrifs = ::GftSystfmPblfttfEntrifs(iDC, 0, 256, pPblEntrifs);
 
-    if (numEntries > 0) {
-        return numEntries;
+    if (numEntrifs > 0) {
+        rfturn numEntrifs;
     }
-    // Workaround: some drivers do not support GetSysPalEntries
+    // Workbround: somf drivfrs do not support GftSysPblEntrifs
 
-    pLogPal = (LOGPALETTE*) new char[sizeof(LOGPALETTE)
-                                    + 256*sizeof(PALETTEENTRY)];
-    if (pLogPal == NULL) {
-        return 0;
+    pLogPbl = (LOGPALETTE*) nfw dibr[sizfof(LOGPALETTE)
+                                    + 256*sizfof(PALETTEENTRY)];
+    if (pLogPbl == NULL) {
+        rfturn 0;
     }
 
-    pLogPal->palVersion = 0x300;
-    pLogPal->palNumEntries = 256;
+    pLogPbl->pblVfrsion = 0x300;
+    pLogPbl->pblNumEntrifs = 256;
     int iEntry;
     PALETTEENTRY* pEntry;
     for (iEntry = 0; iEntry < 256; iEntry++) {
-        pEntry = pLogPal->palPalEntry + iEntry;
-        pEntry->peRed = iEntry;
-        pEntry->peGreen = pEntry->peBlue = 0;
-        pEntry->peFlags = PC_EXPLICIT;
+        pEntry = pLogPbl->pblPblEntry + iEntry;
+        pEntry->pfRfd = iEntry;
+        pEntry->pfGrffn = pEntry->pfBluf = 0;
+        pEntry->pfFlbgs = PC_EXPLICIT;
     }
-    hPal = ::CreatePalette(pLogPal);
-    delete pLogPal;
-    if ( hPal == 0 ) {
-        return 0;
+    iPbl = ::CrfbtfPblfttf(pLogPbl);
+    dflftf pLogPbl;
+    if ( iPbl == 0 ) {
+        rfturn 0;
     }
 
-    hPalOld = ::SelectPalette(hDC, hPal, 1);
-    if (hPalOld == 0) {
-        ::DeleteObject(hPal);
-        return 0;
+    iPblOld = ::SflfdtPblfttf(iDC, iPbl, 1);
+    if (iPblOld == 0) {
+        ::DflftfObjfdt(iPbl);
+        rfturn 0;
     }
-    ::RealizePalette(hDC);
+    ::RfblizfPblfttf(iDC);
 
     COLORREF rgb;
     for (iEntry = 0; iEntry < 256; iEntry++) {
-        rgb = ::GetNearestColor(hDC, PALETTEINDEX(iEntry));
-        pPalEntries[iEntry].peRed = GetRValue(rgb);
-        pPalEntries[iEntry].peGreen = GetGValue(rgb);
-        pPalEntries[iEntry].peBlue = GetBValue(rgb);
+        rgb = ::GftNfbrfstColor(iDC, PALETTEINDEX(iEntry));
+        pPblEntrifs[iEntry].pfRfd = GftRVbluf(rgb);
+        pPblEntrifs[iEntry].pfGrffn = GftGVbluf(rgb);
+        pPblEntrifs[iEntry].pfBluf = GftBVbluf(rgb);
     }
 
-    ::SelectPalette(hDC, hPalOld, 0 );
-    ::DeleteObject(hPal);
-    ::RealizePalette(hDC);
+    ::SflfdtPblfttf(iDC, iPblOld, 0 );
+    ::DflftfObjfdt(iPbl);
+    ::RfblizfPblfttf(iDC);
 
-    return 256;
+    rfturn 256;
 }
 
-int AwtPalette::GetGSType(PALETTEENTRY* pPalEntries)
+int AwtPblfttf::GftGSTypf(PALETTEENTRY* pPblEntrifs)
 {
-    int isGray = 1;
-    int isLinearStaticGray = 1;
-    int isNonLinearStaticGray = 1;
+    int isGrby = 1;
+    int isLinfbrStbtidGrby = 1;
+    int isNonLinfbrStbtidGrby = 1;
     int iEntry;
-    char bUsed[256];
+    dibr bUsfd[256];
     BYTE r, g, b;
 
-    memset(bUsed, 0, sizeof(bUsed));
+    mfmsft(bUsfd, 0, sizfof(bUsfd));
     for (iEntry = 0; iEntry < 256; iEntry++) {
-        r = pPalEntries[iEntry].peRed;
-        g = pPalEntries[iEntry].peGreen;
-        b = pPalEntries[iEntry].peBlue;
+        r = pPblEntrifs[iEntry].pfRfd;
+        g = pPblEntrifs[iEntry].pfGrffn;
+        b = pPblEntrifs[iEntry].pfBluf;
         if (r != g || r != b) {
-            isGray = 0;
-            break;
-        } else {
-            // the values are gray
+            isGrby = 0;
+            brfbk;
+        } flsf {
+            // tif vblufs brf grby
             if (r != iEntry) {
-                // it's not linear
-                // but it could be non-linear static gray
-                isLinearStaticGray = 0;
+                // it's not linfbr
+                // but it dould bf non-linfbr stbtid grby
+                isLinfbrStbtidGrby = 0;
             }
-            bUsed[r] = 1;
+            bUsfd[r] = 1;
         }
     }
 
-    if (isGray && !isLinearStaticGray) {
-        // check if all 256 grays are there
-        // if that's the case, it's non-linear static gray
+    if (isGrby && !isLinfbrStbtidGrby) {
+        // difdk if bll 256 grbys brf tifrf
+        // if tibt's tif dbsf, it's non-linfbr stbtid grby
         for (iEntry = 0; iEntry < 256; iEntry++ ) {
-            if (!bUsed[iEntry]) {
-                // not non-linear (not all 256 colors are used)
-                isNonLinearStaticGray = 0;
-                break;
+            if (!bUsfd[iEntry]) {
+                // not non-linfbr (not bll 256 dolors brf usfd)
+                isNonLinfbrStbtidGrby = 0;
+                brfbk;
             }
         }
     }
 
-    if (!isGray) {
-        J2dTraceLn(J2D_TRACE_INFO,
-                   "Detected palette: NON_GRAY/USER-MODIFIABLE");
-        return NON_GRAY;
+    if (!isGrby) {
+        J2dTrbdfLn(J2D_TRACE_INFO,
+                   "Dftfdtfd pblfttf: NON_GRAY/USER-MODIFIABLE");
+        rfturn NON_GRAY;
     }
-    if (isLinearStaticGray) {
-        J2dTraceLn(J2D_TRACE_INFO,
-                   "Detected palette: LINEAR_STATIC_GRAY");
-        return LINEAR_STATIC_GRAY;
+    if (isLinfbrStbtidGrby) {
+        J2dTrbdfLn(J2D_TRACE_INFO,
+                   "Dftfdtfd pblfttf: LINEAR_STATIC_GRAY");
+        rfturn LINEAR_STATIC_GRAY;
     }
-    if (isNonLinearStaticGray) {
-        J2dTraceLn(J2D_TRACE_INFO,
-                   "Detected palette: NON_LINEAR_STATIC_GRAY");
-        return NON_LINEAR_STATIC_GRAY;
+    if (isNonLinfbrStbtidGrby) {
+        J2dTrbdfLn(J2D_TRACE_INFO,
+                   "Dftfdtfd pblfttf: NON_LINEAR_STATIC_GRAY");
+        rfturn NON_LINEAR_STATIC_GRAY;
     }
 
-    J2dTraceLn(J2D_TRACE_ERROR,
-               "Unable to detect palette type, non-gray is assumed");
-    // not supposed to be here, error
-    return ERROR_GRAY;
+    J2dTrbdfLn(J2D_TRACE_ERROR,
+               "Unbblf to dftfdt pblfttf typf, non-grby is bssumfd");
+    // not supposfd to bf ifrf, frror
+    rfturn ERROR_GRAY;
 }
 
 /**
- * Updates our system palette variables to make sure they match
- * the current state of the actual system palette.  This method
- * is called during AwtPalette creation and after palette changes.
- * Return whether there were any palette changes from the previous
- * system palette.
+ * Updbtfs our systfm pblfttf vbribblfs to mbkf surf tify mbtdi
+ * tif durrfnt stbtf of tif bdtubl systfm pblfttf.  Tiis mftiod
+ * is dbllfd during AwtPblfttf drfbtion bnd bftfr pblfttf dibngfs.
+ * Rfturn wiftifr tifrf wfrf bny pblfttf dibngfs from tif prfvious
+ * systfm pblfttf.
  */
-BOOL AwtPalette::Update()
+BOOL AwtPblfttf::Updbtf()
 {
-    PALETTEENTRY pe[256];
-    int numEntries = 0;
-    int bitsPerPixel;
+    PALETTEENTRY pf[256];
+    int numEntrifs = 0;
+    int bitsPfrPixfl;
     int i;
-    HDC hDC;
+    HDC iDC;
 
-    hDC = device->GetDC();
-    if (!hDC) {
-        return FALSE;
+    iDC = dfvidf->GftDC();
+    if (!iDC) {
+        rfturn FALSE;
     }
-    bitsPerPixel = ::GetDeviceCaps(hDC, BITSPIXEL);
-    device->ReleaseDC(hDC);
-    if (8 != bitsPerPixel) {
-        return FALSE;
+    bitsPfrPixfl = ::GftDfvidfCbps(iDC, BITSPIXEL);
+    dfvidf->RflfbsfDC(iDC);
+    if (8 != bitsPfrPixfl) {
+        rfturn FALSE;
     }
 
-    hDC = device->GetDC();
-    numEntries = FetchPaletteEntries(hDC, pe);
+    iDC = dfvidf->GftDC();
+    numEntrifs = FftdiPblfttfEntrifs(iDC, pf);
 
-    device->ReleaseDC(hDC);
+    dfvidf->RflfbsfDC(iDC);
 
-    if ((numEntries == numSystemEntries) &&
-        (0 == memcmp(pe, systemEntriesWin32, numEntries * sizeof(PALETTEENTRY))))
+    if ((numEntrifs == numSystfmEntrifs) &&
+        (0 == mfmdmp(pf, systfmEntrifsWin32, numEntrifs * sizfof(PALETTEENTRY))))
     {
-        return FALSE;
+        rfturn FALSE;
     }
 
-    // make this system palette the new cached win32 palette
-    numEntries = (numEntries > 256)? 256: numEntries;
-    memcpy(systemEntriesWin32, pe, numEntries * sizeof(PALETTEENTRY));
-    numSystemEntries = numEntries;
+    // mbkf tiis systfm pblfttf tif nfw dbdifd win32 pblfttf
+    numEntrifs = (numEntrifs > 256)? 256: numEntrifs;
+    mfmdpy(systfmEntrifsWin32, pf, numEntrifs * sizfof(PALETTEENTRY));
+    numSystfmEntrifs = numEntrifs;
 
-    // Create jdk-style system palette
-    int startIndex = 0, endIndex = numEntries-1;
-    int staticGrayType = GetGSType(systemEntriesWin32);
+    // Crfbtf jdk-stylf systfm pblfttf
+    int stbrtIndfx = 0, fndIndfx = numEntrifs-1;
+    int stbtidGrbyTypf = GftGSTypf(systfmEntrifsWin32);
 
-    if (staticGrayType == LINEAR_STATIC_GRAY) {
-        device->SetGrayness(GS_STATICGRAY);
-    } else if (staticGrayType == NON_LINEAR_STATIC_GRAY) {
-        device->SetGrayness(GS_NONLINGRAY);
-    } else if (getenv("FORCEGRAY")) {
-        J2dTraceLn(J2D_TRACE_INFO,
-                    "Gray Palette Forced via FORCEGRAY");
-        // Need to zero first and last ten
-        // palette entries. Otherwise in UpdateDynamicColorModel
-        // we could set non-gray values to the palette.
+    if (stbtidGrbyTypf == LINEAR_STATIC_GRAY) {
+        dfvidf->SftGrbynfss(GS_STATICGRAY);
+    } flsf if (stbtidGrbyTypf == NON_LINEAR_STATIC_GRAY) {
+        dfvidf->SftGrbynfss(GS_NONLINGRAY);
+    } flsf if (gftfnv("FORCEGRAY")) {
+        J2dTrbdfLn(J2D_TRACE_INFO,
+                    "Grby Pblfttf Fordfd vib FORCEGRAY");
+        // Nffd to zfro first bnd lbst tfn
+        // pblfttf fntrifs. Otifrwisf in UpdbtfDynbmidColorModfl
+        // wf dould sft non-grby vblufs to tif pblfttf.
         for (i = 0; i < 10; i++) {
-            systemEntries[i] = 0x00000000;
-            systemEntries[i+246] = 0x00000000;
+            systfmEntrifs[i] = 0x00000000;
+            systfmEntrifs[i+246] = 0x00000000;
         }
-        numEntries -= 20;
-        startIndex = 10;
-        endIndex -= 10;
-        device->SetGrayness(GS_INDEXGRAY);
-    } else {
-        device->SetGrayness(GS_NOTGRAY);
+        numEntrifs -= 20;
+        stbrtIndfx = 10;
+        fndIndfx -= 10;
+        dfvidf->SftGrbynfss(GS_INDEXGRAY);
+    } flsf {
+        dfvidf->SftGrbynfss(GS_NOTGRAY);
     }
 
-    for (i = startIndex; i <= endIndex; i++) {
-        systemEntries[i] =  0xff000000
-                        | (pe[i].peRed << 16)
-                        | (pe[i].peGreen << 8)
-                        | (pe[i].peBlue);
+    for (i = stbrtIndfx; i <= fndIndfx; i++) {
+        systfmEntrifs[i] =  0xff000000
+                        | (pf[i].pfRfd << 16)
+                        | (pf[i].pfGrffn << 8)
+                        | (pf[i].pfBluf);
     }
 
-    systemInverseLUT =
-        initCubemap((int *)systemEntries, numEntries, 32);
+    systfmInvfrsfLUT =
+        initCubfmbp((int *)systfmEntrifs, numEntrifs, 32);
 
-    ColorData *cData = device->GetColorData();
-    if ((device->GetGrayness() == GS_NONLINGRAY ||
-         device->GetGrayness() == GS_INDEXGRAY) &&
-        cData != NULL) {
+    ColorDbtb *dDbtb = dfvidf->GftColorDbtb();
+    if ((dfvidf->GftGrbynfss() == GS_NONLINGRAY ||
+         dfvidf->GftGrbynfss() == GS_INDEXGRAY) &&
+        dDbtb != NULL) {
 
-        if (cData->pGrayInverseLutData != NULL) {
-            free(cData->pGrayInverseLutData);
-            cData->pGrayInverseLutData = NULL;
+        if (dDbtb->pGrbyInvfrsfLutDbtb != NULL) {
+            frff(dDbtb->pGrbyInvfrsfLutDbtb);
+            dDbtb->pGrbyInvfrsfLutDbtb = NULL;
         }
-        initInverseGrayLut((int*)systemEntries, 256, device->GetColorData());
+        initInvfrsfGrbyLut((int*)systfmEntrifs, 256, dfvidf->GftColorDbtb());
     }
 
-    return TRUE;
+    rfturn TRUE;
 }
 
 
 /**
- * Creates our custom palette based on: the current system palette,
- * the grayscale-ness of the system palette, and the state of the
- * primary device.
+ * Crfbtfs our dustom pblfttf bbsfd on: tif durrfnt systfm pblfttf,
+ * tif grbysdblf-nfss of tif systfm pblfttf, bnd tif stbtf of tif
+ * primbry dfvidf.
  */
-void AwtPalette::UpdateLogical()
+void AwtPblfttf::UpdbtfLogidbl()
 {
-    // Create and initialize a palette
-    int nEntries = 256;
-    char *buf = NULL;
-    buf = new char[sizeof(LOGPALETTE) + nEntries *
-        sizeof(PALETTEENTRY)];
+    // Crfbtf bnd initiblizf b pblfttf
+    int nEntrifs = 256;
+    dibr *buf = NULL;
+    buf = nfw dibr[sizfof(LOGPALETTE) + nEntrifs *
+        sizfof(PALETTEENTRY)];
 
-    LOGPALETTE *pLogPal = (LOGPALETTE*)buf;
-    PALETTEENTRY *pPalEntries = (PALETTEENTRY *)(&(pLogPal->palPalEntry[0]));
+    LOGPALETTE *pLogPbl = (LOGPALETTE*)buf;
+    PALETTEENTRY *pPblEntrifs = (PALETTEENTRY *)(&(pLogPbl->pblPblEntry[0]));
 
-    memcpy(pPalEntries, systemEntriesWin32, 256 * sizeof(PALETTEENTRY));
+    mfmdpy(pPblEntrifs, systfmEntrifsWin32, 256 * sizfof(PALETTEENTRY));
 
-    PALETTEENTRY *pPal = pPalEntries;
+    PALETTEENTRY *pPbl = pPblEntrifs;
     int i;
-    int staticGrayType = device->GetGrayness();
-    if (staticGrayType == GS_INDEXGRAY) {
-        float m = 255.0f / 235.0f;
-        float g = 0.5f;
-        pPal = &pPalEntries[10];
-        for (i = 10; i < 246; i++, pPal++) {
-            pPal->peRed = pPal->peGreen = pPal->peBlue =
+    int stbtidGrbyTypf = dfvidf->GftGrbynfss();
+    if (stbtidGrbyTypf == GS_INDEXGRAY) {
+        flobt m = 255.0f / 235.0f;
+        flobt g = 0.5f;
+        pPbl = &pPblEntrifs[10];
+        for (i = 10; i < 246; i++, pPbl++) {
+            pPbl->pfRfd = pPbl->pfGrffn = pPbl->pfBluf =
                 (int)g;
             g += m;
-            pPal->peFlags = PC_NOCOLLAPSE;
+            pPbl->pfFlbgs = PC_NOCOLLAPSE;
         }
-    } else if (staticGrayType == GS_NOTGRAY) {
+    } flsf if (stbtidGrbyTypf == GS_NOTGRAY) {
         for (i = 10; i < 246; i++) {
-            pPalEntries[i] = customPalette[i-10];
+            pPblEntrifs[i] = dustomPblfttf[i-10];
         }
     }
-    pLogPal->palNumEntries = 256;
-    pLogPal->palVersion = 0x300;
-    logicalPalette = ::CreatePalette(pLogPal);
+    pLogPbl->pblNumEntrifs = 256;
+    pLogPbl->pblVfrsion = 0x300;
+    logidblPblfttf = ::CrfbtfPblfttf(pLogPbl);
 
-    for (i = 0; i < nEntries; i++) {
-        logicalEntries[i] =  0xff000000
-                        | (pPalEntries[i].peRed << 16)
-                        | (pPalEntries[i].peGreen << 8)
-                        | (pPalEntries[i].peBlue);
+    for (i = 0; i < nEntrifs; i++) {
+        logidblEntrifs[i] =  0xff000000
+                        | (pPblEntrifs[i].pfRfd << 16)
+                        | (pPblEntrifs[i].pfGrffn << 8)
+                        | (pPblEntrifs[i].pfBluf);
     }
-    delete [] buf;
+    dflftf [] buf;
 }

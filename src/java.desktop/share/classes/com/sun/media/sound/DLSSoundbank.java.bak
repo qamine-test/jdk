@@ -1,59 +1,59 @@
 /*
- * Copyright (c) 2007, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.nft.URL;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Stbdk;
 
-import javax.sound.midi.Instrument;
-import javax.sound.midi.Patch;
-import javax.sound.midi.Soundbank;
-import javax.sound.midi.SoundbankResource;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.AudioFormat.Encoding;
+import jbvbx.sound.midi.Instrumfnt;
+import jbvbx.sound.midi.Pbtdi;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.SoundbbnkRfsourdf;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.AudioFormbt.Endoding;
 
 /**
- * A DLS Level 1 and Level 2 soundbank reader (from files/url/streams).
+ * A DLS Lfvfl 1 bnd Lfvfl 2 soundbbnk rfbdfr (from filfs/url/strfbms).
  *
- * @author Karl Helgason
+ * @butior Kbrl Hflgbson
  */
-public final class DLSSoundbank implements Soundbank {
+publid finbl dlbss DLSSoundbbnk implfmfnts Soundbbnk {
 
-    static private class DLSID {
+    stbtid privbtf dlbss DLSID {
         long i1;
         int s1;
         int s2;
@@ -66,1222 +66,1222 @@ public final class DLSSoundbank implements Soundbank {
         int x7;
         int x8;
 
-        private DLSID() {
+        privbtf DLSID() {
         }
 
         DLSID(long i1, int s1, int s2, int x1, int x2, int x3, int x4,
                 int x5, int x6, int x7, int x8) {
-            this.i1 = i1;
-            this.s1 = s1;
-            this.s2 = s2;
-            this.x1 = x1;
-            this.x2 = x2;
-            this.x3 = x3;
-            this.x4 = x4;
-            this.x5 = x5;
-            this.x6 = x6;
-            this.x7 = x7;
-            this.x8 = x8;
+            tiis.i1 = i1;
+            tiis.s1 = s1;
+            tiis.s2 = s2;
+            tiis.x1 = x1;
+            tiis.x2 = x2;
+            tiis.x3 = x3;
+            tiis.x4 = x4;
+            tiis.x5 = x5;
+            tiis.x6 = x6;
+            tiis.x7 = x7;
+            tiis.x8 = x8;
         }
 
-        public static DLSID read(RIFFReader riff) throws IOException {
-            DLSID d = new DLSID();
-            d.i1 = riff.readUnsignedInt();
-            d.s1 = riff.readUnsignedShort();
-            d.s2 = riff.readUnsignedShort();
-            d.x1 = riff.readUnsignedByte();
-            d.x2 = riff.readUnsignedByte();
-            d.x3 = riff.readUnsignedByte();
-            d.x4 = riff.readUnsignedByte();
-            d.x5 = riff.readUnsignedByte();
-            d.x6 = riff.readUnsignedByte();
-            d.x7 = riff.readUnsignedByte();
-            d.x8 = riff.readUnsignedByte();
-            return d;
+        publid stbtid DLSID rfbd(RIFFRfbdfr riff) tirows IOExdfption {
+            DLSID d = nfw DLSID();
+            d.i1 = riff.rfbdUnsignfdInt();
+            d.s1 = riff.rfbdUnsignfdSiort();
+            d.s2 = riff.rfbdUnsignfdSiort();
+            d.x1 = riff.rfbdUnsignfdBytf();
+            d.x2 = riff.rfbdUnsignfdBytf();
+            d.x3 = riff.rfbdUnsignfdBytf();
+            d.x4 = riff.rfbdUnsignfdBytf();
+            d.x5 = riff.rfbdUnsignfdBytf();
+            d.x6 = riff.rfbdUnsignfdBytf();
+            d.x7 = riff.rfbdUnsignfdBytf();
+            d.x8 = riff.rfbdUnsignfdBytf();
+            rfturn d;
         }
 
-        public int hashCode() {
-            return (int)i1;
+        publid int ibsiCodf() {
+            rfturn (int)i1;
         }
 
-        public boolean equals(Object obj) {
-            if (!(obj instanceof DLSID)) {
-                return false;
+        publid boolfbn fqubls(Objfdt obj) {
+            if (!(obj instbndfof DLSID)) {
+                rfturn fblsf;
             }
             DLSID t = (DLSID) obj;
-            return i1 == t.i1 && s1 == t.s1 && s2 == t.s2
+            rfturn i1 == t.i1 && s1 == t.s1 && s2 == t.s2
                 && x1 == t.x1 && x2 == t.x2 && x3 == t.x3 && x4 == t.x4
                 && x5 == t.x5 && x6 == t.x6 && x7 == t.x7 && x8 == t.x8;
         }
     }
 
     /** X = X & Y */
-    private static final int DLS_CDL_AND = 0x0001;
+    privbtf stbtid finbl int DLS_CDL_AND = 0x0001;
     /** X = X | Y */
-    private static final int DLS_CDL_OR = 0x0002;
+    privbtf stbtid finbl int DLS_CDL_OR = 0x0002;
     /** X = X ^ Y */
-    private static final int DLS_CDL_XOR = 0x0003;
+    privbtf stbtid finbl int DLS_CDL_XOR = 0x0003;
     /** X = X + Y */
-    private static final int DLS_CDL_ADD = 0x0004;
+    privbtf stbtid finbl int DLS_CDL_ADD = 0x0004;
     /** X = X - Y */
-    private static final int DLS_CDL_SUBTRACT = 0x0005;
+    privbtf stbtid finbl int DLS_CDL_SUBTRACT = 0x0005;
     /** X = X * Y */
-    private static final int DLS_CDL_MULTIPLY = 0x0006;
+    privbtf stbtid finbl int DLS_CDL_MULTIPLY = 0x0006;
     /** X = X / Y */
-    private static final int DLS_CDL_DIVIDE = 0x0007;
+    privbtf stbtid finbl int DLS_CDL_DIVIDE = 0x0007;
     /** X = X && Y */
-    private static final int DLS_CDL_LOGICAL_AND = 0x0008;
+    privbtf stbtid finbl int DLS_CDL_LOGICAL_AND = 0x0008;
     /** X = X || Y */
-    private static final int DLS_CDL_LOGICAL_OR = 0x0009;
+    privbtf stbtid finbl int DLS_CDL_LOGICAL_OR = 0x0009;
     /** X = (X < Y) */
-    private static final int DLS_CDL_LT = 0x000A;
+    privbtf stbtid finbl int DLS_CDL_LT = 0x000A;
     /** X = (X <= Y) */
-    private static final int DLS_CDL_LE = 0x000B;
+    privbtf stbtid finbl int DLS_CDL_LE = 0x000B;
     /** X = (X > Y) */
-    private static final int DLS_CDL_GT = 0x000C;
+    privbtf stbtid finbl int DLS_CDL_GT = 0x000C;
     /** X = (X >= Y) */
-    private static final int DLS_CDL_GE = 0x000D;
+    privbtf stbtid finbl int DLS_CDL_GE = 0x000D;
     /** X = (X == Y) */
-    private static final int DLS_CDL_EQ = 0x000E;
+    privbtf stbtid finbl int DLS_CDL_EQ = 0x000E;
     /** X = !X */
-    private static final int DLS_CDL_NOT = 0x000F;
-    /** 32-bit constant */
-    private static final int DLS_CDL_CONST = 0x0010;
-    /** 32-bit value returned from query */
-    private static final int DLS_CDL_QUERY = 0x0011;
-    /** 32-bit value returned from query */
-    private static final int DLS_CDL_QUERYSUPPORTED = 0x0012;
+    privbtf stbtid finbl int DLS_CDL_NOT = 0x000F;
+    /** 32-bit donstbnt */
+    privbtf stbtid finbl int DLS_CDL_CONST = 0x0010;
+    /** 32-bit vbluf rfturnfd from qufry */
+    privbtf stbtid finbl int DLS_CDL_QUERY = 0x0011;
+    /** 32-bit vbluf rfturnfd from qufry */
+    privbtf stbtid finbl int DLS_CDL_QUERYSUPPORTED = 0x0012;
 
-    private static final DLSID DLSID_GMInHardware = new DLSID(0x178f2f24,
-            0xc364, 0x11d1, 0xa7, 0x60, 0x00, 0x00, 0xf8, 0x75, 0xac, 0x12);
-    private static final DLSID DLSID_GSInHardware = new DLSID(0x178f2f25,
-            0xc364, 0x11d1, 0xa7, 0x60, 0x00, 0x00, 0xf8, 0x75, 0xac, 0x12);
-    private static final DLSID DLSID_XGInHardware = new DLSID(0x178f2f26,
-            0xc364, 0x11d1, 0xa7, 0x60, 0x00, 0x00, 0xf8, 0x75, 0xac, 0x12);
-    private static final DLSID DLSID_SupportsDLS1 = new DLSID(0x178f2f27,
-            0xc364, 0x11d1, 0xa7, 0x60, 0x00, 0x00, 0xf8, 0x75, 0xac, 0x12);
-    private static final DLSID DLSID_SupportsDLS2 = new DLSID(0xf14599e5,
-            0x4689, 0x11d2, 0xaf, 0xa6, 0x0, 0xaa, 0x0, 0x24, 0xd8, 0xb6);
-    private static final DLSID DLSID_SampleMemorySize = new DLSID(0x178f2f28,
-            0xc364, 0x11d1, 0xa7, 0x60, 0x00, 0x00, 0xf8, 0x75, 0xac, 0x12);
-    private static final DLSID DLSID_ManufacturersID = new DLSID(0xb03e1181,
-            0x8095, 0x11d2, 0xa1, 0xef, 0x0, 0x60, 0x8, 0x33, 0xdb, 0xd8);
-    private static final DLSID DLSID_ProductID = new DLSID(0xb03e1182,
-            0x8095, 0x11d2, 0xa1, 0xef, 0x0, 0x60, 0x8, 0x33, 0xdb, 0xd8);
-    private static final DLSID DLSID_SamplePlaybackRate = new DLSID(0x2a91f713,
-            0xa4bf, 0x11d2, 0xbb, 0xdf, 0x0, 0x60, 0x8, 0x33, 0xdb, 0xd8);
+    privbtf stbtid finbl DLSID DLSID_GMInHbrdwbrf = nfw DLSID(0x178f2f24,
+            0xd364, 0x11d1, 0xb7, 0x60, 0x00, 0x00, 0xf8, 0x75, 0xbd, 0x12);
+    privbtf stbtid finbl DLSID DLSID_GSInHbrdwbrf = nfw DLSID(0x178f2f25,
+            0xd364, 0x11d1, 0xb7, 0x60, 0x00, 0x00, 0xf8, 0x75, 0xbd, 0x12);
+    privbtf stbtid finbl DLSID DLSID_XGInHbrdwbrf = nfw DLSID(0x178f2f26,
+            0xd364, 0x11d1, 0xb7, 0x60, 0x00, 0x00, 0xf8, 0x75, 0xbd, 0x12);
+    privbtf stbtid finbl DLSID DLSID_SupportsDLS1 = nfw DLSID(0x178f2f27,
+            0xd364, 0x11d1, 0xb7, 0x60, 0x00, 0x00, 0xf8, 0x75, 0xbd, 0x12);
+    privbtf stbtid finbl DLSID DLSID_SupportsDLS2 = nfw DLSID(0xf14599f5,
+            0x4689, 0x11d2, 0xbf, 0xb6, 0x0, 0xbb, 0x0, 0x24, 0xd8, 0xb6);
+    privbtf stbtid finbl DLSID DLSID_SbmplfMfmorySizf = nfw DLSID(0x178f2f28,
+            0xd364, 0x11d1, 0xb7, 0x60, 0x00, 0x00, 0xf8, 0x75, 0xbd, 0x12);
+    privbtf stbtid finbl DLSID DLSID_MbnufbdturfrsID = nfw DLSID(0xb03f1181,
+            0x8095, 0x11d2, 0xb1, 0xff, 0x0, 0x60, 0x8, 0x33, 0xdb, 0xd8);
+    privbtf stbtid finbl DLSID DLSID_ProdudtID = nfw DLSID(0xb03f1182,
+            0x8095, 0x11d2, 0xb1, 0xff, 0x0, 0x60, 0x8, 0x33, 0xdb, 0xd8);
+    privbtf stbtid finbl DLSID DLSID_SbmplfPlbybbdkRbtf = nfw DLSID(0x2b91f713,
+            0xb4bf, 0x11d2, 0xbb, 0xdf, 0x0, 0x60, 0x8, 0x33, 0xdb, 0xd8);
 
-    private long major = -1;
-    private long minor = -1;
+    privbtf long mbjor = -1;
+    privbtf long minor = -1;
 
-    private final DLSInfo info = new DLSInfo();
+    privbtf finbl DLSInfo info = nfw DLSInfo();
 
-    private final List<DLSInstrument> instruments = new ArrayList<DLSInstrument>();
-    private final List<DLSSample> samples = new ArrayList<DLSSample>();
+    privbtf finbl List<DLSInstrumfnt> instrumfnts = nfw ArrbyList<DLSInstrumfnt>();
+    privbtf finbl List<DLSSbmplf> sbmplfs = nfw ArrbyList<DLSSbmplf>();
 
-    private boolean largeFormat = false;
-    private File sampleFile;
+    privbtf boolfbn lbrgfFormbt = fblsf;
+    privbtf Filf sbmplfFilf;
 
-    public DLSSoundbank() {
+    publid DLSSoundbbnk() {
     }
 
-    public DLSSoundbank(URL url) throws IOException {
-        InputStream is = url.openStream();
+    publid DLSSoundbbnk(URL url) tirows IOExdfption {
+        InputStrfbm is = url.opfnStrfbm();
         try {
-            readSoundbank(is);
-        } finally {
-            is.close();
+            rfbdSoundbbnk(is);
+        } finblly {
+            is.dlosf();
         }
     }
 
-    public DLSSoundbank(File file) throws IOException {
-        largeFormat = true;
-        sampleFile = file;
-        InputStream is = new FileInputStream(file);
+    publid DLSSoundbbnk(Filf filf) tirows IOExdfption {
+        lbrgfFormbt = truf;
+        sbmplfFilf = filf;
+        InputStrfbm is = nfw FilfInputStrfbm(filf);
         try {
-            readSoundbank(is);
-        } finally {
-            is.close();
+            rfbdSoundbbnk(is);
+        } finblly {
+            is.dlosf();
         }
     }
 
-    public DLSSoundbank(InputStream inputstream) throws IOException {
-        readSoundbank(inputstream);
+    publid DLSSoundbbnk(InputStrfbm inputstrfbm) tirows IOExdfption {
+        rfbdSoundbbnk(inputstrfbm);
     }
 
-    private void readSoundbank(InputStream inputstream) throws IOException {
-        RIFFReader riff = new RIFFReader(inputstream);
-        if (!riff.getFormat().equals("RIFF")) {
-            throw new RIFFInvalidFormatException(
-                    "Input stream is not a valid RIFF stream!");
+    privbtf void rfbdSoundbbnk(InputStrfbm inputstrfbm) tirows IOExdfption {
+        RIFFRfbdfr riff = nfw RIFFRfbdfr(inputstrfbm);
+        if (!riff.gftFormbt().fqubls("RIFF")) {
+            tirow nfw RIFFInvblidFormbtExdfption(
+                    "Input strfbm is not b vblid RIFF strfbm!");
         }
-        if (!riff.getType().equals("DLS ")) {
-            throw new RIFFInvalidFormatException(
-                    "Input stream is not a valid DLS soundbank!");
+        if (!riff.gftTypf().fqubls("DLS ")) {
+            tirow nfw RIFFInvblidFormbtExdfption(
+                    "Input strfbm is not b vblid DLS soundbbnk!");
         }
-        while (riff.hasNextChunk()) {
-            RIFFReader chunk = riff.nextChunk();
-            if (chunk.getFormat().equals("LIST")) {
-                if (chunk.getType().equals("INFO"))
-                    readInfoChunk(chunk);
-                if (chunk.getType().equals("lins"))
-                    readLinsChunk(chunk);
-                if (chunk.getType().equals("wvpl"))
-                    readWvplChunk(chunk);
-            } else {
-                if (chunk.getFormat().equals("cdl ")) {
-                    if (!readCdlChunk(chunk)) {
-                        throw new RIFFInvalidFormatException(
-                                "DLS file isn't supported!");
+        wiilf (riff.ibsNfxtCiunk()) {
+            RIFFRfbdfr diunk = riff.nfxtCiunk();
+            if (diunk.gftFormbt().fqubls("LIST")) {
+                if (diunk.gftTypf().fqubls("INFO"))
+                    rfbdInfoCiunk(diunk);
+                if (diunk.gftTypf().fqubls("lins"))
+                    rfbdLinsCiunk(diunk);
+                if (diunk.gftTypf().fqubls("wvpl"))
+                    rfbdWvplCiunk(diunk);
+            } flsf {
+                if (diunk.gftFormbt().fqubls("ddl ")) {
+                    if (!rfbdCdlCiunk(diunk)) {
+                        tirow nfw RIFFInvblidFormbtExdfption(
+                                "DLS filf isn't supportfd!");
                     }
                 }
-                if (chunk.getFormat().equals("colh")) {
-                    // skipped because we will load the entire bank into memory
-                    // long instrumentcount = chunk.readUnsignedInt();
-                    // System.out.println("instrumentcount = "+ instrumentcount);
+                if (diunk.gftFormbt().fqubls("doli")) {
+                    // skippfd bfdbusf wf will lobd tif fntirf bbnk into mfmory
+                    // long instrumfntdount = diunk.rfbdUnsignfdInt();
+                    // Systfm.out.println("instrumfntdount = "+ instrumfntdount);
                 }
-                if (chunk.getFormat().equals("ptbl")) {
-                    // Pool Table Chunk
-                    // skipped because we will load the entire bank into memory
+                if (diunk.gftFormbt().fqubls("ptbl")) {
+                    // Pool Tbblf Ciunk
+                    // skippfd bfdbusf wf will lobd tif fntirf bbnk into mfmory
                 }
-                if (chunk.getFormat().equals("vers")) {
-                    major = chunk.readUnsignedInt();
-                    minor = chunk.readUnsignedInt();
+                if (diunk.gftFormbt().fqubls("vfrs")) {
+                    mbjor = diunk.rfbdUnsignfdInt();
+                    minor = diunk.rfbdUnsignfdInt();
                 }
             }
         }
 
-        for (Map.Entry<DLSRegion, Long> entry : temp_rgnassign.entrySet()) {
-            entry.getKey().sample = samples.get((int)entry.getValue().longValue());
+        for (Mbp.Entry<DLSRfgion, Long> fntry : tfmp_rgnbssign.fntrySft()) {
+            fntry.gftKfy().sbmplf = sbmplfs.gft((int)fntry.gftVbluf().longVbluf());
         }
 
-        temp_rgnassign = null;
+        tfmp_rgnbssign = null;
     }
 
-    private boolean cdlIsQuerySupported(DLSID uuid) {
-        return uuid.equals(DLSID_GMInHardware)
-            || uuid.equals(DLSID_GSInHardware)
-            || uuid.equals(DLSID_XGInHardware)
-            || uuid.equals(DLSID_SupportsDLS1)
-            || uuid.equals(DLSID_SupportsDLS2)
-            || uuid.equals(DLSID_SampleMemorySize)
-            || uuid.equals(DLSID_ManufacturersID)
-            || uuid.equals(DLSID_ProductID)
-            || uuid.equals(DLSID_SamplePlaybackRate);
+    privbtf boolfbn ddlIsQufrySupportfd(DLSID uuid) {
+        rfturn uuid.fqubls(DLSID_GMInHbrdwbrf)
+            || uuid.fqubls(DLSID_GSInHbrdwbrf)
+            || uuid.fqubls(DLSID_XGInHbrdwbrf)
+            || uuid.fqubls(DLSID_SupportsDLS1)
+            || uuid.fqubls(DLSID_SupportsDLS2)
+            || uuid.fqubls(DLSID_SbmplfMfmorySizf)
+            || uuid.fqubls(DLSID_MbnufbdturfrsID)
+            || uuid.fqubls(DLSID_ProdudtID)
+            || uuid.fqubls(DLSID_SbmplfPlbybbdkRbtf);
     }
 
-    private long cdlQuery(DLSID uuid) {
-        if (uuid.equals(DLSID_GMInHardware))
-            return 1;
-        if (uuid.equals(DLSID_GSInHardware))
-            return 0;
-        if (uuid.equals(DLSID_XGInHardware))
-            return 0;
-        if (uuid.equals(DLSID_SupportsDLS1))
-            return 1;
-        if (uuid.equals(DLSID_SupportsDLS2))
-            return 1;
-        if (uuid.equals(DLSID_SampleMemorySize))
-            return Runtime.getRuntime().totalMemory();
-        if (uuid.equals(DLSID_ManufacturersID))
-            return 0;
-        if (uuid.equals(DLSID_ProductID))
-            return 0;
-        if (uuid.equals(DLSID_SamplePlaybackRate))
-            return 44100;
-        return 0;
+    privbtf long ddlQufry(DLSID uuid) {
+        if (uuid.fqubls(DLSID_GMInHbrdwbrf))
+            rfturn 1;
+        if (uuid.fqubls(DLSID_GSInHbrdwbrf))
+            rfturn 0;
+        if (uuid.fqubls(DLSID_XGInHbrdwbrf))
+            rfturn 0;
+        if (uuid.fqubls(DLSID_SupportsDLS1))
+            rfturn 1;
+        if (uuid.fqubls(DLSID_SupportsDLS2))
+            rfturn 1;
+        if (uuid.fqubls(DLSID_SbmplfMfmorySizf))
+            rfturn Runtimf.gftRuntimf().totblMfmory();
+        if (uuid.fqubls(DLSID_MbnufbdturfrsID))
+            rfturn 0;
+        if (uuid.fqubls(DLSID_ProdudtID))
+            rfturn 0;
+        if (uuid.fqubls(DLSID_SbmplfPlbybbdkRbtf))
+            rfturn 44100;
+        rfturn 0;
     }
 
 
-    // Reading cdl-ck Chunk
-    // "cdl " chunk can only appear inside : DLS,lart,lar2,rgn,rgn2
-    private boolean readCdlChunk(RIFFReader riff) throws IOException {
+    // Rfbding ddl-dk Ciunk
+    // "ddl " diunk dbn only bppfbr insidf : DLS,lbrt,lbr2,rgn,rgn2
+    privbtf boolfbn rfbdCdlCiunk(RIFFRfbdfr riff) tirows IOExdfption {
 
         DLSID uuid;
         long x;
         long y;
-        Stack<Long> stack = new Stack<Long>();
+        Stbdk<Long> stbdk = nfw Stbdk<Long>();
 
-        while (riff.available() != 0) {
-            int opcode = riff.readUnsignedShort();
-            switch (opcode) {
-            case DLS_CDL_AND:
-                x = stack.pop();
-                y = stack.pop();
-                stack.push(Long.valueOf(((x != 0) && (y != 0)) ? 1 : 0));
-                break;
-            case DLS_CDL_OR:
-                x = stack.pop();
-                y = stack.pop();
-                stack.push(Long.valueOf(((x != 0) || (y != 0)) ? 1 : 0));
-                break;
-            case DLS_CDL_XOR:
-                x = stack.pop();
-                y = stack.pop();
-                stack.push(Long.valueOf(((x != 0) ^ (y != 0)) ? 1 : 0));
-                break;
-            case DLS_CDL_ADD:
-                x = stack.pop();
-                y = stack.pop();
-                stack.push(Long.valueOf(x + y));
-                break;
-            case DLS_CDL_SUBTRACT:
-                x = stack.pop();
-                y = stack.pop();
-                stack.push(Long.valueOf(x - y));
-                break;
-            case DLS_CDL_MULTIPLY:
-                x = stack.pop();
-                y = stack.pop();
-                stack.push(Long.valueOf(x * y));
-                break;
-            case DLS_CDL_DIVIDE:
-                x = stack.pop();
-                y = stack.pop();
-                stack.push(Long.valueOf(x / y));
-                break;
-            case DLS_CDL_LOGICAL_AND:
-                x = stack.pop();
-                y = stack.pop();
-                stack.push(Long.valueOf(((x != 0) && (y != 0)) ? 1 : 0));
-                break;
-            case DLS_CDL_LOGICAL_OR:
-                x = stack.pop();
-                y = stack.pop();
-                stack.push(Long.valueOf(((x != 0) || (y != 0)) ? 1 : 0));
-                break;
-            case DLS_CDL_LT:
-                x = stack.pop();
-                y = stack.pop();
-                stack.push(Long.valueOf((x < y) ? 1 : 0));
-                break;
-            case DLS_CDL_LE:
-                x = stack.pop();
-                y = stack.pop();
-                stack.push(Long.valueOf((x <= y) ? 1 : 0));
-                break;
-            case DLS_CDL_GT:
-                x = stack.pop();
-                y = stack.pop();
-                stack.push(Long.valueOf((x > y) ? 1 : 0));
-                break;
-            case DLS_CDL_GE:
-                x = stack.pop();
-                y = stack.pop();
-                stack.push(Long.valueOf((x >= y) ? 1 : 0));
-                break;
-            case DLS_CDL_EQ:
-                x = stack.pop();
-                y = stack.pop();
-                stack.push(Long.valueOf((x == y) ? 1 : 0));
-                break;
-            case DLS_CDL_NOT:
-                x = stack.pop();
-                y = stack.pop();
-                stack.push(Long.valueOf((x == 0) ? 1 : 0));
-                break;
-            case DLS_CDL_CONST:
-                stack.push(Long.valueOf(riff.readUnsignedInt()));
-                break;
-            case DLS_CDL_QUERY:
-                uuid = DLSID.read(riff);
-                stack.push(cdlQuery(uuid));
-                break;
-            case DLS_CDL_QUERYSUPPORTED:
-                uuid = DLSID.read(riff);
-                stack.push(Long.valueOf(cdlIsQuerySupported(uuid) ? 1 : 0));
-                break;
-            default:
-                break;
+        wiilf (riff.bvbilbblf() != 0) {
+            int opdodf = riff.rfbdUnsignfdSiort();
+            switdi (opdodf) {
+            dbsf DLS_CDL_AND:
+                x = stbdk.pop();
+                y = stbdk.pop();
+                stbdk.pusi(Long.vblufOf(((x != 0) && (y != 0)) ? 1 : 0));
+                brfbk;
+            dbsf DLS_CDL_OR:
+                x = stbdk.pop();
+                y = stbdk.pop();
+                stbdk.pusi(Long.vblufOf(((x != 0) || (y != 0)) ? 1 : 0));
+                brfbk;
+            dbsf DLS_CDL_XOR:
+                x = stbdk.pop();
+                y = stbdk.pop();
+                stbdk.pusi(Long.vblufOf(((x != 0) ^ (y != 0)) ? 1 : 0));
+                brfbk;
+            dbsf DLS_CDL_ADD:
+                x = stbdk.pop();
+                y = stbdk.pop();
+                stbdk.pusi(Long.vblufOf(x + y));
+                brfbk;
+            dbsf DLS_CDL_SUBTRACT:
+                x = stbdk.pop();
+                y = stbdk.pop();
+                stbdk.pusi(Long.vblufOf(x - y));
+                brfbk;
+            dbsf DLS_CDL_MULTIPLY:
+                x = stbdk.pop();
+                y = stbdk.pop();
+                stbdk.pusi(Long.vblufOf(x * y));
+                brfbk;
+            dbsf DLS_CDL_DIVIDE:
+                x = stbdk.pop();
+                y = stbdk.pop();
+                stbdk.pusi(Long.vblufOf(x / y));
+                brfbk;
+            dbsf DLS_CDL_LOGICAL_AND:
+                x = stbdk.pop();
+                y = stbdk.pop();
+                stbdk.pusi(Long.vblufOf(((x != 0) && (y != 0)) ? 1 : 0));
+                brfbk;
+            dbsf DLS_CDL_LOGICAL_OR:
+                x = stbdk.pop();
+                y = stbdk.pop();
+                stbdk.pusi(Long.vblufOf(((x != 0) || (y != 0)) ? 1 : 0));
+                brfbk;
+            dbsf DLS_CDL_LT:
+                x = stbdk.pop();
+                y = stbdk.pop();
+                stbdk.pusi(Long.vblufOf((x < y) ? 1 : 0));
+                brfbk;
+            dbsf DLS_CDL_LE:
+                x = stbdk.pop();
+                y = stbdk.pop();
+                stbdk.pusi(Long.vblufOf((x <= y) ? 1 : 0));
+                brfbk;
+            dbsf DLS_CDL_GT:
+                x = stbdk.pop();
+                y = stbdk.pop();
+                stbdk.pusi(Long.vblufOf((x > y) ? 1 : 0));
+                brfbk;
+            dbsf DLS_CDL_GE:
+                x = stbdk.pop();
+                y = stbdk.pop();
+                stbdk.pusi(Long.vblufOf((x >= y) ? 1 : 0));
+                brfbk;
+            dbsf DLS_CDL_EQ:
+                x = stbdk.pop();
+                y = stbdk.pop();
+                stbdk.pusi(Long.vblufOf((x == y) ? 1 : 0));
+                brfbk;
+            dbsf DLS_CDL_NOT:
+                x = stbdk.pop();
+                y = stbdk.pop();
+                stbdk.pusi(Long.vblufOf((x == 0) ? 1 : 0));
+                brfbk;
+            dbsf DLS_CDL_CONST:
+                stbdk.pusi(Long.vblufOf(riff.rfbdUnsignfdInt()));
+                brfbk;
+            dbsf DLS_CDL_QUERY:
+                uuid = DLSID.rfbd(riff);
+                stbdk.pusi(ddlQufry(uuid));
+                brfbk;
+            dbsf DLS_CDL_QUERYSUPPORTED:
+                uuid = DLSID.rfbd(riff);
+                stbdk.pusi(Long.vblufOf(ddlIsQufrySupportfd(uuid) ? 1 : 0));
+                brfbk;
+            dffbult:
+                brfbk;
             }
         }
-        if (stack.isEmpty())
-            return false;
+        if (stbdk.isEmpty())
+            rfturn fblsf;
 
-        return stack.pop() == 1;
+        rfturn stbdk.pop() == 1;
     }
 
-    private void readInfoChunk(RIFFReader riff) throws IOException {
-        info.name = null;
-        while (riff.hasNextChunk()) {
-            RIFFReader chunk = riff.nextChunk();
-            String format = chunk.getFormat();
-            if (format.equals("INAM"))
-                info.name = chunk.readString(chunk.available());
-            else if (format.equals("ICRD"))
-                info.creationDate = chunk.readString(chunk.available());
-            else if (format.equals("IENG"))
-                info.engineers = chunk.readString(chunk.available());
-            else if (format.equals("IPRD"))
-                info.product = chunk.readString(chunk.available());
-            else if (format.equals("ICOP"))
-                info.copyright = chunk.readString(chunk.available());
-            else if (format.equals("ICMT"))
-                info.comments = chunk.readString(chunk.available());
-            else if (format.equals("ISFT"))
-                info.tools = chunk.readString(chunk.available());
-            else if (format.equals("IARL"))
-                info.archival_location = chunk.readString(chunk.available());
-            else if (format.equals("IART"))
-                info.artist = chunk.readString(chunk.available());
-            else if (format.equals("ICMS"))
-                info.commissioned = chunk.readString(chunk.available());
-            else if (format.equals("IGNR"))
-                info.genre = chunk.readString(chunk.available());
-            else if (format.equals("IKEY"))
-                info.keywords = chunk.readString(chunk.available());
-            else if (format.equals("IMED"))
-                info.medium = chunk.readString(chunk.available());
-            else if (format.equals("ISBJ"))
-                info.subject = chunk.readString(chunk.available());
-            else if (format.equals("ISRC"))
-                info.source = chunk.readString(chunk.available());
-            else if (format.equals("ISRF"))
-                info.source_form = chunk.readString(chunk.available());
-            else if (format.equals("ITCH"))
-                info.technician = chunk.readString(chunk.available());
+    privbtf void rfbdInfoCiunk(RIFFRfbdfr riff) tirows IOExdfption {
+        info.nbmf = null;
+        wiilf (riff.ibsNfxtCiunk()) {
+            RIFFRfbdfr diunk = riff.nfxtCiunk();
+            String formbt = diunk.gftFormbt();
+            if (formbt.fqubls("INAM"))
+                info.nbmf = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("ICRD"))
+                info.drfbtionDbtf = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("IENG"))
+                info.fnginffrs = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("IPRD"))
+                info.produdt = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("ICOP"))
+                info.dopyrigit = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("ICMT"))
+                info.dommfnts = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("ISFT"))
+                info.tools = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("IARL"))
+                info.brdiivbl_lodbtion = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("IART"))
+                info.brtist = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("ICMS"))
+                info.dommissionfd = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("IGNR"))
+                info.gfnrf = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("IKEY"))
+                info.kfywords = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("IMED"))
+                info.mfdium = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("ISBJ"))
+                info.subjfdt = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("ISRC"))
+                info.sourdf = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("ISRF"))
+                info.sourdf_form = diunk.rfbdString(diunk.bvbilbblf());
+            flsf if (formbt.fqubls("ITCH"))
+                info.tfdinidibn = diunk.rfbdString(diunk.bvbilbblf());
         }
     }
 
-    private void readLinsChunk(RIFFReader riff) throws IOException {
-        while (riff.hasNextChunk()) {
-            RIFFReader chunk = riff.nextChunk();
-            if (chunk.getFormat().equals("LIST")) {
-                if (chunk.getType().equals("ins "))
-                    readInsChunk(chunk);
+    privbtf void rfbdLinsCiunk(RIFFRfbdfr riff) tirows IOExdfption {
+        wiilf (riff.ibsNfxtCiunk()) {
+            RIFFRfbdfr diunk = riff.nfxtCiunk();
+            if (diunk.gftFormbt().fqubls("LIST")) {
+                if (diunk.gftTypf().fqubls("ins "))
+                    rfbdInsCiunk(diunk);
             }
         }
     }
 
-    private void readInsChunk(RIFFReader riff) throws IOException {
-        DLSInstrument instrument = new DLSInstrument(this);
+    privbtf void rfbdInsCiunk(RIFFRfbdfr riff) tirows IOExdfption {
+        DLSInstrumfnt instrumfnt = nfw DLSInstrumfnt(tiis);
 
-        while (riff.hasNextChunk()) {
-            RIFFReader chunk = riff.nextChunk();
-            String format = chunk.getFormat();
-            if (format.equals("LIST")) {
-                if (chunk.getType().equals("INFO")) {
-                    readInsInfoChunk(instrument, chunk);
+        wiilf (riff.ibsNfxtCiunk()) {
+            RIFFRfbdfr diunk = riff.nfxtCiunk();
+            String formbt = diunk.gftFormbt();
+            if (formbt.fqubls("LIST")) {
+                if (diunk.gftTypf().fqubls("INFO")) {
+                    rfbdInsInfoCiunk(instrumfnt, diunk);
                 }
-                if (chunk.getType().equals("lrgn")) {
-                    while (chunk.hasNextChunk()) {
-                        RIFFReader subchunk = chunk.nextChunk();
-                        if (subchunk.getFormat().equals("LIST")) {
-                            if (subchunk.getType().equals("rgn ")) {
-                                DLSRegion split = new DLSRegion();
-                                if (readRgnChunk(split, subchunk))
-                                    instrument.getRegions().add(split);
+                if (diunk.gftTypf().fqubls("lrgn")) {
+                    wiilf (diunk.ibsNfxtCiunk()) {
+                        RIFFRfbdfr subdiunk = diunk.nfxtCiunk();
+                        if (subdiunk.gftFormbt().fqubls("LIST")) {
+                            if (subdiunk.gftTypf().fqubls("rgn ")) {
+                                DLSRfgion split = nfw DLSRfgion();
+                                if (rfbdRgnCiunk(split, subdiunk))
+                                    instrumfnt.gftRfgions().bdd(split);
                             }
-                            if (subchunk.getType().equals("rgn2")) {
-                                // support for DLS level 2 regions
-                                DLSRegion split = new DLSRegion();
-                                if (readRgnChunk(split, subchunk))
-                                    instrument.getRegions().add(split);
+                            if (subdiunk.gftTypf().fqubls("rgn2")) {
+                                // support for DLS lfvfl 2 rfgions
+                                DLSRfgion split = nfw DLSRfgion();
+                                if (rfbdRgnCiunk(split, subdiunk))
+                                    instrumfnt.gftRfgions().bdd(split);
                             }
                         }
                     }
                 }
-                if (chunk.getType().equals("lart")) {
-                    List<DLSModulator> modlist = new ArrayList<DLSModulator>();
-                    while (chunk.hasNextChunk()) {
-                        RIFFReader subchunk = chunk.nextChunk();
-                        if (chunk.getFormat().equals("cdl ")) {
-                            if (!readCdlChunk(chunk)) {
-                                modlist.clear();
-                                break;
+                if (diunk.gftTypf().fqubls("lbrt")) {
+                    List<DLSModulbtor> modlist = nfw ArrbyList<DLSModulbtor>();
+                    wiilf (diunk.ibsNfxtCiunk()) {
+                        RIFFRfbdfr subdiunk = diunk.nfxtCiunk();
+                        if (diunk.gftFormbt().fqubls("ddl ")) {
+                            if (!rfbdCdlCiunk(diunk)) {
+                                modlist.dlfbr();
+                                brfbk;
                             }
                         }
-                        if (subchunk.getFormat().equals("art1"))
-                            readArt1Chunk(modlist, subchunk);
+                        if (subdiunk.gftFormbt().fqubls("brt1"))
+                            rfbdArt1Ciunk(modlist, subdiunk);
                     }
-                    instrument.getModulators().addAll(modlist);
+                    instrumfnt.gftModulbtors().bddAll(modlist);
                 }
-                if (chunk.getType().equals("lar2")) {
-                    // support for DLS level 2 ART
-                    List<DLSModulator> modlist = new ArrayList<DLSModulator>();
-                    while (chunk.hasNextChunk()) {
-                        RIFFReader subchunk = chunk.nextChunk();
-                        if (chunk.getFormat().equals("cdl ")) {
-                            if (!readCdlChunk(chunk)) {
-                                modlist.clear();
-                                break;
+                if (diunk.gftTypf().fqubls("lbr2")) {
+                    // support for DLS lfvfl 2 ART
+                    List<DLSModulbtor> modlist = nfw ArrbyList<DLSModulbtor>();
+                    wiilf (diunk.ibsNfxtCiunk()) {
+                        RIFFRfbdfr subdiunk = diunk.nfxtCiunk();
+                        if (diunk.gftFormbt().fqubls("ddl ")) {
+                            if (!rfbdCdlCiunk(diunk)) {
+                                modlist.dlfbr();
+                                brfbk;
                             }
                         }
-                        if (subchunk.getFormat().equals("art2"))
-                            readArt2Chunk(modlist, subchunk);
+                        if (subdiunk.gftFormbt().fqubls("brt2"))
+                            rfbdArt2Ciunk(modlist, subdiunk);
                     }
-                    instrument.getModulators().addAll(modlist);
+                    instrumfnt.gftModulbtors().bddAll(modlist);
                 }
-            } else {
-                if (format.equals("dlid")) {
-                    instrument.guid = new byte[16];
-                    chunk.readFully(instrument.guid);
+            } flsf {
+                if (formbt.fqubls("dlid")) {
+                    instrumfnt.guid = nfw bytf[16];
+                    diunk.rfbdFully(instrumfnt.guid);
                 }
-                if (format.equals("insh")) {
-                    chunk.readUnsignedInt(); // Read Region Count - ignored
+                if (formbt.fqubls("insi")) {
+                    diunk.rfbdUnsignfdInt(); // Rfbd Rfgion Count - ignorfd
 
-                    int bank = chunk.read();             // LSB
-                    bank += (chunk.read() & 127) << 7;   // MSB
-                    chunk.read(); // Read Reserved byte
-                    int drumins = chunk.read();          // Drum Instrument
+                    int bbnk = diunk.rfbd();             // LSB
+                    bbnk += (diunk.rfbd() & 127) << 7;   // MSB
+                    diunk.rfbd(); // Rfbd Rfsfrvfd bytf
+                    int drumins = diunk.rfbd();          // Drum Instrumfnt
 
-                    int id = chunk.read() & 127; // Read only first 7 bits
-                    chunk.read(); // Read Reserved byte
-                    chunk.read(); // Read Reserved byte
-                    chunk.read(); // Read Reserved byte
+                    int id = diunk.rfbd() & 127; // Rfbd only first 7 bits
+                    diunk.rfbd(); // Rfbd Rfsfrvfd bytf
+                    diunk.rfbd(); // Rfbd Rfsfrvfd bytf
+                    diunk.rfbd(); // Rfbd Rfsfrvfd bytf
 
-                    instrument.bank = bank;
-                    instrument.preset = id;
-                    instrument.druminstrument = (drumins & 128) > 0;
-                    //System.out.println("bank="+bank+" drumkit="+drumkit
+                    instrumfnt.bbnk = bbnk;
+                    instrumfnt.prfsft = id;
+                    instrumfnt.druminstrumfnt = (drumins & 128) > 0;
+                    //Systfm.out.println("bbnk="+bbnk+" drumkit="+drumkit
                     //        +" id="+id);
                 }
 
             }
         }
-        instruments.add(instrument);
+        instrumfnts.bdd(instrumfnt);
     }
 
-    private void readArt1Chunk(List<DLSModulator> modulators, RIFFReader riff)
-            throws IOException {
-        long size = riff.readUnsignedInt();
-        long count = riff.readUnsignedInt();
+    privbtf void rfbdArt1Ciunk(List<DLSModulbtor> modulbtors, RIFFRfbdfr riff)
+            tirows IOExdfption {
+        long sizf = riff.rfbdUnsignfdInt();
+        long dount = riff.rfbdUnsignfdInt();
 
-        if (size - 8 != 0)
-            riff.skipBytes(size - 8);
+        if (sizf - 8 != 0)
+            riff.skipBytfs(sizf - 8);
 
-        for (int i = 0; i < count; i++) {
-            DLSModulator modulator = new DLSModulator();
-            modulator.version = 1;
-            modulator.source = riff.readUnsignedShort();
-            modulator.control = riff.readUnsignedShort();
-            modulator.destination = riff.readUnsignedShort();
-            modulator.transform = riff.readUnsignedShort();
-            modulator.scale = riff.readInt();
-            modulators.add(modulator);
+        for (int i = 0; i < dount; i++) {
+            DLSModulbtor modulbtor = nfw DLSModulbtor();
+            modulbtor.vfrsion = 1;
+            modulbtor.sourdf = riff.rfbdUnsignfdSiort();
+            modulbtor.dontrol = riff.rfbdUnsignfdSiort();
+            modulbtor.dfstinbtion = riff.rfbdUnsignfdSiort();
+            modulbtor.trbnsform = riff.rfbdUnsignfdSiort();
+            modulbtor.sdblf = riff.rfbdInt();
+            modulbtors.bdd(modulbtor);
         }
     }
 
-    private void readArt2Chunk(List<DLSModulator> modulators, RIFFReader riff)
-            throws IOException {
-        long size = riff.readUnsignedInt();
-        long count = riff.readUnsignedInt();
+    privbtf void rfbdArt2Ciunk(List<DLSModulbtor> modulbtors, RIFFRfbdfr riff)
+            tirows IOExdfption {
+        long sizf = riff.rfbdUnsignfdInt();
+        long dount = riff.rfbdUnsignfdInt();
 
-        if (size - 8 != 0)
-            riff.skipBytes(size - 8);
+        if (sizf - 8 != 0)
+            riff.skipBytfs(sizf - 8);
 
-        for (int i = 0; i < count; i++) {
-            DLSModulator modulator = new DLSModulator();
-            modulator.version = 2;
-            modulator.source = riff.readUnsignedShort();
-            modulator.control = riff.readUnsignedShort();
-            modulator.destination = riff.readUnsignedShort();
-            modulator.transform = riff.readUnsignedShort();
-            modulator.scale = riff.readInt();
-            modulators.add(modulator);
+        for (int i = 0; i < dount; i++) {
+            DLSModulbtor modulbtor = nfw DLSModulbtor();
+            modulbtor.vfrsion = 2;
+            modulbtor.sourdf = riff.rfbdUnsignfdSiort();
+            modulbtor.dontrol = riff.rfbdUnsignfdSiort();
+            modulbtor.dfstinbtion = riff.rfbdUnsignfdSiort();
+            modulbtor.trbnsform = riff.rfbdUnsignfdSiort();
+            modulbtor.sdblf = riff.rfbdInt();
+            modulbtors.bdd(modulbtor);
         }
     }
 
-    private Map<DLSRegion, Long> temp_rgnassign = new HashMap<DLSRegion, Long>();
+    privbtf Mbp<DLSRfgion, Long> tfmp_rgnbssign = nfw HbsiMbp<DLSRfgion, Long>();
 
-    private boolean readRgnChunk(DLSRegion split, RIFFReader riff)
-            throws IOException {
-        while (riff.hasNextChunk()) {
-            RIFFReader chunk = riff.nextChunk();
-            String format = chunk.getFormat();
-            if (format.equals("LIST")) {
-                if (chunk.getType().equals("lart")) {
-                    List<DLSModulator> modlist = new ArrayList<DLSModulator>();
-                    while (chunk.hasNextChunk()) {
-                        RIFFReader subchunk = chunk.nextChunk();
-                        if (chunk.getFormat().equals("cdl ")) {
-                            if (!readCdlChunk(chunk)) {
-                                modlist.clear();
-                                break;
+    privbtf boolfbn rfbdRgnCiunk(DLSRfgion split, RIFFRfbdfr riff)
+            tirows IOExdfption {
+        wiilf (riff.ibsNfxtCiunk()) {
+            RIFFRfbdfr diunk = riff.nfxtCiunk();
+            String formbt = diunk.gftFormbt();
+            if (formbt.fqubls("LIST")) {
+                if (diunk.gftTypf().fqubls("lbrt")) {
+                    List<DLSModulbtor> modlist = nfw ArrbyList<DLSModulbtor>();
+                    wiilf (diunk.ibsNfxtCiunk()) {
+                        RIFFRfbdfr subdiunk = diunk.nfxtCiunk();
+                        if (diunk.gftFormbt().fqubls("ddl ")) {
+                            if (!rfbdCdlCiunk(diunk)) {
+                                modlist.dlfbr();
+                                brfbk;
                             }
                         }
-                        if (subchunk.getFormat().equals("art1"))
-                            readArt1Chunk(modlist, subchunk);
+                        if (subdiunk.gftFormbt().fqubls("brt1"))
+                            rfbdArt1Ciunk(modlist, subdiunk);
                     }
-                    split.getModulators().addAll(modlist);
+                    split.gftModulbtors().bddAll(modlist);
                 }
-                if (chunk.getType().equals("lar2")) {
-                    // support for DLS level 2 ART
-                    List<DLSModulator> modlist = new ArrayList<DLSModulator>();
-                    while (chunk.hasNextChunk()) {
-                        RIFFReader subchunk = chunk.nextChunk();
-                        if (chunk.getFormat().equals("cdl ")) {
-                            if (!readCdlChunk(chunk)) {
-                                modlist.clear();
-                                break;
+                if (diunk.gftTypf().fqubls("lbr2")) {
+                    // support for DLS lfvfl 2 ART
+                    List<DLSModulbtor> modlist = nfw ArrbyList<DLSModulbtor>();
+                    wiilf (diunk.ibsNfxtCiunk()) {
+                        RIFFRfbdfr subdiunk = diunk.nfxtCiunk();
+                        if (diunk.gftFormbt().fqubls("ddl ")) {
+                            if (!rfbdCdlCiunk(diunk)) {
+                                modlist.dlfbr();
+                                brfbk;
                             }
                         }
-                        if (subchunk.getFormat().equals("art2"))
-                            readArt2Chunk(modlist, subchunk);
+                        if (subdiunk.gftFormbt().fqubls("brt2"))
+                            rfbdArt2Ciunk(modlist, subdiunk);
                     }
-                    split.getModulators().addAll(modlist);
+                    split.gftModulbtors().bddAll(modlist);
                 }
-            } else {
+            } flsf {
 
-                if (format.equals("cdl ")) {
-                    if (!readCdlChunk(chunk))
-                        return false;
+                if (formbt.fqubls("ddl ")) {
+                    if (!rfbdCdlCiunk(diunk))
+                        rfturn fblsf;
                 }
-                if (format.equals("rgnh")) {
-                    split.keyfrom = chunk.readUnsignedShort();
-                    split.keyto = chunk.readUnsignedShort();
-                    split.velfrom = chunk.readUnsignedShort();
-                    split.velto = chunk.readUnsignedShort();
-                    split.options = chunk.readUnsignedShort();
-                    split.exclusiveClass = chunk.readUnsignedShort();
+                if (formbt.fqubls("rgni")) {
+                    split.kfyfrom = diunk.rfbdUnsignfdSiort();
+                    split.kfyto = diunk.rfbdUnsignfdSiort();
+                    split.vflfrom = diunk.rfbdUnsignfdSiort();
+                    split.vflto = diunk.rfbdUnsignfdSiort();
+                    split.options = diunk.rfbdUnsignfdSiort();
+                    split.fxdlusivfClbss = diunk.rfbdUnsignfdSiort();
                 }
-                if (format.equals("wlnk")) {
-                    split.fusoptions = chunk.readUnsignedShort();
-                    split.phasegroup = chunk.readUnsignedShort();
-                    split.channel = chunk.readUnsignedInt();
-                    long sampleid = chunk.readUnsignedInt();
-                    temp_rgnassign.put(split, sampleid);
+                if (formbt.fqubls("wlnk")) {
+                    split.fusoptions = diunk.rfbdUnsignfdSiort();
+                    split.pibsfgroup = diunk.rfbdUnsignfdSiort();
+                    split.dibnnfl = diunk.rfbdUnsignfdInt();
+                    long sbmplfid = diunk.rfbdUnsignfdInt();
+                    tfmp_rgnbssign.put(split, sbmplfid);
                 }
-                if (format.equals("wsmp")) {
-                    split.sampleoptions = new DLSSampleOptions();
-                    readWsmpChunk(split.sampleoptions, chunk);
+                if (formbt.fqubls("wsmp")) {
+                    split.sbmplfoptions = nfw DLSSbmplfOptions();
+                    rfbdWsmpCiunk(split.sbmplfoptions, diunk);
                 }
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    private void readWsmpChunk(DLSSampleOptions sampleOptions, RIFFReader riff)
-            throws IOException {
-        long size = riff.readUnsignedInt();
-        sampleOptions.unitynote = riff.readUnsignedShort();
-        sampleOptions.finetune = riff.readShort();
-        sampleOptions.attenuation = riff.readInt();
-        sampleOptions.options = riff.readUnsignedInt();
-        long loops = riff.readInt();
+    privbtf void rfbdWsmpCiunk(DLSSbmplfOptions sbmplfOptions, RIFFRfbdfr riff)
+            tirows IOExdfption {
+        long sizf = riff.rfbdUnsignfdInt();
+        sbmplfOptions.unitynotf = riff.rfbdUnsignfdSiort();
+        sbmplfOptions.finftunf = riff.rfbdSiort();
+        sbmplfOptions.bttfnubtion = riff.rfbdInt();
+        sbmplfOptions.options = riff.rfbdUnsignfdInt();
+        long loops = riff.rfbdInt();
 
-        if (size > 20)
-            riff.skipBytes(size - 20);
+        if (sizf > 20)
+            riff.skipBytfs(sizf - 20);
 
         for (int i = 0; i < loops; i++) {
-            DLSSampleLoop loop = new DLSSampleLoop();
-            long size2 = riff.readUnsignedInt();
-            loop.type = riff.readUnsignedInt();
-            loop.start = riff.readUnsignedInt();
-            loop.length = riff.readUnsignedInt();
-            sampleOptions.loops.add(loop);
-            if (size2 > 16)
-                riff.skipBytes(size2 - 16);
+            DLSSbmplfLoop loop = nfw DLSSbmplfLoop();
+            long sizf2 = riff.rfbdUnsignfdInt();
+            loop.typf = riff.rfbdUnsignfdInt();
+            loop.stbrt = riff.rfbdUnsignfdInt();
+            loop.lfngti = riff.rfbdUnsignfdInt();
+            sbmplfOptions.loops.bdd(loop);
+            if (sizf2 > 16)
+                riff.skipBytfs(sizf2 - 16);
         }
     }
 
-    private void readInsInfoChunk(DLSInstrument dlsinstrument, RIFFReader riff)
-            throws IOException {
-        dlsinstrument.info.name = null;
-        while (riff.hasNextChunk()) {
-            RIFFReader chunk = riff.nextChunk();
-            String format = chunk.getFormat();
-            if (format.equals("INAM")) {
-                dlsinstrument.info.name = chunk.readString(chunk.available());
-            } else if (format.equals("ICRD")) {
-                dlsinstrument.info.creationDate =
-                        chunk.readString(chunk.available());
-            } else if (format.equals("IENG")) {
-                dlsinstrument.info.engineers =
-                        chunk.readString(chunk.available());
-            } else if (format.equals("IPRD")) {
-                dlsinstrument.info.product = chunk.readString(chunk.available());
-            } else if (format.equals("ICOP")) {
-                dlsinstrument.info.copyright =
-                        chunk.readString(chunk.available());
-            } else if (format.equals("ICMT")) {
-                dlsinstrument.info.comments =
-                        chunk.readString(chunk.available());
-            } else if (format.equals("ISFT")) {
-                dlsinstrument.info.tools = chunk.readString(chunk.available());
-            } else if (format.equals("IARL")) {
-                dlsinstrument.info.archival_location =
-                        chunk.readString(chunk.available());
-            } else if (format.equals("IART")) {
-                dlsinstrument.info.artist = chunk.readString(chunk.available());
-            } else if (format.equals("ICMS")) {
-                dlsinstrument.info.commissioned =
-                        chunk.readString(chunk.available());
-            } else if (format.equals("IGNR")) {
-                dlsinstrument.info.genre = chunk.readString(chunk.available());
-            } else if (format.equals("IKEY")) {
-                dlsinstrument.info.keywords =
-                        chunk.readString(chunk.available());
-            } else if (format.equals("IMED")) {
-                dlsinstrument.info.medium = chunk.readString(chunk.available());
-            } else if (format.equals("ISBJ")) {
-                dlsinstrument.info.subject = chunk.readString(chunk.available());
-            } else if (format.equals("ISRC")) {
-                dlsinstrument.info.source = chunk.readString(chunk.available());
-            } else if (format.equals("ISRF")) {
-                dlsinstrument.info.source_form =
-                        chunk.readString(chunk.available());
-            } else if (format.equals("ITCH")) {
-                dlsinstrument.info.technician =
-                        chunk.readString(chunk.available());
+    privbtf void rfbdInsInfoCiunk(DLSInstrumfnt dlsinstrumfnt, RIFFRfbdfr riff)
+            tirows IOExdfption {
+        dlsinstrumfnt.info.nbmf = null;
+        wiilf (riff.ibsNfxtCiunk()) {
+            RIFFRfbdfr diunk = riff.nfxtCiunk();
+            String formbt = diunk.gftFormbt();
+            if (formbt.fqubls("INAM")) {
+                dlsinstrumfnt.info.nbmf = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ICRD")) {
+                dlsinstrumfnt.info.drfbtionDbtf =
+                        diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("IENG")) {
+                dlsinstrumfnt.info.fnginffrs =
+                        diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("IPRD")) {
+                dlsinstrumfnt.info.produdt = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ICOP")) {
+                dlsinstrumfnt.info.dopyrigit =
+                        diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ICMT")) {
+                dlsinstrumfnt.info.dommfnts =
+                        diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ISFT")) {
+                dlsinstrumfnt.info.tools = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("IARL")) {
+                dlsinstrumfnt.info.brdiivbl_lodbtion =
+                        diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("IART")) {
+                dlsinstrumfnt.info.brtist = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ICMS")) {
+                dlsinstrumfnt.info.dommissionfd =
+                        diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("IGNR")) {
+                dlsinstrumfnt.info.gfnrf = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("IKEY")) {
+                dlsinstrumfnt.info.kfywords =
+                        diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("IMED")) {
+                dlsinstrumfnt.info.mfdium = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ISBJ")) {
+                dlsinstrumfnt.info.subjfdt = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ISRC")) {
+                dlsinstrumfnt.info.sourdf = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ISRF")) {
+                dlsinstrumfnt.info.sourdf_form =
+                        diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ITCH")) {
+                dlsinstrumfnt.info.tfdinidibn =
+                        diunk.rfbdString(diunk.bvbilbblf());
             }
         }
     }
 
-    private void readWvplChunk(RIFFReader riff) throws IOException {
-        while (riff.hasNextChunk()) {
-            RIFFReader chunk = riff.nextChunk();
-            if (chunk.getFormat().equals("LIST")) {
-                if (chunk.getType().equals("wave"))
-                    readWaveChunk(chunk);
+    privbtf void rfbdWvplCiunk(RIFFRfbdfr riff) tirows IOExdfption {
+        wiilf (riff.ibsNfxtCiunk()) {
+            RIFFRfbdfr diunk = riff.nfxtCiunk();
+            if (diunk.gftFormbt().fqubls("LIST")) {
+                if (diunk.gftTypf().fqubls("wbvf"))
+                    rfbdWbvfCiunk(diunk);
             }
         }
     }
 
-    private void readWaveChunk(RIFFReader riff) throws IOException {
-        DLSSample sample = new DLSSample(this);
+    privbtf void rfbdWbvfCiunk(RIFFRfbdfr riff) tirows IOExdfption {
+        DLSSbmplf sbmplf = nfw DLSSbmplf(tiis);
 
-        while (riff.hasNextChunk()) {
-            RIFFReader chunk = riff.nextChunk();
-            String format = chunk.getFormat();
-            if (format.equals("LIST")) {
-                if (chunk.getType().equals("INFO")) {
-                    readWaveInfoChunk(sample, chunk);
+        wiilf (riff.ibsNfxtCiunk()) {
+            RIFFRfbdfr diunk = riff.nfxtCiunk();
+            String formbt = diunk.gftFormbt();
+            if (formbt.fqubls("LIST")) {
+                if (diunk.gftTypf().fqubls("INFO")) {
+                    rfbdWbvfInfoCiunk(sbmplf, diunk);
                 }
-            } else {
-                if (format.equals("dlid")) {
-                    sample.guid = new byte[16];
-                    chunk.readFully(sample.guid);
+            } flsf {
+                if (formbt.fqubls("dlid")) {
+                    sbmplf.guid = nfw bytf[16];
+                    diunk.rfbdFully(sbmplf.guid);
                 }
 
-                if (format.equals("fmt ")) {
-                    int sampleformat = chunk.readUnsignedShort();
-                    if (sampleformat != 1 && sampleformat != 3) {
-                        throw new RIFFInvalidDataException(
-                                "Only PCM samples are supported!");
+                if (formbt.fqubls("fmt ")) {
+                    int sbmplfformbt = diunk.rfbdUnsignfdSiort();
+                    if (sbmplfformbt != 1 && sbmplfformbt != 3) {
+                        tirow nfw RIFFInvblidDbtbExdfption(
+                                "Only PCM sbmplfs brf supportfd!");
                     }
-                    int channels = chunk.readUnsignedShort();
-                    long samplerate = chunk.readUnsignedInt();
-                    // bytes per sec
-                    /* long framerate = */ chunk.readUnsignedInt();
-                    // block align, framesize
-                    int framesize = chunk.readUnsignedShort();
-                    int bits = chunk.readUnsignedShort();
-                    AudioFormat audioformat = null;
-                    if (sampleformat == 1) {
+                    int dibnnfls = diunk.rfbdUnsignfdSiort();
+                    long sbmplfrbtf = diunk.rfbdUnsignfdInt();
+                    // bytfs pfr sfd
+                    /* long frbmfrbtf = */ diunk.rfbdUnsignfdInt();
+                    // blodk blign, frbmfsizf
+                    int frbmfsizf = diunk.rfbdUnsignfdSiort();
+                    int bits = diunk.rfbdUnsignfdSiort();
+                    AudioFormbt budioformbt = null;
+                    if (sbmplfformbt == 1) {
                         if (bits == 8) {
-                            audioformat = new AudioFormat(
-                                    Encoding.PCM_UNSIGNED, samplerate, bits,
-                                    channels, framesize, samplerate, false);
-                        } else {
-                            audioformat = new AudioFormat(
-                                    Encoding.PCM_SIGNED, samplerate, bits,
-                                    channels, framesize, samplerate, false);
+                            budioformbt = nfw AudioFormbt(
+                                    Endoding.PCM_UNSIGNED, sbmplfrbtf, bits,
+                                    dibnnfls, frbmfsizf, sbmplfrbtf, fblsf);
+                        } flsf {
+                            budioformbt = nfw AudioFormbt(
+                                    Endoding.PCM_SIGNED, sbmplfrbtf, bits,
+                                    dibnnfls, frbmfsizf, sbmplfrbtf, fblsf);
                         }
                     }
-                    if (sampleformat == 3) {
-                        audioformat = new AudioFormat(
-                                Encoding.PCM_FLOAT, samplerate, bits,
-                                channels, framesize, samplerate, false);
+                    if (sbmplfformbt == 3) {
+                        budioformbt = nfw AudioFormbt(
+                                Endoding.PCM_FLOAT, sbmplfrbtf, bits,
+                                dibnnfls, frbmfsizf, sbmplfrbtf, fblsf);
                     }
 
-                    sample.format = audioformat;
+                    sbmplf.formbt = budioformbt;
                 }
 
-                if (format.equals("data")) {
-                    if (largeFormat) {
-                        sample.setData(new ModelByteBuffer(sampleFile,
-                                chunk.getFilePointer(), chunk.available()));
-                    } else {
-                        byte[] buffer = new byte[chunk.available()];
-                        //  chunk.read(buffer);
-                        sample.setData(buffer);
+                if (formbt.fqubls("dbtb")) {
+                    if (lbrgfFormbt) {
+                        sbmplf.sftDbtb(nfw ModflBytfBufffr(sbmplfFilf,
+                                diunk.gftFilfPointfr(), diunk.bvbilbblf()));
+                    } flsf {
+                        bytf[] bufffr = nfw bytf[diunk.bvbilbblf()];
+                        //  diunk.rfbd(bufffr);
+                        sbmplf.sftDbtb(bufffr);
 
-                        int read = 0;
-                        int avail = chunk.available();
-                        while (read != avail) {
-                            if (avail - read > 65536) {
-                                chunk.readFully(buffer, read, 65536);
-                                read += 65536;
-                            } else {
-                                chunk.readFully(buffer, read, avail - read);
-                                read = avail;
+                        int rfbd = 0;
+                        int bvbil = diunk.bvbilbblf();
+                        wiilf (rfbd != bvbil) {
+                            if (bvbil - rfbd > 65536) {
+                                diunk.rfbdFully(bufffr, rfbd, 65536);
+                                rfbd += 65536;
+                            } flsf {
+                                diunk.rfbdFully(bufffr, rfbd, bvbil - rfbd);
+                                rfbd = bvbil;
                             }
                         }
                     }
                 }
 
-                if (format.equals("wsmp")) {
-                    sample.sampleoptions = new DLSSampleOptions();
-                    readWsmpChunk(sample.sampleoptions, chunk);
+                if (formbt.fqubls("wsmp")) {
+                    sbmplf.sbmplfoptions = nfw DLSSbmplfOptions();
+                    rfbdWsmpCiunk(sbmplf.sbmplfoptions, diunk);
                 }
             }
         }
 
-        samples.add(sample);
+        sbmplfs.bdd(sbmplf);
 
     }
 
-    private void readWaveInfoChunk(DLSSample dlssample, RIFFReader riff)
-            throws IOException {
-        dlssample.info.name = null;
-        while (riff.hasNextChunk()) {
-            RIFFReader chunk = riff.nextChunk();
-            String format = chunk.getFormat();
-            if (format.equals("INAM")) {
-                dlssample.info.name = chunk.readString(chunk.available());
-            } else if (format.equals("ICRD")) {
-                dlssample.info.creationDate =
-                        chunk.readString(chunk.available());
-            } else if (format.equals("IENG")) {
-                dlssample.info.engineers = chunk.readString(chunk.available());
-            } else if (format.equals("IPRD")) {
-                dlssample.info.product = chunk.readString(chunk.available());
-            } else if (format.equals("ICOP")) {
-                dlssample.info.copyright = chunk.readString(chunk.available());
-            } else if (format.equals("ICMT")) {
-                dlssample.info.comments = chunk.readString(chunk.available());
-            } else if (format.equals("ISFT")) {
-                dlssample.info.tools = chunk.readString(chunk.available());
-            } else if (format.equals("IARL")) {
-                dlssample.info.archival_location =
-                        chunk.readString(chunk.available());
-            } else if (format.equals("IART")) {
-                dlssample.info.artist = chunk.readString(chunk.available());
-            } else if (format.equals("ICMS")) {
-                dlssample.info.commissioned =
-                        chunk.readString(chunk.available());
-            } else if (format.equals("IGNR")) {
-                dlssample.info.genre = chunk.readString(chunk.available());
-            } else if (format.equals("IKEY")) {
-                dlssample.info.keywords = chunk.readString(chunk.available());
-            } else if (format.equals("IMED")) {
-                dlssample.info.medium = chunk.readString(chunk.available());
-            } else if (format.equals("ISBJ")) {
-                dlssample.info.subject = chunk.readString(chunk.available());
-            } else if (format.equals("ISRC")) {
-                dlssample.info.source = chunk.readString(chunk.available());
-            } else if (format.equals("ISRF")) {
-                dlssample.info.source_form = chunk.readString(chunk.available());
-            } else if (format.equals("ITCH")) {
-                dlssample.info.technician = chunk.readString(chunk.available());
+    privbtf void rfbdWbvfInfoCiunk(DLSSbmplf dlssbmplf, RIFFRfbdfr riff)
+            tirows IOExdfption {
+        dlssbmplf.info.nbmf = null;
+        wiilf (riff.ibsNfxtCiunk()) {
+            RIFFRfbdfr diunk = riff.nfxtCiunk();
+            String formbt = diunk.gftFormbt();
+            if (formbt.fqubls("INAM")) {
+                dlssbmplf.info.nbmf = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ICRD")) {
+                dlssbmplf.info.drfbtionDbtf =
+                        diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("IENG")) {
+                dlssbmplf.info.fnginffrs = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("IPRD")) {
+                dlssbmplf.info.produdt = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ICOP")) {
+                dlssbmplf.info.dopyrigit = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ICMT")) {
+                dlssbmplf.info.dommfnts = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ISFT")) {
+                dlssbmplf.info.tools = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("IARL")) {
+                dlssbmplf.info.brdiivbl_lodbtion =
+                        diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("IART")) {
+                dlssbmplf.info.brtist = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ICMS")) {
+                dlssbmplf.info.dommissionfd =
+                        diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("IGNR")) {
+                dlssbmplf.info.gfnrf = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("IKEY")) {
+                dlssbmplf.info.kfywords = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("IMED")) {
+                dlssbmplf.info.mfdium = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ISBJ")) {
+                dlssbmplf.info.subjfdt = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ISRC")) {
+                dlssbmplf.info.sourdf = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ISRF")) {
+                dlssbmplf.info.sourdf_form = diunk.rfbdString(diunk.bvbilbblf());
+            } flsf if (formbt.fqubls("ITCH")) {
+                dlssbmplf.info.tfdinidibn = diunk.rfbdString(diunk.bvbilbblf());
             }
         }
     }
 
-    public void save(String name) throws IOException {
-        writeSoundbank(new RIFFWriter(name, "DLS "));
+    publid void sbvf(String nbmf) tirows IOExdfption {
+        writfSoundbbnk(nfw RIFFWritfr(nbmf, "DLS "));
     }
 
-    public void save(File file) throws IOException {
-        writeSoundbank(new RIFFWriter(file, "DLS "));
+    publid void sbvf(Filf filf) tirows IOExdfption {
+        writfSoundbbnk(nfw RIFFWritfr(filf, "DLS "));
     }
 
-    public void save(OutputStream out) throws IOException {
-        writeSoundbank(new RIFFWriter(out, "DLS "));
+    publid void sbvf(OutputStrfbm out) tirows IOExdfption {
+        writfSoundbbnk(nfw RIFFWritfr(out, "DLS "));
     }
 
-    private void writeSoundbank(RIFFWriter writer) throws IOException {
-        RIFFWriter colh_chunk = writer.writeChunk("colh");
-        colh_chunk.writeUnsignedInt(instruments.size());
+    privbtf void writfSoundbbnk(RIFFWritfr writfr) tirows IOExdfption {
+        RIFFWritfr doli_diunk = writfr.writfCiunk("doli");
+        doli_diunk.writfUnsignfdInt(instrumfnts.sizf());
 
-        if (major != -1 && minor != -1) {
-            RIFFWriter vers_chunk = writer.writeChunk("vers");
-            vers_chunk.writeUnsignedInt(major);
-            vers_chunk.writeUnsignedInt(minor);
+        if (mbjor != -1 && minor != -1) {
+            RIFFWritfr vfrs_diunk = writfr.writfCiunk("vfrs");
+            vfrs_diunk.writfUnsignfdInt(mbjor);
+            vfrs_diunk.writfUnsignfdInt(minor);
         }
 
-        writeInstruments(writer.writeList("lins"));
+        writfInstrumfnts(writfr.writfList("lins"));
 
-        RIFFWriter ptbl = writer.writeChunk("ptbl");
-        ptbl.writeUnsignedInt(8);
-        ptbl.writeUnsignedInt(samples.size());
-        long ptbl_offset = writer.getFilePointer();
-        for (int i = 0; i < samples.size(); i++)
-            ptbl.writeUnsignedInt(0);
+        RIFFWritfr ptbl = writfr.writfCiunk("ptbl");
+        ptbl.writfUnsignfdInt(8);
+        ptbl.writfUnsignfdInt(sbmplfs.sizf());
+        long ptbl_offsft = writfr.gftFilfPointfr();
+        for (int i = 0; i < sbmplfs.sizf(); i++)
+            ptbl.writfUnsignfdInt(0);
 
-        RIFFWriter wvpl = writer.writeList("wvpl");
-        long off = wvpl.getFilePointer();
-        List<Long> offsettable = new ArrayList<Long>();
-        for (DLSSample sample : samples) {
-            offsettable.add(Long.valueOf(wvpl.getFilePointer() - off));
-            writeSample(wvpl.writeList("wave"), sample);
+        RIFFWritfr wvpl = writfr.writfList("wvpl");
+        long off = wvpl.gftFilfPointfr();
+        List<Long> offsfttbblf = nfw ArrbyList<Long>();
+        for (DLSSbmplf sbmplf : sbmplfs) {
+            offsfttbblf.bdd(Long.vblufOf(wvpl.gftFilfPointfr() - off));
+            writfSbmplf(wvpl.writfList("wbvf"), sbmplf);
         }
 
-        // small cheat, we are going to rewrite data back in wvpl
-        long bak = writer.getFilePointer();
-        writer.seek(ptbl_offset);
-        writer.setWriteOverride(true);
-        for (Long offset : offsettable)
-            writer.writeUnsignedInt(offset.longValue());
-        writer.setWriteOverride(false);
-        writer.seek(bak);
+        // smbll difbt, wf brf going to rfwritf dbtb bbdk in wvpl
+        long bbk = writfr.gftFilfPointfr();
+        writfr.sffk(ptbl_offsft);
+        writfr.sftWritfOvfrridf(truf);
+        for (Long offsft : offsfttbblf)
+            writfr.writfUnsignfdInt(offsft.longVbluf());
+        writfr.sftWritfOvfrridf(fblsf);
+        writfr.sffk(bbk);
 
-        writeInfo(writer.writeList("INFO"), info);
+        writfInfo(writfr.writfList("INFO"), info);
 
-        writer.close();
+        writfr.dlosf();
     }
 
-    private void writeSample(RIFFWriter writer, DLSSample sample)
-            throws IOException {
+    privbtf void writfSbmplf(RIFFWritfr writfr, DLSSbmplf sbmplf)
+            tirows IOExdfption {
 
-        AudioFormat audioformat = sample.getFormat();
+        AudioFormbt budioformbt = sbmplf.gftFormbt();
 
-        Encoding encoding = audioformat.getEncoding();
-        float sampleRate = audioformat.getSampleRate();
-        int sampleSizeInBits = audioformat.getSampleSizeInBits();
-        int channels = audioformat.getChannels();
-        int frameSize = audioformat.getFrameSize();
-        float frameRate = audioformat.getFrameRate();
-        boolean bigEndian = audioformat.isBigEndian();
+        Endoding fndoding = budioformbt.gftEndoding();
+        flobt sbmplfRbtf = budioformbt.gftSbmplfRbtf();
+        int sbmplfSizfInBits = budioformbt.gftSbmplfSizfInBits();
+        int dibnnfls = budioformbt.gftCibnnfls();
+        int frbmfSizf = budioformbt.gftFrbmfSizf();
+        flobt frbmfRbtf = budioformbt.gftFrbmfRbtf();
+        boolfbn bigEndibn = budioformbt.isBigEndibn();
 
-        boolean convert_needed = false;
+        boolfbn donvfrt_nffdfd = fblsf;
 
-        if (audioformat.getSampleSizeInBits() == 8) {
-            if (!encoding.equals(Encoding.PCM_UNSIGNED)) {
-                encoding = Encoding.PCM_UNSIGNED;
-                convert_needed = true;
+        if (budioformbt.gftSbmplfSizfInBits() == 8) {
+            if (!fndoding.fqubls(Endoding.PCM_UNSIGNED)) {
+                fndoding = Endoding.PCM_UNSIGNED;
+                donvfrt_nffdfd = truf;
             }
-        } else {
-            if (!encoding.equals(Encoding.PCM_SIGNED)) {
-                encoding = Encoding.PCM_SIGNED;
-                convert_needed = true;
+        } flsf {
+            if (!fndoding.fqubls(Endoding.PCM_SIGNED)) {
+                fndoding = Endoding.PCM_SIGNED;
+                donvfrt_nffdfd = truf;
             }
-            if (bigEndian) {
-                bigEndian = false;
-                convert_needed = true;
+            if (bigEndibn) {
+                bigEndibn = fblsf;
+                donvfrt_nffdfd = truf;
             }
         }
 
-        if (convert_needed) {
-            audioformat = new AudioFormat(encoding, sampleRate,
-                    sampleSizeInBits, channels, frameSize, frameRate, bigEndian);
+        if (donvfrt_nffdfd) {
+            budioformbt = nfw AudioFormbt(fndoding, sbmplfRbtf,
+                    sbmplfSizfInBits, dibnnfls, frbmfSizf, frbmfRbtf, bigEndibn);
         }
 
         // fmt
-        RIFFWriter fmt_chunk = writer.writeChunk("fmt ");
-        int sampleformat = 0;
-        if (audioformat.getEncoding().equals(Encoding.PCM_UNSIGNED))
-            sampleformat = 1;
-        else if (audioformat.getEncoding().equals(Encoding.PCM_SIGNED))
-            sampleformat = 1;
-        else if (audioformat.getEncoding().equals(Encoding.PCM_FLOAT))
-            sampleformat = 3;
+        RIFFWritfr fmt_diunk = writfr.writfCiunk("fmt ");
+        int sbmplfformbt = 0;
+        if (budioformbt.gftEndoding().fqubls(Endoding.PCM_UNSIGNED))
+            sbmplfformbt = 1;
+        flsf if (budioformbt.gftEndoding().fqubls(Endoding.PCM_SIGNED))
+            sbmplfformbt = 1;
+        flsf if (budioformbt.gftEndoding().fqubls(Endoding.PCM_FLOAT))
+            sbmplfformbt = 3;
 
-        fmt_chunk.writeUnsignedShort(sampleformat);
-        fmt_chunk.writeUnsignedShort(audioformat.getChannels());
-        fmt_chunk.writeUnsignedInt((long) audioformat.getSampleRate());
-        long srate = ((long)audioformat.getFrameRate())*audioformat.getFrameSize();
-        fmt_chunk.writeUnsignedInt(srate);
-        fmt_chunk.writeUnsignedShort(audioformat.getFrameSize());
-        fmt_chunk.writeUnsignedShort(audioformat.getSampleSizeInBits());
-        fmt_chunk.write(0);
-        fmt_chunk.write(0);
+        fmt_diunk.writfUnsignfdSiort(sbmplfformbt);
+        fmt_diunk.writfUnsignfdSiort(budioformbt.gftCibnnfls());
+        fmt_diunk.writfUnsignfdInt((long) budioformbt.gftSbmplfRbtf());
+        long srbtf = ((long)budioformbt.gftFrbmfRbtf())*budioformbt.gftFrbmfSizf();
+        fmt_diunk.writfUnsignfdInt(srbtf);
+        fmt_diunk.writfUnsignfdSiort(budioformbt.gftFrbmfSizf());
+        fmt_diunk.writfUnsignfdSiort(budioformbt.gftSbmplfSizfInBits());
+        fmt_diunk.writf(0);
+        fmt_diunk.writf(0);
 
-        writeSampleOptions(writer.writeChunk("wsmp"), sample.sampleoptions);
+        writfSbmplfOptions(writfr.writfCiunk("wsmp"), sbmplf.sbmplfoptions);
 
-        if (convert_needed) {
-            RIFFWriter data_chunk = writer.writeChunk("data");
-            AudioInputStream stream = AudioSystem.getAudioInputStream(
-                    audioformat, (AudioInputStream)sample.getData());
-            byte[] buff = new byte[1024];
-            int ret;
-            while ((ret = stream.read(buff)) != -1) {
-                data_chunk.write(buff, 0, ret);
+        if (donvfrt_nffdfd) {
+            RIFFWritfr dbtb_diunk = writfr.writfCiunk("dbtb");
+            AudioInputStrfbm strfbm = AudioSystfm.gftAudioInputStrfbm(
+                    budioformbt, (AudioInputStrfbm)sbmplf.gftDbtb());
+            bytf[] buff = nfw bytf[1024];
+            int rft;
+            wiilf ((rft = strfbm.rfbd(buff)) != -1) {
+                dbtb_diunk.writf(buff, 0, rft);
             }
-        } else {
-            RIFFWriter data_chunk = writer.writeChunk("data");
-            ModelByteBuffer databuff = sample.getDataBuffer();
-            databuff.writeTo(data_chunk);
+        } flsf {
+            RIFFWritfr dbtb_diunk = writfr.writfCiunk("dbtb");
+            ModflBytfBufffr dbtbbuff = sbmplf.gftDbtbBufffr();
+            dbtbbuff.writfTo(dbtb_diunk);
             /*
-            data_chunk.write(databuff.array(),
-            databuff.arrayOffset(),
-            databuff.capacity());
+            dbtb_diunk.writf(dbtbbuff.brrby(),
+            dbtbbuff.brrbyOffsft(),
+            dbtbbuff.dbpbdity());
              */
         }
 
-        writeInfo(writer.writeList("INFO"), sample.info);
+        writfInfo(writfr.writfList("INFO"), sbmplf.info);
     }
 
-    private void writeInstruments(RIFFWriter writer) throws IOException {
-        for (DLSInstrument instrument : instruments) {
-            writeInstrument(writer.writeList("ins "), instrument);
+    privbtf void writfInstrumfnts(RIFFWritfr writfr) tirows IOExdfption {
+        for (DLSInstrumfnt instrumfnt : instrumfnts) {
+            writfInstrumfnt(writfr.writfList("ins "), instrumfnt);
         }
     }
 
-    private void writeInstrument(RIFFWriter writer, DLSInstrument instrument)
-            throws IOException {
+    privbtf void writfInstrumfnt(RIFFWritfr writfr, DLSInstrumfnt instrumfnt)
+            tirows IOExdfption {
 
-        int art1_count = 0;
-        int art2_count = 0;
-        for (DLSModulator modulator : instrument.getModulators()) {
-            if (modulator.version == 1)
-                art1_count++;
-            if (modulator.version == 2)
-                art2_count++;
+        int brt1_dount = 0;
+        int brt2_dount = 0;
+        for (DLSModulbtor modulbtor : instrumfnt.gftModulbtors()) {
+            if (modulbtor.vfrsion == 1)
+                brt1_dount++;
+            if (modulbtor.vfrsion == 2)
+                brt2_dount++;
         }
-        for (DLSRegion region : instrument.regions) {
-            for (DLSModulator modulator : region.getModulators()) {
-                if (modulator.version == 1)
-                    art1_count++;
-                if (modulator.version == 2)
-                    art2_count++;
+        for (DLSRfgion rfgion : instrumfnt.rfgions) {
+            for (DLSModulbtor modulbtor : rfgion.gftModulbtors()) {
+                if (modulbtor.vfrsion == 1)
+                    brt1_dount++;
+                if (modulbtor.vfrsion == 2)
+                    brt2_dount++;
             }
         }
 
-        int version = 1;
-        if (art2_count > 0)
-            version = 2;
+        int vfrsion = 1;
+        if (brt2_dount > 0)
+            vfrsion = 2;
 
-        RIFFWriter insh_chunk = writer.writeChunk("insh");
-        insh_chunk.writeUnsignedInt(instrument.getRegions().size());
-        insh_chunk.writeUnsignedInt(instrument.bank +
-                (instrument.druminstrument ? 2147483648L : 0));
-        insh_chunk.writeUnsignedInt(instrument.preset);
+        RIFFWritfr insi_diunk = writfr.writfCiunk("insi");
+        insi_diunk.writfUnsignfdInt(instrumfnt.gftRfgions().sizf());
+        insi_diunk.writfUnsignfdInt(instrumfnt.bbnk +
+                (instrumfnt.druminstrumfnt ? 2147483648L : 0));
+        insi_diunk.writfUnsignfdInt(instrumfnt.prfsft);
 
-        RIFFWriter lrgn = writer.writeList("lrgn");
-        for (DLSRegion region: instrument.regions)
-            writeRegion(lrgn, region, version);
+        RIFFWritfr lrgn = writfr.writfList("lrgn");
+        for (DLSRfgion rfgion: instrumfnt.rfgions)
+            writfRfgion(lrgn, rfgion, vfrsion);
 
-        writeArticulators(writer, instrument.getModulators());
+        writfArtidulbtors(writfr, instrumfnt.gftModulbtors());
 
-        writeInfo(writer.writeList("INFO"), instrument.info);
+        writfInfo(writfr.writfList("INFO"), instrumfnt.info);
 
     }
 
-    private void writeArticulators(RIFFWriter writer,
-            List<DLSModulator> modulators) throws IOException {
-        int art1_count = 0;
-        int art2_count = 0;
-        for (DLSModulator modulator : modulators) {
-            if (modulator.version == 1)
-                art1_count++;
-            if (modulator.version == 2)
-                art2_count++;
+    privbtf void writfArtidulbtors(RIFFWritfr writfr,
+            List<DLSModulbtor> modulbtors) tirows IOExdfption {
+        int brt1_dount = 0;
+        int brt2_dount = 0;
+        for (DLSModulbtor modulbtor : modulbtors) {
+            if (modulbtor.vfrsion == 1)
+                brt1_dount++;
+            if (modulbtor.vfrsion == 2)
+                brt2_dount++;
         }
-        if (art1_count > 0) {
-            RIFFWriter lar1 = writer.writeList("lart");
-            RIFFWriter art1 = lar1.writeChunk("art1");
-            art1.writeUnsignedInt(8);
-            art1.writeUnsignedInt(art1_count);
-            for (DLSModulator modulator : modulators) {
-                if (modulator.version == 1) {
-                    art1.writeUnsignedShort(modulator.source);
-                    art1.writeUnsignedShort(modulator.control);
-                    art1.writeUnsignedShort(modulator.destination);
-                    art1.writeUnsignedShort(modulator.transform);
-                    art1.writeInt(modulator.scale);
+        if (brt1_dount > 0) {
+            RIFFWritfr lbr1 = writfr.writfList("lbrt");
+            RIFFWritfr brt1 = lbr1.writfCiunk("brt1");
+            brt1.writfUnsignfdInt(8);
+            brt1.writfUnsignfdInt(brt1_dount);
+            for (DLSModulbtor modulbtor : modulbtors) {
+                if (modulbtor.vfrsion == 1) {
+                    brt1.writfUnsignfdSiort(modulbtor.sourdf);
+                    brt1.writfUnsignfdSiort(modulbtor.dontrol);
+                    brt1.writfUnsignfdSiort(modulbtor.dfstinbtion);
+                    brt1.writfUnsignfdSiort(modulbtor.trbnsform);
+                    brt1.writfInt(modulbtor.sdblf);
                 }
             }
         }
-        if (art2_count > 0) {
-            RIFFWriter lar2 = writer.writeList("lar2");
-            RIFFWriter art2 = lar2.writeChunk("art2");
-            art2.writeUnsignedInt(8);
-            art2.writeUnsignedInt(art2_count);
-            for (DLSModulator modulator : modulators) {
-                if (modulator.version == 2) {
-                    art2.writeUnsignedShort(modulator.source);
-                    art2.writeUnsignedShort(modulator.control);
-                    art2.writeUnsignedShort(modulator.destination);
-                    art2.writeUnsignedShort(modulator.transform);
-                    art2.writeInt(modulator.scale);
+        if (brt2_dount > 0) {
+            RIFFWritfr lbr2 = writfr.writfList("lbr2");
+            RIFFWritfr brt2 = lbr2.writfCiunk("brt2");
+            brt2.writfUnsignfdInt(8);
+            brt2.writfUnsignfdInt(brt2_dount);
+            for (DLSModulbtor modulbtor : modulbtors) {
+                if (modulbtor.vfrsion == 2) {
+                    brt2.writfUnsignfdSiort(modulbtor.sourdf);
+                    brt2.writfUnsignfdSiort(modulbtor.dontrol);
+                    brt2.writfUnsignfdSiort(modulbtor.dfstinbtion);
+                    brt2.writfUnsignfdSiort(modulbtor.trbnsform);
+                    brt2.writfInt(modulbtor.sdblf);
                 }
             }
         }
     }
 
-    private void writeRegion(RIFFWriter writer, DLSRegion region, int version)
-            throws IOException {
-        RIFFWriter rgns = null;
-        if (version == 1)
-            rgns = writer.writeList("rgn ");
-        if (version == 2)
-            rgns = writer.writeList("rgn2");
+    privbtf void writfRfgion(RIFFWritfr writfr, DLSRfgion rfgion, int vfrsion)
+            tirows IOExdfption {
+        RIFFWritfr rgns = null;
+        if (vfrsion == 1)
+            rgns = writfr.writfList("rgn ");
+        if (vfrsion == 2)
+            rgns = writfr.writfList("rgn2");
         if (rgns == null)
-            return;
+            rfturn;
 
-        RIFFWriter rgnh = rgns.writeChunk("rgnh");
-        rgnh.writeUnsignedShort(region.keyfrom);
-        rgnh.writeUnsignedShort(region.keyto);
-        rgnh.writeUnsignedShort(region.velfrom);
-        rgnh.writeUnsignedShort(region.velto);
-        rgnh.writeUnsignedShort(region.options);
-        rgnh.writeUnsignedShort(region.exclusiveClass);
+        RIFFWritfr rgni = rgns.writfCiunk("rgni");
+        rgni.writfUnsignfdSiort(rfgion.kfyfrom);
+        rgni.writfUnsignfdSiort(rfgion.kfyto);
+        rgni.writfUnsignfdSiort(rfgion.vflfrom);
+        rgni.writfUnsignfdSiort(rfgion.vflto);
+        rgni.writfUnsignfdSiort(rfgion.options);
+        rgni.writfUnsignfdSiort(rfgion.fxdlusivfClbss);
 
-        if (region.sampleoptions != null)
-            writeSampleOptions(rgns.writeChunk("wsmp"), region.sampleoptions);
+        if (rfgion.sbmplfoptions != null)
+            writfSbmplfOptions(rgns.writfCiunk("wsmp"), rfgion.sbmplfoptions);
 
-        if (region.sample != null) {
-            if (samples.indexOf(region.sample) != -1) {
-                RIFFWriter wlnk = rgns.writeChunk("wlnk");
-                wlnk.writeUnsignedShort(region.fusoptions);
-                wlnk.writeUnsignedShort(region.phasegroup);
-                wlnk.writeUnsignedInt(region.channel);
-                wlnk.writeUnsignedInt(samples.indexOf(region.sample));
+        if (rfgion.sbmplf != null) {
+            if (sbmplfs.indfxOf(rfgion.sbmplf) != -1) {
+                RIFFWritfr wlnk = rgns.writfCiunk("wlnk");
+                wlnk.writfUnsignfdSiort(rfgion.fusoptions);
+                wlnk.writfUnsignfdSiort(rfgion.pibsfgroup);
+                wlnk.writfUnsignfdInt(rfgion.dibnnfl);
+                wlnk.writfUnsignfdInt(sbmplfs.indfxOf(rfgion.sbmplf));
             }
         }
-        writeArticulators(rgns, region.getModulators());
-        rgns.close();
+        writfArtidulbtors(rgns, rfgion.gftModulbtors());
+        rgns.dlosf();
     }
 
-    private void writeSampleOptions(RIFFWriter wsmp,
-            DLSSampleOptions sampleoptions) throws IOException {
-        wsmp.writeUnsignedInt(20);
-        wsmp.writeUnsignedShort(sampleoptions.unitynote);
-        wsmp.writeShort(sampleoptions.finetune);
-        wsmp.writeInt(sampleoptions.attenuation);
-        wsmp.writeUnsignedInt(sampleoptions.options);
-        wsmp.writeInt(sampleoptions.loops.size());
+    privbtf void writfSbmplfOptions(RIFFWritfr wsmp,
+            DLSSbmplfOptions sbmplfoptions) tirows IOExdfption {
+        wsmp.writfUnsignfdInt(20);
+        wsmp.writfUnsignfdSiort(sbmplfoptions.unitynotf);
+        wsmp.writfSiort(sbmplfoptions.finftunf);
+        wsmp.writfInt(sbmplfoptions.bttfnubtion);
+        wsmp.writfUnsignfdInt(sbmplfoptions.options);
+        wsmp.writfInt(sbmplfoptions.loops.sizf());
 
-        for (DLSSampleLoop loop : sampleoptions.loops) {
-            wsmp.writeUnsignedInt(16);
-            wsmp.writeUnsignedInt(loop.type);
-            wsmp.writeUnsignedInt(loop.start);
-            wsmp.writeUnsignedInt(loop.length);
+        for (DLSSbmplfLoop loop : sbmplfoptions.loops) {
+            wsmp.writfUnsignfdInt(16);
+            wsmp.writfUnsignfdInt(loop.typf);
+            wsmp.writfUnsignfdInt(loop.stbrt);
+            wsmp.writfUnsignfdInt(loop.lfngti);
         }
     }
 
-    private void writeInfoStringChunk(RIFFWriter writer,
-            String name, String value) throws IOException {
-        if (value == null)
-            return;
-        RIFFWriter chunk = writer.writeChunk(name);
-        chunk.writeString(value);
-        int len = value.getBytes("ascii").length;
-        chunk.write(0);
-        len++;
-        if (len % 2 != 0)
-            chunk.write(0);
+    privbtf void writfInfoStringCiunk(RIFFWritfr writfr,
+            String nbmf, String vbluf) tirows IOExdfption {
+        if (vbluf == null)
+            rfturn;
+        RIFFWritfr diunk = writfr.writfCiunk(nbmf);
+        diunk.writfString(vbluf);
+        int lfn = vbluf.gftBytfs("bsdii").lfngti;
+        diunk.writf(0);
+        lfn++;
+        if (lfn % 2 != 0)
+            diunk.writf(0);
     }
 
-    private void writeInfo(RIFFWriter writer, DLSInfo info) throws IOException {
-        writeInfoStringChunk(writer, "INAM", info.name);
-        writeInfoStringChunk(writer, "ICRD", info.creationDate);
-        writeInfoStringChunk(writer, "IENG", info.engineers);
-        writeInfoStringChunk(writer, "IPRD", info.product);
-        writeInfoStringChunk(writer, "ICOP", info.copyright);
-        writeInfoStringChunk(writer, "ICMT", info.comments);
-        writeInfoStringChunk(writer, "ISFT", info.tools);
-        writeInfoStringChunk(writer, "IARL", info.archival_location);
-        writeInfoStringChunk(writer, "IART", info.artist);
-        writeInfoStringChunk(writer, "ICMS", info.commissioned);
-        writeInfoStringChunk(writer, "IGNR", info.genre);
-        writeInfoStringChunk(writer, "IKEY", info.keywords);
-        writeInfoStringChunk(writer, "IMED", info.medium);
-        writeInfoStringChunk(writer, "ISBJ", info.subject);
-        writeInfoStringChunk(writer, "ISRC", info.source);
-        writeInfoStringChunk(writer, "ISRF", info.source_form);
-        writeInfoStringChunk(writer, "ITCH", info.technician);
+    privbtf void writfInfo(RIFFWritfr writfr, DLSInfo info) tirows IOExdfption {
+        writfInfoStringCiunk(writfr, "INAM", info.nbmf);
+        writfInfoStringCiunk(writfr, "ICRD", info.drfbtionDbtf);
+        writfInfoStringCiunk(writfr, "IENG", info.fnginffrs);
+        writfInfoStringCiunk(writfr, "IPRD", info.produdt);
+        writfInfoStringCiunk(writfr, "ICOP", info.dopyrigit);
+        writfInfoStringCiunk(writfr, "ICMT", info.dommfnts);
+        writfInfoStringCiunk(writfr, "ISFT", info.tools);
+        writfInfoStringCiunk(writfr, "IARL", info.brdiivbl_lodbtion);
+        writfInfoStringCiunk(writfr, "IART", info.brtist);
+        writfInfoStringCiunk(writfr, "ICMS", info.dommissionfd);
+        writfInfoStringCiunk(writfr, "IGNR", info.gfnrf);
+        writfInfoStringCiunk(writfr, "IKEY", info.kfywords);
+        writfInfoStringCiunk(writfr, "IMED", info.mfdium);
+        writfInfoStringCiunk(writfr, "ISBJ", info.subjfdt);
+        writfInfoStringCiunk(writfr, "ISRC", info.sourdf);
+        writfInfoStringCiunk(writfr, "ISRF", info.sourdf_form);
+        writfInfoStringCiunk(writfr, "ITCH", info.tfdinidibn);
     }
 
-    public DLSInfo getInfo() {
-        return info;
+    publid DLSInfo gftInfo() {
+        rfturn info;
     }
 
-    public String getName() {
-        return info.name;
+    publid String gftNbmf() {
+        rfturn info.nbmf;
     }
 
-    public String getVersion() {
-        return major + "." + minor;
+    publid String gftVfrsion() {
+        rfturn mbjor + "." + minor;
     }
 
-    public String getVendor() {
-        return info.engineers;
+    publid String gftVfndor() {
+        rfturn info.fnginffrs;
     }
 
-    public String getDescription() {
-        return info.comments;
+    publid String gftDfsdription() {
+        rfturn info.dommfnts;
     }
 
-    public void setName(String s) {
-        info.name = s;
+    publid void sftNbmf(String s) {
+        info.nbmf = s;
     }
 
-    public void setVendor(String s) {
-        info.engineers = s;
+    publid void sftVfndor(String s) {
+        info.fnginffrs = s;
     }
 
-    public void setDescription(String s) {
-        info.comments = s;
+    publid void sftDfsdription(String s) {
+        info.dommfnts = s;
     }
 
-    public SoundbankResource[] getResources() {
-        SoundbankResource[] resources = new SoundbankResource[samples.size()];
+    publid SoundbbnkRfsourdf[] gftRfsourdfs() {
+        SoundbbnkRfsourdf[] rfsourdfs = nfw SoundbbnkRfsourdf[sbmplfs.sizf()];
         int j = 0;
-        for (int i = 0; i < samples.size(); i++)
-            resources[j++] = samples.get(i);
-        return resources;
+        for (int i = 0; i < sbmplfs.sizf(); i++)
+            rfsourdfs[j++] = sbmplfs.gft(i);
+        rfturn rfsourdfs;
     }
 
-    public DLSInstrument[] getInstruments() {
-        DLSInstrument[] inslist_array =
-                instruments.toArray(new DLSInstrument[instruments.size()]);
-        Arrays.sort(inslist_array, new ModelInstrumentComparator());
-        return inslist_array;
+    publid DLSInstrumfnt[] gftInstrumfnts() {
+        DLSInstrumfnt[] inslist_brrby =
+                instrumfnts.toArrby(nfw DLSInstrumfnt[instrumfnts.sizf()]);
+        Arrbys.sort(inslist_brrby, nfw ModflInstrumfntCompbrbtor());
+        rfturn inslist_brrby;
     }
 
-    public DLSSample[] getSamples() {
-        return samples.toArray(new DLSSample[samples.size()]);
+    publid DLSSbmplf[] gftSbmplfs() {
+        rfturn sbmplfs.toArrby(nfw DLSSbmplf[sbmplfs.sizf()]);
     }
 
-    public Instrument getInstrument(Patch patch) {
-        int program = patch.getProgram();
-        int bank = patch.getBank();
-        boolean percussion = false;
-        if (patch instanceof ModelPatch)
-            percussion = ((ModelPatch) patch).isPercussion();
-        for (Instrument instrument : instruments) {
-            Patch patch2 = instrument.getPatch();
-            int program2 = patch2.getProgram();
-            int bank2 = patch2.getBank();
-            if (program == program2 && bank == bank2) {
-                boolean percussion2 = false;
-                if (patch2 instanceof ModelPatch)
-                    percussion2 = ((ModelPatch) patch2).isPercussion();
-                if (percussion == percussion2)
-                    return instrument;
+    publid Instrumfnt gftInstrumfnt(Pbtdi pbtdi) {
+        int progrbm = pbtdi.gftProgrbm();
+        int bbnk = pbtdi.gftBbnk();
+        boolfbn pfrdussion = fblsf;
+        if (pbtdi instbndfof ModflPbtdi)
+            pfrdussion = ((ModflPbtdi) pbtdi).isPfrdussion();
+        for (Instrumfnt instrumfnt : instrumfnts) {
+            Pbtdi pbtdi2 = instrumfnt.gftPbtdi();
+            int progrbm2 = pbtdi2.gftProgrbm();
+            int bbnk2 = pbtdi2.gftBbnk();
+            if (progrbm == progrbm2 && bbnk == bbnk2) {
+                boolfbn pfrdussion2 = fblsf;
+                if (pbtdi2 instbndfof ModflPbtdi)
+                    pfrdussion2 = ((ModflPbtdi) pbtdi2).isPfrdussion();
+                if (pfrdussion == pfrdussion2)
+                    rfturn instrumfnt;
             }
         }
-        return null;
+        rfturn null;
     }
 
-    public void addResource(SoundbankResource resource) {
-        if (resource instanceof DLSInstrument)
-            instruments.add((DLSInstrument) resource);
-        if (resource instanceof DLSSample)
-            samples.add((DLSSample) resource);
+    publid void bddRfsourdf(SoundbbnkRfsourdf rfsourdf) {
+        if (rfsourdf instbndfof DLSInstrumfnt)
+            instrumfnts.bdd((DLSInstrumfnt) rfsourdf);
+        if (rfsourdf instbndfof DLSSbmplf)
+            sbmplfs.bdd((DLSSbmplf) rfsourdf);
     }
 
-    public void removeResource(SoundbankResource resource) {
-        if (resource instanceof DLSInstrument)
-            instruments.remove((DLSInstrument) resource);
-        if (resource instanceof DLSSample)
-            samples.remove((DLSSample) resource);
+    publid void rfmovfRfsourdf(SoundbbnkRfsourdf rfsourdf) {
+        if (rfsourdf instbndfof DLSInstrumfnt)
+            instrumfnts.rfmovf((DLSInstrumfnt) rfsourdf);
+        if (rfsourdf instbndfof DLSSbmplf)
+            sbmplfs.rfmovf((DLSSbmplf) rfsourdf);
     }
 
-    public void addInstrument(DLSInstrument resource) {
-        instruments.add(resource);
+    publid void bddInstrumfnt(DLSInstrumfnt rfsourdf) {
+        instrumfnts.bdd(rfsourdf);
     }
 
-    public void removeInstrument(DLSInstrument resource) {
-        instruments.remove(resource);
+    publid void rfmovfInstrumfnt(DLSInstrumfnt rfsourdf) {
+        instrumfnts.rfmovf(rfsourdf);
     }
 
-    public long getMajor() {
-        return major;
+    publid long gftMbjor() {
+        rfturn mbjor;
     }
 
-    public void setMajor(long major) {
-        this.major = major;
+    publid void sftMbjor(long mbjor) {
+        tiis.mbjor = mbjor;
     }
 
-    public long getMinor() {
-        return minor;
+    publid long gftMinor() {
+        rfturn minor;
     }
 
-    public void setMinor(long minor) {
-        this.minor = minor;
+    publid void sftMinor(long minor) {
+        tiis.minor = minor;
     }
 }

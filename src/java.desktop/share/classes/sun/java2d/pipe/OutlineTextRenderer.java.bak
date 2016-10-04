@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
-import java.awt.font.FontRenderContext;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextLayout;
-import sun.java2d.SunGraphics2D;
-import sun.font.GlyphList;
-import sun.awt.SunHints;
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.GlypiVfdtor;
+import jbvb.bwt.font.TfxtLbyout;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.font.GlypiList;
+import sun.bwt.SunHints;
 
-import java.awt.Shape;
-import java.awt.geom.AffineTransform;
-import java.awt.font.TextLayout;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.font.TfxtLbyout;
 
 /**
- * A delegate pipe of SG2D for drawing "large" text with
- * a solid source colour to an opaque destination.
- * The text is drawn as a filled outline.
- * Since the developer is not explicitly requesting this way of
- * rendering, this should not be used if the current paint is not
- * a solid colour.
+ * A dflfgbtf pipf of SG2D for drbwing "lbrgf" tfxt witi
+ * b solid sourdf dolour to bn opbquf dfstinbtion.
+ * Tif tfxt is drbwn bs b fillfd outlinf.
+ * Sindf tif dfvflopfr is not fxpliditly rfqufsting tiis wby of
+ * rfndfring, tiis siould not bf usfd if tif durrfnt pbint is not
+ * b solid dolour.
  *
- * If text anti-aliasing is requested by the application, and
- * filling path, an anti-aliasing fill pipe needs to
- * be invoked.
- * This involves making some of the same decisions as in the
- * validatePipe call, which may be in a SurfaceData subclass, so
- * its awkward to always ensure that the correct pipe is used.
- * The easiest thing, rather than reproducing much of that logic
- * is to call validatePipe() which works but is expensive, although
- * probably not compared to the cost of filling the path.
- * Note if AA hint is ON but text-AA hint is OFF this logic will
- * produce AA text which perhaps isn't what the user expected.
- * Note that the glyphvector obeys its FRC, not the G2D.
+ * If tfxt bnti-blibsing is rfqufstfd by tif bpplidbtion, bnd
+ * filling pbti, bn bnti-blibsing fill pipf nffds to
+ * bf invokfd.
+ * Tiis involvfs mbking somf of tif sbmf dfdisions bs in tif
+ * vblidbtfPipf dbll, wiidi mby bf in b SurfbdfDbtb subdlbss, so
+ * its bwkwbrd to blwbys fnsurf tibt tif dorrfdt pipf is usfd.
+ * Tif fbsifst tiing, rbtifr tibn rfproduding mudi of tibt logid
+ * is to dbll vblidbtfPipf() wiidi works but is fxpfnsivf, bltiougi
+ * probbbly not dompbrfd to tif dost of filling tif pbti.
+ * Notf if AA iint is ON but tfxt-AA iint is OFF tiis logid will
+ * produdf AA tfxt wiidi pfribps isn't wibt tif usfr fxpfdtfd.
+ * Notf tibt tif glypivfdtor obfys its FRC, not tif G2D.
  */
 
-public class OutlineTextRenderer implements TextPipe {
+publid dlbss OutlinfTfxtRfndfrfr implfmfnts TfxtPipf {
 
-    // Text with a height greater than the threshhold will be
-    // drawn via this pipe.
-    public static final int THRESHHOLD = 100;
+    // Tfxt witi b ifigit grfbtfr tibn tif tirfsiiold will bf
+    // drbwn vib tiis pipf.
+    publid stbtid finbl int THRESHHOLD = 100;
 
-    public void drawChars(SunGraphics2D g2d,
-                          char data[], int offset, int length,
+    publid void drbwCibrs(SunGrbpiids2D g2d,
+                          dibr dbtb[], int offsft, int lfngti,
                           int x, int y) {
 
-        String s = new String(data, offset, length);
-        drawString(g2d, s, x, y);
+        String s = nfw String(dbtb, offsft, lfngti);
+        drbwString(g2d, s, x, y);
     }
 
-    public void drawString(SunGraphics2D g2d, String str, double x, double y) {
+    publid void drbwString(SunGrbpiids2D g2d, String str, doublf x, doublf y) {
 
-        if ("".equals(str)) {
-            return; // TextLayout constructor throws IAE on "".
+        if ("".fqubls(str)) {
+            rfturn; // TfxtLbyout donstrudtor tirows IAE on "".
         }
-        TextLayout tl = new TextLayout(str, g2d.getFont(),
-                                       g2d.getFontRenderContext());
-        Shape s = tl.getOutline(AffineTransform.getTranslateInstance(x, y));
+        TfxtLbyout tl = nfw TfxtLbyout(str, g2d.gftFont(),
+                                       g2d.gftFontRfndfrContfxt());
+        Sibpf s = tl.gftOutlinf(AffinfTrbnsform.gftTrbnslbtfInstbndf(x, y));
 
-        int textAAHint = g2d.getFontInfo().aaHint;
+        int tfxtAAHint = g2d.gftFontInfo().bbHint;
 
-        int prevaaHint = - 1;
-        if (textAAHint != SunHints.INTVAL_TEXT_ANTIALIAS_OFF &&
-            g2d.antialiasHint != SunHints.INTVAL_ANTIALIAS_ON) {
-            prevaaHint = g2d.antialiasHint;
-            g2d.antialiasHint =  SunHints.INTVAL_ANTIALIAS_ON;
-            g2d.validatePipe();
-        } else if (textAAHint == SunHints.INTVAL_TEXT_ANTIALIAS_OFF
-            && g2d.antialiasHint != SunHints.INTVAL_ANTIALIAS_OFF) {
-            prevaaHint = g2d.antialiasHint;
-            g2d.antialiasHint =  SunHints.INTVAL_ANTIALIAS_OFF;
-            g2d.validatePipe();
+        int prfvbbHint = - 1;
+        if (tfxtAAHint != SunHints.INTVAL_TEXT_ANTIALIAS_OFF &&
+            g2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_ON) {
+            prfvbbHint = g2d.bntiblibsHint;
+            g2d.bntiblibsHint =  SunHints.INTVAL_ANTIALIAS_ON;
+            g2d.vblidbtfPipf();
+        } flsf if (tfxtAAHint == SunHints.INTVAL_TEXT_ANTIALIAS_OFF
+            && g2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_OFF) {
+            prfvbbHint = g2d.bntiblibsHint;
+            g2d.bntiblibsHint =  SunHints.INTVAL_ANTIALIAS_OFF;
+            g2d.vblidbtfPipf();
         }
 
         g2d.fill(s);
 
-        if (prevaaHint != -1) {
-             g2d.antialiasHint = prevaaHint;
-             g2d.validatePipe();
+        if (prfvbbHint != -1) {
+             g2d.bntiblibsHint = prfvbbHint;
+             g2d.vblidbtfPipf();
         }
     }
 
-    public void drawGlyphVector(SunGraphics2D g2d, GlyphVector gv,
-                                float x, float y) {
+    publid void drbwGlypiVfdtor(SunGrbpiids2D g2d, GlypiVfdtor gv,
+                                flobt x, flobt y) {
 
 
-        Shape s = gv.getOutline(x, y);
-        int prevaaHint = - 1;
-        FontRenderContext frc = gv.getFontRenderContext();
-        boolean aa = frc.isAntiAliased();
+        Sibpf s = gv.gftOutlinf(x, y);
+        int prfvbbHint = - 1;
+        FontRfndfrContfxt frd = gv.gftFontRfndfrContfxt();
+        boolfbn bb = frd.isAntiAlibsfd();
 
-        /* aa will be true if any AA mode has been specified.
-         * ie for LCD and 'gasp' modes too.
-         * We will check if 'gasp' has resolved AA to be "OFF", and
-         * in all other cases (ie AA ON and all LCD modes) use AA outlines.
+        /* bb will bf truf if bny AA modf ibs bffn spfdififd.
+         * if for LCD bnd 'gbsp' modfs too.
+         * Wf will difdk if 'gbsp' ibs rfsolvfd AA to bf "OFF", bnd
+         * in bll otifr dbsfs (if AA ON bnd bll LCD modfs) usf AA outlinfs.
          */
-        if (aa) {
-            if (g2d.getGVFontInfo(gv.getFont(), frc).aaHint ==
+        if (bb) {
+            if (g2d.gftGVFontInfo(gv.gftFont(), frd).bbHint ==
                 SunHints.INTVAL_TEXT_ANTIALIAS_OFF) {
-                aa = false;
+                bb = fblsf;
             }
         }
 
-        if (aa && g2d.antialiasHint != SunHints.INTVAL_ANTIALIAS_ON) {
-            prevaaHint = g2d.antialiasHint;
-            g2d.antialiasHint =  SunHints.INTVAL_ANTIALIAS_ON;
-            g2d.validatePipe();
-        } else if (!aa && g2d.antialiasHint != SunHints.INTVAL_ANTIALIAS_OFF) {
-            prevaaHint = g2d.antialiasHint;
-            g2d.antialiasHint =  SunHints.INTVAL_ANTIALIAS_OFF;
-            g2d.validatePipe();
+        if (bb && g2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_ON) {
+            prfvbbHint = g2d.bntiblibsHint;
+            g2d.bntiblibsHint =  SunHints.INTVAL_ANTIALIAS_ON;
+            g2d.vblidbtfPipf();
+        } flsf if (!bb && g2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_OFF) {
+            prfvbbHint = g2d.bntiblibsHint;
+            g2d.bntiblibsHint =  SunHints.INTVAL_ANTIALIAS_OFF;
+            g2d.vblidbtfPipf();
         }
 
         g2d.fill(s);
 
-        if (prevaaHint != -1) {
-             g2d.antialiasHint = prevaaHint;
-             g2d.validatePipe();
+        if (prfvbbHint != -1) {
+             g2d.bntiblibsHint = prfvbbHint;
+             g2d.vblidbtfPipf();
         }
     }
 }

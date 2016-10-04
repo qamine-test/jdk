@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 2007, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef D3DGLYPHCACHE_H
-#define D3DGLYPHCACHE_H
+#ifndff D3DGLYPHCACHE_H
+#dffinf D3DGLYPHCACHE_H
 
-#include "AccelGlyphCache.h"
-#include "D3DContext.h"
-#include "D3DResourceManager.h"
+#indludf "AddflGlypiCbdif.i"
+#indludf "D3DContfxt.i"
+#indludf "D3DRfsourdfMbnbgfr.i"
 
-typedef enum {
+typfdff fnum {
     CACHE_GRAY,
     CACHE_LCD
-} GlyphCacheType;
+} GlypiCbdifTypf;
 
-class D3DContext;
-class D3DResource;
+dlbss D3DContfxt;
+dlbss D3DRfsourdf;
 
-class D3DGlyphCache {
-public:
-    // creates accel. glyph cache if it wasn't created, and the glyph
-    // cache texure
-    HRESULT Init(D3DContext *pCtx);
-    // releases the glyph cache texture, invalidates the accel. glyph cache
-    void    ReleaseDefPoolResources();
-    // releases texture and deletes the accel. glyph cache
-           ~D3DGlyphCache();
+dlbss D3DGlypiCbdif {
+publid:
+    // drfbtfs bddfl. glypi dbdif if it wbsn't drfbtfd, bnd tif glypi
+    // dbdif tfxurf
+    HRESULT Init(D3DContfxt *pCtx);
+    // rflfbsfs tif glypi dbdif tfxturf, invblidbtfs tif bddfl. glypi dbdif
+    void    RflfbsfDffPoolRfsourdfs();
+    // rflfbsfs tfxturf bnd dflftfs tif bddfl. glypi dbdif
+           ~D3DGlypiCbdif();
 
-    // adds the glyph to the accel. glyph cache and uploads it into the glyph
-    // cache texture
-    HRESULT AddGlyph(GlyphInfo *glyph);
+    // bdds tif glypi to tif bddfl. glypi dbdif bnd uplobds it into tif glypi
+    // dbdif tfxturf
+    HRESULT AddGlypi(GlypiInfo *glypi);
 
-    GlyphCacheInfo* GetGlyphCache() { return pGlyphCache; }
-    D3DResource* GetGlyphCacheTexture() { return pGlyphCacheRes; }
+    GlypiCbdifInfo* GftGlypiCbdif() { rfturn pGlypiCbdif; }
+    D3DRfsourdf* GftGlypiCbdifTfxturf() { rfturn pGlypiCbdifRfs; }
 
-    // Note: only applicable to CACHE_LCD type of the cache
-    // if the new rgb order doesn't match the current one, invalidates
-    // the accel. glyph cache, also resets the current tileFormat
-    HRESULT CheckGlyphCacheByteOrder(jboolean rgbOrder);
+    // Notf: only bpplidbblf to CACHE_LCD typf of tif dbdif
+    // if tif nfw rgb ordfr dofsn't mbtdi tif durrfnt onf, invblidbtfs
+    // tif bddfl. glypi dbdif, blso rfsfts tif durrfnt tilfFormbt
+    HRESULT CifdkGlypiCbdifBytfOrdfr(jboolfbn rgbOrdfr);
 
-static
-    HRESULT CreateInstance(D3DContext *pCtx,
-                           GlyphCacheType gcType,
-                           D3DGlyphCache **ppGlyphCache);
+stbtid
+    HRESULT CrfbtfInstbndf(D3DContfxt *pCtx,
+                           GlypiCbdifTypf gdTypf,
+                           D3DGlypiCbdif **ppGlypiCbdif);
 
-private:
-    D3DGlyphCache(GlyphCacheType gcType);
+privbtf:
+    D3DGlypiCbdif(GlypiCbdifTypf gdTypf);
 
-    D3DContext *pCtx;
-    GlyphCacheType gcType;
-    D3DResource *pGlyphCacheRes;
-    GlyphCacheInfo *pGlyphCache;
-    TileFormat tileFormat;
+    D3DContfxt *pCtx;
+    GlypiCbdifTypf gdTypf;
+    D3DRfsourdf *pGlypiCbdifRfs;
+    GlypiCbdifInfo *pGlypiCbdif;
+    TilfFormbt tilfFormbt;
     /**
-     * Relevant only for the CACHE_LCD cache type.
+     * Rflfvbnt only for tif CACHE_LCD dbdif typf.
      *
-     * This value tracks the previous LCD rgbOrder setting, so if the rgbOrder
-     * value has changed since the last time, it indicates that we need to
-     * invalidate the cache, which may already store glyph images in the
-     * reverse order.  Note that in most real world applications this value
-     * will not change over the course of the application, but tests like
-     * Font2DTest allow for changing the ordering at runtime, so we need to
-     * handle that case.
+     * Tiis vbluf trbdks tif prfvious LCD rgbOrdfr sftting, so if tif rgbOrdfr
+     * vbluf ibs dibngfd sindf tif lbst timf, it indidbtfs tibt wf nffd to
+     * invblidbtf tif dbdif, wiidi mby blrfbdy storf glypi imbgfs in tif
+     * rfvfrsf ordfr.  Notf tibt in most rfbl world bpplidbtions tiis vbluf
+     * will not dibngf ovfr tif doursf of tif bpplidbtion, but tfsts likf
+     * Font2DTfst bllow for dibnging tif ordfring bt runtimf, so wf nffd to
+     * ibndlf tibt dbsf.
      */
-    jboolean lastRGBOrder;
+    jboolfbn lbstRGBOrdfr;
 };
-#endif // D3DGLYPHCACHE_H
+#fndif // D3DGLYPHCACHE_H

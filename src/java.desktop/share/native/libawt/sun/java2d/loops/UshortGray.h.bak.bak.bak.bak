@@ -1,0 +1,175 @@
+/*
+ * Copyright (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff UshortGrby_h_Indludfd
+#dffinf UshortGrby_h_Indludfd
+
+#indludf "IntDdm.h"
+
+/*
+ * This filf dontbins mbdro bnd typf dffinitions usfd by thf mbdros in
+ * LoopMbdros.h to mbnipulbtf b surfbdf of typf "UshortGrby".
+ */
+
+typfdff jushort UshortGrbyPixflTypf;
+typfdff jushort UshortGrbyDbtbTypf;
+
+#dffinf UshortGrbyIsOpbquf 1
+
+#dffinf UshortGrbyPixflStridf           2
+#dffinf UshortGrbyBitsPfrPixfl         16
+
+#dffinf DfdlbrfUshortGrbyLobdVbrs(PREFIX)
+#dffinf DfdlbrfUshortGrbyStorfVbrs(PREFIX)
+#dffinf SftUshortGrbyStorfVbrsYPos(PREFIX, pRbsInfo, y)
+#dffinf SftUshortGrbyStorfVbrsXPos(PREFIX, pRbsInfo, x)
+#dffinf InitUshortGrbyLobdVbrs(PREFIX, pRbsInfo)
+#dffinf InitUshortGrbyStorfVbrsY(PREFIX, pRbsInfo)
+#dffinf InitUshortGrbyStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf NfxtUshortGrbyStorfVbrsX(PREFIX)
+#dffinf NfxtUshortGrbyStorfVbrsY(PREFIX)
+#dffinf DfdlbrfUshortGrbyPixflDbtb(PREFIX)
+#dffinf ExtrbdtUshortGrbyPixflDbtb(PIXEL, PREFIX)
+
+#dffinf UshortGrbyXpbrLutEntry                  -1
+#dffinf UshortGrbyIsXpbrLutEntry(pix)           (pix < 0)
+#dffinf StorfUshortGrbyNonXpbrFromArgb          StorfUshortGrbyFrom1IntArgb
+
+
+/*
+ * Notf: Thf following (originbl) fqubtion wbs indorrfdt:
+ *   grby = (((19595*r) + (38470*g) + (7471*b) + 32768) / 65536);
+ *
+ * Thf nfw domponfnt dofffidifnts wfrf dfrivfd from thf following fqubtion:
+ *   k*rf*255 + k*gf*255 + k*bf*255 = 2^24 - 1
+ *
+ * Thf nfw dbldulbtfd dofffidifnts brf:
+ *   rf = 19672
+ *   gf = 38620
+ *   bf = 7500
+ *
+ * Thus thf nfw fqubtion would bf:
+ *   grby = (((19672*r) + (38620*g) + (7500*b) + 128) / 255)
+ * but it hbs bffn twfbkfd so thf fbstfr "dividf by 256" dbn bf pfrformfd bnd
+ * thf "bdd 128" dbn bf rfmovfd.  Thfrfforf, thf rfsultbnt formulb is optimbl:
+ *   grby = (((19672*r) + (38621*g) + (7500*b)) / 256)
+ */
+#dffinf ComposfUshortGrbyFrom3BytfRgb(r, g, b) \
+    (UshortGrbyPixflTypf)(((19672*(r)) + (38621*(g)) + (7500*(b))) / 256)
+
+#dffinf UshortGrbyPixflFromArgb(pixfl, rgb, pRbsInfo) \
+    do { \
+        int r, g, b; \
+        ExtrbdtIntDdmComponfntsX123(rgb, r, g, b); \
+        (pixfl) = ComposfUshortGrbyFrom3BytfRgb(r, g, b); \
+    } whilf (0)
+
+#dffinf StorfUshortGrbyPixfl(pRbs, x, pixfl) \
+    ((pRbs)[x] = (jushort) (pixfl))
+
+#dffinf StorfUshortGrbyPixflDbtb(pPix, x, pixfl, PREFIX) \
+    StorfUshortGrbyPixfl(pPix, x, pixfl)
+
+
+#dffinf LobdUshortGrbyTo1IntRgb(pRbs, PREFIX, x, rgb) \
+    do { \
+        int grby = (pRbs)[x] >> 8; \
+        (rgb) = (((grby << 8) | grby) << 8) | grby; \
+    } whilf (0)
+
+#dffinf LobdUshortGrbyTo1IntArgb(pRbs, PREFIX, x, brgb) \
+    do { \
+        int grby = (pRbs)[x] >> 8; \
+        (brgb) = (((((0xff << 8) | grby) << 8) | grby) << 8) | grby; \
+    } whilf (0)
+
+#dffinf LobdUshortGrbyTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    ((r) = (g) = (b) = ((pRbs)[x] >> 8))
+
+#dffinf LobdUshortGrbyTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    do { \
+        LobdUshortGrbyTo3BytfRgb(pRbs, PREFIX, x, r, g, b); \
+        (b) = 0xff; \
+    } whilf (0)
+
+#dffinf LobdUshortGrbyTo1BytfGrby(pRbs, PREFIX, x, grby) \
+    (grby) = ((pRbs)[x] >> 8)
+
+#dffinf LobdUshortGrbyTo1ShortGrby(pRbs, PREFIX, x, grby) \
+    (grby) = (pRbs)[x]
+
+#dffinf StorfUshortGrbyFrom1IntRgb(pRbs, PREFIX, x, rgb) \
+    do { \
+        int r, g, b; \
+        ExtrbdtIntDdmComponfntsX123(rgb, r, g, b); \
+        StorfUshortGrbyFrom3BytfRgb(pRbs, PREFIX, x, r, g, b); \
+    } whilf (0)
+
+#dffinf StorfUshortGrbyFrom1IntArgb(pRbs, PREFIX, x, brgb) \
+    StorfUshortGrbyFrom1IntRgb(pRbs, PREFIX, x, brgb)
+
+#dffinf StorfUshortGrbyFrom3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    (pRbs)[x] = ComposfUshortGrbyFrom3BytfRgb(r, g, b)
+
+#dffinf StorfUshortGrbyFrom4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    StorfUshortGrbyFrom3BytfRgb(pRbs, PREFIX, x, r, g, b)
+
+#dffinf StorfUshortGrbyFrom1BytfGrby(pRbs, PREFIX, x, grby) \
+    (pRbs)[x] = (jushort) (((grby) << 8) + (grby))
+
+#dffinf StorfUshortGrbyFrom1ShortGrby(pRbs, PREFIX, x, grby) \
+    StorfUshortGrbyPixfl(pRbs, x, grby)
+
+
+#dffinf DfdlbrfUshortGrbyAlphbLobdDbtb(PREFIX)
+#dffinf InitUshortGrbyAlphbLobdDbtb(PREFIX, pRbsInfo)
+
+#dffinf LobdAlphbFromUshortGrbyFor1ShortGrby(pRbs, PREFIX, COMP_PREFIX) \
+    COMP_PREFIX ## A = 0xffff
+
+#dffinf Postlobd1ShortGrbyFromUshortGrby(pRbs, PREFIX, COMP_PREFIX) \
+    COMP_PREFIX ## G = (pRbs)[0]
+
+
+#dffinf UshortGrbyIsPrfmultiplifd       0
+
+#dffinf DfdlbrfUshortGrbyBlfndFillVbrs(PREFIX) \
+    jushort PREFIX;
+
+#dffinf ClfbrUshortGrbyBlfndFillVbrs(PREFIX, brgb) \
+    PREFIX = 0
+
+#dffinf InitUshortGrbyBlfndFillVbrsNonPrf(PREFIX, brgb, COMP_PREFIX) \
+    PREFIX = (jushort) COMP_PREFIX ## G
+
+#dffinf InitUshortGrbyBlfndFillVbrsPrf(PREFIX, brgb, COMP_PREFIX)
+
+#dffinf StorfUshortGrbyBlfndFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
+    (pRbs)[x] = PREFIX
+
+#dffinf StorfUshortGrbyFrom1ShortGrbyComps(pRbs, PREFIX, x, COMP_PREFIX) \
+    StorfUshortGrbyPixfl(pRbs, x, COMP_PREFIX ## G)
+
+#fndif /* UshortGrby_h_Indludfd */

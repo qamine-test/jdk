@@ -1,307 +1,307 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.jvmstat.perfdata.monitor.protocol.local;
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.lodbl;
 
-import java.io.File;
-import java.io.FilenameFilter;
+import jbvb.io.Filf;
+import jbvb.io.FilfnbmfFiltfr;
 
 /**
- * Class to provide translations from the local Vm Identifier
- * name space into the file system name space and vice-versa.
+ * Clbss to providf trbnslbtions from tif lodbl Vm Idfntififr
+ * nbmf spbdf into tif filf systfm nbmf spbdf bnd vidf-vfrsb.
  * <p>
- * Provides a factory for creating a File object to the backing
- * store file for instrumentation shared memory region for a JVM
- * identified by its Local Java Virtual Machine Identifier, or
- * <em>lvmid</em>.
+ * Providfs b fbdtory for drfbting b Filf objfdt to tif bbdking
+ * storf filf for instrumfntbtion sibrfd mfmory rfgion for b JVM
+ * idfntififd by its Lodbl Jbvb Virtubl Mbdiinf Idfntififr, or
+ * <fm>lvmid</fm>.
  *
- * @author Brian Doherty
- * @since 1.5
- * @see java.io.File
+ * @butior Bribn Doifrty
+ * @sindf 1.5
+ * @sff jbvb.io.Filf
  */
-public class PerfDataFile {
-    private PerfDataFile() { };
+publid dlbss PfrfDbtbFilf {
+    privbtf PfrfDbtbFilf() { };
 
     /**
-     * The name of the of the system dependent temporary directory
+     * Tif nbmf of tif of tif systfm dfpfndfnt tfmporbry dirfdtory
      */
-    public static final String tmpDirName;
+    publid stbtid finbl String tmpDirNbmf;
 
     /**
-     * The file name prefix for PerfData shared memory files.
+     * Tif filf nbmf prffix for PfrfDbtb sibrfd mfmory filfs.
      * <p>
-     * This prefix must be kept in sync with the prefix used by the JVM.
+     * Tiis prffix must bf kfpt in synd witi tif prffix usfd by tif JVM.
      */
-    public static final String dirNamePrefix = "hsperfdata_";
+    publid stbtid finbl String dirNbmfPrffix = "ispfrfdbtb_";
 
     /**
-     * The directory name pattern for the user directories.
+     * Tif dirfdtory nbmf pbttfrn for tif usfr dirfdtorifs.
      */
-    public static final String userDirNamePattern = "hsperfdata_\\S*";
+    publid stbtid finbl String usfrDirNbmfPbttfrn = "ispfrfdbtb_\\S*";
 
     /**
-     * The file name pattern for PerfData shared memory files.
+     * Tif filf nbmf pbttfrn for PfrfDbtb sibrfd mfmory filfs.
      * <p>
-     * This pattern must be kept in synch with the file name pattern
-     * used by the 1.4.2 and later HotSpot JVM.
+     * Tiis pbttfrn must bf kfpt in syndi witi tif filf nbmf pbttfrn
+     * usfd by tif 1.4.2 bnd lbtfr HotSpot JVM.
      */
-    public static final String fileNamePattern = "^[0-9]+$";
+    publid stbtid finbl String filfNbmfPbttfrn = "^[0-9]+$";
 
     /**
-     * The file name pattern for 1.4.1 PerfData shared memory files.
+     * Tif filf nbmf pbttfrn for 1.4.1 PfrfDbtb sibrfd mfmory filfs.
      * <p>
-     * This pattern must be kept in synch with the file name pattern
-     * used by the 1.4.1 HotSpot JVM.
+     * Tiis pbttfrn must bf kfpt in syndi witi tif filf nbmf pbttfrn
+     * usfd by tif 1.4.1 HotSpot JVM.
      */
-    public static final String tmpFileNamePattern =
-            "^hsperfdata_[0-9]+(_[1-2]+)?$";
+    publid stbtid finbl String tmpFilfNbmfPbttfrn =
+            "^ispfrfdbtb_[0-9]+(_[1-2]+)?$";
 
 
     /**
-     * Get a File object for the instrumentation backing store file
-     * for the JVM identified by the given local Vm Identifier.
+     * Gft b Filf objfdt for tif instrumfntbtion bbdking storf filf
+     * for tif JVM idfntififd by tif givfn lodbl Vm Idfntififr.
      * <p>
-     * This method looks for the most up to date backing store file for
-     * the given <tt>lvmid</tt>. It will search all the user specific
-     * directories in the temporary directory for the host operating
-     * system, which may be influenced by platform specific environment
-     * variables.
+     * Tiis mftiod looks for tif most up to dbtf bbdking storf filf for
+     * tif givfn <tt>lvmid</tt>. It will sfbrdi bll tif usfr spfdifid
+     * dirfdtorifs in tif tfmporbry dirfdtory for tif iost opfrbting
+     * systfm, wiidi mby bf influfndfd by plbtform spfdifid fnvironmfnt
+     * vbribblfs.
      *
-     * @param lvmid  the local Java Virtual Machine Identifier for the target
-     * @return File - a File object to the backing store file for the named
-     *                shared memory region of the target JVM.
-     * @see java.io.File
-     * @see #getTempDirectory()
+     * @pbrbm lvmid  tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @rfturn Filf - b Filf objfdt to tif bbdking storf filf for tif nbmfd
+     *                sibrfd mfmory rfgion of tif tbrgft JVM.
+     * @sff jbvb.io.Filf
+     * @sff #gftTfmpDirfdtory()
      */
-    public static File getFile(int lvmid) {
+    publid stbtid Filf gftFilf(int lvmid) {
         if (lvmid == 0) {
             /*
-             * lvmid == 0 is used to indicate the current Java Virtual Machine.
-             * If the SDK provided an API to get a unique Java Virtual Machine
-             * identifier, then a filename could be constructed with that
-             * identifier. In absence of such an api, return null.
+             * lvmid == 0 is usfd to indidbtf tif durrfnt Jbvb Virtubl Mbdiinf.
+             * If tif SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdiinf
+             * idfntififr, tifn b filfnbmf dould bf donstrudtfd witi tibt
+             * idfntififr. In bbsfndf of sudi bn bpi, rfturn null.
              */
-            return null;
+            rfturn null;
         }
 
         /*
-         * iterate over all files in all directories in tmpDirName that
-         * match the file name patterns.
+         * itfrbtf ovfr bll filfs in bll dirfdtorifs in tmpDirNbmf tibt
+         * mbtdi tif filf nbmf pbttfrns.
          */
-        File tmpDir = new File(tmpDirName);
-        String[] files = tmpDir.list(new FilenameFilter() {
-            public boolean accept(File dir, String name) {
-                if (!name.startsWith(dirNamePrefix)) {
-                    return false;
+        Filf tmpDir = nfw Filf(tmpDirNbmf);
+        String[] filfs = tmpDir.list(nfw FilfnbmfFiltfr() {
+            publid boolfbn bddfpt(Filf dir, String nbmf) {
+                if (!nbmf.stbrtsWiti(dirNbmfPrffix)) {
+                    rfturn fblsf;
                 }
-                File candidate = new File(dir, name);
-                return ((candidate.isDirectory() || candidate.isFile())
-                        && candidate.canRead());
+                Filf dbndidbtf = nfw Filf(dir, nbmf);
+                rfturn ((dbndidbtf.isDirfdtory() || dbndidbtf.isFilf())
+                        && dbndidbtf.dbnRfbd());
             }
         });
 
-        long newestTime = 0;
-        File newest = null;
+        long nfwfstTimf = 0;
+        Filf nfwfst = null;
 
-        for (int i = 0; i < files.length; i++) {
-            File f = new File(tmpDirName + files[i]);
-            File candidate = null;
+        for (int i = 0; i < filfs.lfngti; i++) {
+            Filf f = nfw Filf(tmpDirNbmf + filfs[i]);
+            Filf dbndidbtf = null;
 
-            if (f.exists() && f.isDirectory()) {
+            if (f.fxists() && f.isDirfdtory()) {
                 /*
-                 * found a directory matching the name patterns. This
-                 * is a 1.4.2 hsperfdata_<user> directory. Check for
-                 * file named <lvmid> in that directory
+                 * found b dirfdtory mbtdiing tif nbmf pbttfrns. Tiis
+                 * is b 1.4.2 ispfrfdbtb_<usfr> dirfdtory. Cifdk for
+                 * filf nbmfd <lvmid> in tibt dirfdtory
                  */
-                String name = Integer.toString(lvmid);
-                candidate = new File(f.getName(), name);
+                String nbmf = Intfgfr.toString(lvmid);
+                dbndidbtf = nfw Filf(f.gftNbmf(), nbmf);
 
-            } else if (f.exists() && f.isFile()) {
+            } flsf if (f.fxists() && f.isFilf()) {
                 /*
-                 * found a file matching the name patterns. This
-                 * is a 1.4.1 hsperfdata_<lvmid> file.
+                 * found b filf mbtdiing tif nbmf pbttfrns. Tiis
+                 * is b 1.4.1 ispfrfdbtb_<lvmid> filf.
                  */
-                candidate = f;
+                dbndidbtf = f;
 
-            } else {
-                // unexpected - let conditional below filter this one out
-                candidate = f;
+            } flsf {
+                // unfxpfdtfd - lft donditionbl bflow filtfr tiis onf out
+                dbndidbtf = f;
             }
 
-            if (candidate.exists() && candidate.isFile()
-                    && candidate.canRead()) {
-                long modTime = candidate.lastModified();
-                if (modTime >= newestTime) {
-                    newestTime = modTime;
-                    newest = candidate;
+            if (dbndidbtf.fxists() && dbndidbtf.isFilf()
+                    && dbndidbtf.dbnRfbd()) {
+                long modTimf = dbndidbtf.lbstModififd();
+                if (modTimf >= nfwfstTimf) {
+                    nfwfstTimf = modTimf;
+                    nfwfst = dbndidbtf;
                 }
             }
         }
-        return newest;
+        rfturn nfwfst;
     }
 
     /**
-     * Return the File object for the backing store file for the specified Java
-     * Virtual Machine.
+     * Rfturn tif Filf objfdt for tif bbdking storf filf for tif spfdififd Jbvb
+     * Virtubl Mbdiinf.
      * <p>
-     * This method looks for the most up to date backing store file for
-     * the JVM identified by the given user name and lvmid. The directory
-     * searched is the temporary directory for the host operating system,
-     * which may be influenced by environment variables.
+     * Tiis mftiod looks for tif most up to dbtf bbdking storf filf for
+     * tif JVM idfntififd by tif givfn usfr nbmf bnd lvmid. Tif dirfdtory
+     * sfbrdifd is tif tfmporbry dirfdtory for tif iost opfrbting systfm,
+     * wiidi mby bf influfndfd by fnvironmfnt vbribblfs.
      *
-     * @param user   the user name
-     * @param lvmid  the local Java Virtual Machine Identifier for the target
-     * @return File - a File object to the backing store file for the named
-     *                shared memory region of the target JVM.
-     * @see java.io.File
-     * @see #getTempDirectory()
+     * @pbrbm usfr   tif usfr nbmf
+     * @pbrbm lvmid  tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     * @rfturn Filf - b Filf objfdt to tif bbdking storf filf for tif nbmfd
+     *                sibrfd mfmory rfgion of tif tbrgft JVM.
+     * @sff jbvb.io.Filf
+     * @sff #gftTfmpDirfdtory()
      */
-    public static File getFile(String user, int lvmid) {
+    publid stbtid Filf gftFilf(String usfr, int lvmid) {
         if (lvmid == 0) {
             /*
-             * lvmid == 0 is used to indicate the current Java Virtual Machine.
-             * If the SDK provided an API to get a unique Java Virtual Machine
-             * identifier, then a filename could be constructed with that
-             * identifier. In absence of such an api, return null.
+             * lvmid == 0 is usfd to indidbtf tif durrfnt Jbvb Virtubl Mbdiinf.
+             * If tif SDK providfd bn API to gft b uniquf Jbvb Virtubl Mbdiinf
+             * idfntififr, tifn b filfnbmf dould bf donstrudtfd witi tibt
+             * idfntififr. In bbsfndf of sudi bn bpi, rfturn null.
              */
-            return null;
+            rfturn null;
         }
 
-        // first try for 1.4.2 and later JVMs
-        String basename = getTempDirectory(user) + Integer.toString(lvmid);
-        File f = new File(basename);
+        // first try for 1.4.2 bnd lbtfr JVMs
+        String bbsfnbmf = gftTfmpDirfdtory(usfr) + Intfgfr.toString(lvmid);
+        Filf f = nfw Filf(bbsfnbmf);
 
-        if (f.exists() && f.isFile() && f.canRead()) {
-            return f;
+        if (f.fxists() && f.isFilf() && f.dbnRfbd()) {
+            rfturn f;
         }
 
-        // No hit on 1.4.2 JVMs, try 1.4.1 files
-        long newestTime = 0;
-        File newest = null;
+        // No iit on 1.4.2 JVMs, try 1.4.1 filfs
+        long nfwfstTimf = 0;
+        Filf nfwfst = null;
         for (int i = 0; i < 2; i++) {
             if (i == 0) {
-                basename = getTempDirectory() + Integer.toString(lvmid);
-            } else {
-                basename = getTempDirectory() + Integer.toString(lvmid)
-                           + Integer.toString(i);
+                bbsfnbmf = gftTfmpDirfdtory() + Intfgfr.toString(lvmid);
+            } flsf {
+                bbsfnbmf = gftTfmpDirfdtory() + Intfgfr.toString(lvmid)
+                           + Intfgfr.toString(i);
             }
 
-            f = new File(basename);
+            f = nfw Filf(bbsfnbmf);
 
-            if (f.exists() && f.isFile() && f.canRead()) {
-                long modTime = f.lastModified();
-                if (modTime >= newestTime) {
-                    newestTime = modTime;
-                    newest = f;
+            if (f.fxists() && f.isFilf() && f.dbnRfbd()) {
+                long modTimf = f.lbstModififd();
+                if (modTimf >= nfwfstTimf) {
+                    nfwfstTimf = modTimf;
+                    nfwfst = f;
                 }
             }
         }
-        return newest;
+        rfturn nfwfst;
     }
 
     /**
-     * Method to extract a local Java Virtual Machine Identifier from the
-     * file name of the given File object.
+     * Mftiod to fxtrbdt b lodbl Jbvb Virtubl Mbdiinf Idfntififr from tif
+     * filf nbmf of tif givfn Filf objfdt.
      *
-     * @param file A File object representing the name of a
-     *             shared memory region for a target JVM
-     * @return int - the local Java Virtual Machine Identifier for the target
-     *               associated with the file
-     * @throws java.lang.IllegalArgumentException Thrown if the file name
-     *               does not conform to the expected pattern
+     * @pbrbm filf A Filf objfdt rfprfsfnting tif nbmf of b
+     *             sibrfd mfmory rfgion for b tbrgft JVM
+     * @rfturn int - tif lodbl Jbvb Virtubl Mbdiinf Idfntififr for tif tbrgft
+     *               bssodibtfd witi tif filf
+     * @tirows jbvb.lbng.IllfgblArgumfntExdfption Tirown if tif filf nbmf
+     *               dofs not donform to tif fxpfdtfd pbttfrn
      */
-    public static int getLocalVmId(File file) {
+    publid stbtid int gftLodblVmId(Filf filf) {
         try {
-            // try 1.4.2 and later format first
-            return Integer.parseInt(file.getName());
-        } catch (NumberFormatException e) { }
+            // try 1.4.2 bnd lbtfr formbt first
+            rfturn Intfgfr.pbrsfInt(filf.gftNbmf());
+        } dbtdi (NumbfrFormbtExdfption f) { }
 
-        // now try the 1.4.1 format
-        String name = file.getName();
-        if (name.startsWith(dirNamePrefix)) {
-            int first = name.indexOf('_');
-            int last = name.lastIndexOf('_');
+        // now try tif 1.4.1 formbt
+        String nbmf = filf.gftNbmf();
+        if (nbmf.stbrtsWiti(dirNbmfPrffix)) {
+            int first = nbmf.indfxOf('_');
+            int lbst = nbmf.lbstIndfxOf('_');
             try {
-                if (first == last) {
-                    return Integer.parseInt(name.substring(first + 1));
-                } else {
-                    return Integer.parseInt(name.substring(first + 1, last));
+                if (first == lbst) {
+                    rfturn Intfgfr.pbrsfInt(nbmf.substring(first + 1));
+                } flsf {
+                    rfturn Intfgfr.pbrsfInt(nbmf.substring(first + 1, lbst));
                 }
-            } catch (NumberFormatException e) { }
+            } dbtdi (NumbfrFormbtExdfption f) { }
         }
-        throw new IllegalArgumentException("file name does not match pattern");
+        tirow nfw IllfgblArgumfntExdfption("filf nbmf dofs not mbtdi pbttfrn");
     }
 
     /**
-     * Return the name of the temporary directory being searched for
-     * HotSpot PerfData backing store files.
+     * Rfturn tif nbmf of tif tfmporbry dirfdtory bfing sfbrdifd for
+     * HotSpot PfrfDbtb bbdking storf filfs.
      * <p>
-     * This method generally returns the value of the java.io.tmpdir
-     * property. However, on some platforms it may return a different
-     * directory, as the JVM implementation may store the PerfData backing
-     * store files in a different directory for performance reasons.
+     * Tiis mftiod gfnfrblly rfturns tif vbluf of tif jbvb.io.tmpdir
+     * propfrty. Howfvfr, on somf plbtforms it mby rfturn b difffrfnt
+     * dirfdtory, bs tif JVM implfmfntbtion mby storf tif PfrfDbtb bbdking
+     * storf filfs in b difffrfnt dirfdtory for pfrformbndf rfbsons.
      *
-     * @return String - the name of the temporary directory.
+     * @rfturn String - tif nbmf of tif tfmporbry dirfdtory.
      */
-    public static String getTempDirectory() {
-        return tmpDirName;
+    publid stbtid String gftTfmpDirfdtory() {
+        rfturn tmpDirNbmf;
     }
 
     /**
-     * Return the name of the temporary directory to be searched
-     * for HotSpot PerfData backing store files for a given user.
+     * Rfturn tif nbmf of tif tfmporbry dirfdtory to bf sfbrdifd
+     * for HotSpot PfrfDbtb bbdking storf filfs for b givfn usfr.
      * <p>
-     * This method generally returns the name of a subdirectory of
-     * the directory indicated in the java.io.tmpdir property. However,
-     * on some platforms it may return a different directory, as the
-     * JVM implementation may store the PerfData backing store files
-     * in a different directory for performance reasons.
+     * Tiis mftiod gfnfrblly rfturns tif nbmf of b subdirfdtory of
+     * tif dirfdtory indidbtfd in tif jbvb.io.tmpdir propfrty. Howfvfr,
+     * on somf plbtforms it mby rfturn b difffrfnt dirfdtory, bs tif
+     * JVM implfmfntbtion mby storf tif PfrfDbtb bbdking storf filfs
+     * in b difffrfnt dirfdtory for pfrformbndf rfbsons.
      *
-     * @return String - the name of the temporary directory.
+     * @rfturn String - tif nbmf of tif tfmporbry dirfdtory.
      */
-    public static String getTempDirectory(String user) {
-        return tmpDirName + dirNamePrefix + user + File.separator;
+    publid stbtid String gftTfmpDirfdtory(String usfr) {
+        rfturn tmpDirNbmf + dirNbmfPrffix + usfr + Filf.sfpbrbtor;
     }
 
-    static {
+    stbtid {
         /*
-         * For this to work, the target VM and this code need to use
-         * the same directory. Instead of guessing which directory the
-         * VM is using, we will ask.
+         * For tiis to work, tif tbrgft VM bnd tiis dodf nffd to usf
+         * tif sbmf dirfdtory. Instfbd of gufssing wiidi dirfdtory tif
+         * VM is using, wf will bsk.
          */
-        String tmpdir = sun.misc.VMSupport.getVMTemporaryDirectory();
+        String tmpdir = sun.misd.VMSupport.gftVMTfmporbryDirfdtory();
 
         /*
-         * Assure that the string returned has a trailing File.separator
-         * character. This check was added because the Linux implementation
-         * changed such that the java.io.tmpdir string no longer terminates
-         * with a File.separator character.
+         * Assurf tibt tif string rfturnfd ibs b trbiling Filf.sfpbrbtor
+         * dibrbdtfr. Tiis difdk wbs bddfd bfdbusf tif Linux implfmfntbtion
+         * dibngfd sudi tibt tif jbvb.io.tmpdir string no longfr tfrminbtfs
+         * witi b Filf.sfpbrbtor dibrbdtfr.
          */
-        if (tmpdir.lastIndexOf(File.separator) != (tmpdir.length()-1)) {
-            tmpdir = tmpdir + File.separator;
+        if (tmpdir.lbstIndfxOf(Filf.sfpbrbtor) != (tmpdir.lfngti()-1)) {
+            tmpdir = tmpdir + Filf.sfpbrbtor;
         }
-        tmpDirName = tmpdir;
+        tmpDirNbmf = tmpdir;
     }
 }

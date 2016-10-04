@@ -1,820 +1,820 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.zip;
+pbdkbgf jbvb.util.zip;
 
-import java.io.Closeable;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.EOFException;
-import java.io.File;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Spliterator;
-import java.util.Spliterators;
-import java.util.WeakHashMap;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import jbvb.io.Closfbblf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.EOFExdfption;
+import jbvb.io.Filf;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.StbndbrdCibrsfts;
+import jbvb.util.ArrbyDfquf;
+import jbvb.util.Dfquf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.NoSudiElfmfntExdfption;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.Splitfrbtors;
+import jbvb.util.WfbkHbsiMbp;
+import jbvb.util.strfbm.Strfbm;
+import jbvb.util.strfbm.StrfbmSupport;
 
-import static java.util.zip.ZipConstants64.*;
-import static java.util.zip.ZipUtils.*;
+import stbtid jbvb.util.zip.ZipConstbnts64.*;
+import stbtid jbvb.util.zip.ZipUtils.*;
 
 /**
- * This class is used to read entries from a zip file.
+ * Tiis dlbss is usfd to rfbd fntrifs from b zip filf.
  *
- * <p> Unless otherwise noted, passing a <tt>null</tt> argument to a constructor
- * or method in this class will cause a {@link NullPointerException} to be
- * thrown.
+ * <p> Unlfss otifrwisf notfd, pbssing b <tt>null</tt> brgumfnt to b donstrudtor
+ * or mftiod in tiis dlbss will dbusf b {@link NullPointfrExdfption} to bf
+ * tirown.
  *
- * @author      David Connelly
+ * @butior      Dbvid Connflly
  */
-public
-class ZipFile implements ZipConstants, Closeable {
-    private long jzfile;           // address of jzfile data
-    private final String name;     // zip file name
-    private final int total;       // total number of entries
-    private final boolean locsig;  // if zip file starts with LOCSIG (usually true)
-    private volatile boolean closeRequested = false;
+publid
+dlbss ZipFilf implfmfnts ZipConstbnts, Closfbblf {
+    privbtf long jzfilf;           // bddrfss of jzfilf dbtb
+    privbtf finbl String nbmf;     // zip filf nbmf
+    privbtf finbl int totbl;       // totbl numbfr of fntrifs
+    privbtf finbl boolfbn lodsig;  // if zip filf stbrts witi LOCSIG (usublly truf)
+    privbtf volbtilf boolfbn dlosfRfqufstfd = fblsf;
 
-    private static final int STORED = ZipEntry.STORED;
-    private static final int DEFLATED = ZipEntry.DEFLATED;
-
-    /**
-     * Mode flag to open a zip file for reading.
-     */
-    public static final int OPEN_READ = 0x1;
+    privbtf stbtid finbl int STORED = ZipEntry.STORED;
+    privbtf stbtid finbl int DEFLATED = ZipEntry.DEFLATED;
 
     /**
-     * Mode flag to open a zip file and mark it for deletion.  The file will be
-     * deleted some time between the moment that it is opened and the moment
-     * that it is closed, but its contents will remain accessible via the
-     * <tt>ZipFile</tt> object until either the close method is invoked or the
-     * virtual machine exits.
+     * Modf flbg to opfn b zip filf for rfbding.
      */
-    public static final int OPEN_DELETE = 0x4;
+    publid stbtid finbl int OPEN_READ = 0x1;
 
-    static {
-        /* Zip library is loaded from System.initializeSystemClass */
+    /**
+     * Modf flbg to opfn b zip filf bnd mbrk it for dflftion.  Tif filf will bf
+     * dflftfd somf timf bftwffn tif momfnt tibt it is opfnfd bnd tif momfnt
+     * tibt it is dlosfd, but its dontfnts will rfmbin bddfssiblf vib tif
+     * <tt>ZipFilf</tt> objfdt until fitifr tif dlosf mftiod is invokfd or tif
+     * virtubl mbdiinf fxits.
+     */
+    publid stbtid finbl int OPEN_DELETE = 0x4;
+
+    stbtid {
+        /* Zip librbry is lobdfd from Systfm.initiblizfSystfmClbss */
         initIDs();
     }
 
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    private static final boolean usemmap;
+    privbtf stbtid finbl boolfbn usfmmbp;
 
-    static {
-        // A system prpperty to disable mmap use to avoid vm crash when
-        // in-use zip file is accidently overwritten by others.
-        String prop = sun.misc.VM.getSavedProperty("sun.zip.disableMemoryMapping");
-        usemmap = (prop == null ||
-                   !(prop.length() == 0 || prop.equalsIgnoreCase("true")));
+    stbtid {
+        // A systfm prppfrty to disbblf mmbp usf to bvoid vm drbsi wifn
+        // in-usf zip filf is bddidfntly ovfrwrittfn by otifrs.
+        String prop = sun.misd.VM.gftSbvfdPropfrty("sun.zip.disbblfMfmoryMbpping");
+        usfmmbp = (prop == null ||
+                   !(prop.lfngti() == 0 || prop.fqublsIgnorfCbsf("truf")));
     }
 
     /**
-     * Opens a zip file for reading.
+     * Opfns b zip filf for rfbding.
      *
-     * <p>First, if there is a security manager, its <code>checkRead</code>
-     * method is called with the <code>name</code> argument as its argument
-     * to ensure the read is allowed.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its <dodf>difdkRfbd</dodf>
+     * mftiod is dbllfd witi tif <dodf>nbmf</dodf> brgumfnt bs its brgumfnt
+     * to fnsurf tif rfbd is bllowfd.
      *
-     * <p>The UTF-8 {@link java.nio.charset.Charset charset} is used to
-     * decode the entry names and comments.
+     * <p>Tif UTF-8 {@link jbvb.nio.dibrsft.Cibrsft dibrsft} is usfd to
+     * dfdodf tif fntry nbmfs bnd dommfnts.
      *
-     * @param name the name of the zip file
-     * @throws ZipException if a ZIP format error has occurred
-     * @throws IOException if an I/O error has occurred
-     * @throws SecurityException if a security manager exists and its
-     *         <code>checkRead</code> method doesn't allow read access to the file.
+     * @pbrbm nbmf tif nbmf of tif zip filf
+     * @tirows ZipExdfption if b ZIP formbt frror ibs oddurrfd
+     * @tirows IOExdfption if bn I/O frror ibs oddurrfd
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>difdkRfbd</dodf> mftiod dofsn't bllow rfbd bddfss to tif filf.
      *
-     * @see SecurityManager#checkRead(java.lang.String)
+     * @sff SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)
      */
-    public ZipFile(String name) throws IOException {
-        this(new File(name), OPEN_READ);
+    publid ZipFilf(String nbmf) tirows IOExdfption {
+        tiis(nfw Filf(nbmf), OPEN_READ);
     }
 
     /**
-     * Opens a new <code>ZipFile</code> to read from the specified
-     * <code>File</code> object in the specified mode.  The mode argument
-     * must be either <tt>OPEN_READ</tt> or <tt>OPEN_READ | OPEN_DELETE</tt>.
+     * Opfns b nfw <dodf>ZipFilf</dodf> to rfbd from tif spfdififd
+     * <dodf>Filf</dodf> objfdt in tif spfdififd modf.  Tif modf brgumfnt
+     * must bf fitifr <tt>OPEN_READ</tt> or <tt>OPEN_READ | OPEN_DELETE</tt>.
      *
-     * <p>First, if there is a security manager, its <code>checkRead</code>
-     * method is called with the <code>name</code> argument as its argument to
-     * ensure the read is allowed.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its <dodf>difdkRfbd</dodf>
+     * mftiod is dbllfd witi tif <dodf>nbmf</dodf> brgumfnt bs its brgumfnt to
+     * fnsurf tif rfbd is bllowfd.
      *
-     * <p>The UTF-8 {@link java.nio.charset.Charset charset} is used to
-     * decode the entry names and comments
+     * <p>Tif UTF-8 {@link jbvb.nio.dibrsft.Cibrsft dibrsft} is usfd to
+     * dfdodf tif fntry nbmfs bnd dommfnts
      *
-     * @param file the ZIP file to be opened for reading
-     * @param mode the mode in which the file is to be opened
-     * @throws ZipException if a ZIP format error has occurred
-     * @throws IOException if an I/O error has occurred
-     * @throws SecurityException if a security manager exists and
-     *         its <code>checkRead</code> method
-     *         doesn't allow read access to the file,
-     *         or its <code>checkDelete</code> method doesn't allow deleting
-     *         the file when the <tt>OPEN_DELETE</tt> flag is set.
-     * @throws IllegalArgumentException if the <tt>mode</tt> argument is invalid
-     * @see SecurityManager#checkRead(java.lang.String)
-     * @since 1.3
+     * @pbrbm filf tif ZIP filf to bf opfnfd for rfbding
+     * @pbrbm modf tif modf in wiidi tif filf is to bf opfnfd
+     * @tirows ZipExdfption if b ZIP formbt frror ibs oddurrfd
+     * @tirows IOExdfption if bn I/O frror ibs oddurrfd
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd
+     *         its <dodf>difdkRfbd</dodf> mftiod
+     *         dofsn't bllow rfbd bddfss to tif filf,
+     *         or its <dodf>difdkDflftf</dodf> mftiod dofsn't bllow dflfting
+     *         tif filf wifn tif <tt>OPEN_DELETE</tt> flbg is sft.
+     * @tirows IllfgblArgumfntExdfption if tif <tt>modf</tt> brgumfnt is invblid
+     * @sff SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)
+     * @sindf 1.3
      */
-    public ZipFile(File file, int mode) throws IOException {
-        this(file, mode, StandardCharsets.UTF_8);
+    publid ZipFilf(Filf filf, int modf) tirows IOExdfption {
+        tiis(filf, modf, StbndbrdCibrsfts.UTF_8);
     }
 
     /**
-     * Opens a ZIP file for reading given the specified File object.
+     * Opfns b ZIP filf for rfbding givfn tif spfdififd Filf objfdt.
      *
-     * <p>The UTF-8 {@link java.nio.charset.Charset charset} is used to
-     * decode the entry names and comments.
+     * <p>Tif UTF-8 {@link jbvb.nio.dibrsft.Cibrsft dibrsft} is usfd to
+     * dfdodf tif fntry nbmfs bnd dommfnts.
      *
-     * @param file the ZIP file to be opened for reading
-     * @throws ZipException if a ZIP format error has occurred
-     * @throws IOException if an I/O error has occurred
+     * @pbrbm filf tif ZIP filf to bf opfnfd for rfbding
+     * @tirows ZipExdfption if b ZIP formbt frror ibs oddurrfd
+     * @tirows IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public ZipFile(File file) throws ZipException, IOException {
-        this(file, OPEN_READ);
+    publid ZipFilf(Filf filf) tirows ZipExdfption, IOExdfption {
+        tiis(filf, OPEN_READ);
     }
 
-    private ZipCoder zc;
+    privbtf ZipCodfr zd;
 
     /**
-     * Opens a new <code>ZipFile</code> to read from the specified
-     * <code>File</code> object in the specified mode.  The mode argument
-     * must be either <tt>OPEN_READ</tt> or <tt>OPEN_READ | OPEN_DELETE</tt>.
+     * Opfns b nfw <dodf>ZipFilf</dodf> to rfbd from tif spfdififd
+     * <dodf>Filf</dodf> objfdt in tif spfdififd modf.  Tif modf brgumfnt
+     * must bf fitifr <tt>OPEN_READ</tt> or <tt>OPEN_READ | OPEN_DELETE</tt>.
      *
-     * <p>First, if there is a security manager, its <code>checkRead</code>
-     * method is called with the <code>name</code> argument as its argument to
-     * ensure the read is allowed.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its <dodf>difdkRfbd</dodf>
+     * mftiod is dbllfd witi tif <dodf>nbmf</dodf> brgumfnt bs its brgumfnt to
+     * fnsurf tif rfbd is bllowfd.
      *
-     * @param file the ZIP file to be opened for reading
-     * @param mode the mode in which the file is to be opened
-     * @param charset
-     *        the {@linkplain java.nio.charset.Charset charset} to
-     *        be used to decode the ZIP entry name and comment that are not
-     *        encoded by using UTF-8 encoding (indicated by entry's general
-     *        purpose flag).
+     * @pbrbm filf tif ZIP filf to bf opfnfd for rfbding
+     * @pbrbm modf tif modf in wiidi tif filf is to bf opfnfd
+     * @pbrbm dibrsft
+     *        tif {@linkplbin jbvb.nio.dibrsft.Cibrsft dibrsft} to
+     *        bf usfd to dfdodf tif ZIP fntry nbmf bnd dommfnt tibt brf not
+     *        fndodfd by using UTF-8 fndoding (indidbtfd by fntry's gfnfrbl
+     *        purposf flbg).
      *
-     * @throws ZipException if a ZIP format error has occurred
-     * @throws IOException if an I/O error has occurred
+     * @tirows ZipExdfption if b ZIP formbt frror ibs oddurrfd
+     * @tirows IOExdfption if bn I/O frror ibs oddurrfd
      *
-     * @throws SecurityException
-     *         if a security manager exists and its <code>checkRead</code>
-     *         method doesn't allow read access to the file,or its
-     *         <code>checkDelete</code> method doesn't allow deleting the
-     *         file when the <tt>OPEN_DELETE</tt> flag is set
+     * @tirows SfdurityExdfption
+     *         if b sfdurity mbnbgfr fxists bnd its <dodf>difdkRfbd</dodf>
+     *         mftiod dofsn't bllow rfbd bddfss to tif filf,or its
+     *         <dodf>difdkDflftf</dodf> mftiod dofsn't bllow dflfting tif
+     *         filf wifn tif <tt>OPEN_DELETE</tt> flbg is sft
      *
-     * @throws IllegalArgumentException if the <tt>mode</tt> argument is invalid
+     * @tirows IllfgblArgumfntExdfption if tif <tt>modf</tt> brgumfnt is invblid
      *
-     * @see SecurityManager#checkRead(java.lang.String)
+     * @sff SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public ZipFile(File file, int mode, Charset charset) throws IOException
+    publid ZipFilf(Filf filf, int modf, Cibrsft dibrsft) tirows IOExdfption
     {
-        if (((mode & OPEN_READ) == 0) ||
-            ((mode & ~(OPEN_READ | OPEN_DELETE)) != 0)) {
-            throw new IllegalArgumentException("Illegal mode: 0x"+
-                                               Integer.toHexString(mode));
+        if (((modf & OPEN_READ) == 0) ||
+            ((modf & ~(OPEN_READ | OPEN_DELETE)) != 0)) {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl modf: 0x"+
+                                               Intfgfr.toHfxString(modf));
         }
-        String name = file.getPath();
-        SecurityManager sm = System.getSecurityManager();
+        String nbmf = filf.gftPbti();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkRead(name);
-            if ((mode & OPEN_DELETE) != 0) {
-                sm.checkDelete(name);
+            sm.difdkRfbd(nbmf);
+            if ((modf & OPEN_DELETE) != 0) {
+                sm.difdkDflftf(nbmf);
             }
         }
-        if (charset == null)
-            throw new NullPointerException("charset is null");
-        this.zc = ZipCoder.get(charset);
-        long t0 = System.nanoTime();
-        jzfile = open(name, mode, file.lastModified(), usemmap);
-        sun.misc.PerfCounter.getZipFileOpenTime().addElapsedTimeFrom(t0);
-        sun.misc.PerfCounter.getZipFileCount().increment();
-        this.name = name;
-        this.total = getTotal(jzfile);
-        this.locsig = startsWithLOC(jzfile);
+        if (dibrsft == null)
+            tirow nfw NullPointfrExdfption("dibrsft is null");
+        tiis.zd = ZipCodfr.gft(dibrsft);
+        long t0 = Systfm.nbnoTimf();
+        jzfilf = opfn(nbmf, modf, filf.lbstModififd(), usfmmbp);
+        sun.misd.PfrfCountfr.gftZipFilfOpfnTimf().bddElbpsfdTimfFrom(t0);
+        sun.misd.PfrfCountfr.gftZipFilfCount().indrfmfnt();
+        tiis.nbmf = nbmf;
+        tiis.totbl = gftTotbl(jzfilf);
+        tiis.lodsig = stbrtsWitiLOC(jzfilf);
     }
 
     /**
-     * Opens a zip file for reading.
+     * Opfns b zip filf for rfbding.
      *
-     * <p>First, if there is a security manager, its <code>checkRead</code>
-     * method is called with the <code>name</code> argument as its argument
-     * to ensure the read is allowed.
+     * <p>First, if tifrf is b sfdurity mbnbgfr, its <dodf>difdkRfbd</dodf>
+     * mftiod is dbllfd witi tif <dodf>nbmf</dodf> brgumfnt bs its brgumfnt
+     * to fnsurf tif rfbd is bllowfd.
      *
-     * @param name the name of the zip file
-     * @param charset
-     *        the {@linkplain java.nio.charset.Charset charset} to
-     *        be used to decode the ZIP entry name and comment that are not
-     *        encoded by using UTF-8 encoding (indicated by entry's general
-     *        purpose flag).
+     * @pbrbm nbmf tif nbmf of tif zip filf
+     * @pbrbm dibrsft
+     *        tif {@linkplbin jbvb.nio.dibrsft.Cibrsft dibrsft} to
+     *        bf usfd to dfdodf tif ZIP fntry nbmf bnd dommfnt tibt brf not
+     *        fndodfd by using UTF-8 fndoding (indidbtfd by fntry's gfnfrbl
+     *        purposf flbg).
      *
-     * @throws ZipException if a ZIP format error has occurred
-     * @throws IOException if an I/O error has occurred
-     * @throws SecurityException
-     *         if a security manager exists and its <code>checkRead</code>
-     *         method doesn't allow read access to the file
+     * @tirows ZipExdfption if b ZIP formbt frror ibs oddurrfd
+     * @tirows IOExdfption if bn I/O frror ibs oddurrfd
+     * @tirows SfdurityExdfption
+     *         if b sfdurity mbnbgfr fxists bnd its <dodf>difdkRfbd</dodf>
+     *         mftiod dofsn't bllow rfbd bddfss to tif filf
      *
-     * @see SecurityManager#checkRead(java.lang.String)
+     * @sff SfdurityMbnbgfr#difdkRfbd(jbvb.lbng.String)
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public ZipFile(String name, Charset charset) throws IOException
+    publid ZipFilf(String nbmf, Cibrsft dibrsft) tirows IOExdfption
     {
-        this(new File(name), OPEN_READ, charset);
+        tiis(nfw Filf(nbmf), OPEN_READ, dibrsft);
     }
 
     /**
-     * Opens a ZIP file for reading given the specified File object.
-     * @param file the ZIP file to be opened for reading
-     * @param charset
-     *        The {@linkplain java.nio.charset.Charset charset} to be
-     *        used to decode the ZIP entry name and comment (ignored if
-     *        the <a href="package-summary.html#lang_encoding"> language
-     *        encoding bit</a> of the ZIP entry's general purpose bit
-     *        flag is set).
+     * Opfns b ZIP filf for rfbding givfn tif spfdififd Filf objfdt.
+     * @pbrbm filf tif ZIP filf to bf opfnfd for rfbding
+     * @pbrbm dibrsft
+     *        Tif {@linkplbin jbvb.nio.dibrsft.Cibrsft dibrsft} to bf
+     *        usfd to dfdodf tif ZIP fntry nbmf bnd dommfnt (ignorfd if
+     *        tif <b irff="pbdkbgf-summbry.itml#lbng_fndoding"> lbngubgf
+     *        fndoding bit</b> of tif ZIP fntry's gfnfrbl purposf bit
+     *        flbg is sft).
      *
-     * @throws ZipException if a ZIP format error has occurred
-     * @throws IOException if an I/O error has occurred
+     * @tirows ZipExdfption if b ZIP formbt frror ibs oddurrfd
+     * @tirows IOExdfption if bn I/O frror ibs oddurrfd
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public ZipFile(File file, Charset charset) throws IOException
+    publid ZipFilf(Filf filf, Cibrsft dibrsft) tirows IOExdfption
     {
-        this(file, OPEN_READ, charset);
+        tiis(filf, OPEN_READ, dibrsft);
     }
 
     /**
-     * Returns the zip file comment, or null if none.
+     * Rfturns tif zip filf dommfnt, or null if nonf.
      *
-     * @return the comment string for the zip file, or null if none
+     * @rfturn tif dommfnt string for tif zip filf, or null if nonf
      *
-     * @throws IllegalStateException if the zip file has been closed
+     * @tirows IllfgblStbtfExdfption if tif zip filf ibs bffn dlosfd
      *
-     * Since 1.7
+     * Sindf 1.7
      */
-    public String getComment() {
-        synchronized (this) {
-            ensureOpen();
-            byte[] bcomm = getCommentBytes(jzfile);
-            if (bcomm == null)
-                return null;
-            return zc.toString(bcomm, bcomm.length);
+    publid String gftCommfnt() {
+        syndironizfd (tiis) {
+            fnsurfOpfn();
+            bytf[] bdomm = gftCommfntBytfs(jzfilf);
+            if (bdomm == null)
+                rfturn null;
+            rfturn zd.toString(bdomm, bdomm.lfngti);
         }
     }
 
     /**
-     * Returns the zip file entry for the specified name, or null
+     * Rfturns tif zip filf fntry for tif spfdififd nbmf, or null
      * if not found.
      *
-     * @param name the name of the entry
-     * @return the zip file entry, or null if not found
-     * @throws IllegalStateException if the zip file has been closed
+     * @pbrbm nbmf tif nbmf of tif fntry
+     * @rfturn tif zip filf fntry, or null if not found
+     * @tirows IllfgblStbtfExdfption if tif zip filf ibs bffn dlosfd
      */
-    public ZipEntry getEntry(String name) {
-        if (name == null) {
-            throw new NullPointerException("name");
+    publid ZipEntry gftEntry(String nbmf) {
+        if (nbmf == null) {
+            tirow nfw NullPointfrExdfption("nbmf");
         }
-        long jzentry = 0;
-        synchronized (this) {
-            ensureOpen();
-            jzentry = getEntry(jzfile, zc.getBytes(name), true);
-            if (jzentry != 0) {
-                ZipEntry ze = getZipEntry(name, jzentry);
-                freeEntry(jzfile, jzentry);
-                return ze;
+        long jzfntry = 0;
+        syndironizfd (tiis) {
+            fnsurfOpfn();
+            jzfntry = gftEntry(jzfilf, zd.gftBytfs(nbmf), truf);
+            if (jzfntry != 0) {
+                ZipEntry zf = gftZipEntry(nbmf, jzfntry);
+                frffEntry(jzfilf, jzfntry);
+                rfturn zf;
             }
         }
-        return null;
+        rfturn null;
     }
 
-    private static native long getEntry(long jzfile, byte[] name,
-                                        boolean addSlash);
+    privbtf stbtid nbtivf long gftEntry(long jzfilf, bytf[] nbmf,
+                                        boolfbn bddSlbsi);
 
-    // freeEntry releases the C jzentry struct.
-    private static native void freeEntry(long jzfile, long jzentry);
+    // frffEntry rflfbsfs tif C jzfntry strudt.
+    privbtf stbtid nbtivf void frffEntry(long jzfilf, long jzfntry);
 
-    // the outstanding inputstreams that need to be closed,
-    // mapped to the inflater objects they use.
-    private final Map<InputStream, Inflater> streams = new WeakHashMap<>();
+    // tif outstbnding inputstrfbms tibt nffd to bf dlosfd,
+    // mbppfd to tif inflbtfr objfdts tify usf.
+    privbtf finbl Mbp<InputStrfbm, Inflbtfr> strfbms = nfw WfbkHbsiMbp<>();
 
     /**
-     * Returns an input stream for reading the contents of the specified
-     * zip file entry.
+     * Rfturns bn input strfbm for rfbding tif dontfnts of tif spfdififd
+     * zip filf fntry.
      *
-     * <p> Closing this ZIP file will, in turn, close all input
-     * streams that have been returned by invocations of this method.
+     * <p> Closing tiis ZIP filf will, in turn, dlosf bll input
+     * strfbms tibt ibvf bffn rfturnfd by invodbtions of tiis mftiod.
      *
-     * @param entry the zip file entry
-     * @return the input stream for reading the contents of the specified
-     * zip file entry.
-     * @throws ZipException if a ZIP format error has occurred
-     * @throws IOException if an I/O error has occurred
-     * @throws IllegalStateException if the zip file has been closed
+     * @pbrbm fntry tif zip filf fntry
+     * @rfturn tif input strfbm for rfbding tif dontfnts of tif spfdififd
+     * zip filf fntry.
+     * @tirows ZipExdfption if b ZIP formbt frror ibs oddurrfd
+     * @tirows IOExdfption if bn I/O frror ibs oddurrfd
+     * @tirows IllfgblStbtfExdfption if tif zip filf ibs bffn dlosfd
      */
-    public InputStream getInputStream(ZipEntry entry) throws IOException {
-        if (entry == null) {
-            throw new NullPointerException("entry");
+    publid InputStrfbm gftInputStrfbm(ZipEntry fntry) tirows IOExdfption {
+        if (fntry == null) {
+            tirow nfw NullPointfrExdfption("fntry");
         }
-        long jzentry = 0;
-        ZipFileInputStream in = null;
-        synchronized (this) {
-            ensureOpen();
-            if (!zc.isUTF8() && (entry.flag & EFS) != 0) {
-                jzentry = getEntry(jzfile, zc.getBytesUTF8(entry.name), false);
-            } else {
-                jzentry = getEntry(jzfile, zc.getBytes(entry.name), false);
+        long jzfntry = 0;
+        ZipFilfInputStrfbm in = null;
+        syndironizfd (tiis) {
+            fnsurfOpfn();
+            if (!zd.isUTF8() && (fntry.flbg & EFS) != 0) {
+                jzfntry = gftEntry(jzfilf, zd.gftBytfsUTF8(fntry.nbmf), fblsf);
+            } flsf {
+                jzfntry = gftEntry(jzfilf, zd.gftBytfs(fntry.nbmf), fblsf);
             }
-            if (jzentry == 0) {
-                return null;
+            if (jzfntry == 0) {
+                rfturn null;
             }
-            in = new ZipFileInputStream(jzentry);
+            in = nfw ZipFilfInputStrfbm(jzfntry);
 
-            switch (getEntryMethod(jzentry)) {
-            case STORED:
-                synchronized (streams) {
-                    streams.put(in, null);
+            switdi (gftEntryMftiod(jzfntry)) {
+            dbsf STORED:
+                syndironizfd (strfbms) {
+                    strfbms.put(in, null);
                 }
-                return in;
-            case DEFLATED:
-                // MORE: Compute good size for inflater stream:
-                long size = getEntrySize(jzentry) + 2; // Inflater likes a bit of slack
-                if (size > 65536) size = 8192;
-                if (size <= 0) size = 4096;
-                Inflater inf = getInflater();
-                InputStream is =
-                    new ZipFileInflaterInputStream(in, inf, (int)size);
-                synchronized (streams) {
-                    streams.put(is, inf);
+                rfturn in;
+            dbsf DEFLATED:
+                // MORE: Computf good sizf for inflbtfr strfbm:
+                long sizf = gftEntrySizf(jzfntry) + 2; // Inflbtfr likfs b bit of slbdk
+                if (sizf > 65536) sizf = 8192;
+                if (sizf <= 0) sizf = 4096;
+                Inflbtfr inf = gftInflbtfr();
+                InputStrfbm is =
+                    nfw ZipFilfInflbtfrInputStrfbm(in, inf, (int)sizf);
+                syndironizfd (strfbms) {
+                    strfbms.put(is, inf);
                 }
-                return is;
-            default:
-                throw new ZipException("invalid compression method");
+                rfturn is;
+            dffbult:
+                tirow nfw ZipExdfption("invblid domprfssion mftiod");
             }
         }
     }
 
-    private class ZipFileInflaterInputStream extends InflaterInputStream {
-        private volatile boolean closeRequested = false;
-        private boolean eof = false;
-        private final ZipFileInputStream zfin;
+    privbtf dlbss ZipFilfInflbtfrInputStrfbm fxtfnds InflbtfrInputStrfbm {
+        privbtf volbtilf boolfbn dlosfRfqufstfd = fblsf;
+        privbtf boolfbn fof = fblsf;
+        privbtf finbl ZipFilfInputStrfbm zfin;
 
-        ZipFileInflaterInputStream(ZipFileInputStream zfin, Inflater inf,
-                int size) {
-            super(zfin, inf, size);
-            this.zfin = zfin;
+        ZipFilfInflbtfrInputStrfbm(ZipFilfInputStrfbm zfin, Inflbtfr inf,
+                int sizf) {
+            supfr(zfin, inf, sizf);
+            tiis.zfin = zfin;
         }
 
-        public void close() throws IOException {
-            if (closeRequested)
-                return;
-            closeRequested = true;
+        publid void dlosf() tirows IOExdfption {
+            if (dlosfRfqufstfd)
+                rfturn;
+            dlosfRfqufstfd = truf;
 
-            super.close();
-            Inflater inf;
-            synchronized (streams) {
-                inf = streams.remove(this);
+            supfr.dlosf();
+            Inflbtfr inf;
+            syndironizfd (strfbms) {
+                inf = strfbms.rfmovf(tiis);
             }
             if (inf != null) {
-                releaseInflater(inf);
+                rflfbsfInflbtfr(inf);
             }
         }
 
-        // Override fill() method to provide an extra "dummy" byte
-        // at the end of the input stream. This is required when
-        // using the "nowrap" Inflater option.
-        protected void fill() throws IOException {
-            if (eof) {
-                throw new EOFException("Unexpected end of ZLIB input stream");
+        // Ovfrridf fill() mftiod to providf bn fxtrb "dummy" bytf
+        // bt tif fnd of tif input strfbm. Tiis is rfquirfd wifn
+        // using tif "nowrbp" Inflbtfr option.
+        protfdtfd void fill() tirows IOExdfption {
+            if (fof) {
+                tirow nfw EOFExdfption("Unfxpfdtfd fnd of ZLIB input strfbm");
             }
-            len = in.read(buf, 0, buf.length);
-            if (len == -1) {
+            lfn = in.rfbd(buf, 0, buf.lfngti);
+            if (lfn == -1) {
                 buf[0] = 0;
-                len = 1;
-                eof = true;
+                lfn = 1;
+                fof = truf;
             }
-            inf.setInput(buf, 0, len);
+            inf.sftInput(buf, 0, lfn);
         }
 
-        public int available() throws IOException {
-            if (closeRequested)
-                return 0;
-            long avail = zfin.size() - inf.getBytesWritten();
-            return (avail > (long) Integer.MAX_VALUE ?
-                    Integer.MAX_VALUE : (int) avail);
+        publid int bvbilbblf() tirows IOExdfption {
+            if (dlosfRfqufstfd)
+                rfturn 0;
+            long bvbil = zfin.sizf() - inf.gftBytfsWrittfn();
+            rfturn (bvbil > (long) Intfgfr.MAX_VALUE ?
+                    Intfgfr.MAX_VALUE : (int) bvbil);
         }
 
-        protected void finalize() throws Throwable {
-            close();
+        protfdtfd void finblizf() tirows Tirowbblf {
+            dlosf();
         }
     }
 
     /*
-     * Gets an inflater from the list of available inflaters or allocates
-     * a new one.
+     * Gfts bn inflbtfr from tif list of bvbilbblf inflbtfrs or bllodbtfs
+     * b nfw onf.
      */
-    private Inflater getInflater() {
-        Inflater inf;
-        synchronized (inflaterCache) {
-            while (null != (inf = inflaterCache.poll())) {
-                if (false == inf.ended()) {
-                    return inf;
+    privbtf Inflbtfr gftInflbtfr() {
+        Inflbtfr inf;
+        syndironizfd (inflbtfrCbdif) {
+            wiilf (null != (inf = inflbtfrCbdif.poll())) {
+                if (fblsf == inf.fndfd()) {
+                    rfturn inf;
                 }
             }
         }
-        return new Inflater(true);
+        rfturn nfw Inflbtfr(truf);
     }
 
     /*
-     * Releases the specified inflater to the list of available inflaters.
+     * Rflfbsfs tif spfdififd inflbtfr to tif list of bvbilbblf inflbtfrs.
      */
-    private void releaseInflater(Inflater inf) {
-        if (false == inf.ended()) {
-            inf.reset();
-            synchronized (inflaterCache) {
-                inflaterCache.add(inf);
+    privbtf void rflfbsfInflbtfr(Inflbtfr inf) {
+        if (fblsf == inf.fndfd()) {
+            inf.rfsft();
+            syndironizfd (inflbtfrCbdif) {
+                inflbtfrCbdif.bdd(inf);
             }
         }
     }
 
-    // List of available Inflater objects for decompression
-    private Deque<Inflater> inflaterCache = new ArrayDeque<>();
+    // List of bvbilbblf Inflbtfr objfdts for dfdomprfssion
+    privbtf Dfquf<Inflbtfr> inflbtfrCbdif = nfw ArrbyDfquf<>();
 
     /**
-     * Returns the path name of the ZIP file.
-     * @return the path name of the ZIP file
+     * Rfturns tif pbti nbmf of tif ZIP filf.
+     * @rfturn tif pbti nbmf of tif ZIP filf
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
-    private class ZipEntryIterator implements Enumeration<ZipEntry>, Iterator<ZipEntry> {
-        private int i = 0;
+    privbtf dlbss ZipEntryItfrbtor implfmfnts Enumfrbtion<ZipEntry>, Itfrbtor<ZipEntry> {
+        privbtf int i = 0;
 
-        public ZipEntryIterator() {
-            ensureOpen();
+        publid ZipEntryItfrbtor() {
+            fnsurfOpfn();
         }
 
-        public boolean hasMoreElements() {
-            return hasNext();
+        publid boolfbn ibsMorfElfmfnts() {
+            rfturn ibsNfxt();
         }
 
-        public boolean hasNext() {
-            synchronized (ZipFile.this) {
-                ensureOpen();
-                return i < total;
+        publid boolfbn ibsNfxt() {
+            syndironizfd (ZipFilf.tiis) {
+                fnsurfOpfn();
+                rfturn i < totbl;
             }
         }
 
-        public ZipEntry nextElement() {
-            return next();
+        publid ZipEntry nfxtElfmfnt() {
+            rfturn nfxt();
         }
 
-        public ZipEntry next() {
-            synchronized (ZipFile.this) {
-                ensureOpen();
-                if (i >= total) {
-                    throw new NoSuchElementException();
+        publid ZipEntry nfxt() {
+            syndironizfd (ZipFilf.tiis) {
+                fnsurfOpfn();
+                if (i >= totbl) {
+                    tirow nfw NoSudiElfmfntExdfption();
                 }
-                long jzentry = getNextEntry(jzfile, i++);
-                if (jzentry == 0) {
-                    String message;
-                    if (closeRequested) {
-                        message = "ZipFile concurrently closed";
-                    } else {
-                        message = getZipMessage(ZipFile.this.jzfile);
+                long jzfntry = gftNfxtEntry(jzfilf, i++);
+                if (jzfntry == 0) {
+                    String mfssbgf;
+                    if (dlosfRfqufstfd) {
+                        mfssbgf = "ZipFilf dondurrfntly dlosfd";
+                    } flsf {
+                        mfssbgf = gftZipMfssbgf(ZipFilf.tiis.jzfilf);
                     }
-                    throw new ZipError("jzentry == 0" +
-                                       ",\n jzfile = " + ZipFile.this.jzfile +
-                                       ",\n total = " + ZipFile.this.total +
-                                       ",\n name = " + ZipFile.this.name +
+                    tirow nfw ZipError("jzfntry == 0" +
+                                       ",\n jzfilf = " + ZipFilf.tiis.jzfilf +
+                                       ",\n totbl = " + ZipFilf.tiis.totbl +
+                                       ",\n nbmf = " + ZipFilf.tiis.nbmf +
                                        ",\n i = " + i +
-                                       ",\n message = " + message
+                                       ",\n mfssbgf = " + mfssbgf
                         );
                 }
-                ZipEntry ze = getZipEntry(null, jzentry);
-                freeEntry(jzfile, jzentry);
-                return ze;
+                ZipEntry zf = gftZipEntry(null, jzfntry);
+                frffEntry(jzfilf, jzfntry);
+                rfturn zf;
             }
         }
     }
 
     /**
-     * Returns an enumeration of the ZIP file entries.
-     * @return an enumeration of the ZIP file entries
-     * @throws IllegalStateException if the zip file has been closed
+     * Rfturns bn fnumfrbtion of tif ZIP filf fntrifs.
+     * @rfturn bn fnumfrbtion of tif ZIP filf fntrifs
+     * @tirows IllfgblStbtfExdfption if tif zip filf ibs bffn dlosfd
      */
-    public Enumeration<? extends ZipEntry> entries() {
-        return new ZipEntryIterator();
+    publid Enumfrbtion<? fxtfnds ZipEntry> fntrifs() {
+        rfturn nfw ZipEntryItfrbtor();
     }
 
     /**
-     * Return an ordered {@code Stream} over the ZIP file entries.
-     * Entries appear in the {@code Stream} in the order they appear in
-     * the central directory of the ZIP file.
+     * Rfturn bn ordfrfd {@dodf Strfbm} ovfr tif ZIP filf fntrifs.
+     * Entrifs bppfbr in tif {@dodf Strfbm} in tif ordfr tify bppfbr in
+     * tif dfntrbl dirfdtory of tif ZIP filf.
      *
-     * @return an ordered {@code Stream} of entries in this ZIP file
-     * @throws IllegalStateException if the zip file has been closed
-     * @since 1.8
+     * @rfturn bn ordfrfd {@dodf Strfbm} of fntrifs in tiis ZIP filf
+     * @tirows IllfgblStbtfExdfption if tif zip filf ibs bffn dlosfd
+     * @sindf 1.8
      */
-    public Stream<? extends ZipEntry> stream() {
-        return StreamSupport.stream(Spliterators.spliterator(
-                new ZipEntryIterator(), size(),
-                Spliterator.ORDERED | Spliterator.DISTINCT |
-                        Spliterator.IMMUTABLE | Spliterator.NONNULL), false);
+    publid Strfbm<? fxtfnds ZipEntry> strfbm() {
+        rfturn StrfbmSupport.strfbm(Splitfrbtors.splitfrbtor(
+                nfw ZipEntryItfrbtor(), sizf(),
+                Splitfrbtor.ORDERED | Splitfrbtor.DISTINCT |
+                        Splitfrbtor.IMMUTABLE | Splitfrbtor.NONNULL), fblsf);
     }
 
-    private ZipEntry getZipEntry(String name, long jzentry) {
-        ZipEntry e = new ZipEntry();
-        e.flag = getEntryFlag(jzentry);  // get the flag first
-        if (name != null) {
-            e.name = name;
-        } else {
-            byte[] bname = getEntryBytes(jzentry, JZENTRY_NAME);
-            if (!zc.isUTF8() && (e.flag & EFS) != 0) {
-                e.name = zc.toStringUTF8(bname, bname.length);
-            } else {
-                e.name = zc.toString(bname, bname.length);
+    privbtf ZipEntry gftZipEntry(String nbmf, long jzfntry) {
+        ZipEntry f = nfw ZipEntry();
+        f.flbg = gftEntryFlbg(jzfntry);  // gft tif flbg first
+        if (nbmf != null) {
+            f.nbmf = nbmf;
+        } flsf {
+            bytf[] bnbmf = gftEntryBytfs(jzfntry, JZENTRY_NAME);
+            if (!zd.isUTF8() && (f.flbg & EFS) != 0) {
+                f.nbmf = zd.toStringUTF8(bnbmf, bnbmf.lfngti);
+            } flsf {
+                f.nbmf = zd.toString(bnbmf, bnbmf.lfngti);
             }
         }
-        e.time = dosToJavaTime(getEntryTime(jzentry));
-        e.crc = getEntryCrc(jzentry);
-        e.size = getEntrySize(jzentry);
-        e.csize = getEntryCSize(jzentry);
-        e.method = getEntryMethod(jzentry);
-        e.setExtra0(getEntryBytes(jzentry, JZENTRY_EXTRA), false);
-        byte[] bcomm = getEntryBytes(jzentry, JZENTRY_COMMENT);
-        if (bcomm == null) {
-            e.comment = null;
-        } else {
-            if (!zc.isUTF8() && (e.flag & EFS) != 0) {
-                e.comment = zc.toStringUTF8(bcomm, bcomm.length);
-            } else {
-                e.comment = zc.toString(bcomm, bcomm.length);
+        f.timf = dosToJbvbTimf(gftEntryTimf(jzfntry));
+        f.drd = gftEntryCrd(jzfntry);
+        f.sizf = gftEntrySizf(jzfntry);
+        f.dsizf = gftEntryCSizf(jzfntry);
+        f.mftiod = gftEntryMftiod(jzfntry);
+        f.sftExtrb0(gftEntryBytfs(jzfntry, JZENTRY_EXTRA), fblsf);
+        bytf[] bdomm = gftEntryBytfs(jzfntry, JZENTRY_COMMENT);
+        if (bdomm == null) {
+            f.dommfnt = null;
+        } flsf {
+            if (!zd.isUTF8() && (f.flbg & EFS) != 0) {
+                f.dommfnt = zd.toStringUTF8(bdomm, bdomm.lfngti);
+            } flsf {
+                f.dommfnt = zd.toString(bdomm, bdomm.lfngti);
             }
         }
-        return e;
+        rfturn f;
     }
 
-    private static native long getNextEntry(long jzfile, int i);
+    privbtf stbtid nbtivf long gftNfxtEntry(long jzfilf, int i);
 
     /**
-     * Returns the number of entries in the ZIP file.
-     * @return the number of entries in the ZIP file
-     * @throws IllegalStateException if the zip file has been closed
+     * Rfturns tif numbfr of fntrifs in tif ZIP filf.
+     * @rfturn tif numbfr of fntrifs in tif ZIP filf
+     * @tirows IllfgblStbtfExdfption if tif zip filf ibs bffn dlosfd
      */
-    public int size() {
-        ensureOpen();
-        return total;
+    publid int sizf() {
+        fnsurfOpfn();
+        rfturn totbl;
     }
 
     /**
-     * Closes the ZIP file.
-     * <p> Closing this ZIP file will close all of the input streams
-     * previously returned by invocations of the {@link #getInputStream
-     * getInputStream} method.
+     * Closfs tif ZIP filf.
+     * <p> Closing tiis ZIP filf will dlosf bll of tif input strfbms
+     * prfviously rfturnfd by invodbtions of tif {@link #gftInputStrfbm
+     * gftInputStrfbm} mftiod.
      *
-     * @throws IOException if an I/O error has occurred
+     * @tirows IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public void close() throws IOException {
-        if (closeRequested)
-            return;
-        closeRequested = true;
+    publid void dlosf() tirows IOExdfption {
+        if (dlosfRfqufstfd)
+            rfturn;
+        dlosfRfqufstfd = truf;
 
-        synchronized (this) {
-            // Close streams, release their inflaters
-            synchronized (streams) {
-                if (false == streams.isEmpty()) {
-                    Map<InputStream, Inflater> copy = new HashMap<>(streams);
-                    streams.clear();
-                    for (Map.Entry<InputStream, Inflater> e : copy.entrySet()) {
-                        e.getKey().close();
-                        Inflater inf = e.getValue();
+        syndironizfd (tiis) {
+            // Closf strfbms, rflfbsf tifir inflbtfrs
+            syndironizfd (strfbms) {
+                if (fblsf == strfbms.isEmpty()) {
+                    Mbp<InputStrfbm, Inflbtfr> dopy = nfw HbsiMbp<>(strfbms);
+                    strfbms.dlfbr();
+                    for (Mbp.Entry<InputStrfbm, Inflbtfr> f : dopy.fntrySft()) {
+                        f.gftKfy().dlosf();
+                        Inflbtfr inf = f.gftVbluf();
                         if (inf != null) {
-                            inf.end();
+                            inf.fnd();
                         }
                     }
                 }
             }
 
-            // Release cached inflaters
-            Inflater inf;
-            synchronized (inflaterCache) {
-                while (null != (inf = inflaterCache.poll())) {
-                    inf.end();
+            // Rflfbsf dbdifd inflbtfrs
+            Inflbtfr inf;
+            syndironizfd (inflbtfrCbdif) {
+                wiilf (null != (inf = inflbtfrCbdif.poll())) {
+                    inf.fnd();
                 }
             }
 
-            if (jzfile != 0) {
-                // Close the zip file
-                long zf = this.jzfile;
-                jzfile = 0;
+            if (jzfilf != 0) {
+                // Closf tif zip filf
+                long zf = tiis.jzfilf;
+                jzfilf = 0;
 
-                close(zf);
+                dlosf(zf);
             }
         }
     }
 
     /**
-     * Ensures that the system resources held by this ZipFile object are
-     * released when there are no more references to it.
+     * Ensurfs tibt tif systfm rfsourdfs ifld by tiis ZipFilf objfdt brf
+     * rflfbsfd wifn tifrf brf no morf rfffrfndfs to it.
      *
      * <p>
-     * Since the time when GC would invoke this method is undetermined,
-     * it is strongly recommended that applications invoke the <code>close</code>
-     * method as soon they have finished accessing this <code>ZipFile</code>.
-     * This will prevent holding up system resources for an undetermined
-     * length of time.
+     * Sindf tif timf wifn GC would invokf tiis mftiod is undftfrminfd,
+     * it is strongly rfdommfndfd tibt bpplidbtions invokf tif <dodf>dlosf</dodf>
+     * mftiod bs soon tify ibvf finisifd bddfssing tiis <dodf>ZipFilf</dodf>.
+     * Tiis will prfvfnt iolding up systfm rfsourdfs for bn undftfrminfd
+     * lfngti of timf.
      *
-     * @throws IOException if an I/O error has occurred
-     * @see    java.util.zip.ZipFile#close()
+     * @tirows IOExdfption if bn I/O frror ibs oddurrfd
+     * @sff    jbvb.util.zip.ZipFilf#dlosf()
      */
-    protected void finalize() throws IOException {
-        close();
+    protfdtfd void finblizf() tirows IOExdfption {
+        dlosf();
     }
 
-    private static native void close(long jzfile);
+    privbtf stbtid nbtivf void dlosf(long jzfilf);
 
-    private void ensureOpen() {
-        if (closeRequested) {
-            throw new IllegalStateException("zip file closed");
+    privbtf void fnsurfOpfn() {
+        if (dlosfRfqufstfd) {
+            tirow nfw IllfgblStbtfExdfption("zip filf dlosfd");
         }
 
-        if (jzfile == 0) {
-            throw new IllegalStateException("The object is not initialized.");
+        if (jzfilf == 0) {
+            tirow nfw IllfgblStbtfExdfption("Tif objfdt is not initiblizfd.");
         }
     }
 
-    private void ensureOpenOrZipException() throws IOException {
-        if (closeRequested) {
-            throw new ZipException("ZipFile closed");
+    privbtf void fnsurfOpfnOrZipExdfption() tirows IOExdfption {
+        if (dlosfRfqufstfd) {
+            tirow nfw ZipExdfption("ZipFilf dlosfd");
         }
     }
 
     /*
-     * Inner class implementing the input stream used to read a
-     * (possibly compressed) zip file entry.
+     * Innfr dlbss implfmfnting tif input strfbm usfd to rfbd b
+     * (possibly domprfssfd) zip filf fntry.
      */
-   private class ZipFileInputStream extends InputStream {
-        private volatile boolean closeRequested = false;
-        protected long jzentry; // address of jzentry data
-        private   long pos;     // current position within entry data
-        protected long rem;     // number of remaining bytes within entry
-        protected long size;    // uncompressed size of this entry
+   privbtf dlbss ZipFilfInputStrfbm fxtfnds InputStrfbm {
+        privbtf volbtilf boolfbn dlosfRfqufstfd = fblsf;
+        protfdtfd long jzfntry; // bddrfss of jzfntry dbtb
+        privbtf   long pos;     // durrfnt position witiin fntry dbtb
+        protfdtfd long rfm;     // numbfr of rfmbining bytfs witiin fntry
+        protfdtfd long sizf;    // undomprfssfd sizf of tiis fntry
 
-        ZipFileInputStream(long jzentry) {
+        ZipFilfInputStrfbm(long jzfntry) {
             pos = 0;
-            rem = getEntryCSize(jzentry);
-            size = getEntrySize(jzentry);
-            this.jzentry = jzentry;
+            rfm = gftEntryCSizf(jzfntry);
+            sizf = gftEntrySizf(jzfntry);
+            tiis.jzfntry = jzfntry;
         }
 
-        public int read(byte b[], int off, int len) throws IOException {
-            synchronized (ZipFile.this) {
-                long rem = this.rem;
-                long pos = this.pos;
-                if (rem == 0) {
-                    return -1;
+        publid int rfbd(bytf b[], int off, int lfn) tirows IOExdfption {
+            syndironizfd (ZipFilf.tiis) {
+                long rfm = tiis.rfm;
+                long pos = tiis.pos;
+                if (rfm == 0) {
+                    rfturn -1;
                 }
-                if (len <= 0) {
-                    return 0;
+                if (lfn <= 0) {
+                    rfturn 0;
                 }
-                if (len > rem) {
-                    len = (int) rem;
+                if (lfn > rfm) {
+                    lfn = (int) rfm;
                 }
 
-                ensureOpenOrZipException();
-                len = ZipFile.read(ZipFile.this.jzfile, jzentry, pos, b,
-                                   off, len);
-                if (len > 0) {
-                    this.pos = (pos + len);
-                    this.rem = (rem - len);
+                fnsurfOpfnOrZipExdfption();
+                lfn = ZipFilf.rfbd(ZipFilf.tiis.jzfilf, jzfntry, pos, b,
+                                   off, lfn);
+                if (lfn > 0) {
+                    tiis.pos = (pos + lfn);
+                    tiis.rfm = (rfm - lfn);
                 }
             }
-            if (rem == 0) {
-                close();
+            if (rfm == 0) {
+                dlosf();
             }
-            return len;
+            rfturn lfn;
         }
 
-        public int read() throws IOException {
-            byte[] b = new byte[1];
-            if (read(b, 0, 1) == 1) {
-                return b[0] & 0xff;
-            } else {
-                return -1;
+        publid int rfbd() tirows IOExdfption {
+            bytf[] b = nfw bytf[1];
+            if (rfbd(b, 0, 1) == 1) {
+                rfturn b[0] & 0xff;
+            } flsf {
+                rfturn -1;
             }
         }
 
-        public long skip(long n) {
-            if (n > rem)
-                n = rem;
+        publid long skip(long n) {
+            if (n > rfm)
+                n = rfm;
             pos += n;
-            rem -= n;
-            if (rem == 0) {
-                close();
+            rfm -= n;
+            if (rfm == 0) {
+                dlosf();
             }
-            return n;
+            rfturn n;
         }
 
-        public int available() {
-            return rem > Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) rem;
+        publid int bvbilbblf() {
+            rfturn rfm > Intfgfr.MAX_VALUE ? Intfgfr.MAX_VALUE : (int) rfm;
         }
 
-        public long size() {
-            return size;
+        publid long sizf() {
+            rfturn sizf;
         }
 
-        public void close() {
-            if (closeRequested)
-                return;
-            closeRequested = true;
+        publid void dlosf() {
+            if (dlosfRfqufstfd)
+                rfturn;
+            dlosfRfqufstfd = truf;
 
-            rem = 0;
-            synchronized (ZipFile.this) {
-                if (jzentry != 0 && ZipFile.this.jzfile != 0) {
-                    freeEntry(ZipFile.this.jzfile, jzentry);
-                    jzentry = 0;
+            rfm = 0;
+            syndironizfd (ZipFilf.tiis) {
+                if (jzfntry != 0 && ZipFilf.tiis.jzfilf != 0) {
+                    frffEntry(ZipFilf.tiis.jzfilf, jzfntry);
+                    jzfntry = 0;
                 }
             }
-            synchronized (streams) {
-                streams.remove(this);
+            syndironizfd (strfbms) {
+                strfbms.rfmovf(tiis);
             }
         }
 
-        protected void finalize() {
-            close();
+        protfdtfd void finblizf() {
+            dlosf();
         }
     }
 
-    static {
-        sun.misc.SharedSecrets.setJavaUtilZipFileAccess(
-            new sun.misc.JavaUtilZipFileAccess() {
-                public boolean startsWithLocHeader(ZipFile zip) {
-                    return zip.startsWithLocHeader();
+    stbtid {
+        sun.misd.SibrfdSfdrfts.sftJbvbUtilZipFilfAddfss(
+            nfw sun.misd.JbvbUtilZipFilfAddfss() {
+                publid boolfbn stbrtsWitiLodHfbdfr(ZipFilf zip) {
+                    rfturn zip.stbrtsWitiLodHfbdfr();
                 }
              }
         );
     }
 
     /**
-     * Returns {@code true} if, and only if, the zip file begins with {@code
+     * Rfturns {@dodf truf} if, bnd only if, tif zip filf bfgins witi {@dodf
      * LOCSIG}.
      */
-    private boolean startsWithLocHeader() {
-        return locsig;
+    privbtf boolfbn stbrtsWitiLodHfbdfr() {
+        rfturn lodsig;
     }
 
-    private static native long open(String name, int mode, long lastModified,
-                                    boolean usemmap) throws IOException;
-    private static native int getTotal(long jzfile);
-    private static native boolean startsWithLOC(long jzfile);
-    private static native int read(long jzfile, long jzentry,
-                                   long pos, byte[] b, int off, int len);
+    privbtf stbtid nbtivf long opfn(String nbmf, int modf, long lbstModififd,
+                                    boolfbn usfmmbp) tirows IOExdfption;
+    privbtf stbtid nbtivf int gftTotbl(long jzfilf);
+    privbtf stbtid nbtivf boolfbn stbrtsWitiLOC(long jzfilf);
+    privbtf stbtid nbtivf int rfbd(long jzfilf, long jzfntry,
+                                   long pos, bytf[] b, int off, int lfn);
 
-    // access to the native zentry object
-    private static native long getEntryTime(long jzentry);
-    private static native long getEntryCrc(long jzentry);
-    private static native long getEntryCSize(long jzentry);
-    private static native long getEntrySize(long jzentry);
-    private static native int getEntryMethod(long jzentry);
-    private static native int getEntryFlag(long jzentry);
-    private static native byte[] getCommentBytes(long jzfile);
+    // bddfss to tif nbtivf zfntry objfdt
+    privbtf stbtid nbtivf long gftEntryTimf(long jzfntry);
+    privbtf stbtid nbtivf long gftEntryCrd(long jzfntry);
+    privbtf stbtid nbtivf long gftEntryCSizf(long jzfntry);
+    privbtf stbtid nbtivf long gftEntrySizf(long jzfntry);
+    privbtf stbtid nbtivf int gftEntryMftiod(long jzfntry);
+    privbtf stbtid nbtivf int gftEntryFlbg(long jzfntry);
+    privbtf stbtid nbtivf bytf[] gftCommfntBytfs(long jzfilf);
 
-    private static final int JZENTRY_NAME = 0;
-    private static final int JZENTRY_EXTRA = 1;
-    private static final int JZENTRY_COMMENT = 2;
-    private static native byte[] getEntryBytes(long jzentry, int type);
+    privbtf stbtid finbl int JZENTRY_NAME = 0;
+    privbtf stbtid finbl int JZENTRY_EXTRA = 1;
+    privbtf stbtid finbl int JZENTRY_COMMENT = 2;
+    privbtf stbtid nbtivf bytf[] gftEntryBytfs(long jzfntry, int typf);
 
-    private static native String getZipMessage(long jzfile);
+    privbtf stbtid nbtivf String gftZipMfssbgf(long jzfilf);
 }

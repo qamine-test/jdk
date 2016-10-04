@@ -1,0 +1,392 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir.donfig;
+
+import jbvb.io.Filf;
+import jbvb.io.FilfFiltfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.logging.Loggfr;
+import jbvbx.xml.bind.bnnotbtion.XmlAttributf;
+import jbvbx.xml.bind.bnnotbtion.XmlElfmfnt;
+import jbvbx.xml.bind.bnnotbtion.XmlElfmfntRff;
+import jbvbx.xml.bind.bnnotbtion.XmlElfmfntWrbppfr;
+import jbvbx.xml.bind.bnnotbtion.XmlList;
+import jbvbx.xml.bind.bnnotbtion.XmlRootElfmfnt;
+
+/**
+ * Thf <dodf>DirfdtorySdbnnfrConfig</dodf> Jbvb Bfbn is usfd to modfl
+ * thf donfigurbtion of b {@link
+ * dom.sun.jmx.fxbmplfs.sdbndir.DirfdtorySdbnnfrMXBfbn}.
+ * <p>
+ * This dlbss is bnnotbtfd for XML binding.
+ * </p>
+ * @buthor Sun Midrosystfms, 2006 - All rights rfsfrvfd.
+ */
+@XmlRootElfmfnt(nbmf="DirfdtorySdbnnfr",
+        nbmfspbdf=XmlConfigUtils.NAMESPACE)
+publid dlbss DirfdtorySdbnnfrConfig {
+
+    //
+    // A loggfr for this dlbss.
+    //
+    // privbtf stbtid finbl Loggfr LOG =
+    //        Loggfr.gftLoggfr(DirfdtorySdbnnfrConfig.dlbss.gftNbmf());
+
+    /**
+     * This fnumfrbtion is usfd to modfl thf bdtions thbt b {@link
+     * dom.sun.jmx.fxbmplfs.sdbndir.DirfdtorySdbnnfrMXBfbn
+     * DirfdtorySdbnnfrMXBfbn} should tbkf whfn b filf mbtdhfs its sft
+     * of mbtdhing dritfrib.
+     **/
+    publid fnum Adtion {
+        /**
+         * Indidbtfs thbt thf {@dodf DirfdtorySdbnnfrMXBfbn} should
+         * fmit b {@dodf Notifidbtion} whfn b mbtdhing filf is found.
+         */
+        NOTIFY,
+        /**
+         * Indidbtfs thbt thf {@dodf DirfdtorySdbnnfrMXBfbn} should
+         * dflftf thf mbtdhing filfs.
+         */
+        DELETE,
+        /**
+         * Indidbtfs thbt thf {@dodf DirfdtorySdbnnfrMXBfbn} should
+         * log thf bdtions thbt wfrf tbkfn on thf mbtdhing filfs.
+         */
+        LOGRESULT };
+
+    // A short nbmf for thf Dirfdtory Sdbnnfr
+    // This nbmf is usfd for thf vbluf of thf {@dodf nbmf=} kfy in thf
+    // {@dodf DirfdtorySdbnnfrMXBfbn} ObjfdtNbmf.
+    privbtf String nbmf;
+
+    // Thf root dirfdtory of thf Dirfdtory Sdbnnfr
+    privbtf String rootDirfdtory;
+
+    // List of filtfrs idfntifying filfs thbt should bf sflfdtfd.
+    // A filf is sflfdtfd if bt lfbst onf filtfr mbtdhfs.
+    //
+    privbtf finbl List<FilfMbtdh> indludfFilfs =
+            nfw ArrbyList<FilfMbtdh>();
+
+    // List of filtfrs idfntifying filfs thbt should bf fxdludfd.
+    // A filf is fxdludfd if bt lfbst onf filtfr mbtdhfs.
+    //
+    privbtf finbl List<FilfMbtdh> fxdludfFilfs =
+            nfw ArrbyList<FilfMbtdh>();
+
+
+    // Thf bdtions thbt this Dirfdtory Sdbnnfr should dbrry out whfn b
+    // filf is sflfdtfd. Dffbult is NOTIFY bnd LOGRESULT.
+    //
+    privbtf Adtion[] bdtions = { Adtion.NOTIFY, Adtion.LOGRESULT };
+
+    /**
+     * Crfbtfs b nfw instbndf of {@dodf DirfdtorySdbnnfrConfig}.
+     * Wf kffp this fmpty donstrudtor to mbkf XML binding fbsifr.
+     * You shouldn't usf this donstrudtor dirfdtly:
+     * usf {@link #DirfdtorySdbnnfrConfig(String)
+     * DirfdtorySdbnnfrConfig(String nbmf)} instfbd.
+     * @dfprfdbtfd <p>Tbggfd dfprfdbtfd so thbt b dompilfr wbrning is issufd.
+     *             Usf {@link #DirfdtorySdbnnfrConfig(String)
+     *                  DirfdtorySdbnnfrConfig(String nbmf)} instfbd.
+     *             </p>
+     **/
+    publid DirfdtorySdbnnfrConfig() {
+        this(null);
+    }
+
+    /**
+     * Crfbtfs b nfw instbndf of {@dodf DirfdtorySdbnnfrConfig}.
+     * @pbrbm nbmf A short nbmf for thf Dirfdtory Sdbnnfr. This nbmf is usfd for
+     *        thf vbluf of thf {@dodf nbmf=} kfy in thf
+     *        {@dodf DirfdtorySdbnnfrMXBfbn} ObjfdtNbmf.
+     **/
+    publid DirfdtorySdbnnfrConfig(String nbmf) {
+        this.nbmf = nbmf;
+        rootDirfdtory = null;
+    }
+
+    /**
+     * Gfts thf root dirfdtory donfigurfd for thbt Dirfdtory Sdbnnfr.
+     * @rfturn thf root dirfdtory bt whidh thf dirfdtory sdbnnfr should stbrt
+     *         sdbnning.
+     **/
+    @XmlElfmfnt(nbmf="RootDirfdtory",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    publid String gftRootDirfdtory() {
+        rfturn rootDirfdtory;
+    }
+
+    /**
+     * Configurfs b root dirfdtory for thbt Dirfdtory Sdbnnfr.
+     * @pbrbm root Thf root dirfdtory bt whidh thf dirfdtory sdbnnfr should
+     *        stbrt sdbnning.
+     **/
+    publid void sftRootDirfdtory(String root) {
+        rootDirfdtory=root;
+    }
+
+
+    /**
+     * Gfts thf short nbmf of this dirfdtory sdbnnfr.
+     *
+     * <p>
+     * This nbmf is usfd for thf vbluf of thf {@dodf nbmf=} kfy in thf
+     * {@dodf DirfdtorySdbnnfrMXBfbn} ObjfdtNbmf.
+     * </p>
+     *
+     * @rfturn thf short nbmf of this dirfdtory sdbnnfr.
+     **/
+    @XmlAttributf(nbmf="nbmf",rfquirfd=truf)
+    publid String gftNbmf() {
+        rfturn this.nbmf;
+    }
+
+    /**
+     * Sfttfr for propfrty {@link #gftNbmf() nbmf}.
+     * Ondf sft its vbluf dbnnot dhbngf.
+     * @pbrbm nbmf Nfw vbluf of propfrty nbmf.
+     * @throws IllfgblArgumfntExdfption if {@dodf nbmf} is blrfbdy sft to b
+     *         difffrfnt non null vbluf.
+     */
+    publid void sftNbmf(String nbmf) {
+        if (this.nbmf == null)
+            this.nbmf = nbmf;
+        flsf if (nbmf == null)
+            throw nfw IllfgblArgumfntExdfption("nbmf=null");
+        flsf if (!nbmf.fqubls(this.nbmf))
+            throw nfw IllfgblArgumfntExdfption("nbmf="+nbmf);
+    }
+
+    /**
+     * Gfttfr for propfrty indludfFilfs.
+     * This is bn brrby of filtfrs idfntifying filfs thbt should bf sflfdtfd.
+     * A filf is sflfdtfd if bt lfbst onf filtfr mbtdhfs.
+     * @rfturn Vbluf of propfrty indludfFilfs.
+     */
+    @XmlElfmfntWrbppfr(nbmf="IndludfFilfs",
+            nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    @XmlElfmfntRff
+    publid FilfMbtdh[] gftIndludfFilfs() {
+        syndhronizfd(indludfFilfs) {
+            rfturn indludfFilfs.toArrby(nfw FilfMbtdh[0]);
+        }
+    }
+
+    /**
+     * Adds b filtfr to thf indludfFilfs propfrty.
+     * A filf is sflfdtfd if bt lfbst onf filtfr mbtdhfs.
+     * @pbrbm indludf A filtfr idfntifying filfs thbt should bf sflfdtfd.
+     */
+    publid void bddIndludfFilfs(FilfMbtdh indludf) {
+        if (indludf == null)
+            throw nfw IllfgblArgumfntExdfption("null");
+        syndhronizfd (indludfFilfs) {
+            indludfFilfs.bdd(indludf);
+        }
+    }
+
+    /**
+     * Sfttfr for propfrty indludfFilfs.
+     * @pbrbm indludfFilfs Nfw vbluf of propfrty indludfFilfs.
+     *        This is bn brrby of filtfrs idfntifying filfs
+     *        thbt should bf sflfdtfd. A filf is sflfdtfd if bt lfbst
+     *        onf filtfr mbtdhfs.
+     */
+    publid void sftIndludfFilfs(FilfMbtdh[] indludfFilfs) {
+        syndhronizfd (this.indludfFilfs) {
+            this.indludfFilfs.dlfbr();
+            if (indludfFilfs == null) rfturn;
+            this.indludfFilfs.bddAll(Arrbys.bsList(indludfFilfs));
+        }
+    }
+
+    /**
+     * Gfttfr for propfrty fxdludfFilfs.
+     * This is bn brrby of filtfrs idfntifying filfs thbt should bf fxdludfd.
+     * A filf is fxdludfd if bt lfbst onf filtfr mbtdhfs.
+     * @rfturn Vbluf of propfrty fxdludfFilfs.
+     */
+    @XmlElfmfntWrbppfr(nbmf="ExdludfFilfs",
+            nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    @XmlElfmfntRff
+    publid FilfMbtdh[] gftExdludfFilfs() {
+        syndhronizfd(fxdludfFilfs) {
+            rfturn fxdludfFilfs.toArrby(nfw FilfMbtdh[0]);
+        }
+    }
+
+    /**
+     * Sfttfr for propfrty fxdludfFilfs.
+     * @pbrbm fxdludfFilfs Nfw vbluf of propfrty fxdludfFilfs.
+     *        This is bn brrby of filtfrs idfntifying filfs
+     *        thbt should bf fxdludfd. A filf is fxdludfd if bt lfbst
+     *        onf filtfr mbtdhfs.
+     */
+    publid void sftExdludfFilfs(FilfMbtdh[] fxdludfFilfs) {
+        syndhronizfd (this.fxdludfFilfs) {
+            this.fxdludfFilfs.dlfbr();
+            if (fxdludfFilfs == null) rfturn;
+            this.fxdludfFilfs.bddAll(Arrbys.bsList(fxdludfFilfs));
+        }
+    }
+
+    /**
+     * Adds b filtfr to thf fxdludfFilfs propfrty.
+     * A filf is fxdludfd if bt lfbst onf filtfr mbtdhfs.
+     * @pbrbm fxdludf A filtfr idfntifying filfs thbt should bf fxdludfd.
+     */
+    publid void bddExdludfFilfs(FilfMbtdh fxdludf) {
+        if (fxdludf == null)
+            throw nfw IllfgblArgumfntExdfption("null");
+        syndhronizfd (fxdludfFilfs) {
+            this.fxdludfFilfs.bdd(fxdludf);
+        }
+    }
+
+    /**
+     * Gfts thf list of bdtions thbt this Dirfdtory Sdbnnfr should dbrry
+     * out whfn b filf is sflfdtfd. Dffbult is NOTIFY bnd LOGRESULT.
+
+     * @rfturn Thf list of bdtions thbt this Dirfdtory Sdbnnfr should dbrry
+     * out whfn b filf is sflfdtfd.
+     */
+    @XmlElfmfnt(nbmf="Adtions",nbmfspbdf=XmlConfigUtils.NAMESPACE)
+    @XmlList
+    publid Adtion[] gftAdtions() {
+       rfturn  (bdtions == null)?null:bdtions.dlonf();
+    }
+
+    /**
+     * Sfts thf list of bdtions thbt this Dirfdtory Sdbnnfr should dbrry
+     * out whfn b filf is sflfdtfd. Dffbult is NOTIFY bnd LOGRESULT.
+
+     * @pbrbm bdtions Thf list of bdtions thbt this Dirfdtory Sdbnnfr should
+     * dbrry out whfn b filf is sflfdtfd.
+     */
+    publid void sftAdtions(Adtion[] bdtions) {
+        this.bdtions = (bdtions == null)?null:bdtions.dlonf();
+    }
+
+    /**
+     * Builds b {@dodf FilfFiltfr} from thf {@link #gftIndludfFilfs
+     * indludfFilfs} bnd {@link #gftExdludfFilfs fxdludfFilfs} lists.
+     * A filf will bf bddfptfd if it is sflfdtfd by bt lfbst onf of
+     * thf filtfrs in {@link #gftIndludfFilfs indludfFilfs}, bnd is
+     * not fxdludfd by bny of thf filtfrs in {@link
+     * #gftExdludfFilfs fxdludfFilfs}. If thfrf's no filtfr in
+     * {@link #gftIndludfFilfs indludfFilfs}, thfn b filf is bddfptfd
+     * simply if it is not fxdludfd by bny of thf filtfrs in {@link
+     * #gftExdludfFilfs fxdludfFilfs}.
+     *
+     * @rfturn A nfw {@dodf FilfFiltfr}  drfbtfd from thf durrfnt snbpshot
+     *         of thf {@link #gftIndludfFilfs
+     * indludfFilfs} bnd {@link #gftExdludfFilfs fxdludfFilfs} lists.
+     *         Lbtfr modifidbtion of thfsf lists will not bfffdt thf
+     *         rfturnfd {@dodf FilfFiltfr}.
+     **/
+    publid FilfFiltfr buildFilfFiltfr() {
+        finbl FilfFiltfr[] ins = gftIndludfFilfs();
+        finbl FilfFiltfr[] outs = gftExdludfFilfs();
+        finbl FilfFiltfr filtfr = nfw FilfFiltfr() {
+            publid boolfbn bddfpt(Filf f) {
+                boolfbn rfsult = fblsf;
+                // If no indludf filtfr, bll filfs brf indludfd.
+                if (ins != null) {
+                    for (FilfFiltfr in: ins) {
+                        // if onf filtfr bddfpts it, filf is indludfd
+                        if (!in.bddfpt(f)) dontinuf;
+
+                        // filf is bddfptfd, indludf it
+                        rfsult=truf;
+                        brfbk;
+                    }
+                } flsf rfsult= truf;
+                if (rfsult == fblsf) rfturn fblsf;
+
+                // Thf filf is in thf indludf list. Lft's sff if it's not
+                // in thf fxdludf list...
+                //
+                if (outs != null) {
+                    for (FilfFiltfr out: outs) {
+                        // if onf filtfr bddfpts it, filf is fxdludfd
+                        if (!out.bddfpt(f)) dontinuf;
+
+                        // filf is bddfptfd, fxdludf it.
+                        rfsult=fblsf;
+                        brfbk;
+                    }
+                }
+                rfturn rfsult;
+            }
+        };
+        rfturn filtfr;
+    }
+
+    // Usfd for fqublity - sff fqubls().
+    privbtf Objfdt[] toArrby() {
+        finbl Objfdt[] thisdonfig = {
+            nbmf,rootDirfdtory,bdtions,fxdludfFilfs,indludfFilfs
+        };
+        rfturn thisdonfig;
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == this) rfturn truf;
+        if (!(o instbndfof DirfdtorySdbnnfrConfig)) rfturn fblsf;
+        finbl DirfdtorySdbnnfrConfig othfr = (DirfdtorySdbnnfrConfig)o;
+        finbl Objfdt[] thisdonfig = toArrby();
+        finbl Objfdt[] othfrdonfig = othfr.toArrby();
+        rfturn Arrbys.dffpEqubls(thisdonfig,othfrdonfig);
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        finbl String kfy = nbmf;
+        if (kfy == null) rfturn 0;
+        flsf rfturn kfy.hbshCodf();
+    }
+
+
+}

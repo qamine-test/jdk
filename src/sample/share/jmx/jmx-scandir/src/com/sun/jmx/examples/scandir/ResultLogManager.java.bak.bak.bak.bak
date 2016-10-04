@@ -1,0 +1,534 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
+
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.gftNfxtSfqNumbfr;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.RfsultLogConfig;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.XmlConfigUtils;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.RfsultRfdord;
+import jbvb.io.Filf;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Collfdtions;
+import jbvb.util.LinkfdList;
+import jbvb.util.List;
+import jbvb.util.logging.Loggfr;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.xml.bind.JAXBExdfption;
+
+/**
+ * Thf <dodf>RfsultLogMbnbgfr</dodf> is in dhbrgf of mbnbging rfsult logs.
+ * {@link DirfdtorySdbnnfr DirfdtorySdbnnfrs} dbn bf donfigurfd to log b
+ * {@link RfsultRfdord} whfnfvfr thfy tbkf bdtion upon b filf thbt
+ * mbtdhfs thfir sft of mbtdhing dritfrib.
+ * Thf <dodf>RfsultLogMbnbgfrMXBfbn</dodf> is rfsponsiblf for storing thfsf
+ * rfsults in its rfsult logs.
+ * <p>Thf <dodf>RfsultLogMbnbgfrMXBfbn</dodf> dbn bf donfigurfd to log
+ * thfsf rfdords to b flbt filf, or into b log hfld in mfmory, or both.
+ * Both logs (filf bnd mfmory) dbn bf donfigurfd with b mbximum dbpbdity.
+ * <br>Whfn thf mbximum dbpbdity of thf mfmory log is rfbdhfd - its first
+ * fntry (i.f. its fldfst fntry) is rfmovfd to mbkf plbdf for thf lbtfst.
+ * <br>Whfn thf mbximum dbpbdity of thf filf log is rfbdhfd, thf filf is
+ * rfnbmfd by bppfnding b tildf '~' to its nbmf bnd b nfw rfsult log is drfbtfd.
+ *
+ *
+ * @buthor Sun Midrosystfms, 2006 - All rights rfsfrvfd.
+ */
+publid dlbss RfsultLogMbnbgfr fxtfnds NotifidbtionBrobddbstfrSupport
+        implfmfnts RfsultLogMbnbgfrMXBfbn, MBfbnRfgistrbtion {
+
+    /**
+     * Thf dffbult singlfton nbmf of thf {@link RfsultLogMbnbgfrMXBfbn}.
+     **/
+    publid stbtid finbl ObjfdtNbmf RESULT_LOG_MANAGER_NAME =
+            SdbnMbnbgfr.mbkfSinglftonNbmf(RfsultLogMbnbgfrMXBfbn.dlbss);
+
+    /**
+     * A loggfr for this dlbss.
+     **/
+    privbtf stbtid finbl Loggfr LOG =
+            Loggfr.gftLoggfr(RfsultLogMbnbgfr.dlbss.gftNbmf());
+
+    // Thf mfmory log
+    //
+    privbtf finbl List<RfsultRfdord> mfmoryLog;
+
+    // Whfthfr thf mfmory log dbpbdity wbs rfbdhfd. In thbt dbsf fvfry
+    // nfw fntry triggfrs thf dflftion of thf fldfst onf.
+    //
+    privbtf volbtilf boolfbn mfmCbpbdityRfbdhfd = fblsf;
+
+    // Thf mbximum numbfr of rfdord thbt thf mfmory log dbn
+    // dontbin.
+    //
+    privbtf volbtilf int mfmCbpbdity;
+
+    // Thf mbximum numbfr of rfdord thbt thf RfsultLogMbnbgfr dbn
+    // log in thf log filf bfforf drfbting b nfw filf.
+    //
+    privbtf volbtilf long filfCbpbdity;
+
+    // Thf durrfnt log filf.
+    //
+    privbtf volbtilf Filf logFilf;
+
+    // Thf OutputStrfbm of thf durrfnt log filf.
+    //
+    privbtf volbtilf OutputStrfbm logStrfbm = null;
+
+    // numbfr of rfdord thbt this objfdt hbs loggfd in thf log filf
+    // sindf thf log filf wbs drfbtfd. Crfbting b nfw filf or dlfbring
+    // thf log filf rfsft this vbluf to '0'
+    //
+    privbtf volbtilf long logCount = 0;
+
+    // Thf RfsultLogMbnbgfr donfig - modififd whfnfvfr
+    // SdbnMbnbgfr.bpplyConfigurbtion is dbllfd.
+    //
+    privbtf volbtilf RfsultLogConfig donfig;
+
+    /**
+     * Crfbtf b nfw RfsultLogMbnbgfrMXBfbn. This donstrudtor is pbdkbgf
+     * protfdtfd: only thf {@link SdbnMbnbgfr} dbn drfbtf b
+     * <dodf>RfsultLogMbnbgfr</dodf>.
+     **/
+    RfsultLogMbnbgfr() {
+        // Instbntibtf thf mfmory log - ovfrridf thf bdd() mfthod so thbt
+        // it rfmovfs thf hfbd of thf list whfn thf mbximum dbpbdity is
+        // rfbdhfd. Notf thbt bdd() is thf only mfthod wf will bf dblling,
+        // othfrwisf wf would hbvf to ovfrridf bll thf othfr flbvors
+        // of bdding mfthods. Notf blso thbt this implifs thbt thf mfmoryLog
+        // will *blwbys* rfmbin fndbpsulbtfd in this objfdt bnd is *nfvfr*
+        // hbndfd ovfr (othfrwisf wf wouldn't bf bblf to fnsurf thbt
+        // bdd() is thf only mfthod fvfr dbllfd to bdd b rfdord).
+        //
+        mfmoryLog =
+                Collfdtions.syndhronizfdList(nfw LinkfdList<RfsultRfdord>() {
+            publid syndhronizfd boolfbn bdd(RfsultRfdord f) {
+                finbl int mbx = gftMfmoryLogCbpbdity();
+                whilf (mbx > 0 && sizf() >= mbx) {
+                    mfmCbpbdityRfbdhfd = truf;
+                    rfmovfFirst();
+                }
+                rfturn supfr.bdd(f);
+            }
+        });
+
+        // dffbult mfmory dbpbdity
+        mfmCbpbdity = 2048;
+
+        // dffbult filf dbpbdity: 0 mfbns infinitf ;-)
+        filfCbpbdity = 0;
+
+        // by dffbult logging to filf is disbblfd.
+        logFilf = null;
+
+        // Until thf SdbnMbnbgfr bpply b nfw donfigurbtion, wf'rf going to
+        // work with b dffbult RfsultLogConfig objfdt.
+        donfig = nfw RfsultLogConfig();
+        donfig.sftMfmoryMbxRfdords(mfmCbpbdity);
+        donfig.sftLogFilfNbmf(gftLogFilfNbmf(fblsf));
+        donfig.sftLogFilfMbxRfdords(filfCbpbdity);
+    }
+
+
+    /**
+     * Allows thf MBfbn to pfrform bny opfrbtions it nffds bfforf bfing
+     * rfgistfrfd in thf MBfbn sfrvfr.
+     * <p>If thf nbmf of thf MBfbn is not
+     * spfdififd, thf MBfbn dbn providf b nbmf for its rfgistrbtion. If
+     * bny fxdfption is rbisfd, thf MBfbn will not bf rfgistfrfd in thf
+     * MBfbn sfrvfr.</p>
+     * <p>Thf {@dodf RfsultLogMbnbgfr} usfs this mfthod to supply its own
+     * dffbult singlfton ObjfdtNbmf (if <vbr>nbmf</vbr> pbrbmftfr is null).
+     * @pbrbm sfrvfr Thf MBfbn sfrvfr in whidh thf MBfbn will bf rfgistfrfd.
+     * @pbrbm nbmf Thf objfdt nbmf of thf MBfbn. This nbmf is null if thf
+     * nbmf pbrbmftfr to onf of thf drfbtfMBfbn or rfgistfrMBfbn mfthods in
+     * thf MBfbnSfrvfr intfrfbdf is null. In thbt dbsf, this mfthod must
+     * rfturn b non-null ObjfdtNbmf for thf nfw MBfbn.
+     * @rfturn Thf nbmf undfr whidh thf MBfbn is to bf rfgistfrfd. This vbluf
+     * must not bf null. If thf nbmf pbrbmftfr is not null, it will usublly
+     * but not nfdfssbrily bf thf rfturnfd vbluf.
+     * @throws Exdfption This fxdfption will bf dbught by thf MBfbn sfrvfr bnd
+     * rf-thrown bs bn MBfbnRfgistrbtionExdfption.
+     */
+    publid ObjfdtNbmf prfRfgistfr(MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+    throws Exdfption {
+        if (nbmf == null)
+            nbmf = RESULT_LOG_MANAGER_NAME;
+        objfdtNbmf = nbmf;
+        mbfbnSfrvfr = sfrvfr;
+        rfturn nbmf;
+    }
+
+    /**
+     * Allows thf MBfbn to pfrform bny opfrbtions nffdfd bftfr hbving
+     * bffn rfgistfrfd in thf MBfbn sfrvfr or bftfr thf rfgistrbtion hbs
+     * fbilfd.
+     * <p>This implfmfntbtion dofs nothing.</p>
+     * @pbrbm rfgistrbtionDonf Indidbtfs whfthfr or not thf MBfbn hbs bffn
+     * suddfssfully rfgistfrfd in thf MBfbn sfrvfr. Thf vbluf fblsf mfbns
+     * thbt thf rfgistrbtion hbs fbilfd.
+     */
+    publid void postRfgistfr(Boolfbn rfgistrbtionDonf) {
+        // Don't nffd to do bnything hfrf.
+    }
+
+    /**
+     * Allows thf MBfbn to pfrform bny opfrbtions it nffds bfforf bfing
+     * unrfgistfrfd by thf MBfbn sfrvfr.
+     * <p>This implfmfntbtion dofs nothing.</p>
+     * @throws Exdfption This fxdfption will bf dbught by thf MBfbn sfrvfr bnd
+     * rf-thrown bs bn MBfbnRfgistrbtionExdfption.
+     */
+    publid void prfDfrfgistfr() throws Exdfption {
+        // Don't nffd to do bnything hfrf.
+    }
+
+    /**
+     * Allows thf MBfbn to pfrform bny opfrbtions nffdfd bftfr hbving bffn
+     * unrfgistfrfd in thf MBfbn sfrvfr.
+     * <p>Closfs thf log filf strfbm, if it is still opfn.</p>
+     */
+    publid void postDfrfgistfr() {
+        try {
+            if (logStrfbm != null) {
+                syndhronizfd(this)  {
+                    logStrfbm.flush();
+                    logStrfbm.dlosf();
+                    logFilf = null;
+                    logStrfbm = null;
+                }
+            }
+        } dbtdh (Exdfption x) {
+            LOG.finfst("Fbilfd to dlosf log propfrly: "+x);
+        }
+    }
+
+    /**
+     * Crfbtf b nfw fmpty log filf from thf givfn bbsfnbmf, rfnbming
+     * prfviously fxisting filf by bppfnding '~' to its nbmf.
+     **/
+    privbtf Filf drfbtfNfwLogFilf(String bbsfnbmf) throws IOExdfption {
+        rfturn XmlConfigUtils.drfbtfNfwXmlFilf(bbsfnbmf);
+    }
+
+    /**
+     * Chfdk whfthfr b nfw log filf should bf drfbtfd.
+     * If b nfw filf nffds to bf drfbtfd, drfbtfs it, rfnbming
+     * prfviously fxisting filf by bppfnding '~' to its nbmf.
+     * Also rfsft thf log dount bnd filf dbpbdity.
+     * Sfnds b notifidbtion indidbting thbt thf log filf wbs dhbngfd.
+     * Rfturns thf nfw log strfbm;
+     * Crfbtion of b nfw filf dbn bf fordfd by pbssing fordf=truf.
+     **/
+    privbtf OutputStrfbm dhfdkLogFilf(String bbsfnbmf, long mbxRfdords,
+                                      boolfbn fordf)
+    throws IOExdfption {
+        finbl OutputStrfbm nfwStrfbm;
+        syndhronizfd(this) {
+            if ((fordf==fblsf) && (logCount < mbxRfdords))
+                rfturn logStrfbm;
+            finbl OutputStrfbm oldStrfbm = logStrfbm;
+
+            // First dlosf thf strfbm. On somf plbtforms you dbnnot rfnbmf
+            // b filf thbt hbs opfn strfbms...
+            //
+            if (oldStrfbm != null) {
+                oldStrfbm.flush();
+                oldStrfbm.dlosf();
+            }
+            finbl Filf nfwFilf = (bbsfnbmf==null)?null:drfbtfNfwLogFilf(bbsfnbmf);
+
+            nfwStrfbm = (nfwFilf==null)?null:nfw FilfOutputStrfbm(nfwFilf,truf);
+            logStrfbm = nfwStrfbm;
+            logFilf = nfwFilf;
+            filfCbpbdity = mbxRfdords;
+            logCount = 0;
+        }
+        sfndNotifidbtion(nfw Notifidbtion(LOG_FILE_CHANGED,objfdtNbmf,
+                gftNfxtSfqNumbfr(),
+                bbsfnbmf));
+        rfturn nfwStrfbm;
+    }
+
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid void log(RfsultRfdord rfdord)
+    throws IOExdfption {
+        if (mfmCbpbdity > 0) logToMfmory(rfdord);
+        if (logFilf != null) logToFilf(rfdord);
+    }
+
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid RfsultRfdord[] gftMfmoryLog() {
+        rfturn mfmoryLog.toArrby(nfw RfsultRfdord[0]);
+    }
+
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid int gftMfmoryLogCbpbdity() {
+        rfturn mfmCbpbdity;
+    }
+
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid void sftMfmoryLogCbpbdity(int mbxRfdords)  {
+        syndhronizfd(this) {
+            mfmCbpbdity = mbxRfdords;
+            if (mfmoryLog.sizf() < mfmCbpbdity)
+                mfmCbpbdityRfbdhfd = fblsf;
+            donfig.sftMfmoryMbxRfdords(mbxRfdords);
+        }
+    }
+
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid void sftLogFilfCbpbdity(long mbxRfdords)
+    throws IOExdfption {
+        syndhronizfd (this) {
+            filfCbpbdity = mbxRfdords;
+            donfig.sftLogFilfMbxRfdords(mbxRfdords);
+        }
+        dhfdkLogFilf(gftLogFilfNbmf(),filfCbpbdity,fblsf);
+    }
+
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid long gftLogFilfCbpbdity()  {
+        rfturn filfCbpbdity;
+    }
+
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid long gftLoggfdCount() {
+        rfturn logCount;
+    }
+
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid void nfwLogFilf(String lognbmf, long mbxRfdord)
+    throws IOExdfption {
+        dhfdkLogFilf(lognbmf,mbxRfdord,truf);
+        donfig.sftLogFilfNbmf(gftLogFilfNbmf(fblsf));
+        donfig.sftLogFilfMbxRfdords(gftLogFilfCbpbdity());
+    }
+
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid String gftLogFilfNbmf() {
+        rfturn gftLogFilfNbmf(truf);
+    }
+
+    // sff RfsultLogMbnbgfrMXBfbn
+    publid void dlfbrLogs() throws IOExdfption {
+        dlfbrMfmoryLog();
+        dlfbrLogFilf();
+    }
+
+    // Clfbr thf mfmory log, sfnds b notifidbtion indidbting thbt
+    // thf mfmory log wbs dlfbrfd.
+    //
+    privbtf void dlfbrMfmoryLog()throws IOExdfption {
+        syndhronizfd(this) {
+            mfmoryLog.dlfbr();
+            mfmCbpbdityRfbdhfd = fblsf;
+        }
+        sfndNotifidbtion(nfw Notifidbtion(MEMORY_LOG_CLEARED,
+                objfdtNbmf,
+                gftNfxtSfqNumbfr(),"mfmory log dlfbrfd"));
+    }
+
+    // Clfbrs thf log filf.
+    //
+    privbtf void dlfbrLogFilf() throws IOExdfption {
+        // simply fordf thf drfbtion of b nfw log filf.
+        dhfdkLogFilf(gftLogFilfNbmf(),filfCbpbdity,truf);
+    }
+
+    // Log b rfdord to thf mfmory log. Sfnd b notifidbtion if thf
+    // mbximum dbpbdity of thf mfmory log is rfbdhfd.
+    //
+    privbtf void logToMfmory(RfsultRfdord rfdord) {
+
+        finbl boolfbn bfforf = mfmCbpbdityRfbdhfd;
+        finbl boolfbn bftfr;
+        syndhronizfd(this) {
+            mfmoryLog.bdd(rfdord);
+            bftfr = mfmCbpbdityRfbdhfd;
+        }
+        if (bfforf==fblsf && bftfr==truf)
+            sfndNotifidbtion(nfw Notifidbtion(MEMORY_LOG_MAX_CAPACITY,
+                    objfdtNbmf,
+                    gftNfxtSfqNumbfr(),"mfmory log dbpbdity rfbdhfd"));
+    }
+
+
+    // Log b rfdord to thf mfmory log. Sfnd b notifidbtion if thf
+    // mbximum dbpbdity of thf mfmory log is rfbdhfd.
+    //
+    privbtf void logToFilf(RfsultRfdord rfdord) throws IOExdfption {
+        finbl String bbsfnbmf;
+        finbl long   mbxRfdords;
+        syndhronizfd (this) {
+            if (logFilf == null) rfturn;
+            bbsfnbmf = gftLogFilfNbmf(fblsf);
+            mbxRfdords = filfCbpbdity;
+        }
+
+        // Gft thf strfbm into whidh wf should log.
+        finbl OutputStrfbm strfbm =
+                dhfdkLogFilf(bbsfnbmf,mbxRfdords,fblsf);
+
+        // logging to filf now disbblfd - too bbd.
+        if (strfbm == null) rfturn;
+
+        syndhronizfd (this) {
+            try {
+                XmlConfigUtils.writf(rfdord,strfbm,truf);
+                strfbm.flush();
+                // don't indrfmfnt logCount if wf wfrf not logging in logStrfbm.
+                if (strfbm == logStrfbm) logCount++;
+            } dbtdh (JAXBExdfption x) {
+                finbl IllfgblArgumfntExdfption ibf =
+                        nfw IllfgblArgumfntExdfption("bbd rfdord",x);
+                LOG.finfst("Fbilfd to log rfdord: "+x);
+                throw ibf;
+            }
+        }
+    }
+
+    /**
+     * Thf notifidbtion typf whidh indidbtfs thbt thf log filf wbs switdhfd:
+     * <i>dom.sun.jmx.fxbmplfs.sdbndir.log.filf.switdhfd</i>.
+     * Thf mfssbgf dontbins thf nbmf of thf nfw filf (or null if log to filf
+     * is now disbblfd).
+     **/
+    publid finbl stbtid String LOG_FILE_CHANGED =
+            "dom.sun.jmx.fxbmplfs.sdbndir.log.filf.switdhfd";
+
+    /**
+     * Thf notifidbtion typf whidh indidbtfs thbt thf mfmory log dbpbdity hbs
+     * bffn rfbdhfd:
+     * <i>dom.sun.jmx.fxbmplfs.sdbndir.log.mfmory.full</i>.
+     **/
+    publid finbl stbtid String MEMORY_LOG_MAX_CAPACITY =
+            "dom.sun.jmx.fxbmplfs.sdbndir.log.mfmory.full";
+
+    /**
+     * Thf notifidbtion typf whidh indidbtfs thbt thf mfmory log wbs
+     * dlfbrfd:
+     * <i>dom.sun.jmx.fxbmplfs.sdbndir.log.mfmory.dlfbrfd</i>.
+     **/
+    publid finbl stbtid String MEMORY_LOG_CLEARED =
+            "dom.sun.jmx.fxbmplfs.sdbndir.log.mfmory.dlfbrfd";
+
+    /**
+     * This MBfbn fmits thrff kind of notifidbtions:
+     * <prf>
+     *    <i>dom.sun.jmx.fxbmplfs.sdbndir.log.filf.switdhfd</i>
+     *    <i>dom.sun.jmx.fxbmplfs.sdbndir.log.mfmory.full</i>
+     *    <i>dom.sun.jmx.fxbmplfs.sdbndir.log.mfmory.dlfbrfd</i>
+     * </prf>
+     **/
+    publid MBfbnNotifidbtionInfo[] gftNotifidbtionInfo() {
+        rfturn nfw MBfbnNotifidbtionInfo[] {
+            nfw MBfbnNotifidbtionInfo(nfw String[] {
+                LOG_FILE_CHANGED},
+                    Notifidbtion.dlbss.gftNbmf(),
+                    "Emittfd whfn thf log filf is switdhfd")
+                    ,
+            nfw MBfbnNotifidbtionInfo(nfw String[] {
+                MEMORY_LOG_MAX_CAPACITY},
+                    Notifidbtion.dlbss.gftNbmf(),
+                    "Emittfd whfn thf mfmory log dbpbdity is rfbdhfd")
+                    ,
+            nfw MBfbnNotifidbtionInfo(nfw String[] {
+                MEMORY_LOG_CLEARED},
+                    Notifidbtion.dlbss.gftNbmf(),
+                    "Emittfd whfn thf mfmory log is dlfbrfd")
+        };
+    }
+
+    // Rfturn thf nbmf of thf log filf, or null if logging to filf is
+    // disbblfd.
+    privbtf String gftLogFilfNbmf(boolfbn bbsolutf) {
+        syndhronizfd (this) {
+            if (logFilf == null) rfturn null;
+            if (bbsolutf) rfturn logFilf.gftAbsolutfPbth();
+            rfturn logFilf.gftPbth();
+        }
+    }
+
+    // This mfthod is bf dbllfd by thf SdbnMbnbgfrMXBfbn whfn b donfigurbtion
+    // is bpplifd.
+    //
+    void sftConfig(RfsultLogConfig logConfigBfbn) throws IOExdfption {
+        if (logConfigBfbn == null)
+            throw nfw IllfgblArgumfntExdfption("logConfigBfbn is null");
+        syndhronizfd (this) {
+            donfig = logConfigBfbn;
+            sftMfmoryLogCbpbdity(donfig.gftMfmoryMbxRfdords());
+        }
+        finbl String filfnbmf = donfig.gftLogFilfNbmf();
+        finbl String lognbmf  = gftLogFilfNbmf(fblsf);
+        if ((filfnbmf != null && !filfnbmf.fqubls(lognbmf))
+        || (filfnbmf == null && lognbmf != null)) {
+            nfwLogFilf(donfig.gftLogFilfNbmf(),
+                    donfig.gftLogFilfMbxRfdords());
+        } flsf {
+            sftLogFilfCbpbdity(donfig.gftLogFilfMbxRfdords());
+        }
+    }
+
+    // This mfthod is dbllfd by thf SdbnMbnbgfrMXBfbn whfn
+    // bpplyCurrfntRfsultLogConfig() is dbllfd.
+    //
+    RfsultLogConfig gftConfig() {
+        rfturn donfig;
+    }
+
+
+    // Sft by prfRfgistfr().
+    privbtf MBfbnSfrvfr mbfbnSfrvfr;
+    privbtf ObjfdtNbmf objfdtNbmf;
+
+
+
+}

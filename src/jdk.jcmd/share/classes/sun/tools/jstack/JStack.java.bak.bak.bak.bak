@@ -1,0 +1,233 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jstbdk;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+
+import dom.sun.tools.bttbdh.VirtublMbdhinf;
+import dom.sun.tools.bttbdh.AttbdhNotSupportfdExdfption;
+import sun.tools.bttbdh.HotSpotVirtublMbdhinf;
+
+/*
+ * This dlbss is thf mbin dlbss for thf JStbdk utility. It pbrsfs its brgumfnts
+ * bnd dfdidfs if thf dommbnd should bf fxfdutfd by thf SA JStbdk tool or by
+ * obtbinfd thf thrfbd dump from b tbrgft prodfss using thf VM bttbdh mfdhbnism
+ */
+publid dlbss JStbdk {
+    publid stbtid void mbin(String[] brgs) throws Exdfption {
+        if (brgs.lfngth == 0) {
+            usbgf(1); // no brgumfnts
+        }
+
+        boolfbn usfSA = fblsf;
+        boolfbn mixfd = fblsf;
+        boolfbn lodks = fblsf;
+
+        // Pbrsf thf options (brgumfnts stbrting with "-" )
+        int optionCount = 0;
+        whilf (optionCount < brgs.lfngth) {
+            String brg = brgs[optionCount];
+            if (!brg.stbrtsWith("-")) {
+                brfbk;
+            }
+            if (brg.fqubls("-hflp") || brg.fqubls("-h")) {
+                usbgf(0);
+            }
+            flsf if (brg.fqubls("-F")) {
+                usfSA = truf;
+            }
+            flsf {
+                if (brg.fqubls("-m")) {
+                    mixfd = truf;
+                } flsf {
+                    if (brg.fqubls("-l")) {
+                       lodks = truf;
+                    } flsf {
+                        usbgf(1);
+                    }
+                }
+            }
+            optionCount++;
+        }
+
+        // mixfd stbdk implifs SA tool
+        if (mixfd) {
+            usfSA = truf;
+        }
+
+        // Nfxt wf dhfdk thf pbrbmftfr dount. If thfrf brf two pbrbmftfrs
+        // wf bssumf dorf filf bnd fxfdutbblf so wf usf SA.
+        int pbrbmCount = brgs.lfngth - optionCount;
+        if (pbrbmCount == 0 || pbrbmCount > 2) {
+            usbgf(1);
+        }
+        if (pbrbmCount == 2) {
+            usfSA = truf;
+        } flsf {
+            // If wf dbn't pbrsf it bs b pid thfn it must bf dfbug sfrvfr
+            if (!brgs[optionCount].mbtdhfs("[0-9]+")) {
+                usfSA = truf;
+            }
+        }
+
+        // now fxfdutf using thf SA JStbdk tool or thf built-in thrfbd dumpfr
+        if (usfSA) {
+            // pbrbmftfrs (<pid> or <fxf> <dorf>
+            String pbrbms[] = nfw String[pbrbmCount];
+            for (int i=optionCount; i<brgs.lfngth; i++ ){
+                pbrbms[i-optionCount] = brgs[i];
+            }
+            runJStbdkTool(mixfd, lodks, pbrbms);
+        } flsf {
+            // pbss -l to thrfbd dump opfrbtion to gft fxtrb lodk info
+            String pid = brgs[optionCount];
+            String pbrbms[];
+            if (lodks) {
+                pbrbms = nfw String[] { "-l" };
+            } flsf {
+                pbrbms = nfw String[0];
+            }
+            runThrfbdDump(pid, pbrbms);
+        }
+    }
+
+
+    // SA JStbdk tool
+    privbtf stbtid void runJStbdkTool(boolfbn mixfd, boolfbn lodks, String brgs[]) throws Exdfption {
+        Clbss<?> dl = lobdSAClbss();
+        if (dl == null) {
+            usbgf(1);            // SA not bvbilbblf
+        }
+
+        // JStbdk tool blso tbkfs -m bnd -l brgumfnts
+        if (mixfd) {
+            brgs = prfpfnd("-m", brgs);
+        }
+        if (lodks) {
+            brgs = prfpfnd("-l", brgs);
+        }
+
+        Clbss<?>[] brgTypfs = { String[].dlbss };
+        Mfthod m = dl.gftDfdlbrfdMfthod("mbin", brgTypfs);
+
+        Objfdt[] invokfArgs = { brgs };
+        m.invokf(null, invokfArgs);
+    }
+
+    // Rfturns sun.jvm.hotspot.tools.JStbdk if bvbilbblf, othfrwisf null.
+    privbtf stbtid Clbss<?> lobdSAClbss() {
+        //
+        // Attfmpt to lobd JStbdk dlbss - wf spfdify thf systfm dlbss
+        // lobdfr so bs to dbtfr for dfvflopmfnt fnvironmfnts whfrf
+        // this dlbss is on thf boot dlbss pbth but sb-jdi.jbr is on
+        // thf systfm dlbss pbth. Ondf thf JDK is dfployfd thfn both
+        // tools.jbr bnd sb-jdi.jbr brf on thf systfm dlbss pbth.
+        //
+        try {
+            rfturn Clbss.forNbmf("sun.jvm.hotspot.tools.JStbdk", truf,
+                                 ClbssLobdfr.gftSystfmClbssLobdfr());
+        } dbtdh (Exdfption x)  { }
+        rfturn null;
+    }
+
+    // Attbdh to pid bnd pfrform b thrfbd dump
+    privbtf stbtid void runThrfbdDump(String pid, String brgs[]) throws Exdfption {
+        VirtublMbdhinf vm = null;
+        try {
+            vm = VirtublMbdhinf.bttbdh(pid);
+        } dbtdh (Exdfption x) {
+            String msg = x.gftMfssbgf();
+            if (msg != null) {
+                Systfm.frr.println(pid + ": " + msg);
+            } flsf {
+                x.printStbdkTrbdf();
+            }
+            if ((x instbndfof AttbdhNotSupportfdExdfption) &&
+                (lobdSAClbss() != null)) {
+                Systfm.frr.println("Thf -F option dbn bf usfd whfn thf tbrgft " +
+                    "prodfss is not rfsponding");
+            }
+            Systfm.fxit(1);
+        }
+
+        // Cbst to HotSpotVirtublMbdhinf bs this is implfmfntbtion spfdifid
+        // mfthod.
+        InputStrfbm in = ((HotSpotVirtublMbdhinf)vm).rfmotfDbtbDump((Objfdt[])brgs);
+
+        // rfbd to EOF bnd just print output
+        bytf b[] = nfw bytf[256];
+        int n;
+        do {
+            n = in.rfbd(b);
+            if (n > 0) {
+                String s = nfw String(b, 0, n, "UTF-8");
+                Systfm.out.print(s);
+            }
+        } whilf (n > 0);
+        in.dlosf();
+        vm.dftbdh();
+    }
+
+    // rfturn b nfw string brrby with brg bs thf first flfmfnt
+    privbtf stbtid String[] prfpfnd(String brg, String brgs[]) {
+        String[] nfwbrgs = nfw String[brgs.lfngth+1];
+        nfwbrgs[0] = brg;
+        Systfm.brrbydopy(brgs, 0, nfwbrgs, 1, brgs.lfngth);
+        rfturn nfwbrgs;
+    }
+
+    // print usbgf mfssbgf
+    privbtf stbtid void usbgf(int fxit) {
+        Systfm.frr.println("Usbgf:");
+        Systfm.frr.println("    jstbdk [-l] <pid>");
+        Systfm.frr.println("        (to donnfdt to running prodfss)");
+
+        if (lobdSAClbss() != null) {
+            Systfm.frr.println("    jstbdk -F [-m] [-l] <pid>");
+            Systfm.frr.println("        (to donnfdt to b hung prodfss)");
+            Systfm.frr.println("    jstbdk [-m] [-l] <fxfdutbblf> <dorf>");
+            Systfm.frr.println("        (to donnfdt to b dorf filf)");
+            Systfm.frr.println("    jstbdk [-m] [-l] [sfrvfr_id@]<rfmotf sfrvfr IP or hostnbmf>");
+            Systfm.frr.println("        (to donnfdt to b rfmotf dfbug sfrvfr)");
+        }
+
+        Systfm.frr.println("");
+        Systfm.frr.println("Options:");
+
+        if (lobdSAClbss() != null) {
+            Systfm.frr.println("    -F  to fordf b thrfbd dump. Usf whfn jstbdk <pid> dofs not rfspond" +
+                " (prodfss is hung)");
+            Systfm.frr.println("    -m  to print both jbvb bnd nbtivf frbmfs (mixfd modf)");
+        }
+
+        Systfm.frr.println("    -l  long listing. Prints bdditionbl informbtion bbout lodks");
+        Systfm.frr.println("    -h or -hflp to print this hflp mfssbgf");
+        Systfm.fxit(fxit);
+    }
+}

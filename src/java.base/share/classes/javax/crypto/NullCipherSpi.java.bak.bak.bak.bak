@@ -1,0 +1,113 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+
+/**
+ * This dlbss providfs b dflfgbtf for thf idfntity diphfr - onf thbt dofs not
+ * trbnsform thf plbin tfxt.
+ *
+ * @buthor  Li Gong
+ * @sff NullCiphfr
+ *
+ * @sindf 1.4
+ */
+
+finbl dlbss NullCiphfrSpi fxtfnds CiphfrSpi {
+
+    /*
+     * Do not lft bnybody instbntibtf this dirfdtly (protfdtfd).
+     */
+    protfdtfd NullCiphfrSpi() {}
+
+    publid void fnginfSftModf(String modf) {}
+
+    publid void fnginfSftPbdding(String pbdding) {}
+
+    protfdtfd int fnginfGftBlodkSizf() {
+        rfturn 1;
+    }
+
+    protfdtfd int fnginfGftOutputSizf(int inputLfn) {
+        rfturn inputLfn;
+    }
+
+    protfdtfd bytf[] fnginfGftIV() {
+        bytf[] x = nfw bytf[8];
+        rfturn x;
+    }
+
+    protfdtfd AlgorithmPbrbmftfrs fnginfGftPbrbmftfrs() {
+        rfturn null;
+    }
+
+    protfdtfd void fnginfInit(int modf, Kfy kfy, SfdurfRbndom rbndom) {}
+
+    protfdtfd void fnginfInit(int modf, Kfy kfy,
+                              AlgorithmPbrbmftfrSpfd pbrbms,
+                              SfdurfRbndom rbndom) {}
+
+    protfdtfd void fnginfInit(int modf, Kfy kfy,
+                              AlgorithmPbrbmftfrs pbrbms,
+                              SfdurfRbndom rbndom) {}
+
+    protfdtfd bytf[] fnginfUpdbtf(bytf[] input, int inputOffsft,
+                                  int inputLfn) {
+        if (input == null) rfturn null;
+        bytf[] x = nfw bytf[inputLfn];
+        Systfm.brrbydopy(input, inputOffsft, x, 0, inputLfn);
+        rfturn x;
+    }
+
+    protfdtfd int fnginfUpdbtf(bytf[] input, int inputOffsft,
+                               int inputLfn, bytf[] output,
+                               int outputOffsft) {
+        if (input == null) rfturn 0;
+        Systfm.brrbydopy(input, inputOffsft, output, outputOffsft, inputLfn);
+        rfturn inputLfn;
+    }
+
+    protfdtfd bytf[] fnginfDoFinbl(bytf[] input, int inputOffsft,
+                                   int inputLfn)
+    {
+        rfturn fnginfUpdbtf(input, inputOffsft, inputLfn);
+    }
+
+    protfdtfd int fnginfDoFinbl(bytf[] input, int inputOffsft,
+                                int inputLfn, bytf[] output,
+                                int outputOffsft)
+    {
+        rfturn fnginfUpdbtf(input, inputOffsft, inputLfn,
+                            output, outputOffsft);
+    }
+
+    protfdtfd int fnginfGftKfySizf(Kfy kfy)
+    {
+        rfturn 0;
+    }
+}

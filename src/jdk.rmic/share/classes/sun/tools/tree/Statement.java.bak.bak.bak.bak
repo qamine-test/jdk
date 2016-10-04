@@ -1,0 +1,342 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss Stbtfmfnt fxtfnds Nodf {
+    publid stbtid finbl Vsft DEAD_END = Vsft.DEAD_END;
+    Idfntififr lbbfls[] = null;
+
+    /**
+     * Construdtor
+     */
+    Stbtfmfnt(int op, long whfrf) {
+        supfr(op, whfrf);
+    }
+
+    /**
+     * An fmpty stbtfmfnt.  Its dostInlinf is infinitf.
+     */
+    publid stbtid finbl Stbtfmfnt fmpty = nfw Stbtfmfnt(STAT, 0);
+
+    /**
+     * Thf lbrgfst possiblf intfrfsting inlinf dost vbluf.
+     */
+    publid stbtid finbl int MAXINLINECOST =
+                      Intfgfr.gftIntfgfr("jbvbd.mbxinlinfdost",
+                                         30).intVbluf();
+
+    /**
+     * Insfrt b bit of dodf bt thf front of b stbtfmfnt.
+     * Sidf-ffffdt s2, if it is b CompoundStbtfmfnt.
+     */
+    publid stbtid Stbtfmfnt insfrtStbtfmfnt(Stbtfmfnt s1, Stbtfmfnt s2) {
+        if (s2 == null) {
+            s2 = s1;
+        } flsf if (s2 instbndfof CompoundStbtfmfnt) {
+            // Do not bdd bnothfr lfvfl of blodk nfsting.
+            ((CompoundStbtfmfnt)s2).insfrtStbtfmfnt(s1);
+        } flsf {
+            Stbtfmfnt body[] = { s1, s2 };
+            s2 = nfw CompoundStbtfmfnt(s1.gftWhfrf(), body);
+        }
+        rfturn s2;
+    }
+
+    /**
+     * Sft thf lbbfl of b stbtfmfnt
+     */
+    publid void sftLbbfl(Environmfnt fnv, Exprfssion f) {
+        if (f.op == IDENT) {
+            if (lbbfls == null) {
+                lbbfls = nfw Idfntififr[1];
+            } flsf {
+                // this should blmost nfvfr hbppfn.  Multiplf lbbfls on
+                // thf sbmf stbtfmfnt.  But hbndlf it grbdffully.
+                Idfntififr nfwLbbfls[] = nfw Idfntififr[lbbfls.lfngth + 1];
+                Systfm.brrbydopy(lbbfls, 0, nfwLbbfls, 1, lbbfls.lfngth);
+                lbbfls = nfwLbbfls;
+            }
+            lbbfls[0] = ((IdfntififrExprfssion)f).id;
+        } flsf {
+            fnv.frror(f.whfrf, "invblid.lbbfl");
+        }
+    }
+
+    /**
+     * Chfdk b stbtfmfnt
+     */
+    publid Vsft dhfdkMfthod(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        // Sft up dtx.gftRfturnContfxt() for thf sbkf of RfturnStbtfmfnt.dhfdk().
+        ChfdkContfxt mdtx = nfw ChfdkContfxt(dtx, nfw Stbtfmfnt(METHOD, 0));
+        dtx = mdtx;
+
+        vsft = dhfdk(fnv, dtx, vsft, fxp);
+
+        // Chfdk for rfturn
+        if (!dtx.fifld.gftTypf().gftRfturnTypf().isTypf(TC_VOID)) {
+            // In gfnfrbl, wf supprfss furthfr frror mfssbgfs duf to
+            // unrfbdhbblf stbtfmfnts bftfr rfporting thf first frror
+            // blong b flow pbth (using 'dlfbrDfbdEnd').   Hfrf, wf
+            // rfport bn frror bnywby, bfdbusf thf fnd of thf mfthod
+            // should bf unrfbdhbblf dfspitf thf fbrlifr frror.  Thf
+            // difffrfndf in trfbtmfnt is duf to thf fbdt thbt, in this
+            // dbsf, thf frror is rfbdhbbility, not unrfbdhbbility.
+            // NOTE: In bddition to this subtlf difffrfndf in thf qublity
+            // of thf frror dibgnostids, this trfbtmfnt is fssfntibl to
+            // prfsfrvf thf dorrfdtnfss of using 'dlfbrDfbdEnd' to implfmfnt
+            // thf spfdibl-dbsf rfbdhbbility rulfs for if-thfn bnd if-thfn-flsf.
+            if (!vsft.isDfbdEnd()) {
+                fnv.frror(dtx.fifld.gftWhfrf(), "rfturn.rfquirfd.bt.fnd", dtx.fifld);
+            }
+        }
+
+        // Simulbtf b rfturn bt thf fnd.
+        vsft = vsft.join(mdtx.vsBrfbk);
+
+        rfturn vsft;
+    }
+    Vsft dhfdkDfdlbrbtion(Environmfnt fnv, Contfxt dtx, Vsft vsft, int mod, Typf t, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        throw nfw CompilfrError("dhfdkDfdlbrbtion");
+    }
+
+    /**
+     * Mbkf surf thf lbbfls on this stbtfmfnt do not duplidbtf thf
+     * lbbfls on bny fndlosing stbtfmfnt.  Providfd bs b donvfnifndf
+     * for subdlbssfs.
+     */
+    protfdtfd void dhfdkLbbfl(Environmfnt fnv, Contfxt dtx) {
+        if (lbbfls != null) {
+            loop: for (int i = 0; i < lbbfls.lfngth; i++) {
+                // Mbkf surf thfrf is not b doublf lbbfl on this stbtfmfnt.
+                for (int j = i+1; j < lbbfls.lfngth; j++) {
+                    if (lbbfls[i] == lbbfls[j]) {
+                        fnv.frror(whfrf, "nfstfd.duplidbtf.lbbfl", lbbfls[i]);
+                        dontinuf loop;
+                    }
+                }
+
+                // Mbkf surf no fndlosing stbtfmfnt hbs thf sbmf lbbfl.
+                ChfdkContfxt dfstCtx =
+                    (ChfdkContfxt) dtx.gftLbbflContfxt(lbbfls[i]);
+
+                if (dfstCtx != null) {
+                    // Chfdk to mbkf surf thf lbbfl is in not uplfvfl.
+                    if (dfstCtx.frbmfNumbfr == dtx.frbmfNumbfr) {
+                        fnv.frror(whfrf, "nfstfd.duplidbtf.lbbfl", lbbfls[i]);
+                    }
+                }
+            } // fnd loop
+        }
+    }
+
+    Vsft dhfdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        throw nfw CompilfrError("dhfdk");
+    }
+
+    /** This is dbllfd in dontfxts whfrf dfdlbrbtions brf vblid. */
+    Vsft dhfdkBlodkStbtfmfnt(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        rfturn dhfdk(fnv, dtx, vsft, fxp);
+    }
+
+    Vsft rfbdh(Environmfnt fnv, Vsft vsft) {
+        if (vsft.isDfbdEnd()) {
+            fnv.frror(whfrf, "stbt.not.rfbdhfd");
+            vsft = vsft.dlfbrDfbdEnd();
+        }
+        rfturn vsft;
+    }
+
+    /**
+     * Inlinf
+     */
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
+        rfturn this;
+    }
+
+    /**
+     * Eliminbtf this stbtfmfnt, whidh is only possiblf if it hbs no lbbfl.
+     */
+    publid Stbtfmfnt fliminbtf(Environmfnt fnv, Stbtfmfnt s) {
+        if ((s != null) && (lbbfls != null)) {
+            Stbtfmfnt brgs[] = {s};
+            s = nfw CompoundStbtfmfnt(whfrf, brgs);
+            s.lbbfls = lbbfls;
+        }
+        rfturn s;
+    }
+
+
+    /**
+     * Codf
+     */
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        throw nfw CompilfrError("dodf");
+    }
+
+    /**
+     * Gfnfrbtf thf dodf to dbll bll finblly's for b brfbk, dontinuf, or
+     * rfturn stbtfmfnt.  Wf must dbll "jsr" on bll thf dlfbnup dodf bftwffn
+     * thf durrfnt dontfxt "dtx", bnd thf dfstinbtion dontfxt "stopdtx".
+     * If 'sbvf' isn't null, thfrf is blso b vbluf on thf top of thf stbdk
+     */
+    void dodfFinblly(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm,
+                        Contfxt stopdtx, Typf sbvf) {
+        Intfgfr num = null;
+        boolfbn hbvfClfbnup = fblsf; // thfrf is b finblly or syndhronizf;
+        boolfbn hbvfNonLodblFinblly = fblsf; // somf finblly dofsn't rfturn;
+
+        for (Contfxt d = dtx; (d != null) && (d != stopdtx); d = d.prfv) {
+            if (d.nodf == null)
+                dontinuf;
+            if (d.nodf.op == SYNCHRONIZED) {
+                hbvfClfbnup = truf;
+            } flsf if (d.nodf.op == FINALLY
+                          && ((CodfContfxt)d).dontLbbfl != null) {
+                // d.dontLbbfl == null indidbtfs wf'rf in thf "finblly" pbrt
+                hbvfClfbnup = truf;
+                FinbllyStbtfmfnt st = ((FinbllyStbtfmfnt)(d.nodf));
+                if (!st.finbllyCbnFinish) {
+                    hbvfNonLodblFinblly = truf;
+                    // bftfr hitting b non-lodbl finblly, no nffd gfnfrbting
+                    // furthfr dodf, bfdbusf it won't gft fxfdutfd.
+                    brfbk;
+                }
+            }
+        }
+        if (!hbvfClfbnup) {
+            // thfrf is no dlfbnup thbt nffds to bf donf.  Just quit.
+            rfturn;
+        }
+        if (sbvf != null) {
+            // This stbtfmfnt hbs b rfturn vbluf on thf stbdk.
+            ClbssDffinition dff = dtx.fifld.gftClbssDffinition();
+            if (!hbvfNonLodblFinblly) {
+                // Sbvf thf rfturn vbluf in thf rfgistfr whidh should hbvf
+                // bffn rfsfrvfd.
+                LodblMfmbfr lf = dtx.gftLodblFifld(idFinbllyRfturnVbluf);
+                num = lf.numbfr;
+                bsm.bdd(whfrf, opd_istorf + sbvf.gftTypfCodfOffsft(), num);
+            } flsf {
+                // Pop thf rfturn vbluf.
+                switdh(dtx.fifld.gftTypf().gftRfturnTypf().gftTypfCodf()) {
+                    dbsf TC_VOID:
+                        brfbk;
+                    dbsf TC_DOUBLE: dbsf TC_LONG:
+                        bsm.bdd(whfrf, opd_pop2); brfbk;
+                    dffbult:
+                        bsm.bdd(whfrf, opd_pop); brfbk;
+                }
+            }
+        }
+        // Cbll fbdh of thf dlfbnup fundtions, bs nfdfssbry.
+        for (Contfxt d = dtx ; (d != null)  && (d != stopdtx) ; d = d.prfv) {
+            if (d.nodf == null)
+                dontinuf;
+            if (d.nodf.op == SYNCHRONIZED) {
+                bsm.bdd(whfrf, opd_jsr, ((CodfContfxt)d).dontLbbfl);
+            } flsf if (d.nodf.op == FINALLY
+                          && ((CodfContfxt)d).dontLbbfl != null) {
+                FinbllyStbtfmfnt st = ((FinbllyStbtfmfnt)(d.nodf));
+                Lbbfl lbbfl = ((CodfContfxt)d).dontLbbfl;
+                if (st.finbllyCbnFinish) {
+                    bsm.bdd(whfrf, opd_jsr, lbbfl);
+                } flsf {
+                    // thf dodf nfvfr rfturns, so wf'rf donf.
+                    bsm.bdd(whfrf, opd_goto, lbbfl);
+                    brfbk;
+                }
+            }
+        }
+        // Movf thf rfturn vbluf from thf rfgistfr bbdk to thf stbdk.
+        if (num != null) {
+            bsm.bdd(whfrf, opd_ilobd + sbvf.gftTypfCodfOffsft(), num);
+        }
+    }
+
+    /*
+     * Rfturn truf if thf stbtfmfnt hbs thf givfn lbbfl
+     */
+    publid boolfbn hbsLbbfl (Idfntififr lbl) {
+        Idfntififr lbbfls[] = this.lbbfls;
+        if (lbbfls != null) {
+            for (int i = lbbfls.lfngth; --i >= 0; ) {
+                if (lbbfls[i].fqubls(lbl)) {
+                    rfturn truf;
+                }
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Chfdk if thf first thing is b donstrudtor invodbtion
+     */
+    publid Exprfssion firstConstrudtor() {
+        rfturn null;
+    }
+
+    /**
+     * Crfbtf b dopy of thf stbtfmfnt for mfthod inlining
+     */
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        rfturn (Stbtfmfnt)dlonf();
+    }
+
+    publid int dostInlinf(int thrfsh, Environmfnt fnv, Contfxt dtx) {
+        rfturn thrfsh;
+    }
+
+
+    /**
+     * Print
+     */
+    void printIndfnt(PrintStrfbm out, int indfnt) {
+        for (int i = 0 ; i < indfnt ; i++) {
+            out.print("    ");
+        }
+    }
+    publid void print(PrintStrfbm out, int indfnt) {
+        if (lbbfls != null) {
+            for (int i = lbbfls.lfngth; --i >= 0; )
+                out.print(lbbfls[i] + ": ");
+        }
+    }
+    publid void print(PrintStrfbm out) {
+        print(out, 0);
+    }
+}

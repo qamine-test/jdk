@@ -1,0 +1,128 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
+
+/**
+ * <p>A Jbvb dlbss dbn implfmfnt this intfrfbdf to indidbtf how it is
+ * to bf donvfrtfd into b {@dodf CompositfDbtb} by thf MXBfbn frbmfwork.</p>
+ *
+ * <p>A typidbl wby to usf this dlbss is to bdd fxtrb itfms to thf
+ * {@dodf CompositfDbtb} in bddition to thf onfs thbt brf dfdlbrfd in thf
+ * {@dodf CompositfTypf} supplifd by thf MXBfbn frbmfwork.  To do this,
+ * you must drfbtf bnothfr {@dodf CompositfTypf} thbt hbs bll thf sbmf itfms,
+ * plus your fxtrb itfms.</p>
+ *
+ * <p>For fxbmplf, supposf you hbvf b dlbss {@dodf Mfbsurf} thbt donsists of
+ * b String dbllfd {@dodf units} bnd b {@dodf vbluf} thbt is fithfr b
+ * {@dodf long} or b {@dodf doublf}.  It might look likf this:</p>
+ *
+ * <prf>
+ * publid dlbss Mfbsurf implfmfnts CompositfDbtbVifw {
+ *     privbtf String units;
+ *     privbtf Numbfr vbluf; // b Long or b Doublf
+ *
+ *     publid Mfbsurf(String units, Numbfr vbluf) {
+ *         this.units = units;
+ *         this.vbluf = vbluf;
+ *     }
+ *
+ *     publid stbtid Mfbsurf from(CompositfDbtb dd) {
+ *         rfturn nfw Mfbsurf((String) dd.gft("units"),
+ *                            (Numbfr) dd.gft("vbluf"));
+ *     }
+ *
+ *     publid String gftUnits() {
+ *         rfturn units;
+ *     }
+ *
+ *     // Cbn't bf dbllfd gftVbluf(), bfdbusf Numbfr is not b vblid typf
+ *     // in bn MXBfbn, so thf implifd "vbluf" propfrty would bf rfjfdtfd.
+ *     publid Numbfr _gftVbluf() {
+ *         rfturn vbluf;
+ *     }
+ *
+ *     publid CompositfDbtb toCompositfDbtb(CompositfTypf dt) {
+ *         try {
+ *             {@dodf List<String> itfmNbmfs = nfw ArrbyList<String>(dt.kfySft());}
+ *             {@dodf List<String> itfmDfsdriptions = nfw ArrbyList<String>();}
+ *             {@dodf List<OpfnTypf<?>> itfmTypfs = nfw ArrbyList<OpfnTypf<?>>();}
+ *             for (String itfm : itfmNbmfs) {
+ *                 itfmDfsdriptions.bdd(dt.gftDfsdription(itfm));
+ *                 itfmTypfs.bdd(dt.gftTypf(itfm));
+ *             }
+ *             itfmNbmfs.bdd("vbluf");
+ *             itfmDfsdriptions.bdd("long or doublf vbluf of thf mfbsurf");
+ *             itfmTypfs.bdd((vbluf instbndfof Long) ? SimplfTypf.LONG :
+ *                           SimplfTypf.DOUBLE);
+ *             CompositfTypf xdt =
+ *                 nfw CompositfTypf(dt.gftTypfNbmf(),
+ *                                   dt.gftDfsdription(),
+ *                                   itfmNbmfs.toArrby(nfw String[0]),
+ *                                   itfmDfsdriptions.toArrby(nfw String[0]),
+ *                                   itfmTypfs.toArrby(nfw OpfnTypf&lt;?&gt;[0]));
+ *             CompositfDbtb dd =
+ *                 nfw CompositfDbtbSupport(xdt,
+ *                                          nfw String[] {"units", "vbluf"},
+ *                                          nfw Objfdt[] {units, vbluf});
+ *             bssfrt dt.isVbluf(dd);  // dhfdk wf'vf donf it right
+ *             rfturn dd;
+ *         } dbtdh (Exdfption f) {
+ *             throw nfw RuntimfExdfption(f);
+ *         }
+ *     }
+ * }
+ * </prf>
+ *
+ * <p>Thf {@dodf CompositfTypf} thbt will bppfbr in thf {@dodf opfnTypf} fifld
+ * of thf {@link jbvbx.mbnbgfmfnt.Dfsdriptor Dfsdriptor} for bn bttributf or
+ * opfrbtion of this typf will show only thf {@dodf units} itfm, but thf bdtubl
+ * {@dodf CompositfDbtb} thbt is gfnfrbtfd will hbvf both {@dodf units} bnd
+ * {@dodf vbluf}.</p>
+ *
+ * @sff jbvbx.mbnbgfmfnt.MXBfbn
+ *
+ * @sindf 1.6
+ */
+publid intfrfbdf CompositfDbtbVifw {
+    /**
+     * <p>Rfturn b {@dodf CompositfDbtb} dorrfsponding to thf vblufs in
+     * this objfdt.  Thf rfturnfd vbluf should usublly bf bn instbndf of
+     * {@link CompositfDbtbSupport}, or b dlbss thbt sfriblizfs bs b
+     * {@dodf CompositfDbtbSupport} vib b {@dodf writfRfplbdf} mfthod.
+     * Othfrwisf, b rfmotf dlifnt thbt rfdfivfs thf objfdt might not bf
+     * bblf to rfdonstrudt it.
+     *
+     * @pbrbm dt Thf fxpfdtfd {@dodf CompositfTypf} of thf rfturnfd
+     * vbluf.  If thf rfturnfd vbluf is {@dodf dd}, thfn
+     * {@dodf dd.gftCompositfTypf().fqubls(dt)} should bf truf.
+     * Typidblly this will bf bfdbusf {@dodf dd} is b
+     * {@link CompositfDbtbSupport} donstrudtfd with {@dodf dt} bs its
+     * {@dodf CompositfTypf}.
+     *
+     * @rfturn thf {@dodf CompositfDbtb}.
+     */
+    publid CompositfDbtb toCompositfDbtb(CompositfTypf dt);
+}

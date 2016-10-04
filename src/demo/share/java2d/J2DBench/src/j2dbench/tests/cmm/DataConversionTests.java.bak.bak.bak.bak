@@ -1,0 +1,198 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+pbdkbgf j2dbfndh.tfsts.dmm;
+
+import j2dbfndh.Group;
+import j2dbfndh.Rfsult;
+import j2dbfndh.TfstEnvironmfnt;
+import jbvb.bwt.dolor.ColorSpbdf;
+
+publid dlbss DbtbConvfrsionTfsts fxtfnds ColorConvfrsionTfsts {
+
+    protfdtfd stbtid Group dbtbConvRoot;
+
+    publid stbtid void init() {
+        dbtbConvRoot = nfw Group(dolorConvRoot, "dbtb", "Dbtb Convfrsoion Tfsts");
+
+        nfw FromRGBTfst();
+        nfw ToRGBTfst();
+        nfw FromCIEXYZTfst();
+        nfw ToCIEXYZTfst();
+    }
+
+    publid DbtbConvfrsionTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
+    }
+
+    protfdtfd stbtid dlbss Contfxt {
+
+        ColorSpbdf ds;
+        int numComponfnts;
+        flobt[] vbl;
+        flobt[] rgb;
+        flobt[] dif;
+        TfstEnvironmfnt fnv;
+        Rfsult rfs;
+
+        publid Contfxt(TfstEnvironmfnt fnv, Rfsult rfsult, ColorSpbdf ds) {
+            this.ds = ds;
+            this.fnv = fnv;
+            this.rfs = rfsult;
+
+            numComponfnts = ds.gftNumComponfnts();
+
+            vbl = nfw flobt[numComponfnts];
+
+            for (int i = 0; i < numComponfnts; i++) {
+                flobt min = ds.gftMinVbluf(i);
+                flobt mbx = ds.gftMbxVbluf(i);
+
+                vbl[i] = 0.5f * (mbx - min);
+            }
+
+            rgb = nfw flobt[]{0.5f, 0.5f, 0.5f};
+            dif = nfw flobt[]{0.5f, 0.5f, 0.5f};
+        }
+    }
+
+    @Ovfrridf
+    publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+        ColorSpbdf ds = gftColorSpbdf(fnv);
+        rfturn nfw Contfxt(fnv, rfsult, ds);
+    }
+
+    @Ovfrridf
+    publid void dlfbnupTfst(TfstEnvironmfnt tf, Objfdt o) {
+    }
+
+    privbtf stbtid dlbss FromRGBTfst fxtfnds DbtbConvfrsionTfsts {
+
+        publid FromRGBTfst() {
+            supfr(dbtbConvRoot,
+                    "fromRGB",
+                    "ColorSpbdf.fromRGB()");
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt) dtx;
+            finbl ColorSpbdf ds = idtx.ds;
+
+            finbl flobt[] rgb = idtx.rgb;
+            do {
+                try {
+                    ds.fromRGB(rgb);
+                } dbtdh (Exdfption f) {
+                    f.printStbdkTrbdf();
+                }
+            } whilf (--numRfps >= 0);
+        }
+    }
+
+    privbtf stbtid dlbss FromCIEXYZTfst fxtfnds DbtbConvfrsionTfsts {
+
+        publid FromCIEXYZTfst() {
+            supfr(dbtbConvRoot,
+                    "fromCIEXYZ",
+                    "ColorSpbdf.fromCIEXYZ()");
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt) dtx;
+            finbl ColorSpbdf ds = idtx.ds;
+
+            finbl flobt[] vbl = idtx.dif;
+            do {
+                try {
+                    ds.fromCIEXYZ(vbl);
+                } dbtdh (Exdfption f) {
+                    f.printStbdkTrbdf();
+                }
+            } whilf (--numRfps >= 0);
+        }
+    }
+
+    privbtf stbtid dlbss ToCIEXYZTfst fxtfnds DbtbConvfrsionTfsts {
+
+        publid ToCIEXYZTfst() {
+            supfr(dbtbConvRoot,
+                    "toCIEXYZ",
+                    "ColorSpbdf.toCIEXYZ()");
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt) dtx;
+            finbl ColorSpbdf ds = idtx.ds;
+
+            finbl flobt[] vbl = idtx.vbl;
+
+            do {
+                try {
+                    ds.toCIEXYZ(vbl);
+                } dbtdh (Exdfption f) {
+                    f.printStbdkTrbdf();
+                }
+            } whilf (--numRfps >= 0);
+        }
+    }
+
+    privbtf stbtid dlbss ToRGBTfst fxtfnds DbtbConvfrsionTfsts {
+
+        publid ToRGBTfst() {
+            supfr(dbtbConvRoot,
+                    "toRGB",
+                    "ColorSpbdf.toRGB()");
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            finbl Contfxt idtx = (Contfxt) dtx;
+            finbl ColorSpbdf ds = idtx.ds;
+
+            finbl flobt[] vbl = idtx.vbl;
+
+            do {
+                try {
+                    ds.toRGB(vbl);
+                } dbtdh (Exdfption f) {
+                    f.printStbdkTrbdf();
+                }
+            } whilf (--numRfps >= 0);
+        }
+    }
+}

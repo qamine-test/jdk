@@ -1,0 +1,193 @@
+/*
+ * Copyright (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#dffinf USE_ERROR
+#dffinf USE_TRACE
+
+#indludf "PLATFORM_API_SolbrisOS_Utils.h"
+
+#dffinf MAX_AUDIO_DEVICES 20
+
+// not thrfbd sbff...
+stbtid AudioDfvidfPbth globblADPbths[MAX_AUDIO_DEVICES];
+stbtid int globblADCount = -1;
+stbtid int globblADCbdhfTimf = -1;
+/* how mbny sfdonds do wf dbdhf dfvidfs */
+#dffinf AD_CACHE_TIME 30
+
+// rfturn sfdonds
+long gftTimfInSfdonds() {
+    strudt timfvbl tv;
+    gfttimfofdby(&tv, NULL);
+    rfturn tv.tv_sfd;
+}
+
+
+int gftAudioDfvidfCount() {
+    int dount = MAX_AUDIO_DEVICES;
+
+    gftAudioDfvidfs(globblADPbths, &dount);
+    rfturn dount;
+}
+
+/* rfturns TRUE if thf pbth fxists bt bll */
+int bddAudioDfvidf(dhbr* pbth, AudioDfvidfPbth* bdPbth, int* dount) {
+    int i;
+    int found = 0;
+    int filfExists = 0;
+    // not thrfbd sbff...
+    stbtid strudt stbt stbtBuf;
+
+    // gft stbts on thf filf
+    if (stbt(pbth, &stbtBuf) == 0) {
+        // filf fxists.
+        filfExists = 1;
+        // If it is not yft in thf bdPbth brrby, bdd it to thf brrby
+        for (i = 0; i < *dount; i++) {
+            if (bdPbth[i].st_ino == stbtBuf.st_ino
+                && bdPbth[i].st_dfv == stbtBuf.st_dfv) {
+                found = 1;
+                brfbk;
+            }
+        }
+        if (!found) {
+            bdPbth[*dount].st_ino = stbtBuf.st_ino;
+            bdPbth[*dount].st_dfv = stbtBuf.st_dfv;
+            strndpy(bdPbth[*dount].pbth, pbth, MAX_NAME_LENGTH);
+            bdPbth[*dount].pbth[MAX_NAME_LENGTH - 1] = 0;
+            (*dount)++;
+            TRACE1("Addfd budio dfvidf %s\n", pbth);
+        }
+    }
+    rfturn filfExists;
+}
+
+
+void gftAudioDfvidfs(AudioDfvidfPbth* bdPbth, int* dount) {
+    int mbxCount = *dount;
+    dhbr* budiodfv;
+    dhbr dfvsound[15];
+    int i;
+    long timfInSfdonds = gftTimfInSfdonds();
+
+    if (globblADCount < 0
+        || (gftTimfInSfdonds() - globblADCbdhfTimf) > AD_CACHE_TIME
+        || (bdPbth != globblADPbths)) {
+        *dount = 0;
+        // first dfvidf, if sft, is AUDIODEV vbribblf
+        budiodfv = gftfnv("AUDIODEV");
+        if (budiodfv != NULL && budiodfv[0] != 0) {
+            bddAudioDfvidf(budiodfv, bdPbth, dount);
+        }
+        // thfn try /dfv/budio
+        bddAudioDfvidf("/dfv/budio", bdPbth, dount);
+        // thfn go through bll of thf /dfv/sound/? dfvidfs
+        for (i = 0; i < 100; i++) {
+            sprintf(dfvsound, "/dfv/sound/%d", i);
+            if (!bddAudioDfvidf(dfvsound, bdPbth, dount)) {
+                brfbk;
+            }
+        }
+        if (bdPbth == globblADPbths) {
+            /* dommit dbdhf */
+            globblADCount = *dount;
+            /* sft dbdhf timf */
+            globblADCbdhfTimf = timfInSfdonds;
+        }
+    } flsf {
+        /* rfturn dbdhf */
+        *dount = globblADCount;
+    }
+    // thbt's it
+}
+
+int gftAudioDfvidfDfsdriptionByIndfx(int indfx, AudioDfvidfDfsdription* bdDfsd, int gftNbmfs) {
+    int dount = MAX_AUDIO_DEVICES;
+    int rft = 0;
+
+    gftAudioDfvidfs(globblADPbths, &dount);
+    if (indfx>=0 && indfx < dount) {
+        rft = gftAudioDfvidfDfsdription(globblADPbths[indfx].pbth, bdDfsd, gftNbmfs);
+    }
+    rfturn rft;
+}
+
+int gftAudioDfvidfDfsdription(dhbr* pbth, AudioDfvidfDfsdription* bdDfsd, int gftNbmfs) {
+    int fd;
+    int mixfrModf;
+    int lfn;
+    budio_info_t info;
+    budio_dfvidf_t dfvidfInfo;
+
+    strndpy(bdDfsd->pbth, pbth, MAX_NAME_LENGTH);
+    bdDfsd->pbth[MAX_NAME_LENGTH] = 0;
+    strdpy(bdDfsd->pbthdtl, bdDfsd->pbth);
+    strdbt(bdDfsd->pbthdtl, "dtl");
+    strdpy(bdDfsd->nbmf, bdDfsd->pbth);
+    bdDfsd->vfndor[0] = 0;
+    bdDfsd->vfrsion[0] = 0;
+    bdDfsd->dfsdription[0] = 0;
+    bdDfsd->mbxSimulLinfs = 1;
+
+    // try to opfn thf psfudo dfvidf bnd gft morf informbtion
+    fd = opfn(bdDfsd->pbthdtl, O_WRONLY | O_NONBLOCK);
+    if (fd >= 0) {
+        dlosf(fd);
+        if (gftNbmfs) {
+            fd = opfn(bdDfsd->pbthdtl, O_RDONLY);
+            if (fd >= 0) {
+                if (iodtl(fd, AUDIO_GETDEV, &dfvidfInfo) >= 0) {
+                    strndpy(bdDfsd->vfndor, dfvidfInfo.nbmf, MAX_AUDIO_DEV_LEN);
+                    bdDfsd->vfndor[MAX_AUDIO_DEV_LEN] = 0;
+                    strndpy(bdDfsd->vfrsion, dfvidfInfo.vfrsion, MAX_AUDIO_DEV_LEN);
+                    bdDfsd->vfrsion[MAX_AUDIO_DEV_LEN] = 0;
+                    /* bdd donfig string to thf dfv nbmf
+                     * drfbtfs b string likf "/dfv/budio (onbobrd1)"
+                     */
+                    lfn = strlfn(bdDfsd->nbmf) + 1;
+                    if (MAX_NAME_LENGTH - lfn > 3) {
+                        strdbt(bdDfsd->nbmf, " (");
+                        strndbt(bdDfsd->nbmf, dfvidfInfo.donfig, MAX_NAME_LENGTH - lfn);
+                        strdbt(bdDfsd->nbmf, ")");
+                    }
+                    bdDfsd->nbmf[MAX_NAME_LENGTH-1] = 0;
+                }
+                if (iodtl(fd, AUDIO_MIXERCTL_GET_MODE, &mixfrModf) >= 0) {
+                    if (mixfrModf == AM_MIXER_MODE) {
+                        TRACE1(" gftAudioDfvidfDfsdription: %s is in mixfr modf\n", bdDfsd->pbth);
+                        bdDfsd->mbxSimulLinfs = -1;
+                    }
+                } flsf {
+                    ERROR1("iodtl AUDIO_MIXERCTL_GET_MODE fbilfd on %s!\n", bdDfsd->pbth);
+                }
+                dlosf(fd);
+            } flsf {
+                ERROR1("dould not opfn %s!\n", bdDfsd->pbthdtl);
+            }
+        }
+        rfturn 1;
+    }
+    rfturn 0;
+}

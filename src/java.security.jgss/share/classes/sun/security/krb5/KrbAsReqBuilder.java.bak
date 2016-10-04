@@ -1,401 +1,401 @@
 /*
- * Copyright (c) 2010, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import java.io.IOException;
-import java.util.Arrays;
-import javax.security.auth.kerberos.KeyTab;
-import sun.security.jgss.krb5.Krb5Util;
-import sun.security.krb5.internal.HostAddresses;
-import sun.security.krb5.internal.KDCOptions;
-import sun.security.krb5.internal.KRBError;
-import sun.security.krb5.internal.KerberosTime;
-import sun.security.krb5.internal.Krb5;
-import sun.security.krb5.internal.PAData;
-import sun.security.krb5.internal.crypto.EType;
+import jbvb.io.IOExdfption;
+import jbvb.util.Arrbys;
+import jbvbx.sfdurity.buti.kfrbfros.KfyTbb;
+import sun.sfdurity.jgss.krb5.Krb5Util;
+import sun.sfdurity.krb5.intfrnbl.HostAddrfssfs;
+import sun.sfdurity.krb5.intfrnbl.KDCOptions;
+import sun.sfdurity.krb5.intfrnbl.KRBError;
+import sun.sfdurity.krb5.intfrnbl.KfrbfrosTimf;
+import sun.sfdurity.krb5.intfrnbl.Krb5;
+import sun.sfdurity.krb5.intfrnbl.PADbtb;
+import sun.sfdurity.krb5.intfrnbl.drypto.ETypf;
 
 /**
- * A manager class for AS-REQ communications.
+ * A mbnbgfr dlbss for AS-REQ dommunidbtions.
  *
- * This class does:
- * 1. Gather information to create AS-REQ
- * 2. Create and send AS-REQ
- * 3. Receive AS-REP and KRB-ERROR (-KRB_ERR_RESPONSE_TOO_BIG) and parse them
- * 4. Emit credentials and secret keys (for JAAS storeKey=true with password)
+ * Tiis dlbss dofs:
+ * 1. Gbtifr informbtion to drfbtf AS-REQ
+ * 2. Crfbtf bnd sfnd AS-REQ
+ * 3. Rfdfivf AS-REP bnd KRB-ERROR (-KRB_ERR_RESPONSE_TOO_BIG) bnd pbrsf tifm
+ * 4. Emit drfdfntibls bnd sfdrft kfys (for JAAS storfKfy=truf witi pbssword)
  *
- * This class does not:
- * 1. Deal with real communications (KdcComm does it, and TGS-REQ)
- *    a. Name of KDCs for a realm
- *    b. Server availability, timeout, UDP or TCP
+ * Tiis dlbss dofs not:
+ * 1. Dfbl witi rfbl dommunidbtions (KddComm dofs it, bnd TGS-REQ)
+ *    b. Nbmf of KDCs for b rfblm
+ *    b. Sfrvfr bvbilbbility, timfout, UDP or TCP
  *    d. KRB_ERR_RESPONSE_TOO_BIG
- * 2. Stores its own copy of password, this means:
- *    a. Do not change/wipe it before Builder finish
- *    b. Builder will not wipe it for you
+ * 2. Storfs its own dopy of pbssword, tiis mfbns:
+ *    b. Do not dibngf/wipf it bfforf Buildfr finisi
+ *    b. Buildfr will not wipf it for you
  *
- * With this class:
- * 1. KrbAsReq has only one constructor
- * 2. Krb5LoginModule and Kinit call a single builder
- * 3. Better handling of sensitive info
+ * Witi tiis dlbss:
+ * 1. KrbAsRfq ibs only onf donstrudtor
+ * 2. Krb5LoginModulf bnd Kinit dbll b singlf buildfr
+ * 3. Bfttfr ibndling of sfnsitivf info
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public final class KrbAsReqBuilder {
+publid finbl dlbss KrbAsRfqBuildfr {
 
-    // Common data for AS-REQ fields
-    private KDCOptions options;
-    private PrincipalName cname;
-    private PrincipalName sname;
-    private KerberosTime from;
-    private KerberosTime till;
-    private KerberosTime rtime;
-    private HostAddresses addresses;
+    // Common dbtb for AS-REQ fiflds
+    privbtf KDCOptions options;
+    privbtf PrindipblNbmf dnbmf;
+    privbtf PrindipblNbmf snbmf;
+    privbtf KfrbfrosTimf from;
+    privbtf KfrbfrosTimf till;
+    privbtf KfrbfrosTimf rtimf;
+    privbtf HostAddrfssfs bddrfssfs;
 
-    // Secret source: can't be changed once assigned, only one (of the two
-    // sources) can be set to non-null
-    private final char[] password;
-    private final KeyTab ktab;
+    // Sfdrft sourdf: dbn't bf dibngfd ondf bssignfd, only onf (of tif two
+    // sourdfs) dbn bf sft to non-null
+    privbtf finbl dibr[] pbssword;
+    privbtf finbl KfyTbb ktbb;
 
-    // Used to create a ENC-TIMESTAMP in the 2nd AS-REQ
-    private PAData[] paList;        // PA-DATA from both KRB-ERROR and AS-REP.
-                                    // Used by getKeys() only.
-                                    // Only AS-REP should be enough per RFC,
-                                    // combined in case etypes are different.
+    // Usfd to drfbtf b ENC-TIMESTAMP in tif 2nd AS-REQ
+    privbtf PADbtb[] pbList;        // PA-DATA from boti KRB-ERROR bnd AS-REP.
+                                    // Usfd by gftKfys() only.
+                                    // Only AS-REP siould bf fnougi pfr RFC,
+                                    // dombinfd in dbsf ftypfs brf difffrfnt.
 
-    // The generated and received:
-    private KrbAsReq req;
-    private KrbAsRep rep;
+    // Tif gfnfrbtfd bnd rfdfivfd:
+    privbtf KrbAsRfq rfq;
+    privbtf KrbAsRfp rfp;
 
-    private static enum State {
-        INIT,       // Initialized, can still add more initialization info
-        REQ_OK,     // AS-REQ performed
-        DESTROYED,  // Destroyed, not usable anymore
+    privbtf stbtid fnum Stbtf {
+        INIT,       // Initiblizfd, dbn still bdd morf initiblizbtion info
+        REQ_OK,     // AS-REQ pfrformfd
+        DESTROYED,  // Dfstroyfd, not usbblf bnymorf
     }
-    private State state;
+    privbtf Stbtf stbtf;
 
-    // Called by other constructors
-    private void init(PrincipalName cname)
-            throws KrbException {
-        this.cname = cname;
-        state = State.INIT;
+    // Cbllfd by otifr donstrudtors
+    privbtf void init(PrindipblNbmf dnbmf)
+            tirows KrbExdfption {
+        tiis.dnbmf = dnbmf;
+        stbtf = Stbtf.INIT;
     }
 
     /**
-     * Creates a builder to be used by {@code cname} with existing keys.
+     * Crfbtfs b buildfr to bf usfd by {@dodf dnbmf} witi fxisting kfys.
      *
-     * @param cname the client of the AS-REQ. Must not be null. Might have no
-     * realm, where default realm will be used. This realm will be the target
-     * realm for AS-REQ. I believe a client should only get initial TGT from
-     * its own realm.
-     * @param keys must not be null. if empty, might be quite useless.
-     * This argument will neither be modified nor stored by the method.
-     * @throws KrbException
+     * @pbrbm dnbmf tif dlifnt of tif AS-REQ. Must not bf null. Migit ibvf no
+     * rfblm, wifrf dffbult rfblm will bf usfd. Tiis rfblm will bf tif tbrgft
+     * rfblm for AS-REQ. I bflifvf b dlifnt siould only gft initibl TGT from
+     * its own rfblm.
+     * @pbrbm kfys must not bf null. if fmpty, migit bf quitf usflfss.
+     * Tiis brgumfnt will nfitifr bf modififd nor storfd by tif mftiod.
+     * @tirows KrbExdfption
      */
-    public KrbAsReqBuilder(PrincipalName cname, KeyTab ktab)
-            throws KrbException {
-        init(cname);
-        this.ktab = ktab;
-        this.password = null;
+    publid KrbAsRfqBuildfr(PrindipblNbmf dnbmf, KfyTbb ktbb)
+            tirows KrbExdfption {
+        init(dnbmf);
+        tiis.ktbb = ktbb;
+        tiis.pbssword = null;
     }
 
     /**
-     * Creates a builder to be used by {@code cname} with a known password.
+     * Crfbtfs b buildfr to bf usfd by {@dodf dnbmf} witi b known pbssword.
      *
-     * @param cname the client of the AS-REQ. Must not be null. Might have no
-     * realm, where default realm will be used. This realm will be the target
-     * realm for AS-REQ. I believe a client should only get initial TGT from
-     * its own realm.
-     * @param pass must not be null. This argument will neither be modified
-     * nor stored by the method.
-     * @throws KrbException
+     * @pbrbm dnbmf tif dlifnt of tif AS-REQ. Must not bf null. Migit ibvf no
+     * rfblm, wifrf dffbult rfblm will bf usfd. Tiis rfblm will bf tif tbrgft
+     * rfblm for AS-REQ. I bflifvf b dlifnt siould only gft initibl TGT from
+     * its own rfblm.
+     * @pbrbm pbss must not bf null. Tiis brgumfnt will nfitifr bf modififd
+     * nor storfd by tif mftiod.
+     * @tirows KrbExdfption
      */
-    public KrbAsReqBuilder(PrincipalName cname, char[] pass)
-            throws KrbException {
-        init(cname);
-        this.password = pass.clone();
-        this.ktab = null;
+    publid KrbAsRfqBuildfr(PrindipblNbmf dnbmf, dibr[] pbss)
+            tirows KrbExdfption {
+        init(dnbmf);
+        tiis.pbssword = pbss.dlonf();
+        tiis.ktbb = null;
     }
 
     /**
-     * Retrieves an array of secret keys for the client. This is used when
-     * the client supplies password but need keys to act as an acceptor. For
-     * an initiator, it must be called after AS-REQ is performed (state is OK).
-     * For an acceptor, it can be called when this KrbAsReqBuilder object is
-     * constructed (state is INIT).
-     * @param isInitiator if the caller is an initiator
-     * @return generated keys from password. PA-DATA from server might be used.
-     * All "default_tkt_enctypes" keys will be generated, Never null.
-     * @throws IllegalStateException if not constructed from a password
-     * @throws KrbException
+     * Rftrifvfs bn brrby of sfdrft kfys for tif dlifnt. Tiis is usfd wifn
+     * tif dlifnt supplifs pbssword but nffd kfys to bdt bs bn bddfptor. For
+     * bn initibtor, it must bf dbllfd bftfr AS-REQ is pfrformfd (stbtf is OK).
+     * For bn bddfptor, it dbn bf dbllfd wifn tiis KrbAsRfqBuildfr objfdt is
+     * donstrudtfd (stbtf is INIT).
+     * @pbrbm isInitibtor if tif dbllfr is bn initibtor
+     * @rfturn gfnfrbtfd kfys from pbssword. PA-DATA from sfrvfr migit bf usfd.
+     * All "dffbult_tkt_fndtypfs" kfys will bf gfnfrbtfd, Nfvfr null.
+     * @tirows IllfgblStbtfExdfption if not donstrudtfd from b pbssword
+     * @tirows KrbExdfption
      */
-    public EncryptionKey[] getKeys(boolean isInitiator) throws KrbException {
-        checkState(isInitiator?State.REQ_OK:State.INIT, "Cannot get keys");
-        if (password != null) {
-            int[] eTypes = EType.getDefaults("default_tkt_enctypes");
-            EncryptionKey[] result = new EncryptionKey[eTypes.length];
+    publid EndryptionKfy[] gftKfys(boolfbn isInitibtor) tirows KrbExdfption {
+        difdkStbtf(isInitibtor?Stbtf.REQ_OK:Stbtf.INIT, "Cbnnot gft kfys");
+        if (pbssword != null) {
+            int[] fTypfs = ETypf.gftDffbults("dffbult_tkt_fndtypfs");
+            EndryptionKfy[] rfsult = nfw EndryptionKfy[fTypfs.lfngti];
 
             /*
-             * Returns an array of keys. Before KrbAsReqBuilder, all etypes
-             * use the same salt which is either the default one or a new salt
-             * coming from PA-DATA. After KrbAsReqBuilder, each etype uses its
-             * own new salt from PA-DATA. For an etype with no PA-DATA new salt
-             * at all, what salt should it use?
+             * Rfturns bn brrby of kfys. Bfforf KrbAsRfqBuildfr, bll ftypfs
+             * usf tif sbmf sblt wiidi is fitifr tif dffbult onf or b nfw sblt
+             * doming from PA-DATA. Aftfr KrbAsRfqBuildfr, fbdi ftypf usfs its
+             * own nfw sblt from PA-DATA. For bn ftypf witi no PA-DATA nfw sblt
+             * bt bll, wibt sblt siould it usf?
              *
-             * Commonly, the stored keys are only to be used by an acceptor to
-             * decrypt service ticket in AP-REQ. Most impls only allow keys
-             * from a keytab on acceptor, but unfortunately (?) Java supports
-             * acceptor using password. In this case, if the service ticket is
-             * encrypted using an etype which we don't have PA-DATA new salt,
-             * using the default salt might be wrong (say, case-insensitive
-             * user name). Instead, we would use the new salt of another etype.
+             * Commonly, tif storfd kfys brf only to bf usfd by bn bddfptor to
+             * dfdrypt sfrvidf tidkft in AP-REQ. Most impls only bllow kfys
+             * from b kfytbb on bddfptor, but unfortunbtfly (?) Jbvb supports
+             * bddfptor using pbssword. In tiis dbsf, if tif sfrvidf tidkft is
+             * fndryptfd using bn ftypf wiidi wf don't ibvf PA-DATA nfw sblt,
+             * using tif dffbult sblt migit bf wrong (sby, dbsf-insfnsitivf
+             * usfr nbmf). Instfbd, wf would usf tif nfw sblt of bnotifr ftypf.
              */
 
-            String salt = null;     // the saved new salt
+            String sblt = null;     // tif sbvfd nfw sblt
             try {
-                for (int i=0; i<eTypes.length; i++) {
-                    // First round, only calculate those have a PA entry
-                    PAData.SaltAndParams snp =
-                            PAData.getSaltAndParams(eTypes[i], paList);
+                for (int i=0; i<fTypfs.lfngti; i++) {
+                    // First round, only dbldulbtf tiosf ibvf b PA fntry
+                    PADbtb.SbltAndPbrbms snp =
+                            PADbtb.gftSbltAndPbrbms(fTypfs[i], pbList);
                     if (snp != null) {
-                        // Never uses a salt for rc4-hmac, it does not use
-                        // a salt at all
-                        if (eTypes[i] != EncryptedData.ETYPE_ARCFOUR_HMAC &&
-                                snp.salt != null) {
-                            salt = snp.salt;
+                        // Nfvfr usfs b sblt for rd4-imbd, it dofs not usf
+                        // b sblt bt bll
+                        if (fTypfs[i] != EndryptfdDbtb.ETYPE_ARCFOUR_HMAC &&
+                                snp.sblt != null) {
+                            sblt = snp.sblt;
                         }
-                        result[i] = EncryptionKey.acquireSecretKey(cname,
-                                password,
-                                eTypes[i],
+                        rfsult[i] = EndryptionKfy.bdquirfSfdrftKfy(dnbmf,
+                                pbssword,
+                                fTypfs[i],
                                 snp);
                     }
                 }
-                // No new salt from PA, maybe empty, maybe only rc4-hmac
-                if (salt == null) salt = cname.getSalt();
-                for (int i=0; i<eTypes.length; i++) {
-                    // Second round, calculate those with no PA entry
-                    if (result[i] == null) {
-                        result[i] = EncryptionKey.acquireSecretKey(password,
-                                salt,
-                                eTypes[i],
+                // No nfw sblt from PA, mbybf fmpty, mbybf only rd4-imbd
+                if (sblt == null) sblt = dnbmf.gftSblt();
+                for (int i=0; i<fTypfs.lfngti; i++) {
+                    // Sfdond round, dbldulbtf tiosf witi no PA fntry
+                    if (rfsult[i] == null) {
+                        rfsult[i] = EndryptionKfy.bdquirfSfdrftKfy(pbssword,
+                                sblt,
+                                fTypfs[i],
                                 null);
                     }
                 }
-            } catch (IOException ioe) {
-                KrbException ke = new KrbException(Krb5.ASN1_PARSE_ERROR);
-                ke.initCause(ioe);
-                throw ke;
+            } dbtdi (IOExdfption iof) {
+                KrbExdfption kf = nfw KrbExdfption(Krb5.ASN1_PARSE_ERROR);
+                kf.initCbusf(iof);
+                tirow kf;
             }
-            return result;
-        } else {
-            throw new IllegalStateException("Required password not provided");
+            rfturn rfsult;
+        } flsf {
+            tirow nfw IllfgblStbtfExdfption("Rfquirfd pbssword not providfd");
         }
     }
 
     /**
-     * Sets or clears options. If cleared, default options will be used
-     * at creation time.
-     * @param options
+     * Sfts or dlfbrs options. If dlfbrfd, dffbult options will bf usfd
+     * bt drfbtion timf.
+     * @pbrbm options
      */
-    public void setOptions(KDCOptions options) {
-        checkState(State.INIT, "Cannot specify options");
-        this.options = options;
+    publid void sftOptions(KDCOptions options) {
+        difdkStbtf(Stbtf.INIT, "Cbnnot spfdify options");
+        tiis.options = options;
     }
 
     /**
-     * Sets or clears target. If cleared, KrbAsReq might choose krbtgt
-     * for cname realm
-     * @param sname
+     * Sfts or dlfbrs tbrgft. If dlfbrfd, KrbAsRfq migit dioosf krbtgt
+     * for dnbmf rfblm
+     * @pbrbm snbmf
      */
-    public void setTarget(PrincipalName sname) {
-        checkState(State.INIT, "Cannot specify target");
-        this.sname = sname;
+    publid void sftTbrgft(PrindipblNbmf snbmf) {
+        difdkStbtf(Stbtf.INIT, "Cbnnot spfdify tbrgft");
+        tiis.snbmf = snbmf;
     }
 
     /**
-     * Adds or clears addresses. KrbAsReq might add some if empty
-     * field not allowed
-     * @param addresses
+     * Adds or dlfbrs bddrfssfs. KrbAsRfq migit bdd somf if fmpty
+     * fifld not bllowfd
+     * @pbrbm bddrfssfs
      */
-    public void setAddresses(HostAddresses addresses) {
-        checkState(State.INIT, "Cannot specify addresses");
-        this.addresses = addresses;
+    publid void sftAddrfssfs(HostAddrfssfs bddrfssfs) {
+        difdkStbtf(Stbtf.INIT, "Cbnnot spfdify bddrfssfs");
+        tiis.bddrfssfs = bddrfssfs;
     }
 
     /**
-     * Build a KrbAsReq object from all info fed above. Normally this method
-     * will be called twice: initial AS-REQ and second with pakey
-     * @param key null (initial AS-REQ) or pakey (with preauth)
-     * @return the KrbAsReq object
-     * @throws KrbException
-     * @throws IOException
+     * Build b KrbAsRfq objfdt from bll info ffd bbovf. Normblly tiis mftiod
+     * will bf dbllfd twidf: initibl AS-REQ bnd sfdond witi pbkfy
+     * @pbrbm kfy null (initibl AS-REQ) or pbkfy (witi prfbuti)
+     * @rfturn tif KrbAsRfq objfdt
+     * @tirows KrbExdfption
+     * @tirows IOExdfption
      */
-    private KrbAsReq build(EncryptionKey key) throws KrbException, IOException {
-        int[] eTypes;
-        if (password != null) {
-            eTypes = EType.getDefaults("default_tkt_enctypes");
-        } else {
-            EncryptionKey[] ks = Krb5Util.keysFromJavaxKeyTab(ktab, cname);
-            eTypes = EType.getDefaults("default_tkt_enctypes",
+    privbtf KrbAsRfq build(EndryptionKfy kfy) tirows KrbExdfption, IOExdfption {
+        int[] fTypfs;
+        if (pbssword != null) {
+            fTypfs = ETypf.gftDffbults("dffbult_tkt_fndtypfs");
+        } flsf {
+            EndryptionKfy[] ks = Krb5Util.kfysFromJbvbxKfyTbb(ktbb, dnbmf);
+            fTypfs = ETypf.gftDffbults("dffbult_tkt_fndtypfs",
                     ks);
-            for (EncryptionKey k: ks) k.destroy();
+            for (EndryptionKfy k: ks) k.dfstroy();
         }
-        return new KrbAsReq(key,
+        rfturn nfw KrbAsRfq(kfy,
             options,
-            cname,
-            sname,
+            dnbmf,
+            snbmf,
             from,
             till,
-            rtime,
-            eTypes,
-            addresses);
+            rtimf,
+            fTypfs,
+            bddrfssfs);
     }
 
     /**
-     * Parses AS-REP, decrypts enc-part, retrieves ticket and session key
-     * @throws KrbException
-     * @throws Asn1Exception
-     * @throws IOException
+     * Pbrsfs AS-REP, dfdrypts fnd-pbrt, rftrifvfs tidkft bnd sfssion kfy
+     * @tirows KrbExdfption
+     * @tirows Asn1Exdfption
+     * @tirows IOExdfption
      */
-    private KrbAsReqBuilder resolve()
-            throws KrbException, Asn1Exception, IOException {
-        if (ktab != null) {
-            rep.decryptUsingKeyTab(ktab, req, cname);
-        } else {
-            rep.decryptUsingPassword(password, req, cname);
+    privbtf KrbAsRfqBuildfr rfsolvf()
+            tirows KrbExdfption, Asn1Exdfption, IOExdfption {
+        if (ktbb != null) {
+            rfp.dfdryptUsingKfyTbb(ktbb, rfq, dnbmf);
+        } flsf {
+            rfp.dfdryptUsingPbssword(pbssword, rfq, dnbmf);
         }
-        if (rep.getPA() != null) {
-            if (paList == null || paList.length == 0) {
-                paList = rep.getPA();
-            } else {
-                int extraLen = rep.getPA().length;
-                if (extraLen > 0) {
-                    int oldLen = paList.length;
-                    paList = Arrays.copyOf(paList, paList.length + extraLen);
-                    System.arraycopy(rep.getPA(), 0, paList, oldLen, extraLen);
+        if (rfp.gftPA() != null) {
+            if (pbList == null || pbList.lfngti == 0) {
+                pbList = rfp.gftPA();
+            } flsf {
+                int fxtrbLfn = rfp.gftPA().lfngti;
+                if (fxtrbLfn > 0) {
+                    int oldLfn = pbList.lfngti;
+                    pbList = Arrbys.dopyOf(pbList, pbList.lfngti + fxtrbLfn);
+                    Systfm.brrbydopy(rfp.gftPA(), 0, pbList, oldLfn, fxtrbLfn);
                 }
             }
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * Communication until AS-REP or non preauth-related KRB-ERROR received
-     * @throws KrbException
-     * @throws IOException
+     * Communidbtion until AS-REP or non prfbuti-rflbtfd KRB-ERROR rfdfivfd
+     * @tirows KrbExdfption
+     * @tirows IOExdfption
      */
-    private KrbAsReqBuilder send() throws KrbException, IOException {
-        boolean preAuthFailedOnce = false;
-        KdcComm comm = new KdcComm(cname.getRealmAsString());
-        EncryptionKey pakey = null;
-        while (true) {
+    privbtf KrbAsRfqBuildfr sfnd() tirows KrbExdfption, IOExdfption {
+        boolfbn prfAutiFbilfdOndf = fblsf;
+        KddComm domm = nfw KddComm(dnbmf.gftRfblmAsString());
+        EndryptionKfy pbkfy = null;
+        wiilf (truf) {
             try {
-                req = build(pakey);
-                rep = new KrbAsRep(comm.send(req.encoding()));
-                return this;
-            } catch (KrbException ke) {
-                if (!preAuthFailedOnce && (
-                        ke.returnCode() == Krb5.KDC_ERR_PREAUTH_FAILED ||
-                        ke.returnCode() == Krb5.KDC_ERR_PREAUTH_REQUIRED)) {
+                rfq = build(pbkfy);
+                rfp = nfw KrbAsRfp(domm.sfnd(rfq.fndoding()));
+                rfturn tiis;
+            } dbtdi (KrbExdfption kf) {
+                if (!prfAutiFbilfdOndf && (
+                        kf.rfturnCodf() == Krb5.KDC_ERR_PREAUTH_FAILED ||
+                        kf.rfturnCodf() == Krb5.KDC_ERR_PREAUTH_REQUIRED)) {
                     if (Krb5.DEBUG) {
-                        System.out.println("KrbAsReqBuilder: " +
-                                "PREAUTH FAILED/REQ, re-send AS-REQ");
+                        Systfm.out.println("KrbAsRfqBuildfr: " +
+                                "PREAUTH FAILED/REQ, rf-sfnd AS-REQ");
                     }
-                    preAuthFailedOnce = true;
-                    KRBError kerr = ke.getError();
-                    int paEType = PAData.getPreferredEType(kerr.getPA(),
-                            EType.getDefaults("default_tkt_enctypes")[0]);
-                    if (password == null) {
-                        EncryptionKey[] ks = Krb5Util.keysFromJavaxKeyTab(ktab, cname);
-                        pakey = EncryptionKey.findKey(paEType, ks);
-                        if (pakey != null) pakey = (EncryptionKey)pakey.clone();
-                        for (EncryptionKey k: ks) k.destroy();
-                    } else {
-                        pakey = EncryptionKey.acquireSecretKey(cname,
-                                password,
-                                paEType,
-                                PAData.getSaltAndParams(
-                                    paEType, kerr.getPA()));
+                    prfAutiFbilfdOndf = truf;
+                    KRBError kfrr = kf.gftError();
+                    int pbETypf = PADbtb.gftPrfffrrfdETypf(kfrr.gftPA(),
+                            ETypf.gftDffbults("dffbult_tkt_fndtypfs")[0]);
+                    if (pbssword == null) {
+                        EndryptionKfy[] ks = Krb5Util.kfysFromJbvbxKfyTbb(ktbb, dnbmf);
+                        pbkfy = EndryptionKfy.findKfy(pbETypf, ks);
+                        if (pbkfy != null) pbkfy = (EndryptionKfy)pbkfy.dlonf();
+                        for (EndryptionKfy k: ks) k.dfstroy();
+                    } flsf {
+                        pbkfy = EndryptionKfy.bdquirfSfdrftKfy(dnbmf,
+                                pbssword,
+                                pbETypf,
+                                PADbtb.gftSbltAndPbrbms(
+                                    pbETypf, kfrr.gftPA()));
                     }
-                    paList = kerr.getPA();  // Update current paList
-                } else {
-                    throw ke;
+                    pbList = kfrr.gftPA();  // Updbtf durrfnt pbList
+                } flsf {
+                    tirow kf;
                 }
             }
         }
     }
 
     /**
-     * Performs AS-REQ send and AS-REP receive.
-     * Maybe a state is needed here, to divide prepare process and getCreds.
-     * @throws KrbException
-     * @throws Asn1Exception
-     * @throws IOException
+     * Pfrforms AS-REQ sfnd bnd AS-REP rfdfivf.
+     * Mbybf b stbtf is nffdfd ifrf, to dividf prfpbrf prodfss bnd gftCrfds.
+     * @tirows KrbExdfption
+     * @tirows Asn1Exdfption
+     * @tirows IOExdfption
      */
-    public KrbAsReqBuilder action()
-            throws KrbException, Asn1Exception, IOException {
-        checkState(State.INIT, "Cannot call action");
-        state = State.REQ_OK;
-        return send().resolve();
+    publid KrbAsRfqBuildfr bdtion()
+            tirows KrbExdfption, Asn1Exdfption, IOExdfption {
+        difdkStbtf(Stbtf.INIT, "Cbnnot dbll bdtion");
+        stbtf = Stbtf.REQ_OK;
+        rfturn sfnd().rfsolvf();
     }
 
     /**
-     * Gets Credentials object after action
+     * Gfts Crfdfntibls objfdt bftfr bdtion
      */
-    public Credentials getCreds() {
-        checkState(State.REQ_OK, "Cannot retrieve creds");
-        return rep.getCreds();
+    publid Crfdfntibls gftCrfds() {
+        difdkStbtf(Stbtf.REQ_OK, "Cbnnot rftrifvf drfds");
+        rfturn rfp.gftCrfds();
     }
 
     /**
-     * Gets another type of Credentials after action
+     * Gfts bnotifr typf of Crfdfntibls bftfr bdtion
      */
-    public sun.security.krb5.internal.ccache.Credentials getCCreds() {
-        checkState(State.REQ_OK, "Cannot retrieve CCreds");
-        return rep.getCCreds();
+    publid sun.sfdurity.krb5.intfrnbl.ddbdif.Crfdfntibls gftCCrfds() {
+        difdkStbtf(Stbtf.REQ_OK, "Cbnnot rftrifvf CCrfds");
+        rfturn rfp.gftCCrfds();
     }
 
     /**
-     * Destroys the object and clears keys and password info.
+     * Dfstroys tif objfdt bnd dlfbrs kfys bnd pbssword info.
      */
-    public void destroy() {
-        state = State.DESTROYED;
-        if (password != null) {
-            Arrays.fill(password, (char)0);
+    publid void dfstroy() {
+        stbtf = Stbtf.DESTROYED;
+        if (pbssword != null) {
+            Arrbys.fill(pbssword, (dibr)0);
         }
     }
 
     /**
-     * Checks if the current state is the specified one.
-     * @param st the expected state
-     * @param msg error message if state is not correct
-     * @throws IllegalStateException if state is not correct
+     * Cifdks if tif durrfnt stbtf is tif spfdififd onf.
+     * @pbrbm st tif fxpfdtfd stbtf
+     * @pbrbm msg frror mfssbgf if stbtf is not dorrfdt
+     * @tirows IllfgblStbtfExdfption if stbtf is not dorrfdt
      */
-    private void checkState(State st, String msg) {
-        if (state != st) {
-            throw new IllegalStateException(msg + " at " + st + " state");
+    privbtf void difdkStbtf(Stbtf st, String msg) {
+        if (stbtf != st) {
+            tirow nfw IllfgblStbtfExdfption(msg + " bt " + st + " stbtf");
         }
     }
 }

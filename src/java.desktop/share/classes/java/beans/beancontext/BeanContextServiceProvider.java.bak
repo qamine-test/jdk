@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans.beancontext;
+pbdkbgf jbvb.bfbns.bfbndontfxt;
 
-import java.util.Iterator;
+import jbvb.util.Itfrbtor;
 
 /**
  * <p>
- * One of the primary functions of a BeanContext is to act a as rendezvous
- * between JavaBeans, and BeanContextServiceProviders.
+ * Onf of tif primbry fundtions of b BfbnContfxt is to bdt b bs rfndfzvous
+ * bftwffn JbvbBfbns, bnd BfbnContfxtSfrvidfProvidfrs.
  * </p>
  * <p>
- * A JavaBean nested within a BeanContext, may ask that BeanContext to
- * provide an instance of a "service", based upon a reference to a Java
- * Class object that represents that service.
+ * A JbvbBfbn nfstfd witiin b BfbnContfxt, mby bsk tibt BfbnContfxt to
+ * providf bn instbndf of b "sfrvidf", bbsfd upon b rfffrfndf to b Jbvb
+ * Clbss objfdt tibt rfprfsfnts tibt sfrvidf.
  * </p>
  * <p>
- * If such a service has been registered with the context, or one of its
- * nesting context's, in the case where a context delegate to its context
- * to satisfy a service request, then the BeanContextServiceProvider associated with
- * the service is asked to provide an instance of that service.
+ * If sudi b sfrvidf ibs bffn rfgistfrfd witi tif dontfxt, or onf of its
+ * nfsting dontfxt's, in tif dbsf wifrf b dontfxt dflfgbtf to its dontfxt
+ * to sbtisfy b sfrvidf rfqufst, tifn tif BfbnContfxtSfrvidfProvidfr bssodibtfd witi
+ * tif sfrvidf is bskfd to providf bn instbndf of tibt sfrvidf.
  * </p>
  * <p>
- * The ServcieProvider may always return the same instance, or it may
- * construct a new instance for each request.
+ * Tif SfrvdifProvidfr mby blwbys rfturn tif sbmf instbndf, or it mby
+ * donstrudt b nfw instbndf for fbdi rfqufst.
  * </p>
  */
 
-public interface BeanContextServiceProvider {
+publid intfrfbdf BfbnContfxtSfrvidfProvidfr {
 
    /**
-    * Invoked by <code>BeanContextServices</code>, this method
-    * requests an instance of a
-    * service from this <code>BeanContextServiceProvider</code>.
+    * Invokfd by <dodf>BfbnContfxtSfrvidfs</dodf>, tiis mftiod
+    * rfqufsts bn instbndf of b
+    * sfrvidf from tiis <dodf>BfbnContfxtSfrvidfProvidfr</dodf>.
     *
-    * @param bcs The <code>BeanContextServices</code> associated with this
-    * particular request. This parameter enables the
-    * <code>BeanContextServiceProvider</code> to distinguish service
-    * requests from multiple sources.
+    * @pbrbm bds Tif <dodf>BfbnContfxtSfrvidfs</dodf> bssodibtfd witi tiis
+    * pbrtidulbr rfqufst. Tiis pbrbmftfr fnbblfs tif
+    * <dodf>BfbnContfxtSfrvidfProvidfr</dodf> to distinguisi sfrvidf
+    * rfqufsts from multiplf sourdfs.
     *
-    * @param requestor          The object requesting the service
+    * @pbrbm rfqufstor          Tif objfdt rfqufsting tif sfrvidf
     *
-    * @param serviceClass       The service requested
+    * @pbrbm sfrvidfClbss       Tif sfrvidf rfqufstfd
     *
-    * @param serviceSelector the service dependent parameter
-    * for a particular service, or <code>null</code> if not applicable.
+    * @pbrbm sfrvidfSflfdtor tif sfrvidf dfpfndfnt pbrbmftfr
+    * for b pbrtidulbr sfrvidf, or <dodf>null</dodf> if not bpplidbblf.
     *
-    * @return a reference to the requested service
+    * @rfturn b rfffrfndf to tif rfqufstfd sfrvidf
     */
-    Object getService(BeanContextServices bcs, Object requestor, Class<?> serviceClass, Object serviceSelector);
+    Objfdt gftSfrvidf(BfbnContfxtSfrvidfs bds, Objfdt rfqufstor, Clbss<?> sfrvidfClbss, Objfdt sfrvidfSflfdtor);
 
     /**
-     * Invoked by <code>BeanContextServices</code>,
-     * this method releases a nested <code>BeanContextChild</code>'s
-     * (or any arbitrary object associated with a
-     * <code>BeanContextChild</code>) reference to the specified service.
+     * Invokfd by <dodf>BfbnContfxtSfrvidfs</dodf>,
+     * tiis mftiod rflfbsfs b nfstfd <dodf>BfbnContfxtCiild</dodf>'s
+     * (or bny brbitrbry objfdt bssodibtfd witi b
+     * <dodf>BfbnContfxtCiild</dodf>) rfffrfndf to tif spfdififd sfrvidf.
      *
-     * @param bcs the <code>BeanContextServices</code> associated with this
-     * particular release request
+     * @pbrbm bds tif <dodf>BfbnContfxtSfrvidfs</dodf> bssodibtfd witi tiis
+     * pbrtidulbr rflfbsf rfqufst
      *
-     * @param requestor the object requesting the service to be released
+     * @pbrbm rfqufstor tif objfdt rfqufsting tif sfrvidf to bf rflfbsfd
      *
-     * @param service the service that is to be released
+     * @pbrbm sfrvidf tif sfrvidf tibt is to bf rflfbsfd
      */
-    public void releaseService(BeanContextServices bcs, Object requestor, Object service);
+    publid void rflfbsfSfrvidf(BfbnContfxtSfrvidfs bds, Objfdt rfqufstor, Objfdt sfrvidf);
 
     /**
-     * Invoked by <code>BeanContextServices</code>, this method
-     * gets the current service selectors for the specified service.
-     * A service selector is a service specific parameter,
-     * typical examples of which could include: a
-     * parameter to a constructor for the service implementation class,
-     * a value for a particular service's property, or a key into a
-     * map of existing implementations.
+     * Invokfd by <dodf>BfbnContfxtSfrvidfs</dodf>, tiis mftiod
+     * gfts tif durrfnt sfrvidf sflfdtors for tif spfdififd sfrvidf.
+     * A sfrvidf sflfdtor is b sfrvidf spfdifid pbrbmftfr,
+     * typidbl fxbmplfs of wiidi dould indludf: b
+     * pbrbmftfr to b donstrudtor for tif sfrvidf implfmfntbtion dlbss,
+     * b vbluf for b pbrtidulbr sfrvidf's propfrty, or b kfy into b
+     * mbp of fxisting implfmfntbtions.
      *
-     * @param bcs           the <code>BeanContextServices</code> for this request
-     * @param serviceClass  the specified service
-     * @return   the current service selectors for the specified serviceClass
+     * @pbrbm bds           tif <dodf>BfbnContfxtSfrvidfs</dodf> for tiis rfqufst
+     * @pbrbm sfrvidfClbss  tif spfdififd sfrvidf
+     * @rfturn   tif durrfnt sfrvidf sflfdtors for tif spfdififd sfrvidfClbss
      */
-    Iterator<?> getCurrentServiceSelectors(BeanContextServices bcs, Class<?> serviceClass);
+    Itfrbtor<?> gftCurrfntSfrvidfSflfdtors(BfbnContfxtSfrvidfs bds, Clbss<?> sfrvidfClbss);
 }

@@ -1,959 +1,959 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.io.Serializable;
-import java.awt.Component;
-import java.awt.Adjustable;
-import java.awt.Dimension;
-import java.awt.event.AdjustmentListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.Graphics;
+import jbvb.io.Sfriblizbblf;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Adjustbblf;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.fvfnt.AdjustmfntListfnfr;
+import jbvb.bwt.fvfnt.AdjustmfntEvfnt;
+import jbvb.bwt.Grbpiids;
 
-import javax.swing.event.*;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
 
 
 /**
- * An implementation of a scrollbar. The user positions the knob in the
- * scrollbar to determine the contents of the viewing area. The
- * program typically adjusts the display so that the end of the
- * scrollbar represents the end of the displayable contents, or 100%
- * of the contents. The start of the scrollbar is the beginning of the
- * displayable contents, or 0%. The position of the knob within
- * those bounds then translates to the corresponding percentage of
- * the displayable contents.
+ * An implfmfntbtion of b sdrollbbr. Tif usfr positions tif knob in tif
+ * sdrollbbr to dftfrminf tif dontfnts of tif vifwing brfb. Tif
+ * progrbm typidblly bdjusts tif displby so tibt tif fnd of tif
+ * sdrollbbr rfprfsfnts tif fnd of tif displbybblf dontfnts, or 100%
+ * of tif dontfnts. Tif stbrt of tif sdrollbbr is tif bfginning of tif
+ * displbybblf dontfnts, or 0%. Tif position of tif knob witiin
+ * tiosf bounds tifn trbnslbtfs to tif dorrfsponding pfrdfntbgf of
+ * tif displbybblf dontfnts.
  * <p>
- * Typically, as the position of the knob in the scrollbar changes
- * a corresponding change is made to the position of the JViewport on
- * the underlying view, changing the contents of the JViewport.
+ * Typidblly, bs tif position of tif knob in tif sdrollbbr dibngfs
+ * b dorrfsponding dibngf is mbdf to tif position of tif JVifwport on
+ * tif undfrlying vifw, dibnging tif dontfnts of tif JVifwport.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see JScrollPane
- * @beaninfo
- *      attribute: isContainer false
- *    description: A component that helps determine the visible content range of an area.
+ * @sff JSdrollPbnf
+ * @bfbninfo
+ *      bttributf: isContbinfr fblsf
+ *    dfsdription: A domponfnt tibt iflps dftfrminf tif visiblf dontfnt rbngf of bn brfb.
  *
- * @author David Kloba
- * @since 1.2
+ * @butior Dbvid Klobb
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JScrollBar extends JComponent implements Adjustable, Accessible
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JSdrollBbr fxtfnds JComponfnt implfmfnts Adjustbblf, Addfssiblf
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "ScrollBarUI";
+    privbtf stbtid finbl String uiClbssID = "SdrollBbrUI";
 
     /**
-     * All changes from the model are treated as though the user moved
-     * the scrollbar knob.
+     * All dibngfs from tif modfl brf trfbtfd bs tiougi tif usfr movfd
+     * tif sdrollbbr knob.
      */
-    private ChangeListener fwdAdjustmentEvents = new ModelListener();
-
-
-    /**
-     * The model that represents the scrollbar's minimum, maximum, extent
-     * (aka "visibleAmount") and current value.
-     * @see #setModel
-     */
-    protected BoundedRangeModel model;
+    privbtf CibngfListfnfr fwdAdjustmfntEvfnts = nfw ModflListfnfr();
 
 
     /**
-     * @see #setOrientation
+     * Tif modfl tibt rfprfsfnts tif sdrollbbr's minimum, mbximum, fxtfnt
+     * (bkb "visiblfAmount") bnd durrfnt vbluf.
+     * @sff #sftModfl
      */
-    protected int orientation;
+    protfdtfd BoundfdRbngfModfl modfl;
 
 
     /**
-     * @see #setUnitIncrement
+     * @sff #sftOrifntbtion
      */
-    protected int unitIncrement;
+    protfdtfd int orifntbtion;
 
 
     /**
-     * @see #setBlockIncrement
+     * @sff #sftUnitIndrfmfnt
      */
-    protected int blockIncrement;
+    protfdtfd int unitIndrfmfnt;
 
 
-    private void checkOrientation(int orientation) {
-        switch (orientation) {
-        case VERTICAL:
-        case HORIZONTAL:
-            break;
-        default:
-            throw new IllegalArgumentException("orientation must be one of: VERTICAL, HORIZONTAL");
+    /**
+     * @sff #sftBlodkIndrfmfnt
+     */
+    protfdtfd int blodkIndrfmfnt;
+
+
+    privbtf void difdkOrifntbtion(int orifntbtion) {
+        switdi (orifntbtion) {
+        dbsf VERTICAL:
+        dbsf HORIZONTAL:
+            brfbk;
+        dffbult:
+            tirow nfw IllfgblArgumfntExdfption("orifntbtion must bf onf of: VERTICAL, HORIZONTAL");
         }
     }
 
 
     /**
-     * Creates a scrollbar with the specified orientation,
-     * value, extent, minimum, and maximum.
-     * The "extent" is the size of the viewable area. It is also known
-     * as the "visible amount".
+     * Crfbtfs b sdrollbbr witi tif spfdififd orifntbtion,
+     * vbluf, fxtfnt, minimum, bnd mbximum.
+     * Tif "fxtfnt" is tif sizf of tif vifwbblf brfb. It is blso known
+     * bs tif "visiblf bmount".
      * <p>
-     * Note: Use <code>setBlockIncrement</code> to set the block
-     * increment to a size slightly smaller than the view's extent.
-     * That way, when the user jumps the knob to an adjacent position,
-     * one or two lines of the original contents remain in view.
+     * Notf: Usf <dodf>sftBlodkIndrfmfnt</dodf> to sft tif blodk
+     * indrfmfnt to b sizf sligitly smbllfr tibn tif vifw's fxtfnt.
+     * Tibt wby, wifn tif usfr jumps tif knob to bn bdjbdfnt position,
+     * onf or two linfs of tif originbl dontfnts rfmbin in vifw.
      *
-     * @exception IllegalArgumentException if orientation is not one of VERTICAL, HORIZONTAL
+     * @fxdfption IllfgblArgumfntExdfption if orifntbtion is not onf of VERTICAL, HORIZONTAL
      *
-     * @see #setOrientation
-     * @see #setValue
-     * @see #setVisibleAmount
-     * @see #setMinimum
-     * @see #setMaximum
+     * @sff #sftOrifntbtion
+     * @sff #sftVbluf
+     * @sff #sftVisiblfAmount
+     * @sff #sftMinimum
+     * @sff #sftMbximum
      *
-     * @param orientation an orientation of the {@code JScrollBar}
-     * @param value an int giving the current value
-     * @param extent an int giving the amount by which the value can "jump"
-     * @param min an int giving the minimum value
-     * @param max an int giving the maximum value
+     * @pbrbm orifntbtion bn orifntbtion of tif {@dodf JSdrollBbr}
+     * @pbrbm vbluf bn int giving tif durrfnt vbluf
+     * @pbrbm fxtfnt bn int giving tif bmount by wiidi tif vbluf dbn "jump"
+     * @pbrbm min bn int giving tif minimum vbluf
+     * @pbrbm mbx bn int giving tif mbximum vbluf
      */
-    public JScrollBar(int orientation, int value, int extent, int min, int max)
+    publid JSdrollBbr(int orifntbtion, int vbluf, int fxtfnt, int min, int mbx)
     {
-        checkOrientation(orientation);
-        this.unitIncrement = 1;
-        this.blockIncrement = (extent == 0) ? 1 : extent;
-        this.orientation = orientation;
-        this.model = new DefaultBoundedRangeModel(value, extent, min, max);
-        this.model.addChangeListener(fwdAdjustmentEvents);
-        setRequestFocusEnabled(false);
-        updateUI();
+        difdkOrifntbtion(orifntbtion);
+        tiis.unitIndrfmfnt = 1;
+        tiis.blodkIndrfmfnt = (fxtfnt == 0) ? 1 : fxtfnt;
+        tiis.orifntbtion = orifntbtion;
+        tiis.modfl = nfw DffbultBoundfdRbngfModfl(vbluf, fxtfnt, min, mbx);
+        tiis.modfl.bddCibngfListfnfr(fwdAdjustmfntEvfnts);
+        sftRfqufstFodusEnbblfd(fblsf);
+        updbtfUI();
     }
 
 
     /**
-     * Creates a scrollbar with the specified orientation
-     * and the following initial values:
-     * <pre>
+     * Crfbtfs b sdrollbbr witi tif spfdififd orifntbtion
+     * bnd tif following initibl vblufs:
+     * <prf>
      * minimum = 0
-     * maximum = 100
-     * value = 0
-     * extent = 10
-     * </pre>
+     * mbximum = 100
+     * vbluf = 0
+     * fxtfnt = 10
+     * </prf>
      *
-     * @param orientation an orientation of the {@code JScrollBar}
+     * @pbrbm orifntbtion bn orifntbtion of tif {@dodf JSdrollBbr}
      */
-    public JScrollBar(int orientation) {
-        this(orientation, 0, 10, 0, 100);
+    publid JSdrollBbr(int orifntbtion) {
+        tiis(orifntbtion, 0, 10, 0, 100);
     }
 
 
     /**
-     * Creates a vertical scrollbar with the following initial values:
-     * <pre>
+     * Crfbtfs b vfrtidbl sdrollbbr witi tif following initibl vblufs:
+     * <prf>
      * minimum = 0
-     * maximum = 100
-     * value = 0
-     * extent = 10
-     * </pre>
+     * mbximum = 100
+     * vbluf = 0
+     * fxtfnt = 10
+     * </prf>
      */
-    public JScrollBar() {
-        this(VERTICAL);
+    publid JSdrollBbr() {
+        tiis(VERTICAL);
     }
 
 
     /**
-     * Sets the {@literal L&F} object that renders this component.
+     * Sfts tif {@litfrbl L&F} objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @param ui  the <code>ScrollBarUI</code> {@literal L&F} object
-     * @see UIDefaults#getUI
-     * @since 1.4
-     * @beaninfo
-     *        bound: true
-     *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel
+     * @pbrbm ui  tif <dodf>SdrollBbrUI</dodf> {@litfrbl L&F} objfdt
+     * @sff UIDffbults#gftUI
+     * @sindf 1.4
+     * @bfbninfo
+     *        bound: truf
+     *       iiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif UI objfdt tibt implfmfnts tif Componfnt's LookAndFffl
      */
-    public void setUI(ScrollBarUI ui) {
-        super.setUI(ui);
+    publid void sftUI(SdrollBbrUI ui) {
+        supfr.sftUI(ui);
     }
 
 
     /**
-     * Returns the delegate that implements the look and feel for
-     * this component.
+     * Rfturns tif dflfgbtf tibt implfmfnts tif look bnd fffl for
+     * tiis domponfnt.
      *
-     * @return the scroll bar's current UI.
-     * @see JComponent#setUI
+     * @rfturn tif sdroll bbr's durrfnt UI.
+     * @sff JComponfnt#sftUI
      */
-    public ScrollBarUI getUI() {
-        return (ScrollBarUI)ui;
+    publid SdrollBbrUI gftUI() {
+        rfturn (SdrollBbrUI)ui;
     }
 
 
     /**
-     * Overrides <code>JComponent.updateUI</code>.
-     * @see JComponent#updateUI
+     * Ovfrridfs <dodf>JComponfnt.updbtfUI</dodf>.
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        setUI((ScrollBarUI)UIManager.getUI(this));
+    publid void updbtfUI() {
+        sftUI((SdrollBbrUI)UIMbnbgfr.gftUI(tiis));
     }
 
 
     /**
-     * Returns the name of the LookAndFeel class for this component.
+     * Rfturns tif nbmf of tif LookAndFffl dlbss for tiis domponfnt.
      *
-     * @return "ScrollBarUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @rfturn "SdrollBbrUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
 
 
     /**
-     * Returns the component's orientation (horizontal or vertical).
+     * Rfturns tif domponfnt's orifntbtion (iorizontbl or vfrtidbl).
      *
-     * @return VERTICAL or HORIZONTAL
-     * @see #setOrientation
-     * @see java.awt.Adjustable#getOrientation
+     * @rfturn VERTICAL or HORIZONTAL
+     * @sff #sftOrifntbtion
+     * @sff jbvb.bwt.Adjustbblf#gftOrifntbtion
      */
-    public int getOrientation() {
-        return orientation;
+    publid int gftOrifntbtion() {
+        rfturn orifntbtion;
     }
 
 
     /**
-     * Set the scrollbar's orientation to either VERTICAL or
+     * Sft tif sdrollbbr's orifntbtion to fitifr VERTICAL or
      * HORIZONTAL.
      *
-     * @param orientation an orientation of the {@code JScrollBar}
-     * @exception IllegalArgumentException if orientation is not one of VERTICAL, HORIZONTAL
-     * @see #getOrientation
-     * @beaninfo
-     *    preferred: true
-     *        bound: true
-     *    attribute: visualUpdate true
-     *  description: The scrollbar's orientation.
-     *         enum: VERTICAL JScrollBar.VERTICAL
-     *               HORIZONTAL JScrollBar.HORIZONTAL
+     * @pbrbm orifntbtion bn orifntbtion of tif {@dodf JSdrollBbr}
+     * @fxdfption IllfgblArgumfntExdfption if orifntbtion is not onf of VERTICAL, HORIZONTAL
+     * @sff #gftOrifntbtion
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif sdrollbbr's orifntbtion.
+     *         fnum: VERTICAL JSdrollBbr.VERTICAL
+     *               HORIZONTAL JSdrollBbr.HORIZONTAL
      */
-    public void setOrientation(int orientation)
+    publid void sftOrifntbtion(int orifntbtion)
     {
-        checkOrientation(orientation);
-        int oldValue = this.orientation;
-        this.orientation = orientation;
-        firePropertyChange("orientation", oldValue, orientation);
+        difdkOrifntbtion(orifntbtion);
+        int oldVbluf = tiis.orifntbtion;
+        tiis.orifntbtion = orifntbtion;
+        firfPropfrtyCibngf("orifntbtion", oldVbluf, orifntbtion);
 
-        if ((oldValue != orientation) && (accessibleContext != null)) {
-            accessibleContext.firePropertyChange(
-                    AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                    ((oldValue == VERTICAL)
-                     ? AccessibleState.VERTICAL : AccessibleState.HORIZONTAL),
-                    ((orientation == VERTICAL)
-                     ? AccessibleState.VERTICAL : AccessibleState.HORIZONTAL));
+        if ((oldVbluf != orifntbtion) && (bddfssiblfContfxt != null)) {
+            bddfssiblfContfxt.firfPropfrtyCibngf(
+                    AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                    ((oldVbluf == VERTICAL)
+                     ? AddfssiblfStbtf.VERTICAL : AddfssiblfStbtf.HORIZONTAL),
+                    ((orifntbtion == VERTICAL)
+                     ? AddfssiblfStbtf.VERTICAL : AddfssiblfStbtf.HORIZONTAL));
         }
-        if (orientation != oldValue) {
-            revalidate();
-        }
-    }
-
-
-    /**
-     * Returns data model that handles the scrollbar's four
-     * fundamental properties: minimum, maximum, value, extent.
-     *
-     * @return the data model
-     *
-     * @see #setModel
-     */
-    public BoundedRangeModel getModel() {
-        return model;
-    }
-
-
-    /**
-     * Sets the model that handles the scrollbar's four
-     * fundamental properties: minimum, maximum, value, extent.
-     *
-     * @param newModel a new model
-     * @see #getModel
-     * @beaninfo
-     *       bound: true
-     *       expert: true
-     * description: The scrollbar's BoundedRangeModel.
-     */
-    public void setModel(BoundedRangeModel newModel) {
-        Integer oldValue = null;
-        BoundedRangeModel oldModel = model;
-        if (model != null) {
-            model.removeChangeListener(fwdAdjustmentEvents);
-            oldValue = Integer.valueOf(model.getValue());
-        }
-        model = newModel;
-        if (model != null) {
-            model.addChangeListener(fwdAdjustmentEvents);
-        }
-
-        firePropertyChange("model", oldModel, model);
-
-        if (accessibleContext != null) {
-            accessibleContext.firePropertyChange(
-                    AccessibleContext.ACCESSIBLE_VALUE_PROPERTY,
-                    oldValue, model.getValue());
+        if (orifntbtion != oldVbluf) {
+            rfvblidbtf();
         }
     }
 
 
     /**
-     * Returns the amount to change the scrollbar's value by,
-     * given a unit up/down request.  A ScrollBarUI implementation
-     * typically calls this method when the user clicks on a scrollbar
-     * up/down arrow and uses the result to update the scrollbar's
-     * value.   Subclasses my override this method to compute
-     * a value, e.g. the change required to scroll up or down one
-     * (variable height) line text or one row in a table.
-     * <p>
-     * The JScrollPane component creates scrollbars (by default)
-     * that override this method and delegate to the viewports
-     * Scrollable view, if it has one.  The Scrollable interface
-     * provides a more specialized version of this method.
-     * <p>
-     * Some look and feels implement custom scrolling behavior
-     * and ignore this property.
+     * Rfturns dbtb modfl tibt ibndlfs tif sdrollbbr's four
+     * fundbmfntbl propfrtifs: minimum, mbximum, vbluf, fxtfnt.
      *
-     * @param direction is -1 or 1 for up/down respectively
-     * @return the value of the unitIncrement property
-     * @see #setUnitIncrement
-     * @see #setValue
-     * @see Scrollable#getScrollableUnitIncrement
-     */
-    public int getUnitIncrement(int direction) {
-        return unitIncrement;
-    }
-
-
-    /**
-     * Sets the unitIncrement property.
-     * <p>
-     * Note, that if the argument is equal to the value of Integer.MIN_VALUE,
-     * the most look and feels will not provide the scrolling to the right/down.
-     * <p>
-     * Some look and feels implement custom scrolling behavior
-     * and ignore this property.
+     * @rfturn tif dbtb modfl
      *
-     * @see #getUnitIncrement
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: The scrollbar's unit increment.
+     * @sff #sftModfl
      */
-    public void setUnitIncrement(int unitIncrement) {
-        int oldValue = this.unitIncrement;
-        this.unitIncrement = unitIncrement;
-        firePropertyChange("unitIncrement", oldValue, unitIncrement);
+    publid BoundfdRbngfModfl gftModfl() {
+        rfturn modfl;
     }
 
 
     /**
-     * Returns the amount to change the scrollbar's value by,
-     * given a block (usually "page") up/down request.  A ScrollBarUI
-     * implementation typically calls this method when the user clicks
-     * above or below the scrollbar "knob" to change the value
-     * up or down by large amount.  Subclasses my override this
-     * method to compute a value, e.g. the change required to scroll
-     * up or down one paragraph in a text document.
-     * <p>
-     * The JScrollPane component creates scrollbars (by default)
-     * that override this method and delegate to the viewports
-     * Scrollable view, if it has one.  The Scrollable interface
-     * provides a more specialized version of this method.
-     * <p>
-     * Some look and feels implement custom scrolling behavior
-     * and ignore this property.
+     * Sfts tif modfl tibt ibndlfs tif sdrollbbr's four
+     * fundbmfntbl propfrtifs: minimum, mbximum, vbluf, fxtfnt.
      *
-     * @param direction is -1 or 1 for up/down respectively
-     * @return the value of the blockIncrement property
-     * @see #setBlockIncrement
-     * @see #setValue
-     * @see Scrollable#getScrollableBlockIncrement
+     * @pbrbm nfwModfl b nfw modfl
+     * @sff #gftModfl
+     * @bfbninfo
+     *       bound: truf
+     *       fxpfrt: truf
+     * dfsdription: Tif sdrollbbr's BoundfdRbngfModfl.
      */
-    public int getBlockIncrement(int direction) {
-        return blockIncrement;
-    }
+    publid void sftModfl(BoundfdRbngfModfl nfwModfl) {
+        Intfgfr oldVbluf = null;
+        BoundfdRbngfModfl oldModfl = modfl;
+        if (modfl != null) {
+            modfl.rfmovfCibngfListfnfr(fwdAdjustmfntEvfnts);
+            oldVbluf = Intfgfr.vblufOf(modfl.gftVbluf());
+        }
+        modfl = nfwModfl;
+        if (modfl != null) {
+            modfl.bddCibngfListfnfr(fwdAdjustmfntEvfnts);
+        }
 
+        firfPropfrtyCibngf("modfl", oldModfl, modfl);
 
-    /**
-     * Sets the blockIncrement property.
-     * <p>
-     * Note, that if the argument is equal to the value of Integer.MIN_VALUE,
-     * the most look and feels will not provide the scrolling to the right/down.
-     * <p>
-     * Some look and feels implement custom scrolling behavior
-     * and ignore this property.
-     *
-     * @see #getBlockIncrement()
-     * @beaninfo
-     *   preferred: true
-     *       bound: true
-     * description: The scrollbar's block increment.
-     */
-    public void setBlockIncrement(int blockIncrement) {
-        int oldValue = this.blockIncrement;
-        this.blockIncrement = blockIncrement;
-        firePropertyChange("blockIncrement", oldValue, blockIncrement);
-    }
-
-
-    /**
-     * For backwards compatibility with java.awt.Scrollbar.
-     * @see Adjustable#getUnitIncrement
-     * @see #getUnitIncrement(int)
-     */
-    public int getUnitIncrement() {
-        return unitIncrement;
-    }
-
-
-    /**
-     * For backwards compatibility with java.awt.Scrollbar.
-     * @see Adjustable#getBlockIncrement
-     * @see #getBlockIncrement(int)
-     */
-    public int getBlockIncrement() {
-        return blockIncrement;
-    }
-
-
-    /**
-     * Returns the scrollbar's value.
-     * @return the model's value property
-     * @see #setValue
-     */
-    public int getValue() {
-        return getModel().getValue();
-    }
-
-
-    /**
-     * Sets the scrollbar's value.  This method just forwards the value
-     * to the model.
-     *
-     * @see #getValue
-     * @see BoundedRangeModel#setValue
-     * @beaninfo
-     *   preferred: true
-     * description: The scrollbar's current value.
-     */
-    public void setValue(int value) {
-        BoundedRangeModel m = getModel();
-        int oldValue = m.getValue();
-        m.setValue(value);
-
-        if (accessibleContext != null) {
-            accessibleContext.firePropertyChange(
-                    AccessibleContext.ACCESSIBLE_VALUE_PROPERTY,
-                    Integer.valueOf(oldValue),
-                    Integer.valueOf(m.getValue()));
+        if (bddfssiblfContfxt != null) {
+            bddfssiblfContfxt.firfPropfrtyCibngf(
+                    AddfssiblfContfxt.ACCESSIBLE_VALUE_PROPERTY,
+                    oldVbluf, modfl.gftVbluf());
         }
     }
 
 
     /**
-     * Returns the scrollbar's extent, aka its "visibleAmount".  In many
-     * scrollbar look and feel implementations the size of the
-     * scrollbar "knob" or "thumb" is proportional to the extent.
+     * Rfturns tif bmount to dibngf tif sdrollbbr's vbluf by,
+     * givfn b unit up/down rfqufst.  A SdrollBbrUI implfmfntbtion
+     * typidblly dblls tiis mftiod wifn tif usfr dlidks on b sdrollbbr
+     * up/down brrow bnd usfs tif rfsult to updbtf tif sdrollbbr's
+     * vbluf.   Subdlbssfs my ovfrridf tiis mftiod to domputf
+     * b vbluf, f.g. tif dibngf rfquirfd to sdroll up or down onf
+     * (vbribblf ifigit) linf tfxt or onf row in b tbblf.
+     * <p>
+     * Tif JSdrollPbnf domponfnt drfbtfs sdrollbbrs (by dffbult)
+     * tibt ovfrridf tiis mftiod bnd dflfgbtf to tif vifwports
+     * Sdrollbblf vifw, if it ibs onf.  Tif Sdrollbblf intfrfbdf
+     * providfs b morf spfdiblizfd vfrsion of tiis mftiod.
+     * <p>
+     * Somf look bnd fffls implfmfnt dustom sdrolling bfibvior
+     * bnd ignorf tiis propfrty.
      *
-     * @return the value of the model's extent property
-     * @see #setVisibleAmount
+     * @pbrbm dirfdtion is -1 or 1 for up/down rfspfdtivfly
+     * @rfturn tif vbluf of tif unitIndrfmfnt propfrty
+     * @sff #sftUnitIndrfmfnt
+     * @sff #sftVbluf
+     * @sff Sdrollbblf#gftSdrollbblfUnitIndrfmfnt
      */
-    public int getVisibleAmount() {
-        return getModel().getExtent();
+    publid int gftUnitIndrfmfnt(int dirfdtion) {
+        rfturn unitIndrfmfnt;
     }
 
 
     /**
-     * Set the model's extent property.
+     * Sfts tif unitIndrfmfnt propfrty.
+     * <p>
+     * Notf, tibt if tif brgumfnt is fqubl to tif vbluf of Intfgfr.MIN_VALUE,
+     * tif most look bnd fffls will not providf tif sdrolling to tif rigit/down.
+     * <p>
+     * Somf look bnd fffls implfmfnt dustom sdrolling bfibvior
+     * bnd ignorf tiis propfrty.
      *
-     * @see #getVisibleAmount
-     * @see BoundedRangeModel#setExtent
-     * @beaninfo
-     *   preferred: true
-     * description: The amount of the view that is currently visible.
+     * @sff #gftUnitIndrfmfnt
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Tif sdrollbbr's unit indrfmfnt.
      */
-    public void setVisibleAmount(int extent) {
-        getModel().setExtent(extent);
+    publid void sftUnitIndrfmfnt(int unitIndrfmfnt) {
+        int oldVbluf = tiis.unitIndrfmfnt;
+        tiis.unitIndrfmfnt = unitIndrfmfnt;
+        firfPropfrtyCibngf("unitIndrfmfnt", oldVbluf, unitIndrfmfnt);
     }
 
 
     /**
-     * Returns the minimum value supported by the scrollbar
-     * (usually zero).
+     * Rfturns tif bmount to dibngf tif sdrollbbr's vbluf by,
+     * givfn b blodk (usublly "pbgf") up/down rfqufst.  A SdrollBbrUI
+     * implfmfntbtion typidblly dblls tiis mftiod wifn tif usfr dlidks
+     * bbovf or bflow tif sdrollbbr "knob" to dibngf tif vbluf
+     * up or down by lbrgf bmount.  Subdlbssfs my ovfrridf tiis
+     * mftiod to domputf b vbluf, f.g. tif dibngf rfquirfd to sdroll
+     * up or down onf pbrbgrbpi in b tfxt dodumfnt.
+     * <p>
+     * Tif JSdrollPbnf domponfnt drfbtfs sdrollbbrs (by dffbult)
+     * tibt ovfrridf tiis mftiod bnd dflfgbtf to tif vifwports
+     * Sdrollbblf vifw, if it ibs onf.  Tif Sdrollbblf intfrfbdf
+     * providfs b morf spfdiblizfd vfrsion of tiis mftiod.
+     * <p>
+     * Somf look bnd fffls implfmfnt dustom sdrolling bfibvior
+     * bnd ignorf tiis propfrty.
      *
-     * @return the value of the model's minimum property
-     * @see #setMinimum
+     * @pbrbm dirfdtion is -1 or 1 for up/down rfspfdtivfly
+     * @rfturn tif vbluf of tif blodkIndrfmfnt propfrty
+     * @sff #sftBlodkIndrfmfnt
+     * @sff #sftVbluf
+     * @sff Sdrollbblf#gftSdrollbblfBlodkIndrfmfnt
      */
-    public int getMinimum() {
-        return getModel().getMinimum();
+    publid int gftBlodkIndrfmfnt(int dirfdtion) {
+        rfturn blodkIndrfmfnt;
     }
 
 
     /**
-     * Sets the model's minimum property.
+     * Sfts tif blodkIndrfmfnt propfrty.
+     * <p>
+     * Notf, tibt if tif brgumfnt is fqubl to tif vbluf of Intfgfr.MIN_VALUE,
+     * tif most look bnd fffls will not providf tif sdrolling to tif rigit/down.
+     * <p>
+     * Somf look bnd fffls implfmfnt dustom sdrolling bfibvior
+     * bnd ignorf tiis propfrty.
      *
-     * @see #getMinimum
-     * @see BoundedRangeModel#setMinimum
-     * @beaninfo
-     *   preferred: true
-     * description: The scrollbar's minimum value.
+     * @sff #gftBlodkIndrfmfnt()
+     * @bfbninfo
+     *   prfffrrfd: truf
+     *       bound: truf
+     * dfsdription: Tif sdrollbbr's blodk indrfmfnt.
      */
-    public void setMinimum(int minimum) {
-        getModel().setMinimum(minimum);
+    publid void sftBlodkIndrfmfnt(int blodkIndrfmfnt) {
+        int oldVbluf = tiis.blodkIndrfmfnt;
+        tiis.blodkIndrfmfnt = blodkIndrfmfnt;
+        firfPropfrtyCibngf("blodkIndrfmfnt", oldVbluf, blodkIndrfmfnt);
     }
 
 
     /**
-     * The maximum value of the scrollbar is maximum - extent.
-     *
-     * @return the value of the model's maximum property
-     * @see #setMaximum
+     * For bbdkwbrds dompbtibility witi jbvb.bwt.Sdrollbbr.
+     * @sff Adjustbblf#gftUnitIndrfmfnt
+     * @sff #gftUnitIndrfmfnt(int)
      */
-    public int getMaximum() {
-        return getModel().getMaximum();
+    publid int gftUnitIndrfmfnt() {
+        rfturn unitIndrfmfnt;
     }
 
 
     /**
-     * Sets the model's maximum property.  Note that the scrollbar's value
-     * can only be set to maximum - extent.
-     *
-     * @see #getMaximum
-     * @see BoundedRangeModel#setMaximum
-     * @beaninfo
-     *   preferred: true
-     * description: The scrollbar's maximum value.
+     * For bbdkwbrds dompbtibility witi jbvb.bwt.Sdrollbbr.
+     * @sff Adjustbblf#gftBlodkIndrfmfnt
+     * @sff #gftBlodkIndrfmfnt(int)
      */
-    public void setMaximum(int maximum) {
-        getModel().setMaximum(maximum);
+    publid int gftBlodkIndrfmfnt() {
+        rfturn blodkIndrfmfnt;
     }
 
 
     /**
-     * True if the scrollbar knob is being dragged.
-     *
-     * @return the value of the model's valueIsAdjusting property
-     * @see #setValueIsAdjusting
+     * Rfturns tif sdrollbbr's vbluf.
+     * @rfturn tif modfl's vbluf propfrty
+     * @sff #sftVbluf
      */
-    public boolean getValueIsAdjusting() {
-        return getModel().getValueIsAdjusting();
+    publid int gftVbluf() {
+        rfturn gftModfl().gftVbluf();
     }
 
 
     /**
-     * Sets the model's valueIsAdjusting property.  Scrollbar look and
-     * feel implementations should set this property to true when
-     * a knob drag begins, and to false when the drag ends.  The
-     * scrollbar model will not generate ChangeEvents while
-     * valueIsAdjusting is true.
+     * Sfts tif sdrollbbr's vbluf.  Tiis mftiod just forwbrds tif vbluf
+     * to tif modfl.
      *
-     * @param b {@code true} if the upcoming changes to the value property are part of a series
-     *
-     * @see #getValueIsAdjusting
-     * @see BoundedRangeModel#setValueIsAdjusting
-     * @beaninfo
-     *      expert: true
-     * description: True if the scrollbar thumb is being dragged.
+     * @sff #gftVbluf
+     * @sff BoundfdRbngfModfl#sftVbluf
+     * @bfbninfo
+     *   prfffrrfd: truf
+     * dfsdription: Tif sdrollbbr's durrfnt vbluf.
      */
-    public void setValueIsAdjusting(boolean b) {
-        BoundedRangeModel m = getModel();
-        boolean oldValue = m.getValueIsAdjusting();
-        m.setValueIsAdjusting(b);
+    publid void sftVbluf(int vbluf) {
+        BoundfdRbngfModfl m = gftModfl();
+        int oldVbluf = m.gftVbluf();
+        m.sftVbluf(vbluf);
 
-        if ((oldValue != b) && (accessibleContext != null)) {
-            accessibleContext.firePropertyChange(
-                    AccessibleContext.ACCESSIBLE_STATE_PROPERTY,
-                    ((oldValue) ? AccessibleState.BUSY : null),
-                    ((b) ? AccessibleState.BUSY : null));
+        if (bddfssiblfContfxt != null) {
+            bddfssiblfContfxt.firfPropfrtyCibngf(
+                    AddfssiblfContfxt.ACCESSIBLE_VALUE_PROPERTY,
+                    Intfgfr.vblufOf(oldVbluf),
+                    Intfgfr.vblufOf(m.gftVbluf()));
         }
     }
 
 
     /**
-     * Sets the four BoundedRangeModel properties after forcing
-     * the arguments to obey the usual constraints:
-     * <pre>
-     * minimum &le; value &le; value+extent &le; maximum
-     * </pre>
+     * Rfturns tif sdrollbbr's fxtfnt, bkb its "visiblfAmount".  In mbny
+     * sdrollbbr look bnd fffl implfmfntbtions tif sizf of tif
+     * sdrollbbr "knob" or "tiumb" is proportionbl to tif fxtfnt.
      *
-     * @param newValue an int giving the current value
-     * @param newExtent an int giving the amount by which the value can "jump"
-     * @param newMin an int giving the minimum value
-     * @param newMax an int giving the maximum value
-     *
-     * @see BoundedRangeModel#setRangeProperties
-     * @see #setValue
-     * @see #setVisibleAmount
-     * @see #setMinimum
-     * @see #setMaximum
+     * @rfturn tif vbluf of tif modfl's fxtfnt propfrty
+     * @sff #sftVisiblfAmount
      */
-    public void setValues(int newValue, int newExtent, int newMin, int newMax)
+    publid int gftVisiblfAmount() {
+        rfturn gftModfl().gftExtfnt();
+    }
+
+
+    /**
+     * Sft tif modfl's fxtfnt propfrty.
+     *
+     * @sff #gftVisiblfAmount
+     * @sff BoundfdRbngfModfl#sftExtfnt
+     * @bfbninfo
+     *   prfffrrfd: truf
+     * dfsdription: Tif bmount of tif vifw tibt is durrfntly visiblf.
+     */
+    publid void sftVisiblfAmount(int fxtfnt) {
+        gftModfl().sftExtfnt(fxtfnt);
+    }
+
+
+    /**
+     * Rfturns tif minimum vbluf supportfd by tif sdrollbbr
+     * (usublly zfro).
+     *
+     * @rfturn tif vbluf of tif modfl's minimum propfrty
+     * @sff #sftMinimum
+     */
+    publid int gftMinimum() {
+        rfturn gftModfl().gftMinimum();
+    }
+
+
+    /**
+     * Sfts tif modfl's minimum propfrty.
+     *
+     * @sff #gftMinimum
+     * @sff BoundfdRbngfModfl#sftMinimum
+     * @bfbninfo
+     *   prfffrrfd: truf
+     * dfsdription: Tif sdrollbbr's minimum vbluf.
+     */
+    publid void sftMinimum(int minimum) {
+        gftModfl().sftMinimum(minimum);
+    }
+
+
+    /**
+     * Tif mbximum vbluf of tif sdrollbbr is mbximum - fxtfnt.
+     *
+     * @rfturn tif vbluf of tif modfl's mbximum propfrty
+     * @sff #sftMbximum
+     */
+    publid int gftMbximum() {
+        rfturn gftModfl().gftMbximum();
+    }
+
+
+    /**
+     * Sfts tif modfl's mbximum propfrty.  Notf tibt tif sdrollbbr's vbluf
+     * dbn only bf sft to mbximum - fxtfnt.
+     *
+     * @sff #gftMbximum
+     * @sff BoundfdRbngfModfl#sftMbximum
+     * @bfbninfo
+     *   prfffrrfd: truf
+     * dfsdription: Tif sdrollbbr's mbximum vbluf.
+     */
+    publid void sftMbximum(int mbximum) {
+        gftModfl().sftMbximum(mbximum);
+    }
+
+
+    /**
+     * Truf if tif sdrollbbr knob is bfing drbggfd.
+     *
+     * @rfturn tif vbluf of tif modfl's vblufIsAdjusting propfrty
+     * @sff #sftVblufIsAdjusting
+     */
+    publid boolfbn gftVblufIsAdjusting() {
+        rfturn gftModfl().gftVblufIsAdjusting();
+    }
+
+
+    /**
+     * Sfts tif modfl's vblufIsAdjusting propfrty.  Sdrollbbr look bnd
+     * fffl implfmfntbtions siould sft tiis propfrty to truf wifn
+     * b knob drbg bfgins, bnd to fblsf wifn tif drbg fnds.  Tif
+     * sdrollbbr modfl will not gfnfrbtf CibngfEvfnts wiilf
+     * vblufIsAdjusting is truf.
+     *
+     * @pbrbm b {@dodf truf} if tif updoming dibngfs to tif vbluf propfrty brf pbrt of b sfrifs
+     *
+     * @sff #gftVblufIsAdjusting
+     * @sff BoundfdRbngfModfl#sftVblufIsAdjusting
+     * @bfbninfo
+     *      fxpfrt: truf
+     * dfsdription: Truf if tif sdrollbbr tiumb is bfing drbggfd.
+     */
+    publid void sftVblufIsAdjusting(boolfbn b) {
+        BoundfdRbngfModfl m = gftModfl();
+        boolfbn oldVbluf = m.gftVblufIsAdjusting();
+        m.sftVblufIsAdjusting(b);
+
+        if ((oldVbluf != b) && (bddfssiblfContfxt != null)) {
+            bddfssiblfContfxt.firfPropfrtyCibngf(
+                    AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                    ((oldVbluf) ? AddfssiblfStbtf.BUSY : null),
+                    ((b) ? AddfssiblfStbtf.BUSY : null));
+        }
+    }
+
+
+    /**
+     * Sfts tif four BoundfdRbngfModfl propfrtifs bftfr fording
+     * tif brgumfnts to obfy tif usubl donstrbints:
+     * <prf>
+     * minimum &lf; vbluf &lf; vbluf+fxtfnt &lf; mbximum
+     * </prf>
+     *
+     * @pbrbm nfwVbluf bn int giving tif durrfnt vbluf
+     * @pbrbm nfwExtfnt bn int giving tif bmount by wiidi tif vbluf dbn "jump"
+     * @pbrbm nfwMin bn int giving tif minimum vbluf
+     * @pbrbm nfwMbx bn int giving tif mbximum vbluf
+     *
+     * @sff BoundfdRbngfModfl#sftRbngfPropfrtifs
+     * @sff #sftVbluf
+     * @sff #sftVisiblfAmount
+     * @sff #sftMinimum
+     * @sff #sftMbximum
+     */
+    publid void sftVblufs(int nfwVbluf, int nfwExtfnt, int nfwMin, int nfwMbx)
     {
-        BoundedRangeModel m = getModel();
-        int oldValue = m.getValue();
-        m.setRangeProperties(newValue, newExtent, newMin, newMax, m.getValueIsAdjusting());
+        BoundfdRbngfModfl m = gftModfl();
+        int oldVbluf = m.gftVbluf();
+        m.sftRbngfPropfrtifs(nfwVbluf, nfwExtfnt, nfwMin, nfwMbx, m.gftVblufIsAdjusting());
 
-        if (accessibleContext != null) {
-            accessibleContext.firePropertyChange(
-                    AccessibleContext.ACCESSIBLE_VALUE_PROPERTY,
-                    Integer.valueOf(oldValue),
-                    Integer.valueOf(m.getValue()));
+        if (bddfssiblfContfxt != null) {
+            bddfssiblfContfxt.firfPropfrtyCibngf(
+                    AddfssiblfContfxt.ACCESSIBLE_VALUE_PROPERTY,
+                    Intfgfr.vblufOf(oldVbluf),
+                    Intfgfr.vblufOf(m.gftVbluf()));
         }
     }
 
 
     /**
-     * Adds an AdjustmentListener.  Adjustment listeners are notified
-     * each time the scrollbar's model changes.  Adjustment events are
-     * provided for backwards compatibility with java.awt.Scrollbar.
+     * Adds bn AdjustmfntListfnfr.  Adjustmfnt listfnfrs brf notififd
+     * fbdi timf tif sdrollbbr's modfl dibngfs.  Adjustmfnt fvfnts brf
+     * providfd for bbdkwbrds dompbtibility witi jbvb.bwt.Sdrollbbr.
      * <p>
-     * Note that the AdjustmentEvents type property will always have a
-     * placeholder value of AdjustmentEvent.TRACK because all changes
-     * to a BoundedRangeModels value are considered equivalent.  To change
-     * the value of a BoundedRangeModel one just sets its value property,
-     * i.e. model.setValue(123).  No information about the origin of the
-     * change, e.g. it's a block decrement, is provided.  We don't try
-     * fabricate the origin of the change here.
+     * Notf tibt tif AdjustmfntEvfnts typf propfrty will blwbys ibvf b
+     * plbdfioldfr vbluf of AdjustmfntEvfnt.TRACK bfdbusf bll dibngfs
+     * to b BoundfdRbngfModfls vbluf brf donsidfrfd fquivblfnt.  To dibngf
+     * tif vbluf of b BoundfdRbngfModfl onf just sfts its vbluf propfrty,
+     * i.f. modfl.sftVbluf(123).  No informbtion bbout tif origin of tif
+     * dibngf, f.g. it's b blodk dfdrfmfnt, is providfd.  Wf don't try
+     * fbbridbtf tif origin of tif dibngf ifrf.
      *
-     * @param l the AdjustmentLister to add
-     * @see #removeAdjustmentListener
-     * @see BoundedRangeModel#addChangeListener
+     * @pbrbm l tif AdjustmfntListfr to bdd
+     * @sff #rfmovfAdjustmfntListfnfr
+     * @sff BoundfdRbngfModfl#bddCibngfListfnfr
      */
-    public void addAdjustmentListener(AdjustmentListener l)   {
-        listenerList.add(AdjustmentListener.class, l);
+    publid void bddAdjustmfntListfnfr(AdjustmfntListfnfr l)   {
+        listfnfrList.bdd(AdjustmfntListfnfr.dlbss, l);
     }
 
 
     /**
-     * Removes an AdjustmentEvent listener.
+     * Rfmovfs bn AdjustmfntEvfnt listfnfr.
      *
-     * @param l the AdjustmentLister to remove
-     * @see #addAdjustmentListener
+     * @pbrbm l tif AdjustmfntListfr to rfmovf
+     * @sff #bddAdjustmfntListfnfr
      */
-    public void removeAdjustmentListener(AdjustmentListener l)  {
-        listenerList.remove(AdjustmentListener.class, l);
+    publid void rfmovfAdjustmfntListfnfr(AdjustmfntListfnfr l)  {
+        listfnfrList.rfmovf(AdjustmfntListfnfr.dlbss, l);
     }
 
 
     /**
-     * Returns an array of all the <code>AdjustmentListener</code>s added
-     * to this JScrollBar with addAdjustmentListener().
+     * Rfturns bn brrby of bll tif <dodf>AdjustmfntListfnfr</dodf>s bddfd
+     * to tiis JSdrollBbr witi bddAdjustmfntListfnfr().
      *
-     * @return all of the <code>AdjustmentListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>AdjustmfntListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public AdjustmentListener[] getAdjustmentListeners() {
-        return listenerList.getListeners(AdjustmentListener.class);
+    publid AdjustmfntListfnfr[] gftAdjustmfntListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(AdjustmfntListfnfr.dlbss);
     }
 
 
     /**
-     * Notify listeners that the scrollbar's model has changed.
+     * Notify listfnfrs tibt tif sdrollbbr's modfl ibs dibngfd.
      *
-     * @param id an integer indicating the type of event.
-     * @param type an integer indicating the adjustment type.
-     * @param value the current value of the adjustment
+     * @pbrbm id bn intfgfr indidbting tif typf of fvfnt.
+     * @pbrbm typf bn intfgfr indidbting tif bdjustmfnt typf.
+     * @pbrbm vbluf tif durrfnt vbluf of tif bdjustmfnt
      *
-     * @see #addAdjustmentListener
-     * @see EventListenerList
+     * @sff #bddAdjustmfntListfnfr
+     * @sff EvfntListfnfrList
      */
-    protected void fireAdjustmentValueChanged(int id, int type, int value) {
-        fireAdjustmentValueChanged(id, type, value, getValueIsAdjusting());
+    protfdtfd void firfAdjustmfntVblufCibngfd(int id, int typf, int vbluf) {
+        firfAdjustmfntVblufCibngfd(id, typf, vbluf, gftVblufIsAdjusting());
     }
 
     /**
-     * Notify listeners that the scrollbar's model has changed.
+     * Notify listfnfrs tibt tif sdrollbbr's modfl ibs dibngfd.
      *
-     * @see #addAdjustmentListener
-     * @see EventListenerList
+     * @sff #bddAdjustmfntListfnfr
+     * @sff EvfntListfnfrList
      */
-    private void fireAdjustmentValueChanged(int id, int type, int value,
-                                            boolean isAdjusting) {
-        Object[] listeners = listenerList.getListenerList();
-        AdjustmentEvent e = null;
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i]==AdjustmentListener.class) {
-                if (e == null) {
-                    e = new AdjustmentEvent(this, id, type, value, isAdjusting);
+    privbtf void firfAdjustmfntVblufCibngfd(int id, int typf, int vbluf,
+                                            boolfbn isAdjusting) {
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        AdjustmfntEvfnt f = null;
+        for (int i = listfnfrs.lfngti - 2; i >= 0; i -= 2) {
+            if (listfnfrs[i]==AdjustmfntListfnfr.dlbss) {
+                if (f == null) {
+                    f = nfw AdjustmfntEvfnt(tiis, id, typf, vbluf, isAdjusting);
                 }
-                ((AdjustmentListener)listeners[i+1]).adjustmentValueChanged(e);
+                ((AdjustmfntListfnfr)listfnfrs[i+1]).bdjustmfntVblufCibngfd(f);
             }
         }
     }
 
 
     /**
-     * This class listens to ChangeEvents on the model and forwards
-     * AdjustmentEvents for the sake of backwards compatibility.
-     * Unfortunately there's no way to determine the proper
-     * type of the AdjustmentEvent as all updates to the model's
-     * value are considered equivalent.
+     * Tiis dlbss listfns to CibngfEvfnts on tif modfl bnd forwbrds
+     * AdjustmfntEvfnts for tif sbkf of bbdkwbrds dompbtibility.
+     * Unfortunbtfly tifrf's no wby to dftfrminf tif propfr
+     * typf of tif AdjustmfntEvfnt bs bll updbtfs to tif modfl's
+     * vbluf brf donsidfrfd fquivblfnt.
      */
-    private class ModelListener implements ChangeListener, Serializable {
-        public void stateChanged(ChangeEvent e)   {
-            Object obj = e.getSource();
-            if (obj instanceof BoundedRangeModel) {
-                int id = AdjustmentEvent.ADJUSTMENT_VALUE_CHANGED;
-                int type = AdjustmentEvent.TRACK;
-                BoundedRangeModel model = (BoundedRangeModel)obj;
-                int value = model.getValue();
-                boolean isAdjusting = model.getValueIsAdjusting();
-                fireAdjustmentValueChanged(id, type, value, isAdjusting);
+    privbtf dlbss ModflListfnfr implfmfnts CibngfListfnfr, Sfriblizbblf {
+        publid void stbtfCibngfd(CibngfEvfnt f)   {
+            Objfdt obj = f.gftSourdf();
+            if (obj instbndfof BoundfdRbngfModfl) {
+                int id = AdjustmfntEvfnt.ADJUSTMENT_VALUE_CHANGED;
+                int typf = AdjustmfntEvfnt.TRACK;
+                BoundfdRbngfModfl modfl = (BoundfdRbngfModfl)obj;
+                int vbluf = modfl.gftVbluf();
+                boolfbn isAdjusting = modfl.gftVblufIsAdjusting();
+                firfAdjustmfntVblufCibngfd(id, typf, vbluf, isAdjusting);
             }
         }
     }
 
-    // PENDING(hmuller) - the next three methods should be removed
+    // PENDING(imullfr) - tif nfxt tirff mftiods siould bf rfmovfd
 
     /**
-     * The scrollbar is flexible along it's scrolling axis and
-     * rigid along the other axis.
+     * Tif sdrollbbr is flfxiblf blong it's sdrolling bxis bnd
+     * rigid blong tif otifr bxis.
      */
-    public Dimension getMinimumSize() {
-        Dimension pref = getPreferredSize();
-        if (orientation == VERTICAL) {
-            return new Dimension(pref.width, 5);
-        } else {
-            return new Dimension(5, pref.height);
+    publid Dimfnsion gftMinimumSizf() {
+        Dimfnsion prff = gftPrfffrrfdSizf();
+        if (orifntbtion == VERTICAL) {
+            rfturn nfw Dimfnsion(prff.widti, 5);
+        } flsf {
+            rfturn nfw Dimfnsion(5, prff.ifigit);
         }
     }
 
     /**
-     * The scrollbar is flexible along it's scrolling axis and
-     * rigid along the other axis.
+     * Tif sdrollbbr is flfxiblf blong it's sdrolling bxis bnd
+     * rigid blong tif otifr bxis.
      */
-    public Dimension getMaximumSize() {
-        Dimension pref = getPreferredSize();
-        if (getOrientation() == VERTICAL) {
-            return new Dimension(pref.width, Short.MAX_VALUE);
-        } else {
-            return new Dimension(Short.MAX_VALUE, pref.height);
+    publid Dimfnsion gftMbximumSizf() {
+        Dimfnsion prff = gftPrfffrrfdSizf();
+        if (gftOrifntbtion() == VERTICAL) {
+            rfturn nfw Dimfnsion(prff.widti, Siort.MAX_VALUE);
+        } flsf {
+            rfturn nfw Dimfnsion(Siort.MAX_VALUE, prff.ifigit);
         }
     }
 
     /**
-     * Enables the component so that the knob position can be changed.
-     * When the disabled, the knob position cannot be changed.
+     * Enbblfs tif domponfnt so tibt tif knob position dbn bf dibngfd.
+     * Wifn tif disbblfd, tif knob position dbnnot bf dibngfd.
      *
-     * @param x a boolean value, where true enables the component and
-     *          false disables it
+     * @pbrbm x b boolfbn vbluf, wifrf truf fnbblfs tif domponfnt bnd
+     *          fblsf disbblfs it
      */
-    public void setEnabled(boolean x)  {
-        super.setEnabled(x);
-        Component[] children = getComponents();
-        for (Component child : children) {
-            child.setEnabled(x);
+    publid void sftEnbblfd(boolfbn x)  {
+        supfr.sftEnbblfd(x);
+        Componfnt[] diildrfn = gftComponfnts();
+        for (Componfnt diild : diildrfn) {
+            diild.sftEnbblfd(x);
         }
     }
 
     /**
-     * See readObject() and writeObject() in JComponent for more
-     * information about serialization in Swing.
+     * Sff rfbdObjfdt() bnd writfObjfdt() in JComponfnt for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
 
     /**
-     * Returns a string representation of this JScrollBar. This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis JSdrollBbr. Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this JScrollBar.
+     * @rfturn  b string rfprfsfntbtion of tiis JSdrollBbr.
      */
-    protected String paramString() {
-        String orientationString = (orientation == HORIZONTAL ?
+    protfdtfd String pbrbmString() {
+        String orifntbtionString = (orifntbtion == HORIZONTAL ?
                                     "HORIZONTAL" : "VERTICAL");
 
-        return super.paramString() +
-        ",blockIncrement=" + blockIncrement +
-        ",orientation=" + orientationString +
-        ",unitIncrement=" + unitIncrement;
+        rfturn supfr.pbrbmString() +
+        ",blodkIndrfmfnt=" + blodkIndrfmfnt +
+        ",orifntbtion=" + orifntbtionString +
+        ",unitIndrfmfnt=" + unitIndrfmfnt;
     }
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
     /**
-     * Gets the AccessibleContext associated with this JScrollBar.
-     * For JScrollBar, the AccessibleContext takes the form of an
-     * AccessibleJScrollBar.
-     * A new AccessibleJScrollBar instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JSdrollBbr.
+     * For JSdrollBbr, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJSdrollBbr.
+     * A nfw AddfssiblfJSdrollBbr instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJScrollBar that serves as the
-     *         AccessibleContext of this JScrollBar
+     * @rfturn bn AddfssiblfJSdrollBbr tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JSdrollBbr
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJScrollBar();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJSdrollBbr();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>JScrollBar</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to scroll bar user-interface
-     * elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JSdrollBbr</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to sdroll bbr usfr-intfrfbdf
+     * flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJScrollBar extends AccessibleJComponent
-        implements AccessibleValue {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJSdrollBbr fxtfnds AddfssiblfJComponfnt
+        implfmfnts AddfssiblfVbluf {
 
         /**
-         * Get the state set of this object.
+         * Gft tif stbtf sft of tiis objfdt.
          *
-         * @return an instance of AccessibleState containing the current state
-         * of the object
-         * @see AccessibleState
+         * @rfturn bn instbndf of AddfssiblfStbtf dontbining tif durrfnt stbtf
+         * of tif objfdt
+         * @sff AddfssiblfStbtf
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            if (getValueIsAdjusting()) {
-                states.add(AccessibleState.BUSY);
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            if (gftVblufIsAdjusting()) {
+                stbtfs.bdd(AddfssiblfStbtf.BUSY);
             }
-            if (getOrientation() == VERTICAL) {
-                states.add(AccessibleState.VERTICAL);
-            } else {
-                states.add(AccessibleState.HORIZONTAL);
+            if (gftOrifntbtion() == VERTICAL) {
+                stbtfs.bdd(AddfssiblfStbtf.VERTICAL);
+            } flsf {
+                stbtfs.bdd(AddfssiblfStbtf.HORIZONTAL);
             }
-            return states;
+            rfturn stbtfs;
         }
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.SCROLL_BAR;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.SCROLL_BAR;
         }
 
         /**
-         * Get the AccessibleValue associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
-         * return this object, which is responsible for implementing the
-         * AccessibleValue interface on behalf of itself.
+         * Gft tif AddfssiblfVbluf bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * AddfssiblfVbluf intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleValue getAccessibleValue() {
-            return this;
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            rfturn tiis;
         }
 
         /**
-         * Get the accessible value of this object.
+         * Gft tif bddfssiblf vbluf of tiis objfdt.
          *
-         * @return The current value of this object.
+         * @rfturn Tif durrfnt vbluf of tiis objfdt.
          */
-        public Number getCurrentAccessibleValue() {
-            return Integer.valueOf(getValue());
+        publid Numbfr gftCurrfntAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftVbluf());
         }
 
         /**
-         * Set the value of this object as a Number.
+         * Sft tif vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return True if the value was set.
+         * @rfturn Truf if tif vbluf wbs sft.
          */
-        public boolean setCurrentAccessibleValue(Number n) {
+        publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
             // TIGER - 4422535
             if (n == null) {
-                return false;
+                rfturn fblsf;
             }
-            setValue(n.intValue());
-            return true;
+            sftVbluf(n.intVbluf());
+            rfturn truf;
         }
 
         /**
-         * Get the minimum accessible value of this object.
+         * Gft tif minimum bddfssiblf vbluf of tiis objfdt.
          *
-         * @return The minimum value of this object.
+         * @rfturn Tif minimum vbluf of tiis objfdt.
          */
-        public Number getMinimumAccessibleValue() {
-            return Integer.valueOf(getMinimum());
+        publid Numbfr gftMinimumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftMinimum());
         }
 
         /**
-         * Get the maximum accessible value of this object.
+         * Gft tif mbximum bddfssiblf vbluf of tiis objfdt.
          *
-         * @return The maximum value of this object.
+         * @rfturn Tif mbximum vbluf of tiis objfdt.
          */
-        public Number getMaximumAccessibleValue() {
+        publid Numbfr gftMbximumAddfssiblfVbluf() {
             // TIGER - 4422362
-            return model.getMaximum() - model.getExtent();
+            rfturn modfl.gftMbximum() - modfl.gftExtfnt();
         }
 
-    } // AccessibleJScrollBar
+    } // AddfssiblfJSdrollBbr
 }

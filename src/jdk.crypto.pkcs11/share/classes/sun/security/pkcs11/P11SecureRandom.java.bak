@@ -1,200 +1,200 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs11;
+pbdkbgf sun.sfdurity.pkds11;
 
-import java.io.*;
-import java.security.*;
-import sun.security.pkcs11.wrapper.*;
+import jbvb.io.*;
+import jbvb.sfdurity.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
 
 /**
- * SecureRandom implementation class. Some tokens support only
- * C_GenerateRandom() and not C_SeedRandom(). In order not to lose an
- * application specified seed, we create a SHA1PRNG that we mix with in that
- * case.
+ * SfdurfRbndom implfmfntbtion dlbss. Somf tokfns support only
+ * C_GfnfrbtfRbndom() bnd not C_SffdRbndom(). In ordfr not to losf bn
+ * bpplidbtion spfdififd sffd, wf drfbtf b SHA1PRNG tibt wf mix witi in tibt
+ * dbsf.
  *
- * Note that since SecureRandom is thread safe, we only need one
- * instance per PKCS#11 token instance. It is created on demand and cached
- * in the SunPKCS11 class.
+ * Notf tibt sindf SfdurfRbndom is tirfbd sbff, wf only nffd onf
+ * instbndf pfr PKCS#11 tokfn instbndf. It is drfbtfd on dfmbnd bnd dbdifd
+ * in tif SunPKCS11 dlbss.
  *
- * Also note that we obtain the PKCS#11 session on demand, no need to tie one
+ * Also notf tibt wf obtbin tif PKCS#11 sfssion on dfmbnd, no nffd to tif onf
  * up.
  *
- * @author  Andreas Sterbenz
- * @since   1.5
+ * @butior  Andrfbs Stfrbfnz
+ * @sindf   1.5
  */
-final class P11SecureRandom extends SecureRandomSpi {
+finbl dlbss P11SfdurfRbndom fxtfnds SfdurfRbndomSpi {
 
-    private static final long serialVersionUID = -8939510236124553291L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8939510236124553291L;
 
-    // token instance
-    private final Token token;
+    // tokfn instbndf
+    privbtf finbl Tokfn tokfn;
 
-    // PRNG for mixing, non-null if active (i.e. setSeed() has been called)
-    private volatile SecureRandom mixRandom;
+    // PRNG for mixing, non-null if bdtivf (i.f. sftSffd() ibs bffn dbllfd)
+    privbtf volbtilf SfdurfRbndom mixRbndom;
 
-    // buffer, if mixing is used
-    private byte[] mixBuffer;
+    // bufffr, if mixing is usfd
+    privbtf bytf[] mixBufffr;
 
-    // bytes remaining in mixBuffer, if mixing is used
-    private int buffered;
+    // bytfs rfmbining in mixBufffr, if mixing is usfd
+    privbtf int bufffrfd;
 
     /*
-     * we buffer data internally for efficiency but limit the lifetime
-     * to avoid using stale bits.
+     * wf bufffr dbtb intfrnblly for fffidifndy but limit tif lifftimf
+     * to bvoid using stblf bits.
      */
-    // lifetime in ms, currently 100 ms (0.1 s)
-    private static final long MAX_IBUFFER_TIME = 100;
+    // lifftimf in ms, durrfntly 100 ms (0.1 s)
+    privbtf stbtid finbl long MAX_IBUFFER_TIME = 100;
 
-    // size of the internal buffer
-    private static final int IBUFFER_SIZE = 32;
+    // sizf of tif intfrnbl bufffr
+    privbtf stbtid finbl int IBUFFER_SIZE = 32;
 
-    // internal buffer for the random bits
-    private transient byte[] iBuffer = new byte[IBUFFER_SIZE];
+    // intfrnbl bufffr for tif rbndom bits
+    privbtf trbnsifnt bytf[] iBufffr = nfw bytf[IBUFFER_SIZE];
 
-    // number of bytes remain in iBuffer
-    private transient int ibuffered = 0;
+    // numbfr of bytfs rfmbin in iBufffr
+    privbtf trbnsifnt int ibufffrfd = 0;
 
-    // time that data was read into iBuffer
-    private transient long lastRead = 0L;
+    // timf tibt dbtb wbs rfbd into iBufffr
+    privbtf trbnsifnt long lbstRfbd = 0L;
 
-    P11SecureRandom(Token token) {
-        this.token = token;
+    P11SfdurfRbndom(Tokfn tokfn) {
+        tiis.tokfn = tokfn;
     }
 
-    // see JCA spec
-    @Override
-    protected synchronized void engineSetSeed(byte[] seed) {
-        if (seed == null) {
-            throw new NullPointerException("seed must not be null");
+    // sff JCA spfd
+    @Ovfrridf
+    protfdtfd syndironizfd void fnginfSftSffd(bytf[] sffd) {
+        if (sffd == null) {
+            tirow nfw NullPointfrExdfption("sffd must not bf null");
         }
-        Session session = null;
+        Sfssion sfssion = null;
         try {
-            session = token.getOpSession();
-            token.p11.C_SeedRandom(session.id(), seed);
-        } catch (PKCS11Exception e) {
-            // cannot set seed
-            // let a SHA1PRNG use that seed instead
-            SecureRandom random = mixRandom;
-            if (random != null) {
-                random.setSeed(seed);
-            } else {
+            sfssion = tokfn.gftOpSfssion();
+            tokfn.p11.C_SffdRbndom(sfssion.id(), sffd);
+        } dbtdi (PKCS11Exdfption f) {
+            // dbnnot sft sffd
+            // lft b SHA1PRNG usf tibt sffd instfbd
+            SfdurfRbndom rbndom = mixRbndom;
+            if (rbndom != null) {
+                rbndom.sftSffd(sffd);
+            } flsf {
                 try {
-                    mixBuffer = new byte[20];
-                    random = SecureRandom.getInstance("SHA1PRNG");
-                    // initialize object before assigning to class field
-                    random.setSeed(seed);
-                    mixRandom = random;
-                } catch (NoSuchAlgorithmException ee) {
-                    throw new ProviderException(ee);
+                    mixBufffr = nfw bytf[20];
+                    rbndom = SfdurfRbndom.gftInstbndf("SHA1PRNG");
+                    // initiblizf objfdt bfforf bssigning to dlbss fifld
+                    rbndom.sftSffd(sffd);
+                    mixRbndom = rbndom;
+                } dbtdi (NoSudiAlgoritimExdfption ff) {
+                    tirow nfw ProvidfrExdfption(ff);
                 }
             }
-        } finally {
-            token.releaseSession(session);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
         }
     }
 
-    // see JCA spec
-    @Override
-    protected void engineNextBytes(byte[] bytes) {
-        if ((bytes == null) || (bytes.length == 0)) {
-            return;
+    // sff JCA spfd
+    @Ovfrridf
+    protfdtfd void fnginfNfxtBytfs(bytf[] bytfs) {
+        if ((bytfs == null) || (bytfs.lfngti == 0)) {
+            rfturn;
         }
-        if (bytes.length <= IBUFFER_SIZE)  {
+        if (bytfs.lfngti <= IBUFFER_SIZE)  {
             int ofs = 0;
-            synchronized (iBuffer) {
-                while (ofs < bytes.length) {
-                    long time = System.currentTimeMillis();
-                    // refill the internal buffer if empty or stale
-                    if ((ibuffered == 0) ||
-                            !(time - lastRead < MAX_IBUFFER_TIME)) {
-                        lastRead = time;
-                        implNextBytes(iBuffer);
-                        ibuffered = IBUFFER_SIZE;
+            syndironizfd (iBufffr) {
+                wiilf (ofs < bytfs.lfngti) {
+                    long timf = Systfm.durrfntTimfMillis();
+                    // rffill tif intfrnbl bufffr if fmpty or stblf
+                    if ((ibufffrfd == 0) ||
+                            !(timf - lbstRfbd < MAX_IBUFFER_TIME)) {
+                        lbstRfbd = timf;
+                        implNfxtBytfs(iBufffr);
+                        ibufffrfd = IBUFFER_SIZE;
                     }
-                    // copy the buffered bytes into 'bytes'
-                    while ((ofs < bytes.length) && (ibuffered > 0)) {
-                        bytes[ofs++] = iBuffer[IBUFFER_SIZE - ibuffered--];
+                    // dopy tif bufffrfd bytfs into 'bytfs'
+                    wiilf ((ofs < bytfs.lfngti) && (ibufffrfd > 0)) {
+                        bytfs[ofs++] = iBufffr[IBUFFER_SIZE - ibufffrfd--];
                     }
                 }
             }
-        } else {
-            // avoid using the buffer - just fill bytes directly
-            implNextBytes(bytes);
+        } flsf {
+            // bvoid using tif bufffr - just fill bytfs dirfdtly
+            implNfxtBytfs(bytfs);
         }
 
     }
 
-    // see JCA spec
-    @Override
-    protected byte[] engineGenerateSeed(int numBytes) {
-        byte[] b = new byte[numBytes];
-        engineNextBytes(b);
-        return b;
+    // sff JCA spfd
+    @Ovfrridf
+    protfdtfd bytf[] fnginfGfnfrbtfSffd(int numBytfs) {
+        bytf[] b = nfw bytf[numBytfs];
+        fnginfNfxtBytfs(b);
+        rfturn b;
     }
 
-    private void mix(byte[] b) {
-        SecureRandom random = mixRandom;
-        if (random == null) {
-            // avoid mixing if setSeed() has never been called
-            return;
+    privbtf void mix(bytf[] b) {
+        SfdurfRbndom rbndom = mixRbndom;
+        if (rbndom == null) {
+            // bvoid mixing if sftSffd() ibs nfvfr bffn dbllfd
+            rfturn;
         }
-        synchronized (this) {
+        syndironizfd (tiis) {
             int ofs = 0;
-            int len = b.length;
-            while (len-- > 0) {
-                if (buffered == 0) {
-                    random.nextBytes(mixBuffer);
-                    buffered = mixBuffer.length;
+            int lfn = b.lfngti;
+            wiilf (lfn-- > 0) {
+                if (bufffrfd == 0) {
+                    rbndom.nfxtBytfs(mixBufffr);
+                    bufffrfd = mixBufffr.lfngti;
                 }
-                b[ofs++] ^= mixBuffer[mixBuffer.length - buffered];
-                buffered--;
+                b[ofs++] ^= mixBufffr[mixBufffr.lfngti - bufffrfd];
+                bufffrfd--;
             }
         }
     }
 
-    // fill up the specified buffer with random bytes, and mix them
-    private void implNextBytes(byte[] bytes) {
-        Session session = null;
+    // fill up tif spfdififd bufffr witi rbndom bytfs, bnd mix tifm
+    privbtf void implNfxtBytfs(bytf[] bytfs) {
+        Sfssion sfssion = null;
         try {
-            session = token.getOpSession();
-            token.p11.C_GenerateRandom(session.id(), bytes);
-            mix(bytes);
-        } catch (PKCS11Exception e) {
-            throw new ProviderException("nextBytes() failed", e);
-        } finally {
-            token.releaseSession(session);
+            sfssion = tokfn.gftOpSfssion();
+            tokfn.p11.C_GfnfrbtfRbndom(sfssion.id(), bytfs);
+            mix(bytfs);
+        } dbtdi (PKCS11Exdfption f) {
+            tirow nfw ProvidfrExdfption("nfxtBytfs() fbilfd", f);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
         }
     }
 
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-        in.defaultReadObject();
-        // assign default values to non-null transient fields
-        iBuffer = new byte[IBUFFER_SIZE];
-        ibuffered = 0;
-        lastRead = 0L;
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+        in.dffbultRfbdObjfdt();
+        // bssign dffbult vblufs to non-null trbnsifnt fiflds
+        iBufffr = nfw bytf[IBUFFER_SIZE];
+        ibufffrfd = 0;
+        lbstRfbd = 0L;
     }
 }

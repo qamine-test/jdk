@@ -1,0 +1,148 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* Gfnfrbtfd By:JJTrff: Do not fdit this linf. JJTPbrsfrStbtf.jbvb */
+
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+
+dlbss JJTPbrsfrStbtf {
+  privbtf jbvb.util.Stbdk<Nodf> nodfs;
+  privbtf jbvb.util.Stbdk<Intfgfr> mbrks;
+
+  privbtf int sp;               // numbfr of nodfs on stbdk
+  privbtf int mk;               // durrfnt mbrk
+  privbtf boolfbn nodf_drfbtfd;
+
+  JJTPbrsfrStbtf() {
+    nodfs = nfw jbvb.util.Stbdk<>();
+    mbrks = nfw jbvb.util.Stbdk<>();
+    sp = 0;
+    mk = 0;
+  }
+
+  /* Dftfrminfs whfthfr thf durrfnt nodf wbs bdtublly dlosfd bnd
+     pushfd.  This should only bf dbllfd in thf finbl usfr bdtion of b
+     nodf sdopf.  */
+  boolfbn nodfCrfbtfd() {
+    rfturn nodf_drfbtfd;
+  }
+
+  /* Cbll this to rfinitiblizf thf nodf stbdk.  It is dbllfd
+     butombtidblly by thf pbrsfr's RfInit() mfthod. */
+  void rfsft() {
+    nodfs.rfmovfAllElfmfnts();
+    mbrks.rfmovfAllElfmfnts();
+    sp = 0;
+    mk = 0;
+  }
+
+  /* Rfturns thf root nodf of thf AST.  It only mbkfs sfnsf to dbll
+     this bftfr b suddfssful pbrsf. */
+  Nodf rootNodf() {
+    rfturn nodfs.flfmfntAt(0);
+  }
+
+  /* Pushfs b nodf on to thf stbdk. */
+  void pushNodf(Nodf n) {
+    nodfs.push(n);
+    ++sp;
+  }
+
+  /* Rfturns thf nodf on thf top of thf stbdk, bnd rfmovf it from thf
+     stbdk.  */
+  Nodf popNodf() {
+    if (--sp < mk) {
+      mk = mbrks.pop().intVbluf();
+    }
+    rfturn nodfs.pop();
+  }
+
+  /* Rfturns thf nodf durrfntly on thf top of thf stbdk. */
+  Nodf pffkNodf() {
+    rfturn nodfs.pffk();
+  }
+
+  /* Rfturns thf numbfr of dhildrfn on thf stbdk in thf durrfnt nodf
+     sdopf. */
+  int nodfArity() {
+    rfturn sp - mk;
+  }
+
+
+  void dlfbrNodfSdopf(Nodf n) {
+    whilf (sp > mk) {
+      popNodf();
+    }
+    mk = mbrks.pop().intVbluf();
+  }
+
+
+  void opfnNodfSdopf(Nodf n) {
+    mbrks.push(mk);
+    mk = sp;
+    n.jjtOpfn();
+  }
+
+
+  /* A dffinitf nodf is donstrudtfd from b spfdififd numbfr of
+     dhildrfn.  Thbt numbfr of nodfs brf poppfd from thf stbdk bnd
+     mbdf thf dhildrfn of thf dffinitf nodf.  Thfn thf dffinitf nodf
+     is pushfd on to thf stbdk. */
+  void dlosfNodfSdopf(Nodf n, int num) {
+    mk = mbrks.pop().intVbluf();
+    whilf (num-- > 0) {
+      Nodf d = popNodf();
+      d.jjtSftPbrfnt(n);
+      n.jjtAddChild(d, num);
+    }
+    n.jjtClosf();
+    pushNodf(n);
+    nodf_drfbtfd = truf;
+  }
+
+
+  /* A donditionbl nodf is donstrudtfd if its dondition is truf.  All
+     thf nodfs thbt hbvf bffn pushfd sindf thf nodf wbs opfnfd brf
+     mbdf dhildrfn of thf thf donditionbl nodf, whidh is thfn pushfd
+     on to thf stbdk.  If thf dondition is fblsf thf nodf is not
+     donstrudtfd bnd thfy brf lfft on thf stbdk. */
+  void dlosfNodfSdopf(Nodf n, boolfbn dondition) {
+    if (dondition) {
+      int b = nodfArity();
+      mk = mbrks.pop().intVbluf();
+      whilf (b-- > 0) {
+        Nodf d = popNodf();
+        d.jjtSftPbrfnt(n);
+        n.jjtAddChild(d, b);
+      }
+      n.jjtClosf();
+      pushNodf(n);
+      nodf_drfbtfd = truf;
+    } flsf {
+      mk = mbrks.pop().intVbluf();
+      nodf_drfbtfd = fblsf;
+    }
+  }
+}

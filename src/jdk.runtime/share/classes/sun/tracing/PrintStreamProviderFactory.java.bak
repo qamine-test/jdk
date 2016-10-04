@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tracing;
+pbdkbgf sun.trbding;
 
-import java.lang.reflect.Method;
-import java.io.PrintStream;
-import java.util.HashMap;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.HbsiMbp;
 
-import com.sun.tracing.ProviderFactory;
-import com.sun.tracing.Provider;
-import com.sun.tracing.ProviderName;
-import com.sun.tracing.Probe;
-import com.sun.tracing.ProbeName;
+import dom.sun.trbding.ProvidfrFbdtory;
+import dom.sun.trbding.Providfr;
+import dom.sun.trbding.ProvidfrNbmf;
+import dom.sun.trbding.Probf;
+import dom.sun.trbding.ProbfNbmf;
 
 /**
- * Factory class to create tracing Providers.
+ * Fbdtory dlbss to drfbtf trbding Providfrs.
  *
- * This factory will create tracing instances that print to a PrintStream
- * when activated.
+ * Tiis fbdtory will drfbtf trbding instbndfs tibt print to b PrintStrfbm
+ * wifn bdtivbtfd.
  *
- * @since 1.7
+ * @sindf 1.7
  */
-public class PrintStreamProviderFactory extends ProviderFactory {
+publid dlbss PrintStrfbmProvidfrFbdtory fxtfnds ProvidfrFbdtory {
 
-    private PrintStream stream;
+    privbtf PrintStrfbm strfbm;
 
-    public PrintStreamProviderFactory(PrintStream stream) {
-        this.stream = stream;
+    publid PrintStrfbmProvidfrFbdtory(PrintStrfbm strfbm) {
+        tiis.strfbm = strfbm;
     }
 
-    public <T extends Provider> T createProvider(Class<T> cls) {
-        PrintStreamProvider provider = new PrintStreamProvider(cls, stream);
-        provider.init();
-        return provider.newProxyInstance();
-    }
-}
-
-class PrintStreamProvider extends ProviderSkeleton {
-
-    private PrintStream stream;
-    private String providerName;
-
-    protected ProbeSkeleton createProbe(Method m) {
-        String probeName = getAnnotationString(m, ProbeName.class, m.getName());
-        return new PrintStreamProbe(this, probeName, m.getParameterTypes());
-    }
-
-    PrintStreamProvider(Class<? extends Provider> type, PrintStream stream) {
-        super(type);
-        this.stream = stream;
-        this.providerName = getProviderName();
-    }
-
-    PrintStream getStream() {
-        return stream;
-    }
-
-    String getName() {
-        return providerName;
+    publid <T fxtfnds Providfr> T drfbtfProvidfr(Clbss<T> dls) {
+        PrintStrfbmProvidfr providfr = nfw PrintStrfbmProvidfr(dls, strfbm);
+        providfr.init();
+        rfturn providfr.nfwProxyInstbndf();
     }
 }
 
-class PrintStreamProbe extends ProbeSkeleton {
+dlbss PrintStrfbmProvidfr fxtfnds ProvidfrSkflfton {
 
-    private PrintStreamProvider provider;
-    private String name;
+    privbtf PrintStrfbm strfbm;
+    privbtf String providfrNbmf;
 
-    PrintStreamProbe(PrintStreamProvider p, String name, Class<?>[] params) {
-        super(params);
-        this.provider = p;
-        this.name = name;
+    protfdtfd ProbfSkflfton drfbtfProbf(Mftiod m) {
+        String probfNbmf = gftAnnotbtionString(m, ProbfNbmf.dlbss, m.gftNbmf());
+        rfturn nfw PrintStrfbmProbf(tiis, probfNbmf, m.gftPbrbmftfrTypfs());
     }
 
-    public boolean isEnabled() {
-        return true;
+    PrintStrfbmProvidfr(Clbss<? fxtfnds Providfr> typf, PrintStrfbm strfbm) {
+        supfr(typf);
+        tiis.strfbm = strfbm;
+        tiis.providfrNbmf = gftProvidfrNbmf();
     }
 
-    public void uncheckedTrigger(Object[] args) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(provider.getName());
-        sb.append(".");
-        sb.append(name);
-        sb.append("(");
-        boolean first = true;
-        for (Object o : args) {
-            if (first == false) {
-                sb.append(",");
-            } else {
-                first = false;
+    PrintStrfbm gftStrfbm() {
+        rfturn strfbm;
+    }
+
+    String gftNbmf() {
+        rfturn providfrNbmf;
+    }
+}
+
+dlbss PrintStrfbmProbf fxtfnds ProbfSkflfton {
+
+    privbtf PrintStrfbmProvidfr providfr;
+    privbtf String nbmf;
+
+    PrintStrfbmProbf(PrintStrfbmProvidfr p, String nbmf, Clbss<?>[] pbrbms) {
+        supfr(pbrbms);
+        tiis.providfr = p;
+        tiis.nbmf = nbmf;
+    }
+
+    publid boolfbn isEnbblfd() {
+        rfturn truf;
+    }
+
+    publid void undifdkfdTriggfr(Objfdt[] brgs) {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd(providfr.gftNbmf());
+        sb.bppfnd(".");
+        sb.bppfnd(nbmf);
+        sb.bppfnd("(");
+        boolfbn first = truf;
+        for (Objfdt o : brgs) {
+            if (first == fblsf) {
+                sb.bppfnd(",");
+            } flsf {
+                first = fblsf;
             }
-            sb.append(o.toString());
+            sb.bppfnd(o.toString());
         }
-        sb.append(")");
-        provider.getStream().println(sb.toString());
+        sb.bppfnd(")");
+        providfr.gftStrfbm().println(sb.toString());
     }
 }
 

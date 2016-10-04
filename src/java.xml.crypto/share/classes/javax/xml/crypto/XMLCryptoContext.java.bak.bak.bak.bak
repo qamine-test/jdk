@@ -1,0 +1,226 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: XMLCryptoContfxt.jbvb,v 1.6 2005/05/10 15:47:42 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto;
+
+/**
+ * Contbins dommon dontfxt informbtion for XML dryptogrbphid opfrbtions.
+ *
+ * <p>This intfrfbdf dontbins mfthods for sftting bnd rftrifving propfrtifs
+ * thbt bfffdt thf prodfssing of XML signbturfs or XML fndryptfd strudturfs.
+ *
+ * <p>Notf thbt <dodf>XMLCryptoContfxt</dodf> instbndfs dbn dontbin informbtion
+ * bnd stbtf spfdifid to thf XML dryptogrbphid strudturf it is usfd with.
+ * Thf rfsults brf unprfdidtbblf if bn <dodf>XMLCryptoContfxt</dodf> is
+ * usfd with multiplf strudturfs (for fxbmplf, you should not usf thf sbmf
+ * {@link jbvbx.xml.drypto.dsig.XMLVblidbtfContfxt} instbndf to vblidbtf two
+ * difffrfnt {@link jbvbx.xml.drypto.dsig.XMLSignbturf} objfdts).
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ */
+publid intfrfbdf XMLCryptoContfxt {
+
+    /**
+     * Rfturns thf bbsf URI.
+     *
+     * @rfturn thf bbsf URI, or <dodf>null</dodf> if not spfdififd
+     * @sff #sftBbsfURI(String)
+     */
+    String gftBbsfURI();
+
+    /**
+     * Sfts thf bbsf URI.
+     *
+     * @pbrbm bbsfURI thf bbsf URI, or <dodf>null</dodf> to rfmovf durrfnt
+     *    vbluf
+     * @throws IllfgblArgumfntExdfption if <dodf>bbsfURI</dodf> is not RFC
+     *    2396 domplibnt
+     * @sff #gftBbsfURI
+     */
+    void sftBbsfURI(String bbsfURI);
+
+    /**
+     * Rfturns thf kfy sflfdtor for finding b kfy.
+     *
+     * @rfturn thf kfy sflfdtor, or <dodf>null</dodf> if not spfdififd
+     * @sff #sftKfySflfdtor(KfySflfdtor)
+     */
+    KfySflfdtor gftKfySflfdtor();
+
+    /**
+     * Sfts thf kfy sflfdtor for finding b kfy.
+     *
+     * @pbrbm ks thf kfy sflfdtor, or <dodf>null</dodf> to rfmovf thf durrfnt
+     *    sftting
+     * @sff #gftKfySflfdtor
+     */
+    void sftKfySflfdtor(KfySflfdtor ks);
+
+    /**
+     * Rfturns b <dodf>URIDfrfffrfndfr</dodf> thbt is usfd to dfrfffrfndf
+     * {@link URIRfffrfndf}s.
+     *
+     * @rfturn thf <dodf>URIDfrfffrfndfr</dodf>, or <dodf>null</dodf> if not
+     *    spfdififd
+     * @sff #sftURIDfrfffrfndfr(URIDfrfffrfndfr)
+     */
+    URIDfrfffrfndfr gftURIDfrfffrfndfr();
+
+    /**
+     * Sfts b <dodf>URIDfrfffrfndfr</dodf> thbt is usfd to dfrfffrfndf
+     * {@link URIRfffrfndf}s. Thf spfdififd <dodf>URIDfrfffrfndfr</dodf>
+     * is usfd in plbdf of bn implfmfntbtion's dffbult
+     * <dodf>URIDfrfffrfndfr</dodf>.
+     *
+     * @pbrbm dfrfffrfndfr thf <dodf>URIDfrfffrfndfr</dodf>, or
+     *    <dodf>null</dodf> to rfmovf bny durrfnt sftting
+     * @sff #gftURIDfrfffrfndfr
+     */
+    void sftURIDfrfffrfndfr(URIDfrfffrfndfr dfrfffrfndfr);
+
+    /**
+     * Rfturns thf nbmfspbdf prffix thbt thf spfdififd nbmfspbdf URI is
+     * bssodibtfd with. Rfturns thf spfdififd dffbult prffix if thf spfdififd
+     * nbmfspbdf URI hbs not bffn bound to b prffix. To bind b nbmfspbdf URI
+     * to b prffix, dbll thf {@link #putNbmfspbdfPrffix putNbmfspbdfPrffix}
+     * mfthod.
+     *
+     * @pbrbm nbmfspbdfURI b nbmfspbdf URI
+     * @pbrbm dffbultPrffix thf prffix to bf rfturnfd in thf fvfnt thbt thf
+     *    thf spfdififd nbmfspbdf URI hbs not bffn bound to b prffix.
+     * @rfturn thf prffix thbt is bssodibtfd with thf spfdififd nbmfspbdf URI,
+     *    or <dodf>dffbultPrffix</dodf> if thf URI is not rfgistfrfd. If
+     *    thf nbmfspbdf URI is rfgistfrfd but hbs no prffix, bn fmpty string
+     *    (<dodf>""</dodf>) is rfturnfd.
+     * @throws NullPointfrExdfption if <dodf>nbmfspbdfURI</dodf> is
+     *    <dodf>null</dodf>
+     * @sff #putNbmfspbdfPrffix(String, String)
+     */
+    String gftNbmfspbdfPrffix(String nbmfspbdfURI, String dffbultPrffix);
+
+    /**
+     * Mbps thf spfdififd nbmfspbdf URI to thf spfdififd prffix. If thfrf is
+     * blrfbdy b prffix bssodibtfd with thf spfdififd nbmfspbdf URI, thf old
+     * prffix is rfplbdfd by thf spfdififd prffix.
+     *
+     * @pbrbm nbmfspbdfURI b nbmfspbdf URI
+     * @pbrbm prffix b nbmfspbdf prffix (or <dodf>null</dodf> to rfmovf bny
+     *    fxisting mbpping). Spfdifying thf fmpty string (<dodf>""</dodf>)
+     *    binds no prffix to thf nbmfspbdf URI.
+     * @rfturn thf prfvious prffix bssodibtfd with thf spfdififd nbmfspbdf
+     *    URI, or <dodf>null</dodf> if thfrf wbs nonf
+     * @throws NullPointfrExdfption if <dodf>nbmfspbdfURI</dodf> is
+     *    <dodf>null</dodf>
+     * @sff #gftNbmfspbdfPrffix(String, String)
+     */
+    String putNbmfspbdfPrffix(String nbmfspbdfURI, String prffix);
+
+    /**
+     * Rfturns thf dffbult nbmfspbdf prffix. Thf dffbult nbmfspbdf prffix
+     * is thf prffix for bll nbmfspbdf URIs not fxpliditly sft by thf
+     * {@link #putNbmfspbdfPrffix putNbmfspbdfPrffix} mfthod.
+     *
+     * @rfturn thf dffbult nbmfspbdf prffix, or <dodf>null</dodf> if nonf hbs
+     *    bffn sft.
+     * @sff #sftDffbultNbmfspbdfPrffix(String)
+     */
+    String gftDffbultNbmfspbdfPrffix();
+
+    /**
+     * Sfts thf dffbult nbmfspbdf prffix. This sfts thf nbmfspbdf prffix for
+     * bll nbmfspbdf URIs not fxpliditly sft by thf {@link #putNbmfspbdfPrffix
+     * putNbmfspbdfPrffix} mfthod.
+     *
+     * @pbrbm dffbultPrffix thf dffbult nbmfspbdf prffix, or <dodf>null</dodf>
+     *    to rfmovf thf durrfnt sftting. Spfdify thf fmpty string
+     *    (<dodf>""</dodf>) to bind no prffix.
+     * @sff #gftDffbultNbmfspbdfPrffix
+     */
+    void sftDffbultNbmfspbdfPrffix(String dffbultPrffix);
+
+    /**
+     * Sfts thf spfdififd propfrty.
+     *
+     * @pbrbm nbmf thf nbmf of thf propfrty
+     * @pbrbm vbluf thf vbluf of thf propfrty to bf sft
+     * @rfturn thf prfvious vbluf of thf spfdififd propfrty, or
+     *    <dodf>null</dodf> if it did not hbvf b vbluf
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>
+     * @sff #gftPropfrty(String)
+     */
+    Objfdt sftPropfrty(String nbmf, Objfdt vbluf);
+
+    /**
+     * Rfturns thf vbluf of thf spfdififd propfrty.
+     *
+     * @pbrbm nbmf thf nbmf of thf propfrty
+     * @rfturn thf durrfnt vbluf of thf spfdififd propfrty, or
+     *    <dodf>null</dodf> if it dofs not hbvf b vbluf
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>
+     * @sff #sftPropfrty(String, Objfdt)
+     */
+    Objfdt gftPropfrty(String nbmf);
+
+    /**
+     * Rfturns thf vbluf to whidh this dontfxt mbps thf spfdififd kfy.
+     *
+     * <p>Morf formblly, if this dontfxt dontbins b mbpping from b kfy
+     * <dodf>k</dodf> to b vbluf <dodf>v</dodf> sudh thbt
+     * <dodf>(kfy==null ? k==null : kfy.fqubls(k))</dodf>, thfn this mfthod
+     * rfturns <dodf>v</dodf>; othfrwisf it rfturns <dodf>null</dodf>. (Thfrf
+     * dbn bf bt most onf sudh mbpping.)
+     *
+     * <p>This mfthod is usfful for rftrifving brbitrbry informbtion thbt is
+     * spfdifid to thf dryptogrbphid opfrbtion thbt this dontfxt is usfd for.
+     *
+     * @pbrbm kfy thf kfy whosf bssodibtfd vbluf is to bf rfturnfd
+     * @rfturn thf vbluf to whidh this dontfxt mbps thf spfdififd kfy, or
+     *    <dodf>null</dodf> if thfrf is no mbpping for thf kfy
+     * @sff #put(Objfdt, Objfdt)
+     */
+    Objfdt gft(Objfdt kfy);
+
+    /**
+     * Assodibtfs thf spfdififd vbluf with thf spfdififd kfy in this dontfxt.
+     * If thf dontfxt prfviously dontbinfd b mbpping for this kfy, thf old
+     * vbluf is rfplbdfd by thf spfdififd vbluf.
+     *
+     * <p>This mfthod is usfful for storing brbitrbry informbtion thbt is
+     * spfdifid to thf dryptogrbphid opfrbtion thbt this dontfxt is usfd for.
+     *
+     * @pbrbm kfy kfy with whidh thf spfdififd vbluf is to bf bssodibtfd with
+     * @pbrbm vbluf vbluf to bf bssodibtfd with thf spfdififd kfy
+     * @rfturn thf prfvious vbluf bssodibtfd with thf kfy, or <dodf>null</dodf>
+     *    if thfrf wbs no mbpping for thf kfy
+     * @throws IllfgblArgumfntExdfption if somf bspfdt of this kfy or vbluf
+     *    prfvfnts it from bfing storfd in this dontfxt
+     * @sff #gft(Objfdt)
+     */
+    Objfdt put(Objfdt kfy, Objfdt vbluf);
+}

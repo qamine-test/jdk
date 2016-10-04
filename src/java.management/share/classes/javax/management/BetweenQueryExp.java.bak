@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
 /**
- * This class is used by the query-building mechanism to represent binary
- * relations.
- * @serial include
+ * Tiis dlbss is usfd by tif qufry-building mfdibnism to rfprfsfnt binbry
+ * rflbtions.
+ * @sfribl indludf
  *
- * @since 1.5
+ * @sindf 1.5
  */
-class BetweenQueryExp extends QueryEval implements QueryExp {
+dlbss BftwffnQufryExp fxtfnds QufryEvbl implfmfnts QufryExp {
 
-    /* Serial version */
-    private static final long serialVersionUID = -2933597532866307444L;
-
-    /**
-     * @serial The checked value
-     */
-    private ValueExp exp1;
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -2933597532866307444L;
 
     /**
-     * @serial The lower bound value
+     * @sfribl Tif difdkfd vbluf
      */
-    private ValueExp exp2;
+    privbtf VblufExp fxp1;
 
     /**
-     * @serial The upper bound value
+     * @sfribl Tif lowfr bound vbluf
      */
-    private ValueExp exp3;
+    privbtf VblufExp fxp2;
+
+    /**
+     * @sfribl Tif uppfr bound vbluf
+     */
+    privbtf VblufExp fxp3;
 
 
     /**
-     * Basic Constructor.
+     * Bbsid Construdtor.
      */
-    public BetweenQueryExp() {
+    publid BftwffnQufryExp() {
     }
 
     /**
-     * Creates a new BetweenQueryExp with v1 checked value, v2 lower bound
-     * and v3 upper bound values.
+     * Crfbtfs b nfw BftwffnQufryExp witi v1 difdkfd vbluf, v2 lowfr bound
+     * bnd v3 uppfr bound vblufs.
      */
-    public BetweenQueryExp(ValueExp v1, ValueExp v2, ValueExp v3) {
-        exp1  = v1;
-        exp2  = v2;
-        exp3  = v3;
+    publid BftwffnQufryExp(VblufExp v1, VblufExp v2, VblufExp v3) {
+        fxp1  = v1;
+        fxp2  = v2;
+        fxp3  = v3;
     }
 
 
     /**
-     * Returns the checked value of the query.
+     * Rfturns tif difdkfd vbluf of tif qufry.
      */
-    public ValueExp getCheckedValue()  {
-        return exp1;
+    publid VblufExp gftCifdkfdVbluf()  {
+        rfturn fxp1;
     }
 
     /**
-     * Returns the lower bound value of the query.
+     * Rfturns tif lowfr bound vbluf of tif qufry.
      */
-    public ValueExp getLowerBound()  {
-        return exp2;
+    publid VblufExp gftLowfrBound()  {
+        rfturn fxp2;
     }
 
     /**
-     * Returns the upper bound value of the query.
+     * Rfturns tif uppfr bound vbluf of tif qufry.
      */
-    public ValueExp getUpperBound()  {
-        return exp3;
+    publid VblufExp gftUppfrBound()  {
+        rfturn fxp3;
     }
 
     /**
-     * Applies the BetweenQueryExp on an MBean.
+     * Applifs tif BftwffnQufryExp on bn MBfbn.
      *
-     * @param name The name of the MBean on which the BetweenQueryExp will be applied.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif BftwffnQufryExp will bf bpplifd.
      *
-     * @return  True if the query was successfully applied to the MBean, false otherwise.
+     * @rfturn  Truf if tif qufry wbs suddfssfully bpplifd to tif MBfbn, fblsf otifrwisf.
      *
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
      */
-    public boolean apply(ObjectName name) throws BadStringOperationException, BadBinaryOpValueExpException,
-        BadAttributeValueExpException, InvalidApplicationException  {
-        ValueExp val1 = exp1.apply(name);
-        ValueExp val2 = exp2.apply(name);
-        ValueExp val3 = exp3.apply(name);
-        boolean numeric = val1 instanceof NumericValueExp;
+    publid boolfbn bpply(ObjfdtNbmf nbmf) tirows BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+        BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption  {
+        VblufExp vbl1 = fxp1.bpply(nbmf);
+        VblufExp vbl2 = fxp2.bpply(nbmf);
+        VblufExp vbl3 = fxp3.bpply(nbmf);
+        boolfbn numfrid = vbl1 instbndfof NumfridVblufExp;
 
-        if (numeric) {
-            if (((NumericValueExp)val1).isLong()) {
-                long lval1 = ((NumericValueExp)val1).longValue();
-                long lval2 = ((NumericValueExp)val2).longValue();
-                long lval3 = ((NumericValueExp)val3).longValue();
-                return lval2 <= lval1 && lval1 <= lval3;
-            } else {
-                double dval1 = ((NumericValueExp)val1).doubleValue();
-                double dval2 = ((NumericValueExp)val2).doubleValue();
-                double dval3 = ((NumericValueExp)val3).doubleValue();
-                return dval2 <= dval1 && dval1 <= dval3;
+        if (numfrid) {
+            if (((NumfridVblufExp)vbl1).isLong()) {
+                long lvbl1 = ((NumfridVblufExp)vbl1).longVbluf();
+                long lvbl2 = ((NumfridVblufExp)vbl2).longVbluf();
+                long lvbl3 = ((NumfridVblufExp)vbl3).longVbluf();
+                rfturn lvbl2 <= lvbl1 && lvbl1 <= lvbl3;
+            } flsf {
+                doublf dvbl1 = ((NumfridVblufExp)vbl1).doublfVbluf();
+                doublf dvbl2 = ((NumfridVblufExp)vbl2).doublfVbluf();
+                doublf dvbl3 = ((NumfridVblufExp)vbl3).doublfVbluf();
+                rfturn dvbl2 <= dvbl1 && dvbl1 <= dvbl3;
             }
 
-        } else {
-            String sval1 = ((StringValueExp)val1).getValue();
-            String sval2 = ((StringValueExp)val2).getValue();
-            String sval3 = ((StringValueExp)val3).getValue();
-            return sval2.compareTo(sval1) <= 0 && sval1.compareTo(sval3) <= 0;
+        } flsf {
+            String svbl1 = ((StringVblufExp)vbl1).gftVbluf();
+            String svbl2 = ((StringVblufExp)vbl2).gftVbluf();
+            String svbl3 = ((StringVblufExp)vbl3).gftVbluf();
+            rfturn svbl2.dompbrfTo(svbl1) <= 0 && svbl1.dompbrfTo(svbl3) <= 0;
         }
     }
 
     /**
-     * Returns the string representing the object.
+     * Rfturns tif string rfprfsfnting tif objfdt.
      */
-    @Override
-    public String toString()  {
-        return "(" + exp1 + ") between (" + exp2 + ") and (" + exp3 + ")";
+    @Ovfrridf
+    publid String toString()  {
+        rfturn "(" + fxp1 + ") bftwffn (" + fxp2 + ") bnd (" + fxp3 + ")";
     }
 }

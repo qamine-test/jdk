@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2007-2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2007-2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,734 +59,734 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time;
+pbdkbgf jbvb.timf;
 
-import static java.time.temporal.ChronoField.DAY_OF_MONTH;
-import static java.time.temporal.ChronoField.MONTH_OF_YEAR;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.DAY_OF_MONTH;
+import stbtid jbvb.timf.tfmporbl.CironoFifld.MONTH_OF_YEAR;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.InvalidObjectException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
-import java.time.chrono.Chronology;
-import java.time.chrono.IsoChronology;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.DateTimeParseException;
-import java.time.temporal.ChronoField;
-import java.time.temporal.Temporal;
-import java.time.temporal.TemporalAccessor;
-import java.time.temporal.TemporalAdjuster;
-import java.time.temporal.TemporalField;
-import java.time.temporal.TemporalQueries;
-import java.time.temporal.TemporalQuery;
-import java.time.temporal.UnsupportedTemporalTypeException;
-import java.time.temporal.ValueRange;
-import java.util.Objects;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.timf.dirono.Cironology;
+import jbvb.timf.dirono.IsoCironology;
+import jbvb.timf.formbt.DbtfTimfFormbttfr;
+import jbvb.timf.formbt.DbtfTimfFormbttfrBuildfr;
+import jbvb.timf.formbt.DbtfTimfPbrsfExdfption;
+import jbvb.timf.tfmporbl.CironoFifld;
+import jbvb.timf.tfmporbl.Tfmporbl;
+import jbvb.timf.tfmporbl.TfmporblAddfssor;
+import jbvb.timf.tfmporbl.TfmporblAdjustfr;
+import jbvb.timf.tfmporbl.TfmporblFifld;
+import jbvb.timf.tfmporbl.TfmporblQufrifs;
+import jbvb.timf.tfmporbl.TfmporblQufry;
+import jbvb.timf.tfmporbl.UnsupportfdTfmporblTypfExdfption;
+import jbvb.timf.tfmporbl.VblufRbngf;
+import jbvb.util.Objfdts;
 
 /**
- * A month-day in the ISO-8601 calendar system, such as {@code --12-03}.
+ * A monti-dby in tif ISO-8601 dblfndbr systfm, sudi bs {@dodf --12-03}.
  * <p>
- * {@code MonthDay} is an immutable date-time object that represents the combination
- * of a month and day-of-month. Any field that can be derived from a month and day,
- * such as quarter-of-year, can be obtained.
+ * {@dodf MontiDby} is bn immutbblf dbtf-timf objfdt tibt rfprfsfnts tif dombinbtion
+ * of b monti bnd dby-of-monti. Any fifld tibt dbn bf dfrivfd from b monti bnd dby,
+ * sudi bs qubrtfr-of-yfbr, dbn bf obtbinfd.
  * <p>
- * This class does not store or represent a year, time or time-zone.
- * For example, the value "December 3rd" can be stored in a {@code MonthDay}.
+ * Tiis dlbss dofs not storf or rfprfsfnt b yfbr, timf or timf-zonf.
+ * For fxbmplf, tif vbluf "Dfdfmbfr 3rd" dbn bf storfd in b {@dodf MontiDby}.
  * <p>
- * Since a {@code MonthDay} does not possess a year, the leap day of
- * February 29th is considered valid.
+ * Sindf b {@dodf MontiDby} dofs not possfss b yfbr, tif lfbp dby of
+ * Ffbrubry 29ti is donsidfrfd vblid.
  * <p>
- * This class implements {@link TemporalAccessor} rather than {@link Temporal}.
- * This is because it is not possible to define whether February 29th is valid or not
- * without external information, preventing the implementation of plus/minus.
- * Related to this, {@code MonthDay} only provides access to query and set the fields
- * {@code MONTH_OF_YEAR} and {@code DAY_OF_MONTH}.
+ * Tiis dlbss implfmfnts {@link TfmporblAddfssor} rbtifr tibn {@link Tfmporbl}.
+ * Tiis is bfdbusf it is not possiblf to dffinf wiftifr Ffbrubry 29ti is vblid or not
+ * witiout fxtfrnbl informbtion, prfvfnting tif implfmfntbtion of plus/minus.
+ * Rflbtfd to tiis, {@dodf MontiDby} only providfs bddfss to qufry bnd sft tif fiflds
+ * {@dodf MONTH_OF_YEAR} bnd {@dodf DAY_OF_MONTH}.
  * <p>
- * The ISO-8601 calendar system is the modern civil calendar system used today
- * in most of the world. It is equivalent to the proleptic Gregorian calendar
- * system, in which today's rules for leap years are applied for all time.
- * For most applications written today, the ISO-8601 rules are entirely suitable.
- * However, any application that makes use of historical dates, and requires them
- * to be accurate will find the ISO-8601 approach unsuitable.
+ * Tif ISO-8601 dblfndbr systfm is tif modfrn divil dblfndbr systfm usfd todby
+ * in most of tif world. It is fquivblfnt to tif prolfptid Grfgoribn dblfndbr
+ * systfm, in wiidi todby's rulfs for lfbp yfbrs brf bpplifd for bll timf.
+ * For most bpplidbtions writtfn todby, tif ISO-8601 rulfs brf fntirfly suitbblf.
+ * Howfvfr, bny bpplidbtion tibt mbkfs usf of iistoridbl dbtfs, bnd rfquirfs tifm
+ * to bf bddurbtf will find tif ISO-8601 bpprobdi unsuitbblf.
  *
  * <p>
- * This is a <a href="{@docRoot}/java/lang/doc-files/ValueBased.html">value-based</a>
- * class; use of identity-sensitive operations (including reference equality
- * ({@code ==}), identity hash code, or synchronization) on instances of
- * {@code MonthDay} may have unpredictable results and should be avoided.
- * The {@code equals} method should be used for comparisons.
+ * Tiis is b <b irff="{@dodRoot}/jbvb/lbng/dod-filfs/VblufBbsfd.itml">vbluf-bbsfd</b>
+ * dlbss; usf of idfntity-sfnsitivf opfrbtions (indluding rfffrfndf fqublity
+ * ({@dodf ==}), idfntity ibsi dodf, or syndironizbtion) on instbndfs of
+ * {@dodf MontiDby} mby ibvf unprfdidtbblf rfsults bnd siould bf bvoidfd.
+ * Tif {@dodf fqubls} mftiod siould bf usfd for dompbrisons.
  *
- * @implSpec
- * This class is immutable and thread-safe.
+ * @implSpfd
+ * Tiis dlbss is immutbblf bnd tirfbd-sbff.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class MonthDay
-        implements TemporalAccessor, TemporalAdjuster, Comparable<MonthDay>, Serializable {
+publid finbl dlbss MontiDby
+        implfmfnts TfmporblAddfssor, TfmporblAdjustfr, Compbrbblf<MontiDby>, Sfriblizbblf {
 
     /**
-     * Serialization version.
+     * Sfriblizbtion vfrsion.
      */
-    private static final long serialVersionUID = -939150713474957432L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -939150713474957432L;
     /**
-     * Parser.
+     * Pbrsfr.
      */
-    private static final DateTimeFormatter PARSER = new DateTimeFormatterBuilder()
-        .appendLiteral("--")
-        .appendValue(MONTH_OF_YEAR, 2)
-        .appendLiteral('-')
-        .appendValue(DAY_OF_MONTH, 2)
-        .toFormatter();
+    privbtf stbtid finbl DbtfTimfFormbttfr PARSER = nfw DbtfTimfFormbttfrBuildfr()
+        .bppfndLitfrbl("--")
+        .bppfndVbluf(MONTH_OF_YEAR, 2)
+        .bppfndLitfrbl('-')
+        .bppfndVbluf(DAY_OF_MONTH, 2)
+        .toFormbttfr();
 
     /**
-     * The month-of-year, not null.
+     * Tif monti-of-yfbr, not null.
      */
-    private final int month;
+    privbtf finbl int monti;
     /**
-     * The day-of-month.
+     * Tif dby-of-monti.
      */
-    private final int day;
-
-    //-----------------------------------------------------------------------
-    /**
-     * Obtains the current month-day from the system clock in the default time-zone.
-     * <p>
-     * This will query the {@link Clock#systemDefaultZone() system clock} in the default
-     * time-zone to obtain the current month-day.
-     * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
-     *
-     * @return the current month-day using the system clock and default time-zone, not null
-     */
-    public static MonthDay now() {
-        return now(Clock.systemDefaultZone());
-    }
-
-    /**
-     * Obtains the current month-day from the system clock in the specified time-zone.
-     * <p>
-     * This will query the {@link Clock#system(ZoneId) system clock} to obtain the current month-day.
-     * Specifying the time-zone avoids dependence on the default time-zone.
-     * <p>
-     * Using this method will prevent the ability to use an alternate clock for testing
-     * because the clock is hard-coded.
-     *
-     * @param zone  the zone ID to use, not null
-     * @return the current month-day using the system clock, not null
-     */
-    public static MonthDay now(ZoneId zone) {
-        return now(Clock.system(zone));
-    }
-
-    /**
-     * Obtains the current month-day from the specified clock.
-     * <p>
-     * This will query the specified clock to obtain the current month-day.
-     * Using this method allows the use of an alternate clock for testing.
-     * The alternate clock may be introduced using {@link Clock dependency injection}.
-     *
-     * @param clock  the clock to use, not null
-     * @return the current month-day, not null
-     */
-    public static MonthDay now(Clock clock) {
-        final LocalDate now = LocalDate.now(clock);  // called once
-        return MonthDay.of(now.getMonth(), now.getDayOfMonth());
-    }
+    privbtf finbl int dby;
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code MonthDay}.
+     * Obtbins tif durrfnt monti-dby from tif systfm dlodk in tif dffbult timf-zonf.
      * <p>
-     * The day-of-month must be valid for the month within a leap year.
-     * Hence, for February, day 29 is valid.
+     * Tiis will qufry tif {@link Clodk#systfmDffbultZonf() systfm dlodk} in tif dffbult
+     * timf-zonf to obtbin tif durrfnt monti-dby.
      * <p>
-     * For example, passing in April and day 31 will throw an exception, as
-     * there can never be April 31st in any year. By contrast, passing in
-     * February 29th is permitted, as that month-day can sometimes be valid.
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * bfdbusf tif dlodk is ibrd-dodfd.
      *
-     * @param month  the month-of-year to represent, not null
-     * @param dayOfMonth  the day-of-month to represent, from 1 to 31
-     * @return the month-day, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month
+     * @rfturn tif durrfnt monti-dby using tif systfm dlodk bnd dffbult timf-zonf, not null
      */
-    public static MonthDay of(Month month, int dayOfMonth) {
-        Objects.requireNonNull(month, "month");
-        DAY_OF_MONTH.checkValidValue(dayOfMonth);
-        if (dayOfMonth > month.maxLength()) {
-            throw new DateTimeException("Illegal value for DayOfMonth field, value " + dayOfMonth +
-                    " is not valid for month " + month.name());
+    publid stbtid MontiDby now() {
+        rfturn now(Clodk.systfmDffbultZonf());
+    }
+
+    /**
+     * Obtbins tif durrfnt monti-dby from tif systfm dlodk in tif spfdififd timf-zonf.
+     * <p>
+     * Tiis will qufry tif {@link Clodk#systfm(ZonfId) systfm dlodk} to obtbin tif durrfnt monti-dby.
+     * Spfdifying tif timf-zonf bvoids dfpfndfndf on tif dffbult timf-zonf.
+     * <p>
+     * Using tiis mftiod will prfvfnt tif bbility to usf bn bltfrnbtf dlodk for tfsting
+     * bfdbusf tif dlodk is ibrd-dodfd.
+     *
+     * @pbrbm zonf  tif zonf ID to usf, not null
+     * @rfturn tif durrfnt monti-dby using tif systfm dlodk, not null
+     */
+    publid stbtid MontiDby now(ZonfId zonf) {
+        rfturn now(Clodk.systfm(zonf));
+    }
+
+    /**
+     * Obtbins tif durrfnt monti-dby from tif spfdififd dlodk.
+     * <p>
+     * Tiis will qufry tif spfdififd dlodk to obtbin tif durrfnt monti-dby.
+     * Using tiis mftiod bllows tif usf of bn bltfrnbtf dlodk for tfsting.
+     * Tif bltfrnbtf dlodk mby bf introdudfd using {@link Clodk dfpfndfndy injfdtion}.
+     *
+     * @pbrbm dlodk  tif dlodk to usf, not null
+     * @rfturn tif durrfnt monti-dby, not null
+     */
+    publid stbtid MontiDby now(Clodk dlodk) {
+        finbl LodblDbtf now = LodblDbtf.now(dlodk);  // dbllfd ondf
+        rfturn MontiDby.of(now.gftMonti(), now.gftDbyOfMonti());
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Obtbins bn instbndf of {@dodf MontiDby}.
+     * <p>
+     * Tif dby-of-monti must bf vblid for tif monti witiin b lfbp yfbr.
+     * Hfndf, for Ffbrubry, dby 29 is vblid.
+     * <p>
+     * For fxbmplf, pbssing in April bnd dby 31 will tirow bn fxdfption, bs
+     * tifrf dbn nfvfr bf April 31st in bny yfbr. By dontrbst, pbssing in
+     * Ffbrubry 29ti is pfrmittfd, bs tibt monti-dby dbn somftimfs bf vblid.
+     *
+     * @pbrbm monti  tif monti-of-yfbr to rfprfsfnt, not null
+     * @pbrbm dbyOfMonti  tif dby-of-monti to rfprfsfnt, from 1 to 31
+     * @rfturn tif monti-dby, not null
+     * @tirows DbtfTimfExdfption if tif vbluf of bny fifld is out of rbngf,
+     *  or if tif dby-of-monti is invblid for tif monti
+     */
+    publid stbtid MontiDby of(Monti monti, int dbyOfMonti) {
+        Objfdts.rfquirfNonNull(monti, "monti");
+        DAY_OF_MONTH.difdkVblidVbluf(dbyOfMonti);
+        if (dbyOfMonti > monti.mbxLfngti()) {
+            tirow nfw DbtfTimfExdfption("Illfgbl vbluf for DbyOfMonti fifld, vbluf " + dbyOfMonti +
+                    " is not vblid for monti " + monti.nbmf());
         }
-        return new MonthDay(month.getValue(), dayOfMonth);
+        rfturn nfw MontiDby(monti.gftVbluf(), dbyOfMonti);
     }
 
     /**
-     * Obtains an instance of {@code MonthDay}.
+     * Obtbins bn instbndf of {@dodf MontiDby}.
      * <p>
-     * The day-of-month must be valid for the month within a leap year.
-     * Hence, for month 2 (February), day 29 is valid.
+     * Tif dby-of-monti must bf vblid for tif monti witiin b lfbp yfbr.
+     * Hfndf, for monti 2 (Ffbrubry), dby 29 is vblid.
      * <p>
-     * For example, passing in month 4 (April) and day 31 will throw an exception, as
-     * there can never be April 31st in any year. By contrast, passing in
-     * February 29th is permitted, as that month-day can sometimes be valid.
+     * For fxbmplf, pbssing in monti 4 (April) bnd dby 31 will tirow bn fxdfption, bs
+     * tifrf dbn nfvfr bf April 31st in bny yfbr. By dontrbst, pbssing in
+     * Ffbrubry 29ti is pfrmittfd, bs tibt monti-dby dbn somftimfs bf vblid.
      *
-     * @param month  the month-of-year to represent, from 1 (January) to 12 (December)
-     * @param dayOfMonth  the day-of-month to represent, from 1 to 31
-     * @return the month-day, not null
-     * @throws DateTimeException if the value of any field is out of range,
-     *  or if the day-of-month is invalid for the month
+     * @pbrbm monti  tif monti-of-yfbr to rfprfsfnt, from 1 (Jbnubry) to 12 (Dfdfmbfr)
+     * @pbrbm dbyOfMonti  tif dby-of-monti to rfprfsfnt, from 1 to 31
+     * @rfturn tif monti-dby, not null
+     * @tirows DbtfTimfExdfption if tif vbluf of bny fifld is out of rbngf,
+     *  or if tif dby-of-monti is invblid for tif monti
      */
-    public static MonthDay of(int month, int dayOfMonth) {
-        return of(Month.of(month), dayOfMonth);
+    publid stbtid MontiDby of(int monti, int dbyOfMonti) {
+        rfturn of(Monti.of(monti), dbyOfMonti);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code MonthDay} from a temporal object.
+     * Obtbins bn instbndf of {@dodf MontiDby} from b tfmporbl objfdt.
      * <p>
-     * This obtains a month-day based on the specified temporal.
-     * A {@code TemporalAccessor} represents an arbitrary set of date and time information,
-     * which this factory converts to an instance of {@code MonthDay}.
+     * Tiis obtbins b monti-dby bbsfd on tif spfdififd tfmporbl.
+     * A {@dodf TfmporblAddfssor} rfprfsfnts bn brbitrbry sft of dbtf bnd timf informbtion,
+     * wiidi tiis fbdtory donvfrts to bn instbndf of {@dodf MontiDby}.
      * <p>
-     * The conversion extracts the {@link ChronoField#MONTH_OF_YEAR MONTH_OF_YEAR} and
-     * {@link ChronoField#DAY_OF_MONTH DAY_OF_MONTH} fields.
-     * The extraction is only permitted if the temporal object has an ISO
-     * chronology, or can be converted to a {@code LocalDate}.
+     * Tif donvfrsion fxtrbdts tif {@link CironoFifld#MONTH_OF_YEAR MONTH_OF_YEAR} bnd
+     * {@link CironoFifld#DAY_OF_MONTH DAY_OF_MONTH} fiflds.
+     * Tif fxtrbdtion is only pfrmittfd if tif tfmporbl objfdt ibs bn ISO
+     * dironology, or dbn bf donvfrtfd to b {@dodf LodblDbtf}.
      * <p>
-     * This method matches the signature of the functional interface {@link TemporalQuery}
-     * allowing it to be used as a query via method reference, {@code MonthDay::from}.
+     * Tiis mftiod mbtdifs tif signbturf of tif fundtionbl intfrfbdf {@link TfmporblQufry}
+     * bllowing it to bf usfd bs b qufry vib mftiod rfffrfndf, {@dodf MontiDby::from}.
      *
-     * @param temporal  the temporal object to convert, not null
-     * @return the month-day, not null
-     * @throws DateTimeException if unable to convert to a {@code MonthDay}
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to donvfrt, not null
+     * @rfturn tif monti-dby, not null
+     * @tirows DbtfTimfExdfption if unbblf to donvfrt to b {@dodf MontiDby}
      */
-    public static MonthDay from(TemporalAccessor temporal) {
-        if (temporal instanceof MonthDay) {
-            return (MonthDay) temporal;
+    publid stbtid MontiDby from(TfmporblAddfssor tfmporbl) {
+        if (tfmporbl instbndfof MontiDby) {
+            rfturn (MontiDby) tfmporbl;
         }
         try {
-            if (IsoChronology.INSTANCE.equals(Chronology.from(temporal)) == false) {
-                temporal = LocalDate.from(temporal);
+            if (IsoCironology.INSTANCE.fqubls(Cironology.from(tfmporbl)) == fblsf) {
+                tfmporbl = LodblDbtf.from(tfmporbl);
             }
-            return of(temporal.get(MONTH_OF_YEAR), temporal.get(DAY_OF_MONTH));
-        } catch (DateTimeException ex) {
-            throw new DateTimeException("Unable to obtain MonthDay from TemporalAccessor: " +
-                    temporal + " of type " + temporal.getClass().getName(), ex);
+            rfturn of(tfmporbl.gft(MONTH_OF_YEAR), tfmporbl.gft(DAY_OF_MONTH));
+        } dbtdi (DbtfTimfExdfption fx) {
+            tirow nfw DbtfTimfExdfption("Unbblf to obtbin MontiDby from TfmporblAddfssor: " +
+                    tfmporbl + " of typf " + tfmporbl.gftClbss().gftNbmf(), fx);
         }
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Obtains an instance of {@code MonthDay} from a text string such as {@code --12-03}.
+     * Obtbins bn instbndf of {@dodf MontiDby} from b tfxt string sudi bs {@dodf --12-03}.
      * <p>
-     * The string must represent a valid month-day.
-     * The format is {@code --MM-dd}.
+     * Tif string must rfprfsfnt b vblid monti-dby.
+     * Tif formbt is {@dodf --MM-dd}.
      *
-     * @param text  the text to parse such as "--12-03", not null
-     * @return the parsed month-day, not null
-     * @throws DateTimeParseException if the text cannot be parsed
+     * @pbrbm tfxt  tif tfxt to pbrsf sudi bs "--12-03", not null
+     * @rfturn tif pbrsfd monti-dby, not null
+     * @tirows DbtfTimfPbrsfExdfption if tif tfxt dbnnot bf pbrsfd
      */
-    public static MonthDay parse(CharSequence text) {
-        return parse(text, PARSER);
+    publid stbtid MontiDby pbrsf(CibrSfqufndf tfxt) {
+        rfturn pbrsf(tfxt, PARSER);
     }
 
     /**
-     * Obtains an instance of {@code MonthDay} from a text string using a specific formatter.
+     * Obtbins bn instbndf of {@dodf MontiDby} from b tfxt string using b spfdifid formbttfr.
      * <p>
-     * The text is parsed using the formatter, returning a month-day.
+     * Tif tfxt is pbrsfd using tif formbttfr, rfturning b monti-dby.
      *
-     * @param text  the text to parse, not null
-     * @param formatter  the formatter to use, not null
-     * @return the parsed month-day, not null
-     * @throws DateTimeParseException if the text cannot be parsed
+     * @pbrbm tfxt  tif tfxt to pbrsf, not null
+     * @pbrbm formbttfr  tif formbttfr to usf, not null
+     * @rfturn tif pbrsfd monti-dby, not null
+     * @tirows DbtfTimfPbrsfExdfption if tif tfxt dbnnot bf pbrsfd
      */
-    public static MonthDay parse(CharSequence text, DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.parse(text, MonthDay::from);
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Constructor, previously validated.
-     *
-     * @param month  the month-of-year to represent, validated from 1 to 12
-     * @param dayOfMonth  the day-of-month to represent, validated from 1 to 29-31
-     */
-    private MonthDay(int month, int dayOfMonth) {
-        this.month = month;
-        this.day = dayOfMonth;
+    publid stbtid MontiDby pbrsf(CibrSfqufndf tfxt, DbtfTimfFormbttfr formbttfr) {
+        Objfdts.rfquirfNonNull(formbttfr, "formbttfr");
+        rfturn formbttfr.pbrsf(tfxt, MontiDby::from);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if the specified field is supported.
+     * Construdtor, prfviously vblidbtfd.
+     *
+     * @pbrbm monti  tif monti-of-yfbr to rfprfsfnt, vblidbtfd from 1 to 12
+     * @pbrbm dbyOfMonti  tif dby-of-monti to rfprfsfnt, vblidbtfd from 1 to 29-31
+     */
+    privbtf MontiDby(int monti, int dbyOfMonti) {
+        tiis.monti = monti;
+        tiis.dby = dbyOfMonti;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Cifdks if tif spfdififd fifld is supportfd.
      * <p>
-     * This checks if this month-day can be queried for the specified field.
-     * If false, then calling the {@link #range(TemporalField) range} and
-     * {@link #get(TemporalField) get} methods will throw an exception.
+     * Tiis difdks if tiis monti-dby dbn bf qufrifd for tif spfdififd fifld.
+     * If fblsf, tifn dblling tif {@link #rbngf(TfmporblFifld) rbngf} bnd
+     * {@link #gft(TfmporblFifld) gft} mftiods will tirow bn fxdfption.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The supported fields are:
+     * If tif fifld is b {@link CironoFifld} tifn tif qufry is implfmfntfd ifrf.
+     * Tif supportfd fiflds brf:
      * <ul>
-     * <li>{@code MONTH_OF_YEAR}
-     * <li>{@code YEAR}
+     * <li>{@dodf MONTH_OF_YEAR}
+     * <li>{@dodf YEAR}
      * </ul>
-     * All other {@code ChronoField} instances will return false.
+     * All otifr {@dodf CironoFifld} instbndfs will rfturn fblsf.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.isSupportedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the field is supported is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.isSupportfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt.
+     * Wiftifr tif fifld is supportfd is dftfrminfd by tif fifld.
      *
-     * @param field  the field to check, null returns false
-     * @return true if the field is supported on this month-day, false if not
+     * @pbrbm fifld  tif fifld to difdk, null rfturns fblsf
+     * @rfturn truf if tif fifld is supportfd on tiis monti-dby, fblsf if not
      */
-    @Override
-    public boolean isSupported(TemporalField field) {
-        if (field instanceof ChronoField) {
-            return field == MONTH_OF_YEAR || field == DAY_OF_MONTH;
+    @Ovfrridf
+    publid boolfbn isSupportfd(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            rfturn fifld == MONTH_OF_YEAR || fifld == DAY_OF_MONTH;
         }
-        return field != null && field.isSupportedBy(this);
+        rfturn fifld != null && fifld.isSupportfdBy(tiis);
     }
 
     /**
-     * Gets the range of valid values for the specified field.
+     * Gfts tif rbngf of vblid vblufs for tif spfdififd fifld.
      * <p>
-     * The range object expresses the minimum and maximum valid values for a field.
-     * This month-day is used to enhance the accuracy of the returned range.
-     * If it is not possible to return the range, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * Tif rbngf objfdt fxprfssfs tif minimum bnd mbximum vblid vblufs for b fifld.
+     * Tiis monti-dby is usfd to fnibndf tif bddurbdy of tif rfturnfd rbngf.
+     * If it is not possiblf to rfturn tif rbngf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return
-     * appropriate range instances.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If tif fifld is b {@link CironoFifld} tifn tif qufry is implfmfntfd ifrf.
+     * Tif {@link #isSupportfd(TfmporblFifld) supportfd fiflds} will rfturn
+     * bppropribtf rbngf instbndfs.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.rangeRefinedBy(TemporalAccessor)}
-     * passing {@code this} as the argument.
-     * Whether the range can be obtained is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.rbngfRffinfdBy(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt.
+     * Wiftifr tif rbngf dbn bf obtbinfd is dftfrminfd by tif fifld.
      *
-     * @param field  the field to query the range for, not null
-     * @return the range of valid values for the field, not null
-     * @throws DateTimeException if the range for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
+     * @pbrbm fifld  tif fifld to qufry tif rbngf for, not null
+     * @rfturn tif rbngf of vblid vblufs for tif fifld, not null
+     * @tirows DbtfTimfExdfption if tif rbngf for tif fifld dbnnot bf obtbinfd
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd
      */
-    @Override
-    public ValueRange range(TemporalField field) {
-        if (field == MONTH_OF_YEAR) {
-            return field.range();
-        } else if (field == DAY_OF_MONTH) {
-            return ValueRange.of(1, getMonth().minLength(), getMonth().maxLength());
+    @Ovfrridf
+    publid VblufRbngf rbngf(TfmporblFifld fifld) {
+        if (fifld == MONTH_OF_YEAR) {
+            rfturn fifld.rbngf();
+        } flsf if (fifld == DAY_OF_MONTH) {
+            rfturn VblufRbngf.of(1, gftMonti().minLfngti(), gftMonti().mbxLfngti());
         }
-        return TemporalAccessor.super.range(field);
+        rfturn TfmporblAddfssor.supfr.rbngf(fifld);
     }
 
     /**
-     * Gets the value of the specified field from this month-day as an {@code int}.
+     * Gfts tif vbluf of tif spfdififd fifld from tiis monti-dby bs bn {@dodf int}.
      * <p>
-     * This queries this month-day for the value of the specified field.
-     * The returned value will always be within the valid range of values for the field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * Tiis qufrifs tiis monti-dby for tif vbluf of tif spfdififd fifld.
+     * Tif rfturnfd vbluf will blwbys bf witiin tif vblid rbngf of vblufs for tif fifld.
+     * If it is not possiblf to rfturn tif vbluf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this month-day.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If tif fifld is b {@link CironoFifld} tifn tif qufry is implfmfntfd ifrf.
+     * Tif {@link #isSupportfd(TfmporblFifld) supportfd fiflds} will rfturn vblid
+     * vblufs bbsfd on tiis monti-dby.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt. Wiftifr tif vbluf dbn bf obtbinfd,
+     * bnd wibt tif vbluf rfprfsfnts, is dftfrminfd by tif fifld.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained or
-     *         the value is outside the range of valid values for the field
-     * @throws UnsupportedTemporalTypeException if the field is not supported or
-     *         the range of values exceeds an {@code int}
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm fifld  tif fifld to gft, not null
+     * @rfturn tif vbluf for tif fifld
+     * @tirows DbtfTimfExdfption if b vbluf for tif fifld dbnnot bf obtbinfd or
+     *         tif vbluf is outsidf tif rbngf of vblid vblufs for tif fifld
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd or
+     *         tif rbngf of vblufs fxdffds bn {@dodf int}
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override  // override for Javadoc
-    public int get(TemporalField field) {
-        return range(field).checkValidIntValue(getLong(field), field);
+    @Ovfrridf  // ovfrridf for Jbvbdod
+    publid int gft(TfmporblFifld fifld) {
+        rfturn rbngf(fifld).difdkVblidIntVbluf(gftLong(fifld), fifld);
     }
 
     /**
-     * Gets the value of the specified field from this month-day as a {@code long}.
+     * Gfts tif vbluf of tif spfdififd fifld from tiis monti-dby bs b {@dodf long}.
      * <p>
-     * This queries this month-day for the value of the specified field.
-     * If it is not possible to return the value, because the field is not supported
-     * or for some other reason, an exception is thrown.
+     * Tiis qufrifs tiis monti-dby for tif vbluf of tif spfdififd fifld.
+     * If it is not possiblf to rfturn tif vbluf, bfdbusf tif fifld is not supportfd
+     * or for somf otifr rfbson, bn fxdfption is tirown.
      * <p>
-     * If the field is a {@link ChronoField} then the query is implemented here.
-     * The {@link #isSupported(TemporalField) supported fields} will return valid
-     * values based on this month-day.
-     * All other {@code ChronoField} instances will throw an {@code UnsupportedTemporalTypeException}.
+     * If tif fifld is b {@link CironoFifld} tifn tif qufry is implfmfntfd ifrf.
+     * Tif {@link #isSupportfd(TfmporblFifld) supportfd fiflds} will rfturn vblid
+     * vblufs bbsfd on tiis monti-dby.
+     * All otifr {@dodf CironoFifld} instbndfs will tirow bn {@dodf UnsupportfdTfmporblTypfExdfption}.
      * <p>
-     * If the field is not a {@code ChronoField}, then the result of this method
-     * is obtained by invoking {@code TemporalField.getFrom(TemporalAccessor)}
-     * passing {@code this} as the argument. Whether the value can be obtained,
-     * and what the value represents, is determined by the field.
+     * If tif fifld is not b {@dodf CironoFifld}, tifn tif rfsult of tiis mftiod
+     * is obtbinfd by invoking {@dodf TfmporblFifld.gftFrom(TfmporblAddfssor)}
+     * pbssing {@dodf tiis} bs tif brgumfnt. Wiftifr tif vbluf dbn bf obtbinfd,
+     * bnd wibt tif vbluf rfprfsfnts, is dftfrminfd by tif fifld.
      *
-     * @param field  the field to get, not null
-     * @return the value for the field
-     * @throws DateTimeException if a value for the field cannot be obtained
-     * @throws UnsupportedTemporalTypeException if the field is not supported
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm fifld  tif fifld to gft, not null
+     * @rfturn tif vbluf for tif fifld
+     * @tirows DbtfTimfExdfption if b vbluf for tif fifld dbnnot bf obtbinfd
+     * @tirows UnsupportfdTfmporblTypfExdfption if tif fifld is not supportfd
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    @Override
-    public long getLong(TemporalField field) {
-        if (field instanceof ChronoField) {
-            switch ((ChronoField) field) {
-                // alignedDOW and alignedWOM not supported because they cannot be set in with()
-                case DAY_OF_MONTH: return day;
-                case MONTH_OF_YEAR: return month;
+    @Ovfrridf
+    publid long gftLong(TfmporblFifld fifld) {
+        if (fifld instbndfof CironoFifld) {
+            switdi ((CironoFifld) fifld) {
+                // blignfdDOW bnd blignfdWOM not supportfd bfdbusf tify dbnnot bf sft in witi()
+                dbsf DAY_OF_MONTH: rfturn dby;
+                dbsf MONTH_OF_YEAR: rfturn monti;
             }
-            throw new UnsupportedTemporalTypeException("Unsupported field: " + field);
+            tirow nfw UnsupportfdTfmporblTypfExdfption("Unsupportfd fifld: " + fifld);
         }
-        return field.getFrom(this);
+        rfturn fifld.gftFrom(tiis);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Gets the month-of-year field from 1 to 12.
+     * Gfts tif monti-of-yfbr fifld from 1 to 12.
      * <p>
-     * This method returns the month as an {@code int} from 1 to 12.
-     * Application code is frequently clearer if the enum {@link Month}
-     * is used by calling {@link #getMonth()}.
+     * Tiis mftiod rfturns tif monti bs bn {@dodf int} from 1 to 12.
+     * Applidbtion dodf is frfqufntly dlfbrfr if tif fnum {@link Monti}
+     * is usfd by dblling {@link #gftMonti()}.
      *
-     * @return the month-of-year, from 1 to 12
-     * @see #getMonth()
+     * @rfturn tif monti-of-yfbr, from 1 to 12
+     * @sff #gftMonti()
      */
-    public int getMonthValue() {
-        return month;
+    publid int gftMontiVbluf() {
+        rfturn monti;
     }
 
     /**
-     * Gets the month-of-year field using the {@code Month} enum.
+     * Gfts tif monti-of-yfbr fifld using tif {@dodf Monti} fnum.
      * <p>
-     * This method returns the enum {@link Month} for the month.
-     * This avoids confusion as to what {@code int} values mean.
-     * If you need access to the primitive {@code int} value then the enum
-     * provides the {@link Month#getValue() int value}.
+     * Tiis mftiod rfturns tif fnum {@link Monti} for tif monti.
+     * Tiis bvoids donfusion bs to wibt {@dodf int} vblufs mfbn.
+     * If you nffd bddfss to tif primitivf {@dodf int} vbluf tifn tif fnum
+     * providfs tif {@link Monti#gftVbluf() int vbluf}.
      *
-     * @return the month-of-year, not null
-     * @see #getMonthValue()
+     * @rfturn tif monti-of-yfbr, not null
+     * @sff #gftMontiVbluf()
      */
-    public Month getMonth() {
-        return Month.of(month);
+    publid Monti gftMonti() {
+        rfturn Monti.of(monti);
     }
 
     /**
-     * Gets the day-of-month field.
+     * Gfts tif dby-of-monti fifld.
      * <p>
-     * This method returns the primitive {@code int} value for the day-of-month.
+     * Tiis mftiod rfturns tif primitivf {@dodf int} vbluf for tif dby-of-monti.
      *
-     * @return the day-of-month, from 1 to 31
+     * @rfturn tif dby-of-monti, from 1 to 31
      */
-    public int getDayOfMonth() {
-        return day;
-    }
-
-    //-----------------------------------------------------------------------
-    /**
-     * Checks if the year is valid for this month-day.
-     * <p>
-     * This method checks whether this month and day and the input year form
-     * a valid date. This can only return false for February 29th.
-     *
-     * @param year  the year to validate
-     * @return true if the year is valid for this month-day
-     * @see Year#isValidMonthDay(MonthDay)
-     */
-    public boolean isValidYear(int year) {
-        return (day == 29 && month == 2 && Year.isLeap(year) == false) == false;
+    publid int gftDbyOfMonti() {
+        rfturn dby;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Returns a copy of this {@code MonthDay} with the month-of-year altered.
+     * Cifdks if tif yfbr is vblid for tiis monti-dby.
      * <p>
-     * This returns a month-day with the specified month.
-     * If the day-of-month is invalid for the specified month, the day will
-     * be adjusted to the last valid day-of-month.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis mftiod difdks wiftifr tiis monti bnd dby bnd tif input yfbr form
+     * b vblid dbtf. Tiis dbn only rfturn fblsf for Ffbrubry 29ti.
      *
-     * @param month  the month-of-year to set in the returned month-day, from 1 (January) to 12 (December)
-     * @return a {@code MonthDay} based on this month-day with the requested month, not null
-     * @throws DateTimeException if the month-of-year value is invalid
+     * @pbrbm yfbr  tif yfbr to vblidbtf
+     * @rfturn truf if tif yfbr is vblid for tiis monti-dby
+     * @sff Yfbr#isVblidMontiDby(MontiDby)
      */
-    public MonthDay withMonth(int month) {
-        return with(Month.of(month));
-    }
-
-    /**
-     * Returns a copy of this {@code MonthDay} with the month-of-year altered.
-     * <p>
-     * This returns a month-day with the specified month.
-     * If the day-of-month is invalid for the specified month, the day will
-     * be adjusted to the last valid day-of-month.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param month  the month-of-year to set in the returned month-day, not null
-     * @return a {@code MonthDay} based on this month-day with the requested month, not null
-     */
-    public MonthDay with(Month month) {
-        Objects.requireNonNull(month, "month");
-        if (month.getValue() == this.month) {
-            return this;
-        }
-        int day = Math.min(this.day, month.maxLength());
-        return new MonthDay(month.getValue(), day);
-    }
-
-    /**
-     * Returns a copy of this {@code MonthDay} with the day-of-month altered.
-     * <p>
-     * This returns a month-day with the specified day-of-month.
-     * If the day-of-month is invalid for the month, an exception is thrown.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
-     *
-     * @param dayOfMonth  the day-of-month to set in the return month-day, from 1 to 31
-     * @return a {@code MonthDay} based on this month-day with the requested day, not null
-     * @throws DateTimeException if the day-of-month value is invalid,
-     *  or if the day-of-month is invalid for the month
-     */
-    public MonthDay withDayOfMonth(int dayOfMonth) {
-        if (dayOfMonth == this.day) {
-            return this;
-        }
-        return of(month, dayOfMonth);
+    publid boolfbn isVblidYfbr(int yfbr) {
+        rfturn (dby == 29 && monti == 2 && Yfbr.isLfbp(yfbr) == fblsf) == fblsf;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Queries this month-day using the specified query.
+     * Rfturns b dopy of tiis {@dodf MontiDby} witi tif monti-of-yfbr bltfrfd.
      * <p>
-     * This queries this month-day using the specified query strategy object.
-     * The {@code TemporalQuery} object defines the logic to be used to
-     * obtain the result. Read the documentation of the query to understand
-     * what the result of this method will be.
+     * Tiis rfturns b monti-dby witi tif spfdififd monti.
+     * If tif dby-of-monti is invblid for tif spfdififd monti, tif dby will
+     * bf bdjustfd to tif lbst vblid dby-of-monti.
      * <p>
-     * The result of this method is obtained by invoking the
-     * {@link TemporalQuery#queryFrom(TemporalAccessor)} method on the
-     * specified query passing {@code this} as the argument.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param <R> the type of the result
-     * @param query  the query to invoke, not null
-     * @return the query result, null may be returned (defined by the query)
-     * @throws DateTimeException if unable to query (defined by the query)
-     * @throws ArithmeticException if numeric overflow occurs (defined by the query)
+     * @pbrbm monti  tif monti-of-yfbr to sft in tif rfturnfd monti-dby, from 1 (Jbnubry) to 12 (Dfdfmbfr)
+     * @rfturn b {@dodf MontiDby} bbsfd on tiis monti-dby witi tif rfqufstfd monti, not null
+     * @tirows DbtfTimfExdfption if tif monti-of-yfbr vbluf is invblid
      */
-    @SuppressWarnings("unchecked")
-    @Override
-    public <R> R query(TemporalQuery<R> query) {
-        if (query == TemporalQueries.chronology()) {
-            return (R) IsoChronology.INSTANCE;
-        }
-        return TemporalAccessor.super.query(query);
+    publid MontiDby witiMonti(int monti) {
+        rfturn witi(Monti.of(monti));
     }
 
     /**
-     * Adjusts the specified temporal object to have this month-day.
+     * Rfturns b dopy of tiis {@dodf MontiDby} witi tif monti-of-yfbr bltfrfd.
      * <p>
-     * This returns a temporal object of the same observable type as the input
-     * with the month and day-of-month changed to be the same as this.
+     * Tiis rfturns b monti-dby witi tif spfdififd monti.
+     * If tif dby-of-monti is invblid for tif spfdififd monti, tif dby will
+     * bf bdjustfd to tif lbst vblid dby-of-monti.
      * <p>
-     * The adjustment is equivalent to using {@link Temporal#with(TemporalField, long)}
-     * twice, passing {@link ChronoField#MONTH_OF_YEAR} and
-     * {@link ChronoField#DAY_OF_MONTH} as the fields.
-     * If the specified temporal object does not use the ISO calendar system then
-     * a {@code DateTimeException} is thrown.
-     * <p>
-     * In most cases, it is clearer to reverse the calling pattern by using
-     * {@link Temporal#with(TemporalAdjuster)}:
-     * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisMonthDay.adjustInto(temporal);
-     *   temporal = temporal.with(thisMonthDay);
-     * </pre>
-     * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param temporal  the target object to be adjusted, not null
-     * @return the adjusted object, not null
-     * @throws DateTimeException if unable to make the adjustment
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm monti  tif monti-of-yfbr to sft in tif rfturnfd monti-dby, not null
+     * @rfturn b {@dodf MontiDby} bbsfd on tiis monti-dby witi tif rfqufstfd monti, not null
      */
-    @Override
-    public Temporal adjustInto(Temporal temporal) {
-        if (Chronology.from(temporal).equals(IsoChronology.INSTANCE) == false) {
-            throw new DateTimeException("Adjustment only supported on ISO date-time");
+    publid MontiDby witi(Monti monti) {
+        Objfdts.rfquirfNonNull(monti, "monti");
+        if (monti.gftVbluf() == tiis.monti) {
+            rfturn tiis;
         }
-        temporal = temporal.with(MONTH_OF_YEAR, month);
-        return temporal.with(DAY_OF_MONTH, Math.min(temporal.range(DAY_OF_MONTH).getMaximum(), day));
+        int dby = Mbti.min(tiis.dby, monti.mbxLfngti());
+        rfturn nfw MontiDby(monti.gftVbluf(), dby);
     }
 
     /**
-     * Formats this month-day using the specified formatter.
+     * Rfturns b dopy of tiis {@dodf MontiDby} witi tif dby-of-monti bltfrfd.
      * <p>
-     * This month-day will be passed to the formatter to produce a string.
+     * Tiis rfturns b monti-dby witi tif spfdififd dby-of-monti.
+     * If tif dby-of-monti is invblid for tif monti, bn fxdfption is tirown.
+     * <p>
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param formatter  the formatter to use, not null
-     * @return the formatted month-day string, not null
-     * @throws DateTimeException if an error occurs during printing
+     * @pbrbm dbyOfMonti  tif dby-of-monti to sft in tif rfturn monti-dby, from 1 to 31
+     * @rfturn b {@dodf MontiDby} bbsfd on tiis monti-dby witi tif rfqufstfd dby, not null
+     * @tirows DbtfTimfExdfption if tif dby-of-monti vbluf is invblid,
+     *  or if tif dby-of-monti is invblid for tif monti
      */
-    public String format(DateTimeFormatter formatter) {
-        Objects.requireNonNull(formatter, "formatter");
-        return formatter.format(this);
+    publid MontiDby witiDbyOfMonti(int dbyOfMonti) {
+        if (dbyOfMonti == tiis.dby) {
+            rfturn tiis;
+        }
+        rfturn of(monti, dbyOfMonti);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Combines this month-day with a year to create a {@code LocalDate}.
+     * Qufrifs tiis monti-dby using tif spfdififd qufry.
      * <p>
-     * This returns a {@code LocalDate} formed from this month-day and the specified year.
+     * Tiis qufrifs tiis monti-dby using tif spfdififd qufry strbtfgy objfdt.
+     * Tif {@dodf TfmporblQufry} objfdt dffinfs tif logid to bf usfd to
+     * obtbin tif rfsult. Rfbd tif dodumfntbtion of tif qufry to undfrstbnd
+     * wibt tif rfsult of tiis mftiod will bf.
      * <p>
-     * A month-day of February 29th will be adjusted to February 28th in the resulting
-     * date if the year is not a leap year.
-     * <p>
-     * This instance is immutable and unaffected by this method call.
+     * Tif rfsult of tiis mftiod is obtbinfd by invoking tif
+     * {@link TfmporblQufry#qufryFrom(TfmporblAddfssor)} mftiod on tif
+     * spfdififd qufry pbssing {@dodf tiis} bs tif brgumfnt.
      *
-     * @param year  the year to use, from MIN_YEAR to MAX_YEAR
-     * @return the local date formed from this month-day and the specified year, not null
-     * @throws DateTimeException if the year is outside the valid range of years
+     * @pbrbm <R> tif typf of tif rfsult
+     * @pbrbm qufry  tif qufry to invokf, not null
+     * @rfturn tif qufry rfsult, null mby bf rfturnfd (dffinfd by tif qufry)
+     * @tirows DbtfTimfExdfption if unbblf to qufry (dffinfd by tif qufry)
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs (dffinfd by tif qufry)
      */
-    public LocalDate atYear(int year) {
-        return LocalDate.of(year, month, isValidYear(year) ? day : 28);
+    @SupprfssWbrnings("undifdkfd")
+    @Ovfrridf
+    publid <R> R qufry(TfmporblQufry<R> qufry) {
+        if (qufry == TfmporblQufrifs.dironology()) {
+            rfturn (R) IsoCironology.INSTANCE;
+        }
+        rfturn TfmporblAddfssor.supfr.qufry(qufry);
+    }
+
+    /**
+     * Adjusts tif spfdififd tfmporbl objfdt to ibvf tiis monti-dby.
+     * <p>
+     * Tiis rfturns b tfmporbl objfdt of tif sbmf obsfrvbblf typf bs tif input
+     * witi tif monti bnd dby-of-monti dibngfd to bf tif sbmf bs tiis.
+     * <p>
+     * Tif bdjustmfnt is fquivblfnt to using {@link Tfmporbl#witi(TfmporblFifld, long)}
+     * twidf, pbssing {@link CironoFifld#MONTH_OF_YEAR} bnd
+     * {@link CironoFifld#DAY_OF_MONTH} bs tif fiflds.
+     * If tif spfdififd tfmporbl objfdt dofs not usf tif ISO dblfndbr systfm tifn
+     * b {@dodf DbtfTimfExdfption} is tirown.
+     * <p>
+     * In most dbsfs, it is dlfbrfr to rfvfrsf tif dblling pbttfrn by using
+     * {@link Tfmporbl#witi(TfmporblAdjustfr)}:
+     * <prf>
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   tfmporbl = tiisMontiDby.bdjustInto(tfmporbl);
+     *   tfmporbl = tfmporbl.witi(tiisMontiDby);
+     * </prf>
+     * <p>
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
+     *
+     * @pbrbm tfmporbl  tif tbrgft objfdt to bf bdjustfd, not null
+     * @rfturn tif bdjustfd objfdt, not null
+     * @tirows DbtfTimfExdfption if unbblf to mbkf tif bdjustmfnt
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
+     */
+    @Ovfrridf
+    publid Tfmporbl bdjustInto(Tfmporbl tfmporbl) {
+        if (Cironology.from(tfmporbl).fqubls(IsoCironology.INSTANCE) == fblsf) {
+            tirow nfw DbtfTimfExdfption("Adjustmfnt only supportfd on ISO dbtf-timf");
+        }
+        tfmporbl = tfmporbl.witi(MONTH_OF_YEAR, monti);
+        rfturn tfmporbl.witi(DAY_OF_MONTH, Mbti.min(tfmporbl.rbngf(DAY_OF_MONTH).gftMbximum(), dby));
+    }
+
+    /**
+     * Formbts tiis monti-dby using tif spfdififd formbttfr.
+     * <p>
+     * Tiis monti-dby will bf pbssfd to tif formbttfr to produdf b string.
+     *
+     * @pbrbm formbttfr  tif formbttfr to usf, not null
+     * @rfturn tif formbttfd monti-dby string, not null
+     * @tirows DbtfTimfExdfption if bn frror oddurs during printing
+     */
+    publid String formbt(DbtfTimfFormbttfr formbttfr) {
+        Objfdts.rfquirfNonNull(formbttfr, "formbttfr");
+        rfturn formbttfr.formbt(tiis);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Compares this month-day to another month-day.
+     * Combinfs tiis monti-dby witi b yfbr to drfbtf b {@dodf LodblDbtf}.
      * <p>
-     * The comparison is based first on value of the month, then on the value of the day.
-     * It is "consistent with equals", as defined by {@link Comparable}.
+     * Tiis rfturns b {@dodf LodblDbtf} formfd from tiis monti-dby bnd tif spfdififd yfbr.
+     * <p>
+     * A monti-dby of Ffbrubry 29ti will bf bdjustfd to Ffbrubry 28ti in tif rfsulting
+     * dbtf if tif yfbr is not b lfbp yfbr.
+     * <p>
+     * Tiis instbndf is immutbblf bnd unbfffdtfd by tiis mftiod dbll.
      *
-     * @param other  the other month-day to compare to, not null
-     * @return the comparator value, negative if less, positive if greater
+     * @pbrbm yfbr  tif yfbr to usf, from MIN_YEAR to MAX_YEAR
+     * @rfturn tif lodbl dbtf formfd from tiis monti-dby bnd tif spfdififd yfbr, not null
+     * @tirows DbtfTimfExdfption if tif yfbr is outsidf tif vblid rbngf of yfbrs
      */
-    @Override
-    public int compareTo(MonthDay other) {
-        int cmp = (month - other.month);
-        if (cmp == 0) {
-            cmp = (day - other.day);
-        }
-        return cmp;
-    }
-
-    /**
-     * Checks if this month-day is after the specified month-day.
-     *
-     * @param other  the other month-day to compare to, not null
-     * @return true if this is after the specified month-day
-     */
-    public boolean isAfter(MonthDay other) {
-        return compareTo(other) > 0;
-    }
-
-    /**
-     * Checks if this month-day is before the specified month-day.
-     *
-     * @param other  the other month-day to compare to, not null
-     * @return true if this point is before the specified month-day
-     */
-    public boolean isBefore(MonthDay other) {
-        return compareTo(other) < 0;
+    publid LodblDbtf btYfbr(int yfbr) {
+        rfturn LodblDbtf.of(yfbr, monti, isVblidYfbr(yfbr) ? dby : 28);
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Checks if this month-day is equal to another month-day.
+     * Compbrfs tiis monti-dby to bnotifr monti-dby.
      * <p>
-     * The comparison is based on the time-line position of the month-day within a year.
+     * Tif dompbrison is bbsfd first on vbluf of tif monti, tifn on tif vbluf of tif dby.
+     * It is "donsistfnt witi fqubls", bs dffinfd by {@link Compbrbblf}.
      *
-     * @param obj  the object to check, null returns false
-     * @return true if this is equal to the other month-day
+     * @pbrbm otifr  tif otifr monti-dby to dompbrf to, not null
+     * @rfturn tif dompbrbtor vbluf, nfgbtivf if lfss, positivf if grfbtfr
      */
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    @Ovfrridf
+    publid int dompbrfTo(MontiDby otifr) {
+        int dmp = (monti - otifr.monti);
+        if (dmp == 0) {
+            dmp = (dby - otifr.dby);
         }
-        if (obj instanceof MonthDay) {
-            MonthDay other = (MonthDay) obj;
-            return month == other.month && day == other.day;
-        }
-        return false;
+        rfturn dmp;
     }
 
     /**
-     * A hash code for this month-day.
+     * Cifdks if tiis monti-dby is bftfr tif spfdififd monti-dby.
      *
-     * @return a suitable hash code
+     * @pbrbm otifr  tif otifr monti-dby to dompbrf to, not null
+     * @rfturn truf if tiis is bftfr tif spfdififd monti-dby
      */
-    @Override
-    public int hashCode() {
-        return (month << 6) + day;
+    publid boolfbn isAftfr(MontiDby otifr) {
+        rfturn dompbrfTo(otifr) > 0;
+    }
+
+    /**
+     * Cifdks if tiis monti-dby is bfforf tif spfdififd monti-dby.
+     *
+     * @pbrbm otifr  tif otifr monti-dby to dompbrf to, not null
+     * @rfturn truf if tiis point is bfforf tif spfdififd monti-dby
+     */
+    publid boolfbn isBfforf(MontiDby otifr) {
+        rfturn dompbrfTo(otifr) < 0;
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Outputs this month-day as a {@code String}, such as {@code --12-03}.
+     * Cifdks if tiis monti-dby is fqubl to bnotifr monti-dby.
      * <p>
-     * The output will be in the format {@code --MM-dd}:
+     * Tif dompbrison is bbsfd on tif timf-linf position of tif monti-dby witiin b yfbr.
      *
-     * @return a string representation of this month-day, not null
+     * @pbrbm obj  tif objfdt to difdk, null rfturns fblsf
+     * @rfturn truf if tiis is fqubl to tif otifr monti-dby
      */
-    @Override
-    public String toString() {
-        return new StringBuilder(10).append("--")
-            .append(month < 10 ? "0" : "").append(month)
-            .append(day < 10 ? "-0" : "-").append(day)
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof MontiDby) {
+            MontiDby otifr = (MontiDby) obj;
+            rfturn monti == otifr.monti && dby == otifr.dby;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * A ibsi dodf for tiis monti-dby.
+     *
+     * @rfturn b suitbblf ibsi dodf
+     */
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn (monti << 6) + dby;
+    }
+
+    //-----------------------------------------------------------------------
+    /**
+     * Outputs tiis monti-dby bs b {@dodf String}, sudi bs {@dodf --12-03}.
+     * <p>
+     * Tif output will bf in tif formbt {@dodf --MM-dd}:
+     *
+     * @rfturn b string rfprfsfntbtion of tiis monti-dby, not null
+     */
+    @Ovfrridf
+    publid String toString() {
+        rfturn nfw StringBuildfr(10).bppfnd("--")
+            .bppfnd(monti < 10 ? "0" : "").bppfnd(monti)
+            .bppfnd(dby < 10 ? "-0" : "-").bppfnd(dby)
             .toString();
     }
 
     //-----------------------------------------------------------------------
     /**
-     * Writes the object using a
-     * <a href="../../serialized-form.html#java.time.Ser">dedicated serialized form</a>.
-     * @serialData
-     * <pre>
-     *  out.writeByte(13);  // identifies a MonthDay
-     *  out.writeByte(month);
-     *  out.writeByte(day);
-     * </pre>
+     * Writfs tif objfdt using b
+     * <b irff="../../sfriblizfd-form.itml#jbvb.timf.Sfr">dfdidbtfd sfriblizfd form</b>.
+     * @sfriblDbtb
+     * <prf>
+     *  out.writfBytf(13);  // idfntififs b MontiDby
+     *  out.writfBytf(monti);
+     *  out.writfBytf(dby);
+     * </prf>
      *
-     * @return the instance of {@code Ser}, not null
+     * @rfturn tif instbndf of {@dodf Sfr}, not null
      */
-    private Object writeReplace() {
-        return new Ser(Ser.MONTH_DAY_TYPE, this);
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw Sfr(Sfr.MONTH_DAY_TYPE, tiis);
     }
 
     /**
-     * Defend against malicious streams.
+     * Dfffnd bgbinst mblidious strfbms.
      *
-     * @param s the stream to read
-     * @throws InvalidObjectException always
+     * @pbrbm s tif strfbm to rfbd
+     * @tirows InvblidObjfdtExdfption blwbys
      */
-    private void readObject(ObjectInputStream s) throws InvalidObjectException {
-        throw new InvalidObjectException("Deserialization via serialization delegate");
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s) tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("Dfsfriblizbtion vib sfriblizbtion dflfgbtf");
     }
 
-    void writeExternal(DataOutput out) throws IOException {
-        out.writeByte(month);
-        out.writeByte(day);
+    void writfExtfrnbl(DbtbOutput out) tirows IOExdfption {
+        out.writfBytf(monti);
+        out.writfBytf(dby);
     }
 
-    static MonthDay readExternal(DataInput in) throws IOException {
-        byte month = in.readByte();
-        byte day = in.readByte();
-        return MonthDay.of(month, day);
+    stbtid MontiDby rfbdExtfrnbl(DbtbInput in) tirows IOExdfption {
+        bytf monti = in.rfbdBytf();
+        bytf dby = in.rfbdBytf();
+        rfturn MontiDby.of(monti, dby);
     }
 
 }

@@ -1,0 +1,181 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+import jbvb.util.logging.Loggfr;
+
+/**
+ * Thf intfrfbdf thbt fvfry drivfr dlbss must implfmfnt.
+ * <P>Thf Jbvb SQL frbmfwork bllows for multiplf dbtbbbsf drivfrs.
+ *
+ * <P>Ebdh drivfr should supply b dlbss thbt implfmfnts
+ * thf Drivfr intfrfbdf.
+ *
+ * <P>Thf DrivfrMbnbgfr will try to lobd bs mbny drivfrs bs it dbn
+ * find bnd thfn for bny givfn donnfdtion rfqufst, it will bsk fbdh
+ * drivfr in turn to try to donnfdt to thf tbrgft URL.
+ *
+ * <P>It is strongly rfdommfndfd thbt fbdh Drivfr dlbss should bf
+ * smbll bnd stbndblonf so thbt thf Drivfr dlbss dbn bf lobdfd bnd
+ * qufrifd without bringing in vbst qubntitifs of supporting dodf.
+ *
+ * <P>Whfn b Drivfr dlbss is lobdfd, it should drfbtf bn instbndf of
+ * itsflf bnd rfgistfr it with thf DrivfrMbnbgfr. This mfbns thbt b
+ * usfr dbn lobd bnd rfgistfr b drivfr by dblling:
+ * <p>
+ * {@dodf Clbss.forNbmf("foo.bbh.Drivfr")}
+ * <p>
+ * A JDBC drivfr mby drfbtf b {@linkplbin DrivfrAdtion} implfmfntbtion in ordfr
+ * to rfdfivf notifidbtions whfn {@linkplbin DrivfrMbnbgfr#dfrfgistfrDrivfr} hbs
+ * bffn dbllfd.
+ * @sff DrivfrMbnbgfr
+ * @sff Connfdtion
+ * @sff DrivfrAdtion
+ */
+publid intfrfbdf Drivfr {
+
+    /**
+     * Attfmpts to mbkf b dbtbbbsf donnfdtion to thf givfn URL.
+     * Thf drivfr should rfturn "null" if it rfblizfs it is thf wrong kind
+     * of drivfr to donnfdt to thf givfn URL.  This will bf dommon, bs whfn
+     * thf JDBC drivfr mbnbgfr is bskfd to donnfdt to b givfn URL it pbssfs
+     * thf URL to fbdh lobdfd drivfr in turn.
+     *
+     * <P>Thf drivfr should throw bn <dodf>SQLExdfption</dodf> if it is thf right
+     * drivfr to donnfdt to thf givfn URL but hbs troublf donnfdting to
+     * thf dbtbbbsf.
+     *
+     * <P>Thf {@dodf Propfrtifs} brgumfnt dbn bf usfd to pbss
+     * brbitrbry string tbg/vbluf pbirs bs donnfdtion brgumfnts.
+     * Normblly bt lfbst "usfr" bnd "pbssword" propfrtifs should bf
+     * indludfd in thf {@dodf Propfrtifs} objfdt.
+     * <p>
+     * <B>Notf:</B> If b propfrty is spfdififd bs pbrt of thf {@dodf url} bnd
+     * is blso spfdififd in thf {@dodf Propfrtifs} objfdt, it is
+     * implfmfntbtion-dffinfd bs to whidh vbluf will tbkf prfdfdfndf. For
+     * mbximum portbbility, bn bpplidbtion should only spfdify b propfrty ondf.
+     *
+     * @pbrbm url thf URL of thf dbtbbbsf to whidh to donnfdt
+     * @pbrbm info b list of brbitrbry string tbg/vbluf pbirs bs
+     * donnfdtion brgumfnts. Normblly bt lfbst b "usfr" bnd
+     * "pbssword" propfrty should bf indludfd.
+     * @rfturn b <dodf>Connfdtion</dodf> objfdt thbt rfprfsfnts b
+     *         donnfdtion to thf URL
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or thf url is
+     * {@dodf null}
+     */
+    Connfdtion donnfdt(String url, jbvb.util.Propfrtifs info)
+        throws SQLExdfption;
+
+    /**
+     * Rftrifvfs whfthfr thf drivfr thinks thbt it dbn opfn b donnfdtion
+     * to thf givfn URL.  Typidblly drivfrs will rfturn <dodf>truf</dodf> if thfy
+     * undfrstbnd thf sub-protodol spfdififd in thf URL bnd <dodf>fblsf</dodf> if
+     * thfy do not.
+     *
+     * @pbrbm url thf URL of thf dbtbbbsf
+     * @rfturn <dodf>truf</dodf> if this drivfr undfrstbnds thf givfn URL;
+     *         <dodf>fblsf</dodf> othfrwisf
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or thf url is
+     * {@dodf null}
+     */
+    boolfbn bddfptsURL(String url) throws SQLExdfption;
+
+
+    /**
+     * Gfts informbtion bbout thf possiblf propfrtifs for this drivfr.
+     * <P>
+     * Thf <dodf>gftPropfrtyInfo</dodf> mfthod is intfndfd to bllow b gfnfrid
+     * GUI tool to disdovfr whbt propfrtifs it should prompt
+     * b humbn for in ordfr to gft
+     * fnough informbtion to donnfdt to b dbtbbbsf.  Notf thbt dfpfnding on
+     * thf vblufs thf humbn hbs supplifd so fbr, bdditionbl vblufs mby bfdomf
+     * nfdfssbry, so it mby bf nfdfssbry to itfrbtf though sfvfrbl dblls
+     * to thf <dodf>gftPropfrtyInfo</dodf> mfthod.
+     *
+     * @pbrbm url thf URL of thf dbtbbbsf to whidh to donnfdt
+     * @pbrbm info b proposfd list of tbg/vbluf pbirs thbt will bf sfnt on
+     *          donnfdt opfn
+     * @rfturn bn brrby of <dodf>DrivfrPropfrtyInfo</dodf> objfdts dfsdribing
+     *          possiblf propfrtifs.  This brrby mby bf bn fmpty brrby if
+     *          no propfrtifs brf rfquirfd.
+     * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    DrivfrPropfrtyInfo[] gftPropfrtyInfo(String url, jbvb.util.Propfrtifs info)
+                         throws SQLExdfption;
+
+
+    /**
+     * Rftrifvfs thf drivfr's mbjor vfrsion numbfr. Initiblly this should bf 1.
+     *
+     * @rfturn this drivfr's mbjor vfrsion numbfr
+     */
+    int gftMbjorVfrsion();
+
+    /**
+     * Gfts thf drivfr's minor vfrsion numbfr. Initiblly this should bf 0.
+     * @rfturn this drivfr's minor vfrsion numbfr
+     */
+    int gftMinorVfrsion();
+
+
+    /**
+     * Rfports whfthfr this drivfr is b gfnuinf JDBC
+     * Complibnt&trbdf; drivfr.
+     * A drivfr mby only rfport <dodf>truf</dodf> hfrf if it pbssfs thf JDBC
+     * domplibndf tfsts; othfrwisf it is rfquirfd to rfturn <dodf>fblsf</dodf>.
+     * <P>
+     * JDBC domplibndf rfquirfs full support for thf JDBC API bnd full support
+     * for SQL 92 Entry Lfvfl.  It is fxpfdtfd thbt JDBC domplibnt drivfrs will
+     * bf bvbilbblf for bll thf mbjor dommfrdibl dbtbbbsfs.
+     * <P>
+     * This mfthod is not intfndfd to fndourbgf thf dfvflopmfnt of non-JDBC
+     * domplibnt drivfrs, but is b rfdognition of thf fbdt thbt somf vfndors
+     * brf intfrfstfd in using thf JDBC API bnd frbmfwork for lightwfight
+     * dbtbbbsfs thbt do not support full dbtbbbsf fundtionblity, or for
+     * spfdibl dbtbbbsfs sudh bs dodumfnt informbtion rftrifvbl whfrf b SQL
+     * implfmfntbtion mby not bf ffbsiblf.
+     * @rfturn <dodf>truf</dodf> if this drivfr is JDBC Complibnt; <dodf>fblsf</dodf>
+     *         othfrwisf
+     */
+    boolfbn jdbdComplibnt();
+
+    //------------------------- JDBC 4.1 -----------------------------------
+
+    /**
+     * Rfturn thf pbrfnt Loggfr of bll thf Loggfrs usfd by this drivfr. This
+     * should bf thf Loggfr fbrthfst from thf root Loggfr thbt is
+     * still bn bndfstor of bll of thf Loggfrs usfd by this drivfr. Configuring
+     * this Loggfr will bfffdt bll of thf log mfssbgfs gfnfrbtfd by thf drivfr.
+     * In thf worst dbsf, this mby bf thf root Loggfr.
+     *
+     * @rfturn thf pbrfnt Loggfr for this drivfr
+     * @throws SQLFfbturfNotSupportfdExdfption if thf drivfr dofs not usf
+     * {@dodf jbvb.util.logging}.
+     * @sindf 1.7
+     */
+    publid Loggfr gftPbrfntLoggfr() throws SQLFfbturfNotSupportfdExdfption;
+}

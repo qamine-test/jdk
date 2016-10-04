@@ -1,0 +1,104 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt.intfrnbl.sfrvfr;
+
+import dom.sun.tools.hbt.intfrnbl.oql.*;
+
+/**
+ * This hbndlfs Objfdt Qufry Lbngubgf (OQL) qufrifs.
+ *
+ * @buthor A. Sundbrbrbjbn
+ */
+
+dlbss OQLQufry fxtfnds QufryHbndlfr {
+
+    publid OQLQufry(OQLEnginf fnginf) {
+        this.fnginf = fnginf;
+    }
+
+    publid void run() {
+        stbrtHtml("Objfdt Qufry Lbngubgf (OQL) qufry");
+        String oql = null;
+        if (qufry != null && !qufry.fqubls("")) {
+            int indfx = qufry.indfxOf("?qufry=");
+            if (indfx != -1 && qufry.lfngth() > 7) {
+                oql = qufry.substring(indfx + 7);
+            }
+        }
+        out.println("<p blign='dfntfr'><tbblf>");
+        out.println("<tr><td><b>");
+        out.println("<b hrff='/'>All Clbssfs (fxdluding plbtform)</b>");
+        out.println("</b></td>");
+        out.println("<td><b><b hrff='/oqlhflp/'>OQL Hflp</b></b></td></tr>");
+        out.println("</tbblf></p>");
+        out.println("<form bdtion='/oql/' mfthod='gft'>");
+        out.println("<p blign='dfntfr'>");
+        out.println("<tfxtbrfb nbmf='qufry' dols=80 rows=10>");
+        if (oql != null) {
+            println(oql);
+        }
+        out.println("</tfxtbrfb>");
+        out.println("</p>");
+        out.println("<p blign='dfntfr'>");
+        out.println("<input typf='submit' vbluf='Exfdutf'></input>");
+        out.println("</p>");
+        out.println("</form>");
+        if (oql != null) {
+            fxfdutfQufry(oql);
+        }
+        fndHtml();
+    }
+
+    privbtf void fxfdutfQufry(String q) {
+        try {
+            out.println("<tbblf bordfr='1'>");
+            fnginf.fxfdutfQufry(q, nfw ObjfdtVisitor() {
+                     publid boolfbn visit(Objfdt o) {
+                         out.println("<tr><td>");
+                         try {
+                             out.println(fnginf.toHtml(o));
+                         } dbtdh (Exdfption f) {
+                             printExdfption(f);
+                         }
+                         out.println("</td></tr>");
+                         rfturn fblsf;
+                     }
+                 });
+            out.println("</tbblf>");
+        } dbtdh (OQLExdfption fxp) {
+            printExdfption(fxp);
+        }
+    }
+
+    privbtf OQLEnginf fnginf;
+}

@@ -1,171 +1,171 @@
 /*
- * Copyright (c) 1998, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.im;
+pbdkbgf sun.bwt.im;
 
-import java.awt.AWTException;
-import java.awt.im.spi.InputMethodDescriptor;
-import java.util.Locale;
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.im.spi.InputMftiodDfsdriptor;
+import jbvb.util.Lodblf;
 
 /**
- * Provides complete information to make and handle the selection
- * of an input method and a locale. Immutable class.
+ * Providfs domplftf informbtion to mbkf bnd ibndlf tif sflfdtion
+ * of bn input mftiod bnd b lodblf. Immutbblf dlbss.
  */
-final class InputMethodLocator {
+finbl dlbss InputMftiodLodbtor {
 
-    private InputMethodDescriptor descriptor;
+    privbtf InputMftiodDfsdriptor dfsdriptor;
 
-    // Currently `loader' is always the class loader for a
-    // descriptor. `loader' is provided for future extensions to be
-    // able to load input methods from somewhere else, and to support
-    // per input method name space.
-    private ClassLoader loader;
+    // Currfntly `lobdfr' is blwbys tif dlbss lobdfr for b
+    // dfsdriptor. `lobdfr' is providfd for futurf fxtfnsions to bf
+    // bblf to lobd input mftiods from somfwifrf flsf, bnd to support
+    // pfr input mftiod nbmf spbdf.
+    privbtf ClbssLobdfr lobdfr;
 
-    private Locale locale;
+    privbtf Lodblf lodblf;
 
-    InputMethodLocator(InputMethodDescriptor descriptor, ClassLoader loader, Locale locale) {
-        if (descriptor == null) {
-            throw new NullPointerException("descriptor can't be null");
+    InputMftiodLodbtor(InputMftiodDfsdriptor dfsdriptor, ClbssLobdfr lobdfr, Lodblf lodblf) {
+        if (dfsdriptor == null) {
+            tirow nfw NullPointfrExdfption("dfsdriptor dbn't bf null");
         }
-        this.descriptor = descriptor;
-        this.loader = loader;
-        this.locale = locale;
+        tiis.dfsdriptor = dfsdriptor;
+        tiis.lobdfr = lobdfr;
+        tiis.lodblf = lodblf;
     }
 
-    public boolean equals(Object other) {
-        if (other == this) {
-            return true;
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (otifr == tiis) {
+            rfturn truf;
         }
-        if (other == null || this.getClass() != other.getClass()) {
-            return false;
+        if (otifr == null || tiis.gftClbss() != otifr.gftClbss()) {
+            rfturn fblsf;
         }
 
-        InputMethodLocator otherLocator = (InputMethodLocator) other;
-        if (!descriptor.getClass().equals(otherLocator.descriptor.getClass())) {
-            return false;
+        InputMftiodLodbtor otifrLodbtor = (InputMftiodLodbtor) otifr;
+        if (!dfsdriptor.gftClbss().fqubls(otifrLodbtor.dfsdriptor.gftClbss())) {
+            rfturn fblsf;
         }
-        if (loader == null && otherLocator.loader != null
-            || loader != null && !loader.equals(otherLocator.loader)) {
-            return false;
+        if (lobdfr == null && otifrLodbtor.lobdfr != null
+            || lobdfr != null && !lobdfr.fqubls(otifrLodbtor.lobdfr)) {
+            rfturn fblsf;
         }
-        if (locale == null && otherLocator.locale != null
-            || locale != null && !locale.equals(otherLocator.locale)) {
-            return false;
+        if (lodblf == null && otifrLodbtor.lodblf != null
+            || lodblf != null && !lodblf.fqubls(otifrLodbtor.lodblf)) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
-    public int hashCode() {
-        int result = descriptor.hashCode();
-        if (loader != null) {
-            result |= loader.hashCode() << 10;
+    publid int ibsiCodf() {
+        int rfsult = dfsdriptor.ibsiCodf();
+        if (lobdfr != null) {
+            rfsult |= lobdfr.ibsiCodf() << 10;
         }
-        if (locale != null) {
-            result |= locale.hashCode() << 20;
+        if (lodblf != null) {
+            rfsult |= lodblf.ibsiCodf() << 20;
         }
-        return result;
+        rfturn rfsult;
     }
 
-    InputMethodDescriptor getDescriptor() {
-        return descriptor;
+    InputMftiodDfsdriptor gftDfsdriptor() {
+        rfturn dfsdriptor;
     }
 
-    ClassLoader getClassLoader() {
-        return loader;
+    ClbssLobdfr gftClbssLobdfr() {
+        rfturn lobdfr;
     }
 
-    Locale getLocale() {
-        return locale;
+    Lodblf gftLodblf() {
+        rfturn lodblf;
     }
 
     /**
-     * Returns whether support for locale is available from
-     * the input method.
+     * Rfturns wiftifr support for lodblf is bvbilbblf from
+     * tif input mftiod.
      */
-    boolean isLocaleAvailable(Locale locale) {
+    boolfbn isLodblfAvbilbblf(Lodblf lodblf) {
         try {
-            Locale[] locales = descriptor.getAvailableLocales();
-            for (int i = 0; i < locales.length; i++) {
-                if (locales[i].equals(locale)) {
-                    return true;
+            Lodblf[] lodblfs = dfsdriptor.gftAvbilbblfLodblfs();
+            for (int i = 0; i < lodblfs.lfngti; i++) {
+                if (lodblfs[i].fqubls(lodblf)) {
+                    rfturn truf;
                 }
             }
-        } catch (AWTException e) {
-            // treat this as no locale available
+        } dbtdi (AWTExdfption f) {
+            // trfbt tiis bs no lodblf bvbilbblf
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns an input method locator that has locale forLocale,
-     * but otherwise the same data as this locator. Does not
-     * check whether the input method actually supports forLocale -
-     * use {@link #isLocaleAvailable} for that.
+     * Rfturns bn input mftiod lodbtor tibt ibs lodblf forLodblf,
+     * but otifrwisf tif sbmf dbtb bs tiis lodbtor. Dofs not
+     * difdk wiftifr tif input mftiod bdtublly supports forLodblf -
+     * usf {@link #isLodblfAvbilbblf} for tibt.
      */
-    InputMethodLocator deriveLocator(Locale forLocale) {
-        if (forLocale == locale) {
-            return this;
-        } else {
-            return new InputMethodLocator(descriptor, loader, forLocale);
+    InputMftiodLodbtor dfrivfLodbtor(Lodblf forLodblf) {
+        if (forLodblf == lodblf) {
+            rfturn tiis;
+        } flsf {
+            rfturn nfw InputMftiodLodbtor(dfsdriptor, lobdfr, forLodblf);
         }
     }
 
     /**
-     * Returns whether this and other describe the same input method
-     * engine, ignoring the locale setting.
+     * Rfturns wiftifr tiis bnd otifr dfsdribf tif sbmf input mftiod
+     * fnginf, ignoring tif lodblf sftting.
      */
-    boolean sameInputMethod(InputMethodLocator other) {
-        if (other == this) {
-            return true;
+    boolfbn sbmfInputMftiod(InputMftiodLodbtor otifr) {
+        if (otifr == tiis) {
+            rfturn truf;
         }
-        if (other == null) {
-            return false;
+        if (otifr == null) {
+            rfturn fblsf;
         }
 
-        if (!descriptor.getClass().equals(other.descriptor.getClass())) {
-            return false;
+        if (!dfsdriptor.gftClbss().fqubls(otifr.dfsdriptor.gftClbss())) {
+            rfturn fblsf;
         }
-        if (loader == null && other.loader != null
-            || loader != null && !loader.equals(other.loader)) {
-            return false;
+        if (lobdfr == null && otifr.lobdfr != null
+            || lobdfr != null && !lobdfr.fqubls(otifr.lobdfr)) {
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns a string that can be used as an action command string.
-     * The first part of the string identifies the input method; it does
-     * not include '\n'. If getLocale is not null, getLocale().toString()
-     * is appended, separated by '\n'.
+     * Rfturns b string tibt dbn bf usfd bs bn bdtion dommbnd string.
+     * Tif first pbrt of tif string idfntififs tif input mftiod; it dofs
+     * not indludf '\n'. If gftLodblf is not null, gftLodblf().toString()
+     * is bppfndfd, sfpbrbtfd by '\n'.
      */
-    String getActionCommandString() {
-        String inputMethodString = descriptor.getClass().getName();
-        if (locale == null) {
-            return inputMethodString;
-        } else {
-            return inputMethodString + "\n" + locale.toString();
+    String gftAdtionCommbndString() {
+        String inputMftiodString = dfsdriptor.gftClbss().gftNbmf();
+        if (lodblf == null) {
+            rfturn inputMftiodString;
+        } flsf {
+            rfturn inputMftiodString + "\n" + lodblf.toString();
         }
     }
 }

@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.jpeg;
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
 
-import javax.imageio.IIOException;
-import javax.imageio.metadata.IIOInvalidTreeException;
-import javax.imageio.metadata.IIOMetadataNode;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.plugins.jpeg.JPEGQTable;
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOInvblidTrffExdfption;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtbNodf;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import jbvbx.imbgfio.plugins.jpfg.JPEGQTbblf;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Iterator;
+import jbvb.io.IOExdfption;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
 
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.NamedNodeMap;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import org.w3d.dom.NbmfdNodfMbp;
 
 /**
- * A DQT (Define Quantization Table) marker segment.
+ * A DQT (Dffinf Qubntizbtion Tbblf) mbrkfr sfgmfnt.
  */
-class DQTMarkerSegment extends MarkerSegment {
-    List<Qtable> tables = new ArrayList<>();  // Could be 1 to 4
+dlbss DQTMbrkfrSfgmfnt fxtfnds MbrkfrSfgmfnt {
+    List<Qtbblf> tbblfs = nfw ArrbyList<>();  // Could bf 1 to 4
 
-    DQTMarkerSegment(float quality, boolean needTwo) {
-        super(JPEG.DQT);
-        tables.add(new Qtable(true, quality));
-        if (needTwo) {
-            tables.add(new Qtable(false, quality));
+    DQTMbrkfrSfgmfnt(flobt qublity, boolfbn nffdTwo) {
+        supfr(JPEG.DQT);
+        tbblfs.bdd(nfw Qtbblf(truf, qublity));
+        if (nffdTwo) {
+            tbblfs.bdd(nfw Qtbblf(fblsf, qublity));
         }
     }
 
-    DQTMarkerSegment(JPEGBuffer buffer) throws IOException {
-        super(buffer);
-        int count = length;
-        while (count > 0) {
-            Qtable newGuy = new Qtable(buffer);
-            tables.add(newGuy);
-            count -= newGuy.data.length+1;
+    DQTMbrkfrSfgmfnt(JPEGBufffr bufffr) tirows IOExdfption {
+        supfr(bufffr);
+        int dount = lfngti;
+        wiilf (dount > 0) {
+            Qtbblf nfwGuy = nfw Qtbblf(bufffr);
+            tbblfs.bdd(nfwGuy);
+            dount -= nfwGuy.dbtb.lfngti+1;
         }
-        buffer.bufAvail -= length;
+        bufffr.bufAvbil -= lfngti;
     }
 
-    DQTMarkerSegment(JPEGQTable[] qtables) {
-        super(JPEG.DQT);
-        for (int i = 0; i < qtables.length; i++) {
-            tables.add(new Qtable(qtables[i], i));
-        }
-    }
-
-    DQTMarkerSegment(Node node) throws IIOInvalidTreeException {
-        super(JPEG.DQT);
-        NodeList children = node.getChildNodes();
-        int size = children.getLength();
-        if ((size < 1) || (size > 4)) {
-            throw new IIOInvalidTreeException("Invalid DQT node", node);
-        }
-        for (int i = 0; i < size; i++) {
-            tables.add(new Qtable(children.item(i)));
+    DQTMbrkfrSfgmfnt(JPEGQTbblf[] qtbblfs) {
+        supfr(JPEG.DQT);
+        for (int i = 0; i < qtbblfs.lfngti; i++) {
+            tbblfs.bdd(nfw Qtbblf(qtbblfs[i], i));
         }
     }
 
-    protected Object clone() {
-        DQTMarkerSegment newGuy = (DQTMarkerSegment) super.clone();
-        newGuy.tables = new ArrayList<>(tables.size());
-        Iterator<Qtable> iter = tables.iterator();
-        while (iter.hasNext()) {
-            Qtable table = iter.next();
-            newGuy.tables.add((Qtable) table.clone());
+    DQTMbrkfrSfgmfnt(Nodf nodf) tirows IIOInvblidTrffExdfption {
+        supfr(JPEG.DQT);
+        NodfList diildrfn = nodf.gftCiildNodfs();
+        int sizf = diildrfn.gftLfngti();
+        if ((sizf < 1) || (sizf > 4)) {
+            tirow nfw IIOInvblidTrffExdfption("Invblid DQT nodf", nodf);
         }
-        return newGuy;
+        for (int i = 0; i < sizf; i++) {
+            tbblfs.bdd(nfw Qtbblf(diildrfn.itfm(i)));
+        }
     }
 
-    IIOMetadataNode getNativeNode() {
-        IIOMetadataNode node = new IIOMetadataNode("dqt");
-        for (int i= 0; i<tables.size(); i++) {
-            Qtable table = tables.get(i);
-            node.appendChild(table.getNativeNode());
+    protfdtfd Objfdt dlonf() {
+        DQTMbrkfrSfgmfnt nfwGuy = (DQTMbrkfrSfgmfnt) supfr.dlonf();
+        nfwGuy.tbblfs = nfw ArrbyList<>(tbblfs.sizf());
+        Itfrbtor<Qtbblf> itfr = tbblfs.itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            Qtbblf tbblf = itfr.nfxt();
+            nfwGuy.tbblfs.bdd((Qtbblf) tbblf.dlonf());
         }
-        return node;
+        rfturn nfwGuy;
+    }
+
+    IIOMftbdbtbNodf gftNbtivfNodf() {
+        IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("dqt");
+        for (int i= 0; i<tbblfs.sizf(); i++) {
+            Qtbblf tbblf = tbblfs.gft(i);
+            nodf.bppfndCiild(tbblf.gftNbtivfNodf());
+        }
+        rfturn nodf;
     }
 
     /**
-     * Writes the data for this segment to the stream in
-     * valid JPEG format.
+     * Writfs tif dbtb for tiis sfgmfnt to tif strfbm in
+     * vblid JPEG formbt.
      */
-    void write(ImageOutputStream ios) throws IOException {
-        // We don't write DQT segments; the IJG library does.
+    void writf(ImbgfOutputStrfbm ios) tirows IOExdfption {
+        // Wf don't writf DQT sfgmfnts; tif IJG librbry dofs.
     }
 
     void print() {
-        printTag("DQT");
-        System.out.println("Num tables: "
-                           + Integer.toString(tables.size()));
-        for (int i= 0; i<tables.size(); i++) {
-            Qtable table = tables.get(i);
-            table.print();
+        printTbg("DQT");
+        Systfm.out.println("Num tbblfs: "
+                           + Intfgfr.toString(tbblfs.sizf()));
+        for (int i= 0; i<tbblfs.sizf(); i++) {
+            Qtbblf tbblf = tbblfs.gft(i);
+            tbblf.print();
         }
-        System.out.println();
+        Systfm.out.println();
     }
 
     /**
-     * Assuming the given table was generated by scaling the "standard"
-     * visually lossless luminance table, extract the scale factor that
-     * was used.
+     * Assuming tif givfn tbblf wbs gfnfrbtfd by sdbling tif "stbndbrd"
+     * visublly losslfss luminbndf tbblf, fxtrbdt tif sdblf fbdtor tibt
+     * wbs usfd.
      */
-    Qtable getChromaForLuma(Qtable luma) {
-        Qtable newGuy = null;
-        // Determine if the table is all the same values
-        // if so, use the same table
-        boolean allSame = true;
-        for (int i = 1; i < luma.QTABLE_SIZE; i++) {
-            if (luma.data[i] != luma.data[i-1]) {
-                allSame = false;
-                break;
+    Qtbblf gftCirombForLumb(Qtbblf lumb) {
+        Qtbblf nfwGuy = null;
+        // Dftfrminf if tif tbblf is bll tif sbmf vblufs
+        // if so, usf tif sbmf tbblf
+        boolfbn bllSbmf = truf;
+        for (int i = 1; i < lumb.QTABLE_SIZE; i++) {
+            if (lumb.dbtb[i] != lumb.dbtb[i-1]) {
+                bllSbmf = fblsf;
+                brfbk;
             }
         }
-        if (allSame) {
-            newGuy = (Qtable) luma.clone();
-            newGuy.tableID = 1;
-        } else {
-            // Otherwise, find the largest coefficient less than 255.  This is
-            // the largest value that we know did not clamp on scaling.
-            int largestPos = 0;
-            for (int i = 1; i < luma.QTABLE_SIZE; i++) {
-                if (luma.data[i] > luma.data[largestPos]) {
-                    largestPos = i;
+        if (bllSbmf) {
+            nfwGuy = (Qtbblf) lumb.dlonf();
+            nfwGuy.tbblfID = 1;
+        } flsf {
+            // Otifrwisf, find tif lbrgfst dofffidifnt lfss tibn 255.  Tiis is
+            // tif lbrgfst vbluf tibt wf know did not dlbmp on sdbling.
+            int lbrgfstPos = 0;
+            for (int i = 1; i < lumb.QTABLE_SIZE; i++) {
+                if (lumb.dbtb[i] > lumb.dbtb[lbrgfstPos]) {
+                    lbrgfstPos = i;
                 }
             }
-            // Compute the scale factor by dividing it by the value in the
-            // same position from the "standard" table.
-            // If the given table was not generated by scaling the standard,
-            // the resulting table will still be reasonable, as it will reflect
-            // a comparable scaling of chrominance frequency response of the
-            // eye.
-            float scaleFactor = ((float)(luma.data[largestPos]))
-                / ((float)(JPEGQTable.K1Div2Luminance.getTable()[largestPos]));
-            //    generate a new table
-            JPEGQTable jpegTable =
-                JPEGQTable.K2Div2Chrominance.getScaledInstance(scaleFactor,
-                                                               true);
-            newGuy = new Qtable(jpegTable, 1);
+            // Computf tif sdblf fbdtor by dividing it by tif vbluf in tif
+            // sbmf position from tif "stbndbrd" tbblf.
+            // If tif givfn tbblf wbs not gfnfrbtfd by sdbling tif stbndbrd,
+            // tif rfsulting tbblf will still bf rfbsonbblf, bs it will rfflfdt
+            // b dompbrbblf sdbling of dirominbndf frfqufndy rfsponsf of tif
+            // fyf.
+            flobt sdblfFbdtor = ((flobt)(lumb.dbtb[lbrgfstPos]))
+                / ((flobt)(JPEGQTbblf.K1Div2Luminbndf.gftTbblf()[lbrgfstPos]));
+            //    gfnfrbtf b nfw tbblf
+            JPEGQTbblf jpfgTbblf =
+                JPEGQTbblf.K2Div2Cirominbndf.gftSdblfdInstbndf(sdblfFbdtor,
+                                                               truf);
+            nfwGuy = nfw Qtbblf(jpfgTbblf, 1);
         }
-        return newGuy;
+        rfturn nfwGuy;
     }
 
-    Qtable getQtableFromNode(Node node) throws IIOInvalidTreeException {
-        return new Qtable(node);
+    Qtbblf gftQtbblfFromNodf(Nodf nodf) tirows IIOInvblidTrffExdfption {
+        rfturn nfw Qtbblf(nodf);
     }
 
     /**
-     * A quantization table within a DQT marker segment.
+     * A qubntizbtion tbblf witiin b DQT mbrkfr sfgmfnt.
      */
-    class Qtable implements Cloneable {
-        int elementPrecision;
-        int tableID;
-        final int QTABLE_SIZE = 64;
-        int [] data; // 64 elements, in natural order
+    dlbss Qtbblf implfmfnts Clonfbblf {
+        int flfmfntPrfdision;
+        int tbblfID;
+        finbl int QTABLE_SIZE = 64;
+        int [] dbtb; // 64 flfmfnts, in nbturbl ordfr
 
         /**
-         * The zigzag-order position of the i'th element
-         * of a DCT block read in natural order.
+         * Tif zigzbg-ordfr position of tif i'ti flfmfnt
+         * of b DCT blodk rfbd in nbturbl ordfr.
          */
-        private final int [] zigzag = {
+        privbtf finbl int [] zigzbg = {
             0,  1,  5,  6, 14, 15, 27, 28,
             2,  4,  7, 13, 16, 26, 29, 42,
             3,  8, 12, 17, 25, 30, 41, 43,
@@ -196,113 +196,113 @@ class DQTMarkerSegment extends MarkerSegment {
             35, 36, 48, 49, 57, 58, 62, 63
         };
 
-        Qtable(boolean wantLuma, float quality) {
-            elementPrecision = 0;
-            JPEGQTable base = null;
-            if (wantLuma) {
-                tableID = 0;
-                base = JPEGQTable.K1Div2Luminance;
-            } else {
-                tableID = 1;
-                base = JPEGQTable.K2Div2Chrominance;
+        Qtbblf(boolfbn wbntLumb, flobt qublity) {
+            flfmfntPrfdision = 0;
+            JPEGQTbblf bbsf = null;
+            if (wbntLumb) {
+                tbblfID = 0;
+                bbsf = JPEGQTbblf.K1Div2Luminbndf;
+            } flsf {
+                tbblfID = 1;
+                bbsf = JPEGQTbblf.K2Div2Cirominbndf;
             }
-            if (quality != JPEG.DEFAULT_QUALITY) {
-                quality = JPEG.convertToLinearQuality(quality);
-                if (wantLuma) {
-                    base = JPEGQTable.K1Luminance.getScaledInstance
-                        (quality, true);
-                } else {
-                    base = JPEGQTable.K2Div2Chrominance.getScaledInstance
-                        (quality, true);
+            if (qublity != JPEG.DEFAULT_QUALITY) {
+                qublity = JPEG.donvfrtToLinfbrQublity(qublity);
+                if (wbntLumb) {
+                    bbsf = JPEGQTbblf.K1Luminbndf.gftSdblfdInstbndf
+                        (qublity, truf);
+                } flsf {
+                    bbsf = JPEGQTbblf.K2Div2Cirominbndf.gftSdblfdInstbndf
+                        (qublity, truf);
                 }
             }
-            data = base.getTable();
+            dbtb = bbsf.gftTbblf();
         }
 
-        Qtable(JPEGBuffer buffer) throws IIOException {
-            elementPrecision = buffer.buf[buffer.bufPtr] >>> 4;
-            tableID = buffer.buf[buffer.bufPtr++] & 0xf;
-            if (elementPrecision != 0) {
-                // IJG is compiled for 8-bits, so this shouldn't happen
-                throw new IIOException ("Unsupported element precision");
+        Qtbblf(JPEGBufffr bufffr) tirows IIOExdfption {
+            flfmfntPrfdision = bufffr.buf[bufffr.bufPtr] >>> 4;
+            tbblfID = bufffr.buf[bufffr.bufPtr++] & 0xf;
+            if (flfmfntPrfdision != 0) {
+                // IJG is dompilfd for 8-bits, so tiis siouldn't ibppfn
+                tirow nfw IIOExdfption ("Unsupportfd flfmfnt prfdision");
             }
-            data = new int [QTABLE_SIZE];
-            // Read from zig-zag order to natural order
+            dbtb = nfw int [QTABLE_SIZE];
+            // Rfbd from zig-zbg ordfr to nbturbl ordfr
             for (int i = 0; i < QTABLE_SIZE; i++) {
-                data[i] = buffer.buf[buffer.bufPtr+zigzag[i]] & 0xff;
+                dbtb[i] = bufffr.buf[bufffr.bufPtr+zigzbg[i]] & 0xff;
             }
-            buffer.bufPtr += QTABLE_SIZE;
+            bufffr.bufPtr += QTABLE_SIZE;
         }
 
-        Qtable(JPEGQTable table, int id) {
-            elementPrecision = 0;
-            tableID = id;
-            data = table.getTable();
+        Qtbblf(JPEGQTbblf tbblf, int id) {
+            flfmfntPrfdision = 0;
+            tbblfID = id;
+            dbtb = tbblf.gftTbblf();
         }
 
-        Qtable(Node node) throws IIOInvalidTreeException {
-            if (node.getNodeName().equals("dqtable")) {
-                NamedNodeMap attrs = node.getAttributes();
-                int count = attrs.getLength();
-                if ((count < 1) || (count > 2)) {
-                    throw new IIOInvalidTreeException
-                        ("dqtable node must have 1 or 2 attributes", node);
+        Qtbblf(Nodf nodf) tirows IIOInvblidTrffExdfption {
+            if (nodf.gftNodfNbmf().fqubls("dqtbblf")) {
+                NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+                int dount = bttrs.gftLfngti();
+                if ((dount < 1) || (dount > 2)) {
+                    tirow nfw IIOInvblidTrffExdfption
+                        ("dqtbblf nodf must ibvf 1 or 2 bttributfs", nodf);
                 }
-                elementPrecision = 0;
-                tableID = getAttributeValue(node, attrs, "qtableId", 0, 3, true);
-                if (node instanceof IIOMetadataNode) {
-                    IIOMetadataNode ourNode = (IIOMetadataNode) node;
-                    JPEGQTable table = (JPEGQTable) ourNode.getUserObject();
-                    if (table == null) {
-                        throw new IIOInvalidTreeException
-                            ("dqtable node must have user object", node);
+                flfmfntPrfdision = 0;
+                tbblfID = gftAttributfVbluf(nodf, bttrs, "qtbblfId", 0, 3, truf);
+                if (nodf instbndfof IIOMftbdbtbNodf) {
+                    IIOMftbdbtbNodf ourNodf = (IIOMftbdbtbNodf) nodf;
+                    JPEGQTbblf tbblf = (JPEGQTbblf) ourNodf.gftUsfrObjfdt();
+                    if (tbblf == null) {
+                        tirow nfw IIOInvblidTrffExdfption
+                            ("dqtbblf nodf must ibvf usfr objfdt", nodf);
                     }
-                    data = table.getTable();
-                } else {
-                    throw new IIOInvalidTreeException
-                        ("dqtable node must have user object", node);
+                    dbtb = tbblf.gftTbblf();
+                } flsf {
+                    tirow nfw IIOInvblidTrffExdfption
+                        ("dqtbblf nodf must ibvf usfr objfdt", nodf);
                 }
-            } else {
-                throw new IIOInvalidTreeException
-                    ("Invalid node, expected dqtable", node);
+            } flsf {
+                tirow nfw IIOInvblidTrffExdfption
+                    ("Invblid nodf, fxpfdtfd dqtbblf", nodf);
             }
         }
 
-        protected Object clone() {
-            Qtable newGuy = null;
+        protfdtfd Objfdt dlonf() {
+            Qtbblf nfwGuy = null;
             try {
-                newGuy = (Qtable) super.clone();
-            } catch (CloneNotSupportedException e) {} // won't happen
-            if (data != null) {
-                newGuy.data = data.clone();
+                nfwGuy = (Qtbblf) supfr.dlonf();
+            } dbtdi (ClonfNotSupportfdExdfption f) {} // won't ibppfn
+            if (dbtb != null) {
+                nfwGuy.dbtb = dbtb.dlonf();
             }
-            return newGuy;
+            rfturn nfwGuy;
         }
 
-        IIOMetadataNode getNativeNode() {
-            IIOMetadataNode node = new IIOMetadataNode("dqtable");
-            node.setAttribute("elementPrecision",
-                              Integer.toString(elementPrecision));
-            node.setAttribute("qtableId",
-                              Integer.toString(tableID));
-            node.setUserObject(new JPEGQTable(data));
-            return node;
+        IIOMftbdbtbNodf gftNbtivfNodf() {
+            IIOMftbdbtbNodf nodf = nfw IIOMftbdbtbNodf("dqtbblf");
+            nodf.sftAttributf("flfmfntPrfdision",
+                              Intfgfr.toString(flfmfntPrfdision));
+            nodf.sftAttributf("qtbblfId",
+                              Intfgfr.toString(tbblfID));
+            nodf.sftUsfrObjfdt(nfw JPEGQTbblf(dbtb));
+            rfturn nodf;
         }
 
         void print() {
-            System.out.println("Table id: " + Integer.toString(tableID));
-            System.out.println("Element precision: "
-                               + Integer.toString(elementPrecision));
+            Systfm.out.println("Tbblf id: " + Intfgfr.toString(tbblfID));
+            Systfm.out.println("Elfmfnt prfdision: "
+                               + Intfgfr.toString(flfmfntPrfdision));
 
-            (new JPEGQTable(data)).toString();
+            (nfw JPEGQTbblf(dbtb)).toString();
             /*
               for (int i = 0; i < 64; i++) {
               if (i % 8 == 0) {
-              System.out.println();
+              Systfm.out.println();
               }
-              System.out.print(" " + Integer.toString(data[i]));
+              Systfm.out.print(" " + Intfgfr.toString(dbtb[i]));
               }
-              System.out.println();
+              Systfm.out.println();
             */
         }
     }

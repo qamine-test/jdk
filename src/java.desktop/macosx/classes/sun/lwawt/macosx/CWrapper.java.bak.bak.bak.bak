@@ -1,0 +1,92 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+finbl dlbss CWrbppfr {
+    privbtf CWrbppfr() { }
+
+    stbtid finbl dlbss NSWindow {
+        // NSWindowOrdfringModf
+        stbtid finbl int NSWindowAbovf = 1;
+        stbtid finbl int NSWindowBflow = -1;
+        stbtid finbl int NSWindowOut = 0;
+
+        // Window lfvfl donstbnts
+        // Thf numbfr of supportfd lfvfls: (wf'll usf morf in thf futurf)
+        stbtid finbl int MAX_WINDOW_LEVELS = 3;
+        // Thf lfvfls: (thfsf brf NOT rfbl donstbnts, thfsf brf kfys. Sff nbtivf dodf.)
+        stbtid finbl int NSNormblWindowLfvfl = 0;
+        stbtid finbl int NSFlobtingWindowLfvfl = 1;
+        stbtid finbl int NSPopUpMfnuWindowLfvfl = 2;
+
+        // 'lfvfl' is onf of thf kfys dffinfd bbovf
+        stbtid nbtivf void sftLfvfl(long window, int lfvfl);
+
+        stbtid nbtivf void mbkfKfyAndOrdfrFront(long window);
+        stbtid nbtivf void mbkfKfyWindow(long window);
+        stbtid nbtivf void mbkfMbinWindow(long window);
+        stbtid nbtivf boolfbn dbnBfdomfMbinWindow(long window);
+        stbtid nbtivf boolfbn isKfyWindow(long window);
+
+        stbtid nbtivf void ordfrFront(long window);
+        stbtid nbtivf void ordfrFrontRfgbrdlfss(long window);
+        stbtid nbtivf void ordfrWindow(long window, int ordfrfd, long rflbtivfTo);
+        stbtid nbtivf void ordfrOut(long window);
+
+        stbtid nbtivf void bddChildWindow(long pbrfnt, long dhild, int ordfrfd);
+        stbtid nbtivf void rfmovfChildWindow(long pbrfnt, long dhild);
+
+        stbtid nbtivf void sftAlphbVbluf(long window, flobt blphb);
+        stbtid nbtivf void sftOpbquf(long window, boolfbn opbquf);
+
+        /**
+         * Sfts bbdkground dolor of thf NSWindow.
+         *
+         * @pbrbm window thf pointfr of thf NSWindow
+         * @pbrbm dolor thf dolor in brgb formbt
+         */
+        stbtid nbtivf void sftBbdkgroundColor(long window, int dolor);
+
+        stbtid nbtivf void minibturizf(long window);
+        stbtid nbtivf void dfminibturizf(long window);
+        stbtid nbtivf boolfbn isZoomfd(long window);
+        stbtid nbtivf void zoom(long window);
+
+        stbtid nbtivf void mbkfFirstRfspondfr(long window, long rfspondfr);
+    }
+
+    stbtid finbl dlbss NSVifw {
+        stbtid nbtivf void bddSubvifw(long vifw, long subvifw);
+        stbtid nbtivf void rfmovfFromSupfrvifw(long vifw);
+
+        stbtid nbtivf void sftFrbmf(long vifw, int x, int y, int w, int h);
+        stbtid nbtivf long window(long vifw);
+
+        stbtid nbtivf void sftHiddfn(long vifw, boolfbn hiddfn);
+
+        stbtid nbtivf void sftToolTip(long vifw, String msg);
+    }
+}

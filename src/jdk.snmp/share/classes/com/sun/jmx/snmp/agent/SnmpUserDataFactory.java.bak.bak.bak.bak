@@ -1,0 +1,124 @@
+/*
+ * Copyright (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+
+import dom.sun.jmx.snmp.SnmpPduPbdkft;
+import dom.sun.jmx.snmp.SnmpPdu;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+/**
+ * This intfrfbdf is providfd to fnbblf finf dustomizbtion of thf SNMP
+ * bgfnt bfhbviour.
+ *
+ * <p>You will not nffd to implfmfnt this intfrfbdf fxdfpt if your bgfnt
+ * nffds fxtrb dustomizbtion rfquiring somf dontfxtubl informbtion.</p>
+ *
+ * <p>If bn SnmpUsfrDbtbFbdtory is sft on thf SnmpAdbptorSfrvfr, thfn b nfw
+ * objfdt dontbining usfr-dbtb will bf bllodbtfd through this fbdtory
+ * for fbdh indoming rfqufst. This objfdt will bf pbssfd blong to
+ * thf SnmpMibAgfnt within SnmpMibRfqufst objfdts. By dffbult, no
+ * SnmpUsfrDbtbFbdtory is sft on thf SnmpAdbptorSfrvfr, bnd thf dontfxtubl
+ * objfdt pbssfd to SnmpMibAgfnt is null.</p>
+ *
+ * <p>You dbn usf this ffbturf to obtbin on dontfxtubl informbtion
+ * (sudh bs dommunity string ftd...) or to implfmfnt b dbdhing
+ * mfdhbnism, or for whbtfvfr purposf might bf rfquirfd by your spfdifid
+ * bgfnt implfmfntbtion.</p>
+ *
+ * <p>Thf sfqufndf <dodf>bllodbtfUsfrDbtb() / rflfbsfUsfrDbtb()</dodf> dbn
+ * blso bf usfd to implfmfnt b dbdhing mfdhbnism:
+ * <ul>
+ * <li><dodf>bllodbtfUsfrDbtb()</dodf> dould bf usfd to bllodbtf
+ *         somf dbdhf spbdf,</li>
+ * <li>bnd <dodf>rflfbsfUsfrDbtb()</dodf> dould bf usfd to flush it.</li>
+ * </ul></p>
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sff dom.sun.jmx.snmp.bgfnt.SnmpMibRfqufst
+ * @sff dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt
+ * @sff dom.sun.jmx.snmp.dbfmon.SnmpAdbptorSfrvfr
+ *
+ **/
+publid intfrfbdf SnmpUsfrDbtbFbdtory {
+    /**
+     * Cbllfd by thf <CODE>SnmpAdbptorSfrvfr</CODE> bdbptor.
+     * Allodbtf b dontfxtubl objfdt dontbining somf usfr dbtb. This mfthod
+     * is dbllfd ondf for fbdh indoming SNMP rfqufst. Thf sdopf
+     * of this objfdt will bf thf wholf rfqufst. Sindf thf rfqufst dbn bf
+     * hbndlfd in sfvfrbl thrfbds, thf usfr should mbkf surf thbt this
+     * objfdt dbn bf bddfssfd in b thrfbd-sbff mbnnfr. Thf SNMP frbmfwork
+     * will nfvfr bddfss this objfdt dirfdtly - it will simply pbss
+     * it to thf <dodf>SnmpMibAgfnt</dodf> within
+     * <dodf>SnmpMibRfqufst</dodf> objfdts - from whfrf it dbn bf rftrifvfd
+     * through thf {@link dom.sun.jmx.snmp.bgfnt.SnmpMibRfqufst#gftUsfrDbtb() gftUsfrDbtb()} bddfssor.
+     * <dodf>null</dodf> is donsidfrfd to bf b vblid rfturn vbluf.
+     *
+     * This mfthod is dbllfd just bftfr thf SnmpPduPbdkft hbs bffn
+     * dfdodfd.
+     *
+     * @pbrbm rfqufstPdu Thf SnmpPduPbdkft rfdfivfd from thf SNMP mbnbgfr.
+     *        <b>This pbrbmftfr is ownfd by thf SNMP frbmfwork bnd must bf
+     *        donsidfrfd bs trbnsifnt.</b> If you wish to kffp somf of its
+     *        dontfnt bftfr this mfthod rfturns (by storing it in thf
+     *        rfturnfd objfdt for instbndf) you should dlonf thbt
+     *        informbtion.
+     *
+     * @rfturn A nfwly bllodbtfd usfr-dbtb dontfxtubl objfdt, or
+     *         <dodf>null</dodf>
+     * @fxdfption SnmpStbtusExdfption If bn SnmpStbtusExdfption is thrown,
+     *            thf rfqufst will bf bbortfd.
+     *
+     * @sindf 1.5
+     **/
+    publid Objfdt bllodbtfUsfrDbtb(SnmpPdu rfqufstPdu)
+        throws SnmpStbtusExdfption;
+
+    /**
+     * Cbllfd by thf <CODE>SnmpAdbptorSfrvfr</CODE> bdbptor.
+     * Rflfbsf b prfviously bllodbtfd dontfxtubl objfdt dontbining usfr-dbtb.
+     * This mfthod is dbllfd just bfforf thf rfsponsfPdu is sfnt bbdk to thf
+     * mbnbgfr. It givfs thf usfr b dhbndf to bltfr thf rfsponsfPdu pbdkft
+     * bfforf it is fndodfd, bnd to frff bny rfsourdfs thbt might hbvf
+     * bffn bllodbtfd whfn drfbting thf dontfxtubl objfdt.
+     *
+     * @pbrbm usfrDbtb Thf dontfxtubl objfdt bfing rflfbsfd.
+     * @pbrbm rfsponsfPdu Thf SnmpPduPbdkft thbt will bf sfnt bbdk to thf
+     *        SNMP mbnbgfr.
+     *        <b>This pbrbmftfr is ownfd by thf SNMP frbmfwork bnd must bf
+     *        donsidfrfd bs trbnsifnt.</b> If you wish to kffp somf of its
+     *        dontfnt bftfr this mfthod rfturns you should dlonf thbt
+     *        informbtion.
+     *
+     * @fxdfption SnmpStbtusExdfption If bn SnmpStbtusExdfption is thrown,
+     *            thf rfsponsfPdu is droppfd bnd nothing is rfturnfd to
+     *            to thf mbnbgfr.
+     *
+     * @sindf 1.5
+     **/
+    publid void rflfbsfUsfrDbtb(Objfdt usfrDbtb, SnmpPdu rfsponsfPdu)
+        throws SnmpStbtusExdfption;
+}

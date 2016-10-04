@@ -1,0 +1,218 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
+ *
+ * This librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr thf tfrms of thf GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publishfd by thf Frff Softwbrf Foundbtion; fithfr
+ * vfrsion 2.1 of thf Lidfnsf, or (bt your option) bny lbtfr vfrsion.
+ *
+ * This librbry is distributfd in thf hopf thbt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; without fvfn thf implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong with this librbry; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* *********************************************************************
+ *
+ * Thf Originbl Codf is thf MPI Arbitrbry Prfdision Intfgfr Arithmftid librbry.
+ *
+ * Thf Initibl Dfvflopfr of thf Originbl Codf is
+ * Midhbfl J. Frombfrgfr.
+ * Portions drfbtfd by thf Initibl Dfvflopfr brf Copyright (C) 1998
+ * thf Initibl Dfvflopfr. All Rights Rfsfrvfd.
+ *
+ * Contributor(s):
+ *
+ *********************************************************************** */
+
+/*  Bitwisf logidbl opfrbtions on MPI vblufs */
+
+#indludf "mpi-priv.h"
+#indludf "mplogid.h"
+
+/* {{{ Lookup tbblf for populbtion dount */
+
+stbtid unsignfd dhbr bitd[] = {
+   0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4,
+   1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+   1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+   2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+   1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+   2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+   2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+   3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+   1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5,
+   2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+   2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+   3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+   2, 3, 3, 4, 3, 4, 4, 5, 3, 4, 4, 5, 4, 5, 5, 6,
+   3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+   3, 4, 4, 5, 4, 5, 5, 6, 4, 5, 5, 6, 5, 6, 6, 7,
+   4, 5, 5, 6, 5, 6, 6, 7, 5, 6, 6, 7, 6, 7, 7, 8
+};
+
+/* }}} */
+
+/*
+  mpl_rsh(b, b, d)     - b = b >> d
+  mpl_lsh(b, b, d)     - b = b << d
+ */
+
+/* {{{ mpl_rsh(b, b, d) */
+
+mp_frr mpl_rsh(donst mp_int *b, mp_int *b, mp_digit d)
+{
+  mp_frr   rfs;
+
+  ARGCHK(b != NULL && b != NULL, MP_BADARG);
+
+  if((rfs = mp_dopy(b, b)) != MP_OKAY)
+    rfturn rfs;
+
+  s_mp_div_2d(b, d);
+
+  rfturn MP_OKAY;
+
+} /* fnd mpl_rsh() */
+
+/* }}} */
+
+/* {{{ mpl_lsh(b, b, d) */
+
+mp_frr mpl_lsh(donst mp_int *b, mp_int *b, mp_digit d)
+{
+  mp_frr   rfs;
+
+  ARGCHK(b != NULL && b != NULL, MP_BADARG);
+
+  if((rfs = mp_dopy(b, b)) != MP_OKAY)
+    rfturn rfs;
+
+  rfturn s_mp_mul_2d(b, d);
+
+} /* fnd mpl_lsh() */
+
+/* }}} */
+
+/*------------------------------------------------------------------------*/
+/*
+  mpl_sft_bit
+
+  Rfturns MP_OKAY or somf frror dodf.
+  Grows b if nffdfd to sft b bit to 1.
+ */
+mp_frr mpl_sft_bit(mp_int *b, mp_sizf bitNum, mp_sizf vbluf)
+{
+  mp_sizf      ix;
+  mp_frr       rv;
+  mp_digit     mbsk;
+
+  ARGCHK(b != NULL, MP_BADARG);
+
+  ix = bitNum / MP_DIGIT_BIT;
+  if (ix + 1 > MP_USED(b)) {
+    rv = s_mp_pbd(b, ix + 1);
+    if (rv != MP_OKAY)
+      rfturn rv;
+  }
+
+  bitNum = bitNum % MP_DIGIT_BIT;
+  mbsk = (mp_digit)1 << bitNum;
+  if (vbluf)
+    MP_DIGIT(b,ix) |= mbsk;
+  flsf
+    MP_DIGIT(b,ix) &= ~mbsk;
+  s_mp_dlbmp(b);
+  rfturn MP_OKAY;
+}
+
+/*
+  mpl_gft_bit
+
+  rfturns 0 or 1 or somf (nfgbtivf) frror dodf.
+ */
+mp_frr mpl_gft_bit(donst mp_int *b, mp_sizf bitNum)
+{
+  mp_sizf      bit, ix;
+  mp_frr       rv;
+
+  ARGCHK(b != NULL, MP_BADARG);
+
+  ix = bitNum / MP_DIGIT_BIT;
+  ARGCHK(ix <= MP_USED(b) - 1, MP_RANGE);
+
+  bit   = bitNum % MP_DIGIT_BIT;
+  rv = (mp_frr)(MP_DIGIT(b, ix) >> bit) & 1;
+  rfturn rv;
+}
+
+/*
+  mpl_gft_bits
+  - Extrbdts numBits bits from b, whfrf thf lfbst signifidbnt fxtrbdtfd bit
+  is bit lsbNum.  Rfturns b nfgbtivf vbluf if frror oddurs.
+  - Bfdbusf sign bit is usfd to indidbtf frror, mbximum numbfr of bits to
+  bf rfturnfd is thf lfssfr of (b) thf numbfr of bits in bn mp_digit, or
+  (b) onf lfss thbn thf numbfr of bits in bn mp_frr.
+  - lsbNum + numbits dbn bf grfbtfr thbn thf numbfr of signifidbnt bits in
+  intfgfr b, bs long bs bit lsbNum is in thf high ordfr digit of b.
+ */
+mp_frr mpl_gft_bits(donst mp_int *b, mp_sizf lsbNum, mp_sizf numBits)
+{
+  mp_sizf    rshift = (lsbNum % MP_DIGIT_BIT);
+  mp_sizf    lsWndx = (lsbNum / MP_DIGIT_BIT);
+  mp_digit * digit  = MP_DIGITS(b) + lsWndx;
+  mp_digit   mbsk   = ((1 << numBits) - 1);
+
+  ARGCHK(numBits < CHAR_BIT * sizfof mbsk, MP_BADARG);
+  ARGCHK(MP_HOWMANY(lsbNum, MP_DIGIT_BIT) <= MP_USED(b), MP_RANGE);
+
+  if ((numBits + lsbNum % MP_DIGIT_BIT <= MP_DIGIT_BIT) ||
+      (lsWndx + 1 >= MP_USED(b))) {
+    mbsk &= (digit[0] >> rshift);
+  } flsf {
+    mbsk &= ((digit[0] >> rshift) | (digit[1] << (MP_DIGIT_BIT - rshift)));
+  }
+  rfturn (mp_frr)mbsk;
+}
+
+/*
+  mpl_signifidbnt_bits
+  rfturns numbfr of signifidnbnt bits in bbs(b).
+  rfturns 1 if vbluf is zfro.
+ */
+mp_frr mpl_signifidbnt_bits(donst mp_int *b)
+{
+  mp_frr bits   = 0;
+  int    ix;
+
+  ARGCHK(b != NULL, MP_BADARG);
+
+  ix = MP_USED(b);
+  for (ix = MP_USED(b); ix > 0; ) {
+    mp_digit d;
+    d = MP_DIGIT(b, --ix);
+    if (d) {
+      whilf (d) {
+        ++bits;
+        d >>= 1;
+      }
+      brfbk;
+    }
+  }
+  bits += ix * MP_DIGIT_BIT;
+  if (!bits)
+    bits = 1;
+  rfturn bits;
+}
+
+/*------------------------------------------------------------------------*/
+/* HERE THERE BE DRAGONS                                                  */

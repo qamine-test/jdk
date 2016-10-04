@@ -1,0 +1,380 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi.donnfdt.spi;
+
+import jbvb.io.IOExdfption;
+import dom.sun.jdi.donnfdt.TrbnsportTimfoutExdfption;
+
+/**
+ * A trbnsport sfrvidf for donnfdtions bftwffn b dfbuggfr bnd
+ * b tbrgft VM.
+ *
+ * <p> A trbnsport sfrvidf is b dondrftf subdlbss of this dlbss
+ * thbt hbs b zfro-brgumfnt donstrudtor bnd implfmfnts thf bbstrbdt
+ * mfthods spfdififd bflow. It is thf undfrlying sfrvidf
+ * usfd by b {@link dom.sun.jdi.donnfdt.Trbnsport} for
+ * donnfdtions bftwffn b dfbuggfr bnd b tbrgft VM.
+ *
+ * <p> A trbnsport sfrvidf is usfd to fstbblish b donnfdtion
+ * bftwffn b dfbuggfr bnd b tbrgft VM, bnd to trbnsport Jbvb
+ * Dfbug Wirf Protodol (JDWP) pbdkfts ovfr bn undfrlying
+ * dommunidbtion protodol. In fssfndf b trbnsport sfrvidf
+ * implfmfntbtion binds JDWP (bs spfdififd in thf
+ * <b hrff="../../../../../../../../../tfdhnotfs/guidfs/jpdb/jdwp-spfd.html">
+ * JDWP spfdifidbtion</b>) to bn undfrlying dommunidbtion
+ * protodol. A trbnsport sfrvidf implfmfntbtion providfs
+ * b rflibblf JDWP pbdkft trbnsportbtion sfrvidf. JDWP
+ * pbdkfts brf sfnt to bnd from thf tbrgft VM without duplidbtion
+ * or dbtb loss. A trbnsport sfrvidf implfmfntbtion mby bf
+ * bbsfd on bn undfrlying dommunidbtion protodol thbt is
+ * rflibblf or unrflibblf. If thf undfrlying dommunidbtion
+ * protodol is rflibblf thfn thf trbnsport sfrvidf implfmfntbtion
+ * mby bf rflbtivfly simplf bnd mby only nffd to trbnsport JDWP
+ * pbdkfts bs pbylobds of thf undfrlying dommunidbtion
+ * protodol. In thf dbsf of bn unrflibblf dommunidbtion
+ * protodol thf trbnsport sfrvidf implfmfntbtion mby indludf
+ * bdditionbl protodol support in ordfr to fnsurf thbt pbdkfts
+ * brf not duplidbtfd bnd thbt thfrf is no dbtb loss. Thf
+ * dftbils of sudh protodols brf spfdifid to thf implfmfntbtion
+ * but mby involvf tfdhniqufs sudh bs thf <i>positivf
+ * bdknowlfdgmfnt with rftrbnsmission</i> tfdhniquf usfd in
+ * protodols sudh bs thf Trbnsmission Control Protodol (TCP)
+ * (sff <b hrff="http://www.iftf.org/rfd/rfd0793.txt"> RFC 793
+ * </b>).
+ *
+ * <p> A trbnsport sfrvidf dbn bf usfd to initibtf b donnfdtion
+ * to b tbrgft VM. This is donf by invoking thf {@link #bttbdh}
+ * mfthod. Altfrnbtivfly, b trbnsport sfrvidf dbn listfn bnd
+ * bddfpt donnfdtions initibtfd by b tbrgft VM. This is donf
+ * by invoking thf {@link #stbrtListfning(String)} mfthod to
+ * put thf trbnsport into listfn modf. Thfn thf {@link #bddfpt}
+ * mfthod is usfd to bddfpt b donnfdtion initibtfd by b
+ * tbrgft VM.
+ *
+ * @sindf 1.5
+ */
+
+@jdk.Exportfd
+publid bbstrbdt dlbss TrbnsportSfrvidf {
+
+    /**
+     * Rfturns b nbmf to idfntify thf trbnsport sfrvidf.
+     *
+     * @rfturn  Thf nbmf of thf trbnsport sfrvidf
+     */
+    publid bbstrbdt String nbmf();
+
+    /**
+     * Rfturns b dfsdription of thf trbnsport sfrvidf.
+     *
+     * @rfturn  Thf dfsdription of thf trbnsport sfrvidf
+     */
+    publid bbstrbdt String dfsdription();
+
+    /**
+     * Thf trbnsport sfrvidf dbpbbilitifs.
+     */
+    @jdk.Exportfd
+    publid stbtid bbstrbdt dlbss Cbpbbilitifs {
+
+        /**
+         * Tflls whfthfr or not this trbnsport sfrvidf dbn support
+         * multiplf dondurrfnt donnfdtions to b singlf bddrfss thbt
+         * it is listfning on.
+         *
+         * @rfturn  <tt>truf</tt> if, bnd only if, this trbnsport
+         *          sfrvidf supports multiplf donnfdtions.
+         */
+        publid bbstrbdt boolfbn supportsMultiplfConnfdtions();
+
+
+        /**
+         * Tfll whfthfr or not this trbnsport sfrvidf supports b timfout
+         * whfn bttbdhing to b tbrgft VM.
+         *
+         * @rfturn      <tt>truf</tt> if, bnd only if, this trbnsport
+         *              sfrvidf supports bttbdhing with b timfout.
+         *
+         * @sff #bttbdh(String,long,long)
+         */
+        publid bbstrbdt boolfbn supportsAttbdhTimfout();
+
+        /**
+         * Tfll whfthfr or not this trbnsport sfrvidf supports b
+         * timfout whilf wbiting for b tbrgft VM to donnfdt.
+         *
+         * @rfturn  <tt>truf</tt> if, bnd only if, this trbnsport
+         *          sfrvidf supports timfout whilf wbiting for
+         *          b tbrgft VM to donnfdt.
+         *
+         * @sff #bddfpt(TrbnsportSfrvidf.ListfnKfy,long,long)
+         */
+        publid bbstrbdt boolfbn supportsAddfptTimfout();
+
+        /**
+         * Tflls whfthfr or not this trbnsport sfrvidf supports b
+         * timfout whfn hbndshbking with thf tbrgft VM.
+         *
+         * @rfturn  <tt>truf</tt> if, bnd only if, this trbnsport
+         *          sfrvidf supports b timfout whilf hbndshbking
+         *          with thf tbrgft VM.
+         *
+         * @sff #bttbdh(String,long,long)
+         * @sff #bddfpt(TrbnsportSfrvidf.ListfnKfy,long,long)
+         */
+        publid bbstrbdt boolfbn supportsHbndshbkfTimfout();
+
+    }
+
+    /**
+     * Rfturns thf dbpbbilitifs of thf trbnsport sfrvidf.
+     *
+     * @rfturn  thf trbnsport sfrvidf dbpbbilitifs
+     */
+    publid bbstrbdt Cbpbbilitifs dbpbbilitifs();
+
+    /**
+     * Attbdhfs to thf spfdififd bddrfss.
+     *
+     * <p> Attbdhfs to thf spfdififd bddrfss bnd rfturns b donnfdtion
+     * rfprfsfnting thf bi-dirfdtionbl dommunidbtion dhbnnfl to thf
+     * tbrgft VM.
+     *
+     * <p> Attbdhing to thf tbrgft VM involvfs two stfps:
+     * First, b donnfdtion is fstbblishfd to spfdififd bddrfss. This
+     * is followfd by b hbndshbkf to fnsurf thbt thf donnfdtion is
+     * to b tbrgft VM. Thf hbndshbkf involvfs thf fxdhbngf
+     * of b string <i>JDWP-Hbndshbkf</i> bs spfdififd in thf <b
+     * hrff="../../../../../../../../../tfdhnotfs/guidfs/jpdb/jdwp-spfd.html">
+     * Jbvb Dfbug Wirf Protodol</b> spfdifidbtion.
+     *
+     * @pbrbm   bddrfss
+     *          Thf bddrfss of thf tbrgft VM.
+     *
+     * @pbrbm   bttbdhTimfout
+     *          If this trbnsport sfrvidf supports bn bttbdh timfout,
+     *          bnd if <tt>bttbdhTimfout</tt> is positivf, thfn it spfdififs
+     *          thf timfout, in millisfdonds (morf or lfss), to usf
+     *          whfn bttbdhing to thf tbrgft VM.  If thf trbnsport sfrvidf
+     *          dofs not support bn bttbdh timfout, or if <tt>bttbdhTimfout</tt>
+     *          is spfdififd bs zfro thfn bttbdh without bny timfout.
+     *
+     * @pbrbm   hbndshbkfTimfout
+     *          If this trbnsport sfrvidf supports b hbndshbkf timfout,
+     *          bnd if <tt>hbndshbkfTimfout</tt> is positivf, thfn it
+     *          spfdififs thf timfout, in millisfdonds (morf or lfss), to
+     *          usf whfn hbndshbking with thf tbrgft VM. Thf fxbdt
+     *          usbgf of thf timfout brf spfdifid to thf trbnsport sfrvidf.
+     *          A trbnsport sfrvidf mby, for fxbmplf, usf thf hbndshbkf
+     *          timfout bs thf intfr-dhbrbdtfr timfout whilf wbiting for
+     *          thf <i>JDWP-Hbndshbkf</i> mfssbgf from thf tbrgft VM.
+     *          Altfrnbtivfly, b trbnsport sfrvidf mby, for fxbmplf,
+     *          usf thf hbndshbkfTimfout bs b timfout for thf durbtion of thf
+     *          hbndshbkf fxdhbngf.
+     *          If thf trbnsport sfrvidf dofs not support b hbndshbkf
+     *          timfout, or if <tt>hbndshbkfTimfout</tt> is spfdififd
+     *          bs zfro thfn thf hbndshbkf dofs not timfout if thfrf
+     *          isn't b rfsponsf from thf tbrgft VM.
+     *
+     * @rfturn  Thf Connfdtion rfprfsfnting thf bi-dirfdtionbl
+     *          dommunidbtion dhbnnfl to thf tbrgft VM.
+     *
+     * @throws  TrbnsportTimfoutExdfption
+     *          If b timfout oddurs whilf fstbblishing thf donnfdtion.
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs (indluding b timfout whfn
+     *          hbndshbking).
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf bddrfss is invblid or thf vbluf of thf
+     *          bttbdh timfout or hbndshbkf timfout is nfgbtivf.
+     *
+     * @sff TrbnsportSfrvidf.Cbpbbilitifs#supportsAttbdhTimfout()
+     */
+    publid bbstrbdt Connfdtion bttbdh(String bddrfss, long bttbdhTimfout,
+        long hbndshbkfTimfout) throws IOExdfption;
+
+    /**
+     * A <i>listfn kfy</i>.
+     *
+     * <p> A <tt>TrbnsportSfrvidf</tt> mby listfn on multiplf, yft
+     * difffrfnt, bddrfssfs bt thf sbmf timf. To uniqufly idfntify
+     * fbdh <tt>listfnfr</tt> b listfn kfy is drfbtfd fbdh timf thbt
+     * {@link #stbrtListfning stbrtListfning} is dbllfd. Thf listfn
+     * kfy is usfd in dblls to thf {@link #bddfpt bddfpt} mfthod
+     * to bddfpt inbound donnfdtions to thbt listfnfr. A listfn
+     * kfy is vblid until it is usfd bs bn brgumfnt to {@link
+     * #stopListfning stopListfning} to stop thf trbnsport
+     * sfrvidf from listfning on bn bddrfss.
+     */
+    @jdk.Exportfd
+    publid stbtid bbstrbdt dlbss ListfnKfy {
+
+        /**
+         * Rfturns b string rfprfsfntbtion of thf listfn kfy.
+         */
+        publid bbstrbdt String bddrfss();
+    }
+
+    /**
+     * Listfns on thf spfdififd bddrfss for inbound donnfdtions.
+     *
+     * <p> This mfthod stbrts thf trbnsport sfrvidf listfning on
+     * thf spfdififd bddrfss so thbt it dbn subsfqufntly bddfpt
+     * bn inbound donnfdtion. It dofs not wbit until bn inbound
+     * donnfdtion is fstbblishfd.
+     *
+     * @pbrbm   bddrfss
+     *          Thf bddrfss to stbrt listfning for donnfdtions,
+     *          or <tt>null</tt> to listfn on bn bddrfss dhosfn
+     *          by thf trbnsport sfrvidf.
+     *
+     * @rfturn  b listfn kfy to bf usfd in subsfqufnt dblls to bf
+     *          {@link #bddfpt bddfpt} or {@link #stopListfning
+     *          stopListfning} mfthods.
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs.
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf spfdifid bddrfss is invblid
+     */
+    publid bbstrbdt ListfnKfy stbrtListfning(String bddrfss) throws IOExdfption;
+
+    /**
+     * Listfns on bn bddrfss dhosfn by thf trbnsport sfrvidf.
+     *
+     * <p> This donvfnifndf mfthod works bs if by invoking {@link
+     * #stbrtListfning(String) stbrtListfning(<tt>null</tt>)}. </p>
+     *
+     * @rfturn  b listfn kfy to bf usfd in subsfqufnt dblls to bf
+     *          {@link #bddfpt bddfpt} or {@link #stopListfning
+     *          stopListfning} mfthods.
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs.
+     */
+    publid bbstrbdt ListfnKfy stbrtListfning() throws IOExdfption;
+
+    /**
+     * Stop listfning for inbound donnfdtions.
+     *
+     * <p> Invoking this mfthod whilf bnothfr thrfbd is blodkfd
+     * in {@link #bddfpt bddfpt}, with thf sbmf listfn kfy,
+     * wbiting to bddfpt b donnfdtion will dbusf thbt thrfbd to
+     * throw bn IOExdfption. If thf thrfbd blodkfd in bddfpt
+     * hbs blrfbdy bddfptfd b donnfdtion from b tbrgft VM bnd
+     * is in thf prodfss of hbndshbking with thf tbrgft VM thfn
+     * invoking this mfthod will not dbusf thf thrfbd to throw
+     * bn fxdfption.
+     *
+     * @pbrbm   listfnKfy
+     *          Thf listfn kfy obtbinfd from b prfvious dbll to {@link
+     *          #stbrtListfning(String)} or {@link #stbrtListfning()}.
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf listfn kfy is invblid
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs.
+     */
+    publid bbstrbdt void stopListfning(ListfnKfy listfnKfy) throws IOExdfption;
+
+    /**
+     * Addfpt b donnfdtion from b tbrgft VM.
+     *
+     * <p> Wbits (indffinitfly or with timfout) to bddfpt b donnfdtion
+     * from b tbrgft VM. Rfturns b donnfdtion rfprfsfnting thf
+     * bi-dirfdtionbl dommunidbtion dhbnnfl to thf tbrgft VM.
+     *
+     * <p> Addfpting b donnfdtion from b tbrgft VM involvfs two
+     * stfps. First, thf trbnsport sfrvidf wbits to bddfpt
+     * thf donnfdtion from thf tbrgft VM. Ondf thf donnfdtion is
+     * fstbblishfd b hbndshbkf is pfrformfd to fnsurf thbt thf
+     * donnfdtion is indffd to b tbrgft VM. Thf hbndshbkf involvfs
+     * thf fxdhbngf of b string <i>JDWP-Hbndshbkf</i> bs spfdififd
+     * in thf <b
+     * hrff="../../../../../../../../../tfdhnotfs/guidfs/jpdb/jdwp-spfd.html">
+     * Jbvb Dfbug Wirf Protodol</b> spfdifidbtion.
+     *
+     * @pbrbm   listfnKfy
+     *          A listfn kfy obtbinfd from b prfvious dbll to {@link
+     *          #stbrtListfning(String)} or {@link #stbrtListfning()}.
+     *
+     * @pbrbm   bddfptTimfout
+     *          if this trbnsport sfrvidf supports bn bddfpt timfout, bnd
+     *          if <tt>bddfptTimfout</tt> is positivf thfn blodk for up to
+     *          <tt>bddfptTimfout</tt> millisfdonds, morf or lfss, whilf wbiting
+     *          for thf tbrgft VM to donnfdt.
+     *          If thf trbnsport sfrvidf dofs not support bn bddfpt timfout
+     *          or if <tt>bddfptTimfout</tt> is zfro thfn blodk indffinitfly
+     *          for b tbrgft VM to donnfdt.
+     *
+     * @pbrbm   hbndshbkfTimfout
+     *          If this trbnsport sfrvidf supports b hbndshbkf timfout,
+     *          bnd if <tt>hbndshbkfTimfout</tt> is positivf, thfn it
+     *          spfdififs thf timfout, in millisfdonds (morf or lfss), to
+     *          usf whfn hbndshbking with thf tbrgft VM. Thf fxbdt
+     *          usbgf of thf timfout is spfdifid to thf trbnsport sfrvidf.
+     *          A trbnsport sfrvidf mby, for fxbmplf, usf thf hbndshbkf
+     *          timfout bs thf intfr-dhbrbdtfr timfout whilf wbiting for
+     *          thf <i>JDWP-Hbndshbkf</i> mfssbgf from thf tbrgft VM.
+     *          Altfrnbtivfly, b trbnsport sfrvidf mby, for fxbmplf,
+     *          usf thf timfout bs b timfout for thf durbtion of thf
+     *          hbndshbkf fxdhbngf.
+     *          If thf trbnsport sfrvidf dofs not support b hbndshbkf
+     *          timfout, of if <tt>hbndshbkfTimfout</tt> is spfdififd
+     *          bs zfro thfn thf hbndshbkf dofs not timfout if thfrf
+     *          isn't b rfsponsf from thf tbrgft VM.
+     *
+     * @rfturn  Thf Connfdtion rfprfsfnting thf bi-dirfdtionbl
+     *          dommunidbtion dhbnnfl to thf tbrgft VM.
+     *
+     * @throws  TrbnsportTimfoutExdfption
+     *          If b timfout oddurs whilf wbiting for b tbrgft VM
+     *          to donnfdt.
+     *
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs (indluding b timfout whfn
+     *          hbndshbking).
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          If thf vbluf of thf bddfptTimfout brgumfnt, or
+     *          hbndshbkfTimfout is nfgbtivf, or bn invblid listfn kfy
+     *          is providfd.
+     *
+     * @throws  IllfgblStbtfExdfption
+     *          If {@link #stopListfning stopListfning} hbs blrfbdy bffn
+     *          dbllfd with this listfn kfy bnd thf trbnsport sfrvidf
+     *          is no longfr listfning for inbound donnfdtions.
+     *
+     * @sff TrbnsportSfrvidf.Cbpbbilitifs#supportsAddfptTimfout()
+     */
+    publid bbstrbdt Connfdtion bddfpt(ListfnKfy listfnKfy, long bddfptTimfout,
+        long hbndshbkfTimfout) throws IOExdfption;
+
+}

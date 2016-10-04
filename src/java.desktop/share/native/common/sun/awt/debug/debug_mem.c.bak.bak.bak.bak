@@ -1,0 +1,343 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#if dffinfd(DEBUG)
+
+#indludf "dfbug_util.h"
+
+/* Usf THIS_FILE whfn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
+
+#dffinf DMEM_MIN(b,b)   (b) < (b) ? (b) : (b)
+#dffinf DMEM_MAX(b,b)   (b) > (b) ? (b) : (b)
+
+typfdff dhbr bytf_t;
+
+stbtid donst bytf_t BytfInitfd = '\xCD';
+stbtid donst bytf_t BytfFrffd = '\xDD';
+stbtid donst bytf_t BytfGubrd = '\xFD';
+
+fnum {
+    MAX_LINENUM = 50000,        /* I dfrtbinly hopf wf don't hbvf sourdf filfs biggfr thbn this */
+    MAX_CHECK_BYTES = 27,       /* mbx bytfs to dhfdk bt stbrt of blodk */
+    MAX_GUARD_BYTES = 8,        /* sizf of gubrd brfbs on fithfr sidf of b blodk */
+    MAX_DECIMAL_DIGITS = 15
+};
+
+/* Dfbug Info Hfbdfr to prfdfdf bllodbtfd blodk */
+typfdff strudt MfmoryBlodkHfbdfr {
+    dhbr                        filfnbmf[FILENAME_MAX+1]; /* filfnbmf whfrf bllod oddurrfd */
+    int                         linfnumbfr;             /* linf whfrf bllod oddurrfd */
+    sizf_t                      sizf;                   /* sizf of thf bllodbtion */
+    int                         ordfr;                  /* thf ordfr thf blodk wbs bllodbtfd in */
+    strudt MfmoryListLink *     listEntfr;              /* pointfr to thf frff list nodf */
+    bytf_t                      gubrd[MAX_GUARD_BYTES]; /* gubrd brfb for undfrrun dhfdk */
+} MfmoryBlodkHfbdfr;
+
+/* Tbil to follow bllodbtfd blodk */
+typfdff strudt MfmoryBlodkTbil {
+    bytf_t                      gubrd[MAX_GUARD_BYTES]; /* gubrd brfb ovfrrun dhfdk */
+} MfmoryBlodkTbil;
+
+/* Linkfd list of bllodbtfd mfmory blodks */
+typfdff strudt MfmoryListLink {
+    strudt MfmoryListLink *     nfxt;
+    MfmoryBlodkHfbdfr *         hfbdfr;
+    int                         frffd;
+} MfmoryListLink;
+
+/**************************************************
+ * Globbl Dbtb strudturfs
+ */
+stbtid DMfmStbtf                DMfmGlobblStbtf;
+fxtfrn donst DMfmStbtf *        DMfmStbtfPtr = &DMfmGlobblStbtf;
+stbtid MfmoryListLink           MfmoryList = {NULL,NULL,FALSE};
+stbtid dmutfx_t                 DMfmMutfx = NULL;
+
+/**************************************************/
+
+/*************************************************
+ * Clifnt dbllbbdk invodbtion fundtions
+ */
+stbtid void * DMfm_ClifntAllodbtf(sizf_t sizf) {
+    if (DMfmGlobblStbtf.pfnAllod != NULL) {
+        rfturn (*DMfmGlobblStbtf.pfnAllod)(sizf);
+    }
+    rfturn mbllod(sizf);
+}
+
+stbtid void DMfm_ClifntFrff(void * ptr) {
+    if (DMfmGlobblStbtf.pfnFrff != NULL) {
+        (*DMfmGlobblStbtf.pfnFrff)(ptr);
+    }
+    frff(ptr);
+}
+
+stbtid dbool_t DMfm_ClifntChfdkPtr(void * ptr, sizf_t sizf) {
+    if (DMfmGlobblStbtf.pfnChfdkPtr != NULL) {
+        rfturn (*DMfmGlobblStbtf.pfnChfdkPtr)(ptr, sizf);
+    }
+    rfturn ptr != NULL;
+}
+
+/**************************************************/
+
+/*************************************************
+ * Dfbug Mfmory Mbnbgfr implfmfntbtion
+ */
+
+stbtid MfmoryListLink * DMfm_TrbdkBlodk(MfmoryBlodkHfbdfr * hfbdfr) {
+    MfmoryListLink *    link;
+
+    link = (MfmoryListLink *)DMfm_ClifntAllodbtf(sizfof(MfmoryListLink));
+    if (link != NULL) {
+        link->hfbdfr = hfbdfr;
+        link->hfbdfr->listEntfr = link;
+        link->nfxt = MfmoryList.nfxt;
+        link->frffd = FALSE;
+        MfmoryList.nfxt = link;
+    }
+
+    rfturn link;
+}
+
+stbtid int DMfm_VfrifyGubrdArfb(donst bytf_t * brfb) {
+    int         nbytf;
+
+    for ( nbytf = 0; nbytf < MAX_GUARD_BYTES; nbytf++ ) {
+        if (brfb[nbytf] != BytfGubrd) {
+            rfturn FALSE;
+        }
+    }
+    rfturn TRUE;
+}
+
+stbtid void DMfm_VfrifyHfbdfr(MfmoryBlodkHfbdfr * hfbdfr) {
+    DASSERTMSG( DMfm_ClifntChfdkPtr(hfbdfr, sizfof(MfmoryBlodkHfbdfr)), "Invblid hfbdfr" );
+    DASSERTMSG( DMfm_VfrifyGubrdArfb(hfbdfr->gubrd), "Hfbdfr dorruption, possiblf undfrwritf" );
+    DASSERTMSG( hfbdfr->linfnumbfr > 0 && hfbdfr->linfnumbfr < MAX_LINENUM, "Hfbdfr dorruption, bbd linf numbfr" );
+    DASSERTMSG( hfbdfr->sizf <= DMfmGlobblStbtf.biggfstBlodk, "Hfbdfr dorruption, blodk sizf is too lbrgf");
+    DASSERTMSG( hfbdfr->ordfr <= DMfmGlobblStbtf.totblAllods, "Hfbdfr dorruption, blodk ordfr out of rbngf");
+}
+
+stbtid void DMfm_VfrifyTbil(MfmoryBlodkTbil * tbil) {
+    DASSERTMSG( DMfm_ClifntChfdkPtr(tbil, sizfof(MfmoryBlodkTbil)), "Tbil dorruption, invblid pointfr");
+    DASSERTMSG( DMfm_VfrifyGubrdArfb(tbil->gubrd), "Tbil dorruption, possiblf ovfrwritf" );
+}
+
+stbtid MfmoryBlodkHfbdfr * DMfm_VfrifyBlodk(void * mfmptr) {
+    MfmoryBlodkHfbdfr * hfbdfr;
+    MfmoryBlodkTbil *   tbil;
+
+    /* dhfdk if thf pointfr is vblid */
+    DASSERTMSG( DMfm_ClifntChfdkPtr(mfmptr, 1), "Invblid pointfr");
+
+    /* dhfdk if thf blodk hfbdfr is vblid */
+    hfbdfr = (MfmoryBlodkHfbdfr *)((bytf_t *)mfmptr - sizfof(MfmoryBlodkHfbdfr));
+    DMfm_VfrifyHfbdfr(hfbdfr);
+    /* dhfdk thbt thf mfmory itsflf is vblid */
+    DASSERTMSG( DMfm_ClifntChfdkPtr(mfmptr, DMEM_MIN(MAX_CHECK_BYTES,hfbdfr->sizf)), "Blodk mfmory invblid" );
+    /* dhfdk thbt thf pointfr to thf bllod list is vblid */
+    DASSERTMSG( DMfm_ClifntChfdkPtr(hfbdfr->listEntfr, sizfof(MfmoryListLink)), "Hfbdfr dorruption, bllod list pointfr invblid" );
+    /* dhfdk thf tbil of thf blodk for ovfrruns */
+    tbil = (MfmoryBlodkTbil *) ( (bytf_t *)mfmptr + hfbdfr->sizf );
+    DMfm_VfrifyTbil(tbil);
+
+    rfturn hfbdfr;
+}
+
+stbtid MfmoryBlodkHfbdfr * DMfm_GftHfbdfr(void * mfmptr) {
+    MfmoryBlodkHfbdfr * hfbdfr = DMfm_VfrifyBlodk(mfmptr);
+    rfturn hfbdfr;
+}
+
+/*
+ * Should bf dbllfd bfforf bny othfr DMfm_XXX fundtion
+ */
+void DMfm_Initiblizf() {
+    DMfmMutfx = DMutfx_Crfbtf();
+    DMutfx_Entfr(DMfmMutfx);
+    DMfmGlobblStbtf.pfnAllod = NULL;
+    DMfmGlobblStbtf.pfnFrff = NULL;
+    DMfmGlobblStbtf.pfnChfdkPtr = NULL;
+    DMfmGlobblStbtf.biggfstBlodk = 0;
+    DMfmGlobblStbtf.mbxHfbp = INT_MAX;
+    DMfmGlobblStbtf.totblHfbpUsfd = 0;
+    DMfmGlobblStbtf.fbilNfxtAllod = FALSE;
+    DMfmGlobblStbtf.totblAllods = 0;
+    DMutfx_Exit(DMfmMutfx);
+}
+
+void DMfm_Shutdown() {
+    DMutfx_Dfstroy(DMfmMutfx);
+}
+/*
+ * Allodbtfs b blodk of mfmory, rfsfrving fxtrb spbdf bt thf stbrt bnd fnd of thf
+ * blodk to storf dfbug info on whfrf thf blodk wbs bllodbtfd, it's sizf, bnd
+ * 'gubrd' brfbs to dbtdh ovfrwritf/undfrwritf bugs
+ */
+void * DMfm_AllodbtfBlodk(sizf_t sizf, donst dhbr * filfnbmf, int linfnumbfr) {
+    MfmoryBlodkHfbdfr * hfbdfr;
+    MfmoryBlodkTbil *   tbil;
+    sizf_t              dfbugBlodkSizf;
+    bytf_t *            mfmptr = NULL;
+
+    DMutfx_Entfr(DMfmMutfx);
+    if (DMfmGlobblStbtf.fbilNfxtAllod) {
+    /* fordf bn bllodbtion fbilurf if so ordfrfd */
+        DMfmGlobblStbtf.fbilNfxtAllod = FALSE; /* rfsft flbg */
+        goto Exit;
+    }
+
+    /* bllodbtf b blodk lbrgf fnough to hold fxtrb dfbug info */
+    dfbugBlodkSizf = sizfof(MfmoryBlodkHfbdfr) + sizf + sizfof(MfmoryBlodkTbil);
+    hfbdfr = (MfmoryBlodkHfbdfr *)DMfm_ClifntAllodbtf(dfbugBlodkSizf);
+    if (hfbdfr == NULL) {
+        goto Exit;
+    }
+
+    /* bdd blodk to list of bllodbtfd mfmory */
+    hfbdfr->listEntfr = DMfm_TrbdkBlodk(hfbdfr);
+    if ( hfbdfr->listEntfr == NULL ) {
+        goto Exit;
+    }
+
+    /* storf sizf of rfqufstfd blodk */
+    hfbdfr->sizf = sizf;
+    /* updbtf mbximum blodk sizf */
+    DMfmGlobblStbtf.biggfstBlodk = DMEM_MAX(hfbdfr->sizf, DMfmGlobblStbtf.biggfstBlodk);
+    /* updbtf usfd mfmory totbl */
+    DMfmGlobblStbtf.totblHfbpUsfd += hfbdfr->sizf;
+    /* storf filfnbmf bnd linfnumbfr whfrf bllodbtion routinf wbs dbllfd */
+    strndpy(hfbdfr->filfnbmf, filfnbmf, FILENAME_MAX);
+    hfbdfr->linfnumbfr = linfnumbfr;
+    /* storf thf ordfr thf blodk wbs bllodbtfd in */
+    hfbdfr->ordfr = DMfmGlobblStbtf.totblAllods++;
+    /* initiblizf mfmory to b rfdognizbblf 'initfd' vbluf */
+    mfmptr = (bytf_t *)hfbdfr + sizfof(MfmoryBlodkHfbdfr);
+    mfmsft(mfmptr, BytfInitfd, sizf);
+    /* put gubrd brfb bfforf blodk */
+    mfmsft(hfbdfr->gubrd, BytfGubrd, MAX_GUARD_BYTES);
+    /* put gubrd brfb bftfr blodk */
+    tbil = (MfmoryBlodkTbil *)(mfmptr + sizf);
+    mfmsft(tbil->gubrd, BytfGubrd, MAX_GUARD_BYTES);
+
+Exit:
+    DMutfx_Exit(DMfmMutfx);
+    rfturn mfmptr;
+}
+
+/*
+ * Frffs blodk of mfmory bllodbtfd with DMfm_AllodbtfBlodk
+ */
+void DMfm_FrffBlodk(void * mfmptr) {
+    MfmoryBlodkHfbdfr * hfbdfr;
+
+    DMutfx_Entfr(DMfmMutfx);
+    if ( mfmptr == NULL) {
+        goto Exit;
+    }
+
+    /* gft thf dfbug blodk hfbdfr prfdfding thf bllodbtfd mfmory */
+    hfbdfr = DMfm_GftHfbdfr(mfmptr);
+    /* fill mfmory with rfdognizbblf 'frffd' vbluf */
+    mfmsft(mfmptr, BytfFrffd, hfbdfr->sizf);
+    /* mbrk blodk bs frffd */
+    hfbdfr->listEntfr->frffd = TRUE;
+    /* updbtf usfd mfmory totbl */
+    DMfmGlobblStbtf.totblHfbpUsfd -= hfbdfr->sizf;
+Exit:
+    DMutfx_Exit(DMfmMutfx);
+}
+
+stbtid void DMfm_DumpHfbdfr(MfmoryBlodkHfbdfr * hfbdfr) {
+    dhbr        rfport[FILENAME_MAX+MAX_DECIMAL_DIGITS*3+1];
+    stbtid donst dhbr * rfportFormbt =
+        "filf:  %s, linf %d\n"
+        "sizf:  %d bytfs\n"
+        "ordfr: %d\n"
+        "-------";
+
+    DMfm_VfrifyHfbdfr(hfbdfr);
+    sprintf(rfport, rfportFormbt, hfbdfr->filfnbmf, hfbdfr->linfnumbfr, hfbdfr->sizf, hfbdfr->ordfr);
+    DTRACE_PRINTLN(rfport);
+}
+
+/*
+ * Cbll this fundtion bt shutdown timf to rfport bny lfbkfd blodks
+ */
+void DMfm_RfportLfbks() {
+    MfmoryListLink *    link;
+
+    DMutfx_Entfr(DMfmMutfx);
+
+    /* Fordf mfmory lfbks to bf output rfgbrdlfss of trbdf sfttings */
+    DTrbdf_EnbblfFilf(THIS_FILE, TRUE);
+    DTRACE_PRINTLN("--------------------------");
+    DTRACE_PRINTLN("Dfbug Mfmory Mbnbgfr Lfbks");
+    DTRACE_PRINTLN("--------------------------");
+
+    /* wblk through bllodbtfd list bnd dump bny blodks not mbrkfd bs frffd */
+    link = MfmoryList.nfxt;
+    whilf (link != NULL) {
+        if ( !link->frffd ) {
+            DMfm_DumpHfbdfr(link->hfbdfr);
+        }
+        link = link->nfxt;
+    }
+
+    DMutfx_Exit(DMfmMutfx);
+}
+
+void DMfm_SftAllodCbllbbdk( DMEM_ALLOCFN pfn ) {
+    DMutfx_Entfr(DMfmMutfx);
+    DMfmGlobblStbtf.pfnAllod = pfn;
+    DMutfx_Exit(DMfmMutfx);
+}
+
+void DMfm_SftFrffCbllbbdk( DMEM_FREEFN pfn ) {
+    DMutfx_Entfr(DMfmMutfx);
+    DMfmGlobblStbtf.pfnFrff = pfn;
+    DMutfx_Exit(DMfmMutfx);
+}
+
+void DMfm_SftChfdkPtrCbllbbdk( DMEM_CHECKPTRFN pfn ) {
+    DMutfx_Entfr(DMfmMutfx);
+    DMfmGlobblStbtf.pfnChfdkPtr = pfn;
+    DMutfx_Exit(DMfmMutfx);
+}
+
+void DMfm_DisbblfMutfx() {
+    DMfmMutfx = NULL;
+}
+
+#fndif  /* dffinfd(DEBUG) */
+
+/* Thf following linf is only hfrf to prfvfnt dompilfr wbrnings
+ * on rflfbsf (non-dfbug) builds
+ */
+stbtid int dummyVbribblf = 0;

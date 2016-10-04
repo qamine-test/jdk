@@ -1,450 +1,450 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.tools.keytool;
+pbdkbgf sun.sfdurity.tools.kfytool;
 
 /**
- * <p> This class represents the <code>ResourceBundle</code>
- * for the keytool.
+ * <p> Tiis dlbss rfprfsfnts tif <dodf>RfsourdfBundlf</dodf>
+ * for tif kfytool.
  *
  */
-public class Resources extends java.util.ListResourceBundle {
+publid dlbss Rfsourdfs fxtfnds jbvb.util.ListRfsourdfBundlf {
 
-    private static final Object[][] contents = {
+    privbtf stbtid finbl Objfdt[][] dontfnts = {
         {"NEWLINE", "\n"},
         {"STAR",
                 "*******************************************"},
         {"STARNN",
                 "*******************************************\n\n"},
 
-        // keytool: Help part
+        // kfytool: Hflp pbrt
         {".OPTION.", " [OPTION]..."},
         {"Options.", "Options:"},
-        {"Use.keytool.help.for.all.available.commands",
-                 "Use \"keytool -help\" for all available commands"},
-        {"Key.and.Certificate.Management.Tool",
-                 "Key and Certificate Management Tool"},
-        {"Commands.", "Commands:"},
-        {"Use.keytool.command.name.help.for.usage.of.command.name",
-                "Use \"keytool -command_name -help\" for usage of command_name.\n" +
-                "Use the -conf <url> option to specify a pre-configured options file."},
-        // keytool: help: commands
-        {"Generates.a.certificate.request",
-                "Generates a certificate request"}, //-certreq
-        {"Changes.an.entry.s.alias",
-                "Changes an entry's alias"}, //-changealias
-        {"Deletes.an.entry",
-                "Deletes an entry"}, //-delete
-        {"Exports.certificate",
-                "Exports certificate"}, //-exportcert
-        {"Generates.a.key.pair",
-                "Generates a key pair"}, //-genkeypair
-        {"Generates.a.secret.key",
-                "Generates a secret key"}, //-genseckey
-        {"Generates.certificate.from.a.certificate.request",
-                "Generates certificate from a certificate request"}, //-gencert
-        {"Generates.CRL", "Generates CRL"}, //-gencrl
-        {"Generated.keyAlgName.secret.key",
-                "Generated {0} secret key"}, //-genseckey
-        {"Generated.keysize.bit.keyAlgName.secret.key",
-                "Generated {0}-bit {1} secret key"}, //-genseckey
-        {"Imports.entries.from.a.JDK.1.1.x.style.identity.database",
-                "Imports entries from a JDK 1.1.x-style identity database"}, //-identitydb
-        {"Imports.a.certificate.or.a.certificate.chain",
-                "Imports a certificate or a certificate chain"}, //-importcert
-        {"Imports.a.password",
-                "Imports a password"}, //-importpass
-        {"Imports.one.or.all.entries.from.another.keystore",
-                "Imports one or all entries from another keystore"}, //-importkeystore
-        {"Clones.a.key.entry",
-                "Clones a key entry"}, //-keyclone
-        {"Changes.the.key.password.of.an.entry",
-                "Changes the key password of an entry"}, //-keypasswd
-        {"Lists.entries.in.a.keystore",
-                "Lists entries in a keystore"}, //-list
-        {"Prints.the.content.of.a.certificate",
-                "Prints the content of a certificate"}, //-printcert
-        {"Prints.the.content.of.a.certificate.request",
-                "Prints the content of a certificate request"}, //-printcertreq
-        {"Prints.the.content.of.a.CRL.file",
-                "Prints the content of a CRL file"}, //-printcrl
-        {"Generates.a.self.signed.certificate",
-                "Generates a self-signed certificate"}, //-selfcert
-        {"Changes.the.store.password.of.a.keystore",
-                "Changes the store password of a keystore"}, //-storepasswd
-        // keytool: help: options
-        {"alias.name.of.the.entry.to.process",
-                "alias name of the entry to process"}, //-alias
-        {"destination.alias",
-                "destination alias"}, //-destalias
-        {"destination.key.password",
-                "destination key password"}, //-destkeypass
-        {"destination.keystore.name",
-                "destination keystore name"}, //-destkeystore
-        {"destination.keystore.password.protected",
-                "destination keystore password protected"}, //-destprotected
-        {"destination.keystore.provider.name",
-                "destination keystore provider name"}, //-destprovidername
-        {"destination.keystore.password",
-                "destination keystore password"}, //-deststorepass
-        {"destination.keystore.type",
-                "destination keystore type"}, //-deststoretype
-        {"distinguished.name",
-                "distinguished name"}, //-dname
-        {"X.509.extension",
-                "X.509 extension"}, //-ext
-        {"output.file.name",
-                "output file name"}, //-file and -outfile
-        {"input.file.name",
-                "input file name"}, //-file and -infile
-        {"key.algorithm.name",
-                "key algorithm name"}, //-keyalg
-        {"key.password",
-                "key password"}, //-keypass
-        {"key.bit.size",
-                "key bit size"}, //-keysize
-        {"keystore.name",
-                "keystore name"}, //-keystore
-        {"new.password",
-                "new password"}, //-new
+        {"Usf.kfytool.iflp.for.bll.bvbilbblf.dommbnds",
+                 "Usf \"kfytool -iflp\" for bll bvbilbblf dommbnds"},
+        {"Kfy.bnd.Cfrtifidbtf.Mbnbgfmfnt.Tool",
+                 "Kfy bnd Cfrtifidbtf Mbnbgfmfnt Tool"},
+        {"Commbnds.", "Commbnds:"},
+        {"Usf.kfytool.dommbnd.nbmf.iflp.for.usbgf.of.dommbnd.nbmf",
+                "Usf \"kfytool -dommbnd_nbmf -iflp\" for usbgf of dommbnd_nbmf.\n" +
+                "Usf tif -donf <url> option to spfdify b prf-donfigurfd options filf."},
+        // kfytool: iflp: dommbnds
+        {"Gfnfrbtfs.b.dfrtifidbtf.rfqufst",
+                "Gfnfrbtfs b dfrtifidbtf rfqufst"}, //-dfrtrfq
+        {"Cibngfs.bn.fntry.s.blibs",
+                "Cibngfs bn fntry's blibs"}, //-dibngfblibs
+        {"Dflftfs.bn.fntry",
+                "Dflftfs bn fntry"}, //-dflftf
+        {"Exports.dfrtifidbtf",
+                "Exports dfrtifidbtf"}, //-fxportdfrt
+        {"Gfnfrbtfs.b.kfy.pbir",
+                "Gfnfrbtfs b kfy pbir"}, //-gfnkfypbir
+        {"Gfnfrbtfs.b.sfdrft.kfy",
+                "Gfnfrbtfs b sfdrft kfy"}, //-gfnsfdkfy
+        {"Gfnfrbtfs.dfrtifidbtf.from.b.dfrtifidbtf.rfqufst",
+                "Gfnfrbtfs dfrtifidbtf from b dfrtifidbtf rfqufst"}, //-gfndfrt
+        {"Gfnfrbtfs.CRL", "Gfnfrbtfs CRL"}, //-gfndrl
+        {"Gfnfrbtfd.kfyAlgNbmf.sfdrft.kfy",
+                "Gfnfrbtfd {0} sfdrft kfy"}, //-gfnsfdkfy
+        {"Gfnfrbtfd.kfysizf.bit.kfyAlgNbmf.sfdrft.kfy",
+                "Gfnfrbtfd {0}-bit {1} sfdrft kfy"}, //-gfnsfdkfy
+        {"Imports.fntrifs.from.b.JDK.1.1.x.stylf.idfntity.dbtbbbsf",
+                "Imports fntrifs from b JDK 1.1.x-stylf idfntity dbtbbbsf"}, //-idfntitydb
+        {"Imports.b.dfrtifidbtf.or.b.dfrtifidbtf.dibin",
+                "Imports b dfrtifidbtf or b dfrtifidbtf dibin"}, //-importdfrt
+        {"Imports.b.pbssword",
+                "Imports b pbssword"}, //-importpbss
+        {"Imports.onf.or.bll.fntrifs.from.bnotifr.kfystorf",
+                "Imports onf or bll fntrifs from bnotifr kfystorf"}, //-importkfystorf
+        {"Clonfs.b.kfy.fntry",
+                "Clonfs b kfy fntry"}, //-kfydlonf
+        {"Cibngfs.tif.kfy.pbssword.of.bn.fntry",
+                "Cibngfs tif kfy pbssword of bn fntry"}, //-kfypbsswd
+        {"Lists.fntrifs.in.b.kfystorf",
+                "Lists fntrifs in b kfystorf"}, //-list
+        {"Prints.tif.dontfnt.of.b.dfrtifidbtf",
+                "Prints tif dontfnt of b dfrtifidbtf"}, //-printdfrt
+        {"Prints.tif.dontfnt.of.b.dfrtifidbtf.rfqufst",
+                "Prints tif dontfnt of b dfrtifidbtf rfqufst"}, //-printdfrtrfq
+        {"Prints.tif.dontfnt.of.b.CRL.filf",
+                "Prints tif dontfnt of b CRL filf"}, //-printdrl
+        {"Gfnfrbtfs.b.sflf.signfd.dfrtifidbtf",
+                "Gfnfrbtfs b sflf-signfd dfrtifidbtf"}, //-sflfdfrt
+        {"Cibngfs.tif.storf.pbssword.of.b.kfystorf",
+                "Cibngfs tif storf pbssword of b kfystorf"}, //-storfpbsswd
+        // kfytool: iflp: options
+        {"blibs.nbmf.of.tif.fntry.to.prodfss",
+                "blibs nbmf of tif fntry to prodfss"}, //-blibs
+        {"dfstinbtion.blibs",
+                "dfstinbtion blibs"}, //-dfstblibs
+        {"dfstinbtion.kfy.pbssword",
+                "dfstinbtion kfy pbssword"}, //-dfstkfypbss
+        {"dfstinbtion.kfystorf.nbmf",
+                "dfstinbtion kfystorf nbmf"}, //-dfstkfystorf
+        {"dfstinbtion.kfystorf.pbssword.protfdtfd",
+                "dfstinbtion kfystorf pbssword protfdtfd"}, //-dfstprotfdtfd
+        {"dfstinbtion.kfystorf.providfr.nbmf",
+                "dfstinbtion kfystorf providfr nbmf"}, //-dfstprovidfrnbmf
+        {"dfstinbtion.kfystorf.pbssword",
+                "dfstinbtion kfystorf pbssword"}, //-dfststorfpbss
+        {"dfstinbtion.kfystorf.typf",
+                "dfstinbtion kfystorf typf"}, //-dfststorftypf
+        {"distinguisifd.nbmf",
+                "distinguisifd nbmf"}, //-dnbmf
+        {"X.509.fxtfnsion",
+                "X.509 fxtfnsion"}, //-fxt
+        {"output.filf.nbmf",
+                "output filf nbmf"}, //-filf bnd -outfilf
+        {"input.filf.nbmf",
+                "input filf nbmf"}, //-filf bnd -infilf
+        {"kfy.blgoritim.nbmf",
+                "kfy blgoritim nbmf"}, //-kfyblg
+        {"kfy.pbssword",
+                "kfy pbssword"}, //-kfypbss
+        {"kfy.bit.sizf",
+                "kfy bit sizf"}, //-kfysizf
+        {"kfystorf.nbmf",
+                "kfystorf nbmf"}, //-kfystorf
+        {"nfw.pbssword",
+                "nfw pbssword"}, //-nfw
         {"do.not.prompt",
                 "do not prompt"}, //-noprompt
-        {"password.through.protected.mechanism",
-                "password through protected mechanism"}, //-protected
-        {"provider.argument",
-                "provider argument"}, //-providerarg
-        {"provider.class.name",
-                "provider class name"}, //-providerclass
-        {"provider.name",
-                "provider name"}, //-providername
-        {"provider.classpath",
-                "provider classpath"}, //-providerpath
-        {"output.in.RFC.style",
-                "output in RFC style"}, //-rfc
-        {"signature.algorithm.name",
-                "signature algorithm name"}, //-sigalg
-        {"source.alias",
-                "source alias"}, //-srcalias
-        {"source.key.password",
-                "source key password"}, //-srckeypass
-        {"source.keystore.name",
-                "source keystore name"}, //-srckeystore
-        {"source.keystore.password.protected",
-                "source keystore password protected"}, //-srcprotected
-        {"source.keystore.provider.name",
-                "source keystore provider name"}, //-srcprovidername
-        {"source.keystore.password",
-                "source keystore password"}, //-srcstorepass
-        {"source.keystore.type",
-                "source keystore type"}, //-srcstoretype
-        {"SSL.server.host.and.port",
-                "SSL server host and port"}, //-sslserver
-        {"signed.jar.file",
-                "signed jar file"}, //=jarfile
-        {"certificate.validity.start.date.time",
-                "certificate validity start date/time"}, //-startdate
-        {"keystore.password",
-                "keystore password"}, //-storepass
-        {"keystore.type",
-                "keystore type"}, //-storetype
-        {"trust.certificates.from.cacerts",
-                "trust certificates from cacerts"}, //-trustcacerts
-        {"verbose.output",
-                "verbose output"}, //-v
-        {"validity.number.of.days",
-                "validity number of days"}, //-validity
-        {"Serial.ID.of.cert.to.revoke",
-                 "Serial ID of cert to revoke"}, //-id
-        // keytool: Running part
-        {"keytool.error.", "keytool error: "},
-        {"Illegal.option.", "Illegal option:  "},
-        {"Illegal.value.", "Illegal value: "},
-        {"Unknown.password.type.", "Unknown password type: "},
-        {"Cannot.find.environment.variable.",
-                "Cannot find environment variable: "},
-        {"Cannot.find.file.", "Cannot find file: "},
-        {"Command.option.flag.needs.an.argument.", "Command option {0} needs an argument."},
-        {"Warning.Different.store.and.key.passwords.not.supported.for.PKCS12.KeyStores.Ignoring.user.specified.command.value.",
-                "Warning:  Different store and key passwords not supported for PKCS12 KeyStores. Ignoring user-specified {0} value."},
-        {".keystore.must.be.NONE.if.storetype.is.{0}",
-                "-keystore must be NONE if -storetype is {0}"},
-        {"Too.many.retries.program.terminated",
-                 "Too many retries, program terminated"},
-        {".storepasswd.and.keypasswd.commands.not.supported.if.storetype.is.{0}",
-                "-storepasswd and -keypasswd commands not supported if -storetype is {0}"},
-        {".keypasswd.commands.not.supported.if.storetype.is.PKCS12",
-                "-keypasswd commands not supported if -storetype is PKCS12"},
-        {".keypass.and.new.can.not.be.specified.if.storetype.is.{0}",
-                "-keypass and -new can not be specified if -storetype is {0}"},
-        {"if.protected.is.specified.then.storepass.keypass.and.new.must.not.be.specified",
-                "if -protected is specified, then -storepass, -keypass, and -new must not be specified"},
-        {"if.srcprotected.is.specified.then.srcstorepass.and.srckeypass.must.not.be.specified",
-                "if -srcprotected is specified, then -srcstorepass and -srckeypass must not be specified"},
-        {"if.keystore.is.not.password.protected.then.storepass.keypass.and.new.must.not.be.specified",
-                "if keystore is not password protected, then -storepass, -keypass, and -new must not be specified"},
-        {"if.source.keystore.is.not.password.protected.then.srcstorepass.and.srckeypass.must.not.be.specified",
-                "if source keystore is not password protected, then -srcstorepass and -srckeypass must not be specified"},
-        {"Illegal.startdate.value", "Illegal startdate value"},
-        {"Validity.must.be.greater.than.zero",
-                "Validity must be greater than zero"},
-        {"provName.not.a.provider", "{0} not a provider"},
-        {"Usage.error.no.command.provided", "Usage error: no command provided"},
-        {"Source.keystore.file.exists.but.is.empty.", "Source keystore file exists, but is empty: "},
-        {"Please.specify.srckeystore", "Please specify -srckeystore"},
-        {"Must.not.specify.both.v.and.rfc.with.list.command",
-                "Must not specify both -v and -rfc with 'list' command"},
-        {"Key.password.must.be.at.least.6.characters",
-                "Key password must be at least 6 characters"},
-        {"New.password.must.be.at.least.6.characters",
-                "New password must be at least 6 characters"},
-        {"Keystore.file.exists.but.is.empty.",
-                "Keystore file exists, but is empty: "},
-        {"Keystore.file.does.not.exist.",
-                "Keystore file does not exist: "},
-        {"Must.specify.destination.alias", "Must specify destination alias"},
-        {"Must.specify.alias", "Must specify alias"},
-        {"Keystore.password.must.be.at.least.6.characters",
-                "Keystore password must be at least 6 characters"},
-        {"Enter.the.password.to.be.stored.",
-                "Enter the password to be stored:  "},
-        {"Enter.keystore.password.", "Enter keystore password:  "},
-        {"Enter.source.keystore.password.", "Enter source keystore password:  "},
-        {"Enter.destination.keystore.password.", "Enter destination keystore password:  "},
-        {"Keystore.password.is.too.short.must.be.at.least.6.characters",
-         "Keystore password is too short - must be at least 6 characters"},
-        {"Unknown.Entry.Type", "Unknown Entry Type"},
-        {"Too.many.failures.Alias.not.changed", "Too many failures. Alias not changed"},
-        {"Entry.for.alias.alias.successfully.imported.",
-                 "Entry for alias {0} successfully imported."},
-        {"Entry.for.alias.alias.not.imported.", "Entry for alias {0} not imported."},
-        {"Problem.importing.entry.for.alias.alias.exception.Entry.for.alias.alias.not.imported.",
-                 "Problem importing entry for alias {0}: {1}.\nEntry for alias {0} not imported."},
-        {"Import.command.completed.ok.entries.successfully.imported.fail.entries.failed.or.cancelled",
-                 "Import command completed:  {0} entries successfully imported, {1} entries failed or cancelled"},
-        {"Warning.Overwriting.existing.alias.alias.in.destination.keystore",
-                 "Warning: Overwriting existing alias {0} in destination keystore"},
-        {"Existing.entry.alias.alias.exists.overwrite.no.",
-                 "Existing entry alias {0} exists, overwrite? [no]:  "},
-        {"Too.many.failures.try.later", "Too many failures - try later"},
-        {"Certification.request.stored.in.file.filename.",
-                "Certification request stored in file <{0}>"},
-        {"Submit.this.to.your.CA", "Submit this to your CA"},
-        {"if.alias.not.specified.destalias.and.srckeypass.must.not.be.specified",
-            "if alias not specified, destalias and srckeypass must not be specified"},
-        {"The.destination.pkcs12.keystore.has.different.storepass.and.keypass.Please.retry.with.destkeypass.specified.",
-            "The destination pkcs12 keystore has different storepass and keypass. Please retry with -destkeypass specified."},
-        {"Certificate.stored.in.file.filename.",
-                "Certificate stored in file <{0}>"},
-        {"Certificate.reply.was.installed.in.keystore",
-                "Certificate reply was installed in keystore"},
-        {"Certificate.reply.was.not.installed.in.keystore",
-                "Certificate reply was not installed in keystore"},
-        {"Certificate.was.added.to.keystore",
-                "Certificate was added to keystore"},
-        {"Certificate.was.not.added.to.keystore",
-                "Certificate was not added to keystore"},
-        {".Storing.ksfname.", "[Storing {0}]"},
-        {"alias.has.no.public.key.certificate.",
-                "{0} has no public key (certificate)"},
-        {"Cannot.derive.signature.algorithm",
-                "Cannot derive signature algorithm"},
-        {"Alias.alias.does.not.exist",
-                "Alias <{0}> does not exist"},
-        {"Alias.alias.has.no.certificate",
-                "Alias <{0}> has no certificate"},
-        {"Key.pair.not.generated.alias.alias.already.exists",
-                "Key pair not generated, alias <{0}> already exists"},
-        {"Generating.keysize.bit.keyAlgName.key.pair.and.self.signed.certificate.sigAlgName.with.a.validity.of.validality.days.for",
-                "Generating {0} bit {1} key pair and self-signed certificate ({2}) with a validity of {3} days\n\tfor: {4}"},
-        {"Enter.key.password.for.alias.", "Enter key password for <{0}>"},
-        {".RETURN.if.same.as.keystore.password.",
-                "\t(RETURN if same as keystore password):  "},
-        {"Key.password.is.too.short.must.be.at.least.6.characters",
-                "Key password is too short - must be at least 6 characters"},
-        {"Too.many.failures.key.not.added.to.keystore",
-                "Too many failures - key not added to keystore"},
-        {"Destination.alias.dest.already.exists",
-                "Destination alias <{0}> already exists"},
-        {"Password.is.too.short.must.be.at.least.6.characters",
-                "Password is too short - must be at least 6 characters"},
-        {"Too.many.failures.Key.entry.not.cloned",
-                "Too many failures. Key entry not cloned"},
-        {"key.password.for.alias.", "key password for <{0}>"},
-        {"Keystore.entry.for.id.getName.already.exists",
-                "Keystore entry for <{0}> already exists"},
-        {"Creating.keystore.entry.for.id.getName.",
-                "Creating keystore entry for <{0}> ..."},
-        {"No.entries.from.identity.database.added",
-                "No entries from identity database added"},
-        {"Alias.name.alias", "Alias name: {0}"},
-        {"Creation.date.keyStore.getCreationDate.alias.",
-                "Creation date: {0,date}"},
-        {"alias.keyStore.getCreationDate.alias.",
-                "{0}, {1,date}, "},
-        {"alias.", "{0}, "},
-        {"Entry.type.type.", "Entry type: {0}"},
-        {"Certificate.chain.length.", "Certificate chain length: "},
-        {"Certificate.i.1.", "Certificate[{0,number,integer}]:"},
-        {"Certificate.fingerprint.SHA1.", "Certificate fingerprint (SHA1): "},
-        {"Keystore.type.", "Keystore type: "},
-        {"Keystore.provider.", "Keystore provider: "},
-        {"Your.keystore.contains.keyStore.size.entry",
-                "Your keystore contains {0,number,integer} entry"},
-        {"Your.keystore.contains.keyStore.size.entries",
-                "Your keystore contains {0,number,integer} entries"},
-        {"Failed.to.parse.input", "Failed to parse input"},
+        {"pbssword.tirougi.protfdtfd.mfdibnism",
+                "pbssword tirougi protfdtfd mfdibnism"}, //-protfdtfd
+        {"providfr.brgumfnt",
+                "providfr brgumfnt"}, //-providfrbrg
+        {"providfr.dlbss.nbmf",
+                "providfr dlbss nbmf"}, //-providfrdlbss
+        {"providfr.nbmf",
+                "providfr nbmf"}, //-providfrnbmf
+        {"providfr.dlbsspbti",
+                "providfr dlbsspbti"}, //-providfrpbti
+        {"output.in.RFC.stylf",
+                "output in RFC stylf"}, //-rfd
+        {"signbturf.blgoritim.nbmf",
+                "signbturf blgoritim nbmf"}, //-sigblg
+        {"sourdf.blibs",
+                "sourdf blibs"}, //-srdblibs
+        {"sourdf.kfy.pbssword",
+                "sourdf kfy pbssword"}, //-srdkfypbss
+        {"sourdf.kfystorf.nbmf",
+                "sourdf kfystorf nbmf"}, //-srdkfystorf
+        {"sourdf.kfystorf.pbssword.protfdtfd",
+                "sourdf kfystorf pbssword protfdtfd"}, //-srdprotfdtfd
+        {"sourdf.kfystorf.providfr.nbmf",
+                "sourdf kfystorf providfr nbmf"}, //-srdprovidfrnbmf
+        {"sourdf.kfystorf.pbssword",
+                "sourdf kfystorf pbssword"}, //-srdstorfpbss
+        {"sourdf.kfystorf.typf",
+                "sourdf kfystorf typf"}, //-srdstorftypf
+        {"SSL.sfrvfr.iost.bnd.port",
+                "SSL sfrvfr iost bnd port"}, //-sslsfrvfr
+        {"signfd.jbr.filf",
+                "signfd jbr filf"}, //=jbrfilf
+        {"dfrtifidbtf.vblidity.stbrt.dbtf.timf",
+                "dfrtifidbtf vblidity stbrt dbtf/timf"}, //-stbrtdbtf
+        {"kfystorf.pbssword",
+                "kfystorf pbssword"}, //-storfpbss
+        {"kfystorf.typf",
+                "kfystorf typf"}, //-storftypf
+        {"trust.dfrtifidbtfs.from.dbdfrts",
+                "trust dfrtifidbtfs from dbdfrts"}, //-trustdbdfrts
+        {"vfrbosf.output",
+                "vfrbosf output"}, //-v
+        {"vblidity.numbfr.of.dbys",
+                "vblidity numbfr of dbys"}, //-vblidity
+        {"Sfribl.ID.of.dfrt.to.rfvokf",
+                 "Sfribl ID of dfrt to rfvokf"}, //-id
+        // kfytool: Running pbrt
+        {"kfytool.frror.", "kfytool frror: "},
+        {"Illfgbl.option.", "Illfgbl option:  "},
+        {"Illfgbl.vbluf.", "Illfgbl vbluf: "},
+        {"Unknown.pbssword.typf.", "Unknown pbssword typf: "},
+        {"Cbnnot.find.fnvironmfnt.vbribblf.",
+                "Cbnnot find fnvironmfnt vbribblf: "},
+        {"Cbnnot.find.filf.", "Cbnnot find filf: "},
+        {"Commbnd.option.flbg.nffds.bn.brgumfnt.", "Commbnd option {0} nffds bn brgumfnt."},
+        {"Wbrning.Difffrfnt.storf.bnd.kfy.pbsswords.not.supportfd.for.PKCS12.KfyStorfs.Ignoring.usfr.spfdififd.dommbnd.vbluf.",
+                "Wbrning:  Difffrfnt storf bnd kfy pbsswords not supportfd for PKCS12 KfyStorfs. Ignoring usfr-spfdififd {0} vbluf."},
+        {".kfystorf.must.bf.NONE.if.storftypf.is.{0}",
+                "-kfystorf must bf NONE if -storftypf is {0}"},
+        {"Too.mbny.rftrifs.progrbm.tfrminbtfd",
+                 "Too mbny rftrifs, progrbm tfrminbtfd"},
+        {".storfpbsswd.bnd.kfypbsswd.dommbnds.not.supportfd.if.storftypf.is.{0}",
+                "-storfpbsswd bnd -kfypbsswd dommbnds not supportfd if -storftypf is {0}"},
+        {".kfypbsswd.dommbnds.not.supportfd.if.storftypf.is.PKCS12",
+                "-kfypbsswd dommbnds not supportfd if -storftypf is PKCS12"},
+        {".kfypbss.bnd.nfw.dbn.not.bf.spfdififd.if.storftypf.is.{0}",
+                "-kfypbss bnd -nfw dbn not bf spfdififd if -storftypf is {0}"},
+        {"if.protfdtfd.is.spfdififd.tifn.storfpbss.kfypbss.bnd.nfw.must.not.bf.spfdififd",
+                "if -protfdtfd is spfdififd, tifn -storfpbss, -kfypbss, bnd -nfw must not bf spfdififd"},
+        {"if.srdprotfdtfd.is.spfdififd.tifn.srdstorfpbss.bnd.srdkfypbss.must.not.bf.spfdififd",
+                "if -srdprotfdtfd is spfdififd, tifn -srdstorfpbss bnd -srdkfypbss must not bf spfdififd"},
+        {"if.kfystorf.is.not.pbssword.protfdtfd.tifn.storfpbss.kfypbss.bnd.nfw.must.not.bf.spfdififd",
+                "if kfystorf is not pbssword protfdtfd, tifn -storfpbss, -kfypbss, bnd -nfw must not bf spfdififd"},
+        {"if.sourdf.kfystorf.is.not.pbssword.protfdtfd.tifn.srdstorfpbss.bnd.srdkfypbss.must.not.bf.spfdififd",
+                "if sourdf kfystorf is not pbssword protfdtfd, tifn -srdstorfpbss bnd -srdkfypbss must not bf spfdififd"},
+        {"Illfgbl.stbrtdbtf.vbluf", "Illfgbl stbrtdbtf vbluf"},
+        {"Vblidity.must.bf.grfbtfr.tibn.zfro",
+                "Vblidity must bf grfbtfr tibn zfro"},
+        {"provNbmf.not.b.providfr", "{0} not b providfr"},
+        {"Usbgf.frror.no.dommbnd.providfd", "Usbgf frror: no dommbnd providfd"},
+        {"Sourdf.kfystorf.filf.fxists.but.is.fmpty.", "Sourdf kfystorf filf fxists, but is fmpty: "},
+        {"Plfbsf.spfdify.srdkfystorf", "Plfbsf spfdify -srdkfystorf"},
+        {"Must.not.spfdify.boti.v.bnd.rfd.witi.list.dommbnd",
+                "Must not spfdify boti -v bnd -rfd witi 'list' dommbnd"},
+        {"Kfy.pbssword.must.bf.bt.lfbst.6.dibrbdtfrs",
+                "Kfy pbssword must bf bt lfbst 6 dibrbdtfrs"},
+        {"Nfw.pbssword.must.bf.bt.lfbst.6.dibrbdtfrs",
+                "Nfw pbssword must bf bt lfbst 6 dibrbdtfrs"},
+        {"Kfystorf.filf.fxists.but.is.fmpty.",
+                "Kfystorf filf fxists, but is fmpty: "},
+        {"Kfystorf.filf.dofs.not.fxist.",
+                "Kfystorf filf dofs not fxist: "},
+        {"Must.spfdify.dfstinbtion.blibs", "Must spfdify dfstinbtion blibs"},
+        {"Must.spfdify.blibs", "Must spfdify blibs"},
+        {"Kfystorf.pbssword.must.bf.bt.lfbst.6.dibrbdtfrs",
+                "Kfystorf pbssword must bf bt lfbst 6 dibrbdtfrs"},
+        {"Entfr.tif.pbssword.to.bf.storfd.",
+                "Entfr tif pbssword to bf storfd:  "},
+        {"Entfr.kfystorf.pbssword.", "Entfr kfystorf pbssword:  "},
+        {"Entfr.sourdf.kfystorf.pbssword.", "Entfr sourdf kfystorf pbssword:  "},
+        {"Entfr.dfstinbtion.kfystorf.pbssword.", "Entfr dfstinbtion kfystorf pbssword:  "},
+        {"Kfystorf.pbssword.is.too.siort.must.bf.bt.lfbst.6.dibrbdtfrs",
+         "Kfystorf pbssword is too siort - must bf bt lfbst 6 dibrbdtfrs"},
+        {"Unknown.Entry.Typf", "Unknown Entry Typf"},
+        {"Too.mbny.fbilurfs.Alibs.not.dibngfd", "Too mbny fbilurfs. Alibs not dibngfd"},
+        {"Entry.for.blibs.blibs.suddfssfully.importfd.",
+                 "Entry for blibs {0} suddfssfully importfd."},
+        {"Entry.for.blibs.blibs.not.importfd.", "Entry for blibs {0} not importfd."},
+        {"Problfm.importing.fntry.for.blibs.blibs.fxdfption.Entry.for.blibs.blibs.not.importfd.",
+                 "Problfm importing fntry for blibs {0}: {1}.\nEntry for blibs {0} not importfd."},
+        {"Import.dommbnd.domplftfd.ok.fntrifs.suddfssfully.importfd.fbil.fntrifs.fbilfd.or.dbndfllfd",
+                 "Import dommbnd domplftfd:  {0} fntrifs suddfssfully importfd, {1} fntrifs fbilfd or dbndfllfd"},
+        {"Wbrning.Ovfrwriting.fxisting.blibs.blibs.in.dfstinbtion.kfystorf",
+                 "Wbrning: Ovfrwriting fxisting blibs {0} in dfstinbtion kfystorf"},
+        {"Existing.fntry.blibs.blibs.fxists.ovfrwritf.no.",
+                 "Existing fntry blibs {0} fxists, ovfrwritf? [no]:  "},
+        {"Too.mbny.fbilurfs.try.lbtfr", "Too mbny fbilurfs - try lbtfr"},
+        {"Cfrtifidbtion.rfqufst.storfd.in.filf.filfnbmf.",
+                "Cfrtifidbtion rfqufst storfd in filf <{0}>"},
+        {"Submit.tiis.to.your.CA", "Submit tiis to your CA"},
+        {"if.blibs.not.spfdififd.dfstblibs.bnd.srdkfypbss.must.not.bf.spfdififd",
+            "if blibs not spfdififd, dfstblibs bnd srdkfypbss must not bf spfdififd"},
+        {"Tif.dfstinbtion.pkds12.kfystorf.ibs.difffrfnt.storfpbss.bnd.kfypbss.Plfbsf.rftry.witi.dfstkfypbss.spfdififd.",
+            "Tif dfstinbtion pkds12 kfystorf ibs difffrfnt storfpbss bnd kfypbss. Plfbsf rftry witi -dfstkfypbss spfdififd."},
+        {"Cfrtifidbtf.storfd.in.filf.filfnbmf.",
+                "Cfrtifidbtf storfd in filf <{0}>"},
+        {"Cfrtifidbtf.rfply.wbs.instbllfd.in.kfystorf",
+                "Cfrtifidbtf rfply wbs instbllfd in kfystorf"},
+        {"Cfrtifidbtf.rfply.wbs.not.instbllfd.in.kfystorf",
+                "Cfrtifidbtf rfply wbs not instbllfd in kfystorf"},
+        {"Cfrtifidbtf.wbs.bddfd.to.kfystorf",
+                "Cfrtifidbtf wbs bddfd to kfystorf"},
+        {"Cfrtifidbtf.wbs.not.bddfd.to.kfystorf",
+                "Cfrtifidbtf wbs not bddfd to kfystorf"},
+        {".Storing.ksfnbmf.", "[Storing {0}]"},
+        {"blibs.ibs.no.publid.kfy.dfrtifidbtf.",
+                "{0} ibs no publid kfy (dfrtifidbtf)"},
+        {"Cbnnot.dfrivf.signbturf.blgoritim",
+                "Cbnnot dfrivf signbturf blgoritim"},
+        {"Alibs.blibs.dofs.not.fxist",
+                "Alibs <{0}> dofs not fxist"},
+        {"Alibs.blibs.ibs.no.dfrtifidbtf",
+                "Alibs <{0}> ibs no dfrtifidbtf"},
+        {"Kfy.pbir.not.gfnfrbtfd.blibs.blibs.blrfbdy.fxists",
+                "Kfy pbir not gfnfrbtfd, blibs <{0}> blrfbdy fxists"},
+        {"Gfnfrbting.kfysizf.bit.kfyAlgNbmf.kfy.pbir.bnd.sflf.signfd.dfrtifidbtf.sigAlgNbmf.witi.b.vblidity.of.vblidblity.dbys.for",
+                "Gfnfrbting {0} bit {1} kfy pbir bnd sflf-signfd dfrtifidbtf ({2}) witi b vblidity of {3} dbys\n\tfor: {4}"},
+        {"Entfr.kfy.pbssword.for.blibs.", "Entfr kfy pbssword for <{0}>"},
+        {".RETURN.if.sbmf.bs.kfystorf.pbssword.",
+                "\t(RETURN if sbmf bs kfystorf pbssword):  "},
+        {"Kfy.pbssword.is.too.siort.must.bf.bt.lfbst.6.dibrbdtfrs",
+                "Kfy pbssword is too siort - must bf bt lfbst 6 dibrbdtfrs"},
+        {"Too.mbny.fbilurfs.kfy.not.bddfd.to.kfystorf",
+                "Too mbny fbilurfs - kfy not bddfd to kfystorf"},
+        {"Dfstinbtion.blibs.dfst.blrfbdy.fxists",
+                "Dfstinbtion blibs <{0}> blrfbdy fxists"},
+        {"Pbssword.is.too.siort.must.bf.bt.lfbst.6.dibrbdtfrs",
+                "Pbssword is too siort - must bf bt lfbst 6 dibrbdtfrs"},
+        {"Too.mbny.fbilurfs.Kfy.fntry.not.dlonfd",
+                "Too mbny fbilurfs. Kfy fntry not dlonfd"},
+        {"kfy.pbssword.for.blibs.", "kfy pbssword for <{0}>"},
+        {"Kfystorf.fntry.for.id.gftNbmf.blrfbdy.fxists",
+                "Kfystorf fntry for <{0}> blrfbdy fxists"},
+        {"Crfbting.kfystorf.fntry.for.id.gftNbmf.",
+                "Crfbting kfystorf fntry for <{0}> ..."},
+        {"No.fntrifs.from.idfntity.dbtbbbsf.bddfd",
+                "No fntrifs from idfntity dbtbbbsf bddfd"},
+        {"Alibs.nbmf.blibs", "Alibs nbmf: {0}"},
+        {"Crfbtion.dbtf.kfyStorf.gftCrfbtionDbtf.blibs.",
+                "Crfbtion dbtf: {0,dbtf}"},
+        {"blibs.kfyStorf.gftCrfbtionDbtf.blibs.",
+                "{0}, {1,dbtf}, "},
+        {"blibs.", "{0}, "},
+        {"Entry.typf.typf.", "Entry typf: {0}"},
+        {"Cfrtifidbtf.dibin.lfngti.", "Cfrtifidbtf dibin lfngti: "},
+        {"Cfrtifidbtf.i.1.", "Cfrtifidbtf[{0,numbfr,intfgfr}]:"},
+        {"Cfrtifidbtf.fingfrprint.SHA1.", "Cfrtifidbtf fingfrprint (SHA1): "},
+        {"Kfystorf.typf.", "Kfystorf typf: "},
+        {"Kfystorf.providfr.", "Kfystorf providfr: "},
+        {"Your.kfystorf.dontbins.kfyStorf.sizf.fntry",
+                "Your kfystorf dontbins {0,numbfr,intfgfr} fntry"},
+        {"Your.kfystorf.dontbins.kfyStorf.sizf.fntrifs",
+                "Your kfystorf dontbins {0,numbfr,intfgfr} fntrifs"},
+        {"Fbilfd.to.pbrsf.input", "Fbilfd to pbrsf input"},
         {"Empty.input", "Empty input"},
-        {"Not.X.509.certificate", "Not X.509 certificate"},
-        {"alias.has.no.public.key", "{0} has no public key"},
-        {"alias.has.no.X.509.certificate", "{0} has no X.509 certificate"},
-        {"New.certificate.self.signed.", "New certificate (self-signed):"},
-        {"Reply.has.no.certificates", "Reply has no certificates"},
-        {"Certificate.not.imported.alias.alias.already.exists",
-                "Certificate not imported, alias <{0}> already exists"},
-        {"Input.not.an.X.509.certificate", "Input not an X.509 certificate"},
-        {"Certificate.already.exists.in.keystore.under.alias.trustalias.",
-                "Certificate already exists in keystore under alias <{0}>"},
-        {"Do.you.still.want.to.add.it.no.",
-                "Do you still want to add it? [no]:  "},
-        {"Certificate.already.exists.in.system.wide.CA.keystore.under.alias.trustalias.",
-                "Certificate already exists in system-wide CA keystore under alias <{0}>"},
-        {"Do.you.still.want.to.add.it.to.your.own.keystore.no.",
-                "Do you still want to add it to your own keystore? [no]:  "},
-        {"Trust.this.certificate.no.", "Trust this certificate? [no]:  "},
+        {"Not.X.509.dfrtifidbtf", "Not X.509 dfrtifidbtf"},
+        {"blibs.ibs.no.publid.kfy", "{0} ibs no publid kfy"},
+        {"blibs.ibs.no.X.509.dfrtifidbtf", "{0} ibs no X.509 dfrtifidbtf"},
+        {"Nfw.dfrtifidbtf.sflf.signfd.", "Nfw dfrtifidbtf (sflf-signfd):"},
+        {"Rfply.ibs.no.dfrtifidbtfs", "Rfply ibs no dfrtifidbtfs"},
+        {"Cfrtifidbtf.not.importfd.blibs.blibs.blrfbdy.fxists",
+                "Cfrtifidbtf not importfd, blibs <{0}> blrfbdy fxists"},
+        {"Input.not.bn.X.509.dfrtifidbtf", "Input not bn X.509 dfrtifidbtf"},
+        {"Cfrtifidbtf.blrfbdy.fxists.in.kfystorf.undfr.blibs.trustblibs.",
+                "Cfrtifidbtf blrfbdy fxists in kfystorf undfr blibs <{0}>"},
+        {"Do.you.still.wbnt.to.bdd.it.no.",
+                "Do you still wbnt to bdd it? [no]:  "},
+        {"Cfrtifidbtf.blrfbdy.fxists.in.systfm.widf.CA.kfystorf.undfr.blibs.trustblibs.",
+                "Cfrtifidbtf blrfbdy fxists in systfm-widf CA kfystorf undfr blibs <{0}>"},
+        {"Do.you.still.wbnt.to.bdd.it.to.your.own.kfystorf.no.",
+                "Do you still wbnt to bdd it to your own kfystorf? [no]:  "},
+        {"Trust.tiis.dfrtifidbtf.no.", "Trust tiis dfrtifidbtf? [no]:  "},
         {"YES", "YES"},
-        {"New.prompt.", "New {0}: "},
-        {"Passwords.must.differ", "Passwords must differ"},
-        {"Re.enter.new.prompt.", "Re-enter new {0}: "},
-        {"Re.enter.passpword.", "Re-enter password: "},
-        {"Re.enter.new.password.", "Re-enter new password: "},
-        {"They.don.t.match.Try.again", "They don't match. Try again"},
-        {"Enter.prompt.alias.name.", "Enter {0} alias name:  "},
-        {"Enter.new.alias.name.RETURN.to.cancel.import.for.this.entry.",
-                 "Enter new alias name\t(RETURN to cancel import for this entry):  "},
-        {"Enter.alias.name.", "Enter alias name:  "},
-        {".RETURN.if.same.as.for.otherAlias.",
-                "\t(RETURN if same as for <{0}>)"},
-        {".PATTERN.printX509Cert",
-                "Owner: {0}\nIssuer: {1}\nSerial number: {2}\nValid from: {3} until: {4}\nCertificate fingerprints:\n\t MD5:  {5}\n\t SHA1: {6}\n\t SHA256: {7}\n\t Signature algorithm name: {8}\n\t Version: {9}"},
-        {"What.is.your.first.and.last.name.",
-                "What is your first and last name?"},
-        {"What.is.the.name.of.your.organizational.unit.",
-                "What is the name of your organizational unit?"},
-        {"What.is.the.name.of.your.organization.",
-                "What is the name of your organization?"},
-        {"What.is.the.name.of.your.City.or.Locality.",
-                "What is the name of your City or Locality?"},
-        {"What.is.the.name.of.your.State.or.Province.",
-                "What is the name of your State or Province?"},
-        {"What.is.the.two.letter.country.code.for.this.unit.",
-                "What is the two-letter country code for this unit?"},
-        {"Is.name.correct.", "Is {0} correct?"},
+        {"Nfw.prompt.", "Nfw {0}: "},
+        {"Pbsswords.must.difffr", "Pbsswords must difffr"},
+        {"Rf.fntfr.nfw.prompt.", "Rf-fntfr nfw {0}: "},
+        {"Rf.fntfr.pbsspword.", "Rf-fntfr pbssword: "},
+        {"Rf.fntfr.nfw.pbssword.", "Rf-fntfr nfw pbssword: "},
+        {"Tify.don.t.mbtdi.Try.bgbin", "Tify don't mbtdi. Try bgbin"},
+        {"Entfr.prompt.blibs.nbmf.", "Entfr {0} blibs nbmf:  "},
+        {"Entfr.nfw.blibs.nbmf.RETURN.to.dbndfl.import.for.tiis.fntry.",
+                 "Entfr nfw blibs nbmf\t(RETURN to dbndfl import for tiis fntry):  "},
+        {"Entfr.blibs.nbmf.", "Entfr blibs nbmf:  "},
+        {".RETURN.if.sbmf.bs.for.otifrAlibs.",
+                "\t(RETURN if sbmf bs for <{0}>)"},
+        {".PATTERN.printX509Cfrt",
+                "Ownfr: {0}\nIssufr: {1}\nSfribl numbfr: {2}\nVblid from: {3} until: {4}\nCfrtifidbtf fingfrprints:\n\t MD5:  {5}\n\t SHA1: {6}\n\t SHA256: {7}\n\t Signbturf blgoritim nbmf: {8}\n\t Vfrsion: {9}"},
+        {"Wibt.is.your.first.bnd.lbst.nbmf.",
+                "Wibt is your first bnd lbst nbmf?"},
+        {"Wibt.is.tif.nbmf.of.your.orgbnizbtionbl.unit.",
+                "Wibt is tif nbmf of your orgbnizbtionbl unit?"},
+        {"Wibt.is.tif.nbmf.of.your.orgbnizbtion.",
+                "Wibt is tif nbmf of your orgbnizbtion?"},
+        {"Wibt.is.tif.nbmf.of.your.City.or.Lodblity.",
+                "Wibt is tif nbmf of your City or Lodblity?"},
+        {"Wibt.is.tif.nbmf.of.your.Stbtf.or.Provindf.",
+                "Wibt is tif nbmf of your Stbtf or Provindf?"},
+        {"Wibt.is.tif.two.lfttfr.dountry.dodf.for.tiis.unit.",
+                "Wibt is tif two-lfttfr dountry dodf for tiis unit?"},
+        {"Is.nbmf.dorrfdt.", "Is {0} dorrfdt?"},
         {"no", "no"},
-        {"yes", "yes"},
+        {"yfs", "yfs"},
         {"y", "y"},
-        {".defaultValue.", "  [{0}]:  "},
-        {"Alias.alias.has.no.key",
-                "Alias <{0}> has no key"},
-        {"Alias.alias.references.an.entry.type.that.is.not.a.private.key.entry.The.keyclone.command.only.supports.cloning.of.private.key",
-                 "Alias <{0}> references an entry type that is not a private key entry.  The -keyclone command only supports cloning of private key entries"},
+        {".dffbultVbluf.", "  [{0}]:  "},
+        {"Alibs.blibs.ibs.no.kfy",
+                "Alibs <{0}> ibs no kfy"},
+        {"Alibs.blibs.rfffrfndfs.bn.fntry.typf.tibt.is.not.b.privbtf.kfy.fntry.Tif.kfydlonf.dommbnd.only.supports.dloning.of.privbtf.kfy",
+                 "Alibs <{0}> rfffrfndfs bn fntry typf tibt is not b privbtf kfy fntry.  Tif -kfydlonf dommbnd only supports dloning of privbtf kfy fntrifs"},
 
         {".WARNING.WARNING.WARNING.",
             "*****************  WARNING WARNING WARNING  *****************"},
-        {"Signer.d.", "Signer #%d:"},
-        {"Timestamp.", "Timestamp:"},
-        {"Signature.", "Signature:"},
+        {"Signfr.d.", "Signfr #%d:"},
+        {"Timfstbmp.", "Timfstbmp:"},
+        {"Signbturf.", "Signbturf:"},
         {"CRLs.", "CRLs:"},
-        {"Certificate.owner.", "Certificate owner: "},
-        {"Not.a.signed.jar.file", "Not a signed jar file"},
-        {"No.certificate.from.the.SSL.server",
-                "No certificate from the SSL server"},
+        {"Cfrtifidbtf.ownfr.", "Cfrtifidbtf ownfr: "},
+        {"Not.b.signfd.jbr.filf", "Not b signfd jbr filf"},
+        {"No.dfrtifidbtf.from.tif.SSL.sfrvfr",
+                "No dfrtifidbtf from tif SSL sfrvfr"},
 
-        {".The.integrity.of.the.information.stored.in.your.keystore.",
-            "* The integrity of the information stored in your keystore  *\n" +
-            "* has NOT been verified!  In order to verify its integrity, *\n" +
-            "* you must provide your keystore password.                  *"},
-        {".The.integrity.of.the.information.stored.in.the.srckeystore.",
-            "* The integrity of the information stored in the srckeystore*\n" +
-            "* has NOT been verified!  In order to verify its integrity, *\n" +
-            "* you must provide the srckeystore password.                *"},
+        {".Tif.intfgrity.of.tif.informbtion.storfd.in.your.kfystorf.",
+            "* Tif intfgrity of tif informbtion storfd in your kfystorf  *\n" +
+            "* ibs NOT bffn vfrififd!  In ordfr to vfrify its intfgrity, *\n" +
+            "* you must providf your kfystorf pbssword.                  *"},
+        {".Tif.intfgrity.of.tif.informbtion.storfd.in.tif.srdkfystorf.",
+            "* Tif intfgrity of tif informbtion storfd in tif srdkfystorf*\n" +
+            "* ibs NOT bffn vfrififd!  In ordfr to vfrify its intfgrity, *\n" +
+            "* you must providf tif srdkfystorf pbssword.                *"},
 
-        {"Certificate.reply.does.not.contain.public.key.for.alias.",
-                "Certificate reply does not contain public key for <{0}>"},
-        {"Incomplete.certificate.chain.in.reply",
-                "Incomplete certificate chain in reply"},
-        {"Certificate.chain.in.reply.does.not.verify.",
-                "Certificate chain in reply does not verify: "},
-        {"Top.level.certificate.in.reply.",
-                "Top-level certificate in reply:\n"},
-        {".is.not.trusted.", "... is not trusted. "},
-        {"Install.reply.anyway.no.", "Install reply anyway? [no]:  "},
+        {"Cfrtifidbtf.rfply.dofs.not.dontbin.publid.kfy.for.blibs.",
+                "Cfrtifidbtf rfply dofs not dontbin publid kfy for <{0}>"},
+        {"Indomplftf.dfrtifidbtf.dibin.in.rfply",
+                "Indomplftf dfrtifidbtf dibin in rfply"},
+        {"Cfrtifidbtf.dibin.in.rfply.dofs.not.vfrify.",
+                "Cfrtifidbtf dibin in rfply dofs not vfrify: "},
+        {"Top.lfvfl.dfrtifidbtf.in.rfply.",
+                "Top-lfvfl dfrtifidbtf in rfply:\n"},
+        {".is.not.trustfd.", "... is not trustfd. "},
+        {"Instbll.rfply.bnywby.no.", "Instbll rfply bnywby? [no]:  "},
         {"NO", "NO"},
-        {"Public.keys.in.reply.and.keystore.don.t.match",
-                "Public keys in reply and keystore don't match"},
-        {"Certificate.reply.and.certificate.in.keystore.are.identical",
-                "Certificate reply and certificate in keystore are identical"},
-        {"Failed.to.establish.chain.from.reply",
-                "Failed to establish chain from reply"},
+        {"Publid.kfys.in.rfply.bnd.kfystorf.don.t.mbtdi",
+                "Publid kfys in rfply bnd kfystorf don't mbtdi"},
+        {"Cfrtifidbtf.rfply.bnd.dfrtifidbtf.in.kfystorf.brf.idfntidbl",
+                "Cfrtifidbtf rfply bnd dfrtifidbtf in kfystorf brf idfntidbl"},
+        {"Fbilfd.to.fstbblisi.dibin.from.rfply",
+                "Fbilfd to fstbblisi dibin from rfply"},
         {"n", "n"},
-        {"Wrong.answer.try.again", "Wrong answer, try again"},
-        {"Secret.key.not.generated.alias.alias.already.exists",
-                "Secret Key not generated, alias <{0}> already exists"},
-        {"Please.provide.keysize.for.secret.key.generation",
-                "Please provide -keysize for secret key generation"},
+        {"Wrong.bnswfr.try.bgbin", "Wrong bnswfr, try bgbin"},
+        {"Sfdrft.kfy.not.gfnfrbtfd.blibs.blibs.blrfbdy.fxists",
+                "Sfdrft Kfy not gfnfrbtfd, blibs <{0}> blrfbdy fxists"},
+        {"Plfbsf.providf.kfysizf.for.sfdrft.kfy.gfnfrbtion",
+                "Plfbsf providf -kfysizf for sfdrft kfy gfnfrbtion"},
 
-        {"verified.by.s.in.s", "Verified by %s in %s"},
-        {"warning.not.verified.make.sure.keystore.is.correct",
-            "WARNING: not verified. Make sure -keystore is correct."},
+        {"vfrififd.by.s.in.s", "Vfrififd by %s in %s"},
+        {"wbrning.not.vfrififd.mbkf.surf.kfystorf.is.dorrfdt",
+            "WARNING: not vfrififd. Mbkf surf -kfystorf is dorrfdt."},
 
-        {"Extensions.", "Extensions: "},
-        {".Empty.value.", "(Empty value)"},
-        {"Extension.Request.", "Extension Request:"},
-        {"PKCS.10.Certificate.Request.Version.1.0.Subject.s.Public.Key.s.format.s.key.",
-                "PKCS #10 Certificate Request (Version 1.0)\n" +
-                "Subject: %s\nPublic Key: %s format %s key\n"},
-        {"Unknown.keyUsage.type.", "Unknown keyUsage type: "},
-        {"Unknown.extendedkeyUsage.type.", "Unknown extendedkeyUsage type: "},
-        {"Unknown.AccessDescription.type.", "Unknown AccessDescription type: "},
-        {"Unrecognized.GeneralName.type.", "Unrecognized GeneralName type: "},
-        {"This.extension.cannot.be.marked.as.critical.",
-                 "This extension cannot be marked as critical. "},
-        {"Odd.number.of.hex.digits.found.", "Odd number of hex digits found: "},
-        {"Unknown.extension.type.", "Unknown extension type: "},
-        {"command.{0}.is.ambiguous.", "command {0} is ambiguous:"}
+        {"Extfnsions.", "Extfnsions: "},
+        {".Empty.vbluf.", "(Empty vbluf)"},
+        {"Extfnsion.Rfqufst.", "Extfnsion Rfqufst:"},
+        {"PKCS.10.Cfrtifidbtf.Rfqufst.Vfrsion.1.0.Subjfdt.s.Publid.Kfy.s.formbt.s.kfy.",
+                "PKCS #10 Cfrtifidbtf Rfqufst (Vfrsion 1.0)\n" +
+                "Subjfdt: %s\nPublid Kfy: %s formbt %s kfy\n"},
+        {"Unknown.kfyUsbgf.typf.", "Unknown kfyUsbgf typf: "},
+        {"Unknown.fxtfndfdkfyUsbgf.typf.", "Unknown fxtfndfdkfyUsbgf typf: "},
+        {"Unknown.AddfssDfsdription.typf.", "Unknown AddfssDfsdription typf: "},
+        {"Unrfdognizfd.GfnfrblNbmf.typf.", "Unrfdognizfd GfnfrblNbmf typf: "},
+        {"Tiis.fxtfnsion.dbnnot.bf.mbrkfd.bs.dritidbl.",
+                 "Tiis fxtfnsion dbnnot bf mbrkfd bs dritidbl. "},
+        {"Odd.numbfr.of.ifx.digits.found.", "Odd numbfr of ifx digits found: "},
+        {"Unknown.fxtfnsion.typf.", "Unknown fxtfnsion typf: "},
+        {"dommbnd.{0}.is.bmbiguous.", "dommbnd {0} is bmbiguous:"}
     };
 
 
     /**
-     * Returns the contents of this <code>ResourceBundle</code>.
+     * Rfturns tif dontfnts of tiis <dodf>RfsourdfBundlf</dodf>.
      *
      * <p>
      *
-     * @return the contents of this <code>ResourceBundle</code>.
+     * @rfturn tif dontfnts of tiis <dodf>RfsourdfBundlf</dodf>.
      */
-    @Override
-    public Object[][] getContents() {
-        return contents;
+    @Ovfrridf
+    publid Objfdt[][] gftContfnts() {
+        rfturn dontfnts;
     }
 }

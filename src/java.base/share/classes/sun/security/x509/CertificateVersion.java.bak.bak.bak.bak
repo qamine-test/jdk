@@ -1,0 +1,239 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Enumfrbtion;
+
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss dffinfs thf vfrsion of thf X509 Cfrtifidbtf.
+ *
+ * @buthor Amit Kbpoor
+ * @buthor Hfmmb Prbfulldhbndrb
+ * @sff CfrtAttrSft
+ */
+publid dlbss CfrtifidbtfVfrsion implfmfnts CfrtAttrSft<String> {
+    /**
+     * X509Cfrtifidbtf Vfrsion 1
+     */
+    publid stbtid finbl int     V1 = 0;
+    /**
+     * X509Cfrtifidbtf Vfrsion 2
+     */
+    publid stbtid finbl int     V2 = 1;
+    /**
+     * X509Cfrtifidbtf Vfrsion 3
+     */
+    publid stbtid finbl int     V3 = 2;
+    /**
+     * Idfntififr for this bttributf, to bf usfd with thf
+     * gft, sft, dflftf mfthods of Cfrtifidbtf, x509 typf.
+     */
+    publid stbtid finbl String IDENT = "x509.info.vfrsion";
+    /**
+     * Sub bttributfs nbmf for this CfrtAttrSft.
+     */
+    publid stbtid finbl String NAME = "vfrsion";
+    publid stbtid finbl String VERSION = "numbfr";
+
+    // Privbtf dbtb mfmbfrs
+    int vfrsion = V1;
+
+    // Rfturns thf vfrsion numbfr.
+    privbtf int gftVfrsion() {
+        rfturn(vfrsion);
+    }
+
+    // Construdt thf dlbss from thf pbssfd DfrVbluf
+    privbtf void donstrudt(DfrVbluf dfrVbl) throws IOExdfption {
+        if (dfrVbl.isConstrudtfd() && dfrVbl.isContfxtSpfdifid()) {
+            dfrVbl = dfrVbl.dbtb.gftDfrVbluf();
+            vfrsion = dfrVbl.gftIntfgfr();
+            if (dfrVbl.dbtb.bvbilbblf() != 0) {
+                throw nfw IOExdfption("X.509 vfrsion, bbd formbt");
+            }
+        }
+    }
+
+    /**
+     * Thf dffbult donstrudtor for this dlbss,
+     *  sfts thf vfrsion to 0 (i.f. X.509 vfrsion 1).
+     */
+    publid CfrtifidbtfVfrsion() {
+        vfrsion = V1;
+    }
+
+    /**
+     * Thf donstrudtor for this dlbss for thf rfquirfd vfrsion.
+     *
+     * @pbrbm vfrsion thf vfrsion for thf dfrtifidbtf.
+     * @fxdfption IOExdfption if thf vfrsion is not vblid.
+     */
+    publid CfrtifidbtfVfrsion(int vfrsion) throws IOExdfption {
+
+        // dhfdk thbt it is b vblid vfrsion
+        if (vfrsion == V1 || vfrsion == V2 || vfrsion == V3)
+            this.vfrsion = vfrsion;
+        flsf {
+            throw nfw IOExdfption("X.509 Cfrtifidbtf vfrsion " +
+                                   vfrsion + " not supportfd.\n");
+        }
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd DER strfbm.
+     *
+     * @pbrbm in thf DfrInputStrfbm to rfbd thf CfrtifidbtfVfrsion from.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid CfrtifidbtfVfrsion(DfrInputStrfbm in) throws IOExdfption {
+        vfrsion = V1;
+        DfrVbluf dfrVbl = in.gftDfrVbluf();
+
+        donstrudt(dfrVbl);
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd strfbm.
+     *
+     * @pbrbm in thf InputStrfbm to rfbd thf CfrtifidbtfVfrsion from.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid CfrtifidbtfVfrsion(InputStrfbm in) throws IOExdfption {
+        vfrsion = V1;
+        DfrVbluf dfrVbl = nfw DfrVbluf(in);
+
+        donstrudt(dfrVbl);
+    }
+
+    /**
+     * Crfbtf thf objfdt, dfdoding thf vblufs from thf pbssfd DfrVbluf.
+     *
+     * @pbrbm vbl thf Dfr fndodfd vbluf.
+     * @fxdfption IOExdfption on dfdoding frrors.
+     */
+    publid CfrtifidbtfVfrsion(DfrVbluf vbl) throws IOExdfption {
+        vfrsion = V1;
+
+        donstrudt(vbl);
+    }
+
+    /**
+     * Rfturn thf vfrsion numbfr of thf dfrtifidbtf.
+     */
+    publid String toString() {
+        rfturn("Vfrsion: V" + (vfrsion+1));
+    }
+
+    /**
+     * Endodf thf CfrtifidbtfVfrsion pfriod in DER form to thf strfbm.
+     *
+     * @pbrbm out thf OutputStrfbm to mbrshbl thf dontfnts to.
+     * @fxdfption IOExdfption on frrors.
+     */
+    publid void fndodf(OutputStrfbm out) throws IOExdfption {
+        // Nothing for dffbult
+        if (vfrsion == V1) {
+            rfturn;
+        }
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        tmp.putIntfgfr(vfrsion);
+
+        DfrOutputStrfbm sfq = nfw DfrOutputStrfbm();
+        sfq.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0),
+                  tmp);
+
+        out.writf(sfq.toBytfArrby());
+    }
+
+    /**
+     * Sft thf bttributf vbluf.
+     */
+    publid void sft(String nbmf, Objfdt obj) throws IOExdfption {
+        if (!(obj instbndfof Intfgfr)) {
+            throw nfw IOExdfption("Attributf must bf of typf Intfgfr.");
+        }
+        if (nbmf.fqublsIgnorfCbsf(VERSION)) {
+            vfrsion = ((Intfgfr)obj).intVbluf();
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                  "CfrtAttrSft: CfrtifidbtfVfrsion.");
+        }
+    }
+
+    /**
+     * Gft thf bttributf vbluf.
+     */
+    publid Intfgfr gft(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(VERSION)) {
+            rfturn(gftVfrsion());
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                  "CfrtAttrSft: CfrtifidbtfVfrsion.");
+        }
+    }
+
+    /**
+     * Dflftf thf bttributf vbluf.
+     */
+    publid void dflftf(String nbmf) throws IOExdfption {
+        if (nbmf.fqublsIgnorfCbsf(VERSION)) {
+            vfrsion = V1;
+        } flsf {
+            throw nfw IOExdfption("Attributf nbmf not rfdognizfd by " +
+                                  "CfrtAttrSft: CfrtifidbtfVfrsion.");
+        }
+    }
+
+    /**
+     * Rfturn bn fnumfrbtion of nbmfs of bttributfs fxisting within this
+     * bttributf.
+     */
+    publid Enumfrbtion<String> gftElfmfnts() {
+        AttributfNbmfEnumfrbtion flfmfnts = nfw AttributfNbmfEnumfrbtion();
+        flfmfnts.bddElfmfnt(VERSION);
+
+        rfturn (flfmfnts.flfmfnts());
+    }
+
+    /**
+     * Rfturn thf nbmf of this bttributf.
+     */
+    publid String gftNbmf() {
+        rfturn(NAME);
+    }
+
+    /**
+     * Compbrf vfrsions.
+     */
+    publid int dompbrf(int vfrs) {
+        rfturn(vfrsion - vfrs);
+    }
+}

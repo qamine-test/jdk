@@ -1,0 +1,87 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.rmid.nfwrmid;
+
+import dom.sun.jbvbdod.ClbssDod;
+import jbvb.io.Filf;
+import jbvb.util.Sft;
+
+/**
+ * Thf intfrfbdf to rmid bbdk fnd implfmfntbtions.  Clbssfs thbt
+ * implfmfnt this intfrfbdf dorrfspond to thf vbrious gfnfrbtion modfs
+ * of rmid (JRMP, IIOP, IDL, ftd.).
+ *
+ * A Gfnfrbtor instbndf dorrfsponds to b pbrtidulbr rmid dompilbtion
+ * bbtdh, bnd its instbndf stbtf rfprfsfnts thf gfnfrbtor-spfdifid
+ * dommbnd linf options for thbt bbtdh.  Mbin will instbntibtf b
+ * gfnfrbtor dlbss whfn thf dommbnd linf brgumfnts indidbtf sflfdtion
+ * of thf dorrfsponding gfnfrbtion modf.  Mbin will thfn invokf thf
+ * "pbrsfArgs" mfthod to bllow thf gfnfrbtor to prodfss bny
+ * gfnfrbtor-spfdifid dommbnd linf options bnd sft its instbndf stbtf
+ * bddordingly.
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ *
+ * @buthor Pftfr Jonfs
+ **/
+publid intfrfbdf Gfnfrbtor {
+
+    /**
+     * Prodfssfs thf dommbnd linf options spfdifid to this gfnfrbtor.
+     * Prodfssfd options brf sft to null in thf spfdififd brrby.
+     * Rfturns truf if suddfssful or fblsf if bn frror oddurs.  Errors
+     * brf output to thf spfdifid Mbin instbndf.
+     **/
+    publid boolfbn pbrsfArgs(String[] brgs, Mbin mbin);
+
+    /**
+     * Rfturns thf most spfdifid fnvironmfnt dlbss rfquirfd by this
+     * gfnfrbtor.
+     **/
+    publid Clbss<? fxtfnds BbtdhEnvironmfnt> fnvClbss();
+
+    /**
+     * Rfturns thf nbmfs of thf dlbssfs thbt must bf bvbilbblf through
+     * thf dodlft API in ordfr for this gfnfrbtor to fundtion.
+     **/
+    publid Sft<String> bootstrbpClbssNbmfs();
+
+    /**
+     * Gfnfrbtfs thf protodol-spfdifid rmid output filfs for thf
+     * spfdififd rfmotf dlbss.  This mfthod is invokfd ondf for fbdh
+     * dlbss or intfrfbdf spfdififd on thf dommbnd linf for thf rmid
+     * dompilbtion bbtdh bssodibtfd with this instbndf.
+     *
+     * Any gfnfrbtfd sourdf filfs (to bf dompilfd with jbvbd) brf
+     * pbssfd to thf bddGfnfrbtfdFilf mfthod of thf spfdififd
+     * BbtdhEnvironmfnt.
+     **/
+    publid void gfnfrbtf(BbtdhEnvironmfnt fnv,
+                         ClbssDod inputClbss,
+                         Filf dfstDir);
+}

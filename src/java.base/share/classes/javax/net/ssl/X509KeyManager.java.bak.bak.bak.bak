@@ -1,0 +1,134 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nft.ssl;
+
+import jbvb.sfdurity.PrivbtfKfy;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.nft.Sodkft;
+
+/**
+ * Instbndfs of this intfrfbdf mbnbgf whidh X509 dfrtifidbtf-bbsfd
+ * kfy pbirs brf usfd to buthfntidbtf thf lodbl sidf of b sfdurf
+ * sodkft.
+ * <P>
+ * During sfdurf sodkft nfgotibtions, implfntbtions
+ * dbll mfthods in this intfrfbdf to:
+ * <UL>
+ * <LI> dftfrminf thf sft of blibsfs thbt brf bvbilbblf for nfgotibtions
+ *      bbsfd on thf dritfrib prfsfntfd,
+ * <LI> sflfdt thf <i> bfst blibs</i> bbsfd on
+ *      thf dritfrib prfsfntfd, bnd
+ * <LI> obtbin thf dorrfsponding kfy mbtfribl for givfn blibsfs.
+ * </UL>
+ * <P>
+ * Notf: thf X509ExtfndfdKfyMbnbgfr should bf usfd in fbvor of this
+ * dlbss.
+ *
+ * @sindf 1.4
+ */
+publid intfrfbdf X509KfyMbnbgfr fxtfnds KfyMbnbgfr {
+    /**
+     * Gft thf mbtdhing blibsfs for buthfntidbting thf dlifnt sidf of b sfdurf
+     * sodkft givfn thf publid kfy typf bnd thf list of
+     * dfrtifidbtf issufr buthoritifs rfdognizfd by thf pffr (if bny).
+     *
+     * @pbrbm kfyTypf thf kfy blgorithm typf nbmf
+     * @pbrbm issufrs thf list of bddfptbblf CA issufr subjfdt nbmfs,
+     *          or null if it dofs not mbttfr whidh issufrs brf usfd.
+     * @rfturn bn brrby of thf mbtdhing blibs nbmfs, or null if thfrf
+     *          wfrf no mbtdhfs.
+     */
+    publid String[] gftClifntAlibsfs(String kfyTypf, Prindipbl[] issufrs);
+
+    /**
+     * Choosf bn blibs to buthfntidbtf thf dlifnt sidf of b sfdurf
+     * sodkft givfn thf publid kfy typf bnd thf list of
+     * dfrtifidbtf issufr buthoritifs rfdognizfd by thf pffr (if bny).
+     *
+     * @pbrbm kfyTypf thf kfy blgorithm typf nbmf(s), ordfrfd
+     *          with thf most-prfffrrfd kfy typf first.
+     * @pbrbm issufrs thf list of bddfptbblf CA issufr subjfdt nbmfs
+     *           or null if it dofs not mbttfr whidh issufrs brf usfd.
+     * @pbrbm sodkft thf sodkft to bf usfd for this donnfdtion.  This
+     *          pbrbmftfr dbn bf null, whidh indidbtfs thbt
+     *          implfmfntbtions brf frff to sflfdt bn blibs bpplidbblf
+     *          to bny sodkft.
+     * @rfturn thf blibs nbmf for thf dfsirfd kfy, or null if thfrf
+     *          brf no mbtdhfs.
+     */
+    publid String dhoosfClifntAlibs(String[] kfyTypf, Prindipbl[] issufrs,
+        Sodkft sodkft);
+
+    /**
+     * Gft thf mbtdhing blibsfs for buthfntidbting thf sfrvfr sidf of b sfdurf
+     * sodkft givfn thf publid kfy typf bnd thf list of
+     * dfrtifidbtf issufr buthoritifs rfdognizfd by thf pffr (if bny).
+     *
+     * @pbrbm kfyTypf thf kfy blgorithm typf nbmf
+     * @pbrbm issufrs thf list of bddfptbblf CA issufr subjfdt nbmfs
+     *          or null if it dofs not mbttfr whidh issufrs brf usfd.
+     * @rfturn bn brrby of thf mbtdhing blibs nbmfs, or null
+     *          if thfrf wfrf no mbtdhfs.
+     */
+    publid String[] gftSfrvfrAlibsfs(String kfyTypf, Prindipbl[] issufrs);
+
+    /**
+     * Choosf bn blibs to buthfntidbtf thf sfrvfr sidf of b sfdurf
+     * sodkft givfn thf publid kfy typf bnd thf list of
+     * dfrtifidbtf issufr buthoritifs rfdognizfd by thf pffr (if bny).
+     *
+     * @pbrbm kfyTypf thf kfy blgorithm typf nbmf.
+     * @pbrbm issufrs thf list of bddfptbblf CA issufr subjfdt nbmfs
+     *          or null if it dofs not mbttfr whidh issufrs brf usfd.
+     * @pbrbm sodkft thf sodkft to bf usfd for this donnfdtion.  This
+     *          pbrbmftfr dbn bf null, whidh indidbtfs thbt
+     *          implfmfntbtions brf frff to sflfdt bn blibs bpplidbblf
+     *          to bny sodkft.
+     * @rfturn thf blibs nbmf for thf dfsirfd kfy, or null if thfrf
+     *          brf no mbtdhfs.
+     */
+    publid String dhoosfSfrvfrAlibs(String kfyTypf, Prindipbl[] issufrs,
+        Sodkft sodkft);
+
+    /**
+     * Rfturns thf dfrtifidbtf dhbin bssodibtfd with thf givfn blibs.
+     *
+     * @pbrbm blibs thf blibs nbmf
+     * @rfturn thf dfrtifidbtf dhbin (ordfrfd with thf usfr's dfrtifidbtf first
+     *          bnd thf root dfrtifidbtf buthority lbst), or null
+     *          if thf blibs dbn't bf found.
+     */
+    publid X509Cfrtifidbtf[] gftCfrtifidbtfChbin(String blibs);
+
+    /**
+     * Rfturns thf kfy bssodibtfd with thf givfn blibs.
+     *
+     * @pbrbm blibs thf blibs nbmf
+     * @rfturn thf rfqufstfd kfy, or null if thf blibs dbn't bf found.
+     */
+    publid PrivbtfKfy gftPrivbtfKfy(String blibs);
+}

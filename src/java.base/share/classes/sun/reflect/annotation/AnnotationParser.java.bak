@@ -1,869 +1,869 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.annotation;
+pbdkbgf sun.rfflfdt.bnnotbtion;
 
-import java.lang.annotation.*;
-import java.util.*;
-import java.nio.ByteBuffer;
-import java.nio.BufferUnderflowException;
-import java.lang.reflect.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.reflect.ConstantPool;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.util.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BufffrUndfrflowExdfption;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.rfflfdt.ConstbntPool;
 
-import sun.reflect.generics.parser.SignatureParser;
-import sun.reflect.generics.tree.TypeSignature;
-import sun.reflect.generics.factory.GenericsFactory;
-import sun.reflect.generics.factory.CoreReflectionFactory;
-import sun.reflect.generics.visitor.Reifier;
-import sun.reflect.generics.scope.ClassScope;
+import sun.rfflfdt.gfnfrids.pbrsfr.SignbturfPbrsfr;
+import sun.rfflfdt.gfnfrids.trff.TypfSignbturf;
+import sun.rfflfdt.gfnfrids.fbdtory.GfnfridsFbdtory;
+import sun.rfflfdt.gfnfrids.fbdtory.CorfRfflfdtionFbdtory;
+import sun.rfflfdt.gfnfrids.visitor.Rfififr;
+import sun.rfflfdt.gfnfrids.sdopf.ClbssSdopf;
 
 /**
- * Parser for Java programming language annotations.  Translates
- * annotation byte streams emitted by compiler into annotation objects.
+ * Pbrsfr for Jbvb progrbmming lbngubgf bnnotbtions.  Trbnslbtfs
+ * bnnotbtion bytf strfbms fmittfd by dompilfr into bnnotbtion objfdts.
  *
- * @author  Josh Bloch
- * @since   1.5
+ * @butior  Josi Blodi
+ * @sindf   1.5
  */
-public class AnnotationParser {
+publid dlbss AnnotbtionPbrsfr {
     /**
-     * Parses the annotations described by the specified byte array.
-     * resolving constant references in the specified constant pool.
-     * The array must contain an array of annotations as described
-     * in the RuntimeVisibleAnnotations_attribute:
+     * Pbrsfs tif bnnotbtions dfsdribfd by tif spfdififd bytf brrby.
+     * rfsolving donstbnt rfffrfndfs in tif spfdififd donstbnt pool.
+     * Tif brrby must dontbin bn brrby of bnnotbtions bs dfsdribfd
+     * in tif RuntimfVisiblfAnnotbtions_bttributf:
      *
-     *   u2 num_annotations;
-     *   annotation annotations[num_annotations];
+     *   u2 num_bnnotbtions;
+     *   bnnotbtion bnnotbtions[num_bnnotbtions];
      *
-     * @throws AnnotationFormatError if an annotation is found to be
-     *         malformed.
+     * @tirows AnnotbtionFormbtError if bn bnnotbtion is found to bf
+     *         mblformfd.
      */
-    public static Map<Class<? extends Annotation>, Annotation> parseAnnotations(
-                byte[] rawAnnotations,
-                ConstantPool constPool,
-                Class<?> container) {
-        if (rawAnnotations == null)
-            return Collections.emptyMap();
+    publid stbtid Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> pbrsfAnnotbtions(
+                bytf[] rbwAnnotbtions,
+                ConstbntPool donstPool,
+                Clbss<?> dontbinfr) {
+        if (rbwAnnotbtions == null)
+            rfturn Collfdtions.fmptyMbp();
 
         try {
-            return parseAnnotations2(rawAnnotations, constPool, container, null);
-        } catch(BufferUnderflowException e) {
-            throw new AnnotationFormatError("Unexpected end of annotations.");
-        } catch(IllegalArgumentException e) {
-            // Type mismatch in constant pool
-            throw new AnnotationFormatError(e);
+            rfturn pbrsfAnnotbtions2(rbwAnnotbtions, donstPool, dontbinfr, null);
+        } dbtdi(BufffrUndfrflowExdfption f) {
+            tirow nfw AnnotbtionFormbtError("Unfxpfdtfd fnd of bnnotbtions.");
+        } dbtdi(IllfgblArgumfntExdfption f) {
+            // Typf mismbtdi in donstbnt pool
+            tirow nfw AnnotbtionFormbtError(f);
         }
     }
 
     /**
-     * Like {@link #parseAnnotations(byte[], sun.reflect.ConstantPool, Class)}
-     * with an additional parameter {@code selectAnnotationClasses} which selects the
-     * annotation types to parse (other than selected are quickly skipped).<p>
-     * This method is only used to parse select meta annotations in the construction
-     * phase of {@link AnnotationType} instances to prevent infinite recursion.
+     * Likf {@link #pbrsfAnnotbtions(bytf[], sun.rfflfdt.ConstbntPool, Clbss)}
+     * witi bn bdditionbl pbrbmftfr {@dodf sflfdtAnnotbtionClbssfs} wiidi sflfdts tif
+     * bnnotbtion typfs to pbrsf (otifr tibn sflfdtfd brf quidkly skippfd).<p>
+     * Tiis mftiod is only usfd to pbrsf sflfdt mftb bnnotbtions in tif donstrudtion
+     * pibsf of {@link AnnotbtionTypf} instbndfs to prfvfnt infinitf rfdursion.
      *
-     * @param selectAnnotationClasses an array of annotation types to select when parsing
+     * @pbrbm sflfdtAnnotbtionClbssfs bn brrby of bnnotbtion typfs to sflfdt wifn pbrsing
      */
-    @SafeVarargs
-    @SuppressWarnings("varargs") // selectAnnotationClasses is used safely
-    static Map<Class<? extends Annotation>, Annotation> parseSelectAnnotations(
-                byte[] rawAnnotations,
-                ConstantPool constPool,
-                Class<?> container,
-                Class<? extends Annotation> ... selectAnnotationClasses) {
-        if (rawAnnotations == null)
-            return Collections.emptyMap();
+    @SbffVbrbrgs
+    @SupprfssWbrnings("vbrbrgs") // sflfdtAnnotbtionClbssfs is usfd sbffly
+    stbtid Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> pbrsfSflfdtAnnotbtions(
+                bytf[] rbwAnnotbtions,
+                ConstbntPool donstPool,
+                Clbss<?> dontbinfr,
+                Clbss<? fxtfnds Annotbtion> ... sflfdtAnnotbtionClbssfs) {
+        if (rbwAnnotbtions == null)
+            rfturn Collfdtions.fmptyMbp();
 
         try {
-            return parseAnnotations2(rawAnnotations, constPool, container, selectAnnotationClasses);
-        } catch(BufferUnderflowException e) {
-            throw new AnnotationFormatError("Unexpected end of annotations.");
-        } catch(IllegalArgumentException e) {
-            // Type mismatch in constant pool
-            throw new AnnotationFormatError(e);
+            rfturn pbrsfAnnotbtions2(rbwAnnotbtions, donstPool, dontbinfr, sflfdtAnnotbtionClbssfs);
+        } dbtdi(BufffrUndfrflowExdfption f) {
+            tirow nfw AnnotbtionFormbtError("Unfxpfdtfd fnd of bnnotbtions.");
+        } dbtdi(IllfgblArgumfntExdfption f) {
+            // Typf mismbtdi in donstbnt pool
+            tirow nfw AnnotbtionFormbtError(f);
         }
     }
 
-    private static Map<Class<? extends Annotation>, Annotation> parseAnnotations2(
-                byte[] rawAnnotations,
-                ConstantPool constPool,
-                Class<?> container,
-                Class<? extends Annotation>[] selectAnnotationClasses) {
-        Map<Class<? extends Annotation>, Annotation> result =
-            new LinkedHashMap<Class<? extends Annotation>, Annotation>();
-        ByteBuffer buf = ByteBuffer.wrap(rawAnnotations);
-        int numAnnotations = buf.getShort() & 0xFFFF;
-        for (int i = 0; i < numAnnotations; i++) {
-            Annotation a = parseAnnotation2(buf, constPool, container, false, selectAnnotationClasses);
-            if (a != null) {
-                Class<? extends Annotation> klass = a.annotationType();
-                if (AnnotationType.getInstance(klass).retention() == RetentionPolicy.RUNTIME &&
-                    result.put(klass, a) != null) {
-                        throw new AnnotationFormatError(
-                            "Duplicate annotation for class: "+klass+": " + a);
+    privbtf stbtid Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> pbrsfAnnotbtions2(
+                bytf[] rbwAnnotbtions,
+                ConstbntPool donstPool,
+                Clbss<?> dontbinfr,
+                Clbss<? fxtfnds Annotbtion>[] sflfdtAnnotbtionClbssfs) {
+        Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> rfsult =
+            nfw LinkfdHbsiMbp<Clbss<? fxtfnds Annotbtion>, Annotbtion>();
+        BytfBufffr buf = BytfBufffr.wrbp(rbwAnnotbtions);
+        int numAnnotbtions = buf.gftSiort() & 0xFFFF;
+        for (int i = 0; i < numAnnotbtions; i++) {
+            Annotbtion b = pbrsfAnnotbtion2(buf, donstPool, dontbinfr, fblsf, sflfdtAnnotbtionClbssfs);
+            if (b != null) {
+                Clbss<? fxtfnds Annotbtion> klbss = b.bnnotbtionTypf();
+                if (AnnotbtionTypf.gftInstbndf(klbss).rftfntion() == RftfntionPolidy.RUNTIME &&
+                    rfsult.put(klbss, b) != null) {
+                        tirow nfw AnnotbtionFormbtError(
+                            "Duplidbtf bnnotbtion for dlbss: "+klbss+": " + b);
             }
         }
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Parses the parameter annotations described by the specified byte array.
-     * resolving constant references in the specified constant pool.
-     * The array must contain an array of annotations as described
-     * in the RuntimeVisibleParameterAnnotations_attribute:
+     * Pbrsfs tif pbrbmftfr bnnotbtions dfsdribfd by tif spfdififd bytf brrby.
+     * rfsolving donstbnt rfffrfndfs in tif spfdififd donstbnt pool.
+     * Tif brrby must dontbin bn brrby of bnnotbtions bs dfsdribfd
+     * in tif RuntimfVisiblfPbrbmftfrAnnotbtions_bttributf:
      *
-     *    u1 num_parameters;
+     *    u1 num_pbrbmftfrs;
      *    {
-     *        u2 num_annotations;
-     *        annotation annotations[num_annotations];
-     *    } parameter_annotations[num_parameters];
+     *        u2 num_bnnotbtions;
+     *        bnnotbtion bnnotbtions[num_bnnotbtions];
+     *    } pbrbmftfr_bnnotbtions[num_pbrbmftfrs];
      *
-     * Unlike parseAnnotations, rawAnnotations must not be null!
-     * A null value must be handled by the caller.  This is so because
-     * we cannot determine the number of parameters if rawAnnotations
-     * is null.  Also, the caller should check that the number
-     * of parameters indicated by the return value of this method
-     * matches the actual number of method parameters.  A mismatch
-     * indicates that an AnnotationFormatError should be thrown.
+     * Unlikf pbrsfAnnotbtions, rbwAnnotbtions must not bf null!
+     * A null vbluf must bf ibndlfd by tif dbllfr.  Tiis is so bfdbusf
+     * wf dbnnot dftfrminf tif numbfr of pbrbmftfrs if rbwAnnotbtions
+     * is null.  Also, tif dbllfr siould difdk tibt tif numbfr
+     * of pbrbmftfrs indidbtfd by tif rfturn vbluf of tiis mftiod
+     * mbtdifs tif bdtubl numbfr of mftiod pbrbmftfrs.  A mismbtdi
+     * indidbtfs tibt bn AnnotbtionFormbtError siould bf tirown.
      *
-     * @throws AnnotationFormatError if an annotation is found to be
-     *         malformed.
+     * @tirows AnnotbtionFormbtError if bn bnnotbtion is found to bf
+     *         mblformfd.
      */
-    public static Annotation[][] parseParameterAnnotations(
-                    byte[] rawAnnotations,
-                    ConstantPool constPool,
-                    Class<?> container) {
+    publid stbtid Annotbtion[][] pbrsfPbrbmftfrAnnotbtions(
+                    bytf[] rbwAnnotbtions,
+                    ConstbntPool donstPool,
+                    Clbss<?> dontbinfr) {
         try {
-            return parseParameterAnnotations2(rawAnnotations, constPool, container);
-        } catch(BufferUnderflowException e) {
-            throw new AnnotationFormatError(
-                "Unexpected end of parameter annotations.");
-        } catch(IllegalArgumentException e) {
-            // Type mismatch in constant pool
-            throw new AnnotationFormatError(e);
+            rfturn pbrsfPbrbmftfrAnnotbtions2(rbwAnnotbtions, donstPool, dontbinfr);
+        } dbtdi(BufffrUndfrflowExdfption f) {
+            tirow nfw AnnotbtionFormbtError(
+                "Unfxpfdtfd fnd of pbrbmftfr bnnotbtions.");
+        } dbtdi(IllfgblArgumfntExdfption f) {
+            // Typf mismbtdi in donstbnt pool
+            tirow nfw AnnotbtionFormbtError(f);
         }
     }
 
-    private static Annotation[][] parseParameterAnnotations2(
-                    byte[] rawAnnotations,
-                    ConstantPool constPool,
-                    Class<?> container) {
-        ByteBuffer buf = ByteBuffer.wrap(rawAnnotations);
-        int numParameters = buf.get() & 0xFF;
-        Annotation[][] result = new Annotation[numParameters][];
+    privbtf stbtid Annotbtion[][] pbrsfPbrbmftfrAnnotbtions2(
+                    bytf[] rbwAnnotbtions,
+                    ConstbntPool donstPool,
+                    Clbss<?> dontbinfr) {
+        BytfBufffr buf = BytfBufffr.wrbp(rbwAnnotbtions);
+        int numPbrbmftfrs = buf.gft() & 0xFF;
+        Annotbtion[][] rfsult = nfw Annotbtion[numPbrbmftfrs][];
 
-        for (int i = 0; i < numParameters; i++) {
-            int numAnnotations = buf.getShort() & 0xFFFF;
-            List<Annotation> annotations =
-                new ArrayList<Annotation>(numAnnotations);
-            for (int j = 0; j < numAnnotations; j++) {
-                Annotation a = parseAnnotation(buf, constPool, container, false);
-                if (a != null) {
-                    AnnotationType type = AnnotationType.getInstance(
-                                              a.annotationType());
-                    if (type.retention() == RetentionPolicy.RUNTIME)
-                        annotations.add(a);
+        for (int i = 0; i < numPbrbmftfrs; i++) {
+            int numAnnotbtions = buf.gftSiort() & 0xFFFF;
+            List<Annotbtion> bnnotbtions =
+                nfw ArrbyList<Annotbtion>(numAnnotbtions);
+            for (int j = 0; j < numAnnotbtions; j++) {
+                Annotbtion b = pbrsfAnnotbtion(buf, donstPool, dontbinfr, fblsf);
+                if (b != null) {
+                    AnnotbtionTypf typf = AnnotbtionTypf.gftInstbndf(
+                                              b.bnnotbtionTypf());
+                    if (typf.rftfntion() == RftfntionPolidy.RUNTIME)
+                        bnnotbtions.bdd(b);
                 }
             }
-            result[i] = annotations.toArray(EMPTY_ANNOTATIONS_ARRAY);
+            rfsult[i] = bnnotbtions.toArrby(EMPTY_ANNOTATIONS_ARRAY);
         }
-        return result;
+        rfturn rfsult;
     }
 
-    private static final Annotation[] EMPTY_ANNOTATIONS_ARRAY =
-                    new Annotation[0];
+    privbtf stbtid finbl Annotbtion[] EMPTY_ANNOTATIONS_ARRAY =
+                    nfw Annotbtion[0];
 
     /**
-     * Parses the annotation at the current position in the specified
-     * byte buffer, resolving constant references in the specified constant
-     * pool.  The cursor of the byte buffer must point to an "annotation
-     * structure" as described in the RuntimeVisibleAnnotations_attribute:
+     * Pbrsfs tif bnnotbtion bt tif durrfnt position in tif spfdififd
+     * bytf bufffr, rfsolving donstbnt rfffrfndfs in tif spfdififd donstbnt
+     * pool.  Tif dursor of tif bytf bufffr must point to bn "bnnotbtion
+     * strudturf" bs dfsdribfd in tif RuntimfVisiblfAnnotbtions_bttributf:
      *
-     * annotation {
-     *    u2    type_index;
-     *       u2    num_member_value_pairs;
-     *       {    u2    member_name_index;
-     *             member_value value;
-     *       }    member_value_pairs[num_member_value_pairs];
+     * bnnotbtion {
+     *    u2    typf_indfx;
+     *       u2    num_mfmbfr_vbluf_pbirs;
+     *       {    u2    mfmbfr_nbmf_indfx;
+     *             mfmbfr_vbluf vbluf;
+     *       }    mfmbfr_vbluf_pbirs[num_mfmbfr_vbluf_pbirs];
      *    }
      * }
      *
-     * Returns the annotation, or null if the annotation's type cannot
-     * be found by the VM, or is not a valid annotation type.
+     * Rfturns tif bnnotbtion, or null if tif bnnotbtion's typf dbnnot
+     * bf found by tif VM, or is not b vblid bnnotbtion typf.
      *
-     * @param exceptionOnMissingAnnotationClass if true, throw
-     * TypeNotPresentException if a referenced annotation type is not
-     * available at runtime
+     * @pbrbm fxdfptionOnMissingAnnotbtionClbss if truf, tirow
+     * TypfNotPrfsfntExdfption if b rfffrfndfd bnnotbtion typf is not
+     * bvbilbblf bt runtimf
      */
-    static Annotation parseAnnotation(ByteBuffer buf,
-                                              ConstantPool constPool,
-                                              Class<?> container,
-                                              boolean exceptionOnMissingAnnotationClass) {
-       return parseAnnotation2(buf, constPool, container, exceptionOnMissingAnnotationClass, null);
+    stbtid Annotbtion pbrsfAnnotbtion(BytfBufffr buf,
+                                              ConstbntPool donstPool,
+                                              Clbss<?> dontbinfr,
+                                              boolfbn fxdfptionOnMissingAnnotbtionClbss) {
+       rfturn pbrsfAnnotbtion2(buf, donstPool, dontbinfr, fxdfptionOnMissingAnnotbtionClbss, null);
     }
 
-    @SuppressWarnings("unchecked")
-    private static Annotation parseAnnotation2(ByteBuffer buf,
-                                              ConstantPool constPool,
-                                              Class<?> container,
-                                              boolean exceptionOnMissingAnnotationClass,
-                                              Class<? extends Annotation>[] selectAnnotationClasses) {
-        int typeIndex = buf.getShort() & 0xFFFF;
-        Class<? extends Annotation> annotationClass = null;
+    @SupprfssWbrnings("undifdkfd")
+    privbtf stbtid Annotbtion pbrsfAnnotbtion2(BytfBufffr buf,
+                                              ConstbntPool donstPool,
+                                              Clbss<?> dontbinfr,
+                                              boolfbn fxdfptionOnMissingAnnotbtionClbss,
+                                              Clbss<? fxtfnds Annotbtion>[] sflfdtAnnotbtionClbssfs) {
+        int typfIndfx = buf.gftSiort() & 0xFFFF;
+        Clbss<? fxtfnds Annotbtion> bnnotbtionClbss = null;
         String sig = "[unknown]";
         try {
             try {
-                sig = constPool.getUTF8At(typeIndex);
-                annotationClass = (Class<? extends Annotation>)parseSig(sig, container);
-            } catch (IllegalArgumentException ex) {
-                // support obsolete early jsr175 format class files
-                annotationClass = (Class<? extends Annotation>)constPool.getClassAt(typeIndex);
+                sig = donstPool.gftUTF8At(typfIndfx);
+                bnnotbtionClbss = (Clbss<? fxtfnds Annotbtion>)pbrsfSig(sig, dontbinfr);
+            } dbtdi (IllfgblArgumfntExdfption fx) {
+                // support obsolftf fbrly jsr175 formbt dlbss filfs
+                bnnotbtionClbss = (Clbss<? fxtfnds Annotbtion>)donstPool.gftClbssAt(typfIndfx);
             }
-        } catch (NoClassDefFoundError e) {
-            if (exceptionOnMissingAnnotationClass)
-                // note: at this point sig is "[unknown]" or VM-style
-                // name instead of a binary name
-                throw new TypeNotPresentException(sig, e);
-            skipAnnotation(buf, false);
-            return null;
+        } dbtdi (NoClbssDffFoundError f) {
+            if (fxdfptionOnMissingAnnotbtionClbss)
+                // notf: bt tiis point sig is "[unknown]" or VM-stylf
+                // nbmf instfbd of b binbry nbmf
+                tirow nfw TypfNotPrfsfntExdfption(sig, f);
+            skipAnnotbtion(buf, fblsf);
+            rfturn null;
         }
-        catch (TypeNotPresentException e) {
-            if (exceptionOnMissingAnnotationClass)
-                throw e;
-            skipAnnotation(buf, false);
-            return null;
+        dbtdi (TypfNotPrfsfntExdfption f) {
+            if (fxdfptionOnMissingAnnotbtionClbss)
+                tirow f;
+            skipAnnotbtion(buf, fblsf);
+            rfturn null;
         }
-        if (selectAnnotationClasses != null && !contains(selectAnnotationClasses, annotationClass)) {
-            skipAnnotation(buf, false);
-            return null;
+        if (sflfdtAnnotbtionClbssfs != null && !dontbins(sflfdtAnnotbtionClbssfs, bnnotbtionClbss)) {
+            skipAnnotbtion(buf, fblsf);
+            rfturn null;
         }
-        AnnotationType type = null;
+        AnnotbtionTypf typf = null;
         try {
-            type = AnnotationType.getInstance(annotationClass);
-        } catch (IllegalArgumentException e) {
-            skipAnnotation(buf, false);
-            return null;
+            typf = AnnotbtionTypf.gftInstbndf(bnnotbtionClbss);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            skipAnnotbtion(buf, fblsf);
+            rfturn null;
         }
 
-        Map<String, Class<?>> memberTypes = type.memberTypes();
-        Map<String, Object> memberValues =
-            new LinkedHashMap<String, Object>(type.memberDefaults());
+        Mbp<String, Clbss<?>> mfmbfrTypfs = typf.mfmbfrTypfs();
+        Mbp<String, Objfdt> mfmbfrVblufs =
+            nfw LinkfdHbsiMbp<String, Objfdt>(typf.mfmbfrDffbults());
 
-        int numMembers = buf.getShort() & 0xFFFF;
-        for (int i = 0; i < numMembers; i++) {
-            int memberNameIndex = buf.getShort() & 0xFFFF;
-            String memberName = constPool.getUTF8At(memberNameIndex);
-            Class<?> memberType = memberTypes.get(memberName);
+        int numMfmbfrs = buf.gftSiort() & 0xFFFF;
+        for (int i = 0; i < numMfmbfrs; i++) {
+            int mfmbfrNbmfIndfx = buf.gftSiort() & 0xFFFF;
+            String mfmbfrNbmf = donstPool.gftUTF8At(mfmbfrNbmfIndfx);
+            Clbss<?> mfmbfrTypf = mfmbfrTypfs.gft(mfmbfrNbmf);
 
-            if (memberType == null) {
-                // Member is no longer present in annotation type; ignore it
-                skipMemberValue(buf);
-            } else {
-                Object value = parseMemberValue(memberType, buf, constPool, container);
-                if (value instanceof AnnotationTypeMismatchExceptionProxy)
-                    ((AnnotationTypeMismatchExceptionProxy) value).
-                        setMember(type.members().get(memberName));
-                memberValues.put(memberName, value);
+            if (mfmbfrTypf == null) {
+                // Mfmbfr is no longfr prfsfnt in bnnotbtion typf; ignorf it
+                skipMfmbfrVbluf(buf);
+            } flsf {
+                Objfdt vbluf = pbrsfMfmbfrVbluf(mfmbfrTypf, buf, donstPool, dontbinfr);
+                if (vbluf instbndfof AnnotbtionTypfMismbtdiExdfptionProxy)
+                    ((AnnotbtionTypfMismbtdiExdfptionProxy) vbluf).
+                        sftMfmbfr(typf.mfmbfrs().gft(mfmbfrNbmf));
+                mfmbfrVblufs.put(mfmbfrNbmf, vbluf);
             }
         }
-        return annotationForMap(annotationClass, memberValues);
+        rfturn bnnotbtionForMbp(bnnotbtionClbss, mfmbfrVblufs);
     }
 
     /**
-     * Returns an annotation of the given type backed by the given
-     * member -> value map.
+     * Rfturns bn bnnotbtion of tif givfn typf bbdkfd by tif givfn
+     * mfmbfr -> vbluf mbp.
      */
-    public static Annotation annotationForMap(final Class<? extends Annotation> type,
-                                              final Map<String, Object> memberValues)
+    publid stbtid Annotbtion bnnotbtionForMbp(finbl Clbss<? fxtfnds Annotbtion> typf,
+                                              finbl Mbp<String, Objfdt> mfmbfrVblufs)
     {
-        return AccessController.doPrivileged(new PrivilegedAction<Annotation>() {
-            public Annotation run() {
-                return (Annotation) Proxy.newProxyInstance(
-                    type.getClassLoader(), new Class<?>[] { type },
-                    new AnnotationInvocationHandler(type, memberValues));
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Annotbtion>() {
+            publid Annotbtion run() {
+                rfturn (Annotbtion) Proxy.nfwProxyInstbndf(
+                    typf.gftClbssLobdfr(), nfw Clbss<?>[] { typf },
+                    nfw AnnotbtionInvodbtionHbndlfr(typf, mfmbfrVblufs));
             }});
     }
 
     /**
-     * Parses the annotation member value at the current position in the
-     * specified byte buffer, resolving constant references in the specified
-     * constant pool.  The cursor of the byte buffer must point to a
-     * "member_value structure" as described in the
-     * RuntimeVisibleAnnotations_attribute:
+     * Pbrsfs tif bnnotbtion mfmbfr vbluf bt tif durrfnt position in tif
+     * spfdififd bytf bufffr, rfsolving donstbnt rfffrfndfs in tif spfdififd
+     * donstbnt pool.  Tif dursor of tif bytf bufffr must point to b
+     * "mfmbfr_vbluf strudturf" bs dfsdribfd in tif
+     * RuntimfVisiblfAnnotbtions_bttributf:
      *
-     *  member_value {
-     *    u1 tag;
+     *  mfmbfr_vbluf {
+     *    u1 tbg;
      *    union {
-     *       u2   const_value_index;
+     *       u2   donst_vbluf_indfx;
      *       {
-     *           u2   type_name_index;
-     *           u2   const_name_index;
-     *       } enum_const_value;
-     *       u2   class_info_index;
-     *       annotation annotation_value;
+     *           u2   typf_nbmf_indfx;
+     *           u2   donst_nbmf_indfx;
+     *       } fnum_donst_vbluf;
+     *       u2   dlbss_info_indfx;
+     *       bnnotbtion bnnotbtion_vbluf;
      *       {
-     *           u2    num_values;
-     *           member_value values[num_values];
-     *       } array_value;
-     *    } value;
+     *           u2    num_vblufs;
+     *           mfmbfr_vbluf vblufs[num_vblufs];
+     *       } brrby_vbluf;
+     *    } vbluf;
      * }
      *
-     * The member must be of the indicated type. If it is not, this
-     * method returns an AnnotationTypeMismatchExceptionProxy.
+     * Tif mfmbfr must bf of tif indidbtfd typf. If it is not, tiis
+     * mftiod rfturns bn AnnotbtionTypfMismbtdiExdfptionProxy.
      */
-    @SuppressWarnings("unchecked")
-    public static Object parseMemberValue(Class<?> memberType,
-                                          ByteBuffer buf,
-                                          ConstantPool constPool,
-                                          Class<?> container) {
-        Object result = null;
-        int tag = buf.get();
-        switch(tag) {
-          case 'e':
-              return parseEnumValue((Class<? extends Enum<?>>)memberType, buf, constPool, container);
-          case 'c':
-              result = parseClassValue(buf, constPool, container);
-              break;
-          case '@':
-              result = parseAnnotation(buf, constPool, container, true);
-              break;
-          case '[':
-              return parseArray(memberType, buf, constPool, container);
-          default:
-              result = parseConst(tag, buf, constPool);
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid Objfdt pbrsfMfmbfrVbluf(Clbss<?> mfmbfrTypf,
+                                          BytfBufffr buf,
+                                          ConstbntPool donstPool,
+                                          Clbss<?> dontbinfr) {
+        Objfdt rfsult = null;
+        int tbg = buf.gft();
+        switdi(tbg) {
+          dbsf 'f':
+              rfturn pbrsfEnumVbluf((Clbss<? fxtfnds Enum<?>>)mfmbfrTypf, buf, donstPool, dontbinfr);
+          dbsf 'd':
+              rfsult = pbrsfClbssVbluf(buf, donstPool, dontbinfr);
+              brfbk;
+          dbsf '@':
+              rfsult = pbrsfAnnotbtion(buf, donstPool, dontbinfr, truf);
+              brfbk;
+          dbsf '[':
+              rfturn pbrsfArrby(mfmbfrTypf, buf, donstPool, dontbinfr);
+          dffbult:
+              rfsult = pbrsfConst(tbg, buf, donstPool);
         }
 
-        if (!(result instanceof ExceptionProxy) &&
-            !memberType.isInstance(result))
-            result = new AnnotationTypeMismatchExceptionProxy(
-                result.getClass() + "[" + result + "]");
-        return result;
+        if (!(rfsult instbndfof ExdfptionProxy) &&
+            !mfmbfrTypf.isInstbndf(rfsult))
+            rfsult = nfw AnnotbtionTypfMismbtdiExdfptionProxy(
+                rfsult.gftClbss() + "[" + rfsult + "]");
+        rfturn rfsult;
     }
 
     /**
-     * Parses the primitive or String annotation member value indicated by
-     * the specified tag byte at the current position in the specified byte
-     * buffer, resolving constant reference in the specified constant pool.
-     * The cursor of the byte buffer must point to an annotation member value
-     * of the type indicated by the specified tag, as described in the
-     * RuntimeVisibleAnnotations_attribute:
+     * Pbrsfs tif primitivf or String bnnotbtion mfmbfr vbluf indidbtfd by
+     * tif spfdififd tbg bytf bt tif durrfnt position in tif spfdififd bytf
+     * bufffr, rfsolving donstbnt rfffrfndf in tif spfdififd donstbnt pool.
+     * Tif dursor of tif bytf bufffr must point to bn bnnotbtion mfmbfr vbluf
+     * of tif typf indidbtfd by tif spfdififd tbg, bs dfsdribfd in tif
+     * RuntimfVisiblfAnnotbtions_bttributf:
      *
-     *       u2   const_value_index;
+     *       u2   donst_vbluf_indfx;
      */
-    private static Object parseConst(int tag,
-                                     ByteBuffer buf, ConstantPool constPool) {
-        int constIndex = buf.getShort() & 0xFFFF;
-        switch(tag) {
-          case 'B':
-            return Byte.valueOf((byte) constPool.getIntAt(constIndex));
-          case 'C':
-            return Character.valueOf((char) constPool.getIntAt(constIndex));
-          case 'D':
-            return Double.valueOf(constPool.getDoubleAt(constIndex));
-          case 'F':
-            return Float.valueOf(constPool.getFloatAt(constIndex));
-          case 'I':
-            return Integer.valueOf(constPool.getIntAt(constIndex));
-          case 'J':
-            return Long.valueOf(constPool.getLongAt(constIndex));
-          case 'S':
-            return Short.valueOf((short) constPool.getIntAt(constIndex));
-          case 'Z':
-            return Boolean.valueOf(constPool.getIntAt(constIndex) != 0);
-          case 's':
-            return constPool.getUTF8At(constIndex);
-          default:
-            throw new AnnotationFormatError(
-                "Invalid member-value tag in annotation: " + tag);
+    privbtf stbtid Objfdt pbrsfConst(int tbg,
+                                     BytfBufffr buf, ConstbntPool donstPool) {
+        int donstIndfx = buf.gftSiort() & 0xFFFF;
+        switdi(tbg) {
+          dbsf 'B':
+            rfturn Bytf.vblufOf((bytf) donstPool.gftIntAt(donstIndfx));
+          dbsf 'C':
+            rfturn Cibrbdtfr.vblufOf((dibr) donstPool.gftIntAt(donstIndfx));
+          dbsf 'D':
+            rfturn Doublf.vblufOf(donstPool.gftDoublfAt(donstIndfx));
+          dbsf 'F':
+            rfturn Flobt.vblufOf(donstPool.gftFlobtAt(donstIndfx));
+          dbsf 'I':
+            rfturn Intfgfr.vblufOf(donstPool.gftIntAt(donstIndfx));
+          dbsf 'J':
+            rfturn Long.vblufOf(donstPool.gftLongAt(donstIndfx));
+          dbsf 'S':
+            rfturn Siort.vblufOf((siort) donstPool.gftIntAt(donstIndfx));
+          dbsf 'Z':
+            rfturn Boolfbn.vblufOf(donstPool.gftIntAt(donstIndfx) != 0);
+          dbsf 's':
+            rfturn donstPool.gftUTF8At(donstIndfx);
+          dffbult:
+            tirow nfw AnnotbtionFormbtError(
+                "Invblid mfmbfr-vbluf tbg in bnnotbtion: " + tbg);
         }
     }
 
     /**
-     * Parses the Class member value at the current position in the
-     * specified byte buffer, resolving constant references in the specified
-     * constant pool.  The cursor of the byte buffer must point to a "class
-     * info index" as described in the RuntimeVisibleAnnotations_attribute:
+     * Pbrsfs tif Clbss mfmbfr vbluf bt tif durrfnt position in tif
+     * spfdififd bytf bufffr, rfsolving donstbnt rfffrfndfs in tif spfdififd
+     * donstbnt pool.  Tif dursor of tif bytf bufffr must point to b "dlbss
+     * info indfx" bs dfsdribfd in tif RuntimfVisiblfAnnotbtions_bttributf:
      *
-     *       u2   class_info_index;
+     *       u2   dlbss_info_indfx;
      */
-    private static Object parseClassValue(ByteBuffer buf,
-                                          ConstantPool constPool,
-                                          Class<?> container) {
-        int classIndex = buf.getShort() & 0xFFFF;
+    privbtf stbtid Objfdt pbrsfClbssVbluf(BytfBufffr buf,
+                                          ConstbntPool donstPool,
+                                          Clbss<?> dontbinfr) {
+        int dlbssIndfx = buf.gftSiort() & 0xFFFF;
         try {
             try {
-                String sig = constPool.getUTF8At(classIndex);
-                return parseSig(sig, container);
-            } catch (IllegalArgumentException ex) {
-                // support obsolete early jsr175 format class files
-                return constPool.getClassAt(classIndex);
+                String sig = donstPool.gftUTF8At(dlbssIndfx);
+                rfturn pbrsfSig(sig, dontbinfr);
+            } dbtdi (IllfgblArgumfntExdfption fx) {
+                // support obsolftf fbrly jsr175 formbt dlbss filfs
+                rfturn donstPool.gftClbssAt(dlbssIndfx);
             }
-        } catch (NoClassDefFoundError e) {
-            return new TypeNotPresentExceptionProxy("[unknown]", e);
+        } dbtdi (NoClbssDffFoundError f) {
+            rfturn nfw TypfNotPrfsfntExdfptionProxy("[unknown]", f);
         }
-        catch (TypeNotPresentException e) {
-            return new TypeNotPresentExceptionProxy(e.typeName(), e.getCause());
+        dbtdi (TypfNotPrfsfntExdfption f) {
+            rfturn nfw TypfNotPrfsfntExdfptionProxy(f.typfNbmf(), f.gftCbusf());
         }
     }
 
-    private static Class<?> parseSig(String sig, Class<?> container) {
-        if (sig.equals("V")) return void.class;
-        SignatureParser parser = SignatureParser.make();
-        TypeSignature typeSig = parser.parseTypeSig(sig);
-        GenericsFactory factory = CoreReflectionFactory.make(container, ClassScope.make(container));
-        Reifier reify = Reifier.make(factory);
-        typeSig.accept(reify);
-        Type result = reify.getResult();
-        return toClass(result);
+    privbtf stbtid Clbss<?> pbrsfSig(String sig, Clbss<?> dontbinfr) {
+        if (sig.fqubls("V")) rfturn void.dlbss;
+        SignbturfPbrsfr pbrsfr = SignbturfPbrsfr.mbkf();
+        TypfSignbturf typfSig = pbrsfr.pbrsfTypfSig(sig);
+        GfnfridsFbdtory fbdtory = CorfRfflfdtionFbdtory.mbkf(dontbinfr, ClbssSdopf.mbkf(dontbinfr));
+        Rfififr rfify = Rfififr.mbkf(fbdtory);
+        typfSig.bddfpt(rfify);
+        Typf rfsult = rfify.gftRfsult();
+        rfturn toClbss(rfsult);
     }
-    static Class<?> toClass(Type o) {
-        if (o instanceof GenericArrayType)
-            return Array.newInstance(toClass(((GenericArrayType)o).getGenericComponentType()),
+    stbtid Clbss<?> toClbss(Typf o) {
+        if (o instbndfof GfnfridArrbyTypf)
+            rfturn Arrby.nfwInstbndf(toClbss(((GfnfridArrbyTypf)o).gftGfnfridComponfntTypf()),
                                      0)
-                .getClass();
-        return (Class)o;
+                .gftClbss();
+        rfturn (Clbss)o;
     }
 
     /**
-     * Parses the enum constant member value at the current position in the
-     * specified byte buffer, resolving constant references in the specified
-     * constant pool.  The cursor of the byte buffer must point to a
-     * "enum_const_value structure" as described in the
-     * RuntimeVisibleAnnotations_attribute:
+     * Pbrsfs tif fnum donstbnt mfmbfr vbluf bt tif durrfnt position in tif
+     * spfdififd bytf bufffr, rfsolving donstbnt rfffrfndfs in tif spfdififd
+     * donstbnt pool.  Tif dursor of tif bytf bufffr must point to b
+     * "fnum_donst_vbluf strudturf" bs dfsdribfd in tif
+     * RuntimfVisiblfAnnotbtions_bttributf:
      *
      *       {
-     *           u2   type_name_index;
-     *           u2   const_name_index;
-     *       } enum_const_value;
+     *           u2   typf_nbmf_indfx;
+     *           u2   donst_nbmf_indfx;
+     *       } fnum_donst_vbluf;
      */
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    private static Object parseEnumValue(Class<? extends Enum> enumType, ByteBuffer buf,
-                                         ConstantPool constPool,
-                                         Class<?> container) {
-        int typeNameIndex = buf.getShort() & 0xFFFF;
-        String typeName  = constPool.getUTF8At(typeNameIndex);
-        int constNameIndex = buf.getShort() & 0xFFFF;
-        String constName = constPool.getUTF8At(constNameIndex);
+    @SupprfssWbrnings({"rbwtypfs", "undifdkfd"})
+    privbtf stbtid Objfdt pbrsfEnumVbluf(Clbss<? fxtfnds Enum> fnumTypf, BytfBufffr buf,
+                                         ConstbntPool donstPool,
+                                         Clbss<?> dontbinfr) {
+        int typfNbmfIndfx = buf.gftSiort() & 0xFFFF;
+        String typfNbmf  = donstPool.gftUTF8At(typfNbmfIndfx);
+        int donstNbmfIndfx = buf.gftSiort() & 0xFFFF;
+        String donstNbmf = donstPool.gftUTF8At(donstNbmfIndfx);
 
-        if (!typeName.endsWith(";")) {
-            // support now-obsolete early jsr175-format class files.
-            if (!enumType.getName().equals(typeName))
-            return new AnnotationTypeMismatchExceptionProxy(
-                typeName + "." + constName);
-        } else if (enumType != parseSig(typeName, container)) {
-            return new AnnotationTypeMismatchExceptionProxy(
-                typeName + "." + constName);
+        if (!typfNbmf.fndsWiti(";")) {
+            // support now-obsolftf fbrly jsr175-formbt dlbss filfs.
+            if (!fnumTypf.gftNbmf().fqubls(typfNbmf))
+            rfturn nfw AnnotbtionTypfMismbtdiExdfptionProxy(
+                typfNbmf + "." + donstNbmf);
+        } flsf if (fnumTypf != pbrsfSig(typfNbmf, dontbinfr)) {
+            rfturn nfw AnnotbtionTypfMismbtdiExdfptionProxy(
+                typfNbmf + "." + donstNbmf);
         }
 
         try {
-            return  Enum.valueOf(enumType, constName);
-        } catch(IllegalArgumentException e) {
-            return new EnumConstantNotPresentExceptionProxy(
-                (Class<? extends Enum<?>>)enumType, constName);
+            rfturn  Enum.vblufOf(fnumTypf, donstNbmf);
+        } dbtdi(IllfgblArgumfntExdfption f) {
+            rfturn nfw EnumConstbntNotPrfsfntExdfptionProxy(
+                (Clbss<? fxtfnds Enum<?>>)fnumTypf, donstNbmf);
         }
     }
 
     /**
-     * Parses the array value at the current position in the specified byte
-     * buffer, resolving constant references in the specified constant pool.
-     * The cursor of the byte buffer must point to an array value struct
-     * as specified in the RuntimeVisibleAnnotations_attribute:
+     * Pbrsfs tif brrby vbluf bt tif durrfnt position in tif spfdififd bytf
+     * bufffr, rfsolving donstbnt rfffrfndfs in tif spfdififd donstbnt pool.
+     * Tif dursor of tif bytf bufffr must point to bn brrby vbluf strudt
+     * bs spfdififd in tif RuntimfVisiblfAnnotbtions_bttributf:
      *
      *       {
-     *           u2    num_values;
-     *           member_value values[num_values];
-     *       } array_value;
+     *           u2    num_vblufs;
+     *           mfmbfr_vbluf vblufs[num_vblufs];
+     *       } brrby_vbluf;
      *
-     * If the array values do not match arrayType, an
-     * AnnotationTypeMismatchExceptionProxy will be returned.
+     * If tif brrby vblufs do not mbtdi brrbyTypf, bn
+     * AnnotbtionTypfMismbtdiExdfptionProxy will bf rfturnfd.
      */
-    @SuppressWarnings("unchecked")
-    private static Object parseArray(Class<?> arrayType,
-                                     ByteBuffer buf,
-                                     ConstantPool constPool,
-                                     Class<?> container) {
-        int length = buf.getShort() & 0xFFFF;  // Number of array components
-        Class<?> componentType = arrayType.getComponentType();
+    @SupprfssWbrnings("undifdkfd")
+    privbtf stbtid Objfdt pbrsfArrby(Clbss<?> brrbyTypf,
+                                     BytfBufffr buf,
+                                     ConstbntPool donstPool,
+                                     Clbss<?> dontbinfr) {
+        int lfngti = buf.gftSiort() & 0xFFFF;  // Numbfr of brrby domponfnts
+        Clbss<?> domponfntTypf = brrbyTypf.gftComponfntTypf();
 
-        if (componentType == byte.class) {
-            return parseByteArray(length, buf, constPool);
-        } else if (componentType == char.class) {
-            return parseCharArray(length, buf, constPool);
-        } else if (componentType == double.class) {
-            return parseDoubleArray(length, buf, constPool);
-        } else if (componentType == float.class) {
-            return parseFloatArray(length, buf, constPool);
-        } else if (componentType == int.class) {
-            return parseIntArray(length, buf, constPool);
-        } else if (componentType == long.class) {
-            return parseLongArray(length, buf, constPool);
-        } else if (componentType == short.class) {
-            return parseShortArray(length, buf, constPool);
-        } else if (componentType == boolean.class) {
-            return parseBooleanArray(length, buf, constPool);
-        } else if (componentType == String.class) {
-            return parseStringArray(length, buf, constPool);
-        } else if (componentType == Class.class) {
-            return parseClassArray(length, buf, constPool, container);
-        } else if (componentType.isEnum()) {
-            return parseEnumArray(length, (Class<? extends Enum<?>>)componentType, buf,
-                                  constPool, container);
-        } else {
-            assert componentType.isAnnotation();
-            return parseAnnotationArray(length, (Class <? extends Annotation>)componentType, buf,
-                                        constPool, container);
+        if (domponfntTypf == bytf.dlbss) {
+            rfturn pbrsfBytfArrby(lfngti, buf, donstPool);
+        } flsf if (domponfntTypf == dibr.dlbss) {
+            rfturn pbrsfCibrArrby(lfngti, buf, donstPool);
+        } flsf if (domponfntTypf == doublf.dlbss) {
+            rfturn pbrsfDoublfArrby(lfngti, buf, donstPool);
+        } flsf if (domponfntTypf == flobt.dlbss) {
+            rfturn pbrsfFlobtArrby(lfngti, buf, donstPool);
+        } flsf if (domponfntTypf == int.dlbss) {
+            rfturn pbrsfIntArrby(lfngti, buf, donstPool);
+        } flsf if (domponfntTypf == long.dlbss) {
+            rfturn pbrsfLongArrby(lfngti, buf, donstPool);
+        } flsf if (domponfntTypf == siort.dlbss) {
+            rfturn pbrsfSiortArrby(lfngti, buf, donstPool);
+        } flsf if (domponfntTypf == boolfbn.dlbss) {
+            rfturn pbrsfBoolfbnArrby(lfngti, buf, donstPool);
+        } flsf if (domponfntTypf == String.dlbss) {
+            rfturn pbrsfStringArrby(lfngti, buf, donstPool);
+        } flsf if (domponfntTypf == Clbss.dlbss) {
+            rfturn pbrsfClbssArrby(lfngti, buf, donstPool, dontbinfr);
+        } flsf if (domponfntTypf.isEnum()) {
+            rfturn pbrsfEnumArrby(lfngti, (Clbss<? fxtfnds Enum<?>>)domponfntTypf, buf,
+                                  donstPool, dontbinfr);
+        } flsf {
+            bssfrt domponfntTypf.isAnnotbtion();
+            rfturn pbrsfAnnotbtionArrby(lfngti, (Clbss <? fxtfnds Annotbtion>)domponfntTypf, buf,
+                                        donstPool, dontbinfr);
         }
     }
 
-    private static Object parseByteArray(int length,
-                                  ByteBuffer buf, ConstantPool constPool) {
-        byte[] result = new byte[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+    privbtf stbtid Objfdt pbrsfBytfArrby(int lfngti,
+                                  BytfBufffr buf, ConstbntPool donstPool) {
+        bytf[] rfsult = nfw bytf[lfngti];
+        boolfbn typfMismbtdi = fblsf;
+        int tbg = 0;
 
-        for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'B') {
-                int index = buf.getShort() & 0xFFFF;
-                result[i] = (byte) constPool.getIntAt(index);
-            } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+        for (int i = 0; i < lfngti; i++) {
+            tbg = buf.gft();
+            if (tbg == 'B') {
+                int indfx = buf.gftSiort() & 0xFFFF;
+                rfsult[i] = (bytf) donstPool.gftIntAt(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdi = truf;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        rfturn typfMismbtdi ? fxdfptionProxy(tbg) : rfsult;
     }
 
-    private static Object parseCharArray(int length,
-                                  ByteBuffer buf, ConstantPool constPool) {
-        char[] result = new char[length];
-        boolean typeMismatch = false;
-        byte tag = 0;
+    privbtf stbtid Objfdt pbrsfCibrArrby(int lfngti,
+                                  BytfBufffr buf, ConstbntPool donstPool) {
+        dibr[] rfsult = nfw dibr[lfngti];
+        boolfbn typfMismbtdi = fblsf;
+        bytf tbg = 0;
 
-        for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'C') {
-                int index = buf.getShort() & 0xFFFF;
-                result[i] = (char) constPool.getIntAt(index);
-            } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+        for (int i = 0; i < lfngti; i++) {
+            tbg = buf.gft();
+            if (tbg == 'C') {
+                int indfx = buf.gftSiort() & 0xFFFF;
+                rfsult[i] = (dibr) donstPool.gftIntAt(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdi = truf;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        rfturn typfMismbtdi ? fxdfptionProxy(tbg) : rfsult;
     }
 
-    private static Object parseDoubleArray(int length,
-                                    ByteBuffer buf, ConstantPool constPool) {
-        double[] result = new  double[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+    privbtf stbtid Objfdt pbrsfDoublfArrby(int lfngti,
+                                    BytfBufffr buf, ConstbntPool donstPool) {
+        doublf[] rfsult = nfw  doublf[lfngti];
+        boolfbn typfMismbtdi = fblsf;
+        int tbg = 0;
 
-        for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'D') {
-                int index = buf.getShort() & 0xFFFF;
-                result[i] = constPool.getDoubleAt(index);
-            } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+        for (int i = 0; i < lfngti; i++) {
+            tbg = buf.gft();
+            if (tbg == 'D') {
+                int indfx = buf.gftSiort() & 0xFFFF;
+                rfsult[i] = donstPool.gftDoublfAt(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdi = truf;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        rfturn typfMismbtdi ? fxdfptionProxy(tbg) : rfsult;
     }
 
-    private static Object parseFloatArray(int length,
-                                   ByteBuffer buf, ConstantPool constPool) {
-        float[] result = new float[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+    privbtf stbtid Objfdt pbrsfFlobtArrby(int lfngti,
+                                   BytfBufffr buf, ConstbntPool donstPool) {
+        flobt[] rfsult = nfw flobt[lfngti];
+        boolfbn typfMismbtdi = fblsf;
+        int tbg = 0;
 
-        for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'F') {
-                int index = buf.getShort() & 0xFFFF;
-                result[i] = constPool.getFloatAt(index);
-            } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+        for (int i = 0; i < lfngti; i++) {
+            tbg = buf.gft();
+            if (tbg == 'F') {
+                int indfx = buf.gftSiort() & 0xFFFF;
+                rfsult[i] = donstPool.gftFlobtAt(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdi = truf;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        rfturn typfMismbtdi ? fxdfptionProxy(tbg) : rfsult;
     }
 
-    private static Object parseIntArray(int length,
-                                 ByteBuffer buf, ConstantPool constPool) {
-        int[] result = new  int[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+    privbtf stbtid Objfdt pbrsfIntArrby(int lfngti,
+                                 BytfBufffr buf, ConstbntPool donstPool) {
+        int[] rfsult = nfw  int[lfngti];
+        boolfbn typfMismbtdi = fblsf;
+        int tbg = 0;
 
-        for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'I') {
-                int index = buf.getShort() & 0xFFFF;
-                result[i] = constPool.getIntAt(index);
-            } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+        for (int i = 0; i < lfngti; i++) {
+            tbg = buf.gft();
+            if (tbg == 'I') {
+                int indfx = buf.gftSiort() & 0xFFFF;
+                rfsult[i] = donstPool.gftIntAt(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdi = truf;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        rfturn typfMismbtdi ? fxdfptionProxy(tbg) : rfsult;
     }
 
-    private static Object parseLongArray(int length,
-                                  ByteBuffer buf, ConstantPool constPool) {
-        long[] result = new long[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+    privbtf stbtid Objfdt pbrsfLongArrby(int lfngti,
+                                  BytfBufffr buf, ConstbntPool donstPool) {
+        long[] rfsult = nfw long[lfngti];
+        boolfbn typfMismbtdi = fblsf;
+        int tbg = 0;
 
-        for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'J') {
-                int index = buf.getShort() & 0xFFFF;
-                result[i] = constPool.getLongAt(index);
-            } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+        for (int i = 0; i < lfngti; i++) {
+            tbg = buf.gft();
+            if (tbg == 'J') {
+                int indfx = buf.gftSiort() & 0xFFFF;
+                rfsult[i] = donstPool.gftLongAt(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdi = truf;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        rfturn typfMismbtdi ? fxdfptionProxy(tbg) : rfsult;
     }
 
-    private static Object parseShortArray(int length,
-                                   ByteBuffer buf, ConstantPool constPool) {
-        short[] result = new short[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+    privbtf stbtid Objfdt pbrsfSiortArrby(int lfngti,
+                                   BytfBufffr buf, ConstbntPool donstPool) {
+        siort[] rfsult = nfw siort[lfngti];
+        boolfbn typfMismbtdi = fblsf;
+        int tbg = 0;
 
-        for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'S') {
-                int index = buf.getShort() & 0xFFFF;
-                result[i] = (short) constPool.getIntAt(index);
-            } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+        for (int i = 0; i < lfngti; i++) {
+            tbg = buf.gft();
+            if (tbg == 'S') {
+                int indfx = buf.gftSiort() & 0xFFFF;
+                rfsult[i] = (siort) donstPool.gftIntAt(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdi = truf;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        rfturn typfMismbtdi ? fxdfptionProxy(tbg) : rfsult;
     }
 
-    private static Object parseBooleanArray(int length,
-                                     ByteBuffer buf, ConstantPool constPool) {
-        boolean[] result = new boolean[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+    privbtf stbtid Objfdt pbrsfBoolfbnArrby(int lfngti,
+                                     BytfBufffr buf, ConstbntPool donstPool) {
+        boolfbn[] rfsult = nfw boolfbn[lfngti];
+        boolfbn typfMismbtdi = fblsf;
+        int tbg = 0;
 
-        for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'Z') {
-                int index = buf.getShort() & 0xFFFF;
-                result[i] = (constPool.getIntAt(index) != 0);
-            } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+        for (int i = 0; i < lfngti; i++) {
+            tbg = buf.gft();
+            if (tbg == 'Z') {
+                int indfx = buf.gftSiort() & 0xFFFF;
+                rfsult[i] = (donstPool.gftIntAt(indfx) != 0);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdi = truf;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        rfturn typfMismbtdi ? fxdfptionProxy(tbg) : rfsult;
     }
 
-    private static Object parseStringArray(int length,
-                                    ByteBuffer buf,  ConstantPool constPool) {
-        String[] result = new String[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+    privbtf stbtid Objfdt pbrsfStringArrby(int lfngti,
+                                    BytfBufffr buf,  ConstbntPool donstPool) {
+        String[] rfsult = nfw String[lfngti];
+        boolfbn typfMismbtdi = fblsf;
+        int tbg = 0;
 
-        for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 's') {
-                int index = buf.getShort() & 0xFFFF;
-                result[i] = constPool.getUTF8At(index);
-            } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+        for (int i = 0; i < lfngti; i++) {
+            tbg = buf.gft();
+            if (tbg == 's') {
+                int indfx = buf.gftSiort() & 0xFFFF;
+                rfsult[i] = donstPool.gftUTF8At(indfx);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdi = truf;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        rfturn typfMismbtdi ? fxdfptionProxy(tbg) : rfsult;
     }
 
-    private static Object parseClassArray(int length,
-                                          ByteBuffer buf,
-                                          ConstantPool constPool,
-                                          Class<?> container) {
-        Object[] result = new Class<?>[length];
-        boolean typeMismatch = false;
-        int tag = 0;
+    privbtf stbtid Objfdt pbrsfClbssArrby(int lfngti,
+                                          BytfBufffr buf,
+                                          ConstbntPool donstPool,
+                                          Clbss<?> dontbinfr) {
+        Objfdt[] rfsult = nfw Clbss<?>[lfngti];
+        boolfbn typfMismbtdi = fblsf;
+        int tbg = 0;
 
-        for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'c') {
-                result[i] = parseClassValue(buf, constPool, container);
-            } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+        for (int i = 0; i < lfngti; i++) {
+            tbg = buf.gft();
+            if (tbg == 'd') {
+                rfsult[i] = pbrsfClbssVbluf(buf, donstPool, dontbinfr);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdi = truf;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        rfturn typfMismbtdi ? fxdfptionProxy(tbg) : rfsult;
     }
 
-    private static Object parseEnumArray(int length, Class<? extends Enum<?>> enumType,
-                                         ByteBuffer buf,
-                                         ConstantPool constPool,
-                                         Class<?> container) {
-        Object[] result = (Object[]) Array.newInstance(enumType, length);
-        boolean typeMismatch = false;
-        int tag = 0;
+    privbtf stbtid Objfdt pbrsfEnumArrby(int lfngti, Clbss<? fxtfnds Enum<?>> fnumTypf,
+                                         BytfBufffr buf,
+                                         ConstbntPool donstPool,
+                                         Clbss<?> dontbinfr) {
+        Objfdt[] rfsult = (Objfdt[]) Arrby.nfwInstbndf(fnumTypf, lfngti);
+        boolfbn typfMismbtdi = fblsf;
+        int tbg = 0;
 
-        for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == 'e') {
-                result[i] = parseEnumValue(enumType, buf, constPool, container);
-            } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+        for (int i = 0; i < lfngti; i++) {
+            tbg = buf.gft();
+            if (tbg == 'f') {
+                rfsult[i] = pbrsfEnumVbluf(fnumTypf, buf, donstPool, dontbinfr);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdi = truf;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        rfturn typfMismbtdi ? fxdfptionProxy(tbg) : rfsult;
     }
 
-    private static Object parseAnnotationArray(int length,
-                                               Class<? extends Annotation> annotationType,
-                                               ByteBuffer buf,
-                                               ConstantPool constPool,
-                                               Class<?> container) {
-        Object[] result = (Object[]) Array.newInstance(annotationType, length);
-        boolean typeMismatch = false;
-        int tag = 0;
+    privbtf stbtid Objfdt pbrsfAnnotbtionArrby(int lfngti,
+                                               Clbss<? fxtfnds Annotbtion> bnnotbtionTypf,
+                                               BytfBufffr buf,
+                                               ConstbntPool donstPool,
+                                               Clbss<?> dontbinfr) {
+        Objfdt[] rfsult = (Objfdt[]) Arrby.nfwInstbndf(bnnotbtionTypf, lfngti);
+        boolfbn typfMismbtdi = fblsf;
+        int tbg = 0;
 
-        for (int i = 0; i < length; i++) {
-            tag = buf.get();
-            if (tag == '@') {
-                result[i] = parseAnnotation(buf, constPool, container, true);
-            } else {
-                skipMemberValue(tag, buf);
-                typeMismatch = true;
+        for (int i = 0; i < lfngti; i++) {
+            tbg = buf.gft();
+            if (tbg == '@') {
+                rfsult[i] = pbrsfAnnotbtion(buf, donstPool, dontbinfr, truf);
+            } flsf {
+                skipMfmbfrVbluf(tbg, buf);
+                typfMismbtdi = truf;
             }
         }
-        return typeMismatch ? exceptionProxy(tag) : result;
+        rfturn typfMismbtdi ? fxdfptionProxy(tbg) : rfsult;
     }
 
     /**
-     * Return an appropriate exception proxy for a mismatching array
-     * annotation where the erroneous array has the specified tag.
+     * Rfturn bn bppropribtf fxdfption proxy for b mismbtdiing brrby
+     * bnnotbtion wifrf tif frronfous brrby ibs tif spfdififd tbg.
      */
-    private static ExceptionProxy exceptionProxy(int tag) {
-        return new AnnotationTypeMismatchExceptionProxy(
-            "Array with component tag: " + tag);
+    privbtf stbtid ExdfptionProxy fxdfptionProxy(int tbg) {
+        rfturn nfw AnnotbtionTypfMismbtdiExdfptionProxy(
+            "Arrby witi domponfnt tbg: " + tbg);
     }
 
     /**
-     * Skips the annotation at the current position in the specified
-     * byte buffer.  The cursor of the byte buffer must point to
-     * an "annotation structure" OR two bytes into an annotation
-     * structure (i.e., after the type index).
+     * Skips tif bnnotbtion bt tif durrfnt position in tif spfdififd
+     * bytf bufffr.  Tif dursor of tif bytf bufffr must point to
+     * bn "bnnotbtion strudturf" OR two bytfs into bn bnnotbtion
+     * strudturf (i.f., bftfr tif typf indfx).
      *
-     * @parameter complete true if the byte buffer points to the beginning
-     *     of an annotation structure (rather than two bytes in).
+     * @pbrbmftfr domplftf truf if tif bytf bufffr points to tif bfginning
+     *     of bn bnnotbtion strudturf (rbtifr tibn two bytfs in).
      */
-    private static void skipAnnotation(ByteBuffer buf, boolean complete) {
-        if (complete)
-            buf.getShort();   // Skip type index
-        int numMembers = buf.getShort() & 0xFFFF;
-        for (int i = 0; i < numMembers; i++) {
-            buf.getShort();   // Skip memberNameIndex
-            skipMemberValue(buf);
+    privbtf stbtid void skipAnnotbtion(BytfBufffr buf, boolfbn domplftf) {
+        if (domplftf)
+            buf.gftSiort();   // Skip typf indfx
+        int numMfmbfrs = buf.gftSiort() & 0xFFFF;
+        for (int i = 0; i < numMfmbfrs; i++) {
+            buf.gftSiort();   // Skip mfmbfrNbmfIndfx
+            skipMfmbfrVbluf(buf);
         }
     }
 
     /**
-     * Skips the annotation member value at the current position in the
-     * specified byte buffer.  The cursor of the byte buffer must point to a
-     * "member_value structure."
+     * Skips tif bnnotbtion mfmbfr vbluf bt tif durrfnt position in tif
+     * spfdififd bytf bufffr.  Tif dursor of tif bytf bufffr must point to b
+     * "mfmbfr_vbluf strudturf."
      */
-    private static void skipMemberValue(ByteBuffer buf) {
-        int tag = buf.get();
-        skipMemberValue(tag, buf);
+    privbtf stbtid void skipMfmbfrVbluf(BytfBufffr buf) {
+        int tbg = buf.gft();
+        skipMfmbfrVbluf(tbg, buf);
     }
 
     /**
-     * Skips the annotation member value at the current position in the
-     * specified byte buffer.  The cursor of the byte buffer must point
-     * immediately after the tag in a "member_value structure."
+     * Skips tif bnnotbtion mfmbfr vbluf bt tif durrfnt position in tif
+     * spfdififd bytf bufffr.  Tif dursor of tif bytf bufffr must point
+     * immfdibtfly bftfr tif tbg in b "mfmbfr_vbluf strudturf."
      */
-    private static void skipMemberValue(int tag, ByteBuffer buf) {
-        switch(tag) {
-          case 'e': // Enum value
-            buf.getInt();  // (Two shorts, actually.)
-            break;
-          case '@':
-            skipAnnotation(buf, true);
-            break;
-          case '[':
-            skipArray(buf);
-            break;
-          default:
-            // Class, primitive, or String
-            buf.getShort();
+    privbtf stbtid void skipMfmbfrVbluf(int tbg, BytfBufffr buf) {
+        switdi(tbg) {
+          dbsf 'f': // Enum vbluf
+            buf.gftInt();  // (Two siorts, bdtublly.)
+            brfbk;
+          dbsf '@':
+            skipAnnotbtion(buf, truf);
+            brfbk;
+          dbsf '[':
+            skipArrby(buf);
+            brfbk;
+          dffbult:
+            // Clbss, primitivf, or String
+            buf.gftSiort();
         }
     }
 
     /**
-     * Skips the array value at the current position in the specified byte
-     * buffer.  The cursor of the byte buffer must point to an array value
-     * struct.
+     * Skips tif brrby vbluf bt tif durrfnt position in tif spfdififd bytf
+     * bufffr.  Tif dursor of tif bytf bufffr must point to bn brrby vbluf
+     * strudt.
      */
-    private static void skipArray(ByteBuffer buf) {
-        int length = buf.getShort() & 0xFFFF;
-        for (int i = 0; i < length; i++)
-            skipMemberValue(buf);
+    privbtf stbtid void skipArrby(BytfBufffr buf) {
+        int lfngti = buf.gftSiort() & 0xFFFF;
+        for (int i = 0; i < lfngti; i++)
+            skipMfmbfrVbluf(buf);
     }
 
     /**
-     * Searches for given {@code element} in given {@code array} by identity.
-     * Returns {@code true} if found {@code false} if not.
+     * Sfbrdifs for givfn {@dodf flfmfnt} in givfn {@dodf brrby} by idfntity.
+     * Rfturns {@dodf truf} if found {@dodf fblsf} if not.
      */
-    private static boolean contains(Object[] array, Object element) {
-        for (Object e : array)
-            if (e == element)
-                return true;
-        return false;
+    privbtf stbtid boolfbn dontbins(Objfdt[] brrby, Objfdt flfmfnt) {
+        for (Objfdt f : brrby)
+            if (f == flfmfnt)
+                rfturn truf;
+        rfturn fblsf;
     }
 
     /*
-     * This method converts the annotation map returned by the parseAnnotations()
-     * method to an array.  It is called by Field.getDeclaredAnnotations(),
-     * Method.getDeclaredAnnotations(), and Constructor.getDeclaredAnnotations().
-     * This avoids the reflection classes to load the Annotation class until
-     * it is needed.
+     * Tiis mftiod donvfrts tif bnnotbtion mbp rfturnfd by tif pbrsfAnnotbtions()
+     * mftiod to bn brrby.  It is dbllfd by Fifld.gftDfdlbrfdAnnotbtions(),
+     * Mftiod.gftDfdlbrfdAnnotbtions(), bnd Construdtor.gftDfdlbrfdAnnotbtions().
+     * Tiis bvoids tif rfflfdtion dlbssfs to lobd tif Annotbtion dlbss until
+     * it is nffdfd.
      */
-    private static final Annotation[] EMPTY_ANNOTATION_ARRAY = new Annotation[0];
-    public static Annotation[] toArray(Map<Class<? extends Annotation>, Annotation> annotations) {
-        return annotations.values().toArray(EMPTY_ANNOTATION_ARRAY);
+    privbtf stbtid finbl Annotbtion[] EMPTY_ANNOTATION_ARRAY = nfw Annotbtion[0];
+    publid stbtid Annotbtion[] toArrby(Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> bnnotbtions) {
+        rfturn bnnotbtions.vblufs().toArrby(EMPTY_ANNOTATION_ARRAY);
     }
 
-    static Annotation[] getEmptyAnnotationArray() { return EMPTY_ANNOTATION_ARRAY; }
+    stbtid Annotbtion[] gftEmptyAnnotbtionArrby() { rfturn EMPTY_ANNOTATION_ARRAY; }
 }

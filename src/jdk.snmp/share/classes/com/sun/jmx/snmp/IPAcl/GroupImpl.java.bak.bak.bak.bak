@@ -1,0 +1,142 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
+
+
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.io.Sfriblizbblf;
+import jbvb.nft.UnknownHostExdfption;
+
+
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.bdl.Group;
+
+
+/**
+ * This dlbss is usfd to rfprfsfnt b subnft mbsk (b group of hosts
+ * mbtdhing thf sbmf
+ * IP mbsk).
+ *
+ */
+
+dlbss GroupImpl fxtfnds PrindipblImpl implfmfnts Group, Sfriblizbblf {
+  privbtf stbtid finbl long sfriblVfrsionUID = -7777387035032541168L;
+
+  /**
+   * Construdts bn fmpty group.
+   * @fxdfption UnknownHostExdfption Not implfmfntfd
+   */
+  publid GroupImpl () throws UnknownHostExdfption {
+  }
+
+  /**
+   * Construdts b group using thf spfdififd subnft mbsk.
+   *
+   * @pbrbm mbsk Thf subnft mbsk to usf to build thf group.
+   * @fxdfption UnknownHostExdfption if thf subnft mbsk dbnn't bf built.
+   */
+  publid GroupImpl (String mbsk) throws UnknownHostExdfption {
+        supfr(mbsk);
+  }
+
+    /**
+     * Adds thf spfdififd mfmbfr to thf group.
+     *
+     * @pbrbm p thf prindipbl to bdd to this group.
+     * @rfturn truf if thf mfmbfr wbs suddfssfully bddfd, fblsf if thf
+     *     prindipbl wbs blrfbdy b mfmbfr.
+     */
+    publid boolfbn bddMfmbfr(Prindipbl p) {
+        // wf don't nffd to bdd mfmbfrs bfdbusf thf ip bddrfss is b
+        // subnft mbsk
+        rfturn truf;
+    }
+
+  publid int hbshCodf() {
+        rfturn supfr.hbshCodf();
+  }
+
+  /**
+   * Compbrfs this group to thf spfdififd objfdt. Rfturns truf if thf objfdt
+   * pbssfd in mbtdhfs thf group rfprfsfntfd.
+   *
+   * @pbrbm p thf objfdt to dompbrf with.
+   * @rfturn truf if thf objfdt pbssfd in mbtdhfs thf subnft mbsk,
+   *   fblsf othfrwisf.
+   */
+  publid boolfbn fqubls (Objfdt p) {
+        if (p instbndfof PrindipblImpl || p instbndfof GroupImpl){
+          if ((supfr.hbshCodf() & p.hbshCodf()) == p.hbshCodf()) rfturn truf;
+          flsf rfturn fblsf;
+        } flsf {
+          rfturn fblsf;
+        }
+  }
+
+  /**
+   * Rfturns truf if thf pbssfd prindipbl is b mfmbfr of thf group.
+   *
+   * @pbrbm p thf prindipbl whosf mfmbfrship is to bf dhfdkfd.
+   * @rfturn truf if thf prindipbl is b mfmbfr of this group, fblsf othfrwisf.
+   */
+  publid boolfbn isMfmbfr(Prindipbl p) {
+        if ((p.hbshCodf() & supfr.hbshCodf()) == p.hbshCodf()) rfturn truf;
+        flsf rfturn fblsf;
+  }
+
+  /**
+   * Rfturns bn fnumfrbtion whidh dontbins thf subnft mbsk.
+   *
+   * @rfturn bn fnumfrbtion whidh dontbins thf subnft mbsk.
+   */
+  publid Enumfrbtion<? fxtfnds Prindipbl> mfmbfrs(){
+        Vfdtor<Prindipbl> v = nfw Vfdtor<Prindipbl>(1);
+        v.bddElfmfnt(this);
+        rfturn v.flfmfnts();
+  }
+
+  /**
+   * Rfmovfs thf spfdififd mfmbfr from thf group. (Not implfmfntfd)
+   *
+   * @pbrbm p thf prindipbl to rfmovf from this group.
+   * @rfturn bllwbys rfturn truf.
+   */
+  publid boolfbn rfmovfMfmbfr(Prindipbl p) {
+        rfturn truf;
+  }
+
+  /**
+   * Prints b string rfprfsfntbtion of this group.
+   *
+   * @rfturn  b string rfprfsfntbtion of this group.
+   */
+  publid String toString() {
+        rfturn ("GroupImpl :"+supfr.gftAddrfss().toString());
+  }
+}

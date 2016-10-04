@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 1999, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.sasl;
+pbdkbgf dom.sun.sfdurity.sbsl;
 
-import javax.security.sasl.*;
-import java.security.NoSuchAlgorithmException;
+import jbvbx.sfdurity.sbsl.*;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
 
-import java.util.logging.Logger;
-import java.util.logging.Level;
+import jbvb.util.logging.Loggfr;
+import jbvb.util.logging.Lfvfl;
 
 /**
-  * Implements the CRAM-MD5 SASL client-side mechanism.
-  * (<A HREF="http://www.ietf.org/rfc/rfc2195.txt">RFC 2195</A>).
-  * CRAM-MD5 has no initial response. It receives bytes from
-  * the server as a challenge, which it hashes by using MD5 and the password.
-  * It concatenates the authentication ID with this result and returns it
-  * as the response to the challenge. At that point, the exchange is complete.
+  * Implfmfnts tif CRAM-MD5 SASL dlifnt-sidf mfdibnism.
+  * (<A HREF="ittp://www.iftf.org/rfd/rfd2195.txt">RFC 2195</A>).
+  * CRAM-MD5 ibs no initibl rfsponsf. It rfdfivfs bytfs from
+  * tif sfrvfr bs b dibllfngf, wiidi it ibsifs by using MD5 bnd tif pbssword.
+  * It dondbtfnbtfs tif butifntidbtion ID witi tiis rfsult bnd rfturns it
+  * bs tif rfsponsf to tif dibllfngf. At tibt point, tif fxdibngf is domplftf.
   *
-  * @author Vincent Ryan
-  * @author Rosanna Lee
+  * @butior Vindfnt Rybn
+  * @butior Rosbnnb Lff
   */
-final class CramMD5Client extends CramMD5Base implements SaslClient {
-    private String username;
+finbl dlbss CrbmMD5Clifnt fxtfnds CrbmMD5Bbsf implfmfnts SbslClifnt {
+    privbtf String usfrnbmf;
 
     /**
-     * Creates a SASL mechanism with client credentials that it needs
-     * to participate in CRAM-MD5 authentication exchange with the server.
+     * Crfbtfs b SASL mfdibnism witi dlifnt drfdfntibls tibt it nffds
+     * to pbrtidipbtf in CRAM-MD5 butifntidbtion fxdibngf witi tif sfrvfr.
      *
-     * @param authID A  non-null string representing the principal
-     * being authenticated.
+     * @pbrbm butiID A  non-null string rfprfsfnting tif prindipbl
+     * bfing butifntidbtfd.
      *
-     * @param pw A non-null String or byte[]
-     * containing the password. If it is an array, it is first cloned.
+     * @pbrbm pw A non-null String or bytf[]
+     * dontbining tif pbssword. If it is bn brrby, it is first dlonfd.
      */
-    CramMD5Client(String authID, byte[] pw) throws SaslException {
-        if (authID == null || pw == null) {
-            throw new SaslException(
-                "CRAM-MD5: authentication ID and password must be specified");
+    CrbmMD5Clifnt(String butiID, bytf[] pw) tirows SbslExdfption {
+        if (butiID == null || pw == null) {
+            tirow nfw SbslExdfption(
+                "CRAM-MD5: butifntidbtion ID bnd pbssword must bf spfdififd");
         }
 
-        username = authID;
-        this.pw = pw;  // caller should have already cloned
+        usfrnbmf = butiID;
+        tiis.pw = pw;  // dbllfr siould ibvf blrfbdy dlonfd
     }
 
     /**
-     * CRAM-MD5 has no initial response.
+     * CRAM-MD5 ibs no initibl rfsponsf.
      */
-    public boolean hasInitialResponse() {
-        return false;
+    publid boolfbn ibsInitiblRfsponsf() {
+        rfturn fblsf;
     }
 
     /**
-     * Processes the challenge data.
+     * Prodfssfs tif dibllfngf dbtb.
      *
-     * The server sends a challenge data using which the client must
-     * compute an MD5-digest with its password as the key.
+     * Tif sfrvfr sfnds b dibllfngf dbtb using wiidi tif dlifnt must
+     * domputf bn MD5-digfst witi its pbssword bs tif kfy.
      *
-     * @param challengeData A non-null byte array containing the challenge
-     *        data from the server.
-     * @return A non-null byte array containing the response to be sent to
-     *        the server.
-     * @throws SaslException If platform does not have MD5 support
-     * @throw IllegalStateException if this method is invoked more than once.
+     * @pbrbm dibllfngfDbtb A non-null bytf brrby dontbining tif dibllfngf
+     *        dbtb from tif sfrvfr.
+     * @rfturn A non-null bytf brrby dontbining tif rfsponsf to bf sfnt to
+     *        tif sfrvfr.
+     * @tirows SbslExdfption If plbtform dofs not ibvf MD5 support
+     * @tirow IllfgblStbtfExdfption if tiis mftiod is invokfd morf tibn ondf.
      */
-    public byte[] evaluateChallenge(byte[] challengeData)
-        throws SaslException {
+    publid bytf[] fvblubtfCibllfngf(bytf[] dibllfngfDbtb)
+        tirows SbslExdfption {
 
-        // See if we've been here before
-        if (completed) {
-            throw new IllegalStateException(
-                "CRAM-MD5 authentication already completed");
+        // Sff if wf'vf bffn ifrf bfforf
+        if (domplftfd) {
+            tirow nfw IllfgblStbtfExdfption(
+                "CRAM-MD5 butifntidbtion blrfbdy domplftfd");
         }
 
-        if (aborted) {
-            throw new IllegalStateException(
-                "CRAM-MD5 authentication previously aborted due to error");
+        if (bbortfd) {
+            tirow nfw IllfgblStbtfExdfption(
+                "CRAM-MD5 butifntidbtion prfviously bbortfd duf to frror");
         }
 
-        // generate a keyed-MD5 digest from the user's password and challenge.
+        // gfnfrbtf b kfyfd-MD5 digfst from tif usfr's pbssword bnd dibllfngf.
         try {
-            if (logger.isLoggable(Level.FINE)) {
-                logger.log(Level.FINE, "CRAMCLNT01:Received challenge: {0}",
-                    new String(challengeData, "UTF8"));
+            if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+                loggfr.log(Lfvfl.FINE, "CRAMCLNT01:Rfdfivfd dibllfngf: {0}",
+                    nfw String(dibllfngfDbtb, "UTF8"));
             }
 
-            String digest = HMAC_MD5(pw, challengeData);
+            String digfst = HMAC_MD5(pw, dibllfngfDbtb);
 
-            // clear it when we no longer need it
-            clearPassword();
+            // dlfbr it wifn wf no longfr nffd it
+            dlfbrPbssword();
 
-            // response is username + " " + digest
-            String resp = username + " " + digest;
+            // rfsponsf is usfrnbmf + " " + digfst
+            String rfsp = usfrnbmf + " " + digfst;
 
-            logger.log(Level.FINE, "CRAMCLNT02:Sending response: {0}", resp);
+            loggfr.log(Lfvfl.FINE, "CRAMCLNT02:Sfnding rfsponsf: {0}", rfsp);
 
-            completed = true;
+            domplftfd = truf;
 
-            return resp.getBytes("UTF8");
-        } catch (java.security.NoSuchAlgorithmException e) {
-            aborted = true;
-            throw new SaslException("MD5 algorithm not available on platform", e);
-        } catch (java.io.UnsupportedEncodingException e) {
-            aborted = true;
-            throw new SaslException("UTF8 not available on platform", e);
+            rfturn rfsp.gftBytfs("UTF8");
+        } dbtdi (jbvb.sfdurity.NoSudiAlgoritimExdfption f) {
+            bbortfd = truf;
+            tirow nfw SbslExdfption("MD5 blgoritim not bvbilbblf on plbtform", f);
+        } dbtdi (jbvb.io.UnsupportfdEndodingExdfption f) {
+            bbortfd = truf;
+            tirow nfw SbslExdfption("UTF8 not bvbilbblf on plbtform", f);
         }
     }
 }

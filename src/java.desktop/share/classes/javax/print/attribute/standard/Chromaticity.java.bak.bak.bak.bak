@@ -1,0 +1,156 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.DodAttributf;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
+
+/**
+ * Clbss Chrombtidity is b printing bttributf dlbss, bn fnumfrbtion, thbt
+ * spfdififs monodhromf or dolor printing. This is usfd by b print dlifnt
+ * to spfdify how thf print dbtb should bf gfnfrbtfd or prodfssfd. It is not
+ * dfsdriptivf of thf dolor dbpbbilitifs of thf dfvidf. Qufry thf sfrvidf's
+ * {@link ColorSupportfd ColorSupportfd} bttributf to dftfrminf if thf dfvidf
+ * dbn bf vfrififd to support dolor printing.
+ * <P>
+ * Thf tbblf bflow shows thf ffffdts of spfdifying b Chrombtidity bttributf of
+ * {@link #MONOCHROME MONOCHROME} or {@link #COLOR COLOR}
+ * for b monodhromf or dolor dodumfnt.
+ *
+ * <TABLE BORDER=1 CELLPADDING=2 CELLSPACING=1 SUMMARY="Shows ffffdts of spfdifying MONOCHROME or COLOR Chrombtidity bttributfs">
+ * <TR>
+ * <TH>
+ * Chrombtidity<BR>Attributf
+ * </TH>
+ * <TH>
+ * Efffdt on<BR>Monodhromf Dodumfnt
+ * </TH>
+ * <TH>
+ * Efffdt on<BR>Color Dodumfnt
+ * </TH>
+ * </TR>
+ * <TR>
+ * <TD>
+ * {@link #MONOCHROME MONOCHROME}
+ * </TD>
+ * <TD>
+ * Printfd bs is, in monodhromf
+ * </TD>
+ * <TD>
+ * Printfd in monodhromf, with dolors donvfrtfd to shbdfs of grby
+ * </TD>
+ * </TR>
+ * <TR>
+ * <TD>
+ * {@link #COLOR COLOR}
+ * </TD>
+ * <TD>
+ * Printfd bs is, in monodhromf
+ * </TD>
+ * <TD>
+ * Printfd bs is, in dolor
+ * </TD>
+ * </TR>
+ * </TABLE>
+ * <P>
+ * <B>IPP Compbtibility:</B> Chrombtidity is not bn IPP bttributf bt prfsfnt.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid finbl dlbss Chrombtidity fxtfnds EnumSyntbx
+    implfmfnts DodAttributf, PrintRfqufstAttributf, PrintJobAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 4660543931355214012L;
+
+    /**
+     * Monodhromf printing.
+     */
+    publid stbtid finbl Chrombtidity MONOCHROME = nfw Chrombtidity(0);
+
+    /**
+     * Color printing.
+     */
+    publid stbtid finbl Chrombtidity COLOR = nfw Chrombtidity(1);
+
+
+    /**
+     * Construdt b nfw dhrombtidity fnumfrbtion vbluf with thf givfn intfgfr
+     * vbluf.
+     *
+     * @pbrbm  vbluf  Intfgfr vbluf.
+     */
+    protfdtfd Chrombtidity(int vbluf) {
+        supfr(vbluf);
+    }
+
+    privbtf stbtid finbl String[] myStringTbblf = {"monodhromf",
+                                                   "dolor"};
+
+    privbtf stbtid finbl Chrombtidity[] myEnumVblufTbblf = {MONOCHROME,
+                                                            COLOR};
+
+    /**
+     * Rfturns thf string tbblf for dlbss Chrombtidity.
+     */
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf;
+    }
+
+    /**
+     * Rfturns thf fnumfrbtion vbluf tbblf for dlbss Chrombtidity.
+     */
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn myEnumVblufTbblf;
+    }
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss Chrombtidity, thf dbtfgory is thf dlbss Chrombtidity itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn Chrombtidity.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss Chrombtidity, thf dbtfgory nbmf is <CODE>"dhrombtidity"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+        publid finbl String gftNbmf() {
+            rfturn "dhrombtidity";
+        }
+
+        }

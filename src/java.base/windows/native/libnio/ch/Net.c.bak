@@ -1,580 +1,580 @@
 /*
- * Copyright (c) 2001, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <windows.h>
-#include <winsock2.h>
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jlong.h"
+#indludf <windows.i>
+#indludf <winsodk2.i>
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
 
-#include "nio.h"
-#include "nio_util.h"
-#include "net_util.h"
+#indludf "nio.i"
+#indludf "nio_util.i"
+#indludf "nft_util.i"
 
-#include "sun_nio_ch_Net.h"
-#include "sun_nio_ch_PollArrayWrapper.h"
+#indludf "sun_nio_di_Nft.i"
+#indludf "sun_nio_di_PollArrbyWrbppfr.i"
 
 /**
- * Definitions to allow for building with older SDK include files.
+ * Dffinitions to bllow for building witi oldfr SDK indludf filfs.
  */
 
-#ifndef MCAST_BLOCK_SOURCE
+#ifndff MCAST_BLOCK_SOURCE
 
-#define MCAST_BLOCK_SOURCE          43
-#define MCAST_UNBLOCK_SOURCE        44
-#define MCAST_JOIN_SOURCE_GROUP     45
-#define MCAST_LEAVE_SOURCE_GROUP    46
+#dffinf MCAST_BLOCK_SOURCE          43
+#dffinf MCAST_UNBLOCK_SOURCE        44
+#dffinf MCAST_JOIN_SOURCE_GROUP     45
+#dffinf MCAST_LEAVE_SOURCE_GROUP    46
 
-#endif  /* MCAST_BLOCK_SOURCE */
+#fndif  /* MCAST_BLOCK_SOURCE */
 
-typedef struct my_ip_mreq_source {
-    IN_ADDR imr_multiaddr;
-    IN_ADDR imr_sourceaddr;
-    IN_ADDR imr_interface;
+typfdff strudt my_ip_mrfq_sourdf {
+    IN_ADDR imr_multibddr;
+    IN_ADDR imr_sourdfbddr;
+    IN_ADDR imr_intfrfbdf;
 };
 
-typedef struct my_group_source_req {
-    ULONG gsr_interface;
+typfdff strudt my_group_sourdf_rfq {
+    ULONG gsr_intfrfbdf;
     SOCKADDR_STORAGE gsr_group;
-    SOCKADDR_STORAGE gsr_source;
+    SOCKADDR_STORAGE gsr_sourdf;
 };
 
 /**
- * Copy IPv6 address as jbytearray to target
+ * Copy IPv6 bddrfss bs jbytfbrrby to tbrgft
  */
-#define COPY_INET6_ADDRESS(env, source, target) \
-    (*env)->GetByteArrayRegion(env, source, 0, 16, target)
+#dffinf COPY_INET6_ADDRESS(fnv, sourdf, tbrgft) \
+    (*fnv)->GftBytfArrbyRfgion(fnv, sourdf, 0, 16, tbrgft)
 
 /**
- * Enable or disable receipt of WSAECONNRESET errors.
+ * Enbblf or disbblf rfdfipt of WSAECONNRESET frrors.
  */
-static void setConnectionReset(SOCKET s, BOOL enable) {
-    DWORD bytesReturned = 0;
-    WSAIoctl(s, SIO_UDP_CONNRESET, &enable, sizeof(enable),
-             NULL, 0, &bytesReturned, NULL, NULL);
+stbtid void sftConnfdtionRfsft(SOCKET s, BOOL fnbblf) {
+    DWORD bytfsRfturnfd = 0;
+    WSAIodtl(s, SIO_UDP_CONNRESET, &fnbblf, sizfof(fnbblf),
+             NULL, 0, &bytfsRfturnfd, NULL, NULL);
 }
 
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_Net_initIDs(JNIEnv *env, jclass clazz)
+Jbvb_sun_nio_di_Nft_initIDs(JNIEnv *fnv, jdlbss dlbzz)
 {
-    /* nothing to do */
+    /* notiing to do */
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_nio_ch_Net_isIPv6Available0(JNIEnv* env, jclass cl)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_di_Nft_isIPv6Avbilbblf0(JNIEnv* fnv, jdlbss dl)
 {
     /*
-     * Return true if Windows Vista or newer, and IPv6 is configured
+     * Rfturn truf if Windows Vistb or nfwfr, bnd IPv6 is donfigurfd
      */
-    OSVERSIONINFO ver;
-    ver.dwOSVersionInfoSize = sizeof(ver);
-    GetVersionEx(&ver);
-    if ((ver.dwPlatformId == VER_PLATFORM_WIN32_NT) &&
-        (ver.dwMajorVersion >= 6)  && ipv6_available())
+    OSVERSIONINFO vfr;
+    vfr.dwOSVfrsionInfoSizf = sizfof(vfr);
+    GftVfrsionEx(&vfr);
+    if ((vfr.dwPlbtformId == VER_PLATFORM_WIN32_NT) &&
+        (vfr.dwMbjorVfrsion >= 6)  && ipv6_bvbilbblf())
     {
-        return JNI_TRUE;
+        rfturn JNI_TRUE;
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_Net_isExclusiveBindAvailable(JNIEnv *env, jclass clazz) {
-    OSVERSIONINFO ver;
-    int version;
-    ver.dwOSVersionInfoSize = sizeof(ver);
-    GetVersionEx(&ver);
-    version = ver.dwMajorVersion * 10 + ver.dwMinorVersion;
-    //if os <= xp exclusive binding is off by default
-    return version >= 60 ? 1 : 0;
+Jbvb_sun_nio_di_Nft_isExdlusivfBindAvbilbblf(JNIEnv *fnv, jdlbss dlbzz) {
+    OSVERSIONINFO vfr;
+    int vfrsion;
+    vfr.dwOSVfrsionInfoSizf = sizfof(vfr);
+    GftVfrsionEx(&vfr);
+    vfrsion = vfr.dwMbjorVfrsion * 10 + vfr.dwMinorVfrsion;
+    //if os <= xp fxdlusivf binding is off by dffbult
+    rfturn vfrsion >= 60 ? 1 : 0;
 }
 
 
-JNIEXPORT jboolean JNICALL
-Java_sun_nio_ch_Net_canIPv6SocketJoinIPv4Group0(JNIEnv* env, jclass cl)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_di_Nft_dbnIPv6SodkftJoinIPv4Group0(JNIEnv* fnv, jdlbss dl)
 {
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
-JNIEXPORT jboolean JNICALL
-Java_sun_nio_ch_Net_canJoin6WithIPv4Group0(JNIEnv* env, jclass cl)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_nio_di_Nft_dbnJoin6WitiIPv4Group0(JNIEnv* fnv, jdlbss dl)
 {
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_Net_socket0(JNIEnv *env, jclass cl, jboolean preferIPv6,
-                            jboolean stream, jboolean reuse)
+Jbvb_sun_nio_di_Nft_sodkft0(JNIEnv *fnv, jdlbss dl, jboolfbn prfffrIPv6,
+                            jboolfbn strfbm, jboolfbn rfusf)
 {
     SOCKET s;
-    int domain = (preferIPv6) ? AF_INET6 : AF_INET;
+    int dombin = (prfffrIPv6) ? AF_INET6 : AF_INET;
 
-    s = socket(domain, (stream ? SOCK_STREAM : SOCK_DGRAM), 0);
+    s = sodkft(dombin, (strfbm ? SOCK_STREAM : SOCK_DGRAM), 0);
     if (s != INVALID_SOCKET) {
-        SetHandleInformation((HANDLE)s, HANDLE_FLAG_INHERIT, 0);
+        SftHbndlfInformbtion((HANDLE)s, HANDLE_FLAG_INHERIT, 0);
 
-        /* IPV6_V6ONLY is true by default */
-        if (domain == AF_INET6) {
+        /* IPV6_V6ONLY is truf by dffbult */
+        if (dombin == AF_INET6) {
             int opt = 0;
-            setsockopt(s, IPPROTO_IPV6, IPV6_V6ONLY,
-                       (const char *)&opt, sizeof(opt));
+            sftsodkopt(s, IPPROTO_IPV6, IPV6_V6ONLY,
+                       (donst dibr *)&opt, sizfof(opt));
         }
 
-        /* Disable WSAECONNRESET errors for initially unconnected UDP sockets */
-        if (!stream) {
-            setConnectionReset(s, FALSE);
+        /* Disbblf WSAECONNRESET frrors for initiblly undonnfdtfd UDP sodkfts */
+        if (!strfbm) {
+            sftConnfdtionRfsft(s, FALSE);
         }
 
-    } else {
-        NET_ThrowNew(env, WSAGetLastError(), "socket");
+    } flsf {
+        NET_TirowNfw(fnv, WSAGftLbstError(), "sodkft");
     }
 
-    return (jint)s;
+    rfturn (jint)s;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_Net_bind0(JNIEnv *env, jclass clazz, jobject fdo, jboolean preferIPv6,
-                          jboolean isExclBind, jobject iao, jint port)
+Jbvb_sun_nio_di_Nft_bind0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo, jboolfbn prfffrIPv6,
+                          jboolfbn isExdlBind, jobjfdt ibo, jint port)
 {
-    SOCKETADDRESS sa;
+    SOCKETADDRESS sb;
     int rv;
-    int sa_len;
+    int sb_lfn;
 
-    if (NET_InetAddressToSockaddr(env, iao, port, (struct sockaddr *)&sa, &sa_len, preferIPv6) != 0) {
-      return;
+    if (NET_InftAddrfssToSodkbddr(fnv, ibo, port, (strudt sodkbddr *)&sb, &sb_lfn, prfffrIPv6) != 0) {
+      rfturn;
     }
 
-    rv = NET_WinBind(fdval(env, fdo), (struct sockaddr *)&sa, sa_len, isExclBind);
+    rv = NET_WinBind(fdvbl(fnv, fdo), (strudt sodkbddr *)&sb, sb_lfn, isExdlBind);
     if (rv == SOCKET_ERROR)
-        NET_ThrowNew(env, WSAGetLastError(), "bind");
+        NET_TirowNfw(fnv, WSAGftLbstError(), "bind");
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_Net_listen(JNIEnv *env, jclass cl, jobject fdo, jint backlog)
+Jbvb_sun_nio_di_Nft_listfn(JNIEnv *fnv, jdlbss dl, jobjfdt fdo, jint bbdklog)
 {
-    if (listen(fdval(env,fdo), backlog) == SOCKET_ERROR) {
-        NET_ThrowNew(env, WSAGetLastError(), "listen");
+    if (listfn(fdvbl(fnv,fdo), bbdklog) == SOCKET_ERROR) {
+        NET_TirowNfw(fnv, WSAGftLbstError(), "listfn");
     }
 }
 
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_Net_connect0(JNIEnv *env, jclass clazz, jboolean preferIPv6, jobject fdo,
-                             jobject iao, jint port)
+Jbvb_sun_nio_di_Nft_donnfdt0(JNIEnv *fnv, jdlbss dlbzz, jboolfbn prfffrIPv6, jobjfdt fdo,
+                             jobjfdt ibo, jint port)
 {
-    SOCKETADDRESS sa;
+    SOCKETADDRESS sb;
     int rv;
-    int sa_len;
-    SOCKET s = (SOCKET)fdval(env, fdo);
+    int sb_lfn;
+    SOCKET s = (SOCKET)fdvbl(fnv, fdo);
 
-    if (NET_InetAddressToSockaddr(env, iao, port, (struct sockaddr *)&sa, &sa_len, preferIPv6) != 0) {
-        return IOS_THROWN;
+    if (NET_InftAddrfssToSodkbddr(fnv, ibo, port, (strudt sodkbddr *)&sb, &sb_lfn, prfffrIPv6) != 0) {
+        rfturn IOS_THROWN;
     }
 
-    rv = connect(s, (struct sockaddr *)&sa, sa_len);
+    rv = donnfdt(s, (strudt sodkbddr *)&sb, sb_lfn);
     if (rv != 0) {
-        int err = WSAGetLastError();
-        if (err == WSAEINPROGRESS || err == WSAEWOULDBLOCK) {
-            return IOS_UNAVAILABLE;
+        int frr = WSAGftLbstError();
+        if (frr == WSAEINPROGRESS || frr == WSAEWOULDBLOCK) {
+            rfturn IOS_UNAVAILABLE;
         }
-        NET_ThrowNew(env, err, "connect");
-        return IOS_THROWN;
-    } else {
-        /* Enable WSAECONNRESET errors when a UDP socket is connected */
-        int type = 0, optlen = sizeof(type);
-        rv = getsockopt(s, SOL_SOCKET, SO_TYPE, (char*)&type, &optlen);
-        if (rv == 0 && type == SOCK_DGRAM) {
-            setConnectionReset(s, TRUE);
+        NET_TirowNfw(fnv, frr, "donnfdt");
+        rfturn IOS_THROWN;
+    } flsf {
+        /* Enbblf WSAECONNRESET frrors wifn b UDP sodkft is donnfdtfd */
+        int typf = 0, optlfn = sizfof(typf);
+        rv = gftsodkopt(s, SOL_SOCKET, SO_TYPE, (dibr*)&typf, &optlfn);
+        if (rv == 0 && typf == SOCK_DGRAM) {
+            sftConnfdtionRfsft(s, TRUE);
         }
     }
-    return 1;
+    rfturn 1;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_Net_localPort(JNIEnv *env, jclass clazz, jobject fdo)
+Jbvb_sun_nio_di_Nft_lodblPort(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo)
 {
-    SOCKETADDRESS sa;
-    int sa_len = sizeof(sa);
+    SOCKETADDRESS sb;
+    int sb_lfn = sizfof(sb);
 
-    if (getsockname(fdval(env, fdo), (struct sockaddr *)&sa, &sa_len) < 0) {
-        int error = WSAGetLastError();
-        if (error == WSAEINVAL) {
-            return 0;
+    if (gftsodknbmf(fdvbl(fnv, fdo), (strudt sodkbddr *)&sb, &sb_lfn) < 0) {
+        int frror = WSAGftLbstError();
+        if (frror == WSAEINVAL) {
+            rfturn 0;
         }
-        NET_ThrowNew(env, error, "getsockname");
-        return IOS_THROWN;
+        NET_TirowNfw(fnv, frror, "gftsodknbmf");
+        rfturn IOS_THROWN;
     }
-    return NET_GetPortFromSockaddr((struct sockaddr *)&sa);
+    rfturn NET_GftPortFromSodkbddr((strudt sodkbddr *)&sb);
 }
 
-JNIEXPORT jobject JNICALL
-Java_sun_nio_ch_Net_localInetAddress(JNIEnv *env, jclass clazz, jobject fdo)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_nio_di_Nft_lodblInftAddrfss(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo)
 {
-    SOCKETADDRESS sa;
-    int sa_len = sizeof(sa);
+    SOCKETADDRESS sb;
+    int sb_lfn = sizfof(sb);
     int port;
 
-    if (getsockname(fdval(env, fdo), (struct sockaddr *)&sa, &sa_len) < 0) {
-        NET_ThrowNew(env, WSAGetLastError(), "getsockname");
-        return NULL;
+    if (gftsodknbmf(fdvbl(fnv, fdo), (strudt sodkbddr *)&sb, &sb_lfn) < 0) {
+        NET_TirowNfw(fnv, WSAGftLbstError(), "gftsodknbmf");
+        rfturn NULL;
     }
-    return NET_SockaddrToInetAddress(env, (struct sockaddr *)&sa, &port);
+    rfturn NET_SodkbddrToInftAddrfss(fnv, (strudt sodkbddr *)&sb, &port);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_Net_remotePort(JNIEnv *env, jclass clazz, jobject fdo)
+Jbvb_sun_nio_di_Nft_rfmotfPort(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo)
 {
-    SOCKETADDRESS sa;
-    int sa_len = sizeof(sa);
+    SOCKETADDRESS sb;
+    int sb_lfn = sizfof(sb);
 
-    if (getpeername(fdval(env, fdo), (struct sockaddr *)&sa, &sa_len) < 0) {
-        int error = WSAGetLastError();
-        if (error == WSAEINVAL) {
-            return 0;
+    if (gftpffrnbmf(fdvbl(fnv, fdo), (strudt sodkbddr *)&sb, &sb_lfn) < 0) {
+        int frror = WSAGftLbstError();
+        if (frror == WSAEINVAL) {
+            rfturn 0;
         }
-        NET_ThrowNew(env, error, "getsockname");
-        return IOS_THROWN;
+        NET_TirowNfw(fnv, frror, "gftsodknbmf");
+        rfturn IOS_THROWN;
     }
-    return NET_GetPortFromSockaddr((struct sockaddr *)&sa);
+    rfturn NET_GftPortFromSodkbddr((strudt sodkbddr *)&sb);
 }
 
-JNIEXPORT jobject JNICALL
-Java_sun_nio_ch_Net_remoteInetAddress(JNIEnv *env, jclass clazz, jobject fdo)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_sun_nio_di_Nft_rfmotfInftAddrfss(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo)
 {
-    SOCKETADDRESS sa;
-    int sa_len = sizeof(sa);
+    SOCKETADDRESS sb;
+    int sb_lfn = sizfof(sb);
     int port;
 
-    if (getpeername(fdval(env, fdo), (struct sockaddr *)&sa, &sa_len) < 0) {
-        NET_ThrowNew(env, WSAGetLastError(), "getsockname");
-        return NULL;
+    if (gftpffrnbmf(fdvbl(fnv, fdo), (strudt sodkbddr *)&sb, &sb_lfn) < 0) {
+        NET_TirowNfw(fnv, WSAGftLbstError(), "gftsodknbmf");
+        rfturn NULL;
     }
-    return NET_SockaddrToInetAddress(env, (struct sockaddr *)&sa, &port);
+    rfturn NET_SodkbddrToInftAddrfss(fnv, (strudt sodkbddr *)&sb, &port);
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_Net_getIntOption0(JNIEnv *env, jclass clazz, jobject fdo,
-                                  jboolean mayNeedConversion, jint level, jint opt)
+Jbvb_sun_nio_di_Nft_gftIntOption0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                                  jboolfbn mbyNffdConvfrsion, jint lfvfl, jint opt)
 {
-    int result = 0;
-    struct linger linger;
-    char *arg;
-    int arglen, n;
+    int rfsult = 0;
+    strudt lingfr lingfr;
+    dibr *brg;
+    int brglfn, n;
 
-    if (level == SOL_SOCKET && opt == SO_LINGER) {
-        arg = (char *)&linger;
-        arglen = sizeof(linger);
-    } else {
-        arg = (char *)&result;
-        arglen = sizeof(result);
+    if (lfvfl == SOL_SOCKET && opt == SO_LINGER) {
+        brg = (dibr *)&lingfr;
+        brglfn = sizfof(lingfr);
+    } flsf {
+        brg = (dibr *)&rfsult;
+        brglfn = sizfof(rfsult);
     }
 
     /**
-     * HACK: IP_TOS is deprecated on Windows and querying the option
-     * returns a protocol error. NET_GetSockOpt handles this and uses
-     * a fallback mechanism. Same applies to IPV6_TCLASS
+     * HACK: IP_TOS is dfprfdbtfd on Windows bnd qufrying tif option
+     * rfturns b protodol frror. NET_GftSodkOpt ibndlfs tiis bnd usfs
+     * b fbllbbdk mfdibnism. Sbmf bpplifs to IPV6_TCLASS
      */
-    if ((level == IPPROTO_IP && opt == IP_TOS) || (level == IPPROTO_IPV6 && opt == IPV6_TCLASS)) {
-        mayNeedConversion = JNI_TRUE;
+    if ((lfvfl == IPPROTO_IP && opt == IP_TOS) || (lfvfl == IPPROTO_IPV6 && opt == IPV6_TCLASS)) {
+        mbyNffdConvfrsion = JNI_TRUE;
     }
 
-    if (mayNeedConversion) {
-        n = NET_GetSockOpt(fdval(env, fdo), level, opt, arg, &arglen);
-    } else {
-        n = getsockopt(fdval(env, fdo), level, opt, arg, &arglen);
+    if (mbyNffdConvfrsion) {
+        n = NET_GftSodkOpt(fdvbl(fnv, fdo), lfvfl, opt, brg, &brglfn);
+    } flsf {
+        n = gftsodkopt(fdvbl(fnv, fdo), lfvfl, opt, brg, &brglfn);
     }
     if (n < 0) {
-        handleSocketError(env, WSAGetLastError());
-        return IOS_THROWN;
+        ibndlfSodkftError(fnv, WSAGftLbstError());
+        rfturn IOS_THROWN;
     }
 
-    if (level == SOL_SOCKET && opt == SO_LINGER)
-        return linger.l_onoff ? linger.l_linger : -1;
-    else
-        return result;
+    if (lfvfl == SOL_SOCKET && opt == SO_LINGER)
+        rfturn lingfr.l_onoff ? lingfr.l_lingfr : -1;
+    flsf
+        rfturn rfsult;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_Net_setIntOption0(JNIEnv *env, jclass clazz, jobject fdo,
-                                  jboolean mayNeedConversion, jint level, jint opt, jint arg, jboolean ipv6)
+Jbvb_sun_nio_di_Nft_sftIntOption0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                                  jboolfbn mbyNffdConvfrsion, jint lfvfl, jint opt, jint brg, jboolfbn ipv6)
 {
-    struct linger linger;
-    char *parg;
-    int arglen, n;
+    strudt lingfr lingfr;
+    dibr *pbrg;
+    int brglfn, n;
 
-    if (level == SOL_SOCKET && opt == SO_LINGER) {
-        parg = (char *)&linger;
-        arglen = sizeof(linger);
-        if (arg >= 0) {
-            linger.l_onoff = 1;
-            linger.l_linger = (unsigned short)arg;
-        } else {
-            linger.l_onoff = 0;
-            linger.l_linger = 0;
+    if (lfvfl == SOL_SOCKET && opt == SO_LINGER) {
+        pbrg = (dibr *)&lingfr;
+        brglfn = sizfof(lingfr);
+        if (brg >= 0) {
+            lingfr.l_onoff = 1;
+            lingfr.l_lingfr = (unsignfd siort)brg;
+        } flsf {
+            lingfr.l_onoff = 0;
+            lingfr.l_lingfr = 0;
         }
-    } else {
-        parg = (char *)&arg;
-        arglen = sizeof(arg);
+    } flsf {
+        pbrg = (dibr *)&brg;
+        brglfn = sizfof(brg);
     }
 
-    if (level == IPPROTO_IPV6 && opt == IPV6_TCLASS) {
+    if (lfvfl == IPPROTO_IPV6 && opt == IPV6_TCLASS) {
         /* No op */
-        return;
+        rfturn;
     }
 
-    if (mayNeedConversion) {
-        n = NET_SetSockOpt(fdval(env, fdo), level, opt, parg, arglen);
-    } else {
-        n = setsockopt(fdval(env, fdo), level, opt, parg, arglen);
+    if (mbyNffdConvfrsion) {
+        n = NET_SftSodkOpt(fdvbl(fnv, fdo), lfvfl, opt, pbrg, brglfn);
+    } flsf {
+        n = sftsodkopt(fdvbl(fnv, fdo), lfvfl, opt, pbrg, brglfn);
     }
     if (n < 0)
-        handleSocketError(env, WSAGetLastError());
+        ibndlfSodkftError(fnv, WSAGftLbstError());
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_Net_joinOrDrop4(JNIEnv *env, jobject this, jboolean join, jobject fdo,
-                                jint group, jint interf, jint source)
+Jbvb_sun_nio_di_Nft_joinOrDrop4(JNIEnv *fnv, jobjfdt tiis, jboolfbn join, jobjfdt fdo,
+                                jint group, jint intfrf, jint sourdf)
 {
-    struct ip_mreq mreq;
-    struct my_ip_mreq_source mreq_source;
-    int opt, n, optlen;
-    void* optval;
+    strudt ip_mrfq mrfq;
+    strudt my_ip_mrfq_sourdf mrfq_sourdf;
+    int opt, n, optlfn;
+    void* optvbl;
 
-    if (source == 0) {
-        mreq.imr_multiaddr.s_addr = htonl(group);
-        mreq.imr_interface.s_addr = htonl(interf);
+    if (sourdf == 0) {
+        mrfq.imr_multibddr.s_bddr = itonl(group);
+        mrfq.imr_intfrfbdf.s_bddr = itonl(intfrf);
         opt = (join) ? IP_ADD_MEMBERSHIP : IP_DROP_MEMBERSHIP;
-        optval = (void*)&mreq;
-        optlen = sizeof(mreq);
-    } else {
-        mreq_source.imr_multiaddr.s_addr = htonl(group);
-        mreq_source.imr_sourceaddr.s_addr = htonl(source);
-        mreq_source.imr_interface.s_addr = htonl(interf);
+        optvbl = (void*)&mrfq;
+        optlfn = sizfof(mrfq);
+    } flsf {
+        mrfq_sourdf.imr_multibddr.s_bddr = itonl(group);
+        mrfq_sourdf.imr_sourdfbddr.s_bddr = itonl(sourdf);
+        mrfq_sourdf.imr_intfrfbdf.s_bddr = itonl(intfrf);
         opt = (join) ? IP_ADD_SOURCE_MEMBERSHIP : IP_DROP_SOURCE_MEMBERSHIP;
-        optval = (void*)&mreq_source;
-        optlen = sizeof(mreq_source);
+        optvbl = (void*)&mrfq_sourdf;
+        optlfn = sizfof(mrfq_sourdf);
     }
 
-    n = setsockopt(fdval(env,fdo), IPPROTO_IP, opt, optval, optlen);
+    n = sftsodkopt(fdvbl(fnv,fdo), IPPROTO_IP, opt, optvbl, optlfn);
     if (n < 0) {
-        if (join && (WSAGetLastError() == WSAENOPROTOOPT))
-            return IOS_UNAVAILABLE;
-        handleSocketError(env, WSAGetLastError());
+        if (join && (WSAGftLbstError() == WSAENOPROTOOPT))
+            rfturn IOS_UNAVAILABLE;
+        ibndlfSodkftError(fnv, WSAGftLbstError());
     }
-    return 0;
+    rfturn 0;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_Net_blockOrUnblock4(JNIEnv *env, jobject this, jboolean block, jobject fdo,
-                                   jint group, jint interf, jint source)
+Jbvb_sun_nio_di_Nft_blodkOrUnblodk4(JNIEnv *fnv, jobjfdt tiis, jboolfbn blodk, jobjfdt fdo,
+                                   jint group, jint intfrf, jint sourdf)
 {
-    struct my_ip_mreq_source mreq_source;
+    strudt my_ip_mrfq_sourdf mrfq_sourdf;
     int n;
-    int opt = (block) ? IP_BLOCK_SOURCE : IP_UNBLOCK_SOURCE;
+    int opt = (blodk) ? IP_BLOCK_SOURCE : IP_UNBLOCK_SOURCE;
 
-    mreq_source.imr_multiaddr.s_addr = htonl(group);
-    mreq_source.imr_sourceaddr.s_addr = htonl(source);
-    mreq_source.imr_interface.s_addr = htonl(interf);
+    mrfq_sourdf.imr_multibddr.s_bddr = itonl(group);
+    mrfq_sourdf.imr_sourdfbddr.s_bddr = itonl(sourdf);
+    mrfq_sourdf.imr_intfrfbdf.s_bddr = itonl(intfrf);
 
-    n = setsockopt(fdval(env,fdo), IPPROTO_IP, opt,
-                   (void*)&mreq_source, sizeof(mreq_source));
+    n = sftsodkopt(fdvbl(fnv,fdo), IPPROTO_IP, opt,
+                   (void*)&mrfq_sourdf, sizfof(mrfq_sourdf));
     if (n < 0) {
-        if (block && (WSAGetLastError() == WSAENOPROTOOPT))
-            return IOS_UNAVAILABLE;
-        handleSocketError(env, WSAGetLastError());
+        if (blodk && (WSAGftLbstError() == WSAENOPROTOOPT))
+            rfturn IOS_UNAVAILABLE;
+        ibndlfSodkftError(fnv, WSAGftLbstError());
     }
-    return 0;
+    rfturn 0;
 }
 
 /**
- * Call setsockopt with a IPPROTO_IPV6 level socket option
- * and a group_source_req structure as the option value. The
- * given IPv6 group, interface index, and IPv6 source address
- * are copied into the structure.
+ * Cbll sftsodkopt witi b IPPROTO_IPV6 lfvfl sodkft option
+ * bnd b group_sourdf_rfq strudturf bs tif option vbluf. Tif
+ * givfn IPv6 group, intfrfbdf indfx, bnd IPv6 sourdf bddrfss
+ * brf dopifd into tif strudturf.
  */
-static int setGroupSourceReqOption(JNIEnv* env,
-                                   jobject fdo,
+stbtid int sftGroupSourdfRfqOption(JNIEnv* fnv,
+                                   jobjfdt fdo,
                                    int opt,
-                                   jbyteArray group,
-                                   jint index,
-                                   jbyteArray source)
+                                   jbytfArrby group,
+                                   jint indfx,
+                                   jbytfArrby sourdf)
 {
-    struct my_group_source_req req;
-    struct sockaddr_in6* sin6;
+    strudt my_group_sourdf_rfq rfq;
+    strudt sodkbddr_in6* sin6;
 
-    req.gsr_interface = (ULONG)index;
+    rfq.gsr_intfrfbdf = (ULONG)indfx;
 
-    sin6 = (struct sockaddr_in6*)&(req.gsr_group);
-    sin6->sin6_family = AF_INET6;
-    COPY_INET6_ADDRESS(env, group, (jbyte*)&(sin6->sin6_addr));
+    sin6 = (strudt sodkbddr_in6*)&(rfq.gsr_group);
+    sin6->sin6_fbmily = AF_INET6;
+    COPY_INET6_ADDRESS(fnv, group, (jbytf*)&(sin6->sin6_bddr));
 
-    sin6 = (struct sockaddr_in6*)&(req.gsr_source);
-    sin6->sin6_family = AF_INET6;
-    COPY_INET6_ADDRESS(env, source, (jbyte*)&(sin6->sin6_addr));
+    sin6 = (strudt sodkbddr_in6*)&(rfq.gsr_sourdf);
+    sin6->sin6_fbmily = AF_INET6;
+    COPY_INET6_ADDRESS(fnv, sourdf, (jbytf*)&(sin6->sin6_bddr));
 
-    return setsockopt(fdval(env,fdo), IPPROTO_IPV6, opt, (void*)&req, sizeof(req));
+    rfturn sftsodkopt(fdvbl(fnv,fdo), IPPROTO_IPV6, opt, (void*)&rfq, sizfof(rfq));
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_Net_joinOrDrop6(JNIEnv *env, jobject this, jboolean join, jobject fdo,
-                                jbyteArray group, jint index, jbyteArray source)
+Jbvb_sun_nio_di_Nft_joinOrDrop6(JNIEnv *fnv, jobjfdt tiis, jboolfbn join, jobjfdt fdo,
+                                jbytfArrby group, jint indfx, jbytfArrby sourdf)
 {
-    struct ipv6_mreq mreq6;
+    strudt ipv6_mrfq mrfq6;
     int n;
 
-    if (source == NULL) {
+    if (sourdf == NULL) {
         int opt = (join) ? IPV6_ADD_MEMBERSHIP : IPV6_DROP_MEMBERSHIP;
-        COPY_INET6_ADDRESS(env, group, (jbyte*)&(mreq6.ipv6mr_multiaddr));
-        mreq6.ipv6mr_interface = (int)index;
-        n = setsockopt(fdval(env,fdo), IPPROTO_IPV6, opt,
-                       (void*)&mreq6, sizeof(mreq6));
-    } else {
+        COPY_INET6_ADDRESS(fnv, group, (jbytf*)&(mrfq6.ipv6mr_multibddr));
+        mrfq6.ipv6mr_intfrfbdf = (int)indfx;
+        n = sftsodkopt(fdvbl(fnv,fdo), IPPROTO_IPV6, opt,
+                       (void*)&mrfq6, sizfof(mrfq6));
+    } flsf {
         int opt = (join) ? MCAST_JOIN_SOURCE_GROUP : MCAST_LEAVE_SOURCE_GROUP;
-        n = setGroupSourceReqOption(env, fdo, opt, group, index, source);
+        n = sftGroupSourdfRfqOption(fnv, fdo, opt, group, indfx, sourdf);
     }
 
     if (n < 0) {
-        handleSocketError(env, errno);
+        ibndlfSodkftError(fnv, frrno);
     }
-    return 0;
+    rfturn 0;
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_Net_blockOrUnblock6(JNIEnv *env, jobject this, jboolean block, jobject fdo,
-                                    jbyteArray group, jint index, jbyteArray source)
+Jbvb_sun_nio_di_Nft_blodkOrUnblodk6(JNIEnv *fnv, jobjfdt tiis, jboolfbn blodk, jobjfdt fdo,
+                                    jbytfArrby group, jint indfx, jbytfArrby sourdf)
 {
-    int opt = (block) ? MCAST_BLOCK_SOURCE : MCAST_UNBLOCK_SOURCE;
-    int n = setGroupSourceReqOption(env, fdo, opt, group, index, source);
+    int opt = (blodk) ? MCAST_BLOCK_SOURCE : MCAST_UNBLOCK_SOURCE;
+    int n = sftGroupSourdfRfqOption(fnv, fdo, opt, group, indfx, sourdf);
     if (n < 0) {
-        handleSocketError(env, errno);
+        ibndlfSodkftError(fnv, frrno);
     }
-    return 0;
+    rfturn 0;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_Net_setInterface4(JNIEnv* env, jobject this, jobject fdo, jint interf)
+Jbvb_sun_nio_di_Nft_sftIntfrfbdf4(JNIEnv* fnv, jobjfdt tiis, jobjfdt fdo, jint intfrf)
 {
-    struct in_addr in;
-    int arglen = sizeof(struct in_addr);
+    strudt in_bddr in;
+    int brglfn = sizfof(strudt in_bddr);
     int n;
 
-    in.s_addr = htonl(interf);
+    in.s_bddr = itonl(intfrf);
 
-    n = setsockopt(fdval(env, fdo), IPPROTO_IP, IP_MULTICAST_IF,
-                   (void*)&(in.s_addr), arglen);
+    n = sftsodkopt(fdvbl(fnv, fdo), IPPROTO_IP, IP_MULTICAST_IF,
+                   (void*)&(in.s_bddr), brglfn);
     if (n < 0) {
-        handleSocketError(env, WSAGetLastError());
+        ibndlfSodkftError(fnv, WSAGftLbstError());
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_Net_getInterface4(JNIEnv* env, jobject this, jobject fdo)
+Jbvb_sun_nio_di_Nft_gftIntfrfbdf4(JNIEnv* fnv, jobjfdt tiis, jobjfdt fdo)
 {
-    struct in_addr in;
-    int arglen = sizeof(struct in_addr);
+    strudt in_bddr in;
+    int brglfn = sizfof(strudt in_bddr);
     int n;
 
-    n = getsockopt(fdval(env, fdo), IPPROTO_IP, IP_MULTICAST_IF, (void*)&in, &arglen);
+    n = gftsodkopt(fdvbl(fnv, fdo), IPPROTO_IP, IP_MULTICAST_IF, (void*)&in, &brglfn);
     if (n < 0) {
-        handleSocketError(env, WSAGetLastError());
-        return IOS_THROWN;
+        ibndlfSodkftError(fnv, WSAGftLbstError());
+        rfturn IOS_THROWN;
     }
-    return ntohl(in.s_addr);
+    rfturn ntoil(in.s_bddr);
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_Net_setInterface6(JNIEnv* env, jobject this, jobject fdo, jint index)
+Jbvb_sun_nio_di_Nft_sftIntfrfbdf6(JNIEnv* fnv, jobjfdt tiis, jobjfdt fdo, jint indfx)
 {
-    int value = (jint)index;
-    int arglen = sizeof(value);
+    int vbluf = (jint)indfx;
+    int brglfn = sizfof(vbluf);
     int n;
 
-    n = setsockopt(fdval(env, fdo), IPPROTO_IPV6, IPV6_MULTICAST_IF,
-                   (void*)&(index), arglen);
+    n = sftsodkopt(fdvbl(fnv, fdo), IPPROTO_IPV6, IPV6_MULTICAST_IF,
+                   (void*)&(indfx), brglfn);
     if (n < 0) {
-        handleSocketError(env, errno);
+        ibndlfSodkftError(fnv, frrno);
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_Net_getInterface6(JNIEnv* env, jobject this, jobject fdo)
+Jbvb_sun_nio_di_Nft_gftIntfrfbdf6(JNIEnv* fnv, jobjfdt tiis, jobjfdt fdo)
 {
-    int index;
-    int arglen = sizeof(index);
+    int indfx;
+    int brglfn = sizfof(indfx);
     int n;
 
-    n = getsockopt(fdval(env, fdo), IPPROTO_IPV6, IPV6_MULTICAST_IF, (void*)&index, &arglen);
+    n = gftsodkopt(fdvbl(fnv, fdo), IPPROTO_IPV6, IPV6_MULTICAST_IF, (void*)&indfx, &brglfn);
     if (n < 0) {
-        handleSocketError(env, errno);
-        return -1;
+        ibndlfSodkftError(fnv, frrno);
+        rfturn -1;
     }
-    return (jint)index;
+    rfturn (jint)indfx;
 }
 
 JNIEXPORT void JNICALL
-Java_sun_nio_ch_Net_shutdown(JNIEnv *env, jclass cl, jobject fdo, jint jhow) {
-    int how = (jhow == sun_nio_ch_Net_SHUT_RD) ? SD_RECEIVE :
-        (jhow == sun_nio_ch_Net_SHUT_WR) ? SD_SEND : SD_BOTH;
-    if (shutdown(fdval(env, fdo), how) == SOCKET_ERROR) {
-        NET_ThrowNew(env, WSAGetLastError(), "shutdown");
+Jbvb_sun_nio_di_Nft_siutdown(JNIEnv *fnv, jdlbss dl, jobjfdt fdo, jint jiow) {
+    int iow = (jiow == sun_nio_di_Nft_SHUT_RD) ? SD_RECEIVE :
+        (jiow == sun_nio_di_Nft_SHUT_WR) ? SD_SEND : SD_BOTH;
+    if (siutdown(fdvbl(fnv, fdo), iow) == SOCKET_ERROR) {
+        NET_TirowNfw(fnv, WSAGftLbstError(), "siutdown");
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_Net_poll(JNIEnv* env, jclass this, jobject fdo, jint events, jlong timeout)
+Jbvb_sun_nio_di_Nft_poll(JNIEnv* fnv, jdlbss tiis, jobjfdt fdo, jint fvfnts, jlong timfout)
 {
     int rv;
-    int revents = 0;
-    struct timeval t;
-    int lastError = 0;
-    fd_set rd, wr, ex;
-    jint fd = fdval(env, fdo);
+    int rfvfnts = 0;
+    strudt timfvbl t;
+    int lbstError = 0;
+    fd_sft rd, wr, fx;
+    jint fd = fdvbl(fnv, fdo);
 
-    t.tv_sec = timeout / 1000;
-    t.tv_usec = (timeout % 1000) * 1000;
+    t.tv_sfd = timfout / 1000;
+    t.tv_usfd = (timfout % 1000) * 1000;
 
     FD_ZERO(&rd);
     FD_ZERO(&wr);
-    FD_ZERO(&ex);
-    if (events & POLLIN) {
+    FD_ZERO(&fx);
+    if (fvfnts & POLLIN) {
         FD_SET(fd, &rd);
     }
-    if (events & POLLOUT ||
-        events & POLLCONN) {
+    if (fvfnts & POLLOUT ||
+        fvfnts & POLLCONN) {
         FD_SET(fd, &wr);
     }
-    FD_SET(fd, &ex);
+    FD_SET(fd, &fx);
 
-    rv = select(fd+1, &rd, &wr, &ex, &t);
+    rv = sflfdt(fd+1, &rd, &wr, &fx, &t);
 
-    /* save last winsock error */
+    /* sbvf lbst winsodk frror */
     if (rv == SOCKET_ERROR) {
-        handleSocketError(env, lastError);
-        return IOS_THROWN;
-    } else if (rv >= 0) {
+        ibndlfSodkftError(fnv, lbstError);
+        rfturn IOS_THROWN;
+    } flsf if (rv >= 0) {
         rv = 0;
         if (FD_ISSET(fd, &rd)) {
             rv |= POLLIN;
@@ -582,45 +582,45 @@ Java_sun_nio_ch_Net_poll(JNIEnv* env, jclass this, jobject fdo, jint events, jlo
         if (FD_ISSET(fd, &wr)) {
             rv |= POLLOUT;
         }
-        if (FD_ISSET(fd, &ex)) {
+        if (FD_ISSET(fd, &fx)) {
             rv |= POLLERR;
         }
     }
-    return rv;
+    rfturn rv;
 }
 
-JNIEXPORT jshort JNICALL
-Java_sun_nio_ch_Net_pollinValue(JNIEnv *env, jclass this)
+JNIEXPORT jsiort JNICALL
+Jbvb_sun_nio_di_Nft_pollinVbluf(JNIEnv *fnv, jdlbss tiis)
 {
-    return (jshort)POLLIN;
+    rfturn (jsiort)POLLIN;
 }
 
-JNIEXPORT jshort JNICALL
-Java_sun_nio_ch_Net_polloutValue(JNIEnv *env, jclass this)
+JNIEXPORT jsiort JNICALL
+Jbvb_sun_nio_di_Nft_polloutVbluf(JNIEnv *fnv, jdlbss tiis)
 {
-    return (jshort)POLLOUT;
+    rfturn (jsiort)POLLOUT;
 }
 
-JNIEXPORT jshort JNICALL
-Java_sun_nio_ch_Net_pollerrValue(JNIEnv *env, jclass this)
+JNIEXPORT jsiort JNICALL
+Jbvb_sun_nio_di_Nft_pollfrrVbluf(JNIEnv *fnv, jdlbss tiis)
 {
-    return (jshort)POLLERR;
+    rfturn (jsiort)POLLERR;
 }
 
-JNIEXPORT jshort JNICALL
-Java_sun_nio_ch_Net_pollhupValue(JNIEnv *env, jclass this)
+JNIEXPORT jsiort JNICALL
+Jbvb_sun_nio_di_Nft_polliupVbluf(JNIEnv *fnv, jdlbss tiis)
 {
-    return (jshort)POLLHUP;
+    rfturn (jsiort)POLLHUP;
 }
 
-JNIEXPORT jshort JNICALL
-Java_sun_nio_ch_Net_pollnvalValue(JNIEnv *env, jclass this)
+JNIEXPORT jsiort JNICALL
+Jbvb_sun_nio_di_Nft_pollnvblVbluf(JNIEnv *fnv, jdlbss tiis)
 {
-    return (jshort)POLLNVAL;
+    rfturn (jsiort)POLLNVAL;
 }
 
-JNIEXPORT jshort JNICALL
-Java_sun_nio_ch_Net_pollconnValue(JNIEnv *env, jclass this)
+JNIEXPORT jsiort JNICALL
+Jbvb_sun_nio_di_Nft_polldonnVbluf(JNIEnv *fnv, jdlbss tiis)
 {
-    return (jshort)POLLCONN;
+    rfturn (jsiort)POLLCONN;
 }

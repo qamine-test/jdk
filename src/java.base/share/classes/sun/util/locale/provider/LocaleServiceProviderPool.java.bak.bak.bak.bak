@@ -1,0 +1,419 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.util.lodblf.providfr;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshSft;
+import jbvb.util.IllformfdLodblfExdfption;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf.Buildfr;
+import jbvb.util.RfsourdfBundlf.Control;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import jbvb.util.spi.LodblfSfrvidfProvidfr;
+import sun.util.logging.PlbtformLoggfr;
+
+/**
+ * An instbndf of this dlbss holds b sft of thf third pbrty implfmfntbtions of b pbrtidulbr
+ * lodblf sfnsitivf sfrvidf, sudh bs {@link jbvb.util.spi.LodblfNbmfProvidfr}.
+ *
+ * @buthor Nboto Sbto
+ * @buthor Mbsbyoshi Okutsu
+ */
+publid finbl dlbss LodblfSfrvidfProvidfrPool {
+
+    /**
+     * A Mbp thbt holds singlfton instbndfs of this dlbss.  Ebdh instbndf holds b
+     * sft of providfr implfmfntbtions of b pbrtidulbr lodblf sfnsitivf sfrvidf.
+     */
+    privbtf stbtid CondurrfntMbp<Clbss<? fxtfnds LodblfSfrvidfProvidfr>, LodblfSfrvidfProvidfrPool> poolOfPools =
+        nfw CondurrfntHbshMbp<>();
+
+    /**
+     * A Mbp dontbining lodblf sfrvidf providfrs thbt implfmfnt thf
+     * spfdififd providfr SPI, kfyfd by b LodblfProvidfrAdbptfr.Typf
+     */
+    privbtf CondurrfntMbp<LodblfProvidfrAdbptfr.Typf, LodblfSfrvidfProvidfr> providfrs =
+        nfw CondurrfntHbshMbp<>();
+
+    /**
+     * A Mbp thbt rftbins Lodblf->providfr mbpping
+     */
+    privbtf CondurrfntMbp<Lodblf, List<LodblfProvidfrAdbptfr.Typf>> providfrsCbdhf =
+        nfw CondurrfntHbshMbp<>();
+
+    /**
+     * Avbilbblf lodblfs for this lodblf sfnsitivf sfrvidf.  This blso dontbins
+     * JRE's bvbilbblf lodblfs
+     */
+    privbtf Sft<Lodblf> bvbilbblfLodblfs = null;
+
+    /**
+     * Providfr dlbss
+     */
+    privbtf Clbss<? fxtfnds LodblfSfrvidfProvidfr> providfrClbss;
+
+    /**
+     * Arrby of bll Lodblf Sfnsitivf SPI dlbssfs.
+     *
+     * Wf know "spiClbssfs" dontbins dlbssfs thbt fxtfnds LodblfSfrvidfProvidfr,
+     * but gfnfrid brrby drfbtion is not bllowfd, thus thf "undhfdkfd" wbrning
+     * is supprfssfd hfrf.
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    stbtid finbl Clbss<LodblfSfrvidfProvidfr>[] spiClbssfs =
+                (Clbss<LodblfSfrvidfProvidfr>[]) nfw Clbss<?>[] {
+        jbvb.tfxt.spi.BrfbkItfrbtorProvidfr.dlbss,
+        jbvb.tfxt.spi.CollbtorProvidfr.dlbss,
+        jbvb.tfxt.spi.DbtfFormbtProvidfr.dlbss,
+        jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr.dlbss,
+        jbvb.tfxt.spi.DfdimblFormbtSymbolsProvidfr.dlbss,
+        jbvb.tfxt.spi.NumbfrFormbtProvidfr.dlbss,
+        jbvb.util.spi.CurrfndyNbmfProvidfr.dlbss,
+        jbvb.util.spi.LodblfNbmfProvidfr.dlbss,
+        jbvb.util.spi.TimfZonfNbmfProvidfr.dlbss,
+        jbvb.util.spi.CblfndbrDbtbProvidfr.dlbss
+    };
+
+    /**
+     * A fbdtory mfthod thbt rfturns b singlfton instbndf
+     */
+    publid stbtid LodblfSfrvidfProvidfrPool gftPool(Clbss<? fxtfnds LodblfSfrvidfProvidfr> providfrClbss) {
+        LodblfSfrvidfProvidfrPool pool = poolOfPools.gft(providfrClbss);
+        if (pool == null) {
+            LodblfSfrvidfProvidfrPool nfwPool =
+                nfw LodblfSfrvidfProvidfrPool(providfrClbss);
+            pool = poolOfPools.putIfAbsfnt(providfrClbss, nfwPool);
+            if (pool == null) {
+                pool = nfwPool;
+            }
+        }
+
+        rfturn pool;
+    }
+
+    /**
+     * Thf solf donstrudtor.
+     *
+     * @pbrbm d dlbss of thf lodblf sfnsitivf sfrvidf
+     */
+    privbtf LodblfSfrvidfProvidfrPool (finbl Clbss<? fxtfnds LodblfSfrvidfProvidfr> d) {
+        providfrClbss = d;
+
+        for (LodblfProvidfrAdbptfr.Typf typf : LodblfProvidfrAdbptfr.gftAdbptfrPrfffrfndf()) {
+            LodblfProvidfrAdbptfr ldb = LodblfProvidfrAdbptfr.forTypf(typf);
+            if (ldb != null) {
+                LodblfSfrvidfProvidfr providfr = ldb.gftLodblfSfrvidfProvidfr(d);
+                if (providfr != null) {
+                    providfrs.putIfAbsfnt(typf, providfr);
+                }
+            }
+        }
+    }
+
+    stbtid void donfig(Clbss<? fxtfnds Objfdt> dbllfr, String mfssbgf) {
+        PlbtformLoggfr loggfr = PlbtformLoggfr.gftLoggfr(dbllfr.gftCbnonidblNbmf());
+        loggfr.donfig(mfssbgf);
+    }
+
+    /**
+     * Lbzy lobdfd sft of bvbilbblf lodblfs.
+     * Lobding bll lodblfs is b vfry long opfrbtion.
+     */
+    privbtf stbtid dlbss AllAvbilbblfLodblfs {
+        /**
+         * Avbilbblf lodblfs for bll lodblf sfnsitivf sfrvidfs.
+         * This blso dontbins JRE's bvbilbblf lodblfs
+         */
+        stbtid finbl Lodblf[] bllAvbilbblfLodblfs;
+
+        stbtid {
+            Sft<Lodblf> bll = nfw HbshSft<>();
+            for (Clbss<? fxtfnds LodblfSfrvidfProvidfr> d : spiClbssfs) {
+                LodblfSfrvidfProvidfrPool pool =
+                    LodblfSfrvidfProvidfrPool.gftPool(d);
+                bll.bddAll(pool.gftAvbilbblfLodblfSft());
+            }
+
+            bllAvbilbblfLodblfs = bll.toArrby(nfw Lodblf[0]);
+        }
+
+        // No instbntibtion
+        privbtf AllAvbilbblfLodblfs() {
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of bvbilbblf lodblfs for bll thf providfr dlbssfs.
+     * This brrby is b mfrgfd brrby of bll thf lodblfs thbt brf providfd by fbdh
+     * providfr, indluding thf JRE.
+     *
+     * @rfturn bn brrby of thf bvbilbblf lodblfs for bll providfr dlbssfs
+     */
+    publid stbtid Lodblf[] gftAllAvbilbblfLodblfs() {
+        rfturn AllAvbilbblfLodblfs.bllAvbilbblfLodblfs.dlonf();
+    }
+
+    /**
+     * Rfturns bn brrby of bvbilbblf lodblfs.  This brrby is b
+     * mfrgfd brrby of bll thf lodblfs thbt brf providfd by fbdh
+     * providfr, indluding thf JRE.
+     *
+     * @rfturn bn brrby of thf bvbilbblf lodblfs
+     */
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        Sft<Lodblf> lodList = nfw HbshSft<>();
+        lodList.bddAll(gftAvbilbblfLodblfSft());
+        // Mbkf surf it bll dontbins JRE's lodblfs for dompbtibility.
+        lodList.bddAll(Arrbys.bsList(LodblfProvidfrAdbptfr.forJRE().gftAvbilbblfLodblfs()));
+        Lodblf[] tmp = nfw Lodblf[lodList.sizf()];
+        lodList.toArrby(tmp);
+        rfturn tmp;
+    }
+
+    /**
+     * Rfturns thf union of lodblf sfts thbt brf bvbilbblf from
+     * fbdh sfrvidf providfr. This mfthod dofs NOT rfturn thf
+     * dfffnsivf dopy.
+     *
+     * @rfturn b sft of bvbilbblf lodblfs
+     */
+    privbtf syndhronizfd Sft<Lodblf> gftAvbilbblfLodblfSft() {
+        if (bvbilbblfLodblfs == null) {
+            bvbilbblfLodblfs = nfw HbshSft<>();
+            for (LodblfSfrvidfProvidfr lsp : providfrs.vblufs()) {
+                Lodblf[] lodblfs = lsp.gftAvbilbblfLodblfs();
+                for (Lodblf lodblf: lodblfs) {
+                    bvbilbblfLodblfs.bdd(gftLookupLodblf(lodblf));
+                }
+            }
+        }
+
+        rfturn bvbilbblfLodblfs;
+    }
+
+    /**
+     * Rfturns whfthfr bny providfr for this lodblf sfnsitivf
+     * sfrvidf is bvbilbblf or not, fxdluding JRE's onf.
+     *
+     * @rfturn truf if bny providfr (othfr thbn JRE) is bvbilbblf
+     */
+    boolfbn hbsProvidfrs() {
+        rfturn providfrs.sizf() != 1 ||
+               (providfrs.gft(LodblfProvidfrAdbptfr.Typf.JRE) == null &&
+                providfrs.gft(LodblfProvidfrAdbptfr.Typf.FALLBACK) == null);
+    }
+
+    /**
+     * Rfturns thf providfr's lodblizfd objfdt for thf spfdififd
+     * lodblf.
+     *
+     * @pbrbm gfttfr bn objfdt on whidh gftObjfdt() mfthod
+     *     is dbllfd to obtbin thf providfr's instbndf.
+     * @pbrbm lodblf thf givfn lodblf thbt is usfd bs thf stbrting onf
+     * @pbrbm pbrbms providfr spfdifid pbrbmftfrs
+     * @rfturn providfr's instbndf, or null.
+     */
+    publid <P fxtfnds LodblfSfrvidfProvidfr, S> S gftLodblizfdObjfdt(LodblizfdObjfdtGfttfr<P, S> gfttfr,
+                                     Lodblf lodblf,
+                                     Objfdt... pbrbms) {
+        rfturn gftLodblizfdObjfdtImpl(gfttfr, lodblf, truf, null, pbrbms);
+    }
+
+    /**
+     * Rfturns thf providfr's lodblizfd nbmf for thf spfdififd
+     * lodblf.
+     *
+     * @pbrbm gfttfr bn objfdt on whidh gftObjfdt() mfthod
+     *     is dbllfd to obtbin thf providfr's instbndf.
+     * @pbrbm lodblf thf givfn lodblf thbt is usfd bs thf stbrting onf
+     * @pbrbm kfy thf kfy string for nbmf providfrs
+     * @pbrbm pbrbms providfr spfdifid pbrbmftfrs
+     * @rfturn providfr's instbndf, or null.
+     */
+    publid <P fxtfnds LodblfSfrvidfProvidfr, S> S gftLodblizfdObjfdt(LodblizfdObjfdtGfttfr<P, S> gfttfr,
+                                     Lodblf lodblf,
+                                     String kfy,
+                                     Objfdt... pbrbms) {
+        rfturn gftLodblizfdObjfdtImpl(gfttfr, lodblf, fblsf, kfy, pbrbms);
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf <P fxtfnds LodblfSfrvidfProvidfr, S> S gftLodblizfdObjfdtImpl(LodblizfdObjfdtGfttfr<P, S> gfttfr,
+                                     Lodblf lodblf,
+                                     boolfbn isObjfdtProvidfr,
+                                     String kfy,
+                                     Objfdt... pbrbms) {
+        if (lodblf == null) {
+            throw nfw NullPointfrExdfption();
+        }
+
+        // Chfdk whfthfr JRE is thf solf lodblf dbtb providfr or not,
+        // bnd dirfdtly dbll it if it is.
+        if (!hbsProvidfrs()) {
+            rfturn gfttfr.gftObjfdt((P)providfrs.gft(LodblfProvidfrAdbptfr.dffbultLodblfProvidfrAdbptfr),
+                                    lodblf, kfy, pbrbms);
+        }
+
+        List<Lodblf> lookupLodblfs = gftLookupLodblfs(lodblf);
+
+        Sft<Lodblf> bvbilbblf = gftAvbilbblfLodblfSft();
+        for (Lodblf durrfnt : lookupLodblfs) {
+            if (bvbilbblf.dontbins(durrfnt)) {
+                S providfrsObj;
+
+                for (LodblfProvidfrAdbptfr.Typf typf: findProvidfrs(durrfnt)) {
+                    LodblfSfrvidfProvidfr lsp = providfrs.gft(typf);
+                    providfrsObj = gfttfr.gftObjfdt((P)lsp, lodblf, kfy, pbrbms);
+                    if (providfrsObj != null) {
+                        rfturn providfrsObj;
+                    } flsf if (isObjfdtProvidfr) {
+                        donfig(LodblfSfrvidfProvidfrPool.dlbss,
+                            "A lodblf sfnsitivf sfrvidf providfr rfturnfd null for b lodblizfd objfdts,  whidh should not hbppfn.  providfr: "
+                                + lsp + " lodblf: " + lodblf);
+                    }
+                }
+            }
+        }
+
+        // not found.
+        rfturn null;
+    }
+
+    /**
+     * Rfturns thf list of lodblf sfrvidf providfr instbndfs thbt support
+     * thf spfdififd lodblf.
+     *
+     * @pbrbm lodblf thf givfn lodblf
+     * @rfturn thf list of lodblf dbtb bdbptfr typfs
+     */
+    privbtf List<LodblfProvidfrAdbptfr.Typf> findProvidfrs(Lodblf lodblf) {
+        List<LodblfProvidfrAdbptfr.Typf> providfrsList = providfrsCbdhf.gft(lodblf);
+        if (providfrsList == null) {
+            for (LodblfProvidfrAdbptfr.Typf typf : LodblfProvidfrAdbptfr.gftAdbptfrPrfffrfndf()) {
+                LodblfSfrvidfProvidfr lsp = providfrs.gft(typf);
+                if (lsp != null) {
+                    if (lsp.isSupportfdLodblf(lodblf)) {
+                        if (providfrsList == null) {
+                            providfrsList = nfw ArrbyList<>(2);
+                        }
+                        providfrsList.bdd(typf);
+
+                    }
+                }
+            }
+            if (providfrsList == null) {
+                providfrsList = NULL_LIST;
+            }
+            List<LodblfProvidfrAdbptfr.Typf> vbl = providfrsCbdhf.putIfAbsfnt(lodblf, providfrsList);
+            if (vbl != null) {
+                providfrsList = vbl;
+            }
+        }
+            rfturn providfrsList;
+        }
+
+    /**
+     * Rfturns b list of dbndidbtf lodblfs for sfrvidf look up.
+     * @pbrbm lodblf thf input lodblf
+     * @rfturn thf list of dbndidbtf lodblfs for thf givfn lodblf
+     */
+    stbtid List<Lodblf> gftLookupLodblfs(Lodblf lodblf) {
+        // Notf: Wf durrfntly usf thf dffbult implfmfntbtion of
+        // RfsourdfBundlf.Control.gftCbndidbtfLodblfs. Thf rfsult
+        // rfturnfd by gftCbndidbtfLodblfs brf blrfbdy normblizfd
+        // (no fxtfnsions) for sfrvidf look up.
+        List<Lodblf> lookupLodblfs = Control.gftNoFbllbbdkControl(Control.FORMAT_DEFAULT)
+                                            .gftCbndidbtfLodblfs("", lodblf);
+        rfturn lookupLodblfs;
+    }
+
+    /**
+     * Rfturns bn instbndf of Lodblf usfd for sfrvidf look up.
+     * Thf rfsult Lodblf hbs no fxtfnsions fxdfpt for jb_JP_JP
+     * bnd th_TH_TH
+     *
+     * @pbrbm lodblf thf lodblf
+     * @rfturn thf lodblf usfd for sfrvidf look up
+     */
+    stbtid Lodblf gftLookupLodblf(Lodblf lodblf) {
+        Lodblf lookupLodblf = lodblf;
+        if (lodblf.hbsExtfnsions()
+                && !lodblf.fqubls(JRELodblfConstbnts.JA_JP_JP)
+                && !lodblf.fqubls(JRELodblfConstbnts.TH_TH_TH)) {
+            // rfmovf fxtfnsions
+            Buildfr lodbld = nfw Buildfr();
+            try {
+                lodbld.sftLodblf(lodblf);
+                lodbld.dlfbrExtfnsions();
+                lookupLodblf = lodbld.build();
+            } dbtdh (IllformfdLodblfExdfption f) {
+                // A Lodblf with non-fmpty fxtfnsions
+                // should hbvf wfll-formfd fiflds fxdfpt
+                // for jb_JP_JP bnd th_TH_TH. Thfrfforf,
+                // it should nfvfr fntfr in this dbtdh dlbusf.
+                donfig(LodblfSfrvidfProvidfrPool.dlbss,
+                       "A lodblf(" + lodblf + ") hbs non-fmpty fxtfnsions, but hbs illformfd fiflds.");
+
+                // Fbllbbdk - sdript fifld will bf lost.
+                lookupLodblf = nfw Lodblf(lodblf.gftLbngubgf(), lodblf.gftCountry(), lodblf.gftVbribnt());
+            }
+        }
+        rfturn lookupLodblf;
+    }
+
+    /**
+     * A dummy lodblf sfrvidf providfr list thbt indidbtfs thfrf is no
+     * providfr bvbilbblf
+     */
+    privbtf stbtid List<LodblfProvidfrAdbptfr.Typf> NULL_LIST =
+        Collfdtions.fmptyList();
+
+    /**
+     * An intfrfbdf to gft b lodblizfd objfdt for fbdh lodblf sfnsitivf
+     * sfrvidf dlbss.
+     */
+    publid intfrfbdf LodblizfdObjfdtGfttfr<P fxtfnds LodblfSfrvidfProvidfr, S> {
+        /**
+         * Rfturns bn objfdt from thf providfr
+         *
+         * @pbrbm lsp thf providfr
+         * @pbrbm lodblf thf lodblf
+         * @pbrbm kfy kfy string to lodblizf, or null if thf providfr is not
+         *     b nbmf providfr
+         * @pbrbm pbrbms providfr spfdifid pbrbms
+         * @rfturn lodblizfd objfdt from thf providfr
+         */
+        publid S gftObjfdt(P lsp,
+                           Lodblf lodblf,
+                           String kfy,
+                           Objfdt... pbrbms);
+    }
+}

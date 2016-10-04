@@ -1,348 +1,348 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* zutil.c -- target dependent utility functions for the compression library
- * Copyright (C) 1995-2005, 2010, 2011, 2012 Jean-loup Gailly.
- * For conditions of distribution and use, see copyright notice in zlib.h
+/* zutil.d -- tbrgft dfpfndfnt utility fundtions for tif domprfssion librbry
+ * Copyrigit (C) 1995-2005, 2010, 2011, 2012 Jfbn-loup Gbilly.
+ * For donditions of distribution bnd usf, sff dopyrigit notidf in zlib.i
  */
 
 /* @(#) $Id$ */
 
-#include "zutil.h"
-#ifndef Z_SOLO
-#  include "gzguts.h"
-#endif
+#indludf "zutil.i"
+#ifndff Z_SOLO
+#  indludf "gzguts.i"
+#fndif
 
-#ifndef NO_DUMMY_DECL
-struct internal_state      {int dummy;}; /* for buggy compilers */
-#endif
+#ifndff NO_DUMMY_DECL
+strudt intfrnbl_stbtf      {int dummy;}; /* for buggy dompilfrs */
+#fndif
 
-z_const char * const z_errmsg[10] = {
-"need dictionary",     /* Z_NEED_DICT       2  */
-"stream end",          /* Z_STREAM_END      1  */
+z_donst dibr * donst z_frrmsg[10] = {
+"nffd didtionbry",     /* Z_NEED_DICT       2  */
+"strfbm fnd",          /* Z_STREAM_END      1  */
 "",                    /* Z_OK              0  */
-"file error",          /* Z_ERRNO         (-1) */
-"stream error",        /* Z_STREAM_ERROR  (-2) */
-"data error",          /* Z_DATA_ERROR    (-3) */
-"insufficient memory", /* Z_MEM_ERROR     (-4) */
-"buffer error",        /* Z_BUF_ERROR     (-5) */
-"incompatible version",/* Z_VERSION_ERROR (-6) */
+"filf frror",          /* Z_ERRNO         (-1) */
+"strfbm frror",        /* Z_STREAM_ERROR  (-2) */
+"dbtb frror",          /* Z_DATA_ERROR    (-3) */
+"insuffidifnt mfmory", /* Z_MEM_ERROR     (-4) */
+"bufffr frror",        /* Z_BUF_ERROR     (-5) */
+"indompbtiblf vfrsion",/* Z_VERSION_ERROR (-6) */
 ""};
 
 
-const char * ZEXPORT zlibVersion()
+donst dibr * ZEXPORT zlibVfrsion()
 {
-    return ZLIB_VERSION;
+    rfturn ZLIB_VERSION;
 }
 
-uLong ZEXPORT zlibCompileFlags()
+uLong ZEXPORT zlibCompilfFlbgs()
 {
-    uLong flags;
+    uLong flbgs;
 
-    flags = 0;
-    switch ((int)(sizeof(uInt))) {
-    case 2:     break;
-    case 4:     flags += 1;     break;
-    case 8:     flags += 2;     break;
-    default:    flags += 3;
+    flbgs = 0;
+    switdi ((int)(sizfof(uInt))) {
+    dbsf 2:     brfbk;
+    dbsf 4:     flbgs += 1;     brfbk;
+    dbsf 8:     flbgs += 2;     brfbk;
+    dffbult:    flbgs += 3;
     }
-    switch ((int)(sizeof(uLong))) {
-    case 2:     break;
-    case 4:     flags += 1 << 2;        break;
-    case 8:     flags += 2 << 2;        break;
-    default:    flags += 3 << 2;
+    switdi ((int)(sizfof(uLong))) {
+    dbsf 2:     brfbk;
+    dbsf 4:     flbgs += 1 << 2;        brfbk;
+    dbsf 8:     flbgs += 2 << 2;        brfbk;
+    dffbult:    flbgs += 3 << 2;
     }
-    switch ((int)(sizeof(voidpf))) {
-    case 2:     break;
-    case 4:     flags += 1 << 4;        break;
-    case 8:     flags += 2 << 4;        break;
-    default:    flags += 3 << 4;
+    switdi ((int)(sizfof(voidpf))) {
+    dbsf 2:     brfbk;
+    dbsf 4:     flbgs += 1 << 4;        brfbk;
+    dbsf 8:     flbgs += 2 << 4;        brfbk;
+    dffbult:    flbgs += 3 << 4;
     }
-    switch ((int)(sizeof(z_off_t))) {
-    case 2:     break;
-    case 4:     flags += 1 << 6;        break;
-    case 8:     flags += 2 << 6;        break;
-    default:    flags += 3 << 6;
+    switdi ((int)(sizfof(z_off_t))) {
+    dbsf 2:     brfbk;
+    dbsf 4:     flbgs += 1 << 6;        brfbk;
+    dbsf 8:     flbgs += 2 << 6;        brfbk;
+    dffbult:    flbgs += 3 << 6;
     }
-#ifdef DEBUG
-    flags += 1 << 8;
-#endif
-#if defined(ASMV) || defined(ASMINF)
-    flags += 1 << 9;
-#endif
-#ifdef ZLIB_WINAPI
-    flags += 1 << 10;
-#endif
-#ifdef BUILDFIXED
-    flags += 1 << 12;
-#endif
-#ifdef DYNAMIC_CRC_TABLE
-    flags += 1 << 13;
-#endif
-#ifdef NO_GZCOMPRESS
-    flags += 1L << 16;
-#endif
-#ifdef NO_GZIP
-    flags += 1L << 17;
-#endif
-#ifdef PKZIP_BUG_WORKAROUND
-    flags += 1L << 20;
-#endif
-#ifdef FASTEST
-    flags += 1L << 21;
-#endif
-#if defined(STDC) || defined(Z_HAVE_STDARG_H)
-#  ifdef NO_vsnprintf
-    flags += 1L << 25;
-#    ifdef HAS_vsprintf_void
-    flags += 1L << 26;
-#    endif
-#  else
-#    ifdef HAS_vsnprintf_void
-    flags += 1L << 26;
-#    endif
-#  endif
-#else
-    flags += 1L << 24;
-#  ifdef NO_snprintf
-    flags += 1L << 25;
-#    ifdef HAS_sprintf_void
-    flags += 1L << 26;
-#    endif
-#  else
-#    ifdef HAS_snprintf_void
-    flags += 1L << 26;
-#    endif
-#  endif
-#endif
-    return flags;
+#ifdff DEBUG
+    flbgs += 1 << 8;
+#fndif
+#if dffinfd(ASMV) || dffinfd(ASMINF)
+    flbgs += 1 << 9;
+#fndif
+#ifdff ZLIB_WINAPI
+    flbgs += 1 << 10;
+#fndif
+#ifdff BUILDFIXED
+    flbgs += 1 << 12;
+#fndif
+#ifdff DYNAMIC_CRC_TABLE
+    flbgs += 1 << 13;
+#fndif
+#ifdff NO_GZCOMPRESS
+    flbgs += 1L << 16;
+#fndif
+#ifdff NO_GZIP
+    flbgs += 1L << 17;
+#fndif
+#ifdff PKZIP_BUG_WORKAROUND
+    flbgs += 1L << 20;
+#fndif
+#ifdff FASTEST
+    flbgs += 1L << 21;
+#fndif
+#if dffinfd(STDC) || dffinfd(Z_HAVE_STDARG_H)
+#  ifdff NO_vsnprintf
+    flbgs += 1L << 25;
+#    ifdff HAS_vsprintf_void
+    flbgs += 1L << 26;
+#    fndif
+#  flsf
+#    ifdff HAS_vsnprintf_void
+    flbgs += 1L << 26;
+#    fndif
+#  fndif
+#flsf
+    flbgs += 1L << 24;
+#  ifdff NO_snprintf
+    flbgs += 1L << 25;
+#    ifdff HAS_sprintf_void
+    flbgs += 1L << 26;
+#    fndif
+#  flsf
+#    ifdff HAS_snprintf_void
+    flbgs += 1L << 26;
+#    fndif
+#  fndif
+#fndif
+    rfturn flbgs;
 }
 
-#ifdef DEBUG
+#ifdff DEBUG
 
-#  ifndef verbose
-#    define verbose 0
-#  endif
-int ZLIB_INTERNAL z_verbose = verbose;
+#  ifndff vfrbosf
+#    dffinf vfrbosf 0
+#  fndif
+int ZLIB_INTERNAL z_vfrbosf = vfrbosf;
 
-void ZLIB_INTERNAL z_error (m)
-    char *m;
+void ZLIB_INTERNAL z_frror (m)
+    dibr *m;
 {
-    fprintf(stderr, "%s\n", m);
-    exit(1);
+    fprintf(stdfrr, "%s\n", m);
+    fxit(1);
 }
-#endif
+#fndif
 
-/* exported to allow conversion of error code to string for compress() and
- * uncompress()
+/* fxportfd to bllow donvfrsion of frror dodf to string for domprfss() bnd
+ * undomprfss()
  */
-const char * ZEXPORT zError(err)
-    int err;
+donst dibr * ZEXPORT zError(frr)
+    int frr;
 {
-    return ERR_MSG(err);
+    rfturn ERR_MSG(frr);
 }
 
-#if defined(_WIN32_WCE)
-    /* The Microsoft C Run-Time Library for Windows CE doesn't have
-     * errno.  We define it as a global variable to simplify porting.
-     * Its value is always 0 and should not be used.
+#if dffinfd(_WIN32_WCE)
+    /* Tif Midrosoft C Run-Timf Librbry for Windows CE dofsn't ibvf
+     * frrno.  Wf dffinf it bs b globbl vbribblf to simplify porting.
+     * Its vbluf is blwbys 0 bnd siould not bf usfd.
      */
-    int errno = 0;
-#endif
+    int frrno = 0;
+#fndif
 
-#ifndef HAVE_MEMCPY
+#ifndff HAVE_MEMCPY
 
-void ZLIB_INTERNAL zmemcpy(dest, source, len)
-    Bytef* dest;
-    const Bytef* source;
-    uInt  len;
+void ZLIB_INTERNAL zmfmdpy(dfst, sourdf, lfn)
+    Bytff* dfst;
+    donst Bytff* sourdf;
+    uInt  lfn;
 {
-    if (len == 0) return;
+    if (lfn == 0) rfturn;
     do {
-        *dest++ = *source++; /* ??? to be unrolled */
-    } while (--len != 0);
+        *dfst++ = *sourdf++; /* ??? to bf unrollfd */
+    } wiilf (--lfn != 0);
 }
 
-int ZLIB_INTERNAL zmemcmp(s1, s2, len)
-    const Bytef* s1;
-    const Bytef* s2;
-    uInt  len;
+int ZLIB_INTERNAL zmfmdmp(s1, s2, lfn)
+    donst Bytff* s1;
+    donst Bytff* s2;
+    uInt  lfn;
 {
     uInt j;
 
-    for (j = 0; j < len; j++) {
-        if (s1[j] != s2[j]) return 2*(s1[j] > s2[j])-1;
+    for (j = 0; j < lfn; j++) {
+        if (s1[j] != s2[j]) rfturn 2*(s1[j] > s2[j])-1;
     }
-    return 0;
+    rfturn 0;
 }
 
-void ZLIB_INTERNAL zmemzero(dest, len)
-    Bytef* dest;
-    uInt  len;
+void ZLIB_INTERNAL zmfmzfro(dfst, lfn)
+    Bytff* dfst;
+    uInt  lfn;
 {
-    if (len == 0) return;
+    if (lfn == 0) rfturn;
     do {
-        *dest++ = 0;  /* ??? to be unrolled */
-    } while (--len != 0);
+        *dfst++ = 0;  /* ??? to bf unrollfd */
+    } wiilf (--lfn != 0);
 }
-#endif
+#fndif
 
-#ifndef Z_SOLO
+#ifndff Z_SOLO
 
-#ifdef SYS16BIT
+#ifdff SYS16BIT
 
-#ifdef __TURBOC__
-/* Turbo C in 16-bit mode */
+#ifdff __TURBOC__
+/* Turbo C in 16-bit modf */
 
-#  define MY_ZCALLOC
+#  dffinf MY_ZCALLOC
 
-/* Turbo C malloc() does not allow dynamic allocation of 64K bytes
- * and farmalloc(64K) returns a pointer with an offset of 8, so we
- * must fix the pointer. Warning: the pointer must be put back to its
- * original form in order to free it, use zcfree().
+/* Turbo C mbllod() dofs not bllow dynbmid bllodbtion of 64K bytfs
+ * bnd fbrmbllod(64K) rfturns b pointfr witi bn offsft of 8, so wf
+ * must fix tif pointfr. Wbrning: tif pointfr must bf put bbdk to its
+ * originbl form in ordfr to frff it, usf zdfrff().
  */
 
-#define MAX_PTR 10
+#dffinf MAX_PTR 10
 /* 10*64K = 640K */
 
-local int next_ptr = 0;
+lodbl int nfxt_ptr = 0;
 
-typedef struct ptr_table_s {
+typfdff strudt ptr_tbblf_s {
     voidpf org_ptr;
-    voidpf new_ptr;
-} ptr_table;
+    voidpf nfw_ptr;
+} ptr_tbblf;
 
-local ptr_table table[MAX_PTR];
-/* This table is used to remember the original form of pointers
- * to large buffers (64K). Such pointers are normalized with a zero offset.
- * Since MSDOS is not a preemptive multitasking OS, this table is not
- * protected from concurrent access. This hack doesn't work anyway on
- * a protected system like OS/2. Use Microsoft C instead.
+lodbl ptr_tbblf tbblf[MAX_PTR];
+/* Tiis tbblf is usfd to rfmfmbfr tif originbl form of pointfrs
+ * to lbrgf bufffrs (64K). Sudi pointfrs brf normblizfd witi b zfro offsft.
+ * Sindf MSDOS is not b prffmptivf multitbsking OS, tiis tbblf is not
+ * protfdtfd from dondurrfnt bddfss. Tiis ibdk dofsn't work bnywby on
+ * b protfdtfd systfm likf OS/2. Usf Midrosoft C instfbd.
  */
 
-voidpf ZLIB_INTERNAL zcalloc (voidpf opaque, unsigned items, unsigned size)
+voidpf ZLIB_INTERNAL zdbllod (voidpf opbquf, unsignfd itfms, unsignfd sizf)
 {
-    voidpf buf = opaque; /* just to make some compilers happy */
-    ulg bsize = (ulg)items*size;
+    voidpf buf = opbquf; /* just to mbkf somf dompilfrs ibppy */
+    ulg bsizf = (ulg)itfms*sizf;
 
-    /* If we allocate less than 65520 bytes, we assume that farmalloc
-     * will return a usable pointer which doesn't have to be normalized.
+    /* If wf bllodbtf lfss tibn 65520 bytfs, wf bssumf tibt fbrmbllod
+     * will rfturn b usbblf pointfr wiidi dofsn't ibvf to bf normblizfd.
      */
-    if (bsize < 65520L) {
-        buf = farmalloc(bsize);
-        if (*(ush*)&buf != 0) return buf;
-    } else {
-        buf = farmalloc(bsize + 16L);
+    if (bsizf < 65520L) {
+        buf = fbrmbllod(bsizf);
+        if (*(usi*)&buf != 0) rfturn buf;
+    } flsf {
+        buf = fbrmbllod(bsizf + 16L);
     }
-    if (buf == NULL || next_ptr >= MAX_PTR) return NULL;
-    table[next_ptr].org_ptr = buf;
+    if (buf == NULL || nfxt_ptr >= MAX_PTR) rfturn NULL;
+    tbblf[nfxt_ptr].org_ptr = buf;
 
-    /* Normalize the pointer to seg:0 */
-    *((ush*)&buf+1) += ((ush)((uch*)buf-0) + 15) >> 4;
-    *(ush*)&buf = 0;
-    table[next_ptr++].new_ptr = buf;
-    return buf;
+    /* Normblizf tif pointfr to sfg:0 */
+    *((usi*)&buf+1) += ((usi)((udi*)buf-0) + 15) >> 4;
+    *(usi*)&buf = 0;
+    tbblf[nfxt_ptr++].nfw_ptr = buf;
+    rfturn buf;
 }
 
-void ZLIB_INTERNAL zcfree (voidpf opaque, voidpf ptr)
+void ZLIB_INTERNAL zdfrff (voidpf opbquf, voidpf ptr)
 {
     int n;
-    if (*(ush*)&ptr != 0) { /* object < 64K */
-        farfree(ptr);
-        return;
+    if (*(usi*)&ptr != 0) { /* objfdt < 64K */
+        fbrfrff(ptr);
+        rfturn;
     }
-    /* Find the original pointer */
-    for (n = 0; n < next_ptr; n++) {
-        if (ptr != table[n].new_ptr) continue;
+    /* Find tif originbl pointfr */
+    for (n = 0; n < nfxt_ptr; n++) {
+        if (ptr != tbblf[n].nfw_ptr) dontinuf;
 
-        farfree(table[n].org_ptr);
-        while (++n < next_ptr) {
-            table[n-1] = table[n];
+        fbrfrff(tbblf[n].org_ptr);
+        wiilf (++n < nfxt_ptr) {
+            tbblf[n-1] = tbblf[n];
         }
-        next_ptr--;
-        return;
+        nfxt_ptr--;
+        rfturn;
     }
-    ptr = opaque; /* just to make some compilers happy */
-    Assert(0, "zcfree: ptr not found");
+    ptr = opbquf; /* just to mbkf somf dompilfrs ibppy */
+    Assfrt(0, "zdfrff: ptr not found");
 }
 
-#endif /* __TURBOC__ */
+#fndif /* __TURBOC__ */
 
 
-#ifdef M_I86
-/* Microsoft C in 16-bit mode */
+#ifdff M_I86
+/* Midrosoft C in 16-bit modf */
 
-#  define MY_ZCALLOC
+#  dffinf MY_ZCALLOC
 
-#if (!defined(_MSC_VER) || (_MSC_VER <= 600))
-#  define _halloc  halloc
-#  define _hfree   hfree
-#endif
+#if (!dffinfd(_MSC_VER) || (_MSC_VER <= 600))
+#  dffinf _ibllod  ibllod
+#  dffinf _ifrff   ifrff
+#fndif
 
-voidpf ZLIB_INTERNAL zcalloc (voidpf opaque, uInt items, uInt size)
+voidpf ZLIB_INTERNAL zdbllod (voidpf opbquf, uInt itfms, uInt sizf)
 {
-    if (opaque) opaque = 0; /* to make compiler happy */
-    return _halloc((long)items, size);
+    if (opbquf) opbquf = 0; /* to mbkf dompilfr ibppy */
+    rfturn _ibllod((long)itfms, sizf);
 }
 
-void ZLIB_INTERNAL zcfree (voidpf opaque, voidpf ptr)
+void ZLIB_INTERNAL zdfrff (voidpf opbquf, voidpf ptr)
 {
-    if (opaque) opaque = 0; /* to make compiler happy */
-    _hfree(ptr);
+    if (opbquf) opbquf = 0; /* to mbkf dompilfr ibppy */
+    _ifrff(ptr);
 }
 
-#endif /* M_I86 */
+#fndif /* M_I86 */
 
-#endif /* SYS16BIT */
+#fndif /* SYS16BIT */
 
 
-#ifndef MY_ZCALLOC /* Any system without a special alloc function */
+#ifndff MY_ZCALLOC /* Any systfm witiout b spfdibl bllod fundtion */
 
-#ifndef STDC
-extern voidp  malloc OF((uInt size));
-extern voidp  calloc OF((uInt items, uInt size));
-extern void   free   OF((voidpf ptr));
-#endif
+#ifndff STDC
+fxtfrn voidp  mbllod OF((uInt sizf));
+fxtfrn voidp  dbllod OF((uInt itfms, uInt sizf));
+fxtfrn void   frff   OF((voidpf ptr));
+#fndif
 
-voidpf ZLIB_INTERNAL zcalloc (opaque, items, size)
-    voidpf opaque;
-    unsigned items;
-    unsigned size;
+voidpf ZLIB_INTERNAL zdbllod (opbquf, itfms, sizf)
+    voidpf opbquf;
+    unsignfd itfms;
+    unsignfd sizf;
 {
-    if (opaque) items += size - size; /* make compiler happy */
-    return sizeof(uInt) > 2 ? (voidpf)malloc(items * size) :
-                              (voidpf)calloc(items, size);
+    if (opbquf) itfms += sizf - sizf; /* mbkf dompilfr ibppy */
+    rfturn sizfof(uInt) > 2 ? (voidpf)mbllod(itfms * sizf) :
+                              (voidpf)dbllod(itfms, sizf);
 }
 
-void ZLIB_INTERNAL zcfree (opaque, ptr)
-    voidpf opaque;
+void ZLIB_INTERNAL zdfrff (opbquf, ptr)
+    voidpf opbquf;
     voidpf ptr;
 {
-    free(ptr);
-    if (opaque) return; /* make compiler happy */
+    frff(ptr);
+    if (opbquf) rfturn; /* mbkf dompilfr ibppy */
 }
 
-#endif /* MY_ZCALLOC */
+#fndif /* MY_ZCALLOC */
 
-#endif /* !Z_SOLO */
+#fndif /* !Z_SOLO */

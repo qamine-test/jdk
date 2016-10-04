@@ -1,424 +1,424 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.event;
+pbdkbgf jbvb.bwt.fvfnt;
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAddfssor;
 
-import java.awt.ActiveEvent;
-import java.awt.AWTEvent;
+import jbvb.bwt.AdtivfEvfnt;
+import jbvb.bwt.AWTEvfnt;
 
 /**
- * An event which executes the <code>run()</code> method on a <code>Runnable
- * </code> when dispatched by the AWT event dispatcher thread. This class can
- * be used as a reference implementation of <code>ActiveEvent</code> rather
- * than declaring a new class and defining <code>dispatch()</code>.<p>
+ * An fvfnt wiidi fxfdutfs tif <dodf>run()</dodf> mftiod on b <dodf>Runnbblf
+ * </dodf> wifn dispbtdifd by tif AWT fvfnt dispbtdifr tirfbd. Tiis dlbss dbn
+ * bf usfd bs b rfffrfndf implfmfntbtion of <dodf>AdtivfEvfnt</dodf> rbtifr
+ * tibn dfdlbring b nfw dlbss bnd dffining <dodf>dispbtdi()</dodf>.<p>
  *
- * Instances of this class are placed on the <code>EventQueue</code> by calls
- * to <code>invokeLater</code> and <code>invokeAndWait</code>. Client code
- * can use this fact to write replacement functions for <code>invokeLater
- * </code> and <code>invokeAndWait</code> without writing special-case code
- * in any <code>AWTEventListener</code> objects.
+ * Instbndfs of tiis dlbss brf plbdfd on tif <dodf>EvfntQufuf</dodf> by dblls
+ * to <dodf>invokfLbtfr</dodf> bnd <dodf>invokfAndWbit</dodf>. Clifnt dodf
+ * dbn usf tiis fbdt to writf rfplbdfmfnt fundtions for <dodf>invokfLbtfr
+ * </dodf> bnd <dodf>invokfAndWbit</dodf> witiout writing spfdibl-dbsf dodf
+ * in bny <dodf>AWTEvfntListfnfr</dodf> objfdts.
  * <p>
- * An unspecified behavior will be caused if the {@code id} parameter
- * of any particular {@code InvocationEvent} instance is not
- * in the range from {@code INVOCATION_FIRST} to {@code INVOCATION_LAST}.
+ * An unspfdififd bfibvior will bf dbusfd if tif {@dodf id} pbrbmftfr
+ * of bny pbrtidulbr {@dodf InvodbtionEvfnt} instbndf is not
+ * in tif rbngf from {@dodf INVOCATION_FIRST} to {@dodf INVOCATION_LAST}.
  *
- * @author      Fred Ecks
- * @author      David Mendenhall
+ * @butior      Frfd Edks
+ * @butior      Dbvid Mfndfnibll
  *
- * @see         java.awt.ActiveEvent
- * @see         java.awt.EventQueue#invokeLater
- * @see         java.awt.EventQueue#invokeAndWait
- * @see         AWTEventListener
+ * @sff         jbvb.bwt.AdtivfEvfnt
+ * @sff         jbvb.bwt.EvfntQufuf#invokfLbtfr
+ * @sff         jbvb.bwt.EvfntQufuf#invokfAndWbit
+ * @sff         AWTEvfntListfnfr
  *
- * @since       1.2
+ * @sindf       1.2
  */
-public class InvocationEvent extends AWTEvent implements ActiveEvent {
+publid dlbss InvodbtionEvfnt fxtfnds AWTEvfnt implfmfnts AdtivfEvfnt {
 
-    static {
-        AWTAccessor.setInvocationEventAccessor(new AWTAccessor.InvocationEventAccessor() {
-            @Override
-            public void dispose(InvocationEvent invocationEvent) {
-                invocationEvent.finishedDispatching(false);
+    stbtid {
+        AWTAddfssor.sftInvodbtionEvfntAddfssor(nfw AWTAddfssor.InvodbtionEvfntAddfssor() {
+            @Ovfrridf
+            publid void disposf(InvodbtionEvfnt invodbtionEvfnt) {
+                invodbtionEvfnt.finisifdDispbtdiing(fblsf);
             }
         });
     }
 
     /**
-     * Marks the first integer id for the range of invocation event ids.
+     * Mbrks tif first intfgfr id for tif rbngf of invodbtion fvfnt ids.
      */
-    public static final int INVOCATION_FIRST = 1200;
+    publid stbtid finbl int INVOCATION_FIRST = 1200;
 
     /**
-     * The default id for all InvocationEvents.
+     * Tif dffbult id for bll InvodbtionEvfnts.
      */
-    public static final int INVOCATION_DEFAULT = INVOCATION_FIRST;
+    publid stbtid finbl int INVOCATION_DEFAULT = INVOCATION_FIRST;
 
     /**
-     * Marks the last integer id for the range of invocation event ids.
+     * Mbrks tif lbst intfgfr id for tif rbngf of invodbtion fvfnt ids.
      */
-    public static final int INVOCATION_LAST = INVOCATION_DEFAULT;
+    publid stbtid finbl int INVOCATION_LAST = INVOCATION_DEFAULT;
 
     /**
-     * The Runnable whose run() method will be called.
+     * Tif Runnbblf wiosf run() mftiod will bf dbllfd.
      */
-    protected Runnable runnable;
+    protfdtfd Runnbblf runnbblf;
 
     /**
-     * The (potentially null) Object whose notifyAll() method will be called
-     * immediately after the Runnable.run() method has returned or thrown an exception
-     * or after the event was disposed.
+     * Tif (potfntiblly null) Objfdt wiosf notifyAll() mftiod will bf dbllfd
+     * immfdibtfly bftfr tif Runnbblf.run() mftiod ibs rfturnfd or tirown bn fxdfption
+     * or bftfr tif fvfnt wbs disposfd.
      *
-     * @see #isDispatched
+     * @sff #isDispbtdifd
      */
-    protected volatile Object notifier;
+    protfdtfd volbtilf Objfdt notififr;
 
     /**
-     * The (potentially null) Runnable whose run() method will be called
-     * immediately after the event was dispatched or disposed.
+     * Tif (potfntiblly null) Runnbblf wiosf run() mftiod will bf dbllfd
+     * immfdibtfly bftfr tif fvfnt wbs dispbtdifd or disposfd.
      *
-     * @see #isDispatched
-     * @since 1.8
+     * @sff #isDispbtdifd
+     * @sindf 1.8
      */
-    private final Runnable listener;
+    privbtf finbl Runnbblf listfnfr;
 
     /**
-     * Indicates whether the <code>run()</code> method of the <code>runnable</code>
-     * was executed or not.
+     * Indidbtfs wiftifr tif <dodf>run()</dodf> mftiod of tif <dodf>runnbblf</dodf>
+     * wbs fxfdutfd or not.
      *
-     * @see #isDispatched
-     * @since 1.7
+     * @sff #isDispbtdifd
+     * @sindf 1.7
      */
-    private volatile boolean dispatched = false;
+    privbtf volbtilf boolfbn dispbtdifd = fblsf;
 
     /**
-     * Set to true if dispatch() catches Throwable and stores it in the
-     * exception instance variable. If false, Throwables are propagated up
-     * to the EventDispatchThread's dispatch loop.
+     * Sft to truf if dispbtdi() dbtdifs Tirowbblf bnd storfs it in tif
+     * fxdfption instbndf vbribblf. If fblsf, Tirowbblfs brf propbgbtfd up
+     * to tif EvfntDispbtdiTirfbd's dispbtdi loop.
      */
-    protected boolean catchExceptions;
+    protfdtfd boolfbn dbtdiExdfptions;
 
     /**
-     * The (potentially null) Exception thrown during execution of the
-     * Runnable.run() method. This variable will also be null if a particular
-     * instance does not catch exceptions.
+     * Tif (potfntiblly null) Exdfption tirown during fxfdution of tif
+     * Runnbblf.run() mftiod. Tiis vbribblf will blso bf null if b pbrtidulbr
+     * instbndf dofs not dbtdi fxdfptions.
      */
-    private Exception exception = null;
+    privbtf Exdfption fxdfption = null;
 
     /**
-     * The (potentially null) Throwable thrown during execution of the
-     * Runnable.run() method. This variable will also be null if a particular
-     * instance does not catch exceptions.
+     * Tif (potfntiblly null) Tirowbblf tirown during fxfdution of tif
+     * Runnbblf.run() mftiod. Tiis vbribblf will blso bf null if b pbrtidulbr
+     * instbndf dofs not dbtdi fxdfptions.
      */
-    private Throwable throwable = null;
+    privbtf Tirowbblf tirowbblf = null;
 
     /**
-     * The timestamp of when this event occurred.
+     * Tif timfstbmp of wifn tiis fvfnt oddurrfd.
      *
-     * @serial
-     * @see #getWhen
+     * @sfribl
+     * @sff #gftWifn
      */
-    private long when;
+    privbtf long wifn;
 
     /*
-     * JDK 1.1 serialVersionUID.
+     * JDK 1.1 sfriblVfrsionUID.
      */
-    private static final long serialVersionUID = 436056344909459450L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 436056344909459450L;
 
     /**
-     * Constructs an <code>InvocationEvent</code> with the specified
-     * source which will execute the runnable's <code>run</code>
-     * method when dispatched.
-     * <p>This is a convenience constructor.  An invocation of the form
-     * <tt>InvocationEvent(source, runnable)</tt>
-     * behaves in exactly the same way as the invocation of
-     * <tt>{@link #InvocationEvent(Object, Runnable, Object, boolean) InvocationEvent}(source, runnable, null, false)</tt>.
-     * <p> This method throws an <code>IllegalArgumentException</code>
-     * if <code>source</code> is <code>null</code>.
+     * Construdts bn <dodf>InvodbtionEvfnt</dodf> witi tif spfdififd
+     * sourdf wiidi will fxfdutf tif runnbblf's <dodf>run</dodf>
+     * mftiod wifn dispbtdifd.
+     * <p>Tiis is b donvfnifndf donstrudtor.  An invodbtion of tif form
+     * <tt>InvodbtionEvfnt(sourdf, runnbblf)</tt>
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion of
+     * <tt>{@link #InvodbtionEvfnt(Objfdt, Runnbblf, Objfdt, boolfbn) InvodbtionEvfnt}(sourdf, runnbblf, null, fblsf)</tt>.
+     * <p> Tiis mftiod tirows bn <dodf>IllfgblArgumfntExdfption</dodf>
+     * if <dodf>sourdf</dodf> is <dodf>null</dodf>.
      *
-     * @param source    The <code>Object</code> that originated the event
-     * @param runnable  The <code>Runnable</code> whose <code>run</code>
-     *                  method will be executed
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @pbrbm sourdf    Tif <dodf>Objfdt</dodf> tibt originbtfd tif fvfnt
+     * @pbrbm runnbblf  Tif <dodf>Runnbblf</dodf> wiosf <dodf>run</dodf>
+     *                  mftiod will bf fxfdutfd
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
      *
-     * @see #getSource()
-     * @see #InvocationEvent(Object, Runnable, Object, boolean)
+     * @sff #gftSourdf()
+     * @sff #InvodbtionEvfnt(Objfdt, Runnbblf, Objfdt, boolfbn)
      */
-    public InvocationEvent(Object source, Runnable runnable) {
-        this(source, INVOCATION_DEFAULT, runnable, null, null, false);
+    publid InvodbtionEvfnt(Objfdt sourdf, Runnbblf runnbblf) {
+        tiis(sourdf, INVOCATION_DEFAULT, runnbblf, null, null, fblsf);
     }
 
     /**
-     * Constructs an <code>InvocationEvent</code> with the specified
-     * source which will execute the runnable's <code>run</code>
-     * method when dispatched.  If notifier is non-<code>null</code>,
-     * <code>notifyAll()</code> will be called on it
-     * immediately after <code>run</code> has returned or thrown an exception.
-     * <p>An invocation of the form <tt>InvocationEvent(source,
-     * runnable, notifier, catchThrowables)</tt>
-     * behaves in exactly the same way as the invocation of
-     * <tt>{@link #InvocationEvent(Object, int, Runnable, Object, boolean) InvocationEvent}(source, InvocationEvent.INVOCATION_DEFAULT, runnable, notifier, catchThrowables)</tt>.
-     * <p>This method throws an <code>IllegalArgumentException</code>
-     * if <code>source</code> is <code>null</code>.
+     * Construdts bn <dodf>InvodbtionEvfnt</dodf> witi tif spfdififd
+     * sourdf wiidi will fxfdutf tif runnbblf's <dodf>run</dodf>
+     * mftiod wifn dispbtdifd.  If notififr is non-<dodf>null</dodf>,
+     * <dodf>notifyAll()</dodf> will bf dbllfd on it
+     * immfdibtfly bftfr <dodf>run</dodf> ibs rfturnfd or tirown bn fxdfption.
+     * <p>An invodbtion of tif form <tt>InvodbtionEvfnt(sourdf,
+     * runnbblf, notififr, dbtdiTirowbblfs)</tt>
+     * bfibvfs in fxbdtly tif sbmf wby bs tif invodbtion of
+     * <tt>{@link #InvodbtionEvfnt(Objfdt, int, Runnbblf, Objfdt, boolfbn) InvodbtionEvfnt}(sourdf, InvodbtionEvfnt.INVOCATION_DEFAULT, runnbblf, notififr, dbtdiTirowbblfs)</tt>.
+     * <p>Tiis mftiod tirows bn <dodf>IllfgblArgumfntExdfption</dodf>
+     * if <dodf>sourdf</dodf> is <dodf>null</dodf>.
      *
-     * @param source            The <code>Object</code> that originated
-     *                          the event
-     * @param runnable          The <code>Runnable</code> whose
-     *                          <code>run</code> method will be
-     *                          executed
-     * @param notifier          The {@code Object} whose <code>notifyAll</code>
-     *                          method will be called after
-     *                          <code>Runnable.run</code> has returned or
-     *                          thrown an exception or after the event was
-     *                          disposed
-     * @param catchThrowables   Specifies whether <code>dispatch</code>
-     *                          should catch Throwable when executing
-     *                          the <code>Runnable</code>'s <code>run</code>
-     *                          method, or should instead propagate those
-     *                          Throwables to the EventDispatchThread's
-     *                          dispatch loop
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @pbrbm sourdf            Tif <dodf>Objfdt</dodf> tibt originbtfd
+     *                          tif fvfnt
+     * @pbrbm runnbblf          Tif <dodf>Runnbblf</dodf> wiosf
+     *                          <dodf>run</dodf> mftiod will bf
+     *                          fxfdutfd
+     * @pbrbm notififr          Tif {@dodf Objfdt} wiosf <dodf>notifyAll</dodf>
+     *                          mftiod will bf dbllfd bftfr
+     *                          <dodf>Runnbblf.run</dodf> ibs rfturnfd or
+     *                          tirown bn fxdfption or bftfr tif fvfnt wbs
+     *                          disposfd
+     * @pbrbm dbtdiTirowbblfs   Spfdififs wiftifr <dodf>dispbtdi</dodf>
+     *                          siould dbtdi Tirowbblf wifn fxfduting
+     *                          tif <dodf>Runnbblf</dodf>'s <dodf>run</dodf>
+     *                          mftiod, or siould instfbd propbgbtf tiosf
+     *                          Tirowbblfs to tif EvfntDispbtdiTirfbd's
+     *                          dispbtdi loop
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
      *
-     * @see #getSource()
-     * @see     #InvocationEvent(Object, int, Runnable, Object, boolean)
+     * @sff #gftSourdf()
+     * @sff     #InvodbtionEvfnt(Objfdt, int, Runnbblf, Objfdt, boolfbn)
      */
-    public InvocationEvent(Object source, Runnable runnable, Object notifier,
-                           boolean catchThrowables) {
-        this(source, INVOCATION_DEFAULT, runnable, notifier, null, catchThrowables);
+    publid InvodbtionEvfnt(Objfdt sourdf, Runnbblf runnbblf, Objfdt notififr,
+                           boolfbn dbtdiTirowbblfs) {
+        tiis(sourdf, INVOCATION_DEFAULT, runnbblf, notififr, null, dbtdiTirowbblfs);
     }
 
     /**
-     * Constructs an <code>InvocationEvent</code> with the specified
-     * source which will execute the runnable's <code>run</code>
-     * method when dispatched.  If listener is non-<code>null</code>,
-     * <code>listener.run()</code> will be called immediately after
-     * <code>run</code> has returned, thrown an exception or the event
-     * was disposed.
-     * <p>This method throws an <code>IllegalArgumentException</code>
-     * if <code>source</code> is <code>null</code>.
+     * Construdts bn <dodf>InvodbtionEvfnt</dodf> witi tif spfdififd
+     * sourdf wiidi will fxfdutf tif runnbblf's <dodf>run</dodf>
+     * mftiod wifn dispbtdifd.  If listfnfr is non-<dodf>null</dodf>,
+     * <dodf>listfnfr.run()</dodf> will bf dbllfd immfdibtfly bftfr
+     * <dodf>run</dodf> ibs rfturnfd, tirown bn fxdfption or tif fvfnt
+     * wbs disposfd.
+     * <p>Tiis mftiod tirows bn <dodf>IllfgblArgumfntExdfption</dodf>
+     * if <dodf>sourdf</dodf> is <dodf>null</dodf>.
      *
-     * @param source            The <code>Object</code> that originated
-     *                          the event
-     * @param runnable          The <code>Runnable</code> whose
-     *                          <code>run</code> method will be
-     *                          executed
-     * @param listener          The <code>Runnable</code>Runnable whose
-     *                          <code>run()</code> method will be called
-     *                          after the {@code InvocationEvent}
-     *                          was dispatched or disposed
-     * @param catchThrowables   Specifies whether <code>dispatch</code>
-     *                          should catch Throwable when executing
-     *                          the <code>Runnable</code>'s <code>run</code>
-     *                          method, or should instead propagate those
-     *                          Throwables to the EventDispatchThread's
-     *                          dispatch loop
-     * @throws IllegalArgumentException if <code>source</code> is null
+     * @pbrbm sourdf            Tif <dodf>Objfdt</dodf> tibt originbtfd
+     *                          tif fvfnt
+     * @pbrbm runnbblf          Tif <dodf>Runnbblf</dodf> wiosf
+     *                          <dodf>run</dodf> mftiod will bf
+     *                          fxfdutfd
+     * @pbrbm listfnfr          Tif <dodf>Runnbblf</dodf>Runnbblf wiosf
+     *                          <dodf>run()</dodf> mftiod will bf dbllfd
+     *                          bftfr tif {@dodf InvodbtionEvfnt}
+     *                          wbs dispbtdifd or disposfd
+     * @pbrbm dbtdiTirowbblfs   Spfdififs wiftifr <dodf>dispbtdi</dodf>
+     *                          siould dbtdi Tirowbblf wifn fxfduting
+     *                          tif <dodf>Runnbblf</dodf>'s <dodf>run</dodf>
+     *                          mftiod, or siould instfbd propbgbtf tiosf
+     *                          Tirowbblfs to tif EvfntDispbtdiTirfbd's
+     *                          dispbtdi loop
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
      */
-    public InvocationEvent(Object source, Runnable runnable, Runnable listener,
-                           boolean catchThrowables)  {
-        this(source, INVOCATION_DEFAULT, runnable, null, listener, catchThrowables);
+    publid InvodbtionEvfnt(Objfdt sourdf, Runnbblf runnbblf, Runnbblf listfnfr,
+                           boolfbn dbtdiTirowbblfs)  {
+        tiis(sourdf, INVOCATION_DEFAULT, runnbblf, null, listfnfr, dbtdiTirowbblfs);
     }
 
     /**
-     * Constructs an <code>InvocationEvent</code> with the specified
-     * source and ID which will execute the runnable's <code>run</code>
-     * method when dispatched.  If notifier is non-<code>null</code>,
-     * <code>notifyAll</code> will be called on it immediately after
-     * <code>run</code> has returned or thrown an exception.
-     * <p>This method throws an
-     * <code>IllegalArgumentException</code> if <code>source</code>
-     * is <code>null</code>.
+     * Construdts bn <dodf>InvodbtionEvfnt</dodf> witi tif spfdififd
+     * sourdf bnd ID wiidi will fxfdutf tif runnbblf's <dodf>run</dodf>
+     * mftiod wifn dispbtdifd.  If notififr is non-<dodf>null</dodf>,
+     * <dodf>notifyAll</dodf> will bf dbllfd on it immfdibtfly bftfr
+     * <dodf>run</dodf> ibs rfturnfd or tirown bn fxdfption.
+     * <p>Tiis mftiod tirows bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if <dodf>sourdf</dodf>
+     * is <dodf>null</dodf>.
      *
-     * @param source            The <code>Object</code> that originated
-     *                          the event
-     * @param id     An integer indicating the type of event.
-     *                     For information on allowable values, see
-     *                     the class description for {@link InvocationEvent}
-     * @param runnable          The <code>Runnable</code> whose
-     *                          <code>run</code> method will be executed
-     * @param notifier          The <code>Object</code> whose <code>notifyAll</code>
-     *                          method will be called after
-     *                          <code>Runnable.run</code> has returned or
-     *                          thrown an exception or after the event was
-     *                          disposed
-     * @param catchThrowables   Specifies whether <code>dispatch</code>
-     *                          should catch Throwable when executing the
-     *                          <code>Runnable</code>'s <code>run</code>
-     *                          method, or should instead propagate those
-     *                          Throwables to the EventDispatchThread's
-     *                          dispatch loop
-     * @throws IllegalArgumentException if <code>source</code> is null
-     * @see #getSource()
-     * @see #getID()
+     * @pbrbm sourdf            Tif <dodf>Objfdt</dodf> tibt originbtfd
+     *                          tif fvfnt
+     * @pbrbm id     An intfgfr indidbting tif typf of fvfnt.
+     *                     For informbtion on bllowbblf vblufs, sff
+     *                     tif dlbss dfsdription for {@link InvodbtionEvfnt}
+     * @pbrbm runnbblf          Tif <dodf>Runnbblf</dodf> wiosf
+     *                          <dodf>run</dodf> mftiod will bf fxfdutfd
+     * @pbrbm notififr          Tif <dodf>Objfdt</dodf> wiosf <dodf>notifyAll</dodf>
+     *                          mftiod will bf dbllfd bftfr
+     *                          <dodf>Runnbblf.run</dodf> ibs rfturnfd or
+     *                          tirown bn fxdfption or bftfr tif fvfnt wbs
+     *                          disposfd
+     * @pbrbm dbtdiTirowbblfs   Spfdififs wiftifr <dodf>dispbtdi</dodf>
+     *                          siould dbtdi Tirowbblf wifn fxfduting tif
+     *                          <dodf>Runnbblf</dodf>'s <dodf>run</dodf>
+     *                          mftiod, or siould instfbd propbgbtf tiosf
+     *                          Tirowbblfs to tif EvfntDispbtdiTirfbd's
+     *                          dispbtdi loop
+     * @tirows IllfgblArgumfntExdfption if <dodf>sourdf</dodf> is null
+     * @sff #gftSourdf()
+     * @sff #gftID()
      */
-    protected InvocationEvent(Object source, int id, Runnable runnable,
-                              Object notifier, boolean catchThrowables) {
-        this(source, id, runnable, notifier, null, catchThrowables);
+    protfdtfd InvodbtionEvfnt(Objfdt sourdf, int id, Runnbblf runnbblf,
+                              Objfdt notififr, boolfbn dbtdiTirowbblfs) {
+        tiis(sourdf, id, runnbblf, notififr, null, dbtdiTirowbblfs);
     }
 
-    private InvocationEvent(Object source, int id, Runnable runnable,
-                            Object notifier, Runnable listener, boolean catchThrowables) {
-        super(source, id);
-        this.runnable = runnable;
-        this.notifier = notifier;
-        this.listener = listener;
-        this.catchExceptions = catchThrowables;
-        this.when = System.currentTimeMillis();
+    privbtf InvodbtionEvfnt(Objfdt sourdf, int id, Runnbblf runnbblf,
+                            Objfdt notififr, Runnbblf listfnfr, boolfbn dbtdiTirowbblfs) {
+        supfr(sourdf, id);
+        tiis.runnbblf = runnbblf;
+        tiis.notififr = notififr;
+        tiis.listfnfr = listfnfr;
+        tiis.dbtdiExdfptions = dbtdiTirowbblfs;
+        tiis.wifn = Systfm.durrfntTimfMillis();
     }
     /**
-     * Executes the Runnable's <code>run()</code> method and notifies the
-     * notifier (if any) when <code>run()</code> has returned or thrown an exception.
+     * Exfdutfs tif Runnbblf's <dodf>run()</dodf> mftiod bnd notififs tif
+     * notififr (if bny) wifn <dodf>run()</dodf> ibs rfturnfd or tirown bn fxdfption.
      *
-     * @see #isDispatched
+     * @sff #isDispbtdifd
      */
-    public void dispatch() {
+    publid void dispbtdi() {
         try {
-            if (catchExceptions) {
+            if (dbtdiExdfptions) {
                 try {
-                    runnable.run();
+                    runnbblf.run();
                 }
-                catch (Throwable t) {
-                    if (t instanceof Exception) {
-                        exception = (Exception) t;
+                dbtdi (Tirowbblf t) {
+                    if (t instbndfof Exdfption) {
+                        fxdfption = (Exdfption) t;
                     }
-                    throwable = t;
+                    tirowbblf = t;
                 }
             }
-            else {
-                runnable.run();
+            flsf {
+                runnbblf.run();
             }
-        } finally {
-            finishedDispatching(true);
+        } finblly {
+            finisifdDispbtdiing(truf);
         }
     }
 
     /**
-     * Returns any Exception caught while executing the Runnable's <code>run()
-     * </code> method.
+     * Rfturns bny Exdfption dbugit wiilf fxfduting tif Runnbblf's <dodf>run()
+     * </dodf> mftiod.
      *
-     * @return  A reference to the Exception if one was thrown; null if no
-     *          Exception was thrown or if this InvocationEvent does not
-     *          catch exceptions
+     * @rfturn  A rfffrfndf to tif Exdfption if onf wbs tirown; null if no
+     *          Exdfption wbs tirown or if tiis InvodbtionEvfnt dofs not
+     *          dbtdi fxdfptions
      */
-    public Exception getException() {
-        return (catchExceptions) ? exception : null;
+    publid Exdfption gftExdfption() {
+        rfturn (dbtdiExdfptions) ? fxdfption : null;
     }
 
     /**
-     * Returns any Throwable caught while executing the Runnable's <code>run()
-     * </code> method.
+     * Rfturns bny Tirowbblf dbugit wiilf fxfduting tif Runnbblf's <dodf>run()
+     * </dodf> mftiod.
      *
-     * @return  A reference to the Throwable if one was thrown; null if no
-     *          Throwable was thrown or if this InvocationEvent does not
-     *          catch Throwables
-     * @since 1.5
+     * @rfturn  A rfffrfndf to tif Tirowbblf if onf wbs tirown; null if no
+     *          Tirowbblf wbs tirown or if tiis InvodbtionEvfnt dofs not
+     *          dbtdi Tirowbblfs
+     * @sindf 1.5
      */
-    public Throwable getThrowable() {
-        return (catchExceptions) ? throwable : null;
+    publid Tirowbblf gftTirowbblf() {
+        rfturn (dbtdiExdfptions) ? tirowbblf : null;
     }
 
     /**
-     * Returns the timestamp of when this event occurred.
+     * Rfturns tif timfstbmp of wifn tiis fvfnt oddurrfd.
      *
-     * @return this event's timestamp
-     * @since 1.4
+     * @rfturn tiis fvfnt's timfstbmp
+     * @sindf 1.4
      */
-    public long getWhen() {
-        return when;
+    publid long gftWifn() {
+        rfturn wifn;
     }
 
     /**
-     * Returns {@code true} if the event is dispatched or any exception is
-     * thrown while dispatching, {@code false} otherwise. The method should
-     * be called by a waiting thread that calls the {@code notifier.wait()} method.
-     * Since spurious wakeups are possible (as explained in {@link Object#wait()}),
-     * this method should be used in a waiting loop to ensure that the event
-     * got dispatched:
-     * <pre>
-     *     while (!event.isDispatched()) {
-     *         notifier.wait();
+     * Rfturns {@dodf truf} if tif fvfnt is dispbtdifd or bny fxdfption is
+     * tirown wiilf dispbtdiing, {@dodf fblsf} otifrwisf. Tif mftiod siould
+     * bf dbllfd by b wbiting tirfbd tibt dblls tif {@dodf notififr.wbit()} mftiod.
+     * Sindf spurious wbkfups brf possiblf (bs fxplbinfd in {@link Objfdt#wbit()}),
+     * tiis mftiod siould bf usfd in b wbiting loop to fnsurf tibt tif fvfnt
+     * got dispbtdifd:
+     * <prf>
+     *     wiilf (!fvfnt.isDispbtdifd()) {
+     *         notififr.wbit();
      *     }
-     * </pre>
-     * If the waiting thread wakes up without dispatching the event,
-     * the {@code isDispatched()} method returns {@code false}, and
-     * the {@code while} loop executes once more, thus, causing
-     * the awakened thread to revert to the waiting mode.
+     * </prf>
+     * If tif wbiting tirfbd wbkfs up witiout dispbtdiing tif fvfnt,
+     * tif {@dodf isDispbtdifd()} mftiod rfturns {@dodf fblsf}, bnd
+     * tif {@dodf wiilf} loop fxfdutfs ondf morf, tius, dbusing
+     * tif bwbkfnfd tirfbd to rfvfrt to tif wbiting modf.
      * <p>
-     * If the {@code notifier.notifyAll()} happens before the waiting thread
-     * enters the {@code notifier.wait()} method, the {@code while} loop ensures
-     * that the waiting thread will not enter the {@code notifier.wait()} method.
-     * Otherwise, there is no guarantee that the waiting thread will ever be woken
-     * from the wait.
+     * If tif {@dodf notififr.notifyAll()} ibppfns bfforf tif wbiting tirfbd
+     * fntfrs tif {@dodf notififr.wbit()} mftiod, tif {@dodf wiilf} loop fnsurfs
+     * tibt tif wbiting tirfbd will not fntfr tif {@dodf notififr.wbit()} mftiod.
+     * Otifrwisf, tifrf is no gubrbntff tibt tif wbiting tirfbd will fvfr bf wokfn
+     * from tif wbit.
      *
-     * @return {@code true} if the event has been dispatched, or any exception
-     * has been thrown while dispatching, {@code false} otherwise
-     * @see #dispatch
-     * @see #notifier
-     * @see #catchExceptions
-     * @since 1.7
+     * @rfturn {@dodf truf} if tif fvfnt ibs bffn dispbtdifd, or bny fxdfption
+     * ibs bffn tirown wiilf dispbtdiing, {@dodf fblsf} otifrwisf
+     * @sff #dispbtdi
+     * @sff #notififr
+     * @sff #dbtdiExdfptions
+     * @sindf 1.7
      */
-    public boolean isDispatched() {
-        return dispatched;
+    publid boolfbn isDispbtdifd() {
+        rfturn dispbtdifd;
     }
 
     /**
-     * Called when the event was dispatched or disposed
-     * @param dispatched true if the event was dispatched
-     *                   false if the event was disposed
+     * Cbllfd wifn tif fvfnt wbs dispbtdifd or disposfd
+     * @pbrbm dispbtdifd truf if tif fvfnt wbs dispbtdifd
+     *                   fblsf if tif fvfnt wbs disposfd
      */
-    private void finishedDispatching(boolean dispatched) {
-        this.dispatched = dispatched;
+    privbtf void finisifdDispbtdiing(boolfbn dispbtdifd) {
+        tiis.dispbtdifd = dispbtdifd;
 
-        if (notifier != null) {
-            synchronized (notifier) {
-                notifier.notifyAll();
+        if (notififr != null) {
+            syndironizfd (notififr) {
+                notififr.notifyAll();
             }
         }
 
-        if (listener != null) {
-            listener.run();
+        if (listfnfr != null) {
+            listfnfr.run();
         }
     }
 
     /**
-     * Returns a parameter string identifying this event.
-     * This method is useful for event-logging and for debugging.
+     * Rfturns b pbrbmftfr string idfntifying tiis fvfnt.
+     * Tiis mftiod is usfful for fvfnt-logging bnd for dfbugging.
      *
-     * @return  A string identifying the event and its attributes
+     * @rfturn  A string idfntifying tif fvfnt bnd its bttributfs
      */
-    public String paramString() {
-        String typeStr;
-        switch(id) {
-            case INVOCATION_DEFAULT:
-                typeStr = "INVOCATION_DEFAULT";
-                break;
-            default:
-                typeStr = "unknown type";
+    publid String pbrbmString() {
+        String typfStr;
+        switdi(id) {
+            dbsf INVOCATION_DEFAULT:
+                typfStr = "INVOCATION_DEFAULT";
+                brfbk;
+            dffbult:
+                typfStr = "unknown typf";
         }
-        return typeStr + ",runnable=" + runnable + ",notifier=" + notifier +
-            ",catchExceptions=" + catchExceptions + ",when=" + when;
+        rfturn typfStr + ",runnbblf=" + runnbblf + ",notififr=" + notififr +
+            ",dbtdiExdfptions=" + dbtdiExdfptions + ",wifn=" + wifn;
     }
 }

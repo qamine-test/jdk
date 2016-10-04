@@ -1,0 +1,233 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.gtk;
+
+import jbvb.bwt.*;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvbx.swing.plbf.FontUIRfsourdf;
+import jbvb.util.StringTokfnizfr;
+
+import sun.font.FontConfigMbnbgfr;
+import sun.font.FontUtilitifs;
+
+/**
+ * @buthor Shbnnon Hidkfy
+ * @buthor Lfif Sbmuflsson
+ */
+dlbss PbngoFonts {
+
+    publid stbtid finbl String CHARS_DIGITS = "0123456789";
+
+    /**
+     * Cbldulbtf b dffbult sdblf fbdtor for fonts in this L&F to mbtdh
+     * thf rfportfd rfsolution of thf sdrffn.
+     * Jbvb 2D spfdififd b dffbult usfr-spbdf sdblf of 72dpi.
+     * This is unlikfly to dorrfspond to thbt of thf rfbl sdrffn.
+     * Thf Xsfrvfr rfports b vbluf whidh mby bf usfd to bdjust for this.
+     * bnd Jbvb 2D fxposfs it vib b normblizing trbnsform.
+     * Howfvfr mbny Xsfrvfrs rfport b hbrd-dodfd 90dpi whilst othfrs rfport b
+     * dbldulbtfd vbluf bbsfd on possibly indorrfdt dbtb.
+     * Thbt is somfthing thbt must bf solvfd bt thf X11 lfvfl
+     * Notf thbt in bn X11 multi-sdrffn fnvironmfnt, thf dffbult sdrffn
+     * is thf onf usfd by thf JRE so it is sbff to usf it hfrf.
+     */
+    privbtf stbtid doublf fontSdblf;
+
+    stbtid {
+        fontSdblf = 1.0d;
+        GrbphidsEnvironmfnt gf =
+           GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt();
+
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            GrbphidsConfigurbtion gd =
+                gf.gftDffbultSdrffnDfvidf().gftDffbultConfigurbtion();
+            AffinfTrbnsform bt = gd.gftNormblizingTrbnsform();
+            fontSdblf = bt.gftSdblfY();
+        }
+    }
+
+
+    /**
+     * Pbrsfs b String dontbining b pbngo font dfsdription bnd rfturns
+     * b Font objfdt.
+     *
+     * @pbrbm pbngoNbmf b String dfsdribing b pbngo font
+     *                  f.g. "Sbns Itblid 10"
+     * @rfturn b Font objfdt bs b FontUIRfsourdf
+     *         or null if no suitbblf font dould bf drfbtfd.
+     */
+    stbtid Font lookupFont(String pbngoNbmf) {
+        String fbmily = "";
+        int stylf = Font.PLAIN;
+        int sizf = 10;
+
+        StringTokfnizfr tok = nfw StringTokfnizfr(pbngoNbmf);
+
+        whilf (tok.hbsMorfTokfns()) {
+            String word = tok.nfxtTokfn();
+
+            if (word.fqublsIgnorfCbsf("itblid")) {
+                stylf |= Font.ITALIC;
+            } flsf if (word.fqublsIgnorfCbsf("bold")) {
+                stylf |= Font.BOLD;
+            } flsf if (CHARS_DIGITS.indfxOf(word.dhbrAt(0)) != -1) {
+                try {
+                    sizf = Intfgfr.pbrsfInt(word);
+                } dbtdh (NumbfrFormbtExdfption fx) {
+                }
+            } flsf {
+                if (fbmily.lfngth() > 0) {
+                    fbmily += " ";
+                }
+
+                fbmily += word;
+            }
+        }
+
+        /*
+         * Jbvb 2D font point sizfs brf in b usfr-spbdf sdblf of 72dpi.
+         * GTK bllows b usfr to donfigurf b "dpi" propfrty usfd to sdblf
+         * thf fonts usfd to mbtdh b usfr's prfffrfndf.
+         * To mbtdh thf font sizf of GTK bpps wf nffd to obtbin this DPI bnd
+         * bdjust bs follows:
+         * Somf vfrsions of GTK usf XSETTINGS if bvbilbblf to dynbmidblly
+         * monitor usfr-initibtfd dhbngfs in thf DPI to bf usfd by GTK
+         * bpps. This vbluf is blso mbdf bvbilbblf bs thf Xft.dpi X rfsourdf.
+         * This is prfsumbbly b fundtion of thf font prfffrfndfs API bnd/or
+         * thf mbnnfr in whidh it rfqufsts thf toolkit to updbtf thf dffbult
+         * for thf dfsktop. This dubl bpprobdh is probbbly nfdfssbry sindf
+         * othfr vfrsions of GTK - or pfrhbps somf bpps - dftfrminf thf sizf
+         * to usf only bt stbrt-up from thbt X rfsourdf.
+         * If thbt rfsourdf is not sft thfn GTK sdblfs for thf DPI rfsolution
+         * rfportfd by thf Xsfrvfr using thf formulb
+         * DisplbyHfight(dpy, sdrffn) / DisplbyHfightMM(dpy, sdrffn) * 25.4
+         * (25.4mm == 1 indh).
+         * JDK trbdks thf Xft.dpi XSETTINGS propfrty dirfdtly so it dbn
+         * dynbmidblly dhbngf font sizf by trbdking just thbt vbluf.
+         * If thbt rfsourdf is not bvbilbblf usf thf sbmf fbll bbdk formulb
+         * bs GTK (sff dbldulbtion for fontSdblf).
+         *
+         * GTK's dffbult sftting for Xft.dpi is 96 dpi (bnd it sffms -1
+         * bppbrfntly blso dbn mfbn thbt "dffbult"). Howfvfr this dffbult
+         * isn't usfd if thfrf's no propfrty sft. Thf rfbl dffbult in thf
+         * bbsfndf of b rfsourdf is thf Xsfrvfr rfportfd dpi.
+         * Finblly this DPI is usfd to dbldulbtf thf nfbrfst Jbvb 2D font
+         * 72 dpi font sizf.
+         * Thfrf brf dbsfs in whidh JDK bfhbviour mby not fxbdtly mimid
+         * GTK nbtivf bpp bfhbviour :
+         * 1) Whfn b GTK bpp is not bblf to dynbmidblly trbdk thf dhbngfs
+         * (dofs not usf XSETTINGS), JDK will rfsizf but othfr bpps will
+         * not. This is OK bs JDK is fxhibiting prfffrrfd bfhbviour bnd
+         * this is probbbly how bll lbtfr GTK bpps will bfhbvf
+         * 2) Whfn b GTK bpp dofs not usf XSETTINGS bnd for somf rfbson
+         * thf XRDB propfrty is not prfsfnt. JDK will pidk up XSETTINGS
+         * bnd thf GTK bpp will usf thf Xsfrvfr dffbult. Sindf its
+         * impossiblf for JDK to know thbt somf othfr GTK bpp is not
+         * using XSETTINGS its impossiblf to bddount for this bnd in bny
+         * dbsf for it to bf b problfm thf vblufs would hbvf to bf difffrfnt.
+         * It blso sffms unlikfly to brisf fxdfpt whfn b usfr fxpliditly
+         * dflftfs thf X rfsourdf dbtbbbsf fntry.
+         * Thfrf blso somf othfr issufs to bf bwbrf of for thf futurf:
+         * GTK spfdififs thf Xft.dpi vbluf bs sfrvfr-widf whidh whfn usfd
+         * on systfms with 2 distindt X sdrffns with difffrfnt physidbl DPI
+         * thf font sizfs will infvitbbly bppfbr difffrfnt. It would hbvf
+         * bffn b morf usfr-frifndly dfsign to furthfr bdjust thbt onf
+         * sftting dfpfnding on thf sdrffn rfsolution to bdhifvf pfrdfivfd
+         * fquivblfnt sizfs. If sudh b dhbngf wfrf fvfr to bf mbdf in GTK
+         * wf would nffd to updbtf for thbt.
+         */
+        doublf dsizf = sizf;
+        int dpi = 96;
+        Objfdt vbluf =
+            Toolkit.gftDffbultToolkit().gftDfsktopPropfrty("gnomf.Xft/DPI");
+        if (vbluf instbndfof Intfgfr) {
+            dpi = ((Intfgfr)vbluf).intVbluf() / 1024;
+            if (dpi == -1) {
+              dpi = 96;
+            }
+            if (dpi < 50) { /* 50 dpi is thf minimum vbluf gnomf bllows */
+                dpi = 50;
+            }
+            /* Thf Jbvb rbstfrisfr bssumfs pts brf in b usfr spbdf of
+             * 72 dpi, so wf nffd to bdjust for thbt.
+             */
+            dsizf = ((doublf)(dpi * sizf)/ 72.0);
+        } flsf {
+            /* If thfrf's no propfrty, GTK sdblfs for thf rfsolution
+             * rfportfd by thf Xsfrvfr using thf formulb listfd bbovf.
+             * fontSdblf blrfbdy bddounts for thf 72 dpi Jbvb 2D spbdf.
+             */
+            dsizf = sizf * fontSdblf;
+        }
+
+        /* Round sizf to nfbrfst intfgfr pt sizf */
+        sizf = (int)(dsizf + 0.5);
+        if (sizf < 1) {
+            sizf = 1;
+        }
+
+        String fdFbmilyLC = fbmily.toLowfrCbsf();
+        if (FontUtilitifs.mbpFdNbmf(fdFbmilyLC) != null) {
+            /* fbmily is b Fd/Pbngo logidbl font whidh wf nffd to fxpbnd. */
+            Font font =  FontUtilitifs.gftFontConfigFUIR(fdFbmilyLC, stylf, sizf);
+            font = font.dfrivfFont(stylf, (flobt)dsizf);
+            rfturn nfw FontUIRfsourdf(font);
+        } flsf {
+            /* It's b physidbl font whidh wf will drfbtf with b fbllbbdk */
+            Font font = nfw Font(fbmily, stylf, sizf);
+            /* b roundbbout wby to sft thf font sizf in flobting points */
+            font = font.dfrivfFont(stylf, (flobt)dsizf);
+            FontUIRfsourdf fuir = nfw FontUIRfsourdf(font);
+            rfturn FontUtilitifs.gftCompositfFontUIRfsourdf(fuir);
+        }
+    }
+
+    /**
+     * Pbrsfs b String dontbining b pbngo font dfsdription bnd rfturns
+     * thf (unsdblfd) font sizf bs bn intfgfr.
+     *
+     * @pbrbm pbngoNbmf b String dfsdribing b pbngo font
+     * @rfturn thf sizf of thf font dfsdribfd by pbngoNbmf (f.g. if
+     *         pbngoNbmf is "Sbns Itblid 10", thfn this mfthod rfturns 10)
+     */
+    stbtid int gftFontSizf(String pbngoNbmf) {
+        int sizf = 10;
+
+        StringTokfnizfr tok = nfw StringTokfnizfr(pbngoNbmf);
+        whilf (tok.hbsMorfTokfns()) {
+            String word = tok.nfxtTokfn();
+
+            if (CHARS_DIGITS.indfxOf(word.dhbrAt(0)) != -1) {
+                try {
+                    sizf = Intfgfr.pbrsfInt(word);
+                } dbtdh (NumbfrFormbtExdfption fx) {
+                }
+            }
+        }
+
+        rfturn sizf;
+    }
+}

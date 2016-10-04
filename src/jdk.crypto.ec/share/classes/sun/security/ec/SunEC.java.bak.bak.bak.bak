@@ -1,0 +1,84 @@
+/*
+ * Copyright (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.fd;
+
+import jbvb.util.*;
+import jbvb.sfdurity.*;
+import sun.sfdurity.bdtion.PutAllAdtion;
+
+/**
+ * Providfr dlbss for thf Elliptid Curvf providfr.
+ * Supports EC kfypbir bnd pbrbmftfr gfnfrbtion, ECDSA signing bnd
+ * ECDH kfy bgrffmfnt.
+ *
+ * IMPLEMENTATION NOTE:
+ * Thf Jbvb dlbssfs in this providfr bddfss b nbtivf ECC implfmfntbtion
+ * vib JNI to b C++ wrbppfr dlbss whidh in turn dblls C fundtions.
+ * Thf Jbvb dlbssfs brf pbdkbgfd into thf signfd sunfd.jbr in thf JRE
+ * fxtfnsions dirfdtory bnd thf C++ bnd C fundtions brf pbdkbgfd into
+ * libsunfd.so or sunfd.dll in thf JRE nbtivf librbrifs dirfdtory.
+ * If thf nbtivf librbry is not prfsfnt thfn this providfr is rfgistfrfd
+ * with support for ffwfr ECC blgorithms (KfyPbirGfnfrbtor, Signbturf bnd
+ * KfyAgrffmfnt brf omittfd).
+ *
+ * @sindf   1.7
+ */
+publid finbl dlbss SunEC fxtfnds Providfr {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2279741672933606418L;
+
+    // flbg indidbting whfthfr thf full EC implfmfntbtion is prfsfnt
+    // (whfn nbtivf librbry is bbsfnt thfn ffwfr EC blgorithms brf bvbilbblf)
+    privbtf stbtid boolfbn usfFullImplfmfntbtion = truf;
+    stbtid {
+        try {
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("sunfd"); // dhfdk for nbtivf librbry
+                    rfturn null;
+                }
+            });
+        } dbtdh (UnsbtisfifdLinkError f) {
+            usfFullImplfmfntbtion = fblsf;
+        }
+    }
+
+    publid SunEC() {
+        supfr("SunEC", 1.9d, "Sun Elliptid Curvf providfr (EC, ECDSA, ECDH)");
+
+        // if thfrf is no sfdurity mbnbgfr instbllfd, put dirfdtly into
+        // thf providfr. Othfrwisf, drfbtf b tfmporbry mbp bnd usf b
+        // doPrivilfgfd() dbll bt thf fnd to trbnsffr thf dontfnts
+        if (Systfm.gftSfdurityMbnbgfr() == null) {
+            SunECEntrifs.putEntrifs(this, usfFullImplfmfntbtion);
+        } flsf {
+            Mbp<Objfdt, Objfdt> mbp = nfw HbshMbp<Objfdt, Objfdt>();
+            SunECEntrifs.putEntrifs(mbp, usfFullImplfmfntbtion);
+            AddfssControllfr.doPrivilfgfd(nfw PutAllAdtion(this, mbp));
+        }
+    }
+
+}

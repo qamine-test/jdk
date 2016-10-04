@@ -1,1571 +1,1571 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.auth;
+pbdkbgf jbvbx.sfdurity.buti;
 
-import java.util.*;
-import java.io.*;
-import java.lang.reflect.*;
-import java.text.MessageFormat;
-import java.security.AccessController;
-import java.security.AccessControlContext;
-import java.security.DomainCombiner;
-import java.security.Permission;
-import java.security.PermissionCollection;
-import java.security.Principal;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedExceptionAction;
-import java.security.PrivilegedActionException;
-import java.security.ProtectionDomain;
-import sun.security.util.ResourcesMgr;
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.DombinCombinfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.ProtfdtionDombin;
+import sun.sfdurity.util.RfsourdfsMgr;
 
 /**
- * <p> A {@code Subject} represents a grouping of related information
- * for a single entity, such as a person.
- * Such information includes the Subject's identities as well as
- * its security-related attributes
- * (passwords and cryptographic keys, for example).
+ * <p> A {@dodf Subjfdt} rfprfsfnts b grouping of rflbtfd informbtion
+ * for b singlf fntity, sudi bs b pfrson.
+ * Sudi informbtion indludfs tif Subjfdt's idfntitifs bs wfll bs
+ * its sfdurity-rflbtfd bttributfs
+ * (pbsswords bnd dryptogrbpiid kfys, for fxbmplf).
  *
- * <p> Subjects may potentially have multiple identities.
- * Each identity is represented as a {@code Principal}
- * within the {@code Subject}.  Principals simply bind names to a
- * {@code Subject}.  For example, a {@code Subject} that happens
- * to be a person, Alice, might have two Principals:
- * one which binds "Alice Bar", the name on her driver license,
- * to the {@code Subject}, and another which binds,
- * "999-99-9999", the number on her student identification card,
- * to the {@code Subject}.  Both Principals refer to the same
- * {@code Subject} even though each has a different name.
+ * <p> Subjfdts mby potfntiblly ibvf multiplf idfntitifs.
+ * Ebdi idfntity is rfprfsfntfd bs b {@dodf Prindipbl}
+ * witiin tif {@dodf Subjfdt}.  Prindipbls simply bind nbmfs to b
+ * {@dodf Subjfdt}.  For fxbmplf, b {@dodf Subjfdt} tibt ibppfns
+ * to bf b pfrson, Alidf, migit ibvf two Prindipbls:
+ * onf wiidi binds "Alidf Bbr", tif nbmf on ifr drivfr lidfnsf,
+ * to tif {@dodf Subjfdt}, bnd bnotifr wiidi binds,
+ * "999-99-9999", tif numbfr on ifr studfnt idfntifidbtion dbrd,
+ * to tif {@dodf Subjfdt}.  Boti Prindipbls rfffr to tif sbmf
+ * {@dodf Subjfdt} fvfn tiougi fbdi ibs b difffrfnt nbmf.
  *
- * <p> A {@code Subject} may also own security-related attributes,
- * which are referred to as credentials.
- * Sensitive credentials that require special protection, such as
- * private cryptographic keys, are stored within a private credential
- * {@code Set}.  Credentials intended to be shared, such as
- * public key certificates or Kerberos server tickets are stored
- * within a public credential {@code Set}.  Different permissions
- * are required to access and modify the different credential Sets.
+ * <p> A {@dodf Subjfdt} mby blso own sfdurity-rflbtfd bttributfs,
+ * wiidi brf rfffrrfd to bs drfdfntibls.
+ * Sfnsitivf drfdfntibls tibt rfquirf spfdibl protfdtion, sudi bs
+ * privbtf dryptogrbpiid kfys, brf storfd witiin b privbtf drfdfntibl
+ * {@dodf Sft}.  Crfdfntibls intfndfd to bf sibrfd, sudi bs
+ * publid kfy dfrtifidbtfs or Kfrbfros sfrvfr tidkfts brf storfd
+ * witiin b publid drfdfntibl {@dodf Sft}.  Difffrfnt pfrmissions
+ * brf rfquirfd to bddfss bnd modify tif difffrfnt drfdfntibl Sfts.
  *
- * <p> To retrieve all the Principals associated with a {@code Subject},
- * invoke the {@code getPrincipals} method.  To retrieve
- * all the public or private credentials belonging to a {@code Subject},
- * invoke the {@code getPublicCredentials} method or
- * {@code getPrivateCredentials} method, respectively.
- * To modify the returned {@code Set} of Principals and credentials,
- * use the methods defined in the {@code Set} class.
- * For example:
- * <pre>
- *      Subject subject;
- *      Principal principal;
- *      Object credential;
+ * <p> To rftrifvf bll tif Prindipbls bssodibtfd witi b {@dodf Subjfdt},
+ * invokf tif {@dodf gftPrindipbls} mftiod.  To rftrifvf
+ * bll tif publid or privbtf drfdfntibls bflonging to b {@dodf Subjfdt},
+ * invokf tif {@dodf gftPublidCrfdfntibls} mftiod or
+ * {@dodf gftPrivbtfCrfdfntibls} mftiod, rfspfdtivfly.
+ * To modify tif rfturnfd {@dodf Sft} of Prindipbls bnd drfdfntibls,
+ * usf tif mftiods dffinfd in tif {@dodf Sft} dlbss.
+ * For fxbmplf:
+ * <prf>
+ *      Subjfdt subjfdt;
+ *      Prindipbl prindipbl;
+ *      Objfdt drfdfntibl;
  *
- *      // add a Principal and credential to the Subject
- *      subject.getPrincipals().add(principal);
- *      subject.getPublicCredentials().add(credential);
- * </pre>
+ *      // bdd b Prindipbl bnd drfdfntibl to tif Subjfdt
+ *      subjfdt.gftPrindipbls().bdd(prindipbl);
+ *      subjfdt.gftPublidCrfdfntibls().bdd(drfdfntibl);
+ * </prf>
  *
- * <p> This {@code Subject} class implements {@code Serializable}.
- * While the Principals associated with the {@code Subject} are serialized,
- * the credentials associated with the {@code Subject} are not.
- * Note that the {@code java.security.Principal} class
- * does not implement {@code Serializable}.  Therefore all concrete
- * {@code Principal} implementations associated with Subjects
- * must implement {@code Serializable}.
+ * <p> Tiis {@dodf Subjfdt} dlbss implfmfnts {@dodf Sfriblizbblf}.
+ * Wiilf tif Prindipbls bssodibtfd witi tif {@dodf Subjfdt} brf sfriblizfd,
+ * tif drfdfntibls bssodibtfd witi tif {@dodf Subjfdt} brf not.
+ * Notf tibt tif {@dodf jbvb.sfdurity.Prindipbl} dlbss
+ * dofs not implfmfnt {@dodf Sfriblizbblf}.  Tifrfforf bll dondrftf
+ * {@dodf Prindipbl} implfmfntbtions bssodibtfd witi Subjfdts
+ * must implfmfnt {@dodf Sfriblizbblf}.
  *
- * @see java.security.Principal
- * @see java.security.DomainCombiner
+ * @sff jbvb.sfdurity.Prindipbl
+ * @sff jbvb.sfdurity.DombinCombinfr
  */
-public final class Subject implements java.io.Serializable {
+publid finbl dlbss Subjfdt implfmfnts jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = -8308522755600156056L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8308522755600156056L;
 
     /**
-     * A {@code Set} that provides a view of all of this
-     * Subject's Principals
+     * A {@dodf Sft} tibt providfs b vifw of bll of tiis
+     * Subjfdt's Prindipbls
      *
      * <p>
      *
-     * @serial Each element in this set is a
-     *          {@code java.security.Principal}.
-     *          The set is a {@code Subject.SecureSet}.
+     * @sfribl Ebdi flfmfnt in tiis sft is b
+     *          {@dodf jbvb.sfdurity.Prindipbl}.
+     *          Tif sft is b {@dodf Subjfdt.SfdurfSft}.
      */
-    Set<Principal> principals;
+    Sft<Prindipbl> prindipbls;
 
     /**
-     * Sets that provide a view of all of this
-     * Subject's Credentials
+     * Sfts tibt providf b vifw of bll of tiis
+     * Subjfdt's Crfdfntibls
      */
-    transient Set<Object> pubCredentials;
-    transient Set<Object> privCredentials;
+    trbnsifnt Sft<Objfdt> pubCrfdfntibls;
+    trbnsifnt Sft<Objfdt> privCrfdfntibls;
 
     /**
-     * Whether this Subject is read-only
+     * Wiftifr tiis Subjfdt is rfbd-only
      *
-     * @serial
+     * @sfribl
      */
-    private volatile boolean readOnly = false;
+    privbtf volbtilf boolfbn rfbdOnly = fblsf;
 
-    private static final int PRINCIPAL_SET = 1;
-    private static final int PUB_CREDENTIAL_SET = 2;
-    private static final int PRIV_CREDENTIAL_SET = 3;
+    privbtf stbtid finbl int PRINCIPAL_SET = 1;
+    privbtf stbtid finbl int PUB_CREDENTIAL_SET = 2;
+    privbtf stbtid finbl int PRIV_CREDENTIAL_SET = 3;
 
-    private static final ProtectionDomain[] NULL_PD_ARRAY
-        = new ProtectionDomain[0];
+    privbtf stbtid finbl ProtfdtionDombin[] NULL_PD_ARRAY
+        = nfw ProtfdtionDombin[0];
 
     /**
-     * Create an instance of a {@code Subject}
-     * with an empty {@code Set} of Principals and empty
-     * Sets of public and private credentials.
+     * Crfbtf bn instbndf of b {@dodf Subjfdt}
+     * witi bn fmpty {@dodf Sft} of Prindipbls bnd fmpty
+     * Sfts of publid bnd privbtf drfdfntibls.
      *
-     * <p> The newly constructed Sets check whether this {@code Subject}
-     * has been set read-only before permitting subsequent modifications.
-     * The newly created Sets also prevent illegal modifications
-     * by ensuring that callers have sufficient permissions.  These Sets
-     * also prohibit null elements, and attempts to add or query a null
-     * element will result in a {@code NullPointerException}.
+     * <p> Tif nfwly donstrudtfd Sfts difdk wiftifr tiis {@dodf Subjfdt}
+     * ibs bffn sft rfbd-only bfforf pfrmitting subsfqufnt modifidbtions.
+     * Tif nfwly drfbtfd Sfts blso prfvfnt illfgbl modifidbtions
+     * by fnsuring tibt dbllfrs ibvf suffidifnt pfrmissions.  Tifsf Sfts
+     * blso proiibit null flfmfnts, bnd bttfmpts to bdd or qufry b null
+     * flfmfnt will rfsult in b {@dodf NullPointfrExdfption}.
      *
-     * <p> To modify the Principals Set, the caller must have
-     * {@code AuthPermission("modifyPrincipals")}.
-     * To modify the public credential Set, the caller must have
-     * {@code AuthPermission("modifyPublicCredentials")}.
-     * To modify the private credential Set, the caller must have
-     * {@code AuthPermission("modifyPrivateCredentials")}.
+     * <p> To modify tif Prindipbls Sft, tif dbllfr must ibvf
+     * {@dodf AutiPfrmission("modifyPrindipbls")}.
+     * To modify tif publid drfdfntibl Sft, tif dbllfr must ibvf
+     * {@dodf AutiPfrmission("modifyPublidCrfdfntibls")}.
+     * To modify tif privbtf drfdfntibl Sft, tif dbllfr must ibvf
+     * {@dodf AutiPfrmission("modifyPrivbtfCrfdfntibls")}.
      */
-    public Subject() {
+    publid Subjfdt() {
 
-        this.principals = Collections.synchronizedSet
-                        (new SecureSet<Principal>(this, PRINCIPAL_SET));
-        this.pubCredentials = Collections.synchronizedSet
-                        (new SecureSet<Object>(this, PUB_CREDENTIAL_SET));
-        this.privCredentials = Collections.synchronizedSet
-                        (new SecureSet<Object>(this, PRIV_CREDENTIAL_SET));
+        tiis.prindipbls = Collfdtions.syndironizfdSft
+                        (nfw SfdurfSft<Prindipbl>(tiis, PRINCIPAL_SET));
+        tiis.pubCrfdfntibls = Collfdtions.syndironizfdSft
+                        (nfw SfdurfSft<Objfdt>(tiis, PUB_CREDENTIAL_SET));
+        tiis.privCrfdfntibls = Collfdtions.syndironizfdSft
+                        (nfw SfdurfSft<Objfdt>(tiis, PRIV_CREDENTIAL_SET));
     }
 
     /**
-     * Create an instance of a {@code Subject} with
-     * Principals and credentials.
+     * Crfbtf bn instbndf of b {@dodf Subjfdt} witi
+     * Prindipbls bnd drfdfntibls.
      *
-     * <p> The Principals and credentials from the specified Sets
-     * are copied into newly constructed Sets.
-     * These newly created Sets check whether this {@code Subject}
-     * has been set read-only before permitting subsequent modifications.
-     * The newly created Sets also prevent illegal modifications
-     * by ensuring that callers have sufficient permissions.  These Sets
-     * also prohibit null elements, and attempts to add or query a null
-     * element will result in a {@code NullPointerException}.
+     * <p> Tif Prindipbls bnd drfdfntibls from tif spfdififd Sfts
+     * brf dopifd into nfwly donstrudtfd Sfts.
+     * Tifsf nfwly drfbtfd Sfts difdk wiftifr tiis {@dodf Subjfdt}
+     * ibs bffn sft rfbd-only bfforf pfrmitting subsfqufnt modifidbtions.
+     * Tif nfwly drfbtfd Sfts blso prfvfnt illfgbl modifidbtions
+     * by fnsuring tibt dbllfrs ibvf suffidifnt pfrmissions.  Tifsf Sfts
+     * blso proiibit null flfmfnts, bnd bttfmpts to bdd or qufry b null
+     * flfmfnt will rfsult in b {@dodf NullPointfrExdfption}.
      *
-     * <p> To modify the Principals Set, the caller must have
-     * {@code AuthPermission("modifyPrincipals")}.
-     * To modify the public credential Set, the caller must have
-     * {@code AuthPermission("modifyPublicCredentials")}.
-     * To modify the private credential Set, the caller must have
-     * {@code AuthPermission("modifyPrivateCredentials")}.
+     * <p> To modify tif Prindipbls Sft, tif dbllfr must ibvf
+     * {@dodf AutiPfrmission("modifyPrindipbls")}.
+     * To modify tif publid drfdfntibl Sft, tif dbllfr must ibvf
+     * {@dodf AutiPfrmission("modifyPublidCrfdfntibls")}.
+     * To modify tif privbtf drfdfntibl Sft, tif dbllfr must ibvf
+     * {@dodf AutiPfrmission("modifyPrivbtfCrfdfntibls")}.
      * <p>
      *
-     * @param readOnly true if the {@code Subject} is to be read-only,
-     *          and false otherwise. <p>
+     * @pbrbm rfbdOnly truf if tif {@dodf Subjfdt} is to bf rfbd-only,
+     *          bnd fblsf otifrwisf. <p>
      *
-     * @param principals the {@code Set} of Principals
-     *          to be associated with this {@code Subject}. <p>
+     * @pbrbm prindipbls tif {@dodf Sft} of Prindipbls
+     *          to bf bssodibtfd witi tiis {@dodf Subjfdt}. <p>
      *
-     * @param pubCredentials the {@code Set} of public credentials
-     *          to be associated with this {@code Subject}. <p>
+     * @pbrbm pubCrfdfntibls tif {@dodf Sft} of publid drfdfntibls
+     *          to bf bssodibtfd witi tiis {@dodf Subjfdt}. <p>
      *
-     * @param privCredentials the {@code Set} of private credentials
-     *          to be associated with this {@code Subject}.
+     * @pbrbm privCrfdfntibls tif {@dodf Sft} of privbtf drfdfntibls
+     *          to bf bssodibtfd witi tiis {@dodf Subjfdt}.
      *
-     * @exception NullPointerException if the specified
-     *          {@code principals}, {@code pubCredentials},
-     *          or {@code privCredentials} are {@code null},
-     *          or a null value exists within any of these three
-     *          Sets.
+     * @fxdfption NullPointfrExdfption if tif spfdififd
+     *          {@dodf prindipbls}, {@dodf pubCrfdfntibls},
+     *          or {@dodf privCrfdfntibls} brf {@dodf null},
+     *          or b null vbluf fxists witiin bny of tifsf tirff
+     *          Sfts.
      */
-    public Subject(boolean readOnly, Set<? extends Principal> principals,
-                   Set<?> pubCredentials, Set<?> privCredentials)
+    publid Subjfdt(boolfbn rfbdOnly, Sft<? fxtfnds Prindipbl> prindipbls,
+                   Sft<?> pubCrfdfntibls, Sft<?> privCrfdfntibls)
     {
-        collectionNullClean(principals);
-        collectionNullClean(pubCredentials);
-        collectionNullClean(privCredentials);
+        dollfdtionNullClfbn(prindipbls);
+        dollfdtionNullClfbn(pubCrfdfntibls);
+        dollfdtionNullClfbn(privCrfdfntibls);
 
-        this.principals = Collections.synchronizedSet(new SecureSet<Principal>
-                                (this, PRINCIPAL_SET, principals));
-        this.pubCredentials = Collections.synchronizedSet(new SecureSet<Object>
-                                (this, PUB_CREDENTIAL_SET, pubCredentials));
-        this.privCredentials = Collections.synchronizedSet(new SecureSet<Object>
-                                (this, PRIV_CREDENTIAL_SET, privCredentials));
-        this.readOnly = readOnly;
+        tiis.prindipbls = Collfdtions.syndironizfdSft(nfw SfdurfSft<Prindipbl>
+                                (tiis, PRINCIPAL_SET, prindipbls));
+        tiis.pubCrfdfntibls = Collfdtions.syndironizfdSft(nfw SfdurfSft<Objfdt>
+                                (tiis, PUB_CREDENTIAL_SET, pubCrfdfntibls));
+        tiis.privCrfdfntibls = Collfdtions.syndironizfdSft(nfw SfdurfSft<Objfdt>
+                                (tiis, PRIV_CREDENTIAL_SET, privCrfdfntibls));
+        tiis.rfbdOnly = rfbdOnly;
     }
 
     /**
-     * Set this {@code Subject} to be read-only.
+     * Sft tiis {@dodf Subjfdt} to bf rfbd-only.
      *
-     * <p> Modifications (additions and removals) to this Subject's
-     * {@code Principal} {@code Set} and
-     * credential Sets will be disallowed.
-     * The {@code destroy} operation on this Subject's credentials will
-     * still be permitted.
+     * <p> Modifidbtions (bdditions bnd rfmovbls) to tiis Subjfdt's
+     * {@dodf Prindipbl} {@dodf Sft} bnd
+     * drfdfntibl Sfts will bf disbllowfd.
+     * Tif {@dodf dfstroy} opfrbtion on tiis Subjfdt's drfdfntibls will
+     * still bf pfrmittfd.
      *
-     * <p> Subsequent attempts to modify the Subject's {@code Principal}
-     * and credential Sets will result in an
-     * {@code IllegalStateException} being thrown.
-     * Also, once a {@code Subject} is read-only,
-     * it can not be reset to being writable again.
+     * <p> Subsfqufnt bttfmpts to modify tif Subjfdt's {@dodf Prindipbl}
+     * bnd drfdfntibl Sfts will rfsult in bn
+     * {@dodf IllfgblStbtfExdfption} bfing tirown.
+     * Also, ondf b {@dodf Subjfdt} is rfbd-only,
+     * it dbn not bf rfsft to bfing writbblf bgbin.
      *
      * <p>
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to set this {@code Subject} to be read-only.
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *          to sft tiis {@dodf Subjfdt} to bf rfbd-only.
      */
-    public void setReadOnly() {
-        java.lang.SecurityManager sm = System.getSecurityManager();
+    publid void sftRfbdOnly() {
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(AuthPermissionHolder.SET_READ_ONLY_PERMISSION);
+            sm.difdkPfrmission(AutiPfrmissionHoldfr.SET_READ_ONLY_PERMISSION);
         }
 
-        this.readOnly = true;
+        tiis.rfbdOnly = truf;
     }
 
     /**
-     * Query whether this {@code Subject} is read-only.
+     * Qufry wiftifr tiis {@dodf Subjfdt} is rfbd-only.
      *
      * <p>
      *
-     * @return true if this {@code Subject} is read-only, false otherwise.
+     * @rfturn truf if tiis {@dodf Subjfdt} is rfbd-only, fblsf otifrwisf.
      */
-    public boolean isReadOnly() {
-        return this.readOnly;
+    publid boolfbn isRfbdOnly() {
+        rfturn tiis.rfbdOnly;
     }
 
     /**
-     * Get the {@code Subject} associated with the provided
-     * {@code AccessControlContext}.
+     * Gft tif {@dodf Subjfdt} bssodibtfd witi tif providfd
+     * {@dodf AddfssControlContfxt}.
      *
-     * <p> The {@code AccessControlContext} may contain many
-     * Subjects (from nested {@code doAs} calls).
-     * In this situation, the most recent {@code Subject} associated
-     * with the {@code AccessControlContext} is returned.
+     * <p> Tif {@dodf AddfssControlContfxt} mby dontbin mbny
+     * Subjfdts (from nfstfd {@dodf doAs} dblls).
+     * In tiis situbtion, tif most rfdfnt {@dodf Subjfdt} bssodibtfd
+     * witi tif {@dodf AddfssControlContfxt} is rfturnfd.
      *
      * <p>
      *
-     * @param  acc the {@code AccessControlContext} from which to retrieve
-     *          the {@code Subject}.
+     * @pbrbm  bdd tif {@dodf AddfssControlContfxt} from wiidi to rftrifvf
+     *          tif {@dodf Subjfdt}.
      *
-     * @return  the {@code Subject} associated with the provided
-     *          {@code AccessControlContext}, or {@code null}
-     *          if no {@code Subject} is associated
-     *          with the provided {@code AccessControlContext}.
+     * @rfturn  tif {@dodf Subjfdt} bssodibtfd witi tif providfd
+     *          {@dodf AddfssControlContfxt}, or {@dodf null}
+     *          if no {@dodf Subjfdt} is bssodibtfd
+     *          witi tif providfd {@dodf AddfssControlContfxt}.
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to get the {@code Subject}. <p>
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *          to gft tif {@dodf Subjfdt}. <p>
      *
-     * @exception NullPointerException if the provided
-     *          {@code AccessControlContext} is {@code null}.
+     * @fxdfption NullPointfrExdfption if tif providfd
+     *          {@dodf AddfssControlContfxt} is {@dodf null}.
      */
-    public static Subject getSubject(final AccessControlContext acc) {
+    publid stbtid Subjfdt gftSubjfdt(finbl AddfssControlContfxt bdd) {
 
-        java.lang.SecurityManager sm = System.getSecurityManager();
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(AuthPermissionHolder.GET_SUBJECT_PERMISSION);
+            sm.difdkPfrmission(AutiPfrmissionHoldfr.GET_SUBJECT_PERMISSION);
         }
 
-        Objects.requireNonNull(acc, ResourcesMgr.getString
-                ("invalid.null.AccessControlContext.provided"));
+        Objfdts.rfquirfNonNull(bdd, RfsourdfsMgr.gftString
+                ("invblid.null.AddfssControlContfxt.providfd"));
 
-        // return the Subject from the DomainCombiner of the provided context
-        return AccessController.doPrivileged
-            (new java.security.PrivilegedAction<Subject>() {
-            public Subject run() {
-                DomainCombiner dc = acc.getDomainCombiner();
-                if (!(dc instanceof SubjectDomainCombiner)) {
-                    return null;
+        // rfturn tif Subjfdt from tif DombinCombinfr of tif providfd dontfxt
+        rfturn AddfssControllfr.doPrivilfgfd
+            (nfw jbvb.sfdurity.PrivilfgfdAdtion<Subjfdt>() {
+            publid Subjfdt run() {
+                DombinCombinfr dd = bdd.gftDombinCombinfr();
+                if (!(dd instbndfof SubjfdtDombinCombinfr)) {
+                    rfturn null;
                 }
-                SubjectDomainCombiner sdc = (SubjectDomainCombiner)dc;
-                return sdc.getSubject();
+                SubjfdtDombinCombinfr sdd = (SubjfdtDombinCombinfr)dd;
+                rfturn sdd.gftSubjfdt();
             }
         });
     }
 
     /**
-     * Perform work as a particular {@code Subject}.
+     * Pfrform work bs b pbrtidulbr {@dodf Subjfdt}.
      *
-     * <p> This method first retrieves the current Thread's
-     * {@code AccessControlContext} via
-     * {@code AccessController.getContext},
-     * and then instantiates a new {@code AccessControlContext}
-     * using the retrieved context along with a new
-     * {@code SubjectDomainCombiner} (constructed using
-     * the provided {@code Subject}).
-     * Finally, this method invokes {@code AccessController.doPrivileged},
-     * passing it the provided {@code PrivilegedAction},
-     * as well as the newly constructed {@code AccessControlContext}.
+     * <p> Tiis mftiod first rftrifvfs tif durrfnt Tirfbd's
+     * {@dodf AddfssControlContfxt} vib
+     * {@dodf AddfssControllfr.gftContfxt},
+     * bnd tifn instbntibtfs b nfw {@dodf AddfssControlContfxt}
+     * using tif rftrifvfd dontfxt blong witi b nfw
+     * {@dodf SubjfdtDombinCombinfr} (donstrudtfd using
+     * tif providfd {@dodf Subjfdt}).
+     * Finblly, tiis mftiod invokfs {@dodf AddfssControllfr.doPrivilfgfd},
+     * pbssing it tif providfd {@dodf PrivilfgfdAdtion},
+     * bs wfll bs tif nfwly donstrudtfd {@dodf AddfssControlContfxt}.
      *
      * <p>
      *
-     * @param subject the {@code Subject} that the specified
-     *                  {@code action} will run as.  This parameter
-     *                  may be {@code null}. <p>
+     * @pbrbm subjfdt tif {@dodf Subjfdt} tibt tif spfdififd
+     *                  {@dodf bdtion} will run bs.  Tiis pbrbmftfr
+     *                  mby bf {@dodf null}. <p>
      *
-     * @param <T> the type of the value returned by the PrivilegedAction's
-     *                  {@code run} method.
+     * @pbrbm <T> tif typf of tif vbluf rfturnfd by tif PrivilfgfdAdtion's
+     *                  {@dodf run} mftiod.
      *
-     * @param action the code to be run as the specified
-     *                  {@code Subject}. <p>
+     * @pbrbm bdtion tif dodf to bf run bs tif spfdififd
+     *                  {@dodf Subjfdt}. <p>
      *
-     * @return the value returned by the PrivilegedAction's
-     *                  {@code run} method.
+     * @rfturn tif vbluf rfturnfd by tif PrivilfgfdAdtion's
+     *                  {@dodf run} mftiod.
      *
-     * @exception NullPointerException if the {@code PrivilegedAction}
-     *                  is {@code null}. <p>
+     * @fxdfption NullPointfrExdfption if tif {@dodf PrivilfgfdAdtion}
+     *                  is {@dodf null}. <p>
      *
-     * @exception SecurityException if the caller does not have permission
-     *                  to invoke this method.
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *                  to invokf tiis mftiod.
      */
-    public static <T> T doAs(final Subject subject,
-                        final java.security.PrivilegedAction<T> action) {
+    publid stbtid <T> T doAs(finbl Subjfdt subjfdt,
+                        finbl jbvb.sfdurity.PrivilfgfdAdtion<T> bdtion) {
 
-        java.lang.SecurityManager sm = System.getSecurityManager();
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(AuthPermissionHolder.DO_AS_PERMISSION);
+            sm.difdkPfrmission(AutiPfrmissionHoldfr.DO_AS_PERMISSION);
         }
 
-        Objects.requireNonNull(action,
-                ResourcesMgr.getString("invalid.null.action.provided"));
+        Objfdts.rfquirfNonNull(bdtion,
+                RfsourdfsMgr.gftString("invblid.null.bdtion.providfd"));
 
-        // set up the new Subject-based AccessControlContext
-        // for doPrivileged
-        final AccessControlContext currentAcc = AccessController.getContext();
+        // sft up tif nfw Subjfdt-bbsfd AddfssControlContfxt
+        // for doPrivilfgfd
+        finbl AddfssControlContfxt durrfntAdd = AddfssControllfr.gftContfxt();
 
-        // call doPrivileged and push this new context on the stack
-        return java.security.AccessController.doPrivileged
-                                        (action,
-                                        createContext(subject, currentAcc));
+        // dbll doPrivilfgfd bnd pusi tiis nfw dontfxt on tif stbdk
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                                        (bdtion,
+                                        drfbtfContfxt(subjfdt, durrfntAdd));
     }
 
     /**
-     * Perform work as a particular {@code Subject}.
+     * Pfrform work bs b pbrtidulbr {@dodf Subjfdt}.
      *
-     * <p> This method first retrieves the current Thread's
-     * {@code AccessControlContext} via
-     * {@code AccessController.getContext},
-     * and then instantiates a new {@code AccessControlContext}
-     * using the retrieved context along with a new
-     * {@code SubjectDomainCombiner} (constructed using
-     * the provided {@code Subject}).
-     * Finally, this method invokes {@code AccessController.doPrivileged},
-     * passing it the provided {@code PrivilegedExceptionAction},
-     * as well as the newly constructed {@code AccessControlContext}.
+     * <p> Tiis mftiod first rftrifvfs tif durrfnt Tirfbd's
+     * {@dodf AddfssControlContfxt} vib
+     * {@dodf AddfssControllfr.gftContfxt},
+     * bnd tifn instbntibtfs b nfw {@dodf AddfssControlContfxt}
+     * using tif rftrifvfd dontfxt blong witi b nfw
+     * {@dodf SubjfdtDombinCombinfr} (donstrudtfd using
+     * tif providfd {@dodf Subjfdt}).
+     * Finblly, tiis mftiod invokfs {@dodf AddfssControllfr.doPrivilfgfd},
+     * pbssing it tif providfd {@dodf PrivilfgfdExdfptionAdtion},
+     * bs wfll bs tif nfwly donstrudtfd {@dodf AddfssControlContfxt}.
      *
      * <p>
      *
-     * @param subject the {@code Subject} that the specified
-     *                  {@code action} will run as.  This parameter
-     *                  may be {@code null}. <p>
+     * @pbrbm subjfdt tif {@dodf Subjfdt} tibt tif spfdififd
+     *                  {@dodf bdtion} will run bs.  Tiis pbrbmftfr
+     *                  mby bf {@dodf null}. <p>
      *
-     * @param <T> the type of the value returned by the
-     *                  PrivilegedExceptionAction's {@code run} method.
+     * @pbrbm <T> tif typf of tif vbluf rfturnfd by tif
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mftiod.
      *
-     * @param action the code to be run as the specified
-     *                  {@code Subject}. <p>
+     * @pbrbm bdtion tif dodf to bf run bs tif spfdififd
+     *                  {@dodf Subjfdt}. <p>
      *
-     * @return the value returned by the
-     *                  PrivilegedExceptionAction's {@code run} method.
+     * @rfturn tif vbluf rfturnfd by tif
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mftiod.
      *
-     * @exception PrivilegedActionException if the
-     *                  {@code PrivilegedExceptionAction.run}
-     *                  method throws a checked exception. <p>
+     * @fxdfption PrivilfgfdAdtionExdfption if tif
+     *                  {@dodf PrivilfgfdExdfptionAdtion.run}
+     *                  mftiod tirows b difdkfd fxdfption. <p>
      *
-     * @exception NullPointerException if the specified
-     *                  {@code PrivilegedExceptionAction} is
-     *                  {@code null}. <p>
+     * @fxdfption NullPointfrExdfption if tif spfdififd
+     *                  {@dodf PrivilfgfdExdfptionAdtion} is
+     *                  {@dodf null}. <p>
      *
-     * @exception SecurityException if the caller does not have permission
-     *                  to invoke this method.
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *                  to invokf tiis mftiod.
      */
-    public static <T> T doAs(final Subject subject,
-                        final java.security.PrivilegedExceptionAction<T> action)
-                        throws java.security.PrivilegedActionException {
+    publid stbtid <T> T doAs(finbl Subjfdt subjfdt,
+                        finbl jbvb.sfdurity.PrivilfgfdExdfptionAdtion<T> bdtion)
+                        tirows jbvb.sfdurity.PrivilfgfdAdtionExdfption {
 
-        java.lang.SecurityManager sm = System.getSecurityManager();
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(AuthPermissionHolder.DO_AS_PERMISSION);
+            sm.difdkPfrmission(AutiPfrmissionHoldfr.DO_AS_PERMISSION);
         }
 
-        Objects.requireNonNull(action,
-                ResourcesMgr.getString("invalid.null.action.provided"));
+        Objfdts.rfquirfNonNull(bdtion,
+                RfsourdfsMgr.gftString("invblid.null.bdtion.providfd"));
 
-        // set up the new Subject-based AccessControlContext for doPrivileged
-        final AccessControlContext currentAcc = AccessController.getContext();
+        // sft up tif nfw Subjfdt-bbsfd AddfssControlContfxt for doPrivilfgfd
+        finbl AddfssControlContfxt durrfntAdd = AddfssControllfr.gftContfxt();
 
-        // call doPrivileged and push this new context on the stack
-        return java.security.AccessController.doPrivileged
-                                        (action,
-                                        createContext(subject, currentAcc));
+        // dbll doPrivilfgfd bnd pusi tiis nfw dontfxt on tif stbdk
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                                        (bdtion,
+                                        drfbtfContfxt(subjfdt, durrfntAdd));
     }
 
     /**
-     * Perform privileged work as a particular {@code Subject}.
+     * Pfrform privilfgfd work bs b pbrtidulbr {@dodf Subjfdt}.
      *
-     * <p> This method behaves exactly as {@code Subject.doAs},
-     * except that instead of retrieving the current Thread's
-     * {@code AccessControlContext}, it uses the provided
-     * {@code AccessControlContext}.  If the provided
-     * {@code AccessControlContext} is {@code null},
-     * this method instantiates a new {@code AccessControlContext}
-     * with an empty collection of ProtectionDomains.
+     * <p> Tiis mftiod bfibvfs fxbdtly bs {@dodf Subjfdt.doAs},
+     * fxdfpt tibt instfbd of rftrifving tif durrfnt Tirfbd's
+     * {@dodf AddfssControlContfxt}, it usfs tif providfd
+     * {@dodf AddfssControlContfxt}.  If tif providfd
+     * {@dodf AddfssControlContfxt} is {@dodf null},
+     * tiis mftiod instbntibtfs b nfw {@dodf AddfssControlContfxt}
+     * witi bn fmpty dollfdtion of ProtfdtionDombins.
      *
      * <p>
      *
-     * @param subject the {@code Subject} that the specified
-     *                  {@code action} will run as.  This parameter
-     *                  may be {@code null}. <p>
+     * @pbrbm subjfdt tif {@dodf Subjfdt} tibt tif spfdififd
+     *                  {@dodf bdtion} will run bs.  Tiis pbrbmftfr
+     *                  mby bf {@dodf null}. <p>
      *
-     * @param <T> the type of the value returned by the PrivilegedAction's
-     *                  {@code run} method.
+     * @pbrbm <T> tif typf of tif vbluf rfturnfd by tif PrivilfgfdAdtion's
+     *                  {@dodf run} mftiod.
      *
-     * @param action the code to be run as the specified
-     *                  {@code Subject}. <p>
+     * @pbrbm bdtion tif dodf to bf run bs tif spfdififd
+     *                  {@dodf Subjfdt}. <p>
      *
-     * @param acc the {@code AccessControlContext} to be tied to the
-     *                  specified <i>subject</i> and <i>action</i>. <p>
+     * @pbrbm bdd tif {@dodf AddfssControlContfxt} to bf tifd to tif
+     *                  spfdififd <i>subjfdt</i> bnd <i>bdtion</i>. <p>
      *
-     * @return the value returned by the PrivilegedAction's
-     *                  {@code run} method.
+     * @rfturn tif vbluf rfturnfd by tif PrivilfgfdAdtion's
+     *                  {@dodf run} mftiod.
      *
-     * @exception NullPointerException if the {@code PrivilegedAction}
-     *                  is {@code null}. <p>
+     * @fxdfption NullPointfrExdfption if tif {@dodf PrivilfgfdAdtion}
+     *                  is {@dodf null}. <p>
      *
-     * @exception SecurityException if the caller does not have permission
-     *                  to invoke this method.
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *                  to invokf tiis mftiod.
      */
-    public static <T> T doAsPrivileged(final Subject subject,
-                        final java.security.PrivilegedAction<T> action,
-                        final java.security.AccessControlContext acc) {
+    publid stbtid <T> T doAsPrivilfgfd(finbl Subjfdt subjfdt,
+                        finbl jbvb.sfdurity.PrivilfgfdAdtion<T> bdtion,
+                        finbl jbvb.sfdurity.AddfssControlContfxt bdd) {
 
-        java.lang.SecurityManager sm = System.getSecurityManager();
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(AuthPermissionHolder.DO_AS_PRIVILEGED_PERMISSION);
+            sm.difdkPfrmission(AutiPfrmissionHoldfr.DO_AS_PRIVILEGED_PERMISSION);
         }
 
-        Objects.requireNonNull(action,
-                ResourcesMgr.getString("invalid.null.action.provided"));
+        Objfdts.rfquirfNonNull(bdtion,
+                RfsourdfsMgr.gftString("invblid.null.bdtion.providfd"));
 
-        // set up the new Subject-based AccessControlContext
-        // for doPrivileged
-        final AccessControlContext callerAcc =
-                (acc == null ?
-                new AccessControlContext(NULL_PD_ARRAY) :
-                acc);
+        // sft up tif nfw Subjfdt-bbsfd AddfssControlContfxt
+        // for doPrivilfgfd
+        finbl AddfssControlContfxt dbllfrAdd =
+                (bdd == null ?
+                nfw AddfssControlContfxt(NULL_PD_ARRAY) :
+                bdd);
 
-        // call doPrivileged and push this new context on the stack
-        return java.security.AccessController.doPrivileged
-                                        (action,
-                                        createContext(subject, callerAcc));
+        // dbll doPrivilfgfd bnd pusi tiis nfw dontfxt on tif stbdk
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                                        (bdtion,
+                                        drfbtfContfxt(subjfdt, dbllfrAdd));
     }
 
     /**
-     * Perform privileged work as a particular {@code Subject}.
+     * Pfrform privilfgfd work bs b pbrtidulbr {@dodf Subjfdt}.
      *
-     * <p> This method behaves exactly as {@code Subject.doAs},
-     * except that instead of retrieving the current Thread's
-     * {@code AccessControlContext}, it uses the provided
-     * {@code AccessControlContext}.  If the provided
-     * {@code AccessControlContext} is {@code null},
-     * this method instantiates a new {@code AccessControlContext}
-     * with an empty collection of ProtectionDomains.
+     * <p> Tiis mftiod bfibvfs fxbdtly bs {@dodf Subjfdt.doAs},
+     * fxdfpt tibt instfbd of rftrifving tif durrfnt Tirfbd's
+     * {@dodf AddfssControlContfxt}, it usfs tif providfd
+     * {@dodf AddfssControlContfxt}.  If tif providfd
+     * {@dodf AddfssControlContfxt} is {@dodf null},
+     * tiis mftiod instbntibtfs b nfw {@dodf AddfssControlContfxt}
+     * witi bn fmpty dollfdtion of ProtfdtionDombins.
      *
      * <p>
      *
-     * @param subject the {@code Subject} that the specified
-     *                  {@code action} will run as.  This parameter
-     *                  may be {@code null}. <p>
+     * @pbrbm subjfdt tif {@dodf Subjfdt} tibt tif spfdififd
+     *                  {@dodf bdtion} will run bs.  Tiis pbrbmftfr
+     *                  mby bf {@dodf null}. <p>
      *
-     * @param <T> the type of the value returned by the
-     *                  PrivilegedExceptionAction's {@code run} method.
+     * @pbrbm <T> tif typf of tif vbluf rfturnfd by tif
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mftiod.
      *
-     * @param action the code to be run as the specified
-     *                  {@code Subject}. <p>
+     * @pbrbm bdtion tif dodf to bf run bs tif spfdififd
+     *                  {@dodf Subjfdt}. <p>
      *
-     * @param acc the {@code AccessControlContext} to be tied to the
-     *                  specified <i>subject</i> and <i>action</i>. <p>
+     * @pbrbm bdd tif {@dodf AddfssControlContfxt} to bf tifd to tif
+     *                  spfdififd <i>subjfdt</i> bnd <i>bdtion</i>. <p>
      *
-     * @return the value returned by the
-     *                  PrivilegedExceptionAction's {@code run} method.
+     * @rfturn tif vbluf rfturnfd by tif
+     *                  PrivilfgfdExdfptionAdtion's {@dodf run} mftiod.
      *
-     * @exception PrivilegedActionException if the
-     *                  {@code PrivilegedExceptionAction.run}
-     *                  method throws a checked exception. <p>
+     * @fxdfption PrivilfgfdAdtionExdfption if tif
+     *                  {@dodf PrivilfgfdExdfptionAdtion.run}
+     *                  mftiod tirows b difdkfd fxdfption. <p>
      *
-     * @exception NullPointerException if the specified
-     *                  {@code PrivilegedExceptionAction} is
-     *                  {@code null}. <p>
+     * @fxdfption NullPointfrExdfption if tif spfdififd
+     *                  {@dodf PrivilfgfdExdfptionAdtion} is
+     *                  {@dodf null}. <p>
      *
-     * @exception SecurityException if the caller does not have permission
-     *                  to invoke this method.
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *                  to invokf tiis mftiod.
      */
-    public static <T> T doAsPrivileged(final Subject subject,
-                        final java.security.PrivilegedExceptionAction<T> action,
-                        final java.security.AccessControlContext acc)
-                        throws java.security.PrivilegedActionException {
+    publid stbtid <T> T doAsPrivilfgfd(finbl Subjfdt subjfdt,
+                        finbl jbvb.sfdurity.PrivilfgfdExdfptionAdtion<T> bdtion,
+                        finbl jbvb.sfdurity.AddfssControlContfxt bdd)
+                        tirows jbvb.sfdurity.PrivilfgfdAdtionExdfption {
 
-        java.lang.SecurityManager sm = System.getSecurityManager();
+        jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(AuthPermissionHolder.DO_AS_PRIVILEGED_PERMISSION);
+            sm.difdkPfrmission(AutiPfrmissionHoldfr.DO_AS_PRIVILEGED_PERMISSION);
         }
 
-        Objects.requireNonNull(action,
-                ResourcesMgr.getString("invalid.null.action.provided"));
+        Objfdts.rfquirfNonNull(bdtion,
+                RfsourdfsMgr.gftString("invblid.null.bdtion.providfd"));
 
-        // set up the new Subject-based AccessControlContext for doPrivileged
-        final AccessControlContext callerAcc =
-                (acc == null ?
-                new AccessControlContext(NULL_PD_ARRAY) :
-                acc);
+        // sft up tif nfw Subjfdt-bbsfd AddfssControlContfxt for doPrivilfgfd
+        finbl AddfssControlContfxt dbllfrAdd =
+                (bdd == null ?
+                nfw AddfssControlContfxt(NULL_PD_ARRAY) :
+                bdd);
 
-        // call doPrivileged and push this new context on the stack
-        return java.security.AccessController.doPrivileged
-                                        (action,
-                                        createContext(subject, callerAcc));
+        // dbll doPrivilfgfd bnd pusi tiis nfw dontfxt on tif stbdk
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                                        (bdtion,
+                                        drfbtfContfxt(subjfdt, dbllfrAdd));
     }
 
-    private static AccessControlContext createContext(final Subject subject,
-                                        final AccessControlContext acc) {
+    privbtf stbtid AddfssControlContfxt drfbtfContfxt(finbl Subjfdt subjfdt,
+                                        finbl AddfssControlContfxt bdd) {
 
 
-        return java.security.AccessController.doPrivileged
-            (new java.security.PrivilegedAction<AccessControlContext>() {
-            public AccessControlContext run() {
-                if (subject == null) {
-                    return new AccessControlContext(acc, null);
-                } else {
-                    return new AccessControlContext
-                                        (acc,
-                                        new SubjectDomainCombiner(subject));
+        rfturn jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+            (nfw jbvb.sfdurity.PrivilfgfdAdtion<AddfssControlContfxt>() {
+            publid AddfssControlContfxt run() {
+                if (subjfdt == null) {
+                    rfturn nfw AddfssControlContfxt(bdd, null);
+                } flsf {
+                    rfturn nfw AddfssControlContfxt
+                                        (bdd,
+                                        nfw SubjfdtDombinCombinfr(subjfdt));
             }
             }
         });
     }
 
     /**
-     * Return the {@code Set} of Principals associated with this
-     * {@code Subject}.  Each {@code Principal} represents
-     * an identity for this {@code Subject}.
+     * Rfturn tif {@dodf Sft} of Prindipbls bssodibtfd witi tiis
+     * {@dodf Subjfdt}.  Ebdi {@dodf Prindipbl} rfprfsfnts
+     * bn idfntity for tiis {@dodf Subjfdt}.
      *
-     * <p> The returned {@code Set} is backed by this Subject's
-     * internal {@code Principal} {@code Set}.  Any modification
-     * to the returned {@code Set} affects the internal
-     * {@code Principal} {@code Set} as well.
+     * <p> Tif rfturnfd {@dodf Sft} is bbdkfd by tiis Subjfdt's
+     * intfrnbl {@dodf Prindipbl} {@dodf Sft}.  Any modifidbtion
+     * to tif rfturnfd {@dodf Sft} bfffdts tif intfrnbl
+     * {@dodf Prindipbl} {@dodf Sft} bs wfll.
      *
      * <p>
      *
-     * @return  The {@code Set} of Principals associated with this
-     *          {@code Subject}.
+     * @rfturn  Tif {@dodf Sft} of Prindipbls bssodibtfd witi tiis
+     *          {@dodf Subjfdt}.
      */
-    public Set<Principal> getPrincipals() {
+    publid Sft<Prindipbl> gftPrindipbls() {
 
-        // always return an empty Set instead of null
-        // so LoginModules can add to the Set if necessary
-        return principals;
+        // blwbys rfturn bn fmpty Sft instfbd of null
+        // so LoginModulfs dbn bdd to tif Sft if nfdfssbry
+        rfturn prindipbls;
     }
 
     /**
-     * Return a {@code Set} of Principals associated with this
-     * {@code Subject} that are instances or subclasses of the specified
-     * {@code Class}.
+     * Rfturn b {@dodf Sft} of Prindipbls bssodibtfd witi tiis
+     * {@dodf Subjfdt} tibt brf instbndfs or subdlbssfs of tif spfdififd
+     * {@dodf Clbss}.
      *
-     * <p> The returned {@code Set} is not backed by this Subject's
-     * internal {@code Principal} {@code Set}.  A new
-     * {@code Set} is created and returned for each method invocation.
-     * Modifications to the returned {@code Set}
-     * will not affect the internal {@code Principal} {@code Set}.
+     * <p> Tif rfturnfd {@dodf Sft} is not bbdkfd by tiis Subjfdt's
+     * intfrnbl {@dodf Prindipbl} {@dodf Sft}.  A nfw
+     * {@dodf Sft} is drfbtfd bnd rfturnfd for fbdi mftiod invodbtion.
+     * Modifidbtions to tif rfturnfd {@dodf Sft}
+     * will not bfffdt tif intfrnbl {@dodf Prindipbl} {@dodf Sft}.
      *
      * <p>
      *
-     * @param <T> the type of the class modeled by {@code c}
+     * @pbrbm <T> tif typf of tif dlbss modflfd by {@dodf d}
      *
-     * @param c the returned {@code Set} of Principals will all be
-     *          instances of this class.
+     * @pbrbm d tif rfturnfd {@dodf Sft} of Prindipbls will bll bf
+     *          instbndfs of tiis dlbss.
      *
-     * @return a {@code Set} of Principals that are instances of the
-     *          specified {@code Class}.
+     * @rfturn b {@dodf Sft} of Prindipbls tibt brf instbndfs of tif
+     *          spfdififd {@dodf Clbss}.
      *
-     * @exception NullPointerException if the specified {@code Class}
-     *                  is {@code null}.
+     * @fxdfption NullPointfrExdfption if tif spfdififd {@dodf Clbss}
+     *                  is {@dodf null}.
      */
-    public <T extends Principal> Set<T> getPrincipals(Class<T> c) {
+    publid <T fxtfnds Prindipbl> Sft<T> gftPrindipbls(Clbss<T> d) {
 
-        Objects.requireNonNull(c,
-                ResourcesMgr.getString("invalid.null.Class.provided"));
+        Objfdts.rfquirfNonNull(d,
+                RfsourdfsMgr.gftString("invblid.null.Clbss.providfd"));
 
-        // always return an empty Set instead of null
-        // so LoginModules can add to the Set if necessary
-        return new ClassSet<T>(PRINCIPAL_SET, c);
+        // blwbys rfturn bn fmpty Sft instfbd of null
+        // so LoginModulfs dbn bdd to tif Sft if nfdfssbry
+        rfturn nfw ClbssSft<T>(PRINCIPAL_SET, d);
     }
 
     /**
-     * Return the {@code Set} of public credentials held by this
-     * {@code Subject}.
+     * Rfturn tif {@dodf Sft} of publid drfdfntibls ifld by tiis
+     * {@dodf Subjfdt}.
      *
-     * <p> The returned {@code Set} is backed by this Subject's
-     * internal public Credential {@code Set}.  Any modification
-     * to the returned {@code Set} affects the internal public
-     * Credential {@code Set} as well.
+     * <p> Tif rfturnfd {@dodf Sft} is bbdkfd by tiis Subjfdt's
+     * intfrnbl publid Crfdfntibl {@dodf Sft}.  Any modifidbtion
+     * to tif rfturnfd {@dodf Sft} bfffdts tif intfrnbl publid
+     * Crfdfntibl {@dodf Sft} bs wfll.
      *
      * <p>
      *
-     * @return  A {@code Set} of public credentials held by this
-     *          {@code Subject}.
+     * @rfturn  A {@dodf Sft} of publid drfdfntibls ifld by tiis
+     *          {@dodf Subjfdt}.
      */
-    public Set<Object> getPublicCredentials() {
+    publid Sft<Objfdt> gftPublidCrfdfntibls() {
 
-        // always return an empty Set instead of null
-        // so LoginModules can add to the Set if necessary
-        return pubCredentials;
+        // blwbys rfturn bn fmpty Sft instfbd of null
+        // so LoginModulfs dbn bdd to tif Sft if nfdfssbry
+        rfturn pubCrfdfntibls;
     }
 
     /**
-     * Return the {@code Set} of private credentials held by this
-     * {@code Subject}.
+     * Rfturn tif {@dodf Sft} of privbtf drfdfntibls ifld by tiis
+     * {@dodf Subjfdt}.
      *
-     * <p> The returned {@code Set} is backed by this Subject's
-     * internal private Credential {@code Set}.  Any modification
-     * to the returned {@code Set} affects the internal private
-     * Credential {@code Set} as well.
+     * <p> Tif rfturnfd {@dodf Sft} is bbdkfd by tiis Subjfdt's
+     * intfrnbl privbtf Crfdfntibl {@dodf Sft}.  Any modifidbtion
+     * to tif rfturnfd {@dodf Sft} bfffdts tif intfrnbl privbtf
+     * Crfdfntibl {@dodf Sft} bs wfll.
      *
-     * <p> A caller requires permissions to access the Credentials
-     * in the returned {@code Set}, or to modify the
-     * {@code Set} itself.  A {@code SecurityException}
-     * is thrown if the caller does not have the proper permissions.
+     * <p> A dbllfr rfquirfs pfrmissions to bddfss tif Crfdfntibls
+     * in tif rfturnfd {@dodf Sft}, or to modify tif
+     * {@dodf Sft} itsflf.  A {@dodf SfdurityExdfption}
+     * is tirown if tif dbllfr dofs not ibvf tif propfr pfrmissions.
      *
-     * <p> While iterating through the {@code Set},
-     * a {@code SecurityException} is thrown
-     * if the caller does not have permission to access a
-     * particular Credential.  The {@code Iterator}
-     * is nevertheless advanced to next element in the {@code Set}.
+     * <p> Wiilf itfrbting tirougi tif {@dodf Sft},
+     * b {@dodf SfdurityExdfption} is tirown
+     * if tif dbllfr dofs not ibvf pfrmission to bddfss b
+     * pbrtidulbr Crfdfntibl.  Tif {@dodf Itfrbtor}
+     * is nfvfrtiflfss bdvbndfd to nfxt flfmfnt in tif {@dodf Sft}.
      *
      * <p>
      *
-     * @return  A {@code Set} of private credentials held by this
-     *          {@code Subject}.
+     * @rfturn  A {@dodf Sft} of privbtf drfdfntibls ifld by tiis
+     *          {@dodf Subjfdt}.
      */
-    public Set<Object> getPrivateCredentials() {
+    publid Sft<Objfdt> gftPrivbtfCrfdfntibls() {
 
         // XXX
-        // we do not need a security check for
-        // AuthPermission(getPrivateCredentials)
-        // because we already restrict access to private credentials
-        // via the PrivateCredentialPermission.  all the extra AuthPermission
-        // would do is protect the set operations themselves
-        // (like size()), which don't seem security-sensitive.
+        // wf do not nffd b sfdurity difdk for
+        // AutiPfrmission(gftPrivbtfCrfdfntibls)
+        // bfdbusf wf blrfbdy rfstridt bddfss to privbtf drfdfntibls
+        // vib tif PrivbtfCrfdfntiblPfrmission.  bll tif fxtrb AutiPfrmission
+        // would do is protfdt tif sft opfrbtions tifmsflvfs
+        // (likf sizf()), wiidi don't sffm sfdurity-sfnsitivf.
 
-        // always return an empty Set instead of null
-        // so LoginModules can add to the Set if necessary
-        return privCredentials;
+        // blwbys rfturn bn fmpty Sft instfbd of null
+        // so LoginModulfs dbn bdd to tif Sft if nfdfssbry
+        rfturn privCrfdfntibls;
     }
 
     /**
-     * Return a {@code Set} of public credentials associated with this
-     * {@code Subject} that are instances or subclasses of the specified
-     * {@code Class}.
+     * Rfturn b {@dodf Sft} of publid drfdfntibls bssodibtfd witi tiis
+     * {@dodf Subjfdt} tibt brf instbndfs or subdlbssfs of tif spfdififd
+     * {@dodf Clbss}.
      *
-     * <p> The returned {@code Set} is not backed by this Subject's
-     * internal public Credential {@code Set}.  A new
-     * {@code Set} is created and returned for each method invocation.
-     * Modifications to the returned {@code Set}
-     * will not affect the internal public Credential {@code Set}.
+     * <p> Tif rfturnfd {@dodf Sft} is not bbdkfd by tiis Subjfdt's
+     * intfrnbl publid Crfdfntibl {@dodf Sft}.  A nfw
+     * {@dodf Sft} is drfbtfd bnd rfturnfd for fbdi mftiod invodbtion.
+     * Modifidbtions to tif rfturnfd {@dodf Sft}
+     * will not bfffdt tif intfrnbl publid Crfdfntibl {@dodf Sft}.
      *
      * <p>
      *
-     * @param <T> the type of the class modeled by {@code c}
+     * @pbrbm <T> tif typf of tif dlbss modflfd by {@dodf d}
      *
-     * @param c the returned {@code Set} of public credentials will all be
-     *          instances of this class.
+     * @pbrbm d tif rfturnfd {@dodf Sft} of publid drfdfntibls will bll bf
+     *          instbndfs of tiis dlbss.
      *
-     * @return a {@code Set} of public credentials that are instances
-     *          of the  specified {@code Class}.
+     * @rfturn b {@dodf Sft} of publid drfdfntibls tibt brf instbndfs
+     *          of tif  spfdififd {@dodf Clbss}.
      *
-     * @exception NullPointerException if the specified {@code Class}
-     *          is {@code null}.
+     * @fxdfption NullPointfrExdfption if tif spfdififd {@dodf Clbss}
+     *          is {@dodf null}.
      */
-    public <T> Set<T> getPublicCredentials(Class<T> c) {
+    publid <T> Sft<T> gftPublidCrfdfntibls(Clbss<T> d) {
 
-        Objects.requireNonNull(c,
-                ResourcesMgr.getString("invalid.null.Class.provided"));
+        Objfdts.rfquirfNonNull(d,
+                RfsourdfsMgr.gftString("invblid.null.Clbss.providfd"));
 
-        // always return an empty Set instead of null
-        // so LoginModules can add to the Set if necessary
-        return new ClassSet<T>(PUB_CREDENTIAL_SET, c);
+        // blwbys rfturn bn fmpty Sft instfbd of null
+        // so LoginModulfs dbn bdd to tif Sft if nfdfssbry
+        rfturn nfw ClbssSft<T>(PUB_CREDENTIAL_SET, d);
     }
 
     /**
-     * Return a {@code Set} of private credentials associated with this
-     * {@code Subject} that are instances or subclasses of the specified
-     * {@code Class}.
+     * Rfturn b {@dodf Sft} of privbtf drfdfntibls bssodibtfd witi tiis
+     * {@dodf Subjfdt} tibt brf instbndfs or subdlbssfs of tif spfdififd
+     * {@dodf Clbss}.
      *
-     * <p> The caller must have permission to access all of the
-     * requested Credentials, or a {@code SecurityException}
-     * will be thrown.
+     * <p> Tif dbllfr must ibvf pfrmission to bddfss bll of tif
+     * rfqufstfd Crfdfntibls, or b {@dodf SfdurityExdfption}
+     * will bf tirown.
      *
-     * <p> The returned {@code Set} is not backed by this Subject's
-     * internal private Credential {@code Set}.  A new
-     * {@code Set} is created and returned for each method invocation.
-     * Modifications to the returned {@code Set}
-     * will not affect the internal private Credential {@code Set}.
+     * <p> Tif rfturnfd {@dodf Sft} is not bbdkfd by tiis Subjfdt's
+     * intfrnbl privbtf Crfdfntibl {@dodf Sft}.  A nfw
+     * {@dodf Sft} is drfbtfd bnd rfturnfd for fbdi mftiod invodbtion.
+     * Modifidbtions to tif rfturnfd {@dodf Sft}
+     * will not bfffdt tif intfrnbl privbtf Crfdfntibl {@dodf Sft}.
      *
      * <p>
      *
-     * @param <T> the type of the class modeled by {@code c}
+     * @pbrbm <T> tif typf of tif dlbss modflfd by {@dodf d}
      *
-     * @param c the returned {@code Set} of private credentials will all be
-     *          instances of this class.
+     * @pbrbm d tif rfturnfd {@dodf Sft} of privbtf drfdfntibls will bll bf
+     *          instbndfs of tiis dlbss.
      *
-     * @return a {@code Set} of private credentials that are instances
-     *          of the  specified {@code Class}.
+     * @rfturn b {@dodf Sft} of privbtf drfdfntibls tibt brf instbndfs
+     *          of tif  spfdififd {@dodf Clbss}.
      *
-     * @exception NullPointerException if the specified {@code Class}
-     *          is {@code null}.
+     * @fxdfption NullPointfrExdfption if tif spfdififd {@dodf Clbss}
+     *          is {@dodf null}.
      */
-    public <T> Set<T> getPrivateCredentials(Class<T> c) {
+    publid <T> Sft<T> gftPrivbtfCrfdfntibls(Clbss<T> d) {
 
         // XXX
-        // we do not need a security check for
-        // AuthPermission(getPrivateCredentials)
-        // because we already restrict access to private credentials
-        // via the PrivateCredentialPermission.  all the extra AuthPermission
-        // would do is protect the set operations themselves
-        // (like size()), which don't seem security-sensitive.
+        // wf do not nffd b sfdurity difdk for
+        // AutiPfrmission(gftPrivbtfCrfdfntibls)
+        // bfdbusf wf blrfbdy rfstridt bddfss to privbtf drfdfntibls
+        // vib tif PrivbtfCrfdfntiblPfrmission.  bll tif fxtrb AutiPfrmission
+        // would do is protfdt tif sft opfrbtions tifmsflvfs
+        // (likf sizf()), wiidi don't sffm sfdurity-sfnsitivf.
 
-        Objects.requireNonNull(c,
-                ResourcesMgr.getString("invalid.null.Class.provided"));
+        Objfdts.rfquirfNonNull(d,
+                RfsourdfsMgr.gftString("invblid.null.Clbss.providfd"));
 
-        // always return an empty Set instead of null
-        // so LoginModules can add to the Set if necessary
-        return new ClassSet<T>(PRIV_CREDENTIAL_SET, c);
+        // blwbys rfturn bn fmpty Sft instfbd of null
+        // so LoginModulfs dbn bdd to tif Sft if nfdfssbry
+        rfturn nfw ClbssSft<T>(PRIV_CREDENTIAL_SET, d);
     }
 
     /**
-     * Compares the specified Object with this {@code Subject}
-     * for equality.  Returns true if the given object is also a Subject
-     * and the two {@code Subject} instances are equivalent.
-     * More formally, two {@code Subject} instances are
-     * equal if their {@code Principal} and {@code Credential}
-     * Sets are equal.
+     * Compbrfs tif spfdififd Objfdt witi tiis {@dodf Subjfdt}
+     * for fqublity.  Rfturns truf if tif givfn objfdt is blso b Subjfdt
+     * bnd tif two {@dodf Subjfdt} instbndfs brf fquivblfnt.
+     * Morf formblly, two {@dodf Subjfdt} instbndfs brf
+     * fqubl if tifir {@dodf Prindipbl} bnd {@dodf Crfdfntibl}
+     * Sfts brf fqubl.
      *
      * <p>
      *
-     * @param o Object to be compared for equality with this
-     *          {@code Subject}.
+     * @pbrbm o Objfdt to bf dompbrfd for fqublity witi tiis
+     *          {@dodf Subjfdt}.
      *
-     * @return true if the specified Object is equal to this
-     *          {@code Subject}.
+     * @rfturn truf if tif spfdififd Objfdt is fqubl to tiis
+     *          {@dodf Subjfdt}.
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to access the private credentials for this {@code Subject},
-     *          or if the caller does not have permission to access the
-     *          private credentials for the provided {@code Subject}.
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *          to bddfss tif privbtf drfdfntibls for tiis {@dodf Subjfdt},
+     *          or if tif dbllfr dofs not ibvf pfrmission to bddfss tif
+     *          privbtf drfdfntibls for tif providfd {@dodf Subjfdt}.
      */
-    public boolean equals(Object o) {
+    publid boolfbn fqubls(Objfdt o) {
 
         if (o == null) {
-            return false;
+            rfturn fblsf;
         }
 
-        if (this == o) {
-            return true;
+        if (tiis == o) {
+            rfturn truf;
         }
 
-        if (o instanceof Subject) {
+        if (o instbndfof Subjfdt) {
 
-            final Subject that = (Subject)o;
+            finbl Subjfdt tibt = (Subjfdt)o;
 
-            // check the principal and credential sets
-            Set<Principal> thatPrincipals;
-            synchronized(that.principals) {
-                // avoid deadlock from dual locks
-                thatPrincipals = new HashSet<Principal>(that.principals);
+            // difdk tif prindipbl bnd drfdfntibl sfts
+            Sft<Prindipbl> tibtPrindipbls;
+            syndironizfd(tibt.prindipbls) {
+                // bvoid dfbdlodk from dubl lodks
+                tibtPrindipbls = nfw HbsiSft<Prindipbl>(tibt.prindipbls);
             }
-            if (!principals.equals(thatPrincipals)) {
-                return false;
-            }
-
-            Set<Object> thatPubCredentials;
-            synchronized(that.pubCredentials) {
-                // avoid deadlock from dual locks
-                thatPubCredentials = new HashSet<Object>(that.pubCredentials);
-            }
-            if (!pubCredentials.equals(thatPubCredentials)) {
-                return false;
+            if (!prindipbls.fqubls(tibtPrindipbls)) {
+                rfturn fblsf;
             }
 
-            Set<Object> thatPrivCredentials;
-            synchronized(that.privCredentials) {
-                // avoid deadlock from dual locks
-                thatPrivCredentials = new HashSet<Object>(that.privCredentials);
+            Sft<Objfdt> tibtPubCrfdfntibls;
+            syndironizfd(tibt.pubCrfdfntibls) {
+                // bvoid dfbdlodk from dubl lodks
+                tibtPubCrfdfntibls = nfw HbsiSft<Objfdt>(tibt.pubCrfdfntibls);
             }
-            if (!privCredentials.equals(thatPrivCredentials)) {
-                return false;
+            if (!pubCrfdfntibls.fqubls(tibtPubCrfdfntibls)) {
+                rfturn fblsf;
             }
-            return true;
+
+            Sft<Objfdt> tibtPrivCrfdfntibls;
+            syndironizfd(tibt.privCrfdfntibls) {
+                // bvoid dfbdlodk from dubl lodks
+                tibtPrivCrfdfntibls = nfw HbsiSft<Objfdt>(tibt.privCrfdfntibls);
+            }
+            if (!privCrfdfntibls.fqubls(tibtPrivCrfdfntibls)) {
+                rfturn fblsf;
+            }
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Return the String representation of this {@code Subject}.
+     * Rfturn tif String rfprfsfntbtion of tiis {@dodf Subjfdt}.
      *
      * <p>
      *
-     * @return the String representation of this {@code Subject}.
+     * @rfturn tif String rfprfsfntbtion of tiis {@dodf Subjfdt}.
      */
-    public String toString() {
-        return toString(true);
+    publid String toString() {
+        rfturn toString(truf);
     }
 
     /**
-     * package private convenience method to print out the Subject
-     * without firing off a security check when trying to access
-     * the Private Credentials
+     * pbdkbgf privbtf donvfnifndf mftiod to print out tif Subjfdt
+     * witiout firing off b sfdurity difdk wifn trying to bddfss
+     * tif Privbtf Crfdfntibls
      */
-    String toString(boolean includePrivateCredentials) {
+    String toString(boolfbn indludfPrivbtfCrfdfntibls) {
 
-        String s = ResourcesMgr.getString("Subject.");
+        String s = RfsourdfsMgr.gftString("Subjfdt.");
         String suffix = "";
 
-        synchronized(principals) {
-            Iterator<Principal> pI = principals.iterator();
-            while (pI.hasNext()) {
-                Principal p = pI.next();
-                suffix = suffix + ResourcesMgr.getString(".Principal.") +
-                        p.toString() + ResourcesMgr.getString("NEWLINE");
+        syndironizfd(prindipbls) {
+            Itfrbtor<Prindipbl> pI = prindipbls.itfrbtor();
+            wiilf (pI.ibsNfxt()) {
+                Prindipbl p = pI.nfxt();
+                suffix = suffix + RfsourdfsMgr.gftString(".Prindipbl.") +
+                        p.toString() + RfsourdfsMgr.gftString("NEWLINE");
             }
         }
 
-        synchronized(pubCredentials) {
-            Iterator<Object> pI = pubCredentials.iterator();
-            while (pI.hasNext()) {
-                Object o = pI.next();
+        syndironizfd(pubCrfdfntibls) {
+            Itfrbtor<Objfdt> pI = pubCrfdfntibls.itfrbtor();
+            wiilf (pI.ibsNfxt()) {
+                Objfdt o = pI.nfxt();
                 suffix = suffix +
-                        ResourcesMgr.getString(".Public.Credential.") +
-                        o.toString() + ResourcesMgr.getString("NEWLINE");
+                        RfsourdfsMgr.gftString(".Publid.Crfdfntibl.") +
+                        o.toString() + RfsourdfsMgr.gftString("NEWLINE");
             }
         }
 
-        if (includePrivateCredentials) {
-            synchronized(privCredentials) {
-                Iterator<Object> pI = privCredentials.iterator();
-                while (pI.hasNext()) {
+        if (indludfPrivbtfCrfdfntibls) {
+            syndironizfd(privCrfdfntibls) {
+                Itfrbtor<Objfdt> pI = privCrfdfntibls.itfrbtor();
+                wiilf (pI.ibsNfxt()) {
                     try {
-                        Object o = pI.next();
-                        suffix += ResourcesMgr.getString
-                                        (".Private.Credential.") +
+                        Objfdt o = pI.nfxt();
+                        suffix += RfsourdfsMgr.gftString
+                                        (".Privbtf.Crfdfntibl.") +
                                         o.toString() +
-                                        ResourcesMgr.getString("NEWLINE");
-                    } catch (SecurityException se) {
-                        suffix += ResourcesMgr.getString
-                                (".Private.Credential.inaccessible.");
-                        break;
+                                        RfsourdfsMgr.gftString("NEWLINE");
+                    } dbtdi (SfdurityExdfption sf) {
+                        suffix += RfsourdfsMgr.gftString
+                                (".Privbtf.Crfdfntibl.inbddfssiblf.");
+                        brfbk;
                     }
                 }
             }
         }
-        return s + suffix;
+        rfturn s + suffix;
     }
 
     /**
-     * Returns a hashcode for this {@code Subject}.
+     * Rfturns b ibsidodf for tiis {@dodf Subjfdt}.
      *
      * <p>
      *
-     * @return a hashcode for this {@code Subject}.
+     * @rfturn b ibsidodf for tiis {@dodf Subjfdt}.
      *
-     * @exception SecurityException if the caller does not have permission
-     *          to access this Subject's private credentials.
+     * @fxdfption SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+     *          to bddfss tiis Subjfdt's privbtf drfdfntibls.
      */
-    public int hashCode() {
+    publid int ibsiCodf() {
 
         /**
-         * The hashcode is derived exclusive or-ing the
-         * hashcodes of this Subject's Principals and credentials.
+         * Tif ibsidodf is dfrivfd fxdlusivf or-ing tif
+         * ibsidodfs of tiis Subjfdt's Prindipbls bnd drfdfntibls.
          *
-         * If a particular credential was destroyed
-         * ({@code credential.hashCode()} throws an
-         * {@code IllegalStateException}),
-         * the hashcode for that credential is derived via:
-         * {@code credential.getClass().toString().hashCode()}.
+         * If b pbrtidulbr drfdfntibl wbs dfstroyfd
+         * ({@dodf drfdfntibl.ibsiCodf()} tirows bn
+         * {@dodf IllfgblStbtfExdfption}),
+         * tif ibsidodf for tibt drfdfntibl is dfrivfd vib:
+         * {@dodf drfdfntibl.gftClbss().toString().ibsiCodf()}.
          */
 
-        int hashCode = 0;
+        int ibsiCodf = 0;
 
-        synchronized(principals) {
-            Iterator<Principal> pIterator = principals.iterator();
-            while (pIterator.hasNext()) {
-                Principal p = pIterator.next();
-                hashCode ^= p.hashCode();
+        syndironizfd(prindipbls) {
+            Itfrbtor<Prindipbl> pItfrbtor = prindipbls.itfrbtor();
+            wiilf (pItfrbtor.ibsNfxt()) {
+                Prindipbl p = pItfrbtor.nfxt();
+                ibsiCodf ^= p.ibsiCodf();
             }
         }
 
-        synchronized(pubCredentials) {
-            Iterator<Object> pubCIterator = pubCredentials.iterator();
-            while (pubCIterator.hasNext()) {
-                hashCode ^= getCredHashCode(pubCIterator.next());
+        syndironizfd(pubCrfdfntibls) {
+            Itfrbtor<Objfdt> pubCItfrbtor = pubCrfdfntibls.itfrbtor();
+            wiilf (pubCItfrbtor.ibsNfxt()) {
+                ibsiCodf ^= gftCrfdHbsiCodf(pubCItfrbtor.nfxt());
             }
         }
-        return hashCode;
+        rfturn ibsiCodf;
     }
 
     /**
-     * get a credential's hashcode
+     * gft b drfdfntibl's ibsidodf
      */
-    private int getCredHashCode(Object o) {
+    privbtf int gftCrfdHbsiCodf(Objfdt o) {
         try {
-            return o.hashCode();
-        } catch (IllegalStateException ise) {
-            return o.getClass().toString().hashCode();
+            rfturn o.ibsiCodf();
+        } dbtdi (IllfgblStbtfExdfption isf) {
+            rfturn o.gftClbss().toString().ibsiCodf();
         }
     }
 
     /**
-     * Writes this object out to a stream (i.e., serializes it).
+     * Writfs tiis objfdt out to b strfbm (i.f., sfriblizfs it).
      */
-    private void writeObject(java.io.ObjectOutputStream oos)
-                throws java.io.IOException {
-        synchronized(principals) {
-            oos.defaultWriteObject();
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm oos)
+                tirows jbvb.io.IOExdfption {
+        syndironizfd(prindipbls) {
+            oos.dffbultWritfObjfdt();
         }
     }
 
     /**
-     * Reads this object from a stream (i.e., deserializes it)
+     * Rfbds tiis objfdt from b strfbm (i.f., dfsfriblizfs it)
      */
-    @SuppressWarnings("unchecked")
-    private void readObject(java.io.ObjectInputStream s)
-                throws java.io.IOException, ClassNotFoundException {
+    @SupprfssWbrnings("undifdkfd")
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+                tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
 
-        ObjectInputStream.GetField gf = s.readFields();
+        ObjfdtInputStrfbm.GftFifld gf = s.rfbdFiflds();
 
-        readOnly = gf.get("readOnly", false);
+        rfbdOnly = gf.gft("rfbdOnly", fblsf);
 
-        Set<Principal> inputPrincs = (Set<Principal>)gf.get("principals", null);
+        Sft<Prindipbl> inputPrinds = (Sft<Prindipbl>)gf.gft("prindipbls", null);
 
-        Objects.requireNonNull(inputPrincs,
-                ResourcesMgr.getString("invalid.null.input.s."));
+        Objfdts.rfquirfNonNull(inputPrinds,
+                RfsourdfsMgr.gftString("invblid.null.input.s."));
 
-        // Rewrap the principals into a SecureSet
+        // Rfwrbp tif prindipbls into b SfdurfSft
         try {
-            principals = Collections.synchronizedSet(new SecureSet<Principal>
-                                (this, PRINCIPAL_SET, inputPrincs));
-        } catch (NullPointerException npe) {
-            // Sometimes people deserialize the principals set only.
-            // Subject is not accessible, so just don't fail.
-            principals = Collections.synchronizedSet
-                        (new SecureSet<Principal>(this, PRINCIPAL_SET));
+            prindipbls = Collfdtions.syndironizfdSft(nfw SfdurfSft<Prindipbl>
+                                (tiis, PRINCIPAL_SET, inputPrinds));
+        } dbtdi (NullPointfrExdfption npf) {
+            // Somftimfs pfoplf dfsfriblizf tif prindipbls sft only.
+            // Subjfdt is not bddfssiblf, so just don't fbil.
+            prindipbls = Collfdtions.syndironizfdSft
+                        (nfw SfdurfSft<Prindipbl>(tiis, PRINCIPAL_SET));
         }
 
-        // The Credential {@code Set} is not serialized, but we do not
-        // want the default deserialization routine to set it to null.
-        this.pubCredentials = Collections.synchronizedSet
-                        (new SecureSet<Object>(this, PUB_CREDENTIAL_SET));
-        this.privCredentials = Collections.synchronizedSet
-                        (new SecureSet<Object>(this, PRIV_CREDENTIAL_SET));
+        // Tif Crfdfntibl {@dodf Sft} is not sfriblizfd, but wf do not
+        // wbnt tif dffbult dfsfriblizbtion routinf to sft it to null.
+        tiis.pubCrfdfntibls = Collfdtions.syndironizfdSft
+                        (nfw SfdurfSft<Objfdt>(tiis, PUB_CREDENTIAL_SET));
+        tiis.privCrfdfntibls = Collfdtions.syndironizfdSft
+                        (nfw SfdurfSft<Objfdt>(tiis, PRIV_CREDENTIAL_SET));
     }
 
     /**
-     * Tests for null-clean collections (both non-null reference and
-     * no null elements)
+     * Tfsts for null-dlfbn dollfdtions (boti non-null rfffrfndf bnd
+     * no null flfmfnts)
      *
-     * @param coll A {@code Collection} to be tested for null references
+     * @pbrbm doll A {@dodf Collfdtion} to bf tfstfd for null rfffrfndfs
      *
-     * @exception NullPointerException if the specified collection is either
-     *            {@code null} or contains a {@code null} element
+     * @fxdfption NullPointfrExdfption if tif spfdififd dollfdtion is fitifr
+     *            {@dodf null} or dontbins b {@dodf null} flfmfnt
      */
-    private static void collectionNullClean(Collection<?> coll) {
-        boolean hasNullElements = false;
+    privbtf stbtid void dollfdtionNullClfbn(Collfdtion<?> doll) {
+        boolfbn ibsNullElfmfnts = fblsf;
 
-        Objects.requireNonNull(coll,
-                ResourcesMgr.getString("invalid.null.input.s."));
+        Objfdts.rfquirfNonNull(doll,
+                RfsourdfsMgr.gftString("invblid.null.input.s."));
 
         try {
-            hasNullElements = coll.contains(null);
-        } catch (NullPointerException npe) {
-            // A null-hostile collection may choose to throw
-            // NullPointerException if contains(null) is called on it
-            // rather than returning false.
-            // If this happens we know the collection is null-clean.
-            hasNullElements = false;
-        } finally {
-            if (hasNullElements) {
-                throw new NullPointerException
-                    (ResourcesMgr.getString("invalid.null.input.s."));
+            ibsNullElfmfnts = doll.dontbins(null);
+        } dbtdi (NullPointfrExdfption npf) {
+            // A null-iostilf dollfdtion mby dioosf to tirow
+            // NullPointfrExdfption if dontbins(null) is dbllfd on it
+            // rbtifr tibn rfturning fblsf.
+            // If tiis ibppfns wf know tif dollfdtion is null-dlfbn.
+            ibsNullElfmfnts = fblsf;
+        } finblly {
+            if (ibsNullElfmfnts) {
+                tirow nfw NullPointfrExdfption
+                    (RfsourdfsMgr.gftString("invblid.null.input.s."));
             }
         }
     }
 
     /**
-     * Prevent modifications unless caller has permission.
+     * Prfvfnt modifidbtions unlfss dbllfr ibs pfrmission.
      *
-     * @serial include
+     * @sfribl indludf
      */
-    private static class SecureSet<E>
-        implements Set<E>, java.io.Serializable {
+    privbtf stbtid dlbss SfdurfSft<E>
+        implfmfnts Sft<E>, jbvb.io.Sfriblizbblf {
 
-        private static final long serialVersionUID = 7911754171111800359L;
+        privbtf stbtid finbl long sfriblVfrsionUID = 7911754171111800359L;
 
         /**
-         * @serialField this$0 Subject The outer Subject instance.
-         * @serialField elements LinkedList The elements in this set.
+         * @sfriblFifld tiis$0 Subjfdt Tif outfr Subjfdt instbndf.
+         * @sfriblFifld flfmfnts LinkfdList Tif flfmfnts in tiis sft.
          */
-        private static final ObjectStreamField[] serialPersistentFields = {
-            new ObjectStreamField("this$0", Subject.class),
-            new ObjectStreamField("elements", LinkedList.class),
-            new ObjectStreamField("which", int.class)
+        privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds = {
+            nfw ObjfdtStrfbmFifld("tiis$0", Subjfdt.dlbss),
+            nfw ObjfdtStrfbmFifld("flfmfnts", LinkfdList.dlbss),
+            nfw ObjfdtStrfbmFifld("wiidi", int.dlbss)
         };
 
-        Subject subject;
-        LinkedList<E> elements;
+        Subjfdt subjfdt;
+        LinkfdList<E> flfmfnts;
 
         /**
-         * @serial An integer identifying the type of objects contained
-         *      in this set.  If {@code which == 1},
-         *      this is a Principal set and all the elements are
-         *      of type {@code java.security.Principal}.
-         *      If {@code which == 2}, this is a public credential
-         *      set and all the elements are of type {@code Object}.
-         *      If {@code which == 3}, this is a private credential
-         *      set and all the elements are of type {@code Object}.
+         * @sfribl An intfgfr idfntifying tif typf of objfdts dontbinfd
+         *      in tiis sft.  If {@dodf wiidi == 1},
+         *      tiis is b Prindipbl sft bnd bll tif flfmfnts brf
+         *      of typf {@dodf jbvb.sfdurity.Prindipbl}.
+         *      If {@dodf wiidi == 2}, tiis is b publid drfdfntibl
+         *      sft bnd bll tif flfmfnts brf of typf {@dodf Objfdt}.
+         *      If {@dodf wiidi == 3}, tiis is b privbtf drfdfntibl
+         *      sft bnd bll tif flfmfnts brf of typf {@dodf Objfdt}.
          */
-        private int which;
+        privbtf int wiidi;
 
-        SecureSet(Subject subject, int which) {
-            this.subject = subject;
-            this.which = which;
-            this.elements = new LinkedList<E>();
+        SfdurfSft(Subjfdt subjfdt, int wiidi) {
+            tiis.subjfdt = subjfdt;
+            tiis.wiidi = wiidi;
+            tiis.flfmfnts = nfw LinkfdList<E>();
         }
 
-        SecureSet(Subject subject, int which, Set<? extends E> set) {
-            this.subject = subject;
-            this.which = which;
-            this.elements = new LinkedList<E>(set);
+        SfdurfSft(Subjfdt subjfdt, int wiidi, Sft<? fxtfnds E> sft) {
+            tiis.subjfdt = subjfdt;
+            tiis.wiidi = wiidi;
+            tiis.flfmfnts = nfw LinkfdList<E>(sft);
         }
 
-        public int size() {
-            return elements.size();
+        publid int sizf() {
+            rfturn flfmfnts.sizf();
         }
 
-        public Iterator<E> iterator() {
-            final LinkedList<E> list = elements;
-            return new Iterator<E>() {
-                ListIterator<E> i = list.listIterator(0);
+        publid Itfrbtor<E> itfrbtor() {
+            finbl LinkfdList<E> list = flfmfnts;
+            rfturn nfw Itfrbtor<E>() {
+                ListItfrbtor<E> i = list.listItfrbtor(0);
 
-                public boolean hasNext() {return i.hasNext();}
+                publid boolfbn ibsNfxt() {rfturn i.ibsNfxt();}
 
-                public E next() {
-                    if (which != Subject.PRIV_CREDENTIAL_SET) {
-                        return i.next();
+                publid E nfxt() {
+                    if (wiidi != Subjfdt.PRIV_CREDENTIAL_SET) {
+                        rfturn i.nfxt();
                     }
 
-                    SecurityManager sm = System.getSecurityManager();
+                    SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                     if (sm != null) {
                         try {
-                            sm.checkPermission(new PrivateCredentialPermission
-                                (list.get(i.nextIndex()).getClass().getName(),
-                                subject.getPrincipals()));
-                        } catch (SecurityException se) {
-                            i.next();
-                            throw (se);
+                            sm.difdkPfrmission(nfw PrivbtfCrfdfntiblPfrmission
+                                (list.gft(i.nfxtIndfx()).gftClbss().gftNbmf(),
+                                subjfdt.gftPrindipbls()));
+                        } dbtdi (SfdurityExdfption sf) {
+                            i.nfxt();
+                            tirow (sf);
                         }
                     }
-                    return i.next();
+                    rfturn i.nfxt();
                 }
 
-                public void remove() {
+                publid void rfmovf() {
 
-                    if (subject.isReadOnly()) {
-                        throw new IllegalStateException(ResourcesMgr.getString
-                                ("Subject.is.read.only"));
+                    if (subjfdt.isRfbdOnly()) {
+                        tirow nfw IllfgblStbtfExdfption(RfsourdfsMgr.gftString
+                                ("Subjfdt.is.rfbd.only"));
                     }
 
-                    java.lang.SecurityManager sm = System.getSecurityManager();
+                    jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                     if (sm != null) {
-                        switch (which) {
-                        case Subject.PRINCIPAL_SET:
-                            sm.checkPermission(AuthPermissionHolder.MODIFY_PRINCIPALS_PERMISSION);
-                            break;
-                        case Subject.PUB_CREDENTIAL_SET:
-                            sm.checkPermission(AuthPermissionHolder.MODIFY_PUBLIC_CREDENTIALS_PERMISSION);
-                            break;
-                        default:
-                            sm.checkPermission(AuthPermissionHolder.MODIFY_PRIVATE_CREDENTIALS_PERMISSION);
-                            break;
+                        switdi (wiidi) {
+                        dbsf Subjfdt.PRINCIPAL_SET:
+                            sm.difdkPfrmission(AutiPfrmissionHoldfr.MODIFY_PRINCIPALS_PERMISSION);
+                            brfbk;
+                        dbsf Subjfdt.PUB_CREDENTIAL_SET:
+                            sm.difdkPfrmission(AutiPfrmissionHoldfr.MODIFY_PUBLIC_CREDENTIALS_PERMISSION);
+                            brfbk;
+                        dffbult:
+                            sm.difdkPfrmission(AutiPfrmissionHoldfr.MODIFY_PRIVATE_CREDENTIALS_PERMISSION);
+                            brfbk;
                         }
                     }
-                    i.remove();
+                    i.rfmovf();
                 }
             };
         }
 
-        public boolean add(E o) {
+        publid boolfbn bdd(E o) {
 
-            Objects.requireNonNull(o,
-                    ResourcesMgr.getString("invalid.null.input.s."));
+            Objfdts.rfquirfNonNull(o,
+                    RfsourdfsMgr.gftString("invblid.null.input.s."));
 
-            if (subject.isReadOnly()) {
-                throw new IllegalStateException
-                        (ResourcesMgr.getString("Subject.is.read.only"));
+            if (subjfdt.isRfbdOnly()) {
+                tirow nfw IllfgblStbtfExdfption
+                        (RfsourdfsMgr.gftString("Subjfdt.is.rfbd.only"));
             }
 
-            java.lang.SecurityManager sm = System.getSecurityManager();
+            jbvb.lbng.SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                switch (which) {
-                case Subject.PRINCIPAL_SET:
-                    sm.checkPermission(AuthPermissionHolder.MODIFY_PRINCIPALS_PERMISSION);
-                    break;
-                case Subject.PUB_CREDENTIAL_SET:
-                    sm.checkPermission(AuthPermissionHolder.MODIFY_PUBLIC_CREDENTIALS_PERMISSION);
-                    break;
-                default:
-                    sm.checkPermission(AuthPermissionHolder.MODIFY_PRIVATE_CREDENTIALS_PERMISSION);
-                    break;
+                switdi (wiidi) {
+                dbsf Subjfdt.PRINCIPAL_SET:
+                    sm.difdkPfrmission(AutiPfrmissionHoldfr.MODIFY_PRINCIPALS_PERMISSION);
+                    brfbk;
+                dbsf Subjfdt.PUB_CREDENTIAL_SET:
+                    sm.difdkPfrmission(AutiPfrmissionHoldfr.MODIFY_PUBLIC_CREDENTIALS_PERMISSION);
+                    brfbk;
+                dffbult:
+                    sm.difdkPfrmission(AutiPfrmissionHoldfr.MODIFY_PRIVATE_CREDENTIALS_PERMISSION);
+                    brfbk;
                 }
             }
 
-            switch (which) {
-            case Subject.PRINCIPAL_SET:
-                if (!(o instanceof Principal)) {
-                    throw new SecurityException(ResourcesMgr.getString
-                        ("attempting.to.add.an.object.which.is.not.an.instance.of.java.security.Principal.to.a.Subject.s.Principal.Set"));
+            switdi (wiidi) {
+            dbsf Subjfdt.PRINCIPAL_SET:
+                if (!(o instbndfof Prindipbl)) {
+                    tirow nfw SfdurityExdfption(RfsourdfsMgr.gftString
+                        ("bttfmpting.to.bdd.bn.objfdt.wiidi.is.not.bn.instbndf.of.jbvb.sfdurity.Prindipbl.to.b.Subjfdt.s.Prindipbl.Sft"));
                 }
-                break;
-            default:
-                // ok to add Objects of any kind to credential sets
-                break;
+                brfbk;
+            dffbult:
+                // ok to bdd Objfdts of bny kind to drfdfntibl sfts
+                brfbk;
             }
 
-            // check for duplicates
-            if (!elements.contains(o))
-                return elements.add(o);
-            else {
-                return false;
+            // difdk for duplidbtfs
+            if (!flfmfnts.dontbins(o))
+                rfturn flfmfnts.bdd(o);
+            flsf {
+                rfturn fblsf;
         }
         }
 
-        public boolean remove(Object o) {
+        publid boolfbn rfmovf(Objfdt o) {
 
-            Objects.requireNonNull(o,
-                    ResourcesMgr.getString("invalid.null.input.s."));
+            Objfdts.rfquirfNonNull(o,
+                    RfsourdfsMgr.gftString("invblid.null.input.s."));
 
-            final Iterator<E> e = iterator();
-            while (e.hasNext()) {
-                E next;
-                if (which != Subject.PRIV_CREDENTIAL_SET) {
-                    next = e.next();
-                } else {
-                    next = java.security.AccessController.doPrivileged
-                        (new java.security.PrivilegedAction<E>() {
-                        public E run() {
-                            return e.next();
+            finbl Itfrbtor<E> f = itfrbtor();
+            wiilf (f.ibsNfxt()) {
+                E nfxt;
+                if (wiidi != Subjfdt.PRIV_CREDENTIAL_SET) {
+                    nfxt = f.nfxt();
+                } flsf {
+                    nfxt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                        (nfw jbvb.sfdurity.PrivilfgfdAdtion<E>() {
+                        publid E run() {
+                            rfturn f.nfxt();
                         }
                     });
                 }
 
-                if (next.equals(o)) {
-                    e.remove();
-                    return true;
+                if (nfxt.fqubls(o)) {
+                    f.rfmovf();
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
 
-        public boolean contains(Object o) {
+        publid boolfbn dontbins(Objfdt o) {
 
-            Objects.requireNonNull(o,
-                    ResourcesMgr.getString("invalid.null.input.s."));
+            Objfdts.rfquirfNonNull(o,
+                    RfsourdfsMgr.gftString("invblid.null.input.s."));
 
-            final Iterator<E> e = iterator();
-            while (e.hasNext()) {
-                E next;
-                if (which != Subject.PRIV_CREDENTIAL_SET) {
-                    next = e.next();
-                } else {
+            finbl Itfrbtor<E> f = itfrbtor();
+            wiilf (f.ibsNfxt()) {
+                E nfxt;
+                if (wiidi != Subjfdt.PRIV_CREDENTIAL_SET) {
+                    nfxt = f.nfxt();
+                } flsf {
 
-                    // For private credentials:
-                    // If the caller does not have read permission for
-                    // for o.getClass(), we throw a SecurityException.
-                    // Otherwise we check the private cred set to see whether
-                    // it contains the Object
+                    // For privbtf drfdfntibls:
+                    // If tif dbllfr dofs not ibvf rfbd pfrmission for
+                    // for o.gftClbss(), wf tirow b SfdurityExdfption.
+                    // Otifrwisf wf difdk tif privbtf drfd sft to sff wiftifr
+                    // it dontbins tif Objfdt
 
-                    SecurityManager sm = System.getSecurityManager();
+                    SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                     if (sm != null) {
-                        sm.checkPermission(new PrivateCredentialPermission
-                                                (o.getClass().getName(),
-                                                subject.getPrincipals()));
+                        sm.difdkPfrmission(nfw PrivbtfCrfdfntiblPfrmission
+                                                (o.gftClbss().gftNbmf(),
+                                                subjfdt.gftPrindipbls()));
                     }
-                    next = java.security.AccessController.doPrivileged
-                        (new java.security.PrivilegedAction<E>() {
-                        public E run() {
-                            return e.next();
+                    nfxt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                        (nfw jbvb.sfdurity.PrivilfgfdAdtion<E>() {
+                        publid E run() {
+                            rfturn f.nfxt();
                         }
                     });
                 }
 
-                if (next.equals(o)) {
-                    return true;
+                if (nfxt.fqubls(o)) {
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
 
-        public boolean addAll(Collection<? extends E> c) {
-            boolean result = false;
+        publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) {
+            boolfbn rfsult = fblsf;
 
-            collectionNullClean(c);
+            dollfdtionNullClfbn(d);
 
-            for (E item : c) {
-                result |= this.add(item);
+            for (E itfm : d) {
+                rfsult |= tiis.bdd(itfm);
             }
 
-            return result;
+            rfturn rfsult;
         }
 
-        public boolean removeAll(Collection<?> c) {
-            collectionNullClean(c);
+        publid boolfbn rfmovfAll(Collfdtion<?> d) {
+            dollfdtionNullClfbn(d);
 
-            boolean modified = false;
-            final Iterator<E> e = iterator();
-            while (e.hasNext()) {
-                E next;
-                if (which != Subject.PRIV_CREDENTIAL_SET) {
-                    next = e.next();
-                } else {
-                    next = java.security.AccessController.doPrivileged
-                        (new java.security.PrivilegedAction<E>() {
-                        public E run() {
-                            return e.next();
+            boolfbn modififd = fblsf;
+            finbl Itfrbtor<E> f = itfrbtor();
+            wiilf (f.ibsNfxt()) {
+                E nfxt;
+                if (wiidi != Subjfdt.PRIV_CREDENTIAL_SET) {
+                    nfxt = f.nfxt();
+                } flsf {
+                    nfxt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                        (nfw jbvb.sfdurity.PrivilfgfdAdtion<E>() {
+                        publid E run() {
+                            rfturn f.nfxt();
                         }
                     });
                 }
 
-                Iterator<?> ce = c.iterator();
-                while (ce.hasNext()) {
-                    if (next.equals(ce.next())) {
-                            e.remove();
-                            modified = true;
-                            break;
+                Itfrbtor<?> df = d.itfrbtor();
+                wiilf (df.ibsNfxt()) {
+                    if (nfxt.fqubls(df.nfxt())) {
+                            f.rfmovf();
+                            modififd = truf;
+                            brfbk;
                         }
                 }
             }
-            return modified;
+            rfturn modififd;
         }
 
-        public boolean containsAll(Collection<?> c) {
-            collectionNullClean(c);
+        publid boolfbn dontbinsAll(Collfdtion<?> d) {
+            dollfdtionNullClfbn(d);
 
-            for (Object item : c) {
-                if (this.contains(item) == false) {
-                    return false;
+            for (Objfdt itfm : d) {
+                if (tiis.dontbins(itfm) == fblsf) {
+                    rfturn fblsf;
                 }
             }
 
-            return true;
+            rfturn truf;
         }
 
-        public boolean retainAll(Collection<?> c) {
-            collectionNullClean(c);
+        publid boolfbn rftbinAll(Collfdtion<?> d) {
+            dollfdtionNullClfbn(d);
 
-            boolean modified = false;
-            final Iterator<E> e = iterator();
-            while (e.hasNext()) {
-                E next;
-                if (which != Subject.PRIV_CREDENTIAL_SET) {
-                    next = e.next();
-                } else {
-                    next = java.security.AccessController.doPrivileged
-                        (new java.security.PrivilegedAction<E>() {
-                        public E run() {
-                            return e.next();
+            boolfbn modififd = fblsf;
+            finbl Itfrbtor<E> f = itfrbtor();
+            wiilf (f.ibsNfxt()) {
+                E nfxt;
+                if (wiidi != Subjfdt.PRIV_CREDENTIAL_SET) {
+                    nfxt = f.nfxt();
+                } flsf {
+                    nfxt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                        (nfw jbvb.sfdurity.PrivilfgfdAdtion<E>() {
+                        publid E run() {
+                            rfturn f.nfxt();
                         }
                     });
                 }
 
-                if (c.contains(next) == false) {
-                    e.remove();
-                    modified = true;
+                if (d.dontbins(nfxt) == fblsf) {
+                    f.rfmovf();
+                    modififd = truf;
                     }
                 }
 
-            return modified;
+            rfturn modififd;
         }
 
-        public void clear() {
-            final Iterator<E> e = iterator();
-            while (e.hasNext()) {
-                E next;
-                if (which != Subject.PRIV_CREDENTIAL_SET) {
-                    next = e.next();
-                } else {
-                    next = java.security.AccessController.doPrivileged
-                        (new java.security.PrivilegedAction<E>() {
-                        public E run() {
-                            return e.next();
+        publid void dlfbr() {
+            finbl Itfrbtor<E> f = itfrbtor();
+            wiilf (f.ibsNfxt()) {
+                E nfxt;
+                if (wiidi != Subjfdt.PRIV_CREDENTIAL_SET) {
+                    nfxt = f.nfxt();
+                } flsf {
+                    nfxt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                        (nfw jbvb.sfdurity.PrivilfgfdAdtion<E>() {
+                        publid E run() {
+                            rfturn f.nfxt();
                         }
                     });
                 }
-                e.remove();
+                f.rfmovf();
             }
         }
 
-        public boolean isEmpty() {
-            return elements.isEmpty();
+        publid boolfbn isEmpty() {
+            rfturn flfmfnts.isEmpty();
         }
 
-        public Object[] toArray() {
-            final Iterator<E> e = iterator();
-            while (e.hasNext()) {
-                // The next() method performs a security manager check
-                // on each element in the SecureSet.  If we make it all
-                // the way through we should be able to simply return
-                // element's toArray results.  Otherwise we'll let
-                // the SecurityException pass up the call stack.
-                e.next();
+        publid Objfdt[] toArrby() {
+            finbl Itfrbtor<E> f = itfrbtor();
+            wiilf (f.ibsNfxt()) {
+                // Tif nfxt() mftiod pfrforms b sfdurity mbnbgfr difdk
+                // on fbdi flfmfnt in tif SfdurfSft.  If wf mbkf it bll
+                // tif wby tirougi wf siould bf bblf to simply rfturn
+                // flfmfnt's toArrby rfsults.  Otifrwisf wf'll lft
+                // tif SfdurityExdfption pbss up tif dbll stbdk.
+                f.nfxt();
             }
 
-            return elements.toArray();
+            rfturn flfmfnts.toArrby();
         }
 
-        public <T> T[] toArray(T[] a) {
-            final Iterator<E> e = iterator();
-            while (e.hasNext()) {
-                // The next() method performs a security manager check
-                // on each element in the SecureSet.  If we make it all
-                // the way through we should be able to simply return
-                // element's toArray results.  Otherwise we'll let
-                // the SecurityException pass up the call stack.
-                e.next();
+        publid <T> T[] toArrby(T[] b) {
+            finbl Itfrbtor<E> f = itfrbtor();
+            wiilf (f.ibsNfxt()) {
+                // Tif nfxt() mftiod pfrforms b sfdurity mbnbgfr difdk
+                // on fbdi flfmfnt in tif SfdurfSft.  If wf mbkf it bll
+                // tif wby tirougi wf siould bf bblf to simply rfturn
+                // flfmfnt's toArrby rfsults.  Otifrwisf wf'll lft
+                // tif SfdurityExdfption pbss up tif dbll stbdk.
+                f.nfxt();
             }
 
-            return elements.toArray(a);
+            rfturn flfmfnts.toArrby(b);
         }
 
-        public boolean equals(Object o) {
-            if (o == this) {
-                return true;
+        publid boolfbn fqubls(Objfdt o) {
+            if (o == tiis) {
+                rfturn truf;
             }
 
-            if (!(o instanceof Set)) {
-                return false;
+            if (!(o instbndfof Sft)) {
+                rfturn fblsf;
             }
 
-            Collection<?> c = (Collection<?>) o;
-            if (c.size() != size()) {
-                return false;
+            Collfdtion<?> d = (Collfdtion<?>) o;
+            if (d.sizf() != sizf()) {
+                rfturn fblsf;
             }
 
             try {
-                return containsAll(c);
-            } catch (ClassCastException unused)   {
-                return false;
-            } catch (NullPointerException unused) {
-                return false;
+                rfturn dontbinsAll(d);
+            } dbtdi (ClbssCbstExdfption unusfd)   {
+                rfturn fblsf;
+            } dbtdi (NullPointfrExdfption unusfd) {
+                rfturn fblsf;
             }
         }
 
-        public int hashCode() {
-            int h = 0;
-            Iterator<E> i = iterator();
-            while (i.hasNext()) {
-                E obj = i.next();
+        publid int ibsiCodf() {
+            int i = 0;
+            Itfrbtor<E> i = itfrbtor();
+            wiilf (i.ibsNfxt()) {
+                E obj = i.nfxt();
                 if (obj != null) {
-                    h += obj.hashCode();
+                    i += obj.ibsiCodf();
                 }
             }
-            return h;
+            rfturn i;
         }
 
         /**
-         * Writes this object out to a stream (i.e., serializes it).
+         * Writfs tiis objfdt out to b strfbm (i.f., sfriblizfs it).
          *
          * <p>
          *
-         * @serialData If this is a private credential set,
-         *      a security check is performed to ensure that
-         *      the caller has permission to access each credential
-         *      in the set.  If the security check passes,
-         *      the set is serialized.
+         * @sfriblDbtb If tiis is b privbtf drfdfntibl sft,
+         *      b sfdurity difdk is pfrformfd to fnsurf tibt
+         *      tif dbllfr ibs pfrmission to bddfss fbdi drfdfntibl
+         *      in tif sft.  If tif sfdurity difdk pbssfs,
+         *      tif sft is sfriblizfd.
          */
-        private void writeObject(java.io.ObjectOutputStream oos)
-                throws java.io.IOException {
+        privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm oos)
+                tirows jbvb.io.IOExdfption {
 
-            if (which == Subject.PRIV_CREDENTIAL_SET) {
-                // check permissions before serializing
-                Iterator<E> i = iterator();
-                while (i.hasNext()) {
-                    i.next();
+            if (wiidi == Subjfdt.PRIV_CREDENTIAL_SET) {
+                // difdk pfrmissions bfforf sfriblizing
+                Itfrbtor<E> i = itfrbtor();
+                wiilf (i.ibsNfxt()) {
+                    i.nfxt();
                 }
             }
-            ObjectOutputStream.PutField fields = oos.putFields();
-            fields.put("this$0", subject);
-            fields.put("elements", elements);
-            fields.put("which", which);
-            oos.writeFields();
+            ObjfdtOutputStrfbm.PutFifld fiflds = oos.putFiflds();
+            fiflds.put("tiis$0", subjfdt);
+            fiflds.put("flfmfnts", flfmfnts);
+            fiflds.put("wiidi", wiidi);
+            oos.writfFiflds();
         }
 
-        @SuppressWarnings("unchecked")
-        private void readObject(ObjectInputStream ois)
-            throws IOException, ClassNotFoundException
+        @SupprfssWbrnings("undifdkfd")
+        privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois)
+            tirows IOExdfption, ClbssNotFoundExdfption
         {
-            ObjectInputStream.GetField fields = ois.readFields();
-            subject = (Subject) fields.get("this$0", null);
-            which = fields.get("which", 0);
+            ObjfdtInputStrfbm.GftFifld fiflds = ois.rfbdFiflds();
+            subjfdt = (Subjfdt) fiflds.gft("tiis$0", null);
+            wiidi = fiflds.gft("wiidi", 0);
 
-            LinkedList<E> tmp = (LinkedList<E>) fields.get("elements", null);
+            LinkfdList<E> tmp = (LinkfdList<E>) fiflds.gft("flfmfnts", null);
 
-            Subject.collectionNullClean(tmp);
+            Subjfdt.dollfdtionNullClfbn(tmp);
 
-            if (tmp.getClass() != LinkedList.class) {
-                elements = new LinkedList<E>(tmp);
-            } else {
-                elements = tmp;
+            if (tmp.gftClbss() != LinkfdList.dlbss) {
+                flfmfnts = nfw LinkfdList<E>(tmp);
+            } flsf {
+                flfmfnts = tmp;
             }
         }
 
     }
 
     /**
-     * This class implements a {@code Set} which returns only
-     * members that are an instance of a specified Class.
+     * Tiis dlbss implfmfnts b {@dodf Sft} wiidi rfturns only
+     * mfmbfrs tibt brf bn instbndf of b spfdififd Clbss.
      */
-    private class ClassSet<T> extends AbstractSet<T> {
+    privbtf dlbss ClbssSft<T> fxtfnds AbstrbdtSft<T> {
 
-        private int which;
-        private Class<T> c;
-        private Set<T> set;
+        privbtf int wiidi;
+        privbtf Clbss<T> d;
+        privbtf Sft<T> sft;
 
-        ClassSet(int which, Class<T> c) {
-            this.which = which;
-            this.c = c;
-            set = new HashSet<T>();
+        ClbssSft(int wiidi, Clbss<T> d) {
+            tiis.wiidi = wiidi;
+            tiis.d = d;
+            sft = nfw HbsiSft<T>();
 
-            switch (which) {
-            case Subject.PRINCIPAL_SET:
-                synchronized(principals) { populateSet(); }
-                break;
-            case Subject.PUB_CREDENTIAL_SET:
-                synchronized(pubCredentials) { populateSet(); }
-                break;
-            default:
-                synchronized(privCredentials) { populateSet(); }
-                break;
+            switdi (wiidi) {
+            dbsf Subjfdt.PRINCIPAL_SET:
+                syndironizfd(prindipbls) { populbtfSft(); }
+                brfbk;
+            dbsf Subjfdt.PUB_CREDENTIAL_SET:
+                syndironizfd(pubCrfdfntibls) { populbtfSft(); }
+                brfbk;
+            dffbult:
+                syndironizfd(privCrfdfntibls) { populbtfSft(); }
+                brfbk;
             }
         }
 
-        @SuppressWarnings("unchecked")     /*To suppress warning from line 1374*/
-        private void populateSet() {
-            final Iterator<?> iterator;
-            switch(which) {
-            case Subject.PRINCIPAL_SET:
-                iterator = Subject.this.principals.iterator();
-                break;
-            case Subject.PUB_CREDENTIAL_SET:
-                iterator = Subject.this.pubCredentials.iterator();
-                break;
-            default:
-                iterator = Subject.this.privCredentials.iterator();
-                break;
+        @SupprfssWbrnings("undifdkfd")     /*To supprfss wbrning from linf 1374*/
+        privbtf void populbtfSft() {
+            finbl Itfrbtor<?> itfrbtor;
+            switdi(wiidi) {
+            dbsf Subjfdt.PRINCIPAL_SET:
+                itfrbtor = Subjfdt.tiis.prindipbls.itfrbtor();
+                brfbk;
+            dbsf Subjfdt.PUB_CREDENTIAL_SET:
+                itfrbtor = Subjfdt.tiis.pubCrfdfntibls.itfrbtor();
+                brfbk;
+            dffbult:
+                itfrbtor = Subjfdt.tiis.privCrfdfntibls.itfrbtor();
+                brfbk;
             }
 
-            // Check whether the caller has permisson to get
-            // credentials of Class c
+            // Cifdk wiftifr tif dbllfr ibs pfrmisson to gft
+            // drfdfntibls of Clbss d
 
-            while (iterator.hasNext()) {
-                Object next;
-                if (which == Subject.PRIV_CREDENTIAL_SET) {
-                    next = java.security.AccessController.doPrivileged
-                        (new java.security.PrivilegedAction<Object>() {
-                        public Object run() {
-                            return iterator.next();
+            wiilf (itfrbtor.ibsNfxt()) {
+                Objfdt nfxt;
+                if (wiidi == Subjfdt.PRIV_CREDENTIAL_SET) {
+                    nfxt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd
+                        (nfw jbvb.sfdurity.PrivilfgfdAdtion<Objfdt>() {
+                        publid Objfdt run() {
+                            rfturn itfrbtor.nfxt();
                         }
                     });
-                } else {
-                    next = iterator.next();
+                } flsf {
+                    nfxt = itfrbtor.nfxt();
                 }
-                if (c.isAssignableFrom(next.getClass())) {
-                    if (which != Subject.PRIV_CREDENTIAL_SET) {
-                        set.add((T)next);
-                    } else {
-                        // Check permission for private creds
-                        SecurityManager sm = System.getSecurityManager();
+                if (d.isAssignbblfFrom(nfxt.gftClbss())) {
+                    if (wiidi != Subjfdt.PRIV_CREDENTIAL_SET) {
+                        sft.bdd((T)nfxt);
+                    } flsf {
+                        // Cifdk pfrmission for privbtf drfds
+                        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                         if (sm != null) {
-                            sm.checkPermission(new PrivateCredentialPermission
-                                                (next.getClass().getName(),
-                                                Subject.this.getPrincipals()));
+                            sm.difdkPfrmission(nfw PrivbtfCrfdfntiblPfrmission
+                                                (nfxt.gftClbss().gftNbmf(),
+                                                Subjfdt.tiis.gftPrindipbls()));
                         }
-                        set.add((T)next);
+                        sft.bdd((T)nfxt);
                     }
                 }
             }
         }
 
-        public int size() {
-            return set.size();
+        publid int sizf() {
+            rfturn sft.sizf();
         }
 
-        public Iterator<T> iterator() {
-            return set.iterator();
+        publid Itfrbtor<T> itfrbtor() {
+            rfturn sft.itfrbtor();
         }
 
-        public boolean add(T o) {
+        publid boolfbn bdd(T o) {
 
-            if (!o.getClass().isAssignableFrom(c)) {
-                MessageFormat form = new MessageFormat(ResourcesMgr.getString
-                        ("attempting.to.add.an.object.which.is.not.an.instance.of.class"));
-                Object[] source = {c.toString()};
-                throw new SecurityException(form.format(source));
+            if (!o.gftClbss().isAssignbblfFrom(d)) {
+                MfssbgfFormbt form = nfw MfssbgfFormbt(RfsourdfsMgr.gftString
+                        ("bttfmpting.to.bdd.bn.objfdt.wiidi.is.not.bn.instbndf.of.dlbss"));
+                Objfdt[] sourdf = {d.toString()};
+                tirow nfw SfdurityExdfption(form.formbt(sourdf));
             }
 
-            return set.add(o);
+            rfturn sft.bdd(o);
         }
     }
 
-    static class AuthPermissionHolder {
-        static final AuthPermission DO_AS_PERMISSION =
-            new AuthPermission("doAs");
+    stbtid dlbss AutiPfrmissionHoldfr {
+        stbtid finbl AutiPfrmission DO_AS_PERMISSION =
+            nfw AutiPfrmission("doAs");
 
-        static final AuthPermission DO_AS_PRIVILEGED_PERMISSION =
-            new AuthPermission("doAsPrivileged");
+        stbtid finbl AutiPfrmission DO_AS_PRIVILEGED_PERMISSION =
+            nfw AutiPfrmission("doAsPrivilfgfd");
 
-        static final AuthPermission SET_READ_ONLY_PERMISSION =
-            new AuthPermission("setReadOnly");
+        stbtid finbl AutiPfrmission SET_READ_ONLY_PERMISSION =
+            nfw AutiPfrmission("sftRfbdOnly");
 
-        static final AuthPermission GET_SUBJECT_PERMISSION =
-            new AuthPermission("getSubject");
+        stbtid finbl AutiPfrmission GET_SUBJECT_PERMISSION =
+            nfw AutiPfrmission("gftSubjfdt");
 
-        static final AuthPermission MODIFY_PRINCIPALS_PERMISSION =
-            new AuthPermission("modifyPrincipals");
+        stbtid finbl AutiPfrmission MODIFY_PRINCIPALS_PERMISSION =
+            nfw AutiPfrmission("modifyPrindipbls");
 
-        static final AuthPermission MODIFY_PUBLIC_CREDENTIALS_PERMISSION =
-            new AuthPermission("modifyPublicCredentials");
+        stbtid finbl AutiPfrmission MODIFY_PUBLIC_CREDENTIALS_PERMISSION =
+            nfw AutiPfrmission("modifyPublidCrfdfntibls");
 
-        static final AuthPermission MODIFY_PRIVATE_CREDENTIALS_PERMISSION =
-            new AuthPermission("modifyPrivateCredentials");
+        stbtid finbl AutiPfrmission MODIFY_PRIVATE_CREDENTIALS_PERMISSION =
+            nfw AutiPfrmission("modifyPrivbtfCrfdfntibls");
     }
 }

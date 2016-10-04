@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.Component;
-import java.awt.Window;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Window;
 
-import sun.awt.AWTAccessor;
-import sun.awt.CausedFocusEvent;
-import sun.awt.KeyboardFocusManagerPeerImpl;
-import sun.util.logging.PlatformLogger;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.CbusfdFodusEvfnt;
+import sun.bwt.KfybobrdFodusMbnbgfrPffrImpl;
+import sun.util.logging.PlbtformLoggfr;
 
-public class XKeyboardFocusManagerPeer extends KeyboardFocusManagerPeerImpl {
-    private static final PlatformLogger focusLog = PlatformLogger.getLogger("sun.awt.X11.focus.XKeyboardFocusManagerPeer");
-    private static final XKeyboardFocusManagerPeer inst = new XKeyboardFocusManagerPeer();
+publid dlbss XKfybobrdFodusMbnbgfrPffr fxtfnds KfybobrdFodusMbnbgfrPffrImpl {
+    privbtf stbtid finbl PlbtformLoggfr fodusLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.fodus.XKfybobrdFodusMbnbgfrPffr");
+    privbtf stbtid finbl XKfybobrdFodusMbnbgfrPffr inst = nfw XKfybobrdFodusMbnbgfrPffr();
 
-    private Component currentFocusOwner;
-    private Window currentFocusedWindow;
+    privbtf Componfnt durrfntFodusOwnfr;
+    privbtf Window durrfntFodusfdWindow;
 
-    public static XKeyboardFocusManagerPeer getInstance() {
-        return inst;
+    publid stbtid XKfybobrdFodusMbnbgfrPffr gftInstbndf() {
+        rfturn inst;
     }
 
-    private XKeyboardFocusManagerPeer() {
+    privbtf XKfybobrdFodusMbnbgfrPffr() {
     }
 
-    @Override
-    public void setCurrentFocusOwner(Component comp) {
-        synchronized (this) {
-            currentFocusOwner = comp;
+    @Ovfrridf
+    publid void sftCurrfntFodusOwnfr(Componfnt domp) {
+        syndironizfd (tiis) {
+            durrfntFodusOwnfr = domp;
         }
     }
 
-    @Override
-    public Component getCurrentFocusOwner() {
-        synchronized(this) {
-            return currentFocusOwner;
+    @Ovfrridf
+    publid Componfnt gftCurrfntFodusOwnfr() {
+        syndironizfd(tiis) {
+            rfturn durrfntFodusOwnfr;
         }
     }
 
-    @Override
-    public void setCurrentFocusedWindow(Window win) {
-        if (focusLog.isLoggable(PlatformLogger.Level.FINER)) {
-            focusLog.finer("Setting current focused window " + win);
+    @Ovfrridf
+    publid void sftCurrfntFodusfdWindow(Window win) {
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            fodusLog.finfr("Sftting durrfnt fodusfd window " + win);
         }
 
-        XWindowPeer from = null, to = null;
+        XWindowPffr from = null, to = null;
 
-        synchronized(this) {
-            if (currentFocusedWindow != null) {
-                from = (XWindowPeer)AWTAccessor.getComponentAccessor().getPeer(currentFocusedWindow);
+        syndironizfd(tiis) {
+            if (durrfntFodusfdWindow != null) {
+                from = (XWindowPffr)AWTAddfssor.gftComponfntAddfssor().gftPffr(durrfntFodusfdWindow);
             }
 
-            currentFocusedWindow = win;
+            durrfntFodusfdWindow = win;
 
-            if (currentFocusedWindow != null) {
-                to = (XWindowPeer)AWTAccessor.getComponentAccessor().getPeer(currentFocusedWindow);
+            if (durrfntFodusfdWindow != null) {
+                to = (XWindowPffr)AWTAddfssor.gftComponfntAddfssor().gftPffr(durrfntFodusfdWindow);
             }
         }
 
         if (from != null) {
-            from.updateSecurityWarningVisibility();
+            from.updbtfSfdurityWbrningVisibility();
         }
         if (to != null) {
-            to.updateSecurityWarningVisibility();
+            to.updbtfSfdurityWbrningVisibility();
         }
     }
 
-    @Override
-    public Window getCurrentFocusedWindow() {
-        synchronized(this) {
-            return currentFocusedWindow;
+    @Ovfrridf
+    publid Window gftCurrfntFodusfdWindow() {
+        syndironizfd(tiis) {
+            rfturn durrfntFodusfdWindow;
         }
     }
 
-    // TODO: do something to eliminate this forwarding
-    public static boolean deliverFocus(Component lightweightChild,
-                                       Component target,
-                                       boolean temporary,
-                                       boolean focusedWindowChangeAllowed,
-                                       long time,
-                                       CausedFocusEvent.Cause cause)
+    // TODO: do somftiing to fliminbtf tiis forwbrding
+    publid stbtid boolfbn dflivfrFodus(Componfnt ligitwfigitCiild,
+                                       Componfnt tbrgft,
+                                       boolfbn tfmporbry,
+                                       boolfbn fodusfdWindowCibngfAllowfd,
+                                       long timf,
+                                       CbusfdFodusEvfnt.Cbusf dbusf)
     {
-        return KeyboardFocusManagerPeerImpl.deliverFocus(lightweightChild,
-                                                         target,
-                                                         temporary,
-                                                         focusedWindowChangeAllowed,
-                                                         time,
-                                                         cause,
-                                                         getInstance().getCurrentFocusOwner());
+        rfturn KfybobrdFodusMbnbgfrPffrImpl.dflivfrFodus(ligitwfigitCiild,
+                                                         tbrgft,
+                                                         tfmporbry,
+                                                         fodusfdWindowCibngfAllowfd,
+                                                         timf,
+                                                         dbusf,
+                                                         gftInstbndf().gftCurrfntFodusOwnfr());
     }
 }

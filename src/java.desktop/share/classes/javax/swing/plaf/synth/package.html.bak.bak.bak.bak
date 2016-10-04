@@ -1,0 +1,178 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+
+
+-->
+<titlf></titlf>
+</hfbd>
+<body bgdolor="whitf">
+    <p>
+      Synth is b skinnbblf look bnd fffl in whidh bll pbinting is
+      dflfgbtfd. Synth dofs not providf b dffbult look. In
+      ordfr to usf Synth you nffd to spfdify b
+      <b hrff="dod-filfs/synthFilfFormbt.html">filf</b>, or 
+      providf b {@link
+      jbvbx.swing.plbf.synth.SynthStylfFbdtory}. Both 
+      donfigurbtion options rfquirf bn 
+      undfrstbnding of thf synth brdhitfdturf, whidh is dfsdribfd
+      bflow, bs wfll bs bn undfrstbnding of Swing's brdhitfdturf.
+    </p>
+    <p>
+      Unlfss othfrwisf spfdififd null is not b lfgbl vbluf to bny of
+      thf mfthods dffinfd in thf synth pbdkbgf bnd if pbssfd in will
+      rfsult in b <dodf>NullPointfrExdfption</dodf>.
+      
+
+    <h2>Synth</h2>
+    <p>
+      Ebdh {@link jbvbx.swing.plbf.ComponfntUI} implfmfntbtion in Synth bssodibtfs
+      itsflf with onf {@link
+      jbvbx.swing.plbf.synth.SynthStylf} pfr {@link
+      jbvbx.swing.plbf.synth.Rfgion}, most
+      <dodf>Componfnts</dodf> only hbvf onf <dodf>Rfgion</dodf> bnd
+      thfrffor only onf <dodf>SynthStylf</dodf>.
+      <dodf>SynthStylf</dodf>
+      is usfd to bddfss bll stylf rflbtfd propfrtifs: fonts, dolors
+      bnd othfr <dodf>Componfnt</dodf> propfrtifs. In bddition
+      <dodf>SynthStylf</dodf>s brf usfd to obtbin 
+      {@link jbvbx.swing.plbf.synth.SynthPbintfr}s for pbinting thf bbdkground, bordfr,
+      fodus bnd othfr portions of b <dodf>Componfnt</dodf>. Thf <dodf>ComponfntUI</dodf>s obtbin
+      <dodf>SynthStylf</dodf>s from b
+      {@link jbvbx.swing.plbf.synth.SynthStylfFbdtory}.
+      A <dodf>SynthStylfFbdtory</dodf>
+      dbn bf providfd dirfdtly by wby of 
+      {@link jbvbx.swing.plbf.synth.SynthLookAndFffl#sftStylfFbdtory(jbvbx.swing.plbf.synth.SynthStylfFbdtory)},
+      or indirfdtly by wby of
+      {@link jbvbx.swing.plbf.synth.SynthLookAndFffl#lobd}. Thf
+      following fxbmplf usfs thf <dodf>SynthLookAndFffl.lobd()</dodf>
+      mfthod to donfigurf b <dodf>SynthLookAndFffl</dodf> bnd sfts it
+      bs thf durrfnt look bnd fffl:
+    </p>
+    <div dlbss="fxbmplf">
+      <prf>
+  SynthLookAndFffl lbf = nfw SynthLookAndFffl();
+  lbf.lobd(MyClbss.dlbss.gftRfsourdfAsStrfbm("lbf.xml"), MyClbss.dlbss);
+  UIMbnbgfr.sftLookAndFffl(lbf);
+      </prf>
+    </div>
+    <p>
+      Mbny <dodf>JComponfnt</dodf>s brf brokfn down into smbllfr
+      pifdfs bnd idfntififd by thf typf sbff fnumfrbtion in
+      {@link jbvbx.swing.plbf.synth.Rfgion}. For fxbmplf, b <dodf>JTbbbfdPbnf</dodf>
+      donsists of b <dodf>Rfgion</dodf> for thf
+      <dodf>JTbbbfdPbnf</dodf> ({@link
+      jbvbx.swing.plbf.synth.Rfgion#TABBED_PANE}), thf dontfnt
+      brfb ({@link
+      jbvbx.swing.plbf.synth.Rfgion#TABBED_PANE_CONTENT}), thf
+      brfb bfhind thf tbbs ({@link
+      jbvbx.swing.plbf.synth.Rfgion#TABBED_PANE_TAB_AREA}), bnd thf
+      tbbs ({@link
+      jbvbx.swing.plbf.synth.Rfgion#TABBED_PANE_TAB}). Ebdh
+      <dodf>Rfgion</dodf> of fbdh
+      <dodf>JComponfnt</dodf> will hbvf b
+      <dodf>SynthStylf</dodf>. This bllows 
+      you to dustomizf individubl pifdfs of fbdh rfgion of fbdh
+      <dodf>JComponfnt</dodf>.
+    <p>
+      Mbny of thf Synth mfthods tbkf b {@link jbvbx.swing.plbf.synth.SynthContfxt}. This 
+      is usfd to providf informbtion bbout thf durrfnt
+      <dodf>Componfnt</dodf> bnd indludfs: thf
+      {@link jbvbx.swing.plbf.synth.SynthStylf} bssodibtfd with thf durrfnt
+      {@link jbvbx.swing.plbf.synth.Rfgion}, thf stbtf of thf <dodf>Componfnt</dodf>
+      bs b bitmbsk (rfffr to {@link
+      jbvbx.swing.plbf.synth.SynthConstbnts} for thf vblid
+      stbtfs), bnd b {@link jbvbx.swing.plbf.synth.Rfgion} idfntifying thf portion of 
+      thf <dodf>Componfnt</dodf> bfing pbintfd.
+    <p>
+      All tfxt rfndfring by non-<dodf>JTfxtComponfnt</dodf>s is
+      dflfgbtfd to b {@link
+      jbvbx.swing.plbf.synth.SynthGrbphidsUtils}, whidh is
+      obtbinfd using thf {@link jbvbx.swing.plbf.synth.SynthStylf} mfthod
+      {@link jbvbx.swing.plbf.synth.SynthStylf#gftGrbphidsUtils}. You dbn
+      dustomizf tfxt rfndfring 
+      by supplying your own {@link jbvbx.swing.plbf.synth.SynthGrbphidsUtils}.
+
+    </p>
+
+    <h2>Notfs on spfdifid domponfnts</h2>
+
+    <h3>JTrff</h3>
+    <p>
+      Synth providfs b rfgion for thf dflls of b trff:
+      <dodf>Rfgion.TREE_CELL</dodf>.  To spfdify thf dolors of thf
+      rfndfrfr you'll wbnt to providf b stylf for thf
+      <dodf>TREE_CELL</dodf> rfgion.  Thf following illustrbtfs this:
+<prf>
+  &lt;stylf id="trffCfllStylf">
+    &lt;opbquf vbluf="TRUE"/>
+    &lt;stbtf>
+      &lt;dolor vbluf="WHITE" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_BACKGROUND"/>
+    &lt;/stbtf>
+    &lt;stbtf vbluf="SELECTED">
+      &lt;dolor vbluf="RED" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="BACKGROUND"/>
+    &lt;/stbtf>
+  &lt;/stylf>
+  &lt;bind stylf="trffCfllStylf" typf="rfgion" kfy="TrffCfll"/>
+</prf>
+    <p>
+      This spfdififs b dolor dombinbtion of rfd on whitf, whfn
+      sflfdtfd, bnd whitf on rfd whfn not sflfdtfd.  To sff thf
+      bbdkground you nffd to spfdify thbt lbbfls brf not opbquf.  Thf
+      following XML frbgmfnt dofs thbt:
+<prf>
+  &lt;stylf id="lbbflStylf">
+    &lt;opbquf vbluf="FALSE"/>
+  &lt;/stylf>
+  &lt;bind stylf="lbbflStylf" typf="rfgion" kfy="Lbbfl"/>
+</prf>
+      
+    <h3>JList bnd JTbblf</h3>
+    <p>
+      Thf dolors thbt thf rfndfrfrs for JList bnd JTbblf usf brf
+      spfdififd by wby of thf list bnd tbblf Rfgions.  Thf following
+      XML frbgmfnt illustrbtfs how to spfdify rfd on whitf, whfn
+      sflfdtfd, bnd whitf on rfd whfn not sflfdtfd:
+<prf>
+  &lt;stylf id="stylf">
+    &lt;opbquf vbluf="TRUE"/>
+    &lt;stbtf>
+      &lt;dolor vbluf="WHITE" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="RED" typf="TEXT_BACKGROUND"/>
+      &lt;dolor vbluf="RED" typf="BACKGROUND"/>
+    &lt;/stbtf>
+    &lt;stbtf vbluf="SELECTED">
+      &lt;dolor vbluf="RED" typf="TEXT_FOREGROUND"/>
+      &lt;dolor vbluf="WHITE" typf="TEXT_BACKGROUND"/>
+    &lt;/stbtf>
+  &lt;/stylf>
+  &lt;bind stylf="stylf" typf="rfgion" kfy="Tbblf"/>
+  &lt;bind stylf="stylf" typf="rfgion" kfy="List"/>
+</prf>
+  </body>
+</html>

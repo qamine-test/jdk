@@ -1,187 +1,187 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE ldml SYSTEM "../../common/dtd/ldml.dtd">
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
 <ldml>
-	<identity>
-		<version number="$Revision: 6708 $"/>
-		<generation date="$Date: 2012-03-16 15:58:36 +0900 (Fri, 16 Mar 2012) $"/>
-		<language type="pa"/>
-		<script type="Arab"/>
-	</identity>
-	<localeDisplayNames>
-		<languages>
-			<language type="pa">پنجاب</language>
-		</languages>
-		<scripts>
-			<script type="Arab">العربية</script>
-			<script type="Guru">گُرمُکھی</script>
-		</scripts>
-		<territories>
-			<territory type="PK">پکستان</territory>
-		</territories>
-	</localeDisplayNames>
-	<layout>
-		<orientation characters="right-to-left"/>
-	</layout>
-	<characters>
-		<exemplarCharacters>[\u064F ء آ ؤ ئ ا ب پ ت ث ٹ ج چ ح خ د ذ ڈ ر ز ڑ ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن ں ه ھ ہ و ی ے]</exemplarCharacters>
-		<exemplarCharacters type="auxiliary">[أ ٻ ة ٺ ټ ٽ]</exemplarCharacters>
-		<exemplarCharacters type="index" draft="unconfirmed">[ء آ ؤ ئ ا ب پ ت ث ٹ ج چ ح خ د ذ ڈ ر ز ڑ ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن ں ه ھ ہ و ی ے]</exemplarCharacters>
-	</characters>
-	<dates>
-		<calendars>
-			<calendar type="gregorian">
-				<months>
-					<monthContext type="format">
-						<monthWidth type="wide">
-							<month type="1">جنوری</month>
-							<month type="2">فروری</month>
-							<month type="3">مارچ</month>
-							<month type="4">اپریل</month>
-							<month type="5">مئ</month>
-							<month type="6">جون</month>
-							<month type="7">جولائی</month>
-							<month type="8">اگست</month>
-							<month type="9">ستمبر</month>
-							<month type="10">اکتوبر</month>
-							<month type="11">نومبر</month>
-							<month type="12">دسمبر</month>
-						</monthWidth>
-					</monthContext>
-				</months>
-				<days>
-					<dayContext type="format">
-						<dayWidth type="wide">
-							<day type="sun">اتوار</day>
-							<day type="mon">پیر</day>
-							<day type="tue">منگل</day>
-							<day type="wed">بُدھ</day>
-							<day type="thu">جمعرات</day>
-							<day type="fri">جمعہ</day>
-							<day type="sat">ہفتہ</day>
-						</dayWidth>
-					</dayContext>
-				</days>
-				<quarters>
-					<quarterContext type="format">
-						<quarterWidth type="wide">
-							<quarter type="1">چوتھاي پہلاں</quarter>
-							<quarter type="2">چوتھاي دوجا</quarter>
-							<quarter type="3">چوتھاي تيجا</quarter>
-							<quarter type="4">چوتھاي چوتھا</quarter>
-						</quarterWidth>
-					</quarterContext>
-				</quarters>
-				<eras>
-					<eraNames>
-						<era type="0">ايساپورو</era>
-						<era type="1">سں</era>
-					</eraNames>
-				</eras>
-				<dateFormats>
-					<dateFormatLength type="full">
-						<dateFormat>
-							<pattern>EEEE, dd MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="long">
-						<dateFormat>
-							<pattern>d MMMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="medium">
-						<dateFormat>
-							<pattern>d MMM y</pattern>
-						</dateFormat>
-					</dateFormatLength>
-					<dateFormatLength type="short">
-						<dateFormat>
-							<pattern>dd/MM/yyyy</pattern>
-						</dateFormat>
-					</dateFormatLength>
-				</dateFormats>
-				<timeFormats>
-					<timeFormatLength type="full">
-						<timeFormat>
-							<pattern>h:mm:ss a zzzz</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="long">
-						<timeFormat>
-							<pattern>h:mm:ss a z</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="medium">
-						<timeFormat>
-							<pattern>h:mm:ss a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-					<timeFormatLength type="short">
-						<timeFormat>
-							<pattern>h:mm a</pattern>
-						</timeFormat>
-					</timeFormatLength>
-				</timeFormats>
-				<dateTimeFormats>
-					<availableFormats>
-						<dateFormatItem id="HHmmss">HH:mm:ss</dateFormatItem>
-						<dateFormatItem id="Md">d/M</dateFormatItem>
-						<dateFormatItem id="mmss">mm:ss</dateFormatItem>
-						<dateFormatItem id="yyMMM">MMM yy</dateFormatItem>
-						<dateFormatItem id="yyQ">Q yy</dateFormatItem>
-					</availableFormats>
-				</dateTimeFormats>
-				<fields>
-					<field type="year">
-						<displayName>ورھا</displayName>
-					</field>
-					<field type="month">
-						<displayName>مہينا</displayName>
-					</field>
-					<field type="week">
-						<displayName>ہفتہ</displayName>
-					</field>
-					<field type="day">
-						<displayName>دئن</displayName>
-					</field>
-					<field type="weekday">
-						<displayName>ہفتے دا دن</displayName>
-					</field>
-					<field type="hour">
-						<displayName>گھنٹا</displayName>
-					</field>
-					<field type="minute">
-						<displayName>منٹ</displayName>
-					</field>
-					<field type="zone">
-						<displayName>ٹپہ</displayName>
-					</field>
-				</fields>
-			</calendar>
-		</calendars>
-	</dates>
-	<numbers>
-		<defaultNumberingSystem>arabext</defaultNumberingSystem>
-		<otherNumberingSystems>
-			<native>arabext</native>
-		</otherNumberingSystems>
-		<currencies>
-			<currency type="EUR">
-				<displayName>يورو</displayName>
-			</currency>
-			<currency type="INR">
-				<displayName>روپئیہ [INR]</displayName>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6708 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-03-16 15:58:36 +0900 (Fri, 16 Mbr 2012) $"/>
+		<lbngubgf typf="pb"/>
+		<sdript typf="Arbb"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="pb">پنجاب</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb">العربية</sdript>
+			<sdript typf="Guru">گُرمُکھی</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="PK">پکستان</tfrritory>
+		</tfrritorifs>
+	</lodblfDisplbyNbmfs>
+	<lbyout>
+		<orifntbtion dibrbdtfrs="rigit-to-lfft"/>
+	</lbyout>
+	<dibrbdtfrs>
+		<fxfmplbrCibrbdtfrs>[\u064F ء آ ؤ ئ ا ب پ ت ث ٹ ج چ ح خ د ذ ڈ ر ز ڑ ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن ں ه ھ ہ و ی ے]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="buxilibry">[أ ٻ ة ٺ ټ ٽ]</fxfmplbrCibrbdtfrs>
+		<fxfmplbrCibrbdtfrs typf="indfx" drbft="undonfirmfd">[ء آ ؤ ئ ا ب پ ت ث ٹ ج چ ح خ د ذ ڈ ر ز ڑ ژ س ش ص ض ط ظ ع غ ف ق ک گ ل م ن ں ه ھ ہ و ی ے]</fxfmplbrCibrbdtfrs>
+	</dibrbdtfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="grfgoribn">
+				<montis>
+					<montiContfxt typf="formbt">
+						<montiWidti typf="widf">
+							<monti typf="1">جنوری</monti>
+							<monti typf="2">فروری</monti>
+							<monti typf="3">مارچ</monti>
+							<monti typf="4">اپریل</monti>
+							<monti typf="5">مئ</monti>
+							<monti typf="6">جون</monti>
+							<monti typf="7">جولائی</monti>
+							<monti typf="8">اگست</monti>
+							<monti typf="9">ستمبر</monti>
+							<monti typf="10">اکتوبر</monti>
+							<monti typf="11">نومبر</monti>
+							<monti typf="12">دسمبر</monti>
+						</montiWidti>
+					</montiContfxt>
+				</montis>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidti typf="widf">
+							<dby typf="sun">اتوار</dby>
+							<dby typf="mon">پیر</dby>
+							<dby typf="tuf">منگل</dby>
+							<dby typf="wfd">بُدھ</dby>
+							<dby typf="tiu">جمعرات</dby>
+							<dby typf="fri">جمعہ</dby>
+							<dby typf="sbt">ہفتہ</dby>
+						</dbyWidti>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidti typf="widf">
+							<qubrtfr typf="1">چوتھاي پہلاں</qubrtfr>
+							<qubrtfr typf="2">چوتھاي دوجا</qubrtfr>
+							<qubrtfr typf="3">چوتھاي تيجا</qubrtfr>
+							<qubrtfr typf="4">چوتھاي چوتھا</qubrtfr>
+						</qubrtfrWidti>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<frbs>
+					<frbNbmfs>
+						<frb typf="0">ايساپورو</frb>
+						<frb typf="1">سں</frb>
+					</frbNbmfs>
+				</frbs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngti typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, dd MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>d MMM y</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+					<dbtfFormbtLfngti typf="siort">
+						<dbtfFormbt>
+							<pbttfrn>dd/MM/yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngti>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngti typf="full">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="long">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="mfdium">
+						<timfFormbt>
+							<pbttfrn>i:mm:ss b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+					<timfFormbtLfngti typf="siort">
+						<timfFormbt>
+							<pbttfrn>i:mm b</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngti>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<bvbilbblfFormbts>
+						<dbtfFormbtItfm id="HHmmss">HH:mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="Md">d/M</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="mmss">mm:ss</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyMMM">MMM yy</dbtfFormbtItfm>
+						<dbtfFormbtItfm id="yyQ">Q yy</dbtfFormbtItfm>
+					</bvbilbblfFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="yfbr">
+						<displbyNbmf>ورھا</displbyNbmf>
+					</fifld>
+					<fifld typf="monti">
+						<displbyNbmf>مہينا</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf>ہفتہ</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf>دئن</displbyNbmf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf>ہفتے دا دن</displbyNbmf>
+					</fifld>
+					<fifld typf="iour">
+						<displbyNbmf>گھنٹا</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf>منٹ</displbyNbmf>
+					</fifld>
+					<fifld typf="zonf">
+						<displbyNbmf>ٹپہ</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+	</dbtfs>
+	<numbfrs>
+		<dffbultNumbfringSystfm>brbbfxt</dffbultNumbfringSystfm>
+		<otifrNumbfringSystfms>
+			<nbtivf>brbbfxt</nbtivf>
+		</otifrNumbfringSystfms>
+		<durrfndifs>
+			<durrfndy typf="EUR">
+				<displbyNbmf>يورو</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>روپئیہ [INR]</displbyNbmf>
 				<symbol>ر [INR]</symbol>
-			</currency>
-			<currency type="PKR">
-				<displayName>روپئیہ</displayName>
+			</durrfndy>
+			<durrfndy typf="PKR">
+				<displbyNbmf>روپئیہ</displbyNbmf>
 				<symbol>ر</symbol>
-			</currency>
-		</currencies>
-	</numbers>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
 	<posix>
-		<messages>
-			<yesstr>ہاں</yesstr>
+		<mfssbgfs>
+			<yfsstr>ہاں</yfsstr>
 			<nostr>نہيں</nostr>
-		</messages>
+		</mfssbgfs>
 	</posix>
 </ldml>

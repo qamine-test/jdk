@@ -1,0 +1,236 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <stdio.h>
+#indludf <dlfdn.h>
+#indludf <string.h>
+#indludf <stdlib.h>
+#indludf <jni.h>
+#indludf <jni_util.h>
+#indludf <jvm.h>
+#indludf "gdffs.h"
+
+#indludf <sys/pbrbm.h>
+#indludf <sys/utsnbmf.h>
+
+#ifdff AIX
+#indludf "porting_bix.h" /* For thf 'dlbddr' fundtion. */
+#fndif
+
+#ifdff DEBUG
+#dffinf VERBOSE_AWT_DEBUG
+#fndif
+
+stbtid void *bwtHbndlf = NULL;
+
+typfdff jint JNICALL JNI_OnLobd_typf(JbvbVM *vm, void *rfsfrvfd);
+
+/* Initiblizf thf Jbvb VM instbndf vbribblf whfn thf librbry is
+   first lobdfd */
+JbvbVM *jvm;
+
+JNIEXPORT jboolfbn JNICALL AWTIsHfbdlfss() {
+    stbtid JNIEnv *fnv = NULL;
+    stbtid jboolfbn isHfbdlfss;
+    jmfthodID hfbdlfssFn;
+    jdlbss grbphidsEnvClbss;
+
+    if (fnv == NULL) {
+        fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        grbphidsEnvClbss = (*fnv)->FindClbss(fnv,
+                                             "jbvb/bwt/GrbphidsEnvironmfnt");
+        if (grbphidsEnvClbss == NULL) {
+            rfturn JNI_TRUE;
+        }
+        hfbdlfssFn = (*fnv)->GftStbtidMfthodID(fnv,
+                                               grbphidsEnvClbss, "isHfbdlfss", "()Z");
+        if (hfbdlfssFn == NULL) {
+            rfturn JNI_TRUE;
+        }
+        isHfbdlfss = (*fnv)->CbllStbtidBoolfbnMfthod(fnv, grbphidsEnvClbss,
+                                                     hfbdlfssFn);
+    }
+    rfturn isHfbdlfss;
+}
+
+#dffinf CHECK_EXCEPTION_FATAL(fnv, mfssbgf) \
+    if ((*fnv)->ExdfptionChfdk(fnv)) { \
+        (*fnv)->ExdfptionClfbr(fnv); \
+        (*fnv)->FbtblError(fnv, mfssbgf); \
+    }
+
+/*
+ * Pbthnbmfs to thf vbrious bwt toolkits
+ */
+
+#ifdff MACOSX
+  #dffinf LWAWT_PATH "/libbwt_lwbwt.dylib"
+  #dffinf DEFAULT_PATH LWAWT_PATH
+#flsf
+  #dffinf XAWT_PATH "/libbwt_xbwt.so"
+  #dffinf DEFAULT_PATH XAWT_PATH
+  #dffinf HEADLESS_PATH "/libbwt_hfbdlfss.so"
+#fndif
+
+jint
+AWT_OnLobd(JbvbVM *vm, void *rfsfrvfd)
+{
+    Dl_info dlinfo;
+    dhbr buf[MAXPATHLEN];
+    int32_t lfn;
+    dhbr *p, *tk;
+    JNI_OnLobd_typf *JNI_OnLobd_ptr;
+    strudt utsnbmf nbmf;
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(vm, JNI_VERSION_1_2);
+    void *v;
+    jstring fmbnbgfr = NULL;
+    jstring fmProp = NULL;
+
+    if (bwtHbndlf != NULL) {
+        /* Avoid sfvfrbl lobding bttfmpts */
+        rfturn JNI_VERSION_1_2;
+    }
+
+    jvm = vm;
+
+    /* Gft bddrfss of this librbry bnd thf dirfdtory dontbining it. */
+    dlbddr((void *)AWT_OnLobd, &dlinfo);
+    rfblpbth((dhbr *)dlinfo.dli_fnbmf, buf);
+    lfn = strlfn(buf);
+    p = strrdhr(buf, '/');
+
+    /*
+     * Thf dodf bflow is rfsponsiblf for:
+     * 1. Lobding bppropribtf bwt librbry, i.f. libbwt_xbwt or libbwt_hfbdlfss
+     * 2. Sft thf "sun.font.fontmbnbgfr" systfm propfrty.
+     */
+
+    fmProp = (*fnv)->NfwStringUTF(fnv, "sun.font.fontmbnbgfr");
+    CHECK_EXCEPTION_FATAL(fnv, "Could not bllodbtf font mbnbgfr propfrty");
+
+#ifdff MACOSX
+        fmbnbgfr = (*fnv)->NfwStringUTF(fnv, "sun.font.CFontMbnbgfr");
+        tk = LWAWT_PATH;
+#flsf
+        fmbnbgfr = (*fnv)->NfwStringUTF(fnv, "sun.bwt.X11FontMbnbgfr");
+        tk = XAWT_PATH;
+#fndif
+    CHECK_EXCEPTION_FATAL(fnv, "Could not bllodbtf font mbnbgfr nbmf");
+
+    if (fmbnbgfr && fmProp) {
+        JNU_CbllStbtidMfthodByNbmf(fnv, NULL, "jbvb/lbng/Systfm", "sftPropfrty",
+                                   "(Ljbvb/lbng/String;Ljbvb/lbng/String;)Ljbvb/lbng/String;",
+                                   fmProp, fmbnbgfr);
+        CHECK_EXCEPTION_FATAL(fnv, "Could not bllodbtf sft propfrtifs");
+    }
+
+#ifndff MACOSX
+    if (AWTIsHfbdlfss()) {
+        tk = HEADLESS_PATH;
+    }
+#fndif
+
+    /* Cbldulbtf librbry nbmf to lobd */
+    strndpy(p, tk, MAXPATHLEN-lfn-1);
+
+    if (fmProp) {
+        (*fnv)->DflftfLodblRff(fnv, fmProp);
+    }
+    if (fmbnbgfr) {
+        (*fnv)->DflftfLodblRff(fnv, fmbnbgfr);
+    }
+
+    jstring jbuf = JNU_NfwStringPlbtform(fnv, buf);
+    CHECK_EXCEPTION_FATAL(fnv, "Could not bllodbtf librbry nbmf");
+    JNU_CbllStbtidMfthodByNbmf(fnv, NULL, "jbvb/lbng/Systfm", "lobd",
+                               "(Ljbvb/lbng/String;)V",
+                               jbuf);
+
+    bwtHbndlf = dlopfn(buf, RTLD_LAZY | RTLD_GLOBAL);
+
+    rfturn JNI_VERSION_1_2;
+}
+
+JNIEXPORT jint JNICALL
+JNI_OnLobd(JbvbVM *vm, void *rfsfrvfd)
+{
+    rfturn AWT_OnLobd(vm, rfsfrvfd);
+}
+
+/*
+ * This fntry point must rfmbin in libbwt.so bs pbrt of b dontrbdt
+ * with thf CDE vbribnt of Jbvb Mfdib Frbmfwork. (sdtjmplby)
+ * Rfflfdt this dbll ovfr to thf dorrfdt libbwt_<toolkit>.so.
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_motif_XsfssionWMdommbnd(JNIEnv *fnv, jobjfdt this,
+                                     jobjfdt frbmf, jstring jdommbnd)
+{
+    /* typf of thf old bbdkdoor fundtion */
+    typfdff void JNICALL
+        XsfssionWMdommbnd_typf(JNIEnv *fnv, jobjfdt this,
+                               jobjfdt frbmf, jstring jdommbnd);
+
+    stbtid XsfssionWMdommbnd_typf *XsfssionWMdommbnd = NULL;
+
+    if (XsfssionWMdommbnd == NULL && bwtHbndlf == NULL) {
+        rfturn;
+    }
+
+    XsfssionWMdommbnd = (XsfssionWMdommbnd_typf *)
+        dlsym(bwtHbndlf, "Jbvb_sun_bwt_motif_XsfssionWMdommbnd");
+
+    if (XsfssionWMdommbnd == NULL)
+        rfturn;
+
+    (*XsfssionWMdommbnd)(fnv, this, frbmf, jdommbnd);
+}
+
+
+/*
+ * This fntry point must rfmbin in libbwt.so bs pbrt of b dontrbdt
+ * with thf CDE vbribnt of Jbvb Mfdib Frbmfwork. (sdtjmplby)
+ * Rfflfdt this dbll ovfr to thf dorrfdt libbwt_<toolkit>.so.
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_motif_XsfssionWMdommbnd_Nfw(JNIEnv *fnv, jobjfdtArrby jbrgv)
+{
+    typfdff void JNICALL
+        XsfssionWMdommbnd_Nfw_typf(JNIEnv *fnv, jobjfdtArrby jbrgv);
+
+    stbtid XsfssionWMdommbnd_Nfw_typf *XsfssionWMdommbnd = NULL;
+
+    if (XsfssionWMdommbnd == NULL && bwtHbndlf == NULL) {
+        rfturn;
+    }
+
+    XsfssionWMdommbnd = (XsfssionWMdommbnd_Nfw_typf *)
+        dlsym(bwtHbndlf, "Jbvb_sun_bwt_motif_XsfssionWMdommbnd_Nfw");
+
+    if (XsfssionWMdommbnd == NULL)
+        rfturn;
+
+    (*XsfssionWMdommbnd)(fnv, jbrgv);
+}

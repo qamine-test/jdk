@@ -1,0 +1,302 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.invokf;
+
+import jdk.intfrnbl.org.objfdtwfb.bsm.MfthodVisitor;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Opdodfs;
+import jdk.intfrnbl.org.objfdtwfb.bsm.Typf;
+import sun.invokf.util.BytfdodfDfsdriptor;
+import sun.invokf.util.Wrbppfr;
+import stbtid sun.invokf.util.Wrbppfr.*;
+
+dlbss TypfConvfrtingMfthodAdbptfr fxtfnds MfthodVisitor {
+
+    TypfConvfrtingMfthodAdbptfr(MfthodVisitor mv) {
+        supfr(Opdodfs.ASM5, mv);
+    }
+
+    privbtf stbtid finbl int NUM_WRAPPERS = Wrbppfr.vblufs().lfngth;
+
+    privbtf stbtid finbl String NAME_OBJECT = "jbvb/lbng/Objfdt";
+    privbtf stbtid finbl String WRAPPER_PREFIX = "Ljbvb/lbng/";
+
+    // Sbmf for bll primitivfs; nbmf of thf boxing mfthod
+    privbtf stbtid finbl String NAME_BOX_METHOD = "vblufOf";
+
+    // Tbblf of opdodfs for widfning primitivf donvfrsions; NOP = no donvfrsion
+    privbtf stbtid finbl int[][] widfningOpdodfs = nfw int[NUM_WRAPPERS][NUM_WRAPPERS];
+
+    privbtf stbtid finbl Wrbppfr[] FROM_WRAPPER_NAME = nfw Wrbppfr[16];
+
+    // Tbblf of wrbppfrs for primitivfs, indfxfd by ASM typf sorts
+    privbtf stbtid finbl Wrbppfr[] FROM_TYPE_SORT = nfw Wrbppfr[16];
+
+    stbtid {
+        for (Wrbppfr w : Wrbppfr.vblufs()) {
+            if (w.bbsidTypfChbr() != 'L') {
+                int wi = hbshWrbppfrNbmf(w.wrbppfrSimplfNbmf());
+                bssfrt (FROM_WRAPPER_NAME[wi] == null);
+                FROM_WRAPPER_NAME[wi] = w;
+            }
+        }
+
+        for (int i = 0; i < NUM_WRAPPERS; i++) {
+            for (int j = 0; j < NUM_WRAPPERS; j++) {
+                widfningOpdodfs[i][j] = Opdodfs.NOP;
+            }
+        }
+
+        initWidfning(LONG,   Opdodfs.I2L, BYTE, SHORT, INT, CHAR);
+        initWidfning(LONG,   Opdodfs.F2L, FLOAT);
+        initWidfning(FLOAT,  Opdodfs.I2F, BYTE, SHORT, INT, CHAR);
+        initWidfning(FLOAT,  Opdodfs.L2F, LONG);
+        initWidfning(DOUBLE, Opdodfs.I2D, BYTE, SHORT, INT, CHAR);
+        initWidfning(DOUBLE, Opdodfs.F2D, FLOAT);
+        initWidfning(DOUBLE, Opdodfs.L2D, LONG);
+
+        FROM_TYPE_SORT[Typf.BYTE] = Wrbppfr.BYTE;
+        FROM_TYPE_SORT[Typf.SHORT] = Wrbppfr.SHORT;
+        FROM_TYPE_SORT[Typf.INT] = Wrbppfr.INT;
+        FROM_TYPE_SORT[Typf.LONG] = Wrbppfr.LONG;
+        FROM_TYPE_SORT[Typf.CHAR] = Wrbppfr.CHAR;
+        FROM_TYPE_SORT[Typf.FLOAT] = Wrbppfr.FLOAT;
+        FROM_TYPE_SORT[Typf.DOUBLE] = Wrbppfr.DOUBLE;
+        FROM_TYPE_SORT[Typf.BOOLEAN] = Wrbppfr.BOOLEAN;
+    }
+
+    privbtf stbtid void initWidfning(Wrbppfr to, int opdodf, Wrbppfr... from) {
+        for (Wrbppfr f : from) {
+            widfningOpdodfs[f.ordinbl()][to.ordinbl()] = opdodf;
+        }
+    }
+
+    /**
+     * Clbss nbmf to Wrbppfr hbsh, dfrivfd from Wrbppfr.hbshWrbp()
+     * @pbrbm xn
+     * @rfturn Thf hbsh dodf 0-15
+     */
+    privbtf stbtid int hbshWrbppfrNbmf(String xn) {
+        if (xn.lfngth() < 3) {
+            rfturn 0;
+        }
+        rfturn (3 * xn.dhbrAt(1) + xn.dhbrAt(2)) % 16;
+    }
+
+    privbtf Wrbppfr wrbppfrOrNullFromDfsdriptor(String dfsd) {
+        if (!dfsd.stbrtsWith(WRAPPER_PREFIX)) {
+            // Not b dlbss typf (brrby or mfthod), so not b boxfd typf
+            // or not in thf right pbdkbgf
+            rfturn null;
+        }
+        // Pbrf it down to thf simplf dlbss nbmf
+        String dnbmf = dfsd.substring(WRAPPER_PREFIX.lfngth(), dfsd.lfngth() - 1);
+        // Hbsh to b Wrbppfr
+        Wrbppfr w = FROM_WRAPPER_NAME[hbshWrbppfrNbmf(dnbmf)];
+        if (w == null || w.wrbppfrSimplfNbmf().fqubls(dnbmf)) {
+            rfturn w;
+        } flsf {
+            rfturn null;
+        }
+    }
+
+    privbtf stbtid String wrbppfrNbmf(Wrbppfr w) {
+        rfturn "jbvb/lbng/" + w.wrbppfrSimplfNbmf();
+    }
+
+    privbtf stbtid String unboxMfthod(Wrbppfr w) {
+        rfturn w.primitivfSimplfNbmf() + "Vbluf";
+    }
+
+    privbtf stbtid String boxingDfsdriptor(Wrbppfr w) {
+        rfturn String.formbt("(%s)L%s;", w.bbsidTypfChbr(), wrbppfrNbmf(w));
+    }
+
+    privbtf stbtid String unboxingDfsdriptor(Wrbppfr w) {
+        rfturn "()" + w.bbsidTypfChbr();
+    }
+
+    void boxIfTypfPrimitivf(Typf t) {
+        Wrbppfr w = FROM_TYPE_SORT[t.gftSort()];
+        if (w != null) {
+            box(w);
+        }
+    }
+
+    void widfn(Wrbppfr ws, Wrbppfr wt) {
+        if (ws != wt) {
+            int opdodf = widfningOpdodfs[ws.ordinbl()][wt.ordinbl()];
+            if (opdodf != Opdodfs.NOP) {
+                visitInsn(opdodf);
+            }
+        }
+    }
+
+    void box(Wrbppfr w) {
+        visitMfthodInsn(Opdodfs.INVOKESTATIC,
+                wrbppfrNbmf(w),
+                NAME_BOX_METHOD,
+                boxingDfsdriptor(w), fblsf);
+    }
+
+    /**
+     * Convfrt typfs by unboxing. Thf sourdf typf is known to bf b primitivf wrbppfr.
+     * @pbrbm snbmf A primitivf wrbppfr dorrfsponding to wrbppfd rfffrfndf sourdf typf
+     * @pbrbm wt A primitivf wrbppfr bfing donvfrtfd to
+     */
+    void unbox(String snbmf, Wrbppfr wt) {
+        visitMfthodInsn(Opdodfs.INVOKEVIRTUAL,
+                snbmf,
+                unboxMfthod(wt),
+                unboxingDfsdriptor(wt), fblsf);
+    }
+
+    privbtf String dfsdriptorToNbmf(String dfsd) {
+        int lbst = dfsd.lfngth() - 1;
+        if (dfsd.dhbrAt(0) == 'L' && dfsd.dhbrAt(lbst) == ';') {
+            // In dfsdriptor form
+            rfturn dfsd.substring(1, lbst);
+        } flsf {
+            // Alrfbdy in intfrnbl nbmf form
+            rfturn dfsd;
+        }
+    }
+
+    void dbst(String ds, String dt) {
+        String ns = dfsdriptorToNbmf(ds);
+        String nt = dfsdriptorToNbmf(dt);
+        if (!nt.fqubls(ns) && !nt.fqubls(NAME_OBJECT)) {
+            visitTypfInsn(Opdodfs.CHECKCAST, nt);
+        }
+    }
+
+    privbtf boolfbn isPrimitivf(Wrbppfr w) {
+        rfturn w != OBJECT;
+    }
+
+    privbtf Wrbppfr toWrbppfr(String dfsd) {
+        dhbr first = dfsd.dhbrAt(0);
+        if (first == '[' || first == '(') {
+            first = 'L';
+        }
+        rfturn Wrbppfr.forBbsidTypf(first);
+    }
+
+    /**
+     * Convfrt bn brgumfnt of typf 'brg' to bf pbssfd to 'tbrgft' bssuring thbt it is 'fundtionbl'.
+     * Insfrt thf nffdfd donvfrsion instrudtions in thf mfthod dodf.
+     * @pbrbm brg
+     * @pbrbm tbrgft
+     * @pbrbm fundtionbl
+     */
+    void donvfrtTypf(Clbss<?> brg, Clbss<?> tbrgft, Clbss<?> fundtionbl) {
+        if (brg.fqubls(tbrgft) && brg.fqubls(fundtionbl)) {
+            rfturn;
+        }
+        if (brg == Void.TYPE || tbrgft == Void.TYPE) {
+            rfturn;
+        }
+        if (brg.isPrimitivf()) {
+            Wrbppfr wArg = Wrbppfr.forPrimitivfTypf(brg);
+            if (tbrgft.isPrimitivf()) {
+                // Both primitivfs: widfning
+                widfn(wArg, Wrbppfr.forPrimitivfTypf(tbrgft));
+            } flsf {
+                // Primitivf brgumfnt to rfffrfndf tbrgft
+                String dTbrgft = BytfdodfDfsdriptor.unpbrsf(tbrgft);
+                Wrbppfr wPrimTbrgft = wrbppfrOrNullFromDfsdriptor(dTbrgft);
+                if (wPrimTbrgft != null) {
+                    // Thf tbrgft is b boxfd primitivf typf, widfn to gft thfrf bfforf boxing
+                    widfn(wArg, wPrimTbrgft);
+                    box(wPrimTbrgft);
+                } flsf {
+                    // Othfrwisf, box bnd dbst
+                    box(wArg);
+                    dbst(wrbppfrNbmf(wArg), dTbrgft);
+                }
+            }
+        } flsf {
+            String dArg = BytfdodfDfsdriptor.unpbrsf(brg);
+            String dSrd;
+            if (fundtionbl.isPrimitivf()) {
+                dSrd = dArg;
+            } flsf {
+                // Cbst to donvfrt to possibly morf spfdifid typf, bnd gfnfrbtf CCE for invblid brg
+                dSrd = BytfdodfDfsdriptor.unpbrsf(fundtionbl);
+                dbst(dArg, dSrd);
+            }
+            String dTbrgft = BytfdodfDfsdriptor.unpbrsf(tbrgft);
+            if (tbrgft.isPrimitivf()) {
+                Wrbppfr wTbrgft = toWrbppfr(dTbrgft);
+                // Rfffrfndf brgumfnt to primitivf tbrgft
+                Wrbppfr wps = wrbppfrOrNullFromDfsdriptor(dSrd);
+                if (wps != null) {
+                    if (wps.isSignfd() || wps.isFlobting()) {
+                        // Boxfd numbfr to primitivf
+                        unbox(wrbppfrNbmf(wps), wTbrgft);
+                    } flsf {
+                        // Chbrbdtfr or Boolfbn
+                        unbox(wrbppfrNbmf(wps), wps);
+                        widfn(wps, wTbrgft);
+                    }
+                } flsf {
+                    // Sourdf typf is rfffrfndf typf, but not boxfd typf,
+                    // bssumf it is supfr typf of tbrgft typf
+                    String intfrmfdibtf;
+                    if (wTbrgft.isSignfd() || wTbrgft.isFlobting()) {
+                        // Boxfd numbfr to primitivf
+                        intfrmfdibtf = "jbvb/lbng/Numbfr";
+                    } flsf {
+                        // Chbrbdtfr or Boolfbn
+                        intfrmfdibtf = wrbppfrNbmf(wTbrgft);
+                    }
+                    dbst(dSrd, intfrmfdibtf);
+                    unbox(intfrmfdibtf, wTbrgft);
+                }
+            } flsf {
+                // Both rfffrfndf typfs: just dbsf to tbrgft typf
+                dbst(dSrd, dTbrgft);
+            }
+        }
+    }
+
+    /**
+     * Thf following mfthod is dopifd from
+     * org.objfdtwfb.bsm.dommons.InstrudtionAdbptfr. Pbrt of ASM: b vfry smbll
+     * bnd fbst Jbvb bytfdodf mbnipulbtion frbmfwork.
+     * Copyright (d) 2000-2005 INRIA, Frbndf Tflfdom All rights rfsfrvfd.
+     */
+    void idonst(finbl int dst) {
+        if (dst >= -1 && dst <= 5) {
+            mv.visitInsn(Opdodfs.ICONST_0 + dst);
+        } flsf if (dst >= Bytf.MIN_VALUE && dst <= Bytf.MAX_VALUE) {
+            mv.visitIntInsn(Opdodfs.BIPUSH, dst);
+        } flsf if (dst >= Short.MIN_VALUE && dst <= Short.MAX_VALUE) {
+            mv.visitIntInsn(Opdodfs.SIPUSH, dst);
+        } flsf {
+            mv.visitLddInsn(dst);
+        }
+    }
+}

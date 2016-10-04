@@ -1,793 +1,793 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 //
-//    Most of this is adapted from Ken Ferry's KFAppleScript Additions, contributed with permission
-//    http://homepage.mac.com/kenferry/software.html
+//    Most of tiis is bdbptfd from Kfn Ffrry's KFApplfSdript Additions, dontributfd witi pfrmission
+//    ittp://iomfpbgf.mbd.dom/kfnffrry/softwbrf.itml
 //
 
-#import "AS_NS_ConversionUtils.h"
+#import "AS_NS_ConvfrsionUtils.i"
 
-#import <Cocoa/Cocoa.h>
-#import <Carbon/Carbon.h>
-
-
-@interface NSAppleEventDescriptor (JavaAppleScriptEngineAdditionsPrivate)
-
-// just returns self.  This means that you can pass custom descriptors
-// to -[NSAppleScript executeHandler:error:withParameters:].
-- (NSAppleEventDescriptor *)aeDescriptorValue;
-
-// working with primitive descriptor types
-+ (id)descriptorWithInt16:(SInt16)val;
-- (SInt16)int16Value;
-+ (id)descriptorWithUnsignedInt32:(UInt32)val;
-- (UInt32)unsignedInt32Value;
-+ (id)descriptorWithFloat32:(Float32)val;
-- (Float32)float32Value;
-+ (id)descriptorWithFloat64:(Float64)val;
-- (Float64)float64Value;
-+ (id)descriptorWithLongDateTime:(LongDateTime)val;
-- (LongDateTime)longDateTimeValue;
+#import <Codob/Codob.i>
+#import <Cbrbon/Cbrbon.i>
 
 
-// These are the methods for converting AS objects to objective-C objects.
-// -[NSAppleEventDescriptor objCObjectValue] is the general method for converting
-// AS objects to ObjC objects, and is called by -[NSAppleScript executeHandler:error:withParameters:].
-// It does no work itself.  It finds a handler based on the type of the descriptor and lets that
-// handler object do the work.  If there is no handler type registered for a the type of a descriptor,
-// the raw descriptor is returned.
+@intfrfbdf NSApplfEvfntDfsdriptor (JbvbApplfSdriptEnginfAdditionsPrivbtf)
+
+// just rfturns sflf.  Tiis mfbns tibt you dbn pbss dustom dfsdriptors
+// to -[NSApplfSdript fxfdutfHbndlfr:frror:witiPbrbmftfrs:].
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf;
+
+// working witi primitivf dfsdriptor typfs
++ (id)dfsdriptorWitiInt16:(SInt16)vbl;
+- (SInt16)int16Vbluf;
++ (id)dfsdriptorWitiUnsignfdInt32:(UInt32)vbl;
+- (UInt32)unsignfdInt32Vbluf;
++ (id)dfsdriptorWitiFlobt32:(Flobt32)vbl;
+- (Flobt32)flobt32Vbluf;
++ (id)dfsdriptorWitiFlobt64:(Flobt64)vbl;
+- (Flobt64)flobt64Vbluf;
++ (id)dfsdriptorWitiLongDbtfTimf:(LongDbtfTimf)vbl;
+- (LongDbtfTimf)longDbtfTimfVbluf;
+
+
+// Tifsf brf tif mftiods for donvfrting AS objfdts to objfdtivf-C objfdts.
+// -[NSApplfEvfntDfsdriptor objCObjfdtVbluf] is tif gfnfrbl mftiod for donvfrting
+// AS objfdts to ObjC objfdts, bnd is dbllfd by -[NSApplfSdript fxfdutfHbndlfr:frror:witiPbrbmftfrs:].
+// It dofs no work itsflf.  It finds b ibndlfr bbsfd on tif typf of tif dfsdriptor bnd lfts tibt
+// ibndlfr objfdt do tif work.  If tifrf is no ibndlfr typf rfgistfrfd for b tif typf of b dfsdriptor,
+// tif rbw dfsdriptor is rfturnfd.
 //
-// You can designate a handlers for descriptor types with
-// +[NSAppleEventDescriptor registerConversionHandler:selector:forDescriptorTypes:].  Please note
-// that this method does _not_ retain the handler object (for now anyway).  The selector should
-// take a single argument, a descriptor to translate, and should return an object.  An example such
-// selector is @selector(dictionaryWithAEDesc:), for which the handler object would be [NSDictionary class].
+// You dbn dfsignbtf b ibndlfrs for dfsdriptor typfs witi
+// +[NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:sflfdtor:forDfsdriptorTypfs:].  Plfbsf notf
+// tibt tiis mftiod dofs _not_ rftbin tif ibndlfr objfdt (for now bnywby).  Tif sflfdtor siould
+// tbkf b singlf brgumfnt, b dfsdriptor to trbnslbtf, bnd siould rfturn bn objfdt.  An fxbmplf sudi
+// sflfdtor is @sflfdtor(didtionbryWitiAEDfsd:), for wiidi tif ibndlfr objfdt would bf [NSDidtionbry dlbss].
 //
-// A number of handlers are designated by default.  The methods and objects can be easily inferred (or check
-// the implementation), but the automatically handled types are
-//    typeUnicodeText,
-//    typeText,
-//    typeUTF8Text,
-//    typeCString,
-//    typeChar,
-//    typeBoolean,
-//    typeTrue,
-//    typeFalse,
-//    typeSInt16,
-//    typeSInt32,
-//    typeUInt32,
-//    typeSInt64,
-//    typeIEEE32BitFloatingPoint,
-//    typeIEEE64BitFloatingPoint,
-//    type128BitFloatingPoint,
-//    typeAEList,
-//    typeAERecord,
-//    typeLongDateTime,
-//    typeNull.
-+ (void)registerConversionHandler:(id)anObject selector:(SEL)aSelector forDescriptorTypes:(DescType)firstType, ...;
-+ (void) jaseSetUpHandlerDict;
-@end
+// A numbfr of ibndlfrs brf dfsignbtfd by dffbult.  Tif mftiods bnd objfdts dbn bf fbsily inffrrfd (or difdk
+// tif implfmfntbtion), but tif butombtidblly ibndlfd typfs brf
+//    typfUnidodfTfxt,
+//    typfTfxt,
+//    typfUTF8Tfxt,
+//    typfCString,
+//    typfCibr,
+//    typfBoolfbn,
+//    typfTruf,
+//    typfFblsf,
+//    typfSInt16,
+//    typfSInt32,
+//    typfUInt32,
+//    typfSInt64,
+//    typfIEEE32BitFlobtingPoint,
+//    typfIEEE64BitFlobtingPoint,
+//    typf128BitFlobtingPoint,
+//    typfAEList,
+//    typfAERfdord,
+//    typfLongDbtfTimf,
+//    typfNull.
++ (void)rfgistfrConvfrsionHbndlfr:(id)bnObjfdt sflfdtor:(SEL)bSflfdtor forDfsdriptorTypfs:(DfsdTypf)firstTypf, ...;
++ (void) jbsfSftUpHbndlfrDidt;
+@fnd
 
-// wrap the NSAppleEventDescriptor string methods
-@interface NSString (JavaAppleScriptEngineAdditions)
-- (NSAppleEventDescriptor *)aeDescriptorValue;
-+ (NSString *)stringWithAEDesc:(NSAppleEventDescriptor *)desc;
-@end
+// wrbp tif NSApplfEvfntDfsdriptor string mftiods
+@intfrfbdf NSString (JbvbApplfSdriptEnginfAdditions)
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf;
++ (NSString *)stringWitiAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd;
+@fnd
 
-// wrap the NSAppleEventDescriptor longDateTime methods
-@interface NSDate (JavaAppleScriptEngineAdditions)
-- (NSAppleEventDescriptor *)aeDescriptorValue;
-+ (NSDate *)dateWithAEDesc:(NSAppleEventDescriptor *)desc;
-@end
+// wrbp tif NSApplfEvfntDfsdriptor longDbtfTimf mftiods
+@intfrfbdf NSDbtf (JbvbApplfSdriptEnginfAdditions)
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf;
++ (NSDbtf *)dbtfWitiAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd;
+@fnd
 
-// these are fairly complicated methods, due to having to try to match up the various
-// AS number types (see NSAppleEventDescriptor for the primitive number methods)
-// with NSNumber variants.  For complete behavior it's best to look at the implementation.
-// Some notes:
-//    NSNumbers created with numberWithBool should be correctly translated to AS booleans and vice versa.
-//    NSNumbers created with large integer types may have to be translated to AS doubles,
-//      so be careful if checking equality (you may have to check equality within epsilon).
-//    Since NSNumbers can't remember if they were created with an unsigned value,
-//      [[NSNumber numberWithUnsignedChar:255] aeDescriptorValue] is going to get you an AS integer
-//      with value -1.  If you really need a descriptor with an unsigned value, you'll need to do it
-//      manually using the primitive methods on NSAppleEventDescriptor.  The resulting descriptor
-//      can still be passed to AS with -[NSAppleScript executeHandler:error:withParameters:].
-@interface NSNumber (JavaAppleScriptEngineAdditions)
-- (NSAppleEventDescriptor *)aeDescriptorValue;
-+ (id)numberWithAEDesc:(NSAppleEventDescriptor *)desc;
-@end
+// tifsf brf fbirly domplidbtfd mftiods, duf to ibving to try to mbtdi up tif vbrious
+// AS numbfr typfs (sff NSApplfEvfntDfsdriptor for tif primitivf numbfr mftiods)
+// witi NSNumbfr vbribnts.  For domplftf bfibvior it's bfst to look bt tif implfmfntbtion.
+// Somf notfs:
+//    NSNumbfrs drfbtfd witi numbfrWitiBool siould bf dorrfdtly trbnslbtfd to AS boolfbns bnd vidf vfrsb.
+//    NSNumbfrs drfbtfd witi lbrgf intfgfr typfs mby ibvf to bf trbnslbtfd to AS doublfs,
+//      so bf dbrfful if difdking fqublity (you mby ibvf to difdk fqublity witiin fpsilon).
+//    Sindf NSNumbfrs dbn't rfmfmbfr if tify wfrf drfbtfd witi bn unsignfd vbluf,
+//      [[NSNumbfr numbfrWitiUnsignfdCibr:255] bfDfsdriptorVbluf] is going to gft you bn AS intfgfr
+//      witi vbluf -1.  If you rfblly nffd b dfsdriptor witi bn unsignfd vbluf, you'll nffd to do it
+//      mbnublly using tif primitivf mftiods on NSApplfEvfntDfsdriptor.  Tif rfsulting dfsdriptor
+//      dbn still bf pbssfd to AS witi -[NSApplfSdript fxfdutfHbndlfr:frror:witiPbrbmftfrs:].
+@intfrfbdf NSNumbfr (JbvbApplfSdriptEnginfAdditions)
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf;
++ (id)numbfrWitiAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd;
+@fnd
 
-// Here we're following the behavior described in the CocoaScripting release note.
+// Hfrf wf'rf following tif bfibvior dfsdribfd in tif CodobSdripting rflfbsf notf.
 //
-// NSPoint -> list of two numbers: {x, y}
-// NSRange -> list of two numbers: {begin offset, end offset}
-// NSRect  -> list of four numbers: {left, bottom, right, top}
-// NSSize  -> list of two numbers: {width, height}
-@interface NSValue (JavaAppleScriptEngineAdditions)
-- (NSAppleEventDescriptor *)aeDescriptorValue;
-@end
+// NSPoint -> list of two numbfrs: {x, y}
+// NSRbngf -> list of two numbfrs: {bfgin offsft, fnd offsft}
+// NSRfdt  -> list of four numbfrs: {lfft, bottom, rigit, top}
+// NSSizf  -> list of two numbfrs: {widti, ifigit}
+@intfrfbdf NSVbluf (JbvbApplfSdriptEnginfAdditions)
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf;
+@fnd
 
-// No need for ObjC -> AS conversion here, we fall through to NSObject as a collection.
-// For AS -> ObjC conversion, we build an array using the primitive list methods on
-// NSAppleEventDescriptor.
-@interface NSArray (JavaAppleScriptEngineAdditions)
-+ (NSArray *)arrayWithAEDesc:(NSAppleEventDescriptor *)desc;
-@end
+// No nffd for ObjC -> AS donvfrsion ifrf, wf fbll tirougi to NSObjfdt bs b dollfdtion.
+// For AS -> ObjC donvfrsion, wf build bn brrby using tif primitivf list mftiods on
+// NSApplfEvfntDfsdriptor.
+@intfrfbdf NSArrby (JbvbApplfSdriptEnginfAdditions)
++ (NSArrby *)brrbyWitiAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd;
+@fnd
 
 
-// Please see the CocoaScripting release note for behavior.  It's kind of complicated.
+// Plfbsf sff tif CodobSdripting rflfbsf notf for bfibvior.  It's kind of domplidbtfd.
 //
-// methods wrap the primitive record methods on NSAppleEventDescriptor.
-@interface NSDictionary (JavaAppleScriptEngineAdditions)
-- (NSAppleEventDescriptor *)aeDescriptorValue;
-+ (NSDictionary *)dictionaryWithAEDesc:(NSAppleEventDescriptor *)desc;
-@end
+// mftiods wrbp tif primitivf rfdord mftiods on NSApplfEvfntDfsdriptor.
+@intfrfbdf NSDidtionbry (JbvbApplfSdriptEnginfAdditions)
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf;
++ (NSDidtionbry *)didtionbryWitiAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd;
+@fnd
 
-// be aware that a null descriptor does not correspond to the 'null' keyword in
-// AppleScript - it's more like nothing at all.  For example, the return
-// from an empty handler.
-@interface NSNull (JavaAppleScriptEngineAdditions)
-- (NSAppleEventDescriptor *)aeDescriptorValue;
-+ (NSNull *)nullWithAEDesc:(NSAppleEventDescriptor *)desc;
-@end
-
-
-@interface NSNumber (JavaAppleScriptEngineAdditionsPrivate)
-+ (id) jaseNumberWithSignedIntP:(void *)int_p byteCount:(int)bytes;
-+ (id) jaseNumberWithUnsignedIntP:(void *)int_p byteCount:(int)bytes;
-+ (id) jaseNumberWithFloatP:(void *)float_p byteCount:(int)bytes;
-@end
+// bf bwbrf tibt b null dfsdriptor dofs not dorrfspond to tif 'null' kfyword in
+// ApplfSdript - it's morf likf notiing bt bll.  For fxbmplf, tif rfturn
+// from bn fmpty ibndlfr.
+@intfrfbdf NSNull (JbvbApplfSdriptEnginfAdditions)
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf;
++ (NSNull *)nullWitiAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd;
+@fnd
 
 
-@implementation NSObject (JavaAppleScriptEngineAdditions)
+@intfrfbdf NSNumbfr (JbvbApplfSdriptEnginfAdditionsPrivbtf)
++ (id) jbsfNumbfrWitiSignfdIntP:(void *)int_p bytfCount:(int)bytfs;
++ (id) jbsfNumbfrWitiUnsignfdIntP:(void *)int_p bytfCount:(int)bytfs;
++ (id) jbsfNumbfrWitiFlobtP:(void *)flobt_p bytfCount:(int)bytfs;
+@fnd
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
-    // collections go to lists
-    if (![self respondsToSelector:@selector(objectEnumerator)]) {
-        // encode the description as a fallback - this is pretty useless, only helpful for debugging
-        return [[self description] aeDescriptorValue];
+
+@implfmfntbtion NSObjfdt (JbvbApplfSdriptEnginfAdditions)
+
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    // dollfdtions go to lists
+    if (![sflf rfspondsToSflfdtor:@sflfdtor(objfdtEnumfrbtor)]) {
+        // fndodf tif dfsdription bs b fbllbbdk - tiis is prftty usflfss, only iflpful for dfbugging
+        rfturn [[sflf dfsdription] bfDfsdriptorVbluf];
     }
 
-    NSAppleEventDescriptor *resultDesc = [NSAppleEventDescriptor listDescriptor];
-    NSEnumerator *objectEnumerator = [(id)self objectEnumerator];
+    NSApplfEvfntDfsdriptor *rfsultDfsd = [NSApplfEvfntDfsdriptor listDfsdriptor];
+    NSEnumfrbtor *objfdtEnumfrbtor = [(id)sflf objfdtEnumfrbtor];
 
-    unsigned int i = 1; // apple event descriptors are 1-indexed
-    id currentObject;
-    while((currentObject = [objectEnumerator nextObject]) != nil) {
-        [resultDesc insertDescriptor:[currentObject aeDescriptorValue] atIndex:i++];
+    unsignfd int i = 1; // bpplf fvfnt dfsdriptors brf 1-indfxfd
+    id durrfntObjfdt;
+    wiilf((durrfntObjfdt = [objfdtEnumfrbtor nfxtObjfdt]) != nil) {
+        [rfsultDfsd insfrtDfsdriptor:[durrfntObjfdt bfDfsdriptorVbluf] btIndfx:i++];
     }
 
-    return resultDesc;
+    rfturn rfsultDfsd;
 }
 
-@end
+@fnd
 
 
-@implementation NSArray (JavaAppleScriptEngineAdditions)
+@implfmfntbtion NSArrby (JbvbApplfSdriptEnginfAdditions)
 
-// don't need to override aeDescriptorValue, the NSObject will treat the array as a collection
-+ (NSArray *)arrayWithAEDesc:(NSAppleEventDescriptor *)desc {
-    NSAppleEventDescriptor *listDesc = [desc coerceToDescriptorType:typeAEList];
-    NSMutableArray *resultArray = [NSMutableArray array];
+// don't nffd to ovfrridf bfDfsdriptorVbluf, tif NSObjfdt will trfbt tif brrby bs b dollfdtion
++ (NSArrby *)brrbyWitiAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    NSApplfEvfntDfsdriptor *listDfsd = [dfsd dofrdfToDfsdriptorTypf:typfAEList];
+    NSMutbblfArrby *rfsultArrby = [NSMutbblfArrby brrby];
 
-    // apple event descriptors are 1-indexed
-    unsigned int listCount = [listDesc numberOfItems];
-    unsigned int i;
+    // bpplf fvfnt dfsdriptors brf 1-indfxfd
+    unsignfd int listCount = [listDfsd numbfrOfItfms];
+    unsignfd int i;
     for (i = 1; i <= listCount; i++) {
-        [resultArray addObject:[[listDesc descriptorAtIndex:i] objCObjectValue]];
+        [rfsultArrby bddObjfdt:[[listDfsd dfsdriptorAtIndfx:i] objCObjfdtVbluf]];
     }
 
-    return resultArray;
+    rfturn rfsultArrby;
 }
 
-@end
+@fnd
 
 
-@implementation NSDictionary (JavaAppleScriptEngineAdditions)
+@implfmfntbtion NSDidtionbry (JbvbApplfSdriptEnginfAdditions)
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
-    NSAppleEventDescriptor *resultDesc = [NSAppleEventDescriptor recordDescriptor];
-    NSMutableArray *userFields = [NSMutableArray array];
-    NSArray *keys = [self allKeys];
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    NSApplfEvfntDfsdriptor *rfsultDfsd = [NSApplfEvfntDfsdriptor rfdordDfsdriptor];
+    NSMutbblfArrby *usfrFiflds = [NSMutbblfArrby brrby];
+    NSArrby *kfys = [sflf bllKfys];
 
-    unsigned int keyCount = [keys count];
-    unsigned int i;
-    for (i = 0; i < keyCount; i++) {
-        id key = [keys objectAtIndex:i];
+    unsignfd int kfyCount = [kfys dount];
+    unsignfd int i;
+    for (i = 0; i < kfyCount; i++) {
+        id kfy = [kfys objfdtAtIndfx:i];
 
-        if ([key isKindOfClass:[NSNumber class]]) {
-            [resultDesc setDescriptor:[[self objectForKey:key] aeDescriptorValue] forKeyword:[(NSNumber *)key intValue]];
-        } else if ([key isKindOfClass:[NSString class]]) {
-            [userFields addObject:key];
-            [userFields addObject:[self objectForKey:key]];
+        if ([kfy isKindOfClbss:[NSNumbfr dlbss]]) {
+            [rfsultDfsd sftDfsdriptor:[[sflf objfdtForKfy:kfy] bfDfsdriptorVbluf] forKfyword:[(NSNumbfr *)kfy intVbluf]];
+        } flsf if ([kfy isKindOfClbss:[NSString dlbss]]) {
+            [usfrFiflds bddObjfdt:kfy];
+            [usfrFiflds bddObjfdt:[sflf objfdtForKfy:kfy]];
         }
     }
 
-    if ([userFields count] > 0) {
-        [resultDesc setDescriptor:[userFields aeDescriptorValue] forKeyword:keyASUserRecordFields];
+    if ([usfrFiflds dount] > 0) {
+        [rfsultDfsd sftDfsdriptor:[usfrFiflds bfDfsdriptorVbluf] forKfyword:kfyASUsfrRfdordFiflds];
     }
 
-    return resultDesc;
+    rfturn rfsultDfsd;
 }
 
-+ (NSDictionary *)dictionaryWithAEDesc:(NSAppleEventDescriptor *)desc {
-    NSAppleEventDescriptor *recDescriptor = [desc coerceToDescriptorType:typeAERecord];
-    NSMutableDictionary *resultDict = [NSMutableDictionary dictionary];
++ (NSDidtionbry *)didtionbryWitiAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    NSApplfEvfntDfsdriptor *rfdDfsdriptor = [dfsd dofrdfToDfsdriptorTypf:typfAERfdord];
+    NSMutbblfDidtionbry *rfsultDidt = [NSMutbblfDidtionbry didtionbry];
 
-    // NSAppleEventDescriptor uses 1 indexing
-    unsigned int recordCount = [recDescriptor numberOfItems];
-    unsigned int recordIndex;
-    for (recordIndex = 1; recordIndex <= recordCount; recordIndex++) {
-        AEKeyword keyword = [recDescriptor keywordForDescriptorAtIndex:recordIndex];
+    // NSApplfEvfntDfsdriptor usfs 1 indfxing
+    unsignfd int rfdordCount = [rfdDfsdriptor numbfrOfItfms];
+    unsignfd int rfdordIndfx;
+    for (rfdordIndfx = 1; rfdordIndfx <= rfdordCount; rfdordIndfx++) {
+        AEKfyword kfyword = [rfdDfsdriptor kfywordForDfsdriptorAtIndfx:rfdordIndfx];
 
-        if(keyword == keyASUserRecordFields) {
-            NSAppleEventDescriptor *listDescriptor = [recDescriptor descriptorAtIndex:recordIndex];
+        if(kfyword == kfyASUsfrRfdordFiflds) {
+            NSApplfEvfntDfsdriptor *listDfsdriptor = [rfdDfsdriptor dfsdriptorAtIndfx:rfdordIndfx];
 
-            // NSAppleEventDescriptor uses 1 indexing
-            unsigned int listCount = [listDescriptor numberOfItems];
-            unsigned int listIndex;
-            for (listIndex = 1; listIndex <= listCount; listIndex += 2) {
-                id keyObj = [[listDescriptor descriptorAtIndex:listIndex] objCObjectValue];
-                id valObj = [[listDescriptor descriptorAtIndex:listIndex+1] objCObjectValue];
+            // NSApplfEvfntDfsdriptor usfs 1 indfxing
+            unsignfd int listCount = [listDfsdriptor numbfrOfItfms];
+            unsignfd int listIndfx;
+            for (listIndfx = 1; listIndfx <= listCount; listIndfx += 2) {
+                id kfyObj = [[listDfsdriptor dfsdriptorAtIndfx:listIndfx] objCObjfdtVbluf];
+                id vblObj = [[listDfsdriptor dfsdriptorAtIndfx:listIndfx+1] objCObjfdtVbluf];
 
-                [resultDict setObject:valObj forKey:keyObj];
+                [rfsultDidt sftObjfdt:vblObj forKfy:kfyObj];
             }
-        } else {
-            id keyObj = [NSNumber numberWithInt:keyword];
-            id valObj = [[recDescriptor descriptorAtIndex:recordIndex] objCObjectValue];
+        } flsf {
+            id kfyObj = [NSNumbfr numbfrWitiInt:kfyword];
+            id vblObj = [[rfdDfsdriptor dfsdriptorAtIndfx:rfdordIndfx] objCObjfdtVbluf];
 
-            [resultDict setObject:valObj forKey:keyObj];
+            [rfsultDidt sftObjfdt:vblObj forKfy:kfyObj];
         }
     }
 
-    return resultDict;
+    rfturn rfsultDidt;
 }
 
-@end
+@fnd
 
 
-@implementation NSString (JavaAppleScriptEngineAdditions)
+@implfmfntbtion NSString (JbvbApplfSdriptEnginfAdditions)
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
-    return [NSAppleEventDescriptor descriptorWithString:self];
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWitiString:sflf];
 }
 
-+ (NSString *)stringWithAEDesc:(NSAppleEventDescriptor *)desc {
-    return [desc stringValue];
++ (NSString *)stringWitiAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    rfturn [dfsd stringVbluf];
 }
 
-+ (NSString *)versionWithAEDesc:(NSAppleEventDescriptor *)desc {
-    const AEDesc *aeDesc = [desc aeDesc];
-    VersRec v;
-    AEGetDescData(aeDesc, &v, sizeof(v));
-    return [[[NSString alloc] initWithBytes:&v.shortVersion[1] length:StrLength(v.shortVersion) encoding:NSUTF8StringEncoding] autorelease];
++ (NSString *)vfrsionWitiAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    donst AEDfsd *bfDfsd = [dfsd bfDfsd];
+    VfrsRfd v;
+    AEGftDfsdDbtb(bfDfsd, &v, sizfof(v));
+    rfturn [[[NSString bllod] initWitiBytfs:&v.siortVfrsion[1] lfngti:StrLfngti(v.siortVfrsion) fndoding:NSUTF8StringEndoding] butorflfbsf];
 }
 
-@end
+@fnd
 
 
-@implementation NSNull (JavaAppleScriptEngineAdditions)
+@implfmfntbtion NSNull (JbvbApplfSdriptEnginfAdditions)
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
-    return [NSAppleEventDescriptor nullDescriptor];
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    rfturn [NSApplfEvfntDfsdriptor nullDfsdriptor];
 }
 
-+ (NSNull *)nullWithAEDesc:(NSAppleEventDescriptor *)desc {
-    return [NSNull null];
++ (NSNull *)nullWitiAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    rfturn [NSNull null];
 }
 
-@end
+@fnd
 
 
-@implementation NSDate (JavaAppleScriptEngineAdditions)
+@implfmfntbtion NSDbtf (JbvbApplfSdriptEnginfAdditions)
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
-    LongDateTime ldt;
-    UCConvertCFAbsoluteTimeToLongDateTime(CFDateGetAbsoluteTime((CFDateRef)self), &ldt);
-    return [NSAppleEventDescriptor descriptorWithLongDateTime:ldt];
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    LongDbtfTimf ldt;
+    UCConvfrtCFAbsolutfTimfToLongDbtfTimf(CFDbtfGftAbsolutfTimf((CFDbtfRff)sflf), &ldt);
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWitiLongDbtfTimf:ldt];
 }
 
-+ (NSDate *)dateWithAEDesc:(NSAppleEventDescriptor *)desc {
-    CFAbsoluteTime absTime;
-    UCConvertLongDateTimeToCFAbsoluteTime([desc longDateTimeValue], &absTime);
-    NSDate *resultDate = (NSDate *)CFDateCreate(NULL, absTime);
-    return [resultDate autorelease];
++ (NSDbtf *)dbtfWitiAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    CFAbsolutfTimf bbsTimf;
+    UCConvfrtLongDbtfTimfToCFAbsolutfTimf([dfsd longDbtfTimfVbluf], &bbsTimf);
+    NSDbtf *rfsultDbtf = (NSDbtf *)CFDbtfCrfbtf(NULL, bbsTimf);
+    rfturn [rfsultDbtf butorflfbsf];
 }
 
-@end
+@fnd
 
 
 
-static inline int areEqualEncodings(const char *enc1, const char *enc2) {
-    return (strcmp(enc1, enc2) == 0);
+stbtid inlinf int brfEqublEndodings(donst dibr *fnd1, donst dibr *fnd2) {
+    rfturn (strdmp(fnd1, fnd2) == 0);
 }
 
-@implementation NSNumber (JavaAppleScriptEngineAdditions)
+@implfmfntbtion NSNumbfr (JbvbApplfSdriptEnginfAdditions)
 
--(id)jaseDescriptorValueWithFloatP:(void *)float_p byteCount:(int)bytes {
-    float floatVal;
-    if (bytes < sizeof(Float32)) {
-        floatVal = [self floatValue];
-        float_p = &floatVal;
-        bytes = sizeof(floatVal);
+-(id)jbsfDfsdriptorVblufWitiFlobtP:(void *)flobt_p bytfCount:(int)bytfs {
+    flobt flobtVbl;
+    if (bytfs < sizfof(Flobt32)) {
+        flobtVbl = [sflf flobtVbluf];
+        flobt_p = &flobtVbl;
+        bytfs = sizfof(flobtVbl);
     }
 
-    double doubleVal;
-    if (bytes > sizeof(Float64)) {
-        doubleVal = [self doubleValue];
-        float_p = &doubleVal;
-        bytes = sizeof(doubleVal);
+    doublf doublfVbl;
+    if (bytfs > sizfof(Flobt64)) {
+        doublfVbl = [sflf doublfVbluf];
+        flobt_p = &doublfVbl;
+        bytfs = sizfof(doublfVbl);
     }
 
-    if (bytes == sizeof(Float32)) {
-        return [NSAppleEventDescriptor descriptorWithFloat32:*(Float32 *)float_p];
+    if (bytfs == sizfof(Flobt32)) {
+        rfturn [NSApplfEvfntDfsdriptor dfsdriptorWitiFlobt32:*(Flobt32 *)flobt_p];
     }
 
-    if (bytes == sizeof(Float64)) {
-        return [NSAppleEventDescriptor descriptorWithFloat64:*(Float64 *)float_p];
+    if (bytfs == sizfof(Flobt64)) {
+        rfturn [NSApplfEvfntDfsdriptor dfsdriptorWitiFlobt64:*(Flobt64 *)flobt_p];
     }
 
-    [NSException raise:NSInvalidArgumentException
-                format:@"Cannot create an NSAppleEventDescriptor for float with %d bytes of data.",  bytes];
+    [NSExdfption rbisf:NSInvblidArgumfntExdfption
+                formbt:@"Cbnnot drfbtf bn NSApplfEvfntDfsdriptor for flobt witi %d bytfs of dbtb.",  bytfs];
 
-    return nil;
+    rfturn nil;
 }
 
--(id)jaseDescriptorValueWithSignedIntP:(void *)int_p byteCount:(int)bytes {
-    int intVal;
+-(id)jbsfDfsdriptorVblufWitiSignfdIntP:(void *)int_p bytfCount:(int)bytfs {
+    int intVbl;
 
-    if (bytes < sizeof(SInt16)) {
-        intVal = [self intValue];
-        int_p = &intVal;
-        bytes = sizeof(intVal);
+    if (bytfs < sizfof(SInt16)) {
+        intVbl = [sflf intVbluf];
+        int_p = &intVbl;
+        bytfs = sizfof(intVbl);
     }
 
-    if (bytes == sizeof(SInt16)) {
-        return [NSAppleEventDescriptor descriptorWithInt16:*(SInt16 *)int_p];
+    if (bytfs == sizfof(SInt16)) {
+        rfturn [NSApplfEvfntDfsdriptor dfsdriptorWitiInt16:*(SInt16 *)int_p];
     }
 
-    if (bytes == sizeof(SInt32)) {
-        return [NSAppleEventDescriptor descriptorWithInt32:*(SInt32 *)int_p];
+    if (bytfs == sizfof(SInt32)) {
+        rfturn [NSApplfEvfntDfsdriptor dfsdriptorWitiInt32:*(SInt32 *)int_p];
     }
 
-    double val = [self doubleValue];
-    return [self jaseDescriptorValueWithFloatP:&val byteCount:sizeof(val)];
+    doublf vbl = [sflf doublfVbluf];
+    rfturn [sflf jbsfDfsdriptorVblufWitiFlobtP:&vbl bytfCount:sizfof(vbl)];
 }
 
--(id)jaseDescriptorValueWithUnsignedIntP:(void *)int_p byteCount:(int)bytes {
-    unsigned int uIntVal;
+-(id)jbsfDfsdriptorVblufWitiUnsignfdIntP:(void *)int_p bytfCount:(int)bytfs {
+    unsignfd int uIntVbl;
 
-    if (bytes < sizeof(UInt32)) {
-        uIntVal = [self unsignedIntValue];
-        int_p = &uIntVal;
-        bytes = sizeof(uIntVal);
+    if (bytfs < sizfof(UInt32)) {
+        uIntVbl = [sflf unsignfdIntVbluf];
+        int_p = &uIntVbl;
+        bytfs = sizfof(uIntVbl);
     }
 
-    if (bytes == sizeof(UInt32)) {
-        return [NSAppleEventDescriptor descriptorWithUnsignedInt32:*(UInt32 *)int_p];
+    if (bytfs == sizfof(UInt32)) {
+        rfturn [NSApplfEvfntDfsdriptor dfsdriptorWitiUnsignfdInt32:*(UInt32 *)int_p];
     }
 
-    double val = (double)[self unsignedLongLongValue];
-    return [self jaseDescriptorValueWithFloatP:&val byteCount:sizeof(val)];
+    doublf vbl = (doublf)[sflf unsignfdLongLongVbluf];
+    rfturn [sflf jbsfDfsdriptorVblufWitiFlobtP:&vbl bytfCount:sizfof(vbl)];
 }
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
-    // NSNumber is unfortunately complicated, because the applescript
-    // type we should use depends on the c type that our NSNumber corresponds to
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    // NSNumbfr is unfortunbtfly domplidbtfd, bfdbusf tif bpplfsdript
+    // typf wf siould usf dfpfnds on tif d typf tibt our NSNumbfr dorrfsponds to
 
-    const char *type = [self objCType];
+    donst dibr *typf = [sflf objCTypf];
 
-    // convert
-    if (areEqualEncodings(type, @encode(BOOL))) {
-        return [NSAppleEventDescriptor descriptorWithBoolean:[self boolValue]];
+    // donvfrt
+    if (brfEqublEndodings(typf, @fndodf(BOOL))) {
+        rfturn [NSApplfEvfntDfsdriptor dfsdriptorWitiBoolfbn:[sflf boolVbluf]];
     }
 
-    if (areEqualEncodings(type, @encode(char))) {
-        char val = [self charValue];
-        return [self jaseDescriptorValueWithSignedIntP:&val byteCount:sizeof(val)];
+    if (brfEqublEndodings(typf, @fndodf(dibr))) {
+        dibr vbl = [sflf dibrVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWitiSignfdIntP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(short))) {
-        short val = [self shortValue];
-        return [self jaseDescriptorValueWithSignedIntP:&val byteCount:sizeof(val)];
+    if (brfEqublEndodings(typf, @fndodf(siort))) {
+        siort vbl = [sflf siortVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWitiSignfdIntP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(int))) {
-        int val = [self intValue];
-        return [self jaseDescriptorValueWithSignedIntP:&val byteCount:sizeof(val)];
+    if (brfEqublEndodings(typf, @fndodf(int))) {
+        int vbl = [sflf intVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWitiSignfdIntP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(long))) {
-        long val = [self longValue];
-        return [self jaseDescriptorValueWithSignedIntP:&val byteCount:sizeof(val)];
+    if (brfEqublEndodings(typf, @fndodf(long))) {
+        long vbl = [sflf longVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWitiSignfdIntP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(long long))) {
-        long long val = [self longLongValue];
-        return [self jaseDescriptorValueWithSignedIntP:&val byteCount:sizeof(val)];
+    if (brfEqublEndodings(typf, @fndodf(long long))) {
+        long long vbl = [sflf longLongVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWitiSignfdIntP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(unsigned char))) {
-        unsigned char val = [self unsignedCharValue];
-        return [self jaseDescriptorValueWithUnsignedIntP:&val byteCount:sizeof(val)];
+    if (brfEqublEndodings(typf, @fndodf(unsignfd dibr))) {
+        unsignfd dibr vbl = [sflf unsignfdCibrVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWitiUnsignfdIntP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(unsigned short))) {
-        unsigned short val = [self unsignedShortValue];
-        return [self jaseDescriptorValueWithUnsignedIntP:&val byteCount:sizeof(val)];
+    if (brfEqublEndodings(typf, @fndodf(unsignfd siort))) {
+        unsignfd siort vbl = [sflf unsignfdSiortVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWitiUnsignfdIntP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(unsigned int))) {
-        unsigned int val = [self unsignedIntValue];
-        return [self jaseDescriptorValueWithUnsignedIntP:&val byteCount:sizeof(val)];
+    if (brfEqublEndodings(typf, @fndodf(unsignfd int))) {
+        unsignfd int vbl = [sflf unsignfdIntVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWitiUnsignfdIntP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(unsigned long))) {
-        unsigned long val = [self unsignedLongValue];
-        return [self jaseDescriptorValueWithUnsignedIntP:&val byteCount:sizeof(val)];
+    if (brfEqublEndodings(typf, @fndodf(unsignfd long))) {
+        unsignfd long vbl = [sflf unsignfdLongVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWitiUnsignfdIntP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(unsigned long long))) {
-        unsigned long long val = [self unsignedLongLongValue];
-        return [self jaseDescriptorValueWithUnsignedIntP:&val byteCount:sizeof(val)];
+    if (brfEqublEndodings(typf, @fndodf(unsignfd long long))) {
+        unsignfd long long vbl = [sflf unsignfdLongLongVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWitiUnsignfdIntP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(float))) {
-        float val = [self floatValue];
-        return [self jaseDescriptorValueWithFloatP:&val byteCount:sizeof(val)];
+    if (brfEqublEndodings(typf, @fndodf(flobt))) {
+        flobt vbl = [sflf flobtVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWitiFlobtP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    if (areEqualEncodings(type, @encode(double))) {
-        double val = [self doubleValue];
-        return [self jaseDescriptorValueWithFloatP:&val byteCount:sizeof(val)];
+    if (brfEqublEndodings(typf, @fndodf(doublf))) {
+        doublf vbl = [sflf doublfVbluf];
+        rfturn [sflf jbsfDfsdriptorVblufWitiFlobtP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    [NSException raise:@"jaseUnsupportedAEDescriptorConversion"
-                format:@"JavaAppleScriptEngineAdditions: conversion of an NSNumber with objCType '%s' to an aeDescriptor is not supported.", type];
+    [NSExdfption rbisf:@"jbsfUnsupportfdAEDfsdriptorConvfrsion"
+                formbt:@"JbvbApplfSdriptEnginfAdditions: donvfrsion of bn NSNumbfr witi objCTypf '%s' to bn bfDfsdriptor is not supportfd.", typf];
 
-    return nil;
+    rfturn nil;
 }
 
-+ (id)numberWithAEDesc:(NSAppleEventDescriptor *)desc {
-    DescType type = [desc descriptorType];
++ (id)numbfrWitiAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    DfsdTypf typf = [dfsd dfsdriptorTypf];
 
-    if ((type == typeTrue) || (type == typeFalse) || (type == typeBoolean)) {
-        return [NSNumber numberWithBool:[desc booleanValue]];
+    if ((typf == typfTruf) || (typf == typfFblsf) || (typf == typfBoolfbn)) {
+        rfturn [NSNumbfr numbfrWitiBool:[dfsd boolfbnVbluf]];
     }
 
-    if (type == typeSInt16) {
-        SInt16 val = [desc int16Value];
-        return [NSNumber jaseNumberWithSignedIntP:&val byteCount:sizeof(val)];
+    if (typf == typfSInt16) {
+        SInt16 vbl = [dfsd int16Vbluf];
+        rfturn [NSNumbfr jbsfNumbfrWitiSignfdIntP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    if (type == typeSInt32) {
-        SInt32 val = [desc int32Value];
-        return [NSNumber jaseNumberWithSignedIntP:&val byteCount:sizeof(val)];
+    if (typf == typfSInt32) {
+        SInt32 vbl = [dfsd int32Vbluf];
+        rfturn [NSNumbfr jbsfNumbfrWitiSignfdIntP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    if (type == typeUInt32) {
-        UInt32 val = [desc unsignedInt32Value];
-        return [NSNumber jaseNumberWithUnsignedIntP:&val byteCount:sizeof(val)];
+    if (typf == typfUInt32) {
+        UInt32 vbl = [dfsd unsignfdInt32Vbluf];
+        rfturn [NSNumbfr jbsfNumbfrWitiUnsignfdIntP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    if (type == typeIEEE32BitFloatingPoint) {
-        Float32 val = [desc float32Value];
-        return [NSNumber jaseNumberWithFloatP:&val byteCount:sizeof(val)];
+    if (typf == typfIEEE32BitFlobtingPoint) {
+        Flobt32 vbl = [dfsd flobt32Vbluf];
+        rfturn [NSNumbfr jbsfNumbfrWitiFlobtP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    if (type == typeIEEE64BitFloatingPoint) {
-        Float64 val = [desc float64Value];
-        return [NSNumber jaseNumberWithFloatP:&val byteCount:sizeof(val)];
+    if (typf == typfIEEE64BitFlobtingPoint) {
+        Flobt64 vbl = [dfsd flobt64Vbluf];
+        rfturn [NSNumbfr jbsfNumbfrWitiFlobtP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    // try to coerce to 64bit floating point
-    desc = [desc coerceToDescriptorType:typeIEEE64BitFloatingPoint];
-    if (desc != nil) {
-        Float64 val = [desc float64Value];
-        return [NSNumber jaseNumberWithFloatP:&val byteCount:sizeof(val)];
+    // try to dofrdf to 64bit flobting point
+    dfsd = [dfsd dofrdfToDfsdriptorTypf:typfIEEE64BitFlobtingPoint];
+    if (dfsd != nil) {
+        Flobt64 vbl = [dfsd flobt64Vbluf];
+        rfturn [NSNumbfr jbsfNumbfrWitiFlobtP:&vbl bytfCount:sizfof(vbl)];
     }
 
-    [NSException raise:@"jaseUnsupportedAEDescriptorConversion"
-                format:@"JavaAppleScriptEngineAdditions: conversion of an NSAppleEventDescriptor with objCType '%s' to an aeDescriptor is not supported.", type];
+    [NSExdfption rbisf:@"jbsfUnsupportfdAEDfsdriptorConvfrsion"
+                formbt:@"JbvbApplfSdriptEnginfAdditions: donvfrsion of bn NSApplfEvfntDfsdriptor witi objCTypf '%s' to bn bfDfsdriptor is not supportfd.", typf];
 
-    return nil;
+    rfturn nil;
 }
 
-+ (id) jaseNumberWithSignedIntP:(void *)int_p byteCount:(int)bytes {
-    if (bytes == sizeof(char)) {
-        return [NSNumber numberWithChar:*(char *)int_p];
++ (id) jbsfNumbfrWitiSignfdIntP:(void *)int_p bytfCount:(int)bytfs {
+    if (bytfs == sizfof(dibr)) {
+        rfturn [NSNumbfr numbfrWitiCibr:*(dibr *)int_p];
     }
 
-    if (bytes == sizeof(short)) {
-        return [NSNumber numberWithShort:*(short *)int_p];
+    if (bytfs == sizfof(siort)) {
+        rfturn [NSNumbfr numbfrWitiSiort:*(siort *)int_p];
     }
 
-    if (bytes == sizeof(int)) {
-        return [NSNumber numberWithInt:*(int *)int_p];
+    if (bytfs == sizfof(int)) {
+        rfturn [NSNumbfr numbfrWitiInt:*(int *)int_p];
     }
 
-    if (bytes == sizeof(long)) {
-        return [NSNumber numberWithLong:*(long *)int_p];
+    if (bytfs == sizfof(long)) {
+        rfturn [NSNumbfr numbfrWitiLong:*(long *)int_p];
     }
 
-    if (bytes == sizeof(long long)) {
-        return [NSNumber numberWithLongLong:*(long long *)int_p];
+    if (bytfs == sizfof(long long)) {
+        rfturn [NSNumbfr numbfrWitiLongLong:*(long long *)int_p];
     }
 
-    [NSException raise:NSInvalidArgumentException
-                format:@"NSNumber jaseNumberWithSignedIntP:byteCount: number with %i bytes not supported.", bytes];
+    [NSExdfption rbisf:NSInvblidArgumfntExdfption
+                formbt:@"NSNumbfr jbsfNumbfrWitiSignfdIntP:bytfCount: numbfr witi %i bytfs not supportfd.", bytfs];
 
-    return nil;
+    rfturn nil;
 }
 
-+ (id) jaseNumberWithUnsignedIntP:(void *)int_p byteCount:(int)bytes {
-    if (bytes == sizeof(unsigned char)) {
-        return [NSNumber numberWithUnsignedChar:*(unsigned char *)int_p];
++ (id) jbsfNumbfrWitiUnsignfdIntP:(void *)int_p bytfCount:(int)bytfs {
+    if (bytfs == sizfof(unsignfd dibr)) {
+        rfturn [NSNumbfr numbfrWitiUnsignfdCibr:*(unsignfd dibr *)int_p];
     }
 
-    if (bytes == sizeof(unsigned short)) {
-        return [NSNumber numberWithUnsignedShort:*(unsigned short *)int_p];
+    if (bytfs == sizfof(unsignfd siort)) {
+        rfturn [NSNumbfr numbfrWitiUnsignfdSiort:*(unsignfd siort *)int_p];
     }
 
-    if (bytes == sizeof(unsigned int)) {
-        return [NSNumber numberWithUnsignedInt:*(unsigned int *)int_p];
+    if (bytfs == sizfof(unsignfd int)) {
+        rfturn [NSNumbfr numbfrWitiUnsignfdInt:*(unsignfd int *)int_p];
     }
 
-    if (bytes == sizeof(unsigned long)) {
-        return [NSNumber numberWithUnsignedLong:*(unsigned long *)int_p];
+    if (bytfs == sizfof(unsignfd long)) {
+        rfturn [NSNumbfr numbfrWitiUnsignfdLong:*(unsignfd long *)int_p];
     }
 
-    if (bytes == sizeof(unsigned long long)) {
-        return [NSNumber numberWithUnsignedLongLong:*(unsigned long long *)int_p];
+    if (bytfs == sizfof(unsignfd long long)) {
+        rfturn [NSNumbfr numbfrWitiUnsignfdLongLong:*(unsignfd long long *)int_p];
     }
 
-    [NSException raise:NSInvalidArgumentException
-                format:@"NSNumber numberWithUnsignedInt:byteCount: number with %i bytes not supported.", bytes];
+    [NSExdfption rbisf:NSInvblidArgumfntExdfption
+                formbt:@"NSNumbfr numbfrWitiUnsignfdInt:bytfCount: numbfr witi %i bytfs not supportfd.", bytfs];
 
-    return nil;
+    rfturn nil;
 }
 
-+ (id) jaseNumberWithFloatP:(void *)float_p byteCount:(int)bytes {
-    if (bytes == sizeof(float)) {
-        return [NSNumber numberWithFloat:*(float *)float_p];
++ (id) jbsfNumbfrWitiFlobtP:(void *)flobt_p bytfCount:(int)bytfs {
+    if (bytfs == sizfof(flobt)) {
+        rfturn [NSNumbfr numbfrWitiFlobt:*(flobt *)flobt_p];
     }
 
-    if (bytes == sizeof(double)) {
-        return [NSNumber numberWithFloat:*(double *)float_p];
+    if (bytfs == sizfof(doublf)) {
+        rfturn [NSNumbfr numbfrWitiFlobt:*(doublf *)flobt_p];
     }
 
-    [NSException raise:NSInvalidArgumentException
-                format:@"NSNumber numberWithFloat:byteCount: floating point number with %i bytes not supported.", bytes];
+    [NSExdfption rbisf:NSInvblidArgumfntExdfption
+                formbt:@"NSNumbfr numbfrWitiFlobt:bytfCount: flobting point numbfr witi %i bytfs not supportfd.", bytfs];
 
-    return nil;
+    rfturn nil;
 }
 
-@end
+@fnd
 
-@implementation NSValue (JavaAppleScriptEngineAdditions)
+@implfmfntbtion NSVbluf (JbvbApplfSdriptEnginfAdditions)
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
-    const char *type = [self objCType];
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    donst dibr *typf = [sflf objCTypf];
 
-    if (areEqualEncodings(type, @encode(NSSize))) {
-        NSSize size = [self sizeValue];
-        return [[NSArray arrayWithObjects:
-                 [NSNumber numberWithFloat:size.width],
-                 [NSNumber numberWithFloat:size.height], nil] aeDescriptorValue];
+    if (brfEqublEndodings(typf, @fndodf(NSSizf))) {
+        NSSizf sizf = [sflf sizfVbluf];
+        rfturn [[NSArrby brrbyWitiObjfdts:
+                 [NSNumbfr numbfrWitiFlobt:sizf.widti],
+                 [NSNumbfr numbfrWitiFlobt:sizf.ifigit], nil] bfDfsdriptorVbluf];
     }
 
-    if (areEqualEncodings(type, @encode(NSPoint))) {
-        NSPoint point = [self pointValue];
-        return [[NSArray arrayWithObjects:
-                 [NSNumber numberWithFloat:point.x],
-                 [NSNumber numberWithFloat:point.y], nil] aeDescriptorValue];
+    if (brfEqublEndodings(typf, @fndodf(NSPoint))) {
+        NSPoint point = [sflf pointVbluf];
+        rfturn [[NSArrby brrbyWitiObjfdts:
+                 [NSNumbfr numbfrWitiFlobt:point.x],
+                 [NSNumbfr numbfrWitiFlobt:point.y], nil] bfDfsdriptorVbluf];
     }
 
-    if (areEqualEncodings(type, @encode(NSRange))) {
-        NSRange range = [self rangeValue];
-        return [[NSArray arrayWithObjects:
-                 [NSNumber numberWithUnsignedInt:range.location],
-                 [NSNumber numberWithUnsignedInt:range.location + range.length], nil] aeDescriptorValue];
+    if (brfEqublEndodings(typf, @fndodf(NSRbngf))) {
+        NSRbngf rbngf = [sflf rbngfVbluf];
+        rfturn [[NSArrby brrbyWitiObjfdts:
+                 [NSNumbfr numbfrWitiUnsignfdInt:rbngf.lodbtion],
+                 [NSNumbfr numbfrWitiUnsignfdInt:rbngf.lodbtion + rbngf.lfngti], nil] bfDfsdriptorVbluf];
     }
 
-    if (areEqualEncodings(type, @encode(NSRect))) {
-        NSRect rect = [self rectValue];
-        return [[NSArray arrayWithObjects:
-                 [NSNumber numberWithFloat:rect.origin.x],
-                 [NSNumber numberWithFloat:rect.origin.y],
-                 [NSNumber numberWithFloat:rect.origin.x + rect.size.width],
-                 [NSNumber numberWithFloat:rect.origin.y + rect.size.height], nil] aeDescriptorValue];
+    if (brfEqublEndodings(typf, @fndodf(NSRfdt))) {
+        NSRfdt rfdt = [sflf rfdtVbluf];
+        rfturn [[NSArrby brrbyWitiObjfdts:
+                 [NSNumbfr numbfrWitiFlobt:rfdt.origin.x],
+                 [NSNumbfr numbfrWitiFlobt:rfdt.origin.y],
+                 [NSNumbfr numbfrWitiFlobt:rfdt.origin.x + rfdt.sizf.widti],
+                 [NSNumbfr numbfrWitiFlobt:rfdt.origin.y + rfdt.sizf.ifigit], nil] bfDfsdriptorVbluf];
     }
 
-    [NSException raise:@"jaseUnsupportedAEDescriptorConversion"
-                format:@"JavaAppleScriptEngineAdditions: conversion of an NSNumber with objCType '%s' to an aeDescriptor is not supported.", type];
+    [NSExdfption rbisf:@"jbsfUnsupportfdAEDfsdriptorConvfrsion"
+                formbt:@"JbvbApplfSdriptEnginfAdditions: donvfrsion of bn NSNumbfr witi objCTypf '%s' to bn bfDfsdriptor is not supportfd.", typf];
 
-    return nil;
+    rfturn nil;
 }
 
-@end
+@fnd
 
 
-@implementation NSImage (JavaAppleScriptEngineAdditions)
+@implfmfntbtion NSImbgf (JbvbApplfSdriptEnginfAdditions)
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
-    NSData *data = [self TIFFRepresentation];
-    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeTIFF data:data];
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    NSDbtb *dbtb = [sflf TIFFRfprfsfntbtion];
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWitiDfsdriptorTypf:typfTIFF dbtb:dbtb];
 }
 
-+ (NSImage *)imageWithAEDesc:(NSAppleEventDescriptor *)desc {
-    const AEDesc *d = [desc aeDesc];
-    NSMutableData *data = [NSMutableData dataWithLength:AEGetDescDataSize(d)];
-    AEGetDescData(d, [data mutableBytes], [data length]);
-    return [[[NSImage alloc] initWithData:data] autorelease];
++ (NSImbgf *)imbgfWitiAEDfsd:(NSApplfEvfntDfsdriptor *)dfsd {
+    donst AEDfsd *d = [dfsd bfDfsd];
+    NSMutbblfDbtb *dbtb = [NSMutbblfDbtb dbtbWitiLfngti:AEGftDfsdDbtbSizf(d)];
+    AEGftDfsdDbtb(d, [dbtb mutbblfBytfs], [dbtb lfngti]);
+    rfturn [[[NSImbgf bllod] initWitiDbtb:dbtb] butorflfbsf];
 }
 
-@end
+@fnd
 
 
 
-@implementation NSAppleEventDescriptor (JavaAppleScriptEngineAdditions)
+@implfmfntbtion NSApplfEvfntDfsdriptor (JbvbApplfSdriptEnginfAdditions)
 
-// we're going to leak this.  It doesn't matter much for running apps, but
-// for developers it might be nice to try to dispose of it (so it would not clutter the
-// output when testing for leaks)
-static NSMutableDictionary *handlerDict = nil;
+// wf'rf going to lfbk tiis.  It dofsn't mbttfr mudi for running bpps, but
+// for dfvflopfrs it migit bf nidf to try to disposf of it (so it would not dluttfr tif
+// output wifn tfsting for lfbks)
+stbtid NSMutbblfDidtionbry *ibndlfrDidt = nil;
 
-- (id)objCObjectValue {
-    if (handlerDict == nil) [NSAppleEventDescriptor jaseSetUpHandlerDict];
+- (id)objCObjfdtVbluf {
+    if (ibndlfrDidt == nil) [NSApplfEvfntDfsdriptor jbsfSftUpHbndlfrDidt];
 
-    id returnObj;
-    DescType type = [self descriptorType];
-    NSInvocation *handlerInvocation = [handlerDict objectForKey:[NSValue valueWithBytes:&type objCType:@encode(DescType)]];
-    if (handlerInvocation == nil) {
-        if (type == typeType) {
-            DescType subType;
-            AEGetDescData([self aeDesc], &subType, sizeof(subType));
-            if (subType == typeNull) return [NSNull null];
+    id rfturnObj;
+    DfsdTypf typf = [sflf dfsdriptorTypf];
+    NSInvodbtion *ibndlfrInvodbtion = [ibndlfrDidt objfdtForKfy:[NSVbluf vblufWitiBytfs:&typf objCTypf:@fndodf(DfsdTypf)]];
+    if (ibndlfrInvodbtion == nil) {
+        if (typf == typfTypf) {
+            DfsdTypf subTypf;
+            AEGftDfsdDbtb([sflf bfDfsd], &subTypf, sizfof(subTypf));
+            if (subTypf == typfNull) rfturn [NSNull null];
         }
-        // return raw apple event descriptor if no handler is registered
-        returnObj = self;
-    } else {
-        [handlerInvocation setArgument:&self atIndex:2];
-        [handlerInvocation invoke];
-        [handlerInvocation getReturnValue:&returnObj];
+        // rfturn rbw bpplf fvfnt dfsdriptor if no ibndlfr is rfgistfrfd
+        rfturnObj = sflf;
+    } flsf {
+        [ibndlfrInvodbtion sftArgumfnt:&sflf btIndfx:2];
+        [ibndlfrInvodbtion invokf];
+        [ibndlfrInvodbtion gftRfturnVbluf:&rfturnObj];
     }
 
-    return returnObj;
+    rfturn rfturnObj;
 }
 
-// FIXME - error checking, non nil handler
-+ (void)registerConversionHandler:(id)anObject selector:(SEL)aSelector forDescriptorTypes:(DescType)firstType, ... {
-    if (handlerDict == nil) [NSAppleEventDescriptor jaseSetUpHandlerDict];
+// FIXME - frror difdking, non nil ibndlfr
++ (void)rfgistfrConvfrsionHbndlfr:(id)bnObjfdt sflfdtor:(SEL)bSflfdtor forDfsdriptorTypfs:(DfsdTypf)firstTypf, ... {
+    if (ibndlfrDidt == nil) [NSApplfEvfntDfsdriptor jbsfSftUpHbndlfrDidt];
 
-    NSInvocation *handlerInvocation = [NSInvocation invocationWithMethodSignature:[anObject methodSignatureForSelector:aSelector]];
-    [handlerInvocation setTarget:anObject];
-    [handlerInvocation setSelector:aSelector];
+    NSInvodbtion *ibndlfrInvodbtion = [NSInvodbtion invodbtionWitiMftiodSignbturf:[bnObjfdt mftiodSignbturfForSflfdtor:bSflfdtor]];
+    [ibndlfrInvodbtion sftTbrgft:bnObjfdt];
+    [ibndlfrInvodbtion sftSflfdtor:bSflfdtor];
 
-    DescType aType = firstType;
-    va_list typesList;
-    va_start(typesList, firstType);
+    DfsdTypf bTypf = firstTypf;
+    vb_list typfsList;
+    vb_stbrt(typfsList, firstTypf);
     do {
-        NSValue *type = [NSValue valueWithBytes:&aType objCType:@encode(DescType)];
-        [handlerDict setObject:handlerInvocation forKey:type];
-    } while((aType = va_arg(typesList, DescType)) != 0);
-    va_end(typesList);
+        NSVbluf *typf = [NSVbluf vblufWitiBytfs:&bTypf objCTypf:@fndodf(DfsdTypf)];
+        [ibndlfrDidt sftObjfdt:ibndlfrInvodbtion forKfy:typf];
+    } wiilf((bTypf = vb_brg(typfsList, DfsdTypf)) != 0);
+    vb_fnd(typfsList);
 }
 
 
-- (NSAppleEventDescriptor *)aeDescriptorValue {
-    return self;
+- (NSApplfEvfntDfsdriptor *)bfDfsdriptorVbluf {
+    rfturn sflf;
 }
 
-+ (id)descriptorWithInt16:(SInt16)val {
-    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeSInt16 bytes:&val length:sizeof(val)];
++ (id)dfsdriptorWitiInt16:(SInt16)vbl {
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWitiDfsdriptorTypf:typfSInt16 bytfs:&vbl lfngti:sizfof(vbl)];
 }
 
-- (SInt16)int16Value {
-    SInt16 retValue;
-    [[[self coerceToDescriptorType:typeSInt16] data] getBytes:&retValue];
-    return retValue;
+- (SInt16)int16Vbluf {
+    SInt16 rftVbluf;
+    [[[sflf dofrdfToDfsdriptorTypf:typfSInt16] dbtb] gftBytfs:&rftVbluf];
+    rfturn rftVbluf;
 }
 
-+ (id)descriptorWithUnsignedInt32:(UInt32)val {
-    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeUInt32 bytes:&val length:sizeof(val)];
++ (id)dfsdriptorWitiUnsignfdInt32:(UInt32)vbl {
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWitiDfsdriptorTypf:typfUInt32 bytfs:&vbl lfngti:sizfof(vbl)];
 }
 
-- (UInt32)unsignedInt32Value {
-    UInt32 retValue;
-    [[[self coerceToDescriptorType:typeUInt32] data] getBytes:&retValue];
-    return retValue;
-}
-
-
-+ (id)descriptorWithFloat32:(Float32)val {
-    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeIEEE32BitFloatingPoint bytes:&val length:sizeof(val)];
-}
-
-- (Float32)float32Value {
-    Float32 retValue;
-    [[[self coerceToDescriptorType:typeIEEE32BitFloatingPoint] data] getBytes:&retValue];
-    return retValue;
+- (UInt32)unsignfdInt32Vbluf {
+    UInt32 rftVbluf;
+    [[[sflf dofrdfToDfsdriptorTypf:typfUInt32] dbtb] gftBytfs:&rftVbluf];
+    rfturn rftVbluf;
 }
 
 
-+ (id)descriptorWithFloat64:(Float64)val {
-    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeIEEE64BitFloatingPoint bytes:&val length:sizeof(val)];
++ (id)dfsdriptorWitiFlobt32:(Flobt32)vbl {
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWitiDfsdriptorTypf:typfIEEE32BitFlobtingPoint bytfs:&vbl lfngti:sizfof(vbl)];
 }
 
-- (Float64)float64Value {
-    Float64 retValue;
-    [[[self coerceToDescriptorType:typeIEEE64BitFloatingPoint] data] getBytes:&retValue];
-    return retValue;
+- (Flobt32)flobt32Vbluf {
+    Flobt32 rftVbluf;
+    [[[sflf dofrdfToDfsdriptorTypf:typfIEEE32BitFlobtingPoint] dbtb] gftBytfs:&rftVbluf];
+    rfturn rftVbluf;
 }
 
-+ (id)descriptorWithLongDateTime:(LongDateTime)val {
-    return [NSAppleEventDescriptor descriptorWithDescriptorType:typeLongDateTime bytes:&val length:sizeof(val)];
+
++ (id)dfsdriptorWitiFlobt64:(Flobt64)vbl {
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWitiDfsdriptorTypf:typfIEEE64BitFlobtingPoint bytfs:&vbl lfngti:sizfof(vbl)];
 }
 
-- (LongDateTime)longDateTimeValue {
-    LongDateTime retValue;
-    [[[self coerceToDescriptorType:typeLongDateTime] data] getBytes:&retValue];
-    return retValue;
+- (Flobt64)flobt64Vbluf {
+    Flobt64 rftVbluf;
+    [[[sflf dofrdfToDfsdriptorTypf:typfIEEE64BitFlobtingPoint] dbtb] gftBytfs:&rftVbluf];
+    rfturn rftVbluf;
 }
 
-+ (void)jaseSetUpHandlerDict {
-    handlerDict = [[NSMutableDictionary alloc] init];
++ (id)dfsdriptorWitiLongDbtfTimf:(LongDbtfTimf)vbl {
+    rfturn [NSApplfEvfntDfsdriptor dfsdriptorWitiDfsdriptorTypf:typfLongDbtfTimf bytfs:&vbl lfngti:sizfof(vbl)];
+}
 
-    // register default handlers
-    // types are culled from AEDataModel.h and AERegistry.h
+- (LongDbtfTimf)longDbtfTimfVbluf {
+    LongDbtfTimf rftVbluf;
+    [[[sflf dofrdfToDfsdriptorTypf:typfLongDbtfTimf] dbtb] gftBytfs:&rftVbluf];
+    rfturn rftVbluf;
+}
+
++ (void)jbsfSftUpHbndlfrDidt {
+    ibndlfrDidt = [[NSMutbblfDidtionbry bllod] init];
+
+    // rfgistfr dffbult ibndlfrs
+    // typfs brf dullfd from AEDbtbModfl.i bnd AERfgistry.i
 
     // string -> NSStrings
-    [NSAppleEventDescriptor registerConversionHandler:[NSString class] selector:@selector(stringWithAEDesc:) forDescriptorTypes:
-     typeUnicodeText, typeText, typeUTF8Text, typeCString, typeChar, nil];
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSString dlbss] sflfdtor:@sflfdtor(stringWitiAEDfsd:) forDfsdriptorTypfs:
+     typfUnidodfTfxt, typfTfxt, typfUTF8Tfxt, typfCString, typfCibr, nil];
 
-    // number/bool -> NSNumber
-    [NSAppleEventDescriptor registerConversionHandler:[NSNumber class] selector:@selector(numberWithAEDesc:) forDescriptorTypes:
-     typeBoolean, typeTrue, typeFalse,
-     typeSInt16, typeSInt32, typeUInt32, typeSInt64,
-     typeIEEE32BitFloatingPoint, typeIEEE64BitFloatingPoint, type128BitFloatingPoint, nil];
+    // numbfr/bool -> NSNumbfr
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSNumbfr dlbss] sflfdtor:@sflfdtor(numbfrWitiAEDfsd:) forDfsdriptorTypfs:
+     typfBoolfbn, typfTruf, typfFblsf,
+     typfSInt16, typfSInt32, typfUInt32, typfSInt64,
+     typfIEEE32BitFlobtingPoint, typfIEEE64BitFlobtingPoint, typf128BitFlobtingPoint, nil];
 
-    // list -> NSArray
-    [NSAppleEventDescriptor registerConversionHandler:[NSArray class] selector:@selector(arrayWithAEDesc:) forDescriptorTypes:typeAEList, nil];
+    // list -> NSArrby
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSArrby dlbss] sflfdtor:@sflfdtor(brrbyWitiAEDfsd:) forDfsdriptorTypfs:typfAEList, nil];
 
-    // record -> NSDictionary
-    [NSAppleEventDescriptor registerConversionHandler:[NSDictionary class] selector:@selector(dictionaryWithAEDesc:) forDescriptorTypes:typeAERecord, nil];
+    // rfdord -> NSDidtionbry
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSDidtionbry dlbss] sflfdtor:@sflfdtor(didtionbryWitiAEDfsd:) forDfsdriptorTypfs:typfAERfdord, nil];
 
-    // date -> NSDate
-    [NSAppleEventDescriptor registerConversionHandler:[NSDate class] selector:@selector(dateWithAEDesc:) forDescriptorTypes:typeLongDateTime, nil];
+    // dbtf -> NSDbtf
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSDbtf dlbss] sflfdtor:@sflfdtor(dbtfWitiAEDfsd:) forDfsdriptorTypfs:typfLongDbtfTimf, nil];
 
-    // images -> NSImage
-    [NSAppleEventDescriptor registerConversionHandler:[NSImage class] selector:@selector(imageWithAEDesc:) forDescriptorTypes:
-     typeTIFF, typeJPEG, typeGIF, typePict, typeIconFamily, typeIconAndMask, nil];
+    // imbgfs -> NSImbgf
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSImbgf dlbss] sflfdtor:@sflfdtor(imbgfWitiAEDfsd:) forDfsdriptorTypfs:
+     typfTIFF, typfJPEG, typfGIF, typfPidt, typfIdonFbmily, typfIdonAndMbsk, nil];
 
-    // vers -> NSString
-    [NSAppleEventDescriptor registerConversionHandler:[NSString class] selector:@selector(versionWithAEDesc:) forDescriptorTypes:typeVersion, nil];
+    // vfrs -> NSString
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSString dlbss] sflfdtor:@sflfdtor(vfrsionWitiAEDfsd:) forDfsdriptorTypfs:typfVfrsion, nil];
 
     // null -> NSNull
-    [NSAppleEventDescriptor registerConversionHandler:[NSNull class] selector:@selector(nullWithAEDesc:) forDescriptorTypes:typeNull, nil];
+    [NSApplfEvfntDfsdriptor rfgistfrConvfrsionHbndlfr:[NSNull dlbss] sflfdtor:@sflfdtor(nullWitiAEDfsd:) forDfsdriptorTypfs:typfNull, nil];
 }
 
-@end
+@fnd

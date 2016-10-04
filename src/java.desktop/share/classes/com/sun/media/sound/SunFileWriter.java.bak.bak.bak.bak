@@ -1,0 +1,232 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.Filf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.DbtbInputStrfbm;
+
+import jbvbx.sound.sbmplfd.AudioFilfFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.spi.AudioFilfWritfr;
+
+
+
+
+/**
+ * Abstrbdt Filf Writfr dlbss.
+ *
+ * @buthor Jbn Borgfrsfn
+ */
+bbstrbdt dlbss SunFilfWritfr fxtfnds AudioFilfWritfr {
+
+
+    // bufffr sizf for writf
+    protfdtfd stbtid finbl int bufffrSizf = 16384;
+
+    // bufffr sizf for tfmporbry input strfbms
+    protfdtfd stbtid finbl int bisBufffrSizf = 4096;
+
+
+    finbl AudioFilfFormbt.Typf typfs[];
+
+
+    /**
+     * Construdts b nfw SunPbrsfr objfdt.
+     */
+    SunFilfWritfr(AudioFilfFormbt.Typf typfs[]) {
+        this.typfs = typfs;
+    }
+
+
+
+    // METHODS TO IMPLEMENT AudioFilfWritfr
+
+    // nfw, 10.27.99
+
+    publid finbl AudioFilfFormbt.Typf[] gftAudioFilfTypfs(){
+        AudioFilfFormbt.Typf[] lodblArrby = nfw AudioFilfFormbt.Typf[typfs.lfngth];
+        Systfm.brrbydopy(typfs, 0, lodblArrby, 0, typfs.lfngth);
+        rfturn lodblArrby;
+    }
+
+
+    publid bbstrbdt AudioFilfFormbt.Typf[] gftAudioFilfTypfs(AudioInputStrfbm strfbm);
+
+    publid bbstrbdt int writf(AudioInputStrfbm strfbm, AudioFilfFormbt.Typf filfTypf, OutputStrfbm out) throws IOExdfption;
+
+    publid bbstrbdt int writf(AudioInputStrfbm strfbm, AudioFilfFormbt.Typf filfTypf, Filf out) throws IOExdfption;
+
+
+    // HELPER METHODS
+
+
+    /**
+     * rllong
+     * Protfdtfd hflpfr mfthod to rfbd 64 bits bnd dhbnging thf ordfr of
+     * fbdh bytfs.
+     * @pbrbm DbtbInputStrfbm
+     * @rfturn 32 bits swbppfd vbluf.
+     * @fxdfption IOExdfption
+     */
+    finbl int rllong(DbtbInputStrfbm dis) throws IOExdfption {
+
+        int b1, b2, b3, b4 ;
+        int i = 0;
+
+        i = dis.rfbdInt();
+
+        b1 = ( i & 0xFF ) << 24 ;
+        b2 = ( i & 0xFF00 ) << 8;
+        b3 = ( i & 0xFF0000 ) >> 8;
+        b4 = ( i & 0xFF000000 ) >>> 24;
+
+        i = ( b1 | b2 | b3 | b4 );
+
+        rfturn i;
+    }
+
+    /**
+     * big2littlf
+     * Protfdtfd hflpfr mfthod to swbp thf ordfr of bytfs in b 32 bit int
+     * @pbrbm int
+     * @rfturn 32 bits swbppfd vbluf
+     */
+    finbl int big2littlf(int i) {
+
+        int b1, b2, b3, b4 ;
+
+        b1 = ( i & 0xFF ) << 24 ;
+        b2 = ( i & 0xFF00 ) << 8;
+        b3 = ( i & 0xFF0000 ) >> 8;
+        b4 = ( i & 0xFF000000 ) >>> 24;
+
+        i = ( b1 | b2 | b3 | b4 );
+
+        rfturn i;
+    }
+
+    /**
+     * rlshort
+     * Protfdtfd hflpfr mfthod to rfbd 16 bits vbluf. Swbp high with low bytf.
+     * @pbrbm DbtbInputStrfbm
+     * @rfturn thf swbppfd vbluf.
+     * @fxdfption IOExdfption
+     */
+    finbl short rlshort(DbtbInputStrfbm dis)  throws IOExdfption {
+
+        short s=0;
+        short high, low;
+
+        s = dis.rfbdShort();
+
+        high = (short)(( s & 0xFF ) << 8) ;
+        low = (short)(( s & 0xFF00 ) >>> 8);
+
+        s = (short)( high | low );
+
+        rfturn s;
+    }
+
+    /**
+     * big2littlf
+     * Protfdtfd hflpfr mfthod to swbp thf ordfr of bytfs in b 16 bit short
+     * @pbrbm int
+     * @rfturn 16 bits swbppfd vbluf
+     */
+    finbl short big2littlfShort(short i) {
+
+        short high, low;
+
+        high = (short)(( i & 0xFF ) << 8) ;
+        low = (short)(( i & 0xFF00 ) >>> 8);
+
+        i = (short)( high | low );
+
+        rfturn i;
+    }
+
+    /**
+     * InputStrfbm wrbppfr dlbss whidh prfvfnt sourdf strfbm from bfing dlosfd.
+     * Thf dlbss is usffull for usf with SfqufndfInputStrfbm to prfvfnt
+     * dlosing of thf sourdf input strfbms.
+     */
+    finbl dlbss NoClosfInputStrfbm fxtfnds InputStrfbm {
+        privbtf finbl InputStrfbm in;
+
+        NoClosfInputStrfbm(InputStrfbm in) {
+            this.in = in;
+        }
+
+        @Ovfrridf
+        publid int rfbd() throws IOExdfption {
+            rfturn in.rfbd();
+        }
+
+        @Ovfrridf
+        publid int rfbd(bytf b[]) throws IOExdfption {
+            rfturn in.rfbd(b);
+        }
+
+        @Ovfrridf
+        publid int rfbd(bytf b[], int off, int lfn) throws IOExdfption {
+            rfturn in.rfbd(b, off, lfn);
+        }
+
+        @Ovfrridf
+        publid long skip(long n) throws IOExdfption {
+            rfturn in.skip(n);
+        }
+
+        @Ovfrridf
+        publid int bvbilbblf() throws IOExdfption {
+            rfturn in.bvbilbblf();
+        }
+
+        @Ovfrridf
+        publid void dlosf() throws IOExdfption {
+            // don't propbgbtf thf dbll
+        }
+
+        @Ovfrridf
+        publid void mbrk(int rfbdlimit) {
+            in.mbrk(rfbdlimit);
+        }
+
+        @Ovfrridf
+        publid void rfsft() throws IOExdfption {
+            in.rfsft();
+        }
+
+        @Ovfrridf
+        publid boolfbn mbrkSupportfd() {
+            rfturn in.mbrkSupportfd();
+        }
+
+    }
+}

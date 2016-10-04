@@ -1,621 +1,621 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.security.sasl;
+pbdkbgf jbvbx.sfdurity.sbsl;
 
-import javax.security.auth.callback.CallbackHandler;
+import jbvbx.sfdurity.buti.dbllbbdk.CbllbbdkHbndlfr;
 
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.Collections;
-import java.security.Provider;
-import java.security.Security;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.HbsiSft;
+import jbvb.util.Collfdtions;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Sfdurity;
 
 /**
- * A static class for creating SASL clients and servers.
+ * A stbtid dlbss for drfbting SASL dlifnts bnd sfrvfrs.
  *<p>
- * This class defines the policy of how to locate, load, and instantiate
- * SASL clients and servers.
+ * Tiis dlbss dffinfs tif polidy of iow to lodbtf, lobd, bnd instbntibtf
+ * SASL dlifnts bnd sfrvfrs.
  *<p>
- * For example, an application or library gets a SASL client by doing
- * something like:
- *<blockquote><pre>
- * SaslClient sc = Sasl.createSaslClient(mechanisms,
- *     authorizationId, protocol, serverName, props, callbackHandler);
- *</pre></blockquote>
- * It can then proceed to use the instance to create an authentication connection.
+ * For fxbmplf, bn bpplidbtion or librbry gfts b SASL dlifnt by doing
+ * somftiing likf:
+ *<blodkquotf><prf>
+ * SbslClifnt sd = Sbsl.drfbtfSbslClifnt(mfdibnisms,
+ *     butiorizbtionId, protodol, sfrvfrNbmf, props, dbllbbdkHbndlfr);
+ *</prf></blodkquotf>
+ * It dbn tifn prodffd to usf tif instbndf to drfbtf bn butifntidbtion donnfdtion.
  *<p>
- * Similarly, a server gets a SASL server by using code that looks as follows:
- *<blockquote><pre>
- * SaslServer ss = Sasl.createSaslServer(mechanism,
- *     protocol, serverName, props, callbackHandler);
- *</pre></blockquote>
+ * Similbrly, b sfrvfr gfts b SASL sfrvfr by using dodf tibt looks bs follows:
+ *<blodkquotf><prf>
+ * SbslSfrvfr ss = Sbsl.drfbtfSbslSfrvfr(mfdibnism,
+ *     protodol, sfrvfrNbmf, props, dbllbbdkHbndlfr);
+ *</prf></blodkquotf>
  *
- * @since 1.5
+ * @sindf 1.5
  *
- * @author Rosanna Lee
- * @author Rob Weltman
+ * @butior Rosbnnb Lff
+ * @butior Rob Wfltmbn
  */
-public class Sasl {
-    // Cannot create one of these
-    private Sasl() {
+publid dlbss Sbsl {
+    // Cbnnot drfbtf onf of tifsf
+    privbtf Sbsl() {
     }
 
     /**
-     * The name of a property that specifies the quality-of-protection to use.
-     * The property contains a comma-separated, ordered list
-     * of quality-of-protection values that the
-     * client or server is willing to support.  A qop value is one of
+     * Tif nbmf of b propfrty tibt spfdififs tif qublity-of-protfdtion to usf.
+     * Tif propfrty dontbins b dommb-sfpbrbtfd, ordfrfd list
+     * of qublity-of-protfdtion vblufs tibt tif
+     * dlifnt or sfrvfr is willing to support.  A qop vbluf is onf of
      * <ul>
-     * <li>{@code "auth"} - authentication only</li>
-     * <li>{@code "auth-int"} - authentication plus integrity protection</li>
-     * <li>{@code "auth-conf"} - authentication plus integrity and confidentiality
-     * protection</li>
+     * <li>{@dodf "buti"} - butifntidbtion only</li>
+     * <li>{@dodf "buti-int"} - butifntidbtion plus intfgrity protfdtion</li>
+     * <li>{@dodf "buti-donf"} - butifntidbtion plus intfgrity bnd donfidfntiblity
+     * protfdtion</li>
      * </ul>
      *
-     * The order of the list specifies the preference order of the client or
-     * server. If this property is absent, the default qop is {@code "auth"}.
-     * The value of this constant is {@code "javax.security.sasl.qop"}.
+     * Tif ordfr of tif list spfdififs tif prfffrfndf ordfr of tif dlifnt or
+     * sfrvfr. If tiis propfrty is bbsfnt, tif dffbult qop is {@dodf "buti"}.
+     * Tif vbluf of tiis donstbnt is {@dodf "jbvbx.sfdurity.sbsl.qop"}.
      */
-    public static final String QOP = "javax.security.sasl.qop";
+    publid stbtid finbl String QOP = "jbvbx.sfdurity.sbsl.qop";
 
     /**
-     * The name of a property that specifies the cipher strength to use.
-     * The property contains a comma-separated, ordered list
-     * of cipher strength values that
-     * the client or server is willing to support. A strength value is one of
+     * Tif nbmf of b propfrty tibt spfdififs tif dipifr strfngti to usf.
+     * Tif propfrty dontbins b dommb-sfpbrbtfd, ordfrfd list
+     * of dipifr strfngti vblufs tibt
+     * tif dlifnt or sfrvfr is willing to support. A strfngti vbluf is onf of
      * <ul>
-     * <li>{@code "low"}</li>
-     * <li>{@code "medium"}</li>
-     * <li>{@code "high"}</li>
+     * <li>{@dodf "low"}</li>
+     * <li>{@dodf "mfdium"}</li>
+     * <li>{@dodf "iigi"}</li>
      * </ul>
-     * The order of the list specifies the preference order of the client or
-     * server.  An implementation should allow configuration of the meaning
-     * of these values.  An application may use the Java Cryptography
-     * Extension (JCE) with JCE-aware mechanisms to control the selection of
-     * cipher suites that match the strength values.
+     * Tif ordfr of tif list spfdififs tif prfffrfndf ordfr of tif dlifnt or
+     * sfrvfr.  An implfmfntbtion siould bllow donfigurbtion of tif mfbning
+     * of tifsf vblufs.  An bpplidbtion mby usf tif Jbvb Cryptogrbpiy
+     * Extfnsion (JCE) witi JCE-bwbrf mfdibnisms to dontrol tif sflfdtion of
+     * dipifr suitfs tibt mbtdi tif strfngti vblufs.
      * <BR>
-     * If this property is absent, the default strength is
-     * {@code "high,medium,low"}.
-     * The value of this constant is {@code "javax.security.sasl.strength"}.
+     * If tiis propfrty is bbsfnt, tif dffbult strfngti is
+     * {@dodf "iigi,mfdium,low"}.
+     * Tif vbluf of tiis donstbnt is {@dodf "jbvbx.sfdurity.sbsl.strfngti"}.
      */
-    public static final String STRENGTH = "javax.security.sasl.strength";
+    publid stbtid finbl String STRENGTH = "jbvbx.sfdurity.sbsl.strfngti";
 
     /**
-     * The name of a property that specifies whether the
-     * server must authenticate to the client. The property contains
-     * {@code "true"} if the server must
-     * authenticate the to client; {@code "false"} otherwise.
-     * The default is {@code "false"}.
-     * <br>The value of this constant is
-     * {@code "javax.security.sasl.server.authentication"}.
+     * Tif nbmf of b propfrty tibt spfdififs wiftifr tif
+     * sfrvfr must butifntidbtf to tif dlifnt. Tif propfrty dontbins
+     * {@dodf "truf"} if tif sfrvfr must
+     * butifntidbtf tif to dlifnt; {@dodf "fblsf"} otifrwisf.
+     * Tif dffbult is {@dodf "fblsf"}.
+     * <br>Tif vbluf of tiis donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.sfrvfr.butifntidbtion"}.
      */
-    public static final String SERVER_AUTH =
-    "javax.security.sasl.server.authentication";
+    publid stbtid finbl String SERVER_AUTH =
+    "jbvbx.sfdurity.sbsl.sfrvfr.butifntidbtion";
 
     /**
-     * The name of a property that specifies the bound server name for
-     * an unbound server. A server is created as an unbound server by setting
-     * the {@code serverName} argument in {@link #createSaslServer} as null.
-     * The property contains the bound host name after the authentication
-     * exchange has completed. It is only available on the server side.
-     * <br>The value of this constant is
-     * {@code "javax.security.sasl.bound.server.name"}.
+     * Tif nbmf of b propfrty tibt spfdififs tif bound sfrvfr nbmf for
+     * bn unbound sfrvfr. A sfrvfr is drfbtfd bs bn unbound sfrvfr by sftting
+     * tif {@dodf sfrvfrNbmf} brgumfnt in {@link #drfbtfSbslSfrvfr} bs null.
+     * Tif propfrty dontbins tif bound iost nbmf bftfr tif butifntidbtion
+     * fxdibngf ibs domplftfd. It is only bvbilbblf on tif sfrvfr sidf.
+     * <br>Tif vbluf of tiis donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.bound.sfrvfr.nbmf"}.
      */
-    public static final String BOUND_SERVER_NAME =
-    "javax.security.sasl.bound.server.name";
+    publid stbtid finbl String BOUND_SERVER_NAME =
+    "jbvbx.sfdurity.sbsl.bound.sfrvfr.nbmf";
 
     /**
-     * The name of a property that specifies the maximum size of the receive
-     * buffer in bytes of {@code SaslClient}/{@code SaslServer}.
-     * The property contains the string representation of an integer.
-     * <br>If this property is absent, the default size
-     * is defined by the mechanism.
-     * <br>The value of this constant is {@code "javax.security.sasl.maxbuffer"}.
+     * Tif nbmf of b propfrty tibt spfdififs tif mbximum sizf of tif rfdfivf
+     * bufffr in bytfs of {@dodf SbslClifnt}/{@dodf SbslSfrvfr}.
+     * Tif propfrty dontbins tif string rfprfsfntbtion of bn intfgfr.
+     * <br>If tiis propfrty is bbsfnt, tif dffbult sizf
+     * is dffinfd by tif mfdibnism.
+     * <br>Tif vbluf of tiis donstbnt is {@dodf "jbvbx.sfdurity.sbsl.mbxbufffr"}.
      */
-    public static final String MAX_BUFFER = "javax.security.sasl.maxbuffer";
+    publid stbtid finbl String MAX_BUFFER = "jbvbx.sfdurity.sbsl.mbxbufffr";
 
     /**
-     * The name of a property that specifies the maximum size of the raw send
-     * buffer in bytes of {@code SaslClient}/{@code SaslServer}.
-     * The property contains the string representation of an integer.
-     * The value of this property is negotiated between the client and server
-     * during the authentication exchange.
-     * <br>The value of this constant is {@code "javax.security.sasl.rawsendsize"}.
+     * Tif nbmf of b propfrty tibt spfdififs tif mbximum sizf of tif rbw sfnd
+     * bufffr in bytfs of {@dodf SbslClifnt}/{@dodf SbslSfrvfr}.
+     * Tif propfrty dontbins tif string rfprfsfntbtion of bn intfgfr.
+     * Tif vbluf of tiis propfrty is nfgotibtfd bftwffn tif dlifnt bnd sfrvfr
+     * during tif butifntidbtion fxdibngf.
+     * <br>Tif vbluf of tiis donstbnt is {@dodf "jbvbx.sfdurity.sbsl.rbwsfndsizf"}.
      */
-    public static final String RAW_SEND_SIZE = "javax.security.sasl.rawsendsize";
+    publid stbtid finbl String RAW_SEND_SIZE = "jbvbx.sfdurity.sbsl.rbwsfndsizf";
 
     /**
-     * The name of a property that specifies whether to reuse previously
-     * authenticated session information. The property contains "true" if the
-     * mechanism implementation may attempt to reuse previously authenticated
-     * session information; it contains "false" if the implementation must
-     * not reuse previously authenticated session information.  A setting of
-     * "true" serves only as a hint: it does not necessarily entail actual
-     * reuse because reuse might not be possible due to a number of reasons,
-     * including, but not limited to, lack of mechanism support for reuse,
-     * expiration of reusable information, and the peer's refusal to support
-     * reuse.
+     * Tif nbmf of b propfrty tibt spfdififs wiftifr to rfusf prfviously
+     * butifntidbtfd sfssion informbtion. Tif propfrty dontbins "truf" if tif
+     * mfdibnism implfmfntbtion mby bttfmpt to rfusf prfviously butifntidbtfd
+     * sfssion informbtion; it dontbins "fblsf" if tif implfmfntbtion must
+     * not rfusf prfviously butifntidbtfd sfssion informbtion.  A sftting of
+     * "truf" sfrvfs only bs b iint: it dofs not nfdfssbrily fntbil bdtubl
+     * rfusf bfdbusf rfusf migit not bf possiblf duf to b numbfr of rfbsons,
+     * indluding, but not limitfd to, lbdk of mfdibnism support for rfusf,
+     * fxpirbtion of rfusbblf informbtion, bnd tif pffr's rffusbl to support
+     * rfusf.
      *
-     * The property's default value is "false".  The value of this constant
-     * is "javax.security.sasl.reuse".
+     * Tif propfrty's dffbult vbluf is "fblsf".  Tif vbluf of tiis donstbnt
+     * is "jbvbx.sfdurity.sbsl.rfusf".
      *
-     * Note that all other parameters and properties required to create a
-     * SASL client/server instance must be provided regardless of whether
-     * this property has been supplied. That is, you cannot supply any less
-     * information in anticipation of reuse.
+     * Notf tibt bll otifr pbrbmftfrs bnd propfrtifs rfquirfd to drfbtf b
+     * SASL dlifnt/sfrvfr instbndf must bf providfd rfgbrdlfss of wiftifr
+     * tiis propfrty ibs bffn supplifd. Tibt is, you dbnnot supply bny lfss
+     * informbtion in bntidipbtion of rfusf.
      *
-     * Mechanism implementations that support reuse might allow customization
-     * of its implementation, for factors such as cache size, timeouts, and
-     * criteria for reusability. Such customizations are
-     * implementation-dependent.
+     * Mfdibnism implfmfntbtions tibt support rfusf migit bllow dustomizbtion
+     * of its implfmfntbtion, for fbdtors sudi bs dbdif sizf, timfouts, bnd
+     * dritfrib for rfusbbility. Sudi dustomizbtions brf
+     * implfmfntbtion-dfpfndfnt.
      */
-     public static final String REUSE = "javax.security.sasl.reuse";
+     publid stbtid finbl String REUSE = "jbvbx.sfdurity.sbsl.rfusf";
 
     /**
-     * The name of a property that specifies
-     * whether mechanisms susceptible to simple plain passive attacks (e.g.,
-     * "PLAIN") are not permitted. The property
-     * contains {@code "true"} if such mechanisms are not permitted;
-     * {@code "false"} if such mechanisms are permitted.
-     * The default is {@code "false"}.
-     * <br>The value of this constant is
-     * {@code "javax.security.sasl.policy.noplaintext"}.
+     * Tif nbmf of b propfrty tibt spfdififs
+     * wiftifr mfdibnisms susdfptiblf to simplf plbin pbssivf bttbdks (f.g.,
+     * "PLAIN") brf not pfrmittfd. Tif propfrty
+     * dontbins {@dodf "truf"} if sudi mfdibnisms brf not pfrmittfd;
+     * {@dodf "fblsf"} if sudi mfdibnisms brf pfrmittfd.
+     * Tif dffbult is {@dodf "fblsf"}.
+     * <br>Tif vbluf of tiis donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.polidy.noplbintfxt"}.
      */
-    public static final String POLICY_NOPLAINTEXT =
-    "javax.security.sasl.policy.noplaintext";
+    publid stbtid finbl String POLICY_NOPLAINTEXT =
+    "jbvbx.sfdurity.sbsl.polidy.noplbintfxt";
 
     /**
-     * The name of a property that specifies whether
-     * mechanisms susceptible to active (non-dictionary) attacks
-     * are not permitted.
-     * The property contains {@code "true"}
-     * if mechanisms susceptible to active attacks
-     * are not permitted; {@code "false"} if such mechanisms are permitted.
-     * The default is {@code "false"}.
-     * <br>The value of this constant is
-     * {@code "javax.security.sasl.policy.noactive"}.
+     * Tif nbmf of b propfrty tibt spfdififs wiftifr
+     * mfdibnisms susdfptiblf to bdtivf (non-didtionbry) bttbdks
+     * brf not pfrmittfd.
+     * Tif propfrty dontbins {@dodf "truf"}
+     * if mfdibnisms susdfptiblf to bdtivf bttbdks
+     * brf not pfrmittfd; {@dodf "fblsf"} if sudi mfdibnisms brf pfrmittfd.
+     * Tif dffbult is {@dodf "fblsf"}.
+     * <br>Tif vbluf of tiis donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.polidy.nobdtivf"}.
      */
-    public static final String POLICY_NOACTIVE =
-    "javax.security.sasl.policy.noactive";
+    publid stbtid finbl String POLICY_NOACTIVE =
+    "jbvbx.sfdurity.sbsl.polidy.nobdtivf";
 
     /**
-     * The name of a property that specifies whether
-     * mechanisms susceptible to passive dictionary attacks are not permitted.
-     * The property contains {@code "true"}
-     * if mechanisms susceptible to dictionary attacks are not permitted;
-     * {@code "false"} if such mechanisms are permitted.
-     * The default is {@code "false"}.
+     * Tif nbmf of b propfrty tibt spfdififs wiftifr
+     * mfdibnisms susdfptiblf to pbssivf didtionbry bttbdks brf not pfrmittfd.
+     * Tif propfrty dontbins {@dodf "truf"}
+     * if mfdibnisms susdfptiblf to didtionbry bttbdks brf not pfrmittfd;
+     * {@dodf "fblsf"} if sudi mfdibnisms brf pfrmittfd.
+     * Tif dffbult is {@dodf "fblsf"}.
      *<br>
-     * The value of this constant is
-     * {@code "javax.security.sasl.policy.nodictionary"}.
+     * Tif vbluf of tiis donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.polidy.nodidtionbry"}.
      */
-    public static final String POLICY_NODICTIONARY =
-    "javax.security.sasl.policy.nodictionary";
+    publid stbtid finbl String POLICY_NODICTIONARY =
+    "jbvbx.sfdurity.sbsl.polidy.nodidtionbry";
 
     /**
-     * The name of a property that specifies whether mechanisms that accept
-     * anonymous login are not permitted. The property contains {@code "true"}
-     * if mechanisms that accept anonymous login are not permitted;
-     * {@code "false"}
-     * if such mechanisms are permitted. The default is {@code "false"}.
+     * Tif nbmf of b propfrty tibt spfdififs wiftifr mfdibnisms tibt bddfpt
+     * bnonymous login brf not pfrmittfd. Tif propfrty dontbins {@dodf "truf"}
+     * if mfdibnisms tibt bddfpt bnonymous login brf not pfrmittfd;
+     * {@dodf "fblsf"}
+     * if sudi mfdibnisms brf pfrmittfd. Tif dffbult is {@dodf "fblsf"}.
      *<br>
-     * The value of this constant is
-     * {@code "javax.security.sasl.policy.noanonymous"}.
+     * Tif vbluf of tiis donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.polidy.nobnonymous"}.
      */
-    public static final String POLICY_NOANONYMOUS =
-    "javax.security.sasl.policy.noanonymous";
+    publid stbtid finbl String POLICY_NOANONYMOUS =
+    "jbvbx.sfdurity.sbsl.polidy.nobnonymous";
 
      /**
-      * The name of a property that specifies whether mechanisms that implement
-      * forward secrecy between sessions are required. Forward secrecy
-      * means that breaking into one session will not automatically
-      * provide information for breaking into future sessions.
-      * The property
-      * contains {@code "true"} if mechanisms that implement forward secrecy
-      * between sessions are required; {@code "false"} if such mechanisms
-      * are not required. The default is {@code "false"}.
+      * Tif nbmf of b propfrty tibt spfdififs wiftifr mfdibnisms tibt implfmfnt
+      * forwbrd sfdrfdy bftwffn sfssions brf rfquirfd. Forwbrd sfdrfdy
+      * mfbns tibt brfbking into onf sfssion will not butombtidblly
+      * providf informbtion for brfbking into futurf sfssions.
+      * Tif propfrty
+      * dontbins {@dodf "truf"} if mfdibnisms tibt implfmfnt forwbrd sfdrfdy
+      * bftwffn sfssions brf rfquirfd; {@dodf "fblsf"} if sudi mfdibnisms
+      * brf not rfquirfd. Tif dffbult is {@dodf "fblsf"}.
       *<br>
-      * The value of this constant is
-      * {@code "javax.security.sasl.policy.forward"}.
+      * Tif vbluf of tiis donstbnt is
+      * {@dodf "jbvbx.sfdurity.sbsl.polidy.forwbrd"}.
       */
-    public static final String POLICY_FORWARD_SECRECY =
-    "javax.security.sasl.policy.forward";
+    publid stbtid finbl String POLICY_FORWARD_SECRECY =
+    "jbvbx.sfdurity.sbsl.polidy.forwbrd";
 
     /**
-     * The name of a property that specifies whether
-     * mechanisms that pass client credentials are required. The property
-     * contains {@code "true"} if mechanisms that pass
-     * client credentials are required; {@code "false"}
-     * if such mechanisms are not required. The default is {@code "false"}.
+     * Tif nbmf of b propfrty tibt spfdififs wiftifr
+     * mfdibnisms tibt pbss dlifnt drfdfntibls brf rfquirfd. Tif propfrty
+     * dontbins {@dodf "truf"} if mfdibnisms tibt pbss
+     * dlifnt drfdfntibls brf rfquirfd; {@dodf "fblsf"}
+     * if sudi mfdibnisms brf not rfquirfd. Tif dffbult is {@dodf "fblsf"}.
      *<br>
-     * The value of this constant is
-     * {@code "javax.security.sasl.policy.credentials"}.
+     * Tif vbluf of tiis donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.polidy.drfdfntibls"}.
      */
-    public static final String POLICY_PASS_CREDENTIALS =
-    "javax.security.sasl.policy.credentials";
+    publid stbtid finbl String POLICY_PASS_CREDENTIALS =
+    "jbvbx.sfdurity.sbsl.polidy.drfdfntibls";
 
     /**
-     * The name of a property that specifies the credentials to use.
-     * The property contains a mechanism-specific Java credential object.
-     * Mechanism implementations may examine the value of this property
-     * to determine whether it is a class that they support.
-     * The property may be used to supply credentials to a mechanism that
-     * supports delegated authentication.
+     * Tif nbmf of b propfrty tibt spfdififs tif drfdfntibls to usf.
+     * Tif propfrty dontbins b mfdibnism-spfdifid Jbvb drfdfntibl objfdt.
+     * Mfdibnism implfmfntbtions mby fxbminf tif vbluf of tiis propfrty
+     * to dftfrminf wiftifr it is b dlbss tibt tify support.
+     * Tif propfrty mby bf usfd to supply drfdfntibls to b mfdibnism tibt
+     * supports dflfgbtfd butifntidbtion.
      *<br>
-     * The value of this constant is
-     * {@code "javax.security.sasl.credentials"}.
+     * Tif vbluf of tiis donstbnt is
+     * {@dodf "jbvbx.sfdurity.sbsl.drfdfntibls"}.
      */
-    public static final String CREDENTIALS = "javax.security.sasl.credentials";
+    publid stbtid finbl String CREDENTIALS = "jbvbx.sfdurity.sbsl.drfdfntibls";
 
     /**
-     * Creates a {@code SaslClient} using the parameters supplied.
+     * Crfbtfs b {@dodf SbslClifnt} using tif pbrbmftfrs supplifd.
      *
-     * This method uses the
-<a href="{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html#Provider">JCA Security Provider Framework</a>, described in the
-     * "Java Cryptography Architecture API Specification &amp; Reference", for
-     * locating and selecting a {@code SaslClient} implementation.
+     * Tiis mftiod usfs tif
+<b irff="{@dodRoot}/../tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd.itml#Providfr">JCA Sfdurity Providfr Frbmfwork</b>, dfsdribfd in tif
+     * "Jbvb Cryptogrbpiy Ardiitfdturf API Spfdifidbtion &bmp; Rfffrfndf", for
+     * lodbting bnd sflfdting b {@dodf SbslClifnt} implfmfntbtion.
      *
      * First, it
-     * obtains an ordered list of {@code SaslClientFactory} instances from
-     * the registered security providers for the "SaslClientFactory" service
-     * and the specified SASL mechanism(s). It then invokes
-     * {@code createSaslClient()} on each factory instance on the list
-     * until one produces a non-null {@code SaslClient} instance. It returns
-     * the non-null {@code SaslClient} instance, or null if the search fails
-     * to produce a non-null {@code SaslClient} instance.
+     * obtbins bn ordfrfd list of {@dodf SbslClifntFbdtory} instbndfs from
+     * tif rfgistfrfd sfdurity providfrs for tif "SbslClifntFbdtory" sfrvidf
+     * bnd tif spfdififd SASL mfdibnism(s). It tifn invokfs
+     * {@dodf drfbtfSbslClifnt()} on fbdi fbdtory instbndf on tif list
+     * until onf produdfs b non-null {@dodf SbslClifnt} instbndf. It rfturns
+     * tif non-null {@dodf SbslClifnt} instbndf, or null if tif sfbrdi fbils
+     * to produdf b non-null {@dodf SbslClifnt} instbndf.
      *<p>
-     * A security provider for SaslClientFactory registers with the
-     * JCA Security Provider Framework keys of the form <br>
-     * {@code SaslClientFactory.}<em>{@code mechanism_name}</em>
+     * A sfdurity providfr for SbslClifntFbdtory rfgistfrs witi tif
+     * JCA Sfdurity Providfr Frbmfwork kfys of tif form <br>
+     * {@dodf SbslClifntFbdtory.}<fm>{@dodf mfdibnism_nbmf}</fm>
      * <br>
-     * and values that are class names of implementations of
-     * {@code javax.security.sasl.SaslClientFactory}.
+     * bnd vblufs tibt brf dlbss nbmfs of implfmfntbtions of
+     * {@dodf jbvbx.sfdurity.sbsl.SbslClifntFbdtory}.
      *
-     * For example, a provider that contains a factory class,
-     * {@code com.wiz.sasl.digest.ClientFactory}, that supports the
-     * "DIGEST-MD5" mechanism would register the following entry with the JCA:
-     * {@code SaslClientFactory.DIGEST-MD5 com.wiz.sasl.digest.ClientFactory}
+     * For fxbmplf, b providfr tibt dontbins b fbdtory dlbss,
+     * {@dodf dom.wiz.sbsl.digfst.ClifntFbdtory}, tibt supports tif
+     * "DIGEST-MD5" mfdibnism would rfgistfr tif following fntry witi tif JCA:
+     * {@dodf SbslClifntFbdtory.DIGEST-MD5 dom.wiz.sbsl.digfst.ClifntFbdtory}
      *<p>
-     * See the
-     * "Java Cryptography Architecture API Specification &amp; Reference"
-     * for information about how to install and configure security service
-     *  providers.
+     * Sff tif
+     * "Jbvb Cryptogrbpiy Ardiitfdturf API Spfdifidbtion &bmp; Rfffrfndf"
+     * for informbtion bbout iow to instbll bnd donfigurf sfdurity sfrvidf
+     *  providfrs.
      *
-     * @param mechanisms The non-null list of mechanism names to try. Each is the
-     * IANA-registered name of a SASL mechanism. (e.g. "GSSAPI", "CRAM-MD5").
-     * @param authorizationId The possibly null protocol-dependent
-     * identification to be used for authorization.
-     * If null or empty, the server derives an authorization
-     * ID from the client's authentication credentials.
-     * When the SASL authentication completes successfully,
-     * the specified entity is granted access.
+     * @pbrbm mfdibnisms Tif non-null list of mfdibnism nbmfs to try. Ebdi is tif
+     * IANA-rfgistfrfd nbmf of b SASL mfdibnism. (f.g. "GSSAPI", "CRAM-MD5").
+     * @pbrbm butiorizbtionId Tif possibly null protodol-dfpfndfnt
+     * idfntifidbtion to bf usfd for butiorizbtion.
+     * If null or fmpty, tif sfrvfr dfrivfs bn butiorizbtion
+     * ID from tif dlifnt's butifntidbtion drfdfntibls.
+     * Wifn tif SASL butifntidbtion domplftfs suddfssfully,
+     * tif spfdififd fntity is grbntfd bddfss.
      *
-     * @param protocol The non-null string name of the protocol for which
-     * the authentication is being performed (e.g., "ldap").
+     * @pbrbm protodol Tif non-null string nbmf of tif protodol for wiidi
+     * tif butifntidbtion is bfing pfrformfd (f.g., "ldbp").
      *
-     * @param serverName The non-null fully-qualified host name of the server
-     * to authenticate to.
+     * @pbrbm sfrvfrNbmf Tif non-null fully-qublififd iost nbmf of tif sfrvfr
+     * to butifntidbtf to.
      *
-     * @param props The possibly null set of properties used to
-     * select the SASL mechanism and to configure the authentication
-     * exchange of the selected mechanism.
-     * For example, if {@code props} contains the
-     * {@code Sasl.POLICY_NOPLAINTEXT} property with the value
-     * {@code "true"}, then the selected
-     * SASL mechanism must not be susceptible to simple plain passive attacks.
-     * In addition to the standard properties declared in this class,
-     * other, possibly mechanism-specific, properties can be included.
-     * Properties not relevant to the selected mechanism are ignored,
-     * including any map entries with non-String keys.
+     * @pbrbm props Tif possibly null sft of propfrtifs usfd to
+     * sflfdt tif SASL mfdibnism bnd to donfigurf tif butifntidbtion
+     * fxdibngf of tif sflfdtfd mfdibnism.
+     * For fxbmplf, if {@dodf props} dontbins tif
+     * {@dodf Sbsl.POLICY_NOPLAINTEXT} propfrty witi tif vbluf
+     * {@dodf "truf"}, tifn tif sflfdtfd
+     * SASL mfdibnism must not bf susdfptiblf to simplf plbin pbssivf bttbdks.
+     * In bddition to tif stbndbrd propfrtifs dfdlbrfd in tiis dlbss,
+     * otifr, possibly mfdibnism-spfdifid, propfrtifs dbn bf indludfd.
+     * Propfrtifs not rflfvbnt to tif sflfdtfd mfdibnism brf ignorfd,
+     * indluding bny mbp fntrifs witi non-String kfys.
      *
-     * @param cbh The possibly null callback handler to used by the SASL
-     * mechanisms to get further information from the application/library
-     * to complete the authentication. For example, a SASL mechanism might
-     * require the authentication ID, password and realm from the caller.
-     * The authentication ID is requested by using a {@code NameCallback}.
-     * The password is requested by using a {@code PasswordCallback}.
-     * The realm is requested by using a {@code RealmChoiceCallback} if there is a list
-     * of realms to choose from, and by using a {@code RealmCallback} if
-     * the realm must be entered.
+     * @pbrbm dbi Tif possibly null dbllbbdk ibndlfr to usfd by tif SASL
+     * mfdibnisms to gft furtifr informbtion from tif bpplidbtion/librbry
+     * to domplftf tif butifntidbtion. For fxbmplf, b SASL mfdibnism migit
+     * rfquirf tif butifntidbtion ID, pbssword bnd rfblm from tif dbllfr.
+     * Tif butifntidbtion ID is rfqufstfd by using b {@dodf NbmfCbllbbdk}.
+     * Tif pbssword is rfqufstfd by using b {@dodf PbsswordCbllbbdk}.
+     * Tif rfblm is rfqufstfd by using b {@dodf RfblmCioidfCbllbbdk} if tifrf is b list
+     * of rfblms to dioosf from, bnd by using b {@dodf RfblmCbllbbdk} if
+     * tif rfblm must bf fntfrfd.
      *
-     *@return A possibly null {@code SaslClient} created using the parameters
-     * supplied. If null, cannot find a {@code SaslClientFactory}
-     * that will produce one.
-     *@exception SaslException If cannot create a {@code SaslClient} because
-     * of an error.
+     *@rfturn A possibly null {@dodf SbslClifnt} drfbtfd using tif pbrbmftfrs
+     * supplifd. If null, dbnnot find b {@dodf SbslClifntFbdtory}
+     * tibt will produdf onf.
+     *@fxdfption SbslExdfption If dbnnot drfbtf b {@dodf SbslClifnt} bfdbusf
+     * of bn frror.
      */
-    public static SaslClient createSaslClient(
-        String[] mechanisms,
-        String authorizationId,
-        String protocol,
-        String serverName,
-        Map<String,?> props,
-        CallbackHandler cbh) throws SaslException {
+    publid stbtid SbslClifnt drfbtfSbslClifnt(
+        String[] mfdibnisms,
+        String butiorizbtionId,
+        String protodol,
+        String sfrvfrNbmf,
+        Mbp<String,?> props,
+        CbllbbdkHbndlfr dbi) tirows SbslExdfption {
 
-        SaslClient mech = null;
-        SaslClientFactory fac;
-        String className;
-        String mechName;
+        SbslClifnt mfdi = null;
+        SbslClifntFbdtory fbd;
+        String dlbssNbmf;
+        String mfdiNbmf;
 
-        for (int i = 0; i < mechanisms.length; i++) {
-            if ((mechName=mechanisms[i]) == null) {
-                throw new NullPointerException(
-                    "Mechanism name cannot be null");
-            } else if (mechName.length() == 0) {
-                continue;
+        for (int i = 0; i < mfdibnisms.lfngti; i++) {
+            if ((mfdiNbmf=mfdibnisms[i]) == null) {
+                tirow nfw NullPointfrExdfption(
+                    "Mfdibnism nbmf dbnnot bf null");
+            } flsf if (mfdiNbmf.lfngti() == 0) {
+                dontinuf;
             }
-            String mechFilter = "SaslClientFactory." + mechName;
-            Provider[] provs = Security.getProviders(mechFilter);
-            for (int j = 0; provs != null && j < provs.length; j++) {
-                className = provs[j].getProperty(mechFilter);
-                if (className == null) {
-                    // Case is ignored
-                    continue;
+            String mfdiFiltfr = "SbslClifntFbdtory." + mfdiNbmf;
+            Providfr[] provs = Sfdurity.gftProvidfrs(mfdiFiltfr);
+            for (int j = 0; provs != null && j < provs.lfngti; j++) {
+                dlbssNbmf = provs[j].gftPropfrty(mfdiFiltfr);
+                if (dlbssNbmf == null) {
+                    // Cbsf is ignorfd
+                    dontinuf;
                 }
 
-                fac = (SaslClientFactory) loadFactory(provs[j], className);
-                if (fac != null) {
-                    mech = fac.createSaslClient(
-                        new String[]{mechanisms[i]}, authorizationId,
-                        protocol, serverName, props, cbh);
-                    if (mech != null) {
-                        return mech;
+                fbd = (SbslClifntFbdtory) lobdFbdtory(provs[j], dlbssNbmf);
+                if (fbd != null) {
+                    mfdi = fbd.drfbtfSbslClifnt(
+                        nfw String[]{mfdibnisms[i]}, butiorizbtionId,
+                        protodol, sfrvfrNbmf, props, dbi);
+                    if (mfdi != null) {
+                        rfturn mfdi;
                     }
                 }
             }
         }
 
-        return null;
+        rfturn null;
     }
 
-    private static Object loadFactory(Provider p, String className)
-        throws SaslException {
+    privbtf stbtid Objfdt lobdFbdtory(Providfr p, String dlbssNbmf)
+        tirows SbslExdfption {
         try {
             /*
-             * Load the implementation class with the same class loader
-             * that was used to load the provider.
-             * In order to get the class loader of a class, the
-             * caller's class loader must be the same as or an ancestor of
-             * the class loader being returned. Otherwise, the caller must
-             * have "getClassLoader" permission, or a SecurityException
-             * will be thrown.
+             * Lobd tif implfmfntbtion dlbss witi tif sbmf dlbss lobdfr
+             * tibt wbs usfd to lobd tif providfr.
+             * In ordfr to gft tif dlbss lobdfr of b dlbss, tif
+             * dbllfr's dlbss lobdfr must bf tif sbmf bs or bn bndfstor of
+             * tif dlbss lobdfr bfing rfturnfd. Otifrwisf, tif dbllfr must
+             * ibvf "gftClbssLobdfr" pfrmission, or b SfdurityExdfption
+             * will bf tirown.
              */
-            ClassLoader cl = p.getClass().getClassLoader();
-            Class<?> implClass;
-            implClass = Class.forName(className, true, cl);
-            return implClass.newInstance();
-        } catch (ClassNotFoundException e) {
-            throw new SaslException("Cannot load class " + className, e);
-        } catch (InstantiationException e) {
-            throw new SaslException("Cannot instantiate class " + className, e);
-        } catch (IllegalAccessException e) {
-            throw new SaslException("Cannot access class " + className, e);
-        } catch (SecurityException e) {
-            throw new SaslException("Cannot access class " + className, e);
+            ClbssLobdfr dl = p.gftClbss().gftClbssLobdfr();
+            Clbss<?> implClbss;
+            implClbss = Clbss.forNbmf(dlbssNbmf, truf, dl);
+            rfturn implClbss.nfwInstbndf();
+        } dbtdi (ClbssNotFoundExdfption f) {
+            tirow nfw SbslExdfption("Cbnnot lobd dlbss " + dlbssNbmf, f);
+        } dbtdi (InstbntibtionExdfption f) {
+            tirow nfw SbslExdfption("Cbnnot instbntibtf dlbss " + dlbssNbmf, f);
+        } dbtdi (IllfgblAddfssExdfption f) {
+            tirow nfw SbslExdfption("Cbnnot bddfss dlbss " + dlbssNbmf, f);
+        } dbtdi (SfdurityExdfption f) {
+            tirow nfw SbslExdfption("Cbnnot bddfss dlbss " + dlbssNbmf, f);
         }
     }
 
 
     /**
-     * Creates a {@code SaslServer} for the specified mechanism.
+     * Crfbtfs b {@dodf SbslSfrvfr} for tif spfdififd mfdibnism.
      *
-     * This method uses the
-<a href="{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html#Provider">JCA Security Provider Framework</a>,
-     * described in the
-     * "Java Cryptography Architecture API Specification &amp; Reference", for
-     * locating and selecting a {@code SaslServer} implementation.
+     * Tiis mftiod usfs tif
+<b irff="{@dodRoot}/../tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd.itml#Providfr">JCA Sfdurity Providfr Frbmfwork</b>,
+     * dfsdribfd in tif
+     * "Jbvb Cryptogrbpiy Ardiitfdturf API Spfdifidbtion &bmp; Rfffrfndf", for
+     * lodbting bnd sflfdting b {@dodf SbslSfrvfr} implfmfntbtion.
      *
      * First, it
-     * obtains an ordered list of {@code SaslServerFactory} instances from
-     * the registered security providers for the "SaslServerFactory" service
-     * and the specified mechanism. It then invokes
-     * {@code createSaslServer()} on each factory instance on the list
-     * until one produces a non-null {@code SaslServer} instance. It returns
-     * the non-null {@code SaslServer} instance, or null if the search fails
-     * to produce a non-null {@code SaslServer} instance.
+     * obtbins bn ordfrfd list of {@dodf SbslSfrvfrFbdtory} instbndfs from
+     * tif rfgistfrfd sfdurity providfrs for tif "SbslSfrvfrFbdtory" sfrvidf
+     * bnd tif spfdififd mfdibnism. It tifn invokfs
+     * {@dodf drfbtfSbslSfrvfr()} on fbdi fbdtory instbndf on tif list
+     * until onf produdfs b non-null {@dodf SbslSfrvfr} instbndf. It rfturns
+     * tif non-null {@dodf SbslSfrvfr} instbndf, or null if tif sfbrdi fbils
+     * to produdf b non-null {@dodf SbslSfrvfr} instbndf.
      *<p>
-     * A security provider for SaslServerFactory registers with the
-     * JCA Security Provider Framework keys of the form <br>
-     * {@code SaslServerFactory.}<em>{@code mechanism_name}</em>
+     * A sfdurity providfr for SbslSfrvfrFbdtory rfgistfrs witi tif
+     * JCA Sfdurity Providfr Frbmfwork kfys of tif form <br>
+     * {@dodf SbslSfrvfrFbdtory.}<fm>{@dodf mfdibnism_nbmf}</fm>
      * <br>
-     * and values that are class names of implementations of
-     * {@code javax.security.sasl.SaslServerFactory}.
+     * bnd vblufs tibt brf dlbss nbmfs of implfmfntbtions of
+     * {@dodf jbvbx.sfdurity.sbsl.SbslSfrvfrFbdtory}.
      *
-     * For example, a provider that contains a factory class,
-     * {@code com.wiz.sasl.digest.ServerFactory}, that supports the
-     * "DIGEST-MD5" mechanism would register the following entry with the JCA:
-     * {@code SaslServerFactory.DIGEST-MD5  com.wiz.sasl.digest.ServerFactory}
+     * For fxbmplf, b providfr tibt dontbins b fbdtory dlbss,
+     * {@dodf dom.wiz.sbsl.digfst.SfrvfrFbdtory}, tibt supports tif
+     * "DIGEST-MD5" mfdibnism would rfgistfr tif following fntry witi tif JCA:
+     * {@dodf SbslSfrvfrFbdtory.DIGEST-MD5  dom.wiz.sbsl.digfst.SfrvfrFbdtory}
      *<p>
-     * See the
-     * "Java Cryptography Architecture API Specification &amp; Reference"
-     * for information about how to install and configure security
-     * service providers.
+     * Sff tif
+     * "Jbvb Cryptogrbpiy Ardiitfdturf API Spfdifidbtion &bmp; Rfffrfndf"
+     * for informbtion bbout iow to instbll bnd donfigurf sfdurity
+     * sfrvidf providfrs.
      *
-     * @param mechanism The non-null mechanism name. It must be an
-     * IANA-registered name of a SASL mechanism. (e.g. "GSSAPI", "CRAM-MD5").
-     * @param protocol The non-null string name of the protocol for which
-     * the authentication is being performed (e.g., "ldap").
-     * @param serverName The fully qualified host name of the server, or null
-     * if the server is not bound to any specific host name. If the mechanism
-     * does not allow an unbound server, a {@code SaslException} will
-     * be thrown.
-     * @param props The possibly null set of properties used to
-     * select the SASL mechanism and to configure the authentication
-     * exchange of the selected mechanism.
-     * For example, if {@code props} contains the
-     * {@code Sasl.POLICY_NOPLAINTEXT} property with the value
-     * {@code "true"}, then the selected
-     * SASL mechanism must not be susceptible to simple plain passive attacks.
-     * In addition to the standard properties declared in this class,
-     * other, possibly mechanism-specific, properties can be included.
-     * Properties not relevant to the selected mechanism are ignored,
-     * including any map entries with non-String keys.
+     * @pbrbm mfdibnism Tif non-null mfdibnism nbmf. It must bf bn
+     * IANA-rfgistfrfd nbmf of b SASL mfdibnism. (f.g. "GSSAPI", "CRAM-MD5").
+     * @pbrbm protodol Tif non-null string nbmf of tif protodol for wiidi
+     * tif butifntidbtion is bfing pfrformfd (f.g., "ldbp").
+     * @pbrbm sfrvfrNbmf Tif fully qublififd iost nbmf of tif sfrvfr, or null
+     * if tif sfrvfr is not bound to bny spfdifid iost nbmf. If tif mfdibnism
+     * dofs not bllow bn unbound sfrvfr, b {@dodf SbslExdfption} will
+     * bf tirown.
+     * @pbrbm props Tif possibly null sft of propfrtifs usfd to
+     * sflfdt tif SASL mfdibnism bnd to donfigurf tif butifntidbtion
+     * fxdibngf of tif sflfdtfd mfdibnism.
+     * For fxbmplf, if {@dodf props} dontbins tif
+     * {@dodf Sbsl.POLICY_NOPLAINTEXT} propfrty witi tif vbluf
+     * {@dodf "truf"}, tifn tif sflfdtfd
+     * SASL mfdibnism must not bf susdfptiblf to simplf plbin pbssivf bttbdks.
+     * In bddition to tif stbndbrd propfrtifs dfdlbrfd in tiis dlbss,
+     * otifr, possibly mfdibnism-spfdifid, propfrtifs dbn bf indludfd.
+     * Propfrtifs not rflfvbnt to tif sflfdtfd mfdibnism brf ignorfd,
+     * indluding bny mbp fntrifs witi non-String kfys.
      *
-     * @param cbh The possibly null callback handler to used by the SASL
-     * mechanisms to get further information from the application/library
-     * to complete the authentication. For example, a SASL mechanism might
-     * require the authentication ID, password and realm from the caller.
-     * The authentication ID is requested by using a {@code NameCallback}.
-     * The password is requested by using a {@code PasswordCallback}.
-     * The realm is requested by using a {@code RealmChoiceCallback} if there is a list
-     * of realms to choose from, and by using a {@code RealmCallback} if
-     * the realm must be entered.
+     * @pbrbm dbi Tif possibly null dbllbbdk ibndlfr to usfd by tif SASL
+     * mfdibnisms to gft furtifr informbtion from tif bpplidbtion/librbry
+     * to domplftf tif butifntidbtion. For fxbmplf, b SASL mfdibnism migit
+     * rfquirf tif butifntidbtion ID, pbssword bnd rfblm from tif dbllfr.
+     * Tif butifntidbtion ID is rfqufstfd by using b {@dodf NbmfCbllbbdk}.
+     * Tif pbssword is rfqufstfd by using b {@dodf PbsswordCbllbbdk}.
+     * Tif rfblm is rfqufstfd by using b {@dodf RfblmCioidfCbllbbdk} if tifrf is b list
+     * of rfblms to dioosf from, bnd by using b {@dodf RfblmCbllbbdk} if
+     * tif rfblm must bf fntfrfd.
      *
-     *@return A possibly null {@code SaslServer} created using the parameters
-     * supplied. If null, cannot find a {@code SaslServerFactory}
-     * that will produce one.
-     *@exception SaslException If cannot create a {@code SaslServer} because
-     * of an error.
+     *@rfturn A possibly null {@dodf SbslSfrvfr} drfbtfd using tif pbrbmftfrs
+     * supplifd. If null, dbnnot find b {@dodf SbslSfrvfrFbdtory}
+     * tibt will produdf onf.
+     *@fxdfption SbslExdfption If dbnnot drfbtf b {@dodf SbslSfrvfr} bfdbusf
+     * of bn frror.
      **/
-    public static SaslServer
-        createSaslServer(String mechanism,
-                    String protocol,
-                    String serverName,
-                    Map<String,?> props,
-                    javax.security.auth.callback.CallbackHandler cbh)
-        throws SaslException {
+    publid stbtid SbslSfrvfr
+        drfbtfSbslSfrvfr(String mfdibnism,
+                    String protodol,
+                    String sfrvfrNbmf,
+                    Mbp<String,?> props,
+                    jbvbx.sfdurity.buti.dbllbbdk.CbllbbdkHbndlfr dbi)
+        tirows SbslExdfption {
 
-        SaslServer mech = null;
-        SaslServerFactory fac;
-        String className;
+        SbslSfrvfr mfdi = null;
+        SbslSfrvfrFbdtory fbd;
+        String dlbssNbmf;
 
-        if (mechanism == null) {
-            throw new NullPointerException("Mechanism name cannot be null");
-        } else if (mechanism.length() == 0) {
-            return null;
+        if (mfdibnism == null) {
+            tirow nfw NullPointfrExdfption("Mfdibnism nbmf dbnnot bf null");
+        } flsf if (mfdibnism.lfngti() == 0) {
+            rfturn null;
         }
 
-        String mechFilter = "SaslServerFactory." + mechanism;
-        Provider[] provs = Security.getProviders(mechFilter);
-        for (int j = 0; provs != null && j < provs.length; j++) {
-            className = provs[j].getProperty(mechFilter);
-            if (className == null) {
-                throw new SaslException("Provider does not support " +
-                    mechFilter);
+        String mfdiFiltfr = "SbslSfrvfrFbdtory." + mfdibnism;
+        Providfr[] provs = Sfdurity.gftProvidfrs(mfdiFiltfr);
+        for (int j = 0; provs != null && j < provs.lfngti; j++) {
+            dlbssNbmf = provs[j].gftPropfrty(mfdiFiltfr);
+            if (dlbssNbmf == null) {
+                tirow nfw SbslExdfption("Providfr dofs not support " +
+                    mfdiFiltfr);
             }
-            fac = (SaslServerFactory) loadFactory(provs[j], className);
-            if (fac != null) {
-                mech = fac.createSaslServer(
-                    mechanism, protocol, serverName, props, cbh);
-                if (mech != null) {
-                    return mech;
+            fbd = (SbslSfrvfrFbdtory) lobdFbdtory(provs[j], dlbssNbmf);
+            if (fbd != null) {
+                mfdi = fbd.drfbtfSbslSfrvfr(
+                    mfdibnism, protodol, sfrvfrNbmf, props, dbi);
+                if (mfdi != null) {
+                    rfturn mfdi;
                 }
             }
         }
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * Gets an enumeration of known factories for producing {@code SaslClient}.
-     * This method uses the same algorithm for locating factories as
-     * {@code createSaslClient()}.
-     * @return A non-null enumeration of known factories for producing
-     * {@code SaslClient}.
-     * @see #createSaslClient
+     * Gfts bn fnumfrbtion of known fbdtorifs for produding {@dodf SbslClifnt}.
+     * Tiis mftiod usfs tif sbmf blgoritim for lodbting fbdtorifs bs
+     * {@dodf drfbtfSbslClifnt()}.
+     * @rfturn A non-null fnumfrbtion of known fbdtorifs for produding
+     * {@dodf SbslClifnt}.
+     * @sff #drfbtfSbslClifnt
      */
-    public static Enumeration<SaslClientFactory> getSaslClientFactories() {
-        Set<Object> facs = getFactories("SaslClientFactory");
-        final Iterator<Object> iter = facs.iterator();
-        return new Enumeration<SaslClientFactory>() {
-            public boolean hasMoreElements() {
-                return iter.hasNext();
+    publid stbtid Enumfrbtion<SbslClifntFbdtory> gftSbslClifntFbdtorifs() {
+        Sft<Objfdt> fbds = gftFbdtorifs("SbslClifntFbdtory");
+        finbl Itfrbtor<Objfdt> itfr = fbds.itfrbtor();
+        rfturn nfw Enumfrbtion<SbslClifntFbdtory>() {
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn itfr.ibsNfxt();
             }
-            public SaslClientFactory nextElement() {
-                return (SaslClientFactory)iter.next();
+            publid SbslClifntFbdtory nfxtElfmfnt() {
+                rfturn (SbslClifntFbdtory)itfr.nfxt();
             }
         };
     }
 
     /**
-     * Gets an enumeration of known factories for producing {@code SaslServer}.
-     * This method uses the same algorithm for locating factories as
-     * {@code createSaslServer()}.
-     * @return A non-null enumeration of known factories for producing
-     * {@code SaslServer}.
-     * @see #createSaslServer
+     * Gfts bn fnumfrbtion of known fbdtorifs for produding {@dodf SbslSfrvfr}.
+     * Tiis mftiod usfs tif sbmf blgoritim for lodbting fbdtorifs bs
+     * {@dodf drfbtfSbslSfrvfr()}.
+     * @rfturn A non-null fnumfrbtion of known fbdtorifs for produding
+     * {@dodf SbslSfrvfr}.
+     * @sff #drfbtfSbslSfrvfr
      */
-    public static Enumeration<SaslServerFactory> getSaslServerFactories() {
-        Set<Object> facs = getFactories("SaslServerFactory");
-        final Iterator<Object> iter = facs.iterator();
-        return new Enumeration<SaslServerFactory>() {
-            public boolean hasMoreElements() {
-                return iter.hasNext();
+    publid stbtid Enumfrbtion<SbslSfrvfrFbdtory> gftSbslSfrvfrFbdtorifs() {
+        Sft<Objfdt> fbds = gftFbdtorifs("SbslSfrvfrFbdtory");
+        finbl Itfrbtor<Objfdt> itfr = fbds.itfrbtor();
+        rfturn nfw Enumfrbtion<SbslSfrvfrFbdtory>() {
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn itfr.ibsNfxt();
             }
-            public SaslServerFactory nextElement() {
-                return (SaslServerFactory)iter.next();
+            publid SbslSfrvfrFbdtory nfxtElfmfnt() {
+                rfturn (SbslSfrvfrFbdtory)itfr.nfxt();
             }
         };
     }
 
-    private static Set<Object> getFactories(String serviceName) {
-        HashSet<Object> result = new HashSet<Object>();
+    privbtf stbtid Sft<Objfdt> gftFbdtorifs(String sfrvidfNbmf) {
+        HbsiSft<Objfdt> rfsult = nfw HbsiSft<Objfdt>();
 
-        if ((serviceName == null) || (serviceName.length() == 0) ||
-            (serviceName.endsWith("."))) {
-            return result;
+        if ((sfrvidfNbmf == null) || (sfrvidfNbmf.lfngti() == 0) ||
+            (sfrvidfNbmf.fndsWiti("."))) {
+            rfturn rfsult;
         }
 
 
-        Provider[] providers = Security.getProviders();
-        HashSet<String> classes = new HashSet<String>();
-        Object fac;
+        Providfr[] providfrs = Sfdurity.gftProvidfrs();
+        HbsiSft<String> dlbssfs = nfw HbsiSft<String>();
+        Objfdt fbd;
 
-        for (int i = 0; i < providers.length; i++) {
-            classes.clear();
+        for (int i = 0; i < providfrs.lfngti; i++) {
+            dlbssfs.dlfbr();
 
-            // Check the keys for each provider.
-            for (Enumeration<Object> e = providers[i].keys(); e.hasMoreElements(); ) {
-                String currentKey = (String)e.nextElement();
-                if (currentKey.startsWith(serviceName)) {
-                    // We should skip the currentKey if it contains a
-                    // whitespace. The reason is: such an entry in the
-                    // provider property contains attributes for the
-                    // implementation of an algorithm. We are only interested
-                    // in entries which lead to the implementation
-                    // classes.
-                    if (currentKey.indexOf(' ') < 0) {
-                        String className = providers[i].getProperty(currentKey);
-                        if (!classes.contains(className)) {
-                            classes.add(className);
+            // Cifdk tif kfys for fbdi providfr.
+            for (Enumfrbtion<Objfdt> f = providfrs[i].kfys(); f.ibsMorfElfmfnts(); ) {
+                String durrfntKfy = (String)f.nfxtElfmfnt();
+                if (durrfntKfy.stbrtsWiti(sfrvidfNbmf)) {
+                    // Wf siould skip tif durrfntKfy if it dontbins b
+                    // wiitfspbdf. Tif rfbson is: sudi bn fntry in tif
+                    // providfr propfrty dontbins bttributfs for tif
+                    // implfmfntbtion of bn blgoritim. Wf brf only intfrfstfd
+                    // in fntrifs wiidi lfbd to tif implfmfntbtion
+                    // dlbssfs.
+                    if (durrfntKfy.indfxOf(' ') < 0) {
+                        String dlbssNbmf = providfrs[i].gftPropfrty(durrfntKfy);
+                        if (!dlbssfs.dontbins(dlbssNbmf)) {
+                            dlbssfs.bdd(dlbssNbmf);
                             try {
-                                fac = loadFactory(providers[i], className);
-                                if (fac != null) {
-                                    result.add(fac);
+                                fbd = lobdFbdtory(providfrs[i], dlbssNbmf);
+                                if (fbd != null) {
+                                    rfsult.bdd(fbd);
                                 }
-                            }catch (Exception ignore) {
+                            }dbtdi (Exdfption ignorf) {
                             }
                         }
                     }
                 }
             }
         }
-        return Collections.unmodifiableSet(result);
+        rfturn Collfdtions.unmodifibblfSft(rfsult);
     }
 }

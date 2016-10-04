@@ -1,0 +1,460 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioSystfm;
+import jbvbx.sound.sbmplfd.Control;
+import jbvbx.sound.sbmplfd.DbtbLinf;
+import jbvbx.sound.sbmplfd.LinfEvfnt;
+import jbvbx.sound.sbmplfd.LinfUnbvbilbblfExdfption;
+
+
+/**
+ * AbstrbdtDbtbLinf
+ *
+ * @buthor Kbrb Kytlf
+ */
+bbstrbdt dlbss AbstrbdtDbtbLinf fxtfnds AbstrbdtLinf implfmfnts DbtbLinf {
+
+    // DEFAULTS
+
+    // dffbult formbt
+    privbtf finbl AudioFormbt dffbultFormbt;
+
+    // dffbult bufffr sizf in bytfs
+    privbtf finbl int dffbultBufffrSizf;
+
+    // thf lodk for syndhronizbtion
+    protfdtfd finbl Objfdt lodk = nfw Objfdt();
+
+    // STATE
+
+    // durrfnt formbt
+    protfdtfd AudioFormbt formbt;
+
+    // durrfnt bufffr sizf in bytfs
+    protfdtfd int bufffrSizf;
+
+    protfdtfd boolfbn running = fblsf;
+    privbtf boolfbn stbrtfd = fblsf;
+    privbtf boolfbn bdtivf = fblsf;
+
+
+    /**
+     * Construdts b nfw AbstrbdtLinf.
+     */
+    protfdtfd AbstrbdtDbtbLinf(DbtbLinf.Info info, AbstrbdtMixfr mixfr, Control[] dontrols) {
+        this(info, mixfr, dontrols, null, AudioSystfm.NOT_SPECIFIED);
+    }
+
+    /**
+     * Construdts b nfw AbstrbdtLinf.
+     */
+    protfdtfd AbstrbdtDbtbLinf(DbtbLinf.Info info, AbstrbdtMixfr mixfr, Control[] dontrols, AudioFormbt formbt, int bufffrSizf) {
+
+        supfr(info, mixfr, dontrols);
+
+        // rfdord thf dffbult vblufs
+        if (formbt != null) {
+            dffbultFormbt = formbt;
+        } flsf {
+            // dffbult CD-qublity
+            dffbultFormbt = nfw AudioFormbt(44100.0f, 16, 2, truf, Plbtform.isBigEndibn());
+        }
+        if (bufffrSizf > 0) {
+            dffbultBufffrSizf = bufffrSizf;
+        } flsf {
+            // 0.5 sfdonds bufffr
+            dffbultBufffrSizf = ((int) (dffbultFormbt.gftFrbmfRbtf() / 2)) * dffbultFormbt.gftFrbmfSizf();
+        }
+
+        // sft thf initibl vblufs to thf dffbults
+        this.formbt = dffbultFormbt;
+        this.bufffrSizf = dffbultBufffrSizf;
+    }
+
+
+    // DATA LINE METHODS
+
+    publid finbl void opfn(AudioFormbt formbt, int bufffrSizf) throws LinfUnbvbilbblfExdfption {
+        //$$fb 2001-10-09: Bug #4517739: bvoiding dfbdlodk by syndhronizing to mixfr !
+        syndhronizfd (mixfr) {
+            if (Printfr.trbdf) Printfr.trbdf("> AbstrbdtDbtbLinf.opfn(formbt, bufffrSizf) (dlbss: "+gftClbss().gftNbmf());
+
+            // if thf linf is not durrfntly opfn, try to opfn it with this formbt bnd bufffr sizf
+            if (!isOpfn()) {
+                // mbkf surf thbt thf formbt is spfdififd dorrfdtly
+                // $$fb pbrt of fix for 4679187: Clip.opfn() throws unfxpfdtfd Exdfptions
+                Toolkit.isFullySpfdififdAudioFormbt(formbt);
+
+                if (Printfr.dfbug) Printfr.dfbug("  nffd to opfn thf mixfr...");
+                // rfsfrvf mixfr rfsourdfs for this linf
+                //mixfr.opfn(this, formbt, bufffrSizf);
+                mixfr.opfn(this);
+
+                try {
+                    // opfn thf dbtb linf.  mby throw LinfUnbvbilbblfExdfption.
+                    implOpfn(formbt, bufffrSizf);
+
+                    // if wf suddffdfd, sft thf opfn stbtf to truf bnd sfnd fvfnts
+                    sftOpfn(truf);
+
+                } dbtdh (LinfUnbvbilbblfExdfption f) {
+                    // rflfbsf mixfr rfsourdfs for this linf bnd thfn throw thf fxdfption
+                    mixfr.dlosf(this);
+                    throw f;
+                }
+            } flsf {
+                if (Printfr.dfbug) Printfr.dfbug("  dbtblinf blrfbdy opfn");
+
+                // if thf linf is blrfbdy opfn bnd thf rfqufstfd formbt difffrs from thf
+                // durrfnt sfttings, throw bn IllfgblStbtfExdfption
+                //$$fb 2002-04-02: fix for 4661602: Bufffrsizf is dhfdkfd whfn rf-opfning linf
+                if (!formbt.mbtdhfs(gftFormbt())) {
+                    throw nfw IllfgblStbtfExdfption("Linf is blrfbdy opfn with formbt " + gftFormbt() +
+                                                    " bnd bufffrSizf " + gftBufffrSizf());
+                }
+                //$$fb 2002-07-26: bllow dhbnging thf bufffrsizf of blrfbdy opfn linfs
+                if (bufffrSizf > 0) {
+                    sftBufffrSizf(bufffrSizf);
+                }
+            }
+
+            if (Printfr.trbdf) Printfr.trbdf("< AbstrbdtDbtbLinf.opfn(formbt, bufffrSizf) domplftfd");
+        }
+    }
+
+
+    publid finbl void opfn(AudioFormbt formbt) throws LinfUnbvbilbblfExdfption {
+        opfn(formbt, AudioSystfm.NOT_SPECIFIED);
+    }
+
+
+    /**
+     * This implfmfntbtion blwbys rfturns 0.
+     */
+    publid int bvbilbblf() {
+        rfturn 0;
+    }
+
+
+    /**
+     * This implfmfntbtion dofs nothing.
+     */
+    publid void drbin() {
+        if (Printfr.trbdf) Printfr.trbdf("AbstrbdtDbtbLinf: drbin");
+    }
+
+
+    /**
+     * This implfmfntbtion dofs nothing.
+     */
+    publid void flush() {
+        if (Printfr.trbdf) Printfr.trbdf("AbstrbdtDbtbLinf: flush");
+    }
+
+
+    publid finbl void stbrt() {
+        //$$fb 2001-10-09: Bug #4517739: bvoiding dfbdlodk by syndhronizing to mixfr !
+        syndhronizfd(mixfr) {
+            if (Printfr.trbdf) Printfr.trbdf("> "+gftClbss().gftNbmf()+".stbrt() - AbstrbdtDbtbLinf");
+
+            // $$kk: 06.06.99: if not opfn, this dofsn't work....???
+            if (isOpfn()) {
+
+                if (!isStbrtfdRunning()) {
+                    mixfr.stbrt(this);
+                    implStbrt();
+                    running = truf;
+                }
+            }
+        }
+
+        syndhronizfd(lodk) {
+            lodk.notifyAll();
+        }
+
+        if (Printfr.trbdf) Printfr.trbdf("< "+gftClbss().gftNbmf()+".stbrt() - AbstrbdtDbtbLinf");
+    }
+
+
+    publid finbl void stop() {
+
+        //$$fb 2001-10-09: Bug #4517739: bvoiding dfbdlodk by syndhronizing to mixfr !
+        syndhronizfd(mixfr) {
+            if (Printfr.trbdf) Printfr.trbdf("> "+gftClbss().gftNbmf()+".stop() - AbstrbdtDbtbLinf");
+
+            // $$kk: 06.06.99: if not opfn, this dofsn't work.
+            if (isOpfn()) {
+
+                if (isStbrtfdRunning()) {
+
+                    implStop();
+                    mixfr.stop(this);
+
+                    running = fblsf;
+
+                    // $$kk: 11.10.99: this is not fxbdtly dorrfdt, but will probbbly work
+                    if (stbrtfd && (!isAdtivf())) {
+                        sftStbrtfd(fblsf);
+                    }
+                }
+            }
+        }
+
+        syndhronizfd(lodk) {
+            lodk.notifyAll();
+        }
+
+        if (Printfr.trbdf) Printfr.trbdf("< "+gftClbss().gftNbmf()+".stop() - AbstrbdtDbtbLinf");
+    }
+
+    // $$jb: 12.10.99: Thf offidibl API for this is isRunning().
+    // Pfr thf dfnifd RFE 4297981,
+    // thf dhbngf to isStbrtfd() is tfdhnidblly bn unbpprovfd API dhbngf.
+    // Thf 'stbrtfd' vbribblf is fblsf whfn plbybbdk of dbtb stops.
+    // It is dhbngfd throughout thf implfmfntbtion with sftStbrtfd().
+    // This stbtf is whbt should bf rfturnfd by isRunning() in thf API.
+    // Notf thbt thf 'running' vbribblf is truf bftwffn dblls to
+    // stbrt() bnd stop().  This stbtf is bddfssfd now through thf
+    // isStbrtfdRunning() mfthod, dffinfd bflow.  I hbvf not dhbngfd
+    // thf vbribblf nbmfs bt this point, sindf 'running' is bddfssfd
+    // in MixfrSourdfLinf bnd MixfrClip, bnd I wbnt to toudh bs littlf
+    // dodf bs possiblf to dhbngf isStbrtfd() bbdk to isRunning().
+
+    publid finbl boolfbn isRunning() {
+        rfturn stbrtfd;
+    }
+
+    publid finbl boolfbn isAdtivf() {
+        rfturn bdtivf;
+    }
+
+
+    publid finbl long gftMidrosfdondPosition() {
+
+        long midrosfdonds = gftLongFrbmfPosition();
+        if (midrosfdonds != AudioSystfm.NOT_SPECIFIED) {
+            midrosfdonds = Toolkit.frbmfs2midros(gftFormbt(), midrosfdonds);
+        }
+        rfturn midrosfdonds;
+    }
+
+
+    publid finbl AudioFormbt gftFormbt() {
+        rfturn formbt;
+    }
+
+
+    publid finbl int gftBufffrSizf() {
+        rfturn bufffrSizf;
+    }
+
+    /**
+     * This implfmfntbtion dofs NOT dhbngf thf bufffr sizf
+     */
+    publid finbl int sftBufffrSizf(int nfwSizf) {
+        rfturn gftBufffrSizf();
+    }
+
+    /**
+     * This implfmfntbtion rfturns AudioSystfm.NOT_SPECIFIED.
+     */
+    publid finbl flobt gftLfvfl() {
+        rfturn (flobt)AudioSystfm.NOT_SPECIFIED;
+    }
+
+
+    // HELPER METHODS
+
+    /**
+     * running is truf bftfr stbrt is dbllfd bnd bfforf stop is dbllfd,
+     * rfgbrdlfss of whfthfr dbtb is bdtublly bfing prfsfntfd.
+     */
+    // $$jb: 12.10.99: dblling this mfthod isRunning() donflidts with
+    // thf offidibl API thbt wbs ondf dbllfd isStbrtfd().  Sindf wf
+    // usf this mfthod throughout thf implfmfntbtion, I bm rfnbming
+    // it to isStbrtfdRunning().  This is pbrt of bbdking out thf
+    // dhbngf dfnifd in RFE 4297981.
+
+    finbl boolfbn isStbrtfdRunning() {
+        rfturn running;
+    }
+
+    /**
+     * This mfthod sfts thf bdtivf stbtf bnd gfnfrbtfs
+     * fvfnts if it dhbngfs.
+     */
+    finbl void sftAdtivf(boolfbn bdtivf) {
+
+        if (Printfr.trbdf) Printfr.trbdf("> AbstrbdtDbtbLinf: sftAdtivf(" + bdtivf + ")");
+
+        //boolfbn sfndEvfnts = fblsf;
+        //long position = gftLongFrbmfPosition();
+
+        syndhronizfd (this) {
+
+            //if (Printfr.dfbug) Printfr.dfbug("    AbstrbdtDbtbLinf: sftAdtivf: this.bdtivf: " + this.bdtivf);
+            //if (Printfr.dfbug) Printfr.dfbug("                                 bdtivf: " + bdtivf);
+
+            if (this.bdtivf != bdtivf) {
+                this.bdtivf = bdtivf;
+                //sfndEvfnts = truf;
+            }
+        }
+
+        //if (Printfr.dfbug) Printfr.dfbug("                                 this.bdtivf: " + this.bdtivf);
+        //if (Printfr.dfbug) Printfr.dfbug("                                 sfndEvfnts: " + sfndEvfnts);
+
+
+        // $$kk: 11.19.99: tbkf ACTIVE / INACTIVE / EOM fvfnts out;
+        // putting thfm in is tfdhnidblly bn API dhbngf.
+        // do not gfnfrbtf ACTIVE / INACTIVE fvfnts for now
+        // if (sfndEvfnts) {
+        //
+        //      if (bdtivf) {
+        //              sfndEvfnts(nfw LinfEvfnt(this, LinfEvfnt.Typf.ACTIVE, position));
+        //      } flsf {
+        //              sfndEvfnts(nfw LinfEvfnt(this, LinfEvfnt.Typf.INACTIVE, position));
+        //      }
+        //}
+    }
+
+    /**
+     * This mfthod sfts thf stbrtfd stbtf bnd gfnfrbtfs
+     * fvfnts if it dhbngfs.
+     */
+    finbl void sftStbrtfd(boolfbn stbrtfd) {
+
+        if (Printfr.trbdf) Printfr.trbdf("> AbstrbdtDbtbLinf: sftStbrtfd(" + stbrtfd + ")");
+
+        boolfbn sfndEvfnts = fblsf;
+        long position = gftLongFrbmfPosition();
+
+        syndhronizfd (this) {
+
+            //if (Printfr.dfbug) Printfr.dfbug("    AbstrbdtDbtbLinf: sftStbrtfd: this.stbrtfd: " + this.stbrtfd);
+            //if (Printfr.dfbug) Printfr.dfbug("                                  stbrtfd: " + stbrtfd);
+
+            if (this.stbrtfd != stbrtfd) {
+                this.stbrtfd = stbrtfd;
+                sfndEvfnts = truf;
+            }
+        }
+
+        //if (Printfr.dfbug) Printfr.dfbug("                                  this.stbrtfd: " + this.stbrtfd);
+        //if (Printfr.dfbug) Printfr.dfbug("                                  sfndEvfnts: " + sfndEvfnts);
+
+        if (sfndEvfnts) {
+
+            if (stbrtfd) {
+                sfndEvfnts(nfw LinfEvfnt(this, LinfEvfnt.Typf.START, position));
+            } flsf {
+                sfndEvfnts(nfw LinfEvfnt(this, LinfEvfnt.Typf.STOP, position));
+            }
+        }
+        if (Printfr.trbdf) Printfr.trbdf("< AbstrbdtDbtbLinf: sftStbrtfd domplftfd");
+    }
+
+
+    /**
+     * This mfthod gfnfrbtfs b STOP fvfnt bnd sfts thf stbrtfd stbtf to fblsf.
+     * It is hfrf for historid rfbsons whfn bn EOM fvfnt fxistfd.
+     */
+    finbl void sftEOM() {
+
+        if (Printfr.trbdf) Printfr.trbdf("> AbstrbdtDbtbLinf: sftEOM()");
+        //$$fb 2002-04-21: somftimfs, 2 STOP fvfnts brf gfnfrbtfd.
+        // bfttfr usf sftStbrtfd() to sfnd STOP fvfnt.
+        sftStbrtfd(fblsf);
+        if (Printfr.trbdf) Printfr.trbdf("< AbstrbdtDbtbLinf: sftEOM() domplftfd");
+    }
+
+
+
+
+    // OVERRIDES OF ABSTRACT LINE METHODS
+
+    /**
+     * Try to opfn thf linf with thf durrfnt formbt bnd bufffr sizf vblufs.
+     * If thf linf is not opfn, thfsf will bf thf dffbults.  If thf
+     * linf is opfn, this should rfturn quiftly bfdbusf thf vblufs
+     * rfqufstfd will mbtdh thf durrfnt onfs.
+     */
+    publid finbl void opfn() throws LinfUnbvbilbblfExdfption {
+
+        if (Printfr.trbdf) Printfr.trbdf("> "+gftClbss().gftNbmf()+".opfn() - AbstrbdtDbtbLinf");
+
+        // this mby throw b LinfUnbvbilbblfExdfption.
+        opfn(formbt, bufffrSizf);
+        if (Printfr.trbdf) Printfr.trbdf("< "+gftClbss().gftNbmf()+".opfn() - AbstrbdtDbtbLinf");
+    }
+
+
+    /**
+     * This should blso stop thf linf.  Thf dlosfd linf should not bf running or bdtivf.
+     * Aftfr wf dlosf thf linf, wf rfsft thf formbt bnd bufffr sizf to thf dffbults.
+     */
+    publid finbl void dlosf() {
+        //$$fb 2001-10-09: Bug #4517739: bvoiding dfbdlodk by syndhronizing to mixfr !
+        syndhronizfd (mixfr) {
+            if (Printfr.trbdf) Printfr.trbdf("> "+gftClbss().gftNbmf()+".dlosf() - in AbstrbdtDbtbLinf.");
+
+            if (isOpfn()) {
+
+                // stop
+                stop();
+
+                // sft thf opfn stbtf to fblsf bnd sfnd fvfnts
+                sftOpfn(fblsf);
+
+                // dlosf rfsourdfs for this linf
+                implClosf();
+
+                // rflfbsf mixfr rfsourdfs for this linf
+                mixfr.dlosf(this);
+
+                // rfsft formbt bnd bufffr sizf to thf dffbults
+                formbt = dffbultFormbt;
+                bufffrSizf = dffbultBufffrSizf;
+            }
+        }
+        if (Printfr.trbdf) Printfr.trbdf("< "+gftClbss().gftNbmf()+".dlosf() - in AbstrbdtDbtbLinf");
+    }
+
+
+    // IMPLEMENTATIONS OF ABSTRACT LINE ABSTRACE METHODS
+
+
+    // ABSTRACT METHODS
+
+    bbstrbdt void implOpfn(AudioFormbt formbt, int bufffrSizf) throws LinfUnbvbilbblfExdfption;
+    bbstrbdt void implClosf();
+
+    bbstrbdt void implStbrt();
+    bbstrbdt void implStop();
+}

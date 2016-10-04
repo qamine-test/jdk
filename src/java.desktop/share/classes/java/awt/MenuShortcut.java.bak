@@ -1,208 +1,208 @@
 /*
- * Copyright (c) 1996, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.event.KeyEvent;
+import jbvb.bwt.fvfnt.KfyEvfnt;
 
 /**
- * The <code>MenuShortcut</code>class represents a keyboard accelerator
- * for a MenuItem.
+ * Tif <dodf>MfnuSiortdut</dodf>dlbss rfprfsfnts b kfybobrd bddflfrbtor
+ * for b MfnuItfm.
  * <p>
- * Menu shortcuts are created using virtual keycodes, not characters.
- * For example, a menu shortcut for Ctrl-a (assuming that Control is
- * the accelerator key) would be created with code like the following:
+ * Mfnu siortduts brf drfbtfd using virtubl kfydodfs, not dibrbdtfrs.
+ * For fxbmplf, b mfnu siortdut for Ctrl-b (bssuming tibt Control is
+ * tif bddflfrbtor kfy) would bf drfbtfd witi dodf likf tif following:
  * <p>
- * <code>MenuShortcut ms = new MenuShortcut(KeyEvent.VK_A, false);</code>
- * <p> or alternatively
+ * <dodf>MfnuSiortdut ms = nfw MfnuSiortdut(KfyEvfnt.VK_A, fblsf);</dodf>
+ * <p> or bltfrnbtivfly
  * <p>
- * <code>MenuShortcut ms = new MenuShortcut(KeyEvent.getExtendedKeyCodeForChar('A'), false);</code>
+ * <dodf>MfnuSiortdut ms = nfw MfnuSiortdut(KfyEvfnt.gftExtfndfdKfyCodfForCibr('A'), fblsf);</dodf>
  * <p>
- * Menu shortcuts may also be constructed for a wider set of keycodes
- * using the <code>java.awt.event.KeyEvent.getExtendedKeyCodeForChar</code> call.
- * For example, a menu shortcut for "Ctrl+cyrillic ef" is created by
+ * Mfnu siortduts mby blso bf donstrudtfd for b widfr sft of kfydodfs
+ * using tif <dodf>jbvb.bwt.fvfnt.KfyEvfnt.gftExtfndfdKfyCodfForCibr</dodf> dbll.
+ * For fxbmplf, b mfnu siortdut for "Ctrl+dyrillid ff" is drfbtfd by
  * <p>
- * <code>MenuShortcut ms = new MenuShortcut(KeyEvent.getExtendedKeyCodeForChar('\u0444'), false);</code>
+ * <dodf>MfnuSiortdut ms = nfw MfnuSiortdut(KfyEvfnt.gftExtfndfdKfyCodfForCibr('\u0444'), fblsf);</dodf>
  * <p>
- * Note that shortcuts created with a keycode or an extended keycode defined as a constant in <code>KeyEvent</code>
- * work regardless of the current keyboard layout. However, a shortcut made of
- * an extended keycode not listed in <code>KeyEvent</code>
- * only work if the current keyboard layout produces a corresponding letter.
+ * Notf tibt siortduts drfbtfd witi b kfydodf or bn fxtfndfd kfydodf dffinfd bs b donstbnt in <dodf>KfyEvfnt</dodf>
+ * work rfgbrdlfss of tif durrfnt kfybobrd lbyout. Howfvfr, b siortdut mbdf of
+ * bn fxtfndfd kfydodf not listfd in <dodf>KfyEvfnt</dodf>
+ * only work if tif durrfnt kfybobrd lbyout produdfs b dorrfsponding lfttfr.
  * <p>
- * The accelerator key is platform-dependent and may be obtained
- * via {@link Toolkit#getMenuShortcutKeyMask}.
+ * Tif bddflfrbtor kfy is plbtform-dfpfndfnt bnd mby bf obtbinfd
+ * vib {@link Toolkit#gftMfnuSiortdutKfyMbsk}.
  *
- * @author Thomas Ball
- * @since 1.1
+ * @butior Tiombs Bbll
+ * @sindf 1.1
  */
-public class MenuShortcut implements java.io.Serializable
+publid dlbss MfnuSiortdut implfmfnts jbvb.io.Sfriblizbblf
 {
     /**
-     * The virtual keycode for the menu shortcut.
-     * This is the keycode with which the menu shortcut will be created.
-     * Note that it is a virtual keycode, not a character,
-     * e.g. KeyEvent.VK_A, not 'a'.
-     * Note: in 1.1.x you must use setActionCommand() on a menu item
-     * in order for its shortcut to work, otherwise it will fire a null
-     * action command.
+     * Tif virtubl kfydodf for tif mfnu siortdut.
+     * Tiis is tif kfydodf witi wiidi tif mfnu siortdut will bf drfbtfd.
+     * Notf tibt it is b virtubl kfydodf, not b dibrbdtfr,
+     * f.g. KfyEvfnt.VK_A, not 'b'.
+     * Notf: in 1.1.x you must usf sftAdtionCommbnd() on b mfnu itfm
+     * in ordfr for its siortdut to work, otifrwisf it will firf b null
+     * bdtion dommbnd.
      *
-     * @serial
-     * @see #getKey()
-     * @see #usesShiftModifier()
-     * @see java.awt.event.KeyEvent
-     * @since 1.1
+     * @sfribl
+     * @sff #gftKfy()
+     * @sff #usfsSiiftModififr()
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
+     * @sindf 1.1
      */
-    int key;
+    int kfy;
 
     /**
-     * Indicates whether the shft key was pressed.
-     * If true, the shift key was pressed.
-     * If false, the shift key was not pressed
+     * Indidbtfs wiftifr tif sift kfy wbs prfssfd.
+     * If truf, tif siift kfy wbs prfssfd.
+     * If fblsf, tif siift kfy wbs not prfssfd
      *
-     * @serial
-     * @see #usesShiftModifier()
-     * @since 1.1
+     * @sfribl
+     * @sff #usfsSiiftModififr()
+     * @sindf 1.1
      */
-    boolean usesShift;
+    boolfbn usfsSiift;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-     private static final long serialVersionUID = 143448358473180225L;
+     privbtf stbtid finbl long sfriblVfrsionUID = 143448358473180225L;
 
     /**
-     * Constructs a new MenuShortcut for the specified virtual keycode.
-     * @param key the raw keycode for this MenuShortcut, as would be returned
-     * in the keyCode field of a {@link java.awt.event.KeyEvent KeyEvent} if
-     * this key were pressed.
-     * @see java.awt.event.KeyEvent
+     * Construdts b nfw MfnuSiortdut for tif spfdififd virtubl kfydodf.
+     * @pbrbm kfy tif rbw kfydodf for tiis MfnuSiortdut, bs would bf rfturnfd
+     * in tif kfyCodf fifld of b {@link jbvb.bwt.fvfnt.KfyEvfnt KfyEvfnt} if
+     * tiis kfy wfrf prfssfd.
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
      **/
-    public MenuShortcut(int key) {
-        this(key, false);
+    publid MfnuSiortdut(int kfy) {
+        tiis(kfy, fblsf);
     }
 
     /**
-     * Constructs a new MenuShortcut for the specified virtual keycode.
-     * @param key the raw keycode for this MenuShortcut, as would be returned
-     * in the keyCode field of a {@link java.awt.event.KeyEvent KeyEvent} if
-     * this key were pressed.
-     * @param useShiftModifier indicates whether this MenuShortcut is invoked
-     * with the SHIFT key down.
-     * @see java.awt.event.KeyEvent
+     * Construdts b nfw MfnuSiortdut for tif spfdififd virtubl kfydodf.
+     * @pbrbm kfy tif rbw kfydodf for tiis MfnuSiortdut, bs would bf rfturnfd
+     * in tif kfyCodf fifld of b {@link jbvb.bwt.fvfnt.KfyEvfnt KfyEvfnt} if
+     * tiis kfy wfrf prfssfd.
+     * @pbrbm usfSiiftModififr indidbtfs wiftifr tiis MfnuSiortdut is invokfd
+     * witi tif SHIFT kfy down.
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
      **/
-    public MenuShortcut(int key, boolean useShiftModifier) {
-        this.key = key;
-        this.usesShift = useShiftModifier;
+    publid MfnuSiortdut(int kfy, boolfbn usfSiiftModififr) {
+        tiis.kfy = kfy;
+        tiis.usfsSiift = usfSiiftModififr;
     }
 
     /**
-     * Returns the raw keycode of this MenuShortcut.
-     * @return the raw keycode of this MenuShortcut.
-     * @see java.awt.event.KeyEvent
-     * @since 1.1
+     * Rfturns tif rbw kfydodf of tiis MfnuSiortdut.
+     * @rfturn tif rbw kfydodf of tiis MfnuSiortdut.
+     * @sff jbvb.bwt.fvfnt.KfyEvfnt
+     * @sindf 1.1
      */
-    public int getKey() {
-        return key;
+    publid int gftKfy() {
+        rfturn kfy;
     }
 
     /**
-     * Returns whether this MenuShortcut must be invoked using the SHIFT key.
-     * @return <code>true</code> if this MenuShortcut must be invoked using the
-     * SHIFT key, <code>false</code> otherwise.
-     * @since 1.1
+     * Rfturns wiftifr tiis MfnuSiortdut must bf invokfd using tif SHIFT kfy.
+     * @rfturn <dodf>truf</dodf> if tiis MfnuSiortdut must bf invokfd using tif
+     * SHIFT kfy, <dodf>fblsf</dodf> otifrwisf.
+     * @sindf 1.1
      */
-    public boolean usesShiftModifier() {
-        return usesShift;
+    publid boolfbn usfsSiiftModififr() {
+        rfturn usfsSiift;
     }
 
     /**
-     * Returns whether this MenuShortcut is the same as another:
-     * equality is defined to mean that both MenuShortcuts use the same key
-     * and both either use or don't use the SHIFT key.
-     * @param s the MenuShortcut to compare with this.
-     * @return <code>true</code> if this MenuShortcut is the same as another,
-     * <code>false</code> otherwise.
-     * @since 1.1
+     * Rfturns wiftifr tiis MfnuSiortdut is tif sbmf bs bnotifr:
+     * fqublity is dffinfd to mfbn tibt boti MfnuSiortduts usf tif sbmf kfy
+     * bnd boti fitifr usf or don't usf tif SHIFT kfy.
+     * @pbrbm s tif MfnuSiortdut to dompbrf witi tiis.
+     * @rfturn <dodf>truf</dodf> if tiis MfnuSiortdut is tif sbmf bs bnotifr,
+     * <dodf>fblsf</dodf> otifrwisf.
+     * @sindf 1.1
      */
-    public boolean equals(MenuShortcut s) {
-        return (s != null && (s.getKey() == key) &&
-                (s.usesShiftModifier() == usesShift));
+    publid boolfbn fqubls(MfnuSiortdut s) {
+        rfturn (s != null && (s.gftKfy() == kfy) &&
+                (s.usfsSiiftModififr() == usfsSiift));
     }
 
     /**
-     * Returns whether this MenuShortcut is the same as another:
-     * equality is defined to mean that both MenuShortcuts use the same key
-     * and both either use or don't use the SHIFT key.
-     * @param obj the Object to compare with this.
-     * @return <code>true</code> if this MenuShortcut is the same as another,
-     * <code>false</code> otherwise.
-     * @since 1.2
+     * Rfturns wiftifr tiis MfnuSiortdut is tif sbmf bs bnotifr:
+     * fqublity is dffinfd to mfbn tibt boti MfnuSiortduts usf tif sbmf kfy
+     * bnd boti fitifr usf or don't usf tif SHIFT kfy.
+     * @pbrbm obj tif Objfdt to dompbrf witi tiis.
+     * @rfturn <dodf>truf</dodf> if tiis MfnuSiortdut is tif sbmf bs bnotifr,
+     * <dodf>fblsf</dodf> otifrwisf.
+     * @sindf 1.2
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof MenuShortcut) {
-            return equals( (MenuShortcut) obj );
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof MfnuSiortdut) {
+            rfturn fqubls( (MfnuSiortdut) obj );
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns the hashcode for this MenuShortcut.
-     * @return the hashcode for this MenuShortcut.
-     * @since 1.2
+     * Rfturns tif ibsidodf for tiis MfnuSiortdut.
+     * @rfturn tif ibsidodf for tiis MfnuSiortdut.
+     * @sindf 1.2
      */
-    public int hashCode() {
-        return (usesShift) ? (~key) : key;
+    publid int ibsiCodf() {
+        rfturn (usfsSiift) ? (~kfy) : kfy;
     }
 
     /**
-     * Returns an internationalized description of the MenuShortcut.
-     * @return a string representation of this MenuShortcut.
-     * @since 1.1
+     * Rfturns bn intfrnbtionblizfd dfsdription of tif MfnuSiortdut.
+     * @rfturn b string rfprfsfntbtion of tiis MfnuSiortdut.
+     * @sindf 1.1
      */
-    public String toString() {
-        int modifiers = 0;
-        if (!GraphicsEnvironment.isHeadless()) {
-            modifiers = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
+    publid String toString() {
+        int modififrs = 0;
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            modififrs = Toolkit.gftDffbultToolkit().gftMfnuSiortdutKfyMbsk();
         }
-        if (usesShiftModifier()) {
-            modifiers |= Event.SHIFT_MASK;
+        if (usfsSiiftModififr()) {
+            modififrs |= Evfnt.SHIFT_MASK;
         }
-        return KeyEvent.getKeyModifiersText(modifiers) + "+" +
-               KeyEvent.getKeyText(key);
+        rfturn KfyEvfnt.gftKfyModififrsTfxt(modififrs) + "+" +
+               KfyEvfnt.gftKfyTfxt(kfy);
     }
 
     /**
-     * Returns the parameter string representing the state of this
-     * MenuShortcut. This string is useful for debugging.
-     * @return    the parameter string of this MenuShortcut.
-     * @since 1.1
+     * Rfturns tif pbrbmftfr string rfprfsfnting tif stbtf of tiis
+     * MfnuSiortdut. Tiis string is usfful for dfbugging.
+     * @rfturn    tif pbrbmftfr string of tiis MfnuSiortdut.
+     * @sindf 1.1
      */
-    protected String paramString() {
-        String str = "key=" + key;
-        if (usesShiftModifier()) {
-            str += ",usesShiftModifier";
+    protfdtfd String pbrbmString() {
+        String str = "kfy=" + kfy;
+        if (usfsSiiftModififr()) {
+            str += ",usfsSiiftModififr";
         }
-        return str;
+        rfturn str;
     }
 }

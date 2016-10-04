@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d;
+pbdkbgf sun.jbvb2d;
 
-import sun.awt.image.SunVolatileImage;
-import sun.awt.image.VolatileSurfaceManager;
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+import sun.bwt.imbgf.VolbtilfSurfbdfMbnbgfr;
 
 /**
- * This factory creates platform specific VolatileSurfaceManager
- * implementations.
+ * Tiis fbdtory drfbtfs plbtform spfdifid VolbtilfSurfbdfMbnbgfr
+ * implfmfntbtions.
  *
- * There are two platform specific SurfaceManagerFactories in OpenJDK,
- * UnixSurfaceManagerFactory and WindowsSurfaceManagerFactory.
- * The actually used SurfaceManagerFactory is set by the respective platform
- * GraphicsEnvironment implementations in the static initializer.
+ * Tifrf brf two plbtform spfdifid SurfbdfMbnbgfrFbdtorifs in OpfnJDK,
+ * UnixSurfbdfMbnbgfrFbdtory bnd WindowsSurfbdfMbnbgfrFbdtory.
+ * Tif bdtublly usfd SurfbdfMbnbgfrFbdtory is sft by tif rfspfdtivf plbtform
+ * GrbpiidsEnvironmfnt implfmfntbtions in tif stbtid initiblizfr.
  */
-public abstract class SurfaceManagerFactory {
+publid bbstrbdt dlbss SurfbdfMbnbgfrFbdtory {
 
     /**
-     * The single shared instance.
+     * Tif singlf sibrfd instbndf.
      */
-    private static SurfaceManagerFactory instance;
+    privbtf stbtid SurfbdfMbnbgfrFbdtory instbndf;
 
     /**
-     * Returns the surface manager factory instance. This returns a factory
-     * that has been set by {@link #setInstance(SurfaceManagerFactory)}.
+     * Rfturns tif surfbdf mbnbgfr fbdtory instbndf. Tiis rfturns b fbdtory
+     * tibt ibs bffn sft by {@link #sftInstbndf(SurfbdfMbnbgfrFbdtory)}.
      *
-     * @return the surface manager factory
+     * @rfturn tif surfbdf mbnbgfr fbdtory
      */
-    public synchronized static SurfaceManagerFactory getInstance() {
+    publid syndironizfd stbtid SurfbdfMbnbgfrFbdtory gftInstbndf() {
 
-        if (instance == null) {
-            throw new IllegalStateException("No SurfaceManagerFactory set.");
+        if (instbndf == null) {
+            tirow nfw IllfgblStbtfExdfption("No SurfbdfMbnbgfrFbdtory sft.");
         }
-        return instance;
+        rfturn instbndf;
     }
 
     /**
-     * Sets the surface manager factory. This may only be called once, and it
-     * may not be set back to {@code null} when the factory is already
-     * instantiated.
+     * Sfts tif surfbdf mbnbgfr fbdtory. Tiis mby only bf dbllfd ondf, bnd it
+     * mby not bf sft bbdk to {@dodf null} wifn tif fbdtory is blrfbdy
+     * instbntibtfd.
      *
-     * @param factory the factory to set
+     * @pbrbm fbdtory tif fbdtory to sft
      */
-    public synchronized static void setInstance(SurfaceManagerFactory factory) {
+    publid syndironizfd stbtid void sftInstbndf(SurfbdfMbnbgfrFbdtory fbdtory) {
 
-        if (factory == null) {
-            // We don't want to allow setting this to null at any time.
-            throw new IllegalArgumentException("factory must be non-null");
+        if (fbdtory == null) {
+            // Wf don't wbnt to bllow sftting tiis to null bt bny timf.
+            tirow nfw IllfgblArgumfntExdfption("fbdtory must bf non-null");
         }
 
-        if (instance != null) {
-            // We don't want to re-set the instance at any time.
-            throw new IllegalStateException("The surface manager factory is already initialized");
+        if (instbndf != null) {
+            // Wf don't wbnt to rf-sft tif instbndf bt bny timf.
+            tirow nfw IllfgblStbtfExdfption("Tif surfbdf mbnbgfr fbdtory is blrfbdy initiblizfd");
         }
 
-        instance = factory;
+        instbndf = fbdtory;
     }
 
     /**
-     * Creates a new instance of a VolatileSurfaceManager given any
-     * arbitrary SunVolatileImage.  An optional context Object can be supplied
-     * as a way for the caller to pass pipeline-specific context data to
-     * the VolatileSurfaceManager (such as a backbuffer handle, for example).
+     * Crfbtfs b nfw instbndf of b VolbtilfSurfbdfMbnbgfr givfn bny
+     * brbitrbry SunVolbtilfImbgf.  An optionbl dontfxt Objfdt dbn bf supplifd
+     * bs b wby for tif dbllfr to pbss pipflinf-spfdifid dontfxt dbtb to
+     * tif VolbtilfSurfbdfMbnbgfr (sudi bs b bbdkbufffr ibndlf, for fxbmplf).
      */
-     public abstract VolatileSurfaceManager
-         createVolatileManager(SunVolatileImage image, Object context);
+     publid bbstrbdt VolbtilfSurfbdfMbnbgfr
+         drfbtfVolbtilfMbnbgfr(SunVolbtilfImbgf imbgf, Objfdt dontfxt);
 }

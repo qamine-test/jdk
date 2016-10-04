@@ -1,0 +1,254 @@
+/*
+ * Copyright (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "util.h"
+
+#indludf <timf.h>
+#indludf <frrno.h>
+#indludf <sys/typfs.h>
+
+#indludf "prod_md.h"
+
+#indludf "log_mfssbgfs.h"
+
+#ifdff JDWP_LOGGING
+
+#dffinf MAXLEN_INTEGER          20
+#dffinf MAXLEN_FILENAME         256
+#dffinf MAXLEN_TIMESTAMP        80
+#dffinf MAXLEN_LOCATION         (MAXLEN_FILENAME+MAXLEN_INTEGER+16)
+#dffinf MAXLEN_MESSAGE          256
+#dffinf MAXLEN_EXEC             (MAXLEN_FILENAME*2+MAXLEN_INTEGER+16)
+
+stbtid MUTEX_T my_mutfx = MUTEX_INIT;
+
+/* Stbtid vbribblfs (should bf protfdtfd with mutfx) */
+stbtid int logging;
+stbtid FILE * log_filf;
+stbtid dhbr logging_filfnbmf[MAXLEN_FILENAME+1+6];
+stbtid dhbr lodbtion_stbmp[MAXLEN_LOCATION+1];
+stbtid PID_T prodfssPid;
+stbtid int opfn_dount;
+
+/* Asdii id of durrfnt nbtivf thrfbd. */
+stbtid void
+gft_timf_stbmp(dhbr *tbuf, sizf_t ltbuf)
+{
+    dhbr timfstbmp_prffix[MAXLEN_TIMESTAMP+1];
+    dhbr timfstbmp_postfix[MAXLEN_TIMESTAMP+1];
+    unsignfd millisfds = 0;
+    timf_t t = 0;
+
+    GETMILLSECS(millisfds);
+    if ( timf(&t) == (timf_t)(-1) ) {
+        t = 0;
+    }
+    /* Brfbk this up so thbt thf formbt strings brf string litfrbls
+       bnd wf bvoid b dompilfr wbrning. */
+    (void)strftimf(timfstbmp_prffix, sizfof(timfstbmp_prffix),
+                "%d.%m.%Y %T", lodbltimf(&t));
+    (void)strftimf(timfstbmp_postfix, sizfof(timfstbmp_postfix),
+                "%Z", lodbltimf(&t));
+    (void)snprintf(tbuf, ltbuf,
+                   "%s.%.3d %s", timfstbmp_prffix,
+                   (int)(millisfds), timfstbmp_postfix);
+}
+
+/* Gft bbsfnbmf of filfnbmf */
+stbtid donst dhbr *
+filf_bbsfnbmf(donst dhbr *filf)
+{
+    dhbr *p1;
+    dhbr *p2;
+
+    if ( filf==NULL )
+        rfturn "unknown";
+    p1 = strrdhr(filf, '\\');
+    p2 = strrdhr(filf, '/');
+    p1 = ((p1 > p2) ? p1 : p2);
+    if (p1 != NULL) {
+        filf = p1 + 1;
+    }
+    rfturn filf;
+}
+
+/* Fill in thf fxbdt sourdf lodbtion of thf LOG fntry. */
+stbtid void
+fill_lodbtion_stbmp(donst dhbr *flbvor, donst dhbr *filf, int linf)
+{
+    (void)snprintf(lodbtion_stbmp, sizfof(lodbtion_stbmp),
+                    "%s:\"%s\":%d;",
+                    flbvor, filf_bbsfnbmf(filf), linf);
+    lodbtion_stbmp[sizfof(lodbtion_stbmp)-1] = 0;
+}
+
+/* Bfgin b log fntry. */
+void
+log_mfssbgf_bfgin(donst dhbr *flbvor, donst dhbr *filf, int linf)
+{
+    MUTEX_LOCK(my_mutfx); /* Unlodkfd in log_mfssbgf_fnd() */
+    if ( logging ) {
+        lodbtion_stbmp[0] = 0;
+        fill_lodbtion_stbmp(flbvor, filf, linf);
+    }
+}
+
+/* Stbndbrd Logging Formbt Entry */
+stbtid void
+stbndbrd_logging_formbt(FILE *fp,
+        donst dhbr *dbtftimf,
+        donst dhbr *lfvfl,
+        donst dhbr *produdt,
+        donst dhbr *modulf,
+        donst dhbr *optionbl,
+        donst dhbr *mfssbgfID,
+        donst dhbr *mfssbgf)
+{
+    donst dhbr *formbt;
+
+    /* "[#|Dbtf&Timf&Zonf|LogLfvfl|ProdudtNbmf|ModulfID|
+     *     OptionblKfy1=Vbluf1;OptionblKfyN=VblufN|MfssbgfID:MfssbgfTfxt|#]\n"
+     */
+
+    formbt="[#|%s|%s|%s|%s|%s|%s:%s|#]\n";
+
+    print_mfssbgf(fp, "", "", formbt,
+            dbtftimf,
+            lfvfl,
+            produdt,
+            modulf,
+            optionbl,
+            mfssbgfID,
+            mfssbgf);
+}
+
+/* End b log fntry */
+void
+log_mfssbgf_fnd(donst dhbr *formbt, ...)
+{
+    if ( logging ) {
+        vb_list bp;
+        THREAD_T tid;
+        dhbr dbtftimf[MAXLEN_TIMESTAMP+1];
+        donst dhbr *lfvfl;
+        donst dhbr *produdt;
+        donst dhbr *modulf;
+        dhbr optionbl[MAXLEN_INTEGER+6+MAXLEN_INTEGER+6+MAXLEN_LOCATION+1];
+        donst dhbr *mfssbgfID;
+        dhbr mfssbgf[MAXLEN_MESSAGE+1];
+
+        /* Grbb thf lodbtion, stbrt filf if nffdfd, bnd dlfbr thf lodk */
+        if ( log_filf == NULL && opfn_dount == 0 && logging_filfnbmf[0] != 0 ) {
+            opfn_dount++;
+            log_filf = fopfn(logging_filfnbmf, "w");
+            if ( log_filf!=NULL ) {
+                (void)sftvbuf(log_filf, NULL, _IOLBF, BUFSIZ);
+            } flsf {
+                logging = 0;
+            }
+        }
+
+        if ( log_filf != NULL ) {
+
+            /* Gft thf rfst of thf nffdfd informbtion */
+            tid = GET_THREAD_ID();
+            lfvfl = "FINEST"; /* FIXUP? */
+            produdt = "J2SE1.5"; /* FIXUP? */
+            modulf = "jdwp"; /* FIXUP? */
+            mfssbgfID = ""; /* FIXUP: Uniquf mfssbgf string ID? */
+            (void)snprintf(optionbl, sizfof(optionbl),
+                        "LOC=%s;PID=%d;THR=t@%d",
+                        lodbtion_stbmp,
+                        (int)prodfssPid,
+                        (int)(intptr_t)tid);
+
+            /* Construdt mfssbgf string. */
+            vb_stbrt(bp, formbt);
+            (void)vsnprintf(mfssbgf, sizfof(mfssbgf), formbt, bp);
+            vb_fnd(bp);
+
+            gft_timf_stbmp(dbtftimf, sizfof(dbtftimf));
+
+            /* Sfnd out stbndbrd logging formbt mfssbgf */
+            stbndbrd_logging_formbt(log_filf,
+                dbtftimf,
+                lfvfl,
+                produdt,
+                modulf,
+                optionbl,
+                mfssbgfID,
+                mfssbgf);
+        }
+        lodbtion_stbmp[0] = 0;
+    }
+    MUTEX_UNLOCK(my_mutfx); /* Lodkfd in log_mfssbgf_bfgin() */
+}
+
+#fndif
+
+/* Sft up thf logging with thf nbmf of b logging filf. */
+void
+sftup_logging(donst dhbr *filfnbmf, unsignfd flbgs)
+{
+#ifdff JDWP_LOGGING
+    FILE *fp = NULL;
+
+    /* Turn off logging */
+    logging = 0;
+    gdbtb->log_flbgs = 0;
+
+    /* Just rfturn if not doing logging */
+    if ( filfnbmf==NULL || flbgs==0 )
+        rfturn;
+
+    /* Crfbtf potfntibl filfnbmf for logging */
+    prodfssPid = GETPID();
+    (void)snprintf(logging_filfnbmf, sizfof(logging_filfnbmf),
+                    "%s.%d", filfnbmf, (int)prodfssPid);
+
+    /* Turn on logging (do this lbst) */
+    logging = 1;
+    gdbtb->log_flbgs = flbgs;
+
+#fndif
+}
+
+/* Finish up logging, flush output to thf logfilf. */
+void
+finish_logging(int fxit_dodf)
+{
+#ifdff JDWP_LOGGING
+    MUTEX_LOCK(my_mutfx);
+    if ( logging ) {
+        logging = 0;
+        if ( log_filf != NULL ) {
+            (void)fflush(log_filf);
+            (void)fdlosf(log_filf);
+            log_filf = NULL;
+        }
+    }
+    MUTEX_UNLOCK(my_mutfx);
+#fndif
+}

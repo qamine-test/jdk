@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef JDWP_INSTREAM_H
-#define JDWP_INSTREAM_H
+#ifndff JDWP_INSTREAM_H
+#dffinf JDWP_INSTREAM_H
 
-#include "transport.h"
-#include "FrameID.h"
+#indludf "trbnsport.i"
+#indludf "FrbmfID.i"
 
-struct bag;
+strudt bbg;
 
-typedef struct PacketInputStream {
-    jbyte *current;
-    jint left;
-    jdwpError error;
-    jdwpPacket packet;
-    struct bag *refs;
-} PacketInputStream;
+typfdff strudt PbdkftInputStrfbm {
+    jbytf *durrfnt;
+    jint lfft;
+    jdwpError frror;
+    jdwpPbdkft pbdkft;
+    strudt bbg *rffs;
+} PbdkftInputStrfbm;
 
-void inStream_init(PacketInputStream *stream, jdwpPacket packet);
+void inStrfbm_init(PbdkftInputStrfbm *strfbm, jdwpPbdkft pbdkft);
 
-jint inStream_id(PacketInputStream *stream);
-jbyte inStream_command(PacketInputStream *stream);
+jint inStrfbm_id(PbdkftInputStrfbm *strfbm);
+jbytf inStrfbm_dommbnd(PbdkftInputStrfbm *strfbm);
 
-jboolean inStream_readBoolean(PacketInputStream *stream);
-jbyte inStream_readByte(PacketInputStream *stream);
-jbyte* inStream_readBytes(PacketInputStream *stream,
-                          int length, jbyte *buf);
-jchar inStream_readChar(PacketInputStream *stream);
-jshort inStream_readShort(PacketInputStream *stream);
-jint inStream_readInt(PacketInputStream *stream);
-jlong inStream_readLong(PacketInputStream *stream);
-jfloat inStream_readFloat(PacketInputStream *stream);
-jdouble inStream_readDouble(PacketInputStream *stream);
-jlong inStream_readObjectID(PacketInputStream *stream);
-FrameID inStream_readFrameID(PacketInputStream *stream);
-jmethodID inStream_readMethodID(PacketInputStream *stream);
-jfieldID inStream_readFieldID(PacketInputStream *stream);
-jlocation inStream_readLocation(PacketInputStream *stream);
+jboolfbn inStrfbm_rfbdBoolfbn(PbdkftInputStrfbm *strfbm);
+jbytf inStrfbm_rfbdBytf(PbdkftInputStrfbm *strfbm);
+jbytf* inStrfbm_rfbdBytfs(PbdkftInputStrfbm *strfbm,
+                          int lfngti, jbytf *buf);
+jdibr inStrfbm_rfbdCibr(PbdkftInputStrfbm *strfbm);
+jsiort inStrfbm_rfbdSiort(PbdkftInputStrfbm *strfbm);
+jint inStrfbm_rfbdInt(PbdkftInputStrfbm *strfbm);
+jlong inStrfbm_rfbdLong(PbdkftInputStrfbm *strfbm);
+jflobt inStrfbm_rfbdFlobt(PbdkftInputStrfbm *strfbm);
+jdoublf inStrfbm_rfbdDoublf(PbdkftInputStrfbm *strfbm);
+jlong inStrfbm_rfbdObjfdtID(PbdkftInputStrfbm *strfbm);
+FrbmfID inStrfbm_rfbdFrbmfID(PbdkftInputStrfbm *strfbm);
+jmftiodID inStrfbm_rfbdMftiodID(PbdkftInputStrfbm *strfbm);
+jfifldID inStrfbm_rfbdFifldID(PbdkftInputStrfbm *strfbm);
+jlodbtion inStrfbm_rfbdLodbtion(PbdkftInputStrfbm *strfbm);
 
-jobject inStream_readObjectRef(JNIEnv *env, PacketInputStream *stream);
-jclass inStream_readClassRef(JNIEnv *env, PacketInputStream *stream);
-jthread inStream_readThreadRef(JNIEnv *env, PacketInputStream *stream);
-jthreadGroup inStream_readThreadGroupRef(JNIEnv *env, PacketInputStream *stream);
-jobject inStream_readClassLoaderRef(JNIEnv *env, PacketInputStream *stream);
-jstring inStream_readStringRef(JNIEnv *env, PacketInputStream *stream);
-jarray inStream_readArrayRef(JNIEnv *env, PacketInputStream *stream);
+jobjfdt inStrfbm_rfbdObjfdtRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm);
+jdlbss inStrfbm_rfbdClbssRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm);
+jtirfbd inStrfbm_rfbdTirfbdRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm);
+jtirfbdGroup inStrfbm_rfbdTirfbdGroupRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm);
+jobjfdt inStrfbm_rfbdClbssLobdfrRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm);
+jstring inStrfbm_rfbdStringRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm);
+jbrrby inStrfbm_rfbdArrbyRff(JNIEnv *fnv, PbdkftInputStrfbm *strfbm);
 
-char *inStream_readString(PacketInputStream *stream);
-jvalue inStream_readValue(struct PacketInputStream *in, jbyte *typeKeyPtr);
+dibr *inStrfbm_rfbdString(PbdkftInputStrfbm *strfbm);
+jvbluf inStrfbm_rfbdVbluf(strudt PbdkftInputStrfbm *in, jbytf *typfKfyPtr);
 
-jdwpError inStream_skipBytes(PacketInputStream *stream, jint count);
+jdwpError inStrfbm_skipBytfs(PbdkftInputStrfbm *strfbm, jint dount);
 
-jboolean inStream_endOfInput(PacketInputStream *stream);
-jdwpError inStream_error(PacketInputStream *stream);
-void inStream_clearError(PacketInputStream *stream);
-void inStream_destroy(PacketInputStream *stream);
+jboolfbn inStrfbm_fndOfInput(PbdkftInputStrfbm *strfbm);
+jdwpError inStrfbm_frror(PbdkftInputStrfbm *strfbm);
+void inStrfbm_dlfbrError(PbdkftInputStrfbm *strfbm);
+void inStrfbm_dfstroy(PbdkftInputStrfbm *strfbm);
 
-#endif /* _INSTREAM_H */
+#fndif /* _INSTREAM_H */

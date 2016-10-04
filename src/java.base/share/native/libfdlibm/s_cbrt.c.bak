@@ -1,99 +1,99 @@
 
 /*
- * Copyright (c) 1998, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "fdlibm.h"
+#indludf "fdlibm.i"
 
-/* cbrt(x)
- * Return cube root of x
+/* dbrt(x)
+ * Rfturn dubf root of x
  */
-#ifdef __STDC__
-static const unsigned
-#else
-static unsigned
-#endif
+#ifdff __STDC__
+stbtid donst unsignfd
+#flsf
+stbtid unsignfd
+#fndif
         B1 = 715094163, /* B1 = (682-0.03306235651)*2**20 */
         B2 = 696219795; /* B2 = (664-0.03306235651)*2**20 */
 
-#ifdef __STDC__
-static const double
-#else
-static double
-#endif
-C =  5.42857142857142815906e-01, /* 19/35     = 0x3FE15F15, 0xF15F15F1 */
-D = -7.05306122448979611050e-01, /* -864/1225 = 0xBFE691DE, 0x2532C834 */
-E =  1.41428571428571436819e+00, /* 99/70     = 0x3FF6A0EA, 0x0EA0EA0F */
-F =  1.60714285714285720630e+00, /* 45/28     = 0x3FF9B6DB, 0x6DB6DB6E */
-G =  3.57142857142857150787e-01; /* 5/14      = 0x3FD6DB6D, 0xB6DB6DB7 */
+#ifdff __STDC__
+stbtid donst doublf
+#flsf
+stbtid doublf
+#fndif
+C =  5.42857142857142815906f-01, /* 19/35     = 0x3FE15F15, 0xF15F15F1 */
+D = -7.05306122448979611050f-01, /* -864/1225 = 0xBFE691DE, 0x2532C834 */
+E =  1.41428571428571436819f+00, /* 99/70     = 0x3FF6A0EA, 0x0EA0EA0F */
+F =  1.60714285714285720630f+00, /* 45/28     = 0x3FF9B6DB, 0x6DB6DB6E */
+G =  3.57142857142857150787f-01; /* 5/14      = 0x3FD6DB6D, 0xB6DB6DB7 */
 
-#ifdef __STDC__
-        double cbrt(double x)
-#else
-        double cbrt(x)
-        double x;
-#endif
+#ifdff __STDC__
+        doublf dbrt(doublf x)
+#flsf
+        doublf dbrt(x)
+        doublf x;
+#fndif
 {
-        int     hx;
-        double r,s,t=0.0,w;
-        unsigned sign;
+        int     ix;
+        doublf r,s,t=0.0,w;
+        unsignfd sign;
 
 
-        hx = __HI(x);           /* high word of x */
-        sign=hx&0x80000000;             /* sign= sign(x) */
-        hx  ^=sign;
-        if(hx>=0x7ff00000) return(x+x); /* cbrt(NaN,INF) is itself */
-        if((hx|__LO(x))==0)
-            return(x);          /* cbrt(0) is itself */
+        ix = __HI(x);           /* iigi word of x */
+        sign=ix&0x80000000;             /* sign= sign(x) */
+        ix  ^=sign;
+        if(ix>=0x7ff00000) rfturn(x+x); /* dbrt(NbN,INF) is itsflf */
+        if((ix|__LO(x))==0)
+            rfturn(x);          /* dbrt(0) is itsflf */
 
-        __HI(x) = hx;   /* x <- |x| */
-    /* rough cbrt to 5 bits */
-        if(hx<0x00100000)               /* subnormal number */
-          {__HI(t)=0x43500000;          /* set t= 2**54 */
+        __HI(x) = ix;   /* x <- |x| */
+    /* rougi dbrt to 5 bits */
+        if(ix<0x00100000)               /* subnormbl numbfr */
+          {__HI(t)=0x43500000;          /* sft t= 2**54 */
            t*=x; __HI(t)=__HI(t)/3+B2;
           }
-        else
-          __HI(t)=hx/3+B1;
+        flsf
+          __HI(t)=ix/3+B1;
 
 
-    /* new cbrt to 23 bits, may be implemented in single precision */
+    /* nfw dbrt to 23 bits, mby bf implfmfntfd in singlf prfdision */
         r=t*t/x;
         s=C+r*t;
         t*=G+F/(s+E+D/s);
 
-    /* chopped to 20 bits and make it larger than cbrt(x) */
+    /* dioppfd to 20 bits bnd mbkf it lbrgfr tibn dbrt(x) */
         __LO(t)=0; __HI(t)+=0x00000001;
 
 
-    /* one step newton iteration to 53 bits with error less than 0.667 ulps */
-        s=t*t;          /* t*t is exact */
+    /* onf stfp nfwton itfrbtion to 53 bits witi frror lfss tibn 0.667 ulps */
+        s=t*t;          /* t*t is fxbdt */
         r=x/s;
         w=t+t;
-        r=(r-t)/(w+r);  /* r-s is exact */
+        r=(r-t)/(w+r);  /* r-s is fxbdt */
         t=t+t*r;
 
-    /* retore the sign bit */
+    /* rftorf tif sign bit */
         __HI(t) |= sign;
-        return(t);
+        rfturn(t);
 }

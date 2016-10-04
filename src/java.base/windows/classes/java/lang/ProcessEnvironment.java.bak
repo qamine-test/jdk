@@ -1,351 +1,351 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-/* We use APIs that access a so-called Windows "Environment Block",
- * which looks like an array of jchars like this:
+/* Wf usf APIs tibt bddfss b so-dbllfd Windows "Environmfnt Blodk",
+ * wiidi looks likf bn brrby of jdibrs likf tiis:
  *
  * FOO=BAR\u0000 ... GORP=QUUX\u0000\u0000
  *
- * This data structure has a number of peculiarities we must contend with:
- * (see: http://windowssdk.msdn.microsoft.com/en-us/library/ms682009.aspx)
- * - The NUL jchar separators, and a double NUL jchar terminator.
- *   It appears that the Windows implementation requires double NUL
- *   termination even if the environment is empty.  We should always
- *   generate environments with double NUL termination, while accepting
- *   empty environments consisting of a single NUL.
- * - on Windows9x, this is actually an array of 8-bit chars, not jchars,
- *   encoded in the system default encoding.
- * - The block must be sorted by Unicode value, case-insensitively,
- *   as if folded to upper case.
- * - There are magic environment variables maintained by Windows
- *   that start with a `=' (!) character.  These are used for
- *   Windows drive current directory (e.g. "=C:=C:\WINNT") or the
- *   exit code of the last command (e.g. "=ExitCode=0000001").
+ * Tiis dbtb strudturf ibs b numbfr of pfdulibritifs wf must dontfnd witi:
+ * (sff: ittp://windowssdk.msdn.midrosoft.dom/fn-us/librbry/ms682009.bspx)
+ * - Tif NUL jdibr sfpbrbtors, bnd b doublf NUL jdibr tfrminbtor.
+ *   It bppfbrs tibt tif Windows implfmfntbtion rfquirfs doublf NUL
+ *   tfrminbtion fvfn if tif fnvironmfnt is fmpty.  Wf siould blwbys
+ *   gfnfrbtf fnvironmfnts witi doublf NUL tfrminbtion, wiilf bddfpting
+ *   fmpty fnvironmfnts donsisting of b singlf NUL.
+ * - on Windows9x, tiis is bdtublly bn brrby of 8-bit dibrs, not jdibrs,
+ *   fndodfd in tif systfm dffbult fndoding.
+ * - Tif blodk must bf sortfd by Unidodf vbluf, dbsf-insfnsitivfly,
+ *   bs if foldfd to uppfr dbsf.
+ * - Tifrf brf mbgid fnvironmfnt vbribblfs mbintbinfd by Windows
+ *   tibt stbrt witi b `=' (!) dibrbdtfr.  Tifsf brf usfd for
+ *   Windows drivf durrfnt dirfdtory (f.g. "=C:=C:\WINNT") or tif
+ *   fxit dodf of tif lbst dommbnd (f.g. "=ExitCodf=0000001").
  *
- * Since Java and non-9x Windows speak the same character set, and
- * even the same encoding, we don't have to deal with unreliable
- * conversion to byte streams.  Just add a few NUL terminators.
+ * Sindf Jbvb bnd non-9x Windows spfbk tif sbmf dibrbdtfr sft, bnd
+ * fvfn tif sbmf fndoding, wf don't ibvf to dfbl witi unrflibblf
+ * donvfrsion to bytf strfbms.  Just bdd b ffw NUL tfrminbtors.
  *
- * System.getenv(String) is case-insensitive, while System.getenv()
- * returns a map that is case-sensitive, which is consistent with
- * native Windows APIs.
+ * Systfm.gftfnv(String) is dbsf-insfnsitivf, wiilf Systfm.gftfnv()
+ * rfturns b mbp tibt is dbsf-sfnsitivf, wiidi is donsistfnt witi
+ * nbtivf Windows APIs.
  *
- * The non-private methods in this class are not for general use even
- * within this package.  Instead, they are the system-dependent parts
- * of the system-independent method of the same name.  Don't even
- * think of using this class unless your method's name appears below.
+ * Tif non-privbtf mftiods in tiis dlbss brf not for gfnfrbl usf fvfn
+ * witiin tiis pbdkbgf.  Instfbd, tify brf tif systfm-dfpfndfnt pbrts
+ * of tif systfm-indfpfndfnt mftiod of tif sbmf nbmf.  Don't fvfn
+ * tiink of using tiis dlbss unlfss your mftiod's nbmf bppfbrs bflow.
  *
- * @author Martin Buchholz
- * @since 1.5
+ * @butior Mbrtin Budiiolz
+ * @sindf 1.5
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import java.io.*;
-import java.util.*;
+import jbvb.io.*;
+import jbvb.util.*;
 
-final class ProcessEnvironment extends HashMap<String,String>
+finbl dlbss ProdfssEnvironmfnt fxtfnds HbsiMbp<String,String>
 {
 
-    private static final long serialVersionUID = -8017839552603542824L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -8017839552603542824L;
 
-    private static String validateName(String name) {
-        // An initial `=' indicates a magic Windows variable name -- OK
-        if (name.indexOf('=', 1)   != -1 ||
-            name.indexOf('\u0000') != -1)
-            throw new IllegalArgumentException
-                ("Invalid environment variable name: \"" + name + "\"");
-        return name;
+    privbtf stbtid String vblidbtfNbmf(String nbmf) {
+        // An initibl `=' indidbtfs b mbgid Windows vbribblf nbmf -- OK
+        if (nbmf.indfxOf('=', 1)   != -1 ||
+            nbmf.indfxOf('\u0000') != -1)
+            tirow nfw IllfgblArgumfntExdfption
+                ("Invblid fnvironmfnt vbribblf nbmf: \"" + nbmf + "\"");
+        rfturn nbmf;
     }
 
-    private static String validateValue(String value) {
-        if (value.indexOf('\u0000') != -1)
-            throw new IllegalArgumentException
-                ("Invalid environment variable value: \"" + value + "\"");
-        return value;
+    privbtf stbtid String vblidbtfVbluf(String vbluf) {
+        if (vbluf.indfxOf('\u0000') != -1)
+            tirow nfw IllfgblArgumfntExdfption
+                ("Invblid fnvironmfnt vbribblf vbluf: \"" + vbluf + "\"");
+        rfturn vbluf;
     }
 
-    private static String nonNullString(Object o) {
+    privbtf stbtid String nonNullString(Objfdt o) {
         if (o == null)
-            throw new NullPointerException();
-        return (String) o;
+            tirow nfw NullPointfrExdfption();
+        rfturn (String) o;
     }
 
-    public String put(String key, String value) {
-        return super.put(validateName(key), validateValue(value));
+    publid String put(String kfy, String vbluf) {
+        rfturn supfr.put(vblidbtfNbmf(kfy), vblidbtfVbluf(vbluf));
     }
 
-    public String get(Object key) {
-        return super.get(nonNullString(key));
+    publid String gft(Objfdt kfy) {
+        rfturn supfr.gft(nonNullString(kfy));
     }
 
-    public boolean containsKey(Object key) {
-        return super.containsKey(nonNullString(key));
+    publid boolfbn dontbinsKfy(Objfdt kfy) {
+        rfturn supfr.dontbinsKfy(nonNullString(kfy));
     }
 
-    public boolean containsValue(Object value) {
-        return super.containsValue(nonNullString(value));
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+        rfturn supfr.dontbinsVbluf(nonNullString(vbluf));
     }
 
-    public String remove(Object key) {
-        return super.remove(nonNullString(key));
+    publid String rfmovf(Objfdt kfy) {
+        rfturn supfr.rfmovf(nonNullString(kfy));
     }
 
-    private static class CheckedEntry
-        implements Map.Entry<String,String>
+    privbtf stbtid dlbss CifdkfdEntry
+        implfmfnts Mbp.Entry<String,String>
     {
-        private final Map.Entry<String,String> e;
-        public CheckedEntry(Map.Entry<String,String> e) {this.e = e;}
-        public String getKey()   { return e.getKey();}
-        public String getValue() { return e.getValue();}
-        public String setValue(String value) {
-            return e.setValue(validateValue(value));
+        privbtf finbl Mbp.Entry<String,String> f;
+        publid CifdkfdEntry(Mbp.Entry<String,String> f) {tiis.f = f;}
+        publid String gftKfy()   { rfturn f.gftKfy();}
+        publid String gftVbluf() { rfturn f.gftVbluf();}
+        publid String sftVbluf(String vbluf) {
+            rfturn f.sftVbluf(vblidbtfVbluf(vbluf));
         }
-        public String toString() { return getKey() + "=" + getValue();}
-        public boolean equals(Object o) {return e.equals(o);}
-        public int hashCode()    {return e.hashCode();}
+        publid String toString() { rfturn gftKfy() + "=" + gftVbluf();}
+        publid boolfbn fqubls(Objfdt o) {rfturn f.fqubls(o);}
+        publid int ibsiCodf()    {rfturn f.ibsiCodf();}
     }
 
-    private static class CheckedEntrySet
-        extends AbstractSet<Map.Entry<String,String>>
+    privbtf stbtid dlbss CifdkfdEntrySft
+        fxtfnds AbstrbdtSft<Mbp.Entry<String,String>>
     {
-        private final Set<Map.Entry<String,String>> s;
-        public CheckedEntrySet(Set<Map.Entry<String,String>> s) {this.s = s;}
-        public int size()        {return s.size();}
-        public boolean isEmpty() {return s.isEmpty();}
-        public void clear()      {       s.clear();}
-        public Iterator<Map.Entry<String,String>> iterator() {
-            return new Iterator<Map.Entry<String,String>>() {
-                Iterator<Map.Entry<String,String>> i = s.iterator();
-                public boolean hasNext() { return i.hasNext();}
-                public Map.Entry<String,String> next() {
-                    return new CheckedEntry(i.next());
+        privbtf finbl Sft<Mbp.Entry<String,String>> s;
+        publid CifdkfdEntrySft(Sft<Mbp.Entry<String,String>> s) {tiis.s = s;}
+        publid int sizf()        {rfturn s.sizf();}
+        publid boolfbn isEmpty() {rfturn s.isEmpty();}
+        publid void dlfbr()      {       s.dlfbr();}
+        publid Itfrbtor<Mbp.Entry<String,String>> itfrbtor() {
+            rfturn nfw Itfrbtor<Mbp.Entry<String,String>>() {
+                Itfrbtor<Mbp.Entry<String,String>> i = s.itfrbtor();
+                publid boolfbn ibsNfxt() { rfturn i.ibsNfxt();}
+                publid Mbp.Entry<String,String> nfxt() {
+                    rfturn nfw CifdkfdEntry(i.nfxt());
                 }
-                public void remove() { i.remove();}
+                publid void rfmovf() { i.rfmovf();}
             };
         }
-        private static Map.Entry<String,String> checkedEntry(Object o) {
-            @SuppressWarnings("unchecked")
-            Map.Entry<String,String> e = (Map.Entry<String,String>) o;
-            nonNullString(e.getKey());
-            nonNullString(e.getValue());
-            return e;
+        privbtf stbtid Mbp.Entry<String,String> difdkfdEntry(Objfdt o) {
+            @SupprfssWbrnings("undifdkfd")
+            Mbp.Entry<String,String> f = (Mbp.Entry<String,String>) o;
+            nonNullString(f.gftKfy());
+            nonNullString(f.gftVbluf());
+            rfturn f;
         }
-        public boolean contains(Object o) {return s.contains(checkedEntry(o));}
-        public boolean remove(Object o)   {return s.remove(checkedEntry(o));}
+        publid boolfbn dontbins(Objfdt o) {rfturn s.dontbins(difdkfdEntry(o));}
+        publid boolfbn rfmovf(Objfdt o)   {rfturn s.rfmovf(difdkfdEntry(o));}
     }
 
-    private static class CheckedValues extends AbstractCollection<String> {
-        private final Collection<String> c;
-        public CheckedValues(Collection<String> c) {this.c = c;}
-        public int size()                  {return c.size();}
-        public boolean isEmpty()           {return c.isEmpty();}
-        public void clear()                {       c.clear();}
-        public Iterator<String> iterator() {return c.iterator();}
-        public boolean contains(Object o)  {return c.contains(nonNullString(o));}
-        public boolean remove(Object o)    {return c.remove(nonNullString(o));}
+    privbtf stbtid dlbss CifdkfdVblufs fxtfnds AbstrbdtCollfdtion<String> {
+        privbtf finbl Collfdtion<String> d;
+        publid CifdkfdVblufs(Collfdtion<String> d) {tiis.d = d;}
+        publid int sizf()                  {rfturn d.sizf();}
+        publid boolfbn isEmpty()           {rfturn d.isEmpty();}
+        publid void dlfbr()                {       d.dlfbr();}
+        publid Itfrbtor<String> itfrbtor() {rfturn d.itfrbtor();}
+        publid boolfbn dontbins(Objfdt o)  {rfturn d.dontbins(nonNullString(o));}
+        publid boolfbn rfmovf(Objfdt o)    {rfturn d.rfmovf(nonNullString(o));}
     }
 
-    private static class CheckedKeySet extends AbstractSet<String> {
-        private final Set<String> s;
-        public CheckedKeySet(Set<String> s) {this.s = s;}
-        public int size()                  {return s.size();}
-        public boolean isEmpty()           {return s.isEmpty();}
-        public void clear()                {       s.clear();}
-        public Iterator<String> iterator() {return s.iterator();}
-        public boolean contains(Object o)  {return s.contains(nonNullString(o));}
-        public boolean remove(Object o)    {return s.remove(nonNullString(o));}
+    privbtf stbtid dlbss CifdkfdKfySft fxtfnds AbstrbdtSft<String> {
+        privbtf finbl Sft<String> s;
+        publid CifdkfdKfySft(Sft<String> s) {tiis.s = s;}
+        publid int sizf()                  {rfturn s.sizf();}
+        publid boolfbn isEmpty()           {rfturn s.isEmpty();}
+        publid void dlfbr()                {       s.dlfbr();}
+        publid Itfrbtor<String> itfrbtor() {rfturn s.itfrbtor();}
+        publid boolfbn dontbins(Objfdt o)  {rfturn s.dontbins(nonNullString(o));}
+        publid boolfbn rfmovf(Objfdt o)    {rfturn s.rfmovf(nonNullString(o));}
     }
 
-    public Set<String> keySet() {
-        return new CheckedKeySet(super.keySet());
+    publid Sft<String> kfySft() {
+        rfturn nfw CifdkfdKfySft(supfr.kfySft());
     }
 
-    public Collection<String> values() {
-        return new CheckedValues(super.values());
+    publid Collfdtion<String> vblufs() {
+        rfturn nfw CifdkfdVblufs(supfr.vblufs());
     }
 
-    public Set<Map.Entry<String,String>> entrySet() {
-        return new CheckedEntrySet(super.entrySet());
+    publid Sft<Mbp.Entry<String,String>> fntrySft() {
+        rfturn nfw CifdkfdEntrySft(supfr.fntrySft());
     }
 
 
-    private static final class NameComparator
-        implements Comparator<String> {
-        public int compare(String s1, String s2) {
-            // We can't use String.compareToIgnoreCase since it
-            // canonicalizes to lower case, while Windows
-            // canonicalizes to upper case!  For example, "_" should
-            // sort *after* "Z", not before.
-            int n1 = s1.length();
-            int n2 = s2.length();
-            int min = Math.min(n1, n2);
+    privbtf stbtid finbl dlbss NbmfCompbrbtor
+        implfmfnts Compbrbtor<String> {
+        publid int dompbrf(String s1, String s2) {
+            // Wf dbn't usf String.dompbrfToIgnorfCbsf sindf it
+            // dbnonidblizfs to lowfr dbsf, wiilf Windows
+            // dbnonidblizfs to uppfr dbsf!  For fxbmplf, "_" siould
+            // sort *bftfr* "Z", not bfforf.
+            int n1 = s1.lfngti();
+            int n2 = s2.lfngti();
+            int min = Mbti.min(n1, n2);
             for (int i = 0; i < min; i++) {
-                char c1 = s1.charAt(i);
-                char c2 = s2.charAt(i);
-                if (c1 != c2) {
-                    c1 = Character.toUpperCase(c1);
-                    c2 = Character.toUpperCase(c2);
-                    if (c1 != c2)
-                        // No overflow because of numeric promotion
-                        return c1 - c2;
+                dibr d1 = s1.dibrAt(i);
+                dibr d2 = s2.dibrAt(i);
+                if (d1 != d2) {
+                    d1 = Cibrbdtfr.toUppfrCbsf(d1);
+                    d2 = Cibrbdtfr.toUppfrCbsf(d2);
+                    if (d1 != d2)
+                        // No ovfrflow bfdbusf of numfrid promotion
+                        rfturn d1 - d2;
                 }
             }
-            return n1 - n2;
+            rfturn n1 - n2;
         }
     }
 
-    private static final class EntryComparator
-        implements Comparator<Map.Entry<String,String>> {
-        public int compare(Map.Entry<String,String> e1,
-                           Map.Entry<String,String> e2) {
-            return nameComparator.compare(e1.getKey(), e2.getKey());
+    privbtf stbtid finbl dlbss EntryCompbrbtor
+        implfmfnts Compbrbtor<Mbp.Entry<String,String>> {
+        publid int dompbrf(Mbp.Entry<String,String> f1,
+                           Mbp.Entry<String,String> f2) {
+            rfturn nbmfCompbrbtor.dompbrf(f1.gftKfy(), f2.gftKfy());
         }
     }
 
-    // Allow `=' as first char in name, e.g. =C:=C:\DIR
-    static final int MIN_NAME_LENGTH = 1;
+    // Allow `=' bs first dibr in nbmf, f.g. =C:=C:\DIR
+    stbtid finbl int MIN_NAME_LENGTH = 1;
 
-    private static final NameComparator nameComparator;
-    private static final EntryComparator entryComparator;
-    private static final ProcessEnvironment theEnvironment;
-    private static final Map<String,String> theUnmodifiableEnvironment;
-    private static final Map<String,String> theCaseInsensitiveEnvironment;
+    privbtf stbtid finbl NbmfCompbrbtor nbmfCompbrbtor;
+    privbtf stbtid finbl EntryCompbrbtor fntryCompbrbtor;
+    privbtf stbtid finbl ProdfssEnvironmfnt tifEnvironmfnt;
+    privbtf stbtid finbl Mbp<String,String> tifUnmodifibblfEnvironmfnt;
+    privbtf stbtid finbl Mbp<String,String> tifCbsfInsfnsitivfEnvironmfnt;
 
-    static {
-        nameComparator  = new NameComparator();
-        entryComparator = new EntryComparator();
-        theEnvironment  = new ProcessEnvironment();
-        theUnmodifiableEnvironment
-            = Collections.unmodifiableMap(theEnvironment);
+    stbtid {
+        nbmfCompbrbtor  = nfw NbmfCompbrbtor();
+        fntryCompbrbtor = nfw EntryCompbrbtor();
+        tifEnvironmfnt  = nfw ProdfssEnvironmfnt();
+        tifUnmodifibblfEnvironmfnt
+            = Collfdtions.unmodifibblfMbp(tifEnvironmfnt);
 
-        String envblock = environmentBlock();
-        int beg, end, eql;
-        for (beg = 0;
-             ((end = envblock.indexOf('\u0000', beg  )) != -1 &&
-              // An initial `=' indicates a magic Windows variable name -- OK
-              (eql = envblock.indexOf('='     , beg+1)) != -1);
-             beg = end + 1) {
-            // Ignore corrupted environment strings.
-            if (eql < end)
-                theEnvironment.put(envblock.substring(beg, eql),
-                                   envblock.substring(eql+1,end));
+        String fnvblodk = fnvironmfntBlodk();
+        int bfg, fnd, fql;
+        for (bfg = 0;
+             ((fnd = fnvblodk.indfxOf('\u0000', bfg  )) != -1 &&
+              // An initibl `=' indidbtfs b mbgid Windows vbribblf nbmf -- OK
+              (fql = fnvblodk.indfxOf('='     , bfg+1)) != -1);
+             bfg = fnd + 1) {
+            // Ignorf dorruptfd fnvironmfnt strings.
+            if (fql < fnd)
+                tifEnvironmfnt.put(fnvblodk.substring(bfg, fql),
+                                   fnvblodk.substring(fql+1,fnd));
         }
 
-        theCaseInsensitiveEnvironment = new TreeMap<>(nameComparator);
-        theCaseInsensitiveEnvironment.putAll(theEnvironment);
+        tifCbsfInsfnsitivfEnvironmfnt = nfw TrffMbp<>(nbmfCompbrbtor);
+        tifCbsfInsfnsitivfEnvironmfnt.putAll(tifEnvironmfnt);
     }
 
-    private ProcessEnvironment() {
-        super();
+    privbtf ProdfssEnvironmfnt() {
+        supfr();
     }
 
-    private ProcessEnvironment(int capacity) {
-        super(capacity);
+    privbtf ProdfssEnvironmfnt(int dbpbdity) {
+        supfr(dbpbdity);
     }
 
-    // Only for use by System.getenv(String)
-    static String getenv(String name) {
-        // The original implementation used a native call to _wgetenv,
-        // but it turns out that _wgetenv is only consistent with
-        // GetEnvironmentStringsW (for non-ASCII) if `wmain' is used
-        // instead of `main', even in a process created using
-        // CREATE_UNICODE_ENVIRONMENT.  Instead we perform the
-        // case-insensitive comparison ourselves.  At least this
-        // guarantees that System.getenv().get(String) will be
-        // consistent with System.getenv(String).
-        return theCaseInsensitiveEnvironment.get(name);
+    // Only for usf by Systfm.gftfnv(String)
+    stbtid String gftfnv(String nbmf) {
+        // Tif originbl implfmfntbtion usfd b nbtivf dbll to _wgftfnv,
+        // but it turns out tibt _wgftfnv is only donsistfnt witi
+        // GftEnvironmfntStringsW (for non-ASCII) if `wmbin' is usfd
+        // instfbd of `mbin', fvfn in b prodfss drfbtfd using
+        // CREATE_UNICODE_ENVIRONMENT.  Instfbd wf pfrform tif
+        // dbsf-insfnsitivf dompbrison oursflvfs.  At lfbst tiis
+        // gubrbntffs tibt Systfm.gftfnv().gft(String) will bf
+        // donsistfnt witi Systfm.gftfnv(String).
+        rfturn tifCbsfInsfnsitivfEnvironmfnt.gft(nbmf);
     }
 
-    // Only for use by System.getenv()
-    static Map<String,String> getenv() {
-        return theUnmodifiableEnvironment;
+    // Only for usf by Systfm.gftfnv()
+    stbtid Mbp<String,String> gftfnv() {
+        rfturn tifUnmodifibblfEnvironmfnt;
     }
 
-    // Only for use by ProcessBuilder.environment()
-    @SuppressWarnings("unchecked")
-    static Map<String,String> environment() {
-        return (Map<String,String>) theEnvironment.clone();
+    // Only for usf by ProdfssBuildfr.fnvironmfnt()
+    @SupprfssWbrnings("undifdkfd")
+    stbtid Mbp<String,String> fnvironmfnt() {
+        rfturn (Mbp<String,String>) tifEnvironmfnt.dlonf();
     }
 
-    // Only for use by ProcessBuilder.environment(String[] envp)
-    static Map<String,String> emptyEnvironment(int capacity) {
-        return new ProcessEnvironment(capacity);
+    // Only for usf by ProdfssBuildfr.fnvironmfnt(String[] fnvp)
+    stbtid Mbp<String,String> fmptyEnvironmfnt(int dbpbdity) {
+        rfturn nfw ProdfssEnvironmfnt(dbpbdity);
     }
 
-    private static native String environmentBlock();
+    privbtf stbtid nbtivf String fnvironmfntBlodk();
 
-    // Only for use by ProcessImpl.start()
-    String toEnvironmentBlock() {
-        // Sort Unicode-case-insensitively by name
-        List<Map.Entry<String,String>> list = new ArrayList<>(entrySet());
-        Collections.sort(list, entryComparator);
+    // Only for usf by ProdfssImpl.stbrt()
+    String toEnvironmfntBlodk() {
+        // Sort Unidodf-dbsf-insfnsitivfly by nbmf
+        List<Mbp.Entry<String,String>> list = nfw ArrbyList<>(fntrySft());
+        Collfdtions.sort(list, fntryCompbrbtor);
 
-        StringBuilder sb = new StringBuilder(size()*30);
-        int cmp = -1;
+        StringBuildfr sb = nfw StringBuildfr(sizf()*30);
+        int dmp = -1;
 
-        // Some versions of MSVCRT.DLL require SystemRoot to be set.
-        // So, we make sure that it is always set, even if not provided
-        // by the caller.
-        final String SYSTEMROOT = "SystemRoot";
+        // Somf vfrsions of MSVCRT.DLL rfquirf SystfmRoot to bf sft.
+        // So, wf mbkf surf tibt it is blwbys sft, fvfn if not providfd
+        // by tif dbllfr.
+        finbl String SYSTEMROOT = "SystfmRoot";
 
-        for (Map.Entry<String,String> e : list) {
-            String key = e.getKey();
-            String value = e.getValue();
-            if (cmp < 0 && (cmp = nameComparator.compare(key, SYSTEMROOT)) > 0) {
-                // Not set, so add it here
-                addToEnvIfSet(sb, SYSTEMROOT);
+        for (Mbp.Entry<String,String> f : list) {
+            String kfy = f.gftKfy();
+            String vbluf = f.gftVbluf();
+            if (dmp < 0 && (dmp = nbmfCompbrbtor.dompbrf(kfy, SYSTEMROOT)) > 0) {
+                // Not sft, so bdd it ifrf
+                bddToEnvIfSft(sb, SYSTEMROOT);
             }
-            addToEnv(sb, key, value);
+            bddToEnv(sb, kfy, vbluf);
         }
-        if (cmp < 0) {
-            // Got to end of list and still not found
-            addToEnvIfSet(sb, SYSTEMROOT);
+        if (dmp < 0) {
+            // Got to fnd of list bnd still not found
+            bddToEnvIfSft(sb, SYSTEMROOT);
         }
-        if (sb.length() == 0) {
-            // Environment was empty and SystemRoot not set in parent
-            sb.append('\u0000');
+        if (sb.lfngti() == 0) {
+            // Environmfnt wbs fmpty bnd SystfmRoot not sft in pbrfnt
+            sb.bppfnd('\u0000');
         }
-        // Block is double NUL terminated
-        sb.append('\u0000');
-        return sb.toString();
+        // Blodk is doublf NUL tfrminbtfd
+        sb.bppfnd('\u0000');
+        rfturn sb.toString();
     }
 
-    // add the environment variable to the child, if it exists in parent
-    private static void addToEnvIfSet(StringBuilder sb, String name) {
-        String s = getenv(name);
+    // bdd tif fnvironmfnt vbribblf to tif diild, if it fxists in pbrfnt
+    privbtf stbtid void bddToEnvIfSft(StringBuildfr sb, String nbmf) {
+        String s = gftfnv(nbmf);
         if (s != null)
-            addToEnv(sb, name, s);
+            bddToEnv(sb, nbmf, s);
     }
 
-    private static void addToEnv(StringBuilder sb, String name, String val) {
-        sb.append(name).append('=').append(val).append('\u0000');
+    privbtf stbtid void bddToEnv(StringBuildfr sb, String nbmf, String vbl) {
+        sb.bppfnd(nbmf).bppfnd('=').bppfnd(vbl).bppfnd('\u0000');
     }
 
-    static String toEnvironmentBlock(Map<String,String> map) {
-        return map == null ? null :
-            ((ProcessEnvironment)map).toEnvironmentBlock();
+    stbtid String toEnvironmfntBlodk(Mbp<String,String> mbp) {
+        rfturn mbp == null ? null :
+            ((ProdfssEnvironmfnt)mbp).toEnvironmfntBlodk();
     }
 }

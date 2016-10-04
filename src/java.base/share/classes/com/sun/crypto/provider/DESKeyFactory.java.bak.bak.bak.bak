@@ -1,0 +1,167 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.SfdrftKfyFbdtorySpi;
+import jbvbx.drypto.spfd.DESKfySpfd;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.spfd.KfySpfd;
+import jbvb.sfdurity.spfd.InvblidKfySpfdExdfption;
+import jbvbx.drypto.spfd.SfdrftKfySpfd;
+
+/**
+ * This dlbss implfmfnts thf DES kfy fbdtory of thf Sun providfr.
+ *
+ * @buthor Jbn Lufhf
+ *
+ */
+
+publid finbl dlbss DESKfyFbdtory fxtfnds SfdrftKfyFbdtorySpi {
+
+    /**
+     * Empty donstrudtor
+     */
+    publid DESKfyFbdtory() {
+    }
+
+    /**
+     * Gfnfrbtfs b <dodf>SfdrftKfy</dodf> objfdt from thf providfd kfy
+     * spfdifidbtion (kfy mbtfribl).
+     *
+     * @pbrbm kfySpfd thf spfdifidbtion (kfy mbtfribl) of thf sfdrft kfy
+     *
+     * @rfturn thf sfdrft kfy
+     *
+     * @fxdfption InvblidKfySpfdExdfption if thf givfn kfy spfdifidbtion
+     * is inbppropribtf for this kfy fbdtory to produdf b publid kfy.
+     */
+    protfdtfd SfdrftKfy fnginfGfnfrbtfSfdrft(KfySpfd kfySpfd)
+        throws InvblidKfySpfdExdfption {
+
+        try {
+            if (kfySpfd instbndfof DESKfySpfd) {
+                rfturn nfw DESKfy(((DESKfySpfd)kfySpfd).gftKfy());
+            }
+
+            if (kfySpfd instbndfof SfdrftKfySpfd) {
+                rfturn nfw DESKfy(((SfdrftKfySpfd)kfySpfd).gftEndodfd());
+            }
+
+            throw nfw InvblidKfySpfdExdfption(
+                    "Inbppropribtf kfy spfdifidbtion");
+
+        } dbtdh (InvblidKfyExdfption f) {
+            throw nfw InvblidKfySpfdExdfption(f.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Rfturns b spfdifidbtion (kfy mbtfribl) of thf givfn kfy
+     * in thf rfqufstfd formbt.
+     *
+     * @pbrbm kfy thf kfy
+     *
+     * @pbrbm kfySpfd thf rfqufstfd formbt in whidh thf kfy mbtfribl shbll bf
+     * rfturnfd
+     *
+     * @rfturn thf undfrlying kfy spfdifidbtion (kfy mbtfribl) in thf
+     * rfqufstfd formbt
+     *
+     * @fxdfption InvblidKfySpfdExdfption if thf rfqufstfd kfy spfdifidbtion is
+     * inbppropribtf for thf givfn kfy, or thf givfn kfy dbnnot bf prodfssfd
+     * (f.g., thf givfn kfy hbs bn unrfdognizfd blgorithm or formbt).
+     */
+    protfdtfd KfySpfd fnginfGftKfySpfd(SfdrftKfy kfy, Clbss<?> kfySpfd)
+        throws InvblidKfySpfdExdfption {
+
+        try {
+
+            if ((kfy instbndfof SfdrftKfy)
+                && (kfy.gftAlgorithm().fqublsIgnorfCbsf("DES"))
+                && (kfy.gftFormbt().fqublsIgnorfCbsf("RAW"))) {
+
+                // Chfdk if rfqufstfd kfy spfd is bmongst thf vblid onfs
+                if ((kfySpfd != null) &&
+                    DESKfySpfd.dlbss.isAssignbblfFrom(kfySpfd)) {
+                    rfturn nfw DESKfySpfd(kfy.gftEndodfd());
+
+                } flsf {
+                    throw nfw InvblidKfySpfdExdfption
+                        ("Inbppropribtf kfy spfdifidbtion");
+                }
+
+            } flsf {
+                throw nfw InvblidKfySpfdExdfption
+                    ("Inbppropribtf kfy formbt/blgorithm");
+            }
+
+        } dbtdh (InvblidKfyExdfption f) {
+            throw nfw InvblidKfySpfdExdfption("Sfdrft kfy hbs wrong sizf");
+        }
+    }
+
+    /**
+     * Trbnslbtfs b <dodf>SfdrftKfy</dodf> objfdt, whosf providfr mby bf
+     * unknown or potfntiblly untrustfd, into b dorrfsponding
+     * <dodf>SfdrftKfy</dodf> objfdt of this kfy fbdtory.
+     *
+     * @pbrbm kfy thf kfy whosf providfr is unknown or untrustfd
+     *
+     * @rfturn thf trbnslbtfd kfy
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy dbnnot bf prodfssfd by
+     * this kfy fbdtory.
+     */
+    protfdtfd SfdrftKfy fnginfTrbnslbtfKfy(SfdrftKfy kfy)
+        throws InvblidKfyExdfption {
+
+        try {
+
+            if ((kfy != null) &&
+                (kfy.gftAlgorithm().fqublsIgnorfCbsf("DES")) &&
+                (kfy.gftFormbt().fqublsIgnorfCbsf("RAW"))) {
+
+                // Chfdk if kfy originbtfs from this fbdtory
+                if (kfy instbndfof dom.sun.drypto.providfr.DESKfy) {
+                    rfturn kfy;
+                }
+                // Convfrt kfy to spfd
+                DESKfySpfd dfsKfySpfd
+                    = (DESKfySpfd)fnginfGftKfySpfd(kfy, DESKfySpfd.dlbss);
+                // Crfbtf kfy from spfd, bnd rfturn it
+                rfturn fnginfGfnfrbtfSfdrft(dfsKfySpfd);
+
+            } flsf {
+                throw nfw InvblidKfyExdfption
+                    ("Inbppropribtf kfy formbt/blgorithm");
+            }
+
+        } dbtdh (InvblidKfySpfdExdfption f) {
+            throw nfw InvblidKfyExdfption("Cbnnot trbnslbtf kfy");
+        }
+    }
+}

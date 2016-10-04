@@ -1,212 +1,212 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
  * FUNCTION
- *      mlib_ImageAffineEdgeZero - implementation of MLIB_EDGE_DST_FILL_ZERO
- *                                 edge condition
- *      mlib_ImageAffineEdgeNearest - implementation of MLIB_EDGE_OP_NEAREST
- *                                    edge condition
- *      void mlib_ImageAffineEdgeExtend_BL - implementation of MLIB_EDGE_SRC_EXTEND
- *                                           edge condition for MLIB_BILINEAR filter
- *      void mlib_ImageAffineEdgeExtend_BC - implementation of MLIB_EDGE_SRC_EXTEND
- *                                           edge condition for MLIB_BICUBIC filter
- *      void mlib_ImageAffineEdgeExtend_BC2 - implementation of MLIB_EDGE_SRC_EXTEND
- *                                            edge condition for MLIB_BICUBIC2 filter
+ *      mlib_ImbgfAffinfEdgfZfro - implfmfntbtion of MLIB_EDGE_DST_FILL_ZERO
+ *                                 fdgf dondition
+ *      mlib_ImbgfAffinfEdgfNfbrfst - implfmfntbtion of MLIB_EDGE_OP_NEAREST
+ *                                    fdgf dondition
+ *      void mlib_ImbgfAffinfEdgfExtfnd_BL - implfmfntbtion of MLIB_EDGE_SRC_EXTEND
+ *                                           fdgf dondition for MLIB_BILINEAR filtfr
+ *      void mlib_ImbgfAffinfEdgfExtfnd_BC - implfmfntbtion of MLIB_EDGE_SRC_EXTEND
+ *                                           fdgf dondition for MLIB_BICUBIC filtfr
+ *      void mlib_ImbgfAffinfEdgfExtfnd_BC2 - implfmfntbtion of MLIB_EDGE_SRC_EXTEND
+ *                                            fdgf dondition for MLIB_BICUBIC2 filtfr
  *
  * DESCRIPTION
- *      mlib_ImageAffineEdgeZero:
- *         This function fills the edge pixels (i.e. thouse one which can not
- *         be interpolated with given resampling filter because their prototypes
- *         in the source image lie too close to the border) in the destination
- *         image with zeroes.
+ *      mlib_ImbgfAffinfEdgfZfro:
+ *         Tiis fundtion fills tif fdgf pixfls (i.f. tiousf onf wiidi dbn not
+ *         bf intfrpolbtfd witi givfn rfsbmpling filtfr bfdbusf tifir prototypfs
+ *         in tif sourdf imbgf lif too dlosf to tif bordfr) in tif dfstinbtion
+ *         imbgf witi zfrofs.
  *
- *      mlib_ImageAffineEdgeNearest:
- *         This function fills the edge pixels (i.e. thouse one which can not
- *         be interpolated with given resampling filter because their prototypes
- *         in the source image lie too close to the border) in the destination
- *         image according to the nearest neighbour interpolation.
+ *      mlib_ImbgfAffinfEdgfNfbrfst:
+ *         Tiis fundtion fills tif fdgf pixfls (i.f. tiousf onf wiidi dbn not
+ *         bf intfrpolbtfd witi givfn rfsbmpling filtfr bfdbusf tifir prototypfs
+ *         in tif sourdf imbgf lif too dlosf to tif bordfr) in tif dfstinbtion
+ *         imbgf bddording to tif nfbrfst nfigibour intfrpolbtion.
  *
- *      mlib_ImageAffineEdgeExtend_BL:
- *         This function fills the edge pixels (i.e. thouse one which can not
- *         be interpolated with given resampling filter because their prototypes
- *         in the source image lie too close to the border) in the destination
- *         image according to the bilinear interpolation with border pixels extend
- *         of source image.
+ *      mlib_ImbgfAffinfEdgfExtfnd_BL:
+ *         Tiis fundtion fills tif fdgf pixfls (i.f. tiousf onf wiidi dbn not
+ *         bf intfrpolbtfd witi givfn rfsbmpling filtfr bfdbusf tifir prototypfs
+ *         in tif sourdf imbgf lif too dlosf to tif bordfr) in tif dfstinbtion
+ *         imbgf bddording to tif bilinfbr intfrpolbtion witi bordfr pixfls fxtfnd
+ *         of sourdf imbgf.
  *
- *      mlib_ImageAffineEdgeExtend_BC:
- *         This function fills the edge pixels (i.e. thouse one which can not
- *         be interpolated with given resampling filter because their prototypes
- *         in the source image lie too close to the border) in the destination
- *         image according to the bicubic interpolation with border pixels extend
- *         of source image.
+ *      mlib_ImbgfAffinfEdgfExtfnd_BC:
+ *         Tiis fundtion fills tif fdgf pixfls (i.f. tiousf onf wiidi dbn not
+ *         bf intfrpolbtfd witi givfn rfsbmpling filtfr bfdbusf tifir prototypfs
+ *         in tif sourdf imbgf lif too dlosf to tif bordfr) in tif dfstinbtion
+ *         imbgf bddording to tif bidubid intfrpolbtion witi bordfr pixfls fxtfnd
+ *         of sourdf imbgf.
  *
- *      mlib_ImageAffineEdgeExtend_BC2:
- *         This function fills the edge pixels (i.e. thouse one which can not
- *         be interpolated with given resampling filter because their prototypes
- *         in the source image lie too close to the border) in the destination
- *         image according to the bicubic2 interpolation with border pixels extend
- *         of source image.
+ *      mlib_ImbgfAffinfEdgfExtfnd_BC2:
+ *         Tiis fundtion fills tif fdgf pixfls (i.f. tiousf onf wiidi dbn not
+ *         bf intfrpolbtfd witi givfn rfsbmpling filtfr bfdbusf tifir prototypfs
+ *         in tif sourdf imbgf lif too dlosf to tif bordfr) in tif dfstinbtion
+ *         imbgf bddording to tif bidubid2 intfrpolbtion witi bordfr pixfls fxtfnd
+ *         of sourdf imbgf.
  */
 
-#include "mlib_image.h"
-#include "mlib_ImageColormap.h"
-#include "mlib_ImageAffine.h"
+#indludf "mlib_imbgf.i"
+#indludf "mlib_ImbgfColormbp.i"
+#indludf "mlib_ImbgfAffinf.i"
 
 /***************************************************************/
-#define FLT_SHIFT_U8  4
-#define FLT_MASK_U8   (((1 << 8) - 1) << 4)
-#define FLT_SHIFT_S16 3
-#define FLT_MASK_S16  (((1 << 9) - 1) << 4)
+#dffinf FLT_SHIFT_U8  4
+#dffinf FLT_MASK_U8   (((1 << 8) - 1) << 4)
+#dffinf FLT_SHIFT_S16 3
+#dffinf FLT_MASK_S16  (((1 << 9) - 1) << 4)
 
-#define MLIB_SIGN_SHIFT 31
-
-/***************************************************************/
-#define D64mlib_u8(X)   mlib_U82D64[X]
-#define D64mlib_s16(X)  ((mlib_d64)(X))
-#define D64mlib_u16(X)  ((mlib_d64)(X))
-#define D64mlib_s32(X)  ((mlib_d64)(X))
-#define D64mlib_f32(X)  ((mlib_d64)(X))
-#define D64mlib_d64(X)  ((mlib_d64)(X))
+#dffinf MLIB_SIGN_SHIFT 31
 
 /***************************************************************/
-#ifdef MLIB_USE_FTOI_CLAMPING
-
-#define SATmlib_u8(DST, val0)                                   \
-  DST = ((mlib_s32)(val0 - sat) >> 24) ^ 0x80
-
-#define SATmlib_s16(DST, val0)                                  \
-  DST = ((mlib_s32)val0) >> 16
-
-#define SATmlib_u16(DST, val0)                                  \
-  DST = ((mlib_s32)(val0 - sat) >> 16) ^ 0x8000
-
-#define SATmlib_s32(DST, val0)                                  \
-  DST = val0
-
-#else
-
-#define SATmlib_u8(DST, val0)                                   \
-  val0 -= sat;                                                  \
-  if (val0 >= MLIB_S32_MAX)                                     \
-    val0 = MLIB_S32_MAX;                                        \
-  if (val0 <= MLIB_S32_MIN)                                     \
-    val0 = MLIB_S32_MIN;                                        \
-  DST = ((mlib_s32) val0 >> 24) ^ 0x80
-
-#define SATmlib_s16(DST, val0)                                  \
-  if (val0 >= MLIB_S32_MAX)                                     \
-    val0 = MLIB_S32_MAX;                                        \
-  if (val0 <= MLIB_S32_MIN)                                     \
-    val0 = MLIB_S32_MIN;                                        \
-  DST = (mlib_s32)val0 >> 16
-
-#define SATmlib_u16(DST, val0)                                  \
-  val0 -= sat;                                                  \
-  if (val0 >= MLIB_S32_MAX)                                     \
-    val0 = MLIB_S32_MAX;                                        \
-  if (val0 <= MLIB_S32_MIN)                                     \
-    val0 = MLIB_S32_MIN;                                        \
-  DST = ((mlib_s32)val0 >> 16) ^ 0x8000
-
-#define SATmlib_s32(DST, val0)                                  \
-  if (val0 >= MLIB_S32_MAX)                                     \
-    val0 = MLIB_S32_MAX;                                        \
-  if (val0 <= MLIB_S32_MIN)                                     \
-    val0 = MLIB_S32_MIN;                                        \
-  DST = (mlib_s32)val0
-
-#endif
+#dffinf D64mlib_u8(X)   mlib_U82D64[X]
+#dffinf D64mlib_s16(X)  ((mlib_d64)(X))
+#dffinf D64mlib_u16(X)  ((mlib_d64)(X))
+#dffinf D64mlib_s32(X)  ((mlib_d64)(X))
+#dffinf D64mlib_f32(X)  ((mlib_d64)(X))
+#dffinf D64mlib_d64(X)  ((mlib_d64)(X))
 
 /***************************************************************/
-#define SATmlib_f32(DST, val0)                                  \
-  DST = (mlib_f32)val0
+#ifdff MLIB_USE_FTOI_CLAMPING
+
+#dffinf SATmlib_u8(DST, vbl0)                                   \
+  DST = ((mlib_s32)(vbl0 - sbt) >> 24) ^ 0x80
+
+#dffinf SATmlib_s16(DST, vbl0)                                  \
+  DST = ((mlib_s32)vbl0) >> 16
+
+#dffinf SATmlib_u16(DST, vbl0)                                  \
+  DST = ((mlib_s32)(vbl0 - sbt) >> 16) ^ 0x8000
+
+#dffinf SATmlib_s32(DST, vbl0)                                  \
+  DST = vbl0
+
+#flsf
+
+#dffinf SATmlib_u8(DST, vbl0)                                   \
+  vbl0 -= sbt;                                                  \
+  if (vbl0 >= MLIB_S32_MAX)                                     \
+    vbl0 = MLIB_S32_MAX;                                        \
+  if (vbl0 <= MLIB_S32_MIN)                                     \
+    vbl0 = MLIB_S32_MIN;                                        \
+  DST = ((mlib_s32) vbl0 >> 24) ^ 0x80
+
+#dffinf SATmlib_s16(DST, vbl0)                                  \
+  if (vbl0 >= MLIB_S32_MAX)                                     \
+    vbl0 = MLIB_S32_MAX;                                        \
+  if (vbl0 <= MLIB_S32_MIN)                                     \
+    vbl0 = MLIB_S32_MIN;                                        \
+  DST = (mlib_s32)vbl0 >> 16
+
+#dffinf SATmlib_u16(DST, vbl0)                                  \
+  vbl0 -= sbt;                                                  \
+  if (vbl0 >= MLIB_S32_MAX)                                     \
+    vbl0 = MLIB_S32_MAX;                                        \
+  if (vbl0 <= MLIB_S32_MIN)                                     \
+    vbl0 = MLIB_S32_MIN;                                        \
+  DST = ((mlib_s32)vbl0 >> 16) ^ 0x8000
+
+#dffinf SATmlib_s32(DST, vbl0)                                  \
+  if (vbl0 >= MLIB_S32_MAX)                                     \
+    vbl0 = MLIB_S32_MAX;                                        \
+  if (vbl0 <= MLIB_S32_MIN)                                     \
+    vbl0 = MLIB_S32_MIN;                                        \
+  DST = (mlib_s32)vbl0
+
+#fndif
 
 /***************************************************************/
-#define SATmlib_d64(DST, val0)                                  \
-  DST = val0
+#dffinf SATmlib_f32(DST, vbl0)                                  \
+  DST = (mlib_f32)vbl0
 
 /***************************************************************/
-#define MLIB_EDGE_ZERO_LINE(TYPE, Left, Right)                  \
-  dp = (TYPE*)data + channels * Left;                           \
-  dstLineEnd  = (TYPE*)data + channels * Right;                 \
+#dffinf SATmlib_d64(DST, vbl0)                                  \
+  DST = vbl0
+
+/***************************************************************/
+#dffinf MLIB_EDGE_ZERO_LINE(TYPE, Lfft, Rigit)                  \
+  dp = (TYPE*)dbtb + dibnnfls * Lfft;                           \
+  dstLinfEnd  = (TYPE*)dbtb + dibnnfls * Rigit;                 \
                                                                 \
-  for (; dp < dstLineEnd; dp++) {                               \
-    *dp = zero;                                                 \
+  for (; dp < dstLinfEnd; dp++) {                               \
+    *dp = zfro;                                                 \
   }
 
 /***************************************************************/
-#define MLIB_EDGE_NEAREST_LINE(TYPE, Left, Right)               \
-  dp = (TYPE*)data + channels * Left;                           \
-  size = Right - Left;                                          \
+#dffinf MLIB_EDGE_NEAREST_LINE(TYPE, Lfft, Rigit)               \
+  dp = (TYPE*)dbtb + dibnnfls * Lfft;                           \
+  sizf = Rigit - Lfft;                                          \
                                                                 \
-  for (j = 0; j < size; j++) {                                  \
-    ySrc = Y >> MLIB_SHIFT;                                     \
-    xSrc = X >> MLIB_SHIFT;                                     \
-    sp = (TYPE*)lineAddr[ySrc] + xSrc * channels;               \
+  for (j = 0; j < sizf; j++) {                                  \
+    ySrd = Y >> MLIB_SHIFT;                                     \
+    xSrd = X >> MLIB_SHIFT;                                     \
+    sp = (TYPE*)linfAddr[ySrd] + xSrd * dibnnfls;               \
                                                                 \
-    for (k = 0; k < channels; k++) dp[k] = sp[k];               \
+    for (k = 0; k < dibnnfls; k++) dp[k] = sp[k];               \
                                                                 \
     Y += dY;                                                    \
     X += dX;                                                    \
-    dp += channels;                                             \
+    dp += dibnnfls;                                             \
   }
 
 /***************************************************************/
-#define MLIB_EDGE_BL(TYPE, Left, Right)                                 \
-  dp = (TYPE*)data + channels * Left;                                   \
-  size = Right - Left;                                                  \
+#dffinf MLIB_EDGE_BL(TYPE, Lfft, Rigit)                                 \
+  dp = (TYPE*)dbtb + dibnnfls * Lfft;                                   \
+  sizf = Rigit - Lfft;                                                  \
                                                                         \
-  for (j = 0; j < size; j++) {                                          \
-    ySrc = ((Y - 32768) >> MLIB_SHIFT);                                 \
-    xSrc = ((X - 32768) >> MLIB_SHIFT);                                 \
+  for (j = 0; j < sizf; j++) {                                          \
+    ySrd = ((Y - 32768) >> MLIB_SHIFT);                                 \
+    xSrd = ((X - 32768) >> MLIB_SHIFT);                                 \
                                                                         \
-    t = ((X - 32768) & MLIB_MASK) * scale;                              \
-    u = ((Y - 32768) & MLIB_MASK) * scale;                              \
+    t = ((X - 32768) & MLIB_MASK) * sdblf;                              \
+    u = ((Y - 32768) & MLIB_MASK) * sdblf;                              \
                                                                         \
-    xDelta = (((xSrc + 1 - srcWidth )) >> MLIB_SIGN_SHIFT) & channels;  \
-    yDelta = (((ySrc + 1 - srcHeight)) >> MLIB_SIGN_SHIFT) & srcStride; \
+    xDfltb = (((xSrd + 1 - srdWidti )) >> MLIB_SIGN_SHIFT) & dibnnfls;  \
+    yDfltb = (((ySrd + 1 - srdHfigit)) >> MLIB_SIGN_SHIFT) & srdStridf; \
                                                                         \
-    xFlag = (xSrc >> (MLIB_SIGN_SHIFT - MLIB_SHIFT));                   \
-    xSrc = xSrc + (1 & xFlag);                                          \
-    xDelta = xDelta &~ xFlag;                                           \
+    xFlbg = (xSrd >> (MLIB_SIGN_SHIFT - MLIB_SHIFT));                   \
+    xSrd = xSrd + (1 & xFlbg);                                          \
+    xDfltb = xDfltb &~ xFlbg;                                           \
                                                                         \
-    yFlag = (ySrc >> (MLIB_SIGN_SHIFT - MLIB_SHIFT));                   \
-    ySrc = ySrc + (1 & yFlag);                                          \
-    yDelta = yDelta &~ yFlag;                                           \
+    yFlbg = (ySrd >> (MLIB_SIGN_SHIFT - MLIB_SHIFT));                   \
+    ySrd = ySrd + (1 & yFlbg);                                          \
+    yDfltb = yDfltb &~ yFlbg;                                           \
                                                                         \
-    sp = (TYPE*)lineAddr[ySrc] + xSrc * channels;                       \
+    sp = (TYPE*)linfAddr[ySrd] + xSrd * dibnnfls;                       \
                                                                         \
-    for (k = 0; k < channels; k++) {                                    \
-      a00  = D64##TYPE(sp[0]);                                          \
-      a01  = D64##TYPE(sp[xDelta]);                                     \
-      a10  = D64##TYPE(sp[yDelta]);                                     \
-      a11  = D64##TYPE(sp[yDelta + xDelta]);                            \
-      pix0 = (a00 * (1 - t) + a01 * t) * (1 - u) +                      \
-             (a10 * (1 - t) + a11 * t) * u;                             \
+    for (k = 0; k < dibnnfls; k++) {                                    \
+      b00  = D64##TYPE(sp[0]);                                          \
+      b01  = D64##TYPE(sp[xDfltb]);                                     \
+      b10  = D64##TYPE(sp[yDfltb]);                                     \
+      b11  = D64##TYPE(sp[yDfltb + xDfltb]);                            \
+      pix0 = (b00 * (1 - t) + b01 * t) * (1 - u) +                      \
+             (b10 * (1 - t) + b11 * t) * u;                             \
                                                                         \
       dp[k] = (TYPE)pix0;                                               \
       sp++;                                                             \
@@ -214,104 +214,104 @@
                                                                         \
     X += dX;                                                            \
     Y += dY;                                                            \
-    dp += channels;                                                     \
+    dp += dibnnfls;                                                     \
   }
 
 /***************************************************************/
-#define LUT(k, ind) plut[channels*sp[ind] + k]
+#dffinf LUT(k, ind) plut[dibnnfls*sp[ind] + k]
 
 /***************************************************************/
-#define MLIB_EDGE_INDEX(ITYPE, DTYPE, size)                             \
-  for (j = 0; j < size; j++) {                                          \
-    ySrc = ((Y - 32768) >> MLIB_SHIFT);                                 \
-    xSrc = ((X - 32768) >> MLIB_SHIFT);                                 \
+#dffinf MLIB_EDGE_INDEX(ITYPE, DTYPE, sizf)                             \
+  for (j = 0; j < sizf; j++) {                                          \
+    ySrd = ((Y - 32768) >> MLIB_SHIFT);                                 \
+    xSrd = ((X - 32768) >> MLIB_SHIFT);                                 \
                                                                         \
-    t = ((X - 32768) & MLIB_MASK) * scale;                              \
-    u = ((Y - 32768) & MLIB_MASK) * scale;                              \
+    t = ((X - 32768) & MLIB_MASK) * sdblf;                              \
+    u = ((Y - 32768) & MLIB_MASK) * sdblf;                              \
                                                                         \
-    xDelta = (((xSrc + 1 - srcWidth )) >> MLIB_SIGN_SHIFT) & 1;         \
-    yDelta = (((ySrc + 1 - srcHeight)) >> MLIB_SIGN_SHIFT) & srcStride; \
+    xDfltb = (((xSrd + 1 - srdWidti )) >> MLIB_SIGN_SHIFT) & 1;         \
+    yDfltb = (((ySrd + 1 - srdHfigit)) >> MLIB_SIGN_SHIFT) & srdStridf; \
                                                                         \
-    xFlag = (xSrc >> (MLIB_SIGN_SHIFT - MLIB_SHIFT));                   \
-    xSrc = xSrc + (1 & xFlag);                                          \
-    xDelta = xDelta &~ xFlag;                                           \
+    xFlbg = (xSrd >> (MLIB_SIGN_SHIFT - MLIB_SHIFT));                   \
+    xSrd = xSrd + (1 & xFlbg);                                          \
+    xDfltb = xDfltb &~ xFlbg;                                           \
                                                                         \
-    yFlag = (ySrc >> (MLIB_SIGN_SHIFT - MLIB_SHIFT));                   \
-    ySrc = ySrc + (1 & yFlag);                                          \
-    yDelta = yDelta &~ yFlag;                                           \
+    yFlbg = (ySrd >> (MLIB_SIGN_SHIFT - MLIB_SHIFT));                   \
+    ySrd = ySrd + (1 & yFlbg);                                          \
+    yDfltb = yDfltb &~ yFlbg;                                           \
                                                                         \
-    sp = (ITYPE*)lineAddr[ySrc] + xSrc;                                 \
+    sp = (ITYPE*)linfAddr[ySrd] + xSrd;                                 \
                                                                         \
-    for (k = 0; k < channels; k++) {                                    \
-      a00  = LUT(k, 0);                                                 \
-      a01  = LUT(k, xDelta);                                            \
-      a10  = LUT(k, yDelta);                                            \
-      a11  = LUT(k, yDelta + xDelta);                                   \
-      pix0 = (a00 * (1 - t) + a01 * t) * (1 - u) +                      \
-             (a10 * (1 - t) + a11 * t) * u;                             \
+    for (k = 0; k < dibnnfls; k++) {                                    \
+      b00  = LUT(k, 0);                                                 \
+      b01  = LUT(k, xDfltb);                                            \
+      b10  = LUT(k, yDfltb);                                            \
+      b11  = LUT(k, yDfltb + xDfltb);                                   \
+      pix0 = (b00 * (1 - t) + b01 * t) * (1 - u) +                      \
+             (b10 * (1 - t) + b11 * t) * u;                             \
                                                                         \
       pbuff[k] = (mlib_s32)pix0;                                        \
     }                                                                   \
-    pbuff += channels;                                                  \
+    pbuff += dibnnfls;                                                  \
                                                                         \
     X += dX;                                                            \
     Y += dY;                                                            \
   }
 
 /***************************************************************/
-#define MLIB_EDGE_INDEX_u8i(ITYPE, Left, Right) {                              \
+#dffinf MLIB_EDGE_INDEX_u8i(ITYPE, Lfft, Rigit) {                              \
   mlib_u8  *pbuff = buff;                                                      \
                                                                                \
-  size = Right - Left;                                                         \
+  sizf = Rigit - Lfft;                                                         \
                                                                                \
-  MLIB_EDGE_INDEX(ITYPE, mlib_u8, size);                                       \
+  MLIB_EDGE_INDEX(ITYPE, mlib_u8, sizf);                                       \
                                                                                \
-  dp = (ITYPE*)data + Left;                                                    \
+  dp = (ITYPE*)dbtb + Lfft;                                                    \
                                                                                \
-  if (channels == 3) {                                                         \
-    if (sizeof(ITYPE) == 1) {                                                  \
-      mlib_ImageColorTrue2IndexLine_U8_U8_3 (buff, (void*)dp, size, colormap); \
-    } else {                                                                   \
-      mlib_ImageColorTrue2IndexLine_U8_S16_3(buff, (void*)dp, size, colormap); \
+  if (dibnnfls == 3) {                                                         \
+    if (sizfof(ITYPE) == 1) {                                                  \
+      mlib_ImbgfColorTruf2IndfxLinf_U8_U8_3 (buff, (void*)dp, sizf, dolormbp); \
+    } flsf {                                                                   \
+      mlib_ImbgfColorTruf2IndfxLinf_U8_S16_3(buff, (void*)dp, sizf, dolormbp); \
     }                                                                          \
-  } else {                                                                     \
-    if (sizeof(ITYPE) == 1) {                                                  \
-      mlib_ImageColorTrue2IndexLine_U8_U8_4 (buff, (void*)dp, size, colormap); \
-    } else {                                                                   \
-      mlib_ImageColorTrue2IndexLine_U8_S16_4(buff, (void*)dp, size, colormap); \
+  } flsf {                                                                     \
+    if (sizfof(ITYPE) == 1) {                                                  \
+      mlib_ImbgfColorTruf2IndfxLinf_U8_U8_4 (buff, (void*)dp, sizf, dolormbp); \
+    } flsf {                                                                   \
+      mlib_ImbgfColorTruf2IndfxLinf_U8_S16_4(buff, (void*)dp, sizf, dolormbp); \
     }                                                                          \
   }                                                                            \
 }
 
 /***************************************************************/
-#define MLIB_EDGE_INDEX_s16i(ITYPE, Left, Right) {                              \
+#dffinf MLIB_EDGE_INDEX_s16i(ITYPE, Lfft, Rigit) {                              \
   mlib_s16 *pbuff = buff;                                                       \
                                                                                 \
-  size = Right - Left;                                                          \
+  sizf = Rigit - Lfft;                                                          \
                                                                                 \
-  MLIB_EDGE_INDEX(ITYPE, mlib_s16, size);                                       \
+  MLIB_EDGE_INDEX(ITYPE, mlib_s16, sizf);                                       \
                                                                                 \
-  dp = (ITYPE*)data + Left;                                                     \
+  dp = (ITYPE*)dbtb + Lfft;                                                     \
                                                                                 \
-  if (channels == 3) {                                                          \
-    if (sizeof(ITYPE) == 1) {                                                   \
-      mlib_ImageColorTrue2IndexLine_S16_U8_3 (buff, (void*)dp, size, colormap); \
-    } else {                                                                    \
-      mlib_ImageColorTrue2IndexLine_S16_S16_3(buff, (void*)dp, size, colormap); \
+  if (dibnnfls == 3) {                                                          \
+    if (sizfof(ITYPE) == 1) {                                                   \
+      mlib_ImbgfColorTruf2IndfxLinf_S16_U8_3 (buff, (void*)dp, sizf, dolormbp); \
+    } flsf {                                                                    \
+      mlib_ImbgfColorTruf2IndfxLinf_S16_S16_3(buff, (void*)dp, sizf, dolormbp); \
     }                                                                           \
-  } else {                                                                      \
-    if (sizeof(ITYPE) == 1) {                                                   \
-      mlib_ImageColorTrue2IndexLine_S16_U8_4 (buff, (void*)dp, size, colormap); \
-    } else {                                                                    \
-      mlib_ImageColorTrue2IndexLine_S16_S16_4(buff, (void*)dp, size, colormap); \
+  } flsf {                                                                      \
+    if (sizfof(ITYPE) == 1) {                                                   \
+      mlib_ImbgfColorTruf2IndfxLinf_S16_U8_4 (buff, (void*)dp, sizf, dolormbp); \
+    } flsf {                                                                    \
+      mlib_ImbgfColorTruf2IndfxLinf_S16_S16_4(buff, (void*)dp, sizf, dolormbp); \
     }                                                                           \
   }                                                                             \
 }
 
 /***************************************************************/
-#define GET_FLT_TBL(X, xf0, xf1, xf2, xf3)                      \
-  filterpos = ((X - 32768) >> flt_shift) & flt_mask;            \
-  fptr = (mlib_f32 *) ((mlib_u8 *)flt_tbl + filterpos);         \
+#dffinf GET_FLT_TBL(X, xf0, xf1, xf2, xf3)                      \
+  filtfrpos = ((X - 32768) >> flt_siift) & flt_mbsk;            \
+  fptr = (mlib_f32 *) ((mlib_u8 *)flt_tbl + filtfrpos);         \
                                                                 \
   xf0 = fptr[0];                                                \
   xf1 = fptr[1];                                                \
@@ -319,8 +319,8 @@
   xf3 = fptr[3]
 
 /***************************************************************/
-#define GET_FLT_BC(X, xf0, xf1, xf2, xf3)                       \
-  dx = ((X - 32768) & MLIB_MASK) * scale;                       \
+#dffinf GET_FLT_BC(X, xf0, xf1, xf2, xf3)                       \
+  dx = ((X - 32768) & MLIB_MASK) * sdblf;                       \
   dx_2  = 0.5 * dx;                                             \
   dx2   = dx * dx;                                              \
   dx3_2 = dx_2 * dx2;                                           \
@@ -332,8 +332,8 @@
   xf3 = dx3_2 - 0.5 * dx2
 
 /***************************************************************/
-#define GET_FLT_BC2(X, xf0, xf1, xf2, xf3)                      \
-  dx =  ((X - 32768) & MLIB_MASK) * scale;                      \
+#dffinf GET_FLT_BC2(X, xf0, xf1, xf2, xf3)                      \
+  dx =  ((X - 32768) & MLIB_MASK) * sdblf;                      \
   dx2   = dx  * dx;                                             \
   dx3_2 = dx  * dx2;                                            \
   dx3_3 = 2.0 * dx2;                                            \
@@ -344,605 +344,605 @@
   xf3 =   dx3_2 - dx2
 
 /***************************************************************/
-#define CALC_SRC_POS(X, Y, channels, srcStride)                                    \
-  xSrc = ((X - 32768) >> MLIB_SHIFT);                                              \
-  ySrc = ((Y - 32768) >> MLIB_SHIFT);                                              \
+#dffinf CALC_SRC_POS(X, Y, dibnnfls, srdStridf)                                    \
+  xSrd = ((X - 32768) >> MLIB_SHIFT);                                              \
+  ySrd = ((Y - 32768) >> MLIB_SHIFT);                                              \
                                                                                    \
-  xDelta0 = ((~((xSrc - 1) >> MLIB_SIGN_SHIFT)) & (- channels));                   \
-  yDelta0 = ((~((ySrc - 1) >> MLIB_SIGN_SHIFT)) & (- srcStride));                  \
-  xDelta1 = ((xSrc + 1 - srcWidth) >> MLIB_SIGN_SHIFT) & (channels);               \
-  yDelta1 = ((ySrc + 1 - srcHeight) >> MLIB_SIGN_SHIFT) & (srcStride);             \
-  xDelta2 = xDelta1 + (((xSrc + 2 - srcWidth) >> MLIB_SIGN_SHIFT) & (channels));   \
-  yDelta2 = yDelta1 + (((ySrc + 2 - srcHeight) >> MLIB_SIGN_SHIFT) & (srcStride)); \
+  xDfltb0 = ((~((xSrd - 1) >> MLIB_SIGN_SHIFT)) & (- dibnnfls));                   \
+  yDfltb0 = ((~((ySrd - 1) >> MLIB_SIGN_SHIFT)) & (- srdStridf));                  \
+  xDfltb1 = ((xSrd + 1 - srdWidti) >> MLIB_SIGN_SHIFT) & (dibnnfls);               \
+  yDfltb1 = ((ySrd + 1 - srdHfigit) >> MLIB_SIGN_SHIFT) & (srdStridf);             \
+  xDfltb2 = xDfltb1 + (((xSrd + 2 - srdWidti) >> MLIB_SIGN_SHIFT) & (dibnnfls));   \
+  yDfltb2 = yDfltb1 + (((ySrd + 2 - srdHfigit) >> MLIB_SIGN_SHIFT) & (srdStridf)); \
                                                                                    \
-  xFlag = (xSrc >> (MLIB_SIGN_SHIFT - MLIB_SHIFT));                                \
-  xSrc = xSrc + (1 & xFlag);                                                       \
-  xDelta2 -= (xDelta1 & xFlag);                                                    \
-  xDelta1 = (xDelta1 &~ xFlag);                                                    \
+  xFlbg = (xSrd >> (MLIB_SIGN_SHIFT - MLIB_SHIFT));                                \
+  xSrd = xSrd + (1 & xFlbg);                                                       \
+  xDfltb2 -= (xDfltb1 & xFlbg);                                                    \
+  xDfltb1 = (xDfltb1 &~ xFlbg);                                                    \
                                                                                    \
-  yFlag = (ySrc >> (MLIB_SIGN_SHIFT - MLIB_SHIFT));                                \
-  ySrc = ySrc + (1 & yFlag);                                                       \
-  yDelta2  -= (yDelta1 & yFlag);                                                   \
-  yDelta1 = yDelta1 &~ yFlag
+  yFlbg = (ySrd >> (MLIB_SIGN_SHIFT - MLIB_SHIFT));                                \
+  ySrd = ySrd + (1 & yFlbg);                                                       \
+  yDfltb2  -= (yDfltb1 & yFlbg);                                                   \
+  yDfltb1 = yDfltb1 &~ yFlbg
 
 /***************************************************************/
-#define MLIB_EDGE_BC_LINE(TYPE, Left, Right, GET_FILTER)        \
-  dp = (TYPE*)data + channels * Left;                           \
-  size = Right - Left;                                          \
+#dffinf MLIB_EDGE_BC_LINE(TYPE, Lfft, Rigit, GET_FILTER)        \
+  dp = (TYPE*)dbtb + dibnnfls * Lfft;                           \
+  sizf = Rigit - Lfft;                                          \
                                                                 \
-  for (j = 0; j < size; j++) {                                  \
+  for (j = 0; j < sizf; j++) {                                  \
     GET_FILTER(X, xf0, xf1, xf2, xf3);                          \
     GET_FILTER(Y, yf0, yf1, yf2, yf3);                          \
                                                                 \
-    CALC_SRC_POS(X, Y, channels, srcStride);                    \
+    CALC_SRC_POS(X, Y, dibnnfls, srdStridf);                    \
                                                                 \
-    sp = (TYPE*)lineAddr[ySrc] + channels*xSrc;                 \
+    sp = (TYPE*)linfAddr[ySrd] + dibnnfls*xSrd;                 \
                                                                 \
-    for (k = 0; k < channels; k++) {                            \
-      c0 = D64##TYPE(sp[yDelta0 + xDelta0]) * xf0 +             \
-           D64##TYPE(sp[yDelta0          ]) * xf1 +             \
-           D64##TYPE(sp[yDelta0 + xDelta1]) * xf2 +             \
-           D64##TYPE(sp[yDelta0 + xDelta2]) * xf3;              \
+    for (k = 0; k < dibnnfls; k++) {                            \
+      d0 = D64##TYPE(sp[yDfltb0 + xDfltb0]) * xf0 +             \
+           D64##TYPE(sp[yDfltb0          ]) * xf1 +             \
+           D64##TYPE(sp[yDfltb0 + xDfltb1]) * xf2 +             \
+           D64##TYPE(sp[yDfltb0 + xDfltb2]) * xf3;              \
                                                                 \
-      c1 = D64##TYPE(sp[xDelta0]) * xf0 +                       \
+      d1 = D64##TYPE(sp[xDfltb0]) * xf0 +                       \
            D64##TYPE(sp[      0]) * xf1 +                       \
-           D64##TYPE(sp[xDelta1]) * xf2 +                       \
-           D64##TYPE(sp[xDelta2]) * xf3;                        \
+           D64##TYPE(sp[xDfltb1]) * xf2 +                       \
+           D64##TYPE(sp[xDfltb2]) * xf3;                        \
                                                                 \
-      c2 = D64##TYPE(sp[yDelta1 + xDelta0]) * xf0 +             \
-           D64##TYPE(sp[yDelta1          ]) * xf1 +             \
-           D64##TYPE(sp[yDelta1 + xDelta1]) * xf2 +             \
-           D64##TYPE(sp[yDelta1 + xDelta2]) * xf3;              \
+      d2 = D64##TYPE(sp[yDfltb1 + xDfltb0]) * xf0 +             \
+           D64##TYPE(sp[yDfltb1          ]) * xf1 +             \
+           D64##TYPE(sp[yDfltb1 + xDfltb1]) * xf2 +             \
+           D64##TYPE(sp[yDfltb1 + xDfltb2]) * xf3;              \
                                                                 \
-      c3 = D64##TYPE(sp[yDelta2 + xDelta0]) * xf0 +             \
-           D64##TYPE(sp[yDelta2          ]) * xf1 +             \
-           D64##TYPE(sp[yDelta2 + xDelta1]) * xf2 +             \
-           D64##TYPE(sp[yDelta2 + xDelta2]) * xf3;              \
+      d3 = D64##TYPE(sp[yDfltb2 + xDfltb0]) * xf0 +             \
+           D64##TYPE(sp[yDfltb2          ]) * xf1 +             \
+           D64##TYPE(sp[yDfltb2 + xDfltb1]) * xf2 +             \
+           D64##TYPE(sp[yDfltb2 + xDfltb2]) * xf3;              \
                                                                 \
-      val0 = c0*yf0 + c1*yf1 + c2*yf2 + c3*yf3;                 \
+      vbl0 = d0*yf0 + d1*yf1 + d2*yf2 + d3*yf3;                 \
                                                                 \
-      SAT##TYPE(dp[k], val0);                                   \
+      SAT##TYPE(dp[k], vbl0);                                   \
                                                                 \
       sp++;                                                     \
     }                                                           \
                                                                 \
     X += dX;                                                    \
     Y += dY;                                                    \
-    dp += channels;                                             \
+    dp += dibnnfls;                                             \
   }
 
 /***************************************************************/
-#define MLIB_EDGE_BC_TBL(TYPE, Left, Right)                     \
-  MLIB_EDGE_BC_LINE(TYPE, Left, Right, GET_FLT_TBL)
+#dffinf MLIB_EDGE_BC_TBL(TYPE, Lfft, Rigit)                     \
+  MLIB_EDGE_BC_LINE(TYPE, Lfft, Rigit, GET_FLT_TBL)
 
 /***************************************************************/
-#define MLIB_EDGE_BC(TYPE, Left, Right)                         \
-  MLIB_EDGE_BC_LINE(TYPE, Left, Right, GET_FLT_BC)
+#dffinf MLIB_EDGE_BC(TYPE, Lfft, Rigit)                         \
+  MLIB_EDGE_BC_LINE(TYPE, Lfft, Rigit, GET_FLT_BC)
 
 /***************************************************************/
-#define MLIB_EDGE_BC2(TYPE, Left, Right)                        \
-  MLIB_EDGE_BC_LINE(TYPE, Left, Right, GET_FLT_BC2)
+#dffinf MLIB_EDGE_BC2(TYPE, Lfft, Rigit)                        \
+  MLIB_EDGE_BC_LINE(TYPE, Lfft, Rigit, GET_FLT_BC2)
 
 /***************************************************************/
-#define MLIB_EDGE_INDEX_BC(ITYPE, DTYPE, size)                  \
-  for (j = 0; j < size; j++) {                                  \
+#dffinf MLIB_EDGE_INDEX_BC(ITYPE, DTYPE, sizf)                  \
+  for (j = 0; j < sizf; j++) {                                  \
     GET_FLT_TBL(X, xf0, xf1, xf2, xf3);                         \
     GET_FLT_TBL(Y, yf0, yf1, yf2, yf3);                         \
                                                                 \
-    CALC_SRC_POS(X, Y, 1, srcStride);                           \
+    CALC_SRC_POS(X, Y, 1, srdStridf);                           \
                                                                 \
-    sp = (ITYPE*)lineAddr[ySrc] + xSrc;                         \
+    sp = (ITYPE*)linfAddr[ySrd] + xSrd;                         \
                                                                 \
-    for (k = 0; k < channels; k++) {                            \
-      c0 = LUT(k, yDelta0 + xDelta0) * xf0 +                    \
-           LUT(k, yDelta0          ) * xf1 +                    \
-           LUT(k, yDelta0 + xDelta1) * xf2 +                    \
-           LUT(k, yDelta0 + xDelta2) * xf3;                     \
+    for (k = 0; k < dibnnfls; k++) {                            \
+      d0 = LUT(k, yDfltb0 + xDfltb0) * xf0 +                    \
+           LUT(k, yDfltb0          ) * xf1 +                    \
+           LUT(k, yDfltb0 + xDfltb1) * xf2 +                    \
+           LUT(k, yDfltb0 + xDfltb2) * xf3;                     \
                                                                 \
-      c1 = LUT(k, xDelta0) * xf0 +                              \
+      d1 = LUT(k, xDfltb0) * xf0 +                              \
            LUT(k, 0      ) * xf1 +                              \
-           LUT(k, xDelta1) * xf2 +                              \
-           LUT(k, xDelta2) * xf3;                               \
+           LUT(k, xDfltb1) * xf2 +                              \
+           LUT(k, xDfltb2) * xf3;                               \
                                                                 \
-      c2 = LUT(k, yDelta1 + xDelta0) * xf0 +                    \
-           LUT(k, yDelta1          ) * xf1 +                    \
-           LUT(k, yDelta1 + xDelta1) * xf2 +                    \
-           LUT(k, yDelta1 + xDelta2) * xf3;                     \
+      d2 = LUT(k, yDfltb1 + xDfltb0) * xf0 +                    \
+           LUT(k, yDfltb1          ) * xf1 +                    \
+           LUT(k, yDfltb1 + xDfltb1) * xf2 +                    \
+           LUT(k, yDfltb1 + xDfltb2) * xf3;                     \
                                                                 \
-      c3 = LUT(k, yDelta2 + xDelta0) * xf0 +                    \
-           LUT(k, yDelta2          ) * xf1 +                    \
-           LUT(k, yDelta2 + xDelta1) * xf2 +                    \
-           LUT(k, yDelta2 + xDelta2) * xf3;                     \
+      d3 = LUT(k, yDfltb2 + xDfltb0) * xf0 +                    \
+           LUT(k, yDfltb2          ) * xf1 +                    \
+           LUT(k, yDfltb2 + xDfltb1) * xf2 +                    \
+           LUT(k, yDfltb2 + xDfltb2) * xf3;                     \
                                                                 \
-      val0 = c0*yf0 + c1*yf1 + c2*yf2 + c3*yf3;                 \
+      vbl0 = d0*yf0 + d1*yf1 + d2*yf2 + d3*yf3;                 \
                                                                 \
-      SAT##DTYPE(pbuff[k], val0);                               \
+      SAT##DTYPE(pbuff[k], vbl0);                               \
     }                                                           \
-    pbuff += channels;                                          \
+    pbuff += dibnnfls;                                          \
                                                                 \
     X += dX;                                                    \
     Y += dY;                                                    \
   }
 
 /***************************************************************/
-#define MLIB_PROCESS_EDGES_ZERO(TYPE) {                         \
-  TYPE *dp, *dstLineEnd;                                        \
+#dffinf MLIB_PROCESS_EDGES_ZERO(TYPE) {                         \
+  TYPE *dp, *dstLinfEnd;                                        \
                                                                 \
-  for (i = yStartE; i < yStart; i++) {                          \
-    xLeftE  = leftEdgesE[i];                                    \
-    xRightE = rightEdgesE[i] + 1;                               \
-    data   += dstStride;                                        \
+  for (i = yStbrtE; i < yStbrt; i++) {                          \
+    xLfftE  = lfftEdgfsE[i];                                    \
+    xRigitE = rigitEdgfsE[i] + 1;                               \
+    dbtb   += dstStridf;                                        \
                                                                 \
-    MLIB_EDGE_ZERO_LINE(TYPE, xLeftE, xRightE);                 \
+    MLIB_EDGE_ZERO_LINE(TYPE, xLfftE, xRigitE);                 \
   }                                                             \
                                                                 \
-  for (; i <= yFinish; i++) {                                   \
-    xLeftE  = leftEdgesE[i];                                    \
-    xRightE = rightEdgesE[i] + 1;                               \
-    xLeft   = leftEdges[i];                                     \
-    xRight  = rightEdges[i] + 1;                                \
-    data   += dstStride;                                        \
+  for (; i <= yFinisi; i++) {                                   \
+    xLfftE  = lfftEdgfsE[i];                                    \
+    xRigitE = rigitEdgfsE[i] + 1;                               \
+    xLfft   = lfftEdgfs[i];                                     \
+    xRigit  = rigitEdgfs[i] + 1;                                \
+    dbtb   += dstStridf;                                        \
                                                                 \
-    if (xLeft < xRight) {                                       \
-      MLIB_EDGE_ZERO_LINE(TYPE, xLeftE, xLeft);                 \
-    } else {                                                    \
-      xRight = xLeftE;                                          \
+    if (xLfft < xRigit) {                                       \
+      MLIB_EDGE_ZERO_LINE(TYPE, xLfftE, xLfft);                 \
+    } flsf {                                                    \
+      xRigit = xLfftE;                                          \
     }                                                           \
                                                                 \
-    MLIB_EDGE_ZERO_LINE(TYPE, xRight, xRightE);                 \
+    MLIB_EDGE_ZERO_LINE(TYPE, xRigit, xRigitE);                 \
   }                                                             \
                                                                 \
-  for (; i <= yFinishE; i++) {                                  \
-    xLeftE  = leftEdgesE[i];                                    \
-    xRightE = rightEdgesE[i] + 1;                               \
-    data   += dstStride;                                        \
+  for (; i <= yFinisiE; i++) {                                  \
+    xLfftE  = lfftEdgfsE[i];                                    \
+    xRigitE = rigitEdgfsE[i] + 1;                               \
+    dbtb   += dstStridf;                                        \
                                                                 \
-    MLIB_EDGE_ZERO_LINE(TYPE, xLeftE, xRightE);                 \
+    MLIB_EDGE_ZERO_LINE(TYPE, xLfftE, xRigitE);                 \
   }                                                             \
 }
 
 /***************************************************************/
-#define MLIB_PROCESS_EDGES(PROCESS_LINE, TYPE) {                \
+#dffinf MLIB_PROCESS_EDGES(PROCESS_LINE, TYPE) {                \
   TYPE *sp, *dp;                                                \
-  mlib_s32 k, size;                                             \
+  mlib_s32 k, sizf;                                             \
                                                                 \
-  for (i = yStartE; i < yStart; i++) {                          \
-    xLeftE  = leftEdgesE[i];                                    \
-    xRightE = rightEdgesE[i] + 1;                               \
-    X       = xStartsE[i];                                      \
-    Y       = yStartsE[i];                                      \
-    data   += dstStride;                                        \
+  for (i = yStbrtE; i < yStbrt; i++) {                          \
+    xLfftE  = lfftEdgfsE[i];                                    \
+    xRigitE = rigitEdgfsE[i] + 1;                               \
+    X       = xStbrtsE[i];                                      \
+    Y       = yStbrtsE[i];                                      \
+    dbtb   += dstStridf;                                        \
                                                                 \
-    PROCESS_LINE(TYPE, xLeftE, xRightE);                        \
+    PROCESS_LINE(TYPE, xLfftE, xRigitE);                        \
   }                                                             \
                                                                 \
-  for (; i <= yFinish; i++) {                                   \
-    xLeftE  = leftEdgesE[i];                                    \
-    xRightE = rightEdgesE[i] + 1;                               \
-    xLeft   = leftEdges[i];                                     \
-    xRight  = rightEdges[i] + 1;                                \
-    X       = xStartsE[i];                                      \
-    Y       = yStartsE[i];                                      \
-    data   += dstStride;                                        \
+  for (; i <= yFinisi; i++) {                                   \
+    xLfftE  = lfftEdgfsE[i];                                    \
+    xRigitE = rigitEdgfsE[i] + 1;                               \
+    xLfft   = lfftEdgfs[i];                                     \
+    xRigit  = rigitEdgfs[i] + 1;                                \
+    X       = xStbrtsE[i];                                      \
+    Y       = yStbrtsE[i];                                      \
+    dbtb   += dstStridf;                                        \
                                                                 \
-    if (xLeft < xRight) {                                       \
-      PROCESS_LINE(TYPE, xLeftE, xLeft);                        \
-    } else {                                                    \
-      xRight = xLeftE;                                          \
+    if (xLfft < xRigit) {                                       \
+      PROCESS_LINE(TYPE, xLfftE, xLfft);                        \
+    } flsf {                                                    \
+      xRigit = xLfftE;                                          \
     }                                                           \
                                                                 \
-    X = xStartsE[i] + dX * (xRight - xLeftE);                   \
-    Y = yStartsE[i] + dY * (xRight - xLeftE);                   \
-    PROCESS_LINE(TYPE, xRight, xRightE);                        \
+    X = xStbrtsE[i] + dX * (xRigit - xLfftE);                   \
+    Y = yStbrtsE[i] + dY * (xRigit - xLfftE);                   \
+    PROCESS_LINE(TYPE, xRigit, xRigitE);                        \
   }                                                             \
                                                                 \
-  for (; i <= yFinishE; i++) {                                  \
-    xLeftE  = leftEdgesE[i];                                    \
-    xRightE = rightEdgesE[i] + 1;                               \
-    X       = xStartsE[i];                                      \
-    Y       = yStartsE[i];                                      \
-    data   += dstStride;                                        \
+  for (; i <= yFinisiE; i++) {                                  \
+    xLfftE  = lfftEdgfsE[i];                                    \
+    xRigitE = rigitEdgfsE[i] + 1;                               \
+    X       = xStbrtsE[i];                                      \
+    Y       = yStbrtsE[i];                                      \
+    dbtb   += dstStridf;                                        \
                                                                 \
-    PROCESS_LINE(TYPE, xLeftE, xRightE);                        \
+    PROCESS_LINE(TYPE, xLfftE, xRigitE);                        \
   }                                                             \
 }
 
 /***************************************************************/
-#define GET_EDGE_PARAMS_ZERO()                                  \
-  mlib_image *dst = param -> dst;                               \
-  mlib_s32  *leftEdges  = param -> leftEdges;                   \
-  mlib_s32  *rightEdges = param -> rightEdges;                  \
-  mlib_s32  *leftEdgesE  = param_e -> leftEdges;                \
-  mlib_s32  *rightEdgesE = param_e -> rightEdges;               \
-  mlib_type type      = mlib_ImageGetType(dst);                 \
-  mlib_s32  channels  = mlib_ImageGetChannels(dst);             \
-  mlib_s32  dstStride = mlib_ImageGetStride(dst);               \
-  mlib_s32  yStart    = param -> yStart;                        \
-  mlib_s32  yFinish   = param -> yFinish;                       \
-  mlib_s32  yStartE   = param_e -> yStart;                      \
-  mlib_s32  yFinishE  = param_e -> yFinish;                     \
-  mlib_u8   *data     = param_e -> dstData;                     \
-  mlib_s32  xLeft, xRight, xLeftE, xRightE;                     \
+#dffinf GET_EDGE_PARAMS_ZERO()                                  \
+  mlib_imbgf *dst = pbrbm -> dst;                               \
+  mlib_s32  *lfftEdgfs  = pbrbm -> lfftEdgfs;                   \
+  mlib_s32  *rigitEdgfs = pbrbm -> rigitEdgfs;                  \
+  mlib_s32  *lfftEdgfsE  = pbrbm_f -> lfftEdgfs;                \
+  mlib_s32  *rigitEdgfsE = pbrbm_f -> rigitEdgfs;               \
+  mlib_typf typf      = mlib_ImbgfGftTypf(dst);                 \
+  mlib_s32  dibnnfls  = mlib_ImbgfGftCibnnfls(dst);             \
+  mlib_s32  dstStridf = mlib_ImbgfGftStridf(dst);               \
+  mlib_s32  yStbrt    = pbrbm -> yStbrt;                        \
+  mlib_s32  yFinisi   = pbrbm -> yFinisi;                       \
+  mlib_s32  yStbrtE   = pbrbm_f -> yStbrt;                      \
+  mlib_s32  yFinisiE  = pbrbm_f -> yFinisi;                     \
+  mlib_u8   *dbtb     = pbrbm_f -> dstDbtb;                     \
+  mlib_s32  xLfft, xRigit, xLfftE, xRigitE;                     \
   mlib_s32  i
 
 /***************************************************************/
-#define GET_EDGE_PARAMS_NN()                                    \
+#dffinf GET_EDGE_PARAMS_NN()                                    \
   GET_EDGE_PARAMS_ZERO();                                       \
-  mlib_s32  *xStartsE = param_e -> xStarts;                     \
-  mlib_s32  *yStartsE = param_e -> yStarts;                     \
-  mlib_u8   **lineAddr = param -> lineAddr;                     \
-  mlib_s32  dX = param_e -> dX;                                 \
-  mlib_s32  dY = param_e -> dY;                                 \
-  mlib_s32  xSrc, ySrc, X, Y;                                   \
+  mlib_s32  *xStbrtsE = pbrbm_f -> xStbrts;                     \
+  mlib_s32  *yStbrtsE = pbrbm_f -> yStbrts;                     \
+  mlib_u8   **linfAddr = pbrbm -> linfAddr;                     \
+  mlib_s32  dX = pbrbm_f -> dX;                                 \
+  mlib_s32  dY = pbrbm_f -> dY;                                 \
+  mlib_s32  xSrd, ySrd, X, Y;                                   \
   mlib_s32  j
 
 /***************************************************************/
-#define GET_EDGE_PARAMS()                                       \
+#dffinf GET_EDGE_PARAMS()                                       \
   GET_EDGE_PARAMS_NN();                                         \
-  mlib_image *src = param -> src;                               \
-  mlib_s32  srcWidth  = mlib_ImageGetWidth(src);                \
-  mlib_s32  srcHeight = mlib_ImageGetHeight(src);               \
-  mlib_s32  srcStride = mlib_ImageGetStride(src)
+  mlib_imbgf *srd = pbrbm -> srd;                               \
+  mlib_s32  srdWidti  = mlib_ImbgfGftWidti(srd);                \
+  mlib_s32  srdHfigit = mlib_ImbgfGftHfigit(srd);               \
+  mlib_s32  srdStridf = mlib_ImbgfGftStridf(srd)
 
 /***************************************************************/
-void mlib_ImageAffineEdgeZero(mlib_affine_param *param,
-                              mlib_affine_param *param_e,
-                              const void        *colormap)
+void mlib_ImbgfAffinfEdgfZfro(mlib_bffinf_pbrbm *pbrbm,
+                              mlib_bffinf_pbrbm *pbrbm_f,
+                              donst void        *dolormbp)
 {
   GET_EDGE_PARAMS_ZERO();
-  mlib_s32 zero = 0;
+  mlib_s32 zfro = 0;
 
-  if (colormap != NULL) {
-    zero = mlib_ImageGetLutOffset(colormap);
+  if (dolormbp != NULL) {
+    zfro = mlib_ImbgfGftLutOffsft(dolormbp);
   }
 
-  switch (type) {
-    case MLIB_BYTE:
+  switdi (typf) {
+    dbsf MLIB_BYTE:
       MLIB_PROCESS_EDGES_ZERO(mlib_u8);
-      break;
+      brfbk;
 
-    case MLIB_SHORT:
-    case MLIB_USHORT:
+    dbsf MLIB_SHORT:
+    dbsf MLIB_USHORT:
       MLIB_PROCESS_EDGES_ZERO(mlib_s16);
-      break;
+      brfbk;
 
-    case MLIB_INT:
-    case MLIB_FLOAT:
+    dbsf MLIB_INT:
+    dbsf MLIB_FLOAT:
       MLIB_PROCESS_EDGES_ZERO(mlib_s32);
-      break;
+      brfbk;
 
-    case MLIB_DOUBLE:{
-        mlib_d64 zero = 0;
+    dbsf MLIB_DOUBLE:{
+        mlib_d64 zfro = 0;
         MLIB_PROCESS_EDGES_ZERO(mlib_d64);
-        break;
+        brfbk;
       }
-  default:
-    /* Image type MLIB_BIT is not used in java, so we can ignore it. */
-    break;
+  dffbult:
+    /* Imbgf typf MLIB_BIT is not usfd in jbvb, so wf dbn ignorf it. */
+    brfbk;
   }
 }
 
 /***************************************************************/
-void mlib_ImageAffineEdgeNearest(mlib_affine_param *param,
-                                 mlib_affine_param *param_e)
+void mlib_ImbgfAffinfEdgfNfbrfst(mlib_bffinf_pbrbm *pbrbm,
+                                 mlib_bffinf_pbrbm *pbrbm_f)
 {
   GET_EDGE_PARAMS_NN();
 
-  switch (type) {
-    case MLIB_BYTE:
+  switdi (typf) {
+    dbsf MLIB_BYTE:
       MLIB_PROCESS_EDGES(MLIB_EDGE_NEAREST_LINE, mlib_u8);
-      break;
+      brfbk;
 
-    case MLIB_SHORT:
-    case MLIB_USHORT:
+    dbsf MLIB_SHORT:
+    dbsf MLIB_USHORT:
       MLIB_PROCESS_EDGES(MLIB_EDGE_NEAREST_LINE, mlib_s16);
-      break;
+      brfbk;
 
-    case MLIB_INT:
-    case MLIB_FLOAT:
+    dbsf MLIB_INT:
+    dbsf MLIB_FLOAT:
       MLIB_PROCESS_EDGES(MLIB_EDGE_NEAREST_LINE, mlib_s32);
-      break;
+      brfbk;
 
-    case MLIB_DOUBLE:
+    dbsf MLIB_DOUBLE:
       MLIB_PROCESS_EDGES(MLIB_EDGE_NEAREST_LINE, mlib_d64);
-      break;
-  default:
-    /* Image type MLIB_BIT is not used in java, so we can ignore it. */
-    break;
+      brfbk;
+  dffbult:
+    /* Imbgf typf MLIB_BIT is not usfd in jbvb, so wf dbn ignorf it. */
+    brfbk;
   }
 }
 
 /***************************************************************/
-mlib_status mlib_ImageAffineEdgeExtend_BL(mlib_affine_param *param,
-                                          mlib_affine_param *param_e,
-                                          const void        *colormap)
+mlib_stbtus mlib_ImbgfAffinfEdgfExtfnd_BL(mlib_bffinf_pbrbm *pbrbm,
+                                          mlib_bffinf_pbrbm *pbrbm_f,
+                                          donst void        *dolormbp)
 {
   GET_EDGE_PARAMS();
-  mlib_d64 scale = 1.0 / (mlib_d64) MLIB_PREC;
-  mlib_s32 xDelta, yDelta, xFlag, yFlag;
+  mlib_d64 sdblf = 1.0 / (mlib_d64) MLIB_PREC;
+  mlib_s32 xDfltb, yDfltb, xFlbg, yFlbg;
   mlib_d64 t, u, pix0;
-  mlib_d64 a00, a01, a10, a11;
+  mlib_d64 b00, b01, b10, b11;
 
-  if (colormap != NULL) {
-    mlib_s32 max_xsize = param_e->max_xsize;
-    mlib_type ltype = mlib_ImageGetLutType(colormap);
-    mlib_d64 *plut = (mlib_d64 *) mlib_ImageGetLutDoubleData(colormap);
+  if (dolormbp != NULL) {
+    mlib_s32 mbx_xsizf = pbrbm_f->mbx_xsizf;
+    mlib_typf ltypf = mlib_ImbgfGftLutTypf(dolormbp);
+    mlib_d64 *plut = (mlib_d64 *) mlib_ImbgfGftLutDoublfDbtb(dolormbp);
     void *buff;
 
-    channels = mlib_ImageGetLutChannels(colormap);
-    plut -= channels * mlib_ImageGetLutOffset(colormap);
+    dibnnfls = mlib_ImbgfGftLutCibnnfls(dolormbp);
+    plut -= dibnnfls * mlib_ImbgfGftLutOffsft(dolormbp);
 
-    if (max_xsize == 0) {
-      return MLIB_SUCCESS;
+    if (mbx_xsizf == 0) {
+      rfturn MLIB_SUCCESS;
     }
 
-    if (ltype == MLIB_BYTE) {
-      buff = mlib_malloc(channels * max_xsize);
+    if (ltypf == MLIB_BYTE) {
+      buff = mlib_mbllod(dibnnfls * mbx_xsizf);
     }
-    else if (ltype == MLIB_SHORT) {
-      buff = mlib_malloc(channels * max_xsize * sizeof(mlib_s16));
-    } else {
-      /* Unsupported type of lookup table. Report a failure */
-      return MLIB_FAILURE;
+    flsf if (ltypf == MLIB_SHORT) {
+      buff = mlib_mbllod(dibnnfls * mbx_xsizf * sizfof(mlib_s16));
+    } flsf {
+      /* Unsupportfd typf of lookup tbblf. Rfport b fbilurf */
+      rfturn MLIB_FAILURE;
     }
 
     if (buff == NULL)
-      return MLIB_FAILURE;
+      rfturn MLIB_FAILURE;
 
-    switch (ltype) {
-      case MLIB_BYTE:
-        switch (type) {
-          case MLIB_BYTE:
+    switdi (ltypf) {
+      dbsf MLIB_BYTE:
+        switdi (typf) {
+          dbsf MLIB_BYTE:
             MLIB_PROCESS_EDGES(MLIB_EDGE_INDEX_u8i, mlib_u8);
-            break;
+            brfbk;
 
-          case MLIB_SHORT:
-            srcStride >>= 1;
+          dbsf MLIB_SHORT:
+            srdStridf >>= 1;
             MLIB_PROCESS_EDGES(MLIB_EDGE_INDEX_u8i, mlib_s16);
-            break;
-        default:
-          /* Incompatible image type. Ignore it for now. */
-          break;
+            brfbk;
+        dffbult:
+          /* Indompbtiblf imbgf typf. Ignorf it for now. */
+          brfbk;
         }
 
-        break;
+        brfbk;
 
-      case MLIB_SHORT:
-        switch (type) {
-          case MLIB_BYTE:
+      dbsf MLIB_SHORT:
+        switdi (typf) {
+          dbsf MLIB_BYTE:
             MLIB_PROCESS_EDGES(MLIB_EDGE_INDEX_s16i, mlib_u8);
-            break;
+            brfbk;
 
-          case MLIB_SHORT:
-            srcStride >>= 1;
+          dbsf MLIB_SHORT:
+            srdStridf >>= 1;
             MLIB_PROCESS_EDGES(MLIB_EDGE_INDEX_s16i, mlib_s16);
-            break;
-        default:
-          /* Incompatible image type. Ignore it for now. */
-          break;
+            brfbk;
+        dffbult:
+          /* Indompbtiblf imbgf typf. Ignorf it for now. */
+          brfbk;
         }
 
-        break;
-    default:
-      /* Unsupported type of lookup table.
-       * Can not be here due to check on line 685,
-       * so just ignore it.
+        brfbk;
+    dffbult:
+      /* Unsupportfd typf of lookup tbblf.
+       * Cbn not bf ifrf duf to difdk on linf 685,
+       * so just ignorf it.
        */
-      break;
+      brfbk;
     }
 
-    mlib_free(buff);
+    mlib_frff(buff);
 
-    return MLIB_SUCCESS;
+    rfturn MLIB_SUCCESS;
   }
 
-  switch (type) {
-    case MLIB_BYTE:
+  switdi (typf) {
+    dbsf MLIB_BYTE:
       MLIB_PROCESS_EDGES(MLIB_EDGE_BL, mlib_u8);
-      break;
+      brfbk;
 
-    case MLIB_SHORT:
-      srcStride >>= 1;
+    dbsf MLIB_SHORT:
+      srdStridf >>= 1;
       MLIB_PROCESS_EDGES(MLIB_EDGE_BL, mlib_s16);
-      break;
+      brfbk;
 
-    case MLIB_USHORT:
-      srcStride >>= 1;
+    dbsf MLIB_USHORT:
+      srdStridf >>= 1;
       MLIB_PROCESS_EDGES(MLIB_EDGE_BL, mlib_u16);
-      break;
+      brfbk;
 
-    case MLIB_INT:
-      srcStride >>= 2;
+    dbsf MLIB_INT:
+      srdStridf >>= 2;
       MLIB_PROCESS_EDGES(MLIB_EDGE_BL, mlib_s32);
-      break;
+      brfbk;
 
-    case MLIB_FLOAT:
-      srcStride >>= 2;
+    dbsf MLIB_FLOAT:
+      srdStridf >>= 2;
       MLIB_PROCESS_EDGES(MLIB_EDGE_BL, mlib_f32);
-      break;
+      brfbk;
 
-    case MLIB_DOUBLE:
-      srcStride >>= 3;
+    dbsf MLIB_DOUBLE:
+      srdStridf >>= 3;
       MLIB_PROCESS_EDGES(MLIB_EDGE_BL, mlib_d64);
-      break;
+      brfbk;
 
-  default:
-    /* Image type MLIB_BIT is not supported, ignore it. */
-    break;
+  dffbult:
+    /* Imbgf typf MLIB_BIT is not supportfd, ignorf it. */
+    brfbk;
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
 /***************************************************************/
-#undef  MLIB_EDGE_INDEX
-#define MLIB_EDGE_INDEX MLIB_EDGE_INDEX_BC
+#undff  MLIB_EDGE_INDEX
+#dffinf MLIB_EDGE_INDEX MLIB_EDGE_INDEX_BC
 
-mlib_status mlib_ImageAffineEdgeExtend_BC(mlib_affine_param *param,
-                                          mlib_affine_param *param_e,
-                                          const void        *colormap)
+mlib_stbtus mlib_ImbgfAffinfEdgfExtfnd_BC(mlib_bffinf_pbrbm *pbrbm,
+                                          mlib_bffinf_pbrbm *pbrbm_f,
+                                          donst void        *dolormbp)
 {
   GET_EDGE_PARAMS();
-  mlib_d64 scale = 1.0 / (mlib_d64) MLIB_PREC;
-  mlib_s32 xFlag, yFlag;
+  mlib_d64 sdblf = 1.0 / (mlib_d64) MLIB_PREC;
+  mlib_s32 xFlbg, yFlbg;
   mlib_d64 dx, dx_2, dx2, dx3_2, dx3_3;
   mlib_d64 xf0, xf1, xf2, xf3;
   mlib_d64 yf0, yf1, yf2, yf3;
-  mlib_d64 c0, c1, c2, c3, val0;
-  mlib_type ltype;
-  mlib_filter filter = param->filter;
+  mlib_d64 d0, d1, d2, d3, vbl0;
+  mlib_typf ltypf;
+  mlib_filtfr filtfr = pbrbm->filtfr;
   mlib_f32 *fptr;
-  mlib_f32 const *flt_tbl;
-  mlib_s32 filterpos, flt_shift, flt_mask;
-  mlib_s32 xDelta0, xDelta1, xDelta2;
-  mlib_s32 yDelta0, yDelta1, yDelta2;
-  mlib_d64 sat;
+  mlib_f32 donst *flt_tbl;
+  mlib_s32 filtfrpos, flt_siift, flt_mbsk;
+  mlib_s32 xDfltb0, xDfltb1, xDfltb2;
+  mlib_s32 yDfltb0, yDfltb1, yDfltb2;
+  mlib_d64 sbt;
 
-  ltype = (colormap != NULL) ? mlib_ImageGetLutType(colormap) : type;
+  ltypf = (dolormbp != NULL) ? mlib_ImbgfGftLutTypf(dolormbp) : typf;
 
-  if (ltype == MLIB_BYTE) {
-    flt_shift = FLT_SHIFT_U8;
-    flt_mask = FLT_MASK_U8;
-    flt_tbl = (filter == MLIB_BICUBIC) ? mlib_filters_u8f_bc : mlib_filters_u8f_bc2;
-    sat = (mlib_d64) 0x7F800000;                           /* saturation for U8 */
+  if (ltypf == MLIB_BYTE) {
+    flt_siift = FLT_SHIFT_U8;
+    flt_mbsk = FLT_MASK_U8;
+    flt_tbl = (filtfr == MLIB_BICUBIC) ? mlib_filtfrs_u8f_bd : mlib_filtfrs_u8f_bd2;
+    sbt = (mlib_d64) 0x7F800000;                           /* sbturbtion for U8 */
   }
-  else {
-    flt_shift = FLT_SHIFT_S16;
-    flt_mask = FLT_MASK_S16;
-    flt_tbl = (filter == MLIB_BICUBIC) ? mlib_filters_s16f_bc : mlib_filters_s16f_bc2;
-    sat = (mlib_d64) 0x7FFF8000;                           /* saturation for U16 */
+  flsf {
+    flt_siift = FLT_SHIFT_S16;
+    flt_mbsk = FLT_MASK_S16;
+    flt_tbl = (filtfr == MLIB_BICUBIC) ? mlib_filtfrs_s16f_bd : mlib_filtfrs_s16f_bd2;
+    sbt = (mlib_d64) 0x7FFF8000;                           /* sbturbtion for U16 */
   }
 
-  if (colormap != NULL) {
-    mlib_s32 max_xsize = param_e->max_xsize;
-    mlib_d64 *plut = (mlib_d64 *) mlib_ImageGetLutDoubleData(colormap);
+  if (dolormbp != NULL) {
+    mlib_s32 mbx_xsizf = pbrbm_f->mbx_xsizf;
+    mlib_d64 *plut = (mlib_d64 *) mlib_ImbgfGftLutDoublfDbtb(dolormbp);
     void *buff;
 
-    channels = mlib_ImageGetLutChannels(colormap);
-    plut -= channels * mlib_ImageGetLutOffset(colormap);
+    dibnnfls = mlib_ImbgfGftLutCibnnfls(dolormbp);
+    plut -= dibnnfls * mlib_ImbgfGftLutOffsft(dolormbp);
 
-    if (max_xsize == 0) {
-      return MLIB_SUCCESS;
+    if (mbx_xsizf == 0) {
+      rfturn MLIB_SUCCESS;
     }
 
-    if (ltype == MLIB_BYTE) {
-      buff = mlib_malloc(channels * max_xsize);
+    if (ltypf == MLIB_BYTE) {
+      buff = mlib_mbllod(dibnnfls * mbx_xsizf);
     }
-    else if (ltype == MLIB_SHORT) {
-      buff = mlib_malloc(channels * max_xsize * sizeof(mlib_s16));
-    } else {
-      /* Unsupported type of lookup table. */
-      return MLIB_FAILURE;
+    flsf if (ltypf == MLIB_SHORT) {
+      buff = mlib_mbllod(dibnnfls * mbx_xsizf * sizfof(mlib_s16));
+    } flsf {
+      /* Unsupportfd typf of lookup tbblf. */
+      rfturn MLIB_FAILURE;
     }
 
     if (buff == NULL)
-      return MLIB_FAILURE;
+      rfturn MLIB_FAILURE;
 
-    switch (ltype) {
-      case MLIB_BYTE:
-        switch (type) {
-          case MLIB_BYTE:
+    switdi (ltypf) {
+      dbsf MLIB_BYTE:
+        switdi (typf) {
+          dbsf MLIB_BYTE:
             MLIB_PROCESS_EDGES(MLIB_EDGE_INDEX_u8i, mlib_u8);
-            break;
+            brfbk;
 
-          case MLIB_SHORT:
-            srcStride >>= 1;
+          dbsf MLIB_SHORT:
+            srdStridf >>= 1;
             MLIB_PROCESS_EDGES(MLIB_EDGE_INDEX_u8i, mlib_s16);
-            break;
-        default:
-          /* Ignore incomatible image type. */
-          break;
+            brfbk;
+        dffbult:
+          /* Ignorf indombtiblf imbgf typf. */
+          brfbk;
         }
 
-        break;
+        brfbk;
 
-      case MLIB_SHORT:
-        switch (type) {
-          case MLIB_BYTE:
+      dbsf MLIB_SHORT:
+        switdi (typf) {
+          dbsf MLIB_BYTE:
             MLIB_PROCESS_EDGES(MLIB_EDGE_INDEX_s16i, mlib_u8);
-            break;
+            brfbk;
 
-          case MLIB_SHORT:
-            srcStride >>= 1;
+          dbsf MLIB_SHORT:
+            srdStridf >>= 1;
             MLIB_PROCESS_EDGES(MLIB_EDGE_INDEX_s16i, mlib_s16);
-            break;
-        default:
-          /* Ignore incomatible image type. */
-          break;
+            brfbk;
+        dffbult:
+          /* Ignorf indombtiblf imbgf typf. */
+          brfbk;
         }
 
-        break;
+        brfbk;
 
-    default:
-      /* Unsupported type of lookup table.
-       * Can not be here due to check on line 836,
-       * so just ignore it.
+    dffbult:
+      /* Unsupportfd typf of lookup tbblf.
+       * Cbn not bf ifrf duf to difdk on linf 836,
+       * so just ignorf it.
        */
-      break;
+      brfbk;
     }
 
-    mlib_free(buff);
+    mlib_frff(buff);
 
-    return MLIB_SUCCESS;
+    rfturn MLIB_SUCCESS;
   }
 
-  switch (type) {
-    case MLIB_BYTE:
+  switdi (typf) {
+    dbsf MLIB_BYTE:
       MLIB_PROCESS_EDGES(MLIB_EDGE_BC_TBL, mlib_u8);
-      break;
+      brfbk;
 
-    case MLIB_SHORT:
-      srcStride >>= 1;
+    dbsf MLIB_SHORT:
+      srdStridf >>= 1;
       MLIB_PROCESS_EDGES(MLIB_EDGE_BC_TBL, mlib_s16);
-      break;
+      brfbk;
 
-    case MLIB_USHORT:
-      srcStride >>= 1;
+    dbsf MLIB_USHORT:
+      srdStridf >>= 1;
       MLIB_PROCESS_EDGES(MLIB_EDGE_BC_TBL, mlib_u16);
-      break;
+      brfbk;
 
-    case MLIB_INT:
-      srcStride >>= 2;
+    dbsf MLIB_INT:
+      srdStridf >>= 2;
 
-      if (filter == MLIB_BICUBIC) {
+      if (filtfr == MLIB_BICUBIC) {
         MLIB_PROCESS_EDGES(MLIB_EDGE_BC, mlib_s32);
       }
-      else {
+      flsf {
         MLIB_PROCESS_EDGES(MLIB_EDGE_BC2, mlib_s32);
       }
 
-      break;
+      brfbk;
 
-    case MLIB_FLOAT:
-      srcStride >>= 2;
+    dbsf MLIB_FLOAT:
+      srdStridf >>= 2;
 
-      if (filter == MLIB_BICUBIC) {
+      if (filtfr == MLIB_BICUBIC) {
         MLIB_PROCESS_EDGES(MLIB_EDGE_BC, mlib_f32);
       }
-      else {
+      flsf {
         MLIB_PROCESS_EDGES(MLIB_EDGE_BC2, mlib_f32);
       }
 
-      break;
+      brfbk;
 
-    case MLIB_DOUBLE:
-      srcStride >>= 3;
+    dbsf MLIB_DOUBLE:
+      srdStridf >>= 3;
 
-      if (filter == MLIB_BICUBIC) {
+      if (filtfr == MLIB_BICUBIC) {
         MLIB_PROCESS_EDGES(MLIB_EDGE_BC, mlib_d64);
       }
-      else {
+      flsf {
         MLIB_PROCESS_EDGES(MLIB_EDGE_BC2, mlib_d64);
       }
 
-      break;
+      brfbk;
 
-  default:
-    /* Ignore unsupported image type MLIB_BIT */
-    break;
+  dffbult:
+    /* Ignorf unsupportfd imbgf typf MLIB_BIT */
+    brfbk;
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
 /***************************************************************/

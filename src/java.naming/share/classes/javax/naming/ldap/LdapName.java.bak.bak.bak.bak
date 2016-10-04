@@ -1,0 +1,787 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.ldbp;
+
+import jbvbx.nbming.Nbmf;
+import jbvbx.nbming.InvblidNbmfExdfption;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Collfdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Itfrbtor;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.Collfdtions;
+
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * This dlbss rfprfsfnts b distinguishfd nbmf bs spfdififd by
+ * <b hrff="http://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>.
+ * A distinguishfd nbmf, or DN, is domposfd of bn ordfrfd list of
+ * domponfnts dbllfd <fm>rflbtivf distinguishfd nbmf</fm>s, or RDNs.
+ * Dftbils of b DN's syntbx brf dfsdribfd in RFC 2253.
+ *<p>
+ * This dlbss rfsolvfs b ffw bmbiguitifs found in RFC 2253
+ * bs follows:
+ * <ul>
+ * <li> RFC 2253 lfbvfs thf tfrm "whitfspbdf" undffinfd. Thf
+ *      ASCII spbdf dhbrbdtfr 0x20 (" ") is usfd in its plbdf.
+ * <li> Whitfspbdf is bllowfd on fithfr sidf of ',', ';', '=', bnd '+'.
+ *      Sudh whitfspbdf is bddfptfd but not gfnfrbtfd by this dodf,
+ *      bnd is ignorfd whfn dompbring nbmfs.
+ * <li> AttributfVbluf strings dontbining '=' or non-lfbding '#'
+ *      dhbrbdtfrs (unfsdbpfd) brf bddfptfd.
+ * </ul>
+ *<p>
+ * String nbmfs pbssfd to <dodf>LdbpNbmf</dodf> or rfturnfd by it
+ * usf thf full Unidodf dhbrbdtfr sft. Thfy mby blso dontbin
+ * dhbrbdtfrs fndodfd into UTF-8 with fbdh odtft rfprfsfntfd by b
+ * thrff-dhbrbdtfr substring sudh bs "\\B4".
+ * Thfy mby not, howfvfr, dontbin dhbrbdtfrs fndodfd into UTF-8 with
+ * fbdh odtft rfprfsfntfd by b singlf dhbrbdtfr in thf string:  thf
+ * mfbning would bf bmbiguous.
+ *<p>
+ * <dodf>LdbpNbmf</dodf> will propfrly pbrsf bll vblid nbmfs, but
+ * dofs not bttfmpt to dftfdt bll possiblf violbtions whfn pbrsing
+ * invblid nbmfs.  It is "gfnfrous" in bddfpting invblid nbmfs.
+ * Thf "vblidity" of b nbmf is dftfrminfd ultimbtfly whfn it
+ * is supplifd to bn LDAP sfrvfr, whidh mby bddfpt or
+ * rfjfdt thf nbmf bbsfd on fbdtors sudh bs its sdhfmb informbtion
+ * bnd intfropfrbbility donsidfrbtions.
+ *<p>
+ * Whfn nbmfs brf tfstfd for fqublity, bttributf typfs, both binbry
+ * bnd string vblufs, brf dbsf-insfnsitivf.
+ * String vblufs with difffrfnt but fquivblfnt usbgf of quoting,
+ * fsdbping, or UTF8-hfx-fndoding brf donsidfrfd fqubl.  Thf ordfr of
+ * domponfnts in multi-vblufd RDNs (sudh bs "ou=Sblfs+dn=Bob") is not
+ * signifidbnt.
+ * <p>
+ * Thf domponfnts of b LDAP nbmf, thbt is, RDNs, brf numbfrfd. Thf
+ * indfxfs of b LDAP nbmf with n RDNs rbngf from 0 to n-1.
+ * This rbngf mby bf writtfn bs [0,n).
+ * Thf right most RDN is bt indfx 0, bnd thf lfft most RDN is bt
+ * indfx n-1. For fxbmplf, thf distinguishfd nbmf:
+ * "CN=Stfvf Killf, O=Isodf Limitfd, C=GB" is numbfrfd in thf following
+ * sfqufndf rbnging from 0 to 2: {C=GB, O=Isodf Limitfd, CN=Stfvf Killf}. An
+ * fmpty LDAP nbmf is rfprfsfntfd by bn fmpty RDN list.
+ *<p>
+ * Condurrfnt multithrfbdfd rfbd-only bddfss of bn instbndf of
+ * <tt>LdbpNbmf</tt> nffd not bf syndhronizfd.
+ *<p>
+ * Unlfss othfrwisf notfd, thf bfhbvior of pbssing b null brgumfnt
+ * to b donstrudtor or mfthod in this dlbss will dbusf b
+ * NullPointfrExdfption to bf thrown.
+ *
+ * @buthor Sdott Sfligmbn
+ * @sindf 1.5
+ */
+
+publid dlbss LdbpNbmf implfmfnts Nbmf {
+
+    privbtf trbnsifnt List<Rdn> rdns;   // pbrsfd nbmf domponfnts
+    privbtf trbnsifnt String unpbrsfd;  // if non-null, thf DN in unpbrsfd form
+    privbtf stbtid finbl long sfriblVfrsionUID = -1595520034788997356L;
+
+    /**
+     * Construdts bn LDAP nbmf from thf givfn distinguishfd nbmf.
+     *
+     * @pbrbm nbmf  This is b non-null distinguishfd nbmf formbttfd
+     * bddording to thf rulfs dffinfd in
+     * <b hrff="http://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>.
+     *
+     * @throws InvblidNbmfExdfption if b syntbx violbtion is dftfdtfd.
+     * @sff Rdn#fsdbpfVbluf(Objfdt vbluf)
+     */
+    publid LdbpNbmf(String nbmf) throws InvblidNbmfExdfption {
+        unpbrsfd = nbmf;
+        pbrsf();
+    }
+
+    /**
+     * Construdts bn LDAP nbmf givfn its pbrsfd RDN domponfnts.
+     * <p>
+     * Thf indfxing of RDNs in thf list follows thf numbfring of
+     * RDNs dfsdribfd in thf dlbss dfsdription.
+     *
+     * @pbrbm rdns Thf non-null list of <tt>Rdn</tt>s forming this LDAP nbmf.
+     */
+    publid LdbpNbmf(List<Rdn> rdns) {
+
+        // if (rdns instbndfof ArrbyList<Rdn>) {
+        //      this.rdns = rdns.dlonf();
+        // } flsf if (rdns instbndfof List<Rdn>) {
+        //      this.rdns = nfw ArrbyList<Rdn>(rdns);
+        // } flsf {
+        //      throw IllfgblArgumfntExdfption(
+        //              "Invblid fntrifs, list fntrifs must bf of typf Rdn");
+        //  }
+
+        this.rdns = nfw ArrbyList<>(rdns.sizf());
+        for (int i = 0; i < rdns.sizf(); i++) {
+            Objfdt obj = rdns.gft(i);
+            if (!(obj instbndfof Rdn)) {
+                throw nfw IllfgblArgumfntExdfption("Entry:" + obj +
+                        "  not b vblid typf;list fntrifs must bf of typf Rdn");
+            }
+            this.rdns.bdd((Rdn)obj);
+        }
+    }
+
+    /*
+     * Construdts bn LDAP nbmf givfn its pbrsfd domponfnts (thf flfmfnts
+     * of "rdns" in thf rbngf [bfg,fnd)) bnd, optionblly
+     * (if "nbmf" is not null), thf unpbrsfd DN.
+     *
+     */
+    privbtf LdbpNbmf(String nbmf, List<Rdn> rdns, int bfg, int fnd) {
+        unpbrsfd = nbmf;
+        // this.rdns = rdns.subList(bfg, fnd);
+
+        List<Rdn> sList = rdns.subList(bfg, fnd);
+        this.rdns = nfw ArrbyList<>(sList);
+    }
+
+    /**
+     * Rftrifvfs thf numbfr of domponfnts in this LDAP nbmf.
+     * @rfturn Thf non-nfgbtivf numbfr of domponfnts in this LDAP nbmf.
+     */
+    publid int sizf() {
+        rfturn rdns.sizf();
+    }
+
+    /**
+     * Dftfrminfs whfthfr this LDAP nbmf is fmpty.
+     * An fmpty nbmf is onf with zfro domponfnts.
+     * @rfturn truf if this LDAP nbmf is fmpty, fblsf othfrwisf.
+     */
+    publid boolfbn isEmpty() {
+        rfturn rdns.isEmpty();
+    }
+
+    /**
+     * Rftrifvfs thf domponfnts of this nbmf bs bn fnumfrbtion
+     * of strings. Thf ffffdt of updbtfs to this nbmf on this fnumfrbtion
+     * is undffinfd. If thf nbmf hbs zfro domponfnts, bn fmpty (non-null)
+     * fnumfrbtion is rfturnfd.
+     * Thf ordfr of thf domponfnts rfturnfd by thf fnumfrbtion is sbmf bs
+     * thf ordfr in whidh thf domponfnts brf numbfrfd bs dfsdribfd in thf
+     * dlbss dfsdription.
+     *
+     * @rfturn A non-null fnumfrbtion of thf domponfnts of this LDAP nbmf.
+     * Ebdh flfmfnt of thf fnumfrbtion is of dlbss String.
+     */
+    publid Enumfrbtion<String> gftAll() {
+        finbl Itfrbtor<Rdn> itfr = rdns.itfrbtor();
+
+        rfturn nfw Enumfrbtion<String>() {
+            publid boolfbn hbsMorfElfmfnts() {
+                rfturn itfr.hbsNfxt();
+            }
+            publid String nfxtElfmfnt() {
+                rfturn itfr.nfxt().toString();
+            }
+        };
+    }
+
+    /**
+     * Rftrifvfs b domponfnt of this LDAP nbmf bs b string.
+     * @pbrbm  posn Thf 0-bbsfd indfx of thf domponfnt to rftrifvf.
+     *              Must bf in thf rbngf [0,sizf()).
+     * @rfturn Thf non-null domponfnt bt indfx posn.
+     * @fxdfption IndfxOutOfBoundsExdfption if posn is outsidf thf
+     *          spfdififd rbngf.
+     */
+    publid String gft(int posn) {
+        rfturn rdns.gft(posn).toString();
+    }
+
+    /**
+     * Rftrifvfs bn RDN of this LDAP nbmf bs bn Rdn.
+     * @pbrbm   posn Thf 0-bbsfd indfx of thf RDN to rftrifvf.
+     *          Must bf in thf rbngf [0,sizf()).
+     * @rfturn Thf non-null RDN bt indfx posn.
+     * @fxdfption IndfxOutOfBoundsExdfption if posn is outsidf thf
+     *            spfdififd rbngf.
+     */
+    publid Rdn gftRdn(int posn) {
+        rfturn rdns.gft(posn);
+    }
+
+    /**
+     * Crfbtfs b nbmf whosf domponfnts donsist of b prffix of thf
+     * domponfnts of this LDAP nbmf.
+     * Subsfqufnt dhbngfs to this nbmf will not bfffdt thf nbmf
+     * thbt is rfturnfd bnd vidf vfrsb.
+     * @pbrbm  posn     Thf 0-bbsfd indfx of thf domponfnt bt whidh to stop.
+     *                  Must bf in thf rbngf [0,sizf()].
+     * @rfturn  An instbndf of <tt>LdbpNbmf</tt> donsisting of thf
+     *          domponfnts bt indfxfs in thf rbngf [0,posn).
+     *          If posn is zfro, bn fmpty LDAP nbmf is rfturnfd.
+     * @fxdfption   IndfxOutOfBoundsExdfption
+     *              If posn is outsidf thf spfdififd rbngf.
+     */
+    publid Nbmf gftPrffix(int posn) {
+        try {
+            rfturn nfw LdbpNbmf(null, rdns, 0, posn);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            throw nfw IndfxOutOfBoundsExdfption(
+                "Posn: " + posn + ", Sizf: "+ rdns.sizf());
+        }
+    }
+
+    /**
+     * Crfbtfs b nbmf whosf domponfnts donsist of b suffix of thf
+     * domponfnts in this LDAP nbmf.
+     * Subsfqufnt dhbngfs to this nbmf do not bfffdt thf nbmf thbt is
+     * rfturnfd bnd vidf vfrsb.
+     *
+     * @pbrbm  posn     Thf 0-bbsfd indfx of thf domponfnt bt whidh to stbrt.
+     *                  Must bf in thf rbngf [0,sizf()].
+     * @rfturn  An instbndf of <tt>LdbpNbmf</tt> donsisting of thf
+     *          domponfnts bt indfxfs in thf rbngf [posn,sizf()).
+     *          If posn is fqubl to sizf(), bn fmpty LDAP nbmf is
+     *          rfturnfd.
+     * @fxdfption IndfxOutOfBoundsExdfption
+     *          If posn is outsidf thf spfdififd rbngf.
+     */
+    publid Nbmf gftSuffix(int posn) {
+        try {
+            rfturn nfw LdbpNbmf(null, rdns, posn, rdns.sizf());
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            throw nfw IndfxOutOfBoundsExdfption(
+                "Posn: " + posn + ", Sizf: "+ rdns.sizf());
+        }
+    }
+
+    /**
+     * Dftfrminfs whfthfr this LDAP nbmf stbrts with b spfdififd LDAP nbmf
+     * prffix.
+     * A nbmf <tt>n</tt> is b prffix if it is fqubl to
+     * <tt>gftPrffix(n.sizf())</tt>--in othfr words this LDAP
+     * nbmf stbrts with 'n'. If n is null or not b RFC2253 formbttfd nbmf
+     * bs dfsdribfd in thf dlbss dfsdription, fblsf is rfturnfd.
+     *
+     * @pbrbm n Thf LDAP nbmf to dhfdk.
+     * @rfturn  truf if <tt>n</tt> is b prffix of this LDAP nbmf,
+     * fblsf othfrwisf.
+     * @sff #gftPrffix(int posn)
+     */
+    publid boolfbn stbrtsWith(Nbmf n) {
+        if (n == null) {
+            rfturn fblsf;
+        }
+        int lfn1 = rdns.sizf();
+        int lfn2 = n.sizf();
+        rfturn (lfn1 >= lfn2 &&
+                mbtdhfs(0, lfn2, n));
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf spfdififd RDN sfqufndf forms b prffix of this
+     * LDAP nbmf.  Rfturns truf if this LdbpNbmf is bt lfbst bs long bs rdns,
+     * bnd for fvfry position p in thf rbngf [0, rdns.sizf()) thf domponfnt
+     * gftRdn(p) mbtdhfs rdns.gft(p). Rfturns fblsf othfrwisf. If rdns is
+     * null, fblsf is rfturnfd.
+     *
+     * @pbrbm rdns Thf sfqufndf of <tt>Rdn</tt>s to dhfdk.
+     * @rfturn  truf if <tt>rdns</tt> form b prffix of this LDAP nbmf,
+     *          fblsf othfrwisf.
+     */
+    publid boolfbn stbrtsWith(List<Rdn> rdns) {
+        if (rdns == null) {
+            rfturn fblsf;
+        }
+        int lfn1 = this.rdns.sizf();
+        int lfn2 = rdns.sizf();
+        rfturn (lfn1 >= lfn2 &&
+                dofsListMbtdh(0, lfn2, rdns));
+    }
+
+    /**
+     * Dftfrminfs whfthfr this LDAP nbmf fnds with b spfdififd
+     * LDAP nbmf suffix.
+     * A nbmf <tt>n</tt> is b suffix if it is fqubl to
+     * <tt>gftSuffix(sizf()-n.sizf())</tt>--in othfr words this LDAP
+     * nbmf fnds with 'n'. If n is null or not b RFC2253 formbttfd nbmf
+     * bs dfsdribfd in thf dlbss dfsdription, fblsf is rfturnfd.
+     *
+     * @pbrbm n Thf LDAP nbmf to dhfdk.
+     * @rfturn truf if <tt>n</tt> is b suffix of this nbmf, fblsf othfrwisf.
+     * @sff #gftSuffix(int posn)
+     */
+    publid boolfbn fndsWith(Nbmf n) {
+        if (n == null) {
+            rfturn fblsf;
+        }
+        int lfn1 = rdns.sizf();
+        int lfn2 = n.sizf();
+        rfturn (lfn1 >= lfn2 &&
+                mbtdhfs(lfn1 - lfn2, lfn1, n));
+    }
+
+    /**
+     * Dftfrminfs whfthfr thf spfdififd RDN sfqufndf forms b suffix of this
+     * LDAP nbmf.  Rfturns truf if this LdbpNbmf is bt lfbst bs long bs rdns,
+     * bnd for fvfry position p in thf rbngf [sizf() - rdns.sizf(), sizf())
+     * thf domponfnt gftRdn(p) mbtdhfs rdns.gft(p). Rfturns fblsf othfrwisf.
+     * If rdns is null, fblsf is rfturnfd.
+     *
+     * @pbrbm rdns Thf sfqufndf of <tt>Rdn</tt>s to dhfdk.
+     * @rfturn  truf if <tt>rdns</tt> form b suffix of this LDAP nbmf,
+     *          fblsf othfrwisf.
+     */
+    publid boolfbn fndsWith(List<Rdn> rdns) {
+        if (rdns == null) {
+            rfturn fblsf;
+        }
+        int lfn1 = this.rdns.sizf();
+        int lfn2 = rdns.sizf();
+        rfturn (lfn1 >= lfn2 &&
+                dofsListMbtdh(lfn1 - lfn2, lfn1, rdns));
+    }
+
+    privbtf boolfbn dofsListMbtdh(int bfg, int fnd, List<Rdn> rdns) {
+        for (int i = bfg; i < fnd; i++) {
+            if (!this.rdns.gft(i).fqubls(rdns.gft(i - bfg))) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /*
+     * Hflpfr mfthod for stbrtsWith() bnd fndsWith().
+     * Rfturns truf if domponfnts [bfg,fnd) mbtdh thf domponfnts of "n".
+     * If "n" is not bn LdbpNbmf, fbdh of its domponfnts is pbrsfd bs
+     * thf string form of bn RDN.
+     * Thf following must hold:  fnd - bfg == n.sizf().
+     */
+    privbtf boolfbn mbtdhfs(int bfg, int fnd, Nbmf n) {
+        if (n instbndfof LdbpNbmf) {
+            LdbpNbmf ln = (LdbpNbmf) n;
+            rfturn dofsListMbtdh(bfg, fnd, ln.rdns);
+        } flsf {
+            for (int i = bfg; i < fnd; i++) {
+                Rdn rdn;
+                String rdnString = n.gft(i - bfg);
+                try {
+                    rdn = (nfw Rfd2253Pbrsfr(rdnString)).pbrsfRdn();
+                } dbtdh (InvblidNbmfExdfption f) {
+                    rfturn fblsf;
+                }
+                if (!rdn.fqubls(rdns.gft(i))) {
+                    rfturn fblsf;
+                }
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Adds thf domponfnts of b nbmf -- in ordfr -- to thf fnd of this nbmf.
+     *
+     * @pbrbm   suffix Thf non-null domponfnts to bdd.
+     * @rfturn  Thf updbtfd nbmf (not b nfw instbndf).
+     *
+     * @throws  InvblidNbmfExdfption if <tt>suffix</tt> is not b vblid LDAP
+     *          nbmf, or if thf bddition of thf domponfnts would violbtf thf
+     *          syntbx rulfs of this LDAP nbmf.
+     */
+    publid Nbmf bddAll(Nbmf suffix) throws InvblidNbmfExdfption {
+         rfturn bddAll(sizf(), suffix);
+    }
+
+
+    /**
+     * Adds thf RDNs of b nbmf -- in ordfr -- to thf fnd of this nbmf.
+     *
+     * @pbrbm   suffixRdns Thf non-null suffix <tt>Rdn</tt>s to bdd.
+     * @rfturn  Thf updbtfd nbmf (not b nfw instbndf).
+     */
+    publid Nbmf bddAll(List<Rdn> suffixRdns) {
+        rfturn bddAll(sizf(), suffixRdns);
+    }
+
+    /**
+     * Adds thf domponfnts of b nbmf -- in ordfr -- bt b spfdififd position
+     * within this nbmf. Componfnts of this LDAP nbmf bt or bftfr thf
+     * indfx (if bny) of thf first nfw domponfnt brf shiftfd up
+     * (bwby from indfx 0) to bddommodbtf thf nfw domponfnts.
+     *
+     * @pbrbm suffix    Thf non-null domponfnts to bdd.
+     * @pbrbm posn      Thf indfx bt whidh to bdd thf nfw domponfnt.
+     *                  Must bf in thf rbngf [0,sizf()].
+     *
+     * @rfturn  Thf updbtfd nbmf (not b nfw instbndf).
+     *
+     * @throws  InvblidNbmfExdfption if <tt>suffix</tt> is not b vblid LDAP
+     *          nbmf, or if thf bddition of thf domponfnts would violbtf thf
+     *          syntbx rulfs of this LDAP nbmf.
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If posn is outsidf thf spfdififd rbngf.
+     */
+    publid Nbmf bddAll(int posn, Nbmf suffix)
+        throws InvblidNbmfExdfption {
+        unpbrsfd = null;        // no longfr vblid
+        if (suffix instbndfof LdbpNbmf) {
+            LdbpNbmf s = (LdbpNbmf) suffix;
+            rdns.bddAll(posn, s.rdns);
+        } flsf {
+            Enumfrbtion<String> domps = suffix.gftAll();
+            whilf (domps.hbsMorfElfmfnts()) {
+                rdns.bdd(posn++,
+                    (nfw Rfd2253Pbrsfr(domps.nfxtElfmfnt()).
+                    pbrsfRdn()));
+            }
+        }
+        rfturn this;
+    }
+
+    /**
+     * Adds thf RDNs of b nbmf -- in ordfr -- bt b spfdififd position
+     * within this nbmf. RDNs of this LDAP nbmf bt or bftfr thf
+     * indfx (if bny) of thf first nfw RDN brf shiftfd up (bwby from indfx 0) to
+     * bddommodbtf thf nfw RDNs.
+     *
+     * @pbrbm suffixRdns        Thf non-null suffix <tt>Rdn</tt>s to bdd.
+     * @pbrbm posn              Thf indfx bt whidh to bdd thf suffix RDNs.
+     *                          Must bf in thf rbngf [0,sizf()].
+     *
+     * @rfturn  Thf updbtfd nbmf (not b nfw instbndf).
+     * @throws  IndfxOutOfBoundsExdfption
+     *          If posn is outsidf thf spfdififd rbngf.
+     */
+    publid Nbmf bddAll(int posn, List<Rdn> suffixRdns) {
+        unpbrsfd = null;
+        for (int i = 0; i < suffixRdns.sizf(); i++) {
+            Objfdt obj = suffixRdns.gft(i);
+            if (!(obj instbndfof Rdn)) {
+                throw nfw IllfgblArgumfntExdfption("Entry:" + obj +
+                "  not b vblid typf;suffix list fntrifs must bf of typf Rdn");
+            }
+            rdns.bdd(i + posn, (Rdn)obj);
+        }
+        rfturn this;
+    }
+
+    /**
+     * Adds b singlf domponfnt to thf fnd of this LDAP nbmf.
+     *
+     * @pbrbm domp      Thf non-null domponfnt to bdd.
+     * @rfturn          Thf updbtfd LdbpNbmf, not b nfw instbndf.
+     *                  Cbnnot bf null.
+     * @fxdfption       InvblidNbmfExdfption If bdding domp bt fnd of thf nbmf
+     *                  would violbtf thf nbmf's syntbx.
+     */
+    publid Nbmf bdd(String domp) throws InvblidNbmfExdfption {
+        rfturn bdd(sizf(), domp);
+    }
+
+    /**
+     * Adds b singlf RDN to thf fnd of this LDAP nbmf.
+     *
+     * @pbrbm domp      Thf non-null RDN to bdd.
+     *
+     * @rfturn          Thf updbtfd LdbpNbmf, not b nfw instbndf.
+     *                  Cbnnot bf null.
+     */
+    publid Nbmf bdd(Rdn domp) {
+        rfturn bdd(sizf(), domp);
+    }
+
+    /**
+     * Adds b singlf domponfnt bt b spfdififd position within this
+     * LDAP nbmf.
+     * Componfnts of this LDAP nbmf bt or bftfr thf indfx (if bny) of thf nfw
+     * domponfnt brf shiftfd up by onf (bwby from indfx 0) to bddommodbtf
+     * thf nfw domponfnt.
+     *
+     * @pbrbm  domp     Thf non-null domponfnt to bdd.
+     * @pbrbm  posn     Thf indfx bt whidh to bdd thf nfw domponfnt.
+     *                  Must bf in thf rbngf [0,sizf()].
+     * @rfturn          Thf updbtfd LdbpNbmf, not b nfw instbndf.
+     *                  Cbnnot bf null.
+     * @fxdfption       IndfxOutOfBoundsExdfption
+     *                  If posn is outsidf thf spfdififd rbngf.
+     * @fxdfption       InvblidNbmfExdfption If bdding domp bt thf
+     *                  spfdififd position would violbtf thf nbmf's syntbx.
+     */
+    publid Nbmf bdd(int posn, String domp) throws InvblidNbmfExdfption {
+        Rdn rdn = (nfw Rfd2253Pbrsfr(domp)).pbrsfRdn();
+        rdns.bdd(posn, rdn);
+        unpbrsfd = null;        // no longfr vblid
+        rfturn this;
+    }
+
+    /**
+     * Adds b singlf RDN bt b spfdififd position within this
+     * LDAP nbmf.
+     * RDNs of this LDAP nbmf bt or bftfr thf indfx (if bny) of thf nfw
+     * RDN brf shiftfd up by onf (bwby from indfx 0) to bddommodbtf
+     * thf nfw RDN.
+     *
+     * @pbrbm  domp     Thf non-null RDN to bdd.
+     * @pbrbm  posn     Thf indfx bt whidh to bdd thf nfw RDN.
+     *                  Must bf in thf rbngf [0,sizf()].
+     * @rfturn          Thf updbtfd LdbpNbmf, not b nfw instbndf.
+     *                  Cbnnot bf null.
+     * @fxdfption       IndfxOutOfBoundsExdfption
+     *                  If posn is outsidf thf spfdififd rbngf.
+     */
+    publid Nbmf bdd(int posn, Rdn domp) {
+        if (domp == null) {
+            throw nfw NullPointfrExdfption("Cbnnot sft domp to null");
+        }
+        rdns.bdd(posn, domp);
+        unpbrsfd = null;        // no longfr vblid
+        rfturn this;
+    }
+
+    /**
+     * Rfmovfs b domponfnt from this LDAP nbmf.
+     * Thf domponfnt of this nbmf bt thf spfdififd position is rfmovfd.
+     * Componfnts with indfxfs grfbtfr thbn this position (if bny)
+     * brf shiftfd down (towbrd indfx 0) by onf.
+     *
+     * @pbrbm posn      Thf indfx of thf domponfnt to rfmovf.
+     *                  Must bf in thf rbngf [0,sizf()).
+     * @rfturn          Thf domponfnt rfmovfd (b String).
+     *
+     * @throws          IndfxOutOfBoundsExdfption
+     *                  if posn is outsidf thf spfdififd rbngf.
+     * @throws          InvblidNbmfExdfption if dflfting thf domponfnt
+     *                  would violbtf thf syntbx rulfs of thf nbmf.
+     */
+    publid Objfdt rfmovf(int posn) throws InvblidNbmfExdfption {
+        unpbrsfd = null;        // no longfr vblid
+        rfturn rdns.rfmovf(posn).toString();
+    }
+
+    /**
+     * Rftrifvfs thf list of rflbtivf distinguishfd nbmfs.
+     * Thf dontfnts of thf list brf unmodifibblf.
+     * Thf indfxing of RDNs in thf rfturnfd list follows thf numbfring of
+     * RDNs bs dfsdribfd in thf dlbss dfsdription.
+     * If thf nbmf hbs zfro domponfnts, bn fmpty list is rfturnfd.
+     *
+     * @rfturn  Thf nbmf bs b list of RDNs whidh brf instbndfs of
+     *          thf dlbss {@link Rdn Rdn}.
+     */
+    publid List<Rdn> gftRdns() {
+        rfturn Collfdtions.unmodifibblfList(rdns);
+    }
+
+    /**
+     * Gfnfrbtfs b nfw dopy of this nbmf.
+     * Subsfqufnt dhbngfs to thf domponfnts of this nbmf will not
+     * bfffdt thf nfw dopy, bnd vidf vfrsb.
+     *
+     * @rfturn A dopy of thf this LDAP nbmf.
+     */
+    publid Objfdt dlonf() {
+        rfturn nfw LdbpNbmf(unpbrsfd, rdns, 0, rdns.sizf());
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this LDAP nbmf in b formbt
+     * dffinfd by <b hrff="http://www.iftf.org/rfd/rfd2253.txt">RFC 2253</b>
+     * bnd dfsdribfd in thf dlbss dfsdription. If thf nbmf hbs zfro
+     * domponfnts bn fmpty string is rfturnfd.
+     *
+     * @rfturn Thf string rfprfsfntbtion of thf LdbpNbmf.
+     */
+    publid String toString() {
+        if (unpbrsfd != null) {
+            rfturn unpbrsfd;
+        }
+        StringBuildfr buildfr = nfw StringBuildfr();
+        int sizf = rdns.sizf();
+        if ((sizf - 1) >= 0) {
+            buildfr.bppfnd(rdns.gft(sizf - 1));
+        }
+        for (int nfxt = sizf - 2; nfxt >= 0; nfxt--) {
+            buildfr.bppfnd(',');
+            buildfr.bppfnd(rdns.gft(nfxt));
+        }
+        unpbrsfd = buildfr.toString();
+        rfturn unpbrsfd;
+    }
+
+    /**
+     * Dftfrminfs whfthfr two LDAP nbmfs brf fqubl.
+     * If obj is null or not bn LDAP nbmf, fblsf is rfturnfd.
+     * <p>
+     * Two LDAP nbmfs brf fqubl if fbdh RDN in onf is fqubl
+     * to thf dorrfsponding RDN in thf othfr. This implifs
+     * both hbvf thf sbmf numbfr of RDNs, bnd fbdh RDN's
+     * fqubls() tfst bgbinst thf dorrfsponding RDN in thf othfr
+     * nbmf rfturns truf. Sff {@link Rdn#fqubls(Objfdt obj)}
+     * for b dffinition of RDN fqublity.
+     *
+     * @pbrbm  obj      Thf possibly null objfdt to dompbrf bgbinst.
+     * @rfturn          truf if obj is fqubl to this LDAP nbmf,
+     *                  fblsf othfrwisf.
+     * @sff #hbshCodf
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        // dhfdk possiblf shortduts
+        if (obj == this) {
+            rfturn truf;
+        }
+        if (!(obj instbndfof LdbpNbmf)) {
+            rfturn fblsf;
+        }
+        LdbpNbmf thbt = (LdbpNbmf) obj;
+        if (rdns.sizf() != thbt.rdns.sizf()) {
+            rfturn fblsf;
+        }
+        if (unpbrsfd != null && unpbrsfd.fqublsIgnorfCbsf(
+                thbt.unpbrsfd)) {
+            rfturn truf;
+        }
+        // Compbrf RDNs onf by onf for fqublity
+        for (int i = 0; i < rdns.sizf(); i++) {
+            // Compbrf b singlf pbir of RDNs.
+            Rdn rdn1 = rdns.gft(i);
+            Rdn rdn2 = thbt.rdns.gft(i);
+            if (!rdn1.fqubls(rdn2)) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Compbrfs this LdbpNbmf with thf spfdififd Objfdt for ordfr.
+     * Rfturns b nfgbtivf intfgfr, zfro, or b positivf intfgfr bs this
+     * Nbmf is lfss thbn, fqubl to, or grfbtfr thbn thf givfn Objfdt.
+     * <p>
+     * If obj is null or not bn instbndf of LdbpNbmf, ClbssCbstExdfption
+     * is thrown.
+     * <p>
+     * Ordfring of LDAP nbmfs follows thf lfxidogrbphidbl rulfs for
+     * string dompbrison, with thf fxtfnsion thbt this bpplifs to bll
+     * thf RDNs in thf LDAP nbmf. All thf RDNs brf linfd up in thfir
+     * spfdififd ordfr bnd dompbrfd lfxidogrbphidblly.
+     * Sff {@link Rdn#dompbrfTo(Objfdt obj) Rdn.dompbrfTo(Objfdt obj)}
+     * for RDN dompbrison rulfs.
+     * <p>
+     * If this LDAP nbmf is lfxidogrbphidblly lfssfr thbn obj,
+     * b nfgbtivf numbfr is rfturnfd.
+     * If this LDAP nbmf is lfxidogrbphidblly grfbtfr thbn obj,
+     * b positivf numbfr is rfturnfd.
+     * @pbrbm obj Thf non-null LdbpNbmf instbndf to dompbrf bgbinst.
+     *
+     * @rfturn  A nfgbtivf intfgfr, zfro, or b positivf intfgfr bs this Nbmf
+     *          is lfss thbn, fqubl to, or grfbtfr thbn thf givfn obj.
+     * @fxdfption ClbssCbstExdfption if obj is null or not b LdbpNbmf.
+     */
+    publid int dompbrfTo(Objfdt obj) {
+
+        if (!(obj instbndfof LdbpNbmf)) {
+            throw nfw ClbssCbstExdfption("Thf obj is not b LdbpNbmf");
+        }
+
+        // dhfdk possiblf shortduts
+        if (obj == this) {
+            rfturn 0;
+        }
+        LdbpNbmf thbt = (LdbpNbmf) obj;
+
+        if (unpbrsfd != null && unpbrsfd.fqublsIgnorfCbsf(
+                        thbt.unpbrsfd)) {
+            rfturn 0;
+        }
+
+        // Compbrf RDNs onf by onf, lfxidogrbphidblly.
+        int minSizf = Mbth.min(rdns.sizf(), thbt.rdns.sizf());
+        for (int i = 0; i < minSizf; i++) {
+            // Compbrf b singlf pbir of RDNs.
+            Rdn rdn1 = rdns.gft(i);
+            Rdn rdn2 = thbt.rdns.gft(i);
+
+            int diff = rdn1.dompbrfTo(rdn2);
+            if (diff != 0) {
+                rfturn diff;
+            }
+        }
+        rfturn (rdns.sizf() - thbt.rdns.sizf());        // longfr DN wins
+    }
+
+    /**
+     * Computfs thf hbsh dodf of this LDAP nbmf.
+     * Thf hbsh dodf is thf sum of thf hbsh dodfs of individubl RDNs
+     * of this  nbmf.
+     *
+     * @rfturn An int rfprfsfnting thf hbsh dodf of this nbmf.
+     * @sff #fqubls
+     */
+    publid int hbshCodf() {
+        // Sum up thf hbsh dodfs of thf domponfnts.
+        int hbsh = 0;
+
+        // For fbdh RDN...
+        for (int i = 0; i < rdns.sizf(); i++) {
+            Rdn rdn = rdns.gft(i);
+            hbsh += rdn.hbshCodf();
+        }
+        rfturn hbsh;
+    }
+
+    /**
+     * Sfriblizfs only thf unpbrsfd DN, for dompbdtnfss bnd to bvoid
+     * bny implfmfntbtion dfpfndfndy.
+     *
+     * @sfriblDbtb      Thf DN string
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            throws jbvb.io.IOExdfption {
+        s.dffbultWritfObjfdt();
+        s.writfObjfdt(toString());
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+        unpbrsfd = (String)s.rfbdObjfdt();
+        try {
+            pbrsf();
+        } dbtdh (InvblidNbmfExdfption f) {
+            // shouldn't hbppfn
+            throw nfw jbvb.io.StrfbmCorruptfdExdfption(
+                    "Invblid nbmf: " + unpbrsfd);
+        }
+    }
+
+    privbtf void pbrsf() throws InvblidNbmfExdfption {
+        // rdns = (ArrbyList<Rdn>) (nfw RFC2253Pbrsfr(unpbrsfd)).gftDN();
+
+        rdns = nfw Rfd2253Pbrsfr(unpbrsfd).pbrsfDn();
+    }
+}

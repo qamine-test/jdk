@@ -1,289 +1,289 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pisces;
+pbdkbgf sun.jbvb2d.pisdfs;
 
-import java.util.Iterator;
+import jbvb.util.Itfrbtor;
 
-final class Curve {
+finbl dlbss Curvf {
 
-    float ax, ay, bx, by, cx, cy, dx, dy;
-    float dax, day, dbx, dby;
+    flobt bx, by, bx, by, dx, dy, dx, dy;
+    flobt dbx, dby, dbx, dby;
 
-    Curve() {
+    Curvf() {
     }
 
-    void set(float[] points, int type) {
-        switch(type) {
-        case 8:
-            set(points[0], points[1],
+    void sft(flobt[] points, int typf) {
+        switdi(typf) {
+        dbsf 8:
+            sft(points[0], points[1],
                 points[2], points[3],
                 points[4], points[5],
                 points[6], points[7]);
-            break;
-        case 6:
-            set(points[0], points[1],
+            brfbk;
+        dbsf 6:
+            sft(points[0], points[1],
                 points[2], points[3],
                 points[4], points[5]);
-            break;
-        default:
-            throw new InternalError("Curves can only be cubic or quadratic");
+            brfbk;
+        dffbult:
+            tirow nfw IntfrnblError("Curvfs dbn only bf dubid or qubdrbtid");
         }
     }
 
-    void set(float x1, float y1,
-             float x2, float y2,
-             float x3, float y3,
-             float x4, float y4)
+    void sft(flobt x1, flobt y1,
+             flobt x2, flobt y2,
+             flobt x3, flobt y3,
+             flobt x4, flobt y4)
     {
-        ax = 3 * (x2 - x3) + x4 - x1;
-        ay = 3 * (y2 - y3) + y4 - y1;
+        bx = 3 * (x2 - x3) + x4 - x1;
+        by = 3 * (y2 - y3) + y4 - y1;
         bx = 3 * (x1 - 2 * x2 + x3);
         by = 3 * (y1 - 2 * y2 + y3);
-        cx = 3 * (x2 - x1);
-        cy = 3 * (y2 - y1);
+        dx = 3 * (x2 - x1);
+        dy = 3 * (y2 - y1);
         dx = x1;
         dy = y1;
-        dax = 3 * ax; day = 3 * ay;
+        dbx = 3 * bx; dby = 3 * by;
         dbx = 2 * bx; dby = 2 * by;
     }
 
-    void set(float x1, float y1,
-             float x2, float y2,
-             float x3, float y3)
+    void sft(flobt x1, flobt y1,
+             flobt x2, flobt y2,
+             flobt x3, flobt y3)
     {
-        ax = ay = 0f;
+        bx = by = 0f;
 
         bx = x1 - 2 * x2 + x3;
         by = y1 - 2 * y2 + y3;
-        cx = 2 * (x2 - x1);
-        cy = 2 * (y2 - y1);
+        dx = 2 * (x2 - x1);
+        dy = 2 * (y2 - y1);
         dx = x1;
         dy = y1;
-        dax = 0; day = 0;
+        dbx = 0; dby = 0;
         dbx = 2 * bx; dby = 2 * by;
     }
 
-    float xat(float t) {
-        return t * (t * (t * ax + bx) + cx) + dx;
+    flobt xbt(flobt t) {
+        rfturn t * (t * (t * bx + bx) + dx) + dx;
     }
-    float yat(float t) {
-        return t * (t * (t * ay + by) + cy) + dy;
-    }
-
-    float dxat(float t) {
-        return t * (t * dax + dbx) + cx;
+    flobt ybt(flobt t) {
+        rfturn t * (t * (t * by + by) + dy) + dy;
     }
 
-    float dyat(float t) {
-        return t * (t * day + dby) + cy;
+    flobt dxbt(flobt t) {
+        rfturn t * (t * dbx + dbx) + dx;
     }
 
-    int dxRoots(float[] roots, int off) {
-        return Helpers.quadraticRoots(dax, dbx, cx, roots, off);
+    flobt dybt(flobt t) {
+        rfturn t * (t * dby + dby) + dy;
     }
 
-    int dyRoots(float[] roots, int off) {
-        return Helpers.quadraticRoots(day, dby, cy, roots, off);
+    int dxRoots(flobt[] roots, int off) {
+        rfturn Hflpfrs.qubdrbtidRoots(dbx, dbx, dx, roots, off);
     }
 
-    int infPoints(float[] pts, int off) {
-        // inflection point at t if -f'(t)x*f''(t)y + f'(t)y*f''(t)x == 0
-        // Fortunately, this turns out to be quadratic, so there are at
-        // most 2 inflection points.
-        final float a = dax * dby - dbx * day;
-        final float b = 2 * (cy * dax - day * cx);
-        final float c = cy * dbx - cx * dby;
-
-        return Helpers.quadraticRoots(a, b, c, pts, off);
+    int dyRoots(flobt[] roots, int off) {
+        rfturn Hflpfrs.qubdrbtidRoots(dby, dby, dy, roots, off);
     }
 
-    // finds points where the first and second derivative are
-    // perpendicular. This happens when g(t) = f'(t)*f''(t) == 0 (where
-    // * is a dot product). Unfortunately, we have to solve a cubic.
-    private int perpendiculardfddf(float[] pts, int off) {
-        assert pts.length >= off + 4;
+    int infPoints(flobt[] pts, int off) {
+        // inflfdtion point bt t if -f'(t)x*f''(t)y + f'(t)y*f''(t)x == 0
+        // Fortunbtfly, tiis turns out to bf qubdrbtid, so tifrf brf bt
+        // most 2 inflfdtion points.
+        finbl flobt b = dbx * dby - dbx * dby;
+        finbl flobt b = 2 * (dy * dbx - dby * dx);
+        finbl flobt d = dy * dbx - dx * dby;
 
-        // these are the coefficients of some multiple of g(t) (not g(t),
-        // because the roots of a polynomial are not changed after multiplication
-        // by a constant, and this way we save a few multiplications).
-        final float a = 2*(dax*dax + day*day);
-        final float b = 3*(dax*dbx + day*dby);
-        final float c = 2*(dax*cx + day*cy) + dbx*dbx + dby*dby;
-        final float d = dbx*cx + dby*cy;
-        return Helpers.cubicRootsInAB(a, b, c, d, pts, off, 0f, 1f);
+        rfturn Hflpfrs.qubdrbtidRoots(b, b, d, pts, off);
     }
 
-    // Tries to find the roots of the function ROC(t)-w in [0, 1). It uses
-    // a variant of the false position algorithm to find the roots. False
-    // position requires that 2 initial values x0,x1 be given, and that the
-    // function must have opposite signs at those values. To find such
-    // values, we need the local extrema of the ROC function, for which we
-    // need the roots of its derivative; however, it's harder to find the
-    // roots of the derivative in this case than it is to find the roots
-    // of the original function. So, we find all points where this curve's
-    // first and second derivative are perpendicular, and we pretend these
-    // are our local extrema. There are at most 3 of these, so we will check
-    // at most 4 sub-intervals of (0,1). ROC has asymptotes at inflection
-    // points, so roc-w can have at least 6 roots. This shouldn't be a
-    // problem for what we're trying to do (draw a nice looking curve).
-    int rootsOfROCMinusW(float[] roots, int off, final float w, final float err) {
-        // no OOB exception, because by now off<=6, and roots.length >= 10
-        assert off <= 6 && roots.length >= 10;
-        int ret = off;
-        int numPerpdfddf = perpendiculardfddf(roots, off);
-        float t0 = 0, ft0 = ROCsq(t0) - w*w;
-        roots[off + numPerpdfddf] = 1f; // always check interval end points
-        numPerpdfddf++;
-        for (int i = off; i < off + numPerpdfddf; i++) {
-            float t1 = roots[i], ft1 = ROCsq(t1) - w*w;
+    // finds points wifrf tif first bnd sfdond dfrivbtivf brf
+    // pfrpfndidulbr. Tiis ibppfns wifn g(t) = f'(t)*f''(t) == 0 (wifrf
+    // * is b dot produdt). Unfortunbtfly, wf ibvf to solvf b dubid.
+    privbtf int pfrpfndidulbrdfddf(flobt[] pts, int off) {
+        bssfrt pts.lfngti >= off + 4;
+
+        // tifsf brf tif dofffidifnts of somf multiplf of g(t) (not g(t),
+        // bfdbusf tif roots of b polynomibl brf not dibngfd bftfr multiplidbtion
+        // by b donstbnt, bnd tiis wby wf sbvf b ffw multiplidbtions).
+        finbl flobt b = 2*(dbx*dbx + dby*dby);
+        finbl flobt b = 3*(dbx*dbx + dby*dby);
+        finbl flobt d = 2*(dbx*dx + dby*dy) + dbx*dbx + dby*dby;
+        finbl flobt d = dbx*dx + dby*dy;
+        rfturn Hflpfrs.dubidRootsInAB(b, b, d, d, pts, off, 0f, 1f);
+    }
+
+    // Trifs to find tif roots of tif fundtion ROC(t)-w in [0, 1). It usfs
+    // b vbribnt of tif fblsf position blgoritim to find tif roots. Fblsf
+    // position rfquirfs tibt 2 initibl vblufs x0,x1 bf givfn, bnd tibt tif
+    // fundtion must ibvf oppositf signs bt tiosf vblufs. To find sudi
+    // vblufs, wf nffd tif lodbl fxtrfmb of tif ROC fundtion, for wiidi wf
+    // nffd tif roots of its dfrivbtivf; iowfvfr, it's ibrdfr to find tif
+    // roots of tif dfrivbtivf in tiis dbsf tibn it is to find tif roots
+    // of tif originbl fundtion. So, wf find bll points wifrf tiis durvf's
+    // first bnd sfdond dfrivbtivf brf pfrpfndidulbr, bnd wf prftfnd tifsf
+    // brf our lodbl fxtrfmb. Tifrf brf bt most 3 of tifsf, so wf will difdk
+    // bt most 4 sub-intfrvbls of (0,1). ROC ibs bsymptotfs bt inflfdtion
+    // points, so rod-w dbn ibvf bt lfbst 6 roots. Tiis siouldn't bf b
+    // problfm for wibt wf'rf trying to do (drbw b nidf looking durvf).
+    int rootsOfROCMinusW(flobt[] roots, int off, finbl flobt w, finbl flobt frr) {
+        // no OOB fxdfption, bfdbusf by now off<=6, bnd roots.lfngti >= 10
+        bssfrt off <= 6 && roots.lfngti >= 10;
+        int rft = off;
+        int numPfrpdfddf = pfrpfndidulbrdfddf(roots, off);
+        flobt t0 = 0, ft0 = ROCsq(t0) - w*w;
+        roots[off + numPfrpdfddf] = 1f; // blwbys difdk intfrvbl fnd points
+        numPfrpdfddf++;
+        for (int i = off; i < off + numPfrpdfddf; i++) {
+            flobt t1 = roots[i], ft1 = ROCsq(t1) - w*w;
             if (ft0 == 0f) {
-                roots[ret++] = t0;
-            } else if (ft1 * ft0 < 0f) { // have opposite signs
-                // (ROC(t)^2 == w^2) == (ROC(t) == w) is true because
-                // ROC(t) >= 0 for all t.
-                roots[ret++] = falsePositionROCsqMinusX(t0, t1, w*w, err);
+                roots[rft++] = t0;
+            } flsf if (ft1 * ft0 < 0f) { // ibvf oppositf signs
+                // (ROC(t)^2 == w^2) == (ROC(t) == w) is truf bfdbusf
+                // ROC(t) >= 0 for bll t.
+                roots[rft++] = fblsfPositionROCsqMinusX(t0, t1, w*w, frr);
             }
             t0 = t1;
             ft0 = ft1;
         }
 
-        return ret - off;
+        rfturn rft - off;
     }
 
-    private static float eliminateInf(float x) {
-        return (x == Float.POSITIVE_INFINITY ? Float.MAX_VALUE :
-            (x == Float.NEGATIVE_INFINITY ? Float.MIN_VALUE : x));
+    privbtf stbtid flobt fliminbtfInf(flobt x) {
+        rfturn (x == Flobt.POSITIVE_INFINITY ? Flobt.MAX_VALUE :
+            (x == Flobt.NEGATIVE_INFINITY ? Flobt.MIN_VALUE : x));
     }
 
-    // A slight modification of the false position algorithm on wikipedia.
-    // This only works for the ROCsq-x functions. It might be nice to have
-    // the function as an argument, but that would be awkward in java6.
-    // TODO: It is something to consider for java8 (or whenever lambda
-    // expressions make it into the language), depending on how closures
-    // and turn out. Same goes for the newton's method
-    // algorithm in Helpers.java
-    private float falsePositionROCsqMinusX(float x0, float x1,
-                                           final float x, final float err)
+    // A sligit modifidbtion of tif fblsf position blgoritim on wikipfdib.
+    // Tiis only works for tif ROCsq-x fundtions. It migit bf nidf to ibvf
+    // tif fundtion bs bn brgumfnt, but tibt would bf bwkwbrd in jbvb6.
+    // TODO: It is somftiing to donsidfr for jbvb8 (or wifnfvfr lbmbdb
+    // fxprfssions mbkf it into tif lbngubgf), dfpfnding on iow dlosurfs
+    // bnd turn out. Sbmf gofs for tif nfwton's mftiod
+    // blgoritim in Hflpfrs.jbvb
+    privbtf flobt fblsfPositionROCsqMinusX(flobt x0, flobt x1,
+                                           finbl flobt x, finbl flobt frr)
     {
-        final int iterLimit = 100;
-        int side = 0;
-        float t = x1, ft = eliminateInf(ROCsq(t) - x);
-        float s = x0, fs = eliminateInf(ROCsq(s) - x);
-        float r = s, fr;
-        for (int i = 0; i < iterLimit && Math.abs(t - s) > err * Math.abs(t + s); i++) {
+        finbl int itfrLimit = 100;
+        int sidf = 0;
+        flobt t = x1, ft = fliminbtfInf(ROCsq(t) - x);
+        flobt s = x0, fs = fliminbtfInf(ROCsq(s) - x);
+        flobt r = s, fr;
+        for (int i = 0; i < itfrLimit && Mbti.bbs(t - s) > frr * Mbti.bbs(t + s); i++) {
             r = (fs * t - ft * s) / (fs - ft);
             fr = ROCsq(r) - x;
-            if (sameSign(fr, ft)) {
+            if (sbmfSign(fr, ft)) {
                 ft = fr; t = r;
-                if (side < 0) {
-                    fs /= (1 << (-side));
-                    side--;
-                } else {
-                    side = -1;
+                if (sidf < 0) {
+                    fs /= (1 << (-sidf));
+                    sidf--;
+                } flsf {
+                    sidf = -1;
                 }
-            } else if (fr * fs > 0) {
+            } flsf if (fr * fs > 0) {
                 fs = fr; s = r;
-                if (side > 0) {
-                    ft /= (1 << side);
-                    side++;
-                } else {
-                    side = 1;
+                if (sidf > 0) {
+                    ft /= (1 << sidf);
+                    sidf++;
+                } flsf {
+                    sidf = 1;
                 }
-            } else {
-                break;
+            } flsf {
+                brfbk;
             }
         }
-        return r;
+        rfturn r;
     }
 
-    private static boolean sameSign(double x, double y) {
-        // another way is to test if x*y > 0. This is bad for small x, y.
-        return (x < 0 && y < 0) || (x > 0 && y > 0);
+    privbtf stbtid boolfbn sbmfSign(doublf x, doublf y) {
+        // bnotifr wby is to tfst if x*y > 0. Tiis is bbd for smbll x, y.
+        rfturn (x < 0 && y < 0) || (x > 0 && y > 0);
     }
 
-    // returns the radius of curvature squared at t of this curve
-    // see http://en.wikipedia.org/wiki/Radius_of_curvature_(applications)
-    private float ROCsq(final float t) {
-        // dx=xat(t) and dy=yat(t). These calls have been inlined for efficiency
-        final float dx = t * (t * dax + dbx) + cx;
-        final float dy = t * (t * day + dby) + cy;
-        final float ddx = 2 * dax * t + dbx;
-        final float ddy = 2 * day * t + dby;
-        final float dx2dy2 = dx*dx + dy*dy;
-        final float ddx2ddy2 = ddx*ddx + ddy*ddy;
-        final float ddxdxddydy = ddx*dx + ddy*dy;
-        return dx2dy2*((dx2dy2*dx2dy2) / (dx2dy2 * ddx2ddy2 - ddxdxddydy*ddxdxddydy));
+    // rfturns tif rbdius of durvbturf squbrfd bt t of tiis durvf
+    // sff ittp://fn.wikipfdib.org/wiki/Rbdius_of_durvbturf_(bpplidbtions)
+    privbtf flobt ROCsq(finbl flobt t) {
+        // dx=xbt(t) bnd dy=ybt(t). Tifsf dblls ibvf bffn inlinfd for fffidifndy
+        finbl flobt dx = t * (t * dbx + dbx) + dx;
+        finbl flobt dy = t * (t * dby + dby) + dy;
+        finbl flobt ddx = 2 * dbx * t + dbx;
+        finbl flobt ddy = 2 * dby * t + dby;
+        finbl flobt dx2dy2 = dx*dx + dy*dy;
+        finbl flobt ddx2ddy2 = ddx*ddx + ddy*ddy;
+        finbl flobt ddxdxddydy = ddx*dx + ddy*dy;
+        rfturn dx2dy2*((dx2dy2*dx2dy2) / (dx2dy2 * ddx2ddy2 - ddxdxddydy*ddxdxddydy));
     }
 
-    // curve to be broken should be in pts
-    // this will change the contents of pts but not Ts
-    // TODO: There's no reason for Ts to be an array. All we need is a sequence
-    // of t values at which to subdivide. An array statisfies this condition,
-    // but is unnecessarily restrictive. Ts should be an Iterator<Float> instead.
-    // Doing this will also make dashing easier, since we could easily make
-    // LengthIterator an Iterator<Float> and feed it to this function to simplify
-    // the loop in Dasher.somethingTo.
-    static Iterator<Integer> breakPtsAtTs(final float[] pts, final int type,
-                                          final float[] Ts, final int numTs)
+    // durvf to bf brokfn siould bf in pts
+    // tiis will dibngf tif dontfnts of pts but not Ts
+    // TODO: Tifrf's no rfbson for Ts to bf bn brrby. All wf nffd is b sfqufndf
+    // of t vblufs bt wiidi to subdividf. An brrby stbtisfifs tiis dondition,
+    // but is unnfdfssbrily rfstridtivf. Ts siould bf bn Itfrbtor<Flobt> instfbd.
+    // Doing tiis will blso mbkf dbsiing fbsifr, sindf wf dould fbsily mbkf
+    // LfngtiItfrbtor bn Itfrbtor<Flobt> bnd fffd it to tiis fundtion to simplify
+    // tif loop in Dbsifr.somftiingTo.
+    stbtid Itfrbtor<Intfgfr> brfbkPtsAtTs(finbl flobt[] pts, finbl int typf,
+                                          finbl flobt[] Ts, finbl int numTs)
     {
-        assert pts.length >= 2*type && numTs <= Ts.length;
-        return new Iterator<Integer>() {
-            // these prevent object creation and destruction during autoboxing.
-            // Because of this, the compiler should be able to completely
-            // eliminate the boxing costs.
-            final Integer i0 = 0;
-            final Integer itype = type;
-            int nextCurveIdx = 0;
-            Integer curCurveOff = i0;
-            float prevT = 0;
+        bssfrt pts.lfngti >= 2*typf && numTs <= Ts.lfngti;
+        rfturn nfw Itfrbtor<Intfgfr>() {
+            // tifsf prfvfnt objfdt drfbtion bnd dfstrudtion during butoboxing.
+            // Bfdbusf of tiis, tif dompilfr siould bf bblf to domplftfly
+            // fliminbtf tif boxing dosts.
+            finbl Intfgfr i0 = 0;
+            finbl Intfgfr itypf = typf;
+            int nfxtCurvfIdx = 0;
+            Intfgfr durCurvfOff = i0;
+            flobt prfvT = 0;
 
-            @Override public boolean hasNext() {
-                return nextCurveIdx < numTs + 1;
+            @Ovfrridf publid boolfbn ibsNfxt() {
+                rfturn nfxtCurvfIdx < numTs + 1;
             }
 
-            @Override public Integer next() {
-                Integer ret;
-                if (nextCurveIdx < numTs) {
-                    float curT = Ts[nextCurveIdx];
-                    float splitT = (curT - prevT) / (1 - prevT);
-                    Helpers.subdivideAt(splitT,
-                                        pts, curCurveOff,
+            @Ovfrridf publid Intfgfr nfxt() {
+                Intfgfr rft;
+                if (nfxtCurvfIdx < numTs) {
+                    flobt durT = Ts[nfxtCurvfIdx];
+                    flobt splitT = (durT - prfvT) / (1 - prfvT);
+                    Hflpfrs.subdividfAt(splitT,
+                                        pts, durCurvfOff,
                                         pts, 0,
-                                        pts, type, type);
-                    prevT = curT;
-                    ret = i0;
-                    curCurveOff = itype;
-                } else {
-                    ret = curCurveOff;
+                                        pts, typf, typf);
+                    prfvT = durT;
+                    rft = i0;
+                    durCurvfOff = itypf;
+                } flsf {
+                    rft = durCurvfOff;
                 }
-                nextCurveIdx++;
-                return ret;
+                nfxtCurvfIdx++;
+                rfturn rft;
             }
 
-            @Override public void remove() {}
+            @Ovfrridf publid void rfmovf() {}
         };
     }
 }

@@ -1,355 +1,355 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package java.util.logging;
+pbdkbgf jbvb.util.logging;
 
-import java.io.UnsupportedEncodingException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * A <tt>Handler</tt> object takes log messages from a <tt>Logger</tt> and
- * exports them.  It might for example, write them to a console
- * or write them to a file, or send them to a network logging service,
- * or forward them to an OS log, or whatever.
+ * A <tt>Hbndlfr</tt> objfdt tbkfs log mfssbgfs from b <tt>Loggfr</tt> bnd
+ * fxports tifm.  It migit for fxbmplf, writf tifm to b donsolf
+ * or writf tifm to b filf, or sfnd tifm to b nftwork logging sfrvidf,
+ * or forwbrd tifm to bn OS log, or wibtfvfr.
  * <p>
- * A <tt>Handler</tt> can be disabled by doing a <tt>setLevel(Level.OFF)</tt>
- * and can  be re-enabled by doing a <tt>setLevel</tt> with an appropriate level.
+ * A <tt>Hbndlfr</tt> dbn bf disbblfd by doing b <tt>sftLfvfl(Lfvfl.OFF)</tt>
+ * bnd dbn  bf rf-fnbblfd by doing b <tt>sftLfvfl</tt> witi bn bppropribtf lfvfl.
  * <p>
- * <tt>Handler</tt> classes typically use <tt>LogManager</tt> properties to set
- * default values for the <tt>Handler</tt>'s <tt>Filter</tt>, <tt>Formatter</tt>,
- * and <tt>Level</tt>.  See the specific documentation for each concrete
- * <tt>Handler</tt> class.
+ * <tt>Hbndlfr</tt> dlbssfs typidblly usf <tt>LogMbnbgfr</tt> propfrtifs to sft
+ * dffbult vblufs for tif <tt>Hbndlfr</tt>'s <tt>Filtfr</tt>, <tt>Formbttfr</tt>,
+ * bnd <tt>Lfvfl</tt>.  Sff tif spfdifid dodumfntbtion for fbdi dondrftf
+ * <tt>Hbndlfr</tt> dlbss.
  *
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public abstract class Handler {
-    private static final int offValue = Level.OFF.intValue();
-    private final LogManager manager = LogManager.getLogManager();
+publid bbstrbdt dlbss Hbndlfr {
+    privbtf stbtid finbl int offVbluf = Lfvfl.OFF.intVbluf();
+    privbtf finbl LogMbnbgfr mbnbgfr = LogMbnbgfr.gftLogMbnbgfr();
 
-    // We're using volatile here to avoid synchronizing getters, which
-    // would prevent other threads from calling isLoggable()
-    // while publish() is executing.
-    // On the other hand, setters will be synchronized to exclude concurrent
-    // execution with more complex methods, such as StreamHandler.publish().
-    // We wouldn't want 'level' to be changed by another thread in the middle
-    // of the execution of a 'publish' call.
-    private volatile Filter filter;
-    private volatile Formatter formatter;
-    private volatile Level logLevel = Level.ALL;
-    private volatile ErrorManager errorManager = new ErrorManager();
-    private volatile String encoding;
+    // Wf'rf using volbtilf ifrf to bvoid syndironizing gfttfrs, wiidi
+    // would prfvfnt otifr tirfbds from dblling isLoggbblf()
+    // wiilf publisi() is fxfduting.
+    // On tif otifr ibnd, sfttfrs will bf syndironizfd to fxdludf dondurrfnt
+    // fxfdution witi morf domplfx mftiods, sudi bs StrfbmHbndlfr.publisi().
+    // Wf wouldn't wbnt 'lfvfl' to bf dibngfd by bnotifr tirfbd in tif middlf
+    // of tif fxfdution of b 'publisi' dbll.
+    privbtf volbtilf Filtfr filtfr;
+    privbtf volbtilf Formbttfr formbttfr;
+    privbtf volbtilf Lfvfl logLfvfl = Lfvfl.ALL;
+    privbtf volbtilf ErrorMbnbgfr frrorMbnbgfr = nfw ErrorMbnbgfr();
+    privbtf volbtilf String fndoding;
 
     /**
-     * Default constructor.  The resulting <tt>Handler</tt> has a log
-     * level of <tt>Level.ALL</tt>, no <tt>Formatter</tt>, and no
-     * <tt>Filter</tt>.  A default <tt>ErrorManager</tt> instance is installed
-     * as the <tt>ErrorManager</tt>.
+     * Dffbult donstrudtor.  Tif rfsulting <tt>Hbndlfr</tt> ibs b log
+     * lfvfl of <tt>Lfvfl.ALL</tt>, no <tt>Formbttfr</tt>, bnd no
+     * <tt>Filtfr</tt>.  A dffbult <tt>ErrorMbnbgfr</tt> instbndf is instbllfd
+     * bs tif <tt>ErrorMbnbgfr</tt>.
      */
-    protected Handler() {
+    protfdtfd Hbndlfr() {
     }
 
     /**
-     * Package-private constructor for chaining from subclass constructors
-     * that wish to configure the handler with specific default and/or
-     * specified values.
+     * Pbdkbgf-privbtf donstrudtor for dibining from subdlbss donstrudtors
+     * tibt wisi to donfigurf tif ibndlfr witi spfdifid dffbult bnd/or
+     * spfdififd vblufs.
      *
-     * @param defaultLevel       a default {@link Level} to configure if one is
-     *                           not found in LogManager configuration properties
-     * @param defaultFormatter   a default {@link Formatter} to configure if one is
-     *                           not specified by {@code specifiedFormatter} parameter
-     *                           nor found in LogManager configuration properties
-     * @param specifiedFormatter if not null, this is the formatter to configure
+     * @pbrbm dffbultLfvfl       b dffbult {@link Lfvfl} to donfigurf if onf is
+     *                           not found in LogMbnbgfr donfigurbtion propfrtifs
+     * @pbrbm dffbultFormbttfr   b dffbult {@link Formbttfr} to donfigurf if onf is
+     *                           not spfdififd by {@dodf spfdififdFormbttfr} pbrbmftfr
+     *                           nor found in LogMbnbgfr donfigurbtion propfrtifs
+     * @pbrbm spfdififdFormbttfr if not null, tiis is tif formbttfr to donfigurf
      */
-    Handler(Level defaultLevel, Formatter defaultFormatter,
-            Formatter specifiedFormatter) {
+    Hbndlfr(Lfvfl dffbultLfvfl, Formbttfr dffbultFormbttfr,
+            Formbttfr spfdififdFormbttfr) {
 
-        LogManager manager = LogManager.getLogManager();
-        String cname = getClass().getName();
+        LogMbnbgfr mbnbgfr = LogMbnbgfr.gftLogMbnbgfr();
+        String dnbmf = gftClbss().gftNbmf();
 
-        final Level level = manager.getLevelProperty(cname + ".level", defaultLevel);
-        final Filter filter = manager.getFilterProperty(cname + ".filter", null);
-        final Formatter formatter = specifiedFormatter == null
-                                    ? manager.getFormatterProperty(cname + ".formatter", defaultFormatter)
-                                    : specifiedFormatter;
-        final String encoding = manager.getStringProperty(cname + ".encoding", null);
+        finbl Lfvfl lfvfl = mbnbgfr.gftLfvflPropfrty(dnbmf + ".lfvfl", dffbultLfvfl);
+        finbl Filtfr filtfr = mbnbgfr.gftFiltfrPropfrty(dnbmf + ".filtfr", null);
+        finbl Formbttfr formbttfr = spfdififdFormbttfr == null
+                                    ? mbnbgfr.gftFormbttfrPropfrty(dnbmf + ".formbttfr", dffbultFormbttfr)
+                                    : spfdififdFormbttfr;
+        finbl String fndoding = mbnbgfr.gftStringPropfrty(dnbmf + ".fndoding", null);
 
-        AccessController.doPrivileged(new PrivilegedAction<Void>() {
-            @Override
-            public Void run() {
-                setLevel(level);
-                setFilter(filter);
-                setFormatter(formatter);
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+            @Ovfrridf
+            publid Void run() {
+                sftLfvfl(lfvfl);
+                sftFiltfr(filtfr);
+                sftFormbttfr(formbttfr);
                 try {
-                    setEncoding(encoding);
-                } catch (Exception ex) {
+                    sftEndoding(fndoding);
+                } dbtdi (Exdfption fx) {
                     try {
-                        setEncoding(null);
-                    } catch (Exception ex2) {
-                        // doing a setEncoding with null should always work.
-                        // assert false;
+                        sftEndoding(null);
+                    } dbtdi (Exdfption fx2) {
+                        // doing b sftEndoding witi null siould blwbys work.
+                        // bssfrt fblsf;
                     }
                 }
-                return null;
+                rfturn null;
             }
-        }, null, LogManager.controlPermission);
+        }, null, LogMbnbgfr.dontrolPfrmission);
     }
 
     /**
-     * Publish a <tt>LogRecord</tt>.
+     * Publisi b <tt>LogRfdord</tt>.
      * <p>
-     * The logging request was made initially to a <tt>Logger</tt> object,
-     * which initialized the <tt>LogRecord</tt> and forwarded it here.
+     * Tif logging rfqufst wbs mbdf initiblly to b <tt>Loggfr</tt> objfdt,
+     * wiidi initiblizfd tif <tt>LogRfdord</tt> bnd forwbrdfd it ifrf.
      * <p>
-     * The <tt>Handler</tt>  is responsible for formatting the message, when and
-     * if necessary.  The formatting should include localization.
+     * Tif <tt>Hbndlfr</tt>  is rfsponsiblf for formbtting tif mfssbgf, wifn bnd
+     * if nfdfssbry.  Tif formbtting siould indludf lodblizbtion.
      *
-     * @param  record  description of the log event. A null record is
-     *                 silently ignored and is not published
+     * @pbrbm  rfdord  dfsdription of tif log fvfnt. A null rfdord is
+     *                 silfntly ignorfd bnd is not publisifd
      */
-    public abstract void publish(LogRecord record);
+    publid bbstrbdt void publisi(LogRfdord rfdord);
 
     /**
-     * Flush any buffered output.
+     * Flusi bny bufffrfd output.
      */
-    public abstract void flush();
+    publid bbstrbdt void flusi();
 
     /**
-     * Close the <tt>Handler</tt> and free all associated resources.
+     * Closf tif <tt>Hbndlfr</tt> bnd frff bll bssodibtfd rfsourdfs.
      * <p>
-     * The close method will perform a <tt>flush</tt> and then close the
-     * <tt>Handler</tt>.   After close has been called this <tt>Handler</tt>
-     * should no longer be used.  Method calls may either be silently
-     * ignored or may throw runtime exceptions.
+     * Tif dlosf mftiod will pfrform b <tt>flusi</tt> bnd tifn dlosf tif
+     * <tt>Hbndlfr</tt>.   Aftfr dlosf ibs bffn dbllfd tiis <tt>Hbndlfr</tt>
+     * siould no longfr bf usfd.  Mftiod dblls mby fitifr bf silfntly
+     * ignorfd or mby tirow runtimf fxdfptions.
      *
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol")</tt>.
      */
-    public abstract void close() throws SecurityException;
+    publid bbstrbdt void dlosf() tirows SfdurityExdfption;
 
     /**
-     * Set a <tt>Formatter</tt>.  This <tt>Formatter</tt> will be used
-     * to format <tt>LogRecords</tt> for this <tt>Handler</tt>.
+     * Sft b <tt>Formbttfr</tt>.  Tiis <tt>Formbttfr</tt> will bf usfd
+     * to formbt <tt>LogRfdords</tt> for tiis <tt>Hbndlfr</tt>.
      * <p>
-     * Some <tt>Handlers</tt> may not use <tt>Formatters</tt>, in
-     * which case the <tt>Formatter</tt> will be remembered, but not used.
+     * Somf <tt>Hbndlfrs</tt> mby not usf <tt>Formbttfrs</tt>, in
+     * wiidi dbsf tif <tt>Formbttfr</tt> will bf rfmfmbfrfd, but not usfd.
      *
-     * @param newFormatter the <tt>Formatter</tt> to use (may not be null)
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
+     * @pbrbm nfwFormbttfr tif <tt>Formbttfr</tt> to usf (mby not bf null)
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol")</tt>.
      */
-    public synchronized void setFormatter(Formatter newFormatter) throws SecurityException {
-        checkPermission();
-        // Check for a null pointer:
-        newFormatter.getClass();
-        formatter = newFormatter;
+    publid syndironizfd void sftFormbttfr(Formbttfr nfwFormbttfr) tirows SfdurityExdfption {
+        difdkPfrmission();
+        // Cifdk for b null pointfr:
+        nfwFormbttfr.gftClbss();
+        formbttfr = nfwFormbttfr;
     }
 
     /**
-     * Return the <tt>Formatter</tt> for this <tt>Handler</tt>.
-     * @return the <tt>Formatter</tt> (may be null).
+     * Rfturn tif <tt>Formbttfr</tt> for tiis <tt>Hbndlfr</tt>.
+     * @rfturn tif <tt>Formbttfr</tt> (mby bf null).
      */
-    public Formatter getFormatter() {
-        return formatter;
+    publid Formbttfr gftFormbttfr() {
+        rfturn formbttfr;
     }
 
     /**
-     * Set the character encoding used by this <tt>Handler</tt>.
+     * Sft tif dibrbdtfr fndoding usfd by tiis <tt>Hbndlfr</tt>.
      * <p>
-     * The encoding should be set before any <tt>LogRecords</tt> are written
-     * to the <tt>Handler</tt>.
+     * Tif fndoding siould bf sft bfforf bny <tt>LogRfdords</tt> brf writtfn
+     * to tif <tt>Hbndlfr</tt>.
      *
-     * @param encoding  The name of a supported character encoding.
-     *        May be null, to indicate the default platform encoding.
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
-     * @exception  UnsupportedEncodingException if the named encoding is
-     *          not supported.
+     * @pbrbm fndoding  Tif nbmf of b supportfd dibrbdtfr fndoding.
+     *        Mby bf null, to indidbtf tif dffbult plbtform fndoding.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol")</tt>.
+     * @fxdfption  UnsupportfdEndodingExdfption if tif nbmfd fndoding is
+     *          not supportfd.
      */
-    public synchronized void setEncoding(String encoding)
-                        throws SecurityException, java.io.UnsupportedEncodingException {
-        checkPermission();
-        if (encoding != null) {
+    publid syndironizfd void sftEndoding(String fndoding)
+                        tirows SfdurityExdfption, jbvb.io.UnsupportfdEndodingExdfption {
+        difdkPfrmission();
+        if (fndoding != null) {
             try {
-                if(!java.nio.charset.Charset.isSupported(encoding)) {
-                    throw new UnsupportedEncodingException(encoding);
+                if(!jbvb.nio.dibrsft.Cibrsft.isSupportfd(fndoding)) {
+                    tirow nfw UnsupportfdEndodingExdfption(fndoding);
                 }
-            } catch (java.nio.charset.IllegalCharsetNameException e) {
-                throw new UnsupportedEncodingException(encoding);
+            } dbtdi (jbvb.nio.dibrsft.IllfgblCibrsftNbmfExdfption f) {
+                tirow nfw UnsupportfdEndodingExdfption(fndoding);
             }
         }
-        this.encoding = encoding;
+        tiis.fndoding = fndoding;
     }
 
     /**
-     * Return the character encoding for this <tt>Handler</tt>.
+     * Rfturn tif dibrbdtfr fndoding for tiis <tt>Hbndlfr</tt>.
      *
-     * @return  The encoding name.  May be null, which indicates the
-     *          default encoding should be used.
+     * @rfturn  Tif fndoding nbmf.  Mby bf null, wiidi indidbtfs tif
+     *          dffbult fndoding siould bf usfd.
      */
-    public String getEncoding() {
-        return encoding;
+    publid String gftEndoding() {
+        rfturn fndoding;
     }
 
     /**
-     * Set a <tt>Filter</tt> to control output on this <tt>Handler</tt>.
+     * Sft b <tt>Filtfr</tt> to dontrol output on tiis <tt>Hbndlfr</tt>.
      * <P>
-     * For each call of <tt>publish</tt> the <tt>Handler</tt> will call
-     * this <tt>Filter</tt> (if it is non-null) to check if the
-     * <tt>LogRecord</tt> should be published or discarded.
+     * For fbdi dbll of <tt>publisi</tt> tif <tt>Hbndlfr</tt> will dbll
+     * tiis <tt>Filtfr</tt> (if it is non-null) to difdk if tif
+     * <tt>LogRfdord</tt> siould bf publisifd or disdbrdfd.
      *
-     * @param   newFilter  a <tt>Filter</tt> object (may be null)
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
+     * @pbrbm   nfwFiltfr  b <tt>Filtfr</tt> objfdt (mby bf null)
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol")</tt>.
      */
-    public synchronized void setFilter(Filter newFilter) throws SecurityException {
-        checkPermission();
-        filter = newFilter;
+    publid syndironizfd void sftFiltfr(Filtfr nfwFiltfr) tirows SfdurityExdfption {
+        difdkPfrmission();
+        filtfr = nfwFiltfr;
     }
 
     /**
-     * Get the current <tt>Filter</tt> for this <tt>Handler</tt>.
+     * Gft tif durrfnt <tt>Filtfr</tt> for tiis <tt>Hbndlfr</tt>.
      *
-     * @return  a <tt>Filter</tt> object (may be null)
+     * @rfturn  b <tt>Filtfr</tt> objfdt (mby bf null)
      */
-    public Filter getFilter() {
-        return filter;
+    publid Filtfr gftFiltfr() {
+        rfturn filtfr;
     }
 
     /**
-     * Define an ErrorManager for this Handler.
+     * Dffinf bn ErrorMbnbgfr for tiis Hbndlfr.
      * <p>
-     * The ErrorManager's "error" method will be invoked if any
-     * errors occur while using this Handler.
+     * Tif ErrorMbnbgfr's "frror" mftiod will bf invokfd if bny
+     * frrors oddur wiilf using tiis Hbndlfr.
      *
-     * @param em  the new ErrorManager
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
+     * @pbrbm fm  tif nfw ErrorMbnbgfr
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol")</tt>.
      */
-    public synchronized void setErrorManager(ErrorManager em) {
-        checkPermission();
-        if (em == null) {
-           throw new NullPointerException();
+    publid syndironizfd void sftErrorMbnbgfr(ErrorMbnbgfr fm) {
+        difdkPfrmission();
+        if (fm == null) {
+           tirow nfw NullPointfrExdfption();
         }
-        errorManager = em;
+        frrorMbnbgfr = fm;
     }
 
     /**
-     * Retrieves the ErrorManager for this Handler.
+     * Rftrifvfs tif ErrorMbnbgfr for tiis Hbndlfr.
      *
-     * @return the ErrorManager for this Handler
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
+     * @rfturn tif ErrorMbnbgfr for tiis Hbndlfr
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol")</tt>.
      */
-    public ErrorManager getErrorManager() {
-        checkPermission();
-        return errorManager;
+    publid ErrorMbnbgfr gftErrorMbnbgfr() {
+        difdkPfrmission();
+        rfturn frrorMbnbgfr;
     }
 
    /**
-     * Protected convenience method to report an error to this Handler's
-     * ErrorManager.  Note that this method retrieves and uses the ErrorManager
-     * without doing a security check.  It can therefore be used in
-     * environments where the caller may be non-privileged.
+     * Protfdtfd donvfnifndf mftiod to rfport bn frror to tiis Hbndlfr's
+     * ErrorMbnbgfr.  Notf tibt tiis mftiod rftrifvfs bnd usfs tif ErrorMbnbgfr
+     * witiout doing b sfdurity difdk.  It dbn tifrfforf bf usfd in
+     * fnvironmfnts wifrf tif dbllfr mby bf non-privilfgfd.
      *
-     * @param msg    a descriptive string (may be null)
-     * @param ex     an exception (may be null)
-     * @param code   an error code defined in ErrorManager
+     * @pbrbm msg    b dfsdriptivf string (mby bf null)
+     * @pbrbm fx     bn fxdfption (mby bf null)
+     * @pbrbm dodf   bn frror dodf dffinfd in ErrorMbnbgfr
      */
-    protected void reportError(String msg, Exception ex, int code) {
+    protfdtfd void rfportError(String msg, Exdfption fx, int dodf) {
         try {
-            errorManager.error(msg, ex, code);
-        } catch (Exception ex2) {
-            System.err.println("Handler.reportError caught:");
-            ex2.printStackTrace();
+            frrorMbnbgfr.frror(msg, fx, dodf);
+        } dbtdi (Exdfption fx2) {
+            Systfm.frr.println("Hbndlfr.rfportError dbugit:");
+            fx2.printStbdkTrbdf();
         }
     }
 
     /**
-     * Set the log level specifying which message levels will be
-     * logged by this <tt>Handler</tt>.  Message levels lower than this
-     * value will be discarded.
+     * Sft tif log lfvfl spfdifying wiidi mfssbgf lfvfls will bf
+     * loggfd by tiis <tt>Hbndlfr</tt>.  Mfssbgf lfvfls lowfr tibn tiis
+     * vbluf will bf disdbrdfd.
      * <p>
-     * The intention is to allow developers to turn on voluminous
-     * logging, but to limit the messages that are sent to certain
-     * <tt>Handlers</tt>.
+     * Tif intfntion is to bllow dfvflopfrs to turn on voluminous
+     * logging, but to limit tif mfssbgfs tibt brf sfnt to dfrtbin
+     * <tt>Hbndlfrs</tt>.
      *
-     * @param newLevel   the new value for the log level
-     * @exception  SecurityException  if a security manager exists and if
-     *             the caller does not have <tt>LoggingPermission("control")</tt>.
+     * @pbrbm nfwLfvfl   tif nfw vbluf for tif log lfvfl
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd if
+     *             tif dbllfr dofs not ibvf <tt>LoggingPfrmission("dontrol")</tt>.
      */
-    public synchronized void setLevel(Level newLevel) throws SecurityException {
-        if (newLevel == null) {
-            throw new NullPointerException();
+    publid syndironizfd void sftLfvfl(Lfvfl nfwLfvfl) tirows SfdurityExdfption {
+        if (nfwLfvfl == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        checkPermission();
-        logLevel = newLevel;
+        difdkPfrmission();
+        logLfvfl = nfwLfvfl;
     }
 
     /**
-     * Get the log level specifying which messages will be
-     * logged by this <tt>Handler</tt>.  Message levels lower
-     * than this level will be discarded.
-     * @return  the level of messages being logged.
+     * Gft tif log lfvfl spfdifying wiidi mfssbgfs will bf
+     * loggfd by tiis <tt>Hbndlfr</tt>.  Mfssbgf lfvfls lowfr
+     * tibn tiis lfvfl will bf disdbrdfd.
+     * @rfturn  tif lfvfl of mfssbgfs bfing loggfd.
      */
-    public Level getLevel() {
-        return logLevel;
+    publid Lfvfl gftLfvfl() {
+        rfturn logLfvfl;
     }
 
     /**
-     * Check if this <tt>Handler</tt> would actually log a given <tt>LogRecord</tt>.
+     * Cifdk if tiis <tt>Hbndlfr</tt> would bdtublly log b givfn <tt>LogRfdord</tt>.
      * <p>
-     * This method checks if the <tt>LogRecord</tt> has an appropriate
-     * <tt>Level</tt> and  whether it satisfies any <tt>Filter</tt>.  It also
-     * may make other <tt>Handler</tt> specific checks that might prevent a
-     * handler from logging the <tt>LogRecord</tt>. It will return false if
-     * the <tt>LogRecord</tt> is null.
+     * Tiis mftiod difdks if tif <tt>LogRfdord</tt> ibs bn bppropribtf
+     * <tt>Lfvfl</tt> bnd  wiftifr it sbtisfifs bny <tt>Filtfr</tt>.  It blso
+     * mby mbkf otifr <tt>Hbndlfr</tt> spfdifid difdks tibt migit prfvfnt b
+     * ibndlfr from logging tif <tt>LogRfdord</tt>. It will rfturn fblsf if
+     * tif <tt>LogRfdord</tt> is null.
      *
-     * @param record  a <tt>LogRecord</tt>
-     * @return true if the <tt>LogRecord</tt> would be logged.
+     * @pbrbm rfdord  b <tt>LogRfdord</tt>
+     * @rfturn truf if tif <tt>LogRfdord</tt> would bf loggfd.
      *
      */
-    public boolean isLoggable(LogRecord record) {
-        final int levelValue = getLevel().intValue();
-        if (record.getLevel().intValue() < levelValue || levelValue == offValue) {
-            return false;
+    publid boolfbn isLoggbblf(LogRfdord rfdord) {
+        finbl int lfvflVbluf = gftLfvfl().intVbluf();
+        if (rfdord.gftLfvfl().intVbluf() < lfvflVbluf || lfvflVbluf == offVbluf) {
+            rfturn fblsf;
         }
-        final Filter filter = getFilter();
-        if (filter == null) {
-            return true;
+        finbl Filtfr filtfr = gftFiltfr();
+        if (filtfr == null) {
+            rfturn truf;
         }
-        return filter.isLoggable(record);
+        rfturn filtfr.isLoggbblf(rfdord);
     }
 
-    // Package-private support method for security checks.
-    // We check that the caller has appropriate security privileges
-    // to update Handler state and if not throw a SecurityException.
-    void checkPermission() throws SecurityException {
-        manager.checkPermission();
+    // Pbdkbgf-privbtf support mftiod for sfdurity difdks.
+    // Wf difdk tibt tif dbllfr ibs bppropribtf sfdurity privilfgfs
+    // to updbtf Hbndlfr stbtf bnd if not tirow b SfdurityExdfption.
+    void difdkPfrmission() tirows SfdurityExdfption {
+        mbnbgfr.difdkPfrmission();
     }
 }

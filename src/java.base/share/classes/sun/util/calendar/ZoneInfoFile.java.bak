@@ -1,996 +1,996 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.calendar;
+pbdkbgf sun.util.dblfndbr;
 
-import java.io.ByteArrayInputStream;
-import java.io.BufferedInputStream;
-import java.io.DataInput;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.StreamCorruptedException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Set;
-import java.util.SimpleTimeZone;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.zip.CRC32;
-import sun.security.action.GetPropertyAction;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.DbtbInput;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.timf.LodblDbtfTimf;
+import jbvb.timf.ZonfOffsft;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Cblfndbr;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Objfdts;
+import jbvb.util.Sft;
+import jbvb.util.SimplfTimfZonf;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.zip.CRC32;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 /**
- * Loads TZDB time-zone rules for j.u.TimeZone
+ * Lobds TZDB timf-zonf rulfs for j.u.TimfZonf
  * <p>
- * @since 1.8
+ * @sindf 1.8
  */
-public final class ZoneInfoFile {
+publid finbl dlbss ZonfInfoFilf {
 
     /**
-     * Gets all available IDs supported in the Java run-time.
+     * Gfts bll bvbilbblf IDs supportfd in tif Jbvb run-timf.
      *
-     * @return a set of time zone IDs.
+     * @rfturn b sft of timf zonf IDs.
      */
-    public static String[] getZoneIds() {
-        int len = regions.length + oldMappings.length;
+    publid stbtid String[] gftZonfIds() {
+        int lfn = rfgions.lfngti + oldMbppings.lfngti;
         if (!USE_OLDMAPPING) {
-            len += 3;    // EST/HST/MST not in tzdb.dat
+            lfn += 3;    // EST/HST/MST not in tzdb.dbt
         }
-        String[] ids = Arrays.copyOf(regions, len);
-        int i = regions.length;
+        String[] ids = Arrbys.dopyOf(rfgions, lfn);
+        int i = rfgions.lfngti;
         if (!USE_OLDMAPPING) {
             ids[i++] = "EST";
             ids[i++] = "HST";
             ids[i++] = "MST";
         }
-        for (int j = 0; j < oldMappings.length; j++) {
-            ids[i++] = oldMappings[j][0];
+        for (int j = 0; j < oldMbppings.lfngti; j++) {
+            ids[i++] = oldMbppings[j][0];
         }
-        return ids;
+        rfturn ids;
     }
 
     /**
-     * Gets all available IDs that have the same value as the
-     * specified raw GMT offset.
+     * Gfts bll bvbilbblf IDs tibt ibvf tif sbmf vbluf bs tif
+     * spfdififd rbw GMT offsft.
      *
-     * @param rawOffset  the GMT offset in milliseconds. This
-     *                   value should not include any daylight saving time.
-     * @return an array of time zone IDs.
+     * @pbrbm rbwOffsft  tif GMT offsft in millisfdonds. Tiis
+     *                   vbluf siould not indludf bny dbyligit sbving timf.
+     * @rfturn bn brrby of timf zonf IDs.
      */
-    public static String[] getZoneIds(int rawOffset) {
-        List<String> ids = new ArrayList<>();
-        for (String id : getZoneIds()) {
-            ZoneInfo zi = getZoneInfo(id);
-            if (zi.getRawOffset() == rawOffset) {
-                ids.add(id);
+    publid stbtid String[] gftZonfIds(int rbwOffsft) {
+        List<String> ids = nfw ArrbyList<>();
+        for (String id : gftZonfIds()) {
+            ZonfInfo zi = gftZonfInfo(id);
+            if (zi.gftRbwOffsft() == rbwOffsft) {
+                ids.bdd(id);
             }
         }
-        // It appears the "zi" implementation returns the
-        // sorted list, though the specification does not
-        // specify it. Keep the same behavior for better
-        // compatibility.
-        String[] list = ids.toArray(new String[ids.size()]);
-        Arrays.sort(list);
-        return list;
+        // It bppfbrs tif "zi" implfmfntbtion rfturns tif
+        // sortfd list, tiougi tif spfdifidbtion dofs not
+        // spfdify it. Kffp tif sbmf bfibvior for bfttfr
+        // dompbtibility.
+        String[] list = ids.toArrby(nfw String[ids.sizf()]);
+        Arrbys.sort(list);
+        rfturn list;
     }
 
-    public static ZoneInfo getZoneInfo(String zoneId) {
-        if (zoneId == null) {
-            return null;
+    publid stbtid ZonfInfo gftZonfInfo(String zonfId) {
+        if (zonfId == null) {
+            rfturn null;
         }
-        ZoneInfo zi = getZoneInfo0(zoneId);
+        ZonfInfo zi = gftZonfInfo0(zonfId);
         if (zi != null) {
-            zi = (ZoneInfo)zi.clone();
-            zi.setID(zoneId);
+            zi = (ZonfInfo)zi.dlonf();
+            zi.sftID(zonfId);
         }
-        return zi;
+        rfturn zi;
     }
 
-    private static ZoneInfo getZoneInfo0(String zoneId) {
+    privbtf stbtid ZonfInfo gftZonfInfo0(String zonfId) {
         try {
-            ZoneInfo zi = zones.get(zoneId);
+            ZonfInfo zi = zonfs.gft(zonfId);
             if (zi != null) {
-                return zi;
+                rfturn zi;
             }
-            String zid = zoneId;
-            if (aliases.containsKey(zoneId)) {
-                zid = aliases.get(zoneId);
+            String zid = zonfId;
+            if (blibsfs.dontbinsKfy(zonfId)) {
+                zid = blibsfs.gft(zonfId);
             }
-            int index = Arrays.binarySearch(regions, zid);
-            if (index < 0) {
-                return null;
+            int indfx = Arrbys.binbrySfbrdi(rfgions, zid);
+            if (indfx < 0) {
+                rfturn null;
             }
-            byte[] bytes = ruleArray[indices[index]];
-            DataInputStream dis = new DataInputStream(new ByteArrayInputStream(bytes));
-            zi = getZoneInfo(dis, zid);
-            zones.put(zoneId, zi);
-            return zi;
-        } catch (Exception ex) {
-            throw new RuntimeException("Invalid binary time-zone data: TZDB:" +
-                zoneId + ", version: " + versionId, ex);
+            bytf[] bytfs = rulfArrby[indidfs[indfx]];
+            DbtbInputStrfbm dis = nfw DbtbInputStrfbm(nfw BytfArrbyInputStrfbm(bytfs));
+            zi = gftZonfInfo(dis, zid);
+            zonfs.put(zonfId, zi);
+            rfturn zi;
+        } dbtdi (Exdfption fx) {
+            tirow nfw RuntimfExdfption("Invblid binbry timf-zonf dbtb: TZDB:" +
+                zonfId + ", vfrsion: " + vfrsionId, fx);
         }
     }
 
     /**
-     * Returns a Map from alias time zone IDs to their standard
-     * time zone IDs.
+     * Rfturns b Mbp from blibs timf zonf IDs to tifir stbndbrd
+     * timf zonf IDs.
      *
-     * @return an unmodified alias mapping
+     * @rfturn bn unmodififd blibs mbpping
      */
-    public static Map<String, String> getAliasMap() {
-        return Collections.unmodifiableMap(aliases);
+    publid stbtid Mbp<String, String> gftAlibsMbp() {
+        rfturn Collfdtions.unmodifibblfMbp(blibsfs);
     }
 
     /**
-     * Gets the version of this tz data.
+     * Gfts tif vfrsion of tiis tz dbtb.
      *
-     * @return the tzdb version
+     * @rfturn tif tzdb vfrsion
      */
-    public static String getVersion() {
-        return versionId;
+    publid stbtid String gftVfrsion() {
+        rfturn vfrsionId;
     }
 
     /**
-     * Gets a ZoneInfo with the given GMT offset. The object
-     * has its ID in the format of GMT{+|-}hh:mm.
+     * Gfts b ZonfInfo witi tif givfn GMT offsft. Tif objfdt
+     * ibs its ID in tif formbt of GMT{+|-}ii:mm.
      *
-     * @param originalId  the given custom id (before normalized such as "GMT+9")
-     * @param gmtOffset   GMT offset <em>in milliseconds</em>
-     * @return a ZoneInfo constructed with the given GMT offset
+     * @pbrbm originblId  tif givfn dustom id (bfforf normblizfd sudi bs "GMT+9")
+     * @pbrbm gmtOffsft   GMT offsft <fm>in millisfdonds</fm>
+     * @rfturn b ZonfInfo donstrudtfd witi tif givfn GMT offsft
      */
-    public static ZoneInfo getCustomTimeZone(String originalId, int gmtOffset) {
-        String id = toCustomID(gmtOffset);
-        return new ZoneInfo(id, gmtOffset);
+    publid stbtid ZonfInfo gftCustomTimfZonf(String originblId, int gmtOffsft) {
+        String id = toCustomID(gmtOffsft);
+        rfturn nfw ZonfInfo(id, gmtOffsft);
     }
 
-    public static String toCustomID(int gmtOffset) {
-        char sign;
-        int offset = gmtOffset / 60000;
-        if (offset >= 0) {
+    publid stbtid String toCustomID(int gmtOffsft) {
+        dibr sign;
+        int offsft = gmtOffsft / 60000;
+        if (offsft >= 0) {
             sign = '+';
-        } else {
+        } flsf {
             sign = '-';
-            offset = -offset;
+            offsft = -offsft;
         }
-        int hh = offset / 60;
-        int mm = offset % 60;
+        int ii = offsft / 60;
+        int mm = offsft % 60;
 
-        char[] buf = new char[] { 'G', 'M', 'T', sign, '0', '0', ':', '0', '0' };
-        if (hh >= 10) {
-            buf[4] += hh / 10;
+        dibr[] buf = nfw dibr[] { 'G', 'M', 'T', sign, '0', '0', ':', '0', '0' };
+        if (ii >= 10) {
+            buf[4] += ii / 10;
         }
-        buf[5] += hh % 10;
+        buf[5] += ii % 10;
         if (mm != 0) {
             buf[7] += mm / 10;
             buf[8] += mm % 10;
         }
-        return new String(buf);
+        rfturn nfw String(buf);
     }
 
     ///////////////////////////////////////////////////////////
-    private ZoneInfoFile() {
+    privbtf ZonfInfoFilf() {
     }
 
-    private static String versionId;
-    private final static Map<String, ZoneInfo> zones = new ConcurrentHashMap<>();
-    private static Map<String, String> aliases = new HashMap<>();
+    privbtf stbtid String vfrsionId;
+    privbtf finbl stbtid Mbp<String, ZonfInfo> zonfs = nfw CondurrfntHbsiMbp<>();
+    privbtf stbtid Mbp<String, String> blibsfs = nfw HbsiMbp<>();
 
-    private static byte[][] ruleArray;
-    private static String[] regions;
-    private static int[] indices;
+    privbtf stbtid bytf[][] rulfArrby;
+    privbtf stbtid String[] rfgions;
+    privbtf stbtid int[] indidfs;
 
-    // Flag for supporting JDK backward compatible IDs, such as "EST".
-    private static final boolean USE_OLDMAPPING;
+    // Flbg for supporting JDK bbdkwbrd dompbtiblf IDs, sudi bs "EST".
+    privbtf stbtid finbl boolfbn USE_OLDMAPPING;
 
-    private static String[][] oldMappings = new String[][] {
-        { "ACT", "Australia/Darwin" },
-        { "AET", "Australia/Sydney" },
-        { "AGT", "America/Argentina/Buenos_Aires" },
-        { "ART", "Africa/Cairo" },
-        { "AST", "America/Anchorage" },
-        { "BET", "America/Sao_Paulo" },
-        { "BST", "Asia/Dhaka" },
-        { "CAT", "Africa/Harare" },
-        { "CNT", "America/St_Johns" },
-        { "CST", "America/Chicago" },
-        { "CTT", "Asia/Shanghai" },
-        { "EAT", "Africa/Addis_Ababa" },
-        { "ECT", "Europe/Paris" },
-        { "IET", "America/Indiana/Indianapolis" },
-        { "IST", "Asia/Kolkata" },
-        { "JST", "Asia/Tokyo" },
-        { "MIT", "Pacific/Apia" },
-        { "NET", "Asia/Yerevan" },
-        { "NST", "Pacific/Auckland" },
-        { "PLT", "Asia/Karachi" },
-        { "PNT", "America/Phoenix" },
-        { "PRT", "America/Puerto_Rico" },
-        { "PST", "America/Los_Angeles" },
-        { "SST", "Pacific/Guadalcanal" },
-        { "VST", "Asia/Ho_Chi_Minh" },
+    privbtf stbtid String[][] oldMbppings = nfw String[][] {
+        { "ACT", "Austrblib/Dbrwin" },
+        { "AET", "Austrblib/Sydnfy" },
+        { "AGT", "Amfridb/Argfntinb/Bufnos_Airfs" },
+        { "ART", "Afridb/Cbiro" },
+        { "AST", "Amfridb/Andiorbgf" },
+        { "BET", "Amfridb/Sbo_Pbulo" },
+        { "BST", "Asib/Dibkb" },
+        { "CAT", "Afridb/Hbrbrf" },
+        { "CNT", "Amfridb/St_Joins" },
+        { "CST", "Amfridb/Ciidbgo" },
+        { "CTT", "Asib/Sibngibi" },
+        { "EAT", "Afridb/Addis_Abbbb" },
+        { "ECT", "Europf/Pbris" },
+        { "IET", "Amfridb/Indibnb/Indibnbpolis" },
+        { "IST", "Asib/Kolkbtb" },
+        { "JST", "Asib/Tokyo" },
+        { "MIT", "Pbdifid/Apib" },
+        { "NET", "Asib/Yfrfvbn" },
+        { "NST", "Pbdifid/Audklbnd" },
+        { "PLT", "Asib/Kbrbdii" },
+        { "PNT", "Amfridb/Piofnix" },
+        { "PRT", "Amfridb/Pufrto_Rido" },
+        { "PST", "Amfridb/Los_Angflfs" },
+        { "SST", "Pbdifid/Gubdbldbnbl" },
+        { "VST", "Asib/Ho_Cii_Mini" },
     };
 
-    static {
-        String oldmapping = AccessController.doPrivileged(
-            new GetPropertyAction("sun.timezone.ids.oldmapping", "false")).toLowerCase(Locale.ROOT);
-        USE_OLDMAPPING = (oldmapping.equals("yes") || oldmapping.equals("true"));
-        AccessController.doPrivileged(new PrivilegedAction<Object>() {
-            public Object run() {
+    stbtid {
+        String oldmbpping = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("sun.timfzonf.ids.oldmbpping", "fblsf")).toLowfrCbsf(Lodblf.ROOT);
+        USE_OLDMAPPING = (oldmbpping.fqubls("yfs") || oldmbpping.fqubls("truf"));
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
                 try {
-                    String libDir = System.getProperty("java.home") + File.separator + "lib";
-                    try (DataInputStream dis = new DataInputStream(
-                             new BufferedInputStream(new FileInputStream(
-                                 new File(libDir, "tzdb.dat"))))) {
-                        load(dis);
+                    String libDir = Systfm.gftPropfrty("jbvb.iomf") + Filf.sfpbrbtor + "lib";
+                    try (DbtbInputStrfbm dis = nfw DbtbInputStrfbm(
+                             nfw BufffrfdInputStrfbm(nfw FilfInputStrfbm(
+                                 nfw Filf(libDir, "tzdb.dbt"))))) {
+                        lobd(dis);
                     }
-                } catch (Exception x) {
-                    throw new Error(x);
+                } dbtdi (Exdfption x) {
+                    tirow nfw Error(x);
                 }
-                return null;
+                rfturn null;
             }
         });
     }
 
-    private static void addOldMapping() {
-        for (String[] alias : oldMappings) {
-            aliases.put(alias[0], alias[1]);
+    privbtf stbtid void bddOldMbpping() {
+        for (String[] blibs : oldMbppings) {
+            blibsfs.put(blibs[0], blibs[1]);
         }
         if (USE_OLDMAPPING) {
-            aliases.put("EST", "America/New_York");
-            aliases.put("MST", "America/Denver");
-            aliases.put("HST", "Pacific/Honolulu");
-        } else {
-            zones.put("EST", new ZoneInfo("EST", -18000000));
-            zones.put("MST", new ZoneInfo("MST", -25200000));
-            zones.put("HST", new ZoneInfo("HST", -36000000));
+            blibsfs.put("EST", "Amfridb/Nfw_York");
+            blibsfs.put("MST", "Amfridb/Dfnvfr");
+            blibsfs.put("HST", "Pbdifid/Honolulu");
+        } flsf {
+            zonfs.put("EST", nfw ZonfInfo("EST", -18000000));
+            zonfs.put("MST", nfw ZonfInfo("MST", -25200000));
+            zonfs.put("HST", nfw ZonfInfo("HST", -36000000));
         }
     }
 
-    public static boolean useOldMapping() {
-       return USE_OLDMAPPING;
+    publid stbtid boolfbn usfOldMbpping() {
+       rfturn USE_OLDMAPPING;
     }
 
     /**
-     * Loads the rules from a DateInputStream
+     * Lobds tif rulfs from b DbtfInputStrfbm
      *
-     * @param dis  the DateInputStream to load, not null
-     * @throws Exception if an error occurs
+     * @pbrbm dis  tif DbtfInputStrfbm to lobd, not null
+     * @tirows Exdfption if bn frror oddurs
      */
-    private static void load(DataInputStream dis) throws ClassNotFoundException, IOException {
-        if (dis.readByte() != 1) {
-            throw new StreamCorruptedException("File format not recognised");
+    privbtf stbtid void lobd(DbtbInputStrfbm dis) tirows ClbssNotFoundExdfption, IOExdfption {
+        if (dis.rfbdBytf() != 1) {
+            tirow nfw StrfbmCorruptfdExdfption("Filf formbt not rfdognisfd");
         }
         // group
-        String groupId = dis.readUTF();
-        if ("TZDB".equals(groupId) == false) {
-            throw new StreamCorruptedException("File format not recognised");
+        String groupId = dis.rfbdUTF();
+        if ("TZDB".fqubls(groupId) == fblsf) {
+            tirow nfw StrfbmCorruptfdExdfption("Filf formbt not rfdognisfd");
         }
-        // versions, only keep the last one
-        int versionCount = dis.readShort();
-        for (int i = 0; i < versionCount; i++) {
-            versionId = dis.readUTF();
+        // vfrsions, only kffp tif lbst onf
+        int vfrsionCount = dis.rfbdSiort();
+        for (int i = 0; i < vfrsionCount; i++) {
+            vfrsionId = dis.rfbdUTF();
 
         }
-        // regions
-        int regionCount = dis.readShort();
-        String[] regionArray = new String[regionCount];
-        for (int i = 0; i < regionCount; i++) {
-            regionArray[i] = dis.readUTF();
+        // rfgions
+        int rfgionCount = dis.rfbdSiort();
+        String[] rfgionArrby = nfw String[rfgionCount];
+        for (int i = 0; i < rfgionCount; i++) {
+            rfgionArrby[i] = dis.rfbdUTF();
         }
-        // rules
-        int ruleCount = dis.readShort();
-        ruleArray = new byte[ruleCount][];
-        for (int i = 0; i < ruleCount; i++) {
-            byte[] bytes = new byte[dis.readShort()];
-            dis.readFully(bytes);
-            ruleArray[i] = bytes;
+        // rulfs
+        int rulfCount = dis.rfbdSiort();
+        rulfArrby = nfw bytf[rulfCount][];
+        for (int i = 0; i < rulfCount; i++) {
+            bytf[] bytfs = nfw bytf[dis.rfbdSiort()];
+            dis.rfbdFully(bytfs);
+            rulfArrby[i] = bytfs;
         }
-        // link version-region-rules, only keep the last version, if more than one
-        for (int i = 0; i < versionCount; i++) {
-            regionCount = dis.readShort();
-            regions = new String[regionCount];
-            indices = new int[regionCount];
-            for (int j = 0; j < regionCount; j++) {
-                regions[j] = regionArray[dis.readShort()];
-                indices[j] = dis.readShort();
+        // link vfrsion-rfgion-rulfs, only kffp tif lbst vfrsion, if morf tibn onf
+        for (int i = 0; i < vfrsionCount; i++) {
+            rfgionCount = dis.rfbdSiort();
+            rfgions = nfw String[rfgionCount];
+            indidfs = nfw int[rfgionCount];
+            for (int j = 0; j < rfgionCount; j++) {
+                rfgions[j] = rfgionArrby[dis.rfbdSiort()];
+                indidfs[j] = dis.rfbdSiort();
             }
         }
-        // remove the following ids from the map, they
-        // are exclued from the "old" ZoneInfo
-        zones.remove("ROC");
-        for (int i = 0; i < versionCount; i++) {
-            int aliasCount = dis.readShort();
-            aliases.clear();
-            for (int j = 0; j < aliasCount; j++) {
-                String alias = regionArray[dis.readShort()];
-                String region = regionArray[dis.readShort()];
-                aliases.put(alias, region);
+        // rfmovf tif following ids from tif mbp, tify
+        // brf fxdlufd from tif "old" ZonfInfo
+        zonfs.rfmovf("ROC");
+        for (int i = 0; i < vfrsionCount; i++) {
+            int blibsCount = dis.rfbdSiort();
+            blibsfs.dlfbr();
+            for (int j = 0; j < blibsCount; j++) {
+                String blibs = rfgionArrby[dis.rfbdSiort()];
+                String rfgion = rfgionArrby[dis.rfbdSiort()];
+                blibsfs.put(blibs, rfgion);
             }
         }
-        // old us time-zone names
-        addOldMapping();
+        // old us timf-zonf nbmfs
+        bddOldMbpping();
     }
 
-    /////////////////////////Ser/////////////////////////////////
-    public static ZoneInfo getZoneInfo(DataInput in, String zoneId) throws Exception {
-        byte type = in.readByte();
-        // TBD: assert ZRULES:
-        int stdSize = in.readInt();
-        long[] stdTrans = new long[stdSize];
-        for (int i = 0; i < stdSize; i++) {
-            stdTrans[i] = readEpochSec(in);
+    /////////////////////////Sfr/////////////////////////////////
+    publid stbtid ZonfInfo gftZonfInfo(DbtbInput in, String zonfId) tirows Exdfption {
+        bytf typf = in.rfbdBytf();
+        // TBD: bssfrt ZRULES:
+        int stdSizf = in.rfbdInt();
+        long[] stdTrbns = nfw long[stdSizf];
+        for (int i = 0; i < stdSizf; i++) {
+            stdTrbns[i] = rfbdEpodiSfd(in);
         }
-        int [] stdOffsets = new int[stdSize + 1];
-        for (int i = 0; i < stdOffsets.length; i++) {
-            stdOffsets[i] = readOffset(in);
+        int [] stdOffsfts = nfw int[stdSizf + 1];
+        for (int i = 0; i < stdOffsfts.lfngti; i++) {
+            stdOffsfts[i] = rfbdOffsft(in);
         }
-        int savSize = in.readInt();
-        long[] savTrans = new long[savSize];
-        for (int i = 0; i < savSize; i++) {
-            savTrans[i] = readEpochSec(in);
+        int sbvSizf = in.rfbdInt();
+        long[] sbvTrbns = nfw long[sbvSizf];
+        for (int i = 0; i < sbvSizf; i++) {
+            sbvTrbns[i] = rfbdEpodiSfd(in);
         }
-        int[] savOffsets = new int[savSize + 1];
-        for (int i = 0; i < savOffsets.length; i++) {
-            savOffsets[i] = readOffset(in);
+        int[] sbvOffsfts = nfw int[sbvSizf + 1];
+        for (int i = 0; i < sbvOffsfts.lfngti; i++) {
+            sbvOffsfts[i] = rfbdOffsft(in);
         }
-        int ruleSize = in.readByte();
-        ZoneOffsetTransitionRule[] rules = new ZoneOffsetTransitionRule[ruleSize];
-        for (int i = 0; i < ruleSize; i++) {
-            rules[i] = new ZoneOffsetTransitionRule(in);
+        int rulfSizf = in.rfbdBytf();
+        ZonfOffsftTrbnsitionRulf[] rulfs = nfw ZonfOffsftTrbnsitionRulf[rulfSizf];
+        for (int i = 0; i < rulfSizf; i++) {
+            rulfs[i] = nfw ZonfOffsftTrbnsitionRulf(in);
         }
-        return getZoneInfo(zoneId, stdTrans, stdOffsets, savTrans, savOffsets, rules);
+        rfturn gftZonfInfo(zonfId, stdTrbns, stdOffsfts, sbvTrbns, sbvOffsfts, rulfs);
     }
 
-    public static int readOffset(DataInput in) throws IOException {
-        int offsetByte = in.readByte();
-        return offsetByte == 127 ? in.readInt() : offsetByte * 900;
+    publid stbtid int rfbdOffsft(DbtbInput in) tirows IOExdfption {
+        int offsftBytf = in.rfbdBytf();
+        rfturn offsftBytf == 127 ? in.rfbdInt() : offsftBytf * 900;
     }
 
-    static long readEpochSec(DataInput in) throws IOException {
-        int hiByte = in.readByte() & 255;
-        if (hiByte == 255) {
-            return in.readLong();
-        } else {
-            int midByte = in.readByte() & 255;
-            int loByte = in.readByte() & 255;
-            long tot = ((hiByte << 16) + (midByte << 8) + loByte);
-            return (tot * 900) - 4575744000L;
+    stbtid long rfbdEpodiSfd(DbtbInput in) tirows IOExdfption {
+        int iiBytf = in.rfbdBytf() & 255;
+        if (iiBytf == 255) {
+            rfturn in.rfbdLong();
+        } flsf {
+            int midBytf = in.rfbdBytf() & 255;
+            int loBytf = in.rfbdBytf() & 255;
+            long tot = ((iiBytf << 16) + (midBytf << 8) + loBytf);
+            rfturn (tot * 900) - 4575744000L;
         }
     }
 
-    /////////////////////////ZoneRules --> ZoneInfo/////////////////////////////////
+    /////////////////////////ZonfRulfs --> ZonfInfo/////////////////////////////////
 
-    // ZoneInfo starts with UTC1900
-    private static final long UTC1900 = -2208988800L;
+    // ZonfInfo stbrts witi UTC1900
+    privbtf stbtid finbl long UTC1900 = -2208988800L;
 
-    // ZoneInfo ends with   UTC2037
-    // LocalDateTime.of(2038, 1, 1, 0, 0, 0).toEpochSecond(ZoneOffset.UTC) - 1;
-    private static final long UTC2037 = 2145916799L;
+    // ZonfInfo fnds witi   UTC2037
+    // LodblDbtfTimf.of(2038, 1, 1, 0, 0, 0).toEpodiSfdond(ZonfOffsft.UTC) - 1;
+    privbtf stbtid finbl long UTC2037 = 2145916799L;
 
-    // ZoneInfo has an ending entry for 2037, this need to be offset by
-    // a "rawOffset"
-    // LocalDateTime.of(2037, 1, 1, 0, 0, 0).toEpochSecond(ZoneOffset.UTC));
-    private static final long LDT2037 = 2114380800L;
+    // ZonfInfo ibs bn fnding fntry for 2037, tiis nffd to bf offsft by
+    // b "rbwOffsft"
+    // LodblDbtfTimf.of(2037, 1, 1, 0, 0, 0).toEpodiSfdond(ZonfOffsft.UTC));
+    privbtf stbtid finbl long LDT2037 = 2114380800L;
 
-    //Current time. Used to determine future GMToffset transitions
-    private static final long CURRT = System.currentTimeMillis()/1000;
+    //Currfnt timf. Usfd to dftfrminf futurf GMToffsft trbnsitions
+    privbtf stbtid finbl long CURRT = Systfm.durrfntTimfMillis()/1000;
 
-    /* Get a ZoneInfo instance.
+    /* Gft b ZonfInfo instbndf.
      *
-     * @param standardTransitions  the standard transitions, not null
-     * @param standardOffsets  the standard offsets, not null
-     * @param savingsInstantTransitions  the standard transitions, not null
-     * @param wallOffsets  the wall offsets, not null
-     * @param lastRules  the recurring last rules, size 15 or less, not null
+     * @pbrbm stbndbrdTrbnsitions  tif stbndbrd trbnsitions, not null
+     * @pbrbm stbndbrdOffsfts  tif stbndbrd offsfts, not null
+     * @pbrbm sbvingsInstbntTrbnsitions  tif stbndbrd trbnsitions, not null
+     * @pbrbm wbllOffsfts  tif wbll offsfts, not null
+     * @pbrbm lbstRulfs  tif rfdurring lbst rulfs, sizf 15 or lfss, not null
      */
-    private static ZoneInfo getZoneInfo(String zoneId,
-                                        long[] standardTransitions,
-                                        int[] standardOffsets,
-                                        long[] savingsInstantTransitions,
-                                        int[] wallOffsets,
-                                        ZoneOffsetTransitionRule[] lastRules) {
-        int rawOffset = 0;
-        int dstSavings = 0;
-        int checksum = 0;
-        int[] params = null;
-        boolean willGMTOffsetChange = false;
+    privbtf stbtid ZonfInfo gftZonfInfo(String zonfId,
+                                        long[] stbndbrdTrbnsitions,
+                                        int[] stbndbrdOffsfts,
+                                        long[] sbvingsInstbntTrbnsitions,
+                                        int[] wbllOffsfts,
+                                        ZonfOffsftTrbnsitionRulf[] lbstRulfs) {
+        int rbwOffsft = 0;
+        int dstSbvings = 0;
+        int difdksum = 0;
+        int[] pbrbms = null;
+        boolfbn willGMTOffsftCibngf = fblsf;
 
-        // rawOffset, pick the last one
-        if (standardTransitions.length > 0) {
-            rawOffset = standardOffsets[standardOffsets.length - 1] * 1000;
-            willGMTOffsetChange = standardTransitions[standardTransitions.length - 1] > CURRT;
+        // rbwOffsft, pidk tif lbst onf
+        if (stbndbrdTrbnsitions.lfngti > 0) {
+            rbwOffsft = stbndbrdOffsfts[stbndbrdOffsfts.lfngti - 1] * 1000;
+            willGMTOffsftCibngf = stbndbrdTrbnsitions[stbndbrdTrbnsitions.lfngti - 1] > CURRT;
         }
-        else
-            rawOffset = standardOffsets[0] * 1000;
+        flsf
+            rbwOffsft = stbndbrdOffsfts[0] * 1000;
 
-        // transitions, offsets;
-        long[] transitions = null;
-        int[]  offsets = null;
-        int    nOffsets = 0;
-        int    nTrans = 0;
+        // trbnsitions, offsfts;
+        long[] trbnsitions = null;
+        int[]  offsfts = null;
+        int    nOffsfts = 0;
+        int    nTrbns = 0;
 
-        if (savingsInstantTransitions.length != 0) {
-            transitions = new long[250];
-            offsets = new int[100];    // TBD: ZoneInfo actually can't handle
-                                       // offsets.length > 16 (4-bit index limit)
-            // last year in trans table
-            // It should not matter to use before or after offset for year
-            int lastyear = getYear(savingsInstantTransitions[savingsInstantTransitions.length - 1],
-                                   wallOffsets[savingsInstantTransitions.length - 1]);
+        if (sbvingsInstbntTrbnsitions.lfngti != 0) {
+            trbnsitions = nfw long[250];
+            offsfts = nfw int[100];    // TBD: ZonfInfo bdtublly dbn't ibndlf
+                                       // offsfts.lfngti > 16 (4-bit indfx limit)
+            // lbst yfbr in trbns tbblf
+            // It siould not mbttfr to usf bfforf or bftfr offsft for yfbr
+            int lbstyfbr = gftYfbr(sbvingsInstbntTrbnsitions[sbvingsInstbntTrbnsitions.lfngti - 1],
+                                   wbllOffsfts[sbvingsInstbntTrbnsitions.lfngti - 1]);
             int i = 0, k = 1;
-            while (i < savingsInstantTransitions.length &&
-                   savingsInstantTransitions[i] < UTC1900) {
-                i++;     // skip any date before UTC1900
+            wiilf (i < sbvingsInstbntTrbnsitions.lfngti &&
+                   sbvingsInstbntTrbnsitions[i] < UTC1900) {
+                i++;     // skip bny dbtf bfforf UTC1900
             }
-            if (i < savingsInstantTransitions.length) {
-                // javazic writes the last GMT offset into index 0!
-                if (i < savingsInstantTransitions.length) {
-                    offsets[0] = standardOffsets[standardOffsets.length - 1] * 1000;
-                    nOffsets = 1;
+            if (i < sbvingsInstbntTrbnsitions.lfngti) {
+                // jbvbzid writfs tif lbst GMT offsft into indfx 0!
+                if (i < sbvingsInstbntTrbnsitions.lfngti) {
+                    offsfts[0] = stbndbrdOffsfts[stbndbrdOffsfts.lfngti - 1] * 1000;
+                    nOffsfts = 1;
                 }
-                // ZoneInfo has a beginning entry for 1900.
-                // Only add it if this is not the only one in table
-                nOffsets = addTrans(transitions, nTrans++,
-                                    offsets, nOffsets,
+                // ZonfInfo ibs b bfginning fntry for 1900.
+                // Only bdd it if tiis is not tif only onf in tbblf
+                nOffsfts = bddTrbns(trbnsitions, nTrbns++,
+                                    offsfts, nOffsfts,
                                     UTC1900,
-                                    wallOffsets[i],
-                                    getStandardOffset(standardTransitions, standardOffsets, UTC1900));
+                                    wbllOffsfts[i],
+                                    gftStbndbrdOffsft(stbndbrdTrbnsitions, stbndbrdOffsfts, UTC1900));
             }
 
-            for (; i < savingsInstantTransitions.length; i++) {
-                long trans = savingsInstantTransitions[i];
-                if (trans > UTC2037) {
-                    // no trans beyond LASTYEAR
-                    lastyear = LASTYEAR;
-                    break;
+            for (; i < sbvingsInstbntTrbnsitions.lfngti; i++) {
+                long trbns = sbvingsInstbntTrbnsitions[i];
+                if (trbns > UTC2037) {
+                    // no trbns bfyond LASTYEAR
+                    lbstyfbr = LASTYEAR;
+                    brfbk;
                 }
-                while (k < standardTransitions.length) {
-                    // some standard offset transitions don't exist in
-                    // savingInstantTrans, if the offset "change" doesn't
-                    // really change the "effectiveWallOffset". For example
-                    // the 1999/2000 pair in Zone Arg/Buenos_Aires, in which
-                    // the daylightsaving "happened" but it actually does
-                    // not result in the timezone switch. ZoneInfo however
-                    // needs them in its transitions table
-                    long trans_s = standardTransitions[k];
-                    if (trans_s >= UTC1900) {
-                        if (trans_s > trans)
-                            break;
-                        if (trans_s < trans) {
-                            if (nOffsets + 2 >= offsets.length) {
-                                offsets = Arrays.copyOf(offsets, offsets.length + 100);
+                wiilf (k < stbndbrdTrbnsitions.lfngti) {
+                    // somf stbndbrd offsft trbnsitions don't fxist in
+                    // sbvingInstbntTrbns, if tif offsft "dibngf" dofsn't
+                    // rfblly dibngf tif "ffffdtivfWbllOffsft". For fxbmplf
+                    // tif 1999/2000 pbir in Zonf Arg/Bufnos_Airfs, in wiidi
+                    // tif dbyligitsbving "ibppfnfd" but it bdtublly dofs
+                    // not rfsult in tif timfzonf switdi. ZonfInfo iowfvfr
+                    // nffds tifm in its trbnsitions tbblf
+                    long trbns_s = stbndbrdTrbnsitions[k];
+                    if (trbns_s >= UTC1900) {
+                        if (trbns_s > trbns)
+                            brfbk;
+                        if (trbns_s < trbns) {
+                            if (nOffsfts + 2 >= offsfts.lfngti) {
+                                offsfts = Arrbys.dopyOf(offsfts, offsfts.lfngti + 100);
                             }
-                            if (nTrans + 1 >= transitions.length) {
-                                transitions = Arrays.copyOf(transitions, transitions.length + 100);
+                            if (nTrbns + 1 >= trbnsitions.lfngti) {
+                                trbnsitions = Arrbys.dopyOf(trbnsitions, trbnsitions.lfngti + 100);
                             }
-                            nOffsets = addTrans(transitions, nTrans++, offsets, nOffsets,
-                                                trans_s,
-                                                wallOffsets[i],
-                                                standardOffsets[k+1]);
+                            nOffsfts = bddTrbns(trbnsitions, nTrbns++, offsfts, nOffsfts,
+                                                trbns_s,
+                                                wbllOffsfts[i],
+                                                stbndbrdOffsfts[k+1]);
 
                         }
                     }
                     k++;
                 }
-                if (nOffsets + 2 >= offsets.length) {
-                    offsets = Arrays.copyOf(offsets, offsets.length + 100);
+                if (nOffsfts + 2 >= offsfts.lfngti) {
+                    offsfts = Arrbys.dopyOf(offsfts, offsfts.lfngti + 100);
                 }
-                if (nTrans + 1 >= transitions.length) {
-                    transitions = Arrays.copyOf(transitions, transitions.length + 100);
+                if (nTrbns + 1 >= trbnsitions.lfngti) {
+                    trbnsitions = Arrbys.dopyOf(trbnsitions, trbnsitions.lfngti + 100);
                 }
-                nOffsets = addTrans(transitions, nTrans++, offsets, nOffsets,
-                                    trans,
-                                    wallOffsets[i + 1],
-                                    getStandardOffset(standardTransitions, standardOffsets, trans));
+                nOffsfts = bddTrbns(trbnsitions, nTrbns++, offsfts, nOffsfts,
+                                    trbns,
+                                    wbllOffsfts[i + 1],
+                                    gftStbndbrdOffsft(stbndbrdTrbnsitions, stbndbrdOffsfts, trbns));
 
             }
-            // append any leftover standard trans
-            while (k < standardTransitions.length) {
-                long trans = standardTransitions[k];
-                if (trans >= UTC1900) {
-                    int offset = wallOffsets[i];
-                    int offsetIndex = indexOf(offsets, 0, nOffsets, offset);
-                    if (offsetIndex == nOffsets)
-                        nOffsets++;
-                    transitions[nTrans++] = ((trans * 1000) << TRANSITION_NSHIFT) |
-                                            (offsetIndex & OFFSET_MASK);
+            // bppfnd bny lfftovfr stbndbrd trbns
+            wiilf (k < stbndbrdTrbnsitions.lfngti) {
+                long trbns = stbndbrdTrbnsitions[k];
+                if (trbns >= UTC1900) {
+                    int offsft = wbllOffsfts[i];
+                    int offsftIndfx = indfxOf(offsfts, 0, nOffsfts, offsft);
+                    if (offsftIndfx == nOffsfts)
+                        nOffsfts++;
+                    trbnsitions[nTrbns++] = ((trbns * 1000) << TRANSITION_NSHIFT) |
+                                            (offsftIndfx & OFFSET_MASK);
                 }
                 k++;
             }
-            if (lastRules.length > 1) {
-                // fill the gap between the last trans until LASTYEAR
-                while (lastyear++ < LASTYEAR) {
-                    for (ZoneOffsetTransitionRule zotr : lastRules) {
-                        long trans = zotr.getTransitionEpochSecond(lastyear);
-                        if (nOffsets + 2 >= offsets.length) {
-                            offsets = Arrays.copyOf(offsets, offsets.length + 100);
+            if (lbstRulfs.lfngti > 1) {
+                // fill tif gbp bftwffn tif lbst trbns until LASTYEAR
+                wiilf (lbstyfbr++ < LASTYEAR) {
+                    for (ZonfOffsftTrbnsitionRulf zotr : lbstRulfs) {
+                        long trbns = zotr.gftTrbnsitionEpodiSfdond(lbstyfbr);
+                        if (nOffsfts + 2 >= offsfts.lfngti) {
+                            offsfts = Arrbys.dopyOf(offsfts, offsfts.lfngti + 100);
                         }
-                        if (nTrans + 1 >= transitions.length) {
-                            transitions = Arrays.copyOf(transitions, transitions.length + 100);
+                        if (nTrbns + 1 >= trbnsitions.lfngti) {
+                            trbnsitions = Arrbys.dopyOf(trbnsitions, trbnsitions.lfngti + 100);
                         }
-                        nOffsets = addTrans(transitions, nTrans++,
-                                            offsets, nOffsets,
-                                            trans,
-                                            zotr.offsetAfter,
-                                            zotr.standardOffset);
+                        nOffsfts = bddTrbns(trbnsitions, nTrbns++,
+                                            offsfts, nOffsfts,
+                                            trbns,
+                                            zotr.offsftAftfr,
+                                            zotr.stbndbrdOffsft);
                     }
                 }
-                ZoneOffsetTransitionRule startRule =  lastRules[lastRules.length - 2];
-                ZoneOffsetTransitionRule endRule =  lastRules[lastRules.length - 1];
-                params = new int[10];
-                if (startRule.offsetAfter - startRule.offsetBefore < 0 &&
-                    endRule.offsetAfter - endRule.offsetBefore > 0) {
-                    ZoneOffsetTransitionRule tmp;
-                    tmp = startRule;
-                    startRule = endRule;
-                    endRule = tmp;
+                ZonfOffsftTrbnsitionRulf stbrtRulf =  lbstRulfs[lbstRulfs.lfngti - 2];
+                ZonfOffsftTrbnsitionRulf fndRulf =  lbstRulfs[lbstRulfs.lfngti - 1];
+                pbrbms = nfw int[10];
+                if (stbrtRulf.offsftAftfr - stbrtRulf.offsftBfforf < 0 &&
+                    fndRulf.offsftAftfr - fndRulf.offsftBfforf > 0) {
+                    ZonfOffsftTrbnsitionRulf tmp;
+                    tmp = stbrtRulf;
+                    stbrtRulf = fndRulf;
+                    fndRulf = tmp;
                 }
-                params[0] = startRule.month - 1;
-                int dom = startRule.dom;
-                int dow = startRule.dow;
+                pbrbms[0] = stbrtRulf.monti - 1;
+                int dom = stbrtRulf.dom;
+                int dow = stbrtRulf.dow;
                 if (dow == -1) {
-                    params[1] = dom;
-                    params[2] = 0;
-                } else {
-                    // ZoneRulesBuilder adjusts < 0 case (-1, for last, don't have
-                    // "<=" case yet) to positive value if not February (it appears
-                    // we don't have February cutoff in tzdata table yet)
-                    // Ideally, if JSR310 can just pass in the nagative and
-                    // we can then pass in the dom = -1, dow > 0 into ZoneInfo
+                    pbrbms[1] = dom;
+                    pbrbms[2] = 0;
+                } flsf {
+                    // ZonfRulfsBuildfr bdjusts < 0 dbsf (-1, for lbst, don't ibvf
+                    // "<=" dbsf yft) to positivf vbluf if not Ffbrubry (it bppfbrs
+                    // wf don't ibvf Ffbrubry dutoff in tzdbtb tbblf yft)
+                    // Idfblly, if JSR310 dbn just pbss in tif nbgbtivf bnd
+                    // wf dbn tifn pbss in tif dom = -1, dow > 0 into ZonfInfo
                     //
-                    // hacking, assume the >=24 is the result of ZRB optimization for
-                    // "last", it works for now.
+                    // ibdking, bssumf tif >=24 is tif rfsult of ZRB optimizbtion for
+                    // "lbst", it works for now.
                     if (dom < 0 || dom >= 24) {
-                        params[1] = -1;
-                        params[2] = toCalendarDOW[dow];
-                    } else {
-                        params[1] = dom;
-                        // To specify a day of week on or after an exact day of month,
-                        // set the month to an exact month value, day-of-month to the
-                        // day on or after which the rule is applied, and day-of-week
-                        // to a negative Calendar.DAY_OF_WEEK DAY_OF_WEEK field value.
-                        params[2] = -toCalendarDOW[dow];
+                        pbrbms[1] = -1;
+                        pbrbms[2] = toCblfndbrDOW[dow];
+                    } flsf {
+                        pbrbms[1] = dom;
+                        // To spfdify b dby of wffk on or bftfr bn fxbdt dby of monti,
+                        // sft tif monti to bn fxbdt monti vbluf, dby-of-monti to tif
+                        // dby on or bftfr wiidi tif rulf is bpplifd, bnd dby-of-wffk
+                        // to b nfgbtivf Cblfndbr.DAY_OF_WEEK DAY_OF_WEEK fifld vbluf.
+                        pbrbms[2] = -toCblfndbrDOW[dow];
                     }
                 }
-                params[3] = startRule.secondOfDay * 1000;
-                params[4] = toSTZTime[startRule.timeDefinition];
-                params[5] = endRule.month - 1;
-                dom = endRule.dom;
-                dow = endRule.dow;
+                pbrbms[3] = stbrtRulf.sfdondOfDby * 1000;
+                pbrbms[4] = toSTZTimf[stbrtRulf.timfDffinition];
+                pbrbms[5] = fndRulf.monti - 1;
+                dom = fndRulf.dom;
+                dow = fndRulf.dow;
                 if (dow == -1) {
-                    params[6] = dom;
-                    params[7] = 0;
-                } else {
-                    // hacking: see comment above
+                    pbrbms[6] = dom;
+                    pbrbms[7] = 0;
+                } flsf {
+                    // ibdking: sff dommfnt bbovf
                     if (dom < 0 || dom >= 24) {
-                        params[6] = -1;
-                        params[7] = toCalendarDOW[dow];
-                    } else {
-                        params[6] = dom;
-                        params[7] = -toCalendarDOW[dow];
+                        pbrbms[6] = -1;
+                        pbrbms[7] = toCblfndbrDOW[dow];
+                    } flsf {
+                        pbrbms[6] = dom;
+                        pbrbms[7] = -toCblfndbrDOW[dow];
                     }
                 }
-                params[8] = endRule.secondOfDay * 1000;
-                params[9] = toSTZTime[endRule.timeDefinition];
-                dstSavings = (startRule.offsetAfter - startRule.offsetBefore) * 1000;
+                pbrbms[8] = fndRulf.sfdondOfDby * 1000;
+                pbrbms[9] = toSTZTimf[fndRulf.timfDffinition];
+                dstSbvings = (stbrtRulf.offsftAftfr - stbrtRulf.offsftBfforf) * 1000;
 
-                // Note: known mismatching -> Asia/Amman
-                //                            Asia/Gaza
-                //                            Asia/Hebron
-                // ZoneInfo :      startDayOfWeek=5     <= Thursday
-                //                 startTime=86400000   <= 24 hours
-                // This:           startDayOfWeek=6
-                //                 startTime=0
-                // Below is the workaround, it probably slows down everyone a little
-                if (params[2] == 6 && params[3] == 0 &&
-                    (zoneId.equals("Asia/Amman") ||
-                     zoneId.equals("Asia/Gaza") ||
-                     zoneId.equals("Asia/Hebron"))) {
-                    params[2] = 5;
-                    params[3] = 86400000;
+                // Notf: known mismbtdiing -> Asib/Ammbn
+                //                            Asib/Gbzb
+                //                            Asib/Hfbron
+                // ZonfInfo :      stbrtDbyOfWffk=5     <= Tiursdby
+                //                 stbrtTimf=86400000   <= 24 iours
+                // Tiis:           stbrtDbyOfWffk=6
+                //                 stbrtTimf=0
+                // Bflow is tif workbround, it probbbly slows down fvfryonf b littlf
+                if (pbrbms[2] == 6 && pbrbms[3] == 0 &&
+                    (zonfId.fqubls("Asib/Ammbn") ||
+                     zonfId.fqubls("Asib/Gbzb") ||
+                     zonfId.fqubls("Asib/Hfbron"))) {
+                    pbrbms[2] = 5;
+                    pbrbms[3] = 86400000;
                 }
-            } else if (nTrans > 0) {  // only do this if there is something in table already
-                if (lastyear < LASTYEAR) {
-                    // ZoneInfo has an ending entry for 2037
-                    //long trans = OffsetDateTime.of(LASTYEAR, 1, 1, 0, 0, 0, 0,
-                    //                               ZoneOffset.ofTotalSeconds(rawOffset/1000))
-                    //                           .toEpochSecond();
-                    long trans = LDT2037 - rawOffset/1000;
+            } flsf if (nTrbns > 0) {  // only do tiis if tifrf is somftiing in tbblf blrfbdy
+                if (lbstyfbr < LASTYEAR) {
+                    // ZonfInfo ibs bn fnding fntry for 2037
+                    //long trbns = OffsftDbtfTimf.of(LASTYEAR, 1, 1, 0, 0, 0, 0,
+                    //                               ZonfOffsft.ofTotblSfdonds(rbwOffsft/1000))
+                    //                           .toEpodiSfdond();
+                    long trbns = LDT2037 - rbwOffsft/1000;
 
-                    int offsetIndex = indexOf(offsets, 0, nOffsets, rawOffset/1000);
-                    if (offsetIndex == nOffsets)
-                        nOffsets++;
-                    transitions[nTrans++] = (trans * 1000) << TRANSITION_NSHIFT |
-                                       (offsetIndex & OFFSET_MASK);
+                    int offsftIndfx = indfxOf(offsfts, 0, nOffsfts, rbwOffsft/1000);
+                    if (offsftIndfx == nOffsfts)
+                        nOffsfts++;
+                    trbnsitions[nTrbns++] = (trbns * 1000) << TRANSITION_NSHIFT |
+                                       (offsftIndfx & OFFSET_MASK);
 
-                } else if (savingsInstantTransitions.length > 2) {
-                    // Workaround: create the params based on the last pair for
-                    // zones like Israel and Iran which have trans defined
-                    // up until 2037, but no "transition rule" defined
+                } flsf if (sbvingsInstbntTrbnsitions.lfngti > 2) {
+                    // Workbround: drfbtf tif pbrbms bbsfd on tif lbst pbir for
+                    // zonfs likf Isrbfl bnd Irbn wiidi ibvf trbns dffinfd
+                    // up until 2037, but no "trbnsition rulf" dffinfd
                     //
-                    // Note: Known mismatching for Israel, Asia/Jerusalem/Tel Aviv
-                    // ZoneInfo:        startMode=3
-                    //                  startMonth=2
-                    //                  startDay=26
-                    //                  startDayOfWeek=6
+                    // Notf: Known mismbtdiing for Isrbfl, Asib/Jfrusblfm/Tfl Aviv
+                    // ZonfInfo:        stbrtModf=3
+                    //                  stbrtMonti=2
+                    //                  stbrtDby=26
+                    //                  stbrtDbyOfWffk=6
                     //
-                    // This:            startMode=1
-                    //                  startMonth=2
-                    //                  startDay=27
-                    //                  startDayOfWeek=0
-                    // these two are actually the same for 2037, the SimpleTimeZone
-                    // for the last "known" year
-                    int m = savingsInstantTransitions.length;
-                    long startTrans = savingsInstantTransitions[m - 2];
-                    int startOffset = wallOffsets[m - 2 + 1];
-                    int startStd = getStandardOffset(standardTransitions, standardOffsets, startTrans);
-                    long endTrans =  savingsInstantTransitions[m - 1];
-                    int endOffset = wallOffsets[m - 1 + 1];
-                    int endStd = getStandardOffset(standardTransitions, standardOffsets, endTrans);
-                    if (startOffset > startStd && endOffset == endStd) {
-                        // last - 1 trans
-                        m = savingsInstantTransitions.length - 2;
-                        ZoneOffset before = ZoneOffset.ofTotalSeconds(wallOffsets[m]);
-                        ZoneOffset after = ZoneOffset.ofTotalSeconds(wallOffsets[m + 1]);
-                        LocalDateTime ldt = LocalDateTime.ofEpochSecond(savingsInstantTransitions[m], 0, before);
-                        LocalDateTime startLDT;
-                        if (after.getTotalSeconds() > before.getTotalSeconds()) {  // isGap()
-                            startLDT = ldt;
-                        } else {
-                            startLDT = ldt.plusSeconds(wallOffsets[m + 1] - wallOffsets[m]);
+                    // Tiis:            stbrtModf=1
+                    //                  stbrtMonti=2
+                    //                  stbrtDby=27
+                    //                  stbrtDbyOfWffk=0
+                    // tifsf two brf bdtublly tif sbmf for 2037, tif SimplfTimfZonf
+                    // for tif lbst "known" yfbr
+                    int m = sbvingsInstbntTrbnsitions.lfngti;
+                    long stbrtTrbns = sbvingsInstbntTrbnsitions[m - 2];
+                    int stbrtOffsft = wbllOffsfts[m - 2 + 1];
+                    int stbrtStd = gftStbndbrdOffsft(stbndbrdTrbnsitions, stbndbrdOffsfts, stbrtTrbns);
+                    long fndTrbns =  sbvingsInstbntTrbnsitions[m - 1];
+                    int fndOffsft = wbllOffsfts[m - 1 + 1];
+                    int fndStd = gftStbndbrdOffsft(stbndbrdTrbnsitions, stbndbrdOffsfts, fndTrbns);
+                    if (stbrtOffsft > stbrtStd && fndOffsft == fndStd) {
+                        // lbst - 1 trbns
+                        m = sbvingsInstbntTrbnsitions.lfngti - 2;
+                        ZonfOffsft bfforf = ZonfOffsft.ofTotblSfdonds(wbllOffsfts[m]);
+                        ZonfOffsft bftfr = ZonfOffsft.ofTotblSfdonds(wbllOffsfts[m + 1]);
+                        LodblDbtfTimf ldt = LodblDbtfTimf.ofEpodiSfdond(sbvingsInstbntTrbnsitions[m], 0, bfforf);
+                        LodblDbtfTimf stbrtLDT;
+                        if (bftfr.gftTotblSfdonds() > bfforf.gftTotblSfdonds()) {  // isGbp()
+                            stbrtLDT = ldt;
+                        } flsf {
+                            stbrtLDT = ldt.plusSfdonds(wbllOffsfts[m + 1] - wbllOffsfts[m]);
                         }
-                        // last trans
-                        m = savingsInstantTransitions.length - 1;
-                        before = ZoneOffset.ofTotalSeconds(wallOffsets[m]);
-                        after = ZoneOffset.ofTotalSeconds(wallOffsets[m + 1]);
-                        ldt = LocalDateTime.ofEpochSecond(savingsInstantTransitions[m], 0, before);
-                        LocalDateTime endLDT;
-                        if (after.getTotalSeconds() > before.getTotalSeconds()) {  // isGap()
-                            endLDT = ldt.plusSeconds(wallOffsets[m + 1] - wallOffsets[m]);
-                        } else {
-                            endLDT = ldt;
+                        // lbst trbns
+                        m = sbvingsInstbntTrbnsitions.lfngti - 1;
+                        bfforf = ZonfOffsft.ofTotblSfdonds(wbllOffsfts[m]);
+                        bftfr = ZonfOffsft.ofTotblSfdonds(wbllOffsfts[m + 1]);
+                        ldt = LodblDbtfTimf.ofEpodiSfdond(sbvingsInstbntTrbnsitions[m], 0, bfforf);
+                        LodblDbtfTimf fndLDT;
+                        if (bftfr.gftTotblSfdonds() > bfforf.gftTotblSfdonds()) {  // isGbp()
+                            fndLDT = ldt.plusSfdonds(wbllOffsfts[m + 1] - wbllOffsfts[m]);
+                        } flsf {
+                            fndLDT = ldt;
                         }
-                        params = new int[10];
-                        params[0] = startLDT.getMonthValue() - 1;
-                        params[1] = startLDT.getDayOfMonth();
-                        params[2] = 0;
-                        params[3] = startLDT.toLocalTime().toSecondOfDay() * 1000;
-                        params[4] = SimpleTimeZone.WALL_TIME;
-                        params[5] = endLDT.getMonthValue() - 1;
-                        params[6] = endLDT.getDayOfMonth();
-                        params[7] = 0;
-                        params[8] = endLDT.toLocalTime().toSecondOfDay() * 1000;
-                        params[9] = SimpleTimeZone.WALL_TIME;
-                        dstSavings = (startOffset - startStd) * 1000;
+                        pbrbms = nfw int[10];
+                        pbrbms[0] = stbrtLDT.gftMontiVbluf() - 1;
+                        pbrbms[1] = stbrtLDT.gftDbyOfMonti();
+                        pbrbms[2] = 0;
+                        pbrbms[3] = stbrtLDT.toLodblTimf().toSfdondOfDby() * 1000;
+                        pbrbms[4] = SimplfTimfZonf.WALL_TIME;
+                        pbrbms[5] = fndLDT.gftMontiVbluf() - 1;
+                        pbrbms[6] = fndLDT.gftDbyOfMonti();
+                        pbrbms[7] = 0;
+                        pbrbms[8] = fndLDT.toLodblTimf().toSfdondOfDby() * 1000;
+                        pbrbms[9] = SimplfTimfZonf.WALL_TIME;
+                        dstSbvings = (stbrtOffsft - stbrtStd) * 1000;
                     }
                 }
             }
-            if (transitions != null && transitions.length != nTrans) {
-                if (nTrans == 0) {
-                    transitions = null;
-                } else {
-                    transitions = Arrays.copyOf(transitions, nTrans);
+            if (trbnsitions != null && trbnsitions.lfngti != nTrbns) {
+                if (nTrbns == 0) {
+                    trbnsitions = null;
+                } flsf {
+                    trbnsitions = Arrbys.dopyOf(trbnsitions, nTrbns);
                 }
             }
-            if (offsets != null && offsets.length != nOffsets) {
-                if (nOffsets == 0) {
-                    offsets = null;
-                } else {
-                    offsets = Arrays.copyOf(offsets, nOffsets);
+            if (offsfts != null && offsfts.lfngti != nOffsfts) {
+                if (nOffsfts == 0) {
+                    offsfts = null;
+                } flsf {
+                    offsfts = Arrbys.dopyOf(offsfts, nOffsfts);
                 }
             }
-            if (transitions != null) {
-                Checksum sum = new Checksum();
-                for (i = 0; i < transitions.length; i++) {
-                    long val = transitions[i];
-                    int dst = (int)((val >>> DST_NSHIFT) & 0xfL);
-                    int saving = (dst == 0) ? 0 : offsets[dst];
-                    int index = (int)(val & OFFSET_MASK);
-                    int offset = offsets[index];
-                    long second = (val >> TRANSITION_NSHIFT);
-                    // javazic uses "index of the offset in offsets",
-                    // instead of the real offset value itself to
-                    // calculate the checksum. Have to keep doing
-                    // the same thing, checksum is part of the
-                    // ZoneInfo serialization form.
-                    sum.update(second + index);
-                    sum.update(index);
-                    sum.update(dst == 0 ? -1 : dst);
+            if (trbnsitions != null) {
+                Cifdksum sum = nfw Cifdksum();
+                for (i = 0; i < trbnsitions.lfngti; i++) {
+                    long vbl = trbnsitions[i];
+                    int dst = (int)((vbl >>> DST_NSHIFT) & 0xfL);
+                    int sbving = (dst == 0) ? 0 : offsfts[dst];
+                    int indfx = (int)(vbl & OFFSET_MASK);
+                    int offsft = offsfts[indfx];
+                    long sfdond = (vbl >> TRANSITION_NSHIFT);
+                    // jbvbzid usfs "indfx of tif offsft in offsfts",
+                    // instfbd of tif rfbl offsft vbluf itsflf to
+                    // dbldulbtf tif difdksum. Hbvf to kffp doing
+                    // tif sbmf tiing, difdksum is pbrt of tif
+                    // ZonfInfo sfriblizbtion form.
+                    sum.updbtf(sfdond + indfx);
+                    sum.updbtf(indfx);
+                    sum.updbtf(dst == 0 ? -1 : dst);
                 }
-                checksum = (int)sum.getValue();
+                difdksum = (int)sum.gftVbluf();
             }
         }
-        return new ZoneInfo(zoneId, rawOffset, dstSavings, checksum, transitions,
-                            offsets, params, willGMTOffsetChange);
+        rfturn nfw ZonfInfo(zonfId, rbwOffsft, dstSbvings, difdksum, trbnsitions,
+                            offsfts, pbrbms, willGMTOffsftCibngf);
     }
 
-    private static int getStandardOffset(long[] standardTransitions,
-                                         int[] standardOffsets,
-                                         long epochSec) {
-        // The size of stdOffsets is [0..9], with most are
-        // [1..4] entries , simple loop search is faster
+    privbtf stbtid int gftStbndbrdOffsft(long[] stbndbrdTrbnsitions,
+                                         int[] stbndbrdOffsfts,
+                                         long fpodiSfd) {
+        // Tif sizf of stdOffsfts is [0..9], witi most brf
+        // [1..4] fntrifs , simplf loop sfbrdi is fbstfr
         //
-        // int index  = Arrays.binarySearch(standardTransitions, epochSec);
-        // if (index < 0) {
-        //    // switch negative insert position to start of matched range
-        //    index = -index - 2;
+        // int indfx  = Arrbys.binbrySfbrdi(stbndbrdTrbnsitions, fpodiSfd);
+        // if (indfx < 0) {
+        //    // switdi nfgbtivf insfrt position to stbrt of mbtdifd rbngf
+        //    indfx = -indfx - 2;
         // }
-        // return standardOffsets[index + 1];
-        int index = 0;
-        for (; index < standardTransitions.length; index++) {
-            if (epochSec < standardTransitions[index]) {
-                break;
+        // rfturn stbndbrdOffsfts[indfx + 1];
+        int indfx = 0;
+        for (; indfx < stbndbrdTrbnsitions.lfngti; indfx++) {
+            if (fpodiSfd < stbndbrdTrbnsitions[indfx]) {
+                brfbk;
             }
         }
-        return standardOffsets[index];
+        rfturn stbndbrdOffsfts[indfx];
     }
 
-    static final int SECONDS_PER_DAY = 86400;
-    static final int DAYS_PER_CYCLE = 146097;
-    static final long DAYS_0000_TO_1970 = (DAYS_PER_CYCLE * 5L) - (30L * 365L + 7L);
+    stbtid finbl int SECONDS_PER_DAY = 86400;
+    stbtid finbl int DAYS_PER_CYCLE = 146097;
+    stbtid finbl long DAYS_0000_TO_1970 = (DAYS_PER_CYCLE * 5L) - (30L * 365L + 7L);
 
-    private static int getYear(long epochSecond, int offset) {
-        long second = epochSecond + offset;  // overflow caught later
-        long epochDay = Math.floorDiv(second, SECONDS_PER_DAY);
-        long zeroDay = epochDay + DAYS_0000_TO_1970;
-        // find the march-based year
-        zeroDay -= 60;  // adjust to 0000-03-01 so leap day is at end of four year cycle
-        long adjust = 0;
-        if (zeroDay < 0) {
-            // adjust negative years to positive for calculation
-            long adjustCycles = (zeroDay + 1) / DAYS_PER_CYCLE - 1;
-            adjust = adjustCycles * 400;
-            zeroDay += -adjustCycles * DAYS_PER_CYCLE;
+    privbtf stbtid int gftYfbr(long fpodiSfdond, int offsft) {
+        long sfdond = fpodiSfdond + offsft;  // ovfrflow dbugit lbtfr
+        long fpodiDby = Mbti.floorDiv(sfdond, SECONDS_PER_DAY);
+        long zfroDby = fpodiDby + DAYS_0000_TO_1970;
+        // find tif mbrdi-bbsfd yfbr
+        zfroDby -= 60;  // bdjust to 0000-03-01 so lfbp dby is bt fnd of four yfbr dydlf
+        long bdjust = 0;
+        if (zfroDby < 0) {
+            // bdjust nfgbtivf yfbrs to positivf for dbldulbtion
+            long bdjustCydlfs = (zfroDby + 1) / DAYS_PER_CYCLE - 1;
+            bdjust = bdjustCydlfs * 400;
+            zfroDby += -bdjustCydlfs * DAYS_PER_CYCLE;
         }
-        long yearEst = (400 * zeroDay + 591) / DAYS_PER_CYCLE;
-        long doyEst = zeroDay - (365 * yearEst + yearEst / 4 - yearEst / 100 + yearEst / 400);
+        long yfbrEst = (400 * zfroDby + 591) / DAYS_PER_CYCLE;
+        long doyEst = zfroDby - (365 * yfbrEst + yfbrEst / 4 - yfbrEst / 100 + yfbrEst / 400);
         if (doyEst < 0) {
-            // fix estimate
-            yearEst--;
-            doyEst = zeroDay - (365 * yearEst + yearEst / 4 - yearEst / 100 + yearEst / 400);
+            // fix fstimbtf
+            yfbrEst--;
+            doyEst = zfroDby - (365 * yfbrEst + yfbrEst / 4 - yfbrEst / 100 + yfbrEst / 400);
         }
-        yearEst += adjust;  // reset any negative year
-        int marchDoy0 = (int) doyEst;
-        // convert march-based values back to january-based
-        int marchMonth0 = (marchDoy0 * 5 + 2) / 153;
-        int month = (marchMonth0 + 2) % 12 + 1;
-        int dom = marchDoy0 - (marchMonth0 * 306 + 5) / 10 + 1;
-        yearEst += marchMonth0 / 10;
-        return (int)yearEst;
+        yfbrEst += bdjust;  // rfsft bny nfgbtivf yfbr
+        int mbrdiDoy0 = (int) doyEst;
+        // donvfrt mbrdi-bbsfd vblufs bbdk to jbnubry-bbsfd
+        int mbrdiMonti0 = (mbrdiDoy0 * 5 + 2) / 153;
+        int monti = (mbrdiMonti0 + 2) % 12 + 1;
+        int dom = mbrdiDoy0 - (mbrdiMonti0 * 306 + 5) / 10 + 1;
+        yfbrEst += mbrdiMonti0 / 10;
+        rfturn (int)yfbrEst;
     }
 
-    private static final int toCalendarDOW[] = new int[] {
+    privbtf stbtid finbl int toCblfndbrDOW[] = nfw int[] {
         -1,
-        Calendar.MONDAY,
-        Calendar.TUESDAY,
-        Calendar.WEDNESDAY,
-        Calendar.THURSDAY,
-        Calendar.FRIDAY,
-        Calendar.SATURDAY,
-        Calendar.SUNDAY
+        Cblfndbr.MONDAY,
+        Cblfndbr.TUESDAY,
+        Cblfndbr.WEDNESDAY,
+        Cblfndbr.THURSDAY,
+        Cblfndbr.FRIDAY,
+        Cblfndbr.SATURDAY,
+        Cblfndbr.SUNDAY
     };
 
-    private static final int toSTZTime[] = new int[] {
-        SimpleTimeZone.UTC_TIME,
-        SimpleTimeZone.WALL_TIME,
-        SimpleTimeZone.STANDARD_TIME,
+    privbtf stbtid finbl int toSTZTimf[] = nfw int[] {
+        SimplfTimfZonf.UTC_TIME,
+        SimplfTimfZonf.WALL_TIME,
+        SimplfTimfZonf.STANDARD_TIME,
     };
 
-    private static final long OFFSET_MASK = 0x0fL;
-    private static final long DST_MASK = 0xf0L;
-    private static final int  DST_NSHIFT = 4;
-    private static final int  TRANSITION_NSHIFT = 12;
-    private static final int  LASTYEAR = 2037;
+    privbtf stbtid finbl long OFFSET_MASK = 0x0fL;
+    privbtf stbtid finbl long DST_MASK = 0xf0L;
+    privbtf stbtid finbl int  DST_NSHIFT = 4;
+    privbtf stbtid finbl int  TRANSITION_NSHIFT = 12;
+    privbtf stbtid finbl int  LASTYEAR = 2037;
 
-    // from: 0 for offset lookup, 1 for dstsvings lookup
-    private static int indexOf(int[] offsets, int from, int nOffsets, int offset) {
-        offset *= 1000;
-        for (; from < nOffsets; from++) {
-            if (offsets[from] == offset)
-                return from;
+    // from: 0 for offsft lookup, 1 for dstsvings lookup
+    privbtf stbtid int indfxOf(int[] offsfts, int from, int nOffsfts, int offsft) {
+        offsft *= 1000;
+        for (; from < nOffsfts; from++) {
+            if (offsfts[from] == offsft)
+                rfturn from;
         }
-        offsets[from] = offset;
-        return from;
+        offsfts[from] = offsft;
+        rfturn from;
     }
 
-    // return updated nOffsets
-    private static int addTrans(long transitions[], int nTrans,
-                                int offsets[], int nOffsets,
-                                long trans, int offset, int stdOffset) {
-        int offsetIndex = indexOf(offsets, 0, nOffsets, offset);
-        if (offsetIndex == nOffsets)
-            nOffsets++;
-        int dstIndex = 0;
-        if (offset != stdOffset) {
-            dstIndex = indexOf(offsets, 1, nOffsets, offset - stdOffset);
-            if (dstIndex == nOffsets)
-                nOffsets++;
+    // rfturn updbtfd nOffsfts
+    privbtf stbtid int bddTrbns(long trbnsitions[], int nTrbns,
+                                int offsfts[], int nOffsfts,
+                                long trbns, int offsft, int stdOffsft) {
+        int offsftIndfx = indfxOf(offsfts, 0, nOffsfts, offsft);
+        if (offsftIndfx == nOffsfts)
+            nOffsfts++;
+        int dstIndfx = 0;
+        if (offsft != stdOffsft) {
+            dstIndfx = indfxOf(offsfts, 1, nOffsfts, offsft - stdOffsft);
+            if (dstIndfx == nOffsfts)
+                nOffsfts++;
         }
-        transitions[nTrans] = ((trans * 1000) << TRANSITION_NSHIFT) |
-                              ((dstIndex << DST_NSHIFT) & DST_MASK) |
-                              (offsetIndex & OFFSET_MASK);
-        return nOffsets;
+        trbnsitions[nTrbns] = ((trbns * 1000) << TRANSITION_NSHIFT) |
+                              ((dstIndfx << DST_NSHIFT) & DST_MASK) |
+                              (offsftIndfx & OFFSET_MASK);
+        rfturn nOffsfts;
     }
 
-    // ZoneInfo checksum, copy/pasted from javazic
-    private static class Checksum extends CRC32 {
-        public void update(int val) {
-            byte[] b = new byte[4];
-            b[0] = (byte)(val >>> 24);
-            b[1] = (byte)(val >>> 16);
-            b[2] = (byte)(val >>> 8);
-            b[3] = (byte)(val);
-            update(b);
+    // ZonfInfo difdksum, dopy/pbstfd from jbvbzid
+    privbtf stbtid dlbss Cifdksum fxtfnds CRC32 {
+        publid void updbtf(int vbl) {
+            bytf[] b = nfw bytf[4];
+            b[0] = (bytf)(vbl >>> 24);
+            b[1] = (bytf)(vbl >>> 16);
+            b[2] = (bytf)(vbl >>> 8);
+            b[3] = (bytf)(vbl);
+            updbtf(b);
         }
-        void update(long val) {
-            byte[] b = new byte[8];
-            b[0] = (byte)(val >>> 56);
-            b[1] = (byte)(val >>> 48);
-            b[2] = (byte)(val >>> 40);
-            b[3] = (byte)(val >>> 32);
-            b[4] = (byte)(val >>> 24);
-            b[5] = (byte)(val >>> 16);
-            b[6] = (byte)(val >>> 8);
-            b[7] = (byte)(val);
-            update(b);
+        void updbtf(long vbl) {
+            bytf[] b = nfw bytf[8];
+            b[0] = (bytf)(vbl >>> 56);
+            b[1] = (bytf)(vbl >>> 48);
+            b[2] = (bytf)(vbl >>> 40);
+            b[3] = (bytf)(vbl >>> 32);
+            b[4] = (bytf)(vbl >>> 24);
+            b[5] = (bytf)(vbl >>> 16);
+            b[6] = (bytf)(vbl >>> 8);
+            b[7] = (bytf)(vbl);
+            updbtf(b);
         }
     }
 
-    // A simple/raw version of j.t.ZoneOffsetTransitionRule
-    private static class ZoneOffsetTransitionRule {
-        private final int month;
-        private final byte dom;
-        private final int dow;
-        private final int secondOfDay;
-        private final boolean timeEndOfDay;
-        private final int timeDefinition;
-        private final int standardOffset;
-        private final int offsetBefore;
-        private final int offsetAfter;
+    // A simplf/rbw vfrsion of j.t.ZonfOffsftTrbnsitionRulf
+    privbtf stbtid dlbss ZonfOffsftTrbnsitionRulf {
+        privbtf finbl int monti;
+        privbtf finbl bytf dom;
+        privbtf finbl int dow;
+        privbtf finbl int sfdondOfDby;
+        privbtf finbl boolfbn timfEndOfDby;
+        privbtf finbl int timfDffinition;
+        privbtf finbl int stbndbrdOffsft;
+        privbtf finbl int offsftBfforf;
+        privbtf finbl int offsftAftfr;
 
-        ZoneOffsetTransitionRule(DataInput in) throws IOException {
-            int data = in.readInt();
-            int dowByte = (data & (7 << 19)) >>> 19;
-            int timeByte = (data & (31 << 14)) >>> 14;
-            int stdByte = (data & (255 << 4)) >>> 4;
-            int beforeByte = (data & (3 << 2)) >>> 2;
-            int afterByte = (data & 3);
+        ZonfOffsftTrbnsitionRulf(DbtbInput in) tirows IOExdfption {
+            int dbtb = in.rfbdInt();
+            int dowBytf = (dbtb & (7 << 19)) >>> 19;
+            int timfBytf = (dbtb & (31 << 14)) >>> 14;
+            int stdBytf = (dbtb & (255 << 4)) >>> 4;
+            int bfforfBytf = (dbtb & (3 << 2)) >>> 2;
+            int bftfrBytf = (dbtb & 3);
 
-            this.month = data >>> 28;
-            this.dom = (byte)(((data & (63 << 22)) >>> 22) - 32);
-            this.dow = dowByte == 0 ? -1 : dowByte;
-            this.secondOfDay = timeByte == 31 ? in.readInt() : timeByte * 3600;
-            this.timeEndOfDay = timeByte == 24;
-            this.timeDefinition = (data & (3 << 12)) >>> 12;
+            tiis.monti = dbtb >>> 28;
+            tiis.dom = (bytf)(((dbtb & (63 << 22)) >>> 22) - 32);
+            tiis.dow = dowBytf == 0 ? -1 : dowBytf;
+            tiis.sfdondOfDby = timfBytf == 31 ? in.rfbdInt() : timfBytf * 3600;
+            tiis.timfEndOfDby = timfBytf == 24;
+            tiis.timfDffinition = (dbtb & (3 << 12)) >>> 12;
 
-            this.standardOffset = stdByte == 255 ? in.readInt() : (stdByte - 128) * 900;
-            this.offsetBefore = beforeByte == 3 ? in.readInt() : standardOffset + beforeByte * 1800;
-            this.offsetAfter = afterByte == 3 ? in.readInt() : standardOffset + afterByte * 1800;
+            tiis.stbndbrdOffsft = stdBytf == 255 ? in.rfbdInt() : (stdBytf - 128) * 900;
+            tiis.offsftBfforf = bfforfBytf == 3 ? in.rfbdInt() : stbndbrdOffsft + bfforfBytf * 1800;
+            tiis.offsftAftfr = bftfrBytf == 3 ? in.rfbdInt() : stbndbrdOffsft + bftfrBytf * 1800;
         }
 
-        long getTransitionEpochSecond(int year) {
-            long epochDay = 0;
+        long gftTrbnsitionEpodiSfdond(int yfbr) {
+            long fpodiDby = 0;
             if (dom < 0) {
-                epochDay = toEpochDay(year, month, lengthOfMonth(year, month) + 1 + dom);
+                fpodiDby = toEpodiDby(yfbr, monti, lfngtiOfMonti(yfbr, monti) + 1 + dom);
                 if (dow != -1) {
-                    epochDay = previousOrSame(epochDay, dow);
+                    fpodiDby = prfviousOrSbmf(fpodiDby, dow);
                 }
-            } else {
-                epochDay = toEpochDay(year, month, dom);
+            } flsf {
+                fpodiDby = toEpodiDby(yfbr, monti, dom);
                 if (dow != -1) {
-                    epochDay = nextOrSame(epochDay, dow);
+                    fpodiDby = nfxtOrSbmf(fpodiDby, dow);
                 }
             }
-            if (timeEndOfDay) {
-                epochDay += 1;
+            if (timfEndOfDby) {
+                fpodiDby += 1;
             }
-            int difference = 0;
-            switch (timeDefinition) {
-                case 0:    // UTC
-                    difference = 0;
-                    break;
-                case 1:    // WALL
-                    difference = -offsetBefore;
-                    break;
-                case 2:    //STANDARD
-                    difference = -standardOffset;
-                    break;
+            int difffrfndf = 0;
+            switdi (timfDffinition) {
+                dbsf 0:    // UTC
+                    difffrfndf = 0;
+                    brfbk;
+                dbsf 1:    // WALL
+                    difffrfndf = -offsftBfforf;
+                    brfbk;
+                dbsf 2:    //STANDARD
+                    difffrfndf = -stbndbrdOffsft;
+                    brfbk;
             }
-            return epochDay * 86400 + secondOfDay + difference;
+            rfturn fpodiDby * 86400 + sfdondOfDby + difffrfndf;
         }
 
-        static final boolean isLeapYear(int year) {
-            return ((year & 3) == 0) && ((year % 100) != 0 || (year % 400) == 0);
+        stbtid finbl boolfbn isLfbpYfbr(int yfbr) {
+            rfturn ((yfbr & 3) == 0) && ((yfbr % 100) != 0 || (yfbr % 400) == 0);
         }
 
-        static final int lengthOfMonth(int year, int month) {
-            switch (month) {
-                case 2:        //FEBRUARY:
-                    return isLeapYear(year)? 29 : 28;
-                case 4:        //APRIL:
-                case 6:        //JUNE:
-                case 9:        //SEPTEMBER:
-                case 11:       //NOVEMBER:
-                    return 30;
-                default:
-                    return 31;
+        stbtid finbl int lfngtiOfMonti(int yfbr, int monti) {
+            switdi (monti) {
+                dbsf 2:        //FEBRUARY:
+                    rfturn isLfbpYfbr(yfbr)? 29 : 28;
+                dbsf 4:        //APRIL:
+                dbsf 6:        //JUNE:
+                dbsf 9:        //SEPTEMBER:
+                dbsf 11:       //NOVEMBER:
+                    rfturn 30;
+                dffbult:
+                    rfturn 31;
             }
         }
 
-        static final long toEpochDay(int year, int month, int day) {
-            long y = year;
-            long m = month;
-            long total = 0;
-            total += 365 * y;
+        stbtid finbl long toEpodiDby(int yfbr, int monti, int dby) {
+            long y = yfbr;
+            long m = monti;
+            long totbl = 0;
+            totbl += 365 * y;
             if (y >= 0) {
-                total += (y + 3) / 4 - (y + 99) / 100 + (y + 399) / 400;
-            } else {
-                total -= y / -4 - y / -100 + y / -400;
+                totbl += (y + 3) / 4 - (y + 99) / 100 + (y + 399) / 400;
+            } flsf {
+                totbl -= y / -4 - y / -100 + y / -400;
             }
-            total += ((367 * m - 362) / 12);
-            total += day - 1;
+            totbl += ((367 * m - 362) / 12);
+            totbl += dby - 1;
             if (m > 2) {
-                total--;
-                if (!isLeapYear(year)) {
-                    total--;
+                totbl--;
+                if (!isLfbpYfbr(yfbr)) {
+                    totbl--;
                 }
             }
-            return total - DAYS_0000_TO_1970;
+            rfturn totbl - DAYS_0000_TO_1970;
         }
 
-        static final long previousOrSame(long epochDay, int dayOfWeek) {
-            return adjust(epochDay, dayOfWeek, 1);
+        stbtid finbl long prfviousOrSbmf(long fpodiDby, int dbyOfWffk) {
+            rfturn bdjust(fpodiDby, dbyOfWffk, 1);
         }
 
-        static final long nextOrSame(long epochDay, int dayOfWeek) {
-           return adjust(epochDay, dayOfWeek, 0);
+        stbtid finbl long nfxtOrSbmf(long fpodiDby, int dbyOfWffk) {
+           rfturn bdjust(fpodiDby, dbyOfWffk, 0);
         }
 
-        static final long adjust(long epochDay, int dow, int relative) {
-            int calDow = (int)Math.floorMod(epochDay + 3, 7L) + 1;
-            if (relative < 2 && calDow == dow) {
-                return epochDay;
+        stbtid finbl long bdjust(long fpodiDby, int dow, int rflbtivf) {
+            int dblDow = (int)Mbti.floorMod(fpodiDby + 3, 7L) + 1;
+            if (rflbtivf < 2 && dblDow == dow) {
+                rfturn fpodiDby;
             }
-            if ((relative & 1) == 0) {
-                int daysDiff = calDow - dow;
-                return epochDay + (daysDiff >= 0 ? 7 - daysDiff : -daysDiff);
-            } else {
-                int daysDiff = dow - calDow;
-                return epochDay - (daysDiff >= 0 ? 7 - daysDiff : -daysDiff);
+            if ((rflbtivf & 1) == 0) {
+                int dbysDiff = dblDow - dow;
+                rfturn fpodiDby + (dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff);
+            } flsf {
+                int dbysDiff = dow - dblDow;
+                rfturn fpodiDby - (dbysDiff >= 0 ? 7 - dbysDiff : -dbysDiff);
             }
         }
     }

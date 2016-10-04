@@ -1,364 +1,364 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.jvminstr;
+pbdkbgf sun.mbnbgfmfnt.snmp.jvminstr;
 
-// java imports
+// jbvb imports
 //
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
-import java.lang.management.ThreadMXBean;
-import java.lang.management.ManagementFactory;
+import jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
 
 // jmx imports
 //
-import javax.management.MBeanServer;
-import com.sun.jmx.snmp.SnmpString;
-import com.sun.jmx.snmp.SnmpStatusException;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import dom.sun.jmx.snmp.SnmpString;
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
 
 // jdmk imports
 //
-import com.sun.jmx.snmp.agent.SnmpMib;
-import com.sun.jmx.snmp.SnmpDefinitions;
+import dom.sun.jmx.snmp.bgfnt.SnmpMib;
+import dom.sun.jmx.snmp.SnmpDffinitions;
 
-import sun.management.snmp.jvmmib.JvmThreadingMBean;
-import sun.management.snmp.jvmmib.EnumJvmThreadCpuTimeMonitoring;
-import sun.management.snmp.jvmmib.EnumJvmThreadContentionMonitoring;
-import sun.management.snmp.util.MibLogger;
+import sun.mbnbgfmfnt.snmp.jvmmib.JvmTirfbdingMBfbn;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmTirfbdCpuTimfMonitoring;
+import sun.mbnbgfmfnt.snmp.jvmmib.EnumJvmTirfbdContfntionMonitoring;
+import sun.mbnbgfmfnt.snmp.util.MibLoggfr;
 
 /**
- * The class is used for implementing the "JvmThreading" group.
+ * Tif dlbss is usfd for implfmfnting tif "JvmTirfbding" group.
  */
-public class JvmThreadingImpl implements JvmThreadingMBean {
+publid dlbss JvmTirfbdingImpl implfmfnts JvmTirfbdingMBfbn {
 
     /**
-     * Variable for storing the value of "JvmThreadCpuTimeMonitoring".
+     * Vbribblf for storing tif vbluf of "JvmTirfbdCpuTimfMonitoring".
      *
-     * "The state of the Thread CPU Time Monitoring feature.
-     * This feature can be:
+     * "Tif stbtf of tif Tirfbd CPU Timf Monitoring ffbturf.
+     * Tiis ffbturf dbn bf:
      *
-     * unsupported: The JVM does not support Thread CPU Time Monitoring.
-     * enabled    : The JVM supports Thread CPU Time Monitoring, and it
-     * is enabled.
-     * disabled   : The JVM supports Thread CPU Time Monitoring, and it
-     * is disabled.
+     * unsupportfd: Tif JVM dofs not support Tirfbd CPU Timf Monitoring.
+     * fnbblfd    : Tif JVM supports Tirfbd CPU Timf Monitoring, bnd it
+     * is fnbblfd.
+     * disbblfd   : Tif JVM supports Tirfbd CPU Timf Monitoring, bnd it
+     * is disbblfd.
      *
-     * Only enabled(3) and disabled(4) may be supplied as values to a
-     * SET request. unsupported(1) can only be set internally by the
-     * agent.
+     * Only fnbblfd(3) bnd disbblfd(4) mby bf supplifd bs vblufs to b
+     * SET rfqufst. unsupportfd(1) dbn only bf sft intfrnblly by tif
+     * bgfnt.
      *
-     * See java.lang.management.ThreadMXBean.isThreadCpuTimeSupported(),
-     * java.lang.management.ThreadMXBean.isThreadCpuTimeEnabled(),
-     * java.lang.management.ThreadMXBean.setThreadCpuTimeEnabled()
+     * Sff jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn.isTirfbdCpuTimfSupportfd(),
+     * jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn.isTirfbdCpuTimfEnbblfd(),
+     * jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn.sftTirfbdCpuTimfEnbblfd()
      * "
      *
      */
-    final static EnumJvmThreadCpuTimeMonitoring
-        JvmThreadCpuTimeMonitoringUnsupported =
-        new EnumJvmThreadCpuTimeMonitoring("unsupported");
-    final static EnumJvmThreadCpuTimeMonitoring
-        JvmThreadCpuTimeMonitoringEnabled =
-        new EnumJvmThreadCpuTimeMonitoring("enabled");
-    final static EnumJvmThreadCpuTimeMonitoring
-        JvmThreadCpuTimeMonitoringDisabled =
-        new EnumJvmThreadCpuTimeMonitoring("disabled");
+    finbl stbtid EnumJvmTirfbdCpuTimfMonitoring
+        JvmTirfbdCpuTimfMonitoringUnsupportfd =
+        nfw EnumJvmTirfbdCpuTimfMonitoring("unsupportfd");
+    finbl stbtid EnumJvmTirfbdCpuTimfMonitoring
+        JvmTirfbdCpuTimfMonitoringEnbblfd =
+        nfw EnumJvmTirfbdCpuTimfMonitoring("fnbblfd");
+    finbl stbtid EnumJvmTirfbdCpuTimfMonitoring
+        JvmTirfbdCpuTimfMonitoringDisbblfd =
+        nfw EnumJvmTirfbdCpuTimfMonitoring("disbblfd");
 
 
     /**
-     * Variable for storing the value of "JvmThreadContentionMonitoring".
+     * Vbribblf for storing tif vbluf of "JvmTirfbdContfntionMonitoring".
      *
-     * "The state of the Thread Contention Monitoring feature.
-     * This feature can be:
+     * "Tif stbtf of tif Tirfbd Contfntion Monitoring ffbturf.
+     * Tiis ffbturf dbn bf:
      *
-     * unsupported: The JVM does not support Thread Contention Monitoring.
-     * enabled    : The JVM supports Thread Contention Monitoring, and it
-     * is enabled.
-     * disabled   : The JVM supports Thread Contention Monitoring, and it
-     * is disabled.
+     * unsupportfd: Tif JVM dofs not support Tirfbd Contfntion Monitoring.
+     * fnbblfd    : Tif JVM supports Tirfbd Contfntion Monitoring, bnd it
+     * is fnbblfd.
+     * disbblfd   : Tif JVM supports Tirfbd Contfntion Monitoring, bnd it
+     * is disbblfd.
      *
-     * Only enabled(3) and disabled(4) may be supplied as values to a
-     * SET request. unsupported(1) can only be set internally by the
-     * agent.
+     * Only fnbblfd(3) bnd disbblfd(4) mby bf supplifd bs vblufs to b
+     * SET rfqufst. unsupportfd(1) dbn only bf sft intfrnblly by tif
+     * bgfnt.
      *
-     * See java.lang.management.ThreadMXBean.isThreadContentionMonitoringSupported(),
-     * java.lang.management.ThreadMXBean.isThreadContentionMonitoringEnabled(),
-     * java.lang.management.ThreadMXBean.setThreadContentionMonitoringEnabled()
+     * Sff jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn.isTirfbdContfntionMonitoringSupportfd(),
+     * jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn.isTirfbdContfntionMonitoringEnbblfd(),
+     * jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn.sftTirfbdContfntionMonitoringEnbblfd()
      * "
      *
      */
-    static final EnumJvmThreadContentionMonitoring
-        JvmThreadContentionMonitoringUnsupported =
-        new EnumJvmThreadContentionMonitoring("unsupported");
-    static final EnumJvmThreadContentionMonitoring
-        JvmThreadContentionMonitoringEnabled =
-        new EnumJvmThreadContentionMonitoring("enabled");
-    static final EnumJvmThreadContentionMonitoring
-        JvmThreadContentionMonitoringDisabled =
-        new EnumJvmThreadContentionMonitoring("disabled");
+    stbtid finbl EnumJvmTirfbdContfntionMonitoring
+        JvmTirfbdContfntionMonitoringUnsupportfd =
+        nfw EnumJvmTirfbdContfntionMonitoring("unsupportfd");
+    stbtid finbl EnumJvmTirfbdContfntionMonitoring
+        JvmTirfbdContfntionMonitoringEnbblfd =
+        nfw EnumJvmTirfbdContfntionMonitoring("fnbblfd");
+    stbtid finbl EnumJvmTirfbdContfntionMonitoring
+        JvmTirfbdContfntionMonitoringDisbblfd =
+        nfw EnumJvmTirfbdContfntionMonitoring("disbblfd");
 
     /**
-     * Constructor for the "JvmThreading" group.
-     * If the group contains a table, the entries created through an SNMP SET
-     * will not be registered in Java DMK.
+     * Construdtor for tif "JvmTirfbding" group.
+     * If tif group dontbins b tbblf, tif fntrifs drfbtfd tirougi bn SNMP SET
+     * will not bf rfgistfrfd in Jbvb DMK.
      */
-    public JvmThreadingImpl(SnmpMib myMib) {
-        log.debug("JvmThreadingImpl","Constructor");
+    publid JvmTirfbdingImpl(SnmpMib myMib) {
+        log.dfbug("JvmTirfbdingImpl","Construdtor");
     }
 
 
     /**
-     * Constructor for the "JvmThreading" group.
-     * If the group contains a table, the entries created through an SNMP SET
-     * will be AUTOMATICALLY REGISTERED in Java DMK.
+     * Construdtor for tif "JvmTirfbding" group.
+     * If tif group dontbins b tbblf, tif fntrifs drfbtfd tirougi bn SNMP SET
+     * will bf AUTOMATICALLY REGISTERED in Jbvb DMK.
      */
-    public JvmThreadingImpl(SnmpMib myMib, MBeanServer server) {
-        log.debug("JvmThreadingImpl","Constructor with server");
+    publid JvmTirfbdingImpl(SnmpMib myMib, MBfbnSfrvfr sfrvfr) {
+        log.dfbug("JvmTirfbdingImpl","Construdtor witi sfrvfr");
     }
 
     /**
-     * ThreadMXBean accessor. It is acquired from the
-     * java.lang.management.ManagementFactory
-     * @return The local ThreadMXBean.
+     * TirfbdMXBfbn bddfssor. It is bdquirfd from tif
+     * jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory
+     * @rfturn Tif lodbl TirfbdMXBfbn.
      */
-    static ThreadMXBean getThreadMXBean() {
-        return ManagementFactory.getThreadMXBean();
+    stbtid TirfbdMXBfbn gftTirfbdMXBfbn() {
+        rfturn MbnbgfmfntFbdtory.gftTirfbdMXBfbn();
     }
 
     /**
-     * Getter for the "JvmThreadCpuTimeMonitoring" variable.
+     * Gfttfr for tif "JvmTirfbdCpuTimfMonitoring" vbribblf.
      */
-    public EnumJvmThreadCpuTimeMonitoring getJvmThreadCpuTimeMonitoring()
-        throws SnmpStatusException {
+    publid EnumJvmTirfbdCpuTimfMonitoring gftJvmTirfbdCpuTimfMonitoring()
+        tirows SnmpStbtusExdfption {
 
-        ThreadMXBean mbean = getThreadMXBean();
+        TirfbdMXBfbn mbfbn = gftTirfbdMXBfbn();
 
-        if(!mbean.isThreadCpuTimeSupported()) {
-            log.debug("getJvmThreadCpuTimeMonitoring",
-                      "Unsupported ThreadCpuTimeMonitoring");
-            return JvmThreadCpuTimeMonitoringUnsupported;
+        if(!mbfbn.isTirfbdCpuTimfSupportfd()) {
+            log.dfbug("gftJvmTirfbdCpuTimfMonitoring",
+                      "Unsupportfd TirfbdCpuTimfMonitoring");
+            rfturn JvmTirfbdCpuTimfMonitoringUnsupportfd;
         }
 
         try {
-            if(mbean.isThreadCpuTimeEnabled()) {
-                log.debug("getJvmThreadCpuTimeMonitoring",
-                      "Enabled ThreadCpuTimeMonitoring");
-                return JvmThreadCpuTimeMonitoringEnabled;
-            } else {
-                log.debug("getJvmThreadCpuTimeMonitoring",
-                          "Disabled ThreadCpuTimeMonitoring");
-                return JvmThreadCpuTimeMonitoringDisabled;
+            if(mbfbn.isTirfbdCpuTimfEnbblfd()) {
+                log.dfbug("gftJvmTirfbdCpuTimfMonitoring",
+                      "Enbblfd TirfbdCpuTimfMonitoring");
+                rfturn JvmTirfbdCpuTimfMonitoringEnbblfd;
+            } flsf {
+                log.dfbug("gftJvmTirfbdCpuTimfMonitoring",
+                          "Disbblfd TirfbdCpuTimfMonitoring");
+                rfturn JvmTirfbdCpuTimfMonitoringDisbblfd;
             }
-        }catch(UnsupportedOperationException e) {
-            log.debug("getJvmThreadCpuTimeMonitoring",
-                      "Newly unsupported ThreadCpuTimeMonitoring");
+        }dbtdi(UnsupportfdOpfrbtionExdfption f) {
+            log.dfbug("gftJvmTirfbdCpuTimfMonitoring",
+                      "Nfwly unsupportfd TirfbdCpuTimfMonitoring");
 
-            return JvmThreadCpuTimeMonitoringUnsupported;
+            rfturn JvmTirfbdCpuTimfMonitoringUnsupportfd;
         }
     }
 
     /**
-     * Setter for the "JvmThreadCpuTimeMonitoring" variable.
+     * Sfttfr for tif "JvmTirfbdCpuTimfMonitoring" vbribblf.
      */
-    public void setJvmThreadCpuTimeMonitoring(EnumJvmThreadCpuTimeMonitoring x)
-        throws SnmpStatusException {
+    publid void sftJvmTirfbdCpuTimfMonitoring(EnumJvmTirfbdCpuTimfMonitoring x)
+        tirows SnmpStbtusExdfption {
 
-        ThreadMXBean mbean = getThreadMXBean();
+        TirfbdMXBfbn mbfbn = gftTirfbdMXBfbn();
 
-        // We can trust the received value, it has been checked in
-        // checkJvmThreadCpuTimeMonitoring
-        if(JvmThreadCpuTimeMonitoringEnabled.intValue() == x.intValue())
-            mbean.setThreadCpuTimeEnabled(true);
-        else
-            mbean.setThreadCpuTimeEnabled(false);
+        // Wf dbn trust tif rfdfivfd vbluf, it ibs bffn difdkfd in
+        // difdkJvmTirfbdCpuTimfMonitoring
+        if(JvmTirfbdCpuTimfMonitoringEnbblfd.intVbluf() == x.intVbluf())
+            mbfbn.sftTirfbdCpuTimfEnbblfd(truf);
+        flsf
+            mbfbn.sftTirfbdCpuTimfEnbblfd(fblsf);
     }
 
     /**
-     * Checker for the "JvmThreadCpuTimeMonitoring" variable.
+     * Cifdkfr for tif "JvmTirfbdCpuTimfMonitoring" vbribblf.
      */
-    public void checkJvmThreadCpuTimeMonitoring(EnumJvmThreadCpuTimeMonitoring
+    publid void difdkJvmTirfbdCpuTimfMonitoring(EnumJvmTirfbdCpuTimfMonitoring
                                                 x)
-        throws SnmpStatusException {
+        tirows SnmpStbtusExdfption {
 
-        //Can't be set externaly to unsupported state.
-        if(JvmThreadCpuTimeMonitoringUnsupported.intValue() == x.intValue()) {
-             log.debug("checkJvmThreadCpuTimeMonitoring",
-                      "Try to set to illegal unsupported value");
-            throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
+        //Cbn't bf sft fxtfrnbly to unsupportfd stbtf.
+        if(JvmTirfbdCpuTimfMonitoringUnsupportfd.intVbluf() == x.intVbluf()) {
+             log.dfbug("difdkJvmTirfbdCpuTimfMonitoring",
+                      "Try to sft to illfgbl unsupportfd vbluf");
+            tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
         }
 
-        if ((JvmThreadCpuTimeMonitoringEnabled.intValue() == x.intValue()) ||
-            (JvmThreadCpuTimeMonitoringDisabled.intValue() == x.intValue())) {
+        if ((JvmTirfbdCpuTimfMonitoringEnbblfd.intVbluf() == x.intVbluf()) ||
+            (JvmTirfbdCpuTimfMonitoringDisbblfd.intVbluf() == x.intVbluf())) {
 
-            // The value is a valid value. But is the feature supported?
-            ThreadMXBean mbean = getThreadMXBean();
-            if(mbean.isThreadCpuTimeSupported()) return;
+            // Tif vbluf is b vblid vbluf. But is tif ffbturf supportfd?
+            TirfbdMXBfbn mbfbn = gftTirfbdMXBfbn();
+            if(mbfbn.isTirfbdCpuTimfSupportfd()) rfturn;
 
-            // Not supported.
-            log.debug("checkJvmThreadCpuTimeMonitoring",
-                      "Unsupported operation, can't set state");
-            throw new
-                SnmpStatusException(SnmpDefinitions.snmpRspInconsistentValue);
+            // Not supportfd.
+            log.dfbug("difdkJvmTirfbdCpuTimfMonitoring",
+                      "Unsupportfd opfrbtion, dbn't sft stbtf");
+            tirow nfw
+                SnmpStbtusExdfption(SnmpDffinitions.snmpRspIndonsistfntVbluf);
         }
 
-        // Unknown value.
-        log.debug("checkJvmThreadCpuTimeMonitoring",
-                  "unknown enum value ");
-        throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
+        // Unknown vbluf.
+        log.dfbug("difdkJvmTirfbdCpuTimfMonitoring",
+                  "unknown fnum vbluf ");
+        tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
     }
 
     /**
-     * Getter for the "JvmThreadContentionMonitoring" variable.
+     * Gfttfr for tif "JvmTirfbdContfntionMonitoring" vbribblf.
      */
-    public EnumJvmThreadContentionMonitoring getJvmThreadContentionMonitoring()
-        throws SnmpStatusException {
+    publid EnumJvmTirfbdContfntionMonitoring gftJvmTirfbdContfntionMonitoring()
+        tirows SnmpStbtusExdfption {
 
-        ThreadMXBean mbean = getThreadMXBean();
+        TirfbdMXBfbn mbfbn = gftTirfbdMXBfbn();
 
-        if(!mbean.isThreadContentionMonitoringSupported()) {
-            log.debug("getJvmThreadContentionMonitoring",
-                      "Unsupported ThreadContentionMonitoring");
-            return JvmThreadContentionMonitoringUnsupported;
+        if(!mbfbn.isTirfbdContfntionMonitoringSupportfd()) {
+            log.dfbug("gftJvmTirfbdContfntionMonitoring",
+                      "Unsupportfd TirfbdContfntionMonitoring");
+            rfturn JvmTirfbdContfntionMonitoringUnsupportfd;
         }
 
-        if(mbean.isThreadContentionMonitoringEnabled()) {
-            log.debug("getJvmThreadContentionMonitoring",
-                      "Enabled ThreadContentionMonitoring");
-            return JvmThreadContentionMonitoringEnabled;
-        } else {
-            log.debug("getJvmThreadContentionMonitoring",
-                      "Disabled ThreadContentionMonitoring");
-            return JvmThreadContentionMonitoringDisabled;
+        if(mbfbn.isTirfbdContfntionMonitoringEnbblfd()) {
+            log.dfbug("gftJvmTirfbdContfntionMonitoring",
+                      "Enbblfd TirfbdContfntionMonitoring");
+            rfturn JvmTirfbdContfntionMonitoringEnbblfd;
+        } flsf {
+            log.dfbug("gftJvmTirfbdContfntionMonitoring",
+                      "Disbblfd TirfbdContfntionMonitoring");
+            rfturn JvmTirfbdContfntionMonitoringDisbblfd;
         }
     }
 
     /**
-     * Setter for the "JvmThreadContentionMonitoring" variable.
+     * Sfttfr for tif "JvmTirfbdContfntionMonitoring" vbribblf.
      */
-    public void setJvmThreadContentionMonitoring(
-                            EnumJvmThreadContentionMonitoring x)
-        throws SnmpStatusException {
-        ThreadMXBean mbean = getThreadMXBean();
+    publid void sftJvmTirfbdContfntionMonitoring(
+                            EnumJvmTirfbdContfntionMonitoring x)
+        tirows SnmpStbtusExdfption {
+        TirfbdMXBfbn mbfbn = gftTirfbdMXBfbn();
 
-        // We can trust the received value, it has been checked in
-        // checkJvmThreadContentionMonitoring
-        if(JvmThreadContentionMonitoringEnabled.intValue() == x.intValue())
-            mbean.setThreadContentionMonitoringEnabled(true);
-        else
-            mbean.setThreadContentionMonitoringEnabled(false);
+        // Wf dbn trust tif rfdfivfd vbluf, it ibs bffn difdkfd in
+        // difdkJvmTirfbdContfntionMonitoring
+        if(JvmTirfbdContfntionMonitoringEnbblfd.intVbluf() == x.intVbluf())
+            mbfbn.sftTirfbdContfntionMonitoringEnbblfd(truf);
+        flsf
+            mbfbn.sftTirfbdContfntionMonitoringEnbblfd(fblsf);
     }
 
     /**
-     * Checker for the "JvmThreadContentionMonitoring" variable.
+     * Cifdkfr for tif "JvmTirfbdContfntionMonitoring" vbribblf.
      */
-    public void checkJvmThreadContentionMonitoring(
-                              EnumJvmThreadContentionMonitoring x)
-        throws SnmpStatusException {
-        //Can't be set externaly to unsupported state.
-        if(JvmThreadContentionMonitoringUnsupported.intValue()==x.intValue()) {
-            log.debug("checkJvmThreadContentionMonitoring",
-                      "Try to set to illegal unsupported value");
-            throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
+    publid void difdkJvmTirfbdContfntionMonitoring(
+                              EnumJvmTirfbdContfntionMonitoring x)
+        tirows SnmpStbtusExdfption {
+        //Cbn't bf sft fxtfrnbly to unsupportfd stbtf.
+        if(JvmTirfbdContfntionMonitoringUnsupportfd.intVbluf()==x.intVbluf()) {
+            log.dfbug("difdkJvmTirfbdContfntionMonitoring",
+                      "Try to sft to illfgbl unsupportfd vbluf");
+            tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
         }
 
-        if ((JvmThreadContentionMonitoringEnabled.intValue()==x.intValue()) ||
-            (JvmThreadContentionMonitoringDisabled.intValue()==x.intValue())) {
+        if ((JvmTirfbdContfntionMonitoringEnbblfd.intVbluf()==x.intVbluf()) ||
+            (JvmTirfbdContfntionMonitoringDisbblfd.intVbluf()==x.intVbluf())) {
 
-            // The value is valid, but is the feature supported ?
-            ThreadMXBean mbean = getThreadMXBean();
-            if(mbean.isThreadContentionMonitoringSupported()) return;
+            // Tif vbluf is vblid, but is tif ffbturf supportfd ?
+            TirfbdMXBfbn mbfbn = gftTirfbdMXBfbn();
+            if(mbfbn.isTirfbdContfntionMonitoringSupportfd()) rfturn;
 
-            log.debug("checkJvmThreadContentionMonitoring",
-                      "Unsupported operation, can't set state");
-            throw new
-                SnmpStatusException(SnmpDefinitions.snmpRspInconsistentValue);
+            log.dfbug("difdkJvmTirfbdContfntionMonitoring",
+                      "Unsupportfd opfrbtion, dbn't sft stbtf");
+            tirow nfw
+                SnmpStbtusExdfption(SnmpDffinitions.snmpRspIndonsistfntVbluf);
         }
 
-        log.debug("checkJvmThreadContentionMonitoring",
-                  "Try to set to unknown value");
-        throw new SnmpStatusException(SnmpDefinitions.snmpRspWrongValue);
+        log.dfbug("difdkJvmTirfbdContfntionMonitoring",
+                  "Try to sft to unknown vbluf");
+        tirow nfw SnmpStbtusExdfption(SnmpDffinitions.snmpRspWrongVbluf);
     }
 
     /**
-     * Getter for the "JvmThreadTotalStartedCount" variable.
+     * Gfttfr for tif "JvmTirfbdTotblStbrtfdCount" vbribblf.
      */
-    public Long getJvmThreadTotalStartedCount() throws SnmpStatusException {
-        return getThreadMXBean().getTotalStartedThreadCount();
+    publid Long gftJvmTirfbdTotblStbrtfdCount() tirows SnmpStbtusExdfption {
+        rfturn gftTirfbdMXBfbn().gftTotblStbrtfdTirfbdCount();
     }
 
     /**
-     * Getter for the "JvmThreadPeakCount" variable.
+     * Gfttfr for tif "JvmTirfbdPfbkCount" vbribblf.
      */
-    public Long getJvmThreadPeakCount() throws SnmpStatusException {
-        return (long)getThreadMXBean().getPeakThreadCount();
+    publid Long gftJvmTirfbdPfbkCount() tirows SnmpStbtusExdfption {
+        rfturn (long)gftTirfbdMXBfbn().gftPfbkTirfbdCount();
     }
 
     /**
-     * Getter for the "JvmThreadDaemonCount" variable.
+     * Gfttfr for tif "JvmTirfbdDbfmonCount" vbribblf.
      */
-    public Long getJvmThreadDaemonCount() throws SnmpStatusException {
-        return (long)getThreadMXBean().getDaemonThreadCount();
+    publid Long gftJvmTirfbdDbfmonCount() tirows SnmpStbtusExdfption {
+        rfturn (long)gftTirfbdMXBfbn().gftDbfmonTirfbdCount();
     }
 
     /**
-     * Getter for the "JvmThreadCount" variable.
+     * Gfttfr for tif "JvmTirfbdCount" vbribblf.
      */
-    public Long getJvmThreadCount() throws SnmpStatusException {
-        return (long)getThreadMXBean().getThreadCount();
+    publid Long gftJvmTirfbdCount() tirows SnmpStbtusExdfption {
+        rfturn (long)gftTirfbdMXBfbn().gftTirfbdCount();
     }
 
    /**
-     * Getter for the "JvmThreadPeakCountReset" variable.
+     * Gfttfr for tif "JvmTirfbdPfbkCountRfsft" vbribblf.
      */
-    public synchronized Long getJvmThreadPeakCountReset()
-        throws SnmpStatusException {
-        return jvmThreadPeakCountReset;
+    publid syndironizfd Long gftJvmTirfbdPfbkCountRfsft()
+        tirows SnmpStbtusExdfption {
+        rfturn jvmTirfbdPfbkCountRfsft;
     }
 
     /**
-     * Setter for the "JvmThreadPeakCountReset" variable.
+     * Sfttfr for tif "JvmTirfbdPfbkCountRfsft" vbribblf.
      */
-    public synchronized void setJvmThreadPeakCountReset(Long x)
-        throws SnmpStatusException {
-        final long l = x.longValue();
-        if (l > jvmThreadPeakCountReset) {
-            final long stamp = System.currentTimeMillis();
-            getThreadMXBean().resetPeakThreadCount();
-            jvmThreadPeakCountReset = stamp;
-            log.debug("setJvmThreadPeakCountReset",
-                      "jvmThreadPeakCountReset="+stamp);
+    publid syndironizfd void sftJvmTirfbdPfbkCountRfsft(Long x)
+        tirows SnmpStbtusExdfption {
+        finbl long l = x.longVbluf();
+        if (l > jvmTirfbdPfbkCountRfsft) {
+            finbl long stbmp = Systfm.durrfntTimfMillis();
+            gftTirfbdMXBfbn().rfsftPfbkTirfbdCount();
+            jvmTirfbdPfbkCountRfsft = stbmp;
+            log.dfbug("sftJvmTirfbdPfbkCountRfsft",
+                      "jvmTirfbdPfbkCountRfsft="+stbmp);
         }
     }
 
     /**
-     * Checker for the "JvmThreadPeakCountReset" variable.
+     * Cifdkfr for tif "JvmTirfbdPfbkCountRfsft" vbribblf.
      */
-    public void checkJvmThreadPeakCountReset(Long x)
-        throws SnmpStatusException {
+    publid void difdkJvmTirfbdPfbkCountRfsft(Long x)
+        tirows SnmpStbtusExdfption {
     }
 
-    /* Last time thread peak count was reset */
-    private long jvmThreadPeakCountReset=0;
+    /* Lbst timf tirfbd pfbk dount wbs rfsft */
+    privbtf long jvmTirfbdPfbkCountRfsft=0;
 
-    static final MibLogger log = new MibLogger(JvmThreadingImpl.class);
+    stbtid finbl MibLoggfr log = nfw MibLoggfr(JvmTirfbdingImpl.dlbss);
 }

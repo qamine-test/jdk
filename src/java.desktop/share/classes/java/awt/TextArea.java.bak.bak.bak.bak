@@ -1,0 +1,743 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.pffr.TfxtArfbPffr;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.HbshSft;
+import jbvb.util.Sft;
+import jbvbx.bddfssibility.*;
+
+/**
+ * A <dodf>TfxtArfb</dodf> objfdt is b multi-linf rfgion
+ * thbt displbys tfxt. It dbn bf sft to bllow fditing or
+ * to bf rfbd-only.
+ * <p>
+ * Thf following imbgf shows thf bppfbrbndf of b tfxt brfb:
+ * <p>
+ * <img srd="dod-filfs/TfxtArfb-1.gif" blt="A TfxtArfb showing thf word 'Hfllo!'"
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * <p>
+ * This tfxt brfb dould bf drfbtfd by thf following linf of dodf:
+ *
+ * <hr><blodkquotf><prf>
+ * nfw TfxtArfb("Hfllo", 5, 40);
+ * </prf></blodkquotf><hr>
+ *
+ * @buthor      Sbmi Shbio
+ * @sindf       1.0
+ */
+publid dlbss TfxtArfb fxtfnds TfxtComponfnt {
+
+    /**
+     * Thf numbfr of rows in thf <dodf>TfxtArfb</dodf>.
+     * This pbrbmftfr will dftfrminf thf tfxt brfb's hfight.
+     * Gubrbntffd to bf non-nfgbtivf.
+     *
+     * @sfribl
+     * @sff #gftRows()
+     * @sff #sftRows(int)
+     */
+    int rows;
+
+    /**
+     * Thf numbfr of dolumns in thf <dodf>TfxtArfb</dodf>.
+     * A dolumn is bn bpproximbtf bvfrbgf dhbrbdtfr
+     * width thbt is plbtform-dfpfndfnt.
+     * This pbrbmftfr will dftfrminf thf tfxt brfb's width.
+     * Gubrbntffd to bf non-nfgbtivf.
+     *
+     * @sfribl
+     * @sff  #sftColumns(int)
+     * @sff  #gftColumns()
+     */
+    int dolumns;
+
+    privbtf stbtid finbl String bbsf = "tfxt";
+    privbtf stbtid int nbmfCountfr = 0;
+
+    /**
+     * Crfbtf bnd displby both vfrtidbl bnd horizontbl sdrollbbrs.
+     * @sindf 1.1
+     */
+    publid stbtid finbl int SCROLLBARS_BOTH = 0;
+
+    /**
+     * Crfbtf bnd displby vfrtidbl sdrollbbr only.
+     * @sindf 1.1
+     */
+    publid stbtid finbl int SCROLLBARS_VERTICAL_ONLY = 1;
+
+    /**
+     * Crfbtf bnd displby horizontbl sdrollbbr only.
+     * @sindf 1.1
+     */
+    publid stbtid finbl int SCROLLBARS_HORIZONTAL_ONLY = 2;
+
+    /**
+     * Do not drfbtf or displby bny sdrollbbrs for thf tfxt brfb.
+     * @sindf 1.1
+     */
+    publid stbtid finbl int SCROLLBARS_NONE = 3;
+
+    /**
+     * Dftfrminfs whidh sdrollbbrs brf drfbtfd for thf
+     * tfxt brfb. It dbn bf onf of four vblufs :
+     * <dodf>SCROLLBARS_BOTH</dodf> = both sdrollbbrs.<BR>
+     * <dodf>SCROLLBARS_HORIZONTAL_ONLY</dodf> = Horizontbl bbr only.<BR>
+     * <dodf>SCROLLBARS_VERTICAL_ONLY</dodf> = Vfrtidbl bbr only.<BR>
+     * <dodf>SCROLLBARS_NONE</dodf> = No sdrollbbrs.<BR>
+     *
+     * @sfribl
+     * @sff #gftSdrollbbrVisibility()
+     */
+    privbtf int sdrollbbrVisibility;
+
+    /**
+     * Cbdhf thf Sfts of forwbrd bnd bbdkwbrd trbvfrsbl kfys so wf nffd not
+     * look thfm up fbdh timf.
+     */
+    privbtf stbtid Sft<AWTKfyStrokf> forwbrdTrbvfrsblKfys, bbdkwbrdTrbvfrsblKfys;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = 3692302836626095722L;
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod ids
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+        forwbrdTrbvfrsblKfys = KfybobrdFodusMbnbgfr.initFodusTrbvfrsblKfysSft(
+            "dtrl TAB",
+            nfw HbshSft<AWTKfyStrokf>());
+        bbdkwbrdTrbvfrsblKfys = KfybobrdFodusMbnbgfr.initFodusTrbvfrsblKfysSft(
+            "dtrl shift TAB",
+            nfw HbshSft<AWTKfyStrokf>());
+    }
+
+    /**
+     * Construdts b nfw tfxt brfb with thf fmpty string bs tfxt.
+     * This tfxt brfb is drfbtfd with sdrollbbr visibility fqubl to
+     * {@link #SCROLLBARS_BOTH}, so both vfrtidbl bnd horizontbl
+     * sdrollbbrs will bf visiblf for this tfxt brfb.
+     * @fxdfption HfbdlfssExdfption if
+     *    <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns truf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss()
+     */
+    publid TfxtArfb() throws HfbdlfssExdfption {
+        this("", 0, 0, SCROLLBARS_BOTH);
+    }
+
+    /**
+     * Construdts b nfw tfxt brfb with thf spfdififd tfxt.
+     * This tfxt brfb is drfbtfd with sdrollbbr visibility fqubl to
+     * {@link #SCROLLBARS_BOTH}, so both vfrtidbl bnd horizontbl
+     * sdrollbbrs will bf visiblf for this tfxt brfb.
+     * @pbrbm      tfxt       thf tfxt to bf displbyfd; if
+     *             <dodf>tfxt</dodf> is <dodf>null</dodf>, thf fmpty
+     *             string <dodf>""</dodf> will bf displbyfd
+     * @fxdfption HfbdlfssExdfption if
+     *        <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns truf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss()
+     */
+    publid TfxtArfb(String tfxt) throws HfbdlfssExdfption {
+        this(tfxt, 0, 0, SCROLLBARS_BOTH);
+    }
+
+    /**
+     * Construdts b nfw tfxt brfb with thf spfdififd numbfr of
+     * rows bnd dolumns bnd thf fmpty string bs tfxt.
+     * A dolumn is bn bpproximbtf bvfrbgf dhbrbdtfr
+     * width thbt is plbtform-dfpfndfnt.  Thf tfxt brfb is drfbtfd with
+     * sdrollbbr visibility fqubl to {@link #SCROLLBARS_BOTH}, so both
+     * vfrtidbl bnd horizontbl sdrollbbrs will bf visiblf for this
+     * tfxt brfb.
+     * @pbrbm rows thf numbfr of rows
+     * @pbrbm dolumns thf numbfr of dolumns
+     * @fxdfption HfbdlfssExdfption if
+     *     <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns truf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss()
+     */
+    publid TfxtArfb(int rows, int dolumns) throws HfbdlfssExdfption {
+        this("", rows, dolumns, SCROLLBARS_BOTH);
+    }
+
+    /**
+     * Construdts b nfw tfxt brfb with thf spfdififd tfxt,
+     * bnd with thf spfdififd numbfr of rows bnd dolumns.
+     * A dolumn is bn bpproximbtf bvfrbgf dhbrbdtfr
+     * width thbt is plbtform-dfpfndfnt.  Thf tfxt brfb is drfbtfd with
+     * sdrollbbr visibility fqubl to {@link #SCROLLBARS_BOTH}, so both
+     * vfrtidbl bnd horizontbl sdrollbbrs will bf visiblf for this
+     * tfxt brfb.
+     * @pbrbm      tfxt       thf tfxt to bf displbyfd; if
+     *             <dodf>tfxt</dodf> is <dodf>null</dodf>, thf fmpty
+     *             string <dodf>""</dodf> will bf displbyfd
+     * @pbrbm     rows      thf numbfr of rows
+     * @pbrbm     dolumns   thf numbfr of dolumns
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns truf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss()
+     */
+    publid TfxtArfb(String tfxt, int rows, int dolumns)
+        throws HfbdlfssExdfption {
+        this(tfxt, rows, dolumns, SCROLLBARS_BOTH);
+    }
+
+    /**
+     * Construdts b nfw tfxt brfb with thf spfdififd tfxt,
+     * bnd with thf rows, dolumns, bnd sdroll bbr visibility
+     * bs spfdififd.  All <dodf>TfxtArfb</dodf> donstrudtors dfffr to
+     * this onf.
+     * <p>
+     * Thf <dodf>TfxtArfb</dodf> dlbss dffinfs sfvfrbl donstbnts
+     * thbt dbn bf supplifd bs vblufs for thf
+     * <dodf>sdrollbbrs</dodf> brgumfnt:
+     * <ul>
+     * <li><dodf>SCROLLBARS_BOTH</dodf>,
+     * <li><dodf>SCROLLBARS_VERTICAL_ONLY</dodf>,
+     * <li><dodf>SCROLLBARS_HORIZONTAL_ONLY</dodf>,
+     * <li><dodf>SCROLLBARS_NONE</dodf>.
+     * </ul>
+     * Any othfr vbluf for thf
+     * <dodf>sdrollbbrs</dodf> brgumfnt is invblid bnd will rfsult in
+     * this tfxt brfb bfing drfbtfd with sdrollbbr visibility fqubl to
+     * thf dffbult vbluf of {@link #SCROLLBARS_BOTH}.
+     * @pbrbm      tfxt       thf tfxt to bf displbyfd; if
+     *             <dodf>tfxt</dodf> is <dodf>null</dodf>, thf fmpty
+     *             string <dodf>""</dodf> will bf displbyfd
+     * @pbrbm      rows       thf numbfr of rows; if
+     *             <dodf>rows</dodf> is lfss thbn <dodf>0</dodf>,
+     *             <dodf>rows</dodf> is sft to <dodf>0</dodf>
+     * @pbrbm      dolumns    thf numbfr of dolumns; if
+     *             <dodf>dolumns</dodf> is lfss thbn <dodf>0</dodf>,
+     *             <dodf>dolumns</dodf> is sft to <dodf>0</dodf>
+     * @pbrbm      sdrollbbrs  b donstbnt thbt dftfrminfs whbt
+     *             sdrollbbrs brf drfbtfd to vifw thf tfxt brfb
+     * @sindf      1.1
+     * @fxdfption HfbdlfssExdfption if
+     *    <dodf>GrbphidsEnvironmfnt.isHfbdlfss</dodf> rfturns truf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss()
+     */
+    publid TfxtArfb(String tfxt, int rows, int dolumns, int sdrollbbrs)
+        throws HfbdlfssExdfption {
+        supfr(tfxt);
+
+        this.rows = (rows >= 0) ? rows : 0;
+        this.dolumns = (dolumns >= 0) ? dolumns : 0;
+
+        if (sdrollbbrs >= SCROLLBARS_BOTH && sdrollbbrs <= SCROLLBARS_NONE) {
+            this.sdrollbbrVisibility = sdrollbbrs;
+        } flsf {
+            this.sdrollbbrVisibility = SCROLLBARS_BOTH;
+        }
+
+        sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.FORWARD_TRAVERSAL_KEYS,
+                              forwbrdTrbvfrsblKfys);
+        sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.BACKWARD_TRAVERSAL_KEYS,
+                              bbdkwbrdTrbvfrsblKfys);
+    }
+
+    /**
+     * Construdt b nbmf for this domponfnt.  Cbllfd by <dodf>gftNbmf</dodf>
+     * whfn thf nbmf is <dodf>null</dodf>.
+     */
+    String donstrudtComponfntNbmf() {
+        syndhronizfd (TfxtArfb.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
+        }
+    }
+
+    /**
+     * Crfbtfs thf <dodf>TfxtArfb</dodf>'s pffr.  Thf pffr bllows us to modify
+     * thf bppfbrbndf of thf <dodf>TfxtArfb</dodf> without dhbnging bny of its
+     * fundtionblity.
+     */
+    publid void bddNotify() {
+        syndhronizfd (gftTrffLodk()) {
+            if (pffr == null)
+                pffr = gftToolkit().drfbtfTfxtArfb(this);
+            supfr.bddNotify();
+        }
+    }
+
+    /**
+     * Insfrts thf spfdififd tfxt bt thf spfdififd position
+     * in this tfxt brfb.
+     * <p>Notf thbt pbssing <dodf>null</dodf> or indonsistfnt
+     * pbrbmftfrs is invblid bnd will rfsult in unspfdififd
+     * bfhbvior.
+     *
+     * @pbrbm      str thf non-<dodf>null</dodf> tfxt to insfrt
+     * @pbrbm      pos thf position bt whidh to insfrt
+     * @sff        jbvb.bwt.TfxtComponfnt#sftTfxt
+     * @sff        jbvb.bwt.TfxtArfb#rfplbdfRbngf
+     * @sff        jbvb.bwt.TfxtArfb#bppfnd
+     * @sindf      1.1
+     */
+    publid void insfrt(String str, int pos) {
+        insfrtTfxt(str, pos);
+    }
+
+    /**
+     * Insfrts thf spfdififd tfxt bt thf spfdififd position
+     * in this tfxt brfb.
+     *
+     * @pbrbm  str thf non-{@dodf null} tfxt to insfrt
+     * @pbrbm  pos thf position bt whidh to insfrt
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>insfrt(String, int)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd void insfrtTfxt(String str, int pos) {
+        TfxtArfbPffr pffr = (TfxtArfbPffr)this.pffr;
+        if (pffr != null) {
+            pffr.insfrt(str, pos);
+        } flsf {
+            tfxt = tfxt.substring(0, pos) + str + tfxt.substring(pos);
+        }
+    }
+
+    /**
+     * Appfnds thf givfn tfxt to thf tfxt brfb's durrfnt tfxt.
+     * <p>Notf thbt pbssing <dodf>null</dodf> or indonsistfnt
+     * pbrbmftfrs is invblid bnd will rfsult in unspfdififd
+     * bfhbvior.
+     *
+     * @pbrbm     str thf non-<dodf>null</dodf> tfxt to bppfnd
+     * @sff       jbvb.bwt.TfxtArfb#insfrt
+     * @sindf     1.1
+     */
+    publid void bppfnd(String str) {
+        bppfndTfxt(str);
+    }
+
+    /**
+     * Appfnds thf givfn tfxt to thf tfxt brfb's durrfnt tfxt.
+     *
+     * @pbrbm  str thf tfxt to bppfnd
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>bppfnd(String)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd void bppfndTfxt(String str) {
+        if (pffr != null) {
+            insfrtTfxt(str, gftTfxt().lfngth());
+        } flsf {
+            tfxt = tfxt + str;
+        }
+    }
+
+    /**
+     * Rfplbdfs tfxt bftwffn thf indidbtfd stbrt bnd fnd positions
+     * with thf spfdififd rfplbdfmfnt tfxt.  Thf tfxt bt thf fnd
+     * position will not bf rfplbdfd.  Thf tfxt bt thf stbrt
+     * position will bf rfplbdfd (unlfss thf stbrt position is thf
+     * sbmf bs thf fnd position).
+     * Thf tfxt position is zfro-bbsfd.  Thf insfrtfd substring mby bf
+     * of b difffrfnt lfngth thbn thf tfxt it rfplbdfs.
+     * <p>Notf thbt pbssing <dodf>null</dodf> or indonsistfnt
+     * pbrbmftfrs is invblid bnd will rfsult in unspfdififd
+     * bfhbvior.
+     *
+     * @pbrbm     str      thf non-<dodf>null</dodf> tfxt to usf bs
+     *                     thf rfplbdfmfnt
+     * @pbrbm     stbrt    thf stbrt position
+     * @pbrbm     fnd      thf fnd position
+     * @sff       jbvb.bwt.TfxtArfb#insfrt
+     * @sindf     1.1
+     */
+    publid void rfplbdfRbngf(String str, int stbrt, int fnd) {
+        rfplbdfTfxt(str, stbrt, fnd);
+    }
+
+    /**
+     * Rfplbdfs b rbngf of dhbrbdtfrs bftwffn
+     * thf indidbtfd stbrt bnd fnd positions
+     * with thf spfdififd rfplbdfmfnt tfxt (thf tfxt bt thf fnd
+     * position will not bf rfplbdfd).
+     *
+     * @pbrbm  str thf non-{@dodf null} tfxt to usf bs
+     *         thf rfplbdfmfnt
+     * @pbrbm  stbrt thf stbrt position
+     * @pbrbm  fnd thf fnd position
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>rfplbdfRbngf(String, int, int)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd void rfplbdfTfxt(String str, int stbrt, int fnd) {
+        TfxtArfbPffr pffr = (TfxtArfbPffr)this.pffr;
+        if (pffr != null) {
+            pffr.rfplbdfRbngf(str, stbrt, fnd);
+        } flsf {
+            tfxt = tfxt.substring(0, stbrt) + str + tfxt.substring(fnd);
+        }
+    }
+
+    /**
+     * Rfturns thf numbfr of rows in thf tfxt brfb.
+     * @rfturn    thf numbfr of rows in thf tfxt brfb
+     * @sff       #sftRows(int)
+     * @sff       #gftColumns()
+     * @sindf     1.0
+     */
+    publid int gftRows() {
+        rfturn rows;
+    }
+
+    /**
+     * Sfts thf numbfr of rows for this tfxt brfb.
+     * @pbrbm       rows   thf numbfr of rows
+     * @sff         #gftRows()
+     * @sff         #sftColumns(int)
+     * @fxdfption   IllfgblArgumfntExdfption   if thf vbluf
+     *                 supplifd for <dodf>rows</dodf>
+     *                 is lfss thbn <dodf>0</dodf>
+     * @sindf       1.1
+     */
+    publid void sftRows(int rows) {
+        int oldVbl = this.rows;
+        if (rows < 0) {
+            throw nfw IllfgblArgumfntExdfption("rows lfss thbn zfro.");
+        }
+        if (rows != oldVbl) {
+            this.rows = rows;
+            invblidbtf();
+        }
+    }
+
+    /**
+     * Rfturns thf numbfr of dolumns in this tfxt brfb.
+     * @rfturn    thf numbfr of dolumns in thf tfxt brfb
+     * @sff       #sftColumns(int)
+     * @sff       #gftRows()
+     */
+    publid int gftColumns() {
+        rfturn dolumns;
+    }
+
+    /**
+     * Sfts thf numbfr of dolumns for this tfxt brfb.
+     * @pbrbm       dolumns   thf numbfr of dolumns
+     * @sff         #gftColumns()
+     * @sff         #sftRows(int)
+     * @fxdfption   IllfgblArgumfntExdfption   if thf vbluf
+     *                 supplifd for <dodf>dolumns</dodf>
+     *                 is lfss thbn <dodf>0</dodf>
+     * @sindf       1.1
+     */
+    publid void sftColumns(int dolumns) {
+        int oldVbl = this.dolumns;
+        if (dolumns < 0) {
+            throw nfw IllfgblArgumfntExdfption("dolumns lfss thbn zfro.");
+        }
+        if (dolumns != oldVbl) {
+            this.dolumns = dolumns;
+            invblidbtf();
+        }
+    }
+
+    /**
+     * Rfturns bn fnumfrbtfd vbluf thbt indidbtfs whidh sdroll bbrs
+     * thf tfxt brfb usfs.
+     * <p>
+     * Thf <dodf>TfxtArfb</dodf> dlbss dffinfs four intfgfr donstbnts
+     * thbt brf usfd to spfdify whidh sdroll bbrs brf bvbilbblf.
+     * <dodf>TfxtArfb</dodf> hbs onf donstrudtor thbt givfs thf
+     * bpplidbtion disdrftion ovfr sdroll bbrs.
+     *
+     * @rfturn     bn intfgfr thbt indidbtfs whidh sdroll bbrs brf usfd
+     * @sff        jbvb.bwt.TfxtArfb#SCROLLBARS_BOTH
+     * @sff        jbvb.bwt.TfxtArfb#SCROLLBARS_VERTICAL_ONLY
+     * @sff        jbvb.bwt.TfxtArfb#SCROLLBARS_HORIZONTAL_ONLY
+     * @sff        jbvb.bwt.TfxtArfb#SCROLLBARS_NONE
+     * @sff        jbvb.bwt.TfxtArfb#TfxtArfb(jbvb.lbng.String, int, int, int)
+     * @sindf      1.1
+     */
+    publid int gftSdrollbbrVisibility() {
+        rfturn sdrollbbrVisibility;
+    }
+
+
+    /**
+     * Dftfrminfs thf prfffrrfd sizf of b tfxt brfb with thf spfdififd
+     * numbfr of rows bnd dolumns.
+     * @pbrbm     rows   thf numbfr of rows
+     * @pbrbm     dolumns   thf numbfr of dolumns
+     * @rfturn    thf prfffrrfd dimfnsions rfquirfd to displby
+     *                       thf tfxt brfb with thf spfdififd
+     *                       numbfr of rows bnd dolumns
+     * @sff       jbvb.bwt.Componfnt#gftPrfffrrfdSizf
+     * @sindf     1.1
+     */
+    publid Dimfnsion gftPrfffrrfdSizf(int rows, int dolumns) {
+        rfturn prfffrrfdSizf(rows, dolumns);
+    }
+
+    /**
+     * Dftfrminfs thf prfffrrfd sizf of thf tfxt brfb with thf spfdififd
+     * numbfr of rows bnd dolumns.
+     *
+     * @pbrbm  rows thf numbfr of rows
+     * @pbrbm  dolumns thf numbfr of dolumns
+     * @rfturn thf prfffrrfd dimfnsions nffdfd for thf tfxt brfb
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftPrfffrrfdSizf(int, int)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid Dimfnsion prfffrrfdSizf(int rows, int dolumns) {
+        syndhronizfd (gftTrffLodk()) {
+            TfxtArfbPffr pffr = (TfxtArfbPffr)this.pffr;
+            rfturn (pffr != null) ?
+                       pffr.gftPrfffrrfdSizf(rows, dolumns) :
+                       supfr.prfffrrfdSizf();
+        }
+    }
+
+    /**
+     * Dftfrminfs thf prfffrrfd sizf of this tfxt brfb.
+     * @rfturn    thf prfffrrfd dimfnsions nffdfd for this tfxt brfb
+     * @sff       jbvb.bwt.Componfnt#gftPrfffrrfdSizf
+     * @sindf     1.1
+     */
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        rfturn prfffrrfdSizf();
+    }
+
+    /**
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftPrfffrrfdSizf()</dodf>.
+     */
+    @Dfprfdbtfd
+    publid Dimfnsion prfffrrfdSizf() {
+        syndhronizfd (gftTrffLodk()) {
+            rfturn ((rows > 0) && (dolumns > 0)) ?
+                        prfffrrfdSizf(rows, dolumns) :
+                        supfr.prfffrrfdSizf();
+        }
+    }
+
+    /**
+     * Dftfrminfs thf minimum sizf of b tfxt brfb with thf spfdififd
+     * numbfr of rows bnd dolumns.
+     * @pbrbm     rows   thf numbfr of rows
+     * @pbrbm     dolumns   thf numbfr of dolumns
+     * @rfturn    thf minimum dimfnsions rfquirfd to displby
+     *                       thf tfxt brfb with thf spfdififd
+     *                       numbfr of rows bnd dolumns
+     * @sff       jbvb.bwt.Componfnt#gftMinimumSizf
+     * @sindf     1.1
+     */
+    publid Dimfnsion gftMinimumSizf(int rows, int dolumns) {
+        rfturn minimumSizf(rows, dolumns);
+    }
+
+    /**
+     * Dftfrminfs thf minimum sizf of thf tfxt brfb with thf spfdififd
+     * numbfr of rows bnd dolumns.
+     *
+     * @pbrbm  rows thf numbfr of rows
+     * @pbrbm  dolumns thf numbfr of dolumns
+     * @rfturn thf minimum sizf for thf tfxt brfb
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftMinimumSizf(int, int)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid Dimfnsion minimumSizf(int rows, int dolumns) {
+        syndhronizfd (gftTrffLodk()) {
+            TfxtArfbPffr pffr = (TfxtArfbPffr)this.pffr;
+            rfturn (pffr != null) ?
+                       pffr.gftMinimumSizf(rows, dolumns) :
+                       supfr.minimumSizf();
+        }
+    }
+
+    /**
+     * Dftfrminfs thf minimum sizf of this tfxt brfb.
+     * @rfturn    thf prfffrrfd dimfnsions nffdfd for this tfxt brfb
+     * @sff       jbvb.bwt.Componfnt#gftPrfffrrfdSizf
+     * @sindf     1.1
+     */
+    publid Dimfnsion gftMinimumSizf() {
+        rfturn minimumSizf();
+    }
+
+    /**
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftMinimumSizf()</dodf>.
+     */
+    @Dfprfdbtfd
+    publid Dimfnsion minimumSizf() {
+        syndhronizfd (gftTrffLodk()) {
+            rfturn ((rows > 0) && (dolumns > 0)) ?
+                        minimumSizf(rows, dolumns) :
+                        supfr.minimumSizf();
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfnting thf stbtf of this <dodf>TfxtArfb</dodf>.
+     * This mfthod is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
+     *
+     * @rfturn      thf pbrbmftfr string of this tfxt brfb
+     */
+    protfdtfd String pbrbmString() {
+        String sbVisStr;
+        switdh (sdrollbbrVisibility) {
+            dbsf SCROLLBARS_BOTH:
+                sbVisStr = "both";
+                brfbk;
+            dbsf SCROLLBARS_VERTICAL_ONLY:
+                sbVisStr = "vfrtidbl-only";
+                brfbk;
+            dbsf SCROLLBARS_HORIZONTAL_ONLY:
+                sbVisStr = "horizontbl-only";
+                brfbk;
+            dbsf SCROLLBARS_NONE:
+                sbVisStr = "nonf";
+                brfbk;
+            dffbult:
+                sbVisStr = "invblid displby polidy";
+        }
+
+        rfturn supfr.pbrbmString() + ",rows=" + rows +
+            ",dolumns=" + dolumns +
+          ",sdrollbbrVisibility=" + sbVisStr;
+    }
+
+
+    /*
+     * Sfriblizbtion support.
+     */
+    /**
+     * Thf tfxtArfb Sfriblizfd Dbtb Vfrsion.
+     *
+     * @sfribl
+     */
+    privbtf int tfxtArfbSfriblizfdDbtbVfrsion = 2;
+
+    /**
+     * Rfbd thf ObjfdtInputStrfbm.
+     * @fxdfption HfbdlfssExdfption if
+     * <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns
+     * <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      throws ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
+    {
+        // HfbdlfssExdfption will bf thrown by TfxtComponfnt's rfbdObjfdt
+        s.dffbultRfbdObjfdt();
+
+        // Mbkf surf thf stbtf wf just rfbd in for dolumns, rows,
+        // bnd sdrollbbrVisibility hbs lfgbl vblufs
+        if (dolumns < 0) {
+            dolumns = 0;
+        }
+        if (rows < 0) {
+            rows = 0;
+        }
+
+        if ((sdrollbbrVisibility < SCROLLBARS_BOTH) ||
+            (sdrollbbrVisibility > SCROLLBARS_NONE)) {
+            this.sdrollbbrVisibility = SCROLLBARS_BOTH;
+        }
+
+        if (tfxtArfbSfriblizfdDbtbVfrsion < 2) {
+            sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.FORWARD_TRAVERSAL_KEYS,
+                                  forwbrdTrbvfrsblKfys);
+            sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.BACKWARD_TRAVERSAL_KEYS,
+                                  bbdkwbrdTrbvfrsblKfys);
+        }
+    }
+
+
+/////////////////
+// Addfssibility support
+////////////////
+
+
+    /**
+     * Rfturns thf <dodf>AddfssiblfContfxt</dodf> bssodibtfd with
+     * this <dodf>TfxtArfb</dodf>. For tfxt brfbs, thf
+     * <dodf>AddfssiblfContfxt</dodf> tbkfs thf form of bn
+     * <dodf>AddfssiblfAWTTfxtArfb</dodf>.
+     * A nfw <dodf>AddfssiblfAWTTfxtArfb</dodf> instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn <dodf>AddfssiblfAWTTfxtArfb</dodf> thbt sfrvfs bs thf
+     *         <dodf>AddfssiblfContfxt</dodf> of this <dodf>TfxtArfb</dodf>
+     * @sindf 1.3
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTTfxtArfb();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>TfxtArfb</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to tfxt brfb usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
+     */
+    protfdtfd dlbss AddfssiblfAWTTfxtArfb fxtfnds AddfssiblfAWTTfxtComponfnt
+    {
+        /*
+         * JDK 1.3 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = 3472827823632144419L;
+
+        /**
+         * Gfts thf stbtf sft of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dfsdribing thf stbtfs
+         * of thf objfdt
+         * @sff AddfssiblfStbtfSft
+         */
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            stbtfs.bdd(AddfssiblfStbtf.MULTI_LINE);
+            rfturn stbtfs;
+        }
+    }
+
+
+}

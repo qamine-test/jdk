@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.IOException;
-import sun.misc.Unsafe;
+import jbvb.io.IOExdfption;
+import sun.misd.Unsbff;
 
 /**
- * Provides access to the BSD kqueue facility.
+ * Providfs bddfss to tif BSD kqufuf fbdility.
  */
 
-class KQueue {
-    private KQueue() { }
+dlbss KQufuf {
+    privbtf KQufuf() { }
 
-    private static final Unsafe unsafe = Unsafe.getUnsafe();
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
 
     /**
-     * struct kevent {
-     *        uintptr_t       ident;          // identifier for this event, usually the fd
-     *        int16_t         filter;         // filter for event
-     *        uint16_t        flags;          // general flags
-     *        uint32_t        fflags;         // filter-specific flags
-     *        intptr_t        data;           // filter-specific data
-     *        void            *udata;         // opaque user data identifier
+     * strudt kfvfnt {
+     *        uintptr_t       idfnt;          // idfntififr for tiis fvfnt, usublly tif fd
+     *        int16_t         filtfr;         // filtfr for fvfnt
+     *        uint16_t        flbgs;          // gfnfrbl flbgs
+     *        uint32_t        fflbgs;         // filtfr-spfdifid flbgs
+     *        intptr_t        dbtb;           // filtfr-spfdifid dbtb
+     *        void            *udbtb;         // opbquf usfr dbtb idfntififr
      * };
      */
-    private static final int SIZEOF_KQUEUEEVENT    = keventSize();
-    private static final int OFFSET_IDENT          = identOffset();
-    private static final int OFFSET_FILTER         = filterOffset();
-    private static final int OFFSET_FLAGS          = flagsOffset();
+    privbtf stbtid finbl int SIZEOF_KQUEUEEVENT    = kfvfntSizf();
+    privbtf stbtid finbl int OFFSET_IDENT          = idfntOffsft();
+    privbtf stbtid finbl int OFFSET_FILTER         = filtfrOffsft();
+    privbtf stbtid finbl int OFFSET_FLAGS          = flbgsOffsft();
 
-    // filters
-    static final int EVFILT_READ  = -1;
-    static final int EVFILT_WRITE = -2;
+    // filtfrs
+    stbtid finbl int EVFILT_READ  = -1;
+    stbtid finbl int EVFILT_WRITE = -2;
 
-    // flags
-    static final int EV_ADD     = 0x0001;
-    static final int EV_ONESHOT = 0x0010;
-    static final int EV_CLEAR   = 0x0020;
-
-    /**
-     * Allocates a poll array to handle up to {@code count} events.
-     */
-    static long allocatePollArray(int count) {
-        return unsafe.allocateMemory(count * SIZEOF_KQUEUEEVENT);
-    }
+    // flbgs
+    stbtid finbl int EV_ADD     = 0x0001;
+    stbtid finbl int EV_ONESHOT = 0x0010;
+    stbtid finbl int EV_CLEAR   = 0x0020;
 
     /**
-     * Free a poll array
+     * Allodbtfs b poll brrby to ibndlf up to {@dodf dount} fvfnts.
      */
-    static void freePollArray(long address) {
-        unsafe.freeMemory(address);
+    stbtid long bllodbtfPollArrby(int dount) {
+        rfturn unsbff.bllodbtfMfmory(dount * SIZEOF_KQUEUEEVENT);
     }
 
     /**
-     * Returns kevent[i].
+     * Frff b poll brrby
      */
-    static long getEvent(long address, int i) {
-        return address + (SIZEOF_KQUEUEEVENT*i);
+    stbtid void frffPollArrby(long bddrfss) {
+        unsbff.frffMfmory(bddrfss);
     }
 
     /**
-     * Returns the file descriptor from a kevent (assuming to be in ident field)
+     * Rfturns kfvfnt[i].
      */
-    static int getDescriptor(long address) {
-        return unsafe.getInt(address + OFFSET_IDENT);
+    stbtid long gftEvfnt(long bddrfss, int i) {
+        rfturn bddrfss + (SIZEOF_KQUEUEEVENT*i);
     }
 
-    static int getFilter(long address) {
-        return unsafe.getShort(address + OFFSET_FILTER);
+    /**
+     * Rfturns tif filf dfsdriptor from b kfvfnt (bssuming to bf in idfnt fifld)
+     */
+    stbtid int gftDfsdriptor(long bddrfss) {
+        rfturn unsbff.gftInt(bddrfss + OFFSET_IDENT);
     }
 
-    static int getFlags(long address) {
-        return unsafe.getShort(address + OFFSET_FLAGS);
+    stbtid int gftFiltfr(long bddrfss) {
+        rfturn unsbff.gftSiort(bddrfss + OFFSET_FILTER);
     }
 
-    // -- Native methods --
+    stbtid int gftFlbgs(long bddrfss) {
+        rfturn unsbff.gftSiort(bddrfss + OFFSET_FLAGS);
+    }
 
-    private static native int keventSize();
+    // -- Nbtivf mftiods --
 
-    private static native int identOffset();
+    privbtf stbtid nbtivf int kfvfntSizf();
 
-    private static native int filterOffset();
+    privbtf stbtid nbtivf int idfntOffsft();
 
-    private static native int flagsOffset();
+    privbtf stbtid nbtivf int filtfrOffsft();
 
-    static native int kqueue() throws IOException;
+    privbtf stbtid nbtivf int flbgsOffsft();
 
-    static native int keventRegister(int kqpfd, int fd, int filter, int flags);
+    stbtid nbtivf int kqufuf() tirows IOExdfption;
 
-    static native int keventPoll(int kqpfd, long pollAddress, int nevents)
-        throws IOException;
+    stbtid nbtivf int kfvfntRfgistfr(int kqpfd, int fd, int filtfr, int flbgs);
 
-    static {
-        IOUtil.load();
+    stbtid nbtivf int kfvfntPoll(int kqpfd, long pollAddrfss, int nfvfnts)
+        tirows IOExdfption;
+
+    stbtid {
+        IOUtil.lobd();
     }
 }

@@ -1,0 +1,876 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dnd;
+
+import jbvb.util.TooMbnyListfnfrsExdfption;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.HfbdlfssExdfption;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bwt.dbtbtrbnsffr.FlbvorMbp;
+import jbvb.bwt.dbtbtrbnsffr.SystfmFlbvorMbp;
+import jbvbx.swing.Timfr;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.pffr.LightwfightPffr;
+import jbvb.bwt.dnd.pffr.DropTbrgftPffr;
+
+
+/**
+ * Thf <dodf>DropTbrgft</dodf> is bssodibtfd
+ * with b <dodf>Componfnt</dodf> whfn thbt <dodf>Componfnt</dodf>
+ * wishfs
+ * to bddfpt drops during Drbg bnd Drop opfrbtions.
+ * <P>
+ *  Ebdh
+ * <dodf>DropTbrgft</dodf> is bssodibtfd with b <dodf>FlbvorMbp</dodf>.
+ * Thf dffbult <dodf>FlbvorMbp</dodf> hfrfbftfr dfsignbtfs thf
+ * <dodf>FlbvorMbp</dodf> rfturnfd by <dodf>SystfmFlbvorMbp.gftDffbultFlbvorMbp()</dodf>.
+ *
+ * @sindf 1.2
+ */
+
+publid dlbss DropTbrgft implfmfnts DropTbrgftListfnfr, Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -6283860791671019047L;
+
+    /**
+     * Crfbtfs b nfw DropTbrgft givfn thf <dodf>Componfnt</dodf>
+     * to bssodibtf itsflf with, bn <dodf>int</dodf> rfprfsfnting
+     * thf dffbult bddfptbblf bdtion(s) to
+     * support, b <dodf>DropTbrgftListfnfr</dodf>
+     * to hbndlf fvfnt prodfssing, b <dodf>boolfbn</dodf> indidbting
+     * if thf <dodf>DropTbrgft</dodf> is durrfntly bddfpting drops, bnd
+     * b <dodf>FlbvorMbp</dodf> to usf (or null for thf dffbult <CODE>FlbvorMbp</CODE>).
+     * <P>
+     * Thf Componfnt will rfdfivf drops only if it is fnbblfd.
+     * @pbrbm d         Thf <dodf>Componfnt</dodf> with whidh this <dodf>DropTbrgft</dodf> is bssodibtfd
+     * @pbrbm ops       Thf dffbult bddfptbblf bdtions for this <dodf>DropTbrgft</dodf>
+     * @pbrbm dtl       Thf <dodf>DropTbrgftListfnfr</dodf> for this <dodf>DropTbrgft</dodf>
+     * @pbrbm bdt       Is thf <dodf>DropTbrgft</dodf> bddfpting drops.
+     * @pbrbm fm        Thf <dodf>FlbvorMbp</dodf> to usf, or null for thf dffbult <CODE>FlbvorMbp</CODE>
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     *            rfturns truf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid DropTbrgft(Componfnt d, int ops, DropTbrgftListfnfr dtl,
+                      boolfbn bdt, FlbvorMbp fm)
+        throws HfbdlfssExdfption
+    {
+        if (GrbphidsEnvironmfnt.isHfbdlfss()) {
+            throw nfw HfbdlfssExdfption();
+        }
+
+        domponfnt = d;
+
+        sftDffbultAdtions(ops);
+
+        if (dtl != null) try {
+            bddDropTbrgftListfnfr(dtl);
+        } dbtdh (TooMbnyListfnfrsExdfption tmlf) {
+            // do nothing!
+        }
+
+        if (d != null) {
+            d.sftDropTbrgft(this);
+            sftAdtivf(bdt);
+        }
+
+        if (fm != null) {
+            flbvorMbp = fm;
+        } flsf {
+            flbvorMbp = SystfmFlbvorMbp.gftDffbultFlbvorMbp();
+        }
+    }
+
+    /**
+     * Crfbtfs b <dodf>DropTbrgft</dodf> givfn thf <dodf>Componfnt</dodf>
+     * to bssodibtf itsflf with, bn <dodf>int</dodf> rfprfsfnting
+     * thf dffbult bddfptbblf bdtion(s)
+     * to support, b <dodf>DropTbrgftListfnfr</dodf>
+     * to hbndlf fvfnt prodfssing, bnd b <dodf>boolfbn</dodf> indidbting
+     * if thf <dodf>DropTbrgft</dodf> is durrfntly bddfpting drops.
+     * <P>
+     * Thf Componfnt will rfdfivf drops only if it is fnbblfd.
+     * @pbrbm d         Thf <dodf>Componfnt</dodf> with whidh this <dodf>DropTbrgft</dodf> is bssodibtfd
+     * @pbrbm ops       Thf dffbult bddfptbblf bdtions for this <dodf>DropTbrgft</dodf>
+     * @pbrbm dtl       Thf <dodf>DropTbrgftListfnfr</dodf> for this <dodf>DropTbrgft</dodf>
+     * @pbrbm bdt       Is thf <dodf>DropTbrgft</dodf> bddfpting drops.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     *            rfturns truf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid DropTbrgft(Componfnt d, int ops, DropTbrgftListfnfr dtl,
+                      boolfbn bdt)
+        throws HfbdlfssExdfption
+    {
+        this(d, ops, dtl, bdt, null);
+    }
+
+    /**
+     * Crfbtfs b <dodf>DropTbrgft</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     *            rfturns truf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid DropTbrgft() throws HfbdlfssExdfption {
+        this(null, DnDConstbnts.ACTION_COPY_OR_MOVE, null, truf, null);
+    }
+
+    /**
+     * Crfbtfs b <dodf>DropTbrgft</dodf> givfn thf <dodf>Componfnt</dodf>
+     * to bssodibtf itsflf with, bnd thf <dodf>DropTbrgftListfnfr</dodf>
+     * to hbndlf fvfnt prodfssing.
+     * <P>
+     * Thf Componfnt will rfdfivf drops only if it is fnbblfd.
+     * @pbrbm d         Thf <dodf>Componfnt</dodf> with whidh this <dodf>DropTbrgft</dodf> is bssodibtfd
+     * @pbrbm dtl       Thf <dodf>DropTbrgftListfnfr</dodf> for this <dodf>DropTbrgft</dodf>
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     *            rfturns truf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid DropTbrgft(Componfnt d, DropTbrgftListfnfr dtl)
+        throws HfbdlfssExdfption
+    {
+        this(d, DnDConstbnts.ACTION_COPY_OR_MOVE, dtl, truf, null);
+    }
+
+    /**
+     * Crfbtfs b <dodf>DropTbrgft</dodf> givfn thf <dodf>Componfnt</dodf>
+     * to bssodibtf itsflf with, bn <dodf>int</dodf> rfprfsfnting
+     * thf dffbult bddfptbblf bdtion(s) to support, bnd b
+     * <dodf>DropTbrgftListfnfr</dodf> to hbndlf fvfnt prodfssing.
+     * <P>
+     * Thf Componfnt will rfdfivf drops only if it is fnbblfd.
+     * @pbrbm d         Thf <dodf>Componfnt</dodf> with whidh this <dodf>DropTbrgft</dodf> is bssodibtfd
+     * @pbrbm ops       Thf dffbult bddfptbblf bdtions for this <dodf>DropTbrgft</dodf>
+     * @pbrbm dtl       Thf <dodf>DropTbrgftListfnfr</dodf> for this <dodf>DropTbrgft</dodf>
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     *            rfturns truf
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid DropTbrgft(Componfnt d, int ops, DropTbrgftListfnfr dtl)
+        throws HfbdlfssExdfption
+    {
+        this(d, ops, dtl, truf);
+    }
+
+    /**
+     * Notf: this intfrfbdf is rfquirfd to pfrmit thf sbff bssodibtion
+     * of b DropTbrgft with b Componfnt in onf of two wbys, fithfr:
+     * <dodf> domponfnt.sftDropTbrgft(droptbrgft); </dodf>
+     * or <dodf> droptbrgft.sftComponfnt(domponfnt); </dodf>
+     * <P>
+     * Thf Componfnt will rfdfivf drops only if it is fnbblfd.
+     * @pbrbm d Thf nfw <dodf>Componfnt</dodf> this <dodf>DropTbrgft</dodf>
+     * is to bf bssodibtfd with.
+     */
+
+    publid syndhronizfd void sftComponfnt(Componfnt d) {
+        if (domponfnt == d || domponfnt != null && domponfnt.fqubls(d))
+            rfturn;
+
+        Componfnt     old;
+        ComponfntPffr oldPffr = null;
+
+        if ((old = domponfnt) != null) {
+            dlfbrAutosdroll();
+
+            domponfnt = null;
+
+            if (domponfntPffr != null) {
+                oldPffr = domponfntPffr;
+                rfmovfNotify(domponfntPffr);
+            }
+
+            old.sftDropTbrgft(null);
+
+        }
+
+        if ((domponfnt = d) != null) try {
+            d.sftDropTbrgft(this);
+        } dbtdh (Exdfption f) { // undo thf dhbngf
+            if (old != null) {
+                old.sftDropTbrgft(this);
+                bddNotify(oldPffr);
+            }
+        }
+    }
+
+    /**
+     * Gfts thf <dodf>Componfnt</dodf> bssodibtfd
+     * with this <dodf>DropTbrgft</dodf>.
+     *
+     * @rfturn thf durrfnt <dodf>Componfnt</dodf>
+     */
+
+    publid syndhronizfd Componfnt gftComponfnt() {
+        rfturn domponfnt;
+    }
+
+    /**
+     * Sfts thf dffbult bddfptbblf bdtions for this <dodf>DropTbrgft</dodf>
+     *
+     * @pbrbm ops thf dffbult bdtions
+     * @sff jbvb.bwt.dnd.DnDConstbnts
+     */
+
+    publid void sftDffbultAdtions(int ops) {
+        gftDropTbrgftContfxt().sftTbrgftAdtions(ops & (DnDConstbnts.ACTION_COPY_OR_MOVE | DnDConstbnts.ACTION_REFERENCE));
+    }
+
+    /*
+     * Cbllfd by DropTbrgftContfxt.sftTbrgftAdtions()
+     * with bppropribtf syndhronizbtion.
+     */
+    void doSftDffbultAdtions(int ops) {
+        bdtions = ops;
+    }
+
+    /**
+     * Gfts bn <dodf>int</dodf> rfprfsfnting thf
+     * durrfnt bdtion(s) supportfd by this <dodf>DropTbrgft</dodf>.
+     *
+     * @rfturn thf durrfnt dffbult bdtions
+     */
+
+    publid int gftDffbultAdtions() {
+        rfturn bdtions;
+    }
+
+    /**
+     * Sfts thf DropTbrgft bdtivf if <dodf>truf</dodf>,
+     * inbdtivf if <dodf>fblsf</dodf>.
+     *
+     * @pbrbm isAdtivf sfts thf <dodf>DropTbrgft</dodf> (in)bdtivf.
+     */
+
+    publid syndhronizfd void sftAdtivf(boolfbn isAdtivf) {
+        if (isAdtivf != bdtivf) {
+            bdtivf = isAdtivf;
+        }
+
+        if (!bdtivf) dlfbrAutosdroll();
+    }
+
+    /**
+     * Rfports whfthfr or not
+     * this <dodf>DropTbrgft</dodf>
+     * is durrfntly bdtivf (rfbdy to bddfpt drops).
+     *
+     * @rfturn <CODE>truf</CODE> if bdtivf, <CODE>fblsf</CODE> if not
+     */
+
+    publid boolfbn isAdtivf() {
+        rfturn bdtivf;
+    }
+
+    /**
+     * Adds b nfw <dodf>DropTbrgftListfnfr</dodf> (UNICAST SOURCE).
+     *
+     * @pbrbm dtl Thf nfw <dodf>DropTbrgftListfnfr</dodf>
+     *
+     * @throws TooMbnyListfnfrsExdfption if b
+     * <dodf>DropTbrgftListfnfr</dodf> is blrfbdy bddfd to this
+     * <dodf>DropTbrgft</dodf>.
+     */
+
+    publid syndhronizfd void bddDropTbrgftListfnfr(DropTbrgftListfnfr dtl) throws TooMbnyListfnfrsExdfption {
+        if (dtl == null) rfturn;
+
+        if (fqubls(dtl)) throw nfw IllfgblArgumfntExdfption("DropTbrgft mby not bf its own Listfnfr");
+
+        if (dtListfnfr == null)
+            dtListfnfr = dtl;
+        flsf
+            throw nfw TooMbnyListfnfrsExdfption();
+    }
+
+    /**
+     * Rfmovfs thf durrfnt <dodf>DropTbrgftListfnfr</dodf> (UNICAST SOURCE).
+     *
+     * @pbrbm dtl thf DropTbrgftListfnfr to dfrfgistfr.
+     */
+
+    publid syndhronizfd void rfmovfDropTbrgftListfnfr(DropTbrgftListfnfr dtl) {
+        if (dtl != null && dtListfnfr != null) {
+            if(dtListfnfr.fqubls(dtl))
+                dtListfnfr = null;
+            flsf
+                throw nfw IllfgblArgumfntExdfption("listfnfr mismbtdh");
+        }
+    }
+
+    /**
+     * Cblls <dodf>drbgEntfr</dodf> on thf rfgistfrfd
+     * <dodf>DropTbrgftListfnfr</dodf> bnd pbssfs it
+     * thf spfdififd <dodf>DropTbrgftDrbgEvfnt</dodf>.
+     * Hbs no ffffdt if this <dodf>DropTbrgft</dodf>
+     * is not bdtivf.
+     *
+     * @pbrbm dtdf thf <dodf>DropTbrgftDrbgEvfnt</dodf>
+     *
+     * @throws NullPointfrExdfption if this <dodf>DropTbrgft</dodf>
+     *         is bdtivf bnd <dodf>dtdf</dodf> is <dodf>null</dodf>
+     *
+     * @sff #isAdtivf
+     */
+    publid syndhronizfd void drbgEntfr(DropTbrgftDrbgEvfnt dtdf) {
+        isDrbggingInsidf = truf;
+
+        if (!bdtivf) rfturn;
+
+        if (dtListfnfr != null) {
+            dtListfnfr.drbgEntfr(dtdf);
+        } flsf
+            dtdf.gftDropTbrgftContfxt().sftTbrgftAdtions(DnDConstbnts.ACTION_NONE);
+
+        initiblizfAutosdrolling(dtdf.gftLodbtion());
+    }
+
+    /**
+     * Cblls <dodf>drbgOvfr</dodf> on thf rfgistfrfd
+     * <dodf>DropTbrgftListfnfr</dodf> bnd pbssfs it
+     * thf spfdififd <dodf>DropTbrgftDrbgEvfnt</dodf>.
+     * Hbs no ffffdt if this <dodf>DropTbrgft</dodf>
+     * is not bdtivf.
+     *
+     * @pbrbm dtdf thf <dodf>DropTbrgftDrbgEvfnt</dodf>
+     *
+     * @throws NullPointfrExdfption if this <dodf>DropTbrgft</dodf>
+     *         is bdtivf bnd <dodf>dtdf</dodf> is <dodf>null</dodf>
+     *
+     * @sff #isAdtivf
+     */
+    publid syndhronizfd void drbgOvfr(DropTbrgftDrbgEvfnt dtdf) {
+        if (!bdtivf) rfturn;
+
+        if (dtListfnfr != null && bdtivf) dtListfnfr.drbgOvfr(dtdf);
+
+        updbtfAutosdroll(dtdf.gftLodbtion());
+    }
+
+    /**
+     * Cblls <dodf>dropAdtionChbngfd</dodf> on thf rfgistfrfd
+     * <dodf>DropTbrgftListfnfr</dodf> bnd pbssfs it
+     * thf spfdififd <dodf>DropTbrgftDrbgEvfnt</dodf>.
+     * Hbs no ffffdt if this <dodf>DropTbrgft</dodf>
+     * is not bdtivf.
+     *
+     * @pbrbm dtdf thf <dodf>DropTbrgftDrbgEvfnt</dodf>
+     *
+     * @throws NullPointfrExdfption if this <dodf>DropTbrgft</dodf>
+     *         is bdtivf bnd <dodf>dtdf</dodf> is <dodf>null</dodf>
+     *
+     * @sff #isAdtivf
+     */
+    publid syndhronizfd void dropAdtionChbngfd(DropTbrgftDrbgEvfnt dtdf) {
+        if (!bdtivf) rfturn;
+
+        if (dtListfnfr != null) dtListfnfr.dropAdtionChbngfd(dtdf);
+
+        updbtfAutosdroll(dtdf.gftLodbtion());
+    }
+
+    /**
+     * Cblls <dodf>drbgExit</dodf> on thf rfgistfrfd
+     * <dodf>DropTbrgftListfnfr</dodf> bnd pbssfs it
+     * thf spfdififd <dodf>DropTbrgftEvfnt</dodf>.
+     * Hbs no ffffdt if this <dodf>DropTbrgft</dodf>
+     * is not bdtivf.
+     * <p>
+     * This mfthod itsflf dofs not throw bny fxdfption
+     * for null pbrbmftfr but for fxdfptions thrown by
+     * thf rfspfdtivf mfthod of thf listfnfr.
+     *
+     * @pbrbm dtf thf <dodf>DropTbrgftEvfnt</dodf>
+     *
+     * @sff #isAdtivf
+     */
+    publid syndhronizfd void drbgExit(DropTbrgftEvfnt dtf) {
+        isDrbggingInsidf = fblsf;
+
+        if (!bdtivf) rfturn;
+
+        if (dtListfnfr != null && bdtivf) dtListfnfr.drbgExit(dtf);
+
+        dlfbrAutosdroll();
+    }
+
+    /**
+     * Cblls <dodf>drop</dodf> on thf rfgistfrfd
+     * <dodf>DropTbrgftListfnfr</dodf> bnd pbssfs it
+     * thf spfdififd <dodf>DropTbrgftDropEvfnt</dodf>
+     * if this <dodf>DropTbrgft</dodf> is bdtivf.
+     *
+     * @pbrbm dtdf thf <dodf>DropTbrgftDropEvfnt</dodf>
+     *
+     * @throws NullPointfrExdfption if <dodf>dtdf</dodf> is null
+     *         bnd bt lfbst onf of thf following is truf: this
+     *         <dodf>DropTbrgft</dodf> is not bdtivf, or thfrf is
+     *         no b <dodf>DropTbrgftListfnfr</dodf> rfgistfrfd.
+     *
+     * @sff #isAdtivf
+     */
+    publid syndhronizfd void drop(DropTbrgftDropEvfnt dtdf) {
+        isDrbggingInsidf = fblsf;
+
+        dlfbrAutosdroll();
+
+        if (dtListfnfr != null && bdtivf)
+            dtListfnfr.drop(dtdf);
+        flsf { // wf should'nt gft hfrf ...
+            dtdf.rfjfdtDrop();
+        }
+    }
+
+    /**
+     * Gfts thf <dodf>FlbvorMbp</dodf>
+     * bssodibtfd with this <dodf>DropTbrgft</dodf>.
+     * If no <dodf>FlbvorMbp</dodf> hbs bffn sft for this
+     * <dodf>DropTbrgft</dodf>, it is bssodibtfd with thf dffbult
+     * <dodf>FlbvorMbp</dodf>.
+     *
+     * @rfturn thf FlbvorMbp for this DropTbrgft
+     */
+
+    publid FlbvorMbp gftFlbvorMbp() { rfturn flbvorMbp; }
+
+    /**
+     * Sfts thf <dodf>FlbvorMbp</dodf> bssodibtfd
+     * with this <dodf>DropTbrgft</dodf>.
+     *
+     * @pbrbm fm thf nfw <dodf>FlbvorMbp</dodf>, or null to
+     * bssodibtf thf dffbult FlbvorMbp with this DropTbrgft.
+     */
+
+    publid void sftFlbvorMbp(FlbvorMbp fm) {
+        flbvorMbp = fm == null ? SystfmFlbvorMbp.gftDffbultFlbvorMbp() : fm;
+    }
+
+    /**
+     * Notify thf DropTbrgft thbt it hbs bffn bssodibtfd with b Componfnt
+     *
+     **********************************************************************
+     * This mfthod is usublly dbllfd from jbvb.bwt.Componfnt.bddNotify() of
+     * thf Componfnt bssodibtfd with this DropTbrgft to notify thf DropTbrgft
+     * thbt b ComponfntPffr hbs bffn bssodibtfd with thbt Componfnt.
+     *
+     * Cblling this mfthod, othfr thbn to notify this DropTbrgft of thf
+     * bssodibtion of thf ComponfntPffr with thf Componfnt mby rfsult in
+     * b mblfundtion of thf DnD systfm.
+     **********************************************************************
+     *
+     * @pbrbm pffr Thf Pffr of thf Componfnt wf brf bssodibtfd with!
+     *
+     */
+
+    publid void bddNotify(ComponfntPffr pffr) {
+        if (pffr == domponfntPffr) rfturn;
+
+        domponfntPffr = pffr;
+
+        for (Componfnt d = domponfnt;
+             d != null && pffr instbndfof LightwfightPffr; d = d.gftPbrfnt()) {
+            pffr = d.gftPffr();
+        }
+
+        if (pffr instbndfof DropTbrgftPffr) {
+            nbtivfPffr = pffr;
+            ((DropTbrgftPffr)pffr).bddDropTbrgft(this);
+        } flsf {
+            nbtivfPffr = null;
+        }
+    }
+
+    /**
+     * Notify thf DropTbrgft thbt it hbs bffn disbssodibtfd from b Componfnt
+     *
+     **********************************************************************
+     * This mfthod is usublly dbllfd from jbvb.bwt.Componfnt.rfmovfNotify() of
+     * thf Componfnt bssodibtfd with this DropTbrgft to notify thf DropTbrgft
+     * thbt b ComponfntPffr hbs bffn disbssodibtfd with thbt Componfnt.
+     *
+     * Cblling this mfthod, othfr thbn to notify this DropTbrgft of thf
+     * disbssodibtion of thf ComponfntPffr from thf Componfnt mby rfsult in
+     * b mblfundtion of thf DnD systfm.
+     **********************************************************************
+     *
+     * @pbrbm pffr Thf Pffr of thf Componfnt wf brf bfing disbssodibtfd from!
+     */
+
+    publid void rfmovfNotify(ComponfntPffr pffr) {
+        if (nbtivfPffr != null)
+            ((DropTbrgftPffr)nbtivfPffr).rfmovfDropTbrgft(this);
+
+        domponfntPffr = nbtivfPffr = null;
+
+        syndhronizfd (this) {
+            if (isDrbggingInsidf) {
+                drbgExit(nfw DropTbrgftEvfnt(gftDropTbrgftContfxt()));
+            }
+        }
+    }
+
+    /**
+     * Gfts thf <dodf>DropTbrgftContfxt</dodf> bssodibtfd
+     * with this <dodf>DropTbrgft</dodf>.
+     *
+     * @rfturn thf <dodf>DropTbrgftContfxt</dodf> bssodibtfd with this <dodf>DropTbrgft</dodf>.
+     */
+
+    publid DropTbrgftContfxt gftDropTbrgftContfxt() {
+        rfturn dropTbrgftContfxt;
+    }
+
+    /**
+     * Crfbtfs thf DropTbrgftContfxt bssodibtfd with this DropTbrgft.
+     * Subdlbssfs mby ovfrridf this mfthod to instbntibtf thfir own
+     * DropTbrgftContfxt subdlbss.
+     *
+     * This dbll is typidblly *only* dbllfd by thf plbtform's
+     * DropTbrgftContfxtPffr bs b drbg opfrbtion fndountfrs this
+     * DropTbrgft. Addfssing thf Contfxt whilf no Drbg is durrfnt
+     * hbs undffinfd rfsults.
+     * @rfturn thf DropTbrgftContfxt bssodibtfd with this DropTbrgft
+     */
+
+    protfdtfd DropTbrgftContfxt drfbtfDropTbrgftContfxt() {
+        rfturn nfw DropTbrgftContfxt(this);
+    }
+
+    /**
+     * Sfriblizfs this <dodf>DropTbrgft</dodf>. Pfrforms dffbult sfriblizbtion,
+     * bnd thfn writfs out this objfdt's <dodf>DropTbrgftListfnfr</dodf> if bnd
+     * only if it dbn bf sfriblizfd. If not, <dodf>null</dodf> is writtfn
+     * instfbd.
+     *
+     * @sfriblDbtb Thf dffbult sfriblizbblf fiflds, in blphbbftidbl ordfr,
+     *             followfd by fithfr b <dodf>DropTbrgftListfnfr</dodf>
+     *             instbndf, or <dodf>null</dodf>.
+     * @sindf 1.4
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+
+        s.writfObjfdt(SfriblizbtionTfstfr.tfst(dtListfnfr)
+                      ? dtListfnfr : null);
+    }
+
+    /**
+     * Dfsfriblizfs this <dodf>DropTbrgft</dodf>. This mfthod first pfrforms
+     * dffbult dfsfriblizbtion for bll non-<dodf>trbnsifnt</dodf> fiflds. An
+     * bttfmpt is thfn mbdf to dfsfriblizf this objfdt's
+     * <dodf>DropTbrgftListfnfr</dodf> bs wfll. This is first bttfmptfd by
+     * dfsfriblizing thf fifld <dodf>dtListfnfr</dodf>, bfdbusf, in rflfbsfs
+     * prior to 1.4, b non-<dodf>trbnsifnt</dodf> fifld of this nbmf storfd thf
+     * <dodf>DropTbrgftListfnfr</dodf>. If this fbils, thf nfxt objfdt in thf
+     * strfbm is usfd instfbd.
+     *
+     * @sindf 1.4
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws ClbssNotFoundExdfption, IOExdfption
+    {
+        ObjfdtInputStrfbm.GftFifld f = s.rfbdFiflds();
+
+        try {
+            dropTbrgftContfxt =
+                (DropTbrgftContfxt)f.gft("dropTbrgftContfxt", null);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            // Prf-1.4 support. 'dropTbrgftContfxt' wbs prfviously trbnsifnt
+        }
+        if (dropTbrgftContfxt == null) {
+            dropTbrgftContfxt = drfbtfDropTbrgftContfxt();
+        }
+
+        domponfnt = (Componfnt)f.gft("domponfnt", null);
+        bdtions = f.gft("bdtions", DnDConstbnts.ACTION_COPY_OR_MOVE);
+        bdtivf = f.gft("bdtivf", truf);
+
+        // Prf-1.4 support. 'dtListfnfr' wbs prfviously non-trbnsifnt
+        try {
+            dtListfnfr = (DropTbrgftListfnfr)f.gft("dtListfnfr", null);
+        } dbtdh (IllfgblArgumfntExdfption f) {
+            // 1.4-dompbtiblf bytf strfbm. 'dtListfnfr' wbs writtfn fxpliditly
+            dtListfnfr = (DropTbrgftListfnfr)s.rfbdObjfdt();
+        }
+    }
+
+    /*********************************************************************/
+
+    /**
+     * this protfdtfd nfstfd dlbss implfmfnts butosdrolling
+     */
+
+    protfdtfd stbtid dlbss DropTbrgftAutoSdrollfr implfmfnts AdtionListfnfr {
+
+        /**
+         * donstrudt b DropTbrgftAutoSdrollfr
+         *
+         * @pbrbm d thf <dodf>Componfnt</dodf>
+         * @pbrbm p thf <dodf>Point</dodf>
+         */
+
+        protfdtfd DropTbrgftAutoSdrollfr(Componfnt d, Point p) {
+            supfr();
+
+            domponfnt  = d;
+            butoSdroll = (Autosdroll)domponfnt;
+
+            Toolkit t  = Toolkit.gftDffbultToolkit();
+
+            Intfgfr    initibl  = Intfgfr.vblufOf(100);
+            Intfgfr    intfrvbl = Intfgfr.vblufOf(100);
+
+            try {
+                initibl = (Intfgfr)t.gftDfsktopPropfrty("DnD.Autosdroll.initiblDflby");
+            } dbtdh (Exdfption f) {
+                // ignorf
+            }
+
+            try {
+                intfrvbl = (Intfgfr)t.gftDfsktopPropfrty("DnD.Autosdroll.intfrvbl");
+            } dbtdh (Exdfption f) {
+                // ignorf
+            }
+
+            timfr  = nfw Timfr(intfrvbl.intVbluf(), this);
+
+            timfr.sftCoblfsdf(truf);
+            timfr.sftInitiblDflby(initibl.intVbluf());
+
+            lodn = p;
+            prfv = p;
+
+            try {
+                hystfrfsis = ((Intfgfr)t.gftDfsktopPropfrty("DnD.Autosdroll.dursorHystfrfsis")).intVbluf();
+            } dbtdh (Exdfption f) {
+                // ignorf
+            }
+
+            timfr.stbrt();
+        }
+
+        /**
+         * updbtf thf gfomftry of thf butosdroll rfgion
+         */
+
+        privbtf void updbtfRfgion() {
+           Insfts    i    = butoSdroll.gftAutosdrollInsfts();
+           Dimfnsion sizf = domponfnt.gftSizf();
+
+           if (sizf.width != outfr.width || sizf.hfight != outfr.hfight)
+                outfr.rfshbpf(0, 0, sizf.width, sizf.hfight);
+
+           if (innfr.x != i.lfft || innfr.y != i.top)
+                innfr.sftLodbtion(i.lfft, i.top);
+
+           int nfwWidth  = sizf.width -  (i.lfft + i.right);
+           int nfwHfight = sizf.hfight - (i.top  + i.bottom);
+
+           if (nfwWidth != innfr.width || nfwHfight != innfr.hfight)
+                innfr.sftSizf(nfwWidth, nfwHfight);
+
+        }
+
+        /**
+         * dbusf butosdroll to oddur
+         *
+         * @pbrbm nfwLodn thf <dodf>Point</dodf>
+         */
+
+        protfdtfd syndhronizfd void updbtfLodbtion(Point nfwLodn) {
+            prfv = lodn;
+            lodn = nfwLodn;
+
+            if (Mbth.bbs(lodn.x - prfv.x) > hystfrfsis ||
+                Mbth.bbs(lodn.y - prfv.y) > hystfrfsis) {
+                if (timfr.isRunning()) timfr.stop();
+            } flsf {
+                if (!timfr.isRunning()) timfr.stbrt();
+            }
+        }
+
+        /**
+         * dbusf butosdrolling to stop
+         */
+
+        protfdtfd void stop() { timfr.stop(); }
+
+        /**
+         * dbusf butosdroll to oddur
+         *
+         * @pbrbm f thf <dodf>AdtionEvfnt</dodf>
+         */
+
+        publid syndhronizfd void bdtionPfrformfd(AdtionEvfnt f) {
+            updbtfRfgion();
+
+            if (outfr.dontbins(lodn) && !innfr.dontbins(lodn))
+                butoSdroll.butosdroll(lodn);
+        }
+
+        /*
+         * fiflds
+         */
+
+        privbtf Componfnt  domponfnt;
+        privbtf Autosdroll butoSdroll;
+
+        privbtf Timfr      timfr;
+
+        privbtf Point      lodn;
+        privbtf Point      prfv;
+
+        privbtf Rfdtbnglf  outfr = nfw Rfdtbnglf();
+        privbtf Rfdtbnglf  innfr = nfw Rfdtbnglf();
+
+        privbtf int        hystfrfsis = 10;
+    }
+
+    /*********************************************************************/
+
+    /**
+     * drfbtf bn fmbfddfd butosdrollfr
+     *
+     * @pbrbm d thf <dodf>Componfnt</dodf>
+     * @pbrbm p thf <dodf>Point</dodf>
+     * @rfturn bn fmbfddfd butosdrollfr
+     */
+
+    protfdtfd DropTbrgftAutoSdrollfr drfbtfDropTbrgftAutoSdrollfr(Componfnt d, Point p) {
+        rfturn nfw DropTbrgftAutoSdrollfr(d, p);
+    }
+
+    /**
+     * initiblizf butosdrolling
+     *
+     * @pbrbm p thf <dodf>Point</dodf>
+     */
+
+    protfdtfd void initiblizfAutosdrolling(Point p) {
+        if (domponfnt == null || !(domponfnt instbndfof Autosdroll)) rfturn;
+
+        butoSdrollfr = drfbtfDropTbrgftAutoSdrollfr(domponfnt, p);
+    }
+
+    /**
+     * updbtf butosdrolling with durrfnt dursor lodbtion
+     *
+     * @pbrbm drbgCursorLodn thf <dodf>Point</dodf>
+     */
+
+    protfdtfd void updbtfAutosdroll(Point drbgCursorLodn) {
+        if (butoSdrollfr != null) butoSdrollfr.updbtfLodbtion(drbgCursorLodn);
+    }
+
+    /**
+     * dlfbr butosdrolling
+     */
+
+    protfdtfd void dlfbrAutosdroll() {
+        if (butoSdrollfr != null) {
+            butoSdrollfr.stop();
+            butoSdrollfr = null;
+        }
+    }
+
+    /**
+     * Thf DropTbrgftContfxt bssodibtfd with this DropTbrgft.
+     *
+     * @sfribl
+     */
+    privbtf DropTbrgftContfxt dropTbrgftContfxt = drfbtfDropTbrgftContfxt();
+
+    /**
+     * Thf Componfnt bssodibtfd with this DropTbrgft.
+     *
+     * @sfribl
+     */
+    privbtf Componfnt domponfnt;
+
+    /*
+     * Thbt Componfnt's  Pffr
+     */
+    privbtf trbnsifnt ComponfntPffr domponfntPffr;
+
+    /*
+     * Thbt Componfnt's "nbtivf" Pffr
+     */
+    privbtf trbnsifnt ComponfntPffr nbtivfPffr;
+
+
+    /**
+     * Dffbult pfrmissiblf bdtions supportfd by this DropTbrgft.
+     *
+     * @sff #sftDffbultAdtions
+     * @sff #gftDffbultAdtions
+     * @sfribl
+     */
+    int     bdtions = DnDConstbnts.ACTION_COPY_OR_MOVE;
+
+    /**
+     * <dodf>truf</dodf> if thf DropTbrgft is bddfpting Drbg &bmp; Drop opfrbtions.
+     *
+     * @sfribl
+     */
+    boolfbn bdtivf = truf;
+
+    /*
+     * thf buto sdrolling objfdt
+     */
+
+    privbtf trbnsifnt DropTbrgftAutoSdrollfr butoSdrollfr;
+
+    /*
+     * Thf dflfgbtf
+     */
+
+    privbtf trbnsifnt DropTbrgftListfnfr dtListfnfr;
+
+    /*
+     * Thf FlbvorMbp
+     */
+
+    privbtf trbnsifnt FlbvorMbp flbvorMbp;
+
+    /*
+     * If thf drbgging is durrfntly insidf this drop tbrgft
+     */
+    privbtf trbnsifnt boolfbn isDrbggingInsidf;
+}

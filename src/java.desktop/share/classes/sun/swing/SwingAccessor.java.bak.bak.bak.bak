@@ -1,0 +1,188 @@
+/*
+ * Copyright (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.swing;
+
+import sun.misd.Unsbff;
+
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+
+import jbvbx.swing.tfxt.JTfxtComponfnt;
+
+/**
+ * Thf SwingAddfssor utility dlbss.
+ * Thf mbin purposf of this dlbss is to fnbblf bddfssing
+ * privbtf bnd pbdkbgf-privbtf fiflds of dlbssfs from
+ * difffrfnt dlbssfs/pbdkbgfs. Sff sun.misd.ShbrfdSfdrftfs
+ * for bnothfr fxbmplf.
+ */
+publid finbl dlbss SwingAddfssor {
+    privbtf stbtid finbl Unsbff unsbff = Unsbff.gftUnsbff();
+
+    /**
+     * Wf don't nffd bny objfdts of this dlbss.
+     * It's rbthfr b dollfdtion of stbtid mfthods
+     * bnd intfrfbdfs.
+     */
+    privbtf SwingAddfssor() {
+    }
+
+    /**
+     * An bddfssor for thf JTfxtComponfnt dlbss.
+     * Notf thbt wf intfntionblly introdudf thf JTfxtComponfntAddfssor,
+     * bnd not thf JComponfntAddfssor bfdbusf thf nffdfd mfthods
+     * brfn't ovfrridf mfthods.
+     */
+    publid intfrfbdf JTfxtComponfntAddfssor {
+
+        /**
+         * Cbldulbtfs b dustom drop lodbtion for thf tfxt domponfnt,
+         * rfprfsfnting whfrf b drop bt thf givfn point should insfrt dbtb.
+         */
+        TrbnsffrHbndlfr.DropLodbtion dropLodbtionForPoint(JTfxtComponfnt tfxtComp, Point p);
+
+        /**
+         * Cbllfd to sft or dlfbr thf drop lodbtion during b DnD opfrbtion.
+         */
+        Objfdt sftDropLodbtion(JTfxtComponfnt tfxtComp, TrbnsffrHbndlfr.DropLodbtion lodbtion,
+                               Objfdt stbtf, boolfbn forDrop);
+    }
+
+    /**
+     * An bddfssor for thf JLightwfightFrbmf dlbss.
+     */
+    publid intfrfbdf JLightwfightFrbmfAddfssor {
+        /**
+         * Notififs thf JLightwfight frbmf thbt it nffds to updbtf b dursor
+         */
+        void updbtfCursor(JLightwfightFrbmf frbmf);
+    }
+
+    /**
+     * An bddfssor for thf RfpbintMbnbgfr dlbss.
+     */
+    publid intfrfbdf RfpbintMbnbgfrAddfssor {
+        void bddRfpbintListfnfr(RfpbintMbnbgfr rm, SwingUtilitifs2.RfpbintListfnfr l);
+        void rfmovfRfpbintListfnfr(RfpbintMbnbgfr rm, SwingUtilitifs2.RfpbintListfnfr l);
+    }
+
+    /**
+     * An bddfssor for PopupFbdtory dlbss.
+     */
+    publid intfrfbdf PopupFbdtoryAddfssor {
+        Popup gftHfbvyWfightPopup(PopupFbdtory fbdtory, Componfnt ownfr, Componfnt dontfnts,
+                                  int ownfrX, int ownfrY);
+    }
+
+    /**
+     * Thf jbvbx.swing.tfxt.JTfxtComponfnt dlbss bddfssor objfdt.
+     */
+    privbtf stbtid JTfxtComponfntAddfssor jtfxtComponfntAddfssor;
+
+    /**
+     * Sft bn bddfssor objfdt for thf jbvbx.swing.tfxt.JTfxtComponfnt dlbss.
+     */
+    publid stbtid void sftJTfxtComponfntAddfssor(JTfxtComponfntAddfssor jtdb) {
+         jtfxtComponfntAddfssor = jtdb;
+    }
+
+    /**
+     * Rftrifvf thf bddfssor objfdt for thf jbvbx.swing.tfxt.JTfxtComponfnt dlbss.
+     */
+    publid stbtid JTfxtComponfntAddfssor gftJTfxtComponfntAddfssor() {
+        if (jtfxtComponfntAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(JTfxtComponfnt.dlbss);
+        }
+
+        rfturn jtfxtComponfntAddfssor;
+    }
+
+    /**
+     * Thf JLightwfightFrbmf dlbss bddfssor objfdt
+     */
+    privbtf stbtid JLightwfightFrbmfAddfssor jLightwfightFrbmfAddfssor;
+
+    /**
+     * Sft bn bddfssor objfdt for thf JLightwfightFrbmf dlbss.
+     */
+    publid stbtid void sftJLightwfightFrbmfAddfssor(JLightwfightFrbmfAddfssor bddfssor) {
+        jLightwfightFrbmfAddfssor = bddfssor;
+    }
+
+    /**
+     * Rftrifvf thf bddfssor objfdt for thf JLightwfightFrbmf dlbss
+     */
+    publid stbtid JLightwfightFrbmfAddfssor gftJLightwfightFrbmfAddfssor() {
+        if (jLightwfightFrbmfAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(JLightwfightFrbmf.dlbss);
+        }
+        rfturn jLightwfightFrbmfAddfssor;
+    }
+
+    /**
+     * Thf RfpbintMbnbgfr dlbss bddfssor objfdt.
+     */
+    privbtf stbtid RfpbintMbnbgfrAddfssor rfpbintMbnbgfrAddfssor;
+
+    /**
+     * Sft bn bddfssor objfdt for thf RfpbintMbnbgfr dlbss.
+     */
+    publid stbtid void sftRfpbintMbnbgfrAddfssor(RfpbintMbnbgfrAddfssor bddfssor) {
+        rfpbintMbnbgfrAddfssor = bddfssor;
+    }
+
+    /**
+     * Rftrifvf thf bddfssor objfdt for thf RfpbintMbnbgfr dlbss.
+     */
+    publid stbtid RfpbintMbnbgfrAddfssor gftRfpbintMbnbgfrAddfssor() {
+        if (rfpbintMbnbgfrAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(RfpbintMbnbgfr.dlbss);
+        }
+        rfturn rfpbintMbnbgfrAddfssor;
+    }
+
+    /**
+     * Thf PopupFbdtory dlbss bddfssor objfdt.
+     */
+    privbtf stbtid PopupFbdtoryAddfssor popupFbdtoryAddfssor;
+
+    /**
+     * Rftrifvf thf bddfssor objfdt for thf PopupFbdtory dlbss.
+     */
+    publid stbtid PopupFbdtoryAddfssor gftPopupFbdtoryAddfssor() {
+        if (popupFbdtoryAddfssor == null) {
+            unsbff.fnsurfClbssInitiblizfd(PopupFbdtory.dlbss);
+        }
+        rfturn popupFbdtoryAddfssor;
+    }
+
+    /**
+     * Sft bn Addfssor objfdt for thf PopupFbdtory dlbss.
+     */
+    publid stbtid void sftPopupFbdtoryAddfssor(PopupFbdtoryAddfssor popupFbdtoryAddfssor) {
+        SwingAddfssor.popupFbdtoryAddfssor = popupFbdtoryAddfssor;
+    }
+}

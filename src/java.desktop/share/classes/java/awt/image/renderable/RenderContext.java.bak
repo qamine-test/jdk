@@ -1,272 +1,272 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* ********************************************************************
  **********************************************************************
  **********************************************************************
- *** COPYRIGHT (c) Eastman Kodak Company, 1997                      ***
- *** As  an unpublished  work pursuant to Title 17 of the United    ***
- *** States Code.  All rights reserved.                             ***
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublisifd  work pursubnt to Titlf 17 of tif Unitfd    ***
+ *** Stbtfs Codf.  All rigits rfsfrvfd.                             ***
  **********************************************************************
  **********************************************************************
  **********************************************************************/
 
-package java.awt.image.renderable;
-import java.util.*;
-import java.awt.geom.*;
-import java.awt.*;
-import java.awt.image.*;
+pbdkbgf jbvb.bwt.imbgf.rfndfrbblf;
+import jbvb.util.*;
+import jbvb.bwt.gfom.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
 
 /**
- * A RenderContext encapsulates the information needed to produce a
- * specific rendering from a RenderableImage.  It contains the area to
- * be rendered specified in rendering-independent terms, the
- * resolution at which the rendering is to be performed, and hints
- * used to control the rendering process.
+ * A RfndfrContfxt fndbpsulbtfs tif informbtion nffdfd to produdf b
+ * spfdifid rfndfring from b RfndfrbblfImbgf.  It dontbins tif brfb to
+ * bf rfndfrfd spfdififd in rfndfring-indfpfndfnt tfrms, tif
+ * rfsolution bt wiidi tif rfndfring is to bf pfrformfd, bnd iints
+ * usfd to dontrol tif rfndfring prodfss.
  *
- * <p> Users create RenderContexts and pass them to the
- * RenderableImage via the createRendering method.  Most of the methods of
- * RenderContexts are not meant to be used directly by applications,
- * but by the RenderableImage and operator classes to which it is
- * passed.
+ * <p> Usfrs drfbtf RfndfrContfxts bnd pbss tifm to tif
+ * RfndfrbblfImbgf vib tif drfbtfRfndfring mftiod.  Most of tif mftiods of
+ * RfndfrContfxts brf not mfbnt to bf usfd dirfdtly by bpplidbtions,
+ * but by tif RfndfrbblfImbgf bnd opfrbtor dlbssfs to wiidi it is
+ * pbssfd.
  *
- * <p> The AffineTransform parameter passed into and out of this class
- * are cloned.  The RenderingHints and Shape parameters are not
- * necessarily cloneable and are therefore only reference copied.
- * Altering RenderingHints or Shape instances that are in use by
- * instances of RenderContext may have undesired side effects.
+ * <p> Tif AffinfTrbnsform pbrbmftfr pbssfd into bnd out of tiis dlbss
+ * brf dlonfd.  Tif RfndfringHints bnd Sibpf pbrbmftfrs brf not
+ * nfdfssbrily dlonfbblf bnd brf tifrfforf only rfffrfndf dopifd.
+ * Altfring RfndfringHints or Sibpf instbndfs tibt brf in usf by
+ * instbndfs of RfndfrContfxt mby ibvf undfsirfd sidf ffffdts.
  */
-public class RenderContext implements Cloneable {
+publid dlbss RfndfrContfxt implfmfnts Clonfbblf {
 
-    /** Table of hints. May be null. */
-    RenderingHints hints;
+    /** Tbblf of iints. Mby bf null. */
+    RfndfringHints iints;
 
-    /** Transform to convert user coordinates to device coordinates.  */
-    AffineTransform usr2dev;
+    /** Trbnsform to donvfrt usfr doordinbtfs to dfvidf doordinbtfs.  */
+    AffinfTrbnsform usr2dfv;
 
-    /** The area of interest.  May be null. */
-    Shape aoi;
+    /** Tif brfb of intfrfst.  Mby bf null. */
+    Sibpf boi;
 
-    // Various constructors that allow different levels of
-    // specificity. If the Shape is missing the whole renderable area
-    // is assumed. If hints is missing no hints are assumed.
+    // Vbrious donstrudtors tibt bllow difffrfnt lfvfls of
+    // spfdifidity. If tif Sibpf is missing tif wiolf rfndfrbblf brfb
+    // is bssumfd. If iints is missing no iints brf bssumfd.
 
     /**
-     * Constructs a RenderContext with a given transform.
-     * The area of interest is supplied as a Shape,
-     * and the rendering hints are supplied as a RenderingHints object.
+     * Construdts b RfndfrContfxt witi b givfn trbnsform.
+     * Tif brfb of intfrfst is supplifd bs b Sibpf,
+     * bnd tif rfndfring iints brf supplifd bs b RfndfringHints objfdt.
      *
-     * @param usr2dev an AffineTransform.
-     * @param aoi a Shape representing the area of interest.
-     * @param hints a RenderingHints object containing rendering hints.
+     * @pbrbm usr2dfv bn AffinfTrbnsform.
+     * @pbrbm boi b Sibpf rfprfsfnting tif brfb of intfrfst.
+     * @pbrbm iints b RfndfringHints objfdt dontbining rfndfring iints.
      */
-    public RenderContext(AffineTransform usr2dev,
-                         Shape aoi,
-                         RenderingHints hints) {
-        this.hints = hints;
-        this.aoi = aoi;
-        this.usr2dev = (AffineTransform)usr2dev.clone();
+    publid RfndfrContfxt(AffinfTrbnsform usr2dfv,
+                         Sibpf boi,
+                         RfndfringHints iints) {
+        tiis.iints = iints;
+        tiis.boi = boi;
+        tiis.usr2dfv = (AffinfTrbnsform)usr2dfv.dlonf();
     }
 
     /**
-     * Constructs a RenderContext with a given transform.
-     * The area of interest is taken to be the entire renderable area.
-     * No rendering hints are used.
+     * Construdts b RfndfrContfxt witi b givfn trbnsform.
+     * Tif brfb of intfrfst is tbkfn to bf tif fntirf rfndfrbblf brfb.
+     * No rfndfring iints brf usfd.
      *
-     * @param usr2dev an AffineTransform.
+     * @pbrbm usr2dfv bn AffinfTrbnsform.
      */
-    public RenderContext(AffineTransform usr2dev) {
-        this(usr2dev, null, null);
+    publid RfndfrContfxt(AffinfTrbnsform usr2dfv) {
+        tiis(usr2dfv, null, null);
     }
 
     /**
-     * Constructs a RenderContext with a given transform and rendering hints.
-     * The area of interest is taken to be the entire renderable area.
+     * Construdts b RfndfrContfxt witi b givfn trbnsform bnd rfndfring iints.
+     * Tif brfb of intfrfst is tbkfn to bf tif fntirf rfndfrbblf brfb.
      *
-     * @param usr2dev an AffineTransform.
-     * @param hints a RenderingHints object containing rendering hints.
+     * @pbrbm usr2dfv bn AffinfTrbnsform.
+     * @pbrbm iints b RfndfringHints objfdt dontbining rfndfring iints.
      */
-    public RenderContext(AffineTransform usr2dev, RenderingHints hints) {
-        this(usr2dev, null, hints);
+    publid RfndfrContfxt(AffinfTrbnsform usr2dfv, RfndfringHints iints) {
+        tiis(usr2dfv, null, iints);
     }
 
     /**
-     * Constructs a RenderContext with a given transform and area of interest.
-     * The area of interest is supplied as a Shape.
-     * No rendering hints are used.
+     * Construdts b RfndfrContfxt witi b givfn trbnsform bnd brfb of intfrfst.
+     * Tif brfb of intfrfst is supplifd bs b Sibpf.
+     * No rfndfring iints brf usfd.
      *
-     * @param usr2dev an AffineTransform.
-     * @param aoi a Shape representing the area of interest.
+     * @pbrbm usr2dfv bn AffinfTrbnsform.
+     * @pbrbm boi b Sibpf rfprfsfnting tif brfb of intfrfst.
      */
-    public RenderContext(AffineTransform usr2dev, Shape aoi) {
-        this(usr2dev, aoi, null);
+    publid RfndfrContfxt(AffinfTrbnsform usr2dfv, Sibpf boi) {
+        tiis(usr2dfv, boi, null);
     }
 
     /**
-     * Gets the rendering hints of this <code>RenderContext</code>.
-     * @return a <code>RenderingHints</code> object that represents
-     * the rendering hints of this <code>RenderContext</code>.
-     * @see #setRenderingHints(RenderingHints)
+     * Gfts tif rfndfring iints of tiis <dodf>RfndfrContfxt</dodf>.
+     * @rfturn b <dodf>RfndfringHints</dodf> objfdt tibt rfprfsfnts
+     * tif rfndfring iints of tiis <dodf>RfndfrContfxt</dodf>.
+     * @sff #sftRfndfringHints(RfndfringHints)
      */
-    public RenderingHints getRenderingHints() {
-        return hints;
+    publid RfndfringHints gftRfndfringHints() {
+        rfturn iints;
     }
 
     /**
-     * Sets the rendering hints of this <code>RenderContext</code>.
-     * @param hints a <code>RenderingHints</code> object that represents
-     * the rendering hints to assign to this <code>RenderContext</code>.
-     * @see #getRenderingHints
+     * Sfts tif rfndfring iints of tiis <dodf>RfndfrContfxt</dodf>.
+     * @pbrbm iints b <dodf>RfndfringHints</dodf> objfdt tibt rfprfsfnts
+     * tif rfndfring iints to bssign to tiis <dodf>RfndfrContfxt</dodf>.
+     * @sff #gftRfndfringHints
      */
-    public void setRenderingHints(RenderingHints hints) {
-        this.hints = hints;
+    publid void sftRfndfringHints(RfndfringHints iints) {
+        tiis.iints = iints;
     }
 
     /**
-     * Sets the current user-to-device AffineTransform contained
-     * in the RenderContext to a given transform.
+     * Sfts tif durrfnt usfr-to-dfvidf AffinfTrbnsform dontbinfd
+     * in tif RfndfrContfxt to b givfn trbnsform.
      *
-     * @param newTransform the new AffineTransform.
-     * @see #getTransform
+     * @pbrbm nfwTrbnsform tif nfw AffinfTrbnsform.
+     * @sff #gftTrbnsform
      */
-    public void setTransform(AffineTransform newTransform) {
-        usr2dev = (AffineTransform)newTransform.clone();
+    publid void sftTrbnsform(AffinfTrbnsform nfwTrbnsform) {
+        usr2dfv = (AffinfTrbnsform)nfwTrbnsform.dlonf();
     }
 
     /**
-     * Modifies the current user-to-device transform by prepending another
-     * transform.  In matrix notation the operation is:
-     * <pre>
-     * [this] = [modTransform] x [this]
-     * </pre>
+     * Modififs tif durrfnt usfr-to-dfvidf trbnsform by prfpfnding bnotifr
+     * trbnsform.  In mbtrix notbtion tif opfrbtion is:
+     * <prf>
+     * [tiis] = [modTrbnsform] x [tiis]
+     * </prf>
      *
-     * @param modTransform the AffineTransform to prepend to the
-     *        current usr2dev transform.
-     * @since 1.3
+     * @pbrbm modTrbnsform tif AffinfTrbnsform to prfpfnd to tif
+     *        durrfnt usr2dfv trbnsform.
+     * @sindf 1.3
      */
-    public void preConcatenateTransform(AffineTransform modTransform) {
-        this.preConcetenateTransform(modTransform);
+    publid void prfCondbtfnbtfTrbnsform(AffinfTrbnsform modTrbnsform) {
+        tiis.prfCondftfnbtfTrbnsform(modTrbnsform);
     }
 
     /**
-     * Modifies the current user-to-device transform by prepending another
-     * transform.  In matrix notation the operation is:
-     * <pre>
-     * [this] = [modTransform] x [this]
-     * </pre>
-     * This method does the same thing as the preConcatenateTransform
-     * method.  It is here for backward compatibility with previous releases
-     * which misspelled the method name.
+     * Modififs tif durrfnt usfr-to-dfvidf trbnsform by prfpfnding bnotifr
+     * trbnsform.  In mbtrix notbtion tif opfrbtion is:
+     * <prf>
+     * [tiis] = [modTrbnsform] x [tiis]
+     * </prf>
+     * Tiis mftiod dofs tif sbmf tiing bs tif prfCondbtfnbtfTrbnsform
+     * mftiod.  It is ifrf for bbdkwbrd dompbtibility witi prfvious rflfbsfs
+     * wiidi misspfllfd tif mftiod nbmf.
      *
-     * @param modTransform the AffineTransform to prepend to the
-     *        current usr2dev transform.
-     * @deprecated     replaced by
-     *                 <code>preConcatenateTransform(AffineTransform)</code>.
+     * @pbrbm modTrbnsform tif AffinfTrbnsform to prfpfnd to tif
+     *        durrfnt usr2dfv trbnsform.
+     * @dfprfdbtfd     rfplbdfd by
+     *                 <dodf>prfCondbtfnbtfTrbnsform(AffinfTrbnsform)</dodf>.
      */
-    @Deprecated
-    public void preConcetenateTransform(AffineTransform modTransform) {
-        usr2dev.preConcatenate(modTransform);
+    @Dfprfdbtfd
+    publid void prfCondftfnbtfTrbnsform(AffinfTrbnsform modTrbnsform) {
+        usr2dfv.prfCondbtfnbtf(modTrbnsform);
     }
 
     /**
-     * Modifies the current user-to-device transform by appending another
-     * transform.  In matrix notation the operation is:
-     * <pre>
-     * [this] = [this] x [modTransform]
-     * </pre>
+     * Modififs tif durrfnt usfr-to-dfvidf trbnsform by bppfnding bnotifr
+     * trbnsform.  In mbtrix notbtion tif opfrbtion is:
+     * <prf>
+     * [tiis] = [tiis] x [modTrbnsform]
+     * </prf>
      *
-     * @param modTransform the AffineTransform to append to the
-     *        current usr2dev transform.
-     * @since 1.3
+     * @pbrbm modTrbnsform tif AffinfTrbnsform to bppfnd to tif
+     *        durrfnt usr2dfv trbnsform.
+     * @sindf 1.3
      */
-    public void concatenateTransform(AffineTransform modTransform) {
-        this.concetenateTransform(modTransform);
+    publid void dondbtfnbtfTrbnsform(AffinfTrbnsform modTrbnsform) {
+        tiis.dondftfnbtfTrbnsform(modTrbnsform);
     }
 
     /**
-     * Modifies the current user-to-device transform by appending another
-     * transform.  In matrix notation the operation is:
-     * <pre>
-     * [this] = [this] x [modTransform]
-     * </pre>
-     * This method does the same thing as the concatenateTransform
-     * method.  It is here for backward compatibility with previous releases
-     * which misspelled the method name.
+     * Modififs tif durrfnt usfr-to-dfvidf trbnsform by bppfnding bnotifr
+     * trbnsform.  In mbtrix notbtion tif opfrbtion is:
+     * <prf>
+     * [tiis] = [tiis] x [modTrbnsform]
+     * </prf>
+     * Tiis mftiod dofs tif sbmf tiing bs tif dondbtfnbtfTrbnsform
+     * mftiod.  It is ifrf for bbdkwbrd dompbtibility witi prfvious rflfbsfs
+     * wiidi misspfllfd tif mftiod nbmf.
      *
-     * @param modTransform the AffineTransform to append to the
-     *        current usr2dev transform.
-     * @deprecated     replaced by
-     *                 <code>concatenateTransform(AffineTransform)</code>.
+     * @pbrbm modTrbnsform tif AffinfTrbnsform to bppfnd to tif
+     *        durrfnt usr2dfv trbnsform.
+     * @dfprfdbtfd     rfplbdfd by
+     *                 <dodf>dondbtfnbtfTrbnsform(AffinfTrbnsform)</dodf>.
      */
-    @Deprecated
-    public void concetenateTransform(AffineTransform modTransform) {
-        usr2dev.concatenate(modTransform);
+    @Dfprfdbtfd
+    publid void dondftfnbtfTrbnsform(AffinfTrbnsform modTrbnsform) {
+        usr2dfv.dondbtfnbtf(modTrbnsform);
     }
 
     /**
-     * Gets the current user-to-device AffineTransform.
+     * Gfts tif durrfnt usfr-to-dfvidf AffinfTrbnsform.
      *
-     * @return a reference to the current AffineTransform.
-     * @see #setTransform(AffineTransform)
+     * @rfturn b rfffrfndf to tif durrfnt AffinfTrbnsform.
+     * @sff #sftTrbnsform(AffinfTrbnsform)
      */
-    public AffineTransform getTransform() {
-        return (AffineTransform)usr2dev.clone();
+    publid AffinfTrbnsform gftTrbnsform() {
+        rfturn (AffinfTrbnsform)usr2dfv.dlonf();
     }
 
     /**
-     * Sets the current area of interest.  The old area is discarded.
+     * Sfts tif durrfnt brfb of intfrfst.  Tif old brfb is disdbrdfd.
      *
-     * @param newAoi The new area of interest.
-     * @see #getAreaOfInterest
+     * @pbrbm nfwAoi Tif nfw brfb of intfrfst.
+     * @sff #gftArfbOfIntfrfst
      */
-    public void setAreaOfInterest(Shape newAoi) {
-        aoi = newAoi;
+    publid void sftArfbOfIntfrfst(Sibpf nfwAoi) {
+        boi = nfwAoi;
     }
 
     /**
-     * Gets the ares of interest currently contained in the
-     * RenderContext.
+     * Gfts tif brfs of intfrfst durrfntly dontbinfd in tif
+     * RfndfrContfxt.
      *
-     * @return a reference to the area of interest of the RenderContext,
-     *         or null if none is specified.
-     * @see #setAreaOfInterest(Shape)
+     * @rfturn b rfffrfndf to tif brfb of intfrfst of tif RfndfrContfxt,
+     *         or null if nonf is spfdififd.
+     * @sff #sftArfbOfIntfrfst(Sibpf)
      */
-    public Shape getAreaOfInterest() {
-        return aoi;
+    publid Sibpf gftArfbOfIntfrfst() {
+        rfturn boi;
     }
 
     /**
-     * Makes a copy of a RenderContext. The area of interest is copied
-     * by reference.  The usr2dev AffineTransform and hints are cloned,
-     * while the area of interest is copied by reference.
+     * Mbkfs b dopy of b RfndfrContfxt. Tif brfb of intfrfst is dopifd
+     * by rfffrfndf.  Tif usr2dfv AffinfTrbnsform bnd iints brf dlonfd,
+     * wiilf tif brfb of intfrfst is dopifd by rfffrfndf.
      *
-     * @return the new cloned RenderContext.
+     * @rfturn tif nfw dlonfd RfndfrContfxt.
      */
-    public Object clone() {
-        RenderContext newRenderContext = new RenderContext(usr2dev,
-                                                           aoi, hints);
-        return newRenderContext;
+    publid Objfdt dlonf() {
+        RfndfrContfxt nfwRfndfrContfxt = nfw RfndfrContfxt(usr2dfv,
+                                                           boi, iints);
+        rfturn nfwRfndfrContfxt;
     }
 }

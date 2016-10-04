@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 2001, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
-import javax.swing.plaf.metal.*;
-import javax.swing.*;
-import javax.swing.border.*;
-import java.awt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.plbf.mftbl.*;
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.*;
+import jbvb.bwt.*;
 
 /**
- * A high contrast theme. This is used on Windows if the system property
- * awt.highContrast.on is true.
+ * A iigi dontrbst tifmf. Tiis is usfd on Windows if tif systfm propfrty
+ * bwt.iigiContrbst.on is truf.
  *
- * @author Michael C. Albers
+ * @butior Midibfl C. Albfrs
  */
-class MetalHighContrastTheme extends DefaultMetalTheme {
-    private static final ColorUIResource primary1 = new
-                              ColorUIResource(0, 0, 0);
-    private static final ColorUIResource primary2 = new ColorUIResource(
+dlbss MftblHigiContrbstTifmf fxtfnds DffbultMftblTifmf {
+    privbtf stbtid finbl ColorUIRfsourdf primbry1 = nfw
+                              ColorUIRfsourdf(0, 0, 0);
+    privbtf stbtid finbl ColorUIRfsourdf primbry2 = nfw ColorUIRfsourdf(
                               204, 204, 204);
-    private static final ColorUIResource primary3 = new ColorUIResource(255,
+    privbtf stbtid finbl ColorUIRfsourdf primbry3 = nfw ColorUIRfsourdf(255,
                               255, 255);
-    private static final ColorUIResource primaryHighlight = new
-                              ColorUIResource(102, 102, 102);
-    private static final ColorUIResource secondary2 = new ColorUIResource(
+    privbtf stbtid finbl ColorUIRfsourdf primbryHigiligit = nfw
+                              ColorUIRfsourdf(102, 102, 102);
+    privbtf stbtid finbl ColorUIRfsourdf sfdondbry2 = nfw ColorUIRfsourdf(
                               204, 204, 204);
-    private static final ColorUIResource secondary3 = new ColorUIResource(
+    privbtf stbtid finbl ColorUIRfsourdf sfdondbry3 = nfw ColorUIRfsourdf(
                               255, 255, 255);
-    private static final ColorUIResource controlHighlight = new
-                              ColorUIResource(102, 102, 102);
+    privbtf stbtid finbl ColorUIRfsourdf dontrolHigiligit = nfw
+                              ColorUIRfsourdf(102, 102, 102);
 
 
-    // This does not override getSecondary1 (102,102,102)
+    // Tiis dofs not ovfrridf gftSfdondbry1 (102,102,102)
 
-    public String getName() {
-        return "Contrast";
+    publid String gftNbmf() {
+        rfturn "Contrbst";
     }
 
-    protected ColorUIResource getPrimary1() {
-        return primary1;
+    protfdtfd ColorUIRfsourdf gftPrimbry1() {
+        rfturn primbry1;
     }
 
-    protected ColorUIResource getPrimary2() {
-        return primary2;
+    protfdtfd ColorUIRfsourdf gftPrimbry2() {
+        rfturn primbry2;
     }
 
-    protected ColorUIResource getPrimary3() {
-        return primary3;
+    protfdtfd ColorUIRfsourdf gftPrimbry3() {
+        rfturn primbry3;
     }
 
-    public ColorUIResource getPrimaryControlHighlight() {
-        return primaryHighlight;
+    publid ColorUIRfsourdf gftPrimbryControlHigiligit() {
+        rfturn primbryHigiligit;
     }
 
-    protected ColorUIResource getSecondary2() {
-        return secondary2;
+    protfdtfd ColorUIRfsourdf gftSfdondbry2() {
+        rfturn sfdondbry2;
     }
 
-    protected ColorUIResource getSecondary3() {
-        return secondary3;
+    protfdtfd ColorUIRfsourdf gftSfdondbry3() {
+        rfturn sfdondbry3;
     }
 
-    public ColorUIResource getControlHighlight() {
-        // This was super.getSecondary3();
-        return secondary2;
+    publid ColorUIRfsourdf gftControlHigiligit() {
+        // Tiis wbs supfr.gftSfdondbry3();
+        rfturn sfdondbry2;
     }
 
-    public ColorUIResource getFocusColor() {
-        return getBlack();
+    publid ColorUIRfsourdf gftFodusColor() {
+        rfturn gftBlbdk();
     }
 
-    public ColorUIResource getTextHighlightColor() {
-        return getBlack();
+    publid ColorUIRfsourdf gftTfxtHigiligitColor() {
+        rfturn gftBlbdk();
     }
 
-    public ColorUIResource getHighlightedTextColor() {
-        return getWhite();
+    publid ColorUIRfsourdf gftHigiligitfdTfxtColor() {
+        rfturn gftWiitf();
     }
 
-    public ColorUIResource getMenuSelectedBackground() {
-        return getBlack();
+    publid ColorUIRfsourdf gftMfnuSflfdtfdBbdkground() {
+        rfturn gftBlbdk();
     }
 
-    public ColorUIResource getMenuSelectedForeground() {
-        return getWhite();
+    publid ColorUIRfsourdf gftMfnuSflfdtfdForfground() {
+        rfturn gftWiitf();
     }
 
-    public ColorUIResource getAcceleratorForeground() {
-        return getBlack();
+    publid ColorUIRfsourdf gftAddflfrbtorForfground() {
+        rfturn gftBlbdk();
     }
 
-    public ColorUIResource getAcceleratorSelectedForeground() {
-        return getWhite();
+    publid ColorUIRfsourdf gftAddflfrbtorSflfdtfdForfground() {
+        rfturn gftWiitf();
     }
 
-    public void addCustomEntriesToTable(UIDefaults table) {
-        Border blackLineBorder = new BorderUIResource(new LineBorder(
-                    getBlack()));
-        Border whiteLineBorder = new BorderUIResource(new LineBorder(
-                    getWhite()));
-        Object textBorder = new BorderUIResource(new CompoundBorder(
-                   blackLineBorder, new BasicBorders.MarginBorder()));
+    publid void bddCustomEntrifsToTbblf(UIDffbults tbblf) {
+        Bordfr blbdkLinfBordfr = nfw BordfrUIRfsourdf(nfw LinfBordfr(
+                    gftBlbdk()));
+        Bordfr wiitfLinfBordfr = nfw BordfrUIRfsourdf(nfw LinfBordfr(
+                    gftWiitf()));
+        Objfdt tfxtBordfr = nfw BordfrUIRfsourdf(nfw CompoundBordfr(
+                   blbdkLinfBordfr, nfw BbsidBordfrs.MbrginBordfr()));
 
-        Object[] defaults = new Object[] {
-            "ToolTip.border", blackLineBorder,
+        Objfdt[] dffbults = nfw Objfdt[] {
+            "ToolTip.bordfr", blbdkLinfBordfr,
 
-            "TitledBorder.border", blackLineBorder,
+            "TitlfdBordfr.bordfr", blbdkLinfBordfr,
 
-            "TextField.border", textBorder,
+            "TfxtFifld.bordfr", tfxtBordfr,
 
-            "PasswordField.border", textBorder,
+            "PbsswordFifld.bordfr", tfxtBordfr,
 
-            "TextArea.border", textBorder,
+            "TfxtArfb.bordfr", tfxtBordfr,
 
-            "TextPane.border", textBorder,
+            "TfxtPbnf.bordfr", tfxtBordfr,
 
-            "EditorPane.border", textBorder,
+            "EditorPbnf.bordfr", tfxtBordfr,
 
-            "ComboBox.background", getWindowBackground(),
-            "ComboBox.foreground", getUserTextColor(),
-            "ComboBox.selectionBackground", getTextHighlightColor(),
-            "ComboBox.selectionForeground", getHighlightedTextColor(),
+            "ComboBox.bbdkground", gftWindowBbdkground(),
+            "ComboBox.forfground", gftUsfrTfxtColor(),
+            "ComboBox.sflfdtionBbdkground", gftTfxtHigiligitColor(),
+            "ComboBox.sflfdtionForfground", gftHigiligitfdTfxtColor(),
 
-            "ProgressBar.foreground",  getUserTextColor(),
-            "ProgressBar.background", getWindowBackground(),
-            "ProgressBar.selectionForeground", getWindowBackground(),
-            "ProgressBar.selectionBackground", getUserTextColor(),
+            "ProgrfssBbr.forfground",  gftUsfrTfxtColor(),
+            "ProgrfssBbr.bbdkground", gftWindowBbdkground(),
+            "ProgrfssBbr.sflfdtionForfground", gftWindowBbdkground(),
+            "ProgrfssBbr.sflfdtionBbdkground", gftUsfrTfxtColor(),
 
-            "OptionPane.errorDialog.border.background",
-                        getPrimary1(),
-            "OptionPane.errorDialog.titlePane.foreground",
-                        getPrimary3(),
-            "OptionPane.errorDialog.titlePane.background",
-                        getPrimary1(),
-            "OptionPane.errorDialog.titlePane.shadow",
-                        getPrimary2(),
-            "OptionPane.questionDialog.border.background",
-                        getPrimary1(),
-            "OptionPane.questionDialog.titlePane.foreground",
-                        getPrimary3(),
-            "OptionPane.questionDialog.titlePane.background",
-                        getPrimary1(),
-            "OptionPane.questionDialog.titlePane.shadow",
-                        getPrimary2(),
-            "OptionPane.warningDialog.border.background",
-                        getPrimary1(),
-            "OptionPane.warningDialog.titlePane.foreground",
-                        getPrimary3(),
-            "OptionPane.warningDialog.titlePane.background",
-                        getPrimary1(),
-            "OptionPane.warningDialog.titlePane.shadow",
-                        getPrimary2(),
+            "OptionPbnf.frrorDiblog.bordfr.bbdkground",
+                        gftPrimbry1(),
+            "OptionPbnf.frrorDiblog.titlfPbnf.forfground",
+                        gftPrimbry3(),
+            "OptionPbnf.frrorDiblog.titlfPbnf.bbdkground",
+                        gftPrimbry1(),
+            "OptionPbnf.frrorDiblog.titlfPbnf.sibdow",
+                        gftPrimbry2(),
+            "OptionPbnf.qufstionDiblog.bordfr.bbdkground",
+                        gftPrimbry1(),
+            "OptionPbnf.qufstionDiblog.titlfPbnf.forfground",
+                        gftPrimbry3(),
+            "OptionPbnf.qufstionDiblog.titlfPbnf.bbdkground",
+                        gftPrimbry1(),
+            "OptionPbnf.qufstionDiblog.titlfPbnf.sibdow",
+                        gftPrimbry2(),
+            "OptionPbnf.wbrningDiblog.bordfr.bbdkground",
+                        gftPrimbry1(),
+            "OptionPbnf.wbrningDiblog.titlfPbnf.forfground",
+                        gftPrimbry3(),
+            "OptionPbnf.wbrningDiblog.titlfPbnf.bbdkground",
+                        gftPrimbry1(),
+            "OptionPbnf.wbrningDiblog.titlfPbnf.sibdow",
+                        gftPrimbry2(),
         };
 
-        table.putDefaults(defaults);
+        tbblf.putDffbults(dffbults);
     }
 
     /**
-     * Returns true if this is a theme provided by the core platform.
+     * Rfturns truf if tiis is b tifmf providfd by tif dorf plbtform.
      */
-    boolean isSystemTheme() {
-        return (getClass() == MetalHighContrastTheme.class);
+    boolfbn isSystfmTifmf() {
+        rfturn (gftClbss() == MftblHigiContrbstTifmf.dlbss);
     }
 }

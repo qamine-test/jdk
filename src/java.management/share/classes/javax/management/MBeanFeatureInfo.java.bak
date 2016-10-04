@@ -1,265 +1,265 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.io.StreamCorruptedException;
-import java.util.Objects;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.util.Objfdts;
 
 /**
- * <p>Provides general information for an MBean descriptor object.
- * The feature described can be an attribute, an operation, a
- * parameter, or a notification.  Instances of this class are
- * immutable.  Subclasses may be mutable but this is not
- * recommended.</p>
+ * <p>Providfs gfnfrbl informbtion for bn MBfbn dfsdriptor objfdt.
+ * Tif ffbturf dfsdribfd dbn bf bn bttributf, bn opfrbtion, b
+ * pbrbmftfr, or b notifidbtion.  Instbndfs of tiis dlbss brf
+ * immutbblf.  Subdlbssfs mby bf mutbblf but tiis is not
+ * rfdommfndfd.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class MBeanFeatureInfo implements Serializable, DescriptorRead {
+publid dlbss MBfbnFfbturfInfo implfmfnts Sfriblizbblf, DfsdriptorRfbd {
 
 
-    /* Serial version */
-    static final long serialVersionUID = 3952882688968447265L;
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = 3952882688968447265L;
 
     /**
-     * The name of the feature.  It is recommended that subclasses call
-     * {@link #getName} rather than reading this field, and that they
-     * not change it.
+     * Tif nbmf of tif ffbturf.  It is rfdommfndfd tibt subdlbssfs dbll
+     * {@link #gftNbmf} rbtifr tibn rfbding tiis fifld, bnd tibt tify
+     * not dibngf it.
      *
-     * @serial The name of the feature.
+     * @sfribl Tif nbmf of tif ffbturf.
      */
-    protected String name;
+    protfdtfd String nbmf;
 
     /**
-     * The human-readable description of the feature.  It is
-     * recommended that subclasses call {@link #getDescription} rather
-     * than reading this field, and that they not change it.
+     * Tif iumbn-rfbdbblf dfsdription of tif ffbturf.  It is
+     * rfdommfndfd tibt subdlbssfs dbll {@link #gftDfsdription} rbtifr
+     * tibn rfbding tiis fifld, bnd tibt tify not dibngf it.
      *
-     * @serial The human-readable description of the feature.
+     * @sfribl Tif iumbn-rfbdbblf dfsdription of tif ffbturf.
      */
-    protected String description;
+    protfdtfd String dfsdription;
 
     /**
-     * @serial The Descriptor for this MBeanFeatureInfo.  This field
-     * can be null, which is equivalent to an empty Descriptor.
+     * @sfribl Tif Dfsdriptor for tiis MBfbnFfbturfInfo.  Tiis fifld
+     * dbn bf null, wiidi is fquivblfnt to bn fmpty Dfsdriptor.
      */
-    private transient Descriptor descriptor;
+    privbtf trbnsifnt Dfsdriptor dfsdriptor;
 
 
     /**
-     * Constructs an <CODE>MBeanFeatureInfo</CODE> object.  This
-     * constructor is equivalent to {@code MBeanFeatureInfo(name,
-     * description, (Descriptor) null}.
+     * Construdts bn <CODE>MBfbnFfbturfInfo</CODE> objfdt.  Tiis
+     * donstrudtor is fquivblfnt to {@dodf MBfbnFfbturfInfo(nbmf,
+     * dfsdription, (Dfsdriptor) null}.
      *
-     * @param name The name of the feature.
-     * @param description A human readable description of the feature.
+     * @pbrbm nbmf Tif nbmf of tif ffbturf.
+     * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif ffbturf.
      */
-    public MBeanFeatureInfo(String name, String description) {
-        this(name, description, null);
+    publid MBfbnFfbturfInfo(String nbmf, String dfsdription) {
+        tiis(nbmf, dfsdription, null);
     }
 
     /**
-     * Constructs an <CODE>MBeanFeatureInfo</CODE> object.
+     * Construdts bn <CODE>MBfbnFfbturfInfo</CODE> objfdt.
      *
-     * @param name The name of the feature.
-     * @param description A human readable description of the feature.
-     * @param descriptor The descriptor for the feature.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm nbmf Tif nbmf of tif ffbturf.
+     * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif ffbturf.
+     * @pbrbm dfsdriptor Tif dfsdriptor for tif ffbturf.  Tiis mby bf null
+     * wiidi is fquivblfnt to bn fmpty dfsdriptor.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public MBeanFeatureInfo(String name, String description,
-                            Descriptor descriptor) {
-        this.name = name;
-        this.description = description;
-        this.descriptor = descriptor;
+    publid MBfbnFfbturfInfo(String nbmf, String dfsdription,
+                            Dfsdriptor dfsdriptor) {
+        tiis.nbmf = nbmf;
+        tiis.dfsdription = dfsdription;
+        tiis.dfsdriptor = dfsdriptor;
     }
 
     /**
-     * Returns the name of the feature.
+     * Rfturns tif nbmf of tif ffbturf.
      *
-     * @return the name of the feature.
+     * @rfturn tif nbmf of tif ffbturf.
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Returns the human-readable description of the feature.
+     * Rfturns tif iumbn-rfbdbblf dfsdription of tif ffbturf.
      *
-     * @return the human-readable description of the feature.
+     * @rfturn tif iumbn-rfbdbblf dfsdription of tif ffbturf.
      */
-    public String getDescription() {
-        return description;
+    publid String gftDfsdription() {
+        rfturn dfsdription;
     }
 
     /**
-     * Returns the descriptor for the feature.  Changing the returned value
-     * will have no affect on the original descriptor.
+     * Rfturns tif dfsdriptor for tif ffbturf.  Cibnging tif rfturnfd vbluf
+     * will ibvf no bfffdt on tif originbl dfsdriptor.
      *
-     * @return a descriptor that is either immutable or a copy of the original.
+     * @rfturn b dfsdriptor tibt is fitifr immutbblf or b dopy of tif originbl.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public Descriptor getDescriptor() {
-        return (Descriptor) ImmutableDescriptor.nonNullDescriptor(descriptor).clone();
+    publid Dfsdriptor gftDfsdriptor() {
+        rfturn (Dfsdriptor) ImmutbblfDfsdriptor.nonNullDfsdriptor(dfsdriptor).dlonf();
     }
 
     /**
-     * Compare this MBeanFeatureInfo to another.
+     * Compbrf tiis MBfbnFfbturfInfo to bnotifr.
      *
-     * @param o the object to compare to.
+     * @pbrbm o tif objfdt to dompbrf to.
      *
-     * @return true if and only if <code>o</code> is an MBeanFeatureInfo such
-     * that its {@link #getName()}, {@link #getDescription()}, and
-     * {@link #getDescriptor()}
-     * values are equal (not necessarily identical) to those of this
-     * MBeanFeatureInfo.
+     * @rfturn truf if bnd only if <dodf>o</dodf> is bn MBfbnFfbturfInfo sudi
+     * tibt its {@link #gftNbmf()}, {@link #gftDfsdription()}, bnd
+     * {@link #gftDfsdriptor()}
+     * vblufs brf fqubl (not nfdfssbrily idfntidbl) to tiosf of tiis
+     * MBfbnFfbturfInfo.
      */
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof MBeanFeatureInfo))
-            return false;
-        MBeanFeatureInfo p = (MBeanFeatureInfo) o;
-        return (Objects.equals(p.getName(), getName()) &&
-                Objects.equals(p.getDescription(), getDescription()) &&
-                Objects.equals(p.getDescriptor(), getDescriptor()));
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == tiis)
+            rfturn truf;
+        if (!(o instbndfof MBfbnFfbturfInfo))
+            rfturn fblsf;
+        MBfbnFfbturfInfo p = (MBfbnFfbturfInfo) o;
+        rfturn (Objfdts.fqubls(p.gftNbmf(), gftNbmf()) &&
+                Objfdts.fqubls(p.gftDfsdription(), gftDfsdription()) &&
+                Objfdts.fqubls(p.gftDfsdriptor(), gftDfsdriptor()));
     }
 
-    public int hashCode() {
-        return getName().hashCode() ^ getDescription().hashCode() ^
-               getDescriptor().hashCode();
+    publid int ibsiCodf() {
+        rfturn gftNbmf().ibsiCodf() ^ gftDfsdription().ibsiCodf() ^
+               gftDfsdriptor().ibsiCodf();
     }
 
     /**
-     * Serializes an {@link MBeanFeatureInfo} to an {@link ObjectOutputStream}.
-     * @serialData
-     * For compatibility reasons, an object of this class is serialized as follows.
+     * Sfriblizfs bn {@link MBfbnFfbturfInfo} to bn {@link ObjfdtOutputStrfbm}.
+     * @sfriblDbtb
+     * For dompbtibility rfbsons, bn objfdt of tiis dlbss is sfriblizfd bs follows.
      * <p>
-     * The method {@link ObjectOutputStream#defaultWriteObject defaultWriteObject()}
-     * is called first to serialize the object except the field {@code descriptor}
-     * which is declared as transient. The field {@code descriptor} is serialized
-     * as follows:
+     * Tif mftiod {@link ObjfdtOutputStrfbm#dffbultWritfObjfdt dffbultWritfObjfdt()}
+     * is dbllfd first to sfriblizf tif objfdt fxdfpt tif fifld {@dodf dfsdriptor}
+     * wiidi is dfdlbrfd bs trbnsifnt. Tif fifld {@dodf dfsdriptor} is sfriblizfd
+     * bs follows:
      *     <ul>
-     *     <li>If {@code descriptor} is an instance of the class
-     *        {@link ImmutableDescriptor}, the method {@link ObjectOutputStream#write
-     *        write(int val)} is called to write a byte with the value {@code 1},
-     *        then the method {@link ObjectOutputStream#writeObject writeObject(Object obj)}
-     *        is called twice to serialize the field names and the field values of the
-     *        {@code descriptor}, respectively as a {@code String[]} and an
-     *        {@code Object[]};</li>
-     *     <li>Otherwise, the method {@link ObjectOutputStream#write write(int val)}
-     * is called to write a byte with the value {@code 0}, then the method
-     * {@link ObjectOutputStream#writeObject writeObject(Object obj)} is called
-     * to serialize directly the field {@code descriptor}.
+     *     <li>If {@dodf dfsdriptor} is bn instbndf of tif dlbss
+     *        {@link ImmutbblfDfsdriptor}, tif mftiod {@link ObjfdtOutputStrfbm#writf
+     *        writf(int vbl)} is dbllfd to writf b bytf witi tif vbluf {@dodf 1},
+     *        tifn tif mftiod {@link ObjfdtOutputStrfbm#writfObjfdt writfObjfdt(Objfdt obj)}
+     *        is dbllfd twidf to sfriblizf tif fifld nbmfs bnd tif fifld vblufs of tif
+     *        {@dodf dfsdriptor}, rfspfdtivfly bs b {@dodf String[]} bnd bn
+     *        {@dodf Objfdt[]};</li>
+     *     <li>Otifrwisf, tif mftiod {@link ObjfdtOutputStrfbm#writf writf(int vbl)}
+     * is dbllfd to writf b bytf witi tif vbluf {@dodf 0}, tifn tif mftiod
+     * {@link ObjfdtOutputStrfbm#writfObjfdt writfObjfdt(Objfdt obj)} is dbllfd
+     * to sfriblizf dirfdtly tif fifld {@dodf dfsdriptor}.
      *     </ul>
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    private void writeObject(ObjectOutputStream out) throws IOException {
-        out.defaultWriteObject();
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out) tirows IOExdfption {
+        out.dffbultWritfObjfdt();
 
-        if (descriptor != null &&
-            descriptor.getClass() == ImmutableDescriptor.class) {
+        if (dfsdriptor != null &&
+            dfsdriptor.gftClbss() == ImmutbblfDfsdriptor.dlbss) {
 
-            out.write(1);
+            out.writf(1);
 
-            final String[] names = descriptor.getFieldNames();
+            finbl String[] nbmfs = dfsdriptor.gftFifldNbmfs();
 
-            out.writeObject(names);
-            out.writeObject(descriptor.getFieldValues(names));
-        } else {
-            out.write(0);
+            out.writfObjfdt(nbmfs);
+            out.writfObjfdt(dfsdriptor.gftFifldVblufs(nbmfs));
+        } flsf {
+            out.writf(0);
 
-            out.writeObject(descriptor);
+            out.writfObjfdt(dfsdriptor);
         }
     }
 
     /**
-     * Deserializes an {@link MBeanFeatureInfo} from an {@link ObjectInputStream}.
-     * @serialData
-     * For compatibility reasons, an object of this class is deserialized as follows.
+     * Dfsfriblizfs bn {@link MBfbnFfbturfInfo} from bn {@link ObjfdtInputStrfbm}.
+     * @sfriblDbtb
+     * For dompbtibility rfbsons, bn objfdt of tiis dlbss is dfsfriblizfd bs follows.
      * <p>
-     * The method {@link ObjectInputStream#defaultReadObject defaultReadObject()}
-     * is called first to deserialize the object except the field
-     * {@code descriptor}, which is not serialized in the default way. Then the method
-     * {@link ObjectInputStream#read read()} is called to read a byte, the field
-     * {@code descriptor} is deserialized according to the value of the byte value:
+     * Tif mftiod {@link ObjfdtInputStrfbm#dffbultRfbdObjfdt dffbultRfbdObjfdt()}
+     * is dbllfd first to dfsfriblizf tif objfdt fxdfpt tif fifld
+     * {@dodf dfsdriptor}, wiidi is not sfriblizfd in tif dffbult wby. Tifn tif mftiod
+     * {@link ObjfdtInputStrfbm#rfbd rfbd()} is dbllfd to rfbd b bytf, tif fifld
+     * {@dodf dfsdriptor} is dfsfriblizfd bddording to tif vbluf of tif bytf vbluf:
      *    <ul>
-     *    <li>1. The method {@link ObjectInputStream#readObject readObject()}
-     *       is called twice to obtain the field names (a {@code String[]}) and
-     *       the field values (a {@code Object[]}) of the {@code descriptor}.
-     *       The two obtained values then are used to construct
-     *       an {@link ImmutableDescriptor} instance for the field
-     *       {@code descriptor};</li>
-     *    <li>0. The value for the field {@code descriptor} is obtained directly
-     *       by calling the method {@link ObjectInputStream#readObject readObject()}.
-     *       If the obtained value is null, the field {@code descriptor} is set to
-     *       {@link ImmutableDescriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR};</li>
-     *    <li>-1. This means that there is no byte to read and that the object is from
-     *       an earlier version of the JMX API. The field {@code descriptor} is set
-     *       to {@link ImmutableDescriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR}</li>
-     *    <li>Any other value. A {@link StreamCorruptedException} is thrown.</li>
+     *    <li>1. Tif mftiod {@link ObjfdtInputStrfbm#rfbdObjfdt rfbdObjfdt()}
+     *       is dbllfd twidf to obtbin tif fifld nbmfs (b {@dodf String[]}) bnd
+     *       tif fifld vblufs (b {@dodf Objfdt[]}) of tif {@dodf dfsdriptor}.
+     *       Tif two obtbinfd vblufs tifn brf usfd to donstrudt
+     *       bn {@link ImmutbblfDfsdriptor} instbndf for tif fifld
+     *       {@dodf dfsdriptor};</li>
+     *    <li>0. Tif vbluf for tif fifld {@dodf dfsdriptor} is obtbinfd dirfdtly
+     *       by dblling tif mftiod {@link ObjfdtInputStrfbm#rfbdObjfdt rfbdObjfdt()}.
+     *       If tif obtbinfd vbluf is null, tif fifld {@dodf dfsdriptor} is sft to
+     *       {@link ImmutbblfDfsdriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR};</li>
+     *    <li>-1. Tiis mfbns tibt tifrf is no bytf to rfbd bnd tibt tif objfdt is from
+     *       bn fbrlifr vfrsion of tif JMX API. Tif fifld {@dodf dfsdriptor} is sft
+     *       to {@link ImmutbblfDfsdriptor#EMPTY_DESCRIPTOR EMPTY_DESCRIPTOR}</li>
+     *    <li>Any otifr vbluf. A {@link StrfbmCorruptfdExdfption} is tirown.</li>
      *    </ul>
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    private void readObject(ObjectInputStream in)
-        throws IOException, ClassNotFoundException {
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+        tirows IOExdfption, ClbssNotFoundExdfption {
 
-        in.defaultReadObject();
+        in.dffbultRfbdObjfdt();
 
-        switch (in.read()) {
-        case 1:
-            final String[] names = (String[])in.readObject();
+        switdi (in.rfbd()) {
+        dbsf 1:
+            finbl String[] nbmfs = (String[])in.rfbdObjfdt();
 
-            final Object[] values = (Object[]) in.readObject();
-            descriptor = (names.length == 0) ?
-                ImmutableDescriptor.EMPTY_DESCRIPTOR :
-                new ImmutableDescriptor(names, values);
+            finbl Objfdt[] vblufs = (Objfdt[]) in.rfbdObjfdt();
+            dfsdriptor = (nbmfs.lfngti == 0) ?
+                ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR :
+                nfw ImmutbblfDfsdriptor(nbmfs, vblufs);
 
-            break;
-        case 0:
-            descriptor = (Descriptor)in.readObject();
+            brfbk;
+        dbsf 0:
+            dfsdriptor = (Dfsdriptor)in.rfbdObjfdt();
 
-            if (descriptor == null) {
-                descriptor = ImmutableDescriptor.EMPTY_DESCRIPTOR;
+            if (dfsdriptor == null) {
+                dfsdriptor = ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR;
             }
 
-            break;
-        case -1: // from an earlier version of the JMX API
-            descriptor = ImmutableDescriptor.EMPTY_DESCRIPTOR;
+            brfbk;
+        dbsf -1: // from bn fbrlifr vfrsion of tif JMX API
+            dfsdriptor = ImmutbblfDfsdriptor.EMPTY_DESCRIPTOR;
 
-            break;
-        default:
-            throw new StreamCorruptedException("Got unexpected byte.");
+            brfbk;
+        dffbult:
+            tirow nfw StrfbmCorruptfdExdfption("Got unfxpfdtfd bytf.");
         }
     }
 }

@@ -1,0 +1,96 @@
+#
+#
+# Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+#
+# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+# bddompbnifd this dodf).
+#
+# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+# qufstions.
+#
+
+# "rmid", inftd", bnd "wbit" should not bf trbnslbtfd.
+rmid.syntbx.fxfd.invblid=rmid \u00E8 stbto bvvibto db inftd don uno stbto non vblido (divfrso db wbit)
+
+# "rmid" bnd "inftd" should not bf trbnslbtfd.
+rmid.syntbx.port.bbdbrg=non \u00E8 possibilf spfdifidbrf lb portb sf rmid vifnf bvvibto db inftd
+
+# "port" hfrf rfffrs to b TCP port for thf sfrvfr to listfn on.
+rmid.syntbx.port.bbdnumbfr=lb portb non \u00E8 un numfro
+
+# "-port" should not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+rmid.syntbx.port.missing=L'opzionf -port ridhifdf un brgomfnto
+
+# "-log" should not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+rmid.syntbx.log.missing=L'opzionf -log ridhifdf un brgomfnto
+
+# "-log" should not bf trbnslbtfd, bfdbusf it's pbrt of dommbnd syntbx.
+rmid.syntbx.log.rfquirfd=\u00C8 ridhifstb l'opzionf -log
+
+# {0} = thf (string) illfgbl brgumfnt in qufstion
+rmid.syntbx.illfgbl.option=opzionf non vblidb: {0}
+
+# {0} = thf (string) rfbson tfxt thbt dbmf with b thrown fxdfption
+# "Adtivbtion.mbin" should not bf trbnslbtfd, bfdbusf it's b dodfpoint
+rmid.unfxpfdtfd.fxdfption=Adtivbtion.mbin: si \u00E8 vfrifidbtb un''fddfzionf: {0}
+
+# "jbvb.homf" should not bf trbnslbtfd, bfdbusf it's b propfrty nbmf
+# "AdtivbtorImpl" should not bf trbnslbtfd, bfdbusf it's b dodfpoint
+rmid.unfound.jbvb.homf.propfrty=AdtivbtorImpl: impossibilf individubrf jbvb.homf
+
+# "rmid" should not bf trbnslbtfd
+rmid.inhfritfd.dhbnnfl.info=Avvio di rmid don dbnblf frfditbto
+
+# "Adtivbtion.mbin" should not bf trbnslbtfd, bfdbusf it's b dodfpoint
+rmid.fxfd.polidy.invblid=Adtivbtion.mbin: dlbssf di dritfri fsfguibili non vblidb
+
+# "rmid" should not bf trbnslbtfd
+rmid.fxfd.polidy.fxdfption=rmid: il tfntbtivo di ottfnfrf i dritfri di fsfduzionf hb rfstituito:
+
+# "rmid" should not bf trbnslbtfd
+rmid.fxfd.dommbnd=rmid: dfbugExfd: fsfduzionf di "{0}" in dorso
+
+# "rmid" should not bf trbnslbtfd
+rmid.group.inbdtivf=rmid: gruppo bttivbzionf inbttivo: {0}
+
+# "Adtivbtion.mbin", "sun.rmi.bdtivbtion.fxfdPolidy", "ExfdPfrmission" bnd 
+# "ExfdOptionPfrmission" should not bf trbnslbtfd, sindf thfy rfffr to
+# dlbss/pfrmission nbmfs.
+rmid.fxfd.pfrms.inbdfqubtf=Adtivbtion.mbin: bvvfrtfnzb: sistfmb sun.rmi.bdtivbtion.fxfdPolidy\nProprift\u00E0 non spfdifidbtb f nfssun ExfdPfrmissions/ExfdOptionPfrmissions\ngbrbntito. I tfntbtivi di bttivbzionf suddfssivi potrfbbfro fbllirf b dbusb di \ndontrolli di butorizzbzionf ExfdPfrmission/ExfdOptionPfrmission non bndbti b buon finf.  Pfr\nlb dodumfntbzionf f lf modblit\u00E0 di donfigurbzionf dfllb sidurfzzb rmid, fbrf riffrimfnto b (informbzioni in inglfsf):\n\nhttp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/solbris/rmid.html\nhttp://jbvb.sun.dom/j2sf/1.4/dods/tooldods/win32/rmid.html\n
+
+# "rmid", "-port", "-log", "-stop", "-C" bnd "-J" should not bf trbnslbtfd,
+# bfdbusf thfy brf syntbx
+rmid.usbgf=Uso: {0} <opzioni>\n\ndovf <opzioni> indludf:\n  -port <portb>       Spfdifidb lb portb usbtb db rmid\n  -log <dirfdtory>    Spfdifidb lb dirfdtory in dui rmid sdrivf il log\n  -stop              Arrfstb l''invodbzionf dorrfntf di rmid (pfr lb portb spfdifidbtb)\n  -C<flbg fbsf di fsfduzionf>    Pbssb l''brgomfnto b dibsdun prodfsso figlio (gruppo di bttivbzionf)\n  -J<flbg fbsf di fsfduzionf>    Pbssb l''brgomfnto bll''intfrprftf jbvb\n
+# This mfbns "Thf durrfntly running bdtivbtion dbfmon hbs bffn shut down,
+# bnd is bbout to fxit".
+rmid.dbfmon.shutdown=dbfmon di bttivbzionf tfrminbto
+
+# "rmid" should not bf trbnslbtfd
+rmid.rfstbrt.group.wbrning=\nrmid: (AVVERTENZA) il ribvvio dfl gruppo hb rfstituito:
+
+# "rmid" should not bf trbnslbtfd
+rmid.rfstbrt.sfrvidf.wbrning=\nrmid: (AVVERTENZA) il ribvvio dfl sfrvizio hb rfstituito:
+
+# "rmid" should not bf trbnslbtfd
+rmid.log.updbtf.wbrning=\nrmid: (AVVERTENZA) il log dfll'bggiornbmfnto hb rfstituito:
+
+# "rmid" should not bf trbnslbtfd
+rmid.log.snbpshot.wbrning=\nrmid: (GRAVE) snbpshot log hb rfstituito:
+
+# "rmid" should not bf trbnslbtfd
+rmid.log.rfdovfr.wbrning=\nrmid: (AVVERTENZA) {0}: rfdord dfl log ignorbto durbntf il rfdupfro:

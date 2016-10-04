@@ -1,305 +1,305 @@
 /*
- * Copyright (c) 2000, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.management.openmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
 
 
-// java import
+// jbvb import
 //
-import java.util.Arrays;
+import jbvb.util.Arrbys;
 
-import javax.management.Descriptor;
-import javax.management.MBeanConstructorInfo;
-import javax.management.MBeanParameterInfo;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.MBfbnConstrudtorInfo;
+import jbvbx.mbnbgfmfnt.MBfbnPbrbmftfrInfo;
 
 
 /**
- * Describes a constructor of an Open MBean.
+ * Dfsdribfs b donstrudtor of bn Opfn MBfbn.
  *
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class OpenMBeanConstructorInfoSupport
-    extends MBeanConstructorInfo
-    implements OpenMBeanConstructorInfo {
+publid dlbss OpfnMBfbnConstrudtorInfoSupport
+    fxtfnds MBfbnConstrudtorInfo
+    implfmfnts OpfnMBfbnConstrudtorInfo {
 
-    /* Serial version */
-    static final long serialVersionUID = -4400441579007477003L;
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = -4400441579007477003L;
 
 
-    // As this instance is immutable,
-    // these two values need only be calculated once.
-    private transient Integer myHashCode = null;
-    private transient String  myToString = null;
+    // As tiis instbndf is immutbblf,
+    // tifsf two vblufs nffd only bf dbldulbtfd ondf.
+    privbtf trbnsifnt Intfgfr myHbsiCodf = null;
+    privbtf trbnsifnt String  myToString = null;
 
     /**
-     * <p>Constructs an {@code OpenMBeanConstructorInfoSupport}
-     * instance, which describes the constructor of a class of open
-     * MBeans with the specified {@code name}, {@code description} and
-     * {@code signature}.</p>
+     * <p>Construdts bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * instbndf, wiidi dfsdribfs tif donstrudtor of b dlbss of opfn
+     * MBfbns witi tif spfdififd {@dodf nbmf}, {@dodf dfsdription} bnd
+     * {@dodf signbturf}.</p>
      *
-     * <p>The {@code signature} array parameter is internally copied,
-     * so that subsequent changes to the array referenced by {@code
-     * signature} have no effect on this instance.</p>
+     * <p>Tif {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
+     * so tibt subsfqufnt dibngfs to tif brrby rfffrfndfd by {@dodf
+     * signbturf} ibvf no ffffdt on tiis instbndf.</p>
      *
-     * @param name cannot be a null or empty string.
+     * @pbrbm nbmf dbnnot bf b null or fmpty string.
      *
-     * @param description cannot be a null or empty string.
+     * @pbrbm dfsdription dbnnot bf b null or fmpty string.
      *
-     * @param signature can be null or empty if there are no
-     * parameters to describe.
+     * @pbrbm signbturf dbn bf null or fmpty if tifrf brf no
+     * pbrbmftfrs to dfsdribf.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string.
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string.
      *
-     * @throws ArrayStoreException If {@code signature} is not an
-     * array of instances of a subclass of {@code MBeanParameterInfo}.
+     * @tirows ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     * brrby of instbndfs of b subdlbss of {@dodf MBfbnPbrbmftfrInfo}.
      */
-    public OpenMBeanConstructorInfoSupport(String name,
-                                           String description,
-                                           OpenMBeanParameterInfo[] signature) {
-        this(name, description, signature, (Descriptor) null);
+    publid OpfnMBfbnConstrudtorInfoSupport(String nbmf,
+                                           String dfsdription,
+                                           OpfnMBfbnPbrbmftfrInfo[] signbturf) {
+        tiis(nbmf, dfsdription, signbturf, (Dfsdriptor) null);
     }
 
     /**
-     * <p>Constructs an {@code OpenMBeanConstructorInfoSupport}
-     * instance, which describes the constructor of a class of open
-     * MBeans with the specified {@code name}, {@code description},
-     * {@code signature}, and {@code descriptor}.</p>
+     * <p>Construdts bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * instbndf, wiidi dfsdribfs tif donstrudtor of b dlbss of opfn
+     * MBfbns witi tif spfdififd {@dodf nbmf}, {@dodf dfsdription},
+     * {@dodf signbturf}, bnd {@dodf dfsdriptor}.</p>
      *
-     * <p>The {@code signature} array parameter is internally copied,
-     * so that subsequent changes to the array referenced by {@code
-     * signature} have no effect on this instance.</p>
+     * <p>Tif {@dodf signbturf} brrby pbrbmftfr is intfrnblly dopifd,
+     * so tibt subsfqufnt dibngfs to tif brrby rfffrfndfd by {@dodf
+     * signbturf} ibvf no ffffdt on tiis instbndf.</p>
      *
-     * @param name cannot be a null or empty string.
+     * @pbrbm nbmf dbnnot bf b null or fmpty string.
      *
-     * @param description cannot be a null or empty string.
+     * @pbrbm dfsdription dbnnot bf b null or fmpty string.
      *
-     * @param signature can be null or empty if there are no
-     * parameters to describe.
+     * @pbrbm signbturf dbn bf null or fmpty if tifrf brf no
+     * pbrbmftfrs to dfsdribf.
      *
-     * @param descriptor The descriptor for the constructor.  This may
-     * be null which is equivalent to an empty descriptor.
+     * @pbrbm dfsdriptor Tif dfsdriptor for tif donstrudtor.  Tiis mby
+     * bf null wiidi is fquivblfnt to bn fmpty dfsdriptor.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string.
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string.
      *
-     * @throws ArrayStoreException If {@code signature} is not an
-     * array of instances of a subclass of {@code MBeanParameterInfo}.
+     * @tirows ArrbyStorfExdfption If {@dodf signbturf} is not bn
+     * brrby of instbndfs of b subdlbss of {@dodf MBfbnPbrbmftfrInfo}.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public OpenMBeanConstructorInfoSupport(String name,
-                                           String description,
-                                           OpenMBeanParameterInfo[] signature,
-                                           Descriptor descriptor) {
-        super(name,
-              description,
-              arrayCopyCast(signature), // may throw an ArrayStoreException
-              descriptor);
+    publid OpfnMBfbnConstrudtorInfoSupport(String nbmf,
+                                           String dfsdription,
+                                           OpfnMBfbnPbrbmftfrInfo[] signbturf,
+                                           Dfsdriptor dfsdriptor) {
+        supfr(nbmf,
+              dfsdription,
+              brrbyCopyCbst(signbturf), // mby tirow bn ArrbyStorfExdfption
+              dfsdriptor);
 
-        // check parameters that should not be null or empty
-        // (unfortunately it is not done in superclass :-( ! )
+        // difdk pbrbmftfrs tibt siould not bf null or fmpty
+        // (unfortunbtfly it is not donf in supfrdlbss :-( ! )
         //
-        if (name == null || name.trim().equals("")) {
-            throw new IllegalArgumentException("Argument name cannot be " +
-                                               "null or empty");
+        if (nbmf == null || nbmf.trim().fqubls("")) {
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt nbmf dbnnot bf " +
+                                               "null or fmpty");
         }
-        if (description == null || description.trim().equals("")) {
-            throw new IllegalArgumentException("Argument description cannot " +
-                                               "be null or empty");
+        if (dfsdription == null || dfsdription.trim().fqubls("")) {
+            tirow nfw IllfgblArgumfntExdfption("Argumfnt dfsdription dbnnot " +
+                                               "bf null or fmpty");
         }
 
     }
 
-    private static MBeanParameterInfo[]
-            arrayCopyCast(OpenMBeanParameterInfo[] src) {
-        if (src == null)
-            return null;
+    privbtf stbtid MBfbnPbrbmftfrInfo[]
+            brrbyCopyCbst(OpfnMBfbnPbrbmftfrInfo[] srd) {
+        if (srd == null)
+            rfturn null;
 
-        MBeanParameterInfo[] dst = new MBeanParameterInfo[src.length];
-        System.arraycopy(src, 0, dst, 0, src.length);
-        // may throw an ArrayStoreException
-        return dst;
+        MBfbnPbrbmftfrInfo[] dst = nfw MBfbnPbrbmftfrInfo[srd.lfngti];
+        Systfm.brrbydopy(srd, 0, dst, 0, srd.lfngti);
+        // mby tirow bn ArrbyStorfExdfption
+        rfturn dst;
     }
 
 
-    /* ***  Commodity methods from java.lang.Object  *** */
+    /* ***  Commodity mftiods from jbvb.lbng.Objfdt  *** */
 
 
     /**
-     * <p>Compares the specified {@code obj} parameter with this
-     * {@code OpenMBeanConstructorInfoSupport} instance for
-     * equality.</p>
+     * <p>Compbrfs tif spfdififd {@dodf obj} pbrbmftfr witi tiis
+     * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf for
+     * fqublity.</p>
      *
-     * <p>Returns {@code true} if and only if all of the following
-     * statements are true:
+     * <p>Rfturns {@dodf truf} if bnd only if bll of tif following
+     * stbtfmfnts brf truf:
      *
      * <ul>
-     * <li>{@code obj} is non null,</li>
-     * <li>{@code obj} also implements the {@code
-     * OpenMBeanConstructorInfo} interface,</li>
-     * <li>their names are equal</li>
-     * <li>their signatures are equal.</li>
+     * <li>{@dodf obj} is non null,</li>
+     * <li>{@dodf obj} blso implfmfnts tif {@dodf
+     * OpfnMBfbnConstrudtorInfo} intfrfbdf,</li>
+     * <li>tifir nbmfs brf fqubl</li>
+     * <li>tifir signbturfs brf fqubl.</li>
      * </ul>
      *
-     * This ensures that this {@code equals} method works properly for
-     * {@code obj} parameters which are different implementations of
-     * the {@code OpenMBeanConstructorInfo} interface.
+     * Tiis fnsurfs tibt tiis {@dodf fqubls} mftiod works propfrly for
+     * {@dodf obj} pbrbmftfrs wiidi brf difffrfnt implfmfntbtions of
+     * tif {@dodf OpfnMBfbnConstrudtorInfo} intfrfbdf.
      *
-     * @param obj the object to be compared for equality with this
-     * {@code OpenMBeanConstructorInfoSupport} instance;
+     * @pbrbm obj tif objfdt to bf dompbrfd for fqublity witi tiis
+     * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf;
      *
-     * @return {@code true} if the specified object is equal to this
-     * {@code OpenMBeanConstructorInfoSupport} instance.
+     * @rfturn {@dodf truf} if tif spfdififd objfdt is fqubl to tiis
+     * {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf.
      */
-    public boolean equals(Object obj) {
+    publid boolfbn fqubls(Objfdt obj) {
 
-        // if obj is null, return false
+        // if obj is null, rfturn fblsf
         //
         if (obj == null) {
-            return false;
+            rfturn fblsf;
         }
 
-        // if obj is not a OpenMBeanConstructorInfo, return false
+        // if obj is not b OpfnMBfbnConstrudtorInfo, rfturn fblsf
         //
-        OpenMBeanConstructorInfo other;
+        OpfnMBfbnConstrudtorInfo otifr;
         try {
-            other = (OpenMBeanConstructorInfo) obj;
-        } catch (ClassCastException e) {
-            return false;
+            otifr = (OpfnMBfbnConstrudtorInfo) obj;
+        } dbtdi (ClbssCbstExdfption f) {
+            rfturn fblsf;
         }
 
-        // Now, really test for equality between this
-        // OpenMBeanConstructorInfo implementation and the other:
+        // Now, rfblly tfst for fqublity bftwffn tiis
+        // OpfnMBfbnConstrudtorInfo implfmfntbtion bnd tif otifr:
         //
 
-        // their Name should be equal
-        if ( ! this.getName().equals(other.getName()) ) {
-            return false;
+        // tifir Nbmf siould bf fqubl
+        if ( ! tiis.gftNbmf().fqubls(otifr.gftNbmf()) ) {
+            rfturn fblsf;
         }
 
-        // their Signatures should be equal
-        if ( ! Arrays.equals(this.getSignature(), other.getSignature()) ) {
-            return false;
+        // tifir Signbturfs siould bf fqubl
+        if ( ! Arrbys.fqubls(tiis.gftSignbturf(), otifr.gftSignbturf()) ) {
+            rfturn fblsf;
         }
 
-        // All tests for equality were successfull
+        // All tfsts for fqublity wfrf suddfssfull
         //
-        return true;
+        rfturn truf;
     }
 
     /**
-     * <p>Returns the hash code value for this {@code
-     * OpenMBeanConstructorInfoSupport} instance.</p>
+     * <p>Rfturns tif ibsi dodf vbluf for tiis {@dodf
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf.</p>
      *
-     * <p>The hash code of an {@code OpenMBeanConstructorInfoSupport}
-     * instance is the sum of the hash codes of all elements of
-     * information used in {@code equals} comparisons (ie: its name
-     * and signature, where the signature hashCode is calculated by a
-     * call to {@code
-     * java.util.Arrays.asList(this.getSignature).hashCode()}).</p>
+     * <p>Tif ibsi dodf of bn {@dodf OpfnMBfbnConstrudtorInfoSupport}
+     * instbndf is tif sum of tif ibsi dodfs of bll flfmfnts of
+     * informbtion usfd in {@dodf fqubls} dompbrisons (if: its nbmf
+     * bnd signbturf, wifrf tif signbturf ibsiCodf is dbldulbtfd by b
+     * dbll to {@dodf
+     * jbvb.util.Arrbys.bsList(tiis.gftSignbturf).ibsiCodf()}).</p>
      *
-     * <p>This ensures that {@code t1.equals(t2)} implies that {@code
-     * t1.hashCode()==t2.hashCode()} for any two {@code
-     * OpenMBeanConstructorInfoSupport} instances {@code t1} and
-     * {@code t2}, as required by the general contract of the method
-     * {@link Object#hashCode() Object.hashCode()}.</p>
+     * <p>Tiis fnsurfs tibt {@dodf t1.fqubls(t2)} implifs tibt {@dodf
+     * t1.ibsiCodf()==t2.ibsiCodf()} for bny two {@dodf
+     * OpfnMBfbnConstrudtorInfoSupport} instbndfs {@dodf t1} bnd
+     * {@dodf t2}, bs rfquirfd by tif gfnfrbl dontrbdt of tif mftiod
+     * {@link Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.</p>
      *
-     * <p>However, note that another instance of a class implementing
-     * the {@code OpenMBeanConstructorInfo} interface may be equal to
-     * this {@code OpenMBeanConstructorInfoSupport} instance as
-     * defined by {@link #equals(java.lang.Object)}, but may have a
-     * different hash code if it is calculated differently.</p>
+     * <p>Howfvfr, notf tibt bnotifr instbndf of b dlbss implfmfnting
+     * tif {@dodf OpfnMBfbnConstrudtorInfo} intfrfbdf mby bf fqubl to
+     * tiis {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndf bs
+     * dffinfd by {@link #fqubls(jbvb.lbng.Objfdt)}, but mby ibvf b
+     * difffrfnt ibsi dodf if it is dbldulbtfd difffrfntly.</p>
      *
-     * <p>As {@code OpenMBeanConstructorInfoSupport} instances are
-     * immutable, the hash code for this instance is calculated once,
-     * on the first call to {@code hashCode}, and then the same value
-     * is returned for subsequent calls.</p>
+     * <p>As {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndfs brf
+     * immutbblf, tif ibsi dodf for tiis instbndf is dbldulbtfd ondf,
+     * on tif first dbll to {@dodf ibsiCodf}, bnd tifn tif sbmf vbluf
+     * is rfturnfd for subsfqufnt dblls.</p>
      *
-     * @return the hash code value for this {@code
-     * OpenMBeanConstructorInfoSupport} instance
+     * @rfturn tif ibsi dodf vbluf for tiis {@dodf
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf
      */
-    public int hashCode() {
+    publid int ibsiCodf() {
 
-        // Calculate the hash code value if it has not yet been done
-        // (ie 1st call to hashCode())
+        // Cbldulbtf tif ibsi dodf vbluf if it ibs not yft bffn donf
+        // (if 1st dbll to ibsiCodf())
         //
-        if (myHashCode == null) {
-            int value = 0;
-            value += this.getName().hashCode();
-            value += Arrays.asList(this.getSignature()).hashCode();
-            myHashCode = Integer.valueOf(value);
+        if (myHbsiCodf == null) {
+            int vbluf = 0;
+            vbluf += tiis.gftNbmf().ibsiCodf();
+            vbluf += Arrbys.bsList(tiis.gftSignbturf()).ibsiCodf();
+            myHbsiCodf = Intfgfr.vblufOf(vbluf);
         }
 
-        // return always the same hash code for this instance (immutable)
+        // rfturn blwbys tif sbmf ibsi dodf for tiis instbndf (immutbblf)
         //
-        return myHashCode.intValue();
+        rfturn myHbsiCodf.intVbluf();
     }
 
     /**
-     * <p>Returns a string representation of this {@code
-     * OpenMBeanConstructorInfoSupport} instance.</p>
+     * <p>Rfturns b string rfprfsfntbtion of tiis {@dodf
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf.</p>
      *
-     * <p>The string representation consists of the name of this class
-     * (ie {@code
-     * javax.management.openmbean.OpenMBeanConstructorInfoSupport}),
-     * the name and signature of the described constructor and the
-     * string representation of its descriptor.</p>
+     * <p>Tif string rfprfsfntbtion donsists of tif nbmf of tiis dlbss
+     * (if {@dodf
+     * jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnConstrudtorInfoSupport}),
+     * tif nbmf bnd signbturf of tif dfsdribfd donstrudtor bnd tif
+     * string rfprfsfntbtion of its dfsdriptor.</p>
      *
-     * <p>As {@code OpenMBeanConstructorInfoSupport} instances are
-     * immutable, the string representation for this instance is
-     * calculated once, on the first call to {@code toString}, and
-     * then the same value is returned for subsequent calls.</p>
+     * <p>As {@dodf OpfnMBfbnConstrudtorInfoSupport} instbndfs brf
+     * immutbblf, tif string rfprfsfntbtion for tiis instbndf is
+     * dbldulbtfd ondf, on tif first dbll to {@dodf toString}, bnd
+     * tifn tif sbmf vbluf is rfturnfd for subsfqufnt dblls.</p>
      *
-     * @return a string representation of this {@code
-     * OpenMBeanConstructorInfoSupport} instance
+     * @rfturn b string rfprfsfntbtion of tiis {@dodf
+     * OpfnMBfbnConstrudtorInfoSupport} instbndf
      */
-    public String toString() {
+    publid String toString() {
 
-        // Calculate the string value if it has not yet been done (ie
-        // 1st call to toString())
+        // Cbldulbtf tif string vbluf if it ibs not yft bffn donf (if
+        // 1st dbll to toString())
         //
         if (myToString == null) {
-            myToString = new StringBuilder()
-                .append(this.getClass().getName())
-                .append("(name=")
-                .append(this.getName())
-                .append(",signature=")
-                .append(Arrays.asList(this.getSignature()).toString())
-                .append(",descriptor=")
-                .append(this.getDescriptor())
-                .append(")")
+            myToString = nfw StringBuildfr()
+                .bppfnd(tiis.gftClbss().gftNbmf())
+                .bppfnd("(nbmf=")
+                .bppfnd(tiis.gftNbmf())
+                .bppfnd(",signbturf=")
+                .bppfnd(Arrbys.bsList(tiis.gftSignbturf()).toString())
+                .bppfnd(",dfsdriptor=")
+                .bppfnd(tiis.gftDfsdriptor())
+                .bppfnd(")")
                 .toString();
         }
 
-        // return always the same string representation for this
-        // instance (immutable)
+        // rfturn blwbys tif sbmf string rfprfsfntbtion for tiis
+        // instbndf (immutbblf)
         //
-        return myToString;
+        rfturn myToString;
     }
 
 }

@@ -1,110 +1,110 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "java_awt_Color.h"
-#include "java_awt_Dimension.h"
-#include "java_awt_MenuBar.h"
-#include "java_awt_FontMetrics.h"
-#include "java_awt_event_MouseEvent.h"
-#include "java_awt_Rectangle.h"
-#include "java_awt_ScrollPaneAdjustable.h"
-#include "java_awt_Toolkit.h"
-#include "java_awt_CheckboxMenuItem.h"
+#indludf "jbvb_bwt_Color.i"
+#indludf "jbvb_bwt_Dimfnsion.i"
+#indludf "jbvb_bwt_MfnuBbr.i"
+#indludf "jbvb_bwt_FontMftrids.i"
+#indludf "jbvb_bwt_fvfnt_MousfEvfnt.i"
+#indludf "jbvb_bwt_Rfdtbnglf.i"
+#indludf "jbvb_bwt_SdrollPbnfAdjustbblf.i"
+#indludf "jbvb_bwt_Toolkit.i"
+#indludf "jbvb_bwt_CifdkboxMfnuItfm.i"
 
-#include "jni_util.h"
+#indludf "jni_util.i"
 
 /*
- * This file contains stubs for JNI field and method id initializers
- * which are used in the win32 awt.
+ * Tiis filf dontbins stubs for JNI fifld bnd mftiod id initiblizfrs
+ * wiidi brf usfd in tif win32 bwt.
  */
 
-jfieldID colorValueID;
+jfifldID dolorVblufID;
 
 JNIEXPORT void JNICALL
-Java_java_awt_Color_initIDs
-  (JNIEnv *env, jclass clazz)
+Jbvb_jbvb_bwt_Color_initIDs
+  (JNIEnv *fnv, jdlbss dlbzz)
 {
-    colorValueID = (*env)->GetFieldID(env, clazz, "value", "I");
+    dolorVblufID = (*fnv)->GftFifldID(fnv, dlbzz, "vbluf", "I");
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_MenuBar_initIDs
-  (JNIEnv *env, jclass clazz)
-{
-}
-
-JNIEXPORT void JNICALL
-Java_java_awt_Label_initIDs
-  (JNIEnv *env, jclass clazz)
+Jbvb_jbvb_bwt_MfnuBbr_initIDs
+  (JNIEnv *fnv, jdlbss dlbzz)
 {
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_FontMetrics_initIDs
-  (JNIEnv *env, jclass clazz)
+Jbvb_jbvb_bwt_Lbbfl_initIDs
+  (JNIEnv *fnv, jdlbss dlbzz)
 {
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_Toolkit_initIDs
-  (JNIEnv *env, jclass clazz)
+Jbvb_jbvb_bwt_FontMftrids_initIDs
+  (JNIEnv *fnv, jdlbss dlbzz)
 {
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_ScrollPaneAdjustable_initIDs
-  (JNIEnv *env, jclass clazz)
+Jbvb_jbvb_bwt_Toolkit_initIDs
+  (JNIEnv *fnv, jdlbss dlbzz)
 {
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_CheckboxMenuItem_initIDs
-  (JNIEnv *env, jclass clazz)
+Jbvb_jbvb_bwt_SdrollPbnfAdjustbblf_initIDs
+  (JNIEnv *fnv, jdlbss dlbzz)
 {
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_Choice_initIDs
-  (JNIEnv *env, jclass clazz)
+Jbvb_jbvb_bwt_CifdkboxMfnuItfm_initIDs
+  (JNIEnv *fnv, jdlbss dlbzz)
 {
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_Dimension_initIDs
-  (JNIEnv *env, jclass clazz)
+Jbvb_jbvb_bwt_Cioidf_initIDs
+  (JNIEnv *fnv, jdlbss dlbzz)
 {
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_Rectangle_initIDs
-  (JNIEnv *env, jclass clazz)
+Jbvb_jbvb_bwt_Dimfnsion_initIDs
+  (JNIEnv *fnv, jdlbss dlbzz)
 {
 }
 
 JNIEXPORT void JNICALL
-Java_java_awt_event_MouseEvent_initIDs
-  (JNIEnv *env, jclass clazz)
+Jbvb_jbvb_bwt_Rfdtbnglf_initIDs
+  (JNIEnv *fnv, jdlbss dlbzz)
+{
+}
+
+JNIEXPORT void JNICALL
+Jbvb_jbvb_bwt_fvfnt_MousfEvfnt_initIDs
+  (JNIEnv *fnv, jdlbss dlbzz)
 {
 }

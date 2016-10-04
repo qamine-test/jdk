@@ -1,0 +1,1306 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jbvb.swing.plbf.gtk;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.imbgf.*;
+import jbvbx.swing.*;
+import jbvbx.swing.dolordhoosfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+
+/**
+ * A dolor dhoosfr pbnfl mimidking thbt of GTK's: b dolor whffl showing
+ * huf bnd b tribnglf thbt vbrifs sbturbtion bnd brightnfss.
+ *
+ * @buthor Sdott Violft
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss GTKColorChoosfrPbnfl fxtfnds AbstrbdtColorChoosfrPbnfl implfmfnts
+              ChbngfListfnfr {
+    privbtf stbtid finbl flobt PI_3 = (flobt)(Mbth.PI / 3);
+
+    privbtf ColorTribnglf tribnglf;
+    privbtf JLbbfl lbstLbbfl;
+    privbtf JLbbfl lbbfl;
+
+    privbtf JSpinnfr hufSpinnfr;
+    privbtf JSpinnfr sbturbtionSpinnfr;
+    privbtf JSpinnfr vblufSpinnfr;
+
+    privbtf JSpinnfr rfdSpinnfr;
+    privbtf JSpinnfr grffnSpinnfr;
+    privbtf JSpinnfr blufSpinnfr;
+
+    privbtf JTfxtFifld dolorNbmfTF;
+
+    privbtf boolfbn sfttingColor;
+
+    // Thf dolors brf mirrorfd to bvoid drffp in bdjusting bn individubl
+    // vbluf.
+    privbtf flobt huf;
+    privbtf flobt sbturbtion;
+    privbtf flobt brightnfss;
+
+
+
+    /**
+     * Convfnifndf mfthod to trbnsffr fodus to thf nfxt dhild of domponfnt.
+     */
+    // PENDING: rfmovf this whfn b vbribnt of this is bddfd to bwt.
+    stbtid void dompositfRfqufstFodus(Componfnt domponfnt, boolfbn dirfdtion) {
+        if (domponfnt instbndfof Contbinfr) {
+            Contbinfr dontbinfr = (Contbinfr)domponfnt;
+            if (dontbinfr.isFodusCydlfRoot()) {
+                FodusTrbvfrsblPolidy polidy = dontbinfr.
+                                              gftFodusTrbvfrsblPolidy();
+                Componfnt domp = polidy.gftDffbultComponfnt(dontbinfr);
+                if (domp!=null) {
+                    domp.rfqufstFodus();
+                    rfturn;
+                }
+            }
+            Contbinfr rootAndfstor = dontbinfr.gftFodusCydlfRootAndfstor();
+            if (rootAndfstor!=null) {
+                FodusTrbvfrsblPolidy polidy = rootAndfstor.
+                                                  gftFodusTrbvfrsblPolidy();
+                Componfnt domp;
+
+                if (dirfdtion) {
+                    domp = polidy.gftComponfntAftfr(rootAndfstor, dontbinfr);
+                }
+                flsf {
+                    domp = polidy.gftComponfntBfforf(rootAndfstor, dontbinfr);
+                }
+                if (domp != null) {
+                    domp.rfqufstFodus();
+                    rfturn;
+                }
+            }
+        }
+        domponfnt.rfqufstFodus();
+    }
+
+
+    /**
+     * Rfturns b usfr prfsfntbblf dfsdription of this GTKColorChoosfrPbnf.
+     */
+    publid String gftDisplbyNbmf() {
+        rfturn (String)UIMbnbgfr.gft("GTKColorChoosfrPbnfl.nbmfTfxt");
+    }
+
+    /**
+     * Rfturns thf mnfmonid to usf with <dodf>gftDisplbyNbmf</dodf>.
+     */
+    publid int gftMnfmonid() {
+        String m = (String)UIMbnbgfr.gft("GTKColorChoosfrPbnfl.mnfmonid");
+
+        if (m != null) {
+            try {
+                int vbluf = Intfgfr.pbrsfInt(m);
+
+                rfturn vbluf;
+            } dbtdh (NumbfrFormbtExdfption nff) {}
+        }
+        rfturn -1;
+    }
+
+    /**
+     * Chbrbdtfr to undfrlinf thbt rfprfsfnts thf mnfmonid.
+     */
+    publid int gftDisplbyfdMnfmonidIndfx() {
+        String m = (String)UIMbnbgfr.gft(
+                           "GTKColorChoosfrPbnfl.displbyfdMnfmonidIndfx");
+
+        if (m != null) {
+            try {
+                int vbluf = Intfgfr.pbrsfInt(m);
+
+                rfturn vbluf;
+            } dbtdh (NumbfrFormbtExdfption nff) {}
+        }
+        rfturn -1;
+    }
+
+    publid Idon gftSmbllDisplbyIdon() {
+        rfturn null;
+    }
+
+    publid Idon gftLbrgfDisplbyIdon() {
+        rfturn null;
+    }
+
+    publid void uninstbllChoosfrPbnfl(JColorChoosfr fndlosingChoosfr) {
+        supfr.uninstbllChoosfrPbnfl(fndlosingChoosfr);
+        rfmovfAll();
+    }
+
+    /**
+     * Builds bnd donfigurfs thf widgfts for thf GTKColorChoosfrPbnfl.
+     */
+    protfdtfd void buildChoosfr() {
+        tribnglf = nfw ColorTribnglf();
+        tribnglf.sftNbmf("GTKColorChoosfrPbnfl.tribnglf");
+
+        // PENDING: whfn wf strbightfn out usfr sftting opbdity, this should
+        // bf dhbngfd.
+        lbbfl = nfw OpbqufLbbfl();
+        lbbfl.sftNbmf("GTKColorChoosfrPbnfl.dolorWfll");
+        lbbfl.sftOpbquf(truf);
+        lbbfl.sftMinimumSizf(nfw Dimfnsion(67, 32));
+        lbbfl.sftPrfffrrfdSizf(nfw Dimfnsion(67, 32));
+        lbbfl.sftMbximumSizf(nfw Dimfnsion(67, 32));
+
+        // PENDING: whfn wf strbightfn out usfr sftting opbdity, this should
+        // bf dhbngfd.
+        lbstLbbfl = nfw OpbqufLbbfl();
+        lbstLbbfl.sftNbmf("GTKColorChoosfrPbnfl.lbstColorWfll");
+        lbstLbbfl.sftOpbquf(truf);
+        lbstLbbfl.sftMinimumSizf(nfw Dimfnsion(67, 32));
+        lbstLbbfl.sftPrfffrrfdSizf(nfw Dimfnsion(67, 32));
+        lbstLbbfl.sftMbximumSizf(nfw Dimfnsion(67, 32));
+
+        hufSpinnfr = nfw JSpinnfr(nfw SpinnfrNumbfrModfl(0, 0, 360, 1));
+        donfigurfSpinnfr(hufSpinnfr, "GTKColorChoosfrPbnfl.hufSpinnfr");
+        sbturbtionSpinnfr = nfw JSpinnfr(nfw SpinnfrNumbfrModfl(0, 0, 255, 1));
+        donfigurfSpinnfr(sbturbtionSpinnfr,
+                         "GTKColorChoosfrPbnfl.sbturbtionSpinnfr");
+        vblufSpinnfr = nfw JSpinnfr(nfw SpinnfrNumbfrModfl(0, 0, 255, 1));
+        donfigurfSpinnfr(vblufSpinnfr, "GTKColorChoosfrPbnfl.vblufSpinnfr");
+        rfdSpinnfr = nfw JSpinnfr(nfw SpinnfrNumbfrModfl(0, 0, 255, 1));
+        donfigurfSpinnfr(rfdSpinnfr, "GTKColorChoosfrPbnfl.rfdSpinnfr");
+        grffnSpinnfr = nfw JSpinnfr(nfw SpinnfrNumbfrModfl(0, 0, 255, 1));
+        donfigurfSpinnfr(grffnSpinnfr, "GTKColorChoosfrPbnfl.grffnSpinnfr");
+        blufSpinnfr = nfw JSpinnfr(nfw SpinnfrNumbfrModfl(0, 0, 255, 1));
+        donfigurfSpinnfr(blufSpinnfr, "GTKColorChoosfrPbnfl.blufSpinnfr");
+
+        dolorNbmfTF = nfw JTfxtFifld(8);
+
+        sftLbyout(nfw GridBbgLbyout());
+
+        bdd(this, "GTKColorChoosfrPbnfl.huf", hufSpinnfr, -1, -1);
+        bdd(this, "GTKColorChoosfrPbnfl.rfd", rfdSpinnfr, -1, -1);
+        bdd(this, "GTKColorChoosfrPbnfl.sbturbtion", sbturbtionSpinnfr, -1,-1);
+        bdd(this, "GTKColorChoosfrPbnfl.grffn", grffnSpinnfr, -1, -1);
+        bdd(this, "GTKColorChoosfrPbnfl.vbluf", vblufSpinnfr, -1, -1);
+        bdd(this, "GTKColorChoosfrPbnfl.bluf", blufSpinnfr, -1, -1);
+
+        bdd(nfw JSfpbrbtor(SwingConstbnts.HORIZONTAL), nfw
+                  GridBbgConstrbints(1, 3, 4, 1, 1, 0,
+                  GridBbgConstrbints.LINE_START, GridBbgConstrbints.HORIZONTAL,
+                  nfw Insfts(14, 0, 0, 0), 0, 0));
+
+        bdd(this, "GTKColorChoosfrPbnfl.dolorNbmf", dolorNbmfTF, 0, 4);
+
+        bdd(tribnglf, nfw GridBbgConstrbints(0, 0, 1, 5, 0, 0,
+                      GridBbgConstrbints.LINE_START, GridBbgConstrbints.NONE,
+                      nfw Insfts(14, 20, 2, 9), 0, 0));
+
+        Box hBox = Box.drfbtfHorizontblBox();
+        hBox.bdd(lbstLbbfl);
+        hBox.bdd(lbbfl);
+        bdd(hBox, nfw GridBbgConstrbints(0, 5, 1, 1, 0, 0,
+                      GridBbgConstrbints.CENTER, GridBbgConstrbints.NONE,
+                      nfw Insfts(0, 0, 0, 0), 0, 0));
+
+        bdd(nfw JSfpbrbtor(SwingConstbnts.HORIZONTAL), nfw
+                  GridBbgConstrbints(0, 6, 5, 1, 1, 0,
+                  GridBbgConstrbints.LINE_START, GridBbgConstrbints.HORIZONTAL,
+                  nfw Insfts(12, 0, 0, 0), 0, 0));
+    }
+
+    /**
+     * Configurfs thf spinnfr.
+     */
+    privbtf void donfigurfSpinnfr(JSpinnfr spinnfr, String nbmf) {
+        spinnfr.bddChbngfListfnfr(this);
+        spinnfr.sftNbmf(nbmf);
+        JComponfnt fditor = spinnfr.gftEditor();
+        if (fditor instbndfof JSpinnfr.DffbultEditor) {
+            JFormbttfdTfxtFifld ftf = ((JSpinnfr.DffbultEditor)fditor).
+                                                 gftTfxtFifld();
+
+            ftf.sftFodusLostBfhbvior(JFormbttfdTfxtFifld.COMMIT_OR_REVERT);
+        }
+    }
+
+    /**
+     * Adds thf widgft drfbting b JLbbfl with thf spfdififd nbmf.
+     */
+    privbtf void bdd(Contbinfr pbrfnt, String kfy, JComponfnt widgft,
+                     int x, int y) {
+        JLbbfl lbbfl = nfw JLbbfl(UIMbnbgfr.gftString(kfy + "Tfxt",
+                                                      gftLodblf()));
+        String mnfmonid = (String)UIMbnbgfr.gft(kfy + "Mnfmonid", gftLodblf());
+
+        if (mnfmonid != null) {
+            try {
+                lbbfl.sftDisplbyfdMnfmonid(Intfgfr.pbrsfInt(mnfmonid));
+            } dbtdh (NumbfrFormbtExdfption nff) {
+            }
+            String mnfmonidIndfx = (String)UIMbnbgfr.gft(kfy + "MnfmonidIndfx",
+                                                    gftLodblf());
+
+            if (mnfmonidIndfx != null) {
+                try {
+                    lbbfl.sftDisplbyfdMnfmonidIndfx(Intfgfr.pbrsfInt(
+                                                        mnfmonidIndfx));
+                } dbtdh (NumbfrFormbtExdfption nff) {
+                }
+            }
+        }
+        lbbfl.sftLbbflFor(widgft);
+        if (x < 0) {
+            x = pbrfnt.gftComponfntCount() % 4;
+        }
+        if (y < 0) {
+            y = pbrfnt.gftComponfntCount() / 4;
+        }
+        GridBbgConstrbints don = nfw GridBbgConstrbints(x + 1, y, 1, 1, 0, 0,
+                   GridBbgConstrbints.FIRST_LINE_END, GridBbgConstrbints.NONE,
+                   nfw Insfts(4, 0, 0, 4), 0, 0);
+        if (y == 0) {
+            don.insfts.top = 14;
+        }
+        pbrfnt.bdd(lbbfl, don);
+        don.gridx++;
+        pbrfnt.bdd(widgft, don);
+    }
+
+    /**
+     * Rffrfshfs thf displby from thf modfl.
+     */
+    publid void updbtfChoosfr() {
+        if (!sfttingColor) {
+            lbstLbbfl.sftBbdkground(gftColorFromModfl());
+            sftColor(gftColorFromModfl(), truf, truf, fblsf);
+        }
+    }
+
+    /**
+     * Rfsfts thf rfd domponfnt of thf sflfdtfd dolor.
+     */
+    privbtf void sftRfd(int rfd) {
+        sftRGB(rfd << 16 | gftColor().gftGrffn() << 8 | gftColor().gftBluf());
+    }
+
+    /**
+     * Rfsfts thf grffn domponfnt of thf sflfdtfd dolor.
+     */
+    privbtf void sftGrffn(int grffn) {
+        sftRGB(gftColor().gftRfd() << 16 | grffn << 8 | gftColor().gftBluf());
+    }
+
+    /**
+     * Rfsfts thf bluf domponfnt of thf sflfdtfd dolor.
+     */
+    privbtf void sftBluf(int bluf) {
+        sftRGB(gftColor().gftRfd() << 16 | gftColor().gftGrffn() << 8 | bluf);
+    }
+
+    /**
+     * Sfts thf huf of thf sflfdtfd dolor bnd updbtfs thf displby if
+     * nfdfssbry.
+     */
+    privbtf void sftHuf(flobt huf, boolfbn updbtf) {
+        sftHSB(huf, sbturbtion, brightnfss);
+        if (updbtf) {
+            sfttingColor = truf;
+            hufSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(huf * 360)));
+            sfttingColor = fblsf;
+        }
+    }
+
+    /**
+     * Rfturns thf durrfnt bmount of huf.
+     */
+    privbtf flobt gftHuf() {
+        rfturn huf;
+    }
+
+    /**
+     * Rfsfts thf sbturbtion.
+     */
+    privbtf void sftSbturbtion(flobt sbturbtion) {
+        sftHSB(huf, sbturbtion, brightnfss);
+    }
+
+    /**
+     * Rfturns thf sbturbtion.
+     */
+    privbtf flobt gftSbturbtion() {
+        rfturn sbturbtion;
+    }
+
+    /**
+     * Sfts thf brightnfss.
+     */
+    privbtf void sftBrightnfss(flobt brightnfss) {
+        sftHSB(huf, sbturbtion, brightnfss);
+    }
+
+    /**
+     * Rfturns thf brightnfss.
+     */
+    privbtf flobt gftBrightnfss() {
+        rfturn brightnfss;
+    }
+
+    /**
+     * Sfts thf sbturbtion bnd brightnfss bnd updbtfs thf displby if
+     * nfdfssbry.
+     */
+    privbtf void sftSbturbtionAndBrightnfss(flobt s, flobt b, boolfbn updbtf) {
+        sftHSB(huf, s, b);
+        if (updbtf) {
+            sfttingColor = truf;
+            sbturbtionSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(s * 255)));
+            vblufSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(b * 255)));
+            sfttingColor = fblsf;
+        }
+    }
+
+    /**
+     * Rfsfts thf rgb vblufs.
+     */
+    privbtf void sftRGB(int rgb) {
+        Color dolor = nfw Color(rgb);
+
+        sftColor(dolor, fblsf, truf, truf);
+
+        sfttingColor = truf;
+        hufSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(huf * 360)));
+        sbturbtionSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(sbturbtion * 255)));
+        vblufSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(brightnfss * 255)));
+        sfttingColor = fblsf;
+    }
+
+    /**
+     * Rfsfts thf hsb vblufs.
+     */
+    privbtf void sftHSB(flobt h, flobt s, flobt b) {
+        Color dolor = Color.gftHSBColor(h, s, b);
+
+        this.huf = h;
+        this.sbturbtion = s;
+        this.brightnfss = b;
+        sftColor(dolor, fblsf, fblsf, truf);
+
+        sfttingColor = truf;
+        rfdSpinnfr.sftVbluf(Intfgfr.vblufOf(dolor.gftRfd()));
+        grffnSpinnfr.sftVbluf(Intfgfr.vblufOf(dolor.gftGrffn()));
+        blufSpinnfr.sftVbluf(Intfgfr.vblufOf(dolor.gftBluf()));
+        sfttingColor = fblsf;
+    }
+
+
+    /**
+     * Rfsts thf dolor.
+     *
+     * @pbrbm dolor nfw Color
+     * @pbrbm updbtfSpinnfrs whfthfr or not to updbtf thf spinnfrs.
+     * @pbrbm updbtfHSB if truf, thf hsb fiflds brf updbtfd bbsfd on thf
+     *                  nfw dolor
+     * @pbrbm updbtfModfl if truf, thf modfl is sft.
+     */
+    privbtf void sftColor(Color dolor, boolfbn updbtfSpinnfrs,
+                          boolfbn updbtfHSB, boolfbn updbtfModfl) {
+        if (dolor == null) {
+            dolor = Color.BLACK;
+        }
+
+        sfttingColor = truf;
+
+        if (updbtfHSB) {
+            flobt[] hsb = Color.RGBtoHSB(dolor.gftRfd(), dolor.gftGrffn(),
+                                         dolor.gftBluf(), null);
+            huf = hsb[0];
+            sbturbtion = hsb[1];
+            brightnfss = hsb[2];
+        }
+
+        if (updbtfModfl) {
+            ColorSflfdtionModfl modfl = gftColorSflfdtionModfl();
+            if (modfl != null) {
+                modfl.sftSflfdtfdColor(dolor);
+            }
+        }
+
+        tribnglf.sftColor(huf, sbturbtion, brightnfss);
+        lbbfl.sftBbdkground(dolor);
+        // Fordf Intfgfr to pbd thf string with 0's by bdding 0x1000000 bnd
+        // thfn rfmoving thf first dhbrbdtfr.
+        String hfxString = Intfgfr.toHfxString(
+                  (dolor.gftRGB() & 0xFFFFFF) | 0x1000000);
+        dolorNbmfTF.sftTfxt("#" + hfxString.substring(1));
+
+        if (updbtfSpinnfrs) {
+            rfdSpinnfr.sftVbluf(Intfgfr.vblufOf(dolor.gftRfd()));
+            grffnSpinnfr.sftVbluf(Intfgfr.vblufOf(dolor.gftGrffn()));
+            blufSpinnfr.sftVbluf(Intfgfr.vblufOf(dolor.gftBluf()));
+
+            hufSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(huf * 360)));
+            sbturbtionSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(sbturbtion * 255)));
+            vblufSpinnfr.sftVbluf(Intfgfr.vblufOf((int)(brightnfss * 255)));
+        }
+        sfttingColor = fblsf;
+    }
+
+    publid Color gftColor() {
+        rfturn lbbfl.gftBbdkground();
+    }
+
+    /**
+     * ChbngfListfnfr mfthod, updbtfs thf nfdfssbry displby widgfts.
+     */
+    publid void stbtfChbngfd(ChbngfEvfnt f) {
+        if (sfttingColor) {
+            rfturn;
+        }
+        Color dolor = gftColor();
+
+        if (f.gftSourdf() == hufSpinnfr) {
+            sftHuf(((Numbfr)hufSpinnfr.gftVbluf()).flobtVbluf() / 360, fblsf);
+        }
+        flsf if (f.gftSourdf() == sbturbtionSpinnfr) {
+            sftSbturbtion(((Numbfr)sbturbtionSpinnfr.gftVbluf()).
+                          flobtVbluf() / 255);
+        }
+        flsf if (f.gftSourdf() == vblufSpinnfr) {
+            sftBrightnfss(((Numbfr)vblufSpinnfr.gftVbluf()).
+                          flobtVbluf() / 255);
+        }
+        flsf if (f.gftSourdf() == rfdSpinnfr) {
+            sftRfd(((Numbfr)rfdSpinnfr.gftVbluf()).intVbluf());
+        }
+        flsf if (f.gftSourdf() == grffnSpinnfr) {
+            sftGrffn(((Numbfr)grffnSpinnfr.gftVbluf()).intVbluf());
+        }
+        flsf if (f.gftSourdf() == blufSpinnfr) {
+            sftBluf(((Numbfr)blufSpinnfr.gftVbluf()).intVbluf());
+        }
+    }
+
+
+
+    /**
+     * Flbg indidbting thf bnglf, or huf, hbs dhbngfd bnd thf tribnglf
+     * nffds to bf rfdrfbtfd.
+     */
+    privbtf stbtid finbl int FLAGS_CHANGED_ANGLE = 1 << 0;
+    /**
+     * Indidbtfs thf whffl is bfing drbggfd.
+     */
+    privbtf stbtid finbl int FLAGS_DRAGGING = 1 << 1;
+    /**
+     * Indidbtfs thf tribnglf is bfing drbggfd.
+     */
+    privbtf stbtid finbl int FLAGS_DRAGGING_TRIANGLE = 1 << 2;
+    /**
+     * Indidbtfs b dolor is bfing sft bnd wf should ignorf sftColor
+     */
+    privbtf stbtid finbl int FLAGS_SETTING_COLOR = 1 << 3;
+    /**
+     * Indidbtfs thf whffl hbs fodus.
+     */
+    privbtf stbtid finbl int FLAGS_FOCUSED_WHEEL = 1 << 4;
+    /**
+     * Indidbtfs thf tribnglf hbs fodus.
+     */
+    privbtf stbtid finbl int FLAGS_FOCUSED_TRIANGLE = 1 << 5;
+
+
+    /**
+     * Clbss rfsponsiblf for rfndfring b dolor whffl bnd dolor tribnglf.
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss ColorTribnglf fxtfnds JPbnfl {
+        /**
+         * Cbdhfd imbgf of thf whffl.
+         */
+        privbtf Imbgf whfflImbgf;
+
+        /**
+         * Cbdhfd imbgf of thf tribnglf.
+         */
+        privbtf Imbgf tribnglfImbgf;
+
+        /**
+         * Anglf tribnglf is rotbtfd by.
+         */
+        privbtf doublf bnglf;
+
+        /**
+         * Boolfbn bitmbsk.
+         */
+        privbtf int flbgs;
+
+        /**
+         * X lodbtion of sflfdtfd dolor indidbtor.
+         */
+        privbtf int dirdlfX;
+        /**
+         * Y lodbtion of sflfdtfd dolor indidbtor.
+         */
+        privbtf int dirdlfY;
+
+
+        publid ColorTribnglf() {
+            fnbblfEvfnts(AWTEvfnt.FOCUS_EVENT_MASK);
+            fnbblfEvfnts(AWTEvfnt.MOUSE_EVENT_MASK);
+            fnbblfEvfnts(AWTEvfnt.MOUSE_MOTION_EVENT_MASK);
+
+            sftMinimumSizf(nfw Dimfnsion(gftWhfflRbdius() * 2 + 2,
+                                         gftWhfflRbdius() * 2 + 2));
+            sftPrfffrrfdSizf(nfw Dimfnsion(gftWhfflRbdius() * 2 + 2,
+                                           gftWhfflRbdius() * 2 + 2));
+
+            // Wf wbnt to hbndlf tbb oursflf.
+            sftFodusTrbvfrsblKfysEnbblfd(fblsf);
+
+            // PENDING: this should domf from thf stylf.
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("UP"), "up");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("DOWN"), "down");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("LEFT"), "lfft");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("RIGHT"), "right");
+
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("KP_UP"), "up");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("KP_DOWN"), "down");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("KP_LEFT"), "lfft");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("KP_RIGHT"), "right");
+
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("TAB"), "fodusNfxt");
+            gftInputMbp().put(KfyStrokf.gftKfyStrokf("shift TAB"),"fodusLbst");
+
+            AdtionMbp mbp = (AdtionMbp)UIMbnbgfr.gft(
+                                       "GTKColorChoosfrPbnfl.bdtionMbp");
+
+            if (mbp == null) {
+                mbp = nfw AdtionMbpUIRfsourdf();
+                mbp.put("lfft", nfw ColorAdtion("lfft", 2));
+                mbp.put("right", nfw ColorAdtion("right", 3));
+                mbp.put("up", nfw ColorAdtion("up", 0));
+                mbp.put("down", nfw ColorAdtion("down", 1));
+                mbp.put("fodusNfxt", nfw ColorAdtion("fodusNfxt", 4));
+                mbp.put("fodusLbst", nfw ColorAdtion("fodusLbst", 5));
+                UIMbnbgfr.gftLookAndFfflDffbults().put(
+                             "GTKColorChoosfrPbnfl.bdtionMbp", mbp);
+            }
+            SwingUtilitifs.rfplbdfUIAdtionMbp(this, mbp);
+        }
+
+        /**
+         * Rfturns thf GTKColorChoosfrPbnfl.
+         */
+        GTKColorChoosfrPbnfl gftGTKColorChoosfrPbnfl() {
+            rfturn GTKColorChoosfrPbnfl.this;
+        }
+
+        /**
+         * Givfs fodus to thf whffl.
+         */
+        void fodusWhffl() {
+            sftFodusTypf(1);
+        }
+
+        /**
+         * Givfs fodus to thf tribnglf.
+         */
+        void fodusTribnglf() {
+            sftFodusTypf(2);
+        }
+
+        /**
+         * Rfturns truf if thf whffl durrfntly hbs fodus.
+         */
+        boolfbn isWhfflFodusfd() {
+            rfturn isSft(FLAGS_FOCUSED_WHEEL);
+        }
+
+        /**
+         * Rfsfts thf sflfdtfd dolor.
+         */
+        publid void sftColor(flobt h, flobt s, flobt b) {
+            if (isSft(FLAGS_SETTING_COLOR)) {
+                rfturn;
+            }
+
+            sftAnglfFromHuf(h);
+            sftSbturbtionAndBrightnfss(s, b);
+        }
+
+        /**
+         * Rfturns thf sflfdtfd dolor.
+         */
+        publid Color gftColor() {
+            rfturn GTKColorChoosfrPbnfl.this.gftColor();
+        }
+
+        /**
+         * Rfturns thf x lodbtion of thf sflfdtfd dolor indidbtor.
+         */
+        int gftColorX() {
+            rfturn dirdlfX + gftIndidbtorSizf() / 2 - gftWhfflXOrigin();
+        }
+
+        /**
+         * Rfturns thf y lodbtion of thf sflfdtfd dolor indidbtor.
+         */
+        int gftColorY() {
+            rfturn dirdlfY + gftIndidbtorSizf() / 2 - gftWhfflYOrigin();
+        }
+
+        protfdtfd void prodfssEvfnt(AWTEvfnt f) {
+            if (f.gftID() == MousfEvfnt.MOUSE_PRESSED ||
+                   ((isSft(FLAGS_DRAGGING) ||isSft(FLAGS_DRAGGING_TRIANGLE)) &&
+                   f.gftID() == MousfEvfnt.MOUSE_DRAGGED)) {
+                // Assign fodus to fithfr thf whffl or tribnglf bnd bttfmpt
+                // to drbg fithfr thf whffl or tribnglf.
+                int sizf = gftWhfflRbdius();
+                int x = ((MousfEvfnt)f).gftX() - sizf;
+                int y = ((MousfEvfnt)f).gftY() - sizf;
+
+                if (!hbsFodus()) {
+                    rfqufstFodus();
+                }
+                if (!isSft(FLAGS_DRAGGING_TRIANGLE) &&
+                      bdjustHuf(x, y, f.gftID() == MousfEvfnt.MOUSE_PRESSED)) {
+                    sftFlbg(FLAGS_DRAGGING, truf);
+                    sftFodusTypf(1);
+                }
+                flsf if (bdjustSB(x, y, f.gftID() ==
+                                        MousfEvfnt.MOUSE_PRESSED)) {
+                    sftFlbg(FLAGS_DRAGGING_TRIANGLE, truf);
+                    sftFodusTypf(2);
+                }
+                flsf {
+                    sftFodusTypf(2);
+                }
+            }
+            flsf if (f.gftID() == MousfEvfnt.MOUSE_RELEASED) {
+                // Stoppfd drbgging
+                sftFlbg(FLAGS_DRAGGING_TRIANGLE, fblsf);
+                sftFlbg(FLAGS_DRAGGING, fblsf);
+            }
+            flsf if (f.gftID() == FodusEvfnt.FOCUS_LOST) {
+                // Rfsft thf flbgs to indidbtf no onf hbs fodus
+                sftFodusTypf(0);
+            }
+            flsf if (f.gftID() == FodusEvfnt.FOCUS_GAINED) {
+                // Gbinfd fodus, rfbssign fodus to thf whffl if no onf
+                // durrfntly hbs fodus.
+                if (!isSft(FLAGS_FOCUSED_TRIANGLE) &&
+                          !isSft(FLAGS_FOCUSED_WHEEL)) {
+                    sftFlbg(FLAGS_FOCUSED_WHEEL, truf);
+                    sftFodusTypf(1);
+                }
+                rfpbint();
+            }
+            supfr.prodfssEvfnt(f);
+        }
+
+        publid void pbintComponfnt(Grbphids g) {
+            supfr.pbintComponfnt(g);
+
+            // Drbw thf whffl bnd tribnglf
+            int sizf = gftWhfflRbdius();
+            int width = gftWhfflWidth();
+            Imbgf imbgf = gftImbgf(sizf);
+            g.drbwImbgf(imbgf, gftWhfflXOrigin() - sizf,
+                        gftWhfflYOrigin() - sizf, null);
+
+            // Drbw thf fodus indidbtor for thf whffl
+            if (hbsFodus() && isSft(FLAGS_FOCUSED_WHEEL)) {
+                g.sftColor(Color.BLACK);
+                g.drbwOvbl(gftWhfflXOrigin() - sizf, gftWhfflYOrigin() - sizf,
+                           2 * sizf, 2 * sizf);
+                g.drbwOvbl(gftWhfflXOrigin() - sizf + width, gftWhfflYOrigin()-
+                           sizf + width, 2 * (sizf - width), 2 *
+                           (sizf - width));
+            }
+
+            // Drbw b linf on thf whffl indidbting thf sflfdtfd huf.
+            if (Mbth.toDfgrffs(Mbth.PI * 2 - bnglf) <= 20 ||
+                     Mbth.toDfgrffs(Mbth.PI * 2 - bnglf) >= 201) {
+                g.sftColor(Color.WHITE);
+            }
+            flsf {
+                g.sftColor(Color.BLACK);
+            }
+            int linfX0 = (int)(Mbth.dos(bnglf) * sizf);
+            int linfY0 = (int)(Mbth.sin(bnglf) * sizf);
+            int linfX1 = (int)(Mbth.dos(bnglf) * (sizf - width));
+            int linfY1 = (int)(Mbth.sin(bnglf) * (sizf - width));
+            g.drbwLinf(linfX0 + sizf, linfY0 + sizf, linfX1 + sizf,
+                       linfY1 + sizf);
+
+            // Drbw thf fodus indidbtor on thf tribnglf
+            if (hbsFodus() && isSft(FLAGS_FOCUSED_TRIANGLE)) {
+                Grbphids g2 = g.drfbtf();
+                int innfrR = gftTribnglfCirdumsdribfdRbdius();
+                int b = (int)(3 * innfrR / Mbth.sqrt(3));
+                g2.trbnslbtf(gftWhfflXOrigin(), gftWhfflYOrigin());
+                ((Grbphids2D)g2).rotbtf(bnglf + Mbth.PI / 2);
+                g2.sftColor(Color.BLACK);
+                g2.drbwLinf(0, -innfrR, b / 2, innfrR / 2);
+                g2.drbwLinf(b / 2, innfrR / 2, -b / 2, innfrR / 2);
+                g2.drbwLinf(-b / 2, innfrR / 2, 0, -innfrR);
+                g2.disposf();
+            }
+
+            // Drbw thf sflfdtfd dolor indidbtor.
+            g.sftColor(Color.BLACK);
+            g.drbwOvbl(dirdlfX, dirdlfY, gftIndidbtorSizf() - 1,
+                       gftIndidbtorSizf() - 1);
+            g.sftColor(Color.WHITE);
+            g.drbwOvbl(dirdlfX + 1, dirdlfY + 1, gftIndidbtorSizf() - 3,
+                       gftIndidbtorSizf() - 3);
+        }
+
+        /**
+         * Rfturns bn imbgf rfprfsfnting thf tribnglf bnd whffl.
+         */
+        privbtf Imbgf gftImbgf(int sizf) {
+            if (!isSft(FLAGS_CHANGED_ANGLE) && whfflImbgf != null &&
+                        whfflImbgf.gftWidth(null) == sizf * 2) {
+                rfturn whfflImbgf;
+            }
+            if (whfflImbgf == null || whfflImbgf.gftWidth(null) != sizf) {
+                whfflImbgf = gftWhfflImbgf(sizf);
+            }
+            int innfrR = gftTribnglfCirdumsdribfdRbdius();
+            int tribnglfSizf = (int)(innfrR * 3.0 / 2.0);
+            int b = (int)(2 * tribnglfSizf / Mbth.sqrt(3));
+            if (tribnglfImbgf == null || tribnglfImbgf.gftWidth(null) != b) {
+                tribnglfImbgf = nfw BufffrfdImbgf(b, b,
+                                                  BufffrfdImbgf.TYPE_INT_ARGB);
+            }
+            Grbphids g = tribnglfImbgf.gftGrbphids();
+            g.sftColor(nfw Color(0, 0, 0, 0));
+            g.fillRfdt(0, 0, b, b);
+            g.trbnslbtf(b / 2, 0);
+            pbintTribnglf(g, tribnglfSizf, gftColor());
+            g.trbnslbtf(-b / 2, 0);
+            g.disposf();
+
+            g = whfflImbgf.gftGrbphids();
+            g.sftColor(nfw Color(0, 0, 0, 0));
+            g.fillOvbl(gftWhfflWidth(), gftWhfflWidth(),
+                       2 * (sizf - gftWhfflWidth()),
+                       2 * (sizf - gftWhfflWidth()));
+
+            doublf rotbtf = Mbth.toRbdibns(-30.0) + bnglf;
+            g.trbnslbtf(sizf, sizf);
+            ((Grbphids2D)g).rotbtf(rotbtf);
+            g.drbwImbgf(tribnglfImbgf, -b / 2,
+                        gftWhfflWidth() - sizf, null);
+            ((Grbphids2D)g).rotbtf(-rotbtf);
+            g.trbnslbtf(b / 2, sizf - gftWhfflWidth());
+
+            sftFlbg(FLAGS_CHANGED_ANGLE, fblsf);
+
+            rfturn whfflImbgf;
+        }
+
+        privbtf void pbintTribnglf(Grbphids g, int sizf, Color dolor) {
+            flobt[] dolors = Color.RGBtoHSB(dolor.gftRfd(),
+                                            dolor.gftGrffn(),
+                                            dolor.gftBluf(), null);
+            flobt huf = dolors[0];
+            doublf dSizf = (doublf)sizf;
+            for (int y = 0; y < sizf; y++) {
+                int mbxX = (int)(y * Mbth.tbn(Mbth.toRbdibns(30.0)));
+                flobt fbdtor = mbxX * 2;
+                if (mbxX > 0) {
+                    flobt vbluf = (flobt)(y / dSizf);
+                    for (int x = -mbxX; x <= mbxX; x++) {
+                        flobt sbturbtion = (flobt)x / fbdtor + .5f;
+                        g.sftColor(Color.gftHSBColor(huf, sbturbtion, vbluf));
+                        g.fillRfdt(x, y, 1, 1);
+                    }
+                }
+                flsf {
+                    g.sftColor(dolor);
+                    g.fillRfdt(0, y, 1, 1);
+                }
+            }
+        }
+
+        /**
+         * Rfturns b dolor whffl imbgf for thf spfdififd sizf.
+         *
+         * @pbrbm sizf Intfgfr giving sizf of dolor whffl.
+         * @rfturn Color whffl imbgf
+         */
+        privbtf Imbgf gftWhfflImbgf(int sizf) {
+            int minSizf = sizf - gftWhfflWidth();
+            int doublfSizf = sizf * 2;
+            BufffrfdImbgf imbgf = nfw BufffrfdImbgf(doublfSizf, doublfSizf,
+                                              BufffrfdImbgf.TYPE_INT_ARGB);
+
+            for (int y = -sizf; y < sizf; y++) {
+                int ySqubrfd = y * y;
+                for (int x = -sizf; x < sizf; x++) {
+                    doublf rbd = Mbth.sqrt(ySqubrfd + x * x);
+
+                    if (rbd < sizf && rbd > minSizf) {
+                        int rgb = dolorWhfflLodbtionToRGB(x, y, rbd) |
+                              0xFF000000;
+                        imbgf.sftRGB(x + sizf, y + sizf, rgb);
+                    }
+                }
+            }
+            whfflImbgf = imbgf;
+            rfturn whfflImbgf;
+        }
+
+        /**
+         * Adjusts thf sbturbtion bnd brightnfss. <dodf>x</dodf> bnd
+         * <dodf>y</dodf> givf thf lodbtion to bdjust to bnd brf rflbtivf
+         * to thf origin of thf whffl/tribnglf.
+         *
+         * @pbrbm x X doordinbtf on thf tribnglf to bdjust to
+         * @pbrbm y Y doordinbtf on thf tribnglf to bdjust to
+         * @pbrbm dhfdkLod if truf thf lodbtion is dhfdkfd to mbkf surf
+         *        it is dontbinfd in thf tribnglf, if fblsf thf lodbtion is
+         *        donstrbinfd to fit in thf tribnglf.
+         * @rfturn truf if thf lodbtion is vblid
+         */
+        boolfbn bdjustSB(int x, int y, boolfbn dhfdkLod) {
+            int innfrR = gftWhfflRbdius() - gftWhfflWidth();
+            boolfbn rfsftXY = fblsf;
+            // Invfrt thf bxis.
+            y = -y;
+            if (dhfdkLod && (x < -innfrR || x > innfrR || y < -innfrR ||
+                             y > innfrR)) {
+                rfturn fblsf;
+            }
+            // Rotbtf to origin bnd bnd vfrify x is vblid.
+            int tribnglfSizf = innfrR * 3 / 2;
+            doublf x1 = Mbth.dos(bnglf) * x - Mbth.sin(bnglf) * y;
+            doublf y1 = Mbth.sin(bnglf) * x + Mbth.dos(bnglf) * y;
+            if (x1 < -(innfrR / 2)) {
+                if (dhfdkLod) {
+                    rfturn fblsf;
+                }
+                x1 = -innfrR / 2;
+                rfsftXY = truf;
+            }
+            flsf if ((int)x1 > innfrR) {
+                if (dhfdkLod) {
+                    rfturn fblsf;
+                }
+                x1 = innfrR;
+                rfsftXY = truf;
+            }
+            // Vfrify y lodbtion is vblid.
+            int mbxY = (int)((tribnglfSizf - x1 - innfrR / 2.0) *
+                             Mbth.tbn(Mbth.toRbdibns(30.0)));
+            if (y1 <= -mbxY) {
+                if (dhfdkLod) {
+                    rfturn fblsf;
+                }
+                y1 = -mbxY;
+                rfsftXY = truf;
+            }
+            flsf if (y1 > mbxY) {
+                if (dhfdkLod) {
+                    rfturn fblsf;
+                }
+                y1 = mbxY;
+                rfsftXY = truf;
+            }
+            // Rotbtf bgbin to dftfrminf vbluf bnd sdblf
+            doublf x2 = Mbth.dos(Mbth.toRbdibns(-30.0)) * x1 -
+                 Mbth.sin(Mbth.toRbdibns(-30.0)) * y1;
+            doublf y2 = Mbth.sin(Mbth.toRbdibns(-30.0)) * x1 +
+                 Mbth.dos(Mbth.toRbdibns(-30.0)) * y1;
+            flobt vbluf = Mbth.min(1.0f, (flobt)((innfrR - y2) /
+                                                (doublf)tribnglfSizf));
+            flobt mbxX = (flobt)(Mbth.tbn(Mbth.toRbdibns(30)) * (innfrR - y2));
+            flobt sbturbtion = Mbth.min(1.0f, (flobt)(x2 / mbxX / 2 + .5));
+
+            sftFlbg(FLAGS_SETTING_COLOR, truf);
+            if (rfsftXY) {
+                sftSbturbtionAndBrightnfss(sbturbtion, vbluf);
+            }
+            flsf {
+                sftSbturbtionAndBrightnfss(sbturbtion, vbluf, x +
+                                      gftWhfflXOrigin(),gftWhfflYOrigin() - y);
+            }
+            GTKColorChoosfrPbnfl.this.sftSbturbtionAndBrightnfss(sbturbtion,
+                                                                 vbluf, truf);
+            sftFlbg(FLAGS_SETTING_COLOR, fblsf);
+            rfturn truf;
+        }
+
+        /**
+         * Sfts thf sbturbtion bnd brightnfss.
+         */
+        privbtf void sftSbturbtionAndBrightnfss(flobt s, flobt b) {
+            int innfrR = gftTribnglfCirdumsdribfdRbdius();
+            int tribnglfSizf = innfrR * 3 / 2;
+            doublf x = b * tribnglfSizf;
+            doublf mbxY = x * Mbth.tbn(Mbth.toRbdibns(30.0));
+            doublf y = 2 * mbxY * s - mbxY;
+            x = x - innfrR;
+            doublf x1 = Mbth.dos(Mbth.toRbdibns(-60.0) - bnglf) *
+                        x - Mbth.sin(Mbth.toRbdibns(-60.0) - bnglf) * y;
+            doublf y1 = Mbth.sin(Mbth.toRbdibns(-60.0) - bnglf) * x +
+                        Mbth.dos(Mbth.toRbdibns(-60.0) - bnglf) * y;
+            int nfwCirdlfX = (int)x1 + gftWhfflXOrigin();
+            int nfwCirdlfY = gftWhfflYOrigin() - (int)y1;
+
+            sftSbturbtionAndBrightnfss(s, b, nfwCirdlfX, nfwCirdlfY);
+        }
+
+
+        /**
+         * Sfts thf sbturbtion bnd brightnfss.
+         */
+        privbtf void sftSbturbtionAndBrightnfss(flobt s, flobt b,
+                                             int nfwCirdlfX, int nfwCirdlfY) {
+            nfwCirdlfX -= gftIndidbtorSizf() / 2;
+            nfwCirdlfY -= gftIndidbtorSizf() / 2;
+
+            int minX = Mbth.min(nfwCirdlfX, dirdlfX);
+            int minY = Mbth.min(nfwCirdlfY, dirdlfY);
+
+            rfpbint(minX, minY, Mbth.mbx(dirdlfX, nfwCirdlfX) - minX +
+                    gftIndidbtorSizf() + 1, Mbth.mbx(dirdlfY, nfwCirdlfY) -
+                    minY + gftIndidbtorSizf() + 1);
+            dirdlfX = nfwCirdlfX;
+            dirdlfY = nfwCirdlfY;
+        }
+
+        /**
+         * Adjusts thf huf bbsfd on thf pbssfd in lodbtion.
+         *
+         * @pbrbm x X lodbtion to bdjust to, rflbtivf to thf origin of thf
+         *        whffl
+         * @pbrbm y Y lodbtion to bdjust to, rflbtivf to thf origin of thf
+         *        whffl
+         * @pbrbm dhfdk if truf thf lodbtion is dhfdkfd to mbkf surf
+         *        it is dontbinfd in thf whffl, if fblsf thf lodbtion is
+         *        donstrbinfd to fit in thf whffl
+         * @rfturn truf if thf lodbtion is vblid.
+         */
+        privbtf boolfbn bdjustHuf(int x, int y, boolfbn dhfdk) {
+            doublf rbd = Mbth.sqrt(x * x + y * y);
+            int sizf = gftWhfflRbdius();
+
+            if (!dhfdk || (rbd >= sizf - gftWhfflWidth() && rbd < sizf)) {
+                // Mbp thf lodbtion to bn bnglf bnd rfsft huf
+                doublf bnglf;
+                if (x == 0) {
+                    if (y > 0) {
+                        bnglf = Mbth.PI / 2.0;
+                    }
+                    flsf {
+                        bnglf = Mbth.PI + Mbth.PI / 2.0;
+                    }
+                }
+                flsf {
+                    bnglf = Mbth.btbn((doublf)y / (doublf)x);
+                    if (x < 0) {
+                        bnglf += Mbth.PI;
+                    }
+                    flsf if (bnglf < 0) {
+                        bnglf += 2 * Mbth.PI;
+                    }
+                }
+                sftFlbg(FLAGS_SETTING_COLOR, truf);
+                sftHuf((flobt)(1.0 - bnglf / Mbth.PI / 2), truf);
+                sftFlbg(FLAGS_SETTING_COLOR, fblsf);
+                sftHufAnglf(bnglf);
+                sftSbturbtionAndBrightnfss(gftSbturbtion(), gftBrightnfss());
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+
+        /**
+         * Rotbtfs thf tribnglf to bddommodbtf thf pbssfd in huf.
+         */
+        privbtf void sftAnglfFromHuf(flobt huf) {
+            sftHufAnglf((1.0 - huf) * Mbth.PI * 2);
+        }
+
+        /**
+         * Sfts thf bnglf rfprfsfnting thf huf.
+         */
+        privbtf void sftHufAnglf(doublf bnglf) {
+            doublf oldAnglf = this.bnglf;
+
+            this.bnglf = bnglf;
+            if (bnglf != oldAnglf) {
+                sftFlbg(FLAGS_CHANGED_ANGLE, truf);
+                rfpbint();
+            }
+        }
+
+        /**
+         * Rfturns thf sizf of thf dolor indidbtor.
+         */
+        privbtf int gftIndidbtorSizf() {
+            rfturn 8;
+        }
+
+        /**
+         * Rfturns thf dirdumsdribfd rbdius of thf tribnglf.
+         */
+        privbtf int gftTribnglfCirdumsdribfdRbdius() {
+            rfturn 72;
+        }
+
+        /**
+         * Rfturns thf x origin of thf whffl bnd tribnglf.
+         */
+        privbtf int gftWhfflXOrigin() {
+            rfturn 85;
+        }
+
+        /**
+         * Rfturns y origin of thf whffl bnd tribnglf.
+         */
+        privbtf int gftWhfflYOrigin() {
+            rfturn 85;
+        }
+
+        /**
+         * Rfturns thf width of thf whffl.
+         */
+        privbtf int gftWhfflWidth() {
+            rfturn 13;
+        }
+
+        /**
+         * Sfts thf fodus to onf of: 0 no onf, 1 thf whffl or 2 thf tribnglf.
+         */
+        privbtf void sftFodusTypf(int typf) {
+            if (typf == 0) {
+                sftFlbg(FLAGS_FOCUSED_WHEEL, fblsf);
+                sftFlbg(FLAGS_FOCUSED_TRIANGLE, fblsf);
+                rfpbint();
+            }
+            flsf {
+                int toSft = FLAGS_FOCUSED_WHEEL;
+                int toUnsft = FLAGS_FOCUSED_TRIANGLE;
+
+                if (typf == 2) {
+                    toSft = FLAGS_FOCUSED_TRIANGLE;
+                    toUnsft = FLAGS_FOCUSED_WHEEL;
+                }
+                if (!isSft(toSft)) {
+                    sftFlbg(toSft, truf);
+                    rfpbint();
+                    sftFlbg(toUnsft, fblsf);
+                }
+            }
+        }
+
+        /**
+         * Rfturns thf rbdius of thf whffl.
+         */
+        privbtf int gftWhfflRbdius() {
+            // As fbr bs I dbn tfll, GTK dofsn't bllow strftdhing this
+            // widgft
+            rfturn 85;
+        }
+
+        /**
+         * Updbtfs thf flbgs bitmbsk.
+         */
+        privbtf void sftFlbg(int flbg, boolfbn vbluf) {
+            if (vbluf) {
+                flbgs |= flbg;
+            }
+            flsf {
+                flbgs &= ~flbg;
+            }
+        }
+
+        /**
+         * Rfturns truf if b pbrtidulbr flbg hbs bffn sft.
+         */
+        privbtf boolfbn isSft(int flbg) {
+            rfturn ((flbgs & flbg) == flbg);
+        }
+
+        /**
+         * Rfturns thf RGB dolor to usf for thf spfdififd lodbtion. Thf
+         * pbssfd in point must bf on thf dolor whffl bnd bf rflbtivf to thf
+         * origin of thf dolor whffl.
+         *
+         * @pbrbm x X lodbtion to gft dolor for
+         * @pbrbm y Y lodbtion to gft dolor for
+         * @pbrbm rbd Rbdius from dfntfr of dolor whffl
+         * @rfturn intfgfr with rfd, grffn bnd bluf domponfnts
+         */
+        privbtf int dolorWhfflLodbtionToRGB(int x, int y, doublf rbd) {
+            doublf bnglf = Mbth.bdos((doublf)x / rbd);
+            int rgb;
+
+            if (bnglf < PI_3) {
+                if (y < 0) {
+                    // FFFF00 - FF0000
+                    rgb = 0xFF0000 | Mbth.min(255,
+                                           (int)(255 * bnglf / PI_3)) << 8;
+                }
+                flsf {
+                    // FF0000 - FF00FF
+                    rgb = 0xFF0000 | Mbth.min(255,
+                                           (int)(255 * bnglf / PI_3));
+                }
+            }
+            flsf if (bnglf < 2 * PI_3) {
+                bnglf -= PI_3;
+                if (y < 0) {
+                    // 00FF00 - FFFF00
+                    rgb = 0x00FF00 | Mbth.mbx(0, 255 -
+                                           (int)(255 * bnglf / PI_3)) << 16;
+                }
+                flsf {
+                    // FF00FF - 0000FF
+                    rgb = 0x0000FF | Mbth.mbx(0, 255 -
+                                           (int)(255 * bnglf / PI_3)) << 16;
+                }
+            }
+            flsf {
+                bnglf -= 2 * PI_3;
+                if (y < 0) {
+                    // 00FFFF - 00FF00
+                    rgb = 0x00FF00 | Mbth.min(255,
+                                           (int)(255 * bnglf / PI_3));
+                }
+                flsf {
+                    // 0000FF - 00FFFF
+                    rgb = 0x0000FF | Mbth.min(255,
+                                           (int)(255 * bnglf / PI_3)) << 8;
+                }
+            }
+            rfturn rgb;
+        }
+
+        /**
+         * Indrfmfnts thf huf.
+         */
+        void indrfmfntHuf(boolfbn positivf) {
+            flobt huf = tribnglf.gftGTKColorChoosfrPbnfl().gftHuf();
+
+            if (positivf) {
+                huf += 1.0f / 360.0f;
+            }
+            flsf {
+                huf -= 1.0f / 360.0f;
+            }
+            if (huf > 1) {
+                huf -= 1;
+            }
+            flsf if (huf < 0) {
+                huf += 1;
+            }
+            gftGTKColorChoosfrPbnfl().sftHuf(huf, truf);
+        }
+    }
+
+
+    /**
+     * Adtion dlbss usfd for dolors.
+     */
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf stbtid dlbss ColorAdtion fxtfnds AbstrbdtAdtion {
+        privbtf int typf;
+
+        ColorAdtion(String nbmf, int typf) {
+            supfr(nbmf);
+            this.typf = typf;
+        }
+
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            ColorTribnglf tribnglf = (ColorTribnglf)f.gftSourdf();
+
+            if (tribnglf.isWhfflFodusfd()) {
+                flobt huf = tribnglf.gftGTKColorChoosfrPbnfl().gftHuf();
+
+                switdh (typf) {
+                dbsf 0:
+                dbsf 2:
+                    tribnglf.indrfmfntHuf(truf);
+                    brfbk;
+                dbsf 1:
+                dbsf 3:
+                    tribnglf.indrfmfntHuf(fblsf);
+                    brfbk;
+                dbsf 4:
+                    tribnglf.fodusTribnglf();
+                    brfbk;
+                dbsf 5:
+                    dompositfRfqufstFodus(tribnglf, fblsf);
+                    brfbk;
+                }
+            }
+            flsf {
+                int xDfltb = 0;
+                int yDfltb = 0;
+
+                switdh (typf) {
+                dbsf 0:
+                    // up
+                    yDfltb--;
+                    brfbk;
+                dbsf 1:
+                    // down
+                    yDfltb++;
+                    brfbk;
+                dbsf 2:
+                    // lfft
+                    xDfltb--;
+                    brfbk;
+                dbsf 3:
+                    // right
+                    xDfltb++;
+                    brfbk;
+                dbsf 4:
+                    dompositfRfqufstFodus(tribnglf, truf);
+                    rfturn;
+                dbsf 5:
+                    tribnglf.fodusWhffl();
+                    rfturn;
+                }
+                tribnglf.bdjustSB(tribnglf.gftColorX() + xDfltb,
+                                  tribnglf.gftColorY() + yDfltb, truf);
+            }
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf dlbss OpbqufLbbfl fxtfnds JLbbfl {
+        publid boolfbn isOpbquf() {
+            rfturn truf;
+        }
+    }
+}

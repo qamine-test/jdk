@@ -1,1695 +1,1695 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.peer.DialogPeer;
-import java.awt.event.*;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.concurrent.atomic.AtomicLong;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import javax.accessibility.*;
-import sun.awt.AppContext;
-import sun.awt.AWTPermissions;
-import sun.awt.SunToolkit;
-import sun.awt.PeerEvent;
-import sun.awt.util.IdentityArrayList;
-import sun.awt.util.IdentityLinkedList;
-import java.security.AccessControlException;
-import java.util.function.BooleanSupplier;
+import jbvb.bwt.pffr.DiblogPffr;
+import jbvb.bwt.fvfnt.*;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.Itfrbtor;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvbx.bddfssibility.*;
+import sun.bwt.AppContfxt;
+import sun.bwt.AWTPfrmissions;
+import sun.bwt.SunToolkit;
+import sun.bwt.PffrEvfnt;
+import sun.bwt.util.IdfntityArrbyList;
+import sun.bwt.util.IdfntityLinkfdList;
+import jbvb.sfdurity.AddfssControlExdfption;
+import jbvb.util.fundtion.BoolfbnSupplifr;
 
 /**
- * A Dialog is a top-level window with a title and a border
- * that is typically used to take some form of input from the user.
+ * A Diblog is b top-lfvfl window witi b titlf bnd b bordfr
+ * tibt is typidblly usfd to tbkf somf form of input from tif usfr.
  *
- * The size of the dialog includes any area designated for the
- * border.  The dimensions of the border area can be obtained
- * using the <code>getInsets</code> method, however, since
- * these dimensions are platform-dependent, a valid insets
- * value cannot be obtained until the dialog is made displayable
- * by either calling <code>pack</code> or <code>show</code>.
- * Since the border area is included in the overall size of the
- * dialog, the border effectively obscures a portion of the dialog,
- * constraining the area available for rendering and/or displaying
- * subcomponents to the rectangle which has an upper-left corner
- * location of <code>(insets.left, insets.top)</code>, and has a size of
- * <code>width - (insets.left + insets.right)</code> by
- * <code>height - (insets.top + insets.bottom)</code>.
+ * Tif sizf of tif diblog indludfs bny brfb dfsignbtfd for tif
+ * bordfr.  Tif dimfnsions of tif bordfr brfb dbn bf obtbinfd
+ * using tif <dodf>gftInsfts</dodf> mftiod, iowfvfr, sindf
+ * tifsf dimfnsions brf plbtform-dfpfndfnt, b vblid insfts
+ * vbluf dbnnot bf obtbinfd until tif diblog is mbdf displbybblf
+ * by fitifr dblling <dodf>pbdk</dodf> or <dodf>siow</dodf>.
+ * Sindf tif bordfr brfb is indludfd in tif ovfrbll sizf of tif
+ * diblog, tif bordfr ffffdtivfly obsdurfs b portion of tif diblog,
+ * donstrbining tif brfb bvbilbblf for rfndfring bnd/or displbying
+ * subdomponfnts to tif rfdtbnglf wiidi ibs bn uppfr-lfft dornfr
+ * lodbtion of <dodf>(insfts.lfft, insfts.top)</dodf>, bnd ibs b sizf of
+ * <dodf>widti - (insfts.lfft + insfts.rigit)</dodf> by
+ * <dodf>ifigit - (insfts.top + insfts.bottom)</dodf>.
  * <p>
- * The default layout for a dialog is <code>BorderLayout</code>.
+ * Tif dffbult lbyout for b diblog is <dodf>BordfrLbyout</dodf>.
  * <p>
- * A dialog may have its native decorations (i.e. Frame &amp; Titlebar) turned off
- * with <code>setUndecorated</code>.  This can only be done while the dialog
- * is not {@link Component#isDisplayable() displayable}.
+ * A diblog mby ibvf its nbtivf dfdorbtions (i.f. Frbmf &bmp; Titlfbbr) turnfd off
+ * witi <dodf>sftUndfdorbtfd</dodf>.  Tiis dbn only bf donf wiilf tif diblog
+ * is not {@link Componfnt#isDisplbybblf() displbybblf}.
  * <p>
- * A dialog may have another window as its owner when it's constructed.  When
- * the owner window of a visible dialog is minimized, the dialog will
- * automatically be hidden from the user. When the owner window is subsequently
- * restored, the dialog is made visible to the user again.
+ * A diblog mby ibvf bnotifr window bs its ownfr wifn it's donstrudtfd.  Wifn
+ * tif ownfr window of b visiblf diblog is minimizfd, tif diblog will
+ * butombtidblly bf iiddfn from tif usfr. Wifn tif ownfr window is subsfqufntly
+ * rfstorfd, tif diblog is mbdf visiblf to tif usfr bgbin.
  * <p>
- * In a multi-screen environment, you can create a <code>Dialog</code>
- * on a different screen device than its owner.  See {@link java.awt.Frame} for
- * more information.
+ * In b multi-sdrffn fnvironmfnt, you dbn drfbtf b <dodf>Diblog</dodf>
+ * on b difffrfnt sdrffn dfvidf tibn its ownfr.  Sff {@link jbvb.bwt.Frbmf} for
+ * morf informbtion.
  * <p>
- * A dialog can be either modeless (the default) or modal.  A modal
- * dialog is one which blocks input to some other top-level windows
- * in the application, except for any windows created with the dialog
- * as their owner. See <a href="doc-files/Modality.html">AWT Modality</a>
- * specification for details.
+ * A diblog dbn bf fitifr modflfss (tif dffbult) or modbl.  A modbl
+ * diblog is onf wiidi blodks input to somf otifr top-lfvfl windows
+ * in tif bpplidbtion, fxdfpt for bny windows drfbtfd witi tif diblog
+ * bs tifir ownfr. Sff <b irff="dod-filfs/Modblity.itml">AWT Modblity</b>
+ * spfdifidbtion for dftbils.
  * <p>
- * Dialogs are capable of generating the following
- * <code>WindowEvents</code>:
- * <code>WindowOpened</code>, <code>WindowClosing</code>,
- * <code>WindowClosed</code>, <code>WindowActivated</code>,
- * <code>WindowDeactivated</code>, <code>WindowGainedFocus</code>,
- * <code>WindowLostFocus</code>.
+ * Diblogs brf dbpbblf of gfnfrbting tif following
+ * <dodf>WindowEvfnts</dodf>:
+ * <dodf>WindowOpfnfd</dodf>, <dodf>WindowClosing</dodf>,
+ * <dodf>WindowClosfd</dodf>, <dodf>WindowAdtivbtfd</dodf>,
+ * <dodf>WindowDfbdtivbtfd</dodf>, <dodf>WindowGbinfdFodus</dodf>,
+ * <dodf>WindowLostFodus</dodf>.
  *
- * @see WindowEvent
- * @see Window#addWindowListener
+ * @sff WindowEvfnt
+ * @sff Window#bddWindowListfnfr
  *
- * @author      Sami Shaio
- * @author      Arthur van Hoff
- * @since       1.0
+ * @butior      Sbmi Sibio
+ * @butior      Artiur vbn Hoff
+ * @sindf       1.0
  */
-public class Dialog extends Window {
+publid dlbss Diblog fxtfnds Window {
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
     }
 
     /**
-     * A dialog's resizable property. Will be true
-     * if the Dialog is to be resizable, otherwise
-     * it will be false.
+     * A diblog's rfsizbblf propfrty. Will bf truf
+     * if tif Diblog is to bf rfsizbblf, otifrwisf
+     * it will bf fblsf.
      *
-     * @serial
-     * @see #setResizable(boolean)
+     * @sfribl
+     * @sff #sftRfsizbblf(boolfbn)
      */
-    boolean resizable = true;
+    boolfbn rfsizbblf = truf;
 
 
     /**
-     * This field indicates whether the dialog is undecorated.
-     * This property can only be changed while the dialog is not displayable.
-     * <code>undecorated</code> will be true if the dialog is
-     * undecorated, otherwise it will be false.
+     * Tiis fifld indidbtfs wiftifr tif diblog is undfdorbtfd.
+     * Tiis propfrty dbn only bf dibngfd wiilf tif diblog is not displbybblf.
+     * <dodf>undfdorbtfd</dodf> will bf truf if tif diblog is
+     * undfdorbtfd, otifrwisf it will bf fblsf.
      *
-     * @serial
-     * @see #setUndecorated(boolean)
-     * @see #isUndecorated()
-     * @see Component#isDisplayable()
-     * @since 1.4
+     * @sfribl
+     * @sff #sftUndfdorbtfd(boolfbn)
+     * @sff #isUndfdorbtfd()
+     * @sff Componfnt#isDisplbybblf()
+     * @sindf 1.4
      */
-    boolean undecorated = false;
+    boolfbn undfdorbtfd = fblsf;
 
-    private transient boolean initialized = false;
+    privbtf trbnsifnt boolfbn initiblizfd = fblsf;
 
     /**
-     * Modal dialogs block all input to some top-level windows.
-     * Whether a particular window is blocked depends on dialog's type
-     * of modality; this is called the "scope of blocking". The
-     * <code>ModalityType</code> enum specifies modal types and their
-     * associated scopes.
+     * Modbl diblogs blodk bll input to somf top-lfvfl windows.
+     * Wiftifr b pbrtidulbr window is blodkfd dfpfnds on diblog's typf
+     * of modblity; tiis is dbllfd tif "sdopf of blodking". Tif
+     * <dodf>ModblityTypf</dodf> fnum spfdififs modbl typfs bnd tifir
+     * bssodibtfd sdopfs.
      *
-     * @see Dialog#getModalityType
-     * @see Dialog#setModalityType
-     * @see Toolkit#isModalityTypeSupported
+     * @sff Diblog#gftModblityTypf
+     * @sff Diblog#sftModblityTypf
+     * @sff Toolkit#isModblityTypfSupportfd
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static enum ModalityType {
+    publid stbtid fnum ModblityTypf {
         /**
-         * <code>MODELESS</code> dialog doesn't block any top-level windows.
+         * <dodf>MODELESS</dodf> diblog dofsn't blodk bny top-lfvfl windows.
          */
         MODELESS,
         /**
-         * A <code>DOCUMENT_MODAL</code> dialog blocks input to all top-level windows
-         * from the same document except those from its own child hierarchy.
-         * A document is a top-level window without an owner. It may contain child
-         * windows that, together with the top-level window are treated as a single
-         * solid document. Since every top-level window must belong to some
-         * document, its root can be found as the top-nearest window without an owner.
+         * A <dodf>DOCUMENT_MODAL</dodf> diblog blodks input to bll top-lfvfl windows
+         * from tif sbmf dodumfnt fxdfpt tiosf from its own diild iifrbrdiy.
+         * A dodumfnt is b top-lfvfl window witiout bn ownfr. It mby dontbin diild
+         * windows tibt, togftifr witi tif top-lfvfl window brf trfbtfd bs b singlf
+         * solid dodumfnt. Sindf fvfry top-lfvfl window must bflong to somf
+         * dodumfnt, its root dbn bf found bs tif top-nfbrfst window witiout bn ownfr.
          */
         DOCUMENT_MODAL,
         /**
-         * An <code>APPLICATION_MODAL</code> dialog blocks all top-level windows
-         * from the same Java application except those from its own child hierarchy.
-         * If there are several applets launched in a browser, they can be
-         * treated either as separate applications or a single one. This behavior
-         * is implementation-dependent.
+         * An <dodf>APPLICATION_MODAL</dodf> diblog blodks bll top-lfvfl windows
+         * from tif sbmf Jbvb bpplidbtion fxdfpt tiosf from its own diild iifrbrdiy.
+         * If tifrf brf sfvfrbl bpplfts lbundifd in b browsfr, tify dbn bf
+         * trfbtfd fitifr bs sfpbrbtf bpplidbtions or b singlf onf. Tiis bfibvior
+         * is implfmfntbtion-dfpfndfnt.
          */
         APPLICATION_MODAL,
         /**
-         * A <code>TOOLKIT_MODAL</code> dialog blocks all top-level windows run
-         * from the same toolkit except those from its own child hierarchy. If there
-         * are several applets launched in a browser, all of them run with the same
-         * toolkit; thus, a toolkit-modal dialog displayed by an applet may affect
-         * other applets and all windows of the browser instance which embeds the
-         * Java runtime environment for this toolkit.
-         * Special <code>AWTPermission</code> "toolkitModality" must be granted to use
-         * toolkit-modal dialogs. If a <code>TOOLKIT_MODAL</code> dialog is being created
-         * and this permission is not granted, a <code>SecurityException</code> will be
-         * thrown, and no dialog will be created. If a modality type is being changed
-         * to <code>TOOLKIT_MODAL</code> and this permission is not granted, a
-         * <code>SecurityException</code> will be thrown, and the modality type will
-         * be left unchanged.
+         * A <dodf>TOOLKIT_MODAL</dodf> diblog blodks bll top-lfvfl windows run
+         * from tif sbmf toolkit fxdfpt tiosf from its own diild iifrbrdiy. If tifrf
+         * brf sfvfrbl bpplfts lbundifd in b browsfr, bll of tifm run witi tif sbmf
+         * toolkit; tius, b toolkit-modbl diblog displbyfd by bn bpplft mby bfffdt
+         * otifr bpplfts bnd bll windows of tif browsfr instbndf wiidi fmbfds tif
+         * Jbvb runtimf fnvironmfnt for tiis toolkit.
+         * Spfdibl <dodf>AWTPfrmission</dodf> "toolkitModblity" must bf grbntfd to usf
+         * toolkit-modbl diblogs. If b <dodf>TOOLKIT_MODAL</dodf> diblog is bfing drfbtfd
+         * bnd tiis pfrmission is not grbntfd, b <dodf>SfdurityExdfption</dodf> will bf
+         * tirown, bnd no diblog will bf drfbtfd. If b modblity typf is bfing dibngfd
+         * to <dodf>TOOLKIT_MODAL</dodf> bnd tiis pfrmission is not grbntfd, b
+         * <dodf>SfdurityExdfption</dodf> will bf tirown, bnd tif modblity typf will
+         * bf lfft undibngfd.
          */
         TOOLKIT_MODAL
     };
 
     /**
-     * Default modality type for modal dialogs. The default modality type is
-     * <code>APPLICATION_MODAL</code>. Calling the oldstyle <code>setModal(true)</code>
-     * is equal to <code>setModalityType(DEFAULT_MODALITY_TYPE)</code>.
+     * Dffbult modblity typf for modbl diblogs. Tif dffbult modblity typf is
+     * <dodf>APPLICATION_MODAL</dodf>. Cblling tif oldstylf <dodf>sftModbl(truf)</dodf>
+     * is fqubl to <dodf>sftModblityTypf(DEFAULT_MODALITY_TYPE)</dodf>.
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog#setModal
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog#sftModbl
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public final static ModalityType DEFAULT_MODALITY_TYPE = ModalityType.APPLICATION_MODAL;
+    publid finbl stbtid ModblityTypf DEFAULT_MODALITY_TYPE = ModblityTypf.APPLICATION_MODAL;
 
     /**
-     * True if this dialog is modal, false is the dialog is modeless.
-     * A modal dialog blocks user input to some application top-level
-     * windows. This field is kept only for backwards compatibility. Use the
-     * {@link Dialog.ModalityType ModalityType} enum instead.
+     * Truf if tiis diblog is modbl, fblsf is tif diblog is modflfss.
+     * A modbl diblog blodks usfr input to somf bpplidbtion top-lfvfl
+     * windows. Tiis fifld is kfpt only for bbdkwbrds dompbtibility. Usf tif
+     * {@link Diblog.ModblityTypf ModblityTypf} fnum instfbd.
      *
-     * @serial
+     * @sfribl
      *
-     * @see #isModal
-     * @see #setModal
-     * @see #getModalityType
-     * @see #setModalityType
-     * @see ModalityType
-     * @see ModalityType#MODELESS
-     * @see #DEFAULT_MODALITY_TYPE
+     * @sff #isModbl
+     * @sff #sftModbl
+     * @sff #gftModblityTypf
+     * @sff #sftModblityTypf
+     * @sff ModblityTypf
+     * @sff ModblityTypf#MODELESS
+     * @sff #DEFAULT_MODALITY_TYPE
      */
-    boolean modal;
+    boolfbn modbl;
 
     /**
-     * Modality type of this dialog. If the dialog's modality type is not
-     * {@link Dialog.ModalityType#MODELESS ModalityType.MODELESS}, it blocks all
-     * user input to some application top-level windows.
+     * Modblity typf of tiis diblog. If tif diblog's modblity typf is not
+     * {@link Diblog.ModblityTypf#MODELESS ModblityTypf.MODELESS}, it blodks bll
+     * usfr input to somf bpplidbtion top-lfvfl windows.
      *
-     * @serial
+     * @sfribl
      *
-     * @see ModalityType
-     * @see #getModalityType
-     * @see #setModalityType
+     * @sff ModblityTypf
+     * @sff #gftModblityTypf
+     * @sff #sftModblityTypf
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    ModalityType modalityType;
+    ModblityTypf modblityTypf;
 
     /**
-     * Any top-level window can be marked not to be blocked by modal
-     * dialogs. This is called "modal exclusion". This enum specifies
-     * the possible modal exclusion types.
+     * Any top-lfvfl window dbn bf mbrkfd not to bf blodkfd by modbl
+     * diblogs. Tiis is dbllfd "modbl fxdlusion". Tiis fnum spfdififs
+     * tif possiblf modbl fxdlusion typfs.
      *
-     * @see Window#getModalExclusionType
-     * @see Window#setModalExclusionType
-     * @see Toolkit#isModalExclusionTypeSupported
+     * @sff Window#gftModblExdlusionTypf
+     * @sff Window#sftModblExdlusionTypf
+     * @sff Toolkit#isModblExdlusionTypfSupportfd
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static enum ModalExclusionType {
+    publid stbtid fnum ModblExdlusionTypf {
         /**
-         * No modal exclusion.
+         * No modbl fxdlusion.
          */
         NO_EXCLUDE,
         /**
-         * <code>APPLICATION_EXCLUDE</code> indicates that a top-level window
-         * won't be blocked by any application-modal dialogs. Also, it isn't
-         * blocked by document-modal dialogs from outside of its child hierarchy.
+         * <dodf>APPLICATION_EXCLUDE</dodf> indidbtfs tibt b top-lfvfl window
+         * won't bf blodkfd by bny bpplidbtion-modbl diblogs. Also, it isn't
+         * blodkfd by dodumfnt-modbl diblogs from outsidf of its diild iifrbrdiy.
          */
         APPLICATION_EXCLUDE,
         /**
-         * <code>TOOLKIT_EXCLUDE</code> indicates that a top-level window
-         * won't be blocked by  application-modal or toolkit-modal dialogs. Also,
-         * it isn't blocked by document-modal dialogs from outside of its
-         * child hierarchy.
-         * The "toolkitModality" <code>AWTPermission</code> must be granted
-         * for this exclusion. If an exclusion property is being changed to
-         * <code>TOOLKIT_EXCLUDE</code> and this permission is not granted, a
-         * <code>SecurityEcxeption</code> will be thrown, and the exclusion
-         * property will be left unchanged.
+         * <dodf>TOOLKIT_EXCLUDE</dodf> indidbtfs tibt b top-lfvfl window
+         * won't bf blodkfd by  bpplidbtion-modbl or toolkit-modbl diblogs. Also,
+         * it isn't blodkfd by dodumfnt-modbl diblogs from outsidf of its
+         * diild iifrbrdiy.
+         * Tif "toolkitModblity" <dodf>AWTPfrmission</dodf> must bf grbntfd
+         * for tiis fxdlusion. If bn fxdlusion propfrty is bfing dibngfd to
+         * <dodf>TOOLKIT_EXCLUDE</dodf> bnd tiis pfrmission is not grbntfd, b
+         * <dodf>SfdurityEdxfption</dodf> will bf tirown, bnd tif fxdlusion
+         * propfrty will bf lfft undibngfd.
          */
         TOOLKIT_EXCLUDE
     };
 
-    /* operations with this list should be synchronized on tree lock*/
-    transient static IdentityArrayList<Dialog> modalDialogs = new IdentityArrayList<Dialog>();
+    /* opfrbtions witi tiis list siould bf syndironizfd on trff lodk*/
+    trbnsifnt stbtid IdfntityArrbyList<Diblog> modblDiblogs = nfw IdfntityArrbyList<Diblog>();
 
-    transient IdentityArrayList<Window> blockedWindows = new IdentityArrayList<Window>();
+    trbnsifnt IdfntityArrbyList<Window> blodkfdWindows = nfw IdfntityArrbyList<Window>();
 
     /**
-     * Specifies the title of the Dialog.
-     * This field can be null.
+     * Spfdififs tif titlf of tif Diblog.
+     * Tiis fifld dbn bf null.
      *
-     * @serial
-     * @see #getTitle()
-     * @see #setTitle(String)
+     * @sfribl
+     * @sff #gftTitlf()
+     * @sff #sftTitlf(String)
      */
-    String title;
+    String titlf;
 
-    private transient ModalEventFilter modalFilter;
-    private transient volatile SecondaryLoop secondaryLoop;
+    privbtf trbnsifnt ModblEvfntFiltfr modblFiltfr;
+    privbtf trbnsifnt volbtilf SfdondbryLoop sfdondbryLoop;
 
     /*
-     * Indicates that this dialog is being hidden. This flag is set to true at
-     * the beginning of hide() and to false at the end of hide().
+     * Indidbtfs tibt tiis diblog is bfing iiddfn. Tiis flbg is sft to truf bt
+     * tif bfginning of iidf() bnd to fblsf bt tif fnd of iidf().
      *
-     * @see #hide()
-     * @see #hideAndDisposePreHandler()
-     * @see #hideAndDisposeHandler()
-     * @see #shouldBlock()
+     * @sff #iidf()
+     * @sff #iidfAndDisposfPrfHbndlfr()
+     * @sff #iidfAndDisposfHbndlfr()
+     * @sff #siouldBlodk()
      */
-    transient volatile boolean isInHide = false;
+    trbnsifnt volbtilf boolfbn isInHidf = fblsf;
 
     /*
-     * Indicates that this dialog is being disposed. This flag is set to true at
-     * the beginning of doDispose() and to false at the end of doDispose().
+     * Indidbtfs tibt tiis diblog is bfing disposfd. Tiis flbg is sft to truf bt
+     * tif bfginning of doDisposf() bnd to fblsf bt tif fnd of doDisposf().
      *
-     * @see #hide()
-     * @see #hideAndDisposePreHandler()
-     * @see #hideAndDisposeHandler()
-     * @see #doDispose()
+     * @sff #iidf()
+     * @sff #iidfAndDisposfPrfHbndlfr()
+     * @sff #iidfAndDisposfHbndlfr()
+     * @sff #doDisposf()
      */
-    transient volatile boolean isInDispose = false;
+    trbnsifnt volbtilf boolfbn isInDisposf = fblsf;
 
-    private static final String base = "dialog";
-    private static int nameCounter = 0;
+    privbtf stbtid finbl String bbsf = "diblog";
+    privbtf stbtid int nbmfCountfr = 0;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = 5920926903803293709L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5920926903803293709L;
 
     /**
-     * Constructs an initially invisible, modeless <code>Dialog</code> with
-     * the specified owner <code>Frame</code> and an empty title.
+     * Construdts bn initiblly invisiblf, modflfss <dodf>Diblog</dodf> witi
+     * tif spfdififd ownfr <dodf>Frbmf</dodf> bnd bn fmpty titlf.
      *
-     * @param owner the owner of the dialog or <code>null</code> if
-     *     this dialog has no owner
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *    <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *    <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @pbrbm ownfr tif ownfr of tif diblog or <dodf>null</dodf> if
+     *     tiis diblog ibs no ownfr
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>'s
+     *    <dodf>GrbpiidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption wifn
+     *    <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see Component#setSize
-     * @see Component#setVisible
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff Componfnt#sftSizf
+     * @sff Componfnt#sftVisiblf
      */
-     public Dialog(Frame owner) {
-         this(owner, "", false);
+     publid Diblog(Frbmf ownfr) {
+         tiis(ownfr, "", fblsf);
      }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the specified
-     * owner <code>Frame</code> and modality and an empty title.
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> witi tif spfdififd
+     * ownfr <dodf>Frbmf</dodf> bnd modblity bnd bn fmpty titlf.
      *
-     * @param owner the owner of the dialog or <code>null</code> if
-     *     this dialog has no owner
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If <code>false</code>, the dialog is <code>MODELESS</code>;
-     *     if <code>true</code>, the modality type property is set to
-     *     <code>DEFAULT_MODALITY_TYPE</code>
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *    <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @pbrbm ownfr tif ownfr of tif diblog or <dodf>null</dodf> if
+     *     tiis diblog ibs no ownfr
+     * @pbrbm modbl spfdififs wiftifr diblog blodks usfr input to otifr top-lfvfl
+     *     windows wifn siown. If <dodf>fblsf</dodf>, tif diblog is <dodf>MODELESS</dodf>;
+     *     if <dodf>truf</dodf>, tif modblity typf propfrty is sft to
+     *     <dodf>DEFAULT_MODALITY_TYPE</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>'s
+     *    <dodf>GrbpiidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption wifn
+     *     <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-     public Dialog(Frame owner, boolean modal) {
-         this(owner, "", modal);
+     publid Diblog(Frbmf ownfr, boolfbn modbl) {
+         tiis(ownfr, "", modbl);
      }
 
     /**
-     * Constructs an initially invisible, modeless <code>Dialog</code> with
-     * the specified owner <code>Frame</code> and title.
+     * Construdts bn initiblly invisiblf, modflfss <dodf>Diblog</dodf> witi
+     * tif spfdififd ownfr <dodf>Frbmf</dodf> bnd titlf.
      *
-     * @param owner the owner of the dialog or <code>null</code> if
-     *     this dialog has no owner
-     * @param title the title of the dialog or <code>null</code> if this dialog
-     *     has no title
-     * @exception IllegalArgumentException if the <code>owner</code>'s
-     *     <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @pbrbm ownfr tif ownfr of tif diblog or <dodf>null</dodf> if
+     *     tiis diblog ibs no ownfr
+     * @pbrbm titlf tif titlf of tif diblog or <dodf>null</dodf> if tiis diblog
+     *     ibs no titlf
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>'s
+     *     <dodf>GrbpiidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption wifn
+     *     <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see Component#setSize
-     * @see Component#setVisible
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff Componfnt#sftSizf
+     * @sff Componfnt#sftVisiblf
      */
-     public Dialog(Frame owner, String title) {
-         this(owner, title, false);
+     publid Diblog(Frbmf ownfr, String titlf) {
+         tiis(ownfr, titlf, fblsf);
      }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the
-     * specified owner <code>Frame</code>, title and modality.
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> witi tif
+     * spfdififd ownfr <dodf>Frbmf</dodf>, titlf bnd modblity.
      *
-     * @param owner the owner of the dialog or <code>null</code> if
-     *     this dialog has no owner
-     * @param title the title of the dialog or <code>null</code> if this dialog
-     *     has no title
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If <code>false</code>, the dialog is <code>MODELESS</code>;
-     *     if <code>true</code>, the modality type property is set to
-     *     <code>DEFAULT_MODALITY_TYPE</code>
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *    <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *    <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @pbrbm ownfr tif ownfr of tif diblog or <dodf>null</dodf> if
+     *     tiis diblog ibs no ownfr
+     * @pbrbm titlf tif titlf of tif diblog or <dodf>null</dodf> if tiis diblog
+     *     ibs no titlf
+     * @pbrbm modbl spfdififs wiftifr diblog blodks usfr input to otifr top-lfvfl
+     *     windows wifn siown. If <dodf>fblsf</dodf>, tif diblog is <dodf>MODELESS</dodf>;
+     *     if <dodf>truf</dodf>, tif modblity typf propfrty is sft to
+     *     <dodf>DEFAULT_MODALITY_TYPE</dodf>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>'s
+     *    <dodf>GrbpiidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption wifn
+     *    <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see Component#setSize
-     * @see Component#setVisible
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff Componfnt#sftSizf
+     * @sff Componfnt#sftVisiblf
      */
-     public Dialog(Frame owner, String title, boolean modal) {
-         this(owner, title, modal ? DEFAULT_MODALITY_TYPE : ModalityType.MODELESS);
+     publid Diblog(Frbmf ownfr, String titlf, boolfbn modbl) {
+         tiis(ownfr, titlf, modbl ? DEFAULT_MODALITY_TYPE : ModblityTypf.MODELESS);
      }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the specified owner
-     * <code>Frame</code>, title, modality, and <code>GraphicsConfiguration</code>.
-     * @param owner the owner of the dialog or <code>null</code> if this dialog
-     *     has no owner
-     * @param title the title of the dialog or <code>null</code> if this dialog
-     *     has no title
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If <code>false</code>, the dialog is <code>MODELESS</code>;
-     *     if <code>true</code>, the modality type property is set to
-     *     <code>DEFAULT_MODALITY_TYPE</code>
-     * @param gc the <code>GraphicsConfiguration</code> of the target screen device;
-     *     if <code>null</code>, the default system <code>GraphicsConfiguration</code>
-     *     is assumed
-     * @exception java.lang.IllegalArgumentException if <code>gc</code>
-     *     is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> witi tif spfdififd ownfr
+     * <dodf>Frbmf</dodf>, titlf, modblity, bnd <dodf>GrbpiidsConfigurbtion</dodf>.
+     * @pbrbm ownfr tif ownfr of tif diblog or <dodf>null</dodf> if tiis diblog
+     *     ibs no ownfr
+     * @pbrbm titlf tif titlf of tif diblog or <dodf>null</dodf> if tiis diblog
+     *     ibs no titlf
+     * @pbrbm modbl spfdififs wiftifr diblog blodks usfr input to otifr top-lfvfl
+     *     windows wifn siown. If <dodf>fblsf</dodf>, tif diblog is <dodf>MODELESS</dodf>;
+     *     if <dodf>truf</dodf>, tif modblity typf propfrty is sft to
+     *     <dodf>DEFAULT_MODALITY_TYPE</dodf>
+     * @pbrbm gd tif <dodf>GrbpiidsConfigurbtion</dodf> of tif tbrgft sdrffn dfvidf;
+     *     if <dodf>null</dodf>, tif dffbult systfm <dodf>GrbpiidsConfigurbtion</dodf>
+     *     is bssumfd
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>gd</dodf>
+     *     is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption wifn
+     *     <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see Component#setSize
-     * @see Component#setVisible
-     * @since 1.4
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff Componfnt#sftSizf
+     * @sff Componfnt#sftVisiblf
+     * @sindf 1.4
      */
-     public Dialog(Frame owner, String title, boolean modal,
-                   GraphicsConfiguration gc) {
-         this(owner, title, modal ? DEFAULT_MODALITY_TYPE : ModalityType.MODELESS, gc);
+     publid Diblog(Frbmf ownfr, String titlf, boolfbn modbl,
+                   GrbpiidsConfigurbtion gd) {
+         tiis(ownfr, titlf, modbl ? DEFAULT_MODALITY_TYPE : ModblityTypf.MODELESS, gd);
      }
 
     /**
-     * Constructs an initially invisible, modeless <code>Dialog</code> with
-     * the specified owner <code>Dialog</code> and an empty title.
+     * Construdts bn initiblly invisiblf, modflfss <dodf>Diblog</dodf> witi
+     * tif spfdififd ownfr <dodf>Diblog</dodf> bnd bn fmpty titlf.
      *
-     * @param owner the owner of the dialog or <code>null</code> if this
-     *     dialog has no owner
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *     <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @since 1.2
+     * @pbrbm ownfr tif ownfr of tif diblog or <dodf>null</dodf> if tiis
+     *     diblog ibs no ownfr
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>'s
+     *     <dodf>GrbpiidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption wifn
+     *     <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.2
      */
-     public Dialog(Dialog owner) {
-         this(owner, "", false);
+     publid Diblog(Diblog ownfr) {
+         tiis(ownfr, "", fblsf);
      }
 
     /**
-     * Constructs an initially invisible, modeless <code>Dialog</code>
-     * with the specified owner <code>Dialog</code> and title.
+     * Construdts bn initiblly invisiblf, modflfss <dodf>Diblog</dodf>
+     * witi tif spfdififd ownfr <dodf>Diblog</dodf> bnd titlf.
      *
-     * @param owner the owner of the dialog or <code>null</code> if this
-     *     has no owner
-     * @param title the title of the dialog or <code>null</code> if this dialog
-     *     has no title
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *     <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @pbrbm ownfr tif ownfr of tif diblog or <dodf>null</dodf> if tiis
+     *     ibs no ownfr
+     * @pbrbm titlf tif titlf of tif diblog or <dodf>null</dodf> if tiis diblog
+     *     ibs no titlf
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>'s
+     *     <dodf>GrbpiidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption wifn
+     *     <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @since 1.2
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sindf 1.2
      */
-     public Dialog(Dialog owner, String title) {
-         this(owner, title, false);
+     publid Diblog(Diblog ownfr, String titlf) {
+         tiis(ownfr, titlf, fblsf);
      }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the
-     * specified owner <code>Dialog</code>, title, and modality.
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> witi tif
+     * spfdififd ownfr <dodf>Diblog</dodf>, titlf, bnd modblity.
      *
-     * @param owner the owner of the dialog or <code>null</code> if this
-     *     dialog has no owner
-     * @param title the title of the dialog or <code>null</code> if this
-     *     dialog has no title
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If <code>false</code>, the dialog is <code>MODELESS</code>;
-     *     if <code>true</code>, the modality type property is set to
-     *     <code>DEFAULT_MODALITY_TYPE</code>
-     * @exception IllegalArgumentException if the <code>owner</code>'s
-     *    <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *    <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @pbrbm ownfr tif ownfr of tif diblog or <dodf>null</dodf> if tiis
+     *     diblog ibs no ownfr
+     * @pbrbm titlf tif titlf of tif diblog or <dodf>null</dodf> if tiis
+     *     diblog ibs no titlf
+     * @pbrbm modbl spfdififs wiftifr diblog blodks usfr input to otifr top-lfvfl
+     *     windows wifn siown. If <dodf>fblsf</dodf>, tif diblog is <dodf>MODELESS</dodf>;
+     *     if <dodf>truf</dodf>, tif modblity typf propfrty is sft to
+     *     <dodf>DEFAULT_MODALITY_TYPE</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>'s
+     *    <dodf>GrbpiidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption wifn
+     *    <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      *
-     * @since 1.2
+     * @sindf 1.2
      */
-     public Dialog(Dialog owner, String title, boolean modal) {
-         this(owner, title, modal ? DEFAULT_MODALITY_TYPE : ModalityType.MODELESS);
+     publid Diblog(Diblog ownfr, String titlf, boolfbn modbl) {
+         tiis(ownfr, titlf, modbl ? DEFAULT_MODALITY_TYPE : ModblityTypf.MODELESS);
      }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the
-     * specified owner <code>Dialog</code>, title, modality and
-     * <code>GraphicsConfiguration</code>.
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> witi tif
+     * spfdififd ownfr <dodf>Diblog</dodf>, titlf, modblity bnd
+     * <dodf>GrbpiidsConfigurbtion</dodf>.
      *
-     * @param owner the owner of the dialog or <code>null</code> if this
-     *     dialog has no owner
-     * @param title the title of the dialog or <code>null</code> if this
-     *     dialog has no title
-     * @param modal specifies whether dialog blocks user input to other top-level
-     *     windows when shown. If <code>false</code>, the dialog is <code>MODELESS</code>;
-     *     if <code>true</code>, the modality type property is set to
-     *     <code>DEFAULT_MODALITY_TYPE</code>
-     * @param gc the <code>GraphicsConfiguration</code> of the target screen device;
-     *     if <code>null</code>, the default system <code>GraphicsConfiguration</code>
-     *     is assumed
-     * @exception java.lang.IllegalArgumentException if <code>gc</code>
-     *    is not from a screen device
-     * @exception HeadlessException when
-     *    <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @pbrbm ownfr tif ownfr of tif diblog or <dodf>null</dodf> if tiis
+     *     diblog ibs no ownfr
+     * @pbrbm titlf tif titlf of tif diblog or <dodf>null</dodf> if tiis
+     *     diblog ibs no titlf
+     * @pbrbm modbl spfdififs wiftifr diblog blodks usfr input to otifr top-lfvfl
+     *     windows wifn siown. If <dodf>fblsf</dodf>, tif diblog is <dodf>MODELESS</dodf>;
+     *     if <dodf>truf</dodf>, tif modblity typf propfrty is sft to
+     *     <dodf>DEFAULT_MODALITY_TYPE</dodf>
+     * @pbrbm gd tif <dodf>GrbpiidsConfigurbtion</dodf> of tif tbrgft sdrffn dfvidf;
+     *     if <dodf>null</dodf>, tif dffbult systfm <dodf>GrbpiidsConfigurbtion</dodf>
+     *     is bssumfd
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>gd</dodf>
+     *    is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption wifn
+     *    <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog.ModalityType#MODELESS
-     * @see java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see Component#setSize
-     * @see Component#setVisible
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff Componfnt#sftSizf
+     * @sff Componfnt#sftVisiblf
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-     public Dialog(Dialog owner, String title, boolean modal,
-                   GraphicsConfiguration gc) {
-         this(owner, title, modal ? DEFAULT_MODALITY_TYPE : ModalityType.MODELESS, gc);
+     publid Diblog(Diblog ownfr, String titlf, boolfbn modbl,
+                   GrbpiidsConfigurbtion gd) {
+         tiis(ownfr, titlf, modbl ? DEFAULT_MODALITY_TYPE : ModblityTypf.MODELESS, gd);
      }
 
     /**
-     * Constructs an initially invisible, modeless <code>Dialog</code> with the
-     * specified owner <code>Window</code> and an empty title.
+     * Construdts bn initiblly invisiblf, modflfss <dodf>Diblog</dodf> witi tif
+     * spfdififd ownfr <dodf>Window</dodf> bnd bn fmpty titlf.
      *
-     * @param owner the owner of the dialog. The owner must be an instance of
-     *     {@link java.awt.Dialog Dialog}, {@link java.awt.Frame Frame}, any
-     *     of their descendents or <code>null</code>
+     * @pbrbm ownfr tif ownfr of tif diblog. Tif ownfr must bf bn instbndf of
+     *     {@link jbvb.bwt.Diblog Diblog}, {@link jbvb.bwt.Frbmf Frbmf}, bny
+     *     of tifir dfsdfndfnts or <dodf>null</dodf>
      *
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>
-     *     is not an instance of {@link java.awt.Dialog Dialog} or {@link
-     *     java.awt.Frame Frame}
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *     <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>
+     *     is not bn instbndf of {@link jbvb.bwt.Diblog Diblog} or {@link
+     *     jbvb.bwt.Frbmf Frbmf}
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>'s
+     *     <dodf>GrbpiidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption wifn
+     *     <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public Dialog(Window owner) {
-        this(owner, "", ModalityType.MODELESS);
+    publid Diblog(Window ownfr) {
+        tiis(ownfr, "", ModblityTypf.MODELESS);
     }
 
     /**
-     * Constructs an initially invisible, modeless <code>Dialog</code> with
-     * the specified owner <code>Window</code> and title.
+     * Construdts bn initiblly invisiblf, modflfss <dodf>Diblog</dodf> witi
+     * tif spfdififd ownfr <dodf>Window</dodf> bnd titlf.
      *
-     * @param owner the owner of the dialog. The owner must be an instance of
-     *    {@link java.awt.Dialog Dialog}, {@link java.awt.Frame Frame}, any
-     *    of their descendents or <code>null</code>
-     * @param title the title of the dialog or <code>null</code> if this dialog
-     *    has no title
+     * @pbrbm ownfr tif ownfr of tif diblog. Tif ownfr must bf bn instbndf of
+     *    {@link jbvb.bwt.Diblog Diblog}, {@link jbvb.bwt.Frbmf Frbmf}, bny
+     *    of tifir dfsdfndfnts or <dodf>null</dodf>
+     * @pbrbm titlf tif titlf of tif diblog or <dodf>null</dodf> if tiis diblog
+     *    ibs no titlf
      *
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>
-     *    is not an instance of {@link java.awt.Dialog Dialog} or {@link
-     *    java.awt.Frame Frame}
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *    <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *    <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>
+     *    is not bn instbndf of {@link jbvb.bwt.Diblog Diblog} or {@link
+     *    jbvb.bwt.Frbmf Frbmf}
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>'s
+     *    <dodf>GrbpiidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption wifn
+     *    <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
      *
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public Dialog(Window owner, String title) {
-        this(owner, title, ModalityType.MODELESS);
+    publid Diblog(Window ownfr, String titlf) {
+        tiis(ownfr, titlf, ModblityTypf.MODELESS);
     }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the
-     * specified owner <code>Window</code> and modality and an empty title.
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> witi tif
+     * spfdififd ownfr <dodf>Window</dodf> bnd modblity bnd bn fmpty titlf.
      *
-     * @param owner the owner of the dialog. The owner must be an instance of
-     *    {@link java.awt.Dialog Dialog}, {@link java.awt.Frame Frame}, any
-     *    of their descendents or <code>null</code>
-     * @param modalityType specifies whether dialog blocks input to other
-     *    windows when shown. <code>null</code> value and unsupported modality
-     *    types are equivalent to <code>MODELESS</code>
+     * @pbrbm ownfr tif ownfr of tif diblog. Tif ownfr must bf bn instbndf of
+     *    {@link jbvb.bwt.Diblog Diblog}, {@link jbvb.bwt.Frbmf Frbmf}, bny
+     *    of tifir dfsdfndfnts or <dodf>null</dodf>
+     * @pbrbm modblityTypf spfdififs wiftifr diblog blodks input to otifr
+     *    windows wifn siown. <dodf>null</dodf> vbluf bnd unsupportfd modblity
+     *    typfs brf fquivblfnt to <dodf>MODELESS</dodf>
      *
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>
-     *    is not an instance of {@link java.awt.Dialog Dialog} or {@link
-     *    java.awt.Frame Frame}
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *    <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *    <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
-     * @exception SecurityException if the calling thread does not have permission
-     *    to create modal dialogs with the given <code>modalityType</code>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>
+     *    is not bn instbndf of {@link jbvb.bwt.Diblog Diblog} or {@link
+     *    jbvb.bwt.Frbmf Frbmf}
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>'s
+     *    <dodf>GrbpiidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption wifn
+     *    <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     * @fxdfption SfdurityExdfption if tif dblling tirfbd dofs not ibvf pfrmission
+     *    to drfbtf modbl diblogs witi tif givfn <dodf>modblityTypf</dodf>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see java.awt.Toolkit#isModalityTypeSupported
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff jbvb.bwt.Toolkit#isModblityTypfSupportfd
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public Dialog(Window owner, ModalityType modalityType) {
-        this(owner, "", modalityType);
+    publid Diblog(Window ownfr, ModblityTypf modblityTypf) {
+        tiis(ownfr, "", modblityTypf);
     }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the
-     * specified owner <code>Window</code>, title and modality.
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> witi tif
+     * spfdififd ownfr <dodf>Window</dodf>, titlf bnd modblity.
      *
-     * @param owner the owner of the dialog. The owner must be an instance of
-     *     {@link java.awt.Dialog Dialog}, {@link java.awt.Frame Frame}, any
-     *     of their descendents or <code>null</code>
-     * @param title the title of the dialog or <code>null</code> if this dialog
-     *     has no title
-     * @param modalityType specifies whether dialog blocks input to other
-     *    windows when shown. <code>null</code> value and unsupported modality
-     *    types are equivalent to <code>MODELESS</code>
+     * @pbrbm ownfr tif ownfr of tif diblog. Tif ownfr must bf bn instbndf of
+     *     {@link jbvb.bwt.Diblog Diblog}, {@link jbvb.bwt.Frbmf Frbmf}, bny
+     *     of tifir dfsdfndfnts or <dodf>null</dodf>
+     * @pbrbm titlf tif titlf of tif diblog or <dodf>null</dodf> if tiis diblog
+     *     ibs no titlf
+     * @pbrbm modblityTypf spfdififs wiftifr diblog blodks input to otifr
+     *    windows wifn siown. <dodf>null</dodf> vbluf bnd unsupportfd modblity
+     *    typfs brf fquivblfnt to <dodf>MODELESS</dodf>
      *
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>
-     *     is not an instance of {@link java.awt.Dialog Dialog} or {@link
-     *     java.awt.Frame Frame}
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>'s
-     *     <code>GraphicsConfiguration</code> is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
-     * @exception SecurityException if the calling thread does not have permission
-     *     to create modal dialogs with the given <code>modalityType</code>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>
+     *     is not bn instbndf of {@link jbvb.bwt.Diblog Diblog} or {@link
+     *     jbvb.bwt.Frbmf Frbmf}
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>'s
+     *     <dodf>GrbpiidsConfigurbtion</dodf> is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption wifn
+     *     <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     * @fxdfption SfdurityExdfption if tif dblling tirfbd dofs not ibvf pfrmission
+     *     to drfbtf modbl diblogs witi tif givfn <dodf>modblityTypf</dodf>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see java.awt.Toolkit#isModalityTypeSupported
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff jbvb.bwt.Toolkit#isModblityTypfSupportfd
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public Dialog(Window owner, String title, ModalityType modalityType) {
-        super(owner);
+    publid Diblog(Window ownfr, String titlf, ModblityTypf modblityTypf) {
+        supfr(ownfr);
 
-        if ((owner != null) &&
-            !(owner instanceof Frame) &&
-            !(owner instanceof Dialog))
+        if ((ownfr != null) &&
+            !(ownfr instbndfof Frbmf) &&
+            !(ownfr instbndfof Diblog))
         {
-            throw new IllegalArgumentException("Wrong parent window");
+            tirow nfw IllfgblArgumfntExdfption("Wrong pbrfnt window");
         }
 
-        this.title = title;
-        setModalityType(modalityType);
-        SunToolkit.checkAndSetPolicy(this);
-        initialized = true;
+        tiis.titlf = titlf;
+        sftModblityTypf(modblityTypf);
+        SunToolkit.difdkAndSftPolidy(tiis);
+        initiblizfd = truf;
     }
 
     /**
-     * Constructs an initially invisible <code>Dialog</code> with the
-     * specified owner <code>Window</code>, title, modality and
-     * <code>GraphicsConfiguration</code>.
+     * Construdts bn initiblly invisiblf <dodf>Diblog</dodf> witi tif
+     * spfdififd ownfr <dodf>Window</dodf>, titlf, modblity bnd
+     * <dodf>GrbpiidsConfigurbtion</dodf>.
      *
-     * @param owner the owner of the dialog. The owner must be an instance of
-     *     {@link java.awt.Dialog Dialog}, {@link java.awt.Frame Frame}, any
-     *     of their descendents or <code>null</code>
-     * @param title the title of the dialog or <code>null</code> if this dialog
-     *     has no title
-     * @param modalityType specifies whether dialog blocks input to other
-     *    windows when shown. <code>null</code> value and unsupported modality
-     *    types are equivalent to <code>MODELESS</code>
-     * @param gc the <code>GraphicsConfiguration</code> of the target screen device;
-     *     if <code>null</code>, the default system <code>GraphicsConfiguration</code>
-     *     is assumed
+     * @pbrbm ownfr tif ownfr of tif diblog. Tif ownfr must bf bn instbndf of
+     *     {@link jbvb.bwt.Diblog Diblog}, {@link jbvb.bwt.Frbmf Frbmf}, bny
+     *     of tifir dfsdfndfnts or <dodf>null</dodf>
+     * @pbrbm titlf tif titlf of tif diblog or <dodf>null</dodf> if tiis diblog
+     *     ibs no titlf
+     * @pbrbm modblityTypf spfdififs wiftifr diblog blodks input to otifr
+     *    windows wifn siown. <dodf>null</dodf> vbluf bnd unsupportfd modblity
+     *    typfs brf fquivblfnt to <dodf>MODELESS</dodf>
+     * @pbrbm gd tif <dodf>GrbpiidsConfigurbtion</dodf> of tif tbrgft sdrffn dfvidf;
+     *     if <dodf>null</dodf>, tif dffbult systfm <dodf>GrbpiidsConfigurbtion</dodf>
+     *     is bssumfd
      *
-     * @exception java.lang.IllegalArgumentException if the <code>owner</code>
-     *     is not an instance of {@link java.awt.Dialog Dialog} or {@link
-     *     java.awt.Frame Frame}
-     * @exception java.lang.IllegalArgumentException if <code>gc</code>
-     *     is not from a screen device
-     * @exception HeadlessException when
-     *     <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
-     * @exception SecurityException if the calling thread does not have permission
-     *     to create modal dialogs with the given <code>modalityType</code>
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if tif <dodf>ownfr</dodf>
+     *     is not bn instbndf of {@link jbvb.bwt.Diblog Diblog} or {@link
+     *     jbvb.bwt.Frbmf Frbmf}
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if <dodf>gd</dodf>
+     *     is not from b sdrffn dfvidf
+     * @fxdfption HfbdlfssExdfption wifn
+     *     <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     * @fxdfption SfdurityExdfption if tif dblling tirfbd dofs not ibvf pfrmission
+     *     to drfbtf modbl diblogs witi tif givfn <dodf>modblityTypf</dodf>
      *
-     * @see java.awt.Dialog.ModalityType
-     * @see java.awt.Dialog#setModal
-     * @see java.awt.Dialog#setModalityType
-     * @see java.awt.GraphicsEnvironment#isHeadless
-     * @see java.awt.Toolkit#isModalityTypeSupported
+     * @sff jbvb.bwt.Diblog.ModblityTypf
+     * @sff jbvb.bwt.Diblog#sftModbl
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
+     * @sff jbvb.bwt.Toolkit#isModblityTypfSupportfd
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public Dialog(Window owner, String title, ModalityType modalityType,
-                  GraphicsConfiguration gc) {
-        super(owner, gc);
+    publid Diblog(Window ownfr, String titlf, ModblityTypf modblityTypf,
+                  GrbpiidsConfigurbtion gd) {
+        supfr(ownfr, gd);
 
-        if ((owner != null) &&
-            !(owner instanceof Frame) &&
-            !(owner instanceof Dialog))
+        if ((ownfr != null) &&
+            !(ownfr instbndfof Frbmf) &&
+            !(ownfr instbndfof Diblog))
         {
-            throw new IllegalArgumentException("wrong owner window");
+            tirow nfw IllfgblArgumfntExdfption("wrong ownfr window");
         }
 
-        this.title = title;
-        setModalityType(modalityType);
-        SunToolkit.checkAndSetPolicy(this);
-        initialized = true;
+        tiis.titlf = titlf;
+        sftModblityTypf(modblityTypf);
+        SunToolkit.difdkAndSftPolidy(tiis);
+        initiblizfd = truf;
     }
 
     /**
-     * Construct a name for this component.  Called by getName() when the
-     * name is null.
+     * Construdt b nbmf for tiis domponfnt.  Cbllfd by gftNbmf() wifn tif
+     * nbmf is null.
      */
-    String constructComponentName() {
-        synchronized (Dialog.class) {
-            return base + nameCounter++;
+    String donstrudtComponfntNbmf() {
+        syndironizfd (Diblog.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
         }
     }
 
     /**
-     * Makes this Dialog displayable by connecting it to
-     * a native screen resource.  Making a dialog displayable will
-     * cause any of its children to be made displayable.
-     * This method is called internally by the toolkit and should
-     * not be called directly by programs.
-     * @see Component#isDisplayable
-     * @see #removeNotify
+     * Mbkfs tiis Diblog displbybblf by donnfdting it to
+     * b nbtivf sdrffn rfsourdf.  Mbking b diblog displbybblf will
+     * dbusf bny of its diildrfn to bf mbdf displbybblf.
+     * Tiis mftiod is dbllfd intfrnblly by tif toolkit bnd siould
+     * not bf dbllfd dirfdtly by progrbms.
+     * @sff Componfnt#isDisplbybblf
+     * @sff #rfmovfNotify
      */
-    public void addNotify() {
-        synchronized (getTreeLock()) {
-            if (parent != null && parent.getPeer() == null) {
-                parent.addNotify();
+    publid void bddNotify() {
+        syndironizfd (gftTrffLodk()) {
+            if (pbrfnt != null && pbrfnt.gftPffr() == null) {
+                pbrfnt.bddNotify();
             }
 
-            if (peer == null) {
-                peer = getToolkit().createDialog(this);
+            if (pffr == null) {
+                pffr = gftToolkit().drfbtfDiblog(tiis);
             }
-            super.addNotify();
+            supfr.bddNotify();
         }
     }
 
     /**
-     * Indicates whether the dialog is modal.
+     * Indidbtfs wiftifr tif diblog is modbl.
      * <p>
-     * This method is obsolete and is kept for backwards compatibility only.
-     * Use {@link #getModalityType getModalityType()} instead.
+     * Tiis mftiod is obsolftf bnd is kfpt for bbdkwbrds dompbtibility only.
+     * Usf {@link #gftModblityTypf gftModblityTypf()} instfbd.
      *
-     * @return    <code>true</code> if this dialog window is modal;
-     *            <code>false</code> otherwise
+     * @rfturn    <dodf>truf</dodf> if tiis diblog window is modbl;
+     *            <dodf>fblsf</dodf> otifrwisf
      *
-     * @see       java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see       java.awt.Dialog.ModalityType#MODELESS
-     * @see       java.awt.Dialog#setModal
-     * @see       java.awt.Dialog#getModalityType
-     * @see       java.awt.Dialog#setModalityType
+     * @sff       jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff       jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff       jbvb.bwt.Diblog#sftModbl
+     * @sff       jbvb.bwt.Diblog#gftModblityTypf
+     * @sff       jbvb.bwt.Diblog#sftModblityTypf
      */
-    public boolean isModal() {
-        return isModal_NoClientCode();
+    publid boolfbn isModbl() {
+        rfturn isModbl_NoClifntCodf();
     }
-    final boolean isModal_NoClientCode() {
-        return modalityType != ModalityType.MODELESS;
-    }
-
-    /**
-     * Specifies whether this dialog should be modal.
-     * <p>
-     * This method is obsolete and is kept for backwards compatibility only.
-     * Use {@link #setModalityType setModalityType()} instead.
-     * <p>
-     * Note: changing modality of the visible dialog may have no effect
-     * until it is hidden and then shown again.
-     *
-     * @param modal specifies whether dialog blocks input to other windows
-     *     when shown; calling to <code>setModal(true)</code> is equivalent to
-     *     <code>setModalityType(Dialog.DEFAULT_MODALITY_TYPE)</code>, and
-     *     calling to <code>setModal(false)</code> is equvivalent to
-     *     <code>setModalityType(Dialog.ModalityType.MODELESS)</code>
-     *
-     * @see       java.awt.Dialog#DEFAULT_MODALITY_TYPE
-     * @see       java.awt.Dialog.ModalityType#MODELESS
-     * @see       java.awt.Dialog#isModal
-     * @see       java.awt.Dialog#getModalityType
-     * @see       java.awt.Dialog#setModalityType
-     *
-     * @since     1.1
-     */
-    public void setModal(boolean modal) {
-        this.modal = modal;
-        setModalityType(modal ? DEFAULT_MODALITY_TYPE : ModalityType.MODELESS);
+    finbl boolfbn isModbl_NoClifntCodf() {
+        rfturn modblityTypf != ModblityTypf.MODELESS;
     }
 
     /**
-     * Returns the modality type of this dialog.
+     * Spfdififs wiftifr tiis diblog siould bf modbl.
+     * <p>
+     * Tiis mftiod is obsolftf bnd is kfpt for bbdkwbrds dompbtibility only.
+     * Usf {@link #sftModblityTypf sftModblityTypf()} instfbd.
+     * <p>
+     * Notf: dibnging modblity of tif visiblf diblog mby ibvf no ffffdt
+     * until it is iiddfn bnd tifn siown bgbin.
      *
-     * @return modality type of this dialog
+     * @pbrbm modbl spfdififs wiftifr diblog blodks input to otifr windows
+     *     wifn siown; dblling to <dodf>sftModbl(truf)</dodf> is fquivblfnt to
+     *     <dodf>sftModblityTypf(Diblog.DEFAULT_MODALITY_TYPE)</dodf>, bnd
+     *     dblling to <dodf>sftModbl(fblsf)</dodf> is fquvivblfnt to
+     *     <dodf>sftModblityTypf(Diblog.ModblityTypf.MODELESS)</dodf>
      *
-     * @see java.awt.Dialog#setModalityType
+     * @sff       jbvb.bwt.Diblog#DEFAULT_MODALITY_TYPE
+     * @sff       jbvb.bwt.Diblog.ModblityTypf#MODELESS
+     * @sff       jbvb.bwt.Diblog#isModbl
+     * @sff       jbvb.bwt.Diblog#gftModblityTypf
+     * @sff       jbvb.bwt.Diblog#sftModblityTypf
      *
-     * @since 1.6
+     * @sindf     1.1
      */
-    public ModalityType getModalityType() {
-        return modalityType;
+    publid void sftModbl(boolfbn modbl) {
+        tiis.modbl = modbl;
+        sftModblityTypf(modbl ? DEFAULT_MODALITY_TYPE : ModblityTypf.MODELESS);
     }
 
     /**
-     * Sets the modality type for this dialog. See {@link
-     * java.awt.Dialog.ModalityType ModalityType} for possible modality types.
-     * <p>
-     * If the given modality type is not supported, <code>MODELESS</code>
-     * is used. You may want to call <code>getModalityType()</code> after calling
-     * this method to ensure that the modality type has been set.
-     * <p>
-     * Note: changing modality of the visible dialog may have no effect
-     * until it is hidden and then shown again.
+     * Rfturns tif modblity typf of tiis diblog.
      *
-     * @param type specifies whether dialog blocks input to other
-     *     windows when shown. <code>null</code> value and unsupported modality
-     *     types are equivalent to <code>MODELESS</code>
-     * @exception SecurityException if the calling thread does not have permission
-     *     to create modal dialogs with the given <code>modalityType</code>
+     * @rfturn modblity typf of tiis diblog
      *
-     * @see       java.awt.Dialog#getModalityType
-     * @see       java.awt.Toolkit#isModalityTypeSupported
+     * @sff jbvb.bwt.Diblog#sftModblityTypf
      *
-     * @since     1.6
+     * @sindf 1.6
      */
-    public void setModalityType(ModalityType type) {
-        if (type == null) {
-            type = Dialog.ModalityType.MODELESS;
+    publid ModblityTypf gftModblityTypf() {
+        rfturn modblityTypf;
+    }
+
+    /**
+     * Sfts tif modblity typf for tiis diblog. Sff {@link
+     * jbvb.bwt.Diblog.ModblityTypf ModblityTypf} for possiblf modblity typfs.
+     * <p>
+     * If tif givfn modblity typf is not supportfd, <dodf>MODELESS</dodf>
+     * is usfd. You mby wbnt to dbll <dodf>gftModblityTypf()</dodf> bftfr dblling
+     * tiis mftiod to fnsurf tibt tif modblity typf ibs bffn sft.
+     * <p>
+     * Notf: dibnging modblity of tif visiblf diblog mby ibvf no ffffdt
+     * until it is iiddfn bnd tifn siown bgbin.
+     *
+     * @pbrbm typf spfdififs wiftifr diblog blodks input to otifr
+     *     windows wifn siown. <dodf>null</dodf> vbluf bnd unsupportfd modblity
+     *     typfs brf fquivblfnt to <dodf>MODELESS</dodf>
+     * @fxdfption SfdurityExdfption if tif dblling tirfbd dofs not ibvf pfrmission
+     *     to drfbtf modbl diblogs witi tif givfn <dodf>modblityTypf</dodf>
+     *
+     * @sff       jbvb.bwt.Diblog#gftModblityTypf
+     * @sff       jbvb.bwt.Toolkit#isModblityTypfSupportfd
+     *
+     * @sindf     1.6
+     */
+    publid void sftModblityTypf(ModblityTypf typf) {
+        if (typf == null) {
+            typf = Diblog.ModblityTypf.MODELESS;
         }
-        if (!Toolkit.getDefaultToolkit().isModalityTypeSupported(type)) {
-            type = Dialog.ModalityType.MODELESS;
+        if (!Toolkit.gftDffbultToolkit().isModblityTypfSupportfd(typf)) {
+            typf = Diblog.ModblityTypf.MODELESS;
         }
-        if (modalityType == type) {
-            return;
+        if (modblityTypf == typf) {
+            rfturn;
         }
 
-        checkModalityPermission(type);
+        difdkModblityPfrmission(typf);
 
-        modalityType = type;
-        modal = (modalityType != ModalityType.MODELESS);
+        modblityTypf = typf;
+        modbl = (modblityTypf != ModblityTypf.MODELESS);
     }
 
     /**
-     * Gets the title of the dialog. The title is displayed in the
-     * dialog's border.
-     * @return    the title of this dialog window. The title may be
-     *            <code>null</code>.
-     * @see       java.awt.Dialog#setTitle
+     * Gfts tif titlf of tif diblog. Tif titlf is displbyfd in tif
+     * diblog's bordfr.
+     * @rfturn    tif titlf of tiis diblog window. Tif titlf mby bf
+     *            <dodf>null</dodf>.
+     * @sff       jbvb.bwt.Diblog#sftTitlf
      */
-    public String getTitle() {
-        return title;
+    publid String gftTitlf() {
+        rfturn titlf;
     }
 
     /**
-     * Sets the title of the Dialog.
-     * @param title the title displayed in the dialog's border;
-         * a null value results in an empty title
-     * @see #getTitle
+     * Sfts tif titlf of tif Diblog.
+     * @pbrbm titlf tif titlf displbyfd in tif diblog's bordfr;
+         * b null vbluf rfsults in bn fmpty titlf
+     * @sff #gftTitlf
      */
-    public void setTitle(String title) {
-        String oldTitle = this.title;
+    publid void sftTitlf(String titlf) {
+        String oldTitlf = tiis.titlf;
 
-        synchronized(this) {
-            this.title = title;
-            DialogPeer peer = (DialogPeer)this.peer;
-            if (peer != null) {
-                peer.setTitle(title);
+        syndironizfd(tiis) {
+            tiis.titlf = titlf;
+            DiblogPffr pffr = (DiblogPffr)tiis.pffr;
+            if (pffr != null) {
+                pffr.sftTitlf(titlf);
             }
         }
-        firePropertyChange("title", oldTitle, title);
+        firfPropfrtyCibngf("titlf", oldTitlf, titlf);
     }
 
     /**
-     * @return true if we actually showed, false if we just called toFront()
+     * @rfturn truf if wf bdtublly siowfd, fblsf if wf just dbllfd toFront()
      */
-    private boolean conditionalShow(Component toFocus, AtomicLong time) {
-        boolean retval;
+    privbtf boolfbn donditionblSiow(Componfnt toFodus, AtomidLong timf) {
+        boolfbn rftvbl;
 
-        closeSplashScreen();
+        dlosfSplbsiSdrffn();
 
-        synchronized (getTreeLock()) {
-            if (peer == null) {
-                addNotify();
+        syndironizfd (gftTrffLodk()) {
+            if (pffr == null) {
+                bddNotify();
             }
-            validateUnconditionally();
-            if (visible) {
+            vblidbtfUndonditionblly();
+            if (visiblf) {
                 toFront();
-                retval = false;
-            } else {
-                visible = retval = true;
+                rftvbl = fblsf;
+            } flsf {
+                visiblf = rftvbl = truf;
 
-                // check if this dialog should be modal blocked BEFORE calling peer.show(),
-                // otherwise, a pair of FOCUS_GAINED and FOCUS_LOST may be mistakenly
-                // generated for the dialog
-                if (!isModal()) {
-                    checkShouldBeBlocked(this);
-                } else {
-                    modalDialogs.add(this);
-                    modalShow();
+                // difdk if tiis diblog siould bf modbl blodkfd BEFORE dblling pffr.siow(),
+                // otifrwisf, b pbir of FOCUS_GAINED bnd FOCUS_LOST mby bf mistbkfnly
+                // gfnfrbtfd for tif diblog
+                if (!isModbl()) {
+                    difdkSiouldBfBlodkfd(tiis);
+                } flsf {
+                    modblDiblogs.bdd(tiis);
+                    modblSiow();
                 }
 
-                if (toFocus != null && time != null && isFocusable() &&
-                    isEnabled() && !isModalBlocked()) {
-                    // keep the KeyEvents from being dispatched
-                    // until the focus has been transfered
-                    time.set(Toolkit.getEventQueue().getMostRecentKeyEventTime());
-                    KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                        enqueueKeyEvents(time.get(), toFocus);
+                if (toFodus != null && timf != null && isFodusbblf() &&
+                    isEnbblfd() && !isModblBlodkfd()) {
+                    // kffp tif KfyEvfnts from bfing dispbtdifd
+                    // until tif fodus ibs bffn trbnsffrfd
+                    timf.sft(Toolkit.gftEvfntQufuf().gftMostRfdfntKfyEvfntTimf());
+                    KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+                        fnqufufKfyEvfnts(timf.gft(), toFodus);
                 }
 
-                // This call is required as the show() method of the Dialog class
-                // does not invoke the super.show(). So wried... :(
-                mixOnShowing();
+                // Tiis dbll is rfquirfd bs tif siow() mftiod of tif Diblog dlbss
+                // dofs not invokf tif supfr.siow(). So wrifd... :(
+                mixOnSiowing();
 
-                peer.setVisible(true); // now guaranteed never to block
-                if (isModalBlocked()) {
-                    modalBlocker.toFront();
+                pffr.sftVisiblf(truf); // now gubrbntffd nfvfr to blodk
+                if (isModblBlodkfd()) {
+                    modblBlodkfr.toFront();
                 }
 
-                setLocationByPlatform(false);
-                for (int i = 0; i < ownedWindowList.size(); i++) {
-                    Window child = ownedWindowList.elementAt(i).get();
-                    if ((child != null) && child.showWithParent) {
-                        child.show();
-                        child.showWithParent = false;
-                    }       // endif
-                }   // endfor
-                Window.updateChildFocusableWindowState(this);
+                sftLodbtionByPlbtform(fblsf);
+                for (int i = 0; i < ownfdWindowList.sizf(); i++) {
+                    Window diild = ownfdWindowList.flfmfntAt(i).gft();
+                    if ((diild != null) && diild.siowWitiPbrfnt) {
+                        diild.siow();
+                        diild.siowWitiPbrfnt = fblsf;
+                    }       // fndif
+                }   // fndfor
+                Window.updbtfCiildFodusbblfWindowStbtf(tiis);
 
-                createHierarchyEvents(HierarchyEvent.HIERARCHY_CHANGED,
-                                      this, parent,
-                                      HierarchyEvent.SHOWING_CHANGED,
-                                      Toolkit.enabledOnToolkit(AWTEvent.HIERARCHY_EVENT_MASK));
-                if (componentListener != null ||
-                        (eventMask & AWTEvent.COMPONENT_EVENT_MASK) != 0 ||
-                        Toolkit.enabledOnToolkit(AWTEvent.COMPONENT_EVENT_MASK)) {
-                    ComponentEvent e =
-                        new ComponentEvent(this, ComponentEvent.COMPONENT_SHOWN);
-                    Toolkit.getEventQueue().postEvent(e);
+                drfbtfHifrbrdiyEvfnts(HifrbrdiyEvfnt.HIERARCHY_CHANGED,
+                                      tiis, pbrfnt,
+                                      HifrbrdiyEvfnt.SHOWING_CHANGED,
+                                      Toolkit.fnbblfdOnToolkit(AWTEvfnt.HIERARCHY_EVENT_MASK));
+                if (domponfntListfnfr != null ||
+                        (fvfntMbsk & AWTEvfnt.COMPONENT_EVENT_MASK) != 0 ||
+                        Toolkit.fnbblfdOnToolkit(AWTEvfnt.COMPONENT_EVENT_MASK)) {
+                    ComponfntEvfnt f =
+                        nfw ComponfntEvfnt(tiis, ComponfntEvfnt.COMPONENT_SHOWN);
+                    Toolkit.gftEvfntQufuf().postEvfnt(f);
                 }
             }
         }
 
-        if (retval && (state & OPENED) == 0) {
-            postWindowEvent(WindowEvent.WINDOW_OPENED);
-            state |= OPENED;
+        if (rftvbl && (stbtf & OPENED) == 0) {
+            postWindowEvfnt(WindowEvfnt.WINDOW_OPENED);
+            stbtf |= OPENED;
         }
 
-        return retval;
+        rfturn rftvbl;
     }
 
     /**
-     * Shows or hides this {@code Dialog} depending on the value of parameter
-     * {@code b}.
-     * @param b if {@code true}, makes the {@code Dialog} visible,
-     * otherwise hides the {@code Dialog}.
-     * If the dialog and/or its owner
-     * are not yet displayable, both are made displayable.  The
-     * dialog will be validated prior to being made visible.
-     * If {@code false}, hides the {@code Dialog} and then causes {@code setVisible(true)}
-     * to return if it is currently blocked.
+     * Siows or iidfs tiis {@dodf Diblog} dfpfnding on tif vbluf of pbrbmftfr
+     * {@dodf b}.
+     * @pbrbm b if {@dodf truf}, mbkfs tif {@dodf Diblog} visiblf,
+     * otifrwisf iidfs tif {@dodf Diblog}.
+     * If tif diblog bnd/or its ownfr
+     * brf not yft displbybblf, boti brf mbdf displbybblf.  Tif
+     * diblog will bf vblidbtfd prior to bfing mbdf visiblf.
+     * If {@dodf fblsf}, iidfs tif {@dodf Diblog} bnd tifn dbusfs {@dodf sftVisiblf(truf)}
+     * to rfturn if it is durrfntly blodkfd.
      * <p>
-     * <b>Notes for modal dialogs</b>.
+     * <b>Notfs for modbl diblogs</b>.
      * <ul>
-     * <li>{@code setVisible(true)}:  If the dialog is not already
-     * visible, this call will not return until the dialog is
-     * hidden by calling {@code setVisible(false)} or
-     * {@code dispose}.
-     * <li>{@code setVisible(false)}:  Hides the dialog and then
-     * returns on {@code setVisible(true)} if it is currently blocked.
-     * <li>It is OK to call this method from the event dispatching
-     * thread because the toolkit ensures that other events are
-     * not blocked while this method is blocked.
+     * <li>{@dodf sftVisiblf(truf)}:  If tif diblog is not blrfbdy
+     * visiblf, tiis dbll will not rfturn until tif diblog is
+     * iiddfn by dblling {@dodf sftVisiblf(fblsf)} or
+     * {@dodf disposf}.
+     * <li>{@dodf sftVisiblf(fblsf)}:  Hidfs tif diblog bnd tifn
+     * rfturns on {@dodf sftVisiblf(truf)} if it is durrfntly blodkfd.
+     * <li>It is OK to dbll tiis mftiod from tif fvfnt dispbtdiing
+     * tirfbd bfdbusf tif toolkit fnsurfs tibt otifr fvfnts brf
+     * not blodkfd wiilf tiis mftiod is blodkfd.
      * </ul>
-     * @see java.awt.Window#setVisible
-     * @see java.awt.Window#dispose
-     * @see java.awt.Component#isDisplayable
-     * @see java.awt.Component#validate
-     * @see java.awt.Dialog#isModal
+     * @sff jbvb.bwt.Window#sftVisiblf
+     * @sff jbvb.bwt.Window#disposf
+     * @sff jbvb.bwt.Componfnt#isDisplbybblf
+     * @sff jbvb.bwt.Componfnt#vblidbtf
+     * @sff jbvb.bwt.Diblog#isModbl
      */
-    public void setVisible(boolean b) {
-        super.setVisible(b);
+    publid void sftVisiblf(boolfbn b) {
+        supfr.sftVisiblf(b);
     }
 
    /**
-     * Makes the {@code Dialog} visible. If the dialog and/or its owner
-     * are not yet displayable, both are made displayable.  The
-     * dialog will be validated prior to being made visible.
-     * If the dialog is already visible, this will bring the dialog
-     * to the front.
+     * Mbkfs tif {@dodf Diblog} visiblf. If tif diblog bnd/or its ownfr
+     * brf not yft displbybblf, boti brf mbdf displbybblf.  Tif
+     * diblog will bf vblidbtfd prior to bfing mbdf visiblf.
+     * If tif diblog is blrfbdy visiblf, tiis will bring tif diblog
+     * to tif front.
      * <p>
-     * If the dialog is modal and is not already visible, this call
-     * will not return until the dialog is hidden by calling hide or
-     * dispose. It is permissible to show modal dialogs from the event
-     * dispatching thread because the toolkit will ensure that another
-     * event pump runs while the one which invoked this method is blocked.
-     * @see Component#hide
-     * @see Component#isDisplayable
-     * @see Component#validate
-     * @see #isModal
-     * @see Window#setVisible(boolean)
-     * @deprecated As of JDK version 1.5, replaced by
-     * {@link #setVisible(boolean) setVisible(boolean)}.
+     * If tif diblog is modbl bnd is not blrfbdy visiblf, tiis dbll
+     * will not rfturn until tif diblog is iiddfn by dblling iidf or
+     * disposf. It is pfrmissiblf to siow modbl diblogs from tif fvfnt
+     * dispbtdiing tirfbd bfdbusf tif toolkit will fnsurf tibt bnotifr
+     * fvfnt pump runs wiilf tif onf wiidi invokfd tiis mftiod is blodkfd.
+     * @sff Componfnt#iidf
+     * @sff Componfnt#isDisplbybblf
+     * @sff Componfnt#vblidbtf
+     * @sff #isModbl
+     * @sff Window#sftVisiblf(boolfbn)
+     * @dfprfdbtfd As of JDK vfrsion 1.5, rfplbdfd by
+     * {@link #sftVisiblf(boolfbn) sftVisiblf(boolfbn)}.
      */
-    @Deprecated
-    public void show() {
-        if (!initialized) {
-            throw new IllegalStateException("The dialog component " +
-                "has not been initialized properly");
+    @Dfprfdbtfd
+    publid void siow() {
+        if (!initiblizfd) {
+            tirow nfw IllfgblStbtfExdfption("Tif diblog domponfnt " +
+                "ibs not bffn initiblizfd propfrly");
         }
 
-        beforeFirstShow = false;
-        if (!isModal()) {
-            conditionalShow(null, null);
-        } else {
-            AppContext showAppContext = AppContext.getAppContext();
+        bfforfFirstSiow = fblsf;
+        if (!isModbl()) {
+            donditionblSiow(null, null);
+        } flsf {
+            AppContfxt siowAppContfxt = AppContfxt.gftAppContfxt();
 
-            AtomicLong time = new AtomicLong();
-            Component predictedFocusOwner = null;
+            AtomidLong timf = nfw AtomidLong();
+            Componfnt prfdidtfdFodusOwnfr = null;
             try {
-                predictedFocusOwner = getMostRecentFocusOwner();
-                if (conditionalShow(predictedFocusOwner, time)) {
-                    modalFilter = ModalEventFilter.createFilterForDialog(this);
-                    // if this dialog is toolkit-modal, the filter should be added
-                    // to all EDTs (for all AppContexts)
-                    if (modalityType == ModalityType.TOOLKIT_MODAL) {
-                        Iterator<AppContext> it = AppContext.getAppContexts().iterator();
-                        while (it.hasNext()) {
-                            AppContext appContext = it.next();
-                            if (appContext == showAppContext) {
-                                continue;
+                prfdidtfdFodusOwnfr = gftMostRfdfntFodusOwnfr();
+                if (donditionblSiow(prfdidtfdFodusOwnfr, timf)) {
+                    modblFiltfr = ModblEvfntFiltfr.drfbtfFiltfrForDiblog(tiis);
+                    // if tiis diblog is toolkit-modbl, tif filtfr siould bf bddfd
+                    // to bll EDTs (for bll AppContfxts)
+                    if (modblityTypf == ModblityTypf.TOOLKIT_MODAL) {
+                        Itfrbtor<AppContfxt> it = AppContfxt.gftAppContfxts().itfrbtor();
+                        wiilf (it.ibsNfxt()) {
+                            AppContfxt bppContfxt = it.nfxt();
+                            if (bppContfxt == siowAppContfxt) {
+                                dontinuf;
                             }
-                            EventQueue eventQueue = (EventQueue)appContext.get(AppContext.EVENT_QUEUE_KEY);
-                            // it may occur that EDT for appContext hasn't been started yet, so
-                            // we post an empty invocation event to trigger EDT initialization
-                            eventQueue.postEvent(new InvocationEvent(this, () -> {}));
-                            EventDispatchThread edt = eventQueue.getDispatchThread();
-                            edt.addEventFilter(modalFilter);
+                            EvfntQufuf fvfntQufuf = (EvfntQufuf)bppContfxt.gft(AppContfxt.EVENT_QUEUE_KEY);
+                            // it mby oddur tibt EDT for bppContfxt ibsn't bffn stbrtfd yft, so
+                            // wf post bn fmpty invodbtion fvfnt to triggfr EDT initiblizbtion
+                            fvfntQufuf.postEvfnt(nfw InvodbtionEvfnt(tiis, () -> {}));
+                            EvfntDispbtdiTirfbd fdt = fvfntQufuf.gftDispbtdiTirfbd();
+                            fdt.bddEvfntFiltfr(modblFiltfr);
                         }
                     }
 
-                    modalityPushed();
+                    modblityPusifd();
                     try {
-                        final EventQueue eventQueue = AccessController.doPrivileged(
-                                (PrivilegedAction<EventQueue>) Toolkit.getDefaultToolkit()::getSystemEventQueue);
-                        secondaryLoop = eventQueue.createSecondaryLoop(() -> true, modalFilter, 0);
-                        if (!secondaryLoop.enter()) {
-                            secondaryLoop = null;
+                        finbl EvfntQufuf fvfntQufuf = AddfssControllfr.doPrivilfgfd(
+                                (PrivilfgfdAdtion<EvfntQufuf>) Toolkit.gftDffbultToolkit()::gftSystfmEvfntQufuf);
+                        sfdondbryLoop = fvfntQufuf.drfbtfSfdondbryLoop(() -> truf, modblFiltfr, 0);
+                        if (!sfdondbryLoop.fntfr()) {
+                            sfdondbryLoop = null;
                         }
-                    } finally {
-                        modalityPopped();
+                    } finblly {
+                        modblityPoppfd();
                     }
 
-                    // if this dialog is toolkit-modal, its filter must be removed
-                    // from all EDTs (for all AppContexts)
-                    if (modalityType == ModalityType.TOOLKIT_MODAL) {
-                        Iterator<AppContext> it = AppContext.getAppContexts().iterator();
-                        while (it.hasNext()) {
-                            AppContext appContext = it.next();
-                            if (appContext == showAppContext) {
-                                continue;
+                    // if tiis diblog is toolkit-modbl, its filtfr must bf rfmovfd
+                    // from bll EDTs (for bll AppContfxts)
+                    if (modblityTypf == ModblityTypf.TOOLKIT_MODAL) {
+                        Itfrbtor<AppContfxt> it = AppContfxt.gftAppContfxts().itfrbtor();
+                        wiilf (it.ibsNfxt()) {
+                            AppContfxt bppContfxt = it.nfxt();
+                            if (bppContfxt == siowAppContfxt) {
+                                dontinuf;
                             }
-                            EventQueue eventQueue = (EventQueue)appContext.get(AppContext.EVENT_QUEUE_KEY);
-                            EventDispatchThread edt = eventQueue.getDispatchThread();
-                            edt.removeEventFilter(modalFilter);
+                            EvfntQufuf fvfntQufuf = (EvfntQufuf)bppContfxt.gft(AppContfxt.EVENT_QUEUE_KEY);
+                            EvfntDispbtdiTirfbd fdt = fvfntQufuf.gftDispbtdiTirfbd();
+                            fdt.rfmovfEvfntFiltfr(modblFiltfr);
                         }
                     }
                 }
-            } finally {
-                if (predictedFocusOwner != null) {
-                    // Restore normal key event dispatching
-                    KeyboardFocusManager.getCurrentKeyboardFocusManager().
-                        dequeueKeyEvents(time.get(), predictedFocusOwner);
+            } finblly {
+                if (prfdidtfdFodusOwnfr != null) {
+                    // Rfstorf normbl kfy fvfnt dispbtdiing
+                    KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr().
+                        dfqufufKfyEvfnts(timf.gft(), prfdidtfdFodusOwnfr);
                 }
             }
         }
     }
 
-    final void modalityPushed() {
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        if (tk instanceof SunToolkit) {
+    finbl void modblityPusifd() {
+        Toolkit tk = Toolkit.gftDffbultToolkit();
+        if (tk instbndfof SunToolkit) {
             SunToolkit stk = (SunToolkit)tk;
-            stk.notifyModalityPushed(this);
+            stk.notifyModblityPusifd(tiis);
         }
     }
 
-    final void modalityPopped() {
-        Toolkit tk = Toolkit.getDefaultToolkit();
-        if (tk instanceof SunToolkit) {
+    finbl void modblityPoppfd() {
+        Toolkit tk = Toolkit.gftDffbultToolkit();
+        if (tk instbndfof SunToolkit) {
             SunToolkit stk = (SunToolkit)tk;
-            stk.notifyModalityPopped(this);
+            stk.notifyModblityPoppfd(tiis);
         }
     }
 
-    private void hideAndDisposePreHandler() {
-        isInHide = true;
-        synchronized (getTreeLock()) {
-            if (secondaryLoop != null) {
-                modalHide();
-                // dialog can be shown and then disposed before its
-                // modal filter is created
-                if (modalFilter != null) {
-                    modalFilter.disable();
+    privbtf void iidfAndDisposfPrfHbndlfr() {
+        isInHidf = truf;
+        syndironizfd (gftTrffLodk()) {
+            if (sfdondbryLoop != null) {
+                modblHidf();
+                // diblog dbn bf siown bnd tifn disposfd bfforf its
+                // modbl filtfr is drfbtfd
+                if (modblFiltfr != null) {
+                    modblFiltfr.disbblf();
                 }
-                modalDialogs.remove(this);
+                modblDiblogs.rfmovf(tiis);
             }
         }
     }
-    private void hideAndDisposeHandler() {
-        if (secondaryLoop != null) {
-            secondaryLoop.exit();
-            secondaryLoop = null;
+    privbtf void iidfAndDisposfHbndlfr() {
+        if (sfdondbryLoop != null) {
+            sfdondbryLoop.fxit();
+            sfdondbryLoop = null;
         }
-        isInHide = false;
+        isInHidf = fblsf;
     }
 
     /**
-     * Hides the Dialog and then causes {@code show} to return if it is currently
-     * blocked.
-     * @see Window#show
-     * @see Window#dispose
-     * @see Window#setVisible(boolean)
-     * @deprecated As of JDK version 1.5, replaced by
-     * {@link #setVisible(boolean) setVisible(boolean)}.
+     * Hidfs tif Diblog bnd tifn dbusfs {@dodf siow} to rfturn if it is durrfntly
+     * blodkfd.
+     * @sff Window#siow
+     * @sff Window#disposf
+     * @sff Window#sftVisiblf(boolfbn)
+     * @dfprfdbtfd As of JDK vfrsion 1.5, rfplbdfd by
+     * {@link #sftVisiblf(boolfbn) sftVisiblf(boolfbn)}.
      */
-    @Deprecated
-    public void hide() {
-        hideAndDisposePreHandler();
-        super.hide();
-        // fix for 5048370: if hide() is called from super.doDispose(), then
-        // hideAndDisposeHandler() should not be called here as it will be called
-        // at the end of doDispose()
-        if (!isInDispose) {
-            hideAndDisposeHandler();
+    @Dfprfdbtfd
+    publid void iidf() {
+        iidfAndDisposfPrfHbndlfr();
+        supfr.iidf();
+        // fix for 5048370: if iidf() is dbllfd from supfr.doDisposf(), tifn
+        // iidfAndDisposfHbndlfr() siould not bf dbllfd ifrf bs it will bf dbllfd
+        // bt tif fnd of doDisposf()
+        if (!isInDisposf) {
+            iidfAndDisposfHbndlfr();
         }
     }
 
     /**
-     * Disposes the Dialog and then causes show() to return if it is currently
-     * blocked.
+     * Disposfs tif Diblog bnd tifn dbusfs siow() to rfturn if it is durrfntly
+     * blodkfd.
      */
-    void doDispose() {
-        // fix for 5048370: set isInDispose flag to true to prevent calling
-        // to hideAndDisposeHandler() from hide()
-        isInDispose = true;
-        super.doDispose();
-        hideAndDisposeHandler();
-        isInDispose = false;
+    void doDisposf() {
+        // fix for 5048370: sft isInDisposf flbg to truf to prfvfnt dblling
+        // to iidfAndDisposfHbndlfr() from iidf()
+        isInDisposf = truf;
+        supfr.doDisposf();
+        iidfAndDisposfHbndlfr();
+        isInDisposf = fblsf;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      * <p>
-     * If this dialog is modal and blocks some windows, then all of them are
-     * also sent to the back to keep them below the blocking dialog.
+     * If tiis diblog is modbl bnd blodks somf windows, tifn bll of tifm brf
+     * blso sfnt to tif bbdk to kffp tifm bflow tif blodking diblog.
      *
-     * @see java.awt.Window#toBack
+     * @sff jbvb.bwt.Window#toBbdk
      */
-    public void toBack() {
-        super.toBack();
-        if (visible) {
-            synchronized (getTreeLock()) {
-                for (Window w : blockedWindows) {
-                    w.toBack_NoClientCode();
+    publid void toBbdk() {
+        supfr.toBbdk();
+        if (visiblf) {
+            syndironizfd (gftTrffLodk()) {
+                for (Window w : blodkfdWindows) {
+                    w.toBbdk_NoClifntCodf();
                 }
             }
         }
     }
 
     /**
-     * Indicates whether this dialog is resizable by the user.
-     * By default, all dialogs are initially resizable.
-     * @return    <code>true</code> if the user can resize the dialog;
-     *            <code>false</code> otherwise.
-     * @see       java.awt.Dialog#setResizable
+     * Indidbtfs wiftifr tiis diblog is rfsizbblf by tif usfr.
+     * By dffbult, bll diblogs brf initiblly rfsizbblf.
+     * @rfturn    <dodf>truf</dodf> if tif usfr dbn rfsizf tif diblog;
+     *            <dodf>fblsf</dodf> otifrwisf.
+     * @sff       jbvb.bwt.Diblog#sftRfsizbblf
      */
-    public boolean isResizable() {
-        return resizable;
+    publid boolfbn isRfsizbblf() {
+        rfturn rfsizbblf;
     }
 
     /**
-     * Sets whether this dialog is resizable by the user.
-     * @param     resizable <code>true</code> if the user can
-     *                 resize this dialog; <code>false</code> otherwise.
-     * @see       java.awt.Dialog#isResizable
+     * Sfts wiftifr tiis diblog is rfsizbblf by tif usfr.
+     * @pbrbm     rfsizbblf <dodf>truf</dodf> if tif usfr dbn
+     *                 rfsizf tiis diblog; <dodf>fblsf</dodf> otifrwisf.
+     * @sff       jbvb.bwt.Diblog#isRfsizbblf
      */
-    public void setResizable(boolean resizable) {
-        boolean testvalid = false;
+    publid void sftRfsizbblf(boolfbn rfsizbblf) {
+        boolfbn tfstvblid = fblsf;
 
-        synchronized (this) {
-            this.resizable = resizable;
-            DialogPeer peer = (DialogPeer)this.peer;
-            if (peer != null) {
-                peer.setResizable(resizable);
-                testvalid = true;
+        syndironizfd (tiis) {
+            tiis.rfsizbblf = rfsizbblf;
+            DiblogPffr pffr = (DiblogPffr)tiis.pffr;
+            if (pffr != null) {
+                pffr.sftRfsizbblf(rfsizbblf);
+                tfstvblid = truf;
             }
         }
 
-        // On some platforms, changing the resizable state affects
-        // the insets of the Dialog. If we could, we'd call invalidate()
-        // from the peer, but we need to guarantee that we're not holding
-        // the Dialog lock when we call invalidate().
-        if (testvalid) {
-            invalidateIfValid();
+        // On somf plbtforms, dibnging tif rfsizbblf stbtf bfffdts
+        // tif insfts of tif Diblog. If wf dould, wf'd dbll invblidbtf()
+        // from tif pffr, but wf nffd to gubrbntff tibt wf'rf not iolding
+        // tif Diblog lodk wifn wf dbll invblidbtf().
+        if (tfstvblid) {
+            invblidbtfIfVblid();
         }
     }
 
 
     /**
-     * Disables or enables decorations for this dialog.
+     * Disbblfs or fnbblfs dfdorbtions for tiis diblog.
      * <p>
-     * This method can only be called while the dialog is not displayable. To
-     * make this dialog decorated, it must be opaque and have the default shape,
-     * otherwise the {@code IllegalComponentStateException} will be thrown.
-     * Refer to {@link Window#setShape}, {@link Window#setOpacity} and {@link
-     * Window#setBackground} for details
+     * Tiis mftiod dbn only bf dbllfd wiilf tif diblog is not displbybblf. To
+     * mbkf tiis diblog dfdorbtfd, it must bf opbquf bnd ibvf tif dffbult sibpf,
+     * otifrwisf tif {@dodf IllfgblComponfntStbtfExdfption} will bf tirown.
+     * Rfffr to {@link Window#sftSibpf}, {@link Window#sftOpbdity} bnd {@link
+     * Window#sftBbdkground} for dftbils
      *
-     * @param  undecorated {@code true} if no dialog decorations are to be
-     *         enabled; {@code false} if dialog decorations are to be enabled
+     * @pbrbm  undfdorbtfd {@dodf truf} if no diblog dfdorbtions brf to bf
+     *         fnbblfd; {@dodf fblsf} if diblog dfdorbtions brf to bf fnbblfd
      *
-     * @throws IllegalComponentStateException if the dialog is displayable
-     * @throws IllegalComponentStateException if {@code undecorated} is
-     *      {@code false}, and this dialog does not have the default shape
-     * @throws IllegalComponentStateException if {@code undecorated} is
-     *      {@code false}, and this dialog opacity is less than {@code 1.0f}
-     * @throws IllegalComponentStateException if {@code undecorated} is
-     *      {@code false}, and the alpha value of this dialog background
-     *      color is less than {@code 1.0f}
+     * @tirows IllfgblComponfntStbtfExdfption if tif diblog is displbybblf
+     * @tirows IllfgblComponfntStbtfExdfption if {@dodf undfdorbtfd} is
+     *      {@dodf fblsf}, bnd tiis diblog dofs not ibvf tif dffbult sibpf
+     * @tirows IllfgblComponfntStbtfExdfption if {@dodf undfdorbtfd} is
+     *      {@dodf fblsf}, bnd tiis diblog opbdity is lfss tibn {@dodf 1.0f}
+     * @tirows IllfgblComponfntStbtfExdfption if {@dodf undfdorbtfd} is
+     *      {@dodf fblsf}, bnd tif blpib vbluf of tiis diblog bbdkground
+     *      dolor is lfss tibn {@dodf 1.0f}
      *
-     * @see    #isUndecorated
-     * @see    Component#isDisplayable
-     * @see    Window#getShape
-     * @see    Window#getOpacity
-     * @see    Window#getBackground
+     * @sff    #isUndfdorbtfd
+     * @sff    Componfnt#isDisplbybblf
+     * @sff    Window#gftSibpf
+     * @sff    Window#gftOpbdity
+     * @sff    Window#gftBbdkground
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public void setUndecorated(boolean undecorated) {
-        /* Make sure we don't run in the middle of peer creation.*/
-        synchronized (getTreeLock()) {
-            if (isDisplayable()) {
-                throw new IllegalComponentStateException("The dialog is displayable.");
+    publid void sftUndfdorbtfd(boolfbn undfdorbtfd) {
+        /* Mbkf surf wf don't run in tif middlf of pffr drfbtion.*/
+        syndironizfd (gftTrffLodk()) {
+            if (isDisplbybblf()) {
+                tirow nfw IllfgblComponfntStbtfExdfption("Tif diblog is displbybblf.");
             }
-            if (!undecorated) {
-                if (getOpacity() < 1.0f) {
-                    throw new IllegalComponentStateException("The dialog is not opaque");
+            if (!undfdorbtfd) {
+                if (gftOpbdity() < 1.0f) {
+                    tirow nfw IllfgblComponfntStbtfExdfption("Tif diblog is not opbquf");
                 }
-                if (getShape() != null) {
-                    throw new IllegalComponentStateException("The dialog does not have a default shape");
+                if (gftSibpf() != null) {
+                    tirow nfw IllfgblComponfntStbtfExdfption("Tif diblog dofs not ibvf b dffbult sibpf");
                 }
-                Color bg = getBackground();
-                if ((bg != null) && (bg.getAlpha() < 255)) {
-                    throw new IllegalComponentStateException("The dialog background color is not opaque");
+                Color bg = gftBbdkground();
+                if ((bg != null) && (bg.gftAlpib() < 255)) {
+                    tirow nfw IllfgblComponfntStbtfExdfption("Tif diblog bbdkground dolor is not opbquf");
                 }
             }
-            this.undecorated = undecorated;
+            tiis.undfdorbtfd = undfdorbtfd;
         }
     }
 
     /**
-     * Indicates whether this dialog is undecorated.
-     * By default, all dialogs are initially decorated.
-     * @return    <code>true</code> if dialog is undecorated;
-     *                        <code>false</code> otherwise.
-     * @see       java.awt.Dialog#setUndecorated
-     * @since 1.4
+     * Indidbtfs wiftifr tiis diblog is undfdorbtfd.
+     * By dffbult, bll diblogs brf initiblly dfdorbtfd.
+     * @rfturn    <dodf>truf</dodf> if diblog is undfdorbtfd;
+     *                        <dodf>fblsf</dodf> otifrwisf.
+     * @sff       jbvb.bwt.Diblog#sftUndfdorbtfd
+     * @sindf 1.4
      */
-    public boolean isUndecorated() {
-        return undecorated;
+    publid boolfbn isUndfdorbtfd() {
+        rfturn undfdorbtfd;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void setOpacity(float opacity) {
-        synchronized (getTreeLock()) {
-            if ((opacity < 1.0f) && !isUndecorated()) {
-                throw new IllegalComponentStateException("The dialog is decorated");
+    @Ovfrridf
+    publid void sftOpbdity(flobt opbdity) {
+        syndironizfd (gftTrffLodk()) {
+            if ((opbdity < 1.0f) && !isUndfdorbtfd()) {
+                tirow nfw IllfgblComponfntStbtfExdfption("Tif diblog is dfdorbtfd");
             }
-            super.setOpacity(opacity);
+            supfr.sftOpbdity(opbdity);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void setShape(Shape shape) {
-        synchronized (getTreeLock()) {
-            if ((shape != null) && !isUndecorated()) {
-                throw new IllegalComponentStateException("The dialog is decorated");
+    @Ovfrridf
+    publid void sftSibpf(Sibpf sibpf) {
+        syndironizfd (gftTrffLodk()) {
+            if ((sibpf != null) && !isUndfdorbtfd()) {
+                tirow nfw IllfgblComponfntStbtfExdfption("Tif diblog is dfdorbtfd");
             }
-            super.setShape(shape);
+            supfr.sftSibpf(sibpf);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    @Override
-    public void setBackground(Color bgColor) {
-        synchronized (getTreeLock()) {
-            if ((bgColor != null) && (bgColor.getAlpha() < 255) && !isUndecorated()) {
-                throw new IllegalComponentStateException("The dialog is decorated");
+    @Ovfrridf
+    publid void sftBbdkground(Color bgColor) {
+        syndironizfd (gftTrffLodk()) {
+            if ((bgColor != null) && (bgColor.gftAlpib() < 255) && !isUndfdorbtfd()) {
+                tirow nfw IllfgblComponfntStbtfExdfption("Tif diblog is dfdorbtfd");
             }
-            super.setBackground(bgColor);
+            supfr.sftBbdkground(bgColor);
         }
     }
 
     /**
-     * Returns a string representing the state of this dialog. This
-     * method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
-     * <code>null</code>.
+     * Rfturns b string rfprfsfnting tif stbtf of tiis diblog. Tiis
+     * mftiod is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
      *
-     * @return    the parameter string of this dialog window.
+     * @rfturn    tif pbrbmftfr string of tiis diblog window.
      */
-    protected String paramString() {
-        String str = super.paramString() + "," + modalityType;
-        if (title != null) {
-            str += ",title=" + title;
+    protfdtfd String pbrbmString() {
+        String str = supfr.pbrbmString() + "," + modblityTypf;
+        if (titlf != null) {
+            str += ",titlf=" + titlf;
         }
-        return str;
+        rfturn str;
     }
 
     /**
-     * Initialize JNI field and method IDs
+     * Initiblizf JNI fifld bnd mftiod IDs
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
     /*
-     * --- Modality support ---
+     * --- Modblity support ---
      *
      */
 
     /*
-     * This method is called only for modal dialogs.
+     * Tiis mftiod is dbllfd only for modbl diblogs.
      *
-     * Goes through the list of all visible top-level windows and
-     * divide them into three distinct groups: blockers of this dialog,
-     * blocked by this dialog and all others. Then blocks this dialog
-     * by first met dialog from the first group (if any) and blocks all
-     * the windows from the second group.
+     * Gofs tirougi tif list of bll visiblf top-lfvfl windows bnd
+     * dividf tifm into tirff distindt groups: blodkfrs of tiis diblog,
+     * blodkfd by tiis diblog bnd bll otifrs. Tifn blodks tiis diblog
+     * by first mft diblog from tif first group (if bny) bnd blodks bll
+     * tif windows from tif sfdond group.
      */
-    void modalShow() {
-        // find all the dialogs that block this one
-        IdentityArrayList<Dialog> blockers = new IdentityArrayList<Dialog>();
-        for (Dialog d : modalDialogs) {
-            if (d.shouldBlock(this)) {
+    void modblSiow() {
+        // find bll tif diblogs tibt blodk tiis onf
+        IdfntityArrbyList<Diblog> blodkfrs = nfw IdfntityArrbyList<Diblog>();
+        for (Diblog d : modblDiblogs) {
+            if (d.siouldBlodk(tiis)) {
                 Window w = d;
-                while ((w != null) && (w != this)) {
-                    w = w.getOwner_NoClientCode();
+                wiilf ((w != null) && (w != tiis)) {
+                    w = w.gftOwnfr_NoClifntCodf();
                 }
-                if ((w == this) || !shouldBlock(d) || (modalityType.compareTo(d.getModalityType()) < 0)) {
-                    blockers.add(d);
-                }
-            }
-        }
-
-        // add all blockers' blockers to blockers :)
-        for (int i = 0; i < blockers.size(); i++) {
-            Dialog blocker = blockers.get(i);
-            if (blocker.isModalBlocked()) {
-                Dialog blockerBlocker = blocker.getModalBlocker();
-                if (!blockers.contains(blockerBlocker)) {
-                    blockers.add(i + 1, blockerBlocker);
+                if ((w == tiis) || !siouldBlodk(d) || (modblityTypf.dompbrfTo(d.gftModblityTypf()) < 0)) {
+                    blodkfrs.bdd(d);
                 }
             }
         }
 
-        if (blockers.size() > 0) {
-            blockers.get(0).blockWindow(this);
+        // bdd bll blodkfrs' blodkfrs to blodkfrs :)
+        for (int i = 0; i < blodkfrs.sizf(); i++) {
+            Diblog blodkfr = blodkfrs.gft(i);
+            if (blodkfr.isModblBlodkfd()) {
+                Diblog blodkfrBlodkfr = blodkfr.gftModblBlodkfr();
+                if (!blodkfrs.dontbins(blodkfrBlodkfr)) {
+                    blodkfrs.bdd(i + 1, blodkfrBlodkfr);
+                }
+            }
         }
 
-        // find all windows from blockers' hierarchies
-        IdentityArrayList<Window> blockersHierarchies = new IdentityArrayList<Window>(blockers);
+        if (blodkfrs.sizf() > 0) {
+            blodkfrs.gft(0).blodkWindow(tiis);
+        }
+
+        // find bll windows from blodkfrs' iifrbrdiifs
+        IdfntityArrbyList<Window> blodkfrsHifrbrdiifs = nfw IdfntityArrbyList<Window>(blodkfrs);
         int k = 0;
-        while (k < blockersHierarchies.size()) {
-            Window w = blockersHierarchies.get(k);
-            Window[] ownedWindows = w.getOwnedWindows_NoClientCode();
-            for (Window win : ownedWindows) {
-                blockersHierarchies.add(win);
+        wiilf (k < blodkfrsHifrbrdiifs.sizf()) {
+            Window w = blodkfrsHifrbrdiifs.gft(k);
+            Window[] ownfdWindows = w.gftOwnfdWindows_NoClifntCodf();
+            for (Window win : ownfdWindows) {
+                blodkfrsHifrbrdiifs.bdd(win);
             }
             k++;
         }
 
-        java.util.List<Window> toBlock = new IdentityLinkedList<Window>();
-        // block all windows from scope of blocking except from blockers' hierarchies
-        IdentityArrayList<Window> unblockedWindows = Window.getAllUnblockedWindows();
-        for (Window w : unblockedWindows) {
-            if (shouldBlock(w) && !blockersHierarchies.contains(w)) {
-                if ((w instanceof Dialog) && ((Dialog)w).isModal_NoClientCode()) {
-                    Dialog wd = (Dialog)w;
-                    if (wd.shouldBlock(this) && (modalDialogs.indexOf(wd) > modalDialogs.indexOf(this))) {
-                        continue;
+        jbvb.util.List<Window> toBlodk = nfw IdfntityLinkfdList<Window>();
+        // blodk bll windows from sdopf of blodking fxdfpt from blodkfrs' iifrbrdiifs
+        IdfntityArrbyList<Window> unblodkfdWindows = Window.gftAllUnblodkfdWindows();
+        for (Window w : unblodkfdWindows) {
+            if (siouldBlodk(w) && !blodkfrsHifrbrdiifs.dontbins(w)) {
+                if ((w instbndfof Diblog) && ((Diblog)w).isModbl_NoClifntCodf()) {
+                    Diblog wd = (Diblog)w;
+                    if (wd.siouldBlodk(tiis) && (modblDiblogs.indfxOf(wd) > modblDiblogs.indfxOf(tiis))) {
+                        dontinuf;
                     }
                 }
-                toBlock.add(w);
+                toBlodk.bdd(w);
             }
         }
-        blockWindows(toBlock);
+        blodkWindows(toBlodk);
 
-        if (!isModalBlocked()) {
-            updateChildrenBlocking();
+        if (!isModblBlodkfd()) {
+            updbtfCiildrfnBlodking();
         }
     }
 
     /*
-     * This method is called only for modal dialogs.
+     * Tiis mftiod is dbllfd only for modbl diblogs.
      *
-     * Unblocks all the windows blocked by this modal dialog. After
-     * each of them has been unblocked, it is checked to be blocked by
-     * any other modal dialogs.
+     * Unblodks bll tif windows blodkfd by tiis modbl diblog. Aftfr
+     * fbdi of tifm ibs bffn unblodkfd, it is difdkfd to bf blodkfd by
+     * bny otifr modbl diblogs.
      */
-    void modalHide() {
-        // we should unblock all the windows first...
-        IdentityArrayList<Window> save = new IdentityArrayList<Window>();
-        int blockedWindowsCount = blockedWindows.size();
-        for (int i = 0; i < blockedWindowsCount; i++) {
-            Window w = blockedWindows.get(0);
-            save.add(w);
-            unblockWindow(w); // also removes w from blockedWindows
+    void modblHidf() {
+        // wf siould unblodk bll tif windows first...
+        IdfntityArrbyList<Window> sbvf = nfw IdfntityArrbyList<Window>();
+        int blodkfdWindowsCount = blodkfdWindows.sizf();
+        for (int i = 0; i < blodkfdWindowsCount; i++) {
+            Window w = blodkfdWindows.gft(0);
+            sbvf.bdd(w);
+            unblodkWindow(w); // blso rfmovfs w from blodkfdWindows
         }
-        // ... and only after that check if they should be blocked
-        // by another dialogs
-        for (int i = 0; i < blockedWindowsCount; i++) {
-            Window w = save.get(i);
-            if ((w instanceof Dialog) && ((Dialog)w).isModal_NoClientCode()) {
-                Dialog d = (Dialog)w;
-                d.modalShow();
-            } else {
-                checkShouldBeBlocked(w);
+        // ... bnd only bftfr tibt difdk if tify siould bf blodkfd
+        // by bnotifr diblogs
+        for (int i = 0; i < blodkfdWindowsCount; i++) {
+            Window w = sbvf.gft(i);
+            if ((w instbndfof Diblog) && ((Diblog)w).isModbl_NoClifntCodf()) {
+                Diblog d = (Diblog)w;
+                d.modblSiow();
+            } flsf {
+                difdkSiouldBfBlodkfd(w);
             }
         }
     }
 
     /*
-     * Returns whether the given top-level window should be blocked by
-     * this dialog. Note, that the given window can be also a modal dialog
-     * and it should block this dialog, but this method do not take such
-     * situations into consideration (such checks are performed in the
-     * modalShow() and modalHide() methods).
+     * Rfturns wiftifr tif givfn top-lfvfl window siould bf blodkfd by
+     * tiis diblog. Notf, tibt tif givfn window dbn bf blso b modbl diblog
+     * bnd it siould blodk tiis diblog, but tiis mftiod do not tbkf sudi
+     * situbtions into donsidfrbtion (sudi difdks brf pfrformfd in tif
+     * modblSiow() bnd modblHidf() mftiods).
      *
-     * This method should be called on the getTreeLock() lock.
+     * Tiis mftiod siould bf dbllfd on tif gftTrffLodk() lodk.
      */
-    boolean shouldBlock(Window w) {
-        if (!isVisible_NoClientCode() ||
-            (!w.isVisible_NoClientCode() && !w.isInShow) ||
-            isInHide ||
-            (w == this) ||
-            !isModal_NoClientCode())
+    boolfbn siouldBlodk(Window w) {
+        if (!isVisiblf_NoClifntCodf() ||
+            (!w.isVisiblf_NoClifntCodf() && !w.isInSiow) ||
+            isInHidf ||
+            (w == tiis) ||
+            !isModbl_NoClifntCodf())
         {
-            return false;
+            rfturn fblsf;
         }
-        if ((w instanceof Dialog) && ((Dialog)w).isInHide) {
-            return false;
+        if ((w instbndfof Diblog) && ((Diblog)w).isInHidf) {
+            rfturn fblsf;
         }
-        // check if w is from children hierarchy
-        // fix for 6271546: we should also take into consideration child hierarchies
-        // of this dialog's blockers
-        Window blockerToCheck = this;
-        while (blockerToCheck != null) {
-            Component c = w;
-            while ((c != null) && (c != blockerToCheck)) {
-                c = c.getParent_NoClientCode();
+        // difdk if w is from diildrfn iifrbrdiy
+        // fix for 6271546: wf siould blso tbkf into donsidfrbtion diild iifrbrdiifs
+        // of tiis diblog's blodkfrs
+        Window blodkfrToCifdk = tiis;
+        wiilf (blodkfrToCifdk != null) {
+            Componfnt d = w;
+            wiilf ((d != null) && (d != blodkfrToCifdk)) {
+                d = d.gftPbrfnt_NoClifntCodf();
             }
-            if (c == blockerToCheck) {
-                return false;
+            if (d == blodkfrToCifdk) {
+                rfturn fblsf;
             }
-            blockerToCheck = blockerToCheck.getModalBlocker();
+            blodkfrToCifdk = blodkfrToCifdk.gftModblBlodkfr();
         }
-        switch (modalityType) {
-            case MODELESS:
-                return false;
-            case DOCUMENT_MODAL:
-                if (w.isModalExcluded(ModalExclusionType.APPLICATION_EXCLUDE)) {
-                    // application- and toolkit-excluded windows are not blocked by
-                    // document-modal dialogs from outside their children hierarchy
-                    Component c = this;
-                    while ((c != null) && (c != w)) {
-                        c = c.getParent_NoClientCode();
+        switdi (modblityTypf) {
+            dbsf MODELESS:
+                rfturn fblsf;
+            dbsf DOCUMENT_MODAL:
+                if (w.isModblExdludfd(ModblExdlusionTypf.APPLICATION_EXCLUDE)) {
+                    // bpplidbtion- bnd toolkit-fxdludfd windows brf not blodkfd by
+                    // dodumfnt-modbl diblogs from outsidf tifir diildrfn iifrbrdiy
+                    Componfnt d = tiis;
+                    wiilf ((d != null) && (d != w)) {
+                        d = d.gftPbrfnt_NoClifntCodf();
                     }
-                    return c == w;
-                } else {
-                    return getDocumentRoot() == w.getDocumentRoot();
+                    rfturn d == w;
+                } flsf {
+                    rfturn gftDodumfntRoot() == w.gftDodumfntRoot();
                 }
-            case APPLICATION_MODAL:
-                return !w.isModalExcluded(ModalExclusionType.APPLICATION_EXCLUDE) &&
-                    (appContext == w.appContext);
-            case TOOLKIT_MODAL:
-                return !w.isModalExcluded(ModalExclusionType.TOOLKIT_EXCLUDE);
+            dbsf APPLICATION_MODAL:
+                rfturn !w.isModblExdludfd(ModblExdlusionTypf.APPLICATION_EXCLUDE) &&
+                    (bppContfxt == w.bppContfxt);
+            dbsf TOOLKIT_MODAL:
+                rfturn !w.isModblExdludfd(ModblExdlusionTypf.TOOLKIT_EXCLUDE);
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /*
-     * Adds the given top-level window to the list of blocked
-     * windows for this dialog and marks it as modal blocked.
-     * If the window is already blocked by some modal dialog,
-     * does nothing.
+     * Adds tif givfn top-lfvfl window to tif list of blodkfd
+     * windows for tiis diblog bnd mbrks it bs modbl blodkfd.
+     * If tif window is blrfbdy blodkfd by somf modbl diblog,
+     * dofs notiing.
      */
-    void blockWindow(Window w) {
-        if (!w.isModalBlocked()) {
-            w.setModalBlocked(this, true, true);
-            blockedWindows.add(w);
+    void blodkWindow(Window w) {
+        if (!w.isModblBlodkfd()) {
+            w.sftModblBlodkfd(tiis, truf, truf);
+            blodkfdWindows.bdd(w);
         }
     }
 
-    void blockWindows(java.util.List<Window> toBlock) {
-        DialogPeer dpeer = (DialogPeer)peer;
-        if (dpeer == null) {
-            return;
+    void blodkWindows(jbvb.util.List<Window> toBlodk) {
+        DiblogPffr dpffr = (DiblogPffr)pffr;
+        if (dpffr == null) {
+            rfturn;
         }
-        Iterator<Window> it = toBlock.iterator();
-        while (it.hasNext()) {
-            Window w = it.next();
-            if (!w.isModalBlocked()) {
-                w.setModalBlocked(this, true, false);
-            } else {
-                it.remove();
+        Itfrbtor<Window> it = toBlodk.itfrbtor();
+        wiilf (it.ibsNfxt()) {
+            Window w = it.nfxt();
+            if (!w.isModblBlodkfd()) {
+                w.sftModblBlodkfd(tiis, truf, fblsf);
+            } flsf {
+                it.rfmovf();
             }
         }
-        dpeer.blockWindows(toBlock);
-        blockedWindows.addAll(toBlock);
+        dpffr.blodkWindows(toBlodk);
+        blodkfdWindows.bddAll(toBlodk);
     }
 
     /*
-     * Removes the given top-level window from the list of blocked
-     * windows for this dialog and marks it as unblocked. If the
-     * window is not modal blocked, does nothing.
+     * Rfmovfs tif givfn top-lfvfl window from tif list of blodkfd
+     * windows for tiis diblog bnd mbrks it bs unblodkfd. If tif
+     * window is not modbl blodkfd, dofs notiing.
      */
-    void unblockWindow(Window w) {
-        if (w.isModalBlocked() && blockedWindows.contains(w)) {
-            blockedWindows.remove(w);
-            w.setModalBlocked(this, false, true);
+    void unblodkWindow(Window w) {
+        if (w.isModblBlodkfd() && blodkfdWindows.dontbins(w)) {
+            blodkfdWindows.rfmovf(w);
+            w.sftModblBlodkfd(tiis, fblsf, truf);
         }
     }
 
     /*
-     * Checks if any other modal dialog D blocks the given window.
-     * If such D exists, mark the window as blocked by D.
+     * Cifdks if bny otifr modbl diblog D blodks tif givfn window.
+     * If sudi D fxists, mbrk tif window bs blodkfd by D.
      */
-    static void checkShouldBeBlocked(Window w) {
-        synchronized (w.getTreeLock()) {
-            for (int i = 0; i < modalDialogs.size(); i++) {
-                Dialog modalDialog = modalDialogs.get(i);
-                if (modalDialog.shouldBlock(w)) {
-                    modalDialog.blockWindow(w);
-                    break;
+    stbtid void difdkSiouldBfBlodkfd(Window w) {
+        syndironizfd (w.gftTrffLodk()) {
+            for (int i = 0; i < modblDiblogs.sizf(); i++) {
+                Diblog modblDiblog = modblDiblogs.gft(i);
+                if (modblDiblog.siouldBlodk(w)) {
+                    modblDiblog.blodkWindow(w);
+                    brfbk;
                 }
             }
         }
     }
 
-    private void checkModalityPermission(ModalityType mt) {
-        if (mt == ModalityType.TOOLKIT_MODAL) {
-            SecurityManager sm = System.getSecurityManager();
+    privbtf void difdkModblityPfrmission(ModblityTypf mt) {
+        if (mt == ModblityTypf.TOOLKIT_MODAL) {
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                sm.checkPermission(AWTPermissions.TOOLKIT_MODALITY_PERMISSION);
+                sm.difdkPfrmission(AWTPfrmissions.TOOLKIT_MODALITY_PERMISSION);
             }
         }
     }
 
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException, HeadlessException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
     {
-        GraphicsEnvironment.checkHeadless();
+        GrbpiidsEnvironmfnt.difdkHfbdlfss();
 
-        java.io.ObjectInputStream.GetField fields =
-            s.readFields();
+        jbvb.io.ObjfdtInputStrfbm.GftFifld fiflds =
+            s.rfbdFiflds();
 
-        ModalityType localModalityType = (ModalityType)fields.get("modalityType", null);
+        ModblityTypf lodblModblityTypf = (ModblityTypf)fiflds.gft("modblityTypf", null);
 
         try {
-            checkModalityPermission(localModalityType);
-        } catch (AccessControlException ace) {
-            localModalityType = DEFAULT_MODALITY_TYPE;
+            difdkModblityPfrmission(lodblModblityTypf);
+        } dbtdi (AddfssControlExdfption bdf) {
+            lodblModblityTypf = DEFAULT_MODALITY_TYPE;
         }
 
-        // in 1.5 or earlier modalityType was absent, so use "modal" instead
-        if (localModalityType == null) {
-            this.modal = fields.get("modal", false);
-            setModal(modal);
-        } else {
-            this.modalityType = localModalityType;
+        // in 1.5 or fbrlifr modblityTypf wbs bbsfnt, so usf "modbl" instfbd
+        if (lodblModblityTypf == null) {
+            tiis.modbl = fiflds.gft("modbl", fblsf);
+            sftModbl(modbl);
+        } flsf {
+            tiis.modblityTypf = lodblModblityTypf;
         }
 
-        this.resizable = fields.get("resizable", true);
-        this.undecorated = fields.get("undecorated", false);
-        this.title = (String)fields.get("title", "");
+        tiis.rfsizbblf = fiflds.gft("rfsizbblf", truf);
+        tiis.undfdorbtfd = fiflds.gft("undfdorbtfd", fblsf);
+        tiis.titlf = (String)fiflds.gft("titlf", "");
 
-        blockedWindows = new IdentityArrayList<>();
+        blodkfdWindows = nfw IdfntityArrbyList<>();
 
-        SunToolkit.checkAndSetPolicy(this);
+        SunToolkit.difdkAndSftPolidy(tiis);
 
-        initialized = true;
+        initiblizfd = truf;
 
     }
 
     /*
-     * --- Accessibility Support ---
+     * --- Addfssibility Support ---
      *
      */
 
     /**
-     * Gets the AccessibleContext associated with this Dialog.
-     * For dialogs, the AccessibleContext takes the form of an
-     * AccessibleAWTDialog.
-     * A new AccessibleAWTDialog instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis Diblog.
+     * For diblogs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfAWTDiblog.
+     * A nfw AddfssiblfAWTDiblog instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleAWTDialog that serves as the
-     *         AccessibleContext of this Dialog
-     * @since 1.3
+     * @rfturn bn AddfssiblfAWTDiblog tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis Diblog
+     * @sindf 1.3
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTDialog();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTDiblog();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>Dialog</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to dialog user-interface elements.
-     * @since 1.3
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>Diblog</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to diblog usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
      */
-    protected class AccessibleAWTDialog extends AccessibleAWTWindow
+    protfdtfd dlbss AddfssiblfAWTDiblog fxtfnds AddfssiblfAWTWindow
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = 4837230331833941201L;
+        privbtf stbtid finbl long sfriblVfrsionUID = 4837230331833941201L;
 
         /**
-         * Get the role of this object.
+         * Gft tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of the
-         * object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif
+         * objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.DIALOG;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.DIALOG;
         }
 
         /**
-         * Get the state of this object.
+         * Gft tif stbtf of tiis objfdt.
          *
-         * @return an instance of AccessibleStateSet containing the current
-         * state set of the object
-         * @see AccessibleState
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dontbining tif durrfnt
+         * stbtf sft of tif objfdt
+         * @sff AddfssiblfStbtf
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            if (getFocusOwner() != null) {
-                states.add(AccessibleState.ACTIVE);
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            if (gftFodusOwnfr() != null) {
+                stbtfs.bdd(AddfssiblfStbtf.ACTIVE);
             }
-            if (isModal()) {
-                states.add(AccessibleState.MODAL);
+            if (isModbl()) {
+                stbtfs.bdd(AddfssiblfStbtf.MODAL);
             }
-            if (isResizable()) {
-                states.add(AccessibleState.RESIZABLE);
+            if (isRfsizbblf()) {
+                stbtfs.bdd(AddfssiblfStbtf.RESIZABLE);
             }
-            return states;
+            rfturn stbtfs;
         }
 
-    } // inner class AccessibleAWTDialog
+    } // innfr dlbss AddfssiblfAWTDiblog
 }

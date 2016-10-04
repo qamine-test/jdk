@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import java.util.EventListenerProxy;
+import jbvb.util.EvfntListfnfrProxy;
 
 /**
- * A class which extends the {@code EventListenerProxy}
- * specifically for adding a {@code PropertyChangeListener}
- * with a "bound" property.
- * Instances of this class can be added
- * as {@code PropertyChangeListener}s to a bean
- * which supports firing property change events.
+ * A dlbss wiidi fxtfnds tif {@dodf EvfntListfnfrProxy}
+ * spfdifidblly for bdding b {@dodf PropfrtyCibngfListfnfr}
+ * witi b "bound" propfrty.
+ * Instbndfs of tiis dlbss dbn bf bddfd
+ * bs {@dodf PropfrtyCibngfListfnfr}s to b bfbn
+ * wiidi supports firing propfrty dibngf fvfnts.
  * <p>
- * If the object has a {@code getPropertyChangeListeners} method
- * then the array returned could be a mixture of {@code PropertyChangeListener}
- * and {@code PropertyChangeListenerProxy} objects.
+ * If tif objfdt ibs b {@dodf gftPropfrtyCibngfListfnfrs} mftiod
+ * tifn tif brrby rfturnfd dould bf b mixturf of {@dodf PropfrtyCibngfListfnfr}
+ * bnd {@dodf PropfrtyCibngfListfnfrProxy} objfdts.
  *
- * @see java.util.EventListenerProxy
- * @see PropertyChangeSupport#getPropertyChangeListeners
- * @since 1.4
+ * @sff jbvb.util.EvfntListfnfrProxy
+ * @sff PropfrtyCibngfSupport#gftPropfrtyCibngfListfnfrs
+ * @sindf 1.4
  */
-public class PropertyChangeListenerProxy
-        extends EventListenerProxy<PropertyChangeListener>
-        implements PropertyChangeListener {
+publid dlbss PropfrtyCibngfListfnfrProxy
+        fxtfnds EvfntListfnfrProxy<PropfrtyCibngfListfnfr>
+        implfmfnts PropfrtyCibngfListfnfr {
 
-    private final String propertyName;
+    privbtf finbl String propfrtyNbmf;
 
     /**
-     * Constructor which binds the {@code PropertyChangeListener}
-     * to a specific property.
+     * Construdtor wiidi binds tif {@dodf PropfrtyCibngfListfnfr}
+     * to b spfdifid propfrty.
      *
-     * @param propertyName  the name of the property to listen on
-     * @param listener      the listener object
+     * @pbrbm propfrtyNbmf  tif nbmf of tif propfrty to listfn on
+     * @pbrbm listfnfr      tif listfnfr objfdt
      */
-    public PropertyChangeListenerProxy(String propertyName, PropertyChangeListener listener) {
-        super(listener);
-        this.propertyName = propertyName;
+    publid PropfrtyCibngfListfnfrProxy(String propfrtyNbmf, PropfrtyCibngfListfnfr listfnfr) {
+        supfr(listfnfr);
+        tiis.propfrtyNbmf = propfrtyNbmf;
     }
 
     /**
-     * Forwards the property change event to the listener delegate.
+     * Forwbrds tif propfrty dibngf fvfnt to tif listfnfr dflfgbtf.
      *
-     * @param event  the property change event
+     * @pbrbm fvfnt  tif propfrty dibngf fvfnt
      */
-    public void propertyChange(PropertyChangeEvent event) {
-        getListener().propertyChange(event);
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvfnt) {
+        gftListfnfr().propfrtyCibngf(fvfnt);
     }
 
     /**
-     * Returns the name of the named property associated with the listener.
+     * Rfturns tif nbmf of tif nbmfd propfrty bssodibtfd witi tif listfnfr.
      *
-     * @return the name of the named property associated with the listener
+     * @rfturn tif nbmf of tif nbmfd propfrty bssodibtfd witi tif listfnfr
      */
-    public String getPropertyName() {
-        return this.propertyName;
+    publid String gftPropfrtyNbmf() {
+        rfturn tiis.propfrtyNbmf;
     }
 }

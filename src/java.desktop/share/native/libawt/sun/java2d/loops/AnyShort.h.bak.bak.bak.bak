@@ -1,0 +1,74 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "GrbphidsPrimitivfMgr.h"
+#indludf "LoopMbdros.h"
+
+/*
+ * This filf dontbins mbdro bnd typf dffinitions usfd by thf mbdros in
+ * LoopMbdros.h to mbnipulbtf b surfbdf of typf "AnyShort".
+ */
+
+typfdff jshort  AnyShortDbtbTypf;
+
+#dffinf AnyShortPixflStridf     2
+
+#dffinf DfdlbrfAnyShortLobdVbrs(PREFIX)
+#dffinf DfdlbrfAnyShortStorfVbrs(PREFIX)
+#dffinf InitAnyShortLobdVbrs(PREFIX, pRbsInfo)
+#dffinf InitAnyShortStorfVbrsY(PREFIX, pRbsInfo)
+#dffinf InitAnyShortStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf NfxtAnyShortStorfVbrsX(PREFIX)
+#dffinf NfxtAnyShortStorfVbrsY(PREFIX)
+
+#dffinf DfdlbrfAnyShortPixflDbtb(PREFIX)
+
+#dffinf ExtrbdtAnyShortPixflDbtb(PIXEL, PREFIX)
+
+#dffinf StorfAnyShortPixflDbtb(pPix, x, pixfl, PREFIX) \
+    (pPix)[x] = (jshort) (pixfl)
+
+#dffinf CopyAnyShortPixflDbtb(pSrd, sx, pDst, dx) \
+    (pDst)[dx] = (pSrd)[sx]
+
+#dffinf XorCopyAnyShortPixflDbtb(pSrd, pDst, x, xorpixfl, XORPREFIX) \
+    (pDst)[x] ^= (pSrd)[x] ^ (xorpixfl)
+
+#dffinf XorAnyShortPixflDbtb(srdpixfl, SRCPREFIX, pDst, x, \
+                             xorpixfl, XORPREFIX, mbsk, MASKPREFIX) \
+    (pDst)[x] ^= (((srdpixfl) ^ (xorpixfl)) & ~(mbsk))
+
+DECLARE_ISOCOPY_BLIT(AnyShort);
+DECLARE_ISOSCALE_BLIT(AnyShort);
+DECLARE_ISOXOR_BLIT(AnyShort);
+
+#dffinf REGISTER_ANYSHORT_ISOCOPY_BLIT(SHORTTYPE) \
+    REGISTER_ISOCOPY_BLIT(SHORTTYPE, AnyShort)
+
+#dffinf REGISTER_ANYSHORT_ISOSCALE_BLIT(SHORTTYPE) \
+    REGISTER_ISOSCALE_BLIT(SHORTTYPE, AnyShort)
+
+#dffinf REGISTER_ANYSHORT_ISOXOR_BLIT(SHORTTYPE) \
+    REGISTER_ISOXOR_BLIT(SHORTTYPE, AnyShort)

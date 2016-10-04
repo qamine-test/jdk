@@ -1,0 +1,432 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
+
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+
+/**
+ * An implfmfntbtion of b two-stbtf button.
+ * Thf <dodf>JRbdioButton</dodf> bnd <dodf>JChfdkBox</dodf> dlbssfs
+ * brf subdlbssfs of this dlbss.
+ * For informbtion on using thfm sff
+ * <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/button.html">How to Usf Buttons, Chfdk Boxfs, bnd Rbdio Buttons</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>.
+ * <p>
+ * Buttons dbn bf donfigurfd, bnd to somf dfgrff dontrollfd, by
+ * <dodf><b hrff="Adtion.html">Adtion</b></dodf>s.  Using bn
+ * <dodf>Adtion</dodf> with b button hbs mbny bfnffits bfyond dirfdtly
+ * donfiguring b button.  Rfffr to <b hrff="Adtion.html#buttonAdtions">
+ * Swing Componfnts Supporting <dodf>Adtion</dodf></b> for morf
+ * dftbils, bnd you dbn find morf informbtion in <b
+ * hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/misd/bdtion.html">How
+ * to Usf Adtions</b>, b sfdtion in <fm>Thf Jbvb Tutoribl</fm>.
+ * <p>
+ * <strong>Wbrning:</strong> Swing is not thrfbd sbff. For morf
+ * informbtion sff <b
+ * hrff="pbdkbgf-summbry.html#thrfbding">Swing's Thrfbding
+ * Polidy</b>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: An implfmfntbtion of b two-stbtf button.
+ *
+ * @sff JRbdioButton
+ * @sff JChfdkBox
+ * @buthor Jfff Dinkins
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JTogglfButton fxtfnds AbstrbdtButton implfmfnts Addfssiblf {
+
+    /**
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
+     */
+    privbtf stbtid finbl String uiClbssID = "TogglfButtonUI";
+
+    /**
+     * Crfbtfs bn initiblly unsflfdtfd togglf button
+     * without sftting thf tfxt or imbgf.
+     */
+    publid JTogglfButton () {
+        this(null, null, fblsf);
+    }
+
+    /**
+     * Crfbtfs bn initiblly unsflfdtfd togglf button
+     * with thf spfdififd imbgf but no tfxt.
+     *
+     * @pbrbm idon  thf imbgf thbt thf button should displby
+     */
+    publid JTogglfButton(Idon idon) {
+        this(null, idon, fblsf);
+    }
+
+    /**
+     * Crfbtfs b togglf button with thf spfdififd imbgf
+     * bnd sflfdtion stbtf, but no tfxt.
+     *
+     * @pbrbm idon  thf imbgf thbt thf button should displby
+     * @pbrbm sflfdtfd  if truf, thf button is initiblly sflfdtfd;
+     *                  othfrwisf, thf button is initiblly unsflfdtfd
+     */
+    publid JTogglfButton(Idon idon, boolfbn sflfdtfd) {
+        this(null, idon, sflfdtfd);
+    }
+
+    /**
+     * Crfbtfs bn unsflfdtfd togglf button with thf spfdififd tfxt.
+     *
+     * @pbrbm tfxt  thf string displbyfd on thf togglf button
+     */
+    publid JTogglfButton (String tfxt) {
+        this(tfxt, null, fblsf);
+    }
+
+    /**
+     * Crfbtfs b togglf button with thf spfdififd tfxt
+     * bnd sflfdtion stbtf.
+     *
+     * @pbrbm tfxt  thf string displbyfd on thf togglf button
+     * @pbrbm sflfdtfd  if truf, thf button is initiblly sflfdtfd;
+     *                  othfrwisf, thf button is initiblly unsflfdtfd
+     */
+    publid JTogglfButton (String tfxt, boolfbn sflfdtfd) {
+        this(tfxt, null, sflfdtfd);
+    }
+
+    /**
+     * Crfbtfs b togglf button whfrf propfrtifs brf tbkfn from thf
+     * Adtion supplifd.
+     *
+     * @pbrbm b bn instbndf of bn {@dodf Adtion}
+     * @sindf 1.3
+     */
+    publid JTogglfButton(Adtion b) {
+        this();
+        sftAdtion(b);
+    }
+
+    /**
+     * Crfbtfs b togglf button thbt hbs thf spfdififd tfxt bnd imbgf,
+     * bnd thbt is initiblly unsflfdtfd.
+     *
+     * @pbrbm tfxt thf string displbyfd on thf button
+     * @pbrbm idon  thf imbgf thbt thf button should displby
+     */
+    publid JTogglfButton(String tfxt, Idon idon) {
+        this(tfxt, idon, fblsf);
+    }
+
+    /**
+     * Crfbtfs b togglf button with thf spfdififd tfxt, imbgf, bnd
+     * sflfdtion stbtf.
+     *
+     * @pbrbm tfxt thf tfxt of thf togglf button
+     * @pbrbm idon  thf imbgf thbt thf button should displby
+     * @pbrbm sflfdtfd  if truf, thf button is initiblly sflfdtfd;
+     *                  othfrwisf, thf button is initiblly unsflfdtfd
+     */
+    publid JTogglfButton (String tfxt, Idon idon, boolfbn sflfdtfd) {
+        // Crfbtf thf modfl
+        sftModfl(nfw TogglfButtonModfl());
+
+        modfl.sftSflfdtfd(sflfdtfd);
+
+        // initiblizf
+        init(tfxt, idon);
+    }
+
+    /**
+     * Rfsfts thf UI propfrty to b vbluf from thf durrfnt look bnd fffl.
+     *
+     * @sff JComponfnt#updbtfUI
+     */
+    publid void updbtfUI() {
+        sftUI((ButtonUI)UIMbnbgfr.gftUI(this));
+    }
+
+    /**
+     * Rfturns b string thbt spfdififs thf nbmf of thf l&bmp;f dlbss
+     * thbt rfndfrs this domponfnt.
+     *
+     * @rfturn String "TogglfButtonUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *  dfsdription: A string thbt spfdififs thf nbmf of thf L&bmp;F dlbss
+     */
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
+    }
+
+
+    /**
+     * Ovfrridfn to rfturn truf, JTogglfButton supports
+     * thf sflfdtfd stbtf.
+     */
+    boolfbn shouldUpdbtfSflfdtfdStbtfFromAdtion() {
+        rfturn truf;
+    }
+
+    // *********************************************************************
+
+    /**
+     * Thf TogglfButton modfl
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss TogglfButtonModfl fxtfnds DffbultButtonModfl {
+
+        /**
+         * Crfbtfs b nfw TogglfButton Modfl
+         */
+        publid TogglfButtonModfl () {
+        }
+
+        /**
+         * Chfdks if thf button is sflfdtfd.
+         */
+        publid boolfbn isSflfdtfd() {
+//              if(gftGroup() != null) {
+//                  rfturn gftGroup().isSflfdtfd(this);
+//              } flsf {
+                rfturn (stbtfMbsk & SELECTED) != 0;
+//              }
+        }
+
+
+        /**
+         * Sfts thf sflfdtfd stbtf of thf button.
+         * @pbrbm b truf sflfdts thf togglf button,
+         *          fblsf dfsflfdts thf togglf button.
+         */
+        publid void sftSflfdtfd(boolfbn b) {
+            ButtonGroup group = gftGroup();
+            if (group != null) {
+                // usf thf group modfl instfbd
+                group.sftSflfdtfd(this, b);
+                b = group.isSflfdtfd(this);
+            }
+
+            if (isSflfdtfd() == b) {
+                rfturn;
+            }
+
+            if (b) {
+                stbtfMbsk |= SELECTED;
+            } flsf {
+                stbtfMbsk &= ~SELECTED;
+            }
+
+            // Sfnd ChbngfEvfnt
+            firfStbtfChbngfd();
+
+            // Sfnd ItfmEvfnt
+            firfItfmStbtfChbngfd(
+                    nfw ItfmEvfnt(this,
+                                  ItfmEvfnt.ITEM_STATE_CHANGED,
+                                  this,
+                                  this.isSflfdtfd() ?  ItfmEvfnt.SELECTED : ItfmEvfnt.DESELECTED));
+
+        }
+
+        /**
+         * Sfts thf prfssfd stbtf of thf togglf button.
+         */
+        publid void sftPrfssfd(boolfbn b) {
+            if ((isPrfssfd() == b) || !isEnbblfd()) {
+                rfturn;
+            }
+
+            if (b == fblsf && isArmfd()) {
+                sftSflfdtfd(!this.isSflfdtfd());
+            }
+
+            if (b) {
+                stbtfMbsk |= PRESSED;
+            } flsf {
+                stbtfMbsk &= ~PRESSED;
+            }
+
+            firfStbtfChbngfd();
+
+            if(!isPrfssfd() && isArmfd()) {
+                int modififrs = 0;
+                AWTEvfnt durrfntEvfnt = EvfntQufuf.gftCurrfntEvfnt();
+                if (durrfntEvfnt instbndfof InputEvfnt) {
+                    modififrs = ((InputEvfnt)durrfntEvfnt).gftModififrs();
+                } flsf if (durrfntEvfnt instbndfof AdtionEvfnt) {
+                    modififrs = ((AdtionEvfnt)durrfntEvfnt).gftModififrs();
+                }
+                firfAdtionPfrformfd(
+                    nfw AdtionEvfnt(this, AdtionEvfnt.ACTION_PERFORMED,
+                                    gftAdtionCommbnd(),
+                                    EvfntQufuf.gftMostRfdfntEvfntTimf(),
+                                    modififrs));
+            }
+
+        }
+    }
+
+
+    /**
+     * Sff rfbdObjfdt() bnd writfObjfdt() in JComponfnt for morf
+     * informbtion bbout sfriblizbtion in Swing.
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) throws IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(this);
+            JComponfnt.sftWritfObjCountfr(this, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(this);
+            }
+        }
+    }
+
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this JTogglfButton. This mfthod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
+     *
+     * @rfturn  b string rfprfsfntbtion of this JTogglfButton.
+     */
+    protfdtfd String pbrbmString() {
+        rfturn supfr.pbrbmString();
+    }
+
+
+/////////////////
+// Addfssibility support
+////////////////
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this JTogglfButton.
+     * For togglf buttons, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfJTogglfButton.
+     * A nfw AddfssiblfJTogglfButton instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfJTogglfButton thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this JTogglfButton
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Thf AddfssiblfContfxt bssodibtfd with this TogglfButton.
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJTogglfButton();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>JTogglfButton</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to togglf button usfr-intfrfbdf
+     * flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJTogglfButton fxtfnds AddfssiblfAbstrbdtButton
+            implfmfnts ItfmListfnfr {
+
+        /**
+         * Construdts {@dodf AddfssiblfJTogglfButton}
+         */
+        publid AddfssiblfJTogglfButton() {
+            supfr();
+            JTogglfButton.this.bddItfmListfnfr(this);
+        }
+
+        /**
+         * Firf bddfssiblf propfrty dhbngf fvfnts whfn thf stbtf of thf
+         * togglf button dhbngfs.
+         */
+        publid void itfmStbtfChbngfd(ItfmEvfnt f) {
+            JTogglfButton tb = (JTogglfButton) f.gftSourdf();
+            if (JTogglfButton.this.bddfssiblfContfxt != null) {
+                if (tb.isSflfdtfd()) {
+                    JTogglfButton.this.bddfssiblfContfxt.firfPropfrtyChbngf(
+                            AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                            null, AddfssiblfStbtf.CHECKED);
+                } flsf {
+                    JTogglfButton.this.bddfssiblfContfxt.firfPropfrtyChbngf(
+                            AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY,
+                            AddfssiblfStbtf.CHECKED, null);
+                }
+            }
+        }
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf
+         * objfdt
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.TOGGLE_BUTTON;
+        }
+    } // innfr dlbss AddfssiblfJTogglfButton
+}

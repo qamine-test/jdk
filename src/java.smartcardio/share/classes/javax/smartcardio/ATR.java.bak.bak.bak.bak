@@ -1,0 +1,165 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.smbrtdbrdio;
+
+import jbvb.util.*;
+
+/**
+ * A Smbrt Cbrd's bnswfr-to-rfsft bytfs. A Cbrd's ATR objfdt dbn bf obtbinfd
+ * by dblling {@linkplbin Cbrd#gftATR}.
+ * This dlbss dofs not bttfmpt to vfrify thbt thf ATR fndodfs b sfmbntidblly
+ * vblid strudturf.
+ *
+ * <p>Instbndfs of this dlbss brf immutbblf. Whfrf dbtb is pbssfd in or out
+ * vib bytf brrbys, dfffnsivf dloning is pfrformfd.
+ *
+ * @sff Cbrd#gftATR
+ *
+ * @sindf   1.6
+ * @buthor  Andrfbs Stfrbfnz
+ * @buthor  JSR 268 Expfrt Group
+ */
+publid finbl dlbss ATR implfmfnts jbvb.io.Sfriblizbblf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 6695383790847736493L;
+
+    privbtf bytf[] btr;
+
+    privbtf trbnsifnt int stbrtHistoridbl, nHistoridbl;
+
+    /**
+     * Construdts bn ATR from b bytf brrby.
+     *
+     * @pbrbm btr thf bytf brrby dontbining thf bnswfr-to-rfsft bytfs
+     * @throws NullPointfrExdfption if <dodf>btr</dodf> is null
+     */
+    publid ATR(bytf[] btr) {
+        this.btr = btr.dlonf();
+        pbrsf();
+    }
+
+    privbtf void pbrsf() {
+        if (btr.lfngth < 2) {
+            rfturn;
+        }
+        if ((btr[0] != 0x3b) && (btr[0] != 0x3f)) {
+            rfturn;
+        }
+        int t0 = (btr[1] & 0xf0) >> 4;
+        int n = btr[1] & 0xf;
+        int i = 2;
+        whilf ((t0 != 0) && (i < btr.lfngth)) {
+            if ((t0 & 1) != 0) {
+                i++;
+            }
+            if ((t0 & 2) != 0) {
+                i++;
+            }
+            if ((t0 & 4) != 0) {
+                i++;
+            }
+            if ((t0 & 8) != 0) {
+                if (i >= btr.lfngth) {
+                    rfturn;
+                }
+                t0 = (btr[i++] & 0xf0) >> 4;
+            } flsf {
+                t0 = 0;
+            }
+        }
+        int k = i + n;
+        if ((k == btr.lfngth) || (k == btr.lfngth - 1)) {
+            stbrtHistoridbl = i;
+            nHistoridbl = n;
+        }
+    }
+
+    /**
+     * Rfturns b dopy of thf bytfs in this ATR.
+     *
+     * @rfturn b dopy of thf bytfs in this ATR.
+     */
+    publid bytf[] gftBytfs() {
+        rfturn btr.dlonf();
+    }
+
+    /**
+     * Rfturns b dopy of thf historidbl bytfs in this ATR.
+     * If this ATR dofs not dontbin historidbl bytfs, bn brrby of lfngth
+     * zfro is rfturnfd.
+     *
+     * @rfturn b dopy of thf historidbl bytfs in this ATR.
+     */
+    publid bytf[] gftHistoridblBytfs() {
+        bytf[] b = nfw bytf[nHistoridbl];
+        Systfm.brrbydopy(btr, stbrtHistoridbl, b, 0, nHistoridbl);
+        rfturn b;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this ATR.
+     *
+     * @rfturn b String rfprfsfntbtion of this ATR.
+     */
+    publid String toString() {
+        rfturn "ATR: " + btr.lfngth + " bytfs";
+    }
+
+    /**
+     * Compbrfs thf spfdififd objfdt with this ATR for fqublity.
+     * Rfturns truf if thf givfn objfdt is blso bn ATR bnd its bytfs brf
+     * idfntidbl to thf bytfs in this ATR.
+     *
+     * @pbrbm obj thf objfdt to bf dompbrfd for fqublity with this ATR
+     * @rfturn truf if thf spfdififd objfdt is fqubl to this ATR
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof ATR == fblsf) {
+            rfturn fblsf;
+        }
+        ATR othfr = (ATR)obj;
+        rfturn Arrbys.fqubls(this.btr, othfr.btr);
+    }
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this ATR.
+     *
+     * @rfturn thf hbsh dodf vbluf for this ATR.
+     */
+    publid int hbshCodf() {
+        rfturn Arrbys.hbshCodf(btr);
+    }
+
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm in)
+            throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        btr = (bytf[])in.rfbdUnshbrfd();
+        pbrsf();
+    }
+
+}

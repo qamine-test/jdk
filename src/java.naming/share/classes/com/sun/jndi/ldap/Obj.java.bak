@@ -1,652 +1,652 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.DirectoryManager;
-import javax.naming.spi.DirStateFactory;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.DirfdtoryMbnbgfr;
+import jbvbx.nbming.spi.DirStbtfFbdtory;
 
-import java.io.IOException;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamClass;
-import java.io.InputStream;
+import jbvb.io.IOExdfption;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmClbss;
+import jbvb.io.InputStrfbm;
 
-import java.util.Base64;
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.StringTokenizer;
+import jbvb.util.Bbsf64;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.StringTokfnizfr;
 
-import java.lang.reflect.Proxy;
-import java.lang.reflect.Modifier;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.lbng.rfflfdt.Modififr;
 
 /**
-  * Class containing static methods and constants for dealing with
-  * encoding/decoding JNDI References and Serialized Objects
+  * Clbss dontbining stbtid mftiods bnd donstbnts for dfbling witi
+  * fndoding/dfdoding JNDI Rfffrfndfs bnd Sfriblizfd Objfdts
   * in LDAP.
-  * @author Vincent Ryan
-  * @author Rosanna Lee
+  * @butior Vindfnt Rybn
+  * @butior Rosbnnb Lff
   */
-final class Obj {
+finbl dlbss Obj {
 
-    private Obj () {}; // Make sure no one can create one
+    privbtf Obj () {}; // Mbkf surf no onf dbn drfbtf onf
 
-    // package private; used by Connection
-    static VersionHelper helper = VersionHelper.getVersionHelper();
+    // pbdkbgf privbtf; usfd by Connfdtion
+    stbtid VfrsionHflpfr iflpfr = VfrsionHflpfr.gftVfrsionHflpfr();
 
-    // LDAP attributes used to support Java objects.
-    static final String[] JAVA_ATTRIBUTES = {
-        "objectClass",
-        "javaSerializedData",
-        "javaClassName",
-        "javaFactory",
-        "javaCodeBase",
-        "javaReferenceAddress",
-        "javaClassNames",
-        "javaRemoteLocation"     // Deprecated
+    // LDAP bttributfs usfd to support Jbvb objfdts.
+    stbtid finbl String[] JAVA_ATTRIBUTES = {
+        "objfdtClbss",
+        "jbvbSfriblizfdDbtb",
+        "jbvbClbssNbmf",
+        "jbvbFbdtory",
+        "jbvbCodfBbsf",
+        "jbvbRfffrfndfAddrfss",
+        "jbvbClbssNbmfs",
+        "jbvbRfmotfLodbtion"     // Dfprfdbtfd
     };
 
-    static final int OBJECT_CLASS = 0;
-    static final int SERIALIZED_DATA = 1;
-    static final int CLASSNAME = 2;
-    static final int FACTORY = 3;
-    static final int CODEBASE = 4;
-    static final int REF_ADDR = 5;
-    static final int TYPENAME = 6;
+    stbtid finbl int OBJECT_CLASS = 0;
+    stbtid finbl int SERIALIZED_DATA = 1;
+    stbtid finbl int CLASSNAME = 2;
+    stbtid finbl int FACTORY = 3;
+    stbtid finbl int CODEBASE = 4;
+    stbtid finbl int REF_ADDR = 5;
+    stbtid finbl int TYPENAME = 6;
     /**
-     * @deprecated
+     * @dfprfdbtfd
      */
-    @Deprecated
-    private static final int REMOTE_LOC = 7;
+    @Dfprfdbtfd
+    privbtf stbtid finbl int REMOTE_LOC = 7;
 
-    // LDAP object classes to support Java objects
-    static final String[] JAVA_OBJECT_CLASSES = {
-        "javaContainer",
-        "javaObject",
-        "javaNamingReference",
-        "javaSerializedObject",
-        "javaMarshalledObject",
+    // LDAP objfdt dlbssfs to support Jbvb objfdts
+    stbtid finbl String[] JAVA_OBJECT_CLASSES = {
+        "jbvbContbinfr",
+        "jbvbObjfdt",
+        "jbvbNbmingRfffrfndf",
+        "jbvbSfriblizfdObjfdt",
+        "jbvbMbrsibllfdObjfdt",
     };
 
-    static final String[] JAVA_OBJECT_CLASSES_LOWER = {
-        "javacontainer",
-        "javaobject",
-        "javanamingreference",
-        "javaserializedobject",
-        "javamarshalledobject",
+    stbtid finbl String[] JAVA_OBJECT_CLASSES_LOWER = {
+        "jbvbdontbinfr",
+        "jbvbobjfdt",
+        "jbvbnbmingrfffrfndf",
+        "jbvbsfriblizfdobjfdt",
+        "jbvbmbrsibllfdobjfdt",
     };
 
-    static final int STRUCTURAL = 0;    // structural object class
-    static final int BASE_OBJECT = 1;   // auxiliary java object class
-    static final int REF_OBJECT = 2;    // auxiliary reference object class
-    static final int SER_OBJECT = 3;    // auxiliary serialized object class
-    static final int MAR_OBJECT = 4;    // auxiliary marshalled object class
+    stbtid finbl int STRUCTURAL = 0;    // strudturbl objfdt dlbss
+    stbtid finbl int BASE_OBJECT = 1;   // buxilibry jbvb objfdt dlbss
+    stbtid finbl int REF_OBJECT = 2;    // buxilibry rfffrfndf objfdt dlbss
+    stbtid finbl int SER_OBJECT = 3;    // buxilibry sfriblizfd objfdt dlbss
+    stbtid finbl int MAR_OBJECT = 4;    // buxilibry mbrsibllfd objfdt dlbss
 
     /**
-     * Encode an object in LDAP attributes.
-     * Supports binding Referenceable or Reference, Serializable,
-     * and DirContext.
+     * Endodf bn objfdt in LDAP bttributfs.
+     * Supports binding Rfffrfndfbblf or Rfffrfndf, Sfriblizbblf,
+     * bnd DirContfxt.
      *
-     * If the object supports the Referenceable interface then encode
-     * the reference to the object. See encodeReference() for details.
+     * If tif objfdt supports tif Rfffrfndfbblf intfrfbdf tifn fndodf
+     * tif rfffrfndf to tif objfdt. Sff fndodfRfffrfndf() for dftbils.
      *<p>
-     * If the object is serializable, it is stored as follows:
-     * javaClassName
-     *   value: Object.getClass();
-     * javaSerializedData
-     *   value: serialized form of Object (in binary form).
-     * javaTypeName
-     *   value: getTypeNames(Object.getClass());
+     * If tif objfdt is sfriblizbblf, it is storfd bs follows:
+     * jbvbClbssNbmf
+     *   vbluf: Objfdt.gftClbss();
+     * jbvbSfriblizfdDbtb
+     *   vbluf: sfriblizfd form of Objfdt (in binbry form).
+     * jbvbTypfNbmf
+     *   vbluf: gftTypfNbmfs(Objfdt.gftClbss());
      */
-    private static Attributes encodeObject(char separator,
-        Object obj, Attributes attrs,
-        Attribute objectClass, boolean cloned)
-        throws NamingException {
-            boolean structural =
-                (objectClass.size() == 0 ||
-                    (objectClass.size() == 1 && objectClass.contains("top")));
+    privbtf stbtid Attributfs fndodfObjfdt(dibr sfpbrbtor,
+        Objfdt obj, Attributfs bttrs,
+        Attributf objfdtClbss, boolfbn dlonfd)
+        tirows NbmingExdfption {
+            boolfbn strudturbl =
+                (objfdtClbss.sizf() == 0 ||
+                    (objfdtClbss.sizf() == 1 && objfdtClbss.dontbins("top")));
 
-            if (structural) {
-                objectClass.add(JAVA_OBJECT_CLASSES[STRUCTURAL]);
+            if (strudturbl) {
+                objfdtClbss.bdd(JAVA_OBJECT_CLASSES[STRUCTURAL]);
             }
 
-    // References
-            if (obj instanceof Referenceable) {
-                objectClass.add(JAVA_OBJECT_CLASSES[BASE_OBJECT]);
-                objectClass.add(JAVA_OBJECT_CLASSES[REF_OBJECT]);
-                if (!cloned) {
-                    attrs = (Attributes)attrs.clone();
+    // Rfffrfndfs
+            if (obj instbndfof Rfffrfndfbblf) {
+                objfdtClbss.bdd(JAVA_OBJECT_CLASSES[BASE_OBJECT]);
+                objfdtClbss.bdd(JAVA_OBJECT_CLASSES[REF_OBJECT]);
+                if (!dlonfd) {
+                    bttrs = (Attributfs)bttrs.dlonf();
                 }
-                attrs.put(objectClass);
-                return (encodeReference(separator,
-                    ((Referenceable)obj).getReference(),
-                    attrs, obj));
+                bttrs.put(objfdtClbss);
+                rfturn (fndodfRfffrfndf(sfpbrbtor,
+                    ((Rfffrfndfbblf)obj).gftRfffrfndf(),
+                    bttrs, obj));
 
-            } else if (obj instanceof Reference) {
-                objectClass.add(JAVA_OBJECT_CLASSES[BASE_OBJECT]);
-                objectClass.add(JAVA_OBJECT_CLASSES[REF_OBJECT]);
-                if (!cloned) {
-                    attrs = (Attributes)attrs.clone();
+            } flsf if (obj instbndfof Rfffrfndf) {
+                objfdtClbss.bdd(JAVA_OBJECT_CLASSES[BASE_OBJECT]);
+                objfdtClbss.bdd(JAVA_OBJECT_CLASSES[REF_OBJECT]);
+                if (!dlonfd) {
+                    bttrs = (Attributfs)bttrs.dlonf();
                 }
-                attrs.put(objectClass);
-                return (encodeReference(separator, (Reference)obj, attrs, null));
+                bttrs.put(objfdtClbss);
+                rfturn (fndodfRfffrfndf(sfpbrbtor, (Rfffrfndf)obj, bttrs, null));
 
-    // Serializable Object
-            } else if (obj instanceof java.io.Serializable) {
-                objectClass.add(JAVA_OBJECT_CLASSES[BASE_OBJECT]);
-                if (!(objectClass.contains(JAVA_OBJECT_CLASSES[MAR_OBJECT]) ||
-                    objectClass.contains(JAVA_OBJECT_CLASSES_LOWER[MAR_OBJECT]))) {
-                    objectClass.add(JAVA_OBJECT_CLASSES[SER_OBJECT]);
+    // Sfriblizbblf Objfdt
+            } flsf if (obj instbndfof jbvb.io.Sfriblizbblf) {
+                objfdtClbss.bdd(JAVA_OBJECT_CLASSES[BASE_OBJECT]);
+                if (!(objfdtClbss.dontbins(JAVA_OBJECT_CLASSES[MAR_OBJECT]) ||
+                    objfdtClbss.dontbins(JAVA_OBJECT_CLASSES_LOWER[MAR_OBJECT]))) {
+                    objfdtClbss.bdd(JAVA_OBJECT_CLASSES[SER_OBJECT]);
                 }
-                if (!cloned) {
-                    attrs = (Attributes)attrs.clone();
+                if (!dlonfd) {
+                    bttrs = (Attributfs)bttrs.dlonf();
                 }
-                attrs.put(objectClass);
-                attrs.put(new BasicAttribute(JAVA_ATTRIBUTES[SERIALIZED_DATA],
-                    serializeObject(obj)));
-                if (attrs.get(JAVA_ATTRIBUTES[CLASSNAME]) == null) {
-                    attrs.put(JAVA_ATTRIBUTES[CLASSNAME],
-                        obj.getClass().getName());
+                bttrs.put(objfdtClbss);
+                bttrs.put(nfw BbsidAttributf(JAVA_ATTRIBUTES[SERIALIZED_DATA],
+                    sfriblizfObjfdt(obj)));
+                if (bttrs.gft(JAVA_ATTRIBUTES[CLASSNAME]) == null) {
+                    bttrs.put(JAVA_ATTRIBUTES[CLASSNAME],
+                        obj.gftClbss().gftNbmf());
                 }
-                if (attrs.get(JAVA_ATTRIBUTES[TYPENAME]) == null) {
-                    Attribute tAttr =
-                        LdapCtxFactory.createTypeNameAttr(obj.getClass());
+                if (bttrs.gft(JAVA_ATTRIBUTES[TYPENAME]) == null) {
+                    Attributf tAttr =
+                        LdbpCtxFbdtory.drfbtfTypfNbmfAttr(obj.gftClbss());
                     if (tAttr != null) {
-                        attrs.put(tAttr);
+                        bttrs.put(tAttr);
                     }
                 }
-    // DirContext Object
-            } else if (obj instanceof DirContext) {
-                // do nothing
-            } else {
-                throw new IllegalArgumentException(
-            "can only bind Referenceable, Serializable, DirContext");
+    // DirContfxt Objfdt
+            } flsf if (obj instbndfof DirContfxt) {
+                // do notiing
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption(
+            "dbn only bind Rfffrfndfbblf, Sfriblizbblf, DirContfxt");
             }
-            //      System.err.println(attrs);
-            return attrs;
+            //      Systfm.frr.println(bttrs);
+            rfturn bttrs;
     }
 
     /**
-     * Each value in javaCodebase contains a list of space-separated
-     * URLs. Each value is independent; we can pick any of the values
-     * so we just use the first one.
-     * @return an array of URL strings for the codebase
+     * Ebdi vbluf in jbvbCodfbbsf dontbins b list of spbdf-sfpbrbtfd
+     * URLs. Ebdi vbluf is indfpfndfnt; wf dbn pidk bny of tif vblufs
+     * so wf just usf tif first onf.
+     * @rfturn bn brrby of URL strings for tif dodfbbsf
      */
-    private static String[] getCodebases(Attribute codebaseAttr) throws
-        NamingException {
-        if (codebaseAttr == null) {
-            return null;
-        } else {
-            StringTokenizer parser =
-                new StringTokenizer((String)codebaseAttr.get());
-            Vector<String> vec = new Vector<>(10);
-            while (parser.hasMoreTokens()) {
-                vec.addElement(parser.nextToken());
+    privbtf stbtid String[] gftCodfbbsfs(Attributf dodfbbsfAttr) tirows
+        NbmingExdfption {
+        if (dodfbbsfAttr == null) {
+            rfturn null;
+        } flsf {
+            StringTokfnizfr pbrsfr =
+                nfw StringTokfnizfr((String)dodfbbsfAttr.gft());
+            Vfdtor<String> vfd = nfw Vfdtor<>(10);
+            wiilf (pbrsfr.ibsMorfTokfns()) {
+                vfd.bddElfmfnt(pbrsfr.nfxtTokfn());
             }
-            String[] answer = new String[vec.size()];
-            for (int i = 0; i < answer.length; i++) {
-                answer[i] = vec.elementAt(i);
+            String[] bnswfr = nfw String[vfd.sizf()];
+            for (int i = 0; i < bnswfr.lfngti; i++) {
+                bnswfr[i] = vfd.flfmfntAt(i);
             }
-            return answer;
+            rfturn bnswfr;
         }
     }
 
     /*
-     * Decode an object from LDAP attribute(s).
-     * The object may be a Reference, or a Serialized object.
+     * Dfdodf bn objfdt from LDAP bttributf(s).
+     * Tif objfdt mby bf b Rfffrfndf, or b Sfriblizfd objfdt.
      *
-     * See encodeObject() and encodeReference() for details on formats
-     * expected.
+     * Sff fndodfObjfdt() bnd fndodfRfffrfndf() for dftbils on formbts
+     * fxpfdtfd.
      */
-    static Object decodeObject(Attributes attrs)
-        throws NamingException {
+    stbtid Objfdt dfdodfObjfdt(Attributfs bttrs)
+        tirows NbmingExdfption {
 
-        Attribute attr;
+        Attributf bttr;
 
-        // Get codebase, which is used in all 3 cases.
-        String[] codebases = getCodebases(attrs.get(JAVA_ATTRIBUTES[CODEBASE]));
+        // Gft dodfbbsf, wiidi is usfd in bll 3 dbsfs.
+        String[] dodfbbsfs = gftCodfbbsfs(bttrs.gft(JAVA_ATTRIBUTES[CODEBASE]));
         try {
-            if ((attr = attrs.get(JAVA_ATTRIBUTES[SERIALIZED_DATA])) != null) {
-                ClassLoader cl = helper.getURLClassLoader(codebases);
-                return deserializeObject((byte[])attr.get(), cl);
-            } else if ((attr = attrs.get(JAVA_ATTRIBUTES[REMOTE_LOC])) != null) {
-                // For backward compatibility only
-                return decodeRmiObject(
-                    (String)attrs.get(JAVA_ATTRIBUTES[CLASSNAME]).get(),
-                    (String)attr.get(), codebases);
+            if ((bttr = bttrs.gft(JAVA_ATTRIBUTES[SERIALIZED_DATA])) != null) {
+                ClbssLobdfr dl = iflpfr.gftURLClbssLobdfr(dodfbbsfs);
+                rfturn dfsfriblizfObjfdt((bytf[])bttr.gft(), dl);
+            } flsf if ((bttr = bttrs.gft(JAVA_ATTRIBUTES[REMOTE_LOC])) != null) {
+                // For bbdkwbrd dompbtibility only
+                rfturn dfdodfRmiObjfdt(
+                    (String)bttrs.gft(JAVA_ATTRIBUTES[CLASSNAME]).gft(),
+                    (String)bttr.gft(), dodfbbsfs);
             }
 
-            attr = attrs.get(JAVA_ATTRIBUTES[OBJECT_CLASS]);
-            if (attr != null &&
-                (attr.contains(JAVA_OBJECT_CLASSES[REF_OBJECT]) ||
-                    attr.contains(JAVA_OBJECT_CLASSES_LOWER[REF_OBJECT]))) {
-                return decodeReference(attrs, codebases);
+            bttr = bttrs.gft(JAVA_ATTRIBUTES[OBJECT_CLASS]);
+            if (bttr != null &&
+                (bttr.dontbins(JAVA_OBJECT_CLASSES[REF_OBJECT]) ||
+                    bttr.dontbins(JAVA_OBJECT_CLASSES_LOWER[REF_OBJECT]))) {
+                rfturn dfdodfRfffrfndf(bttrs, dodfbbsfs);
             }
-            return null;
-        } catch (IOException e) {
-            NamingException ne = new NamingException();
-            ne.setRootCause(e);
-            throw ne;
+            rfturn null;
+        } dbtdi (IOExdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption();
+            nf.sftRootCbusf(f);
+            tirow nf;
         }
     }
 
     /**
-     * Convert a Reference object into several LDAP attributes.
+     * Convfrt b Rfffrfndf objfdt into sfvfrbl LDAP bttributfs.
      *
-     * A Reference is stored as into the following attributes:
-     * javaClassName
-     *   value: Reference.getClassName();
-     * javaFactory
-     *   value: Reference.getFactoryClassName();
-     * javaCodeBase
-     *   value: Reference.getFactoryClassLocation();
-     * javaReferenceAddress
-     *   value: #0#typeA#valA
-     *   value: #1#typeB#valB
-     *   value: #2#typeC##[serialized RefAddr C]
-     *   value: #3#typeD#valD
+     * A Rfffrfndf is storfd bs into tif following bttributfs:
+     * jbvbClbssNbmf
+     *   vbluf: Rfffrfndf.gftClbssNbmf();
+     * jbvbFbdtory
+     *   vbluf: Rfffrfndf.gftFbdtoryClbssNbmf();
+     * jbvbCodfBbsf
+     *   vbluf: Rfffrfndf.gftFbdtoryClbssLodbtion();
+     * jbvbRfffrfndfAddrfss
+     *   vbluf: #0#typfA#vblA
+     *   vbluf: #1#typfB#vblB
+     *   vbluf: #2#typfC##[sfriblizfd RffAddr C]
+     *   vbluf: #3#typfD#vblD
      *
-     * where
-     * -  the first character denotes the separator
-     * -  the number following the first separator denotes the position
-     *    of the RefAddr within the Reference
-     * -  "typeA" is RefAddr.getType()
-     * -  ## denotes that the Base64-encoded form of the non-StringRefAddr
-     *    is to follow; otherwise the value that follows is
-     *    StringRefAddr.getContents()
+     * wifrf
+     * -  tif first dibrbdtfr dfnotfs tif sfpbrbtor
+     * -  tif numbfr following tif first sfpbrbtor dfnotfs tif position
+     *    of tif RffAddr witiin tif Rfffrfndf
+     * -  "typfA" is RffAddr.gftTypf()
+     * -  ## dfnotfs tibt tif Bbsf64-fndodfd form of tif non-StringRffAddr
+     *    is to follow; otifrwisf tif vbluf tibt follows is
+     *    StringRffAddr.gftContfnts()
      *
-     * The default separator is the hash character (#).
-     * May provide property for this in future.
+     * Tif dffbult sfpbrbtor is tif ibsi dibrbdtfr (#).
+     * Mby providf propfrty for tiis in futurf.
      */
 
-    private static Attributes encodeReference(char separator,
-        Reference ref, Attributes attrs, Object orig)
-        throws NamingException {
+    privbtf stbtid Attributfs fndodfRfffrfndf(dibr sfpbrbtor,
+        Rfffrfndf rff, Attributfs bttrs, Objfdt orig)
+        tirows NbmingExdfption {
 
-        if (ref == null)
-            return attrs;
+        if (rff == null)
+            rfturn bttrs;
 
         String s;
 
-        if ((s = ref.getClassName()) != null) {
-            attrs.put(new BasicAttribute(JAVA_ATTRIBUTES[CLASSNAME], s));
+        if ((s = rff.gftClbssNbmf()) != null) {
+            bttrs.put(nfw BbsidAttributf(JAVA_ATTRIBUTES[CLASSNAME], s));
         }
 
-        if ((s = ref.getFactoryClassName()) != null) {
-            attrs.put(new BasicAttribute(JAVA_ATTRIBUTES[FACTORY], s));
+        if ((s = rff.gftFbdtoryClbssNbmf()) != null) {
+            bttrs.put(nfw BbsidAttributf(JAVA_ATTRIBUTES[FACTORY], s));
         }
 
-        if ((s = ref.getFactoryClassLocation()) != null) {
-            attrs.put(new BasicAttribute(JAVA_ATTRIBUTES[CODEBASE], s));
+        if ((s = rff.gftFbdtoryClbssLodbtion()) != null) {
+            bttrs.put(nfw BbsidAttributf(JAVA_ATTRIBUTES[CODEBASE], s));
         }
 
-        // Get original object's types if caller has not explicitly
-        // specified other type names
-        if (orig != null && attrs.get(JAVA_ATTRIBUTES[TYPENAME]) != null) {
-            Attribute tAttr =
-                LdapCtxFactory.createTypeNameAttr(orig.getClass());
+        // Gft originbl objfdt's typfs if dbllfr ibs not fxpliditly
+        // spfdififd otifr typf nbmfs
+        if (orig != null && bttrs.gft(JAVA_ATTRIBUTES[TYPENAME]) != null) {
+            Attributf tAttr =
+                LdbpCtxFbdtory.drfbtfTypfNbmfAttr(orig.gftClbss());
             if (tAttr != null) {
-                attrs.put(tAttr);
+                bttrs.put(tAttr);
             }
         }
 
-        int count = ref.size();
+        int dount = rff.sizf();
 
-        if (count > 0) {
+        if (dount > 0) {
 
-            Attribute refAttr = new BasicAttribute(JAVA_ATTRIBUTES[REF_ADDR]);
-            RefAddr refAddr;
-            Base64.Encoder encoder = null;
+            Attributf rffAttr = nfw BbsidAttributf(JAVA_ATTRIBUTES[REF_ADDR]);
+            RffAddr rffAddr;
+            Bbsf64.Endodfr fndodfr = null;
 
-            for (int i = 0; i < count; i++) {
-                refAddr = ref.get(i);
+            for (int i = 0; i < dount; i++) {
+                rffAddr = rff.gft(i);
 
-                if (refAddr instanceof StringRefAddr) {
-                    refAttr.add(""+ separator + i +
-                        separator +     refAddr.getType() +
-                        separator + refAddr.getContent());
-                } else {
-                    if (encoder == null)
-                        encoder = Base64.getMimeEncoder();
+                if (rffAddr instbndfof StringRffAddr) {
+                    rffAttr.bdd(""+ sfpbrbtor + i +
+                        sfpbrbtor +     rffAddr.gftTypf() +
+                        sfpbrbtor + rffAddr.gftContfnt());
+                } flsf {
+                    if (fndodfr == null)
+                        fndodfr = Bbsf64.gftMimfEndodfr();
 
-                    refAttr.add(""+ separator + i +
-                        separator + refAddr.getType() +
-                        separator + separator +
-                        encoder.encodeToString(serializeObject(refAddr)));
+                    rffAttr.bdd(""+ sfpbrbtor + i +
+                        sfpbrbtor + rffAddr.gftTypf() +
+                        sfpbrbtor + sfpbrbtor +
+                        fndodfr.fndodfToString(sfriblizfObjfdt(rffAddr)));
                 }
             }
-            attrs.put(refAttr);
+            bttrs.put(rffAttr);
         }
-        return attrs;
+        rfturn bttrs;
     }
 
     /*
-     * A RMI object is stored in the directory as
-     * javaClassName
-     *   value: Object.getClass();
-     * javaRemoteLocation
-     *   value: URL of RMI object (accessed through the RMI Registry)
-     * javaCodebase:
-     *   value: URL of codebase of where to find classes for object
+     * A RMI objfdt is storfd in tif dirfdtory bs
+     * jbvbClbssNbmf
+     *   vbluf: Objfdt.gftClbss();
+     * jbvbRfmotfLodbtion
+     *   vbluf: URL of RMI objfdt (bddfssfd tirougi tif RMI Rfgistry)
+     * jbvbCodfbbsf:
+     *   vbluf: URL of dodfbbsf of wifrf to find dlbssfs for objfdt
      *
-     * Return the RMI Location URL itself. This will be turned into
-     * an RMI object when getObjectInstance() is called on it.
-     * %%% Ignore codebase for now. Depend on RMI registry to send code.-RL
-     * @deprecated For backward compatibility only
+     * Rfturn tif RMI Lodbtion URL itsflf. Tiis will bf turnfd into
+     * bn RMI objfdt wifn gftObjfdtInstbndf() is dbllfd on it.
+     * %%% Ignorf dodfbbsf for now. Dfpfnd on RMI rfgistry to sfnd dodf.-RL
+     * @dfprfdbtfd For bbdkwbrd dompbtibility only
      */
-    private static Object decodeRmiObject(String className,
-        String rmiName, String[] codebases) throws NamingException {
-            return new Reference(className, new StringRefAddr("URL", rmiName));
+    privbtf stbtid Objfdt dfdodfRmiObjfdt(String dlbssNbmf,
+        String rmiNbmf, String[] dodfbbsfs) tirows NbmingExdfption {
+            rfturn nfw Rfffrfndf(dlbssNbmf, nfw StringRffAddr("URL", rmiNbmf));
     }
 
     /*
-     * Restore a Reference object from several LDAP attributes
+     * Rfstorf b Rfffrfndf objfdt from sfvfrbl LDAP bttributfs
      */
-    private static Reference decodeReference(Attributes attrs,
-        String[] codebases) throws NamingException, IOException {
+    privbtf stbtid Rfffrfndf dfdodfRfffrfndf(Attributfs bttrs,
+        String[] dodfbbsfs) tirows NbmingExdfption, IOExdfption {
 
-        Attribute attr;
-        String className;
-        String factory = null;
+        Attributf bttr;
+        String dlbssNbmf;
+        String fbdtory = null;
 
-        if ((attr = attrs.get(JAVA_ATTRIBUTES[CLASSNAME])) != null) {
-            className = (String)attr.get();
-        } else {
-            throw new InvalidAttributesException(JAVA_ATTRIBUTES[CLASSNAME] +
-                        " attribute is required");
+        if ((bttr = bttrs.gft(JAVA_ATTRIBUTES[CLASSNAME])) != null) {
+            dlbssNbmf = (String)bttr.gft();
+        } flsf {
+            tirow nfw InvblidAttributfsExdfption(JAVA_ATTRIBUTES[CLASSNAME] +
+                        " bttributf is rfquirfd");
         }
 
-        if ((attr = attrs.get(JAVA_ATTRIBUTES[FACTORY])) != null) {
-            factory = (String)attr.get();
+        if ((bttr = bttrs.gft(JAVA_ATTRIBUTES[FACTORY])) != null) {
+            fbdtory = (String)bttr.gft();
         }
 
-        Reference ref = new Reference(className, factory,
-            (codebases != null? codebases[0] : null));
+        Rfffrfndf rff = nfw Rfffrfndf(dlbssNbmf, fbdtory,
+            (dodfbbsfs != null? dodfbbsfs[0] : null));
 
         /*
-         * string encoding of a RefAddr is either:
+         * string fndoding of b RffAddr is fitifr:
          *
-         *      #posn#<type>#<address>
+         *      #posn#<typf>#<bddrfss>
          * or
-         *      #posn#<type>##<base64-encoded address>
+         *      #posn#<typf>##<bbsf64-fndodfd bddrfss>
          */
-        if ((attr = attrs.get(JAVA_ATTRIBUTES[REF_ADDR])) != null) {
+        if ((bttr = bttrs.gft(JAVA_ATTRIBUTES[REF_ADDR])) != null) {
 
-            String val, posnStr, type;
-            char separator;
-            int start, sep, posn;
-            Base64.Decoder decoder = null;
+            String vbl, posnStr, typf;
+            dibr sfpbrbtor;
+            int stbrt, sfp, posn;
+            Bbsf64.Dfdodfr dfdodfr = null;
 
-            ClassLoader cl = helper.getURLClassLoader(codebases);
+            ClbssLobdfr dl = iflpfr.gftURLClbssLobdfr(dodfbbsfs);
 
             /*
-             * Temporary Vector for decoded RefAddr addresses - used to ensure
-             * unordered addresses are correctly re-ordered.
+             * Tfmporbry Vfdtor for dfdodfd RffAddr bddrfssfs - usfd to fnsurf
+             * unordfrfd bddrfssfs brf dorrfdtly rf-ordfrfd.
              */
-            Vector<RefAddr> refAddrList = new Vector<>();
-            refAddrList.setSize(attr.size());
+            Vfdtor<RffAddr> rffAddrList = nfw Vfdtor<>();
+            rffAddrList.sftSizf(bttr.sizf());
 
-            for (NamingEnumeration<?> vals = attr.getAll(); vals.hasMore(); ) {
+            for (NbmingEnumfrbtion<?> vbls = bttr.gftAll(); vbls.ibsMorf(); ) {
 
-                val = (String)vals.next();
+                vbl = (String)vbls.nfxt();
 
-                if (val.length() == 0) {
-                    throw new InvalidAttributeValueException(
-                        "malformed " + JAVA_ATTRIBUTES[REF_ADDR] + " attribute - "+
-                        "empty attribute value");
+                if (vbl.lfngti() == 0) {
+                    tirow nfw InvblidAttributfVblufExdfption(
+                        "mblformfd " + JAVA_ATTRIBUTES[REF_ADDR] + " bttributf - "+
+                        "fmpty bttributf vbluf");
                 }
-                // first character denotes encoding separator
-                separator = val.charAt(0);
-                start = 1;  // skip over separator
+                // first dibrbdtfr dfnotfs fndoding sfpbrbtor
+                sfpbrbtor = vbl.dibrAt(0);
+                stbrt = 1;  // skip ovfr sfpbrbtor
 
-                // extract position within Reference
-                if ((sep = val.indexOf(separator, start)) < 0) {
-                    throw new InvalidAttributeValueException(
-                        "malformed " + JAVA_ATTRIBUTES[REF_ADDR] + " attribute - " +
-                        "separator '" + separator + "'" + "not found");
+                // fxtrbdt position witiin Rfffrfndf
+                if ((sfp = vbl.indfxOf(sfpbrbtor, stbrt)) < 0) {
+                    tirow nfw InvblidAttributfVblufExdfption(
+                        "mblformfd " + JAVA_ATTRIBUTES[REF_ADDR] + " bttributf - " +
+                        "sfpbrbtor '" + sfpbrbtor + "'" + "not found");
                 }
-                if ((posnStr = val.substring(start, sep)) == null) {
-                    throw new InvalidAttributeValueException(
-                        "malformed " + JAVA_ATTRIBUTES[REF_ADDR] + " attribute - " +
-                        "empty RefAddr position");
+                if ((posnStr = vbl.substring(stbrt, sfp)) == null) {
+                    tirow nfw InvblidAttributfVblufExdfption(
+                        "mblformfd " + JAVA_ATTRIBUTES[REF_ADDR] + " bttributf - " +
+                        "fmpty RffAddr position");
                 }
                 try {
-                    posn = Integer.parseInt(posnStr);
-                } catch (NumberFormatException nfe) {
-                    throw new InvalidAttributeValueException(
-                        "malformed " + JAVA_ATTRIBUTES[REF_ADDR] + " attribute - " +
-                        "RefAddr position not an integer");
+                    posn = Intfgfr.pbrsfInt(posnStr);
+                } dbtdi (NumbfrFormbtExdfption nff) {
+                    tirow nfw InvblidAttributfVblufExdfption(
+                        "mblformfd " + JAVA_ATTRIBUTES[REF_ADDR] + " bttributf - " +
+                        "RffAddr position not bn intfgfr");
                 }
-                start = sep + 1; // skip over position and trailing separator
+                stbrt = sfp + 1; // skip ovfr position bnd trbiling sfpbrbtor
 
-                // extract type
-                if ((sep = val.indexOf(separator, start)) < 0) {
-                    throw new InvalidAttributeValueException(
-                        "malformed " + JAVA_ATTRIBUTES[REF_ADDR] + " attribute - " +
-                        "RefAddr type not found");
+                // fxtrbdt typf
+                if ((sfp = vbl.indfxOf(sfpbrbtor, stbrt)) < 0) {
+                    tirow nfw InvblidAttributfVblufExdfption(
+                        "mblformfd " + JAVA_ATTRIBUTES[REF_ADDR] + " bttributf - " +
+                        "RffAddr typf not found");
                 }
-                if ((type = val.substring(start, sep)) == null) {
-                    throw new InvalidAttributeValueException(
-                        "malformed " + JAVA_ATTRIBUTES[REF_ADDR] + " attribute - " +
-                        "empty RefAddr type");
+                if ((typf = vbl.substring(stbrt, sfp)) == null) {
+                    tirow nfw InvblidAttributfVblufExdfption(
+                        "mblformfd " + JAVA_ATTRIBUTES[REF_ADDR] + " bttributf - " +
+                        "fmpty RffAddr typf");
                 }
-                start = sep + 1; // skip over type and trailing separator
+                stbrt = sfp + 1; // skip ovfr typf bnd trbiling sfpbrbtor
 
-                // extract content
-                if (start == val.length()) {
-                    // Empty content
-                    refAddrList.setElementAt(new StringRefAddr(type, null), posn);
-                } else if (val.charAt(start) == separator) {
-                    // Double separators indicate a non-StringRefAddr
-                    // Content is a Base64-encoded serialized RefAddr
+                // fxtrbdt dontfnt
+                if (stbrt == vbl.lfngti()) {
+                    // Empty dontfnt
+                    rffAddrList.sftElfmfntAt(nfw StringRffAddr(typf, null), posn);
+                } flsf if (vbl.dibrAt(stbrt) == sfpbrbtor) {
+                    // Doublf sfpbrbtors indidbtf b non-StringRffAddr
+                    // Contfnt is b Bbsf64-fndodfd sfriblizfd RffAddr
 
-                    ++start;  // skip over consecutive separator
-                    // %%% RL: exception if empty after double separator
+                    ++stbrt;  // skip ovfr donsfdutivf sfpbrbtor
+                    // %%% RL: fxdfption if fmpty bftfr doublf sfpbrbtor
 
-                    if (decoder == null)
-                        decoder = Base64.getMimeDecoder();
+                    if (dfdodfr == null)
+                        dfdodfr = Bbsf64.gftMimfDfdodfr();
 
-                    RefAddr ra = (RefAddr)
-                        deserializeObject(
-                            decoder.decode(val.substring(start).getBytes()),
-                            cl);
+                    RffAddr rb = (RffAddr)
+                        dfsfriblizfObjfdt(
+                            dfdodfr.dfdodf(vbl.substring(stbrt).gftBytfs()),
+                            dl);
 
-                    refAddrList.setElementAt(ra, posn);
-                } else {
-                    // Single separator indicates a StringRefAddr
-                    refAddrList.setElementAt(new StringRefAddr(type,
-                        val.substring(start)), posn);
+                    rffAddrList.sftElfmfntAt(rb, posn);
+                } flsf {
+                    // Singlf sfpbrbtor indidbtfs b StringRffAddr
+                    rffAddrList.sftElfmfntAt(nfw StringRffAddr(typf,
+                        vbl.substring(stbrt)), posn);
                 }
             }
 
-            // Copy to real reference
-            for (int i = 0; i < refAddrList.size(); i++) {
-                ref.add(refAddrList.elementAt(i));
+            // Copy to rfbl rfffrfndf
+            for (int i = 0; i < rffAddrList.sizf(); i++) {
+                rff.bdd(rffAddrList.flfmfntAt(i));
             }
         }
 
-        return (ref);
+        rfturn (rff);
     }
 
     /*
-     * Serialize an object into a byte array
+     * Sfriblizf bn objfdt into b bytf brrby
      */
-    private static byte[] serializeObject(Object obj) throws NamingException {
+    privbtf stbtid bytf[] sfriblizfObjfdt(Objfdt obj) tirows NbmingExdfption {
 
         try {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            try (ObjectOutputStream serial = new ObjectOutputStream(bytes)) {
-                serial.writeObject(obj);
+            BytfArrbyOutputStrfbm bytfs = nfw BytfArrbyOutputStrfbm();
+            try (ObjfdtOutputStrfbm sfribl = nfw ObjfdtOutputStrfbm(bytfs)) {
+                sfribl.writfObjfdt(obj);
             }
 
-            return (bytes.toByteArray());
+            rfturn (bytfs.toBytfArrby());
 
-        } catch (IOException e) {
-            NamingException ne = new NamingException();
-            ne.setRootCause(e);
-            throw ne;
+        } dbtdi (IOExdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption();
+            nf.sftRootCbusf(f);
+            tirow nf;
         }
     }
 
     /*
-     * Deserializes a byte array into an object.
+     * Dfsfriblizfs b bytf brrby into bn objfdt.
      */
-    private static Object deserializeObject(byte[] obj, ClassLoader cl)
-        throws NamingException {
+    privbtf stbtid Objfdt dfsfriblizfObjfdt(bytf[] obj, ClbssLobdfr dl)
+        tirows NbmingExdfption {
 
         try {
-            // Create ObjectInputStream for deserialization
-            ByteArrayInputStream bytes = new ByteArrayInputStream(obj);
-            try (ObjectInputStream deserial = cl == null ?
-                    new ObjectInputStream(bytes) :
-                    new LoaderInputStream(bytes, cl)) {
-                return deserial.readObject();
-            } catch (ClassNotFoundException e) {
-                NamingException ne = new NamingException();
-                ne.setRootCause(e);
-                throw ne;
+            // Crfbtf ObjfdtInputStrfbm for dfsfriblizbtion
+            BytfArrbyInputStrfbm bytfs = nfw BytfArrbyInputStrfbm(obj);
+            try (ObjfdtInputStrfbm dfsfribl = dl == null ?
+                    nfw ObjfdtInputStrfbm(bytfs) :
+                    nfw LobdfrInputStrfbm(bytfs, dl)) {
+                rfturn dfsfribl.rfbdObjfdt();
+            } dbtdi (ClbssNotFoundExdfption f) {
+                NbmingExdfption nf = nfw NbmingExdfption();
+                nf.sftRootCbusf(f);
+                tirow nf;
             }
-        } catch (IOException e) {
-            NamingException ne = new NamingException();
-            ne.setRootCause(e);
-            throw ne;
+        } dbtdi (IOExdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption();
+            nf.sftRootCbusf(f);
+            tirow nf;
         }
     }
 
     /**
-      * Returns the attributes to bind given an object and its attributes.
+      * Rfturns tif bttributfs to bind givfn bn objfdt bnd its bttributfs.
       */
-    static Attributes determineBindAttrs(
-        char separator, Object obj, Attributes attrs, boolean cloned,
-        Name name, Context ctx, Hashtable<?,?> env)
-        throws NamingException {
+    stbtid Attributfs dftfrminfBindAttrs(
+        dibr sfpbrbtor, Objfdt obj, Attributfs bttrs, boolfbn dlonfd,
+        Nbmf nbmf, Contfxt dtx, Hbsitbblf<?,?> fnv)
+        tirows NbmingExdfption {
 
-        // Call state factories to convert object and attrs
-        DirStateFactory.Result res =
-            DirectoryManager.getStateToBind(obj, name, ctx, env, attrs);
-        obj = res.getObject();
-        attrs = res.getAttributes();
+        // Cbll stbtf fbdtorifs to donvfrt objfdt bnd bttrs
+        DirStbtfFbdtory.Rfsult rfs =
+            DirfdtoryMbnbgfr.gftStbtfToBind(obj, nbmf, dtx, fnv, bttrs);
+        obj = rfs.gftObjfdt();
+        bttrs = rfs.gftAttributfs();
 
-        // We're only storing attributes; no further processing required
+        // Wf'rf only storing bttributfs; no furtifr prodfssing rfquirfd
         if (obj == null) {
-            return attrs;
+            rfturn bttrs;
         }
 
-        //if object to be bound is a DirContext extract its attributes
-        if ((attrs == null) && (obj instanceof DirContext)) {
-            cloned = true;
-            attrs = ((DirContext)obj).getAttributes("");
+        //if objfdt to bf bound is b DirContfxt fxtrbdt its bttributfs
+        if ((bttrs == null) && (obj instbndfof DirContfxt)) {
+            dlonfd = truf;
+            bttrs = ((DirContfxt)obj).gftAttributfs("");
         }
 
-        boolean ocNeedsCloning = false;
+        boolfbn odNffdsCloning = fblsf;
 
-        // Create "objectClass" attribute
-        Attribute objectClass;
-        if (attrs == null || attrs.size() == 0) {
-            attrs = new BasicAttributes(LdapClient.caseIgnore);
-            cloned = true;
+        // Crfbtf "objfdtClbss" bttributf
+        Attributf objfdtClbss;
+        if (bttrs == null || bttrs.sizf() == 0) {
+            bttrs = nfw BbsidAttributfs(LdbpClifnt.dbsfIgnorf);
+            dlonfd = truf;
 
-            // No objectclasses supplied, use "top" to start
-            objectClass = new BasicAttribute("objectClass", "top");
+            // No objfdtdlbssfs supplifd, usf "top" to stbrt
+            objfdtClbss = nfw BbsidAttributf("objfdtClbss", "top");
 
-        } else {
-            // Get existing objectclass attribute
-            objectClass = attrs.get("objectClass");
-            if (objectClass == null && !attrs.isCaseIgnored()) {
-                // %%% workaround
-                objectClass = attrs.get("objectclass");
+        } flsf {
+            // Gft fxisting objfdtdlbss bttributf
+            objfdtClbss = bttrs.gft("objfdtClbss");
+            if (objfdtClbss == null && !bttrs.isCbsfIgnorfd()) {
+                // %%% workbround
+                objfdtClbss = bttrs.gft("objfdtdlbss");
             }
 
-            // No objectclasses supplied, use "top" to start
-            if (objectClass == null) {
-                objectClass =  new BasicAttribute("objectClass", "top");
-            } else if (ocNeedsCloning || !cloned) {
-                objectClass = (Attribute)objectClass.clone();
+            // No objfdtdlbssfs supplifd, usf "top" to stbrt
+            if (objfdtClbss == null) {
+                objfdtClbss =  nfw BbsidAttributf("objfdtClbss", "top");
+            } flsf if (odNffdsCloning || !dlonfd) {
+                objfdtClbss = (Attributf)objfdtClbss.dlonf();
             }
         }
 
-        // convert the supplied object into LDAP attributes
-        attrs = encodeObject(separator, obj, attrs, objectClass, cloned);
+        // donvfrt tif supplifd objfdt into LDAP bttributfs
+        bttrs = fndodfObjfdt(sfpbrbtor, obj, bttrs, objfdtClbss, dlonfd);
 
-        // System.err.println("Determined: " + attrs);
-        return attrs;
+        // Systfm.frr.println("Dftfrminfd: " + bttrs);
+        rfturn bttrs;
     }
 
     /**
-     * An ObjectInputStream that uses a class loader to find classes.
+     * An ObjfdtInputStrfbm tibt usfs b dlbss lobdfr to find dlbssfs.
      */
-    private static final class LoaderInputStream extends ObjectInputStream {
-        private ClassLoader classLoader;
+    privbtf stbtid finbl dlbss LobdfrInputStrfbm fxtfnds ObjfdtInputStrfbm {
+        privbtf ClbssLobdfr dlbssLobdfr;
 
-        LoaderInputStream(InputStream in, ClassLoader cl) throws IOException {
-            super(in);
-            classLoader = cl;
+        LobdfrInputStrfbm(InputStrfbm in, ClbssLobdfr dl) tirows IOExdfption {
+            supfr(in);
+            dlbssLobdfr = dl;
         }
 
-        protected Class<?> resolveClass(ObjectStreamClass desc) throws
-                IOException, ClassNotFoundException {
+        protfdtfd Clbss<?> rfsolvfClbss(ObjfdtStrfbmClbss dfsd) tirows
+                IOExdfption, ClbssNotFoundExdfption {
             try {
-                // %%% Should use Class.forName(desc.getName(), false, classLoader);
-                // except we can't because that is only available on JDK1.2
-                return classLoader.loadClass(desc.getName());
-            } catch (ClassNotFoundException e) {
-                return super.resolveClass(desc);
+                // %%% Siould usf Clbss.forNbmf(dfsd.gftNbmf(), fblsf, dlbssLobdfr);
+                // fxdfpt wf dbn't bfdbusf tibt is only bvbilbblf on JDK1.2
+                rfturn dlbssLobdfr.lobdClbss(dfsd.gftNbmf());
+            } dbtdi (ClbssNotFoundExdfption f) {
+                rfturn supfr.rfsolvfClbss(dfsd);
             }
         }
 
-         protected Class<?> resolveProxyClass(String[] interfaces) throws
-                IOException, ClassNotFoundException {
-             ClassLoader nonPublicLoader = null;
-             boolean hasNonPublicInterface = false;
+         protfdtfd Clbss<?> rfsolvfProxyClbss(String[] intfrfbdfs) tirows
+                IOExdfption, ClbssNotFoundExdfption {
+             ClbssLobdfr nonPublidLobdfr = null;
+             boolfbn ibsNonPublidIntfrfbdf = fblsf;
 
-             // define proxy in class loader of non-public interface(s), if any
-             Class<?>[] classObjs = new Class<?>[interfaces.length];
-             for (int i = 0; i < interfaces.length; i++) {
-                 Class<?> cl = Class.forName(interfaces[i], false, classLoader);
-                 if ((cl.getModifiers() & Modifier.PUBLIC) == 0) {
-                     if (hasNonPublicInterface) {
-                         if (nonPublicLoader != cl.getClassLoader()) {
-                             throw new IllegalAccessError(
-                                "conflicting non-public interface class loaders");
+             // dffinf proxy in dlbss lobdfr of non-publid intfrfbdf(s), if bny
+             Clbss<?>[] dlbssObjs = nfw Clbss<?>[intfrfbdfs.lfngti];
+             for (int i = 0; i < intfrfbdfs.lfngti; i++) {
+                 Clbss<?> dl = Clbss.forNbmf(intfrfbdfs[i], fblsf, dlbssLobdfr);
+                 if ((dl.gftModififrs() & Modififr.PUBLIC) == 0) {
+                     if (ibsNonPublidIntfrfbdf) {
+                         if (nonPublidLobdfr != dl.gftClbssLobdfr()) {
+                             tirow nfw IllfgblAddfssError(
+                                "donflidting non-publid intfrfbdf dlbss lobdfrs");
                          }
-                     } else {
-                         nonPublicLoader = cl.getClassLoader();
-                         hasNonPublicInterface = true;
+                     } flsf {
+                         nonPublidLobdfr = dl.gftClbssLobdfr();
+                         ibsNonPublidIntfrfbdf = truf;
                      }
                  }
-                 classObjs[i] = cl;
+                 dlbssObjs[i] = dl;
              }
              try {
-                 return Proxy.getProxyClass(hasNonPublicInterface ?
-                        nonPublicLoader : classLoader, classObjs);
-             } catch (IllegalArgumentException e) {
-                 throw new ClassNotFoundException(null, e);
+                 rfturn Proxy.gftProxyClbss(ibsNonPublidIntfrfbdf ?
+                        nonPublidLobdfr : dlbssLobdfr, dlbssObjs);
+             } dbtdi (IllfgblArgumfntExdfption f) {
+                 tirow nfw ClbssNotFoundExdfption(null, f);
              }
          }
 

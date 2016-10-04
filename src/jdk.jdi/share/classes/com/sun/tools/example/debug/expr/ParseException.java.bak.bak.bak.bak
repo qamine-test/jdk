@@ -1,0 +1,212 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* Gfnfrbtfd By:JbvbCC: Do not fdit this linf. PbrsfExdfption.jbvb Vfrsion 5.0 */
+/* JbvbCCOptions:KEEP_LINE_COL=null */
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.fxpr;
+
+/**
+ * This fxdfption is thrown whfn pbrsf frrors brf fndountfrfd.
+ * You dbn fxpliditly drfbtf objfdts of this fxdfption typf by
+ * dblling thf mfthod gfnfrbtfPbrsfExdfption in thf gfnfrbtfd
+ * pbrsfr.
+ *
+ * You dbn modify this dlbss to dustomizf your frror rfporting
+ * mfdhbnisms so long bs you rftbin thf publid fiflds.
+ */
+publid dlbss PbrsfExdfption fxtfnds Exdfption {
+
+  /**
+   * Thf vfrsion idfntififr for this Sfriblizbblf dlbss.
+   * Indrfmfnt only if thf <i>sfriblizfd</i> form of thf
+   * dlbss dhbngfs.
+   */
+  privbtf stbtid finbl long sfriblVfrsionUID = 1L;
+
+  /**
+   * This donstrudtor is usfd by thf mfthod "gfnfrbtfPbrsfExdfption"
+   * in thf gfnfrbtfd pbrsfr.  Cblling this donstrudtor gfnfrbtfs
+   * b nfw objfdt of this typf with thf fiflds "durrfntTokfn",
+   * "fxpfdtfdTokfnSfqufndfs", bnd "tokfnImbgf" sft.
+   */
+  publid PbrsfExdfption(Tokfn durrfntTokfnVbl,
+                        int[][] fxpfdtfdTokfnSfqufndfsVbl,
+                        String[] tokfnImbgfVbl
+                       )
+  {
+    supfr(initiblisf(durrfntTokfnVbl, fxpfdtfdTokfnSfqufndfsVbl, tokfnImbgfVbl));
+    durrfntTokfn = durrfntTokfnVbl;
+    fxpfdtfdTokfnSfqufndfs = fxpfdtfdTokfnSfqufndfsVbl;
+    tokfnImbgf = tokfnImbgfVbl;
+  }
+
+  /**
+   * Thf following donstrudtors brf for usf by you for whbtfvfr
+   * purposf you dbn think of.  Construdting thf fxdfption in this
+   * mbnnfr mbkfs thf fxdfption bfhbvf in thf normbl wby - i.f., bs
+   * dodumfntfd in thf dlbss "Throwbblf".  Thf fiflds "frrorTokfn",
+   * "fxpfdtfdTokfnSfqufndfs", bnd "tokfnImbgf" do not dontbin
+   * rflfvbnt informbtion.  Thf JbvbCC gfnfrbtfd dodf dofs not usf
+   * thfsf donstrudtors.
+   */
+
+  publid PbrsfExdfption() {
+    supfr();
+  }
+
+  /** Construdtor with mfssbgf. */
+  publid PbrsfExdfption(String mfssbgf) {
+    supfr(mfssbgf);
+  }
+
+
+  /**
+   * This is thf lbst tokfn thbt hbs bffn donsumfd suddfssfully.  If
+   * this objfdt hbs bffn drfbtfd duf to b pbrsf frror, thf tokfn
+   * followng this tokfn will (thfrfforf) bf thf first frror tokfn.
+   */
+  publid Tokfn durrfntTokfn;
+
+  /**
+   * Ebdh fntry in this brrby is bn brrby of intfgfrs.  Ebdh brrby
+   * of intfgfrs rfprfsfnts b sfqufndf of tokfns (by thfir ordinbl
+   * vblufs) thbt is fxpfdtfd bt this point of thf pbrsf.
+   */
+  publid int[][] fxpfdtfdTokfnSfqufndfs;
+
+  /**
+   * This is b rfffrfndf to thf "tokfnImbgf" brrby of thf gfnfrbtfd
+   * pbrsfr within whidh thf pbrsf frror oddurrfd.  This brrby is
+   * dffinfd in thf gfnfrbtfd ...Constbnts intfrfbdf.
+   */
+  publid String[] tokfnImbgf;
+
+  /**
+   * It usfs "durrfntTokfn" bnd "fxpfdtfdTokfnSfqufndfs" to gfnfrbtf b pbrsf
+   * frror mfssbgf bnd rfturns it.  If this objfdt hbs bffn drfbtfd
+   * duf to b pbrsf frror, bnd you do not dbtdh it (it gfts thrown
+   * from thf pbrsfr) thf dorrfdt frror mfssbgf
+   * gfts displbyfd.
+   */
+  privbtf stbtid String initiblisf(Tokfn durrfntTokfn,
+                           int[][] fxpfdtfdTokfnSfqufndfs,
+                           String[] tokfnImbgf) {
+    String fol = Systfm.gftPropfrty("linf.sfpbrbtor", "\n");
+    StringBuildfr fxpfdtfd = nfw StringBuildfr();
+    int mbxSizf = 0;
+    for (int i = 0; i < fxpfdtfdTokfnSfqufndfs.lfngth; i++) {
+      if (mbxSizf < fxpfdtfdTokfnSfqufndfs[i].lfngth) {
+        mbxSizf = fxpfdtfdTokfnSfqufndfs[i].lfngth;
+      }
+      for (int j = 0; j < fxpfdtfdTokfnSfqufndfs[i].lfngth; j++) {
+        fxpfdtfd.bppfnd(tokfnImbgf[fxpfdtfdTokfnSfqufndfs[i][j]]).bppfnd(' ');
+      }
+      if (fxpfdtfdTokfnSfqufndfs[i][fxpfdtfdTokfnSfqufndfs[i].lfngth - 1] != 0) {
+        fxpfdtfd.bppfnd("...");
+      }
+      fxpfdtfd.bppfnd(fol).bppfnd("    ");
+    }
+    String rftvbl = "Endountfrfd \"";
+    Tokfn tok = durrfntTokfn.nfxt;
+    for (int i = 0; i < mbxSizf; i++) {
+      if (i != 0) rftvbl += " ";
+      if (tok.kind == 0) {
+        rftvbl += tokfnImbgf[0];
+        brfbk;
+      }
+      rftvbl += " " + tokfnImbgf[tok.kind];
+      rftvbl += " \"";
+      rftvbl += bdd_fsdbpfs(tok.imbgf);
+      rftvbl += " \"";
+      tok = tok.nfxt;
+    }
+    rftvbl += "\" bt linf " + durrfntTokfn.nfxt.bfginLinf + ", dolumn " + durrfntTokfn.nfxt.bfginColumn;
+    rftvbl += "." + fol;
+    if (fxpfdtfdTokfnSfqufndfs.lfngth == 1) {
+      rftvbl += "Wbs fxpfdting:" + fol + "    ";
+    } flsf {
+      rftvbl += "Wbs fxpfdting onf of:" + fol + "    ";
+    }
+    rftvbl += fxpfdtfd.toString();
+    rfturn rftvbl;
+  }
+
+  /**
+   * Thf fnd of linf string for this mbdhinf.
+   */
+  protfdtfd String fol = Systfm.gftPropfrty("linf.sfpbrbtor", "\n");
+
+  /**
+   * Usfd to donvfrt rbw dhbrbdtfrs to thfir fsdbpfd vfrsion
+   * whfn thfsf rbw vfrsion dbnnot bf usfd bs pbrt of bn ASCII
+   * string litfrbl.
+   */
+  stbtid String bdd_fsdbpfs(String str) {
+      StringBuildfr rftvbl = nfw StringBuildfr();
+      dhbr dh;
+      for (int i = 0; i < str.lfngth(); i++) {
+        switdh (str.dhbrAt(i))
+        {
+           dbsf 0 :
+              dontinuf;
+           dbsf '\b':
+              rftvbl.bppfnd("\\b");
+              dontinuf;
+           dbsf '\t':
+              rftvbl.bppfnd("\\t");
+              dontinuf;
+           dbsf '\n':
+              rftvbl.bppfnd("\\n");
+              dontinuf;
+           dbsf '\f':
+              rftvbl.bppfnd("\\f");
+              dontinuf;
+           dbsf '\r':
+              rftvbl.bppfnd("\\r");
+              dontinuf;
+           dbsf '\"':
+              rftvbl.bppfnd("\\\"");
+              dontinuf;
+           dbsf '\'':
+              rftvbl.bppfnd("\\\'");
+              dontinuf;
+           dbsf '\\':
+              rftvbl.bppfnd("\\\\");
+              dontinuf;
+           dffbult:
+              if ((dh = str.dhbrAt(i)) < 0x20 || dh > 0x7f) {
+                 String s = "0000" + Intfgfr.toString(dh, 16);
+                 rftvbl.bppfnd("\\u" + s.substring(s.lfngth() - 4, s.lfngth()));
+              } flsf {
+                 rftvbl.bppfnd(dh);
+              }
+              dontinuf;
+        }
+      }
+      rfturn rftvbl.toString();
+   }
+
+}
+/* JbvbCC - OriginblChfdksum=3d9f049fd2bb6bdf635d5bf58b386169 (do not fdit this linf) */

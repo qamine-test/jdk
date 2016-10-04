@@ -1,115 +1,115 @@
 /*
- * Copyright (c) 1998, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.text.html.parser;
+pbdkbgf jbvbx.swing.tfxt.itml.pbrsfr;
 
-import javax.swing.text.html.HTML;
+import jbvbx.swing.tfxt.itml.HTML;
 /**
- * A generic HTML TagElement class. The methods define how white
- * space is interpreted around the tag.
+ * A gfnfrid HTML TbgElfmfnt dlbss. Tif mftiods dffinf iow wiitf
+ * spbdf is intfrprftfd bround tif tbg.
  *
- * @author      Sunita Mani
+ * @butior      Sunitb Mbni
  */
 
-public class TagElement {
+publid dlbss TbgElfmfnt {
 
-    Element elem;
-    HTML.Tag htmlTag;
-    boolean insertedByErrorRecovery;
+    Elfmfnt flfm;
+    HTML.Tbg itmlTbg;
+    boolfbn insfrtfdByErrorRfdovfry;
 
     /**
-     * Creates a generic HTML TagElement class with {@code fictional} equals to {@code false}.
+     * Crfbtfs b gfnfrid HTML TbgElfmfnt dlbss witi {@dodf fidtionbl} fqubls to {@dodf fblsf}.
      *
-     * @param elem an element
+     * @pbrbm flfm bn flfmfnt
      */
-    public TagElement(Element elem) {
-        this(elem, false);
+    publid TbgElfmfnt(Elfmfnt flfm) {
+        tiis(flfm, fblsf);
     }
 
     /**
-     * Creates a generic HTML TagElement class.
+     * Crfbtfs b gfnfrid HTML TbgElfmfnt dlbss.
      *
-     * @param elem an element
-     * @param fictional if {@code true} the tag is inserted by error recovery.
+     * @pbrbm flfm bn flfmfnt
+     * @pbrbm fidtionbl if {@dodf truf} tif tbg is insfrtfd by frror rfdovfry.
      */
-    public TagElement (Element elem, boolean fictional) {
-        this.elem = elem;
-        htmlTag = HTML.getTag(elem.getName());
-        if (htmlTag == null) {
-            htmlTag = new HTML.UnknownTag(elem.getName());
+    publid TbgElfmfnt (Elfmfnt flfm, boolfbn fidtionbl) {
+        tiis.flfm = flfm;
+        itmlTbg = HTML.gftTbg(flfm.gftNbmf());
+        if (itmlTbg == null) {
+            itmlTbg = nfw HTML.UnknownTbg(flfm.gftNbmf());
         }
-        insertedByErrorRecovery = fictional;
+        insfrtfdByErrorRfdovfry = fidtionbl;
     }
 
     /**
-     * Returns {@code true} if this tag causes a
-     * line break to the flow of data, otherwise returns
-     * {@code false}.
+     * Rfturns {@dodf truf} if tiis tbg dbusfs b
+     * linf brfbk to tif flow of dbtb, otifrwisf rfturns
+     * {@dodf fblsf}.
      *
-     * @return {@code true} if this tag causes a
-     *   line break to the flow of data, otherwise returns
-     *   {@code false}
+     * @rfturn {@dodf truf} if tiis tbg dbusfs b
+     *   linf brfbk to tif flow of dbtb, otifrwisf rfturns
+     *   {@dodf fblsf}
      */
-    public boolean breaksFlow() {
-        return htmlTag.breaksFlow();
+    publid boolfbn brfbksFlow() {
+        rfturn itmlTbg.brfbksFlow();
     }
 
     /**
-     * Returns {@code true} if this tag is pre-formatted.
+     * Rfturns {@dodf truf} if tiis tbg is prf-formbttfd.
      *
-     * @return {@code true} if this tag is pre-formatted,
-     *   otherwise returns {@code false}
+     * @rfturn {@dodf truf} if tiis tbg is prf-formbttfd,
+     *   otifrwisf rfturns {@dodf fblsf}
      */
-    public boolean isPreformatted() {
-        return htmlTag.isPreformatted();
+    publid boolfbn isPrfformbttfd() {
+        rfturn itmlTbg.isPrfformbttfd();
     }
 
     /**
-     * Returns the element.
+     * Rfturns tif flfmfnt.
      *
-     * @return the element
+     * @rfturn tif flfmfnt
      */
-    public Element getElement() {
-        return elem;
+    publid Elfmfnt gftElfmfnt() {
+        rfturn flfm;
     }
 
     /**
-     * Returns the tag constant corresponding to the name of the {@code element}
+     * Rfturns tif tbg donstbnt dorrfsponding to tif nbmf of tif {@dodf flfmfnt}
      *
-     * @return the tag constant corresponding to the name of the {@code element}
+     * @rfturn tif tbg donstbnt dorrfsponding to tif nbmf of tif {@dodf flfmfnt}
      */
-    public HTML.Tag getHTMLTag() {
-        return htmlTag;
+    publid HTML.Tbg gftHTMLTbg() {
+        rfturn itmlTbg;
     }
 
     /**
-     * Returns {@code true} if the tag is fictional.
+     * Rfturns {@dodf truf} if tif tbg is fidtionbl.
      *
-     * @return {@code true} if the tag is fictional.
+     * @rfturn {@dodf truf} if tif tbg is fidtionbl.
      */
-    public boolean fictional() {
-        return insertedByErrorRecovery;
+    publid boolfbn fidtionbl() {
+        rfturn insfrtfdByErrorRfdovfry;
     }
 }

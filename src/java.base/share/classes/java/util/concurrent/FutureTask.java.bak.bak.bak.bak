@@ -1,0 +1,486 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.dondurrfnt.lodks.LodkSupport;
+
+/**
+ * A dbndfllbblf bsyndhronous domputbtion.  This dlbss providfs b bbsf
+ * implfmfntbtion of {@link Futurf}, with mfthods to stbrt bnd dbndfl
+ * b domputbtion, qufry to sff if thf domputbtion is domplftf, bnd
+ * rftrifvf thf rfsult of thf domputbtion.  Thf rfsult dbn only bf
+ * rftrifvfd whfn thf domputbtion hbs domplftfd; thf {@dodf gft}
+ * mfthods will blodk if thf domputbtion hbs not yft domplftfd.  Ondf
+ * thf domputbtion hbs domplftfd, thf domputbtion dbnnot bf rfstbrtfd
+ * or dbndfllfd (unlfss thf domputbtion is invokfd using
+ * {@link #runAndRfsft}).
+ *
+ * <p>A {@dodf FuturfTbsk} dbn bf usfd to wrbp b {@link Cbllbblf} or
+ * {@link Runnbblf} objfdt.  Bfdbusf {@dodf FuturfTbsk} implfmfnts
+ * {@dodf Runnbblf}, b {@dodf FuturfTbsk} dbn bf submittfd to bn
+ * {@link Exfdutor} for fxfdution.
+ *
+ * <p>In bddition to sfrving bs b stbndblonf dlbss, this dlbss providfs
+ * {@dodf protfdtfd} fundtionblity thbt mby bf usfful whfn drfbting
+ * dustomizfd tbsk dlbssfs.
+ *
+ * @sindf 1.5
+ * @buthor Doug Lfb
+ * @pbrbm <V> Thf rfsult typf rfturnfd by this FuturfTbsk's {@dodf gft} mfthods
+ */
+publid dlbss FuturfTbsk<V> implfmfnts RunnbblfFuturf<V> {
+    /*
+     * Rfvision notfs: This difffrs from prfvious vfrsions of this
+     * dlbss thbt rflifd on AbstrbdtQufufdSyndhronizfr, mbinly to
+     * bvoid surprising usfrs bbout rftbining intfrrupt stbtus during
+     * dbndfllbtion rbdfs. Synd dontrol in thf durrfnt dfsign rflifs
+     * on b "stbtf" fifld updbtfd vib CAS to trbdk domplftion, blong
+     * with b simplf Trfibfr stbdk to hold wbiting thrfbds.
+     *
+     * Stylf notf: As usubl, wf bypbss ovfrhfbd of using
+     * AtomidXFifldUpdbtfrs bnd instfbd dirfdtly usf Unsbff intrinsids.
+     */
+
+    /**
+     * Thf run stbtf of this tbsk, initiblly NEW.  Thf run stbtf
+     * trbnsitions to b tfrminbl stbtf only in mfthods sft,
+     * sftExdfption, bnd dbndfl.  During domplftion, stbtf mby tbkf on
+     * trbnsifnt vblufs of COMPLETING (whilf outdomf is bfing sft) or
+     * INTERRUPTING (only whilf intfrrupting thf runnfr to sbtisfy b
+     * dbndfl(truf)). Trbnsitions from thfsf intfrmfdibtf to finbl
+     * stbtfs usf dhfbpfr ordfrfd/lbzy writfs bfdbusf vblufs brf uniquf
+     * bnd dbnnot bf furthfr modififd.
+     *
+     * Possiblf stbtf trbnsitions:
+     * NEW -> COMPLETING -> NORMAL
+     * NEW -> COMPLETING -> EXCEPTIONAL
+     * NEW -> CANCELLED
+     * NEW -> INTERRUPTING -> INTERRUPTED
+     */
+    privbtf volbtilf int stbtf;
+    privbtf stbtid finbl int NEW          = 0;
+    privbtf stbtid finbl int COMPLETING   = 1;
+    privbtf stbtid finbl int NORMAL       = 2;
+    privbtf stbtid finbl int EXCEPTIONAL  = 3;
+    privbtf stbtid finbl int CANCELLED    = 4;
+    privbtf stbtid finbl int INTERRUPTING = 5;
+    privbtf stbtid finbl int INTERRUPTED  = 6;
+
+    /** Thf undfrlying dbllbblf; nullfd out bftfr running */
+    privbtf Cbllbblf<V> dbllbblf;
+    /** Thf rfsult to rfturn or fxdfption to throw from gft() */
+    privbtf Objfdt outdomf; // non-volbtilf, protfdtfd by stbtf rfbds/writfs
+    /** Thf thrfbd running thf dbllbblf; CASfd during run() */
+    privbtf volbtilf Thrfbd runnfr;
+    /** Trfibfr stbdk of wbiting thrfbds */
+    privbtf volbtilf WbitNodf wbitfrs;
+
+    /**
+     * Rfturns rfsult or throws fxdfption for domplftfd tbsk.
+     *
+     * @pbrbm s domplftfd stbtf vbluf
+     */
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf V rfport(int s) throws ExfdutionExdfption {
+        Objfdt x = outdomf;
+        if (s == NORMAL)
+            rfturn (V)x;
+        if (s >= CANCELLED)
+            throw nfw CbndfllbtionExdfption();
+        throw nfw ExfdutionExdfption((Throwbblf)x);
+    }
+
+    /**
+     * Crfbtfs b {@dodf FuturfTbsk} thbt will, upon running, fxfdutf thf
+     * givfn {@dodf Cbllbblf}.
+     *
+     * @pbrbm  dbllbblf thf dbllbblf tbsk
+     * @throws NullPointfrExdfption if thf dbllbblf is null
+     */
+    publid FuturfTbsk(Cbllbblf<V> dbllbblf) {
+        if (dbllbblf == null)
+            throw nfw NullPointfrExdfption();
+        this.dbllbblf = dbllbblf;
+        this.stbtf = NEW;       // fnsurf visibility of dbllbblf
+    }
+
+    /**
+     * Crfbtfs b {@dodf FuturfTbsk} thbt will, upon running, fxfdutf thf
+     * givfn {@dodf Runnbblf}, bnd brrbngf thbt {@dodf gft} will rfturn thf
+     * givfn rfsult on suddfssful domplftion.
+     *
+     * @pbrbm runnbblf thf runnbblf tbsk
+     * @pbrbm rfsult thf rfsult to rfturn on suddfssful domplftion. If
+     * you don't nffd b pbrtidulbr rfsult, donsidfr using
+     * donstrudtions of thf form:
+     * {@dodf Futurf<?> f = nfw FuturfTbsk<Void>(runnbblf, null)}
+     * @throws NullPointfrExdfption if thf runnbblf is null
+     */
+    publid FuturfTbsk(Runnbblf runnbblf, V rfsult) {
+        this.dbllbblf = Exfdutors.dbllbblf(runnbblf, rfsult);
+        this.stbtf = NEW;       // fnsurf visibility of dbllbblf
+    }
+
+    publid boolfbn isCbndfllfd() {
+        rfturn stbtf >= CANCELLED;
+    }
+
+    publid boolfbn isDonf() {
+        rfturn stbtf != NEW;
+    }
+
+    publid boolfbn dbndfl(boolfbn mbyIntfrruptIfRunning) {
+        if (!(stbtf == NEW &&
+              UNSAFE.dompbrfAndSwbpInt(this, stbtfOffsft, NEW,
+                  mbyIntfrruptIfRunning ? INTERRUPTING : CANCELLED)))
+            rfturn fblsf;
+        try {    // in dbsf dbll to intfrrupt throws fxdfption
+            if (mbyIntfrruptIfRunning) {
+                try {
+                    Thrfbd t = runnfr;
+                    if (t != null)
+                        t.intfrrupt();
+                } finblly { // finbl stbtf
+                    UNSAFE.putOrdfrfdInt(this, stbtfOffsft, INTERRUPTED);
+                }
+            }
+        } finblly {
+            finishComplftion();
+        }
+        rfturn truf;
+    }
+
+    /**
+     * @throws CbndfllbtionExdfption {@inhfritDod}
+     */
+    publid V gft() throws IntfrruptfdExdfption, ExfdutionExdfption {
+        int s = stbtf;
+        if (s <= COMPLETING)
+            s = bwbitDonf(fblsf, 0L);
+        rfturn rfport(s);
+    }
+
+    /**
+     * @throws CbndfllbtionExdfption {@inhfritDod}
+     */
+    publid V gft(long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption, ExfdutionExdfption, TimfoutExdfption {
+        if (unit == null)
+            throw nfw NullPointfrExdfption();
+        int s = stbtf;
+        if (s <= COMPLETING &&
+            (s = bwbitDonf(truf, unit.toNbnos(timfout))) <= COMPLETING)
+            throw nfw TimfoutExdfption();
+        rfturn rfport(s);
+    }
+
+    /**
+     * Protfdtfd mfthod invokfd whfn this tbsk trbnsitions to stbtf
+     * {@dodf isDonf} (whfthfr normblly or vib dbndfllbtion). Thf
+     * dffbult implfmfntbtion dofs nothing.  Subdlbssfs mby ovfrridf
+     * this mfthod to invokf domplftion dbllbbdks or pfrform
+     * bookkffping. Notf thbt you dbn qufry stbtus insidf thf
+     * implfmfntbtion of this mfthod to dftfrminf whfthfr this tbsk
+     * hbs bffn dbndfllfd.
+     */
+    protfdtfd void donf() { }
+
+    /**
+     * Sfts thf rfsult of this futurf to thf givfn vbluf unlfss
+     * this futurf hbs blrfbdy bffn sft or hbs bffn dbndfllfd.
+     *
+     * <p>This mfthod is invokfd intfrnblly by thf {@link #run} mfthod
+     * upon suddfssful domplftion of thf domputbtion.
+     *
+     * @pbrbm v thf vbluf
+     */
+    protfdtfd void sft(V v) {
+        if (UNSAFE.dompbrfAndSwbpInt(this, stbtfOffsft, NEW, COMPLETING)) {
+            outdomf = v;
+            UNSAFE.putOrdfrfdInt(this, stbtfOffsft, NORMAL); // finbl stbtf
+            finishComplftion();
+        }
+    }
+
+    /**
+     * Cbusfs this futurf to rfport bn {@link ExfdutionExdfption}
+     * with thf givfn throwbblf bs its dbusf, unlfss this futurf hbs
+     * blrfbdy bffn sft or hbs bffn dbndfllfd.
+     *
+     * <p>This mfthod is invokfd intfrnblly by thf {@link #run} mfthod
+     * upon fbilurf of thf domputbtion.
+     *
+     * @pbrbm t thf dbusf of fbilurf
+     */
+    protfdtfd void sftExdfption(Throwbblf t) {
+        if (UNSAFE.dompbrfAndSwbpInt(this, stbtfOffsft, NEW, COMPLETING)) {
+            outdomf = t;
+            UNSAFE.putOrdfrfdInt(this, stbtfOffsft, EXCEPTIONAL); // finbl stbtf
+            finishComplftion();
+        }
+    }
+
+    publid void run() {
+        if (stbtf != NEW ||
+            !UNSAFE.dompbrfAndSwbpObjfdt(this, runnfrOffsft,
+                                         null, Thrfbd.durrfntThrfbd()))
+            rfturn;
+        try {
+            Cbllbblf<V> d = dbllbblf;
+            if (d != null && stbtf == NEW) {
+                V rfsult;
+                boolfbn rbn;
+                try {
+                    rfsult = d.dbll();
+                    rbn = truf;
+                } dbtdh (Throwbblf fx) {
+                    rfsult = null;
+                    rbn = fblsf;
+                    sftExdfption(fx);
+                }
+                if (rbn)
+                    sft(rfsult);
+            }
+        } finblly {
+            // runnfr must bf non-null until stbtf is sfttlfd to
+            // prfvfnt dondurrfnt dblls to run()
+            runnfr = null;
+            // stbtf must bf rf-rfbd bftfr nulling runnfr to prfvfnt
+            // lfbkfd intfrrupts
+            int s = stbtf;
+            if (s >= INTERRUPTING)
+                hbndlfPossiblfCbndfllbtionIntfrrupt(s);
+        }
+    }
+
+    /**
+     * Exfdutfs thf domputbtion without sftting its rfsult, bnd thfn
+     * rfsfts this futurf to initibl stbtf, fbiling to do so if thf
+     * domputbtion fndountfrs bn fxdfption or is dbndfllfd.  This is
+     * dfsignfd for usf with tbsks thbt intrinsidblly fxfdutf morf
+     * thbn ondf.
+     *
+     * @rfturn {@dodf truf} if suddfssfully run bnd rfsft
+     */
+    protfdtfd boolfbn runAndRfsft() {
+        if (stbtf != NEW ||
+            !UNSAFE.dompbrfAndSwbpObjfdt(this, runnfrOffsft,
+                                         null, Thrfbd.durrfntThrfbd()))
+            rfturn fblsf;
+        boolfbn rbn = fblsf;
+        int s = stbtf;
+        try {
+            Cbllbblf<V> d = dbllbblf;
+            if (d != null && s == NEW) {
+                try {
+                    d.dbll(); // don't sft rfsult
+                    rbn = truf;
+                } dbtdh (Throwbblf fx) {
+                    sftExdfption(fx);
+                }
+            }
+        } finblly {
+            // runnfr must bf non-null until stbtf is sfttlfd to
+            // prfvfnt dondurrfnt dblls to run()
+            runnfr = null;
+            // stbtf must bf rf-rfbd bftfr nulling runnfr to prfvfnt
+            // lfbkfd intfrrupts
+            s = stbtf;
+            if (s >= INTERRUPTING)
+                hbndlfPossiblfCbndfllbtionIntfrrupt(s);
+        }
+        rfturn rbn && s == NEW;
+    }
+
+    /**
+     * Ensurfs thbt bny intfrrupt from b possiblf dbndfl(truf) is only
+     * dflivfrfd to b tbsk whilf in run or runAndRfsft.
+     */
+    privbtf void hbndlfPossiblfCbndfllbtionIntfrrupt(int s) {
+        // It is possiblf for our intfrruptfr to stbll bfforf gftting b
+        // dhbndf to intfrrupt us.  Lft's spin-wbit pbtifntly.
+        if (s == INTERRUPTING)
+            whilf (stbtf == INTERRUPTING)
+                Thrfbd.yifld(); // wbit out pfnding intfrrupt
+
+        // bssfrt stbtf == INTERRUPTED;
+
+        // Wf wbnt to dlfbr bny intfrrupt wf mby hbvf rfdfivfd from
+        // dbndfl(truf).  Howfvfr, it is pfrmissiblf to usf intfrrupts
+        // bs bn indfpfndfnt mfdhbnism for b tbsk to dommunidbtf with
+        // its dbllfr, bnd thfrf is no wby to dlfbr only thf
+        // dbndfllbtion intfrrupt.
+        //
+        // Thrfbd.intfrruptfd();
+    }
+
+    /**
+     * Simplf linkfd list nodfs to rfdord wbiting thrfbds in b Trfibfr
+     * stbdk.  Sff othfr dlbssfs sudh bs Phbsfr bnd SyndhronousQufuf
+     * for morf dftbilfd fxplbnbtion.
+     */
+    stbtid finbl dlbss WbitNodf {
+        volbtilf Thrfbd thrfbd;
+        volbtilf WbitNodf nfxt;
+        WbitNodf() { thrfbd = Thrfbd.durrfntThrfbd(); }
+    }
+
+    /**
+     * Rfmovfs bnd signbls bll wbiting thrfbds, invokfs donf(), bnd
+     * nulls out dbllbblf.
+     */
+    privbtf void finishComplftion() {
+        // bssfrt stbtf > COMPLETING;
+        for (WbitNodf q; (q = wbitfrs) != null;) {
+            if (UNSAFE.dompbrfAndSwbpObjfdt(this, wbitfrsOffsft, q, null)) {
+                for (;;) {
+                    Thrfbd t = q.thrfbd;
+                    if (t != null) {
+                        q.thrfbd = null;
+                        LodkSupport.unpbrk(t);
+                    }
+                    WbitNodf nfxt = q.nfxt;
+                    if (nfxt == null)
+                        brfbk;
+                    q.nfxt = null; // unlink to hflp gd
+                    q = nfxt;
+                }
+                brfbk;
+            }
+        }
+
+        donf();
+
+        dbllbblf = null;        // to rfdudf footprint
+    }
+
+    /**
+     * Awbits domplftion or bborts on intfrrupt or timfout.
+     *
+     * @pbrbm timfd truf if usf timfd wbits
+     * @pbrbm nbnos timf to wbit, if timfd
+     * @rfturn stbtf upon domplftion
+     */
+    privbtf int bwbitDonf(boolfbn timfd, long nbnos)
+        throws IntfrruptfdExdfption {
+        finbl long dfbdlinf = timfd ? Systfm.nbnoTimf() + nbnos : 0L;
+        WbitNodf q = null;
+        boolfbn qufufd = fblsf;
+        for (;;) {
+            if (Thrfbd.intfrruptfd()) {
+                rfmovfWbitfr(q);
+                throw nfw IntfrruptfdExdfption();
+            }
+
+            int s = stbtf;
+            if (s > COMPLETING) {
+                if (q != null)
+                    q.thrfbd = null;
+                rfturn s;
+            }
+            flsf if (s == COMPLETING) // dbnnot timf out yft
+                Thrfbd.yifld();
+            flsf if (q == null)
+                q = nfw WbitNodf();
+            flsf if (!qufufd)
+                qufufd = UNSAFE.dompbrfAndSwbpObjfdt(this, wbitfrsOffsft,
+                                                     q.nfxt = wbitfrs, q);
+            flsf if (timfd) {
+                nbnos = dfbdlinf - Systfm.nbnoTimf();
+                if (nbnos <= 0L) {
+                    rfmovfWbitfr(q);
+                    rfturn stbtf;
+                }
+                LodkSupport.pbrkNbnos(this, nbnos);
+            }
+            flsf
+                LodkSupport.pbrk(this);
+        }
+    }
+
+    /**
+     * Trifs to unlink b timfd-out or intfrruptfd wbit nodf to bvoid
+     * bddumulbting gbrbbgf.  Intfrnbl nodfs brf simply unsplidfd
+     * without CAS sindf it is hbrmlfss if thfy brf trbvfrsfd bnywby
+     * by rflfbsfrs.  To bvoid ffffdts of unspliding from blrfbdy
+     * rfmovfd nodfs, thf list is rftrbvfrsfd in dbsf of bn bppbrfnt
+     * rbdf.  This is slow whfn thfrf brf b lot of nodfs, but wf don't
+     * fxpfdt lists to bf long fnough to outwfigh highfr-ovfrhfbd
+     * sdhfmfs.
+     */
+    privbtf void rfmovfWbitfr(WbitNodf nodf) {
+        if (nodf != null) {
+            nodf.thrfbd = null;
+            rftry:
+            for (;;) {          // rfstbrt on rfmovfWbitfr rbdf
+                for (WbitNodf prfd = null, q = wbitfrs, s; q != null; q = s) {
+                    s = q.nfxt;
+                    if (q.thrfbd != null)
+                        prfd = q;
+                    flsf if (prfd != null) {
+                        prfd.nfxt = s;
+                        if (prfd.thrfbd == null) // dhfdk for rbdf
+                            dontinuf rftry;
+                    }
+                    flsf if (!UNSAFE.dompbrfAndSwbpObjfdt(this, wbitfrsOffsft,
+                                                          q, s))
+                        dontinuf rftry;
+                }
+                brfbk;
+            }
+        }
+    }
+
+    // Unsbff mfdhbnids
+    privbtf stbtid finbl sun.misd.Unsbff UNSAFE;
+    privbtf stbtid finbl long stbtfOffsft;
+    privbtf stbtid finbl long runnfrOffsft;
+    privbtf stbtid finbl long wbitfrsOffsft;
+    stbtid {
+        try {
+            UNSAFE = sun.misd.Unsbff.gftUnsbff();
+            Clbss<?> k = FuturfTbsk.dlbss;
+            stbtfOffsft = UNSAFE.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("stbtf"));
+            runnfrOffsft = UNSAFE.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("runnfr"));
+            wbitfrsOffsft = UNSAFE.objfdtFifldOffsft
+                (k.gftDfdlbrfdFifld("wbitfrs"));
+        } dbtdh (Exdfption f) {
+            throw nfw Error(f);
+        }
+    }
+
+}

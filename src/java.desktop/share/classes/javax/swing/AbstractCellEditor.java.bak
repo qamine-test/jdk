@@ -1,166 +1,166 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import javax.swing.event.*;
-import java.util.EventObject;
-import java.io.Serializable;
+import jbvbx.swing.fvfnt.*;
+import jbvb.util.EvfntObjfdt;
+import jbvb.io.Sfriblizbblf;
 
 /**
  *
- * A base class for <code>CellEditors</code>, providing default
- * implementations for the methods in the <code>CellEditor</code>
- * interface except <code>getCellEditorValue()</code>.
- * Like the other abstract implementations in Swing, also manages a list
- * of listeners.
+ * A bbsf dlbss for <dodf>CfllEditors</dodf>, providing dffbult
+ * implfmfntbtions for tif mftiods in tif <dodf>CfllEditor</dodf>
+ * intfrfbdf fxdfpt <dodf>gftCfllEditorVbluf()</dodf>.
+ * Likf tif otifr bbstrbdt implfmfntbtions in Swing, blso mbnbgfs b list
+ * of listfnfrs.
  *
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Philip Milne
- * @since 1.3
+ * @butior Piilip Milnf
+ * @sindf 1.3
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public abstract class AbstractCellEditor implements CellEditor, Serializable {
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid bbstrbdt dlbss AbstrbdtCfllEditor implfmfnts CfllEditor, Sfriblizbblf {
 
-    protected EventListenerList listenerList = new EventListenerList();
-    transient protected ChangeEvent changeEvent = null;
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
+    trbnsifnt protfdtfd CibngfEvfnt dibngfEvfnt = null;
 
-    // Force this to be implemented.
-    // public Object  getCellEditorValue()
+    // Fordf tiis to bf implfmfntfd.
+    // publid Objfdt  gftCfllEditorVbluf()
 
     /**
-     * Returns true.
-     * @param e  an event object
-     * @return true
+     * Rfturns truf.
+     * @pbrbm f  bn fvfnt objfdt
+     * @rfturn truf
      */
-    public boolean isCellEditable(EventObject e) {
-        return true;
+    publid boolfbn isCfllEditbblf(EvfntObjfdt f) {
+        rfturn truf;
     }
 
     /**
-     * Returns true.
-     * @param anEvent  an event object
-     * @return true
+     * Rfturns truf.
+     * @pbrbm bnEvfnt  bn fvfnt objfdt
+     * @rfturn truf
      */
-    public boolean shouldSelectCell(EventObject anEvent) {
-        return true;
+    publid boolfbn siouldSflfdtCfll(EvfntObjfdt bnEvfnt) {
+        rfturn truf;
     }
 
     /**
-     * Calls <code>fireEditingStopped</code> and returns true.
-     * @return true
+     * Cblls <dodf>firfEditingStoppfd</dodf> bnd rfturns truf.
+     * @rfturn truf
      */
-    public boolean stopCellEditing() {
-        fireEditingStopped();
-        return true;
+    publid boolfbn stopCfllEditing() {
+        firfEditingStoppfd();
+        rfturn truf;
     }
 
     /**
-     * Calls <code>fireEditingCanceled</code>.
+     * Cblls <dodf>firfEditingCbndflfd</dodf>.
      */
-    public void  cancelCellEditing() {
-        fireEditingCanceled();
+    publid void  dbndflCfllEditing() {
+        firfEditingCbndflfd();
     }
 
     /**
-     * Adds a <code>CellEditorListener</code> to the listener list.
-     * @param l  the new listener to be added
+     * Adds b <dodf>CfllEditorListfnfr</dodf> to tif listfnfr list.
+     * @pbrbm l  tif nfw listfnfr to bf bddfd
      */
-    public void addCellEditorListener(CellEditorListener l) {
-        listenerList.add(CellEditorListener.class, l);
+    publid void bddCfllEditorListfnfr(CfllEditorListfnfr l) {
+        listfnfrList.bdd(CfllEditorListfnfr.dlbss, l);
     }
 
     /**
-     * Removes a <code>CellEditorListener</code> from the listener list.
-     * @param l  the listener to be removed
+     * Rfmovfs b <dodf>CfllEditorListfnfr</dodf> from tif listfnfr list.
+     * @pbrbm l  tif listfnfr to bf rfmovfd
      */
-    public void removeCellEditorListener(CellEditorListener l) {
-        listenerList.remove(CellEditorListener.class, l);
+    publid void rfmovfCfllEditorListfnfr(CfllEditorListfnfr l) {
+        listfnfrList.rfmovf(CfllEditorListfnfr.dlbss, l);
     }
 
     /**
-     * Returns an array of all the <code>CellEditorListener</code>s added
-     * to this AbstractCellEditor with addCellEditorListener().
+     * Rfturns bn brrby of bll tif <dodf>CfllEditorListfnfr</dodf>s bddfd
+     * to tiis AbstrbdtCfllEditor witi bddCfllEditorListfnfr().
      *
-     * @return all of the <code>CellEditorListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>CfllEditorListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public CellEditorListener[] getCellEditorListeners() {
-        return listenerList.getListeners(CellEditorListener.class);
+    publid CfllEditorListfnfr[] gftCfllEditorListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(CfllEditorListfnfr.dlbss);
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is created lazily.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is drfbtfd lbzily.
      *
-     * @see EventListenerList
+     * @sff EvfntListfnfrList
      */
-    protected void fireEditingStopped() {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==CellEditorListener.class) {
-                // Lazily create the event:
-                if (changeEvent == null)
-                    changeEvent = new ChangeEvent(this);
-                ((CellEditorListener)listeners[i+1]).editingStopped(changeEvent);
+    protfdtfd void firfEditingStoppfd() {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==CfllEditorListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                if (dibngfEvfnt == null)
+                    dibngfEvfnt = nfw CibngfEvfnt(tiis);
+                ((CfllEditorListfnfr)listfnfrs[i+1]).fditingStoppfd(dibngfEvfnt);
             }
         }
     }
 
     /**
-     * Notifies all listeners that have registered interest for
-     * notification on this event type.  The event instance
-     * is created lazily.
+     * Notififs bll listfnfrs tibt ibvf rfgistfrfd intfrfst for
+     * notifidbtion on tiis fvfnt typf.  Tif fvfnt instbndf
+     * is drfbtfd lbzily.
      *
-     * @see EventListenerList
+     * @sff EvfntListfnfrList
      */
-    protected void fireEditingCanceled() {
-        // Guaranteed to return a non-null array
-        Object[] listeners = listenerList.getListenerList();
-        // Process the listeners last to first, notifying
-        // those that are interested in this event
-        for (int i = listeners.length-2; i>=0; i-=2) {
-            if (listeners[i]==CellEditorListener.class) {
-                // Lazily create the event:
-                if (changeEvent == null)
-                    changeEvent = new ChangeEvent(this);
-                ((CellEditorListener)listeners[i+1]).editingCanceled(changeEvent);
+    protfdtfd void firfEditingCbndflfd() {
+        // Gubrbntffd to rfturn b non-null brrby
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        // Prodfss tif listfnfrs lbst to first, notifying
+        // tiosf tibt brf intfrfstfd in tiis fvfnt
+        for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+            if (listfnfrs[i]==CfllEditorListfnfr.dlbss) {
+                // Lbzily drfbtf tif fvfnt:
+                if (dibngfEvfnt == null)
+                    dibngfEvfnt = nfw CibngfEvfnt(tiis);
+                ((CfllEditorListfnfr)listfnfrs[i+1]).fditingCbndflfd(dibngfEvfnt);
             }
         }
     }

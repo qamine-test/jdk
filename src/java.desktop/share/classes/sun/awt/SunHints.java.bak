@@ -1,506 +1,506 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.RenderingHints;
-import java.lang.annotation.Native;
+import jbvb.bwt.RfndfringHints;
+import jbvb.lbng.bnnotbtion.Nbtivf;
 
 /**
- * This class contains rendering hints that can be used by the
- * {@link java.awt.Graphics2D} class, and classes that implement
- * {@link java.awt.image.BufferedImageOp} and
- * {@link java.awt.image.Raster}.
+ * Tiis dlbss dontbins rfndfring iints tibt dbn bf usfd by tif
+ * {@link jbvb.bwt.Grbpiids2D} dlbss, bnd dlbssfs tibt implfmfnt
+ * {@link jbvb.bwt.imbgf.BufffrfdImbgfOp} bnd
+ * {@link jbvb.bwt.imbgf.Rbstfr}.
  */
-public class SunHints {
+publid dlbss SunHints {
     /**
-     * Defines the type of all keys used to control various
-     * aspects of the rendering and imaging pipelines.  Instances
-     * of this class are immutable and unique which means that
-     * tests for matches can be made using the == operator instead
-     * of the more expensive equals() method.
+     * Dffinfs tif typf of bll kfys usfd to dontrol vbrious
+     * bspfdts of tif rfndfring bnd imbging pipflinfs.  Instbndfs
+     * of tiis dlbss brf immutbblf bnd uniquf wiidi mfbns tibt
+     * tfsts for mbtdifs dbn bf mbdf using tif == opfrbtor instfbd
+     * of tif morf fxpfnsivf fqubls() mftiod.
      */
-    public static class Key extends RenderingHints.Key {
-        String description;
+    publid stbtid dlbss Kfy fxtfnds RfndfringHints.Kfy {
+        String dfsdription;
 
         /**
-         * Construct a key using the indicated private key.  Each
-         * subclass of Key maintains its own unique domain of integer
-         * keys.  No two objects with the same integer key and of the
-         * same specific subclass can be constructed.  An exception
-         * will be thrown if an attempt is made to construct another
-         * object of a given class with the same integer key as a
-         * pre-existing instance of that subclass of Key.
+         * Construdt b kfy using tif indidbtfd privbtf kfy.  Ebdi
+         * subdlbss of Kfy mbintbins its own uniquf dombin of intfgfr
+         * kfys.  No two objfdts witi tif sbmf intfgfr kfy bnd of tif
+         * sbmf spfdifid subdlbss dbn bf donstrudtfd.  An fxdfption
+         * will bf tirown if bn bttfmpt is mbdf to donstrudt bnotifr
+         * objfdt of b givfn dlbss witi tif sbmf intfgfr kfy bs b
+         * prf-fxisting instbndf of tibt subdlbss of Kfy.
          */
-        public Key(int privatekey, String description) {
-            super(privatekey);
-            this.description = description;
+        publid Kfy(int privbtfkfy, String dfsdription) {
+            supfr(privbtfkfy);
+            tiis.dfsdription = dfsdription;
         }
 
         /**
-         * Returns the numeric index associated with this Key.  This
-         * is useful for use in switch statements and quick lookups
-         * of the setting of a particular key.
+         * Rfturns tif numfrid indfx bssodibtfd witi tiis Kfy.  Tiis
+         * is usfful for usf in switdi stbtfmfnts bnd quidk lookups
+         * of tif sftting of b pbrtidulbr kfy.
          */
-        public final int getIndex() {
-            return intKey();
+        publid finbl int gftIndfx() {
+            rfturn intKfy();
         }
 
         /**
-         * Returns a string representation of the Key.
+         * Rfturns b string rfprfsfntbtion of tif Kfy.
          */
-        public final String toString() {
-            return description;
+        publid finbl String toString() {
+            rfturn dfsdription;
         }
 
         /**
-         * Returns true if the specified object is a valid value
-         * for this Key.
+         * Rfturns truf if tif spfdififd objfdt is b vblid vbluf
+         * for tiis Kfy.
          */
-        public boolean isCompatibleValue(Object val) {
-            if (val instanceof Value) {
-                return ((Value)val).isCompatibleKey(this);
+        publid boolfbn isCompbtiblfVbluf(Objfdt vbl) {
+            if (vbl instbndfof Vbluf) {
+                rfturn ((Vbluf)vbl).isCompbtiblfKfy(tiis);
             }
-            return false;
+            rfturn fblsf;
         }
     }
 
     /**
-     * Defines the type of all "enumerative" values used to control
-     * various aspects of the rendering and imaging pipelines.  Instances
-     * of this class are immutable and unique which means that
-     * tests for matches can be made using the == operator instead
-     * of the more expensive equals() method.
+     * Dffinfs tif typf of bll "fnumfrbtivf" vblufs usfd to dontrol
+     * vbrious bspfdts of tif rfndfring bnd imbging pipflinfs.  Instbndfs
+     * of tiis dlbss brf immutbblf bnd uniquf wiidi mfbns tibt
+     * tfsts for mbtdifs dbn bf mbdf using tif == opfrbtor instfbd
+     * of tif morf fxpfnsivf fqubls() mftiod.
      */
-    public static class Value {
-        private SunHints.Key myKey;
-        private int index;
-        private String description;
+    publid stbtid dlbss Vbluf {
+        privbtf SunHints.Kfy myKfy;
+        privbtf int indfx;
+        privbtf String dfsdription;
 
-        private static Value[][] ValueObjects =
-            new Value[NUM_KEYS][VALS_PER_KEY];
+        privbtf stbtid Vbluf[][] VblufObjfdts =
+            nfw Vbluf[NUM_KEYS][VALS_PER_KEY];
 
-        private synchronized static void register(SunHints.Key key,
-                                                  Value value) {
-            int kindex = key.getIndex();
-            int vindex = value.getIndex();
-            if (ValueObjects[kindex][vindex] != null) {
-                throw new InternalError("duplicate index: "+vindex);
+        privbtf syndironizfd stbtid void rfgistfr(SunHints.Kfy kfy,
+                                                  Vbluf vbluf) {
+            int kindfx = kfy.gftIndfx();
+            int vindfx = vbluf.gftIndfx();
+            if (VblufObjfdts[kindfx][vindfx] != null) {
+                tirow nfw IntfrnblError("duplidbtf indfx: "+vindfx);
             }
-            ValueObjects[kindex][vindex] = value;
+            VblufObjfdts[kindfx][vindfx] = vbluf;
         }
 
-        public static Value get(int keyindex, int valueindex) {
-            return ValueObjects[keyindex][valueindex];
-        }
-
-        /**
-         * Construct a value using the indicated private index.  Each
-         * subclass of Value maintains its own unique domain of integer
-         * indices.  Enforcing the uniqueness of the integer indices
-         * is left to the subclass.
-         */
-        public Value(SunHints.Key key, int index, String description) {
-            this.myKey = key;
-            this.index = index;
-            this.description = description;
-
-            register(key, this);
+        publid stbtid Vbluf gft(int kfyindfx, int vblufindfx) {
+            rfturn VblufObjfdts[kfyindfx][vblufindfx];
         }
 
         /**
-         * Returns the numeric index associated with this Key.  This
-         * is useful for use in switch statements and quick lookups
-         * of the setting of a particular key.
+         * Construdt b vbluf using tif indidbtfd privbtf indfx.  Ebdi
+         * subdlbss of Vbluf mbintbins its own uniquf dombin of intfgfr
+         * indidfs.  Enfording tif uniqufnfss of tif intfgfr indidfs
+         * is lfft to tif subdlbss.
          */
-        public final int getIndex() {
-            return index;
+        publid Vbluf(SunHints.Kfy kfy, int indfx, String dfsdription) {
+            tiis.myKfy = kfy;
+            tiis.indfx = indfx;
+            tiis.dfsdription = dfsdription;
+
+            rfgistfr(kfy, tiis);
         }
 
         /**
-         * Returns a string representation of this Value.
+         * Rfturns tif numfrid indfx bssodibtfd witi tiis Kfy.  Tiis
+         * is usfful for usf in switdi stbtfmfnts bnd quidk lookups
+         * of tif sftting of b pbrtidulbr kfy.
          */
-        public final String toString() {
-            return description;
+        publid finbl int gftIndfx() {
+            rfturn indfx;
         }
 
         /**
-         * Returns true if the specified object is a valid Key
-         * for this Value.
+         * Rfturns b string rfprfsfntbtion of tiis Vbluf.
          */
-        public final boolean isCompatibleKey(Key k) {
-            return myKey == k;
+        publid finbl String toString() {
+            rfturn dfsdription;
         }
 
         /**
-         * The hash code for all SunHints.Value objects will be the same
-         * as the system identity code of the object as defined by the
-         * System.identityHashCode() method.
+         * Rfturns truf if tif spfdififd objfdt is b vblid Kfy
+         * for tiis Vbluf.
          */
-        public final int hashCode() {
-            return System.identityHashCode(this);
+        publid finbl boolfbn isCompbtiblfKfy(Kfy k) {
+            rfturn myKfy == k;
         }
 
         /**
-         * The equals method for all SunHints.Value objects will return
-         * the same result as the equality operator '=='.
+         * Tif ibsi dodf for bll SunHints.Vbluf objfdts will bf tif sbmf
+         * bs tif systfm idfntity dodf of tif objfdt bs dffinfd by tif
+         * Systfm.idfntityHbsiCodf() mftiod.
          */
-        public final boolean equals(Object o) {
-            return this == o;
+        publid finbl int ibsiCodf() {
+            rfturn Systfm.idfntityHbsiCodf(tiis);
+        }
+
+        /**
+         * Tif fqubls mftiod for bll SunHints.Vbluf objfdts will rfturn
+         * tif sbmf rfsult bs tif fqublity opfrbtor '=='.
+         */
+        publid finbl boolfbn fqubls(Objfdt o) {
+            rfturn tiis == o;
         }
     }
 
-    private static final int NUM_KEYS = 10;
-    private static final int VALS_PER_KEY = 8;
+    privbtf stbtid finbl int NUM_KEYS = 10;
+    privbtf stbtid finbl int VALS_PER_KEY = 8;
 
     /**
-     * Rendering hint key and values
+     * Rfndfring iint kfy bnd vblufs
      */
-    @Native public static final int INTKEY_RENDERING = 0;
-    @Native public static final int INTVAL_RENDER_DEFAULT = 0;
-    @Native public static final int INTVAL_RENDER_SPEED = 1;
-    @Native public static final int INTVAL_RENDER_QUALITY = 2;
+    @Nbtivf publid stbtid finbl int INTKEY_RENDERING = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_RENDER_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_RENDER_SPEED = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_RENDER_QUALITY = 2;
 
     /**
-     * Antialiasing hint key and values
+     * Antiblibsing iint kfy bnd vblufs
      */
-    @Native public static final int INTKEY_ANTIALIASING = 1;
-    @Native public static final int INTVAL_ANTIALIAS_DEFAULT = 0;
-    @Native public static final int INTVAL_ANTIALIAS_OFF = 1;
-    @Native public static final int INTVAL_ANTIALIAS_ON = 2;
+    @Nbtivf publid stbtid finbl int INTKEY_ANTIALIASING = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_ANTIALIAS_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_ANTIALIAS_OFF = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_ANTIALIAS_ON = 2;
 
     /**
-     * Text antialiasing hint key and values
+     * Tfxt bntiblibsing iint kfy bnd vblufs
      */
-    @Native public static final int INTKEY_TEXT_ANTIALIASING = 2;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_DEFAULT = 0;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_OFF = 1;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_ON = 2;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_GASP = 3;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_LCD_HRGB = 4;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_LCD_HBGR = 5;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_LCD_VRGB = 6;
-    @Native public static final int INTVAL_TEXT_ANTIALIAS_LCD_VBGR = 7;
+    @Nbtivf publid stbtid finbl int INTKEY_TEXT_ANTIALIASING = 2;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_OFF = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_ON = 2;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_GASP = 3;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_LCD_HRGB = 4;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_LCD_HBGR = 5;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_LCD_VRGB = 6;
+    @Nbtivf publid stbtid finbl int INTVAL_TEXT_ANTIALIAS_LCD_VBGR = 7;
 
     /**
-     * Font fractional metrics hint key and values
+     * Font frbdtionbl mftrids iint kfy bnd vblufs
      */
-    @Native public static final int INTKEY_FRACTIONALMETRICS = 3;
-    @Native public static final int INTVAL_FRACTIONALMETRICS_DEFAULT = 0;
-    @Native public static final int INTVAL_FRACTIONALMETRICS_OFF = 1;
-    @Native public static final int INTVAL_FRACTIONALMETRICS_ON = 2;
+    @Nbtivf publid stbtid finbl int INTKEY_FRACTIONALMETRICS = 3;
+    @Nbtivf publid stbtid finbl int INTVAL_FRACTIONALMETRICS_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_FRACTIONALMETRICS_OFF = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_FRACTIONALMETRICS_ON = 2;
 
     /**
-     * Dithering hint key and values
+     * Ditifring iint kfy bnd vblufs
      */
-    @Native public static final int INTKEY_DITHERING = 4;
-    @Native public static final int INTVAL_DITHER_DEFAULT = 0;
-    @Native public static final int INTVAL_DITHER_DISABLE = 1;
-    @Native public static final int INTVAL_DITHER_ENABLE = 2;
+    @Nbtivf publid stbtid finbl int INTKEY_DITHERING = 4;
+    @Nbtivf publid stbtid finbl int INTVAL_DITHER_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_DITHER_DISABLE = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_DITHER_ENABLE = 2;
 
     /**
-     * Interpolation hint key and values
+     * Intfrpolbtion iint kfy bnd vblufs
      */
-    @Native public static final int INTKEY_INTERPOLATION = 5;
-    @Native public static final int INTVAL_INTERPOLATION_NEAREST_NEIGHBOR = 0;
-    @Native public static final int INTVAL_INTERPOLATION_BILINEAR = 1;
-    @Native public static final int INTVAL_INTERPOLATION_BICUBIC = 2;
+    @Nbtivf publid stbtid finbl int INTKEY_INTERPOLATION = 5;
+    @Nbtivf publid stbtid finbl int INTVAL_INTERPOLATION_NEAREST_NEIGHBOR = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_INTERPOLATION_BILINEAR = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_INTERPOLATION_BICUBIC = 2;
 
     /**
-     * Alpha interpolation hint key and values
+     * Alpib intfrpolbtion iint kfy bnd vblufs
      */
-    @Native public static final int INTKEY_ALPHA_INTERPOLATION = 6;
-    @Native public static final int INTVAL_ALPHA_INTERPOLATION_DEFAULT = 0;
-    @Native public static final int INTVAL_ALPHA_INTERPOLATION_SPEED = 1;
-    @Native public static final int INTVAL_ALPHA_INTERPOLATION_QUALITY = 2;
+    @Nbtivf publid stbtid finbl int INTKEY_ALPHA_INTERPOLATION = 6;
+    @Nbtivf publid stbtid finbl int INTVAL_ALPHA_INTERPOLATION_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_ALPHA_INTERPOLATION_SPEED = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_ALPHA_INTERPOLATION_QUALITY = 2;
 
     /**
-     * Color rendering hint key and values
+     * Color rfndfring iint kfy bnd vblufs
      */
-    @Native public static final int INTKEY_COLOR_RENDERING = 7;
-    @Native public static final int INTVAL_COLOR_RENDER_DEFAULT = 0;
-    @Native public static final int INTVAL_COLOR_RENDER_SPEED = 1;
-    @Native public static final int INTVAL_COLOR_RENDER_QUALITY = 2;
+    @Nbtivf publid stbtid finbl int INTKEY_COLOR_RENDERING = 7;
+    @Nbtivf publid stbtid finbl int INTVAL_COLOR_RENDER_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_COLOR_RENDER_SPEED = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_COLOR_RENDER_QUALITY = 2;
 
     /**
-     * Stroke normalization control hint key and values
+     * Strokf normblizbtion dontrol iint kfy bnd vblufs
      */
-    @Native public static final int INTKEY_STROKE_CONTROL = 8;
-    @Native public static final int INTVAL_STROKE_DEFAULT = 0;
-    @Native public static final int INTVAL_STROKE_NORMALIZE = 1;
-    @Native public static final int INTVAL_STROKE_PURE = 2;
+    @Nbtivf publid stbtid finbl int INTKEY_STROKE_CONTROL = 8;
+    @Nbtivf publid stbtid finbl int INTVAL_STROKE_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_STROKE_NORMALIZE = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_STROKE_PURE = 2;
 
     /**
-     * Image scaling hint key and values
+     * Imbgf sdbling iint kfy bnd vblufs
      */
-    @Native public static final int INTKEY_RESOLUTION_VARIANT = 9;
-    @Native public static final int INTVAL_RESOLUTION_VARIANT_DEFAULT = 0;
-    @Native public static final int INTVAL_RESOLUTION_VARIANT_OFF = 1;
-    @Native public static final int INTVAL_RESOLUTION_VARIANT_ON = 2;
+    @Nbtivf publid stbtid finbl int INTKEY_RESOLUTION_VARIANT = 9;
+    @Nbtivf publid stbtid finbl int INTVAL_RESOLUTION_VARIANT_DEFAULT = 0;
+    @Nbtivf publid stbtid finbl int INTVAL_RESOLUTION_VARIANT_OFF = 1;
+    @Nbtivf publid stbtid finbl int INTVAL_RESOLUTION_VARIANT_ON = 2;
     /**
-     * LCD text contrast control hint key.
-     * Value is "100" to make discontiguous with the others which
-     * are all enumerative and are of a different class.
+     * LCD tfxt dontrbst dontrol iint kfy.
+     * Vbluf is "100" to mbkf disdontiguous witi tif otifrs wiidi
+     * brf bll fnumfrbtivf bnd brf of b difffrfnt dlbss.
      */
-    @Native public static final int INTKEY_AATEXT_LCD_CONTRAST = 100;
+    @Nbtivf publid stbtid finbl int INTKEY_AATEXT_LCD_CONTRAST = 100;
 
     /**
-     * Rendering hint key and value objects
+     * Rfndfring iint kfy bnd vbluf objfdts
      */
-    public static final Key KEY_RENDERING =
-        new SunHints.Key(SunHints.INTKEY_RENDERING,
-                         "Global rendering quality key");
-    public static final Object VALUE_RENDER_SPEED =
-        new SunHints.Value(KEY_RENDERING,
+    publid stbtid finbl Kfy KEY_RENDERING =
+        nfw SunHints.Kfy(SunHints.INTKEY_RENDERING,
+                         "Globbl rfndfring qublity kfy");
+    publid stbtid finbl Objfdt VALUE_RENDER_SPEED =
+        nfw SunHints.Vbluf(KEY_RENDERING,
                            SunHints.INTVAL_RENDER_SPEED,
-                           "Fastest rendering methods");
-    public static final Object VALUE_RENDER_QUALITY =
-        new SunHints.Value(KEY_RENDERING,
+                           "Fbstfst rfndfring mftiods");
+    publid stbtid finbl Objfdt VALUE_RENDER_QUALITY =
+        nfw SunHints.Vbluf(KEY_RENDERING,
                            SunHints.INTVAL_RENDER_QUALITY,
-                           "Highest quality rendering methods");
-    public static final Object VALUE_RENDER_DEFAULT =
-        new SunHints.Value(KEY_RENDERING,
+                           "Higifst qublity rfndfring mftiods");
+    publid stbtid finbl Objfdt VALUE_RENDER_DEFAULT =
+        nfw SunHints.Vbluf(KEY_RENDERING,
                            SunHints.INTVAL_RENDER_DEFAULT,
-                           "Default rendering methods");
+                           "Dffbult rfndfring mftiods");
 
     /**
-     * Antialiasing hint key and value objects
+     * Antiblibsing iint kfy bnd vbluf objfdts
      */
-    public static final Key KEY_ANTIALIASING =
-        new SunHints.Key(SunHints.INTKEY_ANTIALIASING,
-                         "Global antialiasing enable key");
-    public static final Object VALUE_ANTIALIAS_ON =
-        new SunHints.Value(KEY_ANTIALIASING,
+    publid stbtid finbl Kfy KEY_ANTIALIASING =
+        nfw SunHints.Kfy(SunHints.INTKEY_ANTIALIASING,
+                         "Globbl bntiblibsing fnbblf kfy");
+    publid stbtid finbl Objfdt VALUE_ANTIALIAS_ON =
+        nfw SunHints.Vbluf(KEY_ANTIALIASING,
                            SunHints.INTVAL_ANTIALIAS_ON,
-                           "Antialiased rendering mode");
-    public static final Object VALUE_ANTIALIAS_OFF =
-        new SunHints.Value(KEY_ANTIALIASING,
+                           "Antiblibsfd rfndfring modf");
+    publid stbtid finbl Objfdt VALUE_ANTIALIAS_OFF =
+        nfw SunHints.Vbluf(KEY_ANTIALIASING,
                            SunHints.INTVAL_ANTIALIAS_OFF,
-                           "Nonantialiased rendering mode");
-    public static final Object VALUE_ANTIALIAS_DEFAULT =
-        new SunHints.Value(KEY_ANTIALIASING,
+                           "Nonbntiblibsfd rfndfring modf");
+    publid stbtid finbl Objfdt VALUE_ANTIALIAS_DEFAULT =
+        nfw SunHints.Vbluf(KEY_ANTIALIASING,
                            SunHints.INTVAL_ANTIALIAS_DEFAULT,
-                           "Default antialiasing rendering mode");
+                           "Dffbult bntiblibsing rfndfring modf");
 
     /**
-     * Text antialiasing hint key and value objects
+     * Tfxt bntiblibsing iint kfy bnd vbluf objfdts
      */
-    public static final Key KEY_TEXT_ANTIALIASING =
-        new SunHints.Key(SunHints.INTKEY_TEXT_ANTIALIASING,
-                         "Text-specific antialiasing enable key");
-    public static final Object VALUE_TEXT_ANTIALIAS_ON =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+    publid stbtid finbl Kfy KEY_TEXT_ANTIALIASING =
+        nfw SunHints.Kfy(SunHints.INTKEY_TEXT_ANTIALIASING,
+                         "Tfxt-spfdifid bntiblibsing fnbblf kfy");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_ON =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_ON,
-                           "Antialiased text mode");
-    public static final Object VALUE_TEXT_ANTIALIAS_OFF =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+                           "Antiblibsfd tfxt modf");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_OFF =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_OFF,
-                           "Nonantialiased text mode");
-    public static final Object VALUE_TEXT_ANTIALIAS_DEFAULT =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+                           "Nonbntiblibsfd tfxt modf");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_DEFAULT =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_DEFAULT,
-                           "Default antialiasing text mode");
-    public static final Object VALUE_TEXT_ANTIALIAS_GASP =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+                           "Dffbult bntiblibsing tfxt modf");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_GASP =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_GASP,
-                           "gasp antialiasing text mode");
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_HRGB =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+                           "gbsp bntiblibsing tfxt modf");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_HRGB =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HRGB,
-                           "LCD HRGB antialiasing text mode");
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_HBGR =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+                           "LCD HRGB bntiblibsing tfxt modf");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_HBGR =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_LCD_HBGR,
-                           "LCD HBGR antialiasing text mode");
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_VRGB =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+                           "LCD HBGR bntiblibsing tfxt modf");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_VRGB =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VRGB,
-                           "LCD VRGB antialiasing text mode");
-    public static final Object VALUE_TEXT_ANTIALIAS_LCD_VBGR =
-        new SunHints.Value(KEY_TEXT_ANTIALIASING,
+                           "LCD VRGB bntiblibsing tfxt modf");
+    publid stbtid finbl Objfdt VALUE_TEXT_ANTIALIAS_LCD_VBGR =
+        nfw SunHints.Vbluf(KEY_TEXT_ANTIALIASING,
                            SunHints.INTVAL_TEXT_ANTIALIAS_LCD_VBGR,
-                           "LCD VBGR antialiasing text mode");
+                           "LCD VBGR bntiblibsing tfxt modf");
 
     /**
-     * Font fractional metrics hint key and value objects
+     * Font frbdtionbl mftrids iint kfy bnd vbluf objfdts
      */
-    public static final Key KEY_FRACTIONALMETRICS =
-        new SunHints.Key(SunHints.INTKEY_FRACTIONALMETRICS,
-                         "Fractional metrics enable key");
-    public static final Object VALUE_FRACTIONALMETRICS_ON =
-        new SunHints.Value(KEY_FRACTIONALMETRICS,
+    publid stbtid finbl Kfy KEY_FRACTIONALMETRICS =
+        nfw SunHints.Kfy(SunHints.INTKEY_FRACTIONALMETRICS,
+                         "Frbdtionbl mftrids fnbblf kfy");
+    publid stbtid finbl Objfdt VALUE_FRACTIONALMETRICS_ON =
+        nfw SunHints.Vbluf(KEY_FRACTIONALMETRICS,
                            SunHints.INTVAL_FRACTIONALMETRICS_ON,
-                           "Fractional text metrics mode");
-    public static final Object VALUE_FRACTIONALMETRICS_OFF =
-        new SunHints.Value(KEY_FRACTIONALMETRICS,
+                           "Frbdtionbl tfxt mftrids modf");
+    publid stbtid finbl Objfdt VALUE_FRACTIONALMETRICS_OFF =
+        nfw SunHints.Vbluf(KEY_FRACTIONALMETRICS,
                            SunHints.INTVAL_FRACTIONALMETRICS_OFF,
-                           "Integer text metrics mode");
-    public static final Object VALUE_FRACTIONALMETRICS_DEFAULT =
-        new SunHints.Value(KEY_FRACTIONALMETRICS,
+                           "Intfgfr tfxt mftrids modf");
+    publid stbtid finbl Objfdt VALUE_FRACTIONALMETRICS_DEFAULT =
+        nfw SunHints.Vbluf(KEY_FRACTIONALMETRICS,
                            SunHints.INTVAL_FRACTIONALMETRICS_DEFAULT,
-                           "Default fractional text metrics mode");
+                           "Dffbult frbdtionbl tfxt mftrids modf");
 
     /**
-     * Dithering hint key and value objects
+     * Ditifring iint kfy bnd vbluf objfdts
      */
-    public static final Key KEY_DITHERING =
-        new SunHints.Key(SunHints.INTKEY_DITHERING,
-                         "Dithering quality key");
-    public static final Object VALUE_DITHER_ENABLE =
-        new SunHints.Value(KEY_DITHERING,
+    publid stbtid finbl Kfy KEY_DITHERING =
+        nfw SunHints.Kfy(SunHints.INTKEY_DITHERING,
+                         "Ditifring qublity kfy");
+    publid stbtid finbl Objfdt VALUE_DITHER_ENABLE =
+        nfw SunHints.Vbluf(KEY_DITHERING,
                            SunHints.INTVAL_DITHER_ENABLE,
-                           "Dithered rendering mode");
-    public static final Object VALUE_DITHER_DISABLE =
-        new SunHints.Value(KEY_DITHERING,
+                           "Ditifrfd rfndfring modf");
+    publid stbtid finbl Objfdt VALUE_DITHER_DISABLE =
+        nfw SunHints.Vbluf(KEY_DITHERING,
                            SunHints.INTVAL_DITHER_DISABLE,
-                           "Nondithered rendering mode");
-    public static final Object VALUE_DITHER_DEFAULT =
-        new SunHints.Value(KEY_DITHERING,
+                           "Nonditifrfd rfndfring modf");
+    publid stbtid finbl Objfdt VALUE_DITHER_DEFAULT =
+        nfw SunHints.Vbluf(KEY_DITHERING,
                            SunHints.INTVAL_DITHER_DEFAULT,
-                           "Default dithering mode");
+                           "Dffbult ditifring modf");
 
     /**
-     * Interpolation hint key and value objects
+     * Intfrpolbtion iint kfy bnd vbluf objfdts
      */
-    public static final Key KEY_INTERPOLATION =
-        new SunHints.Key(SunHints.INTKEY_INTERPOLATION,
-                         "Image interpolation method key");
-    public static final Object VALUE_INTERPOLATION_NEAREST_NEIGHBOR =
-        new SunHints.Value(KEY_INTERPOLATION,
+    publid stbtid finbl Kfy KEY_INTERPOLATION =
+        nfw SunHints.Kfy(SunHints.INTKEY_INTERPOLATION,
+                         "Imbgf intfrpolbtion mftiod kfy");
+    publid stbtid finbl Objfdt VALUE_INTERPOLATION_NEAREST_NEIGHBOR =
+        nfw SunHints.Vbluf(KEY_INTERPOLATION,
                            SunHints.INTVAL_INTERPOLATION_NEAREST_NEIGHBOR,
-                           "Nearest Neighbor image interpolation mode");
-    public static final Object VALUE_INTERPOLATION_BILINEAR =
-        new SunHints.Value(KEY_INTERPOLATION,
+                           "Nfbrfst Nfigibor imbgf intfrpolbtion modf");
+    publid stbtid finbl Objfdt VALUE_INTERPOLATION_BILINEAR =
+        nfw SunHints.Vbluf(KEY_INTERPOLATION,
                            SunHints.INTVAL_INTERPOLATION_BILINEAR,
-                           "Bilinear image interpolation mode");
-    public static final Object VALUE_INTERPOLATION_BICUBIC =
-        new SunHints.Value(KEY_INTERPOLATION,
+                           "Bilinfbr imbgf intfrpolbtion modf");
+    publid stbtid finbl Objfdt VALUE_INTERPOLATION_BICUBIC =
+        nfw SunHints.Vbluf(KEY_INTERPOLATION,
                            SunHints.INTVAL_INTERPOLATION_BICUBIC,
-                           "Bicubic image interpolation mode");
+                           "Bidubid imbgf intfrpolbtion modf");
 
     /**
-     * Alpha interpolation hint key and value objects
+     * Alpib intfrpolbtion iint kfy bnd vbluf objfdts
      */
-    public static final Key KEY_ALPHA_INTERPOLATION =
-        new SunHints.Key(SunHints.INTKEY_ALPHA_INTERPOLATION,
-                         "Alpha blending interpolation method key");
-    public static final Object VALUE_ALPHA_INTERPOLATION_SPEED =
-        new SunHints.Value(KEY_ALPHA_INTERPOLATION,
+    publid stbtid finbl Kfy KEY_ALPHA_INTERPOLATION =
+        nfw SunHints.Kfy(SunHints.INTKEY_ALPHA_INTERPOLATION,
+                         "Alpib blfnding intfrpolbtion mftiod kfy");
+    publid stbtid finbl Objfdt VALUE_ALPHA_INTERPOLATION_SPEED =
+        nfw SunHints.Vbluf(KEY_ALPHA_INTERPOLATION,
                            SunHints.INTVAL_ALPHA_INTERPOLATION_SPEED,
-                           "Fastest alpha blending methods");
-    public static final Object VALUE_ALPHA_INTERPOLATION_QUALITY =
-        new SunHints.Value(KEY_ALPHA_INTERPOLATION,
+                           "Fbstfst blpib blfnding mftiods");
+    publid stbtid finbl Objfdt VALUE_ALPHA_INTERPOLATION_QUALITY =
+        nfw SunHints.Vbluf(KEY_ALPHA_INTERPOLATION,
                            SunHints.INTVAL_ALPHA_INTERPOLATION_QUALITY,
-                           "Highest quality alpha blending methods");
-    public static final Object VALUE_ALPHA_INTERPOLATION_DEFAULT =
-        new SunHints.Value(KEY_ALPHA_INTERPOLATION,
+                           "Higifst qublity blpib blfnding mftiods");
+    publid stbtid finbl Objfdt VALUE_ALPHA_INTERPOLATION_DEFAULT =
+        nfw SunHints.Vbluf(KEY_ALPHA_INTERPOLATION,
                            SunHints.INTVAL_ALPHA_INTERPOLATION_DEFAULT,
-                           "Default alpha blending methods");
+                           "Dffbult blpib blfnding mftiods");
 
     /**
-     * Color rendering hint key and value objects
+     * Color rfndfring iint kfy bnd vbluf objfdts
      */
-    public static final Key KEY_COLOR_RENDERING =
-        new SunHints.Key(SunHints.INTKEY_COLOR_RENDERING,
-                         "Color rendering quality key");
-    public static final Object VALUE_COLOR_RENDER_SPEED =
-        new SunHints.Value(KEY_COLOR_RENDERING,
+    publid stbtid finbl Kfy KEY_COLOR_RENDERING =
+        nfw SunHints.Kfy(SunHints.INTKEY_COLOR_RENDERING,
+                         "Color rfndfring qublity kfy");
+    publid stbtid finbl Objfdt VALUE_COLOR_RENDER_SPEED =
+        nfw SunHints.Vbluf(KEY_COLOR_RENDERING,
                            SunHints.INTVAL_COLOR_RENDER_SPEED,
-                           "Fastest color rendering mode");
-    public static final Object VALUE_COLOR_RENDER_QUALITY =
-        new SunHints.Value(KEY_COLOR_RENDERING,
+                           "Fbstfst dolor rfndfring modf");
+    publid stbtid finbl Objfdt VALUE_COLOR_RENDER_QUALITY =
+        nfw SunHints.Vbluf(KEY_COLOR_RENDERING,
                            SunHints.INTVAL_COLOR_RENDER_QUALITY,
-                           "Highest quality color rendering mode");
-    public static final Object VALUE_COLOR_RENDER_DEFAULT =
-        new SunHints.Value(KEY_COLOR_RENDERING,
+                           "Higifst qublity dolor rfndfring modf");
+    publid stbtid finbl Objfdt VALUE_COLOR_RENDER_DEFAULT =
+        nfw SunHints.Vbluf(KEY_COLOR_RENDERING,
                            SunHints.INTVAL_COLOR_RENDER_DEFAULT,
-                           "Default color rendering mode");
+                           "Dffbult dolor rfndfring modf");
 
     /**
-     * Stroke normalization control hint key and value objects
+     * Strokf normblizbtion dontrol iint kfy bnd vbluf objfdts
      */
-    public static final Key KEY_STROKE_CONTROL =
-        new SunHints.Key(SunHints.INTKEY_STROKE_CONTROL,
-                         "Stroke normalization control key");
-    public static final Object VALUE_STROKE_DEFAULT =
-        new SunHints.Value(KEY_STROKE_CONTROL,
+    publid stbtid finbl Kfy KEY_STROKE_CONTROL =
+        nfw SunHints.Kfy(SunHints.INTKEY_STROKE_CONTROL,
+                         "Strokf normblizbtion dontrol kfy");
+    publid stbtid finbl Objfdt VALUE_STROKE_DEFAULT =
+        nfw SunHints.Vbluf(KEY_STROKE_CONTROL,
                            SunHints.INTVAL_STROKE_DEFAULT,
-                           "Default stroke normalization");
-    public static final Object VALUE_STROKE_NORMALIZE =
-        new SunHints.Value(KEY_STROKE_CONTROL,
+                           "Dffbult strokf normblizbtion");
+    publid stbtid finbl Objfdt VALUE_STROKE_NORMALIZE =
+        nfw SunHints.Vbluf(KEY_STROKE_CONTROL,
                            SunHints.INTVAL_STROKE_NORMALIZE,
-                           "Normalize strokes for consistent rendering");
-    public static final Object VALUE_STROKE_PURE =
-        new SunHints.Value(KEY_STROKE_CONTROL,
+                           "Normblizf strokfs for donsistfnt rfndfring");
+    publid stbtid finbl Objfdt VALUE_STROKE_PURE =
+        nfw SunHints.Vbluf(KEY_STROKE_CONTROL,
                            SunHints.INTVAL_STROKE_PURE,
-                           "Pure stroke conversion for accurate paths");
+                           "Purf strokf donvfrsion for bddurbtf pbtis");
 
     /**
-     * Image resolution variant hint key and value objects
+     * Imbgf rfsolution vbribnt iint kfy bnd vbluf objfdts
      */
-    public static final Key KEY_RESOLUTION_VARIANT =
-        new SunHints.Key(SunHints.INTKEY_RESOLUTION_VARIANT,
-                         "Global image resolution variant key");
-    public static final Object VALUE_RESOLUTION_VARIANT_DEFAULT =
-        new SunHints.Value(KEY_RESOLUTION_VARIANT,
+    publid stbtid finbl Kfy KEY_RESOLUTION_VARIANT =
+        nfw SunHints.Kfy(SunHints.INTKEY_RESOLUTION_VARIANT,
+                         "Globbl imbgf rfsolution vbribnt kfy");
+    publid stbtid finbl Objfdt VALUE_RESOLUTION_VARIANT_DEFAULT =
+        nfw SunHints.Vbluf(KEY_RESOLUTION_VARIANT,
                            SunHints.INTVAL_RESOLUTION_VARIANT_DEFAULT,
-                           "Choose image resolutions based on a default heuristic");
-    public static final Object VALUE_RESOLUTION_VARIANT_OFF =
-        new SunHints.Value(KEY_RESOLUTION_VARIANT,
+                           "Cioosf imbgf rfsolutions bbsfd on b dffbult ifuristid");
+    publid stbtid finbl Objfdt VALUE_RESOLUTION_VARIANT_OFF =
+        nfw SunHints.Vbluf(KEY_RESOLUTION_VARIANT,
                            SunHints.INTVAL_RESOLUTION_VARIANT_OFF,
-                           "Use only the standard resolution of an image");
-    public static final Object VALUE_RESOLUTION_VARIANT_ON =
-        new SunHints.Value(KEY_RESOLUTION_VARIANT,
+                           "Usf only tif stbndbrd rfsolution of bn imbgf");
+    publid stbtid finbl Objfdt VALUE_RESOLUTION_VARIANT_ON =
+        nfw SunHints.Vbluf(KEY_RESOLUTION_VARIANT,
                            SunHints.INTVAL_RESOLUTION_VARIANT_ON,
-                           "Always use resolution-specific variants of images");
+                           "Alwbys usf rfsolution-spfdifid vbribnts of imbgfs");
 
-    public static class LCDContrastKey extends Key {
+    publid stbtid dlbss LCDContrbstKfy fxtfnds Kfy {
 
-        public LCDContrastKey(int privatekey, String description) {
-            super(privatekey, description);
+        publid LCDContrbstKfy(int privbtfkfy, String dfsdription) {
+            supfr(privbtfkfy, dfsdription);
         }
 
         /**
-         * Returns true if the specified object is a valid value
-         * for this Key. The allowable range is 100 to 250.
+         * Rfturns truf if tif spfdififd objfdt is b vblid vbluf
+         * for tiis Kfy. Tif bllowbblf rbngf is 100 to 250.
          */
-        public final boolean isCompatibleValue(Object val) {
-            if (val instanceof Integer) {
-                int ival = ((Integer)val).intValue();
-                return ival >= 100 && ival <= 250;
+        publid finbl boolfbn isCompbtiblfVbluf(Objfdt vbl) {
+            if (vbl instbndfof Intfgfr) {
+                int ivbl = ((Intfgfr)vbl).intVbluf();
+                rfturn ivbl >= 100 && ivbl <= 250;
             }
-            return false;
+            rfturn fblsf;
         }
 
     }
 
     /**
-     * LCD text contrast hint key
+     * LCD tfxt dontrbst iint kfy
      */
-    public static final RenderingHints.Key
+    publid stbtid finbl RfndfringHints.Kfy
         KEY_TEXT_ANTIALIAS_LCD_CONTRAST =
-        new LCDContrastKey(SunHints.INTKEY_AATEXT_LCD_CONTRAST,
-                           "Text-specific LCD contrast key");
+        nfw LCDContrbstKfy(SunHints.INTKEY_AATEXT_LCD_CONTRAST,
+                           "Tfxt-spfdifid LCD dontrbst kfy");
 }

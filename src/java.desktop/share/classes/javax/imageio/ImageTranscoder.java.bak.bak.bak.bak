@@ -1,0 +1,152 @@
+/*
+ * Copyright (d) 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio;
+
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+
+/**
+ * An intfrfbdf providing mftbdbtb trbnsdoding dbpbbility.
+ *
+ * <p> Any imbgf mby bf trbnsdodfd (writtfn to b difffrfnt formbt
+ * thbn thf onf it wbs originblly storfd in) simply by pfrforming
+ * b rfbd opfrbtion followfd by b writf opfrbtion.  Howfvfr, loss
+ * of dbtb mby oddur in this prodfss duf to formbt difffrfndfs.
+ *
+ * <p> In gfnfrbl, thf bfst rfsults will bf bdhifvfd whfn
+ * formbt-spfdifid mftbdbtb objfdts dbn bf drfbtfd to fndbpsulbtf bs
+ * mudh informbtion bbout thf imbgf bnd its bssodibtfd mftbdbtb bs
+ * possiblf, in tfrms thbt brf undfrstood by thf spfdifid
+ * <dodf>ImbgfWritfr</dodf> usfd to pfrform thf fndoding.
+ *
+ * <p> An <dodf>ImbgfTrbnsdodfr</dodf> mby bf usfd to donvfrt thf
+ * <dodf>IIOMftbdbtb</dodf> objfdts supplifd by thf
+ * <dodf>ImbgfRfbdfr</dodf> (rfprfsfnting pfr-strfbm bnd pfr-imbgf
+ * mftbdbtb) into dorrfsponding objfdts suitbblf for fndoding by b
+ * pbrtidulbr <dodf>ImbgfWritfr</dodf>.  In thf dbsf whfrf thf mfthods
+ * of this intfrfbdf brf bfing dbllfd dirfdtly on bn
+ * <dodf>ImbgfWritfr</dodf>, thf output will bf suitbblf for thbt
+ * writfr.
+ *
+ * <p> Thf intfrnbl dftbils of donvfrting bn <dodf>IIOMftbdbtb</dodf>
+ * objfdt into b writfr-spfdifid formbt will vbry bddording to thf
+ * dontfxt of thf opfrbtion.  Typidblly, bn <dodf>ImbgfWritfr</dodf>
+ * will inspfdt thf indoming objfdt to sff if it implfmfnts bdditionbl
+ * intfrfbdfs with whidh thf writfr is fbmilibr.  This might bf thf
+ * dbsf, for fxbmplf, if thf objfdt wbs obtbinfd by mfbns of b rfbd
+ * opfrbtion on b rfbdfr plug-in writtfn by thf sbmf vfndor bs thf
+ * writfr.  In this dbsf, thf writfr mby bddfss thf indoming objfdt by
+ * mfbns of its plug-in spfdifid intfrfbdfs.  In this dbsf, thf
+ * rf-fndoding mby bf dlosf to losslfss if thf imbgf filf formbt is
+ * kfpt donstbnt.  If thf formbt is dhbnging, thf writfr mby still
+ * bttfmpt to prfsfrvf bs mudh informbtion bs possiblf.
+ *
+ * <p> If thf indoming objfdt dofs not implfmfnt bny bdditionbl
+ * intfrfbdfs known to thf writfr, thf writfr hbs no dhoidf but to
+ * bddfss it vib thf stbndbrd <dodf>IIOMftbdbtb</dodf> intfrfbdfs sudh
+ * bs thf trff vifw providfd by <dodf>IIOMftbdbtb.gftAsTrff</dodf>.
+ * In this dbsf, thfrf is likfly to bf signifidbnt loss of
+ * informbtion.
+ *
+ * <p> An indfpfndfnt <dodf>ImbgfTrbnsdodfr</dodf> fssfntiblly tbkfs
+ * on thf sbmf rolf bs thf writfr plug-in in thf bbovf fxbmplfs.  It
+ * must bf fbmilibr with thf privbtf intfrfbdfs usfd by both thf
+ * rfbdfr bnd writfr plug-ins, bnd mbnublly instbntibtf bn objfdt thbt
+ * will bf usbblf by thf writfr.  Thf rfsulting mftbdbtb objfdts mby
+ * bf usfd by thf writfr dirfdtly.
+ *
+ * <p> No indfpfndfnt implfmfntbtions of <dodf>ImbgfTrbnsdodfr</dodf>
+ * brf providfd bs pbrt of thf stbndbrd API.  Instfbd, thf intfntion
+ * of this intfrfbdf is to providf b wby for implfmfntbtions to bf
+ * drfbtfd bnd disdovfrfd by bpplidbtions bs thf nffd brisfs.
+ *
+ */
+publid intfrfbdf ImbgfTrbnsdodfr {
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtb</dodf> objfdt thbt mby bf usfd for
+     * fndoding bnd optionblly modififd using its dodumfnt intfrfbdfs
+     * or othfr intfrfbdfs spfdifid to thf writfr plug-in thbt will bf
+     * usfd for fndoding.
+     *
+     * <p> An optionbl <dodf>ImbgfWritfPbrbm</dodf> mby bf supplifd
+     * for dbsfs whfrf it mby bfffdt thf strudturf of thf strfbm
+     * mftbdbtb.
+     *
+     * <p> If thf supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not undfrstood by this writfr or
+     * trbnsdodfr, thfy will bf ignorfd.
+     *
+     * @pbrbm inDbtb bn <dodf>IIOMftbdbtb</dodf> objfdt rfprfsfnting
+     * strfbm mftbdbtb, usfd to initiblizf thf stbtf of thf rfturnfd
+     * objfdt.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf> thbt will bf usfd to
+     * fndodf thf imbgf, or <dodf>null</dodf>.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtb</dodf> objfdt, or
+     * <dodf>null</dodf> if thf plug-in dofs not providf mftbdbtb
+     * fndoding dbpbbilitifs.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>inDbtb</dodf> is
+     * <dodf>null</dodf>.
+     */
+    IIOMftbdbtb donvfrtStrfbmMftbdbtb(IIOMftbdbtb inDbtb,
+                                      ImbgfWritfPbrbm pbrbm);
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtb</dodf> objfdt thbt mby bf usfd for
+     * fndoding bnd optionblly modififd using its dodumfnt intfrfbdfs
+     * or othfr intfrfbdfs spfdifid to thf writfr plug-in thbt will bf
+     * usfd for fndoding.
+     *
+     * <p> An optionbl <dodf>ImbgfWritfPbrbm</dodf> mby bf supplifd
+     * for dbsfs whfrf it mby bfffdt thf strudturf of thf imbgf
+     * mftbdbtb.
+     *
+     * <p> If thf supplifd <dodf>ImbgfWritfPbrbm</dodf> dontbins
+     * optionbl sftting vblufs not undfrstood by this writfr or
+     * trbnsdodfr, thfy will bf ignorfd.
+     *
+     * @pbrbm inDbtb bn <dodf>IIOMftbdbtb</dodf> objfdt rfprfsfnting
+     * imbgf mftbdbtb, usfd to initiblizf thf stbtf of thf rfturnfd
+     * objfdt.
+     * @pbrbm imbgfTypf bn <dodf>ImbgfTypfSpfdififr</dodf> indidbting
+     * thf lbyout bnd dolor informbtion of thf imbgf with whidh thf
+     * mftbdbtb will bf bssodibtfd.
+     * @pbrbm pbrbm bn <dodf>ImbgfWritfPbrbm</dodf> thbt will bf usfd to
+     * fndodf thf imbgf, or <dodf>null</dodf>.
+     *
+     * @rfturn bn <dodf>IIOMftbdbtb</dodf> objfdt,
+     * or <dodf>null</dodf> if thf plug-in dofs not providf
+     * mftbdbtb fndoding dbpbbilitifs.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if fithfr of
+     * <dodf>inDbtb</dodf> or <dodf>imbgfTypf</dodf> is
+     * <dodf>null</dodf>.
+     */
+    IIOMftbdbtb donvfrtImbgfMftbdbtb(IIOMftbdbtb inDbtb,
+                                     ImbgfTypfSpfdififr imbgfTypf,
+                                     ImbgfWritfPbrbm pbrbm);
+}

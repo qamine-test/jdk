@@ -1,0 +1,248 @@
+/*
+ * Copyright (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.rowsft.providfrs;
+
+import dom.sun.rowsft.JdbdRowSftRfsourdfBundlf;
+import jbvb.io.IOExdfption;
+import jbvb.sql.*;
+import jbvbx.sql.*;
+
+import jbvbx.sql.rowsft.spi.*;
+
+/**
+ * A rfffrfndf implfmfntbtion of b JDBC RowSft syndhronizbtion providfr
+ * with thf bbility to rfbd bnd writf rowsfts in wfll formfd XML using thf
+ * stbndbrd WfbRowSft sdhfmb.
+ *
+ * <h3>1.0 Bbdkground</h3>
+ * This syndhronizbtion providfr is rfgistfrfd with thf
+ * <dodf>SyndFbdtory</dodf> by dffbult bs thf
+ * <dodf>dom.sun.rowsft.providfrs.RIXMLProvidfr</dodf>.
+ * <P>
+ * A <dodf>WfbRowSft</dodf> objfdt usfs bn <dodf>RIXMLProvidfr</dodf> implfmfntbtion
+ * to rfbd bn XML dbtb sourdf or to writf itsflf in XML formbt using thf
+ * <dodf>WfbRowSft</dodf> XML sdhfmb dffinition bvbilbblf bt
+ * <prf>
+ *     <b hrff="http://jbvb.sun.dom/xml/ns/jdbd/wfbrowsft.xsd">http://jbvb.sun.dom/xml/ns/jdbd/wfbrowsft.xsd</b>
+ * </prf>
+ * Thf <dodf>RIXMLProvidfr</dodf> implfmfntbtion hbs b syndhronizbtion lfvfl of
+ * GRADE_NONE, whidh mfbns thbt it dofs no dhfdking bt bll for donflidts.  It
+ * simply writfs b <dodf>WfbRowSft</dodf> objfdt to b filf.
+ * <h3>2.0 Usbgf</h3>
+ * A <dodf>WfbRowSft</dodf> implfmfntbtion is drfbtfd with bn <dodf>RIXMLProvidfr</dodf>
+ * by dffbult.
+ * <prf>
+ *     WfbRowSft wrs = nfw FooWfbRowSftImpl();
+ * </prf>
+ * Thf <dodf>SyndFbdtory</dodf> blwbys providfs bn instbndf of
+ * <dodf>RIOptimistidProvidfr</dodf> whfn no providfr is spfdififd,
+ * but thf implfmfntbtion of thf dffbult donstrudtor for <dodf>WfbRowSft</dodf> sfts thf
+ * providfr to bf thf <dodf>RIXMLProvidfr</dodf> implfmfntbtion.  Thfrfforf,
+ * thf following linf of dodf is fxfdutfd bfhind thf sdfnfs bs pbrt of thf
+ * implfmfntbtion of thf dffbult donstrudtor.
+ * <prf>
+ *     wrs.sftSyndProvidfr("dom.sun.rowsft.providfrs.RIXMLProvidfr");
+ * </prf>
+ * Sff thf stbndbrd <dodf>RowSft</dodf> rfffrfndf implfmfntbtions in thf
+ * <dodf>dom.sun.rowsft</dodf> pbdkbgf for morf dftbils.
+ *
+ * @buthor  Jonbthbn Brudf
+ * @sff jbvbx.sql.rowsft.spi.SyndProvidfr
+ * @sff jbvbx.sql.rowsft.spi.SyndProvidfrExdfption
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtory
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtoryExdfption
+ */
+publid finbl dlbss RIXMLProvidfr fxtfnds SyndProvidfr {
+
+    /**
+     * Thf uniquf providfr idfntififr.
+     */
+    privbtf String providfrID = "dom.sun.rowsft.providfrs.RIXMLProvidfr";
+
+    /**
+     * Thf vfndor nbmf of this SyndProvidfr implfmfntbtion.
+     */
+    privbtf String vfndorNbmf = "Orbdlf Corporbtion";
+
+    /**
+     * Thf vfrsion numbfr of this SyndProvidfr implfmfntbtion.
+     */
+    privbtf String vfrsionNumbfr = "1.0";
+
+    privbtf JdbdRowSftRfsourdfBundlf rfsBundlf;
+
+    privbtf XmlRfbdfr xmlRfbdfr;
+    privbtf XmlWritfr xmlWritfr;
+
+    /**
+     * This providfr is bvbilbblf to bll JDBC <dodf>RowSft</dodf> implfmfntbtions bs thf
+     * dffbult pfrsistfndf providfr.
+     */
+    publid RIXMLProvidfr() {
+        providfrID = this.gftClbss().gftNbmf();
+        try {
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdh(IOExdfption iof) {
+            throw nfw RuntimfExdfption(iof);
+        }
+    }
+
+    /**
+     * Rfturns <dodf>"jbvbx.sql.rowsft.providfrs.RIXMLProvidfr"</dodf>, whidh is
+     * thf fully qublififd dlbss nbmf of this providfr implfmfntbtion.
+     *
+     * @rfturn b <dodf>String</dodf> objfdt with thf fully spfdififd dlbss nbmf of
+     *           this <dodf>RIOptimistidProvidfr</dodf> implfmfntbtion
+     */
+    publid String gftProvidfrID() {
+        rfturn providfrID;
+    }
+
+    // bdditionbl mfthods thbt sit on top of rfbdfr/writfr mfthods bbdk to
+    // originbl dbtbsourdf. Allow XML stbtf to bf writtfn out bnd in
+
+    /**
+     * Sfts this <dodf>WfbRowSft</dodf> objfdt's rfbdfr to thf givfn
+     * <dodf>XmlRfbdfr</dodf> objfdt.
+     *
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    publid void sftXmlRfbdfr(XmlRfbdfr rfbdfr) throws SQLExdfption {
+        xmlRfbdfr = rfbdfr;
+    }
+
+    /**
+     * Sfts this <dodf>WfbRowSft</dodf> objfdt's writfr to thf givfn
+     * <dodf>XmlWritfr</dodf> objfdt.
+     *
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    publid void sftXmlWritfr(XmlWritfr writfr) throws SQLExdfption {
+        xmlWritfr = writfr;
+    }
+
+    /**
+     * Rftrifvfs thf rfbdfr thbt this <dodf>WfbRowSft</dodf> objfdt
+     * will dbll whfn its <dodf>rfbdXml</dodf> mfthod is dbllfd.
+     *
+     * @rfturn thf <dodf>XmlRfbdfr</dodf> objfdt for this SyndProvidfr
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    publid XmlRfbdfr gftXmlRfbdfr() throws SQLExdfption {
+        rfturn xmlRfbdfr;
+    }
+
+    /**
+     * Rftrifvfs thf writfr thbt this <dodf>WfbRowSft</dodf> objfdt
+     * will dbll whfn its <dodf>writfXml</dodf> mfthod is dbllfd.
+     *
+     * @rfturn thf <dodf>XmlWritfr</dodf> for this SyndProvidfr
+     * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs
+     */
+    publid XmlWritfr gftXmlWritfr() throws SQLExdfption {
+        rfturn xmlWritfr;
+    }
+
+    /**
+     * Rfturns thf <dodf>SyndProvidfr</dodf> grbdf of syndrhonizbtion thbt
+     * <dodf>RowSft</dodf> objfdt instbndfs dbn fxpfdt whfn using this
+     * implfmfntbtion. As this implfmfntbtion providfs no syndhonizbtion
+     * fbdilitifs to thf XML dbtb sourdf, thf lowfst grbdf is rfturnfd.
+     *
+     * @rfturn thf <dodf>SyndProvidfr</dodf> syndronizbtion grbdf of this
+     *     providfr; must bf onf of thf following donstbnts:
+     *       <PRE>
+     *          SyndProvidfr.GRADE_NONE,
+     *          SyndProvidfr.GRADE_MODIFIED_AT_COMMIT,
+     *          SyndProvidfr.GRADE_CHECK_ALL_AT_COMMIT,
+     *          SyndProvidfr.GRADE_LOCK_WHEN_MODIFIED,
+     *          SyndProvidfr.GRADE_LOCK_WHEN_LOADED
+     *       </PRE>
+     *
+     */
+    publid int gftProvidfrGrbdf() {
+        rfturn SyndProvidfr.GRADE_NONE;
+    }
+
+    /**
+     * Rfturns thf dffbult UPDATABLE_VIEW bfhbvior of this rfbdfr
+     *
+     */
+    publid int supportsUpdbtbblfVifw() {
+        rfturn SyndProvidfr.NONUPDATABLE_VIEW_SYNC;
+    }
+
+    /**
+     * Rfturns thf dffbult DATASOURCE_LOCK bfhbvior of this rfbdfr
+     */
+    publid int gftDbtbSourdfLodk() throws SyndProvidfrExdfption {
+        rfturn SyndProvidfr.DATASOURCE_NO_LOCK;
+    }
+
+    /**
+     * Throws bn unsupportfd opfrbtion fxdfption bs this mfthod dofs
+     * fundtion with non-lodking XML dbtb sourdfs.
+     */
+    publid void sftDbtbSourdfLodk(int lodk) throws SyndProvidfrExdfption {
+        throw nfw UnsupportfdOpfrbtionExdfption(rfsBundlf.hbndlfGftObjfdt("rixml.unsupp").toString());
+    }
+
+    /**
+     * Rfturns b null objfdt bs RowSftWritfrs brf not rfturnfd by this SyndProvidfr
+     */
+    publid RowSftWritfr gftRowSftWritfr() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns b null objfdt bs RowSftWritfr objfdts brf not rfturnfd by this
+     * SyndProvidfr
+     */
+    publid RowSftRfbdfr gftRowSftRfbdfr() {
+        rfturn null;
+    }
+
+  /**
+     * Rfturns thf rflfbsf vfrsion ID of thf Rfffrfndf Implfmfntbtion Optimistid
+     * Syndhronizbtion Providfr.
+     *
+     * @rfturn thf <dodf>String</dodf> dftbiling thf vfrsion numbfr of this SyndProvidfr
+     */
+    publid String gftVfrsion() {
+        rfturn this.vfrsionNumbfr;
+    }
+
+    /**
+     * Rfturns thf vfndor nbmf of thf Rfffrfndf Implfmntbtion Optimistid
+     * Synddhronidbtion Providfr
+     *
+     * @rfturn thf <dodf>String</dodf> dftbiling thf vfndor nbmf of this
+     *      SyndProvidfr
+     */
+    publid String gftVfndor() {
+        rfturn this.vfndorNbmf;
+    }
+}

@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.util.*;
-import java.io.IOException;
+import jbvb.util.*;
+import jbvb.io.IOExdfption;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * This object class represents the GeneralNames type required in
- * X509 certificates.
- * <p>The ASN.1 syntax for this is:
- * <pre>
- * GeneralNames ::= SEQUENCE SIZE (1..MAX) OF GeneralName
- * </pre>
+ * Tiis objfdt dlbss rfprfsfnts tif GfnfrblNbmfs typf rfquirfd in
+ * X509 dfrtifidbtfs.
+ * <p>Tif ASN.1 syntbx for tiis is:
+ * <prf>
+ * GfnfrblNbmfs ::= SEQUENCE SIZE (1..MAX) OF GfnfrblNbmf
+ * </prf>
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
  *
  */
-public class GeneralNames {
+publid dlbss GfnfrblNbmfs {
 
-    private final List<GeneralName> names;
+    privbtf finbl List<GfnfrblNbmf> nbmfs;
 
     /**
-     * Create the GeneralNames, decoding from the passed DerValue.
+     * Crfbtf tif GfnfrblNbmfs, dfdoding from tif pbssfd DfrVbluf.
      *
-     * @param derVal the DerValue to construct the GeneralNames from.
-     * @exception IOException on error.
+     * @pbrbm dfrVbl tif DfrVbluf to donstrudt tif GfnfrblNbmfs from.
+     * @fxdfption IOExdfption on frror.
      */
-    public GeneralNames(DerValue derVal) throws IOException {
-        this();
-        if (derVal.tag != DerValue.tag_Sequence) {
-            throw new IOException("Invalid encoding for GeneralNames.");
+    publid GfnfrblNbmfs(DfrVbluf dfrVbl) tirows IOExdfption {
+        tiis();
+        if (dfrVbl.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("Invblid fndoding for GfnfrblNbmfs.");
         }
-        if (derVal.data.available() == 0) {
-            throw new IOException("No data available in "
-                                      + "passed DER encoded value.");
+        if (dfrVbl.dbtb.bvbilbblf() == 0) {
+            tirow nfw IOExdfption("No dbtb bvbilbblf in "
+                                      + "pbssfd DER fndodfd vbluf.");
         }
-        // Decode all the GeneralName's
-        while (derVal.data.available() != 0) {
-            DerValue encName = derVal.data.getDerValue();
+        // Dfdodf bll tif GfnfrblNbmf's
+        wiilf (dfrVbl.dbtb.bvbilbblf() != 0) {
+            DfrVbluf fndNbmf = dfrVbl.dbtb.gftDfrVbluf();
 
-            GeneralName name = new GeneralName(encName);
-            add(name);
+            GfnfrblNbmf nbmf = nfw GfnfrblNbmf(fndNbmf);
+            bdd(nbmf);
         }
     }
 
     /**
-     * The default constructor for this class.
+     * Tif dffbult donstrudtor for tiis dlbss.
      */
-    public GeneralNames() {
-        names = new ArrayList<GeneralName>();
+    publid GfnfrblNbmfs() {
+        nbmfs = nfw ArrbyList<GfnfrblNbmf>();
     }
 
-    public GeneralNames add(GeneralName name) {
-        if (name == null) {
-            throw new NullPointerException();
+    publid GfnfrblNbmfs bdd(GfnfrblNbmf nbmf) {
+        if (nbmf == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        names.add(name);
-        return this;
+        nbmfs.bdd(nbmf);
+        rfturn tiis;
     }
 
-    public GeneralName get(int index) {
-        return names.get(index);
+    publid GfnfrblNbmf gft(int indfx) {
+        rfturn nbmfs.gft(indfx);
     }
 
-    public boolean isEmpty() {
-        return names.isEmpty();
+    publid boolfbn isEmpty() {
+        rfturn nbmfs.isEmpty();
     }
 
-    public int size() {
-        return names.size();
+    publid int sizf() {
+        rfturn nbmfs.sizf();
     }
 
-    public Iterator<GeneralName> iterator() {
-        return names.iterator();
+    publid Itfrbtor<GfnfrblNbmf> itfrbtor() {
+        rfturn nbmfs.itfrbtor();
     }
 
-    public List<GeneralName> names() {
-        return names;
+    publid List<GfnfrblNbmf> nbmfs() {
+        rfturn nbmfs;
     }
 
     /**
-     * Write the extension to the DerOutputStream.
+     * Writf tif fxtfnsion to tif DfrOutputStrfbm.
      *
-     * @param out the DerOutputStream to write the extension to.
-     * @exception IOException on error.
+     * @pbrbm out tif DfrOutputStrfbm to writf tif fxtfnsion to.
+     * @fxdfption IOExdfption on frror.
      */
-    public void encode(DerOutputStream out) throws IOException {
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
         if (isEmpty()) {
-            return;
+            rfturn;
         }
 
-        DerOutputStream temp = new DerOutputStream();
-        for (GeneralName gn : names) {
-            gn.encode(temp);
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        for (GfnfrblNbmf gn : nbmfs) {
+            gn.fndodf(tfmp);
         }
-        out.write(DerValue.tag_Sequence, temp);
+        out.writf(DfrVbluf.tbg_Sfqufndf, tfmp);
     }
 
     /**
-     * compare this GeneralNames to other object for equality
+     * dompbrf tiis GfnfrblNbmfs to otifr objfdt for fqublity
      *
-     * @returns true iff this equals other
+     * @rfturns truf iff tiis fqubls otifr
      */
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
-        if (obj instanceof GeneralNames == false) {
-            return false;
+        if (obj instbndfof GfnfrblNbmfs == fblsf) {
+            rfturn fblsf;
         }
-        GeneralNames other = (GeneralNames)obj;
-        return this.names.equals(other.names);
+        GfnfrblNbmfs otifr = (GfnfrblNbmfs)obj;
+        rfturn tiis.nbmfs.fqubls(otifr.nbmfs);
     }
 
-    public int hashCode() {
-        return names.hashCode();
+    publid int ibsiCodf() {
+        rfturn nbmfs.ibsiCodf();
     }
 
-    public String toString() {
-        return names.toString();
+    publid String toString() {
+        rfturn nbmfs.toString();
     }
 
 }

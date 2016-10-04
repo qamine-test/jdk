@@ -1,167 +1,167 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2013 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2013 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "MorphTables.h"
-#include "StateTables.h"
-#include "MorphStateTables.h"
-#include "SubtableProcessor.h"
-#include "StateTableProcessor.h"
-#include "LigatureSubstProc.h"
-#include "LEGlyphStorage.h"
-#include "LESwaps.h"
+#indludf "LETypfs.i"
+#indludf "MorpiTbblfs.i"
+#indludf "StbtfTbblfs.i"
+#indludf "MorpiStbtfTbblfs.i"
+#indludf "SubtbblfProdfssor.i"
+#indludf "StbtfTbblfProdfssor.i"
+#indludf "LigbturfSubstProd.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "LESwbps.i"
 
 U_NAMESPACE_BEGIN
 
-#define ExtendedComplement(m) ((le_int32) (~((le_uint32) (m))))
-#define SignBit(m) ((ExtendedComplement(m) >> 1) & (le_int32)(m))
-#define SignExtend(v,m) (((v) & SignBit(m))? ((v) | ExtendedComplement(m)): (v))
+#dffinf ExtfndfdComplfmfnt(m) ((lf_int32) (~((lf_uint32) (m))))
+#dffinf SignBit(m) ((ExtfndfdComplfmfnt(m) >> 1) & (lf_int32)(m))
+#dffinf SignExtfnd(v,m) (((v) & SignBit(m))? ((v) | ExtfndfdComplfmfnt(m)): (v))
 
-UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LigatureSubstitutionProcessor)
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LigbturfSubstitutionProdfssor)
 
-  LigatureSubstitutionProcessor::LigatureSubstitutionProcessor(const LEReferenceTo<MorphSubtableHeader> &morphSubtableHeader, LEErrorCode &success)
-: StateTableProcessor(morphSubtableHeader, success), ligatureSubstitutionHeader(morphSubtableHeader, success)
+  LigbturfSubstitutionProdfssor::LigbturfSubstitutionProdfssor(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr> &morpiSubtbblfHfbdfr, LEErrorCodf &suddfss)
+: StbtfTbblfProdfssor(morpiSubtbblfHfbdfr, suddfss), ligbturfSubstitutionHfbdfr(morpiSubtbblfHfbdfr, suddfss)
 {
-    if(LE_FAILURE(success)) return;
-    ligatureActionTableOffset = SWAPW(ligatureSubstitutionHeader->ligatureActionTableOffset);
-    componentTableOffset = SWAPW(ligatureSubstitutionHeader->componentTableOffset);
-    ligatureTableOffset = SWAPW(ligatureSubstitutionHeader->ligatureTableOffset);
+    if(LE_FAILURE(suddfss)) rfturn;
+    ligbturfAdtionTbblfOffsft = SWAPW(ligbturfSubstitutionHfbdfr->ligbturfAdtionTbblfOffsft);
+    domponfntTbblfOffsft = SWAPW(ligbturfSubstitutionHfbdfr->domponfntTbblfOffsft);
+    ligbturfTbblfOffsft = SWAPW(ligbturfSubstitutionHfbdfr->ligbturfTbblfOffsft);
 
-    entryTable = LEReferenceToArrayOf<LigatureSubstitutionStateEntry>(stHeader, success, entryTableOffset, LE_UNBOUNDED_ARRAY);
+    fntryTbblf = LERfffrfndfToArrbyOf<LigbturfSubstitutionStbtfEntry>(stHfbdfr, suddfss, fntryTbblfOffsft, LE_UNBOUNDED_ARRAY);
 }
 
-LigatureSubstitutionProcessor::~LigatureSubstitutionProcessor()
+LigbturfSubstitutionProdfssor::~LigbturfSubstitutionProdfssor()
 {
 }
 
-void LigatureSubstitutionProcessor::beginStateTable()
+void LigbturfSubstitutionProdfssor::bfginStbtfTbblf()
 {
     m = -1;
 }
 
-ByteOffset LigatureSubstitutionProcessor::processStateEntry(LEGlyphStorage &glyphStorage, le_int32 &currGlyph, EntryTableIndex index)
+BytfOffsft LigbturfSubstitutionProdfssor::prodfssStbtfEntry(LEGlypiStorbgf &glypiStorbgf, lf_int32 &durrGlypi, EntryTbblfIndfx indfx)
 {
-  LEErrorCode success = LE_NO_ERROR;
-  const LigatureSubstitutionStateEntry *entry = entryTable.getAlias(index, success);
+  LEErrorCodf suddfss = LE_NO_ERROR;
+  donst LigbturfSubstitutionStbtfEntry *fntry = fntryTbblf.gftAlibs(indfx, suddfss);
 
-    ByteOffset newState = SWAPW(entry->newStateOffset);
-    le_int16 flags = SWAPW(entry->flags);
+    BytfOffsft nfwStbtf = SWAPW(fntry->nfwStbtfOffsft);
+    lf_int16 flbgs = SWAPW(fntry->flbgs);
 
-    if (flags & lsfSetComponent) {
-        if (++m >= nComponents) {
+    if (flbgs & lsfSftComponfnt) {
+        if (++m >= nComponfnts) {
             m = 0;
         }
 
-        componentStack[m] = currGlyph;
-    } else if ( m == -1) {
-        // bad font- skip this glyph.
-        currGlyph++;
-        return newState;
+        domponfntStbdk[m] = durrGlypi;
+    } flsf if ( m == -1) {
+        // bbd font- skip tiis glypi.
+        durrGlypi++;
+        rfturn nfwStbtf;
     }
 
-    ByteOffset actionOffset = flags & lsfActionOffsetMask;
+    BytfOffsft bdtionOffsft = flbgs & lsfAdtionOffsftMbsk;
 
-    if (actionOffset != 0) {
-      LEReferenceTo<LigatureActionEntry> ap(stHeader, success, actionOffset);
-        LigatureActionEntry action;
-        le_int32 offset, i = 0;
-        le_int32 stack[nComponents];
-        le_int16 mm = -1;
+    if (bdtionOffsft != 0) {
+      LERfffrfndfTo<LigbturfAdtionEntry> bp(stHfbdfr, suddfss, bdtionOffsft);
+        LigbturfAdtionEntry bdtion;
+        lf_int32 offsft, i = 0;
+        lf_int32 stbdk[nComponfnts];
+        lf_int16 mm = -1;
 
         do {
-            le_uint32 componentGlyph = componentStack[m--];
+            lf_uint32 domponfntGlypi = domponfntStbdk[m--];
 
-            action = SWAPL(*ap.getAlias());
-            ap.addObject(success); // ap++
+            bdtion = SWAPL(*bp.gftAlibs());
+            bp.bddObjfdt(suddfss); // bp++
 
             if (m < 0) {
-                m = nComponents - 1;
+                m = nComponfnts - 1;
             }
 
-            offset = action & lafComponentOffsetMask;
-            if (offset != 0) {
-              LEReferenceToArrayOf<le_int16> offsetTable(stHeader, success, 2 * SignExtend(offset, lafComponentOffsetMask), LE_UNBOUNDED_ARRAY);
+            offsft = bdtion & lbfComponfntOffsftMbsk;
+            if (offsft != 0) {
+              LERfffrfndfToArrbyOf<lf_int16> offsftTbblf(stHfbdfr, suddfss, 2 * SignExtfnd(offsft, lbfComponfntOffsftMbsk), LE_UNBOUNDED_ARRAY);
 
-              if(LE_FAILURE(success)) {
-                  currGlyph++;
-                  LE_DEBUG_BAD_FONT("off end of ligature substitution header");
-                  return newState; // get out! bad font
+              if(LE_FAILURE(suddfss)) {
+                  durrGlypi++;
+                  LE_DEBUG_BAD_FONT("off fnd of ligbturf substitution ifbdfr");
+                  rfturn nfwStbtf; // gft out! bbd font
               }
-              if(componentGlyph > glyphStorage.getGlyphCount()) {
-                LE_DEBUG_BAD_FONT("preposterous componentGlyph");
-                currGlyph++;
-                return newState; // get out! bad font
+              if(domponfntGlypi > glypiStorbgf.gftGlypiCount()) {
+                LE_DEBUG_BAD_FONT("prfpostfrous domponfntGlypi");
+                durrGlypi++;
+                rfturn nfwStbtf; // gft out! bbd font
               }
-              i += SWAPW(offsetTable.getObject(LE_GET_GLYPH(glyphStorage[componentGlyph]), success));
+              i += SWAPW(offsftTbblf.gftObjfdt(LE_GET_GLYPH(glypiStorbgf[domponfntGlypi]), suddfss));
 
-                if (action & (lafLast | lafStore))  {
-                  LEReferenceTo<TTGlyphID> ligatureOffset(stHeader, success, i);
-                  TTGlyphID ligatureGlyph = SWAPW(*ligatureOffset.getAlias());
+                if (bdtion & (lbfLbst | lbfStorf))  {
+                  LERfffrfndfTo<TTGlypiID> ligbturfOffsft(stHfbdfr, suddfss, i);
+                  TTGlypiID ligbturfGlypi = SWAPW(*ligbturfOffsft.gftAlibs());
 
-                  glyphStorage[componentGlyph] = LE_SET_GLYPH(glyphStorage[componentGlyph], ligatureGlyph);
-                  if(mm==nComponents) {
-                    LE_DEBUG_BAD_FONT("exceeded nComponents");
-                    mm--; // don't overrun the stack.
+                  glypiStorbgf[domponfntGlypi] = LE_SET_GLYPH(glypiStorbgf[domponfntGlypi], ligbturfGlypi);
+                  if(mm==nComponfnts) {
+                    LE_DEBUG_BAD_FONT("fxdffdfd nComponfnts");
+                    mm--; // don't ovfrrun tif stbdk.
                   }
-                  stack[++mm] = componentGlyph;
+                  stbdk[++mm] = domponfntGlypi;
                   i = 0;
-                } else {
-                  glyphStorage[componentGlyph] = LE_SET_GLYPH(glyphStorage[componentGlyph], 0xFFFF);
+                } flsf {
+                  glypiStorbgf[domponfntGlypi] = LE_SET_GLYPH(glypiStorbgf[domponfntGlypi], 0xFFFF);
                 }
             }
 #if LE_ASSERT_BAD_FONT
             if(m<0) {
               LE_DEBUG_BAD_FONT("m<0")
             }
-#endif
-        } while (!(action & lafLast)  && (m>=0) ); // stop if last bit is set, or if run out of items
+#fndif
+        } wiilf (!(bdtion & lbfLbst)  && (m>=0) ); // stop if lbst bit is sft, or if run out of itfms
 
-        while (mm >= 0) {
-          if (++m >= nComponents) {
+        wiilf (mm >= 0) {
+          if (++m >= nComponfnts) {
             m = 0;
           }
 
-          componentStack[m] = stack[mm--];
+          domponfntStbdk[m] = stbdk[mm--];
         }
     }
 
-    if (!(flags & lsfDontAdvance)) {
-        // should handle reverse too!
-        currGlyph += 1;
+    if (!(flbgs & lsfDontAdvbndf)) {
+        // siould ibndlf rfvfrsf too!
+        durrGlypi += 1;
     }
 
-    return newState;
+    rfturn nfwStbtf;
 }
 
-void LigatureSubstitutionProcessor::endStateTable()
+void LigbturfSubstitutionProdfssor::fndStbtfTbblf()
 {
 }
 

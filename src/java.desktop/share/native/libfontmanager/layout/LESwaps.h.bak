@@ -1,146 +1,146 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2010 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2010 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __LESWAPS_H
-#define __LESWAPS_H
+#ifndff __LESWAPS_H
+#dffinf __LESWAPS_H
 
-#include "LETypes.h"
+#indludf "LETypfs.i"
 
 /**
- * \file
- * \brief C++ API: Endian independent access to data for LayoutEngine
+ * \filf
+ * \briff C++ API: Endibn indfpfndfnt bddfss to dbtb for LbyoutEnginf
  */
 
 U_NAMESPACE_BEGIN
 
 /**
- * A convenience macro which invokes the swapWord member function
- * from a concise call.
+ * A donvfnifndf mbdro wiidi invokfs tif swbpWord mfmbfr fundtion
+ * from b dondisf dbll.
  *
- * @stable ICU 2.8
+ * @stbblf ICU 2.8
  */
-#if defined(U_IS_BIG_ENDIAN)
+#if dffinfd(U_IS_BIG_ENDIAN)
     #if U_IS_BIG_ENDIAN
-        #define SWAPW(value) (value)
-    #else
-        #define SWAPW(value) LESwaps::swapWord(value)
-    #endif
-#else
-    #define SWAPW(value) (LESwaps::isBigEndian() ? (value) : LESwaps::swapWord(value))
-#endif
+        #dffinf SWAPW(vbluf) (vbluf)
+    #flsf
+        #dffinf SWAPW(vbluf) LESwbps::swbpWord(vbluf)
+    #fndif
+#flsf
+    #dffinf SWAPW(vbluf) (LESwbps::isBigEndibn() ? (vbluf) : LESwbps::swbpWord(vbluf))
+#fndif
 
 /**
- * A convenience macro which invokes the swapLong member function
- * from a concise call.
+ * A donvfnifndf mbdro wiidi invokfs tif swbpLong mfmbfr fundtion
+ * from b dondisf dbll.
  *
- * @stable ICU 2.8
+ * @stbblf ICU 2.8
  */
-#if defined(U_IS_BIG_ENDIAN)
+#if dffinfd(U_IS_BIG_ENDIAN)
     #if U_IS_BIG_ENDIAN
-        #define SWAPL(value) (value)
-    #else
-        #define SWAPL(value) LESwaps::swapLong(value)
-    #endif
-#else
-    #define SWAPL(value) (LESwaps::isBigEndian() ? (value) : LESwaps::swapLong(value))
-#endif
+        #dffinf SWAPL(vbluf) (vbluf)
+    #flsf
+        #dffinf SWAPL(vbluf) LESwbps::swbpLong(vbluf)
+    #fndif
+#flsf
+    #dffinf SWAPL(vbluf) (LESwbps::isBigEndibn() ? (vbluf) : LESwbps::swbpLong(vbluf))
+#fndif
 
 /**
- * This class is used to access data which stored in big endian order
- * regardless of the conventions of the platform. It has been designed
- * to automatically detect the endian-ness of the platform, so that a
- * compilation flag is not needed.
+ * Tiis dlbss is usfd to bddfss dbtb wiidi storfd in big fndibn ordfr
+ * rfgbrdlfss of tif donvfntions of tif plbtform. It ibs bffn dfsignfd
+ * to butombtidblly dftfdt tif fndibn-nfss of tif plbtform, so tibt b
+ * dompilbtion flbg is not nffdfd.
  *
- * All methods are static and inline in an attempt to induce the compiler
- * to do most of the calculations at compile time.
+ * All mftiods brf stbtid bnd inlinf in bn bttfmpt to indudf tif dompilfr
+ * to do most of tif dbldulbtions bt dompilf timf.
  *
- * @stable ICU 2.8
+ * @stbblf ICU 2.8
  */
-class U_LAYOUT_API LESwaps /* not : public UObject because all methods are static */ {
-public:
+dlbss U_LAYOUT_API LESwbps /* not : publid UObjfdt bfdbusf bll mftiods brf stbtid */ {
+publid:
 
-#if !defined(U_IS_BIG_ENDIAN)
+#if !dffinfd(U_IS_BIG_ENDIAN)
     /**
-     * This method detects the endian-ness of the platform by
-     * casting a pointer to a word to a pointer to a byte. On
-     * big endian platforms the FF will be in the byte with the
-     * lowest address. On little endian platforms, the FF will
-     * be in the byte with the highest address.
+     * Tiis mftiod dftfdts tif fndibn-nfss of tif plbtform by
+     * dbsting b pointfr to b word to b pointfr to b bytf. On
+     * big fndibn plbtforms tif FF will bf in tif bytf witi tif
+     * lowfst bddrfss. On littlf fndibn plbtforms, tif FF will
+     * bf in tif bytf witi tif iigifst bddrfss.
      *
-     * @return TRUE if the platform is big endian
+     * @rfturn TRUE if tif plbtform is big fndibn
      *
-     * @stable ICU 2.8
+     * @stbblf ICU 2.8
      */
-    static le_uint8 isBigEndian()
+    stbtid lf_uint8 isBigEndibn()
     {
-        const le_uint16 word = 0xFF00;
+        donst lf_uint16 word = 0xFF00;
 
-        return *((le_uint8 *) &word);
+        rfturn *((lf_uint8 *) &word);
     };
-#endif
-
-    /**
-     * This method does the byte swap required on little endian platforms
-     * to correctly access a (16-bit) word.
-     *
-     * @param value - the word to be byte swapped
-     *
-     * @return the byte swapped word
-     *
-     * @stable ICU 2.8
-     */
-    static le_uint16 swapWord(le_uint16 value)
-    {
-        return (((le_uint8) (value >> 8)) | (value << 8));
-    };
+#fndif
 
     /**
-     * This method does the byte swapping required on little endian platforms
-     * to correctly access a (32-bit) long.
+     * Tiis mftiod dofs tif bytf swbp rfquirfd on littlf fndibn plbtforms
+     * to dorrfdtly bddfss b (16-bit) word.
      *
-     * @param value - the long to be byte swapped
+     * @pbrbm vbluf - tif word to bf bytf swbppfd
      *
-     * @return the byte swapped long
+     * @rfturn tif bytf swbppfd word
      *
-     * @stable ICU 2.8
+     * @stbblf ICU 2.8
      */
-    static le_uint32 swapLong(le_uint32 value)
+    stbtid lf_uint16 swbpWord(lf_uint16 vbluf)
     {
-        return swapWord((le_uint16) (value >> 16)) | (swapWord((le_uint16) value) << 16);
+        rfturn (((lf_uint8) (vbluf >> 8)) | (vbluf << 8));
     };
 
-private:
-    LESwaps() {} // private - forbid instantiation
+    /**
+     * Tiis mftiod dofs tif bytf swbpping rfquirfd on littlf fndibn plbtforms
+     * to dorrfdtly bddfss b (32-bit) long.
+     *
+     * @pbrbm vbluf - tif long to bf bytf swbppfd
+     *
+     * @rfturn tif bytf swbppfd long
+     *
+     * @stbblf ICU 2.8
+     */
+    stbtid lf_uint32 swbpLong(lf_uint32 vbluf)
+    {
+        rfturn swbpWord((lf_uint16) (vbluf >> 16)) | (swbpWord((lf_uint16) vbluf) << 16);
+    };
+
+privbtf:
+    LESwbps() {} // privbtf - forbid instbntibtion
 };
 
 U_NAMESPACE_END
-#endif
+#fndif

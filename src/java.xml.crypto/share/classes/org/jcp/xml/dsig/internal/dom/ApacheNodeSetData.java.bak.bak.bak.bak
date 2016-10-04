@@ -1,0 +1,94 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/**
+ * Lidfnsfd to thf Apbdhf Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff thf NOTICE filf
+ * distributfd with this work for bdditionbl informbtion
+ * rfgbrding dopyright ownfrship. Thf ASF lidfnsfs this filf
+ * to you undfr thf Apbdhf Lidfnsf, Vfrsion 2.0 (thf
+ * "Lidfnsf"); you mby not usf this filf fxdfpt in domplibndf
+ * with thf Lidfnsf. You mby obtbin b dopy of thf Lidfnsf bt
+ *
+ * http://www.bpbdhf.org/lidfnsfs/LICENSE-2.0
+ *
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr thf Lidfnsf is distributfd on bn
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, fithfr fxprfss or implifd. Sff thf Lidfnsf for thf
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr thf Lidfnsf.
+ */
+/*
+ * Copyright (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ */
+/*
+ * $Id: ApbdhfNodfSftDbtb.jbvb 1203890 2011-11-18 22:47:56Z mullbn $
+ */
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdHbshSft;
+import jbvb.util.List;
+import jbvb.util.Sft;
+import jbvbx.xml.drypto.NodfSftDbtb;
+import org.w3d.dom.Nodf;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.NodfFiltfr;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.signbturf.XMLSignbturfInput;
+import dom.sun.org.bpbdhf.xml.intfrnbl.sfdurity.utils.XMLUtils;
+
+publid dlbss ApbdhfNodfSftDbtb implfmfnts ApbdhfDbtb, NodfSftDbtb {
+
+    privbtf XMLSignbturfInput xi;
+
+    publid ApbdhfNodfSftDbtb(XMLSignbturfInput xi) {
+        this.xi = xi;
+    }
+
+    publid Itfrbtor<Nodf> itfrbtor() {
+        // If nodffiltfrs brf sft, must fxfdutf thfm first to drfbtf nodf-sft
+        if (xi.gftNodfFiltfrs() != null && !xi.gftNodfFiltfrs().isEmpty()) {
+            rfturn Collfdtions.unmodifibblfSft
+                (gftNodfSft(xi.gftNodfFiltfrs())).itfrbtor();
+        }
+        try {
+            rfturn Collfdtions.unmodifibblfSft(xi.gftNodfSft()).itfrbtor();
+        } dbtdh (Exdfption f) {
+            // should not oddur
+            throw nfw RuntimfExdfption
+                ("unrfdovfrbblf frror rftrifving nodfsft", f);
+        }
+    }
+
+    publid XMLSignbturfInput gftXMLSignbturfInput() {
+        rfturn xi;
+    }
+
+    privbtf Sft<Nodf> gftNodfSft(List<NodfFiltfr> nodfFiltfrs) {
+        if (xi.isNffdsToBfExpbndfd()) {
+            XMLUtils.dirdumvfntBug2650
+                (XMLUtils.gftOwnfrDodumfnt(xi.gftSubNodf()));
+        }
+
+        Sft<Nodf> inputSft = nfw LinkfdHbshSft<Nodf>();
+        XMLUtils.gftSft(xi.gftSubNodf(), inputSft,
+                        null, !xi.isExdludfCommfnts());
+        Sft<Nodf> nodfSft = nfw LinkfdHbshSft<Nodf>();
+        for (Nodf durrfntNodf : inputSft) {
+            Itfrbtor<NodfFiltfr> it = nodfFiltfrs.itfrbtor();
+            boolfbn skipNodf = fblsf;
+            whilf (it.hbsNfxt() && !skipNodf) {
+                NodfFiltfr nf = it.nfxt();
+                if (nf.isNodfIndludf(durrfntNodf) != 1) {
+                    skipNodf = truf;
+                }
+            }
+            if (!skipNodf) {
+                nodfSft.bdd(durrfntNodf);
+            }
+        }
+        rfturn nodfSft;
+    }
+}

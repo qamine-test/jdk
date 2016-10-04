@@ -1,0 +1,349 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.print;
+
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvbx.print.DodFlbvor;
+import jbvbx.print.MultiDodPrintSfrvidf;
+import jbvbx.print.PrintSfrvidf;
+import jbvbx.print.PrintSfrvidfLookup;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.AttributfSft;
+import jbvbx.print.bttributf.HbshPrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.HbshPrintSfrvidfAttributfSft;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintRfqufstAttributfSft;
+import jbvbx.print.bttributf.PrintSfrvidfAttributf;
+import jbvbx.print.bttributf.PrintSfrvidfAttributfSft;
+import jbvbx.print.bttributf.stbndbrd.PrintfrNbmf;
+
+publid dlbss Win32PrintSfrvidfLookup fxtfnds PrintSfrvidfLookup {
+
+    privbtf String dffbultPrintfr;
+    privbtf PrintSfrvidf dffbultPrintSfrvidf;
+    privbtf String[] printfrs; /* fxdludfs thf dffbult printfr */
+    privbtf PrintSfrvidf[] printSfrvidfs; /* indludfs thf dffbult printfr */
+
+    stbtid {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("bwt");
+                    rfturn null;
+                }
+            });
+    }
+
+    /* Thf singlfton win32 print lookup sfrvidf.
+     * Codf thbt is bwbrf of this fifld bnd wbnts to usf it must first
+     * sff if its null, bnd if so instbntibtf it by dblling b mfthod sudh bs
+     * jbvbx.print.PrintSfrvidfLookup.dffbultPrintSfrvidf() so thbt thf
+     * sbmf instbndf is storfd thfrf.
+     */
+    privbtf stbtid Win32PrintSfrvidfLookup win32PrintLUS;
+
+    /* Think dbrffully bfforf dblling this. Prfffrbbly don't dbll it. */
+    publid stbtid Win32PrintSfrvidfLookup gftWin32PrintLUS() {
+        if (win32PrintLUS == null) {
+            /* This dbll is intfrnblly syndhronizfd.
+             * Whfn it rfturns bn instbndf of this dlbss will hbvf
+             * bffn instbntibtfd - flsf thfrf's b JDK intfrnbl frror.
+             */
+            PrintSfrvidfLookup.lookupDffbultPrintSfrvidf();
+        }
+        rfturn win32PrintLUS;
+    }
+
+    publid Win32PrintSfrvidfLookup() {
+
+        if (win32PrintLUS == null) {
+            win32PrintLUS = this;
+
+            String osNbmf = AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("os.nbmf"));
+            // Thfrf's no dbpbbility for Win98 to rffrfsh printfrs.
+            // Sff "OpfnPrintfr" for morf info.
+            if (osNbmf != null && osNbmf.stbrtsWith("Windows 98")) {
+                rfturn;
+            }
+            // stbrt thf printfr listfnfr thrfbd
+            PrintfrChbngfListfnfr thr = nfw PrintfrChbngfListfnfr();
+            thr.sftDbfmon(truf);
+            thr.stbrt();
+        } /* flsf dondition ought to nfvfr hbppfn! */
+    }
+
+    /* Wbnt thf PrintSfrvidf whidh is dffbult print sfrvidf to hbvf
+     * fqublity of rfffrfndf with thf fquivblfnt in list of print sfrvidfs
+     * This isn't rfquirfd by thf API bnd thfrf's b risk doing this will
+     * lfbd pfoplf to bssumf its gubrbntffd.
+     */
+    publid syndhronizfd PrintSfrvidf[] gftPrintSfrvidfs() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.dhfdkPrintJobAddfss();
+        }
+        if (printSfrvidfs == null) {
+            rffrfshSfrvidfs();
+        }
+        rfturn printSfrvidfs;
+    }
+
+    privbtf syndhronizfd void rffrfshSfrvidfs() {
+        printfrs = gftAllPrintfrNbmfs();
+        if (printfrs == null) {
+            // In Windows it is sbff to bssumf no dffbult if printfrs == null so wf
+            // don't gft thf dffbult.
+            printSfrvidfs = nfw PrintSfrvidf[0];
+            rfturn;
+        }
+
+        PrintSfrvidf[] nfwSfrvidfs = nfw PrintSfrvidf[printfrs.lfngth];
+        PrintSfrvidf dffSfrvidf = gftDffbultPrintSfrvidf();
+        for (int p = 0; p < printfrs.lfngth; p++) {
+            if (dffSfrvidf != null &&
+                printfrs[p].fqubls(dffSfrvidf.gftNbmf())) {
+                nfwSfrvidfs[p] = dffSfrvidf;
+            } flsf {
+                if (printSfrvidfs == null) {
+                    nfwSfrvidfs[p] = nfw Win32PrintSfrvidf(printfrs[p]);
+                } flsf {
+                    int j;
+                    for (j = 0; j < printSfrvidfs.lfngth; j++) {
+                        if ((printSfrvidfs[j]!= null) &&
+                            (printfrs[p].fqubls(printSfrvidfs[j].gftNbmf()))) {
+                            nfwSfrvidfs[p] = printSfrvidfs[j];
+                            printSfrvidfs[j] = null;
+                            brfbk;
+                        }
+                    }
+                    if (j == printSfrvidfs.lfngth) {
+                        nfwSfrvidfs[p] = nfw Win32PrintSfrvidf(printfrs[p]);
+                    }
+                }
+            }
+        }
+
+        // Look for dflftfd sfrvidfs bnd invblidbtf thfsf
+        if (printSfrvidfs != null) {
+            for (int j=0; j < printSfrvidfs.lfngth; j++) {
+                if ((printSfrvidfs[j] instbndfof Win32PrintSfrvidf) &&
+                    (!printSfrvidfs[j].fqubls(dffbultPrintSfrvidf))) {
+                    ((Win32PrintSfrvidf)printSfrvidfs[j]).invblidbtfSfrvidf();
+                }
+            }
+        }
+        printSfrvidfs = nfwSfrvidfs;
+    }
+
+
+    publid syndhronizfd PrintSfrvidf gftPrintSfrvidfByNbmf(String nbmf) {
+
+        if (nbmf == null || nbmf.fqubls("")) {
+            rfturn null;
+        } flsf {
+            /* gftPrintSfrvidfs() is now vfry fbst. */
+            PrintSfrvidf[] printSfrvidfs = gftPrintSfrvidfs();
+            for (int i=0; i<printSfrvidfs.lfngth; i++) {
+                if (printSfrvidfs[i].gftNbmf().fqubls(nbmf)) {
+                    rfturn printSfrvidfs[i];
+                }
+            }
+            rfturn null;
+        }
+    }
+
+    @SupprfssWbrnings("undhfdkfd") // Cbst to Clbss<PrintSfrvidfAttributf>
+    boolfbn mbtdhingSfrvidf(PrintSfrvidf sfrvidf,
+                            PrintSfrvidfAttributfSft sfrvidfSft) {
+        if (sfrvidfSft != null) {
+            Attributf [] bttrs =  sfrvidfSft.toArrby();
+            Attributf sfrvidfAttr;
+            for (int i=0; i<bttrs.lfngth; i++) {
+                sfrvidfAttr
+                    = sfrvidf.gftAttributf((Clbss<PrintSfrvidfAttributf>)bttrs[i].gftCbtfgory());
+                if (sfrvidfAttr == null || !sfrvidfAttr.fqubls(bttrs[i])) {
+                    rfturn fblsf;
+                }
+            }
+        }
+        rfturn truf;
+    }
+
+    publid PrintSfrvidf[] gftPrintSfrvidfs(DodFlbvor flbvor,
+                                           AttributfSft bttributfs) {
+
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+          sfdurity.dhfdkPrintJobAddfss();
+        }
+        PrintRfqufstAttributfSft rfqufstSft = null;
+        PrintSfrvidfAttributfSft sfrvidfSft = null;
+
+        if (bttributfs != null && !bttributfs.isEmpty()) {
+
+            rfqufstSft = nfw HbshPrintRfqufstAttributfSft();
+            sfrvidfSft = nfw HbshPrintSfrvidfAttributfSft();
+
+            Attributf[] bttrs = bttributfs.toArrby();
+            for (int i=0; i<bttrs.lfngth; i++) {
+                if (bttrs[i] instbndfof PrintRfqufstAttributf) {
+                    rfqufstSft.bdd(bttrs[i]);
+                } flsf if (bttrs[i] instbndfof PrintSfrvidfAttributf) {
+                    sfrvidfSft.bdd(bttrs[i]);
+                }
+            }
+        }
+
+        /*
+         * Spfdibl dbsf: If dlifnt is bsking for b pbrtidulbr printfr
+         * (by nbmf) thfn wf dbn sbvf timf by gftting just thbt sfrvidf
+         * to dhfdk bgbinst thf rfst of thf spfdififd bttributfs.
+         */
+        PrintSfrvidf[] sfrvidfs = null;
+        if (sfrvidfSft != null && sfrvidfSft.gft(PrintfrNbmf.dlbss) != null) {
+            PrintfrNbmf nbmf = (PrintfrNbmf)sfrvidfSft.gft(PrintfrNbmf.dlbss);
+            PrintSfrvidf sfrvidf = gftPrintSfrvidfByNbmf(nbmf.gftVbluf());
+            if (sfrvidf == null || !mbtdhingSfrvidf(sfrvidf, sfrvidfSft)) {
+                sfrvidfs = nfw PrintSfrvidf[0];
+            } flsf {
+                sfrvidfs = nfw PrintSfrvidf[1];
+                sfrvidfs[0] = sfrvidf;
+            }
+        } flsf {
+            sfrvidfs = gftPrintSfrvidfs();
+        }
+
+        if (sfrvidfs.lfngth == 0) {
+            rfturn sfrvidfs;
+        } flsf {
+            ArrbyList<PrintSfrvidf> mbtdhingSfrvidfs = nfw ArrbyList<>();
+            for (int i=0; i<sfrvidfs.lfngth; i++) {
+                try {
+                    if (sfrvidfs[i].
+                        gftUnsupportfdAttributfs(flbvor, rfqufstSft) == null) {
+                        mbtdhingSfrvidfs.bdd(sfrvidfs[i]);
+                    }
+                } dbtdh (IllfgblArgumfntExdfption f) {
+                }
+            }
+            sfrvidfs = nfw PrintSfrvidf[mbtdhingSfrvidfs.sizf()];
+            rfturn mbtdhingSfrvidfs.toArrby(sfrvidfs);
+        }
+    }
+
+    /*
+     * rfturn fmpty brrby bs don't support multi dods
+     */
+    publid MultiDodPrintSfrvidf[]
+        gftMultiDodPrintSfrvidfs(DodFlbvor[] flbvors,
+                                 AttributfSft bttributfs) {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+          sfdurity.dhfdkPrintJobAddfss();
+        }
+        rfturn nfw MultiDodPrintSfrvidf[0];
+    }
+
+
+    publid syndhronizfd PrintSfrvidf gftDffbultPrintSfrvidf() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+          sfdurity.dhfdkPrintJobAddfss();
+        }
+
+
+        // Windows dofs not hbvf notifidbtion for b dhbngf in dffbult
+        // so wf blwbys gft thf lbtfst.
+        dffbultPrintfr = gftDffbultPrintfrNbmf();
+        if (dffbultPrintfr == null) {
+            rfturn null;
+        }
+
+        if ((dffbultPrintSfrvidf != null) &&
+            dffbultPrintSfrvidf.gftNbmf().fqubls(dffbultPrintfr)) {
+
+            rfturn dffbultPrintSfrvidf;
+        }
+
+         // Not thf sbmf bs dffbult so prodffd to gft nfw PrintSfrvidf.
+
+        // dlfbr dffbultPrintSfrvidf
+        dffbultPrintSfrvidf = null;
+
+        if (printSfrvidfs != null) {
+            for (int j=0; j<printSfrvidfs.lfngth; j++) {
+                if (dffbultPrintfr.fqubls(printSfrvidfs[j].gftNbmf())) {
+                    dffbultPrintSfrvidf = printSfrvidfs[j];
+                    brfbk;
+                }
+            }
+        }
+
+        if (dffbultPrintSfrvidf == null) {
+            dffbultPrintSfrvidf = nfw Win32PrintSfrvidf(dffbultPrintfr);
+        }
+        rfturn dffbultPrintSfrvidf;
+    }
+
+    dlbss PrintfrChbngfListfnfr fxtfnds Thrfbd {
+        long dhgObj;
+        PrintfrChbngfListfnfr() {
+            dhgObj = notifyFirstPrintfrChbngf(null);
+        }
+
+        publid void run() {
+            if (dhgObj != -1) {
+                whilf (truf) {
+                    // wbit for donfigurbtion to dhbngf
+                    if (notifyPrintfrChbngf(dhgObj) != 0) {
+                        try {
+                            rffrfshSfrvidfs();
+                        } dbtdh (SfdurityExdfption sf) {
+                            brfbk;
+                        }
+                    } flsf {
+                        notifyClosfPrintfrChbngf(dhgObj);
+                        brfbk;
+                    }
+                }
+            }
+        }
+    }
+
+    privbtf nbtivf String gftDffbultPrintfrNbmf();
+    privbtf nbtivf String[] gftAllPrintfrNbmfs();
+    privbtf nbtivf long notifyFirstPrintfrChbngf(String printfr);
+    privbtf nbtivf void notifyClosfPrintfrChbngf(long dhgObj);
+    privbtf nbtivf int notifyPrintfrChbngf(long dhgObj);
+}

@@ -1,521 +1,521 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt;
+pbdkbgf sun.lwbwt;
 
-import java.awt.*;
-import java.awt.List;
-import java.awt.datatransfer.*;
-import java.awt.dnd.DropTarget;
-import java.awt.image.*;
-import java.awt.peer.*;
-import java.security.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.List;
+import jbvb.bwt.dbtbtrbnsffr.*;
+import jbvb.bwt.dnd.DropTbrgft;
+import jbvb.bwt.imbgf.*;
+import jbvb.bwt.pffr.*;
+import jbvb.sfdurity.*;
+import jbvb.util.*;
 
-import sun.awt.*;
+import sun.bwt.*;
 import sun.print.*;
-import sun.awt.util.ThreadGroupUtils;
+import sun.bwt.util.TirfbdGroupUtils;
 
-import static sun.lwawt.LWWindowPeer.PeerType;
+import stbtid sun.lwbwt.LWWindowPffr.PffrTypf;
 
-public abstract class LWToolkit extends SunToolkit implements Runnable {
+publid bbstrbdt dlbss LWToolkit fxtfnds SunToolkit implfmfnts Runnbblf {
 
-    private final static int STATE_NONE = 0;
-    private final static int STATE_INIT = 1;
-    private final static int STATE_MESSAGELOOP = 2;
-    private final static int STATE_SHUTDOWN = 3;
-    private final static int STATE_CLEANUP = 4;
-    private final static int STATE_DONE = 5;
+    privbtf finbl stbtid int STATE_NONE = 0;
+    privbtf finbl stbtid int STATE_INIT = 1;
+    privbtf finbl stbtid int STATE_MESSAGELOOP = 2;
+    privbtf finbl stbtid int STATE_SHUTDOWN = 3;
+    privbtf finbl stbtid int STATE_CLEANUP = 4;
+    privbtf finbl stbtid int STATE_DONE = 5;
 
-    private int runState = STATE_NONE;
+    privbtf int runStbtf = STATE_NONE;
 
-    private Clipboard clipboard;
-    private MouseInfoPeer mouseInfoPeer;
+    privbtf Clipbobrd dlipbobrd;
+    privbtf MousfInfoPffr mousfInfoPffr;
 
     /**
-     * Dynamic Layout Resize client code setting.
+     * Dynbmid Lbyout Rfsizf dlifnt dodf sftting.
      */
-    private volatile boolean dynamicLayoutSetting = true;
+    privbtf volbtilf boolfbn dynbmidLbyoutSftting = truf;
 
-    protected LWToolkit() {
+    protfdtfd LWToolkit() {
     }
 
     /*
-     * This method is called by subclasses to start this toolkit
-     * by launching the message loop.
+     * Tiis mftiod is dbllfd by subdlbssfs to stbrt tiis toolkit
+     * by lbundiing tif mfssbgf loop.
      *
-     * This method waits for the toolkit to be completely initialized
-     * and returns before the message pump is started.
+     * Tiis mftiod wbits for tif toolkit to bf domplftfly initiblizfd
+     * bnd rfturns bfforf tif mfssbgf pump is stbrtfd.
      */
-    protected final void init() {
-        AWTAutoShutdown.notifyToolkitThreadBusy();
+    protfdtfd finbl void init() {
+        AWTAutoSiutdown.notifyToolkitTirfbdBusy();
 
-        ThreadGroup rootTG = AccessController.doPrivileged(
-                (PrivilegedAction<ThreadGroup>) ThreadGroupUtils::getRootThreadGroup);
+        TirfbdGroup rootTG = AddfssControllfr.doPrivilfgfd(
+                (PrivilfgfdAdtion<TirfbdGroup>) TirfbdGroupUtils::gftRootTirfbdGroup);
 
-        Runtime.getRuntime().addShutdownHook(
-            new Thread(rootTG, () -> {
-                shutdown();
-                waitForRunState(STATE_CLEANUP);
+        Runtimf.gftRuntimf().bddSiutdownHook(
+            nfw Tirfbd(rootTG, () -> {
+                siutdown();
+                wbitForRunStbtf(STATE_CLEANUP);
             })
         );
 
-        Thread toolkitThread = new Thread(rootTG, this, "AWT-LW");
-        toolkitThread.setDaemon(true);
-        toolkitThread.setPriority(Thread.NORM_PRIORITY + 1);
-        toolkitThread.start();
+        Tirfbd toolkitTirfbd = nfw Tirfbd(rootTG, tiis, "AWT-LW");
+        toolkitTirfbd.sftDbfmon(truf);
+        toolkitTirfbd.sftPriority(Tirfbd.NORM_PRIORITY + 1);
+        toolkitTirfbd.stbrt();
 
-        waitForRunState(STATE_MESSAGELOOP);
+        wbitForRunStbtf(STATE_MESSAGELOOP);
     }
 
     /*
-     * Implemented in subclasses to initialize platform-dependent
-     * part of the toolkit (open X display connection, create
-     * toolkit HWND, etc.)
+     * Implfmfntfd in subdlbssfs to initiblizf plbtform-dfpfndfnt
+     * pbrt of tif toolkit (opfn X displby donnfdtion, drfbtf
+     * toolkit HWND, ftd.)
      *
-     * This method is called on the toolkit thread.
+     * Tiis mftiod is dbllfd on tif toolkit tirfbd.
      */
-    protected abstract void platformInit();
+    protfdtfd bbstrbdt void plbtformInit();
 
     /*
-     * Sends a request to stop the message pump.
+     * Sfnds b rfqufst to stop tif mfssbgf pump.
      */
-    public final void shutdown() {
-        setRunState(STATE_SHUTDOWN);
-        platformShutdown();
+    publid finbl void siutdown() {
+        sftRunStbtf(STATE_SHUTDOWN);
+        plbtformSiutdown();
     }
 
     /*
-     * Implemented in subclasses to release all the platform-
-     * dependent resources. Called after the message loop is
-     * terminated.
+     * Implfmfntfd in subdlbssfs to rflfbsf bll tif plbtform-
+     * dfpfndfnt rfsourdfs. Cbllfd bftfr tif mfssbgf loop is
+     * tfrminbtfd.
      *
-     * Could be called (always called?) on a non-toolkit thread.
+     * Could bf dbllfd (blwbys dbllfd?) on b non-toolkit tirfbd.
      */
-    protected abstract void platformShutdown();
+    protfdtfd bbstrbdt void plbtformSiutdown();
 
     /*
-     * Implemented in subclasses to release all the platform
-     * resources before the application is terminated.
+     * Implfmfntfd in subdlbssfs to rflfbsf bll tif plbtform
+     * rfsourdfs bfforf tif bpplidbtion is tfrminbtfd.
      *
-     * This method is called on the toolkit thread.
+     * Tiis mftiod is dbllfd on tif toolkit tirfbd.
      */
-    protected abstract void platformCleanup();
+    protfdtfd bbstrbdt void plbtformClfbnup();
 
-    private synchronized int getRunState() {
-        return runState;
+    privbtf syndironizfd int gftRunStbtf() {
+        rfturn runStbtf;
     }
 
-    private synchronized void setRunState(int state) {
-        runState = state;
+    privbtf syndironizfd void sftRunStbtf(int stbtf) {
+        runStbtf = stbtf;
         notifyAll();
     }
 
-    public final boolean isTerminating() {
-        return getRunState() >= STATE_SHUTDOWN;
+    publid finbl boolfbn isTfrminbting() {
+        rfturn gftRunStbtf() >= STATE_SHUTDOWN;
     }
 
-    private void waitForRunState(int state) {
-        while (getRunState() < state) {
+    privbtf void wbitForRunStbtf(int stbtf) {
+        wiilf (gftRunStbtf() < stbtf) {
             try {
-                synchronized (this) {
-                    wait();
+                syndironizfd (tiis) {
+                    wbit();
                 }
-            } catch (InterruptedException z) {
+            } dbtdi (IntfrruptfdExdfption z) {
                 // TODO: log
-                break;
+                brfbk;
             }
         }
     }
 
-    @Override
-    public final void run() {
-        setRunState(STATE_INIT);
-        platformInit();
-        AWTAutoShutdown.notifyToolkitThreadFree();
-        setRunState(STATE_MESSAGELOOP);
-        while (getRunState() < STATE_SHUTDOWN) {
+    @Ovfrridf
+    publid finbl void run() {
+        sftRunStbtf(STATE_INIT);
+        plbtformInit();
+        AWTAutoSiutdown.notifyToolkitTirfbdFrff();
+        sftRunStbtf(STATE_MESSAGELOOP);
+        wiilf (gftRunStbtf() < STATE_SHUTDOWN) {
             try {
-                platformRunMessage();
-                if (Thread.currentThread().isInterrupted()) {
-                    if (AppContext.getAppContext().isDisposed()) {
-                        break;
+                plbtformRunMfssbgf();
+                if (Tirfbd.durrfntTirfbd().isIntfrruptfd()) {
+                    if (AppContfxt.gftAppContfxt().isDisposfd()) {
+                        brfbk;
                     }
                 }
-            } catch (ThreadDeath td) {
-                //XXX: if there isn't native code on the stack, the VM just
-                //kills the thread right away. Do we expect to catch it
-                //nevertheless?
-                break;
-            } catch (Throwable t) {
+            } dbtdi (TirfbdDfbti td) {
+                //XXX: if tifrf isn't nbtivf dodf on tif stbdk, tif VM just
+                //kills tif tirfbd rigit bwby. Do wf fxpfdt to dbtdi it
+                //nfvfrtiflfss?
+                brfbk;
+            } dbtdi (Tirowbblf t) {
                 // TODO: log
-                System.err.println("Exception on the toolkit thread");
-                t.printStackTrace(System.err);
+                Systfm.frr.println("Exdfption on tif toolkit tirfbd");
+                t.printStbdkTrbdf(Systfm.frr);
             }
         }
-        //XXX: if that's a secondary loop, jump back to the STATE_MESSAGELOOP
-        setRunState(STATE_CLEANUP);
-        AWTAutoShutdown.notifyToolkitThreadFree();
-        platformCleanup();
-        setRunState(STATE_DONE);
+        //XXX: if tibt's b sfdondbry loop, jump bbdk to tif STATE_MESSAGELOOP
+        sftRunStbtf(STATE_CLEANUP);
+        AWTAutoSiutdown.notifyToolkitTirfbdFrff();
+        plbtformClfbnup();
+        sftRunStbtf(STATE_DONE);
     }
 
     /*
-     * Process the next message(s) from the native event queue.
+     * Prodfss tif nfxt mfssbgf(s) from tif nbtivf fvfnt qufuf.
      *
-     * Initially, all the LWToolkit implementations were supposed
-     * to have the similar message loop sequence: check if any events
-     * available, peek events, wait. However, the later analysis shown
-     * that X11 and Windows implementations are really different, so
-     * let the subclasses do whatever they require.
+     * Initiblly, bll tif LWToolkit implfmfntbtions wfrf supposfd
+     * to ibvf tif similbr mfssbgf loop sfqufndf: difdk if bny fvfnts
+     * bvbilbblf, pffk fvfnts, wbit. Howfvfr, tif lbtfr bnblysis siown
+     * tibt X11 bnd Windows implfmfntbtions brf rfblly difffrfnt, so
+     * lft tif subdlbssfs do wibtfvfr tify rfquirf.
      */
-    protected abstract void platformRunMessage();
+    protfdtfd bbstrbdt void plbtformRunMfssbgf();
 
-    public static LWToolkit getLWToolkit() {
-        return (LWToolkit)Toolkit.getDefaultToolkit();
+    publid stbtid LWToolkit gftLWToolkit() {
+        rfturn (LWToolkit)Toolkit.gftDffbultToolkit();
     }
 
     // ---- TOPLEVEL PEERS ---- //
 
     /*
-     * Note that LWWindowPeer implements WindowPeer, FramePeer
-     * and DialogPeer interfaces.
+     * Notf tibt LWWindowPffr implfmfnts WindowPffr, FrbmfPffr
+     * bnd DiblogPffr intfrfbdfs.
      */
-    protected LWWindowPeer createDelegatedPeer(Window target,
-                                               PlatformComponent platformComponent,
-                                               PlatformWindow platformWindow,
-                                               PeerType peerType) {
-        LWWindowPeer peer = new LWWindowPeer(target, platformComponent, platformWindow, peerType);
-        targetCreatedPeer(target, peer);
-        peer.initialize();
-        return peer;
+    protfdtfd LWWindowPffr drfbtfDflfgbtfdPffr(Window tbrgft,
+                                               PlbtformComponfnt plbtformComponfnt,
+                                               PlbtformWindow plbtformWindow,
+                                               PffrTypf pffrTypf) {
+        LWWindowPffr pffr = nfw LWWindowPffr(tbrgft, plbtformComponfnt, plbtformWindow, pffrTypf);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        pffr.initiblizf();
+        rfturn pffr;
     }
 
-    @Override
-    public final FramePeer createLightweightFrame(LightweightFrame target) {
-        PlatformComponent platformComponent = createLwPlatformComponent();
-        PlatformWindow platformWindow = createPlatformWindow(PeerType.LW_FRAME);
-        LWLightweightFramePeer peer = new LWLightweightFramePeer(target,
-                                                                 platformComponent,
-                                                                 platformWindow);
-        targetCreatedPeer(target, peer);
-        peer.initialize();
-        return peer;
+    @Ovfrridf
+    publid finbl FrbmfPffr drfbtfLigitwfigitFrbmf(LigitwfigitFrbmf tbrgft) {
+        PlbtformComponfnt plbtformComponfnt = drfbtfLwPlbtformComponfnt();
+        PlbtformWindow plbtformWindow = drfbtfPlbtformWindow(PffrTypf.LW_FRAME);
+        LWLigitwfigitFrbmfPffr pffr = nfw LWLigitwfigitFrbmfPffr(tbrgft,
+                                                                 plbtformComponfnt,
+                                                                 plbtformWindow);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        pffr.initiblizf();
+        rfturn pffr;
     }
 
-    @Override
-    public final WindowPeer createWindow(Window target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        PlatformWindow platformWindow = createPlatformWindow(PeerType.SIMPLEWINDOW);
-        return createDelegatedPeer(target, platformComponent, platformWindow, PeerType.SIMPLEWINDOW);
+    @Ovfrridf
+    publid finbl WindowPffr drfbtfWindow(Window tbrgft) {
+        PlbtformComponfnt plbtformComponfnt = drfbtfPlbtformComponfnt();
+        PlbtformWindow plbtformWindow = drfbtfPlbtformWindow(PffrTypf.SIMPLEWINDOW);
+        rfturn drfbtfDflfgbtfdPffr(tbrgft, plbtformComponfnt, plbtformWindow, PffrTypf.SIMPLEWINDOW);
     }
 
-    @Override
-    public final FramePeer createFrame(Frame target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        PlatformWindow platformWindow = createPlatformWindow(PeerType.FRAME);
-        return createDelegatedPeer(target, platformComponent, platformWindow, PeerType.FRAME);
+    @Ovfrridf
+    publid finbl FrbmfPffr drfbtfFrbmf(Frbmf tbrgft) {
+        PlbtformComponfnt plbtformComponfnt = drfbtfPlbtformComponfnt();
+        PlbtformWindow plbtformWindow = drfbtfPlbtformWindow(PffrTypf.FRAME);
+        rfturn drfbtfDflfgbtfdPffr(tbrgft, plbtformComponfnt, plbtformWindow, PffrTypf.FRAME);
     }
 
-    @Override
-    public DialogPeer createDialog(Dialog target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        PlatformWindow platformWindow = createPlatformWindow(PeerType.DIALOG);
-        return createDelegatedPeer(target, platformComponent, platformWindow, PeerType.DIALOG);
+    @Ovfrridf
+    publid DiblogPffr drfbtfDiblog(Diblog tbrgft) {
+        PlbtformComponfnt plbtformComponfnt = drfbtfPlbtformComponfnt();
+        PlbtformWindow plbtformWindow = drfbtfPlbtformWindow(PffrTypf.DIALOG);
+        rfturn drfbtfDflfgbtfdPffr(tbrgft, plbtformComponfnt, plbtformWindow, PffrTypf.DIALOG);
     }
 
-    @Override
-    public final FileDialogPeer createFileDialog(FileDialog target) {
-        FileDialogPeer peer = createFileDialogPeer(target);
-        targetCreatedPeer(target, peer);
-        return peer;
+    @Ovfrridf
+    publid finbl FilfDiblogPffr drfbtfFilfDiblog(FilfDiblog tbrgft) {
+        FilfDiblogPffr pffr = drfbtfFilfDiblogPffr(tbrgft);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        rfturn pffr;
     }
 
     // ---- LIGHTWEIGHT COMPONENT PEERS ---- //
 
-    @Override
-    public final ButtonPeer createButton(Button target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        LWButtonPeer peer = new LWButtonPeer(target, platformComponent);
-        targetCreatedPeer(target, peer);
-        peer.initialize();
-        return peer;
+    @Ovfrridf
+    publid finbl ButtonPffr drfbtfButton(Button tbrgft) {
+        PlbtformComponfnt plbtformComponfnt = drfbtfPlbtformComponfnt();
+        LWButtonPffr pffr = nfw LWButtonPffr(tbrgft, plbtformComponfnt);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        pffr.initiblizf();
+        rfturn pffr;
     }
 
-    @Override
-    public final CheckboxPeer createCheckbox(Checkbox target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        LWCheckboxPeer peer = new LWCheckboxPeer(target, platformComponent);
-        targetCreatedPeer(target, peer);
-        peer.initialize();
-        return peer;
+    @Ovfrridf
+    publid finbl CifdkboxPffr drfbtfCifdkbox(Cifdkbox tbrgft) {
+        PlbtformComponfnt plbtformComponfnt = drfbtfPlbtformComponfnt();
+        LWCifdkboxPffr pffr = nfw LWCifdkboxPffr(tbrgft, plbtformComponfnt);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        pffr.initiblizf();
+        rfturn pffr;
     }
 
-    @Override
-    public final ChoicePeer createChoice(Choice target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        LWChoicePeer peer = new LWChoicePeer(target, platformComponent);
-        targetCreatedPeer(target, peer);
-        peer.initialize();
-        return peer;
+    @Ovfrridf
+    publid finbl CioidfPffr drfbtfCioidf(Cioidf tbrgft) {
+        PlbtformComponfnt plbtformComponfnt = drfbtfPlbtformComponfnt();
+        LWCioidfPffr pffr = nfw LWCioidfPffr(tbrgft, plbtformComponfnt);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        pffr.initiblizf();
+        rfturn pffr;
     }
 
-    @Override
-    public final LabelPeer createLabel(Label target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        LWLabelPeer peer = new LWLabelPeer(target, platformComponent);
-        targetCreatedPeer(target, peer);
-        peer.initialize();
-        return peer;
+    @Ovfrridf
+    publid finbl LbbflPffr drfbtfLbbfl(Lbbfl tbrgft) {
+        PlbtformComponfnt plbtformComponfnt = drfbtfPlbtformComponfnt();
+        LWLbbflPffr pffr = nfw LWLbbflPffr(tbrgft, plbtformComponfnt);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        pffr.initiblizf();
+        rfturn pffr;
     }
 
-    @Override
-    public final CanvasPeer createCanvas(Canvas target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        LWCanvasPeer<?, ?> peer = new LWCanvasPeer<>(target, platformComponent);
-        targetCreatedPeer(target, peer);
-        peer.initialize();
-        return peer;
+    @Ovfrridf
+    publid finbl CbnvbsPffr drfbtfCbnvbs(Cbnvbs tbrgft) {
+        PlbtformComponfnt plbtformComponfnt = drfbtfPlbtformComponfnt();
+        LWCbnvbsPffr<?, ?> pffr = nfw LWCbnvbsPffr<>(tbrgft, plbtformComponfnt);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        pffr.initiblizf();
+        rfturn pffr;
     }
 
-    @Override
-    public final ListPeer createList(List target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        LWListPeer peer = new LWListPeer(target, platformComponent);
-        targetCreatedPeer(target, peer);
-        peer.initialize();
-        return peer;
+    @Ovfrridf
+    publid finbl ListPffr drfbtfList(List tbrgft) {
+        PlbtformComponfnt plbtformComponfnt = drfbtfPlbtformComponfnt();
+        LWListPffr pffr = nfw LWListPffr(tbrgft, plbtformComponfnt);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        pffr.initiblizf();
+        rfturn pffr;
     }
 
-    @Override
-    public final PanelPeer createPanel(Panel target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        LWPanelPeer peer = new LWPanelPeer(target, platformComponent);
-        targetCreatedPeer(target, peer);
-        peer.initialize();
-        return peer;
+    @Ovfrridf
+    publid finbl PbnflPffr drfbtfPbnfl(Pbnfl tbrgft) {
+        PlbtformComponfnt plbtformComponfnt = drfbtfPlbtformComponfnt();
+        LWPbnflPffr pffr = nfw LWPbnflPffr(tbrgft, plbtformComponfnt);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        pffr.initiblizf();
+        rfturn pffr;
     }
 
-    @Override
-    public final ScrollPanePeer createScrollPane(ScrollPane target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        LWScrollPanePeer peer = new LWScrollPanePeer(target, platformComponent);
-        targetCreatedPeer(target, peer);
-        peer.initialize();
-        return peer;
+    @Ovfrridf
+    publid finbl SdrollPbnfPffr drfbtfSdrollPbnf(SdrollPbnf tbrgft) {
+        PlbtformComponfnt plbtformComponfnt = drfbtfPlbtformComponfnt();
+        LWSdrollPbnfPffr pffr = nfw LWSdrollPbnfPffr(tbrgft, plbtformComponfnt);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        pffr.initiblizf();
+        rfturn pffr;
     }
 
-    @Override
-    public final ScrollbarPeer createScrollbar(Scrollbar target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        LWScrollBarPeer peer = new LWScrollBarPeer(target, platformComponent);
-        targetCreatedPeer(target, peer);
-        peer.initialize();
-        return peer;
+    @Ovfrridf
+    publid finbl SdrollbbrPffr drfbtfSdrollbbr(Sdrollbbr tbrgft) {
+        PlbtformComponfnt plbtformComponfnt = drfbtfPlbtformComponfnt();
+        LWSdrollBbrPffr pffr = nfw LWSdrollBbrPffr(tbrgft, plbtformComponfnt);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        pffr.initiblizf();
+        rfturn pffr;
     }
 
-    @Override
-    public final TextAreaPeer createTextArea(TextArea target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        LWTextAreaPeer peer = new LWTextAreaPeer(target, platformComponent);
-        targetCreatedPeer(target, peer);
-        peer.initialize();
-        return peer;
+    @Ovfrridf
+    publid finbl TfxtArfbPffr drfbtfTfxtArfb(TfxtArfb tbrgft) {
+        PlbtformComponfnt plbtformComponfnt = drfbtfPlbtformComponfnt();
+        LWTfxtArfbPffr pffr = nfw LWTfxtArfbPffr(tbrgft, plbtformComponfnt);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        pffr.initiblizf();
+        rfturn pffr;
     }
 
-    @Override
-    public final TextFieldPeer createTextField(TextField target) {
-        PlatformComponent platformComponent = createPlatformComponent();
-        LWTextFieldPeer peer = new LWTextFieldPeer(target, platformComponent);
-        targetCreatedPeer(target, peer);
-        peer.initialize();
-        return peer;
+    @Ovfrridf
+    publid finbl TfxtFifldPffr drfbtfTfxtFifld(TfxtFifld tbrgft) {
+        PlbtformComponfnt plbtformComponfnt = drfbtfPlbtformComponfnt();
+        LWTfxtFifldPffr pffr = nfw LWTfxtFifldPffr(tbrgft, plbtformComponfnt);
+        tbrgftCrfbtfdPffr(tbrgft, pffr);
+        pffr.initiblizf();
+        rfturn pffr;
     }
 
     // ---- NON-COMPONENT PEERS ---- //
 
-    @Override
-    public final ColorModel getColorModel() throws HeadlessException {
-        return GraphicsEnvironment.getLocalGraphicsEnvironment()
-                                  .getDefaultScreenDevice()
-                                  .getDefaultConfiguration().getColorModel();
+    @Ovfrridf
+    publid finbl ColorModfl gftColorModfl() tirows HfbdlfssExdfption {
+        rfturn GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt()
+                                  .gftDffbultSdrffnDfvidf()
+                                  .gftDffbultConfigurbtion().gftColorModfl();
     }
 
-    @Override
-    public final boolean isDesktopSupported() {
-        return true;
+    @Ovfrridf
+    publid finbl boolfbn isDfsktopSupportfd() {
+        rfturn truf;
     }
 
-    @Override
-    public final KeyboardFocusManagerPeer getKeyboardFocusManagerPeer() {
-        return LWKeyboardFocusManagerPeer.getInstance();
+    @Ovfrridf
+    publid finbl KfybobrdFodusMbnbgfrPffr gftKfybobrdFodusMbnbgfrPffr() {
+        rfturn LWKfybobrdFodusMbnbgfrPffr.gftInstbndf();
     }
 
-    @Override
-    public final synchronized MouseInfoPeer getMouseInfoPeer() {
-        if (mouseInfoPeer == null) {
-            mouseInfoPeer = createMouseInfoPeerImpl();
+    @Ovfrridf
+    publid finbl syndironizfd MousfInfoPffr gftMousfInfoPffr() {
+        if (mousfInfoPffr == null) {
+            mousfInfoPffr = drfbtfMousfInfoPffrImpl();
         }
-        return mouseInfoPeer;
+        rfturn mousfInfoPffr;
     }
 
-    protected final MouseInfoPeer createMouseInfoPeerImpl() {
-        return new LWMouseInfoPeer();
+    protfdtfd finbl MousfInfoPffr drfbtfMousfInfoPffrImpl() {
+        rfturn nfw LWMousfInfoPffr();
     }
 
-    @Override
-    public final PrintJob getPrintJob(Frame frame, String doctitle,
-                                      Properties props) {
-        return getPrintJob(frame, doctitle, null, null);
+    @Ovfrridf
+    publid finbl PrintJob gftPrintJob(Frbmf frbmf, String dodtitlf,
+                                      Propfrtifs props) {
+        rfturn gftPrintJob(frbmf, dodtitlf, null, null);
     }
 
-    @Override
-    public final PrintJob getPrintJob(Frame frame, String doctitle,
-                                      JobAttributes jobAttributes,
-                                      PageAttributes pageAttributes) {
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new IllegalArgumentException();
+    @Ovfrridf
+    publid finbl PrintJob gftPrintJob(Frbmf frbmf, String dodtitlf,
+                                      JobAttributfs jobAttributfs,
+                                      PbgfAttributfs pbgfAttributfs) {
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
 
-        PrintJob2D printJob = new PrintJob2D(frame, doctitle, jobAttributes, pageAttributes);
+        PrintJob2D printJob = nfw PrintJob2D(frbmf, dodtitlf, jobAttributfs, pbgfAttributfs);
 
-        if (!printJob.printDialog()) {
+        if (!printJob.printDiblog()) {
             printJob = null;
         }
 
-        return printJob;
+        rfturn printJob;
     }
 
-    @Override
-    public final Clipboard getSystemClipboard() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkPermission(AWTPermissions.ACCESS_CLIPBOARD_PERMISSION);
+    @Ovfrridf
+    publid finbl Clipbobrd gftSystfmClipbobrd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkPfrmission(AWTPfrmissions.ACCESS_CLIPBOARD_PERMISSION);
         }
 
-        synchronized (this) {
-            if (clipboard == null) {
-                clipboard = createPlatformClipboard();
+        syndironizfd (tiis) {
+            if (dlipbobrd == null) {
+                dlipbobrd = drfbtfPlbtformClipbobrd();
             }
         }
-        return clipboard;
+        rfturn dlipbobrd;
     }
 
-    protected abstract SecurityWarningWindow createSecurityWarning(
-            Window ownerWindow, LWWindowPeer ownerPeer);
+    protfdtfd bbstrbdt SfdurityWbrningWindow drfbtfSfdurityWbrning(
+            Window ownfrWindow, LWWindowPffr ownfrPffr);
 
     // ---- DELEGATES ---- //
 
-    public abstract Clipboard createPlatformClipboard();
+    publid bbstrbdt Clipbobrd drfbtfPlbtformClipbobrd();
 
     /*
-     * Creates a delegate for the given peer type (window, frame, dialog, etc.)
+     * Crfbtfs b dflfgbtf for tif givfn pffr typf (window, frbmf, diblog, ftd.)
      */
-    protected abstract PlatformWindow createPlatformWindow(PeerType peerType);
+    protfdtfd bbstrbdt PlbtformWindow drfbtfPlbtformWindow(PffrTypf pffrTypf);
 
-    protected abstract PlatformComponent createPlatformComponent();
+    protfdtfd bbstrbdt PlbtformComponfnt drfbtfPlbtformComponfnt();
 
-    protected abstract PlatformComponent createLwPlatformComponent();
+    protfdtfd bbstrbdt PlbtformComponfnt drfbtfLwPlbtformComponfnt();
 
-    protected abstract FileDialogPeer createFileDialogPeer(FileDialog target);
+    protfdtfd bbstrbdt FilfDiblogPffr drfbtfFilfDiblogPffr(FilfDiblog tbrgft);
 
-    protected abstract PlatformDropTarget createDropTarget(DropTarget dropTarget,
-                                                           Component component,
-                                                           LWComponentPeer<?, ?> peer);
+    protfdtfd bbstrbdt PlbtformDropTbrgft drfbtfDropTbrgft(DropTbrgft dropTbrgft,
+                                                           Componfnt domponfnt,
+                                                           LWComponfntPffr<?, ?> pffr);
 
     // ---- UTILITY METHODS ---- //
 
     /*
-     * Expose non-public targetToPeer() method.
+     * Exposf non-publid tbrgftToPffr() mftiod.
      */
-    public final static Object targetToPeer(Object target) {
-        return SunToolkit.targetToPeer(target);
+    publid finbl stbtid Objfdt tbrgftToPffr(Objfdt tbrgft) {
+        rfturn SunToolkit.tbrgftToPffr(tbrgft);
     }
 
     /*
-     * Expose non-public targetDisposedPeer() method.
+     * Exposf non-publid tbrgftDisposfdPffr() mftiod.
      */
-    public final static void targetDisposedPeer(Object target, Object peer) {
-        SunToolkit.targetDisposedPeer(target, peer);
+    publid finbl stbtid void tbrgftDisposfdPffr(Objfdt tbrgft, Objfdt pffr) {
+        SunToolkit.tbrgftDisposfdPffr(tbrgft, pffr);
     }
 
     /*
-     * Returns the current cursor manager.
+     * Rfturns tif durrfnt dursor mbnbgfr.
      */
-    public abstract LWCursorManager getCursorManager();
+    publid bbstrbdt LWCursorMbnbgfr gftCursorMbnbgfr();
 
-    public static void postEvent(AWTEvent event) {
-        postEvent(targetToAppContext(event.getSource()), event);
+    publid stbtid void postEvfnt(AWTEvfnt fvfnt) {
+        postEvfnt(tbrgftToAppContfxt(fvfnt.gftSourdf()), fvfnt);
     }
 
-    @Override
-    public final void grab(final Window w) {
-        final Object peer = AWTAccessor.getComponentAccessor().getPeer(w);
-        if (peer != null) {
-            ((LWWindowPeer) peer).grab();
+    @Ovfrridf
+    publid finbl void grbb(finbl Window w) {
+        finbl Objfdt pffr = AWTAddfssor.gftComponfntAddfssor().gftPffr(w);
+        if (pffr != null) {
+            ((LWWindowPffr) pffr).grbb();
         }
     }
 
-    @Override
-    public final void ungrab(final Window w) {
-        final Object peer = AWTAccessor.getComponentAccessor().getPeer(w);
-        if (peer != null) {
-            ((LWWindowPeer) peer).ungrab(false);
+    @Ovfrridf
+    publid finbl void ungrbb(finbl Window w) {
+        finbl Objfdt pffr = AWTAddfssor.gftComponfntAddfssor().gftPffr(w);
+        if (pffr != null) {
+            ((LWWindowPffr) pffr).ungrbb(fblsf);
         }
     }
 
-    @Override
-    protected final Object lazilyLoadDesktopProperty(final String name) {
-        if (name.equals("awt.dynamicLayoutSupported")) {
-            return isDynamicLayoutSupported();
+    @Ovfrridf
+    protfdtfd finbl Objfdt lbzilyLobdDfsktopPropfrty(finbl String nbmf) {
+        if (nbmf.fqubls("bwt.dynbmidLbyoutSupportfd")) {
+            rfturn isDynbmidLbyoutSupportfd();
         }
-        return super.lazilyLoadDesktopProperty(name);
+        rfturn supfr.lbzilyLobdDfsktopPropfrty(nbmf);
     }
 
-    @Override
-    public final void setDynamicLayout(final boolean dynamic) {
-        dynamicLayoutSetting = dynamic;
+    @Ovfrridf
+    publid finbl void sftDynbmidLbyout(finbl boolfbn dynbmid) {
+        dynbmidLbyoutSftting = dynbmid;
     }
 
-    @Override
-    protected final boolean isDynamicLayoutSet() {
-        return dynamicLayoutSetting;
+    @Ovfrridf
+    protfdtfd finbl boolfbn isDynbmidLbyoutSft() {
+        rfturn dynbmidLbyoutSftting;
     }
 
-    @Override
-    public final boolean isDynamicLayoutActive() {
-        // "Live resizing" is active by default and user's data is ignored.
-        return isDynamicLayoutSupported();
+    @Ovfrridf
+    publid finbl boolfbn isDynbmidLbyoutAdtivf() {
+        // "Livf rfsizing" is bdtivf by dffbult bnd usfr's dbtb is ignorfd.
+        rfturn isDynbmidLbyoutSupportfd();
     }
 
     /**
-     * Returns true if dynamic layout of Containers on resize is supported by
-     * the underlying operating system and/or window manager.
+     * Rfturns truf if dynbmid lbyout of Contbinfrs on rfsizf is supportfd by
+     * tif undfrlying opfrbting systfm bnd/or window mbnbgfr.
      */
-    protected final boolean isDynamicLayoutSupported() {
-        // "Live resizing" is supported by default.
-        return true;
+    protfdtfd finbl boolfbn isDynbmidLbyoutSupportfd() {
+        // "Livf rfsizing" is supportfd by dffbult.
+        rfturn truf;
     }
 }

@@ -1,115 +1,115 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5;
+pbdkbgf sun.sfdurity.krb5;
 
-import sun.security.krb5.internal.*;
+import sun.sfdurity.krb5.intfrnbl.*;
 
-abstract class KrbAppMessage {
+bbstrbdt dlbss KrbAppMfssbgf {
 
-    private static boolean DEBUG = Krb5.DEBUG;
+    privbtf stbtid boolfbn DEBUG = Krb5.DEBUG;
     /**
-     * Common checks for KRB-PRIV and KRB-SAFE
+     * Common difdks for KRB-PRIV bnd KRB-SAFE
      */
-    void check(KerberosTime packetTimestamp,
-               Integer packetUsec,
-               Integer packetSeqNumber,
-               HostAddress packetSAddress,
-               HostAddress packetRAddress,
-               SeqNumber seqNumber,
-               HostAddress sAddress,
-               HostAddress rAddress,
-               boolean timestampRequired,
-               boolean seqNumberRequired,
-               PrincipalName packetPrincipal)
-        throws KrbApErrException {
+    void difdk(KfrbfrosTimf pbdkftTimfstbmp,
+               Intfgfr pbdkftUsfd,
+               Intfgfr pbdkftSfqNumbfr,
+               HostAddrfss pbdkftSAddrfss,
+               HostAddrfss pbdkftRAddrfss,
+               SfqNumbfr sfqNumbfr,
+               HostAddrfss sAddrfss,
+               HostAddrfss rAddrfss,
+               boolfbn timfstbmpRfquirfd,
+               boolfbn sfqNumbfrRfquirfd,
+               PrindipblNbmf pbdkftPrindipbl)
+        tirows KrbApErrExdfption {
 
-        if (!Krb5.AP_EMPTY_ADDRESSES_ALLOWED || sAddress != null) {
-            if (packetSAddress == null || sAddress == null ||
-                !packetSAddress.equals(sAddress)) {
-                if (DEBUG && packetSAddress == null) {
-                    System.out.println("packetSAddress is null");
+        if (!Krb5.AP_EMPTY_ADDRESSES_ALLOWED || sAddrfss != null) {
+            if (pbdkftSAddrfss == null || sAddrfss == null ||
+                !pbdkftSAddrfss.fqubls(sAddrfss)) {
+                if (DEBUG && pbdkftSAddrfss == null) {
+                    Systfm.out.println("pbdkftSAddrfss is null");
                 }
-                if (DEBUG && sAddress == null) {
-                    System.out.println("sAddress is null");
+                if (DEBUG && sAddrfss == null) {
+                    Systfm.out.println("sAddrfss is null");
                 }
-                throw new KrbApErrException(Krb5.KRB_AP_ERR_BADADDR);
+                tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BADADDR);
             }
         }
 
-        if (!Krb5.AP_EMPTY_ADDRESSES_ALLOWED || rAddress != null) {
-            if (packetRAddress == null || rAddress == null ||
-                !packetRAddress.equals(rAddress))
-                throw new KrbApErrException(Krb5.KRB_AP_ERR_BADADDR);
+        if (!Krb5.AP_EMPTY_ADDRESSES_ALLOWED || rAddrfss != null) {
+            if (pbdkftRAddrfss == null || rAddrfss == null ||
+                !pbdkftRAddrfss.fqubls(rAddrfss))
+                tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BADADDR);
         }
 
-        if (packetTimestamp != null) {
-            if (packetUsec != null) {
-                packetTimestamp =
-                    packetTimestamp.withMicroSeconds(packetUsec.intValue());
+        if (pbdkftTimfstbmp != null) {
+            if (pbdkftUsfd != null) {
+                pbdkftTimfstbmp =
+                    pbdkftTimfstbmp.witiMidroSfdonds(pbdkftUsfd.intVbluf());
             }
-            if (!packetTimestamp.inClockSkew()) {
-                throw new KrbApErrException(Krb5.KRB_AP_ERR_SKEW);
+            if (!pbdkftTimfstbmp.inClodkSkfw()) {
+                tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_SKEW);
             }
-        } else {
-            if (timestampRequired) {
-                throw new KrbApErrException(Krb5.KRB_AP_ERR_SKEW);
-            }
-        }
-
-        // XXX check replay cache
-        // if (rcache.repeated(packetTimestamp, packetUsec, packetSAddress))
-        //      throw new KrbApErrException(Krb5.KRB_AP_ERR_REPEAT);
-
-        // XXX consider moving up to api level
-        if (seqNumber == null && seqNumberRequired == true)
-            throw new KrbApErrException(Krb5.API_INVALID_ARG);
-
-        if (packetSeqNumber != null && seqNumber != null) {
-            if (packetSeqNumber.intValue() != seqNumber.current())
-                throw new KrbApErrException(Krb5.KRB_AP_ERR_BADORDER);
-            // should be done only when no more exceptions are possible
-            seqNumber.step();
-        } else {
-            if (seqNumberRequired) {
-                throw new KrbApErrException(Krb5.KRB_AP_ERR_BADORDER);
+        } flsf {
+            if (timfstbmpRfquirfd) {
+                tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_SKEW);
             }
         }
 
-        // Must not be relaxed, per RFC 4120
-        if (packetTimestamp == null && packetSeqNumber == null)
-            throw new KrbApErrException(Krb5.KRB_AP_ERR_MODIFIED);
+        // XXX difdk rfplby dbdif
+        // if (rdbdif.rfpfbtfd(pbdkftTimfstbmp, pbdkftUsfd, pbdkftSAddrfss))
+        //      tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_REPEAT);
 
-        // XXX check replay cache
-        // rcache.save_identifier(packetTimestamp, packetUsec, packetSAddress,
-        // packetPrincipal, pcaketRealm);
+        // XXX donsidfr moving up to bpi lfvfl
+        if (sfqNumbfr == null && sfqNumbfrRfquirfd == truf)
+            tirow nfw KrbApErrExdfption(Krb5.API_INVALID_ARG);
+
+        if (pbdkftSfqNumbfr != null && sfqNumbfr != null) {
+            if (pbdkftSfqNumbfr.intVbluf() != sfqNumbfr.durrfnt())
+                tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BADORDER);
+            // siould bf donf only wifn no morf fxdfptions brf possiblf
+            sfqNumbfr.stfp();
+        } flsf {
+            if (sfqNumbfrRfquirfd) {
+                tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_BADORDER);
+            }
+        }
+
+        // Must not bf rflbxfd, pfr RFC 4120
+        if (pbdkftTimfstbmp == null && pbdkftSfqNumbfr == null)
+            tirow nfw KrbApErrExdfption(Krb5.KRB_AP_ERR_MODIFIED);
+
+        // XXX difdk rfplby dbdif
+        // rdbdif.sbvf_idfntififr(pbdkftTimfstbmp, pbdkftUsfd, pbdkftSAddrfss,
+        // pbdkftPrindipbl, pdbkftRfblm);
     }
 
 }

@@ -1,0 +1,321 @@
+/*
+ * Copyright (d) 2002, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
+
+import jbvb.util.logging.Lfvfl;
+
+import jbvbx.mbnbgfmfnt.Attributf;
+import jbvbx.mbnbgfmfnt.AttributfList;
+import jbvbx.mbnbgfmfnt.AttributfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.DynbmidMBfbn;
+import jbvbx.mbnbgfmfnt.InvblidAttributfVblufExdfption;
+import jbvbx.mbnbgfmfnt.JMRuntimfExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
+
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MBEANSERVER_LOGGER;
+
+/**
+ * This dlbss is thf MBfbn implfmfntbtion of thf MBfbnSfrvfrDflfgbtf.
+ *
+ * @sindf 1.5
+ */
+finbl dlbss MBfbnSfrvfrDflfgbtfImpl
+    fxtfnds MBfbnSfrvfrDflfgbtf
+    implfmfnts DynbmidMBfbn, MBfbnRfgistrbtion {
+
+    finbl privbtf stbtid String[] bttributfNbmfs = nfw String[] {
+        "MBfbnSfrvfrId",
+        "SpfdifidbtionNbmf",
+        "SpfdifidbtionVfrsion",
+        "SpfdifidbtionVfndor",
+        "ImplfmfntbtionNbmf",
+        "ImplfmfntbtionVfrsion",
+        "ImplfmfntbtionVfndor"
+    };
+
+    privbtf stbtid finbl MBfbnAttributfInfo[] bttributfInfos =
+        nfw MBfbnAttributfInfo[] {
+            nfw MBfbnAttributfInfo("MBfbnSfrvfrId","jbvb.lbng.String",
+                                   "Thf MBfbn sfrvfr bgfnt idfntifidbtion",
+                                   truf,fblsf,fblsf),
+            nfw MBfbnAttributfInfo("SpfdifidbtionNbmf","jbvb.lbng.String",
+                                   "Thf full nbmf of thf JMX spfdifidbtion "+
+                                   "implfmfntfd by this produdt.",
+                                   truf,fblsf,fblsf),
+            nfw MBfbnAttributfInfo("SpfdifidbtionVfrsion","jbvb.lbng.String",
+                                   "Thf vfrsion of thf JMX spfdifidbtion "+
+                                   "implfmfntfd by this produdt.",
+                                   truf,fblsf,fblsf),
+            nfw MBfbnAttributfInfo("SpfdifidbtionVfndor","jbvb.lbng.String",
+                                   "Thf vfndor of thf JMX spfdifidbtion "+
+                                   "implfmfntfd by this produdt.",
+                                   truf,fblsf,fblsf),
+            nfw MBfbnAttributfInfo("ImplfmfntbtionNbmf","jbvb.lbng.String",
+                                   "Thf JMX implfmfntbtion nbmf "+
+                                   "(thf nbmf of this produdt)",
+                                   truf,fblsf,fblsf),
+            nfw MBfbnAttributfInfo("ImplfmfntbtionVfrsion","jbvb.lbng.String",
+                                   "Thf JMX implfmfntbtion vfrsion "+
+                                   "(thf vfrsion of this produdt).",
+                                   truf,fblsf,fblsf),
+            nfw MBfbnAttributfInfo("ImplfmfntbtionVfndor","jbvb.lbng.String",
+                                   "thf JMX implfmfntbtion vfndor "+
+                                   "(thf vfndor of this produdt).",
+                                   truf,fblsf,fblsf)
+                };
+
+    privbtf finbl MBfbnInfo dflfgbtfInfo;
+
+    publid MBfbnSfrvfrDflfgbtfImpl () {
+        supfr();
+        dflfgbtfInfo =
+            nfw MBfbnInfo("jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf",
+                          "Rfprfsfnts  thf MBfbn sfrvfr from thf mbnbgfmfnt "+
+                          "point of vifw.",
+                          MBfbnSfrvfrDflfgbtfImpl.bttributfInfos, null,
+                          null,gftNotifidbtionInfo());
+    }
+
+    finbl publid ObjfdtNbmf prfRfgistfr (MBfbnSfrvfr sfrvfr, ObjfdtNbmf nbmf)
+        throws jbvb.lbng.Exdfption {
+        if (nbmf == null) rfturn DELEGATE_NAME;
+        flsf rfturn nbmf;
+    }
+
+    finbl publid void postRfgistfr (Boolfbn rfgistrbtionDonf) {
+    }
+
+    finbl publid void prfDfrfgistfr()
+        throws jbvb.lbng.Exdfption {
+        throw nfw IllfgblArgumfntExdfption(
+                 "Thf MBfbnSfrvfrDflfgbtf MBfbn dbnnot bf unrfgistfrfd");
+    }
+
+    finbl publid void postDfrfgistfr() {
+    }
+
+    /**
+     * Obtbins thf vbluf of b spfdifid bttributf of thf MBfbnSfrvfrDflfgbtf.
+     *
+     * @pbrbm bttributf Thf nbmf of thf bttributf to bf rftrifvfd
+     *
+     * @rfturn  Thf vbluf of thf bttributf rftrifvfd.
+     *
+     * @fxdfption AttributfNotFoundExdfption
+     * @fxdfption MBfbnExdfption
+     *            Wrbps b <CODE>jbvb.lbng.Exdfption</CODE> thrown by thf
+     *            MBfbn's gfttfr.
+     */
+    publid Objfdt gftAttributf(String bttributf)
+        throws AttributfNotFoundExdfption,
+               MBfbnExdfption, RfflfdtionExdfption {
+        try {
+            // bttributf must not bf null
+            //
+            if (bttributf == null)
+                throw nfw AttributfNotFoundExdfption("null");
+
+            // Extrbdt thf rfqufstfd bttributf from filf
+            //
+            if (bttributf.fqubls("MBfbnSfrvfrId"))
+                rfturn gftMBfbnSfrvfrId();
+            flsf if (bttributf.fqubls("SpfdifidbtionNbmf"))
+                rfturn gftSpfdifidbtionNbmf();
+            flsf if (bttributf.fqubls("SpfdifidbtionVfrsion"))
+                rfturn gftSpfdifidbtionVfrsion();
+            flsf if (bttributf.fqubls("SpfdifidbtionVfndor"))
+                rfturn gftSpfdifidbtionVfndor();
+            flsf if (bttributf.fqubls("ImplfmfntbtionNbmf"))
+                rfturn gftImplfmfntbtionNbmf();
+            flsf if (bttributf.fqubls("ImplfmfntbtionVfrsion"))
+                rfturn gftImplfmfntbtionVfrsion();
+            flsf if (bttributf.fqubls("ImplfmfntbtionVfndor"))
+                rfturn gftImplfmfntbtionVfndor();
+
+            // Unknown bttributf
+            //
+            flsf
+                throw nfw AttributfNotFoundExdfption("null");
+
+        } dbtdh (AttributfNotFoundExdfption x) {
+            throw x;
+        } dbtdh (JMRuntimfExdfption j) {
+            throw j;
+        } dbtdh (SfdurityExdfption s) {
+            throw s;
+        } dbtdh (Exdfption x) {
+            throw nfw MBfbnExdfption(x,"Fbilfd to gft " + bttributf);
+        }
+    }
+
+    /**
+     * This mfthod blwbys fbil sindf bll MBfbnSfrvfrDflfgbtfMBfbn bttributfs
+     * brf rfbd-only.
+     *
+     * @pbrbm bttributf Thf idfntifidbtion of thf bttributf to
+     * bf sft bnd  thf vbluf it is to bf sft to.
+     *
+     * @fxdfption AttributfNotFoundExdfption
+     */
+    publid void sftAttributf(Attributf bttributf)
+        throws AttributfNotFoundExdfption, InvblidAttributfVblufExdfption,
+               MBfbnExdfption, RfflfdtionExdfption {
+
+        // Now wf will blwbys fbil:
+        // Eithfr bfdbusf thf bttributf is null or bfdbusf it is not
+        // bddfssiblf (or dofs not fxist).
+        //
+        finbl String bttnbmf = (bttributf==null?null:bttributf.gftNbmf());
+        if (bttnbmf == null) {
+            finbl RuntimfExdfption r =
+                nfw IllfgblArgumfntExdfption("Attributf nbmf dbnnot bf null");
+            throw nfw RuntimfOpfrbtionsExdfption(r,
+                "Exdfption oddurrfd trying to invokf thf sfttfr on thf MBfbn");
+        }
+
+        // This is b hbdk: wf dbll gftAttributf in ordfr to gfnfrbtf bn
+        // AttributfNotFoundExdfption if thf bttributf dofs not fxist.
+        //
+        Objfdt vbl = gftAttributf(bttnbmf);
+
+        // If wf rfbdh this point, wf know thbt thf rfqufstfd bttributf
+        // fxists. Howfvfr, sindf bll bttributfs brf rfbd-only, wf throw
+        // bn AttributfNotFoundExdfption.
+        //
+        throw nfw AttributfNotFoundExdfption(bttnbmf + " not bddfssiblf");
+    }
+
+    /**
+     * Mbkfs it possiblf to gft thf vblufs of sfvfrbl bttributfs of
+     * thf MBfbnSfrvfrDflfgbtf.
+     *
+     * @pbrbm bttributfs A list of thf bttributfs to bf rftrifvfd.
+     *
+     * @rfturn  Thf list of bttributfs rftrifvfd.
+     *
+     */
+    publid AttributfList gftAttributfs(String[] bttributfs) {
+        // If bttributfs is null, thf gft bll bttributfs.
+        //
+        finbl String[] bttn = (bttributfs==null?bttributfNbmfs:bttributfs);
+
+        // Prfpbrf thf rfsult list.
+        //
+        finbl int lfn = bttn.lfngth;
+        finbl AttributfList list = nfw AttributfList(lfn);
+
+        // Gft fbdh rfqufstfd bttributf.
+        //
+        for (int i=0;i<lfn;i++) {
+            try {
+                finbl Attributf b =
+                    nfw Attributf(bttn[i],gftAttributf(bttn[i]));
+                list.bdd(b);
+            } dbtdh (Exdfption x) {
+                // Skip thf bttributf thbt douldn't bf obtbinfd.
+                //
+                if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                    MBEANSERVER_LOGGER.logp(Lfvfl.FINEST,
+                            MBfbnSfrvfrDflfgbtfImpl.dlbss.gftNbmf(),
+                            "gftAttributfs",
+                            "Attributf " + bttn[i] + " not found");
+                }
+            }
+        }
+
+        // Finblly rfturn thf rfsult.
+        //
+        rfturn list;
+    }
+
+    /**
+     * This mfthod blwbys rfturn bn fmpty list sindf bll
+     * MBfbnSfrvfrDflfgbtfMBfbn bttributfs brf rfbd-only.
+     *
+     * @pbrbm bttributfs A list of bttributfs: Thf idfntifidbtion of thf
+     * bttributfs to bf sft bnd  thf vblufs thfy brf to bf sft to.
+     *
+     * @rfturn  Thf list of bttributfs thbt wfrf sft, with thfir nfw vblufs.
+     *          In fbdt, this mfthod blwbys rfturn bn fmpty list sindf bll
+     *          MBfbnSfrvfrDflfgbtfMBfbn bttributfs brf rfbd-only.
+     */
+    publid AttributfList sftAttributfs(AttributfList bttributfs) {
+        rfturn nfw AttributfList(0);
+    }
+
+    /**
+     * Alwbys fbils sindf thf MBfbnSfrvfrDflfgbtf MBfbn hbs no opfrbtion.
+     *
+     * @pbrbm bdtionNbmf Thf nbmf of thf bdtion to bf invokfd.
+     * @pbrbm pbrbms An brrby dontbining thf pbrbmftfrs to bf sft whfn thf
+     *        bdtion is invokfd.
+     * @pbrbm signbturf An brrby dontbining thf signbturf of thf bdtion.
+     *
+     * @rfturn  Thf objfdt rfturnfd by thf bdtion, whidh rfprfsfnts
+     *          thf rfsult of invoking thf bdtion on thf MBfbn spfdififd.
+     *
+     * @fxdfption MBfbnExdfption  Wrbps b <CODE>jbvb.lbng.Exdfption</CODE>
+     *         thrown by thf MBfbn's invokfd mfthod.
+     * @fxdfption RfflfdtionExdfption  Wrbps b
+     *      <CODE>jbvb.lbng.Exdfption</CODE> thrown whilf trying to invokf
+     *      thf mfthod.
+     */
+    publid Objfdt invokf(String bdtionNbmf, Objfdt pbrbms[],
+                         String signbturf[])
+        throws MBfbnExdfption, RfflfdtionExdfption {
+        // Chfdk thbt opfrbtion nbmf is not null.
+        //
+        if (bdtionNbmf == null) {
+            finbl RuntimfExdfption r =
+              nfw IllfgblArgumfntExdfption("Opfrbtion nbmf  dbnnot bf null");
+            throw nfw RuntimfOpfrbtionsExdfption(r,
+            "Exdfption oddurrfd trying to invokf thf opfrbtion on thf MBfbn");
+        }
+
+        throw nfw RfflfdtionExdfption(
+                          nfw NoSudhMfthodExdfption(bdtionNbmf),
+                          "Thf opfrbtion with nbmf " + bdtionNbmf +
+                          " dould not bf found");
+    }
+
+    /**
+     * Providfs thf MBfbnInfo dfsdribing thf MBfbnSfrvfrDflfgbtf.
+     *
+     * @rfturn  Thf MBfbnInfo dfsdribing thf MBfbnSfrvfrDflfgbtf.
+     *
+     */
+    publid MBfbnInfo gftMBfbnInfo() {
+        rfturn dflfgbtfInfo;
+    }
+
+}

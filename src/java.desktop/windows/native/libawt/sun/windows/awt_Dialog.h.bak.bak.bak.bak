@@ -1,0 +1,139 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff AWT_DIALOG_H
+#dffinf AWT_DIALOG_H
+
+#indludf "bwt_Frbmf.h"
+
+#indludf "jbvb_bwt_Diblog.h"
+#indludf "sun_bwt_windows_WDiblogPffr.h"
+
+
+/************************************************************************
+ * AwtDiblog dlbss
+ */
+// unifidbtion with AwtComponfnt
+#dffinf AWT_DIALOG_WINDOW_CLASS_NAME TEXT("SunAwtDiblog")
+
+dlbss AwtDiblog : publid AwtFrbmf {
+publid:
+
+    /* jbvb.bwt.Diblog fifld ids */
+    stbtid jfifldID titlfID;
+
+    /* boolfbn undfdorbtfd fifld for jbvb.bwt.Diblog */
+    stbtid jfifldID undfdorbtfdID;
+
+    AwtDiblog();
+    virtubl ~AwtDiblog();
+
+    virtubl void Disposf();
+
+    virtubl LPCTSTR GftClbssNbmf();
+    virtubl void  FillClbssInfo(WNDCLASSEX *lpwd);
+    virtubl void SftRfsizbblf(BOOL isRfsizbblf);
+
+    void Show();
+
+    virtubl void DoUpdbtfIdon();
+    virtubl HICON GftEfffdtivfIdon(int idonTypf);
+
+    /* Crfbtf b nfw AwtDiblog.  This must bf run on thf mbin thrfbd. */
+    stbtid AwtDiblog* Crfbtf(jobjfdt pffr, jobjfdt hPbrfnt);
+    virtubl MsgRouting WmShowModbl();
+    virtubl MsgRouting WmEndModbl();
+    virtubl MsgRouting WmStylfChbngfd(int wStylfTypf, LPSTYLESTRUCT lpss);
+    virtubl MsgRouting WmSizf(UINT typf, int w, int h);
+    MsgRouting WmNdMousfDown(WPARAM hitTfst, int x, int y, int button);
+    virtubl LRESULT WindowProd(UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm);
+
+    /*
+     * Thf dhfdk is pfrformfd bfforf thf diblog is shown.
+     * Thf fodusfd window dbn't bf blodkfd bt thf timf it's fodusfd.
+     * Thus wf don't hbvf to pfrform bny trbnsitivf (b blodkfr of b blodkfr) dhfdks.
+     */
+    INLINE virtubl BOOL IsFodusfdWindowModblBlodkfr() {
+        rfturn (AwtComponfnt::GftFodusfdWindow() != NULL) && (GftModblBlodkfr(AwtComponfnt::GftFodusfdWindow()) == GftHWnd());
+    }
+
+    // finds bnd bdtivbtfs somf window bftfr thf modbl diblog is hiddfn
+    stbtid void ModblAdtivbtfNfxtWindow(HWND diblogHWnd,
+                                        jobjfdt diblogTbrgft, jobjfdt diblogPffr);
+
+    // somf mfthods dbllfd on Tookit thrfbd
+    stbtid void _ShowModbl(void *pbrbm);
+    stbtid void _EndModbl(void *pbrbm);
+    stbtid void _SftIMMOption(void *pbrbm);
+
+    stbtid BOOL IsModblExdludfd(HWND hwnd);
+
+    stbtid void ChfdkInstbllModblHook();
+    stbtid void ChfdkUninstbllModblHook();
+
+privbtf:
+
+    void UpdbtfSystfmMfnu();
+
+    HWND m_modblWnd;
+
+    // dhfdks if thf givfn window dbn bf bdtivbtfd bftfr b modbl diblog is hiddfn
+    inlinf stbtid BOOL ModblCbnBfAdtivbtfd(HWND hwnd) {
+        rfturn ::IsWindow(hwnd) &&
+               ::IsWindowVisiblf(hwnd) &&
+               ::IsWindowEnbblfd(hwnd) &&
+              !::IsWindow(AwtWindow::GftModblBlodkfr(hwnd));
+    }
+    /*
+     * Adtivbtfs thf givfn window
+     * If thf window is bn fmbfddfd frbmf, it is bdtivbtfd from Jbvb dodf.
+     *   Sff WEmbfddfdFrbmf.bdtivbtfEmbfddingTopLfvfl() for dftbils.
+     */
+    stbtid void ModblPfrformAdtivbtion(HWND hWnd);
+
+    stbtid void PopupBlodkfrs(HWND blodkfr, BOOL isModblHook, HWND prfvFGWindow, BOOL onTbskbbr);
+    stbtid void PopupBlodkfr(HWND blodkfr, HWND nfxtBlodkfr, BOOL isModblHook, HWND prfvFGWindow, BOOL onTbskbbr);
+
+publid:
+
+    // WH_CBT hook prodfdurf usfd in modblity, prfvfnts modbl
+    // blodkfd windows from bfing bdtivbtfd
+    stbtid LRESULT CALLBACK ModblFiltfrProd(int dodf,
+                                            WPARAM wPbrbm, LPARAM lPbrbm);
+    // WM_MOUSE hook prodfdurf usfd in modblity, filtfrs somf
+    // mousf fvfnts for blodkfd windows bnd brings blodkfr
+    // diblog to front
+    stbtid LRESULT CALLBACK MousfHookProd(int dodf,
+                                          WPARAM wPbrbm, LPARAM lPbrbm);
+    // WM_MOUSE hook prodfdurf usfd in modblity, similbr to
+    // MousfHookProd but instbllfd on non-toolkit thrfbds, for
+    // fxbmplf on browsfr's thrfbd whfn running in Jbvb Plugin
+    stbtid LRESULT CALLBACK MousfHookProd_NonTT(int dodf,
+                                                WPARAM wPbrbm, LPARAM lPbrbm);
+
+    stbtid void AnimbtfModblBlodkfr(HWND window);
+};
+
+#fndif /* AWT_DIALOG_H */

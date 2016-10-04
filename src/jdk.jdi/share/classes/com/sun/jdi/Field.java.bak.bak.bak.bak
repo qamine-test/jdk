@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+
+/**
+ * A dlbss or instbndf vbribblf in thf tbrgft VM.
+ * Sff {@link TypfComponfnt}
+ * for gfnfrbl informbtion bbout Fifld bnd Mfthod mirrors.
+ *
+ * @sff ObjfdtRfffrfndf
+ * @sff RfffrfndfTypf
+ *
+ * @buthor Robfrt Fifld
+ * @buthor Gordon Hirsdh
+ * @buthor Jbmfs MdIlrff
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf Fifld fxtfnds TypfComponfnt, Compbrbblf<Fifld> {
+
+    /**
+     * Rfturns b tfxt rfprfsfntbtion of thf typf
+     * of this fifld.
+     * Whfrf thf typf is thf typf spfdififd in thf dfdlbrbtion
+     * of this fifld.
+     * <P>
+     * This typf nbmf is blwbys bvbilbblf fvfn if
+     * thf typf hbs not yft bffn drfbtfd or lobdfd.
+     *
+     * @rfturn b String rfprfsfnting thf
+     * typf of this fifld.
+     */
+    String typfNbmf();
+
+    /**
+     * Rfturns thf typf of this fifld.
+     * Whfrf thf typf is thf typf spfdififd in thf dfdlbrbtion
+     * of this fifld.
+     * <P>
+     * For fxbmplf, if b tbrgft dlbss dffinfs:
+     * <PRE>
+     *    short s;
+     *    Dbtf d;
+     *    bytf[] bb;</PRE>
+     * And thf JDI dlifnt dffinfs thfsf <CODE>Fifld</CODE> objfdts:
+     * <PRE>
+     *    Fifld sFifld = tbrgftClbss.fifldByNbmf("s");
+     *    Fifld dFifld = tbrgftClbss.fifldByNbmf("d");
+     *    Fifld bbFifld = tbrgftClbss.fifldByNbmf("bb");</PRE>
+     * to mirror thf dorrfsponding fiflds, thfn <CODE>sFifld.typf()</CODE>
+     * is b {@link ShortTypf}, <CODE>dFifld.typf()</CODE> is thf
+     * {@link RfffrfndfTypf} for <CODE>jbvb.util.Dbtf</CODE> bnd
+     * <CODE>((ArrbyTypf)(bbFifld.typf())).domponfntTypf()</CODE> is b
+     * {@link BytfTypf}.
+     * <P>
+     * Notf: if thf typf of this fifld is b rfffrfndf typf (dlbss,
+     * intfrfbdf, or brrby) bnd it hbs not bffn drfbtfd or lobdfd
+     * by thf dfdlbring typf's dlbss lobdfr - thbt is,
+     * {@link TypfComponfnt#dfdlbringTypf <CODE>dfdlbringTypf()</CODE>}
+     * <CODE>.dlbssLobdfr()</CODE>,
+     * thfn ClbssNotLobdfdExdfption will bf thrown.
+     * Also, b rfffrfndf typf mby hbvf bffn lobdfd but not yft prfpbrfd,
+     * in whidh dbsf thf typf will bf rfturnfd
+     * but bttfmpts to pfrform somf opfrbtions on thf rfturnfd typf
+     * (f.g. {@link RfffrfndfTypf#fiflds() fiflds()}) will throw
+     * b {@link ClbssNotPrfpbrfdExdfption}.
+     * Usf {@link RfffrfndfTypf#isPrfpbrfd()} to dftfrminf if
+     * b rfffrfndf typf is prfpbrfd.
+     *
+     * @sff Typf
+     * @rfturn thf {@link Typf} of this fifld.
+     * @throws ClbssNotLobdfdExdfption if thf typf hbs not yft bffn lobdfd
+     * or drfbtfd through thf bppropribtf dlbss lobdfr.
+     */
+    Typf typf() throws ClbssNotLobdfdExdfption;
+
+    /**
+     * Dftfrminf if this is b trbnsifnt fifld.
+     *
+     * @rfturn <dodf>truf</dodf> if this fifld is trbnsifnt; fblsf othfrwisf.
+     */
+    boolfbn isTrbnsifnt();
+
+    /**
+     * Dftfrminf if this is b volbtilf fifld.
+     *
+     * @rfturn <dodf>truf</dodf> if this fifld is volbtilf; fblsf othfrwisf.
+     */
+    boolfbn isVolbtilf();
+
+    /**
+     * Dftfrminf if this is b fifld thbt rfprfsfnts bn fnum donstbnt.
+     * @rfturn <dodf>truf</dodf> if this fifld rfprfsfnts bn fnum donstbnt;
+     * fblsf othfrwisf.
+     */
+    boolfbn isEnumConstbnt();
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this fifld for fqublity.
+     *
+     * @rfturn truf if thf Objfdt is b Fifld bnd if both
+     * mirror thf sbmf fifld (dfdlbrfd in thf sbmf dlbss or intfrfbdf, in
+     * thf sbmf VM).
+     */
+    boolfbn fqubls(Objfdt obj);
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this Fifld.
+     *
+     * @rfturn thf intfgfr hbsh dodf
+     */
+    int hbshCodf();
+}

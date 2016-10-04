@@ -1,0 +1,82 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ * (C) Copyright IBM Corp. 1998 - 2005 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "GlyphPositioningTbblfs.h"
+#indludf "CursivfAttbdhmfntSubtbblfs.h"
+#indludf "AndhorTbblfs.h"
+#indludf "GlyphItfrbtor.h"
+#indludf "OpfnTypfUtilitifs.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+lf_uint32 CursivfAttbdhmfntSubtbblf::prodfss(donst LERfffrfndfTo<CursivfAttbdhmfntSubtbblf> &bbsf, GlyphItfrbtor *glyphItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst
+{
+    LEGlyphID glyphID       = glyphItfrbtor->gftCurrGlyphID();
+    lf_int32  dovfrbgfIndfx = gftGlyphCovfrbgf(bbsf, glyphID, suddfss);
+    lf_uint16 ffCount       = SWAPW(fntryExitCount);
+
+    if (dovfrbgfIndfx < 0 || dovfrbgfIndfx >= ffCount || LE_FAILURE(suddfss)) {
+        glyphItfrbtor->sftCursivfGlyph();
+        rfturn 0;
+    }
+
+    LEPoint fntryAndhor, fxitAndhor;
+    Offsft fntryOffsft = SWAPW(fntryExitRfdords[dovfrbgfIndfx].fntryAndhor);
+    Offsft fxitOffsft  = SWAPW(fntryExitRfdords[dovfrbgfIndfx].fxitAndhor);
+
+    if (fntryOffsft != 0) {
+        LERfffrfndfTo<AndhorTbblf> fntryAndhorTbblf(bbsf, suddfss, fntryOffsft);
+
+        if( LE_SUCCESS(suddfss) ) {
+          fntryAndhorTbblf->gftAndhor(fntryAndhorTbblf, glyphID, fontInstbndf, fntryAndhor, suddfss);
+          glyphItfrbtor->sftCursivfEntryPoint(fntryAndhor);
+        }
+    } flsf {
+        //glyphItfrbtor->dlfbrCursivfEntryPoint();
+    }
+
+    if (fxitOffsft != 0) {
+        LERfffrfndfTo<AndhorTbblf> fxitAndhorTbblf(bbsf, suddfss, fxitOffsft);
+
+        if( LE_SUCCESS(suddfss) ) {
+          fxitAndhorTbblf->gftAndhor(fxitAndhorTbblf, glyphID, fontInstbndf, fxitAndhor, suddfss);
+          glyphItfrbtor->sftCursivfExitPoint(fxitAndhor);
+        }
+    } flsf {
+        //glyphItfrbtor->dlfbrCursivfExitPoint();
+    }
+
+    rfturn 1;
+}
+
+U_NAMESPACE_END

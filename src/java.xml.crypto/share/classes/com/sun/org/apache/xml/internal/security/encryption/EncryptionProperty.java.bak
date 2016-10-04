@@ -1,121 +1,121 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fndryption;
 
-import java.util.Iterator;
-import org.w3c.dom.Element;
+import jbvb.util.Itfrbtor;
+import org.w3d.dom.Elfmfnt;
 
 /**
- * Additional information items concerning the generation of the
- * <code>EncryptedData</code> or <code>EncryptedKey</code> can be placed in an
- * <code>EncryptionProperty</code> element (e.g., date/time stamp or the serial
- * number of cryptographic hardware used during encryption). The Target
- * attribute identifies the <code>EncryptedType</code> structure being
- * described. anyAttribute permits the inclusion of attributes from the XML
- * namespace to be included (i.e., <code>xml:space</code>,
- * <code>xml:lang</code>, and <code>xml:base</code>).
+ * Additionbl informbtion itfms dondfrning tif gfnfrbtion of tif
+ * <dodf>EndryptfdDbtb</dodf> or <dodf>EndryptfdKfy</dodf> dbn bf plbdfd in bn
+ * <dodf>EndryptionPropfrty</dodf> flfmfnt (f.g., dbtf/timf stbmp or tif sfribl
+ * numbfr of dryptogrbpiid ibrdwbrf usfd during fndryption). Tif Tbrgft
+ * bttributf idfntififs tif <dodf>EndryptfdTypf</dodf> strudturf bfing
+ * dfsdribfd. bnyAttributf pfrmits tif indlusion of bttributfs from tif XML
+ * nbmfspbdf to bf indludfd (i.f., <dodf>xml:spbdf</dodf>,
+ * <dodf>xml:lbng</dodf>, bnd <dodf>xml:bbsf</dodf>).
  * <p>
- * It is defined as follows:
+ * It is dffinfd bs follows:
  * <xmp>
- * <element name='EncryptionProperty' type='xenc:EncryptionPropertyType'/>
- * <complexType name='EncryptionPropertyType' mixed='true'>
- *     <choice maxOccurs='unbounded'>
- *         <any namespace='##other' processContents='lax'/>
- *     </choice>
- *     <attribute name='Target' type='anyURI' use='optional'/>
- *     <attribute name='Id' type='ID' use='optional'/>
- *     <anyAttribute namespace="http://www.w3.org/XML/1998/namespace"/>
- * </complexType>
+ * <flfmfnt nbmf='EndryptionPropfrty' typf='xfnd:EndryptionPropfrtyTypf'/>
+ * <domplfxTypf nbmf='EndryptionPropfrtyTypf' mixfd='truf'>
+ *     <dioidf mbxOddurs='unboundfd'>
+ *         <bny nbmfspbdf='##otifr' prodfssContfnts='lbx'/>
+ *     </dioidf>
+ *     <bttributf nbmf='Tbrgft' typf='bnyURI' usf='optionbl'/>
+ *     <bttributf nbmf='Id' typf='ID' usf='optionbl'/>
+ *     <bnyAttributf nbmfspbdf="ittp://www.w3.org/XML/1998/nbmfspbdf"/>
+ * </domplfxTypf>
  * </xmp>
  *
- * @author Axl Mattheus
+ * @butior Axl Mbttifus
  */
-public interface EncryptionProperty {
+publid intfrfbdf EndryptionPropfrty {
 
     /**
-     * Returns the <code>EncryptedType</code> being described.
+     * Rfturns tif <dodf>EndryptfdTypf</dodf> bfing dfsdribfd.
      *
-     * @return the <code>EncryptedType</code> being described by this
-     *   <code>EncryptionProperty</code>.
+     * @rfturn tif <dodf>EndryptfdTypf</dodf> bfing dfsdribfd by tiis
+     *   <dodf>EndryptionPropfrty</dodf>.
      */
-    String getTarget();
+    String gftTbrgft();
 
     /**
-     * Sets the target.
+     * Sfts tif tbrgft.
      *
-     * @param target
+     * @pbrbm tbrgft
      */
-    void setTarget(String target);
+    void sftTbrgft(String tbrgft);
 
     /**
-     * Returns the id of the <CODE>EncryptionProperty</CODE>.
+     * Rfturns tif id of tif <CODE>EndryptionPropfrty</CODE>.
      *
-     * @return the id.
+     * @rfturn tif id.
      */
-    String getId();
+    String gftId();
 
     /**
-     * Sets the id.
+     * Sfts tif id.
      *
-     * @param id
+     * @pbrbm id
      */
-    void setId(String id);
+    void sftId(String id);
 
     /**
-     * Returns the attribute's value in the <code>xml</code> namespace.
+     * Rfturns tif bttributf's vbluf in tif <dodf>xml</dodf> nbmfspbdf.
      *
-     * @param attribute
-     * @return the attribute's value.
+     * @pbrbm bttributf
+     * @rfturn tif bttributf's vbluf.
      */
-    String getAttribute(String attribute);
+    String gftAttributf(String bttributf);
 
     /**
-     * Set the attribute value.
+     * Sft tif bttributf vbluf.
      *
-     * @param attribute the attribute's name.
-     * @param value the attribute's value.
+     * @pbrbm bttributf tif bttributf's nbmf.
+     * @pbrbm vbluf tif bttributf's vbluf.
      */
-    void setAttribute(String attribute, String value);
+    void sftAttributf(String bttributf, String vbluf);
 
     /**
-     * Returns the properties of the <CODE>EncryptionProperty</CODE>.
+     * Rfturns tif propfrtifs of tif <CODE>EndryptionPropfrty</CODE>.
      *
-     * @return an <code>Iterator</code> over all the additional encryption
-     *   information contained in this class.
+     * @rfturn bn <dodf>Itfrbtor</dodf> ovfr bll tif bdditionbl fndryption
+     *   informbtion dontbinfd in tiis dlbss.
      */
-    Iterator<Element> getEncryptionInformation();
+    Itfrbtor<Elfmfnt> gftEndryptionInformbtion();
 
     /**
-     * Adds encryption information.
+     * Adds fndryption informbtion.
      *
-     * @param information the additional encryption information.
+     * @pbrbm informbtion tif bdditionbl fndryption informbtion.
      */
-    void addEncryptionInformation(Element information);
+    void bddEndryptionInformbtion(Elfmfnt informbtion);
 
     /**
-     * Removes encryption information.
+     * Rfmovfs fndryption informbtion.
      *
-     * @param information the information to remove.
+     * @pbrbm informbtion tif informbtion to rfmovf.
      */
-    void removeEncryptionInformation(Element information);
+    void rfmovfEndryptionInformbtion(Elfmfnt informbtion);
 }

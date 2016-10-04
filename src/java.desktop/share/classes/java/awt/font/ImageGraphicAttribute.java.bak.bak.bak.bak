@@ -1,0 +1,227 @@
+/*
+ * Copyright (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - 1997, All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998, All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is
+ * dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry
+ * of IBM. Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.bwt.font;
+
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+/**
+ * Thf <dodf>ImbgfGrbphidAttributf</dodf> dlbss is bn implfmfntbtion of
+ * {@link GrbphidAttributf} whidh drbws imbgfs in
+ * b {@link TfxtLbyout}.
+ * @sff GrbphidAttributf
+ */
+
+publid finbl dlbss ImbgfGrbphidAttributf fxtfnds GrbphidAttributf {
+
+    privbtf Imbgf fImbgf;
+    privbtf flobt fImbgfWidth, fImbgfHfight;
+    privbtf flobt fOriginX, fOriginY;
+
+    /**
+     * Constudts bn <dodf>ImbgfGrbphidAttributf</dodf> from thf spfdififd
+     * {@link Imbgf}.  Thf origin is bt (0,&nbsp;0).
+     * @pbrbm imbgf thf <dodf>Imbgf</dodf> rfndfrfd by this
+     * <dodf>ImbgfGrbphidAttributf</dodf>.
+     * This objfdt kffps b rfffrfndf to <dodf>imbgf</dodf>.
+     * @pbrbm blignmfnt onf of thf blignmfnts from this
+     * <dodf>ImbgfGrbphidAttributf</dodf>
+     */
+    publid ImbgfGrbphidAttributf(Imbgf imbgf, int blignmfnt) {
+
+        this(imbgf, blignmfnt, 0, 0);
+    }
+
+    /**
+     * Construdts bn <dodf>ImbgfGrbphidAttributf</dodf> from thf spfdififd
+     * <dodf>Imbgf</dodf>. Thf point
+     * (<dodf>originX</dodf>,&nbsp;<dodf>originY</dodf>) in thf
+     * <dodf>Imbgf</dodf> bppfbrs bt thf origin of thf
+     * <dodf>ImbgfGrbphidAttributf</dodf> within thf tfxt.
+     * @pbrbm imbgf thf <dodf>Imbgf</dodf> rfndfrfd by this
+     * <dodf>ImbgfGrbphidAttributf</dodf>.
+     * This objfdt kffps b rfffrfndf to <dodf>imbgf</dodf>.
+     * @pbrbm blignmfnt onf of thf blignmfnts from this
+     * <dodf>ImbgfGrbphidAttributf</dodf>
+     * @pbrbm originX thf X doordinbtf of thf point within
+     * thf <dodf>Imbgf</dodf> thbt bppfbrs bt thf origin of thf
+     * <dodf>ImbgfGrbphidAttributf</dodf> in thf tfxt linf.
+     * @pbrbm originY thf Y doordinbtf of thf point within
+     * thf <dodf>Imbgf</dodf> thbt bppfbrs bt thf origin of thf
+     * <dodf>ImbgfGrbphidAttributf</dodf> in thf tfxt linf.
+     */
+    publid ImbgfGrbphidAttributf(Imbgf imbgf,
+                                 int blignmfnt,
+                                 flobt originX,
+                                 flobt originY) {
+
+        supfr(blignmfnt);
+
+        // Cbn't dlonf imbgf
+        // fImbgf = (Imbgf) imbgf.dlonf();
+        fImbgf = imbgf;
+
+        fImbgfWidth = imbgf.gftWidth(null);
+        fImbgfHfight = imbgf.gftHfight(null);
+
+        // fnsurf origin is in Imbgf?
+        fOriginX = originX;
+        fOriginY = originY;
+    }
+
+    /**
+     * Rfturns thf bsdfnt of this <dodf>ImbgfGrbphidAttributf</dodf>.  Thf
+     * bsdfnt of bn <dodf>ImbgfGrbphidAttributf</dodf> is thf distbndf
+     * from thf top of thf imbgf to thf origin.
+     * @rfturn thf bsdfnt of this <dodf>ImbgfGrbphidAttributf</dodf>.
+     */
+    publid flobt gftAsdfnt() {
+
+        rfturn Mbth.mbx(0, fOriginY);
+    }
+
+    /**
+     * Rfturns thf dfsdfnt of this <dodf>ImbgfGrbphidAttributf</dodf>.
+     * Thf dfsdfnt of bn <dodf>ImbgfGrbphidAttributf</dodf> is thf
+     * distbndf from thf origin to thf bottom of thf imbgf.
+     * @rfturn thf dfsdfnt of this <dodf>ImbgfGrbphidAttributf</dodf>.
+     */
+    publid flobt gftDfsdfnt() {
+
+        rfturn Mbth.mbx(0, fImbgfHfight-fOriginY);
+    }
+
+    /**
+     * Rfturns thf bdvbndf of this <dodf>ImbgfGrbphidAttributf</dodf>.
+     * Thf bdvbndf of bn <dodf>ImbgfGrbphidAttributf</dodf> is thf
+     * distbndf from thf origin to thf right fdgf of thf imbgf.
+     * @rfturn thf bdvbndf of this <dodf>ImbgfGrbphidAttributf</dodf>.
+     */
+    publid flobt gftAdvbndf() {
+
+        rfturn Mbth.mbx(0, fImbgfWidth-fOriginX);
+    }
+
+    /**
+     * Rfturns b {@link Rfdtbnglf2D} thbt fndlosfs bll of thf
+     * bits rfndfrfd by this <dodf>ImbgfGrbphidAttributf</dodf>, rflbtivf
+     * to thf rfndfring position.  A grbphid dbn bf rfndfrfd bfyond its
+     * origin, bsdfnt, dfsdfnt, or bdvbndf;  but if it is, this
+     * mfthod's implfmfntbtion must indidbtf whfrf thf grbphid is rfndfrfd.
+     * @rfturn b <dodf>Rfdtbnglf2D</dodf> thbt fndlosfs bll of thf bits
+     * rfndfrfd by this <dodf>ImbgfGrbphidAttributf</dodf>.
+     */
+    publid Rfdtbnglf2D gftBounds() {
+
+        rfturn nfw Rfdtbnglf2D.Flobt(
+                        -fOriginX, -fOriginY, fImbgfWidth, fImbgfHfight);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid void drbw(Grbphids2D grbphids, flobt x, flobt y) {
+
+        grbphids.drbwImbgf(fImbgf, (int) (x-fOriginX), (int) (y-fOriginY), null);
+    }
+
+    /**
+     * Rfturns b hbshdodf for this <dodf>ImbgfGrbphidAttributf</dodf>.
+     * @rfturn  b hbsh dodf vbluf for this objfdt.
+     */
+    publid int hbshCodf() {
+
+        rfturn fImbgf.hbshCodf();
+    }
+
+    /**
+     * Compbrfs this <dodf>ImbgfGrbphidAttributf</dodf> to thf spfdififd
+     * {@link Objfdt}.
+     * @pbrbm rhs thf <dodf>Objfdt</dodf> to dompbrf for fqublity
+     * @rfturn <dodf>truf</dodf> if this
+     * <dodf>ImbgfGrbphidAttributf</dodf> fqubls <dodf>rhs</dodf>;
+     * <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt rhs) {
+
+        try {
+            rfturn fqubls((ImbgfGrbphidAttributf) rhs);
+        }
+        dbtdh(ClbssCbstExdfption f) {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Compbrfs this <dodf>ImbgfGrbphidAttributf</dodf> to thf spfdififd
+     * <dodf>ImbgfGrbphidAttributf</dodf>.
+     * @pbrbm rhs thf <dodf>ImbgfGrbphidAttributf</dodf> to dompbrf for
+     * fqublity
+     * @rfturn <dodf>truf</dodf> if this
+     * <dodf>ImbgfGrbphidAttributf</dodf> fqubls <dodf>rhs</dodf>;
+     * <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn fqubls(ImbgfGrbphidAttributf rhs) {
+
+        if (rhs == null) {
+            rfturn fblsf;
+        }
+
+        if (this == rhs) {
+            rfturn truf;
+        }
+
+        if (fOriginX != rhs.fOriginX || fOriginY != rhs.fOriginY) {
+            rfturn fblsf;
+        }
+
+        if (gftAlignmfnt() != rhs.gftAlignmfnt()) {
+            rfturn fblsf;
+        }
+
+        if (!fImbgf.fqubls(rhs.fImbgf)) {
+            rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+}

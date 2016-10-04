@@ -1,428 +1,428 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.geom;
+pbdkbgf jbvb.bwt.gfom;
 
-import java.io.Serializable;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * The <code>Point2D</code> class defines a point representing a location
- * in {@code (x,y)} coordinate space.
+ * Tif <dodf>Point2D</dodf> dlbss dffinfs b point rfprfsfnting b lodbtion
+ * in {@dodf (x,y)} doordinbtf spbdf.
  * <p>
- * This class is only the abstract superclass for all objects that
- * store a 2D coordinate.
- * The actual storage representation of the coordinates is left to
- * the subclass.
+ * Tiis dlbss is only tif bbstrbdt supfrdlbss for bll objfdts tibt
+ * storf b 2D doordinbtf.
+ * Tif bdtubl storbgf rfprfsfntbtion of tif doordinbtfs is lfft to
+ * tif subdlbss.
  *
- * @author      Jim Graham
- * @since 1.2
+ * @butior      Jim Grbibm
+ * @sindf 1.2
  */
-public abstract class Point2D implements Cloneable {
+publid bbstrbdt dlbss Point2D implfmfnts Clonfbblf {
 
     /**
-     * The <code>Float</code> class defines a point specified in float
-     * precision.
-     * @since 1.2
+     * Tif <dodf>Flobt</dodf> dlbss dffinfs b point spfdififd in flobt
+     * prfdision.
+     * @sindf 1.2
      */
-    public static class Float extends Point2D implements Serializable {
+    publid stbtid dlbss Flobt fxtfnds Point2D implfmfnts Sfriblizbblf {
         /**
-         * The X coordinate of this <code>Point2D</code>.
-         * @since 1.2
-         * @serial
+         * Tif X doordinbtf of tiis <dodf>Point2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
          */
-        public float x;
+        publid flobt x;
 
         /**
-         * The Y coordinate of this <code>Point2D</code>.
-         * @since 1.2
-         * @serial
+         * Tif Y doordinbtf of tiis <dodf>Point2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
          */
-        public float y;
+        publid flobt y;
 
         /**
-         * Constructs and initializes a <code>Point2D</code> with
-         * coordinates (0,&nbsp;0).
-         * @since 1.2
+         * Construdts bnd initiblizfs b <dodf>Point2D</dodf> witi
+         * doordinbtfs (0,&nbsp;0).
+         * @sindf 1.2
          */
-        public Float() {
+        publid Flobt() {
         }
 
         /**
-         * Constructs and initializes a <code>Point2D</code> with
-         * the specified coordinates.
+         * Construdts bnd initiblizfs b <dodf>Point2D</dodf> witi
+         * tif spfdififd doordinbtfs.
          *
-         * @param x the X coordinate of the newly
-         *          constructed <code>Point2D</code>
-         * @param y the Y coordinate of the newly
-         *          constructed <code>Point2D</code>
-         * @since 1.2
+         * @pbrbm x tif X doordinbtf of tif nfwly
+         *          donstrudtfd <dodf>Point2D</dodf>
+         * @pbrbm y tif Y doordinbtf of tif nfwly
+         *          donstrudtfd <dodf>Point2D</dodf>
+         * @sindf 1.2
          */
-        public Float(float x, float y) {
-            this.x = x;
-            this.y = y;
+        publid Flobt(flobt x, flobt y) {
+            tiis.x = x;
+            tiis.y = y;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public double getX() {
-            return (double) x;
+        publid doublf gftX() {
+            rfturn (doublf) x;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public double getY() {
-            return (double) y;
+        publid doublf gftY() {
+            rfturn (doublf) y;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public void setLocation(double x, double y) {
-            this.x = (float) x;
-            this.y = (float) y;
+        publid void sftLodbtion(doublf x, doublf y) {
+            tiis.x = (flobt) x;
+            tiis.y = (flobt) y;
         }
 
         /**
-         * Sets the location of this <code>Point2D</code> to the
-         * specified <code>float</code> coordinates.
+         * Sfts tif lodbtion of tiis <dodf>Point2D</dodf> to tif
+         * spfdififd <dodf>flobt</dodf> doordinbtfs.
          *
-         * @param x the new X coordinate of this {@code Point2D}
-         * @param y the new Y coordinate of this {@code Point2D}
-         * @since 1.2
+         * @pbrbm x tif nfw X doordinbtf of tiis {@dodf Point2D}
+         * @pbrbm y tif nfw Y doordinbtf of tiis {@dodf Point2D}
+         * @sindf 1.2
          */
-        public void setLocation(float x, float y) {
-            this.x = x;
-            this.y = y;
+        publid void sftLodbtion(flobt x, flobt y) {
+            tiis.x = x;
+            tiis.y = y;
         }
 
         /**
-         * Returns a <code>String</code> that represents the value
-         * of this <code>Point2D</code>.
-         * @return a string representation of this <code>Point2D</code>.
-         * @since 1.2
+         * Rfturns b <dodf>String</dodf> tibt rfprfsfnts tif vbluf
+         * of tiis <dodf>Point2D</dodf>.
+         * @rfturn b string rfprfsfntbtion of tiis <dodf>Point2D</dodf>.
+         * @sindf 1.2
          */
-        public String toString() {
-            return "Point2D.Float["+x+", "+y+"]";
+        publid String toString() {
+            rfturn "Point2D.Flobt["+x+", "+y+"]";
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = -2870572449815403710L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -2870572449815403710L;
     }
 
     /**
-     * The <code>Double</code> class defines a point specified in
-     * <code>double</code> precision.
-     * @since 1.2
+     * Tif <dodf>Doublf</dodf> dlbss dffinfs b point spfdififd in
+     * <dodf>doublf</dodf> prfdision.
+     * @sindf 1.2
      */
-    public static class Double extends Point2D implements Serializable {
+    publid stbtid dlbss Doublf fxtfnds Point2D implfmfnts Sfriblizbblf {
         /**
-         * The X coordinate of this <code>Point2D</code>.
-         * @since 1.2
-         * @serial
+         * Tif X doordinbtf of tiis <dodf>Point2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
          */
-        public double x;
+        publid doublf x;
 
         /**
-         * The Y coordinate of this <code>Point2D</code>.
-         * @since 1.2
-         * @serial
+         * Tif Y doordinbtf of tiis <dodf>Point2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
          */
-        public double y;
+        publid doublf y;
 
         /**
-         * Constructs and initializes a <code>Point2D</code> with
-         * coordinates (0,&nbsp;0).
-         * @since 1.2
+         * Construdts bnd initiblizfs b <dodf>Point2D</dodf> witi
+         * doordinbtfs (0,&nbsp;0).
+         * @sindf 1.2
          */
-        public Double() {
+        publid Doublf() {
         }
 
         /**
-         * Constructs and initializes a <code>Point2D</code> with the
-         * specified coordinates.
+         * Construdts bnd initiblizfs b <dodf>Point2D</dodf> witi tif
+         * spfdififd doordinbtfs.
          *
-         * @param x the X coordinate of the newly
-         *          constructed <code>Point2D</code>
-         * @param y the Y coordinate of the newly
-         *          constructed <code>Point2D</code>
-         * @since 1.2
+         * @pbrbm x tif X doordinbtf of tif nfwly
+         *          donstrudtfd <dodf>Point2D</dodf>
+         * @pbrbm y tif Y doordinbtf of tif nfwly
+         *          donstrudtfd <dodf>Point2D</dodf>
+         * @sindf 1.2
          */
-        public Double(double x, double y) {
-            this.x = x;
-            this.y = y;
+        publid Doublf(doublf x, doublf y) {
+            tiis.x = x;
+            tiis.y = y;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public double getX() {
-            return x;
+        publid doublf gftX() {
+            rfturn x;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public double getY() {
-            return y;
+        publid doublf gftY() {
+            rfturn y;
         }
 
         /**
-         * {@inheritDoc}
-         * @since 1.2
+         * {@inifritDod}
+         * @sindf 1.2
          */
-        public void setLocation(double x, double y) {
-            this.x = x;
-            this.y = y;
+        publid void sftLodbtion(doublf x, doublf y) {
+            tiis.x = x;
+            tiis.y = y;
         }
 
         /**
-         * Returns a <code>String</code> that represents the value
-         * of this <code>Point2D</code>.
-         * @return a string representation of this <code>Point2D</code>.
-         * @since 1.2
+         * Rfturns b <dodf>String</dodf> tibt rfprfsfnts tif vbluf
+         * of tiis <dodf>Point2D</dodf>.
+         * @rfturn b string rfprfsfntbtion of tiis <dodf>Point2D</dodf>.
+         * @sindf 1.2
          */
-        public String toString() {
-            return "Point2D.Double["+x+", "+y+"]";
+        publid String toString() {
+            rfturn "Point2D.Doublf["+x+", "+y+"]";
         }
 
         /*
-         * JDK 1.6 serialVersionUID
+         * JDK 1.6 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = 6150783262733311327L;
+        privbtf stbtid finbl long sfriblVfrsionUID = 6150783262733311327L;
     }
 
     /**
-     * This is an abstract class that cannot be instantiated directly.
-     * Type-specific implementation subclasses are available for
-     * instantiation and provide a number of formats for storing
-     * the information necessary to satisfy the various accessor
-     * methods below.
+     * Tiis is bn bbstrbdt dlbss tibt dbnnot bf instbntibtfd dirfdtly.
+     * Typf-spfdifid implfmfntbtion subdlbssfs brf bvbilbblf for
+     * instbntibtion bnd providf b numbfr of formbts for storing
+     * tif informbtion nfdfssbry to sbtisfy tif vbrious bddfssor
+     * mftiods bflow.
      *
-     * @see java.awt.geom.Point2D.Float
-     * @see java.awt.geom.Point2D.Double
-     * @see java.awt.Point
-     * @since 1.2
+     * @sff jbvb.bwt.gfom.Point2D.Flobt
+     * @sff jbvb.bwt.gfom.Point2D.Doublf
+     * @sff jbvb.bwt.Point
+     * @sindf 1.2
      */
-    protected Point2D() {
+    protfdtfd Point2D() {
     }
 
     /**
-     * Returns the X coordinate of this <code>Point2D</code> in
-     * <code>double</code> precision.
-     * @return the X coordinate of this <code>Point2D</code>.
-     * @since 1.2
+     * Rfturns tif X doordinbtf of tiis <dodf>Point2D</dodf> in
+     * <dodf>doublf</dodf> prfdision.
+     * @rfturn tif X doordinbtf of tiis <dodf>Point2D</dodf>.
+     * @sindf 1.2
      */
-    public abstract double getX();
+    publid bbstrbdt doublf gftX();
 
     /**
-     * Returns the Y coordinate of this <code>Point2D</code> in
-     * <code>double</code> precision.
-     * @return the Y coordinate of this <code>Point2D</code>.
-     * @since 1.2
+     * Rfturns tif Y doordinbtf of tiis <dodf>Point2D</dodf> in
+     * <dodf>doublf</dodf> prfdision.
+     * @rfturn tif Y doordinbtf of tiis <dodf>Point2D</dodf>.
+     * @sindf 1.2
      */
-    public abstract double getY();
+    publid bbstrbdt doublf gftY();
 
     /**
-     * Sets the location of this <code>Point2D</code> to the
-     * specified <code>double</code> coordinates.
+     * Sfts tif lodbtion of tiis <dodf>Point2D</dodf> to tif
+     * spfdififd <dodf>doublf</dodf> doordinbtfs.
      *
-     * @param x the new X coordinate of this {@code Point2D}
-     * @param y the new Y coordinate of this {@code Point2D}
-     * @since 1.2
+     * @pbrbm x tif nfw X doordinbtf of tiis {@dodf Point2D}
+     * @pbrbm y tif nfw Y doordinbtf of tiis {@dodf Point2D}
+     * @sindf 1.2
      */
-    public abstract void setLocation(double x, double y);
+    publid bbstrbdt void sftLodbtion(doublf x, doublf y);
 
     /**
-     * Sets the location of this <code>Point2D</code> to the same
-     * coordinates as the specified <code>Point2D</code> object.
-     * @param p the specified <code>Point2D</code> to which to set
-     * this <code>Point2D</code>
-     * @since 1.2
+     * Sfts tif lodbtion of tiis <dodf>Point2D</dodf> to tif sbmf
+     * doordinbtfs bs tif spfdififd <dodf>Point2D</dodf> objfdt.
+     * @pbrbm p tif spfdififd <dodf>Point2D</dodf> to wiidi to sft
+     * tiis <dodf>Point2D</dodf>
+     * @sindf 1.2
      */
-    public void setLocation(Point2D p) {
-        setLocation(p.getX(), p.getY());
+    publid void sftLodbtion(Point2D p) {
+        sftLodbtion(p.gftX(), p.gftY());
     }
 
     /**
-     * Returns the square of the distance between two points.
+     * Rfturns tif squbrf of tif distbndf bftwffn two points.
      *
-     * @param x1 the X coordinate of the first specified point
-     * @param y1 the Y coordinate of the first specified point
-     * @param x2 the X coordinate of the second specified point
-     * @param y2 the Y coordinate of the second specified point
-     * @return the square of the distance between the two
-     * sets of specified coordinates.
-     * @since 1.2
+     * @pbrbm x1 tif X doordinbtf of tif first spfdififd point
+     * @pbrbm y1 tif Y doordinbtf of tif first spfdififd point
+     * @pbrbm x2 tif X doordinbtf of tif sfdond spfdififd point
+     * @pbrbm y2 tif Y doordinbtf of tif sfdond spfdififd point
+     * @rfturn tif squbrf of tif distbndf bftwffn tif two
+     * sfts of spfdififd doordinbtfs.
+     * @sindf 1.2
      */
-    public static double distanceSq(double x1, double y1,
-                                    double x2, double y2)
+    publid stbtid doublf distbndfSq(doublf x1, doublf y1,
+                                    doublf x2, doublf y2)
     {
         x1 -= x2;
         y1 -= y2;
-        return (x1 * x1 + y1 * y1);
+        rfturn (x1 * x1 + y1 * y1);
     }
 
     /**
-     * Returns the distance between two points.
+     * Rfturns tif distbndf bftwffn two points.
      *
-     * @param x1 the X coordinate of the first specified point
-     * @param y1 the Y coordinate of the first specified point
-     * @param x2 the X coordinate of the second specified point
-     * @param y2 the Y coordinate of the second specified point
-     * @return the distance between the two sets of specified
-     * coordinates.
-     * @since 1.2
+     * @pbrbm x1 tif X doordinbtf of tif first spfdififd point
+     * @pbrbm y1 tif Y doordinbtf of tif first spfdififd point
+     * @pbrbm x2 tif X doordinbtf of tif sfdond spfdififd point
+     * @pbrbm y2 tif Y doordinbtf of tif sfdond spfdififd point
+     * @rfturn tif distbndf bftwffn tif two sfts of spfdififd
+     * doordinbtfs.
+     * @sindf 1.2
      */
-    public static double distance(double x1, double y1,
-                                  double x2, double y2)
+    publid stbtid doublf distbndf(doublf x1, doublf y1,
+                                  doublf x2, doublf y2)
     {
         x1 -= x2;
         y1 -= y2;
-        return Math.sqrt(x1 * x1 + y1 * y1);
+        rfturn Mbti.sqrt(x1 * x1 + y1 * y1);
     }
 
     /**
-     * Returns the square of the distance from this
-     * <code>Point2D</code> to a specified point.
+     * Rfturns tif squbrf of tif distbndf from tiis
+     * <dodf>Point2D</dodf> to b spfdififd point.
      *
-     * @param px the X coordinate of the specified point to be measured
-     *           against this <code>Point2D</code>
-     * @param py the Y coordinate of the specified point to be measured
-     *           against this <code>Point2D</code>
-     * @return the square of the distance between this
-     * <code>Point2D</code> and the specified point.
-     * @since 1.2
+     * @pbrbm px tif X doordinbtf of tif spfdififd point to bf mfbsurfd
+     *           bgbinst tiis <dodf>Point2D</dodf>
+     * @pbrbm py tif Y doordinbtf of tif spfdififd point to bf mfbsurfd
+     *           bgbinst tiis <dodf>Point2D</dodf>
+     * @rfturn tif squbrf of tif distbndf bftwffn tiis
+     * <dodf>Point2D</dodf> bnd tif spfdififd point.
+     * @sindf 1.2
      */
-    public double distanceSq(double px, double py) {
-        px -= getX();
-        py -= getY();
-        return (px * px + py * py);
+    publid doublf distbndfSq(doublf px, doublf py) {
+        px -= gftX();
+        py -= gftY();
+        rfturn (px * px + py * py);
     }
 
     /**
-     * Returns the square of the distance from this
-     * <code>Point2D</code> to a specified <code>Point2D</code>.
+     * Rfturns tif squbrf of tif distbndf from tiis
+     * <dodf>Point2D</dodf> to b spfdififd <dodf>Point2D</dodf>.
      *
-     * @param pt the specified point to be measured
-     *           against this <code>Point2D</code>
-     * @return the square of the distance between this
-     * <code>Point2D</code> to a specified <code>Point2D</code>.
-     * @since 1.2
+     * @pbrbm pt tif spfdififd point to bf mfbsurfd
+     *           bgbinst tiis <dodf>Point2D</dodf>
+     * @rfturn tif squbrf of tif distbndf bftwffn tiis
+     * <dodf>Point2D</dodf> to b spfdififd <dodf>Point2D</dodf>.
+     * @sindf 1.2
      */
-    public double distanceSq(Point2D pt) {
-        double px = pt.getX() - this.getX();
-        double py = pt.getY() - this.getY();
-        return (px * px + py * py);
+    publid doublf distbndfSq(Point2D pt) {
+        doublf px = pt.gftX() - tiis.gftX();
+        doublf py = pt.gftY() - tiis.gftY();
+        rfturn (px * px + py * py);
     }
 
     /**
-     * Returns the distance from this <code>Point2D</code> to
-     * a specified point.
+     * Rfturns tif distbndf from tiis <dodf>Point2D</dodf> to
+     * b spfdififd point.
      *
-     * @param px the X coordinate of the specified point to be measured
-     *           against this <code>Point2D</code>
-     * @param py the Y coordinate of the specified point to be measured
-     *           against this <code>Point2D</code>
-     * @return the distance between this <code>Point2D</code>
-     * and a specified point.
-     * @since 1.2
+     * @pbrbm px tif X doordinbtf of tif spfdififd point to bf mfbsurfd
+     *           bgbinst tiis <dodf>Point2D</dodf>
+     * @pbrbm py tif Y doordinbtf of tif spfdififd point to bf mfbsurfd
+     *           bgbinst tiis <dodf>Point2D</dodf>
+     * @rfturn tif distbndf bftwffn tiis <dodf>Point2D</dodf>
+     * bnd b spfdififd point.
+     * @sindf 1.2
      */
-    public double distance(double px, double py) {
-        px -= getX();
-        py -= getY();
-        return Math.sqrt(px * px + py * py);
+    publid doublf distbndf(doublf px, doublf py) {
+        px -= gftX();
+        py -= gftY();
+        rfturn Mbti.sqrt(px * px + py * py);
     }
 
     /**
-     * Returns the distance from this <code>Point2D</code> to a
-     * specified <code>Point2D</code>.
+     * Rfturns tif distbndf from tiis <dodf>Point2D</dodf> to b
+     * spfdififd <dodf>Point2D</dodf>.
      *
-     * @param pt the specified point to be measured
-     *           against this <code>Point2D</code>
-     * @return the distance between this <code>Point2D</code> and
-     * the specified <code>Point2D</code>.
-     * @since 1.2
+     * @pbrbm pt tif spfdififd point to bf mfbsurfd
+     *           bgbinst tiis <dodf>Point2D</dodf>
+     * @rfturn tif distbndf bftwffn tiis <dodf>Point2D</dodf> bnd
+     * tif spfdififd <dodf>Point2D</dodf>.
+     * @sindf 1.2
      */
-    public double distance(Point2D pt) {
-        double px = pt.getX() - this.getX();
-        double py = pt.getY() - this.getY();
-        return Math.sqrt(px * px + py * py);
+    publid doublf distbndf(Point2D pt) {
+        doublf px = pt.gftX() - tiis.gftX();
+        doublf py = pt.gftY() - tiis.gftY();
+        rfturn Mbti.sqrt(px * px + py * py);
     }
 
     /**
-     * Creates a new object of the same class and with the
-     * same contents as this object.
-     * @return     a clone of this instance.
-     * @exception  OutOfMemoryError            if there is not enough memory.
-     * @see        java.lang.Cloneable
-     * @since      1.2
+     * Crfbtfs b nfw objfdt of tif sbmf dlbss bnd witi tif
+     * sbmf dontfnts bs tiis objfdt.
+     * @rfturn     b dlonf of tiis instbndf.
+     * @fxdfption  OutOfMfmoryError            if tifrf is not fnougi mfmory.
+     * @sff        jbvb.lbng.Clonfbblf
+     * @sindf      1.2
      */
-    public Object clone() {
+    publid Objfdt dlonf() {
         try {
-            return super.clone();
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
+            rfturn supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            // tiis siouldn't ibppfn, sindf wf brf Clonfbblf
+            tirow nfw IntfrnblError(f);
         }
     }
 
     /**
-     * Returns the hashcode for this <code>Point2D</code>.
-     * @return      a hash code for this <code>Point2D</code>.
+     * Rfturns tif ibsidodf for tiis <dodf>Point2D</dodf>.
+     * @rfturn      b ibsi dodf for tiis <dodf>Point2D</dodf>.
      */
-    public int hashCode() {
-        long bits = java.lang.Double.doubleToLongBits(getX());
-        bits ^= java.lang.Double.doubleToLongBits(getY()) * 31;
-        return (((int) bits) ^ ((int) (bits >> 32)));
+    publid int ibsiCodf() {
+        long bits = jbvb.lbng.Doublf.doublfToLongBits(gftX());
+        bits ^= jbvb.lbng.Doublf.doublfToLongBits(gftY()) * 31;
+        rfturn (((int) bits) ^ ((int) (bits >> 32)));
     }
 
     /**
-     * Determines whether or not two points are equal. Two instances of
-     * <code>Point2D</code> are equal if the values of their
-     * <code>x</code> and <code>y</code> member fields, representing
-     * their position in the coordinate space, are the same.
-     * @param obj an object to be compared with this <code>Point2D</code>
-     * @return <code>true</code> if the object to be compared is
-     *         an instance of <code>Point2D</code> and has
-     *         the same values; <code>false</code> otherwise.
-     * @since 1.2
+     * Dftfrminfs wiftifr or not two points brf fqubl. Two instbndfs of
+     * <dodf>Point2D</dodf> brf fqubl if tif vblufs of tifir
+     * <dodf>x</dodf> bnd <dodf>y</dodf> mfmbfr fiflds, rfprfsfnting
+     * tifir position in tif doordinbtf spbdf, brf tif sbmf.
+     * @pbrbm obj bn objfdt to bf dompbrfd witi tiis <dodf>Point2D</dodf>
+     * @rfturn <dodf>truf</dodf> if tif objfdt to bf dompbrfd is
+     *         bn instbndf of <dodf>Point2D</dodf> bnd ibs
+     *         tif sbmf vblufs; <dodf>fblsf</dodf> otifrwisf.
+     * @sindf 1.2
      */
-    public boolean equals(Object obj) {
-        if (obj instanceof Point2D) {
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof Point2D) {
             Point2D p2d = (Point2D) obj;
-            return (getX() == p2d.getX()) && (getY() == p2d.getY());
+            rfturn (gftX() == p2d.gftX()) && (gftY() == p2d.gftY());
         }
-        return super.equals(obj);
+        rfturn supfr.fqubls(obj);
     }
 }

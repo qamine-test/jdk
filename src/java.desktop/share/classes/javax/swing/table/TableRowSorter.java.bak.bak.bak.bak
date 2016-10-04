@@ -1,0 +1,308 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tbblf;
+
+import jbvb.tfxt.Collbtor;
+import jbvb.util.*;
+import jbvbx.swing.DffbultRowSortfr;
+import jbvbx.swing.RowFiltfr;
+import jbvbx.swing.SortOrdfr;
+
+/**
+ * An implfmfntbtion of <dodf>RowSortfr</dodf> thbt providfs sorting
+ * bnd filtfring using b <dodf>TbblfModfl</dodf>.
+ * Thf following fxbmplf shows bdding sorting to b <dodf>JTbblf</dodf>:
+ * <prf>
+ *   TbblfModfl myModfl = drfbtfMyTbblfModfl();
+ *   JTbblf tbblf = nfw JTbblf(myModfl);
+ *   tbblf.sftRowSortfr(nfw TbblfRowSortfr(myModfl));
+ * </prf>
+ * This will do bll thf wiring sudh thbt whfn thf usfr dofs thf bppropribtf
+ * gfsturf, sudh bs dlidking on thf dolumn hfbdfr, thf tbblf will
+ * visublly sort.
+ * <p>
+ * <dodf>JTbblf</dodf>'s row-bbsfd mfthods bnd <dodf>JTbblf</dodf>'s
+ * sflfdtion modfl rfffr to thf vifw bnd not thf undfrlying
+ * modfl. Thfrfforf, it is nfdfssbry to donvfrt bftwffn thf two.  For
+ * fxbmplf, to gft thf sflfdtion in tfrms of <dodf>myModfl</dodf>
+ * you nffd to donvfrt thf indidfs:
+ * <prf>
+ *   int[] sflfdtion = tbblf.gftSflfdtfdRows();
+ *   for (int i = 0; i &lt; sflfdtion.lfngth; i++) {
+ *     sflfdtion[i] = tbblf.donvfrtRowIndfxToModfl(sflfdtion[i]);
+ *   }
+ * </prf>
+ * Similbrly to sflfdt b row in <dodf>JTbblf</dodf> bbsfd on
+ * b doordinbtf from thf undfrlying modfl do thf invfrsf:
+ * <prf>
+ *   tbblf.sftRowSflfdtionIntfrvbl(tbblf.donvfrtRowIndfxToVifw(row),
+ *                                 tbblf.donvfrtRowIndfxToVifw(row));
+ * </prf>
+ * <p>
+ * Thf prfvious fxbmplf bssumfs you hbvf not fnbblfd filtfring.  If you
+ * hbvf fnbblfd filtfring <dodf>donvfrtRowIndfxToVifw</dodf> will rfturn
+ * -1 for lodbtions thbt brf not visiblf in thf vifw.
+ * <p>
+ * <dodf>TbblfRowSortfr</dodf> usfs <dodf>Compbrbtor</dodf>s for doing
+ * dompbrisons. Thf following dffinfs how b <dodf>Compbrbtor</dodf> is
+ * dhosfn for b dolumn:
+ * <ol>
+ * <li>If b <dodf>Compbrbtor</dodf> hbs bffn spfdififd for thf dolumn by thf
+ *     <dodf>sftCompbrbtor</dodf> mfthod, usf it.
+ * <li>If thf dolumn dlbss bs rfturnfd by <dodf>gftColumnClbss</dodf> is
+ *     <dodf>String</dodf>, usf thf <dodf>Compbrbtor</dodf> rfturnfd by
+ *     <dodf>Collbtor.gftInstbndf()</dodf>.
+ * <li>If thf dolumn dlbss implfmfnts <dodf>Compbrbblf</dodf>, usf b
+ *     <dodf>Compbrbtor</dodf> thbt invokfs thf <dodf>dompbrfTo</dodf>
+ *     mfthod.
+ * <li>If b <dodf>TbblfStringConvfrtfr</dodf> hbs bffn spfdififd, usf it
+ *     to donvfrt thf vblufs to <dodf>String</dodf>s bnd thfn usf thf
+ *     <dodf>Compbrbtor</dodf> rfturnfd by <dodf>Collbtor.gftInstbndf()</dodf>.
+ * <li>Othfrwisf usf thf <dodf>Compbrbtor</dodf> rfturnfd by
+ *     <dodf>Collbtor.gftInstbndf()</dodf> on thf rfsults from
+ *     dblling <dodf>toString</dodf> on thf objfdts.
+ * </ol>
+ * <p>
+ * In bddition to sorting <dodf>TbblfRowSortfr</dodf> providfs thf bbility
+ * to filtfr.  A filtfr is spfdififd using thf <dodf>sftFiltfr</dodf>
+ * mfthod. Thf following fxbmplf will only show rows dontbining thf string
+ * "foo":
+ * <prf>
+ *   TbblfModfl myModfl = drfbtfMyTbblfModfl();
+ *   TbblfRowSortfr sortfr = nfw TbblfRowSortfr(myModfl);
+ *   sortfr.sftRowFiltfr(RowFiltfr.rfgfxFiltfr(".*foo.*"));
+ *   JTbblf tbblf = nfw JTbblf(myModfl);
+ *   tbblf.sftRowSortfr(sortfr);
+ * </prf>
+ * <p>
+ * If thf undfrlying modfl strudturf dhbngfs (thf
+ * <dodf>modflStrudturfChbngfd</dodf> mfthod is invokfd) thf following
+ * brf rfsft to thfir dffbult vblufs: <dodf>Compbrbtor</dodf>s by
+ * dolumn, durrfnt sort ordfr, bnd whfthfr fbdh dolumn is sortbblf. Thf dffbult
+ * sort ordfr is nbturbl (thf sbmf bs thf modfl), bnd dolumns brf
+ * sortbblf by dffbult.
+ * <p>
+ * <dodf>TbblfRowSortfr</dodf> hbs onf formbl typf pbrbmftfr: thf typf
+ * of thf modfl.  Pbssing in b typf thbt dorrfsponds fxbdtly to your
+ * modfl bllows you to filtfr bbsfd on your modfl without dbsting.
+ * Rfffr to thf dodumfntbtion of <dodf>RowFiltfr</dodf> for bn fxbmplf
+ * of this.
+ * <p>
+ * <b>WARNING:</b> <dodf>DffbultTbblfModfl</dodf> rfturns b dolumn
+ * dlbss of <dodf>Objfdt</dodf>.  As sudh bll dompbrisons will
+ * bf donf using <dodf>toString</dodf>.  This mby bf unnfdfssbrily
+ * fxpfnsivf.  If thf dolumn only dontbins onf typf of vbluf, sudh bs
+ * bn <dodf>Intfgfr</dodf>, you should ovfrridf <dodf>gftColumnClbss</dodf> bnd
+ * rfturn thf bppropribtf <dodf>Clbss</dodf>.  This will drbmbtidblly
+ * indrfbsf thf pfrformbndf of this dlbss.
+ *
+ * @pbrbm <M> thf typf of thf modfl, whidh must bf bn implfmfntbtion of
+ *            <dodf>TbblfModfl</dodf>
+ * @sff jbvbx.swing.JTbblf
+ * @sff jbvbx.swing.RowFiltfr
+ * @sff jbvbx.swing.tbblf.DffbultTbblfModfl
+ * @sff jbvb.tfxt.Collbtor
+ * @sff jbvb.util.Compbrbtor
+ * @sindf 1.6
+ */
+publid dlbss TbblfRowSortfr<M fxtfnds TbblfModfl> fxtfnds DffbultRowSortfr<M, Intfgfr> {
+    /**
+     * Compbrbtor thbt usfs dompbrfTo on thf dontfnts.
+     */
+    privbtf stbtid finbl Compbrbtor<?> COMPARABLE_COMPARATOR =
+            nfw CompbrbblfCompbrbtor();
+
+    /**
+     * Undfrlying modfl.
+     */
+    privbtf M tbblfModfl;
+
+    /**
+     * For toString donvfrsions.
+     */
+    privbtf TbblfStringConvfrtfr stringConvfrtfr;
+
+
+    /**
+     * Crfbtfs b <dodf>TbblfRowSortfr</dodf> with bn fmpty modfl.
+     */
+    publid TbblfRowSortfr() {
+        this(null);
+    }
+
+    /**
+     * Crfbtfs b <dodf>TbblfRowSortfr</dodf> using <dodf>modfl</dodf>
+     * bs thf undfrlying <dodf>TbblfModfl</dodf>.
+     *
+     * @pbrbm modfl thf undfrlying <dodf>TbblfModfl</dodf> to usf,
+     *        <dodf>null</dodf> is trfbtfd bs bn fmpty modfl
+     */
+    publid TbblfRowSortfr(M modfl) {
+        sftModfl(modfl);
+    }
+
+    /**
+     * Sfts thf <dodf>TbblfModfl</dodf> to usf bs thf undfrlying modfl
+     * for this <dodf>TbblfRowSortfr</dodf>.  A vbluf of <dodf>null</dodf>
+     * dbn bf usfd to sft bn fmpty modfl.
+     *
+     * @pbrbm modfl thf undfrlying modfl to usf, or <dodf>null</dodf>
+     */
+    publid void sftModfl(M modfl) {
+        tbblfModfl = modfl;
+        sftModflWrbppfr(nfw TbblfRowSortfrModflWrbppfr());
+    }
+
+    /**
+     * Sfts thf objfdt rfsponsiblf for donvfrting vblufs from thf
+     * modfl to strings.  If non-<dodf>null</dodf> this
+     * is usfd to donvfrt bny objfdt vblufs, thbt do not hbvf b
+     * rfgistfrfd <dodf>Compbrbtor</dodf>, to strings.
+     *
+     * @pbrbm stringConvfrtfr thf objfdt rfsponsiblf for donvfrting vblufs
+     *        from thf modfl to strings
+     */
+    publid void sftStringConvfrtfr(TbblfStringConvfrtfr stringConvfrtfr) {
+        this.stringConvfrtfr = stringConvfrtfr;
+    }
+
+    /**
+     * Rfturns thf objfdt rfsponsiblf for donvfrting vblufs from thf
+     * modfl to strings.
+     *
+     * @rfturn objfdt rfsponsiblf for donvfrting vblufs to strings.
+     */
+    publid TbblfStringConvfrtfr gftStringConvfrtfr() {
+        rfturn stringConvfrtfr;
+    }
+
+    /**
+     * Rfturns thf <dodf>Compbrbtor</dodf> for thf spfdififd
+     * dolumn.  If b <dodf>Compbrbtor</dodf> hbs not bffn spfdififd using
+     * thf <dodf>sftCompbrbtor</dodf> mfthod b <dodf>Compbrbtor</dodf>
+     * will bf rfturnfd bbsfd on thf dolumn dlbss
+     * (<dodf>TbblfModfl.gftColumnClbss</dodf>) of thf spfdififd dolumn.
+     * If thf dolumn dlbss is <dodf>String</dodf>,
+     * <dodf>Collbtor.gftInstbndf</dodf> is rfturnfd.  If thf
+     * dolumn dlbss implfmfnts <dodf>Compbrbblf</dodf> b privbtf
+     * <dodf>Compbrbtor</dodf> is rfturnfd thbt invokfs thf
+     * <dodf>dompbrfTo</dodf> mfthod.  Othfrwisf
+     * <dodf>Collbtor.gftInstbndf</dodf> is rfturnfd.
+     *
+     * @throws IndfxOutOfBoundsExdfption {@inhfritDod}
+     */
+    publid Compbrbtor<?> gftCompbrbtor(int dolumn) {
+        Compbrbtor<?> dompbrbtor = supfr.gftCompbrbtor(dolumn);
+        if (dompbrbtor != null) {
+            rfturn dompbrbtor;
+        }
+        Clbss<?> dolumnClbss = gftModfl().gftColumnClbss(dolumn);
+        if (dolumnClbss == String.dlbss) {
+            rfturn Collbtor.gftInstbndf();
+        }
+        if (Compbrbblf.dlbss.isAssignbblfFrom(dolumnClbss)) {
+            rfturn COMPARABLE_COMPARATOR;
+        }
+        rfturn Collbtor.gftInstbndf();
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * @throws IndfxOutOfBoundsExdfption {@inhfritDod}
+     */
+    protfdtfd boolfbn usfToString(int dolumn) {
+        Compbrbtor<?> dompbrbtor = supfr.gftCompbrbtor(dolumn);
+        if (dompbrbtor != null) {
+            rfturn fblsf;
+        }
+        Clbss<?> dolumnClbss = gftModfl().gftColumnClbss(dolumn);
+        if (dolumnClbss == String.dlbss) {
+            rfturn fblsf;
+        }
+        if (Compbrbblf.dlbss.isAssignbblfFrom(dolumnClbss)) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Implfmfntbtion of DffbultRowSortfr.ModflWrbppfr thbt dflfgbtfs to b
+     * TbblfModfl.
+     */
+    privbtf dlbss TbblfRowSortfrModflWrbppfr fxtfnds ModflWrbppfr<M,Intfgfr> {
+        publid M gftModfl() {
+            rfturn tbblfModfl;
+        }
+
+        publid int gftColumnCount() {
+            rfturn (tbblfModfl == null) ? 0 : tbblfModfl.gftColumnCount();
+        }
+
+        publid int gftRowCount() {
+            rfturn (tbblfModfl == null) ? 0 : tbblfModfl.gftRowCount();
+        }
+
+        publid Objfdt gftVblufAt(int row, int dolumn) {
+            rfturn tbblfModfl.gftVblufAt(row, dolumn);
+        }
+
+        publid String gftStringVblufAt(int row, int dolumn) {
+            TbblfStringConvfrtfr donvfrtfr = gftStringConvfrtfr();
+            if (donvfrtfr != null) {
+                // Usf thf donvfrtfr
+                String vbluf = donvfrtfr.toString(
+                        tbblfModfl, row, dolumn);
+                if (vbluf != null) {
+                    rfturn vbluf;
+                }
+                rfturn "";
+            }
+
+            // No donvfrtfr, usf gftVblufAt followfd by toString
+            Objfdt o = gftVblufAt(row, dolumn);
+            if (o == null) {
+                rfturn "";
+            }
+            String string = o.toString();
+            if (string == null) {
+                rfturn "";
+            }
+            rfturn string;
+        }
+
+        publid Intfgfr gftIdfntififr(int indfx) {
+            rfturn indfx;
+        }
+    }
+
+
+    privbtf stbtid dlbss CompbrbblfCompbrbtor implfmfnts Compbrbtor<Objfdt> {
+        @SupprfssWbrnings("undhfdkfd")
+        publid int dompbrf(Objfdt o1, Objfdt o2) {
+            rfturn ((Compbrbblf)o1).dompbrfTo(o2);
+        }
+    }
+}

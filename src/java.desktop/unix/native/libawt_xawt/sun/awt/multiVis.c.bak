@@ -1,55 +1,55 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-/* $XConsortium: multiVis.c /main/4 1996/10/14 15:04:08 swick $ */
+/* $XConsortium: multiVis.d /mbin/4 1996/10/14 15:04:08 swidk $ */
 /** ------------------------------------------------------------------------
-        This file contains functions to create a list of regions which
-        tile a specified window.  Each region contains all visible
-        portions of the window which are drawn with the same visual.
-        If the window consists of subwindows of two different visual types,
-        there will be two regions in the list.  The list can be traversed
-        to correctly pull an image of the window using XGetImage or the
-        Image Library.
+        Tiis filf dontbins fundtions to drfbtf b list of rfgions wiidi
+        tilf b spfdififd window.  Ebdi rfgion dontbins bll visiblf
+        portions of tif window wiidi brf drbwn witi tif sbmf visubl.
+        If tif window donsists of subwindows of two difffrfnt visubl typfs,
+        tifrf will bf two rfgions in tif list.  Tif list dbn bf trbvfrsfd
+        to dorrfdtly pull bn imbgf of tif window using XGftImbgf or tif
+        Imbgf Librbry.
 
- This file is available under and governed by the GNU General Public
- License version 2 only, as published by the Free Software Foundation.
- However, the following notice accompanied the original version of this
- file:
+ Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ filf:
 
-Copyright (c) 1994 Hewlett-Packard Co.
-Copyright (c) 1996  X Consortium
+Copyrigit (d) 1994 Hfwlftt-Pbdkbrd Co.
+Copyrigit (d) 1996  X Consortium
 
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
+Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining
+b dopy of tiis softwbrf bnd bssodibtfd dodumfntbtion filfs (tif
+"Softwbrf"), to dfbl in tif Softwbrf witiout rfstridtion, indluding
+witiout limitbtion tif rigits to usf, dopy, modify, mfrgf, publisi,
+distributf, sublidfnsf, bnd sfll dopifs of tif Softwbrf, bnd to
+pfrmit pfrsons to wiom tif Softwbrf is furnisifd to do so, subjfdt to
+tif following donditions:
 
-The above copyright notice and this permission notice shall be included
-in all copies or substantial portions of the Software.
+Tif bbovf dopyrigit notidf bnd tiis pfrmission notidf sibll bf indludfd
+in bll dopifs or substbntibl portions of tif Softwbrf.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
 OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -59,1152 +59,1152 @@ OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 OTHER DEALINGS IN THE SOFTWARE.
 
-Except as contained in this notice, the name of the X Consortium shall
-not be used in advertising or otherwise to promote the sale, use or
-other dealings in this Software without prior written authorization
-from the X Consortium.
+Exdfpt bs dontbinfd in tiis notidf, tif nbmf of tif X Consortium sibll
+not bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or
+otifr dfblings in tiis Softwbrf witiout prior writtfn butiorizbtion
+from tif X Consortium.
 
     ------------------------------------------------------------------------ **/
-#include <stdlib.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/X.h>
-#include <stdio.h>
-#include "list.h"
-#include "wsutils.h"
-#include "multiVis.h"
-#include "robot_common.h"
+#indludf <stdlib.i>
+#indludf <X11/Xlib.i>
+#indludf <X11/Xutil.i>
+#indludf <X11/X.i>
+#indludf <stdio.i>
+#indludf "list.i"
+#indludf "wsutils.i"
+#indludf "multiVis.i"
+#indludf "robot_dommon.i"
 
-static char *vis_class_str[] = { "StaticGray" , "GrayScale" , "StaticColor",
-                                 "PseudoColor","TrueColor","DirectColor" } ;
-/* These structures are copied from X11/region.h.  For some reason
- * they're invisible from the outside.*/
+stbtid dibr *vis_dlbss_str[] = { "StbtidGrby" , "GrbySdblf" , "StbtidColor",
+                                 "PsfudoColor","TrufColor","DirfdtColor" } ;
+/* Tifsf strudturfs brf dopifd from X11/rfgion.i.  For somf rfbson
+ * tify'rf invisiblf from tif outsidf.*/
 
-typedef struct {
-    short x1, x2, y1, y2;
-} myBox, myBOX, myBoxRec, *myBoxPtr;
+typfdff strudt {
+    siort x1, x2, y1, y2;
+} myBox, myBOX, myBoxRfd, *myBoxPtr;
 
-typedef struct my_XRegion {    /* 64-bit: Region is supposed to be opaque    */
-    long size;                 /* but it is defined here anyway.  I'm going  */
-    long numRects;             /* to leave those longs alone.                */
-    myBOX *rects;
-    myBOX extents;
+typfdff strudt my_XRfgion {    /* 64-bit: Rfgion is supposfd to bf opbquf    */
+    long sizf;                 /* but it is dffinfd ifrf bnywby.  I'm going  */
+    long numRfdts;             /* to lfbvf tiosf longs blonf.                */
+    myBOX *rfdts;
+    myBOX fxtfnts;
 } myREGION;
 
-/* Items in long list of windows that have some part in the grabbed area */
-typedef struct {
+/* Itfms in long list of windows tibt ibvf somf pbrt in tif grbbbfd brfb */
+typfdff strudt {
     Window win;
-    Visual *vis;
-    Colormap cmap;
-    int32_t x_rootrel, y_rootrel;       /* root relative location of window */
-    int32_t x_vis, y_vis;               /* rt rel x,y of vis part, not parent clipped */
-    int32_t width, height;              /* width and height of visible part */
-    int32_t border_width;               /* border width of the window */
-    Window parent;              /* id of parent (for debugging) */
-} image_win_type;
+    Visubl *vis;
+    Colormbp dmbp;
+    int32_t x_rootrfl, y_rootrfl;       /* root rflbtivf lodbtion of window */
+    int32_t x_vis, y_vis;               /* rt rfl x,y of vis pbrt, not pbrfnt dlippfd */
+    int32_t widti, ifigit;              /* widti bnd ifigit of visiblf pbrt */
+    int32_t bordfr_widti;               /* bordfr widti of tif window */
+    Window pbrfnt;              /* id of pbrfnt (for dfbugging) */
+} imbgf_win_typf;
 
-/*  Items in short list of regions that tile the grabbed area.  May have
-    multiple windows in the region.
+/*  Itfms in siort list of rfgions tibt tilf tif grbbbfd brfb.  Mby ibvf
+    multiplf windows in tif rfgion.
 */
-typedef struct {
-    Window win;                 /* lowest window of this visual */
-    Visual *vis;
-    Colormap cmap;
-    int32_t x_rootrel, y_rootrel;       /* root relative location of bottom window */
-    int32_t x_vis, y_vis;               /* rt rel x,y of vis part, not parent clipped */
-    int32_t width, height;              /* w & h of visible rect of bottom window */
-    int32_t border;                     /* border width of the window */
-    Region visible_region;
-} image_region_type;
+typfdff strudt {
+    Window win;                 /* lowfst window of tiis visubl */
+    Visubl *vis;
+    Colormbp dmbp;
+    int32_t x_rootrfl, y_rootrfl;       /* root rflbtivf lodbtion of bottom window */
+    int32_t x_vis, y_vis;               /* rt rfl x,y of vis pbrt, not pbrfnt dlippfd */
+    int32_t widti, ifigit;              /* w & i of visiblf rfdt of bottom window */
+    int32_t bordfr;                     /* bordfr widti of tif window */
+    Rfgion visiblf_rfgion;
+} imbgf_rfgion_typf;
 
 /** ------------------------------------------------------------------------
-        Returns TRUE if the two structs pointed to have the same "vis" &
-        "cmap" fields and s2 lies completely within s1.  s1 and s2 can
-        point to structs of image_win_type or image_region_type.
+        Rfturns TRUE if tif two strudts pointfd to ibvf tif sbmf "vis" &
+        "dmbp" fiflds bnd s2 lifs domplftfly witiin s1.  s1 bnd s2 dbn
+        point to strudts of imbgf_win_typf or imbgf_rfgion_typf.
     ------------------------------------------------------------------------ **/
-#define SAME_REGIONS( s1, s2)   \
-        ((s1)->vis == (s2)->vis && (s1)->cmap == (s2)->cmap &&          \
+#dffinf SAME_REGIONS( s1, s2)   \
+        ((s1)->vis == (s2)->vis && (s1)->dmbp == (s2)->dmbp &&          \
          (s1)->x_vis <= (s2)->x_vis &&                              \
          (s1)->y_vis <= (s2)->y_vis &&                              \
-         (s1)->x_vis + (s1)->width  >= (s2)->x_vis + (s2)->width && \
-         (s1)->y_vis + (s1)->height >= (s2)->y_vis + (s2)->height)
+         (s1)->x_vis + (s1)->widti  >= (s2)->x_vis + (s2)->widti && \
+         (s1)->y_vis + (s1)->ifigit >= (s2)->y_vis + (s2)->ifigit)
 
-#ifndef MIN
-#define MIN( a, b)      ((a) < (b) ? a : b)
-#define MAX( a, b)      ((a) > (b) ? a : b)
-#endif
+#ifndff MIN
+#dffinf MIN( b, b)      ((b) < (b) ? b : b)
+#dffinf MAX( b, b)      ((b) > (b) ? b : b)
+#fndif
 
-#define RED_SHIFT        16
-#define GREEN_SHIFT       8
-#define BLUE_SHIFT        0
+#dffinf RED_SHIFT        16
+#dffinf GREEN_SHIFT       8
+#dffinf BLUE_SHIFT        0
 
 /*
-extern list_ptr new_list();
-extern list_ptr dup_list_head();
-extern void *   first_in_list();
-extern void *   next_in_list();
-extern int32_t  add_to_list();
-extern void     zero_list();
-extern void     delete_list();
-extern void     delete_list_destroying();
-extern uint32_t list_length();
+fxtfrn list_ptr nfw_list();
+fxtfrn list_ptr dup_list_ifbd();
+fxtfrn void *   first_in_list();
+fxtfrn void *   nfxt_in_list();
+fxtfrn int32_t  bdd_to_list();
+fxtfrn void     zfro_list();
+fxtfrn void     dflftf_list();
+fxtfrn void     dflftf_list_dfstroying();
+fxtfrn uint32_t list_lfngti();
 */
 
-/* Prototype Declarations for Static Functions */
-static void TransferImage(
-#if NeedFunctionPrototypes
-           Display *, XImage *,int32_t, int32_t , image_region_type*,
-           XImage *,int32_t ,int32_t
-#endif
+/* Prototypf Dfdlbrbtions for Stbtid Fundtions */
+stbtid void TrbnsffrImbgf(
+#if NffdFundtionPrototypfs
+           Displby *, XImbgf *,int32_t, int32_t , imbgf_rfgion_typf*,
+           XImbgf *,int32_t ,int32_t
+#fndif
            );
-static XImage * ReadRegionsInList(
-#if NeedFunctionPrototypes
-           Display *, Visual *, int32_t ,int32_t ,int32_t ,
-           int32_t , XRectangle, list_ptr
-#endif
+stbtid XImbgf * RfbdRfgionsInList(
+#if NffdFundtionPrototypfs
+           Displby *, Visubl *, int32_t ,int32_t ,int32_t ,
+           int32_t , XRfdtbnglf, list_ptr
+#fndif
            );
 
-static list_ptr make_region_list(
-#if NeedFunctionPrototypes
-                  Display*, Window, XRectangle*,
-                  int32_t*, int32_t, XVisualInfo**, int32_t     *
-#endif
+stbtid list_ptr mbkf_rfgion_list(
+#if NffdFundtionPrototypfs
+                  Displby*, Window, XRfdtbnglf*,
+                  int32_t*, int32_t, XVisublInfo**, int32_t     *
+#fndif
          );
 
-static void destroy_region_list(
-#if NeedFunctionPrototypes
+stbtid void dfstroy_rfgion_list(
+#if NffdFundtionPrototypfs
             list_ptr
-#endif
+#fndif
             ) ;
-static void subtr_rect_from_image_region(
-#if NeedFunctionPrototypes
-           image_region_type *, int32_t , int32_t , int32_t , int32_t
-#endif
+stbtid void subtr_rfdt_from_imbgf_rfgion(
+#if NffdFundtionPrototypfs
+           imbgf_rfgion_typf *, int32_t , int32_t , int32_t , int32_t
+#fndif
      );
-static void add_rect_to_image_region(
-#if NeedFunctionPrototypes
-           image_region_type *,
+stbtid void bdd_rfdt_to_imbgf_rfgion(
+#if NffdFundtionPrototypfs
+           imbgf_rfgion_typf *,
            int32_t , int32_t , int32_t , int32_t
-#endif
+#fndif
      );
-static int32_t src_in_region_list(
-#if NeedFunctionPrototypes
-    image_win_type *, list_ptr
-#endif
+stbtid int32_t srd_in_rfgion_list(
+#if NffdFundtionPrototypfs
+    imbgf_win_typf *, list_ptr
+#fndif
     );
-static void add_window_to_list(
-#if NeedFunctionPrototypes
+stbtid void bdd_window_to_list(
+#if NffdFundtionPrototypfs
     list_ptr, Window, int32_t, int32_t ,
     int32_t     , int32_t , int32_t , int32_t, int32_t,
-    Visual*, Colormap, Window
-#endif
+    Visubl*, Colormbp, Window
+#fndif
     );
-static int32_t src_in_image(
-#if NeedFunctionPrototypes
-    image_win_type      *, int32_t      , XVisualInfo**
-#endif
+stbtid int32_t srd_in_imbgf(
+#if NffdFundtionPrototypfs
+    imbgf_win_typf      *, int32_t      , XVisublInfo**
+#fndif
     );
-static int32_t src_in_overlay(
-#if NeedFunctionPrototypes
-    image_region_type *, int32_t, OverlayInfo *, int32_t*, int32_t*
-#endif
+stbtid int32_t srd_in_ovfrlby(
+#if NffdFundtionPrototypfs
+    imbgf_rfgion_typf *, int32_t, OvfrlbyInfo *, int32_t*, int32_t*
+#fndif
     );
 
-/* End of Prototype Declarations */
+/* End of Prototypf Dfdlbrbtions */
 
-void initFakeVisual(Vis)
-Visual *Vis ;
+void initFbkfVisubl(Vis)
+Visubl *Vis ;
 {
-    Vis->ext_data=NULL;
-    Vis->class = DirectColor ;
-    Vis->red_mask =   0x00FF0000;
-    Vis->green_mask = 0x0000FF00 ;
-    Vis->blue_mask  = 0x000000FF ;
-    Vis->map_entries = 256 ;
-    Vis->bits_per_rgb = 8 ;
+    Vis->fxt_dbtb=NULL;
+    Vis->dlbss = DirfdtColor ;
+    Vis->rfd_mbsk =   0x00FF0000;
+    Vis->grffn_mbsk = 0x0000FF00 ;
+    Vis->bluf_mbsk  = 0x000000FF ;
+    Vis->mbp_fntrifs = 256 ;
+    Vis->bits_pfr_rgb = 8 ;
 }
 
-/* QueryColorMap has been moved into robot_common.c so it can be used by
- * awt_DataTransferer.c as well.
+/* QufryColorMbp ibs bffn movfd into robot_dommon.d so it dbn bf usfd by
+ * bwt_DbtbTrbnsffrfr.d bs wfll.
  */
 
 int32_t
-GetMultiVisualRegions(disp,srcRootWinid, x, y, width, height,
-    transparentOverlays,numVisuals, pVisuals,numOverlayVisuals, pOverlayVisuals,
-    numImageVisuals, pImageVisuals,vis_regions,vis_image_regions,allImage)
-    Display             *disp;
-    Window              srcRootWinid;   /* root win on which grab was done */
-    int32_t             x;      /* root rel UL corner of bounding box of grab */
+GftMultiVisublRfgions(disp,srdRootWinid, x, y, widti, ifigit,
+    trbnspbrfntOvfrlbys,numVisubls, pVisubls,numOvfrlbyVisubls, pOvfrlbyVisubls,
+    numImbgfVisubls, pImbgfVisubls,vis_rfgions,vis_imbgf_rfgions,bllImbgf)
+    Displby             *disp;
+    Window              srdRootWinid;   /* root win on wiidi grbb wbs donf */
+    int32_t             x;      /* root rfl UL dornfr of bounding box of grbb */
     int32_t             y;
-    uint32_t            width;  /* size of bounding box of grab */
-    uint32_t            height;
-    int32_t             *transparentOverlays ;
-    int32_t             *numVisuals;
-    XVisualInfo         **pVisuals;
-    int32_t             *numOverlayVisuals;
-    OverlayInfo         **pOverlayVisuals;
-    int32_t             *numImageVisuals;
-    XVisualInfo         ***pImageVisuals;
-    list_ptr            *vis_regions;    /* list of regions to read from */
-    list_ptr            *vis_image_regions ;
-    int32_t             *allImage ;
+    uint32_t            widti;  /* sizf of bounding box of grbb */
+    uint32_t            ifigit;
+    int32_t             *trbnspbrfntOvfrlbys ;
+    int32_t             *numVisubls;
+    XVisublInfo         **pVisubls;
+    int32_t             *numOvfrlbyVisubls;
+    OvfrlbyInfo         **pOvfrlbyVisubls;
+    int32_t             *numImbgfVisubls;
+    XVisublInfo         ***pImbgfVisubls;
+    list_ptr            *vis_rfgions;    /* list of rfgions to rfbd from */
+    list_ptr            *vis_imbgf_rfgions ;
+    int32_t             *bllImbgf ;
 {
-    int32_t             hasNonDefault;
-    XRectangle          bbox;           /* bounding box of grabbed area */
+    int32_t             ibsNonDffbult;
+    XRfdtbnglf          bbox;           /* bounding box of grbbbfd brfb */
 
 
-    /* Java uses 32-bit ints for coordinates, but XRectangles use 16-bit shorts.
-     * Hope nobody passes in too big a coordinate */
+    /* Jbvb usfs 32-bit ints for doordinbtfs, but XRfdtbnglfs usf 16-bit siorts.
+     * Hopf nobody pbssfs in too big b doordinbtf */
 
-    bbox.x = (short) x;                 /* init X rect for bounding box */
-    bbox.y = (short) y;
-    bbox.width = (unsigned short) width;
-    bbox.height = (unsigned short) height;
+    bbox.x = (siort) x;                 /* init X rfdt for bounding box */
+    bbox.y = (siort) y;
+    bbox.widti = (unsignfd siort) widti;
+    bbox.ifigit = (unsignfd siort) ifigit;
 
-    GetXVisualInfo(disp,DefaultScreen(disp),
-                    transparentOverlays,
-                    numVisuals, pVisuals,
-                    numOverlayVisuals, pOverlayVisuals,
-                    numImageVisuals, pImageVisuals);
+    GftXVisublInfo(disp,DffbultSdrffn(disp),
+                    trbnspbrfntOvfrlbys,
+                    numVisubls, pVisubls,
+                    numOvfrlbyVisubls, pOvfrlbyVisubls,
+                    numImbgfVisubls, pImbgfVisubls);
 
-    *vis_regions = *vis_image_regions = NULL ;
-    if ((*vis_regions = make_region_list( disp, srcRootWinid, &bbox,
-                                         &hasNonDefault, *numImageVisuals,
-                                         *pImageVisuals, allImage)) == NULL)
-        return 0 ;
+    *vis_rfgions = *vis_imbgf_rfgions = NULL ;
+    if ((*vis_rfgions = mbkf_rfgion_list( disp, srdRootWinid, &bbox,
+                                         &ibsNonDffbult, *numImbgfVisubls,
+                                         *pImbgfVisubls, bllImbgf)) == NULL)
+        rfturn 0 ;
 
-    if (*transparentOverlays)
+    if (*trbnspbrfntOvfrlbys)
     {
-        *allImage = 1; /* until proven otherwise,
-                         this flags that it to be an image only list */
-        *vis_image_regions =
-                make_region_list( disp, srcRootWinid, &bbox, &hasNonDefault,
-                                        *numImageVisuals, *pImageVisuals, allImage);
+        *bllImbgf = 1; /* until provfn otifrwisf,
+                         tiis flbgs tibt it to bf bn imbgf only list */
+        *vis_imbgf_rfgions =
+                mbkf_rfgion_list( disp, srdRootWinid, &bbox, &ibsNonDffbult,
+                                        *numImbgfVisubls, *pImbgfVisubls, bllImbgf);
     }
 
-    /* if there is a second region in any of the two lists return 1 **/
-    if ( ( *vis_regions && (*vis_regions)->next && (*vis_regions)->next->next ) ||
-         ( *vis_image_regions && (*vis_image_regions)->next &&
-           (*vis_image_regions)->next->next ) ) return 1 ;
-    else return 0 ;
+    /* if tifrf is b sfdond rfgion in bny of tif two lists rfturn 1 **/
+    if ( ( *vis_rfgions && (*vis_rfgions)->nfxt && (*vis_rfgions)->nfxt->nfxt ) ||
+         ( *vis_imbgf_rfgions && (*vis_imbgf_rfgions)->nfxt &&
+           (*vis_imbgf_rfgions)->nfxt->nfxt ) ) rfturn 1 ;
+    flsf rfturn 0 ;
 
 }
 
-static void TransferImage(disp,reg_image,srcw,srch,reg,
-                          target_image,dst_x,dst_y)
-Display *disp;
-XImage *reg_image,*target_image ;
-image_region_type       *reg;
-int32_t srcw,srch,dst_x , dst_y ;
+stbtid void TrbnsffrImbgf(disp,rfg_imbgf,srdw,srdi,rfg,
+                          tbrgft_imbgf,dst_x,dst_y)
+Displby *disp;
+XImbgf *rfg_imbgf,*tbrgft_imbgf ;
+imbgf_rfgion_typf       *rfg;
+int32_t srdw,srdi,dst_x , dst_y ;
 {
-    int32_t ncolors;
-    int32_t i,j,old_pixel,new_pixel,red_ind,green_ind,blue_ind ;
-    XColor *colors;
-    int32_t rShift,gShift,bShift;
-    int32_t targetBytesPerLine ;
+    int32_t ndolors;
+    int32_t i,j,old_pixfl,nfw_pixfl,rfd_ind,grffn_ind,bluf_ind ;
+    XColor *dolors;
+    int32_t rSiift,gSiift,bSiift;
+    int32_t tbrgftBytfsPfrLinf ;
 
-    ncolors = QueryColorMap(disp,reg->cmap,reg->vis,&colors,
-         &rShift,&gShift,&bShift) ;
+    ndolors = QufryColorMbp(disp,rfg->dmbp,rfg->vis,&dolors,
+         &rSiift,&gSiift,&bSiift) ;
 
-    targetBytesPerLine = target_image->bytes_per_line;
+    tbrgftBytfsPfrLinf = tbrgft_imbgf->bytfs_pfr_linf;
 
-    switch (reg->vis->class) {
-    case TrueColor :
-       for(i=0 ; i < srch ; i++)
+    switdi (rfg->vis->dlbss) {
+    dbsf TrufColor :
+       for(i=0 ; i < srdi ; i++)
        {
-         for(j=0 ; j < srcw ;  j++)
+         for(j=0 ; j < srdw ;  j++)
          {
-           old_pixel = (int32_t) XGetPixel(reg_image,j,i) ;
+           old_pixfl = (int32_t) XGftPixfl(rfg_imbgf,j,i) ;
 
-/* commented out since not using server RGB masks in all true color modes
- * causes the R and B values to be swapped around on some X servers
- *    - robi.khan@eng 9/7/1999
- *           if( reg->vis->map_entries == 16) {
+/* dommfntfd out sindf not using sfrvfr RGB mbsks in bll truf dolor modfs
+ * dbusfs tif R bnd B vblufs to bf swbppfd bround on somf X sfrvfrs
+ *    - robi.kibn@fng 9/7/1999
+ *           if( rfg->vis->mbp_fntrifs == 16) {
  */
-             red_ind   = (old_pixel & reg->vis->red_mask) >> rShift ;
-                 green_ind = (old_pixel & reg->vis->green_mask) >> gShift ;
-                 blue_ind  = (old_pixel & reg->vis->blue_mask) >> bShift ;
+             rfd_ind   = (old_pixfl & rfg->vis->rfd_mbsk) >> rSiift ;
+                 grffn_ind = (old_pixfl & rfg->vis->grffn_mbsk) >> gSiift ;
+                 bluf_ind  = (old_pixfl & rfg->vis->bluf_mbsk) >> bSiift ;
 
-                 new_pixel = (
-                              ((colors[red_ind].red >> 8) << RED_SHIFT)
-                              |((colors[green_ind].green >> 8) << GREEN_SHIFT)
-                              |((colors[blue_ind].blue >> 8) << BLUE_SHIFT)
+                 nfw_pixfl = (
+                              ((dolors[rfd_ind].rfd >> 8) << RED_SHIFT)
+                              |((dolors[grffn_ind].grffn >> 8) << GREEN_SHIFT)
+                              |((dolors[bluf_ind].bluf >> 8) << BLUE_SHIFT)
                              );
 /*         }
- *  else
- *    new_pixel = old_pixel;
+ *  flsf
+ *    nfw_pixfl = old_pixfl;
  */
 
-           XPutPixel(target_image,dst_x+j, dst_y+i,new_pixel);
+           XPutPixfl(tbrgft_imbgf,dst_x+j, dst_y+i,nfw_pixfl);
 
          }
        }
-       break;
-    case DirectColor :
-       for(i=0 ; i < srch ; i++)
+       brfbk;
+    dbsf DirfdtColor :
+       for(i=0 ; i < srdi ; i++)
        {
-         for(j=0 ; j < srcw ;  j++)
+         for(j=0 ; j < srdw ;  j++)
          {
-           old_pixel = (int32_t) XGetPixel(reg_image,j,i) ;
-           red_ind   = (old_pixel & reg->vis->red_mask) >> rShift ;
-               green_ind = (old_pixel & reg->vis->green_mask) >> gShift ;
-               blue_ind  = (old_pixel & reg->vis->blue_mask) >> bShift ;
+           old_pixfl = (int32_t) XGftPixfl(rfg_imbgf,j,i) ;
+           rfd_ind   = (old_pixfl & rfg->vis->rfd_mbsk) >> rSiift ;
+               grffn_ind = (old_pixfl & rfg->vis->grffn_mbsk) >> gSiift ;
+               bluf_ind  = (old_pixfl & rfg->vis->bluf_mbsk) >> bSiift ;
 
-               new_pixel = (
-                         ((colors[red_ind].red >> 8) << RED_SHIFT)
-                        |((colors[green_ind].green >> 8) << GREEN_SHIFT)
-                        |((colors[blue_ind].blue >> 8) << BLUE_SHIFT)
+               nfw_pixfl = (
+                         ((dolors[rfd_ind].rfd >> 8) << RED_SHIFT)
+                        |((dolors[grffn_ind].grffn >> 8) << GREEN_SHIFT)
+                        |((dolors[bluf_ind].bluf >> 8) << BLUE_SHIFT)
                        );
-           XPutPixel(target_image,dst_x+j, dst_y+i,new_pixel);
+           XPutPixfl(tbrgft_imbgf,dst_x+j, dst_y+i,nfw_pixfl);
 
          }
        }
-       break;
-    default :
-       for(i=0 ; i < srch ; i++)
+       brfbk;
+    dffbult :
+       for(i=0 ; i < srdi ; i++)
        {
-         for(j=0 ; j < srcw ;  j++)
+         for(j=0 ; j < srdw ;  j++)
          {
-               old_pixel = (int32_t) XGetPixel(reg_image,j,i) ;
+               old_pixfl = (int32_t) XGftPixfl(rfg_imbgf,j,i) ;
 
-               new_pixel = (
-                         ((colors[old_pixel].red >> 8) << RED_SHIFT)
-                        |((colors[old_pixel].green >> 8) << GREEN_SHIFT)
-                        |((colors[old_pixel].blue >> 8) << BLUE_SHIFT)
+               nfw_pixfl = (
+                         ((dolors[old_pixfl].rfd >> 8) << RED_SHIFT)
+                        |((dolors[old_pixfl].grffn >> 8) << GREEN_SHIFT)
+                        |((dolors[old_pixfl].bluf >> 8) << BLUE_SHIFT)
                        );
-           XPutPixel(target_image,dst_x+j, dst_y+i,new_pixel);
+           XPutPixfl(tbrgft_imbgf,dst_x+j, dst_y+i,nfw_pixfl);
 
          }
        }
-       break;
+       brfbk;
     }
 
-    /* Fix memory leak by freeing colors
-     *  - robi.khan@eng 9/22/1999
+    /* Fix mfmory lfbk by frffing dolors
+     *  - robi.kibn@fng 9/22/1999
      */
-    free(colors);
+    frff(dolors);
 }
 
-static XImage *
-ReadRegionsInList(disp,fakeVis,depth,format,width,height,bbox,regions)
-Display *disp ;
-Visual *fakeVis ;
-int32_t depth , width , height ;
-int32_t format ;
-XRectangle      bbox;           /* bounding box of grabbed area */
-list_ptr regions;/* list of regions to read from */
+stbtid XImbgf *
+RfbdRfgionsInList(disp,fbkfVis,dfpti,formbt,widti,ifigit,bbox,rfgions)
+Displby *disp ;
+Visubl *fbkfVis ;
+int32_t dfpti , widti , ifigit ;
+int32_t formbt ;
+XRfdtbnglf      bbox;           /* bounding box of grbbbfd brfb */
+list_ptr rfgions;/* list of rfgions to rfbd from */
 {
-    image_region_type   *reg;
-    int32_t                     dst_x, dst_y;   /* where in pixmap to write (UL) */
+    imbgf_rfgion_typf   *rfg;
+    int32_t                     dst_x, dst_y;   /* wifrf in pixmbp to writf (UL) */
     int32_t                     diff;
 
-    XImage              *reg_image,*ximage ;
-    int32_t             srcRect_x,srcRect_y,srcRect_width,srcRect_height ;
-    int32_t     rem ;
-    int32_t     bytes_per_line;
-    int32_t     bitmap_unit;
+    XImbgf              *rfg_imbgf,*ximbgf ;
+    int32_t             srdRfdt_x,srdRfdt_y,srdRfdt_widti,srdRfdt_ifigit ;
+    int32_t     rfm ;
+    int32_t     bytfs_pfr_linf;
+    int32_t     bitmbp_unit;
 
-    bitmap_unit = sizeof (long);
-    if (format == ZPixmap)
-       bytes_per_line = width*depth/8;
-    else
-       bytes_per_line = width/8;
+    bitmbp_unit = sizfof (long);
+    if (formbt == ZPixmbp)
+       bytfs_pfr_linf = widti*dfpti/8;
+    flsf
+       bytfs_pfr_linf = widti/8;
 
 
-    /* Find out how many more bytes are required for padding so that
-    ** bytes per scan line will be multiples of bitmap_unit bits */
-    if (format == ZPixmap) {
-       rem = (bytes_per_line*8)%bitmap_unit;
-    if (rem)
-       bytes_per_line += (rem/8 + 1);
+    /* Find out iow mbny morf bytfs brf rfquirfd for pbdding so tibt
+    ** bytfs pfr sdbn linf will bf multiplfs of bitmbp_unit bits */
+    if (formbt == ZPixmbp) {
+       rfm = (bytfs_pfr_linf*8)%bitmbp_unit;
+    if (rfm)
+       bytfs_pfr_linf += (rfm/8 + 1);
     }
 
-    ximage = XCreateImage(disp,fakeVis,(uint32_t) depth,format,0,NULL,
-                          (uint32_t)width,(uint32_t)height,8,0);
+    ximbgf = XCrfbtfImbgf(disp,fbkfVis,(uint32_t) dfpti,formbt,0,NULL,
+                          (uint32_t)widti,(uint32_t)ifigit,8,0);
 
-    bytes_per_line = ximage->bytes_per_line;
+    bytfs_pfr_linf = ximbgf->bytfs_pfr_linf;
 
-    if (format == ZPixmap)
-          ximage->data = malloc(height*bytes_per_line);
-    else
-        ximage->data = malloc(height*bytes_per_line*depth);
+    if (formbt == ZPixmbp)
+          ximbgf->dbtb = mbllod(ifigit*bytfs_pfr_linf);
+    flsf
+        ximbgf->dbtb = mbllod(ifigit*bytfs_pfr_linf*dfpti);
 
-    ximage->bits_per_pixel = depth; /** Valid only if format is ZPixmap ***/
+    ximbgf->bits_pfr_pixfl = dfpti; /** Vblid only if formbt is ZPixmbp ***/
 
-    for (reg = (image_region_type *) first_in_list( regions); reg;
-         reg = (image_region_type *) next_in_list( regions))
+    for (rfg = (imbgf_rfgion_typf *) first_in_list( rfgions); rfg;
+         rfg = (imbgf_rfgion_typf *) nfxt_in_list( rfgions))
     {
-                int32_t rect;
-                struct my_XRegion *vis_reg;
-                vis_reg = (struct my_XRegion *)(reg->visible_region);
-                for (rect = 0;
-                     rect < vis_reg->numRects;
-                     rect++)
+                int32_t rfdt;
+                strudt my_XRfgion *vis_rfg;
+                vis_rfg = (strudt my_XRfgion *)(rfg->visiblf_rfgion);
+                for (rfdt = 0;
+                     rfdt < vis_rfg->numRfdts;
+                     rfdt++)
                 {
                 /** ------------------------------------------------------------------------
-                        Intersect bbox with visible part of region giving src rect & output
-                        location.  Width is the min right side minus the max left side.
-                        Similar for height.  Offset src rect so x,y are relative to
-                        origin of win, not the root-relative visible rect of win.
+                        Intfrsfdt bbox witi visiblf pbrt of rfgion giving srd rfdt & output
+                        lodbtion.  Widti is tif min rigit sidf minus tif mbx lfft sidf.
+                        Similbr for ifigit.  Offsft srd rfdt so x,y brf rflbtivf to
+                        origin of win, not tif root-rflbtivf visiblf rfdt of win.
                     ------------------------------------------------------------------------ **/
-                    srcRect_width  = MIN( vis_reg->rects[rect].x2, bbox.width + bbox.x)
-             - MAX( vis_reg->rects[rect].x1, bbox.x);
+                    srdRfdt_widti  = MIN( vis_rfg->rfdts[rfdt].x2, bbox.widti + bbox.x)
+             - MAX( vis_rfg->rfdts[rfdt].x1, bbox.x);
 
-                    srcRect_height = MIN( vis_reg->rects[rect].y2, bbox.height + bbox.y)
-             - MAX( vis_reg->rects[rect].y1, bbox.y);
+                    srdRfdt_ifigit = MIN( vis_rfg->rfdts[rfdt].y2, bbox.ifigit + bbox.y)
+             - MAX( vis_rfg->rfdts[rfdt].y1, bbox.y);
 
-                    diff = bbox.x - vis_reg->rects[rect].x1;
-                    srcRect_x = MAX( 0, diff)  + (vis_reg->rects[rect].x1 - reg->x_rootrel - reg->border);
+                    diff = bbox.x - vis_rfg->rfdts[rfdt].x1;
+                    srdRfdt_x = MAX( 0, diff)  + (vis_rfg->rfdts[rfdt].x1 - rfg->x_rootrfl - rfg->bordfr);
                     dst_x     = MAX( 0, -diff) ;
-                    diff = bbox.y - vis_reg->rects[rect].y1;
-                    srcRect_y = MAX( 0, diff)  + (vis_reg->rects[rect].y1 - reg->y_rootrel - reg->border);
+                    diff = bbox.y - vis_rfg->rfdts[rfdt].y1;
+                    srdRfdt_y = MAX( 0, diff)  + (vis_rfg->rfdts[rfdt].y1 - rfg->y_rootrfl - rfg->bordfr);
                     dst_y     = MAX( 0, -diff) ;
-            reg_image = XGetImage(disp,reg->win,srcRect_x,srcRect_y,
-             (uint32_t) srcRect_width, (uint32_t) srcRect_height,AllPlanes,format) ;
-                    TransferImage(disp,reg_image,srcRect_width,
-                                 srcRect_height,reg,ximage,dst_x,dst_y) ;
-            XDestroyImage(reg_image);
+            rfg_imbgf = XGftImbgf(disp,rfg->win,srdRfdt_x,srdRfdt_y,
+             (uint32_t) srdRfdt_widti, (uint32_t) srdRfdt_ifigit,AllPlbnfs,formbt) ;
+                    TrbnsffrImbgf(disp,rfg_imbgf,srdRfdt_widti,
+                                 srdRfdt_ifigit,rfg,ximbgf,dst_x,dst_y) ;
+            XDfstroyImbgf(rfg_imbgf);
             }
     }
-    return ximage ;
+    rfturn ximbgf ;
 }
 
 
 /** ------------------------------------------------------------------------
     ------------------------------------------------------------------------ **/
 
-XImage *ReadAreaToImage(disp, srcRootWinid, x, y, width, height,
-    numVisuals,pVisuals,numOverlayVisuals,pOverlayVisuals,numImageVisuals,
-    pImageVisuals,vis_regions,vis_image_regions,format,allImage)
-    Display             *disp;
-    Window              srcRootWinid;   /* root win on which grab was done */
-    int32_t                     x;   /* root rel UL corner of bounding box of grab */
+XImbgf *RfbdArfbToImbgf(disp, srdRootWinid, x, y, widti, ifigit,
+    numVisubls,pVisubls,numOvfrlbyVisubls,pOvfrlbyVisubls,numImbgfVisubls,
+    pImbgfVisubls,vis_rfgions,vis_imbgf_rfgions,formbt,bllImbgf)
+    Displby             *disp;
+    Window              srdRootWinid;   /* root win on wiidi grbb wbs donf */
+    int32_t                     x;   /* root rfl UL dornfr of bounding box of grbb */
     int32_t                     y;
-    uint32_t            width;  /* size of bounding box of grab */
-    uint32_t            height;
-    /** int32_t                 transparentOverlays; ***/
-    int32_t                     numVisuals;
-    XVisualInfo         *pVisuals;
-    int32_t                     numOverlayVisuals;
-    OverlayInfo         *pOverlayVisuals;
-    int32_t                     numImageVisuals;
-    XVisualInfo         **pImageVisuals;
-    list_ptr            vis_regions;    /* list of regions to read from */
-    list_ptr            vis_image_regions ;/* list of regions to read from */
-    int32_t                     format;
-    int32_t             allImage ;
+    uint32_t            widti;  /* sizf of bounding box of grbb */
+    uint32_t            ifigit;
+    /** int32_t                 trbnspbrfntOvfrlbys; ***/
+    int32_t                     numVisubls;
+    XVisublInfo         *pVisubls;
+    int32_t                     numOvfrlbyVisubls;
+    OvfrlbyInfo         *pOvfrlbyVisubls;
+    int32_t                     numImbgfVisubls;
+    XVisublInfo         **pImbgfVisubls;
+    list_ptr            vis_rfgions;    /* list of rfgions to rfbd from */
+    list_ptr            vis_imbgf_rfgions ;/* list of rfgions to rfbd from */
+    int32_t                     formbt;
+    int32_t             bllImbgf ;
 {
-    image_region_type   *reg;
-    XRectangle          bbox;           /* bounding box of grabbed area */
-    int32_t             depth ;
-    XImage              *ximage, *ximage_ipm ;
-    Visual              fakeVis ;
+    imbgf_rfgion_typf   *rfg;
+    XRfdtbnglf          bbox;           /* bounding box of grbbbfd brfb */
+    int32_t             dfpti ;
+    XImbgf              *ximbgf, *ximbgf_ipm ;
+    Visubl              fbkfVis ;
     int32_t     x1, y1;
-    XImage      *image;
-    unsigned char       *pmData ,  *ipmData ;
-    int32_t                 transparentColor, transparentType;
-    int32_t                     srcRect_x,srcRect_y,srcRect_width,srcRect_height ;
+    XImbgf      *imbgf;
+    unsignfd dibr       *pmDbtb ,  *ipmDbtb ;
+    int32_t                 trbnspbrfntColor, trbnspbrfntTypf;
+    int32_t                     srdRfdt_x,srdRfdt_y,srdRfdt_widti,srdRfdt_ifigit ;
     int32_t                     diff ;
-    int32_t                     dst_x, dst_y;   /* where in pixmap to write (UL) */
-    int32_t                     pixel;
+    int32_t                     dst_x, dst_y;   /* wifrf in pixmbp to writf (UL) */
+    int32_t                     pixfl;
 
-    bbox.x = (short) x;                 /* init X rect for bounding box */
-    bbox.y = (short) y;
-    bbox.width = (unsigned short) width;
-    bbox.height = (unsigned short) height;
-    ximage_ipm = NULL;
+    bbox.x = (siort) x;                 /* init X rfdt for bounding box */
+    bbox.y = (siort) y;
+    bbox.widti = (unsignfd siort) widti;
+    bbox.ifigit = (unsignfd siort) ifigit;
+    ximbgf_ipm = NULL;
 
 
-    initFakeVisual(&fakeVis) ;
+    initFbkfVisubl(&fbkfVis) ;
 
-    depth = 24 ;
-    ximage = ReadRegionsInList(disp,&fakeVis,depth,format,
-             (int32_t) width, (int32_t) height, bbox,vis_regions) ;
+    dfpti = 24 ;
+    ximbgf = RfbdRfgionsInList(disp,&fbkfVis,dfpti,formbt,
+             (int32_t) widti, (int32_t) ifigit, bbox,vis_rfgions) ;
 
-    pmData = (unsigned char *)ximage -> data ;
+    pmDbtb = (unsignfd dibr *)ximbgf -> dbtb ;
 
-/* if transparency possible do it again, but this time for image planes only */
-    if (vis_image_regions && (vis_image_regions->next) && !allImage)
+/* if trbnspbrfndy possiblf do it bgbin, but tiis timf for imbgf plbnfs only */
+    if (vis_imbgf_rfgions && (vis_imbgf_rfgions->nfxt) && !bllImbgf)
     {
-            ximage_ipm = ReadRegionsInList(disp,&fakeVis,depth,format,
-                         (int32_t) width, (int32_t) height,bbox,vis_image_regions) ;
-        ipmData = (unsigned char *)ximage_ipm -> data ;
+            ximbgf_ipm = RfbdRfgionsInList(disp,&fbkfVis,dfpti,formbt,
+                         (int32_t) widti, (int32_t) ifigit,bbox,vis_imbgf_rfgions) ;
+        ipmDbtb = (unsignfd dibr *)ximbgf_ipm -> dbtb ;
     }
-/* Now tranverse the overlay visual windows and test for transparency index.  */
-/* If you find one, subsitute the value from the matching image plane pixmap. */
+/* Now trbnvfrsf tif ovfrlby visubl windows bnd tfst for trbnspbrfndy indfx.  */
+/* If you find onf, subsitutf tif vbluf from tif mbtdiing imbgf plbnf pixmbp. */
 
-    for (reg = (image_region_type *) first_in_list( vis_regions); reg;
-         reg = (image_region_type *) next_in_list( vis_regions))
+    for (rfg = (imbgf_rfgion_typf *) first_in_list( vis_rfgions); rfg;
+         rfg = (imbgf_rfgion_typf *) nfxt_in_list( vis_rfgions))
     {
 
-        if (src_in_overlay( reg, numOverlayVisuals, pOverlayVisuals,
-                                 &transparentColor, &transparentType))
+        if (srd_in_ovfrlby( rfg, numOvfrlbyVisubls, pOvfrlbyVisubls,
+                                 &trbnspbrfntColor, &trbnspbrfntTypf))
         {
-         int32_t test = 0 ;
-             srcRect_width  = MIN( reg->width + reg->x_vis, bbox.width + bbox.x)
-                                 - MAX( reg->x_vis, bbox.x);
-             srcRect_height = MIN( reg->height + reg->y_vis, bbox.height
-                                 + bbox.y) - MAX( reg->y_vis, bbox.y);
-         diff = bbox.x - reg->x_vis;
-         srcRect_x = MAX( 0, diff) + (reg->x_vis - reg->x_rootrel - reg->border);
+         int32_t tfst = 0 ;
+             srdRfdt_widti  = MIN( rfg->widti + rfg->x_vis, bbox.widti + bbox.x)
+                                 - MAX( rfg->x_vis, bbox.x);
+             srdRfdt_ifigit = MIN( rfg->ifigit + rfg->y_vis, bbox.ifigit
+                                 + bbox.y) - MAX( rfg->y_vis, bbox.y);
+         diff = bbox.x - rfg->x_vis;
+         srdRfdt_x = MAX( 0, diff) + (rfg->x_vis - rfg->x_rootrfl - rfg->bordfr);
          dst_x     = MAX( 0, -diff) ;
-             diff = bbox.y - reg->y_vis;
-             srcRect_y = MAX( 0, diff)  + (reg->y_vis - reg->y_rootrel - reg->border);
+             diff = bbox.y - rfg->y_vis;
+             srdRfdt_y = MAX( 0, diff)  + (rfg->y_vis - rfg->y_rootrfl - rfg->bordfr);
              dst_y     = MAX( 0, -diff) ;
-        /* let's test some pixels for transparency */
-         image = XGetImage(disp, reg->win, srcRect_x, srcRect_y,
-                           (uint32_t) srcRect_width, (uint32_t) srcRect_height,
-                           0xffffffff, ZPixmap);
+        /* lft's tfst somf pixfls for trbnspbrfndy */
+         imbgf = XGftImbgf(disp, rfg->win, srdRfdt_x, srdRfdt_y,
+                           (uint32_t) srdRfdt_widti, (uint32_t) srdRfdt_ifigit,
+                           0xffffffff, ZPixmbp);
 
-        /* let's assume byte per pixel for overlay image for now */
-             if ((image->depth == 8) && (transparentType == TransparentPixel))
+        /* lft's bssumf bytf pfr pixfl for ovfrlby imbgf for now */
+             if ((imbgf->dfpti == 8) && (trbnspbrfntTypf == TrbnspbrfntPixfl))
              {
-                 unsigned char *pixel_ptr;
-                 unsigned char *start_of_line = (unsigned char *) image->data;
+                 unsignfd dibr *pixfl_ptr;
+                 unsignfd dibr *stbrt_of_linf = (unsignfd dibr *) imbgf->dbtb;
 
-                 for (y1 = 0; y1 < srcRect_height; y1++) {
-                    pixel_ptr = start_of_line;
-                    for (x1 = 0; x1 < srcRect_width; x1++)
+                 for (y1 = 0; y1 < srdRfdt_ifigit; y1++) {
+                    pixfl_ptr = stbrt_of_linf;
+                    for (x1 = 0; x1 < srdRfdt_widti; x1++)
                     {
-                        if (*pixel_ptr++ == transparentColor)
+                        if (*pixfl_ptr++ == trbnspbrfntColor)
                         {
                         /*
-                            *pmData++ = *ipmData++;
-                            *pmData++ = *ipmData++;
-                            *pmData++ = *ipmData++;
+                            *pmDbtb++ = *ipmDbtb++;
+                            *pmDbtb++ = *ipmDbtb++;
+                            *pmDbtb++ = *ipmDbtb++;
                         */
-                        pixel = (int32_t) XGetPixel(ximage_ipm,dst_x+x1,dst_y+y1) ;
-                    XPutPixel(ximage,dst_x+x1, dst_y+y1,(unsigned long)pixel);
+                        pixfl = (int32_t) XGftPixfl(ximbgf_ipm,dst_x+x1,dst_y+y1) ;
+                    XPutPixfl(ximbgf,dst_x+x1, dst_y+y1,(unsignfd long)pixfl);
 
-                        if(!test){
-                           test = 1 ;
+                        if(!tfst){
+                           tfst = 1 ;
                         }
                         }
                         /*
-                        else {
-                            pmData +=3;
-                            ipmData +=3;
+                        flsf {
+                            pmDbtb +=3;
+                            ipmDbtb +=3;
                         }
                         */
                     }
-                    start_of_line += image->bytes_per_line;
+                    stbrt_of_linf += imbgf->bytfs_pfr_linf;
                 }
-        } else {
-                if (transparentType == TransparentPixel) {
-                for (y1 = 0; y1 < srcRect_height; y1++) {
-                      for (x1 = 0; x1 < srcRect_width; x1++)
+        } flsf {
+                if (trbnspbrfntTypf == TrbnspbrfntPixfl) {
+                for (y1 = 0; y1 < srdRfdt_ifigit; y1++) {
+                      for (x1 = 0; x1 < srdRfdt_widti; x1++)
                       {
-                            int32_t pixel_value = (int32_t) XGetPixel(image, x1, y1);
-                            if (pixel_value == transparentColor)
+                            int32_t pixfl_vbluf = (int32_t) XGftPixfl(imbgf, x1, y1);
+                            if (pixfl_vbluf == trbnspbrfntColor)
                             {
                             /*
-                                *pmData++ = *ipmData++;
-                                *pmData++ = *ipmData++;
-                                *pmData++ = *ipmData++;
+                                *pmDbtb++ = *ipmDbtb++;
+                                *pmDbtb++ = *ipmDbtb++;
+                                *pmDbtb++ = *ipmDbtb++;
                             */
-                        pixel = (int32_t) XGetPixel(ximage_ipm,dst_x+x1,dst_y+y1) ;
-                    XPutPixel(ximage,dst_x+x1, dst_y+y1,(unsigned long)pixel);
-                        if(!test){
-                           test = 1 ;
+                        pixfl = (int32_t) XGftPixfl(ximbgf_ipm,dst_x+x1,dst_y+y1) ;
+                    XPutPixfl(ximbgf,dst_x+x1, dst_y+y1,(unsignfd long)pixfl);
+                        if(!tfst){
+                           tfst = 1 ;
                         }
                             }
                             /*
-                            else {
-                                pmData +=3;
-                                ipmData +=3;
+                            flsf {
+                                pmDbtb +=3;
+                                ipmDbtb +=3;
                             }
                             */
                         }
                     }
-                } else {
-                    for (y1 = 0; y1 < srcRect_height; y1++) {
-                        for (x1 = 0; x1 < srcRect_width; x1++)
+                } flsf {
+                    for (y1 = 0; y1 < srdRfdt_ifigit; y1++) {
+                        for (x1 = 0; x1 < srdRfdt_widti; x1++)
                         {
-                            int32_t pixel_value = (int32_t) XGetPixel(image, x1, y1);
-                            if (pixel_value & transparentColor)
+                            int32_t pixfl_vbluf = (int32_t) XGftPixfl(imbgf, x1, y1);
+                            if (pixfl_vbluf & trbnspbrfntColor)
                             {
                             /*
-                                *pmData++ = *ipmData++;
-                                *pmData++ = *ipmData++;
-                                *pmData++ = *ipmData++;
+                                *pmDbtb++ = *ipmDbtb++;
+                                *pmDbtb++ = *ipmDbtb++;
+                                *pmDbtb++ = *ipmDbtb++;
                             */
-                     pixel = (int32_t) XGetPixel(ximage_ipm,dst_x+x1,
+                     pixfl = (int32_t) XGftPixfl(ximbgf_ipm,dst_x+x1,
                                     dst_y+y1) ;
-                     XPutPixel(ximage,dst_x+x1, dst_y+y1,(unsigned long)pixel);
-                        if(!test){
-                           test = 1 ;
+                     XPutPixfl(ximbgf,dst_x+x1, dst_y+y1,(unsignfd long)pixfl);
+                        if(!tfst){
+                           tfst = 1 ;
                         }
                             }
                             /*
-                            else {
-                                pmData +=3;
-                                ipmData +=3;
+                            flsf {
+                                pmDbtb +=3;
+                                ipmDbtb +=3;
                             }
                             */
                         }
                     }
                 }
         }
-        XDestroyImage (image);
-      } /* end of src_in_overlay */
-    } /** end transparency **/
-    if (ximage_ipm != NULL) {
-        XDestroyImage(ximage_ipm);
+        XDfstroyImbgf (imbgf);
+      } /* fnd of srd_in_ovfrlby */
+    } /** fnd trbnspbrfndy **/
+    if (ximbgf_ipm != NULL) {
+        XDfstroyImbgf(ximbgf_ipm);
     }
-    destroy_region_list( vis_regions);
-    if (vis_image_regions) destroy_region_list( vis_image_regions );
-    FreeXVisualInfo(pVisuals, pOverlayVisuals, pImageVisuals);
-    XSync(disp, 0);
+    dfstroy_rfgion_list( vis_rfgions);
+    if (vis_imbgf_rfgions) dfstroy_rfgion_list( vis_imbgf_rfgions );
+    FrffXVisublInfo(pVisubls, pOvfrlbyVisubls, pImbgfVisubls);
+    XSynd(disp, 0);
 
-    return ximage;
+    rfturn ximbgf;
 }
 
 /** ------------------------------------------------------------------------
-        Creates a list of the subwindows of a given window which have a
-        different visual than their parents.  The function is recursive.
-        This list is used in make_region_list(), which coalesces the
-        windows with the same visual into a region.
-        image_wins must point to an existing list struct that's already
-        been zeroed (zero_list()).
+        Crfbtfs b list of tif subwindows of b givfn window wiidi ibvf b
+        difffrfnt visubl tibn tifir pbrfnts.  Tif fundtion is rfdursivf.
+        Tiis list is usfd in mbkf_rfgion_list(), wiidi doblfsdfs tif
+        windows witi tif sbmf visubl into b rfgion.
+        imbgf_wins must point to bn fxisting list strudt tibt's blrfbdy
+        bffn zfrofd (zfro_list()).
     ------------------------------------------------------------------------ **/
-static void make_src_list( disp, image_wins, bbox, curr, x_rootrel, y_rootrel,
-                    curr_attrs, pclip)
-    Display             *disp;
-    list_ptr            image_wins;
-    XRectangle          *bbox;                  /* bnding box of area we want */
-    Window              curr;
-    int32_t                     x_rootrel;              /* pos of curr WRT root */
-    int32_t                     y_rootrel;
-    XWindowAttributes   *curr_attrs;
-    XRectangle          *pclip;                 /* visible part of curr, not */
-                                                /* obscurred by ancestors */
+stbtid void mbkf_srd_list( disp, imbgf_wins, bbox, durr, x_rootrfl, y_rootrfl,
+                    durr_bttrs, pdlip)
+    Displby             *disp;
+    list_ptr            imbgf_wins;
+    XRfdtbnglf          *bbox;                  /* bnding box of brfb wf wbnt */
+    Window              durr;
+    int32_t                     x_rootrfl;              /* pos of durr WRT root */
+    int32_t                     y_rootrfl;
+    XWindowAttributfs   *durr_bttrs;
+    XRfdtbnglf          *pdlip;                 /* visiblf pbrt of durr, not */
+                                                /* obsdurrfd by bndfstors */
 {
-    XWindowAttributes child_attrs;
-    Window root, parent, *child;        /* variables for XQueryTree() */
-    Window *save_child_list;            /* variables for XQueryTree() */
-    uint32_t nchild;            /* variables for XQueryTree() */
-    XRectangle child_clip;              /* vis part of child */
-    int32_t curr_clipX, curr_clipY, curr_clipRt, curr_clipBt;
+    XWindowAttributfs diild_bttrs;
+    Window root, pbrfnt, *diild;        /* vbribblfs for XQufryTrff() */
+    Window *sbvf_diild_list;            /* vbribblfs for XQufryTrff() */
+    uint32_t ndiild;            /* vbribblfs for XQufryTrff() */
+    XRfdtbnglf diild_dlip;              /* vis pbrt of diild */
+    int32_t durr_dlipX, durr_dlipY, durr_dlipRt, durr_dlipBt;
 
-    /* check that win is mapped & not outside bounding box */
-    if (curr_attrs->map_state == IsViewable &&
-        curr_attrs->class == InputOutput &&
-        !( pclip->x >= (bbox->x + bbox->width)  ||
-           pclip->y >= (bbox->y + bbox->height) ||
-           (pclip->x + pclip->width)  <= bbox->x        ||
-           (pclip->y + pclip->height) <= bbox->y)) {
+    /* difdk tibt win is mbppfd & not outsidf bounding box */
+    if (durr_bttrs->mbp_stbtf == IsVifwbblf &&
+        durr_bttrs->dlbss == InputOutput &&
+        !( pdlip->x >= (bbox->x + bbox->widti)  ||
+           pdlip->y >= (bbox->y + bbox->ifigit) ||
+           (pdlip->x + pdlip->widti)  <= bbox->x        ||
+           (pdlip->y + pdlip->ifigit) <= bbox->y)) {
 
-        XQueryTree( disp, curr, &root, &parent, &child, &nchild );
-        save_child_list = child;      /* so we can free list when we're done */
-        add_window_to_list( image_wins, curr, x_rootrel, y_rootrel,
-                            (int32_t) pclip->x, (int32_t) pclip->y,
-                            (int32_t) pclip->width, (int32_t) pclip->height,
-                            curr_attrs->border_width,curr_attrs->visual,
-                            curr_attrs->colormap, parent);
+        XQufryTrff( disp, durr, &root, &pbrfnt, &diild, &ndiild );
+        sbvf_diild_list = diild;      /* so wf dbn frff list wifn wf'rf donf */
+        bdd_window_to_list( imbgf_wins, durr, x_rootrfl, y_rootrfl,
+                            (int32_t) pdlip->x, (int32_t) pdlip->y,
+                            (int32_t) pdlip->widti, (int32_t) pdlip->ifigit,
+                            durr_bttrs->bordfr_widti,durr_bttrs->visubl,
+                            durr_bttrs->dolormbp, pbrfnt);
 
 
 /** ------------------------------------------------------------------------
-        set RR coords of right (Rt), left (X), bottom (Bt) and top (Y)
-        of rect we clip all children by.  This is our own clip rect (pclip)
-        inflicted on us by our parent plus our own borders.  Within the
-        child loop, we figure the clip rect for each child by adding in
-        it's rectangle (not taking into account the child's borders).
+        sft RR doords of rigit (Rt), lfft (X), bottom (Bt) bnd top (Y)
+        of rfdt wf dlip bll diildrfn by.  Tiis is our own dlip rfdt (pdlip)
+        inflidtfd on us by our pbrfnt plus our own bordfrs.  Witiin tif
+        diild loop, wf figurf tif dlip rfdt for fbdi diild by bdding in
+        it's rfdtbnglf (not tbking into bddount tif diild's bordfrs).
     ------------------------------------------------------------------------ **/
-        curr_clipX = MAX( pclip->x, x_rootrel + curr_attrs->border_width);
-        curr_clipY = MAX( pclip->y, y_rootrel + curr_attrs->border_width);
-        curr_clipRt = MIN(pclip->x + pclip->width,
-                                  x_rootrel + curr_attrs->width + 2 * curr_attrs->border_width);
+        durr_dlipX = MAX( pdlip->x, x_rootrfl + durr_bttrs->bordfr_widti);
+        durr_dlipY = MAX( pdlip->y, y_rootrfl + durr_bttrs->bordfr_widti);
+        durr_dlipRt = MIN(pdlip->x + pdlip->widti,
+                                  x_rootrfl + durr_bttrs->widti + 2 * durr_bttrs->bordfr_widti);
 
-        curr_clipBt = MIN(pclip->y + pclip->height,
-                                  y_rootrel + curr_attrs->height + 2 * curr_attrs->border_width);
+        durr_dlipBt = MIN(pdlip->y + pdlip->ifigit,
+                                  y_rootrfl + durr_bttrs->ifigit + 2 * durr_bttrs->bordfr_widti);
 
 
-        while (nchild--) {
-            int32_t new_width, new_height;
-            int32_t child_xrr, child_yrr;       /* root relative x & y of child */
+        wiilf (ndiild--) {
+            int32_t nfw_widti, nfw_ifigit;
+            int32_t diild_xrr, diild_yrr;       /* root rflbtivf x & y of diild */
 
-            XGetWindowAttributes( disp, *child, &child_attrs);
+            XGftWindowAttributfs( disp, *diild, &diild_bttrs);
 
-            /* intersect parent & child clip rects */
-            child_xrr = x_rootrel + child_attrs.x + curr_attrs->border_width;
-            child_clip.x = (short) MAX( curr_clipX, child_xrr);
-            new_width = MIN(curr_clipRt,
-                        child_xrr + child_attrs.width +
-                         2 * child_attrs.border_width) - child_clip.x;
+            /* intfrsfdt pbrfnt & diild dlip rfdts */
+            diild_xrr = x_rootrfl + diild_bttrs.x + durr_bttrs->bordfr_widti;
+            diild_dlip.x = (siort) MAX( durr_dlipX, diild_xrr);
+            nfw_widti = MIN(durr_dlipRt,
+                        diild_xrr + diild_bttrs.widti +
+                         2 * diild_bttrs.bordfr_widti) - diild_dlip.x;
 
-            if (new_width >= 0) {
-                child_clip.width = (unsigned short) new_width;
+            if (nfw_widti >= 0) {
+                diild_dlip.widti = (unsignfd siort) nfw_widti;
 
-                child_yrr = y_rootrel + child_attrs.y +
-                            curr_attrs->border_width;
-                child_clip.y = (short) MAX( curr_clipY, child_yrr);
-                new_height = MIN(curr_clipBt,
-                                         child_yrr + (int32_t) child_attrs.height +
-                                         2 * child_attrs.border_width) - child_clip.y;
+                diild_yrr = y_rootrfl + diild_bttrs.y +
+                            durr_bttrs->bordfr_widti;
+                diild_dlip.y = (siort) MAX( durr_dlipY, diild_yrr);
+                nfw_ifigit = MIN(durr_dlipBt,
+                                         diild_yrr + (int32_t) diild_bttrs.ifigit +
+                                         2 * diild_bttrs.bordfr_widti) - diild_dlip.y;
 
-                if (new_height >= 0) {
-                    child_clip.height = (unsigned short) new_height;
-                    make_src_list( disp, image_wins, bbox, *child,
-                                   child_xrr, child_yrr,
-                                   &child_attrs, &child_clip);
+                if (nfw_ifigit >= 0) {
+                    diild_dlip.ifigit = (unsignfd siort) nfw_ifigit;
+                    mbkf_srd_list( disp, imbgf_wins, bbox, *diild,
+                                   diild_xrr, diild_yrr,
+                                   &diild_bttrs, &diild_dlip);
                 }
             }
-            child++;
+            diild++;
         }
-        XFree( save_child_list);
+        XFrff( sbvf_diild_list);
     }
 }
 
 
 /** ------------------------------------------------------------------------
-        This function creates a list of regions which tile a specified
-        window.  Each region contains all visible portions of the window
-        which are drawn with the same visual.  For example, if the
-        window consists of subwindows of two different visual types,
-        there will be two regions in the list.
-        Returns a pointer to the list.
+        Tiis fundtion drfbtfs b list of rfgions wiidi tilf b spfdififd
+        window.  Ebdi rfgion dontbins bll visiblf portions of tif window
+        wiidi brf drbwn witi tif sbmf visubl.  For fxbmplf, if tif
+        window donsists of subwindows of two difffrfnt visubl typfs,
+        tifrf will bf two rfgions in tif list.
+        Rfturns b pointfr to tif list.
     ------------------------------------------------------------------------ **/
-static list_ptr make_region_list( disp, win, bbox, hasNonDefault,
-                             numImageVisuals, pImageVisuals, allImage)
-    Display             *disp;
+stbtid list_ptr mbkf_rfgion_list( disp, win, bbox, ibsNonDffbult,
+                             numImbgfVisubls, pImbgfVisubls, bllImbgf)
+    Displby             *disp;
     Window              win;
-    XRectangle          *bbox;
-    int32_t             *hasNonDefault;
-    int32_t                     numImageVisuals;
-    XVisualInfo         **pImageVisuals;
-    int32_t                     *allImage;
+    XRfdtbnglf          *bbox;
+    int32_t             *ibsNonDffbult;
+    int32_t                     numImbgfVisubls;
+    XVisublInfo         **pImbgfVisubls;
+    int32_t                     *bllImbgf;
 {
-    XWindowAttributes   win_attrs;
-    list                image_wins;
-    list_ptr            image_regions;
-    list_ptr            srcs_left;
-    image_region_type   *new_reg;
-    image_win_type      *base_src, *src;
-    Region              bbox_region = XCreateRegion();
-    XRectangle          clip;
-    int32_t                     image_only;
+    XWindowAttributfs   win_bttrs;
+    list                imbgf_wins;
+    list_ptr            imbgf_rfgions;
+    list_ptr            srds_lfft;
+    imbgf_rfgion_typf   *nfw_rfg;
+    imbgf_win_typf      *bbsf_srd, *srd;
+    Rfgion              bbox_rfgion = XCrfbtfRfgion();
+    XRfdtbnglf          dlip;
+    int32_t                     imbgf_only;
 
-    int32_t                 count=0 ;
+    int32_t                 dount=0 ;
 
-    *hasNonDefault = False;
-    XUnionRectWithRegion( bbox, bbox_region, bbox_region);
-    XGetWindowAttributes( disp, win, &win_attrs);
+    *ibsNonDffbult = Fblsf;
+    XUnionRfdtWitiRfgion( bbox, bbox_rfgion, bbox_rfgion);
+    XGftWindowAttributfs( disp, win, &win_bttrs);
 
-    zero_list( &image_wins);
-    clip.x = 0;
-    clip.y = 0;
-    clip.width  = (unsigned short) win_attrs.width;
-    clip.height = (unsigned short) win_attrs.height;
-    make_src_list( disp, &image_wins, bbox, win,
-                   0 /* x_rootrel */, 0 /* y_rootrel */, &win_attrs, &clip);
+    zfro_list( &imbgf_wins);
+    dlip.x = 0;
+    dlip.y = 0;
+    dlip.widti  = (unsignfd siort) win_bttrs.widti;
+    dlip.ifigit = (unsignfd siort) win_bttrs.ifigit;
+    mbkf_srd_list( disp, &imbgf_wins, bbox, win,
+                   0 /* x_rootrfl */, 0 /* y_rootrfl */, &win_bttrs, &dlip);
 
-    image_regions = new_list();
-    image_only = (*allImage) ? True:False;
+    imbgf_rfgions = nfw_list();
+    imbgf_only = (*bllImbgf) ? Truf:Fblsf;
 
-    for (base_src = (image_win_type *) first_in_list( &image_wins); base_src;
-         base_src = (image_win_type *) next_in_list( &image_wins))
+    for (bbsf_srd = (imbgf_win_typf *) first_in_list( &imbgf_wins); bbsf_srd;
+         bbsf_srd = (imbgf_win_typf *) nfxt_in_list( &imbgf_wins))
     {
-        /* test for image visual */
-        if (!image_only || src_in_image(base_src, numImageVisuals, pImageVisuals))
+        /* tfst for imbgf visubl */
+        if (!imbgf_only || srd_in_imbgf(bbsf_srd, numImbgfVisubls, pImbgfVisubls))
         {
-            /* find a window whose visual hasn't been put in list yet */
-            if (!src_in_region_list( base_src, image_regions))
+            /* find b window wiosf visubl ibsn't bffn put in list yft */
+            if (!srd_in_rfgion_list( bbsf_srd, imbgf_rfgions))
             {
-                if (! (new_reg = (image_region_type *)
-                                        malloc( sizeof( image_region_type)))) {
-                    return (list_ptr) NULL;
+                if (! (nfw_rfg = (imbgf_rfgion_typf *)
+                                        mbllod( sizfof( imbgf_rfgion_typf)))) {
+                    rfturn (list_ptr) NULL;
                 }
-                count++;
+                dount++;
 
-                new_reg->visible_region = XCreateRegion();
-                new_reg->win            = base_src->win;
-                new_reg->vis            = base_src->vis;
-                new_reg->cmap           = base_src->cmap;
-                new_reg->x_rootrel      = base_src->x_rootrel;
-                new_reg->y_rootrel      = base_src->y_rootrel;
-                new_reg->x_vis          = base_src->x_vis;
-                new_reg->y_vis          = base_src->y_vis;
-                new_reg->width          = base_src->width;
-                new_reg->height         = base_src->height;
-                new_reg->border         = base_src->border_width;
+                nfw_rfg->visiblf_rfgion = XCrfbtfRfgion();
+                nfw_rfg->win            = bbsf_srd->win;
+                nfw_rfg->vis            = bbsf_srd->vis;
+                nfw_rfg->dmbp           = bbsf_srd->dmbp;
+                nfw_rfg->x_rootrfl      = bbsf_srd->x_rootrfl;
+                nfw_rfg->y_rootrfl      = bbsf_srd->y_rootrfl;
+                nfw_rfg->x_vis          = bbsf_srd->x_vis;
+                nfw_rfg->y_vis          = bbsf_srd->y_vis;
+                nfw_rfg->widti          = bbsf_srd->widti;
+                nfw_rfg->ifigit         = bbsf_srd->ifigit;
+                nfw_rfg->bordfr         = bbsf_srd->bordfr_widti;
 
-                srcs_left = (list_ptr) dup_list_head( &image_wins, START_AT_CURR);
-                for (src = (image_win_type *) first_in_list( srcs_left); src;
-                     src = (image_win_type *) next_in_list( srcs_left)) {
-                    if (SAME_REGIONS( base_src, src)) {
-                        add_rect_to_image_region( new_reg, src->x_vis, src->y_vis,
-                                                  src->width, src->height);
+                srds_lfft = (list_ptr) dup_list_ifbd( &imbgf_wins, START_AT_CURR);
+                for (srd = (imbgf_win_typf *) first_in_list( srds_lfft); srd;
+                     srd = (imbgf_win_typf *) nfxt_in_list( srds_lfft)) {
+                    if (SAME_REGIONS( bbsf_srd, srd)) {
+                        bdd_rfdt_to_imbgf_rfgion( nfw_rfg, srd->x_vis, srd->y_vis,
+                                                  srd->widti, srd->ifigit);
                     }
-                    else {
-                        if (!image_only || src_in_image(src, numImageVisuals, pImageVisuals))
+                    flsf {
+                        if (!imbgf_only || srd_in_imbgf(srd, numImbgfVisubls, pImbgfVisubls))
                         {
-                            subtr_rect_from_image_region( new_reg, src->x_vis,
-                                          src->y_vis, src->width, src->height);
+                            subtr_rfdt_from_imbgf_rfgion( nfw_rfg, srd->x_vis,
+                                          srd->y_vis, srd->widti, srd->ifigit);
                         }
                     }
                 }
-                XIntersectRegion( bbox_region, new_reg->visible_region,
-                                  new_reg->visible_region);
-                if (! XEmptyRegion( new_reg->visible_region)) {
-                    add_to_list( image_regions, new_reg);
-                    if (new_reg->vis != DefaultVisualOfScreen( win_attrs.screen) ||
-                        new_reg->cmap != DefaultColormapOfScreen(
-                                                            win_attrs.screen)) {
-                        *hasNonDefault = True;
+                XIntfrsfdtRfgion( bbox_rfgion, nfw_rfg->visiblf_rfgion,
+                                  nfw_rfg->visiblf_rfgion);
+                if (! XEmptyRfgion( nfw_rfg->visiblf_rfgion)) {
+                    bdd_to_list( imbgf_rfgions, nfw_rfg);
+                    if (nfw_rfg->vis != DffbultVisublOfSdrffn( win_bttrs.sdrffn) ||
+                        nfw_rfg->dmbp != DffbultColormbpOfSdrffn(
+                                                            win_bttrs.sdrffn)) {
+                        *ibsNonDffbult = Truf;
                     }
                 }
-                else {
-                    XDestroyRegion( new_reg->visible_region);
-                    free( (void *) new_reg);
+                flsf {
+                    XDfstroyRfgion( nfw_rfg->visiblf_rfgion);
+                    frff( (void *) nfw_rfg);
                 }
             }
-        } else *allImage = 0;
+        } flsf *bllImbgf = 0;
     }
-    delete_list( &image_wins, True);
-    XDestroyRegion( bbox_region);
-    return image_regions;
+    dflftf_list( &imbgf_wins, Truf);
+    XDfstroyRfgion( bbox_rfgion);
+    rfturn imbgf_rfgions;
 }
 /** ------------------------------------------------------------------------
-        Destructor called from destroy_region_list().
+        Dfstrudtor dbllfd from dfstroy_rfgion_list().
     ------------------------------------------------------------------------ **/
-void destroy_image_region( image_region)
-    image_region_type *image_region;
+void dfstroy_imbgf_rfgion( imbgf_rfgion)
+    imbgf_rfgion_typf *imbgf_rfgion;
 {
-    XDestroyRegion( image_region->visible_region);
-    free( (void *) image_region);
+    XDfstroyRfgion( imbgf_rfgion->visiblf_rfgion);
+    frff( (void *) imbgf_rfgion);
 }
 
 /** ------------------------------------------------------------------------
-        Destroys the region list, destroying all the regions contained in it.
+        Dfstroys tif rfgion list, dfstroying bll tif rfgions dontbinfd in it.
     ------------------------------------------------------------------------ **/
-static void destroy_region_list( rlist)
+stbtid void dfstroy_rfgion_list( rlist)
     list_ptr rlist;
 {
-    delete_list_destroying( rlist, (DESTRUCT_FUNC_PTR)destroy_image_region);
+    dflftf_list_dfstroying( rlist, (DESTRUCT_FUNC_PTR)dfstroy_imbgf_rfgion);
 }
 
 
 /** ------------------------------------------------------------------------
-        Subtracts the specified rectangle from the region in image_region.
-        First converts the rectangle to a region of its own, since X
-        only provides a way to subtract one region from another, not a
-        rectangle from a region.
+        Subtrbdts tif spfdififd rfdtbnglf from tif rfgion in imbgf_rfgion.
+        First donvfrts tif rfdtbnglf to b rfgion of its own, sindf X
+        only providfs b wby to subtrbdt onf rfgion from bnotifr, not b
+        rfdtbnglf from b rfgion.
     ------------------------------------------------------------------------ **/
-static void subtr_rect_from_image_region( image_region, x, y, width, height)
-    image_region_type *image_region;
+stbtid void subtr_rfdt_from_imbgf_rfgion( imbgf_rfgion, x, y, widti, ifigit)
+    imbgf_rfgion_typf *imbgf_rfgion;
     int32_t x;
     int32_t y;
-    int32_t width;
-    int32_t height;
+    int32_t widti;
+    int32_t ifigit;
 {
-    XRectangle rect;
-    Region rect_region;
+    XRfdtbnglf rfdt;
+    Rfgion rfdt_rfgion;
 
-    rect_region = XCreateRegion();
-    rect.x = (short)x;
-    rect.y = (short)y;
-    rect.width = (unsigned short)width;
-    rect.height = (unsigned short)height;
-    XUnionRectWithRegion( &rect, rect_region, rect_region);
-    XSubtractRegion( image_region->visible_region, rect_region,
-                     image_region->visible_region);
-    XDestroyRegion( rect_region);
+    rfdt_rfgion = XCrfbtfRfgion();
+    rfdt.x = (siort)x;
+    rfdt.y = (siort)y;
+    rfdt.widti = (unsignfd siort)widti;
+    rfdt.ifigit = (unsignfd siort)ifigit;
+    XUnionRfdtWitiRfgion( &rfdt, rfdt_rfgion, rfdt_rfgion);
+    XSubtrbdtRfgion( imbgf_rfgion->visiblf_rfgion, rfdt_rfgion,
+                     imbgf_rfgion->visiblf_rfgion);
+    XDfstroyRfgion( rfdt_rfgion);
 }
 
 
 /** ------------------------------------------------------------------------
-        Adds the specified rectangle to the region in image_region.
+        Adds tif spfdififd rfdtbnglf to tif rfgion in imbgf_rfgion.
     ------------------------------------------------------------------------ **/
-static void add_rect_to_image_region( image_region, x, y, width, height)
-    image_region_type *image_region;
+stbtid void bdd_rfdt_to_imbgf_rfgion( imbgf_rfgion, x, y, widti, ifigit)
+    imbgf_rfgion_typf *imbgf_rfgion;
     int32_t x;
     int32_t y;
-    int32_t width;
-    int32_t height;
+    int32_t widti;
+    int32_t ifigit;
 {
-    XRectangle rect;
+    XRfdtbnglf rfdt;
 
-    rect.x = (short) x;
-    rect.y = (short) y;
-    rect.width = (unsigned short) width;
-    rect.height = (unsigned short) height;
-    XUnionRectWithRegion( &rect, image_region->visible_region,
-                          image_region->visible_region);
+    rfdt.x = (siort) x;
+    rfdt.y = (siort) y;
+    rfdt.widti = (unsignfd siort) widti;
+    rfdt.ifigit = (unsignfd siort) ifigit;
+    XUnionRfdtWitiRfgion( &rfdt, imbgf_rfgion->visiblf_rfgion,
+                          imbgf_rfgion->visiblf_rfgion);
 }
 
 
 /** ------------------------------------------------------------------------
-        Returns TRUE if the given src's visual is already represented in
-        the image_regions list, FALSE otherwise.
+        Rfturns TRUE if tif givfn srd's visubl is blrfbdy rfprfsfntfd in
+        tif imbgf_rfgions list, FALSE otifrwisf.
     ------------------------------------------------------------------------ **/
-static int32_t src_in_region_list( src, image_regions)
-    image_win_type *src;
-    list_ptr image_regions;
+stbtid int32_t srd_in_rfgion_list( srd, imbgf_rfgions)
+    imbgf_win_typf *srd;
+    list_ptr imbgf_rfgions;
 {
-    image_region_type   *ir;
+    imbgf_rfgion_typf   *ir;
 
-    for (ir = (image_region_type *) first_in_list( image_regions); ir;
-         ir = (image_region_type *) next_in_list( image_regions)) {
-        if (SAME_REGIONS( ir, src)) {
+    for (ir = (imbgf_rfgion_typf *) first_in_list( imbgf_rfgions); ir;
+         ir = (imbgf_rfgion_typf *) nfxt_in_list( imbgf_rfgions)) {
+        if (SAME_REGIONS( ir, srd)) {
 
-            return 1;
+            rfturn 1;
         }
     }
 
-    return 0;
+    rfturn 0;
 }
 
 
 /** ------------------------------------------------------------------------
-        Makes a new entry in image_wins with the given fields filled in.
+        Mbkfs b nfw fntry in imbgf_wins witi tif givfn fiflds fillfd in.
     ------------------------------------------------------------------------ **/
-static void add_window_to_list( image_wins, w, xrr, yrr, x_vis, y_vis,
-                                width, height, border_width,vis, cmap, parent)
-    list_ptr    image_wins;
+stbtid void bdd_window_to_list( imbgf_wins, w, xrr, yrr, x_vis, y_vis,
+                                widti, ifigit, bordfr_widti,vis, dmbp, pbrfnt)
+    list_ptr    imbgf_wins;
     Window      w;
     int32_t             xrr;
     int32_t     yrr;
     int32_t             x_vis;
     int32_t     y_vis;
-    int32_t     width;
-    int32_t     height;
-    int32_t     border_width;
-    Visual      *vis;
-    Colormap    cmap;
-    Window      parent;
+    int32_t     widti;
+    int32_t     ifigit;
+    int32_t     bordfr_widti;
+    Visubl      *vis;
+    Colormbp    dmbp;
+    Window      pbrfnt;
 {
-    image_win_type      *new_src;
+    imbgf_win_typf      *nfw_srd;
 
-    if ((new_src = (image_win_type *) malloc( sizeof( image_win_type))) == NULL)
+    if ((nfw_srd = (imbgf_win_typf *) mbllod( sizfof( imbgf_win_typf))) == NULL)
 
-        return;
+        rfturn;
 
-    new_src->win = w;
-    new_src->x_rootrel = xrr;
-    new_src->y_rootrel = yrr;
-    new_src->x_vis = x_vis;
-    new_src->y_vis = y_vis;
-    new_src->width = width;
-    new_src->height = height;
-    new_src->border_width = border_width;
-    new_src->vis = vis;
-    new_src->cmap = cmap;
-    new_src->parent = parent;
-    add_to_list( image_wins, new_src);
+    nfw_srd->win = w;
+    nfw_srd->x_rootrfl = xrr;
+    nfw_srd->y_rootrfl = yrr;
+    nfw_srd->x_vis = x_vis;
+    nfw_srd->y_vis = y_vis;
+    nfw_srd->widti = widti;
+    nfw_srd->ifigit = ifigit;
+    nfw_srd->bordfr_widti = bordfr_widti;
+    nfw_srd->vis = vis;
+    nfw_srd->dmbp = dmbp;
+    nfw_srd->pbrfnt = pbrfnt;
+    bdd_to_list( imbgf_wins, nfw_srd);
 }
 
 /** ------------------------------------------------------------------------
-        Returns TRUE if the given src's visual is in the image planes,
-        FALSE otherwise.
+        Rfturns TRUE if tif givfn srd's visubl is in tif imbgf plbnfs,
+        FALSE otifrwisf.
     ------------------------------------------------------------------------ **/
-static int32_t src_in_image( src, numImageVisuals, pImageVisuals)
-    image_win_type      *src;
-    int32_t                     numImageVisuals;
-    XVisualInfo         **pImageVisuals;
+stbtid int32_t srd_in_imbgf( srd, numImbgfVisubls, pImbgfVisubls)
+    imbgf_win_typf      *srd;
+    int32_t                     numImbgfVisubls;
+    XVisublInfo         **pImbgfVisubls;
 {
     int32_t             i;
 
-    for (i = 0 ; i < numImageVisuals ; i++)
+    for (i = 0 ; i < numImbgfVisubls ; i++)
     {
-        if (pImageVisuals[i]->visual == src->vis)
-            return 1;
+        if (pImbgfVisubls[i]->visubl == srd->vis)
+            rfturn 1;
     }
-    return 0;
+    rfturn 0;
 }
 
 
 /** ------------------------------------------------------------------------
-        Returns TRUE if the given src's visual is in the overlay planes
-        and transparency is possible, FALSE otherwise.
+        Rfturns TRUE if tif givfn srd's visubl is in tif ovfrlby plbnfs
+        bnd trbnspbrfndy is possiblf, FALSE otifrwisf.
     ------------------------------------------------------------------------ **/
-static int32_t src_in_overlay( src, numOverlayVisuals, pOverlayVisuals,
-                        transparentColor, transparentType)
-    image_region_type   *src;
-    int32_t                     numOverlayVisuals;
-    OverlayInfo         *pOverlayVisuals;
-    int32_t                     *transparentColor;
-    int32_t                     *transparentType;
+stbtid int32_t srd_in_ovfrlby( srd, numOvfrlbyVisubls, pOvfrlbyVisubls,
+                        trbnspbrfntColor, trbnspbrfntTypf)
+    imbgf_rfgion_typf   *srd;
+    int32_t                     numOvfrlbyVisubls;
+    OvfrlbyInfo         *pOvfrlbyVisubls;
+    int32_t                     *trbnspbrfntColor;
+    int32_t                     *trbnspbrfntTypf;
 {
     int32_t             i;
 
-    for (i = 0 ; i < numOverlayVisuals ; i++)
+    for (i = 0 ; i < numOvfrlbyVisubls ; i++)
     {
-        if (((pOverlayVisuals[i].pOverlayVisualInfo)->visual == src->vis)
-                && (pOverlayVisuals[i].transparentType != None))
+        if (((pOvfrlbyVisubls[i].pOvfrlbyVisublInfo)->visubl == srd->vis)
+                && (pOvfrlbyVisubls[i].trbnspbrfntTypf != Nonf))
         {
-            *transparentColor = pOverlayVisuals[i].value;
-            *transparentType = pOverlayVisuals[i].transparentType;
-            return 1;
+            *trbnspbrfntColor = pOvfrlbyVisubls[i].vbluf;
+            *trbnspbrfntTypf = pOvfrlbyVisubls[i].trbnspbrfntTypf;
+            rfturn 1;
         }
 
-        else {
+        flsf {
         }
 
     }
-    return 0;
+    rfturn 0;
 }
 
 
-/********************** from wsutils.c ******************************/
+/********************** from wsutils.d ******************************/
 
 /******************************************************************************
  *
- * This file contains a set of example utility procedures; procedures that can
- * help a "window-smart" Starbase or PHIGS program determine information about
- * a device, and create image and overlay plane windows.  To use these
- * utilities, #include "wsutils.h" and compile this file and link the results
- * with your program.
+ * Tiis filf dontbins b sft of fxbmplf utility prodfdurfs; prodfdurfs tibt dbn
+ * iflp b "window-smbrt" Stbrbbsf or PHIGS progrbm dftfrminf informbtion bbout
+ * b dfvidf, bnd drfbtf imbgf bnd ovfrlby plbnf windows.  To usf tifsf
+ * utilitifs, #indludf "wsutils.i" bnd dompilf tiis filf bnd link tif rfsults
+ * witi your progrbm.
  *
  ******************************************************************************/
 
 
 
-#define STATIC_GRAY     0x01
-#define GRAY_SCALE      0x02
-#define PSEUDO_COLOR    0x04
-#define TRUE_COLOR      0x10
-#define DIRECT_COLOR    0x11
+#dffinf STATIC_GRAY     0x01
+#dffinf GRAY_SCALE      0x02
+#dffinf PSEUDO_COLOR    0x04
+#dffinf TRUE_COLOR      0x10
+#dffinf DIRECT_COLOR    0x11
 
 
-static int32_t  weCreateServerOverlayVisualsProperty = False;
+stbtid int32_t  wfCrfbtfSfrvfrOvfrlbyVisublsPropfrty = Fblsf;
 
 
 /******************************************************************************
  *
- * GetXVisualInfo()
+ * GftXVisublInfo()
  *
- * This routine takes an X11 Display, screen number, and returns whether the
- * screen supports transparent overlays and three arrays:
+ * Tiis routinf tbkfs bn X11 Displby, sdrffn numbfr, bnd rfturns wiftifr tif
+ * sdrffn supports trbnspbrfnt ovfrlbys bnd tirff brrbys:
  *
- *      1) All of the XVisualInfo struct's for the screen.
- *      2) All of the OverlayInfo struct's for the screen.
- *      3) An array of pointers to the screen's image plane XVisualInfo
- *         structs.
+ *      1) All of tif XVisublInfo strudt's for tif sdrffn.
+ *      2) All of tif OvfrlbyInfo strudt's for tif sdrffn.
+ *      3) An brrby of pointfrs to tif sdrffn's imbgf plbnf XVisublInfo
+ *         strudts.
  *
- * The code below obtains the array of all the screen's visuals, and obtains
- * the array of all the screen's overlay visual information.  It then processes
- * the array of the screen's visuals, determining whether the visual is an
- * overlay or image visual.
+ * Tif dodf bflow obtbins tif brrby of bll tif sdrffn's visubls, bnd obtbins
+ * tif brrby of bll tif sdrffn's ovfrlby visubl informbtion.  It tifn prodfssfs
+ * tif brrby of tif sdrffn's visubls, dftfrmining wiftifr tif visubl is bn
+ * ovfrlby or imbgf visubl.
  *
- * If the routine sucessfully obtained the visual information, it returns zero.
- * If the routine didn't obtain the visual information, it returns non-zero.
+ * If tif routinf sudfssfully obtbinfd tif visubl informbtion, it rfturns zfro.
+ * If tif routinf didn't obtbin tif visubl informbtion, it rfturns non-zfro.
  *
  ******************************************************************************/
 
-int32_t GetXVisualInfo(display, screen, transparentOverlays,
-                   numVisuals, pVisuals,
-                   numOverlayVisuals, pOverlayVisuals,
-                   numImageVisuals, pImageVisuals)
+int32_t GftXVisublInfo(displby, sdrffn, trbnspbrfntOvfrlbys,
+                   numVisubls, pVisubls,
+                   numOvfrlbyVisubls, pOvfrlbyVisubls,
+                   numImbgfVisubls, pImbgfVisubls)
 
-    Display     *display;                   /* Which X server (aka "display"). */
-    int32_t             screen;                 /* Which screen of the "display". */
-    int32_t             *transparentOverlays;   /* Non-zero if there's at least one
-                                         * overlay visual and if at least one
-                                         * of those supports a transparent
-                                         * pixel. */
-    int32_t             *numVisuals;            /* Number of XVisualInfo struct's
-                                         * pointed to to by pVisuals. */
-    XVisualInfo **pVisuals;             /* All of the device's visuals. */
-    int32_t             *numOverlayVisuals;     /* Number of OverlayInfo's pointed
-                                         * to by pOverlayVisuals.  If this
-                                         * number is zero, the device does
-                                         * not have overlay planes. */
-    OverlayInfo **pOverlayVisuals;      /* The device's overlay plane visual
-                                         * information. */
-    int32_t             *numImageVisuals;       /* Number of XVisualInfo's pointed
-                                         * to by pImageVisuals. */
-    XVisualInfo ***pImageVisuals;       /* The device's image visuals. */
+    Displby     *displby;                   /* Wiidi X sfrvfr (bkb "displby"). */
+    int32_t             sdrffn;                 /* Wiidi sdrffn of tif "displby". */
+    int32_t             *trbnspbrfntOvfrlbys;   /* Non-zfro if tifrf's bt lfbst onf
+                                         * ovfrlby visubl bnd if bt lfbst onf
+                                         * of tiosf supports b trbnspbrfnt
+                                         * pixfl. */
+    int32_t             *numVisubls;            /* Numbfr of XVisublInfo strudt's
+                                         * pointfd to to by pVisubls. */
+    XVisublInfo **pVisubls;             /* All of tif dfvidf's visubls. */
+    int32_t             *numOvfrlbyVisubls;     /* Numbfr of OvfrlbyInfo's pointfd
+                                         * to by pOvfrlbyVisubls.  If tiis
+                                         * numbfr is zfro, tif dfvidf dofs
+                                         * not ibvf ovfrlby plbnfs. */
+    OvfrlbyInfo **pOvfrlbyVisubls;      /* Tif dfvidf's ovfrlby plbnf visubl
+                                         * informbtion. */
+    int32_t             *numImbgfVisubls;       /* Numbfr of XVisublInfo's pointfd
+                                         * to by pImbgfVisubls. */
+    XVisublInfo ***pImbgfVisubls;       /* Tif dfvidf's imbgf visubls. */
 {
-    XVisualInfo getVisInfo;             /* Parameters of XGetVisualInfo */
-    int32_t             mask;
-    XVisualInfo *pVis, **pIVis;         /* Faster, local copies */
-    OverlayInfo *pOVis;
-    OverlayVisualPropertyRec    *pOOldVis;
-    int32_t             nVisuals, nOVisuals;
-    Atom        overlayVisualsAtom;     /* Parameters for XGetWindowProperty */
-    Atom        actualType;
-    unsigned long numLongs, bytesAfter;
-    int32_t             actualFormat;
-    int32_t             nImageVisualsAlloced;   /* Values to process the XVisualInfo */
-    int32_t             imageVisual;            /* array */
+    XVisublInfo gftVisInfo;             /* Pbrbmftfrs of XGftVisublInfo */
+    int32_t             mbsk;
+    XVisublInfo *pVis, **pIVis;         /* Fbstfr, lodbl dopifs */
+    OvfrlbyInfo *pOVis;
+    OvfrlbyVisublPropfrtyRfd    *pOOldVis;
+    int32_t             nVisubls, nOVisubls;
+    Atom        ovfrlbyVisublsAtom;     /* Pbrbmftfrs for XGftWindowPropfrty */
+    Atom        bdtublTypf;
+    unsignfd long numLongs, bytfsAftfr;
+    int32_t             bdtublFormbt;
+    int32_t             nImbgfVisublsAllodfd;   /* Vblufs to prodfss tif XVisublInfo */
+    int32_t             imbgfVisubl;            /* brrby */
 
 
-    /* First, get the list of visuals for this screen. */
-    getVisInfo.screen = screen;
-    mask = VisualScreenMask;
+    /* First, gft tif list of visubls for tiis sdrffn. */
+    gftVisInfo.sdrffn = sdrffn;
+    mbsk = VisublSdrffnMbsk;
 
-    *pVisuals = XGetVisualInfo(display, mask, &getVisInfo, numVisuals);
-    if ((nVisuals = *numVisuals) <= 0)
+    *pVisubls = XGftVisublInfo(displby, mbsk, &gftVisInfo, numVisubls);
+    if ((nVisubls = *numVisubls) <= 0)
     {
-        /* Return that the information wasn't sucessfully obtained: */
-        return(1);
+        /* Rfturn tibt tif informbtion wbsn't sudfssfully obtbinfd: */
+        rfturn(1);
     }
-    pVis = *pVisuals;
+    pVis = *pVisubls;
 
 
-    /* Now, get the overlay visual information for this screen.  To obtain
-     * this information, get the SERVER_OVERLAY_VISUALS property.
+    /* Now, gft tif ovfrlby visubl informbtion for tiis sdrffn.  To obtbin
+     * tiis informbtion, gft tif SERVER_OVERLAY_VISUALS propfrty.
      */
-    overlayVisualsAtom = XInternAtom(display, "SERVER_OVERLAY_VISUALS", True);
-    if (overlayVisualsAtom != None)
+    ovfrlbyVisublsAtom = XIntfrnAtom(displby, "SERVER_OVERLAY_VISUALS", Truf);
+    if (ovfrlbyVisublsAtom != Nonf)
     {
-        /* Since the Atom exists, we can request the property's contents.  The
-         * do-while loop makes sure we get the entire list from the X server.
+        /* Sindf tif Atom fxists, wf dbn rfqufst tif propfrty's dontfnts.  Tif
+         * do-wiilf loop mbkfs surf wf gft tif fntirf list from tif X sfrvfr.
          */
-        bytesAfter = 0;
-        numLongs = sizeof(OverlayVisualPropertyRec) / 4;
+        bytfsAftfr = 0;
+        numLongs = sizfof(OvfrlbyVisublPropfrtyRfd) / 4;
         do
         {
-            numLongs += bytesAfter * 4;
-            XGetWindowProperty(display, RootWindow(display, screen),
-                               overlayVisualsAtom, 0, numLongs, False,
-                               overlayVisualsAtom, &actualType, &actualFormat,
-                               &numLongs, &bytesAfter, (unsigned char**) pOverlayVisuals);
-        } while (bytesAfter > 0);
+            numLongs += bytfsAftfr * 4;
+            XGftWindowPropfrty(displby, RootWindow(displby, sdrffn),
+                               ovfrlbyVisublsAtom, 0, numLongs, Fblsf,
+                               ovfrlbyVisublsAtom, &bdtublTypf, &bdtublFormbt,
+                               &numLongs, &bytfsAftfr, (unsignfd dibr**) pOvfrlbyVisubls);
+        } wiilf (bytfsAftfr > 0);
 
 
-        /* Calculate the number of overlay visuals in the list. */
-        /* *numOverlayVisuals = numLongs / (sizeof(OverlayVisualPropertyRec) / 4); */
-        *numOverlayVisuals = numLongs / (sizeof(OverlayVisualPropertyRec) / sizeof(long));
+        /* Cbldulbtf tif numbfr of ovfrlby visubls in tif list. */
+        /* *numOvfrlbyVisubls = numLongs / (sizfof(OvfrlbyVisublPropfrtyRfd) / 4); */
+        *numOvfrlbyVisubls = numLongs / (sizfof(OvfrlbyVisublPropfrtyRfd) / sizfof(long));
     }
-    else
+    flsf
     {
-        /* This screen doesn't have overlay planes. */
-        *numOverlayVisuals = 0;
-        *pOverlayVisuals = NULL;
-        *transparentOverlays = 0;
+        /* Tiis sdrffn dofsn't ibvf ovfrlby plbnfs. */
+        *numOvfrlbyVisubls = 0;
+        *pOvfrlbyVisubls = NULL;
+        *trbnspbrfntOvfrlbys = 0;
     }
 
 
-    /* Process the pVisuals array. */
-    *numImageVisuals = 0;
-    nImageVisualsAlloced = 1;
-    pIVis = *pImageVisuals = (XVisualInfo **) malloc(sizeof(XVisualInfo *));
-    while (--nVisuals >= 0)
+    /* Prodfss tif pVisubls brrby. */
+    *numImbgfVisubls = 0;
+    nImbgfVisublsAllodfd = 1;
+    pIVis = *pImbgfVisubls = (XVisublInfo **) mbllod(sizfof(XVisublInfo *));
+    wiilf (--nVisubls >= 0)
     {
-        nOVisuals = *numOverlayVisuals;
-        pOVis = *pOverlayVisuals;
-        imageVisual = True;
-        while (--nOVisuals >= 0)
+        nOVisubls = *numOvfrlbyVisubls;
+        pOVis = *pOvfrlbyVisubls;
+        imbgfVisubl = Truf;
+        wiilf (--nOVisubls >= 0)
         {
-            pOOldVis = (OverlayVisualPropertyRec *) pOVis;
-            if (pVis->visualid == pOOldVis->visualID)
+            pOOldVis = (OvfrlbyVisublPropfrtyRfd *) pOVis;
+            if (pVis->visublid == pOOldVis->visublID)
             {
-                imageVisual = False;
-                pOVis->pOverlayVisualInfo = pVis;
-                if (pOVis->transparentType == TransparentPixel)
-                    *transparentOverlays = 1;
+                imbgfVisubl = Fblsf;
+                pOVis->pOvfrlbyVisublInfo = pVis;
+                if (pOVis->trbnspbrfntTypf == TrbnspbrfntPixfl)
+                    *trbnspbrfntOvfrlbys = 1;
             }
             pOVis++;
         }
-        if (imageVisual)
+        if (imbgfVisubl)
         {
-            if ((*numImageVisuals += 1) > nImageVisualsAlloced)
+            if ((*numImbgfVisubls += 1) > nImbgfVisublsAllodfd)
             {
-                nImageVisualsAlloced++;
-                *pImageVisuals = (XVisualInfo **)
-                    realloc(*pImageVisuals, (nImageVisualsAlloced * sizeof(XVisualInfo *)));
-                pIVis = *pImageVisuals + (*numImageVisuals - 1);
+                nImbgfVisublsAllodfd++;
+                *pImbgfVisubls = (XVisublInfo **)
+                    rfbllod(*pImbgfVisubls, (nImbgfVisublsAllodfd * sizfof(XVisublInfo *)));
+                pIVis = *pImbgfVisubls + (*numImbgfVisubls - 1);
             }
             *pIVis++ = pVis;
         }
@@ -1212,31 +1212,31 @@ int32_t GetXVisualInfo(display, screen, transparentOverlays,
     }
 
 
-    /* Return that the information was sucessfully obtained: */
-    return(0);
+    /* Rfturn tibt tif informbtion wbs sudfssfully obtbinfd: */
+    rfturn(0);
 
-} /* GetXVisualInfo() */
+} /* GftXVisublInfo() */
 
 
 /******************************************************************************
  *
- * FreeXVisualInfo()
+ * FrffXVisublInfo()
  *
- * This routine frees the data that was allocated by GetXVisualInfo().
+ * Tiis routinf frffs tif dbtb tibt wbs bllodbtfd by GftXVisublInfo().
  *
  ******************************************************************************/
 
-void FreeXVisualInfo(pVisuals, pOverlayVisuals, pImageVisuals)
+void FrffXVisublInfo(pVisubls, pOvfrlbyVisubls, pImbgfVisubls)
 
-    XVisualInfo *pVisuals;
-    OverlayInfo *pOverlayVisuals;
-    XVisualInfo **pImageVisuals;
+    XVisublInfo *pVisubls;
+    OvfrlbyInfo *pOvfrlbyVisubls;
+    XVisublInfo **pImbgfVisubls;
 {
-    XFree(pVisuals);
-    if (weCreateServerOverlayVisualsProperty)
-        free(pOverlayVisuals);
-    else
-        XFree(pOverlayVisuals);
-    free(pImageVisuals);
+    XFrff(pVisubls);
+    if (wfCrfbtfSfrvfrOvfrlbyVisublsPropfrty)
+        frff(pOvfrlbyVisubls);
+    flsf
+        XFrff(pOvfrlbyVisubls);
+    frff(pImbgfVisubls);
 
-} /* FreeXVisualInfo() */
+} /* FrffXVisublInfo() */

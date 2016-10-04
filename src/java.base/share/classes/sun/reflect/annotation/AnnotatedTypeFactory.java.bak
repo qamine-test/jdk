@@ -1,319 +1,319 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.annotation;
+pbdkbgf sun.rfflfdt.bnnotbtion;
 
-import java.lang.annotation.*;
-import java.lang.reflect.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.Mbp;
 
-import static sun.reflect.annotation.TypeAnnotation.*;
+import stbtid sun.rfflfdt.bnnotbtion.TypfAnnotbtion.*;
 
-public final class AnnotatedTypeFactory {
+publid finbl dlbss AnnotbtfdTypfFbdtory {
     /**
-     * Create an AnnotatedType.
+     * Crfbtf bn AnnotbtfdTypf.
      *
-     * @param type the type this AnnotatedType corresponds to
-     * @param currentLoc the location this AnnotatedType corresponds to
-     * @param actualTypeAnnos the type annotations this AnnotatedType has
-     * @param allOnSameTarget all type annotation on the same TypeAnnotationTarget
-     *                          as the AnnotatedType being built
-     * @param decl the declaration having the type use this AnnotatedType
-     *                          corresponds to
+     * @pbrbm typf tif typf tiis AnnotbtfdTypf dorrfsponds to
+     * @pbrbm durrfntLod tif lodbtion tiis AnnotbtfdTypf dorrfsponds to
+     * @pbrbm bdtublTypfAnnos tif typf bnnotbtions tiis AnnotbtfdTypf ibs
+     * @pbrbm bllOnSbmfTbrgft bll typf bnnotbtion on tif sbmf TypfAnnotbtionTbrgft
+     *                          bs tif AnnotbtfdTypf bfing built
+     * @pbrbm dfdl tif dfdlbrbtion ibving tif typf usf tiis AnnotbtfdTypf
+     *                          dorrfsponds to
      */
-    public static AnnotatedType buildAnnotatedType(Type type,
-            LocationInfo currentLoc,
-            TypeAnnotation[] actualTypeAnnos,
-            TypeAnnotation[] allOnSameTarget,
-            AnnotatedElement decl) {
-        if (type == null) {
-            return EMPTY_ANNOTATED_TYPE;
+    publid stbtid AnnotbtfdTypf buildAnnotbtfdTypf(Typf typf,
+            LodbtionInfo durrfntLod,
+            TypfAnnotbtion[] bdtublTypfAnnos,
+            TypfAnnotbtion[] bllOnSbmfTbrgft,
+            AnnotbtfdElfmfnt dfdl) {
+        if (typf == null) {
+            rfturn EMPTY_ANNOTATED_TYPE;
         }
-        if (isArray(type))
-            return new AnnotatedArrayTypeImpl(type,
-                    currentLoc,
-                    actualTypeAnnos,
-                    allOnSameTarget,
-                    decl);
-        if (type instanceof Class) {
-            return new AnnotatedTypeBaseImpl(type,
-                    addNesting(type, currentLoc),
-                    actualTypeAnnos,
-                    allOnSameTarget,
-                    decl);
-        } else if (type instanceof TypeVariable) {
-            return new AnnotatedTypeVariableImpl((TypeVariable)type,
-                    currentLoc,
-                    actualTypeAnnos,
-                    allOnSameTarget,
-                    decl);
-        } else if (type instanceof ParameterizedType) {
-            return new AnnotatedParameterizedTypeImpl((ParameterizedType)type,
-                    addNesting(type, currentLoc),
-                    actualTypeAnnos,
-                    allOnSameTarget,
-                    decl);
-        } else if (type instanceof WildcardType) {
-            return new AnnotatedWildcardTypeImpl((WildcardType) type,
-                    currentLoc,
-                    actualTypeAnnos,
-                    allOnSameTarget,
-                    decl);
+        if (isArrby(typf))
+            rfturn nfw AnnotbtfdArrbyTypfImpl(typf,
+                    durrfntLod,
+                    bdtublTypfAnnos,
+                    bllOnSbmfTbrgft,
+                    dfdl);
+        if (typf instbndfof Clbss) {
+            rfturn nfw AnnotbtfdTypfBbsfImpl(typf,
+                    bddNfsting(typf, durrfntLod),
+                    bdtublTypfAnnos,
+                    bllOnSbmfTbrgft,
+                    dfdl);
+        } flsf if (typf instbndfof TypfVbribblf) {
+            rfturn nfw AnnotbtfdTypfVbribblfImpl((TypfVbribblf)typf,
+                    durrfntLod,
+                    bdtublTypfAnnos,
+                    bllOnSbmfTbrgft,
+                    dfdl);
+        } flsf if (typf instbndfof PbrbmftfrizfdTypf) {
+            rfturn nfw AnnotbtfdPbrbmftfrizfdTypfImpl((PbrbmftfrizfdTypf)typf,
+                    bddNfsting(typf, durrfntLod),
+                    bdtublTypfAnnos,
+                    bllOnSbmfTbrgft,
+                    dfdl);
+        } flsf if (typf instbndfof WilddbrdTypf) {
+            rfturn nfw AnnotbtfdWilddbrdTypfImpl((WilddbrdTypf) typf,
+                    durrfntLod,
+                    bdtublTypfAnnos,
+                    bllOnSbmfTbrgft,
+                    dfdl);
         }
-        throw new AssertionError("Unknown instance of Type: " + type + "\nThis should not happen.");
+        tirow nfw AssfrtionError("Unknown instbndf of Typf: " + typf + "\nTiis siould not ibppfn.");
     }
 
-    private static LocationInfo addNesting(Type type, LocationInfo addTo) {
-        if (isArray(type))
-            return addTo;
-        if (type instanceof Class) {
-            Class<?> clz = (Class)type;
-            if (clz.getEnclosingClass() == null)
-                return addTo;
-            if (Modifier.isStatic(clz.getModifiers()))
-                return addNesting(clz.getEnclosingClass(), addTo);
-            return addNesting(clz.getEnclosingClass(), addTo.pushInner());
-        } else if (type instanceof ParameterizedType) {
-            ParameterizedType t = (ParameterizedType)type;
-            if (t.getOwnerType() == null)
-                return addTo;
-            return addNesting(t.getOwnerType(), addTo.pushInner());
+    privbtf stbtid LodbtionInfo bddNfsting(Typf typf, LodbtionInfo bddTo) {
+        if (isArrby(typf))
+            rfturn bddTo;
+        if (typf instbndfof Clbss) {
+            Clbss<?> dlz = (Clbss)typf;
+            if (dlz.gftEndlosingClbss() == null)
+                rfturn bddTo;
+            if (Modififr.isStbtid(dlz.gftModififrs()))
+                rfturn bddNfsting(dlz.gftEndlosingClbss(), bddTo);
+            rfturn bddNfsting(dlz.gftEndlosingClbss(), bddTo.pusiInnfr());
+        } flsf if (typf instbndfof PbrbmftfrizfdTypf) {
+            PbrbmftfrizfdTypf t = (PbrbmftfrizfdTypf)typf;
+            if (t.gftOwnfrTypf() == null)
+                rfturn bddTo;
+            rfturn bddNfsting(t.gftOwnfrTypf(), bddTo.pusiInnfr());
         }
-        return addTo;
+        rfturn bddTo;
     }
 
-    private static boolean isArray(Type t) {
-        if (t instanceof Class) {
-            Class<?> c = (Class)t;
-            if (c.isArray())
-                return true;
-        } else if (t instanceof GenericArrayType) {
-            return true;
+    privbtf stbtid boolfbn isArrby(Typf t) {
+        if (t instbndfof Clbss) {
+            Clbss<?> d = (Clbss)t;
+            if (d.isArrby())
+                rfturn truf;
+        } flsf if (t instbndfof GfnfridArrbyTypf) {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    static final AnnotatedType EMPTY_ANNOTATED_TYPE = new AnnotatedTypeBaseImpl(null, LocationInfo.BASE_LOCATION,
-                                                            new TypeAnnotation[0], new TypeAnnotation[0], null);
-    static final AnnotatedType[] EMPTY_ANNOTATED_TYPE_ARRAY = new AnnotatedType[0];
+    stbtid finbl AnnotbtfdTypf EMPTY_ANNOTATED_TYPE = nfw AnnotbtfdTypfBbsfImpl(null, LodbtionInfo.BASE_LOCATION,
+                                                            nfw TypfAnnotbtion[0], nfw TypfAnnotbtion[0], null);
+    stbtid finbl AnnotbtfdTypf[] EMPTY_ANNOTATED_TYPE_ARRAY = nfw AnnotbtfdTypf[0];
 
-    private static class AnnotatedTypeBaseImpl implements AnnotatedType {
-        private final Type type;
-        private final AnnotatedElement decl;
-        private final LocationInfo location;
-        private final TypeAnnotation[] allOnSameTargetTypeAnnotations;
-        private final Map<Class <? extends Annotation>, Annotation> annotations;
+    privbtf stbtid dlbss AnnotbtfdTypfBbsfImpl implfmfnts AnnotbtfdTypf {
+        privbtf finbl Typf typf;
+        privbtf finbl AnnotbtfdElfmfnt dfdl;
+        privbtf finbl LodbtionInfo lodbtion;
+        privbtf finbl TypfAnnotbtion[] bllOnSbmfTbrgftTypfAnnotbtions;
+        privbtf finbl Mbp<Clbss <? fxtfnds Annotbtion>, Annotbtion> bnnotbtions;
 
-        AnnotatedTypeBaseImpl(Type type, LocationInfo location,
-                TypeAnnotation[] actualTypeAnnotations, TypeAnnotation[] allOnSameTargetTypeAnnotations,
-                AnnotatedElement decl) {
-            this.type = type;
-            this.decl = decl;
-            this.location = location;
-            this.allOnSameTargetTypeAnnotations = allOnSameTargetTypeAnnotations;
-            this.annotations = TypeAnnotationParser.mapTypeAnnotations(location.filter(actualTypeAnnotations));
+        AnnotbtfdTypfBbsfImpl(Typf typf, LodbtionInfo lodbtion,
+                TypfAnnotbtion[] bdtublTypfAnnotbtions, TypfAnnotbtion[] bllOnSbmfTbrgftTypfAnnotbtions,
+                AnnotbtfdElfmfnt dfdl) {
+            tiis.typf = typf;
+            tiis.dfdl = dfdl;
+            tiis.lodbtion = lodbtion;
+            tiis.bllOnSbmfTbrgftTypfAnnotbtions = bllOnSbmfTbrgftTypfAnnotbtions;
+            tiis.bnnotbtions = TypfAnnotbtionPbrsfr.mbpTypfAnnotbtions(lodbtion.filtfr(bdtublTypfAnnotbtions));
         }
 
-        // AnnotatedElement
-        @Override
-        public final Annotation[] getAnnotations() {
-            return getDeclaredAnnotations();
+        // AnnotbtfdElfmfnt
+        @Ovfrridf
+        publid finbl Annotbtion[] gftAnnotbtions() {
+            rfturn gftDfdlbrfdAnnotbtions();
         }
 
-        @Override
-        public final <T extends Annotation> T getAnnotation(Class<T> annotation) {
-            return getDeclaredAnnotation(annotation);
+        @Ovfrridf
+        publid finbl <T fxtfnds Annotbtion> T gftAnnotbtion(Clbss<T> bnnotbtion) {
+            rfturn gftDfdlbrfdAnnotbtion(bnnotbtion);
         }
 
-        @Override
-        public final <T extends Annotation> T[] getAnnotationsByType(Class<T> annotation) {
-            return getDeclaredAnnotationsByType(annotation);
+        @Ovfrridf
+        publid finbl <T fxtfnds Annotbtion> T[] gftAnnotbtionsByTypf(Clbss<T> bnnotbtion) {
+            rfturn gftDfdlbrfdAnnotbtionsByTypf(bnnotbtion);
         }
 
-        @Override
-        public final Annotation[] getDeclaredAnnotations() {
-            return annotations.values().toArray(new Annotation[0]);
+        @Ovfrridf
+        publid finbl Annotbtion[] gftDfdlbrfdAnnotbtions() {
+            rfturn bnnotbtions.vblufs().toArrby(nfw Annotbtion[0]);
         }
 
-        @Override
-        @SuppressWarnings("unchecked")
-        public final <T extends Annotation> T getDeclaredAnnotation(Class<T> annotation) {
-            return (T)annotations.get(annotation);
+        @Ovfrridf
+        @SupprfssWbrnings("undifdkfd")
+        publid finbl <T fxtfnds Annotbtion> T gftDfdlbrfdAnnotbtion(Clbss<T> bnnotbtion) {
+            rfturn (T)bnnotbtions.gft(bnnotbtion);
         }
 
-        @Override
-        public final <T extends Annotation> T[] getDeclaredAnnotationsByType(Class<T> annotation) {
-            return AnnotationSupport.getDirectlyAndIndirectlyPresent(annotations, annotation);
+        @Ovfrridf
+        publid finbl <T fxtfnds Annotbtion> T[] gftDfdlbrfdAnnotbtionsByTypf(Clbss<T> bnnotbtion) {
+            rfturn AnnotbtionSupport.gftDirfdtlyAndIndirfdtlyPrfsfnt(bnnotbtions, bnnotbtion);
         }
 
-        // AnnotatedType
-        @Override
-        public final Type getType() {
-            return type;
+        // AnnotbtfdTypf
+        @Ovfrridf
+        publid finbl Typf gftTypf() {
+            rfturn typf;
         }
 
-        // Implementation details
-        final LocationInfo getLocation() {
-            return location;
+        // Implfmfntbtion dftbils
+        finbl LodbtionInfo gftLodbtion() {
+            rfturn lodbtion;
         }
-        final TypeAnnotation[] getTypeAnnotations() {
-            return allOnSameTargetTypeAnnotations;
+        finbl TypfAnnotbtion[] gftTypfAnnotbtions() {
+            rfturn bllOnSbmfTbrgftTypfAnnotbtions;
         }
-        final AnnotatedElement getDecl() {
-            return decl;
+        finbl AnnotbtfdElfmfnt gftDfdl() {
+            rfturn dfdl;
         }
     }
 
-    private static final class AnnotatedArrayTypeImpl extends AnnotatedTypeBaseImpl implements AnnotatedArrayType {
-        AnnotatedArrayTypeImpl(Type type, LocationInfo location,
-                TypeAnnotation[] actualTypeAnnotations, TypeAnnotation[] allOnSameTargetTypeAnnotations,
-                AnnotatedElement decl) {
-            super(type, location, actualTypeAnnotations, allOnSameTargetTypeAnnotations, decl);
+    privbtf stbtid finbl dlbss AnnotbtfdArrbyTypfImpl fxtfnds AnnotbtfdTypfBbsfImpl implfmfnts AnnotbtfdArrbyTypf {
+        AnnotbtfdArrbyTypfImpl(Typf typf, LodbtionInfo lodbtion,
+                TypfAnnotbtion[] bdtublTypfAnnotbtions, TypfAnnotbtion[] bllOnSbmfTbrgftTypfAnnotbtions,
+                AnnotbtfdElfmfnt dfdl) {
+            supfr(typf, lodbtion, bdtublTypfAnnotbtions, bllOnSbmfTbrgftTypfAnnotbtions, dfdl);
         }
 
-        @Override
-        public AnnotatedType getAnnotatedGenericComponentType() {
-            return AnnotatedTypeFactory.buildAnnotatedType(getComponentType(),
-                                                           getLocation().pushArray(),
-                                                           getTypeAnnotations(),
-                                                           getTypeAnnotations(),
-                                                           getDecl());
+        @Ovfrridf
+        publid AnnotbtfdTypf gftAnnotbtfdGfnfridComponfntTypf() {
+            rfturn AnnotbtfdTypfFbdtory.buildAnnotbtfdTypf(gftComponfntTypf(),
+                                                           gftLodbtion().pusiArrby(),
+                                                           gftTypfAnnotbtions(),
+                                                           gftTypfAnnotbtions(),
+                                                           gftDfdl());
         }
 
-        private Type getComponentType() {
-            Type t = getType();
-            if (t instanceof Class) {
-                Class<?> c = (Class)t;
-                return c.getComponentType();
+        privbtf Typf gftComponfntTypf() {
+            Typf t = gftTypf();
+            if (t instbndfof Clbss) {
+                Clbss<?> d = (Clbss)t;
+                rfturn d.gftComponfntTypf();
             }
-            return ((GenericArrayType)t).getGenericComponentType();
+            rfturn ((GfnfridArrbyTypf)t).gftGfnfridComponfntTypf();
         }
     }
 
-    private static final class AnnotatedTypeVariableImpl extends AnnotatedTypeBaseImpl implements AnnotatedTypeVariable {
-        AnnotatedTypeVariableImpl(TypeVariable<?> type, LocationInfo location,
-                TypeAnnotation[] actualTypeAnnotations, TypeAnnotation[] allOnSameTargetTypeAnnotations,
-                AnnotatedElement decl) {
-            super(type, location, actualTypeAnnotations, allOnSameTargetTypeAnnotations, decl);
+    privbtf stbtid finbl dlbss AnnotbtfdTypfVbribblfImpl fxtfnds AnnotbtfdTypfBbsfImpl implfmfnts AnnotbtfdTypfVbribblf {
+        AnnotbtfdTypfVbribblfImpl(TypfVbribblf<?> typf, LodbtionInfo lodbtion,
+                TypfAnnotbtion[] bdtublTypfAnnotbtions, TypfAnnotbtion[] bllOnSbmfTbrgftTypfAnnotbtions,
+                AnnotbtfdElfmfnt dfdl) {
+            supfr(typf, lodbtion, bdtublTypfAnnotbtions, bllOnSbmfTbrgftTypfAnnotbtions, dfdl);
         }
 
-        @Override
-        public AnnotatedType[] getAnnotatedBounds() {
-            return getTypeVariable().getAnnotatedBounds();
+        @Ovfrridf
+        publid AnnotbtfdTypf[] gftAnnotbtfdBounds() {
+            rfturn gftTypfVbribblf().gftAnnotbtfdBounds();
         }
 
-        private TypeVariable<?> getTypeVariable() {
-            return (TypeVariable)getType();
+        privbtf TypfVbribblf<?> gftTypfVbribblf() {
+            rfturn (TypfVbribblf)gftTypf();
         }
     }
 
-    private static final class AnnotatedParameterizedTypeImpl extends AnnotatedTypeBaseImpl
-            implements AnnotatedParameterizedType {
-        AnnotatedParameterizedTypeImpl(ParameterizedType type, LocationInfo location,
-                TypeAnnotation[] actualTypeAnnotations, TypeAnnotation[] allOnSameTargetTypeAnnotations,
-                AnnotatedElement decl) {
-            super(type, location, actualTypeAnnotations, allOnSameTargetTypeAnnotations, decl);
+    privbtf stbtid finbl dlbss AnnotbtfdPbrbmftfrizfdTypfImpl fxtfnds AnnotbtfdTypfBbsfImpl
+            implfmfnts AnnotbtfdPbrbmftfrizfdTypf {
+        AnnotbtfdPbrbmftfrizfdTypfImpl(PbrbmftfrizfdTypf typf, LodbtionInfo lodbtion,
+                TypfAnnotbtion[] bdtublTypfAnnotbtions, TypfAnnotbtion[] bllOnSbmfTbrgftTypfAnnotbtions,
+                AnnotbtfdElfmfnt dfdl) {
+            supfr(typf, lodbtion, bdtublTypfAnnotbtions, bllOnSbmfTbrgftTypfAnnotbtions, dfdl);
         }
 
-        @Override
-        public AnnotatedType[] getAnnotatedActualTypeArguments() {
-            Type[] arguments = getParameterizedType().getActualTypeArguments();
-            AnnotatedType[] res = new AnnotatedType[arguments.length];
-            Arrays.fill(res, EMPTY_ANNOTATED_TYPE);
-            int initialCapacity = getTypeAnnotations().length;
-            for (int i = 0; i < res.length; i++) {
-                List<TypeAnnotation> l = new ArrayList<>(initialCapacity);
-                LocationInfo newLoc = getLocation().pushTypeArg((byte)i);
-                for (TypeAnnotation t : getTypeAnnotations())
-                    if (t.getLocationInfo().isSameLocationInfo(newLoc))
-                        l.add(t);
-                res[i] = buildAnnotatedType(arguments[i],
-                                            newLoc,
-                                            l.toArray(new TypeAnnotation[0]),
-                                            getTypeAnnotations(),
-                                            getDecl());
+        @Ovfrridf
+        publid AnnotbtfdTypf[] gftAnnotbtfdAdtublTypfArgumfnts() {
+            Typf[] brgumfnts = gftPbrbmftfrizfdTypf().gftAdtublTypfArgumfnts();
+            AnnotbtfdTypf[] rfs = nfw AnnotbtfdTypf[brgumfnts.lfngti];
+            Arrbys.fill(rfs, EMPTY_ANNOTATED_TYPE);
+            int initiblCbpbdity = gftTypfAnnotbtions().lfngti;
+            for (int i = 0; i < rfs.lfngti; i++) {
+                List<TypfAnnotbtion> l = nfw ArrbyList<>(initiblCbpbdity);
+                LodbtionInfo nfwLod = gftLodbtion().pusiTypfArg((bytf)i);
+                for (TypfAnnotbtion t : gftTypfAnnotbtions())
+                    if (t.gftLodbtionInfo().isSbmfLodbtionInfo(nfwLod))
+                        l.bdd(t);
+                rfs[i] = buildAnnotbtfdTypf(brgumfnts[i],
+                                            nfwLod,
+                                            l.toArrby(nfw TypfAnnotbtion[0]),
+                                            gftTypfAnnotbtions(),
+                                            gftDfdl());
             }
-            return res;
+            rfturn rfs;
         }
 
-        private ParameterizedType getParameterizedType() {
-            return (ParameterizedType)getType();
+        privbtf PbrbmftfrizfdTypf gftPbrbmftfrizfdTypf() {
+            rfturn (PbrbmftfrizfdTypf)gftTypf();
         }
     }
 
-    private static final class AnnotatedWildcardTypeImpl extends AnnotatedTypeBaseImpl implements AnnotatedWildcardType {
-        private final boolean hasUpperBounds;
-        AnnotatedWildcardTypeImpl(WildcardType type, LocationInfo location,
-                TypeAnnotation[] actualTypeAnnotations, TypeAnnotation[] allOnSameTargetTypeAnnotations,
-                AnnotatedElement decl) {
-            super(type, location, actualTypeAnnotations, allOnSameTargetTypeAnnotations, decl);
-            hasUpperBounds = (type.getLowerBounds().length == 0);
+    privbtf stbtid finbl dlbss AnnotbtfdWilddbrdTypfImpl fxtfnds AnnotbtfdTypfBbsfImpl implfmfnts AnnotbtfdWilddbrdTypf {
+        privbtf finbl boolfbn ibsUppfrBounds;
+        AnnotbtfdWilddbrdTypfImpl(WilddbrdTypf typf, LodbtionInfo lodbtion,
+                TypfAnnotbtion[] bdtublTypfAnnotbtions, TypfAnnotbtion[] bllOnSbmfTbrgftTypfAnnotbtions,
+                AnnotbtfdElfmfnt dfdl) {
+            supfr(typf, lodbtion, bdtublTypfAnnotbtions, bllOnSbmfTbrgftTypfAnnotbtions, dfdl);
+            ibsUppfrBounds = (typf.gftLowfrBounds().lfngti == 0);
         }
 
-        @Override
-        public AnnotatedType[] getAnnotatedUpperBounds() {
-            if (!hasUpperBounds())
-                return new AnnotatedType[0];
-            return getAnnotatedBounds(getWildcardType().getUpperBounds());
+        @Ovfrridf
+        publid AnnotbtfdTypf[] gftAnnotbtfdUppfrBounds() {
+            if (!ibsUppfrBounds())
+                rfturn nfw AnnotbtfdTypf[0];
+            rfturn gftAnnotbtfdBounds(gftWilddbrdTypf().gftUppfrBounds());
         }
 
-        @Override
-        public AnnotatedType[] getAnnotatedLowerBounds() {
-            if (hasUpperBounds)
-                return new AnnotatedType[0];
-            return getAnnotatedBounds(getWildcardType().getLowerBounds());
+        @Ovfrridf
+        publid AnnotbtfdTypf[] gftAnnotbtfdLowfrBounds() {
+            if (ibsUppfrBounds)
+                rfturn nfw AnnotbtfdTypf[0];
+            rfturn gftAnnotbtfdBounds(gftWilddbrdTypf().gftLowfrBounds());
         }
 
-        private AnnotatedType[] getAnnotatedBounds(Type[] bounds) {
-            AnnotatedType[] res = new AnnotatedType[bounds.length];
-            Arrays.fill(res, EMPTY_ANNOTATED_TYPE);
-            LocationInfo newLoc = getLocation().pushWildcard();
-            int initialCapacity = getTypeAnnotations().length;
-            for (int i = 0; i < res.length; i++) {
-                List<TypeAnnotation> l = new ArrayList<>(initialCapacity);
-                for (TypeAnnotation t : getTypeAnnotations())
-                    if (t.getLocationInfo().isSameLocationInfo(newLoc))
-                        l.add(t);
-                res[i] = buildAnnotatedType(bounds[i],
-                                            newLoc,
-                                            l.toArray(new TypeAnnotation[0]),
-                                            getTypeAnnotations(),
-                                            getDecl());
+        privbtf AnnotbtfdTypf[] gftAnnotbtfdBounds(Typf[] bounds) {
+            AnnotbtfdTypf[] rfs = nfw AnnotbtfdTypf[bounds.lfngti];
+            Arrbys.fill(rfs, EMPTY_ANNOTATED_TYPE);
+            LodbtionInfo nfwLod = gftLodbtion().pusiWilddbrd();
+            int initiblCbpbdity = gftTypfAnnotbtions().lfngti;
+            for (int i = 0; i < rfs.lfngti; i++) {
+                List<TypfAnnotbtion> l = nfw ArrbyList<>(initiblCbpbdity);
+                for (TypfAnnotbtion t : gftTypfAnnotbtions())
+                    if (t.gftLodbtionInfo().isSbmfLodbtionInfo(nfwLod))
+                        l.bdd(t);
+                rfs[i] = buildAnnotbtfdTypf(bounds[i],
+                                            nfwLod,
+                                            l.toArrby(nfw TypfAnnotbtion[0]),
+                                            gftTypfAnnotbtions(),
+                                            gftDfdl());
             }
-            return res;
+            rfturn rfs;
         }
 
-        private WildcardType getWildcardType() {
-            return (WildcardType)getType();
+        privbtf WilddbrdTypf gftWilddbrdTypf() {
+            rfturn (WilddbrdTypf)gftTypf();
         }
 
-        private boolean hasUpperBounds() {
-            return hasUpperBounds;
+        privbtf boolfbn ibsUppfrBounds() {
+            rfturn ibsUppfrBounds;
         }
     }
 }

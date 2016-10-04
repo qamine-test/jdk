@@ -1,455 +1,455 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.util.Vector;
-import java.awt.peer.SystemTrayPeer;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
-import sun.awt.HeadlessToolkit;
-import sun.awt.AWTAccessor;
-import sun.awt.AWTPermissions;
+import jbvb.util.Vfdtor;
+import jbvb.bwt.pffr.SystfmTrbyPffr;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfSupport;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
+import sun.bwt.HfbdlfssToolkit;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AWTPfrmissions;
 
 /**
- * The <code>SystemTray</code> class represents the system tray for a
- * desktop.  On Microsoft Windows it is referred to as the "Taskbar
- * Status Area", on Gnome it is referred to as the "Notification
- * Area", on KDE it is referred to as the "System Tray".  The system
- * tray is shared by all applications running on the desktop.
+ * Tif <dodf>SystfmTrby</dodf> dlbss rfprfsfnts tif systfm trby for b
+ * dfsktop.  On Midrosoft Windows it is rfffrrfd to bs tif "Tbskbbr
+ * Stbtus Arfb", on Gnomf it is rfffrrfd to bs tif "Notifidbtion
+ * Arfb", on KDE it is rfffrrfd to bs tif "Systfm Trby".  Tif systfm
+ * trby is sibrfd by bll bpplidbtions running on tif dfsktop.
  *
- * <p> On some platforms the system tray may not be present or may not
- * be supported, in this case {@link SystemTray#getSystemTray()}
- * throws {@link UnsupportedOperationException}.  To detect whether the
- * system tray is supported, use {@link SystemTray#isSupported}.
+ * <p> On somf plbtforms tif systfm trby mby not bf prfsfnt or mby not
+ * bf supportfd, in tiis dbsf {@link SystfmTrby#gftSystfmTrby()}
+ * tirows {@link UnsupportfdOpfrbtionExdfption}.  To dftfdt wiftifr tif
+ * systfm trby is supportfd, usf {@link SystfmTrby#isSupportfd}.
  *
- * <p>The <code>SystemTray</code> may contain one or more {@link
- * TrayIcon TrayIcons}, which are added to the tray using the {@link
- * #add} method, and removed when no longer needed, using the
- * {@link #remove}.  <code>TrayIcon</code> consists of an
- * image, a popup menu and a set of associated listeners.  Please see
- * the {@link TrayIcon} class for details.
+ * <p>Tif <dodf>SystfmTrby</dodf> mby dontbin onf or morf {@link
+ * TrbyIdon TrbyIdons}, wiidi brf bddfd to tif trby using tif {@link
+ * #bdd} mftiod, bnd rfmovfd wifn no longfr nffdfd, using tif
+ * {@link #rfmovf}.  <dodf>TrbyIdon</dodf> donsists of bn
+ * imbgf, b popup mfnu bnd b sft of bssodibtfd listfnfrs.  Plfbsf sff
+ * tif {@link TrbyIdon} dlbss for dftbils.
  *
- * <p>Every Java application has a single <code>SystemTray</code>
- * instance that allows the app to interface with the system tray of
- * the desktop while the app is running.  The <code>SystemTray</code>
- * instance can be obtained from the {@link #getSystemTray} method.
- * An application may not create its own instance of
- * <code>SystemTray</code>.
+ * <p>Evfry Jbvb bpplidbtion ibs b singlf <dodf>SystfmTrby</dodf>
+ * instbndf tibt bllows tif bpp to intfrfbdf witi tif systfm trby of
+ * tif dfsktop wiilf tif bpp is running.  Tif <dodf>SystfmTrby</dodf>
+ * instbndf dbn bf obtbinfd from tif {@link #gftSystfmTrby} mftiod.
+ * An bpplidbtion mby not drfbtf its own instbndf of
+ * <dodf>SystfmTrby</dodf>.
  *
- * <p>The following code snippet demonstrates how to access
- * and customize the system tray:
- * <pre>
- * <code>
- *     {@link TrayIcon} trayIcon = null;
- *     if (SystemTray.isSupported()) {
- *         // get the SystemTray instance
- *         SystemTray tray = SystemTray.{@link #getSystemTray};
- *         // load an image
- *         {@link java.awt.Image} image = {@link java.awt.Toolkit#getImage(String) Toolkit.getDefaultToolkit().getImage}(...);
- *         // create a action listener to listen for default action executed on the tray icon
- *         {@link java.awt.event.ActionListener} listener = new {@link java.awt.event.ActionListener ActionListener}() {
- *             public void {@link java.awt.event.ActionListener#actionPerformed actionPerformed}({@link java.awt.event.ActionEvent} e) {
- *                 // execute default action of the application
+ * <p>Tif following dodf snippft dfmonstrbtfs iow to bddfss
+ * bnd dustomizf tif systfm trby:
+ * <prf>
+ * <dodf>
+ *     {@link TrbyIdon} trbyIdon = null;
+ *     if (SystfmTrby.isSupportfd()) {
+ *         // gft tif SystfmTrby instbndf
+ *         SystfmTrby trby = SystfmTrby.{@link #gftSystfmTrby};
+ *         // lobd bn imbgf
+ *         {@link jbvb.bwt.Imbgf} imbgf = {@link jbvb.bwt.Toolkit#gftImbgf(String) Toolkit.gftDffbultToolkit().gftImbgf}(...);
+ *         // drfbtf b bdtion listfnfr to listfn for dffbult bdtion fxfdutfd on tif trby idon
+ *         {@link jbvb.bwt.fvfnt.AdtionListfnfr} listfnfr = nfw {@link jbvb.bwt.fvfnt.AdtionListfnfr AdtionListfnfr}() {
+ *             publid void {@link jbvb.bwt.fvfnt.AdtionListfnfr#bdtionPfrformfd bdtionPfrformfd}({@link jbvb.bwt.fvfnt.AdtionEvfnt} f) {
+ *                 // fxfdutf dffbult bdtion of tif bpplidbtion
  *                 // ...
  *             }
  *         };
- *         // create a popup menu
- *         {@link java.awt.PopupMenu} popup = new {@link java.awt.PopupMenu#PopupMenu PopupMenu}();
- *         // create menu item for the default action
- *         MenuItem defaultItem = new MenuItem(...);
- *         defaultItem.addActionListener(listener);
- *         popup.add(defaultItem);
- *         /// ... add other items
- *         // construct a TrayIcon
- *         trayIcon = new {@link TrayIcon#TrayIcon(java.awt.Image, String, java.awt.PopupMenu) TrayIcon}(image, "Tray Demo", popup);
- *         // set the TrayIcon properties
- *         trayIcon.{@link TrayIcon#addActionListener(java.awt.event.ActionListener) addActionListener}(listener);
+ *         // drfbtf b popup mfnu
+ *         {@link jbvb.bwt.PopupMfnu} popup = nfw {@link jbvb.bwt.PopupMfnu#PopupMfnu PopupMfnu}();
+ *         // drfbtf mfnu itfm for tif dffbult bdtion
+ *         MfnuItfm dffbultItfm = nfw MfnuItfm(...);
+ *         dffbultItfm.bddAdtionListfnfr(listfnfr);
+ *         popup.bdd(dffbultItfm);
+ *         /// ... bdd otifr itfms
+ *         // donstrudt b TrbyIdon
+ *         trbyIdon = nfw {@link TrbyIdon#TrbyIdon(jbvb.bwt.Imbgf, String, jbvb.bwt.PopupMfnu) TrbyIdon}(imbgf, "Trby Dfmo", popup);
+ *         // sft tif TrbyIdon propfrtifs
+ *         trbyIdon.{@link TrbyIdon#bddAdtionListfnfr(jbvb.bwt.fvfnt.AdtionListfnfr) bddAdtionListfnfr}(listfnfr);
  *         // ...
- *         // add the tray image
+ *         // bdd tif trby imbgf
  *         try {
- *             tray.{@link SystemTray#add(TrayIcon) add}(trayIcon);
- *         } catch (AWTException e) {
- *             System.err.println(e);
+ *             trby.{@link SystfmTrby#bdd(TrbyIdon) bdd}(trbyIdon);
+ *         } dbtdi (AWTExdfption f) {
+ *             Systfm.frr.println(f);
  *         }
  *         // ...
- *     } else {
- *         // disable tray option in your application or
- *         // perform other actions
+ *     } flsf {
+ *         // disbblf trby option in your bpplidbtion or
+ *         // pfrform otifr bdtions
  *         ...
  *     }
  *     // ...
- *     // some time later
- *     // the application state has changed - update the image
- *     if (trayIcon != null) {
- *         trayIcon.{@link TrayIcon#setImage(java.awt.Image) setImage}(updatedImage);
+ *     // somf timf lbtfr
+ *     // tif bpplidbtion stbtf ibs dibngfd - updbtf tif imbgf
+ *     if (trbyIdon != null) {
+ *         trbyIdon.{@link TrbyIdon#sftImbgf(jbvb.bwt.Imbgf) sftImbgf}(updbtfdImbgf);
  *     }
  *     // ...
- * </code>
- * </pre>
+ * </dodf>
+ * </prf>
  *
- * @since 1.6
- * @see TrayIcon
+ * @sindf 1.6
+ * @sff TrbyIdon
  *
- * @author Bino George
- * @author Denis Mikhalkin
- * @author Sharon Zakhour
- * @author Anton Tarasov
+ * @butior Bino Gforgf
+ * @butior Dfnis Mikiblkin
+ * @butior Sibron Zbkiour
+ * @butior Anton Tbrbsov
  */
-public class SystemTray {
-    private static SystemTray systemTray;
-    private int currentIconID = 0; // each TrayIcon added gets a unique ID
+publid dlbss SystfmTrby {
+    privbtf stbtid SystfmTrby systfmTrby;
+    privbtf int durrfntIdonID = 0; // fbdi TrbyIdon bddfd gfts b uniquf ID
 
-    transient private SystemTrayPeer peer;
+    trbnsifnt privbtf SystfmTrbyPffr pffr;
 
-    private static final TrayIcon[] EMPTY_TRAY_ARRAY = new TrayIcon[0];
+    privbtf stbtid finbl TrbyIdon[] EMPTY_TRAY_ARRAY = nfw TrbyIdon[0];
 
-    static {
-        AWTAccessor.setSystemTrayAccessor(
-            new AWTAccessor.SystemTrayAccessor() {
-                public void firePropertyChange(SystemTray tray,
-                                               String propertyName,
-                                               Object oldValue,
-                                               Object newValue) {
-                    tray.firePropertyChange(propertyName, oldValue, newValue);
+    stbtid {
+        AWTAddfssor.sftSystfmTrbyAddfssor(
+            nfw AWTAddfssor.SystfmTrbyAddfssor() {
+                publid void firfPropfrtyCibngf(SystfmTrby trby,
+                                               String propfrtyNbmf,
+                                               Objfdt oldVbluf,
+                                               Objfdt nfwVbluf) {
+                    trby.firfPropfrtyCibngf(propfrtyNbmf, oldVbluf, nfwVbluf);
                 }
             });
     }
 
     /**
-     * Private <code>SystemTray</code> constructor.
+     * Privbtf <dodf>SystfmTrby</dodf> donstrudtor.
      *
      */
-    private SystemTray() {
-        addNotify();
+    privbtf SystfmTrby() {
+        bddNotify();
     }
 
     /**
-     * Gets the <code>SystemTray</code> instance that represents the
-     * desktop's tray area.  This always returns the same instance per
-     * application.  On some platforms the system tray may not be
-     * supported.  You may use the {@link #isSupported} method to
-     * check if the system tray is supported.
+     * Gfts tif <dodf>SystfmTrby</dodf> instbndf tibt rfprfsfnts tif
+     * dfsktop's trby brfb.  Tiis blwbys rfturns tif sbmf instbndf pfr
+     * bpplidbtion.  On somf plbtforms tif systfm trby mby not bf
+     * supportfd.  You mby usf tif {@link #isSupportfd} mftiod to
+     * difdk if tif systfm trby is supportfd.
      *
-     * <p>If a SecurityManager is installed, the AWTPermission
-     * {@code accessSystemTray} must be granted in order to get the
-     * {@code SystemTray} instance. Otherwise this method will throw a
-     * SecurityException.
+     * <p>If b SfdurityMbnbgfr is instbllfd, tif AWTPfrmission
+     * {@dodf bddfssSystfmTrby} must bf grbntfd in ordfr to gft tif
+     * {@dodf SystfmTrby} instbndf. Otifrwisf tiis mftiod will tirow b
+     * SfdurityExdfption.
      *
-     * @return the <code>SystemTray</code> instance that represents
-     * the desktop's tray area
-     * @throws UnsupportedOperationException if the system tray isn't
-     * supported by the current platform
-     * @throws HeadlessException if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns <code>true</code>
-     * @throws SecurityException if {@code accessSystemTray} permission
-     * is not granted
-     * @see #add(TrayIcon)
-     * @see TrayIcon
-     * @see #isSupported
-     * @see SecurityManager#checkPermission
-     * @see AWTPermission
+     * @rfturn tif <dodf>SystfmTrby</dodf> instbndf tibt rfprfsfnts
+     * tif dfsktop's trby brfb
+     * @tirows UnsupportfdOpfrbtionExdfption if tif systfm trby isn't
+     * supportfd by tif durrfnt plbtform
+     * @tirows HfbdlfssExdfption if
+     * <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns <dodf>truf</dodf>
+     * @tirows SfdurityExdfption if {@dodf bddfssSystfmTrby} pfrmission
+     * is not grbntfd
+     * @sff #bdd(TrbyIdon)
+     * @sff TrbyIdon
+     * @sff #isSupportfd
+     * @sff SfdurityMbnbgfr#difdkPfrmission
+     * @sff AWTPfrmission
      */
-    public static SystemTray getSystemTray() {
-        checkSystemTrayAllowed();
-        if (GraphicsEnvironment.isHeadless()) {
-            throw new HeadlessException();
+    publid stbtid SystfmTrby gftSystfmTrby() {
+        difdkSystfmTrbyAllowfd();
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            tirow nfw HfbdlfssExdfption();
         }
 
-        initializeSystemTrayIfNeeded();
+        initiblizfSystfmTrbyIfNffdfd();
 
-        if (!isSupported()) {
-            throw new UnsupportedOperationException(
-                "The system tray is not supported on the current platform.");
+        if (!isSupportfd()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Tif systfm trby is not supportfd on tif durrfnt plbtform.");
         }
 
-        return systemTray;
+        rfturn systfmTrby;
     }
 
     /**
-     * Returns whether the system tray is supported on the current
-     * platform.  In addition to displaying the tray icon, minimal
-     * system tray support includes either a popup menu (see {@link
-     * TrayIcon#setPopupMenu(PopupMenu)}) or an action event (see
-     * {@link TrayIcon#addActionListener(ActionListener)}).
+     * Rfturns wiftifr tif systfm trby is supportfd on tif durrfnt
+     * plbtform.  In bddition to displbying tif trby idon, minimbl
+     * systfm trby support indludfs fitifr b popup mfnu (sff {@link
+     * TrbyIdon#sftPopupMfnu(PopupMfnu)}) or bn bdtion fvfnt (sff
+     * {@link TrbyIdon#bddAdtionListfnfr(AdtionListfnfr)}).
      *
-     * <p>Developers should not assume that all of the system tray
-     * functionality is supported.  To guarantee that the tray icon's
-     * default action is always accessible, add the default action to
-     * both the action listener and the popup menu.  See the {@link
-     * SystemTray example} for an example of how to do this.
+     * <p>Dfvflopfrs siould not bssumf tibt bll of tif systfm trby
+     * fundtionblity is supportfd.  To gubrbntff tibt tif trby idon's
+     * dffbult bdtion is blwbys bddfssiblf, bdd tif dffbult bdtion to
+     * boti tif bdtion listfnfr bnd tif popup mfnu.  Sff tif {@link
+     * SystfmTrby fxbmplf} for bn fxbmplf of iow to do tiis.
      *
-     * <p><b>Note</b>: When implementing <code>SystemTray</code> and
-     * <code>TrayIcon</code> it is <em>strongly recommended</em> that
-     * you assign different gestures to the popup menu and an action
-     * event.  Overloading a gesture for both purposes is confusing
-     * and may prevent the user from accessing one or the other.
+     * <p><b>Notf</b>: Wifn implfmfnting <dodf>SystfmTrby</dodf> bnd
+     * <dodf>TrbyIdon</dodf> it is <fm>strongly rfdommfndfd</fm> tibt
+     * you bssign difffrfnt gfsturfs to tif popup mfnu bnd bn bdtion
+     * fvfnt.  Ovfrlobding b gfsturf for boti purposfs is donfusing
+     * bnd mby prfvfnt tif usfr from bddfssing onf or tif otifr.
      *
-     * @see #getSystemTray
-     * @return <code>false</code> if no system tray access is supported; this
-     * method returns <code>true</code> if the minimal system tray access is
-     * supported but does not guarantee that all system tray
-     * functionality is supported for the current platform
+     * @sff #gftSystfmTrby
+     * @rfturn <dodf>fblsf</dodf> if no systfm trby bddfss is supportfd; tiis
+     * mftiod rfturns <dodf>truf</dodf> if tif minimbl systfm trby bddfss is
+     * supportfd but dofs not gubrbntff tibt bll systfm trby
+     * fundtionblity is supportfd for tif durrfnt plbtform
      */
-    public static boolean isSupported() {
-        Toolkit toolkit = Toolkit.getDefaultToolkit();
-        if (toolkit instanceof SunToolkit) {
-            // connecting tray to native resource
-            initializeSystemTrayIfNeeded();
-            return ((SunToolkit)toolkit).isTraySupported();
-        } else if (toolkit instanceof HeadlessToolkit) {
-            // skip initialization as the init routine
-            // throws HeadlessException
-            return ((HeadlessToolkit)toolkit).isTraySupported();
-        } else {
-            return false;
+    publid stbtid boolfbn isSupportfd() {
+        Toolkit toolkit = Toolkit.gftDffbultToolkit();
+        if (toolkit instbndfof SunToolkit) {
+            // donnfdting trby to nbtivf rfsourdf
+            initiblizfSystfmTrbyIfNffdfd();
+            rfturn ((SunToolkit)toolkit).isTrbySupportfd();
+        } flsf if (toolkit instbndfof HfbdlfssToolkit) {
+            // skip initiblizbtion bs tif init routinf
+            // tirows HfbdlfssExdfption
+            rfturn ((HfbdlfssToolkit)toolkit).isTrbySupportfd();
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Adds a <code>TrayIcon</code> to the <code>SystemTray</code>.
-     * The tray icon becomes visible in the system tray once it is
-     * added.  The order in which icons are displayed in a tray is not
-     * specified - it is platform and implementation-dependent.
+     * Adds b <dodf>TrbyIdon</dodf> to tif <dodf>SystfmTrby</dodf>.
+     * Tif trby idon bfdomfs visiblf in tif systfm trby ondf it is
+     * bddfd.  Tif ordfr in wiidi idons brf displbyfd in b trby is not
+     * spfdififd - it is plbtform bnd implfmfntbtion-dfpfndfnt.
      *
-     * <p> All icons added by the application are automatically
-     * removed from the <code>SystemTray</code> upon application exit
-     * and also when the desktop system tray becomes unavailable.
+     * <p> All idons bddfd by tif bpplidbtion brf butombtidblly
+     * rfmovfd from tif <dodf>SystfmTrby</dodf> upon bpplidbtion fxit
+     * bnd blso wifn tif dfsktop systfm trby bfdomfs unbvbilbblf.
      *
-     * @param trayIcon the <code>TrayIcon</code> to be added
-     * @throws NullPointerException if <code>trayIcon</code> is
-     * <code>null</code>
-     * @throws IllegalArgumentException if the same instance of
-     * a <code>TrayIcon</code> is added more than once
-     * @throws AWTException if the desktop system tray is missing
-     * @see #remove(TrayIcon)
-     * @see #getSystemTray
-     * @see TrayIcon
-     * @see java.awt.Image
+     * @pbrbm trbyIdon tif <dodf>TrbyIdon</dodf> to bf bddfd
+     * @tirows NullPointfrExdfption if <dodf>trbyIdon</dodf> is
+     * <dodf>null</dodf>
+     * @tirows IllfgblArgumfntExdfption if tif sbmf instbndf of
+     * b <dodf>TrbyIdon</dodf> is bddfd morf tibn ondf
+     * @tirows AWTExdfption if tif dfsktop systfm trby is missing
+     * @sff #rfmovf(TrbyIdon)
+     * @sff #gftSystfmTrby
+     * @sff TrbyIdon
+     * @sff jbvb.bwt.Imbgf
      */
-    public void add(TrayIcon trayIcon) throws AWTException {
-        if (trayIcon == null) {
-            throw new NullPointerException("adding null TrayIcon");
+    publid void bdd(TrbyIdon trbyIdon) tirows AWTExdfption {
+        if (trbyIdon == null) {
+            tirow nfw NullPointfrExdfption("bdding null TrbyIdon");
         }
-        TrayIcon[] oldArray = null, newArray = null;
-        Vector<TrayIcon> icons = null;
-        synchronized (this) {
-            oldArray = systemTray.getTrayIcons();
-            @SuppressWarnings("unchecked")
-            Vector<TrayIcon> tmp = (Vector<TrayIcon>)AppContext.getAppContext().get(TrayIcon.class);
-            icons = tmp;
-            if (icons == null) {
-                icons = new Vector<TrayIcon>(3);
-                AppContext.getAppContext().put(TrayIcon.class, icons);
+        TrbyIdon[] oldArrby = null, nfwArrby = null;
+        Vfdtor<TrbyIdon> idons = null;
+        syndironizfd (tiis) {
+            oldArrby = systfmTrby.gftTrbyIdons();
+            @SupprfssWbrnings("undifdkfd")
+            Vfdtor<TrbyIdon> tmp = (Vfdtor<TrbyIdon>)AppContfxt.gftAppContfxt().gft(TrbyIdon.dlbss);
+            idons = tmp;
+            if (idons == null) {
+                idons = nfw Vfdtor<TrbyIdon>(3);
+                AppContfxt.gftAppContfxt().put(TrbyIdon.dlbss, idons);
 
-            } else if (icons.contains(trayIcon)) {
-                throw new IllegalArgumentException("adding TrayIcon that is already added");
+            } flsf if (idons.dontbins(trbyIdon)) {
+                tirow nfw IllfgblArgumfntExdfption("bdding TrbyIdon tibt is blrfbdy bddfd");
             }
-            icons.add(trayIcon);
-            newArray = systemTray.getTrayIcons();
+            idons.bdd(trbyIdon);
+            nfwArrby = systfmTrby.gftTrbyIdons();
 
-            trayIcon.setID(++currentIconID);
+            trbyIdon.sftID(++durrfntIdonID);
         }
         try {
-            trayIcon.addNotify();
-        } catch (AWTException e) {
-            icons.remove(trayIcon);
-            throw e;
+            trbyIdon.bddNotify();
+        } dbtdi (AWTExdfption f) {
+            idons.rfmovf(trbyIdon);
+            tirow f;
         }
-        firePropertyChange("trayIcons", oldArray, newArray);
+        firfPropfrtyCibngf("trbyIdons", oldArrby, nfwArrby);
     }
 
     /**
-     * Removes the specified <code>TrayIcon</code> from the
-     * <code>SystemTray</code>.
+     * Rfmovfs tif spfdififd <dodf>TrbyIdon</dodf> from tif
+     * <dodf>SystfmTrby</dodf>.
      *
-     * <p> All icons added by the application are automatically
-     * removed from the <code>SystemTray</code> upon application exit
-     * and also when the desktop system tray becomes unavailable.
+     * <p> All idons bddfd by tif bpplidbtion brf butombtidblly
+     * rfmovfd from tif <dodf>SystfmTrby</dodf> upon bpplidbtion fxit
+     * bnd blso wifn tif dfsktop systfm trby bfdomfs unbvbilbblf.
      *
-     * <p> If <code>trayIcon</code> is <code>null</code> or was not
-     * added to the system tray, no exception is thrown and no action
-     * is performed.
+     * <p> If <dodf>trbyIdon</dodf> is <dodf>null</dodf> or wbs not
+     * bddfd to tif systfm trby, no fxdfption is tirown bnd no bdtion
+     * is pfrformfd.
      *
-     * @param trayIcon the <code>TrayIcon</code> to be removed
-     * @see #add(TrayIcon)
-     * @see TrayIcon
+     * @pbrbm trbyIdon tif <dodf>TrbyIdon</dodf> to bf rfmovfd
+     * @sff #bdd(TrbyIdon)
+     * @sff TrbyIdon
      */
-    public void remove(TrayIcon trayIcon) {
-        if (trayIcon == null) {
-            return;
+    publid void rfmovf(TrbyIdon trbyIdon) {
+        if (trbyIdon == null) {
+            rfturn;
         }
-        TrayIcon[] oldArray = null, newArray = null;
-        synchronized (this) {
-            oldArray = systemTray.getTrayIcons();
-            @SuppressWarnings("unchecked")
-            Vector<TrayIcon> icons = (Vector<TrayIcon>)AppContext.getAppContext().get(TrayIcon.class);
-            // TrayIcon with no peer is not contained in the array.
-            if (icons == null || !icons.remove(trayIcon)) {
-                return;
+        TrbyIdon[] oldArrby = null, nfwArrby = null;
+        syndironizfd (tiis) {
+            oldArrby = systfmTrby.gftTrbyIdons();
+            @SupprfssWbrnings("undifdkfd")
+            Vfdtor<TrbyIdon> idons = (Vfdtor<TrbyIdon>)AppContfxt.gftAppContfxt().gft(TrbyIdon.dlbss);
+            // TrbyIdon witi no pffr is not dontbinfd in tif brrby.
+            if (idons == null || !idons.rfmovf(trbyIdon)) {
+                rfturn;
             }
-            trayIcon.removeNotify();
-            newArray = systemTray.getTrayIcons();
+            trbyIdon.rfmovfNotify();
+            nfwArrby = systfmTrby.gftTrbyIdons();
         }
-        firePropertyChange("trayIcons", oldArray, newArray);
+        firfPropfrtyCibngf("trbyIdons", oldArrby, nfwArrby);
     }
 
     /**
-     * Returns an array of all icons added to the tray by this
-     * application.  You can't access the icons added by another
-     * application.  Some browsers partition applets in different
-     * code bases into separate contexts, and establish walls between
-     * these contexts.  In such a scenario, only the tray icons added
-     * from this context will be returned.
+     * Rfturns bn brrby of bll idons bddfd to tif trby by tiis
+     * bpplidbtion.  You dbn't bddfss tif idons bddfd by bnotifr
+     * bpplidbtion.  Somf browsfrs pbrtition bpplfts in difffrfnt
+     * dodf bbsfs into sfpbrbtf dontfxts, bnd fstbblisi wblls bftwffn
+     * tifsf dontfxts.  In sudi b sdfnbrio, only tif trby idons bddfd
+     * from tiis dontfxt will bf rfturnfd.
      *
-     * <p> The returned array is a copy of the actual array and may be
-     * modified in any way without affecting the system tray.  To
-     * remove a <code>TrayIcon</code> from the
-     * <code>SystemTray</code>, use the {@link
-     * #remove(TrayIcon)} method.
+     * <p> Tif rfturnfd brrby is b dopy of tif bdtubl brrby bnd mby bf
+     * modififd in bny wby witiout bfffdting tif systfm trby.  To
+     * rfmovf b <dodf>TrbyIdon</dodf> from tif
+     * <dodf>SystfmTrby</dodf>, usf tif {@link
+     * #rfmovf(TrbyIdon)} mftiod.
      *
-     * @return an array of all tray icons added to this tray, or an
-     * empty array if none has been added
-     * @see #add(TrayIcon)
-     * @see TrayIcon
+     * @rfturn bn brrby of bll trby idons bddfd to tiis trby, or bn
+     * fmpty brrby if nonf ibs bffn bddfd
+     * @sff #bdd(TrbyIdon)
+     * @sff TrbyIdon
      */
-    public TrayIcon[] getTrayIcons() {
-        @SuppressWarnings("unchecked")
-        Vector<TrayIcon> icons = (Vector<TrayIcon>)AppContext.getAppContext().get(TrayIcon.class);
-        if (icons != null) {
-            return icons.toArray(new TrayIcon[icons.size()]);
+    publid TrbyIdon[] gftTrbyIdons() {
+        @SupprfssWbrnings("undifdkfd")
+        Vfdtor<TrbyIdon> idons = (Vfdtor<TrbyIdon>)AppContfxt.gftAppContfxt().gft(TrbyIdon.dlbss);
+        if (idons != null) {
+            rfturn idons.toArrby(nfw TrbyIdon[idons.sizf()]);
         }
-        return EMPTY_TRAY_ARRAY;
+        rfturn EMPTY_TRAY_ARRAY;
     }
 
     /**
-     * Returns the size, in pixels, of the space that a tray icon will
-     * occupy in the system tray.  Developers may use this methods to
-     * acquire the preferred size for the image property of a tray icon
-     * before it is created.  For convenience, there is a similar
-     * method {@link TrayIcon#getSize} in the <code>TrayIcon</code> class.
+     * Rfturns tif sizf, in pixfls, of tif spbdf tibt b trby idon will
+     * oddupy in tif systfm trby.  Dfvflopfrs mby usf tiis mftiods to
+     * bdquirf tif prfffrrfd sizf for tif imbgf propfrty of b trby idon
+     * bfforf it is drfbtfd.  For donvfnifndf, tifrf is b similbr
+     * mftiod {@link TrbyIdon#gftSizf} in tif <dodf>TrbyIdon</dodf> dlbss.
      *
-     * @return the default size of a tray icon, in pixels
-     * @see TrayIcon#setImageAutoSize(boolean)
-     * @see java.awt.Image
-     * @see TrayIcon#getSize()
+     * @rfturn tif dffbult sizf of b trby idon, in pixfls
+     * @sff TrbyIdon#sftImbgfAutoSizf(boolfbn)
+     * @sff jbvb.bwt.Imbgf
+     * @sff TrbyIdon#gftSizf()
      */
-    public Dimension getTrayIconSize() {
-        return peer.getTrayIconSize();
+    publid Dimfnsion gftTrbyIdonSizf() {
+        rfturn pffr.gftTrbyIdonSizf();
     }
 
     /**
-     * Adds a {@code PropertyChangeListener} to the list of listeners for the
-     * specific property. The following properties are currently supported:
+     * Adds b {@dodf PropfrtyCibngfListfnfr} to tif list of listfnfrs for tif
+     * spfdifid propfrty. Tif following propfrtifs brf durrfntly supportfd:
      *
-     * <table border=1 summary="SystemTray properties">
+     * <tbblf bordfr=1 summbry="SystfmTrby propfrtifs">
      * <tr>
-     *    <th>Property</th>
-     *    <th>Description</th>
+     *    <ti>Propfrty</ti>
+     *    <ti>Dfsdription</ti>
      * </tr>
      * <tr>
-     *    <td>{@code trayIcons}</td>
-     *    <td>The {@code SystemTray}'s array of {@code TrayIcon} objects.
-     *        The array is accessed via the {@link #getTrayIcons} method.<br>
-     *        This property is changed when a tray icon is added to (or removed
-     *        from) the system tray.<br> For example, this property is changed
-     *        when the system tray becomes unavailable on the desktop<br>
-     *        and the tray icons are automatically removed.</td>
+     *    <td>{@dodf trbyIdons}</td>
+     *    <td>Tif {@dodf SystfmTrby}'s brrby of {@dodf TrbyIdon} objfdts.
+     *        Tif brrby is bddfssfd vib tif {@link #gftTrbyIdons} mftiod.<br>
+     *        Tiis propfrty is dibngfd wifn b trby idon is bddfd to (or rfmovfd
+     *        from) tif systfm trby.<br> For fxbmplf, tiis propfrty is dibngfd
+     *        wifn tif systfm trby bfdomfs unbvbilbblf on tif dfsktop<br>
+     *        bnd tif trby idons brf butombtidblly rfmovfd.</td>
      * </tr>
      * <tr>
-     *    <td>{@code systemTray}</td>
-     *    <td>This property contains {@code SystemTray} instance when the system tray
-     *        is available or <code>null</code> otherwise.<br> This property is changed
-     *        when the system tray becomes available or unavailable on the desktop.<br>
-     *        The property is accessed by the {@link #getSystemTray} method.</td>
+     *    <td>{@dodf systfmTrby}</td>
+     *    <td>Tiis propfrty dontbins {@dodf SystfmTrby} instbndf wifn tif systfm trby
+     *        is bvbilbblf or <dodf>null</dodf> otifrwisf.<br> Tiis propfrty is dibngfd
+     *        wifn tif systfm trby bfdomfs bvbilbblf or unbvbilbblf on tif dfsktop.<br>
+     *        Tif propfrty is bddfssfd by tif {@link #gftSystfmTrby} mftiod.</td>
      * </tr>
-     * </table>
+     * </tbblf>
      * <p>
-     * The {@code listener} listens to property changes only in this context.
+     * Tif {@dodf listfnfr} listfns to propfrty dibngfs only in tiis dontfxt.
      * <p>
-     * If {@code listener} is {@code null}, no exception is thrown
-     * and no action is performed.
+     * If {@dodf listfnfr} is {@dodf null}, no fxdfption is tirown
+     * bnd no bdtion is pfrformfd.
      *
-     * @param propertyName the specified property
-     * @param listener the property change listener to be added
+     * @pbrbm propfrtyNbmf tif spfdififd propfrty
+     * @pbrbm listfnfr tif propfrty dibngf listfnfr to bf bddfd
      *
-     * @see #removePropertyChangeListener
-     * @see #getPropertyChangeListeners
+     * @sff #rfmovfPropfrtyCibngfListfnfr
+     * @sff #gftPropfrtyCibngfListfnfrs
      */
-    public synchronized void addPropertyChangeListener(String propertyName,
-                                                       PropertyChangeListener listener)
+    publid syndironizfd void bddPropfrtyCibngfListfnfr(String propfrtyNbmf,
+                                                       PropfrtyCibngfListfnfr listfnfr)
     {
-        if (listener == null) {
-            return;
+        if (listfnfr == null) {
+            rfturn;
         }
-        getCurrentChangeSupport().addPropertyChangeListener(propertyName, listener);
+        gftCurrfntCibngfSupport().bddPropfrtyCibngfListfnfr(propfrtyNbmf, listfnfr);
     }
 
     /**
-     * Removes a {@code PropertyChangeListener} from the listener list
-     * for a specific property.
+     * Rfmovfs b {@dodf PropfrtyCibngfListfnfr} from tif listfnfr list
+     * for b spfdifid propfrty.
      * <p>
-     * The {@code PropertyChangeListener} must be from this context.
+     * Tif {@dodf PropfrtyCibngfListfnfr} must bf from tiis dontfxt.
      * <p>
-     * If {@code propertyName} or {@code listener} is {@code null} or invalid,
-     * no exception is thrown and no action is taken.
+     * If {@dodf propfrtyNbmf} or {@dodf listfnfr} is {@dodf null} or invblid,
+     * no fxdfption is tirown bnd no bdtion is tbkfn.
      *
-     * @param propertyName the specified property
-     * @param listener the PropertyChangeListener to be removed
+     * @pbrbm propfrtyNbmf tif spfdififd propfrty
+     * @pbrbm listfnfr tif PropfrtyCibngfListfnfr to bf rfmovfd
      *
-     * @see #addPropertyChangeListener
-     * @see #getPropertyChangeListeners
+     * @sff #bddPropfrtyCibngfListfnfr
+     * @sff #gftPropfrtyCibngfListfnfrs
      */
-    public synchronized void removePropertyChangeListener(String propertyName,
-                                                          PropertyChangeListener listener)
+    publid syndironizfd void rfmovfPropfrtyCibngfListfnfr(String propfrtyNbmf,
+                                                          PropfrtyCibngfListfnfr listfnfr)
     {
-        if (listener == null) {
-            return;
+        if (listfnfr == null) {
+            rfturn;
         }
-        getCurrentChangeSupport().removePropertyChangeListener(propertyName, listener);
+        gftCurrfntCibngfSupport().rfmovfPropfrtyCibngfListfnfr(propfrtyNbmf, listfnfr);
     }
 
     /**
-     * Returns an array of all the listeners that have been associated
-     * with the named property.
+     * Rfturns bn brrby of bll tif listfnfrs tibt ibvf bffn bssodibtfd
+     * witi tif nbmfd propfrty.
      * <p>
-     * Only the listeners in this context are returned.
+     * Only tif listfnfrs in tiis dontfxt brf rfturnfd.
      *
-     * @param propertyName the specified property
-     * @return all of the {@code PropertyChangeListener}s associated with
-     *         the named property; if no such listeners have been added or
-     *         if {@code propertyName} is {@code null} or invalid, an empty
-     *         array is returned
+     * @pbrbm propfrtyNbmf tif spfdififd propfrty
+     * @rfturn bll of tif {@dodf PropfrtyCibngfListfnfr}s bssodibtfd witi
+     *         tif nbmfd propfrty; if no sudi listfnfrs ibvf bffn bddfd or
+     *         if {@dodf propfrtyNbmf} is {@dodf null} or invblid, bn fmpty
+     *         brrby is rfturnfd
      *
-     * @see #addPropertyChangeListener
-     * @see #removePropertyChangeListener
+     * @sff #bddPropfrtyCibngfListfnfr
+     * @sff #rfmovfPropfrtyCibngfListfnfr
      */
-    public synchronized PropertyChangeListener[] getPropertyChangeListeners(String propertyName) {
-        return getCurrentChangeSupport().getPropertyChangeListeners(propertyName);
+    publid syndironizfd PropfrtyCibngfListfnfr[] gftPropfrtyCibngfListfnfrs(String propfrtyNbmf) {
+        rfturn gftCurrfntCibngfSupport().gftPropfrtyCibngfListfnfrs(propfrtyNbmf);
     }
 
 
@@ -458,63 +458,63 @@ public class SystemTray {
 
 
     /**
-     * Support for reporting bound property changes for Object properties.
-     * This method can be called when a bound property has changed and it will
-     * send the appropriate PropertyChangeEvent to any registered
-     * PropertyChangeListeners.
+     * Support for rfporting bound propfrty dibngfs for Objfdt propfrtifs.
+     * Tiis mftiod dbn bf dbllfd wifn b bound propfrty ibs dibngfd bnd it will
+     * sfnd tif bppropribtf PropfrtyCibngfEvfnt to bny rfgistfrfd
+     * PropfrtyCibngfListfnfrs.
      *
-     * @param propertyName the property whose value has changed
-     * @param oldValue the property's previous value
-     * @param newValue the property's new value
+     * @pbrbm propfrtyNbmf tif propfrty wiosf vbluf ibs dibngfd
+     * @pbrbm oldVbluf tif propfrty's prfvious vbluf
+     * @pbrbm nfwVbluf tif propfrty's nfw vbluf
      */
-    private void firePropertyChange(String propertyName,
-                                    Object oldValue, Object newValue)
+    privbtf void firfPropfrtyCibngf(String propfrtyNbmf,
+                                    Objfdt oldVbluf, Objfdt nfwVbluf)
     {
-        if (oldValue != null && newValue != null && oldValue.equals(newValue)) {
-            return;
+        if (oldVbluf != null && nfwVbluf != null && oldVbluf.fqubls(nfwVbluf)) {
+            rfturn;
         }
-        getCurrentChangeSupport().firePropertyChange(propertyName, oldValue, newValue);
+        gftCurrfntCibngfSupport().firfPropfrtyCibngf(propfrtyNbmf, oldVbluf, nfwVbluf);
     }
 
     /**
-     * Returns the current PropertyChangeSupport instance for the
-     * calling thread's context.
+     * Rfturns tif durrfnt PropfrtyCibngfSupport instbndf for tif
+     * dblling tirfbd's dontfxt.
      *
-     * @return this thread's context's PropertyChangeSupport
+     * @rfturn tiis tirfbd's dontfxt's PropfrtyCibngfSupport
      */
-    private synchronized PropertyChangeSupport getCurrentChangeSupport() {
-        PropertyChangeSupport changeSupport =
-            (PropertyChangeSupport)AppContext.getAppContext().get(SystemTray.class);
+    privbtf syndironizfd PropfrtyCibngfSupport gftCurrfntCibngfSupport() {
+        PropfrtyCibngfSupport dibngfSupport =
+            (PropfrtyCibngfSupport)AppContfxt.gftAppContfxt().gft(SystfmTrby.dlbss);
 
-        if (changeSupport == null) {
-            changeSupport = new PropertyChangeSupport(this);
-            AppContext.getAppContext().put(SystemTray.class, changeSupport);
+        if (dibngfSupport == null) {
+            dibngfSupport = nfw PropfrtyCibngfSupport(tiis);
+            AppContfxt.gftAppContfxt().put(SystfmTrby.dlbss, dibngfSupport);
         }
-        return changeSupport;
+        rfturn dibngfSupport;
     }
 
-    synchronized void addNotify() {
-        if (peer == null) {
-            Toolkit toolkit = Toolkit.getDefaultToolkit();
-            if (toolkit instanceof SunToolkit) {
-                peer = ((SunToolkit)Toolkit.getDefaultToolkit()).createSystemTray(this);
-            } else if (toolkit instanceof HeadlessToolkit) {
-                peer = ((HeadlessToolkit)Toolkit.getDefaultToolkit()).createSystemTray(this);
+    syndironizfd void bddNotify() {
+        if (pffr == null) {
+            Toolkit toolkit = Toolkit.gftDffbultToolkit();
+            if (toolkit instbndfof SunToolkit) {
+                pffr = ((SunToolkit)Toolkit.gftDffbultToolkit()).drfbtfSystfmTrby(tiis);
+            } flsf if (toolkit instbndfof HfbdlfssToolkit) {
+                pffr = ((HfbdlfssToolkit)Toolkit.gftDffbultToolkit()).drfbtfSystfmTrby(tiis);
             }
         }
     }
 
-    static void checkSystemTrayAllowed() {
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkPermission(AWTPermissions.ACCESS_SYSTEM_TRAY_PERMISSION);
+    stbtid void difdkSystfmTrbyAllowfd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkPfrmission(AWTPfrmissions.ACCESS_SYSTEM_TRAY_PERMISSION);
         }
     }
 
-    private static void initializeSystemTrayIfNeeded() {
-        synchronized (SystemTray.class) {
-            if (systemTray == null) {
-                systemTray = new SystemTray();
+    privbtf stbtid void initiblizfSystfmTrbyIfNffdfd() {
+        syndironizfd (SystfmTrby.dlbss) {
+            if (systfmTrby == null) {
+                systfmTrby = nfw SystfmTrby();
             }
         }
     }

@@ -1,0 +1,801 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.nft.URI;
+import jbvb.util.Itfrbtor;
+
+/**
+ * An objfdt thbt mby bf usfd to lodbtf b filf in b filf systfm. It will
+ * typidblly rfprfsfnt b systfm dfpfndfnt filf pbth.
+ *
+ * <p> A {@dodf Pbth} rfprfsfnts b pbth thbt is hifrbrdhidbl bnd domposfd of b
+ * sfqufndf of dirfdtory bnd filf nbmf flfmfnts sfpbrbtfd by b spfdibl sfpbrbtor
+ * or dflimitfr. A <fm>root domponfnt</fm>, thbt idfntififs b filf systfm
+ * hifrbrdhy, mby blso bf prfsfnt. Thf nbmf flfmfnt thbt is <fm>fbrthfst</fm>
+ * from thf root of thf dirfdtory hifrbrdhy is thf nbmf of b filf or dirfdtory.
+ * Thf othfr nbmf flfmfnts brf dirfdtory nbmfs. A {@dodf Pbth} dbn rfprfsfnt b
+ * root, b root bnd b sfqufndf of nbmfs, or simply onf or morf nbmf flfmfnts.
+ * A {@dodf Pbth} is donsidfrfd to bf bn <i>fmpty pbth</i> if it donsists
+ * solfly of onf nbmf flfmfnt thbt is fmpty. Addfssing b filf using bn
+ * <i>fmpty pbth</i> is fquivblfnt to bddfssing thf dffbult dirfdtory of thf
+ * filf systfm. {@dodf Pbth} dffinfs thf {@link #gftFilfNbmf() gftFilfNbmf},
+ * {@link #gftPbrfnt gftPbrfnt}, {@link #gftRoot gftRoot}, bnd {@link #subpbth
+ * subpbth} mfthods to bddfss thf pbth domponfnts or b subsfqufndf of its nbmf
+ * flfmfnts.
+ *
+ * <p> In bddition to bddfssing thf domponfnts of b pbth, b {@dodf Pbth} blso
+ * dffinfs thf {@link #rfsolvf(Pbth) rfsolvf} bnd {@link #rfsolvfSibling(Pbth)
+ * rfsolvfSibling} mfthods to dombinf pbths. Thf {@link #rflbtivizf rflbtivizf}
+ * mfthod thbt dbn bf usfd to donstrudt b rflbtivf pbth bftwffn two pbths.
+ * Pbths dbn bf {@link #dompbrfTo dompbrfd}, bnd tfstfd bgbinst fbdh othfr using
+ * thf {@link #stbrtsWith stbrtsWith} bnd {@link #fndsWith fndsWith} mfthods.
+ *
+ * <p> This intfrfbdf fxtfnds {@link Wbtdhbblf} intfrfbdf so thbt b dirfdtory
+ * lodbtfd by b pbth dbn bf {@link #rfgistfr rfgistfrfd} with b {@link
+ * WbtdhSfrvidf} bnd fntrifs in thf dirfdtory wbtdhfd. </p>
+ *
+ * <p> <b>WARNING:</b> This intfrfbdf is only intfndfd to bf implfmfntfd by
+ * thosf dfvfloping dustom filf systfm implfmfntbtions. Mfthods mby bf bddfd to
+ * this intfrfbdf in futurf rflfbsfs. </p>
+ *
+ * <h2>Addfssing Filfs</h2>
+ * <p> Pbths mby bf usfd with thf {@link Filfs} dlbss to opfrbtf on filfs,
+ * dirfdtorifs, bnd othfr typfs of filfs. For fxbmplf, supposf wf wbnt b {@link
+ * jbvb.io.BufffrfdRfbdfr} to rfbd tfxt from b filf "{@dodf bddfss.log}". Thf
+ * filf is lodbtfd in b dirfdtory "{@dodf logs}" rflbtivf to thf durrfnt working
+ * dirfdtory bnd is UTF-8 fndodfd.
+ * <prf>
+ *     Pbth pbth = FilfSystfms.gftDffbult().gftPbth("logs", "bddfss.log");
+ *     BufffrfdRfbdfr rfbdfr = Filfs.nfwBufffrfdRfbdfr(pbth, StbndbrdChbrsfts.UTF_8);
+ * </prf>
+ *
+ * <b nbmf="intfrop"></b><h2>Intfropfrbbility</h2>
+ * <p> Pbths bssodibtfd with thf dffbult {@link
+ * jbvb.nio.filf.spi.FilfSystfmProvidfr providfr} brf gfnfrblly intfropfrbblf
+ * with thf {@link jbvb.io.Filf jbvb.io.Filf} dlbss. Pbths drfbtfd by othfr
+ * providfrs brf unlikfly to bf intfropfrbblf with thf bbstrbdt pbth nbmfs
+ * rfprfsfntfd by {@dodf jbvb.io.Filf}. Thf {@link jbvb.io.Filf#toPbth toPbth}
+ * mfthod mby bf usfd to obtbin b {@dodf Pbth} from thf bbstrbdt pbth nbmf
+ * rfprfsfntfd by b {@dodf jbvb.io.Filf} objfdt. Thf rfsulting {@dodf Pbth} dbn
+ * bf usfd to opfrbtf on thf sbmf filf bs thf {@dodf jbvb.io.Filf} objfdt. In
+ * bddition, thf {@link #toFilf toFilf} mfthod is usfful to donstrudt b {@dodf
+ * Filf} from thf {@dodf String} rfprfsfntbtion of b {@dodf Pbth}.
+ *
+ * <h2>Condurrfndy</h2>
+ * <p> Implfmfntbtions of this intfrfbdf brf immutbblf bnd sbff for usf by
+ * multiplf dondurrfnt thrfbds.
+ *
+ * @sindf 1.7
+ * @sff Pbths
+ */
+
+publid intfrfbdf Pbth
+    fxtfnds Compbrbblf<Pbth>, Itfrbblf<Pbth>, Wbtdhbblf
+{
+    /**
+     * Rfturns thf filf systfm thbt drfbtfd this objfdt.
+     *
+     * @rfturn  thf filf systfm thbt drfbtfd this objfdt
+     */
+    FilfSystfm gftFilfSystfm();
+
+    /**
+     * Tflls whfthfr or not this pbth is bbsolutf.
+     *
+     * <p> An bbsolutf pbth is domplftf in thbt it dofsn't nffd to bf dombinfd
+     * with othfr pbth informbtion in ordfr to lodbtf b filf.
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, this pbth is bbsolutf
+     */
+    boolfbn isAbsolutf();
+
+    /**
+     * Rfturns thf root domponfnt of this pbth bs b {@dodf Pbth} objfdt,
+     * or {@dodf null} if this pbth dofs not hbvf b root domponfnt.
+     *
+     * @rfturn  b pbth rfprfsfnting thf root domponfnt of this pbth,
+     *          or {@dodf null}
+     */
+    Pbth gftRoot();
+
+    /**
+     * Rfturns thf nbmf of thf filf or dirfdtory dfnotfd by this pbth bs b
+     * {@dodf Pbth} objfdt. Thf filf nbmf is thf <fm>fbrthfst</fm> flfmfnt from
+     * thf root in thf dirfdtory hifrbrdhy.
+     *
+     * @rfturn  b pbth rfprfsfnting thf nbmf of thf filf or dirfdtory, or
+     *          {@dodf null} if this pbth hbs zfro flfmfnts
+     */
+    Pbth gftFilfNbmf();
+
+    /**
+     * Rfturns thf <fm>pbrfnt pbth</fm>, or {@dodf null} if this pbth dofs not
+     * hbvf b pbrfnt.
+     *
+     * <p> Thf pbrfnt of this pbth objfdt donsists of this pbth's root
+     * domponfnt, if bny, bnd fbdh flfmfnt in thf pbth fxdfpt for thf
+     * <fm>fbrthfst</fm> from thf root in thf dirfdtory hifrbrdhy. This mfthod
+     * dofs not bddfss thf filf systfm; thf pbth or its pbrfnt mby not fxist.
+     * Furthfrmorf, this mfthod dofs not fliminbtf spfdibl nbmfs sudh bs "."
+     * bnd ".." thbt mby bf usfd in somf implfmfntbtions. On UNIX for fxbmplf,
+     * thf pbrfnt of "{@dodf /b/b/d}" is "{@dodf /b/b}", bnd thf pbrfnt of
+     * {@dodf "x/y/.}" is "{@dodf x/y}". This mfthod mby bf usfd with thf {@link
+     * #normblizf normblizf} mfthod, to fliminbtf rfdundbnt nbmfs, for dbsfs whfrf
+     * <fm>shfll-likf</fm> nbvigbtion is rfquirfd.
+     *
+     * <p> If this pbth hbs onf or morf flfmfnts, bnd no root domponfnt, thfn
+     * this mfthod is fquivblfnt to fvblubting thf fxprfssion:
+     * <blodkquotf><prf>
+     * subpbth(0,&nbsp;gftNbmfCount()-1);
+     * </prf></blodkquotf>
+     *
+     * @rfturn  b pbth rfprfsfnting thf pbth's pbrfnt
+     */
+    Pbth gftPbrfnt();
+
+    /**
+     * Rfturns thf numbfr of nbmf flfmfnts in thf pbth.
+     *
+     * @rfturn  thf numbfr of flfmfnts in thf pbth, or {@dodf 0} if this pbth
+     *          only rfprfsfnts b root domponfnt
+     */
+    int gftNbmfCount();
+
+    /**
+     * Rfturns b nbmf flfmfnt of this pbth bs b {@dodf Pbth} objfdt.
+     *
+     * <p> Thf {@dodf indfx} pbrbmftfr is thf indfx of thf nbmf flfmfnt to rfturn.
+     * Thf flfmfnt thbt is <fm>dlosfst</fm> to thf root in thf dirfdtory hifrbrdhy
+     * hbs indfx {@dodf 0}. Thf flfmfnt thbt is <fm>fbrthfst</fm> from thf root
+     * hbs indfx {@link #gftNbmfCount dount}{@dodf -1}.
+     *
+     * @pbrbm   indfx
+     *          thf indfx of thf flfmfnt
+     *
+     * @rfturn  thf nbmf flfmfnt
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if {@dodf indfx} is nfgbtivf, {@dodf indfx} is grfbtfr thbn or
+     *          fqubl to thf numbfr of flfmfnts, or this pbth hbs zfro nbmf
+     *          flfmfnts
+     */
+    Pbth gftNbmf(int indfx);
+
+    /**
+     * Rfturns b rflbtivf {@dodf Pbth} thbt is b subsfqufndf of thf nbmf
+     * flfmfnts of this pbth.
+     *
+     * <p> Thf {@dodf bfginIndfx} bnd {@dodf fndIndfx} pbrbmftfrs spfdify thf
+     * subsfqufndf of nbmf flfmfnts. Thf nbmf thbt is <fm>dlosfst</fm> to thf root
+     * in thf dirfdtory hifrbrdhy hbs indfx {@dodf 0}. Thf nbmf thbt is
+     * <fm>fbrthfst</fm> from thf root hbs indfx {@link #gftNbmfCount
+     * dount}{@dodf -1}. Thf rfturnfd {@dodf Pbth} objfdt hbs thf nbmf flfmfnts
+     * thbt bfgin bt {@dodf bfginIndfx} bnd fxtfnd to thf flfmfnt bt indfx {@dodf
+     * fndIndfx-1}.
+     *
+     * @pbrbm   bfginIndfx
+     *          thf indfx of thf first flfmfnt, indlusivf
+     * @pbrbm   fndIndfx
+     *          thf indfx of thf lbst flfmfnt, fxdlusivf
+     *
+     * @rfturn  b nfw {@dodf Pbth} objfdt thbt is b subsfqufndf of thf nbmf
+     *          flfmfnts in this {@dodf Pbth}
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if {@dodf bfginIndfx} is nfgbtivf, or grfbtfr thbn or fqubl to
+     *          thf numbfr of flfmfnts. If {@dodf fndIndfx} is lfss thbn or
+     *          fqubl to {@dodf bfginIndfx}, or lbrgfr thbn thf numbfr of flfmfnts.
+     */
+    Pbth subpbth(int bfginIndfx, int fndIndfx);
+
+    /**
+     * Tfsts if this pbth stbrts with thf givfn pbth.
+     *
+     * <p> This pbth <fm>stbrts</fm> with thf givfn pbth if this pbth's root
+     * domponfnt <fm>stbrts</fm> with thf root domponfnt of thf givfn pbth,
+     * bnd this pbth stbrts with thf sbmf nbmf flfmfnts bs thf givfn pbth.
+     * If thf givfn pbth hbs morf nbmf flfmfnts thbn this pbth thfn {@dodf fblsf}
+     * is rfturnfd.
+     *
+     * <p> Whfthfr or not thf root domponfnt of this pbth stbrts with thf root
+     * domponfnt of thf givfn pbth is filf systfm spfdifid. If this pbth dofs
+     * not hbvf b root domponfnt bnd thf givfn pbth hbs b root domponfnt thfn
+     * this pbth dofs not stbrt with thf givfn pbth.
+     *
+     * <p> If thf givfn pbth is bssodibtfd with b difffrfnt {@dodf FilfSystfm}
+     * to this pbth thfn {@dodf fblsf} is rfturnfd.
+     *
+     * @pbrbm   othfr
+     *          thf givfn pbth
+     *
+     * @rfturn  {@dodf truf} if this pbth stbrts with thf givfn pbth; othfrwisf
+     *          {@dodf fblsf}
+     */
+    boolfbn stbrtsWith(Pbth othfr);
+
+    /**
+     * Tfsts if this pbth stbrts with b {@dodf Pbth}, donstrudtfd by donvfrting
+     * thf givfn pbth string, in fxbdtly thf mbnnfr spfdififd by thf {@link
+     * #stbrtsWith(Pbth) stbrtsWith(Pbth)} mfthod. On UNIX for fxbmplf, thf pbth
+     * "{@dodf foo/bbr}" stbrts with "{@dodf foo}" bnd "{@dodf foo/bbr}". It
+     * dofs not stbrt with "{@dodf f}" or "{@dodf fo}".
+     *
+     * @pbrbm   othfr
+     *          thf givfn pbth string
+     *
+     * @rfturn  {@dodf truf} if this pbth stbrts with thf givfn pbth; othfrwisf
+     *          {@dodf fblsf}
+     *
+     * @throws  InvblidPbthExdfption
+     *          If thf pbth string dbnnot bf donvfrtfd to b Pbth.
+     */
+    boolfbn stbrtsWith(String othfr);
+
+    /**
+     * Tfsts if this pbth fnds with thf givfn pbth.
+     *
+     * <p> If thf givfn pbth hbs <fm>N</fm> flfmfnts, bnd no root domponfnt,
+     * bnd this pbth hbs <fm>N</fm> or morf flfmfnts, thfn this pbth fnds with
+     * thf givfn pbth if thf lbst <fm>N</fm> flfmfnts of fbdh pbth, stbrting bt
+     * thf flfmfnt fbrthfst from thf root, brf fqubl.
+     *
+     * <p> If thf givfn pbth hbs b root domponfnt thfn this pbth fnds with thf
+     * givfn pbth if thf root domponfnt of this pbth <fm>fnds with</fm> thf root
+     * domponfnt of thf givfn pbth, bnd thf dorrfsponding flfmfnts of both pbths
+     * brf fqubl. Whfthfr or not thf root domponfnt of this pbth fnds with thf
+     * root domponfnt of thf givfn pbth is filf systfm spfdifid. If this pbth
+     * dofs not hbvf b root domponfnt bnd thf givfn pbth hbs b root domponfnt
+     * thfn this pbth dofs not fnd with thf givfn pbth.
+     *
+     * <p> If thf givfn pbth is bssodibtfd with b difffrfnt {@dodf FilfSystfm}
+     * to this pbth thfn {@dodf fblsf} is rfturnfd.
+     *
+     * @pbrbm   othfr
+     *          thf givfn pbth
+     *
+     * @rfturn  {@dodf truf} if this pbth fnds with thf givfn pbth; othfrwisf
+     *          {@dodf fblsf}
+     */
+    boolfbn fndsWith(Pbth othfr);
+
+    /**
+     * Tfsts if this pbth fnds with b {@dodf Pbth}, donstrudtfd by donvfrting
+     * thf givfn pbth string, in fxbdtly thf mbnnfr spfdififd by thf {@link
+     * #fndsWith(Pbth) fndsWith(Pbth)} mfthod. On UNIX for fxbmplf, thf pbth
+     * "{@dodf foo/bbr}" fnds with "{@dodf foo/bbr}" bnd "{@dodf bbr}". It dofs
+     * not fnd with "{@dodf r}" or "{@dodf /bbr}". Notf thbt trbiling sfpbrbtors
+     * brf not tbkfn into bddount, bnd so invoking this mfthod on thf {@dodf
+     * Pbth}"{@dodf foo/bbr}" with thf {@dodf String} "{@dodf bbr/}" rfturns
+     * {@dodf truf}.
+     *
+     * @pbrbm   othfr
+     *          thf givfn pbth string
+     *
+     * @rfturn  {@dodf truf} if this pbth fnds with thf givfn pbth; othfrwisf
+     *          {@dodf fblsf}
+     *
+     * @throws  InvblidPbthExdfption
+     *          If thf pbth string dbnnot bf donvfrtfd to b Pbth.
+     */
+    boolfbn fndsWith(String othfr);
+
+    /**
+     * Rfturns b pbth thbt is this pbth with rfdundbnt nbmf flfmfnts fliminbtfd.
+     *
+     * <p> Thf prfdisf dffinition of this mfthod is implfmfntbtion dfpfndfnt but
+     * in gfnfrbl it dfrivfs from this pbth, b pbth thbt dofs not dontbin
+     * <fm>rfdundbnt</fm> nbmf flfmfnts. In mbny filf systfms, thf "{@dodf .}"
+     * bnd "{@dodf ..}" brf spfdibl nbmfs usfd to indidbtf thf durrfnt dirfdtory
+     * bnd pbrfnt dirfdtory. In sudh filf systfms bll oddurrfndfs of "{@dodf .}"
+     * brf donsidfrfd rfdundbnt. If b "{@dodf ..}" is prfdfdfd by b
+     * non-"{@dodf ..}" nbmf thfn both nbmfs brf donsidfrfd rfdundbnt (thf
+     * prodfss to idfntify sudh nbmfs is rfpfbtfd until it is no longfr
+     * bpplidbblf).
+     *
+     * <p> This mfthod dofs not bddfss thf filf systfm; thf pbth mby not lodbtf
+     * b filf thbt fxists. Eliminbting "{@dodf ..}" bnd b prfdfding nbmf from b
+     * pbth mby rfsult in thf pbth thbt lodbtfs b difffrfnt filf thbn thf originbl
+     * pbth. This dbn brisf whfn thf prfdfding nbmf is b symbolid link.
+     *
+     * @rfturn  thf rfsulting pbth or this pbth if it dofs not dontbin
+     *          rfdundbnt nbmf flfmfnts; bn fmpty pbth is rfturnfd if this pbth
+     *          dofs hbvf b root domponfnt bnd bll nbmf flfmfnts brf rfdundbnt
+     *
+     * @sff #gftPbrfnt
+     * @sff #toRfblPbth
+     */
+    Pbth normblizf();
+
+    // -- rfsolution bnd rflbtivizbtion --
+
+    /**
+     * Rfsolvf thf givfn pbth bgbinst this pbth.
+     *
+     * <p> If thf {@dodf othfr} pbrbmftfr is bn {@link #isAbsolutf() bbsolutf}
+     * pbth thfn this mfthod triviblly rfturns {@dodf othfr}. If {@dodf othfr}
+     * is bn <i>fmpty pbth</i> thfn this mfthod triviblly rfturns this pbth.
+     * Othfrwisf this mfthod donsidfrs this pbth to bf b dirfdtory bnd rfsolvfs
+     * thf givfn pbth bgbinst this pbth. In thf simplfst dbsf, thf givfn pbth
+     * dofs not hbvf b {@link #gftRoot root} domponfnt, in whidh dbsf this mfthod
+     * <fm>joins</fm> thf givfn pbth to this pbth bnd rfturns b rfsulting pbth
+     * thbt {@link #fndsWith fnds} with thf givfn pbth. Whfrf thf givfn pbth hbs
+     * b root domponfnt thfn rfsolution is highly implfmfntbtion dfpfndfnt bnd
+     * thfrfforf unspfdififd.
+     *
+     * @pbrbm   othfr
+     *          thf pbth to rfsolvf bgbinst this pbth
+     *
+     * @rfturn  thf rfsulting pbth
+     *
+     * @sff #rflbtivizf
+     */
+    Pbth rfsolvf(Pbth othfr);
+
+    /**
+     * Convfrts b givfn pbth string to b {@dodf Pbth} bnd rfsolvfs it bgbinst
+     * this {@dodf Pbth} in fxbdtly thf mbnnfr spfdififd by thf {@link
+     * #rfsolvf(Pbth) rfsolvf} mfthod. For fxbmplf, supposf thbt thf nbmf
+     * sfpbrbtor is "{@dodf /}" bnd b pbth rfprfsfnts "{@dodf foo/bbr}", thfn
+     * invoking this mfthod with thf pbth string "{@dodf gus}" will rfsult in
+     * thf {@dodf Pbth} "{@dodf foo/bbr/gus}".
+     *
+     * @pbrbm   othfr
+     *          thf pbth string to rfsolvf bgbinst this pbth
+     *
+     * @rfturn  thf rfsulting pbth
+     *
+     * @throws  InvblidPbthExdfption
+     *          if thf pbth string dbnnot bf donvfrtfd to b Pbth.
+     *
+     * @sff FilfSystfm#gftPbth
+     */
+    Pbth rfsolvf(String othfr);
+
+    /**
+     * Rfsolvfs thf givfn pbth bgbinst this pbth's {@link #gftPbrfnt pbrfnt}
+     * pbth. This is usfful whfrf b filf nbmf nffds to bf <i>rfplbdfd</i> with
+     * bnothfr filf nbmf. For fxbmplf, supposf thbt thf nbmf sfpbrbtor is
+     * "{@dodf /}" bnd b pbth rfprfsfnts "{@dodf dir1/dir2/foo}", thfn invoking
+     * this mfthod with thf {@dodf Pbth} "{@dodf bbr}" will rfsult in thf {@dodf
+     * Pbth} "{@dodf dir1/dir2/bbr}". If this pbth dofs not hbvf b pbrfnt pbth,
+     * or {@dodf othfr} is {@link #isAbsolutf() bbsolutf}, thfn this mfthod
+     * rfturns {@dodf othfr}. If {@dodf othfr} is bn fmpty pbth thfn this mfthod
+     * rfturns this pbth's pbrfnt, or whfrf this pbth dofsn't hbvf b pbrfnt, thf
+     * fmpty pbth.
+     *
+     * @pbrbm   othfr
+     *          thf pbth to rfsolvf bgbinst this pbth's pbrfnt
+     *
+     * @rfturn  thf rfsulting pbth
+     *
+     * @sff #rfsolvf(Pbth)
+     */
+    Pbth rfsolvfSibling(Pbth othfr);
+
+    /**
+     * Convfrts b givfn pbth string to b {@dodf Pbth} bnd rfsolvfs it bgbinst
+     * this pbth's {@link #gftPbrfnt pbrfnt} pbth in fxbdtly thf mbnnfr
+     * spfdififd by thf {@link #rfsolvfSibling(Pbth) rfsolvfSibling} mfthod.
+     *
+     * @pbrbm   othfr
+     *          thf pbth string to rfsolvf bgbinst this pbth's pbrfnt
+     *
+     * @rfturn  thf rfsulting pbth
+     *
+     * @throws  InvblidPbthExdfption
+     *          if thf pbth string dbnnot bf donvfrtfd to b Pbth.
+     *
+     * @sff FilfSystfm#gftPbth
+     */
+    Pbth rfsolvfSibling(String othfr);
+
+    /**
+     * Construdts b rflbtivf pbth bftwffn this pbth bnd b givfn pbth.
+     *
+     * <p> Rflbtivizbtion is thf invfrsf of {@link #rfsolvf(Pbth) rfsolution}.
+     * This mfthod bttfmpts to donstrudt b {@link #isAbsolutf rflbtivf} pbth
+     * thbt whfn {@link #rfsolvf(Pbth) rfsolvfd} bgbinst this pbth, yiflds b
+     * pbth thbt lodbtfs thf sbmf filf bs thf givfn pbth. For fxbmplf, on UNIX,
+     * if this pbth is {@dodf "/b/b"} bnd thf givfn pbth is {@dodf "/b/b/d/d"}
+     * thfn thf rfsulting rflbtivf pbth would bf {@dodf "d/d"}. Whfrf this
+     * pbth bnd thf givfn pbth do not hbvf b {@link #gftRoot root} domponfnt,
+     * thfn b rflbtivf pbth dbn bf donstrudtfd. A rflbtivf pbth dbnnot bf
+     * donstrudtfd if only onf of thf pbths hbvf b root domponfnt. Whfrf both
+     * pbths hbvf b root domponfnt thfn it is implfmfntbtion dfpfndfnt if b
+     * rflbtivf pbth dbn bf donstrudtfd. If this pbth bnd thf givfn pbth brf
+     * {@link #fqubls fqubl} thfn bn <i>fmpty pbth</i> is rfturnfd.
+     *
+     * <p> For bny two {@link #normblizf normblizfd} pbths <i>p</i> bnd
+     * <i>q</i>, whfrf <i>q</i> dofs not hbvf b root domponfnt,
+     * <blodkquotf>
+     *   <i>p</i><tt>.rflbtivizf(</tt><i>p</i><tt>.rfsolvf(</tt><i>q</i><tt>)).fqubls(</tt><i>q</i><tt>)</tt>
+     * </blodkquotf>
+     *
+     * <p> Whfn symbolid links brf supportfd, thfn whfthfr thf rfsulting pbth,
+     * whfn rfsolvfd bgbinst this pbth, yiflds b pbth thbt dbn bf usfd to lodbtf
+     * thf {@link Filfs#isSbmfFilf sbmf} filf bs {@dodf othfr} is implfmfntbtion
+     * dfpfndfnt. For fxbmplf, if this pbth is  {@dodf "/b/b"} bnd thf givfn
+     * pbth is {@dodf "/b/x"} thfn thf rfsulting rflbtivf pbth mby bf {@dodf
+     * "../x"}. If {@dodf "b"} is b symbolid link thfn is implfmfntbtion
+     * dfpfndfnt if {@dodf "b/b/../x"} would lodbtf thf sbmf filf bs {@dodf "/b/x"}.
+     *
+     * @pbrbm   othfr
+     *          thf pbth to rflbtivizf bgbinst this pbth
+     *
+     * @rfturn  thf rfsulting rflbtivf pbth, or bn fmpty pbth if both pbths brf
+     *          fqubl
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if {@dodf othfr} is not b {@dodf Pbth} thbt dbn bf rflbtivizfd
+     *          bgbinst this pbth
+     */
+    Pbth rflbtivizf(Pbth othfr);
+
+    /**
+     * Rfturns b URI to rfprfsfnt this pbth.
+     *
+     * <p> This mfthod donstrudts bn bbsolutf {@link URI} with b {@link
+     * URI#gftSdhfmf() sdhfmf} fqubl to thf URI sdhfmf thbt idfntififs thf
+     * providfr. Thf fxbdt form of thf sdhfmf spfdifid pbrt is highly providfr
+     * dfpfndfnt.
+     *
+     * <p> In thf dbsf of thf dffbult providfr, thf URI is hifrbrdhidbl with
+     * b {@link URI#gftPbth() pbth} domponfnt thbt is bbsolutf. Thf qufry bnd
+     * frbgmfnt domponfnts brf undffinfd. Whfthfr thf buthority domponfnt is
+     * dffinfd or not is implfmfntbtion dfpfndfnt. Thfrf is no gubrbntff thbt
+     * thf {@dodf URI} mby bf usfd to donstrudt b {@link jbvb.io.Filf jbvb.io.Filf}.
+     * In pbrtidulbr, if this pbth rfprfsfnts b Univfrsbl Nbming Convfntion (UNC)
+     * pbth, thfn thf UNC sfrvfr nbmf mby bf fndodfd in thf buthority domponfnt
+     * of thf rfsulting URI. In thf dbsf of thf dffbult providfr, bnd thf filf
+     * fxists, bnd it dbn bf dftfrminfd thbt thf filf is b dirfdtory, thfn thf
+     * rfsulting {@dodf URI} will fnd with b slbsh.
+     *
+     * <p> Thf dffbult providfr providfs b similbr <fm>round-trip</fm> gubrbntff
+     * to thf {@link jbvb.io.Filf} dlbss. For b givfn {@dodf Pbth} <i>p</i> it
+     * is gubrbntffd thbt
+     * <blodkquotf><tt>
+     * {@link Pbths#gft(URI) Pbths.gft}(</tt><i>p</i><tt>.toUri()).fqubls(</tt><i>p</i>
+     * <tt>.{@link #toAbsolutfPbth() toAbsolutfPbth}())</tt>
+     * </blodkquotf>
+     * so long bs thf originbl {@dodf Pbth}, thf {@dodf URI}, bnd thf nfw {@dodf
+     * Pbth} brf bll drfbtfd in (possibly difffrfnt invodbtions of) thf sbmf
+     * Jbvb virtubl mbdhinf. Whfthfr othfr providfrs mbkf bny gubrbntffs is
+     * providfr spfdifid bnd thfrfforf unspfdififd.
+     *
+     * <p> Whfn b filf systfm is donstrudtfd to bddfss thf dontfnts of b filf
+     * bs b filf systfm thfn it is highly implfmfntbtion spfdifid if thf rfturnfd
+     * URI rfprfsfnts thf givfn pbth in thf filf systfm or it rfprfsfnts b
+     * <fm>dompound</fm> URI thbt fndodfs thf URI of thf fndlosing filf systfm.
+     * A formbt for dompound URIs is not dffinfd in this rflfbsf; sudh b sdhfmf
+     * mby bf bddfd in b futurf rflfbsf.
+     *
+     * @rfturn  thf URI rfprfsfnting this pbth
+     *
+     * @throws  jbvb.io.IOError
+     *          if bn I/O frror oddurs obtbining thf bbsolutf pbth, or whfrf b
+     *          filf systfm is donstrudtfd to bddfss thf dontfnts of b filf bs
+     *          b filf systfm, bnd thf URI of thf fndlosing filf systfm dbnnot bf
+     *          obtbinfd
+     *
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr
+     *          is instbllfd, thf {@link #toAbsolutfPbth toAbsolutfPbth} mfthod
+     *          throws b sfdurity fxdfption.
+     */
+    URI toUri();
+
+    /**
+     * Rfturns b {@dodf Pbth} objfdt rfprfsfnting thf bbsolutf pbth of this
+     * pbth.
+     *
+     * <p> If this pbth is blrfbdy {@link Pbth#isAbsolutf bbsolutf} thfn this
+     * mfthod simply rfturns this pbth. Othfrwisf, this mfthod rfsolvfs thf pbth
+     * in bn implfmfntbtion dfpfndfnt mbnnfr, typidblly by rfsolving thf pbth
+     * bgbinst b filf systfm dffbult dirfdtory. Dfpfnding on thf implfmfntbtion,
+     * this mfthod mby throw bn I/O frror if thf filf systfm is not bddfssiblf.
+     *
+     * @rfturn  b {@dodf Pbth} objfdt rfprfsfnting thf bbsolutf pbth
+     *
+     * @throws  jbvb.io.IOError
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, b sfdurity mbnbgfr
+     *          is instbllfd, bnd this pbth is not bbsolutf, thfn thf sfdurity
+     *          mbnbgfr's {@link SfdurityMbnbgfr#dhfdkPropfrtyAddfss(String)
+     *          dhfdkPropfrtyAddfss} mfthod is invokfd to dhfdk bddfss to thf
+     *          systfm propfrty {@dodf usfr.dir}
+     */
+    Pbth toAbsolutfPbth();
+
+    /**
+     * Rfturns thf <fm>rfbl</fm> pbth of bn fxisting filf.
+     *
+     * <p> Thf prfdisf dffinition of this mfthod is implfmfntbtion dfpfndfnt but
+     * in gfnfrbl it dfrivfs from this pbth, bn {@link #isAbsolutf bbsolutf}
+     * pbth thbt lodbtfs thf {@link Filfs#isSbmfFilf sbmf} filf bs this pbth, but
+     * with nbmf flfmfnts thbt rfprfsfnt thf bdtubl nbmf of thf dirfdtorifs
+     * bnd thf filf. For fxbmplf, whfrf filfnbmf dompbrisons on b filf systfm
+     * brf dbsf insfnsitivf thfn thf nbmf flfmfnts rfprfsfnt thf nbmfs in thfir
+     * bdtubl dbsf. Additionblly, thf rfsulting pbth hbs rfdundbnt nbmf
+     * flfmfnts rfmovfd.
+     *
+     * <p> If this pbth is rflbtivf thfn its bbsolutf pbth is first obtbinfd,
+     * bs if by invoking thf {@link #toAbsolutfPbth toAbsolutfPbth} mfthod.
+     *
+     * <p> Thf {@dodf options} brrby mby bf usfd to indidbtf how symbolid links
+     * brf hbndlfd. By dffbult, symbolid links brf rfsolvfd to thfir finbl
+     * tbrgft. If thf option {@link LinkOption#NOFOLLOW_LINKS NOFOLLOW_LINKS} is
+     * prfsfnt thfn this mfthod dofs not rfsolvf symbolid links.
+     *
+     * Somf implfmfntbtions bllow spfdibl nbmfs sudh bs "{@dodf ..}" to rfffr to
+     * thf pbrfnt dirfdtory. Whfn dfriving thf <fm>rfbl pbth</fm>, bnd b
+     * "{@dodf ..}" (or fquivblfnt) is prfdfdfd by b non-"{@dodf ..}" nbmf thfn
+     * bn implfmfntbtion will typidblly dbusf both nbmfs to bf rfmovfd. Whfn
+     * not rfsolving symbolid links bnd thf prfdfding nbmf is b symbolid link
+     * thfn thf nbmfs brf only rfmovfd if it gubrbntffd thbt thf rfsulting pbth
+     * will lodbtf thf sbmf filf bs this pbth.
+     *
+     * @pbrbm   options
+     *          options indidbting how symbolid links brf hbndlfd
+     *
+     * @rfturn  bn bbsolutf pbth rfprfsfnt thf <fm>rfbl</fm> pbth of thf filf
+     *          lodbtfd by this objfdt
+     *
+     * @throws  IOExdfption
+     *          if thf filf dofs not fxist or bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr
+     *          is instbllfd, its {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          mfthod is invokfd to dhfdk rfbd bddfss to thf filf, bnd whfrf
+     *          this pbth is not bbsolutf, its {@link SfdurityMbnbgfr#dhfdkPropfrtyAddfss(String)
+     *          dhfdkPropfrtyAddfss} mfthod is invokfd to dhfdk bddfss to thf
+     *          systfm propfrty {@dodf usfr.dir}
+     */
+    Pbth toRfblPbth(LinkOption... options) throws IOExdfption;
+
+    /**
+     * Rfturns b {@link Filf} objfdt rfprfsfnting this pbth. Whfrf this {@dodf
+     * Pbth} is bssodibtfd with thf dffbult providfr, thfn this mfthod is
+     * fquivblfnt to rfturning b {@dodf Filf} objfdt donstrudtfd with thf
+     * {@dodf String} rfprfsfntbtion of this pbth.
+     *
+     * <p> If this pbth wbs drfbtfd by invoking thf {@dodf Filf} {@link
+     * Filf#toPbth toPbth} mfthod thfn thfrf is no gubrbntff thbt thf {@dodf
+     * Filf} objfdt rfturnfd by this mfthod is {@link #fqubls fqubl} to thf
+     * originbl {@dodf Filf}.
+     *
+     * @rfturn  b {@dodf Filf} objfdt rfprfsfnting this pbth
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if this {@dodf Pbth} is not bssodibtfd with thf dffbult providfr
+     */
+    Filf toFilf();
+
+    // -- wbtdhbblf --
+
+    /**
+     * Rfgistfrs thf filf lodbtfd by this pbth with b wbtdh sfrvidf.
+     *
+     * <p> In this rflfbsf, this pbth lodbtfs b dirfdtory thbt fxists. Thf
+     * dirfdtory is rfgistfrfd with thf wbtdh sfrvidf so thbt fntrifs in thf
+     * dirfdtory dbn bf wbtdhfd. Thf {@dodf fvfnts} pbrbmftfr is thf fvfnts to
+     * rfgistfr bnd mby dontbin thf following fvfnts:
+     * <ul>
+     *   <li>{@link StbndbrdWbtdhEvfntKinds#ENTRY_CREATE ENTRY_CREATE} -
+     *       fntry drfbtfd or movfd into thf dirfdtory</li>
+     *   <li>{@link StbndbrdWbtdhEvfntKinds#ENTRY_DELETE ENTRY_DELETE} -
+     *        fntry dflftfd or movfd out of thf dirfdtory</li>
+     *   <li>{@link StbndbrdWbtdhEvfntKinds#ENTRY_MODIFY ENTRY_MODIFY} -
+     *        fntry in dirfdtory wbs modififd</li>
+     * </ul>
+     *
+     * <p> Thf {@link WbtdhEvfnt#dontfxt dontfxt} for thfsf fvfnts is thf
+     * rflbtivf pbth bftwffn thf dirfdtory lodbtfd by this pbth, bnd thf pbth
+     * thbt lodbtfs thf dirfdtory fntry thbt is drfbtfd, dflftfd, or modififd.
+     *
+     * <p> Thf sft of fvfnts mby indludf bdditionbl implfmfntbtion spfdifid
+     * fvfnt thbt brf not dffinfd by thf fnum {@link StbndbrdWbtdhEvfntKinds}
+     *
+     * <p> Thf {@dodf modififrs} pbrbmftfr spfdififs <fm>modififrs</fm> thbt
+     * qublify how thf dirfdtory is rfgistfrfd. This rflfbsf dofs not dffinf bny
+     * <fm>stbndbrd</fm> modififrs. It mby dontbin implfmfntbtion spfdifid
+     * modififrs.
+     *
+     * <p> Whfrf b filf is rfgistfrfd with b wbtdh sfrvidf by mfbns of b symbolid
+     * link thfn it is implfmfntbtion spfdifid if thf wbtdh dontinufs to dfpfnd
+     * on thf fxistfndf of thf symbolid link bftfr it is rfgistfrfd.
+     *
+     * @pbrbm   wbtdhfr
+     *          thf wbtdh sfrvidf to whidh this objfdt is to bf rfgistfrfd
+     * @pbrbm   fvfnts
+     *          thf fvfnts for whidh this objfdt should bf rfgistfrfd
+     * @pbrbm   modififrs
+     *          thf modififrs, if bny, thbt modify how thf objfdt is rfgistfrfd
+     *
+     * @rfturn  b kfy rfprfsfnting thf rfgistrbtion of this objfdt with thf
+     *          givfn wbtdh sfrvidf
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          if unsupportfd fvfnts or modififrs brf spfdififd
+     * @throws  IllfgblArgumfntExdfption
+     *          if bn invblid dombinbtion of fvfnts or modififrs is spfdififd
+     * @throws  ClosfdWbtdhSfrvidfExdfption
+     *          if thf wbtdh sfrvidf is dlosfd
+     * @throws  NotDirfdtoryExdfption
+     *          if thf filf is rfgistfrfd to wbtdh thf fntrifs in b dirfdtory
+     *          bnd thf filf is not b dirfdtory  <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  IOExdfption
+     *          if bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          mfthod is invokfd to dhfdk rfbd bddfss to thf filf.
+     */
+    @Ovfrridf
+    WbtdhKfy rfgistfr(WbtdhSfrvidf wbtdhfr,
+                      WbtdhEvfnt.Kind<?>[] fvfnts,
+                      WbtdhEvfnt.Modififr... modififrs)
+        throws IOExdfption;
+
+    /**
+     * Rfgistfrs thf filf lodbtfd by this pbth with b wbtdh sfrvidf.
+     *
+     * <p> An invodbtion of this mfthod bfhbvfs in fxbdtly thf sbmf wby bs thf
+     * invodbtion
+     * <prf>
+     *     wbtdhbblf.{@link #rfgistfr(WbtdhSfrvidf,WbtdhEvfnt.Kind[],WbtdhEvfnt.Modififr[]) rfgistfr}(wbtdhfr, fvfnts, nfw WbtdhEvfnt.Modififr[0]);
+     * </prf>
+     *
+     * <p> <b>Usbgf Exbmplf:</b>
+     * Supposf wf wish to rfgistfr b dirfdtory for fntry drfbtf, dflftf, bnd modify
+     * fvfnts:
+     * <prf>
+     *     Pbth dir = ...
+     *     WbtdhSfrvidf wbtdhfr = ...
+     *
+     *     WbtdhKfy kfy = dir.rfgistfr(wbtdhfr, ENTRY_CREATE, ENTRY_DELETE, ENTRY_MODIFY);
+     * </prf>
+     * @pbrbm   wbtdhfr
+     *          Thf wbtdh sfrvidf to whidh this objfdt is to bf rfgistfrfd
+     * @pbrbm   fvfnts
+     *          Thf fvfnts for whidh this objfdt should bf rfgistfrfd
+     *
+     * @rfturn  A kfy rfprfsfnting thf rfgistrbtion of this objfdt with thf
+     *          givfn wbtdh sfrvidf
+     *
+     * @throws  UnsupportfdOpfrbtionExdfption
+     *          If unsupportfd fvfnts brf spfdififd
+     * @throws  IllfgblArgumfntExdfption
+     *          If bn invblid dombinbtion of fvfnts is spfdififd
+     * @throws  ClosfdWbtdhSfrvidfExdfption
+     *          If thf wbtdh sfrvidf is dlosfd
+     * @throws  NotDirfdtoryExdfption
+     *          If thf filf is rfgistfrfd to wbtdh thf fntrifs in b dirfdtory
+     *          bnd thf filf is not b dirfdtory  <i>(optionbl spfdifid fxdfption)</i>
+     * @throws  IOExdfption
+     *          If bn I/O frror oddurs
+     * @throws  SfdurityExdfption
+     *          In thf dbsf of thf dffbult providfr, bnd b sfdurity mbnbgfr is
+     *          instbllfd, thf {@link SfdurityMbnbgfr#dhfdkRfbd(String) dhfdkRfbd}
+     *          mfthod is invokfd to dhfdk rfbd bddfss to thf filf.
+     */
+    @Ovfrridf
+    WbtdhKfy rfgistfr(WbtdhSfrvidf wbtdhfr,
+                      WbtdhEvfnt.Kind<?>... fvfnts)
+        throws IOExdfption;
+
+    // -- Itfrbblf --
+
+    /**
+     * Rfturns bn itfrbtor ovfr thf nbmf flfmfnts of this pbth.
+     *
+     * <p> Thf first flfmfnt rfturnfd by thf itfrbtor rfprfsfnts thf nbmf
+     * flfmfnt thbt is dlosfst to thf root in thf dirfdtory hifrbrdhy, thf
+     * sfdond flfmfnt is thf nfxt dlosfst, bnd so on. Thf lbst flfmfnt rfturnfd
+     * is thf nbmf of thf filf or dirfdtory dfnotfd by this pbth. Thf {@link
+     * #gftRoot root} domponfnt, if prfsfnt, is not rfturnfd by thf itfrbtor.
+     *
+     * @rfturn  bn itfrbtor ovfr thf nbmf flfmfnts of this pbth.
+     */
+    @Ovfrridf
+    Itfrbtor<Pbth> itfrbtor();
+
+    // -- dompbrfTo/fqubls/hbshCodf --
+
+    /**
+     * Compbrfs two bbstrbdt pbths lfxidogrbphidblly. Thf ordfring dffinfd by
+     * this mfthod is providfr spfdifid, bnd in thf dbsf of thf dffbult
+     * providfr, plbtform spfdifid. This mfthod dofs not bddfss thf filf systfm
+     * bnd nfithfr filf is rfquirfd to fxist.
+     *
+     * <p> This mfthod mby not bf usfd to dompbrf pbths thbt brf bssodibtfd
+     * with difffrfnt filf systfm providfrs.
+     *
+     * @pbrbm   othfr  thf pbth dompbrfd to this pbth.
+     *
+     * @rfturn  zfro if thf brgumfnt is {@link #fqubls fqubl} to this pbth, b
+     *          vbluf lfss thbn zfro if this pbth is lfxidogrbphidblly lfss thbn
+     *          thf brgumfnt, or b vbluf grfbtfr thbn zfro if this pbth is
+     *          lfxidogrbphidblly grfbtfr thbn thf brgumfnt
+     *
+     * @throws  ClbssCbstExdfption
+     *          if thf pbths brf bssodibtfd with difffrfnt providfrs
+     */
+    @Ovfrridf
+    int dompbrfTo(Pbth othfr);
+
+    /**
+     * Tfsts this pbth for fqublity with thf givfn objfdt.
+     *
+     * <p> If thf givfn objfdt is not b Pbth, or is b Pbth bssodibtfd with b
+     * difffrfnt {@dodf FilfSystfm}, thfn this mfthod rfturns {@dodf fblsf}.
+     *
+     * <p> Whfthfr or not two pbth brf fqubl dfpfnds on thf filf systfm
+     * implfmfntbtion. In somf dbsfs thf pbths brf dompbrfd without rfgbrd
+     * to dbsf, bnd othfrs brf dbsf sfnsitivf. This mfthod dofs not bddfss thf
+     * filf systfm bnd thf filf is not rfquirfd to fxist. Whfrf rfquirfd, thf
+     * {@link Filfs#isSbmfFilf isSbmfFilf} mfthod mby bf usfd to dhfdk if two
+     * pbths lodbtf thf sbmf filf.
+     *
+     * <p> This mfthod sbtisfifs thf gfnfrbl dontrbdt of thf {@link
+     * jbvb.lbng.Objfdt#fqubls(Objfdt) Objfdt.fqubls} mfthod. </p>
+     *
+     * @pbrbm   othfr
+     *          thf objfdt to whidh this objfdt is to bf dompbrfd
+     *
+     * @rfturn  {@dodf truf} if, bnd only if, thf givfn objfdt is b {@dodf Pbth}
+     *          thbt is idfntidbl to this {@dodf Pbth}
+     */
+    boolfbn fqubls(Objfdt othfr);
+
+    /**
+     * Computfs b hbsh dodf for this pbth.
+     *
+     * <p> Thf hbsh dodf is bbsfd upon thf domponfnts of thf pbth, bnd
+     * sbtisfifs thf gfnfrbl dontrbdt of thf {@link Objfdt#hbshCodf
+     * Objfdt.hbshCodf} mfthod.
+     *
+     * @rfturn  thf hbsh-dodf vbluf for this pbth
+     */
+    int hbshCodf();
+
+    /**
+     * Rfturns thf string rfprfsfntbtion of this pbth.
+     *
+     * <p> If this pbth wbs drfbtfd by donvfrting b pbth string using thf
+     * {@link FilfSystfm#gftPbth gftPbth} mfthod thfn thf pbth string rfturnfd
+     * by this mfthod mby difffr from thf originbl String usfd to drfbtf thf pbth.
+     *
+     * <p> Thf rfturnfd pbth string usfs thf dffbult nbmf {@link
+     * FilfSystfm#gftSfpbrbtor sfpbrbtor} to sfpbrbtf nbmfs in thf pbth.
+     *
+     * @rfturn  thf string rfprfsfntbtion of this pbth
+     */
+    String toString();
+}

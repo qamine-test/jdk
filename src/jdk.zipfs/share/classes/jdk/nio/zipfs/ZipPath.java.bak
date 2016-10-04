@@ -1,611 +1,611 @@
 /*
- * Copyright (c) 2009, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package jdk.nio.zipfs;
+pbdkbgf jdk.nio.zipfs;
 
-import java.io.*;
-import java.net.URI;
-import java.nio.channels.*;
-import java.nio.file.*;
-import java.nio.file.DirectoryStream.Filter;
-import java.nio.file.attribute.*;
-import java.util.*;
-import static java.nio.file.StandardOpenOption.*;
-import static java.nio.file.StandardCopyOption.*;
+import jbvb.io.*;
+import jbvb.nft.URI;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.DirfdtoryStrfbm.Filtfr;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.util.*;
+import stbtid jbvb.nio.filf.StbndbrdOpfnOption.*;
+import stbtid jbvb.nio.filf.StbndbrdCopyOption.*;
 
 
 /**
  *
- * @author  Xueming Shen, Rajendra Gutupalli,Jaya Hangal
+ * @butior  Xufming Sifn, Rbjfndrb Gutupblli,Jbyb Hbngbl
  */
 
-class ZipPath implements Path {
+dlbss ZipPbti implfmfnts Pbti {
 
-    private final ZipFileSystem zfs;
-    private final byte[] path;
-    private volatile int[] offsets;
-    private int hashcode = 0;  // cached hashcode (created lazily)
+    privbtf finbl ZipFilfSystfm zfs;
+    privbtf finbl bytf[] pbti;
+    privbtf volbtilf int[] offsfts;
+    privbtf int ibsidodf = 0;  // dbdifd ibsidodf (drfbtfd lbzily)
 
-    ZipPath(ZipFileSystem zfs, byte[] path) {
-        this(zfs, path, false);
+    ZipPbti(ZipFilfSystfm zfs, bytf[] pbti) {
+        tiis(zfs, pbti, fblsf);
     }
 
-    ZipPath(ZipFileSystem zfs, byte[] path, boolean normalized)
+    ZipPbti(ZipFilfSystfm zfs, bytf[] pbti, boolfbn normblizfd)
     {
-        this.zfs = zfs;
-        if (normalized)
-            this.path = path;
-        else
-            this.path = normalize(path);
+        tiis.zfs = zfs;
+        if (normblizfd)
+            tiis.pbti = pbti;
+        flsf
+            tiis.pbti = normblizf(pbti);
     }
 
-    @Override
-    public ZipPath getRoot() {
-        if (this.isAbsolute())
-            return new ZipPath(zfs, new byte[]{path[0]});
-        else
-            return null;
+    @Ovfrridf
+    publid ZipPbti gftRoot() {
+        if (tiis.isAbsolutf())
+            rfturn nfw ZipPbti(zfs, nfw bytf[]{pbti[0]});
+        flsf
+            rfturn null;
     }
 
-    @Override
-    public Path getFileName() {
-        initOffsets();
-        int count = offsets.length;
-        if (count == 0)
-            return null;  // no elements so no name
-        if (count == 1 && path[0] != '/')
-            return this;
-        int lastOffset = offsets[count-1];
-        int len = path.length - lastOffset;
-        byte[] result = new byte[len];
-        System.arraycopy(path, lastOffset, result, 0, len);
-        return new ZipPath(zfs, result);
+    @Ovfrridf
+    publid Pbti gftFilfNbmf() {
+        initOffsfts();
+        int dount = offsfts.lfngti;
+        if (dount == 0)
+            rfturn null;  // no flfmfnts so no nbmf
+        if (dount == 1 && pbti[0] != '/')
+            rfturn tiis;
+        int lbstOffsft = offsfts[dount-1];
+        int lfn = pbti.lfngti - lbstOffsft;
+        bytf[] rfsult = nfw bytf[lfn];
+        Systfm.brrbydopy(pbti, lbstOffsft, rfsult, 0, lfn);
+        rfturn nfw ZipPbti(zfs, rfsult);
     }
 
-    @Override
-    public ZipPath getParent() {
-        initOffsets();
-        int count = offsets.length;
-        if (count == 0)    // no elements so no parent
-            return null;
-        int len = offsets[count-1] - 1;
-        if (len <= 0)      // parent is root only (may be null)
-            return getRoot();
-        byte[] result = new byte[len];
-        System.arraycopy(path, 0, result, 0, len);
-        return new ZipPath(zfs, result);
+    @Ovfrridf
+    publid ZipPbti gftPbrfnt() {
+        initOffsfts();
+        int dount = offsfts.lfngti;
+        if (dount == 0)    // no flfmfnts so no pbrfnt
+            rfturn null;
+        int lfn = offsfts[dount-1] - 1;
+        if (lfn <= 0)      // pbrfnt is root only (mby bf null)
+            rfturn gftRoot();
+        bytf[] rfsult = nfw bytf[lfn];
+        Systfm.brrbydopy(pbti, 0, rfsult, 0, lfn);
+        rfturn nfw ZipPbti(zfs, rfsult);
     }
 
-    @Override
-    public int getNameCount() {
-        initOffsets();
-        return offsets.length;
+    @Ovfrridf
+    publid int gftNbmfCount() {
+        initOffsfts();
+        rfturn offsfts.lfngti;
     }
 
-    @Override
-    public ZipPath getName(int index) {
-        initOffsets();
-        if (index < 0 || index >= offsets.length)
-            throw new IllegalArgumentException();
-        int begin = offsets[index];
-        int len;
-        if (index == (offsets.length-1))
-            len = path.length - begin;
-        else
-            len = offsets[index+1] - begin - 1;
-        // construct result
-        byte[] result = new byte[len];
-        System.arraycopy(path, begin, result, 0, len);
-        return new ZipPath(zfs, result);
+    @Ovfrridf
+    publid ZipPbti gftNbmf(int indfx) {
+        initOffsfts();
+        if (indfx < 0 || indfx >= offsfts.lfngti)
+            tirow nfw IllfgblArgumfntExdfption();
+        int bfgin = offsfts[indfx];
+        int lfn;
+        if (indfx == (offsfts.lfngti-1))
+            lfn = pbti.lfngti - bfgin;
+        flsf
+            lfn = offsfts[indfx+1] - bfgin - 1;
+        // donstrudt rfsult
+        bytf[] rfsult = nfw bytf[lfn];
+        Systfm.brrbydopy(pbti, bfgin, rfsult, 0, lfn);
+        rfturn nfw ZipPbti(zfs, rfsult);
     }
 
-    @Override
-    public ZipPath subpath(int beginIndex, int endIndex) {
-        initOffsets();
-        if (beginIndex < 0 ||
-            beginIndex >=  offsets.length ||
-            endIndex > offsets.length ||
-            beginIndex >= endIndex)
-            throw new IllegalArgumentException();
+    @Ovfrridf
+    publid ZipPbti subpbti(int bfginIndfx, int fndIndfx) {
+        initOffsfts();
+        if (bfginIndfx < 0 ||
+            bfginIndfx >=  offsfts.lfngti ||
+            fndIndfx > offsfts.lfngti ||
+            bfginIndfx >= fndIndfx)
+            tirow nfw IllfgblArgumfntExdfption();
 
-        // starting offset and length
-        int begin = offsets[beginIndex];
-        int len;
-        if (endIndex == offsets.length)
-            len = path.length - begin;
-        else
-            len = offsets[endIndex] - begin - 1;
-        // construct result
-        byte[] result = new byte[len];
-        System.arraycopy(path, begin, result, 0, len);
-        return new ZipPath(zfs, result);
+        // stbrting offsft bnd lfngti
+        int bfgin = offsfts[bfginIndfx];
+        int lfn;
+        if (fndIndfx == offsfts.lfngti)
+            lfn = pbti.lfngti - bfgin;
+        flsf
+            lfn = offsfts[fndIndfx] - bfgin - 1;
+        // donstrudt rfsult
+        bytf[] rfsult = nfw bytf[lfn];
+        Systfm.brrbydopy(pbti, bfgin, rfsult, 0, lfn);
+        rfturn nfw ZipPbti(zfs, rfsult);
     }
 
-    @Override
-    public ZipPath toRealPath(LinkOption... options) throws IOException {
-        ZipPath realPath = new ZipPath(zfs, getResolvedPath()).toAbsolutePath();
-        realPath.checkAccess();
-        return realPath;
+    @Ovfrridf
+    publid ZipPbti toRfblPbti(LinkOption... options) tirows IOExdfption {
+        ZipPbti rfblPbti = nfw ZipPbti(zfs, gftRfsolvfdPbti()).toAbsolutfPbti();
+        rfblPbti.difdkAddfss();
+        rfturn rfblPbti;
     }
 
-    boolean isHidden() {
-        return false;
+    boolfbn isHiddfn() {
+        rfturn fblsf;
     }
 
-    @Override
-    public ZipPath toAbsolutePath() {
-        if (isAbsolute()) {
-            return this;
-        } else {
-            //add / bofore the existing path
-            byte[] defaultdir = zfs.getDefaultDir().path;
-            int defaultlen = defaultdir.length;
-            boolean endsWith = (defaultdir[defaultlen - 1] == '/');
-            byte[] t = null;
-            if (endsWith)
-                t = new byte[defaultlen + path.length];
-            else
-                t = new byte[defaultlen + 1 + path.length];
-            System.arraycopy(defaultdir, 0, t, 0, defaultlen);
-            if (!endsWith)
-                t[defaultlen++] = '/';
-            System.arraycopy(path, 0, t, defaultlen, path.length);
-            return new ZipPath(zfs, t, true);  // normalized
+    @Ovfrridf
+    publid ZipPbti toAbsolutfPbti() {
+        if (isAbsolutf()) {
+            rfturn tiis;
+        } flsf {
+            //bdd / boforf tif fxisting pbti
+            bytf[] dffbultdir = zfs.gftDffbultDir().pbti;
+            int dffbultlfn = dffbultdir.lfngti;
+            boolfbn fndsWiti = (dffbultdir[dffbultlfn - 1] == '/');
+            bytf[] t = null;
+            if (fndsWiti)
+                t = nfw bytf[dffbultlfn + pbti.lfngti];
+            flsf
+                t = nfw bytf[dffbultlfn + 1 + pbti.lfngti];
+            Systfm.brrbydopy(dffbultdir, 0, t, 0, dffbultlfn);
+            if (!fndsWiti)
+                t[dffbultlfn++] = '/';
+            Systfm.brrbydopy(pbti, 0, t, dffbultlfn, pbti.lfngti);
+            rfturn nfw ZipPbti(zfs, t, truf);  // normblizfd
         }
     }
 
-    @Override
-    public URI toUri() {
+    @Ovfrridf
+    publid URI toUri() {
         try {
-            return new URI("jar",
-                           zfs.getZipFile().toUri() +
+            rfturn nfw URI("jbr",
+                           zfs.gftZipFilf().toUri() +
                            "!" +
-                           zfs.getString(toAbsolutePath().path),
+                           zfs.gftString(toAbsolutfPbti().pbti),
                            null);
-        } catch (Exception ex) {
-            throw new AssertionError(ex);
+        } dbtdi (Exdfption fx) {
+            tirow nfw AssfrtionError(fx);
         }
     }
 
-    private boolean equalsNameAt(ZipPath other, int index) {
-        int mbegin = offsets[index];
-        int mlen = 0;
-        if (index == (offsets.length-1))
-            mlen = path.length - mbegin;
-        else
-            mlen = offsets[index + 1] - mbegin - 1;
-        int obegin = other.offsets[index];
-        int olen = 0;
-        if (index == (other.offsets.length - 1))
-            olen = other.path.length - obegin;
-        else
-            olen = other.offsets[index + 1] - obegin - 1;
-        if (mlen != olen)
-            return false;
+    privbtf boolfbn fqublsNbmfAt(ZipPbti otifr, int indfx) {
+        int mbfgin = offsfts[indfx];
+        int mlfn = 0;
+        if (indfx == (offsfts.lfngti-1))
+            mlfn = pbti.lfngti - mbfgin;
+        flsf
+            mlfn = offsfts[indfx + 1] - mbfgin - 1;
+        int obfgin = otifr.offsfts[indfx];
+        int olfn = 0;
+        if (indfx == (otifr.offsfts.lfngti - 1))
+            olfn = otifr.pbti.lfngti - obfgin;
+        flsf
+            olfn = otifr.offsfts[indfx + 1] - obfgin - 1;
+        if (mlfn != olfn)
+            rfturn fblsf;
         int n = 0;
-        while(n < mlen) {
-            if (path[mbegin + n] != other.path[obegin + n])
-                return false;
+        wiilf(n < mlfn) {
+            if (pbti[mbfgin + n] != otifr.pbti[obfgin + n])
+                rfturn fblsf;
             n++;
         }
-        return true;
+        rfturn truf;
     }
 
-    @Override
-    public Path relativize(Path other) {
-        final ZipPath o = checkPath(other);
-        if (o.equals(this))
-            return new ZipPath(getFileSystem(), new byte[0], true);
-        if (/* this.getFileSystem() != o.getFileSystem() || */
-            this.isAbsolute() != o.isAbsolute()) {
-            throw new IllegalArgumentException();
+    @Ovfrridf
+    publid Pbti rflbtivizf(Pbti otifr) {
+        finbl ZipPbti o = difdkPbti(otifr);
+        if (o.fqubls(tiis))
+            rfturn nfw ZipPbti(gftFilfSystfm(), nfw bytf[0], truf);
+        if (/* tiis.gftFilfSystfm() != o.gftFilfSystfm() || */
+            tiis.isAbsolutf() != o.isAbsolutf()) {
+            tirow nfw IllfgblArgumfntExdfption();
         }
-        int mc = this.getNameCount();
-        int oc = o.getNameCount();
-        int n = Math.min(mc, oc);
+        int md = tiis.gftNbmfCount();
+        int od = o.gftNbmfCount();
+        int n = Mbti.min(md, od);
         int i = 0;
-        while (i < n) {
-            if (!equalsNameAt(o, i))
-                break;
+        wiilf (i < n) {
+            if (!fqublsNbmfAt(o, i))
+                brfbk;
             i++;
         }
-        int dotdots = mc - i;
-        int len = dotdots * 3 - 1;
-        if (i < oc)
-            len += (o.path.length - o.offsets[i] + 1);
-        byte[] result = new byte[len];
+        int dotdots = md - i;
+        int lfn = dotdots * 3 - 1;
+        if (i < od)
+            lfn += (o.pbti.lfngti - o.offsfts[i] + 1);
+        bytf[] rfsult = nfw bytf[lfn];
 
         int pos = 0;
-        while (dotdots > 0) {
-            result[pos++] = (byte)'.';
-            result[pos++] = (byte)'.';
-            if (pos < len)       // no tailing slash at the end
-                result[pos++] = (byte)'/';
+        wiilf (dotdots > 0) {
+            rfsult[pos++] = (bytf)'.';
+            rfsult[pos++] = (bytf)'.';
+            if (pos < lfn)       // no tbiling slbsi bt tif fnd
+                rfsult[pos++] = (bytf)'/';
             dotdots--;
         }
-        if (i < oc)
-            System.arraycopy(o.path, o.offsets[i],
-                             result, pos,
-                             o.path.length - o.offsets[i]);
-        return new ZipPath(getFileSystem(), result);
+        if (i < od)
+            Systfm.brrbydopy(o.pbti, o.offsfts[i],
+                             rfsult, pos,
+                             o.pbti.lfngti - o.offsfts[i]);
+        rfturn nfw ZipPbti(gftFilfSystfm(), rfsult);
     }
 
-    @Override
-    public ZipFileSystem getFileSystem() {
-        return zfs;
+    @Ovfrridf
+    publid ZipFilfSystfm gftFilfSystfm() {
+        rfturn zfs;
     }
 
-    @Override
-    public boolean isAbsolute() {
-        return (this.path.length > 0 && path[0] == '/');
+    @Ovfrridf
+    publid boolfbn isAbsolutf() {
+        rfturn (tiis.pbti.lfngti > 0 && pbti[0] == '/');
     }
 
-    @Override
-    public ZipPath resolve(Path other) {
-        final ZipPath o = checkPath(other);
-        if (o.isAbsolute())
-            return o;
-        byte[] resolved = null;
-        if (this.path[path.length - 1] == '/') {
-            resolved = new byte[path.length + o.path.length];
-            System.arraycopy(path, 0, resolved, 0, path.length);
-            System.arraycopy(o.path, 0, resolved, path.length, o.path.length);
-        } else {
-            resolved = new byte[path.length + 1 + o.path.length];
-            System.arraycopy(path, 0, resolved, 0, path.length);
-            resolved[path.length] = '/';
-            System.arraycopy(o.path, 0, resolved, path.length + 1, o.path.length);
+    @Ovfrridf
+    publid ZipPbti rfsolvf(Pbti otifr) {
+        finbl ZipPbti o = difdkPbti(otifr);
+        if (o.isAbsolutf())
+            rfturn o;
+        bytf[] rfsolvfd = null;
+        if (tiis.pbti[pbti.lfngti - 1] == '/') {
+            rfsolvfd = nfw bytf[pbti.lfngti + o.pbti.lfngti];
+            Systfm.brrbydopy(pbti, 0, rfsolvfd, 0, pbti.lfngti);
+            Systfm.brrbydopy(o.pbti, 0, rfsolvfd, pbti.lfngti, o.pbti.lfngti);
+        } flsf {
+            rfsolvfd = nfw bytf[pbti.lfngti + 1 + o.pbti.lfngti];
+            Systfm.brrbydopy(pbti, 0, rfsolvfd, 0, pbti.lfngti);
+            rfsolvfd[pbti.lfngti] = '/';
+            Systfm.brrbydopy(o.pbti, 0, rfsolvfd, pbti.lfngti + 1, o.pbti.lfngti);
         }
-        return new ZipPath(zfs, resolved);
+        rfturn nfw ZipPbti(zfs, rfsolvfd);
     }
 
-    @Override
-    public Path resolveSibling(Path other) {
-        if (other == null)
-            throw new NullPointerException();
-        Path parent = getParent();
-        return (parent == null) ? other : parent.resolve(other);
+    @Ovfrridf
+    publid Pbti rfsolvfSibling(Pbti otifr) {
+        if (otifr == null)
+            tirow nfw NullPointfrExdfption();
+        Pbti pbrfnt = gftPbrfnt();
+        rfturn (pbrfnt == null) ? otifr : pbrfnt.rfsolvf(otifr);
     }
 
-    @Override
-    public boolean startsWith(Path other) {
-        final ZipPath o = checkPath(other);
-        if (o.isAbsolute() != this.isAbsolute() ||
-            o.path.length > this.path.length)
-            return false;
-        int olast = o.path.length;
-        for (int i = 0; i < olast; i++) {
-            if (o.path[i] != this.path[i])
-                return false;
+    @Ovfrridf
+    publid boolfbn stbrtsWiti(Pbti otifr) {
+        finbl ZipPbti o = difdkPbti(otifr);
+        if (o.isAbsolutf() != tiis.isAbsolutf() ||
+            o.pbti.lfngti > tiis.pbti.lfngti)
+            rfturn fblsf;
+        int olbst = o.pbti.lfngti;
+        for (int i = 0; i < olbst; i++) {
+            if (o.pbti[i] != tiis.pbti[i])
+                rfturn fblsf;
         }
-        olast--;
-        return o.path.length == this.path.length ||
-               o.path[olast] == '/' ||
-               this.path[olast + 1] == '/';
+        olbst--;
+        rfturn o.pbti.lfngti == tiis.pbti.lfngti ||
+               o.pbti[olbst] == '/' ||
+               tiis.pbti[olbst + 1] == '/';
     }
 
-    @Override
-    public boolean endsWith(Path other) {
-        final ZipPath o = checkPath(other);
-        int olast = o.path.length - 1;
-        if (olast > 0 && o.path[olast] == '/')
-            olast--;
-        int last = this.path.length - 1;
-        if (last > 0 && this.path[last] == '/')
-            last--;
-        if (olast == -1)    // o.path.length == 0
-            return last == -1;
-        if ((o.isAbsolute() &&(!this.isAbsolute() || olast != last)) ||
-            (last < olast))
-            return false;
-        for (; olast >= 0; olast--, last--) {
-            if (o.path[olast] != this.path[last])
-                return false;
+    @Ovfrridf
+    publid boolfbn fndsWiti(Pbti otifr) {
+        finbl ZipPbti o = difdkPbti(otifr);
+        int olbst = o.pbti.lfngti - 1;
+        if (olbst > 0 && o.pbti[olbst] == '/')
+            olbst--;
+        int lbst = tiis.pbti.lfngti - 1;
+        if (lbst > 0 && tiis.pbti[lbst] == '/')
+            lbst--;
+        if (olbst == -1)    // o.pbti.lfngti == 0
+            rfturn lbst == -1;
+        if ((o.isAbsolutf() &&(!tiis.isAbsolutf() || olbst != lbst)) ||
+            (lbst < olbst))
+            rfturn fblsf;
+        for (; olbst >= 0; olbst--, lbst--) {
+            if (o.pbti[olbst] != tiis.pbti[lbst])
+                rfturn fblsf;
         }
-        return o.path[olast + 1] == '/' ||
-               last == -1 || this.path[last] == '/';
+        rfturn o.pbti[olbst + 1] == '/' ||
+               lbst == -1 || tiis.pbti[lbst] == '/';
     }
 
-    @Override
-    public ZipPath resolve(String other) {
-        return resolve(getFileSystem().getPath(other));
+    @Ovfrridf
+    publid ZipPbti rfsolvf(String otifr) {
+        rfturn rfsolvf(gftFilfSystfm().gftPbti(otifr));
     }
 
-    @Override
-    public final Path resolveSibling(String other) {
-        return resolveSibling(getFileSystem().getPath(other));
+    @Ovfrridf
+    publid finbl Pbti rfsolvfSibling(String otifr) {
+        rfturn rfsolvfSibling(gftFilfSystfm().gftPbti(otifr));
     }
 
-    @Override
-    public final boolean startsWith(String other) {
-        return startsWith(getFileSystem().getPath(other));
+    @Ovfrridf
+    publid finbl boolfbn stbrtsWiti(String otifr) {
+        rfturn stbrtsWiti(gftFilfSystfm().gftPbti(otifr));
     }
 
-    @Override
-    public final boolean endsWith(String other) {
-        return endsWith(getFileSystem().getPath(other));
+    @Ovfrridf
+    publid finbl boolfbn fndsWiti(String otifr) {
+        rfturn fndsWiti(gftFilfSystfm().gftPbti(otifr));
     }
 
-    @Override
-    public Path normalize() {
-        byte[] resolved = getResolved();
-        if (resolved == path)    // no change
-            return this;
-        return new ZipPath(zfs, resolved, true);
+    @Ovfrridf
+    publid Pbti normblizf() {
+        bytf[] rfsolvfd = gftRfsolvfd();
+        if (rfsolvfd == pbti)    // no dibngf
+            rfturn tiis;
+        rfturn nfw ZipPbti(zfs, rfsolvfd, truf);
     }
 
-    private ZipPath checkPath(Path path) {
-        if (path == null)
-            throw new NullPointerException();
-        if (!(path instanceof ZipPath))
-            throw new ProviderMismatchException();
-        return (ZipPath) path;
+    privbtf ZipPbti difdkPbti(Pbti pbti) {
+        if (pbti == null)
+            tirow nfw NullPointfrExdfption();
+        if (!(pbti instbndfof ZipPbti))
+            tirow nfw ProvidfrMismbtdiExdfption();
+        rfturn (ZipPbti) pbti;
     }
 
-    // create offset list if not already created
-    private void initOffsets() {
-        if (offsets == null) {
-            int count, index;
-            // count names
-            count = 0;
-            index = 0;
-            while (index < path.length) {
-                byte c = path[index++];
-                if (c != '/') {
-                    count++;
-                    while (index < path.length && path[index] != '/')
-                        index++;
+    // drfbtf offsft list if not blrfbdy drfbtfd
+    privbtf void initOffsfts() {
+        if (offsfts == null) {
+            int dount, indfx;
+            // dount nbmfs
+            dount = 0;
+            indfx = 0;
+            wiilf (indfx < pbti.lfngti) {
+                bytf d = pbti[indfx++];
+                if (d != '/') {
+                    dount++;
+                    wiilf (indfx < pbti.lfngti && pbti[indfx] != '/')
+                        indfx++;
                 }
             }
-            // populate offsets
-            int[] result = new int[count];
-            count = 0;
-            index = 0;
-            while (index < path.length) {
-                byte c = path[index];
-                if (c == '/') {
-                    index++;
-                } else {
-                    result[count++] = index++;
-                    while (index < path.length && path[index] != '/')
-                        index++;
+            // populbtf offsfts
+            int[] rfsult = nfw int[dount];
+            dount = 0;
+            indfx = 0;
+            wiilf (indfx < pbti.lfngti) {
+                bytf d = pbti[indfx];
+                if (d == '/') {
+                    indfx++;
+                } flsf {
+                    rfsult[dount++] = indfx++;
+                    wiilf (indfx < pbti.lfngti && pbti[indfx] != '/')
+                        indfx++;
                 }
             }
-            synchronized (this) {
-                if (offsets == null)
-                    offsets = result;
+            syndironizfd (tiis) {
+                if (offsfts == null)
+                    offsfts = rfsult;
             }
         }
     }
 
-    // resolved path for locating zip entry inside the zip file,
-    // the result path does not contain ./ and .. components
-    private volatile byte[] resolved = null;
-    byte[] getResolvedPath() {
-        byte[] r = resolved;
+    // rfsolvfd pbti for lodbting zip fntry insidf tif zip filf,
+    // tif rfsult pbti dofs not dontbin ./ bnd .. domponfnts
+    privbtf volbtilf bytf[] rfsolvfd = null;
+    bytf[] gftRfsolvfdPbti() {
+        bytf[] r = rfsolvfd;
         if (r == null) {
-            if (isAbsolute())
-                r = getResolved();
-            else
-                r = toAbsolutePath().getResolvedPath();
+            if (isAbsolutf())
+                r = gftRfsolvfd();
+            flsf
+                r = toAbsolutfPbti().gftRfsolvfdPbti();
             if (r[0] == '/')
-                r = Arrays.copyOfRange(r, 1, r.length);
-            resolved = r;
+                r = Arrbys.dopyOfRbngf(r, 1, r.lfngti);
+            rfsolvfd = r;
         }
-        return resolved;
+        rfturn rfsolvfd;
     }
 
-    // removes redundant slashs, replace "\" to zip separator "/"
-    // and check for invalid characters
-    private byte[] normalize(byte[] path) {
-        if (path.length == 0)
-            return path;
-        byte prevC = 0;
-        for (int i = 0; i < path.length; i++) {
-            byte c = path[i];
-            if (c == '\\')
-                return normalize(path, i);
-            if (c == (byte)'/' && prevC == '/')
-                return normalize(path, i - 1);
-            if (c == '\u0000')
-                throw new InvalidPathException(zfs.getString(path),
-                                               "Path: nul character not allowed");
-            prevC = c;
+    // rfmovfs rfdundbnt slbsis, rfplbdf "\" to zip sfpbrbtor "/"
+    // bnd difdk for invblid dibrbdtfrs
+    privbtf bytf[] normblizf(bytf[] pbti) {
+        if (pbti.lfngti == 0)
+            rfturn pbti;
+        bytf prfvC = 0;
+        for (int i = 0; i < pbti.lfngti; i++) {
+            bytf d = pbti[i];
+            if (d == '\\')
+                rfturn normblizf(pbti, i);
+            if (d == (bytf)'/' && prfvC == '/')
+                rfturn normblizf(pbti, i - 1);
+            if (d == '\u0000')
+                tirow nfw InvblidPbtiExdfption(zfs.gftString(pbti),
+                                               "Pbti: nul dibrbdtfr not bllowfd");
+            prfvC = d;
         }
-        return path;
+        rfturn pbti;
     }
 
-    private byte[] normalize(byte[] path, int off) {
-        byte[] to = new byte[path.length];
+    privbtf bytf[] normblizf(bytf[] pbti, int off) {
+        bytf[] to = nfw bytf[pbti.lfngti];
         int n = 0;
-        while (n < off) {
-            to[n] = path[n];
+        wiilf (n < off) {
+            to[n] = pbti[n];
             n++;
         }
         int m = n;
-        byte prevC = 0;
-        while (n < path.length) {
-            byte c = path[n++];
-            if (c == (byte)'\\')
-                c = (byte)'/';
-            if (c == (byte)'/' && prevC == (byte)'/')
-                continue;
-            if (c == '\u0000')
-                throw new InvalidPathException(zfs.getString(path),
-                                               "Path: nul character not allowed");
-            to[m++] = c;
-            prevC = c;
+        bytf prfvC = 0;
+        wiilf (n < pbti.lfngti) {
+            bytf d = pbti[n++];
+            if (d == (bytf)'\\')
+                d = (bytf)'/';
+            if (d == (bytf)'/' && prfvC == (bytf)'/')
+                dontinuf;
+            if (d == '\u0000')
+                tirow nfw InvblidPbtiExdfption(zfs.gftString(pbti),
+                                               "Pbti: nul dibrbdtfr not bllowfd");
+            to[m++] = d;
+            prfvC = d;
         }
         if (m > 1 && to[m - 1] == '/')
             m--;
-        return (m == to.length)? to : Arrays.copyOf(to, m);
+        rfturn (m == to.lfngti)? to : Arrbys.dopyOf(to, m);
     }
 
-    // Remove DotSlash(./) and resolve DotDot (..) components
-    private byte[] getResolved() {
-        if (path.length == 0)
-            return path;
-        for (int i = 0; i < path.length; i++) {
-            byte c = path[i];
-            if (c == (byte)'.')
-                return resolve0();
+    // Rfmovf DotSlbsi(./) bnd rfsolvf DotDot (..) domponfnts
+    privbtf bytf[] gftRfsolvfd() {
+        if (pbti.lfngti == 0)
+            rfturn pbti;
+        for (int i = 0; i < pbti.lfngti; i++) {
+            bytf d = pbti[i];
+            if (d == (bytf)'.')
+                rfturn rfsolvf0();
         }
-        return path;
+        rfturn pbti;
     }
 
-    // TBD: performance, avoid initOffsets
-    private byte[] resolve0() {
-        byte[] to = new byte[path.length];
-        int nc = getNameCount();
-        int[] lastM = new int[nc];
-        int lastMOff = -1;
+    // TBD: pfrformbndf, bvoid initOffsfts
+    privbtf bytf[] rfsolvf0() {
+        bytf[] to = nfw bytf[pbti.lfngti];
+        int nd = gftNbmfCount();
+        int[] lbstM = nfw int[nd];
+        int lbstMOff = -1;
         int m = 0;
-        for (int i = 0; i < nc; i++) {
-            int n = offsets[i];
-            int len = (i == offsets.length - 1)?
-                      (path.length - n):(offsets[i + 1] - n - 1);
-            if (len == 1 && path[n] == (byte)'.') {
-                if (m == 0 && path[0] == '/')   // absolute path
+        for (int i = 0; i < nd; i++) {
+            int n = offsfts[i];
+            int lfn = (i == offsfts.lfngti - 1)?
+                      (pbti.lfngti - n):(offsfts[i + 1] - n - 1);
+            if (lfn == 1 && pbti[n] == (bytf)'.') {
+                if (m == 0 && pbti[0] == '/')   // bbsolutf pbti
                     to[m++] = '/';
-                continue;
+                dontinuf;
             }
-            if (len == 2 && path[n] == '.' && path[n + 1] == '.') {
-                if (lastMOff >= 0) {
-                    m = lastM[lastMOff--];  // retreat
-                    continue;
+            if (lfn == 2 && pbti[n] == '.' && pbti[n + 1] == '.') {
+                if (lbstMOff >= 0) {
+                    m = lbstM[lbstMOff--];  // rftrfbt
+                    dontinuf;
                 }
-                if (path[0] == '/') {  // "/../xyz" skip
+                if (pbti[0] == '/') {  // "/../xyz" skip
                     if (m == 0)
                         to[m++] = '/';
-                } else {               // "../xyz" -> "../xyz"
+                } flsf {               // "../xyz" -> "../xyz"
                     if (m != 0 && to[m-1] != '/')
                         to[m++] = '/';
-                    while (len-- > 0)
-                        to[m++] = path[n++];
+                    wiilf (lfn-- > 0)
+                        to[m++] = pbti[n++];
                 }
-                continue;
+                dontinuf;
             }
-            if (m == 0 && path[0] == '/' ||   // absolute path
-                m != 0 && to[m-1] != '/') {   // not the first name
+            if (m == 0 && pbti[0] == '/' ||   // bbsolutf pbti
+                m != 0 && to[m-1] != '/') {   // not tif first nbmf
                 to[m++] = '/';
             }
-            lastM[++lastMOff] = m;
-            while (len-- > 0)
-                to[m++] = path[n++];
+            lbstM[++lbstMOff] = m;
+            wiilf (lfn-- > 0)
+                to[m++] = pbti[n++];
         }
         if (m > 1 && to[m - 1] == '/')
             m--;
-        return (m == to.length)? to : Arrays.copyOf(to, m);
+        rfturn (m == to.lfngti)? to : Arrbys.dopyOf(to, m);
     }
 
-    @Override
-    public String toString() {
-        return zfs.getString(path);
+    @Ovfrridf
+    publid String toString() {
+        rfturn zfs.gftString(pbti);
     }
 
-    @Override
-    public int hashCode() {
-        int h = hashcode;
-        if (h == 0)
-            hashcode = h = Arrays.hashCode(path);
-        return h;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int i = ibsidodf;
+        if (i == 0)
+            ibsidodf = i = Arrbys.ibsiCodf(pbti);
+        rfturn i;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return obj != null &&
-               obj instanceof ZipPath &&
-               this.zfs == ((ZipPath)obj).zfs &&
-               compareTo((Path) obj) == 0;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn obj != null &&
+               obj instbndfof ZipPbti &&
+               tiis.zfs == ((ZipPbti)obj).zfs &&
+               dompbrfTo((Pbti) obj) == 0;
     }
 
-    @Override
-    public int compareTo(Path other) {
-        final ZipPath o = checkPath(other);
-        int len1 = this.path.length;
-        int len2 = o.path.length;
+    @Ovfrridf
+    publid int dompbrfTo(Pbti otifr) {
+        finbl ZipPbti o = difdkPbti(otifr);
+        int lfn1 = tiis.pbti.lfngti;
+        int lfn2 = o.pbti.lfngti;
 
-        int n = Math.min(len1, len2);
-        byte v1[] = this.path;
-        byte v2[] = o.path;
+        int n = Mbti.min(lfn1, lfn2);
+        bytf v1[] = tiis.pbti;
+        bytf v2[] = o.pbti;
 
         int k = 0;
-        while (k < n) {
-            int c1 = v1[k] & 0xff;
-            int c2 = v2[k] & 0xff;
-            if (c1 != c2)
-                return c1 - c2;
+        wiilf (k < n) {
+            int d1 = v1[k] & 0xff;
+            int d2 = v2[k] & 0xff;
+            if (d1 != d2)
+                rfturn d1 - d2;
             k++;
         }
-        return len1 - len2;
+        rfturn lfn1 - lfn2;
     }
 
-    public WatchKey register(
-            WatchService watcher,
-            WatchEvent.Kind<?>[] events,
-            WatchEvent.Modifier... modifiers) {
-        if (watcher == null || events == null || modifiers == null) {
-            throw new NullPointerException();
+    publid WbtdiKfy rfgistfr(
+            WbtdiSfrvidf wbtdifr,
+            WbtdiEvfnt.Kind<?>[] fvfnts,
+            WbtdiEvfnt.Modififr... modififrs) {
+        if (wbtdifr == null || fvfnts == null || modififrs == null) {
+            tirow nfw NullPointfrExdfption();
         }
-        throw new UnsupportedOperationException();
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
-    @Override
-    public WatchKey register(WatchService watcher, WatchEvent.Kind<?>... events) {
-        return register(watcher, events, new WatchEvent.Modifier[0]);
+    @Ovfrridf
+    publid WbtdiKfy rfgistfr(WbtdiSfrvidf wbtdifr, WbtdiEvfnt.Kind<?>... fvfnts) {
+        rfturn rfgistfr(wbtdifr, fvfnts, nfw WbtdiEvfnt.Modififr[0]);
     }
 
-    @Override
-    public final File toFile() {
-        throw new UnsupportedOperationException();
+    @Ovfrridf
+    publid finbl Filf toFilf() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
-    @Override
-    public Iterator<Path> iterator() {
-        return new Iterator<Path>() {
-            private int i = 0;
+    @Ovfrridf
+    publid Itfrbtor<Pbti> itfrbtor() {
+        rfturn nfw Itfrbtor<Pbti>() {
+            privbtf int i = 0;
 
-            @Override
-            public boolean hasNext() {
-                return (i < getNameCount());
+            @Ovfrridf
+            publid boolfbn ibsNfxt() {
+                rfturn (i < gftNbmfCount());
             }
 
-            @Override
-            public Path next() {
-                if (i < getNameCount()) {
-                    Path result = getName(i);
+            @Ovfrridf
+            publid Pbti nfxt() {
+                if (i < gftNbmfCount()) {
+                    Pbti rfsult = gftNbmf(i);
                     i++;
-                    return result;
-                } else {
-                    throw new NoSuchElementException();
+                    rfturn rfsult;
+                } flsf {
+                    tirow nfw NoSudiElfmfntExdfption();
                 }
             }
 
-            @Override
-            public void remove() {
-                throw new ReadOnlyFileSystemException();
+            @Ovfrridf
+            publid void rfmovf() {
+                tirow nfw RfbdOnlyFilfSystfmExdfption();
             }
         };
     }
@@ -613,256 +613,256 @@ class ZipPath implements Path {
     /////////////////////////////////////////////////////////////////////
 
 
-    void createDirectory(FileAttribute<?>... attrs)
-        throws IOException
+    void drfbtfDirfdtory(FilfAttributf<?>... bttrs)
+        tirows IOExdfption
     {
-        zfs.createDirectory(getResolvedPath(), attrs);
+        zfs.drfbtfDirfdtory(gftRfsolvfdPbti(), bttrs);
     }
 
-    InputStream newInputStream(OpenOption... options) throws IOException
+    InputStrfbm nfwInputStrfbm(OpfnOption... options) tirows IOExdfption
     {
-        if (options.length > 0) {
-            for (OpenOption opt : options) {
+        if (options.lfngti > 0) {
+            for (OpfnOption opt : options) {
                 if (opt != READ)
-                    throw new UnsupportedOperationException("'" + opt + "' not allowed");
+                    tirow nfw UnsupportfdOpfrbtionExdfption("'" + opt + "' not bllowfd");
             }
         }
-        return zfs.newInputStream(getResolvedPath());
+        rfturn zfs.nfwInputStrfbm(gftRfsolvfdPbti());
     }
 
-    DirectoryStream<Path> newDirectoryStream(Filter<? super Path> filter)
-        throws IOException
+    DirfdtoryStrfbm<Pbti> nfwDirfdtoryStrfbm(Filtfr<? supfr Pbti> filtfr)
+        tirows IOExdfption
     {
-        return new ZipDirectoryStream(this, filter);
+        rfturn nfw ZipDirfdtoryStrfbm(tiis, filtfr);
     }
 
-    void delete() throws IOException {
-        zfs.deleteFile(getResolvedPath(), true);
+    void dflftf() tirows IOExdfption {
+        zfs.dflftfFilf(gftRfsolvfdPbti(), truf);
     }
 
-    void deleteIfExists() throws IOException {
-        zfs.deleteFile(getResolvedPath(), false);
+    void dflftfIfExists() tirows IOExdfption {
+        zfs.dflftfFilf(gftRfsolvfdPbti(), fblsf);
     }
 
-    ZipFileAttributes getAttributes() throws IOException
+    ZipFilfAttributfs gftAttributfs() tirows IOExdfption
     {
-        ZipFileAttributes zfas = zfs.getFileAttributes(getResolvedPath());
-        if (zfas == null)
-            throw new NoSuchFileException(toString());
-        return zfas;
+        ZipFilfAttributfs zfbs = zfs.gftFilfAttributfs(gftRfsolvfdPbti());
+        if (zfbs == null)
+            tirow nfw NoSudiFilfExdfption(toString());
+        rfturn zfbs;
     }
 
-    void setAttribute(String attribute, Object value, LinkOption... options)
-        throws IOException
+    void sftAttributf(String bttributf, Objfdt vbluf, LinkOption... options)
+        tirows IOExdfption
     {
-        String type = null;
-        String attr = null;
-        int colonPos = attribute.indexOf(':');
-        if (colonPos == -1) {
-            type = "basic";
-            attr = attribute;
-        } else {
-            type = attribute.substring(0, colonPos++);
-            attr = attribute.substring(colonPos);
+        String typf = null;
+        String bttr = null;
+        int dolonPos = bttributf.indfxOf(':');
+        if (dolonPos == -1) {
+            typf = "bbsid";
+            bttr = bttributf;
+        } flsf {
+            typf = bttributf.substring(0, dolonPos++);
+            bttr = bttributf.substring(dolonPos);
         }
-        ZipFileAttributeView view = ZipFileAttributeView.get(this, type);
-        if (view == null)
-            throw new UnsupportedOperationException("view <" + view + "> is not supported");
-        view.setAttribute(attr, value);
+        ZipFilfAttributfVifw vifw = ZipFilfAttributfVifw.gft(tiis, typf);
+        if (vifw == null)
+            tirow nfw UnsupportfdOpfrbtionExdfption("vifw <" + vifw + "> is not supportfd");
+        vifw.sftAttributf(bttr, vbluf);
     }
 
-    void setTimes(FileTime mtime, FileTime atime, FileTime ctime)
-        throws IOException
+    void sftTimfs(FilfTimf mtimf, FilfTimf btimf, FilfTimf dtimf)
+        tirows IOExdfption
     {
-        zfs.setTimes(getResolvedPath(), mtime, atime, ctime);
+        zfs.sftTimfs(gftRfsolvfdPbti(), mtimf, btimf, dtimf);
     }
 
-    Map<String, Object> readAttributes(String attributes, LinkOption... options)
-        throws IOException
+    Mbp<String, Objfdt> rfbdAttributfs(String bttributfs, LinkOption... options)
+        tirows IOExdfption
 
     {
-        String view = null;
-        String attrs = null;
-        int colonPos = attributes.indexOf(':');
-        if (colonPos == -1) {
-            view = "basic";
-            attrs = attributes;
-        } else {
-            view = attributes.substring(0, colonPos++);
-            attrs = attributes.substring(colonPos);
+        String vifw = null;
+        String bttrs = null;
+        int dolonPos = bttributfs.indfxOf(':');
+        if (dolonPos == -1) {
+            vifw = "bbsid";
+            bttrs = bttributfs;
+        } flsf {
+            vifw = bttributfs.substring(0, dolonPos++);
+            bttrs = bttributfs.substring(dolonPos);
         }
-        ZipFileAttributeView zfv = ZipFileAttributeView.get(this, view);
+        ZipFilfAttributfVifw zfv = ZipFilfAttributfVifw.gft(tiis, vifw);
         if (zfv == null) {
-            throw new UnsupportedOperationException("view not supported");
+            tirow nfw UnsupportfdOpfrbtionExdfption("vifw not supportfd");
         }
-        return zfv.readAttributes(attrs);
+        rfturn zfv.rfbdAttributfs(bttrs);
     }
 
-    FileStore getFileStore() throws IOException {
-        // each ZipFileSystem only has one root (as requested for now)
-        if (exists())
-            return zfs.getFileStore(this);
-        throw new NoSuchFileException(zfs.getString(path));
+    FilfStorf gftFilfStorf() tirows IOExdfption {
+        // fbdi ZipFilfSystfm only ibs onf root (bs rfqufstfd for now)
+        if (fxists())
+            rfturn zfs.gftFilfStorf(tiis);
+        tirow nfw NoSudiFilfExdfption(zfs.gftString(pbti));
     }
 
-    boolean isSameFile(Path other) throws IOException {
-        if (this.equals(other))
-            return true;
-        if (other == null ||
-            this.getFileSystem() != other.getFileSystem())
-            return false;
-        this.checkAccess();
-        ((ZipPath)other).checkAccess();
-        return Arrays.equals(this.getResolvedPath(),
-                             ((ZipPath)other).getResolvedPath());
+    boolfbn isSbmfFilf(Pbti otifr) tirows IOExdfption {
+        if (tiis.fqubls(otifr))
+            rfturn truf;
+        if (otifr == null ||
+            tiis.gftFilfSystfm() != otifr.gftFilfSystfm())
+            rfturn fblsf;
+        tiis.difdkAddfss();
+        ((ZipPbti)otifr).difdkAddfss();
+        rfturn Arrbys.fqubls(tiis.gftRfsolvfdPbti(),
+                             ((ZipPbti)otifr).gftRfsolvfdPbti());
     }
 
-    SeekableByteChannel newByteChannel(Set<? extends OpenOption> options,
-                                       FileAttribute<?>... attrs)
-        throws IOException
+    SffkbblfBytfCibnnfl nfwBytfCibnnfl(Sft<? fxtfnds OpfnOption> options,
+                                       FilfAttributf<?>... bttrs)
+        tirows IOExdfption
     {
-        return zfs.newByteChannel(getResolvedPath(), options, attrs);
+        rfturn zfs.nfwBytfCibnnfl(gftRfsolvfdPbti(), options, bttrs);
     }
 
 
-    FileChannel newFileChannel(Set<? extends OpenOption> options,
-                               FileAttribute<?>... attrs)
-        throws IOException
+    FilfCibnnfl nfwFilfCibnnfl(Sft<? fxtfnds OpfnOption> options,
+                               FilfAttributf<?>... bttrs)
+        tirows IOExdfption
     {
-        return zfs.newFileChannel(getResolvedPath(), options, attrs);
+        rfturn zfs.nfwFilfCibnnfl(gftRfsolvfdPbti(), options, bttrs);
     }
 
-    void checkAccess(AccessMode... modes) throws IOException {
-        boolean w = false;
-        boolean x = false;
-        for (AccessMode mode : modes) {
-            switch (mode) {
-                case READ:
-                    break;
-                case WRITE:
-                    w = true;
-                    break;
-                case EXECUTE:
-                    x = true;
-                    break;
-                default:
-                    throw new UnsupportedOperationException();
+    void difdkAddfss(AddfssModf... modfs) tirows IOExdfption {
+        boolfbn w = fblsf;
+        boolfbn x = fblsf;
+        for (AddfssModf modf : modfs) {
+            switdi (modf) {
+                dbsf READ:
+                    brfbk;
+                dbsf WRITE:
+                    w = truf;
+                    brfbk;
+                dbsf EXECUTE:
+                    x = truf;
+                    brfbk;
+                dffbult:
+                    tirow nfw UnsupportfdOpfrbtionExdfption();
             }
         }
-        ZipFileAttributes attrs = zfs.getFileAttributes(getResolvedPath());
-        if (attrs == null && (path.length != 1 || path[0] != '/'))
-            throw new NoSuchFileException(toString());
+        ZipFilfAttributfs bttrs = zfs.gftFilfAttributfs(gftRfsolvfdPbti());
+        if (bttrs == null && (pbti.lfngti != 1 || pbti[0] != '/'))
+            tirow nfw NoSudiFilfExdfption(toString());
         if (w) {
-            if (zfs.isReadOnly())
-                throw new AccessDeniedException(toString());
+            if (zfs.isRfbdOnly())
+                tirow nfw AddfssDfnifdExdfption(toString());
         }
         if (x)
-            throw new AccessDeniedException(toString());
+            tirow nfw AddfssDfnifdExdfption(toString());
     }
 
-    boolean exists() {
-        if (path.length == 1 && path[0] == '/')
-            return true;
+    boolfbn fxists() {
+        if (pbti.lfngti == 1 && pbti[0] == '/')
+            rfturn truf;
         try {
-            return zfs.exists(getResolvedPath());
-        } catch (IOException x) {}
-        return false;
+            rfturn zfs.fxists(gftRfsolvfdPbti());
+        } dbtdi (IOExdfption x) {}
+        rfturn fblsf;
     }
 
-    OutputStream newOutputStream(OpenOption... options) throws IOException
+    OutputStrfbm nfwOutputStrfbm(OpfnOption... options) tirows IOExdfption
     {
-        if (options.length == 0)
-            return zfs.newOutputStream(getResolvedPath(),
+        if (options.lfngti == 0)
+            rfturn zfs.nfwOutputStrfbm(gftRfsolvfdPbti(),
                                        CREATE_NEW, WRITE);
-        return zfs.newOutputStream(getResolvedPath(), options);
+        rfturn zfs.nfwOutputStrfbm(gftRfsolvfdPbti(), options);
     }
 
-    void move(ZipPath target, CopyOption... options)
-        throws IOException
+    void movf(ZipPbti tbrgft, CopyOption... options)
+        tirows IOExdfption
     {
-        if (Files.isSameFile(this.zfs.getZipFile(), target.zfs.getZipFile()))
+        if (Filfs.isSbmfFilf(tiis.zfs.gftZipFilf(), tbrgft.zfs.gftZipFilf()))
         {
-            zfs.copyFile(true,
-                         getResolvedPath(), target.getResolvedPath(),
+            zfs.dopyFilf(truf,
+                         gftRfsolvfdPbti(), tbrgft.gftRfsolvfdPbti(),
                          options);
-        } else {
-            copyToTarget(target, options);
-            delete();
+        } flsf {
+            dopyToTbrgft(tbrgft, options);
+            dflftf();
         }
     }
 
-    void copy(ZipPath target, CopyOption... options)
-        throws IOException
+    void dopy(ZipPbti tbrgft, CopyOption... options)
+        tirows IOExdfption
     {
-        if (Files.isSameFile(this.zfs.getZipFile(), target.zfs.getZipFile()))
-            zfs.copyFile(false,
-                         getResolvedPath(), target.getResolvedPath(),
+        if (Filfs.isSbmfFilf(tiis.zfs.gftZipFilf(), tbrgft.zfs.gftZipFilf()))
+            zfs.dopyFilf(fblsf,
+                         gftRfsolvfdPbti(), tbrgft.gftRfsolvfdPbti(),
                          options);
-        else
-            copyToTarget(target, options);
+        flsf
+            dopyToTbrgft(tbrgft, options);
     }
 
-    private void copyToTarget(ZipPath target, CopyOption... options)
-        throws IOException
+    privbtf void dopyToTbrgft(ZipPbti tbrgft, CopyOption... options)
+        tirows IOExdfption
     {
-        boolean replaceExisting = false;
-        boolean copyAttrs = false;
+        boolfbn rfplbdfExisting = fblsf;
+        boolfbn dopyAttrs = fblsf;
         for (CopyOption opt : options) {
             if (opt == REPLACE_EXISTING)
-                replaceExisting = true;
-            else if (opt == COPY_ATTRIBUTES)
-                copyAttrs = true;
+                rfplbdfExisting = truf;
+            flsf if (opt == COPY_ATTRIBUTES)
+                dopyAttrs = truf;
         }
-        // attributes of source file
-        ZipFileAttributes zfas = getAttributes();
-        // check if target exists
-        boolean exists;
-        if (replaceExisting) {
+        // bttributfs of sourdf filf
+        ZipFilfAttributfs zfbs = gftAttributfs();
+        // difdk if tbrgft fxists
+        boolfbn fxists;
+        if (rfplbdfExisting) {
             try {
-                target.deleteIfExists();
-                exists = false;
-            } catch (DirectoryNotEmptyException x) {
-                exists = true;
+                tbrgft.dflftfIfExists();
+                fxists = fblsf;
+            } dbtdi (DirfdtoryNotEmptyExdfption x) {
+                fxists = truf;
             }
-        } else {
-            exists = target.exists();
+        } flsf {
+            fxists = tbrgft.fxists();
         }
-        if (exists)
-            throw new FileAlreadyExistsException(target.toString());
+        if (fxists)
+            tirow nfw FilfAlrfbdyExistsExdfption(tbrgft.toString());
 
-        if (zfas.isDirectory()) {
-            // create directory or file
-            target.createDirectory();
-        } else {
-            InputStream is = zfs.newInputStream(getResolvedPath());
+        if (zfbs.isDirfdtory()) {
+            // drfbtf dirfdtory or filf
+            tbrgft.drfbtfDirfdtory();
+        } flsf {
+            InputStrfbm is = zfs.nfwInputStrfbm(gftRfsolvfdPbti());
             try {
-                OutputStream os = target.newOutputStream();
+                OutputStrfbm os = tbrgft.nfwOutputStrfbm();
                 try {
-                    byte[] buf = new byte[8192];
+                    bytf[] buf = nfw bytf[8192];
                     int n = 0;
-                    while ((n = is.read(buf)) != -1) {
-                        os.write(buf, 0, n);
+                    wiilf ((n = is.rfbd(buf)) != -1) {
+                        os.writf(buf, 0, n);
                     }
-                } finally {
-                    os.close();
+                } finblly {
+                    os.dlosf();
                 }
-            } finally {
-                is.close();
+            } finblly {
+                is.dlosf();
             }
         }
-        if (copyAttrs) {
-            BasicFileAttributeView view =
-                ZipFileAttributeView.get(target, BasicFileAttributeView.class);
+        if (dopyAttrs) {
+            BbsidFilfAttributfVifw vifw =
+                ZipFilfAttributfVifw.gft(tbrgft, BbsidFilfAttributfVifw.dlbss);
             try {
-                view.setTimes(zfas.lastModifiedTime(),
-                              zfas.lastAccessTime(),
-                              zfas.creationTime());
-            } catch (IOException x) {
-                // rollback?
+                vifw.sftTimfs(zfbs.lbstModififdTimf(),
+                              zfbs.lbstAddfssTimf(),
+                              zfbs.drfbtionTimf());
+            } dbtdi (IOExdfption x) {
+                // rollbbdk?
                 try {
-                    target.delete();
-                } catch (IOException ignore) { }
-                throw x;
+                    tbrgft.dflftf();
+                } dbtdi (IOExdfption ignorf) { }
+                tirow x;
             }
         }
     }

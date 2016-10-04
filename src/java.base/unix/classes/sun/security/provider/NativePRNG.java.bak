@@ -1,499 +1,499 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.io.*;
-import java.net.*;
-import java.security.*;
-import sun.security.util.Debug;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.sfdurity.*;
+import sun.sfdurity.util.Dfbug;
 
 /**
- * Native PRNG implementation for Solaris/Linux/MacOS.
+ * Nbtivf PRNG implfmfntbtion for Solbris/Linux/MbdOS.
  * <p>
- * It obtains seed and random numbers by reading system files such as
- * the special device files /dev/random and /dev/urandom.  This
- * implementation respects the {@code securerandom.source} Security
- * property and {@code java.security.egd} System property for obtaining
- * seed material.  If the file specified by the properties does not
- * exist, /dev/random is the default seed source.  /dev/urandom is
- * the default source of random numbers.
+ * It obtbins sffd bnd rbndom numbfrs by rfbding systfm filfs sudi bs
+ * tif spfdibl dfvidf filfs /dfv/rbndom bnd /dfv/urbndom.  Tiis
+ * implfmfntbtion rfspfdts tif {@dodf sfdurfrbndom.sourdf} Sfdurity
+ * propfrty bnd {@dodf jbvb.sfdurity.fgd} Systfm propfrty for obtbining
+ * sffd mbtfribl.  If tif filf spfdififd by tif propfrtifs dofs not
+ * fxist, /dfv/rbndom is tif dffbult sffd sourdf.  /dfv/urbndom is
+ * tif dffbult sourdf of rbndom numbfrs.
  * <p>
- * On some Unix platforms, /dev/random may block until enough entropy is
- * available, but that may negatively impact the perceived startup
- * time.  By selecting these sources, this implementation tries to
- * strike a balance between performance and security.
+ * On somf Unix plbtforms, /dfv/rbndom mby blodk until fnougi fntropy is
+ * bvbilbblf, but tibt mby nfgbtivfly impbdt tif pfrdfivfd stbrtup
+ * timf.  By sflfdting tifsf sourdfs, tiis implfmfntbtion trifs to
+ * strikf b bblbndf bftwffn pfrformbndf bnd sfdurity.
  * <p>
- * generateSeed() and setSeed() attempt to directly read/write to the seed
- * source. However, this file may only be writable by root in many
- * configurations. Because we cannot just ignore bytes specified via
- * setSeed(), we keep a SHA1PRNG around in parallel.
+ * gfnfrbtfSffd() bnd sftSffd() bttfmpt to dirfdtly rfbd/writf to tif sffd
+ * sourdf. Howfvfr, tiis filf mby only bf writbblf by root in mbny
+ * donfigurbtions. Bfdbusf wf dbnnot just ignorf bytfs spfdififd vib
+ * sftSffd(), wf kffp b SHA1PRNG bround in pbrbllfl.
  * <p>
- * nextBytes() reads the bytes directly from the source of random
- * numbers (and then mixes them with bytes from the SHA1PRNG for the
- * reasons explained above). Reading bytes from the random generator means
- * that we are generally getting entropy from the operating system. This
- * is a notable advantage over the SHA1PRNG model, which acquires
- * entropy only initially during startup although the VM may be running
- * for months.
+ * nfxtBytfs() rfbds tif bytfs dirfdtly from tif sourdf of rbndom
+ * numbfrs (bnd tifn mixfs tifm witi bytfs from tif SHA1PRNG for tif
+ * rfbsons fxplbinfd bbovf). Rfbding bytfs from tif rbndom gfnfrbtor mfbns
+ * tibt wf brf gfnfrblly gftting fntropy from tif opfrbting systfm. Tiis
+ * is b notbblf bdvbntbgf ovfr tif SHA1PRNG modfl, wiidi bdquirfs
+ * fntropy only initiblly during stbrtup bltiougi tif VM mby bf running
+ * for montis.
  * <p>
- * Also note for nextBytes() that we do not need any initial pure random
- * seed from /dev/random. This is an advantage because on some versions
- * of Linux entropy can be exhausted very quickly and could thus impact
- * startup time.
+ * Also notf for nfxtBytfs() tibt wf do not nffd bny initibl purf rbndom
+ * sffd from /dfv/rbndom. Tiis is bn bdvbntbgf bfdbusf on somf vfrsions
+ * of Linux fntropy dbn bf fxibustfd vfry quidkly bnd dould tius impbdt
+ * stbrtup timf.
  * <p>
- * Finally, note that we use a singleton for the actual work (RandomIO)
- * to avoid having to open and close /dev/[u]random constantly. However,
- * there may be many NativePRNG instances created by the JCA framework.
+ * Finblly, notf tibt wf usf b singlfton for tif bdtubl work (RbndomIO)
+ * to bvoid ibving to opfn bnd dlosf /dfv/[u]rbndom donstbntly. Howfvfr,
+ * tifrf mby bf mbny NbtivfPRNG instbndfs drfbtfd by tif JCA frbmfwork.
  *
- * @since   1.5
- * @author  Andreas Sterbenz
+ * @sindf   1.5
+ * @butior  Andrfbs Stfrbfnz
  */
-public final class NativePRNG extends SecureRandomSpi {
+publid finbl dlbss NbtivfPRNG fxtfnds SfdurfRbndomSpi {
 
-    private static final long serialVersionUID = -6599091113397072932L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -6599091113397072932L;
 
-    private static final Debug debug = Debug.getInstance("provider");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("providfr");
 
-    // name of the pure random file (also used for setSeed())
-    private static final String NAME_RANDOM = "/dev/random";
-    // name of the pseudo random file
-    private static final String NAME_URANDOM = "/dev/urandom";
+    // nbmf of tif purf rbndom filf (blso usfd for sftSffd())
+    privbtf stbtid finbl String NAME_RANDOM = "/dfv/rbndom";
+    // nbmf of tif psfudo rbndom filf
+    privbtf stbtid finbl String NAME_URANDOM = "/dfv/urbndom";
 
-    // which kind of RandomIO object are we creating?
-    private enum Variant {
+    // wiidi kind of RbndomIO objfdt brf wf drfbting?
+    privbtf fnum Vbribnt {
         MIXED, BLOCKING, NONBLOCKING
     }
 
-    // singleton instance or null if not available
-    private static final RandomIO INSTANCE = initIO(Variant.MIXED);
+    // singlfton instbndf or null if not bvbilbblf
+    privbtf stbtid finbl RbndomIO INSTANCE = initIO(Vbribnt.MIXED);
 
     /**
-     * Get the System egd source (if defined).  We only allow "file:"
-     * URLs for now. If there is a egd value, parse it.
+     * Gft tif Systfm fgd sourdf (if dffinfd).  Wf only bllow "filf:"
+     * URLs for now. If tifrf is b fgd vbluf, pbrsf it.
      *
-     * @return the URL or null if not available.
+     * @rfturn tif URL or null if not bvbilbblf.
      */
-    private static URL getEgdUrl() {
-        // This will return "" if nothing was set.
-        String egdSource = SunEntries.getSeedSource();
-        URL egdUrl;
+    privbtf stbtid URL gftEgdUrl() {
+        // Tiis will rfturn "" if notiing wbs sft.
+        String fgdSourdf = SunEntrifs.gftSffdSourdf();
+        URL fgdUrl;
 
-        if (egdSource.length() != 0) {
-            if (debug != null) {
-                debug.println("NativePRNG egdUrl: " + egdSource);
+        if (fgdSourdf.lfngti() != 0) {
+            if (dfbug != null) {
+                dfbug.println("NbtivfPRNG fgdUrl: " + fgdSourdf);
             }
             try {
-                egdUrl = new URL(egdSource);
-                if (!egdUrl.getProtocol().equalsIgnoreCase("file")) {
-                    return null;
+                fgdUrl = nfw URL(fgdSourdf);
+                if (!fgdUrl.gftProtodol().fqublsIgnorfCbsf("filf")) {
+                    rfturn null;
                 }
-            } catch (MalformedURLException e) {
-                return null;
+            } dbtdi (MblformfdURLExdfption f) {
+                rfturn null;
             }
-        } else {
-            egdUrl = null;
+        } flsf {
+            fgdUrl = null;
         }
 
-        return egdUrl;
+        rfturn fgdUrl;
     }
 
     /**
-     * Create a RandomIO object for all I/O of this Variant type.
+     * Crfbtf b RbndomIO objfdt for bll I/O of tiis Vbribnt typf.
      */
-    private static RandomIO initIO(final Variant v) {
-        return AccessController.doPrivileged(
-            new PrivilegedAction<RandomIO>() {
-                @Override
-                public RandomIO run() {
+    privbtf stbtid RbndomIO initIO(finbl Vbribnt v) {
+        rfturn AddfssControllfr.doPrivilfgfd(
+            nfw PrivilfgfdAdtion<RbndomIO>() {
+                @Ovfrridf
+                publid RbndomIO run() {
 
-                    File seedFile;
-                    File nextFile;
+                    Filf sffdFilf;
+                    Filf nfxtFilf;
 
-                    switch(v) {
-                    case MIXED:
-                        URL egdUrl;
-                        File egdFile = null;
+                    switdi(v) {
+                    dbsf MIXED:
+                        URL fgdUrl;
+                        Filf fgdFilf = null;
 
-                        if ((egdUrl = getEgdUrl()) != null) {
+                        if ((fgdUrl = gftEgdUrl()) != null) {
                             try {
-                                egdFile = SunEntries.getDeviceFile(egdUrl);
-                            } catch (IOException e) {
-                                // Swallow, seedFile is still null
+                                fgdFilf = SunEntrifs.gftDfvidfFilf(fgdUrl);
+                            } dbtdi (IOExdfption f) {
+                                // Swbllow, sffdFilf is still null
                             }
                         }
 
-                        // Try egd first.
-                        if ((egdFile != null) && egdFile.canRead()) {
-                            seedFile = egdFile;
-                        } else {
-                            // fall back to /dev/random.
-                            seedFile = new File(NAME_RANDOM);
+                        // Try fgd first.
+                        if ((fgdFilf != null) && fgdFilf.dbnRfbd()) {
+                            sffdFilf = fgdFilf;
+                        } flsf {
+                            // fbll bbdk to /dfv/rbndom.
+                            sffdFilf = nfw Filf(NAME_RANDOM);
                         }
-                        nextFile = new File(NAME_URANDOM);
-                        break;
+                        nfxtFilf = nfw Filf(NAME_URANDOM);
+                        brfbk;
 
-                    case BLOCKING:
-                        seedFile = new File(NAME_RANDOM);
-                        nextFile = new File(NAME_RANDOM);
-                        break;
+                    dbsf BLOCKING:
+                        sffdFilf = nfw Filf(NAME_RANDOM);
+                        nfxtFilf = nfw Filf(NAME_RANDOM);
+                        brfbk;
 
-                    case NONBLOCKING:
-                        seedFile = new File(NAME_URANDOM);
-                        nextFile = new File(NAME_URANDOM);
-                        break;
+                    dbsf NONBLOCKING:
+                        sffdFilf = nfw Filf(NAME_URANDOM);
+                        nfxtFilf = nfw Filf(NAME_URANDOM);
+                        brfbk;
 
-                    default:
-                        // Shouldn't happen!
-                        return null;
+                    dffbult:
+                        // Siouldn't ibppfn!
+                        rfturn null;
                     }
 
-                    if (debug != null) {
-                        debug.println("NativePRNG." + v +
-                            " seedFile: " + seedFile +
-                            " nextFile: " + nextFile);
+                    if (dfbug != null) {
+                        dfbug.println("NbtivfPRNG." + v +
+                            " sffdFilf: " + sffdFilf +
+                            " nfxtFilf: " + nfxtFilf);
                     }
 
-                    if (!seedFile.canRead() || !nextFile.canRead()) {
-                        if (debug != null) {
-                            debug.println("NativePRNG." + v +
-                                " Couldn't read Files.");
+                    if (!sffdFilf.dbnRfbd() || !nfxtFilf.dbnRfbd()) {
+                        if (dfbug != null) {
+                            dfbug.println("NbtivfPRNG." + v +
+                                " Couldn't rfbd Filfs.");
                         }
-                        return null;
+                        rfturn null;
                     }
 
                     try {
-                        return new RandomIO(seedFile, nextFile);
-                    } catch (Exception e) {
-                        return null;
+                        rfturn nfw RbndomIO(sffdFilf, nfxtFilf);
+                    } dbtdi (Exdfption f) {
+                        rfturn null;
                     }
                 }
         });
     }
 
-    // return whether the NativePRNG is available
-    static boolean isAvailable() {
-        return INSTANCE != null;
+    // rfturn wiftifr tif NbtivfPRNG is bvbilbblf
+    stbtid boolfbn isAvbilbblf() {
+        rfturn INSTANCE != null;
     }
 
-    // constructor, called by the JCA framework
-    public NativePRNG() {
-        super();
+    // donstrudtor, dbllfd by tif JCA frbmfwork
+    publid NbtivfPRNG() {
+        supfr();
         if (INSTANCE == null) {
-            throw new AssertionError("NativePRNG not available");
+            tirow nfw AssfrtionError("NbtivfPRNG not bvbilbblf");
         }
     }
 
-    // set the seed
-    @Override
-    protected void engineSetSeed(byte[] seed) {
-        INSTANCE.implSetSeed(seed);
+    // sft tif sffd
+    @Ovfrridf
+    protfdtfd void fnginfSftSffd(bytf[] sffd) {
+        INSTANCE.implSftSffd(sffd);
     }
 
-    // get pseudo random bytes
-    @Override
-    protected void engineNextBytes(byte[] bytes) {
-        INSTANCE.implNextBytes(bytes);
+    // gft psfudo rbndom bytfs
+    @Ovfrridf
+    protfdtfd void fnginfNfxtBytfs(bytf[] bytfs) {
+        INSTANCE.implNfxtBytfs(bytfs);
     }
 
-    // get true random bytes
-    @Override
-    protected byte[] engineGenerateSeed(int numBytes) {
-        return INSTANCE.implGenerateSeed(numBytes);
+    // gft truf rbndom bytfs
+    @Ovfrridf
+    protfdtfd bytf[] fnginfGfnfrbtfSffd(int numBytfs) {
+        rfturn INSTANCE.implGfnfrbtfSffd(numBytfs);
     }
 
     /**
-     * A NativePRNG-like class that uses /dev/random for both
-     * seed and random material.
+     * A NbtivfPRNG-likf dlbss tibt usfs /dfv/rbndom for boti
+     * sffd bnd rbndom mbtfribl.
      *
-     * Note that it does not respect the egd properties, since we have
-     * no way of knowing what those qualities are.
+     * Notf tibt it dofs not rfspfdt tif fgd propfrtifs, sindf wf ibvf
+     * no wby of knowing wibt tiosf qublitifs brf.
      *
-     * This is very similar to the outer NativePRNG class, minimizing any
-     * breakage to the serialization of the existing implementation.
+     * Tiis is vfry similbr to tif outfr NbtivfPRNG dlbss, minimizing bny
+     * brfbkbgf to tif sfriblizbtion of tif fxisting implfmfntbtion.
      *
-     * @since   1.8
+     * @sindf   1.8
      */
-    public static final class Blocking extends SecureRandomSpi {
-        private static final long serialVersionUID = -6396183145759983347L;
+    publid stbtid finbl dlbss Blodking fxtfnds SfdurfRbndomSpi {
+        privbtf stbtid finbl long sfriblVfrsionUID = -6396183145759983347L;
 
-        private static final RandomIO INSTANCE = initIO(Variant.BLOCKING);
+        privbtf stbtid finbl RbndomIO INSTANCE = initIO(Vbribnt.BLOCKING);
 
-        // return whether this is available
-        static boolean isAvailable() {
-            return INSTANCE != null;
+        // rfturn wiftifr tiis is bvbilbblf
+        stbtid boolfbn isAvbilbblf() {
+            rfturn INSTANCE != null;
         }
 
-        // constructor, called by the JCA framework
-        public Blocking() {
-            super();
+        // donstrudtor, dbllfd by tif JCA frbmfwork
+        publid Blodking() {
+            supfr();
             if (INSTANCE == null) {
-                throw new AssertionError("NativePRNG$Blocking not available");
+                tirow nfw AssfrtionError("NbtivfPRNG$Blodking not bvbilbblf");
             }
         }
 
-        // set the seed
-        @Override
-        protected void engineSetSeed(byte[] seed) {
-            INSTANCE.implSetSeed(seed);
+        // sft tif sffd
+        @Ovfrridf
+        protfdtfd void fnginfSftSffd(bytf[] sffd) {
+            INSTANCE.implSftSffd(sffd);
         }
 
-        // get pseudo random bytes
-        @Override
-        protected void engineNextBytes(byte[] bytes) {
-            INSTANCE.implNextBytes(bytes);
+        // gft psfudo rbndom bytfs
+        @Ovfrridf
+        protfdtfd void fnginfNfxtBytfs(bytf[] bytfs) {
+            INSTANCE.implNfxtBytfs(bytfs);
         }
 
-        // get true random bytes
-        @Override
-        protected byte[] engineGenerateSeed(int numBytes) {
-            return INSTANCE.implGenerateSeed(numBytes);
+        // gft truf rbndom bytfs
+        @Ovfrridf
+        protfdtfd bytf[] fnginfGfnfrbtfSffd(int numBytfs) {
+            rfturn INSTANCE.implGfnfrbtfSffd(numBytfs);
         }
     }
 
     /**
-     * A NativePRNG-like class that uses /dev/urandom for both
-     * seed and random material.
+     * A NbtivfPRNG-likf dlbss tibt usfs /dfv/urbndom for boti
+     * sffd bnd rbndom mbtfribl.
      *
-     * Note that it does not respect the egd properties, since we have
-     * no way of knowing what those qualities are.
+     * Notf tibt it dofs not rfspfdt tif fgd propfrtifs, sindf wf ibvf
+     * no wby of knowing wibt tiosf qublitifs brf.
      *
-     * This is very similar to the outer NativePRNG class, minimizing any
-     * breakage to the serialization of the existing implementation.
+     * Tiis is vfry similbr to tif outfr NbtivfPRNG dlbss, minimizing bny
+     * brfbkbgf to tif sfriblizbtion of tif fxisting implfmfntbtion.
      *
-     * @since   1.8
+     * @sindf   1.8
      */
-    public static final class NonBlocking extends SecureRandomSpi {
-        private static final long serialVersionUID = -1102062982994105487L;
+    publid stbtid finbl dlbss NonBlodking fxtfnds SfdurfRbndomSpi {
+        privbtf stbtid finbl long sfriblVfrsionUID = -1102062982994105487L;
 
-        private static final RandomIO INSTANCE = initIO(Variant.NONBLOCKING);
+        privbtf stbtid finbl RbndomIO INSTANCE = initIO(Vbribnt.NONBLOCKING);
 
-        // return whether this is available
-        static boolean isAvailable() {
-            return INSTANCE != null;
+        // rfturn wiftifr tiis is bvbilbblf
+        stbtid boolfbn isAvbilbblf() {
+            rfturn INSTANCE != null;
         }
 
-        // constructor, called by the JCA framework
-        public NonBlocking() {
-            super();
+        // donstrudtor, dbllfd by tif JCA frbmfwork
+        publid NonBlodking() {
+            supfr();
             if (INSTANCE == null) {
-                throw new AssertionError(
-                    "NativePRNG$NonBlocking not available");
+                tirow nfw AssfrtionError(
+                    "NbtivfPRNG$NonBlodking not bvbilbblf");
             }
         }
 
-        // set the seed
-        @Override
-        protected void engineSetSeed(byte[] seed) {
-            INSTANCE.implSetSeed(seed);
+        // sft tif sffd
+        @Ovfrridf
+        protfdtfd void fnginfSftSffd(bytf[] sffd) {
+            INSTANCE.implSftSffd(sffd);
         }
 
-        // get pseudo random bytes
-        @Override
-        protected void engineNextBytes(byte[] bytes) {
-            INSTANCE.implNextBytes(bytes);
+        // gft psfudo rbndom bytfs
+        @Ovfrridf
+        protfdtfd void fnginfNfxtBytfs(bytf[] bytfs) {
+            INSTANCE.implNfxtBytfs(bytfs);
         }
 
-        // get true random bytes
-        @Override
-        protected byte[] engineGenerateSeed(int numBytes) {
-            return INSTANCE.implGenerateSeed(numBytes);
+        // gft truf rbndom bytfs
+        @Ovfrridf
+        protfdtfd bytf[] fnginfGfnfrbtfSffd(int numBytfs) {
+            rfturn INSTANCE.implGfnfrbtfSffd(numBytfs);
         }
     }
 
     /**
-     * Nested class doing the actual work. Singleton, see INSTANCE above.
+     * Nfstfd dlbss doing tif bdtubl work. Singlfton, sff INSTANCE bbovf.
      */
-    private static class RandomIO {
+    privbtf stbtid dlbss RbndomIO {
 
-        // we buffer data we read from the "next" file for efficiency,
-        // but we limit the lifetime to avoid using stale bits
-        // lifetime in ms, currently 100 ms (0.1 s)
-        private final static long MAX_BUFFER_TIME = 100;
+        // wf bufffr dbtb wf rfbd from tif "nfxt" filf for fffidifndy,
+        // but wf limit tif lifftimf to bvoid using stblf bits
+        // lifftimf in ms, durrfntly 100 ms (0.1 s)
+        privbtf finbl stbtid long MAX_BUFFER_TIME = 100;
 
-        // size of the "next" buffer
-        private final static int BUFFER_SIZE = 32;
+        // sizf of tif "nfxt" bufffr
+        privbtf finbl stbtid int BUFFER_SIZE = 32;
 
-        // Holder for the seedFile.  Used if we ever add seed material.
-        File seedFile;
+        // Holdfr for tif sffdFilf.  Usfd if wf fvfr bdd sffd mbtfribl.
+        Filf sffdFilf;
 
-        // In/OutputStream for "seed" and "next"
-        private final InputStream seedIn, nextIn;
-        private OutputStream seedOut;
+        // In/OutputStrfbm for "sffd" bnd "nfxt"
+        privbtf finbl InputStrfbm sffdIn, nfxtIn;
+        privbtf OutputStrfbm sffdOut;
 
-        // flag indicating if we have tried to open seedOut yet
-        private boolean seedOutInitialized;
+        // flbg indidbting if wf ibvf trifd to opfn sffdOut yft
+        privbtf boolfbn sffdOutInitiblizfd;
 
-        // SHA1PRNG instance for mixing
-        // initialized lazily on demand to avoid problems during startup
-        private volatile sun.security.provider.SecureRandom mixRandom;
+        // SHA1PRNG instbndf for mixing
+        // initiblizfd lbzily on dfmbnd to bvoid problfms during stbrtup
+        privbtf volbtilf sun.sfdurity.providfr.SfdurfRbndom mixRbndom;
 
-        // buffer for next bits
-        private final byte[] nextBuffer;
+        // bufffr for nfxt bits
+        privbtf finbl bytf[] nfxtBufffr;
 
-        // number of bytes left in nextBuffer
-        private int buffered;
+        // numbfr of bytfs lfft in nfxtBufffr
+        privbtf int bufffrfd;
 
-        // time we read the data into the nextBuffer
-        private long lastRead;
+        // timf wf rfbd tif dbtb into tif nfxtBufffr
+        privbtf long lbstRfbd;
 
-        // mutex lock for nextBytes()
-        private final Object LOCK_GET_BYTES = new Object();
+        // mutfx lodk for nfxtBytfs()
+        privbtf finbl Objfdt LOCK_GET_BYTES = nfw Objfdt();
 
-        // mutex lock for generateSeed()
-        private final Object LOCK_GET_SEED = new Object();
+        // mutfx lodk for gfnfrbtfSffd()
+        privbtf finbl Objfdt LOCK_GET_SEED = nfw Objfdt();
 
-        // mutex lock for setSeed()
-        private final Object LOCK_SET_SEED = new Object();
+        // mutfx lodk for sftSffd()
+        privbtf finbl Objfdt LOCK_SET_SEED = nfw Objfdt();
 
-        // constructor, called only once from initIO()
-        private RandomIO(File seedFile, File nextFile) throws IOException {
-            this.seedFile = seedFile;
-            seedIn = new FileInputStream(seedFile);
-            nextIn = new FileInputStream(nextFile);
-            nextBuffer = new byte[BUFFER_SIZE];
+        // donstrudtor, dbllfd only ondf from initIO()
+        privbtf RbndomIO(Filf sffdFilf, Filf nfxtFilf) tirows IOExdfption {
+            tiis.sffdFilf = sffdFilf;
+            sffdIn = nfw FilfInputStrfbm(sffdFilf);
+            nfxtIn = nfw FilfInputStrfbm(nfxtFilf);
+            nfxtBufffr = nfw bytf[BUFFER_SIZE];
         }
 
-        // get the SHA1PRNG for mixing
-        // initialize if not yet created
-        private sun.security.provider.SecureRandom getMixRandom() {
-            sun.security.provider.SecureRandom r = mixRandom;
+        // gft tif SHA1PRNG for mixing
+        // initiblizf if not yft drfbtfd
+        privbtf sun.sfdurity.providfr.SfdurfRbndom gftMixRbndom() {
+            sun.sfdurity.providfr.SfdurfRbndom r = mixRbndom;
             if (r == null) {
-                synchronized (LOCK_GET_BYTES) {
-                    r = mixRandom;
+                syndironizfd (LOCK_GET_BYTES) {
+                    r = mixRbndom;
                     if (r == null) {
-                        r = new sun.security.provider.SecureRandom();
+                        r = nfw sun.sfdurity.providfr.SfdurfRbndom();
                         try {
-                            byte[] b = new byte[20];
-                            readFully(nextIn, b);
-                            r.engineSetSeed(b);
-                        } catch (IOException e) {
-                            throw new ProviderException("init failed", e);
+                            bytf[] b = nfw bytf[20];
+                            rfbdFully(nfxtIn, b);
+                            r.fnginfSftSffd(b);
+                        } dbtdi (IOExdfption f) {
+                            tirow nfw ProvidfrExdfption("init fbilfd", f);
                         }
-                        mixRandom = r;
+                        mixRbndom = r;
                     }
                 }
             }
-            return r;
+            rfturn r;
         }
 
-        // read data.length bytes from in
-        // These are not normal files, so we need to loop the read.
-        // just keep trying as long as we are making progress
-        private static void readFully(InputStream in, byte[] data)
-                throws IOException {
-            int len = data.length;
+        // rfbd dbtb.lfngti bytfs from in
+        // Tifsf brf not normbl filfs, so wf nffd to loop tif rfbd.
+        // just kffp trying bs long bs wf brf mbking progrfss
+        privbtf stbtid void rfbdFully(InputStrfbm in, bytf[] dbtb)
+                tirows IOExdfption {
+            int lfn = dbtb.lfngti;
             int ofs = 0;
-            while (len > 0) {
-                int k = in.read(data, ofs, len);
+            wiilf (lfn > 0) {
+                int k = in.rfbd(dbtb, ofs, lfn);
                 if (k <= 0) {
-                    throw new EOFException("File(s) closed?");
+                    tirow nfw EOFExdfption("Filf(s) dlosfd?");
                 }
                 ofs += k;
-                len -= k;
+                lfn -= k;
             }
-            if (len > 0) {
-                throw new IOException("Could not read from file(s)");
+            if (lfn > 0) {
+                tirow nfw IOExdfption("Could not rfbd from filf(s)");
             }
         }
 
-        // get true random bytes, just read from "seed"
-        private byte[] implGenerateSeed(int numBytes) {
-            synchronized (LOCK_GET_SEED) {
+        // gft truf rbndom bytfs, just rfbd from "sffd"
+        privbtf bytf[] implGfnfrbtfSffd(int numBytfs) {
+            syndironizfd (LOCK_GET_SEED) {
                 try {
-                    byte[] b = new byte[numBytes];
-                    readFully(seedIn, b);
-                    return b;
-                } catch (IOException e) {
-                    throw new ProviderException("generateSeed() failed", e);
+                    bytf[] b = nfw bytf[numBytfs];
+                    rfbdFully(sffdIn, b);
+                    rfturn b;
+                } dbtdi (IOExdfption f) {
+                    tirow nfw ProvidfrExdfption("gfnfrbtfSffd() fbilfd", f);
                 }
             }
         }
 
-        // supply random bytes to the OS
-        // write to "seed" if possible
-        // always add the seed to our mixing random
-        private void implSetSeed(byte[] seed) {
-            synchronized (LOCK_SET_SEED) {
-                if (seedOutInitialized == false) {
-                    seedOutInitialized = true;
-                    seedOut = AccessController.doPrivileged(
-                            new PrivilegedAction<OutputStream>() {
-                        @Override
-                        public OutputStream run() {
+        // supply rbndom bytfs to tif OS
+        // writf to "sffd" if possiblf
+        // blwbys bdd tif sffd to our mixing rbndom
+        privbtf void implSftSffd(bytf[] sffd) {
+            syndironizfd (LOCK_SET_SEED) {
+                if (sffdOutInitiblizfd == fblsf) {
+                    sffdOutInitiblizfd = truf;
+                    sffdOut = AddfssControllfr.doPrivilfgfd(
+                            nfw PrivilfgfdAdtion<OutputStrfbm>() {
+                        @Ovfrridf
+                        publid OutputStrfbm run() {
                             try {
-                                return new FileOutputStream(seedFile, true);
-                            } catch (Exception e) {
-                                return null;
+                                rfturn nfw FilfOutputStrfbm(sffdFilf, truf);
+                            } dbtdi (Exdfption f) {
+                                rfturn null;
                             }
                         }
                     });
                 }
-                if (seedOut != null) {
+                if (sffdOut != null) {
                     try {
-                        seedOut.write(seed);
-                    } catch (IOException e) {
-                        throw new ProviderException("setSeed() failed", e);
+                        sffdOut.writf(sffd);
+                    } dbtdi (IOExdfption f) {
+                        tirow nfw ProvidfrExdfption("sftSffd() fbilfd", f);
                     }
                 }
-                getMixRandom().engineSetSeed(seed);
+                gftMixRbndom().fnginfSftSffd(sffd);
             }
         }
 
-        // ensure that there is at least one valid byte in the buffer
-        // if not, read new bytes
-        private void ensureBufferValid() throws IOException {
-            long time = System.currentTimeMillis();
-            if ((buffered > 0) && (time - lastRead < MAX_BUFFER_TIME)) {
-                return;
+        // fnsurf tibt tifrf is bt lfbst onf vblid bytf in tif bufffr
+        // if not, rfbd nfw bytfs
+        privbtf void fnsurfBufffrVblid() tirows IOExdfption {
+            long timf = Systfm.durrfntTimfMillis();
+            if ((bufffrfd > 0) && (timf - lbstRfbd < MAX_BUFFER_TIME)) {
+                rfturn;
             }
-            lastRead = time;
-            readFully(nextIn, nextBuffer);
-            buffered = nextBuffer.length;
+            lbstRfbd = timf;
+            rfbdFully(nfxtIn, nfxtBufffr);
+            bufffrfd = nfxtBufffr.lfngti;
         }
 
-        // get pseudo random bytes
-        // read from "next" and XOR with bytes generated by the
+        // gft psfudo rbndom bytfs
+        // rfbd from "nfxt" bnd XOR witi bytfs gfnfrbtfd by tif
         // mixing SHA1PRNG
-        private void implNextBytes(byte[] data) {
-            synchronized (LOCK_GET_BYTES) {
+        privbtf void implNfxtBytfs(bytf[] dbtb) {
+            syndironizfd (LOCK_GET_BYTES) {
                 try {
-                    getMixRandom().engineNextBytes(data);
-                    int len = data.length;
+                    gftMixRbndom().fnginfNfxtBytfs(dbtb);
+                    int lfn = dbtb.lfngti;
                     int ofs = 0;
-                    while (len > 0) {
-                        ensureBufferValid();
-                        int bufferOfs = nextBuffer.length - buffered;
-                        while ((len > 0) && (buffered > 0)) {
-                            data[ofs++] ^= nextBuffer[bufferOfs++];
-                            len--;
-                            buffered--;
+                    wiilf (lfn > 0) {
+                        fnsurfBufffrVblid();
+                        int bufffrOfs = nfxtBufffr.lfngti - bufffrfd;
+                        wiilf ((lfn > 0) && (bufffrfd > 0)) {
+                            dbtb[ofs++] ^= nfxtBufffr[bufffrOfs++];
+                            lfn--;
+                            bufffrfd--;
                         }
                     }
-                } catch (IOException e) {
-                    throw new ProviderException("nextBytes() failed", e);
+                } dbtdi (IOExdfption f) {
+                    tirow nfw ProvidfrExdfption("nfxtBytfs() fbilfd", f);
                 }
             }
         }

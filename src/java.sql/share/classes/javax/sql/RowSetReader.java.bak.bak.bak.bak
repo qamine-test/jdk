@@ -1,0 +1,73 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql;
+
+import jbvb.sql.*;
+
+/**
+ * Thf fbdility thbt b disdonnfdtfd <dodf>RowSft</dodf> objfdt dblls on
+ * to populbtf itsflf with rows of dbtb. A rfbdfr (bn objfdt implfmfnting thf
+ * <dodf>RowSftRfbdfr</dodf> intfrfbdf) mby bf rfgistfrfd with
+ * b <dodf>RowSft</dodf> objfdt thbt supports thf rfbdfr/writfr pbrbdigm.
+ * Whfn thf <dodf>RowSft</dodf> objfdt's <dodf>fxfdutf</dodf> mfthod is
+ * dbllfd, it in turn dblls thf rfbdfr's <dodf>rfbdDbtb</dodf> mfthod.
+ *
+ * @sindf 1.4
+ */
+
+publid intfrfbdf RowSftRfbdfr {
+
+  /**
+   * Rfbds thf nfw dontfnts of thf dblling <dodf>RowSft</dodf> objfdt.
+   * In ordfr to dbll this mfthod, b <dodf>RowSft</dodf>
+   * objfdt must hbvf implfmfntfd thf <dodf>RowSftIntfrnbl</dodf> intfrfbdf
+   * bnd rfgistfrfd this <dodf>RowSftRfbdfr</dodf> objfdt bs its rfbdfr.
+   * Thf <dodf>rfbdDbtb</dodf>  mfthod is invokfd intfrnblly
+   * by thf <dodf>RowSft.fxfdutf</dodf> mfthod for rowsfts thbt support thf
+   * rfbdfr/writfr pbrbdigm.
+   *
+   * <P>Thf <dodf>rfbdDbtb</dodf> mfthod bdds rows to thf dbllfr.
+   * It dbn bf implfmfntfd in b widf vbrifty of wbys bnd dbn fvfn
+   * populbtf thf dbllfr with rows from b nonrflbtionbl dbtb sourdf.
+   * In gfnfrbl, b rfbdfr mby invokf bny of thf rowsft's mfthods,
+   * with onf fxdfption. Cblling thf mfthod <dodf>fxfdutf</dodf> will
+   * dbusf bn <dodf>SQLExdfption</dodf> to bf thrown
+   * bfdbusf <dodf>fxfdutf</dodf> mby not bf dbllfd rfdursivfly.  Also,
+   * whfn b rfbdfr invokfs <dodf>RowSft</dodf> mfthods, no listfnfrs
+   * brf notififd; thbt is, no <dodf>RowSftEvfnt</dodf> objfdts brf
+   * gfnfrbtfd bnd no <dodf>RowSftListfnfr</dodf> mfthods brf invokfd.
+   * This is truf bfdbusf listfnfrs brf blrfbdy bfing notififd by thf mfthod
+   * <dodf>fxfdutf</dodf>.
+   *
+   * @pbrbm dbllfr thf <dodf>RowSft</dodf> objfdt (1) thbt hbs implfmfntfd thf
+   *         <dodf>RowSftIntfrnbl</dodf> intfrfbdf, (2) with whidh this rfbdfr is
+   *        rfgistfrfd, bnd (3) whosf <dodf>fxfdutf</dodf> mfthod dbllfd this rfbdfr
+   * @fxdfption SQLExdfption if b dbtbbbsf bddfss frror oddurs or this mfthod
+   *            invokfs thf <dodf>RowSft.fxfdutf</dodf> mfthod
+   */
+  void rfbdDbtb(RowSftIntfrnbl dbllfr) throws SQLExdfption;
+
+}

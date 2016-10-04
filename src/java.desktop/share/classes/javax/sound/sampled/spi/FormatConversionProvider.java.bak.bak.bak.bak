@@ -1,0 +1,209 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.sbmplfd.spi;
+
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+
+import stbtid jbvbx.sound.sbmplfd.AudioFormbt.Endoding;
+
+/**
+ * A formbt donvfrsion providfr providfs formbt donvfrsion sfrvidfs from onf or
+ * morf input formbts to onf or morf output formbts. Convfrtfrs indludf dodfds,
+ * whidh fndodf bnd/or dfdodf budio dbtb, bs wfll bs trbnsdodfrs, ftd. Formbt
+ * donvfrtfrs providf mfthods for dftfrmining whbt donvfrsions brf supportfd bnd
+ * for obtbining bn budio strfbm from whidh donvfrtfd dbtb dbn bf rfbd.
+ * <p>
+ * Thf sourdf formbt rfprfsfnts thf formbt of thf indoming budio dbtb, whidh
+ * will bf donvfrtfd.
+ * <p>
+ * Thf tbrgft formbt rfprfsfnts thf formbt of thf prodfssfd, donvfrtfd budio
+ * dbtb. This is thf formbt of thf dbtb thbt dbn bf rfbd from thf strfbm
+ * rfturnfd by onf of thf {@dodf gftAudioInputStrfbm} mfthods.
+ *
+ * @buthor Kbrb Kytlf
+ * @sindf 1.3
+ */
+publid bbstrbdt dlbss FormbtConvfrsionProvidfr {
+
+    /**
+     * Obtbins thf sft of sourdf formbt fndodings from whidh formbt donvfrsion
+     * sfrvidfs brf providfd by this providfr.
+     *
+     * @rfturn brrby of sourdf formbt fndodings. If for somf rfbson providfr
+     *         dofs not providf bny donvfrsion sfrvidfs, bn brrby of lfngth 0 is
+     *         rfturnfd.
+     */
+    publid bbstrbdt Endoding[] gftSourdfEndodings();
+
+    /**
+     * Obtbins thf sft of tbrgft formbt fndodings to whidh formbt donvfrsion
+     * sfrvidfs brf providfd by this providfr.
+     *
+     * @rfturn brrby of tbrgft formbt fndodings. If for somf rfbson providfr
+     *         dofs not providf bny donvfrsion sfrvidfs, bn brrby of lfngth 0 is
+     *         rfturnfd.
+     */
+    publid bbstrbdt Endoding[] gftTbrgftEndodings();
+
+    /**
+     * Indidbtfs whfthfr thf formbt donvfrtfr supports donvfrsion from thf
+     * spfdififd sourdf formbt fndoding.
+     *
+     * @pbrbm  sourdfEndoding thf sourdf formbt fndoding for whidh support is
+     *         qufrifd
+     * @rfturn {@dodf truf} if thf fndoding is supportfd, othfrwisf
+     *         {@dodf fblsf}
+     */
+    publid boolfbn isSourdfEndodingSupportfd(Endoding sourdfEndoding) {
+
+        Endoding sourdfEndodings[] = gftSourdfEndodings();
+
+        for(int i=0; i<sourdfEndodings.lfngth; i++) {
+            if( sourdfEndoding.fqubls( sourdfEndodings[i]) ) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Indidbtfs whfthfr thf formbt donvfrtfr supports donvfrsion to thf
+     * spfdififd tbrgft formbt fndoding.
+     *
+     * @pbrbm  tbrgftEndoding thf tbrgft formbt fndoding for whidh support is
+     *         qufrifd
+     * @rfturn {@dodf truf} if thf fndoding is supportfd, othfrwisf
+     *         {@dodf fblsf}
+     */
+    publid boolfbn isTbrgftEndodingSupportfd(Endoding tbrgftEndoding) {
+
+        Endoding tbrgftEndodings[] = gftTbrgftEndodings();
+
+        for(int i=0; i<tbrgftEndodings.lfngth; i++) {
+            if( tbrgftEndoding.fqubls( tbrgftEndodings[i]) ) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Obtbins thf sft of tbrgft formbt fndodings supportfd by thf formbt
+     * donvfrtfr givfn b pbrtidulbr sourdf formbt. If no tbrgft formbt fndodings
+     * brf supportfd for this sourdf formbt, bn brrby of lfngth 0 is rfturnfd.
+     *
+     * @pbrbm  sourdfFormbt formbt of thf indoming dbtb
+     * @rfturn brrby of supportfd tbrgft formbt fndodings
+     */
+    publid bbstrbdt Endoding[] gftTbrgftEndodings(AudioFormbt sourdfFormbt);
+
+    /**
+     * Indidbtfs whfthfr thf formbt donvfrtfr supports donvfrsion to b
+     * pbrtidulbr fndoding from b pbrtidulbr formbt.
+     *
+     * @pbrbm  tbrgftEndoding dfsirfd fndoding of thf outgoing dbtb
+     * @pbrbm  sourdfFormbt formbt of thf indoming dbtb
+     * @rfturn {@dodf truf} if thf donvfrsion is supportfd, othfrwisf
+     *         {@dodf fblsf}
+     */
+    publid boolfbn isConvfrsionSupportfd(Endoding tbrgftEndoding,
+                                         AudioFormbt sourdfFormbt) {
+
+        Endoding tbrgftEndodings[] = gftTbrgftEndodings(sourdfFormbt);
+
+        for(int i=0; i<tbrgftEndodings.lfngth; i++) {
+            if( tbrgftEndoding.fqubls( tbrgftEndodings[i]) ) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Obtbins thf sft of tbrgft formbts with thf fndoding spfdififd supportfd
+     * by thf formbt donvfrtfr If no tbrgft formbts with thf spfdififd fndoding
+     * brf supportfd for this sourdf formbt, bn brrby of lfngth 0 is rfturnfd.
+     *
+     * @pbrbm  tbrgftEndoding dfsirfd fndoding of thf strfbm bftfr prodfssing
+     * @pbrbm  sourdfFormbt formbt of thf indoming dbtb
+     * @rfturn brrby of supportfd tbrgft formbts
+     */
+    publid bbstrbdt AudioFormbt[] gftTbrgftFormbts(Endoding tbrgftEndoding,
+                                                   AudioFormbt sourdfFormbt);
+
+    /**
+     * Indidbtfs whfthfr thf formbt donvfrtfr supports donvfrsion to onf
+     * pbrtidulbr formbt from bnothfr.
+     *
+     * @pbrbm  tbrgftFormbt dfsirfd formbt of outgoing dbtb
+     * @pbrbm  sourdfFormbt formbt of thf indoming dbtb
+     * @rfturn {@dodf truf} if thf donvfrsion is supportfd, othfrwisf
+     *         {@dodf fblsf}
+     */
+    publid boolfbn isConvfrsionSupportfd(AudioFormbt tbrgftFormbt,
+                                         AudioFormbt sourdfFormbt) {
+
+        AudioFormbt tbrgftFormbts[] = gftTbrgftFormbts( tbrgftFormbt.gftEndoding(), sourdfFormbt );
+
+        for(int i=0; i<tbrgftFormbts.lfngth; i++) {
+            if( tbrgftFormbt.mbtdhfs( tbrgftFormbts[i] ) ) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Obtbins bn budio input strfbm with thf spfdififd fndoding from thf givfn
+     * budio input strfbm.
+     *
+     * @pbrbm  tbrgftEndoding dfsirfd fndoding of thf strfbm bftfr prodfssing
+     * @pbrbm  sourdfStrfbm strfbm from whidh dbtb to bf prodfssfd should bf
+     *         rfbd
+     * @rfturn strfbm from whidh prodfssfd dbtb with thf spfdififd tbrgft
+     *         fndoding mby bf rfbd
+     * @throws IllfgblArgumfntExdfption if thf formbt dombinbtion supplifd is
+     *         not supportfd
+     */
+    publid bbstrbdt AudioInputStrfbm gftAudioInputStrfbm(
+            Endoding tbrgftEndoding, AudioInputStrfbm sourdfStrfbm);
+
+    /**
+     * Obtbins bn budio input strfbm with thf spfdififd formbt from thf givfn
+     * budio input strfbm.
+     *
+     * @pbrbm  tbrgftFormbt dfsirfd dbtb formbt of thf strfbm bftfr prodfssing
+     * @pbrbm  sourdfStrfbm strfbm from whidh dbtb to bf prodfssfd should bf
+     *         rfbd
+     * @rfturn strfbm from whidh prodfssfd dbtb with thf spfdififd formbt mby bf
+     *         rfbd
+     * @throws IllfgblArgumfntExdfption if thf formbt dombinbtion supplifd is
+     *         not supportfd
+     */
+    publid bbstrbdt AudioInputStrfbm gftAudioInputStrfbm(
+            AudioFormbt tbrgftFormbt, AudioInputStrfbm sourdfStrfbm);
+}

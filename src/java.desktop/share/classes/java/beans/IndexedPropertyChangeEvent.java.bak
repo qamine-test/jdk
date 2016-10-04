@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
 /**
- * An "IndexedPropertyChange" event gets delivered whenever a component that
- * conforms to the JavaBeans&trade; specification (a "bean") changes a bound
- * indexed property. This class is an extension of <code>PropertyChangeEvent</code>
- * but contains the index of the property that has changed.
+ * An "IndfxfdPropfrtyCibngf" fvfnt gfts dflivfrfd wifnfvfr b domponfnt tibt
+ * donforms to tif JbvbBfbns&trbdf; spfdifidbtion (b "bfbn") dibngfs b bound
+ * indfxfd propfrty. Tiis dlbss is bn fxtfnsion of <dodf>PropfrtyCibngfEvfnt</dodf>
+ * but dontbins tif indfx of tif propfrty tibt ibs dibngfd.
  * <P>
- * Null values may be provided for the old and the new values if their
- * true values are not known.
+ * Null vblufs mby bf providfd for tif old bnd tif nfw vblufs if tifir
+ * truf vblufs brf not known.
  * <P>
- * An event source may send a null object as the name to indicate that an
- * arbitrary set of if its properties have changed.  In this case the
- * old and new values should also be null.
+ * An fvfnt sourdf mby sfnd b null objfdt bs tif nbmf to indidbtf tibt bn
+ * brbitrbry sft of if its propfrtifs ibvf dibngfd.  In tiis dbsf tif
+ * old bnd nfw vblufs siould blso bf null.
  *
- * @since 1.5
- * @author Mark Davidson
+ * @sindf 1.5
+ * @butior Mbrk Dbvidson
  */
-public class IndexedPropertyChangeEvent extends PropertyChangeEvent {
-    private static final long serialVersionUID = -320227448495806870L;
+publid dlbss IndfxfdPropfrtyCibngfEvfnt fxtfnds PropfrtyCibngfEvfnt {
+    privbtf stbtid finbl long sfriblVfrsionUID = -320227448495806870L;
 
-    private int index;
+    privbtf int indfx;
 
     /**
-     * Constructs a new <code>IndexedPropertyChangeEvent</code> object.
+     * Construdts b nfw <dodf>IndfxfdPropfrtyCibngfEvfnt</dodf> objfdt.
      *
-     * @param source  The bean that fired the event.
-     * @param propertyName  The programmatic name of the property that
-     *             was changed.
-     * @param oldValue      The old value of the property.
-     * @param newValue      The new value of the property.
-     * @param index index of the property element that was changed.
+     * @pbrbm sourdf  Tif bfbn tibt firfd tif fvfnt.
+     * @pbrbm propfrtyNbmf  Tif progrbmmbtid nbmf of tif propfrty tibt
+     *             wbs dibngfd.
+     * @pbrbm oldVbluf      Tif old vbluf of tif propfrty.
+     * @pbrbm nfwVbluf      Tif nfw vbluf of tif propfrty.
+     * @pbrbm indfx indfx of tif propfrty flfmfnt tibt wbs dibngfd.
      */
-    public IndexedPropertyChangeEvent(Object source, String propertyName,
-                                      Object oldValue, Object newValue,
-                                      int index) {
-        super (source, propertyName, oldValue, newValue);
-        this.index = index;
+    publid IndfxfdPropfrtyCibngfEvfnt(Objfdt sourdf, String propfrtyNbmf,
+                                      Objfdt oldVbluf, Objfdt nfwVbluf,
+                                      int indfx) {
+        supfr (sourdf, propfrtyNbmf, oldVbluf, nfwVbluf);
+        tiis.indfx = indfx;
     }
 
     /**
-     * Gets the index of the property that was changed.
+     * Gfts tif indfx of tif propfrty tibt wbs dibngfd.
      *
-     * @return The index specifying the property element that was
-     *         changed.
+     * @rfturn Tif indfx spfdifying tif propfrty flfmfnt tibt wbs
+     *         dibngfd.
      */
-    public int getIndex() {
-        return index;
+    publid int gftIndfx() {
+        rfturn indfx;
     }
 
-    void appendTo(StringBuilder sb) {
-        sb.append("; index=").append(getIndex());
+    void bppfndTo(StringBuildfr sb) {
+        sb.bppfnd("; indfx=").bppfnd(gftIndfx());
     }
 }

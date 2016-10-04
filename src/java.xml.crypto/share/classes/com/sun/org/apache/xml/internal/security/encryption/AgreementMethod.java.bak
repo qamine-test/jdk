@@ -1,157 +1,157 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.encryption;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fndryption;
 
-import java.util.Iterator;
-import com.sun.org.apache.xml.internal.security.keys.KeyInfo;
-import org.w3c.dom.Element;
+import jbvb.util.Itfrbtor;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.KfyInfo;
+import org.w3d.dom.Elfmfnt;
 
 /**
- * A Key Agreement algorithm provides for the derivation of a shared secret key
- * based on a shared secret computed from certain types of compatible public
- * keys from both the sender and the recipient. Information from the originator
- * to determine the secret is indicated by an optional OriginatorKeyInfo
- * parameter child of an <code>AgreementMethod</code> element while that
- * associated with the recipient is indicated by an optional RecipientKeyInfo. A
- * shared key is derived from this shared secret by a method determined by the
- * Key Agreement algorithm.
+ * A Kfy Agrffmfnt blgoritim providfs for tif dfrivbtion of b sibrfd sfdrft kfy
+ * bbsfd on b sibrfd sfdrft domputfd from dfrtbin typfs of dompbtiblf publid
+ * kfys from boti tif sfndfr bnd tif rfdipifnt. Informbtion from tif originbtor
+ * to dftfrminf tif sfdrft is indidbtfd by bn optionbl OriginbtorKfyInfo
+ * pbrbmftfr diild of bn <dodf>AgrffmfntMftiod</dodf> flfmfnt wiilf tibt
+ * bssodibtfd witi tif rfdipifnt is indidbtfd by bn optionbl RfdipifntKfyInfo. A
+ * sibrfd kfy is dfrivfd from tiis sibrfd sfdrft by b mftiod dftfrminfd by tif
+ * Kfy Agrffmfnt blgoritim.
  * <p>
- * <b>Note:</b> XML Encryption does not provide an on-line key agreement
- * negotiation protocol. The <code>AgreementMethod</code> element can be used by
- * the originator to identify the keys and computational procedure that were
- * used to obtain a shared encryption key. The method used to obtain or select
- * the keys or algorithm used for the agreement computation is beyond the scope
- * of this specification.
+ * <b>Notf:</b> XML Endryption dofs not providf bn on-linf kfy bgrffmfnt
+ * nfgotibtion protodol. Tif <dodf>AgrffmfntMftiod</dodf> flfmfnt dbn bf usfd by
+ * tif originbtor to idfntify tif kfys bnd domputbtionbl prodfdurf tibt wfrf
+ * usfd to obtbin b sibrfd fndryption kfy. Tif mftiod usfd to obtbin or sflfdt
+ * tif kfys or blgoritim usfd for tif bgrffmfnt domputbtion is bfyond tif sdopf
+ * of tiis spfdifidbtion.
  * <p>
- * The <code>AgreementMethod</code> element appears as the content of a
- * <code>ds:KeyInfo</code> since, like other <code>ds:KeyInfo</code> children,
- * it yields a key. This <code>ds:KeyInfo</code> is in turn a child of an
- * <code>EncryptedData</code> or <code>EncryptedKey</code> element. The
- * Algorithm attribute and KeySize child of the <code>EncryptionMethod</code>
- * element under this <code>EncryptedData</code> or <code>EncryptedKey</code>
- * element are implicit parameters to the key agreement computation. In cases
- * where this <code>EncryptionMethod</code> algorithm <code>URI</code> is
- * insufficient to determine the key length, a KeySize MUST have been included.
- * In addition, the sender may place a KA-Nonce element under
- * <code>AgreementMethod</code> to assure that different keying material is
- * generated even for repeated agreements using the same sender and recipient
- * public keys.
+ * Tif <dodf>AgrffmfntMftiod</dodf> flfmfnt bppfbrs bs tif dontfnt of b
+ * <dodf>ds:KfyInfo</dodf> sindf, likf otifr <dodf>ds:KfyInfo</dodf> diildrfn,
+ * it yiflds b kfy. Tiis <dodf>ds:KfyInfo</dodf> is in turn b diild of bn
+ * <dodf>EndryptfdDbtb</dodf> or <dodf>EndryptfdKfy</dodf> flfmfnt. Tif
+ * Algoritim bttributf bnd KfySizf diild of tif <dodf>EndryptionMftiod</dodf>
+ * flfmfnt undfr tiis <dodf>EndryptfdDbtb</dodf> or <dodf>EndryptfdKfy</dodf>
+ * flfmfnt brf implidit pbrbmftfrs to tif kfy bgrffmfnt domputbtion. In dbsfs
+ * wifrf tiis <dodf>EndryptionMftiod</dodf> blgoritim <dodf>URI</dodf> is
+ * insuffidifnt to dftfrminf tif kfy lfngti, b KfySizf MUST ibvf bffn indludfd.
+ * In bddition, tif sfndfr mby plbdf b KA-Nondf flfmfnt undfr
+ * <dodf>AgrffmfntMftiod</dodf> to bssurf tibt difffrfnt kfying mbtfribl is
+ * gfnfrbtfd fvfn for rfpfbtfd bgrffmfnts using tif sbmf sfndfr bnd rfdipifnt
+ * publid kfys.
  * <p>
- * If the agreed key is being used to wrap a key, then
- * <code>AgreementMethod</code> would appear inside a <code>ds:KeyInfo</code>
- * inside an <code>EncryptedKey</code> element.
+ * If tif bgrffd kfy is bfing usfd to wrbp b kfy, tifn
+ * <dodf>AgrffmfntMftiod</dodf> would bppfbr insidf b <dodf>ds:KfyInfo</dodf>
+ * insidf bn <dodf>EndryptfdKfy</dodf> flfmfnt.
  * <p>
- * The Schema for AgreementMethod is as follows:
+ * Tif Sdifmb for AgrffmfntMftiod is bs follows:
  * <xmp>
- * <element name="AgreementMethod" type="xenc:AgreementMethodType"/>
- * <complexType name="AgreementMethodType" mixed="true">
- *     <sequence>
- *         <element name="KA-Nonce" minOccurs="0" type="base64Binary"/>
- *         <!-- <element ref="ds:DigestMethod" minOccurs="0"/> -->
- *         <any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
- *         <element name="OriginatorKeyInfo" minOccurs="0" type="ds:KeyInfoType"/>
- *         <element name="RecipientKeyInfo" minOccurs="0" type="ds:KeyInfoType"/>
- *     </sequence>
- *     <attribute name="Algorithm" type="anyURI" use="required"/>
- * </complexType>
+ * <flfmfnt nbmf="AgrffmfntMftiod" typf="xfnd:AgrffmfntMftiodTypf"/>
+ * <domplfxTypf nbmf="AgrffmfntMftiodTypf" mixfd="truf">
+ *     <sfqufndf>
+ *         <flfmfnt nbmf="KA-Nondf" minOddurs="0" typf="bbsf64Binbry"/>
+ *         <!-- <flfmfnt rff="ds:DigfstMftiod" minOddurs="0"/> -->
+ *         <bny nbmfspbdf="##otifr" minOddurs="0" mbxOddurs="unboundfd"/>
+ *         <flfmfnt nbmf="OriginbtorKfyInfo" minOddurs="0" typf="ds:KfyInfoTypf"/>
+ *         <flfmfnt nbmf="RfdipifntKfyInfo" minOddurs="0" typf="ds:KfyInfoTypf"/>
+ *     </sfqufndf>
+ *     <bttributf nbmf="Algoritim" typf="bnyURI" usf="rfquirfd"/>
+ * </domplfxTypf>
  * </xmp>
  *
- * @author Axl Mattheus
+ * @butior Axl Mbttifus
  */
-public interface AgreementMethod {
+publid intfrfbdf AgrffmfntMftiod {
 
     /**
-     * Returns a <code>byte</code> array.
-     * @return a <code>byte</code> array.
+     * Rfturns b <dodf>bytf</dodf> brrby.
+     * @rfturn b <dodf>bytf</dodf> brrby.
      */
-    byte[] getKANonce();
+    bytf[] gftKANondf();
 
     /**
-     * Sets the KANonce.jj
-     * @param kanonce
+     * Sfts tif KANondf.jj
+     * @pbrbm kbnondf
      */
-    void setKANonce(byte[] kanonce);
+    void sftKANondf(bytf[] kbnondf);
 
     /**
-     * Returns additional information regarding the <code>AgreementMethod</code>.
-     * @return additional information regarding the <code>AgreementMethod</code>.
+     * Rfturns bdditionbl informbtion rfgbrding tif <dodf>AgrffmfntMftiod</dodf>.
+     * @rfturn bdditionbl informbtion rfgbrding tif <dodf>AgrffmfntMftiod</dodf>.
      */
-    Iterator<Element> getAgreementMethodInformation();
+    Itfrbtor<Elfmfnt> gftAgrffmfntMftiodInformbtion();
 
     /**
-     * Adds additional <code>AgreementMethod</code> information.
+     * Adds bdditionbl <dodf>AgrffmfntMftiod</dodf> informbtion.
      *
-     * @param info a <code>Element</code> that represents additional information
-     * specified by
+     * @pbrbm info b <dodf>Elfmfnt</dodf> tibt rfprfsfnts bdditionbl informbtion
+     * spfdififd by
      *   <xmp>
-     *     <any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+     *     <bny nbmfspbdf="##otifr" minOddurs="0" mbxOddurs="unboundfd"/>
      *   </xmp>
      */
-    void addAgreementMethodInformation(Element info);
+    void bddAgrffmfntMftiodInformbtion(Elfmfnt info);
 
     /**
-     * Removes additional <code>AgreementMethod</code> information.
+     * Rfmovfs bdditionbl <dodf>AgrffmfntMftiod</dodf> informbtion.
      *
-     * @param info a <code>Element</code> that represents additional information
-     * specified by
+     * @pbrbm info b <dodf>Elfmfnt</dodf> tibt rfprfsfnts bdditionbl informbtion
+     * spfdififd by
      *   <xmp>
-     *     <any namespace="##other" minOccurs="0" maxOccurs="unbounded"/>
+     *     <bny nbmfspbdf="##otifr" minOddurs="0" mbxOddurs="unboundfd"/>
      *   </xmp>
      */
-    void revoveAgreementMethodInformation(Element info);
+    void rfvovfAgrffmfntMftiodInformbtion(Elfmfnt info);
 
     /**
-     * Returns information relating to the originator's shared secret.
+     * Rfturns informbtion rflbting to tif originbtor's sibrfd sfdrft.
      *
-     * @return information relating to the originator's shared secret.
+     * @rfturn informbtion rflbting to tif originbtor's sibrfd sfdrft.
      */
-    KeyInfo getOriginatorKeyInfo();
+    KfyInfo gftOriginbtorKfyInfo();
 
     /**
-     * Sets the information relating to the originator's shared secret.
+     * Sfts tif informbtion rflbting to tif originbtor's sibrfd sfdrft.
      *
-     * @param keyInfo information relating to the originator's shared secret.
+     * @pbrbm kfyInfo informbtion rflbting to tif originbtor's sibrfd sfdrft.
      */
-    void setOriginatorKeyInfo(KeyInfo keyInfo);
+    void sftOriginbtorKfyInfo(KfyInfo kfyInfo);
 
     /**
-     * Returns information relating to the recipient's shared secret.
+     * Rfturns informbtion rflbting to tif rfdipifnt's sibrfd sfdrft.
      *
-     * @return information relating to the recipient's shared secret.
+     * @rfturn informbtion rflbting to tif rfdipifnt's sibrfd sfdrft.
      */
-    KeyInfo getRecipientKeyInfo();
+    KfyInfo gftRfdipifntKfyInfo();
 
     /**
-     * Sets the information relating to the recipient's shared secret.
+     * Sfts tif informbtion rflbting to tif rfdipifnt's sibrfd sfdrft.
      *
-     * @param keyInfo information relating to the recipient's shared secret.
+     * @pbrbm kfyInfo informbtion rflbting to tif rfdipifnt's sibrfd sfdrft.
      */
-    void setRecipientKeyInfo(KeyInfo keyInfo);
+    void sftRfdipifntKfyInfo(KfyInfo kfyInfo);
 
     /**
-     * Returns the algorithm URI of this <code>CryptographicMethod</code>.
+     * Rfturns tif blgoritim URI of tiis <dodf>CryptogrbpiidMftiod</dodf>.
      *
-     * @return the algorithm URI of this <code>CryptographicMethod</code>
+     * @rfturn tif blgoritim URI of tiis <dodf>CryptogrbpiidMftiod</dodf>
      */
-    String getAlgorithm();
+    String gftAlgoritim();
 }

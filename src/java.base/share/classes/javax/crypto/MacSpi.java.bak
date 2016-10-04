@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto;
+pbdkbgf jbvbx.drypto;
 
-import java.security.*;
-import java.security.spec.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
 
-import java.nio.ByteBuffer;
+import jbvb.nio.BytfBufffr;
 
 /**
- * This class defines the <i>Service Provider Interface</i> (<b>SPI</b>)
- * for the <code>Mac</code> class.
- * All the abstract methods in this class must be implemented by each
- * cryptographic service provider who wishes to supply the implementation
- * of a particular MAC algorithm.
+ * Tiis dlbss dffinfs tif <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for tif <dodf>Mbd</dodf> dlbss.
+ * All tif bbstrbdt mftiods in tiis dlbss must bf implfmfntfd by fbdi
+ * dryptogrbpiid sfrvidf providfr wio wisifs to supply tif implfmfntbtion
+ * of b pbrtidulbr MAC blgoritim.
  *
- * <p> Implementations are free to implement the Cloneable interface.
+ * <p> Implfmfntbtions brf frff to implfmfnt tif Clonfbblf intfrfbdf.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
- * @since 1.4
+ * @sindf 1.4
  */
 
-public abstract class MacSpi {
+publid bbstrbdt dlbss MbdSpi {
 
     /**
-     * Returns the length of the MAC in bytes.
+     * Rfturns tif lfngti of tif MAC in bytfs.
      *
-     * @return the MAC length in bytes.
+     * @rfturn tif MAC lfngti in bytfs.
      */
-    protected abstract int engineGetMacLength();
+    protfdtfd bbstrbdt int fnginfGftMbdLfngti();
 
     /**
-     * Initializes the MAC with the given (secret) key and algorithm
-     * parameters.
+     * Initiblizfs tif MAC witi tif givfn (sfdrft) kfy bnd blgoritim
+     * pbrbmftfrs.
      *
-     * @param key the (secret) key.
-     * @param params the algorithm parameters.
+     * @pbrbm kfy tif (sfdrft) kfy.
+     * @pbrbm pbrbms tif blgoritim pbrbmftfrs.
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this MAC.
-     * @exception InvalidAlgorithmParameterException if the given algorithm
-     * parameters are inappropriate for this MAC.
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis MAC.
+     * @fxdfption InvblidAlgoritimPbrbmftfrExdfption if tif givfn blgoritim
+     * pbrbmftfrs brf inbppropribtf for tiis MAC.
      */
-    protected abstract void engineInit(Key key,
-                                       AlgorithmParameterSpec params)
-        throws InvalidKeyException, InvalidAlgorithmParameterException ;
+    protfdtfd bbstrbdt void fnginfInit(Kfy kfy,
+                                       AlgoritimPbrbmftfrSpfd pbrbms)
+        tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption ;
 
     /**
-     * Processes the given byte.
+     * Prodfssfs tif givfn bytf.
      *
-     * @param input the input byte to be processed.
+     * @pbrbm input tif input bytf to bf prodfssfd.
      */
-    protected abstract void engineUpdate(byte input);
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf input);
 
     /**
-     * Processes the first <code>len</code> bytes in <code>input</code>,
-     * starting at <code>offset</code> inclusive.
+     * Prodfssfs tif first <dodf>lfn</dodf> bytfs in <dodf>input</dodf>,
+     * stbrting bt <dodf>offsft</dodf> indlusivf.
      *
-     * @param input the input buffer.
-     * @param offset the offset in <code>input</code> where the input starts.
-     * @param len the number of bytes to process.
+     * @pbrbm input tif input bufffr.
+     * @pbrbm offsft tif offsft in <dodf>input</dodf> wifrf tif input stbrts.
+     * @pbrbm lfn tif numbfr of bytfs to prodfss.
      */
-    protected abstract void engineUpdate(byte[] input, int offset, int len);
+    protfdtfd bbstrbdt void fnginfUpdbtf(bytf[] input, int offsft, int lfn);
 
     /**
-     * Processes <code>input.remaining()</code> bytes in the ByteBuffer
-     * <code>input</code>, starting at <code>input.position()</code>.
-     * Upon return, the buffer's position will be equal to its limit;
-     * its limit will not have changed.
+     * Prodfssfs <dodf>input.rfmbining()</dodf> bytfs in tif BytfBufffr
+     * <dodf>input</dodf>, stbrting bt <dodf>input.position()</dodf>.
+     * Upon rfturn, tif bufffr's position will bf fqubl to its limit;
+     * its limit will not ibvf dibngfd.
      *
-     * <p>Subclasses should consider overriding this method if they can
-     * process ByteBuffers more efficiently than byte arrays.
+     * <p>Subdlbssfs siould donsidfr ovfrriding tiis mftiod if tify dbn
+     * prodfss BytfBufffrs morf fffidifntly tibn bytf brrbys.
      *
-     * @param input the ByteBuffer
-     * @since 1.5
+     * @pbrbm input tif BytfBufffr
+     * @sindf 1.5
      */
-    protected void engineUpdate(ByteBuffer input) {
-        if (input.hasRemaining() == false) {
-            return;
+    protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+        if (input.ibsRfmbining() == fblsf) {
+            rfturn;
         }
-        if (input.hasArray()) {
-            byte[] b = input.array();
-            int ofs = input.arrayOffset();
+        if (input.ibsArrby()) {
+            bytf[] b = input.brrby();
+            int ofs = input.brrbyOffsft();
             int pos = input.position();
             int lim = input.limit();
-            engineUpdate(b, ofs + pos, lim - pos);
+            fnginfUpdbtf(b, ofs + pos, lim - pos);
             input.position(lim);
-        } else {
-            int len = input.remaining();
-            byte[] b = new byte[CipherSpi.getTempArraySize(len)];
-            while (len > 0) {
-                int chunk = Math.min(len, b.length);
-                input.get(b, 0, chunk);
-                engineUpdate(b, 0, chunk);
-                len -= chunk;
+        } flsf {
+            int lfn = input.rfmbining();
+            bytf[] b = nfw bytf[CipifrSpi.gftTfmpArrbySizf(lfn)];
+            wiilf (lfn > 0) {
+                int diunk = Mbti.min(lfn, b.lfngti);
+                input.gft(b, 0, diunk);
+                fnginfUpdbtf(b, 0, diunk);
+                lfn -= diunk;
             }
         }
     }
 
     /**
-     * Completes the MAC computation and resets the MAC for further use,
-     * maintaining the secret key that the MAC was initialized with.
+     * Complftfs tif MAC domputbtion bnd rfsfts tif MAC for furtifr usf,
+     * mbintbining tif sfdrft kfy tibt tif MAC wbs initiblizfd witi.
      *
-     * @return the MAC result.
+     * @rfturn tif MAC rfsult.
      */
-    protected abstract byte[] engineDoFinal();
+    protfdtfd bbstrbdt bytf[] fnginfDoFinbl();
 
     /**
-     * Resets the MAC for further use, maintaining the secret key that the
-     * MAC was initialized with.
+     * Rfsfts tif MAC for furtifr usf, mbintbining tif sfdrft kfy tibt tif
+     * MAC wbs initiblizfd witi.
      */
-    protected abstract void engineReset();
+    protfdtfd bbstrbdt void fnginfRfsft();
 
     /**
-     * Returns a clone if the implementation is cloneable.
+     * Rfturns b dlonf if tif implfmfntbtion is dlonfbblf.
      *
-     * @return a clone if the implementation is cloneable.
+     * @rfturn b dlonf if tif implfmfntbtion is dlonfbblf.
      *
-     * @exception CloneNotSupportedException if this is called
-     * on an implementation that does not support <code>Cloneable</code>.
+     * @fxdfption ClonfNotSupportfdExdfption if tiis is dbllfd
+     * on bn implfmfntbtion tibt dofs not support <dodf>Clonfbblf</dodf>.
      */
-    public Object clone() throws CloneNotSupportedException {
-        if (this instanceof Cloneable) {
-            return super.clone();
-        } else {
-            throw new CloneNotSupportedException();
+    publid Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        if (tiis instbndfof Clonfbblf) {
+            rfturn supfr.dlonf();
+        } flsf {
+            tirow nfw ClonfNotSupportfdExdfption();
         }
     }
 }

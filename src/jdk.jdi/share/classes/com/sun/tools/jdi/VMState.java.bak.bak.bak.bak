@@ -1,0 +1,245 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.*;
+
+dlbss VMStbtf {
+    privbtf finbl VirtublMbdhinfImpl vm;
+
+    // Listfnfrs
+    privbtf finbl List<WfbkRfffrfndf<VMListfnfr>> listfnfrs = nfw ArrbyList<WfbkRfffrfndf<VMListfnfr>>(); // syndhronizfd (this)
+    privbtf boolfbn notifyingListfnfrs = fblsf;  // syndhronizfd (this)
+
+    /*
+     * Cfrtbin informbtion dbn bf dbdhfd only whfn thf fntirf VM is
+     * suspfndfd bnd thfrf brf no pfnding rfsumfs. Thf fiflds bflow
+     * brf usfd to trbdk whfthfr thfrf brf pfnding rfsumfs. (Thfrf
+     * is bn bssumption thbt JDWP dommbnd ids brf indrfbsing ovfr timf.)
+     */
+    privbtf int lbstComplftfdCommbndId = 0;   // syndhronizfd (this)
+    privbtf int lbstRfsumfCommbndId = 0;      // syndhronizfd (this)
+
+    // This is dbdhfd only whilf thf VM is suspfndfd
+    privbtf stbtid dlbss Cbdhf {
+        List<ThrfbdGroupRfffrfndf> groups = null;  // dbdhfd Top Lfvfl ThrfbdGroups
+        List<ThrfbdRfffrfndf> thrfbds = null; // dbdhfd Thrfbds
+    }
+
+    privbtf Cbdhf dbdhf = null;               // syndhronizfd (this)
+    privbtf stbtid finbl Cbdhf mbrkfrCbdhf = nfw Cbdhf();
+
+    privbtf void disbblfCbdhf() {
+        syndhronizfd (this) {
+            dbdhf = null;
+        }
+    }
+
+    privbtf void fnbblfCbdhf() {
+        syndhronizfd (this) {
+            dbdhf = mbrkfrCbdhf;
+        }
+    }
+
+    privbtf Cbdhf gftCbdhf() {
+        syndhronizfd (this) {
+            if (dbdhf == mbrkfrCbdhf) {
+                dbdhf = nfw Cbdhf();
+            }
+            rfturn dbdhf;
+        }
+    }
+
+    VMStbtf(VirtublMbdhinfImpl vm) {
+        this.vm = vm;
+    }
+
+    /**
+     * Is thf VM durrfntly suspfndfd, for thf purposf of dbdhing?
+     * Must bf dbllfd syndhronizfd on vm.stbtf()
+     */
+    boolfbn isSuspfndfd() {
+        rfturn dbdhf != null;
+    }
+
+    /*
+     * A JDWP dommbnd hbs bffn domplftfd (rfply hbs bffn rfdfivfd).
+     * Updbtf dbtb thbt trbdks pfnding rfsumf dommbnds.
+     */
+    syndhronizfd void notifyCommbndComplftf(int id) {
+        lbstComplftfdCommbndId = id;
+    }
+
+    syndhronizfd void frffzf() {
+        if (dbdhf == null && (lbstComplftfdCommbndId >= lbstRfsumfCommbndId)) {
+            /*
+             * No pfnding rfsumfs to worry bbout. Thf VM is suspfndfd
+             * bnd bdditionbl stbtf dbn bf dbdhfd. Notify bll
+             * intfrfstfd listfnfrs.
+             */
+            prodfssVMAdtion(nfw VMAdtion(vm, VMAdtion.VM_SUSPENDED));
+            fnbblfCbdhf();
+        }
+    }
+
+    syndhronizfd PbdkftStrfbm thbwCommbnd(CommbndSfndfr sfndfr) {
+        PbdkftStrfbm strfbm = sfndfr.sfnd();
+        lbstRfsumfCommbndId = strfbm.id();
+        thbw();
+        rfturn strfbm;
+    }
+
+    /**
+     * All thrfbds brf rfsuming
+     */
+    void thbw() {
+        thbw(null);
+    }
+
+    /**
+     * Tfll listfnfrs to invblidbtf suspfnd-sfnsitivf dbdhfs.
+     * If rfsumingThrfbd != null, thfn only thbt thrfbd is bfing
+     * rfsumfd.
+     */
+    syndhronizfd void thbw(ThrfbdRfffrfndf rfsumingThrfbd) {
+        if (dbdhf != null) {
+            if ((vm.trbdfFlbgs & VirtublMbdhinf.TRACE_OBJREFS) != 0) {
+                vm.printTrbdf("Clfbring VM suspfndfd dbdhf");
+            }
+            disbblfCbdhf();
+        }
+        prodfssVMAdtion(nfw VMAdtion(vm, rfsumingThrfbd, VMAdtion.VM_NOT_SUSPENDED));
+    }
+
+    privbtf syndhronizfd void prodfssVMAdtion(VMAdtion bdtion) {
+        if (!notifyingListfnfrs) {
+            // Prfvfnt rfdursion
+            notifyingListfnfrs = truf;
+
+            Itfrbtor<WfbkRfffrfndf<VMListfnfr>> itfr = listfnfrs.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                WfbkRfffrfndf<VMListfnfr> rff = itfr.nfxt();
+                VMListfnfr listfnfr = rff.gft();
+                if (listfnfr != null) {
+                    boolfbn kffp = truf;
+                    switdh (bdtion.id()) {
+                        dbsf VMAdtion.VM_SUSPENDED:
+                            kffp = listfnfr.vmSuspfndfd(bdtion);
+                            brfbk;
+                        dbsf VMAdtion.VM_NOT_SUSPENDED:
+                            kffp = listfnfr.vmNotSuspfndfd(bdtion);
+                            brfbk;
+                    }
+                    if (!kffp) {
+                        itfr.rfmovf();
+                    }
+                } flsf {
+                    // Listfnfr is unrfbdhbblf; dlfbn up
+                    itfr.rfmovf();
+                }
+            }
+
+            notifyingListfnfrs = fblsf;
+        }
+    }
+
+    syndhronizfd void bddListfnfr(VMListfnfr listfnfr) {
+        listfnfrs.bdd(nfw WfbkRfffrfndf<VMListfnfr>(listfnfr));
+    }
+
+    syndhronizfd boolfbn hbsListfnfr(VMListfnfr listfnfr) {
+        rfturn listfnfrs.dontbins(listfnfr);
+    }
+
+    syndhronizfd void rfmovfListfnfr(VMListfnfr listfnfr) {
+        Itfrbtor<WfbkRfffrfndf<VMListfnfr>> itfr = listfnfrs.itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            WfbkRfffrfndf<VMListfnfr> rff = itfr.nfxt();
+            if (listfnfr.fqubls(rff.gft())) {
+                itfr.rfmovf();
+                brfbk;
+            }
+        }
+    }
+
+    List<ThrfbdRfffrfndf> bllThrfbds() {
+        List<ThrfbdRfffrfndf> thrfbds = null;
+        try {
+            Cbdhf lodbl = gftCbdhf();
+
+            if (lodbl != null) {
+                // mby bf stblf whfn rfturnfd, but not provbbly so
+                thrfbds = lodbl.thrfbds;
+            }
+            if (thrfbds == null) {
+                thrfbds = Arrbys.bsList((ThrfbdRfffrfndf[])JDWP.VirtublMbdhinf.AllThrfbds.
+                                        prodfss(vm).thrfbds);
+                if (lodbl != null) {
+                    lodbl.thrfbds = thrfbds;
+                    if ((vm.trbdfFlbgs & VirtublMbdhinf.TRACE_OBJREFS) != 0) {
+                        vm.printTrbdf("Cbdhing bll thrfbds (dount = " +
+                                      thrfbds.sizf() + ") whilf VM suspfndfd");
+                    }
+                }
+            }
+        } dbtdh (JDWPExdfption fxd) {
+            throw fxd.toJDIExdfption();
+        }
+        rfturn thrfbds;
+    }
+
+
+    List<ThrfbdGroupRfffrfndf> topLfvflThrfbdGroups() {
+        List<ThrfbdGroupRfffrfndf> groups = null;
+        try {
+            Cbdhf lodbl = gftCbdhf();
+
+            if (lodbl != null) {
+                groups = lodbl.groups;
+            }
+            if (groups == null) {
+                groups = Arrbys.bsList(
+                                (ThrfbdGroupRfffrfndf[])JDWP.VirtublMbdhinf.TopLfvflThrfbdGroups.
+                                       prodfss(vm).groups);
+                if (lodbl != null) {
+                    lodbl.groups = groups;
+                    if ((vm.trbdfFlbgs & VirtublMbdhinf.TRACE_OBJREFS) != 0) {
+                        vm.printTrbdf(
+                          "Cbdhing top lfvfl thrfbd groups (dount = " +
+                          groups.sizf() + ") whilf VM suspfndfd");
+                    }
+                }
+            }
+        } dbtdh (JDWPExdfption fxd) {
+            throw fxd.toJDIExdfption();
+        }
+        rfturn groups;
+    }
+
+}

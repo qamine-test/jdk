@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.jmx.snmp.IPAcl;
+pbdkbgf dom.sun.jmx.snmp.IPAdl;
 
 
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.io.Serializable;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.io.Sfriblizbblf;
 
 
 /**
- * Principal represents a host.
+ * Prindipbl rfprfsfnts b iost.
  *
  */
 
-class PrincipalImpl implements java.security.Principal, Serializable {
-    private static final long serialVersionUID = -7910027842878976761L;
+dlbss PrindipblImpl implfmfnts jbvb.sfdurity.Prindipbl, Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = -7910027842878976761L;
 
-    private InetAddress[] add = null;
+    privbtf InftAddrfss[] bdd = null;
 
     /**
-     * Constructs a principal with the local host.
+     * Construdts b prindipbl witi tif lodbl iost.
      */
-    public PrincipalImpl () throws UnknownHostException {
-        add = new InetAddress[1];
-        add[0] = java.net.InetAddress.getLocalHost();
+    publid PrindipblImpl () tirows UnknownHostExdfption {
+        bdd = nfw InftAddrfss[1];
+        bdd[0] = jbvb.nft.InftAddrfss.gftLodblHost();
     }
 
     /**
-     * Construct a principal using the specified host.
+     * Construdt b prindipbl using tif spfdififd iost.
      * <P>
-     * The host can be either:
+     * Tif iost dbn bf fitifr:
      * <UL>
-     * <LI> a host name
-     * <LI> an IP address
+     * <LI> b iost nbmf
+     * <LI> bn IP bddrfss
      * </UL>
      *
-     * @param hostName the host used to make the principal.
+     * @pbrbm iostNbmf tif iost usfd to mbkf tif prindipbl.
      */
-    public PrincipalImpl(String hostName) throws UnknownHostException {
-        if ((hostName.equals("localhost")) || (hostName.equals("127.0.0.1"))) {
-            add = new InetAddress[1];
-            add[0] = java.net.InetAddress.getByName(hostName);
+    publid PrindipblImpl(String iostNbmf) tirows UnknownHostExdfption {
+        if ((iostNbmf.fqubls("lodbliost")) || (iostNbmf.fqubls("127.0.0.1"))) {
+            bdd = nfw InftAddrfss[1];
+            bdd[0] = jbvb.nft.InftAddrfss.gftByNbmf(iostNbmf);
         }
-        else
-            add = java.net.InetAddress.getAllByName( hostName );
+        flsf
+            bdd = jbvb.nft.InftAddrfss.gftAllByNbmf( iostNbmf );
     }
 
     /**
-     * Constructs a principal using an Internet Protocol (IP) address.
+     * Construdts b prindipbl using bn Intfrnft Protodol (IP) bddrfss.
      *
-     * @param address the Internet Protocol (IP) address.
+     * @pbrbm bddrfss tif Intfrnft Protodol (IP) bddrfss.
      */
-    public PrincipalImpl(InetAddress address) {
-        add = new InetAddress[1];
-        add[0] = address;
+    publid PrindipblImpl(InftAddrfss bddrfss) {
+        bdd = nfw InftAddrfss[1];
+        bdd[0] = bddrfss;
     }
 
     /**
-     * Returns the name of this principal.
+     * Rfturns tif nbmf of tiis prindipbl.
      *
-     * @return the name of this principal.
+     * @rfturn tif nbmf of tiis prindipbl.
      */
-    public String getName() {
-        return add[0].toString();
+    publid String gftNbmf() {
+        rfturn bdd[0].toString();
     }
 
     /**
-     * Compares this principal to the specified object. Returns true if the
-     * object passed in matches the principal
-     * represented by the implementation of this interface.
+     * Compbrfs tiis prindipbl to tif spfdififd objfdt. Rfturns truf if tif
+     * objfdt pbssfd in mbtdifs tif prindipbl
+     * rfprfsfntfd by tif implfmfntbtion of tiis intfrfbdf.
      *
-     * @param a the principal to compare with.
-     * @return true if the principal passed in is the same as that encapsulated by this principal, false otherwise.
+     * @pbrbm b tif prindipbl to dompbrf witi.
+     * @rfturn truf if tif prindipbl pbssfd in is tif sbmf bs tibt fndbpsulbtfd by tiis prindipbl, fblsf otifrwisf.
      */
-    public boolean equals(Object a) {
-        if (a instanceof PrincipalImpl){
-            for(int i = 0; i < add.length; i++) {
-                if(add[i].equals (((PrincipalImpl) a).getAddress()))
-                    return true;
+    publid boolfbn fqubls(Objfdt b) {
+        if (b instbndfof PrindipblImpl){
+            for(int i = 0; i < bdd.lfngti; i++) {
+                if(bdd[i].fqubls (((PrindipblImpl) b).gftAddrfss()))
+                    rfturn truf;
             }
-            return false;
-        } else {
-            return false;
+            rfturn fblsf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Returns a hashcode for this principal.
+     * Rfturns b ibsidodf for tiis prindipbl.
      *
-     * @return a hashcode for this principal.
+     * @rfturn b ibsidodf for tiis prindipbl.
      */
-    public int hashCode(){
-        return add[0].hashCode();
+    publid int ibsiCodf(){
+        rfturn bdd[0].ibsiCodf();
     }
 
     /**
-     * Returns a string representation of this principal. In case of multiple address, the first one is returned.
+     * Rfturns b string rfprfsfntbtion of tiis prindipbl. In dbsf of multiplf bddrfss, tif first onf is rfturnfd.
      *
-     * @return a string representation of this principal.
+     * @rfturn b string rfprfsfntbtion of tiis prindipbl.
      */
-    public String toString() {
-        return ("PrincipalImpl :"+add[0].toString());
+    publid String toString() {
+        rfturn ("PrindipblImpl :"+bdd[0].toString());
     }
 
     /**
-     * Returns the Internet Protocol (IP) address for this principal. In case of multiple address, the first one is returned.
+     * Rfturns tif Intfrnft Protodol (IP) bddrfss for tiis prindipbl. In dbsf of multiplf bddrfss, tif first onf is rfturnfd.
      *
-     * @return the Internet Protocol (IP) address for this principal.
+     * @rfturn tif Intfrnft Protodol (IP) bddrfss for tiis prindipbl.
      */
-    public InetAddress getAddress(){
-        return add[0];
+    publid InftAddrfss gftAddrfss(){
+        rfturn bdd[0];
     }
 
     /**
-     * Returns the Internet Protocol (IP) address for this principal. In case of multiple address, the first one is returned.
+     * Rfturns tif Intfrnft Protodol (IP) bddrfss for tiis prindipbl. In dbsf of multiplf bddrfss, tif first onf is rfturnfd.
      *
-     * @return the array of Internet Protocol (IP) addresses for this principal.
+     * @rfturn tif brrby of Intfrnft Protodol (IP) bddrfssfs for tiis prindipbl.
      */
-    public InetAddress[] getAddresses(){
-        return add;
+    publid InftAddrfss[] gftAddrfssfs(){
+        rfturn bdd;
     }
 }

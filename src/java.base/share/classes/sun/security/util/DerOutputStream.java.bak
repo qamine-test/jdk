@@ -1,576 +1,576 @@
 /*
- * Copyright (c) 1996, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
-import java.util.Comparator;
-import java.util.Arrays;
-import java.math.BigInteger;
-import java.util.Locale;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.tfxt.SimplfDbtfFormbt;
+import jbvb.util.Dbtf;
+import jbvb.util.TimfZonf;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Arrbys;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.Lodblf;
 
 
 /**
- * Output stream marshaling DER-encoded data.  This is eventually provided
- * in the form of a byte array; there is no advance limit on the size of
- * that byte array.
+ * Output strfbm mbrsibling DER-fndodfd dbtb.  Tiis is fvfntublly providfd
+ * in tif form of b bytf brrby; tifrf is no bdvbndf limit on tif sizf of
+ * tibt bytf brrby.
  *
- * <P>At this time, this class supports only a subset of the types of
- * DER data encodings which are defined.  That subset is sufficient for
- * generating most X.509 certificates.
+ * <P>At tiis timf, tiis dlbss supports only b subsft of tif typfs of
+ * DER dbtb fndodings wiidi brf dffinfd.  Tibt subsft is suffidifnt for
+ * gfnfrbting most X.509 dfrtifidbtfs.
  *
  *
- * @author David Brownell
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @butior Dbvid Brownfll
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
  */
-public class DerOutputStream
-extends ByteArrayOutputStream implements DerEncoder {
+publid dlbss DfrOutputStrfbm
+fxtfnds BytfArrbyOutputStrfbm implfmfnts DfrEndodfr {
     /**
-     * Construct an DER output stream.
+     * Construdt bn DER output strfbm.
      *
-     * @param size how large a buffer to preallocate.
+     * @pbrbm sizf iow lbrgf b bufffr to prfbllodbtf.
      */
-    public DerOutputStream(int size) { super(size); }
+    publid DfrOutputStrfbm(int sizf) { supfr(sizf); }
 
     /**
-     * Construct an DER output stream.
+     * Construdt bn DER output strfbm.
      */
-    public DerOutputStream() { }
+    publid DfrOutputStrfbm() { }
 
     /**
-     * Writes tagged, pre-marshaled data.  This calcuates and encodes
-     * the length, so that the output data is the standard triple of
-     * { tag, length, data } used by all DER values.
+     * Writfs tbggfd, prf-mbrsiblfd dbtb.  Tiis dbldubtfs bnd fndodfs
+     * tif lfngti, so tibt tif output dbtb is tif stbndbrd triplf of
+     * { tbg, lfngti, dbtb } usfd by bll DER vblufs.
      *
-     * @param tag the DER value tag for the data, such as
-     *          <em>DerValue.tag_Sequence</em>
-     * @param buf buffered data, which must be DER-encoded
+     * @pbrbm tbg tif DER vbluf tbg for tif dbtb, sudi bs
+     *          <fm>DfrVbluf.tbg_Sfqufndf</fm>
+     * @pbrbm buf bufffrfd dbtb, wiidi must bf DER-fndodfd
      */
-    public void write(byte tag, byte[] buf) throws IOException {
-        write(tag);
-        putLength(buf.length);
-        write(buf, 0, buf.length);
+    publid void writf(bytf tbg, bytf[] buf) tirows IOExdfption {
+        writf(tbg);
+        putLfngti(buf.lfngti);
+        writf(buf, 0, buf.lfngti);
     }
 
     /**
-     * Writes tagged data using buffer-to-buffer copy.  As above,
-     * this writes a standard DER record.  This is often used when
-     * efficiently encapsulating values in sequences.
+     * Writfs tbggfd dbtb using bufffr-to-bufffr dopy.  As bbovf,
+     * tiis writfs b stbndbrd DER rfdord.  Tiis is oftfn usfd wifn
+     * fffidifntly fndbpsulbting vblufs in sfqufndfs.
      *
-     * @param tag the DER value tag for the data, such as
-     *          <em>DerValue.tag_Sequence</em>
-     * @param out buffered data
+     * @pbrbm tbg tif DER vbluf tbg for tif dbtb, sudi bs
+     *          <fm>DfrVbluf.tbg_Sfqufndf</fm>
+     * @pbrbm out bufffrfd dbtb
      */
-    public void write(byte tag, DerOutputStream out) throws IOException {
-        write(tag);
-        putLength(out.count);
-        write(out.buf, 0, out.count);
+    publid void writf(bytf tbg, DfrOutputStrfbm out) tirows IOExdfption {
+        writf(tbg);
+        putLfngti(out.dount);
+        writf(out.buf, 0, out.dount);
     }
 
     /**
-     * Writes implicitly tagged data using buffer-to-buffer copy.  As above,
-     * this writes a standard DER record.  This is often used when
-     * efficiently encapsulating implicitly tagged values.
+     * Writfs impliditly tbggfd dbtb using bufffr-to-bufffr dopy.  As bbovf,
+     * tiis writfs b stbndbrd DER rfdord.  Tiis is oftfn usfd wifn
+     * fffidifntly fndbpsulbting impliditly tbggfd vblufs.
      *
-     * @param tag the DER value of the context-specific tag that replaces
-     * original tag of the value in the output, such as in
-     * <pre>
-     *          <em> <field> [N] IMPLICIT <type></em>
-     * </pre>
-     * For example, <em>FooLength [1] IMPLICIT INTEGER</em>, with value=4;
-     * would be encoded as "81 01 04"  whereas in explicit
-     * tagging it would be encoded as "A1 03 02 01 04".
-     * Notice that the tag is A1 and not 81, this is because with
-     * explicit tagging the form is always constructed.
-     * @param value original value being implicitly tagged
+     * @pbrbm tbg tif DER vbluf of tif dontfxt-spfdifid tbg tibt rfplbdfs
+     * originbl tbg of tif vbluf in tif output, sudi bs in
+     * <prf>
+     *          <fm> <fifld> [N] IMPLICIT <typf></fm>
+     * </prf>
+     * For fxbmplf, <fm>FooLfngti [1] IMPLICIT INTEGER</fm>, witi vbluf=4;
+     * would bf fndodfd bs "81 01 04"  wifrfbs in fxplidit
+     * tbgging it would bf fndodfd bs "A1 03 02 01 04".
+     * Notidf tibt tif tbg is A1 bnd not 81, tiis is bfdbusf witi
+     * fxplidit tbgging tif form is blwbys donstrudtfd.
+     * @pbrbm vbluf originbl vbluf bfing impliditly tbggfd
      */
-    public void writeImplicit(byte tag, DerOutputStream value)
-    throws IOException {
-        write(tag);
-        write(value.buf, 1, value.count-1);
+    publid void writfImplidit(bytf tbg, DfrOutputStrfbm vbluf)
+    tirows IOExdfption {
+        writf(tbg);
+        writf(vbluf.buf, 1, vbluf.dount-1);
     }
 
     /**
-     * Marshals pre-encoded DER value onto the output stream.
+     * Mbrsibls prf-fndodfd DER vbluf onto tif output strfbm.
      */
-    public void putDerValue(DerValue val) throws IOException {
-        val.encode(this);
+    publid void putDfrVbluf(DfrVbluf vbl) tirows IOExdfption {
+        vbl.fndodf(tiis);
     }
 
     /*
-     * PRIMITIVES -- these are "universal" ASN.1 simple types.
+     * PRIMITIVES -- tifsf brf "univfrsbl" ASN.1 simplf typfs.
      *
      *  BOOLEAN, INTEGER, BIT STRING, OCTET STRING, NULL
      *  OBJECT IDENTIFIER, SEQUENCE(OF), SET(OF)
-     *  PrintableString, T61String, IA5String, UTCTime
+     *  PrintbblfString, T61String, IA5String, UTCTimf
      */
 
     /**
-     * Marshals a DER boolean on the output stream.
+     * Mbrsibls b DER boolfbn on tif output strfbm.
      */
-    public void putBoolean(boolean val) throws IOException {
-        write(DerValue.tag_Boolean);
-        putLength(1);
-        if (val) {
-            write(0xff);
-        } else {
-            write(0);
+    publid void putBoolfbn(boolfbn vbl) tirows IOExdfption {
+        writf(DfrVbluf.tbg_Boolfbn);
+        putLfngti(1);
+        if (vbl) {
+            writf(0xff);
+        } flsf {
+            writf(0);
         }
     }
 
     /**
-     * Marshals a DER enumerated on the output stream.
-     * @param i the enumerated value.
+     * Mbrsibls b DER fnumfrbtfd on tif output strfbm.
+     * @pbrbm i tif fnumfrbtfd vbluf.
      */
-    public void putEnumerated(int i) throws IOException {
-        write(DerValue.tag_Enumerated);
-        putIntegerContents(i);
+    publid void putEnumfrbtfd(int i) tirows IOExdfption {
+        writf(DfrVbluf.tbg_Enumfrbtfd);
+        putIntfgfrContfnts(i);
     }
 
     /**
-     * Marshals a DER integer on the output stream.
+     * Mbrsibls b DER intfgfr on tif output strfbm.
      *
-     * @param i the integer in the form of a BigInteger.
+     * @pbrbm i tif intfgfr in tif form of b BigIntfgfr.
      */
-    public void putInteger(BigInteger i) throws IOException {
-        write(DerValue.tag_Integer);
-        byte[]    buf = i.toByteArray(); // least number  of bytes
-        putLength(buf.length);
-        write(buf, 0, buf.length);
+    publid void putIntfgfr(BigIntfgfr i) tirows IOExdfption {
+        writf(DfrVbluf.tbg_Intfgfr);
+        bytf[]    buf = i.toBytfArrby(); // lfbst numbfr  of bytfs
+        putLfngti(buf.lfngti);
+        writf(buf, 0, buf.lfngti);
     }
 
     /**
-     * Marshals a DER integer on the output stream.
-     * @param i the integer in the form of an Integer.
+     * Mbrsibls b DER intfgfr on tif output strfbm.
+     * @pbrbm i tif intfgfr in tif form of bn Intfgfr.
      */
-    public void putInteger(Integer i) throws IOException {
-        putInteger(i.intValue());
+    publid void putIntfgfr(Intfgfr i) tirows IOExdfption {
+        putIntfgfr(i.intVbluf());
     }
 
     /**
-     * Marshals a DER integer on the output stream.
-     * @param i the integer.
+     * Mbrsibls b DER intfgfr on tif output strfbm.
+     * @pbrbm i tif intfgfr.
      */
-    public void putInteger(int i) throws IOException {
-        write(DerValue.tag_Integer);
-        putIntegerContents(i);
+    publid void putIntfgfr(int i) tirows IOExdfption {
+        writf(DfrVbluf.tbg_Intfgfr);
+        putIntfgfrContfnts(i);
     }
 
-    private void putIntegerContents(int i) throws IOException {
+    privbtf void putIntfgfrContfnts(int i) tirows IOExdfption {
 
-        byte[] bytes = new byte[4];
-        int start = 0;
+        bytf[] bytfs = nfw bytf[4];
+        int stbrt = 0;
 
-        // Obtain the four bytes of the int
+        // Obtbin tif four bytfs of tif int
 
-        bytes[3] = (byte) (i & 0xff);
-        bytes[2] = (byte)((i & 0xff00) >>> 8);
-        bytes[1] = (byte)((i & 0xff0000) >>> 16);
-        bytes[0] = (byte)((i & 0xff000000) >>> 24);
+        bytfs[3] = (bytf) (i & 0xff);
+        bytfs[2] = (bytf)((i & 0xff00) >>> 8);
+        bytfs[1] = (bytf)((i & 0xff0000) >>> 16);
+        bytfs[0] = (bytf)((i & 0xff000000) >>> 24);
 
-        // Reduce them to the least number of bytes needed to
-        // represent this int
+        // Rfdudf tifm to tif lfbst numbfr of bytfs nffdfd to
+        // rfprfsfnt tiis int
 
-        if (bytes[0] == (byte)0xff) {
+        if (bytfs[0] == (bytf)0xff) {
 
-            // Eliminate redundant 0xff
+            // Eliminbtf rfdundbnt 0xff
 
             for (int j = 0; j < 3; j++) {
-                if ((bytes[j] == (byte)0xff) &&
-                    ((bytes[j+1] & 0x80) == 0x80))
-                    start++;
-                else
-                    break;
+                if ((bytfs[j] == (bytf)0xff) &&
+                    ((bytfs[j+1] & 0x80) == 0x80))
+                    stbrt++;
+                flsf
+                    brfbk;
              }
-         } else if (bytes[0] == 0x00) {
+         } flsf if (bytfs[0] == 0x00) {
 
-             // Eliminate redundant 0x00
+             // Eliminbtf rfdundbnt 0x00
 
             for (int j = 0; j < 3; j++) {
-                if ((bytes[j] == 0x00) &&
-                    ((bytes[j+1] & 0x80) == 0))
-                    start++;
-                else
-                    break;
+                if ((bytfs[j] == 0x00) &&
+                    ((bytfs[j+1] & 0x80) == 0))
+                    stbrt++;
+                flsf
+                    brfbk;
             }
         }
 
-        putLength(4 - start);
-        for (int k = start; k < 4; k++)
-            write(bytes[k]);
+        putLfngti(4 - stbrt);
+        for (int k = stbrt; k < 4; k++)
+            writf(bytfs[k]);
     }
 
     /**
-     * Marshals a DER bit string on the output stream. The bit
-     * string must be byte-aligned.
+     * Mbrsibls b DER bit string on tif output strfbm. Tif bit
+     * string must bf bytf-blignfd.
      *
-     * @param bits the bit string, MSB first
+     * @pbrbm bits tif bit string, MSB first
      */
-    public void putBitString(byte[] bits) throws IOException {
-        write(DerValue.tag_BitString);
-        putLength(bits.length + 1);
-        write(0);               // all of last octet is used
-        write(bits);
+    publid void putBitString(bytf[] bits) tirows IOExdfption {
+        writf(DfrVbluf.tbg_BitString);
+        putLfngti(bits.lfngti + 1);
+        writf(0);               // bll of lbst odtft is usfd
+        writf(bits);
     }
 
     /**
-     * Marshals a DER bit string on the output stream.
-     * The bit strings need not be byte-aligned.
+     * Mbrsibls b DER bit string on tif output strfbm.
+     * Tif bit strings nffd not bf bytf-blignfd.
      *
-     * @param bits the bit string, MSB first
+     * @pbrbm bits tif bit string, MSB first
      */
-    public void putUnalignedBitString(BitArray ba) throws IOException {
-        byte[] bits = ba.toByteArray();
+    publid void putUnblignfdBitString(BitArrby bb) tirows IOExdfption {
+        bytf[] bits = bb.toBytfArrby();
 
-        write(DerValue.tag_BitString);
-        putLength(bits.length + 1);
-        write(bits.length*8 - ba.length()); // excess bits in last octet
-        write(bits);
+        writf(DfrVbluf.tbg_BitString);
+        putLfngti(bits.lfngti + 1);
+        writf(bits.lfngti*8 - bb.lfngti()); // fxdfss bits in lbst odtft
+        writf(bits);
     }
 
     /**
-     * Marshals a truncated DER bit string on the output stream.
-     * The bit strings need not be byte-aligned.
+     * Mbrsibls b trundbtfd DER bit string on tif output strfbm.
+     * Tif bit strings nffd not bf bytf-blignfd.
      *
-     * @param bits the bit string, MSB first
+     * @pbrbm bits tif bit string, MSB first
      */
-    public void putTruncatedUnalignedBitString(BitArray ba) throws IOException {
-        putUnalignedBitString(ba.truncate());
+    publid void putTrundbtfdUnblignfdBitString(BitArrby bb) tirows IOExdfption {
+        putUnblignfdBitString(bb.trundbtf());
     }
 
     /**
-     * DER-encodes an ASN.1 OCTET STRING value on the output stream.
+     * DER-fndodfs bn ASN.1 OCTET STRING vbluf on tif output strfbm.
      *
-     * @param octets the octet string
+     * @pbrbm odtfts tif odtft string
      */
-    public void putOctetString(byte[] octets) throws IOException {
-        write(DerValue.tag_OctetString, octets);
+    publid void putOdtftString(bytf[] odtfts) tirows IOExdfption {
+        writf(DfrVbluf.tbg_OdtftString, odtfts);
     }
 
     /**
-     * Marshals a DER "null" value on the output stream.  These are
-     * often used to indicate optional values which have been omitted.
+     * Mbrsibls b DER "null" vbluf on tif output strfbm.  Tifsf brf
+     * oftfn usfd to indidbtf optionbl vblufs wiidi ibvf bffn omittfd.
      */
-    public void putNull() throws IOException {
-        write(DerValue.tag_Null);
-        putLength(0);
+    publid void putNull() tirows IOExdfption {
+        writf(DfrVbluf.tbg_Null);
+        putLfngti(0);
     }
 
     /**
-     * Marshals an object identifier (OID) on the output stream.
-     * Corresponds to the ASN.1 "OBJECT IDENTIFIER" construct.
+     * Mbrsibls bn objfdt idfntififr (OID) on tif output strfbm.
+     * Corrfsponds to tif ASN.1 "OBJECT IDENTIFIER" donstrudt.
      */
-    public void putOID(ObjectIdentifier oid) throws IOException {
-        oid.encode(this);
+    publid void putOID(ObjfdtIdfntififr oid) tirows IOExdfption {
+        oid.fndodf(tiis);
     }
 
     /**
-     * Marshals a sequence on the output stream.  This supports both
-     * the ASN.1 "SEQUENCE" (zero to N values) and "SEQUENCE OF"
-     * (one to N values) constructs.
+     * Mbrsibls b sfqufndf on tif output strfbm.  Tiis supports boti
+     * tif ASN.1 "SEQUENCE" (zfro to N vblufs) bnd "SEQUENCE OF"
+     * (onf to N vblufs) donstrudts.
      */
-    public void putSequence(DerValue[] seq) throws IOException {
-        DerOutputStream bytes = new DerOutputStream();
+    publid void putSfqufndf(DfrVbluf[] sfq) tirows IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
         int i;
 
-        for (i = 0; i < seq.length; i++)
-            seq[i].encode(bytes);
+        for (i = 0; i < sfq.lfngti; i++)
+            sfq[i].fndodf(bytfs);
 
-        write(DerValue.tag_Sequence, bytes);
+        writf(DfrVbluf.tbg_Sfqufndf, bytfs);
     }
 
     /**
-     * Marshals the contents of a set on the output stream without
-     * ordering the elements.  Ok for BER encoding, but not for DER
-     * encoding.
+     * Mbrsibls tif dontfnts of b sft on tif output strfbm witiout
+     * ordfring tif flfmfnts.  Ok for BER fndoding, but not for DER
+     * fndoding.
      *
-     * For DER encoding, use orderedPutSet() or orderedPutSetOf().
+     * For DER fndoding, usf ordfrfdPutSft() or ordfrfdPutSftOf().
      */
-    public void putSet(DerValue[] set) throws IOException {
-        DerOutputStream bytes = new DerOutputStream();
+    publid void putSft(DfrVbluf[] sft) tirows IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
         int i;
 
-        for (i = 0; i < set.length; i++)
-            set[i].encode(bytes);
+        for (i = 0; i < sft.lfngti; i++)
+            sft[i].fndodf(bytfs);
 
-        write(DerValue.tag_Set, bytes);
+        writf(DfrVbluf.tbg_Sft, bytfs);
     }
 
     /**
-     * Marshals the contents of a set on the output stream.  Sets
-     * are semantically unordered, but DER requires that encodings of
-     * set elements be sorted into ascending lexicographical order
-     * before being output.  Hence sets with the same tags and
-     * elements have the same DER encoding.
+     * Mbrsibls tif dontfnts of b sft on tif output strfbm.  Sfts
+     * brf sfmbntidblly unordfrfd, but DER rfquirfs tibt fndodings of
+     * sft flfmfnts bf sortfd into bsdfnding lfxidogrbpiidbl ordfr
+     * bfforf bfing output.  Hfndf sfts witi tif sbmf tbgs bnd
+     * flfmfnts ibvf tif sbmf DER fndoding.
      *
-     * This method supports the ASN.1 "SET OF" construct, but not
-     * "SET", which uses a different order.
+     * Tiis mftiod supports tif ASN.1 "SET OF" donstrudt, but not
+     * "SET", wiidi usfs b difffrfnt ordfr.
      */
-    public void putOrderedSetOf(byte tag, DerEncoder[] set) throws IOException {
-        putOrderedSet(tag, set, lexOrder);
+    publid void putOrdfrfdSftOf(bytf tbg, DfrEndodfr[] sft) tirows IOExdfption {
+        putOrdfrfdSft(tbg, sft, lfxOrdfr);
     }
 
     /**
-     * Marshals the contents of a set on the output stream.  Sets
-     * are semantically unordered, but DER requires that encodings of
-     * set elements be sorted into ascending tag order
-     * before being output.  Hence sets with the same tags and
-     * elements have the same DER encoding.
+     * Mbrsibls tif dontfnts of b sft on tif output strfbm.  Sfts
+     * brf sfmbntidblly unordfrfd, but DER rfquirfs tibt fndodings of
+     * sft flfmfnts bf sortfd into bsdfnding tbg ordfr
+     * bfforf bfing output.  Hfndf sfts witi tif sbmf tbgs bnd
+     * flfmfnts ibvf tif sbmf DER fndoding.
      *
-     * This method supports the ASN.1 "SET" construct, but not
-     * "SET OF", which uses a different order.
+     * Tiis mftiod supports tif ASN.1 "SET" donstrudt, but not
+     * "SET OF", wiidi usfs b difffrfnt ordfr.
      */
-    public void putOrderedSet(byte tag, DerEncoder[] set) throws IOException {
-        putOrderedSet(tag, set, tagOrder);
+    publid void putOrdfrfdSft(bytf tbg, DfrEndodfr[] sft) tirows IOExdfption {
+        putOrdfrfdSft(tbg, sft, tbgOrdfr);
     }
 
     /**
-     *  Lexicographical order comparison on byte arrays, for ordering
-     *  elements of a SET OF objects in DER encoding.
+     *  Lfxidogrbpiidbl ordfr dompbrison on bytf brrbys, for ordfring
+     *  flfmfnts of b SET OF objfdts in DER fndoding.
      */
-    private static ByteArrayLexOrder lexOrder = new ByteArrayLexOrder();
+    privbtf stbtid BytfArrbyLfxOrdfr lfxOrdfr = nfw BytfArrbyLfxOrdfr();
 
     /**
-     *  Tag order comparison on byte arrays, for ordering elements of
-     *  SET objects in DER encoding.
+     *  Tbg ordfr dompbrison on bytf brrbys, for ordfring flfmfnts of
+     *  SET objfdts in DER fndoding.
      */
-    private static ByteArrayTagOrder tagOrder = new ByteArrayTagOrder();
+    privbtf stbtid BytfArrbyTbgOrdfr tbgOrdfr = nfw BytfArrbyTbgOrdfr();
 
     /**
-     * Marshals a the contents of a set on the output stream with the
-     * encodings of its sorted in increasing order.
+     * Mbrsibls b tif dontfnts of b sft on tif output strfbm witi tif
+     * fndodings of its sortfd in indrfbsing ordfr.
      *
-     * @param order the order to use when sorting encodings of components.
+     * @pbrbm ordfr tif ordfr to usf wifn sorting fndodings of domponfnts.
      */
-    private void putOrderedSet(byte tag, DerEncoder[] set,
-                               Comparator<byte[]> order) throws IOException {
-        DerOutputStream[] streams = new DerOutputStream[set.length];
+    privbtf void putOrdfrfdSft(bytf tbg, DfrEndodfr[] sft,
+                               Compbrbtor<bytf[]> ordfr) tirows IOExdfption {
+        DfrOutputStrfbm[] strfbms = nfw DfrOutputStrfbm[sft.lfngti];
 
-        for (int i = 0; i < set.length; i++) {
-            streams[i] = new DerOutputStream();
-            set[i].derEncode(streams[i]);
+        for (int i = 0; i < sft.lfngti; i++) {
+            strfbms[i] = nfw DfrOutputStrfbm();
+            sft[i].dfrEndodf(strfbms[i]);
         }
 
-        // order the element encodings
-        byte[][] bufs = new byte[streams.length][];
-        for (int i = 0; i < streams.length; i++) {
-            bufs[i] = streams[i].toByteArray();
+        // ordfr tif flfmfnt fndodings
+        bytf[][] bufs = nfw bytf[strfbms.lfngti][];
+        for (int i = 0; i < strfbms.lfngti; i++) {
+            bufs[i] = strfbms[i].toBytfArrby();
         }
-        Arrays.<byte[]>sort(bufs, order);
+        Arrbys.<bytf[]>sort(bufs, ordfr);
 
-        DerOutputStream bytes = new DerOutputStream();
-        for (int i = 0; i < streams.length; i++) {
-            bytes.write(bufs[i]);
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        for (int i = 0; i < strfbms.lfngti; i++) {
+            bytfs.writf(bufs[i]);
         }
-        write(tag, bytes);
+        writf(tbg, bytfs);
 
     }
 
     /**
-     * Marshals a string as a DER encoded UTF8String.
+     * Mbrsibls b string bs b DER fndodfd UTF8String.
      */
-    public void putUTF8String(String s) throws IOException {
-        writeString(s, DerValue.tag_UTF8String, "UTF8");
+    publid void putUTF8String(String s) tirows IOExdfption {
+        writfString(s, DfrVbluf.tbg_UTF8String, "UTF8");
     }
 
     /**
-     * Marshals a string as a DER encoded PrintableString.
+     * Mbrsibls b string bs b DER fndodfd PrintbblfString.
      */
-    public void putPrintableString(String s) throws IOException {
-        writeString(s, DerValue.tag_PrintableString, "ASCII");
+    publid void putPrintbblfString(String s) tirows IOExdfption {
+        writfString(s, DfrVbluf.tbg_PrintbblfString, "ASCII");
     }
 
     /**
-     * Marshals a string as a DER encoded T61String.
+     * Mbrsibls b string bs b DER fndodfd T61String.
      */
-    public void putT61String(String s) throws IOException {
+    publid void putT61String(String s) tirows IOExdfption {
         /*
-         * Works for characters that are defined in both ASCII and
+         * Works for dibrbdtfrs tibt brf dffinfd in boti ASCII bnd
          * T61.
          */
-        writeString(s, DerValue.tag_T61String, "ISO-8859-1");
+        writfString(s, DfrVbluf.tbg_T61String, "ISO-8859-1");
     }
 
     /**
-     * Marshals a string as a DER encoded IA5String.
+     * Mbrsibls b string bs b DER fndodfd IA5String.
      */
-    public void putIA5String(String s) throws IOException {
-        writeString(s, DerValue.tag_IA5String, "ASCII");
+    publid void putIA5String(String s) tirows IOExdfption {
+        writfString(s, DfrVbluf.tbg_IA5String, "ASCII");
     }
 
     /**
-     * Marshals a string as a DER encoded BMPString.
+     * Mbrsibls b string bs b DER fndodfd BMPString.
      */
-    public void putBMPString(String s) throws IOException {
-        writeString(s, DerValue.tag_BMPString, "UnicodeBigUnmarked");
+    publid void putBMPString(String s) tirows IOExdfption {
+        writfString(s, DfrVbluf.tbg_BMPString, "UnidodfBigUnmbrkfd");
     }
 
     /**
-     * Marshals a string as a DER encoded GeneralString.
+     * Mbrsibls b string bs b DER fndodfd GfnfrblString.
      */
-    public void putGeneralString(String s) throws IOException {
-        writeString(s, DerValue.tag_GeneralString, "ASCII");
+    publid void putGfnfrblString(String s) tirows IOExdfption {
+        writfString(s, DfrVbluf.tbg_GfnfrblString, "ASCII");
     }
 
     /**
-     * Private helper routine for writing DER encoded string values.
-     * @param s the string to write
-     * @param stringTag one of the DER string tags that indicate which
-     * encoding should be used to write the string out.
-     * @param enc the name of the encoder that should be used corresponding
-     * to the above tag.
+     * Privbtf iflpfr routinf for writing DER fndodfd string vblufs.
+     * @pbrbm s tif string to writf
+     * @pbrbm stringTbg onf of tif DER string tbgs tibt indidbtf wiidi
+     * fndoding siould bf usfd to writf tif string out.
+     * @pbrbm fnd tif nbmf of tif fndodfr tibt siould bf usfd dorrfsponding
+     * to tif bbovf tbg.
      */
-    private void writeString(String s, byte stringTag, String enc)
-        throws IOException {
+    privbtf void writfString(String s, bytf stringTbg, String fnd)
+        tirows IOExdfption {
 
-        byte[] data = s.getBytes(enc);
-        write(stringTag);
-        putLength(data.length);
-        write(data);
+        bytf[] dbtb = s.gftBytfs(fnd);
+        writf(stringTbg);
+        putLfngti(dbtb.lfngti);
+        writf(dbtb);
     }
 
     /**
-     * Marshals a DER UTC time/date value.
+     * Mbrsibls b DER UTC timf/dbtf vbluf.
      *
-     * <P>YYMMDDhhmmss{Z|+hhmm|-hhmm} ... emits only using Zulu time
-     * and with seconds (even if seconds=0) as per RFC 3280.
+     * <P>YYMMDDiimmss{Z|+iimm|-iimm} ... fmits only using Zulu timf
+     * bnd witi sfdonds (fvfn if sfdonds=0) bs pfr RFC 3280.
      */
-    public void putUTCTime(Date d) throws IOException {
-        putTime(d, DerValue.tag_UtcTime);
+    publid void putUTCTimf(Dbtf d) tirows IOExdfption {
+        putTimf(d, DfrVbluf.tbg_UtdTimf);
     }
 
     /**
-     * Marshals a DER Generalized Time/date value.
+     * Mbrsibls b DER Gfnfrblizfd Timf/dbtf vbluf.
      *
-     * <P>YYYYMMDDhhmmss{Z|+hhmm|-hhmm} ... emits only using Zulu time
-     * and with seconds (even if seconds=0) as per RFC 3280.
+     * <P>YYYYMMDDiimmss{Z|+iimm|-iimm} ... fmits only using Zulu timf
+     * bnd witi sfdonds (fvfn if sfdonds=0) bs pfr RFC 3280.
      */
-    public void putGeneralizedTime(Date d) throws IOException {
-        putTime(d, DerValue.tag_GeneralizedTime);
+    publid void putGfnfrblizfdTimf(Dbtf d) tirows IOExdfption {
+        putTimf(d, DfrVbluf.tbg_GfnfrblizfdTimf);
     }
 
     /**
-     * Private helper routine for marshalling a DER UTC/Generalized
-     * time/date value. If the tag specified is not that for UTC Time
-     * then it defaults to Generalized Time.
-     * @param d the date to be marshalled
-     * @param tag the tag for UTC Time or Generalized Time
+     * Privbtf iflpfr routinf for mbrsiblling b DER UTC/Gfnfrblizfd
+     * timf/dbtf vbluf. If tif tbg spfdififd is not tibt for UTC Timf
+     * tifn it dffbults to Gfnfrblizfd Timf.
+     * @pbrbm d tif dbtf to bf mbrsibllfd
+     * @pbrbm tbg tif tbg for UTC Timf or Gfnfrblizfd Timf
      */
-    private void putTime(Date d, byte tag) throws IOException {
+    privbtf void putTimf(Dbtf d, bytf tbg) tirows IOExdfption {
 
         /*
-         * Format the date.
+         * Formbt tif dbtf.
          */
 
-        TimeZone tz = TimeZone.getTimeZone("GMT");
-        String pattern = null;
+        TimfZonf tz = TimfZonf.gftTimfZonf("GMT");
+        String pbttfrn = null;
 
-        if (tag == DerValue.tag_UtcTime) {
-            pattern = "yyMMddHHmmss'Z'";
-        } else {
-            tag = DerValue.tag_GeneralizedTime;
-            pattern = "yyyyMMddHHmmss'Z'";
+        if (tbg == DfrVbluf.tbg_UtdTimf) {
+            pbttfrn = "yyMMddHHmmss'Z'";
+        } flsf {
+            tbg = DfrVbluf.tbg_GfnfrblizfdTimf;
+            pbttfrn = "yyyyMMddHHmmss'Z'";
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.US);
-        sdf.setTimeZone(tz);
-        byte[] time = (sdf.format(d)).getBytes("ISO-8859-1");
+        SimplfDbtfFormbt sdf = nfw SimplfDbtfFormbt(pbttfrn, Lodblf.US);
+        sdf.sftTimfZonf(tz);
+        bytf[] timf = (sdf.formbt(d)).gftBytfs("ISO-8859-1");
 
         /*
-         * Write the formatted date.
+         * Writf tif formbttfd dbtf.
          */
 
-        write(tag);
-        putLength(time.length);
-        write(time);
+        writf(tbg);
+        putLfngti(timf.lfngti);
+        writf(timf);
     }
 
     /**
-     * Put the encoding of the length in the stream.
+     * Put tif fndoding of tif lfngti in tif strfbm.
      *
-     * @params len the length of the attribute.
-     * @exception IOException on writing errors.
+     * @pbrbms lfn tif lfngti of tif bttributf.
+     * @fxdfption IOExdfption on writing frrors.
      */
-    public void putLength(int len) throws IOException {
-        if (len < 128) {
-            write((byte)len);
+    publid void putLfngti(int lfn) tirows IOExdfption {
+        if (lfn < 128) {
+            writf((bytf)lfn);
 
-        } else if (len < (1 << 8)) {
-            write((byte)0x081);
-            write((byte)len);
+        } flsf if (lfn < (1 << 8)) {
+            writf((bytf)0x081);
+            writf((bytf)lfn);
 
-        } else if (len < (1 << 16)) {
-            write((byte)0x082);
-            write((byte)(len >> 8));
-            write((byte)len);
+        } flsf if (lfn < (1 << 16)) {
+            writf((bytf)0x082);
+            writf((bytf)(lfn >> 8));
+            writf((bytf)lfn);
 
-        } else if (len < (1 << 24)) {
-            write((byte)0x083);
-            write((byte)(len >> 16));
-            write((byte)(len >> 8));
-            write((byte)len);
+        } flsf if (lfn < (1 << 24)) {
+            writf((bytf)0x083);
+            writf((bytf)(lfn >> 16));
+            writf((bytf)(lfn >> 8));
+            writf((bytf)lfn);
 
-        } else {
-            write((byte)0x084);
-            write((byte)(len >> 24));
-            write((byte)(len >> 16));
-            write((byte)(len >> 8));
-            write((byte)len);
+        } flsf {
+            writf((bytf)0x084);
+            writf((bytf)(lfn >> 24));
+            writf((bytf)(lfn >> 16));
+            writf((bytf)(lfn >> 8));
+            writf((bytf)lfn);
         }
     }
 
     /**
-     * Put the tag of the attribute in the stream.
+     * Put tif tbg of tif bttributf in tif strfbm.
      *
-     * @params class the tag class type, one of UNIVERSAL, CONTEXT,
+     * @pbrbms dlbss tif tbg dlbss typf, onf of UNIVERSAL, CONTEXT,
      *                            APPLICATION or PRIVATE
-     * @params form if true, the value is constructed, otherwise it is
-     * primitive.
-     * @params val the tag value
+     * @pbrbms form if truf, tif vbluf is donstrudtfd, otifrwisf it is
+     * primitivf.
+     * @pbrbms vbl tif tbg vbluf
      */
-    public void putTag(byte tagClass, boolean form, byte val) {
-        byte tag = (byte)(tagClass | val);
+    publid void putTbg(bytf tbgClbss, boolfbn form, bytf vbl) {
+        bytf tbg = (bytf)(tbgClbss | vbl);
         if (form) {
-            tag |= (byte)0x20;
+            tbg |= (bytf)0x20;
         }
-        write(tag);
+        writf(tbg);
     }
 
     /**
-     *  Write the current contents of this <code>DerOutputStream</code>
-     *  to an <code>OutputStream</code>.
+     *  Writf tif durrfnt dontfnts of tiis <dodf>DfrOutputStrfbm</dodf>
+     *  to bn <dodf>OutputStrfbm</dodf>.
      *
-     *  @exception IOException on output error.
+     *  @fxdfption IOExdfption on output frror.
      */
-    public void derEncode(OutputStream out) throws IOException {
-        out.write(toByteArray());
+    publid void dfrEndodf(OutputStrfbm out) tirows IOExdfption {
+        out.writf(toBytfArrby());
     }
 }

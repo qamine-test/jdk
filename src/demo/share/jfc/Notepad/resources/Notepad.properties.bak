@@ -1,63 +1,63 @@
 #
-# Resource strings for Notepad example
+# Rfsourdf strings for Notfpbd fxbmplf
 
-Title=Notepad
-ElementTreeFrameTitle=Elements
+Titlf=Notfpbd
+ElfmfntTrffFrbmfTitlf=Elfmfnts
 
-# file Menu definition
+# filf Mfnu dffinition
 #
-# Each of the strings that follow form a key to be
-# used as the basis of a menu item definition.
+# Ebdi of tif strings tibt follow form b kfy to bf
+# usfd bs tif bbsis of b mfnu itfm dffinition.
 #
-# open ->  Notepad.openAction
-# new  ->  Notepad.newAction
-# save ->  Notepad.saveAction
-# exit ->  Notepad.exitAction
+# opfn ->  Notfpbd.opfnAdtion
+# nfw  ->  Notfpbd.nfwAdtion
+# sbvf ->  Notfpbd.sbvfAdtion
+# fxit ->  Notfpbd.fxitAdtion
 
-fileLabel=File
-openLabel=Open
-openImage=resources/open.gif
-newLabel=New
-newImage=resources/new.gif
-saveLabel=Save
-saveImage=resources/save.gif
-exitLabel=Exit
-
-#
-# edit Menu definition
-#
-# cut   -> JTextComponent.cutAction
-# copy  -> JTextComponent.copyAction
-# paste -> JTextComponent.pasteAction
-
-editLabel=Edit
-cutLabel=Cut
-cutImage=resources/cut.gif
-copyLabel=Copy
-copyImage=resources/copy.gif
-pasteLabel=Paste
-pasteImage=resources/paste.gif
-undoLabel=Undo
-redoLabel=Redo
+filfLbbfl=Filf
+opfnLbbfl=Opfn
+opfnImbgf=rfsourdfs/opfn.gif
+nfwLbbfl=Nfw
+nfwImbgf=rfsourdfs/nfw.gif
+sbvfLbbfl=Sbvf
+sbvfImbgf=rfsourdfs/sbvf.gif
+fxitLbbfl=Exit
 
 #
-# debug Menu definition
+# fdit Mfnu dffinition
+#
+# dut   -> JTfxtComponfnt.dutAdtion
+# dopy  -> JTfxtComponfnt.dopyAdtion
+# pbstf -> JTfxtComponfnt.pbstfAdtion
+
+fditLbbfl=Edit
+dutLbbfl=Cut
+dutImbgf=rfsourdfs/dut.gif
+dopyLbbfl=Copy
+dopyImbgf=rfsourdfs/dopy.gif
+pbstfLbbfl=Pbstf
+pbstfImbgf=rfsourdfs/pbstf.gif
+undoLbbfl=Undo
+rfdoLbbfl=Rfdo
+
+#
+# dfbug Mfnu dffinition
 #
 
-debugLabel=Debug
-dumpLabel=Dump model to System.err
-showElementTreeLabel=Show Elements
+dfbugLbbfl=Dfbug
+dumpLbbfl=Dump modfl to Systfm.frr
+siowElfmfntTrffLbbfl=Siow Elfmfnts
 
-# toolbar definition
+# toolbbr dffinition
 #
-# Each of the strings that follow form a key to be
-# used as the basis of the tool definition.  Actions
-# are of course sharable, and in this case are shared
-# with the menu items.
+# Ebdi of tif strings tibt follow form b kfy to bf
+# usfd bs tif bbsis of tif tool dffinition.  Adtions
+# brf of doursf sibrbblf, bnd in tiis dbsf brf sibrfd
+# witi tif mfnu itfms.
 
-newTooltip=Create a new file
-openTooltip=Open a file
-saveTooltip=Save to a file
-cutTooltip=Move selection to clipboard
-copyTooltip=Copy selection to clipboard
-pasteTooltip=Paste clipboard to selection
+nfwTooltip=Crfbtf b nfw filf
+opfnTooltip=Opfn b filf
+sbvfTooltip=Sbvf to b filf
+dutTooltip=Movf sflfdtion to dlipbobrd
+dopyTooltip=Copy sflfdtion to dlipbobrd
+pbstfTooltip=Pbstf dlipbobrd to sflfdtion

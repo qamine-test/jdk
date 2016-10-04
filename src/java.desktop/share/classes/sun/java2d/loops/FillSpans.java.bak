@@ -1,122 +1,122 @@
 /*
- * Copyright (c) 1998, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
  /*
- * @author Jim Graham
- * @author Charlton Innovations, Inc.
+ * @butior Jim Grbibm
+ * @butior Cibrlton Innovbtions, Ind.
  */
 
-package sun.java2d.loops;
+pbdkbgf sun.jbvb2d.loops;
 
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.pipe.SpanIterator;
-import java.awt.Color;
-import java.awt.image.ColorModel;
-import java.awt.image.Raster;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
+import sun.jbvb2d.loops.GrbpiidsPrimitivf;
+import sun.jbvb2d.pipf.SpbnItfrbtor;
+import jbvb.bwt.Color;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SurfbdfDbtb;
 
 /**
- * FillSpans
- * 1) draw solid color onto destination surface
- * 2) rectangular areas to fill come from SpanIterator
+ * FillSpbns
+ * 1) drbw solid dolor onto dfstinbtion surfbdf
+ * 2) rfdtbngulbr brfbs to fill domf from SpbnItfrbtor
  */
-public class FillSpans extends GraphicsPrimitive
+publid dlbss FillSpbns fxtfnds GrbpiidsPrimitivf
 {
-    public final static String methodSignature = "FillSpans(...)".toString();
+    publid finbl stbtid String mftiodSignbturf = "FillSpbns(...)".toString();
 
-    public final static int primTypeID = makePrimTypeID();
+    publid finbl stbtid int primTypfID = mbkfPrimTypfID();
 
-    public static FillSpans locate(SurfaceType srctype,
-                                   CompositeType comptype,
-                                   SurfaceType dsttype)
+    publid stbtid FillSpbns lodbtf(SurfbdfTypf srdtypf,
+                                   CompositfTypf domptypf,
+                                   SurfbdfTypf dsttypf)
     {
-        return (FillSpans)
-            GraphicsPrimitiveMgr.locate(primTypeID,
-                                        srctype, comptype, dsttype);
+        rfturn (FillSpbns)
+            GrbpiidsPrimitivfMgr.lodbtf(primTypfID,
+                                        srdtypf, domptypf, dsttypf);
     }
 
-    protected FillSpans(SurfaceType srctype,
-                        CompositeType comptype,
-                        SurfaceType dsttype)
+    protfdtfd FillSpbns(SurfbdfTypf srdtypf,
+                        CompositfTypf domptypf,
+                        SurfbdfTypf dsttypf)
     {
-        super(methodSignature, primTypeID, srctype, comptype, dsttype);
+        supfr(mftiodSignbturf, primTypfID, srdtypf, domptypf, dsttypf);
     }
 
-    public FillSpans(long pNativePrim,
-                     SurfaceType srctype,
-                     CompositeType comptype,
-                     SurfaceType dsttype)
+    publid FillSpbns(long pNbtivfPrim,
+                     SurfbdfTypf srdtypf,
+                     CompositfTypf domptypf,
+                     SurfbdfTypf dsttypf)
     {
-        super(pNativePrim, methodSignature, primTypeID, srctype, comptype, dsttype);
+        supfr(pNbtivfPrim, mftiodSignbturf, primTypfID, srdtypf, domptypf, dsttypf);
     }
 
-    private native void FillSpans(SunGraphics2D sg2d, SurfaceData dest,
-                                  int pixel, long pIterator, SpanIterator si);
+    privbtf nbtivf void FillSpbns(SunGrbpiids2D sg2d, SurfbdfDbtb dfst,
+                                  int pixfl, long pItfrbtor, SpbnItfrbtor si);
 
     /**
-     * All FillSpan implementors must have this invoker method
+     * All FillSpbn implfmfntors must ibvf tiis invokfr mftiod
      */
-    public void FillSpans(SunGraphics2D sg2d, SurfaceData dest,
-                          SpanIterator si)
+    publid void FillSpbns(SunGrbpiids2D sg2d, SurfbdfDbtb dfst,
+                          SpbnItfrbtor si)
     {
-        FillSpans(sg2d, dest, sg2d.pixel, si.getNativeIterator(), si);
+        FillSpbns(sg2d, dfst, sg2d.pixfl, si.gftNbtivfItfrbtor(), si);
     }
 
-    public GraphicsPrimitive makePrimitive(SurfaceType srctype,
-                                           CompositeType comptype,
-                                           SurfaceType dsttype)
+    publid GrbpiidsPrimitivf mbkfPrimitivf(SurfbdfTypf srdtypf,
+                                           CompositfTypf domptypf,
+                                           SurfbdfTypf dsttypf)
     {
-        // REMIND: iterate with a FillRect primitive?
-        throw new InternalError("FillSpans not implemented for "+
-                                srctype+" with "+comptype);
+        // REMIND: itfrbtf witi b FillRfdt primitivf?
+        tirow nfw IntfrnblError("FillSpbns not implfmfntfd for "+
+                                srdtypf+" witi "+domptypf);
     }
 
-    public GraphicsPrimitive traceWrap() {
-        return new TraceFillSpans(this);
+    publid GrbpiidsPrimitivf trbdfWrbp() {
+        rfturn nfw TrbdfFillSpbns(tiis);
     }
 
-    private static class TraceFillSpans extends FillSpans {
-        FillSpans target;
+    privbtf stbtid dlbss TrbdfFillSpbns fxtfnds FillSpbns {
+        FillSpbns tbrgft;
 
-        public TraceFillSpans(FillSpans target) {
-            super(target.getSourceType(),
-                  target.getCompositeType(),
-                  target.getDestType());
-            this.target = target;
+        publid TrbdfFillSpbns(FillSpbns tbrgft) {
+            supfr(tbrgft.gftSourdfTypf(),
+                  tbrgft.gftCompositfTypf(),
+                  tbrgft.gftDfstTypf());
+            tiis.tbrgft = tbrgft;
         }
 
-        public GraphicsPrimitive traceWrap() {
-            return this;
+        publid GrbpiidsPrimitivf trbdfWrbp() {
+            rfturn tiis;
         }
 
-        public void FillSpans(SunGraphics2D sg2d, SurfaceData dest,
-                              SpanIterator si)
+        publid void FillSpbns(SunGrbpiids2D sg2d, SurfbdfDbtb dfst,
+                              SpbnItfrbtor si)
         {
-            tracePrimitive(target);
-            target.FillSpans(sg2d, dest, si);
+            trbdfPrimitivf(tbrgft);
+            tbrgft.FillSpbns(sg2d, dfst, si);
         }
     }
 }

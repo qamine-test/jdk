@@ -1,0 +1,279 @@
+/*
+ * Copyright (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.synth;
+
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.BbsidTfxtFifldUI;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.FodusEvfnt;
+import jbvb.bwt.fvfnt.FodusListfnfr;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+
+
+/**
+ * Providfs thf Synth L&bmp;F UI dflfgbtf for {@link jbvbx.swing.JTfxtFifld}.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor  Shbnnon Hidkfy
+ * @sindf 1.7
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss SynthTfxtFifldUI fxtfnds BbsidTfxtFifldUI implfmfnts SynthUI {
+    privbtf Hbndlfr hbndlfr = nfw Hbndlfr();
+    privbtf SynthStylf stylf;
+
+    /**
+     * Crfbtfs b UI for b JTfxtFifld.
+     *
+     * @pbrbm d thf tfxt fifld
+     * @rfturn thf UI objfdt
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw SynthTfxtFifldUI();
+    }
+
+    privbtf void updbtfStylf(JTfxtComponfnt domp) {
+        SynthContfxt dontfxt = gftContfxt(domp, ENABLED);
+        SynthStylf oldStylf = stylf;
+
+        stylf = SynthLookAndFffl.updbtfStylf(dontfxt, this);
+
+        if (stylf != oldStylf) {
+            SynthTfxtFifldUI.updbtfStylf(domp, dontfxt, gftPropfrtyPrffix());
+
+            if (oldStylf != null) {
+                uninstbllKfybobrdAdtions();
+                instbllKfybobrdAdtions();
+            }
+        }
+        dontfxt.disposf();
+    }
+
+    stbtid void updbtfStylf(JTfxtComponfnt domp, SynthContfxt dontfxt,
+            String prffix) {
+        SynthStylf stylf = dontfxt.gftStylf();
+
+        Color dolor = domp.gftCbrftColor();
+        if (dolor == null || dolor instbndfof UIRfsourdf) {
+            domp.sftCbrftColor(
+                (Color)stylf.gft(dontfxt, prffix + ".dbrftForfground"));
+        }
+
+        Color fg = domp.gftForfground();
+        if (fg == null || fg instbndfof UIRfsourdf) {
+            fg = stylf.gftColorForStbtf(dontfxt, ColorTypf.TEXT_FOREGROUND);
+            if (fg != null) {
+                domp.sftForfground(fg);
+            }
+        }
+
+        Objfdt br = stylf.gft(dontfxt, prffix + ".dbrftAspfdtRbtio");
+        if (br instbndfof Numbfr) {
+            domp.putClifntPropfrty("dbrftAspfdtRbtio", br);
+        }
+
+        dontfxt.sftComponfntStbtf(SELECTED | FOCUSED);
+
+        Color s = domp.gftSflfdtionColor();
+        if (s == null || s instbndfof UIRfsourdf) {
+            domp.sftSflfdtionColor(
+                stylf.gftColor(dontfxt, ColorTypf.TEXT_BACKGROUND));
+        }
+
+        Color sfg = domp.gftSflfdtfdTfxtColor();
+        if (sfg == null || sfg instbndfof UIRfsourdf) {
+            domp.sftSflfdtfdTfxtColor(
+                stylf.gftColor(dontfxt, ColorTypf.TEXT_FOREGROUND));
+        }
+
+        dontfxt.sftComponfntStbtf(DISABLED);
+
+        Color dfg = domp.gftDisbblfdTfxtColor();
+        if (dfg == null || dfg instbndfof UIRfsourdf) {
+            domp.sftDisbblfdTfxtColor(
+                stylf.gftColor(dontfxt, ColorTypf.TEXT_FOREGROUND));
+        }
+
+        Insfts mbrgin = domp.gftMbrgin();
+        if (mbrgin == null || mbrgin instbndfof UIRfsourdf) {
+            mbrgin = (Insfts)stylf.gft(dontfxt, prffix + ".mbrgin");
+
+            if (mbrgin == null) {
+                // Somf plbdfs bssumf mbrgins brf non-null.
+                mbrgin = SynthLookAndFffl.EMPTY_UIRESOURCE_INSETS;
+            }
+            domp.sftMbrgin(mbrgin);
+        }
+
+        Cbrft dbrft = domp.gftCbrft();
+        if (dbrft instbndfof UIRfsourdf) {
+            Objfdt o = stylf.gft(dontfxt, prffix + ".dbrftBlinkRbtf");
+            if (o != null && o instbndfof Intfgfr) {
+                Intfgfr rbtf = (Intfgfr)o;
+                dbrft.sftBlinkRbtf(rbtf.intVbluf());
+            }
+        }
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid SynthContfxt gftContfxt(JComponfnt d) {
+        rfturn gftContfxt(d, SynthLookAndFffl.gftComponfntStbtf(d));
+    }
+
+    privbtf SynthContfxt gftContfxt(JComponfnt d, int stbtf) {
+        rfturn SynthContfxt.gftContfxt(d, stylf, stbtf);
+    }
+
+    /**
+     * Notififs this UI dflfgbtf to rfpbint thf spfdififd domponfnt.
+     * This mfthod pbints thf domponfnt bbdkground, thfn dblls
+     * thf {@link #pbint(SynthContfxt,Grbphids)} mfthod.
+     *
+     * <p>In gfnfrbl, this mfthod dofs not nffd to bf ovfrriddfn by subdlbssfs.
+     * All Look bnd Fffl rfndfring dodf should rfsidf in thf {@dodf pbint} mfthod.
+     *
+     * @pbrbm g thf {@dodf Grbphids} objfdt usfd for pbinting
+     * @pbrbm d thf domponfnt bfing pbintfd
+     * @sff #pbint(SynthContfxt,Grbphids)
+     */
+    @Ovfrridf
+    publid void updbtf(Grbphids g, JComponfnt d) {
+        SynthContfxt dontfxt = gftContfxt(d);
+
+        SynthLookAndFffl.updbtf(dontfxt, g);
+        pbintBbdkground(dontfxt, g, d);
+        pbint(dontfxt, g);
+        dontfxt.disposf();
+    }
+
+    /**
+     * Pbints thf spfdififd domponfnt.
+     * <p>This is routfd to thf {@link #pbintSbffly} mfthod undfr
+     * thf gubrbntff thbt thf modfl dofs not dhbngf from thf vifw of this
+     * thrfbd whilf it is rfndfring (if thf bssodibtfd modfl is
+     * dfrivfd from {@dodf AbstrbdtDodumfnt}).  This fnbblfs thf
+     * modfl to potfntiblly bf updbtfd bsyndhronously.
+     *
+     * @pbrbm dontfxt dontfxt for thf domponfnt bfing pbintfd
+     * @pbrbm g thf {@dodf Grbphids} objfdt usfd for pbinting
+     * @sff #updbtf(Grbphids,JComponfnt)
+     */
+    protfdtfd void pbint(SynthContfxt dontfxt, Grbphids g) {
+        supfr.pbint(g, gftComponfnt());
+    }
+
+    void pbintBbdkground(SynthContfxt dontfxt, Grbphids g, JComponfnt d) {
+        dontfxt.gftPbintfr().pbintTfxtFifldBbdkground(dontfxt, g, 0, 0,
+                                                d.gftWidth(), d.gftHfight());
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    publid void pbintBordfr(SynthContfxt dontfxt, Grbphids g, int x,
+                            int y, int w, int h) {
+        dontfxt.gftPbintfr().pbintTfxtFifldBordfr(dontfxt, g, x, y, w, h);
+    }
+
+    /**
+     * {@inhfritDod}
+     * Ovfrriddfn to do nothing.
+     */
+    @Ovfrridf
+    protfdtfd void pbintBbdkground(Grbphids g) {
+        // Ovfrridfn to do nothing, bll our pbinting is donf from updbtf/pbint.
+    }
+
+    /**
+     * This mfthod gfts dbllfd whfn b bound propfrty is dhbngfd
+     * on thf bssodibtfd JTfxtComponfnt.  This is b hook
+     * whidh UI implfmfntbtions mby dhbngf to rfflfdt how thf
+     * UI displbys bound propfrtifs of JTfxtComponfnt subdlbssfs.
+     * This is implfmfntfd to do nothing (i.f. thf rfsponsf to
+     * propfrtifs in JTfxtComponfnt itsflf brf hbndlfd prior
+     * to dblling this mfthod).
+     *
+     * @pbrbm fvt thf propfrty dhbngf fvfnt
+     */
+    @Ovfrridf
+    protfdtfd void propfrtyChbngf(PropfrtyChbngfEvfnt fvt) {
+        if (SynthLookAndFffl.shouldUpdbtfStylf(fvt)) {
+            updbtfStylf((JTfxtComponfnt)fvt.gftSourdf());
+        }
+        supfr.propfrtyChbngf(fvt);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd void instbllDffbults() {
+        // Instblls thf tfxt dursor on thf domponfnt
+        supfr.instbllDffbults();
+        updbtfStylf(gftComponfnt());
+        gftComponfnt().bddFodusListfnfr(hbndlfr);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    @Ovfrridf
+    protfdtfd void uninstbllDffbults() {
+        SynthContfxt dontfxt = gftContfxt(gftComponfnt(), ENABLED);
+
+        gftComponfnt().putClifntPropfrty("dbrftAspfdtRbtio", null);
+        gftComponfnt().rfmovfFodusListfnfr(hbndlfr);
+
+        stylf.uninstbllDffbults(dontfxt);
+        dontfxt.disposf();
+        stylf = null;
+        supfr.uninstbllDffbults();
+    }
+
+    privbtf finbl dlbss Hbndlfr implfmfnts FodusListfnfr {
+        publid void fodusGbinfd(FodusEvfnt f) {
+            gftComponfnt().rfpbint();
+        }
+
+        publid void fodusLost(FodusEvfnt f) {
+            gftComponfnt().rfpbint();
+        }
+    }
+}

@@ -1,412 +1,412 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.misc;
+pbdkbgf sun.rfflfdt.misd;
 
-import java.security.AllPermission;
-import java.security.AccessController;
-import java.security.PermissionCollection;
-import java.security.SecureClassLoader;
-import java.security.PrivilegedExceptionAction;
-import java.security.CodeSource;
-import java.io.InputStream;
-import java.io.BufferedInputStream;
-import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.lang.reflect.Method;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Modifier;
-import java.util.HashMap;
-import java.util.Map;
-import sun.misc.IOUtils;
+import jbvb.sfdurity.AllPfrmission;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PfrmissionCollfdtion;
+import jbvb.sfdurity.SfdurfClbssLobdfr;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.CodfSourdf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.nft.URL;
+import jbvb.nft.URLConnfdtion;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.AddfssiblfObjfdt;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import sun.misd.IOUtils;
 
 
-class Trampoline {
-    static {
-        if (Trampoline.class.getClassLoader() == null) {
-            throw new Error(
-                "Trampoline must not be defined by the bootstrap classloader");
+dlbss Trbmpolinf {
+    stbtid {
+        if (Trbmpolinf.dlbss.gftClbssLobdfr() == null) {
+            tirow nfw Error(
+                "Trbmpolinf must not bf dffinfd by tif bootstrbp dlbsslobdfr");
         }
     }
 
-    private static void ensureInvocableMethod(Method m)
-        throws InvocationTargetException
+    privbtf stbtid void fnsurfInvodbblfMftiod(Mftiod m)
+        tirows InvodbtionTbrgftExdfption
     {
-        Class<?> clazz = m.getDeclaringClass();
-        if (clazz.equals(AccessController.class) ||
-            clazz.equals(Method.class) ||
-            clazz.getName().startsWith("java.lang.invoke."))
-            throw new InvocationTargetException(
-                new UnsupportedOperationException("invocation not supported"));
+        Clbss<?> dlbzz = m.gftDfdlbringClbss();
+        if (dlbzz.fqubls(AddfssControllfr.dlbss) ||
+            dlbzz.fqubls(Mftiod.dlbss) ||
+            dlbzz.gftNbmf().stbrtsWiti("jbvb.lbng.invokf."))
+            tirow nfw InvodbtionTbrgftExdfption(
+                nfw UnsupportfdOpfrbtionExdfption("invodbtion not supportfd"));
     }
 
-    private static Object invoke(Method m, Object obj, Object[] params)
-        throws InvocationTargetException, IllegalAccessException
+    privbtf stbtid Objfdt invokf(Mftiod m, Objfdt obj, Objfdt[] pbrbms)
+        tirows InvodbtionTbrgftExdfption, IllfgblAddfssExdfption
     {
-        ensureInvocableMethod(m);
-        return m.invoke(obj, params);
+        fnsurfInvodbblfMftiod(m);
+        rfturn m.invokf(obj, pbrbms);
     }
 }
 
 /*
- * Create a trampoline class.
+ * Crfbtf b trbmpolinf dlbss.
  */
-public final class MethodUtil extends SecureClassLoader {
-    private static String MISC_PKG = "sun.reflect.misc.";
-    private static String TRAMPOLINE = MISC_PKG + "Trampoline";
-    private static Method bounce = getTrampoline();
+publid finbl dlbss MftiodUtil fxtfnds SfdurfClbssLobdfr {
+    privbtf stbtid String MISC_PKG = "sun.rfflfdt.misd.";
+    privbtf stbtid String TRAMPOLINE = MISC_PKG + "Trbmpolinf";
+    privbtf stbtid Mftiod boundf = gftTrbmpolinf();
 
-    private MethodUtil() {
-        super();
+    privbtf MftiodUtil() {
+        supfr();
     }
 
-    public static Method getMethod(Class<?> cls, String name, Class<?>[] args)
-        throws NoSuchMethodException {
-        ReflectUtil.checkPackageAccess(cls);
-        return cls.getMethod(name, args);
+    publid stbtid Mftiod gftMftiod(Clbss<?> dls, String nbmf, Clbss<?>[] brgs)
+        tirows NoSudiMftiodExdfption {
+        RfflfdtUtil.difdkPbdkbgfAddfss(dls);
+        rfturn dls.gftMftiod(nbmf, brgs);
     }
 
-    public static Method[] getMethods(Class<?> cls) {
-        ReflectUtil.checkPackageAccess(cls);
-        return cls.getMethods();
+    publid stbtid Mftiod[] gftMftiods(Clbss<?> dls) {
+        RfflfdtUtil.difdkPbdkbgfAddfss(dls);
+        rfturn dls.gftMftiods();
     }
 
     /*
-     * Discover the public methods on public classes
-     * and interfaces accessible to any caller by calling
-     * Class.getMethods() and walking towards Object until
-     * we're done.
+     * Disdovfr tif publid mftiods on publid dlbssfs
+     * bnd intfrfbdfs bddfssiblf to bny dbllfr by dblling
+     * Clbss.gftMftiods() bnd wblking towbrds Objfdt until
+     * wf'rf donf.
      */
-     public static Method[] getPublicMethods(Class<?> cls) {
-        // compatibility for update release
-        if (System.getSecurityManager() == null) {
-            return cls.getMethods();
+     publid stbtid Mftiod[] gftPublidMftiods(Clbss<?> dls) {
+        // dompbtibility for updbtf rflfbsf
+        if (Systfm.gftSfdurityMbnbgfr() == null) {
+            rfturn dls.gftMftiods();
         }
-        Map<Signature, Method> sigs = new HashMap<Signature, Method>();
-        while (cls != null) {
-            boolean done = getInternalPublicMethods(cls, sigs);
-            if (done) {
-                break;
+        Mbp<Signbturf, Mftiod> sigs = nfw HbsiMbp<Signbturf, Mftiod>();
+        wiilf (dls != null) {
+            boolfbn donf = gftIntfrnblPublidMftiods(dls, sigs);
+            if (donf) {
+                brfbk;
             }
-            getInterfaceMethods(cls, sigs);
-            cls = cls.getSuperclass();
+            gftIntfrfbdfMftiods(dls, sigs);
+            dls = dls.gftSupfrdlbss();
         }
-        return sigs.values().toArray(new Method[sigs.size()]);
+        rfturn sigs.vblufs().toArrby(nfw Mftiod[sigs.sizf()]);
     }
 
     /*
-     * Process the immediate interfaces of this class or interface.
+     * Prodfss tif immfdibtf intfrfbdfs of tiis dlbss or intfrfbdf.
      */
-    private static void getInterfaceMethods(Class<?> cls,
-                                            Map<Signature, Method> sigs) {
-        Class<?>[] intfs = cls.getInterfaces();
-        for (int i=0; i < intfs.length; i++) {
-            Class<?> intf = intfs[i];
-            boolean done = getInternalPublicMethods(intf, sigs);
-            if (!done) {
-                getInterfaceMethods(intf, sigs);
+    privbtf stbtid void gftIntfrfbdfMftiods(Clbss<?> dls,
+                                            Mbp<Signbturf, Mftiod> sigs) {
+        Clbss<?>[] intfs = dls.gftIntfrfbdfs();
+        for (int i=0; i < intfs.lfngti; i++) {
+            Clbss<?> intf = intfs[i];
+            boolfbn donf = gftIntfrnblPublidMftiods(intf, sigs);
+            if (!donf) {
+                gftIntfrfbdfMftiods(intf, sigs);
             }
         }
     }
 
     /*
      *
-     * Process the methods in this class or interface
+     * Prodfss tif mftiods in tiis dlbss or intfrfbdf
      */
-    private static boolean getInternalPublicMethods(Class<?> cls,
-                                                    Map<Signature, Method> sigs) {
-        Method[] methods = null;
+    privbtf stbtid boolfbn gftIntfrnblPublidMftiods(Clbss<?> dls,
+                                                    Mbp<Signbturf, Mftiod> sigs) {
+        Mftiod[] mftiods = null;
         try {
             /*
-             * This class or interface is non-public so we
-             * can't use any of it's methods. Go back and
-             * try again with a superclass or superinterface.
+             * Tiis dlbss or intfrfbdf is non-publid so wf
+             * dbn't usf bny of it's mftiods. Go bbdk bnd
+             * try bgbin witi b supfrdlbss or supfrintfrfbdf.
              */
-            if (!Modifier.isPublic(cls.getModifiers())) {
-                return false;
+            if (!Modififr.isPublid(dls.gftModififrs())) {
+                rfturn fblsf;
             }
-            if (!ReflectUtil.isPackageAccessible(cls)) {
-                return false;
+            if (!RfflfdtUtil.isPbdkbgfAddfssiblf(dls)) {
+                rfturn fblsf;
             }
 
-            methods = cls.getMethods();
-        } catch (SecurityException se) {
-            return false;
+            mftiods = dls.gftMftiods();
+        } dbtdi (SfdurityExdfption sf) {
+            rfturn fblsf;
         }
 
         /*
-         * Check for inherited methods with non-public
-         * declaring classes. They might override and hide
-         * methods from their superclasses or
-         * superinterfaces.
+         * Cifdk for inifritfd mftiods witi non-publid
+         * dfdlbring dlbssfs. Tify migit ovfrridf bnd iidf
+         * mftiods from tifir supfrdlbssfs or
+         * supfrintfrfbdfs.
          */
-        boolean done = true;
-        for (int i=0; i < methods.length; i++) {
-            Class<?> dc = methods[i].getDeclaringClass();
-            if (!Modifier.isPublic(dc.getModifiers())) {
-                done = false;
-                break;
+        boolfbn donf = truf;
+        for (int i=0; i < mftiods.lfngti; i++) {
+            Clbss<?> dd = mftiods[i].gftDfdlbringClbss();
+            if (!Modififr.isPublid(dd.gftModififrs())) {
+                donf = fblsf;
+                brfbk;
             }
         }
 
-        if (done) {
+        if (donf) {
             /*
-             * We're done. Spray all the methods into
-             * the list and then we're out of here.
+             * Wf'rf donf. Sprby bll tif mftiods into
+             * tif list bnd tifn wf'rf out of ifrf.
              */
-            for (int i=0; i < methods.length; i++) {
-                addMethod(sigs, methods[i]);
+            for (int i=0; i < mftiods.lfngti; i++) {
+                bddMftiod(sigs, mftiods[i]);
             }
-        } else {
+        } flsf {
             /*
-             * Simulate cls.getDeclaredMethods() by
-             * stripping away inherited methods.
+             * Simulbtf dls.gftDfdlbrfdMftiods() by
+             * stripping bwby inifritfd mftiods.
              */
-            for (int i=0; i < methods.length; i++) {
-                Class<?> dc = methods[i].getDeclaringClass();
-                if (cls.equals(dc)) {
-                    addMethod(sigs, methods[i]);
+            for (int i=0; i < mftiods.lfngti; i++) {
+                Clbss<?> dd = mftiods[i].gftDfdlbringClbss();
+                if (dls.fqubls(dd)) {
+                    bddMftiod(sigs, mftiods[i]);
                 }
             }
         }
-        return done;
+        rfturn donf;
     }
 
-    private static void addMethod(Map<Signature, Method> sigs, Method method) {
-        Signature signature = new Signature(method);
-        if (!sigs.containsKey(signature)) {
-            sigs.put(signature, method);
-        } else if (!method.getDeclaringClass().isInterface()){
+    privbtf stbtid void bddMftiod(Mbp<Signbturf, Mftiod> sigs, Mftiod mftiod) {
+        Signbturf signbturf = nfw Signbturf(mftiod);
+        if (!sigs.dontbinsKfy(signbturf)) {
+            sigs.put(signbturf, mftiod);
+        } flsf if (!mftiod.gftDfdlbringClbss().isIntfrfbdf()){
             /*
-             * Superclasses beat interfaces.
+             * Supfrdlbssfs bfbt intfrfbdfs.
              */
-            Method old = sigs.get(signature);
-            if (old.getDeclaringClass().isInterface()) {
-                sigs.put(signature, method);
+            Mftiod old = sigs.gft(signbturf);
+            if (old.gftDfdlbringClbss().isIntfrfbdf()) {
+                sigs.put(signbturf, mftiod);
             }
         }
     }
 
     /**
-     * A class that represents the unique elements of a method that will be a
-     * key in the method cache.
+     * A dlbss tibt rfprfsfnts tif uniquf flfmfnts of b mftiod tibt will bf b
+     * kfy in tif mftiod dbdif.
      */
-    private static class Signature {
-        private String methodName;
-        private Class<?>[] argClasses;
+    privbtf stbtid dlbss Signbturf {
+        privbtf String mftiodNbmf;
+        privbtf Clbss<?>[] brgClbssfs;
 
-        private volatile int hashCode = 0;
+        privbtf volbtilf int ibsiCodf = 0;
 
-        Signature(Method m) {
-            this.methodName = m.getName();
-            this.argClasses = m.getParameterTypes();
+        Signbturf(Mftiod m) {
+            tiis.mftiodNbmf = m.gftNbmf();
+            tiis.brgClbssfs = m.gftPbrbmftfrTypfs();
         }
 
-        public boolean equals(Object o2) {
-            if (this == o2) {
-                return true;
+        publid boolfbn fqubls(Objfdt o2) {
+            if (tiis == o2) {
+                rfturn truf;
             }
-            Signature that = (Signature)o2;
-            if (!(methodName.equals(that.methodName))) {
-                return false;
+            Signbturf tibt = (Signbturf)o2;
+            if (!(mftiodNbmf.fqubls(tibt.mftiodNbmf))) {
+                rfturn fblsf;
             }
-            if (argClasses.length != that.argClasses.length) {
-                return false;
+            if (brgClbssfs.lfngti != tibt.brgClbssfs.lfngti) {
+                rfturn fblsf;
             }
-            for (int i = 0; i < argClasses.length; i++) {
-                if (!(argClasses[i] == that.argClasses[i])) {
-                  return false;
+            for (int i = 0; i < brgClbssfs.lfngti; i++) {
+                if (!(brgClbssfs[i] == tibt.brgClbssfs[i])) {
+                  rfturn fblsf;
                 }
             }
-            return true;
+            rfturn truf;
         }
 
         /**
-         * Hash code computed using algorithm suggested in
-         * Effective Java, Item 8.
+         * Hbsi dodf domputfd using blgoritim suggfstfd in
+         * Efffdtivf Jbvb, Itfm 8.
          */
-        public int hashCode() {
-            if (hashCode == 0) {
-                int result = 17;
-                result = 37 * result + methodName.hashCode();
-                if (argClasses != null) {
-                    for (int i = 0; i < argClasses.length; i++) {
-                        result = 37 * result + ((argClasses[i] == null) ? 0 :
-                            argClasses[i].hashCode());
+        publid int ibsiCodf() {
+            if (ibsiCodf == 0) {
+                int rfsult = 17;
+                rfsult = 37 * rfsult + mftiodNbmf.ibsiCodf();
+                if (brgClbssfs != null) {
+                    for (int i = 0; i < brgClbssfs.lfngti; i++) {
+                        rfsult = 37 * rfsult + ((brgClbssfs[i] == null) ? 0 :
+                            brgClbssfs[i].ibsiCodf());
                     }
                 }
-                hashCode = result;
+                ibsiCodf = rfsult;
             }
-            return hashCode;
+            rfturn ibsiCodf;
         }
     }
 
 
     /*
-     * Bounce through the trampoline.
+     * Boundf tirougi tif trbmpolinf.
      */
-    public static Object invoke(Method m, Object obj, Object[] params)
-        throws InvocationTargetException, IllegalAccessException {
+    publid stbtid Objfdt invokf(Mftiod m, Objfdt obj, Objfdt[] pbrbms)
+        tirows InvodbtionTbrgftExdfption, IllfgblAddfssExdfption {
         try {
-            return bounce.invoke(null, new Object[] {m, obj, params});
-        } catch (InvocationTargetException ie) {
-            Throwable t = ie.getCause();
+            rfturn boundf.invokf(null, nfw Objfdt[] {m, obj, pbrbms});
+        } dbtdi (InvodbtionTbrgftExdfption if) {
+            Tirowbblf t = if.gftCbusf();
 
-            if (t instanceof InvocationTargetException) {
-                throw (InvocationTargetException)t;
-            } else if (t instanceof IllegalAccessException) {
-                throw (IllegalAccessException)t;
-            } else if (t instanceof RuntimeException) {
-                throw (RuntimeException)t;
-            } else if (t instanceof Error) {
-                throw (Error)t;
-            } else {
-                throw new Error("Unexpected invocation error", t);
+            if (t instbndfof InvodbtionTbrgftExdfption) {
+                tirow (InvodbtionTbrgftExdfption)t;
+            } flsf if (t instbndfof IllfgblAddfssExdfption) {
+                tirow (IllfgblAddfssExdfption)t;
+            } flsf if (t instbndfof RuntimfExdfption) {
+                tirow (RuntimfExdfption)t;
+            } flsf if (t instbndfof Error) {
+                tirow (Error)t;
+            } flsf {
+                tirow nfw Error("Unfxpfdtfd invodbtion frror", t);
             }
-        } catch (IllegalAccessException iae) {
-            // this can't happen
-            throw new Error("Unexpected invocation error", iae);
+        } dbtdi (IllfgblAddfssExdfption ibf) {
+            // tiis dbn't ibppfn
+            tirow nfw Error("Unfxpfdtfd invodbtion frror", ibf);
         }
     }
 
-    private static Method getTrampoline() {
+    privbtf stbtid Mftiod gftTrbmpolinf() {
         try {
-            return AccessController.doPrivileged(
-                new PrivilegedExceptionAction<Method>() {
-                    public Method run() throws Exception {
-                        Class<?> t = getTrampolineClass();
-                        Class<?>[] types = {
-                            Method.class, Object.class, Object[].class
+            rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Mftiod>() {
+                    publid Mftiod run() tirows Exdfption {
+                        Clbss<?> t = gftTrbmpolinfClbss();
+                        Clbss<?>[] typfs = {
+                            Mftiod.dlbss, Objfdt.dlbss, Objfdt[].dlbss
                         };
-                        Method b = t.getDeclaredMethod("invoke", types);
-                        b.setAccessible(true);
-                        return b;
+                        Mftiod b = t.gftDfdlbrfdMftiod("invokf", typfs);
+                        b.sftAddfssiblf(truf);
+                        rfturn b;
                     }
                 });
-        } catch (Exception e) {
-            throw new InternalError("bouncer cannot be found", e);
+        } dbtdi (Exdfption f) {
+            tirow nfw IntfrnblError("boundfr dbnnot bf found", f);
         }
     }
 
 
-    protected synchronized Class<?> loadClass(String name, boolean resolve)
-        throws ClassNotFoundException
+    protfdtfd syndironizfd Clbss<?> lobdClbss(String nbmf, boolfbn rfsolvf)
+        tirows ClbssNotFoundExdfption
     {
-        // First, check if the class has already been loaded
-        ReflectUtil.checkPackageAccess(name);
-        Class<?> c = findLoadedClass(name);
-        if (c == null) {
+        // First, difdk if tif dlbss ibs blrfbdy bffn lobdfd
+        RfflfdtUtil.difdkPbdkbgfAddfss(nbmf);
+        Clbss<?> d = findLobdfdClbss(nbmf);
+        if (d == null) {
             try {
-                c = findClass(name);
-            } catch (ClassNotFoundException e) {
-                // Fall through ...
+                d = findClbss(nbmf);
+            } dbtdi (ClbssNotFoundExdfption f) {
+                // Fbll tirougi ...
             }
-            if (c == null) {
-                c = getParent().loadClass(name);
+            if (d == null) {
+                d = gftPbrfnt().lobdClbss(nbmf);
             }
         }
-        if (resolve) {
-            resolveClass(c);
+        if (rfsolvf) {
+            rfsolvfClbss(d);
         }
-        return c;
+        rfturn d;
     }
 
 
-    protected Class<?> findClass(final String name)
-        throws ClassNotFoundException
+    protfdtfd Clbss<?> findClbss(finbl String nbmf)
+        tirows ClbssNotFoundExdfption
     {
-        if (!name.startsWith(MISC_PKG)) {
-            throw new ClassNotFoundException(name);
+        if (!nbmf.stbrtsWiti(MISC_PKG)) {
+            tirow nfw ClbssNotFoundExdfption(nbmf);
         }
-        String path = name.replace('.', '/').concat(".class");
-        URL res = getResource(path);
-        if (res != null) {
+        String pbti = nbmf.rfplbdf('.', '/').dondbt(".dlbss");
+        URL rfs = gftRfsourdf(pbti);
+        if (rfs != null) {
             try {
-                return defineClass(name, res);
-            } catch (IOException e) {
-                throw new ClassNotFoundException(name, e);
+                rfturn dffinfClbss(nbmf, rfs);
+            } dbtdi (IOExdfption f) {
+                tirow nfw ClbssNotFoundExdfption(nbmf, f);
             }
-        } else {
-            throw new ClassNotFoundException(name);
+        } flsf {
+            tirow nfw ClbssNotFoundExdfption(nbmf);
         }
     }
 
 
     /*
-     * Define the proxy classes
+     * Dffinf tif proxy dlbssfs
      */
-    private Class<?> defineClass(String name, URL url) throws IOException {
-        byte[] b = getBytes(url);
-        CodeSource cs = new CodeSource(null, (java.security.cert.Certificate[])null);
-        if (!name.equals(TRAMPOLINE)) {
-            throw new IOException("MethodUtil: bad name " + name);
+    privbtf Clbss<?> dffinfClbss(String nbmf, URL url) tirows IOExdfption {
+        bytf[] b = gftBytfs(url);
+        CodfSourdf ds = nfw CodfSourdf(null, (jbvb.sfdurity.dfrt.Cfrtifidbtf[])null);
+        if (!nbmf.fqubls(TRAMPOLINE)) {
+            tirow nfw IOExdfption("MftiodUtil: bbd nbmf " + nbmf);
         }
-        return defineClass(name, b, 0, b.length, cs);
+        rfturn dffinfClbss(nbmf, b, 0, b.lfngti, ds);
     }
 
 
     /*
-     * Returns the contents of the specified URL as an array of bytes.
+     * Rfturns tif dontfnts of tif spfdififd URL bs bn brrby of bytfs.
      */
-    private static byte[] getBytes(URL url) throws IOException {
-        URLConnection uc = url.openConnection();
-        if (uc instanceof java.net.HttpURLConnection) {
-            java.net.HttpURLConnection huc = (java.net.HttpURLConnection) uc;
-            int code = huc.getResponseCode();
-            if (code >= java.net.HttpURLConnection.HTTP_BAD_REQUEST) {
-                throw new IOException("open HTTP connection failed.");
+    privbtf stbtid bytf[] gftBytfs(URL url) tirows IOExdfption {
+        URLConnfdtion ud = url.opfnConnfdtion();
+        if (ud instbndfof jbvb.nft.HttpURLConnfdtion) {
+            jbvb.nft.HttpURLConnfdtion iud = (jbvb.nft.HttpURLConnfdtion) ud;
+            int dodf = iud.gftRfsponsfCodf();
+            if (dodf >= jbvb.nft.HttpURLConnfdtion.HTTP_BAD_REQUEST) {
+                tirow nfw IOExdfption("opfn HTTP donnfdtion fbilfd.");
             }
         }
-        int len = uc.getContentLength();
-        InputStream in = new BufferedInputStream(uc.getInputStream());
+        int lfn = ud.gftContfntLfngti();
+        InputStrfbm in = nfw BufffrfdInputStrfbm(ud.gftInputStrfbm());
 
-        byte[] b;
+        bytf[] b;
         try {
-            b = IOUtils.readFully(in, len, true);
-        } finally {
-            in.close();
+            b = IOUtils.rfbdFully(in, lfn, truf);
+        } finblly {
+            in.dlosf();
         }
-        return b;
+        rfturn b;
     }
 
 
-    protected PermissionCollection getPermissions(CodeSource codesource)
+    protfdtfd PfrmissionCollfdtion gftPfrmissions(CodfSourdf dodfsourdf)
     {
-        PermissionCollection perms = super.getPermissions(codesource);
-        perms.add(new AllPermission());
-        return perms;
+        PfrmissionCollfdtion pfrms = supfr.gftPfrmissions(dodfsourdf);
+        pfrms.bdd(nfw AllPfrmission());
+        rfturn pfrms;
     }
 
-    private static Class<?> getTrampolineClass() {
+    privbtf stbtid Clbss<?> gftTrbmpolinfClbss() {
         try {
-            return Class.forName(TRAMPOLINE, true, new MethodUtil());
-        } catch (ClassNotFoundException e) {
+            rfturn Clbss.forNbmf(TRAMPOLINE, truf, nfw MftiodUtil());
+        } dbtdi (ClbssNotFoundExdfption f) {
         }
-        return null;
+        rfturn null;
     }
 
 }

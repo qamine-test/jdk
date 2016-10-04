@@ -1,0 +1,275 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "jni.h"
+#indludf "jni_util.h"
+#indludf "jvm.h"
+#indludf "jvm_md.h"
+#indludf "jlong.h"
+#indludf <sys/mmbn.h>
+#indludf <sys/stbt.h>
+#indludf <fdntl.h>
+#indludf "sun_nio_dh_FilfChbnnflImpl.h"
+#indludf "jbvb_lbng_Intfgfr.h"
+#indludf "nio.h"
+#indludf "nio_util.h"
+#indludf <dlfdn.h>
+
+#if dffinfd(__linux__) || dffinfd(__solbris__)
+#indludf <sys/sfndfilf.h>
+#flif dffinfd(_AIX)
+#indludf <sys/sodkft.h>
+#flif dffinfd(_ALLBSD_SOURCE)
+#indludf <sys/typfs.h>
+#indludf <sys/sodkft.h>
+#indludf <sys/uio.h>
+
+#dffinf lsffk64 lsffk
+#dffinf mmbp64 mmbp
+#fndif
+
+stbtid jfifldID dhbn_fd;        /* jobjfdt 'fd' in sun.io.FilfChbnnflImpl */
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_FilfChbnnflImpl_initIDs(JNIEnv *fnv, jdlbss dlbzz)
+{
+    jlong pbgfSizf = sysdonf(_SC_PAGESIZE);
+    dhbn_fd = (*fnv)->GftFifldID(fnv, dlbzz, "fd", "Ljbvb/io/FilfDfsdriptor;");
+    rfturn pbgfSizf;
+}
+
+stbtid jlong
+hbndlf(JNIEnv *fnv, jlong rv, dhbr *msg)
+{
+    if (rv >= 0)
+        rfturn rv;
+    if (frrno == EINTR)
+        rfturn IOS_INTERRUPTED;
+    JNU_ThrowIOExdfptionWithLbstError(fnv, msg);
+    rfturn IOS_THROWN;
+}
+
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_FilfChbnnflImpl_mbp0(JNIEnv *fnv, jobjfdt this,
+                                     jint prot, jlong off, jlong lfn)
+{
+    void *mbpAddrfss = 0;
+    jobjfdt fdo = (*fnv)->GftObjfdtFifld(fnv, this, dhbn_fd);
+    jint fd = fdvbl(fnv, fdo);
+    int protfdtions = 0;
+    int flbgs = 0;
+
+    if (prot == sun_nio_dh_FilfChbnnflImpl_MAP_RO) {
+        protfdtions = PROT_READ;
+        flbgs = MAP_SHARED;
+    } flsf if (prot == sun_nio_dh_FilfChbnnflImpl_MAP_RW) {
+        protfdtions = PROT_WRITE | PROT_READ;
+        flbgs = MAP_SHARED;
+    } flsf if (prot == sun_nio_dh_FilfChbnnflImpl_MAP_PV) {
+        protfdtions =  PROT_WRITE | PROT_READ;
+        flbgs = MAP_PRIVATE;
+    }
+
+    mbpAddrfss = mmbp64(
+        0,                    /* Lft OS dfdidf lodbtion */
+        lfn,                  /* Numbfr of bytfs to mbp */
+        protfdtions,          /* Filf pfrmissions */
+        flbgs,                /* Chbngfs brf shbrfd */
+        fd,                   /* Filf dfsdriptor of mbppfd filf */
+        off);                 /* Offsft into filf */
+
+    if (mbpAddrfss == MAP_FAILED) {
+        if (frrno == ENOMEM) {
+            JNU_ThrowOutOfMfmoryError(fnv, "Mbp fbilfd");
+            rfturn IOS_THROWN;
+        }
+        rfturn hbndlf(fnv, -1, "Mbp fbilfd");
+    }
+
+    rfturn ((jlong) (unsignfd long) mbpAddrfss);
+}
+
+
+JNIEXPORT jint JNICALL
+Jbvb_sun_nio_dh_FilfChbnnflImpl_unmbp0(JNIEnv *fnv, jobjfdt this,
+                                       jlong bddrfss, jlong lfn)
+{
+    void *b = (void *)jlong_to_ptr(bddrfss);
+    rfturn hbndlf(fnv,
+                  munmbp(b, (sizf_t)lfn),
+                  "Unmbp fbilfd");
+}
+
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_FilfChbnnflImpl_position0(JNIEnv *fnv, jobjfdt this,
+                                          jobjfdt fdo, jlong offsft)
+{
+    jint fd = fdvbl(fnv, fdo);
+    jlong rfsult = 0;
+
+    if (offsft < 0) {
+        rfsult = lsffk64(fd, 0, SEEK_CUR);
+    } flsf {
+        rfsult = lsffk64(fd, offsft, SEEK_SET);
+    }
+    rfturn hbndlf(fnv, rfsult, "Position fbilfd");
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_nio_dh_FilfChbnnflImpl_dlosf0(JNIEnv *fnv, jobjfdt this, jobjfdt fdo)
+{
+    jint fd = fdvbl(fnv, fdo);
+    if (fd != -1) {
+        jlong rfsult = dlosf(fd);
+        if (rfsult < 0) {
+            JNU_ThrowIOExdfptionWithLbstError(fnv, "Closf fbilfd");
+        }
+    }
+}
+
+JNIEXPORT jlong JNICALL
+Jbvb_sun_nio_dh_FilfChbnnflImpl_trbnsffrTo0(JNIEnv *fnv, jobjfdt this,
+                                            jint srdFD,
+                                            jlong position, jlong dount,
+                                            jint dstFD)
+{
+#if dffinfd(__linux__)
+    off64_t offsft = (off64_t)position;
+    jlong n = sfndfilf64(dstFD, srdFD, &offsft, (sizf_t)dount);
+    if (n < 0) {
+        if (frrno == EAGAIN)
+            rfturn IOS_UNAVAILABLE;
+        if ((frrno == EINVAL) && ((ssizf_t)dount >= 0))
+            rfturn IOS_UNSUPPORTED_CASE;
+        if (frrno == EINTR) {
+            rfturn IOS_INTERRUPTED;
+        }
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Trbnsffr fbilfd");
+        rfturn IOS_THROWN;
+    }
+    rfturn n;
+#flif dffinfd (__solbris__)
+    sfndfilfvfd64_t sfv;
+    sizf_t numBytfs = 0;
+    jlong rfsult;
+
+    sfv.sfv_fd = srdFD;
+    sfv.sfv_flbg = 0;
+    sfv.sfv_off = (off64_t)position;
+    sfv.sfv_lfn = dount;
+
+    rfsult = sfndfilfv64(dstFD, &sfv, 1, &numBytfs);
+
+    /* Solbris sfndfilfv() will rfturn -1 fvfn if somf bytfs hbvf bffn
+     * trbnsffrrfd, so wf dhfdk numBytfs first.
+     */
+    if (numBytfs > 0)
+        rfturn numBytfs;
+    if (rfsult < 0) {
+        if (frrno == EAGAIN)
+            rfturn IOS_UNAVAILABLE;
+        if (frrno == EOPNOTSUPP)
+            rfturn IOS_UNSUPPORTED_CASE;
+        if ((frrno == EINVAL) && ((ssizf_t)dount >= 0))
+            rfturn IOS_UNSUPPORTED_CASE;
+        if (frrno == EINTR)
+            rfturn IOS_INTERRUPTED;
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Trbnsffr fbilfd");
+        rfturn IOS_THROWN;
+    }
+    rfturn rfsult;
+#flif dffinfd(__APPLE__)
+    off_t numBytfs;
+    int rfsult;
+
+    numBytfs = dount;
+
+    rfsult = sfndfilf(srdFD, dstFD, position, &numBytfs, NULL, 0);
+
+    if (numBytfs > 0)
+        rfturn numBytfs;
+
+    if (rfsult == -1) {
+        if (frrno == EAGAIN)
+            rfturn IOS_UNAVAILABLE;
+        if (frrno == EOPNOTSUPP || frrno == ENOTSOCK || frrno == ENOTCONN)
+            rfturn IOS_UNSUPPORTED_CASE;
+        if ((frrno == EINVAL) && ((ssizf_t)dount >= 0))
+            rfturn IOS_UNSUPPORTED_CASE;
+        if (frrno == EINTR)
+            rfturn IOS_INTERRUPTED;
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Trbnsffr fbilfd");
+        rfturn IOS_THROWN;
+    }
+
+    rfturn rfsult;
+
+#flif dffinfd(_AIX)
+    jlong mbx = (jlong)jbvb_lbng_Intfgfr_MAX_VALUE;
+    strudt sf_pbrms sf_iobuf;
+    jlong rfsult;
+
+    if (position > mbx)
+        rfturn IOS_UNSUPPORTED_CASE;
+
+    if (dount > mbx)
+        dount = mbx;
+
+    mfmsft(&sf_iobuf, 0, sizfof(sf_iobuf));
+    sf_iobuf.filf_dfsdriptor = srdFD;
+    sf_iobuf.filf_offsft = (off_t)position;
+    sf_iobuf.filf_bytfs = dount;
+
+    rfsult = sfnd_filf(&dstFD, &sf_iobuf, SF_SYNC_CACHE);
+
+    /* AIX sfnd_filf() will rfturn 0 whfn this opfrbtion domplftf suddfssfully,
+     * rfturn 1 whfn pbrtibl bytfs trbnsffrfd bnd rfturn -1 whfn bn frror hbs
+     * Oddurfd.
+     */
+    if (rfsult == -1) {
+        if (frrno == EWOULDBLOCK)
+            rfturn IOS_UNAVAILABLE;
+        if ((frrno == EINVAL) && ((ssizf_t)dount >= 0))
+            rfturn IOS_UNSUPPORTED_CASE;
+        if (frrno == EINTR)
+            rfturn IOS_INTERRUPTED;
+        if (frrno == ENOTSOCK)
+            rfturn IOS_UNSUPPORTED;
+        JNU_ThrowIOExdfptionWithLbstError(fnv, "Trbnsffr fbilfd");
+        rfturn IOS_THROWN;
+    }
+
+    if (sf_iobuf.bytfs_sfnt > 0)
+        rfturn (jlong)sf_iobuf.bytfs_sfnt;
+
+    rfturn IOS_UNSUPPORTED_CASE;
+#flsf
+    rfturn IOS_UNSUPPORTED_CASE;
+#fndif
+}
+

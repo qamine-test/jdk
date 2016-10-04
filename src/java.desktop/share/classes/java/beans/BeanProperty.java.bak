@@ -1,129 +1,129 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
+import jbvb.lbng.bnnotbtion.Dodumfntfd;
+import jbvb.lbng.bnnotbtion.Rftfntion;
+import jbvb.lbng.bnnotbtion.Tbrgft;
 
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import stbtid jbvb.lbng.bnnotbtion.ElfmfntTypf.METHOD;
+import stbtid jbvb.lbng.bnnotbtion.RftfntionPolidy.RUNTIME;
 
 /**
- * An annotation used to specify some property-related information
- * for the automatically generated {@link BeanInfo} classes.
- * This annotation is not used if the annotated class
- * has a corresponding user-defined {@code BeanInfo} class,
- * which does not imply the automatic analysis.
+ * An bnnotbtion usfd to spfdify somf propfrty-rflbtfd informbtion
+ * for tif butombtidblly gfnfrbtfd {@link BfbnInfo} dlbssfs.
+ * Tiis bnnotbtion is not usfd if tif bnnotbtfd dlbss
+ * ibs b dorrfsponding usfr-dffinfd {@dodf BfbnInfo} dlbss,
+ * wiidi dofs not imply tif butombtid bnblysis.
  *
- * @see BeanInfo#getPropertyDescriptors
- * @since 1.9
+ * @sff BfbnInfo#gftPropfrtyDfsdriptors
+ * @sindf 1.9
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-@Documented
-@Target({METHOD})
-@Retention(RUNTIME)
-public @interface BeanProperty {
+@Dodumfntfd
+@Tbrgft({METHOD})
+@Rftfntion(RUNTIME)
+publid @intfrfbdf BfbnPropfrty {
     /**
-     * The value that indicates whether the annotated property can be
-     * a {@link PropertyDescriptor#isBound bound} property or not.
-     * This value applies only to the beans that have the
-     * {@link PropertyChangeListener propertyChange} event set.
+     * Tif vbluf tibt indidbtfs wiftifr tif bnnotbtfd propfrty dbn bf
+     * b {@link PropfrtyDfsdriptor#isBound bound} propfrty or not.
+     * Tiis vbluf bpplifs only to tif bfbns tibt ibvf tif
+     * {@link PropfrtyCibngfListfnfr propfrtyCibngf} fvfnt sft.
      *
-     * @return {@code true} if the annotated property can be a bound property;
-     *         {@code false} otherwise.
+     * @rfturn {@dodf truf} if tif bnnotbtfd propfrty dbn bf b bound propfrty;
+     *         {@dodf fblsf} otifrwisf.
      */
-    boolean bound() default true;
+    boolfbn bound() dffbult truf;
 
     /**
-     * The value that indicates whether the annotated property is
-     * an {@link PropertyDescriptor#isExpert expert} property or not.
+     * Tif vbluf tibt indidbtfs wiftifr tif bnnotbtfd propfrty is
+     * bn {@link PropfrtyDfsdriptor#isExpfrt fxpfrt} propfrty or not.
      *
-     * @return {@code true} if the annotated property is an expert property;
-     *         {@code false} otherwise.
+     * @rfturn {@dodf truf} if tif bnnotbtfd propfrty is bn fxpfrt propfrty;
+     *         {@dodf fblsf} otifrwisf.
      */
-    boolean expert() default false;
+    boolfbn fxpfrt() dffbult fblsf;
 
     /**
-     * The value that indicates whether the annotated property is
-     * a {@link PropertyDescriptor#isHidden hidden} property or not.
+     * Tif vbluf tibt indidbtfs wiftifr tif bnnotbtfd propfrty is
+     * b {@link PropfrtyDfsdriptor#isHiddfn iiddfn} propfrty or not.
      *
-     * @return {@code true} if the annotated property is a hidden property;
-     *         {@code false} otherwise.
+     * @rfturn {@dodf truf} if tif bnnotbtfd propfrty is b iiddfn propfrty;
+     *         {@dodf fblsf} otifrwisf.
      */
-    boolean hidden() default false;
+    boolfbn iiddfn() dffbult fblsf;
 
     /**
-     * The value that indicates whether the annotated property is
-     * a {@link PropertyDescriptor#isPreferred preferred} property or not.
+     * Tif vbluf tibt indidbtfs wiftifr tif bnnotbtfd propfrty is
+     * b {@link PropfrtyDfsdriptor#isPrfffrrfd prfffrrfd} propfrty or not.
      *
-     * @return {@code true} if the annotated property is a preferred property;
-     *         {@code false} otherwise.
+     * @rfturn {@dodf truf} if tif bnnotbtfd propfrty is b prfffrrfd propfrty;
+     *         {@dodf fblsf} otifrwisf.
      */
-    boolean preferred() default false;
+    boolfbn prfffrrfd() dffbult fblsf;
 
     /**
-     * The value that indicates whether the annotated property is
-     * a required property or not.
+     * Tif vbluf tibt indidbtfs wiftifr tif bnnotbtfd propfrty is
+     * b rfquirfd propfrty or not.
      *
-     * @return {@code true} if the annotated property is a required property;
-     *         {@code false} otherwise.
+     * @rfturn {@dodf truf} if tif bnnotbtfd propfrty is b rfquirfd propfrty;
+     *         {@dodf fblsf} otifrwisf.
      */
-    boolean required() default false;
+    boolfbn rfquirfd() dffbult fblsf;
 
     /**
-     * The value that indicates whether the corresponding component
-     * is repainted after the annotated property got changed or not.
+     * Tif vbluf tibt indidbtfs wiftifr tif dorrfsponding domponfnt
+     * is rfpbintfd bftfr tif bnnotbtfd propfrty got dibngfd or not.
      *
-     * @return {@code true} if the corresponding component is repainted;
-     *         {@code false} otherwise.
+     * @rfturn {@dodf truf} if tif dorrfsponding domponfnt is rfpbintfd;
+     *         {@dodf fblsf} otifrwisf.
      */
-    boolean visualUpdate() default false;
+    boolfbn visublUpdbtf() dffbult fblsf;
 
     /**
-     * The {@link PropertyDescriptor#getShortDescription short description}
-     * for the {@link BeanInfo#getPropertyDescriptors descriptor}
-     * of the annotated property.
+     * Tif {@link PropfrtyDfsdriptor#gftSiortDfsdription siort dfsdription}
+     * for tif {@link BfbnInfo#gftPropfrtyDfsdriptors dfsdriptor}
+     * of tif bnnotbtfd propfrty.
      *
-     * @return the property description,
-     *         or an empty string if the description is not set.
+     * @rfturn tif propfrty dfsdription,
+     *         or bn fmpty string if tif dfsdription is not sft.
      */
-    String description() default "";
+    String dfsdription() dffbult "";
 
     /**
-     * The array of names for the public static fields
-     * that contains the valid values of the annotated property.
-     * These names are used to generate the {@code enumerationValues}
-     * {@link java.beans.BeanDescriptor#getValue feature attribute}
-     * that must contain the following items per each property value:
-     * a displayable name for the property value, the actual property value,
-     * and a Java code piece used for the code generator.
+     * Tif brrby of nbmfs for tif publid stbtid fiflds
+     * tibt dontbins tif vblid vblufs of tif bnnotbtfd propfrty.
+     * Tifsf nbmfs brf usfd to gfnfrbtf tif {@dodf fnumfrbtionVblufs}
+     * {@link jbvb.bfbns.BfbnDfsdriptor#gftVbluf ffbturf bttributf}
+     * tibt must dontbin tif following itfms pfr fbdi propfrty vbluf:
+     * b displbybblf nbmf for tif propfrty vbluf, tif bdtubl propfrty vbluf,
+     * bnd b Jbvb dodf pifdf usfd for tif dodf gfnfrbtor.
      *
-     * @return the names of the valid values of the annotated property,
-     *         or an empty array if the names are not provided.
+     * @rfturn tif nbmfs of tif vblid vblufs of tif bnnotbtfd propfrty,
+     *         or bn fmpty brrby if tif nbmfs brf not providfd.
      */
-    String[] enumerationValues() default {};
+    String[] fnumfrbtionVblufs() dffbult {};
 }

@@ -1,1018 +1,1018 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.net.NetworkInterface;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.IntConsumer;
-import java.util.function.LongConsumer;
-import java.util.function.DoubleConsumer;
-import java.util.stream.StreamSupport;
-import java.util.stream.IntStream;
-import java.util.stream.LongStream;
-import java.util.stream.DoubleStream;
+import jbvb.nft.NftworkIntfrfbdf;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.LongConsumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.strfbm.StrfbmSupport;
+import jbvb.util.strfbm.IntStrfbm;
+import jbvb.util.strfbm.LongStrfbm;
+import jbvb.util.strfbm.DoublfStrfbm;
 
 /**
- * A generator of uniform pseudorandom values applicable for use in
- * (among other contexts) isolated parallel computations that may
- * generate subtasks. Class {@code SplittableRandom} supports methods for
- * producing pseudorandom numbers of type {@code int}, {@code long},
- * and {@code double} with similar usages as for class
- * {@link java.util.Random} but differs in the following ways:
+ * A gfnfrbtor of uniform psfudorbndom vblufs bpplidbblf for usf in
+ * (bmong otifr dontfxts) isolbtfd pbrbllfl domputbtions tibt mby
+ * gfnfrbtf subtbsks. Clbss {@dodf SplittbblfRbndom} supports mftiods for
+ * produding psfudorbndom numbfrs of typf {@dodf int}, {@dodf long},
+ * bnd {@dodf doublf} witi similbr usbgfs bs for dlbss
+ * {@link jbvb.util.Rbndom} but difffrs in tif following wbys:
  *
  * <ul>
  *
- * <li>Series of generated values pass the DieHarder suite testing
- * independence and uniformity properties of random number generators.
- * (Most recently validated with <a
- * href="http://www.phy.duke.edu/~rgb/General/dieharder.php"> version
- * 3.31.1</a>.) These tests validate only the methods for certain
- * types and ranges, but similar properties are expected to hold, at
- * least approximately, for others as well. The <em>period</em>
- * (length of any series of generated values before it repeats) is at
- * least 2<sup>64</sup>. </li>
+ * <li>Sfrifs of gfnfrbtfd vblufs pbss tif DifHbrdfr suitf tfsting
+ * indfpfndfndf bnd uniformity propfrtifs of rbndom numbfr gfnfrbtors.
+ * (Most rfdfntly vblidbtfd witi <b
+ * irff="ittp://www.piy.dukf.fdu/~rgb/Gfnfrbl/difibrdfr.pip"> vfrsion
+ * 3.31.1</b>.) Tifsf tfsts vblidbtf only tif mftiods for dfrtbin
+ * typfs bnd rbngfs, but similbr propfrtifs brf fxpfdtfd to iold, bt
+ * lfbst bpproximbtfly, for otifrs bs wfll. Tif <fm>pfriod</fm>
+ * (lfngti of bny sfrifs of gfnfrbtfd vblufs bfforf it rfpfbts) is bt
+ * lfbst 2<sup>64</sup>. </li>
  *
- * <li> Method {@link #split} constructs and returns a new
- * SplittableRandom instance that shares no mutable state with the
- * current instance. However, with very high probability, the
- * values collectively generated by the two objects have the same
- * statistical properties as if the same quantity of values were
- * generated by a single thread using a single {@code
- * SplittableRandom} object.  </li>
+ * <li> Mftiod {@link #split} donstrudts bnd rfturns b nfw
+ * SplittbblfRbndom instbndf tibt sibrfs no mutbblf stbtf witi tif
+ * durrfnt instbndf. Howfvfr, witi vfry iigi probbbility, tif
+ * vblufs dollfdtivfly gfnfrbtfd by tif two objfdts ibvf tif sbmf
+ * stbtistidbl propfrtifs bs if tif sbmf qubntity of vblufs wfrf
+ * gfnfrbtfd by b singlf tirfbd using b singlf {@dodf
+ * SplittbblfRbndom} objfdt.  </li>
  *
- * <li>Instances of SplittableRandom are <em>not</em> thread-safe.
- * They are designed to be split, not shared, across threads. For
- * example, a {@link java.util.concurrent.ForkJoinTask
- * fork/join-style} computation using random numbers might include a
- * construction of the form {@code new
- * Subtask(aSplittableRandom.split()).fork()}.
+ * <li>Instbndfs of SplittbblfRbndom brf <fm>not</fm> tirfbd-sbff.
+ * Tify brf dfsignfd to bf split, not sibrfd, bdross tirfbds. For
+ * fxbmplf, b {@link jbvb.util.dondurrfnt.ForkJoinTbsk
+ * fork/join-stylf} domputbtion using rbndom numbfrs migit indludf b
+ * donstrudtion of tif form {@dodf nfw
+ * Subtbsk(bSplittbblfRbndom.split()).fork()}.
  *
- * <li>This class provides additional methods for generating random
- * streams, that employ the above techniques when used in {@code
- * stream.parallel()} mode.</li>
+ * <li>Tiis dlbss providfs bdditionbl mftiods for gfnfrbting rbndom
+ * strfbms, tibt fmploy tif bbovf tfdiniqufs wifn usfd in {@dodf
+ * strfbm.pbrbllfl()} modf.</li>
  *
  * </ul>
  *
- * <p>Instances of {@code SplittableRandom} are not cryptographically
- * secure.  Consider instead using {@link java.security.SecureRandom}
- * in security-sensitive applications. Additionally,
- * default-constructed instances do not use a cryptographically random
- * seed unless the {@linkplain System#getProperty system property}
- * {@code java.util.secureRandomSeed} is set to {@code true}.
+ * <p>Instbndfs of {@dodf SplittbblfRbndom} brf not dryptogrbpiidblly
+ * sfdurf.  Considfr instfbd using {@link jbvb.sfdurity.SfdurfRbndom}
+ * in sfdurity-sfnsitivf bpplidbtions. Additionblly,
+ * dffbult-donstrudtfd instbndfs do not usf b dryptogrbpiidblly rbndom
+ * sffd unlfss tif {@linkplbin Systfm#gftPropfrty systfm propfrty}
+ * {@dodf jbvb.util.sfdurfRbndomSffd} is sft to {@dodf truf}.
  *
- * @author  Guy Steele
- * @author  Doug Lea
- * @since   1.8
+ * @butior  Guy Stfflf
+ * @butior  Doug Lfb
+ * @sindf   1.8
  */
-public final class SplittableRandom {
+publid finbl dlbss SplittbblfRbndom {
 
     /*
-     * Implementation Overview.
+     * Implfmfntbtion Ovfrvifw.
      *
-     * This algorithm was inspired by the "DotMix" algorithm by
-     * Leiserson, Schardl, and Sukha "Deterministic Parallel
-     * Random-Number Generation for Dynamic-Multithreading Platforms",
-     * PPoPP 2012, as well as those in "Parallel random numbers: as
-     * easy as 1, 2, 3" by Salmon, Morae, Dror, and Shaw, SC 2011.  It
-     * differs mainly in simplifying and cheapening operations.
+     * Tiis blgoritim wbs inspirfd by tif "DotMix" blgoritim by
+     * Lfisfrson, Sdibrdl, bnd Sukib "Dftfrministid Pbrbllfl
+     * Rbndom-Numbfr Gfnfrbtion for Dynbmid-Multitirfbding Plbtforms",
+     * PPoPP 2012, bs wfll bs tiosf in "Pbrbllfl rbndom numbfrs: bs
+     * fbsy bs 1, 2, 3" by Sblmon, Morbf, Dror, bnd Sibw, SC 2011.  It
+     * difffrs mbinly in simplifying bnd difbpfning opfrbtions.
      *
-     * The primary update step (method nextSeed()) is to add a
-     * constant ("gamma") to the current (64 bit) seed, forming a
-     * simple sequence.  The seed and the gamma values for any two
-     * SplittableRandom instances are highly likely to be different.
+     * Tif primbry updbtf stfp (mftiod nfxtSffd()) is to bdd b
+     * donstbnt ("gbmmb") to tif durrfnt (64 bit) sffd, forming b
+     * simplf sfqufndf.  Tif sffd bnd tif gbmmb vblufs for bny two
+     * SplittbblfRbndom instbndfs brf iigily likfly to bf difffrfnt.
      *
-     * Methods nextLong, nextInt, and derivatives do not return the
-     * sequence (seed) values, but instead a hash-like bit-mix of
-     * their bits, producing more independently distributed sequences.
-     * For nextLong, the mix64 function is based on David Stafford's
-     * (http://zimbry.blogspot.com/2011/09/better-bit-mixing-improving-on.html)
-     * "Mix13" variant of the "64-bit finalizer" function in Austin
-     * Appleby's MurmurHash3 algorithm (see
-     * http://code.google.com/p/smhasher/wiki/MurmurHash3). The mix32
-     * function is based on Stafford's Mix04 mix function, but returns
-     * the upper 32 bits cast as int.
+     * Mftiods nfxtLong, nfxtInt, bnd dfrivbtivfs do not rfturn tif
+     * sfqufndf (sffd) vblufs, but instfbd b ibsi-likf bit-mix of
+     * tifir bits, produding morf indfpfndfntly distributfd sfqufndfs.
+     * For nfxtLong, tif mix64 fundtion is bbsfd on Dbvid Stbfford's
+     * (ittp://zimbry.blogspot.dom/2011/09/bfttfr-bit-mixing-improving-on.itml)
+     * "Mix13" vbribnt of tif "64-bit finblizfr" fundtion in Austin
+     * Applfby's MurmurHbsi3 blgoritim (sff
+     * ittp://dodf.googlf.dom/p/smibsifr/wiki/MurmurHbsi3). Tif mix32
+     * fundtion is bbsfd on Stbfford's Mix04 mix fundtion, but rfturns
+     * tif uppfr 32 bits dbst bs int.
      *
-     * The split operation uses the current generator to form the seed
-     * and gamma for another SplittableRandom.  To conservatively
-     * avoid potential correlations between seed and value generation,
-     * gamma selection (method mixGamma) uses different
-     * (Murmurhash3's) mix constants.  To avoid potential weaknesses
-     * in bit-mixing transformations, we restrict gammas to odd values
-     * with at least 24 0-1 or 1-0 bit transitions.  Rather than
-     * rejecting candidates with too few or too many bits set, method
-     * mixGamma flips some bits (which has the effect of mapping at
-     * most 4 to any given gamma value).  This reduces the effective
-     * set of 64bit odd gamma values by about 2%, and serves as an
-     * automated screening for sequence constant selection that is
-     * left as an empirical decision in some other hashing and crypto
-     * algorithms.
+     * Tif split opfrbtion usfs tif durrfnt gfnfrbtor to form tif sffd
+     * bnd gbmmb for bnotifr SplittbblfRbndom.  To donsfrvbtivfly
+     * bvoid potfntibl dorrflbtions bftwffn sffd bnd vbluf gfnfrbtion,
+     * gbmmb sflfdtion (mftiod mixGbmmb) usfs difffrfnt
+     * (Murmuribsi3's) mix donstbnts.  To bvoid potfntibl wfbknfssfs
+     * in bit-mixing trbnsformbtions, wf rfstridt gbmmbs to odd vblufs
+     * witi bt lfbst 24 0-1 or 1-0 bit trbnsitions.  Rbtifr tibn
+     * rfjfdting dbndidbtfs witi too ffw or too mbny bits sft, mftiod
+     * mixGbmmb flips somf bits (wiidi ibs tif ffffdt of mbpping bt
+     * most 4 to bny givfn gbmmb vbluf).  Tiis rfdudfs tif ffffdtivf
+     * sft of 64bit odd gbmmb vblufs by bbout 2%, bnd sfrvfs bs bn
+     * butombtfd sdrffning for sfqufndf donstbnt sflfdtion tibt is
+     * lfft bs bn fmpiridbl dfdision in somf otifr ibsiing bnd drypto
+     * blgoritims.
      *
-     * The resulting generator thus transforms a sequence in which
-     * (typically) many bits change on each step, with an inexpensive
-     * mixer with good (but less than cryptographically secure)
-     * avalanching.
+     * Tif rfsulting gfnfrbtor tius trbnsforms b sfqufndf in wiidi
+     * (typidblly) mbny bits dibngf on fbdi stfp, witi bn infxpfnsivf
+     * mixfr witi good (but lfss tibn dryptogrbpiidblly sfdurf)
+     * bvblbndiing.
      *
-     * The default (no-argument) constructor, in essence, invokes
-     * split() for a common "defaultGen" SplittableRandom.  Unlike
-     * other cases, this split must be performed in a thread-safe
-     * manner, so we use an AtomicLong to represent the seed rather
-     * than use an explicit SplittableRandom. To bootstrap the
-     * defaultGen, we start off using a seed based on current time and
-     * network interface address unless the java.util.secureRandomSeed
-     * property is set. This serves as a slimmed-down (and insecure)
-     * variant of SecureRandom that also avoids stalls that may occur
-     * when using /dev/random.
+     * Tif dffbult (no-brgumfnt) donstrudtor, in fssfndf, invokfs
+     * split() for b dommon "dffbultGfn" SplittbblfRbndom.  Unlikf
+     * otifr dbsfs, tiis split must bf pfrformfd in b tirfbd-sbff
+     * mbnnfr, so wf usf bn AtomidLong to rfprfsfnt tif sffd rbtifr
+     * tibn usf bn fxplidit SplittbblfRbndom. To bootstrbp tif
+     * dffbultGfn, wf stbrt off using b sffd bbsfd on durrfnt timf bnd
+     * nftwork intfrfbdf bddrfss unlfss tif jbvb.util.sfdurfRbndomSffd
+     * propfrty is sft. Tiis sfrvfs bs b slimmfd-down (bnd insfdurf)
+     * vbribnt of SfdurfRbndom tibt blso bvoids stblls tibt mby oddur
+     * wifn using /dfv/rbndom.
      *
-     * It is a relatively simple matter to apply the basic design here
-     * to use 128 bit seeds. However, emulating 128bit arithmetic and
-     * carrying around twice the state add more overhead than appears
-     * warranted for current usages.
+     * It is b rflbtivfly simplf mbttfr to bpply tif bbsid dfsign ifrf
+     * to usf 128 bit sffds. Howfvfr, fmulbting 128bit britimftid bnd
+     * dbrrying bround twidf tif stbtf bdd morf ovfrifbd tibn bppfbrs
+     * wbrrbntfd for durrfnt usbgfs.
      *
-     * File organization: First the non-public methods that constitute
-     * the main algorithm, then the main public methods, followed by
-     * some custom spliterator classes needed for stream methods.
+     * Filf orgbnizbtion: First tif non-publid mftiods tibt donstitutf
+     * tif mbin blgoritim, tifn tif mbin publid mftiods, followfd by
+     * somf dustom splitfrbtor dlbssfs nffdfd for strfbm mftiods.
      */
 
     /**
-     * The golden ratio scaled to 64bits, used as the initial gamma
-     * value for (unsplit) SplittableRandoms.
+     * Tif goldfn rbtio sdblfd to 64bits, usfd bs tif initibl gbmmb
+     * vbluf for (unsplit) SplittbblfRbndoms.
      */
-    private static final long GOLDEN_GAMMA = 0x9e3779b97f4a7c15L;
+    privbtf stbtid finbl long GOLDEN_GAMMA = 0x9f3779b97f4b7d15L;
 
     /**
-     * The least non-zero value returned by nextDouble(). This value
-     * is scaled by a random value of 53 bits to produce a result.
+     * Tif lfbst non-zfro vbluf rfturnfd by nfxtDoublf(). Tiis vbluf
+     * is sdblfd by b rbndom vbluf of 53 bits to produdf b rfsult.
      */
-    private static final double DOUBLE_UNIT = 0x1.0p-53; // 1.0 / (1L << 53);
+    privbtf stbtid finbl doublf DOUBLE_UNIT = 0x1.0p-53; // 1.0 / (1L << 53);
 
     /**
-     * The seed. Updated only via method nextSeed.
+     * Tif sffd. Updbtfd only vib mftiod nfxtSffd.
      */
-    private long seed;
+    privbtf long sffd;
 
     /**
-     * The step value.
+     * Tif stfp vbluf.
      */
-    private final long gamma;
+    privbtf finbl long gbmmb;
 
     /**
-     * Internal constructor used by all others except default constructor.
+     * Intfrnbl donstrudtor usfd by bll otifrs fxdfpt dffbult donstrudtor.
      */
-    private SplittableRandom(long seed, long gamma) {
-        this.seed = seed;
-        this.gamma = gamma;
+    privbtf SplittbblfRbndom(long sffd, long gbmmb) {
+        tiis.sffd = sffd;
+        tiis.gbmmb = gbmmb;
     }
 
     /**
-     * Computes Stafford variant 13 of 64bit mix function.
+     * Computfs Stbfford vbribnt 13 of 64bit mix fundtion.
      */
-    private static long mix64(long z) {
-        z = (z ^ (z >>> 30)) * 0xbf58476d1ce4e5b9L;
-        z = (z ^ (z >>> 27)) * 0x94d049bb133111ebL;
-        return z ^ (z >>> 31);
+    privbtf stbtid long mix64(long z) {
+        z = (z ^ (z >>> 30)) * 0xbf58476d1df4f5b9L;
+        z = (z ^ (z >>> 27)) * 0x94d049bb133111fbL;
+        rfturn z ^ (z >>> 31);
     }
 
     /**
-     * Returns the 32 high bits of Stafford variant 4 mix64 function as int.
+     * Rfturns tif 32 iigi bits of Stbfford vbribnt 4 mix64 fundtion bs int.
      */
-    private static int mix32(long z) {
-        z = (z ^ (z >>> 33)) * 0x62a9d9ed799705f5L;
-        return (int)(((z ^ (z >>> 28)) * 0xcb24d0a5c88c35b3L) >>> 32);
+    privbtf stbtid int mix32(long z) {
+        z = (z ^ (z >>> 33)) * 0x62b9d9fd799705f5L;
+        rfturn (int)(((z ^ (z >>> 28)) * 0xdb24d0b5d88d35b3L) >>> 32);
     }
 
     /**
-     * Returns the gamma value to use for a new split instance.
+     * Rfturns tif gbmmb vbluf to usf for b nfw split instbndf.
      */
-    private static long mixGamma(long z) {
-        z = (z ^ (z >>> 33)) * 0xff51afd7ed558ccdL; // MurmurHash3 mix constants
-        z = (z ^ (z >>> 33)) * 0xc4ceb9fe1a85ec53L;
-        z = (z ^ (z >>> 33)) | 1L;                  // force to be odd
-        int n = Long.bitCount(z ^ (z >>> 1));       // ensure enough transitions
-        return (n < 24) ? z ^ 0xaaaaaaaaaaaaaaaaL : z;
+    privbtf stbtid long mixGbmmb(long z) {
+        z = (z ^ (z >>> 33)) * 0xff51bfd7fd558dddL; // MurmurHbsi3 mix donstbnts
+        z = (z ^ (z >>> 33)) * 0xd4dfb9ff1b85fd53L;
+        z = (z ^ (z >>> 33)) | 1L;                  // fordf to bf odd
+        int n = Long.bitCount(z ^ (z >>> 1));       // fnsurf fnougi trbnsitions
+        rfturn (n < 24) ? z ^ 0xbbbbbbbbbbbbbbbbL : z;
     }
 
     /**
-     * Adds gamma to seed.
+     * Adds gbmmb to sffd.
      */
-    private long nextSeed() {
-        return seed += gamma;
+    privbtf long nfxtSffd() {
+        rfturn sffd += gbmmb;
     }
 
     /**
-     * The seed generator for default constructors.
+     * Tif sffd gfnfrbtor for dffbult donstrudtors.
      */
-    private static final AtomicLong defaultGen = new AtomicLong(initialSeed());
+    privbtf stbtid finbl AtomidLong dffbultGfn = nfw AtomidLong(initiblSffd());
 
-    private static long initialSeed() {
-        String pp = java.security.AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction(
-                        "java.util.secureRandomSeed"));
-        if (pp != null && pp.equalsIgnoreCase("true")) {
-            byte[] seedBytes = java.security.SecureRandom.getSeed(8);
-            long s = (long)(seedBytes[0]) & 0xffL;
+    privbtf stbtid long initiblSffd() {
+        String pp = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(
+                        "jbvb.util.sfdurfRbndomSffd"));
+        if (pp != null && pp.fqublsIgnorfCbsf("truf")) {
+            bytf[] sffdBytfs = jbvb.sfdurity.SfdurfRbndom.gftSffd(8);
+            long s = (long)(sffdBytfs[0]) & 0xffL;
             for (int i = 1; i < 8; ++i)
-                s = (s << 8) | ((long)(seedBytes[i]) & 0xffL);
-            return s;
+                s = (s << 8) | ((long)(sffdBytfs[i]) & 0xffL);
+            rfturn s;
         }
-        long h = 0L;
+        long i = 0L;
         try {
-            Enumeration<NetworkInterface> ifcs =
-                    NetworkInterface.getNetworkInterfaces();
-            boolean retry = false; // retry once if getHardwareAddress is null
-            while (ifcs.hasMoreElements()) {
-                NetworkInterface ifc = ifcs.nextElement();
-                if (!ifc.isVirtual()) { // skip fake addresses
-                    byte[] bs = ifc.getHardwareAddress();
+            Enumfrbtion<NftworkIntfrfbdf> ifds =
+                    NftworkIntfrfbdf.gftNftworkIntfrfbdfs();
+            boolfbn rftry = fblsf; // rftry ondf if gftHbrdwbrfAddrfss is null
+            wiilf (ifds.ibsMorfElfmfnts()) {
+                NftworkIntfrfbdf ifd = ifds.nfxtElfmfnt();
+                if (!ifd.isVirtubl()) { // skip fbkf bddrfssfs
+                    bytf[] bs = ifd.gftHbrdwbrfAddrfss();
                     if (bs != null) {
-                        int n = bs.length;
-                        int m = Math.min(n >>> 1, 4);
+                        int n = bs.lfngti;
+                        int m = Mbti.min(n >>> 1, 4);
                         for (int i = 0; i < m; ++i)
-                            h = (h << 16) ^ (bs[i] << 8) ^ bs[n-1-i];
+                            i = (i << 16) ^ (bs[i] << 8) ^ bs[n-1-i];
                         if (m < 4)
-                            h = (h << 8) ^ bs[n-1-m];
-                        h = mix64(h);
-                        break;
+                            i = (i << 8) ^ bs[n-1-m];
+                        i = mix64(i);
+                        brfbk;
                     }
-                    else if (!retry)
-                        retry = true;
-                    else
-                        break;
+                    flsf if (!rftry)
+                        rftry = truf;
+                    flsf
+                        brfbk;
                 }
             }
-        } catch (Exception ignore) {
+        } dbtdi (Exdfption ignorf) {
         }
-        return (h ^ mix64(System.currentTimeMillis()) ^
-                mix64(System.nanoTime()));
+        rfturn (i ^ mix64(Systfm.durrfntTimfMillis()) ^
+                mix64(Systfm.nbnoTimf()));
     }
 
-    // IllegalArgumentException messages
-    static final String BadBound = "bound must be positive";
-    static final String BadRange = "bound must be greater than origin";
-    static final String BadSize  = "size must be non-negative";
+    // IllfgblArgumfntExdfption mfssbgfs
+    stbtid finbl String BbdBound = "bound must bf positivf";
+    stbtid finbl String BbdRbngf = "bound must bf grfbtfr tibn origin";
+    stbtid finbl String BbdSizf  = "sizf must bf non-nfgbtivf";
 
     /*
-     * Internal versions of nextX methods used by streams, as well as
-     * the public nextX(origin, bound) methods.  These exist mainly to
-     * avoid the need for multiple versions of stream spliterators
-     * across the different exported forms of streams.
+     * Intfrnbl vfrsions of nfxtX mftiods usfd by strfbms, bs wfll bs
+     * tif publid nfxtX(origin, bound) mftiods.  Tifsf fxist mbinly to
+     * bvoid tif nffd for multiplf vfrsions of strfbm splitfrbtors
+     * bdross tif difffrfnt fxportfd forms of strfbms.
      */
 
     /**
-     * The form of nextLong used by LongStream Spliterators.  If
-     * origin is greater than bound, acts as unbounded form of
-     * nextLong, else as bounded form.
+     * Tif form of nfxtLong usfd by LongStrfbm Splitfrbtors.  If
+     * origin is grfbtfr tibn bound, bdts bs unboundfd form of
+     * nfxtLong, flsf bs boundfd form.
      *
-     * @param origin the least value, unless greater than bound
-     * @param bound the upper bound (exclusive), must not equal origin
-     * @return a pseudorandom value
+     * @pbrbm origin tif lfbst vbluf, unlfss grfbtfr tibn bound
+     * @pbrbm bound tif uppfr bound (fxdlusivf), must not fqubl origin
+     * @rfturn b psfudorbndom vbluf
      */
-    final long internalNextLong(long origin, long bound) {
+    finbl long intfrnblNfxtLong(long origin, long bound) {
         /*
-         * Four Cases:
+         * Four Cbsfs:
          *
-         * 1. If the arguments indicate unbounded form, act as
-         * nextLong().
+         * 1. If tif brgumfnts indidbtf unboundfd form, bdt bs
+         * nfxtLong().
          *
-         * 2. If the range is an exact power of two, apply the
-         * associated bit mask.
+         * 2. If tif rbngf is bn fxbdt powfr of two, bpply tif
+         * bssodibtfd bit mbsk.
          *
-         * 3. If the range is positive, loop to avoid potential bias
-         * when the implicit nextLong() bound (2<sup>64</sup>) is not
-         * evenly divisible by the range. The loop rejects candidates
-         * computed from otherwise over-represented values.  The
-         * expected number of iterations under an ideal generator
-         * varies from 1 to 2, depending on the bound. The loop itself
-         * takes an unlovable form. Because the first candidate is
-         * already available, we need a break-in-the-middle
-         * construction, which is concisely but cryptically performed
-         * within the while-condition of a body-less for loop.
+         * 3. If tif rbngf is positivf, loop to bvoid potfntibl bibs
+         * wifn tif implidit nfxtLong() bound (2<sup>64</sup>) is not
+         * fvfnly divisiblf by tif rbngf. Tif loop rfjfdts dbndidbtfs
+         * domputfd from otifrwisf ovfr-rfprfsfntfd vblufs.  Tif
+         * fxpfdtfd numbfr of itfrbtions undfr bn idfbl gfnfrbtor
+         * vbrifs from 1 to 2, dfpfnding on tif bound. Tif loop itsflf
+         * tbkfs bn unlovbblf form. Bfdbusf tif first dbndidbtf is
+         * blrfbdy bvbilbblf, wf nffd b brfbk-in-tif-middlf
+         * donstrudtion, wiidi is dondisfly but dryptidblly pfrformfd
+         * witiin tif wiilf-dondition of b body-lfss for loop.
          *
-         * 4. Otherwise, the range cannot be represented as a positive
-         * long.  The loop repeatedly generates unbounded longs until
-         * obtaining a candidate meeting constraints (with an expected
-         * number of iterations of less than two).
+         * 4. Otifrwisf, tif rbngf dbnnot bf rfprfsfntfd bs b positivf
+         * long.  Tif loop rfpfbtfdly gfnfrbtfs unboundfd longs until
+         * obtbining b dbndidbtf mffting donstrbints (witi bn fxpfdtfd
+         * numbfr of itfrbtions of lfss tibn two).
          */
 
-        long r = mix64(nextSeed());
+        long r = mix64(nfxtSffd());
         if (origin < bound) {
             long n = bound - origin, m = n - 1;
-            if ((n & m) == 0L)  // power of two
+            if ((n & m) == 0L)  // powfr of two
                 r = (r & m) + origin;
-            else if (n > 0L) {  // reject over-represented candidates
-                for (long u = r >>> 1;            // ensure nonnegative
-                     u + m - (r = u % n) < 0L;    // rejection check
-                     u = mix64(nextSeed()) >>> 1) // retry
+            flsf if (n > 0L) {  // rfjfdt ovfr-rfprfsfntfd dbndidbtfs
+                for (long u = r >>> 1;            // fnsurf nonnfgbtivf
+                     u + m - (r = u % n) < 0L;    // rfjfdtion difdk
+                     u = mix64(nfxtSffd()) >>> 1) // rftry
                     ;
                 r += origin;
             }
-            else {              // range not representable as long
-                while (r < origin || r >= bound)
-                    r = mix64(nextSeed());
+            flsf {              // rbngf not rfprfsfntbblf bs long
+                wiilf (r < origin || r >= bound)
+                    r = mix64(nfxtSffd());
             }
         }
-        return r;
+        rfturn r;
     }
 
     /**
-     * The form of nextInt used by IntStream Spliterators.
-     * Exactly the same as long version, except for types.
+     * Tif form of nfxtInt usfd by IntStrfbm Splitfrbtors.
+     * Exbdtly tif sbmf bs long vfrsion, fxdfpt for typfs.
      *
-     * @param origin the least value, unless greater than bound
-     * @param bound the upper bound (exclusive), must not equal origin
-     * @return a pseudorandom value
+     * @pbrbm origin tif lfbst vbluf, unlfss grfbtfr tibn bound
+     * @pbrbm bound tif uppfr bound (fxdlusivf), must not fqubl origin
+     * @rfturn b psfudorbndom vbluf
      */
-    final int internalNextInt(int origin, int bound) {
-        int r = mix32(nextSeed());
+    finbl int intfrnblNfxtInt(int origin, int bound) {
+        int r = mix32(nfxtSffd());
         if (origin < bound) {
             int n = bound - origin, m = n - 1;
             if ((n & m) == 0)
                 r = (r & m) + origin;
-            else if (n > 0) {
+            flsf if (n > 0) {
                 for (int u = r >>> 1;
                      u + m - (r = u % n) < 0;
-                     u = mix32(nextSeed()) >>> 1)
+                     u = mix32(nfxtSffd()) >>> 1)
                     ;
                 r += origin;
             }
-            else {
-                while (r < origin || r >= bound)
-                    r = mix32(nextSeed());
+            flsf {
+                wiilf (r < origin || r >= bound)
+                    r = mix32(nfxtSffd());
             }
         }
-        return r;
+        rfturn r;
     }
 
     /**
-     * The form of nextDouble used by DoubleStream Spliterators.
+     * Tif form of nfxtDoublf usfd by DoublfStrfbm Splitfrbtors.
      *
-     * @param origin the least value, unless greater than bound
-     * @param bound the upper bound (exclusive), must not equal origin
-     * @return a pseudorandom value
+     * @pbrbm origin tif lfbst vbluf, unlfss grfbtfr tibn bound
+     * @pbrbm bound tif uppfr bound (fxdlusivf), must not fqubl origin
+     * @rfturn b psfudorbndom vbluf
      */
-    final double internalNextDouble(double origin, double bound) {
-        double r = (nextLong() >>> 11) * DOUBLE_UNIT;
+    finbl doublf intfrnblNfxtDoublf(doublf origin, doublf bound) {
+        doublf r = (nfxtLong() >>> 11) * DOUBLE_UNIT;
         if (origin < bound) {
             r = r * (bound - origin) + origin;
-            if (r >= bound) // correct for rounding
-                r = Double.longBitsToDouble(Double.doubleToLongBits(bound) - 1);
+            if (r >= bound) // dorrfdt for rounding
+                r = Doublf.longBitsToDoublf(Doublf.doublfToLongBits(bound) - 1);
         }
-        return r;
+        rfturn r;
     }
 
-    /* ---------------- public methods ---------------- */
+    /* ---------------- publid mftiods ---------------- */
 
     /**
-     * Creates a new SplittableRandom instance using the specified
-     * initial seed. SplittableRandom instances created with the same
-     * seed in the same program generate identical sequences of values.
+     * Crfbtfs b nfw SplittbblfRbndom instbndf using tif spfdififd
+     * initibl sffd. SplittbblfRbndom instbndfs drfbtfd witi tif sbmf
+     * sffd in tif sbmf progrbm gfnfrbtf idfntidbl sfqufndfs of vblufs.
      *
-     * @param seed the initial seed
+     * @pbrbm sffd tif initibl sffd
      */
-    public SplittableRandom(long seed) {
-        this(seed, GOLDEN_GAMMA);
+    publid SplittbblfRbndom(long sffd) {
+        tiis(sffd, GOLDEN_GAMMA);
     }
 
     /**
-     * Creates a new SplittableRandom instance that is likely to
-     * generate sequences of values that are statistically independent
-     * of those of any other instances in the current program; and
-     * may, and typically does, vary across program invocations.
+     * Crfbtfs b nfw SplittbblfRbndom instbndf tibt is likfly to
+     * gfnfrbtf sfqufndfs of vblufs tibt brf stbtistidblly indfpfndfnt
+     * of tiosf of bny otifr instbndfs in tif durrfnt progrbm; bnd
+     * mby, bnd typidblly dofs, vbry bdross progrbm invodbtions.
      */
-    public SplittableRandom() { // emulate defaultGen.split()
-        long s = defaultGen.getAndAdd(2 * GOLDEN_GAMMA);
-        this.seed = mix64(s);
-        this.gamma = mixGamma(s + GOLDEN_GAMMA);
+    publid SplittbblfRbndom() { // fmulbtf dffbultGfn.split()
+        long s = dffbultGfn.gftAndAdd(2 * GOLDEN_GAMMA);
+        tiis.sffd = mix64(s);
+        tiis.gbmmb = mixGbmmb(s + GOLDEN_GAMMA);
     }
 
     /**
-     * Constructs and returns a new SplittableRandom instance that
-     * shares no mutable state with this instance. However, with very
-     * high probability, the set of values collectively generated by
-     * the two objects has the same statistical properties as if the
-     * same quantity of values were generated by a single thread using
-     * a single SplittableRandom object.  Either or both of the two
-     * objects may be further split using the {@code split()} method,
-     * and the same expected statistical properties apply to the
-     * entire set of generators constructed by such recursive
+     * Construdts bnd rfturns b nfw SplittbblfRbndom instbndf tibt
+     * sibrfs no mutbblf stbtf witi tiis instbndf. Howfvfr, witi vfry
+     * iigi probbbility, tif sft of vblufs dollfdtivfly gfnfrbtfd by
+     * tif two objfdts ibs tif sbmf stbtistidbl propfrtifs bs if tif
+     * sbmf qubntity of vblufs wfrf gfnfrbtfd by b singlf tirfbd using
+     * b singlf SplittbblfRbndom objfdt.  Eitifr or boti of tif two
+     * objfdts mby bf furtifr split using tif {@dodf split()} mftiod,
+     * bnd tif sbmf fxpfdtfd stbtistidbl propfrtifs bpply to tif
+     * fntirf sft of gfnfrbtors donstrudtfd by sudi rfdursivf
      * splitting.
      *
-     * @return the new SplittableRandom instance
+     * @rfturn tif nfw SplittbblfRbndom instbndf
      */
-    public SplittableRandom split() {
-        return new SplittableRandom(nextLong(), mixGamma(nextSeed()));
+    publid SplittbblfRbndom split() {
+        rfturn nfw SplittbblfRbndom(nfxtLong(), mixGbmmb(nfxtSffd()));
     }
 
     /**
-     * Returns a pseudorandom {@code int} value.
+     * Rfturns b psfudorbndom {@dodf int} vbluf.
      *
-     * @return a pseudorandom {@code int} value
+     * @rfturn b psfudorbndom {@dodf int} vbluf
      */
-    public int nextInt() {
-        return mix32(nextSeed());
+    publid int nfxtInt() {
+        rfturn mix32(nfxtSffd());
     }
 
     /**
-     * Returns a pseudorandom {@code int} value between zero (inclusive)
-     * and the specified bound (exclusive).
+     * Rfturns b psfudorbndom {@dodf int} vbluf bftwffn zfro (indlusivf)
+     * bnd tif spfdififd bound (fxdlusivf).
      *
-     * @param bound the upper bound (exclusive).  Must be positive.
-     * @return a pseudorandom {@code int} value between zero
-     *         (inclusive) and the bound (exclusive)
-     * @throws IllegalArgumentException if {@code bound} is not positive
+     * @pbrbm bound tif uppfr bound (fxdlusivf).  Must bf positivf.
+     * @rfturn b psfudorbndom {@dodf int} vbluf bftwffn zfro
+     *         (indlusivf) bnd tif bound (fxdlusivf)
+     * @tirows IllfgblArgumfntExdfption if {@dodf bound} is not positivf
      */
-    public int nextInt(int bound) {
+    publid int nfxtInt(int bound) {
         if (bound <= 0)
-            throw new IllegalArgumentException(BadBound);
-        // Specialize internalNextInt for origin 0
-        int r = mix32(nextSeed());
+            tirow nfw IllfgblArgumfntExdfption(BbdBound);
+        // Spfdiblizf intfrnblNfxtInt for origin 0
+        int r = mix32(nfxtSffd());
         int m = bound - 1;
-        if ((bound & m) == 0) // power of two
+        if ((bound & m) == 0) // powfr of two
             r &= m;
-        else { // reject over-represented candidates
+        flsf { // rfjfdt ovfr-rfprfsfntfd dbndidbtfs
             for (int u = r >>> 1;
                  u + m - (r = u % bound) < 0;
-                 u = mix32(nextSeed()) >>> 1)
+                 u = mix32(nfxtSffd()) >>> 1)
                 ;
         }
-        return r;
+        rfturn r;
     }
 
     /**
-     * Returns a pseudorandom {@code int} value between the specified
-     * origin (inclusive) and the specified bound (exclusive).
+     * Rfturns b psfudorbndom {@dodf int} vbluf bftwffn tif spfdififd
+     * origin (indlusivf) bnd tif spfdififd bound (fxdlusivf).
      *
-     * @param origin the least value returned
-     * @param bound the upper bound (exclusive)
-     * @return a pseudorandom {@code int} value between the origin
-     *         (inclusive) and the bound (exclusive)
-     * @throws IllegalArgumentException if {@code origin} is greater than
-     *         or equal to {@code bound}
+     * @pbrbm origin tif lfbst vbluf rfturnfd
+     * @pbrbm bound tif uppfr bound (fxdlusivf)
+     * @rfturn b psfudorbndom {@dodf int} vbluf bftwffn tif origin
+     *         (indlusivf) bnd tif bound (fxdlusivf)
+     * @tirows IllfgblArgumfntExdfption if {@dodf origin} is grfbtfr tibn
+     *         or fqubl to {@dodf bound}
      */
-    public int nextInt(int origin, int bound) {
+    publid int nfxtInt(int origin, int bound) {
         if (origin >= bound)
-            throw new IllegalArgumentException(BadRange);
-        return internalNextInt(origin, bound);
+            tirow nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn intfrnblNfxtInt(origin, bound);
     }
 
     /**
-     * Returns a pseudorandom {@code long} value.
+     * Rfturns b psfudorbndom {@dodf long} vbluf.
      *
-     * @return a pseudorandom {@code long} value
+     * @rfturn b psfudorbndom {@dodf long} vbluf
      */
-    public long nextLong() {
-        return mix64(nextSeed());
+    publid long nfxtLong() {
+        rfturn mix64(nfxtSffd());
     }
 
     /**
-     * Returns a pseudorandom {@code long} value between zero (inclusive)
-     * and the specified bound (exclusive).
+     * Rfturns b psfudorbndom {@dodf long} vbluf bftwffn zfro (indlusivf)
+     * bnd tif spfdififd bound (fxdlusivf).
      *
-     * @param bound the upper bound (exclusive).  Must be positive.
-     * @return a pseudorandom {@code long} value between zero
-     *         (inclusive) and the bound (exclusive)
-     * @throws IllegalArgumentException if {@code bound} is not positive
+     * @pbrbm bound tif uppfr bound (fxdlusivf).  Must bf positivf.
+     * @rfturn b psfudorbndom {@dodf long} vbluf bftwffn zfro
+     *         (indlusivf) bnd tif bound (fxdlusivf)
+     * @tirows IllfgblArgumfntExdfption if {@dodf bound} is not positivf
      */
-    public long nextLong(long bound) {
+    publid long nfxtLong(long bound) {
         if (bound <= 0)
-            throw new IllegalArgumentException(BadBound);
-        // Specialize internalNextLong for origin 0
-        long r = mix64(nextSeed());
+            tirow nfw IllfgblArgumfntExdfption(BbdBound);
+        // Spfdiblizf intfrnblNfxtLong for origin 0
+        long r = mix64(nfxtSffd());
         long m = bound - 1;
-        if ((bound & m) == 0L) // power of two
+        if ((bound & m) == 0L) // powfr of two
             r &= m;
-        else { // reject over-represented candidates
+        flsf { // rfjfdt ovfr-rfprfsfntfd dbndidbtfs
             for (long u = r >>> 1;
                  u + m - (r = u % bound) < 0L;
-                 u = mix64(nextSeed()) >>> 1)
+                 u = mix64(nfxtSffd()) >>> 1)
                 ;
         }
-        return r;
+        rfturn r;
     }
 
     /**
-     * Returns a pseudorandom {@code long} value between the specified
-     * origin (inclusive) and the specified bound (exclusive).
+     * Rfturns b psfudorbndom {@dodf long} vbluf bftwffn tif spfdififd
+     * origin (indlusivf) bnd tif spfdififd bound (fxdlusivf).
      *
-     * @param origin the least value returned
-     * @param bound the upper bound (exclusive)
-     * @return a pseudorandom {@code long} value between the origin
-     *         (inclusive) and the bound (exclusive)
-     * @throws IllegalArgumentException if {@code origin} is greater than
-     *         or equal to {@code bound}
+     * @pbrbm origin tif lfbst vbluf rfturnfd
+     * @pbrbm bound tif uppfr bound (fxdlusivf)
+     * @rfturn b psfudorbndom {@dodf long} vbluf bftwffn tif origin
+     *         (indlusivf) bnd tif bound (fxdlusivf)
+     * @tirows IllfgblArgumfntExdfption if {@dodf origin} is grfbtfr tibn
+     *         or fqubl to {@dodf bound}
      */
-    public long nextLong(long origin, long bound) {
+    publid long nfxtLong(long origin, long bound) {
         if (origin >= bound)
-            throw new IllegalArgumentException(BadRange);
-        return internalNextLong(origin, bound);
+            tirow nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn intfrnblNfxtLong(origin, bound);
     }
 
     /**
-     * Returns a pseudorandom {@code double} value between zero
-     * (inclusive) and one (exclusive).
+     * Rfturns b psfudorbndom {@dodf doublf} vbluf bftwffn zfro
+     * (indlusivf) bnd onf (fxdlusivf).
      *
-     * @return a pseudorandom {@code double} value between zero
-     *         (inclusive) and one (exclusive)
+     * @rfturn b psfudorbndom {@dodf doublf} vbluf bftwffn zfro
+     *         (indlusivf) bnd onf (fxdlusivf)
      */
-    public double nextDouble() {
-        return (mix64(nextSeed()) >>> 11) * DOUBLE_UNIT;
+    publid doublf nfxtDoublf() {
+        rfturn (mix64(nfxtSffd()) >>> 11) * DOUBLE_UNIT;
     }
 
     /**
-     * Returns a pseudorandom {@code double} value between 0.0
-     * (inclusive) and the specified bound (exclusive).
+     * Rfturns b psfudorbndom {@dodf doublf} vbluf bftwffn 0.0
+     * (indlusivf) bnd tif spfdififd bound (fxdlusivf).
      *
-     * @param bound the upper bound (exclusive).  Must be positive.
-     * @return a pseudorandom {@code double} value between zero
-     *         (inclusive) and the bound (exclusive)
-     * @throws IllegalArgumentException if {@code bound} is not positive
+     * @pbrbm bound tif uppfr bound (fxdlusivf).  Must bf positivf.
+     * @rfturn b psfudorbndom {@dodf doublf} vbluf bftwffn zfro
+     *         (indlusivf) bnd tif bound (fxdlusivf)
+     * @tirows IllfgblArgumfntExdfption if {@dodf bound} is not positivf
      */
-    public double nextDouble(double bound) {
+    publid doublf nfxtDoublf(doublf bound) {
         if (!(bound > 0.0))
-            throw new IllegalArgumentException(BadBound);
-        double result = (mix64(nextSeed()) >>> 11) * DOUBLE_UNIT * bound;
-        return (result < bound) ?  result : // correct for rounding
-            Double.longBitsToDouble(Double.doubleToLongBits(bound) - 1);
+            tirow nfw IllfgblArgumfntExdfption(BbdBound);
+        doublf rfsult = (mix64(nfxtSffd()) >>> 11) * DOUBLE_UNIT * bound;
+        rfturn (rfsult < bound) ?  rfsult : // dorrfdt for rounding
+            Doublf.longBitsToDoublf(Doublf.doublfToLongBits(bound) - 1);
     }
 
     /**
-     * Returns a pseudorandom {@code double} value between the specified
-     * origin (inclusive) and bound (exclusive).
+     * Rfturns b psfudorbndom {@dodf doublf} vbluf bftwffn tif spfdififd
+     * origin (indlusivf) bnd bound (fxdlusivf).
      *
-     * @param origin the least value returned
-     * @param bound the upper bound (exclusive)
-     * @return a pseudorandom {@code double} value between the origin
-     *         (inclusive) and the bound (exclusive)
-     * @throws IllegalArgumentException if {@code origin} is greater than
-     *         or equal to {@code bound}
+     * @pbrbm origin tif lfbst vbluf rfturnfd
+     * @pbrbm bound tif uppfr bound (fxdlusivf)
+     * @rfturn b psfudorbndom {@dodf doublf} vbluf bftwffn tif origin
+     *         (indlusivf) bnd tif bound (fxdlusivf)
+     * @tirows IllfgblArgumfntExdfption if {@dodf origin} is grfbtfr tibn
+     *         or fqubl to {@dodf bound}
      */
-    public double nextDouble(double origin, double bound) {
+    publid doublf nfxtDoublf(doublf origin, doublf bound) {
         if (!(origin < bound))
-            throw new IllegalArgumentException(BadRange);
-        return internalNextDouble(origin, bound);
+            tirow nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn intfrnblNfxtDoublf(origin, bound);
     }
 
     /**
-     * Returns a pseudorandom {@code boolean} value.
+     * Rfturns b psfudorbndom {@dodf boolfbn} vbluf.
      *
-     * @return a pseudorandom {@code boolean} value
+     * @rfturn b psfudorbndom {@dodf boolfbn} vbluf
      */
-    public boolean nextBoolean() {
-        return mix32(nextSeed()) < 0;
+    publid boolfbn nfxtBoolfbn() {
+        rfturn mix32(nfxtSffd()) < 0;
     }
 
-    // stream methods, coded in a way intended to better isolate for
-    // maintenance purposes the small differences across forms.
+    // strfbm mftiods, dodfd in b wby intfndfd to bfttfr isolbtf for
+    // mbintfnbndf purposfs tif smbll difffrfndfs bdross forms.
 
     /**
-     * Returns a stream producing the given {@code streamSize} number
-     * of pseudorandom {@code int} values from this generator and/or
-     * one split from it.
+     * Rfturns b strfbm produding tif givfn {@dodf strfbmSizf} numbfr
+     * of psfudorbndom {@dodf int} vblufs from tiis gfnfrbtor bnd/or
+     * onf split from it.
      *
-     * @param streamSize the number of values to generate
-     * @return a stream of pseudorandom {@code int} values
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero
+     * @pbrbm strfbmSizf tif numbfr of vblufs to gfnfrbtf
+     * @rfturn b strfbm of psfudorbndom {@dodf int} vblufs
+     * @tirows IllfgblArgumfntExdfption if {@dodf strfbmSizf} is
+     *         lfss tibn zfro
      */
-    public IntStream ints(long streamSize) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        return StreamSupport.intStream
-            (new RandomIntsSpliterator
-             (this, 0L, streamSize, Integer.MAX_VALUE, 0),
-             false);
+    publid IntStrfbm ints(long strfbmSizf) {
+        if (strfbmSizf < 0L)
+            tirow nfw IllfgblArgumfntExdfption(BbdSizf);
+        rfturn StrfbmSupport.intStrfbm
+            (nfw RbndomIntsSplitfrbtor
+             (tiis, 0L, strfbmSizf, Intfgfr.MAX_VALUE, 0),
+             fblsf);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code int}
-     * values from this generator and/or one split from it.
+     * Rfturns bn ffffdtivfly unlimitfd strfbm of psfudorbndom {@dodf int}
+     * vblufs from tiis gfnfrbtor bnd/or onf split from it.
      *
-     * @implNote This method is implemented to be equivalent to {@code
+     * @implNotf Tiis mftiod is implfmfntfd to bf fquivblfnt to {@dodf
      * ints(Long.MAX_VALUE)}.
      *
-     * @return a stream of pseudorandom {@code int} values
+     * @rfturn b strfbm of psfudorbndom {@dodf int} vblufs
      */
-    public IntStream ints() {
-        return StreamSupport.intStream
-            (new RandomIntsSpliterator
-             (this, 0L, Long.MAX_VALUE, Integer.MAX_VALUE, 0),
-             false);
+    publid IntStrfbm ints() {
+        rfturn StrfbmSupport.intStrfbm
+            (nfw RbndomIntsSplitfrbtor
+             (tiis, 0L, Long.MAX_VALUE, Intfgfr.MAX_VALUE, 0),
+             fblsf);
     }
 
     /**
-     * Returns a stream producing the given {@code streamSize} number
-     * of pseudorandom {@code int} values from this generator and/or one split
-     * from it; each value conforms to the given origin (inclusive) and bound
-     * (exclusive).
+     * Rfturns b strfbm produding tif givfn {@dodf strfbmSizf} numbfr
+     * of psfudorbndom {@dodf int} vblufs from tiis gfnfrbtor bnd/or onf split
+     * from it; fbdi vbluf donforms to tif givfn origin (indlusivf) bnd bound
+     * (fxdlusivf).
      *
-     * @param streamSize the number of values to generate
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code int} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero, or {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm strfbmSizf tif numbfr of vblufs to gfnfrbtf
+     * @pbrbm rbndomNumbfrOrigin tif origin (indlusivf) of fbdi rbndom vbluf
+     * @pbrbm rbndomNumbfrBound tif bound (fxdlusivf) of fbdi rbndom vbluf
+     * @rfturn b strfbm of psfudorbndom {@dodf int} vblufs,
+     *         fbdi witi tif givfn origin (indlusivf) bnd bound (fxdlusivf)
+     * @tirows IllfgblArgumfntExdfption if {@dodf strfbmSizf} is
+     *         lfss tibn zfro, or {@dodf rbndomNumbfrOrigin}
+     *         is grfbtfr tibn or fqubl to {@dodf rbndomNumbfrBound}
      */
-    public IntStream ints(long streamSize, int randomNumberOrigin,
-                          int randomNumberBound) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        if (randomNumberOrigin >= randomNumberBound)
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.intStream
-            (new RandomIntsSpliterator
-             (this, 0L, streamSize, randomNumberOrigin, randomNumberBound),
-             false);
+    publid IntStrfbm ints(long strfbmSizf, int rbndomNumbfrOrigin,
+                          int rbndomNumbfrBound) {
+        if (strfbmSizf < 0L)
+            tirow nfw IllfgblArgumfntExdfption(BbdSizf);
+        if (rbndomNumbfrOrigin >= rbndomNumbfrBound)
+            tirow nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn StrfbmSupport.intStrfbm
+            (nfw RbndomIntsSplitfrbtor
+             (tiis, 0L, strfbmSizf, rbndomNumbfrOrigin, rbndomNumbfrBound),
+             fblsf);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code
-     * int} values from this generator and/or one split from it; each value
-     * conforms to the given origin (inclusive) and bound (exclusive).
+     * Rfturns bn ffffdtivfly unlimitfd strfbm of psfudorbndom {@dodf
+     * int} vblufs from tiis gfnfrbtor bnd/or onf split from it; fbdi vbluf
+     * donforms to tif givfn origin (indlusivf) bnd bound (fxdlusivf).
      *
-     * @implNote This method is implemented to be equivalent to {@code
-     * ints(Long.MAX_VALUE, randomNumberOrigin, randomNumberBound)}.
+     * @implNotf Tiis mftiod is implfmfntfd to bf fquivblfnt to {@dodf
+     * ints(Long.MAX_VALUE, rbndomNumbfrOrigin, rbndomNumbfrBound)}.
      *
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code int} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm rbndomNumbfrOrigin tif origin (indlusivf) of fbdi rbndom vbluf
+     * @pbrbm rbndomNumbfrBound tif bound (fxdlusivf) of fbdi rbndom vbluf
+     * @rfturn b strfbm of psfudorbndom {@dodf int} vblufs,
+     *         fbdi witi tif givfn origin (indlusivf) bnd bound (fxdlusivf)
+     * @tirows IllfgblArgumfntExdfption if {@dodf rbndomNumbfrOrigin}
+     *         is grfbtfr tibn or fqubl to {@dodf rbndomNumbfrBound}
      */
-    public IntStream ints(int randomNumberOrigin, int randomNumberBound) {
-        if (randomNumberOrigin >= randomNumberBound)
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.intStream
-            (new RandomIntsSpliterator
-             (this, 0L, Long.MAX_VALUE, randomNumberOrigin, randomNumberBound),
-             false);
+    publid IntStrfbm ints(int rbndomNumbfrOrigin, int rbndomNumbfrBound) {
+        if (rbndomNumbfrOrigin >= rbndomNumbfrBound)
+            tirow nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn StrfbmSupport.intStrfbm
+            (nfw RbndomIntsSplitfrbtor
+             (tiis, 0L, Long.MAX_VALUE, rbndomNumbfrOrigin, rbndomNumbfrBound),
+             fblsf);
     }
 
     /**
-     * Returns a stream producing the given {@code streamSize} number
-     * of pseudorandom {@code long} values from this generator and/or
-     * one split from it.
+     * Rfturns b strfbm produding tif givfn {@dodf strfbmSizf} numbfr
+     * of psfudorbndom {@dodf long} vblufs from tiis gfnfrbtor bnd/or
+     * onf split from it.
      *
-     * @param streamSize the number of values to generate
-     * @return a stream of pseudorandom {@code long} values
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero
+     * @pbrbm strfbmSizf tif numbfr of vblufs to gfnfrbtf
+     * @rfturn b strfbm of psfudorbndom {@dodf long} vblufs
+     * @tirows IllfgblArgumfntExdfption if {@dodf strfbmSizf} is
+     *         lfss tibn zfro
      */
-    public LongStream longs(long streamSize) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        return StreamSupport.longStream
-            (new RandomLongsSpliterator
-             (this, 0L, streamSize, Long.MAX_VALUE, 0L),
-             false);
+    publid LongStrfbm longs(long strfbmSizf) {
+        if (strfbmSizf < 0L)
+            tirow nfw IllfgblArgumfntExdfption(BbdSizf);
+        rfturn StrfbmSupport.longStrfbm
+            (nfw RbndomLongsSplitfrbtor
+             (tiis, 0L, strfbmSizf, Long.MAX_VALUE, 0L),
+             fblsf);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code
-     * long} values from this generator and/or one split from it.
+     * Rfturns bn ffffdtivfly unlimitfd strfbm of psfudorbndom {@dodf
+     * long} vblufs from tiis gfnfrbtor bnd/or onf split from it.
      *
-     * @implNote This method is implemented to be equivalent to {@code
+     * @implNotf Tiis mftiod is implfmfntfd to bf fquivblfnt to {@dodf
      * longs(Long.MAX_VALUE)}.
      *
-     * @return a stream of pseudorandom {@code long} values
+     * @rfturn b strfbm of psfudorbndom {@dodf long} vblufs
      */
-    public LongStream longs() {
-        return StreamSupport.longStream
-            (new RandomLongsSpliterator
-             (this, 0L, Long.MAX_VALUE, Long.MAX_VALUE, 0L),
-             false);
+    publid LongStrfbm longs() {
+        rfturn StrfbmSupport.longStrfbm
+            (nfw RbndomLongsSplitfrbtor
+             (tiis, 0L, Long.MAX_VALUE, Long.MAX_VALUE, 0L),
+             fblsf);
     }
 
     /**
-     * Returns a stream producing the given {@code streamSize} number of
-     * pseudorandom {@code long} values from this generator and/or one split
-     * from it; each value conforms to the given origin (inclusive) and bound
-     * (exclusive).
+     * Rfturns b strfbm produding tif givfn {@dodf strfbmSizf} numbfr of
+     * psfudorbndom {@dodf long} vblufs from tiis gfnfrbtor bnd/or onf split
+     * from it; fbdi vbluf donforms to tif givfn origin (indlusivf) bnd bound
+     * (fxdlusivf).
      *
-     * @param streamSize the number of values to generate
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code long} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero, or {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm strfbmSizf tif numbfr of vblufs to gfnfrbtf
+     * @pbrbm rbndomNumbfrOrigin tif origin (indlusivf) of fbdi rbndom vbluf
+     * @pbrbm rbndomNumbfrBound tif bound (fxdlusivf) of fbdi rbndom vbluf
+     * @rfturn b strfbm of psfudorbndom {@dodf long} vblufs,
+     *         fbdi witi tif givfn origin (indlusivf) bnd bound (fxdlusivf)
+     * @tirows IllfgblArgumfntExdfption if {@dodf strfbmSizf} is
+     *         lfss tibn zfro, or {@dodf rbndomNumbfrOrigin}
+     *         is grfbtfr tibn or fqubl to {@dodf rbndomNumbfrBound}
      */
-    public LongStream longs(long streamSize, long randomNumberOrigin,
-                            long randomNumberBound) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        if (randomNumberOrigin >= randomNumberBound)
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.longStream
-            (new RandomLongsSpliterator
-             (this, 0L, streamSize, randomNumberOrigin, randomNumberBound),
-             false);
+    publid LongStrfbm longs(long strfbmSizf, long rbndomNumbfrOrigin,
+                            long rbndomNumbfrBound) {
+        if (strfbmSizf < 0L)
+            tirow nfw IllfgblArgumfntExdfption(BbdSizf);
+        if (rbndomNumbfrOrigin >= rbndomNumbfrBound)
+            tirow nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn StrfbmSupport.longStrfbm
+            (nfw RbndomLongsSplitfrbtor
+             (tiis, 0L, strfbmSizf, rbndomNumbfrOrigin, rbndomNumbfrBound),
+             fblsf);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code
-     * long} values from this generator and/or one split from it; each value
-     * conforms to the given origin (inclusive) and bound (exclusive).
+     * Rfturns bn ffffdtivfly unlimitfd strfbm of psfudorbndom {@dodf
+     * long} vblufs from tiis gfnfrbtor bnd/or onf split from it; fbdi vbluf
+     * donforms to tif givfn origin (indlusivf) bnd bound (fxdlusivf).
      *
-     * @implNote This method is implemented to be equivalent to {@code
-     * longs(Long.MAX_VALUE, randomNumberOrigin, randomNumberBound)}.
+     * @implNotf Tiis mftiod is implfmfntfd to bf fquivblfnt to {@dodf
+     * longs(Long.MAX_VALUE, rbndomNumbfrOrigin, rbndomNumbfrBound)}.
      *
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code long} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm rbndomNumbfrOrigin tif origin (indlusivf) of fbdi rbndom vbluf
+     * @pbrbm rbndomNumbfrBound tif bound (fxdlusivf) of fbdi rbndom vbluf
+     * @rfturn b strfbm of psfudorbndom {@dodf long} vblufs,
+     *         fbdi witi tif givfn origin (indlusivf) bnd bound (fxdlusivf)
+     * @tirows IllfgblArgumfntExdfption if {@dodf rbndomNumbfrOrigin}
+     *         is grfbtfr tibn or fqubl to {@dodf rbndomNumbfrBound}
      */
-    public LongStream longs(long randomNumberOrigin, long randomNumberBound) {
-        if (randomNumberOrigin >= randomNumberBound)
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.longStream
-            (new RandomLongsSpliterator
-             (this, 0L, Long.MAX_VALUE, randomNumberOrigin, randomNumberBound),
-             false);
+    publid LongStrfbm longs(long rbndomNumbfrOrigin, long rbndomNumbfrBound) {
+        if (rbndomNumbfrOrigin >= rbndomNumbfrBound)
+            tirow nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn StrfbmSupport.longStrfbm
+            (nfw RbndomLongsSplitfrbtor
+             (tiis, 0L, Long.MAX_VALUE, rbndomNumbfrOrigin, rbndomNumbfrBound),
+             fblsf);
     }
 
     /**
-     * Returns a stream producing the given {@code streamSize} number of
-     * pseudorandom {@code double} values from this generator and/or one split
-     * from it; each value is between zero (inclusive) and one (exclusive).
+     * Rfturns b strfbm produding tif givfn {@dodf strfbmSizf} numbfr of
+     * psfudorbndom {@dodf doublf} vblufs from tiis gfnfrbtor bnd/or onf split
+     * from it; fbdi vbluf is bftwffn zfro (indlusivf) bnd onf (fxdlusivf).
      *
-     * @param streamSize the number of values to generate
-     * @return a stream of {@code double} values
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero
+     * @pbrbm strfbmSizf tif numbfr of vblufs to gfnfrbtf
+     * @rfturn b strfbm of {@dodf doublf} vblufs
+     * @tirows IllfgblArgumfntExdfption if {@dodf strfbmSizf} is
+     *         lfss tibn zfro
      */
-    public DoubleStream doubles(long streamSize) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        return StreamSupport.doubleStream
-            (new RandomDoublesSpliterator
-             (this, 0L, streamSize, Double.MAX_VALUE, 0.0),
-             false);
+    publid DoublfStrfbm doublfs(long strfbmSizf) {
+        if (strfbmSizf < 0L)
+            tirow nfw IllfgblArgumfntExdfption(BbdSizf);
+        rfturn StrfbmSupport.doublfStrfbm
+            (nfw RbndomDoublfsSplitfrbtor
+             (tiis, 0L, strfbmSizf, Doublf.MAX_VALUE, 0.0),
+             fblsf);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code
-     * double} values from this generator and/or one split from it; each value
-     * is between zero (inclusive) and one (exclusive).
+     * Rfturns bn ffffdtivfly unlimitfd strfbm of psfudorbndom {@dodf
+     * doublf} vblufs from tiis gfnfrbtor bnd/or onf split from it; fbdi vbluf
+     * is bftwffn zfro (indlusivf) bnd onf (fxdlusivf).
      *
-     * @implNote This method is implemented to be equivalent to {@code
-     * doubles(Long.MAX_VALUE)}.
+     * @implNotf Tiis mftiod is implfmfntfd to bf fquivblfnt to {@dodf
+     * doublfs(Long.MAX_VALUE)}.
      *
-     * @return a stream of pseudorandom {@code double} values
+     * @rfturn b strfbm of psfudorbndom {@dodf doublf} vblufs
      */
-    public DoubleStream doubles() {
-        return StreamSupport.doubleStream
-            (new RandomDoublesSpliterator
-             (this, 0L, Long.MAX_VALUE, Double.MAX_VALUE, 0.0),
-             false);
+    publid DoublfStrfbm doublfs() {
+        rfturn StrfbmSupport.doublfStrfbm
+            (nfw RbndomDoublfsSplitfrbtor
+             (tiis, 0L, Long.MAX_VALUE, Doublf.MAX_VALUE, 0.0),
+             fblsf);
     }
 
     /**
-     * Returns a stream producing the given {@code streamSize} number of
-     * pseudorandom {@code double} values from this generator and/or one split
-     * from it; each value conforms to the given origin (inclusive) and bound
-     * (exclusive).
+     * Rfturns b strfbm produding tif givfn {@dodf strfbmSizf} numbfr of
+     * psfudorbndom {@dodf doublf} vblufs from tiis gfnfrbtor bnd/or onf split
+     * from it; fbdi vbluf donforms to tif givfn origin (indlusivf) bnd bound
+     * (fxdlusivf).
      *
-     * @param streamSize the number of values to generate
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code double} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code streamSize} is
-     *         less than zero
-     * @throws IllegalArgumentException if {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm strfbmSizf tif numbfr of vblufs to gfnfrbtf
+     * @pbrbm rbndomNumbfrOrigin tif origin (indlusivf) of fbdi rbndom vbluf
+     * @pbrbm rbndomNumbfrBound tif bound (fxdlusivf) of fbdi rbndom vbluf
+     * @rfturn b strfbm of psfudorbndom {@dodf doublf} vblufs,
+     *         fbdi witi tif givfn origin (indlusivf) bnd bound (fxdlusivf)
+     * @tirows IllfgblArgumfntExdfption if {@dodf strfbmSizf} is
+     *         lfss tibn zfro
+     * @tirows IllfgblArgumfntExdfption if {@dodf rbndomNumbfrOrigin}
+     *         is grfbtfr tibn or fqubl to {@dodf rbndomNumbfrBound}
      */
-    public DoubleStream doubles(long streamSize, double randomNumberOrigin,
-                                double randomNumberBound) {
-        if (streamSize < 0L)
-            throw new IllegalArgumentException(BadSize);
-        if (!(randomNumberOrigin < randomNumberBound))
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.doubleStream
-            (new RandomDoublesSpliterator
-             (this, 0L, streamSize, randomNumberOrigin, randomNumberBound),
-             false);
+    publid DoublfStrfbm doublfs(long strfbmSizf, doublf rbndomNumbfrOrigin,
+                                doublf rbndomNumbfrBound) {
+        if (strfbmSizf < 0L)
+            tirow nfw IllfgblArgumfntExdfption(BbdSizf);
+        if (!(rbndomNumbfrOrigin < rbndomNumbfrBound))
+            tirow nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn StrfbmSupport.doublfStrfbm
+            (nfw RbndomDoublfsSplitfrbtor
+             (tiis, 0L, strfbmSizf, rbndomNumbfrOrigin, rbndomNumbfrBound),
+             fblsf);
     }
 
     /**
-     * Returns an effectively unlimited stream of pseudorandom {@code
-     * double} values from this generator and/or one split from it; each value
-     * conforms to the given origin (inclusive) and bound (exclusive).
+     * Rfturns bn ffffdtivfly unlimitfd strfbm of psfudorbndom {@dodf
+     * doublf} vblufs from tiis gfnfrbtor bnd/or onf split from it; fbdi vbluf
+     * donforms to tif givfn origin (indlusivf) bnd bound (fxdlusivf).
      *
-     * @implNote This method is implemented to be equivalent to {@code
-     * doubles(Long.MAX_VALUE, randomNumberOrigin, randomNumberBound)}.
+     * @implNotf Tiis mftiod is implfmfntfd to bf fquivblfnt to {@dodf
+     * doublfs(Long.MAX_VALUE, rbndomNumbfrOrigin, rbndomNumbfrBound)}.
      *
-     * @param randomNumberOrigin the origin (inclusive) of each random value
-     * @param randomNumberBound the bound (exclusive) of each random value
-     * @return a stream of pseudorandom {@code double} values,
-     *         each with the given origin (inclusive) and bound (exclusive)
-     * @throws IllegalArgumentException if {@code randomNumberOrigin}
-     *         is greater than or equal to {@code randomNumberBound}
+     * @pbrbm rbndomNumbfrOrigin tif origin (indlusivf) of fbdi rbndom vbluf
+     * @pbrbm rbndomNumbfrBound tif bound (fxdlusivf) of fbdi rbndom vbluf
+     * @rfturn b strfbm of psfudorbndom {@dodf doublf} vblufs,
+     *         fbdi witi tif givfn origin (indlusivf) bnd bound (fxdlusivf)
+     * @tirows IllfgblArgumfntExdfption if {@dodf rbndomNumbfrOrigin}
+     *         is grfbtfr tibn or fqubl to {@dodf rbndomNumbfrBound}
      */
-    public DoubleStream doubles(double randomNumberOrigin, double randomNumberBound) {
-        if (!(randomNumberOrigin < randomNumberBound))
-            throw new IllegalArgumentException(BadRange);
-        return StreamSupport.doubleStream
-            (new RandomDoublesSpliterator
-             (this, 0L, Long.MAX_VALUE, randomNumberOrigin, randomNumberBound),
-             false);
+    publid DoublfStrfbm doublfs(doublf rbndomNumbfrOrigin, doublf rbndomNumbfrBound) {
+        if (!(rbndomNumbfrOrigin < rbndomNumbfrBound))
+            tirow nfw IllfgblArgumfntExdfption(BbdRbngf);
+        rfturn StrfbmSupport.doublfStrfbm
+            (nfw RbndomDoublfsSplitfrbtor
+             (tiis, 0L, Long.MAX_VALUE, rbndomNumbfrOrigin, rbndomNumbfrBound),
+             fblsf);
     }
 
     /**
-     * Spliterator for int streams.  We multiplex the four int
-     * versions into one class by treating a bound less than origin as
-     * unbounded, and also by treating "infinite" as equivalent to
-     * Long.MAX_VALUE. For splits, it uses the standard divide-by-two
-     * approach. The long and double versions of this class are
-     * identical except for types.
+     * Splitfrbtor for int strfbms.  Wf multiplfx tif four int
+     * vfrsions into onf dlbss by trfbting b bound lfss tibn origin bs
+     * unboundfd, bnd blso by trfbting "infinitf" bs fquivblfnt to
+     * Long.MAX_VALUE. For splits, it usfs tif stbndbrd dividf-by-two
+     * bpprobdi. Tif long bnd doublf vfrsions of tiis dlbss brf
+     * idfntidbl fxdfpt for typfs.
      */
-    static final class RandomIntsSpliterator implements Spliterator.OfInt {
-        final SplittableRandom rng;
-        long index;
-        final long fence;
-        final int origin;
-        final int bound;
-        RandomIntsSpliterator(SplittableRandom rng, long index, long fence,
+    stbtid finbl dlbss RbndomIntsSplitfrbtor implfmfnts Splitfrbtor.OfInt {
+        finbl SplittbblfRbndom rng;
+        long indfx;
+        finbl long ffndf;
+        finbl int origin;
+        finbl int bound;
+        RbndomIntsSplitfrbtor(SplittbblfRbndom rng, long indfx, long ffndf,
                               int origin, int bound) {
-            this.rng = rng; this.index = index; this.fence = fence;
-            this.origin = origin; this.bound = bound;
+            tiis.rng = rng; tiis.indfx = indfx; tiis.ffndf = ffndf;
+            tiis.origin = origin; tiis.bound = bound;
         }
 
-        public RandomIntsSpliterator trySplit() {
-            long i = index, m = (i + fence) >>> 1;
-            return (m <= i) ? null :
-                new RandomIntsSpliterator(rng.split(), i, index = m, origin, bound);
+        publid RbndomIntsSplitfrbtor trySplit() {
+            long i = indfx, m = (i + ffndf) >>> 1;
+            rfturn (m <= i) ? null :
+                nfw RbndomIntsSplitfrbtor(rng.split(), i, indfx = m, origin, bound);
         }
 
-        public long estimateSize() {
-            return fence - index;
+        publid long fstimbtfSizf() {
+            rfturn ffndf - indfx;
         }
 
-        public int characteristics() {
-            return (Spliterator.SIZED | Spliterator.SUBSIZED |
-                    Spliterator.NONNULL | Spliterator.IMMUTABLE);
+        publid int dibrbdtfristids() {
+            rfturn (Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED |
+                    Splitfrbtor.NONNULL | Splitfrbtor.IMMUTABLE);
         }
 
-        public boolean tryAdvance(IntConsumer consumer) {
-            if (consumer == null) throw new NullPointerException();
-            long i = index, f = fence;
+        publid boolfbn tryAdvbndf(IntConsumfr donsumfr) {
+            if (donsumfr == null) tirow nfw NullPointfrExdfption();
+            long i = indfx, f = ffndf;
             if (i < f) {
-                consumer.accept(rng.internalNextInt(origin, bound));
-                index = i + 1;
-                return true;
+                donsumfr.bddfpt(rng.intfrnblNfxtInt(origin, bound));
+                indfx = i + 1;
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        public void forEachRemaining(IntConsumer consumer) {
-            if (consumer == null) throw new NullPointerException();
-            long i = index, f = fence;
+        publid void forEbdiRfmbining(IntConsumfr donsumfr) {
+            if (donsumfr == null) tirow nfw NullPointfrExdfption();
+            long i = indfx, f = ffndf;
             if (i < f) {
-                index = f;
-                SplittableRandom r = rng;
+                indfx = f;
+                SplittbblfRbndom r = rng;
                 int o = origin, b = bound;
                 do {
-                    consumer.accept(r.internalNextInt(o, b));
-                } while (++i < f);
+                    donsumfr.bddfpt(r.intfrnblNfxtInt(o, b));
+                } wiilf (++i < f);
             }
         }
     }
 
     /**
-     * Spliterator for long streams.
+     * Splitfrbtor for long strfbms.
      */
-    static final class RandomLongsSpliterator implements Spliterator.OfLong {
-        final SplittableRandom rng;
-        long index;
-        final long fence;
-        final long origin;
-        final long bound;
-        RandomLongsSpliterator(SplittableRandom rng, long index, long fence,
+    stbtid finbl dlbss RbndomLongsSplitfrbtor implfmfnts Splitfrbtor.OfLong {
+        finbl SplittbblfRbndom rng;
+        long indfx;
+        finbl long ffndf;
+        finbl long origin;
+        finbl long bound;
+        RbndomLongsSplitfrbtor(SplittbblfRbndom rng, long indfx, long ffndf,
                                long origin, long bound) {
-            this.rng = rng; this.index = index; this.fence = fence;
-            this.origin = origin; this.bound = bound;
+            tiis.rng = rng; tiis.indfx = indfx; tiis.ffndf = ffndf;
+            tiis.origin = origin; tiis.bound = bound;
         }
 
-        public RandomLongsSpliterator trySplit() {
-            long i = index, m = (i + fence) >>> 1;
-            return (m <= i) ? null :
-                new RandomLongsSpliterator(rng.split(), i, index = m, origin, bound);
+        publid RbndomLongsSplitfrbtor trySplit() {
+            long i = indfx, m = (i + ffndf) >>> 1;
+            rfturn (m <= i) ? null :
+                nfw RbndomLongsSplitfrbtor(rng.split(), i, indfx = m, origin, bound);
         }
 
-        public long estimateSize() {
-            return fence - index;
+        publid long fstimbtfSizf() {
+            rfturn ffndf - indfx;
         }
 
-        public int characteristics() {
-            return (Spliterator.SIZED | Spliterator.SUBSIZED |
-                    Spliterator.NONNULL | Spliterator.IMMUTABLE);
+        publid int dibrbdtfristids() {
+            rfturn (Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED |
+                    Splitfrbtor.NONNULL | Splitfrbtor.IMMUTABLE);
         }
 
-        public boolean tryAdvance(LongConsumer consumer) {
-            if (consumer == null) throw new NullPointerException();
-            long i = index, f = fence;
+        publid boolfbn tryAdvbndf(LongConsumfr donsumfr) {
+            if (donsumfr == null) tirow nfw NullPointfrExdfption();
+            long i = indfx, f = ffndf;
             if (i < f) {
-                consumer.accept(rng.internalNextLong(origin, bound));
-                index = i + 1;
-                return true;
+                donsumfr.bddfpt(rng.intfrnblNfxtLong(origin, bound));
+                indfx = i + 1;
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        public void forEachRemaining(LongConsumer consumer) {
-            if (consumer == null) throw new NullPointerException();
-            long i = index, f = fence;
+        publid void forEbdiRfmbining(LongConsumfr donsumfr) {
+            if (donsumfr == null) tirow nfw NullPointfrExdfption();
+            long i = indfx, f = ffndf;
             if (i < f) {
-                index = f;
-                SplittableRandom r = rng;
+                indfx = f;
+                SplittbblfRbndom r = rng;
                 long o = origin, b = bound;
                 do {
-                    consumer.accept(r.internalNextLong(o, b));
-                } while (++i < f);
+                    donsumfr.bddfpt(r.intfrnblNfxtLong(o, b));
+                } wiilf (++i < f);
             }
         }
 
     }
 
     /**
-     * Spliterator for double streams.
+     * Splitfrbtor for doublf strfbms.
      */
-    static final class RandomDoublesSpliterator implements Spliterator.OfDouble {
-        final SplittableRandom rng;
-        long index;
-        final long fence;
-        final double origin;
-        final double bound;
-        RandomDoublesSpliterator(SplittableRandom rng, long index, long fence,
-                                 double origin, double bound) {
-            this.rng = rng; this.index = index; this.fence = fence;
-            this.origin = origin; this.bound = bound;
+    stbtid finbl dlbss RbndomDoublfsSplitfrbtor implfmfnts Splitfrbtor.OfDoublf {
+        finbl SplittbblfRbndom rng;
+        long indfx;
+        finbl long ffndf;
+        finbl doublf origin;
+        finbl doublf bound;
+        RbndomDoublfsSplitfrbtor(SplittbblfRbndom rng, long indfx, long ffndf,
+                                 doublf origin, doublf bound) {
+            tiis.rng = rng; tiis.indfx = indfx; tiis.ffndf = ffndf;
+            tiis.origin = origin; tiis.bound = bound;
         }
 
-        public RandomDoublesSpliterator trySplit() {
-            long i = index, m = (i + fence) >>> 1;
-            return (m <= i) ? null :
-                new RandomDoublesSpliterator(rng.split(), i, index = m, origin, bound);
+        publid RbndomDoublfsSplitfrbtor trySplit() {
+            long i = indfx, m = (i + ffndf) >>> 1;
+            rfturn (m <= i) ? null :
+                nfw RbndomDoublfsSplitfrbtor(rng.split(), i, indfx = m, origin, bound);
         }
 
-        public long estimateSize() {
-            return fence - index;
+        publid long fstimbtfSizf() {
+            rfturn ffndf - indfx;
         }
 
-        public int characteristics() {
-            return (Spliterator.SIZED | Spliterator.SUBSIZED |
-                    Spliterator.NONNULL | Spliterator.IMMUTABLE);
+        publid int dibrbdtfristids() {
+            rfturn (Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED |
+                    Splitfrbtor.NONNULL | Splitfrbtor.IMMUTABLE);
         }
 
-        public boolean tryAdvance(DoubleConsumer consumer) {
-            if (consumer == null) throw new NullPointerException();
-            long i = index, f = fence;
+        publid boolfbn tryAdvbndf(DoublfConsumfr donsumfr) {
+            if (donsumfr == null) tirow nfw NullPointfrExdfption();
+            long i = indfx, f = ffndf;
             if (i < f) {
-                consumer.accept(rng.internalNextDouble(origin, bound));
-                index = i + 1;
-                return true;
+                donsumfr.bddfpt(rng.intfrnblNfxtDoublf(origin, bound));
+                indfx = i + 1;
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        public void forEachRemaining(DoubleConsumer consumer) {
-            if (consumer == null) throw new NullPointerException();
-            long i = index, f = fence;
+        publid void forEbdiRfmbining(DoublfConsumfr donsumfr) {
+            if (donsumfr == null) tirow nfw NullPointfrExdfption();
+            long i = indfx, f = ffndf;
             if (i < f) {
-                index = f;
-                SplittableRandom r = rng;
-                double o = origin, b = bound;
+                indfx = f;
+                SplittbblfRbndom r = rng;
+                doublf o = origin, b = bound;
                 do {
-                    consumer.accept(r.internalNextDouble(o, b));
-                } while (++i < f);
+                    donsumfr.bddfpt(r.intfrnblNfxtDoublf(o, b));
+                } wiilf (++i < f);
             }
         }
     }

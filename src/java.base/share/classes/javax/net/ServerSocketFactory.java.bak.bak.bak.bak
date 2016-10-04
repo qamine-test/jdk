@@ -1,0 +1,233 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nft;
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.nft.SodkftExdfption;
+
+/**
+ * This dlbss drfbtfs sfrvfr sodkfts.  It mby bf subdlbssfd by othfr
+ * fbdtorifs, whidh drfbtf pbrtidulbr typfs of sfrvfr sodkfts.  This
+ * providfs b gfnfrbl frbmfwork for thf bddition of publid sodkft-lfvfl
+ * fundtionblity.  It is thf sfrvfr sidf bnbloguf of b sodkft fbdtory,
+ * bnd similbrly providfs b wby to dbpturf b vbrifty of polidifs rflbtfd
+ * to thf sodkfts bfing donstrudtfd.
+ *
+ * <P> Likf sodkft fbdtorifs, sfrvfr Sodkft fbdtory instbndfs hbvf
+ * mfthods usfd to drfbtf sodkfts. Thfrf is blso bn fnvironmfnt
+ * spfdifid dffbult sfrvfr sodkft fbdtory; frbmfworks will oftfn usf
+ * thfir own dustomizfd fbdtory.
+ *
+ * @sindf 1.4
+ * @sff SodkftFbdtory
+ *
+ * @buthor Dbvid Brownfll
+ */
+publid bbstrbdt dlbss SfrvfrSodkftFbdtory
+{
+    //
+    // NOTE:  JDK 1.1 bug in dlbss GC, this dbn gft dollfdtfd
+    // fvfn though it's blwbys bddfssiblf vib gftDffbult().
+    //
+    privbtf stbtid SfrvfrSodkftFbdtory          thfFbdtory;
+
+
+    /**
+     * Crfbtfs b sfrvfr sodkft fbdtory.
+     */
+    protfdtfd SfrvfrSodkftFbdtory() { /* NOTHING */ }
+
+    /**
+     * Rfturns b dopy of thf fnvironmfnt's dffbult sodkft fbdtory.
+     *
+     * @rfturn thf <dodf>SfrvfrSodkftFbdtory</dodf>
+     */
+    publid stbtid SfrvfrSodkftFbdtory gftDffbult()
+    {
+        syndhronizfd (SfrvfrSodkftFbdtory.dlbss) {
+            if (thfFbdtory == null) {
+                //
+                // Difffrfnt implfmfntbtions of this mfthod dould
+                // work rbthfr difffrfntly.  For fxbmplf, driving
+                // this from b systfm propfrty, or using b difffrfnt
+                // implfmfntbtion thbn JbvbSoft's.
+                //
+                thfFbdtory = nfw DffbultSfrvfrSodkftFbdtory();
+            }
+        }
+
+        rfturn thfFbdtory;
+    }
+
+
+    /**
+     * Rfturns bn unbound sfrvfr sodkft.  Thf sodkft is donfigurfd with
+     * thf sodkft options (sudh bs bddfpt timfout) givfn to this fbdtory.
+     *
+     * @rfturn thf unbound sodkft
+     * @throws IOExdfption if thf sodkft dbnnot bf drfbtfd
+     * @sff jbvb.nft.SfrvfrSodkft#bind(jbvb.nft.SodkftAddrfss)
+     * @sff jbvb.nft.SfrvfrSodkft#bind(jbvb.nft.SodkftAddrfss, int)
+     * @sff jbvb.nft.SfrvfrSodkft#SfrvfrSodkft()
+     */
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft() throws IOExdfption {
+        throw nfw SodkftExdfption("Unbound sfrvfr sodkfts not implfmfntfd");
+    }
+
+    /**
+     * Rfturns b sfrvfr sodkft bound to thf spfdififd port.
+     * Thf sodkft is donfigurfd with thf sodkft options
+     * (sudh bs bddfpt timfout) givfn to this fbdtory.
+     * <P>
+     * If thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkListfn</dodf>
+     * mfthod is dbllfd with thf <dodf>port</dodf> brgumfnt bs its
+     * brgumfnt to fnsurf thf opfrbtion is bllowfd. This dould rfsult
+     * in b SfdurityExdfption.
+     *
+     * @pbrbm port thf port to listfn to
+     * @rfturn thf <dodf>SfrvfrSodkft</dodf>
+     * @throws IOExdfption for nftworking frrors
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>dhfdkListfn</dodf> mfthod dofsn't bllow thf opfrbtion.
+     * @throws IllfgblArgumfntExdfption if thf port pbrbmftfr is outsidf thf
+     *         spfdififd rbngf of vblid port vblufs, whidh is bftwffn 0 bnd
+     *         65535, indlusivf.
+     * @sff    SfdurityMbnbgfr#dhfdkListfn
+     * @sff jbvb.nft.SfrvfrSodkft#SfrvfrSodkft(int)
+     */
+    publid bbstrbdt SfrvfrSodkft drfbtfSfrvfrSodkft(int port)
+        throws IOExdfption;
+
+
+    /**
+     * Rfturns b sfrvfr sodkft bound to thf spfdififd port, bnd usfs thf
+     * spfdififd donnfdtion bbdklog.  Thf sodkft is donfigurfd with
+     * thf sodkft options (sudh bs bddfpt timfout) givfn to this fbdtory.
+     * <P>
+     * Thf <dodf>bbdklog</dodf> brgumfnt must bf b positivf
+     * vbluf grfbtfr thbn 0. If thf vbluf pbssfd if fqubl or lfss
+     * thbn 0, thfn thf dffbult vbluf will bf bssumfd.
+     * <P>
+     * If thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkListfn</dodf>
+     * mfthod is dbllfd with thf <dodf>port</dodf> brgumfnt bs its
+     * brgumfnt to fnsurf thf opfrbtion is bllowfd. This dould rfsult
+     * in b SfdurityExdfption.
+     *
+     * @pbrbm port thf port to listfn to
+     * @pbrbm bbdklog how mbny donnfdtions brf qufufd
+     * @rfturn thf <dodf>SfrvfrSodkft</dodf>
+     * @throws IOExdfption for nftworking frrors
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>dhfdkListfn</dodf> mfthod dofsn't bllow thf opfrbtion.
+     * @throws IllfgblArgumfntExdfption if thf port pbrbmftfr is outsidf thf
+     *         spfdififd rbngf of vblid port vblufs, whidh is bftwffn 0 bnd
+     *         65535, indlusivf.
+     * @sff    SfdurityMbnbgfr#dhfdkListfn
+     * @sff jbvb.nft.SfrvfrSodkft#SfrvfrSodkft(int, int)
+     */
+    publid bbstrbdt SfrvfrSodkft
+    drfbtfSfrvfrSodkft(int port, int bbdklog)
+    throws IOExdfption;
+
+
+    /**
+     * Rfturns b sfrvfr sodkft bound to thf spfdififd port,
+     * with b spfdififd listfn bbdklog bnd lodbl IP.
+     * <P>
+     * Thf <dodf>ifAddrfss</dodf> brgumfnt dbn bf usfd on b multi-homfd
+     * host for b <dodf>SfrvfrSodkft</dodf> thbt will only bddfpt donnfdt
+     * rfqufsts to onf of its bddrfssfs. If <dodf>ifAddrfss</dodf> is null,
+     * it will bddfpt donnfdtions on bll lodbl bddrfssfs. Thf sodkft is
+     * donfigurfd with thf sodkft options (sudh bs bddfpt timfout) givfn
+     * to this fbdtory.
+     * <P>
+     * Thf <dodf>bbdklog</dodf> brgumfnt must bf b positivf
+     * vbluf grfbtfr thbn 0. If thf vbluf pbssfd if fqubl or lfss
+     * thbn 0, thfn thf dffbult vbluf will bf bssumfd.
+     * <P>
+     * If thfrf is b sfdurity mbnbgfr, its <dodf>dhfdkListfn</dodf>
+     * mfthod is dbllfd with thf <dodf>port</dodf> brgumfnt bs its
+     * brgumfnt to fnsurf thf opfrbtion is bllowfd. This dould rfsult
+     * in b SfdurityExdfption.
+     *
+     * @pbrbm port thf port to listfn to
+     * @pbrbm bbdklog how mbny donnfdtions brf qufufd
+     * @pbrbm ifAddrfss thf nftwork intfrfbdf bddrfss to usf
+     * @rfturn thf <dodf>SfrvfrSodkft</dodf>
+     * @throws IOExdfption for nftworking frrors
+     * @throws SfdurityExdfption if b sfdurity mbnbgfr fxists bnd its
+     *         <dodf>dhfdkListfn</dodf> mfthod dofsn't bllow thf opfrbtion.
+     * @throws IllfgblArgumfntExdfption if thf port pbrbmftfr is outsidf thf
+     *         spfdififd rbngf of vblid port vblufs, whidh is bftwffn 0 bnd
+     *         65535, indlusivf.
+     * @sff    SfdurityMbnbgfr#dhfdkListfn
+     * @sff jbvb.nft.SfrvfrSodkft#SfrvfrSodkft(int, int, jbvb.nft.InftAddrfss)
+     */
+    publid bbstrbdt SfrvfrSodkft
+    drfbtfSfrvfrSodkft(int port, int bbdklog, InftAddrfss ifAddrfss)
+    throws IOExdfption;
+}
+
+
+//
+// Thf dffbult fbdtory hbs NO intflligfndf.  In fbdt it's not dlfbr
+// whbt sort of intflligfndf sfrvfrs nffd; thf onus is on dlifnts,
+// who hbvf to know how to tunnfl ftd.
+//
+dlbss DffbultSfrvfrSodkftFbdtory fxtfnds SfrvfrSodkftFbdtory {
+
+    DffbultSfrvfrSodkftFbdtory()
+    {
+        /* NOTHING */
+    }
+
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft()
+    throws IOExdfption
+    {
+        rfturn nfw SfrvfrSodkft();
+    }
+
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port)
+    throws IOExdfption
+    {
+        rfturn nfw SfrvfrSodkft(port);
+    }
+
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port, int bbdklog)
+    throws IOExdfption
+    {
+        rfturn nfw SfrvfrSodkft(port, bbdklog);
+    }
+
+    publid SfrvfrSodkft
+    drfbtfSfrvfrSodkft(int port, int bbdklog, InftAddrfss ifAddrfss)
+    throws IOExdfption
+    {
+        rfturn nfw SfrvfrSodkft(port, bbdklog, ifAddrfss);
+    }
+}

@@ -1,0 +1,105 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.nft.httpsfrvfr;
+
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.nio.*;
+import jbvb.sfdurity.*;
+import jbvb.nio.dhbnnfls.*;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.*;
+import jbvbx.nft.ssl.*;
+import dom.sun.nft.httpsfrvfr.spi.*;
+
+/**
+ * This dlbss is bn fxtfnsion of {@link HttpSfrvfr} whidh providfs
+ * support for HTTPS. <p>
+ * A HttpsSfrvfr must hbvf bn bssodibtfd {@link HttpsConfigurbtor} objfdt
+ * whidh is usfd to fstbblish thf SSL donfigurbtion for thf SSL donnfdtions.
+ * <p>
+ * All othfr donfigurbtion is thf sbmf bs for HttpSfrvfr.
+ * @sindf 1.6
+ */
+
+@jdk.Exportfd
+publid bbstrbdt dlbss HttpsSfrvfr fxtfnds HttpSfrvfr {
+
+    /**
+     */
+    protfdtfd HttpsSfrvfr () {
+    }
+
+    /**
+     * drfbtfs b HttpsSfrvfr instbndf whidh is initiblly not bound to bny lodbl bddrfss/port.
+     * Thf HttpsSfrvfr is bdquirfd from thf durrfntly instbllfd {@link HttpSfrvfrProvidfr}
+     * Thf sfrvfr must bf bound using {@link #bind(InftSodkftAddrfss,int)} bfforf it dbn bf usfd.
+     * Thf sfrvfr must blso hbvf b HttpsConfigurbtor fstbblishfd with {@link #sftHttpsConfigurbtor(HttpsConfigurbtor)}
+     * @throws IOExdfption
+     */
+    publid stbtid HttpsSfrvfr drfbtf () throws IOExdfption {
+        rfturn drfbtf (null, 0);
+    }
+
+    /**
+     * Crfbtf b <dodf>HttpsSfrvfr</dodf> instbndf whidh will bind to thf
+     * spfdififd {@link jbvb.nft.InftSodkftAddrfss} (IP bddrfss bnd port numbfr)
+     *
+     * A mbximum bbdklog dbn blso bf spfdififd. This is thf mbximum numbfr of
+     * qufufd indoming donnfdtions to bllow on thf listfning sodkft.
+     * Qufufd TCP donnfdtions fxdffding this limit mby bf rfjfdtfd by thf TCP implfmfntbtion.
+     * Thf HttpsSfrvfr is bdquirfd from thf durrfntly instbllfd {@link HttpSfrvfrProvidfr}
+     * Thf sfrvfr must hbvf b HttpsConfigurbtor fstbblishfd with {@link #sftHttpsConfigurbtor(HttpsConfigurbtor)}
+     *
+     * @pbrbm bddr thf bddrfss to listfn on, if <dodf>null</dodf> thfn bind() must bf dbllfd
+     *  to sft thf bddrfss
+     * @pbrbm bbdklog thf sodkft bbdklog. If this vbluf is lfss thbn or fqubl to zfro,
+     *          thfn b systfm dffbult vbluf is usfd.
+     * @throws BindExdfption if thf sfrvfr dbnnot bind to thf rfqufstfd bddrfss,
+     *          or if thf sfrvfr is blrfbdy bound.
+     * @throws IOExdfption
+     */
+
+    publid stbtid HttpsSfrvfr drfbtf (
+        InftSodkftAddrfss bddr, int bbdklog
+    ) throws IOExdfption {
+        HttpSfrvfrProvidfr providfr = HttpSfrvfrProvidfr.providfr();
+        rfturn providfr.drfbtfHttpsSfrvfr (bddr, bbdklog);
+    }
+
+    /**
+     * Sfts this sfrvfr's {@link HttpsConfigurbtor} objfdt.
+     * @pbrbm donfig thf HttpsConfigurbtor to sft
+     * @throws NullPointfrExdfption if donfig is null.
+     */
+    publid bbstrbdt void sftHttpsConfigurbtor (HttpsConfigurbtor donfig) ;
+
+    /**
+     * Gfts this sfrvfr's {@link HttpsConfigurbtor} objfdt, if it hbs bffn sft.
+     * @rfturn thf HttpsConfigurbtor for this sfrvfr, or <dodf>null</dodf> if not sft.
+     */
+    publid bbstrbdt HttpsConfigurbtor gftHttpsConfigurbtor ();
+}

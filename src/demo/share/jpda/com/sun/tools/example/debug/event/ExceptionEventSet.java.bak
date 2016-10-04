@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.event;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.fvfnt;
 
-import com.sun.jdi.*;
-import com.sun.jdi.event.*;
+import dom.sun.jdi.*;
+import dom.sun.jdi.fvfnt.*;
 
-public class ExceptionEventSet extends LocatableEventSet {
+publid dlbss ExdfptionEvfntSft fxtfnds LodbtbblfEvfntSft {
 
-    private static final long serialVersionUID = 5328140167954640711L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5328140167954640711L;
 
-    ExceptionEventSet(EventSet jdiEventSet) {
-        super(jdiEventSet);
+    ExdfptionEvfntSft(EvfntSft jdiEvfntSft) {
+        supfr(jdiEvfntSft);
     }
 
     /**
-     * Gets the thrown exception object. The exception object is
-     * an instance of java.lang.Throwable or a subclass in the
-     * target VM.
+     * Gfts tif tirown fxdfption objfdt. Tif fxdfption objfdt is
+     * bn instbndf of jbvb.lbng.Tirowbblf or b subdlbss in tif
+     * tbrgft VM.
      *
-     * @return an {@link ObjectReference} which mirrors the thrown object in
-     * the target VM.
+     * @rfturn bn {@link ObjfdtRfffrfndf} wiidi mirrors tif tirown objfdt in
+     * tif tbrgft VM.
      */
-    public ObjectReference getException() {
-        return ((ExceptionEvent)oneEvent).exception();
+    publid ObjfdtRfffrfndf gftExdfption() {
+        rfturn ((ExdfptionEvfnt)onfEvfnt).fxdfption();
     }
 
     /**
-     * Gets the location where the exception will be caught. An exception
-     * is considered to be caught if, at the point of the throw, the
-     * current location is dynamically enclosed in a try statement that
-     * handles the exception. (See the JVM specification for details).
-     * If there is such a try statement, the catch location is the
-     * first code index of the appropriate catch clause.
+     * Gfts tif lodbtion wifrf tif fxdfption will bf dbugit. An fxdfption
+     * is donsidfrfd to bf dbugit if, bt tif point of tif tirow, tif
+     * durrfnt lodbtion is dynbmidblly fndlosfd in b try stbtfmfnt tibt
+     * ibndlfs tif fxdfption. (Sff tif JVM spfdifidbtion for dftbils).
+     * If tifrf is sudi b try stbtfmfnt, tif dbtdi lodbtion is tif
+     * first dodf indfx of tif bppropribtf dbtdi dlbusf.
      * <p>
-     * If there are native methods in the call stack at the time of the
-     * exception, there are important restrictions to note about the
-     * returned catch location. In such cases,
-     * it is not possible to predict whether an exception will be handled
-     * by some native method on the call stack.
-     * Thus, it is possible that exceptions considered uncaught
-     * here will, in fact, be handled by a native method and not cause
-     * termination of the target VM. Also, it cannot be assumed that the
-     * catch location returned here will ever be reached by the throwing
-     * thread. If there is
-     * a native frame between the current location and the catch location,
-     * the exception might be handled and cleared in that native method
-     * instead.
+     * If tifrf brf nbtivf mftiods in tif dbll stbdk bt tif timf of tif
+     * fxdfption, tifrf brf importbnt rfstridtions to notf bbout tif
+     * rfturnfd dbtdi lodbtion. In sudi dbsfs,
+     * it is not possiblf to prfdidt wiftifr bn fxdfption will bf ibndlfd
+     * by somf nbtivf mftiod on tif dbll stbdk.
+     * Tius, it is possiblf tibt fxdfptions donsidfrfd undbugit
+     * ifrf will, in fbdt, bf ibndlfd by b nbtivf mftiod bnd not dbusf
+     * tfrminbtion of tif tbrgft VM. Also, it dbnnot bf bssumfd tibt tif
+     * dbtdi lodbtion rfturnfd ifrf will fvfr bf rfbdifd by tif tirowing
+     * tirfbd. If tifrf is
+     * b nbtivf frbmf bftwffn tif durrfnt lodbtion bnd tif dbtdi lodbtion,
+     * tif fxdfption migit bf ibndlfd bnd dlfbrfd in tibt nbtivf mftiod
+     * instfbd.
      *
-     * @return the {@link Location} where the exception will be caught or null if
-     * the exception is uncaught.
+     * @rfturn tif {@link Lodbtion} wifrf tif fxdfption will bf dbugit or null if
+     * tif fxdfption is undbugit.
      */
-    public Location getCatchLocation() {
-        return ((ExceptionEvent)oneEvent).catchLocation();
+    publid Lodbtion gftCbtdiLodbtion() {
+        rfturn ((ExdfptionEvfnt)onfEvfnt).dbtdiLodbtion();
     }
 
-    @Override
-    public void notify(JDIListener listener) {
-        listener.exception(this);
+    @Ovfrridf
+    publid void notify(JDIListfnfr listfnfr) {
+        listfnfr.fxdfption(tiis);
     }
 }

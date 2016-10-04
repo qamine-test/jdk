@@ -1,442 +1,442 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi;
+pbdkbgf dom.sun.jdi;
 
-import java.util.List;
+import jbvb.util.List;
 
 /**
- * A static or instance method in the target VM. See {@link TypeComponent}
- * for general information about Field and Method mirrors.
+ * A stbtid or instbndf mftiod in tif tbrgft VM. Sff {@link TypfComponfnt}
+ * for gfnfrbl informbtion bbout Fifld bnd Mftiod mirrors.
  *
- * @see ObjectReference
- * @see ReferenceType
+ * @sff ObjfdtRfffrfndf
+ * @sff RfffrfndfTypf
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @butior Gordon Hirsdi
+ * @butior Jbmfs MdIlrff
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface Method extends TypeComponent, Locatable, Comparable<Method> {
+@jdk.Exportfd
+publid intfrfbdf Mftiod fxtfnds TypfComponfnt, Lodbtbblf, Compbrbblf<Mftiod> {
 
     /**
-     * Returns a text representation of the return type,
-     * as specified in the declaration of this method.
+     * Rfturns b tfxt rfprfsfntbtion of tif rfturn typf,
+     * bs spfdififd in tif dfdlbrbtion of tiis mftiod.
      * <P>
-     * This type name is always available even if
-     * the type has not yet been created or loaded.
+     * Tiis typf nbmf is blwbys bvbilbblf fvfn if
+     * tif typf ibs not yft bffn drfbtfd or lobdfd.
      *
-     * @return a String containing the return type name.
+     * @rfturn b String dontbining tif rfturn typf nbmf.
      */
-    String returnTypeName();
+    String rfturnTypfNbmf();
 
     /**
-     * Returns the return type,
-     * as specified in the declaration of this method.
+     * Rfturns tif rfturn typf,
+     * bs spfdififd in tif dfdlbrbtion of tiis mftiod.
      * <P>
-     * Note: if the return type of this method is a reference type (class,
-     * interface, or array) and it has not been created or loaded
-     * by the declaring type's class loader - that is,
-     * {@link TypeComponent#declaringType <CODE>declaringType()</CODE>}
-     * <CODE>.classLoader()</CODE>,
-     * then ClassNotLoadedException will be thrown.
-     * Also, a reference type may have been loaded but not yet prepared,
-     * in which case the type will be returned
-     * but attempts to perform some operations on the returned type
-     * (e.g. {@link ReferenceType#fields() fields()}) will throw
-     * a {@link ClassNotPreparedException}.
-     * Use {@link ReferenceType#isPrepared()} to determine if
-     * a reference type is prepared.
+     * Notf: if tif rfturn typf of tiis mftiod is b rfffrfndf typf (dlbss,
+     * intfrfbdf, or brrby) bnd it ibs not bffn drfbtfd or lobdfd
+     * by tif dfdlbring typf's dlbss lobdfr - tibt is,
+     * {@link TypfComponfnt#dfdlbringTypf <CODE>dfdlbringTypf()</CODE>}
+     * <CODE>.dlbssLobdfr()</CODE>,
+     * tifn ClbssNotLobdfdExdfption will bf tirown.
+     * Also, b rfffrfndf typf mby ibvf bffn lobdfd but not yft prfpbrfd,
+     * in wiidi dbsf tif typf will bf rfturnfd
+     * but bttfmpts to pfrform somf opfrbtions on tif rfturnfd typf
+     * (f.g. {@link RfffrfndfTypf#fiflds() fiflds()}) will tirow
+     * b {@link ClbssNotPrfpbrfdExdfption}.
+     * Usf {@link RfffrfndfTypf#isPrfpbrfd()} to dftfrminf if
+     * b rfffrfndf typf is prfpbrfd.
      *
-     * @see Type
-     * @see Field#type() Field.type() - for usage examples
-     * @return the return {@link Type} of this method.
-     * @throws ClassNotLoadedException if the type has not yet been
-     * created or loaded
-     * through the appropriate class loader.
+     * @sff Typf
+     * @sff Fifld#typf() Fifld.typf() - for usbgf fxbmplfs
+     * @rfturn tif rfturn {@link Typf} of tiis mftiod.
+     * @tirows ClbssNotLobdfdExdfption if tif typf ibs not yft bffn
+     * drfbtfd or lobdfd
+     * tirougi tif bppropribtf dlbss lobdfr.
      */
-    Type returnType() throws ClassNotLoadedException;
+    Typf rfturnTypf() tirows ClbssNotLobdfdExdfption;
 
     /**
-     * Returns a list containing a text representation of the type
-     * of each formal parameter of this method.
+     * Rfturns b list dontbining b tfxt rfprfsfntbtion of tif typf
+     * of fbdi formbl pbrbmftfr of tiis mftiod.
      * <P>
-     * This list is always available even if
-     * the types have not yet been created or loaded.
+     * Tiis list is blwbys bvbilbblf fvfn if
+     * tif typfs ibvf not yft bffn drfbtfd or lobdfd.
      *
-     * @return a {@link java.util.List List} of {@link String},
-     * one List element for each parameter of this method.
-     * Each element represents the type of a formal parameter
-     * as specified at compile-time.
-     * If the formal parameter was declared with an ellipsis, then
-     * it is represented as an array of the type before the ellipsis.
+     * @rfturn b {@link jbvb.util.List List} of {@link String},
+     * onf List flfmfnt for fbdi pbrbmftfr of tiis mftiod.
+     * Ebdi flfmfnt rfprfsfnts tif typf of b formbl pbrbmftfr
+     * bs spfdififd bt dompilf-timf.
+     * If tif formbl pbrbmftfr wbs dfdlbrfd witi bn fllipsis, tifn
+     * it is rfprfsfntfd bs bn brrby of tif typf bfforf tif fllipsis.
      *
      */
-    List<String> argumentTypeNames();
+    List<String> brgumfntTypfNbmfs();
 
     /**
-     * Returns a list containing the type
-     * of each formal parameter of this method.
+     * Rfturns b list dontbining tif typf
+     * of fbdi formbl pbrbmftfr of tiis mftiod.
      * <P>
-     * Note: if there is any parameter whose type
-     * is a reference type (class, interface, or array)
-     * and it has not been created or loaded
-     * by the declaring type's class loader - that is,
-     * {@link TypeComponent#declaringType <CODE>declaringType()</CODE>}
-     * <CODE>.classLoader()</CODE>,
-     * then ClassNotLoadedException will be thrown.
-     * Also, a reference type may have been loaded but not yet prepared,
-     * in which case the list will be returned
-     * but attempts to perform some operations on the type
-     * (e.g. {@link ReferenceType#fields() fields()}) will throw
-     * a {@link ClassNotPreparedException}.
-     * Use {@link ReferenceType#isPrepared()} to determine if
-     * a reference type is prepared.
+     * Notf: if tifrf is bny pbrbmftfr wiosf typf
+     * is b rfffrfndf typf (dlbss, intfrfbdf, or brrby)
+     * bnd it ibs not bffn drfbtfd or lobdfd
+     * by tif dfdlbring typf's dlbss lobdfr - tibt is,
+     * {@link TypfComponfnt#dfdlbringTypf <CODE>dfdlbringTypf()</CODE>}
+     * <CODE>.dlbssLobdfr()</CODE>,
+     * tifn ClbssNotLobdfdExdfption will bf tirown.
+     * Also, b rfffrfndf typf mby ibvf bffn lobdfd but not yft prfpbrfd,
+     * in wiidi dbsf tif list will bf rfturnfd
+     * but bttfmpts to pfrform somf opfrbtions on tif typf
+     * (f.g. {@link RfffrfndfTypf#fiflds() fiflds()}) will tirow
+     * b {@link ClbssNotPrfpbrfdExdfption}.
+     * Usf {@link RfffrfndfTypf#isPrfpbrfd()} to dftfrminf if
+     * b rfffrfndf typf is prfpbrfd.
      *
-     * @see Type
-     * @return return a {@link java.util.List List} of {@link Type},
-     * one List element for each parameter of this method.
-     * Each element represents the type of a formal parameter
-     * as specified at compile-time.
-     * If the formal parameter was declared with an ellipsis, then
-     * it is represented as an array of the type before the ellipsis.
+     * @sff Typf
+     * @rfturn rfturn b {@link jbvb.util.List List} of {@link Typf},
+     * onf List flfmfnt for fbdi pbrbmftfr of tiis mftiod.
+     * Ebdi flfmfnt rfprfsfnts tif typf of b formbl pbrbmftfr
+     * bs spfdififd bt dompilf-timf.
+     * If tif formbl pbrbmftfr wbs dfdlbrfd witi bn fllipsis, tifn
+     * it is rfprfsfntfd bs bn brrby of tif typf bfforf tif fllipsis.
      *
-     * @throws ClassNotLoadedException if the type has not yet been loaded
-     * through the appropriate class loader.
+     * @tirows ClbssNotLobdfdExdfption if tif typf ibs not yft bffn lobdfd
+     * tirougi tif bppropribtf dlbss lobdfr.
      */
-    List<Type> argumentTypes() throws ClassNotLoadedException;
+    List<Typf> brgumfntTypfs() tirows ClbssNotLobdfdExdfption;
 
     /**
-     * Determine if this method is abstract.
+     * Dftfrminf if tiis mftiod is bbstrbdt.
      *
-     * @return <code>true</code> if the method is declared abstract;
-     * false otherwise.
+     * @rfturn <dodf>truf</dodf> if tif mftiod is dfdlbrfd bbstrbdt;
+     * fblsf otifrwisf.
      */
-    boolean isAbstract();
+    boolfbn isAbstrbdt();
 
     /**
-     * Determine if this method is a default method
+     * Dftfrminf if tiis mftiod is b dffbult mftiod
      *
-     * @return <code>true</code> if the method is declared default;
-     * false otherwise
+     * @rfturn <dodf>truf</dodf> if tif mftiod is dfdlbrfd dffbult;
+     * fblsf otifrwisf
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    default boolean isDefault() {
-        throw new UnsupportedOperationException();
+    dffbult boolfbn isDffbult() {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * Determine if this method is synchronized.
+     * Dftfrminf if tiis mftiod is syndironizfd.
      *
-     * @return <code>true</code> if the method is declared synchronized;
-     * false otherwise.
+     * @rfturn <dodf>truf</dodf> if tif mftiod is dfdlbrfd syndironizfd;
+     * fblsf otifrwisf.
      */
-    boolean isSynchronized();
+    boolfbn isSyndironizfd();
 
     /**
-     * Determine if this method is native.
+     * Dftfrminf if tiis mftiod is nbtivf.
      *
-     * @return <code>true</code> if the method is declared native;
-     * false otherwise.
+     * @rfturn <dodf>truf</dodf> if tif mftiod is dfdlbrfd nbtivf;
+     * fblsf otifrwisf.
      */
-    boolean isNative();
+    boolfbn isNbtivf();
 
     /**
-     * Determine if this method accepts a variable number of arguments.
+     * Dftfrminf if tiis mftiod bddfpts b vbribblf numbfr of brgumfnts.
      *
-     * @return <code>true</code> if the method accepts a variable number
-     * of arguments, false otherwise.
+     * @rfturn <dodf>truf</dodf> if tif mftiod bddfpts b vbribblf numbfr
+     * of brgumfnts, fblsf otifrwisf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    boolean isVarArgs();
+    boolfbn isVbrArgs();
 
     /**
-     * Determine if this method is a bridge method. Bridge
-     * methods are defined in
-     * <cite>The Java&trade; Language Specification</cite>.
+     * Dftfrminf if tiis mftiod is b bridgf mftiod. Bridgf
+     * mftiods brf dffinfd in
+     * <ditf>Tif Jbvb&trbdf; Lbngubgf Spfdifidbtion</ditf>.
      *
-     * @return <code>true</code> if the method is a bridge method,
-     * false otherwise.
+     * @rfturn <dodf>truf</dodf> if tif mftiod is b bridgf mftiod,
+     * fblsf otifrwisf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    boolean isBridge();
+    boolfbn isBridgf();
 
     /**
-     * Determine if this method is a constructor.
+     * Dftfrminf if tiis mftiod is b donstrudtor.
      *
-     * @return <code>true</code> if the method is a constructor;
-     * false otherwise.
+     * @rfturn <dodf>truf</dodf> if tif mftiod is b donstrudtor;
+     * fblsf otifrwisf.
      */
-    boolean isConstructor();
+    boolfbn isConstrudtor();
 
     /**
-     * Determine if this method is a static initializer.
+     * Dftfrminf if tiis mftiod is b stbtid initiblizfr.
      *
-     * @return <code>true</code> if the method is a static initializer;
-     * false otherwise.
+     * @rfturn <dodf>truf</dodf> if tif mftiod is b stbtid initiblizfr;
+     * fblsf otifrwisf.
      */
-    boolean isStaticInitializer();
+    boolfbn isStbtidInitiblizfr();
 
     /**
-     * Determine if this method is obsolete.
+     * Dftfrminf if tiis mftiod is obsolftf.
      *
-     * @return <code>true</code> if this method has been made obsolete by a
-     * {@link VirtualMachine#redefineClasses} operation.
+     * @rfturn <dodf>truf</dodf> if tiis mftiod ibs bffn mbdf obsolftf by b
+     * {@link VirtublMbdiinf#rfdffinfClbssfs} opfrbtion.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    boolean isObsolete();
+    boolfbn isObsolftf();
 
     /**
-     * Returns a list containing a {@link Location} object for
-     * each executable source line in this method.
+     * Rfturns b list dontbining b {@link Lodbtion} objfdt for
+     * fbdi fxfdutbblf sourdf linf in tiis mftiod.
      * <P>
-     * This method is equivalent to
-     * <code>allLineLocations(vm.getDefaultStratum(),null)</code> -
-     * see {@link #allLineLocations(String,String)}
-     * for more information.
+     * Tiis mftiod is fquivblfnt to
+     * <dodf>bllLinfLodbtions(vm.gftDffbultStrbtum(),null)</dodf> -
+     * sff {@link #bllLinfLodbtions(String,String)}
+     * for morf informbtion.
      *
-     * @return a List of all source line {@link Location} objects.
+     * @rfturn b List of bll sourdf linf {@link Lodbtion} objfdts.
      *
-     * @throws AbsentInformationException if there is no line
-     * number information for this (non-native, non-abstract)
-     * method.
+     * @tirows AbsfntInformbtionExdfption if tifrf is no linf
+     * numbfr informbtion for tiis (non-nbtivf, non-bbstrbdt)
+     * mftiod.
      */
-    List<Location> allLineLocations() throws AbsentInformationException;
+    List<Lodbtion> bllLinfLodbtions() tirows AbsfntInformbtionExdfption;
 
     /**
-     * Returns a list containing a {@link Location} object for
-     * each executable source line in this method.
+     * Rfturns b list dontbining b {@link Lodbtion} objfdt for
+     * fbdi fxfdutbblf sourdf linf in tiis mftiod.
      * <P>
-     * Each location maps a source line to a range of code
-     * indices.
-     * The beginning of the range can be determined through
-     * {@link Location#codeIndex}.
-     * The returned list is ordered by code index
-     * (from low to high).
+     * Ebdi lodbtion mbps b sourdf linf to b rbngf of dodf
+     * indidfs.
+     * Tif bfginning of tif rbngf dbn bf dftfrminfd tirougi
+     * {@link Lodbtion#dodfIndfx}.
+     * Tif rfturnfd list is ordfrfd by dodf indfx
+     * (from low to iigi).
      * <P>
-     * The returned list may contain multiple locations for a
-     * particular line number, if the compiler and/or VM has
-     * mapped that line to two or more disjoint code index ranges.
+     * Tif rfturnfd list mby dontbin multiplf lodbtions for b
+     * pbrtidulbr linf numbfr, if tif dompilfr bnd/or VM ibs
+     * mbppfd tibt linf to two or morf disjoint dodf indfx rbngfs.
      * <P>
-     * If the method is native or abstract, an empty list is
-     * returned.
+     * If tif mftiod is nbtivf or bbstrbdt, bn fmpty list is
+     * rfturnfd.
      * <P>
-     * Returned list is for the specified <i>stratum</i>
-     * (see {@link Location} for a description of strata).
+     * Rfturnfd list is for tif spfdififd <i>strbtum</i>
+     * (sff {@link Lodbtion} for b dfsdription of strbtb).
      *
-     * @param stratum The stratum to retrieve information from
-     * or <code>null</code> for the {@link ReferenceType#defaultStratum()}
+     * @pbrbm strbtum Tif strbtum to rftrifvf informbtion from
+     * or <dodf>null</dodf> for tif {@link RfffrfndfTypf#dffbultStrbtum()}
      *
-     * @param sourceName Return locations only within this
-     * source file or <code>null</code> to return locations.
+     * @pbrbm sourdfNbmf Rfturn lodbtions only witiin tiis
+     * sourdf filf or <dodf>null</dodf> to rfturn lodbtions.
      *
-     * @return a List of all source line {@link Location} objects.
+     * @rfturn b List of bll sourdf linf {@link Lodbtion} objfdts.
      *
-     * @throws AbsentInformationException if there is no line
-     * number information for this (non-native, non-abstract)
-     * method.  Or if <i>sourceName</i> is non-<code>null</code>
-     * and source name information is not present.
+     * @tirows AbsfntInformbtionExdfption if tifrf is no linf
+     * numbfr informbtion for tiis (non-nbtivf, non-bbstrbdt)
+     * mftiod.  Or if <i>sourdfNbmf</i> is non-<dodf>null</dodf>
+     * bnd sourdf nbmf informbtion is not prfsfnt.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    List<Location> allLineLocations(String stratum, String sourceName)
-        throws AbsentInformationException;
+    List<Lodbtion> bllLinfLodbtions(String strbtum, String sourdfNbmf)
+        tirows AbsfntInformbtionExdfption;
 
     /**
-     * Returns a List containing all {@link Location} objects
-     * that map to the given line number.
+     * Rfturns b List dontbining bll {@link Lodbtion} objfdts
+     * tibt mbp to tif givfn linf numbfr.
      * <P>
-     * This method is equivalent to
-     * <code>locationsOfLine(vm.getDefaultStratum(), null,
-     * lineNumber)</code> -
-     * see {@link
-     * #locationsOfLine(java.lang.String,java.lang.String,int)}
-     * for more information.
+     * Tiis mftiod is fquivblfnt to
+     * <dodf>lodbtionsOfLinf(vm.gftDffbultStrbtum(), null,
+     * linfNumbfr)</dodf> -
+     * sff {@link
+     * #lodbtionsOfLinf(jbvb.lbng.String,jbvb.lbng.String,int)}
+     * for morf informbtion.
      *
-     * @param lineNumber the line number
+     * @pbrbm linfNumbfr tif linf numbfr
      *
-     * @return a List of {@link Location} objects that map to
-     * the given line number.
+     * @rfturn b List of {@link Lodbtion} objfdts tibt mbp to
+     * tif givfn linf numbfr.
      *
-     * @throws AbsentInformationException if there is no line
-     * number information for this method.
+     * @tirows AbsfntInformbtionExdfption if tifrf is no linf
+     * numbfr informbtion for tiis mftiod.
      */
-    List<Location> locationsOfLine(int lineNumber) throws AbsentInformationException;
+    List<Lodbtion> lodbtionsOfLinf(int linfNumbfr) tirows AbsfntInformbtionExdfption;
 
     /**
-     * Returns a List containing all {@link Location} objects
-     * that map to the given line number and source name.
+     * Rfturns b List dontbining bll {@link Lodbtion} objfdts
+     * tibt mbp to tif givfn linf numbfr bnd sourdf nbmf.
      * <P>
-     * Returns a list containing each {@link Location} that maps
-     * to the given line. The returned list will contain a
-     * location for each disjoint range of code indices that have
-     * been assigned to the given line by the compiler and/or
-     * VM. Each returned location corresponds to the beginning of
-     * this range.  An empty list will be returned if there is no
-     * executable code at the specified line number; specifically,
-     * native and abstract methods will always return an empty
+     * Rfturns b list dontbining fbdi {@link Lodbtion} tibt mbps
+     * to tif givfn linf. Tif rfturnfd list will dontbin b
+     * lodbtion for fbdi disjoint rbngf of dodf indidfs tibt ibvf
+     * bffn bssignfd to tif givfn linf by tif dompilfr bnd/or
+     * VM. Ebdi rfturnfd lodbtion dorrfsponds to tif bfginning of
+     * tiis rbngf.  An fmpty list will bf rfturnfd if tifrf is no
+     * fxfdutbblf dodf bt tif spfdififd linf numbfr; spfdifidblly,
+     * nbtivf bnd bbstrbdt mftiods will blwbys rfturn bn fmpty
      * list.
      * <p>
-     * Returned list is for the specified <i>stratum</i>
-     * (see {@link Location} for a description of strata).
+     * Rfturnfd list is for tif spfdififd <i>strbtum</i>
+     * (sff {@link Lodbtion} for b dfsdription of strbtb).
      *
-     * @param stratum the stratum to use for comparing line number
-     *                and source name, or null to use the default
-     *                stratum
-     * @param sourceName the source name containing the
-     *                   line number, or null to match all
-     *                   source names
-     * @param lineNumber the line number
+     * @pbrbm strbtum tif strbtum to usf for dompbring linf numbfr
+     *                bnd sourdf nbmf, or null to usf tif dffbult
+     *                strbtum
+     * @pbrbm sourdfNbmf tif sourdf nbmf dontbining tif
+     *                   linf numbfr, or null to mbtdi bll
+     *                   sourdf nbmfs
+     * @pbrbm linfNumbfr tif linf numbfr
      *
-     * @return a List of {@link Location} objects that map to
-     * the given line number.
+     * @rfturn b List of {@link Lodbtion} objfdts tibt mbp to
+     * tif givfn linf numbfr.
      *
-     * @throws AbsentInformationException if there is no line
-     * number information for this method.
-     * Or if <i>sourceName</i> is non-<code>null</code>
-     * and source name information is not present.
+     * @tirows AbsfntInformbtionExdfption if tifrf is no linf
+     * numbfr informbtion for tiis mftiod.
+     * Or if <i>sourdfNbmf</i> is non-<dodf>null</dodf>
+     * bnd sourdf nbmf informbtion is not prfsfnt.
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    List<Location> locationsOfLine(String stratum, String sourceName,
-                                   int lineNumber)
-        throws AbsentInformationException;
+    List<Lodbtion> lodbtionsOfLinf(String strbtum, String sourdfNbmf,
+                                   int linfNumbfr)
+        tirows AbsfntInformbtionExdfption;
 
     /**
-     * Returns a {@link Location} for the given code index.
+     * Rfturns b {@link Lodbtion} for tif givfn dodf indfx.
      *
-     * @return the {@link Location} corresponding to the
-     * given code index or null if the specified code index is not a
-     * valid code index for this method (native and abstract methods
-     * will always return null).
+     * @rfturn tif {@link Lodbtion} dorrfsponding to tif
+     * givfn dodf indfx or null if tif spfdififd dodf indfx is not b
+     * vblid dodf indfx for tiis mftiod (nbtivf bnd bbstrbdt mftiods
+     * will blwbys rfturn null).
      */
-    Location locationOfCodeIndex(long codeIndex);
+    Lodbtion lodbtionOfCodfIndfx(long dodfIndfx);
 
     /**
-     * Returns a list containing each {@link LocalVariable} declared
-     * in this method. The list includes any variable declared in any
-     * scope within the method. It may contain multiple variables of the
-     * same name declared within disjoint scopes. Arguments are considered
-     * local variables and will be present in the returned list.
+     * Rfturns b list dontbining fbdi {@link LodblVbribblf} dfdlbrfd
+     * in tiis mftiod. Tif list indludfs bny vbribblf dfdlbrfd in bny
+     * sdopf witiin tif mftiod. It mby dontbin multiplf vbribblfs of tif
+     * sbmf nbmf dfdlbrfd witiin disjoint sdopfs. Argumfnts brf donsidfrfd
+     * lodbl vbribblfs bnd will bf prfsfnt in tif rfturnfd list.
      *
-     * If local variable information is not available, values of
-     * actual arguments to method invocations can be obtained
-     * by using the method {@link StackFrame#getArgumentValues()}
+     * If lodbl vbribblf informbtion is not bvbilbblf, vblufs of
+     * bdtubl brgumfnts to mftiod invodbtions dbn bf obtbinfd
+     * by using tif mftiod {@link StbdkFrbmf#gftArgumfntVblufs()}
      *
-     * @return the list of {@link LocalVariable} objects which mirror
-     * local variables declared in this method in the target VM.
-     * If there are no local variables, a zero-length list is returned.
-     * @throws AbsentInformationException if there is no variable
-     * information for this method.
-     * Generally, local variable information is not available for
-     * native or abstract methods (that is, their argument name
-     * information is not available), thus they will throw this exception.
+     * @rfturn tif list of {@link LodblVbribblf} objfdts wiidi mirror
+     * lodbl vbribblfs dfdlbrfd in tiis mftiod in tif tbrgft VM.
+     * If tifrf brf no lodbl vbribblfs, b zfro-lfngti list is rfturnfd.
+     * @tirows AbsfntInformbtionExdfption if tifrf is no vbribblf
+     * informbtion for tiis mftiod.
+     * Gfnfrblly, lodbl vbribblf informbtion is not bvbilbblf for
+     * nbtivf or bbstrbdt mftiods (tibt is, tifir brgumfnt nbmf
+     * informbtion is not bvbilbblf), tius tify will tirow tiis fxdfption.
      */
-    List<LocalVariable> variables() throws AbsentInformationException;
+    List<LodblVbribblf> vbribblfs() tirows AbsfntInformbtionExdfption;
 
     /**
-     * Returns a list containing each {@link LocalVariable} of a
-     * given name in this method.
-     * Multiple variables can be returned
-     * if the same variable name is used in disjoint
-     * scopes within the method.
+     * Rfturns b list dontbining fbdi {@link LodblVbribblf} of b
+     * givfn nbmf in tiis mftiod.
+     * Multiplf vbribblfs dbn bf rfturnfd
+     * if tif sbmf vbribblf nbmf is usfd in disjoint
+     * sdopfs witiin tif mftiod.
      *
-     * @return the list of {@link LocalVariable} objects of the given
-     * name.
-     * If there are no matching local variables, a zero-length list
-     * is returned.
-     * @throws AbsentInformationException if there is no variable
-     * information for this method.
-     * Generally, local variable information is not available for
-     * native or abstract methods (that is, their argument name
-     * information is not available), thus they will throw this exception.
+     * @rfturn tif list of {@link LodblVbribblf} objfdts of tif givfn
+     * nbmf.
+     * If tifrf brf no mbtdiing lodbl vbribblfs, b zfro-lfngti list
+     * is rfturnfd.
+     * @tirows AbsfntInformbtionExdfption if tifrf is no vbribblf
+     * informbtion for tiis mftiod.
+     * Gfnfrblly, lodbl vbribblf informbtion is not bvbilbblf for
+     * nbtivf or bbstrbdt mftiods (tibt is, tifir brgumfnt nbmf
+     * informbtion is not bvbilbblf), tius tify will tirow tiis fxdfption.
      */
-    List<LocalVariable> variablesByName(String name)
-        throws AbsentInformationException;
+    List<LodblVbribblf> vbribblfsByNbmf(String nbmf)
+        tirows AbsfntInformbtionExdfption;
 
     /**
-     * Returns a list containing each {@link LocalVariable} that is
-     * declared as an argument of this method.
+     * Rfturns b list dontbining fbdi {@link LodblVbribblf} tibt is
+     * dfdlbrfd bs bn brgumfnt of tiis mftiod.
      *
-     * If local variable information is not available, values of
-     * actual arguments to method invocations can be obtained
-     * by using the method {@link StackFrame#getArgumentValues()}
+     * If lodbl vbribblf informbtion is not bvbilbblf, vblufs of
+     * bdtubl brgumfnts to mftiod invodbtions dbn bf obtbinfd
+     * by using tif mftiod {@link StbdkFrbmf#gftArgumfntVblufs()}
      *
-     * @return the list of {@link LocalVariable} arguments.
-     * If there are no arguments, a zero-length list is returned.
-     * @throws AbsentInformationException if there is no variable
-     * information for this method.
-     * Generally, local variable information is not available for
-     * native or abstract methods (that is, their argument name
-     * information is not available), thus they will throw this exception.
+     * @rfturn tif list of {@link LodblVbribblf} brgumfnts.
+     * If tifrf brf no brgumfnts, b zfro-lfngti list is rfturnfd.
+     * @tirows AbsfntInformbtionExdfption if tifrf is no vbribblf
+     * informbtion for tiis mftiod.
+     * Gfnfrblly, lodbl vbribblf informbtion is not bvbilbblf for
+     * nbtivf or bbstrbdt mftiods (tibt is, tifir brgumfnt nbmf
+     * informbtion is not bvbilbblf), tius tify will tirow tiis fxdfption.
      */
-    List<LocalVariable> arguments() throws AbsentInformationException;
+    List<LodblVbribblf> brgumfnts() tirows AbsfntInformbtionExdfption;
 
     /**
-     * Returns an array containing the bytecodes for this method.
+     * Rfturns bn brrby dontbining tif bytfdodfs for tiis mftiod.
      * <P>
-     * Not all target virtual machines support this operation.
-     * Use {@link VirtualMachine#canGetBytecodes()}
-     * to determine if the operation is supported.
+     * Not bll tbrgft virtubl mbdiinfs support tiis opfrbtion.
+     * Usf {@link VirtublMbdiinf#dbnGftBytfdodfs()}
+     * to dftfrminf if tif opfrbtion is supportfd.
      *
-     * @return the array of bytecodes; abstract and native methods
-     * will return a zero-length array.
-     * @throws java.lang.UnsupportedOperationException if
-     * the target virtual machine does not support
-     * the retrieval of bytecodes.
+     * @rfturn tif brrby of bytfdodfs; bbstrbdt bnd nbtivf mftiods
+     * will rfturn b zfro-lfngti brrby.
+     * @tirows jbvb.lbng.UnsupportfdOpfrbtionExdfption if
+     * tif tbrgft virtubl mbdiinf dofs not support
+     * tif rftrifvbl of bytfdodfs.
      */
-    byte[] bytecodes();
+    bytf[] bytfdodfs();
 
     /**
-     * Returns the {@link Location} of this method, if there
-     * is executable code associated with it.
+     * Rfturns tif {@link Lodbtion} of tiis mftiod, if tifrf
+     * is fxfdutbblf dodf bssodibtfd witi it.
      *
-     * @return the {@link Location} of this mirror, or null if
-     * this is an abstract method; native methods will return a
-     * Location object whose codeIndex is -1.
+     * @rfturn tif {@link Lodbtion} of tiis mirror, or null if
+     * tiis is bn bbstrbdt mftiod; nbtivf mftiods will rfturn b
+     * Lodbtion objfdt wiosf dodfIndfx is -1.
      */
-    Location location();
+    Lodbtion lodbtion();
 
     /**
-     * Compares the specified Object with this method for equality.
+     * Compbrfs tif spfdififd Objfdt witi tiis mftiod for fqublity.
      *
-     * @return true if the Object is a method and if both
-     * mirror the same method (declared in the same class or interface, in
-     * the same VM).
+     * @rfturn truf if tif Objfdt is b mftiod bnd if boti
+     * mirror tif sbmf mftiod (dfdlbrfd in tif sbmf dlbss or intfrfbdf, in
+     * tif sbmf VM).
      */
-    boolean equals(Object obj);
+    boolfbn fqubls(Objfdt obj);
 
     /**
-     * Returns the hash code value for this Method.
+     * Rfturns tif ibsi dodf vbluf for tiis Mftiod.
      *
-     * @return the integer hash code
+     * @rfturn tif intfgfr ibsi dodf
      */
-    int hashCode();
+    int ibsiCodf();
 }

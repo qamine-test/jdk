@@ -1,868 +1,868 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAddfssor;
 
-import javax.swing.plaf.LayerUI;
-import javax.swing.border.Border;
-import javax.accessibility.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.ArrayList;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvbx.swing.plbf.LbyfrUI;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.bddfssibility.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.util.ArrbyList;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * {@code JLayer} is a universal decorator for Swing components
- * which enables you to implement various advanced painting effects as well as
- * receive notifications of all {@code AWTEvent}s generated within its borders.
+ * {@dodf JLbyfr} is b univfrsbl dfdorbtor for Swing domponfnts
+ * wiidi fnbblfs you to implfmfnt vbrious bdvbndfd pbinting ffffdts bs wfll bs
+ * rfdfivf notifidbtions of bll {@dodf AWTEvfnt}s gfnfrbtfd witiin its bordfrs.
  * <p>
- * {@code JLayer} delegates the handling of painting and input events to a
- * {@link javax.swing.plaf.LayerUI} object, which performs the actual decoration.
+ * {@dodf JLbyfr} dflfgbtfs tif ibndling of pbinting bnd input fvfnts to b
+ * {@link jbvbx.swing.plbf.LbyfrUI} objfdt, wiidi pfrforms tif bdtubl dfdorbtion.
  * <p>
- * The custom painting implemented in the {@code LayerUI} and events notification
- * work for the JLayer itself and all its subcomponents.
- * This combination enables you to enrich existing components
- * by adding new advanced functionality such as temporary locking of a hierarchy,
- * data tips for compound components, enhanced mouse scrolling etc and so on.
+ * Tif dustom pbinting implfmfntfd in tif {@dodf LbyfrUI} bnd fvfnts notifidbtion
+ * work for tif JLbyfr itsflf bnd bll its subdomponfnts.
+ * Tiis dombinbtion fnbblfs you to fnridi fxisting domponfnts
+ * by bdding nfw bdvbndfd fundtionblity sudi bs tfmporbry lodking of b iifrbrdiy,
+ * dbtb tips for dompound domponfnts, fnibndfd mousf sdrolling ftd bnd so on.
  * <p>
- * {@code JLayer} is a good solution if you only need to do custom painting
- * over compound component or catch input events from its subcomponents.
- * <pre>
- * import javax.swing.*;
- * import javax.swing.plaf.LayerUI;
- * import java.awt.*;
+ * {@dodf JLbyfr} is b good solution if you only nffd to do dustom pbinting
+ * ovfr dompound domponfnt or dbtdi input fvfnts from its subdomponfnts.
+ * <prf>
+ * import jbvbx.swing.*;
+ * import jbvbx.swing.plbf.LbyfrUI;
+ * import jbvb.bwt.*;
  *
- * public class JLayerSample {
+ * publid dlbss JLbyfrSbmplf {
  *
- *     private static JLayer&lt;JComponent&gt; createLayer() {
- *         // This custom layerUI will fill the layer with translucent green
- *         // and print out all mouseMotion events generated within its borders
- *         LayerUI&lt;JComponent&gt; layerUI = new LayerUI&lt;JComponent&gt;() {
+ *     privbtf stbtid JLbyfr&lt;JComponfnt&gt; drfbtfLbyfr() {
+ *         // Tiis dustom lbyfrUI will fill tif lbyfr witi trbnsludfnt grffn
+ *         // bnd print out bll mousfMotion fvfnts gfnfrbtfd witiin its bordfrs
+ *         LbyfrUI&lt;JComponfnt&gt; lbyfrUI = nfw LbyfrUI&lt;JComponfnt&gt;() {
  *
- *             public void paint(Graphics g, JComponent c) {
- *                 // paint the layer as is
- *                 super.paint(g, c);
- *                 // fill it with the translucent green
- *                 g.setColor(new Color(0, 128, 0, 128));
- *                 g.fillRect(0, 0, c.getWidth(), c.getHeight());
+ *             publid void pbint(Grbpiids g, JComponfnt d) {
+ *                 // pbint tif lbyfr bs is
+ *                 supfr.pbint(g, d);
+ *                 // fill it witi tif trbnsludfnt grffn
+ *                 g.sftColor(nfw Color(0, 128, 0, 128));
+ *                 g.fillRfdt(0, 0, d.gftWidti(), d.gftHfigit());
  *             }
  *
- *             public void installUI(JComponent c) {
- *                 super.installUI(c);
- *                 // enable mouse motion events for the layer's subcomponents
- *                 ((JLayer) c).setLayerEventMask(AWTEvent.MOUSE_MOTION_EVENT_MASK);
+ *             publid void instbllUI(JComponfnt d) {
+ *                 supfr.instbllUI(d);
+ *                 // fnbblf mousf motion fvfnts for tif lbyfr's subdomponfnts
+ *                 ((JLbyfr) d).sftLbyfrEvfntMbsk(AWTEvfnt.MOUSE_MOTION_EVENT_MASK);
  *             }
  *
- *             public void uninstallUI(JComponent c) {
- *                 super.uninstallUI(c);
- *                 // reset the layer event mask
- *                 ((JLayer) c).setLayerEventMask(0);
+ *             publid void uninstbllUI(JComponfnt d) {
+ *                 supfr.uninstbllUI(d);
+ *                 // rfsft tif lbyfr fvfnt mbsk
+ *                 ((JLbyfr) d).sftLbyfrEvfntMbsk(0);
  *             }
  *
- *             // overridden method which catches MouseMotion events
- *             public void eventDispatched(AWTEvent e, JLayer&lt;? extends JComponent&gt; l) {
- *                 System.out.println("AWTEvent detected: " + e);
+ *             // ovfrriddfn mftiod wiidi dbtdifs MousfMotion fvfnts
+ *             publid void fvfntDispbtdifd(AWTEvfnt f, JLbyfr&lt;? fxtfnds JComponfnt&gt; l) {
+ *                 Systfm.out.println("AWTEvfnt dftfdtfd: " + f);
  *             }
  *         };
- *         // create a component to be decorated with the layer
- *         JPanel panel = new JPanel();
- *         panel.add(new JButton("JButton"));
+ *         // drfbtf b domponfnt to bf dfdorbtfd witi tif lbyfr
+ *         JPbnfl pbnfl = nfw JPbnfl();
+ *         pbnfl.bdd(nfw JButton("JButton"));
  *
- *         // create the layer for the panel using our custom layerUI
- *         return new JLayer&lt;JComponent&gt;(panel, layerUI);
+ *         // drfbtf tif lbyfr for tif pbnfl using our dustom lbyfrUI
+ *         rfturn nfw JLbyfr&lt;JComponfnt&gt;(pbnfl, lbyfrUI);
  *     }
  *
- *     private static void createAndShowGUI() {
- *         final JFrame frame = new JFrame();
- *         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+ *     privbtf stbtid void drfbtfAndSiowGUI() {
+ *         finbl JFrbmf frbmf = nfw JFrbmf();
+ *         frbmf.sftDffbultClosfOpfrbtion(JFrbmf.EXIT_ON_CLOSE);
  *
- *         // work with the layer as with any other Swing component
- *         frame.add(createLayer());
+ *         // work witi tif lbyfr bs witi bny otifr Swing domponfnt
+ *         frbmf.bdd(drfbtfLbyfr());
  *
- *         frame.setSize(200, 200);
- *         frame.setLocationRelativeTo(null);
- *         frame.setVisible(true);
+ *         frbmf.sftSizf(200, 200);
+ *         frbmf.sftLodbtionRflbtivfTo(null);
+ *         frbmf.sftVisiblf(truf);
  *     }
  *
- *     public static void main(String[] args) throws Exception {
- *         SwingUtilities.invokeAndWait(new Runnable() {
- *             public void run() {
- *                 createAndShowGUI();
+ *     publid stbtid void mbin(String[] brgs) tirows Exdfption {
+ *         SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+ *             publid void run() {
+ *                 drfbtfAndSiowGUI();
  *             }
  *         });
  *     }
  * }
- * </pre>
+ * </prf>
  *
- * <b>Note:</b> {@code JLayer} doesn't support the following methods:
+ * <b>Notf:</b> {@dodf JLbyfr} dofsn't support tif following mftiods:
  * <ul>
- * <li>{@link Container#add(java.awt.Component)}</li>
- * <li>{@link Container#add(String, java.awt.Component)}</li>
- * <li>{@link Container#add(java.awt.Component, int)}</li>
- * <li>{@link Container#add(java.awt.Component, Object)}</li>
- * <li>{@link Container#add(java.awt.Component, Object, int)}</li>
+ * <li>{@link Contbinfr#bdd(jbvb.bwt.Componfnt)}</li>
+ * <li>{@link Contbinfr#bdd(String, jbvb.bwt.Componfnt)}</li>
+ * <li>{@link Contbinfr#bdd(jbvb.bwt.Componfnt, int)}</li>
+ * <li>{@link Contbinfr#bdd(jbvb.bwt.Componfnt, Objfdt)}</li>
+ * <li>{@link Contbinfr#bdd(jbvb.bwt.Componfnt, Objfdt, int)}</li>
  * </ul>
- * using any of of them will cause {@code UnsupportedOperationException} to be thrown,
- * to add a component to {@code JLayer}
- * use {@link #setView(Component)} or {@link #setGlassPane(JPanel)}.
+ * using bny of of tifm will dbusf {@dodf UnsupportfdOpfrbtionExdfption} to bf tirown,
+ * to bdd b domponfnt to {@dodf JLbyfr}
+ * usf {@link #sftVifw(Componfnt)} or {@link #sftGlbssPbnf(JPbnfl)}.
  *
- * @param <V> the type of {@code JLayer}'s view component
+ * @pbrbm <V> tif typf of {@dodf JLbyfr}'s vifw domponfnt
  *
- * @see #JLayer(Component)
- * @see #setView(Component)
- * @see #getView()
- * @see javax.swing.plaf.LayerUI
- * @see #JLayer(Component, LayerUI)
- * @see #setUI(javax.swing.plaf.LayerUI)
- * @see #getUI()
- * @since 1.7
+ * @sff #JLbyfr(Componfnt)
+ * @sff #sftVifw(Componfnt)
+ * @sff #gftVifw()
+ * @sff jbvbx.swing.plbf.LbyfrUI
+ * @sff #JLbyfr(Componfnt, LbyfrUI)
+ * @sff #sftUI(jbvbx.swing.plbf.LbyfrUI)
+ * @sff #gftUI()
+ * @sindf 1.7
  *
- * @author Alexander Potochkin
+ * @butior Alfxbndfr Potodikin
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-public final class JLayer<V extends Component>
-        extends JComponent
-        implements Scrollable, PropertyChangeListener, Accessible {
-    private V view;
-    // this field is necessary because JComponent.ui is transient
-    // when layerUI is serializable
-    private LayerUI<? super V> layerUI;
-    private JPanel glassPane;
-    private long eventMask;
-    private transient boolean isPainting;
-    private transient boolean isPaintingImmediately;
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid finbl dlbss JLbyfr<V fxtfnds Componfnt>
+        fxtfnds JComponfnt
+        implfmfnts Sdrollbblf, PropfrtyCibngfListfnfr, Addfssiblf {
+    privbtf V vifw;
+    // tiis fifld is nfdfssbry bfdbusf JComponfnt.ui is trbnsifnt
+    // wifn lbyfrUI is sfriblizbblf
+    privbtf LbyfrUI<? supfr V> lbyfrUI;
+    privbtf JPbnfl glbssPbnf;
+    privbtf long fvfntMbsk;
+    privbtf trbnsifnt boolfbn isPbinting;
+    privbtf trbnsifnt boolfbn isPbintingImmfdibtfly;
 
-    private static final LayerEventController eventController =
-            new LayerEventController();
+    privbtf stbtid finbl LbyfrEvfntControllfr fvfntControllfr =
+            nfw LbyfrEvfntControllfr();
 
     /**
-     * Creates a new {@code JLayer} object with a {@code null} view component
-     * and default {@link javax.swing.plaf.LayerUI}.
+     * Crfbtfs b nfw {@dodf JLbyfr} objfdt witi b {@dodf null} vifw domponfnt
+     * bnd dffbult {@link jbvbx.swing.plbf.LbyfrUI}.
      *
-     * @see #setView
-     * @see #setUI
+     * @sff #sftVifw
+     * @sff #sftUI
      */
-    public JLayer() {
-        this(null);
+    publid JLbyfr() {
+        tiis(null);
     }
 
     /**
-     * Creates a new {@code JLayer} object
-     * with default {@link javax.swing.plaf.LayerUI}.
+     * Crfbtfs b nfw {@dodf JLbyfr} objfdt
+     * witi dffbult {@link jbvbx.swing.plbf.LbyfrUI}.
      *
-     * @param view the component to be decorated by this {@code JLayer}
+     * @pbrbm vifw tif domponfnt to bf dfdorbtfd by tiis {@dodf JLbyfr}
      *
-     * @see #setUI
+     * @sff #sftUI
      */
-    public JLayer(V view) {
-        this(view, new LayerUI<V>());
+    publid JLbyfr(V vifw) {
+        tiis(vifw, nfw LbyfrUI<V>());
     }
 
     /**
-     * Creates a new {@code JLayer} object with the specified view component
-     * and {@link javax.swing.plaf.LayerUI} object.
+     * Crfbtfs b nfw {@dodf JLbyfr} objfdt witi tif spfdififd vifw domponfnt
+     * bnd {@link jbvbx.swing.plbf.LbyfrUI} objfdt.
      *
-     * @param view the component to be decorated
-     * @param ui the {@link javax.swing.plaf.LayerUI} delegate
-     * to be used by this {@code JLayer}
+     * @pbrbm vifw tif domponfnt to bf dfdorbtfd
+     * @pbrbm ui tif {@link jbvbx.swing.plbf.LbyfrUI} dflfgbtf
+     * to bf usfd by tiis {@dodf JLbyfr}
      */
-    public JLayer(V view, LayerUI<V> ui) {
-        setGlassPane(createGlassPane());
-        setView(view);
-        setUI(ui);
+    publid JLbyfr(V vifw, LbyfrUI<V> ui) {
+        sftGlbssPbnf(drfbtfGlbssPbnf());
+        sftVifw(vifw);
+        sftUI(ui);
     }
 
     /**
-     * Returns the {@code JLayer}'s view component or {@code null}.
-     * <br>This is a bound property.
+     * Rfturns tif {@dodf JLbyfr}'s vifw domponfnt or {@dodf null}.
+     * <br>Tiis is b bound propfrty.
      *
-     * @return the {@code JLayer}'s view component
-     *         or {@code null} if none exists
+     * @rfturn tif {@dodf JLbyfr}'s vifw domponfnt
+     *         or {@dodf null} if nonf fxists
      *
-     * @see #setView(Component)
+     * @sff #sftVifw(Componfnt)
      */
-    public V getView() {
-        return view;
+    publid V gftVifw() {
+        rfturn vifw;
     }
 
     /**
-     * Sets the {@code JLayer}'s view component, which can be {@code null}.
-     * <br>This is a bound property.
+     * Sfts tif {@dodf JLbyfr}'s vifw domponfnt, wiidi dbn bf {@dodf null}.
+     * <br>Tiis is b bound propfrty.
      *
-     * @param view the view component for this {@code JLayer}
+     * @pbrbm vifw tif vifw domponfnt for tiis {@dodf JLbyfr}
      *
-     * @see #getView()
+     * @sff #gftVifw()
      */
-    public void setView(V view) {
-        Component oldView = getView();
-        if (oldView != null) {
-            super.remove(oldView);
+    publid void sftVifw(V vifw) {
+        Componfnt oldVifw = gftVifw();
+        if (oldVifw != null) {
+            supfr.rfmovf(oldVifw);
         }
-        if (view != null) {
-            super.addImpl(view, null, getComponentCount());
+        if (vifw != null) {
+            supfr.bddImpl(vifw, null, gftComponfntCount());
         }
-        this.view = view;
-        firePropertyChange("view", oldView, view);
-        revalidate();
-        repaint();
+        tiis.vifw = vifw;
+        firfPropfrtyCibngf("vifw", oldVifw, vifw);
+        rfvblidbtf();
+        rfpbint();
     }
 
     /**
-     * Sets the {@link javax.swing.plaf.LayerUI} which will perform painting
-     * and receive input events for this {@code JLayer}.
+     * Sfts tif {@link jbvbx.swing.plbf.LbyfrUI} wiidi will pfrform pbinting
+     * bnd rfdfivf input fvfnts for tiis {@dodf JLbyfr}.
      *
-     * @param ui the {@link javax.swing.plaf.LayerUI} for this {@code JLayer}
+     * @pbrbm ui tif {@link jbvbx.swing.plbf.LbyfrUI} for tiis {@dodf JLbyfr}
      */
-    public void setUI(LayerUI<? super V> ui) {
-        this.layerUI = ui;
-        super.setUI(ui);
+    publid void sftUI(LbyfrUI<? supfr V> ui) {
+        tiis.lbyfrUI = ui;
+        supfr.sftUI(ui);
     }
 
     /**
-     * Returns the {@link javax.swing.plaf.LayerUI} for this {@code JLayer}.
+     * Rfturns tif {@link jbvbx.swing.plbf.LbyfrUI} for tiis {@dodf JLbyfr}.
      *
-     * @return the {@code LayerUI} for this {@code JLayer}
+     * @rfturn tif {@dodf LbyfrUI} for tiis {@dodf JLbyfr}
      */
-    public LayerUI<? super V> getUI() {
-        return layerUI;
+    publid LbyfrUI<? supfr V> gftUI() {
+        rfturn lbyfrUI;
     }
 
     /**
-     * Returns the {@code JLayer}'s glassPane component or {@code null}.
-     * <br>This is a bound property.
+     * Rfturns tif {@dodf JLbyfr}'s glbssPbnf domponfnt or {@dodf null}.
+     * <br>Tiis is b bound propfrty.
      *
-     * @return the {@code JLayer}'s glassPane component
-     *         or {@code null} if none exists
+     * @rfturn tif {@dodf JLbyfr}'s glbssPbnf domponfnt
+     *         or {@dodf null} if nonf fxists
      *
-     * @see #setGlassPane(JPanel)
+     * @sff #sftGlbssPbnf(JPbnfl)
      */
-    public JPanel getGlassPane() {
-        return glassPane;
+    publid JPbnfl gftGlbssPbnf() {
+        rfturn glbssPbnf;
     }
 
     /**
-     * Sets the {@code JLayer}'s glassPane component, which can be {@code null}.
-     * <br>This is a bound property.
+     * Sfts tif {@dodf JLbyfr}'s glbssPbnf domponfnt, wiidi dbn bf {@dodf null}.
+     * <br>Tiis is b bound propfrty.
      *
-     * @param glassPane the glassPane component of this {@code JLayer}
+     * @pbrbm glbssPbnf tif glbssPbnf domponfnt of tiis {@dodf JLbyfr}
      *
-     * @see #getGlassPane()
+     * @sff #gftGlbssPbnf()
      */
-    public void setGlassPane(JPanel glassPane) {
-        Component oldGlassPane = getGlassPane();
-        boolean isGlassPaneVisible = false;
-        if (oldGlassPane != null) {
-            isGlassPaneVisible = oldGlassPane.isVisible();
-            super.remove(oldGlassPane);
+    publid void sftGlbssPbnf(JPbnfl glbssPbnf) {
+        Componfnt oldGlbssPbnf = gftGlbssPbnf();
+        boolfbn isGlbssPbnfVisiblf = fblsf;
+        if (oldGlbssPbnf != null) {
+            isGlbssPbnfVisiblf = oldGlbssPbnf.isVisiblf();
+            supfr.rfmovf(oldGlbssPbnf);
         }
-        if (glassPane != null) {
-            AWTAccessor.getComponentAccessor().setMixingCutoutShape(glassPane,
-                    new Rectangle());
-            glassPane.setVisible(isGlassPaneVisible);
-            super.addImpl(glassPane, null, 0);
+        if (glbssPbnf != null) {
+            AWTAddfssor.gftComponfntAddfssor().sftMixingCutoutSibpf(glbssPbnf,
+                    nfw Rfdtbnglf());
+            glbssPbnf.sftVisiblf(isGlbssPbnfVisiblf);
+            supfr.bddImpl(glbssPbnf, null, 0);
         }
-        this.glassPane = glassPane;
-        firePropertyChange("glassPane", oldGlassPane, glassPane);
-        revalidate();
-        repaint();
+        tiis.glbssPbnf = glbssPbnf;
+        firfPropfrtyCibngf("glbssPbnf", oldGlbssPbnf, glbssPbnf);
+        rfvblidbtf();
+        rfpbint();
     }
 
     /**
-     * Called by the constructor methods to create a default {@code glassPane}.
-     * By default this method creates a new JPanel with visibility set to true
-     * and opacity set to false.
+     * Cbllfd by tif donstrudtor mftiods to drfbtf b dffbult {@dodf glbssPbnf}.
+     * By dffbult tiis mftiod drfbtfs b nfw JPbnfl witi visibility sft to truf
+     * bnd opbdity sft to fblsf.
      *
-     * @return the default {@code glassPane}
+     * @rfturn tif dffbult {@dodf glbssPbnf}
      */
-    public JPanel createGlassPane() {
-        return new DefaultLayerGlassPane();
+    publid JPbnfl drfbtfGlbssPbnf() {
+        rfturn nfw DffbultLbyfrGlbssPbnf();
     }
 
     /**
-     * Sets the layout manager for this container.  This method is
-     * overridden to prevent the layout manager from being set.
-     * <p>Note:  If {@code mgr} is non-{@code null}, this
-     * method will throw an exception as layout managers are not supported on
-     * a {@code JLayer}.
+     * Sfts tif lbyout mbnbgfr for tiis dontbinfr.  Tiis mftiod is
+     * ovfrriddfn to prfvfnt tif lbyout mbnbgfr from bfing sft.
+     * <p>Notf:  If {@dodf mgr} is non-{@dodf null}, tiis
+     * mftiod will tirow bn fxdfption bs lbyout mbnbgfrs brf not supportfd on
+     * b {@dodf JLbyfr}.
      *
-     * @param mgr the specified layout manager
-     * @exception IllegalArgumentException this method is not supported
+     * @pbrbm mgr tif spfdififd lbyout mbnbgfr
+     * @fxdfption IllfgblArgumfntExdfption tiis mftiod is not supportfd
      */
-    public void setLayout(LayoutManager mgr) {
+    publid void sftLbyout(LbyoutMbnbgfr mgr) {
         if (mgr != null) {
-            throw new IllegalArgumentException("JLayer.setLayout() not supported");
+            tirow nfw IllfgblArgumfntExdfption("JLbyfr.sftLbyout() not supportfd");
         }
     }
 
     /**
-     * A non-{@code null} border, or non-zero insets, isn't supported, to prevent the geometry
-     * of this component from becoming complex enough to inhibit
-     * subclassing of {@code LayerUI} class.  To create a {@code JLayer} with a border,
-     * add it to a {@code JPanel} that has a border.
-     * <p>Note:  If {@code border} is non-{@code null}, this
-     * method will throw an exception as borders are not supported on
-     * a {@code JLayer}.
+     * A non-{@dodf null} bordfr, or non-zfro insfts, isn't supportfd, to prfvfnt tif gfomftry
+     * of tiis domponfnt from bfdoming domplfx fnougi to iniibit
+     * subdlbssing of {@dodf LbyfrUI} dlbss.  To drfbtf b {@dodf JLbyfr} witi b bordfr,
+     * bdd it to b {@dodf JPbnfl} tibt ibs b bordfr.
+     * <p>Notf:  If {@dodf bordfr} is non-{@dodf null}, tiis
+     * mftiod will tirow bn fxdfption bs bordfrs brf not supportfd on
+     * b {@dodf JLbyfr}.
      *
-     * @param border the {@code Border} to set
-     * @exception IllegalArgumentException this method is not supported
+     * @pbrbm bordfr tif {@dodf Bordfr} to sft
+     * @fxdfption IllfgblArgumfntExdfption tiis mftiod is not supportfd
      */
-    public void setBorder(Border border) {
-        if (border != null) {
-            throw new IllegalArgumentException("JLayer.setBorder() not supported");
+    publid void sftBordfr(Bordfr bordfr) {
+        if (bordfr != null) {
+            tirow nfw IllfgblArgumfntExdfption("JLbyfr.sftBordfr() not supportfd");
         }
     }
 
     /**
-     * This method is not supported by {@code JLayer}
-     * and always throws {@code UnsupportedOperationException}
+     * Tiis mftiod is not supportfd by {@dodf JLbyfr}
+     * bnd blwbys tirows {@dodf UnsupportfdOpfrbtionExdfption}
      *
-     * @throws UnsupportedOperationException this method is not supported
+     * @tirows UnsupportfdOpfrbtionExdfption tiis mftiod is not supportfd
      *
-     * @see #setView(Component)
-     * @see #setGlassPane(JPanel)
+     * @sff #sftVifw(Componfnt)
+     * @sff #sftGlbssPbnf(JPbnfl)
      */
-    protected void addImpl(Component comp, Object constraints, int index) {
-        throw new UnsupportedOperationException(
-                "Adding components to JLayer is not supported, " +
-                        "use setView() or setGlassPane() instead");
+    protfdtfd void bddImpl(Componfnt domp, Objfdt donstrbints, int indfx) {
+        tirow nfw UnsupportfdOpfrbtionExdfption(
+                "Adding domponfnts to JLbyfr is not supportfd, " +
+                        "usf sftVifw() or sftGlbssPbnf() instfbd");
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void remove(Component comp) {
-        if (comp == null) {
-            super.remove(comp);
-        } else if (comp == getView()) {
-            setView(null);
-        } else if (comp == getGlassPane()) {
-            setGlassPane(null);
-        } else {
-            super.remove(comp);
+    publid void rfmovf(Componfnt domp) {
+        if (domp == null) {
+            supfr.rfmovf(domp);
+        } flsf if (domp == gftVifw()) {
+            sftVifw(null);
+        } flsf if (domp == gftGlbssPbnf()) {
+            sftGlbssPbnf(null);
+        } flsf {
+            supfr.rfmovf(domp);
         }
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void removeAll() {
-        if (view != null) {
-            setView(null);
+    publid void rfmovfAll() {
+        if (vifw != null) {
+            sftVifw(null);
         }
-        if (glassPane != null) {
-            setGlassPane(null);
+        if (glbssPbnf != null) {
+            sftGlbssPbnf(null);
         }
     }
 
     /**
-     * Always returns {@code true} to cause painting to originate from {@code JLayer},
-     * or one of its ancestors.
+     * Alwbys rfturns {@dodf truf} to dbusf pbinting to originbtf from {@dodf JLbyfr},
+     * or onf of its bndfstors.
      *
-     * @return true
-     * @see JComponent#isPaintingOrigin()
+     * @rfturn truf
+     * @sff JComponfnt#isPbintingOrigin()
      */
-    protected boolean isPaintingOrigin() {
-        return true;
+    protfdtfd boolfbn isPbintingOrigin() {
+        rfturn truf;
     }
 
     /**
-     * Delegates its functionality to the
-     * {@link javax.swing.plaf.LayerUI#paintImmediately(int, int, int, int, JLayer)} method,
-     * if {@code LayerUI} is set.
+     * Dflfgbtfs its fundtionblity to tif
+     * {@link jbvbx.swing.plbf.LbyfrUI#pbintImmfdibtfly(int, int, int, int, JLbyfr)} mftiod,
+     * if {@dodf LbyfrUI} is sft.
      *
-     * @param x  the x value of the region to be painted
-     * @param y  the y value of the region to be painted
-     * @param w  the width of the region to be painted
-     * @param h  the height of the region to be painted
+     * @pbrbm x  tif x vbluf of tif rfgion to bf pbintfd
+     * @pbrbm y  tif y vbluf of tif rfgion to bf pbintfd
+     * @pbrbm w  tif widti of tif rfgion to bf pbintfd
+     * @pbrbm i  tif ifigit of tif rfgion to bf pbintfd
      */
-    public void paintImmediately(int x, int y, int w, int h) {
-        if (!isPaintingImmediately && getUI() != null) {
-            isPaintingImmediately = true;
+    publid void pbintImmfdibtfly(int x, int y, int w, int i) {
+        if (!isPbintingImmfdibtfly && gftUI() != null) {
+            isPbintingImmfdibtfly = truf;
             try {
-                getUI().paintImmediately(x, y, w, h, this);
-            } finally {
-                isPaintingImmediately = false;
+                gftUI().pbintImmfdibtfly(x, y, w, i, tiis);
+            } finblly {
+                isPbintingImmfdibtfly = fblsf;
             }
-        } else {
-            super.paintImmediately(x, y, w, h);
+        } flsf {
+            supfr.pbintImmfdibtfly(x, y, w, i);
         }
     }
 
     /**
-     * Delegates all painting to the {@link javax.swing.plaf.LayerUI} object.
+     * Dflfgbtfs bll pbinting to tif {@link jbvbx.swing.plbf.LbyfrUI} objfdt.
      *
-     * @param g the {@code Graphics} to render to
+     * @pbrbm g tif {@dodf Grbpiids} to rfndfr to
      */
-    public void paint(Graphics g) {
-        if (!isPainting) {
-            isPainting = true;
+    publid void pbint(Grbpiids g) {
+        if (!isPbinting) {
+            isPbinting = truf;
             try {
-                super.paintComponent(g);
-            } finally {
-                isPainting = false;
+                supfr.pbintComponfnt(g);
+            } finblly {
+                isPbinting = fblsf;
             }
-        } else {
-            super.paint(g);
+        } flsf {
+            supfr.pbint(g);
         }
     }
 
     /**
-     * This method is empty, because all painting is done by
-     * {@link #paint(Graphics)} and
-     * {@link javax.swing.plaf.LayerUI#update(Graphics, JComponent)} methods
+     * Tiis mftiod is fmpty, bfdbusf bll pbinting is donf by
+     * {@link #pbint(Grbpiids)} bnd
+     * {@link jbvbx.swing.plbf.LbyfrUI#updbtf(Grbpiids, JComponfnt)} mftiods
      */
-    protected void paintComponent(Graphics g) {
+    protfdtfd void pbintComponfnt(Grbpiids g) {
     }
 
     /**
-     * The {@code JLayer} overrides the default implementation of
-     * this method (in {@code JComponent}) to return {@code false}.
-     * This ensures
-     * that the drawing machinery will call the {@code JLayer}'s
-     * {@code paint}
-     * implementation rather than messaging the {@code JLayer}'s
-     * children directly.
+     * Tif {@dodf JLbyfr} ovfrridfs tif dffbult implfmfntbtion of
+     * tiis mftiod (in {@dodf JComponfnt}) to rfturn {@dodf fblsf}.
+     * Tiis fnsurfs
+     * tibt tif drbwing mbdiinfry will dbll tif {@dodf JLbyfr}'s
+     * {@dodf pbint}
+     * implfmfntbtion rbtifr tibn mfssbging tif {@dodf JLbyfr}'s
+     * diildrfn dirfdtly.
      *
-     * @return false
+     * @rfturn fblsf
      */
-    public boolean isOptimizedDrawingEnabled() {
-        return false;
+    publid boolfbn isOptimizfdDrbwingEnbblfd() {
+        rfturn fblsf;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    public void propertyChange(PropertyChangeEvent evt) {
-        if (getUI() != null) {
-            getUI().applyPropertyChange(evt, this);
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+        if (gftUI() != null) {
+            gftUI().bpplyPropfrtyCibngf(fvt, tiis);
         }
     }
 
     /**
-     * Enables the events from JLayer and <b>all its descendants</b>
-     * defined by the specified event mask parameter
-     * to be delivered to the
-     * {@link LayerUI#eventDispatched(AWTEvent, JLayer)} method.
+     * Enbblfs tif fvfnts from JLbyfr bnd <b>bll its dfsdfndbnts</b>
+     * dffinfd by tif spfdififd fvfnt mbsk pbrbmftfr
+     * to bf dflivfrfd to tif
+     * {@link LbyfrUI#fvfntDispbtdifd(AWTEvfnt, JLbyfr)} mftiod.
      * <p>
-     * Events are delivered provided that {@code LayerUI} is set
-     * for this {@code JLayer} and the {@code JLayer}
-     * is displayable.
+     * Evfnts brf dflivfrfd providfd tibt {@dodf LbyfrUI} is sft
+     * for tiis {@dodf JLbyfr} bnd tif {@dodf JLbyfr}
+     * is displbybblf.
      * <p>
-     * The following example shows how to correctly use this method
-     * in the {@code LayerUI} implementations:
-     * <pre>
-     *    public void installUI(JComponent c) {
-     *       super.installUI(c);
-     *       JLayer l = (JLayer) c;
-     *       // this LayerUI will receive only key and focus events
-     *       l.setLayerEventMask(AWTEvent.KEY_EVENT_MASK | AWTEvent.FOCUS_EVENT_MASK);
+     * Tif following fxbmplf siows iow to dorrfdtly usf tiis mftiod
+     * in tif {@dodf LbyfrUI} implfmfntbtions:
+     * <prf>
+     *    publid void instbllUI(JComponfnt d) {
+     *       supfr.instbllUI(d);
+     *       JLbyfr l = (JLbyfr) d;
+     *       // tiis LbyfrUI will rfdfivf only kfy bnd fodus fvfnts
+     *       l.sftLbyfrEvfntMbsk(AWTEvfnt.KEY_EVENT_MASK | AWTEvfnt.FOCUS_EVENT_MASK);
      *    }
      *
-     *    public void uninstallUI(JComponent c) {
-     *       super.uninstallUI(c);
-     *       JLayer l = (JLayer) c;
-     *       // JLayer must be returned to its initial state
-     *       l.setLayerEventMask(0);
+     *    publid void uninstbllUI(JComponfnt d) {
+     *       supfr.uninstbllUI(d);
+     *       JLbyfr l = (JLbyfr) d;
+     *       // JLbyfr must bf rfturnfd to its initibl stbtf
+     *       l.sftLbyfrEvfntMbsk(0);
      *    }
-     * </pre>
+     * </prf>
      *
-     * By default {@code JLayer} receives no events and its event mask is {@code 0}.
+     * By dffbult {@dodf JLbyfr} rfdfivfs no fvfnts bnd its fvfnt mbsk is {@dodf 0}.
      *
-     * @param layerEventMask the bitmask of event types to receive
+     * @pbrbm lbyfrEvfntMbsk tif bitmbsk of fvfnt typfs to rfdfivf
      *
-     * @see #getLayerEventMask()
-     * @see LayerUI#eventDispatched(AWTEvent, JLayer)
-     * @see Component#isDisplayable()
+     * @sff #gftLbyfrEvfntMbsk()
+     * @sff LbyfrUI#fvfntDispbtdifd(AWTEvfnt, JLbyfr)
+     * @sff Componfnt#isDisplbybblf()
      */
-    public void setLayerEventMask(long layerEventMask) {
-        long oldEventMask = getLayerEventMask();
-        this.eventMask = layerEventMask;
-        firePropertyChange("layerEventMask", oldEventMask, layerEventMask);
-        if (layerEventMask != oldEventMask) {
-            disableEvents(oldEventMask);
-            enableEvents(eventMask);
-            if (isDisplayable()) {
-                eventController.updateAWTEventListener(
-                        oldEventMask, layerEventMask);
+    publid void sftLbyfrEvfntMbsk(long lbyfrEvfntMbsk) {
+        long oldEvfntMbsk = gftLbyfrEvfntMbsk();
+        tiis.fvfntMbsk = lbyfrEvfntMbsk;
+        firfPropfrtyCibngf("lbyfrEvfntMbsk", oldEvfntMbsk, lbyfrEvfntMbsk);
+        if (lbyfrEvfntMbsk != oldEvfntMbsk) {
+            disbblfEvfnts(oldEvfntMbsk);
+            fnbblfEvfnts(fvfntMbsk);
+            if (isDisplbybblf()) {
+                fvfntControllfr.updbtfAWTEvfntListfnfr(
+                        oldEvfntMbsk, lbyfrEvfntMbsk);
             }
         }
     }
 
     /**
-     * Returns the bitmap of event mask to receive by this {@code JLayer}
-     * and its {@code LayerUI}.
+     * Rfturns tif bitmbp of fvfnt mbsk to rfdfivf by tiis {@dodf JLbyfr}
+     * bnd its {@dodf LbyfrUI}.
      * <p>
-     * It means that {@link javax.swing.plaf.LayerUI#eventDispatched(AWTEvent, JLayer)} method
-     * will only receive events that match the event mask.
+     * It mfbns tibt {@link jbvbx.swing.plbf.LbyfrUI#fvfntDispbtdifd(AWTEvfnt, JLbyfr)} mftiod
+     * will only rfdfivf fvfnts tibt mbtdi tif fvfnt mbsk.
      * <p>
-     * By default {@code JLayer} receives no events.
+     * By dffbult {@dodf JLbyfr} rfdfivfs no fvfnts.
      *
-     * @return the bitmask of event types to receive for this {@code JLayer}
+     * @rfturn tif bitmbsk of fvfnt typfs to rfdfivf for tiis {@dodf JLbyfr}
      */
-    public long getLayerEventMask() {
-        return eventMask;
+    publid long gftLbyfrEvfntMbsk() {
+        rfturn fvfntMbsk;
     }
 
     /**
-     * Delegates its functionality to the {@link javax.swing.plaf.LayerUI#updateUI(JLayer)} method,
-     * if {@code LayerUI} is set.
+     * Dflfgbtfs its fundtionblity to tif {@link jbvbx.swing.plbf.LbyfrUI#updbtfUI(JLbyfr)} mftiod,
+     * if {@dodf LbyfrUI} is sft.
      */
-    public void updateUI() {
-        if (getUI() != null) {
-            getUI().updateUI(this);
+    publid void updbtfUI() {
+        if (gftUI() != null) {
+            gftUI().updbtfUI(tiis);
         }
     }
 
     /**
-     * Returns the preferred size of the viewport for a view component.
+     * Rfturns tif prfffrrfd sizf of tif vifwport for b vifw domponfnt.
      * <p>
-     * If the view component of this layer implements {@link Scrollable}, this method delegates its
-     * implementation to the view component.
+     * If tif vifw domponfnt of tiis lbyfr implfmfnts {@link Sdrollbblf}, tiis mftiod dflfgbtfs its
+     * implfmfntbtion to tif vifw domponfnt.
      *
-     * @return the preferred size of the viewport for a view component
+     * @rfturn tif prfffrrfd sizf of tif vifwport for b vifw domponfnt
      *
-     * @see Scrollable
+     * @sff Sdrollbblf
      */
-    public Dimension getPreferredScrollableViewportSize() {
-        if (getView() instanceof Scrollable) {
-            return ((Scrollable)getView()).getPreferredScrollableViewportSize();
+    publid Dimfnsion gftPrfffrrfdSdrollbblfVifwportSizf() {
+        if (gftVifw() instbndfof Sdrollbblf) {
+            rfturn ((Sdrollbblf)gftVifw()).gftPrfffrrfdSdrollbblfVifwportSizf();
         }
-        return getPreferredSize();
+        rfturn gftPrfffrrfdSizf();
     }
 
     /**
-     * Returns a scroll increment, which is required for components
-     * that display logical rows or columns in order to completely expose
-     * one block of rows or columns, depending on the value of orientation.
+     * Rfturns b sdroll indrfmfnt, wiidi is rfquirfd for domponfnts
+     * tibt displby logidbl rows or dolumns in ordfr to domplftfly fxposf
+     * onf blodk of rows or dolumns, dfpfnding on tif vbluf of orifntbtion.
      * <p>
-     * If the view component of this layer implements {@link Scrollable}, this method delegates its
-     * implementation to the view component.
+     * If tif vifw domponfnt of tiis lbyfr implfmfnts {@link Sdrollbblf}, tiis mftiod dflfgbtfs its
+     * implfmfntbtion to tif vifw domponfnt.
      *
-     * @return the "block" increment for scrolling in the specified direction
+     * @rfturn tif "blodk" indrfmfnt for sdrolling in tif spfdififd dirfdtion
      *
-     * @see Scrollable
+     * @sff Sdrollbblf
      */
-    public int getScrollableBlockIncrement(Rectangle visibleRect,
-                                           int orientation, int direction) {
-        if (getView() instanceof Scrollable) {
-            return ((Scrollable)getView()).getScrollableBlockIncrement(visibleRect,
-                    orientation, direction);
+    publid int gftSdrollbblfBlodkIndrfmfnt(Rfdtbnglf visiblfRfdt,
+                                           int orifntbtion, int dirfdtion) {
+        if (gftVifw() instbndfof Sdrollbblf) {
+            rfturn ((Sdrollbblf)gftVifw()).gftSdrollbblfBlodkIndrfmfnt(visiblfRfdt,
+                    orifntbtion, dirfdtion);
         }
-        return (orientation == SwingConstants.VERTICAL) ? visibleRect.height :
-                visibleRect.width;
+        rfturn (orifntbtion == SwingConstbnts.VERTICAL) ? visiblfRfdt.ifigit :
+                visiblfRfdt.widti;
     }
 
     /**
-     * Returns {@code false} to indicate that the height of the viewport does not
-     * determine the height of the layer, unless the preferred height
-     * of the layer is smaller than the height of the viewport.
+     * Rfturns {@dodf fblsf} to indidbtf tibt tif ifigit of tif vifwport dofs not
+     * dftfrminf tif ifigit of tif lbyfr, unlfss tif prfffrrfd ifigit
+     * of tif lbyfr is smbllfr tibn tif ifigit of tif vifwport.
      * <p>
-     * If the view component of this layer implements {@link Scrollable}, this method delegates its
-     * implementation to the view component.
+     * If tif vifw domponfnt of tiis lbyfr implfmfnts {@link Sdrollbblf}, tiis mftiod dflfgbtfs its
+     * implfmfntbtion to tif vifw domponfnt.
      *
-     * @return whether the layer should track the height of the viewport
+     * @rfturn wiftifr tif lbyfr siould trbdk tif ifigit of tif vifwport
      *
-     * @see Scrollable
+     * @sff Sdrollbblf
      */
-    public boolean getScrollableTracksViewportHeight() {
-        if (getView() instanceof Scrollable) {
-            return ((Scrollable)getView()).getScrollableTracksViewportHeight();
+    publid boolfbn gftSdrollbblfTrbdksVifwportHfigit() {
+        if (gftVifw() instbndfof Sdrollbblf) {
+            rfturn ((Sdrollbblf)gftVifw()).gftSdrollbblfTrbdksVifwportHfigit();
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns {@code false} to indicate that the width of the viewport does not
-     * determine the width of the layer, unless the preferred width
-     * of the layer is smaller than the width of the viewport.
+     * Rfturns {@dodf fblsf} to indidbtf tibt tif widti of tif vifwport dofs not
+     * dftfrminf tif widti of tif lbyfr, unlfss tif prfffrrfd widti
+     * of tif lbyfr is smbllfr tibn tif widti of tif vifwport.
      * <p>
-     * If the view component of this layer implements {@link Scrollable}, this method delegates its
-     * implementation to the view component.
+     * If tif vifw domponfnt of tiis lbyfr implfmfnts {@link Sdrollbblf}, tiis mftiod dflfgbtfs its
+     * implfmfntbtion to tif vifw domponfnt.
      *
-     * @return whether the layer should track the width of the viewport
+     * @rfturn wiftifr tif lbyfr siould trbdk tif widti of tif vifwport
      *
-     * @see Scrollable
+     * @sff Sdrollbblf
      */
-    public boolean getScrollableTracksViewportWidth() {
-        if (getView() instanceof Scrollable) {
-            return ((Scrollable)getView()).getScrollableTracksViewportWidth();
+    publid boolfbn gftSdrollbblfTrbdksVifwportWidti() {
+        if (gftVifw() instbndfof Sdrollbblf) {
+            rfturn ((Sdrollbblf)gftVifw()).gftSdrollbblfTrbdksVifwportWidti();
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a scroll increment, which is required for components
-     * that display logical rows or columns in order to completely expose
-     * one new row or column, depending on the value of orientation.
-     * Ideally, components should handle a partially exposed row or column
-     * by returning the distance required to completely expose the item.
+     * Rfturns b sdroll indrfmfnt, wiidi is rfquirfd for domponfnts
+     * tibt displby logidbl rows or dolumns in ordfr to domplftfly fxposf
+     * onf nfw row or dolumn, dfpfnding on tif vbluf of orifntbtion.
+     * Idfblly, domponfnts siould ibndlf b pbrtiblly fxposfd row or dolumn
+     * by rfturning tif distbndf rfquirfd to domplftfly fxposf tif itfm.
      * <p>
-     * Scrolling containers, like {@code JScrollPane}, will use this method
-     * each time the user requests a unit scroll.
+     * Sdrolling dontbinfrs, likf {@dodf JSdrollPbnf}, will usf tiis mftiod
+     * fbdi timf tif usfr rfqufsts b unit sdroll.
      * <p>
-     * If the view component of this layer implements {@link Scrollable}, this method delegates its
-     * implementation to the view component.
+     * If tif vifw domponfnt of tiis lbyfr implfmfnts {@link Sdrollbblf}, tiis mftiod dflfgbtfs its
+     * implfmfntbtion to tif vifw domponfnt.
      *
-     * @return The "unit" increment for scrolling in the specified direction.
-     *         This value should always be positive.
+     * @rfturn Tif "unit" indrfmfnt for sdrolling in tif spfdififd dirfdtion.
+     *         Tiis vbluf siould blwbys bf positivf.
      *
-     * @see Scrollable
+     * @sff Sdrollbblf
      */
-    public int getScrollableUnitIncrement(Rectangle visibleRect, int orientation,
-                                          int direction) {
-        if (getView() instanceof Scrollable) {
-            return ((Scrollable) getView()).getScrollableUnitIncrement(
-                    visibleRect, orientation, direction);
+    publid int gftSdrollbblfUnitIndrfmfnt(Rfdtbnglf visiblfRfdt, int orifntbtion,
+                                          int dirfdtion) {
+        if (gftVifw() instbndfof Sdrollbblf) {
+            rfturn ((Sdrollbblf) gftVifw()).gftSdrollbblfUnitIndrfmfnt(
+                    visiblfRfdt, orifntbtion, dirfdtion);
         }
-        return 1;
+        rfturn 1;
     }
 
-    private void readObject(ObjectInputStream s)
-            throws IOException, ClassNotFoundException {
-        s.defaultReadObject();
-        if (layerUI != null) {
-            setUI(layerUI);
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+        if (lbyfrUI != null) {
+            sftUI(lbyfrUI);
         }
-        if (eventMask != 0) {
-            eventController.updateAWTEventListener(0, eventMask);
-        }
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void addNotify() {
-        super.addNotify();
-        eventController.updateAWTEventListener(0, eventMask);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public void removeNotify() {
-        super.removeNotify();
-        eventController.updateAWTEventListener(eventMask, 0);
-    }
-
-    /**
-     * Delegates its functionality to the {@link javax.swing.plaf.LayerUI#doLayout(JLayer)} method,
-     * if {@code LayerUI} is set.
-     */
-    public void doLayout() {
-        if (getUI() != null) {
-            getUI().doLayout(this);
+        if (fvfntMbsk != 0) {
+            fvfntControllfr.updbtfAWTEvfntListfnfr(0, fvfntMbsk);
         }
     }
 
     /**
-     * Gets the AccessibleContext associated with this {@code JLayer}.
+     * {@inifritDod}
+     */
+    publid void bddNotify() {
+        supfr.bddNotify();
+        fvfntControllfr.updbtfAWTEvfntListfnfr(0, fvfntMbsk);
+    }
+
+    /**
+     * {@inifritDod}
+     */
+    publid void rfmovfNotify() {
+        supfr.rfmovfNotify();
+        fvfntControllfr.updbtfAWTEvfntListfnfr(fvfntMbsk, 0);
+    }
+
+    /**
+     * Dflfgbtfs its fundtionblity to tif {@link jbvbx.swing.plbf.LbyfrUI#doLbyout(JLbyfr)} mftiod,
+     * if {@dodf LbyfrUI} is sft.
+     */
+    publid void doLbyout() {
+        if (gftUI() != null) {
+            gftUI().doLbyout(tiis);
+        }
+    }
+
+    /**
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis {@dodf JLbyfr}.
      *
-     * @return the AccessibleContext associated with this {@code JLayer}.
+     * @rfturn tif AddfssiblfContfxt bssodibtfd witi tiis {@dodf JLbyfr}.
      */
-    @SuppressWarnings("serial") // anonymous class
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJComponent() {
-                public AccessibleRole getAccessibleRole() {
-                    return AccessibleRole.PANEL;
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJComponfnt() {
+                publid AddfssiblfRolf gftAddfssiblfRolf() {
+                    rfturn AddfssiblfRolf.PANEL;
                 }
             };
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * static AWTEventListener to be shared with all AbstractLayerUIs
+     * stbtid AWTEvfntListfnfr to bf sibrfd witi bll AbstrbdtLbyfrUIs
      */
-    private static class LayerEventController implements AWTEventListener {
-        private ArrayList<Long> layerMaskList =
-                new ArrayList<Long>();
+    privbtf stbtid dlbss LbyfrEvfntControllfr implfmfnts AWTEvfntListfnfr {
+        privbtf ArrbyList<Long> lbyfrMbskList =
+                nfw ArrbyList<Long>();
 
-        private long currentEventMask;
+        privbtf long durrfntEvfntMbsk;
 
-        private static final long ACCEPTED_EVENTS =
-                AWTEvent.COMPONENT_EVENT_MASK |
-                        AWTEvent.CONTAINER_EVENT_MASK |
-                        AWTEvent.FOCUS_EVENT_MASK |
-                        AWTEvent.KEY_EVENT_MASK |
-                        AWTEvent.MOUSE_WHEEL_EVENT_MASK |
-                        AWTEvent.MOUSE_MOTION_EVENT_MASK |
-                        AWTEvent.MOUSE_EVENT_MASK |
-                        AWTEvent.INPUT_METHOD_EVENT_MASK |
-                        AWTEvent.HIERARCHY_EVENT_MASK |
-                        AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK;
+        privbtf stbtid finbl long ACCEPTED_EVENTS =
+                AWTEvfnt.COMPONENT_EVENT_MASK |
+                        AWTEvfnt.CONTAINER_EVENT_MASK |
+                        AWTEvfnt.FOCUS_EVENT_MASK |
+                        AWTEvfnt.KEY_EVENT_MASK |
+                        AWTEvfnt.MOUSE_WHEEL_EVENT_MASK |
+                        AWTEvfnt.MOUSE_MOTION_EVENT_MASK |
+                        AWTEvfnt.MOUSE_EVENT_MASK |
+                        AWTEvfnt.INPUT_METHOD_EVENT_MASK |
+                        AWTEvfnt.HIERARCHY_EVENT_MASK |
+                        AWTEvfnt.HIERARCHY_BOUNDS_EVENT_MASK;
 
-        @SuppressWarnings({"unchecked", "rawtypes"})
-        public void eventDispatched(AWTEvent event) {
-            Object source = event.getSource();
-            if (source instanceof Component) {
-                Component component = (Component) source;
-                while (component != null) {
-                    if (component instanceof JLayer) {
-                        JLayer l = (JLayer) component;
-                        LayerUI<?> ui = l.getUI();
+        @SupprfssWbrnings({"undifdkfd", "rbwtypfs"})
+        publid void fvfntDispbtdifd(AWTEvfnt fvfnt) {
+            Objfdt sourdf = fvfnt.gftSourdf();
+            if (sourdf instbndfof Componfnt) {
+                Componfnt domponfnt = (Componfnt) sourdf;
+                wiilf (domponfnt != null) {
+                    if (domponfnt instbndfof JLbyfr) {
+                        JLbyfr l = (JLbyfr) domponfnt;
+                        LbyfrUI<?> ui = l.gftUI();
                         if (ui != null &&
-                                isEventEnabled(l.getLayerEventMask(), event.getID()) &&
-                                (!(event instanceof InputEvent) || !((InputEvent)event).isConsumed())) {
-                            ui.eventDispatched(event, l);
+                                isEvfntEnbblfd(l.gftLbyfrEvfntMbsk(), fvfnt.gftID()) &&
+                                (!(fvfnt instbndfof InputEvfnt) || !((InputEvfnt)fvfnt).isConsumfd())) {
+                            ui.fvfntDispbtdifd(fvfnt, l);
                         }
                     }
-                    component = component.getParent();
+                    domponfnt = domponfnt.gftPbrfnt();
                 }
             }
         }
 
-        private void updateAWTEventListener(long oldEventMask, long newEventMask) {
-            if (oldEventMask != 0) {
-                layerMaskList.remove(oldEventMask);
+        privbtf void updbtfAWTEvfntListfnfr(long oldEvfntMbsk, long nfwEvfntMbsk) {
+            if (oldEvfntMbsk != 0) {
+                lbyfrMbskList.rfmovf(oldEvfntMbsk);
             }
-            if (newEventMask != 0) {
-                layerMaskList.add(newEventMask);
+            if (nfwEvfntMbsk != 0) {
+                lbyfrMbskList.bdd(nfwEvfntMbsk);
             }
-            long combinedMask = 0;
-            for (Long mask : layerMaskList) {
-                combinedMask |= mask;
+            long dombinfdMbsk = 0;
+            for (Long mbsk : lbyfrMbskList) {
+                dombinfdMbsk |= mbsk;
             }
-            // filter out all unaccepted events
-            combinedMask &= ACCEPTED_EVENTS;
-            if (combinedMask == 0) {
-                removeAWTEventListener();
-            } else if (getCurrentEventMask() != combinedMask) {
-                removeAWTEventListener();
-                addAWTEventListener(combinedMask);
+            // filtfr out bll unbddfptfd fvfnts
+            dombinfdMbsk &= ACCEPTED_EVENTS;
+            if (dombinfdMbsk == 0) {
+                rfmovfAWTEvfntListfnfr();
+            } flsf if (gftCurrfntEvfntMbsk() != dombinfdMbsk) {
+                rfmovfAWTEvfntListfnfr();
+                bddAWTEvfntListfnfr(dombinfdMbsk);
             }
-            currentEventMask = combinedMask;
+            durrfntEvfntMbsk = dombinfdMbsk;
         }
 
-        private long getCurrentEventMask() {
-            return currentEventMask;
+        privbtf long gftCurrfntEvfntMbsk() {
+            rfturn durrfntEvfntMbsk;
         }
 
-        private void addAWTEventListener(final long eventMask) {
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                public Void run() {
-                    Toolkit.getDefaultToolkit().
-                            addAWTEventListener(LayerEventController.this, eventMask);
-                    return null;
-                }
-            });
-
-        }
-
-        private void removeAWTEventListener() {
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                public Void run() {
-                    Toolkit.getDefaultToolkit().
-                            removeAWTEventListener(LayerEventController.this);
-                    return null;
+        privbtf void bddAWTEvfntListfnfr(finbl long fvfntMbsk) {
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Toolkit.gftDffbultToolkit().
+                            bddAWTEvfntListfnfr(LbyfrEvfntControllfr.tiis, fvfntMbsk);
+                    rfturn null;
                 }
             });
+
         }
 
-        private boolean isEventEnabled(long eventMask, int id) {
-            return (((eventMask & AWTEvent.COMPONENT_EVENT_MASK) != 0 &&
-                    id >= ComponentEvent.COMPONENT_FIRST &&
-                    id <= ComponentEvent.COMPONENT_LAST)
-                    || ((eventMask & AWTEvent.CONTAINER_EVENT_MASK) != 0 &&
-                    id >= ContainerEvent.CONTAINER_FIRST &&
-                    id <= ContainerEvent.CONTAINER_LAST)
-                    || ((eventMask & AWTEvent.FOCUS_EVENT_MASK) != 0 &&
-                    id >= FocusEvent.FOCUS_FIRST &&
-                    id <= FocusEvent.FOCUS_LAST)
-                    || ((eventMask & AWTEvent.KEY_EVENT_MASK) != 0 &&
-                    id >= KeyEvent.KEY_FIRST &&
-                    id <= KeyEvent.KEY_LAST)
-                    || ((eventMask & AWTEvent.MOUSE_WHEEL_EVENT_MASK) != 0 &&
-                    id == MouseEvent.MOUSE_WHEEL)
-                    || ((eventMask & AWTEvent.MOUSE_MOTION_EVENT_MASK) != 0 &&
-                    (id == MouseEvent.MOUSE_MOVED ||
-                            id == MouseEvent.MOUSE_DRAGGED))
-                    || ((eventMask & AWTEvent.MOUSE_EVENT_MASK) != 0 &&
-                    id != MouseEvent.MOUSE_MOVED &&
-                    id != MouseEvent.MOUSE_DRAGGED &&
-                    id != MouseEvent.MOUSE_WHEEL &&
-                    id >= MouseEvent.MOUSE_FIRST &&
-                    id <= MouseEvent.MOUSE_LAST)
-                    || ((eventMask & AWTEvent.INPUT_METHOD_EVENT_MASK) != 0 &&
-                    id >= InputMethodEvent.INPUT_METHOD_FIRST &&
-                    id <= InputMethodEvent.INPUT_METHOD_LAST)
-                    || ((eventMask & AWTEvent.HIERARCHY_EVENT_MASK) != 0 &&
-                    id == HierarchyEvent.HIERARCHY_CHANGED)
-                    || ((eventMask & AWTEvent.HIERARCHY_BOUNDS_EVENT_MASK) != 0 &&
-                    (id == HierarchyEvent.ANCESTOR_MOVED ||
-                            id == HierarchyEvent.ANCESTOR_RESIZED)));
+        privbtf void rfmovfAWTEvfntListfnfr() {
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Toolkit.gftDffbultToolkit().
+                            rfmovfAWTEvfntListfnfr(LbyfrEvfntControllfr.tiis);
+                    rfturn null;
+                }
+            });
+        }
+
+        privbtf boolfbn isEvfntEnbblfd(long fvfntMbsk, int id) {
+            rfturn (((fvfntMbsk & AWTEvfnt.COMPONENT_EVENT_MASK) != 0 &&
+                    id >= ComponfntEvfnt.COMPONENT_FIRST &&
+                    id <= ComponfntEvfnt.COMPONENT_LAST)
+                    || ((fvfntMbsk & AWTEvfnt.CONTAINER_EVENT_MASK) != 0 &&
+                    id >= ContbinfrEvfnt.CONTAINER_FIRST &&
+                    id <= ContbinfrEvfnt.CONTAINER_LAST)
+                    || ((fvfntMbsk & AWTEvfnt.FOCUS_EVENT_MASK) != 0 &&
+                    id >= FodusEvfnt.FOCUS_FIRST &&
+                    id <= FodusEvfnt.FOCUS_LAST)
+                    || ((fvfntMbsk & AWTEvfnt.KEY_EVENT_MASK) != 0 &&
+                    id >= KfyEvfnt.KEY_FIRST &&
+                    id <= KfyEvfnt.KEY_LAST)
+                    || ((fvfntMbsk & AWTEvfnt.MOUSE_WHEEL_EVENT_MASK) != 0 &&
+                    id == MousfEvfnt.MOUSE_WHEEL)
+                    || ((fvfntMbsk & AWTEvfnt.MOUSE_MOTION_EVENT_MASK) != 0 &&
+                    (id == MousfEvfnt.MOUSE_MOVED ||
+                            id == MousfEvfnt.MOUSE_DRAGGED))
+                    || ((fvfntMbsk & AWTEvfnt.MOUSE_EVENT_MASK) != 0 &&
+                    id != MousfEvfnt.MOUSE_MOVED &&
+                    id != MousfEvfnt.MOUSE_DRAGGED &&
+                    id != MousfEvfnt.MOUSE_WHEEL &&
+                    id >= MousfEvfnt.MOUSE_FIRST &&
+                    id <= MousfEvfnt.MOUSE_LAST)
+                    || ((fvfntMbsk & AWTEvfnt.INPUT_METHOD_EVENT_MASK) != 0 &&
+                    id >= InputMftiodEvfnt.INPUT_METHOD_FIRST &&
+                    id <= InputMftiodEvfnt.INPUT_METHOD_LAST)
+                    || ((fvfntMbsk & AWTEvfnt.HIERARCHY_EVENT_MASK) != 0 &&
+                    id == HifrbrdiyEvfnt.HIERARCHY_CHANGED)
+                    || ((fvfntMbsk & AWTEvfnt.HIERARCHY_BOUNDS_EVENT_MASK) != 0 &&
+                    (id == HifrbrdiyEvfnt.ANCESTOR_MOVED ||
+                            id == HifrbrdiyEvfnt.ANCESTOR_RESIZED)));
         }
     }
 
     /**
-     * The default glassPane for the {@link javax.swing.JLayer}.
-     * It is a subclass of {@code JPanel} which is non opaque by default.
+     * Tif dffbult glbssPbnf for tif {@link jbvbx.swing.JLbyfr}.
+     * It is b subdlbss of {@dodf JPbnfl} wiidi is non opbquf by dffbult.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    private static class DefaultLayerGlassPane extends JPanel {
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    privbtf stbtid dlbss DffbultLbyfrGlbssPbnf fxtfnds JPbnfl {
         /**
-         * Creates a new {@link DefaultLayerGlassPane}
+         * Crfbtfs b nfw {@link DffbultLbyfrGlbssPbnf}
          */
-        public DefaultLayerGlassPane() {
-            setOpaque(false);
+        publid DffbultLbyfrGlbssPbnf() {
+            sftOpbquf(fblsf);
         }
 
         /**
-         * First, implementation of this method iterates through
-         * glassPane's child components and returns {@code true}
-         * if any of them is visible and contains passed x,y point.
-         * After that it checks if no mouseListeners is attached to this component
-         * and no mouse cursor is set, then it returns {@code false},
-         * otherwise calls the super implementation of this method.
+         * First, implfmfntbtion of tiis mftiod itfrbtfs tirougi
+         * glbssPbnf's diild domponfnts bnd rfturns {@dodf truf}
+         * if bny of tifm is visiblf bnd dontbins pbssfd x,y point.
+         * Aftfr tibt it difdks if no mousfListfnfrs is bttbdifd to tiis domponfnt
+         * bnd no mousf dursor is sft, tifn it rfturns {@dodf fblsf},
+         * otifrwisf dblls tif supfr implfmfntbtion of tiis mftiod.
          *
-         * @param x the <i>x</i> coordinate of the point
-         * @param y the <i>y</i> coordinate of the point
-         * @return true if this component logically contains x,y
+         * @pbrbm x tif <i>x</i> doordinbtf of tif point
+         * @pbrbm y tif <i>y</i> doordinbtf of tif point
+         * @rfturn truf if tiis domponfnt logidblly dontbins x,y
          */
-        public boolean contains(int x, int y) {
-            for (int i = 0; i < getComponentCount(); i++) {
-                Component c = getComponent(i);
-                Point point = SwingUtilities.convertPoint(this, new Point(x, y), c);
-                if(c.isVisible() && c.contains(point)){
-                    return true;
+        publid boolfbn dontbins(int x, int y) {
+            for (int i = 0; i < gftComponfntCount(); i++) {
+                Componfnt d = gftComponfnt(i);
+                Point point = SwingUtilitifs.donvfrtPoint(tiis, nfw Point(x, y), d);
+                if(d.isVisiblf() && d.dontbins(point)){
+                    rfturn truf;
                 }
             }
-            if (getMouseListeners().length == 0
-                    && getMouseMotionListeners().length == 0
-                    && getMouseWheelListeners().length == 0
-                    && !isCursorSet()) {
-                return false;
+            if (gftMousfListfnfrs().lfngti == 0
+                    && gftMousfMotionListfnfrs().lfngti == 0
+                    && gftMousfWifflListfnfrs().lfngti == 0
+                    && !isCursorSft()) {
+                rfturn fblsf;
             }
-            return super.contains(x, y);
+            rfturn supfr.dontbins(x, y);
         }
     }
 }

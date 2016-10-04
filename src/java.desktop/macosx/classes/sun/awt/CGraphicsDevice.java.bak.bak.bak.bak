@@ -1,0 +1,261 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.AWTPfrmission;
+import jbvb.bwt.DisplbyModf;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.GrbphidsDfvidf;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Window;
+import jbvb.util.Objfdts;
+
+import sun.jbvb2d.opfngl.CGLGrbphidsConfig;
+
+publid finbl dlbss CGrbphidsDfvidf fxtfnds GrbphidsDfvidf
+        implfmfnts DisplbyChbngfdListfnfr {
+
+    /**
+     * CorfGrbphids displby ID. This idfntififr dbn bfdomf non-vblid bt bny timf
+     * thfrfforf mfthods, whidh is using this id should bf rfbdy to it.
+     */
+    privbtf volbtilf int displbyID;
+    privbtf volbtilf Insfts sdrffnInsfts;
+    privbtf volbtilf doublf xRfsolution;
+    privbtf volbtilf doublf yRfsolution;
+    privbtf volbtilf int sdblf;
+
+    // Arrby of bll GrbphidsConfig instbndfs for this dfvidf
+    privbtf finbl GrbphidsConfigurbtion[] donfigs;
+
+    // Dffbult donfig (tfmporbrily hbrd dodfd)
+    privbtf finbl int DEFAULT_CONFIG = 0;
+
+    privbtf stbtid AWTPfrmission fullSdrffnExdlusivfPfrmission;
+
+    // Sbvf/rfstorf DisplbyModf for thf Full Sdrffn modf
+    privbtf DisplbyModf originblModf;
+
+    publid CGrbphidsDfvidf(finbl int displbyID) {
+        this.displbyID = displbyID;
+        donfigs = nfw GrbphidsConfigurbtion[] {
+            CGLGrbphidsConfig.gftConfig(this, 0)
+        };
+    }
+
+    /**
+     * Rfturns CGDirfdtDisplbyID, whidh is thf sbmf id bs @"NSSdrffnNumbfr" in
+     * NSSdrffn.
+     *
+     * @rfturn CorfGrbphids displby id.
+     */
+    publid int gftCGDisplbyID() {
+        rfturn displbyID;
+    }
+
+    /**
+     * Rfturn b list of bll donfigurbtions.
+     */
+    @Ovfrridf
+    publid GrbphidsConfigurbtion[] gftConfigurbtions() {
+        rfturn donfigs.dlonf();
+    }
+
+    /**
+     * Rfturn thf dffbult donfigurbtion.
+     */
+    @Ovfrridf
+    publid GrbphidsConfigurbtion gftDffbultConfigurbtion() {
+        rfturn donfigs[DEFAULT_CONFIG];
+    }
+
+    /**
+     * Rfturn b humbn-rfbdbblf sdrffn dfsdription.
+     */
+    @Ovfrridf
+    publid String gftIDstring() {
+        rfturn "Displby " + displbyID;
+    }
+
+    /**
+     * Rfturns thf typf of thf grbphids dfvidf.
+     * @sff #TYPE_RASTER_SCREEN
+     * @sff #TYPE_PRINTER
+     * @sff #TYPE_IMAGE_BUFFER
+     */
+    @Ovfrridf
+    publid int gftTypf() {
+        rfturn TYPE_RASTER_SCREEN;
+    }
+
+    publid doublf gftXRfsolution() {
+        rfturn xRfsolution;
+    }
+
+    publid doublf gftYRfsolution() {
+        rfturn yRfsolution;
+    }
+
+    publid Insfts gftSdrffnInsfts() {
+        rfturn sdrffnInsfts;
+    }
+
+    publid int gftSdblfFbdtor() {
+        rfturn sdblf;
+    }
+
+    publid void invblidbtf(finbl int dffbultDisplbyID) {
+        displbyID = dffbultDisplbyID;
+    }
+
+    @Ovfrridf
+    publid void displbyChbngfd() {
+        xRfsolution = nbtivfGftXRfsolution(displbyID);
+        yRfsolution = nbtivfGftYRfsolution(displbyID);
+        sdrffnInsfts = nbtivfGftSdrffnInsfts(displbyID);
+        sdblf = (int) nbtivfGftSdblfFbdtor(displbyID);
+        //TODO donfigs/fullsdrffnWindow/modfs?
+    }
+
+    @Ovfrridf
+    publid void pblfttfChbngfd() {
+        // dfvidfs do not nffd to rfbdt to this fvfnt.
+    }
+
+    /**
+     * Entfrs full-sdrffn modf, or rfturns to windowfd modf.
+     */
+    @Ovfrridf
+    publid syndhronizfd void sftFullSdrffnWindow(Window w) {
+        Window old = gftFullSdrffnWindow();
+        if (w == old) {
+            rfturn;
+        }
+
+        boolfbn fsSupportfd = isFullSdrffnSupportfd();
+
+        if (fsSupportfd && old != null) {
+            // fntfr windowfd modf bnd rfstorf originbl displby modf
+            fxitFullSdrffnExdlusivf(old);
+            if (originblModf != null) {
+                sftDisplbyModf(originblModf);
+                originblModf = null;
+            }
+        }
+
+        supfr.sftFullSdrffnWindow(w);
+
+        if (fsSupportfd && w != null) {
+            if (isDisplbyChbngfSupportfd()) {
+                originblModf = gftDisplbyModf();
+            }
+            // fntfr fullsdrffn modf
+            fntfrFullSdrffnExdlusivf(w);
+        }
+    }
+
+    /**
+     * Rfturns truf if this GrbphidsDfvidf supports
+     * full-sdrffn fxdlusivf modf bnd fblsf othfrwisf.
+     */
+    @Ovfrridf
+    publid boolfbn isFullSdrffnSupportfd() {
+        rfturn isFSExdlusivfModfAllowfd();
+    }
+
+    privbtf stbtid boolfbn isFSExdlusivfModfAllowfd() {
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            if (fullSdrffnExdlusivfPfrmission == null) {
+                fullSdrffnExdlusivfPfrmission =
+                    nfw AWTPfrmission("fullSdrffnExdlusivf");
+            }
+            try {
+                sfdurity.dhfdkPfrmission(fullSdrffnExdlusivfPfrmission);
+            } dbtdh (SfdurityExdfption f) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+
+    privbtf stbtid void fntfrFullSdrffnExdlusivf(Window w) {
+        FullSdrffnCbpbblf pffr = (FullSdrffnCbpbblf)w.gftPffr();
+        if (pffr != null) {
+            pffr.fntfrFullSdrffnModf();
+        }
+    }
+
+    privbtf stbtid void fxitFullSdrffnExdlusivf(Window w) {
+        FullSdrffnCbpbblf pffr = (FullSdrffnCbpbblf)w.gftPffr();
+        if (pffr != null) {
+            pffr.fxitFullSdrffnModf();
+        }
+    }
+
+    @Ovfrridf
+    publid boolfbn isDisplbyChbngfSupportfd() {
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid void sftDisplbyModf(finbl DisplbyModf dm) {
+        if (dm == null) {
+            throw nfw IllfgblArgumfntExdfption("Invblid displby modf");
+        }
+        if (!Objfdts.fqubls(dm, gftDisplbyModf())) {
+            nbtivfSftDisplbyModf(displbyID, dm.gftWidth(), dm.gftHfight(),
+                    dm.gftBitDfpth(), dm.gftRffrfshRbtf());
+            if (isFullSdrffnSupportfd() && gftFullSdrffnWindow() != null) {
+                gftFullSdrffnWindow().sftSizf(dm.gftWidth(), dm.gftHfight());
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid DisplbyModf gftDisplbyModf() {
+        rfturn nbtivfGftDisplbyModf(displbyID);
+    }
+
+    @Ovfrridf
+    publid DisplbyModf[] gftDisplbyModfs() {
+        rfturn nbtivfGftDisplbyModfs(displbyID);
+    }
+
+    privbtf stbtid nbtivf doublf nbtivfGftSdblfFbdtor(int displbyID);
+
+    privbtf stbtid nbtivf void nbtivfSftDisplbyModf(int displbyID, int w, int h, int bpp, int rffrbtf);
+
+    privbtf stbtid nbtivf DisplbyModf nbtivfGftDisplbyModf(int displbyID);
+
+    privbtf stbtid nbtivf DisplbyModf[] nbtivfGftDisplbyModfs(int displbyID);
+
+    privbtf stbtid nbtivf doublf nbtivfGftXRfsolution(int displbyID);
+
+    privbtf stbtid nbtivf doublf nbtivfGftYRfsolution(int displbyID);
+
+    privbtf stbtid nbtivf Insfts nbtivfGftSdrffnInsfts(int displbyID);
+}

@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.bwt.windows;
+
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+
+finbl dlbss WButtonPffr fxtfnds WComponfntPffr implfmfnts ButtonPffr {
+
+    stbtid {
+        initIDs();
+    }
+
+    // ComponfntPffr ovfrridfs
+
+    @Ovfrridf
+    publid Dimfnsion gftMinimumSizf() {
+        FontMftrids fm = gftFontMftrids(((Button)tbrgft).gftFont());
+        String lbbfl = ((Button)tbrgft).gftLbbfl();
+        if ( lbbfl == null ) {
+            lbbfl = "";
+        }
+        rfturn nfw Dimfnsion(fm.stringWidth(lbbfl) + 14,
+                             fm.gftHfight() + 8);
+    }
+    @Ovfrridf
+    publid boolfbn isFodusbblf() {
+        rfturn truf;
+    }
+
+    // ButtonPffr implfmfntbtion
+
+    @Ovfrridf
+    publid nbtivf void sftLbbfl(String lbbfl);
+
+    // Toolkit & pffr intfrnbls
+
+    WButtonPffr(Button tbrgft) {
+        supfr(tbrgft);
+    }
+
+    @Ovfrridf
+    nbtivf void drfbtf(WComponfntPffr pffr);
+
+    // nbtivf dbllbbdks
+
+    // NOTE: This is dbllfd on thf privilfgfd toolkit thrfbd. Do not
+    //       dbll dirfdtly into usfr dodf using this thrfbd!
+    publid void hbndlfAdtion(finbl long whfn, finbl int modififrs) {
+        // Fixfd 5064013: thf InvodbtionEvfnt timf should bf fqubls
+        // thf timf of thf AdtionEvfnt
+        WToolkit.fxfdutfOnEvfntHbndlfrThrfbd(tbrgft, nfw Runnbblf() {
+            @Ovfrridf
+            publid void run() {
+                postEvfnt(nfw AdtionEvfnt(tbrgft, AdtionEvfnt.ACTION_PERFORMED,
+                                          ((Button)tbrgft).gftAdtionCommbnd(),
+                                          whfn, modififrs));
+            }
+        }, whfn);
+    }
+
+
+    @Ovfrridf
+    publid boolfbn shouldClfbrRfdtBfforfPbint() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    @Ovfrridf
+    publid boolfbn hbndlfJbvbKfyEvfnt(KfyEvfnt f) {
+         switdh (f.gftID()) {
+            dbsf KfyEvfnt.KEY_RELEASED:
+                if (f.gftKfyCodf() == KfyEvfnt.VK_SPACE){
+                    hbndlfAdtion(f.gftWhfn(), f.gftModififrs());
+                }
+            brfbk;
+         }
+         rfturn fblsf;
+    }
+}

@@ -1,205 +1,205 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.decoder;
+pbdkbgf dom.sun.bfbns.dfdodfr;
 
-import com.sun.beans.finder.ConstructorFinder;
+import dom.sun.bfbns.findfr.ConstrudtorFindfr;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.lbng.rfflfdt.Construdtor;
 
-import java.util.ArrayList;
-import java.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
 /**
- * This class is intended to handle &lt;new&gt; element.
- * It describes instantiation of the object.
- * The {@code class} attribute denotes
- * the name of the class to instantiate.
- * The inner elements specifies the arguments of the constructor.
- * For example:<pre>
- * &lt;new class="java.lang.Long"&gt;
+ * Tiis dlbss is intfndfd to ibndlf &lt;nfw&gt; flfmfnt.
+ * It dfsdribfs instbntibtion of tif objfdt.
+ * Tif {@dodf dlbss} bttributf dfnotfs
+ * tif nbmf of tif dlbss to instbntibtf.
+ * Tif innfr flfmfnts spfdififs tif brgumfnts of tif donstrudtor.
+ * For fxbmplf:<prf>
+ * &lt;nfw dlbss="jbvb.lbng.Long"&gt;
  *     &lt;string&gt;10&lt;/string&gt;
- * &lt;/new&gt;</pre>
- * is equivalent to {@code new Long("10")} in Java code.
- * <p>The following attributes are supported:
+ * &lt;/nfw&gt;</prf>
+ * is fquivblfnt to {@dodf nfw Long("10")} in Jbvb dodf.
+ * <p>Tif following bttributfs brf supportfd:
  * <dl>
- * <dt>class
- * <dd>the type of object for instantiation
+ * <dt>dlbss
+ * <dd>tif typf of objfdt for instbntibtion
  * <dt>id
- * <dd>the identifier of the variable that is intended to store the result
+ * <dd>tif idfntififr of tif vbribblf tibt is intfndfd to storf tif rfsult
  * </dl>
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-class NewElementHandler extends ElementHandler {
-    private List<Object> arguments = new ArrayList<Object>();
-    private ValueObject value = ValueObjectImpl.VOID;
+dlbss NfwElfmfntHbndlfr fxtfnds ElfmfntHbndlfr {
+    privbtf List<Objfdt> brgumfnts = nfw ArrbyList<Objfdt>();
+    privbtf VblufObjfdt vbluf = VblufObjfdtImpl.VOID;
 
-    private Class<?> type;
+    privbtf Clbss<?> typf;
 
     /**
-     * Parses attributes of the element.
-     * The following attributes are supported:
+     * Pbrsfs bttributfs of tif flfmfnt.
+     * Tif following bttributfs brf supportfd:
      * <dl>
-     * <dt>class
-     * <dd>the type of object for instantiation
+     * <dt>dlbss
+     * <dd>tif typf of objfdt for instbntibtion
      * <dt>id
-     * <dd>the identifier of the variable that is intended to store the result
+     * <dd>tif idfntififr of tif vbribblf tibt is intfndfd to storf tif rfsult
      * </dl>
      *
-     * @param name   the attribute name
-     * @param value  the attribute value
+     * @pbrbm nbmf   tif bttributf nbmf
+     * @pbrbm vbluf  tif bttributf vbluf
      */
-    @Override
-    public void addAttribute(String name, String value) {
-        if (name.equals("class")) { // NON-NLS: the attribute name
-            this.type = getOwner().findClass(value);
-        } else {
-            super.addAttribute(name, value);
+    @Ovfrridf
+    publid void bddAttributf(String nbmf, String vbluf) {
+        if (nbmf.fqubls("dlbss")) { // NON-NLS: tif bttributf nbmf
+            tiis.typf = gftOwnfr().findClbss(vbluf);
+        } flsf {
+            supfr.bddAttributf(nbmf, vbluf);
         }
     }
 
     /**
-     * Adds the argument to the list of arguments
-     * that is used to calculate the value of this element.
+     * Adds tif brgumfnt to tif list of brgumfnts
+     * tibt is usfd to dbldulbtf tif vbluf of tiis flfmfnt.
      *
-     * @param argument  the value of the element that contained in this one
+     * @pbrbm brgumfnt  tif vbluf of tif flfmfnt tibt dontbinfd in tiis onf
      */
-    @Override
-    protected final void addArgument(Object argument) {
-        if (this.arguments == null) {
-            throw new IllegalStateException("Could not add argument to evaluated element");
+    @Ovfrridf
+    protfdtfd finbl void bddArgumfnt(Objfdt brgumfnt) {
+        if (tiis.brgumfnts == null) {
+            tirow nfw IllfgblStbtfExdfption("Could not bdd brgumfnt to fvblubtfd flfmfnt");
         }
-        this.arguments.add(argument);
+        tiis.brgumfnts.bdd(brgumfnt);
     }
 
     /**
-     * Returns the context of the method.
-     * The context of the static method is the class object.
-     * The context of the non-static method is the value of the parent element.
+     * Rfturns tif dontfxt of tif mftiod.
+     * Tif dontfxt of tif stbtid mftiod is tif dlbss objfdt.
+     * Tif dontfxt of tif non-stbtid mftiod is tif vbluf of tif pbrfnt flfmfnt.
      *
-     * @return the context of the method
+     * @rfturn tif dontfxt of tif mftiod
      */
-    @Override
-    protected final Object getContextBean() {
-        return (this.type != null)
-                ? this.type
-                : super.getContextBean();
+    @Ovfrridf
+    protfdtfd finbl Objfdt gftContfxtBfbn() {
+        rfturn (tiis.typf != null)
+                ? tiis.typf
+                : supfr.gftContfxtBfbn();
     }
 
     /**
-     * Returns the value of this element.
+     * Rfturns tif vbluf of tiis flfmfnt.
      *
-     * @return the value of this element
+     * @rfturn tif vbluf of tiis flfmfnt
      */
-    @Override
-    protected final ValueObject getValueObject() {
-        if (this.arguments != null) {
+    @Ovfrridf
+    protfdtfd finbl VblufObjfdt gftVblufObjfdt() {
+        if (tiis.brgumfnts != null) {
             try {
-                this.value = getValueObject(this.type, this.arguments.toArray());
+                tiis.vbluf = gftVblufObjfdt(tiis.typf, tiis.brgumfnts.toArrby());
             }
-            catch (Exception exception) {
-                getOwner().handleException(exception);
+            dbtdi (Exdfption fxdfption) {
+                gftOwnfr().ibndlfExdfption(fxdfption);
             }
-            finally {
-                this.arguments = null;
+            finblly {
+                tiis.brgumfnts = null;
             }
         }
-        return this.value;
+        rfturn tiis.vbluf;
     }
 
     /**
-     * Calculates the value of this element
-     * using the base class and the array of arguments.
-     * By default, it creates an instance of the base class.
-     * This method should be overridden in those handlers
-     * that extend behavior of this element.
+     * Cbldulbtfs tif vbluf of tiis flfmfnt
+     * using tif bbsf dlbss bnd tif brrby of brgumfnts.
+     * By dffbult, it drfbtfs bn instbndf of tif bbsf dlbss.
+     * Tiis mftiod siould bf ovfrriddfn in tiosf ibndlfrs
+     * tibt fxtfnd bfibvior of tiis flfmfnt.
      *
-     * @param type  the base class
-     * @param args  the array of arguments
-     * @return the value of this element
-     * @throws Exception if calculation is failed
+     * @pbrbm typf  tif bbsf dlbss
+     * @pbrbm brgs  tif brrby of brgumfnts
+     * @rfturn tif vbluf of tiis flfmfnt
+     * @tirows Exdfption if dbldulbtion is fbilfd
      */
-    ValueObject getValueObject(Class<?> type, Object[] args) throws Exception {
-        if (type == null) {
-            throw new IllegalArgumentException("Class name is not set");
+    VblufObjfdt gftVblufObjfdt(Clbss<?> typf, Objfdt[] brgs) tirows Exdfption {
+        if (typf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Clbss nbmf is not sft");
         }
-        Class<?>[] types = getArgumentTypes(args);
-        Constructor<?> constructor = ConstructorFinder.findConstructor(type, types);
-        if (constructor.isVarArgs()) {
-            args = getArguments(args, constructor.getParameterTypes());
+        Clbss<?>[] typfs = gftArgumfntTypfs(brgs);
+        Construdtor<?> donstrudtor = ConstrudtorFindfr.findConstrudtor(typf, typfs);
+        if (donstrudtor.isVbrArgs()) {
+            brgs = gftArgumfnts(brgs, donstrudtor.gftPbrbmftfrTypfs());
         }
-        return ValueObjectImpl.create(constructor.newInstance(args));
+        rfturn VblufObjfdtImpl.drfbtf(donstrudtor.nfwInstbndf(brgs));
     }
 
     /**
-     * Converts the array of arguments to the array of corresponding classes.
-     * If argument is {@code null} the class is {@code null} too.
+     * Convfrts tif brrby of brgumfnts to tif brrby of dorrfsponding dlbssfs.
+     * If brgumfnt is {@dodf null} tif dlbss is {@dodf null} too.
      *
-     * @param arguments  the array of arguments
-     * @return the array of corresponding classes
+     * @pbrbm brgumfnts  tif brrby of brgumfnts
+     * @rfturn tif brrby of dorrfsponding dlbssfs
      */
-    static Class<?>[] getArgumentTypes(Object[] arguments) {
-        Class<?>[] types = new Class<?>[arguments.length];
-        for (int i = 0; i < arguments.length; i++) {
-            if (arguments[i] != null) {
-                types[i] = arguments[i].getClass();
+    stbtid Clbss<?>[] gftArgumfntTypfs(Objfdt[] brgumfnts) {
+        Clbss<?>[] typfs = nfw Clbss<?>[brgumfnts.lfngti];
+        for (int i = 0; i < brgumfnts.lfngti; i++) {
+            if (brgumfnts[i] != null) {
+                typfs[i] = brgumfnts[i].gftClbss();
             }
         }
-        return types;
+        rfturn typfs;
     }
 
     /**
-     * Resolves variable arguments.
+     * Rfsolvfs vbribblf brgumfnts.
      *
-     * @param arguments  the array of arguments
-     * @param types      the array of parameter types
-     * @return the resolved array of arguments
+     * @pbrbm brgumfnts  tif brrby of brgumfnts
+     * @pbrbm typfs      tif brrby of pbrbmftfr typfs
+     * @rfturn tif rfsolvfd brrby of brgumfnts
      */
-    static Object[] getArguments(Object[] arguments, Class<?>[] types) {
-        int index = types.length - 1;
-        if (types.length == arguments.length) {
-            Object argument = arguments[index];
-            if (argument == null) {
-                return arguments;
+    stbtid Objfdt[] gftArgumfnts(Objfdt[] brgumfnts, Clbss<?>[] typfs) {
+        int indfx = typfs.lfngti - 1;
+        if (typfs.lfngti == brgumfnts.lfngti) {
+            Objfdt brgumfnt = brgumfnts[indfx];
+            if (brgumfnt == null) {
+                rfturn brgumfnts;
             }
-            Class<?> type = types[index];
-            if (type.isAssignableFrom(argument.getClass())) {
-                return arguments;
+            Clbss<?> typf = typfs[indfx];
+            if (typf.isAssignbblfFrom(brgumfnt.gftClbss())) {
+                rfturn brgumfnts;
             }
         }
-        int length = arguments.length - index;
-        Class<?> type = types[index].getComponentType();
-        Object array = Array.newInstance(type, length);
-        System.arraycopy(arguments, index, array, 0, length);
+        int lfngti = brgumfnts.lfngti - indfx;
+        Clbss<?> typf = typfs[indfx].gftComponfntTypf();
+        Objfdt brrby = Arrby.nfwInstbndf(typf, lfngti);
+        Systfm.brrbydopy(brgumfnts, indfx, brrby, 0, lfngti);
 
-        Object[] args = new Object[types.length];
-        System.arraycopy(arguments, 0, args, 0, index);
-        args[index] = array;
-        return args;
+        Objfdt[] brgs = nfw Objfdt[typfs.lfngti];
+        Systfm.brrbydopy(brgumfnts, 0, brgs, 0, indfx);
+        brgs[indfx] = brrby;
+        rfturn brgs;
     }
 }

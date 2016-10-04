@@ -1,468 +1,468 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
 /**
- * The <code>GridLayout</code> class is a layout manager that
- * lays out a container's components in a rectangular grid.
- * The container is divided into equal-sized rectangles,
- * and one component is placed in each rectangle.
- * For example, the following is an applet that lays out six buttons
- * into three rows and two columns:
+ * Tif <dodf>GridLbyout</dodf> dlbss is b lbyout mbnbgfr tibt
+ * lbys out b dontbinfr's domponfnts in b rfdtbngulbr grid.
+ * Tif dontbinfr is dividfd into fqubl-sizfd rfdtbnglfs,
+ * bnd onf domponfnt is plbdfd in fbdi rfdtbnglf.
+ * For fxbmplf, tif following is bn bpplft tibt lbys out six buttons
+ * into tirff rows bnd two dolumns:
  *
- * <hr><blockquote>
- * <pre>
- * import java.awt.*;
- * import java.applet.Applet;
- * public class ButtonGrid extends Applet {
- *     public void init() {
- *         setLayout(new GridLayout(3,2));
- *         add(new Button("1"));
- *         add(new Button("2"));
- *         add(new Button("3"));
- *         add(new Button("4"));
- *         add(new Button("5"));
- *         add(new Button("6"));
+ * <ir><blodkquotf>
+ * <prf>
+ * import jbvb.bwt.*;
+ * import jbvb.bpplft.Applft;
+ * publid dlbss ButtonGrid fxtfnds Applft {
+ *     publid void init() {
+ *         sftLbyout(nfw GridLbyout(3,2));
+ *         bdd(nfw Button("1"));
+ *         bdd(nfw Button("2"));
+ *         bdd(nfw Button("3"));
+ *         bdd(nfw Button("4"));
+ *         bdd(nfw Button("5"));
+ *         bdd(nfw Button("6"));
  *     }
  * }
- * </pre></blockquote><hr>
+ * </prf></blodkquotf><ir>
  * <p>
- * If the container's <code>ComponentOrientation</code> property is horizontal
- * and left-to-right, the above example produces the output shown in Figure 1.
- * If the container's <code>ComponentOrientation</code> property is horizontal
- * and right-to-left, the example produces the output shown in Figure 2.
+ * If tif dontbinfr's <dodf>ComponfntOrifntbtion</dodf> propfrty is iorizontbl
+ * bnd lfft-to-rigit, tif bbovf fxbmplf produdfs tif output siown in Figurf 1.
+ * If tif dontbinfr's <dodf>ComponfntOrifntbtion</dodf> propfrty is iorizontbl
+ * bnd rigit-to-lfft, tif fxbmplf produdfs tif output siown in Figurf 2.
  *
- * <table style="float:center" WIDTH=600 summary="layout">
+ * <tbblf stylf="flobt:dfntfr" WIDTH=600 summbry="lbyout">
  * <tr ALIGN=CENTER>
- * <td><img SRC="doc-files/GridLayout-1.gif"
- *      alt="Shows 6 buttons in rows of 2. Row 1 shows buttons 1 then 2.
- * Row 2 shows buttons 3 then 4. Row 3 shows buttons 5 then 6.">
+ * <td><img SRC="dod-filfs/GridLbyout-1.gif"
+ *      blt="Siows 6 buttons in rows of 2. Row 1 siows buttons 1 tifn 2.
+ * Row 2 siows buttons 3 tifn 4. Row 3 siows buttons 5 tifn 6.">
  * </td>
  *
- * <td ALIGN=CENTER><img SRC="doc-files/GridLayout-2.gif"
- *                   alt="Shows 6 buttons in rows of 2. Row 1 shows buttons 2 then 1.
- * Row 2 shows buttons 4 then 3. Row 3 shows buttons 6 then 5.">
+ * <td ALIGN=CENTER><img SRC="dod-filfs/GridLbyout-2.gif"
+ *                   blt="Siows 6 buttons in rows of 2. Row 1 siows buttons 2 tifn 1.
+ * Row 2 siows buttons 4 tifn 3. Row 3 siows buttons 6 tifn 5.">
  * </td>
  * </tr>
  *
  * <tr ALIGN=CENTER>
- * <td>Figure 1: Horizontal, Left-to-Right</td>
+ * <td>Figurf 1: Horizontbl, Lfft-to-Rigit</td>
  *
- * <td>Figure 2: Horizontal, Right-to-Left</td>
+ * <td>Figurf 2: Horizontbl, Rigit-to-Lfft</td>
  * </tr>
- * </table>
+ * </tbblf>
  * <p>
- * When both the number of rows and the number of columns have
- * been set to non-zero values, either by a constructor or
- * by the <tt>setRows</tt> and <tt>setColumns</tt> methods, the number of
- * columns specified is ignored.  Instead, the number of
- * columns is determined from the specified number of rows
- * and the total number of components in the layout. So, for
- * example, if three rows and two columns have been specified
- * and nine components are added to the layout, they will
- * be displayed as three rows of three columns.  Specifying
- * the number of columns affects the layout only when the
- * number of rows is set to zero.
+ * Wifn boti tif numbfr of rows bnd tif numbfr of dolumns ibvf
+ * bffn sft to non-zfro vblufs, fitifr by b donstrudtor or
+ * by tif <tt>sftRows</tt> bnd <tt>sftColumns</tt> mftiods, tif numbfr of
+ * dolumns spfdififd is ignorfd.  Instfbd, tif numbfr of
+ * dolumns is dftfrminfd from tif spfdififd numbfr of rows
+ * bnd tif totbl numbfr of domponfnts in tif lbyout. So, for
+ * fxbmplf, if tirff rows bnd two dolumns ibvf bffn spfdififd
+ * bnd ninf domponfnts brf bddfd to tif lbyout, tify will
+ * bf displbyfd bs tirff rows of tirff dolumns.  Spfdifying
+ * tif numbfr of dolumns bfffdts tif lbyout only wifn tif
+ * numbfr of rows is sft to zfro.
  *
- * @author  Arthur van Hoff
- * @since   1.0
+ * @butior  Artiur vbn Hoff
+ * @sindf   1.0
  */
-public class GridLayout implements LayoutManager, java.io.Serializable {
+publid dlbss GridLbyout implfmfnts LbyoutMbnbgfr, jbvb.io.Sfriblizbblf {
     /*
-     * serialVersionUID
+     * sfriblVfrsionUID
      */
-    private static final long serialVersionUID = -7411804673224730901L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -7411804673224730901L;
 
     /**
-     * This is the horizontal gap (in pixels) which specifies the space
-     * between columns.  They can be changed at any time.
-     * This should be a non-negative integer.
+     * Tiis is tif iorizontbl gbp (in pixfls) wiidi spfdififs tif spbdf
+     * bftwffn dolumns.  Tify dbn bf dibngfd bt bny timf.
+     * Tiis siould bf b non-nfgbtivf intfgfr.
      *
-     * @serial
-     * @see #getHgap()
-     * @see #setHgap(int)
+     * @sfribl
+     * @sff #gftHgbp()
+     * @sff #sftHgbp(int)
      */
-    int hgap;
+    int igbp;
     /**
-     * This is the vertical gap (in pixels) which specifies the space
-     * between rows.  They can be changed at any time.
-     * This should be a non negative integer.
+     * Tiis is tif vfrtidbl gbp (in pixfls) wiidi spfdififs tif spbdf
+     * bftwffn rows.  Tify dbn bf dibngfd bt bny timf.
+     * Tiis siould bf b non nfgbtivf intfgfr.
      *
-     * @serial
-     * @see #getVgap()
-     * @see #setVgap(int)
+     * @sfribl
+     * @sff #gftVgbp()
+     * @sff #sftVgbp(int)
      */
-    int vgap;
+    int vgbp;
     /**
-     * This is the number of rows specified for the grid.  The number
-     * of rows can be changed at any time.
-     * This should be a non negative integer, where '0' means
-     * 'any number' meaning that the number of Rows in that
-     * dimension depends on the other dimension.
+     * Tiis is tif numbfr of rows spfdififd for tif grid.  Tif numbfr
+     * of rows dbn bf dibngfd bt bny timf.
+     * Tiis siould bf b non nfgbtivf intfgfr, wifrf '0' mfbns
+     * 'bny numbfr' mfbning tibt tif numbfr of Rows in tibt
+     * dimfnsion dfpfnds on tif otifr dimfnsion.
      *
-     * @serial
-     * @see #getRows()
-     * @see #setRows(int)
+     * @sfribl
+     * @sff #gftRows()
+     * @sff #sftRows(int)
      */
     int rows;
     /**
-     * This is the number of columns specified for the grid.  The number
-     * of columns can be changed at any time.
-     * This should be a non negative integer, where '0' means
-     * 'any number' meaning that the number of Columns in that
-     * dimension depends on the other dimension.
+     * Tiis is tif numbfr of dolumns spfdififd for tif grid.  Tif numbfr
+     * of dolumns dbn bf dibngfd bt bny timf.
+     * Tiis siould bf b non nfgbtivf intfgfr, wifrf '0' mfbns
+     * 'bny numbfr' mfbning tibt tif numbfr of Columns in tibt
+     * dimfnsion dfpfnds on tif otifr dimfnsion.
      *
-     * @serial
-     * @see #getColumns()
-     * @see #setColumns(int)
+     * @sfribl
+     * @sff #gftColumns()
+     * @sff #sftColumns(int)
      */
-    int cols;
+    int dols;
 
     /**
-     * Creates a grid layout with a default of one column per component,
-     * in a single row.
-     * @since 1.1
+     * Crfbtfs b grid lbyout witi b dffbult of onf dolumn pfr domponfnt,
+     * in b singlf row.
+     * @sindf 1.1
      */
-    public GridLayout() {
-        this(1, 0, 0, 0);
+    publid GridLbyout() {
+        tiis(1, 0, 0, 0);
     }
 
     /**
-     * Creates a grid layout with the specified number of rows and
-     * columns. All components in the layout are given equal size.
+     * Crfbtfs b grid lbyout witi tif spfdififd numbfr of rows bnd
+     * dolumns. All domponfnts in tif lbyout brf givfn fqubl sizf.
      * <p>
-     * One, but not both, of <code>rows</code> and <code>cols</code> can
-     * be zero, which means that any number of objects can be placed in a
-     * row or in a column.
-     * @param     rows   the rows, with the value zero meaning
-     *                   any number of rows.
-     * @param     cols   the columns, with the value zero meaning
-     *                   any number of columns.
+     * Onf, but not boti, of <dodf>rows</dodf> bnd <dodf>dols</dodf> dbn
+     * bf zfro, wiidi mfbns tibt bny numbfr of objfdts dbn bf plbdfd in b
+     * row or in b dolumn.
+     * @pbrbm     rows   tif rows, witi tif vbluf zfro mfbning
+     *                   bny numbfr of rows.
+     * @pbrbm     dols   tif dolumns, witi tif vbluf zfro mfbning
+     *                   bny numbfr of dolumns.
      */
-    public GridLayout(int rows, int cols) {
-        this(rows, cols, 0, 0);
+    publid GridLbyout(int rows, int dols) {
+        tiis(rows, dols, 0, 0);
     }
 
     /**
-     * Creates a grid layout with the specified number of rows and
-     * columns. All components in the layout are given equal size.
+     * Crfbtfs b grid lbyout witi tif spfdififd numbfr of rows bnd
+     * dolumns. All domponfnts in tif lbyout brf givfn fqubl sizf.
      * <p>
-     * In addition, the horizontal and vertical gaps are set to the
-     * specified values. Horizontal gaps are placed between each
-     * of the columns. Vertical gaps are placed between each of
-     * the rows.
+     * In bddition, tif iorizontbl bnd vfrtidbl gbps brf sft to tif
+     * spfdififd vblufs. Horizontbl gbps brf plbdfd bftwffn fbdi
+     * of tif dolumns. Vfrtidbl gbps brf plbdfd bftwffn fbdi of
+     * tif rows.
      * <p>
-     * One, but not both, of <code>rows</code> and <code>cols</code> can
-     * be zero, which means that any number of objects can be placed in a
-     * row or in a column.
+     * Onf, but not boti, of <dodf>rows</dodf> bnd <dodf>dols</dodf> dbn
+     * bf zfro, wiidi mfbns tibt bny numbfr of objfdts dbn bf plbdfd in b
+     * row or in b dolumn.
      * <p>
-     * All <code>GridLayout</code> constructors defer to this one.
-     * @param     rows   the rows, with the value zero meaning
-     *                   any number of rows
-     * @param     cols   the columns, with the value zero meaning
-     *                   any number of columns
-     * @param     hgap   the horizontal gap
-     * @param     vgap   the vertical gap
-     * @exception   IllegalArgumentException  if the value of both
-     *                  <code>rows</code> and <code>cols</code> is
-     *                  set to zero
+     * All <dodf>GridLbyout</dodf> donstrudtors dfffr to tiis onf.
+     * @pbrbm     rows   tif rows, witi tif vbluf zfro mfbning
+     *                   bny numbfr of rows
+     * @pbrbm     dols   tif dolumns, witi tif vbluf zfro mfbning
+     *                   bny numbfr of dolumns
+     * @pbrbm     igbp   tif iorizontbl gbp
+     * @pbrbm     vgbp   tif vfrtidbl gbp
+     * @fxdfption   IllfgblArgumfntExdfption  if tif vbluf of boti
+     *                  <dodf>rows</dodf> bnd <dodf>dols</dodf> is
+     *                  sft to zfro
      */
-    public GridLayout(int rows, int cols, int hgap, int vgap) {
-        if ((rows == 0) && (cols == 0)) {
-            throw new IllegalArgumentException("rows and cols cannot both be zero");
+    publid GridLbyout(int rows, int dols, int igbp, int vgbp) {
+        if ((rows == 0) && (dols == 0)) {
+            tirow nfw IllfgblArgumfntExdfption("rows bnd dols dbnnot boti bf zfro");
         }
-        this.rows = rows;
-        this.cols = cols;
-        this.hgap = hgap;
-        this.vgap = vgap;
+        tiis.rows = rows;
+        tiis.dols = dols;
+        tiis.igbp = igbp;
+        tiis.vgbp = vgbp;
     }
 
     /**
-     * Gets the number of rows in this layout.
-     * @return    the number of rows in this layout
-     * @since     1.1
+     * Gfts tif numbfr of rows in tiis lbyout.
+     * @rfturn    tif numbfr of rows in tiis lbyout
+     * @sindf     1.1
      */
-    public int getRows() {
-        return rows;
+    publid int gftRows() {
+        rfturn rows;
     }
 
     /**
-     * Sets the number of rows in this layout to the specified value.
-     * @param        rows   the number of rows in this layout
-     * @exception    IllegalArgumentException  if the value of both
-     *               <code>rows</code> and <code>cols</code> is set to zero
-     * @since        1.1
+     * Sfts tif numbfr of rows in tiis lbyout to tif spfdififd vbluf.
+     * @pbrbm        rows   tif numbfr of rows in tiis lbyout
+     * @fxdfption    IllfgblArgumfntExdfption  if tif vbluf of boti
+     *               <dodf>rows</dodf> bnd <dodf>dols</dodf> is sft to zfro
+     * @sindf        1.1
      */
-    public void setRows(int rows) {
-        if ((rows == 0) && (this.cols == 0)) {
-            throw new IllegalArgumentException("rows and cols cannot both be zero");
+    publid void sftRows(int rows) {
+        if ((rows == 0) && (tiis.dols == 0)) {
+            tirow nfw IllfgblArgumfntExdfption("rows bnd dols dbnnot boti bf zfro");
         }
-        this.rows = rows;
+        tiis.rows = rows;
     }
 
     /**
-     * Gets the number of columns in this layout.
-     * @return     the number of columns in this layout
-     * @since      1.1
+     * Gfts tif numbfr of dolumns in tiis lbyout.
+     * @rfturn     tif numbfr of dolumns in tiis lbyout
+     * @sindf      1.1
      */
-    public int getColumns() {
-        return cols;
+    publid int gftColumns() {
+        rfturn dols;
     }
 
     /**
-     * Sets the number of columns in this layout to the specified value.
-     * Setting the number of columns has no affect on the layout
-     * if the number of rows specified by a constructor or by
-     * the <tt>setRows</tt> method is non-zero. In that case, the number
-     * of columns displayed in the layout is determined by the total
-     * number of components and the number of rows specified.
-     * @param        cols   the number of columns in this layout
-     * @exception    IllegalArgumentException  if the value of both
-     *               <code>rows</code> and <code>cols</code> is set to zero
-     * @since        1.1
+     * Sfts tif numbfr of dolumns in tiis lbyout to tif spfdififd vbluf.
+     * Sftting tif numbfr of dolumns ibs no bfffdt on tif lbyout
+     * if tif numbfr of rows spfdififd by b donstrudtor or by
+     * tif <tt>sftRows</tt> mftiod is non-zfro. In tibt dbsf, tif numbfr
+     * of dolumns displbyfd in tif lbyout is dftfrminfd by tif totbl
+     * numbfr of domponfnts bnd tif numbfr of rows spfdififd.
+     * @pbrbm        dols   tif numbfr of dolumns in tiis lbyout
+     * @fxdfption    IllfgblArgumfntExdfption  if tif vbluf of boti
+     *               <dodf>rows</dodf> bnd <dodf>dols</dodf> is sft to zfro
+     * @sindf        1.1
      */
-    public void setColumns(int cols) {
-        if ((cols == 0) && (this.rows == 0)) {
-            throw new IllegalArgumentException("rows and cols cannot both be zero");
+    publid void sftColumns(int dols) {
+        if ((dols == 0) && (tiis.rows == 0)) {
+            tirow nfw IllfgblArgumfntExdfption("rows bnd dols dbnnot boti bf zfro");
         }
-        this.cols = cols;
+        tiis.dols = dols;
     }
 
     /**
-     * Gets the horizontal gap between components.
-     * @return       the horizontal gap between components
-     * @since        1.1
+     * Gfts tif iorizontbl gbp bftwffn domponfnts.
+     * @rfturn       tif iorizontbl gbp bftwffn domponfnts
+     * @sindf        1.1
      */
-    public int getHgap() {
-        return hgap;
+    publid int gftHgbp() {
+        rfturn igbp;
     }
 
     /**
-     * Sets the horizontal gap between components to the specified value.
-     * @param        hgap   the horizontal gap between components
-     * @since        1.1
+     * Sfts tif iorizontbl gbp bftwffn domponfnts to tif spfdififd vbluf.
+     * @pbrbm        igbp   tif iorizontbl gbp bftwffn domponfnts
+     * @sindf        1.1
      */
-    public void setHgap(int hgap) {
-        this.hgap = hgap;
+    publid void sftHgbp(int igbp) {
+        tiis.igbp = igbp;
     }
 
     /**
-     * Gets the vertical gap between components.
-     * @return       the vertical gap between components
-     * @since        1.1
+     * Gfts tif vfrtidbl gbp bftwffn domponfnts.
+     * @rfturn       tif vfrtidbl gbp bftwffn domponfnts
+     * @sindf        1.1
      */
-    public int getVgap() {
-        return vgap;
+    publid int gftVgbp() {
+        rfturn vgbp;
     }
 
     /**
-     * Sets the vertical gap between components to the specified value.
-     * @param         vgap  the vertical gap between components
-     * @since        1.1
+     * Sfts tif vfrtidbl gbp bftwffn domponfnts to tif spfdififd vbluf.
+     * @pbrbm         vgbp  tif vfrtidbl gbp bftwffn domponfnts
+     * @sindf        1.1
      */
-    public void setVgap(int vgap) {
-        this.vgap = vgap;
+    publid void sftVgbp(int vgbp) {
+        tiis.vgbp = vgbp;
     }
 
     /**
-     * Adds the specified component with the specified name to the layout.
-     * @param name the name of the component
-     * @param comp the component to be added
+     * Adds tif spfdififd domponfnt witi tif spfdififd nbmf to tif lbyout.
+     * @pbrbm nbmf tif nbmf of tif domponfnt
+     * @pbrbm domp tif domponfnt to bf bddfd
      */
-    public void addLayoutComponent(String name, Component comp) {
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
     }
 
     /**
-     * Removes the specified component from the layout.
-     * @param comp the component to be removed
+     * Rfmovfs tif spfdififd domponfnt from tif lbyout.
+     * @pbrbm domp tif domponfnt to bf rfmovfd
      */
-    public void removeLayoutComponent(Component comp) {
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
     }
 
     /**
-     * Determines the preferred size of the container argument using
-     * this grid layout.
+     * Dftfrminfs tif prfffrrfd sizf of tif dontbinfr brgumfnt using
+     * tiis grid lbyout.
      * <p>
-     * The preferred width of a grid layout is the largest preferred
-     * width of all of the components in the container times the number of
-     * columns, plus the horizontal padding times the number of columns
-     * minus one, plus the left and right insets of the target container.
+     * Tif prfffrrfd widti of b grid lbyout is tif lbrgfst prfffrrfd
+     * widti of bll of tif domponfnts in tif dontbinfr timfs tif numbfr of
+     * dolumns, plus tif iorizontbl pbdding timfs tif numbfr of dolumns
+     * minus onf, plus tif lfft bnd rigit insfts of tif tbrgft dontbinfr.
      * <p>
-     * The preferred height of a grid layout is the largest preferred
-     * height of all of the components in the container times the number of
-     * rows, plus the vertical padding times the number of rows minus one,
-     * plus the top and bottom insets of the target container.
+     * Tif prfffrrfd ifigit of b grid lbyout is tif lbrgfst prfffrrfd
+     * ifigit of bll of tif domponfnts in tif dontbinfr timfs tif numbfr of
+     * rows, plus tif vfrtidbl pbdding timfs tif numbfr of rows minus onf,
+     * plus tif top bnd bottom insfts of tif tbrgft dontbinfr.
      *
-     * @param     parent   the container in which to do the layout
-     * @return    the preferred dimensions to lay out the
-     *                      subcomponents of the specified container
-     * @see       java.awt.GridLayout#minimumLayoutSize
-     * @see       java.awt.Container#getPreferredSize()
+     * @pbrbm     pbrfnt   tif dontbinfr in wiidi to do tif lbyout
+     * @rfturn    tif prfffrrfd dimfnsions to lby out tif
+     *                      subdomponfnts of tif spfdififd dontbinfr
+     * @sff       jbvb.bwt.GridLbyout#minimumLbyoutSizf
+     * @sff       jbvb.bwt.Contbinfr#gftPrfffrrfdSizf()
      */
-    public Dimension preferredLayoutSize(Container parent) {
-      synchronized (parent.getTreeLock()) {
-        Insets insets = parent.getInsets();
-        int ncomponents = parent.getComponentCount();
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+      syndironizfd (pbrfnt.gftTrffLodk()) {
+        Insfts insfts = pbrfnt.gftInsfts();
+        int ndomponfnts = pbrfnt.gftComponfntCount();
         int nrows = rows;
-        int ncols = cols;
+        int ndols = dols;
 
         if (nrows > 0) {
-            ncols = (ncomponents + nrows - 1) / nrows;
-        } else {
-            nrows = (ncomponents + ncols - 1) / ncols;
+            ndols = (ndomponfnts + nrows - 1) / nrows;
+        } flsf {
+            nrows = (ndomponfnts + ndols - 1) / ndols;
         }
         int w = 0;
-        int h = 0;
-        for (int i = 0 ; i < ncomponents ; i++) {
-            Component comp = parent.getComponent(i);
-            Dimension d = comp.getPreferredSize();
-            if (w < d.width) {
-                w = d.width;
+        int i = 0;
+        for (int i = 0 ; i < ndomponfnts ; i++) {
+            Componfnt domp = pbrfnt.gftComponfnt(i);
+            Dimfnsion d = domp.gftPrfffrrfdSizf();
+            if (w < d.widti) {
+                w = d.widti;
             }
-            if (h < d.height) {
-                h = d.height;
+            if (i < d.ifigit) {
+                i = d.ifigit;
             }
         }
-        return new Dimension(insets.left + insets.right + ncols*w + (ncols-1)*hgap,
-                             insets.top + insets.bottom + nrows*h + (nrows-1)*vgap);
+        rfturn nfw Dimfnsion(insfts.lfft + insfts.rigit + ndols*w + (ndols-1)*igbp,
+                             insfts.top + insfts.bottom + nrows*i + (nrows-1)*vgbp);
       }
     }
 
     /**
-     * Determines the minimum size of the container argument using this
-     * grid layout.
+     * Dftfrminfs tif minimum sizf of tif dontbinfr brgumfnt using tiis
+     * grid lbyout.
      * <p>
-     * The minimum width of a grid layout is the largest minimum width
-     * of all of the components in the container times the number of columns,
-     * plus the horizontal padding times the number of columns minus one,
-     * plus the left and right insets of the target container.
+     * Tif minimum widti of b grid lbyout is tif lbrgfst minimum widti
+     * of bll of tif domponfnts in tif dontbinfr timfs tif numbfr of dolumns,
+     * plus tif iorizontbl pbdding timfs tif numbfr of dolumns minus onf,
+     * plus tif lfft bnd rigit insfts of tif tbrgft dontbinfr.
      * <p>
-     * The minimum height of a grid layout is the largest minimum height
-     * of all of the components in the container times the number of rows,
-     * plus the vertical padding times the number of rows minus one, plus
-     * the top and bottom insets of the target container.
+     * Tif minimum ifigit of b grid lbyout is tif lbrgfst minimum ifigit
+     * of bll of tif domponfnts in tif dontbinfr timfs tif numbfr of rows,
+     * plus tif vfrtidbl pbdding timfs tif numbfr of rows minus onf, plus
+     * tif top bnd bottom insfts of tif tbrgft dontbinfr.
      *
-     * @param       parent   the container in which to do the layout
-     * @return      the minimum dimensions needed to lay out the
-     *                      subcomponents of the specified container
-     * @see         java.awt.GridLayout#preferredLayoutSize
-     * @see         java.awt.Container#doLayout
+     * @pbrbm       pbrfnt   tif dontbinfr in wiidi to do tif lbyout
+     * @rfturn      tif minimum dimfnsions nffdfd to lby out tif
+     *                      subdomponfnts of tif spfdififd dontbinfr
+     * @sff         jbvb.bwt.GridLbyout#prfffrrfdLbyoutSizf
+     * @sff         jbvb.bwt.Contbinfr#doLbyout
      */
-    public Dimension minimumLayoutSize(Container parent) {
-      synchronized (parent.getTreeLock()) {
-        Insets insets = parent.getInsets();
-        int ncomponents = parent.getComponentCount();
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+      syndironizfd (pbrfnt.gftTrffLodk()) {
+        Insfts insfts = pbrfnt.gftInsfts();
+        int ndomponfnts = pbrfnt.gftComponfntCount();
         int nrows = rows;
-        int ncols = cols;
+        int ndols = dols;
 
         if (nrows > 0) {
-            ncols = (ncomponents + nrows - 1) / nrows;
-        } else {
-            nrows = (ncomponents + ncols - 1) / ncols;
+            ndols = (ndomponfnts + nrows - 1) / nrows;
+        } flsf {
+            nrows = (ndomponfnts + ndols - 1) / ndols;
         }
         int w = 0;
-        int h = 0;
-        for (int i = 0 ; i < ncomponents ; i++) {
-            Component comp = parent.getComponent(i);
-            Dimension d = comp.getMinimumSize();
-            if (w < d.width) {
-                w = d.width;
+        int i = 0;
+        for (int i = 0 ; i < ndomponfnts ; i++) {
+            Componfnt domp = pbrfnt.gftComponfnt(i);
+            Dimfnsion d = domp.gftMinimumSizf();
+            if (w < d.widti) {
+                w = d.widti;
             }
-            if (h < d.height) {
-                h = d.height;
+            if (i < d.ifigit) {
+                i = d.ifigit;
             }
         }
-        return new Dimension(insets.left + insets.right + ncols*w + (ncols-1)*hgap,
-                             insets.top + insets.bottom + nrows*h + (nrows-1)*vgap);
+        rfturn nfw Dimfnsion(insfts.lfft + insfts.rigit + ndols*w + (ndols-1)*igbp,
+                             insfts.top + insfts.bottom + nrows*i + (nrows-1)*vgbp);
       }
     }
 
     /**
-     * Lays out the specified container using this layout.
+     * Lbys out tif spfdififd dontbinfr using tiis lbyout.
      * <p>
-     * This method reshapes the components in the specified target
-     * container in order to satisfy the constraints of the
-     * <code>GridLayout</code> object.
+     * Tiis mftiod rfsibpfs tif domponfnts in tif spfdififd tbrgft
+     * dontbinfr in ordfr to sbtisfy tif donstrbints of tif
+     * <dodf>GridLbyout</dodf> objfdt.
      * <p>
-     * The grid layout manager determines the size of individual
-     * components by dividing the free space in the container into
-     * equal-sized portions according to the number of rows and columns
-     * in the layout. The container's free space equals the container's
-     * size minus any insets and any specified horizontal or vertical
-     * gap. All components in a grid layout are given the same size.
+     * Tif grid lbyout mbnbgfr dftfrminfs tif sizf of individubl
+     * domponfnts by dividing tif frff spbdf in tif dontbinfr into
+     * fqubl-sizfd portions bddording to tif numbfr of rows bnd dolumns
+     * in tif lbyout. Tif dontbinfr's frff spbdf fqubls tif dontbinfr's
+     * sizf minus bny insfts bnd bny spfdififd iorizontbl or vfrtidbl
+     * gbp. All domponfnts in b grid lbyout brf givfn tif sbmf sizf.
      *
-     * @param      parent   the container in which to do the layout
-     * @see        java.awt.Container
-     * @see        java.awt.Container#doLayout
+     * @pbrbm      pbrfnt   tif dontbinfr in wiidi to do tif lbyout
+     * @sff        jbvb.bwt.Contbinfr
+     * @sff        jbvb.bwt.Contbinfr#doLbyout
      */
-    public void layoutContainer(Container parent) {
-      synchronized (parent.getTreeLock()) {
-        Insets insets = parent.getInsets();
-        int ncomponents = parent.getComponentCount();
+    publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+      syndironizfd (pbrfnt.gftTrffLodk()) {
+        Insfts insfts = pbrfnt.gftInsfts();
+        int ndomponfnts = pbrfnt.gftComponfntCount();
         int nrows = rows;
-        int ncols = cols;
-        boolean ltr = parent.getComponentOrientation().isLeftToRight();
+        int ndols = dols;
+        boolfbn ltr = pbrfnt.gftComponfntOrifntbtion().isLfftToRigit();
 
-        if (ncomponents == 0) {
-            return;
+        if (ndomponfnts == 0) {
+            rfturn;
         }
         if (nrows > 0) {
-            ncols = (ncomponents + nrows - 1) / nrows;
-        } else {
-            nrows = (ncomponents + ncols - 1) / ncols;
+            ndols = (ndomponfnts + nrows - 1) / nrows;
+        } flsf {
+            nrows = (ndomponfnts + ndols - 1) / ndols;
         }
-        // 4370316. To position components in the center we should:
-        // 1. get an amount of extra space within Container
-        // 2. incorporate half of that value to the left/top position
-        // Note that we use trancating division for widthOnComponent
-        // The reminder goes to extraWidthAvailable
-        int totalGapsWidth = (ncols - 1) * hgap;
-        int widthWOInsets = parent.width - (insets.left + insets.right);
-        int widthOnComponent = (widthWOInsets - totalGapsWidth) / ncols;
-        int extraWidthAvailable = (widthWOInsets - (widthOnComponent * ncols + totalGapsWidth)) / 2;
+        // 4370316. To position domponfnts in tif dfntfr wf siould:
+        // 1. gft bn bmount of fxtrb spbdf witiin Contbinfr
+        // 2. indorporbtf iblf of tibt vbluf to tif lfft/top position
+        // Notf tibt wf usf trbndbting division for widtiOnComponfnt
+        // Tif rfmindfr gofs to fxtrbWidtiAvbilbblf
+        int totblGbpsWidti = (ndols - 1) * igbp;
+        int widtiWOInsfts = pbrfnt.widti - (insfts.lfft + insfts.rigit);
+        int widtiOnComponfnt = (widtiWOInsfts - totblGbpsWidti) / ndols;
+        int fxtrbWidtiAvbilbblf = (widtiWOInsfts - (widtiOnComponfnt * ndols + totblGbpsWidti)) / 2;
 
-        int totalGapsHeight = (nrows - 1) * vgap;
-        int heightWOInsets = parent.height - (insets.top + insets.bottom);
-        int heightOnComponent = (heightWOInsets - totalGapsHeight) / nrows;
-        int extraHeightAvailable = (heightWOInsets - (heightOnComponent * nrows + totalGapsHeight)) / 2;
+        int totblGbpsHfigit = (nrows - 1) * vgbp;
+        int ifigitWOInsfts = pbrfnt.ifigit - (insfts.top + insfts.bottom);
+        int ifigitOnComponfnt = (ifigitWOInsfts - totblGbpsHfigit) / nrows;
+        int fxtrbHfigitAvbilbblf = (ifigitWOInsfts - (ifigitOnComponfnt * nrows + totblGbpsHfigit)) / 2;
         if (ltr) {
-            for (int c = 0, x = insets.left + extraWidthAvailable; c < ncols ; c++, x += widthOnComponent + hgap) {
-                for (int r = 0, y = insets.top + extraHeightAvailable; r < nrows ; r++, y += heightOnComponent + vgap) {
-                    int i = r * ncols + c;
-                    if (i < ncomponents) {
-                        parent.getComponent(i).setBounds(x, y, widthOnComponent, heightOnComponent);
+            for (int d = 0, x = insfts.lfft + fxtrbWidtiAvbilbblf; d < ndols ; d++, x += widtiOnComponfnt + igbp) {
+                for (int r = 0, y = insfts.top + fxtrbHfigitAvbilbblf; r < nrows ; r++, y += ifigitOnComponfnt + vgbp) {
+                    int i = r * ndols + d;
+                    if (i < ndomponfnts) {
+                        pbrfnt.gftComponfnt(i).sftBounds(x, y, widtiOnComponfnt, ifigitOnComponfnt);
                     }
                 }
             }
-        } else {
-            for (int c = 0, x = (parent.width - insets.right - widthOnComponent) - extraWidthAvailable; c < ncols ; c++, x -= widthOnComponent + hgap) {
-                for (int r = 0, y = insets.top + extraHeightAvailable; r < nrows ; r++, y += heightOnComponent + vgap) {
-                    int i = r * ncols + c;
-                    if (i < ncomponents) {
-                        parent.getComponent(i).setBounds(x, y, widthOnComponent, heightOnComponent);
+        } flsf {
+            for (int d = 0, x = (pbrfnt.widti - insfts.rigit - widtiOnComponfnt) - fxtrbWidtiAvbilbblf; d < ndols ; d++, x -= widtiOnComponfnt + igbp) {
+                for (int r = 0, y = insfts.top + fxtrbHfigitAvbilbblf; r < nrows ; r++, y += ifigitOnComponfnt + vgbp) {
+                    int i = r * ndols + d;
+                    if (i < ndomponfnts) {
+                        pbrfnt.gftComponfnt(i).sftBounds(x, y, widtiOnComponfnt, ifigitOnComponfnt);
                     }
                 }
             }
@@ -471,11 +471,11 @@ public class GridLayout implements LayoutManager, java.io.Serializable {
     }
 
     /**
-     * Returns the string representation of this grid layout's values.
-     * @return     a string representation of this grid layout
+     * Rfturns tif string rfprfsfntbtion of tiis grid lbyout's vblufs.
+     * @rfturn     b string rfprfsfntbtion of tiis grid lbyout
      */
-    public String toString() {
-        return getClass().getName() + "[hgap=" + hgap + ",vgap=" + vgap +
-                                       ",rows=" + rows + ",cols=" + cols + "]";
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[igbp=" + igbp + ",vgbp=" + vgbp +
+                                       ",rows=" + rows + ",dols=" + dols + "]";
     }
 }

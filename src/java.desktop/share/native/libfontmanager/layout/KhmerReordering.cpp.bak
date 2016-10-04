@@ -1,47 +1,47 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2007 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2007 - All Rigits Rfsfrvfd
  *
- * This file is a modification of the ICU file IndicReordering.cpp
- * by Jens Herden and Javier Sola for Khmer language
+ * Tiis filf is b modifidbtion of tif ICU filf IndidRfordfring.dpp
+ * by Jfns Hfrdfn bnd Jbvifr Solb for Kimfr lbngubgf
  *
  */
 
-#include "LETypes.h"
-#include "OpenTypeTables.h"
-#include "KhmerReordering.h"
-#include "LEGlyphStorage.h"
+#indludf "LETypfs.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "KimfrRfordfring.i"
+#indludf "LEGlypiStorbgf.i"
 
 
 U_NAMESPACE_BEGIN
 
-// Characters that get referred to by name...
-enum
+// Cibrbdtfrs tibt gft rfffrrfd to by nbmf...
+fnum
 {
     C_SIGN_ZWNJ     = 0x200C,
     C_SIGN_ZWJ      = 0x200D,
@@ -54,470 +54,470 @@ enum
 };
 
 
-enum
+fnum
 {
-    // simple classes, they are used in the statetable (in this file) to control the length of a syllable
-    // they are also used to know where a character should be placed (location in reference to the base character)
-    // and also to know if a character, when independtly displayed, should be displayed with a dotted-circle to
-    // indicate error in syllable construction
-    _xx = KhmerClassTable::CC_RESERVED,
-    _sa = KhmerClassTable::CC_SIGN_ABOVE | KhmerClassTable::CF_DOTTED_CIRCLE | KhmerClassTable::CF_POS_ABOVE,
-    _sp = KhmerClassTable::CC_SIGN_AFTER | KhmerClassTable::CF_DOTTED_CIRCLE| KhmerClassTable::CF_POS_AFTER,
-    _c1 = KhmerClassTable::CC_CONSONANT | KhmerClassTable::CF_CONSONANT,
-    _c2 = KhmerClassTable::CC_CONSONANT2 | KhmerClassTable::CF_CONSONANT,
-    _c3 = KhmerClassTable::CC_CONSONANT3 | KhmerClassTable::CF_CONSONANT,
-    _rb = KhmerClassTable::CC_ROBAT | KhmerClassTable::CF_POS_ABOVE | KhmerClassTable::CF_DOTTED_CIRCLE,
-    _cs = KhmerClassTable::CC_CONSONANT_SHIFTER | KhmerClassTable::CF_DOTTED_CIRCLE | KhmerClassTable::CF_SHIFTER,
-    _dl = KhmerClassTable::CC_DEPENDENT_VOWEL | KhmerClassTable::CF_POS_BEFORE | KhmerClassTable::CF_DOTTED_CIRCLE,
-    _db = KhmerClassTable::CC_DEPENDENT_VOWEL | KhmerClassTable::CF_POS_BELOW | KhmerClassTable::CF_DOTTED_CIRCLE,
-    _da = KhmerClassTable::CC_DEPENDENT_VOWEL | KhmerClassTable::CF_POS_ABOVE | KhmerClassTable::CF_DOTTED_CIRCLE | KhmerClassTable::CF_ABOVE_VOWEL,
-    _dr = KhmerClassTable::CC_DEPENDENT_VOWEL | KhmerClassTable::CF_POS_AFTER | KhmerClassTable::CF_DOTTED_CIRCLE,
-    _co = KhmerClassTable::CC_COENG | KhmerClassTable::CF_COENG | KhmerClassTable::CF_DOTTED_CIRCLE,
+    // simplf dlbssfs, tify brf usfd in tif stbtftbblf (in tiis filf) to dontrol tif lfngti of b syllbblf
+    // tify brf blso usfd to know wifrf b dibrbdtfr siould bf plbdfd (lodbtion in rfffrfndf to tif bbsf dibrbdtfr)
+    // bnd blso to know if b dibrbdtfr, wifn indfpfndtly displbyfd, siould bf displbyfd witi b dottfd-dirdlf to
+    // indidbtf frror in syllbblf donstrudtion
+    _xx = KimfrClbssTbblf::CC_RESERVED,
+    _sb = KimfrClbssTbblf::CC_SIGN_ABOVE | KimfrClbssTbblf::CF_DOTTED_CIRCLE | KimfrClbssTbblf::CF_POS_ABOVE,
+    _sp = KimfrClbssTbblf::CC_SIGN_AFTER | KimfrClbssTbblf::CF_DOTTED_CIRCLE| KimfrClbssTbblf::CF_POS_AFTER,
+    _d1 = KimfrClbssTbblf::CC_CONSONANT | KimfrClbssTbblf::CF_CONSONANT,
+    _d2 = KimfrClbssTbblf::CC_CONSONANT2 | KimfrClbssTbblf::CF_CONSONANT,
+    _d3 = KimfrClbssTbblf::CC_CONSONANT3 | KimfrClbssTbblf::CF_CONSONANT,
+    _rb = KimfrClbssTbblf::CC_ROBAT | KimfrClbssTbblf::CF_POS_ABOVE | KimfrClbssTbblf::CF_DOTTED_CIRCLE,
+    _ds = KimfrClbssTbblf::CC_CONSONANT_SHIFTER | KimfrClbssTbblf::CF_DOTTED_CIRCLE | KimfrClbssTbblf::CF_SHIFTER,
+    _dl = KimfrClbssTbblf::CC_DEPENDENT_VOWEL | KimfrClbssTbblf::CF_POS_BEFORE | KimfrClbssTbblf::CF_DOTTED_CIRCLE,
+    _db = KimfrClbssTbblf::CC_DEPENDENT_VOWEL | KimfrClbssTbblf::CF_POS_BELOW | KimfrClbssTbblf::CF_DOTTED_CIRCLE,
+    _db = KimfrClbssTbblf::CC_DEPENDENT_VOWEL | KimfrClbssTbblf::CF_POS_ABOVE | KimfrClbssTbblf::CF_DOTTED_CIRCLE | KimfrClbssTbblf::CF_ABOVE_VOWEL,
+    _dr = KimfrClbssTbblf::CC_DEPENDENT_VOWEL | KimfrClbssTbblf::CF_POS_AFTER | KimfrClbssTbblf::CF_DOTTED_CIRCLE,
+    _do = KimfrClbssTbblf::CC_COENG | KimfrClbssTbblf::CF_COENG | KimfrClbssTbblf::CF_DOTTED_CIRCLE,
 
-    // split vowel
-    _va = _da | KhmerClassTable::CF_SPLIT_VOWEL,
-    _vr = _dr | KhmerClassTable::CF_SPLIT_VOWEL
+    // split vowfl
+    _vb = _db | KimfrClbssTbblf::CF_SPLIT_VOWEL,
+    _vr = _dr | KimfrClbssTbblf::CF_SPLIT_VOWEL
 };
 
 
-// Character class tables
-// _xx character does not combine into syllable, such as numbers, puntuation marks, non-Khmer signs...
-// _sa Sign placed above the base
-// _sp Sign placed after the base
-// _c1 Consonant of type 1 or independent vowel (independent vowels behave as type 1 consonants)
-// _c2 Consonant of type 2 (only RO)
-// _c3 Consonant of type 3
-// _rb Khmer sign robat u17CC. combining mark for subscript consonants
-// _cd Consonant-shifter
-// _dl Dependent vowel placed before the base (left of the base)
-// _db Dependent vowel placed below the base
-// _da Dependent vowel placed above the base
-// _dr Dependent vowel placed behind the base (right of the base)
-// _co Khmer combining mark COENG u17D2, combines with the consonant or independent vowel following
-//     it to create a subscript consonant or independent vowel
-// _va Khmer split vowel in wich the first part is before the base and the second one above the base
-// _vr Khmer split vowel in wich the first part is before the base and the second one behind (right of) the base
+// Cibrbdtfr dlbss tbblfs
+// _xx dibrbdtfr dofs not dombinf into syllbblf, sudi bs numbfrs, puntubtion mbrks, non-Kimfr signs...
+// _sb Sign plbdfd bbovf tif bbsf
+// _sp Sign plbdfd bftfr tif bbsf
+// _d1 Consonbnt of typf 1 or indfpfndfnt vowfl (indfpfndfnt vowfls bfibvf bs typf 1 donsonbnts)
+// _d2 Consonbnt of typf 2 (only RO)
+// _d3 Consonbnt of typf 3
+// _rb Kimfr sign robbt u17CC. dombining mbrk for subsdript donsonbnts
+// _dd Consonbnt-siiftfr
+// _dl Dfpfndfnt vowfl plbdfd bfforf tif bbsf (lfft of tif bbsf)
+// _db Dfpfndfnt vowfl plbdfd bflow tif bbsf
+// _db Dfpfndfnt vowfl plbdfd bbovf tif bbsf
+// _dr Dfpfndfnt vowfl plbdfd bfiind tif bbsf (rigit of tif bbsf)
+// _do Kimfr dombining mbrk COENG u17D2, dombinfs witi tif donsonbnt or indfpfndfnt vowfl following
+//     it to drfbtf b subsdript donsonbnt or indfpfndfnt vowfl
+// _vb Kimfr split vowfl in widi tif first pbrt is bfforf tif bbsf bnd tif sfdond onf bbovf tif bbsf
+// _vr Kimfr split vowfl in widi tif first pbrt is bfforf tif bbsf bnd tif sfdond onf bfiind (rigit of) tif bbsf
 
-static const KhmerClassTable::CharClass khmerCharClasses[] =
+stbtid donst KimfrClbssTbblf::CibrClbss kimfrCibrClbssfs[] =
 {
-    _c1, _c1, _c1, _c3, _c1, _c1, _c1, _c1, _c3, _c1, _c1, _c1, _c1, _c3, _c1, _c1, // 1780 - 178F
-    _c1, _c1, _c1, _c1, _c3, _c1, _c1, _c1, _c1, _c3, _c2, _c1, _c1, _c1, _c3, _c3, // 1790 - 179F
-    _c1, _c3, _c1, _c1, _c1, _c1, _c1, _c1, _c1, _c1, _c1, _c1, _c1, _c1, _c1, _c1, // 17A0 - 17AF
-    _c1, _c1, _c1, _c1, _dr, _dr, _dr, _da, _da, _da, _da, _db, _db, _db, _va, _vr, // 17B0 - 17BF
-    _vr, _dl, _dl, _dl, _vr, _vr, _sa, _sp, _sp, _cs, _cs, _sa, _rb, _sa, _sa, _sa, // 17C0 - 17CF
-    _sa, _sa, _co, _sa, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _sa, _xx, _xx, // 17D0 - 17DF
+    _d1, _d1, _d1, _d3, _d1, _d1, _d1, _d1, _d3, _d1, _d1, _d1, _d1, _d3, _d1, _d1, // 1780 - 178F
+    _d1, _d1, _d1, _d1, _d3, _d1, _d1, _d1, _d1, _d3, _d2, _d1, _d1, _d1, _d3, _d3, // 1790 - 179F
+    _d1, _d3, _d1, _d1, _d1, _d1, _d1, _d1, _d1, _d1, _d1, _d1, _d1, _d1, _d1, _d1, // 17A0 - 17AF
+    _d1, _d1, _d1, _d1, _dr, _dr, _dr, _db, _db, _db, _db, _db, _db, _db, _vb, _vr, // 17B0 - 17BF
+    _vr, _dl, _dl, _dl, _vr, _vr, _sb, _sp, _sp, _ds, _ds, _sb, _rb, _sb, _sb, _sb, // 17C0 - 17CF
+    _sb, _sb, _do, _sb, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _xx, _sb, _xx, _xx, // 17D0 - 17DF
 };
 
 
 //
-// Khmer Class Tables
+// Kimfr Clbss Tbblfs
 //
 
 //
-// The range of characters defined in the above table is defined here. FOr Khmer 1780 to 17DF
-// Even if the Khmer range is bigger, all other characters are not combinable, and therefore treated
-// as _xx
-static const KhmerClassTable khmerClassTable = {0x1780, 0x17df, khmerCharClasses};
+// Tif rbngf of dibrbdtfrs dffinfd in tif bbovf tbblf is dffinfd ifrf. FOr Kimfr 1780 to 17DF
+// Evfn if tif Kimfr rbngf is biggfr, bll otifr dibrbdtfrs brf not dombinbblf, bnd tifrfforf trfbtfd
+// bs _xx
+stbtid donst KimfrClbssTbblf kimfrClbssTbblf = {0x1780, 0x17df, kimfrCibrClbssfs};
 
 
-// Below we define how a character in the input string is either in the khmerCharClasses table
-// (in which case we get its type back), a ZWJ or ZWNJ (two characters that may appear
-// within the syllable, but are not in the table) we also get their type back, or an unknown object
-// in which case we get _xx (CC_RESERVED) back
-KhmerClassTable::CharClass KhmerClassTable::getCharClass(LEUnicode ch) const
+// Bflow wf dffinf iow b dibrbdtfr in tif input string is fitifr in tif kimfrCibrClbssfs tbblf
+// (in wiidi dbsf wf gft its typf bbdk), b ZWJ or ZWNJ (two dibrbdtfrs tibt mby bppfbr
+// witiin tif syllbblf, but brf not in tif tbblf) wf blso gft tifir typf bbdk, or bn unknown objfdt
+// in wiidi dbsf wf gft _xx (CC_RESERVED) bbdk
+KimfrClbssTbblf::CibrClbss KimfrClbssTbblf::gftCibrClbss(LEUnidodf di) donst
 {
 
-    if (ch == C_SIGN_ZWJ) {
-        return CC_ZERO_WIDTH_J_MARK;
+    if (di == C_SIGN_ZWJ) {
+        rfturn CC_ZERO_WIDTH_J_MARK;
     }
 
-    if (ch == C_SIGN_ZWNJ) {
-        return CC_ZERO_WIDTH_NJ_MARK;
+    if (di == C_SIGN_ZWNJ) {
+        rfturn CC_ZERO_WIDTH_NJ_MARK;
     }
 
-    if (ch < firstChar || ch > lastChar) {
-        return CC_RESERVED;
+    if (di < firstCibr || di > lbstCibr) {
+        rfturn CC_RESERVED;
     }
 
-    return classTable[ch - firstChar];
+    rfturn dlbssTbblf[di - firstCibr];
 }
 
-const KhmerClassTable *KhmerClassTable::getKhmerClassTable()
+donst KimfrClbssTbblf *KimfrClbssTbblf::gftKimfrClbssTbblf()
 {
-    return &khmerClassTable;
+    rfturn &kimfrClbssTbblf;
 }
 
 
 
-class KhmerReorderingOutput : public UMemory {
-private:
-    le_int32 fSyllableCount;
-    le_int32 fOutIndex;
-    LEUnicode *fOutChars;
+dlbss KimfrRfordfringOutput : publid UMfmory {
+privbtf:
+    lf_int32 fSyllbblfCount;
+    lf_int32 fOutIndfx;
+    LEUnidodf *fOutCibrs;
 
-    LEGlyphStorage &fGlyphStorage;
+    LEGlypiStorbgf &fGlypiStorbgf;
 
 
-public:
-    KhmerReorderingOutput(LEUnicode *outChars, LEGlyphStorage &glyphStorage)
-        : fSyllableCount(0), fOutIndex(0), fOutChars(outChars), fGlyphStorage(glyphStorage)
+publid:
+    KimfrRfordfringOutput(LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf)
+        : fSyllbblfCount(0), fOutIndfx(0), fOutCibrs(outCibrs), fGlypiStorbgf(glypiStorbgf)
     {
-        // nothing else to do...
+        // notiing flsf to do...
     }
 
-    ~KhmerReorderingOutput()
+    ~KimfrRfordfringOutput()
     {
-        // nothing to do here...
+        // notiing to do ifrf...
     }
 
-    void reset()
+    void rfsft()
     {
-        fSyllableCount += 1;
+        fSyllbblfCount += 1;
     }
 
-    void writeChar(LEUnicode ch, le_uint32 charIndex, FeatureMask charFeatures)
+    void writfCibr(LEUnidodf di, lf_uint32 dibrIndfx, FfbturfMbsk dibrFfbturfs)
     {
-        LEErrorCode success = LE_NO_ERROR;
+        LEErrorCodf suddfss = LE_NO_ERROR;
 
-        fOutChars[fOutIndex] = ch;
+        fOutCibrs[fOutIndfx] = di;
 
-        fGlyphStorage.setCharIndex(fOutIndex, charIndex, success);
-        fGlyphStorage.setAuxData(fOutIndex, charFeatures | (fSyllableCount & LE_GLYPH_GROUP_MASK), success);
+        fGlypiStorbgf.sftCibrIndfx(fOutIndfx, dibrIndfx, suddfss);
+        fGlypiStorbgf.sftAuxDbtb(fOutIndfx, dibrFfbturfs | (fSyllbblfCount & LE_GLYPH_GROUP_MASK), suddfss);
 
-        fOutIndex += 1;
+        fOutIndfx += 1;
     }
 
-    le_int32 getOutputIndex()
+    lf_int32 gftOutputIndfx()
     {
-        return fOutIndex;
+        rfturn fOutIndfx;
     }
 };
 
 
-#define blwfFeatureTag LE_BLWF_FEATURE_TAG
-#define pstfFeatureTag LE_PSTF_FEATURE_TAG
-#define presFeatureTag LE_PRES_FEATURE_TAG
-#define blwsFeatureTag LE_BLWS_FEATURE_TAG
-#define abvsFeatureTag LE_ABVS_FEATURE_TAG
-#define pstsFeatureTag LE_PSTS_FEATURE_TAG
+#dffinf blwfFfbturfTbg LE_BLWF_FEATURE_TAG
+#dffinf pstfFfbturfTbg LE_PSTF_FEATURE_TAG
+#dffinf prfsFfbturfTbg LE_PRES_FEATURE_TAG
+#dffinf blwsFfbturfTbg LE_BLWS_FEATURE_TAG
+#dffinf bbvsFfbturfTbg LE_ABVS_FEATURE_TAG
+#dffinf pstsFfbturfTbg LE_PSTS_FEATURE_TAG
 
-#define blwmFeatureTag LE_BLWM_FEATURE_TAG
-#define abvmFeatureTag LE_ABVM_FEATURE_TAG
-#define distFeatureTag LE_DIST_FEATURE_TAG
+#dffinf blwmFfbturfTbg LE_BLWM_FEATURE_TAG
+#dffinf bbvmFfbturfTbg LE_ABVM_FEATURE_TAG
+#dffinf distFfbturfTbg LE_DIST_FEATURE_TAG
 
-#define prefFeatureTag LE_PREF_FEATURE_TAG
-#define abvfFeatureTag LE_ABVF_FEATURE_TAG
-#define cligFeatureTag LE_CLIG_FEATURE_TAG
-#define mkmkFeatureTag LE_MKMK_FEATURE_TAG
+#dffinf prffFfbturfTbg LE_PREF_FEATURE_TAG
+#dffinf bbvfFfbturfTbg LE_ABVF_FEATURE_TAG
+#dffinf dligFfbturfTbg LE_CLIG_FEATURE_TAG
+#dffinf mkmkFfbturfTbg LE_MKMK_FEATURE_TAG
 
-#define prefFeatureMask 0x80000000UL
-#define blwfFeatureMask 0x40000000UL
-#define abvfFeatureMask 0x20000000UL
-#define pstfFeatureMask 0x10000000UL
-#define presFeatureMask 0x08000000UL
-#define blwsFeatureMask 0x04000000UL
-#define abvsFeatureMask 0x02000000UL
-#define pstsFeatureMask 0x01000000UL
-#define cligFeatureMask 0x00800000UL
-#define distFeatureMask 0x00400000UL
-#define blwmFeatureMask 0x00200000UL
-#define abvmFeatureMask 0x00100000UL
-#define mkmkFeatureMask 0x00080000UL
+#dffinf prffFfbturfMbsk 0x80000000UL
+#dffinf blwfFfbturfMbsk 0x40000000UL
+#dffinf bbvfFfbturfMbsk 0x20000000UL
+#dffinf pstfFfbturfMbsk 0x10000000UL
+#dffinf prfsFfbturfMbsk 0x08000000UL
+#dffinf blwsFfbturfMbsk 0x04000000UL
+#dffinf bbvsFfbturfMbsk 0x02000000UL
+#dffinf pstsFfbturfMbsk 0x01000000UL
+#dffinf dligFfbturfMbsk 0x00800000UL
+#dffinf distFfbturfMbsk 0x00400000UL
+#dffinf blwmFfbturfMbsk 0x00200000UL
+#dffinf bbvmFfbturfMbsk 0x00100000UL
+#dffinf mkmkFfbturfMbsk 0x00080000UL
 
-#define tagPref    (prefFeatureMask | presFeatureMask | cligFeatureMask | distFeatureMask)
-#define tagAbvf    (abvfFeatureMask | abvsFeatureMask | cligFeatureMask | distFeatureMask | abvmFeatureMask | mkmkFeatureMask)
-#define tagPstf    (blwfFeatureMask | blwsFeatureMask | prefFeatureMask | presFeatureMask | pstfFeatureMask | pstsFeatureMask | cligFeatureMask | distFeatureMask | blwmFeatureMask)
-#define tagBlwf    (blwfFeatureMask | blwsFeatureMask | cligFeatureMask | distFeatureMask | blwmFeatureMask | mkmkFeatureMask)
-#define tagDefault (prefFeatureMask | blwfFeatureMask | presFeatureMask | blwsFeatureMask | cligFeatureMask | distFeatureMask | abvmFeatureMask | blwmFeatureMask | mkmkFeatureMask)
+#dffinf tbgPrff    (prffFfbturfMbsk | prfsFfbturfMbsk | dligFfbturfMbsk | distFfbturfMbsk)
+#dffinf tbgAbvf    (bbvfFfbturfMbsk | bbvsFfbturfMbsk | dligFfbturfMbsk | distFfbturfMbsk | bbvmFfbturfMbsk | mkmkFfbturfMbsk)
+#dffinf tbgPstf    (blwfFfbturfMbsk | blwsFfbturfMbsk | prffFfbturfMbsk | prfsFfbturfMbsk | pstfFfbturfMbsk | pstsFfbturfMbsk | dligFfbturfMbsk | distFfbturfMbsk | blwmFfbturfMbsk)
+#dffinf tbgBlwf    (blwfFfbturfMbsk | blwsFfbturfMbsk | dligFfbturfMbsk | distFfbturfMbsk | blwmFfbturfMbsk | mkmkFfbturfMbsk)
+#dffinf tbgDffbult (prffFfbturfMbsk | blwfFfbturfMbsk | prfsFfbturfMbsk | blwsFfbturfMbsk | dligFfbturfMbsk | distFfbturfMbsk | bbvmFfbturfMbsk | blwmFfbturfMbsk | mkmkFfbturfMbsk)
 
 
 
-// These are in the order in which the features need to be applied
-// for correct processing
-static const FeatureMap featureMap[] =
+// Tifsf brf in tif ordfr in wiidi tif ffbturfs nffd to bf bpplifd
+// for dorrfdt prodfssing
+stbtid donst FfbturfMbp ffbturfMbp[] =
 {
-    // Shaping features
-    {prefFeatureTag, prefFeatureMask},
-    {blwfFeatureTag, blwfFeatureMask},
-    {abvfFeatureTag, abvfFeatureMask},
-    {pstfFeatureTag, pstfFeatureMask},
-    {presFeatureTag, presFeatureMask},
-    {blwsFeatureTag, blwsFeatureMask},
-    {abvsFeatureTag, abvsFeatureMask},
-    {pstsFeatureTag, pstsFeatureMask},
-    {cligFeatureTag, cligFeatureMask},
+    // Sibping ffbturfs
+    {prffFfbturfTbg, prffFfbturfMbsk},
+    {blwfFfbturfTbg, blwfFfbturfMbsk},
+    {bbvfFfbturfTbg, bbvfFfbturfMbsk},
+    {pstfFfbturfTbg, pstfFfbturfMbsk},
+    {prfsFfbturfTbg, prfsFfbturfMbsk},
+    {blwsFfbturfTbg, blwsFfbturfMbsk},
+    {bbvsFfbturfTbg, bbvsFfbturfMbsk},
+    {pstsFfbturfTbg, pstsFfbturfMbsk},
+    {dligFfbturfTbg, dligFfbturfMbsk},
 
-    // Positioning features
-    {distFeatureTag, distFeatureMask},
-    {blwmFeatureTag, blwmFeatureMask},
-    {abvmFeatureTag, abvmFeatureMask},
-    {mkmkFeatureTag, mkmkFeatureMask},
+    // Positioning ffbturfs
+    {distFfbturfTbg, distFfbturfMbsk},
+    {blwmFfbturfTbg, blwmFfbturfMbsk},
+    {bbvmFfbturfTbg, bbvmFfbturfMbsk},
+    {mkmkFfbturfTbg, mkmkFfbturfMbsk},
 };
 
-static const le_int32 featureMapCount = LE_ARRAY_SIZE(featureMap);
+stbtid donst lf_int32 ffbturfMbpCount = LE_ARRAY_SIZE(ffbturfMbp);
 
-// The stateTable is used to calculate the end (the length) of a well
-// formed Khmer Syllable.
+// Tif stbtfTbblf is usfd to dbldulbtf tif fnd (tif lfngti) of b wfll
+// formfd Kimfr Syllbblf.
 //
-// Each horizontal line is ordered exactly the same way as the values in KhmerClassTable
-// CharClassValues in KhmerReordering.h This coincidence of values allows the
-// follow up of the table.
+// Ebdi iorizontbl linf is ordfrfd fxbdtly tif sbmf wby bs tif vblufs in KimfrClbssTbblf
+// CibrClbssVblufs in KimfrRfordfring.i Tiis doindidfndf of vblufs bllows tif
+// follow up of tif tbblf.
 //
-// Each line corresponds to a state, which does not necessarily need to be a type
-// of component... for example, state 2 is a base, with is always a first character
-// in the syllable, but the state could be produced a consonant of any type when
-// it is the first character that is analysed (in ground state).
+// Ebdi linf dorrfsponds to b stbtf, wiidi dofs not nfdfssbrily nffd to bf b typf
+// of domponfnt... for fxbmplf, stbtf 2 is b bbsf, witi is blwbys b first dibrbdtfr
+// in tif syllbblf, but tif stbtf dould bf produdfd b donsonbnt of bny typf wifn
+// it is tif first dibrbdtfr tibt is bnblysfd (in ground stbtf).
 //
-// Differentiating 3 types of consonants is necessary in order to
-// forbid the use of certain combinations, such as having a second
-// coeng after a coeng RO,
-// The inexistent possibility of having a type 3 after another type 3 is permitted,
-// eliminating it would very much complicate the table, and it does not create typing
-// problems, as the case above.
+// Difffrfntibting 3 typfs of donsonbnts is nfdfssbry in ordfr to
+// forbid tif usf of dfrtbin dombinbtions, sudi bs ibving b sfdond
+// dofng bftfr b dofng RO,
+// Tif infxistfnt possibility of ibving b typf 3 bftfr bnotifr typf 3 is pfrmittfd,
+// fliminbting it would vfry mudi domplidbtf tif tbblf, bnd it dofs not drfbtf typing
+// problfms, bs tif dbsf bbovf.
 //
-// The table is quite complex, in order to limit the number of coeng consonants
-// to 2 (by means of the table).
+// Tif tbblf is quitf domplfx, in ordfr to limit tif numbfr of dofng donsonbnts
+// to 2 (by mfbns of tif tbblf).
 //
-// There a peculiarity, as far as Unicode is concerned:
-// - The consonant-shifter is considered in two possible different
-//   locations, the one considered in Unicode 3.0 and the one considered in
-//   Unicode 4.0. (there is a backwards compatibility problem in this standard).
+// Tifrf b pfdulibrity, bs fbr bs Unidodf is dondfrnfd:
+// - Tif donsonbnt-siiftfr is donsidfrfd in two possiblf difffrfnt
+//   lodbtions, tif onf donsidfrfd in Unidodf 3.0 bnd tif onf donsidfrfd in
+//   Unidodf 4.0. (tifrf is b bbdkwbrds dompbtibility problfm in tiis stbndbrd).
 
 
-// xx    independent character, such as a number, punctuation sign or non-khmer char
+// xx    indfpfndfnt dibrbdtfr, sudi bs b numbfr, pundtubtion sign or non-kimfr dibr
 //
-// c1    Khmer consonant of type 1 or an independent vowel
-//       that is, a letter in which the subscript for is only under the
-//       base, not taking any space to the right or to the left
+// d1    Kimfr donsonbnt of typf 1 or bn indfpfndfnt vowfl
+//       tibt is, b lfttfr in wiidi tif subsdript for is only undfr tif
+//       bbsf, not tbking bny spbdf to tif rigit or to tif lfft
 //
-// c2    Khmer consonant of type 2, the coeng form takes space under
-//       and to the left of the base (only RO is of this type)
+// d2    Kimfr donsonbnt of typf 2, tif dofng form tbkfs spbdf undfr
+//       bnd to tif lfft of tif bbsf (only RO is of tiis typf)
 //
-// c3    Khmer consonant of type 3. Its subscript form takes space under
-//       and to the right of the base.
+// d3    Kimfr donsonbnt of typf 3. Its subsdript form tbkfs spbdf undfr
+//       bnd to tif rigit of tif bbsf.
 //
-// cs    Khmer consonant shifter
+// ds    Kimfr donsonbnt siiftfr
 //
-// rb    Khmer robat
+// rb    Kimfr robbt
 //
-// co    coeng character (u17D2)
+// do    dofng dibrbdtfr (u17D2)
 //
-// dv    dependent vowel (including split vowels, they are treated in the same way).
-//       even if dv is not defined above, the component that is really tested for is
-//       KhmerClassTable::CC_DEPENDENT_VOWEL, which is common to all dependent vowels
+// dv    dfpfndfnt vowfl (indluding split vowfls, tify brf trfbtfd in tif sbmf wby).
+//       fvfn if dv is not dffinfd bbovf, tif domponfnt tibt is rfblly tfstfd for is
+//       KimfrClbssTbblf::CC_DEPENDENT_VOWEL, wiidi is dommon to bll dfpfndfnt vowfls
 //
-// zwj   Zero Width joiner
+// zwj   Zfro Widti joinfr
 //
-// zwnj  Zero width non joiner
+// zwnj  Zfro widti non joinfr
 //
-// sa    above sign
+// sb    bbovf sign
 //
 // sp    post sign
 //
-// there are lines with equal content but for an easier understanding
-// (and maybe change in the future) we did not join them
+// tifrf brf linfs witi fqubl dontfnt but for bn fbsifr undfrstbnding
+// (bnd mbybf dibngf in tif futurf) wf did not join tifm
 //
-static const le_int8 khmerStateTable[][KhmerClassTable::CC_COUNT] =
+stbtid donst lf_int8 kimfrStbtfTbblf[][KimfrClbssTbblf::CC_COUNT] =
 {
 
-//   xx  c1  c2  c3 zwnj cs  rb  co  dv  sa  sp zwj
-    { 1,  2,  2,  2,  1,  1,  1,  6,  1,  1,  1,  2}, //  0 - ground state
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, //  1 - exit state (or sign to the right of the syllable)
-    {-1, -1, -1, -1,  3,  4,  5,  6, 16, 17,  1, -1}, //  2 - Base consonant
-    {-1, -1, -1, -1, -1,  4, -1, -1, 16, -1, -1, -1}, //  3 - First ZWNJ before a register shifter
-                                                      //      It can only be followed by a shifter or a vowel
-    {-1, -1, -1, -1, 15, -1, -1,  6, 16, 17,  1, 14}, //  4 - First register shifter
-    {-1, -1, -1, -1, -1, -1, -1, -1, 20, -1,  1, -1}, //  5 - Robat
-    {-1,  7,  8,  9, -1, -1, -1, -1, -1, -1, -1, -1}, //  6 - First Coeng
-    {-1, -1, -1, -1, 12, 13, -1, 10, 16, 17,  1, 14}, //  7 - First consonant of type 1 after coeng
-    {-1, -1, -1, -1, 12, 13, -1, -1, 16, 17,  1, 14}, //  8 - First consonant of type 2 after coeng
-    {-1, -1, -1, -1, 12, 13, -1, 10, 16, 17,  1, 14}, //  9 - First consonant or type 3 after ceong
-    {-1, 11, 11, 11, -1, -1, -1, -1, -1, -1, -1, -1}, // 10 - Second Coeng (no register shifter before)
-    {-1, -1, -1, -1, 15, -1, -1, -1, 16, 17,  1, 14}, // 11 - Second coeng consonant (or ind. vowel) no register shifter before
-    {-1, -1, -1, -1, -1, 13, -1, -1, 16, -1, -1, -1}, // 12 - Second ZWNJ before a register shifter
-    {-1, -1, -1, -1, 15, -1, -1, -1, 16, 17,  1, 14}, // 13 - Second register shifter
-    {-1, -1, -1, -1, -1, -1, -1, -1, 16, -1, -1, -1}, // 14 - ZWJ before vowel
-    {-1, -1, -1, -1, -1, -1, -1, -1, 16, -1, -1, -1}, // 15 - ZWNJ before vowel
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, 17,  1, 18}, // 16 - dependent vowel
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  1, 18}, // 17 - sign above
-    {-1, -1, -1, -1, -1, -1, -1, 19, -1, -1, -1, -1}, // 18 - ZWJ after vowel
-    {-1,  1, -1,  1, -1, -1, -1, -1, -1, -1, -1, -1}, // 19 - Third coeng
-    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  1, -1}, // 20 - dependent vowel after a Robat
+//   xx  d1  d2  d3 zwnj ds  rb  do  dv  sb  sp zwj
+    { 1,  2,  2,  2,  1,  1,  1,  6,  1,  1,  1,  2}, //  0 - ground stbtf
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}, //  1 - fxit stbtf (or sign to tif rigit of tif syllbblf)
+    {-1, -1, -1, -1,  3,  4,  5,  6, 16, 17,  1, -1}, //  2 - Bbsf donsonbnt
+    {-1, -1, -1, -1, -1,  4, -1, -1, 16, -1, -1, -1}, //  3 - First ZWNJ bfforf b rfgistfr siiftfr
+                                                      //      It dbn only bf followfd by b siiftfr or b vowfl
+    {-1, -1, -1, -1, 15, -1, -1,  6, 16, 17,  1, 14}, //  4 - First rfgistfr siiftfr
+    {-1, -1, -1, -1, -1, -1, -1, -1, 20, -1,  1, -1}, //  5 - Robbt
+    {-1,  7,  8,  9, -1, -1, -1, -1, -1, -1, -1, -1}, //  6 - First Cofng
+    {-1, -1, -1, -1, 12, 13, -1, 10, 16, 17,  1, 14}, //  7 - First donsonbnt of typf 1 bftfr dofng
+    {-1, -1, -1, -1, 12, 13, -1, -1, 16, 17,  1, 14}, //  8 - First donsonbnt of typf 2 bftfr dofng
+    {-1, -1, -1, -1, 12, 13, -1, 10, 16, 17,  1, 14}, //  9 - First donsonbnt or typf 3 bftfr dfong
+    {-1, 11, 11, 11, -1, -1, -1, -1, -1, -1, -1, -1}, // 10 - Sfdond Cofng (no rfgistfr siiftfr bfforf)
+    {-1, -1, -1, -1, 15, -1, -1, -1, 16, 17,  1, 14}, // 11 - Sfdond dofng donsonbnt (or ind. vowfl) no rfgistfr siiftfr bfforf
+    {-1, -1, -1, -1, -1, 13, -1, -1, 16, -1, -1, -1}, // 12 - Sfdond ZWNJ bfforf b rfgistfr siiftfr
+    {-1, -1, -1, -1, 15, -1, -1, -1, 16, 17,  1, 14}, // 13 - Sfdond rfgistfr siiftfr
+    {-1, -1, -1, -1, -1, -1, -1, -1, 16, -1, -1, -1}, // 14 - ZWJ bfforf vowfl
+    {-1, -1, -1, -1, -1, -1, -1, -1, 16, -1, -1, -1}, // 15 - ZWNJ bfforf vowfl
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, 17,  1, 18}, // 16 - dfpfndfnt vowfl
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  1, 18}, // 17 - sign bbovf
+    {-1, -1, -1, -1, -1, -1, -1, 19, -1, -1, -1, -1}, // 18 - ZWJ bftfr vowfl
+    {-1,  1, -1,  1, -1, -1, -1, -1, -1, -1, -1, -1}, // 19 - Tiird dofng
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1,  1, -1}, // 20 - dfpfndfnt vowfl bftfr b Robbt
 
 };
 
 
-const FeatureMap *KhmerReordering::getFeatureMap(le_int32 &count)
+donst FfbturfMbp *KimfrRfordfring::gftFfbturfMbp(lf_int32 &dount)
 {
-    count = featureMapCount;
+    dount = ffbturfMbpCount;
 
-    return featureMap;
+    rfturn ffbturfMbp;
 }
 
 
-// Given an input string of characters and a location in which to start looking
-// calculate, using the state table, which one is the last character of the syllable
-// that starts in the starting position.
-le_int32 KhmerReordering::findSyllable(const KhmerClassTable *classTable, const LEUnicode *chars, le_int32 prev, le_int32 charCount)
+// Givfn bn input string of dibrbdtfrs bnd b lodbtion in wiidi to stbrt looking
+// dbldulbtf, using tif stbtf tbblf, wiidi onf is tif lbst dibrbdtfr of tif syllbblf
+// tibt stbrts in tif stbrting position.
+lf_int32 KimfrRfordfring::findSyllbblf(donst KimfrClbssTbblf *dlbssTbblf, donst LEUnidodf *dibrs, lf_int32 prfv, lf_int32 dibrCount)
 {
-    le_int32 cursor = prev;
-    le_int8 state = 0;
+    lf_int32 dursor = prfv;
+    lf_int8 stbtf = 0;
 
-    while (cursor < charCount) {
-        KhmerClassTable::CharClass charClass = (classTable->getCharClass(chars[cursor]) & KhmerClassTable::CF_CLASS_MASK);
+    wiilf (dursor < dibrCount) {
+        KimfrClbssTbblf::CibrClbss dibrClbss = (dlbssTbblf->gftCibrClbss(dibrs[dursor]) & KimfrClbssTbblf::CF_CLASS_MASK);
 
-        state = khmerStateTable[state][charClass];
+        stbtf = kimfrStbtfTbblf[stbtf][dibrClbss];
 
-        if (state < 0) {
-            break;
+        if (stbtf < 0) {
+            brfbk;
         }
 
-        cursor += 1;
+        dursor += 1;
     }
 
-    return cursor;
+    rfturn dursor;
 }
 
 
-// This is the real reordering function as applied to the Khmer language
+// Tiis is tif rfbl rfordfring fundtion bs bpplifd to tif Kimfr lbngubgf
 
-le_int32 KhmerReordering::reorder(const LEUnicode *chars, le_int32 charCount, le_int32 /*scriptCode*/,
-                                  LEUnicode *outChars, LEGlyphStorage &glyphStorage)
+lf_int32 KimfrRfordfring::rfordfr(donst LEUnidodf *dibrs, lf_int32 dibrCount, lf_int32 /*sdriptCodf*/,
+                                  LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf)
 {
-    const KhmerClassTable *classTable = KhmerClassTable::getKhmerClassTable();
+    donst KimfrClbssTbblf *dlbssTbblf = KimfrClbssTbblf::gftKimfrClbssTbblf();
 
-    KhmerReorderingOutput output(outChars, glyphStorage);
-    KhmerClassTable::CharClass charClass;
-    le_int32 i, prev = 0, coengRo;
+    KimfrRfordfringOutput output(outCibrs, glypiStorbgf);
+    KimfrClbssTbblf::CibrClbss dibrClbss;
+    lf_int32 i, prfv = 0, dofngRo;
 
 
-    // This loop only exits when we reach the end of a run, which may contain
-    // several syllables.
-    while (prev < charCount) {
-        le_int32 syllable = findSyllable(classTable, chars, prev, charCount);
+    // Tiis loop only fxits wifn wf rfbdi tif fnd of b run, wiidi mby dontbin
+    // sfvfrbl syllbblfs.
+    wiilf (prfv < dibrCount) {
+        lf_int32 syllbblf = findSyllbblf(dlbssTbblf, dibrs, prfv, dibrCount);
 
-        output.reset();
+        output.rfsft();
 
-        // write a pre vowel or the pre part of a split vowel first
-        // and look out for coeng + ro. RO is the only vowel of type 2, and
-        // therefore the only one that requires saving space before the base.
-        coengRo = -1;  // There is no Coeng Ro, if found this value will change
-        for (i = prev; i < syllable; i += 1) {
-            charClass = classTable->getCharClass(chars[i]);
+        // writf b prf vowfl or tif prf pbrt of b split vowfl first
+        // bnd look out for dofng + ro. RO is tif only vowfl of typf 2, bnd
+        // tifrfforf tif only onf tibt rfquirfs sbving spbdf bfforf tif bbsf.
+        dofngRo = -1;  // Tifrf is no Cofng Ro, if found tiis vbluf will dibngf
+        for (i = prfv; i < syllbblf; i += 1) {
+            dibrClbss = dlbssTbblf->gftCibrClbss(dibrs[i]);
 
-            // if a split vowel, write the pre part. In Khmer the pre part
-            // is the same for all split vowels, same glyph as pre vowel C_VOWEL_E
-            if (charClass & KhmerClassTable::CF_SPLIT_VOWEL) {
-                output.writeChar(C_VOWEL_E, i, tagPref);
-                break; // there can be only one vowel
+            // if b split vowfl, writf tif prf pbrt. In Kimfr tif prf pbrt
+            // is tif sbmf for bll split vowfls, sbmf glypi bs prf vowfl C_VOWEL_E
+            if (dibrClbss & KimfrClbssTbblf::CF_SPLIT_VOWEL) {
+                output.writfCibr(C_VOWEL_E, i, tbgPrff);
+                brfbk; // tifrf dbn bf only onf vowfl
             }
 
-            // if a vowel with pos before write it out
-            if (charClass & KhmerClassTable::CF_POS_BEFORE) {
-                output.writeChar(chars[i], i, tagPref);
-                break; // there can be only one vowel
+            // if b vowfl witi pos bfforf writf it out
+            if (dibrClbss & KimfrClbssTbblf::CF_POS_BEFORE) {
+                output.writfCibr(dibrs[i], i, tbgPrff);
+                brfbk; // tifrf dbn bf only onf vowfl
             }
 
-            // look for coeng + ro and remember position
-            // works because coeng + ro is always in front of a vowel (if there is a vowel)
-            // and because CC_CONSONANT2 is enough to identify it, as it is the only consonant
-            // with this flag
-            if ( (charClass & KhmerClassTable::CF_COENG) && (i + 1 < syllable) &&
-                 ( (classTable->getCharClass(chars[i + 1]) & KhmerClassTable::CF_CLASS_MASK) == KhmerClassTable::CC_CONSONANT2) )
+            // look for dofng + ro bnd rfmfmbfr position
+            // works bfdbusf dofng + ro is blwbys in front of b vowfl (if tifrf is b vowfl)
+            // bnd bfdbusf CC_CONSONANT2 is fnougi to idfntify it, bs it is tif only donsonbnt
+            // witi tiis flbg
+            if ( (dibrClbss & KimfrClbssTbblf::CF_COENG) && (i + 1 < syllbblf) &&
+                 ( (dlbssTbblf->gftCibrClbss(dibrs[i + 1]) & KimfrClbssTbblf::CF_CLASS_MASK) == KimfrClbssTbblf::CC_CONSONANT2) )
             {
-                    coengRo = i;
+                    dofngRo = i;
             }
         }
 
-        // write coeng + ro if found
-        if (coengRo > -1) {
-            output.writeChar(C_COENG, coengRo, tagPref);
-            output.writeChar(C_RO, coengRo + 1, tagPref);
+        // writf dofng + ro if found
+        if (dofngRo > -1) {
+            output.writfCibr(C_COENG, dofngRo, tbgPrff);
+            output.writfCibr(C_RO, dofngRo + 1, tbgPrff);
         }
 
-        // shall we add a dotted circle?
-        // If in the position in which the base should be (first char in the string) there is
-        // a character that has the Dotted circle flag (a character that cannot be a base)
-        // then write a dotted circle
-        if (classTable->getCharClass(chars[prev]) & KhmerClassTable::CF_DOTTED_CIRCLE) {
-            output.writeChar(C_DOTTED_CIRCLE, prev, tagDefault);
+        // sibll wf bdd b dottfd dirdlf?
+        // If in tif position in wiidi tif bbsf siould bf (first dibr in tif string) tifrf is
+        // b dibrbdtfr tibt ibs tif Dottfd dirdlf flbg (b dibrbdtfr tibt dbnnot bf b bbsf)
+        // tifn writf b dottfd dirdlf
+        if (dlbssTbblf->gftCibrClbss(dibrs[prfv]) & KimfrClbssTbblf::CF_DOTTED_CIRCLE) {
+            output.writfCibr(C_DOTTED_CIRCLE, prfv, tbgDffbult);
         }
 
-        // copy what is left to the output, skipping before vowels and coeng Ro if they are present
-        for (i = prev; i < syllable; i += 1) {
-            charClass = classTable->getCharClass(chars[i]);
+        // dopy wibt is lfft to tif output, skipping bfforf vowfls bnd dofng Ro if tify brf prfsfnt
+        for (i = prfv; i < syllbblf; i += 1) {
+            dibrClbss = dlbssTbblf->gftCibrClbss(dibrs[i]);
 
-            // skip a before vowel, it was already processed
-            if (charClass & KhmerClassTable::CF_POS_BEFORE) {
-                continue;
+            // skip b bfforf vowfl, it wbs blrfbdy prodfssfd
+            if (dibrClbss & KimfrClbssTbblf::CF_POS_BEFORE) {
+                dontinuf;
             }
 
-            // skip coeng + ro, it was already processed
-            if (i == coengRo) {
+            // skip dofng + ro, it wbs blrfbdy prodfssfd
+            if (i == dofngRo) {
                 i += 1;
-                continue;
+                dontinuf;
             }
 
-            switch (charClass & KhmerClassTable::CF_POS_MASK) {
-                case KhmerClassTable::CF_POS_ABOVE :
-                    output.writeChar(chars[i], i, tagAbvf);
-                    break;
+            switdi (dibrClbss & KimfrClbssTbblf::CF_POS_MASK) {
+                dbsf KimfrClbssTbblf::CF_POS_ABOVE :
+                    output.writfCibr(dibrs[i], i, tbgAbvf);
+                    brfbk;
 
-                case KhmerClassTable::CF_POS_AFTER :
-                    output.writeChar(chars[i], i, tagPstf);
-                    break;
+                dbsf KimfrClbssTbblf::CF_POS_AFTER :
+                    output.writfCibr(dibrs[i], i, tbgPstf);
+                    brfbk;
 
-                case KhmerClassTable::CF_POS_BELOW :
-                    output.writeChar(chars[i], i, tagBlwf);
-                    break;
+                dbsf KimfrClbssTbblf::CF_POS_BELOW :
+                    output.writfCibr(dibrs[i], i, tbgBlwf);
+                    brfbk;
 
-                default:
-                    // assign the correct flags to a coeng consonant
-                    // Consonants of type 3 are taged as Post forms and those type 1 as below forms
-                    if ( (charClass & KhmerClassTable::CF_COENG) && i + 1 < syllable ) {
-                        if ( (classTable->getCharClass(chars[i + 1]) & KhmerClassTable::CF_CLASS_MASK)
-                              == KhmerClassTable::CC_CONSONANT3) {
-                            output.writeChar(chars[i], i, tagPstf);
+                dffbult:
+                    // bssign tif dorrfdt flbgs to b dofng donsonbnt
+                    // Consonbnts of typf 3 brf tbgfd bs Post forms bnd tiosf typf 1 bs bflow forms
+                    if ( (dibrClbss & KimfrClbssTbblf::CF_COENG) && i + 1 < syllbblf ) {
+                        if ( (dlbssTbblf->gftCibrClbss(dibrs[i + 1]) & KimfrClbssTbblf::CF_CLASS_MASK)
+                              == KimfrClbssTbblf::CC_CONSONANT3) {
+                            output.writfCibr(dibrs[i], i, tbgPstf);
                             i += 1;
-                            output.writeChar(chars[i], i, tagPstf);
+                            output.writfCibr(dibrs[i], i, tbgPstf);
                         }
-                        else {
-                            output.writeChar(chars[i], i, tagBlwf);
+                        flsf {
+                            output.writfCibr(dibrs[i], i, tbgBlwf);
                             i += 1;
-                            output.writeChar(chars[i], i, tagBlwf);
+                            output.writfCibr(dibrs[i], i, tbgBlwf);
                         }
-                        break;
+                        brfbk;
                     }
-                    // if a shifter is followed by an above vowel change the shifter to below form,
-                    // an above vowel can have two possible positions i + 1 or i + 3
-                    // (position i+1 corresponds to unicode 3, position i+3 to Unicode 4)
-                    // and there is an extra rule for C_VOWEL_AA + C_SIGN_NIKAHIT also for two
-                    // different positions, right after the shifter or after a vowel (Unicode 4)
-                    if ( (charClass & KhmerClassTable::CF_SHIFTER) && (i + 1 < syllable) ) {
-                        if ((classTable->getCharClass(chars[i + 1]) & KhmerClassTable::CF_ABOVE_VOWEL)
-                            || (i + 2 < syllable
-                                && ( (classTable->getCharClass(chars[i + 1]) & KhmerClassTable::CF_CLASS_MASK) == C_VOWEL_AA)
-                                && ( (classTable->getCharClass(chars[i + 2]) & KhmerClassTable::CF_CLASS_MASK) == C_SIGN_NIKAHIT))
-                            || (i + 3 < syllable && (classTable->getCharClass(chars[i + 3]) & KhmerClassTable::CF_ABOVE_VOWEL))
-                            || (i + 4 < syllable
-                                && ( (classTable->getCharClass(chars[i + 3]) & KhmerClassTable::CF_CLASS_MASK) == C_VOWEL_AA)
-                                && ( (classTable->getCharClass(chars[i + 4]) & KhmerClassTable::CF_CLASS_MASK) == C_SIGN_NIKAHIT) ) )
+                    // if b siiftfr is followfd by bn bbovf vowfl dibngf tif siiftfr to bflow form,
+                    // bn bbovf vowfl dbn ibvf two possiblf positions i + 1 or i + 3
+                    // (position i+1 dorrfsponds to unidodf 3, position i+3 to Unidodf 4)
+                    // bnd tifrf is bn fxtrb rulf for C_VOWEL_AA + C_SIGN_NIKAHIT blso for two
+                    // difffrfnt positions, rigit bftfr tif siiftfr or bftfr b vowfl (Unidodf 4)
+                    if ( (dibrClbss & KimfrClbssTbblf::CF_SHIFTER) && (i + 1 < syllbblf) ) {
+                        if ((dlbssTbblf->gftCibrClbss(dibrs[i + 1]) & KimfrClbssTbblf::CF_ABOVE_VOWEL)
+                            || (i + 2 < syllbblf
+                                && ( (dlbssTbblf->gftCibrClbss(dibrs[i + 1]) & KimfrClbssTbblf::CF_CLASS_MASK) == C_VOWEL_AA)
+                                && ( (dlbssTbblf->gftCibrClbss(dibrs[i + 2]) & KimfrClbssTbblf::CF_CLASS_MASK) == C_SIGN_NIKAHIT))
+                            || (i + 3 < syllbblf && (dlbssTbblf->gftCibrClbss(dibrs[i + 3]) & KimfrClbssTbblf::CF_ABOVE_VOWEL))
+                            || (i + 4 < syllbblf
+                                && ( (dlbssTbblf->gftCibrClbss(dibrs[i + 3]) & KimfrClbssTbblf::CF_CLASS_MASK) == C_VOWEL_AA)
+                                && ( (dlbssTbblf->gftCibrClbss(dibrs[i + 4]) & KimfrClbssTbblf::CF_CLASS_MASK) == C_SIGN_NIKAHIT) ) )
                         {
-                            output.writeChar(chars[i], i, tagBlwf);
-                            break;
+                            output.writfCibr(dibrs[i], i, tbgBlwf);
+                            brfbk;
                         }
 
                     }
-                    // default - any other characters
-                    output.writeChar(chars[i], i, tagDefault);
-                    break;
-            } // switch
+                    // dffbult - bny otifr dibrbdtfrs
+                    output.writfCibr(dibrs[i], i, tbgDffbult);
+                    brfbk;
+            } // switdi
         } // for
 
-        prev = syllable; // move the pointer to the start of next syllable
+        prfv = syllbblf; // movf tif pointfr to tif stbrt of nfxt syllbblf
     }
 
-    return output.getOutputIndex();
+    rfturn output.gftOutputIndfx();
 }
 
 

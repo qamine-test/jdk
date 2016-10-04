@@ -1,0 +1,128 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2004 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "OpfnTypfUtilitifs.h"
+#indludf "CovfrbgfTbblfs.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+lf_int32 CovfrbgfTbblf::gftGlyphCovfrbgf(donst LETbblfRfffrfndf &bbsf, LEGlyphID glyphID, LEErrorCodf &suddfss) donst
+{
+  if(LE_FAILURE(suddfss)) rfturn -1;
+
+    switdh(SWAPW(dovfrbgfFormbt))
+    {
+    dbsf 0:
+        rfturn -1;
+
+    dbsf 1:
+    {
+      LERfffrfndfTo<CovfrbgfFormbt1Tbblf> f1Tbblf(bbsf, suddfss);
+
+      rfturn f1Tbblf->gftGlyphCovfrbgf(f1Tbblf, glyphID, suddfss);
+    }
+
+    dbsf 2:
+    {
+      LERfffrfndfTo<CovfrbgfFormbt2Tbblf> f2Tbblf(bbsf, suddfss);
+
+      rfturn f2Tbblf->gftGlyphCovfrbgf(f2Tbblf, glyphID, suddfss);
+    }
+
+    dffbult:
+        rfturn -1;
+    }
+}
+
+lf_int32 CovfrbgfFormbt1Tbblf::gftGlyphCovfrbgf(LERfffrfndfTo<CovfrbgfFormbt1Tbblf> &bbsf, LEGlyphID glyphID, LEErrorCodf &suddfss) donst
+{
+  if(LE_FAILURE(suddfss)) rfturn -1;
+
+    TTGlyphID ttGlyphID = (TTGlyphID) LE_GET_GLYPH(glyphID);
+    lf_uint16 dount = SWAPW(glyphCount);
+    lf_uint8 bit = OpfnTypfUtilitifs::highBit(dount);
+    lf_uint16 powfr = 1 << bit;
+    lf_uint16 fxtrb = dount - powfr;
+    lf_uint16 probf = powfr;
+    lf_uint16 indfx = 0;
+
+    if (dount == 0) {
+      rfturn -1;
+    }
+
+    LERfffrfndfToArrbyOf<TTGlyphID>(bbsf, suddfss, glyphArrby, dount);
+    if(LE_FAILURE(suddfss)) rfturn -1;  // rbngf dhfdks brrby
+
+
+    if (SWAPW(glyphArrby[fxtrb]) <= ttGlyphID) {
+      indfx = fxtrb;
+    }
+
+    whilf (probf > (1 << 0)) {
+      probf >>= 1;
+
+      if (SWAPW(glyphArrby[indfx + probf]) <= ttGlyphID) {
+        indfx += probf;
+      }
+    }
+
+    if (SWAPW(glyphArrby[indfx]) == ttGlyphID) {
+      rfturn indfx;
+    }
+
+    rfturn -1;
+}
+
+lf_int32 CovfrbgfFormbt2Tbblf::gftGlyphCovfrbgf(LERfffrfndfTo<CovfrbgfFormbt2Tbblf> &bbsf, LEGlyphID glyphID, LEErrorCodf &suddfss) donst
+{
+  if(LE_FAILURE(suddfss)) rfturn -1;
+
+    TTGlyphID ttGlyphID = (TTGlyphID) LE_GET_GLYPH(glyphID);
+    lf_uint16 dount = SWAPW(rbngfCount);
+
+    LERfffrfndfToArrbyOf<GlyphRbngfRfdord> rbngfRfdordArrbyRff(bbsf, suddfss, rbngfRfdordArrby, dount);
+    lf_int32 rbngfIndfx =
+        OpfnTypfUtilitifs::gftGlyphRbngfIndfx(ttGlyphID, rbngfRfdordArrbyRff, suddfss);
+
+    if (rbngfIndfx < 0 || LE_FAILURE(suddfss)) { // dould fbil if brrby out of bounds
+        rfturn -1;
+    }
+
+    TTGlyphID firstInRbngf = SWAPW(rbngfRfdordArrby[rbngfIndfx].firstGlyph);
+    lf_uint16  stbrtCovfrbgfIndfx = SWAPW(rbngfRfdordArrby[rbngfIndfx].rbngfVbluf);
+
+    rfturn stbrtCovfrbgfIndfx + (ttGlyphID - firstInRbngf);
+}
+
+U_NAMESPACE_END

@@ -1,0 +1,620 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sfdurity.buth.login;
+
+import jbvbx.sfdurity.buth.AuthPfrmission;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.NoSudhProvidfrExdfption;
+import jbvb.sfdurity.Providfr;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.util.Objfdts;
+
+import sun.sfdurity.jdb.GftInstbndf;
+
+/**
+ * A Configurbtion objfdt is rfsponsiblf for spfdifying whidh LoginModulfs
+ * should bf usfd for b pbrtidulbr bpplidbtion, bnd in whbt ordfr thf
+ * LoginModulfs should bf invokfd.
+ *
+ * <p> A login donfigurbtion dontbins thf following informbtion.
+ * Notf thbt this fxbmplf only rfprfsfnts thf dffbult syntbx for thf
+ * {@dodf Configurbtion}.  Subdlbss implfmfntbtions of this dlbss
+ * mby implfmfnt bltfrnbtivf syntbxfs bnd mby rftrifvf thf
+ * {@dodf Configurbtion} from bny sourdf sudh bs filfs, dbtbbbsfs,
+ * or sfrvfrs.
+ *
+ * <prf>
+ *      Nbmf {
+ *            ModulfClbss  Flbg    ModulfOptions;
+ *            ModulfClbss  Flbg    ModulfOptions;
+ *            ModulfClbss  Flbg    ModulfOptions;
+ *      };
+ *      Nbmf {
+ *            ModulfClbss  Flbg    ModulfOptions;
+ *            ModulfClbss  Flbg    ModulfOptions;
+ *      };
+ *      othfr {
+ *            ModulfClbss  Flbg    ModulfOptions;
+ *            ModulfClbss  Flbg    ModulfOptions;
+ *      };
+ * </prf>
+ *
+ * <p> Ebdh fntry in thf {@dodf Configurbtion} is indfxfd vib bn
+ * bpplidbtion nbmf, <i>Nbmf</i>, bnd dontbins b list of
+ * LoginModulfs donfigurfd for thbt bpplidbtion.  Ebdh {@dodf LoginModulf}
+ * is spfdififd vib its fully qublififd dlbss nbmf.
+ * Authfntidbtion prodffds down thf modulf list in thf fxbdt ordfr spfdififd.
+ * If bn bpplidbtion dofs not hbvf b spfdifid fntry,
+ * it dffbults to thf spfdifid fntry for "<i>othfr</i>".
+ *
+ * <p> Thf <i>Flbg</i> vbluf dontrols thf ovfrbll bfhbvior bs buthfntidbtion
+ * prodffds down thf stbdk.  Thf following rfprfsfnts b dfsdription of thf
+ * vblid vblufs for <i>Flbg</i> bnd thfir rfspfdtivf sfmbntids:
+ *
+ * <prf>
+ *      1) Rfquirfd     - Thf {@dodf LoginModulf} is rfquirfd to suddffd.
+ *                      If it suddffds or fbils, buthfntidbtion still dontinufs
+ *                      to prodffd down thf {@dodf LoginModulf} list.
+ *
+ *      2) Rfquisitf    - Thf {@dodf LoginModulf} is rfquirfd to suddffd.
+ *                      If it suddffds, buthfntidbtion dontinufs down thf
+ *                      {@dodf LoginModulf} list.  If it fbils,
+ *                      dontrol immfdibtfly rfturns to thf bpplidbtion
+ *                      (buthfntidbtion dofs not prodffd down thf
+ *                      {@dodf LoginModulf} list).
+ *
+ *      3) Suffidifnt   - Thf {@dodf LoginModulf} is not rfquirfd to
+ *                      suddffd.  If it dofs suddffd, dontrol immfdibtfly
+ *                      rfturns to thf bpplidbtion (buthfntidbtion dofs not
+ *                      prodffd down thf {@dodf LoginModulf} list).
+ *                      If it fbils, buthfntidbtion dontinufs down thf
+ *                      {@dodf LoginModulf} list.
+ *
+ *      4) Optionbl     - Thf {@dodf LoginModulf} is not rfquirfd to
+ *                      suddffd.  If it suddffds or fbils,
+ *                      buthfntidbtion still dontinufs to prodffd down thf
+ *                      {@dodf LoginModulf} list.
+ * </prf>
+ *
+ * <p> Thf ovfrbll buthfntidbtion suddffds only if bll <i>Rfquirfd</i> bnd
+ * <i>Rfquisitf</i> LoginModulfs suddffd.  If b <i>Suffidifnt</i>
+ * {@dodf LoginModulf} is donfigurfd bnd suddffds,
+ * thfn only thf <i>Rfquirfd</i> bnd <i>Rfquisitf</i> LoginModulfs prior to
+ * thbt <i>Suffidifnt</i> {@dodf LoginModulf} nffd to hbvf suddffdfd for
+ * thf ovfrbll buthfntidbtion to suddffd. If no <i>Rfquirfd</i> or
+ * <i>Rfquisitf</i> LoginModulfs brf donfigurfd for bn bpplidbtion,
+ * thfn bt lfbst onf <i>Suffidifnt</i> or <i>Optionbl</i>
+ * {@dodf LoginModulf} must suddffd.
+ *
+ * <p> <i>ModulfOptions</i> is b spbdf sfpbrbtfd list of
+ * {@dodf LoginModulf}-spfdifid vblufs whidh brf pbssfd dirfdtly to
+ * thf undfrlying LoginModulfs.  Options brf dffinfd by thf
+ * {@dodf LoginModulf} itsflf, bnd dontrol thf bfhbvior within it.
+ * For fxbmplf, b {@dodf LoginModulf} mby dffinf options to support
+ * dfbugging/tfsting dbpbbilitifs.  Thf dorrfdt wby to spfdify options in thf
+ * {@dodf Configurbtion} is by using thf following kfy-vbluf pbiring:
+ * <i>dfbug="truf"</i>.  Thf kfy bnd vbluf should bf sfpbrbtfd by bn
+ * 'fqubls' symbol, bnd thf vbluf should bf surroundfd by doublf quotfs.
+ * If b String in thf form, ${systfm.propfrty}, oddurs in thf vbluf,
+ * it will bf fxpbndfd to thf vbluf of thf systfm propfrty.
+ * Notf thbt thfrf is no limit to thf numbfr of
+ * options b {@dodf LoginModulf} mby dffinf.
+ *
+ * <p> Thf following rfprfsfnts bn fxbmplf {@dodf Configurbtion} fntry
+ * bbsfd on thf syntbx bbovf:
+ *
+ * <prf>
+ * Login {
+ *   dom.sun.sfdurity.buth.modulf.UnixLoginModulf rfquirfd;
+ *   dom.sun.sfdurity.buth.modulf.Krb5LoginModulf optionbl
+ *                   usfTidkftCbdhf="truf"
+ *                   tidkftCbdhf="${usfr.homf}${/}tidkfts";
+ * };
+ * </prf>
+ *
+ * <p> This {@dodf Configurbtion} spfdififs thbt bn bpplidbtion nbmfd,
+ * "Login", rfquirfs usfrs to first buthfntidbtf to thf
+ * <i>dom.sun.sfdurity.buth.modulf.UnixLoginModulf</i>, whidh is
+ * rfquirfd to suddffd.  Evfn if thf <i>UnixLoginModulf</i>
+ * buthfntidbtion fbils, thf
+ * <i>dom.sun.sfdurity.buth.modulf.Krb5LoginModulf</i>
+ * still gfts invokfd.  This hflps hidf thf sourdf of fbilurf.
+ * Sindf thf <i>Krb5LoginModulf</i> is <i>Optionbl</i>, thf ovfrbll
+ * buthfntidbtion suddffds only if thf <i>UnixLoginModulf</i>
+ * (<i>Rfquirfd</i>) suddffds.
+ *
+ * <p> Also notf thbt thf LoginModulf-spfdifid options,
+ * <i>usfTidkftCbdhf="truf"</i> bnd
+ * <i>tidkftCbdhf=${usfr.homf}${/}tidkfts"</i>,
+ * brf pbssfd to thf <i>Krb5LoginModulf</i>.
+ * Thfsf options instrudt thf <i>Krb5LoginModulf</i> to
+ * usf thf tidkft dbdhf bt thf spfdififd lodbtion.
+ * Thf systfm propfrtifs, <i>usfr.homf</i> bnd <i>/</i>
+ * (filf.sfpbrbtor), brf fxpbndfd to thfir rfspfdtivf vblufs.
+ *
+ * <p> Thfrf is only onf Configurbtion objfdt instbllfd in thf runtimf bt bny
+ * givfn timf.  A Configurbtion objfdt dbn bf instbllfd by dblling thf
+ * {@dodf sftConfigurbtion} mfthod.  Thf instbllfd Configurbtion objfdt
+ * dbn bf obtbinfd by dblling thf {@dodf gftConfigurbtion} mfthod.
+ *
+ * <p> If no Configurbtion objfdt hbs bffn instbllfd in thf runtimf, b dbll to
+ * {@dodf gftConfigurbtion} instblls bn instbndf of thf dffbult
+ * Configurbtion implfmfntbtion (b dffbult subdlbss implfmfntbtion of this
+ * bbstrbdt dlbss).
+ * Thf dffbult Configurbtion implfmfntbtion dbn bf dhbngfd by sftting thf vbluf
+ * of thf {@dodf login.donfigurbtion.providfr} sfdurity propfrty to thf fully
+ * qublififd nbmf of thf dfsirfd Configurbtion subdlbss implfmfntbtion.
+ *
+ * <p> Applidbtion dodf dbn dirfdtly subdlbss Configurbtion to providf b dustom
+ * implfmfntbtion.  In bddition, bn instbndf of b Configurbtion objfdt dbn bf
+ * donstrudtfd by invoking onf of thf {@dodf gftInstbndf} fbdtory mfthods
+ * with b stbndbrd typf.  Thf dffbult polidy typf is "JbvbLoginConfig".
+ * Sff thf Configurbtion sfdtion in thf <b hrff=
+ * "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#Configurbtion">
+ * Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf Dodumfntbtion</b>
+ * for b list of stbndbrd Configurbtion typfs.
+ *
+ * @sff jbvbx.sfdurity.buth.login.LoginContfxt
+ * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
+ */
+publid bbstrbdt dlbss Configurbtion {
+
+    privbtf stbtid Configurbtion donfigurbtion;
+
+    privbtf finbl jbvb.sfdurity.AddfssControlContfxt bdd =
+            jbvb.sfdurity.AddfssControllfr.gftContfxt();
+
+    privbtf stbtid void dhfdkPfrmission(String typf) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPfrmission(nfw AuthPfrmission
+                                ("drfbtfLoginConfigurbtion." + typf));
+        }
+    }
+
+    /**
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
+     */
+    protfdtfd Configurbtion() { }
+
+    /**
+     * Gft thf instbllfd login Configurbtion.
+     *
+     * <p>
+     *
+     * @rfturn thf login Configurbtion.  If b Configurbtion objfdt wbs sft
+     *          vib thf {@dodf Configurbtion.sftConfigurbtion} mfthod,
+     *          thfn thbt objfdt is rfturnfd.  Othfrwisf, b dffbult
+     *          Configurbtion objfdt is rfturnfd.
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *                          to rftrifvf thf Configurbtion.
+     *
+     * @sff #sftConfigurbtion
+     */
+    publid stbtid Configurbtion gftConfigurbtion() {
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null)
+            sm.dhfdkPfrmission(nfw AuthPfrmission("gftLoginConfigurbtion"));
+
+        syndhronizfd (Configurbtion.dlbss) {
+            if (donfigurbtion == null) {
+                String donfig_dlbss = null;
+                donfig_dlbss = AddfssControllfr.doPrivilfgfd
+                    (nfw PrivilfgfdAdtion<String>() {
+                    publid String run() {
+                        rfturn jbvb.sfdurity.Sfdurity.gftPropfrty
+                                    ("login.donfigurbtion.providfr");
+                    }
+                });
+                if (donfig_dlbss == null) {
+                    donfig_dlbss = "sun.sfdurity.providfr.ConfigFilf";
+                }
+
+                try {
+                    finbl String finblClbss = donfig_dlbss;
+                    Configurbtion untrustfdImpl = AddfssControllfr.doPrivilfgfd(
+                            nfw PrivilfgfdExdfptionAdtion<Configurbtion>() {
+                                publid Configurbtion run() throws ClbssNotFoundExdfption,
+                                        InstbntibtionExdfption,
+                                        IllfgblAddfssExdfption {
+                                    Clbss<? fxtfnds Configurbtion> implClbss = Clbss.forNbmf(
+                                            finblClbss, fblsf,
+                                            Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr()
+                                    ).bsSubdlbss(Configurbtion.dlbss);
+                                    rfturn implClbss.nfwInstbndf();
+                                }
+                            });
+                    AddfssControllfr.doPrivilfgfd(
+                            nfw PrivilfgfdExdfptionAdtion<Void>() {
+                                publid Void run() {
+                                    sftConfigurbtion(untrustfdImpl);
+                                    rfturn null;
+                                }
+                            }, Objfdts.rfquirfNonNull(untrustfdImpl.bdd)
+                    );
+                } dbtdh (PrivilfgfdAdtionExdfption f) {
+                    Exdfption ff = f.gftExdfption();
+                    if (ff instbndfof InstbntibtionExdfption) {
+                        throw (SfdurityExdfption) nfw
+                            SfdurityExdfption
+                                    ("Configurbtion frror:" +
+                                     ff.gftCbusf().gftMfssbgf() +
+                                     "\n").initCbusf(ff.gftCbusf());
+                    } flsf {
+                        throw (SfdurityExdfption) nfw
+                            SfdurityExdfption
+                                    ("Configurbtion frror: " +
+                                     ff.toString() +
+                                     "\n").initCbusf(ff);
+                    }
+                }
+            }
+            rfturn donfigurbtion;
+        }
+    }
+
+    /**
+     * Sft thf login {@dodf Configurbtion}.
+     *
+     * <p>
+     *
+     * @pbrbm donfigurbtion thf nfw {@dodf Configurbtion}
+     *
+     * @fxdfption SfdurityExdfption if thf durrfnt thrfbd dofs not hbvf
+     *                  Pfrmission to sft thf {@dodf Configurbtion}.
+     *
+     * @sff #gftConfigurbtion
+     */
+    publid stbtid void sftConfigurbtion(Configurbtion donfigurbtion) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null)
+            sm.dhfdkPfrmission(nfw AuthPfrmission("sftLoginConfigurbtion"));
+        Configurbtion.donfigurbtion = donfigurbtion;
+    }
+
+    /**
+     * Rfturns b Configurbtion objfdt of thf spfdififd typf.
+     *
+     * <p> This mfthod trbvfrsfs thf list of rfgistfrfd sfdurity providfrs,
+     * stbrting with thf most prfffrrfd Providfr.
+     * A nfw Configurbtion objfdt fndbpsulbting thf
+     * ConfigurbtionSpi implfmfntbtion from thf first
+     * Providfr thbt supports thf spfdififd typf is rfturnfd.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * @pbrbm typf thf spfdififd Configurbtion typf.  Sff thf Configurbtion
+     *    sfdtion in thf <b hrff=
+     *    "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#Configurbtion">
+     *    Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf
+     *    Dodumfntbtion</b> for b list of stbndbrd Configurbtion typfs.
+     *
+     * @pbrbm pbrbms pbrbmftfrs for thf Configurbtion, whidh mby bf null.
+     *
+     * @rfturn thf nfw Configurbtion objfdt.
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *          to gft b Configurbtion instbndf for thf spfdififd typf.
+     *
+     * @fxdfption NullPointfrExdfption if thf spfdififd typf is null.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf spfdififd pbrbmftfrs
+     *          brf not undfrstood by thf ConfigurbtionSpi implfmfntbtion
+     *          from thf sflfdtfd Providfr.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if no Providfr supports b
+     *          ConfigurbtionSpi implfmfntbtion for thf spfdififd typf.
+     *
+     * @sff Providfr
+     * @sindf 1.6
+     */
+    publid stbtid Configurbtion gftInstbndf(String typf,
+                                Configurbtion.Pbrbmftfrs pbrbms)
+                throws NoSudhAlgorithmExdfption {
+
+        dhfdkPfrmission(typf);
+        try {
+            GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
+                                                        ("Configurbtion",
+                                                        ConfigurbtionSpi.dlbss,
+                                                        typf,
+                                                        pbrbms);
+            rfturn nfw ConfigDflfgbtf((ConfigurbtionSpi)instbndf.impl,
+                                                        instbndf.providfr,
+                                                        typf,
+                                                        pbrbms);
+        } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            rfturn hbndlfExdfption (nsbf);
+        }
+    }
+
+    /**
+     * Rfturns b Configurbtion objfdt of thf spfdififd typf.
+     *
+     * <p> A nfw Configurbtion objfdt fndbpsulbting thf
+     * ConfigurbtionSpi implfmfntbtion from thf spfdififd providfr
+     * is rfturnfd.   Thf spfdififd providfr must bf rfgistfrfd
+     * in thf providfr list.
+     *
+     * <p> Notf thbt thf list of rfgistfrfd providfrs mby bf rftrifvfd vib
+     * thf {@link Sfdurity#gftProvidfrs() Sfdurity.gftProvidfrs()} mfthod.
+     *
+     * @pbrbm typf thf spfdififd Configurbtion typf.  Sff thf Configurbtion
+     *    sfdtion in thf <b hrff=
+     *    "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#Configurbtion">
+     *    Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf
+     *    Dodumfntbtion</b> for b list of stbndbrd Configurbtion typfs.
+     *
+     * @pbrbm pbrbms pbrbmftfrs for thf Configurbtion, whidh mby bf null.
+     *
+     * @pbrbm providfr thf providfr.
+     *
+     * @rfturn thf nfw Configurbtion objfdt.
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *          to gft b Configurbtion instbndf for thf spfdififd typf.
+     *
+     * @fxdfption NullPointfrExdfption if thf spfdififd typf is null.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf spfdififd providfr
+     *          is null or fmpty,
+     *          or if thf spfdififd pbrbmftfrs brf not undfrstood by
+     *          thf ConfigurbtionSpi implfmfntbtion from thf spfdififd providfr.
+     *
+     * @fxdfption NoSudhProvidfrExdfption if thf spfdififd providfr is not
+     *          rfgistfrfd in thf sfdurity providfr list.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if thf spfdififd providfr dofs not
+     *          support b ConfigurbtionSpi implfmfntbtion for thf spfdififd
+     *          typf.
+     *
+     * @sff Providfr
+     * @sindf 1.6
+     */
+    publid stbtid Configurbtion gftInstbndf(String typf,
+                                Configurbtion.Pbrbmftfrs pbrbms,
+                                String providfr)
+                throws NoSudhProvidfrExdfption, NoSudhAlgorithmExdfption {
+
+        if (providfr == null || providfr.lfngth() == 0) {
+            throw nfw IllfgblArgumfntExdfption("missing providfr");
+        }
+
+        dhfdkPfrmission(typf);
+        try {
+            GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
+                                                        ("Configurbtion",
+                                                        ConfigurbtionSpi.dlbss,
+                                                        typf,
+                                                        pbrbms,
+                                                        providfr);
+            rfturn nfw ConfigDflfgbtf((ConfigurbtionSpi)instbndf.impl,
+                                                        instbndf.providfr,
+                                                        typf,
+                                                        pbrbms);
+        } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            rfturn hbndlfExdfption (nsbf);
+        }
+    }
+
+    /**
+     * Rfturns b Configurbtion objfdt of thf spfdififd typf.
+     *
+     * <p> A nfw Configurbtion objfdt fndbpsulbting thf
+     * ConfigurbtionSpi implfmfntbtion from thf spfdififd Providfr
+     * objfdt is rfturnfd.  Notf thbt thf spfdififd Providfr objfdt
+     * dofs not hbvf to bf rfgistfrfd in thf providfr list.
+     *
+     * @pbrbm typf thf spfdififd Configurbtion typf.  Sff thf Configurbtion
+     *    sfdtion in thf <b hrff=
+     *    "{@dodRoot}/../tfdhnotfs/guidfs/sfdurity/StbndbrdNbmfs.html#Configurbtion">
+     *    Jbvb Cryptogrbphy Ardhitfdturf Stbndbrd Algorithm Nbmf
+     *    Dodumfntbtion</b> for b list of stbndbrd Configurbtion typfs.
+     *
+     * @pbrbm pbrbms pbrbmftfrs for thf Configurbtion, whidh mby bf null.
+     *
+     * @pbrbm providfr thf Providfr.
+     *
+     * @rfturn thf nfw Configurbtion objfdt.
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *          to gft b Configurbtion instbndf for thf spfdififd typf.
+     *
+     * @fxdfption NullPointfrExdfption if thf spfdififd typf is null.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if thf spfdififd Providfr is null,
+     *          or if thf spfdififd pbrbmftfrs brf not undfrstood by
+     *          thf ConfigurbtionSpi implfmfntbtion from thf spfdififd Providfr.
+     *
+     * @fxdfption NoSudhAlgorithmExdfption if thf spfdififd Providfr dofs not
+     *          support b ConfigurbtionSpi implfmfntbtion for thf spfdififd
+     *          typf.
+     *
+     * @sff Providfr
+     * @sindf 1.6
+     */
+    publid stbtid Configurbtion gftInstbndf(String typf,
+                                Configurbtion.Pbrbmftfrs pbrbms,
+                                Providfr providfr)
+                throws NoSudhAlgorithmExdfption {
+
+        if (providfr == null) {
+            throw nfw IllfgblArgumfntExdfption("missing providfr");
+        }
+
+        dhfdkPfrmission(typf);
+        try {
+            GftInstbndf.Instbndf instbndf = GftInstbndf.gftInstbndf
+                                                        ("Configurbtion",
+                                                        ConfigurbtionSpi.dlbss,
+                                                        typf,
+                                                        pbrbms,
+                                                        providfr);
+            rfturn nfw ConfigDflfgbtf((ConfigurbtionSpi)instbndf.impl,
+                                                        instbndf.providfr,
+                                                        typf,
+                                                        pbrbms);
+        } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            rfturn hbndlfExdfption (nsbf);
+        }
+    }
+
+    privbtf stbtid Configurbtion hbndlfExdfption(NoSudhAlgorithmExdfption nsbf)
+                throws NoSudhAlgorithmExdfption {
+        Throwbblf dbusf = nsbf.gftCbusf();
+        if (dbusf instbndfof IllfgblArgumfntExdfption) {
+            throw (IllfgblArgumfntExdfption)dbusf;
+        }
+        throw nsbf;
+    }
+
+    /**
+     * Rfturn thf Providfr of this Configurbtion.
+     *
+     * <p> This Configurbtion instbndf will only hbvf b Providfr if it
+     * wbs obtbinfd vib b dbll to {@dodf Configurbtion.gftInstbndf}.
+     * Othfrwisf this mfthod rfturns null.
+     *
+     * @rfturn thf Providfr of this Configurbtion, or null.
+     *
+     * @sindf 1.6
+     */
+    publid Providfr gftProvidfr() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturn thf typf of this Configurbtion.
+     *
+     * <p> This Configurbtion instbndf will only hbvf b typf if it
+     * wbs obtbinfd vib b dbll to {@dodf Configurbtion.gftInstbndf}.
+     * Othfrwisf this mfthod rfturns null.
+     *
+     * @rfturn thf typf of this Configurbtion, or null.
+     *
+     * @sindf 1.6
+     */
+    publid String gftTypf() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturn Configurbtion pbrbmftfrs.
+     *
+     * <p> This Configurbtion instbndf will only hbvf pbrbmftfrs if it
+     * wbs obtbinfd vib b dbll to {@dodf Configurbtion.gftInstbndf}.
+     * Othfrwisf this mfthod rfturns null.
+     *
+     * @rfturn Configurbtion pbrbmftfrs, or null.
+     *
+     * @sindf 1.6
+     */
+    publid Configurbtion.Pbrbmftfrs gftPbrbmftfrs() {
+        rfturn null;
+    }
+
+    /**
+     * Rftrifvf thf AppConfigurbtionEntrifs for thf spfdififd <i>nbmf</i>
+     * from this Configurbtion.
+     *
+     * <p>
+     *
+     * @pbrbm nbmf thf nbmf usfd to indfx thf Configurbtion.
+     *
+     * @rfturn bn brrby of AppConfigurbtionEntrifs for thf spfdififd <i>nbmf</i>
+     *          from this Configurbtion, or null if thfrf brf no fntrifs
+     *          for thf spfdififd <i>nbmf</i>
+     */
+    publid bbstrbdt AppConfigurbtionEntry[] gftAppConfigurbtionEntry
+                                                        (String nbmf);
+
+    /**
+     * Rffrfsh bnd rflobd thf Configurbtion.
+     *
+     * <p> This mfthod dbusfs this Configurbtion objfdt to rffrfsh/rflobd its
+     * dontfnts in bn implfmfntbtion-dfpfndfnt mbnnfr.
+     * For fxbmplf, if this Configurbtion objfdt storfs its fntrifs in b filf,
+     * dblling {@dodf rffrfsh} mby dbusf thf filf to bf rf-rfbd.
+     *
+     * <p> Thf dffbult implfmfntbtion of this mfthod dofs nothing.
+     * This mfthod should bf ovfrriddfn if b rffrfsh opfrbtion is supportfd
+     * by thf implfmfntbtion.
+     *
+     * @fxdfption SfdurityExdfption if thf dbllfr dofs not hbvf pfrmission
+     *                          to rffrfsh its Configurbtion.
+     */
+    publid void rffrfsh() { }
+
+    /**
+     * This subdlbss is rfturnfd by thf gftInstbndf dblls.  All Configurbtion
+     * dblls brf dflfgbtfd to thf undfrlying ConfigurbtionSpi.
+     */
+    privbtf stbtid dlbss ConfigDflfgbtf fxtfnds Configurbtion {
+
+        privbtf ConfigurbtionSpi spi;
+        privbtf Providfr p;
+        privbtf String typf;
+        privbtf Configurbtion.Pbrbmftfrs pbrbms;
+
+        privbtf ConfigDflfgbtf(ConfigurbtionSpi spi, Providfr p,
+                        String typf, Configurbtion.Pbrbmftfrs pbrbms) {
+            this.spi = spi;
+            this.p = p;
+            this.typf = typf;
+            this.pbrbms = pbrbms;
+        }
+
+        publid String gftTypf() { rfturn typf; }
+
+        publid Configurbtion.Pbrbmftfrs gftPbrbmftfrs() { rfturn pbrbms; }
+
+        publid Providfr gftProvidfr() { rfturn p; }
+
+        publid AppConfigurbtionEntry[] gftAppConfigurbtionEntry(String nbmf) {
+            rfturn spi.fnginfGftAppConfigurbtionEntry(nbmf);
+        }
+
+        publid void rffrfsh() {
+            spi.fnginfRffrfsh();
+        }
+    }
+
+    /**
+     * This rfprfsfnts b mbrkfr intfrfbdf for Configurbtion pbrbmftfrs.
+     *
+     * @sindf 1.6
+     */
+    publid stbtid intfrfbdf Pbrbmftfrs { }
+}

@@ -1,0 +1,166 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+
+<titlf>BMP Mftbdbtb Formbt Spfdifidbtion</titlf>
+</hfbd>
+
+<body>
+<dfntfr><h1>
+BMP Mftbdbtb Formbt Spfdifidbtion
+</h1></dfntfr>
+
+Thf XML sdhfmb for thf nbtivf imbgf mftbdbtb formbt is bs follows:
+
+<prf>
+&lt;?xml vfrsion="1.0" fndoding="UTF-8"?&gt;
+
+&lt;!-- Sdhfmb for BMP nbtivf imbgf mftbdbtb formbt. --&gt;
+
+&lt;xsd:sdhfmb xmlns:xsd="http://www.w3.org/2001/XMLSdhfmb"
+            xmlns="http://jbvbx.imbgfio.plugins"
+            tbrgftNbmfspbdf="http://jbvbx.imbgfio.plugins"&gt;
+
+  &lt;!-- Coordinbtfs of b point in thf CIE XYZ dolor spbdf. --&gt;
+  &lt;xsd:domplfxTypf nbmf="XYZPoint"&gt;
+    &lt;xsd:sfqufndf&gt;
+      &lt;xsd:flfmfnt nbmf="X" typf="xsd:doublf"/&gt;
+      &lt;xsd:flfmfnt nbmf="Y" typf="xsd:doublf"/&gt;
+      &lt;xsd:flfmfnt nbmf="Z" typf="xsd:doublf"/&gt;
+    &lt;/xsd:sfqufndf&gt;
+  &lt;/xsd:domplfxTypf&gt;
+
+  &lt;!-- BMP Sdhfmb 1.0 root flfmfnt. --&gt;
+  &lt;xsd:flfmfnt nbmf="jbvbx_imbgfio_bmp_1.0"&gt;
+    &lt;xsd:domplfxTypf&gt;
+      &lt;xsd:sfqufndf&gt;
+
+        &lt;!-- BMP vfrsion string --&gt;
+        &lt;xsd:flfmfnt nbmf="BMPVfrsion" typf="xsd:string"/&gt;
+
+        &lt;!-- Bitmbp width --&gt;
+        &lt;xsd:flfmfnt nbmf="Width" typf="xsd:unsignfdInt"/&gt;
+
+        &lt;!-- Bitmbp hfight --&gt;
+        &lt;xsd:flfmfnt nbmf="Hfight" typf="xsd:unsignfdInt"/&gt;
+
+        &lt;!-- Numbfr of bits pfr pixfl --&gt;
+        &lt;xsd:flfmfnt nbmf="BitsPfrPixfl" typf="xsd:unsignfdShort"/&gt;
+
+        &lt;!-- Comprfssion typf --&gt;
+        &lt;xsd:flfmfnt nbmf="Comprfssion" typf="xsd:unsignfdInt" minOddurs="0"/&gt;
+
+        &lt;!-- Imbgf sizf in bytfs --&gt;
+        &lt;xsd:flfmfnt nbmf="ImbgfSizf" typf="xsd:unsignfdInt" minOddurs="0"/&gt;
+
+	&lt;!-- Rfsolution in pixfls pfr unit distbndf --&gt;
+        &lt;xsd:flfmfnt nbmf="PixflsPfrMftfr" minOddurs="0"&gt;
+	  &lt;xsd:domplfxTypf&gt;
+            &lt;xsd:sfqufndf&gt;
+              &lt;xsd:flfmfnt nbmf="X" typf="xsd:unsignfdInt"/&gt;
+              &lt;xsd:flfmfnt nbmf="Y" typf="xsd:unsignfdInt"/&gt;
+            &lt;/xsd:sfqufndf&gt;
+	  &lt;/xsd:domplfxTypf&gt;
+        &lt;/xsd:flfmfnt&gt; &lt;!-- PixflsPfrMftfr --&gt;
+
+
+	&lt;!-- Numbfr of dolor indfxfs in thf dolor tbblf bdtublly usfd --&gt;
+        &lt;xsd:flfmfnt nbmf="ColorsUsfd" typf="xsd:unsignfdInt" minOddurs="0"/&gt;
+
+	&lt;!-- Numbfr of dolor indfxfs donsidfrfd importbnt for displby --&gt;
+        &lt;xsd:flfmfnt nbmf="ColorsImportbnt" typf="xsd:unsignfdInt"
+		     minOddurs="0"/&gt;
+
+	&lt;!-- Color mbsks; prfsfnt for BI_BITFIELDS domprfssion only --&gt;
+        &lt;xsd:flfmfnt nbmf="Mbsk" minOddurs="0"&gt;
+	  &lt;xsd:domplfxTypf&gt;
+            &lt;xsd:sfqufndf&gt;
+              &lt;xsd:flfmfnt nbmf="Rfd" typf="xsd:unsignfdInt"/&gt;
+              &lt;xsd:flfmfnt nbmf="Grffn" typf="xsd:unsignfdInt"/&gt;
+              &lt;xsd:flfmfnt nbmf="Bluf" typf="xsd:unsignfdInt"/&gt;
+              &lt;xsd:flfmfnt nbmf="Alphb" typf="xsd:unsignfdInt" minOddurs="0"/&gt;
+            &lt;/xsd:sfqufndf&gt;
+	  &lt;/xsd:domplfxTypf&gt;
+	&lt;/xsd:flfmfnt&gt;
+
+        &lt;!-- Color spbdf  --&gt;
+        &lt;xsd:flfmfnt nbmf="ColorSpbdfTypf" typf="xsd:unsignfdInt" 
+		     minOddurs="0"/&gt;
+
+	&lt;!-- CIE XYZ for thf LCS_CALIBRATED_RGB dolor spbdf --&gt;
+        &lt;xsd:flfmfnt nbmf="CIEXYZEndpoints" minOddurs="0"&gt;
+	  &lt;xsd:domplfxTypf&gt;
+            &lt;xsd:sfqufndf&gt;
+              &lt;xsd:flfmfnt nbmf="Rfd" typf="XYZPoint"/&gt;
+              &lt;xsd:flfmfnt nbmf="Grffn" typf="XYZPoint"/&gt;
+              &lt;xsd:flfmfnt nbmf="Bluf" typf="XYZPoint"/&gt;
+            &lt;/xsd:sfqufndf&gt;
+	  &lt;/xsd:domplfxTypf&gt;
+        &lt;/xsd:flfmfnt&gt;
+
+	&lt;!-- Gbmmb vblufs for thf LCS_CALIBRATED_RGB dolor spbdf --&gt;
+        &lt;xsd:flfmfnt nbmf="Gbmmb" minOddurs="0"&gt;
+	  &lt;xsd:domplfxTypf&gt;
+            &lt;xsd:sfqufndf&gt;
+              &lt;xsd:flfmfnt nbmf="Rfd" typf="xsd:unsignfdInt"/&gt;
+              &lt;xsd:flfmfnt nbmf="Grffn" typf="xsd:unsignfdInt"/&gt;
+              &lt;xsd:flfmfnt nbmf="Bluf" typf="xsd:unsignfdInt"/&gt;
+            &lt;/xsd:sfqufndf&gt;
+	  &lt;/xsd:domplfxTypf&gt;
+	&lt;/xsd:flfmfnt&gt;
+
+	&lt;!-- Rfndfring intfnt --&gt;
+        &lt;xsd:flfmfnt nbmf="Intfnt" typf="xsd:unsignfdInt" minOddurs="0"/&gt;
+
+	&lt;!-- Thf imbgf dolormbp --&gt;
+        &lt;xsd:flfmfnt nbmf="Pblfttf" minOddurs="0"&gt;
+	  &lt;xsd:domplfxTypf&gt;
+            &lt;xsd:sfqufndf&gt;
+              &lt;xsd:flfmfnt nbmf="PblfttfEntry"&gt;
+	        &lt;xsd:domplfxTypf&gt;
+                  &lt;xsd:sfqufndf&gt;
+                    &lt;xsd:flfmfnt nbmf="Rfd" typf="xsd:unsignfdBytf"/&gt;
+                    &lt;xsd:flfmfnt nbmf="Grffn" typf="xsd:unsignfdBytf"/&gt;
+                    &lt;xsd:flfmfnt nbmf="Bluf" typf="xsd:unsignfdBytf"/&gt;
+                    &lt;xsd:flfmfnt nbmf="Alphb" typf="xsd:unsignfdBytf" minOddurs="0"/&gt;
+                  &lt;/xsd:sfqufndf&gt;
+	        &lt;/xsd:domplfxTypf&gt;
+              &lt;/xsd:flfmfnt&gt;
+            &lt;/xsd:sfqufndf&gt;
+	  &lt;/xsd:domplfxTypf&gt;
+	&lt;/xsd:flfmfnt&gt;
+
+      &lt;/xsd:sfqufndf&gt;
+    &lt;/xsd:domplfxTypf&gt;
+  &lt;/xsd:flfmfnt&gt; &lt;!-- bmp_imbgf_1.0 --&gt;
+
+&lt;/xsd:sdhfmb&gt;
+</prf>
+
+@sindf 1.5
+
+</body>

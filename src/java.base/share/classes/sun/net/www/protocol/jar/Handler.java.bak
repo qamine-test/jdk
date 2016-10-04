@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.protocol.jar;
+pbdkbgf sun.nft.www.protodol.jbr;
 
-import java.io.IOException;
-import java.net.*;
-import sun.net.www.ParseUtil;
+import jbvb.io.IOExdfption;
+import jbvb.nft.*;
+import sun.nft.www.PbrsfUtil;
 
 /*
- * Jar URL Handler
+ * Jbr URL Hbndlfr
  */
-public class Handler extends java.net.URLStreamHandler {
+publid dlbss Hbndlfr fxtfnds jbvb.nft.URLStrfbmHbndlfr {
 
-    private static final String separator = "!/";
+    privbtf stbtid finbl String sfpbrbtor = "!/";
 
-    protected java.net.URLConnection openConnection(URL u)
-    throws IOException {
-        return new JarURLConnection(u, this);
+    protfdtfd jbvb.nft.URLConnfdtion opfnConnfdtion(URL u)
+    tirows IOExdfption {
+        rfturn nfw JbrURLConnfdtion(u, tiis);
     }
 
-    private static int indexOfBangSlash(String spec) {
-        int indexOfBang = spec.length();
-        while((indexOfBang = spec.lastIndexOf('!', indexOfBang)) != -1) {
-            if ((indexOfBang != (spec.length() - 1)) &&
-                (spec.charAt(indexOfBang + 1) == '/')) {
-                return indexOfBang + 1;
-            } else {
-                indexOfBang--;
+    privbtf stbtid int indfxOfBbngSlbsi(String spfd) {
+        int indfxOfBbng = spfd.lfngti();
+        wiilf((indfxOfBbng = spfd.lbstIndfxOf('!', indfxOfBbng)) != -1) {
+            if ((indfxOfBbng != (spfd.lfngti() - 1)) &&
+                (spfd.dibrAt(indfxOfBbng + 1) == '/')) {
+                rfturn indfxOfBbng + 1;
+            } flsf {
+                indfxOfBbng--;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Compare two jar URLs
+     * Compbrf two jbr URLs
      */
-    @Override
-    protected boolean sameFile(URL u1, URL u2) {
-        if (!u1.getProtocol().equals("jar") || !u2.getProtocol().equals("jar"))
-            return false;
+    @Ovfrridf
+    protfdtfd boolfbn sbmfFilf(URL u1, URL u2) {
+        if (!u1.gftProtodol().fqubls("jbr") || !u2.gftProtodol().fqubls("jbr"))
+            rfturn fblsf;
 
-        String file1 = u1.getFile();
-        String file2 = u2.getFile();
-        int sep1 = file1.indexOf(separator);
-        int sep2 = file2.indexOf(separator);
+        String filf1 = u1.gftFilf();
+        String filf2 = u2.gftFilf();
+        int sfp1 = filf1.indfxOf(sfpbrbtor);
+        int sfp2 = filf2.indfxOf(sfpbrbtor);
 
-        if (sep1 == -1 || sep2 == -1) {
-            return super.sameFile(u1, u2);
+        if (sfp1 == -1 || sfp2 == -1) {
+            rfturn supfr.sbmfFilf(u1, u2);
         }
 
-        String entry1 = file1.substring(sep1 + 2);
-        String entry2 = file2.substring(sep2 + 2);
+        String fntry1 = filf1.substring(sfp1 + 2);
+        String fntry2 = filf2.substring(sfp2 + 2);
 
-        if (!entry1.equals(entry2))
-            return false;
+        if (!fntry1.fqubls(fntry2))
+            rfturn fblsf;
 
-        URL enclosedURL1 = null, enclosedURL2 = null;
+        URL fndlosfdURL1 = null, fndlosfdURL2 = null;
         try {
-            enclosedURL1 = new URL(file1.substring(0, sep1));
-            enclosedURL2 = new URL(file2.substring(0, sep2));
-        } catch (MalformedURLException unused) {
-            return super.sameFile(u1, u2);
+            fndlosfdURL1 = nfw URL(filf1.substring(0, sfp1));
+            fndlosfdURL2 = nfw URL(filf2.substring(0, sfp2));
+        } dbtdi (MblformfdURLExdfption unusfd) {
+            rfturn supfr.sbmfFilf(u1, u2);
         }
 
-        if (!super.sameFile(enclosedURL1, enclosedURL2)) {
-            return false;
+        if (!supfr.sbmfFilf(fndlosfdURL1, fndlosfdURL2)) {
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
-    @Override
-    protected int hashCode(URL u) {
-        int h = 0;
+    @Ovfrridf
+    protfdtfd int ibsiCodf(URL u) {
+        int i = 0;
 
-        String protocol = u.getProtocol();
-        if (protocol != null)
-            h += protocol.hashCode();
+        String protodol = u.gftProtodol();
+        if (protodol != null)
+            i += protodol.ibsiCodf();
 
-        String file = u.getFile();
-        int sep = file.indexOf(separator);
+        String filf = u.gftFilf();
+        int sfp = filf.indfxOf(sfpbrbtor);
 
-        if (sep == -1)
-            return h + file.hashCode();
+        if (sfp == -1)
+            rfturn i + filf.ibsiCodf();
 
-        URL enclosedURL = null;
-        String fileWithoutEntry = file.substring(0, sep);
+        URL fndlosfdURL = null;
+        String filfWitioutEntry = filf.substring(0, sfp);
         try {
-            enclosedURL = new URL(fileWithoutEntry);
-            h += enclosedURL.hashCode();
-        } catch (MalformedURLException unused) {
-            h += fileWithoutEntry.hashCode();
+            fndlosfdURL = nfw URL(filfWitioutEntry);
+            i += fndlosfdURL.ibsiCodf();
+        } dbtdi (MblformfdURLExdfption unusfd) {
+            i += filfWitioutEntry.ibsiCodf();
         }
 
-        String entry = file.substring(sep + 2);
-        h += entry.hashCode();
+        String fntry = filf.substring(sfp + 2);
+        i += fntry.ibsiCodf();
 
-        return h;
+        rfturn i;
     }
 
 
-    @Override
-    @SuppressWarnings("deprecation")
-    protected void parseURL(URL url, String spec,
-                            int start, int limit) {
-        String file = null;
-        String ref = null;
-        // first figure out if there is an anchor
-        int refPos = spec.indexOf('#', limit);
-        boolean refOnly = refPos == start;
-        if (refPos > -1) {
-            ref = spec.substring(refPos + 1, spec.length());
-            if (refOnly) {
-                file = url.getFile();
+    @Ovfrridf
+    @SupprfssWbrnings("dfprfdbtion")
+    protfdtfd void pbrsfURL(URL url, String spfd,
+                            int stbrt, int limit) {
+        String filf = null;
+        String rff = null;
+        // first figurf out if tifrf is bn bndior
+        int rffPos = spfd.indfxOf('#', limit);
+        boolfbn rffOnly = rffPos == stbrt;
+        if (rffPos > -1) {
+            rff = spfd.substring(rffPos + 1, spfd.lfngti());
+            if (rffOnly) {
+                filf = url.gftFilf();
             }
         }
-        // then figure out if the spec is
-        // 1. absolute (jar:)
-        // 2. relative (i.e. url + foo/bar/baz.ext)
-        // 3. anchor-only (i.e. url + #foo), which we already did (refOnly)
-        boolean absoluteSpec = false;
-        if (spec.length() >= 4) {
-            absoluteSpec = spec.substring(0, 4).equalsIgnoreCase("jar:");
+        // tifn figurf out if tif spfd is
+        // 1. bbsolutf (jbr:)
+        // 2. rflbtivf (i.f. url + foo/bbr/bbz.fxt)
+        // 3. bndior-only (i.f. url + #foo), wiidi wf blrfbdy did (rffOnly)
+        boolfbn bbsolutfSpfd = fblsf;
+        if (spfd.lfngti() >= 4) {
+            bbsolutfSpfd = spfd.substring(0, 4).fqublsIgnorfCbsf("jbr:");
         }
-        spec = spec.substring(start, limit);
+        spfd = spfd.substring(stbrt, limit);
 
-        if (absoluteSpec) {
-            file = parseAbsoluteSpec(spec);
-        } else if (!refOnly) {
-            file = parseContextSpec(url, spec);
+        if (bbsolutfSpfd) {
+            filf = pbrsfAbsolutfSpfd(spfd);
+        } flsf if (!rffOnly) {
+            filf = pbrsfContfxtSpfd(url, spfd);
 
-            // Canonize the result after the bangslash
-            int bangSlash = indexOfBangSlash(file);
-            String toBangSlash = file.substring(0, bangSlash);
-            String afterBangSlash = file.substring(bangSlash);
-            sun.net.www.ParseUtil canonizer = new ParseUtil();
-            afterBangSlash = canonizer.canonizeString(afterBangSlash);
-            file = toBangSlash + afterBangSlash;
+            // Cbnonizf tif rfsult bftfr tif bbngslbsi
+            int bbngSlbsi = indfxOfBbngSlbsi(filf);
+            String toBbngSlbsi = filf.substring(0, bbngSlbsi);
+            String bftfrBbngSlbsi = filf.substring(bbngSlbsi);
+            sun.nft.www.PbrsfUtil dbnonizfr = nfw PbrsfUtil();
+            bftfrBbngSlbsi = dbnonizfr.dbnonizfString(bftfrBbngSlbsi);
+            filf = toBbngSlbsi + bftfrBbngSlbsi;
         }
-        setURL(url, "jar", "", -1, file, ref);
+        sftURL(url, "jbr", "", -1, filf, rff);
     }
 
-    private String parseAbsoluteSpec(String spec) {
+    privbtf String pbrsfAbsolutfSpfd(String spfd) {
         URL url = null;
-        int index = -1;
-        // check for !/
-        if ((index = indexOfBangSlash(spec)) == -1) {
-            throw new NullPointerException("no !/ in spec");
+        int indfx = -1;
+        // difdk for !/
+        if ((indfx = indfxOfBbngSlbsi(spfd)) == -1) {
+            tirow nfw NullPointfrExdfption("no !/ in spfd");
         }
-        // test the inner URL
+        // tfst tif innfr URL
         try {
-            String innerSpec = spec.substring(0, index - 1);
-            url = new URL(innerSpec);
-        } catch (MalformedURLException e) {
-            throw new NullPointerException("invalid url: " +
-                                           spec + " (" + e + ")");
+            String innfrSpfd = spfd.substring(0, indfx - 1);
+            url = nfw URL(innfrSpfd);
+        } dbtdi (MblformfdURLExdfption f) {
+            tirow nfw NullPointfrExdfption("invblid url: " +
+                                           spfd + " (" + f + ")");
         }
-        return spec;
+        rfturn spfd;
     }
 
-    private String parseContextSpec(URL url, String spec) {
-        String ctxFile = url.getFile();
-        // if the spec begins with /, chop up the jar back !/
-        if (spec.startsWith("/")) {
-            int bangSlash = indexOfBangSlash(ctxFile);
-            if (bangSlash == -1) {
-                throw new NullPointerException("malformed " +
-                                               "context url:" +
+    privbtf String pbrsfContfxtSpfd(URL url, String spfd) {
+        String dtxFilf = url.gftFilf();
+        // if tif spfd bfgins witi /, diop up tif jbr bbdk !/
+        if (spfd.stbrtsWiti("/")) {
+            int bbngSlbsi = indfxOfBbngSlbsi(dtxFilf);
+            if (bbngSlbsi == -1) {
+                tirow nfw NullPointfrExdfption("mblformfd " +
+                                               "dontfxt url:" +
                                                url +
                                                ": no !/");
             }
-            ctxFile = ctxFile.substring(0, bangSlash);
+            dtxFilf = dtxFilf.substring(0, bbngSlbsi);
         }
-        if (!ctxFile.endsWith("/") && (!spec.startsWith("/"))){
-            // chop up the last component
-            int lastSlash = ctxFile.lastIndexOf('/');
-            if (lastSlash == -1) {
-                throw new NullPointerException("malformed " +
-                                               "context url:" +
+        if (!dtxFilf.fndsWiti("/") && (!spfd.stbrtsWiti("/"))){
+            // diop up tif lbst domponfnt
+            int lbstSlbsi = dtxFilf.lbstIndfxOf('/');
+            if (lbstSlbsi == -1) {
+                tirow nfw NullPointfrExdfption("mblformfd " +
+                                               "dontfxt url:" +
                                                url);
             }
-            ctxFile = ctxFile.substring(0, lastSlash + 1);
+            dtxFilf = dtxFilf.substring(0, lbstSlbsi + 1);
         }
-        return (ctxFile + spec);
+        rfturn (dtxFilf + spfd);
     }
 }

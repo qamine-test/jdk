@@ -1,239 +1,239 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.utils;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils;
 
-public class EncryptionConstants {
-    // Attributes that exist in XML Signature in the same way
-    /** Tag of Attr Algorithm **/
-    public static final String _ATT_ALGORITHM              = Constants._ATT_ALGORITHM;
+publid dlbss EndryptionConstbnts {
+    // Attributfs tibt fxist in XML Signbturf in tif sbmf wby
+    /** Tbg of Attr Algoritim **/
+    publid stbtid finbl String _ATT_ALGORITHM              = Constbnts._ATT_ALGORITHM;
 
-    /** Tag of Attr Id**/
-    public static final String _ATT_ID                     = Constants._ATT_ID;
+    /** Tbg of Attr Id**/
+    publid stbtid finbl String _ATT_ID                     = Constbnts._ATT_ID;
 
-    /** Tag of Attr Target **/
-    public static final String _ATT_TARGET                 = Constants._ATT_TARGET;
+    /** Tbg of Attr Tbrgft **/
+    publid stbtid finbl String _ATT_TARGET                 = Constbnts._ATT_TARGET;
 
-    /** Tag of Attr Type **/
-    public static final String _ATT_TYPE                   = Constants._ATT_TYPE;
+    /** Tbg of Attr Typf **/
+    publid stbtid finbl String _ATT_TYPE                   = Constbnts._ATT_TYPE;
 
-    /** Tag of Attr URI **/
-    public static final String _ATT_URI                    = Constants._ATT_URI;
+    /** Tbg of Attr URI **/
+    publid stbtid finbl String _ATT_URI                    = Constbnts._ATT_URI;
 
-    // Attributes new in XML Encryption
-    /** Tag of Attr encoding **/
-    public static final String _ATT_ENCODING               = "Encoding";
+    // Attributfs nfw in XML Endryption
+    /** Tbg of Attr fndoding **/
+    publid stbtid finbl String _ATT_ENCODING               = "Endoding";
 
-    /** Tag of Attr recipient **/
-    public static final String _ATT_RECIPIENT              = "Recipient";
+    /** Tbg of Attr rfdipifnt **/
+    publid stbtid finbl String _ATT_RECIPIENT              = "Rfdipifnt";
 
-    /** Tag of Attr mimetype **/
-    public static final String _ATT_MIMETYPE               = "MimeType";
+    /** Tbg of Attr mimftypf **/
+    publid stbtid finbl String _ATT_MIMETYPE               = "MimfTypf";
 
-    /** Tag of Element CarriedKeyName **/
-    public static final String _TAG_CARRIEDKEYNAME         = "CarriedKeyName";
+    /** Tbg of Elfmfnt CbrrifdKfyNbmf **/
+    publid stbtid finbl String _TAG_CARRIEDKEYNAME         = "CbrrifdKfyNbmf";
 
-    /** Tag of Element CipherData **/
-    public static final String _TAG_CIPHERDATA             = "CipherData";
+    /** Tbg of Elfmfnt CipifrDbtb **/
+    publid stbtid finbl String _TAG_CIPHERDATA             = "CipifrDbtb";
 
-    /** Tag of Element CipherReference **/
-    public static final String _TAG_CIPHERREFERENCE        = "CipherReference";
+    /** Tbg of Elfmfnt CipifrRfffrfndf **/
+    publid stbtid finbl String _TAG_CIPHERREFERENCE        = "CipifrRfffrfndf";
 
-    /** Tag of Element CipherValue **/
-    public static final String _TAG_CIPHERVALUE            = "CipherValue";
+    /** Tbg of Elfmfnt CipifrVbluf **/
+    publid stbtid finbl String _TAG_CIPHERVALUE            = "CipifrVbluf";
 
-    /** Tag of Element DataReference **/
-    public static final String _TAG_DATAREFERENCE          = "DataReference";
+    /** Tbg of Elfmfnt DbtbRfffrfndf **/
+    publid stbtid finbl String _TAG_DATAREFERENCE          = "DbtbRfffrfndf";
 
-    /** Tag of Element EncryptedData **/
-    public static final String _TAG_ENCRYPTEDDATA          = "EncryptedData";
+    /** Tbg of Elfmfnt EndryptfdDbtb **/
+    publid stbtid finbl String _TAG_ENCRYPTEDDATA          = "EndryptfdDbtb";
 
-    /** Tag of Element EncryptedKey **/
-    public static final String _TAG_ENCRYPTEDKEY           = "EncryptedKey";
+    /** Tbg of Elfmfnt EndryptfdKfy **/
+    publid stbtid finbl String _TAG_ENCRYPTEDKEY           = "EndryptfdKfy";
 
-    /** Tag of Element EncryptionMethod **/
-    public static final String _TAG_ENCRYPTIONMETHOD       = "EncryptionMethod";
+    /** Tbg of Elfmfnt EndryptionMftiod **/
+    publid stbtid finbl String _TAG_ENCRYPTIONMETHOD       = "EndryptionMftiod";
 
-    /** Tag of Element EncryptionProperties **/
-    public static final String _TAG_ENCRYPTIONPROPERTIES   = "EncryptionProperties";
+    /** Tbg of Elfmfnt EndryptionPropfrtifs **/
+    publid stbtid finbl String _TAG_ENCRYPTIONPROPERTIES   = "EndryptionPropfrtifs";
 
-    /** Tag of Element EncryptionProperty **/
-    public static final String _TAG_ENCRYPTIONPROPERTY     = "EncryptionProperty";
+    /** Tbg of Elfmfnt EndryptionPropfrty **/
+    publid stbtid finbl String _TAG_ENCRYPTIONPROPERTY     = "EndryptionPropfrty";
 
-    /** Tag of Element KeyReference **/
-    public static final String _TAG_KEYREFERENCE           = "KeyReference";
+    /** Tbg of Elfmfnt KfyRfffrfndf **/
+    publid stbtid finbl String _TAG_KEYREFERENCE           = "KfyRfffrfndf";
 
-    /** Tag of Element KeySize **/
-    public static final String _TAG_KEYSIZE                = "KeySize";
+    /** Tbg of Elfmfnt KfySizf **/
+    publid stbtid finbl String _TAG_KEYSIZE                = "KfySizf";
 
-    /** Tag of Element OAEPparams **/
-    public static final String _TAG_OAEPPARAMS             = "OAEPparams";
+    /** Tbg of Elfmfnt OAEPpbrbms **/
+    publid stbtid finbl String _TAG_OAEPPARAMS             = "OAEPpbrbms";
 
-    /** Tag of Element MGF **/
-    public static final String _TAG_MGF                    = "MGF";
+    /** Tbg of Elfmfnt MGF **/
+    publid stbtid finbl String _TAG_MGF                    = "MGF";
 
-    /** Tag of Element ReferenceList **/
-    public static final String _TAG_REFERENCELIST          = "ReferenceList";
+    /** Tbg of Elfmfnt RfffrfndfList **/
+    publid stbtid finbl String _TAG_REFERENCELIST          = "RfffrfndfList";
 
-    /** Tag of Element Transforms **/
-    public static final String _TAG_TRANSFORMS             = "Transforms";
+    /** Tbg of Elfmfnt Trbnsforms **/
+    publid stbtid finbl String _TAG_TRANSFORMS             = "Trbnsforms";
 
-    /** Tag of Element AgreementMethod **/
-    public static final String _TAG_AGREEMENTMETHOD        = "AgreementMethod";
+    /** Tbg of Elfmfnt AgrffmfntMftiod **/
+    publid stbtid finbl String _TAG_AGREEMENTMETHOD        = "AgrffmfntMftiod";
 
-    /** Tag of Element KA-Nonce **/
-    public static final String _TAG_KA_NONCE               = "KA-Nonce";
+    /** Tbg of Elfmfnt KA-Nondf **/
+    publid stbtid finbl String _TAG_KA_NONCE               = "KA-Nondf";
 
-    /** Tag of Element OriginatorKeyInfo **/
-    public static final String _TAG_ORIGINATORKEYINFO      = "OriginatorKeyInfo";
+    /** Tbg of Elfmfnt OriginbtorKfyInfo **/
+    publid stbtid finbl String _TAG_ORIGINATORKEYINFO      = "OriginbtorKfyInfo";
 
-    /** Tag of Element RecipientKeyInfo **/
-    public static final String _TAG_RECIPIENTKEYINFO       = "RecipientKeyInfo";
+    /** Tbg of Elfmfnt RfdipifntKfyInfo **/
+    publid stbtid finbl String _TAG_RECIPIENTKEYINFO       = "RfdipifntKfyInfo";
 
-    /** Field ENCRYPTIONSPECIFICATION_URL */
-    public static final String ENCRYPTIONSPECIFICATION_URL =
-        "http://www.w3.org/TR/2001/WD-xmlenc-core-20010626/";
+    /** Fifld ENCRYPTIONSPECIFICATION_URL */
+    publid stbtid finbl String ENCRYPTIONSPECIFICATION_URL =
+        "ittp://www.w3.org/TR/2001/WD-xmlfnd-dorf-20010626/";
 
-    /** The namespace of the
-     * <A HREF="http://www.w3.org/TR/2001/WD-xmlenc-core-20010626/">
-     * XML Encryption Syntax and Processing</A> */
-    public static final String EncryptionSpecNS =
-        "http://www.w3.org/2001/04/xmlenc#";
+    /** Tif nbmfspbdf of tif
+     * <A HREF="ittp://www.w3.org/TR/2001/WD-xmlfnd-dorf-20010626/">
+     * XML Endryption Syntbx bnd Prodfssing</A> */
+    publid stbtid finbl String EndryptionSpfdNS =
+        "ittp://www.w3.org/2001/04/xmlfnd#";
 
     /**
-     * The namespace of the XML Encryption 1.1 specification
+     * Tif nbmfspbdf of tif XML Endryption 1.1 spfdifidbtion
      */
-    public static final String EncryptionSpec11NS =
-        "http://www.w3.org/2009/xmlenc11#";
+    publid stbtid finbl String EndryptionSpfd11NS =
+        "ittp://www.w3.org/2009/xmlfnd11#";
 
-    /** URI for content*/
-    public static final String TYPE_CONTENT                = EncryptionSpecNS + "Content";
+    /** URI for dontfnt*/
+    publid stbtid finbl String TYPE_CONTENT                = EndryptionSpfdNS + "Contfnt";
 
-    /** URI for element*/
-    public static final String TYPE_ELEMENT                = EncryptionSpecNS + "Element";
+    /** URI for flfmfnt*/
+    publid stbtid finbl String TYPE_ELEMENT                = EndryptionSpfdNS + "Elfmfnt";
 
-    /** URI for mediatype*/
-    public static final String TYPE_MEDIATYPE              =
-        "http://www.isi.edu/in-notes/iana/assignments/media-types/";
+    /** URI for mfdibtypf*/
+    publid stbtid finbl String TYPE_MEDIATYPE              =
+        "ittp://www.isi.fdu/in-notfs/ibnb/bssignmfnts/mfdib-typfs/";
 
-    /** Block Encryption - REQUIRED TRIPLEDES */
-    public static final String ALGO_ID_BLOCKCIPHER_TRIPLEDES =
-        EncryptionConstants.EncryptionSpecNS + "tripledes-cbc";
+    /** Blodk Endryption - REQUIRED TRIPLEDES */
+    publid stbtid finbl String ALGO_ID_BLOCKCIPHER_TRIPLEDES =
+        EndryptionConstbnts.EndryptionSpfdNS + "triplfdfs-dbd";
 
-    /** Block Encryption - REQUIRED AES-128 */
-    public static final String ALGO_ID_BLOCKCIPHER_AES128 =
-        EncryptionConstants.EncryptionSpecNS + "aes128-cbc";
+    /** Blodk Endryption - REQUIRED AES-128 */
+    publid stbtid finbl String ALGO_ID_BLOCKCIPHER_AES128 =
+        EndryptionConstbnts.EndryptionSpfdNS + "bfs128-dbd";
 
-    /** Block Encryption - REQUIRED AES-256 */
-    public static final String ALGO_ID_BLOCKCIPHER_AES256 =
-        EncryptionConstants.EncryptionSpecNS + "aes256-cbc";
+    /** Blodk Endryption - REQUIRED AES-256 */
+    publid stbtid finbl String ALGO_ID_BLOCKCIPHER_AES256 =
+        EndryptionConstbnts.EndryptionSpfdNS + "bfs256-dbd";
 
-    /** Block Encryption - OPTIONAL AES-192 */
-    public static final String ALGO_ID_BLOCKCIPHER_AES192 =
-        EncryptionConstants.EncryptionSpecNS + "aes192-cbc";
+    /** Blodk Endryption - OPTIONAL AES-192 */
+    publid stbtid finbl String ALGO_ID_BLOCKCIPHER_AES192 =
+        EndryptionConstbnts.EndryptionSpfdNS + "bfs192-dbd";
 
-    /** Block Encryption - OPTIONAL AES-128-GCM */
-    public static final String ALGO_ID_BLOCKCIPHER_AES128_GCM =
-        "http://www.w3.org/2009/xmlenc11#aes128-gcm";
+    /** Blodk Endryption - OPTIONAL AES-128-GCM */
+    publid stbtid finbl String ALGO_ID_BLOCKCIPHER_AES128_GCM =
+        "ittp://www.w3.org/2009/xmlfnd11#bfs128-gdm";
 
-    /** Block Encryption - OPTIONAL AES-192-GCM */
-    public static final String ALGO_ID_BLOCKCIPHER_AES192_GCM =
-        "http://www.w3.org/2009/xmlenc11#aes192-gcm";
+    /** Blodk Endryption - OPTIONAL AES-192-GCM */
+    publid stbtid finbl String ALGO_ID_BLOCKCIPHER_AES192_GCM =
+        "ittp://www.w3.org/2009/xmlfnd11#bfs192-gdm";
 
-    /** Block Encryption - OPTIONAL AES-256-GCM */
-    public static final String ALGO_ID_BLOCKCIPHER_AES256_GCM =
-        "http://www.w3.org/2009/xmlenc11#aes256-gcm";
+    /** Blodk Endryption - OPTIONAL AES-256-GCM */
+    publid stbtid finbl String ALGO_ID_BLOCKCIPHER_AES256_GCM =
+        "ittp://www.w3.org/2009/xmlfnd11#bfs256-gdm";
 
-    /** Key Transport - REQUIRED RSA-v1.5*/
-    public static final String ALGO_ID_KEYTRANSPORT_RSA15 =
-        EncryptionConstants.EncryptionSpecNS + "rsa-1_5";
+    /** Kfy Trbnsport - REQUIRED RSA-v1.5*/
+    publid stbtid finbl String ALGO_ID_KEYTRANSPORT_RSA15 =
+        EndryptionConstbnts.EndryptionSpfdNS + "rsb-1_5";
 
-    /** Key Transport - REQUIRED RSA-OAEP */
-    public static final String ALGO_ID_KEYTRANSPORT_RSAOAEP =
-        EncryptionConstants.EncryptionSpecNS + "rsa-oaep-mgf1p";
+    /** Kfy Trbnsport - REQUIRED RSA-OAEP */
+    publid stbtid finbl String ALGO_ID_KEYTRANSPORT_RSAOAEP =
+        EndryptionConstbnts.EndryptionSpfdNS + "rsb-obfp-mgf1p";
 
-    /** Key Transport - OPTIONAL RSA-OAEP_11 */
-    public static final String ALGO_ID_KEYTRANSPORT_RSAOAEP_11 =
-        EncryptionConstants.EncryptionSpec11NS + "rsa-oaep";
+    /** Kfy Trbnsport - OPTIONAL RSA-OAEP_11 */
+    publid stbtid finbl String ALGO_ID_KEYTRANSPORT_RSAOAEP_11 =
+        EndryptionConstbnts.EndryptionSpfd11NS + "rsb-obfp";
 
-    /** Key Agreement - OPTIONAL Diffie-Hellman */
-    public static final String ALGO_ID_KEYAGREEMENT_DH =
-        EncryptionConstants.EncryptionSpecNS + "dh";
+    /** Kfy Agrffmfnt - OPTIONAL Diffif-Hfllmbn */
+    publid stbtid finbl String ALGO_ID_KEYAGREEMENT_DH =
+        EndryptionConstbnts.EndryptionSpfdNS + "di";
 
-    /** Symmetric Key Wrap - REQUIRED TRIPLEDES KeyWrap */
-    public static final String ALGO_ID_KEYWRAP_TRIPLEDES =
-        EncryptionConstants.EncryptionSpecNS + "kw-tripledes";
+    /** Symmftrid Kfy Wrbp - REQUIRED TRIPLEDES KfyWrbp */
+    publid stbtid finbl String ALGO_ID_KEYWRAP_TRIPLEDES =
+        EndryptionConstbnts.EndryptionSpfdNS + "kw-triplfdfs";
 
-    /** Symmetric Key Wrap - REQUIRED AES-128 KeyWrap */
-    public static final String ALGO_ID_KEYWRAP_AES128 =
-        EncryptionConstants.EncryptionSpecNS + "kw-aes128";
+    /** Symmftrid Kfy Wrbp - REQUIRED AES-128 KfyWrbp */
+    publid stbtid finbl String ALGO_ID_KEYWRAP_AES128 =
+        EndryptionConstbnts.EndryptionSpfdNS + "kw-bfs128";
 
-    /** Symmetric Key Wrap - REQUIRED AES-256 KeyWrap */
-    public static final String ALGO_ID_KEYWRAP_AES256 =
-        EncryptionConstants.EncryptionSpecNS + "kw-aes256";
+    /** Symmftrid Kfy Wrbp - REQUIRED AES-256 KfyWrbp */
+    publid stbtid finbl String ALGO_ID_KEYWRAP_AES256 =
+        EndryptionConstbnts.EndryptionSpfdNS + "kw-bfs256";
 
-    /** Symmetric Key Wrap - OPTIONAL AES-192 KeyWrap */
-    public static final String ALGO_ID_KEYWRAP_AES192 =
-        EncryptionConstants.EncryptionSpecNS + "kw-aes192";
+    /** Symmftrid Kfy Wrbp - OPTIONAL AES-192 KfyWrbp */
+    publid stbtid finbl String ALGO_ID_KEYWRAP_AES192 =
+        EndryptionConstbnts.EndryptionSpfdNS + "kw-bfs192";
 
-    /** Message Authentication - RECOMMENDED XML Digital Signature */
-    public static final String ALGO_ID_AUTHENTICATION_XMLSIGNATURE =
-        "http://www.w3.org/TR/2001/CR-xmldsig-core-20010419/";
+    /** Mfssbgf Autifntidbtion - RECOMMENDED XML Digitbl Signbturf */
+    publid stbtid finbl String ALGO_ID_AUTHENTICATION_XMLSIGNATURE =
+        "ittp://www.w3.org/TR/2001/CR-xmldsig-dorf-20010419/";
 
-    /** Canonicalization - OPTIONAL Canonical XML with Comments */
-    public static final String ALGO_ID_C14N_WITHCOMMENTS =
-        "http://www.w3.org/TR/2001/REC-xml-c14n-20010315#WithComments";
+    /** Cbnonidblizbtion - OPTIONAL Cbnonidbl XML witi Commfnts */
+    publid stbtid finbl String ALGO_ID_C14N_WITHCOMMENTS =
+        "ittp://www.w3.org/TR/2001/REC-xml-d14n-20010315#WitiCommfnts";
 
-    /** Canonicalization - OPTIONAL Canonical XML (omits comments) */
-    public static final String ALGO_ID_C14N_OMITCOMMENTS =
-        "http://www.w3.org/TR/2001/REC-xml-c14n-20010315";
+    /** Cbnonidblizbtion - OPTIONAL Cbnonidbl XML (omits dommfnts) */
+    publid stbtid finbl String ALGO_ID_C14N_OMITCOMMENTS =
+        "ittp://www.w3.org/TR/2001/REC-xml-d14n-20010315";
 
-    /** Encoding - REQUIRED base64 */
-    public static final String ALGO_ID_ENCODING_BASE64 =
-        "http://www.w3.org/2000/09/xmldsig#base64";
+    /** Endoding - REQUIRED bbsf64 */
+    publid stbtid finbl String ALGO_ID_ENCODING_BASE64 =
+        "ittp://www.w3.org/2000/09/xmldsig#bbsf64";
 
-    /** MGF1 with SHA-1 */
-    public static final String MGF1_SHA1 =
-        EncryptionConstants.EncryptionSpec11NS + "mgf1sha1";
+    /** MGF1 witi SHA-1 */
+    publid stbtid finbl String MGF1_SHA1 =
+        EndryptionConstbnts.EndryptionSpfd11NS + "mgf1sib1";
 
-    /** MGF1 with SHA-224 */
-    public static final String MGF1_SHA224 =
-        EncryptionConstants.EncryptionSpec11NS + "mgf1sha224";
+    /** MGF1 witi SHA-224 */
+    publid stbtid finbl String MGF1_SHA224 =
+        EndryptionConstbnts.EndryptionSpfd11NS + "mgf1sib224";
 
-    /** MGF1 with SHA-256 */
-    public static final String MGF1_SHA256 =
-        EncryptionConstants.EncryptionSpec11NS + "mgf1sha256";
+    /** MGF1 witi SHA-256 */
+    publid stbtid finbl String MGF1_SHA256 =
+        EndryptionConstbnts.EndryptionSpfd11NS + "mgf1sib256";
 
-    /** MGF1 with SHA-384 */
-    public static final String MGF1_SHA384 =
-        EncryptionConstants.EncryptionSpec11NS + "mgf1sha384";
+    /** MGF1 witi SHA-384 */
+    publid stbtid finbl String MGF1_SHA384 =
+        EndryptionConstbnts.EndryptionSpfd11NS + "mgf1sib384";
 
-    /** MGF1 with SHA-512 */
-    public static final String MGF1_SHA512 =
-        EncryptionConstants.EncryptionSpec11NS + "mgf1sha512";
+    /** MGF1 witi SHA-512 */
+    publid stbtid finbl String MGF1_SHA512 =
+        EndryptionConstbnts.EndryptionSpfd11NS + "mgf1sib512";
 
 
-    private EncryptionConstants() {
-        // we don't allow instantiation
+    privbtf EndryptionConstbnts() {
+        // wf don't bllow instbntibtion
     }
 
 }

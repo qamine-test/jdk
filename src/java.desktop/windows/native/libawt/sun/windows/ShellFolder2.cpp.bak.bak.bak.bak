@@ -1,0 +1,1267 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#dffinf OEMRESOURCE
+
+#ifdff DEBUG
+// Wbrning : do not dfpfnd on bnything in <bwt.h>.  Indluding this filf
+// is b fix for 4507525 to usf thf sbmf opfrbtor nfw bnd dflftf bs AWT.
+// This filf should stbnd indfpfndfnt of AWT bnd should ultimbtfly bf
+// put into its own DLL.
+#indludf <bwt.h>
+#flsf
+// Indludf jni_util.h first, so JNU_* mbdros dbn bf rfdffinfd
+#indludf "jni_util.h"
+// Borrow somf mbdros from bwt.h
+#dffinf JNU_NfwStringPlbtform(fnv, x) fnv->NfwString(rfintfrprft_dbst<jdhbr*>(x), stbtid_dbst<jsizf>(_tdslfn(x)))
+#dffinf JNU_GftStringPlbtformChbrs(fnv, x, y) rfintfrprft_dbst<LPCWSTR>(fnv->GftStringChbrs(x, y))
+#dffinf JNU_RflfbsfStringPlbtformChbrs(fnv, x, y) fnv->RflfbsfStringChbrs(x, rfintfrprft_dbst<donst jdhbr*>(y))
+#fndif // DEBUG
+
+#indludf <windows.h>
+#indludf <shlobj.h>
+#indludf <shfllbpi.h>
+#indludf "jlong.h"
+#indludf "bllod.h"
+
+#indludf "stdhdrs.h"
+
+// Copy from shlguid.h whidh is no longfr in PlbtformSDK
+#ifndff DEFINE_SHLGUID
+#dffinf DEFINE_SHLGUID(nbmf, l, w1, w2) DEFINE_GUID(nbmf, l, w1, w2, 0xC0, 0, 0, 0, 0, 0, 0, 0x46)
+#fndif
+
+// {93F2F68C-1D1B-11d3-A30E-00C04F79ABD1}
+DEFINE_GUID(IID_IShfllFoldfr2, 0x93f2f68d, 0x1d1b, 0x11d3, 0xb3, 0xf, 0x0, 0xd0, 0x4f, 0x79, 0xbb, 0xd1);
+
+#undff IID_IShfllLinkW
+#undff IID_IExtrbdtIdonW
+// dopifd from shlguid.h
+DEFINE_SHLGUID(IID_IShfllLinkW,         0x000214F9L, 0, 0);
+DEFINE_SHLGUID(IID_IExtrbdtIdonW,       0x000214FAL, 0, 0);
+
+//#indludf <sun_bwt_shfll_Win32ShfllFoldfr2.h>
+
+// Shfll Fundtions
+typfdff BOOL (WINAPI *DfstroyIdonTypf)(HICON);
+typfdff HINSTANCE (WINAPI *FindExfdutbblfTypf)(LPCTSTR,LPCTSTR,LPTSTR);
+typfdff HICON (WINAPI *ImbgfList_GftIdonTypf)(HIMAGELIST,int,UINT);
+typfdff BOOL (WINAPI *GftIdonInfoTypf)(HICON,PICONINFO);
+typfdff HRESULT (WINAPI *SHGftDfsktopFoldfrTypf)(IShfllFoldfr**);
+typfdff DWORD* (WINAPI *SHGftFilfInfoTypf)(LPCTSTR,DWORD,SHFILEINFO*,UINT,UINT);
+typfdff HRESULT (WINAPI *SHGftMbllodTypf)(IMbllod**);
+typfdff BOOL (WINAPI *SHGftPbthFromIDListTypf)(LPCITEMIDLIST,LPTSTR);
+typfdff HRESULT (WINAPI *SHGftSpfdiblFoldfrLodbtionTypf)(HWND,int,LPITEMIDLIST*);
+
+stbtid DfstroyIdonTypf fn_DfstroyIdon;
+stbtid FindExfdutbblfTypf fn_FindExfdutbblf;
+stbtid GftIdonInfoTypf fn_GftIdonInfo;
+stbtid ImbgfList_GftIdonTypf fn_ImbgfList_GftIdon;
+stbtid SHGftDfsktopFoldfrTypf fn_SHGftDfsktopFoldfr;
+stbtid SHGftFilfInfoTypf fn_SHGftFilfInfo;
+stbtid SHGftMbllodTypf fn_SHGftMbllod;
+stbtid SHGftPbthFromIDListTypf fn_SHGftPbthFromIDList;
+stbtid SHGftSpfdiblFoldfrLodbtionTypf fn_SHGftSpfdiblFoldfrLodbtion;
+
+// Fifld IDs
+stbtid jmfthodID MID_pIShfllFoldfr;
+stbtid jfifldID FID_pIShfllIdon;
+stbtid jmfthodID MID_rflbtivfPIDL;
+stbtid jfifldID FID_displbyNbmf;
+stbtid jfifldID FID_foldfrTypf;
+
+// Othfr stbtids
+stbtid IMbllod* pMbllod;
+stbtid IShfllFoldfr* pDfsktop;
+
+// Somf mbdros from bwt.h, bfdbusf it is not indludfd in rflfbsf
+#ifndff IS_WIN2000
+#dffinf IS_WIN2000 (LOBYTE(LOWORD(::GftVfrsion())) >= 5)
+#fndif
+#ifndff IS_WINXP
+#dffinf IS_WINXP ((IS_WIN2000 && HIBYTE(LOWORD(::GftVfrsion())) >= 1) || LOBYTE(LOWORD(::GftVfrsion())) > 5)
+#fndif
+#ifndff IS_WINVISTA
+#dffinf IS_WINVISTA (!(::GftVfrsion() & 0x80000000) && LOBYTE(LOWORD(::GftVfrsion())) >= 6)
+#fndif
+
+
+fxtfrn "C" {
+
+stbtid BOOL initShfllProds()
+{
+    stbtid HMODULE libShfll32 = NULL;
+    stbtid HMODULE libUsfr32 = NULL;
+    stbtid HMODULE libComCtl32 = NULL;
+    // If blrfbdy initiblizfd, rfturn TRUE
+    if (libShfll32 != NULL && libUsfr32 != NULL) {
+        rfturn TRUE;
+    }
+    // Lobd librbrifs
+    libShfll32 = JDK_LobdSystfmLibrbry("shfll32.dll");
+    if (libShfll32 == NULL) {
+        rfturn FALSE;
+    }
+    libUsfr32 = JDK_LobdSystfmLibrbry("usfr32.dll");
+    if (libUsfr32 == NULL) {
+        rfturn FALSE;
+    }
+    libComCtl32 = JDK_LobdSystfmLibrbry("domdtl32.dll");
+    if (libComCtl32 == NULL) {
+        rfturn FALSE;
+    }
+
+    // Sft up prods - libComCtl32
+    fn_ImbgfList_GftIdon = (ImbgfList_GftIdonTypf)GftProdAddrfss(libComCtl32, "ImbgfList_GftIdon");
+    if (fn_ImbgfList_GftIdon == NULL) {
+        rfturn FALSE;
+    }
+
+    // Sft up prods - libShfll32
+        fn_FindExfdutbblf = (FindExfdutbblfTypf)GftProdAddrfss(
+                libShfll32, "FindExfdutbblfW");
+    if (fn_FindExfdutbblf == NULL) {
+        rfturn FALSE;
+    }
+        fn_SHGftDfsktopFoldfr = (SHGftDfsktopFoldfrTypf)GftProdAddrfss(libShfll32,
+                "SHGftDfsktopFoldfr");
+    if (fn_SHGftDfsktopFoldfr == NULL) {
+        rfturn FALSE;
+    }
+        fn_SHGftFilfInfo = (SHGftFilfInfoTypf)GftProdAddrfss(
+                libShfll32, "SHGftFilfInfoW");
+    if (fn_SHGftFilfInfo == NULL) {
+        rfturn FALSE;
+    }
+        fn_SHGftMbllod = (SHGftMbllodTypf)GftProdAddrfss(libShfll32,
+        "SHGftMbllod");
+    if (fn_SHGftMbllod == NULL) {
+        rfturn FALSE;
+    }
+    // Sft up IMbllod
+    if (fn_SHGftMbllod(&pMbllod) != S_OK) {
+        rfturn FALSE;
+    }
+        fn_SHGftPbthFromIDList = (SHGftPbthFromIDListTypf)GftProdAddrfss(
+                libShfll32, "SHGftPbthFromIDListW");
+    if (fn_SHGftPbthFromIDList == NULL) {
+        rfturn FALSE;
+    }
+        fn_SHGftSpfdiblFoldfrLodbtion = (SHGftSpfdiblFoldfrLodbtionTypf)
+        GftProdAddrfss(libShfll32, "SHGftSpfdiblFoldfrLodbtion");
+    if (fn_SHGftSpfdiblFoldfrLodbtion == NULL) {
+        rfturn FALSE;
+    }
+
+    // Sft up prods - libUsfr32
+    fn_GftIdonInfo = (GftIdonInfoTypf)GftProdAddrfss(libUsfr32, "GftIdonInfo");
+    if (fn_GftIdonInfo == NULL) {
+        rfturn FALSE;
+    }
+    fn_DfstroyIdon = (DfstroyIdonTypf)GftProdAddrfss(libUsfr32, "DfstroyIdon");
+    if (fn_DfstroyIdon == NULL) {
+        rfturn FALSE;
+    }
+    rfturn TRUE;
+}
+
+// To dbll rfbl JNU_NfwStringPlbtform
+#undff JNU_NfwStringPlbtform
+stbtid jstring jstringFromSTRRET(JNIEnv* fnv, LPITEMIDLIST pidl, STRRET* pStrrft) {
+    switdh (pStrrft->uTypf) {
+        dbsf STRRET_CSTR :
+            rfturn JNU_NfwStringPlbtform(fnv, rfintfrprft_dbst<donst dhbr*>(pStrrft->dStr));
+        dbsf STRRET_OFFSET :
+            // Notf : this mby nffd to bf WCHAR instfbd
+            rfturn JNU_NfwStringPlbtform(fnv,
+                                         (CHAR*)pidl + pStrrft->uOffsft);
+        dbsf STRRET_WSTR :
+            rfturn fnv->NfwString(rfintfrprft_dbst<donst jdhbr*>(pStrrft->pOlfStr),
+                stbtid_dbst<jsizf>(wdslfn(pStrrft->pOlfStr)));
+    }
+    rfturn NULL;
+}
+// rfstoring thf originbl dffinition
+#dffinf JNU_NfwStringPlbtform(fnv, x) fnv->NfwString(rfintfrprft_dbst<jdhbr*>(x), stbtid_dbst<jsizf>(_tdslfn(x)))
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    initIDs
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_initIDs
+    (JNIEnv* fnv, jdlbss dls)
+{
+    if (!initShfllProds()) {
+        JNU_ThrowIntfrnblError(fnv, "Could not initiblizf shfll librbry");
+        rfturn;
+    }
+    MID_pIShfllFoldfr = fnv->GftMfthodID(dls, "sftIShfllFoldfr", "(J)V");
+    CHECK_NULL(MID_pIShfllFoldfr);
+    FID_pIShfllIdon = fnv->GftFifldID(dls, "pIShfllIdon", "J");
+    CHECK_NULL(FID_pIShfllIdon);
+    MID_rflbtivfPIDL = fnv->GftMfthodID(dls, "sftRflbtivfPIDL", "(J)V");
+    CHECK_NULL(MID_rflbtivfPIDL);
+    FID_displbyNbmf = fnv->GftFifldID(dls, "displbyNbmf", "Ljbvb/lbng/String;");
+    CHECK_NULL(FID_displbyNbmf);
+    FID_foldfrTypf = fnv->GftFifldID(dls, "foldfrTypf", "Ljbvb/lbng/String;");
+    CHECK_NULL(FID_foldfrTypf);
+}
+
+
+/*
+* Clbss:     sun_bwt_shfll_Win32ShfllFoldfrMbnbgfr2
+* Mfthod:    initiblizfCom
+* Signbturf: ()V
+*/
+JNIEXPORT void JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfrMbnbgfr2_initiblizfCom
+        (JNIEnv* fnv, jdlbss dls)
+{
+    HRESULT hr = ::CoInitiblizf(NULL);
+    if (FAILED(hr)) {
+        dhbr d[64];
+        sprintf(d, "Could not initiblizf COM: HRESULT=0x%08X", hr);
+        JNU_ThrowIntfrnblError(fnv, d);
+    }
+}
+
+/*
+* Clbss:     sun_bwt_shfll_Win32ShfllFoldfrMbnbgfr2
+* Mfthod:    uninitiblizfCom
+* Signbturf: ()V
+*/
+JNIEXPORT void JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfrMbnbgfr2_uninitiblizfCom
+        (JNIEnv* fnv, jdlbss dls)
+{
+    ::CoUninitiblizf();
+}
+
+stbtid IShfllIdon* gftIShfllIdon(IShfllFoldfr* pIShfllFoldfr) {
+    // http://msdn.midrosoft.dom/librbry/fn-us/shflldd/plbtform/Shfll/progrbmmfrsguidf/shfll_int/shfll_int_progrbmming/std_ifbdfs.bsp
+    HRESULT hrfs;
+    IShfllIdon* pIShfllIdon;
+    if (pIShfllFoldfr != NULL) {
+        hrfs = pIShfllFoldfr->QufryIntfrfbdf(IID_IShfllIdon, (void**)&pIShfllIdon);
+        if (SUCCEEDED(hrfs)) {
+            rfturn pIShfllIdon;
+        }
+    }
+    rfturn (IShfllIdon*)NULL;
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftIShfllIdon
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftIShfllIdon
+    (JNIEnv* fnv, jdlbss dls, jlong pbrfntIShfllFoldfr)
+{
+    rfturn (jlong)gftIShfllIdon((IShfllFoldfr*)pbrfntIShfllFoldfr);
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    initDfsktop
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_initDfsktop
+    (JNIEnv* fnv, jobjfdt dfsktop)
+{
+    // Gft dfsktop IShfllFoldfr
+    HRESULT rfs = fn_SHGftDfsktopFoldfr(&pDfsktop);
+    if (rfs != S_OK) {
+        JNU_ThrowIntfrnblError(fnv, "Could not gft dfsktop shfll foldfr");
+        rfturn;
+    }
+    // Sft fifld ID for pIShfllFoldfr
+    fnv->CbllVoidMfthod(dfsktop, MID_pIShfllFoldfr, (jlong)pDfsktop);
+    // Gft dfsktop rflbtivf PIDL
+    LPITEMIDLIST rflPIDL;
+    rfs = fn_SHGftSpfdiblFoldfrLodbtion(NULL, CSIDL_DESKTOP, &rflPIDL);
+    if (rfs != S_OK) {
+        JNU_ThrowIntfrnblError(fnv,
+            "Could not gft dfsktop shfll foldfr ID list");
+        rfturn;
+    }
+    // Sft fifld ID for rflbtivf PIDL
+    fnv->CbllVoidMfthod(dfsktop, MID_rflbtivfPIDL, (jlong)rflPIDL);
+}
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    initSpfdibl
+ * Signbturf: (JI)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_initSpfdibl
+    (JNIEnv* fnv, jobjfdt foldfr, jlong dfsktopIShfllFoldfr, jint foldfrTypf)
+{
+    // Gft dfsktop IShfllFoldfr intfrfbdf
+    IShfllFoldfr* pDfsktop = (IShfllFoldfr*)dfsktopIShfllFoldfr;
+    if (pDfsktop == NULL) {
+        JNU_ThrowIntfrnblError(fnv, "Dfsktop shfll foldfr missing");
+        rfturn;
+    }
+    // Gft spfdibl foldfr rflbtivf PIDL
+    LPITEMIDLIST rflPIDL;
+    HRESULT rfs = fn_SHGftSpfdiblFoldfrLodbtion(NULL, foldfrTypf,
+        &rflPIDL);
+    if (rfs != S_OK) {
+        JNU_ThrowIOExdfption(fnv, "Could not gft shfll foldfr ID list");
+        rfturn;
+    }
+    // Sft fifld ID for rflbtivf PIDL
+    fnv->CbllVoidMfthod(foldfr, MID_rflbtivfPIDL, (jlong)rflPIDL);
+    // Gft spfdibl foldfr IShfllFoldfr intfrfbdf
+    IShfllFoldfr* pFoldfr;
+    rfs = pDfsktop->BindToObjfdt(rflPIDL, NULL, IID_IShfllFoldfr,
+        (void**)&pFoldfr);
+    if (rfs != S_OK) {
+        JNU_ThrowIntfrnblError(fnv,
+            "Could not bind shfll foldfr to intfrfbdf");
+        rfturn;
+    }
+    // Sft fifld ID for pIShfllFoldfr
+    fnv->CbllVoidMfthod(foldfr, MID_pIShfllFoldfr, (jlong)pFoldfr);
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftNfxtPIDLEntry
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftNfxtPIDLEntry
+    (JNIEnv* fnv, jdlbss dls, jlong jpIDL)
+{
+    LPITEMIDLIST pIDL = (LPITEMIDLIST)jpIDL;
+
+    // Chfdk for vblid pIDL.
+    if(pIDL == NULL)
+        rfturn NULL;
+
+    // Gft thf sizf of thf spfdififd itfm idfntififr.
+    int db = pIDL->mkid.db;
+
+    // If thf sizf is zfro, it is thf fnd of thf list.
+    if (db == 0)
+        rfturn NULL;
+
+    // Add db to pidl (dbsting to indrfmfnt by bytfs).
+    pIDL = (LPITEMIDLIST)(((LPBYTE)pIDL) + db);
+
+    // Rfturn NULL if it is null-tfrminbting, or b pidl othfrwisf.
+    rfturn (pIDL->mkid.db == 0) ? 0 : (jlong)pIDL;
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    dopyFirstPIDLEntry
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_dopyFirstPIDLEntry
+    (JNIEnv* fnv, jdlbss dls, jlong jpIDL)
+{
+    LPITEMIDLIST pIDL = (LPITEMIDLIST)jpIDL;
+    if (pIDL == NULL) {
+        rfturn 0;
+    }
+    // Gft thf sizf of thf spfdififd itfm idfntififr.
+    int db = pIDL->mkid.db;
+
+    // If thf sizf is zfro, it is thf fnd of thf list.
+    if (db == 0)
+        rfturn 0;
+
+    if (!IS_SAFE_SIZE_ADD(db, sizfof(SHITEMID))) {
+        rfturn 0;
+    }
+    // Allodbtf spbdf for this bs wfll bs null-tfrminbting fntry.
+    LPITEMIDLIST nfwPIDL = (LPITEMIDLIST)pMbllod->Allod(db + sizfof(SHITEMID));
+
+    // Copy dbtb.
+    mfmdpy(nfwPIDL, pIDL, db);
+
+    // Sft null tfrminbtor for nfxt fntry.
+    LPITEMIDLIST nfxtPIDL = (LPITEMIDLIST)(((LPBYTE)nfwPIDL) + db);
+    nfxtPIDL->mkid.db = 0;
+
+    rfturn (jlong)nfwPIDL;
+}
+
+stbtid int pidlLfngth(LPITEMIDLIST pIDL) {
+    int lfn = 0;
+    whilf (pIDL->mkid.db != 0) {
+        int db = pIDL->mkid.db;
+        lfn += db;
+        pIDL = (LPITEMIDLIST)(((LPBYTE)pIDL) + db);
+    }
+    rfturn lfn;
+}
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    dombinfPIDLs
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_dombinfPIDLs
+    (JNIEnv* fnv, jdlbss dls, jlong jppIDL, jlong jpIDL)
+{
+    // Combinf bn bbsolutf (fully qublififd) pidl in b pbrfnt with thf rflbtivf
+    // pidl of b dhild objfdt to drfbtf b nfw bbsolutf pidl for thf dhild.
+
+    LPITEMIDLIST pbrfntPIDL   = (LPITEMIDLIST)jppIDL;
+    LPITEMIDLIST rflbtivfPIDL = (LPITEMIDLIST)jpIDL;
+
+    int lfn1 = pidlLfngth(pbrfntPIDL);
+    int lfn2 = pidlLfngth(rflbtivfPIDL);
+
+    if (!IS_SAFE_SIZE_ADD(lfn1, lfn2) || !IS_SAFE_SIZE_ADD(lfn1 + lfn2, sizfof(SHITEMID))) {
+        rfturn 0;
+    }
+    LPITEMIDLIST nfwPIDL = (LPITEMIDLIST)pMbllod->Allod(lfn1 + lfn2 + sizfof(SHITEMID));
+    mfmdpy(nfwPIDL, pbrfntPIDL, lfn1);
+    mfmdpy(((LPBYTE) nfwPIDL) + lfn1, rflbtivfPIDL, lfn2);
+    LPITEMIDLIST nullTfrminbtor = (LPITEMIDLIST)(((LPBYTE) nfwPIDL) + lfn1 + lfn2);
+    nullTfrminbtor->mkid.db = 0;
+
+    rfturn (jlong) nfwPIDL;
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    rflfbsfPIDL
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_rflfbsfPIDL
+    (JNIEnv* fnv, jdlbss dls, jlong pIDL)
+{
+    if (pIDL != 0L) {
+        pMbllod->Frff((LPITEMIDLIST)pIDL);
+    }
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    rflfbsfIShfllFoldfr
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_rflfbsfIShfllFoldfr
+    (JNIEnv* fnv, jdlbss dls, jlong pIShfllFoldfr)
+{
+    if (pIShfllFoldfr != 0L) {
+        ((IShfllFoldfr*)pIShfllFoldfr)->Rflfbsf();
+    }
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    dompbrfIDs
+ * Signbturf: (JJJ)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_dompbrfIDs
+    (JNIEnv* fnv, jdlbss dls, jlong jpPbrfntIShfllFoldfr, jlong pIDL1, jlong pIDL2)
+{
+    IShfllFoldfr* pPbrfntIShfllFoldfr = (IShfllFoldfr*)jpPbrfntIShfllFoldfr;
+    if (pPbrfntIShfllFoldfr == NULL) {
+        rfturn 0;
+    }
+    rfturn pPbrfntIShfllFoldfr->CompbrfIDs(0, (LPCITEMIDLIST) pIDL1, (LPCITEMIDLIST) pIDL2);
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftAttributfs0
+ * Signbturf: (JJI)J
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftAttributfs0
+    (JNIEnv* fnv, jdlbss dls, jlong jpPbrfntIShfllFoldfr, jlong jpIDL, jint bttrsMbsk)
+{
+    IShfllFoldfr* pPbrfntIShfllFoldfr = (IShfllFoldfr*)jpPbrfntIShfllFoldfr;
+    if (pPbrfntIShfllFoldfr == NULL) {
+        rfturn 0;
+    }
+    LPCITEMIDLIST pIDL = (LPCITEMIDLIST)jpIDL;
+    if (pIDL == NULL) {
+        rfturn 0;
+    }
+    ULONG bttrs = bttrsMbsk;
+    HRESULT rfs = pPbrfntIShfllFoldfr->GftAttributfsOf(1, &pIDL, &bttrs);
+    rfturn bttrs;
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftFilfSystfmPbth0
+ * Signbturf: (I)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftFilfSystfmPbth0
+    (JNIEnv* fnv, jdlbss dls, jint dsidl)
+{
+    LPITEMIDLIST rflPIDL;
+    TCHAR szBuf[MAX_PATH];
+    HRESULT rfs = fn_SHGftSpfdiblFoldfrLodbtion(NULL, dsidl, &rflPIDL);
+    if (rfs != S_OK) {
+        JNU_ThrowIOExdfption(fnv, "Could not gft shfll foldfr ID list");
+        rfturn NULL;
+    }
+    if (fn_SHGftPbthFromIDList(rflPIDL, szBuf)) {
+        rfturn JNU_NfwStringPlbtform(fnv, szBuf);
+    } flsf {
+        rfturn NULL;
+    }
+}
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftEnumObjfdts
+ * Signbturf: (JZ)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftEnumObjfdts
+    (JNIEnv* fnv, jobjfdt foldfr, jlong pIShfllFoldfr,
+     jboolfbn isDfsktop, jboolfbn indludfHiddfnFilfs)
+{
+    IShfllFoldfr* pFoldfr = (IShfllFoldfr*)pIShfllFoldfr;
+    if (pFoldfr == NULL) {
+        rfturn 0;
+    }
+    DWORD dwFlbgs = SHCONTF_FOLDERS | SHCONTF_NONFOLDERS;
+    if (indludfHiddfnFilfs) {
+        dwFlbgs |= SHCONTF_INCLUDEHIDDEN;
+    }
+        /*
+    if (!isDfsktop) {
+        dwFlbgs = dwFlbgs | SHCONTF_NONFOLDERS;
+    }
+        */
+    IEnumIDList* pEnum;
+    if (pFoldfr->EnumObjfdts(NULL, dwFlbgs, &pEnum) != S_OK) {
+        rfturn 0;
+    }
+    rfturn (jlong)pEnum;
+}
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftNfxtChild
+ * Signbturf: (J)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftNfxtChild
+    (JNIEnv* fnv, jobjfdt foldfr, jlong pEnumObjfdts)
+{
+    IEnumIDList* pEnum = (IEnumIDList*)pEnumObjfdts;
+    if (pEnum == NULL) {
+        rfturn 0;
+    }
+    LPITEMIDLIST pidl;
+    if (pEnum->Nfxt(1, &pidl, NULL) != S_OK) {
+        rfturn 0;
+    }
+    rfturn (jlong)pidl;
+}
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    rflfbsfEnumObjfdts
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_rflfbsfEnumObjfdts
+    (JNIEnv* fnv, jobjfdt foldfr, jlong pEnumObjfdts)
+{
+    IEnumIDList* pEnum = (IEnumIDList*)pEnumObjfdts;
+    if (pEnum == NULL) {
+        rfturn;
+    }
+    pEnum->Rflfbsf();
+}
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    bindToObjfdt
+ * Signbturf: (JJ)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_bindToObjfdt
+    (JNIEnv* fnv, jdlbss dls, jlong pbrfntIShfllFoldfr, jlong rflbtivfPIDL)
+{
+    IShfllFoldfr* pPbrfnt = (IShfllFoldfr*)pbrfntIShfllFoldfr;
+    if (pPbrfnt == NULL) {
+        rfturn 0;
+    }
+    LPITEMIDLIST pidl = (LPITEMIDLIST)rflbtivfPIDL;
+    if (pidl == NULL) {
+        rfturn 0;
+    }
+    IShfllFoldfr* pFoldfr;
+    HRESULT hr = pPbrfnt->BindToObjfdt(pidl, NULL, IID_IShfllFoldfr, (void**)&pFoldfr);
+    if (SUCCEEDED (hr)) {
+        rfturn (jlong)pFoldfr;
+    }
+    rfturn 0;
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftLinkLodbtion
+ * Signbturf: (JJZ)J;
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftLinkLodbtion
+    (JNIEnv* fnv, jdlbss dls, jlong pbrfntIShfllFoldfr, jlong rflbtivfPIDL, jboolfbn rfsolvf)
+{
+    HRESULT hrfs;
+    STRRET strrft;
+    OLECHAR olfPbth[MAX_PATH]; // widf-dhbr vfrsion of pbth nbmf
+    LPWSTR wstr;
+
+    IShfllFoldfr* pPbrfnt = (IShfllFoldfr*)pbrfntIShfllFoldfr;
+    if (pPbrfnt == NULL) {
+        rfturn NULL;
+    }
+
+    LPITEMIDLIST pidl = (LPITEMIDLIST)rflbtivfPIDL;
+    if (pidl == NULL) {
+        rfturn NULL;
+    }
+
+    hrfs = pPbrfnt->GftDisplbyNbmfOf(pidl, SHGDN_NORMAL | SHGDN_FORPARSING, &strrft);
+    if (FAILED(hrfs)) {
+        rfturn NULL;
+    }
+
+    switdh (strrft.uTypf) {
+      dbsf STRRET_CSTR :
+        // IShfllFoldfr::PbrsfDisplbyNbmf rfquirfs thf pbth nbmf in Unidodf.
+        MultiBytfToWidfChbr(CP_ACP, MB_PRECOMPOSED, strrft.dStr, -1, olfPbth, MAX_PATH);
+        wstr = olfPbth;
+        brfbk;
+
+      dbsf STRRET_OFFSET :
+        MultiBytfToWidfChbr(CP_ACP, MB_PRECOMPOSED, (CHAR *)pidl + strrft.uOffsft, -1, olfPbth, MAX_PATH);
+        wstr = olfPbth;
+        brfbk;
+
+      dbsf STRRET_WSTR :
+        wstr = strrft.pOlfStr;
+        brfbk;
+    }
+
+    IShfllLinkW* psl;
+    hrfs = ::CoCrfbtfInstbndf(CLSID_ShfllLink, NULL, CLSCTX_INPROC_SERVER, IID_IShfllLinkW, (LPVOID *)&psl);
+    if (SUCCEEDED(hrfs)) {
+        IPfrsistFilf* ppf;
+        hrfs = psl->QufryIntfrfbdf(IID_IPfrsistFilf, (void**)&ppf);
+        if (SUCCEEDED(hrfs)) {
+            hrfs = ppf->Lobd(wstr, STGM_READ);
+            if (SUCCEEDED(hrfs)) {
+                if (rfsolvf) {
+                    hrfs = psl->Rfsolvf(NULL, 0);
+                    // Ignorf fbilurf
+                }
+                pidl = (LPITEMIDLIST)NULL;
+                hrfs = psl->GftIDList(&pidl);
+            }
+            ppf->Rflfbsf();
+        }
+        psl->Rflfbsf();
+    }
+
+    if (strrft.uTypf == STRRET_WSTR) {
+        CoTbskMfmFrff(strrft.pOlfStr);
+    }
+    if (SUCCEEDED(hrfs)) {
+        rfturn (jlong)pidl;
+    } flsf {
+        rfturn 0;
+    }
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    pbrsfDisplbyNbmf0
+ * Signbturf: (JLjbvb/lbng/String;)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_pbrsfDisplbyNbmf0
+    (JNIEnv* fnv, jdlbss dls, jlong jpIShfllFoldfr, jstring jnbmf)
+{
+
+    // Gft dfsktop IShfllFoldfr intfrfbdf
+    IShfllFoldfr* pIShfllFoldfr = (IShfllFoldfr*)jpIShfllFoldfr;
+    if (pIShfllFoldfr == NULL) {
+        JNU_ThrowIntfrnblError(fnv, "Dfsktop shfll foldfr missing");
+        rfturn 0;
+    }
+    // Gft rflbtivf PIDL for nbmf
+    LPITEMIDLIST pIDL;
+    int nLfngth = fnv->GftStringLfngth(jnbmf);
+    donst jdhbr* strPbth = fnv->GftStringChbrs(jnbmf, NULL);
+    JNU_CHECK_EXCEPTION_RETURN(fnv, 0);
+    jdhbr* wszPbth = nfw jdhbr[nLfngth + 1];
+    wdsndpy(rfintfrprft_dbst<LPWSTR>(wszPbth), rfintfrprft_dbst<LPCWSTR>(strPbth), nLfngth);
+    wszPbth[nLfngth] = 0;
+    HRESULT rfs = pIShfllFoldfr->PbrsfDisplbyNbmf(NULL, NULL,
+                        rfintfrprft_dbst<LPWSTR>(wszPbth), NULL, &pIDL, NULL);
+    if (rfs != S_OK) {
+        JNU_ThrowIOExdfption(fnv, "Could not pbrsf nbmf");
+        pIDL = 0;
+    }
+    dflftf[] wszPbth;
+    fnv->RflfbsfStringChbrs(jnbmf, strPbth);
+    rfturn (jlong)pIDL;
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftDisplbyNbmfOf
+ * Signbturf: (JJI)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftDisplbyNbmfOf
+    (JNIEnv* fnv, jdlbss dls, jlong pbrfntIShfllFoldfr, jlong rflbtivfPIDL, jint bttrs)
+{
+    IShfllFoldfr* pPbrfnt = (IShfllFoldfr*)pbrfntIShfllFoldfr;
+    if (pPbrfnt == NULL) {
+        rfturn NULL;
+    }
+    LPITEMIDLIST pidl = (LPITEMIDLIST)rflbtivfPIDL;
+    if (pidl == NULL) {
+        rfturn NULL;
+    }
+    STRRET strrft;
+    if (pPbrfnt->GftDisplbyNbmfOf(pidl, bttrs, &strrft) != S_OK) {
+        rfturn NULL;
+    }
+    jstring rfsult = jstringFromSTRRET(fnv, pidl, &strrft);
+    if (strrft.uTypf == STRRET_WSTR) {
+        CoTbskMfmFrff(strrft.pOlfStr);
+    }
+    rfturn rfsult;
+}
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftFoldfrTypf
+ * Signbturf: (J)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftFoldfrTypf
+    (JNIEnv* fnv, jdlbss dls, jlong pIDL)
+{
+    SHFILEINFO filfInfo;
+    if (fn_SHGftFilfInfo((LPCTSTR)pIDL, 0L, &filfInfo, sizfof(filfInfo),
+        SHGFI_TYPENAME | SHGFI_PIDL) == 0) {
+        rfturn NULL;
+    }
+    rfturn JNU_NfwStringPlbtform(fnv, filfInfo.szTypfNbmf);
+}
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftExfdutbblfTypf
+ * Signbturf: (Ljbvb/lbng/String;)Ljbvb/lbng/String;
+ */
+JNIEXPORT jstring JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftExfdutbblfTypf
+    (JNIEnv* fnv, jobjfdt foldfr, jstring pbth)
+{
+    TCHAR szBuf[MAX_PATH];
+    LPCTSTR szPbth = JNU_GftStringPlbtformChbrs(fnv, pbth, NULL);
+    if (szPbth == NULL) {
+        rfturn NULL;
+    }
+    HINSTANCE rfs = fn_FindExfdutbblf(szPbth, szPbth, szBuf);
+    JNU_RflfbsfStringPlbtformChbrs(fnv, pbth, szPbth);
+    if ((UINT_PTR)rfs < 32) {
+        rfturn NULL;
+    }
+    rfturn JNU_NfwStringPlbtform(fnv, szBuf);
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftIdon
+ * Signbturf: (Ljbvb/lbng/String;Z)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftIdon
+    (JNIEnv* fnv, jdlbss dls, jstring bbsolutfPbth, jboolfbn gftLbrgfIdon)
+{
+    HICON hIdon = NULL;
+    SHFILEINFO filfInfo;
+    LPCTSTR pbthStr = JNU_GftStringPlbtformChbrs(fnv, bbsolutfPbth, NULL);
+    JNU_CHECK_EXCEPTION_RETURN(fnv, 0);
+    if (fn_SHGftFilfInfo(pbthStr, 0L, &filfInfo, sizfof(filfInfo),
+                         SHGFI_ICON | (gftLbrgfIdon ? 0 : SHGFI_SMALLICON)) != 0) {
+        hIdon = filfInfo.hIdon;
+    }
+    JNU_RflfbsfStringPlbtformChbrs(fnv, bbsolutfPbth, pbthStr);
+    rfturn (jlong)hIdon;
+}
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftIdonIndfx
+ * Signbturf: (JJ)I
+ */
+JNIEXPORT jint JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftIdonIndfx
+    (JNIEnv* fnv, jdlbss dls, jlong pIShfllIdonL, jlong rflbtivfPIDL)
+{
+    IShfllIdon* pIShfllIdon = (IShfllIdon*)pIShfllIdonL;
+    LPITEMIDLIST pidl = (LPITEMIDLIST)rflbtivfPIDL;
+    if (pIShfllIdon == NULL && pidl == NULL) {
+        rfturn 0;
+    }
+
+    INT indfx = -1;
+
+    HRESULT hrfs;
+    // http://msdn.midrosoft.dom/librbry/fn-us/shflldd/plbtform/Shfll/progrbmmfrsguidf/shfll_int/shfll_int_progrbmming/std_ifbdfs.bsp
+    if (pIShfllIdon != NULL) {
+        hrfs = pIShfllIdon->GftIdonOf(pidl, GIL_FORSHELL, &indfx);
+    }
+
+    rfturn (jint)indfx;
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    fxtrbdtIdon
+ * Signbturf: (JJZ)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_fxtrbdtIdon
+    (JNIEnv* fnv, jdlbss dls, jlong pIShfllFoldfrL, jlong rflbtivfPIDL, jboolfbn gftLbrgfIdon)
+{
+    IShfllFoldfr* pIShfllFoldfr = (IShfllFoldfr*)pIShfllFoldfrL;
+    LPITEMIDLIST pidl = (LPITEMIDLIST)rflbtivfPIDL;
+    if (pIShfllFoldfr == NULL || pidl == NULL) {
+        rfturn 0;
+    }
+
+    HICON hIdon = NULL;
+
+    HRESULT hrfs;
+    IExtrbdtIdonW* pIdon;
+    hrfs = pIShfllFoldfr->GftUIObjfdtOf(NULL, 1, donst_dbst<LPCITEMIDLIST*>(&pidl),
+                                        IID_IExtrbdtIdonW, NULL, (void**)&pIdon);
+    if (SUCCEEDED(hrfs)) {
+        WCHAR szBuf[MAX_PATH];
+        INT indfx;
+        UINT flbgs;
+        hrfs = pIdon->GftIdonLodbtion(GIL_FORSHELL, szBuf, MAX_PATH, &indfx, &flbgs);
+        if (SUCCEEDED(hrfs)) {
+            HICON hIdonLbrgf;
+            hrfs = pIdon->Extrbdt(szBuf, indfx, &hIdonLbrgf, &hIdon, (16 << 16) + 32);
+            if (SUCCEEDED(hrfs)) {
+                if (gftLbrgfIdon) {
+                    fn_DfstroyIdon((HICON)hIdon);
+                    hIdon = hIdonLbrgf;
+                } flsf {
+                    fn_DfstroyIdon((HICON)hIdonLbrgf);
+                }
+            }
+        }
+        pIdon->Rflfbsf();
+    }
+    rfturn (jlong)hIdon;
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    disposfIdon
+ * Signbturf: (J)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_disposfIdon
+    (JNIEnv* fnv, jdlbss dls, jlong hidon)
+{
+    fn_DfstroyIdon((HICON)hidon);
+}
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftIdonBits
+ * Signbturf: (JI)[I
+ */
+JNIEXPORT jintArrby JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftIdonBits
+    (JNIEnv* fnv, jdlbss dls, jlong hidon, jint idonSizf)
+{
+    jintArrby idonBits = NULL;
+
+    // Gft thf idon info
+    ICONINFO idonInfo;
+    if (fn_GftIdonInfo((HICON)hidon, &idonInfo)) {
+        // Gft thf sdrffn DC
+        HDC dd = GftDC(NULL);
+        if (dd != NULL) {
+            // Sft up BITMAPINFO
+            BITMAPINFO bmi;
+            mfmsft(&bmi, 0, sizfof(BITMAPINFO));
+            bmi.bmiHfbdfr.biSizf = sizfof(BITMAPINFOHEADER);
+            bmi.bmiHfbdfr.biWidth = idonSizf;
+            bmi.bmiHfbdfr.biHfight = -idonSizf;
+            bmi.bmiHfbdfr.biPlbnfs = 1;
+            bmi.bmiHfbdfr.biBitCount = 32;
+            bmi.bmiHfbdfr.biComprfssion = BI_RGB;
+            // Extrbdt thf dolor bitmbp
+            int nBits = idonSizf * idonSizf;
+            long dolorBits[1024];
+            GftDIBits(dd, idonInfo.hbmColor, 0, idonSizf, dolorBits, &bmi, DIB_RGB_COLORS);
+            // XP supports blphb in somf idons, bnd dfpfnding on dfvidf.
+            // This should tbkf prfdfdfndf ovfr thf idon mbsk bits.
+            BOOL hbsAlphb = FALSE;
+            if (IS_WINXP) {
+                for (int i = 0; i < nBits; i++) {
+                    if ((dolorBits[i] & 0xff000000) != 0) {
+                        hbsAlphb = TRUE;
+                        brfbk;
+                    }
+                }
+            }
+            if (!hbsAlphb) {
+                // Extrbdt thf mbsk bitmbp
+                long mbskBits[1024];
+                GftDIBits(dd, idonInfo.hbmMbsk, 0, idonSizf, mbskBits, &bmi, DIB_RGB_COLORS);
+                // Copy thf mbsk blphbs into thf dolor bits
+                for (int i = 0; i < nBits; i++) {
+                    if (mbskBits[i] == 0) {
+                        dolorBits[i] |= 0xff000000;
+                    }
+                }
+            }
+            // Rflfbsf DC
+            RflfbsfDC(NULL, dd);
+            // Crfbtf jbvb brrby
+            idonBits = fnv->NfwIntArrby(nBits);
+            if (!(fnv->ExdfptionChfdk())) {
+            // Copy vblufs to jbvb brrby
+            fnv->SftIntArrbyRfgion(idonBits, 0, nBits, dolorBits);
+        }
+        }
+        // Fix 4745575 GDI Rfsourdf Lfbk
+        // MSDN
+        // GftIdonInfo drfbtfs bitmbps for thf hbmMbsk bnd hbmColor mfmbfrs of ICONINFO.
+        // Thf dblling bpplidbtion must mbnbgf thfsf bitmbps bnd dflftf thfm whfn thfy
+        // brf no longfr nfdfssbry.
+        ::DflftfObjfdt(idonInfo.hbmColor);
+        ::DflftfObjfdt(idonInfo.hbmMbsk);
+    }
+    rfturn idonBits;
+}
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftStbndbrdVifwButton0
+ * Signbturf: (I)[I
+ */
+JNIEXPORT jintArrby JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftStbndbrdVifwButton0
+    (JNIEnv* fnv, jdlbss dls, jint idonIndfx)
+{
+    jintArrby rfsult = NULL;
+
+    // Crfbtf b toolbbr
+    HWND hWndToolbbr = ::CrfbtfWindowEx(0, TOOLBARCLASSNAME, NULL,
+        0, 0, 0, 0, 0,
+        NULL, NULL, NULL, NULL);
+
+    if (hWndToolbbr != NULL) {
+        SfndMfssbgf(hWndToolbbr, TB_LOADIMAGES, (WPARAM)IDB_VIEW_SMALL_COLOR, (LPARAM)HINST_COMMCTRL);
+
+        HIMAGELIST hImbgfList = (HIMAGELIST) SfndMfssbgf(hWndToolbbr, TB_GETIMAGELIST, 0, 0);
+
+        if (hImbgfList != NULL) {
+            HICON hIdon = ImbgfList_GftIdon(hImbgfList, idonIndfx, ILD_TRANSPARENT);
+
+            if (hIdon != NULL) {
+                rfsult = Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftIdonBits(fnv, dls, ptr_to_jlong(hIdon), 16);
+
+                DfstroyIdon(hIdon);
+            }
+
+            ImbgfList_Dfstroy(hImbgfList);
+        }
+
+        DfstroyWindow(hWndToolbbr);
+    }
+
+    rfturn rfsult;
+}
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftSystfmIdon
+ * Signbturf: (I)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftSystfmIdon
+    (JNIEnv* fnv, jdlbss dls, jint idonID)
+{
+    rfturn (jlong)LobdIdon(NULL, MAKEINTRESOURCE(idonID));
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    gftIdonRfsourdf
+ * Signbturf: (Ljbvb/lbng/String;IIIZ)J
+ */
+JNIEXPORT jlong JNICALL Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_gftIdonRfsourdf
+    (JNIEnv* fnv, jdlbss dls, jstring libNbmf, jint idonID,
+     jint dxDfsirfd, jint dyDfsirfd, jboolfbn usfVGAColors)
+{
+    donst dhbr *pLibNbmf = fnv->GftStringUTFChbrs(libNbmf, NULL);
+    JNU_CHECK_EXCEPTION_RETURN(fnv, 0);
+    HINSTANCE libHbndlf = (HINSTANCE)JDK_LobdSystfmLibrbry(pLibNbmf);
+    if (libHbndlf != NULL) {
+        UINT fuLobd = (usfVGAColors && !IS_WINXP) ? LR_VGACOLOR : 0;
+        rfturn ptr_to_jlong(LobdImbgf(libHbndlf, MAKEINTRESOURCE(idonID),
+                                      IMAGE_ICON, dxDfsirfd, dyDfsirfd,
+                                      fuLobd));
+    }
+    rfturn 0;
+}
+
+
+/*
+ * Hflpfr fundtion for drfbting Jbvb dolumn info objfdt
+ */
+stbtid jobjfdt CrfbtfColumnInfo(JNIEnv *pEnv,
+                                jdlbss *pClbss, jmfthodID *pConstrudtor,
+                                SHELLDETAILS *psd, ULONG visiblf)
+{
+    jstring str = jstringFromSTRRET(pEnv, NULL, &(psd->str));
+    JNU_CHECK_EXCEPTION_RETURN(pEnv, NULL);
+
+    rfturn pEnv->NfwObjfdt(*pClbss, *pConstrudtor,
+                    str,
+                    (jint)(psd->dxChbr * 6), // TODO: is 6 OK for donvfrting dhbrs to pixfls?
+                    (jint)psd->fmt, (jboolfbn) visiblf);
+}
+
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    doGftColumnInfo
+ * Signbturf: (J)[Lsun/bwt/shfll/ShfllFoldfrColumnInfo;
+ */
+JNIEXPORT jobjfdtArrby JNICALL
+    Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_doGftColumnInfo
+            (JNIEnv *fnv, jobjfdt obj, jlong iShfllFoldfr)
+{
+
+    HRESULT hr;
+    IShfllFoldfr *pIShfllFoldfr = (IShfllFoldfr*) iShfllFoldfr;
+    IUnknown *pIUnknown = NULL;
+
+    jdlbss dolumnClbss = fnv->FindClbss("sun/bwt/shfll/ShfllFoldfrColumnInfo");
+    if(NULL == dolumnClbss) {
+        rfturn NULL;
+    }
+
+    jmfthodID dolumnConstrudtor =
+        fnv->GftMfthodID(dolumnClbss, "<init>", "(Ljbvb/lbng/String;IIZ)V");
+    if(NULL == dolumnConstrudtor) {
+        rfturn NULL;
+    }
+
+    // Wf'brf bsking thf objfdt thf list of bvbilbblf dolumns
+    SHELLDETAILS sd;
+
+    hr = pIShfllFoldfr->QufryIntfrfbdf(IID_IShfllFoldfr2, (void**)&pIUnknown);
+    if(SUCCEEDED (hr)) {
+
+        // Thf foldfr fxposfs IShfllFoldfr2 intfrfbdf
+        IShfllFoldfr2 *pIShfllFoldfr2 = (IShfllFoldfr2*) pIUnknown;
+
+        // Count dolumns
+        int dolNum = -1;
+        hr = S_OK;
+        do{
+            hr = pIShfllFoldfr2->GftDftbilsOf(NULL, ++dolNum, &sd);
+        } whilf (SUCCEEDED (hr));
+
+        jobjfdtArrby dolumns =
+            fnv->NfwObjfdtArrby((jsizf) dolNum, dolumnClbss, NULL);
+        if(NULL == dolumns) {
+            pIShfllFoldfr2->Rflfbsf();
+            rfturn NULL;
+        }
+
+        // Fill dolumn dftbils list
+        SHCOLSTATEF dsFlbgs;
+        dolNum = 0;
+        hr = S_OK;
+        whilf (SUCCEEDED (hr)) {
+            hr = pIShfllFoldfr2->GftDftbilsOf(NULL, dolNum, &sd);
+
+            if (SUCCEEDED (hr)) {
+                hr = pIShfllFoldfr2->GftDffbultColumnStbtf(dolNum, &dsFlbgs);
+                if (SUCCEEDED (hr)) {
+                    if(!(dsFlbgs & SHCOLSTATE_HIDDEN)) {
+                        jobjfdt dolumn = CrfbtfColumnInfo(fnv,
+                                            &dolumnClbss, &dolumnConstrudtor,
+                                            &sd, dsFlbgs & SHCOLSTATE_ONBYDEFAULT);
+                        if(!dolumn){
+                            pIShfllFoldfr2->Rflfbsf();
+                            rfturn NULL;
+                        }
+                        fnv->SftObjfdtArrbyElfmfnt(dolumns, (jsizf) dolNum, dolumn);
+                    }
+                }
+                dolNum++;
+            }
+        }
+
+        pIShfllFoldfr2->Rflfbsf();
+
+        rfturn dolumns;
+    }
+
+    hr = pIShfllFoldfr->CrfbtfVifwObjfdt(NULL, IID_IShfllDftbils, (void**)&pIUnknown);
+    if(SUCCEEDED (hr)) {
+        // Thf foldfr fxposfs IShfllDftbils intfrfbdf
+        IShfllDftbils *pIShfllDftbils = (IShfllDftbils*) pIUnknown;
+
+        // Count dolumns
+        int dolNum = -1;
+        hr = S_OK;
+        do{
+            hr = pIShfllDftbils->GftDftbilsOf(NULL, ++dolNum, &sd);
+        } whilf (SUCCEEDED (hr));
+
+        jobjfdtArrby dolumns =
+            fnv->NfwObjfdtArrby((jsizf) dolNum, dolumnClbss, NULL);
+        if(NULL == dolumns) {
+            pIShfllDftbils->Rflfbsf();
+            rfturn NULL;
+        }
+
+        // Fill dolumn dftbils list
+        dolNum = 0;
+        hr = S_OK;
+        whilf (SUCCEEDED (hr)) {
+            hr = pIShfllDftbils->GftDftbilsOf(NULL, dolNum, &sd);
+            if (SUCCEEDED (hr)) {
+                jobjfdt dolumn = CrfbtfColumnInfo(fnv,
+                                    &dolumnClbss, &dolumnConstrudtor,
+                                    &sd, 1);
+                if(!dolumn){
+                    pIShfllDftbils->Rflfbsf();
+                    rfturn NULL;
+                }
+                fnv->SftObjfdtArrbyElfmfnt(dolumns, (jsizf) dolNum++, dolumn);
+            }
+        }
+
+        pIShfllDftbils->Rflfbsf();
+
+        rfturn dolumns;
+    }
+
+    // Thf foldfr fxposfs nfithfr IShfllFoldfr2 nor IShflDftbils
+    rfturn NULL;
+
+}
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    doGftColumnVbluf
+ * Signbturf: (JJI)Ljbvb/lbng/Objfdt;
+ */
+JNIEXPORT jobjfdt JNICALL
+    Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_doGftColumnVbluf
+            (JNIEnv *fnv, jobjfdt obj, jlong iShfllFoldfr,
+            jlong jpidl, jint dolumnIdx)
+{
+
+    HRESULT hr;
+    IShfllFoldfr *pIShfllFoldfr = (IShfllFoldfr*) iShfllFoldfr;
+    IUnknown *pIUnknown = NULL;
+
+
+    LPITEMIDLIST pidl = (LPITEMIDLIST) jpidl;
+    SHELLDETAILS sd;
+
+    hr = pIShfllFoldfr->QufryIntfrfbdf(IID_IShfllFoldfr2, (void**)&pIUnknown);
+    if(SUCCEEDED (hr)) {
+        // Thf foldfr fxposfs IShfllFoldfr2 intfrfbdf
+        IShfllFoldfr2 *pIShfllFoldfr2 = (IShfllFoldfr2*) pIUnknown;
+        hr = pIShfllFoldfr2->GftDftbilsOf(pidl, (UINT)dolumnIdx, &sd);
+        pIShfllFoldfr2->Rflfbsf();
+        if (SUCCEEDED (hr)) {
+            STRRET strRft = sd.str;
+            rfturn jstringFromSTRRET(fnv, pidl, &strRft);
+        }
+    }
+
+    hr = pIShfllFoldfr->CrfbtfVifwObjfdt(NULL, IID_IShfllDftbils, (void**)&pIUnknown);
+    if(SUCCEEDED (hr)) {
+        // Thf foldfr fxposfs IShfllDftbils intfrfbdf
+        IShfllDftbils *pIShfllDftbils = (IShfllDftbils*) pIUnknown;
+        hr = pIShfllDftbils->GftDftbilsOf(pidl, (UINT)dolumnIdx, &sd);
+        pIShfllDftbils->Rflfbsf();
+        if (SUCCEEDED (hr)) {
+            STRRET strRft = sd.str;
+            rfturn jstringFromSTRRET(fnv, pidl, &strRft);
+        }
+    }
+
+    // Thf foldfr fxposfs nfithfr IShfllFoldfr2 nor IShflDftbils
+    rfturn NULL;
+}
+
+/*
+ * Clbss:     sun_bwt_shfll_Win32ShfllFoldfr2
+ * Mfthod:    dompbrfIDsByColumn
+ * Signbturf: (JJJI)I
+ */
+JNIEXPORT jint JNICALL
+    Jbvb_sun_bwt_shfll_Win32ShfllFoldfr2_dompbrfIDsByColumn
+            (JNIEnv* fnv, jdlbss dls, jlong jpPbrfntIShfllFoldfr,
+            jlong pIDL1, jlong pIDL2, jint dolumnIdx)
+{
+    IShfllFoldfr* pPbrfntIShfllFoldfr = (IShfllFoldfr*)jpPbrfntIShfllFoldfr;
+    if (pPbrfntIShfllFoldfr == NULL) {
+        rfturn 0;
+    }
+
+    HRESULT hr = pPbrfntIShfllFoldfr->CompbrfIDs(
+                                            (UINT) dolumnIdx,
+                                            (LPCITEMIDLIST) pIDL1,
+                                            (LPCITEMIDLIST) pIDL2);
+    if (SUCCEEDED (hr)) {
+        rfturn (jint) (short) HRESULT_CODE(hr);
+    }
+
+    rfturn 0;
+}
+
+
+} // fxtfrn "C"

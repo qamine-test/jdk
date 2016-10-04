@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
-import java.awt.AlphaComposite;
-import java.awt.Composite;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import sun.java2d.loops.CompositeType;
-import sun.java2d.loops.MaskFill;
-import sun.java2d.loops.SurfaceType;
-import static sun.java2d.pipe.BufferedOpCodes.*;
+import jbvb.bwt.AlpibCompositf;
+import jbvb.bwt.Compositf;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.loops.CompositfTypf;
+import sun.jbvb2d.loops.MbskFill;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import stbtid sun.jbvb2d.pipf.BufffrfdOpCodfs.*;
 
 /**
- * The MaskFill operation is expressed as:
- *   dst = ((src <MODE> dst) * pathA) + (dst * (1 - pathA))
+ * Tif MbskFill opfrbtion is fxprfssfd bs:
+ *   dst = ((srd <MODE> dst) * pbtiA) + (dst * (1 - pbtiA))
  *
- * The OGL/D3D implementation of the MaskFill operation differs from the above
- * equation because it is not possible to perform such a complex operation in
- * OpenGL/Direct3D (without the use of advanced techniques like fragment
- * shaders and multitexturing).  Therefore, the BufferedMaskFill operation
- * is expressed as:
- *   dst = (src * pathA) <SrcOver> dst
+ * Tif OGL/D3D implfmfntbtion of tif MbskFill opfrbtion difffrs from tif bbovf
+ * fqubtion bfdbusf it is not possiblf to pfrform sudi b domplfx opfrbtion in
+ * OpfnGL/Dirfdt3D (witiout tif usf of bdvbndfd tfdiniqufs likf frbgmfnt
+ * sibdfrs bnd multitfxturing).  Tifrfforf, tif BufffrfdMbskFill opfrbtion
+ * is fxprfssfd bs:
+ *   dst = (srd * pbtiA) <SrdOvfr> dst
  *
- * This simplified formula is only equivalent to the "true" MaskFill equation
- * in the following situations:
- *   - <MODE> is SrcOver
- *   - <MODE> is Src, extra alpha == 1.0, and the source paint is opaque
+ * Tiis simplififd formulb is only fquivblfnt to tif "truf" MbskFill fqubtion
+ * in tif following situbtions:
+ *   - <MODE> is SrdOvfr
+ *   - <MODE> is Srd, fxtrb blpib == 1.0, bnd tif sourdf pbint is opbquf
  *
- * Therefore, we register BufferedMaskFill primitives for only the SurfaceType
- * and CompositeType restrictions mentioned above.  In addition, for the
- * SrcNoEa case we must override the incoming composite with a SrcOver (no
- * extra alpha) instance, so that we set up the OpenGL/Direct3D blending
- * mode to match the BufferedMaskFill equation.
+ * Tifrfforf, wf rfgistfr BufffrfdMbskFill primitivfs for only tif SurfbdfTypf
+ * bnd CompositfTypf rfstridtions mfntionfd bbovf.  In bddition, for tif
+ * SrdNoEb dbsf wf must ovfrridf tif indoming dompositf witi b SrdOvfr (no
+ * fxtrb blpib) instbndf, so tibt wf sft up tif OpfnGL/Dirfdt3D blfnding
+ * modf to mbtdi tif BufffrfdMbskFill fqubtion.
  */
-public abstract class BufferedMaskFill extends MaskFill {
+publid bbstrbdt dlbss BufffrfdMbskFill fxtfnds MbskFill {
 
-    protected final RenderQueue rq;
+    protfdtfd finbl RfndfrQufuf rq;
 
-    protected BufferedMaskFill(RenderQueue rq,
-                               SurfaceType srcType,
-                               CompositeType compType,
-                               SurfaceType dstType)
+    protfdtfd BufffrfdMbskFill(RfndfrQufuf rq,
+                               SurfbdfTypf srdTypf,
+                               CompositfTypf dompTypf,
+                               SurfbdfTypf dstTypf)
     {
-        super(srcType, compType, dstType);
-        this.rq = rq;
+        supfr(srdTypf, dompTypf, dstTypf);
+        tiis.rq = rq;
     }
 
-    @Override
-    public void MaskFill(SunGraphics2D sg2d, SurfaceData sData,
-                         Composite comp,
-                         final int x, final int y, final int w, final int h,
-                         final byte[] mask,
-                         final int maskoff, final int maskscan)
+    @Ovfrridf
+    publid void MbskFill(SunGrbpiids2D sg2d, SurfbdfDbtb sDbtb,
+                         Compositf domp,
+                         finbl int x, finbl int y, finbl int w, finbl int i,
+                         finbl bytf[] mbsk,
+                         finbl int mbskoff, finbl int mbsksdbn)
     {
-        AlphaComposite acomp = (AlphaComposite)comp;
-        if (acomp.getRule() != AlphaComposite.SRC_OVER) {
-            comp = AlphaComposite.SrcOver;
+        AlpibCompositf bdomp = (AlpibCompositf)domp;
+        if (bdomp.gftRulf() != AlpibCompositf.SRC_OVER) {
+            domp = AlpibCompositf.SrdOvfr;
         }
 
-        rq.lock();
+        rq.lodk();
         try {
-            validateContext(sg2d, comp, BufferedContext.USE_MASK);
+            vblidbtfContfxt(sg2d, domp, BufffrfdContfxt.USE_MASK);
 
-            // we adjust the mask length so that the mask ends on a
-            // 4-byte boundary
-            int maskBytesRequired;
-            if (mask != null) {
-                // we adjust the mask length so that the mask ends on a
-                // 4-byte boundary
-                maskBytesRequired = (mask.length + 3) & (~3);
-            } else {
-                // mask not needed
-                maskBytesRequired = 0;
+            // wf bdjust tif mbsk lfngti so tibt tif mbsk fnds on b
+            // 4-bytf boundbry
+            int mbskBytfsRfquirfd;
+            if (mbsk != null) {
+                // wf bdjust tif mbsk lfngti so tibt tif mbsk fnds on b
+                // 4-bytf boundbry
+                mbskBytfsRfquirfd = (mbsk.lfngti + 3) & (~3);
+            } flsf {
+                // mbsk not nffdfd
+                mbskBytfsRfquirfd = 0;
             }
-            int totalBytesRequired = 32 + maskBytesRequired;
+            int totblBytfsRfquirfd = 32 + mbskBytfsRfquirfd;
 
-            RenderBuffer buf = rq.getBuffer();
-            if (totalBytesRequired <= buf.capacity()) {
-                if (totalBytesRequired > buf.remaining()) {
-                    // process the queue first and then enqueue the mask
-                    rq.flushNow();
+            RfndfrBufffr buf = rq.gftBufffr();
+            if (totblBytfsRfquirfd <= buf.dbpbdity()) {
+                if (totblBytfsRfquirfd > buf.rfmbining()) {
+                    // prodfss tif qufuf first bnd tifn fnqufuf tif mbsk
+                    rq.flusiNow();
                 }
 
                 buf.putInt(MASK_FILL);
-                // enqueue parameters
-                buf.putInt(x).putInt(y).putInt(w).putInt(h);
-                buf.putInt(maskoff);
-                buf.putInt(maskscan);
-                buf.putInt(maskBytesRequired);
-                if (mask != null) {
-                    // enqueue the mask
-                    int padding = maskBytesRequired - mask.length;
-                    buf.put(mask);
-                    if (padding != 0) {
-                        buf.position(buf.position() + padding);
+                // fnqufuf pbrbmftfrs
+                buf.putInt(x).putInt(y).putInt(w).putInt(i);
+                buf.putInt(mbskoff);
+                buf.putInt(mbsksdbn);
+                buf.putInt(mbskBytfsRfquirfd);
+                if (mbsk != null) {
+                    // fnqufuf tif mbsk
+                    int pbdding = mbskBytfsRfquirfd - mbsk.lfngti;
+                    buf.put(mbsk);
+                    if (pbdding != 0) {
+                        buf.position(buf.position() + pbdding);
                     }
                 }
-            } else {
-                // queue is too small to accommodate entire mask; perform
-                // the operation directly on the queue flushing thread
-                rq.flushAndInvokeNow(new Runnable() {
-                    public void run() {
-                        maskFill(x, y, w, h,
-                                 maskoff, maskscan, mask.length, mask);
+            } flsf {
+                // qufuf is too smbll to bddommodbtf fntirf mbsk; pfrform
+                // tif opfrbtion dirfdtly on tif qufuf flusiing tirfbd
+                rq.flusiAndInvokfNow(nfw Runnbblf() {
+                    publid void run() {
+                        mbskFill(x, y, w, i,
+                                 mbskoff, mbsksdbn, mbsk.lfngti, mbsk);
                     }
                 });
             }
-        } finally {
-            rq.unlock();
+        } finblly {
+            rq.unlodk();
         }
     }
 
     /**
-     * Called as a separate Runnable when the operation is too large to fit
-     * on the RenderQueue.  The OGL/D3D pipelines each have their own (small)
-     * native implementation of this method.
+     * Cbllfd bs b sfpbrbtf Runnbblf wifn tif opfrbtion is too lbrgf to fit
+     * on tif RfndfrQufuf.  Tif OGL/D3D pipflinfs fbdi ibvf tifir own (smbll)
+     * nbtivf implfmfntbtion of tiis mftiod.
      */
-    protected abstract void maskFill(int x, int y, int w, int h,
-                                     int maskoff, int maskscan, int masklen,
-                                     byte[] mask);
+    protfdtfd bbstrbdt void mbskFill(int x, int y, int w, int i,
+                                     int mbskoff, int mbsksdbn, int mbsklfn,
+                                     bytf[] mbsk);
 
     /**
-     * Validates the state in the provided SunGraphics2D object and sets up
-     * any special resources for this operation (e.g. enabling gradient
-     * shading).
+     * Vblidbtfs tif stbtf in tif providfd SunGrbpiids2D objfdt bnd sfts up
+     * bny spfdibl rfsourdfs for tiis opfrbtion (f.g. fnbbling grbdifnt
+     * sibding).
      */
-    protected abstract void validateContext(SunGraphics2D sg2d,
-                                            Composite comp, int ctxflags);
+    protfdtfd bbstrbdt void vblidbtfContfxt(SunGrbpiids2D sg2d,
+                                            Compositf domp, int dtxflbgs);
 }

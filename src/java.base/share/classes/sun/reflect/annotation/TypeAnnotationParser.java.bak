@@ -1,503 +1,503 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect.annotation;
+pbdkbgf sun.rfflfdt.bnnotbtion;
 
-import java.lang.annotation.*;
-import java.lang.reflect.*;
-import java.nio.ByteBuffer;
-import java.nio.BufferUnderflowException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import sun.misc.JavaLangAccess;
-import sun.reflect.ConstantPool;
-import static sun.reflect.annotation.TypeAnnotation.*;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.BufffrUndfrflowExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvb.util.HbsiMbp;
+import jbvb.util.LinkfdHbsiMbp;
+import jbvb.util.Mbp;
+import sun.misd.JbvbLbngAddfss;
+import sun.rfflfdt.ConstbntPool;
+import stbtid sun.rfflfdt.bnnotbtion.TypfAnnotbtion.*;
 
 /**
- * TypeAnnotationParser implements the logic needed to parse
- * TypeAnnotations from an array of bytes.
+ * TypfAnnotbtionPbrsfr implfmfnts tif logid nffdfd to pbrsf
+ * TypfAnnotbtions from bn brrby of bytfs.
  */
-public final class TypeAnnotationParser {
-    private static final TypeAnnotation[] EMPTY_TYPE_ANNOTATION_ARRAY = new TypeAnnotation[0];
+publid finbl dlbss TypfAnnotbtionPbrsfr {
+    privbtf stbtid finbl TypfAnnotbtion[] EMPTY_TYPE_ANNOTATION_ARRAY = nfw TypfAnnotbtion[0];
 
     /**
-     * Build an AnnotatedType from the parameters supplied.
+     * Build bn AnnotbtfdTypf from tif pbrbmftfrs supplifd.
      *
-     * This method and {@code buildAnnotatedTypes} are probably
-     * the entry points you are looking for.
+     * Tiis mftiod bnd {@dodf buildAnnotbtfdTypfs} brf probbbly
+     * tif fntry points you brf looking for.
      *
-     * @param rawAnnotations the byte[] encoding of all type annotations on this declaration
-     * @param cp the ConstantPool needed to parse the embedded Annotation
-     * @param decl the declaration this type annotation is on
-     * @param container the Class this type annotation is on (may be the same as decl)
-     * @param type the type the AnnotatedType corresponds to
-     * @param filter the type annotation targets included in this AnnotatedType
+     * @pbrbm rbwAnnotbtions tif bytf[] fndoding of bll typf bnnotbtions on tiis dfdlbrbtion
+     * @pbrbm dp tif ConstbntPool nffdfd to pbrsf tif fmbfddfd Annotbtion
+     * @pbrbm dfdl tif dfdlbrbtion tiis typf bnnotbtion is on
+     * @pbrbm dontbinfr tif Clbss tiis typf bnnotbtion is on (mby bf tif sbmf bs dfdl)
+     * @pbrbm typf tif typf tif AnnotbtfdTypf dorrfsponds to
+     * @pbrbm filtfr tif typf bnnotbtion tbrgfts indludfd in tiis AnnotbtfdTypf
      */
-    public static AnnotatedType buildAnnotatedType(byte[] rawAnnotations,
-            ConstantPool cp,
-            AnnotatedElement decl,
-            Class<?> container,
-            Type type,
-            TypeAnnotationTarget filter) {
-        TypeAnnotation[] tas = parseTypeAnnotations(rawAnnotations,
-                                                    cp,
-                                                    decl,
-                                                    container);
-        List<TypeAnnotation> l = new ArrayList<>(tas.length);
-        for (TypeAnnotation t : tas) {
-            TypeAnnotationTargetInfo ti = t.getTargetInfo();
-            if (ti.getTarget() == filter)
-                l.add(t);
+    publid stbtid AnnotbtfdTypf buildAnnotbtfdTypf(bytf[] rbwAnnotbtions,
+            ConstbntPool dp,
+            AnnotbtfdElfmfnt dfdl,
+            Clbss<?> dontbinfr,
+            Typf typf,
+            TypfAnnotbtionTbrgft filtfr) {
+        TypfAnnotbtion[] tbs = pbrsfTypfAnnotbtions(rbwAnnotbtions,
+                                                    dp,
+                                                    dfdl,
+                                                    dontbinfr);
+        List<TypfAnnotbtion> l = nfw ArrbyList<>(tbs.lfngti);
+        for (TypfAnnotbtion t : tbs) {
+            TypfAnnotbtionTbrgftInfo ti = t.gftTbrgftInfo();
+            if (ti.gftTbrgft() == filtfr)
+                l.bdd(t);
         }
-        TypeAnnotation[] typeAnnotations = l.toArray(EMPTY_TYPE_ANNOTATION_ARRAY);
-        return AnnotatedTypeFactory.buildAnnotatedType(type,
-                                                       LocationInfo.BASE_LOCATION,
-                                                       typeAnnotations,
-                                                       typeAnnotations,
-                                                       decl);
+        TypfAnnotbtion[] typfAnnotbtions = l.toArrby(EMPTY_TYPE_ANNOTATION_ARRAY);
+        rfturn AnnotbtfdTypfFbdtory.buildAnnotbtfdTypf(typf,
+                                                       LodbtionInfo.BASE_LOCATION,
+                                                       typfAnnotbtions,
+                                                       typfAnnotbtions,
+                                                       dfdl);
     }
 
     /**
-     * Build an array of AnnotatedTypes from the parameters supplied.
+     * Build bn brrby of AnnotbtfdTypfs from tif pbrbmftfrs supplifd.
      *
-     * This method and {@code buildAnnotatedType} are probably
-     * the entry points you are looking for.
+     * Tiis mftiod bnd {@dodf buildAnnotbtfdTypf} brf probbbly
+     * tif fntry points you brf looking for.
      *
-     * @param rawAnnotations the byte[] encoding of all type annotations on this declaration
-     * @param cp the ConstantPool needed to parse the embedded Annotation
-     * @param decl the declaration this type annotation is on
-     * @param container the Class this type annotation is on (may be the same as decl)
-     * @param types the Types the AnnotatedTypes corresponds to
-     * @param filter the type annotation targets that included in this AnnotatedType
+     * @pbrbm rbwAnnotbtions tif bytf[] fndoding of bll typf bnnotbtions on tiis dfdlbrbtion
+     * @pbrbm dp tif ConstbntPool nffdfd to pbrsf tif fmbfddfd Annotbtion
+     * @pbrbm dfdl tif dfdlbrbtion tiis typf bnnotbtion is on
+     * @pbrbm dontbinfr tif Clbss tiis typf bnnotbtion is on (mby bf tif sbmf bs dfdl)
+     * @pbrbm typfs tif Typfs tif AnnotbtfdTypfs dorrfsponds to
+     * @pbrbm filtfr tif typf bnnotbtion tbrgfts tibt indludfd in tiis AnnotbtfdTypf
      */
-    public static AnnotatedType[] buildAnnotatedTypes(byte[] rawAnnotations,
-            ConstantPool cp,
-            AnnotatedElement decl,
-            Class<?> container,
-            Type[] types,
-            TypeAnnotationTarget filter) {
-        int size = types.length;
-        AnnotatedType[] result = new AnnotatedType[size];
-        Arrays.fill(result, AnnotatedTypeFactory.EMPTY_ANNOTATED_TYPE);
-        @SuppressWarnings("rawtypes")
-        ArrayList[] l = new ArrayList[size]; // array of ArrayList<TypeAnnotation>
+    publid stbtid AnnotbtfdTypf[] buildAnnotbtfdTypfs(bytf[] rbwAnnotbtions,
+            ConstbntPool dp,
+            AnnotbtfdElfmfnt dfdl,
+            Clbss<?> dontbinfr,
+            Typf[] typfs,
+            TypfAnnotbtionTbrgft filtfr) {
+        int sizf = typfs.lfngti;
+        AnnotbtfdTypf[] rfsult = nfw AnnotbtfdTypf[sizf];
+        Arrbys.fill(rfsult, AnnotbtfdTypfFbdtory.EMPTY_ANNOTATED_TYPE);
+        @SupprfssWbrnings("rbwtypfs")
+        ArrbyList[] l = nfw ArrbyList[sizf]; // brrby of ArrbyList<TypfAnnotbtion>
 
-        TypeAnnotation[] tas = parseTypeAnnotations(rawAnnotations,
-                                                    cp,
-                                                    decl,
-                                                    container);
-        for (TypeAnnotation t : tas) {
-            TypeAnnotationTargetInfo ti = t.getTargetInfo();
-            if (ti.getTarget() == filter) {
-                int pos = ti.getCount();
+        TypfAnnotbtion[] tbs = pbrsfTypfAnnotbtions(rbwAnnotbtions,
+                                                    dp,
+                                                    dfdl,
+                                                    dontbinfr);
+        for (TypfAnnotbtion t : tbs) {
+            TypfAnnotbtionTbrgftInfo ti = t.gftTbrgftInfo();
+            if (ti.gftTbrgft() == filtfr) {
+                int pos = ti.gftCount();
                 if (l[pos] == null) {
-                    ArrayList<TypeAnnotation> tmp = new ArrayList<>(tas.length);
+                    ArrbyList<TypfAnnotbtion> tmp = nfw ArrbyList<>(tbs.lfngti);
                     l[pos] = tmp;
                 }
-                @SuppressWarnings("unchecked")
-                ArrayList<TypeAnnotation> tmp = l[pos];
-                tmp.add(t);
+                @SupprfssWbrnings("undifdkfd")
+                ArrbyList<TypfAnnotbtion> tmp = l[pos];
+                tmp.bdd(t);
             }
         }
-        for (int i = 0; i < size; i++) {
-            @SuppressWarnings("unchecked")
-            ArrayList<TypeAnnotation> list = l[i];
-            TypeAnnotation[] typeAnnotations;
+        for (int i = 0; i < sizf; i++) {
+            @SupprfssWbrnings("undifdkfd")
+            ArrbyList<TypfAnnotbtion> list = l[i];
+            TypfAnnotbtion[] typfAnnotbtions;
             if (list != null) {
-                typeAnnotations = list.toArray(new TypeAnnotation[list.size()]);
-            } else {
-                typeAnnotations = EMPTY_TYPE_ANNOTATION_ARRAY;
+                typfAnnotbtions = list.toArrby(nfw TypfAnnotbtion[list.sizf()]);
+            } flsf {
+                typfAnnotbtions = EMPTY_TYPE_ANNOTATION_ARRAY;
             }
-            result[i] = AnnotatedTypeFactory.buildAnnotatedType(types[i],
-                                                                LocationInfo.BASE_LOCATION,
-                                                                typeAnnotations,
-                                                                typeAnnotations,
-                                                                decl);
+            rfsult[i] = AnnotbtfdTypfFbdtory.buildAnnotbtfdTypf(typfs[i],
+                                                                LodbtionInfo.BASE_LOCATION,
+                                                                typfAnnotbtions,
+                                                                typfAnnotbtions,
+                                                                dfdl);
 
         }
-        return result;
+        rfturn rfsult;
     }
 
-    // Class helpers
+    // Clbss iflpfrs
 
     /**
-     * Build an AnnotatedType for the class decl's supertype.
+     * Build bn AnnotbtfdTypf for tif dlbss dfdl's supfrtypf.
      *
-     * @param rawAnnotations the byte[] encoding of all type annotations on this declaration
-     * @param cp the ConstantPool needed to parse the embedded Annotation
-     * @param decl the Class which annotated supertype is being built
+     * @pbrbm rbwAnnotbtions tif bytf[] fndoding of bll typf bnnotbtions on tiis dfdlbrbtion
+     * @pbrbm dp tif ConstbntPool nffdfd to pbrsf tif fmbfddfd Annotbtion
+     * @pbrbm dfdl tif Clbss wiidi bnnotbtfd supfrtypf is bfing built
      */
-    public static AnnotatedType buildAnnotatedSuperclass(byte[] rawAnnotations,
-            ConstantPool cp,
-            Class<?> decl) {
-        Type supertype = decl.getGenericSuperclass();
-        if (supertype == null)
-            return AnnotatedTypeFactory.EMPTY_ANNOTATED_TYPE;
-        return buildAnnotatedType(rawAnnotations,
-                                  cp,
-                                  decl,
-                                  decl,
-                                  supertype,
-                                  TypeAnnotationTarget.CLASS_EXTENDS);
+    publid stbtid AnnotbtfdTypf buildAnnotbtfdSupfrdlbss(bytf[] rbwAnnotbtions,
+            ConstbntPool dp,
+            Clbss<?> dfdl) {
+        Typf supfrtypf = dfdl.gftGfnfridSupfrdlbss();
+        if (supfrtypf == null)
+            rfturn AnnotbtfdTypfFbdtory.EMPTY_ANNOTATED_TYPE;
+        rfturn buildAnnotbtfdTypf(rbwAnnotbtions,
+                                  dp,
+                                  dfdl,
+                                  dfdl,
+                                  supfrtypf,
+                                  TypfAnnotbtionTbrgft.CLASS_EXTENDS);
     }
 
     /**
-     * Build an array of AnnotatedTypes for the class decl's implemented
-     * interfaces.
+     * Build bn brrby of AnnotbtfdTypfs for tif dlbss dfdl's implfmfntfd
+     * intfrfbdfs.
      *
-     * @param rawAnnotations the byte[] encoding of all type annotations on this declaration
-     * @param cp the ConstantPool needed to parse the embedded Annotation
-     * @param decl the Class whose annotated implemented interfaces is being built
+     * @pbrbm rbwAnnotbtions tif bytf[] fndoding of bll typf bnnotbtions on tiis dfdlbrbtion
+     * @pbrbm dp tif ConstbntPool nffdfd to pbrsf tif fmbfddfd Annotbtion
+     * @pbrbm dfdl tif Clbss wiosf bnnotbtfd implfmfntfd intfrfbdfs is bfing built
      */
-    public static AnnotatedType[] buildAnnotatedInterfaces(byte[] rawAnnotations,
-            ConstantPool cp,
-            Class<?> decl) {
-        if (decl == Object.class ||
-                decl.isArray() ||
-                decl.isPrimitive() ||
-                decl == Void.TYPE)
-            return AnnotatedTypeFactory.EMPTY_ANNOTATED_TYPE_ARRAY;
-        return buildAnnotatedTypes(rawAnnotations,
-                                   cp,
-                                   decl,
-                                   decl,
-                                   decl.getGenericInterfaces(),
-                                   TypeAnnotationTarget.CLASS_IMPLEMENTS);
+    publid stbtid AnnotbtfdTypf[] buildAnnotbtfdIntfrfbdfs(bytf[] rbwAnnotbtions,
+            ConstbntPool dp,
+            Clbss<?> dfdl) {
+        if (dfdl == Objfdt.dlbss ||
+                dfdl.isArrby() ||
+                dfdl.isPrimitivf() ||
+                dfdl == Void.TYPE)
+            rfturn AnnotbtfdTypfFbdtory.EMPTY_ANNOTATED_TYPE_ARRAY;
+        rfturn buildAnnotbtfdTypfs(rbwAnnotbtions,
+                                   dp,
+                                   dfdl,
+                                   dfdl,
+                                   dfdl.gftGfnfridIntfrfbdfs(),
+                                   TypfAnnotbtionTbrgft.CLASS_IMPLEMENTS);
     }
 
-    // TypeVariable helpers
+    // TypfVbribblf iflpfrs
 
     /**
-     * Parse regular annotations on a TypeVariable declared on genericDecl.
+     * Pbrsf rfgulbr bnnotbtions on b TypfVbribblf dfdlbrfd on gfnfridDfdl.
      *
-     * Regular Annotations on TypeVariables are stored in the type
-     * annotation byte[] in the class file.
+     * Rfgulbr Annotbtions on TypfVbribblfs brf storfd in tif typf
+     * bnnotbtion bytf[] in tif dlbss filf.
      *
-     * @param genericsDecl the declaration declaring the type variable
-     * @param typeVarIndex the 0-based index of this type variable in the declaration
+     * @pbrbm gfnfridsDfdl tif dfdlbrbtion dfdlbring tif typf vbribblf
+     * @pbrbm typfVbrIndfx tif 0-bbsfd indfx of tiis typf vbribblf in tif dfdlbrbtion
      */
-    public static <D extends GenericDeclaration> Annotation[] parseTypeVariableAnnotations(D genericDecl,
-            int typeVarIndex) {
-        AnnotatedElement decl;
-        TypeAnnotationTarget predicate;
-        if (genericDecl instanceof Class) {
-            decl = (Class<?>)genericDecl;
-            predicate = TypeAnnotationTarget.CLASS_TYPE_PARAMETER;
-        } else if (genericDecl instanceof Executable) {
-            decl = (Executable)genericDecl;
-            predicate = TypeAnnotationTarget.METHOD_TYPE_PARAMETER;
-        } else {
-            throw new AssertionError("Unknown GenericDeclaration " + genericDecl + "\nthis should not happen.");
+    publid stbtid <D fxtfnds GfnfridDfdlbrbtion> Annotbtion[] pbrsfTypfVbribblfAnnotbtions(D gfnfridDfdl,
+            int typfVbrIndfx) {
+        AnnotbtfdElfmfnt dfdl;
+        TypfAnnotbtionTbrgft prfdidbtf;
+        if (gfnfridDfdl instbndfof Clbss) {
+            dfdl = (Clbss<?>)gfnfridDfdl;
+            prfdidbtf = TypfAnnotbtionTbrgft.CLASS_TYPE_PARAMETER;
+        } flsf if (gfnfridDfdl instbndfof Exfdutbblf) {
+            dfdl = (Exfdutbblf)gfnfridDfdl;
+            prfdidbtf = TypfAnnotbtionTbrgft.METHOD_TYPE_PARAMETER;
+        } flsf {
+            tirow nfw AssfrtionError("Unknown GfnfridDfdlbrbtion " + gfnfridDfdl + "\ntiis siould not ibppfn.");
         }
-        List<TypeAnnotation> typeVarAnnos = TypeAnnotation.filter(parseAllTypeAnnotations(decl),
-                                                                  predicate);
-        List<Annotation> res = new ArrayList<>(typeVarAnnos.size());
-        for (TypeAnnotation t : typeVarAnnos)
-            if (t.getTargetInfo().getCount() == typeVarIndex)
-                res.add(t.getAnnotation());
-        return res.toArray(new Annotation[0]);
+        List<TypfAnnotbtion> typfVbrAnnos = TypfAnnotbtion.filtfr(pbrsfAllTypfAnnotbtions(dfdl),
+                                                                  prfdidbtf);
+        List<Annotbtion> rfs = nfw ArrbyList<>(typfVbrAnnos.sizf());
+        for (TypfAnnotbtion t : typfVbrAnnos)
+            if (t.gftTbrgftInfo().gftCount() == typfVbrIndfx)
+                rfs.bdd(t.gftAnnotbtion());
+        rfturn rfs.toArrby(nfw Annotbtion[0]);
     }
 
     /**
-     * Build an array of AnnotatedTypes for the declaration decl's bounds.
+     * Build bn brrby of AnnotbtfdTypfs for tif dfdlbrbtion dfdl's bounds.
      *
-     * @param bounds the bounds corresponding to the annotated bounds
-     * @param decl the declaration whose annotated bounds is being built
-     * @param typeVarIndex the index of this type variable on the decl
+     * @pbrbm bounds tif bounds dorrfsponding to tif bnnotbtfd bounds
+     * @pbrbm dfdl tif dfdlbrbtion wiosf bnnotbtfd bounds is bfing built
+     * @pbrbm typfVbrIndfx tif indfx of tiis typf vbribblf on tif dfdl
      */
-    public static <D extends GenericDeclaration> AnnotatedType[] parseAnnotatedBounds(Type[] bounds,
-            D decl,
-            int typeVarIndex) {
-        return parseAnnotatedBounds(bounds, decl, typeVarIndex, LocationInfo.BASE_LOCATION);
+    publid stbtid <D fxtfnds GfnfridDfdlbrbtion> AnnotbtfdTypf[] pbrsfAnnotbtfdBounds(Typf[] bounds,
+            D dfdl,
+            int typfVbrIndfx) {
+        rfturn pbrsfAnnotbtfdBounds(bounds, dfdl, typfVbrIndfx, LodbtionInfo.BASE_LOCATION);
     }
-    //helper for above
-    private static <D extends GenericDeclaration> AnnotatedType[] parseAnnotatedBounds(Type[] bounds,
-            D decl,
-            int typeVarIndex,
-            LocationInfo loc) {
-        List<TypeAnnotation> candidates = fetchBounds(decl);
+    //iflpfr for bbovf
+    privbtf stbtid <D fxtfnds GfnfridDfdlbrbtion> AnnotbtfdTypf[] pbrsfAnnotbtfdBounds(Typf[] bounds,
+            D dfdl,
+            int typfVbrIndfx,
+            LodbtionInfo lod) {
+        List<TypfAnnotbtion> dbndidbtfs = fftdiBounds(dfdl);
         if (bounds != null) {
-            int startIndex = 0;
-            AnnotatedType[] res = new AnnotatedType[bounds.length];
+            int stbrtIndfx = 0;
+            AnnotbtfdTypf[] rfs = nfw AnnotbtfdTypf[bounds.lfngti];
 
-            // Adjust bounds index
+            // Adjust bounds indfx
             //
-            // Figure out if the type annotations for this bound starts with 0
-            // or 1. The spec says within a bound the 0:th type annotation will
-            // always be on an bound of a Class type (not Interface type). So
-            // if the programmer starts with an Interface type for the first
-            // (and following) bound(s) the implicit Object bound is considered
-            // the first (that is 0:th) bound and type annotations start on
-            // index 1.
-            if (bounds.length > 0) {
-                Type b0 = bounds[0];
-                if (!(b0 instanceof Class<?>)) {
-                    startIndex = 1;
-                } else {
-                    Class<?> c = (Class<?>)b0;
-                    if (c.isInterface()) {
-                        startIndex = 1;
+            // Figurf out if tif typf bnnotbtions for tiis bound stbrts witi 0
+            // or 1. Tif spfd sbys witiin b bound tif 0:ti typf bnnotbtion will
+            // blwbys bf on bn bound of b Clbss typf (not Intfrfbdf typf). So
+            // if tif progrbmmfr stbrts witi bn Intfrfbdf typf for tif first
+            // (bnd following) bound(s) tif implidit Objfdt bound is donsidfrfd
+            // tif first (tibt is 0:ti) bound bnd typf bnnotbtions stbrt on
+            // indfx 1.
+            if (bounds.lfngti > 0) {
+                Typf b0 = bounds[0];
+                if (!(b0 instbndfof Clbss<?>)) {
+                    stbrtIndfx = 1;
+                } flsf {
+                    Clbss<?> d = (Clbss<?>)b0;
+                    if (d.isIntfrfbdf()) {
+                        stbrtIndfx = 1;
                     }
                 }
             }
 
-            for (int i = 0; i < bounds.length; i++) {
-                List<TypeAnnotation> l = new ArrayList<>(candidates.size());
-                for (TypeAnnotation t : candidates) {
-                    TypeAnnotationTargetInfo tInfo = t.getTargetInfo();
-                    if (tInfo.getSecondaryIndex() == i + startIndex &&
-                            tInfo.getCount() == typeVarIndex) {
-                        l.add(t);
+            for (int i = 0; i < bounds.lfngti; i++) {
+                List<TypfAnnotbtion> l = nfw ArrbyList<>(dbndidbtfs.sizf());
+                for (TypfAnnotbtion t : dbndidbtfs) {
+                    TypfAnnotbtionTbrgftInfo tInfo = t.gftTbrgftInfo();
+                    if (tInfo.gftSfdondbryIndfx() == i + stbrtIndfx &&
+                            tInfo.gftCount() == typfVbrIndfx) {
+                        l.bdd(t);
                     }
                 }
-                res[i] = AnnotatedTypeFactory.buildAnnotatedType(bounds[i],
-                        loc,
-                        l.toArray(EMPTY_TYPE_ANNOTATION_ARRAY),
-                        candidates.toArray(EMPTY_TYPE_ANNOTATION_ARRAY),
-                        (AnnotatedElement)decl);
+                rfs[i] = AnnotbtfdTypfFbdtory.buildAnnotbtfdTypf(bounds[i],
+                        lod,
+                        l.toArrby(EMPTY_TYPE_ANNOTATION_ARRAY),
+                        dbndidbtfs.toArrby(EMPTY_TYPE_ANNOTATION_ARRAY),
+                        (AnnotbtfdElfmfnt)dfdl);
             }
-            return res;
+            rfturn rfs;
         }
-        return new AnnotatedType[0];
+        rfturn nfw AnnotbtfdTypf[0];
     }
-    private static <D extends GenericDeclaration> List<TypeAnnotation> fetchBounds(D decl) {
-        AnnotatedElement boundsDecl;
-        TypeAnnotationTarget target;
-        if (decl instanceof Class) {
-            target = TypeAnnotationTarget.CLASS_TYPE_PARAMETER_BOUND;
-            boundsDecl = (Class)decl;
-        } else {
-            target = TypeAnnotationTarget.METHOD_TYPE_PARAMETER_BOUND;
-            boundsDecl = (Executable)decl;
+    privbtf stbtid <D fxtfnds GfnfridDfdlbrbtion> List<TypfAnnotbtion> fftdiBounds(D dfdl) {
+        AnnotbtfdElfmfnt boundsDfdl;
+        TypfAnnotbtionTbrgft tbrgft;
+        if (dfdl instbndfof Clbss) {
+            tbrgft = TypfAnnotbtionTbrgft.CLASS_TYPE_PARAMETER_BOUND;
+            boundsDfdl = (Clbss)dfdl;
+        } flsf {
+            tbrgft = TypfAnnotbtionTbrgft.METHOD_TYPE_PARAMETER_BOUND;
+            boundsDfdl = (Exfdutbblf)dfdl;
         }
-        return TypeAnnotation.filter(TypeAnnotationParser.parseAllTypeAnnotations(boundsDecl), target);
+        rfturn TypfAnnotbtion.filtfr(TypfAnnotbtionPbrsfr.pbrsfAllTypfAnnotbtions(boundsDfdl), tbrgft);
     }
 
     /*
-     * Parse all type annotations on the declaration supplied. This is needed
-     * when you go from for example an annotated return type on a method that
-     * is a type variable declared on the class. In this case you need to
-     * 'jump' to the decl of the class and parse all type annotations there to
-     * find the ones that are applicable to the type variable.
+     * Pbrsf bll typf bnnotbtions on tif dfdlbrbtion supplifd. Tiis is nffdfd
+     * wifn you go from for fxbmplf bn bnnotbtfd rfturn typf on b mftiod tibt
+     * is b typf vbribblf dfdlbrfd on tif dlbss. In tiis dbsf you nffd to
+     * 'jump' to tif dfdl of tif dlbss bnd pbrsf bll typf bnnotbtions tifrf to
+     * find tif onfs tibt brf bpplidbblf to tif typf vbribblf.
      */
-    static TypeAnnotation[] parseAllTypeAnnotations(AnnotatedElement decl) {
-        Class<?> container;
-        byte[] rawBytes;
-        JavaLangAccess javaLangAccess = sun.misc.SharedSecrets.getJavaLangAccess();
-        if (decl instanceof Class) {
-            container = (Class<?>)decl;
-            rawBytes = javaLangAccess.getRawClassTypeAnnotations(container);
-        } else if (decl instanceof Executable) {
-            container = ((Executable)decl).getDeclaringClass();
-            rawBytes = javaLangAccess.getRawExecutableTypeAnnotations((Executable)decl);
-        } else {
-            // Should not reach here. Assert?
-            return EMPTY_TYPE_ANNOTATION_ARRAY;
+    stbtid TypfAnnotbtion[] pbrsfAllTypfAnnotbtions(AnnotbtfdElfmfnt dfdl) {
+        Clbss<?> dontbinfr;
+        bytf[] rbwBytfs;
+        JbvbLbngAddfss jbvbLbngAddfss = sun.misd.SibrfdSfdrfts.gftJbvbLbngAddfss();
+        if (dfdl instbndfof Clbss) {
+            dontbinfr = (Clbss<?>)dfdl;
+            rbwBytfs = jbvbLbngAddfss.gftRbwClbssTypfAnnotbtions(dontbinfr);
+        } flsf if (dfdl instbndfof Exfdutbblf) {
+            dontbinfr = ((Exfdutbblf)dfdl).gftDfdlbringClbss();
+            rbwBytfs = jbvbLbngAddfss.gftRbwExfdutbblfTypfAnnotbtions((Exfdutbblf)dfdl);
+        } flsf {
+            // Siould not rfbdi ifrf. Assfrt?
+            rfturn EMPTY_TYPE_ANNOTATION_ARRAY;
         }
-        return parseTypeAnnotations(rawBytes, javaLangAccess.getConstantPool(container),
-                                    decl, container);
+        rfturn pbrsfTypfAnnotbtions(rbwBytfs, jbvbLbngAddfss.gftConstbntPool(dontbinfr),
+                                    dfdl, dontbinfr);
     }
 
-    /* Parse type annotations encoded as an array of bytes */
-    private static TypeAnnotation[] parseTypeAnnotations(byte[] rawAnnotations,
-            ConstantPool cp,
-            AnnotatedElement baseDecl,
-            Class<?> container) {
-        if (rawAnnotations == null)
-            return EMPTY_TYPE_ANNOTATION_ARRAY;
+    /* Pbrsf typf bnnotbtions fndodfd bs bn brrby of bytfs */
+    privbtf stbtid TypfAnnotbtion[] pbrsfTypfAnnotbtions(bytf[] rbwAnnotbtions,
+            ConstbntPool dp,
+            AnnotbtfdElfmfnt bbsfDfdl,
+            Clbss<?> dontbinfr) {
+        if (rbwAnnotbtions == null)
+            rfturn EMPTY_TYPE_ANNOTATION_ARRAY;
 
-        ByteBuffer buf = ByteBuffer.wrap(rawAnnotations);
-        int annotationCount = buf.getShort() & 0xFFFF;
-        List<TypeAnnotation> typeAnnotations = new ArrayList<>(annotationCount);
+        BytfBufffr buf = BytfBufffr.wrbp(rbwAnnotbtions);
+        int bnnotbtionCount = buf.gftSiort() & 0xFFFF;
+        List<TypfAnnotbtion> typfAnnotbtions = nfw ArrbyList<>(bnnotbtionCount);
 
-        // Parse each TypeAnnotation
-        for (int i = 0; i < annotationCount; i++) {
-             TypeAnnotation ta = parseTypeAnnotation(buf, cp, baseDecl, container);
-             if (ta != null)
-                 typeAnnotations.add(ta);
+        // Pbrsf fbdi TypfAnnotbtion
+        for (int i = 0; i < bnnotbtionCount; i++) {
+             TypfAnnotbtion tb = pbrsfTypfAnnotbtion(buf, dp, bbsfDfdl, dontbinfr);
+             if (tb != null)
+                 typfAnnotbtions.bdd(tb);
         }
 
-        return typeAnnotations.toArray(EMPTY_TYPE_ANNOTATION_ARRAY);
+        rfturn typfAnnotbtions.toArrby(EMPTY_TYPE_ANNOTATION_ARRAY);
     }
 
 
-    // Helper
-    static Map<Class<? extends Annotation>, Annotation> mapTypeAnnotations(TypeAnnotation[] typeAnnos) {
-        Map<Class<? extends Annotation>, Annotation> result =
-            new LinkedHashMap<>();
-        for (TypeAnnotation t : typeAnnos) {
-            Annotation a = t.getAnnotation();
-            Class<? extends Annotation> klass = a.annotationType();
-            AnnotationType type = AnnotationType.getInstance(klass);
-            if (type.retention() == RetentionPolicy.RUNTIME)
-                if (result.put(klass, a) != null)
-                    throw new AnnotationFormatError("Duplicate annotation for class: "+klass+": " + a);
+    // Hflpfr
+    stbtid Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> mbpTypfAnnotbtions(TypfAnnotbtion[] typfAnnos) {
+        Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> rfsult =
+            nfw LinkfdHbsiMbp<>();
+        for (TypfAnnotbtion t : typfAnnos) {
+            Annotbtion b = t.gftAnnotbtion();
+            Clbss<? fxtfnds Annotbtion> klbss = b.bnnotbtionTypf();
+            AnnotbtionTypf typf = AnnotbtionTypf.gftInstbndf(klbss);
+            if (typf.rftfntion() == RftfntionPolidy.RUNTIME)
+                if (rfsult.put(klbss, b) != null)
+                    tirow nfw AnnotbtionFormbtError("Duplidbtf bnnotbtion for dlbss: "+klbss+": " + b);
         }
-        return result;
+        rfturn rfsult;
     }
 
-    // Position codes
-    // Regular type parameter annotations
-    private static final byte CLASS_TYPE_PARAMETER = 0x00;
-    private static final byte METHOD_TYPE_PARAMETER = 0x01;
-    // Type Annotations outside method bodies
-    private static final byte CLASS_EXTENDS = 0x10;
-    private static final byte CLASS_TYPE_PARAMETER_BOUND = 0x11;
-    private static final byte METHOD_TYPE_PARAMETER_BOUND = 0x12;
-    private static final byte FIELD = 0x13;
-    private static final byte METHOD_RETURN = 0x14;
-    private static final byte METHOD_RECEIVER = 0x15;
-    private static final byte METHOD_FORMAL_PARAMETER = 0x16;
-    private static final byte THROWS = 0x17;
-    // Type Annotations inside method bodies
-    private static final byte LOCAL_VARIABLE = (byte)0x40;
-    private static final byte RESOURCE_VARIABLE = (byte)0x41;
-    private static final byte EXCEPTION_PARAMETER = (byte)0x42;
-    private static final byte INSTANCEOF = (byte)0x43;
-    private static final byte NEW = (byte)0x44;
-    private static final byte CONSTRUCTOR_REFERENCE = (byte)0x45;
-    private static final byte METHOD_REFERENCE = (byte)0x46;
-    private static final byte CAST = (byte)0x47;
-    private static final byte CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT = (byte)0x48;
-    private static final byte METHOD_INVOCATION_TYPE_ARGUMENT = (byte)0x49;
-    private static final byte CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT = (byte)0x4A;
-    private static final byte METHOD_REFERENCE_TYPE_ARGUMENT = (byte)0x4B;
+    // Position dodfs
+    // Rfgulbr typf pbrbmftfr bnnotbtions
+    privbtf stbtid finbl bytf CLASS_TYPE_PARAMETER = 0x00;
+    privbtf stbtid finbl bytf METHOD_TYPE_PARAMETER = 0x01;
+    // Typf Annotbtions outsidf mftiod bodifs
+    privbtf stbtid finbl bytf CLASS_EXTENDS = 0x10;
+    privbtf stbtid finbl bytf CLASS_TYPE_PARAMETER_BOUND = 0x11;
+    privbtf stbtid finbl bytf METHOD_TYPE_PARAMETER_BOUND = 0x12;
+    privbtf stbtid finbl bytf FIELD = 0x13;
+    privbtf stbtid finbl bytf METHOD_RETURN = 0x14;
+    privbtf stbtid finbl bytf METHOD_RECEIVER = 0x15;
+    privbtf stbtid finbl bytf METHOD_FORMAL_PARAMETER = 0x16;
+    privbtf stbtid finbl bytf THROWS = 0x17;
+    // Typf Annotbtions insidf mftiod bodifs
+    privbtf stbtid finbl bytf LOCAL_VARIABLE = (bytf)0x40;
+    privbtf stbtid finbl bytf RESOURCE_VARIABLE = (bytf)0x41;
+    privbtf stbtid finbl bytf EXCEPTION_PARAMETER = (bytf)0x42;
+    privbtf stbtid finbl bytf INSTANCEOF = (bytf)0x43;
+    privbtf stbtid finbl bytf NEW = (bytf)0x44;
+    privbtf stbtid finbl bytf CONSTRUCTOR_REFERENCE = (bytf)0x45;
+    privbtf stbtid finbl bytf METHOD_REFERENCE = (bytf)0x46;
+    privbtf stbtid finbl bytf CAST = (bytf)0x47;
+    privbtf stbtid finbl bytf CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT = (bytf)0x48;
+    privbtf stbtid finbl bytf METHOD_INVOCATION_TYPE_ARGUMENT = (bytf)0x49;
+    privbtf stbtid finbl bytf CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT = (bytf)0x4A;
+    privbtf stbtid finbl bytf METHOD_REFERENCE_TYPE_ARGUMENT = (bytf)0x4B;
 
-    private static TypeAnnotation parseTypeAnnotation(ByteBuffer buf,
-            ConstantPool cp,
-            AnnotatedElement baseDecl,
-            Class<?> container) {
+    privbtf stbtid TypfAnnotbtion pbrsfTypfAnnotbtion(BytfBufffr buf,
+            ConstbntPool dp,
+            AnnotbtfdElfmfnt bbsfDfdl,
+            Clbss<?> dontbinfr) {
         try {
-            TypeAnnotationTargetInfo ti = parseTargetInfo(buf);
-            LocationInfo locationInfo = LocationInfo.parseLocationInfo(buf);
-            Annotation a = AnnotationParser.parseAnnotation(buf, cp, container, false);
-            if (ti == null) // Inside a method for example
-                return null;
-            return new TypeAnnotation(ti, locationInfo, a, baseDecl);
-        } catch (IllegalArgumentException | // Bad type in const pool at specified index
-                BufferUnderflowException e) {
-            throw new AnnotationFormatError(e);
+            TypfAnnotbtionTbrgftInfo ti = pbrsfTbrgftInfo(buf);
+            LodbtionInfo lodbtionInfo = LodbtionInfo.pbrsfLodbtionInfo(buf);
+            Annotbtion b = AnnotbtionPbrsfr.pbrsfAnnotbtion(buf, dp, dontbinfr, fblsf);
+            if (ti == null) // Insidf b mftiod for fxbmplf
+                rfturn null;
+            rfturn nfw TypfAnnotbtion(ti, lodbtionInfo, b, bbsfDfdl);
+        } dbtdi (IllfgblArgumfntExdfption | // Bbd typf in donst pool bt spfdififd indfx
+                BufffrUndfrflowExdfption f) {
+            tirow nfw AnnotbtionFormbtError(f);
         }
     }
 
-    private static TypeAnnotationTargetInfo parseTargetInfo(ByteBuffer buf) {
-        int posCode = buf.get() & 0xFF;
-        switch(posCode) {
-        case CLASS_TYPE_PARAMETER:
-        case METHOD_TYPE_PARAMETER: {
-            int index = buf.get() & 0xFF;
-            TypeAnnotationTargetInfo res;
-            if (posCode == CLASS_TYPE_PARAMETER)
-                res = new TypeAnnotationTargetInfo(TypeAnnotationTarget.CLASS_TYPE_PARAMETER,
-                        index);
-            else
-                res = new TypeAnnotationTargetInfo(TypeAnnotationTarget.METHOD_TYPE_PARAMETER,
-                        index);
-            return res;
-            } // unreachable break;
-        case CLASS_EXTENDS: {
-            short index = buf.getShort(); //needs to be signed
-            if (index == -1) {
-                return new TypeAnnotationTargetInfo(TypeAnnotationTarget.CLASS_EXTENDS);
-            } else if (index >= 0) {
-                TypeAnnotationTargetInfo res = new TypeAnnotationTargetInfo(TypeAnnotationTarget.CLASS_IMPLEMENTS,
-                        index);
-                return res;
-            }} break;
-        case CLASS_TYPE_PARAMETER_BOUND:
-            return parse2ByteTarget(TypeAnnotationTarget.CLASS_TYPE_PARAMETER_BOUND, buf);
-        case METHOD_TYPE_PARAMETER_BOUND:
-            return parse2ByteTarget(TypeAnnotationTarget.METHOD_TYPE_PARAMETER_BOUND, buf);
-        case FIELD:
-            return new TypeAnnotationTargetInfo(TypeAnnotationTarget.FIELD);
-        case METHOD_RETURN:
-            return new TypeAnnotationTargetInfo(TypeAnnotationTarget.METHOD_RETURN);
-        case METHOD_RECEIVER:
-            return new TypeAnnotationTargetInfo(TypeAnnotationTarget.METHOD_RECEIVER);
-        case METHOD_FORMAL_PARAMETER: {
-            int index = buf.get() & 0xFF;
-            return new TypeAnnotationTargetInfo(TypeAnnotationTarget.METHOD_FORMAL_PARAMETER,
-                    index);
-            } //unreachable break;
-        case THROWS:
-            return parseShortTarget(TypeAnnotationTarget.THROWS, buf);
+    privbtf stbtid TypfAnnotbtionTbrgftInfo pbrsfTbrgftInfo(BytfBufffr buf) {
+        int posCodf = buf.gft() & 0xFF;
+        switdi(posCodf) {
+        dbsf CLASS_TYPE_PARAMETER:
+        dbsf METHOD_TYPE_PARAMETER: {
+            int indfx = buf.gft() & 0xFF;
+            TypfAnnotbtionTbrgftInfo rfs;
+            if (posCodf == CLASS_TYPE_PARAMETER)
+                rfs = nfw TypfAnnotbtionTbrgftInfo(TypfAnnotbtionTbrgft.CLASS_TYPE_PARAMETER,
+                        indfx);
+            flsf
+                rfs = nfw TypfAnnotbtionTbrgftInfo(TypfAnnotbtionTbrgft.METHOD_TYPE_PARAMETER,
+                        indfx);
+            rfturn rfs;
+            } // unrfbdibblf brfbk;
+        dbsf CLASS_EXTENDS: {
+            siort indfx = buf.gftSiort(); //nffds to bf signfd
+            if (indfx == -1) {
+                rfturn nfw TypfAnnotbtionTbrgftInfo(TypfAnnotbtionTbrgft.CLASS_EXTENDS);
+            } flsf if (indfx >= 0) {
+                TypfAnnotbtionTbrgftInfo rfs = nfw TypfAnnotbtionTbrgftInfo(TypfAnnotbtionTbrgft.CLASS_IMPLEMENTS,
+                        indfx);
+                rfturn rfs;
+            }} brfbk;
+        dbsf CLASS_TYPE_PARAMETER_BOUND:
+            rfturn pbrsf2BytfTbrgft(TypfAnnotbtionTbrgft.CLASS_TYPE_PARAMETER_BOUND, buf);
+        dbsf METHOD_TYPE_PARAMETER_BOUND:
+            rfturn pbrsf2BytfTbrgft(TypfAnnotbtionTbrgft.METHOD_TYPE_PARAMETER_BOUND, buf);
+        dbsf FIELD:
+            rfturn nfw TypfAnnotbtionTbrgftInfo(TypfAnnotbtionTbrgft.FIELD);
+        dbsf METHOD_RETURN:
+            rfturn nfw TypfAnnotbtionTbrgftInfo(TypfAnnotbtionTbrgft.METHOD_RETURN);
+        dbsf METHOD_RECEIVER:
+            rfturn nfw TypfAnnotbtionTbrgftInfo(TypfAnnotbtionTbrgft.METHOD_RECEIVER);
+        dbsf METHOD_FORMAL_PARAMETER: {
+            int indfx = buf.gft() & 0xFF;
+            rfturn nfw TypfAnnotbtionTbrgftInfo(TypfAnnotbtionTbrgft.METHOD_FORMAL_PARAMETER,
+                    indfx);
+            } //unrfbdibblf brfbk;
+        dbsf THROWS:
+            rfturn pbrsfSiortTbrgft(TypfAnnotbtionTbrgft.THROWS, buf);
 
         /*
-         * The ones below are inside method bodies, we don't care about them for core reflection
-         * other than adjusting for them in the byte stream.
+         * Tif onfs bflow brf insidf mftiod bodifs, wf don't dbrf bbout tifm for dorf rfflfdtion
+         * otifr tibn bdjusting for tifm in tif bytf strfbm.
          */
-        case LOCAL_VARIABLE:
-        case RESOURCE_VARIABLE:
-            short length = buf.getShort();
-            for (int i = 0; i < length; ++i) {
-                short offset = buf.getShort();
-                short varLength = buf.getShort();
-                short index = buf.getShort();
+        dbsf LOCAL_VARIABLE:
+        dbsf RESOURCE_VARIABLE:
+            siort lfngti = buf.gftSiort();
+            for (int i = 0; i < lfngti; ++i) {
+                siort offsft = buf.gftSiort();
+                siort vbrLfngti = buf.gftSiort();
+                siort indfx = buf.gftSiort();
             }
-            return null;
-        case EXCEPTION_PARAMETER: {
-            byte index = buf.get();
+            rfturn null;
+        dbsf EXCEPTION_PARAMETER: {
+            bytf indfx = buf.gft();
             }
-            return null;
-        case INSTANCEOF:
-        case NEW:
-        case CONSTRUCTOR_REFERENCE:
-        case METHOD_REFERENCE: {
-            short offset = buf.getShort();
+            rfturn null;
+        dbsf INSTANCEOF:
+        dbsf NEW:
+        dbsf CONSTRUCTOR_REFERENCE:
+        dbsf METHOD_REFERENCE: {
+            siort offsft = buf.gftSiort();
             }
-            return null;
-        case CAST:
-        case CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT:
-        case METHOD_INVOCATION_TYPE_ARGUMENT:
-        case CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT:
-        case METHOD_REFERENCE_TYPE_ARGUMENT: {
-            short offset = buf.getShort();
-            byte index = buf.get();
+            rfturn null;
+        dbsf CAST:
+        dbsf CONSTRUCTOR_INVOCATION_TYPE_ARGUMENT:
+        dbsf METHOD_INVOCATION_TYPE_ARGUMENT:
+        dbsf CONSTRUCTOR_REFERENCE_TYPE_ARGUMENT:
+        dbsf METHOD_REFERENCE_TYPE_ARGUMENT: {
+            siort offsft = buf.gftSiort();
+            bytf indfx = buf.gft();
             }
-            return null;
+            rfturn null;
 
-        default:
-            // will throw error below
-            break;
+        dffbult:
+            // will tirow frror bflow
+            brfbk;
         }
-        throw new AnnotationFormatError("Could not parse bytes for type annotations");
+        tirow nfw AnnotbtionFormbtError("Could not pbrsf bytfs for typf bnnotbtions");
     }
 
-    private static TypeAnnotationTargetInfo parseShortTarget(TypeAnnotationTarget target, ByteBuffer buf) {
-        int index = buf.getShort() & 0xFFFF;
-        return new TypeAnnotationTargetInfo(target, index);
+    privbtf stbtid TypfAnnotbtionTbrgftInfo pbrsfSiortTbrgft(TypfAnnotbtionTbrgft tbrgft, BytfBufffr buf) {
+        int indfx = buf.gftSiort() & 0xFFFF;
+        rfturn nfw TypfAnnotbtionTbrgftInfo(tbrgft, indfx);
     }
-    private static TypeAnnotationTargetInfo parse2ByteTarget(TypeAnnotationTarget target, ByteBuffer buf) {
-        int count = buf.get() & 0xFF;
-        int secondaryIndex = buf.get() & 0xFF;
-        return new TypeAnnotationTargetInfo(target,
-                                            count,
-                                            secondaryIndex);
+    privbtf stbtid TypfAnnotbtionTbrgftInfo pbrsf2BytfTbrgft(TypfAnnotbtionTbrgft tbrgft, BytfBufffr buf) {
+        int dount = buf.gft() & 0xFF;
+        int sfdondbryIndfx = buf.gft() & 0xFF;
+        rfturn nfw TypfAnnotbtionTbrgftInfo(tbrgft,
+                                            dount,
+                                            sfdondbryIndfx);
     }
 }

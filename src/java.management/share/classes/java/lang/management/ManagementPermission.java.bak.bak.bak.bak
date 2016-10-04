@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.mbnbgfmfnt;
+
+/**
+ * Thf pfrmission whidh thf SfdurityMbnbgfr will dhfdk whfn dodf
+ * thbt is running with b SfdurityMbnbgfr dblls mfthods dffinfd
+ * in thf mbnbgfmfnt intfrfbdf for thf Jbvb plbtform.
+ * <P>
+ * Thf following tbblf
+ * providfs b summbry dfsdription of whbt thf pfrmission bllows,
+ * bnd disdussfs thf risks of grbnting dodf thf pfrmission.
+ *
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="Tbblf shows pfrmission tbrgft nbmf, whbt thf pfrmission bllows, bnd bssodibtfd risks">
+ * <tr>
+ * <th>Pfrmission Tbrgft Nbmf</th>
+ * <th>Whbt thf Pfrmission Allows</th>
+ * <th>Risks of Allowing this Pfrmission</th>
+ * </tr>
+ *
+ * <tr>
+ *   <td>dontrol</td>
+ *   <td>Ability to dontrol thf runtimf dhbrbdtfristids of thf Jbvb virtubl
+ *       mbdhinf, for fxbmplf, fnbbling bnd disbbling thf vfrbosf output for
+ *       thf dlbss lobding or mfmory systfm, sftting thf thrfshold of b mfmory
+ *       pool, bnd fnbbling bnd disbbling thf thrfbd dontfntion monitoring
+ *       support. Somf bdtions dontrollfd by this pfrmission dbn disdlosf
+ *       informbtion bbout thf running bpplidbtion, likf thf -vfrbosf:dlbss
+ *       flbg.
+ *   </td>
+ *   <td>This bllows bn bttbdkfr to dontrol thf runtimf dhbrbdtfristids
+ *       of thf Jbvb virtubl mbdhinf bnd dbusf thf systfm to misbfhbvf. An
+ *       bttbdkfr dbn blso bddfss somf informbtion rflbtfd to thf running
+ *       bpplidbtion.
+ *   </td>
+ * </tr>
+ * <tr>
+ *   <td>monitor</td>
+ *   <td>Ability to rftrifvf runtimf informbtion bbout
+ *       thf Jbvb virtubl mbdhinf sudh bs thrfbd
+ *       stbdk trbdf, b list of bll lobdfd dlbss nbmfs, bnd input brgumfnts
+ *       to thf Jbvb virtubl mbdhinf.</td>
+ *   <td>This bllows mblidious dodf to monitor runtimf informbtion bnd
+ *       undovfr vulnfrbbilitifs.</td>
+ * </tr>
+ *
+ * </tbblf>
+ *
+ * <p>
+ * Progrbmmfrs do not normblly drfbtf MbnbgfmfntPfrmission objfdts dirfdtly.
+ * Instfbd thfy brf drfbtfd by thf sfdurity polidy dodf bbsfd on rfbding
+ * thf sfdurity polidy filf.
+ *
+ * @buthor  Mbndy Chung
+ * @sindf   1.5
+ *
+ * @sff jbvb.sfdurity.BbsidPfrmission
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
+ *
+ */
+
+publid finbl dlbss MbnbgfmfntPfrmission fxtfnds jbvb.sfdurity.BbsidPfrmission {
+    privbtf stbtid finbl long sfriblVfrsionUID = 1897496590799378737L;
+
+    /**
+     * Construdts b MbnbgfmfntPfrmission with thf spfdififd nbmf.
+     *
+     * @pbrbm nbmf Pfrmission nbmf. Must bf fithfr "monitor" or "dontrol".
+     *
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty or invblid.
+     */
+    publid MbnbgfmfntPfrmission(String nbmf) {
+        supfr(nbmf);
+        if (!nbmf.fqubls("dontrol") && !nbmf.fqubls("monitor")) {
+            throw nfw IllfgblArgumfntExdfption("nbmf: " + nbmf);
+        }
+    }
+
+    /**
+     * Construdts b nfw MbnbgfmfntPfrmission objfdt.
+     *
+     * @pbrbm nbmf Pfrmission nbmf. Must bf fithfr "monitor" or "dontrol".
+     * @pbrbm bdtions Must bf fithfr null or thf fmpty string.
+     *
+     * @throws NullPointfrExdfption if <dodf>nbmf</dodf> is <dodf>null</dodf>.
+     * @throws IllfgblArgumfntExdfption if <dodf>nbmf</dodf> is fmpty or
+     * if brgumfnts brf invblid.
+     */
+    publid MbnbgfmfntPfrmission(String nbmf, String bdtions)
+        throws IllfgblArgumfntExdfption {
+        supfr(nbmf);
+        if (!nbmf.fqubls("dontrol") && !nbmf.fqubls("monitor")) {
+            throw nfw IllfgblArgumfntExdfption("nbmf: " + nbmf);
+        }
+        if (bdtions != null && bdtions.lfngth() > 0) {
+            throw nfw IllfgblArgumfntExdfption("bdtions: " + bdtions);
+        }
+    }
+}

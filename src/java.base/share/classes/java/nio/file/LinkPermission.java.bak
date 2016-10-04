@@ -1,107 +1,107 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
-import java.security.BasicPermission;
+import jbvb.sfdurity.BbsidPfrmission;
 
 /**
- * The {@code Permission} class for link creation operations.
+ * Tif {@dodf Pfrmission} dlbss for link drfbtion opfrbtions.
  *
- * <p> The following table provides a summary description of what the permission
- * allows, and discusses the risks of granting code the permission.
+ * <p> Tif following tbblf providfs b summbry dfsdription of wibt tif pfrmission
+ * bllows, bnd disdussfs tif risks of grbnting dodf tif pfrmission.
  *
- * <table border=1 cellpadding=5
- *        summary="Table shows permission target name, what the permission allows, and associated risks">
+ * <tbblf bordfr=1 dfllpbdding=5
+ *        summbry="Tbblf siows pfrmission tbrgft nbmf, wibt tif pfrmission bllows, bnd bssodibtfd risks">
  * <tr>
- * <th>Permission Target Name</th>
- * <th>What the Permission Allows</th>
- * <th>Risks of Allowing this Permission</th>
+ * <ti>Pfrmission Tbrgft Nbmf</ti>
+ * <ti>Wibt tif Pfrmission Allows</ti>
+ * <ti>Risks of Allowing tiis Pfrmission</ti>
  * </tr>
  * <tr>
- *   <td>hard</td>
- *   <td> Ability to add an existing file to a directory. This is sometimes
- *   known as creating a link, or hard link. </td>
- *   <td> Extreme care should be taken when granting this permission. It allows
- *   linking to any file or directory in the file system thus allowing the
- *   attacker access to all files. </td>
+ *   <td>ibrd</td>
+ *   <td> Ability to bdd bn fxisting filf to b dirfdtory. Tiis is somftimfs
+ *   known bs drfbting b link, or ibrd link. </td>
+ *   <td> Extrfmf dbrf siould bf tbkfn wifn grbnting tiis pfrmission. It bllows
+ *   linking to bny filf or dirfdtory in tif filf systfm tius bllowing tif
+ *   bttbdkfr bddfss to bll filfs. </td>
  * </tr>
  * <tr>
- *   <td>symbolic</td>
- *   <td> Ability to create symbolic links. </td>
- *   <td> Extreme care should be taken when granting this permission. It allows
- *   linking to any file or directory in the file system thus allowing the
- *   attacker to access to all files. </td>
+ *   <td>symbolid</td>
+ *   <td> Ability to drfbtf symbolid links. </td>
+ *   <td> Extrfmf dbrf siould bf tbkfn wifn grbnting tiis pfrmission. It bllows
+ *   linking to bny filf or dirfdtory in tif filf systfm tius bllowing tif
+ *   bttbdkfr to bddfss to bll filfs. </td>
  * </tr>
- * </table>
+ * </tbblf>
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @see Files#createLink
- * @see Files#createSymbolicLink
+ * @sff Filfs#drfbtfLink
+ * @sff Filfs#drfbtfSymbolidLink
  */
-public final class LinkPermission extends BasicPermission {
-    static final long serialVersionUID = -1441492453772213220L;
+publid finbl dlbss LinkPfrmission fxtfnds BbsidPfrmission {
+    stbtid finbl long sfriblVfrsionUID = -1441492453772213220L;
 
-    private void checkName(String name) {
-        if (!name.equals("hard") && !name.equals("symbolic")) {
-            throw new IllegalArgumentException("name: " + name);
+    privbtf void difdkNbmf(String nbmf) {
+        if (!nbmf.fqubls("ibrd") && !nbmf.fqubls("symbolid")) {
+            tirow nfw IllfgblArgumfntExdfption("nbmf: " + nbmf);
         }
     }
 
     /**
-     * Constructs a {@code LinkPermission} with the specified name.
+     * Construdts b {@dodf LinkPfrmission} witi tif spfdififd nbmf.
      *
-     * @param   name
-     *          the name of the permission. It must be "hard" or "symbolic".
+     * @pbrbm   nbmf
+     *          tif nbmf of tif pfrmission. It must bf "ibrd" or "symbolid".
      *
-     * @throws  IllegalArgumentException
-     *          if name is empty or invalid
+     * @tirows  IllfgblArgumfntExdfption
+     *          if nbmf is fmpty or invblid
      */
-    public LinkPermission(String name) {
-        super(name);
-        checkName(name);
+    publid LinkPfrmission(String nbmf) {
+        supfr(nbmf);
+        difdkNbmf(nbmf);
     }
 
     /**
-     * Constructs a {@code LinkPermission} with the specified name.
+     * Construdts b {@dodf LinkPfrmission} witi tif spfdififd nbmf.
      *
-     * @param   name
-     *          the name of the permission; must be "hard" or "symbolic".
-     * @param   actions
-     *          the actions for the permission; must be the empty string or
-     *          {@code null}
+     * @pbrbm   nbmf
+     *          tif nbmf of tif pfrmission; must bf "ibrd" or "symbolid".
+     * @pbrbm   bdtions
+     *          tif bdtions for tif pfrmission; must bf tif fmpty string or
+     *          {@dodf null}
      *
-     * @throws  IllegalArgumentException
-     *          if name is empty or invalid, or actions is a non-empty string
+     * @tirows  IllfgblArgumfntExdfption
+     *          if nbmf is fmpty or invblid, or bdtions is b non-fmpty string
      */
-    public LinkPermission(String name, String actions) {
-        super(name);
-        checkName(name);
-        if (actions != null && actions.length() > 0) {
-            throw new IllegalArgumentException("actions: " + actions);
+    publid LinkPfrmission(String nbmf, String bdtions) {
+        supfr(nbmf);
+        difdkNbmf(nbmf);
+        if (bdtions != null && bdtions.lfngti() > 0) {
+            tirow nfw IllfgblArgumfntExdfption("bdtions: " + bdtions);
         }
     }
 }

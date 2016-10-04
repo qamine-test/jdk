@@ -1,365 +1,365 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.sasl.util;
+pbdkbgf dom.sun.sfdurity.sbsl.util;
 
-import javax.security.sasl.*;
-import java.io.*;
-import java.util.Map;
-import java.util.StringTokenizer;
+import jbvbx.sfdurity.sbsl.*;
+import jbvb.io.*;
+import jbvb.util.Mbp;
+import jbvb.util.StringTokfnizfr;
 
-import java.util.logging.Logger;
-import java.util.logging.Level;
+import jbvb.util.logging.Loggfr;
+import jbvb.util.logging.Lfvfl;
 
-import sun.misc.HexDumpEncoder;
+import sun.misd.HfxDumpEndodfr;
 
 /**
- * The base class used by client and server implementations of SASL
- * mechanisms to process properties passed in the props argument
- * and strings with the same format (e.g., used in digest-md5).
+ * Tif bbsf dlbss usfd by dlifnt bnd sfrvfr implfmfntbtions of SASL
+ * mfdibnisms to prodfss propfrtifs pbssfd in tif props brgumfnt
+ * bnd strings witi tif sbmf formbt (f.g., usfd in digfst-md5).
  *
- * Also contains utilities for doing int to network-byte-order
- * transformations.
+ * Also dontbins utilitifs for doing int to nftwork-bytf-ordfr
+ * trbnsformbtions.
  *
- * @author Rosanna Lee
+ * @butior Rosbnnb Lff
  */
-public abstract class AbstractSaslImpl {
+publid bbstrbdt dlbss AbstrbdtSbslImpl {
 
-    protected boolean completed = false;
-    protected boolean privacy = false;
-    protected boolean integrity = false;
-    protected byte[] qop;           // ordered list of qops
-    protected byte allQop;          // a mask indicating which QOPs are requested
-    protected byte[] strength;      // ordered list of cipher strengths
+    protfdtfd boolfbn domplftfd = fblsf;
+    protfdtfd boolfbn privbdy = fblsf;
+    protfdtfd boolfbn intfgrity = fblsf;
+    protfdtfd bytf[] qop;           // ordfrfd list of qops
+    protfdtfd bytf bllQop;          // b mbsk indidbting wiidi QOPs brf rfqufstfd
+    protfdtfd bytf[] strfngti;      // ordfrfd list of dipifr strfngtis
 
-    // These are relevant only when privacy or integray have been negotiated
-    protected int sendMaxBufSize = 0;     // specified by peer but can override
-    protected int recvMaxBufSize = 65536; // optionally specified by self
-    protected int rawSendSize;            // derived from sendMaxBufSize
+    // Tifsf brf rflfvbnt only wifn privbdy or intfgrby ibvf bffn nfgotibtfd
+    protfdtfd int sfndMbxBufSizf = 0;     // spfdififd by pffr but dbn ovfrridf
+    protfdtfd int rfdvMbxBufSizf = 65536; // optionblly spfdififd by sflf
+    protfdtfd int rbwSfndSizf;            // dfrivfd from sfndMbxBufSizf
 
-    protected String myClassName;
+    protfdtfd String myClbssNbmf;
 
-    protected AbstractSaslImpl(Map<String, ?> props, String className)
-            throws SaslException {
-        myClassName = className;
+    protfdtfd AbstrbdtSbslImpl(Mbp<String, ?> props, String dlbssNbmf)
+            tirows SbslExdfption {
+        myClbssNbmf = dlbssNbmf;
 
-        // Parse properties  to set desired context options
+        // Pbrsf propfrtifs  to sft dfsirfd dontfxt options
         if (props != null) {
             String prop;
 
-            // "auth", "auth-int", "auth-conf"
-            qop = parseQop(prop=(String)props.get(Sasl.QOP));
-            logger.logp(Level.FINE, myClassName, "constructor",
-                "SASLIMPL01:Preferred qop property: {0}", prop);
-            allQop = combineMasks(qop);
+            // "buti", "buti-int", "buti-donf"
+            qop = pbrsfQop(prop=(String)props.gft(Sbsl.QOP));
+            loggfr.logp(Lfvfl.FINE, myClbssNbmf, "donstrudtor",
+                "SASLIMPL01:Prfffrrfd qop propfrty: {0}", prop);
+            bllQop = dombinfMbsks(qop);
 
-            if (logger.isLoggable(Level.FINE)) {
-                logger.logp(Level.FINE, myClassName, "constructor",
-                    "SASLIMPL02:Preferred qop mask: {0}", allQop);
+            if (loggfr.isLoggbblf(Lfvfl.FINE)) {
+                loggfr.logp(Lfvfl.FINE, myClbssNbmf, "donstrudtor",
+                    "SASLIMPL02:Prfffrrfd qop mbsk: {0}", bllQop);
 
-                if (qop.length > 0) {
-                    StringBuilder str = new StringBuilder();
-                    for (int i = 0; i < qop.length; i++) {
-                        str.append(Byte.toString(qop[i]));
-                        str.append(' ');
+                if (qop.lfngti > 0) {
+                    StringBuildfr str = nfw StringBuildfr();
+                    for (int i = 0; i < qop.lfngti; i++) {
+                        str.bppfnd(Bytf.toString(qop[i]));
+                        str.bppfnd(' ');
                     }
-                    logger.logp(Level.FINE, myClassName, "constructor",
-                            "SASLIMPL03:Preferred qops : {0}", str.toString());
+                    loggfr.logp(Lfvfl.FINE, myClbssNbmf, "donstrudtor",
+                            "SASLIMPL03:Prfffrrfd qops : {0}", str.toString());
                 }
             }
 
-            // "low", "medium", "high"
-            strength = parseStrength(prop=(String)props.get(Sasl.STRENGTH));
-            logger.logp(Level.FINE, myClassName, "constructor",
-                "SASLIMPL04:Preferred strength property: {0}", prop);
-            if (logger.isLoggable(Level.FINE) && strength.length > 0) {
-                StringBuilder str = new StringBuilder();
-                for (int i = 0; i < strength.length; i++) {
-                    str.append(Byte.toString(strength[i]));
-                    str.append(' ');
+            // "low", "mfdium", "iigi"
+            strfngti = pbrsfStrfngti(prop=(String)props.gft(Sbsl.STRENGTH));
+            loggfr.logp(Lfvfl.FINE, myClbssNbmf, "donstrudtor",
+                "SASLIMPL04:Prfffrrfd strfngti propfrty: {0}", prop);
+            if (loggfr.isLoggbblf(Lfvfl.FINE) && strfngti.lfngti > 0) {
+                StringBuildfr str = nfw StringBuildfr();
+                for (int i = 0; i < strfngti.lfngti; i++) {
+                    str.bppfnd(Bytf.toString(strfngti[i]));
+                    str.bppfnd(' ');
                 }
-                logger.logp(Level.FINE, myClassName, "constructor",
-                        "SASLIMPL05:Cipher strengths: {0}", str.toString());
+                loggfr.logp(Lfvfl.FINE, myClbssNbmf, "donstrudtor",
+                        "SASLIMPL05:Cipifr strfngtis: {0}", str.toString());
             }
 
-            // Max receive buffer size
-            prop = (String)props.get(Sasl.MAX_BUFFER);
+            // Mbx rfdfivf bufffr sizf
+            prop = (String)props.gft(Sbsl.MAX_BUFFER);
             if (prop != null) {
                 try {
-                    logger.logp(Level.FINE, myClassName, "constructor",
-                        "SASLIMPL06:Max receive buffer size: {0}", prop);
-                    recvMaxBufSize = Integer.parseInt(prop);
-                } catch (NumberFormatException e) {
-                    throw new SaslException(
-                "Property must be string representation of integer: " +
-                        Sasl.MAX_BUFFER);
+                    loggfr.logp(Lfvfl.FINE, myClbssNbmf, "donstrudtor",
+                        "SASLIMPL06:Mbx rfdfivf bufffr sizf: {0}", prop);
+                    rfdvMbxBufSizf = Intfgfr.pbrsfInt(prop);
+                } dbtdi (NumbfrFormbtExdfption f) {
+                    tirow nfw SbslExdfption(
+                "Propfrty must bf string rfprfsfntbtion of intfgfr: " +
+                        Sbsl.MAX_BUFFER);
                 }
             }
 
-            // Max send buffer size
-            prop = (String)props.get(MAX_SEND_BUF);
+            // Mbx sfnd bufffr sizf
+            prop = (String)props.gft(MAX_SEND_BUF);
             if (prop != null) {
                 try {
-                    logger.logp(Level.FINE, myClassName, "constructor",
-                        "SASLIMPL07:Max send buffer size: {0}", prop);
-                    sendMaxBufSize = Integer.parseInt(prop);
-                } catch (NumberFormatException e) {
-                    throw new SaslException(
-                "Property must be string representation of integer: " +
+                    loggfr.logp(Lfvfl.FINE, myClbssNbmf, "donstrudtor",
+                        "SASLIMPL07:Mbx sfnd bufffr sizf: {0}", prop);
+                    sfndMbxBufSizf = Intfgfr.pbrsfInt(prop);
+                } dbtdi (NumbfrFormbtExdfption f) {
+                    tirow nfw SbslExdfption(
+                "Propfrty must bf string rfprfsfntbtion of intfgfr: " +
                         MAX_SEND_BUF);
                 }
             }
-        } else {
+        } flsf {
             qop = DEFAULT_QOP;
-            allQop = NO_PROTECTION;
-            strength = STRENGTH_MASKS;
+            bllQop = NO_PROTECTION;
+            strfngti = STRENGTH_MASKS;
         }
     }
 
     /**
-     * Determines whether this mechanism has completed.
+     * Dftfrminfs wiftifr tiis mfdibnism ibs domplftfd.
      *
-     * @return true if has completed; false otherwise;
+     * @rfturn truf if ibs domplftfd; fblsf otifrwisf;
      */
-    public boolean isComplete() {
-        return completed;
+    publid boolfbn isComplftf() {
+        rfturn domplftfd;
     }
 
     /**
-     * Retrieves the negotiated property.
-     * @exception IllegalStateException if this authentication exchange has
-     * not completed
+     * Rftrifvfs tif nfgotibtfd propfrty.
+     * @fxdfption IllfgblStbtfExdfption if tiis butifntidbtion fxdibngf ibs
+     * not domplftfd
      */
-    public Object getNegotiatedProperty(String propName) {
-        if (!completed) {
-            throw new IllegalStateException("SASL authentication not completed");
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+        if (!domplftfd) {
+            tirow nfw IllfgblStbtfExdfption("SASL butifntidbtion not domplftfd");
         }
-        switch (propName) {
-            case Sasl.QOP:
-                if (privacy) {
-                    return "auth-conf";
-                } else if (integrity) {
-                    return "auth-int";
-                } else {
-                    return "auth";
+        switdi (propNbmf) {
+            dbsf Sbsl.QOP:
+                if (privbdy) {
+                    rfturn "buti-donf";
+                } flsf if (intfgrity) {
+                    rfturn "buti-int";
+                } flsf {
+                    rfturn "buti";
                 }
-            case Sasl.MAX_BUFFER:
-                return Integer.toString(recvMaxBufSize);
-            case Sasl.RAW_SEND_SIZE:
-                return Integer.toString(rawSendSize);
-            case MAX_SEND_BUF:
-                return Integer.toString(sendMaxBufSize);
-            default:
-                return null;
+            dbsf Sbsl.MAX_BUFFER:
+                rfturn Intfgfr.toString(rfdvMbxBufSizf);
+            dbsf Sbsl.RAW_SEND_SIZE:
+                rfturn Intfgfr.toString(rbwSfndSizf);
+            dbsf MAX_SEND_BUF:
+                rfturn Intfgfr.toString(sfndMbxBufSizf);
+            dffbult:
+                rfturn null;
         }
     }
 
-    protected static final byte combineMasks(byte[] in) {
-        byte answer = 0;
-        for (int i = 0; i < in.length; i++) {
-            answer |= in[i];
+    protfdtfd stbtid finbl bytf dombinfMbsks(bytf[] in) {
+        bytf bnswfr = 0;
+        for (int i = 0; i < in.lfngti; i++) {
+            bnswfr |= in[i];
         }
-        return answer;
+        rfturn bnswfr;
     }
 
-    protected static final byte findPreferredMask(byte pref, byte[] in) {
-        for (int i = 0; i < in.length; i++) {
-            if ((in[i]&pref) != 0) {
-                return in[i];
+    protfdtfd stbtid finbl bytf findPrfffrrfdMbsk(bytf prff, bytf[] in) {
+        for (int i = 0; i < in.lfngti; i++) {
+            if ((in[i]&prff) != 0) {
+                rfturn in[i];
             }
         }
-        return (byte)0;
+        rfturn (bytf)0;
     }
 
-    private static final byte[] parseQop(String qop) throws SaslException {
-        return parseQop(qop, null, false);
+    privbtf stbtid finbl bytf[] pbrsfQop(String qop) tirows SbslExdfption {
+        rfturn pbrsfQop(qop, null, fblsf);
     }
 
-    protected static final byte[] parseQop(String qop, String[] saveTokens,
-        boolean ignore) throws SaslException {
+    protfdtfd stbtid finbl bytf[] pbrsfQop(String qop, String[] sbvfTokfns,
+        boolfbn ignorf) tirows SbslExdfption {
         if (qop == null) {
-            return DEFAULT_QOP;   // default
+            rfturn DEFAULT_QOP;   // dffbult
         }
 
-        return parseProp(Sasl.QOP, qop, QOP_TOKENS, QOP_MASKS, saveTokens, ignore);
+        rfturn pbrsfProp(Sbsl.QOP, qop, QOP_TOKENS, QOP_MASKS, sbvfTokfns, ignorf);
     }
 
-    private static final byte[] parseStrength(String strength)
-        throws SaslException {
-        if (strength == null) {
-            return DEFAULT_STRENGTH;   // default
+    privbtf stbtid finbl bytf[] pbrsfStrfngti(String strfngti)
+        tirows SbslExdfption {
+        if (strfngti == null) {
+            rfturn DEFAULT_STRENGTH;   // dffbult
         }
 
-        return parseProp(Sasl.STRENGTH, strength, STRENGTH_TOKENS,
-            STRENGTH_MASKS, null, false);
+        rfturn pbrsfProp(Sbsl.STRENGTH, strfngti, STRENGTH_TOKENS,
+            STRENGTH_MASKS, null, fblsf);
     }
 
-    private static final byte[] parseProp(String propName, String propVal,
-        String[] vals, byte[] masks, String[] tokens, boolean ignore)
-        throws SaslException {
+    privbtf stbtid finbl bytf[] pbrsfProp(String propNbmf, String propVbl,
+        String[] vbls, bytf[] mbsks, String[] tokfns, boolfbn ignorf)
+        tirows SbslExdfption {
 
-        StringTokenizer parser = new StringTokenizer(propVal, ", \t\n");
-        String token;
-        byte[] answer = new byte[vals.length];
+        StringTokfnizfr pbrsfr = nfw StringTokfnizfr(propVbl, ", \t\n");
+        String tokfn;
+        bytf[] bnswfr = nfw bytf[vbls.lfngti];
         int i = 0;
-        boolean found;
+        boolfbn found;
 
-        while (parser.hasMoreTokens() && i < answer.length) {
-            token = parser.nextToken();
-            found = false;
-            for (int j = 0; !found && j < vals.length; j++) {
-                if (token.equalsIgnoreCase(vals[j])) {
-                    found = true;
-                    answer[i++] = masks[j];
-                    if (tokens != null) {
-                        tokens[j] = token;    // save what was parsed
+        wiilf (pbrsfr.ibsMorfTokfns() && i < bnswfr.lfngti) {
+            tokfn = pbrsfr.nfxtTokfn();
+            found = fblsf;
+            for (int j = 0; !found && j < vbls.lfngti; j++) {
+                if (tokfn.fqublsIgnorfCbsf(vbls[j])) {
+                    found = truf;
+                    bnswfr[i++] = mbsks[j];
+                    if (tokfns != null) {
+                        tokfns[j] = tokfn;    // sbvf wibt wbs pbrsfd
                     }
                 }
             }
-            if (!found && !ignore) {
-                throw new SaslException(
-                    "Invalid token in " + propName + ": " + propVal);
+            if (!found && !ignorf) {
+                tirow nfw SbslExdfption(
+                    "Invblid tokfn in " + propNbmf + ": " + propVbl);
             }
         }
-        // Initialize rest of array with 0
-        for (int j = i; j < answer.length; j++) {
-            answer[j] = 0;
+        // Initiblizf rfst of brrby witi 0
+        for (int j = i; j < bnswfr.lfngti; j++) {
+            bnswfr[j] = 0;
         }
-        return answer;
+        rfturn bnswfr;
     }
 
 
     /**
-     * Outputs a byte array. Can be null.
+     * Outputs b bytf brrby. Cbn bf null.
      */
-    protected static final void traceOutput(String srcClass, String srcMethod,
-        String traceTag, byte[] output) {
-        traceOutput(srcClass, srcMethod, traceTag, output, 0,
-                output == null ? 0 : output.length);
+    protfdtfd stbtid finbl void trbdfOutput(String srdClbss, String srdMftiod,
+        String trbdfTbg, bytf[] output) {
+        trbdfOutput(srdClbss, srdMftiod, trbdfTbg, output, 0,
+                output == null ? 0 : output.lfngti);
     }
 
-    protected static final void traceOutput(String srcClass, String srcMethod,
-        String traceTag, byte[] output, int offset, int len) {
+    protfdtfd stbtid finbl void trbdfOutput(String srdClbss, String srdMftiod,
+        String trbdfTbg, bytf[] output, int offsft, int lfn) {
         try {
-            int origlen = len;
-            Level lev;
+            int origlfn = lfn;
+            Lfvfl lfv;
 
-            if (!logger.isLoggable(Level.FINEST)) {
-                len = Math.min(16, len);
-                lev = Level.FINER;
-            } else {
-                lev = Level.FINEST;
+            if (!loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                lfn = Mbti.min(16, lfn);
+                lfv = Lfvfl.FINER;
+            } flsf {
+                lfv = Lfvfl.FINEST;
             }
 
-            String content;
+            String dontfnt;
 
             if (output != null) {
-                ByteArrayOutputStream out = new ByteArrayOutputStream(len);
-                new HexDumpEncoder().encodeBuffer(
-                    new ByteArrayInputStream(output, offset, len), out);
-                content = out.toString();
-            } else {
-                content = "NULL";
+                BytfArrbyOutputStrfbm out = nfw BytfArrbyOutputStrfbm(lfn);
+                nfw HfxDumpEndodfr().fndodfBufffr(
+                    nfw BytfArrbyInputStrfbm(output, offsft, lfn), out);
+                dontfnt = out.toString();
+            } flsf {
+                dontfnt = "NULL";
             }
 
-            // Message id supplied by caller as part of traceTag
-            logger.logp(lev, srcClass, srcMethod, "{0} ( {1} ): {2}",
-                new Object[] {traceTag, origlen, content});
-        } catch (Exception e) {
-            logger.logp(Level.WARNING, srcClass, srcMethod,
-                "SASLIMPL09:Error generating trace output: {0}", e);
+            // Mfssbgf id supplifd by dbllfr bs pbrt of trbdfTbg
+            loggfr.logp(lfv, srdClbss, srdMftiod, "{0} ( {1} ): {2}",
+                nfw Objfdt[] {trbdfTbg, origlfn, dontfnt});
+        } dbtdi (Exdfption f) {
+            loggfr.logp(Lfvfl.WARNING, srdClbss, srdMftiod,
+                "SASLIMPL09:Error gfnfrbting trbdf output: {0}", f);
         }
     }
 
 
     /**
-     * Returns the integer represented by  4 bytes in network byte order.
+     * Rfturns tif intfgfr rfprfsfntfd by  4 bytfs in nftwork bytf ordfr.
      */
-    protected static final int networkByteOrderToInt(byte[] buf, int start,
-        int count) {
-        if (count > 4) {
-            throw new IllegalArgumentException("Cannot handle more than 4 bytes");
+    protfdtfd stbtid finbl int nftworkBytfOrdfrToInt(bytf[] buf, int stbrt,
+        int dount) {
+        if (dount > 4) {
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot ibndlf morf tibn 4 bytfs");
         }
 
-        int answer = 0;
+        int bnswfr = 0;
 
-        for (int i = 0; i < count; i++) {
-            answer <<= 8;
-            answer |= ((int)buf[start+i] & 0xff);
+        for (int i = 0; i < dount; i++) {
+            bnswfr <<= 8;
+            bnswfr |= ((int)buf[stbrt+i] & 0xff);
         }
-        return answer;
+        rfturn bnswfr;
     }
 
     /**
-     * Encodes an integer into 4 bytes in network byte order in the buffer
-     * supplied.
+     * Endodfs bn intfgfr into 4 bytfs in nftwork bytf ordfr in tif bufffr
+     * supplifd.
      */
-    protected static final void intToNetworkByteOrder(int num, byte[] buf,
-        int start, int count) {
-        if (count > 4) {
-            throw new IllegalArgumentException("Cannot handle more than 4 bytes");
+    protfdtfd stbtid finbl void intToNftworkBytfOrdfr(int num, bytf[] buf,
+        int stbrt, int dount) {
+        if (dount > 4) {
+            tirow nfw IllfgblArgumfntExdfption("Cbnnot ibndlf morf tibn 4 bytfs");
         }
 
-        for (int i = count-1; i >= 0; i--) {
-            buf[start+i] = (byte)(num & 0xff);
+        for (int i = dount-1; i >= 0; i--) {
+            buf[stbrt+i] = (bytf)(num & 0xff);
             num >>>= 8;
         }
     }
 
-    // ---------------- Constants  -----------------
-    private static final String SASL_LOGGER_NAME = "javax.security.sasl";
-    protected static final String MAX_SEND_BUF = "javax.security.sasl.sendmaxbuffer";
+    // ---------------- Constbnts  -----------------
+    privbtf stbtid finbl String SASL_LOGGER_NAME = "jbvbx.sfdurity.sbsl";
+    protfdtfd stbtid finbl String MAX_SEND_BUF = "jbvbx.sfdurity.sbsl.sfndmbxbufffr";
 
     /**
-     * Logger for debug messages
+     * Loggfr for dfbug mfssbgfs
      */
-    protected static final Logger logger = Logger.getLogger(SASL_LOGGER_NAME);
+    protfdtfd stbtid finbl Loggfr loggfr = Loggfr.gftLoggfr(SASL_LOGGER_NAME);
 
-    // default 0 (no protection); 1 (integrity only)
-    protected static final byte NO_PROTECTION = (byte)1;
-    protected static final byte INTEGRITY_ONLY_PROTECTION = (byte)2;
-    protected static final byte PRIVACY_PROTECTION = (byte)4;
+    // dffbult 0 (no protfdtion); 1 (intfgrity only)
+    protfdtfd stbtid finbl bytf NO_PROTECTION = (bytf)1;
+    protfdtfd stbtid finbl bytf INTEGRITY_ONLY_PROTECTION = (bytf)2;
+    protfdtfd stbtid finbl bytf PRIVACY_PROTECTION = (bytf)4;
 
-    protected static final byte LOW_STRENGTH = (byte)1;
-    protected static final byte MEDIUM_STRENGTH = (byte)2;
-    protected static final byte HIGH_STRENGTH = (byte)4;
+    protfdtfd stbtid finbl bytf LOW_STRENGTH = (bytf)1;
+    protfdtfd stbtid finbl bytf MEDIUM_STRENGTH = (bytf)2;
+    protfdtfd stbtid finbl bytf HIGH_STRENGTH = (bytf)4;
 
-    private static final byte[] DEFAULT_QOP = new byte[]{NO_PROTECTION};
-    private static final String[] QOP_TOKENS = {"auth-conf",
-                                       "auth-int",
-                                       "auth"};
-    private static final byte[] QOP_MASKS = {PRIVACY_PROTECTION,
+    privbtf stbtid finbl bytf[] DEFAULT_QOP = nfw bytf[]{NO_PROTECTION};
+    privbtf stbtid finbl String[] QOP_TOKENS = {"buti-donf",
+                                       "buti-int",
+                                       "buti"};
+    privbtf stbtid finbl bytf[] QOP_MASKS = {PRIVACY_PROTECTION,
                                      INTEGRITY_ONLY_PROTECTION,
                                      NO_PROTECTION};
 
-    private static final byte[] DEFAULT_STRENGTH = new byte[]{
+    privbtf stbtid finbl bytf[] DEFAULT_STRENGTH = nfw bytf[]{
         HIGH_STRENGTH, MEDIUM_STRENGTH, LOW_STRENGTH};
-    private static final String[] STRENGTH_TOKENS = {"low",
-                                                     "medium",
-                                                     "high"};
-    private static final byte[] STRENGTH_MASKS = {LOW_STRENGTH,
+    privbtf stbtid finbl String[] STRENGTH_TOKENS = {"low",
+                                                     "mfdium",
+                                                     "iigi"};
+    privbtf stbtid finbl bytf[] STRENGTH_MASKS = {LOW_STRENGTH,
                                                   MEDIUM_STRENGTH,
                                                   HIGH_STRENGTH};
 }

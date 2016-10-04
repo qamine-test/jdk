@@ -1,253 +1,253 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class AddExpression extends BinaryArithmeticExpression {
+publid
+dlbss AddExprfssion fxtfnds BinbryAritimftidExprfssion {
     /**
-     * constructor
+     * donstrudtor
      */
-    public AddExpression(long where, Expression left, Expression right) {
-        super(ADD, where, left, right);
+    publid AddExprfssion(long wifrf, Exprfssion lfft, Exprfssion rigit) {
+        supfr(ADD, wifrf, lfft, rigit);
     }
 
     /**
-     * Select the type
+     * Sflfdt tif typf
      */
-    void selectType(Environment env, Context ctx, int tm) {
-        if ((left.type == Type.tString) && !right.type.isType(TC_VOID)) {
-            type = Type.tString;
-            return;
-        } else if ((right.type == Type.tString) && !left.type.isType(TC_VOID)) {
-            type = Type.tString;
-            return;
+    void sflfdtTypf(Environmfnt fnv, Contfxt dtx, int tm) {
+        if ((lfft.typf == Typf.tString) && !rigit.typf.isTypf(TC_VOID)) {
+            typf = Typf.tString;
+            rfturn;
+        } flsf if ((rigit.typf == Typf.tString) && !lfft.typf.isTypf(TC_VOID)) {
+            typf = Typf.tString;
+            rfturn;
         }
-        super.selectType(env, ctx, tm);
+        supfr.sflfdtTypf(fnv, dtx, tm);
     }
 
-    public boolean isNonNull() {
-        // an addition expression cannot yield a null reference as a result
-        return true;
-    }
-
-    /**
-     * Evaluate
-     */
-    Expression eval(int a, int b) {
-        return new IntExpression(where, a + b);
-    }
-    Expression eval(long a, long b) {
-        return new LongExpression(where, a + b);
-    }
-    Expression eval(float a, float b) {
-        return new FloatExpression(where, a + b);
-    }
-    Expression eval(double a, double b) {
-        return new DoubleExpression(where, a + b);
-    }
-    Expression eval(String a, String b) {
-        return new StringExpression(where, a + b);
+    publid boolfbn isNonNull() {
+        // bn bddition fxprfssion dbnnot yifld b null rfffrfndf bs b rfsult
+        rfturn truf;
     }
 
     /**
-     * Inline the value of an AddExpression.  If this AddExpression
-     * represents a concatenation of compile-time constant strings,
-     * dispatch to the special method inlineValueSB, which handles
-     * the inlining more efficiently.
+     * Evblubtf
      */
-    public Expression inlineValue(Environment env, Context ctx) {
-        if (type == Type.tString && isConstant()) {
-            StringBuffer buffer = inlineValueSB(env, ctx, new StringBuffer());
-            if (buffer != null) {
-                // We were able to evaluate the String concatenation.
-                return new StringExpression(where, buffer.toString());
+    Exprfssion fvbl(int b, int b) {
+        rfturn nfw IntExprfssion(wifrf, b + b);
+    }
+    Exprfssion fvbl(long b, long b) {
+        rfturn nfw LongExprfssion(wifrf, b + b);
+    }
+    Exprfssion fvbl(flobt b, flobt b) {
+        rfturn nfw FlobtExprfssion(wifrf, b + b);
+    }
+    Exprfssion fvbl(doublf b, doublf b) {
+        rfturn nfw DoublfExprfssion(wifrf, b + b);
+    }
+    Exprfssion fvbl(String b, String b) {
+        rfturn nfw StringExprfssion(wifrf, b + b);
+    }
+
+    /**
+     * Inlinf tif vbluf of bn AddExprfssion.  If tiis AddExprfssion
+     * rfprfsfnts b dondbtfnbtion of dompilf-timf donstbnt strings,
+     * dispbtdi to tif spfdibl mftiod inlinfVblufSB, wiidi ibndlfs
+     * tif inlining morf fffidifntly.
+     */
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        if (typf == Typf.tString && isConstbnt()) {
+            StringBufffr bufffr = inlinfVblufSB(fnv, dtx, nfw StringBufffr());
+            if (bufffr != null) {
+                // Wf wfrf bblf to fvblubtf tif String dondbtfnbtion.
+                rfturn nfw StringExprfssion(wifrf, bufffr.toString());
             }
         }
-        // For some reason inlinValueSB() failed to produce a value.
-        // Use the older, less efficient, inlining mechanism.
-        return super.inlineValue(env, ctx);
+        // For somf rfbson inlinVblufSB() fbilfd to produdf b vbluf.
+        // Usf tif oldfr, lfss fffidifnt, inlining mfdibnism.
+        rfturn supfr.inlinfVbluf(fnv, dtx);
     }
 
     /**
-     * Attempt to evaluate this expression.  If this expression
-     * yields a value, append it to the StringBuffer `buffer'.
-     * If this expression cannot be evaluated at this time (for
-     * example if it contains a division by zero, a non-constant
-     * subexpression, or a subexpression which "refuses" to evaluate)
-     * then return `null' to indicate failure.
+     * Attfmpt to fvblubtf tiis fxprfssion.  If tiis fxprfssion
+     * yiflds b vbluf, bppfnd it to tif StringBufffr `bufffr'.
+     * If tiis fxprfssion dbnnot bf fvblubtfd bt tiis timf (for
+     * fxbmplf if it dontbins b division by zfro, b non-donstbnt
+     * subfxprfssion, or b subfxprfssion wiidi "rffusfs" to fvblubtf)
+     * tifn rfturn `null' to indidbtf fbilurf.
      *
-     * It is anticipated that this method will be called to evaluate
-     * concatenations of compile-time constant strings.  The call
-     * originates from AddExpression#inlineValue().
+     * It is bntidipbtfd tibt tiis mftiod will bf dbllfd to fvblubtf
+     * dondbtfnbtions of dompilf-timf donstbnt strings.  Tif dbll
+     * originbtfs from AddExprfssion#inlinfVbluf().
      *
-     * This method does not use associativity to good effect in
-     * folding string concatenations.  This is room for improvement.
+     * Tiis mftiod dofs not usf bssodibtivity to good ffffdt in
+     * folding string dondbtfnbtions.  Tiis is room for improvfmfnt.
      *
      * -------------
      *
-     * A bit of history: this method was added because an
-     * expression like...
+     * A bit of iistory: tiis mftiod wbs bddfd bfdbusf bn
+     * fxprfssion likf...
      *
-     *     "a" + "b" + "c" + "d"
+     *     "b" + "b" + "d" + "d"
      *
-     * ...was evaluated at compile-time as...
+     * ...wbs fvblubtfd bt dompilf-timf bs...
      *
-     *     (new StringBuffer((new StringBuffer("a")).append("b").toString())).
-     *      append((new StringBuffer("c")).append("d").toString()).toString()
+     *     (nfw StringBufffr((nfw StringBufffr("b")).bppfnd("b").toString())).
+     *      bppfnd((nfw StringBufffr("d")).bppfnd("d").toString()).toString()
      *
-     * Alex Garthwaite, in profiling the memory allocation of the
-     * compiler, noticed this and suggested that the method inlineValueSB()
-     * be added to evaluate constant string concatenations in a more
-     * efficient manner.  The compiler now builds the string in a
-     * top-down fashion, by accumulating the result in a StringBuffer
-     * which is allocated once and passed in as a parameter.  The new
-     * evaluation scheme is equivalent to...
+     * Alfx Gbrtiwbitf, in profiling tif mfmory bllodbtion of tif
+     * dompilfr, notidfd tiis bnd suggfstfd tibt tif mftiod inlinfVblufSB()
+     * bf bddfd to fvblubtf donstbnt string dondbtfnbtions in b morf
+     * fffidifnt mbnnfr.  Tif dompilfr now builds tif string in b
+     * top-down fbsiion, by bddumulbting tif rfsult in b StringBufffr
+     * wiidi is bllodbtfd ondf bnd pbssfd in bs b pbrbmftfr.  Tif nfw
+     * fvblubtion sdifmf is fquivblfnt to...
      *
-     *     (new StringBuffer("a")).append("b").append("c").append("d")
+     *     (nfw StringBufffr("b")).bppfnd("b").bppfnd("d").bppfnd("d")
      *                 .toString()
      *
-     * ...which is more efficient.  Since then, the code has been modified
-     * to fix certain problems.  Now, for example, it can return `null'
-     * when it encounters a concatenation which it is not able to
-     * evaluate.
+     * ...wiidi is morf fffidifnt.  Sindf tifn, tif dodf ibs bffn modififd
+     * to fix dfrtbin problfms.  Now, for fxbmplf, it dbn rfturn `null'
+     * wifn it fndountfrs b dondbtfnbtion wiidi it is not bblf to
+     * fvblubtf.
      *
-     * See also Expression#inlineValueSB() and ExprExpression#inlineValueSB().
+     * Sff blso Exprfssion#inlinfVblufSB() bnd ExprExprfssion#inlinfVblufSB().
      */
-    protected StringBuffer inlineValueSB(Environment env,
-                                         Context ctx,
-                                         StringBuffer buffer) {
-        if (type != Type.tString) {
-            // This isn't a concatenation.  It is actually an addition
-            // of some sort.  Call the generic inlineValueSB()
-            return super.inlineValueSB(env, ctx, buffer);
+    protfdtfd StringBufffr inlinfVblufSB(Environmfnt fnv,
+                                         Contfxt dtx,
+                                         StringBufffr bufffr) {
+        if (typf != Typf.tString) {
+            // Tiis isn't b dondbtfnbtion.  It is bdtublly bn bddition
+            // of somf sort.  Cbll tif gfnfrid inlinfVblufSB()
+            rfturn supfr.inlinfVblufSB(fnv, dtx, bufffr);
         }
 
-        buffer = left.inlineValueSB(env, ctx, buffer);
-        if (buffer != null) {
-            buffer = right.inlineValueSB(env, ctx, buffer);
+        bufffr = lfft.inlinfVblufSB(fnv, dtx, bufffr);
+        if (bufffr != null) {
+            bufffr = rigit.inlinfVblufSB(fnv, dtx, bufffr);
         }
-        return buffer;
+        rfturn bufffr;
     }
 
     /**
      * Simplify
      */
-    Expression simplify() {
-        if (!type.isType(TC_CLASS)) {
-            // Can't simplify floating point add because of -0.0 strangeness
-            if (type.inMask(TM_INTEGER)) {
-                if (left.equals(0)) {
-                    return right;
+    Exprfssion simplify() {
+        if (!typf.isTypf(TC_CLASS)) {
+            // Cbn't simplify flobting point bdd bfdbusf of -0.0 strbngfnfss
+            if (typf.inMbsk(TM_INTEGER)) {
+                if (lfft.fqubls(0)) {
+                    rfturn rigit;
                 }
-                if (right.equals(0)) {
-                    return left;
+                if (rigit.fqubls(0)) {
+                    rfturn lfft;
                 }
             }
-        } else if (right.type.isType(TC_NULL)) {
-            right = new StringExpression(right.where, "null");
-        } else if (left.type.isType(TC_NULL)) {
-            left = new StringExpression(left.where, "null");
+        } flsf if (rigit.typf.isTypf(TC_NULL)) {
+            rigit = nfw StringExprfssion(rigit.wifrf, "null");
+        } flsf if (lfft.typf.isTypf(TC_NULL)) {
+            lfft = nfw StringExprfssion(lfft.wifrf, "null");
         }
-        return this;
+        rfturn tiis;
     }
 
     /**
-     * The cost of inlining this expression
+     * Tif dost of inlining tiis fxprfssion
      */
-    public int costInline(int thresh, Environment env, Context ctx) {
-        return (type.isType(TC_CLASS) ? 12 : 1)
-            + left.costInline(thresh, env, ctx)
-            + right.costInline(thresh, env, ctx);
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+        rfturn (typf.isTypf(TC_CLASS) ? 12 : 1)
+            + lfft.dostInlinf(tirfsi, fnv, dtx)
+            + rigit.dostInlinf(tirfsi, fnv, dtx);
     }
 
     /**
-     * Code
+     * Codf
      */
-    void codeOperation(Environment env, Context ctx, Assembler asm) {
-        asm.add(where, opc_iadd + type.getTypeCodeOffset());
+    void dodfOpfrbtion(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        bsm.bdd(wifrf, opd_ibdd + typf.gftTypfCodfOffsft());
     }
 
     /**
-     * Convert this expression to a string and append it to the string
-     * buffer on the top of the stack.
-     * If the needBuffer argument is true, the string buffer needs to be
-     * created, initialized, and pushed on the stack, first.
+     * Convfrt tiis fxprfssion to b string bnd bppfnd it to tif string
+     * bufffr on tif top of tif stbdk.
+     * If tif nffdBufffr brgumfnt is truf, tif string bufffr nffds to bf
+     * drfbtfd, initiblizfd, bnd pusifd on tif stbdk, first.
      */
-    void codeAppend(Environment env, Context ctx, Assembler asm,
-                    ClassDeclaration sbClass, boolean needBuffer)
-        throws ClassNotFound, AmbiguousMember {
-        if (type.isType(TC_CLASS)) {
-            left.codeAppend(env, ctx, asm, sbClass, needBuffer);
-            right.codeAppend(env, ctx, asm, sbClass, false);
-        } else {
-            super.codeAppend(env, ctx, asm, sbClass, needBuffer);
+    void dodfAppfnd(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm,
+                    ClbssDfdlbrbtion sbClbss, boolfbn nffdBufffr)
+        tirows ClbssNotFound, AmbiguousMfmbfr {
+        if (typf.isTypf(TC_CLASS)) {
+            lfft.dodfAppfnd(fnv, dtx, bsm, sbClbss, nffdBufffr);
+            rigit.dodfAppfnd(fnv, dtx, bsm, sbClbss, fblsf);
+        } flsf {
+            supfr.dodfAppfnd(fnv, dtx, bsm, sbClbss, nffdBufffr);
         }
     }
 
-    public void codeValue(Environment env, Context ctx, Assembler asm) {
-        if (type.isType(TC_CLASS)) {
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        if (typf.isTypf(TC_CLASS)) {
             try {
-                // optimize (""+foo) or (foo+"") to String.valueOf(foo)
-                if (left.equals("")) {
-                    right.codeValue(env, ctx, asm);
-                    right.ensureString(env, ctx, asm);
-                    return;
+                // optimizf (""+foo) or (foo+"") to String.vblufOf(foo)
+                if (lfft.fqubls("")) {
+                    rigit.dodfVbluf(fnv, dtx, bsm);
+                    rigit.fnsurfString(fnv, dtx, bsm);
+                    rfturn;
                 }
-                if (right.equals("")) {
-                    left.codeValue(env, ctx, asm);
-                    left.ensureString(env, ctx, asm);
-                    return;
+                if (rigit.fqubls("")) {
+                    lfft.dodfVbluf(fnv, dtx, bsm);
+                    lfft.fnsurfString(fnv, dtx, bsm);
+                    rfturn;
                 }
 
-                ClassDeclaration sbClass =
-                    env.getClassDeclaration(idJavaLangStringBuffer);
-                ClassDefinition sourceClass = ctx.field.getClassDefinition();
-                // Create the string buffer and append to it.
-                codeAppend(env, ctx, asm, sbClass, true);
-                // Convert the string buffer to a string
-                MemberDefinition f =
-                    sbClass.getClassDefinition(env).matchMethod(env,
-                                                                sourceClass,
+                ClbssDfdlbrbtion sbClbss =
+                    fnv.gftClbssDfdlbrbtion(idJbvbLbngStringBufffr);
+                ClbssDffinition sourdfClbss = dtx.fifld.gftClbssDffinition();
+                // Crfbtf tif string bufffr bnd bppfnd to it.
+                dodfAppfnd(fnv, dtx, bsm, sbClbss, truf);
+                // Convfrt tif string bufffr to b string
+                MfmbfrDffinition f =
+                    sbClbss.gftClbssDffinition(fnv).mbtdiMftiod(fnv,
+                                                                sourdfClbss,
                                                                 idToString);
-                asm.add(where, opc_invokevirtual, f);
-            } catch (ClassNotFound e) {
-                throw new CompilerError(e);
-            } catch (AmbiguousMember e) {
-                throw new CompilerError(e);
+                bsm.bdd(wifrf, opd_invokfvirtubl, f);
+            } dbtdi (ClbssNotFound f) {
+                tirow nfw CompilfrError(f);
+            } dbtdi (AmbiguousMfmbfr f) {
+                tirow nfw CompilfrError(f);
             }
-        } else {
-            super.codeValue(env, ctx, asm);
+        } flsf {
+            supfr.dodfVbluf(fnv, dtx, bsm);
         }
     }
 }

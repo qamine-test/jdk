@@ -1,0 +1,262 @@
+/*
+ * Copyright (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.rowsft.providfrs;
+
+import dom.sun.rowsft.JdbdRowSftRfsourdfBundlf;
+import jbvbx.sql.*;
+import jbvb.io.*;
+
+import jbvbx.sql.rowsft.spi.*;
+import dom.sun.rowsft.intfrnbl.*;
+
+/**
+ * Thf rfffrfndf implfmfntbtion of b JDBC Rowsft syndhronizbtion providfr
+ * providing optimistid syndhronizbtion with b rflbtionbl dbtbstorf
+ * using bny JDBC tfdhnology-fnbblfd drivfr.
+ * <p>
+ * <h3>1.0 Bbdkgroud</h3>
+ * This syndhronizbtion providfr is rfgistfrfd with thf
+ * <dodf>SyndFbdtory</dodf> by dffbult bs thf
+ * <dodf>dom.sun.rowsft.providfrs.RIOptimistidProvidfr</dodf>.
+ * As bn fxtfnsion of thf <dodf>SyndProvidfr</dodf> bbstrbdt
+ * dlbss, it providfs thf rfbdfr bnd writfr dlbssfs rfquirfd by disdonnfdtfd
+ * rowsfts bs <dodf>jbvbx.sql.RowSftRfbdfr</dodf> bnd <dodf>jbvbx.sql.RowSftWritfr</dodf>
+ * intfrfbdf implfmfntbtions. As b rfffrfndf implfmfntbtion,
+ * <dodf>RIOptimistidProvidfr</dodf> providfs b
+ * fully fundtionbl implfmfntbtion offfring b mfdium grbdf dlbssifidbtion of
+ * syndrhonizbtion, nbmfly GRADE_CHECK_MODIFIED_AT_COMMIT. A
+ * disdonnfdtfd <dodf>RowSft</dodf> implfmfntbtion using thf
+ * <dodf>RIOptimistidProvidfr</dodf> dbn fxpfdt thf writfr to
+ * dhfdk only rows thbt hbvf bffn modififd in thf <dodf>RowSft</dodf> bgbinst
+ * thf vblufs in thf dbtb sourdf.  If thfrf is b donflidt, thbt is, if b vbluf
+ * in thf dbtb sourdf hbs bffn dhbngfd by bnothfr pbrty, thf
+ * <dodf>RIOptimistidProvidfr</dodf> will not writf bny of thf dhbngfs to thf dbtb
+ * sourdf bnd  will throw b <dodf>SyndProvidfrExdfption</dodf> objfdt.
+ *
+ * <h3>2.0 Usbgf</h3>
+ * Stbndbrd disdonnfdtfd <dodf>RowSft</dodf> implfmfntbtions mby opt to usf this
+ * <dodf>SyndProvidfr</dodf> implfmfntbtion in onf of two wbys:
+ * <OL>
+ *  <LI>By spfdifidblly dblling thf <dodf>sftSyndProvidfr</dodf> mfthod
+    dffinfd in thf <dodf>CbdhfdRowSft</dodf> intfrfbdf
+ * <prf>
+ *     CbdhfdRowsft drs = nfw FooCbdhfdRowSftImpl();
+ *     drs.sftSyndProvidfr("dom.sun.rowsft.providfrs.RIOptimistidProvidfr");
+ * </prf>
+ *  <LI>By spfdifying it in thf donstrudtor of thf <dodf>RowSft</dodf>
+ *      implfmfntbtion
+ * <prf>
+ *     CbdhfdRowsft drs = nfw FooCbdhfdRowSftImpl(
+ *                         "dom.sun.rowsft.providfrs.RIOptimistidProvidfr");
+ * </prf>
+ * </OL>
+ * Notf thbt bfdbusf thf <dodf>RIOptimistidProvidfr</dodf> implfmfntbtion is
+ * thf dffbult providfr, it will blwbys bf thf providfr whfn no providfr ID is
+ * spfdififd to thf donstrudtor.
+ * <P>
+ * Sff thf stbndbrd <dodf>RowSft</dodf> rfffrfndf implfmfntbtions in thf
+ * <dodf>dom.sun.rowsft</dodf> pbdkbgf for morf dftbils.
+ *
+ * @buthor  Jonbthbn Brudf
+ * @sff jbvbx.sql.rowsft.spi.SyndProvidfr
+ * @sff jbvbx.sql.rowsft.spi.SyndProvidfrExdfption
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtory
+ * @sff jbvbx.sql.rowsft.spi.SyndFbdtoryExdfption
+ *
+ */
+publid finbl dlbss RIOptimistidProvidfr fxtfnds SyndProvidfr implfmfnts Sfriblizbblf {
+
+    privbtf CbdhfdRowSftRfbdfr rfbdfr;
+    privbtf CbdhfdRowSftWritfr writfr;
+
+    /**
+     * Thf uniquf providfr idfntififr.
+     */
+    privbtf String providfrID = "dom.sun.rowsft.providfrs.RIOptimistidProvidfr";
+
+    /**
+     * Thf vfndor nbmf of this SyndProvidfr implfmfntbtion
+     */
+    privbtf String vfndorNbmf = "Orbdlf Corporbtion";
+
+    /**
+     * Thf vfrsion numbfr of this SyndProvidfr implfmfntbtion
+     */
+    privbtf String vfrsionNumbfr = "1.0";
+
+    /**
+     * RfsourdfBundlf
+     */
+    privbtf JdbdRowSftRfsourdfBundlf rfsBundlf;
+
+    /**
+     * Crfbtfs bn <dodf>RIOptimistidProvidfr</dodf> objfdt initiblizfd with thf
+     * fully qublififd dlbss nbmf of this <dodf>SyndProvidfr</dodf> implfmfntbtion
+     * bnd b dffbult rfbdfr bnd writfr.
+     * <P>
+     * This providfr is bvbilbblf to bll disdonnfdtfd <dodf>RowSft</dodf> implfmfntbtions
+     *  bs thf dffbult pfrsistfndf providfr.
+     */
+    publid RIOptimistidProvidfr() {
+        providfrID = this.gftClbss().gftNbmf();
+        rfbdfr = nfw CbdhfdRowSftRfbdfr();
+        writfr = nfw CbdhfdRowSftWritfr();
+        try {
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdh(IOExdfption iof) {
+            throw nfw RuntimfExdfption(iof);
+        }
+    }
+
+    /**
+     * Rfturns thf <dodf>'jbvbx.sql.rowsft.providfrs.RIOptimistidProvidfr'</dodf>
+     * providfr idfntifidbtion string.
+     *
+     * @rfturn String Providfr ID of this pfrsistfndf providfr
+     */
+    publid String gftProvidfrID() {
+        rfturn providfrID;
+    }
+
+    /**
+     * Rfturns thf <dodf>jbvbx.sql.RowSftWritfr</dodf> objfdt for this
+     * <dodf>RIOptimistidProvidfr</dodf> objfdt.  This is thf writfr thbt will
+     * writf dhbngfs mbdf to thf <dodf>Rowsft</dodf> objfdt bbdk to thf dbtb sourdf.
+     *
+     * @rfturn thf <dodf>jbvbx.sql.RowSftWritfr</dodf> objfdt for this
+     *     <dodf>RIOptimistidProvidfr</dodf> objfdt
+     */
+    publid RowSftWritfr gftRowSftWritfr() {
+        try {
+            writfr.sftRfbdfr(rfbdfr);
+        } dbtdh (jbvb.sql.SQLExdfption f) {}
+        rfturn writfr;
+    }
+
+    /**
+     * Rfturns thf <dodf>jbvbx.sql.RowSftRfbdfr</dodf> objfdt for this
+     * <dodf>RIOptimistidProvidfr</dodf> objfdt.  This is thf rfbdfr thbt will
+     * populbtf b <dodf>RowSft</dodf> objfdt using this <dodf>RIOptimistidProvidfr</dodf>.
+     *
+     * @rfturn thf <dodf>jbvbx.sql.RowSftRfbdfr</dodf> objfdt for this
+     *     <dodf>RIOptimistidProvidfr</dodf> objfdt
+     */
+    publid RowSftRfbdfr gftRowSftRfbdfr() {
+        rfturn rfbdfr;
+    }
+
+    /**
+     * Rfturns thf <dodf>SyndProvidfr</dodf> grbdf of syndhronizbtion thbt
+     * <dodf>RowSft</dodf> objfdts dbn fxpfdt whfn using this
+     * implfmfntbtion. As bn optimisid syndhonizbtion providfr, thf writfr
+     * will only dhfdk rows thbt hbvf bffn modififd in thf <dodf>RowSft</dodf>
+     * objfdt.
+     */
+    publid int gftProvidfrGrbdf() {
+        rfturn SyndProvidfr.GRADE_CHECK_MODIFIED_AT_COMMIT;
+    }
+
+    /**
+     * Modififs thf dbtb sourdf lodk sfvfrity bddording to thf stbndbrd
+     * <dodf>SyndProvidfr</dodf> dlbssifidbtions.
+     *
+     * @pbrbm dbtbsourdf_lodk An <dodf>int</dodf> indidbting thf lfvfl of lodking to bf
+     *        sft; must bf onf of thf following donstbnts:
+     * <PRE>
+     *       SyndProvidfr.DATASOURCE_NO_LOCK,
+     *       SyndProvidfr.DATASOURCE_ROW_LOCK,
+     *       SyndProvidfr.DATASOURCE_TABLE_LOCK,
+     *       SyndProvidfr.DATASOURCE_DB_LOCk
+     * </PRE>
+     * @throws SyndProvidfrExdfption if thf pbrbmftfr spfdififd is not
+     *           <dodf>SyndProvidfr.DATASOURCE_NO_LOCK</dodf>
+     */
+    publid void sftDbtbSourdfLodk(int dbtbsourdf_lodk) throws SyndProvidfrExdfption {
+        if(dbtbsourdf_lodk != SyndProvidfr.DATASOURCE_NO_LOCK ) {
+          throw nfw SyndProvidfrExdfption(rfsBundlf.hbndlfGftObjfdt("riop.lodking").toString());
+        }
+    }
+
+    /**
+     * Rfturns thf bdtivf dbtb sourdf lodk sfvfrity in this
+     * rfffrfndf implfmfntbtion of thf <dodf>SyndProvidfr</dodf>
+     * bbstrbdt dlbss.
+     *
+     * @rfturn <dodf>SyndProvidfr.DATASOURCE_NO_LOCK</dodf>.
+     *     Thf rfffrfndf implfmfntbtion dofs not support dbtb sourdf lodks.
+     */
+    publid int gftDbtbSourdfLodk() throws SyndProvidfrExdfption {
+        rfturn SyndProvidfr.DATASOURCE_NO_LOCK;
+    }
+
+    /**
+     * Rfturns thf supportfd updbtbblf vifw bbilitifs of thf
+     * rfffrfndf implfmfntbtion of thf <dodf>SyndProvidfr</dodf>
+     * bbstrbdt dlbss.
+     *
+     * @rfturn <dodf>SyndProvidfr.NONUPDATABLE_VIEW_SYNC</dodf>. Thf
+     *     thf rfffrfndf implfmfntbtion dofs not support updbting tbblfs
+     *     thbt brf thf sourdf of b vifw.
+     */
+    publid int supportsUpdbtbblfVifw() {
+        rfturn SyndProvidfr.NONUPDATABLE_VIEW_SYNC;
+    }
+
+    /**
+     * Rfturns thf rflfbsf vfrsion ID of thf Rfffrfndf Implfmfntbtion Optimistid
+     * Syndhronizbtion Providfr.
+     *
+     * @rfturn thf <dodf>String</dodf> dftbiling thf vfrsion numbfr of this SyndProvidfr
+     */
+    publid String gftVfrsion() {
+        rfturn this.vfrsionNumbfr;
+    }
+
+    /**
+     * Rfturns thf vfndor nbmf of thf Rfffrfndf Implfmfntbtion Optimistid
+     * Syndhronizbtion Providfr
+     *
+     * @rfturn thf <dodf>String</dodf> dftbiling thf vfndor nbmf of this
+     *      SyndProvidfr
+     */
+    publid String gftVfndor() {
+        rfturn this.vfndorNbmf;
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) throws IOExdfption, ClbssNotFoundExdfption {
+        // Dffbult stbtf initiblizbtion hbppfns hfrf
+        ois.dffbultRfbdObjfdt();
+        // Initiblizbtion of trbnsifnt Rfs Bundlf hbppfns hfrf .
+        try {
+           rfsBundlf = JdbdRowSftRfsourdfBundlf.gftJdbdRowSftRfsourdfBundlf();
+        } dbtdh(IOExdfption iof) {
+            throw nfw RuntimfExdfption(iof);
+        }
+
+    }
+    stbtid finbl long sfriblVfrsionUID =-3143367176751761936L;
+
+}

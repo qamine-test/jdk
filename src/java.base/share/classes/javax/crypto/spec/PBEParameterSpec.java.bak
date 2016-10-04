@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto.spec;
+pbdkbgf jbvbx.drypto.spfd;
 
-import java.security.spec.AlgorithmParameterSpec;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
 
 /**
- * This class specifies the set of parameters used with password-based
- * encryption (PBE), as defined in the
- * <a href="http://www.ietf.org/rfc/rfc2898.txt">PKCS #5</a>
- * standard.
+ * Tiis dlbss spfdififs tif sft of pbrbmftfrs usfd witi pbssword-bbsfd
+ * fndryption (PBE), bs dffinfd in tif
+ * <b irff="ittp://www.iftf.org/rfd/rfd2898.txt">PKCS #5</b>
+ * stbndbrd.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
- * @since 1.4
+ * @sindf 1.4
  */
-public class PBEParameterSpec implements AlgorithmParameterSpec {
+publid dlbss PBEPbrbmftfrSpfd implfmfnts AlgoritimPbrbmftfrSpfd {
 
-    private byte[] salt;
-    private int iterationCount;
-    private AlgorithmParameterSpec paramSpec = null;
+    privbtf bytf[] sblt;
+    privbtf int itfrbtionCount;
+    privbtf AlgoritimPbrbmftfrSpfd pbrbmSpfd = null;
 
     /**
-     * Constructs a parameter set for password-based encryption as defined in
-     * the PKCS #5 standard.
+     * Construdts b pbrbmftfr sft for pbssword-bbsfd fndryption bs dffinfd in
+     * tif PKCS #5 stbndbrd.
      *
-     * @param salt the salt. The contents of <code>salt</code> are copied
-     * to protect against subsequent modification.
-     * @param iterationCount the iteration count.
-     * @exception NullPointerException if <code>salt</code> is null.
+     * @pbrbm sblt tif sblt. Tif dontfnts of <dodf>sblt</dodf> brf dopifd
+     * to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm itfrbtionCount tif itfrbtion dount.
+     * @fxdfption NullPointfrExdfption if <dodf>sblt</dodf> is null.
      */
-    public PBEParameterSpec(byte[] salt, int iterationCount) {
-        this.salt = salt.clone();
-        this.iterationCount = iterationCount;
+    publid PBEPbrbmftfrSpfd(bytf[] sblt, int itfrbtionCount) {
+        tiis.sblt = sblt.dlonf();
+        tiis.itfrbtionCount = itfrbtionCount;
     }
 
     /**
-     * Constructs a parameter set for password-based encryption as defined in
-     * the PKCS #5 standard.
+     * Construdts b pbrbmftfr sft for pbssword-bbsfd fndryption bs dffinfd in
+     * tif PKCS #5 stbndbrd.
      *
-     * @param salt the salt. The contents of <code>salt</code> are copied
-     * to protect against subsequent modification.
-     * @param iterationCount the iteration count.
-     * @param paramSpec the cipher algorithm parameter specification, which
-     * may be null.
-     * @exception NullPointerException if <code>salt</code> is null.
+     * @pbrbm sblt tif sblt. Tif dontfnts of <dodf>sblt</dodf> brf dopifd
+     * to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm itfrbtionCount tif itfrbtion dount.
+     * @pbrbm pbrbmSpfd tif dipifr blgoritim pbrbmftfr spfdifidbtion, wiidi
+     * mby bf null.
+     * @fxdfption NullPointfrExdfption if <dodf>sblt</dodf> is null.
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    public PBEParameterSpec(byte[] salt, int iterationCount,
-            AlgorithmParameterSpec paramSpec) {
-        this.salt = salt.clone();
-        this.iterationCount = iterationCount;
-        this.paramSpec = paramSpec;
+    publid PBEPbrbmftfrSpfd(bytf[] sblt, int itfrbtionCount,
+            AlgoritimPbrbmftfrSpfd pbrbmSpfd) {
+        tiis.sblt = sblt.dlonf();
+        tiis.itfrbtionCount = itfrbtionCount;
+        tiis.pbrbmSpfd = pbrbmSpfd;
     }
 
     /**
-     * Returns the salt.
+     * Rfturns tif sblt.
      *
-     * @return the salt. Returns a new array
-     * each time this method is called.
+     * @rfturn tif sblt. Rfturns b nfw brrby
+     * fbdi timf tiis mftiod is dbllfd.
      */
-    public byte[] getSalt() {
-        return this.salt.clone();
+    publid bytf[] gftSblt() {
+        rfturn tiis.sblt.dlonf();
     }
 
     /**
-     * Returns the iteration count.
+     * Rfturns tif itfrbtion dount.
      *
-     * @return the iteration count
+     * @rfturn tif itfrbtion dount
      */
-    public int getIterationCount() {
-        return this.iterationCount;
+    publid int gftItfrbtionCount() {
+        rfturn tiis.itfrbtionCount;
     }
 
     /**
-     * Returns the cipher algorithm parameter specification.
+     * Rfturns tif dipifr blgoritim pbrbmftfr spfdifidbtion.
      *
-     * @return the parameter specification, or null if none was set.
+     * @rfturn tif pbrbmftfr spfdifidbtion, or null if nonf wbs sft.
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    public AlgorithmParameterSpec getParameterSpec() {
-        return this.paramSpec;
+    publid AlgoritimPbrbmftfrSpfd gftPbrbmftfrSpfd() {
+        rfturn tiis.pbrbmSpfd;
     }
 }

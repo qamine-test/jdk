@@ -1,418 +1,418 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import javax.swing.*;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Graphics;
-import java.awt.GraphicsEnvironment;
-import java.awt.Insets;
-import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.event.*;
-import java.lang.ref.WeakReference;
-import java.util.*;
+import jbvbx.swing.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Frbmf;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Point;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.fvfnt.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.util.*;
 
-import java.beans.PropertyChangeListener;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
 
-import javax.swing.event.*;
-import javax.swing.border.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
 
 /**
- * A Metal Look and Feel implementation of ToolBarUI.  This implementation
- * is a "combined" view/controller.
+ * A Mftbl Look bnd Fffl implfmfntbtion of ToolBbrUI.  Tiis implfmfntbtion
+ * is b "dombinfd" vifw/dontrollfr.
  *
- * @author Jeff Shapiro
+ * @butior Jfff Sibpiro
  */
-public class MetalToolBarUI extends BasicToolBarUI
+publid dlbss MftblToolBbrUI fxtfnds BbsidToolBbrUI
 {
     /**
-     * An array of WeakReferences that point to JComponents. This will contain
-     * instances of JToolBars and JMenuBars and is used to find
-     * JToolBars/JMenuBars that border each other.
+     * An brrby of WfbkRfffrfndfs tibt point to JComponfnts. Tiis will dontbin
+     * instbndfs of JToolBbrs bnd JMfnuBbrs bnd is usfd to find
+     * JToolBbrs/JMfnuBbrs tibt bordfr fbdi otifr.
      */
-    private static List<WeakReference<JComponent>> components = new ArrayList<WeakReference<JComponent>>();
+    privbtf stbtid List<WfbkRfffrfndf<JComponfnt>> domponfnts = nfw ArrbyList<WfbkRfffrfndf<JComponfnt>>();
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif drfbtf mftiod instfbd.
      *
-     * @see #createContainerListener
+     * @sff #drfbtfContbinfrListfnfr
      */
-    protected ContainerListener contListener;
+    protfdtfd ContbinfrListfnfr dontListfnfr;
 
     /**
-     * This protected field is implementation specific. Do not access directly
-     * or override. Use the create method instead.
+     * Tiis protfdtfd fifld is implfmfntbtion spfdifid. Do not bddfss dirfdtly
+     * or ovfrridf. Usf tif drfbtf mftiod instfbd.
      *
-     * @see #createRolloverListener
+     * @sff #drfbtfRollovfrListfnfr
      */
-    protected PropertyChangeListener rolloverListener;
+    protfdtfd PropfrtyCibngfListfnfr rollovfrListfnfr;
 
-    private static Border nonRolloverBorder;
-
-    /**
-     * Last menubar the toolbar touched.  This is only useful for ocean.
-     */
-    private JMenuBar lastMenuBar;
+    privbtf stbtid Bordfr nonRollovfrBordfr;
 
     /**
-     * Registers the specified component.
+     * Lbst mfnubbr tif toolbbr toudifd.  Tiis is only usfful for odfbn.
      */
-    synchronized static void register(JComponent c) {
-        if (c == null) {
-            // Exception is thrown as convenience for callers that are
-            // typed to throw an NPE.
-            throw new NullPointerException("JComponent must be non-null");
+    privbtf JMfnuBbr lbstMfnuBbr;
+
+    /**
+     * Rfgistfrs tif spfdififd domponfnt.
+     */
+    syndironizfd stbtid void rfgistfr(JComponfnt d) {
+        if (d == null) {
+            // Exdfption is tirown bs donvfnifndf for dbllfrs tibt brf
+            // typfd to tirow bn NPE.
+            tirow nfw NullPointfrExdfption("JComponfnt must bf non-null");
         }
-        components.add(new WeakReference<JComponent>(c));
+        domponfnts.bdd(nfw WfbkRfffrfndf<JComponfnt>(d));
     }
 
     /**
-     * Unregisters the specified component.
+     * Unrfgistfrs tif spfdififd domponfnt.
      */
-    synchronized static void unregister(JComponent c) {
-        for (int counter = components.size() - 1; counter >= 0; counter--) {
-            // Search for the component, removing any flushed references
-            // along the way.
-            JComponent target = components.get(counter).get();
+    syndironizfd stbtid void unrfgistfr(JComponfnt d) {
+        for (int dountfr = domponfnts.sizf() - 1; dountfr >= 0; dountfr--) {
+            // Sfbrdi for tif domponfnt, rfmoving bny flusifd rfffrfndfs
+            // blong tif wby.
+            JComponfnt tbrgft = domponfnts.gft(dountfr).gft();
 
-            if (target == c || target == null) {
-                components.remove(counter);
+            if (tbrgft == d || tbrgft == null) {
+                domponfnts.rfmovf(dountfr);
             }
         }
     }
 
     /**
-     * Finds a previously registered component of class <code>target</code>
-     * that shares the JRootPane ancestor of <code>from</code>.
+     * Finds b prfviously rfgistfrfd domponfnt of dlbss <dodf>tbrgft</dodf>
+     * tibt sibrfs tif JRootPbnf bndfstor of <dodf>from</dodf>.
      */
-    synchronized static Object findRegisteredComponentOfType(JComponent from,
-                                                             Class<?> target) {
-        JRootPane rp = SwingUtilities.getRootPane(from);
+    syndironizfd stbtid Objfdt findRfgistfrfdComponfntOfTypf(JComponfnt from,
+                                                             Clbss<?> tbrgft) {
+        JRootPbnf rp = SwingUtilitifs.gftRootPbnf(from);
         if (rp != null) {
-            for (int counter = components.size() - 1; counter >= 0; counter--){
-                Object component = ((WeakReference)components.get(counter)).
-                                   get();
+            for (int dountfr = domponfnts.sizf() - 1; dountfr >= 0; dountfr--){
+                Objfdt domponfnt = ((WfbkRfffrfndf)domponfnts.gft(dountfr)).
+                                   gft();
 
-                if (component == null) {
-                    // WeakReference has gone away, remove the WeakReference
-                    components.remove(counter);
+                if (domponfnt == null) {
+                    // WfbkRfffrfndf ibs gonf bwby, rfmovf tif WfbkRfffrfndf
+                    domponfnts.rfmovf(dountfr);
                 }
-                else if (target.isInstance(component) && SwingUtilities.
-                         getRootPane((Component)component) == rp) {
-                    return component;
+                flsf if (tbrgft.isInstbndf(domponfnt) && SwingUtilitifs.
+                         gftRootPbnf((Componfnt)domponfnt) == rp) {
+                    rfturn domponfnt;
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns true if the passed in JMenuBar is above a horizontal
-     * JToolBar.
+     * Rfturns truf if tif pbssfd in JMfnuBbr is bbovf b iorizontbl
+     * JToolBbr.
      */
-    static boolean doesMenuBarBorderToolBar(JMenuBar c) {
-        JToolBar tb = (JToolBar)MetalToolBarUI.
-                    findRegisteredComponentOfType(c, JToolBar.class);
-        if (tb != null && tb.getOrientation() == JToolBar.HORIZONTAL) {
-            JRootPane rp = SwingUtilities.getRootPane(c);
-            Point point = new Point(0, 0);
-            point = SwingUtilities.convertPoint(c, point, rp);
-            int menuX = point.x;
-            int menuY = point.y;
+    stbtid boolfbn dofsMfnuBbrBordfrToolBbr(JMfnuBbr d) {
+        JToolBbr tb = (JToolBbr)MftblToolBbrUI.
+                    findRfgistfrfdComponfntOfTypf(d, JToolBbr.dlbss);
+        if (tb != null && tb.gftOrifntbtion() == JToolBbr.HORIZONTAL) {
+            JRootPbnf rp = SwingUtilitifs.gftRootPbnf(d);
+            Point point = nfw Point(0, 0);
+            point = SwingUtilitifs.donvfrtPoint(d, point, rp);
+            int mfnuX = point.x;
+            int mfnuY = point.y;
             point.x = point.y = 0;
-            point = SwingUtilities.convertPoint(tb, point, rp);
-            return (point.x == menuX && menuY + c.getHeight() == point.y &&
-                    c.getWidth() == tb.getWidth());
+            point = SwingUtilitifs.donvfrtPoint(tb, point, rp);
+            rfturn (point.x == mfnuX && mfnuY + d.gftHfigit() == point.y &&
+                    d.gftWidti() == tb.gftWidti());
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Constructs an instance of {@code MetalToolBarUI}.
+     * Construdts bn instbndf of {@dodf MftblToolBbrUI}.
      *
-     * @param c a component
-     * @return an instance of {@code MetalToolBarUI}
+     * @pbrbm d b domponfnt
+     * @rfturn bn instbndf of {@dodf MftblToolBbrUI}
      */
-    public static ComponentUI createUI( JComponent c )
+    publid stbtid ComponfntUI drfbtfUI( JComponfnt d )
     {
-        return new MetalToolBarUI();
+        rfturn nfw MftblToolBbrUI();
     }
 
-    public void installUI( JComponent c )
+    publid void instbllUI( JComponfnt d )
     {
-        super.installUI( c );
-        register(c);
+        supfr.instbllUI( d );
+        rfgistfr(d);
     }
 
-    public void uninstallUI( JComponent c )
+    publid void uninstbllUI( JComponfnt d )
     {
-        super.uninstallUI( c );
-        nonRolloverBorder = null;
-        unregister(c);
+        supfr.uninstbllUI( d );
+        nonRollovfrBordfr = null;
+        unrfgistfr(d);
     }
 
-    protected void installListeners() {
-        super.installListeners();
+    protfdtfd void instbllListfnfrs() {
+        supfr.instbllListfnfrs();
 
-        contListener = createContainerListener();
-        if (contListener != null) {
-            toolBar.addContainerListener(contListener);
+        dontListfnfr = drfbtfContbinfrListfnfr();
+        if (dontListfnfr != null) {
+            toolBbr.bddContbinfrListfnfr(dontListfnfr);
         }
-        rolloverListener = createRolloverListener();
-        if (rolloverListener != null) {
-            toolBar.addPropertyChangeListener(rolloverListener);
-        }
-    }
-
-    protected void uninstallListeners() {
-        super.uninstallListeners();
-
-        if (contListener != null) {
-            toolBar.removeContainerListener(contListener);
-        }
-        rolloverListener = createRolloverListener();
-        if (rolloverListener != null) {
-            toolBar.removePropertyChangeListener(rolloverListener);
+        rollovfrListfnfr = drfbtfRollovfrListfnfr();
+        if (rollovfrListfnfr != null) {
+            toolBbr.bddPropfrtyCibngfListfnfr(rollovfrListfnfr);
         }
     }
 
-    protected Border createRolloverBorder() {
-        return super.createRolloverBorder();
+    protfdtfd void uninstbllListfnfrs() {
+        supfr.uninstbllListfnfrs();
+
+        if (dontListfnfr != null) {
+            toolBbr.rfmovfContbinfrListfnfr(dontListfnfr);
+        }
+        rollovfrListfnfr = drfbtfRollovfrListfnfr();
+        if (rollovfrListfnfr != null) {
+            toolBbr.rfmovfPropfrtyCibngfListfnfr(rollovfrListfnfr);
+        }
     }
 
-    protected Border createNonRolloverBorder() {
-        return super.createNonRolloverBorder();
+    protfdtfd Bordfr drfbtfRollovfrBordfr() {
+        rfturn supfr.drfbtfRollovfrBordfr();
+    }
+
+    protfdtfd Bordfr drfbtfNonRollovfrBordfr() {
+        rfturn supfr.drfbtfNonRollovfrBordfr();
     }
 
 
     /**
-     * Creates a non rollover border for Toggle buttons in the toolbar.
+     * Crfbtfs b non rollovfr bordfr for Togglf buttons in tif toolbbr.
      */
-    private Border createNonRolloverToggleBorder() {
-        return createNonRolloverBorder();
+    privbtf Bordfr drfbtfNonRollovfrTogglfBordfr() {
+        rfturn drfbtfNonRollovfrBordfr();
     }
 
-    protected void setBorderToNonRollover(Component c) {
-        if (c instanceof JToggleButton && !(c instanceof JCheckBox)) {
-            // 4735514, 4886944: The method createNonRolloverToggleBorder() is
-            // private in BasicToolBarUI so we can't override it. We still need
-            // to call super from this method so that it can save away the
-            // original border and then we install ours.
+    protfdtfd void sftBordfrToNonRollovfr(Componfnt d) {
+        if (d instbndfof JTogglfButton && !(d instbndfof JCifdkBox)) {
+            // 4735514, 4886944: Tif mftiod drfbtfNonRollovfrTogglfBordfr() is
+            // privbtf in BbsidToolBbrUI so wf dbn't ovfrridf it. Wf still nffd
+            // to dbll supfr from tiis mftiod so tibt it dbn sbvf bwby tif
+            // originbl bordfr bnd tifn wf instbll ours.
 
-            // Before calling super we get a handle to the old border, because
-            // super will install a non-UIResource border that we can't
-            // distinguish from one provided by an application.
-            JToggleButton b = (JToggleButton)c;
-            Border border = b.getBorder();
-            super.setBorderToNonRollover(c);
-            if (border instanceof UIResource) {
-                if (nonRolloverBorder == null) {
-                    nonRolloverBorder = createNonRolloverToggleBorder();
+            // Bfforf dblling supfr wf gft b ibndlf to tif old bordfr, bfdbusf
+            // supfr will instbll b non-UIRfsourdf bordfr tibt wf dbn't
+            // distinguisi from onf providfd by bn bpplidbtion.
+            JTogglfButton b = (JTogglfButton)d;
+            Bordfr bordfr = b.gftBordfr();
+            supfr.sftBordfrToNonRollovfr(d);
+            if (bordfr instbndfof UIRfsourdf) {
+                if (nonRollovfrBordfr == null) {
+                    nonRollovfrBordfr = drfbtfNonRollovfrTogglfBordfr();
                 }
-                b.setBorder(nonRolloverBorder);
+                b.sftBordfr(nonRollovfrBordfr);
             }
-        } else {
-            super.setBorderToNonRollover(c);
+        } flsf {
+            supfr.sftBordfrToNonRollovfr(d);
         }
     }
 
 
     /**
-     * Creates a container listener that will be added to the JToolBar.
-     * If this method returns null then it will not be added to the
-     * toolbar.
+     * Crfbtfs b dontbinfr listfnfr tibt will bf bddfd to tif JToolBbr.
+     * If tiis mftiod rfturns null tifn it will not bf bddfd to tif
+     * toolbbr.
      *
-     * @return an instance of a <code>ContainerListener</code> or null
+     * @rfturn bn instbndf of b <dodf>ContbinfrListfnfr</dodf> or null
      */
-    protected ContainerListener createContainerListener() {
-        return null;
+    protfdtfd ContbinfrListfnfr drfbtfContbinfrListfnfr() {
+        rfturn null;
     }
 
     /**
-     * Creates a property change listener that will be added to the JToolBar.
-     * If this method returns null then it will not be added to the
-     * toolbar.
+     * Crfbtfs b propfrty dibngf listfnfr tibt will bf bddfd to tif JToolBbr.
+     * If tiis mftiod rfturns null tifn it will not bf bddfd to tif
+     * toolbbr.
      *
-     * @return an instance of a <code>PropertyChangeListener</code> or null
+     * @rfturn bn instbndf of b <dodf>PropfrtyCibngfListfnfr</dodf> or null
      */
-    protected PropertyChangeListener createRolloverListener() {
-        return null;
+    protfdtfd PropfrtyCibngfListfnfr drfbtfRollovfrListfnfr() {
+        rfturn null;
     }
 
-    protected MouseInputListener createDockingListener( )
+    protfdtfd MousfInputListfnfr drfbtfDodkingListfnfr( )
     {
-        return new MetalDockingListener( toolBar );
+        rfturn nfw MftblDodkingListfnfr( toolBbr );
     }
 
     /**
-     * Sets the offset of the mouse cursor inside the DragWindow.
+     * Sfts tif offsft of tif mousf dursor insidf tif DrbgWindow.
      *
-     * @param p the offset
+     * @pbrbm p tif offsft
      */
-    protected void setDragOffset(Point p) {
-        if (!GraphicsEnvironment.isHeadless()) {
-            if (dragWindow == null) {
-                dragWindow = createDragWindow(toolBar);
+    protfdtfd void sftDrbgOffsft(Point p) {
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            if (drbgWindow == null) {
+                drbgWindow = drfbtfDrbgWindow(toolBbr);
             }
-            dragWindow.setOffset(p);
+            drbgWindow.sftOffsft(p);
         }
     }
 
     /**
-     * If necessary paints the background of the component, then invokes
-     * <code>paint</code>.
+     * If nfdfssbry pbints tif bbdkground of tif domponfnt, tifn invokfs
+     * <dodf>pbint</dodf>.
      *
-     * @param g Graphics to paint to
-     * @param c JComponent painting on
-     * @throws NullPointerException if <code>g</code> or <code>c</code> is
+     * @pbrbm g Grbpiids to pbint to
+     * @pbrbm d JComponfnt pbinting on
+     * @tirows NullPointfrExdfption if <dodf>g</dodf> or <dodf>d</dodf> is
      *         null
-     * @see javax.swing.plaf.ComponentUI#update
-     * @see javax.swing.plaf.ComponentUI#paint
-     * @since 1.5
+     * @sff jbvbx.swing.plbf.ComponfntUI#updbtf
+     * @sff jbvbx.swing.plbf.ComponfntUI#pbint
+     * @sindf 1.5
      */
-    public void update(Graphics g, JComponent c) {
+    publid void updbtf(Grbpiids g, JComponfnt d) {
         if (g == null) {
-            throw new NullPointerException("graphics must be non-null");
+            tirow nfw NullPointfrExdfption("grbpiids must bf non-null");
         }
-        if (c.isOpaque() && (c.getBackground() instanceof UIResource) &&
-                            ((JToolBar)c).getOrientation() ==
-                      JToolBar.HORIZONTAL && UIManager.get(
-                     "MenuBar.gradient") != null) {
-            JRootPane rp = SwingUtilities.getRootPane(c);
-            JMenuBar mb = (JMenuBar)findRegisteredComponentOfType(
-                                    c, JMenuBar.class);
-            if (mb != null && mb.isOpaque() &&
-                              (mb.getBackground() instanceof UIResource)) {
-                Point point = new Point(0, 0);
-                point = SwingUtilities.convertPoint(c, point, rp);
+        if (d.isOpbquf() && (d.gftBbdkground() instbndfof UIRfsourdf) &&
+                            ((JToolBbr)d).gftOrifntbtion() ==
+                      JToolBbr.HORIZONTAL && UIMbnbgfr.gft(
+                     "MfnuBbr.grbdifnt") != null) {
+            JRootPbnf rp = SwingUtilitifs.gftRootPbnf(d);
+            JMfnuBbr mb = (JMfnuBbr)findRfgistfrfdComponfntOfTypf(
+                                    d, JMfnuBbr.dlbss);
+            if (mb != null && mb.isOpbquf() &&
+                              (mb.gftBbdkground() instbndfof UIRfsourdf)) {
+                Point point = nfw Point(0, 0);
+                point = SwingUtilitifs.donvfrtPoint(d, point, rp);
                 int x = point.x;
                 int y = point.y;
                 point.x = point.y = 0;
-                point = SwingUtilities.convertPoint(mb, point, rp);
-                if (point.x == x && y == point.y + mb.getHeight() &&
-                     mb.getWidth() == c.getWidth() &&
-                     MetalUtils.drawGradient(c, g, "MenuBar.gradient",
-                     0, -mb.getHeight(), c.getWidth(), c.getHeight() +
-                     mb.getHeight(), true)) {
-                    setLastMenuBar(mb);
-                    paint(g, c);
-                    return;
+                point = SwingUtilitifs.donvfrtPoint(mb, point, rp);
+                if (point.x == x && y == point.y + mb.gftHfigit() &&
+                     mb.gftWidti() == d.gftWidti() &&
+                     MftblUtils.drbwGrbdifnt(d, g, "MfnuBbr.grbdifnt",
+                     0, -mb.gftHfigit(), d.gftWidti(), d.gftHfigit() +
+                     mb.gftHfigit(), truf)) {
+                    sftLbstMfnuBbr(mb);
+                    pbint(g, d);
+                    rfturn;
                 }
             }
-            if (MetalUtils.drawGradient(c, g, "MenuBar.gradient",
-                           0, 0, c.getWidth(), c.getHeight(), true)) {
-                setLastMenuBar(null);
-                paint(g, c);
-                return;
-            }
-        }
-        setLastMenuBar(null);
-        super.update(g, c);
-    }
-
-    private void setLastMenuBar(JMenuBar lastMenuBar) {
-        if (MetalLookAndFeel.usingOcean()) {
-            if (this.lastMenuBar != lastMenuBar) {
-                // The menubar we previously touched has changed, force it
-                // to repaint.
-                if (this.lastMenuBar != null) {
-                    this.lastMenuBar.repaint();
-                }
-                if (lastMenuBar != null) {
-                    lastMenuBar.repaint();
-                }
-                this.lastMenuBar = lastMenuBar;
+            if (MftblUtils.drbwGrbdifnt(d, g, "MfnuBbr.grbdifnt",
+                           0, 0, d.gftWidti(), d.gftHfigit(), truf)) {
+                sftLbstMfnuBbr(null);
+                pbint(g, d);
+                rfturn;
             }
         }
+        sftLbstMfnuBbr(null);
+        supfr.updbtf(g, d);
+    }
+
+    privbtf void sftLbstMfnuBbr(JMfnuBbr lbstMfnuBbr) {
+        if (MftblLookAndFffl.usingOdfbn()) {
+            if (tiis.lbstMfnuBbr != lbstMfnuBbr) {
+                // Tif mfnubbr wf prfviously toudifd ibs dibngfd, fordf it
+                // to rfpbint.
+                if (tiis.lbstMfnuBbr != null) {
+                    tiis.lbstMfnuBbr.rfpbint();
+                }
+                if (lbstMfnuBbr != null) {
+                    lbstMfnuBbr.rfpbint();
+                }
+                tiis.lbstMfnuBbr = lbstMfnuBbr;
+            }
+        }
     }
 
     /**
-     * No longer used. The class cannot be removed for compatibility reasons.
+     * No longfr usfd. Tif dlbss dbnnot bf rfmovfd for dompbtibility rfbsons.
      */
-    protected class MetalContainerListener
-        extends BasicToolBarUI.ToolBarContListener {}
+    protfdtfd dlbss MftblContbinfrListfnfr
+        fxtfnds BbsidToolBbrUI.ToolBbrContListfnfr {}
 
     /**
-     * No longer used. The class cannot be removed for compatibility reasons.
+     * No longfr usfd. Tif dlbss dbnnot bf rfmovfd for dompbtibility rfbsons.
      */
-    protected class MetalRolloverListener
-        extends BasicToolBarUI.PropertyListener {}
+    protfdtfd dlbss MftblRollovfrListfnfr
+        fxtfnds BbsidToolBbrUI.PropfrtyListfnfr {}
 
     /**
-     * {@code DockingListener} for {@code MetalToolBarUI}.
+     * {@dodf DodkingListfnfr} for {@dodf MftblToolBbrUI}.
      */
-    protected class MetalDockingListener extends DockingListener {
-        private boolean pressedInBumps = false;
+    protfdtfd dlbss MftblDodkingListfnfr fxtfnds DodkingListfnfr {
+        privbtf boolfbn prfssfdInBumps = fblsf;
 
         /**
-         * Constructs the {@code MetalDockingListener}.
+         * Construdts tif {@dodf MftblDodkingListfnfr}.
          *
-         * @param t an instance of {@code JToolBar}
+         * @pbrbm t bn instbndf of {@dodf JToolBbr}
          */
-        public MetalDockingListener(JToolBar t) {
-            super(t);
+        publid MftblDodkingListfnfr(JToolBbr t) {
+            supfr(t);
         }
 
-        public void mousePressed(MouseEvent e) {
-            super.mousePressed(e);
-            if (!toolBar.isEnabled()) {
-                return;
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            supfr.mousfPrfssfd(f);
+            if (!toolBbr.isEnbblfd()) {
+                rfturn;
             }
-            pressedInBumps = false;
-            Rectangle bumpRect = new Rectangle();
+            prfssfdInBumps = fblsf;
+            Rfdtbnglf bumpRfdt = nfw Rfdtbnglf();
 
-            if (toolBar.getOrientation() == JToolBar.HORIZONTAL) {
-                int x = MetalUtils.isLeftToRight(toolBar) ? 0 : toolBar.getSize().width-14;
-                bumpRect.setBounds(x, 0, 14, toolBar.getSize().height);
-            } else {  // vertical
-                bumpRect.setBounds(0, 0, toolBar.getSize().width, 14);
+            if (toolBbr.gftOrifntbtion() == JToolBbr.HORIZONTAL) {
+                int x = MftblUtils.isLfftToRigit(toolBbr) ? 0 : toolBbr.gftSizf().widti-14;
+                bumpRfdt.sftBounds(x, 0, 14, toolBbr.gftSizf().ifigit);
+            } flsf {  // vfrtidbl
+                bumpRfdt.sftBounds(0, 0, toolBbr.gftSizf().widti, 14);
             }
-            if (bumpRect.contains(e.getPoint())) {
-                pressedInBumps = true;
-                Point dragOffset = e.getPoint();
-                if (!MetalUtils.isLeftToRight(toolBar)) {
-                    dragOffset.x -= (toolBar.getSize().width
-                                     - toolBar.getPreferredSize().width);
+            if (bumpRfdt.dontbins(f.gftPoint())) {
+                prfssfdInBumps = truf;
+                Point drbgOffsft = f.gftPoint();
+                if (!MftblUtils.isLfftToRigit(toolBbr)) {
+                    drbgOffsft.x -= (toolBbr.gftSizf().widti
+                                     - toolBbr.gftPrfffrrfdSizf().widti);
                 }
-                setDragOffset(dragOffset);
+                sftDrbgOffsft(drbgOffsft);
             }
         }
 
-        public void mouseDragged(MouseEvent e) {
-            if (pressedInBumps) {
-                super.mouseDragged(e);
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            if (prfssfdInBumps) {
+                supfr.mousfDrbggfd(f);
             }
         }
-    } // end class MetalDockingListener
+    } // fnd dlbss MftblDodkingListfnfr
 }

@@ -1,0 +1,126 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto.spfd;
+
+import jbvb.sfdurity.InvblidKfyExdfption;
+
+/**
+ * This dlbss spfdififs b DES-EDE ("triplf-DES") kfy.
+ *
+ * @buthor Jbn Lufhf
+ *
+ * @sindf 1.4
+ */
+publid dlbss DESfdfKfySpfd implfmfnts jbvb.sfdurity.spfd.KfySpfd {
+
+    /**
+     * Thf donstbnt whidh dffinfs thf lfngth of b DESfdf kfy in bytfs.
+     */
+    publid stbtid finbl int DES_EDE_KEY_LEN = 24;
+
+    privbtf bytf[] kfy;
+
+    /**
+     * Crfbtfs b DESfdfKfySpfd objfdt using thf first 24 bytfs in
+     * <dodf>kfy</dodf> bs thf kfy mbtfribl for thf DES-EDE kfy.
+     *
+     * <p> Thf bytfs thbt donstitutf thf DES-EDE kfy brf thosf bftwffn
+     * <dodf>kfy[0]</dodf> bnd <dodf>kfy[23]</dodf> indlusivf
+     *
+     * @pbrbm kfy thf bufffr with thf DES-EDE kfy mbtfribl. Thf first
+     * 24 bytfs of thf bufffr brf dopifd to protfdt bgbinst subsfqufnt
+     * modifidbtion.
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>kfy</dodf> is null.
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy mbtfribl is shortfr
+     * thbn 24 bytfs.
+     */
+    publid DESfdfKfySpfd(bytf[] kfy) throws InvblidKfyExdfption {
+        this(kfy, 0);
+    }
+
+    /**
+     * Crfbtfs b DESfdfKfySpfd objfdt using thf first 24 bytfs in
+     * <dodf>kfy</dodf>, bfginning bt <dodf>offsft</dodf> indlusivf,
+     * bs thf kfy mbtfribl for thf DES-EDE kfy.
+     *
+     * <p> Thf bytfs thbt donstitutf thf DES-EDE kfy brf thosf bftwffn
+     * <dodf>kfy[offsft]</dodf> bnd <dodf>kfy[offsft+23]</dodf> indlusivf.
+     *
+     * @pbrbm kfy thf bufffr with thf DES-EDE kfy mbtfribl. Thf first
+     * 24 bytfs of thf bufffr bfginning bt <dodf>offsft</dodf> indlusivf
+     * brf dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @pbrbm offsft thf offsft in <dodf>kfy</dodf>, whfrf thf DES-EDE kfy
+     * mbtfribl stbrts.
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>kfy</dodf> is null.
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy mbtfribl, stbrting bt
+     * <dodf>offsft</dodf> indlusivf, is shortfr thbn 24 bytfs
+     */
+    publid DESfdfKfySpfd(bytf[] kfy, int offsft) throws InvblidKfyExdfption {
+        if (kfy.lfngth - offsft < 24) {
+            throw nfw InvblidKfyExdfption("Wrong kfy sizf");
+        }
+        this.kfy = nfw bytf[24];
+        Systfm.brrbydopy(kfy, offsft, this.kfy, 0, 24);
+    }
+
+    /**
+     * Rfturns thf DES-EDE kfy.
+     *
+     * @rfturn thf DES-EDE kfy. Rfturns b nfw brrby
+     * fbdh timf this mfthod is dbllfd.
+     */
+    publid bytf[] gftKfy() {
+        rfturn this.kfy.dlonf();
+    }
+
+    /**
+     * Chfdks if thf givfn DES-EDE kfy, stbrting bt <dodf>offsft</dodf>
+     * indlusivf, is pbrity-bdjustfd.
+     *
+     * @pbrbm kfy    b bytf brrby whidh holds thf kfy vbluf
+     * @pbrbm offsft thf offsft into thf bytf brrby
+     * @rfturn truf if thf givfn DES-EDE kfy is pbrity-bdjustfd, fblsf
+     * othfrwisf
+     *
+     * @fxdfption NullPointfrExdfption if <dodf>kfy</dodf> is null.
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy mbtfribl, stbrting bt
+     * <dodf>offsft</dodf> indlusivf, is shortfr thbn 24 bytfs
+     */
+    publid stbtid boolfbn isPbrityAdjustfd(bytf[] kfy, int offsft)
+        throws InvblidKfyExdfption {
+            if (kfy.lfngth - offsft < 24) {
+                throw nfw InvblidKfyExdfption("Wrong kfy sizf");
+            }
+            if (DESKfySpfd.isPbrityAdjustfd(kfy, offsft) == fblsf
+                || DESKfySpfd.isPbrityAdjustfd(kfy, offsft + 8) == fblsf
+                || DESKfySpfd.isPbrityAdjustfd(kfy, offsft + 16) == fblsf) {
+                rfturn fblsf;
+            }
+            rfturn truf;
+    }
+}

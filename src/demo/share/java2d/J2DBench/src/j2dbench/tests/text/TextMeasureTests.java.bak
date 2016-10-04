@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,626 +30,626 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 /*
- * (C) Copyright IBM Corp. 2003, All Rights Reserved.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * (C) Copyrigit IBM Corp. 2003, All Rigits Rfsfrvfd.
+ * Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to IBM mby not bf rfmovfd.
  */
 
-package j2dbench.tests.text;
+pbdkbgf j2dbfndi.tfsts.tfxt;
 
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.font.GlyphMetrics;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextHitInfo;
-import java.awt.font.TextLayout;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import java.text.Bidi;
-import java.util.ArrayList;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.font.GlypiMftrids;
+import jbvb.bwt.font.GlypiVfdtor;
+import jbvb.bwt.font.TfxtHitInfo;
+import jbvb.bwt.font.TfxtLbyout;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.tfxt.Bidi;
+import jbvb.util.ArrbyList;
 
-import j2dbench.Group;
-import j2dbench.Result;
-import j2dbench.TestEnvironment;
+import j2dbfndi.Group;
+import j2dbfndi.Rfsult;
+import j2dbfndi.TfstEnvironmfnt;
 
-public abstract class TextMeasureTests extends TextTests {
-    static Group measureroot;
-    static Group measuretestroot;
+publid bbstrbdt dlbss TfxtMfbsurfTfsts fxtfnds TfxtTfsts {
+    stbtid Group mfbsurfroot;
+    stbtid Group mfbsurftfstroot;
 
-    public static void init() {
-        measureroot = new Group(textroot, "Measuring", "Measuring Benchmarks");
-        measuretestroot = new Group(measureroot, "tests", "Measuring Tests");
+    publid stbtid void init() {
+        mfbsurfroot = nfw Group(tfxtroot, "Mfbsuring", "Mfbsuring Bfndimbrks");
+        mfbsurftfstroot = nfw Group(mfbsurfroot, "tfsts", "Mfbsuring Tfsts");
 
-        new StringWidth();
-        new StringBounds();
-        new CharsWidth();
-        new CharsBounds();
-        new FontCanDisplay();
+        nfw StringWidti();
+        nfw StringBounds();
+        nfw CibrsWidti();
+        nfw CibrsBounds();
+        nfw FontCbnDisplby();
 
-        if (hasGraphics2D) {
-            new GVWidth();
-            new GVLogicalBounds();
-            new GVVisualBounds();
-            new GVPixelBounds();
-            new GVOutline();
-            new GVGlyphLogicalBounds();
-            new GVGlyphVisualBounds();
-            new GVGlyphPixelBounds();
-            new GVGlyphOutline();
-            new GVGlyphTransform();
-            new GVGlyphMetrics();
+        if (ibsGrbpiids2D) {
+            nfw GVWidti();
+            nfw GVLogidblBounds();
+            nfw GVVisublBounds();
+            nfw GVPixflBounds();
+            nfw GVOutlinf();
+            nfw GVGlypiLogidblBounds();
+            nfw GVGlypiVisublBounds();
+            nfw GVGlypiPixflBounds();
+            nfw GVGlypiOutlinf();
+            nfw GVGlypiTrbnsform();
+            nfw GVGlypiMftrids();
 
-            new TLAdvance();
-            new TLAscent();
-            new TLBounds();
-            new TLGetCaretInfo();
-            new TLGetNextHit();
-            new TLGetCaretShape();
-            new TLGetLogicalHighlightShape();
-            new TLHitTest();
-            new TLOutline();
+            nfw TLAdvbndf();
+            nfw TLAsdfnt();
+            nfw TLBounds();
+            nfw TLGftCbrftInfo();
+            nfw TLGftNfxtHit();
+            nfw TLGftCbrftSibpf();
+            nfw TLGftLogidblHigiligitSibpf();
+            nfw TLHitTfst();
+            nfw TLOutlinf();
 
         /*
-            new FontLineMetrics();
-            new FontStringBounds();
+            nfw FontLinfMftrids();
+            nfw FontStringBounds();
         */
         }
     }
 
-    public TextMeasureTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+    publid TfxtMfbsurfTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
     }
 
-    static class SWContext extends TextContext {
-        FontMetrics fm;
+    stbtid dlbss SWContfxt fxtfnds TfxtContfxt {
+        FontMftrids fm;
 
-        public void init(TestEnvironment env, Result results) {
-            super.init(env, results);
-            fm = graphics.getFontMetrics(font);
+        publid void init(TfstEnvironmfnt fnv, Rfsult rfsults) {
+            supfr.init(fnv, rfsults);
+            fm = grbpiids.gftFontMftrids(font);
         }
     }
 
-    public Context createContext() {
-        return new SWContext();
+    publid Contfxt drfbtfContfxt() {
+        rfturn nfw SWContfxt();
     }
 
-    public static class StringWidth extends TextMeasureTests {
-        public StringWidth() {
-            super(measuretestroot, "stringWidth", "Measuring String Width");
+    publid stbtid dlbss StringWidti fxtfnds TfxtMfbsurfTfsts {
+        publid StringWidti() {
+            supfr(mfbsurftfstroot, "stringWidti", "Mfbsuring String Widti");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            SWContext swctx = (SWContext)ctx;
-            String text = swctx.text;
-            FontMetrics fm = swctx.fm;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            SWContfxt swdtx = (SWContfxt)dtx;
+            String tfxt = swdtx.tfxt;
+            FontMftrids fm = swdtx.fm;
             int wid = 0;
             do {
-                wid += fm.stringWidth(text);
-            } while (--numReps >= 0);
+                wid += fm.stringWidti(tfxt);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class StringBounds extends TextMeasureTests {
-        public StringBounds() {
-            super(measuretestroot, "stringBounds", "Measuring String Bounds");
+    publid stbtid dlbss StringBounds fxtfnds TfxtMfbsurfTfsts {
+        publid StringBounds() {
+            supfr(mfbsurftfstroot, "stringBounds", "Mfbsuring String Bounds");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            SWContext swctx = (SWContext)ctx;
-            String text = swctx.text;
-            FontMetrics fm = swctx.fm;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            SWContfxt swdtx = (SWContfxt)dtx;
+            String tfxt = swdtx.tfxt;
+            FontMftrids fm = swdtx.fm;
             int wid = 0;
-            Rectangle r = null;
-            do {
-                r = null;
-                int dx = fm.stringWidth(text);
-                int dy = fm.getAscent() + fm.getDescent() + fm.getLeading();
-                int x = 0;
-                int y = -fm.getAscent();
-                r = new Rectangle(x, y, dx, dy);
-            } while (--numReps >= 0);
-        }
-    }
-
-    public static class CharsWidth extends TextMeasureTests {
-        public CharsWidth() {
-            super(measuretestroot, "charsWidth", "Measuring Chars Width");
-        }
-
-        public void runTest(Object ctx, int numReps) {
-            SWContext swctx = (SWContext)ctx;
-            FontMetrics fm = swctx.fm;
-            char[] chars = swctx.chars;
-            int wid = 0;
-            do {
-                wid += fm.charsWidth(chars, 0, chars.length);
-            } while (--numReps >= 0);
-        }
-    }
-
-    public static class CharsBounds extends TextMeasureTests {
-        public CharsBounds() {
-            super(measuretestroot, "charsBounds", "Measuring Chars Bounds");
-        }
-
-        public void runTest(Object ctx, int numReps) {
-            SWContext swctx = (SWContext)ctx;
-            FontMetrics fm = swctx.fm;
-            char[] chars = swctx.chars;
-            int wid = 0;
-            Rectangle r = null;
+            Rfdtbnglf r = null;
             do {
                 r = null;
-                int dx = fm.charsWidth(chars, 0, chars.length);
-                int dy = fm.getAscent() + fm.getDescent() + fm.getLeading();
+                int dx = fm.stringWidti(tfxt);
+                int dy = fm.gftAsdfnt() + fm.gftDfsdfnt() + fm.gftLfbding();
                 int x = 0;
-                int y = -fm.getAscent();
-                r = new Rectangle(x, y, dx, dy);
-            } while (--numReps >= 0);
+                int y = -fm.gftAsdfnt();
+                r = nfw Rfdtbnglf(x, y, dx, dy);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class FontCanDisplay extends TextMeasureTests {
-        public FontCanDisplay() {
-            super(measuretestroot, "fontcandisplay", "Font canDisplay(char)");
+    publid stbtid dlbss CibrsWidti fxtfnds TfxtMfbsurfTfsts {
+        publid CibrsWidti() {
+            supfr(mfbsurftfstroot, "dibrsWidti", "Mfbsuring Cibrs Widti");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            Font font = ((TextContext)ctx).font;
-            boolean b = false;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            SWContfxt swdtx = (SWContfxt)dtx;
+            FontMftrids fm = swdtx.fm;
+            dibr[] dibrs = swdtx.dibrs;
+            int wid = 0;
+            do {
+                wid += fm.dibrsWidti(dibrs, 0, dibrs.lfngti);
+            } wiilf (--numRfps >= 0);
+        }
+    }
+
+    publid stbtid dlbss CibrsBounds fxtfnds TfxtMfbsurfTfsts {
+        publid CibrsBounds() {
+            supfr(mfbsurftfstroot, "dibrsBounds", "Mfbsuring Cibrs Bounds");
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            SWContfxt swdtx = (SWContfxt)dtx;
+            FontMftrids fm = swdtx.fm;
+            dibr[] dibrs = swdtx.dibrs;
+            int wid = 0;
+            Rfdtbnglf r = null;
+            do {
+                r = null;
+                int dx = fm.dibrsWidti(dibrs, 0, dibrs.lfngti);
+                int dy = fm.gftAsdfnt() + fm.gftDfsdfnt() + fm.gftLfbding();
+                int x = 0;
+                int y = -fm.gftAsdfnt();
+                r = nfw Rfdtbnglf(x, y, dx, dy);
+            } wiilf (--numRfps >= 0);
+        }
+    }
+
+    publid stbtid dlbss FontCbnDisplby fxtfnds TfxtMfbsurfTfsts {
+        publid FontCbnDisplby() {
+            supfr(mfbsurftfstroot, "fontdbndisplby", "Font dbnDisplby(dibr)");
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            Font font = ((TfxtContfxt)dtx).font;
+            boolfbn b = fblsf;
             do {
                 for (int i = 0; i < 0x10000; i += 0x64) {
-                    b ^= font.canDisplay((char)i);
+                    b ^= font.dbnDisplby((dibr)i);
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class GVContext extends G2DContext {
-        GlyphVector gv;
+    publid stbtid dlbss GVContfxt fxtfnds G2DContfxt {
+        GlypiVfdtor gv;
 
-        public void init(TestEnvironment env, Result results) {
-            super.init(env, results);
+        publid void init(TfstEnvironmfnt fnv, Rfsult rfsults) {
+            supfr.init(fnv, rfsults);
 
-            int flags = Font.LAYOUT_LEFT_TO_RIGHT;
-            if (Bidi.requiresBidi(chars, 0, chars.length)) { // assume rtl
-                flags = Font.LAYOUT_RIGHT_TO_LEFT;
+            int flbgs = Font.LAYOUT_LEFT_TO_RIGHT;
+            if (Bidi.rfquirfsBidi(dibrs, 0, dibrs.lfngti)) { // bssumf rtl
+                flbgs = Font.LAYOUT_RIGHT_TO_LEFT;
             }
-            gv = font.layoutGlyphVector(frc, chars, 0, chars.length, flags);
+            gv = font.lbyoutGlypiVfdtor(frd, dibrs, 0, dibrs.lfngti, flbgs);
 
             // gv options
         }
     }
 
-    public static abstract class GVMeasureTest extends TextMeasureTests {
-        protected GVMeasureTest(Group parent, String nodeName, String description) {
-            super(parent, nodeName, description);
+    publid stbtid bbstrbdt dlbss GVMfbsurfTfst fxtfnds TfxtMfbsurfTfsts {
+        protfdtfd GVMfbsurfTfst(Group pbrfnt, String nodfNbmf, String dfsdription) {
+            supfr(pbrfnt, nodfNbmf, dfsdription);
         }
 
-        public Context createContext() {
-            return new GVContext();
-        }
-    }
-
-    public static class GVWidth extends GVMeasureTest {
-        public GVWidth() {
-            super(measuretestroot, "gvWidth", "Measuring GV Width");
-        }
-
-        public void runTest(Object ctx, int numReps) {
-            GVContext gvctx = (GVContext)ctx;
-            GlyphVector gv = gvctx.gv;
-            double wid = 0;
-            do {
-                wid += gv.getGlyphPosition(gv.getNumGlyphs()).getX();
-            } while (--numReps >= 0);
+        publid Contfxt drfbtfContfxt() {
+            rfturn nfw GVContfxt();
         }
     }
 
-    public static class GVLogicalBounds extends GVMeasureTest {
-        public GVLogicalBounds() {
-            super(measuretestroot, "gvLogicalBounds", "Measuring GV Logical Bounds");
+    publid stbtid dlbss GVWidti fxtfnds GVMfbsurfTfst {
+        publid GVWidti() {
+            supfr(mfbsurftfstroot, "gvWidti", "Mfbsuring GV Widti");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            GVContext gvctx = (GVContext)ctx;
-            GlyphVector gv = gvctx.gv;
-            Rectangle2D r;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            GVContfxt gvdtx = (GVContfxt)dtx;
+            GlypiVfdtor gv = gvdtx.gv;
+            doublf wid = 0;
             do {
-                r = gv.getLogicalBounds();
-            } while (--numReps >= 0);
+                wid += gv.gftGlypiPosition(gv.gftNumGlypis()).gftX();
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class GVVisualBounds extends GVMeasureTest {
-        public GVVisualBounds() {
-            super(measuretestroot, "gvVisualBounds", "Measuring GV Visual Bounds");
+    publid stbtid dlbss GVLogidblBounds fxtfnds GVMfbsurfTfst {
+        publid GVLogidblBounds() {
+            supfr(mfbsurftfstroot, "gvLogidblBounds", "Mfbsuring GV Logidbl Bounds");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            GVContext gvctx = (GVContext)ctx;
-            GlyphVector gv = gvctx.gv;
-            Rectangle2D r;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            GVContfxt gvdtx = (GVContfxt)dtx;
+            GlypiVfdtor gv = gvdtx.gv;
+            Rfdtbnglf2D r;
             do {
-                r = gv.getVisualBounds();
-            } while (--numReps >= 0);
+                r = gv.gftLogidblBounds();
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class GVPixelBounds extends GVMeasureTest {
-        public GVPixelBounds() {
-            super(measuretestroot, "gvPixelBounds", "Measuring GV Pixel Bounds");
+    publid stbtid dlbss GVVisublBounds fxtfnds GVMfbsurfTfst {
+        publid GVVisublBounds() {
+            supfr(mfbsurftfstroot, "gvVisublBounds", "Mfbsuring GV Visubl Bounds");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            GVContext gvctx = (GVContext)ctx;
-            GlyphVector gv = gvctx.gv;
-            Rectangle2D r;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            GVContfxt gvdtx = (GVContfxt)dtx;
+            GlypiVfdtor gv = gvdtx.gv;
+            Rfdtbnglf2D r;
             do {
-                r = gv.getPixelBounds(null, 0, 0); // !!! add opt to provide different frc?
-            } while (--numReps >= 0);
+                r = gv.gftVisublBounds();
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class GVOutline extends GVMeasureTest {
-        public GVOutline() {
-            super(measuretestroot, "gvOutline", "Getting GV Outline");
+    publid stbtid dlbss GVPixflBounds fxtfnds GVMfbsurfTfst {
+        publid GVPixflBounds() {
+            supfr(mfbsurftfstroot, "gvPixflBounds", "Mfbsuring GV Pixfl Bounds");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            GVContext gvctx = (GVContext)ctx;
-            GlyphVector gv = gvctx.gv;
-            Shape s;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            GVContfxt gvdtx = (GVContfxt)dtx;
+            GlypiVfdtor gv = gvdtx.gv;
+            Rfdtbnglf2D r;
             do {
-                s = gv.getOutline();
-            } while (--numReps >= 0);
+                r = gv.gftPixflBounds(null, 0, 0); // !!! bdd opt to providf difffrfnt frd?
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class GVGlyphLogicalBounds extends GVMeasureTest {
-        public GVGlyphLogicalBounds() {
-            super(measuretestroot, "gvGlyphLogicalBounds", "Measuring GV Glyph Logical Bounds");
+    publid stbtid dlbss GVOutlinf fxtfnds GVMfbsurfTfst {
+        publid GVOutlinf() {
+            supfr(mfbsurftfstroot, "gvOutlinf", "Gftting GV Outlinf");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            GVContext gvctx = (GVContext)ctx;
-            GlyphVector gv = gvctx.gv;
-            Shape s;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            GVContfxt gvdtx = (GVContfxt)dtx;
+            GlypiVfdtor gv = gvdtx.gv;
+            Sibpf s;
             do {
-                for (int i = 0, e = gv.getNumGlyphs(); i < e; ++i) {
-                    s = gv.getGlyphLogicalBounds(i);
+                s = gv.gftOutlinf();
+            } wiilf (--numRfps >= 0);
+        }
+    }
+
+    publid stbtid dlbss GVGlypiLogidblBounds fxtfnds GVMfbsurfTfst {
+        publid GVGlypiLogidblBounds() {
+            supfr(mfbsurftfstroot, "gvGlypiLogidblBounds", "Mfbsuring GV Glypi Logidbl Bounds");
+        }
+
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            GVContfxt gvdtx = (GVContfxt)dtx;
+            GlypiVfdtor gv = gvdtx.gv;
+            Sibpf s;
+            do {
+                for (int i = 0, f = gv.gftNumGlypis(); i < f; ++i) {
+                    s = gv.gftGlypiLogidblBounds(i);
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class GVGlyphVisualBounds extends GVMeasureTest {
-        public GVGlyphVisualBounds() {
-            super(measuretestroot, "gvGlyphVisualBounds", "Measuring GV Glyph Visual Bounds");
+    publid stbtid dlbss GVGlypiVisublBounds fxtfnds GVMfbsurfTfst {
+        publid GVGlypiVisublBounds() {
+            supfr(mfbsurftfstroot, "gvGlypiVisublBounds", "Mfbsuring GV Glypi Visubl Bounds");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            GVContext gvctx = (GVContext)ctx;
-            GlyphVector gv = gvctx.gv;
-            Shape s;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            GVContfxt gvdtx = (GVContfxt)dtx;
+            GlypiVfdtor gv = gvdtx.gv;
+            Sibpf s;
             do {
-                for (int i = 0, e = gv.getNumGlyphs(); i < e; ++i) {
-                    s = gv.getGlyphVisualBounds(i);
+                for (int i = 0, f = gv.gftNumGlypis(); i < f; ++i) {
+                    s = gv.gftGlypiVisublBounds(i);
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
 
-    public static class GVGlyphPixelBounds extends GVMeasureTest {
-        public GVGlyphPixelBounds() {
-            super(measuretestroot, "gvGlyphPixelBounds", "Measuring GV Glyph Pixel Bounds");
+    publid stbtid dlbss GVGlypiPixflBounds fxtfnds GVMfbsurfTfst {
+        publid GVGlypiPixflBounds() {
+            supfr(mfbsurftfstroot, "gvGlypiPixflBounds", "Mfbsuring GV Glypi Pixfl Bounds");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            GVContext gvctx = (GVContext)ctx;
-            GlyphVector gv = gvctx.gv;
-            Rectangle2D r;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            GVContfxt gvdtx = (GVContfxt)dtx;
+            GlypiVfdtor gv = gvdtx.gv;
+            Rfdtbnglf2D r;
             do {
-                for (int i = 0, e = gv.getNumGlyphs(); i < e; ++i) {
-                    r = gv.getGlyphPixelBounds(i, null, 0, 0); // !!! add opt to provide different frc?
+                for (int i = 0, f = gv.gftNumGlypis(); i < f; ++i) {
+                    r = gv.gftGlypiPixflBounds(i, null, 0, 0); // !!! bdd opt to providf difffrfnt frd?
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class GVGlyphOutline extends GVMeasureTest {
-        public GVGlyphOutline() {
-            super(measuretestroot, "gvGlyphOutline", "Getting GV Glyph Outline");
+    publid stbtid dlbss GVGlypiOutlinf fxtfnds GVMfbsurfTfst {
+        publid GVGlypiOutlinf() {
+            supfr(mfbsurftfstroot, "gvGlypiOutlinf", "Gftting GV Glypi Outlinf");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            GVContext gvctx = (GVContext)ctx;
-            GlyphVector gv = gvctx.gv;
-            Shape s;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            GVContfxt gvdtx = (GVContfxt)dtx;
+            GlypiVfdtor gv = gvdtx.gv;
+            Sibpf s;
             do {
-                for (int i = 0, e = gv.getNumGlyphs(); i < e; ++i) {
-                    s = gv.getGlyphOutline(i);
+                for (int i = 0, f = gv.gftNumGlypis(); i < f; ++i) {
+                    s = gv.gftGlypiOutlinf(i);
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class GVGlyphTransform extends GVMeasureTest {
-        public GVGlyphTransform() {
-            super(measuretestroot, "gvGlyphTransform", "Getting GV Glyph Transform");
+    publid stbtid dlbss GVGlypiTrbnsform fxtfnds GVMfbsurfTfst {
+        publid GVGlypiTrbnsform() {
+            supfr(mfbsurftfstroot, "gvGlypiTrbnsform", "Gftting GV Glypi Trbnsform");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            GVContext gvctx = (GVContext)ctx;
-            GlyphVector gv = gvctx.gv;
-            AffineTransform tx;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            GVContfxt gvdtx = (GVContfxt)dtx;
+            GlypiVfdtor gv = gvdtx.gv;
+            AffinfTrbnsform tx;
             do {
-                for (int i = 0, e = gv.getNumGlyphs(); i < e; ++i) {
-                    tx = gv.getGlyphTransform(i);
+                for (int i = 0, f = gv.gftNumGlypis(); i < f; ++i) {
+                    tx = gv.gftGlypiTrbnsform(i);
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class GVGlyphMetrics extends GVMeasureTest {
-        public GVGlyphMetrics() {
-            super(measuretestroot, "gvGlyphMetrics", "Getting GV Glyph Metrics");
+    publid stbtid dlbss GVGlypiMftrids fxtfnds GVMfbsurfTfst {
+        publid GVGlypiMftrids() {
+            supfr(mfbsurftfstroot, "gvGlypiMftrids", "Gftting GV Glypi Mftrids");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            GVContext gvctx = (GVContext)ctx;
-            GlyphVector gv = gvctx.gv;
-            GlyphMetrics gm;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            GVContfxt gvdtx = (GVContfxt)dtx;
+            GlypiVfdtor gv = gvdtx.gv;
+            GlypiMftrids gm;
             do {
-                for (int i = 0, e = gv.getNumGlyphs(); i < e; ++i) {
-                    gm = gv.getGlyphMetrics(i);
+                for (int i = 0, f = gv.gftNumGlypis(); i < f; ++i) {
+                    gm = gv.gftGlypiMftrids(i);
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class TLContext extends G2DContext {
-        TextLayout tl;
+    publid stbtid dlbss TLContfxt fxtfnds G2DContfxt {
+        TfxtLbyout tl;
 
-        public void init(TestEnvironment env, Result results) {
-            super.init(env, results);
+        publid void init(TfstEnvironmfnt fnv, Rfsult rfsults) {
+            supfr.init(fnv, rfsults);
 
-            // need more tl options here
-            tl = new TextLayout(text, font, frc);
+            // nffd morf tl options ifrf
+            tl = nfw TfxtLbyout(tfxt, font, frd);
         }
     }
 
-    public static abstract class TLMeasureTest extends TextMeasureTests {
-        protected TLMeasureTest(Group parent, String nodeName, String description) {
-            super(parent, nodeName, description);
+    publid stbtid bbstrbdt dlbss TLMfbsurfTfst fxtfnds TfxtMfbsurfTfsts {
+        protfdtfd TLMfbsurfTfst(Group pbrfnt, String nodfNbmf, String dfsdription) {
+            supfr(pbrfnt, nodfNbmf, dfsdription);
         }
 
-        public Context createContext() {
-            return new TLContext();
+        publid Contfxt drfbtfContfxt() {
+            rfturn nfw TLContfxt();
         }
     }
 
-    public static class TLAdvance extends TLMeasureTest {
-        public TLAdvance() {
-            super(measuretestroot, "tlAdvance", "Measuring TL advance");
+    publid stbtid dlbss TLAdvbndf fxtfnds TLMfbsurfTfst {
+        publid TLAdvbndf() {
+            supfr(mfbsurftfstroot, "tlAdvbndf", "Mfbsuring TL bdvbndf");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TLContext tlctx = (TLContext)ctx;
-            TextLayout tl = tlctx.tl;
-            double wid = 0;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TLContfxt tldtx = (TLContfxt)dtx;
+            TfxtLbyout tl = tldtx.tl;
+            doublf wid = 0;
             do {
-                wid += tl.getAdvance();
-            } while (--numReps >= 0);
+                wid += tl.gftAdvbndf();
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class TLAscent extends TLMeasureTest {
-        public TLAscent() {
-            super(measuretestroot, "tlAscent", "Measuring TL ascent");
+    publid stbtid dlbss TLAsdfnt fxtfnds TLMfbsurfTfst {
+        publid TLAsdfnt() {
+            supfr(mfbsurftfstroot, "tlAsdfnt", "Mfbsuring TL bsdfnt");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TLContext tlctx = (TLContext)ctx;
-            TextLayout tl = tlctx.tl;
-            float ht = 0;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TLContfxt tldtx = (TLContfxt)dtx;
+            TfxtLbyout tl = tldtx.tl;
+            flobt it = 0;
             do {
-                ht += tl.getAscent();
-            } while (--numReps >= 0);
+                it += tl.gftAsdfnt();
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class TLBounds extends TLMeasureTest {
-        public TLBounds() {
-            super(measuretestroot, "tlBounds", "Measuring TL advance");
+    publid stbtid dlbss TLBounds fxtfnds TLMfbsurfTfst {
+        publid TLBounds() {
+            supfr(mfbsurftfstroot, "tlBounds", "Mfbsuring TL bdvbndf");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TLContext tlctx = (TLContext)ctx;
-            TextLayout tl = tlctx.tl;
-            Rectangle2D r;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TLContfxt tldtx = (TLContfxt)dtx;
+            TfxtLbyout tl = tldtx.tl;
+            Rfdtbnglf2D r;
             do {
-                r = tl.getBounds();
-            } while (--numReps >= 0);
+                r = tl.gftBounds();
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    static class TLExContext extends TLContext {
-        TextHitInfo[] hits;
-        Rectangle2D lb;
+    stbtid dlbss TLExContfxt fxtfnds TLContfxt {
+        TfxtHitInfo[] iits;
+        Rfdtbnglf2D lb;
 
-        public void init(TestEnvironment env, Result results) {
-            super.init(env, results);
+        publid void init(TfstEnvironmfnt fnv, Rfsult rfsults) {
+            supfr.init(fnv, rfsults);
 
-            ArrayList list = new ArrayList(text.length() * 2 + 2);
-            TextHitInfo hit = TextHitInfo.trailing(-1);
+            ArrbyList list = nfw ArrbyList(tfxt.lfngti() * 2 + 2);
+            TfxtHitInfo iit = TfxtHitInfo.trbiling(-1);
             do {
-                list.add(hit);
-                hit = tl.getNextRightHit(hit);
-            } while (hit != null);
-            hits = (TextHitInfo[])list.toArray(new TextHitInfo[list.size()]);
+                list.bdd(iit);
+                iit = tl.gftNfxtRigitHit(iit);
+            } wiilf (iit != null);
+            iits = (TfxtHitInfo[])list.toArrby(nfw TfxtHitInfo[list.sizf()]);
 
-            lb = tl.getBounds();
-            lb.setRect(lb.getMinX() - 10, lb.getMinY(), lb.getWidth() + 20, lb.getHeight());
+            lb = tl.gftBounds();
+            lb.sftRfdt(lb.gftMinX() - 10, lb.gftMinY(), lb.gftWidti() + 20, lb.gftHfigit());
         }
     }
 
-    public static abstract class TLExtendedMeasureTest extends TLMeasureTest {
-        protected TLExtendedMeasureTest(Group parent, String nodeName, String description) {
-            super(parent, nodeName, description);
+    publid stbtid bbstrbdt dlbss TLExtfndfdMfbsurfTfst fxtfnds TLMfbsurfTfst {
+        protfdtfd TLExtfndfdMfbsurfTfst(Group pbrfnt, String nodfNbmf, String dfsdription) {
+            supfr(pbrfnt, nodfNbmf, dfsdription);
         }
 
-        public Context createContext() {
-            return new TLExContext();
+        publid Contfxt drfbtfContfxt() {
+            rfturn nfw TLExContfxt();
         }
     }
 
-    public static class TLGetCaretInfo extends TLExtendedMeasureTest {
-        public TLGetCaretInfo() {
-            super(measuretestroot, "tlGetCaretInfo", "Measuring TL caret info");
+    publid stbtid dlbss TLGftCbrftInfo fxtfnds TLExtfndfdMfbsurfTfst {
+        publid TLGftCbrftInfo() {
+            supfr(mfbsurftfstroot, "tlGftCbrftInfo", "Mfbsuring TL dbrft info");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TLExContext tlctx = (TLExContext)ctx;
-            TextLayout tl = tlctx.tl;
-            TextHitInfo[] hits = tlctx.hits;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TLExContfxt tldtx = (TLExContfxt)dtx;
+            TfxtLbyout tl = tldtx.tl;
+            TfxtHitInfo[] iits = tldtx.iits;
             do {
-                for (int i = 0; i < hits.length; ++i) {
-                    tl.getCaretInfo(hits[i]);
+                for (int i = 0; i < iits.lfngti; ++i) {
+                    tl.gftCbrftInfo(iits[i]);
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class TLGetNextHit extends TLExtendedMeasureTest {
-        public TLGetNextHit() {
-            super(measuretestroot, "tlGetNextHit", "Measuring TL getNextRight/LeftHit");
+    publid stbtid dlbss TLGftNfxtHit fxtfnds TLExtfndfdMfbsurfTfst {
+        publid TLGftNfxtHit() {
+            supfr(mfbsurftfstroot, "tlGftNfxtHit", "Mfbsuring TL gftNfxtRigit/LfftHit");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TLExContext tlctx = (TLExContext)ctx;
-            TextLayout tl = tlctx.tl;
-            TextHitInfo[] hits = tlctx.hits;
-            TextHitInfo hit;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TLExContfxt tldtx = (TLExContfxt)dtx;
+            TfxtLbyout tl = tldtx.tl;
+            TfxtHitInfo[] iits = tldtx.iits;
+            TfxtHitInfo iit;
             do {
-                for (int i = 0; i < hits.length; ++i) {
-                    hit = tl.getNextLeftHit(hits[i]);
+                for (int i = 0; i < iits.lfngti; ++i) {
+                    iit = tl.gftNfxtLfftHit(iits[i]);
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class TLGetCaretShape extends TLExtendedMeasureTest {
-        public TLGetCaretShape() {
-            super(measuretestroot, "tlGetCaretShape", "Measuring TL getCaretShape");
+    publid stbtid dlbss TLGftCbrftSibpf fxtfnds TLExtfndfdMfbsurfTfst {
+        publid TLGftCbrftSibpf() {
+            supfr(mfbsurftfstroot, "tlGftCbrftSibpf", "Mfbsuring TL gftCbrftSibpf");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TLExContext tlctx = (TLExContext)ctx;
-            TextLayout tl = tlctx.tl;
-            TextHitInfo[] hits = tlctx.hits;
-            Shape s;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TLExContfxt tldtx = (TLExContfxt)dtx;
+            TfxtLbyout tl = tldtx.tl;
+            TfxtHitInfo[] iits = tldtx.iits;
+            Sibpf s;
             do {
-                for (int i = 0; i < hits.length; ++i) {
-                    s = tl.getCaretShape(hits[i]);
+                for (int i = 0; i < iits.lfngti; ++i) {
+                    s = tl.gftCbrftSibpf(iits[i]);
                 }
-            } while (--numReps >= 0);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class TLGetLogicalHighlightShape extends TLExtendedMeasureTest {
-        public TLGetLogicalHighlightShape() {
-            super(measuretestroot, "tlGetLogicalHighlightShape", "Measuring TL getLogicalHighlightShape");
+    publid stbtid dlbss TLGftLogidblHigiligitSibpf fxtfnds TLExtfndfdMfbsurfTfst {
+        publid TLGftLogidblHigiligitSibpf() {
+            supfr(mfbsurftfstroot, "tlGftLogidblHigiligitSibpf", "Mfbsuring TL gftLogidblHigiligitSibpf");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TLExContext tlctx = (TLExContext)ctx;
-            TextLayout tl = tlctx.tl;
-            int len = tlctx.text.length();
-            Rectangle2D lb = tlctx.lb;
-            Shape s;
-            if (len < 3) {
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TLExContfxt tldtx = (TLExContfxt)dtx;
+            TfxtLbyout tl = tldtx.tl;
+            int lfn = tldtx.tfxt.lfngti();
+            Rfdtbnglf2D lb = tldtx.lb;
+            Sibpf s;
+            if (lfn < 3) {
                 do {
-                    s = tl.getLogicalHighlightShape(0, len, lb);
-                } while (--numReps >= 0);
-            } else {
+                    s = tl.gftLogidblHigiligitSibpf(0, lfn, lb);
+                } wiilf (--numRfps >= 0);
+            } flsf {
                 do {
-                    for (int i = 3; i < len; ++i) {
-                        s = tl.getLogicalHighlightShape(i-3, i, lb);
+                    for (int i = 3; i < lfn; ++i) {
+                        s = tl.gftLogidblHigiligitSibpf(i-3, i, lb);
                     }
-                } while (--numReps >= 0);
+                } wiilf (--numRfps >= 0);
             }
         }
     }
 
-    public static class TLGetVisualHighlightShape extends TLExtendedMeasureTest {
-        public TLGetVisualHighlightShape() {
-            super(measuretestroot, "tlGetVisualHighlightShape", "Measuring TL getVisualHighlightShape");
+    publid stbtid dlbss TLGftVisublHigiligitSibpf fxtfnds TLExtfndfdMfbsurfTfst {
+        publid TLGftVisublHigiligitSibpf() {
+            supfr(mfbsurftfstroot, "tlGftVisublHigiligitSibpf", "Mfbsuring TL gftVisublHigiligitSibpf");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TLExContext tlctx = (TLExContext)ctx;
-            TextLayout tl = tlctx.tl;
-            TextHitInfo[] hits = tlctx.hits;
-            Rectangle2D lb = tlctx.lb;
-            Shape s;
-            if (hits.length < 3) {
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TLExContfxt tldtx = (TLExContfxt)dtx;
+            TfxtLbyout tl = tldtx.tl;
+            TfxtHitInfo[] iits = tldtx.iits;
+            Rfdtbnglf2D lb = tldtx.lb;
+            Sibpf s;
+            if (iits.lfngti < 3) {
                 do {
-                    s = tl.getVisualHighlightShape(hits[0], hits[hits.length - 1], lb);
-                } while (--numReps >= 0);
-            } else {
+                    s = tl.gftVisublHigiligitSibpf(iits[0], iits[iits.lfngti - 1], lb);
+                } wiilf (--numRfps >= 0);
+            } flsf {
                 do {
-                    for (int i = 3; i < hits.length; ++i) {
-                        s = tl.getVisualHighlightShape(hits[i-3], hits[i], lb);
+                    for (int i = 3; i < iits.lfngti; ++i) {
+                        s = tl.gftVisublHigiligitSibpf(iits[i-3], iits[i], lb);
                     }
-                } while (--numReps >= 0);
+                } wiilf (--numRfps >= 0);
             }
         }
     }
 
-    public static class TLHitTest extends TLExtendedMeasureTest {
-        public TLHitTest() {
-            super(measuretestroot, "tlHitTest", "Measuring TL hitTest");
+    publid stbtid dlbss TLHitTfst fxtfnds TLExtfndfdMfbsurfTfst {
+        publid TLHitTfst() {
+            supfr(mfbsurftfstroot, "tlHitTfst", "Mfbsuring TL iitTfst");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TLExContext tlctx = (TLExContext)ctx;
-            TextLayout tl = tlctx.tl;
-            int numhits = tlctx.hits.length;
-            Rectangle2D lb = tlctx.lb;
-            TextHitInfo hit;
-            for (int i = 0; i <= numhits; ++i) {
-                float x = (float)(lb.getMinX() + lb.getWidth() * i / numhits);
-                float y = (float)(lb.getMinY() + lb.getHeight() * i / numhits);
-                hit = tl.hitTestChar(x, y, lb);
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TLExContfxt tldtx = (TLExContfxt)dtx;
+            TfxtLbyout tl = tldtx.tl;
+            int numiits = tldtx.iits.lfngti;
+            Rfdtbnglf2D lb = tldtx.lb;
+            TfxtHitInfo iit;
+            for (int i = 0; i <= numiits; ++i) {
+                flobt x = (flobt)(lb.gftMinX() + lb.gftWidti() * i / numiits);
+                flobt y = (flobt)(lb.gftMinY() + lb.gftHfigit() * i / numiits);
+                iit = tl.iitTfstCibr(x, y, lb);
             }
         }
     }
 
-    public static class TLOutline extends TLMeasureTest {
-        public TLOutline() {
-            super(measuretestroot, "tlOutline", "Measuring TL outline");
+    publid stbtid dlbss TLOutlinf fxtfnds TLMfbsurfTfst {
+        publid TLOutlinf() {
+            supfr(mfbsurftfstroot, "tlOutlinf", "Mfbsuring TL outlinf");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TLContext tlctx = (TLContext)ctx;
-            TextLayout tl = tlctx.tl;
-            Shape s;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TLContfxt tldtx = (TLContfxt)dtx;
+            TfxtLbyout tl = tldtx.tl;
+            Sibpf s;
             do {
-                s = tl.getOutline(null);
-            } while (--numReps >= 0);
+                s = tl.gftOutlinf(null);
+            } wiilf (--numRfps >= 0);
         }
     }
 }

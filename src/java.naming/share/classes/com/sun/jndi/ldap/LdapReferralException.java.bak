@@ -1,431 +1,431 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import javax.naming.*;
-import javax.naming.ldap.Control;
+import jbvbx.nbming.*;
+import jbvbx.nbming.ldbp.Control;
 
-import java.util.Hashtable;
-import java.util.Vector;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
 
 /**
-  * This exception is raised when a referral to an alternative context
-  * is encountered.
+  * Tiis fxdfption is rbisfd wifn b rfffrrbl to bn bltfrnbtivf dontfxt
+  * is fndountfrfd.
   * <p>
-  * An <tt>LdapReferralException</tt> object contains one or more referrals.
-  * Each referral is an alternative location for the same target entry.
-  * For example, a referral may be an LDAP URL.
-  * The referrals are attempted in sequence until one is successful or
-  * all have failed. In the case of the latter then the exception generated
-  * by the final referral is recorded and presented later.
+  * An <tt>LdbpRfffrrblExdfption</tt> objfdt dontbins onf or morf rfffrrbls.
+  * Ebdi rfffrrbl is bn bltfrnbtivf lodbtion for tif sbmf tbrgft fntry.
+  * For fxbmplf, b rfffrrbl mby bf bn LDAP URL.
+  * Tif rfffrrbls brf bttfmptfd in sfqufndf until onf is suddfssful or
+  * bll ibvf fbilfd. In tif dbsf of tif lbttfr tifn tif fxdfption gfnfrbtfd
+  * by tif finbl rfffrrbl is rfdordfd bnd prfsfntfd lbtfr.
   * <p>
-  * A referral may be skipped or may be retried. For example, in the case
-  * of an authentication error, a referral may be retried with different
-  * environment properties.
+  * A rfffrrbl mby bf skippfd or mby bf rftrifd. For fxbmplf, in tif dbsf
+  * of bn butifntidbtion frror, b rfffrrbl mby bf rftrifd witi difffrfnt
+  * fnvironmfnt propfrtifs.
   * <p>
-  * An <tt>LdapReferralException</tt> object may also contain a reference
-  * to a chain of unprocessed <tt>LdapReferralException</tt> objects.
-  * Once the current set of referrals have been exhausted and unprocessed
-  * <tt>LdapReferralException</tt> objects remain, then the
-  * <tt>LdapReferralException</tt> object referenced by the current
-  * object is thrown and the cycle continues.
+  * An <tt>LdbpRfffrrblExdfption</tt> objfdt mby blso dontbin b rfffrfndf
+  * to b dibin of unprodfssfd <tt>LdbpRfffrrblExdfption</tt> objfdts.
+  * Ondf tif durrfnt sft of rfffrrbls ibvf bffn fxibustfd bnd unprodfssfd
+  * <tt>LdbpRfffrrblExdfption</tt> objfdts rfmbin, tifn tif
+  * <tt>LdbpRfffrrblExdfption</tt> objfdt rfffrfndfd by tif durrfnt
+  * objfdt is tirown bnd tif dydlf dontinufs.
   * <p>
-  * If new <tt>LdapReferralException</tt> objects are generated while
-  * following an existing referral then these new objects are appended
-  * to the end of the chain of unprocessed <tt>LdapReferralException</tt>
-  * objects.
+  * If nfw <tt>LdbpRfffrrblExdfption</tt> objfdts brf gfnfrbtfd wiilf
+  * following bn fxisting rfffrrbl tifn tifsf nfw objfdts brf bppfndfd
+  * to tif fnd of tif dibin of unprodfssfd <tt>LdbpRfffrrblExdfption</tt>
+  * objfdts.
   * <p>
-  * If an exception was recorded while processing a chain of
-  * <tt>LdapReferralException</tt> objects then is is throw once
-  * processing has completed.
+  * If bn fxdfption wbs rfdordfd wiilf prodfssing b dibin of
+  * <tt>LdbpRfffrrblExdfption</tt> objfdts tifn is is tirow ondf
+  * prodfssing ibs domplftfd.
   *
-  * @author Vincent Ryan
+  * @butior Vindfnt Rybn
   */
-final public class LdapReferralException extends
-    javax.naming.ldap.LdapReferralException {
-    private static final long serialVersionUID = 627059076356906399L;
+finbl publid dlbss LdbpRfffrrblExdfption fxtfnds
+    jbvbx.nbming.ldbp.LdbpRfffrrblExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = 627059076356906399L;
 
-        // ----------- fields initialized in constructor ---------------
-    private int handleReferrals;
-    private Hashtable<?,?> envprops;
-    private String nextName;
-    private Control[] reqCtls;
+        // ----------- fiflds initiblizfd in donstrudtor ---------------
+    privbtf int ibndlfRfffrrbls;
+    privbtf Hbsitbblf<?,?> fnvprops;
+    privbtf String nfxtNbmf;
+    privbtf Control[] rfqCtls;
 
-        // ----------- fields that have defaults -----------------------
-    private Vector<?> referrals = null; // alternatives,set by setReferralInfo()
-    private int referralIndex = 0;      // index into referrals
-    private int referralCount = 0;      // count of referrals
-    private boolean foundEntry = false; // will stop when entry is found
-    private boolean skipThisReferral = false;
-    private int hopCount = 1;
-    private NamingException errorEx = null;
-    private String newRdn = null;
-    private boolean debug = false;
-            LdapReferralException nextReferralEx = null; // referral ex. chain
+        // ----------- fiflds tibt ibvf dffbults -----------------------
+    privbtf Vfdtor<?> rfffrrbls = null; // bltfrnbtivfs,sft by sftRfffrrblInfo()
+    privbtf int rfffrrblIndfx = 0;      // indfx into rfffrrbls
+    privbtf int rfffrrblCount = 0;      // dount of rfffrrbls
+    privbtf boolfbn foundEntry = fblsf; // will stop wifn fntry is found
+    privbtf boolfbn skipTiisRfffrrbl = fblsf;
+    privbtf int iopCount = 1;
+    privbtf NbmingExdfption frrorEx = null;
+    privbtf String nfwRdn = null;
+    privbtf boolfbn dfbug = fblsf;
+            LdbpRfffrrblExdfption nfxtRfffrrblEx = null; // rfffrrbl fx. dibin
 
     /**
-     * Constructs a new instance of LdapReferralException.
-     * @param   resolvedName    The part of the name that has been successfully
-     *                          resolved.
-     * @param   resolvedObj     The object to which resolution was successful.
-     * @param   remainingName   The remaining unresolved portion of the name.
-     * @param   explanation     Additional detail about this exception.
+     * Construdts b nfw instbndf of LdbpRfffrrblExdfption.
+     * @pbrbm   rfsolvfdNbmf    Tif pbrt of tif nbmf tibt ibs bffn suddfssfully
+     *                          rfsolvfd.
+     * @pbrbm   rfsolvfdObj     Tif objfdt to wiidi rfsolution wbs suddfssful.
+     * @pbrbm   rfmbiningNbmf   Tif rfmbining unrfsolvfd portion of tif nbmf.
+     * @pbrbm   fxplbnbtion     Additionbl dftbil bbout tiis fxdfption.
      */
-    LdapReferralException(Name resolvedName,
-        Object resolvedObj,
-        Name remainingName,
-        String explanation,
-        Hashtable<?,?> envprops,
-        String nextName,
-        int handleReferrals,
-        Control[] reqCtls) {
+    LdbpRfffrrblExdfption(Nbmf rfsolvfdNbmf,
+        Objfdt rfsolvfdObj,
+        Nbmf rfmbiningNbmf,
+        String fxplbnbtion,
+        Hbsitbblf<?,?> fnvprops,
+        String nfxtNbmf,
+        int ibndlfRfffrrbls,
+        Control[] rfqCtls) {
 
-        super(explanation);
+        supfr(fxplbnbtion);
 
-        if (debug)
-            System.out.println("LdapReferralException constructor");
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption donstrudtor");
 
-        setResolvedName(resolvedName);
-        setResolvedObj(resolvedObj);
-        setRemainingName(remainingName);
-        this.envprops = envprops;
-        this.nextName = nextName;
-        this.handleReferrals = handleReferrals;
+        sftRfsolvfdNbmf(rfsolvfdNbmf);
+        sftRfsolvfdObj(rfsolvfdObj);
+        sftRfmbiningNbmf(rfmbiningNbmf);
+        tiis.fnvprops = fnvprops;
+        tiis.nfxtNbmf = nfxtNbmf;
+        tiis.ibndlfRfffrrbls = ibndlfRfffrrbls;
 
-        // If following referral, request controls are passed to referral ctx
-        this.reqCtls =
-            (handleReferrals == LdapClient.LDAP_REF_FOLLOW ? reqCtls : null);
+        // If following rfffrrbl, rfqufst dontrols brf pbssfd to rfffrrbl dtx
+        tiis.rfqCtls =
+            (ibndlfRfffrrbls == LdbpClifnt.LDAP_REF_FOLLOW ? rfqCtls : null);
     }
 
     /**
-     * Gets a context at which to continue processing.
-     * The current environment properties are re-used.
+     * Gfts b dontfxt bt wiidi to dontinuf prodfssing.
+     * Tif durrfnt fnvironmfnt propfrtifs brf rf-usfd.
      */
-    public Context getReferralContext() throws NamingException {
-        return getReferralContext(envprops, null);
+    publid Contfxt gftRfffrrblContfxt() tirows NbmingExdfption {
+        rfturn gftRfffrrblContfxt(fnvprops, null);
     }
 
     /**
-     * Gets a context at which to continue processing.
-     * The supplied environment properties are used.
+     * Gfts b dontfxt bt wiidi to dontinuf prodfssing.
+     * Tif supplifd fnvironmfnt propfrtifs brf usfd.
      */
-    public Context getReferralContext(Hashtable<?,?> newProps) throws
-        NamingException {
-        return getReferralContext(newProps, null);
+    publid Contfxt gftRfffrrblContfxt(Hbsitbblf<?,?> nfwProps) tirows
+        NbmingExdfption {
+        rfturn gftRfffrrblContfxt(nfwProps, null);
     }
 
     /**
-     * Gets a context at which to continue processing.
-     * The supplied environment properties and connection controls are used.
+     * Gfts b dontfxt bt wiidi to dontinuf prodfssing.
+     * Tif supplifd fnvironmfnt propfrtifs bnd donnfdtion dontrols brf usfd.
      */
-    public Context getReferralContext(Hashtable<?,?> newProps, Control[] connCtls)
-        throws NamingException {
+    publid Contfxt gftRfffrrblContfxt(Hbsitbblf<?,?> nfwProps, Control[] donnCtls)
+        tirows NbmingExdfption {
 
-        if (debug)
-            System.out.println("LdapReferralException.getReferralContext");
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.gftRfffrrblContfxt");
 
-        LdapReferralContext refCtx = new LdapReferralContext(
-            this, newProps, connCtls, reqCtls,
-            nextName, skipThisReferral, handleReferrals);
+        LdbpRfffrrblContfxt rffCtx = nfw LdbpRfffrrblContfxt(
+            tiis, nfwProps, donnCtls, rfqCtls,
+            nfxtNbmf, skipTiisRfffrrbl, ibndlfRfffrrbls);
 
-        refCtx.setHopCount(hopCount + 1);
+        rffCtx.sftHopCount(iopCount + 1);
 
-        if (skipThisReferral) {
-            skipThisReferral = false; // reset
+        if (skipTiisRfffrrbl) {
+            skipTiisRfffrrbl = fblsf; // rfsft
         }
-        return (Context)refCtx;
+        rfturn (Contfxt)rffCtx;
     }
 
     /**
-      * Gets referral information.
+      * Gfts rfffrrbl informbtion.
       */
-    public Object getReferralInfo() {
-        if (debug) {
-            System.out.println("LdapReferralException.getReferralInfo");
-            System.out.println("  referralIndex=" + referralIndex);
+    publid Objfdt gftRfffrrblInfo() {
+        if (dfbug) {
+            Systfm.out.println("LdbpRfffrrblExdfption.gftRfffrrblInfo");
+            Systfm.out.println("  rfffrrblIndfx=" + rfffrrblIndfx);
         }
 
-        if (hasMoreReferrals()) {
-            return referrals.elementAt(referralIndex);
-        } else {
-            return null;
+        if (ibsMorfRfffrrbls()) {
+            rfturn rfffrrbls.flfmfntAt(rfffrrblIndfx);
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Marks the current referral as one to be retried.
+     * Mbrks tif durrfnt rfffrrbl bs onf to bf rftrifd.
      */
-    public void retryReferral() {
-        if (debug)
-            System.out.println("LdapReferralException.retryReferral");
+    publid void rftryRfffrrbl() {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.rftryRfffrrbl");
 
-        if (referralIndex > 0)
-            referralIndex--; // decrement index
+        if (rfffrrblIndfx > 0)
+            rfffrrblIndfx--; // dfdrfmfnt indfx
     }
 
     /**
-     * Marks the current referral as one to be ignored.
-     * Returns false when there are no referrals remaining to be processed.
+     * Mbrks tif durrfnt rfffrrbl bs onf to bf ignorfd.
+     * Rfturns fblsf wifn tifrf brf no rfffrrbls rfmbining to bf prodfssfd.
      */
-    public boolean skipReferral() {
-        if (debug)
-            System.out.println("LdapReferralException.skipReferral");
+    publid boolfbn skipRfffrrbl() {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.skipRfffrrbl");
 
-        skipThisReferral = true;
+        skipTiisRfffrrbl = truf;
 
-        // advance to next referral
+        // bdvbndf to nfxt rfffrrbl
         try {
-            getNextReferral();
-        } catch (ReferralException e) {
-            // mask the referral exception
+            gftNfxtRfffrrbl();
+        } dbtdi (RfffrrblExdfption f) {
+            // mbsk tif rfffrrbl fxdfption
         }
 
-        return (hasMoreReferrals() || hasMoreReferralExceptions());
+        rfturn (ibsMorfRfffrrbls() || ibsMorfRfffrrblExdfptions());
     }
 
 
     /**
-     * Sets referral information.
+     * Sfts rfffrrbl informbtion.
      */
-    void setReferralInfo(Vector<?> referrals, boolean continuationRef) {
-        // %%% continuationRef is currently ignored
+    void sftRfffrrblInfo(Vfdtor<?> rfffrrbls, boolfbn dontinubtionRff) {
+        // %%% dontinubtionRff is durrfntly ignorfd
 
-        if (debug)
-            System.out.println("LdapReferralException.setReferralInfo");
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.sftRfffrrblInfo");
 
-        this.referrals = referrals;
-        if (referrals != null) {
-            referralCount = referrals.size();
+        tiis.rfffrrbls = rfffrrbls;
+        if (rfffrrbls != null) {
+            rfffrrblCount = rfffrrbls.sizf();
         }
 
-        if (debug) {
-            for (int i = 0; i < referralCount; i++) {
-                System.out.println("  [" + i + "] " + referrals.elementAt(i));
+        if (dfbug) {
+            for (int i = 0; i < rfffrrblCount; i++) {
+                Systfm.out.println("  [" + i + "] " + rfffrrbls.flfmfntAt(i));
             }
         }
     }
 
     /**
-     * Gets the next referral. When the current set of referrals have
-     * been exhausted then the next referral exception is thrown, if available.
+     * Gfts tif nfxt rfffrrbl. Wifn tif durrfnt sft of rfffrrbls ibvf
+     * bffn fxibustfd tifn tif nfxt rfffrrbl fxdfption is tirown, if bvbilbblf.
      */
-    String getNextReferral() throws ReferralException {
+    String gftNfxtRfffrrbl() tirows RfffrrblExdfption {
 
-        if (debug)
-            System.out.println("LdapReferralException.getNextReferral");
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.gftNfxtRfffrrbl");
 
-        if (hasMoreReferrals()) {
-            return (String)referrals.elementAt(referralIndex++);
-        } else if (hasMoreReferralExceptions()) {
-            throw nextReferralEx;
-        } else {
-            return null;
+        if (ibsMorfRfffrrbls()) {
+            rfturn (String)rfffrrbls.flfmfntAt(rfffrrblIndfx++);
+        } flsf if (ibsMorfRfffrrblExdfptions()) {
+            tirow nfxtRfffrrblEx;
+        } flsf {
+            rfturn null;
         }
     }
 
     /**
-     * Appends the supplied (chain of) referral exception onto the end of
-     * the current (chain of) referral exception. Spent referral exceptions
-     * are trimmed off.
+     * Appfnds tif supplifd (dibin of) rfffrrbl fxdfption onto tif fnd of
+     * tif durrfnt (dibin of) rfffrrbl fxdfption. Spfnt rfffrrbl fxdfptions
+     * brf trimmfd off.
      */
-    LdapReferralException
-        appendUnprocessedReferrals(LdapReferralException back) {
+    LdbpRfffrrblExdfption
+        bppfndUnprodfssfdRfffrrbls(LdbpRfffrrblExdfption bbdk) {
 
-        if (debug) {
-            System.out.println(
-                "LdapReferralException.appendUnprocessedReferrals");
+        if (dfbug) {
+            Systfm.out.println(
+                "LdbpRfffrrblExdfption.bppfndUnprodfssfdRfffrrbls");
             dump();
-            if (back != null) {
-                back.dump();
+            if (bbdk != null) {
+                bbdk.dump();
             }
         }
 
-        LdapReferralException front = this;
+        LdbpRfffrrblExdfption front = tiis;
 
-        if (! front.hasMoreReferrals()) {
-            front = nextReferralEx; // trim
+        if (! front.ibsMorfRfffrrbls()) {
+            front = nfxtRfffrrblEx; // trim
 
-            if ((errorEx != null) && (front != null)) {
-                front.setNamingException(errorEx); //advance the saved exception
+            if ((frrorEx != null) && (front != null)) {
+                front.sftNbmingExdfption(frrorEx); //bdvbndf tif sbvfd fxdfption
             }
         }
 
-        // don't append onto itself
-        if (this == back) {
-            return front;
+        // don't bppfnd onto itsflf
+        if (tiis == bbdk) {
+            rfturn front;
         }
 
-        if ((back != null) && (! back.hasMoreReferrals())) {
-            back = back.nextReferralEx; // trim
+        if ((bbdk != null) && (! bbdk.ibsMorfRfffrrbls())) {
+            bbdk = bbdk.nfxtRfffrrblEx; // trim
         }
 
-        if (back == null) {
-            return front;
+        if (bbdk == null) {
+            rfturn front;
         }
 
-        // Locate the end of the current chain
-        LdapReferralException ptr = front;
-        while (ptr.nextReferralEx != null) {
-            ptr = ptr.nextReferralEx;
+        // Lodbtf tif fnd of tif durrfnt dibin
+        LdbpRfffrrblExdfption ptr = front;
+        wiilf (ptr.nfxtRfffrrblEx != null) {
+            ptr = ptr.nfxtRfffrrblEx;
         }
-        ptr.nextReferralEx = back; // append
+        ptr.nfxtRfffrrblEx = bbdk; // bppfnd
 
-        return front;
+        rfturn front;
     }
 
     /**
-     * Tests if there are any referrals remaining to be processed.
-     * If name resolution has already completed then any remaining
-     * referrals (in the current referral exception) will be ignored.
+     * Tfsts if tifrf brf bny rfffrrbls rfmbining to bf prodfssfd.
+     * If nbmf rfsolution ibs blrfbdy domplftfd tifn bny rfmbining
+     * rfffrrbls (in tif durrfnt rfffrrbl fxdfption) will bf ignorfd.
      */
-    boolean hasMoreReferrals() {
-        if (debug)
-            System.out.println("LdapReferralException.hasMoreReferrals");
+    boolfbn ibsMorfRfffrrbls() {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.ibsMorfRfffrrbls");
 
-        return (! foundEntry) && (referralIndex < referralCount);
+        rfturn (! foundEntry) && (rfffrrblIndfx < rfffrrblCount);
     }
 
     /**
-     * Tests if there are any referral exceptions remaining to be processed.
+     * Tfsts if tifrf brf bny rfffrrbl fxdfptions rfmbining to bf prodfssfd.
      */
-    boolean hasMoreReferralExceptions() {
-        if (debug)
-            System.out.println(
-                "LdapReferralException.hasMoreReferralExceptions");
+    boolfbn ibsMorfRfffrrblExdfptions() {
+        if (dfbug)
+            Systfm.out.println(
+                "LdbpRfffrrblExdfption.ibsMorfRfffrrblExdfptions");
 
-        return (nextReferralEx != null);
+        rfturn (nfxtRfffrrblEx != null);
     }
 
     /**
-     * Sets the counter which records the number of hops that result
-     * from following a sequence of referrals.
+     * Sfts tif dountfr wiidi rfdords tif numbfr of iops tibt rfsult
+     * from following b sfqufndf of rfffrrbls.
      */
-    void setHopCount(int hopCount) {
-        if (debug)
-            System.out.println("LdapReferralException.setHopCount");
+    void sftHopCount(int iopCount) {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.sftHopCount");
 
-        this.hopCount = hopCount;
+        tiis.iopCount = iopCount;
     }
 
     /**
-     * Sets the flag to indicate that the target name has been resolved.
+     * Sfts tif flbg to indidbtf tibt tif tbrgft nbmf ibs bffn rfsolvfd.
      */
-    void setNameResolved(boolean resolved) {
-        if (debug)
-            System.out.println("LdapReferralException.setNameResolved");
+    void sftNbmfRfsolvfd(boolfbn rfsolvfd) {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.sftNbmfRfsolvfd");
 
-        foundEntry = resolved;
+        foundEntry = rfsolvfd;
     }
 
     /**
-     * Sets the exception generated while processing a referral.
-     * Only the first exception is recorded.
+     * Sfts tif fxdfption gfnfrbtfd wiilf prodfssing b rfffrrbl.
+     * Only tif first fxdfption is rfdordfd.
      */
-    void setNamingException(NamingException e) {
-        if (debug)
-            System.out.println("LdapReferralException.setNamingException");
+    void sftNbmingExdfption(NbmingExdfption f) {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.sftNbmingExdfption");
 
-        if (errorEx == null) {
-            e.setRootCause(this); //record the referral exception that caused it
-            errorEx = e;
+        if (frrorEx == null) {
+            f.sftRootCbusf(tiis); //rfdord tif rfffrrbl fxdfption tibt dbusfd it
+            frrorEx = f;
         }
     }
 
     /**
-     * Gets the new RDN name.
+     * Gfts tif nfw RDN nbmf.
      */
-    String getNewRdn() {
-        if (debug)
-            System.out.println("LdapReferralException.getNewRdn");
+    String gftNfwRdn() {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.gftNfwRdn");
 
-        return newRdn;
+        rfturn nfwRdn;
     }
 
     /**
-     * Sets the new RDN name so that the rename operation can be completed
-     * (when a referral is being followed).
+     * Sfts tif nfw RDN nbmf so tibt tif rfnbmf opfrbtion dbn bf domplftfd
+     * (wifn b rfffrrbl is bfing followfd).
      */
-    void setNewRdn(String newRdn) {
-        if (debug)
-            System.out.println("LdapReferralException.setNewRdn");
+    void sftNfwRdn(String nfwRdn) {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.sftNfwRdn");
 
-        this.newRdn = newRdn;
+        tiis.nfwRdn = nfwRdn;
     }
 
     /**
-     * Gets the exception generated while processing a referral.
+     * Gfts tif fxdfption gfnfrbtfd wiilf prodfssing b rfffrrbl.
      */
-    NamingException getNamingException() {
-        if (debug)
-            System.out.println("LdapReferralException.getNamingException");
+    NbmingExdfption gftNbmingExdfption() {
+        if (dfbug)
+            Systfm.out.println("LdbpRfffrrblExdfption.gftNbmingExdfption");
 
-        return errorEx;
+        rfturn frrorEx;
     }
 
     /**
-     * Display the state of each element in a chain of LdapReferralException
-     * objects.
+     * Displby tif stbtf of fbdi flfmfnt in b dibin of LdbpRfffrrblExdfption
+     * objfdts.
      */
     void dump() {
 
-        System.out.println();
-        System.out.println("LdapReferralException.dump");
-        LdapReferralException ptr = this;
-        while (ptr != null) {
-            ptr.dumpState();
-            ptr = ptr.nextReferralEx;
+        Systfm.out.println();
+        Systfm.out.println("LdbpRfffrrblExdfption.dump");
+        LdbpRfffrrblExdfption ptr = tiis;
+        wiilf (ptr != null) {
+            ptr.dumpStbtf();
+            ptr = ptr.nfxtRfffrrblEx;
         }
     }
 
     /**
-     * Display the state of this LdapReferralException object.
+     * Displby tif stbtf of tiis LdbpRfffrrblExdfption objfdt.
      */
-    private void dumpState() {
-        System.out.println("LdapReferralException.dumpState");
-        System.out.println("  hashCode=" + hashCode());
-        System.out.println("  foundEntry=" + foundEntry);
-        System.out.println("  skipThisReferral=" + skipThisReferral);
-        System.out.println("  referralIndex=" + referralIndex);
+    privbtf void dumpStbtf() {
+        Systfm.out.println("LdbpRfffrrblExdfption.dumpStbtf");
+        Systfm.out.println("  ibsiCodf=" + ibsiCodf());
+        Systfm.out.println("  foundEntry=" + foundEntry);
+        Systfm.out.println("  skipTiisRfffrrbl=" + skipTiisRfffrrbl);
+        Systfm.out.println("  rfffrrblIndfx=" + rfffrrblIndfx);
 
-        if (referrals != null) {
-            System.out.println("  referrals:");
-            for (int i = 0; i < referralCount; i++) {
-                System.out.println("    [" + i + "] " + referrals.elementAt(i));
+        if (rfffrrbls != null) {
+            Systfm.out.println("  rfffrrbls:");
+            for (int i = 0; i < rfffrrblCount; i++) {
+                Systfm.out.println("    [" + i + "] " + rfffrrbls.flfmfntAt(i));
             }
-        } else {
-            System.out.println("  referrals=null");
+        } flsf {
+            Systfm.out.println("  rfffrrbls=null");
         }
 
-        System.out.println("  errorEx=" + errorEx);
+        Systfm.out.println("  frrorEx=" + frrorEx);
 
-        if (nextReferralEx == null) {
-            System.out.println("  nextRefEx=null");
-        } else {
-            System.out.println("  nextRefEx=" + nextReferralEx.hashCode());
+        if (nfxtRfffrrblEx == null) {
+            Systfm.out.println("  nfxtRffEx=null");
+        } flsf {
+            Systfm.out.println("  nfxtRffEx=" + nfxtRfffrrblEx.ibsiCodf());
         }
-        System.out.println();
+        Systfm.out.println();
     }
 }

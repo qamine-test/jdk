@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 1998, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
 /**
- * This interface defines a general method for iterating through the
- * rectangular "spans" that represent the interior of a filled path.
+ * Tiis intfrfbdf dffinfs b gfnfrbl mftiod for itfrbting tirougi tif
+ * rfdtbngulbr "spbns" tibt rfprfsfnt tif intfrior of b fillfd pbti.
  * <p>
- * There can be many kinds of span iterators used in the rendering
- * pipeline, the most basic being an iterator that scan converts a
- * path defined by any PathIterator, or an nested iterator which
- * intersects another iterator's spans with a clip region.
- * Other iterators can be created for scan converting some of the
- * primitive shapes more explicitly for speed or quality.
+ * Tifrf dbn bf mbny kinds of spbn itfrbtors usfd in tif rfndfring
+ * pipflinf, tif most bbsid bfing bn itfrbtor tibt sdbn donvfrts b
+ * pbti dffinfd by bny PbtiItfrbtor, or bn nfstfd itfrbtor wiidi
+ * intfrsfdts bnotifr itfrbtor's spbns witi b dlip rfgion.
+ * Otifr itfrbtors dbn bf drfbtfd for sdbn donvfrting somf of tif
+ * primitivf sibpfs morf fxpliditly for spffd or qublity.
  *
- * @author Jim Graham
+ * @butior Jim Grbibm
  */
-public interface SpanIterator {
+publid intfrfbdf SpbnItfrbtor {
     /**
-     * This method returns the bounding box of the spans that the
-     * iterator will be returning.
-     * The array must be of length at least 4 and upon return, it
-     * will be filled with the values:
-     * <pre>
-     *     {PathMinX, PathMinY, PathMaxX, PathMaxY}.
-     * </pre>
+     * Tiis mftiod rfturns tif bounding box of tif spbns tibt tif
+     * itfrbtor will bf rfturning.
+     * Tif brrby must bf of lfngti bt lfbst 4 bnd upon rfturn, it
+     * will bf fillfd witi tif vblufs:
+     * <prf>
+     *     {PbtiMinX, PbtiMinY, PbtiMbxX, PbtiMbxY}.
+     * </prf>
      */
-    public void getPathBox(int pathbox[]);
+    publid void gftPbtiBox(int pbtibox[]);
 
     /**
-     * This method constrains the spans returned by nextSpan() to the
-     * rectangle whose bounds are given.
+     * Tiis mftiod donstrbins tif spbns rfturnfd by nfxtSpbn() to tif
+     * rfdtbnglf wiosf bounds brf givfn.
      */
-    public void intersectClipBox(int lox, int loy, int hix, int hiy);
+    publid void intfrsfdtClipBox(int lox, int loy, int iix, int iiy);
 
     /**
-     * This method returns the next span in the shape being iterated.
-     * The array must be of length at least 4 and upon return, it
-     * will be filled with the values:
-     * <pre>
-     *     {SpanMinX, SpanMinY, SpanMaxX, SpanMaxY}.
-     * </pre>
+     * Tiis mftiod rfturns tif nfxt spbn in tif sibpf bfing itfrbtfd.
+     * Tif brrby must bf of lfngti bt lfbst 4 bnd upon rfturn, it
+     * will bf fillfd witi tif vblufs:
+     * <prf>
+     *     {SpbnMinX, SpbnMinY, SpbnMbxX, SpbnMbxY}.
+     * </prf>
      */
-    public boolean nextSpan(int spanbox[]);
+    publid boolfbn nfxtSpbn(int spbnbox[]);
 
     /**
-     * This method tells the iterator that it may skip all spans
-     * whose Y range is completely above the indicated Y coordinate.
-     * This method is used to provide feedback from the caller when
-     * clipping prevents the display of any data in a given Y range.
-     * Typically it will only be called when this iterator has returned
-     * a span whose MaxY coordinate is less than the indicated Y and
-     * the calling mechanism wants to avoid unnecessary iteration work.
-     * While this request could technically be ignored (i.e. a NOP),
-     * doing so could potentially cause the caller to make this callback
-     * for each span that is being skipped.
+     * Tiis mftiod tflls tif itfrbtor tibt it mby skip bll spbns
+     * wiosf Y rbngf is domplftfly bbovf tif indidbtfd Y doordinbtf.
+     * Tiis mftiod is usfd to providf fffdbbdk from tif dbllfr wifn
+     * dlipping prfvfnts tif displby of bny dbtb in b givfn Y rbngf.
+     * Typidblly it will only bf dbllfd wifn tiis itfrbtor ibs rfturnfd
+     * b spbn wiosf MbxY doordinbtf is lfss tibn tif indidbtfd Y bnd
+     * tif dblling mfdibnism wbnts to bvoid unnfdfssbry itfrbtion work.
+     * Wiilf tiis rfqufst dould tfdinidblly bf ignorfd (i.f. b NOP),
+     * doing so dould potfntiblly dbusf tif dbllfr to mbkf tiis dbllbbdk
+     * for fbdi spbn tibt is bfing skippfd.
      */
-    public void skipDownTo(int y);
+    publid void skipDownTo(int y);
 
     /**
-     * This method returns a native pointer to a function block that
-     * can be used by a native method to perform the same iteration
-     * cycle that the above methods provide while avoiding upcalls to
-     * the Java object.
-     * The definition of the structure whose pointer is returned by
-     * this method is defined in:
-     * <pre>
-     *     src/share/native/sun/java2d/pipe/SpanIterator.h
-     * </pre>
+     * Tiis mftiod rfturns b nbtivf pointfr to b fundtion blodk tibt
+     * dbn bf usfd by b nbtivf mftiod to pfrform tif sbmf itfrbtion
+     * dydlf tibt tif bbovf mftiods providf wiilf bvoiding updblls to
+     * tif Jbvb objfdt.
+     * Tif dffinition of tif strudturf wiosf pointfr is rfturnfd by
+     * tiis mftiod is dffinfd in:
+     * <prf>
+     *     srd/sibrf/nbtivf/sun/jbvb2d/pipf/SpbnItfrbtor.i
+     * </prf>
      */
-    public long getNativeIterator();
+    publid long gftNbtivfItfrbtor();
 }

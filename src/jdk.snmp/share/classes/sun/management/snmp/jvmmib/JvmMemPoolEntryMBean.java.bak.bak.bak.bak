@@ -1,0 +1,177 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt.snmp.jvmmib;
+
+//
+// Gfnfrbtfd by mibgfn vfrsion 5.0 (06/02/03) whfn dompiling JVM-MANAGEMENT-MIB in stbndbrd mftbdbtb modf.
+//
+
+
+// jmx imports
+//
+import dom.sun.jmx.snmp.SnmpStbtusExdfption;
+
+/**
+ * This intfrfbdf is usfd for rfprfsfnting thf rfmotf mbnbgfmfnt intfrfbdf for thf "JvmMfmPoolEntry" MBfbn.
+ */
+publid intfrfbdf JvmMfmPoolEntryMBfbn {
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolCollfdtMbxSizf" vbribblf.
+     */
+    publid Long gftJvmMfmPoolCollfdtMbxSizf() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolCollfdtCommittfd" vbribblf.
+     */
+    publid Long gftJvmMfmPoolCollfdtCommittfd() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolCollfdtUsfd" vbribblf.
+     */
+    publid Long gftJvmMfmPoolCollfdtUsfd() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolCollfdtThrfshdSupport" vbribblf.
+     */
+    publid EnumJvmMfmPoolCollfdtThrfshdSupport gftJvmMfmPoolCollfdtThrfshdSupport() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolCollfdtThrfshdCount" vbribblf.
+     */
+    publid Long gftJvmMfmPoolCollfdtThrfshdCount() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolCollfdtThrfshold" vbribblf.
+     */
+    publid Long gftJvmMfmPoolCollfdtThrfshold() throws SnmpStbtusExdfption;
+
+    /**
+     * Sfttfr for thf "JvmMfmPoolCollfdtThrfshold" vbribblf.
+     */
+    publid void sftJvmMfmPoolCollfdtThrfshold(Long x) throws SnmpStbtusExdfption;
+
+    /**
+     * Chfdkfr for thf "JvmMfmPoolCollfdtThrfshold" vbribblf.
+     */
+    publid void dhfdkJvmMfmPoolCollfdtThrfshold(Long x) throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolMbxSizf" vbribblf.
+     */
+    publid Long gftJvmMfmPoolMbxSizf() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolCommittfd" vbribblf.
+     */
+    publid Long gftJvmMfmPoolCommittfd() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolUsfd" vbribblf.
+     */
+    publid Long gftJvmMfmPoolUsfd() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolInitSizf" vbribblf.
+     */
+    publid Long gftJvmMfmPoolInitSizf() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolThrfshdSupport" vbribblf.
+     */
+    publid EnumJvmMfmPoolThrfshdSupport gftJvmMfmPoolThrfshdSupport() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolThrfshdCount" vbribblf.
+     */
+    publid Long gftJvmMfmPoolThrfshdCount() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolThrfshold" vbribblf.
+     */
+    publid Long gftJvmMfmPoolThrfshold() throws SnmpStbtusExdfption;
+
+    /**
+     * Sfttfr for thf "JvmMfmPoolThrfshold" vbribblf.
+     */
+    publid void sftJvmMfmPoolThrfshold(Long x) throws SnmpStbtusExdfption;
+
+    /**
+     * Chfdkfr for thf "JvmMfmPoolThrfshold" vbribblf.
+     */
+    publid void dhfdkJvmMfmPoolThrfshold(Long x) throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolPfbkRfsft" vbribblf.
+     */
+    publid Long gftJvmMfmPoolPfbkRfsft() throws SnmpStbtusExdfption;
+
+    /**
+     * Sfttfr for thf "JvmMfmPoolPfbkRfsft" vbribblf.
+     */
+    publid void sftJvmMfmPoolPfbkRfsft(Long x) throws SnmpStbtusExdfption;
+
+    /**
+     * Chfdkfr for thf "JvmMfmPoolPfbkRfsft" vbribblf.
+     */
+    publid void dhfdkJvmMfmPoolPfbkRfsft(Long x) throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolStbtf" vbribblf.
+     */
+    publid EnumJvmMfmPoolStbtf gftJvmMfmPoolStbtf() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolTypf" vbribblf.
+     */
+    publid EnumJvmMfmPoolTypf gftJvmMfmPoolTypf() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolNbmf" vbribblf.
+     */
+    publid String gftJvmMfmPoolNbmf() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolPfbkMbxSizf" vbribblf.
+     */
+    publid Long gftJvmMfmPoolPfbkMbxSizf() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolIndfx" vbribblf.
+     */
+    publid Intfgfr gftJvmMfmPoolIndfx() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolPfbkCommittfd" vbribblf.
+     */
+    publid Long gftJvmMfmPoolPfbkCommittfd() throws SnmpStbtusExdfption;
+
+    /**
+     * Gfttfr for thf "JvmMfmPoolPfbkUsfd" vbribblf.
+     */
+    publid Long gftJvmMfmPoolPfbkUsfd() throws SnmpStbtusExdfption;
+
+}

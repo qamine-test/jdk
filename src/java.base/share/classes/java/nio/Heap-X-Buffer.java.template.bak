@@ -1,354 +1,354 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#warn This file is preprocessed before being compiled
+#wbrn Tiis filf is prfprodfssfd bfforf bfing dompilfd
 
-package java.nio;
+pbdkbgf jbvb.nio;
 
 
 /**
 #if[rw]
- * A read/write Heap$Type$Buffer.
-#else[rw]
- * A read-only Heap$Type$Buffer.  This class extends the corresponding
- * read/write class, overriding the mutation methods to throw a {@link
- * ReadOnlyBufferException} and overriding the view-buffer methods to return an
- * instance of this class rather than of the superclass.
-#end[rw]
+ * A rfbd/writf Hfbp$Typf$Bufffr.
+#flsf[rw]
+ * A rfbd-only Hfbp$Typf$Bufffr.  Tiis dlbss fxtfnds tif dorrfsponding
+ * rfbd/writf dlbss, ovfrriding tif mutbtion mftiods to tirow b {@link
+ * RfbdOnlyBufffrExdfption} bnd ovfrriding tif vifw-bufffr mftiods to rfturn bn
+ * instbndf of tiis dlbss rbtifr tibn of tif supfrdlbss.
+#fnd[rw]
  */
 
-class Heap$Type$Buffer$RW$
-    extends {#if[ro]?Heap}$Type$Buffer
+dlbss Hfbp$Typf$Bufffr$RW$
+    fxtfnds {#if[ro]?Hfbp}$Typf$Bufffr
 {
 
-    // For speed these fields are actually declared in X-Buffer;
-    // these declarations are here as documentation
+    // For spffd tifsf fiflds brf bdtublly dfdlbrfd in X-Bufffr;
+    // tifsf dfdlbrbtions brf ifrf bs dodumfntbtion
     /*
 #if[rw]
-    protected final $type$[] hb;
-    protected final int offset;
-#end[rw]
+    protfdtfd finbl $typf$[] ib;
+    protfdtfd finbl int offsft;
+#fnd[rw]
     */
 
-    Heap$Type$Buffer$RW$(int cap, int lim) {            // package-private
+    Hfbp$Typf$Bufffr$RW$(int dbp, int lim) {            // pbdkbgf-privbtf
 #if[rw]
-        super(-1, 0, lim, cap, new $type$[cap], 0);
+        supfr(-1, 0, lim, dbp, nfw $typf$[dbp], 0);
         /*
-        hb = new $type$[cap];
-        offset = 0;
+        ib = nfw $typf$[dbp];
+        offsft = 0;
         */
-#else[rw]
-        super(cap, lim);
-        this.isReadOnly = true;
-#end[rw]
+#flsf[rw]
+        supfr(dbp, lim);
+        tiis.isRfbdOnly = truf;
+#fnd[rw]
     }
 
-    Heap$Type$Buffer$RW$($type$[] buf, int off, int len) { // package-private
+    Hfbp$Typf$Bufffr$RW$($typf$[] buf, int off, int lfn) { // pbdkbgf-privbtf
 #if[rw]
-        super(-1, off, off + len, buf.length, buf, 0);
+        supfr(-1, off, off + lfn, buf.lfngti, buf, 0);
         /*
-        hb = buf;
-        offset = 0;
+        ib = buf;
+        offsft = 0;
         */
-#else[rw]
-        super(buf, off, len);
-        this.isReadOnly = true;
-#end[rw]
+#flsf[rw]
+        supfr(buf, off, lfn);
+        tiis.isRfbdOnly = truf;
+#fnd[rw]
     }
 
-    protected Heap$Type$Buffer$RW$($type$[] buf,
-                                   int mark, int pos, int lim, int cap,
+    protfdtfd Hfbp$Typf$Bufffr$RW$($typf$[] buf,
+                                   int mbrk, int pos, int lim, int dbp,
                                    int off)
     {
 #if[rw]
-        super(mark, pos, lim, cap, buf, off);
+        supfr(mbrk, pos, lim, dbp, buf, off);
         /*
-        hb = buf;
-        offset = off;
+        ib = buf;
+        offsft = off;
         */
-#else[rw]
-        super(buf, mark, pos, lim, cap, off);
-        this.isReadOnly = true;
-#end[rw]
+#flsf[rw]
+        supfr(buf, mbrk, pos, lim, dbp, off);
+        tiis.isRfbdOnly = truf;
+#fnd[rw]
     }
 
-    public $Type$Buffer slice() {
-        return new Heap$Type$Buffer$RW$(hb,
+    publid $Typf$Bufffr slidf() {
+        rfturn nfw Hfbp$Typf$Bufffr$RW$(ib,
                                         -1,
                                         0,
-                                        this.remaining(),
-                                        this.remaining(),
-                                        this.position() + offset);
+                                        tiis.rfmbining(),
+                                        tiis.rfmbining(),
+                                        tiis.position() + offsft);
     }
 
-    public $Type$Buffer duplicate() {
-        return new Heap$Type$Buffer$RW$(hb,
-                                        this.markValue(),
-                                        this.position(),
-                                        this.limit(),
-                                        this.capacity(),
-                                        offset);
+    publid $Typf$Bufffr duplidbtf() {
+        rfturn nfw Hfbp$Typf$Bufffr$RW$(ib,
+                                        tiis.mbrkVbluf(),
+                                        tiis.position(),
+                                        tiis.limit(),
+                                        tiis.dbpbdity(),
+                                        offsft);
     }
 
-    public $Type$Buffer asReadOnlyBuffer() {
+    publid $Typf$Bufffr bsRfbdOnlyBufffr() {
 #if[rw]
-        return new Heap$Type$BufferR(hb,
-                                     this.markValue(),
-                                     this.position(),
-                                     this.limit(),
-                                     this.capacity(),
-                                     offset);
-#else[rw]
-        return duplicate();
-#end[rw]
+        rfturn nfw Hfbp$Typf$BufffrR(ib,
+                                     tiis.mbrkVbluf(),
+                                     tiis.position(),
+                                     tiis.limit(),
+                                     tiis.dbpbdity(),
+                                     offsft);
+#flsf[rw]
+        rfturn duplidbtf();
+#fnd[rw]
     }
 
 #if[rw]
 
-    protected int ix(int i) {
-        return i + offset;
+    protfdtfd int ix(int i) {
+        rfturn i + offsft;
     }
 
-    public $type$ get() {
-        return hb[ix(nextGetIndex())];
+    publid $typf$ gft() {
+        rfturn ib[ix(nfxtGftIndfx())];
     }
 
-    public $type$ get(int i) {
-        return hb[ix(checkIndex(i))];
+    publid $typf$ gft(int i) {
+        rfturn ib[ix(difdkIndfx(i))];
     }
 
-#if[streamableType]
-    $type$ getUnchecked(int i) {
-	return hb[ix(i)];
+#if[strfbmbblfTypf]
+    $typf$ gftUndifdkfd(int i) {
+	rfturn ib[ix(i)];
     }
-#end[streamableType]
+#fnd[strfbmbblfTypf]
 
-    public $Type$Buffer get($type$[] dst, int offset, int length) {
-        checkBounds(offset, length, dst.length);
-        if (length > remaining())
-            throw new BufferUnderflowException();
-        System.arraycopy(hb, ix(position()), dst, offset, length);
-        position(position() + length);
-        return this;
-    }
-
-    public boolean isDirect() {
-        return false;
+    publid $Typf$Bufffr gft($typf$[] dst, int offsft, int lfngti) {
+        difdkBounds(offsft, lfngti, dst.lfngti);
+        if (lfngti > rfmbining())
+            tirow nfw BufffrUndfrflowExdfption();
+        Systfm.brrbydopy(ib, ix(position()), dst, offsft, lfngti);
+        position(position() + lfngti);
+        rfturn tiis;
     }
 
-#end[rw]
-
-    public boolean isReadOnly() {
-        return {#if[rw]?false:true};
+    publid boolfbn isDirfdt() {
+        rfturn fblsf;
     }
 
-    public $Type$Buffer put($type$ x) {
+#fnd[rw]
+
+    publid boolfbn isRfbdOnly() {
+        rfturn {#if[rw]?fblsf:truf};
+    }
+
+    publid $Typf$Bufffr put($typf$ x) {
 #if[rw]
-        hb[ix(nextPutIndex())] = x;
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        ib[ix(nfxtPutIndfx())] = x;
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer put(int i, $type$ x) {
+    publid $Typf$Bufffr put(int i, $typf$ x) {
 #if[rw]
-        hb[ix(checkIndex(i))] = x;
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        ib[ix(difdkIndfx(i))] = x;
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer put($type$[] src, int offset, int length) {
+    publid $Typf$Bufffr put($typf$[] srd, int offsft, int lfngti) {
 #if[rw]
-        checkBounds(offset, length, src.length);
-        if (length > remaining())
-            throw new BufferOverflowException();
-        System.arraycopy(src, offset, hb, ix(position()), length);
-        position(position() + length);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        difdkBounds(offsft, lfngti, srd.lfngti);
+        if (lfngti > rfmbining())
+            tirow nfw BufffrOvfrflowExdfption();
+        Systfm.brrbydopy(srd, offsft, ib, ix(position()), lfngti);
+        position(position() + lfngti);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer put($Type$Buffer src) {
+    publid $Typf$Bufffr put($Typf$Bufffr srd) {
 #if[rw]
-        if (src instanceof Heap$Type$Buffer) {
-            if (src == this)
-                throw new IllegalArgumentException();
-            Heap$Type$Buffer sb = (Heap$Type$Buffer)src;
-            int n = sb.remaining();
-            if (n > remaining())
-                throw new BufferOverflowException();
-            System.arraycopy(sb.hb, sb.ix(sb.position()),
-                             hb, ix(position()), n);
+        if (srd instbndfof Hfbp$Typf$Bufffr) {
+            if (srd == tiis)
+                tirow nfw IllfgblArgumfntExdfption();
+            Hfbp$Typf$Bufffr sb = (Hfbp$Typf$Bufffr)srd;
+            int n = sb.rfmbining();
+            if (n > rfmbining())
+                tirow nfw BufffrOvfrflowExdfption();
+            Systfm.brrbydopy(sb.ib, sb.ix(sb.position()),
+                             ib, ix(position()), n);
             sb.position(sb.position() + n);
             position(position() + n);
-        } else if (src.isDirect()) {
-            int n = src.remaining();
-            if (n > remaining())
-                throw new BufferOverflowException();
-            src.get(hb, ix(position()), n);
+        } flsf if (srd.isDirfdt()) {
+            int n = srd.rfmbining();
+            if (n > rfmbining())
+                tirow nfw BufffrOvfrflowExdfption();
+            srd.gft(ib, ix(position()), n);
             position(position() + n);
-        } else {
-            super.put(src);
+        } flsf {
+            supfr.put(srd);
         }
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer compact() {
+    publid $Typf$Bufffr dompbdt() {
 #if[rw]
-        System.arraycopy(hb, ix(position()), hb, ix(0), remaining());
-        position(remaining());
-        limit(capacity());
-        discardMark();
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        Systfm.brrbydopy(ib, ix(position()), ib, ix(0), rfmbining());
+        position(rfmbining());
+        limit(dbpbdity());
+        disdbrdMbrk();
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
 
 
-#if[byte]
+#if[bytf]
 
-    byte _get(int i) {                          // package-private
-        return hb[i];
+    bytf _gft(int i) {                          // pbdkbgf-privbtf
+        rfturn ib[i];
     }
 
-    void _put(int i, byte b) {                  // package-private
+    void _put(int i, bytf b) {                  // pbdkbgf-privbtf
 #if[rw]
-        hb[i] = b;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        ib[i] = b;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    // char
+    // dibr
 
 #if[rw]
 
-    public char getChar() {
-        return Bits.getChar(this, ix(nextGetIndex(2)), bigEndian);
+    publid dibr gftCibr() {
+        rfturn Bits.gftCibr(tiis, ix(nfxtGftIndfx(2)), bigEndibn);
     }
 
-    public char getChar(int i) {
-        return Bits.getChar(this, ix(checkIndex(i, 2)), bigEndian);
+    publid dibr gftCibr(int i) {
+        rfturn Bits.gftCibr(tiis, ix(difdkIndfx(i, 2)), bigEndibn);
     }
 
-#end[rw]
+#fnd[rw]
 
-    public $Type$Buffer putChar(char x) {
+    publid $Typf$Bufffr putCibr(dibr x) {
 #if[rw]
-        Bits.putChar(this, ix(nextPutIndex(2)), x, bigEndian);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        Bits.putCibr(tiis, ix(nfxtPutIndfx(2)), x, bigEndibn);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer putChar(int i, char x) {
+    publid $Typf$Bufffr putCibr(int i, dibr x) {
 #if[rw]
-        Bits.putChar(this, ix(checkIndex(i, 2)), x, bigEndian);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        Bits.putCibr(tiis, ix(difdkIndfx(i, 2)), x, bigEndibn);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public CharBuffer asCharBuffer() {
-        int size = this.remaining() >> 1;
-        int off = offset + position();
-        return (bigEndian
-                ? (CharBuffer)(new ByteBufferAsCharBuffer$RW$B(this,
+    publid CibrBufffr bsCibrBufffr() {
+        int sizf = tiis.rfmbining() >> 1;
+        int off = offsft + position();
+        rfturn (bigEndibn
+                ? (CibrBufffr)(nfw BytfBufffrAsCibrBufffr$RW$B(tiis,
                                                                -1,
                                                                0,
-                                                               size,
-                                                               size,
+                                                               sizf,
+                                                               sizf,
                                                                off))
-                : (CharBuffer)(new ByteBufferAsCharBuffer$RW$L(this,
+                : (CibrBufffr)(nfw BytfBufffrAsCibrBufffr$RW$L(tiis,
                                                                -1,
                                                                0,
-                                                               size,
-                                                               size,
+                                                               sizf,
+                                                               sizf,
                                                                off)));
     }
 
 
-    // short
+    // siort
 
 #if[rw]
 
-    public short getShort() {
-        return Bits.getShort(this, ix(nextGetIndex(2)), bigEndian);
+    publid siort gftSiort() {
+        rfturn Bits.gftSiort(tiis, ix(nfxtGftIndfx(2)), bigEndibn);
     }
 
-    public short getShort(int i) {
-        return Bits.getShort(this, ix(checkIndex(i, 2)), bigEndian);
+    publid siort gftSiort(int i) {
+        rfturn Bits.gftSiort(tiis, ix(difdkIndfx(i, 2)), bigEndibn);
     }
 
-#end[rw]
+#fnd[rw]
 
-    public $Type$Buffer putShort(short x) {
+    publid $Typf$Bufffr putSiort(siort x) {
 #if[rw]
-        Bits.putShort(this, ix(nextPutIndex(2)), x, bigEndian);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        Bits.putSiort(tiis, ix(nfxtPutIndfx(2)), x, bigEndibn);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer putShort(int i, short x) {
+    publid $Typf$Bufffr putSiort(int i, siort x) {
 #if[rw]
-        Bits.putShort(this, ix(checkIndex(i, 2)), x, bigEndian);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        Bits.putSiort(tiis, ix(difdkIndfx(i, 2)), x, bigEndibn);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public ShortBuffer asShortBuffer() {
-        int size = this.remaining() >> 1;
-        int off = offset + position();
-        return (bigEndian
-                ? (ShortBuffer)(new ByteBufferAsShortBuffer$RW$B(this,
+    publid SiortBufffr bsSiortBufffr() {
+        int sizf = tiis.rfmbining() >> 1;
+        int off = offsft + position();
+        rfturn (bigEndibn
+                ? (SiortBufffr)(nfw BytfBufffrAsSiortBufffr$RW$B(tiis,
                                                                  -1,
                                                                  0,
-                                                                 size,
-                                                                 size,
+                                                                 sizf,
+                                                                 sizf,
                                                                  off))
-                : (ShortBuffer)(new ByteBufferAsShortBuffer$RW$L(this,
+                : (SiortBufffr)(nfw BytfBufffrAsSiortBufffr$RW$L(tiis,
                                                                  -1,
                                                                  0,
-                                                                 size,
-                                                                 size,
+                                                                 sizf,
+                                                                 sizf,
                                                                  off)));
     }
 
@@ -357,49 +357,49 @@ class Heap$Type$Buffer$RW$
 
 #if[rw]
 
-    public int getInt() {
-        return Bits.getInt(this, ix(nextGetIndex(4)), bigEndian);
+    publid int gftInt() {
+        rfturn Bits.gftInt(tiis, ix(nfxtGftIndfx(4)), bigEndibn);
     }
 
-    public int getInt(int i) {
-        return Bits.getInt(this, ix(checkIndex(i, 4)), bigEndian);
+    publid int gftInt(int i) {
+        rfturn Bits.gftInt(tiis, ix(difdkIndfx(i, 4)), bigEndibn);
     }
 
-#end[rw]
+#fnd[rw]
 
-    public $Type$Buffer putInt(int x) {
+    publid $Typf$Bufffr putInt(int x) {
 #if[rw]
-        Bits.putInt(this, ix(nextPutIndex(4)), x, bigEndian);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        Bits.putInt(tiis, ix(nfxtPutIndfx(4)), x, bigEndibn);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer putInt(int i, int x) {
+    publid $Typf$Bufffr putInt(int i, int x) {
 #if[rw]
-        Bits.putInt(this, ix(checkIndex(i, 4)), x, bigEndian);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        Bits.putInt(tiis, ix(difdkIndfx(i, 4)), x, bigEndibn);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public IntBuffer asIntBuffer() {
-        int size = this.remaining() >> 2;
-        int off = offset + position();
-        return (bigEndian
-                ? (IntBuffer)(new ByteBufferAsIntBuffer$RW$B(this,
+    publid IntBufffr bsIntBufffr() {
+        int sizf = tiis.rfmbining() >> 2;
+        int off = offsft + position();
+        rfturn (bigEndibn
+                ? (IntBufffr)(nfw BytfBufffrAsIntBufffr$RW$B(tiis,
                                                              -1,
                                                              0,
-                                                             size,
-                                                             size,
+                                                             sizf,
+                                                             sizf,
                                                              off))
-                : (IntBuffer)(new ByteBufferAsIntBuffer$RW$L(this,
+                : (IntBufffr)(nfw BytfBufffrAsIntBufffr$RW$L(tiis,
                                                              -1,
                                                              0,
-                                                             size,
-                                                             size,
+                                                             sizf,
+                                                             sizf,
                                                              off)));
     }
 
@@ -408,194 +408,194 @@ class Heap$Type$Buffer$RW$
 
 #if[rw]
 
-    public long getLong() {
-        return Bits.getLong(this, ix(nextGetIndex(8)), bigEndian);
+    publid long gftLong() {
+        rfturn Bits.gftLong(tiis, ix(nfxtGftIndfx(8)), bigEndibn);
     }
 
-    public long getLong(int i) {
-        return Bits.getLong(this, ix(checkIndex(i, 8)), bigEndian);
+    publid long gftLong(int i) {
+        rfturn Bits.gftLong(tiis, ix(difdkIndfx(i, 8)), bigEndibn);
     }
 
-#end[rw]
+#fnd[rw]
 
-    public $Type$Buffer putLong(long x) {
+    publid $Typf$Bufffr putLong(long x) {
 #if[rw]
-        Bits.putLong(this, ix(nextPutIndex(8)), x, bigEndian);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        Bits.putLong(tiis, ix(nfxtPutIndfx(8)), x, bigEndibn);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer putLong(int i, long x) {
+    publid $Typf$Bufffr putLong(int i, long x) {
 #if[rw]
-        Bits.putLong(this, ix(checkIndex(i, 8)), x, bigEndian);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        Bits.putLong(tiis, ix(difdkIndfx(i, 8)), x, bigEndibn);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public LongBuffer asLongBuffer() {
-        int size = this.remaining() >> 3;
-        int off = offset + position();
-        return (bigEndian
-                ? (LongBuffer)(new ByteBufferAsLongBuffer$RW$B(this,
+    publid LongBufffr bsLongBufffr() {
+        int sizf = tiis.rfmbining() >> 3;
+        int off = offsft + position();
+        rfturn (bigEndibn
+                ? (LongBufffr)(nfw BytfBufffrAsLongBufffr$RW$B(tiis,
                                                                -1,
                                                                0,
-                                                               size,
-                                                               size,
+                                                               sizf,
+                                                               sizf,
                                                                off))
-                : (LongBuffer)(new ByteBufferAsLongBuffer$RW$L(this,
+                : (LongBufffr)(nfw BytfBufffrAsLongBufffr$RW$L(tiis,
                                                                -1,
                                                                0,
-                                                               size,
-                                                               size,
+                                                               sizf,
+                                                               sizf,
                                                                off)));
     }
 
 
-    // float
+    // flobt
 
 #if[rw]
 
-    public float getFloat() {
-        return Bits.getFloat(this, ix(nextGetIndex(4)), bigEndian);
+    publid flobt gftFlobt() {
+        rfturn Bits.gftFlobt(tiis, ix(nfxtGftIndfx(4)), bigEndibn);
     }
 
-    public float getFloat(int i) {
-        return Bits.getFloat(this, ix(checkIndex(i, 4)), bigEndian);
+    publid flobt gftFlobt(int i) {
+        rfturn Bits.gftFlobt(tiis, ix(difdkIndfx(i, 4)), bigEndibn);
     }
 
-#end[rw]
+#fnd[rw]
 
-    public $Type$Buffer putFloat(float x) {
+    publid $Typf$Bufffr putFlobt(flobt x) {
 #if[rw]
-        Bits.putFloat(this, ix(nextPutIndex(4)), x, bigEndian);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        Bits.putFlobt(tiis, ix(nfxtPutIndfx(4)), x, bigEndibn);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer putFloat(int i, float x) {
+    publid $Typf$Bufffr putFlobt(int i, flobt x) {
 #if[rw]
-        Bits.putFloat(this, ix(checkIndex(i, 4)), x, bigEndian);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        Bits.putFlobt(tiis, ix(difdkIndfx(i, 4)), x, bigEndibn);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public FloatBuffer asFloatBuffer() {
-        int size = this.remaining() >> 2;
-        int off = offset + position();
-        return (bigEndian
-                ? (FloatBuffer)(new ByteBufferAsFloatBuffer$RW$B(this,
+    publid FlobtBufffr bsFlobtBufffr() {
+        int sizf = tiis.rfmbining() >> 2;
+        int off = offsft + position();
+        rfturn (bigEndibn
+                ? (FlobtBufffr)(nfw BytfBufffrAsFlobtBufffr$RW$B(tiis,
                                                                  -1,
                                                                  0,
-                                                                 size,
-                                                                 size,
+                                                                 sizf,
+                                                                 sizf,
                                                                  off))
-                : (FloatBuffer)(new ByteBufferAsFloatBuffer$RW$L(this,
+                : (FlobtBufffr)(nfw BytfBufffrAsFlobtBufffr$RW$L(tiis,
                                                                  -1,
                                                                  0,
-                                                                 size,
-                                                                 size,
+                                                                 sizf,
+                                                                 sizf,
                                                                  off)));
     }
 
 
-    // double
+    // doublf
 
 #if[rw]
 
-    public double getDouble() {
-        return Bits.getDouble(this, ix(nextGetIndex(8)), bigEndian);
+    publid doublf gftDoublf() {
+        rfturn Bits.gftDoublf(tiis, ix(nfxtGftIndfx(8)), bigEndibn);
     }
 
-    public double getDouble(int i) {
-        return Bits.getDouble(this, ix(checkIndex(i, 8)), bigEndian);
+    publid doublf gftDoublf(int i) {
+        rfturn Bits.gftDoublf(tiis, ix(difdkIndfx(i, 8)), bigEndibn);
     }
 
-#end[rw]
+#fnd[rw]
 
-    public $Type$Buffer putDouble(double x) {
+    publid $Typf$Bufffr putDoublf(doublf x) {
 #if[rw]
-        Bits.putDouble(this, ix(nextPutIndex(8)), x, bigEndian);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        Bits.putDoublf(tiis, ix(nfxtPutIndfx(8)), x, bigEndibn);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public $Type$Buffer putDouble(int i, double x) {
+    publid $Typf$Bufffr putDoublf(int i, doublf x) {
 #if[rw]
-        Bits.putDouble(this, ix(checkIndex(i, 8)), x, bigEndian);
-        return this;
-#else[rw]
-        throw new ReadOnlyBufferException();
-#end[rw]
+        Bits.putDoublf(tiis, ix(difdkIndfx(i, 8)), x, bigEndibn);
+        rfturn tiis;
+#flsf[rw]
+        tirow nfw RfbdOnlyBufffrExdfption();
+#fnd[rw]
     }
 
-    public DoubleBuffer asDoubleBuffer() {
-        int size = this.remaining() >> 3;
-        int off = offset + position();
-        return (bigEndian
-                ? (DoubleBuffer)(new ByteBufferAsDoubleBuffer$RW$B(this,
+    publid DoublfBufffr bsDoublfBufffr() {
+        int sizf = tiis.rfmbining() >> 3;
+        int off = offsft + position();
+        rfturn (bigEndibn
+                ? (DoublfBufffr)(nfw BytfBufffrAsDoublfBufffr$RW$B(tiis,
                                                                    -1,
                                                                    0,
-                                                                   size,
-                                                                   size,
+                                                                   sizf,
+                                                                   sizf,
                                                                    off))
-                : (DoubleBuffer)(new ByteBufferAsDoubleBuffer$RW$L(this,
+                : (DoublfBufffr)(nfw BytfBufffrAsDoublfBufffr$RW$L(tiis,
                                                                    -1,
                                                                    0,
-                                                                   size,
-                                                                   size,
+                                                                   sizf,
+                                                                   sizf,
                                                                    off)));
     }
 
 
-#end[byte]
+#fnd[bytf]
 
 
-#if[char]
+#if[dibr]
 
-    String toString(int start, int end) {               // package-private
+    String toString(int stbrt, int fnd) {               // pbdkbgf-privbtf
         try {
-            return new String(hb, start + offset, end - start);
-        } catch (StringIndexOutOfBoundsException x) {
-            throw new IndexOutOfBoundsException();
+            rfturn nfw String(ib, stbrt + offsft, fnd - stbrt);
+        } dbtdi (StringIndfxOutOfBoundsExdfption x) {
+            tirow nfw IndfxOutOfBoundsExdfption();
         }
     }
 
 
-    // --- Methods to support CharSequence ---
+    // --- Mftiods to support CibrSfqufndf ---
 
-    public CharBuffer subSequence(int start, int end) {
-        if ((start < 0)
-            || (end > length())
-            || (start > end))
-            throw new IndexOutOfBoundsException();
+    publid CibrBufffr subSfqufndf(int stbrt, int fnd) {
+        if ((stbrt < 0)
+            || (fnd > lfngti())
+            || (stbrt > fnd))
+            tirow nfw IndfxOutOfBoundsExdfption();
         int pos = position();
-        return new HeapCharBuffer$RW$(hb,
+        rfturn nfw HfbpCibrBufffr$RW$(ib,
                                       -1,
-                                      pos + start,
-                                      pos + end,
-                                      capacity(),
-                                      offset);
+                                      pos + stbrt,
+                                      pos + fnd,
+                                      dbpbdity(),
+                                      offsft);
     }
 
-#end[char]
+#fnd[dibr]
 
 
-#if[!byte]
+#if[!bytf]
 
-    public ByteOrder order() {
-        return ByteOrder.nativeOrder();
+    publid BytfOrdfr ordfr() {
+        rfturn BytfOrdfr.nbtivfOrdfr();
     }
 
-#end[!byte]
+#fnd[!bytf]
 
 }

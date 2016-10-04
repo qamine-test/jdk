@@ -1,0 +1,77 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2004 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __MARKTOLIGATUREPOSITIONINGSUBTABLES_H
+#dffinf __MARKTOLIGATUREPOSITIONINGSUBTABLES_H
+
+/**
+ * \filf
+ * \intfrnbl
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEFontInstbndf.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "GlyphPositioningTbblfs.h"
+#indludf "AttbdhmfntPosnSubtbblfs.h"
+#indludf "GlyphItfrbtor.h"
+
+U_NAMESPACE_BEGIN
+
+strudt MbrkToLigbturfPositioningSubtbblf : AttbdhmfntPositioningSubtbblf
+{
+  lf_int32   prodfss(donst LETbblfRfffrfndf &bbsf, GlyphItfrbtor *glyphItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst;
+    LEGlyphID  findLigbturfGlyph(GlyphItfrbtor *glyphItfrbtor) donst;
+};
+
+strudt ComponfntRfdord
+{
+    Offsft ligbturfAndhorTbblfOffsftArrby[ANY_NUMBER];
+};
+LE_VAR_ARRAY(ComponfntRfdord, ligbturfAndhorTbblfOffsftArrby)
+
+strudt LigbturfAttbdhTbblf
+{
+    lf_uint16 domponfntCount;
+    ComponfntRfdord domponfntRfdordArrby[ANY_NUMBER];
+};
+LE_VAR_ARRAY(LigbturfAttbdhTbblf, domponfntRfdordArrby)
+
+strudt LigbturfArrby
+{
+    lf_uint16 ligbturfCount;
+    Offsft ligbturfAttbdhTbblfOffsftArrby[ANY_NUMBER];
+};
+LE_VAR_ARRAY(LigbturfArrby, ligbturfAttbdhTbblfOffsftArrby)
+
+U_NAMESPACE_END
+#fndif
+

@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import javax.swing.*;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import javax.swing.plaf.ComponentUI;
-import javax.swing.plaf.SeparatorUI;
+import jbvbx.swing.*;
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.SfpbrbtorUI;
 
 
 /**
- * A Basic L&amp;F implementation of SeparatorUI.  This implementation
- * is a "combined" view/controller.
+ * A Bbsid L&bmp;F implfmfntbtion of SfpbrbtorUI.  Tiis implfmfntbtion
+ * is b "dombinfd" vifw/dontrollfr.
  *
- * @author Georges Saab
- * @author Jeff Shapiro
+ * @butior Gforgfs Sbbb
+ * @butior Jfff Sibpiro
  */
 
-public class BasicSeparatorUI extends SeparatorUI
+publid dlbss BbsidSfpbrbtorUI fxtfnds SfpbrbtorUI
 {
     /**
-     * The color of the shadow.
+     * Tif dolor of tif sibdow.
      */
-    protected Color shadow;
+    protfdtfd Color sibdow;
 
     /**
-     * The color of the highlighting.
+     * Tif dolor of tif iigiligiting.
      */
-    protected Color highlight;
+    protfdtfd Color iigiligit;
 
     /**
-     * Returns a new instance of {@code BasicSeparatorUI}.
+     * Rfturns b nfw instbndf of {@dodf BbsidSfpbrbtorUI}.
      *
-     * @param c a component
-     * @return a new instance of {@code BasicSeparatorUI}
+     * @pbrbm d b domponfnt
+     * @rfturn b nfw instbndf of {@dodf BbsidSfpbrbtorUI}
      */
-    public static ComponentUI createUI( JComponent c )
+    publid stbtid ComponfntUI drfbtfUI( JComponfnt d )
     {
-        return new BasicSeparatorUI();
+        rfturn nfw BbsidSfpbrbtorUI();
     }
 
-    public void installUI( JComponent c )
+    publid void instbllUI( JComponfnt d )
     {
-        installDefaults( (JSeparator)c );
-        installListeners( (JSeparator)c );
+        instbllDffbults( (JSfpbrbtor)d );
+        instbllListfnfrs( (JSfpbrbtor)d );
     }
 
-    public void uninstallUI(JComponent c)
+    publid void uninstbllUI(JComponfnt d)
     {
-        uninstallDefaults( (JSeparator)c );
-        uninstallListeners( (JSeparator)c );
+        uninstbllDffbults( (JSfpbrbtor)d );
+        uninstbllListfnfrs( (JSfpbrbtor)d );
     }
 
     /**
-     * Installs default properties.
+     * Instblls dffbult propfrtifs.
      *
-     * @param s an instance of {@code JSeparator}
+     * @pbrbm s bn instbndf of {@dodf JSfpbrbtor}
      */
-    protected void installDefaults( JSeparator s )
+    protfdtfd void instbllDffbults( JSfpbrbtor s )
     {
-        LookAndFeel.installColors(s, "Separator.background", "Separator.foreground");
-        LookAndFeel.installProperty(s, "opaque", Boolean.FALSE);
+        LookAndFffl.instbllColors(s, "Sfpbrbtor.bbdkground", "Sfpbrbtor.forfground");
+        LookAndFffl.instbllPropfrty(s, "opbquf", Boolfbn.FALSE);
     }
 
     /**
-     * Uninstalls default properties.
+     * Uninstblls dffbult propfrtifs.
      *
-     * @param s an instance of {@code JSeparator}
+     * @pbrbm s bn instbndf of {@dodf JSfpbrbtor}
      */
-    protected void uninstallDefaults( JSeparator s )
-    {
-    }
-
-    /**
-     * Registers listeners.
-     *
-     * @param s an instance of {@code JSeparator}
-     */
-    protected void installListeners( JSeparator s )
+    protfdtfd void uninstbllDffbults( JSfpbrbtor s )
     {
     }
 
     /**
-     * Unregisters listeners.
+     * Rfgistfrs listfnfrs.
      *
-     * @param s an instance of {@code JSeparator}
+     * @pbrbm s bn instbndf of {@dodf JSfpbrbtor}
      */
-    protected void uninstallListeners( JSeparator s )
+    protfdtfd void instbllListfnfrs( JSfpbrbtor s )
     {
     }
 
-    public void paint( Graphics g, JComponent c )
+    /**
+     * Unrfgistfrs listfnfrs.
+     *
+     * @pbrbm s bn instbndf of {@dodf JSfpbrbtor}
+     */
+    protfdtfd void uninstbllListfnfrs( JSfpbrbtor s )
     {
-        Dimension s = c.getSize();
+    }
 
-        if ( ((JSeparator)c).getOrientation() == JSeparator.VERTICAL )
+    publid void pbint( Grbpiids g, JComponfnt d )
+    {
+        Dimfnsion s = d.gftSizf();
+
+        if ( ((JSfpbrbtor)d).gftOrifntbtion() == JSfpbrbtor.VERTICAL )
         {
-          g.setColor( c.getForeground() );
-          g.drawLine( 0, 0, 0, s.height );
+          g.sftColor( d.gftForfground() );
+          g.drbwLinf( 0, 0, 0, s.ifigit );
 
-          g.setColor( c.getBackground() );
-          g.drawLine( 1, 0, 1, s.height );
+          g.sftColor( d.gftBbdkground() );
+          g.drbwLinf( 1, 0, 1, s.ifigit );
         }
-        else  // HORIZONTAL
+        flsf  // HORIZONTAL
         {
-          g.setColor( c.getForeground() );
-          g.drawLine( 0, 0, s.width, 0 );
+          g.sftColor( d.gftForfground() );
+          g.drbwLinf( 0, 0, s.widti, 0 );
 
-          g.setColor( c.getBackground() );
-          g.drawLine( 0, 1, s.width, 1 );
+          g.sftColor( d.gftBbdkground() );
+          g.drbwLinf( 0, 1, s.widti, 1 );
         }
     }
 
-    public Dimension getPreferredSize( JComponent c )
+    publid Dimfnsion gftPrfffrrfdSizf( JComponfnt d )
     {
-        if ( ((JSeparator)c).getOrientation() == JSeparator.VERTICAL )
-            return new Dimension( 2, 0 );
-        else
-            return new Dimension( 0, 2 );
+        if ( ((JSfpbrbtor)d).gftOrifntbtion() == JSfpbrbtor.VERTICAL )
+            rfturn nfw Dimfnsion( 2, 0 );
+        flsf
+            rfturn nfw Dimfnsion( 0, 2 );
     }
 
-    public Dimension getMinimumSize( JComponent c ) { return null; }
-    public Dimension getMaximumSize( JComponent c ) { return null; }
+    publid Dimfnsion gftMinimumSizf( JComponfnt d ) { rfturn null; }
+    publid Dimfnsion gftMbximumSizf( JComponfnt d ) { rfturn null; }
 }

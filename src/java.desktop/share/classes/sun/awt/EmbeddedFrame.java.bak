@@ -1,586 +1,586 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt;
+pbdkbgf sun.bwt;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import java.awt.peer.*;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
-import java.util.Set;
-import java.awt.AWTKeyStroke;
-import java.applet.Applet;
-import sun.applet.AppletPanel;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
+import jbvb.bfbns.PropfrtyCibngfEvfnt;
+import jbvb.util.Sft;
+import jbvb.bwt.AWTKfyStrokf;
+import jbvb.bpplft.Applft;
+import sun.bpplft.ApplftPbnfl;
 
 /**
- * A generic container used for embedding Java components, usually applets.
- * An EmbeddedFrame has two related uses:
+ * A gfnfrid dontbinfr usfd for fmbfdding Jbvb domponfnts, usublly bpplfts.
+ * An EmbfddfdFrbmf ibs two rflbtfd usfs:
  *
- * . Within a Java-based application, an EmbeddedFrame serves as a sort of
- *   firewall, preventing the contained components or applets from using
- *   getParent() to find parent components, such as menubars.
+ * . Witiin b Jbvb-bbsfd bpplidbtion, bn EmbfddfdFrbmf sfrvfs bs b sort of
+ *   firfwbll, prfvfnting tif dontbinfd domponfnts or bpplfts from using
+ *   gftPbrfnt() to find pbrfnt domponfnts, sudi bs mfnubbrs.
  *
- * . Within a C-based application, an EmbeddedFrame contains a window handle
- *   which was created by the application, which serves as the top-level
- *   Java window.  EmbeddedFrames created for this purpose are passed-in a
- *   handle of an existing window created by the application.  The window
- *   handle should be of the appropriate native type for a specific
- *   platform, as stored in the pData field of the ComponentPeer.
+ * . Witiin b C-bbsfd bpplidbtion, bn EmbfddfdFrbmf dontbins b window ibndlf
+ *   wiidi wbs drfbtfd by tif bpplidbtion, wiidi sfrvfs bs tif top-lfvfl
+ *   Jbvb window.  EmbfddfdFrbmfs drfbtfd for tiis purposf brf pbssfd-in b
+ *   ibndlf of bn fxisting window drfbtfd by tif bpplidbtion.  Tif window
+ *   ibndlf siould bf of tif bppropribtf nbtivf typf for b spfdifid
+ *   plbtform, bs storfd in tif pDbtb fifld of tif ComponfntPffr.
  *
- * @author      Thomas Ball
+ * @butior      Tiombs Bbll
  */
-public abstract class EmbeddedFrame extends Frame
-                          implements KeyEventDispatcher, PropertyChangeListener {
+publid bbstrbdt dlbss EmbfddfdFrbmf fxtfnds Frbmf
+                          implfmfnts KfyEvfntDispbtdifr, PropfrtyCibngfListfnfr {
 
-    private boolean isCursorAllowed = true;
-    private boolean supportsXEmbed = false;
-    private KeyboardFocusManager appletKFM;
-    // JDK 1.1 compatibility
-    private static final long serialVersionUID = 2967042741780317130L;
+    privbtf boolfbn isCursorAllowfd = truf;
+    privbtf boolfbn supportsXEmbfd = fblsf;
+    privbtf KfybobrdFodusMbnbgfr bpplftKFM;
+    // JDK 1.1 dompbtibility
+    privbtf stbtid finbl long sfriblVfrsionUID = 2967042741780317130L;
 
     /*
-     * The constants define focus traversal directions.
-     * Use them in {@code traverseIn}, {@code traverseOut} methods.
+     * Tif donstbnts dffinf fodus trbvfrsbl dirfdtions.
+     * Usf tifm in {@dodf trbvfrsfIn}, {@dodf trbvfrsfOut} mftiods.
      */
-    protected static final boolean FORWARD = true;
-    protected static final boolean BACKWARD = false;
+    protfdtfd stbtid finbl boolfbn FORWARD = truf;
+    protfdtfd stbtid finbl boolfbn BACKWARD = fblsf;
 
-    public boolean supportsXEmbed() {
-        return supportsXEmbed && SunToolkit.needsXEmbed();
+    publid boolfbn supportsXEmbfd() {
+        rfturn supportsXEmbfd && SunToolkit.nffdsXEmbfd();
     }
 
-    protected EmbeddedFrame(boolean supportsXEmbed) {
-        this((long)0, supportsXEmbed);
+    protfdtfd EmbfddfdFrbmf(boolfbn supportsXEmbfd) {
+        tiis((long)0, supportsXEmbfd);
     }
 
 
-    protected EmbeddedFrame() {
-        this((long)0);
+    protfdtfd EmbfddfdFrbmf() {
+        tiis((long)0);
     }
 
     /**
-     * @deprecated This constructor will be removed in 1.5
+     * @dfprfdbtfd Tiis donstrudtor will bf rfmovfd in 1.5
      */
-    @Deprecated
-    protected EmbeddedFrame(int handle) {
-        this((long)handle);
+    @Dfprfdbtfd
+    protfdtfd EmbfddfdFrbmf(int ibndlf) {
+        tiis((long)ibndlf);
     }
 
-    protected EmbeddedFrame(long handle) {
-        this(handle, false);
+    protfdtfd EmbfddfdFrbmf(long ibndlf) {
+        tiis(ibndlf, fblsf);
     }
 
-    protected EmbeddedFrame(long handle, boolean supportsXEmbed) {
-        this.supportsXEmbed = supportsXEmbed;
-        registerListeners();
+    protfdtfd EmbfddfdFrbmf(long ibndlf, boolfbn supportsXEmbfd) {
+        tiis.supportsXEmbfd = supportsXEmbfd;
+        rfgistfrListfnfrs();
     }
 
     /**
-     * Block introspection of a parent window by this child.
+     * Blodk introspfdtion of b pbrfnt window by tiis diild.
      */
-    public Container getParent() {
-        return null;
+    publid Contbinfr gftPbrfnt() {
+        rfturn null;
     }
 
     /**
-     * Needed to track which KeyboardFocusManager is current. We want to avoid memory
-     * leaks, so when KFM stops being current, we remove ourselves as listeners.
+     * Nffdfd to trbdk wiidi KfybobrdFodusMbnbgfr is durrfnt. Wf wbnt to bvoid mfmory
+     * lfbks, so wifn KFM stops bfing durrfnt, wf rfmovf oursflvfs bs listfnfrs.
      */
-    public void propertyChange(PropertyChangeEvent evt) {
-        // We don't handle any other properties. Skip it.
-        if (!evt.getPropertyName().equals("managingFocus")) {
-            return;
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+        // Wf don't ibndlf bny otifr propfrtifs. Skip it.
+        if (!fvt.gftPropfrtyNbmf().fqubls("mbnbgingFodus")) {
+            rfturn;
         }
 
-        // We only do it if it stops being current. Technically, we should
-        // never get an event about KFM starting being current.
-        if (evt.getNewValue() == Boolean.TRUE) {
-            return;
+        // Wf only do it if it stops bfing durrfnt. Tfdinidblly, wf siould
+        // nfvfr gft bn fvfnt bbout KFM stbrting bfing durrfnt.
+        if (fvt.gftNfwVbluf() == Boolfbn.TRUE) {
+            rfturn;
         }
 
-        // should be the same as appletKFM
-        removeTraversingOutListeners((KeyboardFocusManager)evt.getSource());
+        // siould bf tif sbmf bs bpplftKFM
+        rfmovfTrbvfrsingOutListfnfrs((KfybobrdFodusMbnbgfr)fvt.gftSourdf());
 
-        appletKFM = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        if (isVisible()) {
-            addTraversingOutListeners(appletKFM);
-        }
-    }
-
-    /**
-     * Register us as KeyEventDispatcher and property "managingFocus" listeners.
-     */
-    private void addTraversingOutListeners(KeyboardFocusManager kfm) {
-        kfm.addKeyEventDispatcher(this);
-        kfm.addPropertyChangeListener("managingFocus", this);
-    }
-
-    /**
-     * Deregister us as KeyEventDispatcher and property "managingFocus" listeners.
-     */
-    private void removeTraversingOutListeners(KeyboardFocusManager kfm) {
-        kfm.removeKeyEventDispatcher(this);
-        kfm.removePropertyChangeListener("managingFocus", this);
-    }
-
-    /**
-     * Because there may be many AppContexts, and we can't be sure where this
-     * EmbeddedFrame is first created or shown, we can't automatically determine
-     * the correct KeyboardFocusManager to attach to as KeyEventDispatcher.
-     * Those who want to use the functionality of traversing out of the EmbeddedFrame
-     * must call this method on the Applet's AppContext. After that, all the changes
-     * can be handled automatically, including possible replacement of
-     * KeyboardFocusManager.
-     */
-    public void registerListeners() {
-        if (appletKFM != null) {
-            removeTraversingOutListeners(appletKFM);
-        }
-        appletKFM = KeyboardFocusManager.getCurrentKeyboardFocusManager();
-        if (isVisible()) {
-            addTraversingOutListeners(appletKFM);
+        bpplftKFM = KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr();
+        if (isVisiblf()) {
+            bddTrbvfrsingOutListfnfrs(bpplftKFM);
         }
     }
 
     /**
-     * Needed to avoid memory leak: we register this EmbeddedFrame as a listener with
-     * KeyboardFocusManager of applet's AppContext. We don't want the KFM to keep
-     * reference to our EmbeddedFrame forever if the Frame is no longer in use, so we
-     * add listeners in show() and remove them in hide().
+     * Rfgistfr us bs KfyEvfntDispbtdifr bnd propfrty "mbnbgingFodus" listfnfrs.
      */
-    @SuppressWarnings("deprecation")
-    public void show() {
-        if (appletKFM != null) {
-            addTraversingOutListeners(appletKFM);
-        }
-        super.show();
+    privbtf void bddTrbvfrsingOutListfnfrs(KfybobrdFodusMbnbgfr kfm) {
+        kfm.bddKfyEvfntDispbtdifr(tiis);
+        kfm.bddPropfrtyCibngfListfnfr("mbnbgingFodus", tiis);
     }
 
     /**
-     * Needed to avoid memory leak: we register this EmbeddedFrame as a listener with
-     * KeyboardFocusManager of applet's AppContext. We don't want the KFM to keep
-     * reference to our EmbeddedFrame forever if the Frame is no longer in use, so we
-     * add listeners in show() and remove them in hide().
+     * Dfrfgistfr us bs KfyEvfntDispbtdifr bnd propfrty "mbnbgingFodus" listfnfrs.
      */
-    @SuppressWarnings("deprecation")
-    public void hide() {
-        if (appletKFM != null) {
-            removeTraversingOutListeners(appletKFM);
-        }
-        super.hide();
+    privbtf void rfmovfTrbvfrsingOutListfnfrs(KfybobrdFodusMbnbgfr kfm) {
+        kfm.rfmovfKfyEvfntDispbtdifr(tiis);
+        kfm.rfmovfPropfrtyCibngfListfnfr("mbnbgingFodus", tiis);
     }
 
     /**
-     * Need this method to detect when the focus may have chance to leave the
-     * focus cycle root which is EmbeddedFrame. Mostly, the code here is copied
-     * from DefaultKeyboardFocusManager.processKeyEvent with some minor
-     * modifications.
+     * Bfdbusf tifrf mby bf mbny AppContfxts, bnd wf dbn't bf surf wifrf tiis
+     * EmbfddfdFrbmf is first drfbtfd or siown, wf dbn't butombtidblly dftfrminf
+     * tif dorrfdt KfybobrdFodusMbnbgfr to bttbdi to bs KfyEvfntDispbtdifr.
+     * Tiosf wio wbnt to usf tif fundtionblity of trbvfrsing out of tif EmbfddfdFrbmf
+     * must dbll tiis mftiod on tif Applft's AppContfxt. Aftfr tibt, bll tif dibngfs
+     * dbn bf ibndlfd butombtidblly, indluding possiblf rfplbdfmfnt of
+     * KfybobrdFodusMbnbgfr.
      */
-    public boolean dispatchKeyEvent(KeyEvent e) {
+    publid void rfgistfrListfnfrs() {
+        if (bpplftKFM != null) {
+            rfmovfTrbvfrsingOutListfnfrs(bpplftKFM);
+        }
+        bpplftKFM = KfybobrdFodusMbnbgfr.gftCurrfntKfybobrdFodusMbnbgfr();
+        if (isVisiblf()) {
+            bddTrbvfrsingOutListfnfrs(bpplftKFM);
+        }
+    }
 
-        Container currentRoot = AWTAccessor.getKeyboardFocusManagerAccessor()
-                                    .getCurrentFocusCycleRoot();
+    /**
+     * Nffdfd to bvoid mfmory lfbk: wf rfgistfr tiis EmbfddfdFrbmf bs b listfnfr witi
+     * KfybobrdFodusMbnbgfr of bpplft's AppContfxt. Wf don't wbnt tif KFM to kffp
+     * rfffrfndf to our EmbfddfdFrbmf forfvfr if tif Frbmf is no longfr in usf, so wf
+     * bdd listfnfrs in siow() bnd rfmovf tifm in iidf().
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void siow() {
+        if (bpplftKFM != null) {
+            bddTrbvfrsingOutListfnfrs(bpplftKFM);
+        }
+        supfr.siow();
+    }
 
-        // if we are not in EmbeddedFrame's cycle, we should not try to leave.
-        if (this != currentRoot) {
-            return false;
+    /**
+     * Nffdfd to bvoid mfmory lfbk: wf rfgistfr tiis EmbfddfdFrbmf bs b listfnfr witi
+     * KfybobrdFodusMbnbgfr of bpplft's AppContfxt. Wf don't wbnt tif KFM to kffp
+     * rfffrfndf to our EmbfddfdFrbmf forfvfr if tif Frbmf is no longfr in usf, so wf
+     * bdd listfnfrs in siow() bnd rfmovf tifm in iidf().
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void iidf() {
+        if (bpplftKFM != null) {
+            rfmovfTrbvfrsingOutListfnfrs(bpplftKFM);
+        }
+        supfr.iidf();
+    }
+
+    /**
+     * Nffd tiis mftiod to dftfdt wifn tif fodus mby ibvf dibndf to lfbvf tif
+     * fodus dydlf root wiidi is EmbfddfdFrbmf. Mostly, tif dodf ifrf is dopifd
+     * from DffbultKfybobrdFodusMbnbgfr.prodfssKfyEvfnt witi somf minor
+     * modifidbtions.
+     */
+    publid boolfbn dispbtdiKfyEvfnt(KfyEvfnt f) {
+
+        Contbinfr durrfntRoot = AWTAddfssor.gftKfybobrdFodusMbnbgfrAddfssor()
+                                    .gftCurrfntFodusCydlfRoot();
+
+        // if wf brf not in EmbfddfdFrbmf's dydlf, wf siould not try to lfbvf.
+        if (tiis != durrfntRoot) {
+            rfturn fblsf;
         }
 
-        // KEY_TYPED events cannot be focus traversal keys
-        if (e.getID() == KeyEvent.KEY_TYPED) {
-            return false;
+        // KEY_TYPED fvfnts dbnnot bf fodus trbvfrsbl kfys
+        if (f.gftID() == KfyEvfnt.KEY_TYPED) {
+            rfturn fblsf;
         }
 
-        if (!getFocusTraversalKeysEnabled() || e.isConsumed()) {
-            return false;
+        if (!gftFodusTrbvfrsblKfysEnbblfd() || f.isConsumfd()) {
+            rfturn fblsf;
         }
 
-        AWTKeyStroke stroke = AWTKeyStroke.getAWTKeyStrokeForEvent(e);
-        Set<AWTKeyStroke> toTest;
-        Component currentFocused = e.getComponent();
+        AWTKfyStrokf strokf = AWTKfyStrokf.gftAWTKfyStrokfForEvfnt(f);
+        Sft<AWTKfyStrokf> toTfst;
+        Componfnt durrfntFodusfd = f.gftComponfnt();
 
-        toTest = getFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS);
-        if (toTest.contains(stroke)) {
-            // 6581899: performance improvement for SortingFocusTraversalPolicy
-            Component last = getFocusTraversalPolicy().getLastComponent(this);
-            if (currentFocused == last || last == null) {
-                if (traverseOut(FORWARD)) {
-                    e.consume();
-                    return true;
+        toTfst = gftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.FORWARD_TRAVERSAL_KEYS);
+        if (toTfst.dontbins(strokf)) {
+            // 6581899: pfrformbndf improvfmfnt for SortingFodusTrbvfrsblPolidy
+            Componfnt lbst = gftFodusTrbvfrsblPolidy().gftLbstComponfnt(tiis);
+            if (durrfntFodusfd == lbst || lbst == null) {
+                if (trbvfrsfOut(FORWARD)) {
+                    f.donsumf();
+                    rfturn truf;
                 }
             }
         }
 
-        toTest = getFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS);
-        if (toTest.contains(stroke)) {
-            // 6581899: performance improvement for SortingFocusTraversalPolicy
-            Component first = getFocusTraversalPolicy().getFirstComponent(this);
-            if (currentFocused == first || first == null) {
-                if (traverseOut(BACKWARD)) {
-                    e.consume();
-                    return true;
+        toTfst = gftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.BACKWARD_TRAVERSAL_KEYS);
+        if (toTfst.dontbins(strokf)) {
+            // 6581899: pfrformbndf improvfmfnt for SortingFodusTrbvfrsblPolidy
+            Componfnt first = gftFodusTrbvfrsblPolidy().gftFirstComponfnt(tiis);
+            if (durrfntFodusfd == first || first == null) {
+                if (trbvfrsfOut(BACKWARD)) {
+                    f.donsumf();
+                    rfturn truf;
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * This method is called by the embedder when we should receive focus as element
-     * of the traversal chain.  The method requests focus on:
-     * 1. the first Component of this EmbeddedFrame if user moves focus forward
-     *    in the focus traversal cycle.
-     * 2. the last Component of this EmbeddedFrame if user moves focus backward
-     *    in the focus traversal cycle.
+     * Tiis mftiod is dbllfd by tif fmbfddfr wifn wf siould rfdfivf fodus bs flfmfnt
+     * of tif trbvfrsbl dibin.  Tif mftiod rfqufsts fodus on:
+     * 1. tif first Componfnt of tiis EmbfddfdFrbmf if usfr movfs fodus forwbrd
+     *    in tif fodus trbvfrsbl dydlf.
+     * 2. tif lbst Componfnt of tiis EmbfddfdFrbmf if usfr movfs fodus bbdkwbrd
+     *    in tif fodus trbvfrsbl dydlf.
      *
-     * The direction parameter specifies which of the two mentioned cases is
-     * happening. Use FORWARD and BACKWARD constants defined in the EmbeddedFrame class
-     * to avoid confusing boolean values.
+     * Tif dirfdtion pbrbmftfr spfdififs wiidi of tif two mfntionfd dbsfs is
+     * ibppfning. Usf FORWARD bnd BACKWARD donstbnts dffinfd in tif EmbfddfdFrbmf dlbss
+     * to bvoid donfusing boolfbn vblufs.
      *
-     * A concrete implementation of this method is defined in the platform-dependent
-     * subclasses.
+     * A dondrftf implfmfntbtion of tiis mftiod is dffinfd in tif plbtform-dfpfndfnt
+     * subdlbssfs.
      *
-     * @param direction FORWARD or BACKWARD
-     * @return true, if the EmbeddedFrame wants to get focus, false otherwise.
+     * @pbrbm dirfdtion FORWARD or BACKWARD
+     * @rfturn truf, if tif EmbfddfdFrbmf wbnts to gft fodus, fblsf otifrwisf.
      */
-    public boolean traverseIn(boolean direction) {
-        Component comp = null;
+    publid boolfbn trbvfrsfIn(boolfbn dirfdtion) {
+        Componfnt domp = null;
 
-        if (direction == FORWARD) {
-            comp = getFocusTraversalPolicy().getFirstComponent(this);
-        } else {
-            comp = getFocusTraversalPolicy().getLastComponent(this);
+        if (dirfdtion == FORWARD) {
+            domp = gftFodusTrbvfrsblPolidy().gftFirstComponfnt(tiis);
+        } flsf {
+            domp = gftFodusTrbvfrsblPolidy().gftLbstComponfnt(tiis);
         }
-        if (comp != null) {
-            // comp.requestFocus(); - Leads to a hung.
+        if (domp != null) {
+            // domp.rfqufstFodus(); - Lfbds to b iung.
 
-            AWTAccessor.getKeyboardFocusManagerAccessor().setMostRecentFocusOwner(this, comp);
-            synthesizeWindowActivation(true);
+            AWTAddfssor.gftKfybobrdFodusMbnbgfrAddfssor().sftMostRfdfntFodusOwnfr(tiis, domp);
+            syntifsizfWindowAdtivbtion(truf);
         }
-        return (null != comp);
+        rfturn (null != domp);
     }
 
     /**
-     * This method is called from dispatchKeyEvent in the following two cases:
-     * 1. The focus is on the first Component of this EmbeddedFrame and we are
-     *    about to transfer the focus backward.
-     * 2. The focus in on the last Component of this EmbeddedFrame and we are
-     *    about to transfer the focus forward.
-     * This is needed to give the opportuity for keyboard focus to leave the
-     * EmbeddedFrame. Override this method, initiate focus transfer in it and
-     * return true if you want the focus to leave EmbeddedFrame's cycle.
-     * The direction parameter specifies which of the two mentioned cases is
-     * happening. Use FORWARD and BACKWARD constants defined in EmbeddedFrame
-     * to avoid confusing boolean values.
+     * Tiis mftiod is dbllfd from dispbtdiKfyEvfnt in tif following two dbsfs:
+     * 1. Tif fodus is on tif first Componfnt of tiis EmbfddfdFrbmf bnd wf brf
+     *    bbout to trbnsffr tif fodus bbdkwbrd.
+     * 2. Tif fodus in on tif lbst Componfnt of tiis EmbfddfdFrbmf bnd wf brf
+     *    bbout to trbnsffr tif fodus forwbrd.
+     * Tiis is nffdfd to givf tif opportuity for kfybobrd fodus to lfbvf tif
+     * EmbfddfdFrbmf. Ovfrridf tiis mftiod, initibtf fodus trbnsffr in it bnd
+     * rfturn truf if you wbnt tif fodus to lfbvf EmbfddfdFrbmf's dydlf.
+     * Tif dirfdtion pbrbmftfr spfdififs wiidi of tif two mfntionfd dbsfs is
+     * ibppfning. Usf FORWARD bnd BACKWARD donstbnts dffinfd in EmbfddfdFrbmf
+     * to bvoid donfusing boolfbn vblufs.
      *
-     * @param direction FORWARD or BACKWARD
-     * @return true, if EmbeddedFrame wants the focus to leave it,
-     *         false otherwise.
+     * @pbrbm dirfdtion FORWARD or BACKWARD
+     * @rfturn truf, if EmbfddfdFrbmf wbnts tif fodus to lfbvf it,
+     *         fblsf otifrwisf.
      */
-    protected boolean traverseOut(boolean direction) {
-        return false;
+    protfdtfd boolfbn trbvfrsfOut(boolfbn dirfdtion) {
+        rfturn fblsf;
     }
 
     /**
-     * Block modifying any frame attributes, since they aren't applicable
-     * for EmbeddedFrames.
+     * Blodk modifying bny frbmf bttributfs, sindf tify brfn't bpplidbblf
+     * for EmbfddfdFrbmfs.
      */
-    public void setTitle(String title) {}
-    public void setIconImage(Image image) {}
-    public void setIconImages(java.util.List<? extends Image> icons) {}
-    public void setMenuBar(MenuBar mb) {}
-    public void setResizable(boolean resizable) {}
-    public void remove(MenuComponent m) {}
+    publid void sftTitlf(String titlf) {}
+    publid void sftIdonImbgf(Imbgf imbgf) {}
+    publid void sftIdonImbgfs(jbvb.util.List<? fxtfnds Imbgf> idons) {}
+    publid void sftMfnuBbr(MfnuBbr mb) {}
+    publid void sftRfsizbblf(boolfbn rfsizbblf) {}
+    publid void rfmovf(MfnuComponfnt m) {}
 
-    public boolean isResizable() {
-        return true;
+    publid boolfbn isRfsizbblf() {
+        rfturn truf;
     }
 
-    @SuppressWarnings("deprecation")
-    public void addNotify() {
-        synchronized (getTreeLock()) {
-            if (getPeer() == null) {
-                setPeer(new NullEmbeddedFramePeer());
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void bddNotify() {
+        syndironizfd (gftTrffLodk()) {
+            if (gftPffr() == null) {
+                sftPffr(nfw NullEmbfddfdFrbmfPffr());
             }
-            super.addNotify();
+            supfr.bddNotify();
         }
     }
 
-    // These three functions consitute RFE 4100710. Do not remove.
-    @SuppressWarnings("deprecation")
-    public void setCursorAllowed(boolean isCursorAllowed) {
-        this.isCursorAllowed = isCursorAllowed;
-        getPeer().updateCursorImmediately();
+    // Tifsf tirff fundtions donsitutf RFE 4100710. Do not rfmovf.
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void sftCursorAllowfd(boolfbn isCursorAllowfd) {
+        tiis.isCursorAllowfd = isCursorAllowfd;
+        gftPffr().updbtfCursorImmfdibtfly();
     }
-    public boolean isCursorAllowed() {
-        return isCursorAllowed;
+    publid boolfbn isCursorAllowfd() {
+        rfturn isCursorAllowfd;
     }
-    public Cursor getCursor() {
-        return (isCursorAllowed)
-            ? super.getCursor()
-            : Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+    publid Cursor gftCursor() {
+        rfturn (isCursorAllowfd)
+            ? supfr.gftCursor()
+            : Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR);
     }
 
-    @SuppressWarnings("deprecation")
-    protected void setPeer(final ComponentPeer p){
-        AWTAccessor.getComponentAccessor().setPeer(EmbeddedFrame.this, p);
+    @SupprfssWbrnings("dfprfdbtion")
+    protfdtfd void sftPffr(finbl ComponfntPffr p){
+        AWTAddfssor.gftComponfntAddfssor().sftPffr(EmbfddfdFrbmf.tiis, p);
     };
 
     /**
-     * Synthesize native message to activate or deactivate EmbeddedFrame window
-     * depending on the value of parameter <code>b</code>.
-     * Peers should override this method if they are to implement
-     * this functionality.
-     * @param doActivate  if <code>true</code>, activates the window;
-     * otherwise, deactivates the window
+     * Syntifsizf nbtivf mfssbgf to bdtivbtf or dfbdtivbtf EmbfddfdFrbmf window
+     * dfpfnding on tif vbluf of pbrbmftfr <dodf>b</dodf>.
+     * Pffrs siould ovfrridf tiis mftiod if tify brf to implfmfnt
+     * tiis fundtionblity.
+     * @pbrbm doAdtivbtf  if <dodf>truf</dodf>, bdtivbtfs tif window;
+     * otifrwisf, dfbdtivbtfs tif window
      */
-    public void synthesizeWindowActivation(boolean doActivate) {}
+    publid void syntifsizfWindowAdtivbtion(boolfbn doAdtivbtf) {}
 
     /**
-     * Moves this embedded frame to a new location. The top-left corner of
-     * the new location is specified by the <code>x</code> and <code>y</code>
-     * parameters relative to the native parent component.
+     * Movfs tiis fmbfddfd frbmf to b nfw lodbtion. Tif top-lfft dornfr of
+     * tif nfw lodbtion is spfdififd by tif <dodf>x</dodf> bnd <dodf>y</dodf>
+     * pbrbmftfrs rflbtivf to tif nbtivf pbrfnt domponfnt.
      * <p>
-     * setLocation() and setBounds() for EmbeddedFrame really don't move it
-     * within the native parent. These methods always put embedded frame to
-     * (0, 0) for backward compatibility. To allow moving embedded frame
-     * setLocationPrivate() and setBoundsPrivate() were introduced, and they
-     * work just the same way as setLocation() and setBounds() for usual,
-     * non-embedded components.
+     * sftLodbtion() bnd sftBounds() for EmbfddfdFrbmf rfblly don't movf it
+     * witiin tif nbtivf pbrfnt. Tifsf mftiods blwbys put fmbfddfd frbmf to
+     * (0, 0) for bbdkwbrd dompbtibility. To bllow moving fmbfddfd frbmf
+     * sftLodbtionPrivbtf() bnd sftBoundsPrivbtf() wfrf introdudfd, bnd tify
+     * work just tif sbmf wby bs sftLodbtion() bnd sftBounds() for usubl,
+     * non-fmbfddfd domponfnts.
      * </p>
      * <p>
-     * Using usual get/setLocation() and get/setBounds() together with new
-     * get/setLocationPrivate() and get/setBoundsPrivate() is not recommended.
-     * For example, calling getBoundsPrivate() after setLocation() works fine,
-     * but getBounds() after setBoundsPrivate() may return unpredictable value.
+     * Using usubl gft/sftLodbtion() bnd gft/sftBounds() togftifr witi nfw
+     * gft/sftLodbtionPrivbtf() bnd gft/sftBoundsPrivbtf() is not rfdommfndfd.
+     * For fxbmplf, dblling gftBoundsPrivbtf() bftfr sftLodbtion() works finf,
+     * but gftBounds() bftfr sftBoundsPrivbtf() mby rfturn unprfdidtbblf vbluf.
      * </p>
-     * @param x the new <i>x</i>-coordinate relative to the parent component
-     * @param y the new <i>y</i>-coordinate relative to the parent component
-     * @see java.awt.Component#setLocation
-     * @see #getLocationPrivate
-     * @see #setBoundsPrivate
-     * @see #getBoundsPrivate
-     * @since 1.5
+     * @pbrbm x tif nfw <i>x</i>-doordinbtf rflbtivf to tif pbrfnt domponfnt
+     * @pbrbm y tif nfw <i>y</i>-doordinbtf rflbtivf to tif pbrfnt domponfnt
+     * @sff jbvb.bwt.Componfnt#sftLodbtion
+     * @sff #gftLodbtionPrivbtf
+     * @sff #sftBoundsPrivbtf
+     * @sff #gftBoundsPrivbtf
+     * @sindf 1.5
      */
-    protected void setLocationPrivate(int x, int y) {
-        Dimension size = getSize();
-        setBoundsPrivate(x, y, size.width, size.height);
+    protfdtfd void sftLodbtionPrivbtf(int x, int y) {
+        Dimfnsion sizf = gftSizf();
+        sftBoundsPrivbtf(x, y, sizf.widti, sizf.ifigit);
     }
 
     /**
-     * Gets the location of this embedded frame as a point specifying the
-     * top-left corner relative to parent component.
+     * Gfts tif lodbtion of tiis fmbfddfd frbmf bs b point spfdifying tif
+     * top-lfft dornfr rflbtivf to pbrfnt domponfnt.
      * <p>
-     * setLocation() and setBounds() for EmbeddedFrame really don't move it
-     * within the native parent. These methods always put embedded frame to
-     * (0, 0) for backward compatibility. To allow getting location and size
-     * of embedded frame getLocationPrivate() and getBoundsPrivate() were
-     * introduced, and they work just the same way as getLocation() and getBounds()
-     * for ususal, non-embedded components.
+     * sftLodbtion() bnd sftBounds() for EmbfddfdFrbmf rfblly don't movf it
+     * witiin tif nbtivf pbrfnt. Tifsf mftiods blwbys put fmbfddfd frbmf to
+     * (0, 0) for bbdkwbrd dompbtibility. To bllow gftting lodbtion bnd sizf
+     * of fmbfddfd frbmf gftLodbtionPrivbtf() bnd gftBoundsPrivbtf() wfrf
+     * introdudfd, bnd tify work just tif sbmf wby bs gftLodbtion() bnd gftBounds()
+     * for ususbl, non-fmbfddfd domponfnts.
      * </p>
      * <p>
-     * Using usual get/setLocation() and get/setBounds() together with new
-     * get/setLocationPrivate() and get/setBoundsPrivate() is not recommended.
-     * For example, calling getBoundsPrivate() after setLocation() works fine,
-     * but getBounds() after setBoundsPrivate() may return unpredictable value.
+     * Using usubl gft/sftLodbtion() bnd gft/sftBounds() togftifr witi nfw
+     * gft/sftLodbtionPrivbtf() bnd gft/sftBoundsPrivbtf() is not rfdommfndfd.
+     * For fxbmplf, dblling gftBoundsPrivbtf() bftfr sftLodbtion() works finf,
+     * but gftBounds() bftfr sftBoundsPrivbtf() mby rfturn unprfdidtbblf vbluf.
      * </p>
-     * @return a point indicating this embedded frame's top-left corner
-     * @see java.awt.Component#getLocation
-     * @see #setLocationPrivate
-     * @see #setBoundsPrivate
-     * @see #getBoundsPrivate
-     * @since 1.6
+     * @rfturn b point indidbting tiis fmbfddfd frbmf's top-lfft dornfr
+     * @sff jbvb.bwt.Componfnt#gftLodbtion
+     * @sff #sftLodbtionPrivbtf
+     * @sff #sftBoundsPrivbtf
+     * @sff #gftBoundsPrivbtf
+     * @sindf 1.6
      */
-    protected Point getLocationPrivate() {
-        Rectangle bounds = getBoundsPrivate();
-        return new Point(bounds.x, bounds.y);
+    protfdtfd Point gftLodbtionPrivbtf() {
+        Rfdtbnglf bounds = gftBoundsPrivbtf();
+        rfturn nfw Point(bounds.x, bounds.y);
     }
 
     /**
-     * Moves and resizes this embedded frame. The new location of the top-left
-     * corner is specified by <code>x</code> and <code>y</code> parameters
-     * relative to the native parent component. The new size is specified by
-     * <code>width</code> and <code>height</code>.
+     * Movfs bnd rfsizfs tiis fmbfddfd frbmf. Tif nfw lodbtion of tif top-lfft
+     * dornfr is spfdififd by <dodf>x</dodf> bnd <dodf>y</dodf> pbrbmftfrs
+     * rflbtivf to tif nbtivf pbrfnt domponfnt. Tif nfw sizf is spfdififd by
+     * <dodf>widti</dodf> bnd <dodf>ifigit</dodf>.
      * <p>
-     * setLocation() and setBounds() for EmbeddedFrame really don't move it
-     * within the native parent. These methods always put embedded frame to
-     * (0, 0) for backward compatibility. To allow moving embedded frames
-     * setLocationPrivate() and setBoundsPrivate() were introduced, and they
-     * work just the same way as setLocation() and setBounds() for usual,
-     * non-embedded components.
+     * sftLodbtion() bnd sftBounds() for EmbfddfdFrbmf rfblly don't movf it
+     * witiin tif nbtivf pbrfnt. Tifsf mftiods blwbys put fmbfddfd frbmf to
+     * (0, 0) for bbdkwbrd dompbtibility. To bllow moving fmbfddfd frbmfs
+     * sftLodbtionPrivbtf() bnd sftBoundsPrivbtf() wfrf introdudfd, bnd tify
+     * work just tif sbmf wby bs sftLodbtion() bnd sftBounds() for usubl,
+     * non-fmbfddfd domponfnts.
      * </p>
      * <p>
-     * Using usual get/setLocation() and get/setBounds() together with new
-     * get/setLocationPrivate() and get/setBoundsPrivate() is not recommended.
-     * For example, calling getBoundsPrivate() after setLocation() works fine,
-     * but getBounds() after setBoundsPrivate() may return unpredictable value.
+     * Using usubl gft/sftLodbtion() bnd gft/sftBounds() togftifr witi nfw
+     * gft/sftLodbtionPrivbtf() bnd gft/sftBoundsPrivbtf() is not rfdommfndfd.
+     * For fxbmplf, dblling gftBoundsPrivbtf() bftfr sftLodbtion() works finf,
+     * but gftBounds() bftfr sftBoundsPrivbtf() mby rfturn unprfdidtbblf vbluf.
      * </p>
-     * @param x the new <i>x</i>-coordinate relative to the parent component
-     * @param y the new <i>y</i>-coordinate relative to the parent component
-     * @param width the new <code>width</code> of this embedded frame
-     * @param height the new <code>height</code> of this embedded frame
-     * @see java.awt.Component#setBounds
-     * @see #setLocationPrivate
-     * @see #getLocationPrivate
-     * @see #getBoundsPrivate
-     * @since 1.5
+     * @pbrbm x tif nfw <i>x</i>-doordinbtf rflbtivf to tif pbrfnt domponfnt
+     * @pbrbm y tif nfw <i>y</i>-doordinbtf rflbtivf to tif pbrfnt domponfnt
+     * @pbrbm widti tif nfw <dodf>widti</dodf> of tiis fmbfddfd frbmf
+     * @pbrbm ifigit tif nfw <dodf>ifigit</dodf> of tiis fmbfddfd frbmf
+     * @sff jbvb.bwt.Componfnt#sftBounds
+     * @sff #sftLodbtionPrivbtf
+     * @sff #gftLodbtionPrivbtf
+     * @sff #gftBoundsPrivbtf
+     * @sindf 1.5
      */
-    @SuppressWarnings("deprecation")
-    protected void setBoundsPrivate(int x, int y, int width, int height) {
-        final FramePeer peer = (FramePeer)getPeer();
-        if (peer != null) {
-            peer.setBoundsPrivate(x, y, width, height);
+    @SupprfssWbrnings("dfprfdbtion")
+    protfdtfd void sftBoundsPrivbtf(int x, int y, int widti, int ifigit) {
+        finbl FrbmfPffr pffr = (FrbmfPffr)gftPffr();
+        if (pffr != null) {
+            pffr.sftBoundsPrivbtf(x, y, widti, ifigit);
         }
     }
 
     /**
-     * Gets the bounds of this embedded frame as a rectangle specifying the
-     * width, height and location relative to the native parent component.
+     * Gfts tif bounds of tiis fmbfddfd frbmf bs b rfdtbnglf spfdifying tif
+     * widti, ifigit bnd lodbtion rflbtivf to tif nbtivf pbrfnt domponfnt.
      * <p>
-     * setLocation() and setBounds() for EmbeddedFrame really don't move it
-     * within the native parent. These methods always put embedded frame to
-     * (0, 0) for backward compatibility. To allow getting location and size
-     * of embedded frames getLocationPrivate() and getBoundsPrivate() were
-     * introduced, and they work just the same way as getLocation() and getBounds()
-     * for ususal, non-embedded components.
+     * sftLodbtion() bnd sftBounds() for EmbfddfdFrbmf rfblly don't movf it
+     * witiin tif nbtivf pbrfnt. Tifsf mftiods blwbys put fmbfddfd frbmf to
+     * (0, 0) for bbdkwbrd dompbtibility. To bllow gftting lodbtion bnd sizf
+     * of fmbfddfd frbmfs gftLodbtionPrivbtf() bnd gftBoundsPrivbtf() wfrf
+     * introdudfd, bnd tify work just tif sbmf wby bs gftLodbtion() bnd gftBounds()
+     * for ususbl, non-fmbfddfd domponfnts.
      * </p>
      * <p>
-     * Using usual get/setLocation() and get/setBounds() together with new
-     * get/setLocationPrivate() and get/setBoundsPrivate() is not recommended.
-     * For example, calling getBoundsPrivate() after setLocation() works fine,
-     * but getBounds() after setBoundsPrivate() may return unpredictable value.
+     * Using usubl gft/sftLodbtion() bnd gft/sftBounds() togftifr witi nfw
+     * gft/sftLodbtionPrivbtf() bnd gft/sftBoundsPrivbtf() is not rfdommfndfd.
+     * For fxbmplf, dblling gftBoundsPrivbtf() bftfr sftLodbtion() works finf,
+     * but gftBounds() bftfr sftBoundsPrivbtf() mby rfturn unprfdidtbblf vbluf.
      * </p>
-     * @return a rectangle indicating this embedded frame's bounds
-     * @see java.awt.Component#getBounds
-     * @see #setLocationPrivate
-     * @see #getLocationPrivate
-     * @see #setBoundsPrivate
-     * @since 1.6
+     * @rfturn b rfdtbnglf indidbting tiis fmbfddfd frbmf's bounds
+     * @sff jbvb.bwt.Componfnt#gftBounds
+     * @sff #sftLodbtionPrivbtf
+     * @sff #gftLodbtionPrivbtf
+     * @sff #sftBoundsPrivbtf
+     * @sindf 1.6
      */
-    @SuppressWarnings("deprecation")
-    protected Rectangle getBoundsPrivate() {
-        final FramePeer peer = (FramePeer)getPeer();
-        if (peer != null) {
-            return peer.getBoundsPrivate();
+    @SupprfssWbrnings("dfprfdbtion")
+    protfdtfd Rfdtbnglf gftBoundsPrivbtf() {
+        finbl FrbmfPffr pffr = (FrbmfPffr)gftPffr();
+        if (pffr != null) {
+            rfturn pffr.gftBoundsPrivbtf();
         }
-        else {
-            return getBounds();
+        flsf {
+            rfturn gftBounds();
         }
     }
 
-    public void toFront() {}
-    public void toBack() {}
+    publid void toFront() {}
+    publid void toBbdk() {}
 
-    public abstract void registerAccelerator(AWTKeyStroke stroke);
-    public abstract void unregisterAccelerator(AWTKeyStroke stroke);
+    publid bbstrbdt void rfgistfrAddflfrbtor(AWTKfyStrokf strokf);
+    publid bbstrbdt void unrfgistfrAddflfrbtor(AWTKfyStrokf strokf);
 
     /**
-     * Checks if the component is in an EmbeddedFrame. If so,
-     * returns the applet found in the hierarchy or null if
+     * Cifdks if tif domponfnt is in bn EmbfddfdFrbmf. If so,
+     * rfturns tif bpplft found in tif iifrbrdiy or null if
      * not found.
-     * @return the parent applet or {@ null}
-     * @since 1.6
+     * @rfturn tif pbrfnt bpplft or {@ null}
+     * @sindf 1.6
      */
-    public static Applet getAppletIfAncestorOf(Component comp) {
-        Container parent = comp.getParent();
-        Applet applet = null;
-        while (parent != null && !(parent instanceof EmbeddedFrame)) {
-            if (parent instanceof Applet) {
-                applet = (Applet)parent;
+    publid stbtid Applft gftApplftIfAndfstorOf(Componfnt domp) {
+        Contbinfr pbrfnt = domp.gftPbrfnt();
+        Applft bpplft = null;
+        wiilf (pbrfnt != null && !(pbrfnt instbndfof EmbfddfdFrbmf)) {
+            if (pbrfnt instbndfof Applft) {
+                bpplft = (Applft)pbrfnt;
             }
-            parent = parent.getParent();
+            pbrfnt = pbrfnt.gftPbrfnt();
         }
-        return parent == null ? null : applet;
+        rfturn pbrfnt == null ? null : bpplft;
     }
 
     /**
-     * This method should be overriden in subclasses. It is
-     * called when window this frame is within should be blocked
-     * by some modal dialog.
+     * Tiis mftiod siould bf ovfrridfn in subdlbssfs. It is
+     * dbllfd wifn window tiis frbmf is witiin siould bf blodkfd
+     * by somf modbl diblog.
      */
-    public void notifyModalBlocked(Dialog blocker, boolean blocked) {
+    publid void notifyModblBlodkfd(Diblog blodkfr, boolfbn blodkfd) {
     }
 
-    private static class NullEmbeddedFramePeer
-        extends NullComponentPeer implements FramePeer {
-        public void setTitle(String title) {}
-        public void setIconImage(Image im) {}
-        public void updateIconImages() {}
-        public void setMenuBar(MenuBar mb) {}
-        public void setResizable(boolean resizeable) {}
-        public void setState(int state) {}
-        public int getState() { return Frame.NORMAL; }
-        public void setMaximizedBounds(Rectangle b) {}
-        public void toFront() {}
-        public void toBack() {}
-        public void updateFocusableWindowState() {}
-        public void updateAlwaysOnTop() {}
-        public void updateAlwaysOnTopState() {}
-        public Component getGlobalHeavyweightFocusOwner() { return null; }
-        public void setBoundsPrivate(int x, int y, int width, int height) {
-            setBounds(x, y, width, height, SET_BOUNDS);
+    privbtf stbtid dlbss NullEmbfddfdFrbmfPffr
+        fxtfnds NullComponfntPffr implfmfnts FrbmfPffr {
+        publid void sftTitlf(String titlf) {}
+        publid void sftIdonImbgf(Imbgf im) {}
+        publid void updbtfIdonImbgfs() {}
+        publid void sftMfnuBbr(MfnuBbr mb) {}
+        publid void sftRfsizbblf(boolfbn rfsizfbblf) {}
+        publid void sftStbtf(int stbtf) {}
+        publid int gftStbtf() { rfturn Frbmf.NORMAL; }
+        publid void sftMbximizfdBounds(Rfdtbnglf b) {}
+        publid void toFront() {}
+        publid void toBbdk() {}
+        publid void updbtfFodusbblfWindowStbtf() {}
+        publid void updbtfAlwbysOnTop() {}
+        publid void updbtfAlwbysOnTopStbtf() {}
+        publid Componfnt gftGlobblHfbvywfigitFodusOwnfr() { rfturn null; }
+        publid void sftBoundsPrivbtf(int x, int y, int widti, int ifigit) {
+            sftBounds(x, y, widti, ifigit, SET_BOUNDS);
         }
-        public Rectangle getBoundsPrivate() {
-            return getBounds();
+        publid Rfdtbnglf gftBoundsPrivbtf() {
+            rfturn gftBounds();
         }
-        public void setModalBlocked(Dialog blocker, boolean blocked) {}
+        publid void sftModblBlodkfd(Diblog blodkfr, boolfbn blodkfd) {}
 
         /**
-         * @see java.awt.peer.ContainerPeer#restack
+         * @sff jbvb.bwt.pffr.ContbinfrPffr#rfstbdk
          */
-        public void restack() {
-            throw new UnsupportedOperationException();
+        publid void rfstbdk() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
 
         /**
-         * @see java.awt.peer.ContainerPeer#isRestackSupported
+         * @sff jbvb.bwt.pffr.ContbinfrPffr#isRfstbdkSupportfd
          */
-        public boolean isRestackSupported() {
-            return false;
+        publid boolfbn isRfstbdkSupportfd() {
+            rfturn fblsf;
         }
-        public boolean requestWindowFocus() {
-            return false;
+        publid boolfbn rfqufstWindowFodus() {
+            rfturn fblsf;
         }
-        public void updateMinimumSize() {
-        }
-
-        public void setOpacity(float opacity) {
+        publid void updbtfMinimumSizf() {
         }
 
-        public void setOpaque(boolean isOpaque) {
+        publid void sftOpbdity(flobt opbdity) {
         }
 
-        public void updateWindow() {
+        publid void sftOpbquf(boolfbn isOpbquf) {
         }
 
-        public void repositionSecurityWarning() {
+        publid void updbtfWindow() {
         }
 
-        public void emulateActivation(boolean activate) {
+        publid void rfpositionSfdurityWbrning() {
+        }
+
+        publid void fmulbtfAdtivbtion(boolfbn bdtivbtf) {
         }
     }
-} // class EmbeddedFrame
+} // dlbss EmbfddfdFrbmf

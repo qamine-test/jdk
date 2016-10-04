@@ -1,0 +1,109 @@
+'\" t
+.\"  Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Troublfshooting Tools
+.\"     Titlf: jsbdfbugd.1
+.\"
+.if n .pl 99999
+.TH jsbdfbugd 1 "21 Novfmbfr 2013" "JDK 8" "Troublfshooting Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jsbdfbugd \- Attbdhfs to b Jbvb prodfss or dorf filf bnd bdts bs b dfbug sfrvfr\&. This dommbnd is fxpfrimfntbl bnd unsupportfd\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+
+\fBjsbdfbugd\fR \fIpid\fR [ \fIsfrvfr\-id\fR ]
+.fi     
+.nf     
+
+\fBjsbdfbugd\fR \fIfxfdutbblf\fR \fIdorf\fR [ \fIsfrvfr\-id\fR ]
+.fi     
+.sp     
+.TP     
+\fIpid\fR
+Thf prodfss ID of thf prodfss to whidh thf dfbug sfrvfr bttbdhfs\&. Thf prodfss must bf b Jbvb prodfss\&. To gft b list of Jbvb prodfssfs running on b mbdhinf, usf thf jps(1) dommbnd\&. At most onf instbndf of thf dfbug sfrvfr dbn bf bttbdhfd to b singlf prodfss\&.
+.TP     
+\fIfxfdutbblf\fR
+Thf Jbvb fxfdutbblf from whidh thf dorf dump wbs produdfd\&.
+.TP     
+\fIdorf\fR
+Thf dorf filf to whidh thf dfbug sfrvfr should bttbdh\&.
+.TP     
+\fIsfrvfr-id\fR
+An optionbl uniquf ID thbt is nffdfd whfn multiplf dfbug sfrvfrs brf stbrtfd on thf sbmf mbdhinf\&. This ID must bf usfd by rfmotf dlifnts to idfntify thf pbrtidulbr dfbug sfrvfr to whidh to bttbdh\&. Within b singlf mbdhinf, this ID must bf uniquf\&.
+.SH DESCRIPTION    
+Thf \f3jsbdfbugd\fR dommbnd bttbdhfs to b Jbvb prodfss or dorf filf bnd bdts bs b dfbug sfrvfr\&. Rfmotf dlifnts sudh bs \f3jstbdk\fR, \f3jmbp\fR, bnd \f3jinfo\fR dbn bttbdh to thf sfrvfr through Jbvb Rfmotf Mfthod Invodbtion (RMI)\&. Bfforf you stbrt thf \f3jsbdfbugd\fR dommbnd, stbrt thf RMI rfgistry with thf \f3rmirfgistry\fR dommbnd bs follows whfrf \fI$JAVA_HOME\fR is thf JDK instbllbtion dirfdtory:
+.sp     
+.nf     
+\f3rmirfgistry \-J\-Xbootdlbsspbth/p:$JAVA_HOME/lib/sbjdi\&.jbr\fP
+.fi     
+.nf     
+\f3\fP
+.fi     
+.sp     
+If thf RMI rfgistry wbs not stbrtfd, thfn thf \f3jsbdfbugd\fR dommbnd stbrts bn RMI rfgistry in b stbndbrd (1099) port intfrnblly\&. Thf dfbug sfrvfr dbn bf stoppfd by sfnding b \f3SIGINT\fR to it\&. To sfnd b SIGINT prfss \fICtrl+C\fR\&.
+.PP
+\fINotf:\fR This utility is unsupportfd bnd mby or mby not bf bvbilbblf in futurf rflfbsfs of thf JDK\&. In Windows Systfms whfrf \f3dbgfng\&.dll\fR is not prfsfnt, Dfbugging Tools For Windows must bf instbllfd to hbvf thfsf tools working\&. Thf \f3PATH\fR fnvironmfnt vbribblf should dontbin thf lodbtion of jvm\&.dll usfd by thf tbrgft prodfss or thf lodbtion from whidh thf drbsh dump filf wbs produdfd\&. For fxbmplf, \f3s\fR\f3ft PATH=%JDK_HOME%\fjrf\fbin\fdlifnt;%PATH%\fR\&.
+.SH SEE\ ALSO    
+.TP 0.2i    
+\(bu
+jinfo(1)
+.TP 0.2i    
+\(bu
+jmbp(1)
+.TP 0.2i    
+\(bu
+jps(1)
+.TP 0.2i    
+\(bu
+jstbdk(1)
+.TP 0.2i    
+\(bu
+rmirfgistry(1)
+.RE
+.br
+'pl 8.5i
+'bp

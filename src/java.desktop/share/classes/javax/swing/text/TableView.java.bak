@@ -1,47 +1,47 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text;
+pbdkbgf jbvbx.swing.tfxt;
 
-import java.awt.*;
-import java.util.BitSet;
-import java.util.Vector;
-import javax.swing.SizeRequirements;
-import javax.swing.event.DocumentEvent;
+import jbvb.bwt.*;
+import jbvb.util.BitSft;
+import jbvb.util.Vfdtor;
+import jbvbx.swing.SizfRfquirfmfnts;
+import jbvbx.swing.fvfnt.DodumfntEvfnt;
 
-import javax.swing.text.html.HTML;
+import jbvbx.swing.tfxt.itml.HTML;
 
 /**
  * <p>
- * Implements View interface for a table, that is composed of an
- * element structure where the child elements of the element
- * this view is responsible for represent rows and the child
- * elements of the row elements are cells.  The cell elements can
- * have an arbitrary element structure under them, which will
- * be built with the ViewFactory returned by the getViewFactory
- * method.
- * <pre>
+ * Implfmfnts Vifw intfrfbdf for b tbblf, tibt is domposfd of bn
+ * flfmfnt strudturf wifrf tif diild flfmfnts of tif flfmfnt
+ * tiis vifw is rfsponsiblf for rfprfsfnt rows bnd tif diild
+ * flfmfnts of tif row flfmfnts brf dflls.  Tif dfll flfmfnts dbn
+ * ibvf bn brbitrbry flfmfnt strudturf undfr tifm, wiidi will
+ * bf built witi tif VifwFbdtory rfturnfd by tif gftVifwFbdtory
+ * mftiod.
+ * <prf>
  *
  * &nbsp;  TABLE
  * &nbsp;    ROW
@@ -51,856 +51,856 @@ import javax.swing.text.html.HTML;
  * &nbsp;      CELL
  * &nbsp;      CELL
  *
- * </pre>
+ * </prf>
  * <p>
- * This is implemented as a hierarchy of boxes, the table itself
- * is a vertical box, the rows are horizontal boxes, and the cells
- * are vertical boxes.  The cells are allowed to span multiple
- * columns and rows.  By default, the table can be thought of as
- * being formed over a grid (i.e. somewhat like one would find in
- * gridbag layout), where table cells can request to span more
- * than one grid cell.  The default horizontal span of table cells
- * will be based upon this grid, but can be changed by reimplementing
- * the requested span of the cell (i.e. table cells can have independant
- * spans if desired).
+ * Tiis is implfmfntfd bs b iifrbrdiy of boxfs, tif tbblf itsflf
+ * is b vfrtidbl box, tif rows brf iorizontbl boxfs, bnd tif dflls
+ * brf vfrtidbl boxfs.  Tif dflls brf bllowfd to spbn multiplf
+ * dolumns bnd rows.  By dffbult, tif tbblf dbn bf tiougit of bs
+ * bfing formfd ovfr b grid (i.f. somfwibt likf onf would find in
+ * gridbbg lbyout), wifrf tbblf dflls dbn rfqufst to spbn morf
+ * tibn onf grid dfll.  Tif dffbult iorizontbl spbn of tbblf dflls
+ * will bf bbsfd upon tiis grid, but dbn bf dibngfd by rfimplfmfnting
+ * tif rfqufstfd spbn of tif dfll (i.f. tbblf dflls dbn ibvf indfpfndbnt
+ * spbns if dfsirfd).
  *
- * @author  Timothy Prinzing
- * @see     View
+ * @butior  Timotiy Prinzing
+ * @sff     Vifw
  */
-public abstract class TableView extends BoxView {
+publid bbstrbdt dlbss TbblfVifw fxtfnds BoxVifw {
 
     /**
-     * Constructs a TableView for the given element.
+     * Construdts b TbblfVifw for tif givfn flfmfnt.
      *
-     * @param elem the element that this view is responsible for
+     * @pbrbm flfm tif flfmfnt tibt tiis vifw is rfsponsiblf for
      */
-    public TableView(Element elem) {
-        super(elem, View.Y_AXIS);
-        rows = new Vector<TableRow>();
-        gridValid = false;
+    publid TbblfVifw(Elfmfnt flfm) {
+        supfr(flfm, Vifw.Y_AXIS);
+        rows = nfw Vfdtor<TbblfRow>();
+        gridVblid = fblsf;
     }
 
     /**
-     * Creates a new table row.
+     * Crfbtfs b nfw tbblf row.
      *
-     * @param elem an element
-     * @return the row
+     * @pbrbm flfm bn flfmfnt
+     * @rfturn tif row
      */
-    protected TableRow createTableRow(Element elem) {
-        return new TableRow(elem);
+    protfdtfd TbblfRow drfbtfTbblfRow(Elfmfnt flfm) {
+        rfturn nfw TbblfRow(flfm);
     }
 
     /**
-     * @deprecated Table cells can now be any arbitrary
-     * View implementation and should be produced by the
-     * ViewFactory rather than the table.
+     * @dfprfdbtfd Tbblf dflls dbn now bf bny brbitrbry
+     * Vifw implfmfntbtion bnd siould bf produdfd by tif
+     * VifwFbdtory rbtifr tibn tif tbblf.
      *
-     * @param elem an element
-     * @return the cell
+     * @pbrbm flfm bn flfmfnt
+     * @rfturn tif dfll
      */
-    @Deprecated
-    protected TableCell createTableCell(Element elem) {
-        return new TableCell(elem);
+    @Dfprfdbtfd
+    protfdtfd TbblfCfll drfbtfTbblfCfll(Elfmfnt flfm) {
+        rfturn nfw TbblfCfll(flfm);
     }
 
     /**
-     * The number of columns in the table.
+     * Tif numbfr of dolumns in tif tbblf.
      */
-    int getColumnCount() {
-        return columnSpans.length;
+    int gftColumnCount() {
+        rfturn dolumnSpbns.lfngti;
     }
 
     /**
-     * Fetches the span (width) of the given column.
-     * This is used by the nested cells to query the
-     * sizes of grid locations outside of themselves.
+     * Fftdifs tif spbn (widti) of tif givfn dolumn.
+     * Tiis is usfd by tif nfstfd dflls to qufry tif
+     * sizfs of grid lodbtions outsidf of tifmsflvfs.
      */
-    int getColumnSpan(int col) {
-        return columnSpans[col];
+    int gftColumnSpbn(int dol) {
+        rfturn dolumnSpbns[dol];
     }
 
     /**
-     * The number of rows in the table.
+     * Tif numbfr of rows in tif tbblf.
      */
-    int getRowCount() {
-        return rows.size();
+    int gftRowCount() {
+        rfturn rows.sizf();
     }
 
     /**
-     * Fetches the span (height) of the given row.
+     * Fftdifs tif spbn (ifigit) of tif givfn row.
      */
-    int getRowSpan(int row) {
-        View rv = getRow(row);
+    int gftRowSpbn(int row) {
+        Vifw rv = gftRow(row);
         if (rv != null) {
-            return (int) rv.getPreferredSpan(Y_AXIS);
+            rfturn (int) rv.gftPrfffrrfdSpbn(Y_AXIS);
         }
-        return 0;
+        rfturn 0;
     }
 
-    TableRow getRow(int row) {
-        if (row < rows.size()) {
-            return rows.elementAt(row);
+    TbblfRow gftRow(int row) {
+        if (row < rows.sizf()) {
+            rfturn rows.flfmfntAt(row);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Determines the number of columns occupied by
-     * the table cell represented by given element.
+     * Dftfrminfs tif numbfr of dolumns oddupifd by
+     * tif tbblf dfll rfprfsfntfd by givfn flfmfnt.
      */
-    /*protected*/ int getColumnsOccupied(View v) {
-        // PENDING(prinz) this code should be in the html
-        // paragraph, but we can't add api to enable it.
-        AttributeSet a = v.getElement().getAttributes();
-        String s = (String) a.getAttribute(HTML.Attribute.COLSPAN);
+    /*protfdtfd*/ int gftColumnsOddupifd(Vifw v) {
+        // PENDING(prinz) tiis dodf siould bf in tif itml
+        // pbrbgrbpi, but wf dbn't bdd bpi to fnbblf it.
+        AttributfSft b = v.gftElfmfnt().gftAttributfs();
+        String s = (String) b.gftAttributf(HTML.Attributf.COLSPAN);
         if (s != null) {
             try {
-                return Integer.parseInt(s);
-            } catch (NumberFormatException nfe) {
-                // fall through to one column
+                rfturn Intfgfr.pbrsfInt(s);
+            } dbtdi (NumbfrFormbtExdfption nff) {
+                // fbll tirougi to onf dolumn
             }
         }
 
-        return 1;
+        rfturn 1;
     }
 
     /**
-     * Determines the number of rows occupied by
-     * the table cell represented by given element.
+     * Dftfrminfs tif numbfr of rows oddupifd by
+     * tif tbblf dfll rfprfsfntfd by givfn flfmfnt.
      */
-    /*protected*/ int getRowsOccupied(View v) {
-        // PENDING(prinz) this code should be in the html
-        // paragraph, but we can't add api to enable it.
-        AttributeSet a = v.getElement().getAttributes();
-        String s = (String) a.getAttribute(HTML.Attribute.ROWSPAN);
+    /*protfdtfd*/ int gftRowsOddupifd(Vifw v) {
+        // PENDING(prinz) tiis dodf siould bf in tif itml
+        // pbrbgrbpi, but wf dbn't bdd bpi to fnbblf it.
+        AttributfSft b = v.gftElfmfnt().gftAttributfs();
+        String s = (String) b.gftAttributf(HTML.Attributf.ROWSPAN);
         if (s != null) {
             try {
-                return Integer.parseInt(s);
-            } catch (NumberFormatException nfe) {
-                // fall through to one row
+                rfturn Intfgfr.pbrsfInt(s);
+            } dbtdi (NumbfrFormbtExdfption nff) {
+                // fbll tirougi to onf row
             }
         }
 
-        return 1;
+        rfturn 1;
     }
 
-    /*protected*/ void invalidateGrid() {
-        gridValid = false;
+    /*protfdtfd*/ void invblidbtfGrid() {
+        gridVblid = fblsf;
     }
 
-    protected void forwardUpdate(DocumentEvent.ElementChange ec,
-                                     DocumentEvent e, Shape a, ViewFactory f) {
-        super.forwardUpdate(ec, e, a, f);
-        // A change in any of the table cells usually effects the whole table,
-        // so redraw it all!
-        if (a != null) {
-            Component c = getContainer();
-            if (c != null) {
-                Rectangle alloc = (a instanceof Rectangle) ? (Rectangle)a :
-                                   a.getBounds();
-                c.repaint(alloc.x, alloc.y, alloc.width, alloc.height);
+    protfdtfd void forwbrdUpdbtf(DodumfntEvfnt.ElfmfntCibngf fd,
+                                     DodumfntEvfnt f, Sibpf b, VifwFbdtory f) {
+        supfr.forwbrdUpdbtf(fd, f, b, f);
+        // A dibngf in bny of tif tbblf dflls usublly ffffdts tif wiolf tbblf,
+        // so rfdrbw it bll!
+        if (b != null) {
+            Componfnt d = gftContbinfr();
+            if (d != null) {
+                Rfdtbnglf bllod = (b instbndfof Rfdtbnglf) ? (Rfdtbnglf)b :
+                                   b.gftBounds();
+                d.rfpbint(bllod.x, bllod.y, bllod.widti, bllod.ifigit);
             }
         }
     }
 
     /**
-     * Change the child views.  This is implemented to
-     * provide the superclass behavior and invalidate the
-     * grid so that rows and columns will be recalculated.
+     * Cibngf tif diild vifws.  Tiis is implfmfntfd to
+     * providf tif supfrdlbss bfibvior bnd invblidbtf tif
+     * grid so tibt rows bnd dolumns will bf rfdbldulbtfd.
      */
-    public void replace(int offset, int length, View[] views) {
-        super.replace(offset, length, views);
-        invalidateGrid();
+    publid void rfplbdf(int offsft, int lfngti, Vifw[] vifws) {
+        supfr.rfplbdf(offsft, lfngti, vifws);
+        invblidbtfGrid();
     }
 
     /**
-     * Fill in the grid locations that are placeholders
-     * for multi-column, multi-row, and missing grid
-     * locations.
+     * Fill in tif grid lodbtions tibt brf plbdfioldfrs
+     * for multi-dolumn, multi-row, bnd missing grid
+     * lodbtions.
      */
-    void updateGrid() {
-        if (! gridValid) {
-            // determine which views are table rows and clear out
-            // grid points marked filled.
-            rows.removeAllElements();
-            int n = getViewCount();
+    void updbtfGrid() {
+        if (! gridVblid) {
+            // dftfrminf wiidi vifws brf tbblf rows bnd dlfbr out
+            // grid points mbrkfd fillfd.
+            rows.rfmovfAllElfmfnts();
+            int n = gftVifwCount();
             for (int i = 0; i < n; i++) {
-                View v = getView(i);
-                if (v instanceof TableRow) {
-                    rows.addElement((TableRow) v);
-                    TableRow rv = (TableRow) v;
-                    rv.clearFilledColumns();
-                    rv.setRow(i);
+                Vifw v = gftVifw(i);
+                if (v instbndfof TbblfRow) {
+                    rows.bddElfmfnt((TbblfRow) v);
+                    TbblfRow rv = (TbblfRow) v;
+                    rv.dlfbrFillfdColumns();
+                    rv.sftRow(i);
                 }
             }
 
-            int maxColumns = 0;
-            int nrows = rows.size();
+            int mbxColumns = 0;
+            int nrows = rows.sizf();
             for (int row = 0; row < nrows; row++) {
-                TableRow rv = getRow(row);
-                int col = 0;
-                for (int cell = 0; cell < rv.getViewCount(); cell++, col++) {
-                    View cv = rv.getView(cell);
-                    // advance to a free column
-                    for (; rv.isFilled(col); col++);
-                    int rowSpan = getRowsOccupied(cv);
-                    int colSpan = getColumnsOccupied(cv);
-                    if ((colSpan > 1) || (rowSpan > 1)) {
-                        // fill in the overflow entries for this cell
-                        int rowLimit = row + rowSpan;
-                        int colLimit = col + colSpan;
+                TbblfRow rv = gftRow(row);
+                int dol = 0;
+                for (int dfll = 0; dfll < rv.gftVifwCount(); dfll++, dol++) {
+                    Vifw dv = rv.gftVifw(dfll);
+                    // bdvbndf to b frff dolumn
+                    for (; rv.isFillfd(dol); dol++);
+                    int rowSpbn = gftRowsOddupifd(dv);
+                    int dolSpbn = gftColumnsOddupifd(dv);
+                    if ((dolSpbn > 1) || (rowSpbn > 1)) {
+                        // fill in tif ovfrflow fntrifs for tiis dfll
+                        int rowLimit = row + rowSpbn;
+                        int dolLimit = dol + dolSpbn;
                         for (int i = row; i < rowLimit; i++) {
-                            for (int j = col; j < colLimit; j++) {
-                                if (i != row || j != col) {
-                                    addFill(i, j);
+                            for (int j = dol; j < dolLimit; j++) {
+                                if (i != row || j != dol) {
+                                    bddFill(i, j);
                                 }
                             }
                         }
-                        if (colSpan > 1) {
-                            col += colSpan - 1;
+                        if (dolSpbn > 1) {
+                            dol += dolSpbn - 1;
                         }
                     }
                 }
-                maxColumns = Math.max(maxColumns, col);
+                mbxColumns = Mbti.mbx(mbxColumns, dol);
             }
 
-            // setup the column layout/requirements
-            columnSpans = new int[maxColumns];
-            columnOffsets = new int[maxColumns];
-            columnRequirements = new SizeRequirements[maxColumns];
-            for (int i = 0; i < maxColumns; i++) {
-                columnRequirements[i] = new SizeRequirements();
+            // sftup tif dolumn lbyout/rfquirfmfnts
+            dolumnSpbns = nfw int[mbxColumns];
+            dolumnOffsfts = nfw int[mbxColumns];
+            dolumnRfquirfmfnts = nfw SizfRfquirfmfnts[mbxColumns];
+            for (int i = 0; i < mbxColumns; i++) {
+                dolumnRfquirfmfnts[i] = nfw SizfRfquirfmfnts();
             }
-            gridValid = true;
+            gridVblid = truf;
         }
     }
 
     /**
-     * Mark a grid location as filled in for a cells overflow.
+     * Mbrk b grid lodbtion bs fillfd in for b dflls ovfrflow.
      */
-    void addFill(int row, int col) {
-        TableRow rv = getRow(row);
+    void bddFill(int row, int dol) {
+        TbblfRow rv = gftRow(row);
         if (rv != null) {
-            rv.fillColumn(col);
+            rv.fillColumn(dol);
         }
     }
 
     /**
-     * Lays out the columns to fit within the given target span.
-     * Returns the results through {@code offsets} and {@code spans}.
+     * Lbys out tif dolumns to fit witiin tif givfn tbrgft spbn.
+     * Rfturns tif rfsults tirougi {@dodf offsfts} bnd {@dodf spbns}.
      *
-     * @param targetSpan the given span for total of all the table
-     *  columns
-     * @param reqs the requirements desired for each column.  This
-     *  is the column maximum of the cells minimum, preferred, and
-     *  maximum requested span
-     * @param spans the return value of how much to allocated to
-     *  each column
-     * @param offsets the return value of the offset from the
-     *  origin for each column
+     * @pbrbm tbrgftSpbn tif givfn spbn for totbl of bll tif tbblf
+     *  dolumns
+     * @pbrbm rfqs tif rfquirfmfnts dfsirfd for fbdi dolumn.  Tiis
+     *  is tif dolumn mbximum of tif dflls minimum, prfffrrfd, bnd
+     *  mbximum rfqufstfd spbn
+     * @pbrbm spbns tif rfturn vbluf of iow mudi to bllodbtfd to
+     *  fbdi dolumn
+     * @pbrbm offsfts tif rfturn vbluf of tif offsft from tif
+     *  origin for fbdi dolumn
      */
-    protected void layoutColumns(int targetSpan, int[] offsets, int[] spans,
-                                 SizeRequirements[] reqs) {
-        // allocate using the convenience method on SizeRequirements
-        SizeRequirements.calculateTiledPositions(targetSpan, null, reqs,
-                                                 offsets, spans);
+    protfdtfd void lbyoutColumns(int tbrgftSpbn, int[] offsfts, int[] spbns,
+                                 SizfRfquirfmfnts[] rfqs) {
+        // bllodbtf using tif donvfnifndf mftiod on SizfRfquirfmfnts
+        SizfRfquirfmfnts.dbldulbtfTilfdPositions(tbrgftSpbn, null, rfqs,
+                                                 offsfts, spbns);
     }
 
     /**
-     * Perform layout for the minor axis of the box (i.e. the
-     * axis orthogonal to the axis that it represents).  The results
-     * of the layout should be placed in the given arrays which represent
-     * the allocations to the children along the minor axis.  This
-     * is called by the superclass whenever the layout needs to be
-     * updated along the minor axis.
+     * Pfrform lbyout for tif minor bxis of tif box (i.f. tif
+     * bxis ortiogonbl to tif bxis tibt it rfprfsfnts).  Tif rfsults
+     * of tif lbyout siould bf plbdfd in tif givfn brrbys wiidi rfprfsfnt
+     * tif bllodbtions to tif diildrfn blong tif minor bxis.  Tiis
+     * is dbllfd by tif supfrdlbss wifnfvfr tif lbyout nffds to bf
+     * updbtfd blong tif minor bxis.
      * <p>
-     * This is implemented to call the
-     * {@link #layoutColumns layoutColumns} method, and then
-     * forward to the superclass to actually carry out the layout
-     * of the tables rows.
+     * Tiis is implfmfntfd to dbll tif
+     * {@link #lbyoutColumns lbyoutColumns} mftiod, bnd tifn
+     * forwbrd to tif supfrdlbss to bdtublly dbrry out tif lbyout
+     * of tif tbblfs rows.
      *
-     * @param targetSpan the total span given to the view, which
-     *  would be used to layout the children.
-     * @param axis the axis being layed out.
-     * @param offsets the offsets from the origin of the view for
-     *  each of the child views.  This is a return value and is
-     *  filled in by the implementation of this method.
-     * @param spans the span of each child view.  This is a return
-     *  value and is filled in by the implementation of this method.
+     * @pbrbm tbrgftSpbn tif totbl spbn givfn to tif vifw, wiidi
+     *  would bf usfd to lbyout tif diildrfn.
+     * @pbrbm bxis tif bxis bfing lbyfd out.
+     * @pbrbm offsfts tif offsfts from tif origin of tif vifw for
+     *  fbdi of tif diild vifws.  Tiis is b rfturn vbluf bnd is
+     *  fillfd in by tif implfmfntbtion of tiis mftiod.
+     * @pbrbm spbns tif spbn of fbdi diild vifw.  Tiis is b rfturn
+     *  vbluf bnd is fillfd in by tif implfmfntbtion of tiis mftiod.
      */
-    protected void layoutMinorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
-        // make grid is properly represented
-        updateGrid();
+    protfdtfd void lbyoutMinorAxis(int tbrgftSpbn, int bxis, int[] offsfts, int[] spbns) {
+        // mbkf grid is propfrly rfprfsfntfd
+        updbtfGrid();
 
-        // all of the row layouts are invalid, so mark them that way
-        int n = getRowCount();
+        // bll of tif row lbyouts brf invblid, so mbrk tifm tibt wby
+        int n = gftRowCount();
         for (int i = 0; i < n; i++) {
-            TableRow row = getRow(i);
-            row.layoutChanged(axis);
+            TbblfRow row = gftRow(i);
+            row.lbyoutCibngfd(bxis);
         }
 
-        // calculate column spans
-        layoutColumns(targetSpan, columnOffsets, columnSpans, columnRequirements);
+        // dbldulbtf dolumn spbns
+        lbyoutColumns(tbrgftSpbn, dolumnOffsfts, dolumnSpbns, dolumnRfquirfmfnts);
 
-        // continue normal layout
-        super.layoutMinorAxis(targetSpan, axis, offsets, spans);
+        // dontinuf normbl lbyout
+        supfr.lbyoutMinorAxis(tbrgftSpbn, bxis, offsfts, spbns);
     }
 
     /**
-     * Calculate the requirements for the minor axis.  This is called by
-     * the superclass whenever the requirements need to be updated (i.e.
-     * a preferenceChanged was messaged through this view).
+     * Cbldulbtf tif rfquirfmfnts for tif minor bxis.  Tiis is dbllfd by
+     * tif supfrdlbss wifnfvfr tif rfquirfmfnts nffd to bf updbtfd (i.f.
+     * b prfffrfndfCibngfd wbs mfssbgfd tirougi tiis vifw).
      * <p>
-     * This is implemented to calculate the requirements as the sum of the
-     * requirements of the columns.
+     * Tiis is implfmfntfd to dbldulbtf tif rfquirfmfnts bs tif sum of tif
+     * rfquirfmfnts of tif dolumns.
      */
-    protected SizeRequirements calculateMinorAxisRequirements(int axis, SizeRequirements r) {
-        updateGrid();
+    protfdtfd SizfRfquirfmfnts dbldulbtfMinorAxisRfquirfmfnts(int bxis, SizfRfquirfmfnts r) {
+        updbtfGrid();
 
-        // calculate column requirements for each column
-        calculateColumnRequirements(axis);
+        // dbldulbtf dolumn rfquirfmfnts for fbdi dolumn
+        dbldulbtfColumnRfquirfmfnts(bxis);
 
 
-        // the requirements are the sum of the columns.
+        // tif rfquirfmfnts brf tif sum of tif dolumns.
         if (r == null) {
-            r = new SizeRequirements();
+            r = nfw SizfRfquirfmfnts();
         }
         long min = 0;
-        long pref = 0;
-        long max = 0;
-        for (SizeRequirements req : columnRequirements) {
-            min += req.minimum;
-            pref += req.preferred;
-            max += req.maximum;
+        long prff = 0;
+        long mbx = 0;
+        for (SizfRfquirfmfnts rfq : dolumnRfquirfmfnts) {
+            min += rfq.minimum;
+            prff += rfq.prfffrrfd;
+            mbx += rfq.mbximum;
         }
         r.minimum = (int) min;
-        r.preferred = (int) pref;
-        r.maximum = (int) max;
-        r.alignment = 0;
-        return r;
+        r.prfffrrfd = (int) prff;
+        r.mbximum = (int) mbx;
+        r.blignmfnt = 0;
+        rfturn r;
     }
 
     /*
-    boolean shouldTrace() {
-        AttributeSet a = getElement().getAttributes();
-        Object o = a.getAttribute(HTML.Attribute.ID);
-        if ((o != null) && o.equals("debug")) {
-            return true;
+    boolfbn siouldTrbdf() {
+        AttributfSft b = gftElfmfnt().gftAttributfs();
+        Objfdt o = b.gftAttributf(HTML.Attributf.ID);
+        if ((o != null) && o.fqubls("dfbug")) {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
     */
 
     /**
-     * Calculate the requirements for each column.  The calculation
-     * is done as two passes over the table.  The table cells that
-     * occupy a single column are scanned first to determine the
-     * maximum of minimum, preferred, and maximum spans along the
-     * give axis.  Table cells that span multiple columns are excluded
-     * from the first pass.  A second pass is made to determine if
-     * the cells that span multiple columns are satisfied.  If the
-     * column requirements are not satisified, the needs of the
-     * multi-column cell is mixed into the existing column requirements.
-     * The calculation of the multi-column distribution is based upon
-     * the proportions of the existing column requirements and taking
-     * into consideration any constraining maximums.
+     * Cbldulbtf tif rfquirfmfnts for fbdi dolumn.  Tif dbldulbtion
+     * is donf bs two pbssfs ovfr tif tbblf.  Tif tbblf dflls tibt
+     * oddupy b singlf dolumn brf sdbnnfd first to dftfrminf tif
+     * mbximum of minimum, prfffrrfd, bnd mbximum spbns blong tif
+     * givf bxis.  Tbblf dflls tibt spbn multiplf dolumns brf fxdludfd
+     * from tif first pbss.  A sfdond pbss is mbdf to dftfrminf if
+     * tif dflls tibt spbn multiplf dolumns brf sbtisfifd.  If tif
+     * dolumn rfquirfmfnts brf not sbtisififd, tif nffds of tif
+     * multi-dolumn dfll is mixfd into tif fxisting dolumn rfquirfmfnts.
+     * Tif dbldulbtion of tif multi-dolumn distribution is bbsfd upon
+     * tif proportions of tif fxisting dolumn rfquirfmfnts bnd tbking
+     * into donsidfrbtion bny donstrbining mbximums.
      */
-    void calculateColumnRequirements(int axis) {
-        // pass 1 - single column cells
-        boolean hasMultiColumn = false;
-        int nrows = getRowCount();
+    void dbldulbtfColumnRfquirfmfnts(int bxis) {
+        // pbss 1 - singlf dolumn dflls
+        boolfbn ibsMultiColumn = fblsf;
+        int nrows = gftRowCount();
         for (int i = 0; i < nrows; i++) {
-            TableRow row = getRow(i);
-            int col = 0;
-            int ncells = row.getViewCount();
-            for (int cell = 0; cell < ncells; cell++, col++) {
-                View cv = row.getView(cell);
-                for (; row.isFilled(col); col++); // advance to a free column
-                int rowSpan = getRowsOccupied(cv);
-                int colSpan = getColumnsOccupied(cv);
-                if (colSpan == 1) {
-                    checkSingleColumnCell(axis, col, cv);
-                } else {
-                    hasMultiColumn = true;
-                    col += colSpan - 1;
+            TbblfRow row = gftRow(i);
+            int dol = 0;
+            int ndflls = row.gftVifwCount();
+            for (int dfll = 0; dfll < ndflls; dfll++, dol++) {
+                Vifw dv = row.gftVifw(dfll);
+                for (; row.isFillfd(dol); dol++); // bdvbndf to b frff dolumn
+                int rowSpbn = gftRowsOddupifd(dv);
+                int dolSpbn = gftColumnsOddupifd(dv);
+                if (dolSpbn == 1) {
+                    difdkSinglfColumnCfll(bxis, dol, dv);
+                } flsf {
+                    ibsMultiColumn = truf;
+                    dol += dolSpbn - 1;
                 }
             }
         }
 
-        // pass 2 - multi-column cells
-        if (hasMultiColumn) {
+        // pbss 2 - multi-dolumn dflls
+        if (ibsMultiColumn) {
             for (int i = 0; i < nrows; i++) {
-                TableRow row = getRow(i);
-                int col = 0;
-                int ncells = row.getViewCount();
-                for (int cell = 0; cell < ncells; cell++, col++) {
-                    View cv = row.getView(cell);
-                    for (; row.isFilled(col); col++); // advance to a free column
-                    int colSpan = getColumnsOccupied(cv);
-                    if (colSpan > 1) {
-                        checkMultiColumnCell(axis, col, colSpan, cv);
-                        col += colSpan - 1;
+                TbblfRow row = gftRow(i);
+                int dol = 0;
+                int ndflls = row.gftVifwCount();
+                for (int dfll = 0; dfll < ndflls; dfll++, dol++) {
+                    Vifw dv = row.gftVifw(dfll);
+                    for (; row.isFillfd(dol); dol++); // bdvbndf to b frff dolumn
+                    int dolSpbn = gftColumnsOddupifd(dv);
+                    if (dolSpbn > 1) {
+                        difdkMultiColumnCfll(bxis, dol, dolSpbn, dv);
+                        dol += dolSpbn - 1;
                     }
                 }
             }
         }
 
         /*
-        if (shouldTrace()) {
-            System.err.println("calc:");
-            for (int i = 0; i < columnRequirements.length; i++) {
-                System.err.println(" " + i + ": " + columnRequirements[i]);
+        if (siouldTrbdf()) {
+            Systfm.frr.println("dbld:");
+            for (int i = 0; i < dolumnRfquirfmfnts.lfngti; i++) {
+                Systfm.frr.println(" " + i + ": " + dolumnRfquirfmfnts[i]);
             }
         }
         */
     }
 
     /**
-     * check the requirements of a table cell that spans a single column.
+     * difdk tif rfquirfmfnts of b tbblf dfll tibt spbns b singlf dolumn.
      */
-    void checkSingleColumnCell(int axis, int col, View v) {
-        SizeRequirements req = columnRequirements[col];
-        req.minimum = Math.max((int) v.getMinimumSpan(axis), req.minimum);
-        req.preferred = Math.max((int) v.getPreferredSpan(axis), req.preferred);
-        req.maximum = Math.max((int) v.getMaximumSpan(axis), req.maximum);
+    void difdkSinglfColumnCfll(int bxis, int dol, Vifw v) {
+        SizfRfquirfmfnts rfq = dolumnRfquirfmfnts[dol];
+        rfq.minimum = Mbti.mbx((int) v.gftMinimumSpbn(bxis), rfq.minimum);
+        rfq.prfffrrfd = Mbti.mbx((int) v.gftPrfffrrfdSpbn(bxis), rfq.prfffrrfd);
+        rfq.mbximum = Mbti.mbx((int) v.gftMbximumSpbn(bxis), rfq.mbximum);
     }
 
     /**
-     * check the requirements of a table cell that spans multiple
-     * columns.
+     * difdk tif rfquirfmfnts of b tbblf dfll tibt spbns multiplf
+     * dolumns.
      */
-    void checkMultiColumnCell(int axis, int col, int ncols, View v) {
-        // calculate the totals
+    void difdkMultiColumnCfll(int bxis, int dol, int ndols, Vifw v) {
+        // dbldulbtf tif totbls
         long min = 0;
-        long pref = 0;
-        long max = 0;
-        for (int i = 0; i < ncols; i++) {
-            SizeRequirements req = columnRequirements[col + i];
-            min += req.minimum;
-            pref += req.preferred;
-            max += req.maximum;
+        long prff = 0;
+        long mbx = 0;
+        for (int i = 0; i < ndols; i++) {
+            SizfRfquirfmfnts rfq = dolumnRfquirfmfnts[dol + i];
+            min += rfq.minimum;
+            prff += rfq.prfffrrfd;
+            mbx += rfq.mbximum;
         }
 
-        // check if the minimum size needs adjustment.
-        int cmin = (int) v.getMinimumSpan(axis);
-        if (cmin > min) {
+        // difdk if tif minimum sizf nffds bdjustmfnt.
+        int dmin = (int) v.gftMinimumSpbn(bxis);
+        if (dmin > min) {
             /*
-             * the columns that this cell spans need adjustment to fit
-             * this table cell.... calculate the adjustments.  The
-             * maximum for each cell is the maximum of the existing
-             * maximum or the amount needed by the cell.
+             * tif dolumns tibt tiis dfll spbns nffd bdjustmfnt to fit
+             * tiis tbblf dfll.... dbldulbtf tif bdjustmfnts.  Tif
+             * mbximum for fbdi dfll is tif mbximum of tif fxisting
+             * mbximum or tif bmount nffdfd by tif dfll.
              */
-            SizeRequirements[] reqs = new SizeRequirements[ncols];
-            for (int i = 0; i < ncols; i++) {
-                SizeRequirements r = reqs[i] = columnRequirements[col + i];
-                r.maximum = Math.max(r.maximum, (int) v.getMaximumSpan(axis));
+            SizfRfquirfmfnts[] rfqs = nfw SizfRfquirfmfnts[ndols];
+            for (int i = 0; i < ndols; i++) {
+                SizfRfquirfmfnts r = rfqs[i] = dolumnRfquirfmfnts[dol + i];
+                r.mbximum = Mbti.mbx(r.mbximum, (int) v.gftMbximumSpbn(bxis));
             }
-            int[] spans = new int[ncols];
-            int[] offsets = new int[ncols];
-            SizeRequirements.calculateTiledPositions(cmin, null, reqs,
-                                                     offsets, spans);
-            // apply the adjustments
-            for (int i = 0; i < ncols; i++) {
-                SizeRequirements req = reqs[i];
-                req.minimum = Math.max(spans[i], req.minimum);
-                req.preferred = Math.max(req.minimum, req.preferred);
-                req.maximum = Math.max(req.preferred, req.maximum);
+            int[] spbns = nfw int[ndols];
+            int[] offsfts = nfw int[ndols];
+            SizfRfquirfmfnts.dbldulbtfTilfdPositions(dmin, null, rfqs,
+                                                     offsfts, spbns);
+            // bpply tif bdjustmfnts
+            for (int i = 0; i < ndols; i++) {
+                SizfRfquirfmfnts rfq = rfqs[i];
+                rfq.minimum = Mbti.mbx(spbns[i], rfq.minimum);
+                rfq.prfffrrfd = Mbti.mbx(rfq.minimum, rfq.prfffrrfd);
+                rfq.mbximum = Mbti.mbx(rfq.prfffrrfd, rfq.mbximum);
             }
         }
 
-        // check if the preferred size needs adjustment.
-        int cpref = (int) v.getPreferredSpan(axis);
-        if (cpref > pref) {
+        // difdk if tif prfffrrfd sizf nffds bdjustmfnt.
+        int dprff = (int) v.gftPrfffrrfdSpbn(bxis);
+        if (dprff > prff) {
             /*
-             * the columns that this cell spans need adjustment to fit
-             * this table cell.... calculate the adjustments.  The
-             * maximum for each cell is the maximum of the existing
-             * maximum or the amount needed by the cell.
+             * tif dolumns tibt tiis dfll spbns nffd bdjustmfnt to fit
+             * tiis tbblf dfll.... dbldulbtf tif bdjustmfnts.  Tif
+             * mbximum for fbdi dfll is tif mbximum of tif fxisting
+             * mbximum or tif bmount nffdfd by tif dfll.
              */
-            SizeRequirements[] reqs = new SizeRequirements[ncols];
-            for (int i = 0; i < ncols; i++) {
-                SizeRequirements r = reqs[i] = columnRequirements[col + i];
+            SizfRfquirfmfnts[] rfqs = nfw SizfRfquirfmfnts[ndols];
+            for (int i = 0; i < ndols; i++) {
+                SizfRfquirfmfnts r = rfqs[i] = dolumnRfquirfmfnts[dol + i];
             }
-            int[] spans = new int[ncols];
-            int[] offsets = new int[ncols];
-            SizeRequirements.calculateTiledPositions(cpref, null, reqs,
-                                                     offsets, spans);
-            // apply the adjustments
-            for (int i = 0; i < ncols; i++) {
-                SizeRequirements req = reqs[i];
-                req.preferred = Math.max(spans[i], req.preferred);
-                req.maximum = Math.max(req.preferred, req.maximum);
+            int[] spbns = nfw int[ndols];
+            int[] offsfts = nfw int[ndols];
+            SizfRfquirfmfnts.dbldulbtfTilfdPositions(dprff, null, rfqs,
+                                                     offsfts, spbns);
+            // bpply tif bdjustmfnts
+            for (int i = 0; i < ndols; i++) {
+                SizfRfquirfmfnts rfq = rfqs[i];
+                rfq.prfffrrfd = Mbti.mbx(spbns[i], rfq.prfffrrfd);
+                rfq.mbximum = Mbti.mbx(rfq.prfffrrfd, rfq.mbximum);
             }
         }
 
     }
 
     /**
-     * Fetches the child view that represents the given position in
-     * the model.  This is implemented to walk through the children
-     * looking for a range that contains the given position.  In this
-     * view the children do not necessarily have a one to one mapping
-     * with the child elements.
+     * Fftdifs tif diild vifw tibt rfprfsfnts tif givfn position in
+     * tif modfl.  Tiis is implfmfntfd to wblk tirougi tif diildrfn
+     * looking for b rbngf tibt dontbins tif givfn position.  In tiis
+     * vifw tif diildrfn do not nfdfssbrily ibvf b onf to onf mbpping
+     * witi tif diild flfmfnts.
      *
-     * @param pos  the search position &gt;= 0
-     * @param a  the allocation to the table on entry, and the
-     *   allocation of the view containing the position on exit
-     * @return  the view representing the given position, or
-     *   <code>null</code> if there isn't one
+     * @pbrbm pos  tif sfbrdi position &gt;= 0
+     * @pbrbm b  tif bllodbtion to tif tbblf on fntry, bnd tif
+     *   bllodbtion of tif vifw dontbining tif position on fxit
+     * @rfturn  tif vifw rfprfsfnting tif givfn position, or
+     *   <dodf>null</dodf> if tifrf isn't onf
      */
-    protected View getViewAtPosition(int pos, Rectangle a) {
-        int n = getViewCount();
+    protfdtfd Vifw gftVifwAtPosition(int pos, Rfdtbnglf b) {
+        int n = gftVifwCount();
         for (int i = 0; i < n; i++) {
-            View v = getView(i);
-            int p0 = v.getStartOffset();
-            int p1 = v.getEndOffset();
+            Vifw v = gftVifw(i);
+            int p0 = v.gftStbrtOffsft();
+            int p1 = v.gftEndOffsft();
             if ((pos >= p0) && (pos < p1)) {
-                // it's in this view.
-                if (a != null) {
-                    childAllocation(i, a);
+                // it's in tiis vifw.
+                if (b != null) {
+                    diildAllodbtion(i, b);
                 }
-                return v;
+                rfturn v;
             }
         }
-        if (pos == getEndOffset()) {
-            View v = getView(n - 1);
-            if (a != null) {
-                this.childAllocation(n - 1, a);
+        if (pos == gftEndOffsft()) {
+            Vifw v = gftVifw(n - 1);
+            if (b != null) {
+                tiis.diildAllodbtion(n - 1, b);
             }
-            return v;
+            rfturn v;
         }
-        return null;
+        rfturn null;
     }
 
-    // ---- variables ----------------------------------------------------
+    // ---- vbribblfs ----------------------------------------------------
 
-    int[] columnSpans;
-    int[] columnOffsets;
-    SizeRequirements[] columnRequirements;
-    Vector<TableRow> rows;
-    boolean gridValid;
-    static final private BitSet EMPTY = new BitSet();
+    int[] dolumnSpbns;
+    int[] dolumnOffsfts;
+    SizfRfquirfmfnts[] dolumnRfquirfmfnts;
+    Vfdtor<TbblfRow> rows;
+    boolfbn gridVblid;
+    stbtid finbl privbtf BitSft EMPTY = nfw BitSft();
 
     /**
-     * View of a row in a row-centric table.
+     * Vifw of b row in b row-dfntrid tbblf.
      */
-    public class TableRow extends BoxView {
+    publid dlbss TbblfRow fxtfnds BoxVifw {
 
         /**
-         * Constructs a TableView for the given element.
+         * Construdts b TbblfVifw for tif givfn flfmfnt.
          *
-         * @param elem the element that this view is responsible for
-         * @since 1.4
+         * @pbrbm flfm tif flfmfnt tibt tiis vifw is rfsponsiblf for
+         * @sindf 1.4
          */
-        public TableRow(Element elem) {
-            super(elem, View.X_AXIS);
-            fillColumns = new BitSet();
+        publid TbblfRow(Elfmfnt flfm) {
+            supfr(flfm, Vifw.X_AXIS);
+            fillColumns = nfw BitSft();
         }
 
-        void clearFilledColumns() {
-            fillColumns.and(EMPTY);
+        void dlfbrFillfdColumns() {
+            fillColumns.bnd(EMPTY);
         }
 
-        void fillColumn(int col) {
-            fillColumns.set(col);
+        void fillColumn(int dol) {
+            fillColumns.sft(dol);
         }
 
-        boolean isFilled(int col) {
-            return fillColumns.get(col);
+        boolfbn isFillfd(int dol) {
+            rfturn fillColumns.gft(dol);
         }
 
-        /** get location in the overall set of rows */
-        int getRow() {
-            return row;
+        /** gft lodbtion in tif ovfrbll sft of rows */
+        int gftRow() {
+            rfturn row;
         }
 
         /**
-         * set location in the overall set of rows, this is
-         * set by the TableView.updateGrid() method.
+         * sft lodbtion in tif ovfrbll sft of rows, tiis is
+         * sft by tif TbblfVifw.updbtfGrid() mftiod.
          */
-        void setRow(int row) {
-            this.row = row;
+        void sftRow(int row) {
+            tiis.row = row;
         }
 
         /**
-         * The number of columns present in this row.
+         * Tif numbfr of dolumns prfsfnt in tiis row.
          */
-        int getColumnCount() {
+        int gftColumnCount() {
             int nfill = 0;
-            int n = fillColumns.size();
+            int n = fillColumns.sizf();
             for (int i = 0; i < n; i++) {
-                if (fillColumns.get(i)) {
+                if (fillColumns.gft(i)) {
                     nfill ++;
                 }
             }
-            return getViewCount() + nfill;
+            rfturn gftVifwCount() + nfill;
         }
 
         /**
-         * Change the child views.  This is implemented to
-         * provide the superclass behavior and invalidate the
-         * grid so that rows and columns will be recalculated.
+         * Cibngf tif diild vifws.  Tiis is implfmfntfd to
+         * providf tif supfrdlbss bfibvior bnd invblidbtf tif
+         * grid so tibt rows bnd dolumns will bf rfdbldulbtfd.
          */
-        public void replace(int offset, int length, View[] views) {
-            super.replace(offset, length, views);
-            invalidateGrid();
+        publid void rfplbdf(int offsft, int lfngti, Vifw[] vifws) {
+            supfr.rfplbdf(offsft, lfngti, vifws);
+            invblidbtfGrid();
         }
 
         /**
-         * Perform layout for the major axis of the box (i.e. the
-         * axis that it represents).  The results of the layout should
-         * be placed in the given arrays which represent the allocations
-         * to the children along the major axis.
+         * Pfrform lbyout for tif mbjor bxis of tif box (i.f. tif
+         * bxis tibt it rfprfsfnts).  Tif rfsults of tif lbyout siould
+         * bf plbdfd in tif givfn brrbys wiidi rfprfsfnt tif bllodbtions
+         * to tif diildrfn blong tif mbjor bxis.
          * <p>
-         * This is re-implemented to give each child the span of the column
-         * width for the table, and to give cells that span multiple columns
-         * the multi-column span.
+         * Tiis is rf-implfmfntfd to givf fbdi diild tif spbn of tif dolumn
+         * widti for tif tbblf, bnd to givf dflls tibt spbn multiplf dolumns
+         * tif multi-dolumn spbn.
          *
-         * @param targetSpan the total span given to the view, which
-         *  would be used to layout the children.
-         * @param axis the axis being layed out.
-         * @param offsets the offsets from the origin of the view for
-         *  each of the child views.  This is a return value and is
-         *  filled in by the implementation of this method.
-         * @param spans the span of each child view.  This is a return
-         *  value and is filled in by the implementation of this method.
+         * @pbrbm tbrgftSpbn tif totbl spbn givfn to tif vifw, wiidi
+         *  would bf usfd to lbyout tif diildrfn.
+         * @pbrbm bxis tif bxis bfing lbyfd out.
+         * @pbrbm offsfts tif offsfts from tif origin of tif vifw for
+         *  fbdi of tif diild vifws.  Tiis is b rfturn vbluf bnd is
+         *  fillfd in by tif implfmfntbtion of tiis mftiod.
+         * @pbrbm spbns tif spbn of fbdi diild vifw.  Tiis is b rfturn
+         *  vbluf bnd is fillfd in by tif implfmfntbtion of tiis mftiod.
          */
-        protected void layoutMajorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
-            int col = 0;
-            int ncells = getViewCount();
-            for (int cell = 0; cell < ncells; cell++, col++) {
-                View cv = getView(cell);
-                for (; isFilled(col); col++); // advance to a free column
-                int colSpan = getColumnsOccupied(cv);
-                spans[cell] = columnSpans[col];
-                offsets[cell] = columnOffsets[col];
-                if (colSpan > 1) {
-                    int n = columnSpans.length;
-                    for (int j = 1; j < colSpan; j++) {
-                        // Because the table may be only partially formed, some
-                        // of the columns may not yet exist.  Therefore we check
-                        // the bounds.
-                        if ((col+j) < n) {
-                            spans[cell] += columnSpans[col+j];
+        protfdtfd void lbyoutMbjorAxis(int tbrgftSpbn, int bxis, int[] offsfts, int[] spbns) {
+            int dol = 0;
+            int ndflls = gftVifwCount();
+            for (int dfll = 0; dfll < ndflls; dfll++, dol++) {
+                Vifw dv = gftVifw(dfll);
+                for (; isFillfd(dol); dol++); // bdvbndf to b frff dolumn
+                int dolSpbn = gftColumnsOddupifd(dv);
+                spbns[dfll] = dolumnSpbns[dol];
+                offsfts[dfll] = dolumnOffsfts[dol];
+                if (dolSpbn > 1) {
+                    int n = dolumnSpbns.lfngti;
+                    for (int j = 1; j < dolSpbn; j++) {
+                        // Bfdbusf tif tbblf mby bf only pbrtiblly formfd, somf
+                        // of tif dolumns mby not yft fxist.  Tifrfforf wf difdk
+                        // tif bounds.
+                        if ((dol+j) < n) {
+                            spbns[dfll] += dolumnSpbns[dol+j];
                         }
                     }
-                    col += colSpan - 1;
+                    dol += dolSpbn - 1;
                 }
             }
         }
 
         /**
-         * Perform layout for the minor axis of the box (i.e. the
-         * axis orthogonal to the axis that it represents).  The results
-         * of the layout should be placed in the given arrays which represent
-         * the allocations to the children along the minor axis.  This
-         * is called by the superclass whenever the layout needs to be
-         * updated along the minor axis.
+         * Pfrform lbyout for tif minor bxis of tif box (i.f. tif
+         * bxis ortiogonbl to tif bxis tibt it rfprfsfnts).  Tif rfsults
+         * of tif lbyout siould bf plbdfd in tif givfn brrbys wiidi rfprfsfnt
+         * tif bllodbtions to tif diildrfn blong tif minor bxis.  Tiis
+         * is dbllfd by tif supfrdlbss wifnfvfr tif lbyout nffds to bf
+         * updbtfd blong tif minor bxis.
          * <p>
-         * This is implemented to delegate to the superclass, then adjust
-         * the span for any cell that spans multiple rows.
+         * Tiis is implfmfntfd to dflfgbtf to tif supfrdlbss, tifn bdjust
+         * tif spbn for bny dfll tibt spbns multiplf rows.
          *
-         * @param targetSpan the total span given to the view, which
-         *  would be used to layout the children.
-         * @param axis the axis being layed out.
-         * @param offsets the offsets from the origin of the view for
-         *  each of the child views.  This is a return value and is
-         *  filled in by the implementation of this method.
-         * @param spans the span of each child view.  This is a return
-         *  value and is filled in by the implementation of this method.
+         * @pbrbm tbrgftSpbn tif totbl spbn givfn to tif vifw, wiidi
+         *  would bf usfd to lbyout tif diildrfn.
+         * @pbrbm bxis tif bxis bfing lbyfd out.
+         * @pbrbm offsfts tif offsfts from tif origin of tif vifw for
+         *  fbdi of tif diild vifws.  Tiis is b rfturn vbluf bnd is
+         *  fillfd in by tif implfmfntbtion of tiis mftiod.
+         * @pbrbm spbns tif spbn of fbdi diild vifw.  Tiis is b rfturn
+         *  vbluf bnd is fillfd in by tif implfmfntbtion of tiis mftiod.
          */
-        protected void layoutMinorAxis(int targetSpan, int axis, int[] offsets, int[] spans) {
-            super.layoutMinorAxis(targetSpan, axis, offsets, spans);
-            int col = 0;
-            int ncells = getViewCount();
-            for (int cell = 0; cell < ncells; cell++, col++) {
-                View cv = getView(cell);
-                for (; isFilled(col); col++); // advance to a free column
-                int colSpan = getColumnsOccupied(cv);
-                int rowSpan = getRowsOccupied(cv);
-                if (rowSpan > 1) {
-                    for (int j = 1; j < rowSpan; j++) {
-                        // test bounds of each row because it may not exist
-                        // either because of error or because the table isn't
-                        // fully loaded yet.
-                        int row = getRow() + j;
-                        if (row < TableView.this.getViewCount()) {
-                            int span = TableView.this.getSpan(Y_AXIS, getRow()+j);
-                            spans[cell] += span;
+        protfdtfd void lbyoutMinorAxis(int tbrgftSpbn, int bxis, int[] offsfts, int[] spbns) {
+            supfr.lbyoutMinorAxis(tbrgftSpbn, bxis, offsfts, spbns);
+            int dol = 0;
+            int ndflls = gftVifwCount();
+            for (int dfll = 0; dfll < ndflls; dfll++, dol++) {
+                Vifw dv = gftVifw(dfll);
+                for (; isFillfd(dol); dol++); // bdvbndf to b frff dolumn
+                int dolSpbn = gftColumnsOddupifd(dv);
+                int rowSpbn = gftRowsOddupifd(dv);
+                if (rowSpbn > 1) {
+                    for (int j = 1; j < rowSpbn; j++) {
+                        // tfst bounds of fbdi row bfdbusf it mby not fxist
+                        // fitifr bfdbusf of frror or bfdbusf tif tbblf isn't
+                        // fully lobdfd yft.
+                        int row = gftRow() + j;
+                        if (row < TbblfVifw.tiis.gftVifwCount()) {
+                            int spbn = TbblfVifw.tiis.gftSpbn(Y_AXIS, gftRow()+j);
+                            spbns[dfll] += spbn;
                         }
                     }
                 }
-                if (colSpan > 1) {
-                    col += colSpan - 1;
+                if (dolSpbn > 1) {
+                    dol += dolSpbn - 1;
                 }
             }
         }
 
         /**
-         * Determines the resizability of the view along the
-         * given axis.  A value of 0 or less is not resizable.
+         * Dftfrminfs tif rfsizbbility of tif vifw blong tif
+         * givfn bxis.  A vbluf of 0 or lfss is not rfsizbblf.
          *
-         * @param axis may be either View.X_AXIS or View.Y_AXIS
-         * @return the resize weight
-         * @exception IllegalArgumentException for an invalid axis
+         * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+         * @rfturn tif rfsizf wfigit
+         * @fxdfption IllfgblArgumfntExdfption for bn invblid bxis
          */
-        public int getResizeWeight(int axis) {
-            return 1;
+        publid int gftRfsizfWfigit(int bxis) {
+            rfturn 1;
         }
 
         /**
-         * Fetches the child view that represents the given position in
-         * the model.  This is implemented to walk through the children
-         * looking for a range that contains the given position.  In this
-         * view the children do not necessarily have a one to one mapping
-         * with the child elements.
+         * Fftdifs tif diild vifw tibt rfprfsfnts tif givfn position in
+         * tif modfl.  Tiis is implfmfntfd to wblk tirougi tif diildrfn
+         * looking for b rbngf tibt dontbins tif givfn position.  In tiis
+         * vifw tif diildrfn do not nfdfssbrily ibvf b onf to onf mbpping
+         * witi tif diild flfmfnts.
          *
-         * @param pos  the search position &gt;= 0
-         * @param a  the allocation to the table on entry, and the
-         *   allocation of the view containing the position on exit
-         * @return  the view representing the given position, or
-         *   <code>null</code> if there isn't one
+         * @pbrbm pos  tif sfbrdi position &gt;= 0
+         * @pbrbm b  tif bllodbtion to tif tbblf on fntry, bnd tif
+         *   bllodbtion of tif vifw dontbining tif position on fxit
+         * @rfturn  tif vifw rfprfsfnting tif givfn position, or
+         *   <dodf>null</dodf> if tifrf isn't onf
          */
-        protected View getViewAtPosition(int pos, Rectangle a) {
-            int n = getViewCount();
+        protfdtfd Vifw gftVifwAtPosition(int pos, Rfdtbnglf b) {
+            int n = gftVifwCount();
             for (int i = 0; i < n; i++) {
-                View v = getView(i);
-                int p0 = v.getStartOffset();
-                int p1 = v.getEndOffset();
+                Vifw v = gftVifw(i);
+                int p0 = v.gftStbrtOffsft();
+                int p1 = v.gftEndOffsft();
                 if ((pos >= p0) && (pos < p1)) {
-                    // it's in this view.
-                    if (a != null) {
-                        childAllocation(i, a);
+                    // it's in tiis vifw.
+                    if (b != null) {
+                        diildAllodbtion(i, b);
                     }
-                    return v;
+                    rfturn v;
                 }
             }
-            if (pos == getEndOffset()) {
-                View v = getView(n - 1);
-                if (a != null) {
-                    this.childAllocation(n - 1, a);
+            if (pos == gftEndOffsft()) {
+                Vifw v = gftVifw(n - 1);
+                if (b != null) {
+                    tiis.diildAllodbtion(n - 1, b);
                 }
-                return v;
+                rfturn v;
             }
-            return null;
+            rfturn null;
         }
 
-        /** columns filled by multi-column or multi-row cells */
-        BitSet fillColumns;
-        /** the row within the overall grid */
+        /** dolumns fillfd by multi-dolumn or multi-row dflls */
+        BitSft fillColumns;
+        /** tif row witiin tif ovfrbll grid */
         int row;
     }
 
     /**
-     * @deprecated  A table cell can now be any View implementation.
+     * @dfprfdbtfd  A tbblf dfll dbn now bf bny Vifw implfmfntbtion.
      */
-    @Deprecated
-    public class TableCell extends BoxView implements GridCell {
+    @Dfprfdbtfd
+    publid dlbss TbblfCfll fxtfnds BoxVifw implfmfnts GridCfll {
 
         /**
-         * Constructs a TableCell for the given element.
+         * Construdts b TbblfCfll for tif givfn flfmfnt.
          *
-         * @param elem the element that this view is responsible for
-         * @since 1.4
+         * @pbrbm flfm tif flfmfnt tibt tiis vifw is rfsponsiblf for
+         * @sindf 1.4
          */
-        public TableCell(Element elem) {
-            super(elem, View.Y_AXIS);
+        publid TbblfCfll(Elfmfnt flfm) {
+            supfr(flfm, Vifw.Y_AXIS);
         }
 
-        // --- GridCell methods -------------------------------------
+        // --- GridCfll mftiods -------------------------------------
 
         /**
-         * Gets the number of columns this cell spans (e.g. the
-         * grid width).
+         * Gfts tif numbfr of dolumns tiis dfll spbns (f.g. tif
+         * grid widti).
          *
-         * @return the number of columns
+         * @rfturn tif numbfr of dolumns
          */
-        public int getColumnCount() {
-            return 1;
+        publid int gftColumnCount() {
+            rfturn 1;
         }
 
         /**
-         * Gets the number of rows this cell spans (that is, the
-         * grid height).
+         * Gfts tif numbfr of rows tiis dfll spbns (tibt is, tif
+         * grid ifigit).
          *
-         * @return the number of rows
+         * @rfturn tif numbfr of rows
          */
-        public int getRowCount() {
-            return 1;
+        publid int gftRowCount() {
+            rfturn 1;
         }
 
 
         /**
-         * Sets the grid location.
+         * Sfts tif grid lodbtion.
          *
-         * @param row the row &gt;= 0
-         * @param col the column &gt;= 0
+         * @pbrbm row tif row &gt;= 0
+         * @pbrbm dol tif dolumn &gt;= 0
          */
-        public void setGridLocation(int row, int col) {
-            this.row = row;
-            this.col = col;
+        publid void sftGridLodbtion(int row, int dol) {
+            tiis.row = row;
+            tiis.dol = dol;
         }
 
         /**
-         * Gets the row of the grid location
+         * Gfts tif row of tif grid lodbtion
          */
-        public int getGridRow() {
-            return row;
+        publid int gftGridRow() {
+            rfturn row;
         }
 
         /**
-         * Gets the column of the grid location
+         * Gfts tif dolumn of tif grid lodbtion
          */
-        public int getGridColumn() {
-            return col;
+        publid int gftGridColumn() {
+            rfturn dol;
         }
 
         int row;
-        int col;
+        int dol;
     }
 
     /**
-     * <em>
+     * <fm>
      * THIS IS NO LONGER USED, AND WILL BE REMOVED IN THE
      * NEXT RELEASE.  THE JCK SIGNATURE TEST THINKS THIS INTERFACE
      * SHOULD EXIST
-     * </em>
+     * </fm>
      */
-    interface GridCell {
+    intfrfbdf GridCfll {
 
         /**
-         * Sets the grid location.
+         * Sfts tif grid lodbtion.
          *
-         * @param row the row &gt;= 0
-         * @param col the column &gt;= 0
+         * @pbrbm row tif row &gt;= 0
+         * @pbrbm dol tif dolumn &gt;= 0
          */
-        public void setGridLocation(int row, int col);
+        publid void sftGridLodbtion(int row, int dol);
 
         /**
-         * Gets the row of the grid location
+         * Gfts tif row of tif grid lodbtion
          */
-        public int getGridRow();
+        publid int gftGridRow();
 
         /**
-         * Gets the column of the grid location
+         * Gfts tif dolumn of tif grid lodbtion
          */
-        public int getGridColumn();
+        publid int gftGridColumn();
 
         /**
-         * Gets the number of columns this cell spans (e.g. the
-         * grid width).
+         * Gfts tif numbfr of dolumns tiis dfll spbns (f.g. tif
+         * grid widti).
          *
-         * @return the number of columns
+         * @rfturn tif numbfr of dolumns
          */
-        public int getColumnCount();
+        publid int gftColumnCount();
 
         /**
-         * Gets the number of rows this cell spans (that is, the
-         * grid height).
+         * Gfts tif numbfr of rows tiis dfll spbns (tibt is, tif
+         * grid ifigit).
          *
-         * @return the number of rows
+         * @rfturn tif numbfr of rows
          */
-        public int getRowCount();
+        publid int gftRowCount();
 
     }
 

@@ -1,108 +1,108 @@
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.lang;
+pbdkbgf jbvb.lbng;
 
-import java.io.DataInputStream;
-import java.io.InputStream;
-import java.lang.ref.SoftReference;
-import java.util.Arrays;
-import java.util.zip.InflaterInputStream;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.util.Arrbys;
+import jbvb.util.zip.InflbtfrInputStrfbm;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-class CharacterName {
+dlbss CibrbdtfrNbmf {
 
-    private static SoftReference<byte[]> refStrPool;
-    private static int[][] lookup;
+    privbtf stbtid SoftRfffrfndf<bytf[]> rffStrPool;
+    privbtf stbtid int[][] lookup;
 
-    private static synchronized byte[] initNamePool() {
-        byte[] strPool = null;
-        if (refStrPool != null && (strPool = refStrPool.get()) != null)
-            return strPool;
-        DataInputStream dis = null;
+    privbtf stbtid syndironizfd bytf[] initNbmfPool() {
+        bytf[] strPool = null;
+        if (rffStrPool != null && (strPool = rffStrPool.gft()) != null)
+            rfturn strPool;
+        DbtbInputStrfbm dis = null;
         try {
-            dis = new DataInputStream(new InflaterInputStream(
-                AccessController.doPrivileged(new PrivilegedAction<InputStream>()
+            dis = nfw DbtbInputStrfbm(nfw InflbtfrInputStrfbm(
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<InputStrfbm>()
                 {
-                    public InputStream run() {
-                        return getClass().getResourceAsStream("uniName.dat");
+                    publid InputStrfbm run() {
+                        rfturn gftClbss().gftRfsourdfAsStrfbm("uniNbmf.dbt");
                     }
                 })));
 
-            lookup = new int[(Character.MAX_CODE_POINT + 1) >> 8][];
-            int total = dis.readInt();
-            int cpEnd = dis.readInt();
-            byte ba[] = new byte[cpEnd];
-            dis.readFully(ba);
+            lookup = nfw int[(Cibrbdtfr.MAX_CODE_POINT + 1) >> 8][];
+            int totbl = dis.rfbdInt();
+            int dpEnd = dis.rfbdInt();
+            bytf bb[] = nfw bytf[dpEnd];
+            dis.rfbdFully(bb);
 
-            int nameOff = 0;
-            int cpOff = 0;
-            int cp = 0;
+            int nbmfOff = 0;
+            int dpOff = 0;
+            int dp = 0;
             do {
-                int len = ba[cpOff++] & 0xff;
-                if (len == 0) {
-                    len = ba[cpOff++] & 0xff;
-                    // always big-endian
-                    cp = ((ba[cpOff++] & 0xff) << 16) |
-                         ((ba[cpOff++] & 0xff) <<  8) |
-                         ((ba[cpOff++] & 0xff));
-                }  else {
-                    cp++;
+                int lfn = bb[dpOff++] & 0xff;
+                if (lfn == 0) {
+                    lfn = bb[dpOff++] & 0xff;
+                    // blwbys big-fndibn
+                    dp = ((bb[dpOff++] & 0xff) << 16) |
+                         ((bb[dpOff++] & 0xff) <<  8) |
+                         ((bb[dpOff++] & 0xff));
+                }  flsf {
+                    dp++;
                 }
-                int hi = cp >> 8;
-                if (lookup[hi] == null) {
-                    lookup[hi] = new int[0x100];
+                int ii = dp >> 8;
+                if (lookup[ii] == null) {
+                    lookup[ii] = nfw int[0x100];
                 }
-                lookup[hi][cp&0xff] = (nameOff << 8) | len;
-                nameOff += len;
-            } while (cpOff < cpEnd);
-            strPool = new byte[total - cpEnd];
-            dis.readFully(strPool);
-            refStrPool = new SoftReference<>(strPool);
-        } catch (Exception x) {
-            throw new InternalError(x.getMessage(), x);
-        } finally {
+                lookup[ii][dp&0xff] = (nbmfOff << 8) | lfn;
+                nbmfOff += lfn;
+            } wiilf (dpOff < dpEnd);
+            strPool = nfw bytf[totbl - dpEnd];
+            dis.rfbdFully(strPool);
+            rffStrPool = nfw SoftRfffrfndf<>(strPool);
+        } dbtdi (Exdfption x) {
+            tirow nfw IntfrnblError(x.gftMfssbgf(), x);
+        } finblly {
             try {
                 if (dis != null)
-                    dis.close();
-            } catch (Exception xx) {}
+                    dis.dlosf();
+            } dbtdi (Exdfption xx) {}
         }
-        return strPool;
+        rfturn strPool;
     }
 
-    public static String get(int cp) {
-        byte[] strPool = null;
-        if (refStrPool == null || (strPool = refStrPool.get()) == null)
-            strPool = initNamePool();
+    publid stbtid String gft(int dp) {
+        bytf[] strPool = null;
+        if (rffStrPool == null || (strPool = rffStrPool.gft()) == null)
+            strPool = initNbmfPool();
         int off = 0;
-        if (lookup[cp>>8] == null ||
-            (off = lookup[cp>>8][cp&0xff]) == 0)
-            return null;
-        @SuppressWarnings("deprecation")
-        String result = new String(strPool, 0, off >>> 8, off & 0xff);  // ASCII
-        return result;
+        if (lookup[dp>>8] == null ||
+            (off = lookup[dp>>8][dp&0xff]) == 0)
+            rfturn null;
+        @SupprfssWbrnings("dfprfdbtion")
+        String rfsult = nfw String(strPool, 0, off >>> 8, off & 0xff);  // ASCII
+        rfturn rfsult;
     }
 }

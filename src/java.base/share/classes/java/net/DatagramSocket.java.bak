@@ -1,1117 +1,1117 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.IOException;
-import java.nio.channels.DatagramChannel;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
-import java.util.Set;
-import java.util.Collections;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibnnfls.DbtbgrbmCibnnfl;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Sft;
+import jbvb.util.Collfdtions;
 
 /**
- * This class represents a socket for sending and receiving datagram packets.
+ * Tiis dlbss rfprfsfnts b sodkft for sfnding bnd rfdfiving dbtbgrbm pbdkfts.
  *
- * <p>A datagram socket is the sending or receiving point for a packet
- * delivery service. Each packet sent or received on a datagram socket
- * is individually addressed and routed. Multiple packets sent from
- * one machine to another may be routed differently, and may arrive in
- * any order.
+ * <p>A dbtbgrbm sodkft is tif sfnding or rfdfiving point for b pbdkft
+ * dflivfry sfrvidf. Ebdi pbdkft sfnt or rfdfivfd on b dbtbgrbm sodkft
+ * is individublly bddrfssfd bnd routfd. Multiplf pbdkfts sfnt from
+ * onf mbdiinf to bnotifr mby bf routfd difffrfntly, bnd mby brrivf in
+ * bny ordfr.
  *
- * <p> Where possible, a newly constructed {@code DatagramSocket} has the
- * {@link SocketOptions#SO_BROADCAST SO_BROADCAST} socket option enabled so as
- * to allow the transmission of broadcast datagrams. In order to receive
- * broadcast packets a DatagramSocket should be bound to the wildcard address.
- * In some implementations, broadcast packets may also be received when
- * a DatagramSocket is bound to a more specific address.
+ * <p> Wifrf possiblf, b nfwly donstrudtfd {@dodf DbtbgrbmSodkft} ibs tif
+ * {@link SodkftOptions#SO_BROADCAST SO_BROADCAST} sodkft option fnbblfd so bs
+ * to bllow tif trbnsmission of brobddbst dbtbgrbms. In ordfr to rfdfivf
+ * brobddbst pbdkfts b DbtbgrbmSodkft siould bf bound to tif wilddbrd bddrfss.
+ * In somf implfmfntbtions, brobddbst pbdkfts mby blso bf rfdfivfd wifn
+ * b DbtbgrbmSodkft is bound to b morf spfdifid bddrfss.
  * <p>
- * Example:
- * {@code
- *              DatagramSocket s = new DatagramSocket(null);
- *              s.bind(new InetSocketAddress(8888));
+ * Exbmplf:
+ * {@dodf
+ *              DbtbgrbmSodkft s = nfw DbtbgrbmSodkft(null);
+ *              s.bind(nfw InftSodkftAddrfss(8888));
  * }
- * Which is equivalent to:
- * {@code
- *              DatagramSocket s = new DatagramSocket(8888);
+ * Wiidi is fquivblfnt to:
+ * {@dodf
+ *              DbtbgrbmSodkft s = nfw DbtbgrbmSodkft(8888);
  * }
- * Both cases will create a DatagramSocket able to receive broadcasts on
+ * Boti dbsfs will drfbtf b DbtbgrbmSodkft bblf to rfdfivf brobddbsts on
  * UDP port 8888.
  *
- * @author  Pavani Diwanji
- * @see     java.net.DatagramPacket
- * @see     java.nio.channels.DatagramChannel
- * @since 1.0
+ * @butior  Pbvbni Diwbnji
+ * @sff     jbvb.nft.DbtbgrbmPbdkft
+ * @sff     jbvb.nio.dibnnfls.DbtbgrbmCibnnfl
+ * @sindf 1.0
  */
-public
-class DatagramSocket implements java.io.Closeable {
+publid
+dlbss DbtbgrbmSodkft implfmfnts jbvb.io.Closfbblf {
     /**
-     * Various states of this socket.
+     * Vbrious stbtfs of tiis sodkft.
      */
-    private boolean created = false;
-    private boolean bound = false;
-    private boolean closed = false;
-    private Object closeLock = new Object();
+    privbtf boolfbn drfbtfd = fblsf;
+    privbtf boolfbn bound = fblsf;
+    privbtf boolfbn dlosfd = fblsf;
+    privbtf Objfdt dlosfLodk = nfw Objfdt();
 
     /*
-     * The implementation of this DatagramSocket.
+     * Tif implfmfntbtion of tiis DbtbgrbmSodkft.
      */
-    DatagramSocketImpl impl;
+    DbtbgrbmSodkftImpl impl;
 
     /**
-     * Are we using an older DatagramSocketImpl?
+     * Arf wf using bn oldfr DbtbgrbmSodkftImpl?
      */
-    boolean oldImpl = false;
+    boolfbn oldImpl = fblsf;
 
     /*
-     * Connection state:
-     * ST_NOT_CONNECTED = socket not connected
-     * ST_CONNECTED = socket connected
-     * ST_CONNECTED_NO_IMPL = socket connected but not at impl level
+     * Connfdtion stbtf:
+     * ST_NOT_CONNECTED = sodkft not donnfdtfd
+     * ST_CONNECTED = sodkft donnfdtfd
+     * ST_CONNECTED_NO_IMPL = sodkft donnfdtfd but not bt impl lfvfl
      */
-    static final int ST_NOT_CONNECTED = 0;
-    static final int ST_CONNECTED = 1;
-    static final int ST_CONNECTED_NO_IMPL = 2;
+    stbtid finbl int ST_NOT_CONNECTED = 0;
+    stbtid finbl int ST_CONNECTED = 1;
+    stbtid finbl int ST_CONNECTED_NO_IMPL = 2;
 
-    int connectState = ST_NOT_CONNECTED;
+    int donnfdtStbtf = ST_NOT_CONNECTED;
 
     /*
-     * Connected address & port
+     * Connfdtfd bddrfss & port
      */
-    InetAddress connectedAddress = null;
-    int connectedPort = -1;
+    InftAddrfss donnfdtfdAddrfss = null;
+    int donnfdtfdPort = -1;
 
     /**
-     * Connects this socket to a remote socket address (IP address + port number).
-     * Binds socket if not already bound.
+     * Connfdts tiis sodkft to b rfmotf sodkft bddrfss (IP bddrfss + port numbfr).
+     * Binds sodkft if not blrfbdy bound.
      *
-     * @param   address The remote address.
-     * @param   port    The remote port
-     * @throws  SocketException if binding the socket fails.
+     * @pbrbm   bddrfss Tif rfmotf bddrfss.
+     * @pbrbm   port    Tif rfmotf port
+     * @tirows  SodkftExdfption if binding tif sodkft fbils.
      */
-    private synchronized void connectInternal(InetAddress address, int port) throws SocketException {
+    privbtf syndironizfd void donnfdtIntfrnbl(InftAddrfss bddrfss, int port) tirows SodkftExdfption {
         if (port < 0 || port > 0xFFFF) {
-            throw new IllegalArgumentException("connect: " + port);
+            tirow nfw IllfgblArgumfntExdfption("donnfdt: " + port);
         }
-        if (address == null) {
-            throw new IllegalArgumentException("connect: null address");
+        if (bddrfss == null) {
+            tirow nfw IllfgblArgumfntExdfption("donnfdt: null bddrfss");
         }
-        checkAddress (address, "connect");
-        if (isClosed())
-            return;
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            if (address.isMulticastAddress()) {
-                security.checkMulticast(address);
-            } else {
-                security.checkConnect(address.getHostAddress(), port);
-                security.checkAccept(address.getHostAddress(), port);
+        difdkAddrfss (bddrfss, "donnfdt");
+        if (isClosfd())
+            rfturn;
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            if (bddrfss.isMultidbstAddrfss()) {
+                sfdurity.difdkMultidbst(bddrfss);
+            } flsf {
+                sfdurity.difdkConnfdt(bddrfss.gftHostAddrfss(), port);
+                sfdurity.difdkAddfpt(bddrfss.gftHostAddrfss(), port);
             }
         }
 
         if (!isBound())
-          bind(new InetSocketAddress(0));
+          bind(nfw InftSodkftAddrfss(0));
 
-        // old impls do not support connect/disconnect
-        if (oldImpl || (impl instanceof AbstractPlainDatagramSocketImpl &&
-             ((AbstractPlainDatagramSocketImpl)impl).nativeConnectDisabled())) {
-            connectState = ST_CONNECTED_NO_IMPL;
-        } else {
+        // old impls do not support donnfdt/disdonnfdt
+        if (oldImpl || (impl instbndfof AbstrbdtPlbinDbtbgrbmSodkftImpl &&
+             ((AbstrbdtPlbinDbtbgrbmSodkftImpl)impl).nbtivfConnfdtDisbblfd())) {
+            donnfdtStbtf = ST_CONNECTED_NO_IMPL;
+        } flsf {
             try {
-                getImpl().connect(address, port);
+                gftImpl().donnfdt(bddrfss, port);
 
-                // socket is now connected by the impl
-                connectState = ST_CONNECTED;
-            } catch (SocketException se) {
+                // sodkft is now donnfdtfd by tif impl
+                donnfdtStbtf = ST_CONNECTED;
+            } dbtdi (SodkftExdfption sf) {
 
-                // connection will be emulated by DatagramSocket
-                connectState = ST_CONNECTED_NO_IMPL;
+                // donnfdtion will bf fmulbtfd by DbtbgrbmSodkft
+                donnfdtStbtf = ST_CONNECTED_NO_IMPL;
             }
         }
 
-        connectedAddress = address;
-        connectedPort = port;
+        donnfdtfdAddrfss = bddrfss;
+        donnfdtfdPort = port;
     }
 
 
     /**
-     * Constructs a datagram socket and binds it to any available port
-     * on the local host machine.  The socket will be bound to the
-     * {@link InetAddress#isAnyLocalAddress wildcard} address,
-     * an IP address chosen by the kernel.
+     * Construdts b dbtbgrbm sodkft bnd binds it to bny bvbilbblf port
+     * on tif lodbl iost mbdiinf.  Tif sodkft will bf bound to tif
+     * {@link InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss,
+     * bn IP bddrfss diosfn by tif kfrnfl.
      *
-     * <p>If there is a security manager,
-     * its {@code checkListen} method is first called
-     * with 0 as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If tifrf is b sfdurity mbnbgfr,
+     * its {@dodf difdkListfn} mftiod is first dbllfd
+     * witi 0 bs its brgumfnt to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @exception  SocketException  if the socket could not be opened,
-     *               or the socket could not bind to the specified local port.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
+     * @fxdfption  SodkftExdfption  if tif sodkft dould not bf opfnfd,
+     *               or tif sodkft dould not bind to tif spfdififd lodbl port.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkListfn} mftiod dofsn't bllow tif opfrbtion.
      *
-     * @see SecurityManager#checkListen
+     * @sff SfdurityMbnbgfr#difdkListfn
      */
-    public DatagramSocket() throws SocketException {
-        this(new InetSocketAddress(0));
+    publid DbtbgrbmSodkft() tirows SodkftExdfption {
+        tiis(nfw InftSodkftAddrfss(0));
     }
 
     /**
-     * Creates an unbound datagram socket with the specified
-     * DatagramSocketImpl.
+     * Crfbtfs bn unbound dbtbgrbm sodkft witi tif spfdififd
+     * DbtbgrbmSodkftImpl.
      *
-     * @param impl an instance of a <B>DatagramSocketImpl</B>
-     *        the subclass wishes to use on the DatagramSocket.
-     * @since   1.4
+     * @pbrbm impl bn instbndf of b <B>DbtbgrbmSodkftImpl</B>
+     *        tif subdlbss wisifs to usf on tif DbtbgrbmSodkft.
+     * @sindf   1.4
      */
-    protected DatagramSocket(DatagramSocketImpl impl) {
+    protfdtfd DbtbgrbmSodkft(DbtbgrbmSodkftImpl impl) {
         if (impl == null)
-            throw new NullPointerException();
-        this.impl = impl;
-        checkOldImpl();
+            tirow nfw NullPointfrExdfption();
+        tiis.impl = impl;
+        difdkOldImpl();
     }
 
     /**
-     * Creates a datagram socket, bound to the specified local
-     * socket address.
+     * Crfbtfs b dbtbgrbm sodkft, bound to tif spfdififd lodbl
+     * sodkft bddrfss.
      * <p>
-     * If, if the address is {@code null}, creates an unbound socket.
+     * If, if tif bddrfss is {@dodf null}, drfbtfs bn unbound sodkft.
      *
-     * <p>If there is a security manager,
-     * its {@code checkListen} method is first called
-     * with the port from the socket address
-     * as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If tifrf is b sfdurity mbnbgfr,
+     * its {@dodf difdkListfn} mftiod is first dbllfd
+     * witi tif port from tif sodkft bddrfss
+     * bs its brgumfnt to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param bindaddr local socket address to bind, or {@code null}
-     *                 for an unbound socket.
+     * @pbrbm bindbddr lodbl sodkft bddrfss to bind, or {@dodf null}
+     *                 for bn unbound sodkft.
      *
-     * @exception  SocketException  if the socket could not be opened,
-     *               or the socket could not bind to the specified local port.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
+     * @fxdfption  SodkftExdfption  if tif sodkft dould not bf opfnfd,
+     *               or tif sodkft dould not bind to tif spfdififd lodbl port.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkListfn} mftiod dofsn't bllow tif opfrbtion.
      *
-     * @see SecurityManager#checkListen
-     * @since   1.4
+     * @sff SfdurityMbnbgfr#difdkListfn
+     * @sindf   1.4
      */
-    public DatagramSocket(SocketAddress bindaddr) throws SocketException {
-        // create a datagram socket.
-        createImpl();
-        if (bindaddr != null) {
+    publid DbtbgrbmSodkft(SodkftAddrfss bindbddr) tirows SodkftExdfption {
+        // drfbtf b dbtbgrbm sodkft.
+        drfbtfImpl();
+        if (bindbddr != null) {
             try {
-                bind(bindaddr);
-            } finally {
+                bind(bindbddr);
+            } finblly {
                 if (!isBound())
-                    close();
+                    dlosf();
             }
         }
     }
 
     /**
-     * Constructs a datagram socket and binds it to the specified port
-     * on the local host machine.  The socket will be bound to the
-     * {@link InetAddress#isAnyLocalAddress wildcard} address,
-     * an IP address chosen by the kernel.
+     * Construdts b dbtbgrbm sodkft bnd binds it to tif spfdififd port
+     * on tif lodbl iost mbdiinf.  Tif sodkft will bf bound to tif
+     * {@link InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss,
+     * bn IP bddrfss diosfn by tif kfrnfl.
      *
-     * <p>If there is a security manager,
-     * its {@code checkListen} method is first called
-     * with the {@code port} argument
-     * as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If tifrf is b sfdurity mbnbgfr,
+     * its {@dodf difdkListfn} mftiod is first dbllfd
+     * witi tif {@dodf port} brgumfnt
+     * bs its brgumfnt to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param      port port to use.
-     * @exception  SocketException  if the socket could not be opened,
-     *               or the socket could not bind to the specified local port.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
+     * @pbrbm      port port to usf.
+     * @fxdfption  SodkftExdfption  if tif sodkft dould not bf opfnfd,
+     *               or tif sodkft dould not bind to tif spfdififd lodbl port.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkListfn} mftiod dofsn't bllow tif opfrbtion.
      *
-     * @see SecurityManager#checkListen
+     * @sff SfdurityMbnbgfr#difdkListfn
      */
-    public DatagramSocket(int port) throws SocketException {
-        this(port, null);
+    publid DbtbgrbmSodkft(int port) tirows SodkftExdfption {
+        tiis(port, null);
     }
 
     /**
-     * Creates a datagram socket, bound to the specified local
-     * address.  The local port must be between 0 and 65535 inclusive.
-     * If the IP address is 0.0.0.0, the socket will be bound to the
-     * {@link InetAddress#isAnyLocalAddress wildcard} address,
-     * an IP address chosen by the kernel.
+     * Crfbtfs b dbtbgrbm sodkft, bound to tif spfdififd lodbl
+     * bddrfss.  Tif lodbl port must bf bftwffn 0 bnd 65535 indlusivf.
+     * If tif IP bddrfss is 0.0.0.0, tif sodkft will bf bound to tif
+     * {@link InftAddrfss#isAnyLodblAddrfss wilddbrd} bddrfss,
+     * bn IP bddrfss diosfn by tif kfrnfl.
      *
-     * <p>If there is a security manager,
-     * its {@code checkListen} method is first called
-     * with the {@code port} argument
-     * as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If tifrf is b sfdurity mbnbgfr,
+     * its {@dodf difdkListfn} mftiod is first dbllfd
+     * witi tif {@dodf port} brgumfnt
+     * bs its brgumfnt to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param port local port to use
-     * @param laddr local address to bind
+     * @pbrbm port lodbl port to usf
+     * @pbrbm lbddr lodbl bddrfss to bind
      *
-     * @exception  SocketException  if the socket could not be opened,
-     *               or the socket could not bind to the specified local port.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
+     * @fxdfption  SodkftExdfption  if tif sodkft dould not bf opfnfd,
+     *               or tif sodkft dould not bind to tif spfdififd lodbl port.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkListfn} mftiod dofsn't bllow tif opfrbtion.
      *
-     * @see SecurityManager#checkListen
-     * @since   1.1
+     * @sff SfdurityMbnbgfr#difdkListfn
+     * @sindf   1.1
      */
-    public DatagramSocket(int port, InetAddress laddr) throws SocketException {
-        this(new InetSocketAddress(laddr, port));
+    publid DbtbgrbmSodkft(int port, InftAddrfss lbddr) tirows SodkftExdfption {
+        tiis(nfw InftSodkftAddrfss(lbddr, port));
     }
 
-    private void checkOldImpl() {
+    privbtf void difdkOldImpl() {
         if (impl == null)
-            return;
-        // DatagramSocketImpl.peekdata() is a protected method, therefore we need to use
-        // getDeclaredMethod, therefore we need permission to access the member
+            rfturn;
+        // DbtbgrbmSodkftImpl.pffkdbtb() is b protfdtfd mftiod, tifrfforf wf nffd to usf
+        // gftDfdlbrfdMftiod, tifrfforf wf nffd pfrmission to bddfss tif mfmbfr
         try {
-            AccessController.doPrivileged(
-                new PrivilegedExceptionAction<Void>() {
-                    public Void run() throws NoSuchMethodException {
-                        Class<?>[] cl = new Class<?>[1];
-                        cl[0] = DatagramPacket.class;
-                        impl.getClass().getDeclaredMethod("peekData", cl);
-                        return null;
+            AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Void>() {
+                    publid Void run() tirows NoSudiMftiodExdfption {
+                        Clbss<?>[] dl = nfw Clbss<?>[1];
+                        dl[0] = DbtbgrbmPbdkft.dlbss;
+                        impl.gftClbss().gftDfdlbrfdMftiod("pffkDbtb", dl);
+                        rfturn null;
                     }
                 });
-        } catch (java.security.PrivilegedActionException e) {
-            oldImpl = true;
+        } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption f) {
+            oldImpl = truf;
         }
     }
 
-    static Class<?> implClass = null;
+    stbtid Clbss<?> implClbss = null;
 
-    void createImpl() throws SocketException {
+    void drfbtfImpl() tirows SodkftExdfption {
         if (impl == null) {
-            if (factory != null) {
-                impl = factory.createDatagramSocketImpl();
-                checkOldImpl();
-            } else {
-                boolean isMulticast = (this instanceof MulticastSocket) ? true : false;
-                impl = DefaultDatagramSocketImplFactory.createDatagramSocketImpl(isMulticast);
+            if (fbdtory != null) {
+                impl = fbdtory.drfbtfDbtbgrbmSodkftImpl();
+                difdkOldImpl();
+            } flsf {
+                boolfbn isMultidbst = (tiis instbndfof MultidbstSodkft) ? truf : fblsf;
+                impl = DffbultDbtbgrbmSodkftImplFbdtory.drfbtfDbtbgrbmSodkftImpl(isMultidbst);
 
-                checkOldImpl();
+                difdkOldImpl();
             }
         }
-        // creates a udp socket
-        impl.create();
-        impl.setDatagramSocket(this);
-        created = true;
+        // drfbtfs b udp sodkft
+        impl.drfbtf();
+        impl.sftDbtbgrbmSodkft(tiis);
+        drfbtfd = truf;
     }
 
     /**
-     * Get the {@code DatagramSocketImpl} attached to this socket,
-     * creating it if necessary.
+     * Gft tif {@dodf DbtbgrbmSodkftImpl} bttbdifd to tiis sodkft,
+     * drfbting it if nfdfssbry.
      *
-     * @return  the {@code DatagramSocketImpl} attached to that
-     *          DatagramSocket
-     * @throws SocketException if creation fails.
-     * @since 1.4
+     * @rfturn  tif {@dodf DbtbgrbmSodkftImpl} bttbdifd to tibt
+     *          DbtbgrbmSodkft
+     * @tirows SodkftExdfption if drfbtion fbils.
+     * @sindf 1.4
      */
-    DatagramSocketImpl getImpl() throws SocketException {
-        if (!created)
-            createImpl();
-        return impl;
+    DbtbgrbmSodkftImpl gftImpl() tirows SodkftExdfption {
+        if (!drfbtfd)
+            drfbtfImpl();
+        rfturn impl;
     }
 
     /**
-     * Binds this DatagramSocket to a specific address and port.
+     * Binds tiis DbtbgrbmSodkft to b spfdifid bddrfss bnd port.
      * <p>
-     * If the address is {@code null}, then the system will pick up
-     * an ephemeral port and a valid local address to bind the socket.
+     * If tif bddrfss is {@dodf null}, tifn tif systfm will pidk up
+     * bn fpifmfrbl port bnd b vblid lodbl bddrfss to bind tif sodkft.
      *
-     * @param   addr The address and port to bind to.
-     * @throws  SocketException if any error happens during the bind, or if the
-     *          socket is already bound.
-     * @throws  SecurityException  if a security manager exists and its
-     *             {@code checkListen} method doesn't allow the operation.
-     * @throws IllegalArgumentException if addr is a SocketAddress subclass
-     *         not supported by this socket.
-     * @since 1.4
+     * @pbrbm   bddr Tif bddrfss bnd port to bind to.
+     * @tirows  SodkftExdfption if bny frror ibppfns during tif bind, or if tif
+     *          sodkft is blrfbdy bound.
+     * @tirows  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkListfn} mftiod dofsn't bllow tif opfrbtion.
+     * @tirows IllfgblArgumfntExdfption if bddr is b SodkftAddrfss subdlbss
+     *         not supportfd by tiis sodkft.
+     * @sindf 1.4
      */
-    public synchronized void bind(SocketAddress addr) throws SocketException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
+    publid syndironizfd void bind(SodkftAddrfss bddr) tirows SodkftExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
         if (isBound())
-            throw new SocketException("already bound");
-        if (addr == null)
-            addr = new InetSocketAddress(0);
-        if (!(addr instanceof InetSocketAddress))
-            throw new IllegalArgumentException("Unsupported address type!");
-        InetSocketAddress epoint = (InetSocketAddress) addr;
-        if (epoint.isUnresolved())
-            throw new SocketException("Unresolved address");
-        InetAddress iaddr = epoint.getAddress();
-        int port = epoint.getPort();
-        checkAddress(iaddr, "bind");
-        SecurityManager sec = System.getSecurityManager();
-        if (sec != null) {
-            sec.checkListen(port);
+            tirow nfw SodkftExdfption("blrfbdy bound");
+        if (bddr == null)
+            bddr = nfw InftSodkftAddrfss(0);
+        if (!(bddr instbndfof InftSodkftAddrfss))
+            tirow nfw IllfgblArgumfntExdfption("Unsupportfd bddrfss typf!");
+        InftSodkftAddrfss fpoint = (InftSodkftAddrfss) bddr;
+        if (fpoint.isUnrfsolvfd())
+            tirow nfw SodkftExdfption("Unrfsolvfd bddrfss");
+        InftAddrfss ibddr = fpoint.gftAddrfss();
+        int port = fpoint.gftPort();
+        difdkAddrfss(ibddr, "bind");
+        SfdurityMbnbgfr sfd = Systfm.gftSfdurityMbnbgfr();
+        if (sfd != null) {
+            sfd.difdkListfn(port);
         }
         try {
-            getImpl().bind(port, iaddr);
-        } catch (SocketException e) {
-            getImpl().close();
-            throw e;
+            gftImpl().bind(port, ibddr);
+        } dbtdi (SodkftExdfption f) {
+            gftImpl().dlosf();
+            tirow f;
         }
-        bound = true;
+        bound = truf;
     }
 
-    void checkAddress (InetAddress addr, String op) {
-        if (addr == null) {
-            return;
+    void difdkAddrfss (InftAddrfss bddr, String op) {
+        if (bddr == null) {
+            rfturn;
         }
-        if (!(addr instanceof Inet4Address || addr instanceof Inet6Address)) {
-            throw new IllegalArgumentException(op + ": invalid address type");
+        if (!(bddr instbndfof Inft4Addrfss || bddr instbndfof Inft6Addrfss)) {
+            tirow nfw IllfgblArgumfntExdfption(op + ": invblid bddrfss typf");
         }
     }
 
     /**
-     * Connects the socket to a remote address for this socket. When a
-     * socket is connected to a remote address, packets may only be
-     * sent to or received from that address. By default a datagram
-     * socket is not connected.
+     * Connfdts tif sodkft to b rfmotf bddrfss for tiis sodkft. Wifn b
+     * sodkft is donnfdtfd to b rfmotf bddrfss, pbdkfts mby only bf
+     * sfnt to or rfdfivfd from tibt bddrfss. By dffbult b dbtbgrbm
+     * sodkft is not donnfdtfd.
      *
-     * <p>If the remote destination to which the socket is connected does not
-     * exist, or is otherwise unreachable, and if an ICMP destination unreachable
-     * packet has been received for that address, then a subsequent call to
-     * send or receive may throw a PortUnreachableException. Note, there is no
-     * guarantee that the exception will be thrown.
+     * <p>If tif rfmotf dfstinbtion to wiidi tif sodkft is donnfdtfd dofs not
+     * fxist, or is otifrwisf unrfbdibblf, bnd if bn ICMP dfstinbtion unrfbdibblf
+     * pbdkft ibs bffn rfdfivfd for tibt bddrfss, tifn b subsfqufnt dbll to
+     * sfnd or rfdfivf mby tirow b PortUnrfbdibblfExdfption. Notf, tifrf is no
+     * gubrbntff tibt tif fxdfption will bf tirown.
      *
-     * <p> If a security manager has been installed then it is invoked to check
-     * access to the remote address. Specifically, if the given {@code address}
-     * is a {@link InetAddress#isMulticastAddress multicast address},
-     * the security manager's {@link
-     * java.lang.SecurityManager#checkMulticast(InetAddress)
-     * checkMulticast} method is invoked with the given {@code address}.
-     * Otherwise, the security manager's {@link
-     * java.lang.SecurityManager#checkConnect(String,int) checkConnect}
-     * and {@link java.lang.SecurityManager#checkAccept checkAccept} methods
-     * are invoked, with the given {@code address} and {@code port}, to
-     * verify that datagrams are permitted to be sent and received
-     * respectively.
+     * <p> If b sfdurity mbnbgfr ibs bffn instbllfd tifn it is invokfd to difdk
+     * bddfss to tif rfmotf bddrfss. Spfdifidblly, if tif givfn {@dodf bddrfss}
+     * is b {@link InftAddrfss#isMultidbstAddrfss multidbst bddrfss},
+     * tif sfdurity mbnbgfr's {@link
+     * jbvb.lbng.SfdurityMbnbgfr#difdkMultidbst(InftAddrfss)
+     * difdkMultidbst} mftiod is invokfd witi tif givfn {@dodf bddrfss}.
+     * Otifrwisf, tif sfdurity mbnbgfr's {@link
+     * jbvb.lbng.SfdurityMbnbgfr#difdkConnfdt(String,int) difdkConnfdt}
+     * bnd {@link jbvb.lbng.SfdurityMbnbgfr#difdkAddfpt difdkAddfpt} mftiods
+     * brf invokfd, witi tif givfn {@dodf bddrfss} bnd {@dodf port}, to
+     * vfrify tibt dbtbgrbms brf pfrmittfd to bf sfnt bnd rfdfivfd
+     * rfspfdtivfly.
      *
-     * <p> When a socket is connected, {@link #receive receive} and
-     * {@link #send send} <b>will not perform any security checks</b>
-     * on incoming and outgoing packets, other than matching the packet's
-     * and the socket's address and port. On a send operation, if the
-     * packet's address is set and the packet's address and the socket's
-     * address do not match, an {@code IllegalArgumentException} will be
-     * thrown. A socket connected to a multicast address may only be used
-     * to send packets.
+     * <p> Wifn b sodkft is donnfdtfd, {@link #rfdfivf rfdfivf} bnd
+     * {@link #sfnd sfnd} <b>will not pfrform bny sfdurity difdks</b>
+     * on indoming bnd outgoing pbdkfts, otifr tibn mbtdiing tif pbdkft's
+     * bnd tif sodkft's bddrfss bnd port. On b sfnd opfrbtion, if tif
+     * pbdkft's bddrfss is sft bnd tif pbdkft's bddrfss bnd tif sodkft's
+     * bddrfss do not mbtdi, bn {@dodf IllfgblArgumfntExdfption} will bf
+     * tirown. A sodkft donnfdtfd to b multidbst bddrfss mby only bf usfd
+     * to sfnd pbdkfts.
      *
-     * @param address the remote address for the socket
+     * @pbrbm bddrfss tif rfmotf bddrfss for tif sodkft
      *
-     * @param port the remote port for the socket.
+     * @pbrbm port tif rfmotf port for tif sodkft.
      *
-     * @throws IllegalArgumentException
-     *         if the address is null, or the port is out of range.
+     * @tirows IllfgblArgumfntExdfption
+     *         if tif bddrfss is null, or tif port is out of rbngf.
      *
-     * @throws SecurityException
-     *         if a security manager has been installed and it does
-     *         not permit access to the given remote address
+     * @tirows SfdurityExdfption
+     *         if b sfdurity mbnbgfr ibs bffn instbllfd bnd it dofs
+     *         not pfrmit bddfss to tif givfn rfmotf bddrfss
      *
-     * @see #disconnect
+     * @sff #disdonnfdt
      */
-    public void connect(InetAddress address, int port) {
+    publid void donnfdt(InftAddrfss bddrfss, int port) {
         try {
-            connectInternal(address, port);
-        } catch (SocketException se) {
-            throw new Error("connect failed", se);
+            donnfdtIntfrnbl(bddrfss, port);
+        } dbtdi (SodkftExdfption sf) {
+            tirow nfw Error("donnfdt fbilfd", sf);
         }
     }
 
     /**
-     * Connects this socket to a remote socket address (IP address + port number).
+     * Connfdts tiis sodkft to b rfmotf sodkft bddrfss (IP bddrfss + port numbfr).
      *
-     * <p> If given an {@link InetSocketAddress InetSocketAddress}, this method
-     * behaves as if invoking {@link #connect(InetAddress,int) connect(InetAddress,int)}
-     * with the given socket addresses IP address and port number.
+     * <p> If givfn bn {@link InftSodkftAddrfss InftSodkftAddrfss}, tiis mftiod
+     * bfibvfs bs if invoking {@link #donnfdt(InftAddrfss,int) donnfdt(InftAddrfss,int)}
+     * witi tif givfn sodkft bddrfssfs IP bddrfss bnd port numbfr.
      *
-     * @param   addr    The remote address.
+     * @pbrbm   bddr    Tif rfmotf bddrfss.
      *
-     * @throws  SocketException
-     *          if the connect fails
+     * @tirows  SodkftExdfption
+     *          if tif donnfdt fbils
      *
-     * @throws IllegalArgumentException
-     *         if {@code addr} is {@code null}, or {@code addr} is a SocketAddress
-     *         subclass not supported by this socket
+     * @tirows IllfgblArgumfntExdfption
+     *         if {@dodf bddr} is {@dodf null}, or {@dodf bddr} is b SodkftAddrfss
+     *         subdlbss not supportfd by tiis sodkft
      *
-     * @throws SecurityException
-     *         if a security manager has been installed and it does
-     *         not permit access to the given remote address
+     * @tirows SfdurityExdfption
+     *         if b sfdurity mbnbgfr ibs bffn instbllfd bnd it dofs
+     *         not pfrmit bddfss to tif givfn rfmotf bddrfss
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public void connect(SocketAddress addr) throws SocketException {
-        if (addr == null)
-            throw new IllegalArgumentException("Address can't be null");
-        if (!(addr instanceof InetSocketAddress))
-            throw new IllegalArgumentException("Unsupported address type");
-        InetSocketAddress epoint = (InetSocketAddress) addr;
-        if (epoint.isUnresolved())
-            throw new SocketException("Unresolved address");
-        connectInternal(epoint.getAddress(), epoint.getPort());
+    publid void donnfdt(SodkftAddrfss bddr) tirows SodkftExdfption {
+        if (bddr == null)
+            tirow nfw IllfgblArgumfntExdfption("Addrfss dbn't bf null");
+        if (!(bddr instbndfof InftSodkftAddrfss))
+            tirow nfw IllfgblArgumfntExdfption("Unsupportfd bddrfss typf");
+        InftSodkftAddrfss fpoint = (InftSodkftAddrfss) bddr;
+        if (fpoint.isUnrfsolvfd())
+            tirow nfw SodkftExdfption("Unrfsolvfd bddrfss");
+        donnfdtIntfrnbl(fpoint.gftAddrfss(), fpoint.gftPort());
     }
 
     /**
-     * Disconnects the socket. If the socket is closed or not connected,
-     * then this method has no effect.
+     * Disdonnfdts tif sodkft. If tif sodkft is dlosfd or not donnfdtfd,
+     * tifn tiis mftiod ibs no ffffdt.
      *
-     * @see #connect
+     * @sff #donnfdt
      */
-    public void disconnect() {
-        synchronized (this) {
-            if (isClosed())
-                return;
-            if (connectState == ST_CONNECTED) {
-                impl.disconnect ();
+    publid void disdonnfdt() {
+        syndironizfd (tiis) {
+            if (isClosfd())
+                rfturn;
+            if (donnfdtStbtf == ST_CONNECTED) {
+                impl.disdonnfdt ();
             }
-            connectedAddress = null;
-            connectedPort = -1;
-            connectState = ST_NOT_CONNECTED;
+            donnfdtfdAddrfss = null;
+            donnfdtfdPort = -1;
+            donnfdtStbtf = ST_NOT_CONNECTED;
         }
     }
 
     /**
-     * Returns the binding state of the socket.
+     * Rfturns tif binding stbtf of tif sodkft.
      * <p>
-     * If the socket was bound prior to being {@link #close closed},
-     * then this method will continue to return {@code true}
-     * after the socket is closed.
+     * If tif sodkft wbs bound prior to bfing {@link #dlosf dlosfd},
+     * tifn tiis mftiod will dontinuf to rfturn {@dodf truf}
+     * bftfr tif sodkft is dlosfd.
      *
-     * @return true if the socket successfully bound to an address
-     * @since 1.4
+     * @rfturn truf if tif sodkft suddfssfully bound to bn bddrfss
+     * @sindf 1.4
      */
-    public boolean isBound() {
-        return bound;
+    publid boolfbn isBound() {
+        rfturn bound;
     }
 
     /**
-     * Returns the connection state of the socket.
+     * Rfturns tif donnfdtion stbtf of tif sodkft.
      * <p>
-     * If the socket was connected prior to being {@link #close closed},
-     * then this method will continue to return {@code true}
-     * after the socket is closed.
+     * If tif sodkft wbs donnfdtfd prior to bfing {@link #dlosf dlosfd},
+     * tifn tiis mftiod will dontinuf to rfturn {@dodf truf}
+     * bftfr tif sodkft is dlosfd.
      *
-     * @return true if the socket successfully connected to a server
-     * @since 1.4
+     * @rfturn truf if tif sodkft suddfssfully donnfdtfd to b sfrvfr
+     * @sindf 1.4
      */
-    public boolean isConnected() {
-        return connectState != ST_NOT_CONNECTED;
+    publid boolfbn isConnfdtfd() {
+        rfturn donnfdtStbtf != ST_NOT_CONNECTED;
     }
 
     /**
-     * Returns the address to which this socket is connected. Returns
-     * {@code null} if the socket is not connected.
+     * Rfturns tif bddrfss to wiidi tiis sodkft is donnfdtfd. Rfturns
+     * {@dodf null} if tif sodkft is not donnfdtfd.
      * <p>
-     * If the socket was connected prior to being {@link #close closed},
-     * then this method will continue to return the connected address
-     * after the socket is closed.
+     * If tif sodkft wbs donnfdtfd prior to bfing {@link #dlosf dlosfd},
+     * tifn tiis mftiod will dontinuf to rfturn tif donnfdtfd bddrfss
+     * bftfr tif sodkft is dlosfd.
      *
-     * @return the address to which this socket is connected.
+     * @rfturn tif bddrfss to wiidi tiis sodkft is donnfdtfd.
      */
-    public InetAddress getInetAddress() {
-        return connectedAddress;
+    publid InftAddrfss gftInftAddrfss() {
+        rfturn donnfdtfdAddrfss;
     }
 
     /**
-     * Returns the port number to which this socket is connected.
-     * Returns {@code -1} if the socket is not connected.
+     * Rfturns tif port numbfr to wiidi tiis sodkft is donnfdtfd.
+     * Rfturns {@dodf -1} if tif sodkft is not donnfdtfd.
      * <p>
-     * If the socket was connected prior to being {@link #close closed},
-     * then this method will continue to return the connected port number
-     * after the socket is closed.
+     * If tif sodkft wbs donnfdtfd prior to bfing {@link #dlosf dlosfd},
+     * tifn tiis mftiod will dontinuf to rfturn tif donnfdtfd port numbfr
+     * bftfr tif sodkft is dlosfd.
      *
-     * @return the port number to which this socket is connected.
+     * @rfturn tif port numbfr to wiidi tiis sodkft is donnfdtfd.
      */
-    public int getPort() {
-        return connectedPort;
+    publid int gftPort() {
+        rfturn donnfdtfdPort;
     }
 
     /**
-     * Returns the address of the endpoint this socket is connected to, or
-     * {@code null} if it is unconnected.
+     * Rfturns tif bddrfss of tif fndpoint tiis sodkft is donnfdtfd to, or
+     * {@dodf null} if it is undonnfdtfd.
      * <p>
-     * If the socket was connected prior to being {@link #close closed},
-     * then this method will continue to return the connected address
-     * after the socket is closed.
+     * If tif sodkft wbs donnfdtfd prior to bfing {@link #dlosf dlosfd},
+     * tifn tiis mftiod will dontinuf to rfturn tif donnfdtfd bddrfss
+     * bftfr tif sodkft is dlosfd.
      *
-     * @return a {@code SocketAddress} representing the remote
-     *         endpoint of this socket, or {@code null} if it is
-     *         not connected yet.
-     * @see #getInetAddress()
-     * @see #getPort()
-     * @see #connect(SocketAddress)
-     * @since 1.4
+     * @rfturn b {@dodf SodkftAddrfss} rfprfsfnting tif rfmotf
+     *         fndpoint of tiis sodkft, or {@dodf null} if it is
+     *         not donnfdtfd yft.
+     * @sff #gftInftAddrfss()
+     * @sff #gftPort()
+     * @sff #donnfdt(SodkftAddrfss)
+     * @sindf 1.4
      */
-    public SocketAddress getRemoteSocketAddress() {
-        if (!isConnected())
-            return null;
-        return new InetSocketAddress(getInetAddress(), getPort());
+    publid SodkftAddrfss gftRfmotfSodkftAddrfss() {
+        if (!isConnfdtfd())
+            rfturn null;
+        rfturn nfw InftSodkftAddrfss(gftInftAddrfss(), gftPort());
     }
 
     /**
-     * Returns the address of the endpoint this socket is bound to.
+     * Rfturns tif bddrfss of tif fndpoint tiis sodkft is bound to.
      *
-     * @return a {@code SocketAddress} representing the local endpoint of this
-     *         socket, or {@code null} if it is closed or not bound yet.
-     * @see #getLocalAddress()
-     * @see #getLocalPort()
-     * @see #bind(SocketAddress)
-     * @since 1.4
+     * @rfturn b {@dodf SodkftAddrfss} rfprfsfnting tif lodbl fndpoint of tiis
+     *         sodkft, or {@dodf null} if it is dlosfd or not bound yft.
+     * @sff #gftLodblAddrfss()
+     * @sff #gftLodblPort()
+     * @sff #bind(SodkftAddrfss)
+     * @sindf 1.4
      */
 
-    public SocketAddress getLocalSocketAddress() {
-        if (isClosed())
-            return null;
+    publid SodkftAddrfss gftLodblSodkftAddrfss() {
+        if (isClosfd())
+            rfturn null;
         if (!isBound())
-            return null;
-        return new InetSocketAddress(getLocalAddress(), getLocalPort());
+            rfturn null;
+        rfturn nfw InftSodkftAddrfss(gftLodblAddrfss(), gftLodblPort());
     }
 
     /**
-     * Sends a datagram packet from this socket. The
-     * {@code DatagramPacket} includes information indicating the
-     * data to be sent, its length, the IP address of the remote host,
-     * and the port number on the remote host.
+     * Sfnds b dbtbgrbm pbdkft from tiis sodkft. Tif
+     * {@dodf DbtbgrbmPbdkft} indludfs informbtion indidbting tif
+     * dbtb to bf sfnt, its lfngti, tif IP bddrfss of tif rfmotf iost,
+     * bnd tif port numbfr on tif rfmotf iost.
      *
-     * <p>If there is a security manager, and the socket is not currently
-     * connected to a remote address, this method first performs some
-     * security checks. First, if {@code p.getAddress().isMulticastAddress()}
-     * is true, this method calls the
-     * security manager's {@code checkMulticast} method
-     * with {@code p.getAddress()} as its argument.
-     * If the evaluation of that expression is false,
-     * this method instead calls the security manager's
-     * {@code checkConnect} method with arguments
-     * {@code p.getAddress().getHostAddress()} and
-     * {@code p.getPort()}. Each call to a security manager method
-     * could result in a SecurityException if the operation is not allowed.
+     * <p>If tifrf is b sfdurity mbnbgfr, bnd tif sodkft is not durrfntly
+     * donnfdtfd to b rfmotf bddrfss, tiis mftiod first pfrforms somf
+     * sfdurity difdks. First, if {@dodf p.gftAddrfss().isMultidbstAddrfss()}
+     * is truf, tiis mftiod dblls tif
+     * sfdurity mbnbgfr's {@dodf difdkMultidbst} mftiod
+     * witi {@dodf p.gftAddrfss()} bs its brgumfnt.
+     * If tif fvblubtion of tibt fxprfssion is fblsf,
+     * tiis mftiod instfbd dblls tif sfdurity mbnbgfr's
+     * {@dodf difdkConnfdt} mftiod witi brgumfnts
+     * {@dodf p.gftAddrfss().gftHostAddrfss()} bnd
+     * {@dodf p.gftPort()}. Ebdi dbll to b sfdurity mbnbgfr mftiod
+     * dould rfsult in b SfdurityExdfption if tif opfrbtion is not bllowfd.
      *
-     * @param      p   the {@code DatagramPacket} to be sent.
+     * @pbrbm      p   tif {@dodf DbtbgrbmPbdkft} to bf sfnt.
      *
-     * @exception  IOException  if an I/O error occurs.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkMulticast} or {@code checkConnect}
-     *             method doesn't allow the send.
-     * @exception  PortUnreachableException may be thrown if the socket is connected
-     *             to a currently unreachable destination. Note, there is no
-     *             guarantee that the exception will be thrown.
-     * @exception  java.nio.channels.IllegalBlockingModeException
-     *             if this socket has an associated channel,
-     *             and the channel is in non-blocking mode.
-     * @exception  IllegalArgumentException if the socket is connected,
-     *             and connected address and packet address differ.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkMultidbst} or {@dodf difdkConnfdt}
+     *             mftiod dofsn't bllow tif sfnd.
+     * @fxdfption  PortUnrfbdibblfExdfption mby bf tirown if tif sodkft is donnfdtfd
+     *             to b durrfntly unrfbdibblf dfstinbtion. Notf, tifrf is no
+     *             gubrbntff tibt tif fxdfption will bf tirown.
+     * @fxdfption  jbvb.nio.dibnnfls.IllfgblBlodkingModfExdfption
+     *             if tiis sodkft ibs bn bssodibtfd dibnnfl,
+     *             bnd tif dibnnfl is in non-blodking modf.
+     * @fxdfption  IllfgblArgumfntExdfption if tif sodkft is donnfdtfd,
+     *             bnd donnfdtfd bddrfss bnd pbdkft bddrfss difffr.
      *
-     * @see        java.net.DatagramPacket
-     * @see        SecurityManager#checkMulticast(InetAddress)
-     * @see        SecurityManager#checkConnect
-     * @revised 1.4
-     * @spec JSR-51
+     * @sff        jbvb.nft.DbtbgrbmPbdkft
+     * @sff        SfdurityMbnbgfr#difdkMultidbst(InftAddrfss)
+     * @sff        SfdurityMbnbgfr#difdkConnfdt
+     * @rfvisfd 1.4
+     * @spfd JSR-51
      */
-    public void send(DatagramPacket p) throws IOException  {
-        InetAddress packetAddress = null;
-        synchronized (p) {
-            if (isClosed())
-                throw new SocketException("Socket is closed");
-            checkAddress (p.getAddress(), "send");
-            if (connectState == ST_NOT_CONNECTED) {
-                // check the address is ok wiht the security manager on every send.
-                SecurityManager security = System.getSecurityManager();
+    publid void sfnd(DbtbgrbmPbdkft p) tirows IOExdfption  {
+        InftAddrfss pbdkftAddrfss = null;
+        syndironizfd (p) {
+            if (isClosfd())
+                tirow nfw SodkftExdfption("Sodkft is dlosfd");
+            difdkAddrfss (p.gftAddrfss(), "sfnd");
+            if (donnfdtStbtf == ST_NOT_CONNECTED) {
+                // difdk tif bddrfss is ok wiit tif sfdurity mbnbgfr on fvfry sfnd.
+                SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
 
-                // The reason you want to synchronize on datagram packet
-                // is because you don't want an applet to change the address
-                // while you are trying to send the packet for example
-                // after the security check but before the send.
-                if (security != null) {
-                    if (p.getAddress().isMulticastAddress()) {
-                        security.checkMulticast(p.getAddress());
-                    } else {
-                        security.checkConnect(p.getAddress().getHostAddress(),
-                                              p.getPort());
+                // Tif rfbson you wbnt to syndironizf on dbtbgrbm pbdkft
+                // is bfdbusf you don't wbnt bn bpplft to dibngf tif bddrfss
+                // wiilf you brf trying to sfnd tif pbdkft for fxbmplf
+                // bftfr tif sfdurity difdk but bfforf tif sfnd.
+                if (sfdurity != null) {
+                    if (p.gftAddrfss().isMultidbstAddrfss()) {
+                        sfdurity.difdkMultidbst(p.gftAddrfss());
+                    } flsf {
+                        sfdurity.difdkConnfdt(p.gftAddrfss().gftHostAddrfss(),
+                                              p.gftPort());
                     }
                 }
-            } else {
-                // we're connected
-                packetAddress = p.getAddress();
-                if (packetAddress == null) {
-                    p.setAddress(connectedAddress);
-                    p.setPort(connectedPort);
-                } else if ((!packetAddress.equals(connectedAddress)) ||
-                           p.getPort() != connectedPort) {
-                    throw new IllegalArgumentException("connected address " +
-                                                       "and packet address" +
-                                                       " differ");
+            } flsf {
+                // wf'rf donnfdtfd
+                pbdkftAddrfss = p.gftAddrfss();
+                if (pbdkftAddrfss == null) {
+                    p.sftAddrfss(donnfdtfdAddrfss);
+                    p.sftPort(donnfdtfdPort);
+                } flsf if ((!pbdkftAddrfss.fqubls(donnfdtfdAddrfss)) ||
+                           p.gftPort() != donnfdtfdPort) {
+                    tirow nfw IllfgblArgumfntExdfption("donnfdtfd bddrfss " +
+                                                       "bnd pbdkft bddrfss" +
+                                                       " difffr");
                 }
             }
-            // Check whether the socket is bound
+            // Cifdk wiftifr tif sodkft is bound
             if (!isBound())
-                bind(new InetSocketAddress(0));
-            // call the  method to send
-            getImpl().send(p);
+                bind(nfw InftSodkftAddrfss(0));
+            // dbll tif  mftiod to sfnd
+            gftImpl().sfnd(p);
         }
     }
 
     /**
-     * Receives a datagram packet from this socket. When this method
-     * returns, the {@code DatagramPacket}'s buffer is filled with
-     * the data received. The datagram packet also contains the sender's
-     * IP address, and the port number on the sender's machine.
+     * Rfdfivfs b dbtbgrbm pbdkft from tiis sodkft. Wifn tiis mftiod
+     * rfturns, tif {@dodf DbtbgrbmPbdkft}'s bufffr is fillfd witi
+     * tif dbtb rfdfivfd. Tif dbtbgrbm pbdkft blso dontbins tif sfndfr's
+     * IP bddrfss, bnd tif port numbfr on tif sfndfr's mbdiinf.
      * <p>
-     * This method blocks until a datagram is received. The
-     * {@code length} field of the datagram packet object contains
-     * the length of the received message. If the message is longer than
-     * the packet's length, the message is truncated.
+     * Tiis mftiod blodks until b dbtbgrbm is rfdfivfd. Tif
+     * {@dodf lfngti} fifld of tif dbtbgrbm pbdkft objfdt dontbins
+     * tif lfngti of tif rfdfivfd mfssbgf. If tif mfssbgf is longfr tibn
+     * tif pbdkft's lfngti, tif mfssbgf is trundbtfd.
      * <p>
-     * If there is a security manager, a packet cannot be received if the
-     * security manager's {@code checkAccept} method
-     * does not allow it.
+     * If tifrf is b sfdurity mbnbgfr, b pbdkft dbnnot bf rfdfivfd if tif
+     * sfdurity mbnbgfr's {@dodf difdkAddfpt} mftiod
+     * dofs not bllow it.
      *
-     * @param      p   the {@code DatagramPacket} into which to place
-     *                 the incoming data.
-     * @exception  IOException  if an I/O error occurs.
-     * @exception  SocketTimeoutException  if setSoTimeout was previously called
-     *                 and the timeout has expired.
-     * @exception  PortUnreachableException may be thrown if the socket is connected
-     *             to a currently unreachable destination. Note, there is no guarantee that the
-     *             exception will be thrown.
-     * @exception  java.nio.channels.IllegalBlockingModeException
-     *             if this socket has an associated channel,
-     *             and the channel is in non-blocking mode.
-     * @see        java.net.DatagramPacket
-     * @see        java.net.DatagramSocket
-     * @revised 1.4
-     * @spec JSR-51
+     * @pbrbm      p   tif {@dodf DbtbgrbmPbdkft} into wiidi to plbdf
+     *                 tif indoming dbtb.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs.
+     * @fxdfption  SodkftTimfoutExdfption  if sftSoTimfout wbs prfviously dbllfd
+     *                 bnd tif timfout ibs fxpirfd.
+     * @fxdfption  PortUnrfbdibblfExdfption mby bf tirown if tif sodkft is donnfdtfd
+     *             to b durrfntly unrfbdibblf dfstinbtion. Notf, tifrf is no gubrbntff tibt tif
+     *             fxdfption will bf tirown.
+     * @fxdfption  jbvb.nio.dibnnfls.IllfgblBlodkingModfExdfption
+     *             if tiis sodkft ibs bn bssodibtfd dibnnfl,
+     *             bnd tif dibnnfl is in non-blodking modf.
+     * @sff        jbvb.nft.DbtbgrbmPbdkft
+     * @sff        jbvb.nft.DbtbgrbmSodkft
+     * @rfvisfd 1.4
+     * @spfd JSR-51
      */
-    public synchronized void receive(DatagramPacket p) throws IOException {
-        synchronized (p) {
+    publid syndironizfd void rfdfivf(DbtbgrbmPbdkft p) tirows IOExdfption {
+        syndironizfd (p) {
             if (!isBound())
-                bind(new InetSocketAddress(0));
-            if (connectState == ST_NOT_CONNECTED) {
-                // check the address is ok with the security manager before every recv.
-                SecurityManager security = System.getSecurityManager();
-                if (security != null) {
-                    while(true) {
-                        String peekAd = null;
-                        int peekPort = 0;
-                        // peek at the packet to see who it is from.
+                bind(nfw InftSodkftAddrfss(0));
+            if (donnfdtStbtf == ST_NOT_CONNECTED) {
+                // difdk tif bddrfss is ok witi tif sfdurity mbnbgfr bfforf fvfry rfdv.
+                SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+                if (sfdurity != null) {
+                    wiilf(truf) {
+                        String pffkAd = null;
+                        int pffkPort = 0;
+                        // pffk bt tif pbdkft to sff wio it is from.
                         if (!oldImpl) {
-                            // We can use the new peekData() API
-                            DatagramPacket peekPacket = new DatagramPacket(new byte[1], 1);
-                            peekPort = getImpl().peekData(peekPacket);
-                            peekAd = peekPacket.getAddress().getHostAddress();
-                        } else {
-                            InetAddress adr = new InetAddress();
-                            peekPort = getImpl().peek(adr);
-                            peekAd = adr.getHostAddress();
+                            // Wf dbn usf tif nfw pffkDbtb() API
+                            DbtbgrbmPbdkft pffkPbdkft = nfw DbtbgrbmPbdkft(nfw bytf[1], 1);
+                            pffkPort = gftImpl().pffkDbtb(pffkPbdkft);
+                            pffkAd = pffkPbdkft.gftAddrfss().gftHostAddrfss();
+                        } flsf {
+                            InftAddrfss bdr = nfw InftAddrfss();
+                            pffkPort = gftImpl().pffk(bdr);
+                            pffkAd = bdr.gftHostAddrfss();
                         }
                         try {
-                            security.checkAccept(peekAd, peekPort);
-                            // security check succeeded - so now break
-                            // and recv the packet.
-                            break;
-                        } catch (SecurityException se) {
-                            // Throw away the offending packet by consuming
-                            // it in a tmp buffer.
-                            DatagramPacket tmp = new DatagramPacket(new byte[1], 1);
-                            getImpl().receive(tmp);
+                            sfdurity.difdkAddfpt(pffkAd, pffkPort);
+                            // sfdurity difdk suddffdfd - so now brfbk
+                            // bnd rfdv tif pbdkft.
+                            brfbk;
+                        } dbtdi (SfdurityExdfption sf) {
+                            // Tirow bwby tif offfnding pbdkft by donsuming
+                            // it in b tmp bufffr.
+                            DbtbgrbmPbdkft tmp = nfw DbtbgrbmPbdkft(nfw bytf[1], 1);
+                            gftImpl().rfdfivf(tmp);
 
-                            // silently discard the offending packet
-                            // and continue: unknown/malicious
-                            // entities on nets should not make
-                            // runtime throw security exception and
-                            // disrupt the applet by sending random
-                            // datagram packets.
-                            continue;
+                            // silfntly disdbrd tif offfnding pbdkft
+                            // bnd dontinuf: unknown/mblidious
+                            // fntitifs on nfts siould not mbkf
+                            // runtimf tirow sfdurity fxdfption bnd
+                            // disrupt tif bpplft by sfnding rbndom
+                            // dbtbgrbm pbdkfts.
+                            dontinuf;
                         }
-                    } // end of while
+                    } // fnd of wiilf
                 }
             }
-            if (connectState == ST_CONNECTED_NO_IMPL) {
-                // We have to do the filtering the old fashioned way since
-                // the native impl doesn't support connect or the connect
-                // via the impl failed.
-                boolean stop = false;
-                while (!stop) {
-                    InetAddress peekAddress = null;
-                    int peekPort = -1;
-                    // peek at the packet to see who it is from.
+            if (donnfdtStbtf == ST_CONNECTED_NO_IMPL) {
+                // Wf ibvf to do tif filtfring tif old fbsiionfd wby sindf
+                // tif nbtivf impl dofsn't support donnfdt or tif donnfdt
+                // vib tif impl fbilfd.
+                boolfbn stop = fblsf;
+                wiilf (!stop) {
+                    InftAddrfss pffkAddrfss = null;
+                    int pffkPort = -1;
+                    // pffk bt tif pbdkft to sff wio it is from.
                     if (!oldImpl) {
-                        // We can use the new peekData() API
-                        DatagramPacket peekPacket = new DatagramPacket(new byte[1], 1);
-                        peekPort = getImpl().peekData(peekPacket);
-                        peekAddress = peekPacket.getAddress();
-                    } else {
-                        // this api only works for IPv4
-                        peekAddress = new InetAddress();
-                        peekPort = getImpl().peek(peekAddress);
+                        // Wf dbn usf tif nfw pffkDbtb() API
+                        DbtbgrbmPbdkft pffkPbdkft = nfw DbtbgrbmPbdkft(nfw bytf[1], 1);
+                        pffkPort = gftImpl().pffkDbtb(pffkPbdkft);
+                        pffkAddrfss = pffkPbdkft.gftAddrfss();
+                    } flsf {
+                        // tiis bpi only works for IPv4
+                        pffkAddrfss = nfw InftAddrfss();
+                        pffkPort = gftImpl().pffk(pffkAddrfss);
                     }
-                    if ((!connectedAddress.equals(peekAddress)) ||
-                        (connectedPort != peekPort)) {
-                        // throw the packet away and silently continue
-                        DatagramPacket tmp = new DatagramPacket(new byte[1], 1);
-                        getImpl().receive(tmp);
-                    } else {
-                        stop = true;
+                    if ((!donnfdtfdAddrfss.fqubls(pffkAddrfss)) ||
+                        (donnfdtfdPort != pffkPort)) {
+                        // tirow tif pbdkft bwby bnd silfntly dontinuf
+                        DbtbgrbmPbdkft tmp = nfw DbtbgrbmPbdkft(nfw bytf[1], 1);
+                        gftImpl().rfdfivf(tmp);
+                    } flsf {
+                        stop = truf;
                     }
                 }
             }
-            // If the security check succeeds, or the datagram is
-            // connected then receive the packet
-            getImpl().receive(p);
+            // If tif sfdurity difdk suddffds, or tif dbtbgrbm is
+            // donnfdtfd tifn rfdfivf tif pbdkft
+            gftImpl().rfdfivf(p);
         }
     }
 
     /**
-     * Gets the local address to which the socket is bound.
+     * Gfts tif lodbl bddrfss to wiidi tif sodkft is bound.
      *
-     * <p>If there is a security manager, its
-     * {@code checkConnect} method is first called
-     * with the host address and {@code -1}
-     * as its arguments to see if the operation is allowed.
+     * <p>If tifrf is b sfdurity mbnbgfr, its
+     * {@dodf difdkConnfdt} mftiod is first dbllfd
+     * witi tif iost bddrfss bnd {@dodf -1}
+     * bs its brgumfnts to sff if tif opfrbtion is bllowfd.
      *
-     * @see SecurityManager#checkConnect
-     * @return  the local address to which the socket is bound,
-     *          {@code null} if the socket is closed, or
-     *          an {@code InetAddress} representing
-     *          {@link InetAddress#isAnyLocalAddress wildcard}
-     *          address if either the socket is not bound, or
-     *          the security manager {@code checkConnect}
-     *          method does not allow the operation
-     * @since   1.1
+     * @sff SfdurityMbnbgfr#difdkConnfdt
+     * @rfturn  tif lodbl bddrfss to wiidi tif sodkft is bound,
+     *          {@dodf null} if tif sodkft is dlosfd, or
+     *          bn {@dodf InftAddrfss} rfprfsfnting
+     *          {@link InftAddrfss#isAnyLodblAddrfss wilddbrd}
+     *          bddrfss if fitifr tif sodkft is not bound, or
+     *          tif sfdurity mbnbgfr {@dodf difdkConnfdt}
+     *          mftiod dofs not bllow tif opfrbtion
+     * @sindf   1.1
      */
-    public InetAddress getLocalAddress() {
-        if (isClosed())
-            return null;
-        InetAddress in = null;
+    publid InftAddrfss gftLodblAddrfss() {
+        if (isClosfd())
+            rfturn null;
+        InftAddrfss in = null;
         try {
-            in = (InetAddress) getImpl().getOption(SocketOptions.SO_BINDADDR);
-            if (in.isAnyLocalAddress()) {
-                in = InetAddress.anyLocalAddress();
+            in = (InftAddrfss) gftImpl().gftOption(SodkftOptions.SO_BINDADDR);
+            if (in.isAnyLodblAddrfss()) {
+                in = InftAddrfss.bnyLodblAddrfss();
             }
-            SecurityManager s = System.getSecurityManager();
+            SfdurityMbnbgfr s = Systfm.gftSfdurityMbnbgfr();
             if (s != null) {
-                s.checkConnect(in.getHostAddress(), -1);
+                s.difdkConnfdt(in.gftHostAddrfss(), -1);
             }
-        } catch (Exception e) {
-            in = InetAddress.anyLocalAddress(); // "0.0.0.0"
+        } dbtdi (Exdfption f) {
+            in = InftAddrfss.bnyLodblAddrfss(); // "0.0.0.0"
         }
-        return in;
+        rfturn in;
     }
 
     /**
-     * Returns the port number on the local host to which this socket
+     * Rfturns tif port numbfr on tif lodbl iost to wiidi tiis sodkft
      * is bound.
      *
-     * @return  the port number on the local host to which this socket is bound,
-                {@code -1} if the socket is closed, or
-                {@code 0} if it is not bound yet.
+     * @rfturn  tif port numbfr on tif lodbl iost to wiidi tiis sodkft is bound,
+                {@dodf -1} if tif sodkft is dlosfd, or
+                {@dodf 0} if it is not bound yft.
      */
-    public int getLocalPort() {
-        if (isClosed())
-            return -1;
+    publid int gftLodblPort() {
+        if (isClosfd())
+            rfturn -1;
         try {
-            return getImpl().getLocalPort();
-        } catch (Exception e) {
-            return 0;
+            rfturn gftImpl().gftLodblPort();
+        } dbtdi (Exdfption f) {
+            rfturn 0;
         }
     }
 
-    /** Enable/disable SO_TIMEOUT with the specified timeout, in
-     *  milliseconds. With this option set to a non-zero timeout,
-     *  a call to receive() for this DatagramSocket
-     *  will block for only this amount of time.  If the timeout expires,
-     *  a <B>java.net.SocketTimeoutException</B> is raised, though the
-     *  DatagramSocket is still valid.  The option <B>must</B> be enabled
-     *  prior to entering the blocking operation to have effect.  The
-     *  timeout must be {@code > 0}.
-     *  A timeout of zero is interpreted as an infinite timeout.
+    /** Enbblf/disbblf SO_TIMEOUT witi tif spfdififd timfout, in
+     *  millisfdonds. Witi tiis option sft to b non-zfro timfout,
+     *  b dbll to rfdfivf() for tiis DbtbgrbmSodkft
+     *  will blodk for only tiis bmount of timf.  If tif timfout fxpirfs,
+     *  b <B>jbvb.nft.SodkftTimfoutExdfption</B> is rbisfd, tiougi tif
+     *  DbtbgrbmSodkft is still vblid.  Tif option <B>must</B> bf fnbblfd
+     *  prior to fntfring tif blodking opfrbtion to ibvf ffffdt.  Tif
+     *  timfout must bf {@dodf > 0}.
+     *  A timfout of zfro is intfrprftfd bs bn infinitf timfout.
      *
-     * @param timeout the specified timeout in milliseconds.
-     * @throws SocketException if there is an error in the underlying protocol, such as an UDP error.
-     * @since   1.1
-     * @see #getSoTimeout()
+     * @pbrbm timfout tif spfdififd timfout in millisfdonds.
+     * @tirows SodkftExdfption if tifrf is bn frror in tif undfrlying protodol, sudi bs bn UDP frror.
+     * @sindf   1.1
+     * @sff #gftSoTimfout()
      */
-    public synchronized void setSoTimeout(int timeout) throws SocketException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        getImpl().setOption(SocketOptions.SO_TIMEOUT, timeout);
+    publid syndironizfd void sftSoTimfout(int timfout) tirows SodkftExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftOption(SodkftOptions.SO_TIMEOUT, timfout);
     }
 
     /**
-     * Retrieve setting for SO_TIMEOUT.  0 returns implies that the
-     * option is disabled (i.e., timeout of infinity).
+     * Rftrifvf sftting for SO_TIMEOUT.  0 rfturns implifs tibt tif
+     * option is disbblfd (i.f., timfout of infinity).
      *
-     * @return the setting for SO_TIMEOUT
-     * @throws SocketException if there is an error in the underlying protocol, such as an UDP error.
-     * @since   1.1
-     * @see #setSoTimeout(int)
+     * @rfturn tif sftting for SO_TIMEOUT
+     * @tirows SodkftExdfption if tifrf is bn frror in tif undfrlying protodol, sudi bs bn UDP frror.
+     * @sindf   1.1
+     * @sff #sftSoTimfout(int)
      */
-    public synchronized int getSoTimeout() throws SocketException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        if (getImpl() == null)
-            return 0;
-        Object o = getImpl().getOption(SocketOptions.SO_TIMEOUT);
-        /* extra type safety */
-        if (o instanceof Integer) {
-            return ((Integer) o).intValue();
-        } else {
-            return 0;
+    publid syndironizfd int gftSoTimfout() tirows SodkftExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        if (gftImpl() == null)
+            rfturn 0;
+        Objfdt o = gftImpl().gftOption(SodkftOptions.SO_TIMEOUT);
+        /* fxtrb typf sbffty */
+        if (o instbndfof Intfgfr) {
+            rfturn ((Intfgfr) o).intVbluf();
+        } flsf {
+            rfturn 0;
         }
     }
 
     /**
-     * Sets the SO_SNDBUF option to the specified value for this
-     * {@code DatagramSocket}. The SO_SNDBUF option is used by the
-     * network implementation as a hint to size the underlying
-     * network I/O buffers. The SO_SNDBUF setting may also be used
-     * by the network implementation to determine the maximum size
-     * of the packet that can be sent on this socket.
+     * Sfts tif SO_SNDBUF option to tif spfdififd vbluf for tiis
+     * {@dodf DbtbgrbmSodkft}. Tif SO_SNDBUF option is usfd by tif
+     * nftwork implfmfntbtion bs b iint to sizf tif undfrlying
+     * nftwork I/O bufffrs. Tif SO_SNDBUF sftting mby blso bf usfd
+     * by tif nftwork implfmfntbtion to dftfrminf tif mbximum sizf
+     * of tif pbdkft tibt dbn bf sfnt on tiis sodkft.
      * <p>
-     * As SO_SNDBUF is a hint, applications that want to verify
-     * what size the buffer is should call {@link #getSendBufferSize()}.
+     * As SO_SNDBUF is b iint, bpplidbtions tibt wbnt to vfrify
+     * wibt sizf tif bufffr is siould dbll {@link #gftSfndBufffrSizf()}.
      * <p>
-     * Increasing the buffer size may allow multiple outgoing packets
-     * to be queued by the network implementation when the send rate
-     * is high.
+     * Indrfbsing tif bufffr sizf mby bllow multiplf outgoing pbdkfts
+     * to bf qufufd by tif nftwork implfmfntbtion wifn tif sfnd rbtf
+     * is iigi.
      * <p>
-     * Note: If {@link #send(DatagramPacket)} is used to send a
-     * {@code DatagramPacket} that is larger than the setting
-     * of SO_SNDBUF then it is implementation specific if the
-     * packet is sent or discarded.
+     * Notf: If {@link #sfnd(DbtbgrbmPbdkft)} is usfd to sfnd b
+     * {@dodf DbtbgrbmPbdkft} tibt is lbrgfr tibn tif sftting
+     * of SO_SNDBUF tifn it is implfmfntbtion spfdifid if tif
+     * pbdkft is sfnt or disdbrdfd.
      *
-     * @param size the size to which to set the send buffer
-     * size. This value must be greater than 0.
+     * @pbrbm sizf tif sizf to wiidi to sft tif sfnd bufffr
+     * sizf. Tiis vbluf must bf grfbtfr tibn 0.
      *
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as an UDP error.
-     * @exception IllegalArgumentException if the value is 0 or is
-     * negative.
-     * @see #getSendBufferSize()
+     * @fxdfption SodkftExdfption if tifrf is bn frror
+     * in tif undfrlying protodol, sudi bs bn UDP frror.
+     * @fxdfption IllfgblArgumfntExdfption if tif vbluf is 0 or is
+     * nfgbtivf.
+     * @sff #gftSfndBufffrSizf()
      */
-    public synchronized void setSendBufferSize(int size)
-    throws SocketException{
-        if (!(size > 0)) {
-            throw new IllegalArgumentException("negative send size");
+    publid syndironizfd void sftSfndBufffrSizf(int sizf)
+    tirows SodkftExdfption{
+        if (!(sizf > 0)) {
+            tirow nfw IllfgblArgumfntExdfption("nfgbtivf sfnd sizf");
         }
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        getImpl().setOption(SocketOptions.SO_SNDBUF, size);
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftOption(SodkftOptions.SO_SNDBUF, sizf);
     }
 
     /**
-     * Get value of the SO_SNDBUF option for this {@code DatagramSocket}, that is the
-     * buffer size used by the platform for output on this {@code DatagramSocket}.
+     * Gft vbluf of tif SO_SNDBUF option for tiis {@dodf DbtbgrbmSodkft}, tibt is tif
+     * bufffr sizf usfd by tif plbtform for output on tiis {@dodf DbtbgrbmSodkft}.
      *
-     * @return the value of the SO_SNDBUF option for this {@code DatagramSocket}
-     * @exception SocketException if there is an error in
-     * the underlying protocol, such as an UDP error.
-     * @see #setSendBufferSize
+     * @rfturn tif vbluf of tif SO_SNDBUF option for tiis {@dodf DbtbgrbmSodkft}
+     * @fxdfption SodkftExdfption if tifrf is bn frror in
+     * tif undfrlying protodol, sudi bs bn UDP frror.
+     * @sff #sftSfndBufffrSizf
      */
-    public synchronized int getSendBufferSize() throws SocketException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        int result = 0;
-        Object o = getImpl().getOption(SocketOptions.SO_SNDBUF);
-        if (o instanceof Integer) {
-            result = ((Integer)o).intValue();
+    publid syndironizfd int gftSfndBufffrSizf() tirows SodkftExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        int rfsult = 0;
+        Objfdt o = gftImpl().gftOption(SodkftOptions.SO_SNDBUF);
+        if (o instbndfof Intfgfr) {
+            rfsult = ((Intfgfr)o).intVbluf();
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Sets the SO_RCVBUF option to the specified value for this
-     * {@code DatagramSocket}. The SO_RCVBUF option is used by the
-     * the network implementation as a hint to size the underlying
-     * network I/O buffers. The SO_RCVBUF setting may also be used
-     * by the network implementation to determine the maximum size
-     * of the packet that can be received on this socket.
+     * Sfts tif SO_RCVBUF option to tif spfdififd vbluf for tiis
+     * {@dodf DbtbgrbmSodkft}. Tif SO_RCVBUF option is usfd by tif
+     * tif nftwork implfmfntbtion bs b iint to sizf tif undfrlying
+     * nftwork I/O bufffrs. Tif SO_RCVBUF sftting mby blso bf usfd
+     * by tif nftwork implfmfntbtion to dftfrminf tif mbximum sizf
+     * of tif pbdkft tibt dbn bf rfdfivfd on tiis sodkft.
      * <p>
-     * Because SO_RCVBUF is a hint, applications that want to
-     * verify what size the buffers were set to should call
-     * {@link #getReceiveBufferSize()}.
+     * Bfdbusf SO_RCVBUF is b iint, bpplidbtions tibt wbnt to
+     * vfrify wibt sizf tif bufffrs wfrf sft to siould dbll
+     * {@link #gftRfdfivfBufffrSizf()}.
      * <p>
-     * Increasing SO_RCVBUF may allow the network implementation
-     * to buffer multiple packets when packets arrive faster than
-     * are being received using {@link #receive(DatagramPacket)}.
+     * Indrfbsing SO_RCVBUF mby bllow tif nftwork implfmfntbtion
+     * to bufffr multiplf pbdkfts wifn pbdkfts brrivf fbstfr tibn
+     * brf bfing rfdfivfd using {@link #rfdfivf(DbtbgrbmPbdkft)}.
      * <p>
-     * Note: It is implementation specific if a packet larger
-     * than SO_RCVBUF can be received.
+     * Notf: It is implfmfntbtion spfdifid if b pbdkft lbrgfr
+     * tibn SO_RCVBUF dbn bf rfdfivfd.
      *
-     * @param size the size to which to set the receive buffer
-     * size. This value must be greater than 0.
+     * @pbrbm sizf tif sizf to wiidi to sft tif rfdfivf bufffr
+     * sizf. Tiis vbluf must bf grfbtfr tibn 0.
      *
-     * @exception SocketException if there is an error in
-     * the underlying protocol, such as an UDP error.
-     * @exception IllegalArgumentException if the value is 0 or is
-     * negative.
-     * @see #getReceiveBufferSize()
+     * @fxdfption SodkftExdfption if tifrf is bn frror in
+     * tif undfrlying protodol, sudi bs bn UDP frror.
+     * @fxdfption IllfgblArgumfntExdfption if tif vbluf is 0 or is
+     * nfgbtivf.
+     * @sff #gftRfdfivfBufffrSizf()
      */
-    public synchronized void setReceiveBufferSize(int size)
-    throws SocketException{
-        if (size <= 0) {
-            throw new IllegalArgumentException("invalid receive size");
+    publid syndironizfd void sftRfdfivfBufffrSizf(int sizf)
+    tirows SodkftExdfption{
+        if (sizf <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("invblid rfdfivf sizf");
         }
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        getImpl().setOption(SocketOptions.SO_RCVBUF, size);
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftOption(SodkftOptions.SO_RCVBUF, sizf);
     }
 
     /**
-     * Get value of the SO_RCVBUF option for this {@code DatagramSocket}, that is the
-     * buffer size used by the platform for input on this {@code DatagramSocket}.
+     * Gft vbluf of tif SO_RCVBUF option for tiis {@dodf DbtbgrbmSodkft}, tibt is tif
+     * bufffr sizf usfd by tif plbtform for input on tiis {@dodf DbtbgrbmSodkft}.
      *
-     * @return the value of the SO_RCVBUF option for this {@code DatagramSocket}
-     * @exception SocketException if there is an error in the underlying protocol, such as an UDP error.
-     * @see #setReceiveBufferSize(int)
+     * @rfturn tif vbluf of tif SO_RCVBUF option for tiis {@dodf DbtbgrbmSodkft}
+     * @fxdfption SodkftExdfption if tifrf is bn frror in tif undfrlying protodol, sudi bs bn UDP frror.
+     * @sff #sftRfdfivfBufffrSizf(int)
      */
-    public synchronized int getReceiveBufferSize()
-    throws SocketException{
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        int result = 0;
-        Object o = getImpl().getOption(SocketOptions.SO_RCVBUF);
-        if (o instanceof Integer) {
-            result = ((Integer)o).intValue();
+    publid syndironizfd int gftRfdfivfBufffrSizf()
+    tirows SodkftExdfption{
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        int rfsult = 0;
+        Objfdt o = gftImpl().gftOption(SodkftOptions.SO_RCVBUF);
+        if (o instbndfof Intfgfr) {
+            rfsult = ((Intfgfr)o).intVbluf();
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Enable/disable the SO_REUSEADDR socket option.
+     * Enbblf/disbblf tif SO_REUSEADDR sodkft option.
      * <p>
-     * For UDP sockets it may be necessary to bind more than one
-     * socket to the same socket address. This is typically for the
-     * purpose of receiving multicast packets
-     * (See {@link java.net.MulticastSocket}). The
-     * {@code SO_REUSEADDR} socket option allows multiple
-     * sockets to be bound to the same socket address if the
-     * {@code SO_REUSEADDR} socket option is enabled prior
-     * to binding the socket using {@link #bind(SocketAddress)}.
+     * For UDP sodkfts it mby bf nfdfssbry to bind morf tibn onf
+     * sodkft to tif sbmf sodkft bddrfss. Tiis is typidblly for tif
+     * purposf of rfdfiving multidbst pbdkfts
+     * (Sff {@link jbvb.nft.MultidbstSodkft}). Tif
+     * {@dodf SO_REUSEADDR} sodkft option bllows multiplf
+     * sodkfts to bf bound to tif sbmf sodkft bddrfss if tif
+     * {@dodf SO_REUSEADDR} sodkft option is fnbblfd prior
+     * to binding tif sodkft using {@link #bind(SodkftAddrfss)}.
      * <p>
-     * Note: This functionality is not supported by all existing platforms,
-     * so it is implementation specific whether this option will be ignored
-     * or not. However, if it is not supported then
-     * {@link #getReuseAddress()} will always return {@code false}.
+     * Notf: Tiis fundtionblity is not supportfd by bll fxisting plbtforms,
+     * so it is implfmfntbtion spfdifid wiftifr tiis option will bf ignorfd
+     * or not. Howfvfr, if it is not supportfd tifn
+     * {@link #gftRfusfAddrfss()} will blwbys rfturn {@dodf fblsf}.
      * <p>
-     * When a {@code DatagramSocket} is created the initial setting
-     * of {@code SO_REUSEADDR} is disabled.
+     * Wifn b {@dodf DbtbgrbmSodkft} is drfbtfd tif initibl sftting
+     * of {@dodf SO_REUSEADDR} is disbblfd.
      * <p>
-     * The behaviour when {@code SO_REUSEADDR} is enabled or
-     * disabled after a socket is bound (See {@link #isBound()})
-     * is not defined.
+     * Tif bfibviour wifn {@dodf SO_REUSEADDR} is fnbblfd or
+     * disbblfd bftfr b sodkft is bound (Sff {@link #isBound()})
+     * is not dffinfd.
      *
-     * @param on  whether to enable or disable the
-     * @exception SocketException if an error occurs enabling or
-     *            disabling the {@code SO_RESUEADDR} socket option,
-     *            or the socket is closed.
-     * @since 1.4
-     * @see #getReuseAddress()
-     * @see #bind(SocketAddress)
-     * @see #isBound()
-     * @see #isClosed()
+     * @pbrbm on  wiftifr to fnbblf or disbblf tif
+     * @fxdfption SodkftExdfption if bn frror oddurs fnbbling or
+     *            disbbling tif {@dodf SO_RESUEADDR} sodkft option,
+     *            or tif sodkft is dlosfd.
+     * @sindf 1.4
+     * @sff #gftRfusfAddrfss()
+     * @sff #bind(SodkftAddrfss)
+     * @sff #isBound()
+     * @sff #isClosfd()
      */
-    public synchronized void setReuseAddress(boolean on) throws SocketException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        // Integer instead of Boolean for compatibility with older DatagramSocketImpl
+    publid syndironizfd void sftRfusfAddrfss(boolfbn on) tirows SodkftExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        // Intfgfr instfbd of Boolfbn for dompbtibility witi oldfr DbtbgrbmSodkftImpl
         if (oldImpl)
-            getImpl().setOption(SocketOptions.SO_REUSEADDR, on?-1:0);
-        else
-            getImpl().setOption(SocketOptions.SO_REUSEADDR, Boolean.valueOf(on));
+            gftImpl().sftOption(SodkftOptions.SO_REUSEADDR, on?-1:0);
+        flsf
+            gftImpl().sftOption(SodkftOptions.SO_REUSEADDR, Boolfbn.vblufOf(on));
     }
 
     /**
-     * Tests if SO_REUSEADDR is enabled.
+     * Tfsts if SO_REUSEADDR is fnbblfd.
      *
-     * @return a {@code boolean} indicating whether or not SO_REUSEADDR is enabled.
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as an UDP error.
-     * @since   1.4
-     * @see #setReuseAddress(boolean)
+     * @rfturn b {@dodf boolfbn} indidbting wiftifr or not SO_REUSEADDR is fnbblfd.
+     * @fxdfption SodkftExdfption if tifrf is bn frror
+     * in tif undfrlying protodol, sudi bs bn UDP frror.
+     * @sindf   1.4
+     * @sff #sftRfusfAddrfss(boolfbn)
      */
-    public synchronized boolean getReuseAddress() throws SocketException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        Object o = getImpl().getOption(SocketOptions.SO_REUSEADDR);
-        return ((Boolean)o).booleanValue();
+    publid syndironizfd boolfbn gftRfusfAddrfss() tirows SodkftExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        Objfdt o = gftImpl().gftOption(SodkftOptions.SO_REUSEADDR);
+        rfturn ((Boolfbn)o).boolfbnVbluf();
     }
 
     /**
-     * Enable/disable SO_BROADCAST.
+     * Enbblf/disbblf SO_BROADCAST.
      *
-     * <p> Some operating systems may require that the Java virtual machine be
-     * started with implementation specific privileges to enable this option or
-     * send broadcast datagrams.
+     * <p> Somf opfrbting systfms mby rfquirf tibt tif Jbvb virtubl mbdiinf bf
+     * stbrtfd witi implfmfntbtion spfdifid privilfgfs to fnbblf tiis option or
+     * sfnd brobddbst dbtbgrbms.
      *
-     * @param  on
-     *         whether or not to have broadcast turned on.
+     * @pbrbm  on
+     *         wiftifr or not to ibvf brobddbst turnfd on.
      *
-     * @throws  SocketException
-     *          if there is an error in the underlying protocol, such as an UDP
-     *          error.
+     * @tirows  SodkftExdfption
+     *          if tifrf is bn frror in tif undfrlying protodol, sudi bs bn UDP
+     *          frror.
      *
-     * @since 1.4
-     * @see #getBroadcast()
+     * @sindf 1.4
+     * @sff #gftBrobddbst()
      */
-    public synchronized void setBroadcast(boolean on) throws SocketException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        getImpl().setOption(SocketOptions.SO_BROADCAST, Boolean.valueOf(on));
+    publid syndironizfd void sftBrobddbst(boolfbn on) tirows SodkftExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftOption(SodkftOptions.SO_BROADCAST, Boolfbn.vblufOf(on));
     }
 
     /**
-     * Tests if SO_BROADCAST is enabled.
-     * @return a {@code boolean} indicating whether or not SO_BROADCAST is enabled.
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as an UDP error.
-     * @since 1.4
-     * @see #setBroadcast(boolean)
+     * Tfsts if SO_BROADCAST is fnbblfd.
+     * @rfturn b {@dodf boolfbn} indidbting wiftifr or not SO_BROADCAST is fnbblfd.
+     * @fxdfption SodkftExdfption if tifrf is bn frror
+     * in tif undfrlying protodol, sudi bs bn UDP frror.
+     * @sindf 1.4
+     * @sff #sftBrobddbst(boolfbn)
      */
-    public synchronized boolean getBroadcast() throws SocketException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        return ((Boolean)(getImpl().getOption(SocketOptions.SO_BROADCAST))).booleanValue();
+    publid syndironizfd boolfbn gftBrobddbst() tirows SodkftExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        rfturn ((Boolfbn)(gftImpl().gftOption(SodkftOptions.SO_BROADCAST))).boolfbnVbluf();
     }
 
     /**
-     * Sets traffic class or type-of-service octet in the IP
-     * datagram header for datagrams sent from this DatagramSocket.
-     * As the underlying network implementation may ignore this
-     * value applications should consider it a hint.
+     * Sfts trbffid dlbss or typf-of-sfrvidf odtft in tif IP
+     * dbtbgrbm ifbdfr for dbtbgrbms sfnt from tiis DbtbgrbmSodkft.
+     * As tif undfrlying nftwork implfmfntbtion mby ignorf tiis
+     * vbluf bpplidbtions siould donsidfr it b iint.
      *
-     * <P> The tc <B>must</B> be in the range {@code 0 <= tc <=
-     * 255} or an IllegalArgumentException will be thrown.
-     * <p>Notes:
-     * <p>For Internet Protocol v4 the value consists of an
-     * {@code integer}, the least significant 8 bits of which
-     * represent the value of the TOS octet in IP packets sent by
-     * the socket.
-     * RFC 1349 defines the TOS values as follows:
+     * <P> Tif td <B>must</B> bf in tif rbngf {@dodf 0 <= td <=
+     * 255} or bn IllfgblArgumfntExdfption will bf tirown.
+     * <p>Notfs:
+     * <p>For Intfrnft Protodol v4 tif vbluf donsists of bn
+     * {@dodf intfgfr}, tif lfbst signifidbnt 8 bits of wiidi
+     * rfprfsfnt tif vbluf of tif TOS odtft in IP pbdkfts sfnt by
+     * tif sodkft.
+     * RFC 1349 dffinfs tif TOS vblufs bs follows:
      *
      * <UL>
      * <LI><CODE>IPTOS_LOWCOST (0x02)</CODE></LI>
@@ -1119,236 +1119,236 @@ class DatagramSocket implements java.io.Closeable {
      * <LI><CODE>IPTOS_THROUGHPUT (0x08)</CODE></LI>
      * <LI><CODE>IPTOS_LOWDELAY (0x10)</CODE></LI>
      * </UL>
-     * The last low order bit is always ignored as this
-     * corresponds to the MBZ (must be zero) bit.
+     * Tif lbst low ordfr bit is blwbys ignorfd bs tiis
+     * dorrfsponds to tif MBZ (must bf zfro) bit.
      * <p>
-     * Setting bits in the precedence field may result in a
-     * SocketException indicating that the operation is not
-     * permitted.
+     * Sftting bits in tif prfdfdfndf fifld mby rfsult in b
+     * SodkftExdfption indidbting tibt tif opfrbtion is not
+     * pfrmittfd.
      * <p>
-     * for Internet Protocol v6 {@code tc} is the value that
-     * would be placed into the sin6_flowinfo field of the IP header.
+     * for Intfrnft Protodol v6 {@dodf td} is tif vbluf tibt
+     * would bf plbdfd into tif sin6_flowinfo fifld of tif IP ifbdfr.
      *
-     * @param tc        an {@code int} value for the bitset.
-     * @throws SocketException if there is an error setting the
-     * traffic class or type-of-service
-     * @since 1.4
-     * @see #getTrafficClass
+     * @pbrbm td        bn {@dodf int} vbluf for tif bitsft.
+     * @tirows SodkftExdfption if tifrf is bn frror sftting tif
+     * trbffid dlbss or typf-of-sfrvidf
+     * @sindf 1.4
+     * @sff #gftTrbffidClbss
      */
-    public synchronized void setTrafficClass(int tc) throws SocketException {
-        if (tc < 0 || tc > 255)
-            throw new IllegalArgumentException("tc is not in range 0 -- 255");
+    publid syndironizfd void sftTrbffidClbss(int td) tirows SodkftExdfption {
+        if (td < 0 || td > 255)
+            tirow nfw IllfgblArgumfntExdfption("td is not in rbngf 0 -- 255");
 
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        getImpl().setOption(SocketOptions.IP_TOS, tc);
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftOption(SodkftOptions.IP_TOS, td);
     }
 
     /**
-     * Gets traffic class or type-of-service in the IP datagram
-     * header for packets sent from this DatagramSocket.
+     * Gfts trbffid dlbss or typf-of-sfrvidf in tif IP dbtbgrbm
+     * ifbdfr for pbdkfts sfnt from tiis DbtbgrbmSodkft.
      * <p>
-     * As the underlying network implementation may ignore the
-     * traffic class or type-of-service set using {@link #setTrafficClass(int)}
-     * this method may return a different value than was previously
-     * set using the {@link #setTrafficClass(int)} method on this
-     * DatagramSocket.
+     * As tif undfrlying nftwork implfmfntbtion mby ignorf tif
+     * trbffid dlbss or typf-of-sfrvidf sft using {@link #sftTrbffidClbss(int)}
+     * tiis mftiod mby rfturn b difffrfnt vbluf tibn wbs prfviously
+     * sft using tif {@link #sftTrbffidClbss(int)} mftiod on tiis
+     * DbtbgrbmSodkft.
      *
-     * @return the traffic class or type-of-service already set
-     * @throws SocketException if there is an error obtaining the
-     * traffic class or type-of-service value.
-     * @since 1.4
-     * @see #setTrafficClass(int)
+     * @rfturn tif trbffid dlbss or typf-of-sfrvidf blrfbdy sft
+     * @tirows SodkftExdfption if tifrf is bn frror obtbining tif
+     * trbffid dlbss or typf-of-sfrvidf vbluf.
+     * @sindf 1.4
+     * @sff #sftTrbffidClbss(int)
      */
-    public synchronized int getTrafficClass() throws SocketException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        return ((Integer)(getImpl().getOption(SocketOptions.IP_TOS))).intValue();
+    publid syndironizfd int gftTrbffidClbss() tirows SodkftExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        rfturn ((Intfgfr)(gftImpl().gftOption(SodkftOptions.IP_TOS))).intVbluf();
     }
 
     /**
-     * Closes this datagram socket.
+     * Closfs tiis dbtbgrbm sodkft.
      * <p>
-     * Any thread currently blocked in {@link #receive} upon this socket
-     * will throw a {@link SocketException}.
+     * Any tirfbd durrfntly blodkfd in {@link #rfdfivf} upon tiis sodkft
+     * will tirow b {@link SodkftExdfption}.
      *
-     * <p> If this socket has an associated channel then the channel is closed
-     * as well.
+     * <p> If tiis sodkft ibs bn bssodibtfd dibnnfl tifn tif dibnnfl is dlosfd
+     * bs wfll.
      *
-     * @revised 1.4
-     * @spec JSR-51
+     * @rfvisfd 1.4
+     * @spfd JSR-51
      */
-    public void close() {
-        synchronized(closeLock) {
-            if (isClosed())
-                return;
-            impl.close();
-            closed = true;
+    publid void dlosf() {
+        syndironizfd(dlosfLodk) {
+            if (isClosfd())
+                rfturn;
+            impl.dlosf();
+            dlosfd = truf;
         }
     }
 
     /**
-     * Returns whether the socket is closed or not.
+     * Rfturns wiftifr tif sodkft is dlosfd or not.
      *
-     * @return true if the socket has been closed
-     * @since 1.4
+     * @rfturn truf if tif sodkft ibs bffn dlosfd
+     * @sindf 1.4
      */
-    public boolean isClosed() {
-        synchronized(closeLock) {
-            return closed;
+    publid boolfbn isClosfd() {
+        syndironizfd(dlosfLodk) {
+            rfturn dlosfd;
         }
     }
 
     /**
-     * Returns the unique {@link java.nio.channels.DatagramChannel} object
-     * associated with this datagram socket, if any.
+     * Rfturns tif uniquf {@link jbvb.nio.dibnnfls.DbtbgrbmCibnnfl} objfdt
+     * bssodibtfd witi tiis dbtbgrbm sodkft, if bny.
      *
-     * <p> A datagram socket will have a channel if, and only if, the channel
-     * itself was created via the {@link java.nio.channels.DatagramChannel#open
-     * DatagramChannel.open} method.
+     * <p> A dbtbgrbm sodkft will ibvf b dibnnfl if, bnd only if, tif dibnnfl
+     * itsflf wbs drfbtfd vib tif {@link jbvb.nio.dibnnfls.DbtbgrbmCibnnfl#opfn
+     * DbtbgrbmCibnnfl.opfn} mftiod.
      *
-     * @return  the datagram channel associated with this datagram socket,
-     *          or {@code null} if this socket was not created for a channel
+     * @rfturn  tif dbtbgrbm dibnnfl bssodibtfd witi tiis dbtbgrbm sodkft,
+     *          or {@dodf null} if tiis sodkft wbs not drfbtfd for b dibnnfl
      *
-     * @since 1.4
-     * @spec JSR-51
+     * @sindf 1.4
+     * @spfd JSR-51
      */
-    public DatagramChannel getChannel() {
-        return null;
+    publid DbtbgrbmCibnnfl gftCibnnfl() {
+        rfturn null;
     }
 
     /**
-     * User defined factory for all datagram sockets.
+     * Usfr dffinfd fbdtory for bll dbtbgrbm sodkfts.
      */
-    static DatagramSocketImplFactory factory;
+    stbtid DbtbgrbmSodkftImplFbdtory fbdtory;
 
     /**
-     * Sets the datagram socket implementation factory for the
-     * application. The factory can be specified only once.
+     * Sfts tif dbtbgrbm sodkft implfmfntbtion fbdtory for tif
+     * bpplidbtion. Tif fbdtory dbn bf spfdififd only ondf.
      * <p>
-     * When an application creates a new datagram socket, the socket
-     * implementation factory's {@code createDatagramSocketImpl} method is
-     * called to create the actual datagram socket implementation.
+     * Wifn bn bpplidbtion drfbtfs b nfw dbtbgrbm sodkft, tif sodkft
+     * implfmfntbtion fbdtory's {@dodf drfbtfDbtbgrbmSodkftImpl} mftiod is
+     * dbllfd to drfbtf tif bdtubl dbtbgrbm sodkft implfmfntbtion.
      * <p>
-     * Passing {@code null} to the method is a no-op unless the factory
-     * was already set.
+     * Pbssing {@dodf null} to tif mftiod is b no-op unlfss tif fbdtory
+     * wbs blrfbdy sft.
      *
-     * <p>If there is a security manager, this method first calls
-     * the security manager's {@code checkSetFactory} method
-     * to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>If tifrf is b sfdurity mbnbgfr, tiis mftiod first dblls
+     * tif sfdurity mbnbgfr's {@dodf difdkSftFbdtory} mftiod
+     * to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param      fac   the desired factory.
-     * @exception  IOException  if an I/O error occurs when setting the
-     *              datagram socket factory.
-     * @exception  SocketException  if the factory is already defined.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkSetFactory} method doesn't allow the operation.
-     * @see       java.net.DatagramSocketImplFactory#createDatagramSocketImpl()
-     * @see       SecurityManager#checkSetFactory
-     * @since 1.3
+     * @pbrbm      fbd   tif dfsirfd fbdtory.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn sftting tif
+     *              dbtbgrbm sodkft fbdtory.
+     * @fxdfption  SodkftExdfption  if tif fbdtory is blrfbdy dffinfd.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkSftFbdtory} mftiod dofsn't bllow tif opfrbtion.
+     * @sff       jbvb.nft.DbtbgrbmSodkftImplFbdtory#drfbtfDbtbgrbmSodkftImpl()
+     * @sff       SfdurityMbnbgfr#difdkSftFbdtory
+     * @sindf 1.3
      */
-    public static synchronized void
-    setDatagramSocketImplFactory(DatagramSocketImplFactory fac)
-       throws IOException
+    publid stbtid syndironizfd void
+    sftDbtbgrbmSodkftImplFbdtory(DbtbgrbmSodkftImplFbdtory fbd)
+       tirows IOExdfption
     {
-        if (factory != null) {
-            throw new SocketException("factory already defined");
+        if (fbdtory != null) {
+            tirow nfw SodkftExdfption("fbdtory blrfbdy dffinfd");
         }
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkSetFactory();
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkSftFbdtory();
         }
-        factory = fac;
+        fbdtory = fbd;
     }
 
     /**
-     * Sets the value of a socket option.
+     * Sfts tif vbluf of b sodkft option.
      *
-     * @param name The socket option
-     * @param value The value of the socket option. A value of {@code null}
-     *              may be valid for some options.
+     * @pbrbm nbmf Tif sodkft option
+     * @pbrbm vbluf Tif vbluf of tif sodkft option. A vbluf of {@dodf null}
+     *              mby bf vblid for somf options.
      *
-     * @return this DatagramSocket
+     * @rfturn tiis DbtbgrbmSodkft
      *
-     * @throws UnsupportedOperationException if the datagram socket
-     *         does not support the option.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif dbtbgrbm sodkft
+     *         dofs not support tif option.
      *
-     * @throws IllegalArgumentException if the value is not valid for
-     *         the option.
+     * @tirows IllfgblArgumfntExdfption if tif vbluf is not vblid for
+     *         tif option.
      *
-     * @throws IOException if an I/O error occurs, or if the socket is closed.
+     * @tirows IOExdfption if bn I/O frror oddurs, or if tif sodkft is dlosfd.
      *
-     * @throws SecurityException if a security manager is set and if the socket
-     *         option requires a security permission and if the caller does
-     *         not have the required permission.
-     *         {@link java.net.StandardSocketOptions StandardSocketOptions}
-     *         do not require any security permission.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr is sft bnd if tif sodkft
+     *         option rfquirfs b sfdurity pfrmission bnd if tif dbllfr dofs
+     *         not ibvf tif rfquirfd pfrmission.
+     *         {@link jbvb.nft.StbndbrdSodkftOptions StbndbrdSodkftOptions}
+     *         do not rfquirf bny sfdurity pfrmission.
      *
-     * @throws NullPointerException if name is {@code null}
+     * @tirows NullPointfrExdfption if nbmf is {@dodf null}
      *
-     * @since 1.9
+     * @sindf 1.9
      */
-    public <T> DatagramSocket setOption(SocketOption<T> name, T value)
-        throws IOException
+    publid <T> DbtbgrbmSodkft sftOption(SodkftOption<T> nbmf, T vbluf)
+        tirows IOExdfption
     {
-        getImpl().setOption(name, value);
-        return this;
+        gftImpl().sftOption(nbmf, vbluf);
+        rfturn tiis;
     }
 
     /**
-     * Returns the value of a socket option.
+     * Rfturns tif vbluf of b sodkft option.
      *
-     * @param name The socket option
+     * @pbrbm nbmf Tif sodkft option
      *
-     * @return The value of the socket option.
+     * @rfturn Tif vbluf of tif sodkft option.
      *
-     * @throws UnsupportedOperationException if the datagram socket
-     *         does not support the option.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif dbtbgrbm sodkft
+     *         dofs not support tif option.
      *
-     * @throws IOException if an I/O error occurs, or if the socket is closed.
+     * @tirows IOExdfption if bn I/O frror oddurs, or if tif sodkft is dlosfd.
      *
-     * @throws NullPointerException if name is {@code null}
+     * @tirows NullPointfrExdfption if nbmf is {@dodf null}
      *
-     * @throws SecurityException if a security manager is set and if the socket
-     *         option requires a security permission and if the caller does
-     *         not have the required permission.
-     *         {@link java.net.StandardSocketOptions StandardSocketOptions}
-     *         do not require any security permission.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr is sft bnd if tif sodkft
+     *         option rfquirfs b sfdurity pfrmission bnd if tif dbllfr dofs
+     *         not ibvf tif rfquirfd pfrmission.
+     *         {@link jbvb.nft.StbndbrdSodkftOptions StbndbrdSodkftOptions}
+     *         do not rfquirf bny sfdurity pfrmission.
      *
-     * @since 1.9
+     * @sindf 1.9
      */
-    public <T> T getOption(SocketOption<T> name) throws IOException {
-        return getImpl().getOption(name);
+    publid <T> T gftOption(SodkftOption<T> nbmf) tirows IOExdfption {
+        rfturn gftImpl().gftOption(nbmf);
     }
 
-    private static Set<SocketOption<?>> options;
-    private static boolean optionsSet = false;
+    privbtf stbtid Sft<SodkftOption<?>> options;
+    privbtf stbtid boolfbn optionsSft = fblsf;
 
     /**
-     * Returns a set of the socket options supported by this socket.
+     * Rfturns b sft of tif sodkft options supportfd by tiis sodkft.
      *
-     * This method will continue to return the set of options even after
-     * the socket has been closed.
+     * Tiis mftiod will dontinuf to rfturn tif sft of options fvfn bftfr
+     * tif sodkft ibs bffn dlosfd.
      *
-     * @return A set of the socket options supported by this socket. This set
-     *        may be empty if the socket's DatagramSocketImpl cannot be created.
+     * @rfturn A sft of tif sodkft options supportfd by tiis sodkft. Tiis sft
+     *        mby bf fmpty if tif sodkft's DbtbgrbmSodkftImpl dbnnot bf drfbtfd.
      *
-     * @since 1.9
+     * @sindf 1.9
      */
-    public Set<SocketOption<?>> supportedOptions() {
-        synchronized(DatagramSocket.class) {
-            if (optionsSet) {
-                return options;
+    publid Sft<SodkftOption<?>> supportfdOptions() {
+        syndironizfd(DbtbgrbmSodkft.dlbss) {
+            if (optionsSft) {
+                rfturn options;
             }
             try {
-                DatagramSocketImpl impl = getImpl();
-                options = Collections.unmodifiableSet(impl.supportedOptions());
-            } catch (IOException e) {
-                options = Collections.emptySet();
+                DbtbgrbmSodkftImpl impl = gftImpl();
+                options = Collfdtions.unmodifibblfSft(impl.supportfdOptions());
+            } dbtdi (IOExdfption f) {
+                options = Collfdtions.fmptySft();
             }
-            optionsSet = true;
-            return options;
+            optionsSft = truf;
+            rfturn options;
         }
     }
 }

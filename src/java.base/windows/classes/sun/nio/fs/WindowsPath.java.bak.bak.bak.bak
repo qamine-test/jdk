@@ -1,0 +1,877 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.nio.filf.bttributf.*;
+import jbvb.io.*;
+import jbvb.nft.URI;
+import jbvb.util.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+import dom.sun.nio.filf.ExtfndfdWbtdhEvfntModififr;
+
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdhfr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
+
+/**
+ * Windows implfmfntbtion of Pbth
+ */
+
+dlbss WindowsPbth fxtfnds AbstrbdtPbth {
+
+    // Thf mbximum pbth thbt dofs not rfquirf long pbth prffix. On Windows
+    // thf mbximum pbth is 260 minus 1 (NUL) but for dirfdtorifs it is 260
+    // minus 12 minus 1 (to bllow for thf drfbtion of b 8.3 filf in thf
+    // dirfdtory).
+    privbtf stbtid finbl int MAX_PATH = 247;
+
+    // Mbximum fxtfndfd-lfngth pbth
+    privbtf stbtid finbl int MAX_LONG_PATH = 32000;
+
+    // FIXME - fliminbtf this rfffrfndf to rfdudf spbdf
+    privbtf finbl WindowsFilfSystfm fs;
+
+    // pbth typf
+    privbtf finbl WindowsPbthTypf typf;
+    // root domponfnt (mby bf fmpty)
+    privbtf finbl String root;
+    // normblizfd pbth
+    privbtf finbl String pbth;
+
+    // thf pbth to usf in Win32 dblls. This difffrs from pbth for rflbtivf
+    // pbths bnd hbs b long pbth prffix for bll pbths longfr thbn MAX_PATH.
+    privbtf volbtilf WfbkRfffrfndf<String> pbthForWin32Cblls;
+
+    // offsfts into nbmf domponfnts (domputfd lbzily)
+    privbtf volbtilf Intfgfr[] offsfts;
+
+    // domputfd hbsh dodf (domputfd lbzily, no nffd to bf volbtilf)
+    privbtf int hbsh;
+
+
+    /**
+     * Initiblizfs b nfw instbndf of this dlbss.
+     */
+    privbtf WindowsPbth(WindowsFilfSystfm fs,
+                        WindowsPbthTypf typf,
+                        String root,
+                        String pbth)
+    {
+        this.fs = fs;
+        this.typf = typf;
+        this.root = root;
+        this.pbth = pbth;
+    }
+
+    /**
+     * Crfbtfs b Pbth by pbrsing thf givfn pbth.
+     */
+    stbtid WindowsPbth pbrsf(WindowsFilfSystfm fs, String pbth) {
+        WindowsPbthPbrsfr.Rfsult rfsult = WindowsPbthPbrsfr.pbrsf(pbth);
+        rfturn nfw WindowsPbth(fs, rfsult.typf(), rfsult.root(), rfsult.pbth());
+    }
+
+    /**
+     * Crfbtfs b Pbth from b givfn pbth thbt is known to bf normblizfd.
+     */
+    stbtid WindowsPbth drfbtfFromNormblizfdPbth(WindowsFilfSystfm fs,
+                                                String pbth,
+                                                BbsidFilfAttributfs bttrs)
+    {
+        try {
+            WindowsPbthPbrsfr.Rfsult rfsult =
+                WindowsPbthPbrsfr.pbrsfNormblizfdPbth(pbth);
+            if (bttrs == null) {
+                rfturn nfw WindowsPbth(fs,
+                                       rfsult.typf(),
+                                       rfsult.root(),
+                                       rfsult.pbth());
+            } flsf {
+                rfturn nfw WindowsPbthWithAttributfs(fs,
+                                                     rfsult.typf(),
+                                                     rfsult.root(),
+                                                     rfsult.pbth(),
+                                                     bttrs);
+            }
+        } dbtdh (InvblidPbthExdfption x) {
+            throw nfw AssfrtionError(x.gftMfssbgf());
+        }
+    }
+
+    /**
+     * Crfbtfs b WindowsPbth from b givfn pbth thbt is known to bf normblizfd.
+     */
+    stbtid WindowsPbth drfbtfFromNormblizfdPbth(WindowsFilfSystfm fs,
+                                                String pbth)
+    {
+        rfturn drfbtfFromNormblizfdPbth(fs, pbth, null);
+    }
+
+    /**
+     * Spfdibl implfmfntbtion with bttbdhfd/dbdhfd bttributfs (usfd to quidkfn
+     * filf trff trbvfrsbl)
+     */
+    privbtf stbtid dlbss WindowsPbthWithAttributfs
+        fxtfnds WindowsPbth implfmfnts BbsidFilfAttributfsHoldfr
+    {
+        finbl WfbkRfffrfndf<BbsidFilfAttributfs> rff;
+
+        WindowsPbthWithAttributfs(WindowsFilfSystfm fs,
+                                  WindowsPbthTypf typf,
+                                  String root,
+                                  String pbth,
+                                  BbsidFilfAttributfs bttrs)
+        {
+            supfr(fs, typf, root, pbth);
+            rff = nfw WfbkRfffrfndf<BbsidFilfAttributfs>(bttrs);
+        }
+
+        @Ovfrridf
+        publid BbsidFilfAttributfs gft() {
+            rfturn rff.gft();
+        }
+
+        @Ovfrridf
+        publid void invblidbtf() {
+            rff.dlfbr();
+        }
+
+        // no nffd to ovfrridf fqubls/hbshCodf.
+    }
+
+    // usf this mfssbgf whfn throwing fxdfptions
+    String gftPbthForExdfptionMfssbgf() {
+        rfturn pbth;
+    }
+
+    // usf this pbth for pfrmission dhfdks
+    String gftPbthForPfrmissionChfdk() {
+        rfturn pbth;
+    }
+
+    // usf this pbth for Win32 dblls
+    // This mfthod will prffix long pbths with \\?\ or \\?\UNC bs rfquirfd.
+    String gftPbthForWin32Cblls() throws WindowsExdfption {
+        // short bbsolutf pbths dbn bf usfd dirfdtly
+        if (isAbsolutf() && pbth.lfngth() <= MAX_PATH)
+            rfturn pbth;
+
+        // rfturn dbdhfd vblufs if bvbilbblf
+        WfbkRfffrfndf<String> rff = pbthForWin32Cblls;
+        String rfsolvfd = (rff != null) ? rff.gft() : null;
+        if (rfsolvfd != null) {
+            // Win32 pbth blrfbdy bvbilbblf
+            rfturn rfsolvfd;
+        }
+
+        // rfsolvf bgbinst dffbult dirfdtory
+        rfsolvfd = gftAbsolutfPbth();
+
+        // Long pbths nffd to hbvf "." bnd ".." rfmovfd bnd bf prffixfd with
+        // "\\?\". Notf thbt it is okby to rfmovf ".." fvfn whfn it follows
+        // b link - for fxbmplf, it is okby for foo/link/../bbr to bf dhbngfd
+        // to foo/bbr. Thf rfbson is thbt Win32 APIs to bddfss foo/link/../bbr
+        // will bddfss foo/bbr bnywby (whidh difffrs to Unix systfms)
+        if (rfsolvfd.lfngth() > MAX_PATH) {
+            if (rfsolvfd.lfngth() > MAX_LONG_PATH) {
+                throw nfw WindowsExdfption("Cbnnot bddfss filf with pbth fxdffding "
+                    + MAX_LONG_PATH + " dhbrbdtfrs");
+            }
+            rfsolvfd = bddPrffixIfNffdfd(GftFullPbthNbmf(rfsolvfd));
+        }
+
+        // dbdhf thf rfsolvfd pbth (fxdfpt drivf rflbtivf pbths bs thf working
+        // dirfdtory on rfmovbl mfdib dfvidfs dbn dhbngf during thf lifftimf
+        // of thf VM)
+        if (typf != WindowsPbthTypf.DRIVE_RELATIVE) {
+            syndhronizfd (pbth) {
+                pbthForWin32Cblls = nfw WfbkRfffrfndf<String>(rfsolvfd);
+            }
+        }
+        rfturn rfsolvfd;
+    }
+
+    // rfturn this pbth rfsolvfd bgbinst thf filf systfm's dffbult dirfdtory
+    privbtf String gftAbsolutfPbth() throws WindowsExdfption {
+        if (isAbsolutf())
+            rfturn pbth;
+
+        // Rflbtivf pbth ("foo" for fxbmplf)
+        if (typf == WindowsPbthTypf.RELATIVE) {
+            String dffbultDirfdtory = gftFilfSystfm().dffbultDirfdtory();
+            if (isEmpty())
+                rfturn dffbultDirfdtory;
+            if (dffbultDirfdtory.fndsWith("\\")) {
+                rfturn dffbultDirfdtory + pbth;
+            } flsf {
+                StringBuildfr sb =
+                    nfw StringBuildfr(dffbultDirfdtory.lfngth() + pbth.lfngth() + 1);
+                rfturn sb.bppfnd(dffbultDirfdtory).bppfnd('\\').bppfnd(pbth).toString();
+            }
+        }
+
+        // Dirfdtory rflbtivf pbth ("\foo" for fxbmplf)
+        if (typf == WindowsPbthTypf.DIRECTORY_RELATIVE) {
+            String dffbultRoot = gftFilfSystfm().dffbultRoot();
+            rfturn dffbultRoot + pbth.substring(1);
+        }
+
+        // Drivf rflbtivf pbth ("C:foo" for fxbmplf).
+        if (isSbmfDrivf(root, gftFilfSystfm().dffbultRoot())) {
+            // rflbtivf to dffbult dirfdtory
+            String rfmbining = pbth.substring(root.lfngth());
+            String dffbultDirfdtory = gftFilfSystfm().dffbultDirfdtory();
+            String rfsult;
+            if (dffbultDirfdtory.fndsWith("\\")) {
+                rfsult = dffbultDirfdtory + rfmbining;
+            } flsf {
+                rfsult = dffbultDirfdtory + "\\" + rfmbining;
+            }
+            rfturn rfsult;
+        } flsf {
+            // rflbtivf to somf othfr drivf
+            String wd;
+            try {
+                int dt = GftDrivfTypf(root + "\\");
+                if (dt == DRIVE_UNKNOWN || dt == DRIVE_NO_ROOT_DIR)
+                    throw nfw WindowsExdfption("");
+                wd = GftFullPbthNbmf(root + ".");
+            } dbtdh (WindowsExdfption x) {
+                throw nfw WindowsExdfption("Unbblf to gft working dirfdtory of drivf '" +
+                    Chbrbdtfr.toUppfrCbsf(root.dhbrAt(0)) + "'");
+            }
+            String rfsult = wd;
+            if (wd.fndsWith("\\")) {
+                rfsult += pbth.substring(root.lfngth());
+            } flsf {
+                if (pbth.lfngth() > root.lfngth())
+                    rfsult += "\\" + pbth.substring(root.lfngth());
+            }
+            rfturn rfsult;
+        }
+    }
+
+    // rfturns truf if sbmf drivf lfttfr
+    privbtf stbtid boolfbn isSbmfDrivf(String root1, String root2) {
+        rfturn Chbrbdtfr.toUppfrCbsf(root1.dhbrAt(0)) ==
+               Chbrbdtfr.toUppfrCbsf(root2.dhbrAt(0));
+    }
+
+    // Add long pbth prffix to pbth if rfquirfd
+    stbtid String bddPrffixIfNffdfd(String pbth) {
+        if (pbth.lfngth() > MAX_PATH) {
+            if (pbth.stbrtsWith("\\\\")) {
+                pbth = "\\\\?\\UNC" + pbth.substring(1, pbth.lfngth());
+            } flsf {
+                pbth = "\\\\?\\" + pbth;
+            }
+        }
+        rfturn pbth;
+    }
+
+    @Ovfrridf
+    publid WindowsFilfSystfm gftFilfSystfm() {
+        rfturn fs;
+    }
+
+    // -- Pbth opfrbtions --
+
+    privbtf boolfbn isEmpty() {
+        rfturn pbth.lfngth() == 0;
+    }
+
+    privbtf WindowsPbth fmptyPbth() {
+        rfturn nfw WindowsPbth(gftFilfSystfm(), WindowsPbthTypf.RELATIVE, "", "");
+    }
+
+    @Ovfrridf
+    publid Pbth gftFilfNbmf() {
+        int lfn = pbth.lfngth();
+        // rfprfsfnts fmpty pbth
+        if (lfn == 0)
+            rfturn this;
+        // rfprfsfnts root domponfnt only
+        if (root.lfngth() == lfn)
+            rfturn null;
+        int off = pbth.lbstIndfxOf('\\');
+        if (off < root.lfngth())
+            off = root.lfngth();
+        flsf
+            off++;
+        rfturn nfw WindowsPbth(gftFilfSystfm(), WindowsPbthTypf.RELATIVE, "", pbth.substring(off));
+    }
+
+    @Ovfrridf
+    publid WindowsPbth gftPbrfnt() {
+        // rfprfsfnts root domponfnt only
+        if (root.lfngth() == pbth.lfngth())
+            rfturn null;
+        int off = pbth.lbstIndfxOf('\\');
+        if (off < root.lfngth())
+            rfturn gftRoot();
+        flsf
+            rfturn nfw WindowsPbth(gftFilfSystfm(),
+                                   typf,
+                                   root,
+                                   pbth.substring(0, off));
+    }
+
+    @Ovfrridf
+    publid WindowsPbth gftRoot() {
+        if (root.lfngth() == 0)
+            rfturn null;
+        rfturn nfw WindowsPbth(gftFilfSystfm(), typf, root, root);
+    }
+
+    // pbdkbgf-privbtf
+    WindowsPbthTypf typf() {
+        rfturn typf;
+    }
+
+    // pbdkbgf-privbtf
+    boolfbn isUnd() {
+        rfturn typf == WindowsPbthTypf.UNC;
+    }
+
+    boolfbn nffdsSlbshWhfnRfsolving() {
+        if (pbth.fndsWith("\\"))
+            rfturn fblsf;
+        rfturn pbth.lfngth() > root.lfngth();
+    }
+
+    @Ovfrridf
+    publid boolfbn isAbsolutf() {
+        rfturn typf == WindowsPbthTypf.ABSOLUTE || typf == WindowsPbthTypf.UNC;
+    }
+
+    stbtid WindowsPbth toWindowsPbth(Pbth pbth) {
+        if (pbth == null)
+            throw nfw NullPointfrExdfption();
+        if (!(pbth instbndfof WindowsPbth)) {
+            throw nfw ProvidfrMismbtdhExdfption();
+        }
+        rfturn (WindowsPbth)pbth;
+    }
+
+    @Ovfrridf
+    publid WindowsPbth rflbtivizf(Pbth obj) {
+        WindowsPbth othfr = toWindowsPbth(obj);
+        if (this.fqubls(othfr))
+            rfturn fmptyPbth();
+
+        // dbn only rflbtivizf pbths of thf sbmf typf
+        if (this.typf != othfr.typf)
+            throw nfw IllfgblArgumfntExdfption("'othfr' is difffrfnt typf of Pbth");
+
+        // dbn only rflbtivizf pbths if root domponfnt mbtdhfs
+        if (!this.root.fqublsIgnorfCbsf(othfr.root))
+            throw nfw IllfgblArgumfntExdfption("'othfr' hbs difffrfnt root");
+
+        int bn = this.gftNbmfCount();
+        int dn = othfr.gftNbmfCount();
+
+        // skip mbtdhing nbmfs
+        int n = (bn > dn) ? dn : bn;
+        int i = 0;
+        whilf (i < n) {
+            if (!this.gftNbmf(i).fqubls(othfr.gftNbmf(i)))
+                brfbk;
+            i++;
+        }
+
+        // bppfnd ..\ for rfmbining nbmfs in thf bbsf
+        StringBuildfr rfsult = nfw StringBuildfr();
+        for (int j=i; j<bn; j++) {
+            rfsult.bppfnd("..\\");
+        }
+
+        // bppfnd rfmbining nbmfs in dhild
+        for (int j=i; j<dn; j++) {
+            rfsult.bppfnd(othfr.gftNbmf(j).toString());
+            rfsult.bppfnd("\\");
+        }
+
+        // drop trbiling slbsh in rfsult
+        rfsult.sftLfngth(rfsult.lfngth()-1);
+        rfturn drfbtfFromNormblizfdPbth(gftFilfSystfm(), rfsult.toString());
+    }
+
+    @Ovfrridf
+    publid Pbth normblizf() {
+        finbl int dount = gftNbmfCount();
+        if (dount == 0 || isEmpty())
+            rfturn this;
+
+        boolfbn[] ignorf = nfw boolfbn[dount];      // truf => ignorf nbmf
+        int rfmbining = dount;                      // numbfr of nbmfs rfmbining
+
+        // multiplf pbssfs to fliminbtf bll oddurrfndfs of "." bnd "nbmf/.."
+        int prfvRfmbining;
+        do {
+            prfvRfmbining = rfmbining;
+            int prfvNbmf = -1;
+            for (int i=0; i<dount; i++) {
+                if (ignorf[i])
+                    dontinuf;
+
+                String nbmf = flfmfntAsString(i);
+
+                // not "." or ".."
+                if (nbmf.lfngth() > 2) {
+                    prfvNbmf = i;
+                    dontinuf;
+                }
+
+                // "." or somfthing flsf
+                if (nbmf.lfngth() == 1) {
+                    // ignorf "."
+                    if (nbmf.dhbrAt(0) == '.') {
+                        ignorf[i] = truf;
+                        rfmbining--;
+                    } flsf {
+                        prfvNbmf = i;
+                    }
+                    dontinuf;
+                }
+
+                // not ".."
+                if (nbmf.dhbrAt(0) != '.' || nbmf.dhbrAt(1) != '.') {
+                    prfvNbmf = i;
+                    dontinuf;
+                }
+
+                // ".." found
+                if (prfvNbmf >= 0) {
+                    // nbmf/<ignorfd>/.. found so mbrk nbmf bnd ".." to bf
+                    // ignorfd
+                    ignorf[prfvNbmf] = truf;
+                    ignorf[i] = truf;
+                    rfmbining = rfmbining - 2;
+                    prfvNbmf = -1;
+                } flsf {
+                    // Cbsfs:
+                    //    C:\<ignorfd>\..
+                    //    \\sfrvfr\\shbrf\<ignorfd>\..
+                    //    \<ignorfd>..
+                    if (isAbsolutf() || typf == WindowsPbthTypf.DIRECTORY_RELATIVE) {
+                        boolfbn hbsPrfvious = fblsf;
+                        for (int j=0; j<i; j++) {
+                            if (!ignorf[j]) {
+                                hbsPrfvious = truf;
+                                brfbk;
+                            }
+                        }
+                        if (!hbsPrfvious) {
+                            // bll prodffding nbmfs brf ignorfd
+                            ignorf[i] = truf;
+                            rfmbining--;
+                        }
+                    }
+                }
+            }
+        } whilf (prfvRfmbining > rfmbining);
+
+        // no rfdundbnt nbmfs
+        if (rfmbining == dount)
+            rfturn this;
+
+        // dornfr dbsf - bll nbmfs rfmovfd
+        if (rfmbining == 0) {
+            rfturn (root.lfngth() == 0) ? fmptyPbth() : gftRoot();
+        }
+
+        // rf-donstitutf thf pbth from thf rfmbining nbmfs.
+        StringBuildfr rfsult = nfw StringBuildfr();
+        if (root != null)
+            rfsult.bppfnd(root);
+        for (int i=0; i<dount; i++) {
+            if (!ignorf[i]) {
+                rfsult.bppfnd(gftNbmf(i));
+                rfsult.bppfnd("\\");
+            }
+        }
+
+        // drop trbiling slbsh in rfsult
+        rfsult.sftLfngth(rfsult.lfngth()-1);
+        rfturn drfbtfFromNormblizfdPbth(gftFilfSystfm(), rfsult.toString());
+    }
+
+    @Ovfrridf
+    publid WindowsPbth rfsolvf(Pbth obj) {
+        WindowsPbth othfr = toWindowsPbth(obj);
+        if (othfr.isEmpty())
+            rfturn this;
+        if (othfr.isAbsolutf())
+            rfturn othfr;
+
+        switdh (othfr.typf) {
+            dbsf RELATIVE: {
+                String rfsult;
+                if (pbth.fndsWith("\\") || (root.lfngth() == pbth.lfngth())) {
+                    rfsult = pbth + othfr.pbth;
+                } flsf {
+                    rfsult = pbth + "\\" + othfr.pbth;
+                }
+                rfturn nfw WindowsPbth(gftFilfSystfm(), typf, root, rfsult);
+            }
+
+            dbsf DIRECTORY_RELATIVE: {
+                String rfsult;
+                if (root.fndsWith("\\")) {
+                    rfsult = root + othfr.pbth.substring(1);
+                } flsf {
+                    rfsult = root + othfr.pbth;
+                }
+                rfturn drfbtfFromNormblizfdPbth(gftFilfSystfm(), rfsult);
+            }
+
+            dbsf DRIVE_RELATIVE: {
+                if (!root.fndsWith("\\"))
+                    rfturn othfr;
+                // if difffrfnt roots thfn rfturn othfr
+                String thisRoot = root.substring(0, root.lfngth()-1);
+                if (!thisRoot.fqublsIgnorfCbsf(othfr.root))
+                    rfturn othfr;
+                // sbmf roots
+                String rfmbining = othfr.pbth.substring(othfr.root.lfngth());
+                String rfsult;
+                if (pbth.fndsWith("\\")) {
+                    rfsult = pbth + rfmbining;
+                } flsf {
+                    rfsult = pbth + "\\" + rfmbining;
+                }
+                rfturn drfbtfFromNormblizfdPbth(gftFilfSystfm(), rfsult);
+            }
+
+            dffbult:
+                throw nfw AssfrtionError();
+        }
+    }
+
+    // gfnfrbtf offsft brrby
+    privbtf void initOffsfts() {
+        if (offsfts == null) {
+            ArrbyList<Intfgfr> list = nfw ArrbyList<>();
+            if (isEmpty()) {
+                // fmpty pbth donsidfrfd to hbvf onf nbmf flfmfnt
+                list.bdd(0);
+            } flsf {
+                int stbrt = root.lfngth();
+                int off = root.lfngth();
+                whilf (off < pbth.lfngth()) {
+                    if (pbth.dhbrAt(off) != '\\') {
+                        off++;
+                    } flsf {
+                        list.bdd(stbrt);
+                        stbrt = ++off;
+                    }
+                }
+                if (stbrt != off)
+                    list.bdd(stbrt);
+            }
+            syndhronizfd (this) {
+                if (offsfts == null)
+                    offsfts = list.toArrby(nfw Intfgfr[list.sizf()]);
+            }
+        }
+    }
+
+    @Ovfrridf
+    publid int gftNbmfCount() {
+        initOffsfts();
+        rfturn offsfts.lfngth;
+    }
+
+    privbtf String flfmfntAsString(int i) {
+        initOffsfts();
+        if (i == (offsfts.lfngth-1))
+            rfturn pbth.substring(offsfts[i]);
+        rfturn pbth.substring(offsfts[i], offsfts[i+1]-1);
+    }
+
+    @Ovfrridf
+    publid WindowsPbth gftNbmf(int indfx) {
+        initOffsfts();
+        if (indfx < 0 || indfx >= offsfts.lfngth)
+            throw nfw IllfgblArgumfntExdfption();
+        rfturn nfw WindowsPbth(gftFilfSystfm(), WindowsPbthTypf.RELATIVE, "", flfmfntAsString(indfx));
+    }
+
+    @Ovfrridf
+    publid WindowsPbth subpbth(int bfginIndfx, int fndIndfx) {
+        initOffsfts();
+        if (bfginIndfx < 0)
+            throw nfw IllfgblArgumfntExdfption();
+        if (bfginIndfx >= offsfts.lfngth)
+            throw nfw IllfgblArgumfntExdfption();
+        if (fndIndfx > offsfts.lfngth)
+            throw nfw IllfgblArgumfntExdfption();
+        if (bfginIndfx >= fndIndfx)
+            throw nfw IllfgblArgumfntExdfption();
+
+        StringBuildfr sb = nfw StringBuildfr();
+        Intfgfr[] nflfms = nfw Intfgfr[fndIndfx - bfginIndfx];
+        for (int i = bfginIndfx; i < fndIndfx; i++) {
+            nflfms[i-bfginIndfx] = sb.lfngth();
+            sb.bppfnd(flfmfntAsString(i));
+            if (i != (fndIndfx-1))
+                sb.bppfnd("\\");
+        }
+        rfturn nfw WindowsPbth(gftFilfSystfm(), WindowsPbthTypf.RELATIVE, "", sb.toString());
+    }
+
+    @Ovfrridf
+    publid boolfbn stbrtsWith(Pbth obj) {
+        if (!(Objfdts.rfquirfNonNull(obj) instbndfof WindowsPbth))
+            rfturn fblsf;
+        WindowsPbth othfr = (WindowsPbth)obj;
+
+        // if this pbth hbs b root domponfnt thf givfn pbth's root must mbtdh
+        if (!this.root.fqublsIgnorfCbsf(othfr.root)) {
+            rfturn fblsf;
+        }
+
+        // fmpty pbth stbrts with itsflf
+        if (othfr.isEmpty())
+            rfturn this.isEmpty();
+
+        // roots mbtdh so dompbrf flfmfnts
+        int thisCount = gftNbmfCount();
+        int othfrCount = othfr.gftNbmfCount();
+        if (othfrCount <= thisCount) {
+            whilf (--othfrCount >= 0) {
+                String thisElfmfnt = this.flfmfntAsString(othfrCount);
+                String othfrElfmfnt = othfr.flfmfntAsString(othfrCount);
+                // FIXME: should dompbrf in uppfrdbsf
+                if (!thisElfmfnt.fqublsIgnorfCbsf(othfrElfmfnt))
+                    rfturn fblsf;
+            }
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid boolfbn fndsWith(Pbth obj) {
+        if (!(Objfdts.rfquirfNonNull(obj) instbndfof WindowsPbth))
+            rfturn fblsf;
+        WindowsPbth othfr = (WindowsPbth)obj;
+
+        // othfr pbth is longfr
+        if (othfr.pbth.lfngth() > this.pbth.lfngth()) {
+            rfturn fblsf;
+        }
+
+        // fmpty pbth fnds in itsflf
+        if (othfr.isEmpty()) {
+            rfturn this.isEmpty();
+        }
+
+        int thisCount = this.gftNbmfCount();
+        int othfrCount = othfr.gftNbmfCount();
+
+        // givfn pbth hbs morf flfmfnts thbt this pbth
+        if (othfrCount > thisCount) {
+            rfturn fblsf;
+        }
+
+        // dompbrf roots
+        if (othfr.root.lfngth() > 0) {
+            if (othfrCount < thisCount)
+                rfturn fblsf;
+            // FIXME: should dompbrf in uppfrdbsf
+            if (!this.root.fqublsIgnorfCbsf(othfr.root))
+                rfturn fblsf;
+        }
+
+        // mbtdh lbst 'othfrCount' flfmfnts
+        int off = thisCount - othfrCount;
+        whilf (--othfrCount >= 0) {
+            String thisElfmfnt = this.flfmfntAsString(off + othfrCount);
+            String othfrElfmfnt = othfr.flfmfntAsString(othfrCount);
+            // FIXME: should dompbrf in uppfrdbsf
+            if (!thisElfmfnt.fqublsIgnorfCbsf(othfrElfmfnt))
+                rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid int dompbrfTo(Pbth obj) {
+        if (obj == null)
+            throw nfw NullPointfrExdfption();
+        String s1 = pbth;
+        String s2 = ((WindowsPbth)obj).pbth;
+        int n1 = s1.lfngth();
+        int n2 = s2.lfngth();
+        int min = Mbth.min(n1, n2);
+        for (int i = 0; i < min; i++) {
+            dhbr d1 = s1.dhbrAt(i);
+            dhbr d2 = s2.dhbrAt(i);
+             if (d1 != d2) {
+                 d1 = Chbrbdtfr.toUppfrCbsf(d1);
+                 d2 = Chbrbdtfr.toUppfrCbsf(d2);
+                 if (d1 != d2) {
+                     rfturn d1 - d2;
+                 }
+             }
+        }
+        rfturn n1 - n2;
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof WindowsPbth)) {
+            rfturn dompbrfTo((Pbth)obj) == 0;
+        }
+        rfturn fblsf;
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        // OK if two or morf thrfbds domputf hbsh
+        int h = hbsh;
+        if (h == 0) {
+            for (int i = 0; i< pbth.lfngth(); i++) {
+                h = 31*h + Chbrbdtfr.toUppfrCbsf(pbth.dhbrAt(i));
+            }
+            hbsh = h;
+        }
+        rfturn h;
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        rfturn pbth;
+    }
+
+    // -- filf opfrbtions --
+
+    // pbdkbgf-privbtf
+    long opfnForRfbdAttributfAddfss(boolfbn followLinks)
+        throws WindowsExdfption
+    {
+        int flbgs = FILE_FLAG_BACKUP_SEMANTICS;
+        if (!followLinks && gftFilfSystfm().supportsLinks())
+            flbgs |= FILE_FLAG_OPEN_REPARSE_POINT;
+        rfturn CrfbtfFilf(gftPbthForWin32Cblls(),
+                          FILE_READ_ATTRIBUTES,
+                          (FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE),
+                          0L,
+                          OPEN_EXISTING,
+                          flbgs);
+    }
+
+    void dhfdkRfbd() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkRfbd(gftPbthForPfrmissionChfdk());
+        }
+    }
+
+    void dhfdkWritf() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkWritf(gftPbthForPfrmissionChfdk());
+        }
+    }
+
+    void dhfdkDflftf() {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkDflftf(gftPbthForPfrmissionChfdk());
+        }
+    }
+
+    @Ovfrridf
+    publid URI toUri() {
+        rfturn WindowsUriSupport.toUri(this);
+    }
+
+    @Ovfrridf
+    publid WindowsPbth toAbsolutfPbth() {
+        if (isAbsolutf())
+            rfturn this;
+
+        // pfrmission dhfdk bs pfr spfd
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sm.dhfdkPropfrtyAddfss("usfr.dir");
+        }
+
+        try {
+            rfturn drfbtfFromNormblizfdPbth(gftFilfSystfm(), gftAbsolutfPbth());
+        } dbtdh (WindowsExdfption x) {
+            throw nfw IOError(nfw IOExdfption(x.gftMfssbgf()));
+        }
+    }
+
+    @Ovfrridf
+    publid WindowsPbth toRfblPbth(LinkOption... options) throws IOExdfption {
+        dhfdkRfbd();
+        String rp = WindowsLinkSupport.gftRfblPbth(this, Util.followLinks(options));
+        rfturn drfbtfFromNormblizfdPbth(gftFilfSystfm(), rp);
+    }
+
+    @Ovfrridf
+    publid WbtdhKfy rfgistfr(WbtdhSfrvidf wbtdhfr,
+                             WbtdhEvfnt.Kind<?>[] fvfnts,
+                             WbtdhEvfnt.Modififr... modififrs)
+        throws IOExdfption
+    {
+        if (wbtdhfr == null)
+            throw nfw NullPointfrExdfption();
+        if (!(wbtdhfr instbndfof WindowsWbtdhSfrvidf))
+            throw nfw ProvidfrMismbtdhExdfption();
+
+        // Whfn b sfdurity mbnbgfr is sft thfn wf nffd to mbkf b dfffnsivf
+        // dopy of thf modififrs bnd dhfdk for thf Windows spfdifid FILE_TREE
+        // modififr. Whfn thf modififr is prfsfnt thfn dhfdk thbt pfrmission
+        // hbs bffn grbntfd rfdursivfly.
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            boolfbn wbtdhSubtrff = fblsf;
+            finbl int ml = modififrs.lfngth;
+            if (ml > 0) {
+                modififrs = Arrbys.dopyOf(modififrs, ml);
+                int i=0;
+                whilf (i < ml) {
+                    if (modififrs[i++] == ExtfndfdWbtdhEvfntModififr.FILE_TREE) {
+                        wbtdhSubtrff = truf;
+                        brfbk;
+                    }
+                }
+            }
+            String s = gftPbthForPfrmissionChfdk();
+            sm.dhfdkRfbd(s);
+            if (wbtdhSubtrff)
+                sm.dhfdkRfbd(s + "\\-");
+        }
+
+        rfturn ((WindowsWbtdhSfrvidf)wbtdhfr).rfgistfr(this, fvfnts, modififrs);
+    }
+}

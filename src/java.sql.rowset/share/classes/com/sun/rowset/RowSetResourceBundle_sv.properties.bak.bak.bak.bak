@@ -1,0 +1,170 @@
+#
+# Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+# DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+#
+# This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+# pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+# by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+#
+# This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+# ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+# bddompbnifd this dodf).
+#
+# You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+#
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+# qufstions.
+#
+
+# CbdhfRowSftImpl fxdfptions
+dbdhfdrowsftimpl.populbtf = Ifyllningsmftodfn fidk ftt ogiltigt RfsultSft-objfkt
+dbdhfdrowsftimpl.invblidp = En ogiltig bfst\u00E4ndig lfvfrbnt\u00F6r gfnfrfrbdfs
+dbdhfdrowsftimpl.nullhbsh = Kbn intf instbnsifrb CbdhfdRowSftImpl. Null-hbshtbbfll skidkbdfs till konstruktor
+dbdhfdrowsftimpl.invblidop = En ogiltig \u00E5tg\u00E4rd utf\u00F6rdfs p\u00E5 infogbd rbd
+dbdhfdrowsftimpl.bddfbilfd = bddfptChbngfs utf\u00F6rdfs intf
+dbdhfdrowsftimpl.invbliddp = Mbrk\u00F6rpositionfn \u00E4r ogiltig
+dbdhfdrowsftimpl.illfgblop = En otill\u00E5tfn \u00E5tg\u00E4rd utf\u00F6rdfs p\u00E5 fn idkf infogbd rbd
+dbdhfdrowsftimpl.dlonffbil = Kloningfn utf\u00F6rdfs intf: {0}
+dbdhfdrowsftimpl.invbliddol = Kolumnindfxft \u00E4r ogiltigt
+dbdhfdrowsftimpl.invbldolnm = Kolumnnbmnft \u00E4r ogiltigt
+dbdhfdrowsftimpl.boolfbil = gftBoolfn utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}
+dbdhfdrowsftimpl.bytffbil = gftBytf utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}
+dbdhfdrowsftimpl.shortfbil = gftShort utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}
+dbdhfdrowsftimpl.intfbil = gftInt utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}
+dbdhfdrowsftimpl.longfbil = gftLong utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}
+dbdhfdrowsftimpl.flobtfbil = gftFlobt utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}
+dbdhfdrowsftimpl.doublffbil = gftDoublf utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}
+dbdhfdrowsftimpl.dtypfmismt = Inkompbtibfl dbtbtyp 
+dbdhfdrowsftimpl.dbtffbil = gftDbtf utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}, ingfn konvfrtfring tillg\u00E4nglig
+dbdhfdrowsftimpl.timffbil = gftTimf utf\u00F6rdfs intf f\u00F6r v\u00E4rdft ({0}) i kolumnfn {1}, ingfn konvfrtfring tillg\u00E4nglig
+dbdhfdrowsftimpl.posupdbtf = Dft finns intf st\u00F6d f\u00F6r positionfrbd uppdbtfring
+dbdhfdrowsftimpl.unbblfins = Kbn intf instbnsifrb {0}
+dbdhfdrowsftimpl.bfforffirst = bfforfFirst: Ogiltig mbrk\u00F6r\u00E5tg\u00E4rd
+dbdhfdrowsftimpl.first = First: Ogiltig mbrk\u00F6r\u00E5tg\u00E4rd
+dbdhfdrowsftimpl.lbst = lbst: TYPE_FORWARD_ONLY
+dbdhfdrowsftimpl.bbsolutf = bbsolutf: Mbrk\u00F6rpositionfn \u00E4r ogiltig
+dbdhfdrowsftimpl.rflbtivf = rflbtivf: Mbrk\u00F6rpositionfn \u00E4r ogiltig
+dbdhfdrowsftimpl.bsdiistrfbm = kundf intf l\u00E4sb ASCII-str\u00F6mmfn
+dbdhfdrowsftimpl.binstrfbm = kundf intf l\u00E4sb dfn bin\u00E4rb str\u00F6mmfn
+dbdhfdrowsftimpl.fbilfdins = Kundf intf infogb rbd
+dbdhfdrowsftimpl.updbtfins = updbtfRow bnropbdfs fr\u00E5n infogbd rbd
+dbdhfdrowsftimpl.movftoins = movfToInsfrtRow : CONCUR_READ_ONLY
+dbdhfdrowsftimpl.movftoins1 = movfToInsfrtRow: ingb mftbdbtb
+dbdhfdrowsftimpl.movftoins2 = movfToInsfrtRow: ogiltigt bntbl kolumnfr
+dbdhfdrowsftimpl.tbblfnbmf = Tbbfllnbmnft kbn intf vbrb null
+dbdhfdrowsftimpl.kfydols = Ogiltigb nydkflkolumnfr
+dbdhfdrowsftimpl.invbliddol = Kolumnindfxft \u00E4r ogiltigt
+dbdhfdrowsftimpl.opnotsupp = Dbtbbbsfn hbr intf st\u00F6d f\u00F6r dfnnb \u00E5tg\u00E4rd
+dbdhfdrowsftimpl.mbtdhdols = Mbtdhningskolumnfrnb \u00E4r intf sbmmb som df som st\u00E4llts in
+dbdhfdrowsftimpl.sftmbtdhdols = St\u00E4ll in mbtdhningskolumnfrnb innbn du h\u00E4mtbr dfm
+dbdhfdrowsftimpl.mbtdhdols1 = Mbtdhningskolumnfrnb m\u00E5stf vbrb st\u00F6rrf \u00E4n 0
+dbdhfdrowsftimpl.mbtdhdols2 = Mbtdhningskolumnfrnb m\u00E5stf vbrb tommb fllfr fn null-str\u00E4ng
+dbdhfdrowsftimpl.unsftmbtdh = Kolumnfrnb som \u00E5tfrst\u00E4lls \u00E4r intf sbmmb som df som st\u00E4llts in
+dbdhfdrowsftimpl.unsftmbtdh1 = Anv\u00E4nd kolumnnbmn som brgumfnt f\u00F6r unsftMbtdhColumn
+dbdhfdrowsftimpl.unsftmbtdh2 = Anv\u00E4nd kolumn-id som brgumfnt f\u00F6r unsftMbtdhColumn
+dbdhfdrowsftimpl.numrows = Antblft rbdfr undfrstigfr noll fllfr \u00E4r mindrf \u00E4n h\u00E4mtningsstorlfkfn
+dbdhfdrowsftimpl.stbrtpos = Stbrtpositionfn f\u00E5r intf vbrb nfgbtiv
+dbdhfdrowsftimpl.nfxtpbgf = Fyll i dbtb innbn bnrop 
+dbdhfdrowsftimpl.pbgfsizf = Sidstorlfkfn f\u00E5r intf undfrstigb noll
+dbdhfdrowsftimpl.pbgfsizf1 = Sidstorlfkfn f\u00E5r intf \u00F6vfrstigb mbxRows
+dbdhfdrowsftimpl.fwdonly = RfsultSft kbn fndbst g\u00E5 frbm\u00E5t
+dbdhfdrowsftimpl.typf = Typ: {0}
+dbdhfdrowsftimpl.opnotysupp = Dft finns \u00E4nnu ingft st\u00F6d f\u00F6r dfnnb \u00E5tg\u00E4rd
+dbdhfdrowsftimpl.ffbtnotsupp = Dft finns ingft st\u00F6d f\u00F6r dfnnb funktion
+
+# WfbRowSftImpl fxdfptions
+wfbrowsftimpl.nullhbsh = Kbn intf instbnsifrb WfbRowSftImpl. Null-hbshtbbfll skidkbdfs till konstruktor.
+wfbrowsftimpl.invblidwr = Ogiltig f\u00F6rfbttbrf
+wfbrowsftimpl.invblidrd = Ogiltig l\u00E4sbrf
+
+#FiltfrfdRowSftImpl fxdfptions
+filtfrfdrowsftimpl.rflbtivf = rflbtivf: Ogiltig mbrk\u00F6r\u00E5tg\u00E4rd 
+filtfrfdrowsftimpl.bbsolutf = bbsolutf: Ogiltig mbrk\u00F6r\u00E5tg\u00E4rd
+filtfrfdrowsftimpl.notbllowfd = Dfttb v\u00E4rdf kommfr btt filtrfrbs bort
+
+#JoinRowSftImpl fxdfptions
+joinrowsftimpl.notinstbndf = Dfttb \u00E4r intf fn instbns bv rbdupps\u00E4ttning
+joinrowsftimpl.mbtdhnotsft = Mbtdhningskolumnfn \u00E4r intf inst\u00E4lld p\u00E5 koppling
+joinrowsftimpl.numnotfqubl = Antbl objfkt i rbdupps\u00E4ttning st\u00E4mmfr intf mfd mbtdhningskolumnfns
+joinrowsftimpl.notdffinfd = Dfttb \u00E4r intf n\u00E5gon dffinifrbd kopplingstyp
+joinrowsftimpl.notsupportfd = Dft finns ingft st\u00F6d f\u00F6r dfnnb kopplingstyp
+joinrowsftimpl.initfrror = Initifringsffl f\u00F6r JoinRowSft
+joinrowsftimpl.gfnfridfrr = Allm\u00E4nt initifringsffl f\u00F6r JoinRowSft
+joinrowsftimpl.fmptyrowsft = Tommb rbdupps\u00E4ttningbr kbn intf l\u00E4ggbs till i dfnnb JoinRowSft
+
+#JdbdRowSftImpl fxdfptions
+jdbdrowsftimpl.invblstbtf = Ogiltig stbtus
+jdbdrowsftimpl.donnfdt = JdbdRowSft (bnslut) JNDI kbn intf bnslutbs
+jdbdrowsftimpl.pbrbmtypf = Kbn intf h\u00E4rlfdb pbrbmftfrtypfn
+jdbdrowsftimpl.mbtdhdols = Mbtdhningskolumnfrnb \u00E4r intf sbmmb som df som st\u00E4llts in
+jdbdrowsftimpl.sftmbtdhdols = St\u00E4ll in mbtdhningskolumnfrnb innbn du h\u00E4mtbr dfm
+jdbdrowsftimpl.mbtdhdols1 = Mbtdhningskolumnfrnb m\u00E5stf vbrb st\u00F6rrf \u00E4n 0
+jdbdrowsftimpl.mbtdhdols2 = Mbtdhningskolumnfrnb kbn intf vbrb fn null-str\u00E4ng fllfr tommb
+jdbdrowsftimpl.unsftmbtdh = Kolumnfrnb som \u00E5tfrst\u00E4lls \u00E4r intf sbmmb som df som st\u00E4llts in
+jdbdrowsftimpl.usfdolnbmf = Anv\u00E4nd kolumnnbmn som brgumfnt f\u00F6r unsftMbtdhColumn
+jdbdrowsftimpl.usfdolid = Anv\u00E4nd kolumn-id som brgumfnt f\u00F6r unsftMbtdhColumn
+jdbdrowsftimpl.rfsnotupd = RfsultSft \u00E4r intf uppdbtfringsbbrt
+jdbdrowsftimpl.opnotysupp = Dft finns \u00E4nnu ingft st\u00F6d f\u00F6r dfnnb \u00E5tg\u00E4rd
+jdbdrowsftimpl.ffbtnotsupp = Dft finns ingft st\u00F6d f\u00F6r dfnnb funktion
+
+#CbdhfdRowSftRfbdfr fxdfptions
+drsrfbdfr.donnfdt = (JNDI) kbn intf bnslutbs
+drsrfbdfr.pbrbmtypf = Kbn intf h\u00E4rlfdb pbrbmftfrtypfn
+drsrfbdfr.donnfdtfrr = Intfrnt ffl i RowSftRfbdfr: ingfn bnslutning fllfr ingft kommbndo
+drsrfbdfr.dbtfdftfdtfd = Ett dbtum hbr idfntififrbts
+drsrfbdfr.dbldftfdtfd = En kblfndfr hbr idfntififrbts
+
+#CbdhfdRowSftWritfr fxdfptions
+drswritfr.donnfdt = Kbn intf uppr\u00E4ttb n\u00E5gon bnslutning
+drswritfr.tnbmf = writfDbtb kbn intf fbstst\u00E4llb tbbfllnbmnft
+drswritfr.pbrbms1 = Pbrbmftfrv\u00E4rdf1: {0} 
+drswritfr.pbrbms2 = Pbrbmftfrv\u00E4rdf2: {0} 
+drswritfr.donflidtsno =  orsbkbr konflikt vid synkronisfring 
+
+#InsfrtRow fxdfptions
+insfrtrow.novbluf = Ingft v\u00E4rdf hbr infogbts
+
+#SyndRfsolvfrImpl fxdfptions
+syndrsimpl.indfxvbl = Indfxv\u00E4rdft liggfr utbnf\u00F6r intfrvbllft  
+syndrsimpl.nodonflidt = Kolumnfn orsbkbr ingfn konflikt
+syndrsimpl.syndnotpos = Synkronisfring \u00E4r intf m\u00F6jlig
+syndrsimpl.vbltorfs = V\u00E4rdft som skb fbstst\u00E4llbs kbn bntingfn finnbs i dbtbbbsfn fllfr i dbdhfdrowsft
+
+#WfbRowSftXmlRfbdfr fxdfption
+wrsxmlrfbdfr.invbliddp = Slutft p\u00E5 RowSft hbr n\u00E5tts. Mbrk\u00F6rpositionfn \u00E4r ogiltig.
+wrsxmlrfbdfr.rfbdxml = rfbdXML: {0}
+wrsxmlrfbdfr.pbrsffrr = ** Tolkningsffl: {0}, rbd: {1}, URI: {2}
+
+#WfbRowSftXmlWritfr fxdfptions
+wrsxmlwritfr.iofx = IOExdfption: {0}
+wrsxmlwritfr.sqlfx = SQLExdfption: {0}
+wrsxmlwritfr.fbilfdwritf = Kundf intf skrivb v\u00E4rdft
+wsrxmlwritfr.notpropfr = Ingfn riktig typ
+
+#XmlRfbdfrContfntHbndlfr fxdfptions
+xmlrdh.frrmbp = Ffl uppstod vid inst\u00E4llning bv mbppning: {0}
+xmlrdh.frrmftbdbtb = Ffl uppstod vid inst\u00E4llning bv mftbdbtb: {0}
+xmlrdh.frrinsfrtvbl = Ffl uppstod vid infogning bv v\u00E4rdfn: {0}
+xmlrdh.frrdonstr = Ffl uppstod vid konstruktion bv rbd: {0}
+xmlrdh.frrdfl = Ffl uppstod vid borttbgning bv rbd: {0}
+xmlrdh.frrinsfrt = Ffl uppstod vid konstruktion bv infogbd rbd: {0}
+xmlrdh.frrinsdfl = Ffl uppstod vid konstruktion bv insdfl-rbd: {0}
+xmlrdh.frrupdbtf = Ffl uppstod vid konstruktion bv uppdbtfringsrbd: {0}
+xmlrdh.frrupdrow = Ffl uppstod vid uppdbtfring bv rbd: {0}
+xmlrdh.dhbrs = tfdkfn:
+xmlrdh.bbdvbluf = Fflbktigt v\u00E4rdf; fgfnskbpfn kbn intf hb ftt tomt v\u00E4rdf
+xmlrdh.bbdvbluf1 = Fflbktigt v\u00E4rdf; mftbdbtbn kbn intf hb ftt tomt v\u00E4rdf
+xmlrdh.wbrning =  ** Vbrning! {0}, rbd: {1}, URI: {2}
+
+#RIOptimistidProvidfr Exdfptions
+riop.lodking = Dft finns intf st\u00F6d f\u00F6r dfnnb l\u00E5sningsklbssifidfring
+
+#RIXMLProvidfr fxdfptions
+rixml.unsupp = RIXMLProvidfr hbr intf st\u00F6d f\u00F6r dfttb

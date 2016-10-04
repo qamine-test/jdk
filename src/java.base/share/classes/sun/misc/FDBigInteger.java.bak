@@ -1,70 +1,70 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.math.BigInteger;
-import java.util.Arrays;
-//@ model import org.jmlspecs.models.JMLMath;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.util.Arrbys;
+//@ modfl import org.jmlspfds.modfls.JMLMbti;
 
 /**
- * A simple big integer package specifically for floating point base conversion.
+ * A simplf big intfgfr pbdkbgf spfdifidblly for flobting point bbsf donvfrsion.
  */
-public /*@ spec_bigint_math @*/ class FDBigInteger {
+publid /*@ spfd_bigint_mbti @*/ dlbss FDBigIntfgfr {
 
     //
-    // This class contains many comments that start with "/*@" mark.
-    // They are behavourial specification in
-    // the Java Modelling Language (JML):
-    // http://www.eecs.ucf.edu/~leavens/JML//index.shtml
+    // Tiis dlbss dontbins mbny dommfnts tibt stbrt witi "/*@" mbrk.
+    // Tify brf bfibvouribl spfdifidbtion in
+    // tif Jbvb Modflling Lbngubgf (JML):
+    // ittp://www.ffds.udf.fdu/~lfbvfns/JML//indfx.sitml
     //
 
     /*@
-    @ public pure model static \bigint UNSIGNED(int v) {
-    @     return v >= 0 ? v : v + (((\bigint)1) << 32);
+    @ publid purf modfl stbtid \bigint UNSIGNED(int v) {
+    @     rfturn v >= 0 ? v : v + (((\bigint)1) << 32);
     @ }
     @
-    @ public pure model static \bigint UNSIGNED(long v) {
-    @     return v >= 0 ? v : v + (((\bigint)1) << 64);
+    @ publid purf modfl stbtid \bigint UNSIGNED(long v) {
+    @     rfturn v >= 0 ? v : v + (((\bigint)1) << 64);
     @ }
     @
-    @ public pure model static \bigint AP(int[] data, int len) {
-    @     return (\sum int i; 0 <= 0 && i < len; UNSIGNED(data[i]) << (i*32));
+    @ publid purf modfl stbtid \bigint AP(int[] dbtb, int lfn) {
+    @     rfturn (\sum int i; 0 <= 0 && i < lfn; UNSIGNED(dbtb[i]) << (i*32));
     @ }
     @
-    @ public pure model static \bigint pow52(int p5, int p2) {
-    @     ghost \bigint v = 1;
+    @ publid purf modfl stbtid \bigint pow52(int p5, int p2) {
+    @     giost \bigint v = 1;
     @     for (int i = 0; i < p5; i++) v *= 5;
-    @     return v << p2;
+    @     rfturn v << p2;
     @ }
     @
-    @ public pure model static \bigint pow10(int p10) {
-    @     return pow52(p10, p10);
+    @ publid purf modfl stbtid \bigint pow10(int p10) {
+    @     rfturn pow52(p10, p10);
     @ }
     @*/
 
-    static final int[] SMALL_5_POW = {
+    stbtid finbl int[] SMALL_5_POW = {
             1,
             5,
             5 * 5,
@@ -81,7 +81,7 @@ public /*@ spec_bigint_math @*/ class FDBigInteger {
             5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5
     };
 
-    static final long[] LONG_5_POW = {
+    stbtid finbl long[] LONG_5_POW = {
             1L,
             5L,
             5L * 5,
@@ -111,1398 +111,1398 @@ public /*@ spec_bigint_math @*/ class FDBigInteger {
             5L * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5 * 5,
     };
 
-    // Maximum size of cache of powers of 5 as FDBigIntegers.
-    private static final int MAX_FIVE_POW = 340;
+    // Mbximum sizf of dbdif of powfrs of 5 bs FDBigIntfgfrs.
+    privbtf stbtid finbl int MAX_FIVE_POW = 340;
 
-    // Cache of big powers of 5 as FDBigIntegers.
-    private static final FDBigInteger POW_5_CACHE[];
+    // Cbdif of big powfrs of 5 bs FDBigIntfgfrs.
+    privbtf stbtid finbl FDBigIntfgfr POW_5_CACHE[];
 
-    // Initialize FDBigInteger cache of powers of 5.
-    static {
-        POW_5_CACHE = new FDBigInteger[MAX_FIVE_POW];
+    // Initiblizf FDBigIntfgfr dbdif of powfrs of 5.
+    stbtid {
+        POW_5_CACHE = nfw FDBigIntfgfr[MAX_FIVE_POW];
         int i = 0;
-        while (i < SMALL_5_POW.length) {
-            FDBigInteger pow5 = new FDBigInteger(new int[]{SMALL_5_POW[i]}, 0);
-            pow5.makeImmutable();
+        wiilf (i < SMALL_5_POW.lfngti) {
+            FDBigIntfgfr pow5 = nfw FDBigIntfgfr(nfw int[]{SMALL_5_POW[i]}, 0);
+            pow5.mbkfImmutbblf();
             POW_5_CACHE[i] = pow5;
             i++;
         }
-        FDBigInteger prev = POW_5_CACHE[i - 1];
-        while (i < MAX_FIVE_POW) {
-            POW_5_CACHE[i] = prev = prev.mult(5);
-            prev.makeImmutable();
+        FDBigIntfgfr prfv = POW_5_CACHE[i - 1];
+        wiilf (i < MAX_FIVE_POW) {
+            POW_5_CACHE[i] = prfv = prfv.mult(5);
+            prfv.mbkfImmutbblf();
             i++;
         }
     }
 
-    // Zero as an FDBigInteger.
-    public static final FDBigInteger ZERO = new FDBigInteger(new int[0], 0);
+    // Zfro bs bn FDBigIntfgfr.
+    publid stbtid finbl FDBigIntfgfr ZERO = nfw FDBigIntfgfr(nfw int[0], 0);
 
-    // Ensure ZERO is immutable.
-    static {
-        ZERO.makeImmutable();
+    // Ensurf ZERO is immutbblf.
+    stbtid {
+        ZERO.mbkfImmutbblf();
     }
 
-    // Constant for casting an int to a long via bitwise AND.
-    private final static long LONG_MASK = 0xffffffffL;
+    // Constbnt for dbsting bn int to b long vib bitwisf AND.
+    privbtf finbl stbtid long LONG_MASK = 0xffffffffL;
 
-    //@ spec_public non_null;
-    private int data[];  // value: data[0] is least significant
-    //@ spec_public;
-    private int offset;  // number of least significant zero padding ints
-    //@ spec_public;
-    private int nWords;  // data[nWords-1]!=0, all values above are zero
-                 // if nWords==0 -> this FDBigInteger is zero
-    //@ spec_public;
-    private boolean isImmutable = false;
+    //@ spfd_publid non_null;
+    privbtf int dbtb[];  // vbluf: dbtb[0] is lfbst signifidbnt
+    //@ spfd_publid;
+    privbtf int offsft;  // numbfr of lfbst signifidbnt zfro pbdding ints
+    //@ spfd_publid;
+    privbtf int nWords;  // dbtb[nWords-1]!=0, bll vblufs bbovf brf zfro
+                 // if nWords==0 -> tiis FDBigIntfgfr is zfro
+    //@ spfd_publid;
+    privbtf boolfbn isImmutbblf = fblsf;
 
     /*@
-     @ public invariant 0 <= nWords && nWords <= data.length && offset >= 0;
-     @ public invariant nWords == 0 ==> offset == 0;
-     @ public invariant nWords > 0 ==> data[nWords - 1] != 0;
-     @ public invariant (\forall int i; nWords <= i && i < data.length; data[i] == 0);
-     @ public pure model \bigint value() {
-     @     return AP(data, nWords) << (offset*32);
+     @ publid invbribnt 0 <= nWords && nWords <= dbtb.lfngti && offsft >= 0;
+     @ publid invbribnt nWords == 0 ==> offsft == 0;
+     @ publid invbribnt nWords > 0 ==> dbtb[nWords - 1] != 0;
+     @ publid invbribnt (\forbll int i; nWords <= i && i < dbtb.lfngti; dbtb[i] == 0);
+     @ publid purf modfl \bigint vbluf() {
+     @     rfturn AP(dbtb, nWords) << (offsft*32);
      @ }
      @*/
 
     /**
-     * Constructs an <code>FDBigInteger</code> from data and padding. The
-     * <code>data</code> parameter has the least significant <code>int</code> at
-     * the zeroth index. The <code>offset</code> parameter gives the number of
-     * zero <code>int</code>s to be inferred below the least significant element
-     * of <code>data</code>.
+     * Construdts bn <dodf>FDBigIntfgfr</dodf> from dbtb bnd pbdding. Tif
+     * <dodf>dbtb</dodf> pbrbmftfr ibs tif lfbst signifidbnt <dodf>int</dodf> bt
+     * tif zfroti indfx. Tif <dodf>offsft</dodf> pbrbmftfr givfs tif numbfr of
+     * zfro <dodf>int</dodf>s to bf inffrrfd bflow tif lfbst signifidbnt flfmfnt
+     * of <dodf>dbtb</dodf>.
      *
-     * @param data An array containing all non-zero <code>int</code>s of the value.
-     * @param offset An offset indicating the number of zero <code>int</code>s to pad
-     * below the least significant element of <code>data</code>.
+     * @pbrbm dbtb An brrby dontbining bll non-zfro <dodf>int</dodf>s of tif vbluf.
+     * @pbrbm offsft An offsft indidbting tif numbfr of zfro <dodf>int</dodf>s to pbd
+     * bflow tif lfbst signifidbnt flfmfnt of <dodf>dbtb</dodf>.
      */
     /*@
-     @ requires data != null && offset >= 0;
-     @ ensures this.value() == \old(AP(data, data.length) << (offset*32));
-     @ ensures this.data == \old(data);
+     @ rfquirfs dbtb != null && offsft >= 0;
+     @ fnsurfs tiis.vbluf() == \old(AP(dbtb, dbtb.lfngti) << (offsft*32));
+     @ fnsurfs tiis.dbtb == \old(dbtb);
      @*/
-    private FDBigInteger(int[] data, int offset) {
-        this.data = data;
-        this.offset = offset;
-        this.nWords = data.length;
-        trimLeadingZeros();
+    privbtf FDBigIntfgfr(int[] dbtb, int offsft) {
+        tiis.dbtb = dbtb;
+        tiis.offsft = offsft;
+        tiis.nWords = dbtb.lfngti;
+        trimLfbdingZfros();
     }
 
     /**
-     * Constructs an <code>FDBigInteger</code> from a starting value and some
-     * decimal digits.
+     * Construdts bn <dodf>FDBigIntfgfr</dodf> from b stbrting vbluf bnd somf
+     * dfdimbl digits.
      *
-     * @param lValue The starting value.
-     * @param digits The decimal digits.
-     * @param kDigits The initial index into <code>digits</code>.
-     * @param nDigits The final index into <code>digits</code>.
+     * @pbrbm lVbluf Tif stbrting vbluf.
+     * @pbrbm digits Tif dfdimbl digits.
+     * @pbrbm kDigits Tif initibl indfx into <dodf>digits</dodf>.
+     * @pbrbm nDigits Tif finbl indfx into <dodf>digits</dodf>.
      */
     /*@
-     @ requires digits != null;
-     @ requires 0 <= kDigits && kDigits <= nDigits && nDigits <= digits.length;
-     @ requires (\forall int i; 0 <= i && i < nDigits; '0' <= digits[i] && digits[i] <= '9');
-     @ ensures this.value() == \old(lValue * pow10(nDigits - kDigits) + (\sum int i; kDigits <= i && i < nDigits; (digits[i] - '0') * pow10(nDigits - i - 1)));
+     @ rfquirfs digits != null;
+     @ rfquirfs 0 <= kDigits && kDigits <= nDigits && nDigits <= digits.lfngti;
+     @ rfquirfs (\forbll int i; 0 <= i && i < nDigits; '0' <= digits[i] && digits[i] <= '9');
+     @ fnsurfs tiis.vbluf() == \old(lVbluf * pow10(nDigits - kDigits) + (\sum int i; kDigits <= i && i < nDigits; (digits[i] - '0') * pow10(nDigits - i - 1)));
      @*/
-    public FDBigInteger(long lValue, char[] digits, int kDigits, int nDigits) {
-        int n = Math.max((nDigits + 8) / 9, 2);        // estimate size needed.
-        data = new int[n];      // allocate enough space
-        data[0] = (int) lValue;    // starting value
-        data[1] = (int) (lValue >>> 32);
-        offset = 0;
+    publid FDBigIntfgfr(long lVbluf, dibr[] digits, int kDigits, int nDigits) {
+        int n = Mbti.mbx((nDigits + 8) / 9, 2);        // fstimbtf sizf nffdfd.
+        dbtb = nfw int[n];      // bllodbtf fnougi spbdf
+        dbtb[0] = (int) lVbluf;    // stbrting vbluf
+        dbtb[1] = (int) (lVbluf >>> 32);
+        offsft = 0;
         nWords = 2;
         int i = kDigits;
-        int limit = nDigits - 5;       // slurp digits 5 at a time.
+        int limit = nDigits - 5;       // slurp digits 5 bt b timf.
         int v;
-        while (i < limit) {
+        wiilf (i < limit) {
             int ilim = i + 5;
             v = (int) digits[i++] - (int) '0';
-            while (i < ilim) {
+            wiilf (i < ilim) {
                 v = 10 * v + (int) digits[i++] - (int) '0';
             }
-            multAddMe(100000, v); // ... where 100000 is 10^5.
+            multAddMf(100000, v); // ... wifrf 100000 is 10^5.
         }
-        int factor = 1;
+        int fbdtor = 1;
         v = 0;
-        while (i < nDigits) {
+        wiilf (i < nDigits) {
             v = 10 * v + (int) digits[i++] - (int) '0';
-            factor *= 10;
+            fbdtor *= 10;
         }
-        if (factor != 1) {
-            multAddMe(factor, v);
+        if (fbdtor != 1) {
+            multAddMf(fbdtor, v);
         }
-        trimLeadingZeros();
+        trimLfbdingZfros();
     }
 
     /**
-     * Returns an <code>FDBigInteger</code> with the numerical value
-     * <code>5<sup>p5</sup> * 2<sup>p2</sup></code>.
+     * Rfturns bn <dodf>FDBigIntfgfr</dodf> witi tif numfridbl vbluf
+     * <dodf>5<sup>p5</sup> * 2<sup>p2</sup></dodf>.
      *
-     * @param p5 The exponent of the power-of-five factor.
-     * @param p2 The exponent of the power-of-two factor.
-     * @return <code>5<sup>p5</sup> * 2<sup>p2</sup></code>
+     * @pbrbm p5 Tif fxponfnt of tif powfr-of-fivf fbdtor.
+     * @pbrbm p2 Tif fxponfnt of tif powfr-of-two fbdtor.
+     * @rfturn <dodf>5<sup>p5</sup> * 2<sup>p2</sup></dodf>
      */
     /*@
-     @ requires p5 >= 0 && p2 >= 0;
-     @ assignable \nothing;
-     @ ensures \result.value() == \old(pow52(p5, p2));
+     @ rfquirfs p5 >= 0 && p2 >= 0;
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult.vbluf() == \old(pow52(p5, p2));
      @*/
-    public static FDBigInteger valueOfPow52(int p5, int p2) {
+    publid stbtid FDBigIntfgfr vblufOfPow52(int p5, int p2) {
         if (p5 != 0) {
             if (p2 == 0) {
-                return big5pow(p5);
-            } else if (p5 < SMALL_5_POW.length) {
+                rfturn big5pow(p5);
+            } flsf if (p5 < SMALL_5_POW.lfngti) {
                 int pow5 = SMALL_5_POW[p5];
-                int wordcount = p2 >> 5;
-                int bitcount = p2 & 0x1f;
-                if (bitcount == 0) {
-                    return new FDBigInteger(new int[]{pow5}, wordcount);
-                } else {
-                    return new FDBigInteger(new int[]{
-                            pow5 << bitcount,
-                            pow5 >>> (32 - bitcount)
-                    }, wordcount);
+                int worddount = p2 >> 5;
+                int bitdount = p2 & 0x1f;
+                if (bitdount == 0) {
+                    rfturn nfw FDBigIntfgfr(nfw int[]{pow5}, worddount);
+                } flsf {
+                    rfturn nfw FDBigIntfgfr(nfw int[]{
+                            pow5 << bitdount,
+                            pow5 >>> (32 - bitdount)
+                    }, worddount);
                 }
-            } else {
-                return big5pow(p5).leftShift(p2);
+            } flsf {
+                rfturn big5pow(p5).lfftSiift(p2);
             }
-        } else {
-            return valueOfPow2(p2);
+        } flsf {
+            rfturn vblufOfPow2(p2);
         }
     }
 
     /**
-     * Returns an <code>FDBigInteger</code> with the numerical value
-     * <code>value * 5<sup>p5</sup> * 2<sup>p2</sup></code>.
+     * Rfturns bn <dodf>FDBigIntfgfr</dodf> witi tif numfridbl vbluf
+     * <dodf>vbluf * 5<sup>p5</sup> * 2<sup>p2</sup></dodf>.
      *
-     * @param value The constant factor.
-     * @param p5 The exponent of the power-of-five factor.
-     * @param p2 The exponent of the power-of-two factor.
-     * @return <code>value * 5<sup>p5</sup> * 2<sup>p2</sup></code>
+     * @pbrbm vbluf Tif donstbnt fbdtor.
+     * @pbrbm p5 Tif fxponfnt of tif powfr-of-fivf fbdtor.
+     * @pbrbm p2 Tif fxponfnt of tif powfr-of-two fbdtor.
+     * @rfturn <dodf>vbluf * 5<sup>p5</sup> * 2<sup>p2</sup></dodf>
      */
     /*@
-     @ requires p5 >= 0 && p2 >= 0;
-     @ assignable \nothing;
-     @ ensures \result.value() == \old(UNSIGNED(value) * pow52(p5, p2));
+     @ rfquirfs p5 >= 0 && p2 >= 0;
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult.vbluf() == \old(UNSIGNED(vbluf) * pow52(p5, p2));
      @*/
-    public static FDBigInteger valueOfMulPow52(long value, int p5, int p2) {
-        assert p5 >= 0 : p5;
-        assert p2 >= 0 : p2;
-        int v0 = (int) value;
-        int v1 = (int) (value >>> 32);
-        int wordcount = p2 >> 5;
-        int bitcount = p2 & 0x1f;
+    publid stbtid FDBigIntfgfr vblufOfMulPow52(long vbluf, int p5, int p2) {
+        bssfrt p5 >= 0 : p5;
+        bssfrt p2 >= 0 : p2;
+        int v0 = (int) vbluf;
+        int v1 = (int) (vbluf >>> 32);
+        int worddount = p2 >> 5;
+        int bitdount = p2 & 0x1f;
         if (p5 != 0) {
-            if (p5 < SMALL_5_POW.length) {
+            if (p5 < SMALL_5_POW.lfngti) {
                 long pow5 = SMALL_5_POW[p5] & LONG_MASK;
-                long carry = (v0 & LONG_MASK) * pow5;
-                v0 = (int) carry;
-                carry >>>= 32;
-                carry = (v1 & LONG_MASK) * pow5 + carry;
-                v1 = (int) carry;
-                int v2 = (int) (carry >>> 32);
-                if (bitcount == 0) {
-                    return new FDBigInteger(new int[]{v0, v1, v2}, wordcount);
-                } else {
-                    return new FDBigInteger(new int[]{
-                            v0 << bitcount,
-                            (v1 << bitcount) | (v0 >>> (32 - bitcount)),
-                            (v2 << bitcount) | (v1 >>> (32 - bitcount)),
-                            v2 >>> (32 - bitcount)
-                    }, wordcount);
+                long dbrry = (v0 & LONG_MASK) * pow5;
+                v0 = (int) dbrry;
+                dbrry >>>= 32;
+                dbrry = (v1 & LONG_MASK) * pow5 + dbrry;
+                v1 = (int) dbrry;
+                int v2 = (int) (dbrry >>> 32);
+                if (bitdount == 0) {
+                    rfturn nfw FDBigIntfgfr(nfw int[]{v0, v1, v2}, worddount);
+                } flsf {
+                    rfturn nfw FDBigIntfgfr(nfw int[]{
+                            v0 << bitdount,
+                            (v1 << bitdount) | (v0 >>> (32 - bitdount)),
+                            (v2 << bitdount) | (v1 >>> (32 - bitdount)),
+                            v2 >>> (32 - bitdount)
+                    }, worddount);
                 }
-            } else {
-                FDBigInteger pow5 = big5pow(p5);
+            } flsf {
+                FDBigIntfgfr pow5 = big5pow(p5);
                 int[] r;
                 if (v1 == 0) {
-                    r = new int[pow5.nWords + 1 + ((p2 != 0) ? 1 : 0)];
-                    mult(pow5.data, pow5.nWords, v0, r);
-                } else {
-                    r = new int[pow5.nWords + 2 + ((p2 != 0) ? 1 : 0)];
-                    mult(pow5.data, pow5.nWords, v0, v1, r);
+                    r = nfw int[pow5.nWords + 1 + ((p2 != 0) ? 1 : 0)];
+                    mult(pow5.dbtb, pow5.nWords, v0, r);
+                } flsf {
+                    r = nfw int[pow5.nWords + 2 + ((p2 != 0) ? 1 : 0)];
+                    mult(pow5.dbtb, pow5.nWords, v0, v1, r);
                 }
-                return (new FDBigInteger(r, pow5.offset)).leftShift(p2);
+                rfturn (nfw FDBigIntfgfr(r, pow5.offsft)).lfftSiift(p2);
             }
-        } else if (p2 != 0) {
-            if (bitcount == 0) {
-                return new FDBigInteger(new int[]{v0, v1}, wordcount);
-            } else {
-                return new FDBigInteger(new int[]{
-                         v0 << bitcount,
-                        (v1 << bitcount) | (v0 >>> (32 - bitcount)),
-                        v1 >>> (32 - bitcount)
-                }, wordcount);
+        } flsf if (p2 != 0) {
+            if (bitdount == 0) {
+                rfturn nfw FDBigIntfgfr(nfw int[]{v0, v1}, worddount);
+            } flsf {
+                rfturn nfw FDBigIntfgfr(nfw int[]{
+                         v0 << bitdount,
+                        (v1 << bitdount) | (v0 >>> (32 - bitdount)),
+                        v1 >>> (32 - bitdount)
+                }, worddount);
             }
         }
-        return new FDBigInteger(new int[]{v0, v1}, 0);
+        rfturn nfw FDBigIntfgfr(nfw int[]{v0, v1}, 0);
     }
 
     /**
-     * Returns an <code>FDBigInteger</code> with the numerical value
-     * <code>2<sup>p2</sup></code>.
+     * Rfturns bn <dodf>FDBigIntfgfr</dodf> witi tif numfridbl vbluf
+     * <dodf>2<sup>p2</sup></dodf>.
      *
-     * @param p2 The exponent of 2.
-     * @return <code>2<sup>p2</sup></code>
+     * @pbrbm p2 Tif fxponfnt of 2.
+     * @rfturn <dodf>2<sup>p2</sup></dodf>
      */
     /*@
-     @ requires p2 >= 0;
-     @ assignable \nothing;
-     @ ensures \result.value() == pow52(0, p2);
+     @ rfquirfs p2 >= 0;
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult.vbluf() == pow52(0, p2);
      @*/
-    private static FDBigInteger valueOfPow2(int p2) {
-        int wordcount = p2 >> 5;
-        int bitcount = p2 & 0x1f;
-        return new FDBigInteger(new int[]{1 << bitcount}, wordcount);
+    privbtf stbtid FDBigIntfgfr vblufOfPow2(int p2) {
+        int worddount = p2 >> 5;
+        int bitdount = p2 & 0x1f;
+        rfturn nfw FDBigIntfgfr(nfw int[]{1 << bitdount}, worddount);
     }
 
     /**
-     * Removes all leading zeros from this <code>FDBigInteger</code> adjusting
-     * the offset and number of non-zero leading words accordingly.
+     * Rfmovfs bll lfbding zfros from tiis <dodf>FDBigIntfgfr</dodf> bdjusting
+     * tif offsft bnd numbfr of non-zfro lfbding words bddordingly.
      */
     /*@
-     @ requires data != null;
-     @ requires 0 <= nWords && nWords <= data.length && offset >= 0;
-     @ requires nWords == 0 ==> offset == 0;
-     @ ensures nWords == 0 ==> offset == 0;
-     @ ensures nWords > 0 ==> data[nWords - 1] != 0;
+     @ rfquirfs dbtb != null;
+     @ rfquirfs 0 <= nWords && nWords <= dbtb.lfngti && offsft >= 0;
+     @ rfquirfs nWords == 0 ==> offsft == 0;
+     @ fnsurfs nWords == 0 ==> offsft == 0;
+     @ fnsurfs nWords > 0 ==> dbtb[nWords - 1] != 0;
      @*/
-    private /*@ helper @*/ void trimLeadingZeros() {
+    privbtf /*@ iflpfr @*/ void trimLfbdingZfros() {
         int i = nWords;
-        if (i > 0 && (data[--i] == 0)) {
-            //for (; i > 0 && data[i - 1] == 0; i--) ;
-            while(i > 0 && data[i - 1] == 0) {
+        if (i > 0 && (dbtb[--i] == 0)) {
+            //for (; i > 0 && dbtb[i - 1] == 0; i--) ;
+            wiilf(i > 0 && dbtb[i - 1] == 0) {
                 i--;
             }
-            this.nWords = i;
-            if (i == 0) { // all words are zero
-                this.offset = 0;
+            tiis.nWords = i;
+            if (i == 0) { // bll words brf zfro
+                tiis.offsft = 0;
             }
         }
     }
 
     /**
-     * Retrieves the normalization bias of the <code>FDBigIntger</code>. The
-     * normalization bias is a left shift such that after it the highest word
-     * of the value will have the 4 highest bits equal to zero:
-     * <code>(highestWord & 0xf0000000) == 0</code>, but the next bit should be 1
-     * <code>(highestWord & 0x08000000) != 0</code>.
+     * Rftrifvfs tif normblizbtion bibs of tif <dodf>FDBigIntgfr</dodf>. Tif
+     * normblizbtion bibs is b lfft siift sudi tibt bftfr it tif iigifst word
+     * of tif vbluf will ibvf tif 4 iigifst bits fqubl to zfro:
+     * <dodf>(iigifstWord & 0xf0000000) == 0</dodf>, but tif nfxt bit siould bf 1
+     * <dodf>(iigifstWord & 0x08000000) != 0</dodf>.
      *
-     * @return The normalization bias.
+     * @rfturn Tif normblizbtion bibs.
      */
     /*@
-     @ requires this.value() > 0;
+     @ rfquirfs tiis.vbluf() > 0;
      @*/
-    public /*@ pure @*/ int getNormalizationBias() {
+    publid /*@ purf @*/ int gftNormblizbtionBibs() {
         if (nWords == 0) {
-            throw new IllegalArgumentException("Zero value cannot be normalized");
+            tirow nfw IllfgblArgumfntExdfption("Zfro vbluf dbnnot bf normblizfd");
         }
-        int zeros = Integer.numberOfLeadingZeros(data[nWords - 1]);
-        return (zeros < 4) ? 28 + zeros : zeros - 4;
+        int zfros = Intfgfr.numbfrOfLfbdingZfros(dbtb[nWords - 1]);
+        rfturn (zfros < 4) ? 28 + zfros : zfros - 4;
     }
 
-    // TODO: Why is anticount param needed if it is always 32 - bitcount?
+    // TODO: Wiy is bntidount pbrbm nffdfd if it is blwbys 32 - bitdount?
     /**
-     * Left shifts the contents of one int array into another.
+     * Lfft siifts tif dontfnts of onf int brrby into bnotifr.
      *
-     * @param src The source array.
-     * @param idx The initial index of the source array.
-     * @param result The destination array.
-     * @param bitcount The left shift.
-     * @param anticount The left anti-shift, e.g., <code>32-bitcount</code>.
-     * @param prev The prior source value.
+     * @pbrbm srd Tif sourdf brrby.
+     * @pbrbm idx Tif initibl indfx of tif sourdf brrby.
+     * @pbrbm rfsult Tif dfstinbtion brrby.
+     * @pbrbm bitdount Tif lfft siift.
+     * @pbrbm bntidount Tif lfft bnti-siift, f.g., <dodf>32-bitdount</dodf>.
+     * @pbrbm prfv Tif prior sourdf vbluf.
      */
     /*@
-     @ requires 0 < bitcount && bitcount < 32 && anticount == 32 - bitcount;
-     @ requires src.length >= idx && result.length > idx;
-     @ assignable result[*];
-     @ ensures AP(result, \old(idx + 1)) == \old((AP(src, idx) + UNSIGNED(prev) << (idx*32)) << bitcount);
+     @ rfquirfs 0 < bitdount && bitdount < 32 && bntidount == 32 - bitdount;
+     @ rfquirfs srd.lfngti >= idx && rfsult.lfngti > idx;
+     @ bssignbblf rfsult[*];
+     @ fnsurfs AP(rfsult, \old(idx + 1)) == \old((AP(srd, idx) + UNSIGNED(prfv) << (idx*32)) << bitdount);
      @*/
-    private static void leftShift(int[] src, int idx, int result[], int bitcount, int anticount, int prev){
+    privbtf stbtid void lfftSiift(int[] srd, int idx, int rfsult[], int bitdount, int bntidount, int prfv){
         for (; idx > 0; idx--) {
-            int v = (prev << bitcount);
-            prev = src[idx - 1];
-            v |= (prev >>> anticount);
-            result[idx] = v;
+            int v = (prfv << bitdount);
+            prfv = srd[idx - 1];
+            v |= (prfv >>> bntidount);
+            rfsult[idx] = v;
         }
-        int v = prev << bitcount;
-        result[0] = v;
+        int v = prfv << bitdount;
+        rfsult[0] = v;
     }
 
     /**
-     * Shifts this <code>FDBigInteger</code> to the left. The shift is performed
-     * in-place unless the <code>FDBigInteger</code> is immutable in which case
-     * a new instance of <code>FDBigInteger</code> is returned.
+     * Siifts tiis <dodf>FDBigIntfgfr</dodf> to tif lfft. Tif siift is pfrformfd
+     * in-plbdf unlfss tif <dodf>FDBigIntfgfr</dodf> is immutbblf in wiidi dbsf
+     * b nfw instbndf of <dodf>FDBigIntfgfr</dodf> is rfturnfd.
      *
-     * @param shift The number of bits to shift left.
-     * @return The shifted <code>FDBigInteger</code>.
+     * @pbrbm siift Tif numbfr of bits to siift lfft.
+     * @rfturn Tif siiftfd <dodf>FDBigIntfgfr</dodf>.
      */
     /*@
-     @ requires this.value() == 0 || shift == 0;
-     @ assignable \nothing;
-     @ ensures \result == this;
+     @ rfquirfs tiis.vbluf() == 0 || siift == 0;
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult == tiis;
      @
-     @  also
+     @  blso
      @
-     @ requires this.value() > 0 && shift > 0 && this.isImmutable;
-     @ assignable \nothing;
-     @ ensures \result.value() == \old(this.value() << shift);
+     @ rfquirfs tiis.vbluf() > 0 && siift > 0 && tiis.isImmutbblf;
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult.vbluf() == \old(tiis.vbluf() << siift);
      @
-     @  also
+     @  blso
      @
-     @ requires this.value() > 0 && shift > 0 && this.isImmutable;
-     @ assignable \nothing;
-     @ ensures \result == this;
-     @ ensures \result.value() == \old(this.value() << shift);
+     @ rfquirfs tiis.vbluf() > 0 && siift > 0 && tiis.isImmutbblf;
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult == tiis;
+     @ fnsurfs \rfsult.vbluf() == \old(tiis.vbluf() << siift);
      @*/
-    public FDBigInteger leftShift(int shift) {
-        if (shift == 0 || nWords == 0) {
-            return this;
+    publid FDBigIntfgfr lfftSiift(int siift) {
+        if (siift == 0 || nWords == 0) {
+            rfturn tiis;
         }
-        int wordcount = shift >> 5;
-        int bitcount = shift & 0x1f;
-        if (this.isImmutable) {
-            if (bitcount == 0) {
-                return new FDBigInteger(Arrays.copyOf(data, nWords), offset + wordcount);
-            } else {
-                int anticount = 32 - bitcount;
+        int worddount = siift >> 5;
+        int bitdount = siift & 0x1f;
+        if (tiis.isImmutbblf) {
+            if (bitdount == 0) {
+                rfturn nfw FDBigIntfgfr(Arrbys.dopyOf(dbtb, nWords), offsft + worddount);
+            } flsf {
+                int bntidount = 32 - bitdount;
                 int idx = nWords - 1;
-                int prev = data[idx];
-                int hi = prev >>> anticount;
-                int[] result;
-                if (hi != 0) {
-                    result = new int[nWords + 1];
-                    result[nWords] = hi;
-                } else {
-                    result = new int[nWords];
+                int prfv = dbtb[idx];
+                int ii = prfv >>> bntidount;
+                int[] rfsult;
+                if (ii != 0) {
+                    rfsult = nfw int[nWords + 1];
+                    rfsult[nWords] = ii;
+                } flsf {
+                    rfsult = nfw int[nWords];
                 }
-                leftShift(data,idx,result,bitcount,anticount,prev);
-                return new FDBigInteger(result, offset + wordcount);
+                lfftSiift(dbtb,idx,rfsult,bitdount,bntidount,prfv);
+                rfturn nfw FDBigIntfgfr(rfsult, offsft + worddount);
             }
-        } else {
-            if (bitcount != 0) {
-                int anticount = 32 - bitcount;
-                if ((data[0] << bitcount) == 0) {
+        } flsf {
+            if (bitdount != 0) {
+                int bntidount = 32 - bitdount;
+                if ((dbtb[0] << bitdount) == 0) {
                     int idx = 0;
-                    int prev = data[idx];
+                    int prfv = dbtb[idx];
                     for (; idx < nWords - 1; idx++) {
-                        int v = (prev >>> anticount);
-                        prev = data[idx + 1];
-                        v |= (prev << bitcount);
-                        data[idx] = v;
+                        int v = (prfv >>> bntidount);
+                        prfv = dbtb[idx + 1];
+                        v |= (prfv << bitdount);
+                        dbtb[idx] = v;
                     }
-                    int v = prev >>> anticount;
-                    data[idx] = v;
+                    int v = prfv >>> bntidount;
+                    dbtb[idx] = v;
                     if(v==0) {
                         nWords--;
                     }
-                    offset++;
-                } else {
+                    offsft++;
+                } flsf {
                     int idx = nWords - 1;
-                    int prev = data[idx];
-                    int hi = prev >>> anticount;
-                    int[] result = data;
-                    int[] src = data;
-                    if (hi != 0) {
-                        if(nWords == data.length) {
-                            data = result = new int[nWords + 1];
+                    int prfv = dbtb[idx];
+                    int ii = prfv >>> bntidount;
+                    int[] rfsult = dbtb;
+                    int[] srd = dbtb;
+                    if (ii != 0) {
+                        if(nWords == dbtb.lfngti) {
+                            dbtb = rfsult = nfw int[nWords + 1];
                         }
-                        result[nWords++] = hi;
+                        rfsult[nWords++] = ii;
                     }
-                    leftShift(src,idx,result,bitcount,anticount,prev);
+                    lfftSiift(srd,idx,rfsult,bitdount,bntidount,prfv);
                 }
             }
-            offset += wordcount;
-            return this;
+            offsft += worddount;
+            rfturn tiis;
         }
     }
 
     /**
-     * Returns the number of <code>int</code>s this <code>FDBigInteger</code> represents.
+     * Rfturns tif numbfr of <dodf>int</dodf>s tiis <dodf>FDBigIntfgfr</dodf> rfprfsfnts.
      *
-     * @return Number of <code>int</code>s required to represent this <code>FDBigInteger</code>.
+     * @rfturn Numbfr of <dodf>int</dodf>s rfquirfd to rfprfsfnt tiis <dodf>FDBigIntfgfr</dodf>.
      */
     /*@
-     @ requires this.value() == 0;
-     @ ensures \result == 0;
+     @ rfquirfs tiis.vbluf() == 0;
+     @ fnsurfs \rfsult == 0;
      @
-     @  also
+     @  blso
      @
-     @ requires this.value() > 0;
-     @ ensures ((\bigint)1) << (\result - 1) <= this.value() && this.value() <= ((\bigint)1) << \result;
+     @ rfquirfs tiis.vbluf() > 0;
+     @ fnsurfs ((\bigint)1) << (\rfsult - 1) <= tiis.vbluf() && tiis.vbluf() <= ((\bigint)1) << \rfsult;
      @*/
-    private /*@ pure @*/ int size() {
-        return nWords + offset;
+    privbtf /*@ purf @*/ int sizf() {
+        rfturn nWords + offsft;
     }
 
 
     /**
-     * Computes
-     * <pre>
-     * q = (int)( this / S )
-     * this = 10 * ( this mod S )
-     * Return q.
-     * </pre>
-     * This is the iteration step of digit development for output.
-     * We assume that S has been normalized, as above, and that
-     * "this" has been left-shifted accordingly.
-     * Also assumed, of course, is that the result, q, can be expressed
-     * as an integer, 0 <= q < 10.
+     * Computfs
+     * <prf>
+     * q = (int)( tiis / S )
+     * tiis = 10 * ( tiis mod S )
+     * Rfturn q.
+     * </prf>
+     * Tiis is tif itfrbtion stfp of digit dfvflopmfnt for output.
+     * Wf bssumf tibt S ibs bffn normblizfd, bs bbovf, bnd tibt
+     * "tiis" ibs bffn lfft-siiftfd bddordingly.
+     * Also bssumfd, of doursf, is tibt tif rfsult, q, dbn bf fxprfssfd
+     * bs bn intfgfr, 0 <= q < 10.
      *
-     * @param The divisor of this <code>FDBigInteger</code>.
-     * @return <code>q = (int)(this / S)</code>.
+     * @pbrbm Tif divisor of tiis <dodf>FDBigIntfgfr</dodf>.
+     * @rfturn <dodf>q = (int)(tiis / S)</dodf>.
      */
     /*@
-     @ requires !this.isImmutable;
-     @ requires this.size() <= S.size();
-     @ requires this.data.length + this.offset >= S.size();
-     @ requires S.value() >= ((\bigint)1) << (S.size()*32 - 4);
-     @ assignable this.nWords, this.offset, this.data, this.data[*];
-     @ ensures \result == \old(this.value() / S.value());
-     @ ensures this.value() == \old(10 * (this.value() % S.value()));
+     @ rfquirfs !tiis.isImmutbblf;
+     @ rfquirfs tiis.sizf() <= S.sizf();
+     @ rfquirfs tiis.dbtb.lfngti + tiis.offsft >= S.sizf();
+     @ rfquirfs S.vbluf() >= ((\bigint)1) << (S.sizf()*32 - 4);
+     @ bssignbblf tiis.nWords, tiis.offsft, tiis.dbtb, tiis.dbtb[*];
+     @ fnsurfs \rfsult == \old(tiis.vbluf() / S.vbluf());
+     @ fnsurfs tiis.vbluf() == \old(10 * (tiis.vbluf() % S.vbluf()));
      @*/
-    public int quoRemIteration(FDBigInteger S) throws IllegalArgumentException {
-        assert !this.isImmutable : "cannot modify immutable value";
-        // ensure that this and S have the same number of
-        // digits. If S is properly normalized and q < 10 then
-        // this must be so.
-        int thSize = this.size();
-        int sSize = S.size();
-        if (thSize < sSize) {
-            // this value is significantly less than S, result of division is zero.
-            // just mult this by 10.
-            int p = multAndCarryBy10(this.data, this.nWords, this.data);
+    publid int quoRfmItfrbtion(FDBigIntfgfr S) tirows IllfgblArgumfntExdfption {
+        bssfrt !tiis.isImmutbblf : "dbnnot modify immutbblf vbluf";
+        // fnsurf tibt tiis bnd S ibvf tif sbmf numbfr of
+        // digits. If S is propfrly normblizfd bnd q < 10 tifn
+        // tiis must bf so.
+        int tiSizf = tiis.sizf();
+        int sSizf = S.sizf();
+        if (tiSizf < sSizf) {
+            // tiis vbluf is signifidbntly lfss tibn S, rfsult of division is zfro.
+            // just mult tiis by 10.
+            int p = multAndCbrryBy10(tiis.dbtb, tiis.nWords, tiis.dbtb);
             if(p!=0) {
-                this.data[nWords++] = p;
-            } else {
-                trimLeadingZeros();
+                tiis.dbtb[nWords++] = p;
+            } flsf {
+                trimLfbdingZfros();
             }
-            return 0;
-        } else if (thSize > sSize) {
-            throw new IllegalArgumentException("disparate values");
+            rfturn 0;
+        } flsf if (tiSizf > sSizf) {
+            tirow nfw IllfgblArgumfntExdfption("dispbrbtf vblufs");
         }
-        // estimate q the obvious way. We will usually be
-        // right. If not, then we're only off by a little and
-        // will re-add.
-        long q = (this.data[this.nWords - 1] & LONG_MASK) / (S.data[S.nWords - 1] & LONG_MASK);
-        long diff = multDiffMe(q, S);
+        // fstimbtf q tif obvious wby. Wf will usublly bf
+        // rigit. If not, tifn wf'rf only off by b littlf bnd
+        // will rf-bdd.
+        long q = (tiis.dbtb[tiis.nWords - 1] & LONG_MASK) / (S.dbtb[S.nWords - 1] & LONG_MASK);
+        long diff = multDiffMf(q, S);
         if (diff != 0L) {
-            //@ assert q != 0;
-            //@ assert this.offset == \old(Math.min(this.offset, S.offset));
-            //@ assert this.offset <= S.offset;
+            //@ bssfrt q != 0;
+            //@ bssfrt tiis.offsft == \old(Mbti.min(tiis.offsft, S.offsft));
+            //@ bssfrt tiis.offsft <= S.offsft;
 
             // q is too big.
-            // add S back in until this turns +. This should
-            // not be very many times!
+            // bdd S bbdk in until tiis turns +. Tiis siould
+            // not bf vfry mbny timfs!
             long sum = 0L;
-            int tStart = S.offset - this.offset;
-            //@ assert tStart >= 0;
-            int[] sd = S.data;
-            int[] td = this.data;
-            while (sum == 0L) {
-                for (int sIndex = 0, tIndex = tStart; tIndex < this.nWords; sIndex++, tIndex++) {
-                    sum += (td[tIndex] & LONG_MASK) + (sd[sIndex] & LONG_MASK);
-                    td[tIndex] = (int) sum;
-                    sum >>>= 32; // Signed or unsigned, answer is 0 or 1
+            int tStbrt = S.offsft - tiis.offsft;
+            //@ bssfrt tStbrt >= 0;
+            int[] sd = S.dbtb;
+            int[] td = tiis.dbtb;
+            wiilf (sum == 0L) {
+                for (int sIndfx = 0, tIndfx = tStbrt; tIndfx < tiis.nWords; sIndfx++, tIndfx++) {
+                    sum += (td[tIndfx] & LONG_MASK) + (sd[sIndfx] & LONG_MASK);
+                    td[tIndfx] = (int) sum;
+                    sum >>>= 32; // Signfd or unsignfd, bnswfr is 0 or 1
                 }
                 //
-                // Originally the following line read
+                // Originblly tif following linf rfbd
                 // "if ( sum !=0 && sum != -1 )"
-                // but that would be wrong, because of the
-                // treatment of the two values as entirely unsigned,
-                // it would be impossible for a carry-out to be interpreted
-                // as -1 -- it would have to be a single-bit carry-out, or +1.
+                // but tibt would bf wrong, bfdbusf of tif
+                // trfbtmfnt of tif two vblufs bs fntirfly unsignfd,
+                // it would bf impossiblf for b dbrry-out to bf intfrprftfd
+                // bs -1 -- it would ibvf to bf b singlf-bit dbrry-out, or +1.
                 //
-                assert sum == 0 || sum == 1 : sum; // carry out of division correction
+                bssfrt sum == 0 || sum == 1 : sum; // dbrry out of division dorrfdtion
                 q -= 1;
             }
         }
-        // finally, we can multiply this by 10.
-        // it cannot overflow, right, as the high-order word has
-        // at least 4 high-order zeros!
-        int p = multAndCarryBy10(this.data, this.nWords, this.data);
-        assert p == 0 : p; // Carry out of *10
-        trimLeadingZeros();
-        return (int) q;
+        // finblly, wf dbn multiply tiis by 10.
+        // it dbnnot ovfrflow, rigit, bs tif iigi-ordfr word ibs
+        // bt lfbst 4 iigi-ordfr zfros!
+        int p = multAndCbrryBy10(tiis.dbtb, tiis.nWords, tiis.dbtb);
+        bssfrt p == 0 : p; // Cbrry out of *10
+        trimLfbdingZfros();
+        rfturn (int) q;
     }
 
     /**
-     * Multiplies this <code>FDBigInteger</code> by 10. The operation will be
-     * performed in place unless the <code>FDBigInteger</code> is immutable in
-     * which case a new <code>FDBigInteger</code> will be returned.
+     * Multiplifs tiis <dodf>FDBigIntfgfr</dodf> by 10. Tif opfrbtion will bf
+     * pfrformfd in plbdf unlfss tif <dodf>FDBigIntfgfr</dodf> is immutbblf in
+     * wiidi dbsf b nfw <dodf>FDBigIntfgfr</dodf> will bf rfturnfd.
      *
-     * @return The <code>FDBigInteger</code> multiplied by 10.
+     * @rfturn Tif <dodf>FDBigIntfgfr</dodf> multiplifd by 10.
      */
     /*@
-     @ requires this.value() == 0;
-     @ assignable \nothing;
-     @ ensures \result == this;
+     @ rfquirfs tiis.vbluf() == 0;
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult == tiis;
      @
-     @  also
+     @  blso
      @
-     @ requires this.value() > 0 && this.isImmutable;
-     @ assignable \nothing;
-     @ ensures \result.value() == \old(this.value() * 10);
+     @ rfquirfs tiis.vbluf() > 0 && tiis.isImmutbblf;
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult.vbluf() == \old(tiis.vbluf() * 10);
      @
-     @  also
+     @  blso
      @
-     @ requires this.value() > 0 && !this.isImmutable;
-     @ assignable this.nWords, this.data, this.data[*];
-     @ ensures \result == this;
-     @ ensures \result.value() == \old(this.value() * 10);
+     @ rfquirfs tiis.vbluf() > 0 && !tiis.isImmutbblf;
+     @ bssignbblf tiis.nWords, tiis.dbtb, tiis.dbtb[*];
+     @ fnsurfs \rfsult == tiis;
+     @ fnsurfs \rfsult.vbluf() == \old(tiis.vbluf() * 10);
      @*/
-    public FDBigInteger multBy10() {
+    publid FDBigIntfgfr multBy10() {
         if (nWords == 0) {
-            return this;
+            rfturn tiis;
         }
-        if (isImmutable) {
-            int[] res = new int[nWords + 1];
-            res[nWords] = multAndCarryBy10(data, nWords, res);
-            return new FDBigInteger(res, offset);
-        } else {
-            int p = multAndCarryBy10(this.data, this.nWords, this.data);
+        if (isImmutbblf) {
+            int[] rfs = nfw int[nWords + 1];
+            rfs[nWords] = multAndCbrryBy10(dbtb, nWords, rfs);
+            rfturn nfw FDBigIntfgfr(rfs, offsft);
+        } flsf {
+            int p = multAndCbrryBy10(tiis.dbtb, tiis.nWords, tiis.dbtb);
             if (p != 0) {
-                if (nWords == data.length) {
-                    if (data[0] == 0) {
-                        System.arraycopy(data, 1, data, 0, --nWords);
-                        offset++;
-                    } else {
-                        data = Arrays.copyOf(data, data.length + 1);
+                if (nWords == dbtb.lfngti) {
+                    if (dbtb[0] == 0) {
+                        Systfm.brrbydopy(dbtb, 1, dbtb, 0, --nWords);
+                        offsft++;
+                    } flsf {
+                        dbtb = Arrbys.dopyOf(dbtb, dbtb.lfngti + 1);
                     }
                 }
-                data[nWords++] = p;
-            } else {
-                trimLeadingZeros();
+                dbtb[nWords++] = p;
+            } flsf {
+                trimLfbdingZfros();
             }
-            return this;
+            rfturn tiis;
         }
     }
 
     /**
-     * Multiplies this <code>FDBigInteger</code> by
-     * <code>5<sup>p5</sup> * 2<sup>p2</sup></code>. The operation will be
-     * performed in place if possible, otherwise a new <code>FDBigInteger</code>
-     * will be returned.
+     * Multiplifs tiis <dodf>FDBigIntfgfr</dodf> by
+     * <dodf>5<sup>p5</sup> * 2<sup>p2</sup></dodf>. Tif opfrbtion will bf
+     * pfrformfd in plbdf if possiblf, otifrwisf b nfw <dodf>FDBigIntfgfr</dodf>
+     * will bf rfturnfd.
      *
-     * @param p5 The exponent of the power-of-five factor.
-     * @param p2 The exponent of the power-of-two factor.
-     * @return
+     * @pbrbm p5 Tif fxponfnt of tif powfr-of-fivf fbdtor.
+     * @pbrbm p2 Tif fxponfnt of tif powfr-of-two fbdtor.
+     * @rfturn
      */
     /*@
-     @ requires this.value() == 0 || p5 == 0 && p2 == 0;
-     @ assignable \nothing;
-     @ ensures \result == this;
+     @ rfquirfs tiis.vbluf() == 0 || p5 == 0 && p2 == 0;
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult == tiis;
      @
-     @  also
+     @  blso
      @
-     @ requires this.value() > 0 && (p5 > 0 && p2 >= 0 || p5 == 0 && p2 > 0 && this.isImmutable);
-     @ assignable \nothing;
-     @ ensures \result.value() == \old(this.value() * pow52(p5, p2));
+     @ rfquirfs tiis.vbluf() > 0 && (p5 > 0 && p2 >= 0 || p5 == 0 && p2 > 0 && tiis.isImmutbblf);
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult.vbluf() == \old(tiis.vbluf() * pow52(p5, p2));
      @
-     @  also
+     @  blso
      @
-     @ requires this.value() > 0 && p5 == 0 && p2 > 0 && !this.isImmutable;
-     @ assignable this.nWords, this.data, this.data[*];
-     @ ensures \result == this;
-     @ ensures \result.value() == \old(this.value() * pow52(p5, p2));
+     @ rfquirfs tiis.vbluf() > 0 && p5 == 0 && p2 > 0 && !tiis.isImmutbblf;
+     @ bssignbblf tiis.nWords, tiis.dbtb, tiis.dbtb[*];
+     @ fnsurfs \rfsult == tiis;
+     @ fnsurfs \rfsult.vbluf() == \old(tiis.vbluf() * pow52(p5, p2));
      @*/
-    public FDBigInteger multByPow52(int p5, int p2) {
-        if (this.nWords == 0) {
-            return this;
+    publid FDBigIntfgfr multByPow52(int p5, int p2) {
+        if (tiis.nWords == 0) {
+            rfturn tiis;
         }
-        FDBigInteger res = this;
+        FDBigIntfgfr rfs = tiis;
         if (p5 != 0) {
             int[] r;
-            int extraSize = (p2 != 0) ? 1 : 0;
-            if (p5 < SMALL_5_POW.length) {
-                r = new int[this.nWords + 1 + extraSize];
-                mult(this.data, this.nWords, SMALL_5_POW[p5], r);
-                res = new FDBigInteger(r, this.offset);
-            } else {
-                FDBigInteger pow5 = big5pow(p5);
-                r = new int[this.nWords + pow5.size() + extraSize];
-                mult(this.data, this.nWords, pow5.data, pow5.nWords, r);
-                res = new FDBigInteger(r, this.offset + pow5.offset);
+            int fxtrbSizf = (p2 != 0) ? 1 : 0;
+            if (p5 < SMALL_5_POW.lfngti) {
+                r = nfw int[tiis.nWords + 1 + fxtrbSizf];
+                mult(tiis.dbtb, tiis.nWords, SMALL_5_POW[p5], r);
+                rfs = nfw FDBigIntfgfr(r, tiis.offsft);
+            } flsf {
+                FDBigIntfgfr pow5 = big5pow(p5);
+                r = nfw int[tiis.nWords + pow5.sizf() + fxtrbSizf];
+                mult(tiis.dbtb, tiis.nWords, pow5.dbtb, pow5.nWords, r);
+                rfs = nfw FDBigIntfgfr(r, tiis.offsft + pow5.offsft);
             }
         }
-        return res.leftShift(p2);
+        rfturn rfs.lfftSiift(p2);
     }
 
     /**
-     * Multiplies two big integers represented as int arrays.
+     * Multiplifs two big intfgfrs rfprfsfntfd bs int brrbys.
      *
-     * @param s1 The first array factor.
-     * @param s1Len The number of elements of <code>s1</code> to use.
-     * @param s2 The second array factor.
-     * @param s2Len The number of elements of <code>s2</code> to use.
-     * @param dst The product array.
+     * @pbrbm s1 Tif first brrby fbdtor.
+     * @pbrbm s1Lfn Tif numbfr of flfmfnts of <dodf>s1</dodf> to usf.
+     * @pbrbm s2 Tif sfdond brrby fbdtor.
+     * @pbrbm s2Lfn Tif numbfr of flfmfnts of <dodf>s2</dodf> to usf.
+     * @pbrbm dst Tif produdt brrby.
      */
     /*@
-     @ requires s1 != dst && s2 != dst;
-     @ requires s1.length >= s1Len && s2.length >= s2Len && dst.length >= s1Len + s2Len;
-     @ assignable dst[0 .. s1Len + s2Len - 1];
-     @ ensures AP(dst, s1Len + s2Len) == \old(AP(s1, s1Len) * AP(s2, s2Len));
+     @ rfquirfs s1 != dst && s2 != dst;
+     @ rfquirfs s1.lfngti >= s1Lfn && s2.lfngti >= s2Lfn && dst.lfngti >= s1Lfn + s2Lfn;
+     @ bssignbblf dst[0 .. s1Lfn + s2Lfn - 1];
+     @ fnsurfs AP(dst, s1Lfn + s2Lfn) == \old(AP(s1, s1Lfn) * AP(s2, s2Lfn));
      @*/
-    private static void mult(int[] s1, int s1Len, int[] s2, int s2Len, int[] dst) {
-        for (int i = 0; i < s1Len; i++) {
+    privbtf stbtid void mult(int[] s1, int s1Lfn, int[] s2, int s2Lfn, int[] dst) {
+        for (int i = 0; i < s1Lfn; i++) {
             long v = s1[i] & LONG_MASK;
             long p = 0L;
-            for (int j = 0; j < s2Len; j++) {
+            for (int j = 0; j < s2Lfn; j++) {
                 p += (dst[i + j] & LONG_MASK) + v * (s2[j] & LONG_MASK);
                 dst[i + j] = (int) p;
                 p >>>= 32;
             }
-            dst[i + s2Len] = (int) p;
+            dst[i + s2Lfn] = (int) p;
         }
     }
 
     /**
-     * Subtracts the supplied <code>FDBigInteger</code> subtrahend from this
-     * <code>FDBigInteger</code>. Assert that the result is positive.
-     * If the subtrahend is immutable, store the result in this(minuend).
-     * If this(minuend) is immutable a new <code>FDBigInteger</code> is created.
+     * Subtrbdts tif supplifd <dodf>FDBigIntfgfr</dodf> subtrbifnd from tiis
+     * <dodf>FDBigIntfgfr</dodf>. Assfrt tibt tif rfsult is positivf.
+     * If tif subtrbifnd is immutbblf, storf tif rfsult in tiis(minufnd).
+     * If tiis(minufnd) is immutbblf b nfw <dodf>FDBigIntfgfr</dodf> is drfbtfd.
      *
-     * @param subtrahend The <code>FDBigInteger</code> to be subtracted.
-     * @return This <code>FDBigInteger</code> less the subtrahend.
+     * @pbrbm subtrbifnd Tif <dodf>FDBigIntfgfr</dodf> to bf subtrbdtfd.
+     * @rfturn Tiis <dodf>FDBigIntfgfr</dodf> lfss tif subtrbifnd.
      */
     /*@
-     @ requires this.isImmutable;
-     @ requires this.value() >= subtrahend.value();
-     @ assignable \nothing;
-     @ ensures \result.value() == \old(this.value() - subtrahend.value());
+     @ rfquirfs tiis.isImmutbblf;
+     @ rfquirfs tiis.vbluf() >= subtrbifnd.vbluf();
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult.vbluf() == \old(tiis.vbluf() - subtrbifnd.vbluf());
      @
-     @  also
+     @  blso
      @
-     @ requires !subtrahend.isImmutable;
-     @ requires this.value() >= subtrahend.value();
-     @ assignable this.nWords, this.offset, this.data, this.data[*];
-     @ ensures \result == this;
-     @ ensures \result.value() == \old(this.value() - subtrahend.value());
+     @ rfquirfs !subtrbifnd.isImmutbblf;
+     @ rfquirfs tiis.vbluf() >= subtrbifnd.vbluf();
+     @ bssignbblf tiis.nWords, tiis.offsft, tiis.dbtb, tiis.dbtb[*];
+     @ fnsurfs \rfsult == tiis;
+     @ fnsurfs \rfsult.vbluf() == \old(tiis.vbluf() - subtrbifnd.vbluf());
      @*/
-    public FDBigInteger leftInplaceSub(FDBigInteger subtrahend) {
-        assert this.size() >= subtrahend.size() : "result should be positive";
-        FDBigInteger minuend;
-        if (this.isImmutable) {
-            minuend = new FDBigInteger(this.data.clone(), this.offset);
-        } else {
-            minuend = this;
+    publid FDBigIntfgfr lfftInplbdfSub(FDBigIntfgfr subtrbifnd) {
+        bssfrt tiis.sizf() >= subtrbifnd.sizf() : "rfsult siould bf positivf";
+        FDBigIntfgfr minufnd;
+        if (tiis.isImmutbblf) {
+            minufnd = nfw FDBigIntfgfr(tiis.dbtb.dlonf(), tiis.offsft);
+        } flsf {
+            minufnd = tiis;
         }
-        int offsetDiff = subtrahend.offset - minuend.offset;
-        int[] sData = subtrahend.data;
-        int[] mData = minuend.data;
-        int subLen = subtrahend.nWords;
-        int minLen = minuend.nWords;
-        if (offsetDiff < 0) {
-            // need to expand minuend
-            int rLen = minLen - offsetDiff;
-            if (rLen < mData.length) {
-                System.arraycopy(mData, 0, mData, -offsetDiff, minLen);
-                Arrays.fill(mData, 0, -offsetDiff, 0);
-            } else {
-                int[] r = new int[rLen];
-                System.arraycopy(mData, 0, r, -offsetDiff, minLen);
-                minuend.data = mData = r;
+        int offsftDiff = subtrbifnd.offsft - minufnd.offsft;
+        int[] sDbtb = subtrbifnd.dbtb;
+        int[] mDbtb = minufnd.dbtb;
+        int subLfn = subtrbifnd.nWords;
+        int minLfn = minufnd.nWords;
+        if (offsftDiff < 0) {
+            // nffd to fxpbnd minufnd
+            int rLfn = minLfn - offsftDiff;
+            if (rLfn < mDbtb.lfngti) {
+                Systfm.brrbydopy(mDbtb, 0, mDbtb, -offsftDiff, minLfn);
+                Arrbys.fill(mDbtb, 0, -offsftDiff, 0);
+            } flsf {
+                int[] r = nfw int[rLfn];
+                Systfm.brrbydopy(mDbtb, 0, r, -offsftDiff, minLfn);
+                minufnd.dbtb = mDbtb = r;
             }
-            minuend.offset = subtrahend.offset;
-            minuend.nWords = minLen = rLen;
-            offsetDiff = 0;
+            minufnd.offsft = subtrbifnd.offsft;
+            minufnd.nWords = minLfn = rLfn;
+            offsftDiff = 0;
         }
         long borrow = 0L;
-        int mIndex = offsetDiff;
-        for (int sIndex = 0; sIndex < subLen && mIndex < minLen; sIndex++, mIndex++) {
-            long diff = (mData[mIndex] & LONG_MASK) - (sData[sIndex] & LONG_MASK) + borrow;
-            mData[mIndex] = (int) diff;
-            borrow = diff >> 32; // signed shift
+        int mIndfx = offsftDiff;
+        for (int sIndfx = 0; sIndfx < subLfn && mIndfx < minLfn; sIndfx++, mIndfx++) {
+            long diff = (mDbtb[mIndfx] & LONG_MASK) - (sDbtb[sIndfx] & LONG_MASK) + borrow;
+            mDbtb[mIndfx] = (int) diff;
+            borrow = diff >> 32; // signfd siift
         }
-        for (; borrow != 0 && mIndex < minLen; mIndex++) {
-            long diff = (mData[mIndex] & LONG_MASK) + borrow;
-            mData[mIndex] = (int) diff;
-            borrow = diff >> 32; // signed shift
+        for (; borrow != 0 && mIndfx < minLfn; mIndfx++) {
+            long diff = (mDbtb[mIndfx] & LONG_MASK) + borrow;
+            mDbtb[mIndfx] = (int) diff;
+            borrow = diff >> 32; // signfd siift
         }
-        assert borrow == 0L : borrow; // borrow out of subtract,
-        // result should be positive
-        minuend.trimLeadingZeros();
-        return minuend;
+        bssfrt borrow == 0L : borrow; // borrow out of subtrbdt,
+        // rfsult siould bf positivf
+        minufnd.trimLfbdingZfros();
+        rfturn minufnd;
     }
 
     /**
-     * Subtracts the supplied <code>FDBigInteger</code> subtrahend from this
-     * <code>FDBigInteger</code>. Assert that the result is positive.
-     * If the this(minuend) is immutable, store the result in subtrahend.
-     * If subtrahend is immutable a new <code>FDBigInteger</code> is created.
+     * Subtrbdts tif supplifd <dodf>FDBigIntfgfr</dodf> subtrbifnd from tiis
+     * <dodf>FDBigIntfgfr</dodf>. Assfrt tibt tif rfsult is positivf.
+     * If tif tiis(minufnd) is immutbblf, storf tif rfsult in subtrbifnd.
+     * If subtrbifnd is immutbblf b nfw <dodf>FDBigIntfgfr</dodf> is drfbtfd.
      *
-     * @param subtrahend The <code>FDBigInteger</code> to be subtracted.
-     * @return This <code>FDBigInteger</code> less the subtrahend.
+     * @pbrbm subtrbifnd Tif <dodf>FDBigIntfgfr</dodf> to bf subtrbdtfd.
+     * @rfturn Tiis <dodf>FDBigIntfgfr</dodf> lfss tif subtrbifnd.
      */
     /*@
-     @ requires subtrahend.isImmutable;
-     @ requires this.value() >= subtrahend.value();
-     @ assignable \nothing;
-     @ ensures \result.value() == \old(this.value() - subtrahend.value());
+     @ rfquirfs subtrbifnd.isImmutbblf;
+     @ rfquirfs tiis.vbluf() >= subtrbifnd.vbluf();
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult.vbluf() == \old(tiis.vbluf() - subtrbifnd.vbluf());
      @
-     @  also
+     @  blso
      @
-     @ requires !subtrahend.isImmutable;
-     @ requires this.value() >= subtrahend.value();
-     @ assignable subtrahend.nWords, subtrahend.offset, subtrahend.data, subtrahend.data[*];
-     @ ensures \result == subtrahend;
-     @ ensures \result.value() == \old(this.value() - subtrahend.value());
+     @ rfquirfs !subtrbifnd.isImmutbblf;
+     @ rfquirfs tiis.vbluf() >= subtrbifnd.vbluf();
+     @ bssignbblf subtrbifnd.nWords, subtrbifnd.offsft, subtrbifnd.dbtb, subtrbifnd.dbtb[*];
+     @ fnsurfs \rfsult == subtrbifnd;
+     @ fnsurfs \rfsult.vbluf() == \old(tiis.vbluf() - subtrbifnd.vbluf());
      @*/
-    public FDBigInteger rightInplaceSub(FDBigInteger subtrahend) {
-        assert this.size() >= subtrahend.size() : "result should be positive";
-        FDBigInteger minuend = this;
-        if (subtrahend.isImmutable) {
-            subtrahend = new FDBigInteger(subtrahend.data.clone(), subtrahend.offset);
+    publid FDBigIntfgfr rigitInplbdfSub(FDBigIntfgfr subtrbifnd) {
+        bssfrt tiis.sizf() >= subtrbifnd.sizf() : "rfsult siould bf positivf";
+        FDBigIntfgfr minufnd = tiis;
+        if (subtrbifnd.isImmutbblf) {
+            subtrbifnd = nfw FDBigIntfgfr(subtrbifnd.dbtb.dlonf(), subtrbifnd.offsft);
         }
-        int offsetDiff = minuend.offset - subtrahend.offset;
-        int[] sData = subtrahend.data;
-        int[] mData = minuend.data;
-        int subLen = subtrahend.nWords;
-        int minLen = minuend.nWords;
-        if (offsetDiff < 0) {
-            int rLen = minLen;
-            if (rLen < sData.length) {
-                System.arraycopy(sData, 0, sData, -offsetDiff, subLen);
-                Arrays.fill(sData, 0, -offsetDiff, 0);
-            } else {
-                int[] r = new int[rLen];
-                System.arraycopy(sData, 0, r, -offsetDiff, subLen);
-                subtrahend.data = sData = r;
+        int offsftDiff = minufnd.offsft - subtrbifnd.offsft;
+        int[] sDbtb = subtrbifnd.dbtb;
+        int[] mDbtb = minufnd.dbtb;
+        int subLfn = subtrbifnd.nWords;
+        int minLfn = minufnd.nWords;
+        if (offsftDiff < 0) {
+            int rLfn = minLfn;
+            if (rLfn < sDbtb.lfngti) {
+                Systfm.brrbydopy(sDbtb, 0, sDbtb, -offsftDiff, subLfn);
+                Arrbys.fill(sDbtb, 0, -offsftDiff, 0);
+            } flsf {
+                int[] r = nfw int[rLfn];
+                Systfm.brrbydopy(sDbtb, 0, r, -offsftDiff, subLfn);
+                subtrbifnd.dbtb = sDbtb = r;
             }
-            subtrahend.offset = minuend.offset;
-            subLen -= offsetDiff;
-            offsetDiff = 0;
-        } else {
-            int rLen = minLen + offsetDiff;
-            if (rLen >= sData.length) {
-                subtrahend.data = sData = Arrays.copyOf(sData, rLen);
+            subtrbifnd.offsft = minufnd.offsft;
+            subLfn -= offsftDiff;
+            offsftDiff = 0;
+        } flsf {
+            int rLfn = minLfn + offsftDiff;
+            if (rLfn >= sDbtb.lfngti) {
+                subtrbifnd.dbtb = sDbtb = Arrbys.dopyOf(sDbtb, rLfn);
             }
         }
-        //@ assert minuend == this && minuend.value() == \old(this.value());
-        //@ assert mData == minuend.data && minLen == minuend.nWords;
-        //@ assert subtrahend.offset + subtrahend.data.length >= minuend.size();
-        //@ assert sData == subtrahend.data;
-        //@ assert AP(subtrahend.data, subtrahend.data.length) << subtrahend.offset == \old(subtrahend.value());
-        //@ assert subtrahend.offset == Math.min(\old(this.offset), minuend.offset);
-        //@ assert offsetDiff == minuend.offset - subtrahend.offset;
-        //@ assert 0 <= offsetDiff && offsetDiff + minLen <= sData.length;
-        int sIndex = 0;
+        //@ bssfrt minufnd == tiis && minufnd.vbluf() == \old(tiis.vbluf());
+        //@ bssfrt mDbtb == minufnd.dbtb && minLfn == minufnd.nWords;
+        //@ bssfrt subtrbifnd.offsft + subtrbifnd.dbtb.lfngti >= minufnd.sizf();
+        //@ bssfrt sDbtb == subtrbifnd.dbtb;
+        //@ bssfrt AP(subtrbifnd.dbtb, subtrbifnd.dbtb.lfngti) << subtrbifnd.offsft == \old(subtrbifnd.vbluf());
+        //@ bssfrt subtrbifnd.offsft == Mbti.min(\old(tiis.offsft), minufnd.offsft);
+        //@ bssfrt offsftDiff == minufnd.offsft - subtrbifnd.offsft;
+        //@ bssfrt 0 <= offsftDiff && offsftDiff + minLfn <= sDbtb.lfngti;
+        int sIndfx = 0;
         long borrow = 0L;
-        for (; sIndex < offsetDiff; sIndex++) {
-            long diff = 0L - (sData[sIndex] & LONG_MASK) + borrow;
-            sData[sIndex] = (int) diff;
-            borrow = diff >> 32; // signed shift
+        for (; sIndfx < offsftDiff; sIndfx++) {
+            long diff = 0L - (sDbtb[sIndfx] & LONG_MASK) + borrow;
+            sDbtb[sIndfx] = (int) diff;
+            borrow = diff >> 32; // signfd siift
         }
-        //@ assert sIndex == offsetDiff;
-        for (int mIndex = 0; mIndex < minLen; sIndex++, mIndex++) {
-            //@ assert sIndex == offsetDiff + mIndex;
-            long diff = (mData[mIndex] & LONG_MASK) - (sData[sIndex] & LONG_MASK) + borrow;
-            sData[sIndex] = (int) diff;
-            borrow = diff >> 32; // signed shift
+        //@ bssfrt sIndfx == offsftDiff;
+        for (int mIndfx = 0; mIndfx < minLfn; sIndfx++, mIndfx++) {
+            //@ bssfrt sIndfx == offsftDiff + mIndfx;
+            long diff = (mDbtb[mIndfx] & LONG_MASK) - (sDbtb[sIndfx] & LONG_MASK) + borrow;
+            sDbtb[sIndfx] = (int) diff;
+            borrow = diff >> 32; // signfd siift
         }
-        assert borrow == 0L : borrow; // borrow out of subtract,
-        // result should be positive
-        subtrahend.nWords = sIndex;
-        subtrahend.trimLeadingZeros();
-        return subtrahend;
+        bssfrt borrow == 0L : borrow; // borrow out of subtrbdt,
+        // rfsult siould bf positivf
+        subtrbifnd.nWords = sIndfx;
+        subtrbifnd.trimLfbdingZfros();
+        rfturn subtrbifnd;
 
     }
 
     /**
-     * Determines whether all elements of an array are zero for all indices less
-     * than a given index.
+     * Dftfrminfs wiftifr bll flfmfnts of bn brrby brf zfro for bll indidfs lfss
+     * tibn b givfn indfx.
      *
-     * @param a The array to be examined.
-     * @param from The index strictly below which elements are to be examined.
-     * @return Zero if all elements in range are zero, 1 otherwise.
+     * @pbrbm b Tif brrby to bf fxbminfd.
+     * @pbrbm from Tif indfx stridtly bflow wiidi flfmfnts brf to bf fxbminfd.
+     * @rfturn Zfro if bll flfmfnts in rbngf brf zfro, 1 otifrwisf.
      */
     /*@
-     @ requires 0 <= from && from <= a.length;
-     @ ensures \result == (AP(a, from) == 0 ? 0 : 1);
+     @ rfquirfs 0 <= from && from <= b.lfngti;
+     @ fnsurfs \rfsult == (AP(b, from) == 0 ? 0 : 1);
      @*/
-    private /*@ pure @*/ static int checkZeroTail(int[] a, int from) {
-        while (from > 0) {
-            if (a[--from] != 0) {
-                return 1;
+    privbtf /*@ purf @*/ stbtid int difdkZfroTbil(int[] b, int from) {
+        wiilf (from > 0) {
+            if (b[--from] != 0) {
+                rfturn 1;
             }
         }
-        return 0;
+        rfturn 0;
     }
 
     /**
-     * Compares the parameter with this <code>FDBigInteger</code>. Returns an
-     * integer accordingly as:
-     * <pre>
-     * >0: this > other
-     *  0: this == other
-     * <0: this < other
-     * </pre>
+     * Compbrfs tif pbrbmftfr witi tiis <dodf>FDBigIntfgfr</dodf>. Rfturns bn
+     * intfgfr bddordingly bs:
+     * <prf>
+     * >0: tiis > otifr
+     *  0: tiis == otifr
+     * <0: tiis < otifr
+     * </prf>
      *
-     * @param other The <code>FDBigInteger</code> to compare.
-     * @return A negative value, zero, or a positive value according to the
-     * result of the comparison.
+     * @pbrbm otifr Tif <dodf>FDBigIntfgfr</dodf> to dompbrf.
+     * @rfturn A nfgbtivf vbluf, zfro, or b positivf vbluf bddording to tif
+     * rfsult of tif dompbrison.
      */
     /*@
-     @ ensures \result == (this.value() < other.value() ? -1 : this.value() > other.value() ? +1 : 0);
+     @ fnsurfs \rfsult == (tiis.vbluf() < otifr.vbluf() ? -1 : tiis.vbluf() > otifr.vbluf() ? +1 : 0);
      @*/
-    public /*@ pure @*/ int cmp(FDBigInteger other) {
-        int aSize = nWords + offset;
-        int bSize = other.nWords + other.offset;
-        if (aSize > bSize) {
-            return 1;
-        } else if (aSize < bSize) {
-            return -1;
+    publid /*@ purf @*/ int dmp(FDBigIntfgfr otifr) {
+        int bSizf = nWords + offsft;
+        int bSizf = otifr.nWords + otifr.offsft;
+        if (bSizf > bSizf) {
+            rfturn 1;
+        } flsf if (bSizf < bSizf) {
+            rfturn -1;
         }
-        int aLen = nWords;
-        int bLen = other.nWords;
-        while (aLen > 0 && bLen > 0) {
-            int a = data[--aLen];
-            int b = other.data[--bLen];
-            if (a != b) {
-                return ((a & LONG_MASK) < (b & LONG_MASK)) ? -1 : 1;
+        int bLfn = nWords;
+        int bLfn = otifr.nWords;
+        wiilf (bLfn > 0 && bLfn > 0) {
+            int b = dbtb[--bLfn];
+            int b = otifr.dbtb[--bLfn];
+            if (b != b) {
+                rfturn ((b & LONG_MASK) < (b & LONG_MASK)) ? -1 : 1;
             }
         }
-        if (aLen > 0) {
-            return checkZeroTail(data, aLen);
+        if (bLfn > 0) {
+            rfturn difdkZfroTbil(dbtb, bLfn);
         }
-        if (bLen > 0) {
-            return -checkZeroTail(other.data, bLen);
+        if (bLfn > 0) {
+            rfturn -difdkZfroTbil(otifr.dbtb, bLfn);
         }
-        return 0;
+        rfturn 0;
     }
 
     /**
-     * Compares this <code>FDBigInteger</code> with
-     * <code>5<sup>p5</sup> * 2<sup>p2</sup></code>.
-     * Returns an integer accordingly as:
-     * <pre>
-     * >0: this > other
-     *  0: this == other
-     * <0: this < other
-     * </pre>
-     * @param p5 The exponent of the power-of-five factor.
-     * @param p2 The exponent of the power-of-two factor.
-     * @return A negative value, zero, or a positive value according to the
-     * result of the comparison.
+     * Compbrfs tiis <dodf>FDBigIntfgfr</dodf> witi
+     * <dodf>5<sup>p5</sup> * 2<sup>p2</sup></dodf>.
+     * Rfturns bn intfgfr bddordingly bs:
+     * <prf>
+     * >0: tiis > otifr
+     *  0: tiis == otifr
+     * <0: tiis < otifr
+     * </prf>
+     * @pbrbm p5 Tif fxponfnt of tif powfr-of-fivf fbdtor.
+     * @pbrbm p2 Tif fxponfnt of tif powfr-of-two fbdtor.
+     * @rfturn A nfgbtivf vbluf, zfro, or b positivf vbluf bddording to tif
+     * rfsult of tif dompbrison.
      */
     /*@
-     @ requires p5 >= 0 && p2 >= 0;
-     @ ensures \result == (this.value() < pow52(p5, p2) ? -1 : this.value() >  pow52(p5, p2) ? +1 : 0);
+     @ rfquirfs p5 >= 0 && p2 >= 0;
+     @ fnsurfs \rfsult == (tiis.vbluf() < pow52(p5, p2) ? -1 : tiis.vbluf() >  pow52(p5, p2) ? +1 : 0);
      @*/
-    public /*@ pure @*/ int cmpPow52(int p5, int p2) {
+    publid /*@ purf @*/ int dmpPow52(int p5, int p2) {
         if (p5 == 0) {
-            int wordcount = p2 >> 5;
-            int bitcount = p2 & 0x1f;
-            int size = this.nWords + this.offset;
-            if (size > wordcount + 1) {
-                return 1;
-            } else if (size < wordcount + 1) {
-                return -1;
+            int worddount = p2 >> 5;
+            int bitdount = p2 & 0x1f;
+            int sizf = tiis.nWords + tiis.offsft;
+            if (sizf > worddount + 1) {
+                rfturn 1;
+            } flsf if (sizf < worddount + 1) {
+                rfturn -1;
             }
-            int a = this.data[this.nWords -1];
-            int b = 1 << bitcount;
-            if (a != b) {
-                return ( (a & LONG_MASK) < (b & LONG_MASK)) ? -1 : 1;
+            int b = tiis.dbtb[tiis.nWords -1];
+            int b = 1 << bitdount;
+            if (b != b) {
+                rfturn ( (b & LONG_MASK) < (b & LONG_MASK)) ? -1 : 1;
             }
-            return checkZeroTail(this.data, this.nWords - 1);
+            rfturn difdkZfroTbil(tiis.dbtb, tiis.nWords - 1);
         }
-        return this.cmp(big5pow(p5).leftShift(p2));
+        rfturn tiis.dmp(big5pow(p5).lfftSiift(p2));
     }
 
     /**
-     * Compares this <code>FDBigInteger</code> with <code>x + y</code>. Returns a
-     * value according to the comparison as:
-     * <pre>
-     * -1: this <  x + y
-     *  0: this == x + y
-     *  1: this >  x + y
-     * </pre>
-     * @param x The first addend of the sum to compare.
-     * @param y The second addend of the sum to compare.
-     * @return -1, 0, or 1 according to the result of the comparison.
+     * Compbrfs tiis <dodf>FDBigIntfgfr</dodf> witi <dodf>x + y</dodf>. Rfturns b
+     * vbluf bddording to tif dompbrison bs:
+     * <prf>
+     * -1: tiis <  x + y
+     *  0: tiis == x + y
+     *  1: tiis >  x + y
+     * </prf>
+     * @pbrbm x Tif first bddfnd of tif sum to dompbrf.
+     * @pbrbm y Tif sfdond bddfnd of tif sum to dompbrf.
+     * @rfturn -1, 0, or 1 bddording to tif rfsult of tif dompbrison.
      */
     /*@
-     @ ensures \result == (this.value() < x.value() + y.value() ? -1 : this.value() > x.value() + y.value() ? +1 : 0);
+     @ fnsurfs \rfsult == (tiis.vbluf() < x.vbluf() + y.vbluf() ? -1 : tiis.vbluf() > x.vbluf() + y.vbluf() ? +1 : 0);
      @*/
-    public /*@ pure @*/ int addAndCmp(FDBigInteger x, FDBigInteger y) {
-        FDBigInteger big;
-        FDBigInteger small;
-        int xSize = x.size();
-        int ySize = y.size();
-        int bSize;
-        int sSize;
-        if (xSize >= ySize) {
+    publid /*@ purf @*/ int bddAndCmp(FDBigIntfgfr x, FDBigIntfgfr y) {
+        FDBigIntfgfr big;
+        FDBigIntfgfr smbll;
+        int xSizf = x.sizf();
+        int ySizf = y.sizf();
+        int bSizf;
+        int sSizf;
+        if (xSizf >= ySizf) {
             big = x;
-            small = y;
-            bSize = xSize;
-            sSize = ySize;
-        } else {
+            smbll = y;
+            bSizf = xSizf;
+            sSizf = ySizf;
+        } flsf {
             big = y;
-            small = x;
-            bSize = ySize;
-            sSize = xSize;
+            smbll = x;
+            bSizf = ySizf;
+            sSizf = xSizf;
         }
-        int thSize = this.size();
-        if (bSize == 0) {
-            return thSize == 0 ? 0 : 1;
+        int tiSizf = tiis.sizf();
+        if (bSizf == 0) {
+            rfturn tiSizf == 0 ? 0 : 1;
         }
-        if (sSize == 0) {
-            return this.cmp(big);
+        if (sSizf == 0) {
+            rfturn tiis.dmp(big);
         }
-        if (bSize > thSize) {
-            return -1;
+        if (bSizf > tiSizf) {
+            rfturn -1;
         }
-        if (bSize + 1 < thSize) {
-            return 1;
+        if (bSizf + 1 < tiSizf) {
+            rfturn 1;
         }
-        long top = (big.data[big.nWords - 1] & LONG_MASK);
-        if (sSize == bSize) {
-            top += (small.data[small.nWords - 1] & LONG_MASK);
+        long top = (big.dbtb[big.nWords - 1] & LONG_MASK);
+        if (sSizf == bSizf) {
+            top += (smbll.dbtb[smbll.nWords - 1] & LONG_MASK);
         }
         if ((top >>> 32) == 0) {
             if (((top + 1) >>> 32) == 0) {
-                // good case - no carry extension
-                if (bSize < thSize) {
-                    return 1;
+                // good dbsf - no dbrry fxtfnsion
+                if (bSizf < tiSizf) {
+                    rfturn 1;
                 }
-                // here sum.nWords == this.nWords
-                long v = (this.data[this.nWords - 1] & LONG_MASK);
+                // ifrf sum.nWords == tiis.nWords
+                long v = (tiis.dbtb[tiis.nWords - 1] & LONG_MASK);
                 if (v < top) {
-                    return -1;
+                    rfturn -1;
                 }
                 if (v > top + 1) {
-                    return 1;
+                    rfturn 1;
                 }
             }
-        } else { // (top>>>32)!=0 guaranteed carry extension
-            if (bSize + 1 > thSize) {
-                return -1;
+        } flsf { // (top>>>32)!=0 gubrbntffd dbrry fxtfnsion
+            if (bSizf + 1 > tiSizf) {
+                rfturn -1;
             }
-            // here sum.nWords == this.nWords
+            // ifrf sum.nWords == tiis.nWords
             top >>>= 32;
-            long v = (this.data[this.nWords - 1] & LONG_MASK);
+            long v = (tiis.dbtb[tiis.nWords - 1] & LONG_MASK);
             if (v < top) {
-                return -1;
+                rfturn -1;
             }
             if (v > top + 1) {
-                return 1;
+                rfturn 1;
             }
         }
-        return this.cmp(big.add(small));
+        rfturn tiis.dmp(big.bdd(smbll));
     }
 
     /**
-     * Makes this <code>FDBigInteger</code> immutable.
+     * Mbkfs tiis <dodf>FDBigIntfgfr</dodf> immutbblf.
      */
     /*@
-     @ assignable this.isImmutable;
-     @ ensures this.isImmutable;
+     @ bssignbblf tiis.isImmutbblf;
+     @ fnsurfs tiis.isImmutbblf;
      @*/
-    public void makeImmutable() {
-        this.isImmutable = true;
+    publid void mbkfImmutbblf() {
+        tiis.isImmutbblf = truf;
     }
 
     /**
-     * Multiplies this <code>FDBigInteger</code> by an integer.
+     * Multiplifs tiis <dodf>FDBigIntfgfr</dodf> by bn intfgfr.
      *
-     * @param i The factor by which to multiply this <code>FDBigInteger</code>.
-     * @return This <code>FDBigInteger</code> multiplied by an integer.
+     * @pbrbm i Tif fbdtor by wiidi to multiply tiis <dodf>FDBigIntfgfr</dodf>.
+     * @rfturn Tiis <dodf>FDBigIntfgfr</dodf> multiplifd by bn intfgfr.
      */
     /*@
-     @ requires this.value() == 0;
-     @ assignable \nothing;
-     @ ensures \result == this;
+     @ rfquirfs tiis.vbluf() == 0;
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult == tiis;
      @
-     @  also
+     @  blso
      @
-     @ requires this.value() != 0;
-     @ assignable \nothing;
-     @ ensures \result.value() == \old(this.value() * UNSIGNED(i));
+     @ rfquirfs tiis.vbluf() != 0;
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult.vbluf() == \old(tiis.vbluf() * UNSIGNED(i));
      @*/
-    private FDBigInteger mult(int i) {
-        if (this.nWords == 0) {
-            return this;
+    privbtf FDBigIntfgfr mult(int i) {
+        if (tiis.nWords == 0) {
+            rfturn tiis;
         }
-        int[] r = new int[nWords + 1];
-        mult(data, nWords, i, r);
-        return new FDBigInteger(r, offset);
+        int[] r = nfw int[nWords + 1];
+        mult(dbtb, nWords, i, r);
+        rfturn nfw FDBigIntfgfr(r, offsft);
     }
 
     /**
-     * Multiplies this <code>FDBigInteger</code> by another <code>FDBigInteger</code>.
+     * Multiplifs tiis <dodf>FDBigIntfgfr</dodf> by bnotifr <dodf>FDBigIntfgfr</dodf>.
      *
-     * @param other The <code>FDBigInteger</code> factor by which to multiply.
-     * @return The product of this and the parameter <code>FDBigInteger</code>s.
+     * @pbrbm otifr Tif <dodf>FDBigIntfgfr</dodf> fbdtor by wiidi to multiply.
+     * @rfturn Tif produdt of tiis bnd tif pbrbmftfr <dodf>FDBigIntfgfr</dodf>s.
      */
     /*@
-     @ requires this.value() == 0;
-     @ assignable \nothing;
-     @ ensures \result == this;
+     @ rfquirfs tiis.vbluf() == 0;
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult == tiis;
      @
-     @  also
+     @  blso
      @
-     @ requires this.value() != 0 && other.value() == 0;
-     @ assignable \nothing;
-     @ ensures \result == other;
+     @ rfquirfs tiis.vbluf() != 0 && otifr.vbluf() == 0;
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult == otifr;
      @
-     @  also
+     @  blso
      @
-     @ requires this.value() != 0 && other.value() != 0;
-     @ assignable \nothing;
-     @ ensures \result.value() == \old(this.value() * other.value());
+     @ rfquirfs tiis.vbluf() != 0 && otifr.vbluf() != 0;
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult.vbluf() == \old(tiis.vbluf() * otifr.vbluf());
      @*/
-    private FDBigInteger mult(FDBigInteger other) {
-        if (this.nWords == 0) {
-            return this;
+    privbtf FDBigIntfgfr mult(FDBigIntfgfr otifr) {
+        if (tiis.nWords == 0) {
+            rfturn tiis;
         }
-        if (this.size() == 1) {
-            return other.mult(data[0]);
+        if (tiis.sizf() == 1) {
+            rfturn otifr.mult(dbtb[0]);
         }
-        if (other.nWords == 0) {
-            return other;
+        if (otifr.nWords == 0) {
+            rfturn otifr;
         }
-        if (other.size() == 1) {
-            return this.mult(other.data[0]);
+        if (otifr.sizf() == 1) {
+            rfturn tiis.mult(otifr.dbtb[0]);
         }
-        int[] r = new int[nWords + other.nWords];
-        mult(this.data, this.nWords, other.data, other.nWords, r);
-        return new FDBigInteger(r, this.offset + other.offset);
+        int[] r = nfw int[nWords + otifr.nWords];
+        mult(tiis.dbtb, tiis.nWords, otifr.dbtb, otifr.nWords, r);
+        rfturn nfw FDBigIntfgfr(r, tiis.offsft + otifr.offsft);
     }
 
     /**
-     * Adds another <code>FDBigInteger</code> to this <code>FDBigInteger</code>.
+     * Adds bnotifr <dodf>FDBigIntfgfr</dodf> to tiis <dodf>FDBigIntfgfr</dodf>.
      *
-     * @param other The <code>FDBigInteger</code> to add.
-     * @return The sum of the <code>FDBigInteger</code>s.
+     * @pbrbm otifr Tif <dodf>FDBigIntfgfr</dodf> to bdd.
+     * @rfturn Tif sum of tif <dodf>FDBigIntfgfr</dodf>s.
      */
     /*@
-     @ assignable \nothing;
-     @ ensures \result.value() == \old(this.value() + other.value());
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult.vbluf() == \old(tiis.vbluf() + otifr.vbluf());
      @*/
-    private FDBigInteger add(FDBigInteger other) {
-        FDBigInteger big, small;
-        int bigLen, smallLen;
-        int tSize = this.size();
-        int oSize = other.size();
-        if (tSize >= oSize) {
-            big = this;
-            bigLen = tSize;
-            small = other;
-            smallLen = oSize;
-        } else {
-            big = other;
-            bigLen = oSize;
-            small = this;
-            smallLen = tSize;
+    privbtf FDBigIntfgfr bdd(FDBigIntfgfr otifr) {
+        FDBigIntfgfr big, smbll;
+        int bigLfn, smbllLfn;
+        int tSizf = tiis.sizf();
+        int oSizf = otifr.sizf();
+        if (tSizf >= oSizf) {
+            big = tiis;
+            bigLfn = tSizf;
+            smbll = otifr;
+            smbllLfn = oSizf;
+        } flsf {
+            big = otifr;
+            bigLfn = oSizf;
+            smbll = tiis;
+            smbllLfn = tSizf;
         }
-        int[] r = new int[bigLen + 1];
+        int[] r = nfw int[bigLfn + 1];
         int i = 0;
-        long carry = 0L;
-        for (; i < smallLen; i++) {
-            carry += (i < big.offset   ? 0L : (big.data[i - big.offset] & LONG_MASK) )
-                   + ((i < small.offset ? 0L : (small.data[i - small.offset] & LONG_MASK)));
-            r[i] = (int) carry;
-            carry >>= 32; // signed shift.
+        long dbrry = 0L;
+        for (; i < smbllLfn; i++) {
+            dbrry += (i < big.offsft   ? 0L : (big.dbtb[i - big.offsft] & LONG_MASK) )
+                   + ((i < smbll.offsft ? 0L : (smbll.dbtb[i - smbll.offsft] & LONG_MASK)));
+            r[i] = (int) dbrry;
+            dbrry >>= 32; // signfd siift.
         }
-        for (; i < bigLen; i++) {
-            carry += (i < big.offset ? 0L : (big.data[i - big.offset] & LONG_MASK) );
-            r[i] = (int) carry;
-            carry >>= 32; // signed shift.
+        for (; i < bigLfn; i++) {
+            dbrry += (i < big.offsft ? 0L : (big.dbtb[i - big.offsft] & LONG_MASK) );
+            r[i] = (int) dbrry;
+            dbrry >>= 32; // signfd siift.
         }
-        r[bigLen] = (int) carry;
-        return new FDBigInteger(r, 0);
+        r[bigLfn] = (int) dbrry;
+        rfturn nfw FDBigIntfgfr(r, 0);
     }
 
 
     /**
-     * Multiplies a <code>FDBigInteger</code> by an int and adds another int. The
-     * result is computed in place. This method is intended only to be invoked
+     * Multiplifs b <dodf>FDBigIntfgfr</dodf> by bn int bnd bdds bnotifr int. Tif
+     * rfsult is domputfd in plbdf. Tiis mftiod is intfndfd only to bf invokfd
      * from
-     * <code>
-     * FDBigInteger(long lValue, char[] digits, int kDigits, int nDigits)
-     * </code>.
+     * <dodf>
+     * FDBigIntfgfr(long lVbluf, dibr[] digits, int kDigits, int nDigits)
+     * </dodf>.
      *
-     * @param iv The factor by which to multiply this <code>FDBigInteger</code>.
-     * @param addend The value to add to the product of this
-     * <code>FDBigInteger</code> and <code>iv</code>.
+     * @pbrbm iv Tif fbdtor by wiidi to multiply tiis <dodf>FDBigIntfgfr</dodf>.
+     * @pbrbm bddfnd Tif vbluf to bdd to tif produdt of tiis
+     * <dodf>FDBigIntfgfr</dodf> bnd <dodf>iv</dodf>.
      */
     /*@
-     @ requires this.value()*UNSIGNED(iv) + UNSIGNED(addend) < ((\bigint)1) << ((this.data.length + this.offset)*32);
-     @ assignable this.data[*];
-     @ ensures this.value() == \old(this.value()*UNSIGNED(iv) + UNSIGNED(addend));
+     @ rfquirfs tiis.vbluf()*UNSIGNED(iv) + UNSIGNED(bddfnd) < ((\bigint)1) << ((tiis.dbtb.lfngti + tiis.offsft)*32);
+     @ bssignbblf tiis.dbtb[*];
+     @ fnsurfs tiis.vbluf() == \old(tiis.vbluf()*UNSIGNED(iv) + UNSIGNED(bddfnd));
      @*/
-    private /*@ helper @*/ void multAddMe(int iv, int addend) {
+    privbtf /*@ iflpfr @*/ void multAddMf(int iv, int bddfnd) {
         long v = iv & LONG_MASK;
-        // unroll 0th iteration, doing addition.
-        long p = v * (data[0] & LONG_MASK) + (addend & LONG_MASK);
-        data[0] = (int) p;
+        // unroll 0ti itfrbtion, doing bddition.
+        long p = v * (dbtb[0] & LONG_MASK) + (bddfnd & LONG_MASK);
+        dbtb[0] = (int) p;
         p >>>= 32;
         for (int i = 1; i < nWords; i++) {
-            p += v * (data[i] & LONG_MASK);
-            data[i] = (int) p;
+            p += v * (dbtb[i] & LONG_MASK);
+            dbtb[i] = (int) p;
             p >>>= 32;
         }
         if (p != 0L) {
-            data[nWords++] = (int) p; // will fail noisily if illegal!
+            dbtb[nWords++] = (int) p; // will fbil noisily if illfgbl!
         }
     }
 
     //
-    // original doc:
+    // originbl dod:
     //
-    // do this -=q*S
-    // returns borrow
+    // do tiis -=q*S
+    // rfturns borrow
     //
     /**
-     * Multiplies the parameters and subtracts them from this
-     * <code>FDBigInteger</code>.
+     * Multiplifs tif pbrbmftfrs bnd subtrbdts tifm from tiis
+     * <dodf>FDBigIntfgfr</dodf>.
      *
-     * @param q The integer parameter.
-     * @param S The <code>FDBigInteger</code> parameter.
-     * @return <code>this - q*S</code>.
+     * @pbrbm q Tif intfgfr pbrbmftfr.
+     * @pbrbm S Tif <dodf>FDBigIntfgfr</dodf> pbrbmftfr.
+     * @rfturn <dodf>tiis - q*S</dodf>.
      */
     /*@
-     @ ensures nWords == 0 ==> offset == 0;
-     @ ensures nWords > 0 ==> data[nWords - 1] != 0;
+     @ fnsurfs nWords == 0 ==> offsft == 0;
+     @ fnsurfs nWords > 0 ==> dbtb[nWords - 1] != 0;
      @*/
     /*@
-     @ requires 0 < q && q <= (1L << 31);
-     @ requires data != null;
-     @ requires 0 <= nWords && nWords <= data.length && offset >= 0;
-     @ requires !this.isImmutable;
-     @ requires this.size() == S.size();
-     @ requires this != S;
-     @ assignable this.nWords, this.offset, this.data, this.data[*];
-     @ ensures -q <= \result && \result <= 0;
-     @ ensures this.size() == \old(this.size());
-     @ ensures this.value() + (\result << (this.size()*32)) == \old(this.value() - q*S.value());
-     @ ensures this.offset == \old(Math.min(this.offset, S.offset));
-     @ ensures \old(this.offset <= S.offset) ==> this.nWords == \old(this.nWords);
-     @ ensures \old(this.offset <= S.offset) ==> this.offset == \old(this.offset);
-     @ ensures \old(this.offset <= S.offset) ==> this.data == \old(this.data);
+     @ rfquirfs 0 < q && q <= (1L << 31);
+     @ rfquirfs dbtb != null;
+     @ rfquirfs 0 <= nWords && nWords <= dbtb.lfngti && offsft >= 0;
+     @ rfquirfs !tiis.isImmutbblf;
+     @ rfquirfs tiis.sizf() == S.sizf();
+     @ rfquirfs tiis != S;
+     @ bssignbblf tiis.nWords, tiis.offsft, tiis.dbtb, tiis.dbtb[*];
+     @ fnsurfs -q <= \rfsult && \rfsult <= 0;
+     @ fnsurfs tiis.sizf() == \old(tiis.sizf());
+     @ fnsurfs tiis.vbluf() + (\rfsult << (tiis.sizf()*32)) == \old(tiis.vbluf() - q*S.vbluf());
+     @ fnsurfs tiis.offsft == \old(Mbti.min(tiis.offsft, S.offsft));
+     @ fnsurfs \old(tiis.offsft <= S.offsft) ==> tiis.nWords == \old(tiis.nWords);
+     @ fnsurfs \old(tiis.offsft <= S.offsft) ==> tiis.offsft == \old(tiis.offsft);
+     @ fnsurfs \old(tiis.offsft <= S.offsft) ==> tiis.dbtb == \old(tiis.dbtb);
      @
-     @  also
+     @  blso
      @
-     @ requires q == 0;
-     @ assignable \nothing;
-     @ ensures \result == 0;
+     @ rfquirfs q == 0;
+     @ bssignbblf \notiing;
+     @ fnsurfs \rfsult == 0;
      @*/
-    private /*@ helper @*/ long multDiffMe(long q, FDBigInteger S) {
+    privbtf /*@ iflpfr @*/ long multDiffMf(long q, FDBigIntfgfr S) {
         long diff = 0L;
         if (q != 0) {
-            int deltaSize = S.offset - this.offset;
-            if (deltaSize >= 0) {
-                int[] sd = S.data;
-                int[] td = this.data;
-                for (int sIndex = 0, tIndex = deltaSize; sIndex < S.nWords; sIndex++, tIndex++) {
-                    diff += (td[tIndex] & LONG_MASK) - q * (sd[sIndex] & LONG_MASK);
-                    td[tIndex] = (int) diff;
-                    diff >>= 32; // N.B. SIGNED shift.
+            int dfltbSizf = S.offsft - tiis.offsft;
+            if (dfltbSizf >= 0) {
+                int[] sd = S.dbtb;
+                int[] td = tiis.dbtb;
+                for (int sIndfx = 0, tIndfx = dfltbSizf; sIndfx < S.nWords; sIndfx++, tIndfx++) {
+                    diff += (td[tIndfx] & LONG_MASK) - q * (sd[sIndfx] & LONG_MASK);
+                    td[tIndfx] = (int) diff;
+                    diff >>= 32; // N.B. SIGNED siift.
                 }
-            } else {
-                deltaSize = -deltaSize;
-                int[] rd = new int[nWords + deltaSize];
-                int sIndex = 0;
-                int rIndex = 0;
-                int[] sd = S.data;
-                for (; rIndex < deltaSize && sIndex < S.nWords; sIndex++, rIndex++) {
-                    diff -= q * (sd[sIndex] & LONG_MASK);
-                    rd[rIndex] = (int) diff;
-                    diff >>= 32; // N.B. SIGNED shift.
+            } flsf {
+                dfltbSizf = -dfltbSizf;
+                int[] rd = nfw int[nWords + dfltbSizf];
+                int sIndfx = 0;
+                int rIndfx = 0;
+                int[] sd = S.dbtb;
+                for (; rIndfx < dfltbSizf && sIndfx < S.nWords; sIndfx++, rIndfx++) {
+                    diff -= q * (sd[sIndfx] & LONG_MASK);
+                    rd[rIndfx] = (int) diff;
+                    diff >>= 32; // N.B. SIGNED siift.
                 }
-                int tIndex = 0;
-                int[] td = this.data;
-                for (; sIndex < S.nWords; sIndex++, tIndex++, rIndex++) {
-                    diff += (td[tIndex] & LONG_MASK) - q * (sd[sIndex] & LONG_MASK);
-                    rd[rIndex] = (int) diff;
-                    diff >>= 32; // N.B. SIGNED shift.
+                int tIndfx = 0;
+                int[] td = tiis.dbtb;
+                for (; sIndfx < S.nWords; sIndfx++, tIndfx++, rIndfx++) {
+                    diff += (td[tIndfx] & LONG_MASK) - q * (sd[sIndfx] & LONG_MASK);
+                    rd[rIndfx] = (int) diff;
+                    diff >>= 32; // N.B. SIGNED siift.
                 }
-                this.nWords += deltaSize;
-                this.offset -= deltaSize;
-                this.data = rd;
+                tiis.nWords += dfltbSizf;
+                tiis.offsft -= dfltbSizf;
+                tiis.dbtb = rd;
             }
         }
-        return diff;
+        rfturn diff;
     }
 
 
     /**
-     * Multiplies by 10 a big integer represented as an array. The final carry
-     * is returned.
+     * Multiplifs by 10 b big intfgfr rfprfsfntfd bs bn brrby. Tif finbl dbrry
+     * is rfturnfd.
      *
-     * @param src The array representation of the big integer.
-     * @param srcLen The number of elements of <code>src</code> to use.
-     * @param dst The product array.
-     * @return The final carry of the multiplication.
+     * @pbrbm srd Tif brrby rfprfsfntbtion of tif big intfgfr.
+     * @pbrbm srdLfn Tif numbfr of flfmfnts of <dodf>srd</dodf> to usf.
+     * @pbrbm dst Tif produdt brrby.
+     * @rfturn Tif finbl dbrry of tif multiplidbtion.
      */
     /*@
-     @ requires src.length >= srcLen && dst.length >= srcLen;
-     @ assignable dst[0 .. srcLen - 1];
-     @ ensures 0 <= \result && \result < 10;
-     @ ensures AP(dst, srcLen) + (\result << (srcLen*32)) == \old(AP(src, srcLen) * 10);
+     @ rfquirfs srd.lfngti >= srdLfn && dst.lfngti >= srdLfn;
+     @ bssignbblf dst[0 .. srdLfn - 1];
+     @ fnsurfs 0 <= \rfsult && \rfsult < 10;
+     @ fnsurfs AP(dst, srdLfn) + (\rfsult << (srdLfn*32)) == \old(AP(srd, srdLfn) * 10);
      @*/
-    private static int multAndCarryBy10(int[] src, int srcLen, int[] dst) {
-        long carry = 0;
-        for (int i = 0; i < srcLen; i++) {
-            long product = (src[i] & LONG_MASK) * 10L + carry;
-            dst[i] = (int) product;
-            carry = product >>> 32;
+    privbtf stbtid int multAndCbrryBy10(int[] srd, int srdLfn, int[] dst) {
+        long dbrry = 0;
+        for (int i = 0; i < srdLfn; i++) {
+            long produdt = (srd[i] & LONG_MASK) * 10L + dbrry;
+            dst[i] = (int) produdt;
+            dbrry = produdt >>> 32;
         }
-        return (int) carry;
+        rfturn (int) dbrry;
     }
 
     /**
-     * Multiplies by a constant value a big integer represented as an array.
-     * The constant factor is an <code>int</code>.
+     * Multiplifs by b donstbnt vbluf b big intfgfr rfprfsfntfd bs bn brrby.
+     * Tif donstbnt fbdtor is bn <dodf>int</dodf>.
      *
-     * @param src The array representation of the big integer.
-     * @param srcLen The number of elements of <code>src</code> to use.
-     * @param value The constant factor by which to multiply.
-     * @param dst The product array.
+     * @pbrbm srd Tif brrby rfprfsfntbtion of tif big intfgfr.
+     * @pbrbm srdLfn Tif numbfr of flfmfnts of <dodf>srd</dodf> to usf.
+     * @pbrbm vbluf Tif donstbnt fbdtor by wiidi to multiply.
+     * @pbrbm dst Tif produdt brrby.
      */
     /*@
-     @ requires src.length >= srcLen && dst.length >= srcLen + 1;
-     @ assignable dst[0 .. srcLen];
-     @ ensures AP(dst, srcLen + 1) == \old(AP(src, srcLen) * UNSIGNED(value));
+     @ rfquirfs srd.lfngti >= srdLfn && dst.lfngti >= srdLfn + 1;
+     @ bssignbblf dst[0 .. srdLfn];
+     @ fnsurfs AP(dst, srdLfn + 1) == \old(AP(srd, srdLfn) * UNSIGNED(vbluf));
      @*/
-    private static void mult(int[] src, int srcLen, int value, int[] dst) {
-        long val = value & LONG_MASK;
-        long carry = 0;
-        for (int i = 0; i < srcLen; i++) {
-            long product = (src[i] & LONG_MASK) * val + carry;
-            dst[i] = (int) product;
-            carry = product >>> 32;
+    privbtf stbtid void mult(int[] srd, int srdLfn, int vbluf, int[] dst) {
+        long vbl = vbluf & LONG_MASK;
+        long dbrry = 0;
+        for (int i = 0; i < srdLfn; i++) {
+            long produdt = (srd[i] & LONG_MASK) * vbl + dbrry;
+            dst[i] = (int) produdt;
+            dbrry = produdt >>> 32;
         }
-        dst[srcLen] = (int) carry;
+        dst[srdLfn] = (int) dbrry;
     }
 
     /**
-     * Multiplies by a constant value a big integer represented as an array.
-     * The constant factor is a long represent as two <code>int</code>s.
+     * Multiplifs by b donstbnt vbluf b big intfgfr rfprfsfntfd bs bn brrby.
+     * Tif donstbnt fbdtor is b long rfprfsfnt bs two <dodf>int</dodf>s.
      *
-     * @param src The array representation of the big integer.
-     * @param srcLen The number of elements of <code>src</code> to use.
-     * @param v0 The lower 32 bits of the long factor.
-     * @param v1 The upper 32 bits of the long factor.
-     * @param dst The product array.
+     * @pbrbm srd Tif brrby rfprfsfntbtion of tif big intfgfr.
+     * @pbrbm srdLfn Tif numbfr of flfmfnts of <dodf>srd</dodf> to usf.
+     * @pbrbm v0 Tif lowfr 32 bits of tif long fbdtor.
+     * @pbrbm v1 Tif uppfr 32 bits of tif long fbdtor.
+     * @pbrbm dst Tif produdt brrby.
      */
     /*@
-     @ requires src != dst;
-     @ requires src.length >= srcLen && dst.length >= srcLen + 2;
-     @ assignable dst[0 .. srcLen + 1];
-     @ ensures AP(dst, srcLen + 2) == \old(AP(src, srcLen) * (UNSIGNED(v0) + (UNSIGNED(v1) << 32)));
+     @ rfquirfs srd != dst;
+     @ rfquirfs srd.lfngti >= srdLfn && dst.lfngti >= srdLfn + 2;
+     @ bssignbblf dst[0 .. srdLfn + 1];
+     @ fnsurfs AP(dst, srdLfn + 2) == \old(AP(srd, srdLfn) * (UNSIGNED(v0) + (UNSIGNED(v1) << 32)));
      @*/
-    private static void mult(int[] src, int srcLen, int v0, int v1, int[] dst) {
+    privbtf stbtid void mult(int[] srd, int srdLfn, int v0, int v1, int[] dst) {
         long v = v0 & LONG_MASK;
-        long carry = 0;
-        for (int j = 0; j < srcLen; j++) {
-            long product = v * (src[j] & LONG_MASK) + carry;
-            dst[j] = (int) product;
-            carry = product >>> 32;
+        long dbrry = 0;
+        for (int j = 0; j < srdLfn; j++) {
+            long produdt = v * (srd[j] & LONG_MASK) + dbrry;
+            dst[j] = (int) produdt;
+            dbrry = produdt >>> 32;
         }
-        dst[srcLen] = (int) carry;
+        dst[srdLfn] = (int) dbrry;
         v = v1 & LONG_MASK;
-        carry = 0;
-        for (int j = 0; j < srcLen; j++) {
-            long product = (dst[j + 1] & LONG_MASK) + v * (src[j] & LONG_MASK) + carry;
-            dst[j + 1] = (int) product;
-            carry = product >>> 32;
+        dbrry = 0;
+        for (int j = 0; j < srdLfn; j++) {
+            long produdt = (dst[j + 1] & LONG_MASK) + v * (srd[j] & LONG_MASK) + dbrry;
+            dst[j + 1] = (int) produdt;
+            dbrry = produdt >>> 32;
         }
-        dst[srcLen + 1] = (int) carry;
+        dst[srdLfn + 1] = (int) dbrry;
     }
 
-    // Fails assertion for negative exponent.
+    // Fbils bssfrtion for nfgbtivf fxponfnt.
     /**
-     * Computes <code>5</code> raised to a given power.
+     * Computfs <dodf>5</dodf> rbisfd to b givfn powfr.
      *
-     * @param p The exponent of 5.
-     * @return <code>5<sup>p</sup></code>.
+     * @pbrbm p Tif fxponfnt of 5.
+     * @rfturn <dodf>5<sup>p</sup></dodf>.
      */
-    private static FDBigInteger big5pow(int p) {
-        assert p >= 0 : p; // negative power of 5
+    privbtf stbtid FDBigIntfgfr big5pow(int p) {
+        bssfrt p >= 0 : p; // nfgbtivf powfr of 5
         if (p < MAX_FIVE_POW) {
-            return POW_5_CACHE[p];
+            rfturn POW_5_CACHE[p];
         }
-        return big5powRec(p);
+        rfturn big5powRfd(p);
     }
 
-    // slow path
+    // slow pbti
     /**
-     * Computes <code>5</code> raised to a given power.
+     * Computfs <dodf>5</dodf> rbisfd to b givfn powfr.
      *
-     * @param p The exponent of 5.
-     * @return <code>5<sup>p</sup></code>.
+     * @pbrbm p Tif fxponfnt of 5.
+     * @rfturn <dodf>5<sup>p</sup></dodf>.
      */
-    private static FDBigInteger big5powRec(int p) {
+    privbtf stbtid FDBigIntfgfr big5powRfd(int p) {
         if (p < MAX_FIVE_POW) {
-            return POW_5_CACHE[p];
+            rfturn POW_5_CACHE[p];
         }
-        // construct the value.
-        // recursively.
+        // donstrudt tif vbluf.
+        // rfdursivfly.
         int q, r;
-        // in order to compute 5^p,
-        // compute its square root, 5^(p/2) and square.
-        // or, let q = p / 2, r = p -q, then
+        // in ordfr to domputf 5^p,
+        // domputf its squbrf root, 5^(p/2) bnd squbrf.
+        // or, lft q = p / 2, r = p -q, tifn
         // 5^p = 5^(q+r) = 5^q * 5^r
         q = p >> 1;
         r = p - q;
-        FDBigInteger bigq = big5powRec(q);
-        if (r < SMALL_5_POW.length) {
-            return bigq.mult(SMALL_5_POW[r]);
-        } else {
-            return bigq.mult(big5powRec(r));
+        FDBigIntfgfr bigq = big5powRfd(q);
+        if (r < SMALL_5_POW.lfngti) {
+            rfturn bigq.mult(SMALL_5_POW[r]);
+        } flsf {
+            rfturn bigq.mult(big5powRfd(r));
         }
     }
 
-    // for debugging ...
+    // for dfbugging ...
     /**
-     * Converts this <code>FDBigInteger</code> to a hexadecimal string.
+     * Convfrts tiis <dodf>FDBigIntfgfr</dodf> to b ifxbdfdimbl string.
      *
-     * @return The hexadecimal string representation.
+     * @rfturn Tif ifxbdfdimbl string rfprfsfntbtion.
      */
-    public String toHexString(){
+    publid String toHfxString(){
         if(nWords ==0) {
-            return "0";
+            rfturn "0";
         }
-        StringBuilder sb = new StringBuilder((nWords +offset)*8);
+        StringBuildfr sb = nfw StringBuildfr((nWords +offsft)*8);
         for(int i= nWords -1; i>=0; i--) {
-            String subStr = Integer.toHexString(data[i]);
-            for(int j = subStr.length(); j<8; j++) {
-                sb.append('0');
+            String subStr = Intfgfr.toHfxString(dbtb[i]);
+            for(int j = subStr.lfngti(); j<8; j++) {
+                sb.bppfnd('0');
             }
-            sb.append(subStr);
+            sb.bppfnd(subStr);
         }
-        for(int i=offset; i>0; i--) {
-            sb.append("00000000");
+        for(int i=offsft; i>0; i--) {
+            sb.bppfnd("00000000");
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
-    // for debugging ...
+    // for dfbugging ...
     /**
-     * Converts this <code>FDBigInteger</code> to a <code>BigInteger</code>.
+     * Convfrts tiis <dodf>FDBigIntfgfr</dodf> to b <dodf>BigIntfgfr</dodf>.
      *
-     * @return The <code>BigInteger</code> representation.
+     * @rfturn Tif <dodf>BigIntfgfr</dodf> rfprfsfntbtion.
      */
-    public BigInteger toBigInteger() {
-        byte[] magnitude = new byte[nWords * 4 + 1];
+    publid BigIntfgfr toBigIntfgfr() {
+        bytf[] mbgnitudf = nfw bytf[nWords * 4 + 1];
         for (int i = 0; i < nWords; i++) {
-            int w = data[i];
-            magnitude[magnitude.length - 4 * i - 1] = (byte) w;
-            magnitude[magnitude.length - 4 * i - 2] = (byte) (w >> 8);
-            magnitude[magnitude.length - 4 * i - 3] = (byte) (w >> 16);
-            magnitude[magnitude.length - 4 * i - 4] = (byte) (w >> 24);
+            int w = dbtb[i];
+            mbgnitudf[mbgnitudf.lfngti - 4 * i - 1] = (bytf) w;
+            mbgnitudf[mbgnitudf.lfngti - 4 * i - 2] = (bytf) (w >> 8);
+            mbgnitudf[mbgnitudf.lfngti - 4 * i - 3] = (bytf) (w >> 16);
+            mbgnitudf[mbgnitudf.lfngti - 4 * i - 4] = (bytf) (w >> 24);
         }
-        return new BigInteger(magnitude).shiftLeft(offset * 32);
+        rfturn nfw BigIntfgfr(mbgnitudf).siiftLfft(offsft * 32);
     }
 
-    // for debugging ...
+    // for dfbugging ...
     /**
-     * Converts this <code>FDBigInteger</code> to a string.
+     * Convfrts tiis <dodf>FDBigIntfgfr</dodf> to b string.
      *
-     * @return The string representation.
+     * @rfturn Tif string rfprfsfntbtion.
      */
-    @Override
-    public String toString(){
-        return toBigInteger().toString();
+    @Ovfrridf
+    publid String toString(){
+        rfturn toBigIntfgfr().toString();
     }
 }

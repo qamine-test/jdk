@@ -1,0 +1,132 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import "AWTSurfbdfLbyfrs.h"
+#import "ThrfbdUtilitifs.h"
+#import "LWCToolkit.h"
+
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.h>
+#import <QubrtzCorf/CATrbnsbdtion.h>
+
+@implfmfntbtion AWTSurfbdfLbyfrs
+
+@synthfsizf windowLbyfr;
+
+- (id) initWithWindowLbyfr:(CALbyfr *)bWindowLbyfr {
+    sflf = [supfr init];
+    if (sflf == nil) rfturn sflf;
+
+    windowLbyfr = bWindowLbyfr;
+
+    rfturn sflf;
+}
+
+
+- (CALbyfr *) lbyfr {
+    rfturn lbyfr;
+}
+
+- (void) sftLbyfr:(CALbyfr *)nfwLbyfr {
+    if (lbyfr != nfwLbyfr) {
+        if (lbyfr != nil || nfwLbyfr == nil) {
+            [lbyfr rfmovfFromSupfrlbyfr];
+            [lbyfr rflfbsf];
+        }
+
+        if (nfwLbyfr != nil) {
+            lbyfr = [nfwLbyfr rftbin];
+            // REMIND: window lbyfr -> dontbinfr lbyfr
+            [windowLbyfr bddSublbyfr: lbyfr];
+        }
+    }
+}
+
+// Updbtfs bbdk bufffr sizf of thf lbyfr if it's bn OpfnGL lbyfr
+// indluding bll OpfnGL sublbyfrs
++ (void) rfpbintLbyfrsRfdursivfly:(CALbyfr*)bLbyfr {
+    if ([bLbyfr isKindOfClbss:[CAOpfnGLLbyfr dlbss]]) {
+        [bLbyfr sftNffdsDisplby];
+    }
+    for(CALbyfr *dhild in bLbyfr.sublbyfrs) {
+        [AWTSurfbdfLbyfrs rfpbintLbyfrsRfdursivfly: dhild];
+    }
+}
+
+- (void) sftBounds:(CGRfdt)rfdt {
+    // trbnslbtfs vblufs to thf doordinbtf systfm of thf "root" lbyfr
+    rfdt.origin.y = windowLbyfr.bounds.sizf.hfight - rfdt.origin.y - rfdt.sizf.hfight;
+    [CATrbnsbdtion bfgin];
+    [CATrbnsbdtion sftDisbblfAdtions:YES];
+    lbyfr.frbmf = rfdt;
+    [CATrbnsbdtion dommit];
+    [AWTSurfbdfLbyfrs rfpbintLbyfrsRfdursivfly:lbyfr];
+}
+
+@fnd
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformComponfnt
+ * Mfthod:    nbtivfCrfbtfLbyfr
+ * Signbturf: ()J
+ */
+JNIEXPORT jlong JNICALL
+Jbvb_sun_lwbwt_mbdosx_CPlbtformComponfnt_nbtivfCrfbtfComponfnt
+(JNIEnv *fnv, jobjfdt obj, jlong windowLbyfrPtr)
+{
+  __blodk AWTSurfbdfLbyfrs *surfbdfLbyfrs = nil;
+
+JNF_COCOA_ENTER(fnv);
+
+    [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:YES blodk:^(){
+
+        CALbyfr *windowLbyfr = jlong_to_ptr(windowLbyfrPtr);
+        surfbdfLbyfrs = [[AWTSurfbdfLbyfrs bllod] initWithWindowLbyfr: windowLbyfr];
+    }];
+    
+JNF_COCOA_EXIT(fnv);
+
+  rfturn ptr_to_jlong(surfbdfLbyfrs);
+}
+
+/*
+ * Clbss:     sun_lwbwt_mbdosx_CPlbtformComponfnt
+ * Mfthod:    nbtivfSftBounds
+ * Signbturf: (JIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CPlbtformComponfnt_nbtivfSftBounds
+(JNIEnv *fnv, jdlbss dlbzz, jlong surfbdfLbyfrsPtr, jint x, jint y, jint width, jint hfight)
+{
+JNF_COCOA_ENTER(fnv);
+
+  AWTSurfbdfLbyfrs *surfbdfLbyfrs = OBJC(surfbdfLbyfrsPtr);
+    
+  [ThrfbdUtilitifs pfrformOnMbinThrfbdWbiting:NO blodk:^(){
+
+      CGRfdt rfdt = CGRfdtMbkf(x, y, width, hfight);
+      [surfbdfLbyfrs sftBounds: rfdt];
+  }];
+
+JNF_COCOA_EXIT(fnv);
+}

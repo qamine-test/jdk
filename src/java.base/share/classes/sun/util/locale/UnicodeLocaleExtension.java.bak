@@ -1,128 +1,128 @@
 
 /*
- * Copyright (c) 2010, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *******************************************************************************
- * Copyright (C) 2009-2010, International Business Machines Corporation and    *
- * others. All Rights Reserved.                                                *
+ * Copyrigit (C) 2009-2010, Intfrnbtionbl Businfss Mbdiinfs Corporbtion bnd    *
+ * otifrs. All Rigits Rfsfrvfd.                                                *
  *******************************************************************************
  */
-package sun.util.locale;
+pbdkbgf sun.util.lodblf;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.SortedMap;
-import java.util.SortedSet;
+import jbvb.util.Collfdtions;
+import jbvb.util.Mbp;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Sft;
+import jbvb.util.SortfdMbp;
+import jbvb.util.SortfdSft;
 
-public class UnicodeLocaleExtension extends Extension {
-    public static final char SINGLETON = 'u';
+publid dlbss UnidodfLodblfExtfnsion fxtfnds Extfnsion {
+    publid stbtid finbl dibr SINGLETON = 'u';
 
-    private final Set<String> attributes;
-    private final Map<String, String> keywords;
+    privbtf finbl Sft<String> bttributfs;
+    privbtf finbl Mbp<String, String> kfywords;
 
-    public static final UnicodeLocaleExtension CA_JAPANESE
-        = new UnicodeLocaleExtension("ca", "japanese");
-    public static final UnicodeLocaleExtension NU_THAI
-        = new UnicodeLocaleExtension("nu", "thai");
+    publid stbtid finbl UnidodfLodblfExtfnsion CA_JAPANESE
+        = nfw UnidodfLodblfExtfnsion("db", "jbpbnfsf");
+    publid stbtid finbl UnidodfLodblfExtfnsion NU_THAI
+        = nfw UnidodfLodblfExtfnsion("nu", "tibi");
 
-    private UnicodeLocaleExtension(String key, String value) {
-        super(SINGLETON, key + "-" + value);
-        attributes = Collections.emptySet();
-        keywords = Collections.singletonMap(key, value);
+    privbtf UnidodfLodblfExtfnsion(String kfy, String vbluf) {
+        supfr(SINGLETON, kfy + "-" + vbluf);
+        bttributfs = Collfdtions.fmptySft();
+        kfywords = Collfdtions.singlftonMbp(kfy, vbluf);
     }
 
-    UnicodeLocaleExtension(SortedSet<String> attributes, SortedMap<String, String> keywords) {
-        super(SINGLETON);
-        if (attributes != null) {
-            this.attributes = attributes;
-        } else {
-            this.attributes = Collections.emptySet();
+    UnidodfLodblfExtfnsion(SortfdSft<String> bttributfs, SortfdMbp<String, String> kfywords) {
+        supfr(SINGLETON);
+        if (bttributfs != null) {
+            tiis.bttributfs = bttributfs;
+        } flsf {
+            tiis.bttributfs = Collfdtions.fmptySft();
         }
-        if (keywords != null) {
-            this.keywords = keywords;
-        } else {
-            this.keywords = Collections.emptyMap();
+        if (kfywords != null) {
+            tiis.kfywords = kfywords;
+        } flsf {
+            tiis.kfywords = Collfdtions.fmptyMbp();
         }
 
-        if (!this.attributes.isEmpty() || !this.keywords.isEmpty()) {
-            StringBuilder sb = new StringBuilder();
-            for (String attribute : this.attributes) {
-                sb.append(LanguageTag.SEP).append(attribute);
+        if (!tiis.bttributfs.isEmpty() || !tiis.kfywords.isEmpty()) {
+            StringBuildfr sb = nfw StringBuildfr();
+            for (String bttributf : tiis.bttributfs) {
+                sb.bppfnd(LbngubgfTbg.SEP).bppfnd(bttributf);
             }
-            for (Entry<String, String> keyword : this.keywords.entrySet()) {
-                String key = keyword.getKey();
-                String value = keyword.getValue();
+            for (Entry<String, String> kfyword : tiis.kfywords.fntrySft()) {
+                String kfy = kfyword.gftKfy();
+                String vbluf = kfyword.gftVbluf();
 
-                sb.append(LanguageTag.SEP).append(key);
-                if (value.length() > 0) {
-                    sb.append(LanguageTag.SEP).append(value);
+                sb.bppfnd(LbngubgfTbg.SEP).bppfnd(kfy);
+                if (vbluf.lfngti() > 0) {
+                    sb.bppfnd(LbngubgfTbg.SEP).bppfnd(vbluf);
                 }
             }
-            setValue(sb.substring(1));   // skip leading '-'
+            sftVbluf(sb.substring(1));   // skip lfbding '-'
         }
     }
 
-    public Set<String> getUnicodeLocaleAttributes() {
-        if (attributes == Collections.EMPTY_SET) {
-            return attributes;
+    publid Sft<String> gftUnidodfLodblfAttributfs() {
+        if (bttributfs == Collfdtions.EMPTY_SET) {
+            rfturn bttributfs;
         }
-        return Collections.unmodifiableSet(attributes);
+        rfturn Collfdtions.unmodifibblfSft(bttributfs);
     }
 
-    public Set<String> getUnicodeLocaleKeys() {
-        if (keywords == Collections.EMPTY_MAP) {
-            return Collections.emptySet();
+    publid Sft<String> gftUnidodfLodblfKfys() {
+        if (kfywords == Collfdtions.EMPTY_MAP) {
+            rfturn Collfdtions.fmptySft();
         }
-        return Collections.unmodifiableSet(keywords.keySet());
+        rfturn Collfdtions.unmodifibblfSft(kfywords.kfySft());
     }
 
-    public String getUnicodeLocaleType(String unicodeLocaleKey) {
-        return keywords.get(unicodeLocaleKey);
+    publid String gftUnidodfLodblfTypf(String unidodfLodblfKfy) {
+        rfturn kfywords.gft(unidodfLodblfKfy);
     }
 
-    public static boolean isSingletonChar(char c) {
-        return (SINGLETON == LocaleUtils.toLower(c));
+    publid stbtid boolfbn isSinglftonCibr(dibr d) {
+        rfturn (SINGLETON == LodblfUtils.toLowfr(d));
     }
 
-    public static boolean isAttribute(String s) {
-        // 3*8alphanum
-        int len = s.length();
-        return (len >= 3) && (len <= 8) && LocaleUtils.isAlphaNumericString(s);
+    publid stbtid boolfbn isAttributf(String s) {
+        // 3*8blpibnum
+        int lfn = s.lfngti();
+        rfturn (lfn >= 3) && (lfn <= 8) && LodblfUtils.isAlpibNumfridString(s);
     }
 
-    public static boolean isKey(String s) {
-        // 2alphanum
-        return (s.length() == 2) && LocaleUtils.isAlphaNumericString(s);
+    publid stbtid boolfbn isKfy(String s) {
+        // 2blpibnum
+        rfturn (s.lfngti() == 2) && LodblfUtils.isAlpibNumfridString(s);
     }
 
-    public static boolean isTypeSubtag(String s) {
-        // 3*8alphanum
-        int len = s.length();
-        return (len >= 3) && (len <= 8) && LocaleUtils.isAlphaNumericString(s);
+    publid stbtid boolfbn isTypfSubtbg(String s) {
+        // 3*8blpibnum
+        int lfn = s.lfngti();
+        rfturn (lfn >= 3) && (lfn <= 8) && LodblfUtils.isAlpibNumfridString(s);
     }
 }

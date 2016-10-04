@@ -1,81 +1,81 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * This class is a simple holder for a key pair (a public key and a
- * private key). It does not enforce any security, and, when initialized,
- * should be treated like a PrivateKey.
+ * Tiis dlbss is b simplf ioldfr for b kfy pbir (b publid kfy bnd b
+ * privbtf kfy). It dofs not fnfordf bny sfdurity, bnd, wifn initiblizfd,
+ * siould bf trfbtfd likf b PrivbtfKfy.
  *
- * @see PublicKey
- * @see PrivateKey
+ * @sff PublidKfy
+ * @sff PrivbtfKfy
  *
- * @author Benjamin Renaud
+ * @butior Bfnjbmin Rfnbud
  */
 
-public final class KeyPair implements java.io.Serializable {
+publid finbl dlbss KfyPbir implfmfnts jbvb.io.Sfriblizbblf {
 
-    private static final long serialVersionUID = -7565189502268009837L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -7565189502268009837L;
 
-    private PrivateKey privateKey;
-    private PublicKey publicKey;
+    privbtf PrivbtfKfy privbtfKfy;
+    privbtf PublidKfy publidKfy;
 
     /**
-     * Constructs a key pair from the given public key and private key.
+     * Construdts b kfy pbir from tif givfn publid kfy bnd privbtf kfy.
      *
-     * <p>Note that this constructor only stores references to the public
-     * and private key components in the generated key pair. This is safe,
-     * because {@code Key} objects are immutable.
+     * <p>Notf tibt tiis donstrudtor only storfs rfffrfndfs to tif publid
+     * bnd privbtf kfy domponfnts in tif gfnfrbtfd kfy pbir. Tiis is sbff,
+     * bfdbusf {@dodf Kfy} objfdts brf immutbblf.
      *
-     * @param publicKey the public key.
+     * @pbrbm publidKfy tif publid kfy.
      *
-     * @param privateKey the private key.
+     * @pbrbm privbtfKfy tif privbtf kfy.
      */
-    public KeyPair(PublicKey publicKey, PrivateKey privateKey) {
-        this.publicKey = publicKey;
-        this.privateKey = privateKey;
+    publid KfyPbir(PublidKfy publidKfy, PrivbtfKfy privbtfKfy) {
+        tiis.publidKfy = publidKfy;
+        tiis.privbtfKfy = privbtfKfy;
     }
 
     /**
-     * Returns a reference to the public key component of this key pair.
+     * Rfturns b rfffrfndf to tif publid kfy domponfnt of tiis kfy pbir.
      *
-     * @return a reference to the public key.
+     * @rfturn b rfffrfndf to tif publid kfy.
      */
-    public PublicKey getPublic() {
-        return publicKey;
+    publid PublidKfy gftPublid() {
+        rfturn publidKfy;
     }
 
      /**
-     * Returns a reference to the private key component of this key pair.
+     * Rfturns b rfffrfndf to tif privbtf kfy domponfnt of tiis kfy pbir.
      *
-     * @return a reference to the private key.
+     * @rfturn b rfffrfndf to tif privbtf kfy.
      */
-   public PrivateKey getPrivate() {
-        return privateKey;
+   publid PrivbtfKfy gftPrivbtf() {
+        rfturn privbtfKfy;
     }
 }

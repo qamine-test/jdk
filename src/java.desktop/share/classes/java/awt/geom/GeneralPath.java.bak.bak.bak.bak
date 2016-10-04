@@ -1,0 +1,127 @@
+/*
+ * Copyright (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.gfom;
+
+import jbvb.bwt.Shbpf;
+
+/**
+ * Thf {@dodf GfnfrblPbth} dlbss rfprfsfnts b gfomftrid pbth
+ * donstrudtfd from strbight linfs, bnd qubdrbtid bnd dubid
+ * (B&fbdutf;zifr) durvfs.  It dbn dontbin multiplf subpbths.
+ * <p>
+ * {@dodf GfnfrblPbth} is b lfgbdy finbl dlbss whidh fxbdtly
+ * implfmfnts thf bfhbvior of its supfrdlbss {@link Pbth2D.Flobt}.
+ * Togfthfr with {@link Pbth2D.Doublf}, thf {@link Pbth2D} dlbssfs
+ * providf full implfmfntbtions of b gfnfrbl gfomftrid pbth thbt
+ * support bll of thf fundtionblity of thf {@link Shbpf} bnd
+ * {@link PbthItfrbtor} intfrfbdfs with thf bbility to fxpliditly
+ * sflfdt difffrfnt lfvfls of intfrnbl doordinbtf prfdision.
+ * <p>
+ * Usf {@dodf Pbth2D.Flobt} (or this lfgbdy {@dodf GfnfrblPbth}
+ * subdlbss) whfn dfbling with dbtb thbt dbn bf rfprfsfntfd
+ * bnd usfd with flobting point prfdision.  Usf {@dodf Pbth2D.Doublf}
+ * for dbtb thbt rfquirfs thf bddurbdy or rbngf of doublf prfdision.
+ *
+ * @buthor Jim Grbhbm
+ * @sindf 1.2
+ */
+publid finbl dlbss GfnfrblPbth fxtfnds Pbth2D.Flobt {
+    /**
+     * Construdts b nfw fmpty singlf prfdision {@dodf GfnfrblPbth} objfdt
+     * with b dffbult winding rulf of {@link #WIND_NON_ZERO}.
+     *
+     * @sindf 1.2
+     */
+    publid GfnfrblPbth() {
+        supfr(WIND_NON_ZERO, INIT_SIZE);
+    }
+
+    /**
+     * Construdts b nfw <dodf>GfnfrblPbth</dodf> objfdt with thf spfdififd
+     * winding rulf to dontrol opfrbtions thbt rfquirf thf intfrior of thf
+     * pbth to bf dffinfd.
+     *
+     * @pbrbm rulf thf winding rulf
+     * @sff #WIND_EVEN_ODD
+     * @sff #WIND_NON_ZERO
+     * @sindf 1.2
+     */
+    publid GfnfrblPbth(int rulf) {
+        supfr(rulf, INIT_SIZE);
+    }
+
+    /**
+     * Construdts b nfw <dodf>GfnfrblPbth</dodf> objfdt with thf spfdififd
+     * winding rulf bnd thf spfdififd initibl dbpbdity to storf pbth
+     * doordinbtfs.
+     * This numbfr is bn initibl gufss bs to how mbny pbth sfgmfnts
+     * will bf bddfd to thf pbth, but thf storbgf is fxpbndfd bs
+     * nffdfd to storf whbtfvfr pbth sfgmfnts brf bddfd.
+     *
+     * @pbrbm rulf thf winding rulf
+     * @pbrbm initiblCbpbdity thf fstimbtf for thf numbfr of pbth sfgmfnts
+     *                        in thf pbth
+     * @sff #WIND_EVEN_ODD
+     * @sff #WIND_NON_ZERO
+     * @sindf 1.2
+     */
+    publid GfnfrblPbth(int rulf, int initiblCbpbdity) {
+        supfr(rulf, initiblCbpbdity);
+    }
+
+    /**
+     * Construdts b nfw <dodf>GfnfrblPbth</dodf> objfdt from bn brbitrbry
+     * {@link Shbpf} objfdt.
+     * All of thf initibl gfomftry bnd thf winding rulf for this pbth brf
+     * tbkfn from thf spfdififd <dodf>Shbpf</dodf> objfdt.
+     *
+     * @pbrbm s thf spfdififd <dodf>Shbpf</dodf> objfdt
+     * @sindf 1.2
+     */
+    publid GfnfrblPbth(Shbpf s) {
+        supfr(s, null);
+    }
+
+    GfnfrblPbth(int windingRulf,
+                bytf[] pointTypfs,
+                int numTypfs,
+                flobt[] pointCoords,
+                int numCoords)
+    {
+        // usfd to donstrudt from nbtivf
+
+        this.windingRulf = windingRulf;
+        this.pointTypfs = pointTypfs;
+        this.numTypfs = numTypfs;
+        this.flobtCoords = pointCoords;
+        this.numCoords = numCoords;
+    }
+
+    /*
+     * JDK 1.6 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -8327096662768731142L;
+}

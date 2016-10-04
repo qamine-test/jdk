@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 1999, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming;
+pbdkbgf jbvbx.nbming;
 
 /**
-  * This class represents a Reference whose contents is a name, called the link name,
-  * that is bound to an atomic name in a context.
+  * Tiis dlbss rfprfsfnts b Rfffrfndf wiosf dontfnts is b nbmf, dbllfd tif link nbmf,
+  * tibt is bound to bn btomid nbmf in b dontfxt.
   *<p>
-  * The name is a URL, or a name to be resolved relative to the initial
-  * context, or if the first character of the name is ".", the name
-  * is relative to the context in which the link is bound.
+  * Tif nbmf is b URL, or b nbmf to bf rfsolvfd rflbtivf to tif initibl
+  * dontfxt, or if tif first dibrbdtfr of tif nbmf is ".", tif nbmf
+  * is rflbtivf to tif dontfxt in wiidi tif link is bound.
   *<p>
-  * Normal resolution of names in context operations always follow links.
-  * Resolution of the link name itself may cause resolution to pass through
-  * other  links. This gives rise to the possibility of a cycle of links whose
-  * resolution could not terminate normally. As a simple means to avoid such
-  * non-terminating resolutions, service providers may define limits on the
-  * number of links that may be involved in any single operation invoked
-  * by the caller.
+  * Normbl rfsolution of nbmfs in dontfxt opfrbtions blwbys follow links.
+  * Rfsolution of tif link nbmf itsflf mby dbusf rfsolution to pbss tirougi
+  * otifr  links. Tiis givfs risf to tif possibility of b dydlf of links wiosf
+  * rfsolution dould not tfrminbtf normblly. As b simplf mfbns to bvoid sudi
+  * non-tfrminbting rfsolutions, sfrvidf providfrs mby dffinf limits on tif
+  * numbfr of links tibt mby bf involvfd in bny singlf opfrbtion invokfd
+  * by tif dbllfr.
   *<p>
-  * A LinkRef contains a single StringRefAddr, whose type is "LinkAddress",
-  * and whose contents is the link name. The class name field of the
-  * Reference is that of this (LinkRef) class.
+  * A LinkRff dontbins b singlf StringRffAddr, wiosf typf is "LinkAddrfss",
+  * bnd wiosf dontfnts is tif link nbmf. Tif dlbss nbmf fifld of tif
+  * Rfffrfndf is tibt of tiis (LinkRff) dlbss.
   *<p>
-  * LinkRef is bound to a name using the normal Context.bind()/rebind(), and
-  * DirContext.bind()/rebind(). Context.lookupLink() is used to retrieve the link
-  * itself if the terminal atomic name is bound to a link.
+  * LinkRff is bound to b nbmf using tif normbl Contfxt.bind()/rfbind(), bnd
+  * DirContfxt.bind()/rfbind(). Contfxt.lookupLink() is usfd to rftrifvf tif link
+  * itsflf if tif tfrminbl btomid nbmf is bound to b link.
   *<p>
-  * Many naming systems support a native notion of link that may be used
-  * within the naming system itself. JNDI does not specify whether
-  * there is any relationship between such native links and JNDI links.
+  * Mbny nbming systfms support b nbtivf notion of link tibt mby bf usfd
+  * witiin tif nbming systfm itsflf. JNDI dofs not spfdify wiftifr
+  * tifrf is bny rflbtionsiip bftwffn sudi nbtivf links bnd JNDI links.
   *<p>
-  * A LinkRef instance is not synchronized against concurrent access by multiple
-  * threads. Threads that need to access a LinkRef instance concurrently should
-  * synchronize amongst themselves and provide the necessary locking.
+  * A LinkRff instbndf is not syndironizfd bgbinst dondurrfnt bddfss by multiplf
+  * tirfbds. Tirfbds tibt nffd to bddfss b LinkRff instbndf dondurrfntly siould
+  * syndironizf bmongst tifmsflvfs bnd providf tif nfdfssbry lodking.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
   *
-  * @see LinkException
-  * @see LinkLoopException
-  * @see MalformedLinkException
-  * @see Context#lookupLink
-  * @since 1.3
+  * @sff LinkExdfption
+  * @sff LinkLoopExdfption
+  * @sff MblformfdLinkExdfption
+  * @sff Contfxt#lookupLink
+  * @sindf 1.3
   */
 
   /*<p>
-  * The serialized form of a LinkRef object consists of the serialized
-  * fields of its Reference superclass.
+  * Tif sfriblizfd form of b LinkRff objfdt donsists of tif sfriblizfd
+  * fiflds of its Rfffrfndf supfrdlbss.
   */
 
-public class LinkRef extends Reference {
-    /* code for link handling */
-    static final String linkClassName = LinkRef.class.getName();
-    static final String linkAddrType = "LinkAddress";
+publid dlbss LinkRff fxtfnds Rfffrfndf {
+    /* dodf for link ibndling */
+    stbtid finbl String linkClbssNbmf = LinkRff.dlbss.gftNbmf();
+    stbtid finbl String linkAddrTypf = "LinkAddrfss";
 
     /**
-      * Constructs a LinkRef for a name.
-      * @param linkName The non-null name for which to create this link.
+      * Construdts b LinkRff for b nbmf.
+      * @pbrbm linkNbmf Tif non-null nbmf for wiidi to drfbtf tiis link.
       */
-    public LinkRef(Name linkName) {
-        super(linkClassName, new StringRefAddr(linkAddrType, linkName.toString()));
+    publid LinkRff(Nbmf linkNbmf) {
+        supfr(linkClbssNbmf, nfw StringRffAddr(linkAddrTypf, linkNbmf.toString()));
     }
 
     /**
-      * Constructs a LinkRef for a string name.
-      * @param linkName The non-null name for which to create this link.
+      * Construdts b LinkRff for b string nbmf.
+      * @pbrbm linkNbmf Tif non-null nbmf for wiidi to drfbtf tiis link.
       */
-    public LinkRef(String linkName) {
-        super(linkClassName, new StringRefAddr(linkAddrType, linkName));
+    publid LinkRff(String linkNbmf) {
+        supfr(linkClbssNbmf, nfw StringRffAddr(linkAddrTypf, linkNbmf));
     }
 
     /**
-      * Retrieves the name of this link.
+      * Rftrifvfs tif nbmf of tiis link.
       *
-      * @return The non-null name of this link.
-      * @exception MalformedLinkException If a link name could not be extracted
-      * @exception NamingException If a naming exception was encountered.
+      * @rfturn Tif non-null nbmf of tiis link.
+      * @fxdfption MblformfdLinkExdfption If b link nbmf dould not bf fxtrbdtfd
+      * @fxdfption NbmingExdfption If b nbming fxdfption wbs fndountfrfd.
       */
-    public String getLinkName() throws NamingException {
-        if (className != null && className.equals(linkClassName)) {
-            RefAddr addr = get(linkAddrType);
-            if (addr != null && addr instanceof StringRefAddr) {
-                return (String)((StringRefAddr)addr).getContent();
+    publid String gftLinkNbmf() tirows NbmingExdfption {
+        if (dlbssNbmf != null && dlbssNbmf.fqubls(linkClbssNbmf)) {
+            RffAddr bddr = gft(linkAddrTypf);
+            if (bddr != null && bddr instbndfof StringRffAddr) {
+                rfturn (String)((StringRffAddr)bddr).gftContfnt();
             }
         }
-        throw new MalformedLinkException();
+        tirow nfw MblformfdLinkExdfption();
     }
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    private static final long serialVersionUID = -5386290613498931298L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5386290613498931298L;
 }

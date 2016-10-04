@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.krb5;
+pbdkbgf sun.sfdurity.jgss.krb5;
 
-import javax.security.auth.kerberos.KerberosTicket;
-import javax.security.auth.kerberos.KerberosKey;
-import javax.security.auth.Subject;
-import javax.security.auth.DestroyFailedException;
-import java.util.Iterator;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import javax.security.auth.kerberos.KerberosPrincipal;
-import javax.security.auth.kerberos.KeyTab;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosTidkft;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosKfy;
+import jbvbx.sfdurity.buti.Subjfdt;
+import jbvbx.sfdurity.buti.DfstroyFbilfdExdfption;
+import jbvb.util.Itfrbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import jbvb.util.Sft;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosPrindipbl;
+import jbvbx.sfdurity.buti.kfrbfros.KfyTbb;
 
 /**
- * This utility looks through the current Subject and retrieves private
- * credentials for the desired client/server principals.
+ * Tiis utility looks tirougi tif durrfnt Subjfdt bnd rftrifvfs privbtf
+ * drfdfntibls for tif dfsirfd dlifnt/sfrvfr prindipbls.
  *
- * @author Ram Marti
- * @since 1.4.2
+ * @butior Rbm Mbrti
+ * @sindf 1.4.2
  */
 
-class SubjectComber {
+dlbss SubjfdtCombfr {
 
-    private static final boolean DEBUG = Krb5Util.DEBUG;
+    privbtf stbtid finbl boolfbn DEBUG = Krb5Util.DEBUG;
 
     /**
-     * Default constructor
+     * Dffbult donstrudtor
      */
-    private SubjectComber() {  // Cannot create one of these
+    privbtf SubjfdtCombfr() {  // Cbnnot drfbtf onf of tifsf
     }
 
-    static <T> T find(Subject subject, String serverPrincipal,
-        String clientPrincipal, Class<T> credClass) {
+    stbtid <T> T find(Subjfdt subjfdt, String sfrvfrPrindipbl,
+        String dlifntPrindipbl, Clbss<T> drfdClbss) {
 
-        // findAux returns T if oneOnly.
-        return credClass.cast(findAux(subject, serverPrincipal,
-                                      clientPrincipal, credClass, true));
+        // findAux rfturns T if onfOnly.
+        rfturn drfdClbss.dbst(findAux(subjfdt, sfrvfrPrindipbl,
+                                      dlifntPrindipbl, drfdClbss, truf));
     }
 
-    @SuppressWarnings("unchecked") // findAux returns List<T> if !oneOnly.
-    static <T> List<T> findMany(Subject subject, String serverPrincipal,
-        String clientPrincipal, Class<T> credClass) {
+    @SupprfssWbrnings("undifdkfd") // findAux rfturns List<T> if !onfOnly.
+    stbtid <T> List<T> findMbny(Subjfdt subjfdt, String sfrvfrPrindipbl,
+        String dlifntPrindipbl, Clbss<T> drfdClbss) {
 
-        return (List<T>)findAux(subject, serverPrincipal, clientPrincipal,
-            credClass, false);
+        rfturn (List<T>)findAux(subjfdt, sfrvfrPrindipbl, dlifntPrindipbl,
+            drfdClbss, fblsf);
     }
 
     /**
-     * Find private credentials for the specified client/server principals
-     * in the subject. Returns null if the subject is null.
+     * Find privbtf drfdfntibls for tif spfdififd dlifnt/sfrvfr prindipbls
+     * in tif subjfdt. Rfturns null if tif subjfdt is null.
      *
-     * @return the private credentials
+     * @rfturn tif privbtf drfdfntibls
      */
-    // Returns T if oneOnly and List<T> if !oneOnly.
-    private static <T> Object findAux(Subject subject, String serverPrincipal,
-        String clientPrincipal, Class<T> credClass, boolean oneOnly) {
+    // Rfturns T if onfOnly bnd List<T> if !onfOnly.
+    privbtf stbtid <T> Objfdt findAux(Subjfdt subjfdt, String sfrvfrPrindipbl,
+        String dlifntPrindipbl, Clbss<T> drfdClbss, boolfbn onfOnly) {
 
-        if (subject == null) {
-            return null;
-        } else {
-            List<T> answer = (oneOnly ? null : new ArrayList<T>());
+        if (subjfdt == null) {
+            rfturn null;
+        } flsf {
+            List<T> bnswfr = (onfOnly ? null : nfw ArrbyList<T>());
 
-            if (credClass == KeyTab.class) {
-                Iterator<KeyTab> iterator =
-                    subject.getPrivateCredentials(KeyTab.class).iterator();
-                while (iterator.hasNext()) {
-                    KeyTab t = iterator.next();
-                    if (serverPrincipal != null && t.isBound()) {
-                        KerberosPrincipal name = t.getPrincipal();
-                        if (name != null) {
-                            if (!serverPrincipal.equals(name.getName())) {
-                                continue;
+            if (drfdClbss == KfyTbb.dlbss) {
+                Itfrbtor<KfyTbb> itfrbtor =
+                    subjfdt.gftPrivbtfCrfdfntibls(KfyTbb.dlbss).itfrbtor();
+                wiilf (itfrbtor.ibsNfxt()) {
+                    KfyTbb t = itfrbtor.nfxt();
+                    if (sfrvfrPrindipbl != null && t.isBound()) {
+                        KfrbfrosPrindipbl nbmf = t.gftPrindipbl();
+                        if (nbmf != null) {
+                            if (!sfrvfrPrindipbl.fqubls(nbmf.gftNbmf())) {
+                                dontinuf;
                             }
-                        } else {
-                            // legacy bound keytab. although we don't know who
-                            // the bound principal is, it must be in allPrincs
-                            boolean found = false;
-                            for (KerberosPrincipal princ:
-                                    subject.getPrincipals(KerberosPrincipal.class)) {
-                                if (princ.getName().equals(serverPrincipal)) {
-                                    found = true;
-                                    break;
+                        } flsf {
+                            // lfgbdy bound kfytbb. bltiougi wf don't know wio
+                            // tif bound prindipbl is, it must bf in bllPrinds
+                            boolfbn found = fblsf;
+                            for (KfrbfrosPrindipbl prind:
+                                    subjfdt.gftPrindipbls(KfrbfrosPrindipbl.dlbss)) {
+                                if (prind.gftNbmf().fqubls(sfrvfrPrindipbl)) {
+                                    found = truf;
+                                    brfbk;
                                 }
                             }
-                            if (!found) continue;
+                            if (!found) dontinuf;
                         }
                     }
-                    // Check passed, we can add now
+                    // Cifdk pbssfd, wf dbn bdd now
                     if (DEBUG) {
-                        System.out.println("Found " + credClass.getSimpleName()
+                        Systfm.out.println("Found " + drfdClbss.gftSimplfNbmf()
                                 + " " + t);
                     }
-                    if (oneOnly) {
-                        return t;
-                    } else {
-                        answer.add(credClass.cast(t));
+                    if (onfOnly) {
+                        rfturn t;
+                    } flsf {
+                        bnswfr.bdd(drfdClbss.dbst(t));
                     }
                 }
-            } else if (credClass == KerberosKey.class) {
-                // We are looking for credentials for the serverPrincipal
-                Iterator<KerberosKey> iterator =
-                    subject.getPrivateCredentials(KerberosKey.class).iterator();
-                while (iterator.hasNext()) {
-                    KerberosKey t = iterator.next();
-                    String name = t.getPrincipal().getName();
-                    if (serverPrincipal == null || serverPrincipal.equals(name)) {
+            } flsf if (drfdClbss == KfrbfrosKfy.dlbss) {
+                // Wf brf looking for drfdfntibls for tif sfrvfrPrindipbl
+                Itfrbtor<KfrbfrosKfy> itfrbtor =
+                    subjfdt.gftPrivbtfCrfdfntibls(KfrbfrosKfy.dlbss).itfrbtor();
+                wiilf (itfrbtor.ibsNfxt()) {
+                    KfrbfrosKfy t = itfrbtor.nfxt();
+                    String nbmf = t.gftPrindipbl().gftNbmf();
+                    if (sfrvfrPrindipbl == null || sfrvfrPrindipbl.fqubls(nbmf)) {
                          if (DEBUG) {
-                             System.out.println("Found " +
-                                     credClass.getSimpleName() + " for " + name);
+                             Systfm.out.println("Found " +
+                                     drfdClbss.gftSimplfNbmf() + " for " + nbmf);
                          }
-                         if (oneOnly) {
-                             return t;
-                         } else {
-                             answer.add(credClass.cast(t));
+                         if (onfOnly) {
+                             rfturn t;
+                         } flsf {
+                             bnswfr.bdd(drfdClbss.dbst(t));
                          }
                     }
                 }
-            } else if (credClass == KerberosTicket.class) {
-                // we are looking for a KerberosTicket credentials
-                // for client-service principal pair
-                Set<Object> pcs = subject.getPrivateCredentials();
-                synchronized (pcs) {
-                    Iterator<Object> iterator = pcs.iterator();
-                    while (iterator.hasNext()) {
-                        Object obj = iterator.next();
-                        if (obj instanceof KerberosTicket) {
-                            @SuppressWarnings("unchecked")
-                            KerberosTicket ticket = (KerberosTicket)obj;
+            } flsf if (drfdClbss == KfrbfrosTidkft.dlbss) {
+                // wf brf looking for b KfrbfrosTidkft drfdfntibls
+                // for dlifnt-sfrvidf prindipbl pbir
+                Sft<Objfdt> pds = subjfdt.gftPrivbtfCrfdfntibls();
+                syndironizfd (pds) {
+                    Itfrbtor<Objfdt> itfrbtor = pds.itfrbtor();
+                    wiilf (itfrbtor.ibsNfxt()) {
+                        Objfdt obj = itfrbtor.nfxt();
+                        if (obj instbndfof KfrbfrosTidkft) {
+                            @SupprfssWbrnings("undifdkfd")
+                            KfrbfrosTidkft tidkft = (KfrbfrosTidkft)obj;
                             if (DEBUG) {
-                                System.out.println("Found ticket for "
-                                                    + ticket.getClient()
+                                Systfm.out.println("Found tidkft for "
+                                                    + tidkft.gftClifnt()
                                                     + " to go to "
-                                                    + ticket.getServer()
-                                                    + " expiring on "
-                                                    + ticket.getEndTime());
+                                                    + tidkft.gftSfrvfr()
+                                                    + " fxpiring on "
+                                                    + tidkft.gftEndTimf());
                             }
-                            if (!ticket.isCurrent()) {
-                                // let us remove the ticket from the Subject
-                                // Note that both TGT and service ticket will be
-                                // removed  upon expiration
-                                if (!subject.isReadOnly()) {
-                                    iterator.remove();
+                            if (!tidkft.isCurrfnt()) {
+                                // lft us rfmovf tif tidkft from tif Subjfdt
+                                // Notf tibt boti TGT bnd sfrvidf tidkft will bf
+                                // rfmovfd  upon fxpirbtion
+                                if (!subjfdt.isRfbdOnly()) {
+                                    itfrbtor.rfmovf();
                                     try {
-                                        ticket.destroy();
+                                        tidkft.dfstroy();
                                         if (DEBUG) {
-                                            System.out.println("Removed and destroyed "
-                                                        + "the expired Ticket \n"
-                                                        + ticket);
+                                            Systfm.out.println("Rfmovfd bnd dfstroyfd "
+                                                        + "tif fxpirfd Tidkft \n"
+                                                        + tidkft);
 
                                         }
-                                    } catch (DestroyFailedException dfe) {
+                                    } dbtdi (DfstroyFbilfdExdfption dff) {
                                         if (DEBUG) {
-                                            System.out.println("Expired ticket not" +
-                                                    " detroyed successfully. " + dfe);
+                                            Systfm.out.println("Expirfd tidkft not" +
+                                                    " dftroyfd suddfssfully. " + dff);
                                         }
                                     }
 
                                 }
-                            } else {
-                                if (serverPrincipal == null ||
-                                    ticket.getServer().getName().equals(serverPrincipal))  {
+                            } flsf {
+                                if (sfrvfrPrindipbl == null ||
+                                    tidkft.gftSfrvfr().gftNbmf().fqubls(sfrvfrPrindipbl))  {
 
-                                    if (clientPrincipal == null ||
-                                        clientPrincipal.equals(
-                                            ticket.getClient().getName())) {
-                                        if (oneOnly) {
-                                            return ticket;
-                                        } else {
-                                            // Record names so that tickets will
-                                            // all belong to same principals
-                                            if (clientPrincipal == null) {
-                                                clientPrincipal =
-                                                ticket.getClient().getName();
+                                    if (dlifntPrindipbl == null ||
+                                        dlifntPrindipbl.fqubls(
+                                            tidkft.gftClifnt().gftNbmf())) {
+                                        if (onfOnly) {
+                                            rfturn tidkft;
+                                        } flsf {
+                                            // Rfdord nbmfs so tibt tidkfts will
+                                            // bll bflong to sbmf prindipbls
+                                            if (dlifntPrindipbl == null) {
+                                                dlifntPrindipbl =
+                                                tidkft.gftClifnt().gftNbmf();
                                             }
-                                            if (serverPrincipal == null) {
-                                                serverPrincipal =
-                                                ticket.getServer().getName();
+                                            if (sfrvfrPrindipbl == null) {
+                                                sfrvfrPrindipbl =
+                                                tidkft.gftSfrvfr().gftNbmf();
                                             }
-                                            answer.add(credClass.cast(ticket));
+                                            bnswfr.bdd(drfdClbss.dbst(tidkft));
                                         }
                                     }
                                 }
@@ -210,7 +210,7 @@ class SubjectComber {
                     }
                 }
             }
-            return answer;
+            rfturn bnswfr;
         }
     }
 }

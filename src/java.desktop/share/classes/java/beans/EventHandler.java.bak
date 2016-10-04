@@ -1,715 +1,715 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Proxy;
-import java.lang.reflect.Method;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.lbng.rfflfdt.InvodbtionHbndlfr;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import sun.reflect.misc.MethodUtil;
-import sun.reflect.misc.ReflectUtil;
+import sun.rfflfdt.misd.MftiodUtil;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * The <code>EventHandler</code> class provides
- * support for dynamically generating event listeners whose methods
- * execute a simple statement involving an incoming event object
- * and a target object.
+ * Tif <dodf>EvfntHbndlfr</dodf> dlbss providfs
+ * support for dynbmidblly gfnfrbting fvfnt listfnfrs wiosf mftiods
+ * fxfdutf b simplf stbtfmfnt involving bn indoming fvfnt objfdt
+ * bnd b tbrgft objfdt.
  * <p>
- * The <code>EventHandler</code> class is intended to be used by interactive tools, such as
- * application builders, that allow developers to make connections between
- * beans. Typically connections are made from a user interface bean
- * (the event <em>source</em>)
- * to an application logic bean (the <em>target</em>). The most effective
- * connections of this kind isolate the application logic from the user
- * interface.  For example, the <code>EventHandler</code> for a
- * connection from a <code>JCheckBox</code> to a method
- * that accepts a boolean value can deal with extracting the state
- * of the check box and passing it directly to the method so that
- * the method is isolated from the user interface layer.
+ * Tif <dodf>EvfntHbndlfr</dodf> dlbss is intfndfd to bf usfd by intfrbdtivf tools, sudi bs
+ * bpplidbtion buildfrs, tibt bllow dfvflopfrs to mbkf donnfdtions bftwffn
+ * bfbns. Typidblly donnfdtions brf mbdf from b usfr intfrfbdf bfbn
+ * (tif fvfnt <fm>sourdf</fm>)
+ * to bn bpplidbtion logid bfbn (tif <fm>tbrgft</fm>). Tif most ffffdtivf
+ * donnfdtions of tiis kind isolbtf tif bpplidbtion logid from tif usfr
+ * intfrfbdf.  For fxbmplf, tif <dodf>EvfntHbndlfr</dodf> for b
+ * donnfdtion from b <dodf>JCifdkBox</dodf> to b mftiod
+ * tibt bddfpts b boolfbn vbluf dbn dfbl witi fxtrbdting tif stbtf
+ * of tif difdk box bnd pbssing it dirfdtly to tif mftiod so tibt
+ * tif mftiod is isolbtfd from tif usfr intfrfbdf lbyfr.
  * <p>
- * Inner classes are another, more general way to handle events from
- * user interfaces.  The <code>EventHandler</code> class
- * handles only a subset of what is possible using inner
- * classes. However, <code>EventHandler</code> works better
- * with the long-term persistence scheme than inner classes.
- * Also, using <code>EventHandler</code> in large applications in
- * which the same interface is implemented many times can
- * reduce the disk and memory footprint of the application.
+ * Innfr dlbssfs brf bnotifr, morf gfnfrbl wby to ibndlf fvfnts from
+ * usfr intfrfbdfs.  Tif <dodf>EvfntHbndlfr</dodf> dlbss
+ * ibndlfs only b subsft of wibt is possiblf using innfr
+ * dlbssfs. Howfvfr, <dodf>EvfntHbndlfr</dodf> works bfttfr
+ * witi tif long-tfrm pfrsistfndf sdifmf tibn innfr dlbssfs.
+ * Also, using <dodf>EvfntHbndlfr</dodf> in lbrgf bpplidbtions in
+ * wiidi tif sbmf intfrfbdf is implfmfntfd mbny timfs dbn
+ * rfdudf tif disk bnd mfmory footprint of tif bpplidbtion.
  * <p>
- * The reason that listeners created with <code>EventHandler</code>
- * have such a small
- * footprint is that the <code>Proxy</code> class, on which
- * the <code>EventHandler</code> relies, shares implementations
- * of identical
- * interfaces. For example, if you use
- * the <code>EventHandler</code> <code>create</code> methods to make
- * all the <code>ActionListener</code>s in an application,
- * all the action listeners will be instances of a single class
- * (one created by the <code>Proxy</code> class).
- * In general, listeners based on
- * the <code>Proxy</code> class require one listener class
- * to be created per <em>listener type</em> (interface),
- * whereas the inner class
- * approach requires one class to be created per <em>listener</em>
- * (object that implements the interface).
+ * Tif rfbson tibt listfnfrs drfbtfd witi <dodf>EvfntHbndlfr</dodf>
+ * ibvf sudi b smbll
+ * footprint is tibt tif <dodf>Proxy</dodf> dlbss, on wiidi
+ * tif <dodf>EvfntHbndlfr</dodf> rflifs, sibrfs implfmfntbtions
+ * of idfntidbl
+ * intfrfbdfs. For fxbmplf, if you usf
+ * tif <dodf>EvfntHbndlfr</dodf> <dodf>drfbtf</dodf> mftiods to mbkf
+ * bll tif <dodf>AdtionListfnfr</dodf>s in bn bpplidbtion,
+ * bll tif bdtion listfnfrs will bf instbndfs of b singlf dlbss
+ * (onf drfbtfd by tif <dodf>Proxy</dodf> dlbss).
+ * In gfnfrbl, listfnfrs bbsfd on
+ * tif <dodf>Proxy</dodf> dlbss rfquirf onf listfnfr dlbss
+ * to bf drfbtfd pfr <fm>listfnfr typf</fm> (intfrfbdf),
+ * wifrfbs tif innfr dlbss
+ * bpprobdi rfquirfs onf dlbss to bf drfbtfd pfr <fm>listfnfr</fm>
+ * (objfdt tibt implfmfnts tif intfrfbdf).
  *
  * <p>
- * You don't generally deal directly with <code>EventHandler</code>
- * instances.
- * Instead, you use one of the <code>EventHandler</code>
- * <code>create</code> methods to create
- * an object that implements a given listener interface.
- * This listener object uses an <code>EventHandler</code> object
- * behind the scenes to encapsulate information about the
- * event, the object to be sent a message when the event occurs,
- * the message (method) to be sent, and any argument
- * to the method.
- * The following section gives examples of how to create listener
- * objects using the <code>create</code> methods.
+ * You don't gfnfrblly dfbl dirfdtly witi <dodf>EvfntHbndlfr</dodf>
+ * instbndfs.
+ * Instfbd, you usf onf of tif <dodf>EvfntHbndlfr</dodf>
+ * <dodf>drfbtf</dodf> mftiods to drfbtf
+ * bn objfdt tibt implfmfnts b givfn listfnfr intfrfbdf.
+ * Tiis listfnfr objfdt usfs bn <dodf>EvfntHbndlfr</dodf> objfdt
+ * bfiind tif sdfnfs to fndbpsulbtf informbtion bbout tif
+ * fvfnt, tif objfdt to bf sfnt b mfssbgf wifn tif fvfnt oddurs,
+ * tif mfssbgf (mftiod) to bf sfnt, bnd bny brgumfnt
+ * to tif mftiod.
+ * Tif following sfdtion givfs fxbmplfs of iow to drfbtf listfnfr
+ * objfdts using tif <dodf>drfbtf</dodf> mftiods.
  *
- * <h2>Examples of Using EventHandler</h2>
+ * <i2>Exbmplfs of Using EvfntHbndlfr</i2>
  *
- * The simplest use of <code>EventHandler</code> is to install
- * a listener that calls a method on the target object with no arguments.
- * In the following example we create an <code>ActionListener</code>
- * that invokes the <code>toFront</code> method on an instance
- * of <code>javax.swing.JFrame</code>.
+ * Tif simplfst usf of <dodf>EvfntHbndlfr</dodf> is to instbll
+ * b listfnfr tibt dblls b mftiod on tif tbrgft objfdt witi no brgumfnts.
+ * In tif following fxbmplf wf drfbtf bn <dodf>AdtionListfnfr</dodf>
+ * tibt invokfs tif <dodf>toFront</dodf> mftiod on bn instbndf
+ * of <dodf>jbvbx.swing.JFrbmf</dodf>.
  *
- * <blockquote>
- *<pre>
- *myButton.addActionListener(
- *    (ActionListener)EventHandler.create(ActionListener.class, frame, "toFront"));
- *</pre>
- * </blockquote>
+ * <blodkquotf>
+ *<prf>
+ *myButton.bddAdtionListfnfr(
+ *    (AdtionListfnfr)EvfntHbndlfr.drfbtf(AdtionListfnfr.dlbss, frbmf, "toFront"));
+ *</prf>
+ * </blodkquotf>
  *
- * When <code>myButton</code> is pressed, the statement
- * <code>frame.toFront()</code> will be executed.  One could get
- * the same effect, with some additional compile-time type safety,
- * by defining a new implementation of the <code>ActionListener</code>
- * interface and adding an instance of it to the button:
+ * Wifn <dodf>myButton</dodf> is prfssfd, tif stbtfmfnt
+ * <dodf>frbmf.toFront()</dodf> will bf fxfdutfd.  Onf dould gft
+ * tif sbmf ffffdt, witi somf bdditionbl dompilf-timf typf sbffty,
+ * by dffining b nfw implfmfntbtion of tif <dodf>AdtionListfnfr</dodf>
+ * intfrfbdf bnd bdding bn instbndf of it to tif button:
  *
- * <blockquote>
- *<pre>
-//Equivalent code using an inner class instead of EventHandler.
- *myButton.addActionListener(new ActionListener() {
- *    public void actionPerformed(ActionEvent e) {
- *        frame.toFront();
+ * <blodkquotf>
+ *<prf>
+//Equivblfnt dodf using bn innfr dlbss instfbd of EvfntHbndlfr.
+ *myButton.bddAdtionListfnfr(nfw AdtionListfnfr() {
+ *    publid void bdtionPfrformfd(AdtionEvfnt f) {
+ *        frbmf.toFront();
  *    }
  *});
- *</pre>
- * </blockquote>
+ *</prf>
+ * </blodkquotf>
  *
- * The next simplest use of <code>EventHandler</code> is
- * to extract a property value from the first argument
- * of the method in the listener interface (typically an event object)
- * and use it to set the value of a property in the target object.
- * In the following example we create an <code>ActionListener</code> that
- * sets the <code>nextFocusableComponent</code> property of the target
- * (myButton) object to the value of the "source" property of the event.
+ * Tif nfxt simplfst usf of <dodf>EvfntHbndlfr</dodf> is
+ * to fxtrbdt b propfrty vbluf from tif first brgumfnt
+ * of tif mftiod in tif listfnfr intfrfbdf (typidblly bn fvfnt objfdt)
+ * bnd usf it to sft tif vbluf of b propfrty in tif tbrgft objfdt.
+ * In tif following fxbmplf wf drfbtf bn <dodf>AdtionListfnfr</dodf> tibt
+ * sfts tif <dodf>nfxtFodusbblfComponfnt</dodf> propfrty of tif tbrgft
+ * (myButton) objfdt to tif vbluf of tif "sourdf" propfrty of tif fvfnt.
  *
- * <blockquote>
- *<pre>
- *EventHandler.create(ActionListener.class, myButton, "nextFocusableComponent", "source")
- *</pre>
- * </blockquote>
+ * <blodkquotf>
+ *<prf>
+ *EvfntHbndlfr.drfbtf(AdtionListfnfr.dlbss, myButton, "nfxtFodusbblfComponfnt", "sourdf")
+ *</prf>
+ * </blodkquotf>
  *
- * This would correspond to the following inner class implementation:
+ * Tiis would dorrfspond to tif following innfr dlbss implfmfntbtion:
  *
- * <blockquote>
- *<pre>
-//Equivalent code using an inner class instead of EventHandler.
- *new ActionListener() {
- *    public void actionPerformed(ActionEvent e) {
- *        myButton.setNextFocusableComponent((Component)e.getSource());
+ * <blodkquotf>
+ *<prf>
+//Equivblfnt dodf using bn innfr dlbss instfbd of EvfntHbndlfr.
+ *nfw AdtionListfnfr() {
+ *    publid void bdtionPfrformfd(AdtionEvfnt f) {
+ *        myButton.sftNfxtFodusbblfComponfnt((Componfnt)f.gftSourdf());
  *    }
  *}
- *</pre>
- * </blockquote>
+ *</prf>
+ * </blodkquotf>
  *
- * It's also possible to create an <code>EventHandler</code> that
- * just passes the incoming event object to the target's action.
- * If the fourth <code>EventHandler.create</code> argument is
- * an empty string, then the event is just passed along:
+ * It's blso possiblf to drfbtf bn <dodf>EvfntHbndlfr</dodf> tibt
+ * just pbssfs tif indoming fvfnt objfdt to tif tbrgft's bdtion.
+ * If tif fourti <dodf>EvfntHbndlfr.drfbtf</dodf> brgumfnt is
+ * bn fmpty string, tifn tif fvfnt is just pbssfd blong:
  *
- * <blockquote>
- *<pre>
- *EventHandler.create(ActionListener.class, target, "doActionEvent", "")
- *</pre>
- * </blockquote>
+ * <blodkquotf>
+ *<prf>
+ *EvfntHbndlfr.drfbtf(AdtionListfnfr.dlbss, tbrgft, "doAdtionEvfnt", "")
+ *</prf>
+ * </blodkquotf>
  *
- * This would correspond to the following inner class implementation:
+ * Tiis would dorrfspond to tif following innfr dlbss implfmfntbtion:
  *
- * <blockquote>
- *<pre>
-//Equivalent code using an inner class instead of EventHandler.
- *new ActionListener() {
- *    public void actionPerformed(ActionEvent e) {
- *        target.doActionEvent(e);
+ * <blodkquotf>
+ *<prf>
+//Equivblfnt dodf using bn innfr dlbss instfbd of EvfntHbndlfr.
+ *nfw AdtionListfnfr() {
+ *    publid void bdtionPfrformfd(AdtionEvfnt f) {
+ *        tbrgft.doAdtionEvfnt(f);
  *    }
  *}
- *</pre>
- * </blockquote>
+ *</prf>
+ * </blodkquotf>
  *
- * Probably the most common use of <code>EventHandler</code>
- * is to extract a property value from the
- * <em>source</em> of the event object and set this value as
- * the value of a property of the target object.
- * In the following example we create an <code>ActionListener</code> that
- * sets the "label" property of the target
- * object to the value of the "text" property of the
- * source (the value of the "source" property) of the event.
+ * Probbbly tif most dommon usf of <dodf>EvfntHbndlfr</dodf>
+ * is to fxtrbdt b propfrty vbluf from tif
+ * <fm>sourdf</fm> of tif fvfnt objfdt bnd sft tiis vbluf bs
+ * tif vbluf of b propfrty of tif tbrgft objfdt.
+ * In tif following fxbmplf wf drfbtf bn <dodf>AdtionListfnfr</dodf> tibt
+ * sfts tif "lbbfl" propfrty of tif tbrgft
+ * objfdt to tif vbluf of tif "tfxt" propfrty of tif
+ * sourdf (tif vbluf of tif "sourdf" propfrty) of tif fvfnt.
  *
- * <blockquote>
- *<pre>
- *EventHandler.create(ActionListener.class, myButton, "label", "source.text")
- *</pre>
- * </blockquote>
+ * <blodkquotf>
+ *<prf>
+ *EvfntHbndlfr.drfbtf(AdtionListfnfr.dlbss, myButton, "lbbfl", "sourdf.tfxt")
+ *</prf>
+ * </blodkquotf>
  *
- * This would correspond to the following inner class implementation:
+ * Tiis would dorrfspond to tif following innfr dlbss implfmfntbtion:
  *
- * <blockquote>
- *<pre>
-//Equivalent code using an inner class instead of EventHandler.
- *new ActionListener {
- *    public void actionPerformed(ActionEvent e) {
- *        myButton.setLabel(((JTextField)e.getSource()).getText());
+ * <blodkquotf>
+ *<prf>
+//Equivblfnt dodf using bn innfr dlbss instfbd of EvfntHbndlfr.
+ *nfw AdtionListfnfr {
+ *    publid void bdtionPfrformfd(AdtionEvfnt f) {
+ *        myButton.sftLbbfl(((JTfxtFifld)f.gftSourdf()).gftTfxt());
  *    }
  *}
- *</pre>
- * </blockquote>
+ *</prf>
+ * </blodkquotf>
  *
- * The event property may be "qualified" with an arbitrary number
- * of property prefixes delimited with the "." character. The "qualifying"
- * names that appear before the "." characters are taken as the names of
- * properties that should be applied, left-most first, to
- * the event object.
+ * Tif fvfnt propfrty mby bf "qublififd" witi bn brbitrbry numbfr
+ * of propfrty prffixfs dflimitfd witi tif "." dibrbdtfr. Tif "qublifying"
+ * nbmfs tibt bppfbr bfforf tif "." dibrbdtfrs brf tbkfn bs tif nbmfs of
+ * propfrtifs tibt siould bf bpplifd, lfft-most first, to
+ * tif fvfnt objfdt.
  * <p>
- * For example, the following action listener
+ * For fxbmplf, tif following bdtion listfnfr
  *
- * <blockquote>
- *<pre>
- *EventHandler.create(ActionListener.class, target, "a", "b.c.d")
- *</pre>
- * </blockquote>
+ * <blodkquotf>
+ *<prf>
+ *EvfntHbndlfr.drfbtf(AdtionListfnfr.dlbss, tbrgft, "b", "b.d.d")
+ *</prf>
+ * </blodkquotf>
  *
- * might be written as the following inner class
- * (assuming all the properties had canonical getter methods and
- * returned the appropriate types):
+ * migit bf writtfn bs tif following innfr dlbss
+ * (bssuming bll tif propfrtifs ibd dbnonidbl gfttfr mftiods bnd
+ * rfturnfd tif bppropribtf typfs):
  *
- * <blockquote>
- *<pre>
-//Equivalent code using an inner class instead of EventHandler.
- *new ActionListener {
- *    public void actionPerformed(ActionEvent e) {
- *        target.setA(e.getB().getC().isD());
+ * <blodkquotf>
+ *<prf>
+//Equivblfnt dodf using bn innfr dlbss instfbd of EvfntHbndlfr.
+ *nfw AdtionListfnfr {
+ *    publid void bdtionPfrformfd(AdtionEvfnt f) {
+ *        tbrgft.sftA(f.gftB().gftC().isD());
  *    }
  *}
- *</pre>
- * </blockquote>
- * The target property may also be "qualified" with an arbitrary number
- * of property prefixs delimited with the "." character.  For example, the
- * following action listener:
- * <pre>
- *   EventHandler.create(ActionListener.class, target, "a.b", "c.d")
- * </pre>
- * might be written as the following inner class
- * (assuming all the properties had canonical getter methods and
- * returned the appropriate types):
- * <pre>
- *   //Equivalent code using an inner class instead of EventHandler.
- *   new ActionListener {
- *     public void actionPerformed(ActionEvent e) {
- *         target.getA().setB(e.getC().isD());
+ *</prf>
+ * </blodkquotf>
+ * Tif tbrgft propfrty mby blso bf "qublififd" witi bn brbitrbry numbfr
+ * of propfrty prffixs dflimitfd witi tif "." dibrbdtfr.  For fxbmplf, tif
+ * following bdtion listfnfr:
+ * <prf>
+ *   EvfntHbndlfr.drfbtf(AdtionListfnfr.dlbss, tbrgft, "b.b", "d.d")
+ * </prf>
+ * migit bf writtfn bs tif following innfr dlbss
+ * (bssuming bll tif propfrtifs ibd dbnonidbl gfttfr mftiods bnd
+ * rfturnfd tif bppropribtf typfs):
+ * <prf>
+ *   //Equivblfnt dodf using bn innfr dlbss instfbd of EvfntHbndlfr.
+ *   nfw AdtionListfnfr {
+ *     publid void bdtionPfrformfd(AdtionEvfnt f) {
+ *         tbrgft.gftA().sftB(f.gftC().isD());
  *    }
  *}
- *</pre>
+ *</prf>
  * <p>
- * As <code>EventHandler</code> ultimately relies on reflection to invoke
- * a method we recommend against targeting an overloaded method.  For example,
- * if the target is an instance of the class <code>MyTarget</code> which is
- * defined as:
- * <pre>
- *   public class MyTarget {
- *     public void doIt(String);
- *     public void doIt(Object);
+ * As <dodf>EvfntHbndlfr</dodf> ultimbtfly rflifs on rfflfdtion to invokf
+ * b mftiod wf rfdommfnd bgbinst tbrgfting bn ovfrlobdfd mftiod.  For fxbmplf,
+ * if tif tbrgft is bn instbndf of tif dlbss <dodf>MyTbrgft</dodf> wiidi is
+ * dffinfd bs:
+ * <prf>
+ *   publid dlbss MyTbrgft {
+ *     publid void doIt(String);
+ *     publid void doIt(Objfdt);
  *   }
- * </pre>
- * Then the method <code>doIt</code> is overloaded.  EventHandler will invoke
- * the method that is appropriate based on the source.  If the source is
- * null, then either method is appropriate and the one that is invoked is
- * undefined.  For that reason we recommend against targeting overloaded
- * methods.
+ * </prf>
+ * Tifn tif mftiod <dodf>doIt</dodf> is ovfrlobdfd.  EvfntHbndlfr will invokf
+ * tif mftiod tibt is bppropribtf bbsfd on tif sourdf.  If tif sourdf is
+ * null, tifn fitifr mftiod is bppropribtf bnd tif onf tibt is invokfd is
+ * undffinfd.  For tibt rfbson wf rfdommfnd bgbinst tbrgfting ovfrlobdfd
+ * mftiods.
  *
- * @see java.lang.reflect.Proxy
- * @see java.util.EventObject
+ * @sff jbvb.lbng.rfflfdt.Proxy
+ * @sff jbvb.util.EvfntObjfdt
  *
- * @since 1.4
+ * @sindf 1.4
  *
- * @author Mark Davidson
- * @author Philip Milne
- * @author Hans Muller
+ * @butior Mbrk Dbvidson
+ * @butior Piilip Milnf
+ * @butior Hbns Mullfr
  *
  */
-public class EventHandler implements InvocationHandler {
-    private Object target;
-    private String action;
-    private final String eventPropertyName;
-    private final String listenerMethodName;
-    private final AccessControlContext acc = AccessController.getContext();
+publid dlbss EvfntHbndlfr implfmfnts InvodbtionHbndlfr {
+    privbtf Objfdt tbrgft;
+    privbtf String bdtion;
+    privbtf finbl String fvfntPropfrtyNbmf;
+    privbtf finbl String listfnfrMftiodNbmf;
+    privbtf finbl AddfssControlContfxt bdd = AddfssControllfr.gftContfxt();
 
     /**
-     * Creates a new <code>EventHandler</code> object;
-     * you generally use one of the <code>create</code> methods
-     * instead of invoking this constructor directly.  Refer to
-     * {@link java.beans.EventHandler#create(Class, Object, String, String)
-     * the general version of create} for a complete description of
-     * the <code>eventPropertyName</code> and <code>listenerMethodName</code>
-     * parameter.
+     * Crfbtfs b nfw <dodf>EvfntHbndlfr</dodf> objfdt;
+     * you gfnfrblly usf onf of tif <dodf>drfbtf</dodf> mftiods
+     * instfbd of invoking tiis donstrudtor dirfdtly.  Rfffr to
+     * {@link jbvb.bfbns.EvfntHbndlfr#drfbtf(Clbss, Objfdt, String, String)
+     * tif gfnfrbl vfrsion of drfbtf} for b domplftf dfsdription of
+     * tif <dodf>fvfntPropfrtyNbmf</dodf> bnd <dodf>listfnfrMftiodNbmf</dodf>
+     * pbrbmftfr.
      *
-     * @param target the object that will perform the action
-     * @param action the name of a (possibly qualified) property or method on
-     *        the target
-     * @param eventPropertyName the (possibly qualified) name of a readable property of the incoming event
-     * @param listenerMethodName the name of the method in the listener interface that should trigger the action
+     * @pbrbm tbrgft tif objfdt tibt will pfrform tif bdtion
+     * @pbrbm bdtion tif nbmf of b (possibly qublififd) propfrty or mftiod on
+     *        tif tbrgft
+     * @pbrbm fvfntPropfrtyNbmf tif (possibly qublififd) nbmf of b rfbdbblf propfrty of tif indoming fvfnt
+     * @pbrbm listfnfrMftiodNbmf tif nbmf of tif mftiod in tif listfnfr intfrfbdf tibt siould triggfr tif bdtion
      *
-     * @throws NullPointerException if <code>target</code> is null
-     * @throws NullPointerException if <code>action</code> is null
+     * @tirows NullPointfrExdfption if <dodf>tbrgft</dodf> is null
+     * @tirows NullPointfrExdfption if <dodf>bdtion</dodf> is null
      *
-     * @see EventHandler
-     * @see #create(Class, Object, String, String, String)
-     * @see #getTarget
-     * @see #getAction
-     * @see #getEventPropertyName
-     * @see #getListenerMethodName
+     * @sff EvfntHbndlfr
+     * @sff #drfbtf(Clbss, Objfdt, String, String, String)
+     * @sff #gftTbrgft
+     * @sff #gftAdtion
+     * @sff #gftEvfntPropfrtyNbmf
+     * @sff #gftListfnfrMftiodNbmf
      */
-    @ConstructorProperties({"target", "action", "eventPropertyName", "listenerMethodName"})
-    public EventHandler(Object target, String action, String eventPropertyName, String listenerMethodName) {
-        this.target = target;
-        this.action = action;
-        if (target == null) {
-            throw new NullPointerException("target must be non-null");
+    @ConstrudtorPropfrtifs({"tbrgft", "bdtion", "fvfntPropfrtyNbmf", "listfnfrMftiodNbmf"})
+    publid EvfntHbndlfr(Objfdt tbrgft, String bdtion, String fvfntPropfrtyNbmf, String listfnfrMftiodNbmf) {
+        tiis.tbrgft = tbrgft;
+        tiis.bdtion = bdtion;
+        if (tbrgft == null) {
+            tirow nfw NullPointfrExdfption("tbrgft must bf non-null");
         }
-        if (action == null) {
-            throw new NullPointerException("action must be non-null");
+        if (bdtion == null) {
+            tirow nfw NullPointfrExdfption("bdtion must bf non-null");
         }
-        this.eventPropertyName = eventPropertyName;
-        this.listenerMethodName = listenerMethodName;
+        tiis.fvfntPropfrtyNbmf = fvfntPropfrtyNbmf;
+        tiis.listfnfrMftiodNbmf = listfnfrMftiodNbmf;
     }
 
     /**
-     * Returns the object to which this event handler will send a message.
+     * Rfturns tif objfdt to wiidi tiis fvfnt ibndlfr will sfnd b mfssbgf.
      *
-     * @return the target of this event handler
-     * @see #EventHandler(Object, String, String, String)
+     * @rfturn tif tbrgft of tiis fvfnt ibndlfr
+     * @sff #EvfntHbndlfr(Objfdt, String, String, String)
      */
-    public Object getTarget()  {
-        return target;
+    publid Objfdt gftTbrgft()  {
+        rfturn tbrgft;
     }
 
     /**
-     * Returns the name of the target's writable property
-     * that this event handler will set,
-     * or the name of the method that this event handler
-     * will invoke on the target.
+     * Rfturns tif nbmf of tif tbrgft's writbblf propfrty
+     * tibt tiis fvfnt ibndlfr will sft,
+     * or tif nbmf of tif mftiod tibt tiis fvfnt ibndlfr
+     * will invokf on tif tbrgft.
      *
-     * @return the action of this event handler
-     * @see #EventHandler(Object, String, String, String)
+     * @rfturn tif bdtion of tiis fvfnt ibndlfr
+     * @sff #EvfntHbndlfr(Objfdt, String, String, String)
      */
-    public String getAction()  {
-        return action;
+    publid String gftAdtion()  {
+        rfturn bdtion;
     }
 
     /**
-     * Returns the property of the event that should be
-     * used in the action applied to the target.
+     * Rfturns tif propfrty of tif fvfnt tibt siould bf
+     * usfd in tif bdtion bpplifd to tif tbrgft.
      *
-     * @return the property of the event
+     * @rfturn tif propfrty of tif fvfnt
      *
-     * @see #EventHandler(Object, String, String, String)
+     * @sff #EvfntHbndlfr(Objfdt, String, String, String)
      */
-    public String getEventPropertyName()  {
-        return eventPropertyName;
+    publid String gftEvfntPropfrtyNbmf()  {
+        rfturn fvfntPropfrtyNbmf;
     }
 
     /**
-     * Returns the name of the method that will trigger the action.
-     * A return value of <code>null</code> signifies that all methods in the
-     * listener interface trigger the action.
+     * Rfturns tif nbmf of tif mftiod tibt will triggfr tif bdtion.
+     * A rfturn vbluf of <dodf>null</dodf> signififs tibt bll mftiods in tif
+     * listfnfr intfrfbdf triggfr tif bdtion.
      *
-     * @return the name of the method that will trigger the action
+     * @rfturn tif nbmf of tif mftiod tibt will triggfr tif bdtion
      *
-     * @see #EventHandler(Object, String, String, String)
+     * @sff #EvfntHbndlfr(Objfdt, String, String, String)
      */
-    public String getListenerMethodName()  {
-        return listenerMethodName;
+    publid String gftListfnfrMftiodNbmf()  {
+        rfturn listfnfrMftiodNbmf;
     }
 
-    private Object applyGetters(Object target, String getters) {
-        if (getters == null || getters.equals("")) {
-            return target;
+    privbtf Objfdt bpplyGfttfrs(Objfdt tbrgft, String gfttfrs) {
+        if (gfttfrs == null || gfttfrs.fqubls("")) {
+            rfturn tbrgft;
         }
-        int firstDot = getters.indexOf('.');
+        int firstDot = gfttfrs.indfxOf('.');
         if (firstDot == -1) {
-            firstDot = getters.length();
+            firstDot = gfttfrs.lfngti();
         }
-        String first = getters.substring(0, firstDot);
-        String rest = getters.substring(Math.min(firstDot + 1, getters.length()));
+        String first = gfttfrs.substring(0, firstDot);
+        String rfst = gfttfrs.substring(Mbti.min(firstDot + 1, gfttfrs.lfngti()));
 
         try {
-            Method getter = null;
-            if (target != null) {
-                getter = Statement.getMethod(target.getClass(),
-                                      "get" + NameGenerator.capitalize(first),
-                                      new Class<?>[]{});
-                if (getter == null) {
-                    getter = Statement.getMethod(target.getClass(),
-                                   "is" + NameGenerator.capitalize(first),
-                                   new Class<?>[]{});
+            Mftiod gfttfr = null;
+            if (tbrgft != null) {
+                gfttfr = Stbtfmfnt.gftMftiod(tbrgft.gftClbss(),
+                                      "gft" + NbmfGfnfrbtor.dbpitblizf(first),
+                                      nfw Clbss<?>[]{});
+                if (gfttfr == null) {
+                    gfttfr = Stbtfmfnt.gftMftiod(tbrgft.gftClbss(),
+                                   "is" + NbmfGfnfrbtor.dbpitblizf(first),
+                                   nfw Clbss<?>[]{});
                 }
-                if (getter == null) {
-                    getter = Statement.getMethod(target.getClass(), first, new Class<?>[]{});
+                if (gfttfr == null) {
+                    gfttfr = Stbtfmfnt.gftMftiod(tbrgft.gftClbss(), first, nfw Clbss<?>[]{});
                 }
             }
-            if (getter == null) {
-                throw new RuntimeException("No method called: " + first +
-                                           " defined on " + target);
+            if (gfttfr == null) {
+                tirow nfw RuntimfExdfption("No mftiod dbllfd: " + first +
+                                           " dffinfd on " + tbrgft);
             }
-            Object newTarget = MethodUtil.invoke(getter, target, new Object[]{});
-            return applyGetters(newTarget, rest);
+            Objfdt nfwTbrgft = MftiodUtil.invokf(gfttfr, tbrgft, nfw Objfdt[]{});
+            rfturn bpplyGfttfrs(nfwTbrgft, rfst);
         }
-        catch (Exception e) {
-            throw new RuntimeException("Failed to call method: " + first +
-                                       " on " + target, e);
+        dbtdi (Exdfption f) {
+            tirow nfw RuntimfExdfption("Fbilfd to dbll mftiod: " + first +
+                                       " on " + tbrgft, f);
         }
     }
 
     /**
-     * Extract the appropriate property value from the event and
-     * pass it to the action associated with
-     * this <code>EventHandler</code>.
+     * Extrbdt tif bppropribtf propfrty vbluf from tif fvfnt bnd
+     * pbss it to tif bdtion bssodibtfd witi
+     * tiis <dodf>EvfntHbndlfr</dodf>.
      *
-     * @param proxy the proxy object
-     * @param method the method in the listener interface
-     * @return the result of applying the action to the target
+     * @pbrbm proxy tif proxy objfdt
+     * @pbrbm mftiod tif mftiod in tif listfnfr intfrfbdf
+     * @rfturn tif rfsult of bpplying tif bdtion to tif tbrgft
      *
-     * @see EventHandler
+     * @sff EvfntHbndlfr
      */
-    public Object invoke(final Object proxy, final Method method, final Object[] arguments) {
-        AccessControlContext acc = this.acc;
-        if ((acc == null) && (System.getSecurityManager() != null)) {
-            throw new SecurityException("AccessControlContext is not set");
+    publid Objfdt invokf(finbl Objfdt proxy, finbl Mftiod mftiod, finbl Objfdt[] brgumfnts) {
+        AddfssControlContfxt bdd = tiis.bdd;
+        if ((bdd == null) && (Systfm.gftSfdurityMbnbgfr() != null)) {
+            tirow nfw SfdurityExdfption("AddfssControlContfxt is not sft");
         }
-        return AccessController.doPrivileged(new PrivilegedAction<Object>() {
-            public Object run() {
-                return invokeInternal(proxy, method, arguments);
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+                rfturn invokfIntfrnbl(proxy, mftiod, brgumfnts);
             }
-        }, acc);
+        }, bdd);
     }
 
-    private Object invokeInternal(Object proxy, Method method, Object[] arguments) {
-        String methodName = method.getName();
-        if (method.getDeclaringClass() == Object.class)  {
-            // Handle the Object public methods.
-            if (methodName.equals("hashCode"))  {
-                return System.identityHashCode(proxy);
-            } else if (methodName.equals("equals")) {
-                return (proxy == arguments[0] ? Boolean.TRUE : Boolean.FALSE);
-            } else if (methodName.equals("toString")) {
-                return proxy.getClass().getName() + '@' + Integer.toHexString(proxy.hashCode());
+    privbtf Objfdt invokfIntfrnbl(Objfdt proxy, Mftiod mftiod, Objfdt[] brgumfnts) {
+        String mftiodNbmf = mftiod.gftNbmf();
+        if (mftiod.gftDfdlbringClbss() == Objfdt.dlbss)  {
+            // Hbndlf tif Objfdt publid mftiods.
+            if (mftiodNbmf.fqubls("ibsiCodf"))  {
+                rfturn Systfm.idfntityHbsiCodf(proxy);
+            } flsf if (mftiodNbmf.fqubls("fqubls")) {
+                rfturn (proxy == brgumfnts[0] ? Boolfbn.TRUE : Boolfbn.FALSE);
+            } flsf if (mftiodNbmf.fqubls("toString")) {
+                rfturn proxy.gftClbss().gftNbmf() + '@' + Intfgfr.toHfxString(proxy.ibsiCodf());
             }
         }
 
-        if (listenerMethodName == null || listenerMethodName.equals(methodName)) {
-            Class<?>[] argTypes = null;
-            Object[] newArgs = null;
+        if (listfnfrMftiodNbmf == null || listfnfrMftiodNbmf.fqubls(mftiodNbmf)) {
+            Clbss<?>[] brgTypfs = null;
+            Objfdt[] nfwArgs = null;
 
-            if (eventPropertyName == null) {     // Nullary method.
-                newArgs = new Object[]{};
-                argTypes = new Class<?>[]{};
+            if (fvfntPropfrtyNbmf == null) {     // Nullbry mftiod.
+                nfwArgs = nfw Objfdt[]{};
+                brgTypfs = nfw Clbss<?>[]{};
             }
-            else {
-                Object input = applyGetters(arguments[0], getEventPropertyName());
-                newArgs = new Object[]{input};
-                argTypes = new Class<?>[]{input == null ? null :
-                                       input.getClass()};
+            flsf {
+                Objfdt input = bpplyGfttfrs(brgumfnts[0], gftEvfntPropfrtyNbmf());
+                nfwArgs = nfw Objfdt[]{input};
+                brgTypfs = nfw Clbss<?>[]{input == null ? null :
+                                       input.gftClbss()};
             }
             try {
-                int lastDot = action.lastIndexOf('.');
-                if (lastDot != -1) {
-                    target = applyGetters(target, action.substring(0, lastDot));
-                    action = action.substring(lastDot + 1);
+                int lbstDot = bdtion.lbstIndfxOf('.');
+                if (lbstDot != -1) {
+                    tbrgft = bpplyGfttfrs(tbrgft, bdtion.substring(0, lbstDot));
+                    bdtion = bdtion.substring(lbstDot + 1);
                 }
-                Method targetMethod = Statement.getMethod(
-                             target.getClass(), action, argTypes);
-                if (targetMethod == null) {
-                    targetMethod = Statement.getMethod(target.getClass(),
-                             "set" + NameGenerator.capitalize(action), argTypes);
+                Mftiod tbrgftMftiod = Stbtfmfnt.gftMftiod(
+                             tbrgft.gftClbss(), bdtion, brgTypfs);
+                if (tbrgftMftiod == null) {
+                    tbrgftMftiod = Stbtfmfnt.gftMftiod(tbrgft.gftClbss(),
+                             "sft" + NbmfGfnfrbtor.dbpitblizf(bdtion), brgTypfs);
                 }
-                if (targetMethod == null) {
-                    String argTypeString = (argTypes.length == 0)
-                        ? " with no arguments"
-                        : " with argument " + argTypes[0];
-                    throw new RuntimeException(
-                        "No method called " + action + " on " +
-                        target.getClass() + argTypeString);
+                if (tbrgftMftiod == null) {
+                    String brgTypfString = (brgTypfs.lfngti == 0)
+                        ? " witi no brgumfnts"
+                        : " witi brgumfnt " + brgTypfs[0];
+                    tirow nfw RuntimfExdfption(
+                        "No mftiod dbllfd " + bdtion + " on " +
+                        tbrgft.gftClbss() + brgTypfString);
                 }
-                return MethodUtil.invoke(targetMethod, target, newArgs);
+                rfturn MftiodUtil.invokf(tbrgftMftiod, tbrgft, nfwArgs);
             }
-            catch (IllegalAccessException ex) {
-                throw new RuntimeException(ex);
+            dbtdi (IllfgblAddfssExdfption fx) {
+                tirow nfw RuntimfExdfption(fx);
             }
-            catch (InvocationTargetException ex) {
-                Throwable th = ex.getTargetException();
-                throw (th instanceof RuntimeException)
-                        ? (RuntimeException) th
-                        : new RuntimeException(th);
+            dbtdi (InvodbtionTbrgftExdfption fx) {
+                Tirowbblf ti = fx.gftTbrgftExdfption();
+                tirow (ti instbndfof RuntimfExdfption)
+                        ? (RuntimfExdfption) ti
+                        : nfw RuntimfExdfption(ti);
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Creates an implementation of <code>listenerInterface</code> in which
-     * <em>all</em> of the methods in the listener interface apply
-     * the handler's <code>action</code> to the <code>target</code>. This
-     * method is implemented by calling the other, more general,
-     * implementation of the <code>create</code> method with both
-     * the <code>eventPropertyName</code> and the <code>listenerMethodName</code>
-     * taking the value <code>null</code>. Refer to
-     * {@link java.beans.EventHandler#create(Class, Object, String, String)
-     * the general version of create} for a complete description of
-     * the <code>action</code> parameter.
+     * Crfbtfs bn implfmfntbtion of <dodf>listfnfrIntfrfbdf</dodf> in wiidi
+     * <fm>bll</fm> of tif mftiods in tif listfnfr intfrfbdf bpply
+     * tif ibndlfr's <dodf>bdtion</dodf> to tif <dodf>tbrgft</dodf>. Tiis
+     * mftiod is implfmfntfd by dblling tif otifr, morf gfnfrbl,
+     * implfmfntbtion of tif <dodf>drfbtf</dodf> mftiod witi boti
+     * tif <dodf>fvfntPropfrtyNbmf</dodf> bnd tif <dodf>listfnfrMftiodNbmf</dodf>
+     * tbking tif vbluf <dodf>null</dodf>. Rfffr to
+     * {@link jbvb.bfbns.EvfntHbndlfr#drfbtf(Clbss, Objfdt, String, String)
+     * tif gfnfrbl vfrsion of drfbtf} for b domplftf dfsdription of
+     * tif <dodf>bdtion</dodf> pbrbmftfr.
      * <p>
-     * To create an <code>ActionListener</code> that shows a
-     * <code>JDialog</code> with <code>dialog.show()</code>,
-     * one can write:
+     * To drfbtf bn <dodf>AdtionListfnfr</dodf> tibt siows b
+     * <dodf>JDiblog</dodf> witi <dodf>diblog.siow()</dodf>,
+     * onf dbn writf:
      *
-     *<blockquote>
-     *<pre>
-     *EventHandler.create(ActionListener.class, dialog, "show")
-     *</pre>
-     *</blockquote>
+     *<blodkquotf>
+     *<prf>
+     *EvfntHbndlfr.drfbtf(AdtionListfnfr.dlbss, diblog, "siow")
+     *</prf>
+     *</blodkquotf>
      *
-     * @param <T> the type to create
-     * @param listenerInterface the listener interface to create a proxy for
-     * @param target the object that will perform the action
-     * @param action the name of a (possibly qualified) property or method on
-     *        the target
-     * @return an object that implements <code>listenerInterface</code>
+     * @pbrbm <T> tif typf to drfbtf
+     * @pbrbm listfnfrIntfrfbdf tif listfnfr intfrfbdf to drfbtf b proxy for
+     * @pbrbm tbrgft tif objfdt tibt will pfrform tif bdtion
+     * @pbrbm bdtion tif nbmf of b (possibly qublififd) propfrty or mftiod on
+     *        tif tbrgft
+     * @rfturn bn objfdt tibt implfmfnts <dodf>listfnfrIntfrfbdf</dodf>
      *
-     * @throws NullPointerException if <code>listenerInterface</code> is null
-     * @throws NullPointerException if <code>target</code> is null
-     * @throws NullPointerException if <code>action</code> is null
+     * @tirows NullPointfrExdfption if <dodf>listfnfrIntfrfbdf</dodf> is null
+     * @tirows NullPointfrExdfption if <dodf>tbrgft</dodf> is null
+     * @tirows NullPointfrExdfption if <dodf>bdtion</dodf> is null
      *
-     * @see #create(Class, Object, String, String)
+     * @sff #drfbtf(Clbss, Objfdt, String, String)
      */
-    public static <T> T create(Class<T> listenerInterface,
-                               Object target, String action)
+    publid stbtid <T> T drfbtf(Clbss<T> listfnfrIntfrfbdf,
+                               Objfdt tbrgft, String bdtion)
     {
-        return create(listenerInterface, target, action, null, null);
+        rfturn drfbtf(listfnfrIntfrfbdf, tbrgft, bdtion, null, null);
     }
 
     /**
     /**
-     * Creates an implementation of <code>listenerInterface</code> in which
-     * <em>all</em> of the methods pass the value of the event
-     * expression, <code>eventPropertyName</code>, to the final method in the
-     * statement, <code>action</code>, which is applied to the <code>target</code>.
-     * This method is implemented by calling the
-     * more general, implementation of the <code>create</code> method with
-     * the <code>listenerMethodName</code> taking the value <code>null</code>.
-     * Refer to
-     * {@link java.beans.EventHandler#create(Class, Object, String, String)
-     * the general version of create} for a complete description of
-     * the <code>action</code> and <code>eventPropertyName</code> parameters.
+     * Crfbtfs bn implfmfntbtion of <dodf>listfnfrIntfrfbdf</dodf> in wiidi
+     * <fm>bll</fm> of tif mftiods pbss tif vbluf of tif fvfnt
+     * fxprfssion, <dodf>fvfntPropfrtyNbmf</dodf>, to tif finbl mftiod in tif
+     * stbtfmfnt, <dodf>bdtion</dodf>, wiidi is bpplifd to tif <dodf>tbrgft</dodf>.
+     * Tiis mftiod is implfmfntfd by dblling tif
+     * morf gfnfrbl, implfmfntbtion of tif <dodf>drfbtf</dodf> mftiod witi
+     * tif <dodf>listfnfrMftiodNbmf</dodf> tbking tif vbluf <dodf>null</dodf>.
+     * Rfffr to
+     * {@link jbvb.bfbns.EvfntHbndlfr#drfbtf(Clbss, Objfdt, String, String)
+     * tif gfnfrbl vfrsion of drfbtf} for b domplftf dfsdription of
+     * tif <dodf>bdtion</dodf> bnd <dodf>fvfntPropfrtyNbmf</dodf> pbrbmftfrs.
      * <p>
-     * To create an <code>ActionListener</code> that sets the
-     * the text of a <code>JLabel</code> to the text value of
-     * the <code>JTextField</code> source of the incoming event,
-     * you can use the following code:
+     * To drfbtf bn <dodf>AdtionListfnfr</dodf> tibt sfts tif
+     * tif tfxt of b <dodf>JLbbfl</dodf> to tif tfxt vbluf of
+     * tif <dodf>JTfxtFifld</dodf> sourdf of tif indoming fvfnt,
+     * you dbn usf tif following dodf:
      *
-     *<blockquote>
-     *<pre>
-     *EventHandler.create(ActionListener.class, label, "text", "source.text");
-     *</pre>
-     *</blockquote>
+     *<blodkquotf>
+     *<prf>
+     *EvfntHbndlfr.drfbtf(AdtionListfnfr.dlbss, lbbfl, "tfxt", "sourdf.tfxt");
+     *</prf>
+     *</blodkquotf>
      *
-     * This is equivalent to the following code:
-     *<blockquote>
-     *<pre>
-//Equivalent code using an inner class instead of EventHandler.
-     *new ActionListener() {
-     *    public void actionPerformed(ActionEvent event) {
-     *        label.setText(((JTextField)(event.getSource())).getText());
+     * Tiis is fquivblfnt to tif following dodf:
+     *<blodkquotf>
+     *<prf>
+//Equivblfnt dodf using bn innfr dlbss instfbd of EvfntHbndlfr.
+     *nfw AdtionListfnfr() {
+     *    publid void bdtionPfrformfd(AdtionEvfnt fvfnt) {
+     *        lbbfl.sftTfxt(((JTfxtFifld)(fvfnt.gftSourdf())).gftTfxt());
      *     }
      *};
-     *</pre>
-     *</blockquote>
+     *</prf>
+     *</blodkquotf>
      *
-     * @param <T> the type to create
-     * @param listenerInterface the listener interface to create a proxy for
-     * @param target the object that will perform the action
-     * @param action the name of a (possibly qualified) property or method on
-     *        the target
-     * @param eventPropertyName the (possibly qualified) name of a readable property of the incoming event
+     * @pbrbm <T> tif typf to drfbtf
+     * @pbrbm listfnfrIntfrfbdf tif listfnfr intfrfbdf to drfbtf b proxy for
+     * @pbrbm tbrgft tif objfdt tibt will pfrform tif bdtion
+     * @pbrbm bdtion tif nbmf of b (possibly qublififd) propfrty or mftiod on
+     *        tif tbrgft
+     * @pbrbm fvfntPropfrtyNbmf tif (possibly qublififd) nbmf of b rfbdbblf propfrty of tif indoming fvfnt
      *
-     * @return an object that implements <code>listenerInterface</code>
+     * @rfturn bn objfdt tibt implfmfnts <dodf>listfnfrIntfrfbdf</dodf>
      *
-     * @throws NullPointerException if <code>listenerInterface</code> is null
-     * @throws NullPointerException if <code>target</code> is null
-     * @throws NullPointerException if <code>action</code> is null
+     * @tirows NullPointfrExdfption if <dodf>listfnfrIntfrfbdf</dodf> is null
+     * @tirows NullPointfrExdfption if <dodf>tbrgft</dodf> is null
+     * @tirows NullPointfrExdfption if <dodf>bdtion</dodf> is null
      *
-     * @see #create(Class, Object, String, String, String)
+     * @sff #drfbtf(Clbss, Objfdt, String, String, String)
      */
-    public static <T> T create(Class<T> listenerInterface,
-                               Object target, String action,
-                               String eventPropertyName)
+    publid stbtid <T> T drfbtf(Clbss<T> listfnfrIntfrfbdf,
+                               Objfdt tbrgft, String bdtion,
+                               String fvfntPropfrtyNbmf)
     {
-        return create(listenerInterface, target, action, eventPropertyName, null);
+        rfturn drfbtf(listfnfrIntfrfbdf, tbrgft, bdtion, fvfntPropfrtyNbmf, null);
     }
 
     /**
-     * Creates an implementation of <code>listenerInterface</code> in which
-     * the method named <code>listenerMethodName</code>
-     * passes the value of the event expression, <code>eventPropertyName</code>,
-     * to the final method in the statement, <code>action</code>, which
-     * is applied to the <code>target</code>. All of the other listener
-     * methods do nothing.
+     * Crfbtfs bn implfmfntbtion of <dodf>listfnfrIntfrfbdf</dodf> in wiidi
+     * tif mftiod nbmfd <dodf>listfnfrMftiodNbmf</dodf>
+     * pbssfs tif vbluf of tif fvfnt fxprfssion, <dodf>fvfntPropfrtyNbmf</dodf>,
+     * to tif finbl mftiod in tif stbtfmfnt, <dodf>bdtion</dodf>, wiidi
+     * is bpplifd to tif <dodf>tbrgft</dodf>. All of tif otifr listfnfr
+     * mftiods do notiing.
      * <p>
-     * The <code>eventPropertyName</code> string is used to extract a value
-     * from the incoming event object that is passed to the target
-     * method.  The common case is the target method takes no arguments, in
-     * which case a value of null should be used for the
-     * <code>eventPropertyName</code>.  Alternatively if you want
-     * the incoming event object passed directly to the target method use
-     * the empty string.
-     * The format of the <code>eventPropertyName</code> string is a sequence of
-     * methods or properties where each method or
-     * property is applied to the value returned by the preceding method
-     * starting from the incoming event object.
-     * The syntax is: <code>propertyName{.propertyName}*</code>
-     * where <code>propertyName</code> matches a method or
-     * property.  For example, to extract the <code>point</code>
-     * property from a <code>MouseEvent</code>, you could use either
-     * <code>"point"</code> or <code>"getPoint"</code> as the
-     * <code>eventPropertyName</code>.  To extract the "text" property from
-     * a <code>MouseEvent</code> with a <code>JLabel</code> source use any
-     * of the following as <code>eventPropertyName</code>:
-     * <code>"source.text"</code>,
-     * <code>"getSource.text"</code> <code>"getSource.getText"</code> or
-     * <code>"source.getText"</code>.  If a method can not be found, or an
-     * exception is generated as part of invoking a method a
-     * <code>RuntimeException</code> will be thrown at dispatch time.  For
-     * example, if the incoming event object is null, and
-     * <code>eventPropertyName</code> is non-null and not empty, a
-     * <code>RuntimeException</code> will be thrown.
+     * Tif <dodf>fvfntPropfrtyNbmf</dodf> string is usfd to fxtrbdt b vbluf
+     * from tif indoming fvfnt objfdt tibt is pbssfd to tif tbrgft
+     * mftiod.  Tif dommon dbsf is tif tbrgft mftiod tbkfs no brgumfnts, in
+     * wiidi dbsf b vbluf of null siould bf usfd for tif
+     * <dodf>fvfntPropfrtyNbmf</dodf>.  Altfrnbtivfly if you wbnt
+     * tif indoming fvfnt objfdt pbssfd dirfdtly to tif tbrgft mftiod usf
+     * tif fmpty string.
+     * Tif formbt of tif <dodf>fvfntPropfrtyNbmf</dodf> string is b sfqufndf of
+     * mftiods or propfrtifs wifrf fbdi mftiod or
+     * propfrty is bpplifd to tif vbluf rfturnfd by tif prfdfding mftiod
+     * stbrting from tif indoming fvfnt objfdt.
+     * Tif syntbx is: <dodf>propfrtyNbmf{.propfrtyNbmf}*</dodf>
+     * wifrf <dodf>propfrtyNbmf</dodf> mbtdifs b mftiod or
+     * propfrty.  For fxbmplf, to fxtrbdt tif <dodf>point</dodf>
+     * propfrty from b <dodf>MousfEvfnt</dodf>, you dould usf fitifr
+     * <dodf>"point"</dodf> or <dodf>"gftPoint"</dodf> bs tif
+     * <dodf>fvfntPropfrtyNbmf</dodf>.  To fxtrbdt tif "tfxt" propfrty from
+     * b <dodf>MousfEvfnt</dodf> witi b <dodf>JLbbfl</dodf> sourdf usf bny
+     * of tif following bs <dodf>fvfntPropfrtyNbmf</dodf>:
+     * <dodf>"sourdf.tfxt"</dodf>,
+     * <dodf>"gftSourdf.tfxt"</dodf> <dodf>"gftSourdf.gftTfxt"</dodf> or
+     * <dodf>"sourdf.gftTfxt"</dodf>.  If b mftiod dbn not bf found, or bn
+     * fxdfption is gfnfrbtfd bs pbrt of invoking b mftiod b
+     * <dodf>RuntimfExdfption</dodf> will bf tirown bt dispbtdi timf.  For
+     * fxbmplf, if tif indoming fvfnt objfdt is null, bnd
+     * <dodf>fvfntPropfrtyNbmf</dodf> is non-null bnd not fmpty, b
+     * <dodf>RuntimfExdfption</dodf> will bf tirown.
      * <p>
-     * The <code>action</code> argument is of the same format as the
-     * <code>eventPropertyName</code> argument where the last property name
-     * identifies either a method name or writable property.
+     * Tif <dodf>bdtion</dodf> brgumfnt is of tif sbmf formbt bs tif
+     * <dodf>fvfntPropfrtyNbmf</dodf> brgumfnt wifrf tif lbst propfrty nbmf
+     * idfntififs fitifr b mftiod nbmf or writbblf propfrty.
      * <p>
-     * If the <code>listenerMethodName</code> is <code>null</code>
-     * <em>all</em> methods in the interface trigger the <code>action</code> to be
-     * executed on the <code>target</code>.
+     * If tif <dodf>listfnfrMftiodNbmf</dodf> is <dodf>null</dodf>
+     * <fm>bll</fm> mftiods in tif intfrfbdf triggfr tif <dodf>bdtion</dodf> to bf
+     * fxfdutfd on tif <dodf>tbrgft</dodf>.
      * <p>
-     * For example, to create a <code>MouseListener</code> that sets the target
-     * object's <code>origin</code> property to the incoming <code>MouseEvent</code>'s
-     * location (that's the value of <code>mouseEvent.getPoint()</code>) each
-     * time a mouse button is pressed, one would write:
-     *<blockquote>
-     *<pre>
-     *EventHandler.create(MouseListener.class, target, "origin", "point", "mousePressed");
-     *</pre>
-     *</blockquote>
+     * For fxbmplf, to drfbtf b <dodf>MousfListfnfr</dodf> tibt sfts tif tbrgft
+     * objfdt's <dodf>origin</dodf> propfrty to tif indoming <dodf>MousfEvfnt</dodf>'s
+     * lodbtion (tibt's tif vbluf of <dodf>mousfEvfnt.gftPoint()</dodf>) fbdi
+     * timf b mousf button is prfssfd, onf would writf:
+     *<blodkquotf>
+     *<prf>
+     *EvfntHbndlfr.drfbtf(MousfListfnfr.dlbss, tbrgft, "origin", "point", "mousfPrfssfd");
+     *</prf>
+     *</blodkquotf>
      *
-     * This is comparable to writing a <code>MouseListener</code> in which all
-     * of the methods except <code>mousePressed</code> are no-ops:
+     * Tiis is dompbrbblf to writing b <dodf>MousfListfnfr</dodf> in wiidi bll
+     * of tif mftiods fxdfpt <dodf>mousfPrfssfd</dodf> brf no-ops:
      *
-     *<blockquote>
-     *<pre>
-//Equivalent code using an inner class instead of EventHandler.
-     *new MouseAdapter() {
-     *    public void mousePressed(MouseEvent e) {
-     *        target.setOrigin(e.getPoint());
+     *<blodkquotf>
+     *<prf>
+//Equivblfnt dodf using bn innfr dlbss instfbd of EvfntHbndlfr.
+     *nfw MousfAdbptfr() {
+     *    publid void mousfPrfssfd(MousfEvfnt f) {
+     *        tbrgft.sftOrigin(f.gftPoint());
      *    }
      *};
-     * </pre>
-     *</blockquote>
+     * </prf>
+     *</blodkquotf>
      *
-     * @param <T> the type to create
-     * @param listenerInterface the listener interface to create a proxy for
-     * @param target the object that will perform the action
-     * @param action the name of a (possibly qualified) property or method on
-     *        the target
-     * @param eventPropertyName the (possibly qualified) name of a readable property of the incoming event
-     * @param listenerMethodName the name of the method in the listener interface that should trigger the action
+     * @pbrbm <T> tif typf to drfbtf
+     * @pbrbm listfnfrIntfrfbdf tif listfnfr intfrfbdf to drfbtf b proxy for
+     * @pbrbm tbrgft tif objfdt tibt will pfrform tif bdtion
+     * @pbrbm bdtion tif nbmf of b (possibly qublififd) propfrty or mftiod on
+     *        tif tbrgft
+     * @pbrbm fvfntPropfrtyNbmf tif (possibly qublififd) nbmf of b rfbdbblf propfrty of tif indoming fvfnt
+     * @pbrbm listfnfrMftiodNbmf tif nbmf of tif mftiod in tif listfnfr intfrfbdf tibt siould triggfr tif bdtion
      *
-     * @return an object that implements <code>listenerInterface</code>
+     * @rfturn bn objfdt tibt implfmfnts <dodf>listfnfrIntfrfbdf</dodf>
      *
-     * @throws NullPointerException if <code>listenerInterface</code> is null
-     * @throws NullPointerException if <code>target</code> is null
-     * @throws NullPointerException if <code>action</code> is null
+     * @tirows NullPointfrExdfption if <dodf>listfnfrIntfrfbdf</dodf> is null
+     * @tirows NullPointfrExdfption if <dodf>tbrgft</dodf> is null
+     * @tirows NullPointfrExdfption if <dodf>bdtion</dodf> is null
      *
-     * @see EventHandler
+     * @sff EvfntHbndlfr
      */
-    public static <T> T create(Class<T> listenerInterface,
-                               Object target, String action,
-                               String eventPropertyName,
-                               String listenerMethodName)
+    publid stbtid <T> T drfbtf(Clbss<T> listfnfrIntfrfbdf,
+                               Objfdt tbrgft, String bdtion,
+                               String fvfntPropfrtyNbmf,
+                               String listfnfrMftiodNbmf)
     {
-        // Create this first to verify target/action are non-null
-        final EventHandler handler = new EventHandler(target, action,
-                                                     eventPropertyName,
-                                                     listenerMethodName);
-        if (listenerInterface == null) {
-            throw new NullPointerException(
-                          "listenerInterface must be non-null");
+        // Crfbtf tiis first to vfrify tbrgft/bdtion brf non-null
+        finbl EvfntHbndlfr ibndlfr = nfw EvfntHbndlfr(tbrgft, bdtion,
+                                                     fvfntPropfrtyNbmf,
+                                                     listfnfrMftiodNbmf);
+        if (listfnfrIntfrfbdf == null) {
+            tirow nfw NullPointfrExdfption(
+                          "listfnfrIntfrfbdf must bf non-null");
         }
-        final ClassLoader loader = getClassLoader(listenerInterface);
-        final Class<?>[] interfaces = {listenerInterface};
-        return AccessController.doPrivileged(new PrivilegedAction<T>() {
-            @SuppressWarnings("unchecked")
-            public T run() {
-                return (T) Proxy.newProxyInstance(loader, interfaces, handler);
+        finbl ClbssLobdfr lobdfr = gftClbssLobdfr(listfnfrIntfrfbdf);
+        finbl Clbss<?>[] intfrfbdfs = {listfnfrIntfrfbdf};
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<T>() {
+            @SupprfssWbrnings("undifdkfd")
+            publid T run() {
+                rfturn (T) Proxy.nfwProxyInstbndf(lobdfr, intfrfbdfs, ibndlfr);
             }
         });
     }
 
-    private static ClassLoader getClassLoader(Class<?> type) {
-        ReflectUtil.checkPackageAccess(type);
-        ClassLoader loader = type.getClassLoader();
-        if (loader == null) {
-            loader = Thread.currentThread().getContextClassLoader(); // avoid use of BCP
-            if (loader == null) {
-                loader = ClassLoader.getSystemClassLoader();
+    privbtf stbtid ClbssLobdfr gftClbssLobdfr(Clbss<?> typf) {
+        RfflfdtUtil.difdkPbdkbgfAddfss(typf);
+        ClbssLobdfr lobdfr = typf.gftClbssLobdfr();
+        if (lobdfr == null) {
+            lobdfr = Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr(); // bvoid usf of BCP
+            if (lobdfr == null) {
+                lobdfr = ClbssLobdfr.gftSystfmClbssLobdfr();
             }
         }
-        return loader;
+        rfturn lobdfr;
     }
 }

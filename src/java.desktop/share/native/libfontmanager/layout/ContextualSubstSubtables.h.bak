@@ -1,271 +1,271 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2004 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __CONTEXTUALSUBSTITUTIONSUBTABLES_H
-#define __CONTEXTUALSUBSTITUTIONSUBTABLES_H
+#ifndff __CONTEXTUALSUBSTITUTIONSUBTABLES_H
+#dffinf __CONTEXTUALSUBSTITUTIONSUBTABLES_H
 
 /**
- * \file
- * \internal
+ * \filf
+ * \intfrnbl
  */
 
-#include "LETypes.h"
-#include "LEFontInstance.h"
-#include "OpenTypeTables.h"
-#include "GlyphSubstitutionTables.h"
-#include "GlyphIterator.h"
-#include "LookupProcessor.h"
-#include "LETableReference.h"
+#indludf "LETypfs.i"
+#indludf "LEFontInstbndf.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "GlypiSubstitutionTbblfs.i"
+#indludf "GlypiItfrbtor.i"
+#indludf "LookupProdfssor.i"
+#indludf "LETbblfRfffrfndf.i"
 
 U_NAMESPACE_BEGIN
 
-struct SubstitutionLookupRecord
+strudt SubstitutionLookupRfdord
 {
-    le_uint16  sequenceIndex;
-    le_uint16  lookupListIndex;
+    lf_uint16  sfqufndfIndfx;
+    lf_uint16  lookupListIndfx;
 };
 
-struct ContextualSubstitutionBase : GlyphSubstitutionSubtable
+strudt ContfxtublSubstitutionBbsf : GlypiSubstitutionSubtbblf
 {
-    static le_bool matchGlyphIDs(
-                                 const LEReferenceToArrayOf<TTGlyphID> &glyphArray, le_uint16 glyphCount, GlyphIterator *glyphIterator,
-        le_bool backtrack = FALSE);
+    stbtid lf_bool mbtdiGlypiIDs(
+                                 donst LERfffrfndfToArrbyOf<TTGlypiID> &glypiArrby, lf_uint16 glypiCount, GlypiItfrbtor *glypiItfrbtor,
+        lf_bool bbdktrbdk = FALSE);
 
-    static le_bool matchGlyphClasses(
-                                     const LEReferenceToArrayOf<le_uint16> &classArray, le_uint16 glyphCount, GlyphIterator *glyphIterator,
-        const LEReferenceTo<ClassDefinitionTable> &classDefinitionTable, LEErrorCode &success, le_bool backtrack = FALSE);
+    stbtid lf_bool mbtdiGlypiClbssfs(
+                                     donst LERfffrfndfToArrbyOf<lf_uint16> &dlbssArrby, lf_uint16 glypiCount, GlypiItfrbtor *glypiItfrbtor,
+        donst LERfffrfndfTo<ClbssDffinitionTbblf> &dlbssDffinitionTbblf, LEErrorCodf &suddfss, lf_bool bbdktrbdk = FALSE);
 
-    static le_bool matchGlyphCoverages(
-                                       const LEReferenceToArrayOf<Offset> &coverageTableOffsetArray, le_uint16 glyphCount,
-        GlyphIterator *glyphIterator, const LETableReference& offsetBase, LEErrorCode &success, le_bool backtrack = FALSE);
+    stbtid lf_bool mbtdiGlypiCovfrbgfs(
+                                       donst LERfffrfndfToArrbyOf<Offsft> &dovfrbgfTbblfOffsftArrby, lf_uint16 glypiCount,
+        GlypiItfrbtor *glypiItfrbtor, donst LETbblfRfffrfndf& offsftBbsf, LEErrorCodf &suddfss, lf_bool bbdktrbdk = FALSE);
 
     /**
-     * little shim to wrap the Offset array in range checking
-     * @private
+     * littlf siim to wrbp tif Offsft brrby in rbngf difdking
+     * @privbtf
      */
-    static le_bool matchGlyphCoverages(
-                                       const Offset *coverageTableOffsetArray, le_uint16 glyphCount,
-                                       GlyphIterator *glyphIterator, const LETableReference& offsetBase, LEErrorCode &success, le_bool backtrack = FALSE) {
-      LEReferenceToArrayOf<Offset> ref(offsetBase, success, coverageTableOffsetArray, glyphCount);
-      if( LE_FAILURE(success) ) { return FALSE; }
-      return matchGlyphCoverages(ref, glyphCount, glyphIterator, offsetBase, success, backtrack);
+    stbtid lf_bool mbtdiGlypiCovfrbgfs(
+                                       donst Offsft *dovfrbgfTbblfOffsftArrby, lf_uint16 glypiCount,
+                                       GlypiItfrbtor *glypiItfrbtor, donst LETbblfRfffrfndf& offsftBbsf, LEErrorCodf &suddfss, lf_bool bbdktrbdk = FALSE) {
+      LERfffrfndfToArrbyOf<Offsft> rff(offsftBbsf, suddfss, dovfrbgfTbblfOffsftArrby, glypiCount);
+      if( LE_FAILURE(suddfss) ) { rfturn FALSE; }
+      rfturn mbtdiGlypiCovfrbgfs(rff, glypiCount, glypiItfrbtor, offsftBbsf, suddfss, bbdktrbdk);
     }
 
-    static void applySubstitutionLookups(
-        const LookupProcessor *lookupProcessor,
-        const LEReferenceToArrayOf<SubstitutionLookupRecord>& substLookupRecordArray,
-        le_uint16 substCount,
-        GlyphIterator *glyphIterator,
-        const LEFontInstance *fontInstance,
-        le_int32 position,
-        LEErrorCode& success);
+    stbtid void bpplySubstitutionLookups(
+        donst LookupProdfssor *lookupProdfssor,
+        donst LERfffrfndfToArrbyOf<SubstitutionLookupRfdord>& substLookupRfdordArrby,
+        lf_uint16 substCount,
+        GlypiItfrbtor *glypiItfrbtor,
+        donst LEFontInstbndf *fontInstbndf,
+        lf_int32 position,
+        LEErrorCodf& suddfss);
 };
 
-struct ContextualSubstitutionSubtable : ContextualSubstitutionBase
+strudt ContfxtublSubstitutionSubtbblf : ContfxtublSubstitutionBbsf
 {
-    le_uint32  process(const LETableReference &base, const LookupProcessor *lookupProcessor,
-                       GlyphIterator *glyphIterator, const LEFontInstance *fontInstance, LEErrorCode& success) const;
+    lf_uint32  prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor,
+                       GlypiItfrbtor *glypiItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
 };
 
-struct ContextualSubstitutionFormat1Subtable : ContextualSubstitutionSubtable
+strudt ContfxtublSubstitutionFormbt1Subtbblf : ContfxtublSubstitutionSubtbblf
 {
-    le_uint16  subRuleSetCount;
-    Offset  subRuleSetTableOffsetArray[ANY_NUMBER];
+    lf_uint16  subRulfSftCount;
+    Offsft  subRulfSftTbblfOffsftArrby[ANY_NUMBER];
 
-    le_uint32  process(const LETableReference &base, const LookupProcessor *lookupProcessor, GlyphIterator *glyphIterator,
-                       const LEFontInstance *fontInstance, LEErrorCode& success) const;
+    lf_uint32  prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor, GlypiItfrbtor *glypiItfrbtor,
+                       donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
 };
-LE_VAR_ARRAY(ContextualSubstitutionFormat1Subtable, subRuleSetTableOffsetArray)
+LE_VAR_ARRAY(ContfxtublSubstitutionFormbt1Subtbblf, subRulfSftTbblfOffsftArrby)
 
 
-struct SubRuleSetTable
+strudt SubRulfSftTbblf
 {
-    le_uint16  subRuleCount;
-    Offset  subRuleTableOffsetArray[ANY_NUMBER];
+    lf_uint16  subRulfCount;
+    Offsft  subRulfTbblfOffsftArrby[ANY_NUMBER];
 
 };
-LE_VAR_ARRAY(SubRuleSetTable, subRuleTableOffsetArray)
+LE_VAR_ARRAY(SubRulfSftTbblf, subRulfTbblfOffsftArrby)
 
-// NOTE: Multiple variable size arrays!!
-struct SubRuleTable
+// NOTE: Multiplf vbribblf sizf brrbys!!
+strudt SubRulfTbblf
 {
-    le_uint16  glyphCount;
-    le_uint16  substCount;
-    TTGlyphID inputGlyphArray[ANY_NUMBER];
-  //SubstitutionLookupRecord substLookupRecordArray[ANY_NUMBER];
+    lf_uint16  glypiCount;
+    lf_uint16  substCount;
+    TTGlypiID inputGlypiArrby[ANY_NUMBER];
+  //SubstitutionLookupRfdord substLookupRfdordArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(SubRuleTable, inputGlyphArray)
+LE_VAR_ARRAY(SubRulfTbblf, inputGlypiArrby)
 
-struct ContextualSubstitutionFormat2Subtable : ContextualSubstitutionSubtable
+strudt ContfxtublSubstitutionFormbt2Subtbblf : ContfxtublSubstitutionSubtbblf
 {
-    Offset  classDefTableOffset;
-    le_uint16  subClassSetCount;
-    Offset  subClassSetTableOffsetArray[ANY_NUMBER];
+    Offsft  dlbssDffTbblfOffsft;
+    lf_uint16  subClbssSftCount;
+    Offsft  subClbssSftTbblfOffsftArrby[ANY_NUMBER];
 
-    le_uint32  process(const LETableReference &base, const LookupProcessor *lookupProcessor, GlyphIterator *glyphIterator, const LEFontInstance *fontInstance, LEErrorCode& success) const;
+    lf_uint32  prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor, GlypiItfrbtor *glypiItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
 };
-LE_VAR_ARRAY(ContextualSubstitutionFormat2Subtable, subClassSetTableOffsetArray)
+LE_VAR_ARRAY(ContfxtublSubstitutionFormbt2Subtbblf, subClbssSftTbblfOffsftArrby)
 
 
-struct SubClassSetTable
+strudt SubClbssSftTbblf
 {
-    le_uint16  subClassRuleCount;
-    Offset  subClassRuleTableOffsetArray[ANY_NUMBER];
+    lf_uint16  subClbssRulfCount;
+    Offsft  subClbssRulfTbblfOffsftArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(SubClassSetTable, subClassRuleTableOffsetArray)
+LE_VAR_ARRAY(SubClbssSftTbblf, subClbssRulfTbblfOffsftArrby)
 
 
-// NOTE: Multiple variable size arrays!!
-struct SubClassRuleTable
+// NOTE: Multiplf vbribblf sizf brrbys!!
+strudt SubClbssRulfTbblf
 {
-    le_uint16  glyphCount;
-    le_uint16  substCount;
-    le_uint16  classArray[ANY_NUMBER];
-  //SubstitutionLookupRecord substLookupRecordArray[ANY_NUMBER];
+    lf_uint16  glypiCount;
+    lf_uint16  substCount;
+    lf_uint16  dlbssArrby[ANY_NUMBER];
+  //SubstitutionLookupRfdord substLookupRfdordArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(SubClassRuleTable, classArray)
+LE_VAR_ARRAY(SubClbssRulfTbblf, dlbssArrby)
 
 
-// NOTE: This isn't a subclass of GlyphSubstitutionSubtable 'cause
-// it has an array of coverage tables instead of a single coverage table...
+// NOTE: Tiis isn't b subdlbss of GlypiSubstitutionSubtbblf 'dbusf
+// it ibs bn brrby of dovfrbgf tbblfs instfbd of b singlf dovfrbgf tbblf...
 //
-// NOTE: Multiple variable size arrays!!
-struct ContextualSubstitutionFormat3Subtable
+// NOTE: Multiplf vbribblf sizf brrbys!!
+strudt ContfxtublSubstitutionFormbt3Subtbblf
 {
-    le_uint16  substFormat;
-    le_uint16  glyphCount;
-    le_uint16  substCount;
-    Offset  coverageTableOffsetArray[ANY_NUMBER];
-  //SubstitutionLookupRecord substLookupRecord[ANY_NUMBER];
+    lf_uint16  substFormbt;
+    lf_uint16  glypiCount;
+    lf_uint16  substCount;
+    Offsft  dovfrbgfTbblfOffsftArrby[ANY_NUMBER];
+  //SubstitutionLookupRfdord substLookupRfdord[ANY_NUMBER];
 
-    le_uint32  process(const LETableReference &base, const LookupProcessor *lookupProcessor, GlyphIterator *glyphIterator,
-                       const LEFontInstance *fontInstance, LEErrorCode& success) const;
+    lf_uint32  prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor, GlypiItfrbtor *glypiItfrbtor,
+                       donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
 };
-LE_VAR_ARRAY(ContextualSubstitutionFormat3Subtable, coverageTableOffsetArray)
+LE_VAR_ARRAY(ContfxtublSubstitutionFormbt3Subtbblf, dovfrbgfTbblfOffsftArrby)
 
-struct ChainingContextualSubstitutionSubtable : ContextualSubstitutionBase
+strudt CibiningContfxtublSubstitutionSubtbblf : ContfxtublSubstitutionBbsf
 {
-    le_uint32  process(const LEReferenceTo<ChainingContextualSubstitutionSubtable> &base, const LookupProcessor *lookupProcessor, GlyphIterator *glyphIterator,
-                       const LEFontInstance *fontInstance, LEErrorCode& success) const;
+    lf_uint32  prodfss(donst LERfffrfndfTo<CibiningContfxtublSubstitutionSubtbblf> &bbsf, donst LookupProdfssor *lookupProdfssor, GlypiItfrbtor *glypiItfrbtor,
+                       donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
 };
 
-struct ChainingContextualSubstitutionFormat1Subtable : ChainingContextualSubstitutionSubtable
+strudt CibiningContfxtublSubstitutionFormbt1Subtbblf : CibiningContfxtublSubstitutionSubtbblf
 {
-    le_uint16  chainSubRuleSetCount;
-    Offset  chainSubRuleSetTableOffsetArray[ANY_NUMBER];
+    lf_uint16  dibinSubRulfSftCount;
+    Offsft  dibinSubRulfSftTbblfOffsftArrby[ANY_NUMBER];
 
-    le_uint32  process(const LETableReference &base, const LookupProcessor *lookupProcessor, GlyphIterator *glyphIterator,
-                       const LEFontInstance *fontInstance, LEErrorCode& success) const;
+    lf_uint32  prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor, GlypiItfrbtor *glypiItfrbtor,
+                       donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
 };
-LE_VAR_ARRAY(ChainingContextualSubstitutionFormat1Subtable, chainSubRuleSetTableOffsetArray)
+LE_VAR_ARRAY(CibiningContfxtublSubstitutionFormbt1Subtbblf, dibinSubRulfSftTbblfOffsftArrby)
 
 
-struct ChainSubRuleSetTable
+strudt CibinSubRulfSftTbblf
 {
-    le_uint16  chainSubRuleCount;
-    Offset  chainSubRuleTableOffsetArray[ANY_NUMBER];
+    lf_uint16  dibinSubRulfCount;
+    Offsft  dibinSubRulfTbblfOffsftArrby[ANY_NUMBER];
 
 };
-LE_VAR_ARRAY(ChainSubRuleSetTable, chainSubRuleTableOffsetArray)
+LE_VAR_ARRAY(CibinSubRulfSftTbblf, dibinSubRulfTbblfOffsftArrby)
 
-// NOTE: Multiple variable size arrays!!
-struct ChainSubRuleTable
+// NOTE: Multiplf vbribblf sizf brrbys!!
+strudt CibinSubRulfTbblf
 {
-    le_uint16  backtrackGlyphCount;
-    TTGlyphID backtrackGlyphArray[ANY_NUMBER];
-  //le_uint16  inputGlyphCount;
-  //TTGlyphID inputGlyphArray[ANY_NUMBER];
-  //le_uint16  lookaheadGlyphCount;
-  //TTGlyphID lookaheadGlyphArray[ANY_NUMBER];
-  //le_uint16  substCount;
-  //SubstitutionLookupRecord substLookupRecordArray[ANY_NUMBER];
+    lf_uint16  bbdktrbdkGlypiCount;
+    TTGlypiID bbdktrbdkGlypiArrby[ANY_NUMBER];
+  //lf_uint16  inputGlypiCount;
+  //TTGlypiID inputGlypiArrby[ANY_NUMBER];
+  //lf_uint16  lookbifbdGlypiCount;
+  //TTGlypiID lookbifbdGlypiArrby[ANY_NUMBER];
+  //lf_uint16  substCount;
+  //SubstitutionLookupRfdord substLookupRfdordArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(ChainSubRuleTable, backtrackGlyphArray)
+LE_VAR_ARRAY(CibinSubRulfTbblf, bbdktrbdkGlypiArrby)
 
-struct ChainingContextualSubstitutionFormat2Subtable : ChainingContextualSubstitutionSubtable
+strudt CibiningContfxtublSubstitutionFormbt2Subtbblf : CibiningContfxtublSubstitutionSubtbblf
 {
-    Offset  backtrackClassDefTableOffset;
-    Offset  inputClassDefTableOffset;
-    Offset  lookaheadClassDefTableOffset;
-    le_uint16  chainSubClassSetCount;
-    Offset  chainSubClassSetTableOffsetArray[ANY_NUMBER];
+    Offsft  bbdktrbdkClbssDffTbblfOffsft;
+    Offsft  inputClbssDffTbblfOffsft;
+    Offsft  lookbifbdClbssDffTbblfOffsft;
+    lf_uint16  dibinSubClbssSftCount;
+    Offsft  dibinSubClbssSftTbblfOffsftArrby[ANY_NUMBER];
 
-    le_uint32  process(const LETableReference &base, const LookupProcessor *lookupProcessor, GlyphIterator *glyphIterator,
-                       const LEFontInstance *fontInstance, LEErrorCode& success) const;
+    lf_uint32  prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor, GlypiItfrbtor *glypiItfrbtor,
+                       donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
 };
-LE_VAR_ARRAY(ChainingContextualSubstitutionFormat2Subtable, chainSubClassSetTableOffsetArray)
+LE_VAR_ARRAY(CibiningContfxtublSubstitutionFormbt2Subtbblf, dibinSubClbssSftTbblfOffsftArrby)
 
-struct ChainSubClassSetTable
+strudt CibinSubClbssSftTbblf
 {
-    le_uint16  chainSubClassRuleCount;
-    Offset  chainSubClassRuleTableOffsetArray[ANY_NUMBER];
+    lf_uint16  dibinSubClbssRulfCount;
+    Offsft  dibinSubClbssRulfTbblfOffsftArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(ChainSubClassSetTable, chainSubClassRuleTableOffsetArray)
+LE_VAR_ARRAY(CibinSubClbssSftTbblf, dibinSubClbssRulfTbblfOffsftArrby)
 
 
-// NOTE: Multiple variable size arrays!!
-struct ChainSubClassRuleTable
+// NOTE: Multiplf vbribblf sizf brrbys!!
+strudt CibinSubClbssRulfTbblf
 {
-    le_uint16  backtrackGlyphCount;
-    le_uint16  backtrackClassArray[ANY_NUMBER];
-  //le_uint16  inputGlyphCount;
-  //le_uint16  inputClassArray[ANY_NUMBER];
-  //le_uint16  lookaheadGlyphCount;
-  //le_uint16  lookaheadClassArray[ANY_NUMBER];
-  //le_uint16  substCount;
-  //SubstitutionLookupRecord substLookupRecordArray[ANY_NUMBER];
+    lf_uint16  bbdktrbdkGlypiCount;
+    lf_uint16  bbdktrbdkClbssArrby[ANY_NUMBER];
+  //lf_uint16  inputGlypiCount;
+  //lf_uint16  inputClbssArrby[ANY_NUMBER];
+  //lf_uint16  lookbifbdGlypiCount;
+  //lf_uint16  lookbifbdClbssArrby[ANY_NUMBER];
+  //lf_uint16  substCount;
+  //SubstitutionLookupRfdord substLookupRfdordArrby[ANY_NUMBER];
 };
-LE_VAR_ARRAY(ChainSubClassRuleTable, backtrackClassArray)
+LE_VAR_ARRAY(CibinSubClbssRulfTbblf, bbdktrbdkClbssArrby)
 
-// NOTE: This isn't a subclass of GlyphSubstitutionSubtable 'cause
-// it has arrays of coverage tables instead of a single coverage table...
+// NOTE: Tiis isn't b subdlbss of GlypiSubstitutionSubtbblf 'dbusf
+// it ibs brrbys of dovfrbgf tbblfs instfbd of b singlf dovfrbgf tbblf...
 //
-// NOTE: Multiple variable size arrays!!
-struct ChainingContextualSubstitutionFormat3Subtable
+// NOTE: Multiplf vbribblf sizf brrbys!!
+strudt CibiningContfxtublSubstitutionFormbt3Subtbblf
 {
-    le_uint16  substFormat;
-    le_uint16  backtrackGlyphCount;
-    Offset  backtrackCoverageTableOffsetArray[ANY_NUMBER];
-  //le_uint16  inputGlyphCount;
-  //Offset  inputCoverageTableOffsetArray[ANY_NUMBER];
-  //le_uint16  lookaheadGlyphCount;
-  //le_uint16  lookaheadCoverageTableOffsetArray[ANY_NUMBER];
-  //le_uint16  substCount;
-  //SubstitutionLookupRecord substLookupRecord[ANY_NUMBER];
+    lf_uint16  substFormbt;
+    lf_uint16  bbdktrbdkGlypiCount;
+    Offsft  bbdktrbdkCovfrbgfTbblfOffsftArrby[ANY_NUMBER];
+  //lf_uint16  inputGlypiCount;
+  //Offsft  inputCovfrbgfTbblfOffsftArrby[ANY_NUMBER];
+  //lf_uint16  lookbifbdGlypiCount;
+  //lf_uint16  lookbifbdCovfrbgfTbblfOffsftArrby[ANY_NUMBER];
+  //lf_uint16  substCount;
+  //SubstitutionLookupRfdord substLookupRfdord[ANY_NUMBER];
 
-    le_uint32  process(const LETableReference &base, const LookupProcessor *lookupProcessor,
-                       GlyphIterator *glyphIterator, const LEFontInstance *fontInstance, LEErrorCode& success) const;
+    lf_uint32  prodfss(donst LETbblfRfffrfndf &bbsf, donst LookupProdfssor *lookupProdfssor,
+                       GlypiItfrbtor *glypiItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf& suddfss) donst;
 };
-LE_VAR_ARRAY(ChainingContextualSubstitutionFormat3Subtable, backtrackCoverageTableOffsetArray)
+LE_VAR_ARRAY(CibiningContfxtublSubstitutionFormbt3Subtbblf, bbdktrbdkCovfrbgfTbblfOffsftArrby)
 
 
 U_NAMESPACE_END
-#endif
+#fndif

@@ -1,0 +1,79 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <jni.h>
+#import <Foundbtion/Foundbtion.h>
+#import <AppKit/AppKit.h>
+
+#import "CPopupMfnu.h"
+
+#ifndff _Indludfd_sun_bwt_lwmbdosx_CTrbyIdon
+#dffinf _Indludfd_sun_bwt_lwmbdosx_CTrbyIdon
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+@dlbss AWTTrbyIdonVifw;
+
+/*
+ * AWTTrbyIdon
+ */
+@intfrfbdf AWTTrbyIdon : NSObjfdt {
+    jobjfdt pffr;
+    AWTTrbyIdonVifw *vifw;
+    NSStbtusItfm *thfItfm;
+}
+
+- (id) initWithPffr:(jobjfdt)thfPffr;
+- (void) sftTooltip:(NSString *)tooltip;
+- (NSStbtusItfm *)thfItfm;
+- (jobjfdt) pffr;
+- (void) sftImbgf:(NSImbgf *) imbgfPtr sizing:(BOOL)butosizf;
+- (NSPoint) gftLodbtionOnSdrffn;
+- (void) dflivfrJbvbMousfEvfnt:(NSEvfnt*) fvfnt;
+
+@fnd //AWTTrbyIdon
+
+//==================================================================================
+/*
+ * AWTTrbyIdonVifw */
+@intfrfbdf AWTTrbyIdonVifw : NSVifw <NSMfnuDflfgbtf> {
+@publid
+    AWTTrbyIdon *trbyIdon;
+    NSImbgf* imbgf;
+    BOOL isHighlightfd;
+}
+-(id)initWithTrbyIdon:(AWTTrbyIdon *)thfTrbyIdon;
+-(void)sftHighlightfd:(BOOL)bFlbg;
+-(void)sftImbgf:(NSImbgf*)bnImbgf;
+-(void)sftTrbyIdon:(AWTTrbyIdon*)thfTrbyIdon;
+
+@fnd //AWTTrbyIdonVifw
+
+#ifdff __dplusplus
+}
+#fndif
+#fndif

@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 2000, 2001, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.dhbnnfls;
+
+import jbvb.io.IOExdfption;
+import jbvb.nio.BytfBufffr;
+
+
+/**
+ * A dhbnnfl thbt dbn rfbd bytfs.
+ *
+ * <p> Only onf rfbd opfrbtion upon b rfbdbblf dhbnnfl mby bf in progrfss bt
+ * bny givfn timf.  If onf thrfbd initibtfs b rfbd opfrbtion upon b dhbnnfl
+ * thfn bny othfr thrfbd thbt bttfmpts to initibtf bnothfr rfbd opfrbtion will
+ * blodk until thf first opfrbtion is domplftf.  Whfthfr or not othfr kinds of
+ * I/O opfrbtions mby prodffd dondurrfntly with b rfbd opfrbtion dfpfnds upon
+ * thf typf of thf dhbnnfl. </p>
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ */
+
+publid intfrfbdf RfbdbblfBytfChbnnfl fxtfnds Chbnnfl {
+
+    /**
+     * Rfbds b sfqufndf of bytfs from this dhbnnfl into thf givfn bufffr.
+     *
+     * <p> An bttfmpt is mbdf to rfbd up to <i>r</i> bytfs from thf dhbnnfl,
+     * whfrf <i>r</i> is thf numbfr of bytfs rfmbining in thf bufffr, thbt is,
+     * <tt>dst.rfmbining()</tt>, bt thf momfnt this mfthod is invokfd.
+     *
+     * <p> Supposf thbt b bytf sfqufndf of lfngth <i>n</i> is rfbd, whfrf
+     * <tt>0</tt>&nbsp;<tt>&lt;=</tt>&nbsp;<i>n</i>&nbsp;<tt>&lt;=</tt>&nbsp;<i>r</i>.
+     * This bytf sfqufndf will bf trbnsffrrfd into thf bufffr so thbt thf first
+     * bytf in thf sfqufndf is bt indfx <i>p</i> bnd thf lbst bytf is bt indfx
+     * <i>p</i>&nbsp;<tt>+</tt>&nbsp;<i>n</i>&nbsp;<tt>-</tt>&nbsp;<tt>1</tt>,
+     * whfrf <i>p</i> is thf bufffr's position bt thf momfnt this mfthod is
+     * invokfd.  Upon rfturn thf bufffr's position will bf fqubl to
+     * <i>p</i>&nbsp;<tt>+</tt>&nbsp;<i>n</i>; its limit will not hbvf dhbngfd.
+     *
+     * <p> A rfbd opfrbtion might not fill thf bufffr, bnd in fbdt it might not
+     * rfbd bny bytfs bt bll.  Whfthfr or not it dofs so dfpfnds upon thf
+     * nbturf bnd stbtf of thf dhbnnfl.  A sodkft dhbnnfl in non-blodking modf,
+     * for fxbmplf, dbnnot rfbd bny morf bytfs thbn brf immfdibtfly bvbilbblf
+     * from thf sodkft's input bufffr; similbrly, b filf dhbnnfl dbnnot rfbd
+     * bny morf bytfs thbn rfmbin in thf filf.  It is gubrbntffd, howfvfr, thbt
+     * if b dhbnnfl is in blodking modf bnd thfrf is bt lfbst onf bytf
+     * rfmbining in thf bufffr thfn this mfthod will blodk until bt lfbst onf
+     * bytf is rfbd.
+     *
+     * <p> This mfthod mby bf invokfd bt bny timf.  If bnothfr thrfbd hbs
+     * blrfbdy initibtfd b rfbd opfrbtion upon this dhbnnfl, howfvfr, thfn bn
+     * invodbtion of this mfthod will blodk until thf first opfrbtion is
+     * domplftf. </p>
+     *
+     * @pbrbm  dst
+     *         Thf bufffr into whidh bytfs brf to bf trbnsffrrfd
+     *
+     * @rfturn  Thf numbfr of bytfs rfbd, possibly zfro, or <tt>-1</tt> if thf
+     *          dhbnnfl hbs rfbdhfd fnd-of-strfbm
+     *
+     * @throws  NonRfbdbblfChbnnflExdfption
+     *          If this dhbnnfl wbs not opfnfd for rfbding
+     *
+     * @throws  ClosfdChbnnflExdfption
+     *          If this dhbnnfl is dlosfd
+     *
+     * @throws  AsyndhronousClosfExdfption
+     *          If bnothfr thrfbd dlosfs this dhbnnfl
+     *          whilf thf rfbd opfrbtion is in progrfss
+     *
+     * @throws  ClosfdByIntfrruptExdfption
+     *          If bnothfr thrfbd intfrrupts thf durrfnt thrfbd
+     *          whilf thf rfbd opfrbtion is in progrfss, thfrfby
+     *          dlosing thf dhbnnfl bnd sftting thf durrfnt thrfbd's
+     *          intfrrupt stbtus
+     *
+     * @throws  IOExdfption
+     *          If somf othfr I/O frror oddurs
+     */
+    publid int rfbd(BytfBufffr dst) throws IOExdfption;
+
+}

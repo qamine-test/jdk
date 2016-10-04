@@ -1,219 +1,219 @@
 /*
- * Copyright (c) 2002, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  */
 
-#include <windows.h>
-#include <winsock2.h>
-#include <ctype.h>
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "jlong.h"
-#include "sun_nio_ch_DatagramDispatcher.h"
+#indludf <windows.i>
+#indludf <winsodk2.i>
+#indludf <dtypf.i>
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jlong.i"
+#indludf "sun_nio_di_DbtbgrbmDispbtdifr.i"
 
-#include "nio.h"
-#include "nio_util.h"
+#indludf "nio.i"
+#indludf "nio_util.i"
 
 
 /**************************************************************
- * DatagramDispatcher.c
+ * DbtbgrbmDispbtdifr.d
  */
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_DatagramDispatcher_read0(JNIEnv *env, jclass clazz, jobject fdo,
-                                      jlong address, jint len)
+Jbvb_sun_nio_di_DbtbgrbmDispbtdifr_rfbd0(JNIEnv *fnv, jdlbss dlbzz, jobjfdt fdo,
+                                      jlong bddrfss, jint lfn)
 {
-    /* set up */
+    /* sft up */
     int i = 0;
-    DWORD read = 0;
-    DWORD flags = 0;
-    jint fd = fdval(env, fdo);
+    DWORD rfbd = 0;
+    DWORD flbgs = 0;
+    jint fd = fdvbl(fnv, fdo);
     WSABUF buf;
 
-    /* destination buffer and size */
-    buf.buf = (char *)address;
-    buf.len = (u_long)len;
+    /* dfstinbtion bufffr bnd sizf */
+    buf.buf = (dibr *)bddrfss;
+    buf.lfn = (u_long)lfn;
 
-    /* read into the buffers */
-    i = WSARecv((SOCKET)fd, /* Socket */
-            &buf,           /* pointers to the buffers */
-            (DWORD)1,       /* number of buffers to process */
-            &read,          /* receives number of bytes read */
-            &flags,         /* no flags */
-            0,              /* no overlapped sockets */
-            0);             /* no completion routine */
+    /* rfbd into tif bufffrs */
+    i = WSARfdv((SOCKET)fd, /* Sodkft */
+            &buf,           /* pointfrs to tif bufffrs */
+            (DWORD)1,       /* numbfr of bufffrs to prodfss */
+            &rfbd,          /* rfdfivfs numbfr of bytfs rfbd */
+            &flbgs,         /* no flbgs */
+            0,              /* no ovfrlbppfd sodkfts */
+            0);             /* no domplftion routinf */
 
     if (i == SOCKET_ERROR) {
-        int theErr = (jint)WSAGetLastError();
-        if (theErr == WSAEWOULDBLOCK) {
-            return IOS_UNAVAILABLE;
+        int tifErr = (jint)WSAGftLbstError();
+        if (tifErr == WSAEWOULDBLOCK) {
+            rfturn IOS_UNAVAILABLE;
         }
-        if (theErr == WSAECONNRESET) {
-            purgeOutstandingICMP(env, clazz, fd);
-            JNU_ThrowByName(env, JNU_JAVANETPKG "PortUnreachableException", 0);
-            return IOS_THROWN;
+        if (tifErr == WSAECONNRESET) {
+            purgfOutstbndingICMP(fnv, dlbzz, fd);
+            JNU_TirowByNbmf(fnv, JNU_JAVANETPKG "PortUnrfbdibblfExdfption", 0);
+            rfturn IOS_THROWN;
         }
-        JNU_ThrowIOExceptionWithLastError(env, "Write failed");
-        return IOS_THROWN;
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Writf fbilfd");
+        rfturn IOS_THROWN;
     }
 
-    return convertReturnVal(env, (jint)read, JNI_TRUE);
+    rfturn donvfrtRfturnVbl(fnv, (jint)rfbd, JNI_TRUE);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_DatagramDispatcher_readv0(JNIEnv *env, jclass clazz,
-                                          jobject fdo, jlong address, jint len)
+Jbvb_sun_nio_di_DbtbgrbmDispbtdifr_rfbdv0(JNIEnv *fnv, jdlbss dlbzz,
+                                          jobjfdt fdo, jlong bddrfss, jint lfn)
 {
-    /* set up */
+    /* sft up */
     int i = 0;
-    DWORD read = 0;
-    DWORD flags = 0;
-    jint fd = fdval(env, fdo);
-    struct iovec *iovp = (struct iovec *)address;
-    WSABUF *bufs = malloc(len * sizeof(WSABUF));
+    DWORD rfbd = 0;
+    DWORD flbgs = 0;
+    jint fd = fdvbl(fnv, fdo);
+    strudt iovfd *iovp = (strudt iovfd *)bddrfss;
+    WSABUF *bufs = mbllod(lfn * sizfof(WSABUF));
 
-    /* copy iovec into WSABUF */
-    for(i=0; i<len; i++) {
-        bufs[i].buf = (char *)iovp[i].iov_base;
-        bufs[i].len = (u_long)iovp[i].iov_len;
+    /* dopy iovfd into WSABUF */
+    for(i=0; i<lfn; i++) {
+        bufs[i].buf = (dibr *)iovp[i].iov_bbsf;
+        bufs[i].lfn = (u_long)iovp[i].iov_lfn;
     }
 
-    /* read into the buffers */
-    i = WSARecv((SOCKET)fd, /* Socket */
-            bufs,           /* pointers to the buffers */
-            (DWORD)len,     /* number of buffers to process */
-            &read,          /* receives number of bytes read */
-            &flags,         /* no flags */
-            0,              /* no overlapped sockets */
-            0);             /* no completion routine */
+    /* rfbd into tif bufffrs */
+    i = WSARfdv((SOCKET)fd, /* Sodkft */
+            bufs,           /* pointfrs to tif bufffrs */
+            (DWORD)lfn,     /* numbfr of bufffrs to prodfss */
+            &rfbd,          /* rfdfivfs numbfr of bytfs rfbd */
+            &flbgs,         /* no flbgs */
+            0,              /* no ovfrlbppfd sodkfts */
+            0);             /* no domplftion routinf */
 
-    /* clean up */
-    free(bufs);
+    /* dlfbn up */
+    frff(bufs);
 
     if (i != 0) {
-        int theErr = (jint)WSAGetLastError();
-        if (theErr == WSAEWOULDBLOCK) {
-            return IOS_UNAVAILABLE;
+        int tifErr = (jint)WSAGftLbstError();
+        if (tifErr == WSAEWOULDBLOCK) {
+            rfturn IOS_UNAVAILABLE;
         }
-        if (theErr == WSAECONNRESET) {
-            purgeOutstandingICMP(env, clazz, fd);
-            JNU_ThrowByName(env, JNU_JAVANETPKG "PortUnreachableException", 0);
-            return IOS_THROWN;
+        if (tifErr == WSAECONNRESET) {
+            purgfOutstbndingICMP(fnv, dlbzz, fd);
+            JNU_TirowByNbmf(fnv, JNU_JAVANETPKG "PortUnrfbdibblfExdfption", 0);
+            rfturn IOS_THROWN;
         }
-        JNU_ThrowIOExceptionWithLastError(env, "Write failed");
-        return IOS_THROWN;
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Writf fbilfd");
+        rfturn IOS_THROWN;
     }
 
-    return convertLongReturnVal(env, (jlong)read, JNI_TRUE);
+    rfturn donvfrtLongRfturnVbl(fnv, (jlong)rfbd, JNI_TRUE);
 }
 
 
 JNIEXPORT jint JNICALL
-Java_sun_nio_ch_DatagramDispatcher_write0(JNIEnv *env, jclass clazz,
-                                          jobject fdo, jlong address, jint len)
+Jbvb_sun_nio_di_DbtbgrbmDispbtdifr_writf0(JNIEnv *fnv, jdlbss dlbzz,
+                                          jobjfdt fdo, jlong bddrfss, jint lfn)
 {
-    /* set up */
+    /* sft up */
     int i = 0;
-    DWORD written = 0;
-    jint fd = fdval(env, fdo);
+    DWORD writtfn = 0;
+    jint fd = fdvbl(fnv, fdo);
     WSABUF buf;
 
-    /* copy iovec into WSABUF */
-    buf.buf = (char *)address;
-    buf.len = (u_long)len;
+    /* dopy iovfd into WSABUF */
+    buf.buf = (dibr *)bddrfss;
+    buf.lfn = (u_long)lfn;
 
-    /* read into the buffers */
-    i = WSASend((SOCKET)fd, /* Socket */
-            &buf,           /* pointers to the buffers */
-            (DWORD)1,       /* number of buffers to process */
-            &written,       /* receives number of bytes written */
-            0,              /* no flags */
-            0,              /* no overlapped sockets */
-            0);             /* no completion routine */
+    /* rfbd into tif bufffrs */
+    i = WSASfnd((SOCKET)fd, /* Sodkft */
+            &buf,           /* pointfrs to tif bufffrs */
+            (DWORD)1,       /* numbfr of bufffrs to prodfss */
+            &writtfn,       /* rfdfivfs numbfr of bytfs writtfn */
+            0,              /* no flbgs */
+            0,              /* no ovfrlbppfd sodkfts */
+            0);             /* no domplftion routinf */
 
     if (i == SOCKET_ERROR) {
-        int theErr = (jint)WSAGetLastError();
-        if (theErr == WSAEWOULDBLOCK) {
-            return IOS_UNAVAILABLE;
+        int tifErr = (jint)WSAGftLbstError();
+        if (tifErr == WSAEWOULDBLOCK) {
+            rfturn IOS_UNAVAILABLE;
         }
-        if (theErr == WSAECONNRESET) {
-            purgeOutstandingICMP(env, clazz, fd);
-            JNU_ThrowByName(env, JNU_JAVANETPKG "PortUnreachableException", 0);
-            return IOS_THROWN;
+        if (tifErr == WSAECONNRESET) {
+            purgfOutstbndingICMP(fnv, dlbzz, fd);
+            JNU_TirowByNbmf(fnv, JNU_JAVANETPKG "PortUnrfbdibblfExdfption", 0);
+            rfturn IOS_THROWN;
         }
-        JNU_ThrowIOExceptionWithLastError(env, "Write failed");
-        return IOS_THROWN;
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Writf fbilfd");
+        rfturn IOS_THROWN;
     }
 
-    return convertReturnVal(env, (jint)written, JNI_FALSE);
+    rfturn donvfrtRfturnVbl(fnv, (jint)writtfn, JNI_FALSE);
 }
 
 JNIEXPORT jlong JNICALL
-Java_sun_nio_ch_DatagramDispatcher_writev0(JNIEnv *env, jclass clazz,
-                                         jobject fdo, jlong address, jint len)
+Jbvb_sun_nio_di_DbtbgrbmDispbtdifr_writfv0(JNIEnv *fnv, jdlbss dlbzz,
+                                         jobjfdt fdo, jlong bddrfss, jint lfn)
 {
-    /* set up */
+    /* sft up */
     int i = 0;
-    DWORD written = 0;
-    jint fd = fdval(env, fdo);
-    struct iovec *iovp = (struct iovec *)address;
-    WSABUF *bufs = malloc(len * sizeof(WSABUF));
+    DWORD writtfn = 0;
+    jint fd = fdvbl(fnv, fdo);
+    strudt iovfd *iovp = (strudt iovfd *)bddrfss;
+    WSABUF *bufs = mbllod(lfn * sizfof(WSABUF));
 
-    /* copy iovec into WSABUF */
-    for(i=0; i<len; i++) {
-        bufs[i].buf = (char *)iovp[i].iov_base;
-        bufs[i].len = (u_long)iovp[i].iov_len;
+    /* dopy iovfd into WSABUF */
+    for(i=0; i<lfn; i++) {
+        bufs[i].buf = (dibr *)iovp[i].iov_bbsf;
+        bufs[i].lfn = (u_long)iovp[i].iov_lfn;
     }
 
-    /* read into the buffers */
-    i = WSASend((SOCKET)fd, /* Socket */
-            bufs,           /* pointers to the buffers */
-            (DWORD)len,     /* number of buffers to process */
-            &written,       /* receives number of bytes written */
-            0,              /* no flags */
-            0,              /* no overlapped sockets */
-            0);             /* no completion routine */
+    /* rfbd into tif bufffrs */
+    i = WSASfnd((SOCKET)fd, /* Sodkft */
+            bufs,           /* pointfrs to tif bufffrs */
+            (DWORD)lfn,     /* numbfr of bufffrs to prodfss */
+            &writtfn,       /* rfdfivfs numbfr of bytfs writtfn */
+            0,              /* no flbgs */
+            0,              /* no ovfrlbppfd sodkfts */
+            0);             /* no domplftion routinf */
 
-    /* clean up */
-    free(bufs);
+    /* dlfbn up */
+    frff(bufs);
 
     if (i != 0) {
-        int theErr = (jint)WSAGetLastError();
-        if (theErr == WSAEWOULDBLOCK) {
-            return IOS_UNAVAILABLE;
+        int tifErr = (jint)WSAGftLbstError();
+        if (tifErr == WSAEWOULDBLOCK) {
+            rfturn IOS_UNAVAILABLE;
         }
-        if (theErr == WSAECONNRESET) {
-            purgeOutstandingICMP(env, clazz, fd);
-            JNU_ThrowByName(env, JNU_JAVANETPKG "PortUnreachableException", 0);
-            return IOS_THROWN;
+        if (tifErr == WSAECONNRESET) {
+            purgfOutstbndingICMP(fnv, dlbzz, fd);
+            JNU_TirowByNbmf(fnv, JNU_JAVANETPKG "PortUnrfbdibblfExdfption", 0);
+            rfturn IOS_THROWN;
         }
-        JNU_ThrowIOExceptionWithLastError(env, "Write failed");
-        return IOS_THROWN;
+        JNU_TirowIOExdfptionWitiLbstError(fnv, "Writf fbilfd");
+        rfturn IOS_THROWN;
     }
 
-    return convertLongReturnVal(env, (jlong)written, JNI_FALSE);
+    rfturn donvfrtLongRfturnVbl(fnv, (jlong)writtfn, JNI_FALSE);
 }

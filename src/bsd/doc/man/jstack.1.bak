@@ -1,96 +1,96 @@
 '\" t
-.\"  Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Troubleshooting Tools
-.\"     Title: jstack.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Troublfsiooting Tools
+.\"     Titlf: jstbdk.1
 .\"
 .if n .pl 99999
-.TH jstack 1 "21 November 2013" "JDK 8" "Troubleshooting Tools"
+.TH jstbdk 1 "21 Novfmbfr 2013" "JDK 8" "Troublfsiooting Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jstack \- Prints Java thread stack traces for a Java process, core file, or remote debug server\&. This command is experimental and unsupported\&.
+jstbdk \- Prints Jbvb tirfbd stbdk trbdfs for b Jbvb prodfss, dorf filf, or rfmotf dfbug sfrvfr\&. Tiis dommbnd is fxpfrimfntbl bnd unsupportfd\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjstack\fR [ \fIoptions\fR ] \fIpid\fR 
+\fBjstbdk\fR [ \fIoptions\fR ] \fIpid\fR 
 .fi     
 .nf     
 
-\fBjstack\fR [ \fIoptions\fR ] \fIexecutable\fR \fIcore\fR
+\fBjstbdk\fR [ \fIoptions\fR ] \fIfxfdutbblf\fR \fIdorf\fR
 .fi     
 .nf     
 
-\fBjstack\fR [ \fIoptions\fR ] [ \fIserver\-id\fR@ ] \fIremote\-hostname\-or\-IP\fR
+\fBjstbdk\fR [ \fIoptions\fR ] [ \fIsfrvfr\-id\fR@ ] \fIrfmotf\-iostnbmf\-or\-IP\fR
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .TP     
 \fIpid\fR
-The process ID for which the stack trace is printed\&. The process must be a Java process\&. To get a list of Java processes running on a machine, use the jps(1) command\&.
+Tif prodfss ID for wiidi tif stbdk trbdf is printfd\&. Tif prodfss must bf b Jbvb prodfss\&. To gft b list of Jbvb prodfssfs running on b mbdiinf, usf tif jps(1) dommbnd\&.
 .TP     
-\fIexecutable\fR
-The Java executable from which the core dump was produced\&.
+\fIfxfdutbblf\fR
+Tif Jbvb fxfdutbblf from wiidi tif dorf dump wbs produdfd\&.
 .TP     
-\fIcore\fR
-The core file for which the stack trace is to be printed\&.
+\fIdorf\fR
+Tif dorf filf for wiidi tif stbdk trbdf is to bf printfd\&.
 .TP     
-\fIremote-hostname-or-IP\fR
-The remote debug server \f3hostname\fR or \f3IP\fR address\&. See jsadebugd(1)\&.
+\fIrfmotf-iostnbmf-or-IP\fR
+Tif rfmotf dfbug sfrvfr \f3iostnbmf\fR or \f3IP\fR bddrfss\&. Sff jsbdfbugd(1)\&.
 .TP     
-\fIserver-id\fR
-An optional unique ID to use when multiple debug servers are running on the same remote host\&.
+\fIsfrvfr-id\fR
+An optionbl uniquf ID to usf wifn multiplf dfbug sfrvfrs brf running on tif sbmf rfmotf iost\&.
 .SH DESCRIPTION    
-The \f3jstack\fR command prints Java stack traces of Java threads for a specified Java process, core file, or remote debug server\&. For each Java frame, the full class name, method name, byte code index (BCI), and line number, when available, are printed\&. With the \f3-m\fR option, the \f3jstack\fR command prints both Java and native frames of all threads with the program counter (PC)\&. For each native frame, the closest native symbol to PC, when available, is printed\&. C++ mangled names are not demangled\&. To demangle C++ names, the output of this command can be piped to \f3c++filt\fR\&. When the specified process is running on a 64-bit Java Virtual Machine, you might need to specify the \f3-J-d64\fR option, for example: \f3jstack -J-d64 -m pid\fR\&.
+Tif \f3jstbdk\fR dommbnd prints Jbvb stbdk trbdfs of Jbvb tirfbds for b spfdififd Jbvb prodfss, dorf filf, or rfmotf dfbug sfrvfr\&. For fbdi Jbvb frbmf, tif full dlbss nbmf, mftiod nbmf, bytf dodf indfx (BCI), bnd linf numbfr, wifn bvbilbblf, brf printfd\&. Witi tif \f3-m\fR option, tif \f3jstbdk\fR dommbnd prints boti Jbvb bnd nbtivf frbmfs of bll tirfbds witi tif progrbm dountfr (PC)\&. For fbdi nbtivf frbmf, tif dlosfst nbtivf symbol to PC, wifn bvbilbblf, is printfd\&. C++ mbnglfd nbmfs brf not dfmbnglfd\&. To dfmbnglf C++ nbmfs, tif output of tiis dommbnd dbn bf pipfd to \f3d++filt\fR\&. Wifn tif spfdififd prodfss is running on b 64-bit Jbvb Virtubl Mbdiinf, you migit nffd to spfdify tif \f3-J-d64\fR option, for fxbmplf: \f3jstbdk -J-d64 -m pid\fR\&.
 .PP
-\fINote:\fR This utility is unsupported and might not be available in future release of the JDK\&. In Windows Systems where the dbgeng\&.dll file is not present, Debugging Tools For Windows must be installed so these tools work\&. The \f3PATH\fR environment variable needs to contain the location of the jvm\&.dll that is used by the target process, or the location from which the crash dump file was produced\&. For example:
+\fINotf:\fR Tiis utility is unsupportfd bnd migit not bf bvbilbblf in futurf rflfbsf of tif JDK\&. In Windows Systfms wifrf tif dbgfng\&.dll filf is not prfsfnt, Dfbugging Tools For Windows must bf instbllfd so tifsf tools work\&. Tif \f3PATH\fR fnvironmfnt vbribblf nffds to dontbin tif lodbtion of tif jvm\&.dll tibt is usfd by tif tbrgft prodfss, or tif lodbtion from wiidi tif drbsi dump filf wbs produdfd\&. For fxbmplf:
 .sp     
 .nf     
-\f3set PATH=<jdk>\ejre\ebin\eclient;%PATH%\fP
+\f3sft PATH=<jdk>\fjrf\fbin\fdlifnt;%PATH%\fP
 .fi     
 .nf     
 \f3\fP
@@ -100,29 +100,29 @@ The \f3jstack\fR command prints Java stack traces of Java threads for a specifie
 .TP
 -F
 .br
-Force a stack dump when \f3jstack\fR [\f3-l\fR] \f3pid\fR does not respond\&.
+Fordf b stbdk dump wifn \f3jstbdk\fR [\f3-l\fR] \f3pid\fR dofs not rfspond\&.
 .TP
 -l
 .br
-Long listing\&. Prints additional information about locks such as a list of owned \f3java\&.util\&.concurrent\fR ownable synchronizers\&. See the \f3AbstractOwnableSynchronizer\fR class description at http://docs\&.oracle\&.com/javase/8/docs/api/java/util/concurrent/locks/AbstractOwnableSynchronizer\&.html
+Long listing\&. Prints bdditionbl informbtion bbout lodks sudi bs b list of ownfd \f3jbvb\&.util\&.dondurrfnt\fR ownbblf syndironizfrs\&. Sff tif \f3AbstrbdtOwnbblfSyndironizfr\fR dlbss dfsdription bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/util/dondurrfnt/lodks/AbstrbdtOwnbblfSyndironizfr\&.itml
 .TP
 -m
 .br
-Prints a mixed mode stack trace that has both Java and native C/C++ frames\&.
+Prints b mixfd modf stbdk trbdf tibt ibs boti Jbvb bnd nbtivf C/C++ frbmfs\&.
 .TP
--h
+-i
 .br
-Prints a help message\&.
+Prints b iflp mfssbgf\&.
 .TP
--help
+-iflp
 .br
-Prints a help message\&.
+Prints b iflp mfssbgf\&.
 .SH KNOWN\ BUGS    
-In mixed mode stack trace, the \f3-m\fR option does not work with the remote debug server\&.
+In mixfd modf stbdk trbdf, tif \f3-m\fR option dofs not work witi tif rfmotf dfbug sfrvfr\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-pstack(1)
+pstbdk(1)
 .TP 0.2i    
 \(bu
 C++filt(1)
@@ -131,7 +131,7 @@ C++filt(1)
 jps(1)
 .TP 0.2i    
 \(bu
-jsadebugd(1)
+jsbdfbugd(1)
 .RE
 .br
 'pl 8.5i

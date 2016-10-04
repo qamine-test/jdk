@@ -1,0 +1,268 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
+
+/**
+ * Clbss MultiplfDodumfntHbndling is b printing bttributf dlbss, bn fnumfrbtion,
+ * thbt dontrols finishing opfrbtions bnd thf plbdfmfnt of onf or morf
+ * print-strfbm pbgfs into imprfssions bnd onto mfdib shffts. Whfn thf vbluf of
+ * thf {@link Copifs Copifs} bttributf fxdffds 1, MultiplfDodumfntHbndling blso
+ * dontrols thf ordfr in whidh thf dopifs thbt rfsult from prodfssing thf
+ * dodumfnts brf produdfd. This bttributf is rflfvbnt only for b multidod print
+ * job donsisting of two or morf individubl dods.
+ * <P>
+ * Briffly, MultiplfDodumfntHbndling dftfrminfs thf rflbtionship bftwffn thf
+ * multiplf input (flfdtronid) dodumfnts ffd into b multidod print job bnd thf
+ * output (physidbl) dodumfnt or dodumfnts produdfd by thf multidod print job.
+ * Thfrf brf two possibilitifs:
+ * <UL>
+ * <LI>
+ * Thf multiplf input dodumfnts brf dombinfd into b singlf output dodumfnt.
+ * Finishing opfrbtions ({@link Finishings Finishings}),
+ * brf pfrformfd on this singlf output
+ * dodumfnt. Thf {@link Copifs Copifs} bttributf tflls how mbny dopifs of this
+ * singlf output dodumfnt to produdf. Thf MultiplfDodumfntHbndling vblufs
+ * SINGLE_DOCUMENT bnd SINGLE_DOCUMENT_NEW_SHEET spfdify two vbribtions of
+ * this  possibility.
+ *
+ * <LI>
+ * Thf multiplf input dodumfnts rfmbin sfpbrbtf output dodumfnts. Finishing
+ * opfrbtions ({@link Finishings Finishings}),
+ * brf pfrformfd on fbdh output dodumfnt
+ * sfpbrbtfly. Thf {@link Copifs Copifs} bttributf tflls how mbny dopifs of fbdh
+ * sfpbrbtf output dodumfnt to produdf. Thf MultiplfDodumfntHbndling vblufs
+ * SEPARATE_DOCUMENTS_UNCOLLATED_COPIES bnd SEPARATE_DOCUMENTS_COLLATED_COPIES
+ * spfdify two vbribtions of this possibility.
+ * </UL>
+ * <P>
+ * In thf dftbilfd fxplbnbtions bflow, if "<CODE>b</CODE>" rfprfsfnts bn
+ * instbndf of dodumfnt dbtb, thfn thf rfsult of prodfssing thf dbtb in
+ * dodumfnt "<CODE>b</CODE>" is b sfqufndf of mfdib shffts rfprfsfntfd by
+ * "<CODE>b(*)</CODE>".
+ * <P>
+ * Thf stbndbrd MultiplfDodumfntHbndling vblufs brf:
+ * <UL>
+ * <LI>
+ * <A NAME="sdfi">{@link #SINGLE_DOCUMENT
+ * <B>SINGLE_DOCUMENT</B>}</A>. If b print job hbs multiplf
+ * dodumfnts -- sby, thf dodumfnt dbtb is dbllfd <CODE>b</CODE> bnd
+ * <CODE>b</CODE> -- thfn thf rfsult of prodfssing bll thf dodumfnt dbtb
+ * (<CODE>b</CODE> bnd thfn <CODE>b</CODE>) must bf trfbtfd bs b singlf sfqufndf
+ * of mfdib shffts for finishing opfrbtions; thbt is, finishing would bf
+ * pfrformfd on thf dondbtfnbtion of thf sfqufndfs <CODE>b(*),b(*)</CODE>. Thf
+ * printfr must not fordf thf dbtb in fbdh dodumfnt instbndf to bf formbttfd
+ * onto b nfw print-strfbm pbgf, nor to stbrt b nfw imprfssion on b nfw mfdib
+ * shfft. If morf thbn onf dopy is mbdf, thf ordfring of thf sfts of mfdib
+ * shffts rfsulting from prodfssing thf dodumfnt dbtb must bf
+ * <CODE>b(*),b(*),b(*),b(*),...</CODE>, bnd thf printfr objfdt must fordf
+ * fbdh dopy (<CODE>b(*),b(*)</CODE>) to stbrt on b nfw mfdib shfft.
+ *
+ * <LI>
+ * <A NAME="sdudfi">{@link #SEPARATE_DOCUMENTS_UNCOLLATED_COPIES
+ * <B>SEPARATE_DOCUMENTS_UNCOLLATED_COPIES</B>}</A>. If b print job
+ * hbs multiplf dodumfnts -- sby, thf dodumfnt dbtb is dbllfd <CODE>b</CODE> bnd
+ * <CODE>b</CODE> -- thfn thf rfsult of prodfssing thf dbtb in fbdh dodumfnt
+ * instbndf must bf trfbtfd bs b singlf sfqufndf of mfdib shffts for finishing
+ * opfrbtions; thbt is, thf sfts <CODE>b(*)</CODE> bnd <CODE>b(*)</CODE> would
+ * fbdh bf finishfd sfpbrbtfly. Thf printfr must fordf fbdh dopy of thf rfsult
+ * of prodfssing thf dbtb in b singlf dodumfnt to stbrt on b nfw mfdib shfft.
+ * If morf thbn onf dopy is mbdf, thf ordfring of thf sfts of mfdib shffts
+ * rfsulting from prodfssing thf dodumfnt dbtb must bf
+ * <CODE>b(*),b(*),...,b(*),b(*)...</CODE>.
+ *
+ * <LI>
+ * <A NAME="sdddfi">{@link #SEPARATE_DOCUMENTS_COLLATED_COPIES
+ * <B>SEPARATE_DOCUMENTS_COLLATED_COPIES</B>}</A>. If b print job
+ * hbs multiplf dodumfnts -- sby, thf dodumfnt dbtb is dbllfd <CODE>b</CODE> bnd
+ * <CODE>b</CODE> -- thfn thf rfsult of prodfssing thf dbtb in fbdh dodumfnt
+ * instbndf must bf trfbtfd bs b singlf sfqufndf of mfdib shffts for finishing
+ * opfrbtions; thbt is, thf sfts <CODE>b(*)</CODE> bnd <CODE>b(*)</CODE> would
+ * fbdh bf finishfd sfpbrbtfly. Thf printfr must fordf fbdh dopy of thf rfsult
+ * of prodfssing thf dbtb in b singlf dodumfnt to stbrt on b nfw mfdib shfft.
+ * If morf thbn onf dopy is mbdf, thf ordfring of thf sfts of mfdib shffts
+ * rfsulting from prodfssing thf dodumfnt dbtb must bf
+ * <CODE>b(*),b(*),b(*),b(*),...</CODE>.
+ *
+ * <LI>
+ * <A NAME="sdnsfi">{@link #SINGLE_DOCUMENT_NEW_SHEET
+ * <B>SINGLE_DOCUMENT_NEW_SHEET</B>}</A>. Sbmf bs SINGLE_DOCUMENT,
+ * fxdfpt thbt thf printfr must fnsurf thbt thf first imprfssion of fbdh
+ * dodumfnt instbndf in thf job is plbdfd on b nfw mfdib shfft. This vbluf
+ * bllows multiplf dodumfnts to bf stbplfd togfthfr with b singlf stbplf whfrf
+ * fbdh dodumfnt stbrts on b nfw shfft.
+ * </UL>
+ * <P>
+ * SINGLE_DOCUMENT is thf sbmf bs SEPARATE_DOCUMENTS_COLLATED_COPIES with
+ * rfspfdt to ordfring of print-strfbm pbgfs, but not mfdib shfft gfnfrbtion,
+ * sindf SINGLE_DOCUMENT will put thf first pbgf of thf nfxt dodumfnt on thf
+ * bbdk sidf of b shfft if bn odd numbfr of pbgfs hbvf bffn produdfd so fbr
+ * for thf job, whilf SEPARATE_DOCUMENTS_COLLATED_COPIES blwbys fordfs thf
+ * nfxt dodumfnt or dodumfnt dopy on to b nfw shfft.
+ * <P>
+ * In bddition, if b {@link Finishings Finishings} bttributf of
+ * {@link Finishings#STAPLE STAPLE} is spfdififd, thfn:
+ * <UL>
+ * <LI>
+ * With SINGLE_DOCUMENT, dodumfnts <CODE>b</CODE> bnd <CODE>b</CODE> brf
+ * stbplfd togfthfr bs b singlf dodumfnt with no rfgbrd to nfw shffts.
+ *
+ * <LI>
+ * With SINGLE_DOCUMENT_NEW_SHEET, dodumfnts <CODE>b</CODE> bnd <CODE>b</CODE>
+ * brf stbplfd togfthfr bs b singlf dodumfnt, but dodumfnt <CODE>b</CODE>
+ * stbrts on b nfw shfft.
+ *
+ * <LI>
+ * With SEPARATE_DOCUMENTS_UNCOLLATED_COPIES bnd
+ * SEPARATE_DOCUMENTS_COLLATED_COPIES, dodumfnts <CODE>b</CODE> bnd
+ * <CODE>b</CODE> brf stbplfd sfpbrbtfly.
+ * </UL>
+ * <P>
+ * <I>Notf:</I> Nonf of thfsf vblufs providf mfbns to produdf undollbtfd
+ * shffts within b dodumfnt, i.f., whfrf multiplf dopifs of shfft <I>n</I>
+ * brf produdfd bfforf shfft <I>n</I>+1 of thf sbmf dodumfnt.
+ * To spfdify thbt, sff thf {@link ShfftCollbtf ShfftCollbtf} bttributf.
+ * <P>
+ * <B>IPP Compbtibility:</B> Thf dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> is thf IPP bttributf nbmf.  Thf fnumfrbtion's
+ * intfgfr vbluf is thf IPP fnum vbluf.  Thf <dodf>toString()</dodf> mfthod
+ * rfturns thf IPP string rfprfsfntbtion of thf bttributf vbluf.
+ * <P>
+ *
+ * @sff  Copifs
+ * @sff  Finishings
+ * @sff  NumbfrUp
+ * @sff  PbgfRbngfs
+ * @sff  ShfftCollbtf
+ * @sff  Sidfs
+ *
+ * @buthor  Dbvid Mfndfnhbll
+ * @buthor  Albn Kbminsky
+ */
+publid dlbss MultiplfDodumfntHbndling fxtfnds EnumSyntbx
+    implfmfnts PrintRfqufstAttributf, PrintJobAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 8098326460746413466L;
+
+
+    /**
+     * Singlf dodumfnt -- sff bbovf for <A HREF="#sdfi">furthfr
+     * informbtion</A>.
+     */
+    publid stbtid finbl MultiplfDodumfntHbndling
+        SINGLE_DOCUMENT = nfw MultiplfDodumfntHbndling (0);
+
+    /**
+     * Sfpbrbtf dodumfnts undollbtfd dopifs -- sff bbovf for
+     * <A HREF="#sdudfi">furthfr informbtion</A>.
+     */
+    publid stbtid finbl MultiplfDodumfntHbndling
+       SEPARATE_DOCUMENTS_UNCOLLATED_COPIES = nfw MultiplfDodumfntHbndling (1);
+
+    /**
+     * Sfpbrbtf dodumfnts dollbtfd dopifs -- sff bbovf for
+     * <A HREF="#sdddfi">furthfr informbtion</A>.
+     */
+    publid stbtid finbl MultiplfDodumfntHbndling
+        SEPARATE_DOCUMENTS_COLLATED_COPIES = nfw MultiplfDodumfntHbndling (2);
+
+    /**
+     * Singlf dodumfnt nfw shfft -- sff bbovf for
+     * <A HREF="#sdnsfi">furthfr informbtion</A>.
+     */
+    publid stbtid finbl MultiplfDodumfntHbndling
+        SINGLE_DOCUMENT_NEW_SHEET = nfw MultiplfDodumfntHbndling (3);
+
+
+    /**
+     * Construdt b nfw multiplf dodumfnt hbndling fnumfrbtion vbluf with thf
+     * givfn intfgfr vbluf.
+     *
+     * @pbrbm  vbluf  Intfgfr vbluf.
+     */
+    protfdtfd MultiplfDodumfntHbndling(int vbluf) {
+        supfr (vbluf);
+    }
+
+    privbtf stbtid finbl String[] myStringTbblf = {
+        "singlf-dodumfnt",
+        "sfpbrbtf-dodumfnts-undollbtfd-dopifs",
+        "sfpbrbtf-dodumfnts-dollbtfd-dopifs",
+        "singlf-dodumfnt-nfw-shfft"
+    };
+
+    privbtf stbtid finbl MultiplfDodumfntHbndling[] myEnumVblufTbblf = {
+        SINGLE_DOCUMENT,
+        SEPARATE_DOCUMENTS_UNCOLLATED_COPIES,
+        SEPARATE_DOCUMENTS_COLLATED_COPIES,
+        SINGLE_DOCUMENT_NEW_SHEET
+    };
+
+    /**
+     * Rfturns thf string tbblf for dlbss MultiplfDodumfntHbndling.
+     */
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf.dlonf();
+    }
+
+    /**
+     * Rfturns thf fnumfrbtion vbluf tbblf for dlbss MultiplfDodumfntHbndling.
+     */
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn (EnumSyntbx[])myEnumVblufTbblf.dlonf();
+    }
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss MultiplfDodumfntHbndling bnd bny vfndor-dffinfd subdlbssfs,
+     * thf dbtfgory is dlbss MultiplfDodumfntHbndling itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn MultiplfDodumfntHbndling.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss MultiplfDodumfntHbndling bnd bny vfndor-dffinfd subdlbssfs,
+     * thf dbtfgory nbmf is <CODE>"multiplf-dodumfnt-hbndling"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "multiplf-dodumfnt-hbndling";
+    }
+
+}

@@ -1,0 +1,363 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.pffr.LbbflPffr;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvbx.bddfssibility.*;
+
+/**
+ * A <dodf>Lbbfl</dodf> objfdt is b domponfnt for plbding tfxt in b
+ * dontbinfr. A lbbfl displbys b singlf linf of rfbd-only tfxt.
+ * Thf tfxt dbn bf dhbngfd by thf bpplidbtion, but b usfr dbnnot fdit it
+ * dirfdtly.
+ * <p>
+ * For fxbmplf, thf dodf&nbsp;.&nbsp;.&nbsp;.
+ *
+ * <hr><blodkquotf><prf>
+ * sftLbyout(nfw FlowLbyout(FlowLbyout.CENTER, 10, 10));
+ * bdd(nfw Lbbfl("Hi Thfrf!"));
+ * bdd(nfw Lbbfl("Anothfr Lbbfl"));
+ * </prf></blodkquotf><hr>
+ * <p>
+ * produdfs thf following lbbfls:
+ * <p>
+ * <img srd="dod-filfs/Lbbfl-1.gif" blt="Two lbbfls: 'Hi Thfrf!' bnd 'Anothfr lbbfl'"
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ *
+ * @buthor      Sbmi Shbio
+ * @sindf       1.0
+ */
+publid dlbss Lbbfl fxtfnds Componfnt implfmfnts Addfssiblf {
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+    }
+
+    /**
+     * Indidbtfs thbt thf lbbfl should bf lfft justififd.
+     */
+    publid stbtid finbl int LEFT        = 0;
+
+    /**
+     * Indidbtfs thbt thf lbbfl should bf dfntfrfd.
+     */
+    publid stbtid finbl int CENTER      = 1;
+
+    /**
+     * Indidbtfs thbt thf lbbfl should bf right justififd.
+     */
+    publid stbtid finbl int RIGHT       = 2;
+
+    /**
+     * Thf tfxt of this lbbfl.
+     * This tfxt dbn bf modififd by thf progrbm
+     * but nfvfr by thf usfr.
+     *
+     * @sfribl
+     * @sff #gftTfxt()
+     * @sff #sftTfxt(String)
+     */
+    String tfxt;
+
+    /**
+     * Thf lbbfl's blignmfnt.  Thf dffbult blignmfnt is sft
+     * to bf lfft justififd.
+     *
+     * @sfribl
+     * @sff #gftAlignmfnt()
+     * @sff #sftAlignmfnt(int)
+     */
+    int    blignmfnt = LEFT;
+
+    privbtf stbtid finbl String bbsf = "lbbfl";
+    privbtf stbtid int nbmfCountfr = 0;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = 3094126758329070636L;
+
+    /**
+     * Construdts bn fmpty lbbfl.
+     * Thf tfxt of thf lbbfl is thf fmpty string <dodf>""</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid Lbbfl() throws HfbdlfssExdfption {
+        this("", LEFT);
+    }
+
+    /**
+     * Construdts b nfw lbbfl with thf spfdififd string of tfxt,
+     * lfft justififd.
+     * @pbrbm tfxt thf string thbt thf lbbfl prfsfnts.
+     *        A <dodf>null</dodf> vbluf
+     *        will bf bddfptfd without dbusing b NullPointfrExdfption
+     *        to bf thrown.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid Lbbfl(String tfxt) throws HfbdlfssExdfption {
+        this(tfxt, LEFT);
+    }
+
+    /**
+     * Construdts b nfw lbbfl thbt prfsfnts thf spfdififd string of
+     * tfxt with thf spfdififd blignmfnt.
+     * Possiblf vblufs for <dodf>blignmfnt</dodf> brf <dodf>Lbbfl.LEFT</dodf>,
+     * <dodf>Lbbfl.RIGHT</dodf>, bnd <dodf>Lbbfl.CENTER</dodf>.
+     * @pbrbm tfxt thf string thbt thf lbbfl prfsfnts.
+     *        A <dodf>null</dodf> vbluf
+     *        will bf bddfptfd without dbusing b NullPointfrExdfption
+     *        to bf thrown.
+     * @pbrbm     blignmfnt   thf blignmfnt vbluf.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid Lbbfl(String tfxt, int blignmfnt) throws HfbdlfssExdfption {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+        this.tfxt = tfxt;
+        sftAlignmfnt(blignmfnt);
+    }
+
+    /**
+     * Rfbd b lbbfl from bn objfdt input strfbm.
+     * @fxdfption HfbdlfssExdfption if
+     * <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns
+     * <dodf>truf</dodf>
+     * @sfribl
+     * @sindf 1.4
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption {
+        GrbphidsEnvironmfnt.dhfdkHfbdlfss();
+        s.dffbultRfbdObjfdt();
+    }
+
+    /**
+     * Construdt b nbmf for this domponfnt.  Cbllfd by gftNbmf() whfn thf
+     * nbmf is <dodf>null</dodf>.
+     */
+    String donstrudtComponfntNbmf() {
+        syndhronizfd (Lbbfl.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
+        }
+    }
+
+    /**
+     * Crfbtfs thf pffr for this lbbfl.  Thf pffr bllows us to
+     * modify thf bppfbrbndf of thf lbbfl without dhbnging its
+     * fundtionblity.
+     */
+    publid void bddNotify() {
+        syndhronizfd (gftTrffLodk()) {
+            if (pffr == null)
+                pffr = gftToolkit().drfbtfLbbfl(this);
+            supfr.bddNotify();
+        }
+    }
+
+    /**
+     * Gfts thf durrfnt blignmfnt of this lbbfl. Possiblf vblufs brf
+     * <dodf>Lbbfl.LEFT</dodf>, <dodf>Lbbfl.RIGHT</dodf>, bnd
+     * <dodf>Lbbfl.CENTER</dodf>.
+     * @rfturn thf blignmfnt of this lbbfl
+     * @sff jbvb.bwt.Lbbfl#sftAlignmfnt
+     */
+    publid int gftAlignmfnt() {
+        rfturn blignmfnt;
+    }
+
+    /**
+     * Sfts thf blignmfnt for this lbbfl to thf spfdififd blignmfnt.
+     * Possiblf vblufs brf <dodf>Lbbfl.LEFT</dodf>,
+     * <dodf>Lbbfl.RIGHT</dodf>, bnd <dodf>Lbbfl.CENTER</dodf>.
+     * @pbrbm      blignmfnt    thf blignmfnt to bf sft.
+     * @fxdfption  IllfgblArgumfntExdfption if bn impropfr vbluf for
+     *                          <dodf>blignmfnt</dodf> is givfn.
+     * @sff        jbvb.bwt.Lbbfl#gftAlignmfnt
+     */
+    publid syndhronizfd void sftAlignmfnt(int blignmfnt) {
+        switdh (blignmfnt) {
+          dbsf LEFT:
+          dbsf CENTER:
+          dbsf RIGHT:
+            this.blignmfnt = blignmfnt;
+            LbbflPffr pffr = (LbbflPffr)this.pffr;
+            if (pffr != null) {
+                pffr.sftAlignmfnt(blignmfnt);
+            }
+            rfturn;
+        }
+        throw nfw IllfgblArgumfntExdfption("impropfr blignmfnt: " + blignmfnt);
+    }
+
+    /**
+     * Gfts thf tfxt of this lbbfl.
+     * @rfturn     thf tfxt of this lbbfl, or <dodf>null</dodf> if
+     *             thf tfxt hbs bffn sft to <dodf>null</dodf>.
+     * @sff        jbvb.bwt.Lbbfl#sftTfxt
+     */
+    publid String gftTfxt() {
+        rfturn tfxt;
+    }
+
+    /**
+     * Sfts thf tfxt for this lbbfl to thf spfdififd tfxt.
+     * @pbrbm      tfxt thf tfxt thbt this lbbfl displbys. If
+     *             <dodf>tfxt</dodf> is <dodf>null</dodf>, it is
+     *             trfbtfd for displby purposfs likf bn fmpty
+     *             string <dodf>""</dodf>.
+     * @sff        jbvb.bwt.Lbbfl#gftTfxt
+     */
+    publid void sftTfxt(String tfxt) {
+        boolfbn tfstvblid = fblsf;
+        syndhronizfd (this) {
+            if (tfxt != this.tfxt && (this.tfxt == null ||
+                                      !this.tfxt.fqubls(tfxt))) {
+                this.tfxt = tfxt;
+                LbbflPffr pffr = (LbbflPffr)this.pffr;
+                if (pffr != null) {
+                    pffr.sftTfxt(tfxt);
+                }
+                tfstvblid = truf;
+            }
+        }
+
+        // This dould dhbngf thf prfffrrfd sizf of thf Componfnt.
+        if (tfstvblid) {
+            invblidbtfIfVblid();
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfnting thf stbtf of this <dodf>Lbbfl</dodf>.
+     * This mfthod is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
+     *
+     * @rfturn     thf pbrbmftfr string of this lbbfl
+     */
+    protfdtfd String pbrbmString() {
+        String blign = "";
+        switdh (blignmfnt) {
+            dbsf LEFT:   blign = "lfft"; brfbk;
+            dbsf CENTER: blign = "dfntfr"; brfbk;
+            dbsf RIGHT:  blign = "right"; brfbk;
+        }
+        rfturn supfr.pbrbmString() + ",blign=" + blign + ",tfxt=" + tfxt;
+    }
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+
+/////////////////
+// Addfssibility support
+////////////////
+
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this Lbbfl.
+     * For lbbfls, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfAWTLbbfl.
+     * A nfw AddfssiblfAWTLbbfl instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfAWTLbbfl thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this Lbbfl
+     * @sindf 1.3
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTLbbfl();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>Lbbfl</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to lbbfl usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
+     */
+    protfdtfd dlbss AddfssiblfAWTLbbfl fxtfnds AddfssiblfAWTComponfnt
+    {
+        /*
+         * JDK 1.3 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = -3568967560160480438L;
+
+        /**
+         * Construdtor for thf bddfssiblf lbbfl.
+         */
+        publid AddfssiblfAWTLbbfl() {
+            supfr();
+        }
+
+        /**
+         * Gft thf bddfssiblf nbmf of this objfdt.
+         *
+         * @rfturn thf lodblizfd nbmf of thf objfdt -- dbn bf null if this
+         * objfdt dofs not hbvf b nbmf
+         * @sff AddfssiblfContfxt#sftAddfssiblfNbmf
+         */
+        publid String gftAddfssiblfNbmf() {
+            if (bddfssiblfNbmf != null) {
+                rfturn bddfssiblfNbmf;
+            } flsf {
+                if (gftTfxt() == null) {
+                    rfturn supfr.gftAddfssiblfNbmf();
+                } flsf {
+                    rfturn gftTfxt();
+                }
+            }
+        }
+
+        /**
+         * Gft thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.LABEL;
+        }
+
+    } // innfr dlbss AddfssiblfAWTLbbfl
+
+}

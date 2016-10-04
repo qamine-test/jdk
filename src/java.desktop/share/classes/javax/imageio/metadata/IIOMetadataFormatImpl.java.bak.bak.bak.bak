@@ -1,0 +1,1273 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.mftbdbtb;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import dom.sun.imbgfio.plugins.dommon.StbndbrdMftbdbtbFormbt;
+
+/**
+ * A dondrftf dlbss providing b rfusbblf implfmfntbtion of thf
+ * <dodf>IIOMftbdbtbFormbt</dodf> intfrfbdf.  In bddition, b stbtid
+ * instbndf rfprfsfnting thf stbndbrd, plug-in nfutrbl
+ * <dodf>jbvbx_imbgfio_1.0</dodf> formbt is providfd by thf
+ * <dodf>gftStbndbrdFormbtInstbndf</dodf> mfthod.
+ *
+ * <p> In ordfr to supply lodblizfd dfsdriptions of flfmfnts bnd
+ * bttributfs, b <dodf>RfsourdfBundlf</dodf> with b bbsf nbmf of
+ * <dodf>this.gftClbss().gftNbmf() + "Rfsourdfs"</dodf> should bf
+ * supplifd vib thf usubl mfdhbnism usfd by
+ * <dodf>RfsourdfBundlf.gftBundlf</dodf>.  Briffly, thf subdlbssfr
+ * supplifs onf or morf bdditionbl dlbssfs bddording to b nbming
+ * donvfntion (by dffbult, thf fully-qublififd nbmf of thf subdlbss
+ * fxtfnding <dodf>IIMftbdbtbFormbtImpl</dodf>, plus thf string
+ * "Rfsourdfs", plus thf dountry, lbngubgf, bnd vbribnt dodfs
+ * sfpbrbtfd by undfrsdorfs).  At run timf, dblls to
+ * <dodf>gftElfmfntDfsdription</dodf> or
+ * <dodf>gftAttributfDfsdription</dodf> will bttfmpt to lobd sudh
+ * dlbssfs dynbmidblly bddording to thf supplifd lodblf, bnd will usf
+ * fithfr thf flfmfnt nbmf, or thf flfmfnt nbmf followfd by b '/'
+ * dhbrbdtfr followfd by thf bttributf nbmf bs b kfy.  This kfy will
+ * bf supplifd to thf <dodf>RfsourdfBundlf</dodf>'s
+ * <dodf>gftString</dodf> mfthod, bnd thf rfsulting lodblizfd
+ * dfsdription of thf nodf or bttributf is rfturnfd.
+ *
+ * <p> Thf subdlbss mby supply b difffrfnt bbsf nbmf for thf rfsourdf
+ * bundlfs using thf <dodf>sftRfsourdfBbsfNbmf</dodf> mfthod.
+ *
+ * <p> A subdlbss mby dhoosf its own lodblizbtion mfdhbnism, if so
+ * dfsirfd, by ovfrriding thf supplifd implfmfntbtions of
+ * <dodf>gftElfmfntDfsdription</dodf> bnd
+ * <dodf>gftAttributfDfsdription</dodf>.
+ *
+ * @sff RfsourdfBundlf#gftBundlf(String,Lodblf)
+ *
+ */
+publid bbstrbdt dlbss IIOMftbdbtbFormbtImpl implfmfnts IIOMftbdbtbFormbt {
+
+    /**
+     * A <dodf>String</dodf> donstbnt dontbining thf stbndbrd formbt
+     * nbmf, <dodf>"jbvbx_imbgfio_1.0"</dodf>.
+     */
+    publid stbtid finbl String stbndbrdMftbdbtbFormbtNbmf =
+        "jbvbx_imbgfio_1.0";
+
+    privbtf stbtid IIOMftbdbtbFormbt stbndbrdFormbt = null;
+
+    privbtf String rfsourdfBbsfNbmf = this.gftClbss().gftNbmf() + "Rfsourdfs";
+
+    privbtf String rootNbmf;
+
+    // Elfmfnt nbmf (String) -> Elfmfnt
+    privbtf HbshMbp<String, Elfmfnt> flfmfntMbp = nfw HbshMbp<>();
+
+    dlbss Elfmfnt {
+        String flfmfntNbmf;
+
+        int dhildPolidy;
+        int minChildrfn = 0;
+        int mbxChildrfn = 0;
+
+        // Child nbmfs (Strings)
+        List<String> dhildList = nfw ArrbyList<>();
+
+        // Pbrfnt nbmfs (Strings)
+        List<String> pbrfntList = nfw ArrbyList<>();
+
+        // List of bttributf nbmfs in thf ordfr thfy wfrf bddfd
+        List<String> bttrList = nfw ArrbyList<>();
+        // Attr nbmf (String) -> Attributf
+        Mbp<String, Attributf> bttrMbp = nfw HbshMbp<>();
+
+        ObjfdtVbluf<?> objfdtVbluf;
+    }
+
+    dlbss Attributf {
+        String bttrNbmf;
+
+        int vblufTypf = VALUE_ARBITRARY;
+        int dbtbTypf;
+        boolfbn rfquirfd;
+        String dffbultVbluf = null;
+
+        // fnumfrbtion
+        List<String> fnumfrbtfdVblufs;
+
+        // rbngf
+        String minVbluf;
+        String mbxVbluf;
+
+        // list
+        int listMinLfngth;
+        int listMbxLfngth;
+    }
+
+    dlbss ObjfdtVbluf<T> {
+        int vblufTypf = VALUE_NONE;
+        // ? fxtfnds T So thbt ObjfdtVbluf<Objfdt> dbn tbkf Clbss<?>
+        Clbss<? fxtfnds T> dlbssTypf = null;
+        T dffbultVbluf = null;
+
+        // Mfbningful only if vblufTypf == VALUE_ENUMERATION
+        List<? fxtfnds T> fnumfrbtfdVblufs = null;
+
+        // Mfbningful only if vblufTypf == VALUE_RANGE
+        Compbrbblf<? supfr T> minVbluf = null;
+        Compbrbblf<? supfr T> mbxVbluf = null;
+
+        // Mfbningful only if vblufTypf == VALUE_LIST
+        int brrbyMinLfngth = 0;
+        int brrbyMbxLfngth = 0;
+    }
+
+    /**
+     * Construdts b blbnk <dodf>IIOMftbdbtbFormbtImpl</dodf> instbndf,
+     * with b givfn root flfmfnt nbmf bnd dhild polidy (othfr thbn
+     * <dodf>CHILD_POLICY_REPEAT</dodf>).  Additionbl flfmfnts, bnd
+     * thfir bttributfs bnd <dodf>Objfdt</dodf> rfffrfndf informbtion
+     * mby bf bddfd using thf vbrious <dodf>bdd</dodf> mfthods.
+     *
+     * @pbrbm rootNbmf thf nbmf of thf root flfmfnt.
+     * @pbrbm dhildPolidy onf of thf <dodf>CHILD_POLICY_*</dodf> donstbnts,
+     * othfr thbn <dodf>CHILD_POLICY_REPEAT</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rootNbmf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dhildPolidy</dodf> is
+     * not onf of thf prfdffinfd donstbnts.
+     */
+    publid IIOMftbdbtbFormbtImpl(String rootNbmf,
+                                 int dhildPolidy) {
+        if (rootNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("rootNbmf == null!");
+        }
+        if (dhildPolidy < CHILD_POLICY_EMPTY ||
+            dhildPolidy > CHILD_POLICY_MAX ||
+            dhildPolidy == CHILD_POLICY_REPEAT) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf for dhildPolidy!");
+        }
+
+        this.rootNbmf = rootNbmf;
+
+        Elfmfnt root = nfw Elfmfnt();
+        root.flfmfntNbmf = rootNbmf;
+        root.dhildPolidy = dhildPolidy;
+
+        flfmfntMbp.put(rootNbmf, root);
+    }
+
+    /**
+     * Construdts b blbnk <dodf>IIOMftbdbtbFormbtImpl</dodf> instbndf,
+     * with b givfn root flfmfnt nbmf bnd b dhild polidy of
+     * <dodf>CHILD_POLICY_REPEAT</dodf>.  Additionbl flfmfnts, bnd
+     * thfir bttributfs bnd <dodf>Objfdt</dodf> rfffrfndf informbtion
+     * mby bf bddfd using thf vbrious <dodf>bdd</dodf> mfthods.
+     *
+     * @pbrbm rootNbmf thf nbmf of thf root flfmfnt.
+     * @pbrbm minChildrfn thf minimum numbfr of dhildrfn of thf nodf.
+     * @pbrbm mbxChildrfn thf mbximum numbfr of dhildrfn of thf nodf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rootNbmf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>minChildrfn</dodf>
+     * is nfgbtivf or lbrgfr thbn <dodf>mbxChildrfn</dodf>.
+     */
+    publid IIOMftbdbtbFormbtImpl(String rootNbmf,
+                                 int minChildrfn,
+                                 int mbxChildrfn) {
+        if (rootNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("rootNbmf == null!");
+        }
+        if (minChildrfn < 0) {
+            throw nfw IllfgblArgumfntExdfption("minChildrfn < 0!");
+        }
+        if (minChildrfn > mbxChildrfn) {
+            throw nfw IllfgblArgumfntExdfption("minChildrfn > mbxChildrfn!");
+        }
+
+        Elfmfnt root = nfw Elfmfnt();
+        root.flfmfntNbmf = rootNbmf;
+        root.dhildPolidy = CHILD_POLICY_REPEAT;
+        root.minChildrfn = minChildrfn;
+        root.mbxChildrfn = mbxChildrfn;
+
+        this.rootNbmf = rootNbmf;
+        flfmfntMbp.put(rootNbmf, root);
+    }
+
+    /**
+     * Sfts b nfw bbsf nbmf for lodbting <dodf>RfsourdfBundlf</dodf>s
+     * dontbining dfsdriptions of flfmfnts bnd bttributfs for this
+     * formbt.
+     *
+     * <p> Prior to thf first timf this mfthod is dbllfd, thf bbsf
+     * nbmf will bf fqubl to <dodf>this.gftClbss().gftNbmf() +
+     * "Rfsourdfs"</dodf>.
+     *
+     * @pbrbm rfsourdfBbsfNbmf b <dodf>String</dodf> dontbining thf nfw
+     * bbsf nbmf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>rfsourdfBbsfNbmf</dodf> is <dodf>null</dodf>.
+     *
+     * @sff #gftRfsourdfBbsfNbmf
+     */
+    protfdtfd void sftRfsourdfBbsfNbmf(String rfsourdfBbsfNbmf) {
+        if (rfsourdfBbsfNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("rfsourdfBbsfNbmf == null!");
+        }
+        this.rfsourdfBbsfNbmf = rfsourdfBbsfNbmf;
+    }
+
+    /**
+     * Rfturns thf durrfntly sft bbsf nbmf for lodbting
+     * <dodf>RfsourdfBundlf</dodf>s.
+     *
+     * @rfturn b <dodf>String</dodf> dontbining thf bbsf nbmf.
+     *
+     * @sff #sftRfsourdfBbsfNbmf
+     */
+    protfdtfd String gftRfsourdfBbsfNbmf() {
+        rfturn rfsourdfBbsfNbmf;
+    }
+
+    /**
+     * Utility mfthod for lodbting bn flfmfnt.
+     *
+     * @pbrbm mustAppfbr if <dodf>truf</dodf>, throw bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if no sudh nodf fxists;
+     * if <dodf>fblsf</dodf>, just rfturn null.
+     */
+    privbtf Elfmfnt gftElfmfnt(String flfmfntNbmf, boolfbn mustAppfbr) {
+        if (mustAppfbr && (flfmfntNbmf == null)) {
+            throw nfw IllfgblArgumfntExdfption("flfmfnt nbmf is null!");
+        }
+        Elfmfnt flfmfnt = flfmfntMbp.gft(flfmfntNbmf);
+        if (mustAppfbr && (flfmfnt == null)) {
+            throw nfw IllfgblArgumfntExdfption("No sudh flfmfnt: " +
+                                               flfmfntNbmf);
+        }
+        rfturn flfmfnt;
+    }
+
+    privbtf Elfmfnt gftElfmfnt(String flfmfntNbmf) {
+        rfturn gftElfmfnt(flfmfntNbmf, truf);
+    }
+
+    // Utility mfthod for lodbting bn bttributf
+    privbtf Attributf gftAttributf(String flfmfntNbmf, String bttrNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        Attributf bttr = flfmfnt.bttrMbp.gft(bttrNbmf);
+        if (bttr == null) {
+            throw nfw IllfgblArgumfntExdfption("No sudh bttributf \"" +
+                                               bttrNbmf + "\"!");
+        }
+        rfturn bttr;
+    }
+
+    // Sftup
+
+    /**
+     * Adds b nfw flfmfnt typf to this mftbdbtb dodumfnt formbt with b
+     * dhild polidy othfr thbn <dodf>CHILD_POLICY_REPEAT</dodf>.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf nfw flfmfnt.
+     * @pbrbm pbrfntNbmf thf nbmf of thf flfmfnt thbt will bf thf
+     * pbrfnt of thf nfw flfmfnt.
+     * @pbrbm dhildPolidy onf of thf <dodf>CHILD_POLICY_*</dodf>
+     * donstbnts, othfr thbn <dodf>CHILD_POLICY_REPEAT</dodf>,
+     * indidbting thf dhild polidy of thf nfw flfmfnt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>pbrfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for this
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dhildPolidy</dodf>
+     * is not onf of thf prfdffinfd donstbnts.
+     */
+    protfdtfd void bddElfmfnt(String flfmfntNbmf,
+                              String pbrfntNbmf,
+                              int dhildPolidy) {
+        Elfmfnt pbrfnt = gftElfmfnt(pbrfntNbmf);
+        if (dhildPolidy < CHILD_POLICY_EMPTY ||
+            dhildPolidy > CHILD_POLICY_MAX ||
+            dhildPolidy == CHILD_POLICY_REPEAT) {
+            throw nfw IllfgblArgumfntExdfption
+                ("Invblid vbluf for dhildPolidy!");
+        }
+
+        Elfmfnt flfmfnt = nfw Elfmfnt();
+        flfmfnt.flfmfntNbmf = flfmfntNbmf;
+        flfmfnt.dhildPolidy = dhildPolidy;
+
+        pbrfnt.dhildList.bdd(flfmfntNbmf);
+        flfmfnt.pbrfntList.bdd(pbrfntNbmf);
+
+        flfmfntMbp.put(flfmfntNbmf, flfmfnt);
+    }
+
+    /**
+     * Adds b nfw flfmfnt typf to this mftbdbtb dodumfnt formbt with b
+     * dhild polidy of <dodf>CHILD_POLICY_REPEAT</dodf>.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf nfw flfmfnt.
+     * @pbrbm pbrfntNbmf thf nbmf of thf flfmfnt thbt will bf thf
+     * pbrfnt of thf nfw flfmfnt.
+     * @pbrbm minChildrfn thf minimum numbfr of dhildrfn of thf nodf.
+     * @pbrbm mbxChildrfn thf mbximum numbfr of dhildrfn of thf nodf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>pbrfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for this
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>minChildrfn</dodf>
+     * is nfgbtivf or lbrgfr thbn <dodf>mbxChildrfn</dodf>.
+     */
+    protfdtfd void bddElfmfnt(String flfmfntNbmf,
+                              String pbrfntNbmf,
+                              int minChildrfn,
+                              int mbxChildrfn) {
+        Elfmfnt pbrfnt = gftElfmfnt(pbrfntNbmf);
+        if (minChildrfn < 0) {
+            throw nfw IllfgblArgumfntExdfption("minChildrfn < 0!");
+        }
+        if (minChildrfn > mbxChildrfn) {
+            throw nfw IllfgblArgumfntExdfption("minChildrfn > mbxChildrfn!");
+        }
+
+        Elfmfnt flfmfnt = nfw Elfmfnt();
+        flfmfnt.flfmfntNbmf = flfmfntNbmf;
+        flfmfnt.dhildPolidy = CHILD_POLICY_REPEAT;
+        flfmfnt.minChildrfn = minChildrfn;
+        flfmfnt.mbxChildrfn = mbxChildrfn;
+
+        pbrfnt.dhildList.bdd(flfmfntNbmf);
+        flfmfnt.pbrfntList.bdd(pbrfntNbmf);
+
+        flfmfntMbp.put(flfmfntNbmf, flfmfnt);
+    }
+
+    /**
+     * Adds bn fxisting flfmfnt to thf list of lfgbl dhildrfn for b
+     * givfn pbrfnt nodf typf.
+     *
+     * @pbrbm pbrfntNbmf thf nbmf of thf flfmfnt thbt will bf thf
+     * nfw pbrfnt of thf flfmfnt.
+     * @pbrbm flfmfntNbmf thf nbmf of thf flfmfnt to bf bddfd bs b
+     * dhild.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for this
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>pbrfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for this
+     * formbt.
+     */
+    protfdtfd void bddChildElfmfnt(String flfmfntNbmf, String pbrfntNbmf) {
+        Elfmfnt pbrfnt = gftElfmfnt(pbrfntNbmf);
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        pbrfnt.dhildList.bdd(flfmfntNbmf);
+        flfmfnt.pbrfntList.bdd(pbrfntNbmf);
+    }
+
+    /**
+     * Rfmovfs bn flfmfnt from thf formbt.  If no flfmfnt with thf
+     * givfn nbmf wbs prfsfnt, nothing hbppfns bnd no fxdfption is
+     * thrown.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf flfmfnt to bf rfmovfd.
+     */
+    protfdtfd void rfmovfElfmfnt(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf, fblsf);
+        if (flfmfnt != null) {
+            Itfrbtor<String> itfr = flfmfnt.pbrfntList.itfrbtor();
+            whilf (itfr.hbsNfxt()) {
+                String pbrfntNbmf = itfr.nfxt();
+                Elfmfnt pbrfnt = gftElfmfnt(pbrfntNbmf, fblsf);
+                if (pbrfnt != null) {
+                    pbrfnt.dhildList.rfmovf(flfmfntNbmf);
+                }
+            }
+            flfmfntMbp.rfmovf(flfmfntNbmf);
+        }
+    }
+
+    /**
+     * Adds b nfw bttributf to b prfviously dffinfd flfmfnt thbt mby
+     * bf sft to bn brbitrbry vbluf.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf flfmfnt.
+     * @pbrbm bttrNbmf thf nbmf of thf bttributf bfing bddfd.
+     * @pbrbm dbtbTypf thf dbtb typf (string formbt) of thf bttributf,
+     * onf of thf <dodf>DATATYPE_*</dodf> donstbnts.
+     * @pbrbm rfquirfd <dodf>truf</dodf> if thf bttributf must bf prfsfnt.
+     * @pbrbm dffbultVbluf thf dffbult vbluf for thf bttributf, or
+     * <dodf>null</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for this
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is
+     * not onf of thf prfdffinfd donstbnts.
+     */
+    protfdtfd void bddAttributf(String flfmfntNbmf,
+                                String bttrNbmf,
+                                int dbtbTypf,
+                                boolfbn rfquirfd,
+                                String dffbultVbluf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (bttrNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("bttrNbmf == null!");
+        }
+        if (dbtbTypf < DATATYPE_STRING || dbtbTypf > DATATYPE_DOUBLE) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf for dbtbTypf!");
+        }
+
+        Attributf bttr = nfw Attributf();
+        bttr.bttrNbmf = bttrNbmf;
+        bttr.vblufTypf = VALUE_ARBITRARY;
+        bttr.dbtbTypf = dbtbTypf;
+        bttr.rfquirfd = rfquirfd;
+        bttr.dffbultVbluf = dffbultVbluf;
+
+        flfmfnt.bttrList.bdd(bttrNbmf);
+        flfmfnt.bttrMbp.put(bttrNbmf, bttr);
+    }
+
+    /**
+     * Adds b nfw bttributf to b prfviously dffinfd flfmfnt thbt will
+     * bf dffinfd by b sft of fnumfrbtfd vblufs.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf flfmfnt.
+     * @pbrbm bttrNbmf thf nbmf of thf bttributf bfing bddfd.
+     * @pbrbm dbtbTypf thf dbtb typf (string formbt) of thf bttributf,
+     * onf of thf <dodf>DATATYPE_*</dodf> donstbnts.
+     * @pbrbm rfquirfd <dodf>truf</dodf> if thf bttributf must bf prfsfnt.
+     * @pbrbm dffbultVbluf thf dffbult vbluf for thf bttributf, or
+     * <dodf>null</dodf>.
+     * @pbrbm fnumfrbtfdVblufs b <dodf>List</dodf> of
+     * <dodf>String</dodf>s dontbining thf lfgbl vblufs for thf
+     * bttributf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for this
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is
+     * not onf of thf prfdffinfd donstbnts.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fnumfrbtfdVblufs</dodf> is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fnumfrbtfdVblufs</dodf> dofs not dontbin bt lfbst onf
+     * fntry.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fnumfrbtfdVblufs</dodf> dontbins bn flfmfnt thbt is not b
+     * <dodf>String</dodf> or is <dodf>null</dodf>.
+     */
+    protfdtfd void bddAttributf(String flfmfntNbmf,
+                                String bttrNbmf,
+                                int dbtbTypf,
+                                boolfbn rfquirfd,
+                                String dffbultVbluf,
+                                List<String> fnumfrbtfdVblufs) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (bttrNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("bttrNbmf == null!");
+        }
+        if (dbtbTypf < DATATYPE_STRING || dbtbTypf > DATATYPE_DOUBLE) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf for dbtbTypf!");
+        }
+        if (fnumfrbtfdVblufs == null) {
+            throw nfw IllfgblArgumfntExdfption("fnumfrbtfdVblufs == null!");
+        }
+        if (fnumfrbtfdVblufs.sizf() == 0) {
+            throw nfw IllfgblArgumfntExdfption("fnumfrbtfdVblufs is fmpty!");
+        }
+        Itfrbtor<String> itfr = fnumfrbtfdVblufs.itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            Objfdt o = itfr.nfxt();
+            if (o == null) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("fnumfrbtfdVblufs dontbins b null!");
+            }
+            if (!(o instbndfof String)) {
+                throw nfw IllfgblArgumfntExdfption
+                    ("fnumfrbtfdVblufs dontbins b non-String vbluf!");
+            }
+        }
+
+        Attributf bttr = nfw Attributf();
+        bttr.bttrNbmf = bttrNbmf;
+        bttr.vblufTypf = VALUE_ENUMERATION;
+        bttr.dbtbTypf = dbtbTypf;
+        bttr.rfquirfd = rfquirfd;
+        bttr.dffbultVbluf = dffbultVbluf;
+        bttr.fnumfrbtfdVblufs = fnumfrbtfdVblufs;
+
+        flfmfnt.bttrList.bdd(bttrNbmf);
+        flfmfnt.bttrMbp.put(bttrNbmf, bttr);
+    }
+
+    /**
+     * Adds b nfw bttributf to b prfviously dffinfd flfmfnt thbt will
+     * bf dffinfd by b rbngf of vblufs.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf flfmfnt.
+     * @pbrbm bttrNbmf thf nbmf of thf bttributf bfing bddfd.
+     * @pbrbm dbtbTypf thf dbtb typf (string formbt) of thf bttributf,
+     * onf of thf <dodf>DATATYPE_*</dodf> donstbnts.
+     * @pbrbm rfquirfd <dodf>truf</dodf> if thf bttributf must bf prfsfnt.
+     * @pbrbm dffbultVbluf thf dffbult vbluf for thf bttributf, or
+     * <dodf>null</dodf>.
+     * @pbrbm minVbluf thf smbllfst (indlusivf or fxdlusivf dfpfnding
+     * on thf vbluf of <dodf>minIndlusivf</dodf>) lfgbl vbluf for thf
+     * bttributf, bs b <dodf>String</dodf>.
+     * @pbrbm mbxVbluf thf lbrgfst (indlusivf or fxdlusivf dfpfnding
+     * on thf vbluf of <dodf>minIndlusivf</dodf>) lfgbl vbluf for thf
+     * bttributf, bs b <dodf>String</dodf>.
+     * @pbrbm minIndlusivf <dodf>truf</dodf> if <dodf>minVbluf</dodf>
+     * is indlusivf.
+     * @pbrbm mbxIndlusivf <dodf>truf</dodf> if <dodf>mbxVbluf</dodf>
+     * is indlusivf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for this
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is
+     * not onf of thf prfdffinfd donstbnts.
+     */
+    protfdtfd void bddAttributf(String flfmfntNbmf,
+                                String bttrNbmf,
+                                int dbtbTypf,
+                                boolfbn rfquirfd,
+                                String dffbultVbluf,
+                                String minVbluf,
+                                String mbxVbluf,
+                                boolfbn minIndlusivf,
+                                boolfbn mbxIndlusivf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (bttrNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("bttrNbmf == null!");
+        }
+        if (dbtbTypf < DATATYPE_STRING || dbtbTypf > DATATYPE_DOUBLE) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf for dbtbTypf!");
+        }
+
+        Attributf bttr = nfw Attributf();
+        bttr.bttrNbmf = bttrNbmf;
+        bttr.vblufTypf = VALUE_RANGE;
+        if (minIndlusivf) {
+            bttr.vblufTypf |= VALUE_RANGE_MIN_INCLUSIVE_MASK;
+        }
+        if (mbxIndlusivf) {
+            bttr.vblufTypf |= VALUE_RANGE_MAX_INCLUSIVE_MASK;
+        }
+        bttr.dbtbTypf = dbtbTypf;
+        bttr.rfquirfd = rfquirfd;
+        bttr.dffbultVbluf = dffbultVbluf;
+        bttr.minVbluf = minVbluf;
+        bttr.mbxVbluf = mbxVbluf;
+
+        flfmfnt.bttrList.bdd(bttrNbmf);
+        flfmfnt.bttrMbp.put(bttrNbmf, bttr);
+    }
+
+    /**
+     * Adds b nfw bttributf to b prfviously dffinfd flfmfnt thbt will
+     * bf dffinfd by b list of vblufs.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf flfmfnt.
+     * @pbrbm bttrNbmf thf nbmf of thf bttributf bfing bddfd.
+     * @pbrbm dbtbTypf thf dbtb typf (string formbt) of thf bttributf,
+     * onf of thf <dodf>DATATYPE_*</dodf> donstbnts.
+     * @pbrbm rfquirfd <dodf>truf</dodf> if thf bttributf must bf prfsfnt.
+     * @pbrbm listMinLfngth thf smbllfst lfgbl numbfr of list itfms.
+     * @pbrbm listMbxLfngth thf lbrgfst lfgbl numbfr of list itfms.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for this
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is
+     * not onf of thf prfdffinfd donstbnts.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>listMinLfngth</dodf> is nfgbtivf or lbrgfr thbn
+     * <dodf>listMbxLfngth</dodf>.
+     */
+    protfdtfd void bddAttributf(String flfmfntNbmf,
+                                String bttrNbmf,
+                                int dbtbTypf,
+                                boolfbn rfquirfd,
+                                int listMinLfngth,
+                                int listMbxLfngth) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (bttrNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("bttrNbmf == null!");
+        }
+        if (dbtbTypf < DATATYPE_STRING || dbtbTypf > DATATYPE_DOUBLE) {
+            throw nfw IllfgblArgumfntExdfption("Invblid vbluf for dbtbTypf!");
+        }
+        if (listMinLfngth < 0 || listMinLfngth > listMbxLfngth) {
+            throw nfw IllfgblArgumfntExdfption("Invblid list bounds!");
+        }
+
+        Attributf bttr = nfw Attributf();
+        bttr.bttrNbmf = bttrNbmf;
+        bttr.vblufTypf = VALUE_LIST;
+        bttr.dbtbTypf = dbtbTypf;
+        bttr.rfquirfd = rfquirfd;
+        bttr.listMinLfngth = listMinLfngth;
+        bttr.listMbxLfngth = listMbxLfngth;
+
+        flfmfnt.bttrList.bdd(bttrNbmf);
+        flfmfnt.bttrMbp.put(bttrNbmf, bttr);
+    }
+
+    /**
+     * Adds b nfw bttributf to b prfviously dffinfd flfmfnt thbt will
+     * bf dffinfd by thf fnumfrbtfd vblufs <dodf>TRUE</dodf> bnd
+     * <dodf>FALSE</dodf>, with b dbtbtypf of
+     * <dodf>DATATYPE_BOOLEAN</dodf>.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf flfmfnt.
+     * @pbrbm bttrNbmf thf nbmf of thf bttributf bfing bddfd.
+     * @pbrbm hbsDffbultVbluf <dodf>truf</dodf> if b dffbult vbluf
+     * should bf prfsfnt.
+     * @pbrbm dffbultVbluf thf dffbult vbluf for thf bttributf bs b
+     * <dodf>boolfbn</dodf>, ignorfd if <dodf>hbsDffbultVbluf</dodf>
+     * is <dodf>fblsf</dodf>.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for this
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf>.
+     */
+    protfdtfd void bddBoolfbnAttributf(String flfmfntNbmf,
+                                       String bttrNbmf,
+                                       boolfbn hbsDffbultVbluf,
+                                       boolfbn dffbultVbluf) {
+        List<String> vblufs = nfw ArrbyList<>();
+        vblufs.bdd("TRUE");
+        vblufs.bdd("FALSE");
+
+        String dvbl = null;
+        if (hbsDffbultVbluf) {
+            dvbl = dffbultVbluf ? "TRUE" : "FALSE";
+        }
+        bddAttributf(flfmfntNbmf,
+                     bttrNbmf,
+                     DATATYPE_BOOLEAN,
+                     truf,
+                     dvbl,
+                     vblufs);
+    }
+
+    /**
+     * Rfmovfs bn bttributf from b prfviously dffinfd flfmfnt.  If no
+     * bttributf with thf givfn nbmf wbs prfsfnt in thf givfn flfmfnt,
+     * nothing hbppfns bnd no fxdfption is thrown.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf flfmfnt.
+     * @pbrbm bttrNbmf thf nbmf of thf bttributf bfing rfmovfd.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for this formbt.
+     */
+    protfdtfd void rfmovfAttributf(String flfmfntNbmf, String bttrNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        flfmfnt.bttrList.rfmovf(bttrNbmf);
+        flfmfnt.bttrMbp.rfmovf(bttrNbmf);
+    }
+
+    /**
+     * Allows bn <dodf>Objfdt</dodf> rfffrfndf of b givfn dlbss typf
+     * to bf storfd in nodfs implfmfnting thf nbmfd flfmfnt.  Thf
+     * vbluf of thf <dodf>Objfdt</dodf> is undonstrbinfd othfr thbn by
+     * its dlbss typf.
+     *
+     * <p> If bn <dodf>Objfdt</dodf> rfffrfndf wbs prfviously bllowfd,
+     * thf prfvious sfttings brf ovfrwrittfn.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf flfmfnt.
+     * @pbrbm dlbssTypf b <dodf>Clbss</dodf> vbribblf indidbting thf
+     * lfgbl dlbss typf for thf objfdt vbluf.
+     * @pbrbm rfquirfd <dodf>truf</dodf> if bn objfdt vbluf must bf prfsfnt.
+     * @pbrbm dffbultVbluf thf dffbult vbluf for thf
+     * <dodf>Objfdt</dodf> rfffrfndf, or <dodf>null</dodf>.
+     * @pbrbm <T> thf typf of thf objfdt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for this formbt.
+     */
+    protfdtfd <T> void bddObjfdtVbluf(String flfmfntNbmf,
+                                      Clbss<T> dlbssTypf,
+                                      boolfbn rfquirfd,
+                                      T dffbultVbluf)
+    {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        ObjfdtVbluf<T> obj = nfw ObjfdtVbluf<>();
+        obj.vblufTypf = VALUE_ARBITRARY;
+        obj.dlbssTypf = dlbssTypf;
+        obj.dffbultVbluf = dffbultVbluf;
+
+        flfmfnt.objfdtVbluf = obj;
+    }
+
+    /**
+     * Allows bn <dodf>Objfdt</dodf> rfffrfndf of b givfn dlbss typf
+     * to bf storfd in nodfs implfmfnting thf nbmfd flfmfnt.  Thf
+     * vbluf of thf <dodf>Objfdt</dodf> must bf onf of thf vblufs
+     * givfn by <dodf>fnumfrbtfdVblufs</dodf>.
+     *
+     * <p> If bn <dodf>Objfdt</dodf> rfffrfndf wbs prfviously bllowfd,
+     * thf prfvious sfttings brf ovfrwrittfn.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf flfmfnt.
+     * @pbrbm dlbssTypf b <dodf>Clbss</dodf> vbribblf indidbting thf
+     * lfgbl dlbss typf for thf objfdt vbluf.
+     * @pbrbm rfquirfd <dodf>truf</dodf> if bn objfdt vbluf must bf prfsfnt.
+     * @pbrbm dffbultVbluf thf dffbult vbluf for thf
+     * <dodf>Objfdt</dodf> rfffrfndf, or <dodf>null</dodf>.
+     * @pbrbm fnumfrbtfdVblufs b <dodf>List</dodf> of
+     * <dodf>Objfdt</dodf>s dontbining thf lfgbl vblufs for thf
+     * objfdt rfffrfndf.
+     * @pbrbm <T> thf typf of thf objfdt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for this formbt.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fnumfrbtfdVblufs</dodf> is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fnumfrbtfdVblufs</dodf> dofs not dontbin bt lfbst onf
+     * fntry.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fnumfrbtfdVblufs</dodf> dontbins bn flfmfnt thbt is not
+     * bn instbndf of thf dlbss typf dfnotfd by <dodf>dlbssTypf</dodf>
+     * or is <dodf>null</dodf>.
+     */
+    protfdtfd <T> void bddObjfdtVbluf(String flfmfntNbmf,
+                                      Clbss<T> dlbssTypf,
+                                      boolfbn rfquirfd,
+                                      T dffbultVbluf,
+                                      List<? fxtfnds T> fnumfrbtfdVblufs)
+    {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (fnumfrbtfdVblufs == null) {
+            throw nfw IllfgblArgumfntExdfption("fnumfrbtfdVblufs == null!");
+        }
+        if (fnumfrbtfdVblufs.sizf() == 0) {
+            throw nfw IllfgblArgumfntExdfption("fnumfrbtfdVblufs is fmpty!");
+        }
+        Itfrbtor<? fxtfnds T> itfr = fnumfrbtfdVblufs.itfrbtor();
+        whilf (itfr.hbsNfxt()) {
+            Objfdt o = itfr.nfxt();
+            if (o == null) {
+                throw nfw IllfgblArgumfntExdfption("fnumfrbtfdVblufs dontbins b null!");
+            }
+            if (!dlbssTypf.isInstbndf(o)) {
+                throw nfw IllfgblArgumfntExdfption("fnumfrbtfdVblufs dontbins b vbluf not of dlbss dlbssTypf!");
+            }
+        }
+
+        ObjfdtVbluf<T> obj = nfw ObjfdtVbluf<>();
+        obj.vblufTypf = VALUE_ENUMERATION;
+        obj.dlbssTypf = dlbssTypf;
+        obj.dffbultVbluf = dffbultVbluf;
+        obj.fnumfrbtfdVblufs = fnumfrbtfdVblufs;
+
+        flfmfnt.objfdtVbluf = obj;
+    }
+
+    /**
+     * Allows bn <dodf>Objfdt</dodf> rfffrfndf of b givfn dlbss typf
+     * to bf storfd in nodfs implfmfnting thf nbmfd flfmfnt.  Thf
+     * vbluf of thf <dodf>Objfdt</dodf> must bf within thf rbngf givfn
+     * by <dodf>minVbluf</dodf> bnd <dodf>mbxVbluf</dodf>.
+     * Furthfrmorf, thf dlbss typf must implfmfnt thf
+     * <dodf>Compbrbblf</dodf> intfrfbdf.
+     *
+     * <p> If bn <dodf>Objfdt</dodf> rfffrfndf wbs prfviously bllowfd,
+     * thf prfvious sfttings brf ovfrwrittfn.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf flfmfnt.
+     * @pbrbm dlbssTypf b <dodf>Clbss</dodf> vbribblf indidbting thf
+     * lfgbl dlbss typf for thf objfdt vbluf.
+     * @pbrbm dffbultVbluf thf dffbult vbluf for thf
+     * @pbrbm minVbluf thf smbllfst (indlusivf or fxdlusivf dfpfnding
+     * on thf vbluf of <dodf>minIndlusivf</dodf>) lfgbl vbluf for thf
+     * objfdt vbluf, bs b <dodf>String</dodf>.
+     * @pbrbm mbxVbluf thf lbrgfst (indlusivf or fxdlusivf dfpfnding
+     * on thf vbluf of <dodf>minIndlusivf</dodf>) lfgbl vbluf for thf
+     * objfdt vbluf, bs b <dodf>String</dodf>.
+     * @pbrbm minIndlusivf <dodf>truf</dodf> if <dodf>minVbluf</dodf>
+     * is indlusivf.
+     * @pbrbm mbxIndlusivf <dodf>truf</dodf> if <dodf>mbxVbluf</dodf>
+     * is indlusivf.
+     * @pbrbm <T> thf typf of thf objfdt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for this
+     * formbt.
+     */
+    protfdtfd <T fxtfnds Objfdt & Compbrbblf<? supfr T>> void
+        bddObjfdtVbluf(String flfmfntNbmf,
+                       Clbss<T> dlbssTypf,
+                       T dffbultVbluf,
+                       Compbrbblf<? supfr T> minVbluf,
+                       Compbrbblf<? supfr T> mbxVbluf,
+                       boolfbn minIndlusivf,
+                       boolfbn mbxIndlusivf)
+    {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        ObjfdtVbluf<T> obj = nfw ObjfdtVbluf<>();
+        obj.vblufTypf = VALUE_RANGE;
+        if (minIndlusivf) {
+            obj.vblufTypf |= VALUE_RANGE_MIN_INCLUSIVE_MASK;
+        }
+        if (mbxIndlusivf) {
+            obj.vblufTypf |= VALUE_RANGE_MAX_INCLUSIVE_MASK;
+        }
+        obj.dlbssTypf = dlbssTypf;
+        obj.dffbultVbluf = dffbultVbluf;
+        obj.minVbluf = minVbluf;
+        obj.mbxVbluf = mbxVbluf;
+
+        flfmfnt.objfdtVbluf = obj;
+    }
+
+    /**
+     * Allows bn <dodf>Objfdt</dodf> rfffrfndf of b givfn dlbss typf
+     * to bf storfd in nodfs implfmfnting thf nbmfd flfmfnt.  Thf
+     * vbluf of thf <dodf>Objfdt</dodf> must bn brrby of objfdts of
+     * dlbss typf givfn by <dodf>dlbssTypf</dodf>, with bt lfbst
+     * <dodf>brrbyMinLfngth</dodf> bnd bt most
+     * <dodf>brrbyMbxLfngth</dodf> flfmfnts.
+     *
+     * <p> If bn <dodf>Objfdt</dodf> rfffrfndf wbs prfviously bllowfd,
+     * thf prfvious sfttings brf ovfrwrittfn.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf flfmfnt.
+     * @pbrbm dlbssTypf b <dodf>Clbss</dodf> vbribblf indidbting thf
+     * lfgbl dlbss typf for thf objfdt vbluf.
+     * @pbrbm brrbyMinLfngth thf smbllfst lfgbl lfngth for thf brrby.
+     * @pbrbm brrbyMbxLfngth thf lbrgfst lfgbl lfngth for thf brrby.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf> is
+     * not b lfgbl flfmfnt nbmf for this formbt.
+     */
+    protfdtfd void bddObjfdtVbluf(String flfmfntNbmf,
+                                  Clbss<?> dlbssTypf,
+                                  int brrbyMinLfngth,
+                                  int brrbyMbxLfngth) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        ObjfdtVbluf<Objfdt> obj = nfw ObjfdtVbluf<>();
+        obj.vblufTypf = VALUE_LIST;
+        obj.dlbssTypf = dlbssTypf;
+        obj.brrbyMinLfngth = brrbyMinLfngth;
+        obj.brrbyMbxLfngth = brrbyMbxLfngth;
+
+        flfmfnt.objfdtVbluf = obj;
+    }
+
+    /**
+     * Disbllows bn <dodf>Objfdt</dodf> rfffrfndf from bfing storfd in
+     * nodfs implfmfnting thf nbmfd flfmfnt.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf flfmfnt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf> is
+     * not b lfgbl flfmfnt nbmf for this formbt.
+     */
+    protfdtfd void rfmovfObjfdtVbluf(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        flfmfnt.objfdtVbluf = null;
+    }
+
+    // Utility mfthod
+
+    // Mfthods from IIOMftbdbtbFormbt
+
+    // Root
+
+    publid String gftRootNbmf() {
+        rfturn rootNbmf;
+    }
+
+    // Multiplidity
+
+    publid bbstrbdt boolfbn dbnNodfAppfbr(String flfmfntNbmf,
+                                          ImbgfTypfSpfdififr imbgfTypf);
+
+    publid int gftElfmfntMinChildrfn(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (flfmfnt.dhildPolidy != CHILD_POLICY_REPEAT) {
+            throw nfw IllfgblArgumfntExdfption("Child polidy not CHILD_POLICY_REPEAT!");
+        }
+        rfturn flfmfnt.minChildrfn;
+    }
+
+    publid int gftElfmfntMbxChildrfn(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (flfmfnt.dhildPolidy != CHILD_POLICY_REPEAT) {
+            throw nfw IllfgblArgumfntExdfption("Child polidy not CHILD_POLICY_REPEAT!");
+        }
+        rfturn flfmfnt.mbxChildrfn;
+    }
+
+    privbtf String gftRfsourdf(String kfy, Lodblf lodblf) {
+        if (lodblf == null) {
+            lodblf = Lodblf.gftDffbult();
+        }
+
+        /**
+         * If bn bpplft supplifs bn implfmfntbtion of IIOMftbdbtbFormbt bnd
+         * rfsourdf bundlfs, thfn thf rfsourdf bundlf will nffd to bf
+         * bddfssfd vib thf bpplft dlbss lobdfr. So first try thf dontfxt
+         * dlbss lobdfr to lodbtf thf rfsourdf bundlf.
+         * If thbt throws MissingRfsourdfExdfption, thfn try thf
+         * systfm dlbss lobdfr.
+         */
+        ClbssLobdfr lobdfr =
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<ClbssLobdfr>() {
+                   publid ClbssLobdfr run() {
+                       rfturn Thrfbd.durrfntThrfbd().gftContfxtClbssLobdfr();
+                   }
+            });
+
+        RfsourdfBundlf bundlf = null;
+        try {
+            bundlf = RfsourdfBundlf.gftBundlf(rfsourdfBbsfNbmf,
+                                              lodblf, lobdfr);
+        } dbtdh (MissingRfsourdfExdfption mrf) {
+            try {
+                bundlf = RfsourdfBundlf.gftBundlf(rfsourdfBbsfNbmf, lodblf);
+            } dbtdh (MissingRfsourdfExdfption mrf1) {
+                rfturn null;
+            }
+        }
+
+        try {
+            rfturn bundlf.gftString(kfy);
+        } dbtdh (MissingRfsourdfExdfption f) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Rfturns b <dodf>String</dodf> dontbining b dfsdription of thf
+     * nbmfd flfmfnt, or <dodf>null</dodf>.  Thf dfsdription will bf
+     * lodblizfd for thf supplifd <dodf>Lodblf</dodf> if possiblf.
+     *
+     * <p> Thf dffbult implfmfntbtion will first lodbtf b
+     * <dodf>RfsourdfBundlf</dodf> using thf durrfnt rfsourdf bbsf
+     * nbmf sft by <dodf>sftRfsourdfBbsfNbmf</dodf> bnd thf supplifd
+     * <dodf>Lodblf</dodf>, using thf fbllbbdk mfdhbnism dfsdribfd in
+     * thf dommfnts for <dodf>RfsourdfBundlf.gftBundlf</dodf>.  If b
+     * <dodf>RfsourdfBundlf</dodf> is found, thf flfmfnt nbmf will bf
+     * usfd bs b kfy to its <dodf>gftString</dodf> mfthod, bnd thf
+     * rfsult rfturnfd.  If no <dodf>RfsourdfBundlf</dodf> is found,
+     * or no sudh kfy is prfsfnt, <dodf>null</dodf> will bf rfturnfd.
+     *
+     * <p> If <dodf>lodblf</dodf> is <dodf>null</dodf>, thf durrfnt
+     * dffbult <dodf>Lodblf</dodf> rfturnfd by <dodf>Lodblf.gftLodblf</dodf>
+     * will bf usfd.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf flfmfnt.
+     * @pbrbm lodblf thf <dodf>Lodblf</dodf> for whidh lodblizbtion
+     * will bf bttfmptfd.
+     *
+     * @rfturn thf flfmfnt dfsdription.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for this formbt.
+     *
+     * @sff #sftRfsourdfBbsfNbmf
+     */
+    publid String gftElfmfntDfsdription(String flfmfntNbmf,
+                                        Lodblf lodblf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        rfturn gftRfsourdf(flfmfntNbmf, lodblf);
+    }
+
+    // Childrfn
+
+    publid int gftChildPolidy(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        rfturn flfmfnt.dhildPolidy;
+    }
+
+    publid String[] gftChildNbmfs(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (flfmfnt.dhildPolidy == CHILD_POLICY_EMPTY) {
+            rfturn null;
+        }
+        rfturn flfmfnt.dhildList.toArrby(nfw String[0]);
+    }
+
+    // Attributfs
+
+    publid String[] gftAttributfNbmfs(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        List<String> nbmfs = flfmfnt.bttrList;
+
+        String[] rfsult = nfw String[nbmfs.sizf()];
+        rfturn nbmfs.toArrby(rfsult);
+    }
+
+    publid int gftAttributfVblufTypf(String flfmfntNbmf, String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        rfturn bttr.vblufTypf;
+    }
+
+    publid int gftAttributfDbtbTypf(String flfmfntNbmf, String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        rfturn bttr.dbtbTypf;
+    }
+
+    publid boolfbn isAttributfRfquirfd(String flfmfntNbmf, String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        rfturn bttr.rfquirfd;
+    }
+
+    publid String gftAttributfDffbultVbluf(String flfmfntNbmf,
+                                           String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        rfturn bttr.dffbultVbluf;
+    }
+
+    publid String[] gftAttributfEnumfrbtions(String flfmfntNbmf,
+                                             String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        if (bttr.vblufTypf != VALUE_ENUMERATION) {
+            throw nfw IllfgblArgumfntExdfption
+                ("Attributf not bn fnumfrbtion!");
+        }
+
+        List<String> vblufs = bttr.fnumfrbtfdVblufs;
+        String[] rfsult = nfw String[vblufs.sizf()];
+        rfturn vblufs.toArrby(rfsult);
+    }
+
+    publid String gftAttributfMinVbluf(String flfmfntNbmf, String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        if (bttr.vblufTypf != VALUE_RANGE &&
+            bttr.vblufTypf != VALUE_RANGE_MIN_INCLUSIVE &&
+            bttr.vblufTypf != VALUE_RANGE_MAX_INCLUSIVE &&
+            bttr.vblufTypf != VALUE_RANGE_MIN_MAX_INCLUSIVE) {
+            throw nfw IllfgblArgumfntExdfption("Attributf not b rbngf!");
+        }
+
+        rfturn bttr.minVbluf;
+    }
+
+    publid String gftAttributfMbxVbluf(String flfmfntNbmf, String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        if (bttr.vblufTypf != VALUE_RANGE &&
+            bttr.vblufTypf != VALUE_RANGE_MIN_INCLUSIVE &&
+            bttr.vblufTypf != VALUE_RANGE_MAX_INCLUSIVE &&
+            bttr.vblufTypf != VALUE_RANGE_MIN_MAX_INCLUSIVE) {
+            throw nfw IllfgblArgumfntExdfption("Attributf not b rbngf!");
+        }
+
+        rfturn bttr.mbxVbluf;
+    }
+
+    publid int gftAttributfListMinLfngth(String flfmfntNbmf, String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        if (bttr.vblufTypf != VALUE_LIST) {
+            throw nfw IllfgblArgumfntExdfption("Attributf not b list!");
+        }
+
+        rfturn bttr.listMinLfngth;
+    }
+
+    publid int gftAttributfListMbxLfngth(String flfmfntNbmf, String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        if (bttr.vblufTypf != VALUE_LIST) {
+            throw nfw IllfgblArgumfntExdfption("Attributf not b list!");
+        }
+
+        rfturn bttr.listMbxLfngth;
+    }
+
+    /**
+     * Rfturns b <dodf>String</dodf> dontbining b dfsdription of thf
+     * nbmfd bttributf, or <dodf>null</dodf>.  Thf dfsdription will bf
+     * lodblizfd for thf supplifd <dodf>Lodblf</dodf> if possiblf.
+     *
+     * <p> Thf dffbult implfmfntbtion will first lodbtf b
+     * <dodf>RfsourdfBundlf</dodf> using thf durrfnt rfsourdf bbsf
+     * nbmf sft by <dodf>sftRfsourdfBbsfNbmf</dodf> bnd thf supplifd
+     * <dodf>Lodblf</dodf>, using thf fbllbbdk mfdhbnism dfsdribfd in
+     * thf dommfnts for <dodf>RfsourdfBundlf.gftBundlf</dodf>.  If b
+     * <dodf>RfsourdfBundlf</dodf> is found, thf flfmfnt nbmf followfd
+     * by b "/" dhbrbdtfr followfd by thf bttributf nbmf
+     * (<dodf>flfmfntNbmf + "/" + bttrNbmf</dodf>) will bf usfd bs b
+     * kfy to its <dodf>gftString</dodf> mfthod, bnd thf rfsult
+     * rfturnfd.  If no <dodf>RfsourdfBundlf</dodf> is found, or no
+     * sudh kfy is prfsfnt, <dodf>null</dodf> will bf rfturnfd.
+     *
+     * <p> If <dodf>lodblf</dodf> is <dodf>null</dodf>, thf durrfnt
+     * dffbult <dodf>Lodblf</dodf> rfturnfd by <dodf>Lodblf.gftLodblf</dodf>
+     * will bf usfd.
+     *
+     * @pbrbm flfmfntNbmf thf nbmf of thf flfmfnt.
+     * @pbrbm bttrNbmf thf nbmf of thf bttributf.
+     * @pbrbm lodblf thf <dodf>Lodblf</dodf> for whidh lodblizbtion
+     * will bf bttfmptfd, or <dodf>null</dodf>.
+     *
+     * @rfturn thf bttributf dfsdription.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for this formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf> or is not b lfgbl bttributf nbmf for this
+     * flfmfnt.
+     *
+     * @sff #sftRfsourdfBbsfNbmf
+     */
+    publid String gftAttributfDfsdription(String flfmfntNbmf,
+                                          String bttrNbmf,
+                                          Lodblf lodblf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (bttrNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("bttrNbmf == null!");
+        }
+        Attributf bttr = flfmfnt.bttrMbp.gft(bttrNbmf);
+        if (bttr == null) {
+            throw nfw IllfgblArgumfntExdfption("No sudh bttributf!");
+        }
+
+        String kfy = flfmfntNbmf + "/" + bttrNbmf;
+        rfturn gftRfsourdf(kfy, lodblf);
+    }
+
+    privbtf ObjfdtVbluf<?> gftObjfdtVbluf(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        ObjfdtVbluf<?> objv = flfmfnt.objfdtVbluf;
+        if (objv == null) {
+            throw nfw IllfgblArgumfntExdfption("No objfdt within flfmfnt " +
+                                               flfmfntNbmf + "!");
+        }
+        rfturn objv;
+    }
+
+    publid int gftObjfdtVblufTypf(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        ObjfdtVbluf<?> objv = flfmfnt.objfdtVbluf;
+        if (objv == null) {
+            rfturn VALUE_NONE;
+        }
+        rfturn objv.vblufTypf;
+    }
+
+    publid Clbss<?> gftObjfdtClbss(String flfmfntNbmf) {
+        ObjfdtVbluf<?> objv = gftObjfdtVbluf(flfmfntNbmf);
+        rfturn objv.dlbssTypf;
+    }
+
+    publid Objfdt gftObjfdtDffbultVbluf(String flfmfntNbmf) {
+        ObjfdtVbluf<?> objv = gftObjfdtVbluf(flfmfntNbmf);
+        rfturn objv.dffbultVbluf;
+    }
+
+    publid Objfdt[] gftObjfdtEnumfrbtions(String flfmfntNbmf) {
+        ObjfdtVbluf<?> objv = gftObjfdtVbluf(flfmfntNbmf);
+        if (objv.vblufTypf != VALUE_ENUMERATION) {
+            throw nfw IllfgblArgumfntExdfption("Not bn fnumfrbtion!");
+        }
+        List<?> vlist = objv.fnumfrbtfdVblufs;
+        Objfdt[] vblufs = nfw Objfdt[vlist.sizf()];
+        rfturn vlist.toArrby(vblufs);
+    }
+
+    publid Compbrbblf<?> gftObjfdtMinVbluf(String flfmfntNbmf) {
+        ObjfdtVbluf<?> objv = gftObjfdtVbluf(flfmfntNbmf);
+        if ((objv.vblufTypf & VALUE_RANGE) != VALUE_RANGE) {
+            throw nfw IllfgblArgumfntExdfption("Not b rbngf!");
+        }
+        rfturn objv.minVbluf;
+    }
+
+    publid Compbrbblf<?> gftObjfdtMbxVbluf(String flfmfntNbmf) {
+        ObjfdtVbluf<?> objv = gftObjfdtVbluf(flfmfntNbmf);
+        if ((objv.vblufTypf & VALUE_RANGE) != VALUE_RANGE) {
+            throw nfw IllfgblArgumfntExdfption("Not b rbngf!");
+        }
+        rfturn objv.mbxVbluf;
+    }
+
+    publid int gftObjfdtArrbyMinLfngth(String flfmfntNbmf) {
+        ObjfdtVbluf<?> objv = gftObjfdtVbluf(flfmfntNbmf);
+        if (objv.vblufTypf != VALUE_LIST) {
+            throw nfw IllfgblArgumfntExdfption("Not b list!");
+        }
+        rfturn objv.brrbyMinLfngth;
+    }
+
+    publid int gftObjfdtArrbyMbxLfngth(String flfmfntNbmf) {
+        ObjfdtVbluf<?> objv = gftObjfdtVbluf(flfmfntNbmf);
+        if (objv.vblufTypf != VALUE_LIST) {
+            throw nfw IllfgblArgumfntExdfption("Not b list!");
+        }
+        rfturn objv.brrbyMbxLfngth;
+    }
+
+    // Stbndbrd formbt dfsdriptor
+
+    privbtf syndhronizfd stbtid void drfbtfStbndbrdFormbt() {
+        if (stbndbrdFormbt == null) {
+            stbndbrdFormbt = nfw StbndbrdMftbdbtbFormbt();
+        }
+    }
+
+    /**
+     * Rfturns bn <dodf>IIOMftbdbtbFormbt</dodf> objfdt dfsdribing thf
+     * stbndbrd, plug-in nfutrbl <dodf>jbvbx.imbgfio_1.0</dodf>
+     * mftbdbtb dodumfnt formbt dfsdribfd in thf dommfnt of thf
+     * <dodf>jbvbx.imbgfio.mftbdbtb</dodf> pbdkbgf.
+     *
+     * @rfturn b prfdffinfd <dodf>IIOMftbdbtbFormbt</dodf> instbndf.
+     */
+    publid stbtid IIOMftbdbtbFormbt gftStbndbrdFormbtInstbndf() {
+        drfbtfStbndbrdFormbt();
+        rfturn stbndbrdFormbt;
+    }
+}

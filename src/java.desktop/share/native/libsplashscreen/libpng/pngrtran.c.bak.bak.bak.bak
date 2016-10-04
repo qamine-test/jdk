@@ -1,0 +1,4984 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* pngrtrbn.d - trbnsforms thf dbtb in b row for PNG rfbdfrs
+ *
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf bnd, pfr its tfrms, should not bf rfmovfd:
+ *
+ * Lbst dhbngfd in libpng 1.5.4 [July 7, 2011]
+ * Copyright (d) 1998-2011 Glfnn Rbndfrs-Pfhrson
+ * (Vfrsion 0.96 Copyright (d) 1996, 1997 Andrfbs Dilgfr)
+ * (Vfrsion 0.88 Copyright (d) 1995, 1996 Guy Erid Sdhblnbt, Group 42, Ind.)
+ *
+ * This dodf is rflfbsfd undfr thf libpng lidfnsf.
+ * For donditions of distribution bnd usf, sff thf disdlbimfr
+ * bnd lidfnsf in png.h
+ *
+ * This filf dontbins fundtions optionblly dbllfd by bn bpplidbtion
+ * in ordfr to tfll libpng how to hbndlf dbtb whfn rfbding b PNG.
+ * Trbnsformbtions thbt brf usfd in both rfbding bnd writing brf
+ * in pngtrbns.d.
+ */
+
+#indludf "pngpriv.h"
+
+#ifdff PNG_READ_SUPPORTED
+
+/* Sft thf bdtion on gftting b CRC frror for bn bndillbry or dritidbl dhunk. */
+void PNGAPI
+png_sft_drd_bdtion(png_strudtp png_ptr, int drit_bdtion, int bndil_bdtion)
+{
+   png_dfbug(1, "in png_sft_drd_bdtion");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   /* Tfll libpng how wf rfbdt to CRC frrors in dritidbl dhunks */
+   switdh (drit_bdtion)
+   {
+      dbsf PNG_CRC_NO_CHANGE:                        /* Lfbvf sftting bs is */
+         brfbk;
+
+      dbsf PNG_CRC_WARN_USE:                               /* Wbrn/usf dbtb */
+         png_ptr->flbgs &= ~PNG_FLAG_CRC_CRITICAL_MASK;
+         png_ptr->flbgs |= PNG_FLAG_CRC_CRITICAL_USE;
+         brfbk;
+
+      dbsf PNG_CRC_QUIET_USE:                             /* Quift/usf dbtb */
+         png_ptr->flbgs &= ~PNG_FLAG_CRC_CRITICAL_MASK;
+         png_ptr->flbgs |= PNG_FLAG_CRC_CRITICAL_USE |
+                           PNG_FLAG_CRC_CRITICAL_IGNORE;
+         brfbk;
+
+      dbsf PNG_CRC_WARN_DISCARD:    /* Not b vblid bdtion for dritidbl dbtb */
+         png_wbrning(png_ptr,
+            "Cbn't disdbrd dritidbl dbtb on CRC frror");
+      dbsf PNG_CRC_ERROR_QUIT:                                /* Error/quit */
+
+      dbsf PNG_CRC_DEFAULT:
+      dffbult:
+         png_ptr->flbgs &= ~PNG_FLAG_CRC_CRITICAL_MASK;
+         brfbk;
+   }
+
+   /* Tfll libpng how wf rfbdt to CRC frrors in bndillbry dhunks */
+   switdh (bndil_bdtion)
+   {
+      dbsf PNG_CRC_NO_CHANGE:                       /* Lfbvf sftting bs is */
+         brfbk;
+
+      dbsf PNG_CRC_WARN_USE:                              /* Wbrn/usf dbtb */
+         png_ptr->flbgs &= ~PNG_FLAG_CRC_ANCILLARY_MASK;
+         png_ptr->flbgs |= PNG_FLAG_CRC_ANCILLARY_USE;
+         brfbk;
+
+      dbsf PNG_CRC_QUIET_USE:                            /* Quift/usf dbtb */
+         png_ptr->flbgs &= ~PNG_FLAG_CRC_ANCILLARY_MASK;
+         png_ptr->flbgs |= PNG_FLAG_CRC_ANCILLARY_USE |
+                           PNG_FLAG_CRC_ANCILLARY_NOWARN;
+         brfbk;
+
+      dbsf PNG_CRC_ERROR_QUIT:                               /* Error/quit */
+         png_ptr->flbgs &= ~PNG_FLAG_CRC_ANCILLARY_MASK;
+         png_ptr->flbgs |= PNG_FLAG_CRC_ANCILLARY_NOWARN;
+         brfbk;
+
+      dbsf PNG_CRC_WARN_DISCARD:                      /* Wbrn/disdbrd dbtb */
+
+      dbsf PNG_CRC_DEFAULT:
+      dffbult:
+         png_ptr->flbgs &= ~PNG_FLAG_CRC_ANCILLARY_MASK;
+         brfbk;
+   }
+}
+
+#ifdff PNG_READ_BACKGROUND_SUPPORTED
+/* Hbndlf blphb bnd tRNS vib b bbdkground dolor */
+void PNGFAPI
+png_sft_bbdkground_fixfd(png_strudtp png_ptr,
+    png_donst_dolor_16p bbdkground_dolor, int bbdkground_gbmmb_dodf,
+    int nffd_fxpbnd, png_fixfd_point bbdkground_gbmmb)
+{
+   png_dfbug(1, "in png_sft_bbdkground_fixfd");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   if (bbdkground_gbmmb_dodf == PNG_BACKGROUND_GAMMA_UNKNOWN)
+   {
+      png_wbrning(png_ptr, "Applidbtion must supply b known bbdkground gbmmb");
+      rfturn;
+   }
+
+   png_ptr->trbnsformbtions |= PNG_COMPOSE | PNG_STRIP_ALPHA;
+   png_ptr->trbnsformbtions &= ~PNG_ENCODE_ALPHA;
+   png_ptr->flbgs &= ~PNG_FLAG_OPTIMIZE_ALPHA;
+
+   png_mfmdpy(&(png_ptr->bbdkground), bbdkground_dolor,
+      png_sizfof(png_dolor_16));
+   png_ptr->bbdkground_gbmmb = bbdkground_gbmmb;
+   png_ptr->bbdkground_gbmmb_typf = (png_bytf)(bbdkground_gbmmb_dodf);
+   if (nffd_fxpbnd)
+      png_ptr->trbnsformbtions |= PNG_BACKGROUND_EXPAND;
+   flsf
+      png_ptr->trbnsformbtions &= ~PNG_BACKGROUND_EXPAND;
+}
+
+#  ifdff PNG_FLOATING_POINT_SUPPORTED
+void PNGAPI
+png_sft_bbdkground(png_strudtp png_ptr,
+    png_donst_dolor_16p bbdkground_dolor, int bbdkground_gbmmb_dodf,
+    int nffd_fxpbnd, doublf bbdkground_gbmmb)
+{
+   png_sft_bbdkground_fixfd(png_ptr, bbdkground_dolor, bbdkground_gbmmb_dodf,
+      nffd_fxpbnd, png_fixfd(png_ptr, bbdkground_gbmmb, "png_sft_bbdkground"));
+}
+#  fndif  /* FLOATING_POINT */
+#fndif /* READ_BACKGROUND */
+
+/* Sdblf 16-bit dfpth filfs to 8-bit dfpth.  If both of thfsf brf sft thfn thf
+ * onf thbt pngrtrbn dofs first (sdblf) hbppfns.  This is nfdfssbry to bllow thf
+ * TRANSFORM bnd API bfhbvior to bf somfwhbt donsistfnt, bnd it's simplfr.
+ */
+#ifdff PNG_READ_SCALE_16_TO_8_SUPPORTED
+void PNGAPI
+png_sft_sdblf_16(png_strudtp png_ptr)
+{
+   png_dfbug(1, "in png_sft_sdblf_16");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->trbnsformbtions |= PNG_SCALE_16_TO_8;
+}
+#fndif
+
+#ifdff PNG_READ_STRIP_16_TO_8_SUPPORTED
+/* Chop 16-bit dfpth filfs to 8-bit dfpth */
+void PNGAPI
+png_sft_strip_16(png_strudtp png_ptr)
+{
+   png_dfbug(1, "in png_sft_strip_16");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->trbnsformbtions |= PNG_16_TO_8;
+}
+#fndif
+
+#ifdff PNG_READ_STRIP_ALPHA_SUPPORTED
+void PNGAPI
+png_sft_strip_blphb(png_strudtp png_ptr)
+{
+   png_dfbug(1, "in png_sft_strip_blphb");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->trbnsformbtions |= PNG_STRIP_ALPHA;
+}
+#fndif
+
+#if dffinfd(PNG_READ_ALPHA_MODE_SUPPORTED) || dffinfd(PNG_READ_GAMMA_SUPPORTED)
+stbtid png_fixfd_point
+trbnslbtf_gbmmb_flbgs(png_strudtp png_ptr, png_fixfd_point output_gbmmb,
+   int is_sdrffn)
+{
+   /* Chfdk for flbg vblufs.  Thf mbin rfbson for hbving thf old Mbd vbluf bs b
+    * flbg is thbt it is prftty nfbr impossiblf to work out whbt thf dorrfdt
+    * vbluf is from Applf dodumfntbtion - b working Mbd systfm is nffdfd to
+    * disdovfr thf vbluf!
+    */
+   if (output_gbmmb == PNG_DEFAULT_sRGB ||
+      output_gbmmb == PNG_FP_1 / PNG_DEFAULT_sRGB)
+   {
+      /* If thfrf is no sRGB support this just sfts thf gbmmb to thf stbndbrd
+       * sRGB vbluf.  (This is b sidf ffffdt of using this fundtion!)
+       */
+#     ifdff PNG_READ_sRGB_SUPPORTED
+         png_ptr->flbgs |= PNG_FLAG_ASSUME_sRGB;
+#     fndif
+      if (is_sdrffn)
+         output_gbmmb = PNG_GAMMA_sRGB;
+      flsf
+         output_gbmmb = PNG_GAMMA_sRGB_INVERSE;
+   }
+
+   flsf if (output_gbmmb == PNG_GAMMA_MAC_18 ||
+      output_gbmmb == PNG_FP_1 / PNG_GAMMA_MAC_18)
+   {
+      if (is_sdrffn)
+         output_gbmmb = PNG_GAMMA_MAC_OLD;
+      flsf
+         output_gbmmb = PNG_GAMMA_MAC_INVERSE;
+   }
+
+   rfturn output_gbmmb;
+}
+
+#  ifdff PNG_FLOATING_POINT_SUPPORTED
+stbtid png_fixfd_point
+donvfrt_gbmmb_vbluf(png_strudtp png_ptr, doublf output_gbmmb)
+{
+   /* Thf following silfntly ignorfs dbsfs whfrf fixfd point (timfs 100,000)
+    * gbmmb vblufs brf pbssfd to thf flobting point API.  This is sbff bnd it
+    * mfbns thf fixfd point donstbnts work just finf with thf flobting point
+    * API.  Thf bltfrnbtivf would just lfbd to undftfdtfd frrors bnd spurious
+    * bug rfports.  Nfgbtivf vblufs fbil insidf thf _fixfd API unlfss thfy
+    * dorrfspond to thf flbg vblufs.
+    */
+   if (output_gbmmb > 0 && output_gbmmb < 128)
+      output_gbmmb *= PNG_FP_1;
+
+   /* This prfsfrvfs -1 bnd -2 fxbdtly: */
+   output_gbmmb = floor(output_gbmmb + .5);
+
+   if (output_gbmmb > PNG_FP_MAX || output_gbmmb < PNG_FP_MIN)
+      png_fixfd_frror(png_ptr, "gbmmb vbluf");
+
+   rfturn (png_fixfd_point)output_gbmmb;
+}
+#  fndif
+#fndif /* READ_ALPHA_MODE || READ_GAMMA */
+
+#ifdff PNG_READ_ALPHA_MODE_SUPPORTED
+void PNGFAPI
+png_sft_blphb_modf_fixfd(png_strudtp png_ptr, int modf,
+   png_fixfd_point output_gbmmb)
+{
+   int domposf = 0;
+   png_fixfd_point filf_gbmmb;
+
+   png_dfbug(1, "in png_sft_blphb_modf");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   output_gbmmb = trbnslbtf_gbmmb_flbgs(png_ptr, output_gbmmb, 1/*sdrffn*/);
+
+   /* Vblidbtf thf vbluf to fnsurf it is in b rfbsonbblf rbngf. Thf vbluf
+    * is fxpfdtfd to bf 1 or grfbtfr, but this rbngf tfst bllows for somf
+    * vifwing dorrfdtion vblufs.  Thf intfnt is to wffd out usfrs of this API
+    * who usf thf invfrsf of thf gbmmb vbluf bddidfntblly!  Sindf somf of thfsf
+    * vblufs brf rfbsonbblf this mby hbvf to bf dhbngfd.
+    */
+   if (output_gbmmb < 70000 || output_gbmmb > 300000)
+      png_frror(png_ptr, "output gbmmb out of fxpfdtfd rbngf");
+
+   /* Thf dffbult filf gbmmb is thf invfrsf of thf output gbmmb; thf output
+    * gbmmb mby bf dhbngfd bflow so gft thf filf vbluf first:
+    */
+   filf_gbmmb = png_rfdiprodbl(output_gbmmb);
+
+   /* Thfrf brf rfblly 8 possibilitifs hfrf, domposfd of bny dombinbtion
+    * of:
+    *
+    *    prfmultiply thf dolor dhbnnfls
+    *    do not fndodf non-opbquf pixfls
+    *    fndodf thf blphb bs wfll bs thf dolor dhbnnfls
+    *
+    * Thf difffrfndfs disbppfbr if thf input/output ('sdrffn') gbmmb is 1.0,
+    * bfdbusf thfn thf fndoding is b no-op bnd thfrf is only thf dhoidf of
+    * prfmultiplying thf dolor dhbnnfls or not.
+    *
+    * png_sft_blphb_modf bnd png_sft_bbdkground intfrbdt bfdbusf both usf
+    * png_domposf to do thf work.  Cblling both is only usfful whfn
+    * png_sft_blphb_modf is usfd to sft thf dffbult modf - PNG_ALPHA_PNG - blong
+    * with b dffbult gbmmb vbluf.  Othfrwisf PNG_COMPOSE must not bf sft.
+    */
+   switdh (modf)
+   {
+      dbsf PNG_ALPHA_PNG:        /* dffbult: png stbndbrd */
+         /* No domposf, but it mby bf sft by png_sft_bbdkground! */
+         png_ptr->trbnsformbtions &= ~PNG_ENCODE_ALPHA;
+         png_ptr->flbgs &= ~PNG_FLAG_OPTIMIZE_ALPHA;
+         brfbk;
+
+      dbsf PNG_ALPHA_ASSOCIATED: /* dolor dhbnnfls prfmultiplifd */
+         domposf = 1;
+         png_ptr->trbnsformbtions &= ~PNG_ENCODE_ALPHA;
+         png_ptr->flbgs &= ~PNG_FLAG_OPTIMIZE_ALPHA;
+         /* Thf output is linfbr: */
+         output_gbmmb = PNG_FP_1;
+         brfbk;
+
+      dbsf PNG_ALPHA_OPTIMIZED:  /* bssodibtfd, non-opbquf pixfls linfbr */
+         domposf = 1;
+         png_ptr->trbnsformbtions &= ~PNG_ENCODE_ALPHA;
+         png_ptr->flbgs |= PNG_FLAG_OPTIMIZE_ALPHA;
+         /* output_gbmmb rfdords thf fndoding of opbquf pixfls! */
+         brfbk;
+
+      dbsf PNG_ALPHA_BROKEN:     /* bssodibtfd, non-linfbr, blphb fndodfd */
+         domposf = 1;
+         png_ptr->trbnsformbtions |= PNG_ENCODE_ALPHA;
+         png_ptr->flbgs &= ~PNG_FLAG_OPTIMIZE_ALPHA;
+         brfbk;
+
+      dffbult:
+         png_frror(png_ptr, "invblid blphb modf");
+   }
+
+   /* Only sft thf dffbult gbmmb if thf filf gbmmb hbs not bffn sft (this hbs
+    * thf sidf ffffdt thbt thf gbmmb in b sfdond dbll to png_sft_blphb_modf will
+    * bf ignorfd.)
+    */
+   if (png_ptr->gbmmb == 0)
+      png_ptr->gbmmb = filf_gbmmb;
+
+   /* But blwbys sft thf output gbmmb: */
+   png_ptr->sdrffn_gbmmb = output_gbmmb;
+
+   /* Finblly, if prf-multiplying, sft thf bbdkground fiflds to bdhifvf thf
+    * dfsirfd rfsult.
+    */
+   if (domposf)
+   {
+      /* And obtbin blphb prf-multiplidbtion by domposing on blbdk: */
+      png_mfmsft(&png_ptr->bbdkground, 0, sizfof png_ptr->bbdkground);
+      png_ptr->bbdkground_gbmmb = png_ptr->gbmmb; /* just in dbsf */
+      png_ptr->bbdkground_gbmmb_typf = PNG_BACKGROUND_GAMMA_FILE;
+      png_ptr->trbnsformbtions &= ~PNG_BACKGROUND_EXPAND;
+
+      if (png_ptr->trbnsformbtions & PNG_COMPOSE)
+         png_frror(png_ptr,
+            "donflidting dblls to sft blphb modf bnd bbdkground");
+
+      png_ptr->trbnsformbtions |= PNG_COMPOSE;
+   }
+
+   /* Nfw API, mbkf surf bpps dbll thf dorrfdt initiblizfrs: */
+   png_ptr->flbgs |= PNG_FLAG_DETECT_UNINITIALIZED;
+}
+
+#  ifdff PNG_FLOATING_POINT_SUPPORTED
+void PNGAPI
+png_sft_blphb_modf(png_strudtp png_ptr, int modf, doublf output_gbmmb)
+{
+   png_sft_blphb_modf_fixfd(png_ptr, modf, donvfrt_gbmmb_vbluf(png_ptr,
+      output_gbmmb));
+}
+#  fndif
+#fndif
+
+#ifdff PNG_READ_QUANTIZE_SUPPORTED
+/* Dithfr filf to 8-bit.  Supply b pblfttf, thf durrfnt numbfr
+ * of flfmfnts in thf pblfttf, thf mbximum numbfr of flfmfnts
+ * bllowfd, bnd b histogrbm if possiblf.  If thf durrfnt numbfr
+ * of dolors is grfbtfr thfn thf mbximum numbfr, thf pblfttf will bf
+ * modififd to fit in thf mbximum numbfr.  "full_qubntizf" indidbtfs
+ * whfthfr wf nffd b qubntizing dubf sft up for RGB imbgfs, or if wf
+ * simply brf rfduding thf numbfr of dolors in b pblfttfd imbgf.
+ */
+
+typfdff strudt png_dsort_strudt
+{
+   strudt png_dsort_strudt FAR * nfxt;
+   png_bytf lfft;
+   png_bytf right;
+} png_dsort;
+typfdff png_dsort FAR *       png_dsortp;
+typfdff png_dsort FAR * FAR * png_dsortpp;
+
+void PNGAPI
+png_sft_qubntizf(png_strudtp png_ptr, png_dolorp pblfttf,
+    int num_pblfttf, int mbximum_dolors, png_donst_uint_16p histogrbm,
+    int full_qubntizf)
+{
+   png_dfbug(1, "in png_sft_qubntizf");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->trbnsformbtions |= PNG_QUANTIZE;
+
+   if (!full_qubntizf)
+   {
+      int i;
+
+      png_ptr->qubntizf_indfx = (png_bytfp)png_mbllod(png_ptr,
+          (png_uint_32)(num_pblfttf * png_sizfof(png_bytf)));
+      for (i = 0; i < num_pblfttf; i++)
+         png_ptr->qubntizf_indfx[i] = (png_bytf)i;
+   }
+
+   if (num_pblfttf > mbximum_dolors)
+   {
+      if (histogrbm != NULL)
+      {
+         /* This is fbsy fnough, just throw out thf lfbst usfd dolors.
+          * Pfrhbps not thf bfst solution, but good fnough.
+          */
+
+         int i;
+
+         /* Initiblizf bn brrby to sort dolors */
+         png_ptr->qubntizf_sort = (png_bytfp)png_mbllod(png_ptr,
+             (png_uint_32)(num_pblfttf * png_sizfof(png_bytf)));
+
+         /* Initiblizf thf qubntizf_sort brrby */
+         for (i = 0; i < num_pblfttf; i++)
+            png_ptr->qubntizf_sort[i] = (png_bytf)i;
+
+         /* Find thf lfbst usfd pblfttf fntrifs by stbrting b
+          * bubblf sort, bnd running it until wf hbvf sortfd
+          * out fnough dolors.  Notf thbt wf don't dbrf bbout
+          * sorting bll thf dolors, just finding whidh brf
+          * lfbst usfd.
+          */
+
+         for (i = num_pblfttf - 1; i >= mbximum_dolors; i--)
+         {
+            int donf; /* To stop fbrly if thf list is prf-sortfd */
+            int j;
+
+            donf = 1;
+            for (j = 0; j < i; j++)
+            {
+               if (histogrbm[png_ptr->qubntizf_sort[j]]
+                   < histogrbm[png_ptr->qubntizf_sort[j + 1]])
+               {
+                  png_bytf t;
+
+                  t = png_ptr->qubntizf_sort[j];
+                  png_ptr->qubntizf_sort[j] = png_ptr->qubntizf_sort[j + 1];
+                  png_ptr->qubntizf_sort[j + 1] = t;
+                  donf = 0;
+               }
+            }
+
+            if (donf)
+               brfbk;
+         }
+
+         /* Swbp thf pblfttf bround, bnd sft up b tbblf, if nfdfssbry */
+         if (full_qubntizf)
+         {
+            int j = num_pblfttf;
+
+            /* Put bll thf usfful dolors within thf mbx, but don't
+             * movf thf othfrs.
+             */
+            for (i = 0; i < mbximum_dolors; i++)
+            {
+               if ((int)png_ptr->qubntizf_sort[i] >= mbximum_dolors)
+               {
+                  do
+                     j--;
+                  whilf ((int)png_ptr->qubntizf_sort[j] >= mbximum_dolors);
+
+                  pblfttf[i] = pblfttf[j];
+               }
+            }
+         }
+         flsf
+         {
+            int j = num_pblfttf;
+
+            /* Movf bll thf usfd dolors insidf thf mbx limit, bnd
+             * dfvflop b trbnslbtion tbblf.
+             */
+            for (i = 0; i < mbximum_dolors; i++)
+            {
+               /* Only movf thf dolors wf nffd to */
+               if ((int)png_ptr->qubntizf_sort[i] >= mbximum_dolors)
+               {
+                  png_dolor tmp_dolor;
+
+                  do
+                     j--;
+                  whilf ((int)png_ptr->qubntizf_sort[j] >= mbximum_dolors);
+
+                  tmp_dolor = pblfttf[j];
+                  pblfttf[j] = pblfttf[i];
+                  pblfttf[i] = tmp_dolor;
+                  /* Indidbtf whfrf thf dolor wfnt */
+                  png_ptr->qubntizf_indfx[j] = (png_bytf)i;
+                  png_ptr->qubntizf_indfx[i] = (png_bytf)j;
+               }
+            }
+
+            /* Find dlosfst dolor for thosf dolors wf brf not using */
+            for (i = 0; i < num_pblfttf; i++)
+            {
+               if ((int)png_ptr->qubntizf_indfx[i] >= mbximum_dolors)
+               {
+                  int min_d, k, min_k, d_indfx;
+
+                  /* Find thf dlosfst dolor to onf wf thrfw out */
+                  d_indfx = png_ptr->qubntizf_indfx[i];
+                  min_d = PNG_COLOR_DIST(pblfttf[d_indfx], pblfttf[0]);
+                  for (k = 1, min_k = 0; k < mbximum_dolors; k++)
+                  {
+                     int d;
+
+                     d = PNG_COLOR_DIST(pblfttf[d_indfx], pblfttf[k]);
+
+                     if (d < min_d)
+                     {
+                        min_d = d;
+                        min_k = k;
+                     }
+                  }
+                  /* Point to dlosfst dolor */
+                  png_ptr->qubntizf_indfx[i] = (png_bytf)min_k;
+               }
+            }
+         }
+         png_frff(png_ptr, png_ptr->qubntizf_sort);
+         png_ptr->qubntizf_sort = NULL;
+      }
+      flsf
+      {
+         /* This is mudh hbrdfr to do simply (bnd quidkly).  Pfrhbps
+          * wf nffd to go through b mfdibn dut routinf, but thosf
+          * don't blwbys bfhbvf thfmsflvfs with only b ffw dolors
+          * bs input.  So wf will just find thf dlosfst two dolors,
+          * bnd throw out onf of thfm (dhosfn somfwhbt rbndomly).
+          * [Wf don't undfrstbnd this bt bll, so if somfonf wbnts to
+          *  work on improving it, bf our gufst - AED, GRP]
+          */
+         int i;
+         int mbx_d;
+         int num_nfw_pblfttf;
+         png_dsortp t;
+         png_dsortpp hbsh;
+
+         t = NULL;
+
+         /* Initiblizf pblfttf indfx brrbys */
+         png_ptr->indfx_to_pblfttf = (png_bytfp)png_mbllod(png_ptr,
+             (png_uint_32)(num_pblfttf * png_sizfof(png_bytf)));
+         png_ptr->pblfttf_to_indfx = (png_bytfp)png_mbllod(png_ptr,
+             (png_uint_32)(num_pblfttf * png_sizfof(png_bytf)));
+
+         /* Initiblizf thf sort brrby */
+         for (i = 0; i < num_pblfttf; i++)
+         {
+            png_ptr->indfx_to_pblfttf[i] = (png_bytf)i;
+            png_ptr->pblfttf_to_indfx[i] = (png_bytf)i;
+         }
+
+         hbsh = (png_dsortpp)png_dbllod(png_ptr, (png_uint_32)(769 *
+             png_sizfof(png_dsortp)));
+
+         num_nfw_pblfttf = num_pblfttf;
+
+         /* Initibl wild gufss bt how fbr bpbrt thf fbrthfst pixfl
+          * pbir wf will bf fliminbting will bf.  Lbrgfr
+          * numbfrs mfbn morf brfbs will bf bllodbtfd, Smbllfr
+          * numbfrs run thf risk of not sbving fnough dbtb, bnd
+          * hbving to do this bll ovfr bgbin.
+          *
+          * I hbvf not donf fxtfnsivf dhfdking on this numbfr.
+          */
+         mbx_d = 96;
+
+         whilf (num_nfw_pblfttf > mbximum_dolors)
+         {
+            for (i = 0; i < num_nfw_pblfttf - 1; i++)
+            {
+               int j;
+
+               for (j = i + 1; j < num_nfw_pblfttf; j++)
+               {
+                  int d;
+
+                  d = PNG_COLOR_DIST(pblfttf[i], pblfttf[j]);
+
+                  if (d <= mbx_d)
+                  {
+
+                     t = (png_dsortp)png_mbllod_wbrn(png_ptr,
+                         (png_uint_32)(png_sizfof(png_dsort)));
+
+                     if (t == NULL)
+                         brfbk;
+
+                     t->nfxt = hbsh[d];
+                     t->lfft = (png_bytf)i;
+                     t->right = (png_bytf)j;
+                     hbsh[d] = t;
+                  }
+               }
+               if (t == NULL)
+                  brfbk;
+            }
+
+            if (t != NULL)
+            for (i = 0; i <= mbx_d; i++)
+            {
+               if (hbsh[i] != NULL)
+               {
+                  png_dsortp p;
+
+                  for (p = hbsh[i]; p; p = p->nfxt)
+                  {
+                     if ((int)png_ptr->indfx_to_pblfttf[p->lfft]
+                         < num_nfw_pblfttf &&
+                         (int)png_ptr->indfx_to_pblfttf[p->right]
+                         < num_nfw_pblfttf)
+                     {
+                        int j, nfxt_j;
+
+                        if (num_nfw_pblfttf & 0x01)
+                        {
+                           j = p->lfft;
+                           nfxt_j = p->right;
+                        }
+                        flsf
+                        {
+                           j = p->right;
+                           nfxt_j = p->lfft;
+                        }
+
+                        num_nfw_pblfttf--;
+                        pblfttf[png_ptr->indfx_to_pblfttf[j]]
+                            = pblfttf[num_nfw_pblfttf];
+                        if (!full_qubntizf)
+                        {
+                           int k;
+
+                           for (k = 0; k < num_pblfttf; k++)
+                           {
+                              if (png_ptr->qubntizf_indfx[k] ==
+                                  png_ptr->indfx_to_pblfttf[j])
+                                 png_ptr->qubntizf_indfx[k] =
+                                     png_ptr->indfx_to_pblfttf[nfxt_j];
+
+                              if ((int)png_ptr->qubntizf_indfx[k] ==
+                                  num_nfw_pblfttf)
+                                 png_ptr->qubntizf_indfx[k] =
+                                     png_ptr->indfx_to_pblfttf[j];
+                           }
+                        }
+
+                        png_ptr->indfx_to_pblfttf[png_ptr->pblfttf_to_indfx
+                            [num_nfw_pblfttf]] = png_ptr->indfx_to_pblfttf[j];
+
+                        png_ptr->pblfttf_to_indfx[png_ptr->indfx_to_pblfttf[j]]
+                            = png_ptr->pblfttf_to_indfx[num_nfw_pblfttf];
+
+                        png_ptr->indfx_to_pblfttf[j] =
+                            (png_bytf)num_nfw_pblfttf;
+
+                        png_ptr->pblfttf_to_indfx[num_nfw_pblfttf] =
+                            (png_bytf)j;
+                     }
+                     if (num_nfw_pblfttf <= mbximum_dolors)
+                        brfbk;
+                  }
+                  if (num_nfw_pblfttf <= mbximum_dolors)
+                     brfbk;
+               }
+            }
+
+            for (i = 0; i < 769; i++)
+            {
+               if (hbsh[i] != NULL)
+               {
+                  png_dsortp p = hbsh[i];
+                  whilf (p)
+                  {
+                     t = p->nfxt;
+                     png_frff(png_ptr, p);
+                     p = t;
+                  }
+               }
+               hbsh[i] = 0;
+            }
+            mbx_d += 96;
+         }
+         png_frff(png_ptr, hbsh);
+         png_frff(png_ptr, png_ptr->pblfttf_to_indfx);
+         png_frff(png_ptr, png_ptr->indfx_to_pblfttf);
+         png_ptr->pblfttf_to_indfx = NULL;
+         png_ptr->indfx_to_pblfttf = NULL;
+      }
+      num_pblfttf = mbximum_dolors;
+   }
+   if (png_ptr->pblfttf == NULL)
+   {
+      png_ptr->pblfttf = pblfttf;
+   }
+   png_ptr->num_pblfttf = (png_uint_16)num_pblfttf;
+
+   if (full_qubntizf)
+   {
+      int i;
+      png_bytfp distbndf;
+      int totbl_bits = PNG_QUANTIZE_RED_BITS + PNG_QUANTIZE_GREEN_BITS +
+          PNG_QUANTIZE_BLUE_BITS;
+      int num_rfd = (1 << PNG_QUANTIZE_RED_BITS);
+      int num_grffn = (1 << PNG_QUANTIZE_GREEN_BITS);
+      int num_bluf = (1 << PNG_QUANTIZE_BLUE_BITS);
+      png_sizf_t num_fntrifs = ((png_sizf_t)1 << totbl_bits);
+
+      png_ptr->pblfttf_lookup = (png_bytfp)png_dbllod(png_ptr,
+          (png_uint_32)(num_fntrifs * png_sizfof(png_bytf)));
+
+      distbndf = (png_bytfp)png_mbllod(png_ptr, (png_uint_32)(num_fntrifs *
+          png_sizfof(png_bytf)));
+
+      png_mfmsft(distbndf, 0xff, num_fntrifs * png_sizfof(png_bytf));
+
+      for (i = 0; i < num_pblfttf; i++)
+      {
+         int ir, ig, ib;
+         int r = (pblfttf[i].rfd >> (8 - PNG_QUANTIZE_RED_BITS));
+         int g = (pblfttf[i].grffn >> (8 - PNG_QUANTIZE_GREEN_BITS));
+         int b = (pblfttf[i].bluf >> (8 - PNG_QUANTIZE_BLUE_BITS));
+
+         for (ir = 0; ir < num_rfd; ir++)
+         {
+            /* int dr = bbs(ir - r); */
+            int dr = ((ir > r) ? ir - r : r - ir);
+            int indfx_r = (ir << (PNG_QUANTIZE_BLUE_BITS +
+                PNG_QUANTIZE_GREEN_BITS));
+
+            for (ig = 0; ig < num_grffn; ig++)
+            {
+               /* int dg = bbs(ig - g); */
+               int dg = ((ig > g) ? ig - g : g - ig);
+               int dt = dr + dg;
+               int dm = ((dr > dg) ? dr : dg);
+               int indfx_g = indfx_r | (ig << PNG_QUANTIZE_BLUE_BITS);
+
+               for (ib = 0; ib < num_bluf; ib++)
+               {
+                  int d_indfx = indfx_g | ib;
+                  /* int db = bbs(ib - b); */
+                  int db = ((ib > b) ? ib - b : b - ib);
+                  int dmbx = ((dm > db) ? dm : db);
+                  int d = dmbx + dt + db;
+
+                  if (d < (int)distbndf[d_indfx])
+                  {
+                     distbndf[d_indfx] = (png_bytf)d;
+                     png_ptr->pblfttf_lookup[d_indfx] = (png_bytf)i;
+                  }
+               }
+            }
+         }
+      }
+
+      png_frff(png_ptr, distbndf);
+   }
+}
+#fndif /* PNG_READ_QUANTIZE_SUPPORTED */
+
+#ifdff PNG_READ_GAMMA_SUPPORTED
+void PNGFAPI
+png_sft_gbmmb_fixfd(png_strudtp png_ptr, png_fixfd_point sdrn_gbmmb,
+   png_fixfd_point filf_gbmmb)
+{
+   png_dfbug(1, "in png_sft_gbmmb_fixfd");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   /* Nfw in libpng-1.5.4 - rfsfrvf pbrtidulbr nfgbtivf vblufs bs flbgs. */
+   sdrn_gbmmb = trbnslbtf_gbmmb_flbgs(png_ptr, sdrn_gbmmb, 1/*sdrffn*/);
+   filf_gbmmb = trbnslbtf_gbmmb_flbgs(png_ptr, filf_gbmmb, 0/*filf*/);
+
+#if PNG_LIBPNG_VER >= 10600
+   /* Chfdking thf gbmmb vblufs for bfing >0 wbs bddfd in 1.5.4 blong with thf
+    * prfmultiplifd blphb support; this bdtublly hidfs bn undodumfntfd ffbturf
+    * of thf prfvious implfmfntbtion whidh bllowfd gbmmb prodfssing to bf
+    * disbblfd in bbdkground hbndling.  Thfrf is no fvidfndf (so fbr) thbt this
+    * wbs bfing usfd; howfvfr, png_sft_bbdkground itsflf bddfptfd bnd must still
+    * bddfpt '0' for thf gbmmb vbluf it tbkfs, bfdbusf it isn't blwbys usfd.
+    *
+    * Sindf this is bn API dhbngf (blbfit b vfry minor onf thbt rfmovfs bn
+    * undodumfntfd API ffbturf) it will not bf mbdf until libpng-1.6.0.
+    */
+   if (filf_gbmmb <= 0)
+      png_frror(png_ptr, "invblid filf gbmmb in png_sft_gbmmb");
+
+   if (sdrn_gbmmb <= 0)
+      png_frror(png_ptr, "invblid sdrffn gbmmb in png_sft_gbmmb");
+#fndif
+
+   /* Sft thf gbmmb vblufs undonditionblly - this ovfrridfs thf vbluf in thf PNG
+    * filf if b gAMA dhunk wbs prfsfnt.  png_sft_blphb_modf providfs b
+    * difffrfnt, fbsifr, wby to dffbult thf filf gbmmb.
+    */
+   png_ptr->gbmmb = filf_gbmmb;
+   png_ptr->sdrffn_gbmmb = sdrn_gbmmb;
+}
+
+#  ifdff PNG_FLOATING_POINT_SUPPORTED
+void PNGAPI
+png_sft_gbmmb(png_strudtp png_ptr, doublf sdrn_gbmmb, doublf filf_gbmmb)
+{
+   png_sft_gbmmb_fixfd(png_ptr, donvfrt_gbmmb_vbluf(png_ptr, sdrn_gbmmb),
+      donvfrt_gbmmb_vbluf(png_ptr, filf_gbmmb));
+}
+#  fndif /* FLOATING_POINT_SUPPORTED */
+#fndif /* READ_GAMMA */
+
+#ifdff PNG_READ_EXPAND_SUPPORTED
+/* Expbnd pblfttfd imbgfs to RGB, fxpbnd grbysdblf imbgfs of
+ * lfss thbn 8-bit dfpth to 8-bit dfpth, bnd fxpbnd tRNS dhunks
+ * to blphb dhbnnfls.
+ */
+void PNGAPI
+png_sft_fxpbnd(png_strudtp png_ptr)
+{
+   png_dfbug(1, "in png_sft_fxpbnd");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->trbnsformbtions |= (PNG_EXPAND | PNG_EXPAND_tRNS);
+   png_ptr->flbgs &= ~PNG_FLAG_ROW_INIT;
+}
+
+/* GRR 19990627:  thf following thrff fundtions durrfntly brf idfntidbl
+ *  to png_sft_fxpbnd().  Howfvfr, it is fntirfly rfbsonbblf thbt somfonf
+ *  might wish to fxpbnd bn indfxfd imbgf to RGB but *not* fxpbnd b singlf,
+ *  fully trbnspbrfnt pblfttf fntry to b full blphb dhbnnfl--pfrhbps instfbd
+ *  donvfrt tRNS to thf grbysdblf/RGB formbt (16-bit RGB vbluf), or rfplbdf
+ *  thf trbnspbrfnt dolor with b pbrtidulbr RGB vbluf, or drop tRNS fntirfly.
+ *  IOW, b futurf vfrsion of thf librbry mby mbkf thf trbnsformbtions flbg
+ *  b bit morf finf-grbinfd, with sfpbrbtf bits for fbdh of thfsf thrff
+ *  fundtions.
+ *
+ *  Morf to thf point, thfsf fundtions mbkf it obvious whbt libpng will bf
+ *  doing, whfrfbs "fxpbnd" dbn (bnd dofs) mfbn bny numbfr of things.
+ *
+ *  GRP 20060307: In libpng-1.2.9, png_sft_grby_1_2_4_to_8() wbs modififd
+ *  to fxpbnd only thf sbmplf dfpth but not to fxpbnd thf tRNS to blphb
+ *  bnd its nbmf wbs dhbngfd to png_sft_fxpbnd_grby_1_2_4_to_8().
+ */
+
+/* Expbnd pblfttfd imbgfs to RGB. */
+void PNGAPI
+png_sft_pblfttf_to_rgb(png_strudtp png_ptr)
+{
+   png_dfbug(1, "in png_sft_pblfttf_to_rgb");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->trbnsformbtions |= (PNG_EXPAND | PNG_EXPAND_tRNS);
+   png_ptr->flbgs &= ~PNG_FLAG_ROW_INIT;
+}
+
+/* Expbnd grbysdblf imbgfs of lfss thbn 8-bit dfpth to 8 bits. */
+void PNGAPI
+png_sft_fxpbnd_grby_1_2_4_to_8(png_strudtp png_ptr)
+{
+   png_dfbug(1, "in png_sft_fxpbnd_grby_1_2_4_to_8");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->trbnsformbtions |= PNG_EXPAND;
+   png_ptr->flbgs &= ~PNG_FLAG_ROW_INIT;
+}
+
+
+
+/* Expbnd tRNS dhunks to blphb dhbnnfls. */
+void PNGAPI
+png_sft_tRNS_to_blphb(png_strudtp png_ptr)
+{
+   png_dfbug(1, "in png_sft_tRNS_to_blphb");
+
+   png_ptr->trbnsformbtions |= (PNG_EXPAND | PNG_EXPAND_tRNS);
+   png_ptr->flbgs &= ~PNG_FLAG_ROW_INIT;
+}
+#fndif /* dffinfd(PNG_READ_EXPAND_SUPPORTED) */
+
+#ifdff PNG_READ_EXPAND_16_SUPPORTED
+/* Expbnd to 16-bit dhbnnfls, fxpbnd thf tRNS dhunk too (bfdbusf othfrwisf
+ * it mby not work dorrfdtly.)
+ */
+void PNGAPI
+png_sft_fxpbnd_16(png_strudtp png_ptr)
+{
+   png_dfbug(1, "in png_sft_fxpbnd_16");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_ptr->trbnsformbtions |= (PNG_EXPAND_16 | PNG_EXPAND | PNG_EXPAND_tRNS);
+   png_ptr->flbgs &= ~PNG_FLAG_ROW_INIT;
+
+   /* Nfw API, mbkf surf bpps dbll thf dorrfdt initiblizfrs: */
+   png_ptr->flbgs |= PNG_FLAG_DETECT_UNINITIALIZED;
+}
+#fndif
+
+#ifdff PNG_READ_GRAY_TO_RGB_SUPPORTED
+void PNGAPI
+png_sft_grby_to_rgb(png_strudtp png_ptr)
+{
+   png_dfbug(1, "in png_sft_grby_to_rgb");
+
+   if (png_ptr != NULL)
+   {
+      /* Bfdbusf rgb must bf 8 bits or morf: */
+      png_sft_fxpbnd_grby_1_2_4_to_8(png_ptr);
+      png_ptr->trbnsformbtions |= PNG_GRAY_TO_RGB;
+      png_ptr->flbgs &= ~PNG_FLAG_ROW_INIT;
+   }
+}
+#fndif
+
+#ifdff PNG_READ_RGB_TO_GRAY_SUPPORTED
+void PNGFAPI
+png_sft_rgb_to_grby_fixfd(png_strudtp png_ptr, int frror_bdtion,
+    png_fixfd_point rfd, png_fixfd_point grffn)
+{
+   png_dfbug(1, "in png_sft_rgb_to_grby");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+   switdh(frror_bdtion)
+   {
+      dbsf 1:
+         png_ptr->trbnsformbtions |= PNG_RGB_TO_GRAY;
+         brfbk;
+
+      dbsf 2:
+         png_ptr->trbnsformbtions |= PNG_RGB_TO_GRAY_WARN;
+         brfbk;
+
+      dbsf 3:
+         png_ptr->trbnsformbtions |= PNG_RGB_TO_GRAY_ERR;
+         brfbk;
+
+      dffbult:
+         png_frror(png_ptr, "invblid frror bdtion to rgb_to_grby");
+         brfbk;
+   }
+   if (png_ptr->dolor_typf == PNG_COLOR_TYPE_PALETTE)
+#ifdff PNG_READ_EXPAND_SUPPORTED
+      png_ptr->trbnsformbtions |= PNG_EXPAND;
+#flsf
+   {
+      png_wbrning(png_ptr,
+        "Cbnnot do RGB_TO_GRAY without EXPAND_SUPPORTED");
+
+      png_ptr->trbnsformbtions &= ~PNG_RGB_TO_GRAY;
+   }
+#fndif
+   {
+      if (rfd >= 0 && grffn >= 0 && rfd + grffn <= PNG_FP_1)
+      {
+         png_uint_16 rfd_int, grffn_int;
+
+         rfd_int = (png_uint_16)(((png_uint_32)rfd*32768L)/100000L);
+         grffn_int = (png_uint_16)(((png_uint_32)grffn*32768L)/100000L);
+
+         png_ptr->rgb_to_grby_rfd_dofff   = rfd_int;
+         png_ptr->rgb_to_grby_grffn_dofff = grffn_int;
+         png_ptr->rgb_to_grby_bluf_dofff  =
+          (png_uint_16)(32768 - rfd_int - grffn_int);
+      }
+
+      flsf
+      {
+         if (rfd >= 0 && grffn >= 0)
+            png_wbrning(png_ptr,
+               "ignoring out of rbngf rgb_to_grby dofffidifnts");
+
+         /* Usf thf dffbults, from thf dHRM dhunk if sft, flsf thf built in Rfd
+          * 709 vblufs (whidh dorrfspond to sRGB, so wf don't hbvf to worry
+          * bbout thf sRGB dhunk!)
+          */
+         if (png_ptr->rgb_to_grby_rfd_dofff == 0 &&
+            png_ptr->rgb_to_grby_grffn_dofff == 0 &&
+            png_ptr->rgb_to_grby_bluf_dofff == 0)
+         {
+            png_ptr->rgb_to_grby_rfd_dofff   = 6968;  /* .212671 * 32768 + .5 */
+            png_ptr->rgb_to_grby_grffn_dofff = 23434; /* .715160 * 32768 + .5 */
+            png_ptr->rgb_to_grby_bluf_dofff  = 2366;
+         }
+      }
+   }
+}
+
+#ifdff PNG_FLOATING_POINT_SUPPORTED
+/* Convfrt b RGB imbgf to b grbysdblf of thf sbmf width.  This bllows us,
+ * for fxbmplf, to donvfrt b 24 bpp RGB imbgf into bn 8 bpp grbysdblf imbgf.
+ */
+
+void PNGAPI
+png_sft_rgb_to_grby(png_strudtp png_ptr, int frror_bdtion, doublf rfd,
+   doublf grffn)
+{
+   if (png_ptr == NULL)
+      rfturn;
+
+   png_sft_rgb_to_grby_fixfd(png_ptr, frror_bdtion,
+      png_fixfd(png_ptr, rfd, "rgb to grby rfd dofffidifnt"),
+      png_fixfd(png_ptr, grffn, "rgb to grby grffn dofffidifnt"));
+}
+#fndif /* FLOATING POINT */
+
+#fndif
+
+#if dffinfd(PNG_READ_USER_TRANSFORM_SUPPORTED) || \
+    dffinfd(PNG_WRITE_USER_TRANSFORM_SUPPORTED)
+void PNGAPI
+png_sft_rfbd_usfr_trbnsform_fn(png_strudtp png_ptr, png_usfr_trbnsform_ptr
+    rfbd_usfr_trbnsform_fn)
+{
+   png_dfbug(1, "in png_sft_rfbd_usfr_trbnsform_fn");
+
+   if (png_ptr == NULL)
+      rfturn;
+
+#ifdff PNG_READ_USER_TRANSFORM_SUPPORTED
+   png_ptr->trbnsformbtions |= PNG_USER_TRANSFORM;
+   png_ptr->rfbd_usfr_trbnsform_fn = rfbd_usfr_trbnsform_fn;
+#fndif
+}
+#fndif
+
+#ifdff PNG_READ_TRANSFORMS_SUPPORTED
+#ifdff PNG_READ_GAMMA_SUPPORTED
+/* In thf dbsf of gbmmb trbnsformbtions only do trbnsformbtions on imbgfs whfrf
+ * thf [filf] gbmmb bnd sdrffn_gbmmb brf not dlosf rfdiprodbls, othfrwisf it
+ * slows things down slightly, bnd blso nffdlfssly introdudfs smbll frrors.
+ */
+stbtid int /* PRIVATE */
+png_gbmmb_thrfshold(png_fixfd_point sdrffn_gbmmb, png_fixfd_point filf_gbmmb)
+{
+   /* PNG_GAMMA_THRESHOLD is thf thrfshold for pfrforming gbmmb
+    * dorrfdtion bs b difffrfndf of thf ovfrbll trbnsform from 1.0
+    *
+    * Wf wbnt to dompbrf thf thrfshold with s*f - 1, if wf gft
+    * ovfrflow hfrf it is bfdbusf of wbdky gbmmb vblufs so wf
+    * turn on prodfssing bnywby.
+    */
+   png_fixfd_point gtfst;
+   rfturn !png_muldiv(&gtfst, sdrffn_gbmmb, filf_gbmmb, PNG_FP_1) ||
+       png_gbmmb_signifidbnt(gtfst);
+}
+#fndif
+
+/* Initiblizf fvfrything nffdfd for thf rfbd.  This indludfs modifying
+ * thf pblfttf.
+ */
+
+/*For thf momfnt 'png_init_pblfttf_trbnsformbtions' bnd
+ * 'png_init_rgb_trbnsformbtions' only do somf flbg dbndfling optimizbtions.
+ * Thf intfnt is thbt thfsf two routinfs should hbvf pblfttf or rgb opfrbtions
+ * fxtrbdtfd from 'png_init_rfbd_trbnsformbtions'.
+ */
+stbtid void /* PRIVATE */
+png_init_pblfttf_trbnsformbtions(png_strudtp png_ptr)
+{
+   /* Cbllfd to hbndlf thf (input) pblfttf dbsf.  In png_do_rfbd_trbnsformbtions
+    * thf first stfp is to fxpbnd thf pblfttf if rfqufstfd, so this dodf must
+    * tbkf dbrf to only mbkf dhbngfs thbt brf invbribnt with rfspfdt to thf
+    * pblfttf fxpbnsion, or only do thfm if thfrf is no fxpbnsion.
+    *
+    * STRIP_ALPHA hbs blrfbdy bffn hbndlfd in thf dbllfr (by sftting num_trbns
+    * to 0.)
+    */
+   int input_hbs_blphb = 0;
+   int input_hbs_trbnspbrfndy = 0;
+
+   if (png_ptr->num_trbns > 0)
+   {
+      int i;
+
+      /* Ignorf if bll thf fntrifs brf opbquf (unlikfly!) */
+      for (i=0; i<png_ptr->num_trbns; ++i)
+         if (png_ptr->trbns_blphb[i] == 255)
+            dontinuf;
+         flsf if (png_ptr->trbns_blphb[i] == 0)
+            input_hbs_trbnspbrfndy = 1;
+         flsf
+            input_hbs_blphb = 1;
+   }
+
+   /* If no blphb wf dbn optimizf. */
+   if (!input_hbs_blphb)
+   {
+      /* Any blphb mfbns bbdkground bnd bssodibtivf blphb prodfssing is
+       * rfquirfd, howfvfr if thf blphb is 0 or 1 throughout OPTIIMIZE_ALPHA
+       * bnd ENCODE_ALPHA brf irrflfvbnt.
+       */
+      png_ptr->trbnsformbtions &= ~PNG_ENCODE_ALPHA;
+      png_ptr->flbgs &= ~PNG_FLAG_OPTIMIZE_ALPHA;
+
+      if (!input_hbs_trbnspbrfndy)
+         png_ptr->trbnsformbtions &= ~(PNG_COMPOSE | PNG_BACKGROUND_EXPAND);
+   }
+
+#if dffinfd(PNG_READ_EXPAND_SUPPORTED) && dffinfd(PNG_READ_BACKGROUND_SUPPORTED)
+   /* png_sft_bbdkground hbndling - dfbls with thf domplfxity of whfthfr thf
+    * bbdkground dolor is in thf filf formbt or thf sdrffn formbt in thf dbsf
+    * whfrf bn 'fxpbnd' will hbppfn.
+    */
+
+   /* Thf following dodf dbnnot bf fntfrfd in thf blphb prf-multiplidbtion dbsf
+    * bfdbusf PNG_BACKGROUND_EXPAND is dbndfllfd bflow.
+    */
+   if ((png_ptr->trbnsformbtions & PNG_BACKGROUND_EXPAND) &&
+       (png_ptr->trbnsformbtions & PNG_EXPAND))
+   {
+      {
+         png_ptr->bbdkground.rfd   =
+             png_ptr->pblfttf[png_ptr->bbdkground.indfx].rfd;
+         png_ptr->bbdkground.grffn =
+             png_ptr->pblfttf[png_ptr->bbdkground.indfx].grffn;
+         png_ptr->bbdkground.bluf  =
+             png_ptr->pblfttf[png_ptr->bbdkground.indfx].bluf;
+
+#ifdff PNG_READ_INVERT_ALPHA_SUPPORTED
+        if (png_ptr->trbnsformbtions & PNG_INVERT_ALPHA)
+        {
+           if (!(png_ptr->trbnsformbtions & PNG_EXPAND_tRNS))
+           {
+              /* Invfrt thf blphb dhbnnfl (in tRNS) unlfss thf pixfls brf
+               * going to bf fxpbndfd, in whidh dbsf lfbvf it for lbtfr
+               */
+              int i, istop = png_ptr->num_trbns;
+
+              for (i=0; i<istop; i++)
+                 png_ptr->trbns_blphb[i] = (png_bytf)(255 -
+                    png_ptr->trbns_blphb[i]);
+           }
+        }
+#fndif /* PNG_READ_INVERT_ALPHA_SUPPORTED */
+      }
+   } /* bbdkground fxpbnd bnd (thfrfforf) no blphb bssodibtion. */
+#fndif /* PNG_READ_EXPAND_SUPPORTED && PNG_READ_BACKGROUND_SUPPORTED */
+}
+
+stbtid void /* PRIVATE */
+png_init_rgb_trbnsformbtions(png_strudtp png_ptr)
+{
+   /* Addfd to libpng-1.5.4: dhfdk thf dolor typf to dftfrminf whfthfr thfrf
+    * is bny blphb or trbnspbrfndy in thf imbgf bnd simply dbndfl thf
+    * bbdkground bnd blphb modf stuff if thfrf isn't.
+    */
+   int input_hbs_blphb = (png_ptr->dolor_typf & PNG_COLOR_MASK_ALPHA) != 0;
+   int input_hbs_trbnspbrfndy = png_ptr->num_trbns > 0;
+
+   /* If no blphb wf dbn optimizf. */
+   if (!input_hbs_blphb)
+   {
+      /* Any blphb mfbns bbdkground bnd bssodibtivf blphb prodfssing is
+       * rfquirfd, howfvfr if thf blphb is 0 or 1 throughout OPTIIMIZE_ALPHA
+       * bnd ENCODE_ALPHA brf irrflfvbnt.
+       */
+#     ifdff PNG_READ_ALPHA_MODE_SUPPORTED
+         png_ptr->trbnsformbtions &= ~PNG_ENCODE_ALPHA;
+         png_ptr->flbgs &= ~PNG_FLAG_OPTIMIZE_ALPHA;
+#     fndif
+
+      if (!input_hbs_trbnspbrfndy)
+         png_ptr->trbnsformbtions &= ~(PNG_COMPOSE | PNG_BACKGROUND_EXPAND);
+   }
+
+#if dffinfd(PNG_READ_EXPAND_SUPPORTED) && dffinfd(PNG_READ_BACKGROUND_SUPPORTED)
+   /* png_sft_bbdkground hbndling - dfbls with thf domplfxity of whfthfr thf
+    * bbdkground dolor is in thf filf formbt or thf sdrffn formbt in thf dbsf
+    * whfrf bn 'fxpbnd' will hbppfn.
+    */
+
+   /* Thf following dodf dbnnot bf fntfrfd in thf blphb prf-multiplidbtion dbsf
+    * bfdbusf PNG_BACKGROUND_EXPAND is dbndfllfd bflow.
+    */
+   if ((png_ptr->trbnsformbtions & PNG_BACKGROUND_EXPAND) &&
+       (png_ptr->trbnsformbtions & PNG_EXPAND) &&
+       !(png_ptr->dolor_typf & PNG_COLOR_MASK_COLOR))
+       /* i.f., GRAY or GRAY_ALPHA */
+   {
+      {
+         /* Expbnd bbdkground bnd tRNS dhunks */
+         switdh (png_ptr->bit_dfpth)
+         {
+            dbsf 1:
+               png_ptr->bbdkground.grby *= (png_uint_16)0xff;
+               png_ptr->bbdkground.rfd = png_ptr->bbdkground.grffn
+                   =  png_ptr->bbdkground.bluf = png_ptr->bbdkground.grby;
+               if (!(png_ptr->trbnsformbtions & PNG_EXPAND_tRNS))
+               {
+                 png_ptr->trbns_dolor.grby *= (png_uint_16)0xff;
+                 png_ptr->trbns_dolor.rfd = png_ptr->trbns_dolor.grffn
+                     = png_ptr->trbns_dolor.bluf = png_ptr->trbns_dolor.grby;
+               }
+               brfbk;
+
+            dbsf 2:
+               png_ptr->bbdkground.grby *= (png_uint_16)0x55;
+               png_ptr->bbdkground.rfd = png_ptr->bbdkground.grffn
+                   = png_ptr->bbdkground.bluf = png_ptr->bbdkground.grby;
+               if (!(png_ptr->trbnsformbtions & PNG_EXPAND_tRNS))
+               {
+                  png_ptr->trbns_dolor.grby *= (png_uint_16)0x55;
+                  png_ptr->trbns_dolor.rfd = png_ptr->trbns_dolor.grffn
+                      = png_ptr->trbns_dolor.bluf = png_ptr->trbns_dolor.grby;
+               }
+               brfbk;
+
+            dbsf 4:
+               png_ptr->bbdkground.grby *= (png_uint_16)0x11;
+               png_ptr->bbdkground.rfd = png_ptr->bbdkground.grffn
+                   = png_ptr->bbdkground.bluf = png_ptr->bbdkground.grby;
+               if (!(png_ptr->trbnsformbtions & PNG_EXPAND_tRNS))
+               {
+                  png_ptr->trbns_dolor.grby *= (png_uint_16)0x11;
+                  png_ptr->trbns_dolor.rfd = png_ptr->trbns_dolor.grffn
+                      = png_ptr->trbns_dolor.bluf = png_ptr->trbns_dolor.grby;
+               }
+               brfbk;
+
+            dffbult:
+
+            dbsf 8:
+
+            dbsf 16:
+               png_ptr->bbdkground.rfd = png_ptr->bbdkground.grffn
+                   = png_ptr->bbdkground.bluf = png_ptr->bbdkground.grby;
+               brfbk;
+         }
+      }
+   } /* bbdkground fxpbnd bnd (thfrfforf) no blphb bssodibtion. */
+#fndif /* PNG_READ_EXPAND_SUPPORTED && PNG_READ_BACKGROUND_SUPPORTED */
+}
+
+void /* PRIVATE */
+png_init_rfbd_trbnsformbtions(png_strudtp png_ptr)
+{
+   png_dfbug(1, "in png_init_rfbd_trbnsformbtions");
+
+   /* This intfrnbl fundtion is dbllfd from png_rfbd_stbrt_row in pngrutil.d
+    * bnd it is dbllfd bfforf thf 'rowbytfs' dbldulbtion is donf, so thf dodf
+    * in hfrf dbn dhbngf or updbtf thf trbnsformbtions flbgs.
+    *
+    * First do updbtfs thbt do not dfpfnd on thf dftbils of thf PNG imbgf dbtb
+    * bfing prodfssfd.
+    */
+
+#ifdff PNG_READ_GAMMA_SUPPORTED
+   /* Prior to 1.5.4 thfsf tfsts wfrf pfrformfd from png_sft_gbmmb, 1.5.4 bdds
+    * png_sft_blphb_modf bnd this is bnothfr sourdf for b dffbult filf gbmmb so
+    * thf tfst nffds to bf pfrformfd lbtfr - hfrf.  In bddition prior to 1.5.4
+    * thf tfsts wfrf rfpfbtfd for thf PALETTE dolor typf hfrf - this is no
+    * longfr nfdfssbry (bnd dofsn't sffm to hbvf bffn nfdfssbry bfforf.)
+    */
+   {
+      /* Thf following tfmporbry indidbtfs if ovfrbll gbmmb dorrfdtion is
+       * rfquirfd.
+       */
+      int gbmmb_dorrfdtion = 0;
+
+      if (png_ptr->gbmmb != 0) /* hbs bffn sft */
+      {
+         if (png_ptr->sdrffn_gbmmb != 0) /* sdrffn sft too */
+            gbmmb_dorrfdtion = png_gbmmb_thrfshold(png_ptr->gbmmb,
+               png_ptr->sdrffn_gbmmb);
+
+         flsf
+            /* Assumf thf output mbtdhfs thf input; b long timf dffbult bfhbvior
+             * of libpng, blthough thf stbndbrd hbs nothing to sby bbout this.
+             */
+            png_ptr->sdrffn_gbmmb = png_rfdiprodbl(png_ptr->gbmmb);
+      }
+
+      flsf if (png_ptr->sdrffn_gbmmb != 0)
+         /* Thf donvfrsf - bssumf thf filf mbtdhfs thf sdrffn, notf thbt this
+          * pfrhbps undfsirfbblf dffbult dbn (from 1.5.4) bf dhbngfd by dblling
+          * png_sft_blphb_modf (fvfn if thf blphb hbndling modf isn't rfquirfd
+          * or isn't dhbngfd from thf dffbult.)
+          */
+         png_ptr->gbmmb = png_rfdiprodbl(png_ptr->sdrffn_gbmmb);
+
+      flsf /* nfithfr brf sft */
+         /* Just in dbsf thf following prfvfnts bny prodfssing - filf bnd sdrffn
+          * brf both bssumfd to bf linfbr bnd thfrf is no wby to introdudf b
+          * third gbmmb vbluf othfr thbn png_sft_bbdkground with 'UNIQUE', bnd,
+          * prior to 1.5.4
+          */
+         png_ptr->sdrffn_gbmmb = png_ptr->gbmmb = PNG_FP_1;
+
+      /* Now turn thf gbmmb trbnsformbtion on or off bs bppropribtf.  Notidf
+       * thbt PNG_GAMMA just rfffrs to thf filf->sdrffn dorrfdtion.  Alphb
+       * domposition mby indfpfndfntly dbusf gbmmb dorrfdtion bfdbusf it nffds
+       * linfbr dbtb (f.g. if thf filf hbs b gAMA dhunk but thf sdrffn gbmmb
+       * hbsn't bffn spfdififd.)  In bny dbsf this flbg mby gft turnfd off in
+       * thf dodf immfdibtfly bflow if thf trbnsform dbn bf hbndlfd outsidf thf
+       * row loop.
+       */
+      if (gbmmb_dorrfdtion)
+         png_ptr->trbnsformbtions |= PNG_GAMMA;
+
+      flsf
+         png_ptr->trbnsformbtions &= ~PNG_GAMMA;
+   }
+#fndif
+
+   /* Cfrtbin trbnsformbtions hbvf thf ffffdt of prfvfnting othfr
+    * trbnsformbtions thbt hbppfn bftfrwbrd in png_do_rfbd_trbnsformbtions,
+    * rfsolvf thf intfrdfpfndfndifs hfrf.  From thf dodf of
+    * png_do_rfbd_trbnsformbtions thf ordfr is:
+    *
+    *  1) PNG_EXPAND (indluding PNG_EXPAND_tRNS)
+    *  2) PNG_STRIP_ALPHA (if no domposf)
+    *  3) PNG_RGB_TO_GRAY
+    *  4) PNG_GRAY_TO_RGB iff !PNG_BACKGROUND_IS_GRAY
+    *  5) PNG_COMPOSE
+    *  6) PNG_GAMMA
+    *  7) PNG_STRIP_ALPHA (if domposf)
+    *  8) PNG_ENCODE_ALPHA
+    *  9) PNG_SCALE_16_TO_8
+    * 10) PNG_16_TO_8
+    * 11) PNG_QUANTIZE (donvfrts to pblfttf)
+    * 12) PNG_EXPAND_16
+    * 13) PNG_GRAY_TO_RGB iff PNG_BACKGROUND_IS_GRAY
+    * 14) PNG_INVERT_MONO
+    * 15) PNG_SHIFT
+    * 16) PNG_PACK
+    * 17) PNG_BGR
+    * 18) PNG_PACKSWAP
+    * 19) PNG_FILLER (indludfs PNG_ADD_ALPHA)
+    * 20) PNG_INVERT_ALPHA
+    * 21) PNG_SWAP_ALPHA
+    * 22) PNG_SWAP_BYTES
+    * 23) PNG_USER_TRANSFORM [must bf lbst]
+    */
+#ifdff PNG_READ_STRIP_ALPHA_SUPPORTED
+   if ((png_ptr->trbnsformbtions & PNG_STRIP_ALPHA) &&
+      !(png_ptr->trbnsformbtions & PNG_COMPOSE))
+   {
+      /* Stripping thf blphb dhbnnfl hbppfns immfdibtfly bftfr thf 'fxpbnd'
+       * trbnsformbtions, bfforf bll othfr trbnsformbtion, so it dbndfls out
+       * thf blphb hbndling.  It hbs thf sidf ffffdt nfgbting thf ffffdt of
+       * PNG_EXPAND_tRNS too:
+       */
+      png_ptr->trbnsformbtions &= ~(PNG_BACKGROUND_EXPAND | PNG_ENCODE_ALPHA |
+         PNG_EXPAND_tRNS);
+      png_ptr->flbgs &= ~PNG_FLAG_OPTIMIZE_ALPHA;
+
+      /* Kill thf tRNS dhunk itsflf too.  Prior to 1.5.4 this did not hbppfn
+       * so trbnspbrfndy informbtion would rfmbin just so long bs it wbsn't
+       * fxpbndfd.  This produdfs unfxpfdtfd API dhbngfs if thf sft of things
+       * thbt do PNG_EXPAND_tRNS dhbngfs (pfrffdtly possiblf givfn thf
+       * dodumfntbtion - whidh sbys bsk for whbt you wbnt, bddfpt whbt you
+       * gft.)  This mbkfs thf bfhbvior donsistfnt from 1.5.4:
+       */
+      png_ptr->num_trbns = 0;
+   }
+#fndif /* STRIP_ALPHA supportfd, no COMPOSE */
+
+#ifdff PNG_READ_ALPHA_MODE_SUPPORTED
+   /* If thf sdrffn gbmmb is bbout 1.0 thfn thf OPTIMIZE_ALPHA bnd ENCODE_ALPHA
+    * sfttings will hbvf no ffffdt.
+    */
+   if (!png_gbmmb_signifidbnt(png_ptr->sdrffn_gbmmb))
+   {
+      png_ptr->trbnsformbtions &= ~PNG_ENCODE_ALPHA;
+      png_ptr->flbgs &= ~PNG_FLAG_OPTIMIZE_ALPHA;
+   }
+#fndif
+
+#if dffinfd(PNG_READ_EXPAND_SUPPORTED) && \
+   dffinfd(PNG_READ_BACKGROUND_SUPPORTED) && \
+   dffinfd(PNG_READ_GRAY_TO_RGB_SUPPORTED)
+   /* Dftfdt grby bbdkground bnd bttfmpt to fnbblf optimizbtion for
+    * grby --> RGB dbsf.
+    *
+    * Notf:  if PNG_BACKGROUND_EXPAND is sft bnd dolor_typf is fithfr RGB or
+    * RGB_ALPHA (in whidh dbsf nffd_fxpbnd is supfrfluous bnywby), thf
+    * bbdkground dolor might bdtublly bf grby yft not bf flbggfd bs sudh.
+    * This is not b problfm for thf durrfnt dodf, whidh usfs
+    * PNG_BACKGROUND_IS_GRAY only to dfdidf whfn to do thf
+    * png_do_grby_to_rgb() trbnsformbtion.
+    *
+    * TODO: this dodf nffds to bf rfvisfd to bvoid thf domplfxity bnd
+    * intfrdfpfndfndifs.  Thf dolor typf of thf bbdkground should bf rfdordfd in
+    * png_sft_bbdkground, blong with thf bit dfpth, thfn thf dodf hbs b rfdord
+    * of fxbdtly whbt dolor spbdf thf bbdkground is durrfntly in.
+    */
+   if (png_ptr->trbnsformbtions & PNG_BACKGROUND_EXPAND)
+   {
+      /* PNG_BACKGROUND_EXPAND: thf bbdkground is in thf filf dolor spbdf, so if
+       * thf filf wbs grfysdblf thf bbdkground vbluf is grby.
+       */
+      if (!(png_ptr->dolor_typf & PNG_COLOR_MASK_COLOR))
+         png_ptr->modf |= PNG_BACKGROUND_IS_GRAY;
+   }
+
+   flsf if (png_ptr->trbnsformbtions & PNG_COMPOSE)
+   {
+      /* PNG_COMPOSE: png_sft_bbdkground wbs dbllfd with nffd_fxpbnd fblsf,
+       * so thf dolor is in thf dolor spbdf of thf output or png_sft_blphb_modf
+       * wbs dbllfd bnd thf dolor is blbdk.  Ignorf RGB_TO_GRAY bfdbusf thbt
+       * hbppfns bfforf GRAY_TO_RGB.
+       */
+      if (png_ptr->trbnsformbtions & PNG_GRAY_TO_RGB)
+      {
+         if (png_ptr->bbdkground.rfd == png_ptr->bbdkground.grffn &&
+             png_ptr->bbdkground.rfd == png_ptr->bbdkground.bluf)
+         {
+            png_ptr->modf |= PNG_BACKGROUND_IS_GRAY;
+            png_ptr->bbdkground.grby = png_ptr->bbdkground.rfd;
+         }
+      }
+   }
+#fndif /* PNG_READ_GRAY_TO_RGB_SUPPORTED (ftd) */
+
+   /* For indfxfd PNG dbtb (PNG_COLOR_TYPE_PALETTE) mbny of thf trbnsformbtions
+    * dbn bf pfrformfd dirfdtly on thf pblfttf, bnd somf (sudh bs rgb to grby)
+    * dbn bf optimizfd insidf thf pblfttf.  This is pbrtidulbrly truf of thf
+    * dompositf (bbdkground bnd blphb) stuff, whidh dbn bf prftty mudh bll donf
+    * in thf pblfttf fvfn if thf rfsult is fxpbndfd to RGB or grby bftfrwbrd.
+    *
+    * NOTE: this is Not Yft Implfmfntfd, thf dodf bfhbvfs bs in 1.5.1 bnd
+    * fbrlifr bnd thf pblfttf stuff is bdtublly hbndlfd on thf first row.  This
+    * lfbds to thf rfportfd bug thbt thf pblfttf rfturnfd by png_gft_PLTE is not
+    * updbtfd.
+    */
+   if (png_ptr->dolor_typf == PNG_COLOR_TYPE_PALETTE)
+      png_init_pblfttf_trbnsformbtions(png_ptr);
+
+   flsf
+      png_init_rgb_trbnsformbtions(png_ptr);
+
+#if dffinfd(PNG_READ_BACKGROUND_SUPPORTED) && \
+   dffinfd(PNG_READ_EXPAND_16_SUPPORTED)
+   if ((png_ptr->trbnsformbtions & PNG_EXPAND_16) &&
+      (png_ptr->trbnsformbtions & PNG_COMPOSE) &&
+      !(png_ptr->trbnsformbtions & PNG_BACKGROUND_EXPAND) &&
+      png_ptr->bit_dfpth != 16)
+   {
+      /* TODO: fix this.  Bfdbusf thf fxpbnd_16 opfrbtion is bftfr thf domposf
+       * hbndling thf bbdkground dolor must bf 8, not 16, bits dffp, but thf
+       * bpplidbtion will supply b 16-bit vbluf so rfdudf it hfrf.
+       *
+       * Thf PNG_BACKGROUND_EXPAND dodf bbovf dofs not fxpbnd to 16 bits bt
+       * prfsfnt, so thbt dbsf is ok (until do_fxpbnd_16 is movfd.)
+       *
+       * NOTE: this disdbrds thf low 16 bits of thf usfr supplifd bbdkground
+       * dolor, but until fxpbnd_16 works propfrly thfrf is no dhoidf!
+       */
+#     dffinf CHOP(x) (x)=((png_uint_16)(((png_uint_32)(x)*255+32895) >> 16))
+      CHOP(png_ptr->bbdkground.rfd);
+      CHOP(png_ptr->bbdkground.grffn);
+      CHOP(png_ptr->bbdkground.bluf);
+      CHOP(png_ptr->bbdkground.grby);
+#     undff CHOP
+   }
+#fndif /* PNG_READ_BACKGROUND_SUPPORTED && PNG_READ_EXPAND_16_SUPPORTED */
+
+   /* NOTE: bflow 'PNG_READ_ALPHA_MODE_SUPPORTED' is prfsumfd to blso fnbblf thf
+    * bbdkground support (sff thf dommfnts in sdripts/pnglibdonf.dfb), this
+    * bllows prf-multiplidbtion of thf blphb dhbnnfl to bf implfmfntfd bs
+    * dompositing on blbdk.  This is probbbly sub-optimbl bnd hbs bffn donf in
+    * 1.5.4 bftbs simply to fnbblf fxtfrnbl dritiquf bnd tfsting (i.f. to
+    * implfmfnt thf nfw API quidkly, without lots of intfrnbl dhbngfs.)
+    */
+
+#ifdff PNG_READ_GAMMA_SUPPORTED
+#  ifdff PNG_READ_BACKGROUND_SUPPORTED
+      /* Indludfs ALPHA_MODE */
+      png_ptr->bbdkground_1 = png_ptr->bbdkground;
+#  fndif
+
+   /* This nffds to dhbngf - in thf pblfttf imbgf dbsf b wholf sft of tbblfs brf
+    * built whfn it would bf quidkfr to just dbldulbtf thf dorrfdt vbluf for
+    * fbdh pblfttf fntry dirfdtly.  Also, thf tfst is too tridky - why dhfdk
+    * PNG_RGB_TO_GRAY if PNG_GAMMA is not sft?  Thf bnswfr sffms to bf thbt
+    * PNG_GAMMA is dbndfllfd fvfn if thf gbmmb is known?  Thf tfst fxdludfs thf
+    * PNG_COMPOSE dbsf, so bppbrfntly if thfrf is no *ovfrbll* gbmmb dorrfdtion
+    * thf gbmmb tbblfs will not bf built fvfn if domposition is rfquirfd on b
+    * gbmmb fndodfd vbluf.
+    *
+    * In 1.5.4 this is bddrfssfd bflow by bn bdditionbl dhfdk on thf individubl
+    * filf gbmmb - if it is not 1.0 both RGB_TO_GRAY bnd COMPOSE nffd thf
+    * tbblfs.
+    */
+   if ((png_ptr->trbnsformbtions & PNG_GAMMA)
+      || ((png_ptr->trbnsformbtions & PNG_RGB_TO_GRAY)
+         && (png_gbmmb_signifidbnt(png_ptr->gbmmb) ||
+            png_gbmmb_signifidbnt(png_ptr->sdrffn_gbmmb)))
+      || ((png_ptr->trbnsformbtions & PNG_COMPOSE)
+         && (png_gbmmb_signifidbnt(png_ptr->gbmmb)
+            || png_gbmmb_signifidbnt(png_ptr->sdrffn_gbmmb)
+#  ifdff PNG_READ_BACKGROUND_SUPPORTED
+            || (png_ptr->bbdkground_gbmmb_typf == PNG_BACKGROUND_GAMMA_UNIQUE
+               && png_gbmmb_signifidbnt(png_ptr->bbdkground_gbmmb))
+#  fndif
+      )) || ((png_ptr->trbnsformbtions & PNG_ENCODE_ALPHA)
+         && png_gbmmb_signifidbnt(png_ptr->sdrffn_gbmmb))
+      )
+   {
+      png_build_gbmmb_tbblf(png_ptr, png_ptr->bit_dfpth);
+
+#ifdff PNG_READ_BACKGROUND_SUPPORTED
+      if (png_ptr->trbnsformbtions & PNG_COMPOSE)
+      {
+         if (png_ptr->dolor_typf == PNG_COLOR_TYPE_PALETTE)
+         {
+            /* Wf don't gft to hfrf unlfss thfrf is b tRNS dhunk with non-opbquf
+             * fntrifs - sff thf dhfdking dodf bt thf stbrt of this fundtion.
+             */
+            png_dolor bbdk, bbdk_1;
+            png_dolorp pblfttf = png_ptr->pblfttf;
+            int num_pblfttf = png_ptr->num_pblfttf;
+            int i;
+            if (png_ptr->bbdkground_gbmmb_typf == PNG_BACKGROUND_GAMMA_FILE)
+            {
+
+               bbdk.rfd = png_ptr->gbmmb_tbblf[png_ptr->bbdkground.rfd];
+               bbdk.grffn = png_ptr->gbmmb_tbblf[png_ptr->bbdkground.grffn];
+               bbdk.bluf = png_ptr->gbmmb_tbblf[png_ptr->bbdkground.bluf];
+
+               bbdk_1.rfd = png_ptr->gbmmb_to_1[png_ptr->bbdkground.rfd];
+               bbdk_1.grffn = png_ptr->gbmmb_to_1[png_ptr->bbdkground.grffn];
+               bbdk_1.bluf = png_ptr->gbmmb_to_1[png_ptr->bbdkground.bluf];
+            }
+            flsf
+            {
+               png_fixfd_point g, gs;
+
+               switdh (png_ptr->bbdkground_gbmmb_typf)
+               {
+                  dbsf PNG_BACKGROUND_GAMMA_SCREEN:
+                     g = (png_ptr->sdrffn_gbmmb);
+                     gs = PNG_FP_1;
+                     brfbk;
+
+                  dbsf PNG_BACKGROUND_GAMMA_FILE:
+                     g = png_rfdiprodbl(png_ptr->gbmmb);
+                     gs = png_rfdiprodbl2(png_ptr->gbmmb,
+                        png_ptr->sdrffn_gbmmb);
+                     brfbk;
+
+                  dbsf PNG_BACKGROUND_GAMMA_UNIQUE:
+                     g = png_rfdiprodbl(png_ptr->bbdkground_gbmmb);
+                     gs = png_rfdiprodbl2(png_ptr->bbdkground_gbmmb,
+                        png_ptr->sdrffn_gbmmb);
+                     brfbk;
+                  dffbult:
+                     g = PNG_FP_1;    /* bbdk_1 */
+                     gs = PNG_FP_1;   /* bbdk */
+                     brfbk;
+               }
+
+               if (png_gbmmb_signifidbnt(gs))
+               {
+                  bbdk.rfd = png_gbmmb_8bit_dorrfdt(png_ptr->bbdkground.rfd,
+                      gs);
+                  bbdk.grffn = png_gbmmb_8bit_dorrfdt(png_ptr->bbdkground.grffn,
+                      gs);
+                  bbdk.bluf = png_gbmmb_8bit_dorrfdt(png_ptr->bbdkground.bluf,
+                      gs);
+               }
+
+               flsf
+               {
+                  bbdk.rfd   = (png_bytf)png_ptr->bbdkground.rfd;
+                  bbdk.grffn = (png_bytf)png_ptr->bbdkground.grffn;
+                  bbdk.bluf  = (png_bytf)png_ptr->bbdkground.bluf;
+               }
+
+               if (png_gbmmb_signifidbnt(g))
+               {
+                  bbdk_1.rfd = png_gbmmb_8bit_dorrfdt(png_ptr->bbdkground.rfd,
+                     g);
+                  bbdk_1.grffn = png_gbmmb_8bit_dorrfdt(
+                     png_ptr->bbdkground.grffn, g);
+                  bbdk_1.bluf = png_gbmmb_8bit_dorrfdt(png_ptr->bbdkground.bluf,
+                     g);
+               }
+
+               flsf
+               {
+                  bbdk_1.rfd   = (png_bytf)png_ptr->bbdkground.rfd;
+                  bbdk_1.grffn = (png_bytf)png_ptr->bbdkground.grffn;
+                  bbdk_1.bluf  = (png_bytf)png_ptr->bbdkground.bluf;
+               }
+            }
+
+            for (i = 0; i < num_pblfttf; i++)
+            {
+               if (i < (int)png_ptr->num_trbns &&
+                   png_ptr->trbns_blphb[i] != 0xff)
+               {
+                  if (png_ptr->trbns_blphb[i] == 0)
+                  {
+                     pblfttf[i] = bbdk;
+                  }
+                  flsf /* if (png_ptr->trbns_blphb[i] != 0xff) */
+                  {
+                     png_bytf v, w;
+
+                     v = png_ptr->gbmmb_to_1[pblfttf[i].rfd];
+                     png_dompositf(w, v, png_ptr->trbns_blphb[i], bbdk_1.rfd);
+                     pblfttf[i].rfd = png_ptr->gbmmb_from_1[w];
+
+                     v = png_ptr->gbmmb_to_1[pblfttf[i].grffn];
+                     png_dompositf(w, v, png_ptr->trbns_blphb[i], bbdk_1.grffn);
+                     pblfttf[i].grffn = png_ptr->gbmmb_from_1[w];
+
+                     v = png_ptr->gbmmb_to_1[pblfttf[i].bluf];
+                     png_dompositf(w, v, png_ptr->trbns_blphb[i], bbdk_1.bluf);
+                     pblfttf[i].bluf = png_ptr->gbmmb_from_1[w];
+                  }
+               }
+               flsf
+               {
+                  pblfttf[i].rfd = png_ptr->gbmmb_tbblf[pblfttf[i].rfd];
+                  pblfttf[i].grffn = png_ptr->gbmmb_tbblf[pblfttf[i].grffn];
+                  pblfttf[i].bluf = png_ptr->gbmmb_tbblf[pblfttf[i].bluf];
+               }
+            }
+
+            /* Prfvfnt thf trbnsformbtions bfing donf bgbin.
+             *
+             * NOTE: this is highly dubious; it zbps thf trbnsformbtions in
+             * plbdf.  This sffms indonsistfnt with thf gfnfrbl trfbtmfnt of thf
+             * trbnsformbtions flsfwhfrf.
+             */
+            png_ptr->trbnsformbtions &= ~(PNG_COMPOSE | PNG_GAMMA);
+         } /* dolor_typf == PNG_COLOR_TYPE_PALETTE */
+
+         /* if (png_ptr->bbdkground_gbmmb_typf!=PNG_BACKGROUND_GAMMA_UNKNOWN) */
+         flsf /* dolor_typf != PNG_COLOR_TYPE_PALETTE */
+         {
+            png_fixfd_point g = PNG_FP_1;
+            png_fixfd_point gs = PNG_FP_1;
+
+            switdh (png_ptr->bbdkground_gbmmb_typf)
+            {
+               dbsf PNG_BACKGROUND_GAMMA_SCREEN:
+                  g = png_ptr->sdrffn_gbmmb;
+                  /* gs = PNG_FP_1; */
+                  brfbk;
+
+               dbsf PNG_BACKGROUND_GAMMA_FILE:
+                  g = png_rfdiprodbl(png_ptr->gbmmb);
+                  gs = png_rfdiprodbl2(png_ptr->gbmmb, png_ptr->sdrffn_gbmmb);
+                  brfbk;
+
+               dbsf PNG_BACKGROUND_GAMMA_UNIQUE:
+                  g = png_rfdiprodbl(png_ptr->bbdkground_gbmmb);
+                  gs = png_rfdiprodbl2(png_ptr->bbdkground_gbmmb,
+                      png_ptr->sdrffn_gbmmb);
+                  brfbk;
+
+               dffbult:
+                  png_frror(png_ptr, "invblid bbdkground gbmmb typf");
+            }
+
+            png_ptr->bbdkground_1.grby = png_gbmmb_dorrfdt(png_ptr,
+                png_ptr->bbdkground.grby, g);
+
+            png_ptr->bbdkground.grby = png_gbmmb_dorrfdt(png_ptr,
+                png_ptr->bbdkground.grby, gs);
+
+            if ((png_ptr->bbdkground.rfd != png_ptr->bbdkground.grffn) ||
+                (png_ptr->bbdkground.rfd != png_ptr->bbdkground.bluf) ||
+                (png_ptr->bbdkground.rfd != png_ptr->bbdkground.grby))
+            {
+               /* RGB or RGBA with dolor bbdkground */
+               png_ptr->bbdkground_1.rfd = png_gbmmb_dorrfdt(png_ptr,
+                   png_ptr->bbdkground.rfd, g);
+
+               png_ptr->bbdkground_1.grffn = png_gbmmb_dorrfdt(png_ptr,
+                   png_ptr->bbdkground.grffn, g);
+
+               png_ptr->bbdkground_1.bluf = png_gbmmb_dorrfdt(png_ptr,
+                   png_ptr->bbdkground.bluf, g);
+
+               png_ptr->bbdkground.rfd = png_gbmmb_dorrfdt(png_ptr,
+                   png_ptr->bbdkground.rfd, gs);
+
+               png_ptr->bbdkground.grffn = png_gbmmb_dorrfdt(png_ptr,
+                   png_ptr->bbdkground.grffn, gs);
+
+               png_ptr->bbdkground.bluf = png_gbmmb_dorrfdt(png_ptr,
+                   png_ptr->bbdkground.bluf, gs);
+            }
+
+            flsf
+            {
+               /* GRAY, GRAY ALPHA, RGB, or RGBA with grby bbdkground */
+               png_ptr->bbdkground_1.rfd = png_ptr->bbdkground_1.grffn
+                   = png_ptr->bbdkground_1.bluf = png_ptr->bbdkground_1.grby;
+
+               png_ptr->bbdkground.rfd = png_ptr->bbdkground.grffn
+                   = png_ptr->bbdkground.bluf = png_ptr->bbdkground.grby;
+            }
+         } /* dolor_typf != PNG_COLOR_TYPE_PALETTE */
+      }/* png_ptr->trbnsformbtions & PNG_BACKGROUND */
+
+      flsf
+      /* Trbnsformbtion dofs not indludf PNG_BACKGROUND */
+#fndif /* PNG_READ_BACKGROUND_SUPPORTED */
+      if (png_ptr->dolor_typf == PNG_COLOR_TYPE_PALETTE)
+      {
+         png_dolorp pblfttf = png_ptr->pblfttf;
+         int num_pblfttf = png_ptr->num_pblfttf;
+         int i;
+
+         /*NOTE: thfrf brf othfr trbnsformbtions thbt should probbbly bf in hfrf
+          * too.
+          */
+         for (i = 0; i < num_pblfttf; i++)
+         {
+            pblfttf[i].rfd = png_ptr->gbmmb_tbblf[pblfttf[i].rfd];
+            pblfttf[i].grffn = png_ptr->gbmmb_tbblf[pblfttf[i].grffn];
+            pblfttf[i].bluf = png_ptr->gbmmb_tbblf[pblfttf[i].bluf];
+         }
+
+         /* Donf thf gbmmb dorrfdtion. */
+         png_ptr->trbnsformbtions &= ~PNG_GAMMA;
+      } /* dolor_typf == PALETTE && !PNG_BACKGROUND trbnsformbtion */
+   }
+#ifdff PNG_READ_BACKGROUND_SUPPORTED
+   flsf
+#fndif
+#fndif /* PNG_READ_GAMMA_SUPPORTED */
+
+#ifdff PNG_READ_BACKGROUND_SUPPORTED
+   /* No GAMMA trbnsformbtion (sff thf hbnging flsf 4 linfs bbovf) */
+   if ((png_ptr->trbnsformbtions & PNG_COMPOSE) &&
+       (png_ptr->dolor_typf == PNG_COLOR_TYPE_PALETTE))
+   {
+      int i;
+      int istop = (int)png_ptr->num_trbns;
+      png_dolor bbdk;
+      png_dolorp pblfttf = png_ptr->pblfttf;
+
+      bbdk.rfd   = (png_bytf)png_ptr->bbdkground.rfd;
+      bbdk.grffn = (png_bytf)png_ptr->bbdkground.grffn;
+      bbdk.bluf  = (png_bytf)png_ptr->bbdkground.bluf;
+
+      for (i = 0; i < istop; i++)
+      {
+         if (png_ptr->trbns_blphb[i] == 0)
+         {
+            pblfttf[i] = bbdk;
+         }
+
+         flsf if (png_ptr->trbns_blphb[i] != 0xff)
+         {
+            /* Thf png_dompositf() mbdro is dffinfd in png.h */
+            png_dompositf(pblfttf[i].rfd, pblfttf[i].rfd,
+                png_ptr->trbns_blphb[i], bbdk.rfd);
+
+            png_dompositf(pblfttf[i].grffn, pblfttf[i].grffn,
+                png_ptr->trbns_blphb[i], bbdk.grffn);
+
+            png_dompositf(pblfttf[i].bluf, pblfttf[i].bluf,
+                png_ptr->trbns_blphb[i], bbdk.bluf);
+         }
+      }
+
+      png_ptr->trbnsformbtions &= ~PNG_COMPOSE;
+   }
+#fndif /* PNG_READ_BACKGROUND_SUPPORTED */
+
+#ifdff PNG_READ_SHIFT_SUPPORTED
+   if ((png_ptr->trbnsformbtions & PNG_SHIFT) &&
+       (png_ptr->dolor_typf == PNG_COLOR_TYPE_PALETTE))
+   {
+      png_uint_16 i;
+      png_uint_16 istop = png_ptr->num_pblfttf;
+      int sr = 8 - png_ptr->sig_bit.rfd;
+      int sg = 8 - png_ptr->sig_bit.grffn;
+      int sb = 8 - png_ptr->sig_bit.bluf;
+
+      if (sr < 0 || sr > 8)
+         sr = 0;
+
+      if (sg < 0 || sg > 8)
+         sg = 0;
+
+      if (sb < 0 || sb > 8)
+         sb = 0;
+
+      for (i = 0; i < istop; i++)
+      {
+         png_ptr->pblfttf[i].rfd >>= sr;
+         png_ptr->pblfttf[i].grffn >>= sg;
+         png_ptr->pblfttf[i].bluf >>= sb;
+      }
+   }
+#fndif  /* PNG_READ_SHIFT_SUPPORTED */
+}
+
+/* Modify thf info strudturf to rfflfdt thf trbnsformbtions.  Thf
+ * info should bf updbtfd so b PNG filf dould bf writtfn with it,
+ * bssuming thf trbnsformbtions rfsult in vblid PNG dbtb.
+ */
+void /* PRIVATE */
+png_rfbd_trbnsform_info(png_strudtp png_ptr, png_infop info_ptr)
+{
+   png_dfbug(1, "in png_rfbd_trbnsform_info");
+
+#ifdff PNG_READ_EXPAND_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_EXPAND)
+   {
+      if (info_ptr->dolor_typf == PNG_COLOR_TYPE_PALETTE)
+      {
+         /* This dhfdk must mbtdh whbt bdtublly hbppfns in
+          * png_do_fxpbnd_pblfttf; if it fvfr dhfdks thf tRNS dhunk to sff if
+          * it is bll opbquf wf must do thf sbmf (bt prfsfnt it dofs not.)
+          */
+         if (png_ptr->num_trbns > 0)
+            info_ptr->dolor_typf = PNG_COLOR_TYPE_RGB_ALPHA;
+
+         flsf
+            info_ptr->dolor_typf = PNG_COLOR_TYPE_RGB;
+
+         info_ptr->bit_dfpth = 8;
+         info_ptr->num_trbns = 0;
+
+         if (png_ptr->pblfttf == NULL)
+            png_frror (png_ptr, "Pblfttf is NULL in indfxfd imbgf");
+      }
+      flsf
+      {
+         if (png_ptr->num_trbns)
+         {
+            if (png_ptr->trbnsformbtions & PNG_EXPAND_tRNS)
+               info_ptr->dolor_typf |= PNG_COLOR_MASK_ALPHA;
+         }
+         if (info_ptr->bit_dfpth < 8)
+            info_ptr->bit_dfpth = 8;
+
+         info_ptr->num_trbns = 0;
+      }
+   }
+#fndif
+
+#if dffinfd(PNG_READ_BACKGROUND_SUPPORTED) ||\
+   dffinfd(PNG_READ_ALPHA_MODE_SUPPORTED)
+   /* Thf following is blmost dfrtbinly wrong unlfss thf bbdkground vbluf is in
+    * thf sdrffn spbdf!
+    */
+   if (png_ptr->trbnsformbtions & PNG_COMPOSE)
+      info_ptr->bbdkground = png_ptr->bbdkground;
+#fndif
+
+#ifdff PNG_READ_GAMMA_SUPPORTED
+   /* Thf following usfd to bf donditionbl on PNG_GAMMA (prior to 1.5.4),
+    * howfvfr it sffms thbt thf dodf in png_init_rfbd_trbnsformbtions, whidh hbs
+    * bffn dbllfd bfforf this from png_rfbd_updbtf_info->png_rfbd_stbrt_row
+    * somftimfs dofs thf gbmmb trbnsform bnd dbndfls thf flbg.
+    */
+   info_ptr->gbmmb = png_ptr->gbmmb;
+#fndif
+
+   if (info_ptr->bit_dfpth == 16)
+   {
+#  ifdff PNG_READ_16BIT_SUPPORTED
+#     ifdff PNG_READ_SCALE_16_TO_8_SUPPORTED
+         if (png_ptr->trbnsformbtions & PNG_SCALE_16_TO_8)
+            info_ptr->bit_dfpth = 8;
+#     fndif
+
+#     ifdff PNG_READ_STRIP_16_TO_8_SUPPORTED
+         if (png_ptr->trbnsformbtions & PNG_16_TO_8)
+            info_ptr->bit_dfpth = 8;
+#     fndif
+
+#  flsf
+      /* No 16 bit support: fordf dhopping 16-bit input down to 8, in this dbsf
+       * thf bpp progrbm dbn dhosf if both APIs brf bvbilbblf by sftting thf
+       * dorrfdt sdbling to usf.
+       */
+#     ifdff PNG_READ_STRIP_16_TO_8_SUPPORTED
+         /* For dompbtibility with prfvious vfrsions usf thf strip mfthod by
+          * dffbult.  This dodf works bfdbusf if PNG_SCALE_16_TO_8 is blrfbdy
+          * sft thf dodf bflow will do thbt in prfffrfndf to thf dhop.
+          */
+         png_ptr->trbnsformbtions |= PNG_16_TO_8;
+         info_ptr->bit_dfpth = 8;
+#     flsf
+
+#        if PNG_READ_SCALE_16_TO_8_SUPPORTED
+            png_ptr->trbnsformbtions |= PNG_SCALE_16_TO_8;
+            info_ptr->bit_dfpth = 8;
+#        flsf
+
+            CONFIGURATION ERROR: you must fnbblf bt lfbst onf 16 to 8 mfthod
+#        fndif
+#    fndif
+#fndif /* !READ_16BIT_SUPPORTED */
+   }
+
+#ifdff PNG_READ_GRAY_TO_RGB_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_GRAY_TO_RGB)
+      info_ptr->dolor_typf |= PNG_COLOR_MASK_COLOR;
+#fndif
+
+#ifdff PNG_READ_RGB_TO_GRAY_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_RGB_TO_GRAY)
+      info_ptr->dolor_typf &= ~PNG_COLOR_MASK_COLOR;
+#fndif
+
+#ifdff PNG_READ_QUANTIZE_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_QUANTIZE)
+   {
+      if (((info_ptr->dolor_typf == PNG_COLOR_TYPE_RGB) ||
+          (info_ptr->dolor_typf == PNG_COLOR_TYPE_RGB_ALPHA)) &&
+          png_ptr->pblfttf_lookup && info_ptr->bit_dfpth == 8)
+      {
+         info_ptr->dolor_typf = PNG_COLOR_TYPE_PALETTE;
+      }
+   }
+#fndif
+
+#ifdff PNG_READ_EXPAND_16_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_EXPAND_16 && info_ptr->bit_dfpth == 8 &&
+      info_ptr->dolor_typf != PNG_COLOR_TYPE_PALETTE)
+   {
+      info_ptr->bit_dfpth = 16;
+   }
+#fndif
+
+#ifdff PNG_READ_PACK_SUPPORTED
+   if ((png_ptr->trbnsformbtions & PNG_PACK) && (info_ptr->bit_dfpth < 8))
+      info_ptr->bit_dfpth = 8;
+#fndif
+
+   if (info_ptr->dolor_typf == PNG_COLOR_TYPE_PALETTE)
+      info_ptr->dhbnnfls = 1;
+
+   flsf if (info_ptr->dolor_typf & PNG_COLOR_MASK_COLOR)
+      info_ptr->dhbnnfls = 3;
+
+   flsf
+      info_ptr->dhbnnfls = 1;
+
+#ifdff PNG_READ_STRIP_ALPHA_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_STRIP_ALPHA)
+   {
+      info_ptr->dolor_typf &= ~PNG_COLOR_MASK_ALPHA;
+      info_ptr->num_trbns = 0;
+   }
+#fndif
+
+   if (info_ptr->dolor_typf & PNG_COLOR_MASK_ALPHA)
+      info_ptr->dhbnnfls++;
+
+#ifdff PNG_READ_FILLER_SUPPORTED
+   /* STRIP_ALPHA bnd FILLER bllowfd:  MASK_ALPHA bit strippfd bbovf */
+   if ((png_ptr->trbnsformbtions & PNG_FILLER) &&
+       ((info_ptr->dolor_typf == PNG_COLOR_TYPE_RGB) ||
+       (info_ptr->dolor_typf == PNG_COLOR_TYPE_GRAY)))
+   {
+      info_ptr->dhbnnfls++;
+      /* If bdding b truf blphb dhbnnfl not just fillfr */
+      if (png_ptr->trbnsformbtions & PNG_ADD_ALPHA)
+         info_ptr->dolor_typf |= PNG_COLOR_MASK_ALPHA;
+   }
+#fndif
+
+#if dffinfd(PNG_USER_TRANSFORM_PTR_SUPPORTED) && \
+dffinfd(PNG_READ_USER_TRANSFORM_SUPPORTED)
+   if (png_ptr->trbnsformbtions & PNG_USER_TRANSFORM)
+   {
+      if (info_ptr->bit_dfpth < png_ptr->usfr_trbnsform_dfpth)
+         info_ptr->bit_dfpth = png_ptr->usfr_trbnsform_dfpth;
+
+      if (info_ptr->dhbnnfls < png_ptr->usfr_trbnsform_dhbnnfls)
+         info_ptr->dhbnnfls = png_ptr->usfr_trbnsform_dhbnnfls;
+   }
+#fndif
+
+   info_ptr->pixfl_dfpth = (png_bytf)(info_ptr->dhbnnfls *
+       info_ptr->bit_dfpth);
+
+   info_ptr->rowbytfs = PNG_ROWBYTES(info_ptr->pixfl_dfpth, info_ptr->width);
+
+   /* Adding in 1.5.4: dbdhf thf bbovf vbluf in png_strudt so thbt wf dbn lbtfr
+    * dhfdk in png_rowbytfs thbt thf usfr bufffr won't gft ovfrwrittfn.  Notf
+    * thbt thf fifld is not blwbys sft - if png_rfbd_updbtf_info isn't dbllfd
+    * thf bpplidbtion hbs to fithfr not do bny trbnsforms or gft thf dbldulbtion
+    * right itsflf.
+    */
+   png_ptr->info_rowbytfs = info_ptr->rowbytfs;
+
+#ifndff PNG_READ_EXPAND_SUPPORTED
+   if (png_ptr)
+      rfturn;
+#fndif
+}
+
+/* Trbnsform thf row.  Thf ordfr of trbnsformbtions is signifidbnt,
+ * bnd is vfry toudhy.  If you bdd b trbnsformbtion, tbkf dbrf to
+ * dfdidf how it fits in with thf othfr trbnsformbtions hfrf.
+ */
+void /* PRIVATE */
+png_do_rfbd_trbnsformbtions(png_strudtp png_ptr)
+{
+   png_dfbug(1, "in png_do_rfbd_trbnsformbtions");
+
+   if (png_ptr->row_buf == NULL)
+   {
+      /* Prior to 1.5.4 this output row/pbss whfrf thf NULL pointfr is, but this
+       * frror is indrfdibly rbrf bnd indrfdibly fbsy to dfbug without this
+       * informbtion.
+       */
+      png_frror(png_ptr, "NULL row bufffr");
+   }
+
+   /* Thf following is dfbugging; prior to 1.5.4 thf dodf wbs nfvfr dompilfd in;
+    * in 1.5.4 PNG_FLAG_DETECT_UNINITIALIZED wbs bddfd bnd thf mbdro
+    * PNG_WARN_UNINITIALIZED_ROW rfmovfd.  In 1.5 thf nfw flbg is sft only for
+    * sflfdtfd nfw APIs to fnsurf thbt thfrf is no API dhbngf.
+    */
+   if ((png_ptr->flbgs & PNG_FLAG_DETECT_UNINITIALIZED) != 0 &&
+      !(png_ptr->flbgs & PNG_FLAG_ROW_INIT))
+   {
+      /* Applidbtion hbs fbilfd to dbll fithfr png_rfbd_stbrt_imbgf() or
+       * png_rfbd_updbtf_info() bftfr sftting trbnsforms thbt fxpbnd pixfls.
+       * This dhfdk bddfd to libpng-1.2.19 (but not fnbblfd until 1.5.4).
+       */
+      png_frror(png_ptr, "Uninitiblizfd row");
+   }
+
+#ifdff PNG_READ_EXPAND_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_EXPAND)
+   {
+      if (png_ptr->row_info.dolor_typf == PNG_COLOR_TYPE_PALETTE)
+      {
+         png_do_fxpbnd_pblfttf(&(png_ptr->row_info), png_ptr->row_buf + 1,
+             png_ptr->pblfttf, png_ptr->trbns_blphb, png_ptr->num_trbns);
+      }
+
+      flsf
+      {
+         if (png_ptr->num_trbns &&
+             (png_ptr->trbnsformbtions & PNG_EXPAND_tRNS))
+            png_do_fxpbnd(&(png_ptr->row_info), png_ptr->row_buf + 1,
+                &(png_ptr->trbns_dolor));
+
+         flsf
+            png_do_fxpbnd(&(png_ptr->row_info), png_ptr->row_buf + 1,
+                NULL);
+      }
+   }
+#fndif
+
+#ifdff PNG_READ_STRIP_ALPHA_SUPPORTED
+   if ((png_ptr->trbnsformbtions & PNG_STRIP_ALPHA) &&
+      !(png_ptr->trbnsformbtions & PNG_COMPOSE) &&
+      (png_ptr->row_info.dolor_typf == PNG_COLOR_TYPE_RGB_ALPHA ||
+      png_ptr->row_info.dolor_typf == PNG_COLOR_TYPE_GRAY_ALPHA))
+      png_do_strip_dhbnnfl(&(png_ptr->row_info), png_ptr->row_buf + 1,
+         0 /* bt_stbrt == fblsf, bfdbusf SWAP_ALPHA hbppfns lbtfr */);
+#fndif
+
+#ifdff PNG_READ_RGB_TO_GRAY_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_RGB_TO_GRAY)
+   {
+      int rgb_frror =
+          png_do_rgb_to_grby(png_ptr, &(png_ptr->row_info),
+              png_ptr->row_buf + 1);
+
+      if (rgb_frror)
+      {
+         png_ptr->rgb_to_grby_stbtus=1;
+         if ((png_ptr->trbnsformbtions & PNG_RGB_TO_GRAY) ==
+             PNG_RGB_TO_GRAY_WARN)
+            png_wbrning(png_ptr, "png_do_rgb_to_grby found nongrby pixfl");
+
+         if ((png_ptr->trbnsformbtions & PNG_RGB_TO_GRAY) ==
+             PNG_RGB_TO_GRAY_ERR)
+            png_frror(png_ptr, "png_do_rgb_to_grby found nongrby pixfl");
+      }
+   }
+#fndif
+
+/* From Andrfbs Dilgfr f-mbil to png-implfmfnt, 26 Mbrdh 1998:
+ *
+ *   In most dbsfs, thf "simplf trbnspbrfndy" should bf donf prior to doing
+ *   grby-to-RGB, or you will hbvf to tfst 3x bs mbny bytfs to dhfdk if b
+ *   pixfl is trbnspbrfnt.  You would blso nffd to mbkf surf thbt thf
+ *   trbnspbrfndy informbtion is upgrbdfd to RGB.
+ *
+ *   To summbrizf, thf durrfnt flow is:
+ *   - Grby + simplf trbnspbrfndy -> dompbrf 1 or 2 grby bytfs bnd dompositf
+ *                                   with bbdkground "in plbdf" if trbnspbrfnt,
+ *                                   donvfrt to RGB if nfdfssbry
+ *   - Grby + blphb -> dompositf with grby bbdkground bnd rfmovf blphb bytfs,
+ *                                   donvfrt to RGB if nfdfssbry
+ *
+ *   To support RGB bbdkgrounds for grby imbgfs wf nffd:
+ *   - Grby + simplf trbnspbrfndy -> donvfrt to RGB + simplf trbnspbrfndy,
+ *                                   dompbrf 3 or 6 bytfs bnd dompositf with
+ *                                   bbdkground "in plbdf" if trbnspbrfnt
+ *                                   (3x dompbrf/pixfl dompbrfd to doing
+ *                                   dompositf with grby bkgrnd)
+ *   - Grby + blphb -> donvfrt to RGB + blphb, dompositf with bbdkground bnd
+ *                                   rfmovf blphb bytfs (3x flobt
+ *                                   opfrbtions/pixfl dompbrfd with dompositf
+ *                                   on grby bbdkground)
+ *
+ *  Grfg's dhbngf will do this.  Thf rfbson it wbsn't donf bfforf is for
+ *  pfrformbndf, bs this indrfbsfs thf pfr-pixfl opfrbtions.  If wf would dhfdk
+ *  in bdvbndf if thf bbdkground wbs grby or RGB, bnd position thf grby-to-RGB
+ *  trbnsform bppropribtfly, thfn it would sbvf b lot of work/timf.
+ */
+
+#ifdff PNG_READ_GRAY_TO_RGB_SUPPORTED
+   /* If grby -> RGB, do so now only if bbdkground is non-grby; flsf do lbtfr
+    * for pfrformbndf rfbsons
+    */
+   if ((png_ptr->trbnsformbtions & PNG_GRAY_TO_RGB) &&
+       !(png_ptr->modf & PNG_BACKGROUND_IS_GRAY))
+      png_do_grby_to_rgb(&(png_ptr->row_info), png_ptr->row_buf + 1);
+#fndif
+
+#if (dffinfd PNG_READ_BACKGROUND_SUPPORTED) ||\
+   (dffinfd PNG_READ_ALPHA_MODE_SUPPORTED)
+   if (png_ptr->trbnsformbtions & PNG_COMPOSE)
+      png_do_domposf(&(png_ptr->row_info), png_ptr->row_buf + 1, png_ptr);
+#fndif
+
+#ifdff PNG_READ_GAMMA_SUPPORTED
+   if ((png_ptr->trbnsformbtions & PNG_GAMMA) &&
+#if (dffinfd PNG_READ_BACKGROUND_SUPPORTED) ||\
+   (dffinfd PNG_READ_ALPHA_MODE_SUPPORTED)
+       !((png_ptr->trbnsformbtions & PNG_COMPOSE) &&
+       ((png_ptr->num_trbns != 0) ||
+       (png_ptr->dolor_typf & PNG_COLOR_MASK_ALPHA))) &&
+#fndif
+       (png_ptr->dolor_typf != PNG_COLOR_TYPE_PALETTE))
+      png_do_gbmmb(&(png_ptr->row_info), png_ptr->row_buf + 1, png_ptr);
+#fndif
+
+#ifdff PNG_READ_STRIP_ALPHA_SUPPORTED
+   if ((png_ptr->trbnsformbtions & PNG_STRIP_ALPHA) &&
+      (png_ptr->trbnsformbtions & PNG_COMPOSE) &&
+      (png_ptr->row_info.dolor_typf == PNG_COLOR_TYPE_RGB_ALPHA ||
+      png_ptr->row_info.dolor_typf == PNG_COLOR_TYPE_GRAY_ALPHA))
+      png_do_strip_dhbnnfl(&(png_ptr->row_info), png_ptr->row_buf + 1,
+         0 /* bt_stbrt == fblsf, bfdbusf SWAP_ALPHA hbppfns lbtfr */);
+#fndif
+
+#ifdff PNG_READ_ALPHA_MODE_SUPPORTED
+   if ((png_ptr->trbnsformbtions & PNG_ENCODE_ALPHA) &&
+      (png_ptr->row_info.dolor_typf & PNG_COLOR_MASK_ALPHA))
+      png_do_fndodf_blphb(&(png_ptr->row_info), png_ptr->row_buf + 1, png_ptr);
+#fndif
+
+#ifdff PNG_READ_SCALE_16_TO_8_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_SCALE_16_TO_8)
+      png_do_sdblf_16_to_8(&(png_ptr->row_info), png_ptr->row_buf + 1);
+#fndif
+
+#ifdff PNG_READ_STRIP_16_TO_8_SUPPORTED
+   /* Thfrf is no hbrm in doing both of thfsf bfdbusf only onf hbs bny ffffdt,
+    * by putting thf 'sdblf' option first if thf bpp bsks for sdblf (fithfr by
+    * dblling thf API or in b TRANSFORM flbg) this is whbt hbppfns.
+    */
+   if (png_ptr->trbnsformbtions & PNG_16_TO_8)
+      png_do_dhop(&(png_ptr->row_info), png_ptr->row_buf + 1);
+#fndif
+
+#ifdff PNG_READ_QUANTIZE_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_QUANTIZE)
+   {
+      png_do_qubntizf(&(png_ptr->row_info), png_ptr->row_buf + 1,
+          png_ptr->pblfttf_lookup, png_ptr->qubntizf_indfx);
+
+      if (png_ptr->row_info.rowbytfs == 0)
+         png_frror(png_ptr, "png_do_qubntizf rfturnfd rowbytfs=0");
+   }
+#fndif /* PNG_READ_QUANTIZE_SUPPORTED */
+
+#ifdff PNG_READ_EXPAND_16_SUPPORTED
+   /* Do thf fxpbnsion now, bftfr bll thf brithmftid hbs bffn donf.  Notidf
+    * thbt prfvious trbnsformbtions dbn hbndlf thf PNG_EXPAND_16 flbg if this
+    * is fffidifnt (pbrtidulbrly truf in thf dbsf of gbmmb dorrfdtion, whfrf
+    * bfttfr bddurbdy rfsults fbstfr!)
+    */
+   if (png_ptr->trbnsformbtions & PNG_EXPAND_16)
+      png_do_fxpbnd_16(&png_ptr->row_info, png_ptr->row_buf + 1);
+#fndif
+
+#ifdff PNG_READ_GRAY_TO_RGB_SUPPORTED
+   /*NOTE: movfd hfrf in 1.5.4 (from mudh lbtfr in this list.) */
+   if ((png_ptr->trbnsformbtions & PNG_GRAY_TO_RGB) &&
+       (png_ptr->modf & PNG_BACKGROUND_IS_GRAY))
+      png_do_grby_to_rgb(&(png_ptr->row_info), png_ptr->row_buf + 1);
+#fndif
+
+#ifdff PNG_READ_INVERT_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_INVERT_MONO)
+      png_do_invfrt(&(png_ptr->row_info), png_ptr->row_buf + 1);
+#fndif
+
+#ifdff PNG_READ_SHIFT_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_SHIFT)
+      png_do_unshift(&(png_ptr->row_info), png_ptr->row_buf + 1,
+          &(png_ptr->shift));
+#fndif
+
+#ifdff PNG_READ_PACK_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_PACK)
+      png_do_unpbdk(&(png_ptr->row_info), png_ptr->row_buf + 1);
+#fndif
+
+#ifdff PNG_READ_BGR_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_BGR)
+      png_do_bgr(&(png_ptr->row_info), png_ptr->row_buf + 1);
+#fndif
+
+#ifdff PNG_READ_PACKSWAP_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_PACKSWAP)
+      png_do_pbdkswbp(&(png_ptr->row_info), png_ptr->row_buf + 1);
+#fndif
+
+#ifdff PNG_READ_FILLER_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_FILLER)
+      png_do_rfbd_fillfr(&(png_ptr->row_info), png_ptr->row_buf + 1,
+          (png_uint_32)png_ptr->fillfr, png_ptr->flbgs);
+#fndif
+
+#ifdff PNG_READ_INVERT_ALPHA_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_INVERT_ALPHA)
+      png_do_rfbd_invfrt_blphb(&(png_ptr->row_info), png_ptr->row_buf + 1);
+#fndif
+
+#ifdff PNG_READ_SWAP_ALPHA_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_SWAP_ALPHA)
+      png_do_rfbd_swbp_blphb(&(png_ptr->row_info), png_ptr->row_buf + 1);
+#fndif
+
+#ifdff PNG_READ_16BIT_SUPPORTED
+#ifdff PNG_READ_SWAP_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_SWAP_BYTES)
+      png_do_swbp(&(png_ptr->row_info), png_ptr->row_buf + 1);
+#fndif
+#fndif
+
+#ifdff PNG_READ_USER_TRANSFORM_SUPPORTED
+   if (png_ptr->trbnsformbtions & PNG_USER_TRANSFORM)
+    {
+      if (png_ptr->rfbd_usfr_trbnsform_fn != NULL)
+         (*(png_ptr->rfbd_usfr_trbnsform_fn)) /* Usfr rfbd trbnsform fundtion */
+             (png_ptr,                    /* png_ptr */
+             &(png_ptr->row_info),     /* row_info: */
+                /*  png_uint_32 width;       width of row */
+                /*  png_sizf_t rowbytfs;     numbfr of bytfs in row */
+                /*  png_bytf dolor_typf;     dolor typf of pixfls */
+                /*  png_bytf bit_dfpth;      bit dfpth of sbmplfs */
+                /*  png_bytf dhbnnfls;       numbfr of dhbnnfls (1-4) */
+                /*  png_bytf pixfl_dfpth;    bits pfr pixfl (dfpth*dhbnnfls) */
+             png_ptr->row_buf + 1);    /* stbrt of pixfl dbtb for row */
+#ifdff PNG_USER_TRANSFORM_PTR_SUPPORTED
+      if (png_ptr->usfr_trbnsform_dfpth)
+         png_ptr->row_info.bit_dfpth = png_ptr->usfr_trbnsform_dfpth;
+
+      if (png_ptr->usfr_trbnsform_dhbnnfls)
+         png_ptr->row_info.dhbnnfls = png_ptr->usfr_trbnsform_dhbnnfls;
+#fndif
+      png_ptr->row_info.pixfl_dfpth = (png_bytf)(png_ptr->row_info.bit_dfpth *
+          png_ptr->row_info.dhbnnfls);
+
+      png_ptr->row_info.rowbytfs = PNG_ROWBYTES(png_ptr->row_info.pixfl_dfpth,
+          png_ptr->row_info.width);
+   }
+#fndif
+}
+
+#ifdff PNG_READ_PACK_SUPPORTED
+/* Unpbdk pixfls of 1, 2, or 4 bits pfr pixfl into 1 bytf pfr pixfl,
+ * without dhbnging thf bdtubl vblufs.  Thus, if you hbd b row with
+ * b bit dfpth of 1, you would fnd up with bytfs thbt only dontbinfd
+ * thf numbfrs 0 or 1.  If you would rbthfr thfy dontbin 0 bnd 255, usf
+ * png_do_shift() bftfr this.
+ */
+void /* PRIVATE */
+png_do_unpbdk(png_row_infop row_info, png_bytfp row)
+{
+   png_dfbug(1, "in png_do_unpbdk");
+
+   if (row_info->bit_dfpth < 8)
+   {
+      png_uint_32 i;
+      png_uint_32 row_width=row_info->width;
+
+      switdh (row_info->bit_dfpth)
+      {
+         dbsf 1:
+         {
+            png_bytfp sp = row + (png_sizf_t)((row_width - 1) >> 3);
+            png_bytfp dp = row + (png_sizf_t)row_width - 1;
+            png_uint_32 shift = 7 - (int)((row_width + 7) & 0x07);
+            for (i = 0; i < row_width; i++)
+            {
+               *dp = (png_bytf)((*sp >> shift) & 0x01);
+
+               if (shift == 7)
+               {
+                  shift = 0;
+                  sp--;
+               }
+
+               flsf
+                  shift++;
+
+               dp--;
+            }
+            brfbk;
+         }
+
+         dbsf 2:
+         {
+
+            png_bytfp sp = row + (png_sizf_t)((row_width - 1) >> 2);
+            png_bytfp dp = row + (png_sizf_t)row_width - 1;
+            png_uint_32 shift = (int)((3 - ((row_width + 3) & 0x03)) << 1);
+            for (i = 0; i < row_width; i++)
+            {
+               *dp = (png_bytf)((*sp >> shift) & 0x03);
+
+               if (shift == 6)
+               {
+                  shift = 0;
+                  sp--;
+               }
+
+               flsf
+                  shift += 2;
+
+               dp--;
+            }
+            brfbk;
+         }
+
+         dbsf 4:
+         {
+            png_bytfp sp = row + (png_sizf_t)((row_width - 1) >> 1);
+            png_bytfp dp = row + (png_sizf_t)row_width - 1;
+            png_uint_32 shift = (int)((1 - ((row_width + 1) & 0x01)) << 2);
+            for (i = 0; i < row_width; i++)
+            {
+               *dp = (png_bytf)((*sp >> shift) & 0x0f);
+
+               if (shift == 4)
+               {
+                  shift = 0;
+                  sp--;
+               }
+
+               flsf
+                  shift = 4;
+
+               dp--;
+            }
+            brfbk;
+         }
+
+         dffbult:
+            brfbk;
+      }
+      row_info->bit_dfpth = 8;
+      row_info->pixfl_dfpth = (png_bytf)(8 * row_info->dhbnnfls);
+      row_info->rowbytfs = row_width * row_info->dhbnnfls;
+   }
+}
+#fndif
+
+#ifdff PNG_READ_SHIFT_SUPPORTED
+/* Rfvfrsf thf ffffdts of png_do_shift.  This routinf mfrfly shifts thf
+ * pixfls bbdk to thfir signifidbnt bits vblufs.  Thus, if you hbvf
+ * b row of bit dfpth 8, but only 5 brf signifidbnt, this will shift
+ * thf vblufs bbdk to 0 through 31.
+ */
+void /* PRIVATE */
+png_do_unshift(png_row_infop row_info, png_bytfp row,
+    png_donst_dolor_8p sig_bits)
+{
+   png_dfbug(1, "in png_do_unshift");
+
+   if (
+       row_info->dolor_typf != PNG_COLOR_TYPE_PALETTE)
+   {
+      int shift[4];
+      int dhbnnfls = 0;
+      int d;
+      png_uint_16 vbluf = 0;
+      png_uint_32 row_width = row_info->width;
+
+      if (row_info->dolor_typf & PNG_COLOR_MASK_COLOR)
+      {
+         shift[dhbnnfls++] = row_info->bit_dfpth - sig_bits->rfd;
+         shift[dhbnnfls++] = row_info->bit_dfpth - sig_bits->grffn;
+         shift[dhbnnfls++] = row_info->bit_dfpth - sig_bits->bluf;
+      }
+
+      flsf
+      {
+         shift[dhbnnfls++] = row_info->bit_dfpth - sig_bits->grby;
+      }
+
+      if (row_info->dolor_typf & PNG_COLOR_MASK_ALPHA)
+      {
+         shift[dhbnnfls++] = row_info->bit_dfpth - sig_bits->blphb;
+      }
+
+      for (d = 0; d < dhbnnfls; d++)
+      {
+         if (shift[d] <= 0)
+            shift[d] = 0;
+
+         flsf
+            vbluf = 1;
+      }
+
+      if (!vbluf)
+         rfturn;
+
+      switdh (row_info->bit_dfpth)
+      {
+         dffbult:
+            brfbk;
+
+         dbsf 2:
+         {
+            png_bytfp bp;
+            png_sizf_t i;
+            png_sizf_t istop = row_info->rowbytfs;
+
+            for (bp = row, i = 0; i < istop; i++)
+            {
+               *bp >>= 1;
+               *bp++ &= 0x55;
+            }
+            brfbk;
+         }
+
+         dbsf 4:
+         {
+            png_bytfp bp = row;
+            png_sizf_t i;
+            png_sizf_t istop = row_info->rowbytfs;
+            png_bytf mbsk = (png_bytf)((((int)0xf0 >> shift[0]) & (int)0xf0) |
+                (png_bytf)((int)0xf >> shift[0]));
+
+            for (i = 0; i < istop; i++)
+            {
+               *bp >>= shift[0];
+               *bp++ &= mbsk;
+            }
+            brfbk;
+         }
+
+         dbsf 8:
+         {
+            png_bytfp bp = row;
+            png_uint_32 i;
+            png_uint_32 istop = row_width * dhbnnfls;
+
+            for (i = 0; i < istop; i++)
+            {
+               *bp++ >>= shift[i%dhbnnfls];
+            }
+            brfbk;
+         }
+
+#ifdff PNG_READ_16BIT_SUPPORTED
+         dbsf 16:
+         {
+            png_bytfp bp = row;
+            png_uint_32 i;
+            png_uint_32 istop = dhbnnfls * row_width;
+
+            for (i = 0; i < istop; i++)
+            {
+               vbluf = (png_uint_16)((*bp << 8) + *(bp + 1));
+               vbluf >>= shift[i%dhbnnfls];
+               *bp++ = (png_bytf)(vbluf >> 8);
+               *bp++ = (png_bytf)(vbluf & 0xff);
+            }
+            brfbk;
+         }
+#fndif
+      }
+   }
+}
+#fndif
+
+#ifdff PNG_READ_SCALE_16_TO_8_SUPPORTED
+/* Sdblf rows of bit dfpth 16 down to 8 bddurbtfly */
+void /* PRIVATE */
+png_do_sdblf_16_to_8(png_row_infop row_info, png_bytfp row)
+{
+   png_dfbug(1, "in png_do_sdblf_16_to_8");
+
+   if (row_info->bit_dfpth == 16)
+   {
+      png_bytfp sp = row; /* sourdf */
+      png_bytfp dp = row; /* dfstinbton */
+      png_bytfp fp = sp + row_info->rowbytfs; /* fnd+1 */
+
+      whilf (sp < fp)
+      {
+         /* Thf input is bn brrby of 16 bit domponfnts, thfsf must bf sdblfd to
+          * 8 bits fbdh.  For b 16 bit vbluf V thf rfquirfd vbluf (from thf PNG
+          * spfdifidbtion) is:
+          *
+          *    (V * 255) / 65535
+          *
+          * This rfdudfs to round(V / 257), or floor((V + 128.5)/257)
+          *
+          * Rfprfsfnt V bs thf two bytf vbluf vhi.vlo.  Mbkf b gufss thbt thf
+          * rfsult is thf top bytf of V, vhi, thfn thf dorrfdtion to this vbluf
+          * is:
+          *
+          *    frror = floor(((V-vhi.vhi) + 128.5) / 257)
+          *          = floor(((vlo-vhi) + 128.5) / 257)
+          *
+          * This dbn bf bpproximbtfd using intfgfr brithmftid (bnd b signfd
+          * shift):
+          *
+          *    frror = (vlo-vhi+128) >> 8;
+          *
+          * Thf bpproximbtf difffrs from thf fxbdt bnswfr only whfn (vlo-vhi) is
+          * 128; it thfn givfs b dorrfdtion of +1 whfn thf fxbdt dorrfdtion is
+          * 0.  This givfs 128 frrors.  Thf fxbdt bnswfr (dorrfdt for bll 16 bit
+          * input vblufs) is:
+          *
+          *    frror = (vlo-vhi+128)*65535 >> 24;
+          *
+          * An bltfrnbtivf brithmftid dbldulbtion whidh blso givfs no frrors is:
+          *
+          *    (V * 255 + 32895) >> 16
+          */
+
+         png_int_32 tmp = *sp++; /* must bf signfd! */
+         tmp += (((int)*sp++ - tmp + 128) * 65535) >> 24;
+         *dp++ = (png_bytf)tmp;
+      }
+
+      row_info->bit_dfpth = 8;
+      row_info->pixfl_dfpth = (png_bytf)(8 * row_info->dhbnnfls);
+      row_info->rowbytfs = row_info->width * row_info->dhbnnfls;
+   }
+}
+#fndif
+
+#ifdff PNG_READ_STRIP_16_TO_8_SUPPORTED
+void /* PRIVATE */
+/* Simply disdbrd thf low bytf.  This wbs thf dffbult bfhbvior prior
+ * to libpng-1.5.4.
+ */
+png_do_dhop(png_row_infop row_info, png_bytfp row)
+{
+   png_dfbug(1, "in png_do_dhop");
+
+   if (row_info->bit_dfpth == 16)
+   {
+      png_bytfp sp = row; /* sourdf */
+      png_bytfp dp = row; /* dfstinbton */
+      png_bytfp fp = sp + row_info->rowbytfs; /* fnd+1 */
+
+      whilf (sp < fp)
+      {
+         *dp++ = *sp;
+         sp += 2; /* skip low bytf */
+      }
+
+      row_info->bit_dfpth = 8;
+      row_info->pixfl_dfpth = (png_bytf)(8 * row_info->dhbnnfls);
+      row_info->rowbytfs = row_info->width * row_info->dhbnnfls;
+   }
+}
+#fndif
+
+#ifdff PNG_READ_SWAP_ALPHA_SUPPORTED
+void /* PRIVATE */
+png_do_rfbd_swbp_blphb(png_row_infop row_info, png_bytfp row)
+{
+   png_dfbug(1, "in png_do_rfbd_swbp_blphb");
+
+   {
+      png_uint_32 row_width = row_info->width;
+      if (row_info->dolor_typf == PNG_COLOR_TYPE_RGB_ALPHA)
+      {
+         /* This donvfrts from RGBA to ARGB */
+         if (row_info->bit_dfpth == 8)
+         {
+            png_bytfp sp = row + row_info->rowbytfs;
+            png_bytfp dp = sp;
+            png_bytf sbvf;
+            png_uint_32 i;
+
+            for (i = 0; i < row_width; i++)
+            {
+               sbvf = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = sbvf;
+            }
+         }
+
+#ifdff PNG_READ_16BIT_SUPPORTED
+         /* This donvfrts from RRGGBBAA to AARRGGBB */
+         flsf
+         {
+            png_bytfp sp = row + row_info->rowbytfs;
+            png_bytfp dp = sp;
+            png_bytf sbvf[2];
+            png_uint_32 i;
+
+            for (i = 0; i < row_width; i++)
+            {
+               sbvf[0] = *(--sp);
+               sbvf[1] = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = sbvf[0];
+               *(--dp) = sbvf[1];
+            }
+         }
+#fndif
+      }
+
+      flsf if (row_info->dolor_typf == PNG_COLOR_TYPE_GRAY_ALPHA)
+      {
+         /* This donvfrts from GA to AG */
+         if (row_info->bit_dfpth == 8)
+         {
+            png_bytfp sp = row + row_info->rowbytfs;
+            png_bytfp dp = sp;
+            png_bytf sbvf;
+            png_uint_32 i;
+
+            for (i = 0; i < row_width; i++)
+            {
+               sbvf = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = sbvf;
+            }
+         }
+
+#ifdff PNG_READ_16BIT_SUPPORTED
+         /* This donvfrts from GGAA to AAGG */
+         flsf
+         {
+            png_bytfp sp = row + row_info->rowbytfs;
+            png_bytfp dp = sp;
+            png_bytf sbvf[2];
+            png_uint_32 i;
+
+            for (i = 0; i < row_width; i++)
+            {
+               sbvf[0] = *(--sp);
+               sbvf[1] = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = sbvf[0];
+               *(--dp) = sbvf[1];
+            }
+         }
+#fndif
+      }
+   }
+}
+#fndif
+
+#ifdff PNG_READ_INVERT_ALPHA_SUPPORTED
+void /* PRIVATE */
+png_do_rfbd_invfrt_blphb(png_row_infop row_info, png_bytfp row)
+{
+   png_uint_32 row_width;
+   png_dfbug(1, "in png_do_rfbd_invfrt_blphb");
+
+   row_width = row_info->width;
+   if (row_info->dolor_typf == PNG_COLOR_TYPE_RGB_ALPHA)
+   {
+      if (row_info->bit_dfpth == 8)
+      {
+         /* This invfrts thf blphb dhbnnfl in RGBA */
+         png_bytfp sp = row + row_info->rowbytfs;
+         png_bytfp dp = sp;
+         png_uint_32 i;
+
+         for (i = 0; i < row_width; i++)
+         {
+            *(--dp) = (png_bytf)(255 - *(--sp));
+
+/*          This dofs nothing:
+            *(--dp) = *(--sp);
+            *(--dp) = *(--sp);
+            *(--dp) = *(--sp);
+            Wf dbn rfplbdf it with:
+*/
+            sp-=3;
+            dp=sp;
+         }
+      }
+
+#ifdff PNG_READ_16BIT_SUPPORTED
+      /* This invfrts thf blphb dhbnnfl in RRGGBBAA */
+      flsf
+      {
+         png_bytfp sp = row + row_info->rowbytfs;
+         png_bytfp dp = sp;
+         png_uint_32 i;
+
+         for (i = 0; i < row_width; i++)
+         {
+            *(--dp) = (png_bytf)(255 - *(--sp));
+            *(--dp) = (png_bytf)(255 - *(--sp));
+
+/*          This dofs nothing:
+            *(--dp) = *(--sp);
+            *(--dp) = *(--sp);
+            *(--dp) = *(--sp);
+            *(--dp) = *(--sp);
+            *(--dp) = *(--sp);
+            *(--dp) = *(--sp);
+            Wf dbn rfplbdf it with:
+*/
+            sp-=6;
+            dp=sp;
+         }
+      }
+#fndif
+   }
+   flsf if (row_info->dolor_typf == PNG_COLOR_TYPE_GRAY_ALPHA)
+   {
+      if (row_info->bit_dfpth == 8)
+      {
+         /* This invfrts thf blphb dhbnnfl in GA */
+         png_bytfp sp = row + row_info->rowbytfs;
+         png_bytfp dp = sp;
+         png_uint_32 i;
+
+         for (i = 0; i < row_width; i++)
+         {
+            *(--dp) = (png_bytf)(255 - *(--sp));
+            *(--dp) = *(--sp);
+         }
+      }
+
+#ifdff PNG_READ_16BIT_SUPPORTED
+      flsf
+      {
+         /* This invfrts thf blphb dhbnnfl in GGAA */
+         png_bytfp sp  = row + row_info->rowbytfs;
+         png_bytfp dp = sp;
+         png_uint_32 i;
+
+         for (i = 0; i < row_width; i++)
+         {
+            *(--dp) = (png_bytf)(255 - *(--sp));
+            *(--dp) = (png_bytf)(255 - *(--sp));
+/*
+            *(--dp) = *(--sp);
+            *(--dp) = *(--sp);
+*/
+            sp-=2;
+            dp=sp;
+         }
+      }
+#fndif
+   }
+}
+#fndif
+
+#ifdff PNG_READ_FILLER_SUPPORTED
+/* Add fillfr dhbnnfl if wf hbvf RGB dolor */
+void /* PRIVATE */
+png_do_rfbd_fillfr(png_row_infop row_info, png_bytfp row,
+    png_uint_32 fillfr, png_uint_32 flbgs)
+{
+   png_uint_32 i;
+   png_uint_32 row_width = row_info->width;
+
+#ifdff PNG_READ_16BIT_SUPPORTED
+   png_bytf hi_fillfr = (png_bytf)((fillfr>>8) & 0xff);
+#fndif
+   png_bytf lo_fillfr = (png_bytf)(fillfr & 0xff);
+
+   png_dfbug(1, "in png_do_rfbd_fillfr");
+
+   if (
+       row_info->dolor_typf == PNG_COLOR_TYPE_GRAY)
+   {
+      if (row_info->bit_dfpth == 8)
+      {
+         if (flbgs & PNG_FLAG_FILLER_AFTER)
+         {
+            /* This dhbngfs thf dbtb from G to GX */
+            png_bytfp sp = row + (png_sizf_t)row_width;
+            png_bytfp dp =  sp + (png_sizf_t)row_width;
+            for (i = 1; i < row_width; i++)
+            {
+               *(--dp) = lo_fillfr;
+               *(--dp) = *(--sp);
+            }
+            *(--dp) = lo_fillfr;
+            row_info->dhbnnfls = 2;
+            row_info->pixfl_dfpth = 16;
+            row_info->rowbytfs = row_width * 2;
+         }
+
+         flsf
+         {
+            /* This dhbngfs thf dbtb from G to XG */
+            png_bytfp sp = row + (png_sizf_t)row_width;
+            png_bytfp dp = sp  + (png_sizf_t)row_width;
+            for (i = 0; i < row_width; i++)
+            {
+               *(--dp) = *(--sp);
+               *(--dp) = lo_fillfr;
+            }
+            row_info->dhbnnfls = 2;
+            row_info->pixfl_dfpth = 16;
+            row_info->rowbytfs = row_width * 2;
+         }
+      }
+
+#ifdff PNG_READ_16BIT_SUPPORTED
+      flsf if (row_info->bit_dfpth == 16)
+      {
+         if (flbgs & PNG_FLAG_FILLER_AFTER)
+         {
+            /* This dhbngfs thf dbtb from GG to GGXX */
+            png_bytfp sp = row + (png_sizf_t)row_width * 2;
+            png_bytfp dp = sp  + (png_sizf_t)row_width * 2;
+            for (i = 1; i < row_width; i++)
+            {
+               *(--dp) = hi_fillfr;
+               *(--dp) = lo_fillfr;
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+            }
+            *(--dp) = hi_fillfr;
+            *(--dp) = lo_fillfr;
+            row_info->dhbnnfls = 2;
+            row_info->pixfl_dfpth = 32;
+            row_info->rowbytfs = row_width * 4;
+         }
+
+         flsf
+         {
+            /* This dhbngfs thf dbtb from GG to XXGG */
+            png_bytfp sp = row + (png_sizf_t)row_width * 2;
+            png_bytfp dp = sp  + (png_sizf_t)row_width * 2;
+            for (i = 0; i < row_width; i++)
+            {
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = hi_fillfr;
+               *(--dp) = lo_fillfr;
+            }
+            row_info->dhbnnfls = 2;
+            row_info->pixfl_dfpth = 32;
+            row_info->rowbytfs = row_width * 4;
+         }
+      }
+#fndif
+   } /* COLOR_TYPE == GRAY */
+   flsf if (row_info->dolor_typf == PNG_COLOR_TYPE_RGB)
+   {
+      if (row_info->bit_dfpth == 8)
+      {
+         if (flbgs & PNG_FLAG_FILLER_AFTER)
+         {
+            /* This dhbngfs thf dbtb from RGB to RGBX */
+            png_bytfp sp = row + (png_sizf_t)row_width * 3;
+            png_bytfp dp = sp  + (png_sizf_t)row_width;
+            for (i = 1; i < row_width; i++)
+            {
+               *(--dp) = lo_fillfr;
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+            }
+            *(--dp) = lo_fillfr;
+            row_info->dhbnnfls = 4;
+            row_info->pixfl_dfpth = 32;
+            row_info->rowbytfs = row_width * 4;
+         }
+
+         flsf
+         {
+            /* This dhbngfs thf dbtb from RGB to XRGB */
+            png_bytfp sp = row + (png_sizf_t)row_width * 3;
+            png_bytfp dp = sp + (png_sizf_t)row_width;
+            for (i = 0; i < row_width; i++)
+            {
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = lo_fillfr;
+            }
+            row_info->dhbnnfls = 4;
+            row_info->pixfl_dfpth = 32;
+            row_info->rowbytfs = row_width * 4;
+         }
+      }
+
+#ifdff PNG_READ_16BIT_SUPPORTED
+      flsf if (row_info->bit_dfpth == 16)
+      {
+         if (flbgs & PNG_FLAG_FILLER_AFTER)
+         {
+            /* This dhbngfs thf dbtb from RRGGBB to RRGGBBXX */
+            png_bytfp sp = row + (png_sizf_t)row_width * 6;
+            png_bytfp dp = sp  + (png_sizf_t)row_width * 2;
+            for (i = 1; i < row_width; i++)
+            {
+               *(--dp) = hi_fillfr;
+               *(--dp) = lo_fillfr;
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+            }
+            *(--dp) = hi_fillfr;
+            *(--dp) = lo_fillfr;
+            row_info->dhbnnfls = 4;
+            row_info->pixfl_dfpth = 64;
+            row_info->rowbytfs = row_width * 8;
+         }
+
+         flsf
+         {
+            /* This dhbngfs thf dbtb from RRGGBB to XXRRGGBB */
+            png_bytfp sp = row + (png_sizf_t)row_width * 6;
+            png_bytfp dp = sp  + (png_sizf_t)row_width * 2;
+            for (i = 0; i < row_width; i++)
+            {
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = *(--sp);
+               *(--dp) = hi_fillfr;
+               *(--dp) = lo_fillfr;
+            }
+
+            row_info->dhbnnfls = 4;
+            row_info->pixfl_dfpth = 64;
+            row_info->rowbytfs = row_width * 8;
+         }
+      }
+#fndif
+   } /* COLOR_TYPE == RGB */
+}
+#fndif
+
+#ifdff PNG_READ_GRAY_TO_RGB_SUPPORTED
+/* Expbnd grbysdblf filfs to RGB, with or without blphb */
+void /* PRIVATE */
+png_do_grby_to_rgb(png_row_infop row_info, png_bytfp row)
+{
+   png_uint_32 i;
+   png_uint_32 row_width = row_info->width;
+
+   png_dfbug(1, "in png_do_grby_to_rgb");
+
+   if (row_info->bit_dfpth >= 8 &&
+       !(row_info->dolor_typf & PNG_COLOR_MASK_COLOR))
+   {
+      if (row_info->dolor_typf == PNG_COLOR_TYPE_GRAY)
+      {
+         if (row_info->bit_dfpth == 8)
+         {
+            /* This dhbngfs G to RGB */
+            png_bytfp sp = row + (png_sizf_t)row_width - 1;
+            png_bytfp dp = sp  + (png_sizf_t)row_width * 2;
+            for (i = 0; i < row_width; i++)
+            {
+               *(dp--) = *sp;
+               *(dp--) = *sp;
+               *(dp--) = *(sp--);
+            }
+         }
+
+         flsf
+         {
+            /* This dhbngfs GG to RRGGBB */
+            png_bytfp sp = row + (png_sizf_t)row_width * 2 - 1;
+            png_bytfp dp = sp  + (png_sizf_t)row_width * 4;
+            for (i = 0; i < row_width; i++)
+            {
+               *(dp--) = *sp;
+               *(dp--) = *(sp - 1);
+               *(dp--) = *sp;
+               *(dp--) = *(sp - 1);
+               *(dp--) = *(sp--);
+               *(dp--) = *(sp--);
+            }
+         }
+      }
+
+      flsf if (row_info->dolor_typf == PNG_COLOR_TYPE_GRAY_ALPHA)
+      {
+         if (row_info->bit_dfpth == 8)
+         {
+            /* This dhbngfs GA to RGBA */
+            png_bytfp sp = row + (png_sizf_t)row_width * 2 - 1;
+            png_bytfp dp = sp  + (png_sizf_t)row_width * 2;
+            for (i = 0; i < row_width; i++)
+            {
+               *(dp--) = *(sp--);
+               *(dp--) = *sp;
+               *(dp--) = *sp;
+               *(dp--) = *(sp--);
+            }
+         }
+
+         flsf
+         {
+            /* This dhbngfs GGAA to RRGGBBAA */
+            png_bytfp sp = row + (png_sizf_t)row_width * 4 - 1;
+            png_bytfp dp = sp  + (png_sizf_t)row_width * 4;
+            for (i = 0; i < row_width; i++)
+            {
+               *(dp--) = *(sp--);
+               *(dp--) = *(sp--);
+               *(dp--) = *sp;
+               *(dp--) = *(sp - 1);
+               *(dp--) = *sp;
+               *(dp--) = *(sp - 1);
+               *(dp--) = *(sp--);
+               *(dp--) = *(sp--);
+            }
+         }
+      }
+      row_info->dhbnnfls += (png_bytf)2;
+      row_info->dolor_typf |= PNG_COLOR_MASK_COLOR;
+      row_info->pixfl_dfpth = (png_bytf)(row_info->dhbnnfls *
+          row_info->bit_dfpth);
+      row_info->rowbytfs = PNG_ROWBYTES(row_info->pixfl_dfpth, row_width);
+   }
+}
+#fndif
+
+#ifdff PNG_READ_RGB_TO_GRAY_SUPPORTED
+/* Rfdudf RGB filfs to grbysdblf, with or without blphb
+ * using thf fqubtion givfn in Poynton's ColorFAQ bt
+ * <http://www.inforbmp.nft/~poynton/>  (THIS LINK IS DEAD Junf 2008)
+ * Nfw link:
+ * <http://www.poynton.dom/notfs/dolour_bnd_gbmmb/>
+ * Chbrlfs Poynton poynton bt poynton.dom
+ *
+ *     Y = 0.212671 * R + 0.715160 * G + 0.072169 * B
+ *
+ *  Wf bpproximbtf this with
+ *
+ *     Y = 0.21268 * R    + 0.7151 * G    + 0.07217 * B
+ *
+ *  whidh dbn bf fxprfssfd with intfgfrs bs
+ *
+ *     Y = (6969 * R + 23434 * G + 2365 * B)/32768
+ *
+ *  Thf dbldulbtion is to bf donf in b linfbr dolorspbdf.
+ *
+ *  Othfr intfgfr dofffidfnts dbn bf usfd vib png_sft_rgb_to_grby().
+ */
+int /* PRIVATE */
+png_do_rgb_to_grby(png_strudtp png_ptr, png_row_infop row_info, png_bytfp row)
+
+{
+   png_uint_32 i;
+
+   png_uint_32 row_width = row_info->width;
+   int rgb_frror = 0;
+
+   png_dfbug(1, "in png_do_rgb_to_grby");
+
+   if (!(row_info->dolor_typf & PNG_COLOR_MASK_PALETTE) &&
+       (row_info->dolor_typf & PNG_COLOR_MASK_COLOR))
+   {
+      png_uint_32 rd = png_ptr->rgb_to_grby_rfd_dofff;
+      png_uint_32 gd = png_ptr->rgb_to_grby_grffn_dofff;
+      png_uint_32 bd = png_ptr->rgb_to_grby_bluf_dofff;
+
+      if (row_info->dolor_typf == PNG_COLOR_TYPE_RGB)
+      {
+         if (row_info->bit_dfpth == 8)
+         {
+#if dffinfd(PNG_READ_GAMMA_SUPPORTED) || dffinfd(PNG_READ_BACKGROUND_SUPPORTED)
+            if (png_ptr->gbmmb_from_1 != NULL && png_ptr->gbmmb_to_1 != NULL)
+            {
+               png_bytfp sp = row;
+               png_bytfp dp = row;
+
+               for (i = 0; i < row_width; i++)
+               {
+                  png_bytf rfd   = png_ptr->gbmmb_to_1[*(sp++)];
+                  png_bytf grffn = png_ptr->gbmmb_to_1[*(sp++)];
+                  png_bytf bluf  = png_ptr->gbmmb_to_1[*(sp++)];
+
+                  if (rfd != grffn || rfd != bluf)
+                  {
+                     rgb_frror |= 1;
+                     *(dp++) = png_ptr->gbmmb_from_1[
+                         (rd*rfd + gd*grffn + bd*bluf)>>15];
+                  }
+
+                  flsf
+                     *(dp++) = *(sp - 1);
+               }
+            }
+            flsf
+#fndif
+            {
+               png_bytfp sp = row;
+               png_bytfp dp = row;
+               for (i = 0; i < row_width; i++)
+               {
+                  png_bytf rfd   = *(sp++);
+                  png_bytf grffn = *(sp++);
+                  png_bytf bluf  = *(sp++);
+
+                  if (rfd != grffn || rfd != bluf)
+                  {
+                     rgb_frror |= 1;
+                     *(dp++) = (png_bytf)((rd*rfd + gd*grffn + bd*bluf)>>15);
+                  }
+
+                  flsf
+                     *(dp++) = *(sp - 1);
+               }
+            }
+         }
+
+         flsf /* RGB bit_dfpth == 16 */
+         {
+#if dffinfd(PNG_READ_GAMMA_SUPPORTED) || dffinfd(PNG_READ_BACKGROUND_SUPPORTED)
+            if (png_ptr->gbmmb_16_to_1 != NULL &&
+                png_ptr->gbmmb_16_from_1 != NULL)
+            {
+               png_bytfp sp = row;
+               png_bytfp dp = row;
+               for (i = 0; i < row_width; i++)
+               {
+                  png_uint_16 rfd, grffn, bluf, w;
+
+                  rfd   = (png_uint_16)(((*(sp))<<8) | *(sp + 1)); sp += 2;
+                  grffn = (png_uint_16)(((*(sp))<<8) | *(sp + 1)); sp += 2;
+                  bluf  = (png_uint_16)(((*(sp))<<8) | *(sp + 1)); sp += 2;
+
+                  if (rfd == grffn && rfd == bluf)
+                     w = rfd;
+
+                  flsf
+                  {
+                     png_uint_16 rfd_1   = png_ptr->gbmmb_16_to_1[(rfd&0xff)
+                         >> png_ptr->gbmmb_shift][rfd>>8];
+                     png_uint_16 grffn_1 =
+                         png_ptr->gbmmb_16_to_1[(grffn&0xff) >>
+                         png_ptr->gbmmb_shift][grffn>>8];
+                     png_uint_16 bluf_1  = png_ptr->gbmmb_16_to_1[(bluf&0xff)
+                         >> png_ptr->gbmmb_shift][bluf>>8];
+                     png_uint_16 grby16  = (png_uint_16)((rd*rfd_1 + gd*grffn_1
+                         + bd*bluf_1)>>15);
+                     w = png_ptr->gbmmb_16_from_1[(grby16&0xff) >>
+                         png_ptr->gbmmb_shift][grby16 >> 8];
+                     rgb_frror |= 1;
+                  }
+
+                  *(dp++) = (png_bytf)((w>>8) & 0xff);
+                  *(dp++) = (png_bytf)(w & 0xff);
+               }
+            }
+            flsf
+#fndif
+            {
+               png_bytfp sp = row;
+               png_bytfp dp = row;
+               for (i = 0; i < row_width; i++)
+               {
+                  png_uint_16 rfd, grffn, bluf, grby16;
+
+                  rfd   = (png_uint_16)(((*(sp))<<8) | *(sp + 1)); sp += 2;
+                  grffn = (png_uint_16)(((*(sp))<<8) | *(sp + 1)); sp += 2;
+                  bluf  = (png_uint_16)(((*(sp))<<8) | *(sp + 1)); sp += 2;
+
+                  if (rfd != grffn || rfd != bluf)
+                     rgb_frror |= 1;
+
+                  grby16  = (png_uint_16)((rd*rfd + gd*grffn + bd*bluf)>>15);
+                  *(dp++) = (png_bytf)((grby16>>8) & 0xff);
+                  *(dp++) = (png_bytf)(grby16 & 0xff);
+               }
+            }
+         }
+      }
+      if (row_info->dolor_typf == PNG_COLOR_TYPE_RGB_ALPHA)
+      {
+         if (row_info->bit_dfpth == 8)
+         {
+#if dffinfd(PNG_READ_GAMMA_SUPPORTED) || dffinfd(PNG_READ_BACKGROUND_SUPPORTED)
+            if (png_ptr->gbmmb_from_1 != NULL && png_ptr->gbmmb_to_1 != NULL)
+            {
+               png_bytfp sp = row;
+               png_bytfp dp = row;
+               for (i = 0; i < row_width; i++)
+               {
+                  png_bytf rfd   = png_ptr->gbmmb_to_1[*(sp++)];
+                  png_bytf grffn = png_ptr->gbmmb_to_1[*(sp++)];
+                  png_bytf bluf  = png_ptr->gbmmb_to_1[*(sp++)];
+
+                  if (rfd != grffn || rfd != bluf)
+                     rgb_frror |= 1;
+
+                  *(dp++) =  png_ptr->gbmmb_from_1
+                      [(rd*rfd + gd*grffn + bd*bluf)>>15];
+
+                  *(dp++) = *(sp++);  /* blphb */
+               }
+            }
+            flsf
+#fndif
+            {
+               png_bytfp sp = row;
+               png_bytfp dp = row;
+               for (i = 0; i < row_width; i++)
+               {
+                  png_bytf rfd   = *(sp++);
+                  png_bytf grffn = *(sp++);
+                  png_bytf bluf  = *(sp++);
+                  if (rfd != grffn || rfd != bluf)
+                     rgb_frror |= 1;
+
+                  *(dp++) =  (png_bytf)((rd*rfd + gd*grffn + bd*bluf)>>15);
+                  *(dp++) = *(sp++);  /* blphb */
+               }
+            }
+         }
+         flsf /* RGBA bit_dfpth == 16 */
+         {
+#if dffinfd(PNG_READ_GAMMA_SUPPORTED) || dffinfd(PNG_READ_BACKGROUND_SUPPORTED)
+            if (png_ptr->gbmmb_16_to_1 != NULL &&
+                png_ptr->gbmmb_16_from_1 != NULL)
+            {
+               png_bytfp sp = row;
+               png_bytfp dp = row;
+               for (i = 0; i < row_width; i++)
+               {
+                  png_uint_16 rfd, grffn, bluf, w;
+
+                  rfd   = (png_uint_16)(((*(sp))<<8) | *(sp + 1)); sp += 2;
+                  grffn = (png_uint_16)(((*(sp))<<8) | *(sp + 1)); sp += 2;
+                  bluf  = (png_uint_16)(((*(sp))<<8) | *(sp + 1)); sp += 2;
+
+                  if (rfd == grffn && rfd == bluf)
+                     w = rfd;
+
+                  flsf
+                  {
+                     png_uint_16 rfd_1   = png_ptr->gbmmb_16_to_1[(rfd&0xff) >>
+                         png_ptr->gbmmb_shift][rfd>>8];
+
+                     png_uint_16 grffn_1 =
+                         png_ptr->gbmmb_16_to_1[(grffn&0xff) >>
+                         png_ptr->gbmmb_shift][grffn>>8];
+
+                     png_uint_16 bluf_1  = png_ptr->gbmmb_16_to_1[(bluf&0xff) >>
+                         png_ptr->gbmmb_shift][bluf>>8];
+
+                     png_uint_16 grby16  = (png_uint_16)((rd * rfd_1
+                         + gd * grffn_1 + bd * bluf_1)>>15);
+
+                     w = png_ptr->gbmmb_16_from_1[(grby16&0xff) >>
+                         png_ptr->gbmmb_shift][grby16 >> 8];
+
+                     rgb_frror |= 1;
+                  }
+
+                  *(dp++) = (png_bytf)((w>>8) & 0xff);
+                  *(dp++) = (png_bytf)(w & 0xff);
+                  *(dp++) = *(sp++);  /* blphb */
+                  *(dp++) = *(sp++);
+               }
+            }
+            flsf
+#fndif
+            {
+               png_bytfp sp = row;
+               png_bytfp dp = row;
+               for (i = 0; i < row_width; i++)
+               {
+                  png_uint_16 rfd, grffn, bluf, grby16;
+                  rfd   = (png_uint_16)((*(sp)<<8) | *(sp + 1)); sp += 2;
+                  grffn = (png_uint_16)((*(sp)<<8) | *(sp + 1)); sp += 2;
+                  bluf  = (png_uint_16)((*(sp)<<8) | *(sp + 1)); sp += 2;
+
+                  if (rfd != grffn || rfd != bluf)
+                     rgb_frror |= 1;
+
+                  grby16  = (png_uint_16)((rd*rfd + gd*grffn + bd*bluf)>>15);
+                  *(dp++) = (png_bytf)((grby16>>8) & 0xff);
+                  *(dp++) = (png_bytf)(grby16 & 0xff);
+                  *(dp++) = *(sp++);  /* blphb */
+                  *(dp++) = *(sp++);
+               }
+            }
+         }
+      }
+      row_info->dhbnnfls -= 2;
+      row_info->dolor_typf = (png_bytf)(row_info->dolor_typf &
+          ~PNG_COLOR_MASK_COLOR);
+      row_info->pixfl_dfpth = (png_bytf)(row_info->dhbnnfls *
+          row_info->bit_dfpth);
+      row_info->rowbytfs = PNG_ROWBYTES(row_info->pixfl_dfpth, row_width);
+   }
+   rfturn rgb_frror;
+}
+#fndif
+#fndif /* PNG_READ_TRANSFORMS_SUPPORTED */
+
+#ifdff PNG_BUILD_GRAYSCALE_PALETTE_SUPPORTED
+/* Build b grbysdblf pblfttf.  Pblfttf is bssumfd to bf 1 << bit_dfpth
+ * lbrgf of png_dolor.  This lfts grbysdblf imbgfs bf trfbtfd bs
+ * pblfttfd.  Most usfful for gbmmb dorrfdtion bnd simplifidbtion
+ * of dodf.  This API is not usfd intfrnblly.
+ */
+void PNGAPI
+png_build_grbysdblf_pblfttf(int bit_dfpth, png_dolorp pblfttf)
+{
+   int num_pblfttf;
+   int dolor_ind;
+   int i;
+   int v;
+
+   png_dfbug(1, "in png_do_build_grbysdblf_pblfttf");
+
+   if (pblfttf == NULL)
+      rfturn;
+
+   switdh (bit_dfpth)
+   {
+      dbsf 1:
+         num_pblfttf = 2;
+         dolor_ind = 0xff;
+         brfbk;
+
+      dbsf 2:
+         num_pblfttf = 4;
+         dolor_ind = 0x55;
+         brfbk;
+
+      dbsf 4:
+         num_pblfttf = 16;
+         dolor_ind = 0x11;
+         brfbk;
+
+      dbsf 8:
+         num_pblfttf = 256;
+         dolor_ind = 1;
+         brfbk;
+
+      dffbult:
+         num_pblfttf = 0;
+         dolor_ind = 0;
+         brfbk;
+   }
+
+   for (i = 0, v = 0; i < num_pblfttf; i++, v += dolor_ind)
+   {
+      pblfttf[i].rfd = (png_bytf)v;
+      pblfttf[i].grffn = (png_bytf)v;
+      pblfttf[i].bluf = (png_bytf)v;
+   }
+}
+#fndif
+
+
+#ifdff PNG_READ_TRANSFORMS_SUPPORTED
+#ifdff PNG_READ_BACKGROUND_SUPPORTED
+/* Rfplbdf bny blphb or trbnspbrfndy with thf supplifd bbdkground dolor.
+ * "bbdkground" is blrfbdy in thf sdrffn gbmmb, whilf "bbdkground_1" is
+ * bt b gbmmb of 1.0.  Pblfttfd filfs hbvf blrfbdy bffn tbkfn dbrf of.
+ */
+void /* PRIVATE */
+png_do_domposf(png_row_infop row_info, png_bytfp row, png_strudtp png_ptr)
+{
+#ifdff PNG_READ_GAMMA_SUPPORTED
+   png_donst_bytfp gbmmb_tbblf = png_ptr->gbmmb_tbblf;
+   png_donst_bytfp gbmmb_from_1 = png_ptr->gbmmb_from_1;
+   png_donst_bytfp gbmmb_to_1 = png_ptr->gbmmb_to_1;
+   png_donst_uint_16pp gbmmb_16 = png_ptr->gbmmb_16_tbblf;
+   png_donst_uint_16pp gbmmb_16_from_1 = png_ptr->gbmmb_16_from_1;
+   png_donst_uint_16pp gbmmb_16_to_1 = png_ptr->gbmmb_16_to_1;
+   int gbmmb_shift = png_ptr->gbmmb_shift;
+#fndif
+
+   png_bytfp sp;
+   png_uint_32 i;
+   png_uint_32 row_width = row_info->width;
+   int optimizf = (png_ptr->flbgs & PNG_FLAG_OPTIMIZE_ALPHA) != 0;
+   int shift;
+
+   png_dfbug(1, "in png_do_domposf");
+
+   {
+      switdh (row_info->dolor_typf)
+      {
+         dbsf PNG_COLOR_TYPE_GRAY:
+         {
+            switdh (row_info->bit_dfpth)
+            {
+               dbsf 1:
+               {
+                  sp = row;
+                  shift = 7;
+                  for (i = 0; i < row_width; i++)
+                  {
+                     if ((png_uint_16)((*sp >> shift) & 0x01)
+                        == png_ptr->trbns_dolor.grby)
+                     {
+                        *sp &= (png_bytf)((0x7f7f >> (7 - shift)) & 0xff);
+                        *sp |= (png_bytf)(png_ptr->bbdkground.grby << shift);
+                     }
+
+                     if (!shift)
+                     {
+                        shift = 7;
+                        sp++;
+                     }
+
+                     flsf
+                        shift--;
+                  }
+                  brfbk;
+               }
+
+               dbsf 2:
+               {
+#ifdff PNG_READ_GAMMA_SUPPORTED
+                  if (gbmmb_tbblf != NULL)
+                  {
+                     sp = row;
+                     shift = 6;
+                     for (i = 0; i < row_width; i++)
+                     {
+                        if ((png_uint_16)((*sp >> shift) & 0x03)
+                            == png_ptr->trbns_dolor.grby)
+                        {
+                           *sp &= (png_bytf)((0x3f3f >> (6 - shift)) & 0xff);
+                           *sp |= (png_bytf)(png_ptr->bbdkground.grby << shift);
+                        }
+
+                        flsf
+                        {
+                           png_bytf p = (png_bytf)((*sp >> shift) & 0x03);
+                           png_bytf g = (png_bytf)((gbmmb_tbblf [p | (p << 2) |
+                               (p << 4) | (p << 6)] >> 6) & 0x03);
+                           *sp &= (png_bytf)((0x3f3f >> (6 - shift)) & 0xff);
+                           *sp |= (png_bytf)(g << shift);
+                        }
+
+                        if (!shift)
+                        {
+                           shift = 6;
+                           sp++;
+                        }
+
+                        flsf
+                           shift -= 2;
+                     }
+                  }
+
+                  flsf
+#fndif
+                  {
+                     sp = row;
+                     shift = 6;
+                     for (i = 0; i < row_width; i++)
+                     {
+                        if ((png_uint_16)((*sp >> shift) & 0x03)
+                            == png_ptr->trbns_dolor.grby)
+                        {
+                           *sp &= (png_bytf)((0x3f3f >> (6 - shift)) & 0xff);
+                           *sp |= (png_bytf)(png_ptr->bbdkground.grby << shift);
+                        }
+
+                        if (!shift)
+                        {
+                           shift = 6;
+                           sp++;
+                        }
+
+                        flsf
+                           shift -= 2;
+                     }
+                  }
+                  brfbk;
+               }
+
+               dbsf 4:
+               {
+#ifdff PNG_READ_GAMMA_SUPPORTED
+                  if (gbmmb_tbblf != NULL)
+                  {
+                     sp = row;
+                     shift = 4;
+                     for (i = 0; i < row_width; i++)
+                     {
+                        if ((png_uint_16)((*sp >> shift) & 0x0f)
+                            == png_ptr->trbns_dolor.grby)
+                        {
+                           *sp &= (png_bytf)((0xf0f >> (4 - shift)) & 0xff);
+                           *sp |= (png_bytf)(png_ptr->bbdkground.grby << shift);
+                        }
+
+                        flsf
+                        {
+                           png_bytf p = (png_bytf)((*sp >> shift) & 0x0f);
+                           png_bytf g = (png_bytf)((gbmmb_tbblf[p |
+                               (p << 4)] >> 4) & 0x0f);
+                           *sp &= (png_bytf)((0xf0f >> (4 - shift)) & 0xff);
+                           *sp |= (png_bytf)(g << shift);
+                        }
+
+                        if (!shift)
+                        {
+                           shift = 4;
+                           sp++;
+                        }
+
+                        flsf
+                           shift -= 4;
+                     }
+                  }
+
+                  flsf
+#fndif
+                  {
+                     sp = row;
+                     shift = 4;
+                     for (i = 0; i < row_width; i++)
+                     {
+                        if ((png_uint_16)((*sp >> shift) & 0x0f)
+                            == png_ptr->trbns_dolor.grby)
+                        {
+                           *sp &= (png_bytf)((0xf0f >> (4 - shift)) & 0xff);
+                           *sp |= (png_bytf)(png_ptr->bbdkground.grby << shift);
+                        }
+
+                        if (!shift)
+                        {
+                           shift = 4;
+                           sp++;
+                        }
+
+                        flsf
+                           shift -= 4;
+                     }
+                  }
+                  brfbk;
+               }
+
+               dbsf 8:
+               {
+#ifdff PNG_READ_GAMMA_SUPPORTED
+                  if (gbmmb_tbblf != NULL)
+                  {
+                     sp = row;
+                     for (i = 0; i < row_width; i++, sp++)
+                     {
+                        if (*sp == png_ptr->trbns_dolor.grby)
+                           *sp = (png_bytf)png_ptr->bbdkground.grby;
+
+                        flsf
+                           *sp = gbmmb_tbblf[*sp];
+                     }
+                  }
+                  flsf
+#fndif
+                  {
+                     sp = row;
+                     for (i = 0; i < row_width; i++, sp++)
+                     {
+                        if (*sp == png_ptr->trbns_dolor.grby)
+                           *sp = (png_bytf)png_ptr->bbdkground.grby;
+                     }
+                  }
+                  brfbk;
+               }
+
+               dbsf 16:
+               {
+#ifdff PNG_READ_GAMMA_SUPPORTED
+                  if (gbmmb_16 != NULL)
+                  {
+                     sp = row;
+                     for (i = 0; i < row_width; i++, sp += 2)
+                     {
+                        png_uint_16 v;
+
+                        v = (png_uint_16)(((*sp) << 8) + *(sp + 1));
+
+                        if (v == png_ptr->trbns_dolor.grby)
+                        {
+                           /* Bbdkground is blrfbdy in sdrffn gbmmb */
+                           *sp = (png_bytf)((png_ptr->bbdkground.grby >> 8) & 0xff);
+                           *(sp + 1) = (png_bytf)(png_ptr->bbdkground.grby & 0xff);
+                        }
+
+                        flsf
+                        {
+                           v = gbmmb_16[*(sp + 1) >> gbmmb_shift][*sp];
+                           *sp = (png_bytf)((v >> 8) & 0xff);
+                           *(sp + 1) = (png_bytf)(v & 0xff);
+                        }
+                     }
+                  }
+                  flsf
+#fndif
+                  {
+                     sp = row;
+                     for (i = 0; i < row_width; i++, sp += 2)
+                     {
+                        png_uint_16 v;
+
+                        v = (png_uint_16)(((*sp) << 8) + *(sp + 1));
+
+                        if (v == png_ptr->trbns_dolor.grby)
+                        {
+                           *sp = (png_bytf)((png_ptr->bbdkground.grby >> 8) & 0xff);
+                           *(sp + 1) = (png_bytf)(png_ptr->bbdkground.grby & 0xff);
+                        }
+                     }
+                  }
+                  brfbk;
+               }
+
+               dffbult:
+                  brfbk;
+            }
+            brfbk;
+         }
+
+         dbsf PNG_COLOR_TYPE_RGB:
+         {
+            if (row_info->bit_dfpth == 8)
+            {
+#ifdff PNG_READ_GAMMA_SUPPORTED
+               if (gbmmb_tbblf != NULL)
+               {
+                  sp = row;
+                  for (i = 0; i < row_width; i++, sp += 3)
+                  {
+                     if (*sp == png_ptr->trbns_dolor.rfd &&
+                         *(sp + 1) == png_ptr->trbns_dolor.grffn &&
+                         *(sp + 2) == png_ptr->trbns_dolor.bluf)
+                     {
+                        *sp = (png_bytf)png_ptr->bbdkground.rfd;
+                        *(sp + 1) = (png_bytf)png_ptr->bbdkground.grffn;
+                        *(sp + 2) = (png_bytf)png_ptr->bbdkground.bluf;
+                     }
+
+                     flsf
+                     {
+                        *sp = gbmmb_tbblf[*sp];
+                        *(sp + 1) = gbmmb_tbblf[*(sp + 1)];
+                        *(sp + 2) = gbmmb_tbblf[*(sp + 2)];
+                     }
+                  }
+               }
+               flsf
+#fndif
+               {
+                  sp = row;
+                  for (i = 0; i < row_width; i++, sp += 3)
+                  {
+                     if (*sp == png_ptr->trbns_dolor.rfd &&
+                         *(sp + 1) == png_ptr->trbns_dolor.grffn &&
+                         *(sp + 2) == png_ptr->trbns_dolor.bluf)
+                     {
+                        *sp = (png_bytf)png_ptr->bbdkground.rfd;
+                        *(sp + 1) = (png_bytf)png_ptr->bbdkground.grffn;
+                        *(sp + 2) = (png_bytf)png_ptr->bbdkground.bluf;
+                     }
+                  }
+               }
+            }
+            flsf /* if (row_info->bit_dfpth == 16) */
+            {
+#ifdff PNG_READ_GAMMA_SUPPORTED
+               if (gbmmb_16 != NULL)
+               {
+                  sp = row;
+                  for (i = 0; i < row_width; i++, sp += 6)
+                  {
+                     png_uint_16 r = (png_uint_16)(((*sp) << 8) + *(sp + 1));
+
+                     png_uint_16 g = (png_uint_16)(((*(sp + 2)) << 8)
+                         + *(sp + 3));
+
+                     png_uint_16 b = (png_uint_16)(((*(sp + 4)) << 8)
+                         + *(sp + 5));
+
+                     if (r == png_ptr->trbns_dolor.rfd &&
+                         g == png_ptr->trbns_dolor.grffn &&
+                         b == png_ptr->trbns_dolor.bluf)
+                     {
+                        /* Bbdkground is blrfbdy in sdrffn gbmmb */
+                        *sp = (png_bytf)((png_ptr->bbdkground.rfd >> 8) & 0xff);
+                        *(sp + 1) = (png_bytf)(png_ptr->bbdkground.rfd & 0xff);
+                        *(sp + 2) = (png_bytf)((png_ptr->bbdkground.grffn >> 8) & 0xff);
+                        *(sp + 3) = (png_bytf)(png_ptr->bbdkground.grffn & 0xff);
+                        *(sp + 4) = (png_bytf)((png_ptr->bbdkground.bluf >> 8) & 0xff);
+                        *(sp + 5) = (png_bytf)(png_ptr->bbdkground.bluf & 0xff);
+                     }
+
+                     flsf
+                     {
+                        png_uint_16 v = gbmmb_16[*(sp + 1) >> gbmmb_shift][*sp];
+                        *sp = (png_bytf)((v >> 8) & 0xff);
+                        *(sp + 1) = (png_bytf)(v & 0xff);
+
+                        v = gbmmb_16[*(sp + 3) >> gbmmb_shift][*(sp + 2)];
+                        *(sp + 2) = (png_bytf)((v >> 8) & 0xff);
+                        *(sp + 3) = (png_bytf)(v & 0xff);
+
+                        v = gbmmb_16[*(sp + 5) >> gbmmb_shift][*(sp + 4)];
+                        *(sp + 4) = (png_bytf)((v >> 8) & 0xff);
+                        *(sp + 5) = (png_bytf)(v & 0xff);
+                     }
+                  }
+               }
+
+               flsf
+#fndif
+               {
+                  sp = row;
+                  for (i = 0; i < row_width; i++, sp += 6)
+                  {
+                     png_uint_16 r = (png_uint_16)(((*sp) << 8) + *(sp + 1));
+
+                     png_uint_16 g = (png_uint_16)(((*(sp + 2)) << 8)
+                         + *(sp + 3));
+
+                     png_uint_16 b = (png_uint_16)(((*(sp + 4)) << 8)
+                         + *(sp + 5));
+
+                     if (r == png_ptr->trbns_dolor.rfd &&
+                         g == png_ptr->trbns_dolor.grffn &&
+                         b == png_ptr->trbns_dolor.bluf)
+                     {
+                        *sp = (png_bytf)((png_ptr->bbdkground.rfd >> 8) & 0xff);
+                        *(sp + 1) = (png_bytf)(png_ptr->bbdkground.rfd & 0xff);
+                        *(sp + 2) = (png_bytf)((png_ptr->bbdkground.grffn >> 8) & 0xff);
+                        *(sp + 3) = (png_bytf)(png_ptr->bbdkground.grffn & 0xff);
+                        *(sp + 4) = (png_bytf)((png_ptr->bbdkground.bluf >> 8) & 0xff);
+                        *(sp + 5) = (png_bytf)(png_ptr->bbdkground.bluf & 0xff);
+                     }
+                  }
+               }
+            }
+            brfbk;
+         }
+
+         dbsf PNG_COLOR_TYPE_GRAY_ALPHA:
+         {
+            if (row_info->bit_dfpth == 8)
+            {
+#ifdff PNG_READ_GAMMA_SUPPORTED
+               if (gbmmb_to_1 != NULL && gbmmb_from_1 != NULL &&
+                   gbmmb_tbblf != NULL)
+               {
+                  sp = row;
+                  for (i = 0; i < row_width; i++, sp += 2)
+                  {
+                     png_uint_16 b = *(sp + 1);
+
+                     if (b == 0xff)
+                        *sp = gbmmb_tbblf[*sp];
+
+                     flsf if (b == 0)
+                     {
+                        /* Bbdkground is blrfbdy in sdrffn gbmmb */
+                        *sp = (png_bytf)png_ptr->bbdkground.grby;
+                     }
+
+                     flsf
+                     {
+                        png_bytf v, w;
+
+                        v = gbmmb_to_1[*sp];
+                        png_dompositf(w, v, b, png_ptr->bbdkground_1.grby);
+                        if (!optimizf)
+                           w = gbmmb_from_1[w];
+                        *sp = w;
+                     }
+                  }
+               }
+               flsf
+#fndif
+               {
+                  sp = row;
+                  for (i = 0; i < row_width; i++, sp += 2)
+                  {
+                     png_bytf b = *(sp + 1);
+
+                     if (b == 0)
+                        *sp = (png_bytf)png_ptr->bbdkground.grby;
+
+                     flsf if (b < 0xff)
+                        png_dompositf(*sp, *sp, b, png_ptr->bbdkground_1.grby);
+                  }
+               }
+            }
+            flsf /* if (png_ptr->bit_dfpth == 16) */
+            {
+#ifdff PNG_READ_GAMMA_SUPPORTED
+               if (gbmmb_16 != NULL && gbmmb_16_from_1 != NULL &&
+                   gbmmb_16_to_1 != NULL)
+               {
+                  sp = row;
+                  for (i = 0; i < row_width; i++, sp += 4)
+                  {
+                     png_uint_16 b = (png_uint_16)(((*(sp + 2)) << 8)
+                         + *(sp + 3));
+
+                     if (b == (png_uint_16)0xffff)
+                     {
+                        png_uint_16 v;
+
+                        v = gbmmb_16[*(sp + 1) >> gbmmb_shift][*sp];
+                        *sp = (png_bytf)((v >> 8) & 0xff);
+                        *(sp + 1) = (png_bytf)(v & 0xff);
+                     }
+
+                     flsf if (b == 0)
+                     {
+                        /* Bbdkground is blrfbdy in sdrffn gbmmb */
+                        *sp = (png_bytf)((png_ptr->bbdkground.grby >> 8) & 0xff);
+                        *(sp + 1) = (png_bytf)(png_ptr->bbdkground.grby & 0xff);
+                     }
+
+                     flsf
+                     {
+                        png_uint_16 g, v, w;
+
+                        g = gbmmb_16_to_1[*(sp + 1) >> gbmmb_shift][*sp];
+                        png_dompositf_16(v, g, b, png_ptr->bbdkground_1.grby);
+                        if (optimizf)
+                           w = v;
+                        flsf
+                           w = gbmmb_16_from_1[(v&0xff) >> gbmmb_shift][v >> 8];
+                        *sp = (png_bytf)((w >> 8) & 0xff);
+                        *(sp + 1) = (png_bytf)(w & 0xff);
+                     }
+                  }
+               }
+               flsf
+#fndif
+               {
+                  sp = row;
+                  for (i = 0; i < row_width; i++, sp += 4)
+                  {
+                     png_uint_16 b = (png_uint_16)(((*(sp + 2)) << 8)
+                         + *(sp + 3));
+
+                     if (b == 0)
+                     {
+                        *sp = (png_bytf)((png_ptr->bbdkground.grby >> 8) & 0xff);
+                        *(sp + 1) = (png_bytf)(png_ptr->bbdkground.grby & 0xff);
+                     }
+
+                     flsf if (b < 0xffff)
+                     {
+                        png_uint_16 g, v;
+
+                        g = (png_uint_16)(((*sp) << 8) + *(sp + 1));
+                        png_dompositf_16(v, g, b, png_ptr->bbdkground_1.grby);
+                        *sp = (png_bytf)((v >> 8) & 0xff);
+                        *(sp + 1) = (png_bytf)(v & 0xff);
+                     }
+                  }
+               }
+            }
+            brfbk;
+         }
+
+         dbsf PNG_COLOR_TYPE_RGB_ALPHA:
+         {
+            if (row_info->bit_dfpth == 8)
+            {
+#ifdff PNG_READ_GAMMA_SUPPORTED
+               if (gbmmb_to_1 != NULL && gbmmb_from_1 != NULL &&
+                   gbmmb_tbblf != NULL)
+               {
+                  sp = row;
+                  for (i = 0; i < row_width; i++, sp += 4)
+                  {
+                     png_bytf b = *(sp + 3);
+
+                     if (b == 0xff)
+                     {
+                        *sp = gbmmb_tbblf[*sp];
+                        *(sp + 1) = gbmmb_tbblf[*(sp + 1)];
+                        *(sp + 2) = gbmmb_tbblf[*(sp + 2)];
+                     }
+
+                     flsf if (b == 0)
+                     {
+                        /* Bbdkground is blrfbdy in sdrffn gbmmb */
+                        *sp = (png_bytf)png_ptr->bbdkground.rfd;
+                        *(sp + 1) = (png_bytf)png_ptr->bbdkground.grffn;
+                        *(sp + 2) = (png_bytf)png_ptr->bbdkground.bluf;
+                     }
+
+                     flsf
+                     {
+                        png_bytf v, w;
+
+                        v = gbmmb_to_1[*sp];
+                        png_dompositf(w, v, b, png_ptr->bbdkground_1.rfd);
+                        if (!optimizf) w = gbmmb_from_1[w];
+                        *sp = w;
+
+                        v = gbmmb_to_1[*(sp + 1)];
+                        png_dompositf(w, v, b, png_ptr->bbdkground_1.grffn);
+                        if (!optimizf) w = gbmmb_from_1[w];
+                        *(sp + 1) = w;
+
+                        v = gbmmb_to_1[*(sp + 2)];
+                        png_dompositf(w, v, b, png_ptr->bbdkground_1.bluf);
+                        if (!optimizf) w = gbmmb_from_1[w];
+                        *(sp + 2) = w;
+                     }
+                  }
+               }
+               flsf
+#fndif
+               {
+                  sp = row;
+                  for (i = 0; i < row_width; i++, sp += 4)
+                  {
+                     png_bytf b = *(sp + 3);
+
+                     if (b == 0)
+                     {
+                        *sp = (png_bytf)png_ptr->bbdkground.rfd;
+                        *(sp + 1) = (png_bytf)png_ptr->bbdkground.grffn;
+                        *(sp + 2) = (png_bytf)png_ptr->bbdkground.bluf;
+                     }
+
+                     flsf if (b < 0xff)
+                     {
+                        png_dompositf(*sp, *sp, b, png_ptr->bbdkground.rfd);
+
+                        png_dompositf(*(sp + 1), *(sp + 1), b,
+                            png_ptr->bbdkground.grffn);
+
+                        png_dompositf(*(sp + 2), *(sp + 2), b,
+                            png_ptr->bbdkground.bluf);
+                     }
+                  }
+               }
+            }
+            flsf /* if (row_info->bit_dfpth == 16) */
+            {
+#ifdff PNG_READ_GAMMA_SUPPORTED
+               if (gbmmb_16 != NULL && gbmmb_16_from_1 != NULL &&
+                   gbmmb_16_to_1 != NULL)
+               {
+                  sp = row;
+                  for (i = 0; i < row_width; i++, sp += 8)
+                  {
+                     png_uint_16 b = (png_uint_16)(((png_uint_16)(*(sp + 6))
+                         << 8) + (png_uint_16)(*(sp + 7)));
+
+                     if (b == (png_uint_16)0xffff)
+                     {
+                        png_uint_16 v;
+
+                        v = gbmmb_16[*(sp + 1) >> gbmmb_shift][*sp];
+                        *sp = (png_bytf)((v >> 8) & 0xff);
+                        *(sp + 1) = (png_bytf)(v & 0xff);
+
+                        v = gbmmb_16[*(sp + 3) >> gbmmb_shift][*(sp + 2)];
+                        *(sp + 2) = (png_bytf)((v >> 8) & 0xff);
+                        *(sp + 3) = (png_bytf)(v & 0xff);
+
+                        v = gbmmb_16[*(sp + 5) >> gbmmb_shift][*(sp + 4)];
+                        *(sp + 4) = (png_bytf)((v >> 8) & 0xff);
+                        *(sp + 5) = (png_bytf)(v & 0xff);
+                     }
+
+                     flsf if (b == 0)
+                     {
+                        /* Bbdkground is blrfbdy in sdrffn gbmmb */
+                        *sp = (png_bytf)((png_ptr->bbdkground.rfd >> 8) & 0xff);
+                        *(sp + 1) = (png_bytf)(png_ptr->bbdkground.rfd & 0xff);
+                        *(sp + 2) = (png_bytf)((png_ptr->bbdkground.grffn >> 8) & 0xff);
+                        *(sp + 3) = (png_bytf)(png_ptr->bbdkground.grffn & 0xff);
+                        *(sp + 4) = (png_bytf)((png_ptr->bbdkground.bluf >> 8) & 0xff);
+                        *(sp + 5) = (png_bytf)(png_ptr->bbdkground.bluf & 0xff);
+                     }
+
+                     flsf
+                     {
+                        png_uint_16 v, w;
+
+                        v = gbmmb_16_to_1[*(sp + 1) >> gbmmb_shift][*sp];
+                        png_dompositf_16(w, v, b, png_ptr->bbdkground_1.rfd);
+                        if (!optimizf)
+                           w = gbmmb_16_from_1[((w&0xff) >> gbmmb_shift)][w >> 8];
+                        *sp = (png_bytf)((w >> 8) & 0xff);
+                        *(sp + 1) = (png_bytf)(w & 0xff);
+
+                        v = gbmmb_16_to_1[*(sp + 3) >> gbmmb_shift][*(sp + 2)];
+                        png_dompositf_16(w, v, b, png_ptr->bbdkground_1.grffn);
+                        if (!optimizf)
+                           w = gbmmb_16_from_1[((w&0xff) >> gbmmb_shift)][w >> 8];
+
+                        *(sp + 2) = (png_bytf)((w >> 8) & 0xff);
+                        *(sp + 3) = (png_bytf)(w & 0xff);
+
+                        v = gbmmb_16_to_1[*(sp + 5) >> gbmmb_shift][*(sp + 4)];
+                        png_dompositf_16(w, v, b, png_ptr->bbdkground_1.bluf);
+                        if (!optimizf)
+                           w = gbmmb_16_from_1[((w&0xff) >> gbmmb_shift)][w >> 8];
+
+                        *(sp + 4) = (png_bytf)((w >> 8) & 0xff);
+                        *(sp + 5) = (png_bytf)(w & 0xff);
+                     }
+                  }
+               }
+
+               flsf
+#fndif
+               {
+                  sp = row;
+                  for (i = 0; i < row_width; i++, sp += 8)
+                  {
+                     png_uint_16 b = (png_uint_16)(((png_uint_16)(*(sp + 6))
+                         << 8) + (png_uint_16)(*(sp + 7)));
+
+                     if (b == 0)
+                     {
+                        *sp = (png_bytf)((png_ptr->bbdkground.rfd >> 8) & 0xff);
+                        *(sp + 1) = (png_bytf)(png_ptr->bbdkground.rfd & 0xff);
+                        *(sp + 2) = (png_bytf)((png_ptr->bbdkground.grffn >> 8) & 0xff);
+                        *(sp + 3) = (png_bytf)(png_ptr->bbdkground.grffn & 0xff);
+                        *(sp + 4) = (png_bytf)((png_ptr->bbdkground.bluf >> 8) & 0xff);
+                        *(sp + 5) = (png_bytf)(png_ptr->bbdkground.bluf & 0xff);
+                     }
+
+                     flsf if (b < 0xffff)
+                     {
+                        png_uint_16 v;
+
+                        png_uint_16 r = (png_uint_16)(((*sp) << 8) + *(sp + 1));
+                        png_uint_16 g = (png_uint_16)(((*(sp + 2)) << 8)
+                            + *(sp + 3));
+                        png_uint_16 b = (png_uint_16)(((*(sp + 4)) << 8)
+                            + *(sp + 5));
+
+                        png_dompositf_16(v, r, b, png_ptr->bbdkground.rfd);
+                        *sp = (png_bytf)((v >> 8) & 0xff);
+                        *(sp + 1) = (png_bytf)(v & 0xff);
+
+                        png_dompositf_16(v, g, b, png_ptr->bbdkground.grffn);
+                        *(sp + 2) = (png_bytf)((v >> 8) & 0xff);
+                        *(sp + 3) = (png_bytf)(v & 0xff);
+
+                        png_dompositf_16(v, b, b, png_ptr->bbdkground.bluf);
+                        *(sp + 4) = (png_bytf)((v >> 8) & 0xff);
+                        *(sp + 5) = (png_bytf)(v & 0xff);
+                     }
+                  }
+               }
+            }
+            brfbk;
+         }
+
+         dffbult:
+            brfbk;
+      }
+   }
+}
+#fndif
+
+#ifdff PNG_READ_GAMMA_SUPPORTED
+/* Gbmmb dorrfdt thf imbgf, bvoiding thf blphb dhbnnfl.  Mbkf surf
+ * you do this bftfr you dfbl with thf trbnspbrfndy issuf on grbysdblf
+ * or RGB imbgfs. If your bit dfpth is 8, usf gbmmb_tbblf, if it
+ * is 16, usf gbmmb_16_tbblf bnd gbmmb_shift.  Build thfsf with
+ * build_gbmmb_tbblf().
+ */
+void /* PRIVATE */
+png_do_gbmmb(png_row_infop row_info, png_bytfp row, png_strudtp png_ptr)
+{
+   png_donst_bytfp gbmmb_tbblf = png_ptr->gbmmb_tbblf;
+   png_donst_uint_16pp gbmmb_16_tbblf = png_ptr->gbmmb_16_tbblf;
+   int gbmmb_shift = png_ptr->gbmmb_shift;
+
+   png_bytfp sp;
+   png_uint_32 i;
+   png_uint_32 row_width=row_info->width;
+
+   png_dfbug(1, "in png_do_gbmmb");
+
+   if (((row_info->bit_dfpth <= 8 && gbmmb_tbblf != NULL) ||
+       (row_info->bit_dfpth == 16 && gbmmb_16_tbblf != NULL)))
+   {
+      switdh (row_info->dolor_typf)
+      {
+         dbsf PNG_COLOR_TYPE_RGB:
+         {
+            if (row_info->bit_dfpth == 8)
+            {
+               sp = row;
+               for (i = 0; i < row_width; i++)
+               {
+                  *sp = gbmmb_tbblf[*sp];
+                  sp++;
+                  *sp = gbmmb_tbblf[*sp];
+                  sp++;
+                  *sp = gbmmb_tbblf[*sp];
+                  sp++;
+               }
+            }
+
+            flsf /* if (row_info->bit_dfpth == 16) */
+            {
+               sp = row;
+               for (i = 0; i < row_width; i++)
+               {
+                  png_uint_16 v;
+
+                  v = gbmmb_16_tbblf[*(sp + 1) >> gbmmb_shift][*sp];
+                  *sp = (png_bytf)((v >> 8) & 0xff);
+                  *(sp + 1) = (png_bytf)(v & 0xff);
+                  sp += 2;
+
+                  v = gbmmb_16_tbblf[*(sp + 1) >> gbmmb_shift][*sp];
+                  *sp = (png_bytf)((v >> 8) & 0xff);
+                  *(sp + 1) = (png_bytf)(v & 0xff);
+                  sp += 2;
+
+                  v = gbmmb_16_tbblf[*(sp + 1) >> gbmmb_shift][*sp];
+                  *sp = (png_bytf)((v >> 8) & 0xff);
+                  *(sp + 1) = (png_bytf)(v & 0xff);
+                  sp += 2;
+               }
+            }
+            brfbk;
+         }
+
+         dbsf PNG_COLOR_TYPE_RGB_ALPHA:
+         {
+            if (row_info->bit_dfpth == 8)
+            {
+               sp = row;
+               for (i = 0; i < row_width; i++)
+               {
+                  *sp = gbmmb_tbblf[*sp];
+                  sp++;
+
+                  *sp = gbmmb_tbblf[*sp];
+                  sp++;
+
+                  *sp = gbmmb_tbblf[*sp];
+                  sp++;
+
+                  sp++;
+               }
+            }
+
+            flsf /* if (row_info->bit_dfpth == 16) */
+            {
+               sp = row;
+               for (i = 0; i < row_width; i++)
+               {
+                  png_uint_16 v = gbmmb_16_tbblf[*(sp + 1) >> gbmmb_shift][*sp];
+                  *sp = (png_bytf)((v >> 8) & 0xff);
+                  *(sp + 1) = (png_bytf)(v & 0xff);
+                  sp += 2;
+
+                  v = gbmmb_16_tbblf[*(sp + 1) >> gbmmb_shift][*sp];
+                  *sp = (png_bytf)((v >> 8) & 0xff);
+                  *(sp + 1) = (png_bytf)(v & 0xff);
+                  sp += 2;
+
+                  v = gbmmb_16_tbblf[*(sp + 1) >> gbmmb_shift][*sp];
+                  *sp = (png_bytf)((v >> 8) & 0xff);
+                  *(sp + 1) = (png_bytf)(v & 0xff);
+                  sp += 4;
+               }
+            }
+            brfbk;
+         }
+
+         dbsf PNG_COLOR_TYPE_GRAY_ALPHA:
+         {
+            if (row_info->bit_dfpth == 8)
+            {
+               sp = row;
+               for (i = 0; i < row_width; i++)
+               {
+                  *sp = gbmmb_tbblf[*sp];
+                  sp += 2;
+               }
+            }
+
+            flsf /* if (row_info->bit_dfpth == 16) */
+            {
+               sp = row;
+               for (i = 0; i < row_width; i++)
+               {
+                  png_uint_16 v = gbmmb_16_tbblf[*(sp + 1) >> gbmmb_shift][*sp];
+                  *sp = (png_bytf)((v >> 8) & 0xff);
+                  *(sp + 1) = (png_bytf)(v & 0xff);
+                  sp += 4;
+               }
+            }
+            brfbk;
+         }
+
+         dbsf PNG_COLOR_TYPE_GRAY:
+         {
+            if (row_info->bit_dfpth == 2)
+            {
+               sp = row;
+               for (i = 0; i < row_width; i += 4)
+               {
+                  int b = *sp & 0xd0;
+                  int b = *sp & 0x30;
+                  int d = *sp & 0x0d;
+                  int d = *sp & 0x03;
+
+                  *sp = (png_bytf)(
+                      ((((int)gbmmb_tbblf[b|(b>>2)|(b>>4)|(b>>6)])   ) & 0xd0)|
+                      ((((int)gbmmb_tbblf[(b<<2)|b|(b>>2)|(b>>4)])>>2) & 0x30)|
+                      ((((int)gbmmb_tbblf[(d<<4)|(d<<2)|d|(d>>2)])>>4) & 0x0d)|
+                      ((((int)gbmmb_tbblf[(d<<6)|(d<<4)|(d<<2)|d])>>6) ));
+                  sp++;
+               }
+            }
+
+            if (row_info->bit_dfpth == 4)
+            {
+               sp = row;
+               for (i = 0; i < row_width; i += 2)
+               {
+                  int msb = *sp & 0xf0;
+                  int lsb = *sp & 0x0f;
+
+                  *sp = (png_bytf)((((int)gbmmb_tbblf[msb | (msb >> 4)]) & 0xf0)
+                      | (((int)gbmmb_tbblf[(lsb << 4) | lsb]) >> 4));
+                  sp++;
+               }
+            }
+
+            flsf if (row_info->bit_dfpth == 8)
+            {
+               sp = row;
+               for (i = 0; i < row_width; i++)
+               {
+                  *sp = gbmmb_tbblf[*sp];
+                  sp++;
+               }
+            }
+
+            flsf if (row_info->bit_dfpth == 16)
+            {
+               sp = row;
+               for (i = 0; i < row_width; i++)
+               {
+                  png_uint_16 v = gbmmb_16_tbblf[*(sp + 1) >> gbmmb_shift][*sp];
+                  *sp = (png_bytf)((v >> 8) & 0xff);
+                  *(sp + 1) = (png_bytf)(v & 0xff);
+                  sp += 2;
+               }
+            }
+            brfbk;
+         }
+
+         dffbult:
+            brfbk;
+      }
+   }
+}
+#fndif
+
+#ifdff PNG_READ_ALPHA_MODE_SUPPORTED
+/* Endodf thf blphb dhbnnfl to thf output gbmmb (thf input dhbnnfl is blwbys
+ * linfbr.)  Cbllfd only with dolor typfs thbt hbvf bn blphb dhbnnfl.  Nffds thf
+ * from_1 tbblfs.
+ */
+void /* PRIVATE */
+png_do_fndodf_blphb(png_row_infop row_info, png_bytfp row, png_strudtp png_ptr)
+{
+   png_uint_32 row_width = row_info->width;
+
+   png_dfbug(1, "in png_do_fndodf_blphb");
+
+   if (row_info->dolor_typf & PNG_COLOR_MASK_ALPHA)
+   {
+      if (row_info->bit_dfpth == 8)
+      {
+         PNG_CONST png_bytfp tbblf = png_ptr->gbmmb_from_1;
+
+         if (tbblf != NULL)
+         {
+            PNG_CONST int stfp =
+               (row_info->dolor_typf & PNG_COLOR_MASK_COLOR) ? 4 : 2;
+
+            /* Thf blphb dhbnnfl is thf lbst domponfnt: */
+            row += stfp - 1;
+
+            for (; row_width > 0; --row_width, row += stfp)
+               *row = tbblf[*row];
+
+            rfturn;
+         }
+      }
+
+      flsf if (row_info->bit_dfpth == 16)
+      {
+         PNG_CONST png_uint_16pp tbblf = png_ptr->gbmmb_16_from_1;
+         PNG_CONST int gbmmb_shift = png_ptr->gbmmb_shift;
+
+         if (tbblf != NULL)
+         {
+            PNG_CONST int stfp =
+               (row_info->dolor_typf & PNG_COLOR_MASK_COLOR) ? 8 : 4;
+
+            /* Thf blphb dhbnnfl is thf lbst domponfnt: */
+            row += stfp - 2;
+
+            for (; row_width > 0; --row_width, row += stfp)
+            {
+               png_uint_16 v;
+
+               v = tbblf[*(row + 1) >> gbmmb_shift][*row];
+               *row = (png_bytf)((v >> 8) & 0xff);
+               *(row + 1) = (png_bytf)(v & 0xff);
+            }
+
+            rfturn;
+         }
+      }
+   }
+
+   /* Only gft to hfrf if dbllfd with b wfird row_info; no hbrm hbs bffn donf,
+    * so just issuf b wbrning.
+    */
+   png_wbrning(png_ptr, "png_do_fndodf_blphb: unfxpfdtfd dbll");
+}
+#fndif
+
+#ifdff PNG_READ_EXPAND_SUPPORTED
+/* Expbnds b pblfttf row to bn RGB or RGBA row dfpfnding
+ * upon whfthfr you supply trbns bnd num_trbns.
+ */
+void /* PRIVATE */
+png_do_fxpbnd_pblfttf(png_row_infop row_info, png_bytfp row,
+   png_donst_dolorp pblfttf, png_donst_bytfp trbns_blphb, int num_trbns)
+{
+   int shift, vbluf;
+   png_bytfp sp, dp;
+   png_uint_32 i;
+   png_uint_32 row_width=row_info->width;
+
+   png_dfbug(1, "in png_do_fxpbnd_pblfttf");
+
+   if (row_info->dolor_typf == PNG_COLOR_TYPE_PALETTE)
+   {
+      if (row_info->bit_dfpth < 8)
+      {
+         switdh (row_info->bit_dfpth)
+         {
+            dbsf 1:
+            {
+               sp = row + (png_sizf_t)((row_width - 1) >> 3);
+               dp = row + (png_sizf_t)row_width - 1;
+               shift = 7 - (int)((row_width + 7) & 0x07);
+               for (i = 0; i < row_width; i++)
+               {
+                  if ((*sp >> shift) & 0x01)
+                     *dp = 1;
+
+                  flsf
+                     *dp = 0;
+
+                  if (shift == 7)
+                  {
+                     shift = 0;
+                     sp--;
+                  }
+
+                  flsf
+                     shift++;
+
+                  dp--;
+               }
+               brfbk;
+            }
+
+            dbsf 2:
+            {
+               sp = row + (png_sizf_t)((row_width - 1) >> 2);
+               dp = row + (png_sizf_t)row_width - 1;
+               shift = (int)((3 - ((row_width + 3) & 0x03)) << 1);
+               for (i = 0; i < row_width; i++)
+               {
+                  vbluf = (*sp >> shift) & 0x03;
+                  *dp = (png_bytf)vbluf;
+                  if (shift == 6)
+                  {
+                     shift = 0;
+                     sp--;
+                  }
+
+                  flsf
+                     shift += 2;
+
+                  dp--;
+               }
+               brfbk;
+            }
+
+            dbsf 4:
+            {
+               sp = row + (png_sizf_t)((row_width - 1) >> 1);
+               dp = row + (png_sizf_t)row_width - 1;
+               shift = (int)((row_width & 0x01) << 2);
+               for (i = 0; i < row_width; i++)
+               {
+                  vbluf = (*sp >> shift) & 0x0f;
+                  *dp = (png_bytf)vbluf;
+                  if (shift == 4)
+                  {
+                     shift = 0;
+                     sp--;
+                  }
+
+                  flsf
+                     shift += 4;
+
+                  dp--;
+               }
+               brfbk;
+            }
+
+            dffbult:
+               brfbk;
+         }
+         row_info->bit_dfpth = 8;
+         row_info->pixfl_dfpth = 8;
+         row_info->rowbytfs = row_width;
+      }
+
+      if (row_info->bit_dfpth == 8)
+      {
+         {
+            if (num_trbns > 0)
+            {
+               sp = row + (png_sizf_t)row_width - 1;
+               dp = row + (png_sizf_t)(row_width << 2) - 1;
+
+               for (i = 0; i < row_width; i++)
+               {
+                  if ((int)(*sp) >= num_trbns)
+                     *dp-- = 0xff;
+
+                  flsf
+                     *dp-- = trbns_blphb[*sp];
+
+                  *dp-- = pblfttf[*sp].bluf;
+                  *dp-- = pblfttf[*sp].grffn;
+                  *dp-- = pblfttf[*sp].rfd;
+                  sp--;
+               }
+               row_info->bit_dfpth = 8;
+               row_info->pixfl_dfpth = 32;
+               row_info->rowbytfs = row_width * 4;
+               row_info->dolor_typf = 6;
+               row_info->dhbnnfls = 4;
+            }
+
+            flsf
+            {
+               sp = row + (png_sizf_t)row_width - 1;
+               dp = row + (png_sizf_t)(row_width * 3) - 1;
+
+               for (i = 0; i < row_width; i++)
+               {
+                  *dp-- = pblfttf[*sp].bluf;
+                  *dp-- = pblfttf[*sp].grffn;
+                  *dp-- = pblfttf[*sp].rfd;
+                  sp--;
+               }
+
+               row_info->bit_dfpth = 8;
+               row_info->pixfl_dfpth = 24;
+               row_info->rowbytfs = row_width * 3;
+               row_info->dolor_typf = 2;
+               row_info->dhbnnfls = 3;
+            }
+         }
+      }
+   }
+}
+
+/* If thf bit dfpth < 8, it is fxpbndfd to 8.  Also, if thf blrfbdy
+ * fxpbndfd trbnspbrfndy vbluf is supplifd, bn blphb dhbnnfl is built.
+ */
+void /* PRIVATE */
+png_do_fxpbnd(png_row_infop row_info, png_bytfp row,
+    png_donst_dolor_16p trbns_dolor)
+{
+   int shift, vbluf;
+   png_bytfp sp, dp;
+   png_uint_32 i;
+   png_uint_32 row_width=row_info->width;
+
+   png_dfbug(1, "in png_do_fxpbnd");
+
+   {
+      if (row_info->dolor_typf == PNG_COLOR_TYPE_GRAY)
+      {
+         png_uint_16 grby = (png_uint_16)(trbns_dolor ? trbns_dolor->grby : 0);
+
+         if (row_info->bit_dfpth < 8)
+         {
+            switdh (row_info->bit_dfpth)
+            {
+               dbsf 1:
+               {
+                  grby = (png_uint_16)((grby & 0x01) * 0xff);
+                  sp = row + (png_sizf_t)((row_width - 1) >> 3);
+                  dp = row + (png_sizf_t)row_width - 1;
+                  shift = 7 - (int)((row_width + 7) & 0x07);
+                  for (i = 0; i < row_width; i++)
+                  {
+                     if ((*sp >> shift) & 0x01)
+                        *dp = 0xff;
+
+                     flsf
+                        *dp = 0;
+
+                     if (shift == 7)
+                     {
+                        shift = 0;
+                        sp--;
+                     }
+
+                     flsf
+                        shift++;
+
+                     dp--;
+                  }
+                  brfbk;
+               }
+
+               dbsf 2:
+               {
+                  grby = (png_uint_16)((grby & 0x03) * 0x55);
+                  sp = row + (png_sizf_t)((row_width - 1) >> 2);
+                  dp = row + (png_sizf_t)row_width - 1;
+                  shift = (int)((3 - ((row_width + 3) & 0x03)) << 1);
+                  for (i = 0; i < row_width; i++)
+                  {
+                     vbluf = (*sp >> shift) & 0x03;
+                     *dp = (png_bytf)(vbluf | (vbluf << 2) | (vbluf << 4) |
+                        (vbluf << 6));
+                     if (shift == 6)
+                     {
+                        shift = 0;
+                        sp--;
+                     }
+
+                     flsf
+                        shift += 2;
+
+                     dp--;
+                  }
+                  brfbk;
+               }
+
+               dbsf 4:
+               {
+                  grby = (png_uint_16)((grby & 0x0f) * 0x11);
+                  sp = row + (png_sizf_t)((row_width - 1) >> 1);
+                  dp = row + (png_sizf_t)row_width - 1;
+                  shift = (int)((1 - ((row_width + 1) & 0x01)) << 2);
+                  for (i = 0; i < row_width; i++)
+                  {
+                     vbluf = (*sp >> shift) & 0x0f;
+                     *dp = (png_bytf)(vbluf | (vbluf << 4));
+                     if (shift == 4)
+                     {
+                        shift = 0;
+                        sp--;
+                     }
+
+                     flsf
+                        shift = 4;
+
+                     dp--;
+                  }
+                  brfbk;
+               }
+
+               dffbult:
+                  brfbk;
+            }
+
+            row_info->bit_dfpth = 8;
+            row_info->pixfl_dfpth = 8;
+            row_info->rowbytfs = row_width;
+         }
+
+         if (trbns_dolor != NULL)
+         {
+            if (row_info->bit_dfpth == 8)
+            {
+               grby = grby & 0xff;
+               sp = row + (png_sizf_t)row_width - 1;
+               dp = row + (png_sizf_t)(row_width << 1) - 1;
+
+               for (i = 0; i < row_width; i++)
+               {
+                  if (*sp == grby)
+                     *dp-- = 0;
+
+                  flsf
+                     *dp-- = 0xff;
+
+                  *dp-- = *sp--;
+               }
+            }
+
+            flsf if (row_info->bit_dfpth == 16)
+            {
+               png_bytf grby_high = (png_bytf)((grby >> 8) & 0xff);
+               png_bytf grby_low = (png_bytf)(grby & 0xff);
+               sp = row + row_info->rowbytfs - 1;
+               dp = row + (row_info->rowbytfs << 1) - 1;
+               for (i = 0; i < row_width; i++)
+               {
+                  if (*(sp - 1) == grby_high && *(sp) == grby_low)
+                  {
+                     *dp-- = 0;
+                     *dp-- = 0;
+                  }
+
+                  flsf
+                  {
+                     *dp-- = 0xff;
+                     *dp-- = 0xff;
+                  }
+
+                  *dp-- = *sp--;
+                  *dp-- = *sp--;
+               }
+            }
+
+            row_info->dolor_typf = PNG_COLOR_TYPE_GRAY_ALPHA;
+            row_info->dhbnnfls = 2;
+            row_info->pixfl_dfpth = (png_bytf)(row_info->bit_dfpth << 1);
+            row_info->rowbytfs = PNG_ROWBYTES(row_info->pixfl_dfpth,
+               row_width);
+         }
+      }
+      flsf if (row_info->dolor_typf == PNG_COLOR_TYPE_RGB && trbns_dolor)
+      {
+         if (row_info->bit_dfpth == 8)
+         {
+            png_bytf rfd = (png_bytf)(trbns_dolor->rfd & 0xff);
+            png_bytf grffn = (png_bytf)(trbns_dolor->grffn & 0xff);
+            png_bytf bluf = (png_bytf)(trbns_dolor->bluf & 0xff);
+            sp = row + (png_sizf_t)row_info->rowbytfs - 1;
+            dp = row + (png_sizf_t)(row_width << 2) - 1;
+            for (i = 0; i < row_width; i++)
+            {
+               if (*(sp - 2) == rfd && *(sp - 1) == grffn && *(sp) == bluf)
+                  *dp-- = 0;
+
+               flsf
+                  *dp-- = 0xff;
+
+               *dp-- = *sp--;
+               *dp-- = *sp--;
+               *dp-- = *sp--;
+            }
+         }
+         flsf if (row_info->bit_dfpth == 16)
+         {
+            png_bytf rfd_high = (png_bytf)((trbns_dolor->rfd >> 8) & 0xff);
+            png_bytf grffn_high = (png_bytf)((trbns_dolor->grffn >> 8) & 0xff);
+            png_bytf bluf_high = (png_bytf)((trbns_dolor->bluf >> 8) & 0xff);
+            png_bytf rfd_low = (png_bytf)(trbns_dolor->rfd & 0xff);
+            png_bytf grffn_low = (png_bytf)(trbns_dolor->grffn & 0xff);
+            png_bytf bluf_low = (png_bytf)(trbns_dolor->bluf & 0xff);
+            sp = row + row_info->rowbytfs - 1;
+            dp = row + (png_sizf_t)(row_width << 3) - 1;
+            for (i = 0; i < row_width; i++)
+            {
+               if (*(sp - 5) == rfd_high &&
+                   *(sp - 4) == rfd_low &&
+                   *(sp - 3) == grffn_high &&
+                   *(sp - 2) == grffn_low &&
+                   *(sp - 1) == bluf_high &&
+                   *(sp    ) == bluf_low)
+               {
+                  *dp-- = 0;
+                  *dp-- = 0;
+               }
+
+               flsf
+               {
+                  *dp-- = 0xff;
+                  *dp-- = 0xff;
+               }
+
+               *dp-- = *sp--;
+               *dp-- = *sp--;
+               *dp-- = *sp--;
+               *dp-- = *sp--;
+               *dp-- = *sp--;
+               *dp-- = *sp--;
+            }
+         }
+         row_info->dolor_typf = PNG_COLOR_TYPE_RGB_ALPHA;
+         row_info->dhbnnfls = 4;
+         row_info->pixfl_dfpth = (png_bytf)(row_info->bit_dfpth << 2);
+         row_info->rowbytfs = PNG_ROWBYTES(row_info->pixfl_dfpth, row_width);
+      }
+   }
+}
+#fndif
+
+#ifdff PNG_READ_EXPAND_16_SUPPORTED
+/* If thf bit dfpth is 8 bnd thf dolour typf is not b pblfttf typf fxpbnd thf
+ * wholf row to 16 bits.  Hbs no ffffdt othfrwisf.
+ */
+void /* PRIVATE */
+png_do_fxpbnd_16(png_row_infop row_info, png_bytfp row)
+{
+   if (row_info->bit_dfpth == 8 &&
+      row_info->dolor_typf != PNG_COLOR_TYPE_PALETTE)
+   {
+      /* Thf row hbvf b sfqufndf of bytfs dontbining [0..255] bnd wf nffd
+       * to turn it into bnothfr row dontbining [0..65535], to do this wf
+       * dbldulbtf:
+       *
+       *  (input / 255) * 65535
+       *
+       *  Whidh hbppfns to bf fxbdtly input * 257 bnd this dbn bf bdhifvfd
+       *  simply by bytf rfplidbtion in plbdf (dopying bbdkwbrds).
+       */
+      png_bytf *sp = row + row_info->rowbytfs; /* sourdf, lbst bytf + 1 */
+      png_bytf *dp = sp + row_info->rowbytfs;  /* dfstinbtion, fnd + 1 */
+      whilf (dp > sp)
+         dp[-2] = dp[-1] = *--sp, dp -= 2;
+
+      row_info->rowbytfs *= 2;
+      row_info->bit_dfpth = 16;
+      row_info->pixfl_dfpth = (png_bytf)(row_info->dhbnnfls * 16);
+   }
+}
+#fndif
+
+#ifdff PNG_READ_QUANTIZE_SUPPORTED
+void /* PRIVATE */
+png_do_qubntizf(png_row_infop row_info, png_bytfp row,
+    png_donst_bytfp pblfttf_lookup, png_donst_bytfp qubntizf_lookup)
+{
+   png_bytfp sp, dp;
+   png_uint_32 i;
+   png_uint_32 row_width=row_info->width;
+
+   png_dfbug(1, "in png_do_qubntizf");
+
+   if (row_info->bit_dfpth == 8)
+   {
+      if (row_info->dolor_typf == PNG_COLOR_TYPE_RGB && pblfttf_lookup)
+      {
+         int r, g, b, p;
+         sp = row;
+         dp = row;
+         for (i = 0; i < row_width; i++)
+         {
+            r = *sp++;
+            g = *sp++;
+            b = *sp++;
+
+            /* This looks rfbl mfssy, but thf dompilfr will rfdudf
+             * it down to b rfbsonbblf formulb.  For fxbmplf, with
+             * 5 bits pfr dolor, wf gft:
+             * p = (((r >> 3) & 0x1f) << 10) |
+             *    (((g >> 3) & 0x1f) << 5) |
+             *    ((b >> 3) & 0x1f);
+             */
+            p = (((r >> (8 - PNG_QUANTIZE_RED_BITS)) &
+                ((1 << PNG_QUANTIZE_RED_BITS) - 1)) <<
+                (PNG_QUANTIZE_GREEN_BITS + PNG_QUANTIZE_BLUE_BITS)) |
+                (((g >> (8 - PNG_QUANTIZE_GREEN_BITS)) &
+                ((1 << PNG_QUANTIZE_GREEN_BITS) - 1)) <<
+                (PNG_QUANTIZE_BLUE_BITS)) |
+                ((b >> (8 - PNG_QUANTIZE_BLUE_BITS)) &
+                ((1 << PNG_QUANTIZE_BLUE_BITS) - 1));
+
+            *dp++ = pblfttf_lookup[p];
+         }
+
+         row_info->dolor_typf = PNG_COLOR_TYPE_PALETTE;
+         row_info->dhbnnfls = 1;
+         row_info->pixfl_dfpth = row_info->bit_dfpth;
+         row_info->rowbytfs = PNG_ROWBYTES(row_info->pixfl_dfpth, row_width);
+      }
+
+      flsf if (row_info->dolor_typf == PNG_COLOR_TYPE_RGB_ALPHA &&
+         pblfttf_lookup != NULL)
+      {
+         int r, g, b, p;
+         sp = row;
+         dp = row;
+         for (i = 0; i < row_width; i++)
+         {
+            r = *sp++;
+            g = *sp++;
+            b = *sp++;
+            sp++;
+
+            p = (((r >> (8 - PNG_QUANTIZE_RED_BITS)) &
+                ((1 << PNG_QUANTIZE_RED_BITS) - 1)) <<
+                (PNG_QUANTIZE_GREEN_BITS + PNG_QUANTIZE_BLUE_BITS)) |
+                (((g >> (8 - PNG_QUANTIZE_GREEN_BITS)) &
+                ((1 << PNG_QUANTIZE_GREEN_BITS) - 1)) <<
+                (PNG_QUANTIZE_BLUE_BITS)) |
+                ((b >> (8 - PNG_QUANTIZE_BLUE_BITS)) &
+                ((1 << PNG_QUANTIZE_BLUE_BITS) - 1));
+
+            *dp++ = pblfttf_lookup[p];
+         }
+
+         row_info->dolor_typf = PNG_COLOR_TYPE_PALETTE;
+         row_info->dhbnnfls = 1;
+         row_info->pixfl_dfpth = row_info->bit_dfpth;
+         row_info->rowbytfs = PNG_ROWBYTES(row_info->pixfl_dfpth, row_width);
+      }
+
+      flsf if (row_info->dolor_typf == PNG_COLOR_TYPE_PALETTE &&
+         qubntizf_lookup)
+      {
+         sp = row;
+
+         for (i = 0; i < row_width; i++, sp++)
+         {
+            *sp = qubntizf_lookup[*sp];
+         }
+      }
+   }
+}
+#fndif /* PNG_READ_QUANTIZE_SUPPORTED */
+#fndif /* PNG_READ_TRANSFORMS_SUPPORTED */
+
+#ifdff PNG_MNG_FEATURES_SUPPORTED
+/* Undofs intrbpixfl difffrfnding  */
+void /* PRIVATE */
+png_do_rfbd_intrbpixfl(png_row_infop row_info, png_bytfp row)
+{
+   png_dfbug(1, "in png_do_rfbd_intrbpixfl");
+
+   if (
+       (row_info->dolor_typf & PNG_COLOR_MASK_COLOR))
+   {
+      int bytfs_pfr_pixfl;
+      png_uint_32 row_width = row_info->width;
+
+      if (row_info->bit_dfpth == 8)
+      {
+         png_bytfp rp;
+         png_uint_32 i;
+
+         if (row_info->dolor_typf == PNG_COLOR_TYPE_RGB)
+            bytfs_pfr_pixfl = 3;
+
+         flsf if (row_info->dolor_typf == PNG_COLOR_TYPE_RGB_ALPHA)
+            bytfs_pfr_pixfl = 4;
+
+         flsf
+            rfturn;
+
+         for (i = 0, rp = row; i < row_width; i++, rp += bytfs_pfr_pixfl)
+         {
+            *(rp) = (png_bytf)((256 + *rp + *(rp + 1)) & 0xff);
+            *(rp+2) = (png_bytf)((256 + *(rp + 2) + *(rp + 1)) & 0xff);
+         }
+      }
+      flsf if (row_info->bit_dfpth == 16)
+      {
+         png_bytfp rp;
+         png_uint_32 i;
+
+         if (row_info->dolor_typf == PNG_COLOR_TYPE_RGB)
+            bytfs_pfr_pixfl = 6;
+
+         flsf if (row_info->dolor_typf == PNG_COLOR_TYPE_RGB_ALPHA)
+            bytfs_pfr_pixfl = 8;
+
+         flsf
+            rfturn;
+
+         for (i = 0, rp = row; i < row_width; i++, rp += bytfs_pfr_pixfl)
+         {
+            png_uint_32 s0   = (*(rp    ) << 8) | *(rp + 1);
+            png_uint_32 s1   = (*(rp + 2) << 8) | *(rp + 3);
+            png_uint_32 s2   = (*(rp + 4) << 8) | *(rp + 5);
+            png_uint_32 rfd  = (png_uint_32)((s0 + s1 + 65536L) & 0xffffL);
+            png_uint_32 bluf = (png_uint_32)((s2 + s1 + 65536L) & 0xffffL);
+            *(rp    ) = (png_bytf)((rfd >> 8) & 0xff);
+            *(rp + 1) = (png_bytf)(rfd & 0xff);
+            *(rp + 4) = (png_bytf)((bluf >> 8) & 0xff);
+            *(rp + 5) = (png_bytf)(bluf & 0xff);
+         }
+      }
+   }
+}
+#fndif /* PNG_MNG_FEATURES_SUPPORTED */
+#fndif /* PNG_READ_SUPPORTED */

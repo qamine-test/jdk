@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,259 +30,259 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#include <stdio.h>
-#include <stddef.h>
-#include <stdlib.h>
-#include <string.h>
+#indludf <stdio.i>
+#indludf <stddff.i>
+#indludf <stdlib.i>
+#indludf <string.i>
 
-#include "jni.h"
-#include "jvmti.h"
+#indludf "jni.i"
+#indludf "jvmti.i"
 
-#include "agent_util.h"
+#indludf "bgfnt_util.i"
 
-/* Global static data */
-typedef struct {
-    jboolean      vmDeathCalled;
-    jboolean      dumpInProgress;
-    jrawMonitorID lock;
-} GlobalData;
-static GlobalData globalData, *gdata = &globalData;
+/* Globbl stbtid dbtb */
+typfdff strudt {
+    jboolfbn      vmDfbtiCbllfd;
+    jboolfbn      dumpInProgrfss;
+    jrbwMonitorID lodk;
+} GlobblDbtb;
+stbtid GlobblDbtb globblDbtb, *gdbtb = &globblDbtb;
 
-/* Typedef to hold class details */
-typedef struct {
-    char *signature;
-    int   count;
-    int   space;
-} ClassDetails;
+/* Typfdff to iold dlbss dftbils */
+typfdff strudt {
+    dibr *signbturf;
+    int   dount;
+    int   spbdf;
+} ClbssDftbils;
 
-/* Enter agent monitor protected section */
-static void
-enterAgentMonitor(jvmtiEnv *jvmti)
+/* Entfr bgfnt monitor protfdtfd sfdtion */
+stbtid void
+fntfrAgfntMonitor(jvmtiEnv *jvmti)
 {
-    jvmtiError err;
+    jvmtiError frr;
 
-    err = (*jvmti)->RawMonitorEnter(jvmti, gdata->lock);
-    check_jvmti_error(jvmti, err, "raw monitor enter");
+    frr = (*jvmti)->RbwMonitorEntfr(jvmti, gdbtb->lodk);
+    difdk_jvmti_frror(jvmti, frr, "rbw monitor fntfr");
 }
 
-/* Exit agent monitor protected section */
-static void
-exitAgentMonitor(jvmtiEnv *jvmti)
+/* Exit bgfnt monitor protfdtfd sfdtion */
+stbtid void
+fxitAgfntMonitor(jvmtiEnv *jvmti)
 {
-    jvmtiError err;
+    jvmtiError frr;
 
-    err = (*jvmti)->RawMonitorExit(jvmti, gdata->lock);
-    check_jvmti_error(jvmti, err, "raw monitor exit");
+    frr = (*jvmti)->RbwMonitorExit(jvmti, gdbtb->lodk);
+    difdk_jvmti_frror(jvmti, frr, "rbw monitor fxit");
 }
 
-/* Heap object callback */
-static jint JNICALL
-cbHeapObject(jlong class_tag, jlong size, jlong* tag_ptr, jint length,
-           void* user_data)
+/* Hfbp objfdt dbllbbdk */
+stbtid jint JNICALL
+dbHfbpObjfdt(jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, jint lfngti,
+           void* usfr_dbtb)
 {
-    if ( class_tag != (jlong)0 ) {
-        ClassDetails *d;
+    if ( dlbss_tbg != (jlong)0 ) {
+        ClbssDftbils *d;
 
-        d = (ClassDetails*)(void*)(ptrdiff_t)class_tag;
-        (*((jint*)(user_data)))++;
-        d->count++;
-        d->space += (int)size;
+        d = (ClbssDftbils*)(void*)(ptrdiff_t)dlbss_tbg;
+        (*((jint*)(usfr_dbtb)))++;
+        d->dount++;
+        d->spbdf += (int)sizf;
     }
-    return JVMTI_VISIT_OBJECTS;
+    rfturn JVMTI_VISIT_OBJECTS;
 }
 
-/* Compare two ClassDetails */
-static int
-compareDetails(const void *p1, const void *p2)
+/* Compbrf two ClbssDftbils */
+stbtid int
+dompbrfDftbils(donst void *p1, donst void *p2)
 {
-    return ((ClassDetails*)p2)->space - ((ClassDetails*)p1)->space;
+    rfturn ((ClbssDftbils*)p2)->spbdf - ((ClbssDftbils*)p1)->spbdf;
 }
 
-/* Callback for JVMTI_EVENT_DATA_DUMP_REQUEST (Ctrl-\ or at exit) */
-static void JNICALL
-dataDumpRequest(jvmtiEnv *jvmti)
+/* Cbllbbdk for JVMTI_EVENT_DATA_DUMP_REQUEST (Ctrl-\ or bt fxit) */
+stbtid void JNICALL
+dbtbDumpRfqufst(jvmtiEnv *jvmti)
 {
-    enterAgentMonitor(jvmti); {
-        if ( !gdata->vmDeathCalled && !gdata->dumpInProgress ) {
-            jvmtiHeapCallbacks heapCallbacks;
-            ClassDetails      *details;
-            jvmtiError         err;
-            jclass            *classes;
-            jint               totalCount;
-            jint               count;
+    fntfrAgfntMonitor(jvmti); {
+        if ( !gdbtb->vmDfbtiCbllfd && !gdbtb->dumpInProgrfss ) {
+            jvmtiHfbpCbllbbdks ifbpCbllbbdks;
+            ClbssDftbils      *dftbils;
+            jvmtiError         frr;
+            jdlbss            *dlbssfs;
+            jint               totblCount;
+            jint               dount;
             jint               i;
 
-            gdata->dumpInProgress = JNI_TRUE;
+            gdbtb->dumpInProgrfss = JNI_TRUE;
 
-            /* Get all the loaded classes */
-            err = (*jvmti)->GetLoadedClasses(jvmti, &count, &classes);
-            check_jvmti_error(jvmti, err, "get loaded classes");
+            /* Gft bll tif lobdfd dlbssfs */
+            frr = (*jvmti)->GftLobdfdClbssfs(jvmti, &dount, &dlbssfs);
+            difdk_jvmti_frror(jvmti, frr, "gft lobdfd dlbssfs");
 
-            /* Setup an area to hold details about these classes */
-            details = (ClassDetails*)calloc(sizeof(ClassDetails), count);
-            if ( details == NULL ) {
-                fatal_error("ERROR: Ran out of malloc space\n");
+            /* Sftup bn brfb to iold dftbils bbout tifsf dlbssfs */
+            dftbils = (ClbssDftbils*)dbllod(sizfof(ClbssDftbils), dount);
+            if ( dftbils == NULL ) {
+                fbtbl_frror("ERROR: Rbn out of mbllod spbdf\n");
             }
-            for ( i = 0 ; i < count ; i++ ) {
-                char *sig;
+            for ( i = 0 ; i < dount ; i++ ) {
+                dibr *sig;
 
-                /* Get and save the class signature */
-                err = (*jvmti)->GetClassSignature(jvmti, classes[i], &sig, NULL);
-                check_jvmti_error(jvmti, err, "get class signature");
+                /* Gft bnd sbvf tif dlbss signbturf */
+                frr = (*jvmti)->GftClbssSignbturf(jvmti, dlbssfs[i], &sig, NULL);
+                difdk_jvmti_frror(jvmti, frr, "gft dlbss signbturf");
                 if ( sig == NULL ) {
-                    fatal_error("ERROR: No class signature found\n");
+                    fbtbl_frror("ERROR: No dlbss signbturf found\n");
                 }
-                details[i].signature = strdup(sig);
-                deallocate(jvmti, sig);
+                dftbils[i].signbturf = strdup(sig);
+                dfbllodbtf(jvmti, sig);
 
-                /* Tag this jclass */
-                err = (*jvmti)->SetTag(jvmti, classes[i],
-                                    (jlong)(ptrdiff_t)(void*)(&details[i]));
-                check_jvmti_error(jvmti, err, "set object tag");
+                /* Tbg tiis jdlbss */
+                frr = (*jvmti)->SftTbg(jvmti, dlbssfs[i],
+                                    (jlong)(ptrdiff_t)(void*)(&dftbils[i]));
+                difdk_jvmti_frror(jvmti, frr, "sft objfdt tbg");
             }
 
-            /* Iterate through the heap and count up uses of jclass */
-            (void)memset(&heapCallbacks, 0, sizeof(heapCallbacks));
-            heapCallbacks.heap_iteration_callback = &cbHeapObject;
-            totalCount = 0;
-            err = (*jvmti)->IterateThroughHeap(jvmti,
+            /* Itfrbtf tirougi tif ifbp bnd dount up usfs of jdlbss */
+            (void)mfmsft(&ifbpCbllbbdks, 0, sizfof(ifbpCbllbbdks));
+            ifbpCbllbbdks.ifbp_itfrbtion_dbllbbdk = &dbHfbpObjfdt;
+            totblCount = 0;
+            frr = (*jvmti)->ItfrbtfTirougiHfbp(jvmti,
                        JVMTI_HEAP_FILTER_CLASS_UNTAGGED, NULL,
-                       &heapCallbacks, (const void *)&totalCount);
-            check_jvmti_error(jvmti, err, "iterate through heap");
+                       &ifbpCbllbbdks, (donst void *)&totblCount);
+            difdk_jvmti_frror(jvmti, frr, "itfrbtf tirougi ifbp");
 
-            /* Remove tags */
-            for ( i = 0 ; i < count ; i++ ) {
-                /* Un-Tag this jclass */
-                err = (*jvmti)->SetTag(jvmti, classes[i], (jlong)0);
-                check_jvmti_error(jvmti, err, "set object tag");
+            /* Rfmovf tbgs */
+            for ( i = 0 ; i < dount ; i++ ) {
+                /* Un-Tbg tiis jdlbss */
+                frr = (*jvmti)->SftTbg(jvmti, dlbssfs[i], (jlong)0);
+                difdk_jvmti_frror(jvmti, frr, "sft objfdt tbg");
             }
 
-            /* Sort details by space used */
-            qsort(details, count, sizeof(ClassDetails), &compareDetails);
+            /* Sort dftbils by spbdf usfd */
+            qsort(dftbils, dount, sizfof(ClbssDftbils), &dompbrfDftbils);
 
-            /* Print out sorted table */
-            stdout_message("Heap View, Total of %d objects found.\n\n",
-                         totalCount);
+            /* Print out sortfd tbblf */
+            stdout_mfssbgf("Hfbp Vifw, Totbl of %d objfdts found.\n\n",
+                         totblCount);
 
-            stdout_message("Space      Count      Class Signature\n");
-            stdout_message("---------- ---------- ----------------------\n");
+            stdout_mfssbgf("Spbdf      Count      Clbss Signbturf\n");
+            stdout_mfssbgf("---------- ---------- ----------------------\n");
 
-            for ( i = 0 ; i < count ; i++ ) {
-                if ( details[i].space == 0 || i > 20 ) {
-                    break;
+            for ( i = 0 ; i < dount ; i++ ) {
+                if ( dftbils[i].spbdf == 0 || i > 20 ) {
+                    brfbk;
                 }
-                stdout_message("%10d %10d %s\n",
-                    details[i].space, details[i].count, details[i].signature);
+                stdout_mfssbgf("%10d %10d %s\n",
+                    dftbils[i].spbdf, dftbils[i].dount, dftbils[i].signbturf);
             }
-            stdout_message("---------- ---------- ----------------------\n\n");
+            stdout_mfssbgf("---------- ---------- ----------------------\n\n");
 
-            /* Free up all allocated space */
-            deallocate(jvmti, classes);
-            for ( i = 0 ; i < count ; i++ ) {
-                if ( details[i].signature != NULL ) {
-                    free(details[i].signature);
+            /* Frff up bll bllodbtfd spbdf */
+            dfbllodbtf(jvmti, dlbssfs);
+            for ( i = 0 ; i < dount ; i++ ) {
+                if ( dftbils[i].signbturf != NULL ) {
+                    frff(dftbils[i].signbturf);
                 }
             }
-            free(details);
+            frff(dftbils);
 
-            gdata->dumpInProgress = JNI_FALSE;
+            gdbtb->dumpInProgrfss = JNI_FALSE;
         }
-    } exitAgentMonitor(jvmti);
+    } fxitAgfntMonitor(jvmti);
 }
 
-/* Callback for JVMTI_EVENT_VM_INIT */
-static void JNICALL
-vmInit(jvmtiEnv *jvmti, JNIEnv *env, jthread thread)
+/* Cbllbbdk for JVMTI_EVENT_VM_INIT */
+stbtid void JNICALL
+vmInit(jvmtiEnv *jvmti, JNIEnv *fnv, jtirfbd tirfbd)
 {
-    enterAgentMonitor(jvmti); {
-        jvmtiError          err;
+    fntfrAgfntMonitor(jvmti); {
+        jvmtiError          frr;
 
-        err = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
+        frr = (*jvmti)->SftEvfntNotifidbtionModf(jvmti, JVMTI_ENABLE,
                             JVMTI_EVENT_DATA_DUMP_REQUEST, NULL);
-        check_jvmti_error(jvmti, err, "set event notification");
-    } exitAgentMonitor(jvmti);
+        difdk_jvmti_frror(jvmti, frr, "sft fvfnt notifidbtion");
+    } fxitAgfntMonitor(jvmti);
 }
 
-/* Callback for JVMTI_EVENT_VM_DEATH */
-static void JNICALL
-vmDeath(jvmtiEnv *jvmti, JNIEnv *env)
+/* Cbllbbdk for JVMTI_EVENT_VM_DEATH */
+stbtid void JNICALL
+vmDfbti(jvmtiEnv *jvmti, JNIEnv *fnv)
 {
-    jvmtiError          err;
+    jvmtiError          frr;
 
-    /* Make sure everything has been garbage collected */
-    err = (*jvmti)->ForceGarbageCollection(jvmti);
-    check_jvmti_error(jvmti, err, "force garbage collection");
+    /* Mbkf surf fvfrytiing ibs bffn gbrbbgf dollfdtfd */
+    frr = (*jvmti)->FordfGbrbbgfCollfdtion(jvmti);
+    difdk_jvmti_frror(jvmti, frr, "fordf gbrbbgf dollfdtion");
 
-    /* Disable events and dump the heap information */
-    enterAgentMonitor(jvmti); {
-        err = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_DISABLE,
+    /* Disbblf fvfnts bnd dump tif ifbp informbtion */
+    fntfrAgfntMonitor(jvmti); {
+        frr = (*jvmti)->SftEvfntNotifidbtionModf(jvmti, JVMTI_DISABLE,
                             JVMTI_EVENT_DATA_DUMP_REQUEST, NULL);
-        check_jvmti_error(jvmti, err, "set event notification");
+        difdk_jvmti_frror(jvmti, frr, "sft fvfnt notifidbtion");
 
-        dataDumpRequest(jvmti);
+        dbtbDumpRfqufst(jvmti);
 
-        gdata->vmDeathCalled = JNI_TRUE;
-    } exitAgentMonitor(jvmti);
+        gdbtb->vmDfbtiCbllfd = JNI_TRUE;
+    } fxitAgfntMonitor(jvmti);
 }
 
-/* Agent_OnLoad() is called first, we prepare for a VM_INIT event here. */
+/* Agfnt_OnLobd() is dbllfd first, wf prfpbrf for b VM_INIT fvfnt ifrf. */
 JNIEXPORT jint JNICALL
-Agent_OnLoad(JavaVM *vm, char *options, void *reserved)
+Agfnt_OnLobd(JbvbVM *vm, dibr *options, void *rfsfrvfd)
 {
-    jint                rc;
-    jvmtiError          err;
-    jvmtiCapabilities   capabilities;
-    jvmtiEventCallbacks callbacks;
+    jint                rd;
+    jvmtiError          frr;
+    jvmtiCbpbbilitifs   dbpbbilitifs;
+    jvmtiEvfntCbllbbdks dbllbbdks;
     jvmtiEnv           *jvmti;
 
-    /* Get JVMTI environment */
+    /* Gft JVMTI fnvironmfnt */
     jvmti = NULL;
-    rc = (*vm)->GetEnv(vm, (void **)&jvmti, JVMTI_VERSION);
-    if (rc != JNI_OK) {
-        fatal_error("ERROR: Unable to create jvmtiEnv, error=%d\n", rc);
-        return -1;
+    rd = (*vm)->GftEnv(vm, (void **)&jvmti, JVMTI_VERSION);
+    if (rd != JNI_OK) {
+        fbtbl_frror("ERROR: Unbblf to drfbtf jvmtiEnv, frror=%d\n", rd);
+        rfturn -1;
     }
     if ( jvmti == NULL ) {
-        fatal_error("ERROR: No jvmtiEnv* returned from GetEnv\n");
+        fbtbl_frror("ERROR: No jvmtiEnv* rfturnfd from GftEnv\n");
     }
 
-    /* Get/Add JVMTI capabilities */
-    (void)memset(&capabilities, 0, sizeof(capabilities));
-    capabilities.can_tag_objects = 1;
-    capabilities.can_generate_garbage_collection_events = 1;
-    err = (*jvmti)->AddCapabilities(jvmti, &capabilities);
-    check_jvmti_error(jvmti, err, "add capabilities");
+    /* Gft/Add JVMTI dbpbbilitifs */
+    (void)mfmsft(&dbpbbilitifs, 0, sizfof(dbpbbilitifs));
+    dbpbbilitifs.dbn_tbg_objfdts = 1;
+    dbpbbilitifs.dbn_gfnfrbtf_gbrbbgf_dollfdtion_fvfnts = 1;
+    frr = (*jvmti)->AddCbpbbilitifs(jvmti, &dbpbbilitifs);
+    difdk_jvmti_frror(jvmti, frr, "bdd dbpbbilitifs");
 
-    /* Create the raw monitor */
-    err = (*jvmti)->CreateRawMonitor(jvmti, "agent lock", &(gdata->lock));
-    check_jvmti_error(jvmti, err, "create raw monitor");
+    /* Crfbtf tif rbw monitor */
+    frr = (*jvmti)->CrfbtfRbwMonitor(jvmti, "bgfnt lodk", &(gdbtb->lodk));
+    difdk_jvmti_frror(jvmti, frr, "drfbtf rbw monitor");
 
-    /* Set callbacks and enable event notifications */
-    memset(&callbacks, 0, sizeof(callbacks));
-    callbacks.VMInit                  = &vmInit;
-    callbacks.VMDeath                 = &vmDeath;
-    callbacks.DataDumpRequest         = &dataDumpRequest;
-    err = (*jvmti)->SetEventCallbacks(jvmti, &callbacks, sizeof(callbacks));
-    check_jvmti_error(jvmti, err, "set event callbacks");
-    err = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
+    /* Sft dbllbbdks bnd fnbblf fvfnt notifidbtions */
+    mfmsft(&dbllbbdks, 0, sizfof(dbllbbdks));
+    dbllbbdks.VMInit                  = &vmInit;
+    dbllbbdks.VMDfbti                 = &vmDfbti;
+    dbllbbdks.DbtbDumpRfqufst         = &dbtbDumpRfqufst;
+    frr = (*jvmti)->SftEvfntCbllbbdks(jvmti, &dbllbbdks, sizfof(dbllbbdks));
+    difdk_jvmti_frror(jvmti, frr, "sft fvfnt dbllbbdks");
+    frr = (*jvmti)->SftEvfntNotifidbtionModf(jvmti, JVMTI_ENABLE,
                         JVMTI_EVENT_VM_INIT, NULL);
-    check_jvmti_error(jvmti, err, "set event notifications");
-    err = (*jvmti)->SetEventNotificationMode(jvmti, JVMTI_ENABLE,
+    difdk_jvmti_frror(jvmti, frr, "sft fvfnt notifidbtions");
+    frr = (*jvmti)->SftEvfntNotifidbtionModf(jvmti, JVMTI_ENABLE,
                         JVMTI_EVENT_VM_DEATH, NULL);
-    check_jvmti_error(jvmti, err, "set event notifications");
-    return 0;
+    difdk_jvmti_frror(jvmti, frr, "sft fvfnt notifidbtions");
+    rfturn 0;
 }
 
-/* Agent_OnUnload() is called last */
+/* Agfnt_OnUnlobd() is dbllfd lbst */
 JNIEXPORT void JNICALL
-Agent_OnUnload(JavaVM *vm)
+Agfnt_OnUnlobd(JbvbVM *vm)
 {
 }

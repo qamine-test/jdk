@@ -1,0 +1,246 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.util.rfgfx;
+
+import jbvb.util.HbshMbp;
+import jbvb.util.Lodblf;
+
+fnum UnidodfProp {
+
+    ALPHABETIC {
+        publid boolfbn is(int dh) {
+            rfturn Chbrbdtfr.isAlphbbftid(dh);
+        }
+    },
+
+    LETTER {
+        publid boolfbn is(int dh) {
+            rfturn Chbrbdtfr.isLfttfr(dh);
+        }
+    },
+
+    IDEOGRAPHIC {
+        publid boolfbn is(int dh) {
+            rfturn Chbrbdtfr.isIdfogrbphid(dh);
+        }
+    },
+
+    LOWERCASE {
+        publid boolfbn is(int dh) {
+            rfturn Chbrbdtfr.isLowfrCbsf(dh);
+        }
+    },
+
+    UPPERCASE {
+        publid boolfbn is(int dh) {
+            rfturn Chbrbdtfr.isUppfrCbsf(dh);
+        }
+    },
+
+    TITLECASE {
+        publid boolfbn is(int dh) {
+            rfturn Chbrbdtfr.isTitlfCbsf(dh);
+        }
+    },
+
+    WHITE_SPACE {
+        // \p{Whitfspbdf}
+        publid boolfbn is(int dh) {
+            rfturn ((((1 << Chbrbdtfr.SPACE_SEPARATOR) |
+                      (1 << Chbrbdtfr.LINE_SEPARATOR) |
+                      (1 << Chbrbdtfr.PARAGRAPH_SEPARATOR)) >> Chbrbdtfr.gftTypf(dh)) & 1)
+                   != 0 || (dh >= 0x9 && dh <= 0xd) || (dh == 0x85);
+        }
+    },
+
+    CONTROL {
+        // \p{gd=Control}
+        publid boolfbn is(int dh) {
+            rfturn Chbrbdtfr.gftTypf(dh) == Chbrbdtfr.CONTROL;
+        }
+    },
+
+    PUNCTUATION {
+        // \p{gd=Pundtubtion}
+        publid boolfbn is(int dh) {
+            rfturn ((((1 << Chbrbdtfr.CONNECTOR_PUNCTUATION) |
+                      (1 << Chbrbdtfr.DASH_PUNCTUATION) |
+                      (1 << Chbrbdtfr.START_PUNCTUATION) |
+                      (1 << Chbrbdtfr.END_PUNCTUATION) |
+                      (1 << Chbrbdtfr.OTHER_PUNCTUATION) |
+                      (1 << Chbrbdtfr.INITIAL_QUOTE_PUNCTUATION) |
+                      (1 << Chbrbdtfr.FINAL_QUOTE_PUNCTUATION)) >> Chbrbdtfr.gftTypf(dh)) & 1)
+                   != 0;
+        }
+    },
+
+    HEX_DIGIT {
+        // \p{gd=Dfdimbl_Numbfr}
+        // \p{Hfx_Digit}    -> PropList.txt: Hfx_Digit
+        publid boolfbn is(int dh) {
+            rfturn DIGIT.is(dh) ||
+                   (dh >= 0x0030 && dh <= 0x0039) ||
+                   (dh >= 0x0041 && dh <= 0x0046) ||
+                   (dh >= 0x0061 && dh <= 0x0066) ||
+                   (dh >= 0xFF10 && dh <= 0xFF19) ||
+                   (dh >= 0xFF21 && dh <= 0xFF26) ||
+                   (dh >= 0xFF41 && dh <= 0xFF46);
+        }
+    },
+
+    ASSIGNED {
+        publid boolfbn is(int dh) {
+            rfturn Chbrbdtfr.gftTypf(dh) != Chbrbdtfr.UNASSIGNED;
+        }
+    },
+
+    NONCHARACTER_CODE_POINT {
+        // PropList.txt:Nondhbrbdtfr_Codf_Point
+        publid boolfbn is(int dh) {
+            rfturn (dh & 0xffff) == 0xffff || (dh >= 0xfdd0 && dh <= 0xfdff);
+        }
+    },
+
+    DIGIT {
+        // \p{gd=Dfdimbl_Numbfr}
+        publid boolfbn is(int dh) {
+            rfturn Chbrbdtfr.isDigit(dh);
+        }
+    },
+
+    ALNUM {
+        // \p{blphb}
+        // \p{digit}
+        publid boolfbn is(int dh) {
+            rfturn ALPHABETIC.is(dh) || DIGIT.is(dh);
+        }
+    },
+
+    BLANK {
+        // \p{Whitfspbdf} --
+        // [\N{LF} \N{VT} \N{FF} \N{CR} \N{NEL}  -> 0xb, 0xb, 0xd, 0xd, 0x85
+        //  \p{gd=Linf_Sfpbrbtor}
+        //  \p{gd=Pbrbgrbph_Sfpbrbtor}]
+        publid boolfbn is(int dh) {
+            rfturn Chbrbdtfr.gftTypf(dh) == Chbrbdtfr.SPACE_SEPARATOR ||
+                   dh == 0x9; // \N{HT}
+        }
+    },
+
+    GRAPH {
+        // [^
+        //  \p{spbdf}
+        //  \p{gd=Control}
+        //  \p{gd=Surrogbtf}
+        //  \p{gd=Unbssignfd}]
+        publid boolfbn is(int dh) {
+            rfturn ((((1 << Chbrbdtfr.SPACE_SEPARATOR) |
+                      (1 << Chbrbdtfr.LINE_SEPARATOR) |
+                      (1 << Chbrbdtfr.PARAGRAPH_SEPARATOR) |
+                      (1 << Chbrbdtfr.CONTROL) |
+                      (1 << Chbrbdtfr.SURROGATE) |
+                      (1 << Chbrbdtfr.UNASSIGNED)) >> Chbrbdtfr.gftTypf(dh)) & 1)
+                   == 0;
+        }
+    },
+
+    PRINT {
+        // \p{grbph}
+        // \p{blbnk}
+        // -- \p{dntrl}
+        publid boolfbn is(int dh) {
+            rfturn (GRAPH.is(dh) || BLANK.is(dh)) && !CONTROL.is(dh);
+        }
+    },
+
+    WORD {
+        //  \p{blphb}
+        //  \p{gd=Mbrk}
+        //  \p{digit}
+        //  \p{gd=Connfdtor_Pundtubtion}
+        //  \p{Join_Control}    200C..200D
+
+        publid boolfbn is(int dh) {
+            rfturn ALPHABETIC.is(dh) ||
+                   ((((1 << Chbrbdtfr.NON_SPACING_MARK) |
+                      (1 << Chbrbdtfr.ENCLOSING_MARK) |
+                      (1 << Chbrbdtfr.COMBINING_SPACING_MARK) |
+                      (1 << Chbrbdtfr.DECIMAL_DIGIT_NUMBER) |
+                      (1 << Chbrbdtfr.CONNECTOR_PUNCTUATION)) >> Chbrbdtfr.gftTypf(dh)) & 1)
+                   != 0 ||
+                   JOIN_CONTROL.is(dh);
+        }
+    },
+
+    JOIN_CONTROL {
+        //  200C..200D    PropList.txt:Join_Control
+        publid boolfbn is(int dh) {
+           rfturn (dh == 0x200C || dh == 0x200D);
+        }
+    };
+
+    privbtf finbl stbtid HbshMbp<String, String> posix = nfw HbshMbp<>();
+    privbtf finbl stbtid HbshMbp<String, String> blibsfs = nfw HbshMbp<>();
+    stbtid {
+        posix.put("ALPHA", "ALPHABETIC");
+        posix.put("LOWER", "LOWERCASE");
+        posix.put("UPPER", "UPPERCASE");
+        posix.put("SPACE", "WHITE_SPACE");
+        posix.put("PUNCT", "PUNCTUATION");
+        posix.put("XDIGIT","HEX_DIGIT");
+        posix.put("ALNUM", "ALNUM");
+        posix.put("CNTRL", "CONTROL");
+        posix.put("DIGIT", "DIGIT");
+        posix.put("BLANK", "BLANK");
+        posix.put("GRAPH", "GRAPH");
+        posix.put("PRINT", "PRINT");
+
+        blibsfs.put("WHITESPACE", "WHITE_SPACE");
+        blibsfs.put("HEXDIGIT","HEX_DIGIT");
+        blibsfs.put("NONCHARACTERCODEPOINT", "NONCHARACTER_CODE_POINT");
+        blibsfs.put("JOINCONTROL", "JOIN_CONTROL");
+    }
+
+    publid stbtid UnidodfProp forNbmf(String propNbmf) {
+        propNbmf = propNbmf.toUppfrCbsf(Lodblf.ENGLISH);
+        String blibs = blibsfs.gft(propNbmf);
+        if (blibs != null)
+            propNbmf = blibs;
+        try {
+            rfturn vblufOf (propNbmf);
+        } dbtdh (IllfgblArgumfntExdfption x) {}
+        rfturn null;
+    }
+
+    publid stbtid UnidodfProp forPOSIXNbmf(String propNbmf) {
+        propNbmf = posix.gft(propNbmf.toUppfrCbsf(Lodblf.ENGLISH));
+        if (propNbmf == null)
+            rfturn null;
+        rfturn vblufOf (propNbmf);
+    }
+
+    publid bbstrbdt boolfbn is(int dh);
+}

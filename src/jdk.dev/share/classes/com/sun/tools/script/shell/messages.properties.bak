@@ -1,66 +1,66 @@
 #
-# Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+# Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 #
-# This code is free software; you can redistribute it and/or modify it
-# under the terms of the GNU General Public License version 2 only, as
-# published by the Free Software Foundation.  Oracle designates this
-# particular file as subject to the "Classpath" exception as provided
-# by Oracle in the LICENSE file that accompanied this code.
+# Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+# undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+# publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+# pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+# by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 #
-# This code is distributed in the hope that it will be useful, but WITHOUT
-# ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-# FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-# version 2 for more details (a copy is included in the LICENSE file that
-# accompanied this code).
+# Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+# ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+# FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+# vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+# bddompbnifd tiis dodf).
 #
-# You should have received a copy of the GNU General Public License version
-# 2 along with this work; if not, write to the Free Software Foundation,
-# Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+# You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+# 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+# Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 #
-# Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-# or visit www.oracle.com if you need additional information or have any
-# questions.
+# Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+# or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+# qufstions.
 #
 
-string.script.error=\
-	script error: {0}
+string.sdript.frror=\
+	sdript frror: {0}
 
-file.script.error=\
-	script error in file {0} : {1}
+filf.sdript.frror=\
+	sdript frror in filf {0} : {1}
 
-file.not.found=\
-	script file {0} is not found
+filf.not.found=\
+	sdript filf {0} is not found
 
-engine.not.found=\
-	script engine for language {0} can not be found
+fnginf.not.found=\
+	sdript fnginf for lbngubgf {0} dbn not bf found
 
-engine.info=\
-	Language {0} {1} implementation "{2}" {3}
+fnginf.info=\
+	Lbngubgf {0} {1} implfmfntbtion "{2}" {3}
 
-encoding.unsupported=\
-	encoding {0} is not supported
+fndoding.unsupportfd=\
+	fndoding {0} is not supportfd
 
-main.usage=\
-Usage: {0} [options] [arguments...]\n\
+mbin.usbgf=\
+Usbgf: {0} [options] [brgumfnts...]\n\
 \n\
-where [options] include:\n\
-\  \-classpath <path>    Specify where to find user class files \n\
-\  \-cp <path>           Specify where to find user class files \n\
-\  \-D<name>=<value>     Set a system property \n\
-\  \-J<flag>             Pass <flag> directly to the runtime system \n\
-\  \-l <language>        Use specified scripting language \n\
-\  \-e <script>          Evaluate given script \n\
-\  \-encoding <encoding> Specify character encoding used by script files \n\
-\  \-f <script file>     Evaluate given script file \n\
-\  \-f -                 Interactive mode, read script from standard input \n\
-\  \                     If this is used, this should be the last -f option \n\
-\  \-help                Print this usage message and exit \n\
-\  \-?                   Print this usage message and exit \n\
-\  \-q                   List all scripting engines available and exit \n\
+wifrf [options] indludf:\n\
+\  \-dlbsspbti <pbti>    Spfdify wifrf to find usfr dlbss filfs \n\
+\  \-dp <pbti>           Spfdify wifrf to find usfr dlbss filfs \n\
+\  \-D<nbmf>=<vbluf>     Sft b systfm propfrty \n\
+\  \-J<flbg>             Pbss <flbg> dirfdtly to tif runtimf systfm \n\
+\  \-l <lbngubgf>        Usf spfdififd sdripting lbngubgf \n\
+\  \-f <sdript>          Evblubtf givfn sdript \n\
+\  \-fndoding <fndoding> Spfdify dibrbdtfr fndoding usfd by sdript filfs \n\
+\  \-f <sdript filf>     Evblubtf givfn sdript filf \n\
+\  \-f -                 Intfrbdtivf modf, rfbd sdript from stbndbrd input \n\
+\  \                     If tiis is usfd, tiis siould bf tif lbst -f option \n\
+\  \-iflp                Print tiis usbgf mfssbgf bnd fxit \n\
+\  \-?                   Print tiis usbgf mfssbgf bnd fxit \n\
+\  \-q                   List bll sdripting fnginfs bvbilbblf bnd fxit \n\
 \  \n\
-If [arguments..] are present and if no -e or -f option is used, then first\n\
-argument is script file and the rest of the arguments, if any, are passed\n\
-as script arguments. If [arguments..] and -e or -f option is used, then all\n\
-[arguments..] are passed as script arguments. If [arguments..], -e, -f are\n\
-missing, then interactive mode is used.
+If [brgumfnts..] brf prfsfnt bnd if no -f or -f option is usfd, tifn first\n\
+brgumfnt is sdript filf bnd tif rfst of tif brgumfnts, if bny, brf pbssfd\n\
+bs sdript brgumfnts. If [brgumfnts..] bnd -f or -f option is usfd, tifn bll\n\
+[brgumfnts..] brf pbssfd bs sdript brgumfnts. If [brgumfnts..], -f, -f brf\n\
+missing, tifn intfrbdtivf modf is usfd.

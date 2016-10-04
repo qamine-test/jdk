@@ -1,104 +1,104 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.cert;
+pbdkbgf jbvb.sfdurity.dfrt;
 
-import java.security.GeneralSecurityException;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
 
 /**
- * An exception indicating one of a variety of problems encountered when
- * building a certification path with a {@code CertPathBuilder}.
+ * An fxdfption indidbting onf of b vbrifty of problfms fndountfrfd wifn
+ * building b dfrtifidbtion pbti witi b {@dodf CfrtPbtiBuildfr}.
  * <p>
- * A {@code CertPathBuilderException} provides support for wrapping
- * exceptions. The {@link #getCause getCause} method returns the throwable,
- * if any, that caused this exception to be thrown.
+ * A {@dodf CfrtPbtiBuildfrExdfption} providfs support for wrbpping
+ * fxdfptions. Tif {@link #gftCbusf gftCbusf} mftiod rfturns tif tirowbblf,
+ * if bny, tibt dbusfd tiis fxdfption to bf tirown.
  * <p>
- * <b>Concurrent Access</b>
+ * <b>Condurrfnt Addfss</b>
  * <p>
- * Unless otherwise specified, the methods defined in this class are not
- * thread-safe. Multiple threads that need to access a single
- * object concurrently should synchronize amongst themselves and
- * provide the necessary locking. Multiple threads each manipulating
- * separate objects need not synchronize.
+ * Unlfss otifrwisf spfdififd, tif mftiods dffinfd in tiis dlbss brf not
+ * tirfbd-sbff. Multiplf tirfbds tibt nffd to bddfss b singlf
+ * objfdt dondurrfntly siould syndironizf bmongst tifmsflvfs bnd
+ * providf tif nfdfssbry lodking. Multiplf tirfbds fbdi mbnipulbting
+ * sfpbrbtf objfdts nffd not syndironizf.
  *
- * @see CertPathBuilder
+ * @sff CfrtPbtiBuildfr
  *
- * @since       1.4
- * @author      Sean Mullan
+ * @sindf       1.4
+ * @butior      Sfbn Mullbn
  */
-public class CertPathBuilderException extends GeneralSecurityException {
+publid dlbss CfrtPbtiBuildfrExdfption fxtfnds GfnfrblSfdurityExdfption {
 
-    private static final long serialVersionUID = 5316471420178794402L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 5316471420178794402L;
 
     /**
-     * Creates a {@code CertPathBuilderException} with {@code null}
-     * as its detail message.
+     * Crfbtfs b {@dodf CfrtPbtiBuildfrExdfption} witi {@dodf null}
+     * bs its dftbil mfssbgf.
      */
-    public CertPathBuilderException() {
-        super();
+    publid CfrtPbtiBuildfrExdfption() {
+        supfr();
     }
 
     /**
-     * Creates a {@code CertPathBuilderException} with the given
-     * detail message. The detail message is a {@code String} that
-     * describes this particular exception in more detail.
+     * Crfbtfs b {@dodf CfrtPbtiBuildfrExdfption} witi tif givfn
+     * dftbil mfssbgf. Tif dftbil mfssbgf is b {@dodf String} tibt
+     * dfsdribfs tiis pbrtidulbr fxdfption in morf dftbil.
      *
-     * @param msg the detail message
+     * @pbrbm msg tif dftbil mfssbgf
      */
-    public CertPathBuilderException(String msg) {
-        super(msg);
+    publid CfrtPbtiBuildfrExdfption(String msg) {
+        supfr(msg);
     }
 
     /**
-     * Creates a {@code CertPathBuilderException} that wraps the specified
-     * throwable. This allows any exception to be converted into a
-     * {@code CertPathBuilderException}, while retaining information
-     * about the wrapped exception, which may be useful for debugging. The
-     * detail message is set to ({@code cause==null ? null : cause.toString()})
-     * (which typically contains the class and detail message of
-     * cause).
+     * Crfbtfs b {@dodf CfrtPbtiBuildfrExdfption} tibt wrbps tif spfdififd
+     * tirowbblf. Tiis bllows bny fxdfption to bf donvfrtfd into b
+     * {@dodf CfrtPbtiBuildfrExdfption}, wiilf rftbining informbtion
+     * bbout tif wrbppfd fxdfption, wiidi mby bf usfful for dfbugging. Tif
+     * dftbil mfssbgf is sft to ({@dodf dbusf==null ? null : dbusf.toString()})
+     * (wiidi typidblly dontbins tif dlbss bnd dftbil mfssbgf of
+     * dbusf).
      *
-     * @param cause the cause (which is saved for later retrieval by the
-     * {@link #getCause getCause()} method). (A {@code null} value is
-     * permitted, and indicates that the cause is nonexistent or unknown.)
+     * @pbrbm dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     * {@link #gftCbusf gftCbusf()} mftiod). (A {@dodf null} vbluf is
+     * pfrmittfd, bnd indidbtfs tibt tif dbusf is nonfxistfnt or unknown.)
      */
-    public CertPathBuilderException(Throwable cause) {
-        super(cause);
+    publid CfrtPbtiBuildfrExdfption(Tirowbblf dbusf) {
+        supfr(dbusf);
     }
 
     /**
-     * Creates a {@code CertPathBuilderException} with the specified
-     * detail message and cause.
+     * Crfbtfs b {@dodf CfrtPbtiBuildfrExdfption} witi tif spfdififd
+     * dftbil mfssbgf bnd dbusf.
      *
-     * @param msg the detail message
-     * @param  cause the cause (which is saved for later retrieval by the
-     * {@link #getCause getCause()} method). (A {@code null} value is
-     * permitted, and indicates that the cause is nonexistent or unknown.)
+     * @pbrbm msg tif dftbil mfssbgf
+     * @pbrbm  dbusf tif dbusf (wiidi is sbvfd for lbtfr rftrifvbl by tif
+     * {@link #gftCbusf gftCbusf()} mftiod). (A {@dodf null} vbluf is
+     * pfrmittfd, bnd indidbtfs tibt tif dbusf is nonfxistfnt or unknown.)
      */
-    public CertPathBuilderException(String msg, Throwable cause) {
-        super(msg, cause);
+    publid CfrtPbtiBuildfrExdfption(String msg, Tirowbblf dbusf) {
+        supfr(msg, dbusf);
     }
 
 }

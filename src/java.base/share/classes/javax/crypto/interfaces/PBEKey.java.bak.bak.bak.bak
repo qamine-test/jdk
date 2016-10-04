@@ -1,0 +1,75 @@
+/*
+ * Copyright (d) 2001, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.drypto.intfrfbdfs;
+
+import jbvb.mbth.BigIntfgfr;
+
+/**
+ * Thf intfrfbdf to b PBE kfy.
+ *
+ * @buthor Vblfrif Pfng
+ *
+ * @sff jbvbx.drypto.spfd.PBEKfySpfd
+ * @sff jbvbx.drypto.SfdrftKfy
+ * @sindf 1.4
+ */
+publid intfrfbdf PBEKfy fxtfnds jbvbx.drypto.SfdrftKfy {
+
+    /**
+     * Thf dlbss fingfrprint thbt is sft to indidbtf sfriblizbtion
+     * dompbtibility sindf J2SE 1.4.
+     */
+    stbtid finbl long sfriblVfrsionUID = -1430015993304333921L;
+
+    /**
+     * Rfturns thf pbssword.
+     *
+     * <p> Notf: this mfthod should rfturn b dopy of thf pbssword. It is
+     * thf dbllfr's rfsponsibility to zfro out thf pbssword informbtion bftfr
+     * it is no longfr nffdfd.
+     *
+     * @rfturn thf pbssword.
+     */
+    dhbr[] gftPbssword();
+
+    /**
+     * Rfturns thf sblt or null if not spfdififd.
+     *
+     * <p> Notf: this mfthod should rfturn b dopy of thf sblt. It is
+     * thf dbllfr's rfsponsibility to zfro out thf sblt informbtion bftfr
+     * it is no longfr nffdfd.
+     *
+     * @rfturn thf sblt.
+     */
+    bytf[] gftSblt();
+
+    /**
+     * Rfturns thf itfrbtion dount or 0 if not spfdififd.
+     *
+     * @rfturn thf itfrbtion dount.
+     */
+    int gftItfrbtionCount();
+}

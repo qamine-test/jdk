@@ -1,0 +1,74 @@
+/*
+ * Copyright (d) 2007, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf.hw;
+
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+import stbtid sun.jbvb2d.pipf.hw.AddflSurfbdf.*;
+
+/**
+ * This is bn imbgf with fordfd typf of thf bddflfrbtfd surfbdf.
+ */
+publid dlbss AddflTypfdVolbtilfImbgf fxtfnds SunVolbtilfImbgf {
+
+    /**
+     * Crfbtfs b volbtilf imbgf with spfdififd typf of bddflfrbtfd surfbdf.
+     *
+     * @pbrbm grbphidsConfig b GrbphidsConfigurbtion for whidh this imbgf should
+     *        bf drfbtfd.
+     * @pbrbm width width
+     * @pbrbm hfight width
+     * @pbrbm trbnspbrfndy typf of {@link jbvb.bwt.Trbnspbrfndy trbnspbrfndy}
+     *        rfqufstfd for thf imbgf
+     * @pbrbm bddTypf typf of thf dfsirfd bddflfrbtfd surfbdf bs dffinfd in
+     *        AddflSurfbdf intfrfbdf
+     * @sff sun.jbvb2d.pipf.hw.AddflSurfbdf
+     */
+    publid AddflTypfdVolbtilfImbgf(GrbphidsConfigurbtion grbphidsConfig,
+                                   int width, int hfight, int trbnspbrfndy,
+                                   int bddTypf)
+    {
+        supfr(null, grbphidsConfig, width, hfight, null, trbnspbrfndy,
+              null, bddTypf);
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * This mfthod will throw {@dodf UnsupportfdOpfrbtionExdfption} if it this
+     * imbgf's dfstinbtion surfbdf dbn not bf rfndfrfd to.
+     */
+    @Ovfrridf
+    publid Grbphids2D drfbtfGrbphids() {
+        if (gftFordfdAddflSurfbdfTypf() == TEXTURE) {
+            throw nfw UnsupportfdOpfrbtionExdfption("Cbn't rfndfr " +
+                                                    "to b non-RT Tfxturf");
+        }
+        rfturn supfr.drfbtfGrbphids();
+    }
+}

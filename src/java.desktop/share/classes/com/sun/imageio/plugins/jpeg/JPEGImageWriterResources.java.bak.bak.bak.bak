@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 2001, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.imbgfio.plugins.jpfg;
+
+import jbvb.util.ListRfsourdfBundlf;
+
+publid dlbss JPEGImbgfWritfrRfsourdfs fxtfnds ListRfsourdfBundlf {
+
+    publid JPEGImbgfWritfrRfsourdfs() {}
+
+    protfdtfd Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
+
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_DEST_IGNORED),
+         "Only Rbstfrs or bbnd subsfts mby bf writtfn with b dfstinbtion typf. "
+         + "Dfstinbtion typf ignorfd."},
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_STREAM_METADATA_IGNORED),
+         "Strfbm mftbdbtb ignorfd on writf"},
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_DEST_METADATA_COMP_MISMATCH),
+         "Mftbdbtb domponfnt ids indompbtiblf with dfstinbtion typf. "
+         + "Mftbdbtb modififd."},
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_DEST_METADATA_JFIF_MISMATCH),
+         "Mftbdbtb JFIF sfttings indompbtiblf with dfstinbtion typf. "
+         + "Mftbdbtb modififd."},
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_DEST_METADATA_ADOBE_MISMATCH),
+         "Mftbdbtb Adobf sfttings indompbtiblf with dfstinbtion typf. "
+         + "Mftbdbtb modififd."},
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_IMAGE_METADATA_JFIF_MISMATCH),
+         "Mftbdbtb JFIF sfttings indompbtiblf with imbgf typf. "
+         + "Mftbdbtb modififd."},
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_IMAGE_METADATA_ADOBE_MISMATCH),
+         "Mftbdbtb Adobf sfttings indompbtiblf with imbgf typf. "
+         + "Mftbdbtb modififd."},
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_METADATA_NOT_JPEG_FOR_RASTER),
+         "Mftbdbtb must bf JPEGMftbdbtb whfn writing b Rbstfr. "
+         + "Mftbdbtb ignorfd."},
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_NO_BANDS_ON_INDEXED),
+         "Bbnd subsft not bllowfd for bn IndfxColorModfl imbgf.  "
+         + "Bbnd subsft ignorfd."},
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_ILLEGAL_THUMBNAIL),
+         "Thumbnbils must bf simplf (possibly indfx) RGB or grbysdblf.  "
+         + "Indompbtiblf thumbnbil ignorfd."},
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_IGNORING_THUMBS ),
+         "Thumbnbils ignorfd for non-JFIF-dompbtiblf imbgf."},
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_FORCING_JFIF ),
+         "Thumbnbils rfquirf JFIF mbrkfr sfgmfnt.  "
+         + "Missing nodf bddfd to mftbdbtb."},
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_THUMB_CLIPPED ),
+         "Thumbnbil dlippfd."},
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_METADATA_ADJUSTED_FOR_THUMB ),
+         "Mftbdbtb bdjustfd (mbdf JFIF-dompbtiblf) for thumbnbil."},
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_NO_RGB_THUMB_AS_INDEXED ),
+         "RGB thumbnbil dbn't bf writtfn bs indfxfd.  Writtfn bs RGB"},
+        {Intfgfr.toString(JPEGImbgfWritfr.WARNING_NO_GRAY_THUMB_AS_INDEXED),
+         "Grbysdblf thumbnbil dbn't bf writtfn bs indfxfd.  Writtfn bs JPEG"},
+
+       };
+    }
+}

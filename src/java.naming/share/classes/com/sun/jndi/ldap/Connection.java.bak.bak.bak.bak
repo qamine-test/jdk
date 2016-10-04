@@ -1,0 +1,981 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.IntfrruptfdIOExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nft.Sodkft;
+import jbvbx.nft.ssl.SSLSodkft;
+
+import jbvbx.nbming.CommunidbtionExdfption;
+import jbvbx.nbming.SfrvidfUnbvbilbblfExdfption;
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.IntfrruptfdNbmingExdfption;
+
+import jbvbx.nbming.ldbp.Control;
+
+import jbvb.lbng.rfflfdt.Mfthod;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.util.Arrbys;
+import sun.misd.IOUtils;
+import jbvbx.nft.SodkftFbdtory;
+
+/**
+  * A thrfbd thbt drfbtfs b donnfdtion to bn LDAP sfrvfr.
+  * Aftfr thf donnfdtion, thf thrfbd rfbds from thf donnfdtion.
+  * A dbllfr dbn invokf mfthods on thf instbndf to rfbd LDAP rfsponsfs
+  * bnd to sfnd LDAP rfqufsts.
+  * <p>
+  * Thfrf is b onf-to-onf dorrfspondfndf bftwffn bn LdbpClifnt bnd
+  * b Connfdtion. Addfss to Connfdtion bnd its mfthods is only vib
+  * LdbpClifnt with two fxdfptions: SASL buthfntidbtion bnd StbrtTLS.
+  * SASL nffds to bddfss Connfdtion's sodkft IO strfbms (in ordfr to do fndryption
+  * of thf sfdurity lbyfr). StbrtTLS nffds to do rfplbdf IO strfbms
+  * bnd dlosf thf IO  strfbms on nonfbtbl dlosf. Thf dodf for SASL
+  * buthfntidbtion dbn bf trfbtfd bs bfing thf sbmf bs from LdbpClifnt
+  * bfdbusf thf SASL dodf is only fvfr dbllfd from LdbpClifnt, from
+  * insidf LdbpClifnt's syndhronizfd buthfntidbtf() mfthod. StbrtTLS is dbllfd
+  * dirfdtly by thf bpplidbtion but should only oddur whfn thf undfrlying
+  * donnfdtion is quift.
+  * <p>
+  * In tfrms of syndhronizbtion, worry bbout dbtb strudturfs
+  * usfd by thf Connfdtion thrfbd bfdbusf thbt usbgf might dontfnd
+  * with dblls by thf mbin thrfbds (i.f., thosf thbt dbll LdbpClifnt).
+  * Mbin thrfbds nffd to worry bbout dontfntion with fbdh othfr.
+  * Fiflds thbt Connfdtion thrfbd usfs:
+  *     inStrfbm - syndfd bddfss bnd updbtf; initiblizfd in donstrudtor;
+  *           rfffrfndfd outsidf dlbss unsynd'fd (by LdbpSbsl) only
+  *           whfn donnfdtion is quift
+  *     trbdfFilf, trbdfTbgIn, trbdfTbgOut - no synd; dfbugging only
+  *     pbrfnt - no synd; initiblizfd in donstrudtor; no updbtfs
+  *     pfndingRfqufsts - synd
+  *     pbusfLodk - pfr-instbndf lodk;
+  *     pbusfd - synd vib pbusfLodk (pbusfRfbdfr())
+  * Mfmbfrs usfd by mbin thrfbds (LdbpClifnt):
+  *     host, port - unsynd; rfbd-only bddfss for StbrtTLS bnd dfbug mfssbgfs
+  *     sftBound(), sftV3() - no synd; dbllfd only by LdbpClifnt.buthfntidbtf(),
+  *             whidh is b synd mfthod dbllfd only whfn donnfdtion is "quift"
+  *     gftMsgId() - synd
+  *     writfRfqufst(), rfmovfRfqufst(),findRfqufst(), bbbndonOutstbndingRfqs() -
+  *             bddfss to shbrfd pfndingRfqufsts is synd
+  *     writfRfqufst(),  bbbndonRfqufst(), ldbpUnbind() - bddfss to outStrfbm synd
+  *     dlfbnup() - synd
+  *     rfbdRfply() - bddfss to sodk synd
+  *     unpbusfRfbdfr() - (indirfdtly vib writfRfqufst) synd on pbusfLodk
+  * Mfmbfrs usfd by SASL buth (mbin thrfbd):
+  *     inStrfbm, outStrfbm - no synd; usfd to donstrudt nfw strfbm; bddfssfd
+  *             only whfn donn is "quift" bnd not shbrfd
+  *     rfplbdfStrfbms() - synd mfthod
+  * Mfmbfrs usfd by StbrtTLS:
+  *     inStrfbm, outStrfbm - no synd; usfd to rfdord thf fxisting strfbms;
+  *             bddfssfd only whfn donn is "quift" bnd not shbrfd
+  *     rfplbdfStrfbms() - synd mfthod
+  * <p>
+  * Hbndlfs bnonymous, simplf, bnd SASL bind for v3; bnonymous bnd simplf
+  * for v2.
+  * %%% mbdf publid for bddfss by LdbpSbsl %%%
+  *
+  * @buthor Vindfnt Rybn
+  * @buthor Rosbnnb Lff
+  * @buthor Jbgbnf Sundbr
+  */
+publid finbl dlbss Connfdtion implfmfnts Runnbblf {
+
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
+    privbtf stbtid finbl int dump = 0; // > 0 r, > 1 rw
+    publid stbtid finbl long DEFAULT_READ_TIMEOUT_MILLIS = 15 * 1000; // 15 sfdond timfout;
+
+
+    finbl privbtf Thrfbd workfr;    // Initiblizfd in donstrudtor
+
+    privbtf boolfbn v3 = truf;       // Sft in sftV3()
+
+    finbl publid String host;  // usfd by LdbpClifnt for gfnfrbting fxdfption mfssbgfs
+                         // usfd by StbrtTlsRfsponsf whfn drfbting bn SSL sodkft
+    finbl publid int port;     // usfd by LdbpClifnt for gfnfrbting fxdfption mfssbgfs
+                         // usfd by StbrtTlsRfsponsf whfn drfbting bn SSL sodkft
+
+    privbtf boolfbn bound = fblsf;   // Sft in sftBound()
+
+    // All thrff brf initiblizfd in donstrudtor bnd rfbd-only bftfrwbrds
+    privbtf OutputStrfbm trbdfFilf = null;
+    privbtf String trbdfTbgIn = null;
+    privbtf String trbdfTbgOut = null;
+
+    // Initiblizfd in donstrudtor; rfbd bnd usfd fxtfrnblly (LdbpSbsl);
+    // Updbtfd in rfplbdfStrfbms() during "quift", unshbrfd, pfriod
+    publid InputStrfbm inStrfbm;   // must bf publid; usfd by LdbpSbsl
+
+    // Initiblizfd in donstrudtor; rfbd bnd usfd fxtfrnblly (LdbpSbsl);
+    // Updbtfd in rfplbdfOutputStrfbm() during "quift", unshbrfd, pfriod
+    publid OutputStrfbm outStrfbm; // must bf publid; usfd by LdbpSbsl
+
+    // Initiblizfd in donstrudtor; rfbd bnd usfd fxtfrnblly (TLS) to
+    // gft nfw IO strfbms; dlosfd during dlfbnup
+    publid Sodkft sodk;            // for TLS
+
+    // For prodfssing "disdonnfdt" unsoliditfd notifidbtion
+    // Initiblizfd in donstrudtor
+    finbl privbtf LdbpClifnt pbrfnt;
+
+    // Indrfmfntfd bnd rfturnfd in synd gftMsgId()
+    privbtf int outMsgId = 0;
+
+    //
+    // Thf list of ldbpRfqufsts pfnding on this binding
+    //
+    // Addfssfd only within synd mfthods
+    privbtf LdbpRfqufst pfndingRfqufsts = null;
+
+    volbtilf IOExdfption dlosurfRfbson = null;
+    volbtilf boolfbn usfbblf = truf;  // is Connfdtion still usfbblf
+
+    int rfbdTimfout;
+    int donnfdtTimfout;
+
+    // truf mfbns v3; fblsf mfbns v2
+    // Cbllfd in LdbpClifnt.buthfntidbtf() (whidh is syndhronizfd)
+    // whfn donnfdtion is "quift" bnd not shbrfd; no nffd to syndhronizf
+    void sftV3(boolfbn v) {
+        v3 = v;
+    }
+
+    // A BIND rfqufst hbs bffn suddfssfully mbdf on this donnfdtion
+    // Whfn dlfbning up, rfmfmbfr to do bn UNBIND
+    // Cbllfd in LdbpClifnt.buthfntidbtf() (whidh is syndhronizfd)
+    // whfn donnfdtion is "quift" bnd not shbrfd; no nffd to syndhronizf
+    void sftBound() {
+        bound = truf;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // Crfbtf bn LDAP Binding objfdt bnd bind to b pbrtidulbr sfrvfr
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    Connfdtion(LdbpClifnt pbrfnt, String host, int port, String sodkftFbdtory,
+        int donnfdtTimfout, int rfbdTimfout, OutputStrfbm trbdf) throws NbmingExdfption {
+
+        this.host = host;
+        this.port = port;
+        this.pbrfnt = pbrfnt;
+        this.rfbdTimfout = rfbdTimfout;
+        this.donnfdtTimfout = donnfdtTimfout;
+
+        if (trbdf != null) {
+            trbdfFilf = trbdf;
+            trbdfTbgIn = "<- " + host + ":" + port + "\n\n";
+            trbdfTbgOut = "-> " + host + ":" + port + "\n\n";
+        }
+
+        //
+        // Connfdt to sfrvfr
+        //
+        try {
+            sodk = drfbtfSodkft(host, port, sodkftFbdtory, donnfdtTimfout);
+
+            if (dfbug) {
+                Systfm.frr.println("Connfdtion: opfning sodkft: " + host + "," + port);
+            }
+
+            inStrfbm = nfw BufffrfdInputStrfbm(sodk.gftInputStrfbm());
+            outStrfbm = nfw BufffrfdOutputStrfbm(sodk.gftOutputStrfbm());
+
+        } dbtdh (InvodbtionTbrgftExdfption f) {
+            Throwbblf rfblExdfption = f.gftTbrgftExdfption();
+            // rfblExdfption.printStbdkTrbdf();
+
+            CommunidbtionExdfption df =
+                nfw CommunidbtionExdfption(host + ":" + port);
+            df.sftRootCbusf(rfblExdfption);
+            throw df;
+        } dbtdh (Exdfption f) {
+            // Wf nffd to hbvf b dbtdh bll hfrf bnd
+            // ignorf gfnfrid fxdfptions.
+            // Also dbtdhfs bll IO frrors gfnfrbtfd by sodkft drfbtion.
+            CommunidbtionExdfption df =
+                nfw CommunidbtionExdfption(host + ":" + port);
+            df.sftRootCbusf(f);
+            throw df;
+        }
+
+        workfr = Obj.hflpfr.drfbtfThrfbd(this);
+        workfr.sftDbfmon(truf);
+        workfr.stbrt();
+    }
+
+    /*
+     * Crfbtf bn InftSodkftAddrfss using thf spfdififd hostnbmf bnd port numbfr.
+     */
+    privbtf InftSodkftAddrfss drfbtfInftSodkftAddrfss(String host, int port) {
+            rfturn nfw InftSodkftAddrfss(host, port);
+    }
+
+    /*
+     * Crfbtf b Sodkft objfdt using thf spfdififd sodkft fbdtory bnd timf limit.
+     *
+     * If b timfout is supplifd bnd undonnfdtfd sodkfts brf supportfd thfn
+     * bn undonnfdtfd sodkft is drfbtfd bnd thf timfout is bpplifd whfn
+     * donnfdting thf sodkft. If b timfout is supplifd but undonnfdtfd sodkfts
+     * brf not supportfd thfn thf timfout is ignorfd bnd b donnfdtfd sodkft
+     * is drfbtfd.
+     */
+    privbtf Sodkft drfbtfSodkft(String host, int port, String sodkftFbdtory,
+            int donnfdtTimfout) throws Exdfption {
+
+        Sodkft sodkft = null;
+
+        if (sodkftFbdtory != null) {
+
+            // drfbtf thf fbdtory
+
+            @SupprfssWbrnings("undhfdkfd")
+            Clbss<? fxtfnds SodkftFbdtory> sodkftFbdtoryClbss =
+                (Clbss<? fxtfnds SodkftFbdtory>)Obj.hflpfr.lobdClbss(sodkftFbdtory);
+            Mfthod gftDffbult =
+                sodkftFbdtoryClbss.gftMfthod("gftDffbult", nfw Clbss<?>[]{});
+            SodkftFbdtory fbdtory = (SodkftFbdtory) gftDffbult.invokf(null, nfw Objfdt[]{});
+
+            // drfbtf thf sodkft
+
+            if (donnfdtTimfout > 0) {
+
+                InftSodkftAddrfss fndpoint =
+                        drfbtfInftSodkftAddrfss(host, port);
+
+                // undonnfdtfd sodkft
+                sodkft = fbdtory.drfbtfSodkft();
+
+                if (dfbug) {
+                    Systfm.frr.println("Connfdtion: drfbting sodkft with " +
+                            "b timfout using supplifd sodkft fbdtory");
+                }
+
+                // donnfdtfd sodkft
+                sodkft.donnfdt(fndpoint, donnfdtTimfout);
+            }
+
+            // dontinuf (but ignorf donnfdtTimfout)
+            if (sodkft == null) {
+                if (dfbug) {
+                    Systfm.frr.println("Connfdtion: drfbting sodkft using " +
+                        "supplifd sodkft fbdtory");
+                }
+                // donnfdtfd sodkft
+                sodkft = fbdtory.drfbtfSodkft(host, port);
+            }
+        } flsf {
+
+            if (donnfdtTimfout > 0) {
+
+                    InftSodkftAddrfss fndpoint = drfbtfInftSodkftAddrfss(host, port);
+
+                    sodkft = nfw Sodkft();
+
+                    if (dfbug) {
+                        Systfm.frr.println("Connfdtion: drfbting sodkft with " +
+                            "b timfout");
+                    }
+                    sodkft.donnfdt(fndpoint, donnfdtTimfout);
+            }
+
+            // dontinuf (but ignorf donnfdtTimfout)
+
+            if (sodkft == null) {
+                if (dfbug) {
+                    Systfm.frr.println("Connfdtion: drfbting sodkft");
+                }
+                // donnfdtfd sodkft
+                sodkft = nfw Sodkft(host, port);
+            }
+        }
+
+        // For LDAP donnfdt timfouts on LDAP ovfr SSL donnfdtions must trfbt
+        // thf SSL hbndshbkf following sodkft donnfdtion bs pbrt of thf timfout.
+        // So fxpliditly sft b sodkft rfbd timfout, triggfr thf SSL hbndshbkf,
+        // thfn rfsft thf timfout.
+        if (donnfdtTimfout > 0 && sodkft instbndfof SSLSodkft) {
+            SSLSodkft sslSodkft = (SSLSodkft) sodkft;
+            int sodkftTimfout = sslSodkft.gftSoTimfout();
+
+            sslSodkft.sftSoTimfout(donnfdtTimfout); // rfusf full timfout vbluf
+            sslSodkft.stbrtHbndshbkf();
+            sslSodkft.sftSoTimfout(sodkftTimfout);
+        }
+
+        rfturn sodkft;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // Mfthods to IO to thf LDAP sfrvfr
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    syndhronizfd int gftMsgId() {
+        rfturn ++outMsgId;
+    }
+
+    LdbpRfqufst writfRfqufst(BfrEndodfr bfr, int msgId) throws IOExdfption {
+        rfturn writfRfqufst(bfr, msgId, fblsf /* pbusfAftfrRfdfipt */, -1);
+    }
+
+    LdbpRfqufst writfRfqufst(BfrEndodfr bfr, int msgId,
+        boolfbn pbusfAftfrRfdfipt) throws IOExdfption {
+        rfturn writfRfqufst(bfr, msgId, pbusfAftfrRfdfipt, -1);
+    }
+
+    LdbpRfqufst writfRfqufst(BfrEndodfr bfr, int msgId,
+        boolfbn pbusfAftfrRfdfipt, int rfplyQufufCbpbdity) throws IOExdfption {
+
+        LdbpRfqufst rfq =
+            nfw LdbpRfqufst(msgId, pbusfAftfrRfdfipt, rfplyQufufCbpbdity);
+        bddRfqufst(rfq);
+
+        if (trbdfFilf != null) {
+            Bfr.dumpBER(trbdfFilf, trbdfTbgOut, bfr.gftBuf(), 0, bfr.gftDbtbLfn());
+        }
+
+
+        // unpbusf rfbdfr so thbt it dbn gft rfsponsf
+        // NOTE: Must do this bfforf writing rfqufst, othfrwisf might
+        // drfbtf b rbdf dondition whfrf thf writfr unblodks its own rfsponsf
+        unpbusfRfbdfr();
+
+        if (dfbug) {
+            Systfm.frr.println("Writing rfqufst to: " + outStrfbm);
+        }
+
+        try {
+            syndhronizfd (this) {
+                outStrfbm.writf(bfr.gftBuf(), 0, bfr.gftDbtbLfn());
+                outStrfbm.flush();
+            }
+        } dbtdh (IOExdfption f) {
+            dlfbnup(null, truf);
+            throw (dlosurfRfbson = f); // rfthrow
+        }
+
+        rfturn rfq;
+    }
+
+    /**
+     * Rfbds b rfply; wbits until onf is rfbdy.
+     */
+    BfrDfdodfr rfbdRfply(LdbpRfqufst ldr)
+            throws IOExdfption, NbmingExdfption {
+        BfrDfdodfr rbfr;
+        boolfbn wbitfd = fblsf;
+
+        whilf (((rbfr = ldr.gftRfplyBfr()) == null) && !wbitfd) {
+            try {
+                // If sodkft dlosfd, don't fvfn try
+                syndhronizfd (this) {
+                    if (sodk == null) {
+                        throw nfw SfrvidfUnbvbilbblfExdfption(host + ":" + port +
+                            "; sodkft dlosfd");
+                    }
+                }
+                syndhronizfd (ldr) {
+                    // dhfdk if dondition hbs dhbngfd sindf our lbst dhfdk
+                    rbfr = ldr.gftRfplyBfr();
+                    if (rbfr == null) {
+                        if (rfbdTimfout > 0) {  // Sodkft rfbd timfout is spfdififd
+
+                            // will bf wokfn up bfforf rfbdTimfout only if rfply is
+                            // bvbilbblf
+                            ldr.wbit(rfbdTimfout);
+                        } flsf {
+                            ldr.wbit(DEFAULT_READ_TIMEOUT_MILLIS);
+                        }
+                        wbitfd = truf;
+                    } flsf {
+                        brfbk;
+                    }
+                }
+            } dbtdh (IntfrruptfdExdfption fx) {
+                throw nfw IntfrruptfdNbmingExdfption(
+                    "Intfrruptfd during LDAP opfrbtion");
+            }
+        }
+
+        if ((rbfr == null) && wbitfd) {
+            bbbndonRfqufst(ldr, null);
+            throw nfw NbmingExdfption("LDAP rfsponsf rfbd timfd out, timfout usfd:"
+                            + rfbdTimfout + "ms." );
+
+        }
+        rfturn rbfr;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // Mfthods to bdd, find, dflftf, bnd bbbndon rfqufsts mbdf to sfrvfr
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    privbtf syndhronizfd void bddRfqufst(LdbpRfqufst ldbpRfqufst) {
+
+        LdbpRfqufst ldr = pfndingRfqufsts;
+        if (ldr == null) {
+            pfndingRfqufsts = ldbpRfqufst;
+            ldbpRfqufst.nfxt = null;
+        } flsf {
+            ldbpRfqufst.nfxt = pfndingRfqufsts;
+            pfndingRfqufsts = ldbpRfqufst;
+        }
+    }
+
+    syndhronizfd LdbpRfqufst findRfqufst(int msgId) {
+
+        LdbpRfqufst ldr = pfndingRfqufsts;
+        whilf (ldr != null) {
+            if (ldr.msgId == msgId) {
+                rfturn ldr;
+            }
+            ldr = ldr.nfxt;
+        }
+        rfturn null;
+
+    }
+
+    syndhronizfd void rfmovfRfqufst(LdbpRfqufst rfq) {
+        LdbpRfqufst ldr = pfndingRfqufsts;
+        LdbpRfqufst ldrprfv = null;
+
+        whilf (ldr != null) {
+            if (ldr == rfq) {
+                ldr.dbndfl();
+
+                if (ldrprfv != null) {
+                    ldrprfv.nfxt = ldr.nfxt;
+                } flsf {
+                    pfndingRfqufsts = ldr.nfxt;
+                }
+                ldr.nfxt = null;
+            }
+            ldrprfv = ldr;
+            ldr = ldr.nfxt;
+        }
+    }
+
+    void bbbndonRfqufst(LdbpRfqufst ldr, Control[] rfqCtls) {
+        // Rfmovf from qufuf
+        rfmovfRfqufst(ldr);
+
+        BfrEndodfr bfr = nfw BfrEndodfr(256);
+        int bbbndonMsgId = gftMsgId();
+
+        //
+        // build thf bbbndon rfqufst.
+        //
+        try {
+            bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                bfr.fndodfInt(bbbndonMsgId);
+                bfr.fndodfInt(ldr.msgId, LdbpClifnt.LDAP_REQ_ABANDON);
+
+                if (v3) {
+                    LdbpClifnt.fndodfControls(bfr, rfqCtls);
+                }
+            bfr.fndSfq();
+
+            if (trbdfFilf != null) {
+                Bfr.dumpBER(trbdfFilf, trbdfTbgOut, bfr.gftBuf(), 0,
+                    bfr.gftDbtbLfn());
+            }
+
+            syndhronizfd (this) {
+                outStrfbm.writf(bfr.gftBuf(), 0, bfr.gftDbtbLfn());
+                outStrfbm.flush();
+            }
+
+        } dbtdh (IOExdfption fx) {
+            //Systfm.frr.println("ldbp.bbbndon: " + fx);
+        }
+
+        // Don't fxpfdt bny rfsponsf for thf bbbndon rfqufst.
+    }
+
+    syndhronizfd void bbbndonOutstbndingRfqs(Control[] rfqCtls) {
+        LdbpRfqufst ldr = pfndingRfqufsts;
+
+        whilf (ldr != null) {
+            bbbndonRfqufst(ldr, rfqCtls);
+            pfndingRfqufsts = ldr = ldr.nfxt;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // Mfthods to unbind from sfrvfr bnd dlfbr up rfsourdfs whfn objfdt is
+    // dfstroyfd.
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    privbtf void ldbpUnbind(Control[] rfqCtls) {
+
+        BfrEndodfr bfr = nfw BfrEndodfr(256);
+        int unbindMsgId = gftMsgId();
+
+        //
+        // build thf unbind rfqufst.
+        //
+
+        try {
+
+            bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                bfr.fndodfInt(unbindMsgId);
+                // IMPLICIT TAGS
+                bfr.fndodfBytf(LdbpClifnt.LDAP_REQ_UNBIND);
+                bfr.fndodfBytf(0);
+
+                if (v3) {
+                    LdbpClifnt.fndodfControls(bfr, rfqCtls);
+                }
+            bfr.fndSfq();
+
+            if (trbdfFilf != null) {
+                Bfr.dumpBER(trbdfFilf, trbdfTbgOut, bfr.gftBuf(),
+                    0, bfr.gftDbtbLfn());
+            }
+
+            syndhronizfd (this) {
+                outStrfbm.writf(bfr.gftBuf(), 0, bfr.gftDbtbLfn());
+                outStrfbm.flush();
+            }
+
+        } dbtdh (IOExdfption fx) {
+            //Systfm.frr.println("ldbp.unbind: " + fx);
+        }
+
+        // Don't fxpfdt bny rfsponsf for thf unbind rfqufst.
+    }
+
+    /**
+     * @pbrbm rfqCtls Possibly null rfqufst dontrols thbt bddompbnifs thf
+     *    bbbndon bnd unbind LDAP rfqufst.
+     * @pbrbm notifyPbrfnt truf mfbns to dbll pbrfnt LdbpClifnt bbdk, notifying
+     *    it thbt thf donnfdtion hbs bffn dlosfd; fblsf mfbns not to notify
+     *    pbrfnt. If LdbpClifnt invokfs dlfbnup(), notifyPbrfnt should bf sft to
+     *    fblsf bfdbusf LdbpClifnt blrfbdy knows thbt it is dlosing
+     *    thf donnfdtion. If Connfdtion invokfs dlfbnup(), notifyPbrfnt should bf
+     *    sft to truf bfdbusf LdbpClifnt nffds to know bbout thf dlosurf.
+     */
+    void dlfbnup(Control[] rfqCtls, boolfbn notifyPbrfnt) {
+        boolfbn npbrfnt = fblsf;
+
+        syndhronizfd (this) {
+            usfbblf = fblsf;
+
+            if (sodk != null) {
+                if (dfbug) {
+                    Systfm.frr.println("Connfdtion: dlosing sodkft: " + host + "," + port);
+                }
+                try {
+                    if (!notifyPbrfnt) {
+                        bbbndonOutstbndingRfqs(rfqCtls);
+                    }
+                    if (bound) {
+                        ldbpUnbind(rfqCtls);
+                    }
+                } finblly {
+                    try {
+                        outStrfbm.flush();
+                        sodk.dlosf();
+                        unpbusfRfbdfr();
+                    } dbtdh (IOExdfption if) {
+                        if (dfbug)
+                            Systfm.frr.println("Connfdtion: problfm dlosing sodkft: " + if);
+                    }
+                    if (!notifyPbrfnt) {
+                        LdbpRfqufst ldr = pfndingRfqufsts;
+                        whilf (ldr != null) {
+                            ldr.dbndfl();
+                            ldr = ldr.nfxt;
+                        }
+                    }
+                    sodk = null;
+                }
+                npbrfnt = notifyPbrfnt;
+            }
+            if (npbrfnt) {
+                LdbpRfqufst ldr = pfndingRfqufsts;
+                whilf (ldr != null) {
+
+                    syndhronizfd (ldr) {
+                        ldr.notify();
+                        ldr = ldr.nfxt;
+                    }
+                }
+            }
+        }
+        if (npbrfnt) {
+            pbrfnt.prodfssConnfdtionClosurf();
+        }
+    }
+
+
+    // Assumf fvfrything is "quift"
+    // "syndhronizf" might lfbd to dfbdlodk so don't syndhronizf mfthod
+    // Usf strfbmLodk instfbd for syndhronizing updbtf to strfbm
+
+    syndhronizfd publid void rfplbdfStrfbms(InputStrfbm nfwIn, OutputStrfbm nfwOut) {
+        if (dfbug) {
+            Systfm.frr.println("Rfplbding " + inStrfbm + " with: " + nfwIn);
+            Systfm.frr.println("Rfplbding " + outStrfbm + " with: " + nfwOut);
+        }
+
+        inStrfbm = nfwIn;
+
+        // Clfbnup old strfbm
+        try {
+            outStrfbm.flush();
+        } dbtdh (IOExdfption if) {
+            if (dfbug)
+                Systfm.frr.println("Connfdtion: dbnnot flush outstrfbm: " + if);
+        }
+
+        // Rfplbdf strfbm
+        outStrfbm = nfwOut;
+    }
+
+    /**
+     * Usfd by Connfdtion thrfbd to rfbd inStrfbm into b lodbl vbribblf.
+     * This fnsurfs thbt thfrf is no dontfntion bftwffn thf mbin thrfbd
+     * bnd thf Connfdtion thrfbd whfn thf mbin thrfbd updbtfs inStrfbm.
+     */
+    syndhronizfd privbtf InputStrfbm gftInputStrfbm() {
+        rfturn inStrfbm;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // Codf for pbusing/unpbusing thf rfbdfr thrfbd ('workfr')
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+    /*
+     * Thf mbin idfb is to mbrk rfqufsts thbt nffd thf rfbdfr thrfbd to
+     * pbusf bftfr gftting thf rfsponsf. Whfn thf rfbdfr thrfbd gfts thf rfsponsf,
+     * it wbits on b lodk instfbd of rfturning to thf rfbd(). Thf nfxt timf b
+     * rfqufst is sfnt, thf rfbdfr is butombtidblly unblodkfd if nfdfssbry.
+     * Notf thbt thf rfbdfr must bf unblodkfd BEFORE thf rfqufst is sfnt.
+     * Othfrwisf, thfrf is b rbdf dondition whfrf thf rfqufst is sfnt bnd
+     * thf rfbdfr thrfbd might rfbd thf rfsponsf bnd bf unblodkfd
+     * by writfRfqufst().
+     *
+     * This pbusf givfs thf mbin thrfbd (StbrtTLS or SASL) bn opportunity to
+     * updbtf thf rfbdfr's stbtf (f.g., its strfbms) if nfdfssbry.
+     * Thf bssumption is thbt thf donnfdtion will rfmbin quift during this pbusf
+     * (i.f., no intfrvfning rfqufsts bfing sfnt).
+     *<p>
+     * For dfbling with StbrtTLS dlosf,
+     * whfn thf rfbd() fxits fithfr duf to EOF or bn fxdfption,
+     * thf rfbdfr thrfbd dhfdks whfthfr thfrf is b nfw strfbm to rfbd from.
+     * If so, thfn it rfbttfmpts thf rfbd. Othfrwisf, thf EOF or fxdfption
+     * is prodfssfd bnd thf rfbdfr thrfbd tfrminbtfs.
+     * In b StbrtTLS dlosf, thf dlifnt first rfplbdfs thf SSL IO strfbms with
+     * plbin onfs bnd thfn dlosfs thf SSL sodkft.
+     * If thf rfbdfr thrfbd bttfmpts to rfbd, or wbs rfbding, from
+     * thf SSL sodkft (thbt is, it got to thf rfbd BEFORE rfplbdfStrfbms()),
+     * thf SSL sodkft dlosf will dbusf thf rfbdfr thrfbd to
+     * gft bn EOF/fxdfption bnd rffxbminf thf input strfbm.
+     * If thf rfbdfr thrfbd sffs b nfw strfbm, it rfbttfmpts thf rfbd.
+     * If thf undfrlying sodkft is still blivf, thfn thf nfw rfbd will suddffd.
+     * If thf undfrlying sodkft hbs bffn dlosfd blso, thfn thf nfw rfbd will
+     * fbil bnd thf rfbdfr thrfbd fxits.
+     * If thf rfbdfr thrfbd bttfmpts to rfbd, or wbs rfbding, from thf plbin
+     * sodkft (thbt is, it got to thf rfbd AFTER rfplbdfStrfbms()), thf
+     * SSL sodkft dlosf will hbvf no ffffdt on thf rfbdfr thrfbd.
+     *
+     * Thf dhfdk for nfw strfbm is mbdf only
+     * in thf first bttfmpt bt rfbding b BER bufffr; thf rfbdfr should
+     * nfvfr bf in midst of rfbding b bufffr whfn b nonfbtbl dlosf oddurs.
+     * If this oddurs, thfn thf donnfdtion is in bn indonsistfnt stbtf bnd
+     * thf sbffst thing to do is to shut it down.
+     */
+
+    privbtf Objfdt pbusfLodk = nfw Objfdt();  // lodk for rfbdfr to wbit on whilf pbusfd
+    privbtf boolfbn pbusfd = fblsf;           // pbusfd stbtf of rfbdfr
+
+    /*
+     * Unpbusfs rfbdfr thrfbd if it wbs pbusfd
+     */
+    privbtf void unpbusfRfbdfr() throws IOExdfption {
+        syndhronizfd (pbusfLodk) {
+            if (pbusfd) {
+                if (dfbug) {
+                    Systfm.frr.println("Unpbusing rfbdfr; rfbd from: " +
+                                        inStrfbm);
+                }
+                pbusfd = fblsf;
+                pbusfLodk.notify();
+            }
+        }
+    }
+
+     /*
+     * Pbusfs rfbdfr so thbt it stops rfbding from thf input strfbm.
+     * Rfbdfr blodks on pbusfLodk instfbd of rfbd().
+     * MUST bf dbllfd from within syndhronizfd (pbusfLodk) dlbusf.
+     */
+    privbtf void pbusfRfbdfr() throws IOExdfption {
+        if (dfbug) {
+            Systfm.frr.println("Pbusing rfbdfr;  wbs rfbding from: " +
+                                inStrfbm);
+        }
+        pbusfd = truf;
+        try {
+            whilf (pbusfd) {
+                pbusfLodk.wbit(); // notififd by unpbusfRfbdfr
+            }
+        } dbtdh (IntfrruptfdExdfption f) {
+            throw nfw IntfrruptfdIOExdfption(
+                    "Pbusf/unpbusf rfbdfr hbs problfms.");
+        }
+    }
+
+
+    ////////////////////////////////////////////////////////////////////////////
+    //
+    // Thf LDAP Binding thrfbd. It dofs thf mux/dfmux of multiplf rfqufsts
+    // on thf sbmf TCP donnfdtion.
+    //
+    ////////////////////////////////////////////////////////////////////////////
+
+
+    publid void run() {
+        bytf inbuf[];   // Bufffr for rfbding indoming bytfs
+        int inMsgId;    // Mfssbgf id of indoming rfsponsf
+        int bytfsrfbd;  // Numbfr of bytfs in inbuf
+        int br;         // Tfmp; numbfr of bytfs rfbd from strfbm
+        int offsft;     // Offsft of whfrf to storf bytfs in inbuf
+        int sfqlfn;     // Lfngth of ASN sfqufndf
+        int sfqlfnlfn;  // Numbfr of sfqufndf lfngth bytfs
+        boolfbn fos;    // End of strfbm
+        BfrDfdodfr rftBfr;    // Dfdodfr for ASN.1 BER dbtb from inbuf
+        InputStrfbm in = null;
+
+        try {
+            whilf (truf) {
+                try {
+                    // typf bnd lfngth (bt most 128 odtfts for long form)
+                    inbuf = nfw bytf[129];
+
+                    offsft = 0;
+                    sfqlfn = 0;
+                    sfqlfnlfn = 0;
+
+                    in = gftInputStrfbm();
+
+                    // dhfdk thbt it is thf bfginning of b sfqufndf
+                    bytfsrfbd = in.rfbd(inbuf, offsft, 1);
+                    if (bytfsrfbd < 0) {
+                        if (in != gftInputStrfbm()) {
+                            dontinuf;   // b nfw strfbm to try
+                        } flsf {
+                            brfbk; // EOF
+                        }
+                    }
+
+                    if (inbuf[offsft++] != (Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR))
+                        dontinuf;
+
+                    // gft lfngth of sfqufndf
+                    bytfsrfbd = in.rfbd(inbuf, offsft, 1);
+                    if (bytfsrfbd < 0)
+                        brfbk; // EOF
+                    sfqlfn = inbuf[offsft++];
+
+                    // if high bit is on, lfngth is fndodfd in thf
+                    // subsfqufnt lfngth bytfs bnd thf numbfr of lfngth bytfs
+                    // is fqubl to & 0x80 (i.f. lfngth bytf with high bit off).
+                    if ((sfqlfn & 0x80) == 0x80) {
+                        sfqlfnlfn = sfqlfn & 0x7f;  // numbfr of lfngth bytfs
+
+                        bytfsrfbd = 0;
+                        fos = fblsf;
+
+                        // Rfbd bll lfngth bytfs
+                        whilf (bytfsrfbd < sfqlfnlfn) {
+                            br = in.rfbd(inbuf, offsft+bytfsrfbd,
+                                sfqlfnlfn-bytfsrfbd);
+                            if (br < 0) {
+                                fos = truf;
+                                brfbk; // EOF
+                            }
+                            bytfsrfbd += br;
+                        }
+
+                        // fnd-of-strfbm rfbdhfd bfforf lfngth bytfs brf rfbd
+                        if (fos)
+                            brfbk;  // EOF
+
+                        // Add dontfnts of lfngth bytfs to dftfrminf lfngth
+                        sfqlfn = 0;
+                        for( int i = 0; i < sfqlfnlfn; i++) {
+                            sfqlfn = (sfqlfn << 8) + (inbuf[offsft+i] & 0xff);
+                        }
+                        offsft += bytfsrfbd;
+                    }
+
+                    // rfbd in sfqlfn bytfs
+                    bytf[] lfft = IOUtils.rfbdFully(in, sfqlfn, fblsf);
+                    inbuf = Arrbys.dopyOf(inbuf, offsft + lfft.lfngth);
+                    Systfm.brrbydopy(lfft, 0, inbuf, offsft, lfft.lfngth);
+                    offsft += lfft.lfngth;
+/*
+if (dump > 0) {
+Systfm.frr.println("sfqlfn: " + sfqlfn);
+Systfm.frr.println("bufsizf: " + offsft);
+Systfm.frr.println("bytfslfft: " + bytfslfft);
+Systfm.frr.println("bytfsrfbd: " + bytfsrfbd);
+}
+*/
+
+
+                    try {
+                        rftBfr = nfw BfrDfdodfr(inbuf, 0, offsft);
+
+                        if (trbdfFilf != null) {
+                            Bfr.dumpBER(trbdfFilf, trbdfTbgIn, inbuf, 0, offsft);
+                        }
+
+                        rftBfr.pbrsfSfq(null);
+                        inMsgId = rftBfr.pbrsfInt();
+                        rftBfr.rfsft(); // rfsft offsft
+
+                        boolfbn nffdPbusf = fblsf;
+
+                        if (inMsgId == 0) {
+                            // Unsoliditfd Notifidbtion
+                            pbrfnt.prodfssUnsoliditfd(rftBfr);
+                        } flsf {
+                            LdbpRfqufst ldr = findRfqufst(inMsgId);
+
+                            if (ldr != null) {
+
+                                /**
+                                 * Grbb pbusfLodk bfforf mbking rfply bvbilbblf
+                                 * to fnsurf thbt rfbdfr gofs into pbusfd stbtf
+                                 * bfforf writfr dbn bttfmpt to unpbusf rfbdfr
+                                 */
+                                syndhronizfd (pbusfLodk) {
+                                    nffdPbusf = ldr.bddRfplyBfr(rftBfr);
+                                    if (nffdPbusf) {
+                                        /*
+                                         * Go into pbusfd stbtf; rflfbsf
+                                         * pbusfLodk
+                                         */
+                                        pbusfRfbdfr();
+                                    }
+
+                                    // flsf rflfbsf pbusfLodk
+                                }
+                            } flsf {
+                                // Systfm.frr.println("Cbnnot find" +
+                                //              "LdbpRfqufst for " + inMsgId);
+                            }
+                        }
+                    } dbtdh (Bfr.DfdodfExdfption f) {
+                        //Systfm.frr.println("Cbnnot pbrsf Bfr");
+                    }
+                } dbtdh (IOExdfption if) {
+                    if (dfbug) {
+                        Systfm.frr.println("Connfdtion: Insidf Cbught " + if);
+                        if.printStbdkTrbdf();
+                    }
+
+                    if (in != gftInputStrfbm()) {
+                        // A nfw strfbm to try
+                        // Go to top of loop bnd dontinuf
+                    } flsf {
+                        if (dfbug) {
+                            Systfm.frr.println("Connfdtion: rfthrowing " + if);
+                        }
+                        throw if;  // rfthrow fxdfption
+                    }
+                }
+            }
+
+            if (dfbug) {
+                Systfm.frr.println("Connfdtion: fnd-of-strfbm dftfdtfd: "
+                    + in);
+            }
+        } dbtdh (IOExdfption fx) {
+            if (dfbug) {
+                Systfm.frr.println("Connfdtion: Cbught " + fx);
+            }
+            dlosurfRfbson = fx;
+        } finblly {
+            dlfbnup(null, truf); // dlfbnup
+        }
+        if (dfbug) {
+            Systfm.frr.println("Connfdtion: Thrfbd Exiting");
+        }
+    }
+
+
+    // This dodf must bf undommfntfd to run thf LdbpAbbndonTfst.
+    /*publid void sfndSfbrdhRfqs(String dn, int numRfqs) {
+        int i;
+        String bttrs[] = null;
+        for(i = 1; i <= numRfqs; i++) {
+            BfrEndodfr bfr = nfw BfrEndodfr(2048);
+
+            try {
+            bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                bfr.fndodfInt(i);
+                bfr.bfginSfq(LdbpClifnt.LDAP_REQ_SEARCH);
+                    bfr.fndodfString(dn == null ? "" : dn);
+                    bfr.fndodfInt(0, LdbpClifnt.LBER_ENUMERATED);
+                    bfr.fndodfInt(3, LdbpClifnt.LBER_ENUMERATED);
+                    bfr.fndodfInt(0);
+                    bfr.fndodfInt(0);
+                    bfr.fndodfBoolfbn(truf);
+                    LdbpClifnt.fndodfFiltfr(bfr, "");
+                    bfr.bfginSfq(Bfr.ASN_SEQUENCE | Bfr.ASN_CONSTRUCTOR);
+                        bfr.fndodfStringArrby(bttrs);
+                    bfr.fndSfq();
+                bfr.fndSfq();
+            bfr.fndSfq();
+            writfRfqufst(bfr, i);
+            //Systfm.frr.println("wrotf rfqufst " + i);
+            } dbtdh (Exdfption fx) {
+            //Systfm.frr.println("ldbp.sfbrdh: Cbught " + fx + " building rfq");
+            }
+
+        }
+    } */
+}

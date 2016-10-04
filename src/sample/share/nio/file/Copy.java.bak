@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2008, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,183 +30,183 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-import java.nio.file.*;
-import static java.nio.file.StandardCopyOption.*;
-import java.nio.file.attribute.*;
-import static java.nio.file.FileVisitResult.*;
-import java.io.IOException;
-import java.util.*;
+import jbvb.nio.filf.*;
+import stbtid jbvb.nio.filf.StbndbrdCopyOption.*;
+import jbvb.nio.filf.bttributf.*;
+import stbtid jbvb.nio.filf.FilfVisitRfsult.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
 
 /**
- * Sample code that copies files in a similar manner to the cp(1) program.
+ * Sbmplf dodf tibt dopifs filfs in b similbr mbnnfr to tif dp(1) progrbm.
  */
 
-public class Copy {
+publid dlbss Copy {
 
     /**
-     * Returns {@code true} if okay to overwrite a  file ("cp -i")
+     * Rfturns {@dodf truf} if okby to ovfrwritf b  filf ("dp -i")
      */
-    static boolean okayToOverwrite(Path file) {
-        String answer = System.console().readLine("overwrite %s (yes/no)? ", file);
-        return (answer.equalsIgnoreCase("y") || answer.equalsIgnoreCase("yes"));
+    stbtid boolfbn okbyToOvfrwritf(Pbti filf) {
+        String bnswfr = Systfm.donsolf().rfbdLinf("ovfrwritf %s (yfs/no)? ", filf);
+        rfturn (bnswfr.fqublsIgnorfCbsf("y") || bnswfr.fqublsIgnorfCbsf("yfs"));
     }
 
     /**
-     * Copy source file to target location. If {@code prompt} is true then
-     * prompt user to overwrite target if it exists. The {@code preserve}
-     * parameter determines if file attributes should be copied/preserved.
+     * Copy sourdf filf to tbrgft lodbtion. If {@dodf prompt} is truf tifn
+     * prompt usfr to ovfrwritf tbrgft if it fxists. Tif {@dodf prfsfrvf}
+     * pbrbmftfr dftfrminfs if filf bttributfs siould bf dopifd/prfsfrvfd.
      */
-    static void copyFile(Path source, Path target, boolean prompt, boolean preserve) {
-        CopyOption[] options = (preserve) ?
-            new CopyOption[] { COPY_ATTRIBUTES, REPLACE_EXISTING } :
-            new CopyOption[] { REPLACE_EXISTING };
-        if (!prompt || Files.notExists(target) || okayToOverwrite(target)) {
+    stbtid void dopyFilf(Pbti sourdf, Pbti tbrgft, boolfbn prompt, boolfbn prfsfrvf) {
+        CopyOption[] options = (prfsfrvf) ?
+            nfw CopyOption[] { COPY_ATTRIBUTES, REPLACE_EXISTING } :
+            nfw CopyOption[] { REPLACE_EXISTING };
+        if (!prompt || Filfs.notExists(tbrgft) || okbyToOvfrwritf(tbrgft)) {
             try {
-                Files.copy(source, target, options);
-            } catch (IOException x) {
-                System.err.format("Unable to copy: %s: %s%n", source, x);
+                Filfs.dopy(sourdf, tbrgft, options);
+            } dbtdi (IOExdfption x) {
+                Systfm.frr.formbt("Unbblf to dopy: %s: %s%n", sourdf, x);
             }
         }
     }
 
     /**
-     * A {@code FileVisitor} that copies a file-tree ("cp -r")
+     * A {@dodf FilfVisitor} tibt dopifs b filf-trff ("dp -r")
      */
-    static class TreeCopier implements FileVisitor<Path> {
-        private final Path source;
-        private final Path target;
-        private final boolean prompt;
-        private final boolean preserve;
+    stbtid dlbss TrffCopifr implfmfnts FilfVisitor<Pbti> {
+        privbtf finbl Pbti sourdf;
+        privbtf finbl Pbti tbrgft;
+        privbtf finbl boolfbn prompt;
+        privbtf finbl boolfbn prfsfrvf;
 
-        TreeCopier(Path source, Path target, boolean prompt, boolean preserve) {
-            this.source = source;
-            this.target = target;
-            this.prompt = prompt;
-            this.preserve = preserve;
+        TrffCopifr(Pbti sourdf, Pbti tbrgft, boolfbn prompt, boolfbn prfsfrvf) {
+            tiis.sourdf = sourdf;
+            tiis.tbrgft = tbrgft;
+            tiis.prompt = prompt;
+            tiis.prfsfrvf = prfsfrvf;
         }
 
-        @Override
-        public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
-            // before visiting entries in a directory we copy the directory
-            // (okay if directory already exists).
-            CopyOption[] options = (preserve) ?
-                new CopyOption[] { COPY_ATTRIBUTES } : new CopyOption[0];
+        @Ovfrridf
+        publid FilfVisitRfsult prfVisitDirfdtory(Pbti dir, BbsidFilfAttributfs bttrs) {
+            // bfforf visiting fntrifs in b dirfdtory wf dopy tif dirfdtory
+            // (okby if dirfdtory blrfbdy fxists).
+            CopyOption[] options = (prfsfrvf) ?
+                nfw CopyOption[] { COPY_ATTRIBUTES } : nfw CopyOption[0];
 
-            Path newdir = target.resolve(source.relativize(dir));
+            Pbti nfwdir = tbrgft.rfsolvf(sourdf.rflbtivizf(dir));
             try {
-                Files.copy(dir, newdir, options);
-            } catch (FileAlreadyExistsException x) {
-                // ignore
-            } catch (IOException x) {
-                System.err.format("Unable to create: %s: %s%n", newdir, x);
-                return SKIP_SUBTREE;
+                Filfs.dopy(dir, nfwdir, options);
+            } dbtdi (FilfAlrfbdyExistsExdfption x) {
+                // ignorf
+            } dbtdi (IOExdfption x) {
+                Systfm.frr.formbt("Unbblf to drfbtf: %s: %s%n", nfwdir, x);
+                rfturn SKIP_SUBTREE;
             }
-            return CONTINUE;
+            rfturn CONTINUE;
         }
 
-        @Override
-        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) {
-            copyFile(file, target.resolve(source.relativize(file)),
-                     prompt, preserve);
-            return CONTINUE;
+        @Ovfrridf
+        publid FilfVisitRfsult visitFilf(Pbti filf, BbsidFilfAttributfs bttrs) {
+            dopyFilf(filf, tbrgft.rfsolvf(sourdf.rflbtivizf(filf)),
+                     prompt, prfsfrvf);
+            rfturn CONTINUE;
         }
 
-        @Override
-        public FileVisitResult postVisitDirectory(Path dir, IOException exc) {
-            // fix up modification time of directory when done
-            if (exc == null && preserve) {
-                Path newdir = target.resolve(source.relativize(dir));
+        @Ovfrridf
+        publid FilfVisitRfsult postVisitDirfdtory(Pbti dir, IOExdfption fxd) {
+            // fix up modifidbtion timf of dirfdtory wifn donf
+            if (fxd == null && prfsfrvf) {
+                Pbti nfwdir = tbrgft.rfsolvf(sourdf.rflbtivizf(dir));
                 try {
-                    FileTime time = Files.getLastModifiedTime(dir);
-                    Files.setLastModifiedTime(newdir, time);
-                } catch (IOException x) {
-                    System.err.format("Unable to copy all attributes to: %s: %s%n", newdir, x);
+                    FilfTimf timf = Filfs.gftLbstModififdTimf(dir);
+                    Filfs.sftLbstModififdTimf(nfwdir, timf);
+                } dbtdi (IOExdfption x) {
+                    Systfm.frr.formbt("Unbblf to dopy bll bttributfs to: %s: %s%n", nfwdir, x);
                 }
             }
-            return CONTINUE;
+            rfturn CONTINUE;
         }
 
-        @Override
-        public FileVisitResult visitFileFailed(Path file, IOException exc) {
-            if (exc instanceof FileSystemLoopException) {
-                System.err.println("cycle detected: " + file);
-            } else {
-                System.err.format("Unable to copy: %s: %s%n", file, exc);
+        @Ovfrridf
+        publid FilfVisitRfsult visitFilfFbilfd(Pbti filf, IOExdfption fxd) {
+            if (fxd instbndfof FilfSystfmLoopExdfption) {
+                Systfm.frr.println("dydlf dftfdtfd: " + filf);
+            } flsf {
+                Systfm.frr.formbt("Unbblf to dopy: %s: %s%n", filf, fxd);
             }
-            return CONTINUE;
+            rfturn CONTINUE;
         }
     }
 
-    static void usage() {
-        System.err.println("java Copy [-ip] source... target");
-        System.err.println("java Copy -r [-ip] source-dir... target");
-        System.exit(-1);
+    stbtid void usbgf() {
+        Systfm.frr.println("jbvb Copy [-ip] sourdf... tbrgft");
+        Systfm.frr.println("jbvb Copy -r [-ip] sourdf-dir... tbrgft");
+        Systfm.fxit(-1);
     }
 
-    public static void main(String[] args) throws IOException {
-        boolean recursive = false;
-        boolean prompt = false;
-        boolean preserve = false;
+    publid stbtid void mbin(String[] brgs) tirows IOExdfption {
+        boolfbn rfdursivf = fblsf;
+        boolfbn prompt = fblsf;
+        boolfbn prfsfrvf = fblsf;
 
-        // process options
-        int argi = 0;
-        while (argi < args.length) {
-            String arg = args[argi];
-            if (!arg.startsWith("-"))
-                break;
-            if (arg.length() < 2)
-                usage();
-            for (int i=1; i<arg.length(); i++) {
-                char c = arg.charAt(i);
-                switch (c) {
-                    case 'r' : recursive = true; break;
-                    case 'i' : prompt = true; break;
-                    case 'p' : preserve = true; break;
-                    default : usage();
+        // prodfss options
+        int brgi = 0;
+        wiilf (brgi < brgs.lfngti) {
+            String brg = brgs[brgi];
+            if (!brg.stbrtsWiti("-"))
+                brfbk;
+            if (brg.lfngti() < 2)
+                usbgf();
+            for (int i=1; i<brg.lfngti(); i++) {
+                dibr d = brg.dibrAt(i);
+                switdi (d) {
+                    dbsf 'r' : rfdursivf = truf; brfbk;
+                    dbsf 'i' : prompt = truf; brfbk;
+                    dbsf 'p' : prfsfrvf = truf; brfbk;
+                    dffbult : usbgf();
                 }
             }
-            argi++;
+            brgi++;
         }
 
-        // remaining arguments are the source files(s) and the target location
-        int remaining = args.length - argi;
-        if (remaining < 2)
-            usage();
-        Path[] source = new Path[remaining-1];
+        // rfmbining brgumfnts brf tif sourdf filfs(s) bnd tif tbrgft lodbtion
+        int rfmbining = brgs.lfngti - brgi;
+        if (rfmbining < 2)
+            usbgf();
+        Pbti[] sourdf = nfw Pbti[rfmbining-1];
         int i=0;
-        while (remaining > 1) {
-            source[i++] = Paths.get(args[argi++]);
-            remaining--;
+        wiilf (rfmbining > 1) {
+            sourdf[i++] = Pbtis.gft(brgs[brgi++]);
+            rfmbining--;
         }
-        Path target = Paths.get(args[argi]);
+        Pbti tbrgft = Pbtis.gft(brgs[brgi]);
 
-        // check if target is a directory
-        boolean isDir = Files.isDirectory(target);
+        // difdk if tbrgft is b dirfdtory
+        boolfbn isDir = Filfs.isDirfdtory(tbrgft);
 
-        // copy each source file/directory to target
-        for (i=0; i<source.length; i++) {
-            Path dest = (isDir) ? target.resolve(source[i].getFileName()) : target;
+        // dopy fbdi sourdf filf/dirfdtory to tbrgft
+        for (i=0; i<sourdf.lfngti; i++) {
+            Pbti dfst = (isDir) ? tbrgft.rfsolvf(sourdf[i].gftFilfNbmf()) : tbrgft;
 
-            if (recursive) {
-                // follow links when copying files
-                EnumSet<FileVisitOption> opts = EnumSet.of(FileVisitOption.FOLLOW_LINKS);
-                TreeCopier tc = new TreeCopier(source[i], dest, prompt, preserve);
-                Files.walkFileTree(source[i], opts, Integer.MAX_VALUE, tc);
-            } else {
-                // not recursive so source must not be a directory
-                if (Files.isDirectory(source[i])) {
-                    System.err.format("%s: is a directory%n", source[i]);
-                    continue;
+            if (rfdursivf) {
+                // follow links wifn dopying filfs
+                EnumSft<FilfVisitOption> opts = EnumSft.of(FilfVisitOption.FOLLOW_LINKS);
+                TrffCopifr td = nfw TrffCopifr(sourdf[i], dfst, prompt, prfsfrvf);
+                Filfs.wblkFilfTrff(sourdf[i], opts, Intfgfr.MAX_VALUE, td);
+            } flsf {
+                // not rfdursivf so sourdf must not bf b dirfdtory
+                if (Filfs.isDirfdtory(sourdf[i])) {
+                    Systfm.frr.formbt("%s: is b dirfdtory%n", sourdf[i]);
+                    dontinuf;
                 }
-                copyFile(source[i], dest, prompt, preserve);
+                dopyFilf(sourdf[i], dfst, prompt, prfsfrvf);
             }
         }
     }

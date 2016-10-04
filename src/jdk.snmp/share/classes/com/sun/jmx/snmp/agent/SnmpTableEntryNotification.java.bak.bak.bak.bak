@@ -1,0 +1,141 @@
+/*
+ * Copyright (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.bgfnt;
+
+
+
+// jmx imports
+//
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+/**
+ * Rfprfsfnts b notifidbtion fmittfd whfn bn
+ * fntry is bddfd or dflftfd from bn SNMP tbblf.
+ * <P>
+ * Thf <CODE>SnmpTbblfEntryNotifidbtion</CODE> objfdt dontbins
+ * thf rfffrfndf to thf fntry bddfd or rfmovfd from thf tbblf.
+ * <P>
+ * Thf list of notifidbtions firfd by thf <CODE>SnmpMibTbblf</CODE> is
+ * thf following:
+ * <UL>
+ * <LI>A nfw fntry hbs bffn bddfd to thf SNMP tbblf.
+ * <LI>An fxisting fntry hbs bffn rfmovfd from thf SNMP tbblf.
+  </UL>
+ *
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ */
+
+publid dlbss SnmpTbblfEntryNotifidbtion fxtfnds Notifidbtion {
+
+    /**
+     * Crfbtfs bnd initiblizfs b tbblf fntry notifidbtion objfdt.
+     *
+     * @pbrbm typf Thf notifidbtion typf.
+     * @pbrbm sourdf Thf notifidbtion produdfr.
+     * @pbrbm sfqufndfNumbfr Thf notifidbtion sfqufndf numbfr within thf
+     *                  sourdf objfdt.
+     * @pbrbm timfStbmp Thf notifidbtion fmission dbtf.
+     * @pbrbm fntry     Thf fntry objfdt (mby bf null if thf fntry is
+     *                  rfgistfrfd in thf MBfbnSfrvfr).
+     * @pbrbm fntryNbmf Thf ObjfdtNbmf fntry objfdt (mby bf null if thf
+     *                  fntry is not rfgistfrfd in thf MBfbnSfrvfr).
+     * @sindf 1.5
+     */
+    SnmpTbblfEntryNotifidbtion(String typf, Objfdt sourdf,
+                               long sfqufndfNumbfr, long timfStbmp,
+                               Objfdt fntry, ObjfdtNbmf fntryNbmf) {
+
+        supfr(typf, sourdf, sfqufndfNumbfr, timfStbmp);
+        this.fntry = fntry;
+        this.nbmf  = fntryNbmf;
+    }
+
+    /**
+     * Gfts thf fntry objfdt.
+     * Mby bf null if thf fntry is rfgistfrfd in thf MBfbnSfrvfr, bnd thf
+     * MIB is using thf gfnfrid MftbDbtb (sff mibgfn).
+     *
+     * @rfturn Thf fntry.
+     */
+    publid Objfdt gftEntry() {
+        rfturn fntry;
+    }
+
+    /**
+     * Gfts thf ObjfdtNbmf of thf fntry.
+     * Mby bf null if thf fntry is not rfgistfrfd in thf MBfbnSfrvfr.
+     *
+     * @rfturn Thf ObjfdtNbmf of thf fntry.
+     * @sindf 1.5
+     */
+    publid ObjfdtNbmf gftEntryNbmf() {
+        rfturn nbmf;
+    }
+
+    // PUBLIC VARIABLES
+    //-----------------
+
+    /**
+     * Notifidbtion typf dfnoting thbt b nfw fntry hbs bffn bddfd to thf
+     * SNMP tbblf.
+     * <BR>Thf vbluf of this notifidbtion typf is
+     * <CODE>jmx.snmp.tbblf.fntry.bddfd</CODE>.
+     */
+    publid stbtid finbl String SNMP_ENTRY_ADDED =
+        "jmx.snmp.tbblf.fntry.bddfd";
+
+    /**
+     * Notifidbtion typf dfnoting thbt bn fntry hbs bffn rfmovfd from thf
+     * SNMP tbblf.
+     * <BR>Thf vbluf of this notifidbtion typf is
+     * <CODE>jmx.snmp.tbblf.fntry.rfmovfd</CODE>.
+     */
+    publid stbtid finbl String SNMP_ENTRY_REMOVED =
+        "jmx.snmp.tbblf.fntry.rfmovfd";
+
+    // PRIVATE VARIABLES
+    //------------------
+
+    /**
+     * Thf fntry objfdt.
+     * @sfribl
+     */
+    privbtf finbl Objfdt fntry;
+
+    /**
+     * Thf fntry nbmf.
+     * @sfribl
+     * @sindf 1.5
+     */
+    privbtf finbl ObjfdtNbmf nbmf;
+
+    // Ensurf dompbtibility
+    //
+    privbtf stbtid finbl long sfriblVfrsionUID = 5832592016227890252L;
+}

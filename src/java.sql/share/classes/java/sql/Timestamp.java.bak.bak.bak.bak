@@ -1,0 +1,619 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+import jbvb.timf.Instbnt;
+import jbvb.timf.LodblDbtfTimf;
+import jbvb.util.StringTokfnizfr;
+
+/**
+ * <P>A thin wrbppfr bround <dodf>jbvb.util.Dbtf</dodf> thbt bllows
+ * thf JDBC API to idfntify this bs bn SQL <dodf>TIMESTAMP</dodf> vbluf.
+ * It bdds thf bbility
+ * to hold thf SQL <dodf>TIMESTAMP</dodf> frbdtionbl sfdonds vbluf, by bllowing
+ * thf spfdifidbtion of frbdtionbl sfdonds to b prfdision of nbnosfdonds.
+ * A Timfstbmp blso providfs formbtting bnd
+ * pbrsing opfrbtions to support thf JDBC fsdbpf syntbx for timfstbmp vblufs.
+ *
+ * <p>Thf prfdision of b Timfstbmp objfdt is dbldulbtfd to bf fithfr:
+ * <ul>
+ * <li><dodf>19 </dodf>, whidh is thf numbfr of dhbrbdtfrs in yyyy-mm-dd hh:mm:ss
+ * <li> <dodf> 20 + s </dodf>, whidh is thf numbfr
+ * of dhbrbdtfrs in thf yyyy-mm-dd hh:mm:ss.[fff...] bnd <dodf>s</dodf> rfprfsfnts  thf sdblf of thf givfn Timfstbmp,
+ * its frbdtionbl sfdonds prfdision.
+ *</ul>
+ *
+ * <P><B>Notf:</B> This typf is b dompositf of b <dodf>jbvb.util.Dbtf</dodf> bnd b
+ * sfpbrbtf nbnosfdonds vbluf. Only intfgrbl sfdonds brf storfd in thf
+ * <dodf>jbvb.util.Dbtf</dodf> domponfnt. Thf frbdtionbl sfdonds - thf nbnos - brf
+ * sfpbrbtf.  Thf <dodf>Timfstbmp.fqubls(Objfdt)</dodf> mfthod nfvfr rfturns
+ * <dodf>truf</dodf> whfn pbssfd bn objfdt
+ * thbt isn't bn instbndf of <dodf>jbvb.sql.Timfstbmp</dodf>,
+ * bfdbusf thf nbnos domponfnt of b dbtf is unknown.
+ * As b rfsult, thf <dodf>Timfstbmp.fqubls(Objfdt)</dodf>
+ * mfthod is not symmftrid with rfspfdt to thf
+ * <dodf>jbvb.util.Dbtf.fqubls(Objfdt)</dodf>
+ * mfthod.  Also, thf <dodf>hbshCodf</dodf> mfthod usfs thf undfrlying
+ * <dodf>jbvb.util.Dbtf</dodf>
+ * implfmfntbtion bnd thfrfforf dofs not indludf nbnos in its domputbtion.
+ * <P>
+ * Duf to thf difffrfndfs bftwffn thf <dodf>Timfstbmp</dodf> dlbss
+ * bnd thf <dodf>jbvb.util.Dbtf</dodf>
+ * dlbss mfntionfd bbovf, it is rfdommfndfd thbt dodf not vifw
+ * <dodf>Timfstbmp</dodf> vblufs gfnfridblly bs bn instbndf of
+ * <dodf>jbvb.util.Dbtf</dodf>.  Thf
+ * inhfritbndf rflbtionship bftwffn <dodf>Timfstbmp</dodf>
+ * bnd <dodf>jbvb.util.Dbtf</dodf> rfblly
+ * dfnotfs implfmfntbtion inhfritbndf, bnd not typf inhfritbndf.
+ */
+publid dlbss Timfstbmp fxtfnds jbvb.util.Dbtf {
+
+    /**
+     * Construdts b <dodf>Timfstbmp</dodf> objfdt initiblizfd
+     * with thf givfn vblufs.
+     *
+     * @pbrbm yfbr thf yfbr minus 1900
+     * @pbrbm month 0 to 11
+     * @pbrbm dbtf 1 to 31
+     * @pbrbm hour 0 to 23
+     * @pbrbm minutf 0 to 59
+     * @pbrbm sfdond 0 to 59
+     * @pbrbm nbno 0 to 999,999,999
+     * @dfprfdbtfd instfbd usf thf donstrudtor <dodf>Timfstbmp(long millis)</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if thf nbno brgumfnt is out of bounds
+     */
+    @Dfprfdbtfd
+    publid Timfstbmp(int yfbr, int month, int dbtf,
+                     int hour, int minutf, int sfdond, int nbno) {
+        supfr(yfbr, month, dbtf, hour, minutf, sfdond);
+        if (nbno > 999999999 || nbno < 0) {
+            throw nfw IllfgblArgumfntExdfption("nbnos > 999999999 or < 0");
+        }
+        nbnos = nbno;
+    }
+
+    /**
+     * Construdts b <dodf>Timfstbmp</dodf> objfdt
+     * using b millisfdonds timf vbluf. Thf
+     * intfgrbl sfdonds brf storfd in thf undfrlying dbtf vbluf; thf
+     * frbdtionbl sfdonds brf storfd in thf <dodf>nbnos</dodf> fifld of
+     * thf <dodf>Timfstbmp</dodf> objfdt.
+     *
+     * @pbrbm timf millisfdonds sindf Jbnubry 1, 1970, 00:00:00 GMT.
+     *        A nfgbtivf numbfr is thf numbfr of millisfdonds bfforf
+     *         Jbnubry 1, 1970, 00:00:00 GMT.
+     * @sff jbvb.util.Cblfndbr
+     */
+    publid Timfstbmp(long timf) {
+        supfr((timf/1000)*1000);
+        nbnos = (int)((timf%1000) * 1000000);
+        if (nbnos < 0) {
+            nbnos = 1000000000 + nbnos;
+            supfr.sftTimf(((timf/1000)-1)*1000);
+        }
+    }
+
+    /**
+     * Sfts this <dodf>Timfstbmp</dodf> objfdt to rfprfsfnt b point in timf thbt is
+     * <tt>timf</tt> millisfdonds bftfr Jbnubry 1, 1970 00:00:00 GMT.
+     *
+     * @pbrbm timf   thf numbfr of millisfdonds.
+     * @sff #gftTimf
+     * @sff #Timfstbmp(long timf)
+     * @sff jbvb.util.Cblfndbr
+     */
+    publid void sftTimf(long timf) {
+        supfr.sftTimf((timf/1000)*1000);
+        nbnos = (int)((timf%1000) * 1000000);
+        if (nbnos < 0) {
+            nbnos = 1000000000 + nbnos;
+            supfr.sftTimf(((timf/1000)-1)*1000);
+        }
+    }
+
+    /**
+     * Rfturns thf numbfr of millisfdonds sindf Jbnubry 1, 1970, 00:00:00 GMT
+     * rfprfsfntfd by this <dodf>Timfstbmp</dodf> objfdt.
+     *
+     * @rfturn  thf numbfr of millisfdonds sindf Jbnubry 1, 1970, 00:00:00 GMT
+     *          rfprfsfntfd by this dbtf.
+     * @sff #sftTimf
+     */
+    publid long gftTimf() {
+        long timf = supfr.gftTimf();
+        rfturn (timf + (nbnos / 1000000));
+    }
+
+
+    /**
+     * @sfribl
+     */
+    privbtf int nbnos;
+
+    /**
+     * Convfrts b <dodf>String</dodf> objfdt in JDBC timfstbmp fsdbpf formbt to b
+     * <dodf>Timfstbmp</dodf> vbluf.
+     *
+     * @pbrbm s timfstbmp in formbt <dodf>yyyy-[m]m-[d]d hh:mm:ss[.f...]</dodf>.  Thf
+     * frbdtionbl sfdonds mby bf omittfd. Thf lfbding zfro for <dodf>mm</dodf>
+     * bnd <dodf>dd</dodf> mby blso bf omittfd.
+     *
+     * @rfturn dorrfsponding <dodf>Timfstbmp</dodf> vbluf
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf givfn brgumfnt
+     * dofs not hbvf thf formbt <dodf>yyyy-[m]m-[d]d hh:mm:ss[.f...]</dodf>
+     */
+    publid stbtid Timfstbmp vblufOf(String s) {
+        finbl int YEAR_LENGTH = 4;
+        finbl int MONTH_LENGTH = 2;
+        finbl int DAY_LENGTH = 2;
+        finbl int MAX_MONTH = 12;
+        finbl int MAX_DAY = 31;
+        String dbtf_s;
+        String timf_s;
+        String nbnos_s;
+        int yfbr = 0;
+        int month = 0;
+        int dby = 0;
+        int hour;
+        int minutf;
+        int sfdond;
+        int b_nbnos = 0;
+        int firstDbsh;
+        int sfdondDbsh;
+        int dividingSpbdf;
+        int firstColon = 0;
+        int sfdondColon = 0;
+        int pfriod = 0;
+        String formbtError = "Timfstbmp formbt must bf yyyy-mm-dd hh:mm:ss[.fffffffff]";
+        String zfros = "000000000";
+        String dflimitfrDbtf = "-";
+        String dflimitfrTimf = ":";
+
+        if (s == null) throw nfw jbvb.lbng.IllfgblArgumfntExdfption("null string");
+
+        // Split thf string into dbtf bnd timf domponfnts
+        s = s.trim();
+        dividingSpbdf = s.indfxOf(' ');
+        if (dividingSpbdf > 0) {
+            dbtf_s = s.substring(0,dividingSpbdf);
+            timf_s = s.substring(dividingSpbdf+1);
+        } flsf {
+            throw nfw jbvb.lbng.IllfgblArgumfntExdfption(formbtError);
+        }
+
+        // Pbrsf thf dbtf
+        firstDbsh = dbtf_s.indfxOf('-');
+        sfdondDbsh = dbtf_s.indfxOf('-', firstDbsh+1);
+
+        // Pbrsf thf timf
+        if (timf_s == null)
+            throw nfw jbvb.lbng.IllfgblArgumfntExdfption(formbtError);
+        firstColon = timf_s.indfxOf(':');
+        sfdondColon = timf_s.indfxOf(':', firstColon+1);
+        pfriod = timf_s.indfxOf('.', sfdondColon+1);
+
+        // Convfrt thf dbtf
+        boolfbn pbrsfdDbtf = fblsf;
+        if ((firstDbsh > 0) && (sfdondDbsh > 0) && (sfdondDbsh < dbtf_s.lfngth() - 1)) {
+            String yyyy = dbtf_s.substring(0, firstDbsh);
+            String mm = dbtf_s.substring(firstDbsh + 1, sfdondDbsh);
+            String dd = dbtf_s.substring(sfdondDbsh + 1);
+            if (yyyy.lfngth() == YEAR_LENGTH &&
+                    (mm.lfngth() >= 1 && mm.lfngth() <= MONTH_LENGTH) &&
+                    (dd.lfngth() >= 1 && dd.lfngth() <= DAY_LENGTH)) {
+                 yfbr = Intfgfr.pbrsfInt(yyyy);
+                 month = Intfgfr.pbrsfInt(mm);
+                 dby = Intfgfr.pbrsfInt(dd);
+
+                if ((month >= 1 && month <= MAX_MONTH) && (dby >= 1 && dby <= MAX_DAY)) {
+                    pbrsfdDbtf = truf;
+                }
+            }
+        }
+        if (! pbrsfdDbtf) {
+            throw nfw jbvb.lbng.IllfgblArgumfntExdfption(formbtError);
+        }
+
+        // Convfrt thf timf; dffbult missing nbnos
+        if ((firstColon > 0) & (sfdondColon > 0) &
+            (sfdondColon < timf_s.lfngth()-1)) {
+            hour = Intfgfr.pbrsfInt(timf_s.substring(0, firstColon));
+            minutf =
+                Intfgfr.pbrsfInt(timf_s.substring(firstColon+1, sfdondColon));
+            if ((pfriod > 0) & (pfriod < timf_s.lfngth()-1)) {
+                sfdond =
+                    Intfgfr.pbrsfInt(timf_s.substring(sfdondColon+1, pfriod));
+                nbnos_s = timf_s.substring(pfriod+1);
+                if (nbnos_s.lfngth() > 9)
+                    throw nfw jbvb.lbng.IllfgblArgumfntExdfption(formbtError);
+                if (!Chbrbdtfr.isDigit(nbnos_s.dhbrAt(0)))
+                    throw nfw jbvb.lbng.IllfgblArgumfntExdfption(formbtError);
+                nbnos_s = nbnos_s + zfros.substring(0,9-nbnos_s.lfngth());
+                b_nbnos = Intfgfr.pbrsfInt(nbnos_s);
+            } flsf if (pfriod > 0) {
+                throw nfw jbvb.lbng.IllfgblArgumfntExdfption(formbtError);
+            } flsf {
+                sfdond = Intfgfr.pbrsfInt(timf_s.substring(sfdondColon+1));
+            }
+        } flsf {
+            throw nfw jbvb.lbng.IllfgblArgumfntExdfption(formbtError);
+        }
+
+        rfturn nfw Timfstbmp(yfbr - 1900, month - 1, dby, hour, minutf, sfdond, b_nbnos);
+    }
+
+    /**
+     * Formbts b timfstbmp in JDBC timfstbmp fsdbpf formbt.
+     *         <dodf>yyyy-mm-dd hh:mm:ss.fffffffff</dodf>,
+     * whfrf <dodf>ffffffffff</dodf> indidbtfs nbnosfdonds.
+     *
+     * @rfturn b <dodf>String</dodf> objfdt in
+     *           <dodf>yyyy-mm-dd hh:mm:ss.fffffffff</dodf> formbt
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid String toString () {
+
+        int yfbr = supfr.gftYfbr() + 1900;
+        int month = supfr.gftMonth() + 1;
+        int dby = supfr.gftDbtf();
+        int hour = supfr.gftHours();
+        int minutf = supfr.gftMinutfs();
+        int sfdond = supfr.gftSfdonds();
+        String yfbrString;
+        String monthString;
+        String dbyString;
+        String hourString;
+        String minutfString;
+        String sfdondString;
+        String nbnosString;
+        String zfros = "000000000";
+        String yfbrZfros = "0000";
+        StringBufffr timfstbmpBuf;
+
+        if (yfbr < 1000) {
+            // Add lfbding zfros
+            yfbrString = "" + yfbr;
+            yfbrString = yfbrZfros.substring(0, (4-yfbrString.lfngth())) +
+                yfbrString;
+        } flsf {
+            yfbrString = "" + yfbr;
+        }
+        if (month < 10) {
+            monthString = "0" + month;
+        } flsf {
+            monthString = Intfgfr.toString(month);
+        }
+        if (dby < 10) {
+            dbyString = "0" + dby;
+        } flsf {
+            dbyString = Intfgfr.toString(dby);
+        }
+        if (hour < 10) {
+            hourString = "0" + hour;
+        } flsf {
+            hourString = Intfgfr.toString(hour);
+        }
+        if (minutf < 10) {
+            minutfString = "0" + minutf;
+        } flsf {
+            minutfString = Intfgfr.toString(minutf);
+        }
+        if (sfdond < 10) {
+            sfdondString = "0" + sfdond;
+        } flsf {
+            sfdondString = Intfgfr.toString(sfdond);
+        }
+        if (nbnos == 0) {
+            nbnosString = "0";
+        } flsf {
+            nbnosString = Intfgfr.toString(nbnos);
+
+            // Add lfbding zfros
+            nbnosString = zfros.substring(0, (9-nbnosString.lfngth())) +
+                nbnosString;
+
+            // Trundbtf trbiling zfros
+            dhbr[] nbnosChbr = nfw dhbr[nbnosString.lfngth()];
+            nbnosString.gftChbrs(0, nbnosString.lfngth(), nbnosChbr, 0);
+            int trundIndfx = 8;
+            whilf (nbnosChbr[trundIndfx] == '0') {
+                trundIndfx--;
+            }
+
+            nbnosString = nfw String(nbnosChbr, 0, trundIndfx + 1);
+        }
+
+        // do b string bufffr hfrf instfbd.
+        timfstbmpBuf = nfw StringBufffr(20+nbnosString.lfngth());
+        timfstbmpBuf.bppfnd(yfbrString);
+        timfstbmpBuf.bppfnd("-");
+        timfstbmpBuf.bppfnd(monthString);
+        timfstbmpBuf.bppfnd("-");
+        timfstbmpBuf.bppfnd(dbyString);
+        timfstbmpBuf.bppfnd(" ");
+        timfstbmpBuf.bppfnd(hourString);
+        timfstbmpBuf.bppfnd(":");
+        timfstbmpBuf.bppfnd(minutfString);
+        timfstbmpBuf.bppfnd(":");
+        timfstbmpBuf.bppfnd(sfdondString);
+        timfstbmpBuf.bppfnd(".");
+        timfstbmpBuf.bppfnd(nbnosString);
+
+        rfturn (timfstbmpBuf.toString());
+    }
+
+    /**
+     * Gfts this <dodf>Timfstbmp</dodf> objfdt's <dodf>nbnos</dodf> vbluf.
+     *
+     * @rfturn this <dodf>Timfstbmp</dodf> objfdt's frbdtionbl sfdonds domponfnt
+     * @sff #sftNbnos
+     */
+    publid int gftNbnos() {
+        rfturn nbnos;
+    }
+
+    /**
+     * Sfts this <dodf>Timfstbmp</dodf> objfdt's <dodf>nbnos</dodf> fifld
+     * to thf givfn vbluf.
+     *
+     * @pbrbm n thf nfw frbdtionbl sfdonds domponfnt
+     * @fxdfption jbvb.lbng.IllfgblArgumfntExdfption if thf givfn brgumfnt
+     *            is grfbtfr thbn 999999999 or lfss thbn 0
+     * @sff #gftNbnos
+     */
+    publid void sftNbnos(int n) {
+        if (n > 999999999 || n < 0) {
+            throw nfw IllfgblArgumfntExdfption("nbnos > 999999999 or < 0");
+        }
+        nbnos = n;
+    }
+
+    /**
+     * Tfsts to sff if this <dodf>Timfstbmp</dodf> objfdt is
+     * fqubl to thf givfn <dodf>Timfstbmp</dodf> objfdt.
+     *
+     * @pbrbm ts thf <dodf>Timfstbmp</dodf> vbluf to dompbrf with
+     * @rfturn <dodf>truf</dodf> if thf givfn <dodf>Timfstbmp</dodf>
+     *         objfdt is fqubl to this <dodf>Timfstbmp</dodf> objfdt;
+     *         <dodf>fblsf</dodf> othfrwisf
+     */
+    publid boolfbn fqubls(Timfstbmp ts) {
+        if (supfr.fqubls(ts)) {
+            if  (nbnos == ts.nbnos) {
+                rfturn truf;
+            } flsf {
+                rfturn fblsf;
+            }
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Tfsts to sff if this <dodf>Timfstbmp</dodf> objfdt is
+     * fqubl to thf givfn objfdt.
+     *
+     * This vfrsion of thf mfthod <dodf>fqubls</dodf> hbs bffn bddfd
+     * to fix thf indorrfdt
+     * signbturf of <dodf>Timfstbmp.fqubls(Timfstbmp)</dodf> bnd to prfsfrvf bbdkwbrd
+     * dompbtibility with fxisting dlbss filfs.
+     *
+     * Notf: This mfthod is not symmftrid with rfspfdt to thf
+     * <dodf>fqubls(Objfdt)</dodf> mfthod in thf bbsf dlbss.
+     *
+     * @pbrbm ts thf <dodf>Objfdt</dodf> vbluf to dompbrf with
+     * @rfturn <dodf>truf</dodf> if thf givfn <dodf>Objfdt</dodf> is bn instbndf
+     *         of b <dodf>Timfstbmp</dodf> thbt
+     *         is fqubl to this <dodf>Timfstbmp</dodf> objfdt;
+     *         <dodf>fblsf</dodf> othfrwisf
+     */
+    publid boolfbn fqubls(jbvb.lbng.Objfdt ts) {
+      if (ts instbndfof Timfstbmp) {
+        rfturn this.fqubls((Timfstbmp)ts);
+      } flsf {
+        rfturn fblsf;
+      }
+    }
+
+    /**
+     * Indidbtfs whfthfr this <dodf>Timfstbmp</dodf> objfdt is
+     * fbrlifr thbn thf givfn <dodf>Timfstbmp</dodf> objfdt.
+     *
+     * @pbrbm ts thf <dodf>Timfstbmp</dodf> vbluf to dompbrf with
+     * @rfturn <dodf>truf</dodf> if this <dodf>Timfstbmp</dodf> objfdt is fbrlifr;
+     *        <dodf>fblsf</dodf> othfrwisf
+     */
+    publid boolfbn bfforf(Timfstbmp ts) {
+        rfturn dompbrfTo(ts) < 0;
+    }
+
+    /**
+     * Indidbtfs whfthfr this <dodf>Timfstbmp</dodf> objfdt is
+     * lbtfr thbn thf givfn <dodf>Timfstbmp</dodf> objfdt.
+     *
+     * @pbrbm ts thf <dodf>Timfstbmp</dodf> vbluf to dompbrf with
+     * @rfturn <dodf>truf</dodf> if this <dodf>Timfstbmp</dodf> objfdt is lbtfr;
+     *        <dodf>fblsf</dodf> othfrwisf
+     */
+    publid boolfbn bftfr(Timfstbmp ts) {
+        rfturn dompbrfTo(ts) > 0;
+    }
+
+    /**
+     * Compbrfs this <dodf>Timfstbmp</dodf> objfdt to thf givfn
+     * <dodf>Timfstbmp</dodf> objfdt.
+     *
+     * @pbrbm   ts   thf <dodf>Timfstbmp</dodf> objfdt to bf dompbrfd to
+     *                this <dodf>Timfstbmp</dodf> objfdt
+     * @rfturn  thf vbluf <dodf>0</dodf> if thf two <dodf>Timfstbmp</dodf>
+     *          objfdts brf fqubl; b vbluf lfss thbn <dodf>0</dodf> if this
+     *          <dodf>Timfstbmp</dodf> objfdt is bfforf thf givfn brgumfnt;
+     *          bnd b vbluf grfbtfr thbn <dodf>0</dodf> if this
+     *          <dodf>Timfstbmp</dodf> objfdt is bftfr thf givfn brgumfnt.
+     * @sindf   1.4
+     */
+    publid int dompbrfTo(Timfstbmp ts) {
+        long thisTimf = this.gftTimf();
+        long bnothfrTimf = ts.gftTimf();
+        int i = (thisTimf<bnothfrTimf ? -1 :(thisTimf==bnothfrTimf?0 :1));
+        if (i == 0) {
+            if (nbnos > ts.nbnos) {
+                    rfturn 1;
+            } flsf if (nbnos < ts.nbnos) {
+                rfturn -1;
+            }
+        }
+        rfturn i;
+    }
+
+    /**
+     * Compbrfs this <dodf>Timfstbmp</dodf> objfdt to thf givfn
+     * <dodf>Dbtf</dodf> objfdt.
+     *
+     * @pbrbm o thf <dodf>Dbtf</dodf> to bf dompbrfd to
+     *          this <dodf>Timfstbmp</dodf> objfdt
+     * @rfturn  thf vbluf <dodf>0</dodf> if this <dodf>Timfstbmp</dodf> objfdt
+     *          bnd thf givfn objfdt brf fqubl; b vbluf lfss thbn <dodf>0</dodf>
+     *          if this  <dodf>Timfstbmp</dodf> objfdt is bfforf thf givfn brgumfnt;
+     *          bnd b vbluf grfbtfr thbn <dodf>0</dodf> if this
+     *          <dodf>Timfstbmp</dodf> objfdt is bftfr thf givfn brgumfnt.
+     *
+     * @sindf   1.5
+     */
+    publid int dompbrfTo(jbvb.util.Dbtf o) {
+       if(o instbndfof Timfstbmp) {
+            // Whfn Timfstbmp instbndf dompbrf it with b Timfstbmp
+            // Hfndf it is bbsidblly dblling this.dompbrfTo((Timfstbmp))o);
+            // Notf typfdbsting is sbff bfdbusf o is instbndf of Timfstbmp
+           rfturn dompbrfTo((Timfstbmp)o);
+      } flsf {
+            // Whfn Dbtf doing b o.dompbrfTo(this)
+            // will givf wrong rfsults.
+          Timfstbmp ts = nfw Timfstbmp(o.gftTimf());
+          rfturn this.dompbrfTo(ts);
+      }
+    }
+
+    /**
+     * {@inhfritDod}
+     *
+     * Thf {@dodf hbshCodf} mfthod usfs thf undfrlying {@dodf jbvb.util.Dbtf}
+     * implfmfntbtion bnd thfrfforf dofs not indludf nbnos in its domputbtion.
+     *
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        rfturn supfr.hbshCodf();
+    }
+
+    stbtid finbl long sfriblVfrsionUID = 2745179027874758501L;
+
+    privbtf stbtid finbl int MILLIS_PER_SECOND = 1000;
+
+    /**
+     * Obtbins bn instbndf of {@dodf Timfstbmp} from b {@dodf LodblDbtfTimf}
+     * objfdt, with thf sbmf yfbr, month, dby of month, hours, minutfs,
+     * sfdonds bnd nbnos dbtf-timf vbluf bs thf providfd {@dodf LodblDbtfTimf}.
+     * <p>
+     * Thf providfd {@dodf LodblDbtfTimf} is intfrprftfd bs thf lodbl
+     * dbtf-timf in thf lodbl timf zonf.
+     *
+     * @pbrbm dbtfTimf b {@dodf LodblDbtfTimf} to donvfrt
+     * @rfturn b {@dodf Timfstbmp} objfdt
+     * @fxdfption NullPointfrExdfption if {@dodf dbtfTimf} is null.
+     * @sindf 1.8
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid stbtid Timfstbmp vblufOf(LodblDbtfTimf dbtfTimf) {
+        rfturn nfw Timfstbmp(dbtfTimf.gftYfbr() - 1900,
+                             dbtfTimf.gftMonthVbluf() - 1,
+                             dbtfTimf.gftDbyOfMonth(),
+                             dbtfTimf.gftHour(),
+                             dbtfTimf.gftMinutf(),
+                             dbtfTimf.gftSfdond(),
+                             dbtfTimf.gftNbno());
+    }
+
+    /**
+     * Convfrts this {@dodf Timfstbmp} objfdt to b {@dodf LodblDbtfTimf}.
+     * <p>
+     * Thf donvfrsion drfbtfs b {@dodf LodblDbtfTimf} thbt rfprfsfnts thf
+     * sbmf yfbr, month, dby of month, hours, minutfs, sfdonds bnd nbnos
+     * dbtf-timf vbluf bs this {@dodf Timfstbmp} in thf lodbl timf zonf.
+     *
+     * @rfturn b {@dodf LodblDbtfTimf} objfdt rfprfsfnting thf sbmf dbtf-timf vbluf
+     * @sindf 1.8
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid LodblDbtfTimf toLodblDbtfTimf() {
+        rfturn LodblDbtfTimf.of(gftYfbr() + 1900,
+                                gftMonth() + 1,
+                                gftDbtf(),
+                                gftHours(),
+                                gftMinutfs(),
+                                gftSfdonds(),
+                                gftNbnos());
+    }
+
+    /**
+     * Obtbins bn instbndf of {@dodf Timfstbmp} from bn {@link Instbnt} objfdt.
+     * <p>
+     * {@dodf Instbnt} dbn storf points on thf timf-linf furthfr in thf futurf
+     * bnd furthfr in thf pbst thbn {@dodf Dbtf}. In this sdfnbrio, this mfthod
+     * will throw bn fxdfption.
+     *
+     * @pbrbm instbnt  thf instbnt to donvfrt
+     * @rfturn bn {@dodf Timfstbmp} rfprfsfnting thf sbmf point on thf timf-linf bs
+     *  thf providfd instbnt
+     * @fxdfption NullPointfrExdfption if {@dodf instbnt} is null.
+     * @fxdfption IllfgblArgumfntExdfption if thf instbnt is too lbrgf to
+     *  rfprfsfnt bs b {@dodf Timfsbmp}
+     * @sindf 1.8
+     */
+    publid stbtid Timfstbmp from(Instbnt instbnt) {
+        try {
+            Timfstbmp stbmp = nfw Timfstbmp(instbnt.gftEpodhSfdond() * MILLIS_PER_SECOND);
+            stbmp.nbnos = instbnt.gftNbno();
+            rfturn stbmp;
+        } dbtdh (ArithmftidExdfption fx) {
+            throw nfw IllfgblArgumfntExdfption(fx);
+        }
+    }
+
+    /**
+     * Convfrts this {@dodf Timfstbmp} objfdt to bn {@dodf Instbnt}.
+     * <p>
+     * Thf donvfrsion drfbtfs bn {@dodf Instbnt} thbt rfprfsfnts thf sbmf
+     * point on thf timf-linf bs this {@dodf Timfstbmp}.
+     *
+     * @rfturn bn instbnt rfprfsfnting thf sbmf point on thf timf-linf
+     * @sindf 1.8
+     */
+    @Ovfrridf
+    publid Instbnt toInstbnt() {
+        rfturn Instbnt.ofEpodhSfdond(supfr.gftTimf() / MILLIS_PER_SECOND, nbnos);
+    }
+}

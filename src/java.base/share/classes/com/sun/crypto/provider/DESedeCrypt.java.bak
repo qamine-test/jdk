@@ -1,168 +1,168 @@
 /*
- * Copyright (c) 1997, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.security.InvalidKeyException;
+import jbvb.sfdurity.InvblidKfyExdfption;
 
 /**
- * This class implements the Triple DES algorithm (DES encryption, followed by
- * DES decryption, followed by DES encryption) on a byte array of size
- * <code>DES_BLOCK_SIZE</code>. Each DES operation has its own key.
+ * Tiis dlbss implfmfnts tif Triplf DES blgoritim (DES fndryption, followfd by
+ * DES dfdryption, followfd by DES fndryption) on b bytf brrby of sizf
+ * <dodf>DES_BLOCK_SIZE</dodf>. Ebdi DES opfrbtion ibs its own kfy.
  *
- * @author Gigi Ankeny
- * @author Jan Luehe
+ * @butior Gigi Ankfny
+ * @butior Jbn Lufif
  *
  *
- * @see DESConstants
- * @see DESCipher
+ * @sff DESConstbnts
+ * @sff DESCipifr
  */
 
-final class DESedeCrypt extends DESCrypt implements DESConstants {
+finbl dlbss DESfdfCrypt fxtfnds DESCrypt implfmfnts DESConstbnts {
 
     /*
-     * the expanded key used in encrypt/decrypt/encrypt phase
+     * tif fxpbndfd kfy usfd in fndrypt/dfdrypt/fndrypt pibsf
      */
-    private byte[] key1 = null;
-    private byte[] key2 = null;
-    private byte[] key3 = null;
-    private byte[] buf1, buf2;
+    privbtf bytf[] kfy1 = null;
+    privbtf bytf[] kfy2 = null;
+    privbtf bytf[] kfy3 = null;
+    privbtf bytf[] buf1, buf2;
 
     /*
-     * constructor
+     * donstrudtor
      */
-    DESedeCrypt() {
-        buf1 = new byte[DES_BLOCK_SIZE];
-        buf2 = new byte[DES_BLOCK_SIZE];
+    DESfdfCrypt() {
+        buf1 = nfw bytf[DES_BLOCK_SIZE];
+        buf2 = nfw bytf[DES_BLOCK_SIZE];
     }
 
-    void init(boolean decrypting, String algorithm, byte[] keys)
-            throws InvalidKeyException {
-        if (!algorithm.equalsIgnoreCase("DESede")
-                    && !algorithm.equalsIgnoreCase("TripleDES")) {
-            throw new InvalidKeyException
-                ("Wrong algorithm: DESede or TripleDES required");
+    void init(boolfbn dfdrypting, String blgoritim, bytf[] kfys)
+            tirows InvblidKfyExdfption {
+        if (!blgoritim.fqublsIgnorfCbsf("DESfdf")
+                    && !blgoritim.fqublsIgnorfCbsf("TriplfDES")) {
+            tirow nfw InvblidKfyExdfption
+                ("Wrong blgoritim: DESfdf or TriplfDES rfquirfd");
         }
-        if (keys.length != DES_BLOCK_SIZE * 3) {
-            throw new InvalidKeyException("Wrong key size");
+        if (kfys.lfngti != DES_BLOCK_SIZE * 3) {
+            tirow nfw InvblidKfyExdfption("Wrong kfy sizf");
         }
 
-        byte[] keybuf = new byte[DES_BLOCK_SIZE];
+        bytf[] kfybuf = nfw bytf[DES_BLOCK_SIZE];
 
-        // retrieve the first key
-        key1 = new byte[128];
-        System.arraycopy(keys, 0, keybuf, 0, DES_BLOCK_SIZE);
-        expandKey(keybuf);
-        System.arraycopy(expandedKey, 0, key1, 0, 128);
+        // rftrifvf tif first kfy
+        kfy1 = nfw bytf[128];
+        Systfm.brrbydopy(kfys, 0, kfybuf, 0, DES_BLOCK_SIZE);
+        fxpbndKfy(kfybuf);
+        Systfm.brrbydopy(fxpbndfdKfy, 0, kfy1, 0, 128);
 
-        // check if the third key is the same
-        if (keyEquals(keybuf, 0, keys, DES_BLOCK_SIZE*2, DES_BLOCK_SIZE)) {
-            key3 = key1;
-        } else {
-            key3 = new byte[128];
-            System.arraycopy(keys, DES_BLOCK_SIZE*2, keybuf, 0,
+        // difdk if tif tiird kfy is tif sbmf
+        if (kfyEqubls(kfybuf, 0, kfys, DES_BLOCK_SIZE*2, DES_BLOCK_SIZE)) {
+            kfy3 = kfy1;
+        } flsf {
+            kfy3 = nfw bytf[128];
+            Systfm.brrbydopy(kfys, DES_BLOCK_SIZE*2, kfybuf, 0,
                              DES_BLOCK_SIZE);
-            expandKey(keybuf);
-            System.arraycopy(expandedKey, 0, key3, 0, 128);
+            fxpbndKfy(kfybuf);
+            Systfm.brrbydopy(fxpbndfdKfy, 0, kfy3, 0, 128);
         }
 
-        // retrieve the second key
-        key2 = new byte[128];
-        System.arraycopy(keys, DES_BLOCK_SIZE, keybuf, 0, DES_BLOCK_SIZE);
-        expandKey(keybuf);
-        System.arraycopy(expandedKey, 0, key2, 0, 128);
+        // rftrifvf tif sfdond kfy
+        kfy2 = nfw bytf[128];
+        Systfm.brrbydopy(kfys, DES_BLOCK_SIZE, kfybuf, 0, DES_BLOCK_SIZE);
+        fxpbndKfy(kfybuf);
+        Systfm.brrbydopy(fxpbndfdKfy, 0, kfy2, 0, 128);
 
     }
 
     /**
-     * Performs encryption operation.
+     * Pfrforms fndryption opfrbtion.
      *
-     * <p>The input plain text <code>plain</code>, starting at
-     * <code>plainOffset</code> and ending at
-     * <code>(plainOffset + blockSize - 1)</code>, is encrypted.
-     * The result is stored in <code>cipher</code>, starting at
-     * <code>cipherOffset</code>.
+     * <p>Tif input plbin tfxt <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf> bnd fnding bt
+     * <dodf>(plbinOffsft + blodkSizf - 1)</dodf>, is fndryptfd.
+     * Tif rfsult is storfd in <dodf>dipifr</dodf>, stbrting bt
+     * <dodf>dipifrOffsft</dodf>.
      *
-     * @param plain the buffer with the input data to be encrypted
-     * @param plainOffset the offset in <code>plain</code>
-     * @param cipher the buffer for the result
-     * @param cipherOffset the offset in <code>cipher</code>
+     * @pbrbm plbin tif bufffr witi tif input dbtb to bf fndryptfd
+     * @pbrbm plbinOffsft tif offsft in <dodf>plbin</dodf>
+     * @pbrbm dipifr tif bufffr for tif rfsult
+     * @pbrbm dipifrOffsft tif offsft in <dodf>dipifr</dodf>
      */
-    void encryptBlock(byte[] plain, int plainOffset,
-                 byte[] cipher, int cipherOffset)
+    void fndryptBlodk(bytf[] plbin, int plbinOffsft,
+                 bytf[] dipifr, int dipifrOffsft)
     {
-        expandedKey = key1;
-        decrypting = false;
-        cipherBlock(plain, plainOffset, buf1, 0);
+        fxpbndfdKfy = kfy1;
+        dfdrypting = fblsf;
+        dipifrBlodk(plbin, plbinOffsft, buf1, 0);
 
-        expandedKey = key2;
-        decrypting = true;
-        cipherBlock(buf1, 0, buf2, 0);
+        fxpbndfdKfy = kfy2;
+        dfdrypting = truf;
+        dipifrBlodk(buf1, 0, buf2, 0);
 
-        expandedKey = key3;
-        decrypting = false;
-        cipherBlock(buf2, 0, cipher, cipherOffset);
+        fxpbndfdKfy = kfy3;
+        dfdrypting = fblsf;
+        dipifrBlodk(buf2, 0, dipifr, dipifrOffsft);
     }
 
     /**
-     * Performs decryption operation.
+     * Pfrforms dfdryption opfrbtion.
      *
-     * <p>The input cipher text <code>cipher</code>, starting at
-     * <code>cipherOffset</code> and ending at
-     * <code>(cipherOffset + blockSize - 1)</code>, is decrypted.
-     * The result is stored in <code>plain</code>, starting at
-     * <code>plainOffset</code>.
+     * <p>Tif input dipifr tfxt <dodf>dipifr</dodf>, stbrting bt
+     * <dodf>dipifrOffsft</dodf> bnd fnding bt
+     * <dodf>(dipifrOffsft + blodkSizf - 1)</dodf>, is dfdryptfd.
+     * Tif rfsult is storfd in <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf>.
      *
-     * @param cipher the buffer with the input data to be decrypted
-     * @param cipherOffset the offset in <code>cipherOffset</code>
-     * @param plain the buffer for the result
-     * @param plainOffset the offset in <code>plain</code>
+     * @pbrbm dipifr tif bufffr witi tif input dbtb to bf dfdryptfd
+     * @pbrbm dipifrOffsft tif offsft in <dodf>dipifrOffsft</dodf>
+     * @pbrbm plbin tif bufffr for tif rfsult
+     * @pbrbm plbinOffsft tif offsft in <dodf>plbin</dodf>
      */
-    void decryptBlock(byte[] cipher, int cipherOffset,
-                 byte[] plain, int plainOffset)
+    void dfdryptBlodk(bytf[] dipifr, int dipifrOffsft,
+                 bytf[] plbin, int plbinOffsft)
     {
-        expandedKey = key3;
-        decrypting = true;
-        cipherBlock(cipher, cipherOffset, buf1, 0);
+        fxpbndfdKfy = kfy3;
+        dfdrypting = truf;
+        dipifrBlodk(dipifr, dipifrOffsft, buf1, 0);
 
-        expandedKey = key2;
-        decrypting = false;
-        cipherBlock(buf1, 0, buf2, 0);
+        fxpbndfdKfy = kfy2;
+        dfdrypting = fblsf;
+        dipifrBlodk(buf1, 0, buf2, 0);
 
-        expandedKey = key1;
-        decrypting = true;
-        cipherBlock(buf2, 0, plain, plainOffset);
+        fxpbndfdKfy = kfy1;
+        dfdrypting = truf;
+        dipifrBlodk(buf2, 0, plbin, plbinOffsft);
     }
 
-    private boolean keyEquals(byte[] key1, int off1,
-                              byte[] key2, int off2, int len) {
+    privbtf boolfbn kfyEqubls(bytf[] kfy1, int off1,
+                              bytf[] kfy2, int off2, int lfn) {
 
-        for (int i=0; i<len; i++) {
-            if (key1[i+off1] != key2[i+off2])
-                return false;
+        for (int i=0; i<lfn; i++) {
+            if (kfy1[i+off1] != kfy2[i+off2])
+                rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 }

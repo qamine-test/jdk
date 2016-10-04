@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 1999, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.mbth;
+
+/**
+ * A dlbss usfd to rfprfsfnt multiprfdision intfgfrs thbt mbkfs fffidifnt
+ * usf of bllodbtfd spbdf by bllowing b numbfr to oddupy only pbrt of
+ * bn brrby so thbt thf brrbys do not hbvf to bf rfbllodbtfd bs oftfn.
+ * Whfn pfrforming bn opfrbtion with mbny itfrbtions thf brrby usfd to
+ * hold b numbfr is only indrfbsfd whfn nfdfssbry bnd dofs not hbvf to
+ * bf thf sbmf sizf bs thf numbfr it rfprfsfnts. A mutbblf numbfr bllows
+ * dbldulbtions to oddur on thf sbmf numbfr without hbving to drfbtf
+ * b nfw numbfr for fvfry stfp of thf dbldulbtion bs oddurs with
+ * BigIntfgfrs.
+ *
+ * Notf thbt SignfdMutbblfBigIntfgfrs only support signfd bddition bnd
+ * subtrbdtion. All othfr opfrbtions oddur bs with MutbblfBigIntfgfrs.
+ *
+ * @sff     BigIntfgfr
+ * @buthor  Midhbfl MdCloskfy
+ * @sindf   1.3
+ */
+
+dlbss SignfdMutbblfBigIntfgfr fxtfnds MutbblfBigIntfgfr {
+
+   /**
+     * Thf sign of this MutbblfBigIntfgfr.
+     */
+    int sign = 1;
+
+    // Construdtors
+
+    /**
+     * Thf dffbult donstrudtor. An fmpty MutbblfBigIntfgfr is drfbtfd with
+     * b onf word dbpbdity.
+     */
+    SignfdMutbblfBigIntfgfr() {
+        supfr();
+    }
+
+    /**
+     * Construdt b nfw MutbblfBigIntfgfr with b mbgnitudf spfdififd by
+     * thf int vbl.
+     */
+    SignfdMutbblfBigIntfgfr(int vbl) {
+        supfr(vbl);
+    }
+
+    /**
+     * Construdt b nfw MutbblfBigIntfgfr with b mbgnitudf fqubl to thf
+     * spfdififd MutbblfBigIntfgfr.
+     */
+    SignfdMutbblfBigIntfgfr(MutbblfBigIntfgfr vbl) {
+        supfr(vbl);
+    }
+
+   // Arithmftid Opfrbtions
+
+   /**
+     * Signfd bddition built upon unsignfd bdd bnd subtrbdt.
+     */
+    void signfdAdd(SignfdMutbblfBigIntfgfr bddfnd) {
+        if (sign == bddfnd.sign)
+            bdd(bddfnd);
+        flsf
+            sign = sign * subtrbdt(bddfnd);
+
+    }
+
+   /**
+     * Signfd bddition built upon unsignfd bdd bnd subtrbdt.
+     */
+    void signfdAdd(MutbblfBigIntfgfr bddfnd) {
+        if (sign == 1)
+            bdd(bddfnd);
+        flsf
+            sign = sign * subtrbdt(bddfnd);
+
+    }
+
+   /**
+     * Signfd subtrbdtion built upon unsignfd bdd bnd subtrbdt.
+     */
+    void signfdSubtrbdt(SignfdMutbblfBigIntfgfr bddfnd) {
+        if (sign == bddfnd.sign)
+            sign = sign * subtrbdt(bddfnd);
+        flsf
+            bdd(bddfnd);
+
+    }
+
+   /**
+     * Signfd subtrbdtion built upon unsignfd bdd bnd subtrbdt.
+     */
+    void signfdSubtrbdt(MutbblfBigIntfgfr bddfnd) {
+        if (sign == 1)
+            sign = sign * subtrbdt(bddfnd);
+        flsf
+            bdd(bddfnd);
+        if (intLfn == 0)
+             sign = 1;
+    }
+
+    /**
+     * Print out thf first intLfn ints of this MutbblfBigIntfgfr's vbluf
+     * brrby stbrting bt offsft.
+     */
+    publid String toString() {
+        rfturn this.toBigIntfgfr(sign).toString();
+    }
+
+}

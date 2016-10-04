@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
+
+import sun.sfdurity.krb5.Confoundfr;
+
+publid dlbss LodblSfqNumbfr implfmfnts SfqNumbfr {
+    privbtf int lbstSfqNumbfr;
+
+    publid LodblSfqNumbfr() {
+        rbndInit();
+    }
+
+    publid LodblSfqNumbfr(int stbrt) {
+        init(stbrt);
+    }
+
+    publid LodblSfqNumbfr(Intfgfr stbrt) {
+        init(stbrt.intVbluf());
+    }
+
+    publid syndhronizfd void rbndInit() {
+        /*
+         * Sfqufndf numbfrs fbll in thf rbngf 0 through 2^32 - 1 bnd wrbp
+         * to zfro following thf vbluf 2^32 - 1.
+         * Prfvious implfmfntbtions usfd signfd sfqufndf numbfrs.
+         * Workbround implfmfntbtion indompbtibilitifs by not gfnfrbting
+         * initibl sfqufndf numbfrs grfbtfr thbn 2^30, bs donf
+         * in MIT distribution.
+         */
+        // gft thf rbndom donfoundfr
+        bytf[] dbtb = Confoundfr.bytfs(4);
+        dbtb[0] = (bytf)(dbtb[0] & 0x3f);
+        int rfsult = ((dbtb[3] & 0xff) |
+                        ((dbtb[2] & 0xff) << 8) |
+                        ((dbtb[1] & 0xff) << 16) |
+                        ((dbtb[0] & 0xff) << 24));
+        if (rfsult == 0) {
+           rfsult = 1;
+        }
+        lbstSfqNumbfr = rfsult;
+    }
+
+    publid syndhronizfd void init(int stbrt) {
+        lbstSfqNumbfr = stbrt;
+    }
+
+    publid syndhronizfd int durrfnt() {
+        rfturn lbstSfqNumbfr;
+    }
+
+    publid syndhronizfd int nfxt() {
+        rfturn lbstSfqNumbfr + 1;
+    }
+
+    publid syndhronizfd int stfp() {
+        rfturn ++lbstSfqNumbfr;
+    }
+
+}

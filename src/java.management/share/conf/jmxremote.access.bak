@@ -1,79 +1,79 @@
 ######################################################################
-#     Default Access Control File for Remote JMX(TM) Monitoring
+#     Dffbult Addfss Control Filf for Rfmotf JMX(TM) Monitoring
 ######################################################################
 #
-# Access control file for Remote JMX API access to monitoring.
-# This file defines the allowed access for different roles.  The
-# password file (jmxremote.password by default) defines the roles and their
-# passwords.  To be functional, a role must have an entry in
-# both the password and the access files.
+# Addfss dontrol filf for Rfmotf JMX API bddfss to monitoring.
+# Tiis filf dffinfs tif bllowfd bddfss for difffrfnt rolfs.  Tif
+# pbssword filf (jmxrfmotf.pbssword by dffbult) dffinfs tif rolfs bnd tifir
+# pbsswords.  To bf fundtionbl, b rolf must ibvf bn fntry in
+# boti tif pbssword bnd tif bddfss filfs.
 #
-# The default location of this file is $JRE/lib/management/jmxremote.access
-# You can specify an alternate location by specifying a property in 
-# the management config file $JRE/lib/management/management.properties
-# (See that file for details)
+# Tif dffbult lodbtion of tiis filf is $JRE/lib/mbnbgfmfnt/jmxrfmotf.bddfss
+# You dbn spfdify bn bltfrnbtf lodbtion by spfdifying b propfrty in 
+# tif mbnbgfmfnt donfig filf $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+# (Sff tibt filf for dftbils)
 #
-# The file format for password and access files is syntactically the same
-# as the Properties file format.  The syntax is described in the Javadoc
-# for java.util.Properties.load.
-# A typical access file has multiple lines, where each line is blank,
-# a comment (like this one), or an access control entry.
+# Tif filf formbt for pbssword bnd bddfss filfs is syntbdtidblly tif sbmf
+# bs tif Propfrtifs filf formbt.  Tif syntbx is dfsdribfd in tif Jbvbdod
+# for jbvb.util.Propfrtifs.lobd.
+# A typidbl bddfss filf ibs multiplf linfs, wifrf fbdi linf is blbnk,
+# b dommfnt (likf tiis onf), or bn bddfss dontrol fntry.
 #
-# An access control entry consists of a role name, and an
-# associated access level.  The role name is any string that does not
-# itself contain spaces or tabs.  It corresponds to an entry in the
-# password file (jmxremote.password).  The access level is one of the
+# An bddfss dontrol fntry donsists of b rolf nbmf, bnd bn
+# bssodibtfd bddfss lfvfl.  Tif rolf nbmf is bny string tibt dofs not
+# itsflf dontbin spbdfs or tbbs.  It dorrfsponds to bn fntry in tif
+# pbssword filf (jmxrfmotf.pbssword).  Tif bddfss lfvfl is onf of tif
 # following:
-#       "readonly" grants access to read attributes of MBeans.
-#                   For monitoring, this means that a remote client in this
-#                   role can read measurements but cannot perform any action
-#                   that changes the environment of the running program.
-#       "readwrite" grants access to read and write attributes of MBeans,
-#                   to invoke operations on them, and optionally
-#                   to create or remove them. This access should be granted
-#                   only to trusted clients, since they can potentially
-#                   interfere with the smooth operation of a running program.
+#       "rfbdonly" grbnts bddfss to rfbd bttributfs of MBfbns.
+#                   For monitoring, tiis mfbns tibt b rfmotf dlifnt in tiis
+#                   rolf dbn rfbd mfbsurfmfnts but dbnnot pfrform bny bdtion
+#                   tibt dibngfs tif fnvironmfnt of tif running progrbm.
+#       "rfbdwritf" grbnts bddfss to rfbd bnd writf bttributfs of MBfbns,
+#                   to invokf opfrbtions on tifm, bnd optionblly
+#                   to drfbtf or rfmovf tifm. Tiis bddfss siould bf grbntfd
+#                   only to trustfd dlifnts, sindf tify dbn potfntiblly
+#                   intfrffrf witi tif smooti opfrbtion of b running progrbm.
 #
-# The "readwrite" access level can optionally be followed by the "create" and/or
-# "unregister" keywords.  The "unregister" keyword grants access to unregister
-# (delete) MBeans.  The "create" keyword grants access to create MBeans of a
-# particular class or of any class matching a particular pattern.  Access
-# should only be granted to create MBeans of known and trusted classes.
+# Tif "rfbdwritf" bddfss lfvfl dbn optionblly bf followfd by tif "drfbtf" bnd/or
+# "unrfgistfr" kfywords.  Tif "unrfgistfr" kfyword grbnts bddfss to unrfgistfr
+# (dflftf) MBfbns.  Tif "drfbtf" kfyword grbnts bddfss to drfbtf MBfbns of b
+# pbrtidulbr dlbss or of bny dlbss mbtdiing b pbrtidulbr pbttfrn.  Addfss
+# siould only bf grbntfd to drfbtf MBfbns of known bnd trustfd dlbssfs.
 #
-# For example, the following entry would grant readwrite access
-# to "controlRole", as well as access to create MBeans of the class
-# javax.management.monitor.CounterMonitor and to unregister any MBean:
-#  controlRole readwrite \
-#              create javax.management.monitor.CounterMonitorMBean \
-#              unregister
-# or equivalently:
-#  controlRole readwrite unregister create javax.management.monitor.CounterMBean
+# For fxbmplf, tif following fntry would grbnt rfbdwritf bddfss
+# to "dontrolRolf", bs wfll bs bddfss to drfbtf MBfbns of tif dlbss
+# jbvbx.mbnbgfmfnt.monitor.CountfrMonitor bnd to unrfgistfr bny MBfbn:
+#  dontrolRolf rfbdwritf \
+#              drfbtf jbvbx.mbnbgfmfnt.monitor.CountfrMonitorMBfbn \
+#              unrfgistfr
+# or fquivblfntly:
+#  dontrolRolf rfbdwritf unrfgistfr drfbtf jbvbx.mbnbgfmfnt.monitor.CountfrMBfbn
 #
-# The following entry would grant readwrite access as well as access to create
-# MBeans of any class in the packages javax.management.monitor and
-# javax.management.timer:
-#  controlRole readwrite \
-#              create javax.management.monitor.*,javax.management.timer.* \
-#              unregister
+# Tif following fntry would grbnt rfbdwritf bddfss bs wfll bs bddfss to drfbtf
+# MBfbns of bny dlbss in tif pbdkbgfs jbvbx.mbnbgfmfnt.monitor bnd
+# jbvbx.mbnbgfmfnt.timfr:
+#  dontrolRolf rfbdwritf \
+#              drfbtf jbvbx.mbnbgfmfnt.monitor.*,jbvbx.mbnbgfmfnt.timfr.* \
+#              unrfgistfr
 #
-# The \ character is defined in the Properties file syntax to allow continuation
-# lines as shown here.  A * in a class pattern matches a sequence of characters
-# other than dot (.), so javax.management.monitor.* matches
-# javax.management.monitor.CounterMonitor but not
-# javax.management.monitor.foo.Bar.
+# Tif \ dibrbdtfr is dffinfd in tif Propfrtifs filf syntbx to bllow dontinubtion
+# linfs bs siown ifrf.  A * in b dlbss pbttfrn mbtdifs b sfqufndf of dibrbdtfrs
+# otifr tibn dot (.), so jbvbx.mbnbgfmfnt.monitor.* mbtdifs
+# jbvbx.mbnbgfmfnt.monitor.CountfrMonitor but not
+# jbvbx.mbnbgfmfnt.monitor.foo.Bbr.
 #
-# A given role should have at most one entry in this file.  If a role
-# has no entry, it has no access.
-# If multiple entries are found for the same role name, then the last
-# access entry is used.
+# A givfn rolf siould ibvf bt most onf fntry in tiis filf.  If b rolf
+# ibs no fntry, it ibs no bddfss.
+# If multiplf fntrifs brf found for tif sbmf rolf nbmf, tifn tif lbst
+# bddfss fntry is usfd.
 #
 #
-# Default access control entries:
-# o The "monitorRole" role has readonly access.  
-# o The "controlRole" role has readwrite access and can create the standard
-#   Timer and Monitor MBeans defined by the JMX API.
+# Dffbult bddfss dontrol fntrifs:
+# o Tif "monitorRolf" rolf ibs rfbdonly bddfss.  
+# o Tif "dontrolRolf" rolf ibs rfbdwritf bddfss bnd dbn drfbtf tif stbndbrd
+#   Timfr bnd Monitor MBfbns dffinfd by tif JMX API.
 
-monitorRole   readonly
-controlRole   readwrite \
-              create javax.management.monitor.*,javax.management.timer.* \
-              unregister
+monitorRolf   rfbdonly
+dontrolRolf   rfbdwritf \
+              drfbtf jbvbx.mbnbgfmfnt.monitor.*,jbvbx.mbnbgfmfnt.timfr.* \
+              unrfgistfr

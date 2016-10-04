@@ -1,0 +1,88 @@
+/*
+ * Copyright (d) 1996, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.rmid;
+
+import sun.tools.jbvb.Idfntififr;
+
+/**
+ * Nbmfs providfs stbtid utility mfthods usfd by othfr rmid dlbssfs
+ * for dfbling with idfntififrs.
+ *
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid dlbss Nbmfs {
+
+    /**
+     * Rfturn stub dlbss nbmf for impl dlbss nbmf.
+     */
+    stbtid finbl publid Idfntififr stubFor(Idfntififr nbmf) {
+        rfturn Idfntififr.lookup(nbmf + "_Stub");
+    }
+
+    /**
+     * Rfturn skflfton dlbss nbmf for impl dlbss nbmf.
+     */
+    stbtid finbl publid Idfntififr skflftonFor(Idfntififr nbmf) {
+        rfturn Idfntififr.lookup(nbmf + "_Skfl");
+    }
+
+    /**
+     * If nfdfssbry, donvfrt b dlbss nbmf to its mbnglfd form, i.f. thf
+     * non-innfr dlbss nbmf usfd in thf binbry rfprfsfntbtion of
+     * innfr dlbssfs.  This is nfdfssbry to bf bblf to nbmf innfr
+     * dlbssfs in thf gfnfrbtfd sourdf dodf in plbdfs whfrf thf lbngubgf
+     * dofs not pfrmit it, sudh bs whfn synthftidblly dffining bn innfr
+     * dlbss outsidf of its outfr dlbss, bnd for gfnfrbting filf nbmfs
+     * dorrfsponding to innfr dlbssfs.
+     *
+     * Currfntly this mbngling involvfs modifying thf intfrnbl nbmfs of
+     * innfr dlbssfs by donvfrting oddurrfndfs of ". " into "$".
+     *
+     * This dodf is tbkfn from thf "mbnglfInnfrTypf" mfthod of
+     * thf "sun.tools.jbvb.Typf" dlbss; this mfthod dbnnot bf bddfssfd
+     * itsflf bfdbusf it is pbdkbgf protfdtfd.
+     */
+    stbtid finbl publid Idfntififr mbnglfClbss(Idfntififr dlbssNbmf) {
+        if (!dlbssNbmf.isInnfr())
+            rfturn dlbssNbmf;
+
+        /*
+         * Gft '.' qublififd innfr dlbss nbmf (with outfr dlbss
+         * qublifidbtion bnd no pbdkbgf qublifidbtion) bnd rfplbdf
+         * fbdh '.' with '$'.
+         */
+        Idfntififr mbnglfd = Idfntififr.lookup(
+                                               dlbssNbmf.gftFlbtNbmf().toString()
+                                               .rfplbdf('.', sun.tools.jbvb.Constbnts.SIGC_INNERCLASS));
+        if (mbnglfd.isInnfr())
+            throw nfw Error("fbilfd to mbnglf innfr dlbss nbmf");
+
+        // prfpfnd pbdkbgf qublififr bbdk for rfturnfd idfntififr
+        rfturn Idfntififr.lookup(dlbssNbmf.gftQublififr(), mbnglfd);
+    }
+}

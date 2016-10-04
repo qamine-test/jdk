@@ -1,0 +1,537 @@
+/*
+ * Copyright (d) 1998, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.midi;
+
+
+/**
+ * A <dodf>MidiChbnnfl</dodf> objfdt rfprfsfnts b singlf MIDI dhbnnfl.
+ * Gfnfrblly, fbdh <dodf>MidiChbnnfl</dodf> mfthod prodfssfs b likf-nbmfd MIDI
+ * "dhbnnfl voidf" or "dhbnnfl modf" mfssbgf bs dffinfd by thf MIDI spfdifidbtion. Howfvfr,
+ * <dodf>MidiChbnnfl</dodf> bdds somf "gft" mfthods  thbt rftrifvf thf vbluf
+ * most rfdfntly sft by onf of thf stbndbrd MIDI dhbnnfl mfssbgfs.  Similbrly,
+ * mfthods for pfr-dhbnnfl solo bnd mutf hbvf bffn bddfd.
+ * <p>
+ * A <dodf>{@link Synthfsizfr}</dodf> objfdt hbs b dollfdtion
+ * of <dodf>MidiChbnnfls</dodf>, usublly onf for fbdh of thf 16 dhbnnfls
+ * prfsdribfd by thf MIDI 1.0 spfdifidbtion.  Thf <dodf>Synthfsizfr</dodf>
+ * gfnfrbtfs sound whfn its <dodf>MidiChbnnfls</dodf> rfdfivf
+ * <dodf>notfOn</dodf> mfssbgfs.
+ * <p>
+ * Sff thf MIDI 1.0 Spfdifidbtion for morf informbtion bbout thf prfsdribfd
+ * bfhbvior of thf MIDI dhbnnfl mfssbgfs, whidh brf not fxhbustivfly
+ * dodumfntfd hfrf.  Thf spfdifidbtion is titlfd <dodf>MIDI Rfffrfndf:
+ * Thf Complftf MIDI 1.0 Dftbilfd Spfdifidbtion</dodf>, bnd is publishfd by
+ * thf MIDI Mbnufbdturfr's Assodibtion (<b hrff = http://www.midi.org>
+ * http://www.midi.org</b>).
+ * <p>
+ * MIDI wbs originblly b protodol for rfporting thf gfsturfs of b kfybobrd
+ * musidibn.  This gfnfsis is visiblf in thf <dodf>MidiChbnnfl</dodf> API, whidh
+ * prfsfrvfs sudh MIDI dondfpts bs kfy numbfr, kfy vflodity, bnd kfy prfssurf.
+ * It should bf undfrstood thbt thf MIDI dbtb dofs not nfdfssbrily originbtf
+ * with b kfybobrd plbyfr (thf sourdf dould bf b difffrfnt kind of musidibn, or
+ * softwbrf).  Somf dfvidfs might gfnfrbtf donstbnt vblufs for vflodity
+ * bnd prfssurf, rfgbrdlfss of how thf notf wbs pfrformfd.
+ * Also, thf MIDI spfdifidbtion oftfn lfbvfs it up to thf
+ * synthfsizfr to usf thf dbtb in thf wby thf implfmfntor sffs fit.  For
+ * fxbmplf, vflodity dbtb nffd not blwbys bf mbppfd to volumf bnd/or brightnfss.
+ *
+ * @sff Synthfsizfr#gftChbnnfls
+ *
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytlf
+ */
+
+publid intfrfbdf MidiChbnnfl {
+
+    /**
+     * Stbrts thf spfdififd notf sounding.  Thf kfy-down vflodity
+     * usublly dontrols thf notf's volumf bnd/or brightnfss.
+     * If <dodf>vflodity</dodf> is zfro, this mfthod instfbd bdts likf
+     * {@link #notfOff(int)}, tfrminbting thf notf.
+     *
+     * @pbrbm notfNumbfr thf MIDI notf numbfr, from 0 to 127 (60 = Middlf C)
+     * @pbrbm vflodity thf spffd with whidh thf kfy wbs dfprfssfd
+     *
+     * @sff #notfOff(int, int)
+     */
+    publid void notfOn(int notfNumbfr, int vflodity);
+
+    /**
+     * Turns thf spfdififd notf off.  Thf kfy-up vflodity, if not ignorfd, dbn
+     * bf usfd to bfffdt how quidkly thf notf dfdbys.
+     * In bny dbsf, thf notf might not dif bwby instbntbnfously; its dfdby
+     * rbtf is dftfrminfd by thf intfrnbls of thf <dodf>Instrumfnt</dodf>.
+     * If thf Hold Pfdbl (b dontrollfr; sff
+     * {@link #dontrolChbngf(int, int) dontrolChbngf})
+     * is down, thf ffffdt of this mfthod is dfffrrfd until thf pfdbl is
+     * rflfbsfd.
+     *
+     *
+     * @pbrbm notfNumbfr thf MIDI notf numbfr, from 0 to 127 (60 = Middlf C)
+     * @pbrbm vflodity thf spffd with whidh thf kfy wbs rflfbsfd
+     *
+     * @sff #notfOff(int)
+     * @sff #notfOn
+     * @sff #bllNotfsOff
+     * @sff #bllSoundOff
+     */
+    publid void notfOff(int notfNumbfr, int vflodity);
+
+    /**
+     * Turns thf spfdififd notf off.
+     *
+     * @pbrbm notfNumbfr thf MIDI notf numbfr, from 0 to 127 (60 = Middlf C)
+     *
+     * @sff #notfOff(int, int)
+     */
+    publid void notfOff(int notfNumbfr);
+
+    /**
+     * Rfbdts to b dhbngf in thf spfdififd notf's kfy prfssurf.
+     * Polyphonid kfy prfssurf
+     * bllows b kfybobrd plbyfr to prfss multiplf kfys simultbnfously, fbdh
+     * with b difffrfnt bmount of prfssurf.  Thf prfssurf, if not ignorfd,
+     * is typidblly usfd to vbry sudh ffbturfs bs thf volumf, brightnfss,
+     * or vibrbto of thf notf.
+     *
+     * It is possiblf thbt thf undfrlying synthfsizfr
+     * dofs not support this MIDI mfssbgf. In ordfr
+     * to vfrify thbt <dodf>sftPolyPrfssurf</dodf>
+     * wbs suddfssful, usf <dodf>gftPolyPrfssurf</dodf>.
+     *
+     * @pbrbm notfNumbfr thf MIDI notf numbfr, from 0 to 127 (60 = Middlf C)
+     * @pbrbm prfssurf vbluf for thf spfdififd kfy, from 0 to 127 (127 =
+     * mbximum prfssurf)
+     *
+     * @sff #gftPolyPrfssurf(int)
+     */
+    publid void sftPolyPrfssurf(int notfNumbfr, int prfssurf);
+
+    /**
+     * Obtbins thf prfssurf with whidh thf spfdififd kfy is bfing dfprfssfd.
+     *
+     * @pbrbm notfNumbfr thf MIDI notf numbfr, from 0 to 127 (60 = Middlf C)
+     *
+     * If thf dfvidf dofs not support sftting poly prfssurf,
+     * this mfthod blwbys rfturns 0. Cblling
+     * <dodf>sftPolyPrfssurf</dodf> will hbvf no ffffdt thfn.
+     *
+     * @rfturn thf bmount of prfssurf for thbt notf, from 0 to 127
+     * (127 = mbximum prfssurf)
+     *
+     * @sff #sftPolyPrfssurf(int, int)
+     */
+    publid int gftPolyPrfssurf(int notfNumbfr);
+
+    /**
+     * Rfbdts to b dhbngf in thf kfybobrd prfssurf.  Chbnnfl
+     * prfssurf indidbtfs how hbrd thf kfybobrd plbyfr is dfprfssing
+     * thf fntirf kfybobrd.  This dbn bf thf mbximum or
+     * bvfrbgf of thf pfr-kfy prfssurf-sfnsor vblufs, bs sft by
+     * <dodf>sftPolyPrfssurf</dodf>.  Morf dommonly, it is b mfbsurfmfnt of
+     * b singlf sfnsor on b dfvidf thbt dofsn't implfmfnt polyphonid kfy
+     * prfssurf.  Prfssurf dbn bf usfd to dontrol vbrious bspfdts of thf sound,
+     * bs dfsdribfd undfr {@link #sftPolyPrfssurf(int, int) sftPolyPrfssurf}.
+     *
+     * It is possiblf thbt thf undfrlying synthfsizfr
+     * dofs not support this MIDI mfssbgf. In ordfr
+     * to vfrify thbt <dodf>sftChbnnflPrfssurf</dodf>
+     * wbs suddfssful, usf <dodf>gftChbnnflPrfssurf</dodf>.
+     *
+     * @pbrbm prfssurf thf prfssurf with whidh thf kfybobrd is bfing dfprfssfd,
+     * from 0 to 127 (127 = mbximum prfssurf)
+     * @sff #sftPolyPrfssurf(int, int)
+     * @sff #gftChbnnflPrfssurf
+     */
+    publid void sftChbnnflPrfssurf(int prfssurf);
+
+    /**
+     * Obtbins thf dhbnnfl's kfybobrd prfssurf.
+     * If thf dfvidf dofs not support sftting dhbnnfl prfssurf,
+     * this mfthod blwbys rfturns 0. Cblling
+     * <dodf>sftChbnnflPrfssurf</dodf> will hbvf no ffffdt thfn.
+     *
+     * @rfturn thf bmount of prfssurf for thbt notf,
+     *         from 0 to 127 (127 = mbximum prfssurf)
+     *
+     * @sff #sftChbnnflPrfssurf(int)
+     */
+    publid int gftChbnnflPrfssurf();
+
+    /**
+     * Rfbdts to b dhbngf in thf spfdififd dontrollfr's vbluf.  A dontrollfr
+     * is somf dontrol othfr thbn b kfybobrd kfy, sudh bs b
+     * switdh, slidfr, pfdbl, whffl, or brfbth-prfssurf sfnsor.
+     * Thf MIDI 1.0 Spfdifidbtion providfs stbndbrd numbfrs for typidbl
+     * dontrollfrs on MIDI dfvidfs, bnd dfsdribfs thf intfndfd ffffdt
+     * for somf of thf dontrollfrs.
+     * Thf wby in whidh bn
+     * <dodf>Instrumfnt</dodf> rfbdts to b dontrollfr dhbngf mby bf
+     * spfdifid to thf <dodf>Instrumfnt</dodf>.
+     * <p>
+     * Thf MIDI 1.0 Spfdifidbtion dffinfs both 7-bit dontrollfrs
+     * bnd 14-bit dontrollfrs.  Continuous dontrollfrs, sudh
+     * bs whffls bnd slidfrs, typidblly hbvf 14 bits (two MIDI bytfs),
+     * whilf disdrftf dontrollfrs, sudh bs switdhfs, typidblly hbvf 7 bits
+     * (onf MIDI bytf).  Rfffr to thf spfdifidbtion to sff thf
+     * fxpfdtfd rfsolution for fbdh typf of dontrol.
+     * <p>
+     * Controllfrs 64 through 95 (0x40 - 0x5F) bllow 7-bit prfdision.
+     * Thf vbluf of b 7-bit dontrollfr is sft domplftfly by thf
+     * <dodf>vbluf</dodf> brgumfnt.  An bdditionbl sft of dontrollfrs
+     * providf 14-bit prfdision by using two dontrollfr numbfrs, onf
+     * for thf most signifidbnt 7 bits bnd bnothfr for thf lfbst signifidbnt
+     * 7 bits.  Controllfr numbfrs 0 through 31 (0x00 - 0x1F) dontrol thf
+     * most signifidbnt 7 bits of 14-bit dontrollfrs; dontrollfr numbfrs
+     * 32 through 63 (0x20 - 0x3F) dontrol thf lfbst signifidbnt 7 bits of
+     * thfsf dontrollfrs.  For fxbmplf, dontrollfr numbfr 7 (0x07) dontrols
+     * thf uppfr 7 bits of thf dhbnnfl volumf dontrollfr, bnd dontrollfr
+     * numbfr 39 (0x27) dontrols thf lowfr 7 bits.
+     * Thf vbluf of b 14-bit dontrollfr is dftfrminfd
+     * by thf intfrbdtion of thf two hblvfs.  Whfn thf most signifidbnt 7 bits
+     * of b dontrollfr brf sft (using dontrollfr numbfrs 0 through 31), thf
+     * lowfr 7 bits brf butombtidblly sft to 0.  Thf dorrfsponding dontrollfr
+     * numbfr for thf lowfr 7 bits mby thfn bf usfd to furthfr modulbtf thf
+     * dontrollfr vbluf.
+     *
+     * It is possiblf thbt thf undfrlying synthfsizfr
+     * dofs not support b spfdifid dontrollfr mfssbgf. In ordfr
+     * to vfrify thbt b dbll to <dodf>dontrolChbngf</dodf>
+     * wbs suddfssful, usf <dodf>gftControllfr</dodf>.
+     *
+     * @pbrbm dontrollfr thf dontrollfr numbfr (0 to 127; sff thf MIDI
+     * 1.0 Spfdifidbtion for thf intfrprftbtion)
+     * @pbrbm vbluf thf vbluf to whidh thf spfdififd dontrollfr is dhbngfd (0 to 127)
+     *
+     * @sff #gftControllfr(int)
+     */
+    publid void dontrolChbngf(int dontrollfr, int vbluf);
+
+    /**
+     * Obtbins thf durrfnt vbluf of thf spfdififd dontrollfr.  Thf rfturn
+     * vbluf is rfprfsfntfd with 7 bits. For 14-bit dontrollfrs, thf MSB bnd
+     * LSB dontrollfr vbluf nffds to bf obtbinfd sfpbrbtfly. For fxbmplf,
+     * thf 14-bit vbluf of thf volumf dontrollfr dbn bf dbldulbtfd by
+     * multiplying thf vbluf of dontrollfr 7 (0x07, dhbnnfl volumf MSB)
+     * with 128 bnd bdding thf
+     * vbluf of dontrollfr 39 (0x27, dhbnnfl volumf LSB).
+     *
+     * If thf dfvidf dofs not support sftting b spfdifid dontrollfr,
+     * this mfthod rfturns 0 for thbt dontrollfr.
+     * Cblling <dodf>dontrolChbngf</dodf> will hbvf no ffffdt thfn.
+     *
+     * @pbrbm dontrollfr thf numbfr of thf dontrollfr whosf vbluf is dfsirfd.
+     * Thf bllowfd rbngf is 0-127; sff thf MIDI
+     * 1.0 Spfdifidbtion for thf intfrprftbtion.
+     *
+     * @rfturn thf durrfnt vbluf of thf spfdififd dontrollfr (0 to 127)
+     *
+     * @sff #dontrolChbngf(int, int)
+     */
+    publid int gftControllfr(int dontrollfr);
+
+    /**
+     * Chbngfs b progrbm (pbtdh).  This sflfdts b spfdifid
+     * instrumfnt from thf durrfntly sflfdtfd bbnk of instrumfnts.
+     * <p>
+     * Thf MIDI spfdifidbtion dofs not
+     * didtbtf whfthfr notfs thbt brf blrfbdy sounding should switdh
+     * to thf nfw instrumfnt (timbrf) or dontinuf with thfir originbl timbrf
+     * until tfrminbtfd by b notf-off.
+     * <p>
+     * Thf progrbm numbfr is zfro-bbsfd (fxprfssfd from 0 to 127).
+     * Notf thbt MIDI hbrdwbrf displbys bnd litfrbturf bbout MIDI
+     * typidblly usf thf rbngf 1 to 128 instfbd.
+     *
+     * It is possiblf thbt thf undfrlying synthfsizfr
+     * dofs not support b spfdifid progrbm. In ordfr
+     * to vfrify thbt b dbll to <dodf>progrbmChbngf</dodf>
+     * wbs suddfssful, usf <dodf>gftProgrbm</dodf>.
+     *
+     * @pbrbm progrbm thf progrbm numbfr to switdh to (0 to 127)
+     *
+     * @sff #progrbmChbngf(int, int)
+     * @sff #gftProgrbm()
+     */
+    publid void progrbmChbngf(int progrbm);
+
+    /**
+     * Chbngfs thf progrbm using bbnk bnd progrbm (pbtdh) numbfrs.
+     *
+     * It is possiblf thbt thf undfrlying synthfsizfr
+     * dofs not support b spfdifid bbnk, or progrbm. In ordfr
+     * to vfrify thbt b dbll to <dodf>progrbmChbngf</dodf>
+     * wbs suddfssful, usf <dodf>gftProgrbm</dodf> bnd
+     * <dodf>gftControllfr</dodf>.
+     * Sindf bbnks brf dhbngfd by wby of dontrol dhbngfs,
+     * you dbn vfrify thf durrfnt bbnk with thf following
+     * stbtfmfnt:
+     * <prf>
+     *   int bbnk = (gftControllfr(0) * 128)
+     *              + gftControllfr(32);
+     * </prf>
+     *
+     * @pbrbm bbnk thf bbnk numbfr to switdh to (0 to 16383)
+     * @pbrbm progrbm thf progrbm (pbtdh) to usf in thf spfdififd bbnk (0 to 127)
+     * @sff #progrbmChbngf(int)
+     * @sff #gftProgrbm()
+     */
+    publid void progrbmChbngf(int bbnk, int progrbm);
+
+    /**
+     * Obtbins thf durrfnt progrbm numbfr for this dhbnnfl.
+     * @rfturn thf progrbm numbfr of thf durrfntly sflfdtfd pbtdh
+     * @sff Pbtdh#gftProgrbm
+     * @sff Synthfsizfr#lobdInstrumfnt
+     * @sff #progrbmChbngf(int)
+     */
+    publid int gftProgrbm();
+
+    /**
+     * Chbngfs thf pitdh offsft for bll notfs on this dhbnnfl.
+     * This bfffdts bll durrfntly sounding notfs bs wfll bs subsfqufnt onfs.
+     * (For pitdh bfnd to dfbsf, thf vbluf nffds to bf rfsft to thf
+     * dfntfr position.)
+     * <p> Thf MIDI spfdifidbtion
+     * stipulbtfs thbt pitdh bfnd bf b 14-bit vbluf, whfrf zfro
+     * is mbximum downwbrd bfnd, 16383 is mbximum upwbrd bfnd, bnd
+     * 8192 is thf dfntfr (no pitdh bfnd).  Thf bdtubl
+     * bmount of pitdh dhbngf is not spfdififd; it dbn bf dhbngfd by
+     * b pitdh-bfnd sfnsitivity sftting.  Howfvfr, thf Gfnfrbl MIDI
+     * spfdifidbtion sbys thbt thf dffbult rbngf should bf two sfmitonfs
+     * up bnd down from dfntfr.
+     *
+     * It is possiblf thbt thf undfrlying synthfsizfr
+     * dofs not support this MIDI mfssbgf. In ordfr
+     * to vfrify thbt <dodf>sftPitdhBfnd</dodf>
+     * wbs suddfssful, usf <dodf>gftPitdhBfnd</dodf>.
+     *
+     * @pbrbm bfnd thf bmount of pitdh dhbngf, bs b nonnfgbtivf 14-bit vbluf
+     * (8192 = no bfnd)
+     *
+     * @sff #gftPitdhBfnd
+     */
+    publid void sftPitdhBfnd(int bfnd);
+
+    /**
+     * Obtbins thf upwbrd or downwbrd pitdh offsft for this dhbnnfl.
+     * If thf dfvidf dofs not support sftting pitdh bfnd,
+     * this mfthod blwbys rfturns 8192. Cblling
+     * <dodf>sftPitdhBfnd</dodf> will hbvf no ffffdt thfn.
+     *
+     * @rfturn bfnd bmount, bs b nonnfgbtivf 14-bit vbluf (8192 = no bfnd)
+     *
+     * @sff #sftPitdhBfnd(int)
+     */
+    publid int gftPitdhBfnd();
+
+    /**
+     * Rfsfts bll thf implfmfntfd dontrollfrs to thfir dffbult vblufs.
+     *
+     * @sff #dontrolChbngf(int, int)
+     */
+    publid void rfsftAllControllfrs();
+
+    /**
+     * Turns off bll notfs thbt brf durrfntly sounding on this dhbnnfl.
+     * Thf notfs might not dif bwby instbntbnfously; thfir dfdby
+     * rbtf is dftfrminfd by thf intfrnbls of thf <dodf>Instrumfnt</dodf>.
+     * If thf Hold Pfdbl dontrollfr (sff
+     * {@link #dontrolChbngf(int, int) dontrolChbngf})
+     * is down, thf ffffdt of this mfthod is dfffrrfd until thf pfdbl is
+     * rflfbsfd.
+     *
+     * @sff #bllSoundOff
+     * @sff #notfOff(int)
+     */
+    publid void bllNotfsOff();
+
+    /**
+     * Immfdibtfly turns off bll sounding notfs on this dhbnnfl, ignoring thf
+     * stbtf of thf Hold Pfdbl bnd thf intfrnbl dfdby rbtf of thf durrfnt
+     * <dodf>Instrumfnt</dodf>.
+     *
+     * @sff #bllNotfsOff
+     */
+    publid void bllSoundOff();
+
+    /**
+     * Turns lodbl dontrol on or off.  Thf dffbult is for lodbl dontrol
+     * to bf on.  Thf "on" sftting mfbns thbt if b dfvidf is dbpbblf
+     * of both synthfsizing sound bnd trbnsmitting MIDI mfssbgfs,
+     * it will synthfsizf sound in rfsponsf to thf notf-on bnd
+     * notf-off mfssbgfs thbt it itsflf trbnsmits.  It will blso rfspond
+     * to mfssbgfs rfdfivfd from othfr trbnsmitting dfvidfs.
+     * Thf "off" sftting mfbns thbt thf synthfsizfr will ignorf its
+     * own trbnsmittfd MIDI mfssbgfs, but not thosf rfdfivfd from othfr dfvidfs.
+     *
+     * It is possiblf thbt thf undfrlying synthfsizfr
+     * dofs not support lodbl dontrol. In ordfr
+     * to vfrify thbt b dbll to <dodf>lodblControl</dodf>
+     * wbs suddfssful, dhfdk thf rfturn vbluf.
+     *
+     * @pbrbm on <dodf>truf</dodf> to turn lodbl dontrol on, <dodf>fblsf</dodf>
+     *  to turn lodbl dontrol off
+     * @rfturn thf nfw lodbl-dontrol vbluf, or fblsf
+     *         if lodbl dontrol is not supportfd
+     *
+     */
+    publid boolfbn lodblControl(boolfbn on);
+
+    /**
+     * Turns mono modf on or off.  In mono modf, thf dhbnnfl synthfsizfs
+     * only onf notf bt b timf.  In poly modf (idfntidbl to mono modf off),
+     * thf dhbnnfl dbn synthfsizf multiplf notfs simultbnfously.
+     * Thf dffbult is mono off (poly modf on).
+     * <p>
+     * "Mono" is short for thf word "monophonid," whidh in this dontfxt
+     * is opposfd to thf word "polyphonid" bnd rfffrs to b singlf synthfsizfr
+     * voidf pfr MIDI dhbnnfl.  It
+     * hbs nothing to do with how mbny budio dhbnnfls thfrf might bf
+     * (bs in "monophonid" vfrsus "stfrfophonid" rfdordings).
+     *
+     * It is possiblf thbt thf undfrlying synthfsizfr
+     * dofs not support mono modf. In ordfr
+     * to vfrify thbt b dbll to <dodf>sftMono</dodf>
+     * wbs suddfssful, usf <dodf>gftMono</dodf>.
+     *
+     * @pbrbm on <dodf>truf</dodf> to turn mono modf on, <dodf>fblsf</dodf> to
+     * turn it off (whidh mfbns turning poly modf on).
+     *
+     * @sff #gftMono
+     * @sff VoidfStbtus
+     */
+    publid void sftMono(boolfbn on);
+
+    /**
+     * Obtbins thf durrfnt mono/poly modf.
+     * Synthfsizfrs thbt do not bllow dhbnging mono/poly modf
+     * will blwbys rfturn thf sbmf vbluf, rfgbrdlfss
+     * of dblls to <dodf>sftMono</dodf>.
+     * @rfturn <dodf>truf</dodf> if mono modf is on, othfrwisf
+     * <dodf>fblsf</dodf> (mfbning poly modf is on).
+     *
+     * @sff #sftMono(boolfbn)
+     */
+    publid boolfbn gftMono();
+
+    /**
+     * Turns omni modf on or off.  In omni modf, thf dhbnnfl rfsponds
+     * to mfssbgfs sfnt on bll dhbnnfls.  Whfn omni is off, thf dhbnnfl
+     * rfsponds only to mfssbgfs sfnt on its dhbnnfl numbfr.
+     * Thf dffbult is omni off.
+     *
+     * It is possiblf thbt thf undfrlying synthfsizfr
+     * dofs not support omni modf. In ordfr
+     * to vfrify thbt <dodf>sftOmni</dodf>
+     * wbs suddfssful, usf <dodf>gftOmni</dodf>.
+     *
+     * @pbrbm on <dodf>truf</dodf> to turn omni modf on, <dodf>fblsf</dodf> to
+     * turn it off.
+     *
+     * @sff #gftOmni
+     * @sff VoidfStbtus
+     */
+    publid void sftOmni(boolfbn on);
+
+    /**
+     * Obtbins thf durrfnt omni modf.
+     * Synthfsizfrs thbt do not bllow dhbnging thf omni modf
+     * will blwbys rfturn thf sbmf vbluf, rfgbrdlfss
+     * of dblls to <dodf>sftOmni</dodf>.
+     * @rfturn <dodf>truf</dodf> if omni modf is on, othfrwisf
+     * <dodf>fblsf</dodf> (mfbning omni modf is off).
+     *
+     * @sff #sftOmni(boolfbn)
+     */
+    publid boolfbn gftOmni();
+
+    /**
+     * Sfts thf mutf stbtf for this dhbnnfl. A vbluf of
+     * <dodf>truf</dodf> mfbns thf dhbnnfl is to bf mutfd, <dodf>fblsf</dodf>
+     * mfbns thf dhbnnfl dbn sound (if othfr dhbnnfls brf not solofd).
+     * <p>
+     * Unlikf {@link #bllSoundOff()}, this mfthod
+     * bpplifs to only b spfdifid dhbnnfl, not to bll dhbnnfls.  Furthfr, it
+     * silfndfs not only durrfntly sounding notfs, but blso subsfqufntly
+     * rfdfivfd notfs.
+     *
+     * It is possiblf thbt thf undfrlying synthfsizfr
+     * dofs not support muting dhbnnfls. In ordfr
+     * to vfrify thbt b dbll to <dodf>sftMutf</dodf>
+     * wbs suddfssful, usf <dodf>gftMutf</dodf>.
+     *
+     * @pbrbm mutf thf nfw mutf stbtf
+     *
+     * @sff #gftMutf
+     * @sff #sftSolo(boolfbn)
+     */
+    publid void sftMutf(boolfbn mutf);
+
+    /**
+     * Obtbins thf durrfnt mutf stbtf for this dhbnnfl.
+     * If thf undfrlying synthfsizfr dofs not support
+     * muting this dhbnnfl, this mfthod blwbys rfturns
+     * <dodf>fblsf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> thf dhbnnfl is mutfd,
+     *         or <dodf>fblsf</dodf> if not
+     *
+     * @sff #sftMutf(boolfbn)
+     */
+    publid boolfbn gftMutf();
+
+    /**
+     * Sfts thf solo stbtf for this dhbnnfl.
+     * If <dodf>solo</dodf> is <dodf>truf</dodf> only this dhbnnfl
+     * bnd othfr solofd dhbnnfls will sound. If <dodf>solo</dodf>
+     * is <dodf>fblsf</dodf> thfn only othfr solofd dhbnnfls will
+     * sound, unlfss no dhbnnfls brf solofd, in whidh dbsf bll
+     * unmutfd dhbnnfls will sound.
+     *
+     * It is possiblf thbt thf undfrlying synthfsizfr
+     * dofs not support solo dhbnnfls. In ordfr
+     * to vfrify thbt b dbll to <dodf>sftSolo</dodf>
+     * wbs suddfssful, usf <dodf>gftSolo</dodf>.
+     *
+     * @pbrbm soloStbtf nfw solo stbtf for thf dhbnnfl
+     * @sff #gftSolo()
+     */
+    publid void sftSolo(boolfbn soloStbtf);
+
+    /**
+     * Obtbins thf durrfnt solo stbtf for this dhbnnfl.
+     * If thf undfrlying synthfsizfr dofs not support
+     * solo on this dhbnnfl, this mfthod blwbys rfturns
+     * <dodf>fblsf</dodf>.
+     *
+     * @rfturn <dodf>truf</dodf> thf dhbnnfl is solo,
+     *         or <dodf>fblsf</dodf> if not
+     *
+     * @sff #sftSolo(boolfbn)
+     */
+    publid boolfbn gftSolo();
+}

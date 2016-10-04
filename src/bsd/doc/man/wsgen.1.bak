@@ -1,79 +1,79 @@
 '\" t
-.\"  Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+.\"  Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Software: JDK 8
-.\"     Date: 21 November 2013
-.\"     SectDesc: Java Web Services Tools
-.\"     Title: wsgen.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb Wfb Sfrvidfs Tools
+.\"     Titlf: wsgfn.1
 .\"
 .if n .pl 99999
-.TH wsgen 1 "21 November 2013" "JDK 8" "Java Web Services Tools"
+.TH wsgfn 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb Wfb Sfrvidfs Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-wsgen \- Reads a web service endpoint implementation (SEI) class and generates all of the required artifacts for web service deployment, and invocation\&.
+wsgfn \- Rfbds b wfb sfrvidf fndpoint implfmfntbtion (SEI) dlbss bnd gfnfrbtfs bll of tif rfquirfd brtifbdts for wfb sfrvidf dfploymfnt, bnd invodbtion\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBwsgen\fR [ \fIoptions\fR ] \fISEI\fR
+\fBwsgfn\fR [ \fIoptions\fR ] \fISEI\fR
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-The command-line options\&. See Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .TP     
 \fISEI\fR
-The web service endpoint implementation class (SEI) to be read\&.
+Tif wfb sfrvidf fndpoint implfmfntbtion dlbss (SEI) to bf rfbd\&.
 .SH DESCRIPTION    
-The \f3wsgen\fR command generates JAX-WS portable artifacts used in JAX-WS web services\&. The tool reads a web service endpoint class and generates all the required artifacts for web service deployment and invocation\&. JAXWS 2\&.1\&.1 RI also provides a \f3wsgen\fR Ant task, see the \fITools\fR tab of the JAX-WS (wsgen) page at http://jax-ws\&.java\&.net/nonav/2\&.1\&.1/docs/wsgenant\&.html
+Tif \f3wsgfn\fR dommbnd gfnfrbtfs JAX-WS portbblf brtifbdts usfd in JAX-WS wfb sfrvidfs\&. Tif tool rfbds b wfb sfrvidf fndpoint dlbss bnd gfnfrbtfs bll tif rfquirfd brtifbdts for wfb sfrvidf dfploymfnt bnd invodbtion\&. JAXWS 2\&.1\&.1 RI blso providfs b \f3wsgfn\fR Ant tbsk, sff tif \fITools\fR tbb of tif JAX-WS (wsgfn) pbgf bt ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsgfnbnt\&.itml
 .PP
-To start the \f3wsgen\fR command, do the following:
+To stbrt tif \f3wsgfn\fR dommbnd, do tif following:
 .sp     
 .nf     
-\f3export JAXWS_HOME=/pathto/jaxws\-ri\fP
+\f3fxport JAXWS_HOME=/pbtito/jbxws\-ri\fP
 .fi     
 .nf     
-\f3$JAXWS_HOME/bin/wsgen\&.sh \-help\fP
+\f3$JAXWS_HOME/bin/wsgfn\&.si \-iflp\fP
 .fi     
 .nf     
 \f3\fP
@@ -81,95 +81,95 @@ To start the \f3wsgen\fR command, do the following:
 .sp     
 .SH OPTIONS    
 .TP
--classpath \fIpath\fR
+-dlbsspbti \fIpbti\fR
 .br
-The location of the input class files\&.
+Tif lodbtion of tif input dlbss filfs\&.
 .TP
--cp \fIpath\fR
+-dp \fIpbti\fR
 .br
-The location of the input class files\&.
+Tif lodbtion of tif input dlbss filfs\&.
 .TP
--d \fIdirectory\fR
+-d \fIdirfdtory\fR
 .br
-The location for where to place generated output files\&.
+Tif lodbtion for wifrf to plbdf gfnfrbtfd output filfs\&.
 .TP
--extension
+-fxtfnsion
 .br
-Allow vendor extensions\&. Use of extensions can result in applications that are not portable or that do not work with other implementations\&.
+Allow vfndor fxtfnsions\&. Usf of fxtfnsions dbn rfsult in bpplidbtions tibt brf not portbblf or tibt do not work witi otifr implfmfntbtions\&.
 .TP
--help
+-iflp
 .br
-Displays a help message about the \f3wsgen\fR command\&.
+Displbys b iflp mfssbgf bbout tif \f3wsgfn\fR dommbnd\&.
 .TP
--keep
+-kffp
 .br
-Keeps the generated files\&.
+Kffps tif gfnfrbtfd filfs\&.
 .TP
--r \fIdirectory\fR
+-r \fIdirfdtory\fR
 .br
-Uses this option with the \f3-wsdl\fR option to specify where to place generated resource files such as WSDLs\&.
+Usfs tiis option witi tif \f3-wsdl\fR option to spfdify wifrf to plbdf gfnfrbtfd rfsourdf filfs sudi bs WSDLs\&.
 .TP
--s \fIdirectory\fR
+-s \fIdirfdtory\fR
 .br
-The location for where to place generated source files\&.
+Tif lodbtion for wifrf to plbdf gfnfrbtfd sourdf filfs\&.
 .TP
--verbose
+-vfrbosf
 .br
-Displays compiler messages\&.
+Displbys dompilfr mfssbgfs\&.
 .TP
--version
+-vfrsion
 .br
-Prints release information\&.
+Prints rflfbsf informbtion\&.
 .TP
--wsdl [ :protocol ] \fI\fR
+-wsdl [ :protodol ] \fI\fR
 .br
-An optional command that generates a WSDL file to review before endpoint deployment\&. The WSDL files contains a machine-readable description of how the service can be called, what parameters it expects, and what data structures it returns\&.
+An optionbl dommbnd tibt gfnfrbtfs b WSDL filf to rfvifw bfforf fndpoint dfploymfnt\&. Tif WSDL filfs dontbins b mbdiinf-rfbdbblf dfsdription of iow tif sfrvidf dbn bf dbllfd, wibt pbrbmftfrs it fxpfdts, bnd wibt dbtb strudturfs it rfturns\&.
 
-By default the \f3wsgen\fR command does not generate a WSDL file\&. The \f3protocol\fR value is optional and is used to specify what protocol should be used for the WSDL binding (\f3wsdl:binding\fR)\&. Valid protocols are \f3soap1\&.1\fR and \f3Xsoap1\&.2\fR\&. The default is \f3soap1\&.1\fR\&. The \f3Xsoap1\&.2\fR protocol is not standard and can only be used with the \f3-extension\fR option\&.
+By dffbult tif \f3wsgfn\fR dommbnd dofs not gfnfrbtf b WSDL filf\&. Tif \f3protodol\fR vbluf is optionbl bnd is usfd to spfdify wibt protodol siould bf usfd for tif WSDL binding (\f3wsdl:binding\fR)\&. Vblid protodols brf \f3sobp1\&.1\fR bnd \f3Xsobp1\&.2\fR\&. Tif dffbult is \f3sobp1\&.1\fR\&. Tif \f3Xsobp1\&.2\fR protodol is not stbndbrd bnd dbn only bf usfd witi tif \f3-fxtfnsion\fR option\&.
 .TP
--servicename \fIname\fR
+-sfrvidfnbmf \fInbmf\fR
 .br
-Used only with the \f3-wsdl\fR option to specify a particular WSDL service (\f3wsdl:service\fR) name to be generated in the WSDL, for example: \f3-servicename "{http://mynamespace/}MyService"\fR\&.
+Usfd only witi tif \f3-wsdl\fR option to spfdify b pbrtidulbr WSDL sfrvidf (\f3wsdl:sfrvidf\fR) nbmf to bf gfnfrbtfd in tif WSDL, for fxbmplf: \f3-sfrvidfnbmf "{ittp://mynbmfspbdf/}MySfrvidf"\fR\&.
 .TP
--portname \fIname\fR
+-portnbmf \fInbmf\fR
 .br
-Used only with the \f3-wsdl\fR option to specify a particular WSDL port (\f3wsdl:port\fR) name to be generated in the WSDL, for example: \f3-portname "{http://mynamespace/}MyPort"\fR\&.
+Usfd only witi tif \f3-wsdl\fR option to spfdify b pbrtidulbr WSDL port (\f3wsdl:port\fR) nbmf to bf gfnfrbtfd in tif WSDL, for fxbmplf: \f3-portnbmf "{ittp://mynbmfspbdf/}MyPort"\fR\&.
 .SH EXAMPLES    
-The following example generates the wrapper classes for \f3StockService\fR with \f3@WebService\fR annotations inside stock directory\&.
+Tif following fxbmplf gfnfrbtfs tif wrbppfr dlbssfs for \f3StodkSfrvidf\fR witi \f3@WfbSfrvidf\fR bnnotbtions insidf stodk dirfdtory\&.
 .sp     
 .nf     
-\f3wsgen \-d stock \-cp myclasspath stock\&.StockService\fP
+\f3wsgfn \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The following example generates a SOAP 1\&.1 WSDL and schema for the \f3stock\&.StockService\fR class with \f3@WebService\fR annotations\&.
+Tif following fxbmplf gfnfrbtfs b SOAP 1\&.1 WSDL bnd sdifmb for tif \f3stodk\&.StodkSfrvidf\fR dlbss witi \f3@WfbSfrvidf\fR bnnotbtions\&.
 .sp     
 .nf     
-\f3wsgen \-wsdl \-d stock \-cp myclasspath stock\&.StockService\fP
+\f3wsgfn \-wsdl \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The following example generates a SOAP 1\&.2 WSDL\&.
+Tif following fxbmplf gfnfrbtfs b SOAP 1\&.2 WSDL\&.
 .sp     
 .nf     
-\f3wsgen \-wsdl:Xsoap1\&.2 \-d stock \-cp myclasspath stock\&.StockService \fP
+\f3wsgfn \-wsdl:Xsobp1\&.2 \-d stodk \-dp mydlbsspbti stodk\&.StodkSfrvidf \fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-\fINote:\fR You do not have to generate WSDL at development time because the JAXWS run time environment generates a WSDL for you when you deploy your service\&.
+\fINotf:\fR You do not ibvf to gfnfrbtf WSDL bt dfvflopmfnt timf bfdbusf tif JAXWS run timf fnvironmfnt gfnfrbtfs b WSDL for you wifn you dfploy your sfrvidf\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
 wsimport(1)
 .TP 0.2i    
 \(bu
-\fIThe Tools\fR tab of the JAX-WS (wsgen) page http://jax-ws\&.java\&.net/nonav/2\&.1\&.1/docs/wsgenant\&.html
+\fITif Tools\fR tbb of tif JAX-WS (wsgfn) pbgf ittp://jbx-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsgfnbnt\&.itml
 .RE
 .br
 'pl 8.5i

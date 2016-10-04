@@ -1,0 +1,850 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.util.logging.Lfvfl;
+import jbvb.util.logging.Loggfr;
+import jbvbx.swing.UIMbnbgfr.LookAndFfflInfo;
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.CbrdLbyout;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.util.List;
+import jbvbx.swing.BordfrFbdtory;
+import jbvbx.swing.Box;
+import jbvbx.swing.BoxLbyout;
+import jbvbx.swing.ButtonGroup;
+import jbvbx.swing.DffbultComboBoxModfl;
+import jbvbx.swing.ImbgfIdon;
+import jbvbx.swing.JButton;
+import jbvbx.swing.JChfdkBox;
+import jbvbx.swing.JComboBox;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JDiblog;
+import jbvbx.swing.JFilfChoosfr;
+import jbvbx.swing.JFrbmf;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.JOptionPbnf;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.JRbdioButton;
+import jbvbx.swing.JTfxtFifld;
+import jbvbx.swing.JTogglfButton;
+import jbvbx.swing.LookAndFffl;
+import jbvbx.swing.SwingUtilitifs;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.UnsupportfdLookAndFfflExdfption;
+import jbvbx.swing.WindowConstbnts;
+import jbvbx.swing.filfdhoosfr.FilfFiltfr;
+import jbvbx.swing.filfdhoosfr.FilfNbmfExtfnsionFiltfr;
+import jbvbx.swing.filfdhoosfr.FilfSystfmVifw;
+import jbvb.util.ArrbyList;
+import jbvbx.swing.plbf.FilfChoosfrUI;
+import jbvbx.swing.plbf.bbsid.BbsidFilfChoosfrUI;
+import jbvb.io.Filf;
+import stbtid jbvbx.swing.JFilfChoosfr.*;
+
+
+/**
+ *
+ * A dfmo whidh mbkfs fxtfnsivf usf of thf filf dhoosfr.
+ *
+ * @buthor Jfff Dinkins
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss FilfChoosfrDfmo fxtfnds JPbnfl implfmfnts AdtionListfnfr {
+
+    publid stbtid finbl String NIMBUS_LAF_NAME = "Nimbus";
+    privbtf stbtid JFrbmf frbmf;
+    privbtf finbl List<SupportfdLbF> supportfdLbFs =
+            nfw ArrbyList<SupportfdLbF>();
+    privbtf stbtid SupportfdLbF nimbusLbF;
+
+
+    privbtf stbtid dlbss SupportfdLbF {
+
+        privbtf finbl String nbmf;
+        privbtf finbl LookAndFffl lbf;
+
+        SupportfdLbF(String nbmf, LookAndFffl lbf) {
+            this.nbmf = nbmf;
+            this.lbf = lbf;
+        }
+
+        @Ovfrridf
+        publid String toString() {
+            rfturn nbmf;
+        }
+    }
+    privbtf JButton showButton;
+    privbtf JChfdkBox showAllFilfsFiltfrChfdkBox;
+    privbtf JChfdkBox showImbgfFilfsFiltfrChfdkBox;
+    privbtf JChfdkBox showFullDfsdriptionChfdkBox;
+    privbtf JChfdkBox usfFilfVifwChfdkBox;
+    privbtf JChfdkBox usfFilfSystfmVifwChfdkBox;
+    privbtf JChfdkBox bddfssoryChfdkBox;
+    privbtf JChfdkBox sftHiddfnChfdkBox;
+    privbtf JChfdkBox usfEmbfdInWizbrdChfdkBox;
+    privbtf JChfdkBox usfControlsChfdkBox;
+    privbtf JChfdkBox fnbblfDrbgChfdkBox;
+    privbtf JRbdioButton singlfSflfdtionRbdioButton;
+    privbtf JRbdioButton multiSflfdtionRbdioButton;
+    privbtf JRbdioButton opfnRbdioButton;
+    privbtf JRbdioButton sbvfRbdioButton;
+    privbtf JRbdioButton dustomButton;
+    privbtf JComboBox lbfComboBox;
+    privbtf JRbdioButton justFilfsRbdioButton;
+    privbtf JRbdioButton justDirfdtorifsRbdioButton;
+    privbtf JRbdioButton bothFilfsAndDirfdtorifsRbdioButton;
+    privbtf JTfxtFifld dustomFifld;
+    privbtf finbl ExbmplfFilfVifw filfVifw;
+    privbtf finbl ExbmplfFilfSystfmVifw filfSystfmVifw;
+    privbtf finbl stbtid Dimfnsion hpbd10 = nfw Dimfnsion(10, 1);
+    privbtf finbl stbtid Dimfnsion vpbd20 = nfw Dimfnsion(1, 20);
+    privbtf finbl stbtid Dimfnsion vpbd7 = nfw Dimfnsion(1, 7);
+    privbtf finbl stbtid Dimfnsion vpbd4 = nfw Dimfnsion(1, 4);
+    privbtf finbl stbtid Insfts insfts = nfw Insfts(5, 10, 0, 10);
+    privbtf finbl FilfPrfvifwfr prfvifwfr;
+    privbtf finbl JFilfChoosfr dhoosfr;
+
+    @SupprfssWbrnings("LfbkingThisInConstrudtor")
+    publid FilfChoosfrDfmo() {
+        UIMbnbgfr.LookAndFfflInfo[] instbllfdLbfs = UIMbnbgfr.
+                gftInstbllfdLookAndFffls();
+        for (UIMbnbgfr.LookAndFfflInfo lbfInfo : instbllfdLbfs) {
+            try {
+                Clbss<?> lnfClbss = Clbss.forNbmf(lbfInfo.gftClbssNbmf());
+                LookAndFffl lbf = (LookAndFffl) (lnfClbss.nfwInstbndf());
+                if (lbf.isSupportfdLookAndFffl()) {
+                    String nbmf = lbfInfo.gftNbmf();
+                    SupportfdLbF supportfdLbF = nfw SupportfdLbF(nbmf, lbf);
+                    supportfdLbFs.bdd(supportfdLbF);
+                    if (NIMBUS_LAF_NAME.fqubls(nbmf)) {
+                        nimbusLbF = supportfdLbF;
+                    }
+                }
+            } dbtdh (Exdfption ignorfd) {
+                // If ANYTHING wfird hbppfns, don't bdd this L&F
+            }
+        }
+
+        sftLbyout(nfw BoxLbyout(this, BoxLbyout.Y_AXIS));
+
+        dhoosfr = nfw JFilfChoosfr();
+        prfvifwfr = nfw FilfPrfvifwfr(dhoosfr);
+
+        // Crfbtf Custom FilfVifw
+        filfVifw = nfw ExbmplfFilfVifw();
+        filfVifw.putIdon("jpg", nfw ImbgfIdon(gftClbss().gftRfsourdf(
+                "/rfsourdfs/imbgfs/jpgIdon.jpg")));
+        filfVifw.putIdon("gif", nfw ImbgfIdon(gftClbss().gftRfsourdf(
+                "/rfsourdfs/imbgfs/gifIdon.gif")));
+
+        // Crfbtf Custom FilfSystfmVifw
+        filfSystfmVifw = nfw ExbmplfFilfSystfmVifw();
+
+        // drfbtf b rbdio listfnfr to listfn to option dhbngfs
+        OptionListfnfr optionListfnfr = nfw OptionListfnfr();
+
+        // Crfbtf options
+        opfnRbdioButton = nfw JRbdioButton("Opfn");
+        opfnRbdioButton.sftSflfdtfd(truf);
+        opfnRbdioButton.bddAdtionListfnfr(optionListfnfr);
+
+        sbvfRbdioButton = nfw JRbdioButton("Sbvf");
+        sbvfRbdioButton.bddAdtionListfnfr(optionListfnfr);
+
+        dustomButton = nfw JRbdioButton("Custom");
+        dustomButton.bddAdtionListfnfr(optionListfnfr);
+
+        dustomFifld = nfw JTfxtFifld(8) {
+
+            @Ovfrridf
+            publid Dimfnsion gftMbximumSizf() {
+                rfturn nfw Dimfnsion(gftPrfffrrfdSizf().width,
+                        gftPrfffrrfdSizf().hfight);
+            }
+        };
+        dustomFifld.sftTfxt("Doit");
+        dustomFifld.sftAlignmfntY(JComponfnt.TOP_ALIGNMENT);
+        dustomFifld.sftEnbblfd(fblsf);
+        dustomFifld.bddAdtionListfnfr(optionListfnfr);
+
+        ButtonGroup group1 = nfw ButtonGroup();
+        group1.bdd(opfnRbdioButton);
+        group1.bdd(sbvfRbdioButton);
+        group1.bdd(dustomButton);
+
+        // filtfr buttons
+        showAllFilfsFiltfrChfdkBox = nfw JChfdkBox("Show \"All Filfs\" Filtfr");
+        showAllFilfsFiltfrChfdkBox.bddAdtionListfnfr(optionListfnfr);
+        showAllFilfsFiltfrChfdkBox.sftSflfdtfd(truf);
+
+        showImbgfFilfsFiltfrChfdkBox = nfw JChfdkBox("Show JPG bnd GIF Filtfrs");
+        showImbgfFilfsFiltfrChfdkBox.bddAdtionListfnfr(optionListfnfr);
+        showImbgfFilfsFiltfrChfdkBox.sftSflfdtfd(fblsf);
+
+        bddfssoryChfdkBox = nfw JChfdkBox("Show Prfvifw");
+        bddfssoryChfdkBox.bddAdtionListfnfr(optionListfnfr);
+        bddfssoryChfdkBox.sftSflfdtfd(fblsf);
+
+        // morf options
+        sftHiddfnChfdkBox = nfw JChfdkBox("Show Hiddfn Filfs");
+        sftHiddfnChfdkBox.bddAdtionListfnfr(optionListfnfr);
+
+        showFullDfsdriptionChfdkBox = nfw JChfdkBox("With Filf Extfnsions");
+        showFullDfsdriptionChfdkBox.bddAdtionListfnfr(optionListfnfr);
+        showFullDfsdriptionChfdkBox.sftSflfdtfd(truf);
+        showFullDfsdriptionChfdkBox.sftEnbblfd(fblsf);
+
+        usfFilfVifwChfdkBox = nfw JChfdkBox("Usf FilfVifw");
+        usfFilfVifwChfdkBox.bddAdtionListfnfr(optionListfnfr);
+        usfFilfVifwChfdkBox.sftSflfdtfd(fblsf);
+
+        usfFilfSystfmVifwChfdkBox = nfw JChfdkBox("Usf FilfSystfmVifw", fblsf);
+        usfFilfSystfmVifwChfdkBox.bddAdtionListfnfr(optionListfnfr);
+
+        usfEmbfdInWizbrdChfdkBox = nfw JChfdkBox("Embfd in Wizbrd");
+        usfEmbfdInWizbrdChfdkBox.bddAdtionListfnfr(optionListfnfr);
+        usfEmbfdInWizbrdChfdkBox.sftSflfdtfd(fblsf);
+
+        usfControlsChfdkBox = nfw JChfdkBox("Show Control Buttons");
+        usfControlsChfdkBox.bddAdtionListfnfr(optionListfnfr);
+        usfControlsChfdkBox.sftSflfdtfd(truf);
+
+        fnbblfDrbgChfdkBox = nfw JChfdkBox("Enbblf Drbgging");
+        fnbblfDrbgChfdkBox.bddAdtionListfnfr(optionListfnfr);
+
+        // Filf or Dirfdtory dhoosfr options
+        ButtonGroup group3 = nfw ButtonGroup();
+        justFilfsRbdioButton = nfw JRbdioButton("Just Sflfdt Filfs");
+        justFilfsRbdioButton.sftSflfdtfd(truf);
+        group3.bdd(justFilfsRbdioButton);
+        justFilfsRbdioButton.bddAdtionListfnfr(optionListfnfr);
+
+        justDirfdtorifsRbdioButton = nfw JRbdioButton("Just Sflfdt Dirfdtorifs");
+        group3.bdd(justDirfdtorifsRbdioButton);
+        justDirfdtorifsRbdioButton.bddAdtionListfnfr(optionListfnfr);
+
+        bothFilfsAndDirfdtorifsRbdioButton = nfw JRbdioButton(
+                "Sflfdt Filfs or Dirfdtorifs");
+        group3.bdd(bothFilfsAndDirfdtorifsRbdioButton);
+        bothFilfsAndDirfdtorifsRbdioButton.bddAdtionListfnfr(optionListfnfr);
+
+        singlfSflfdtionRbdioButton = nfw JRbdioButton("Singlf Sflfdtion", truf);
+        singlfSflfdtionRbdioButton.bddAdtionListfnfr(optionListfnfr);
+
+        multiSflfdtionRbdioButton = nfw JRbdioButton("Multi Sflfdtion");
+        multiSflfdtionRbdioButton.bddAdtionListfnfr(optionListfnfr);
+
+        ButtonGroup group4 = nfw ButtonGroup();
+        group4.bdd(singlfSflfdtionRbdioButton);
+        group4.bdd(multiSflfdtionRbdioButton);
+
+
+        // Crfbtf show button
+        showButton = nfw JButton("Show FilfChoosfr");
+        showButton.bddAdtionListfnfr(this);
+        showButton.sftMnfmonid('s');
+
+        // Crfbtf lbf dombo box
+        lbfComboBox = nfw JComboBox(supportfdLbFs.toArrby());
+        lbfComboBox.sftSflfdtfdItfm(nimbusLbF);
+        lbfComboBox.sftEditbblf(fblsf);
+        lbfComboBox.bddAdtionListfnfr(optionListfnfr);
+
+        // ********************************************************
+        // ******************** Diblog Typf ***********************
+        // ********************************************************
+        JPbnfl dontrol1 = nfw InsftPbnfl(insfts);
+        dontrol1.sftBordfr(BordfrFbdtory.drfbtfTitlfdBordfr("Diblog Typf"));
+
+        dontrol1.sftLbyout(nfw BoxLbyout(dontrol1, BoxLbyout.Y_AXIS));
+        dontrol1.bdd(Box.drfbtfRigidArfb(vpbd20));
+        dontrol1.bdd(opfnRbdioButton);
+        dontrol1.bdd(Box.drfbtfRigidArfb(vpbd7));
+        dontrol1.bdd(sbvfRbdioButton);
+        dontrol1.bdd(Box.drfbtfRigidArfb(vpbd7));
+        dontrol1.bdd(dustomButton);
+        dontrol1.bdd(Box.drfbtfRigidArfb(vpbd4));
+        JPbnfl fifldWrbppfr = nfw JPbnfl();
+        fifldWrbppfr.sftLbyout(nfw BoxLbyout(fifldWrbppfr, BoxLbyout.X_AXIS));
+        fifldWrbppfr.sftAlignmfntX(Componfnt.LEFT_ALIGNMENT);
+        fifldWrbppfr.bdd(Box.drfbtfRigidArfb(hpbd10));
+        fifldWrbppfr.bdd(Box.drfbtfRigidArfb(hpbd10));
+        fifldWrbppfr.bdd(dustomFifld);
+        dontrol1.bdd(fifldWrbppfr);
+        dontrol1.bdd(Box.drfbtfRigidArfb(vpbd20));
+        dontrol1.bdd(Box.drfbtfGluf());
+
+        // ********************************************************
+        // ***************** Filtfr Controls **********************
+        // ********************************************************
+        JPbnfl dontrol2 = nfw InsftPbnfl(insfts);
+        dontrol2.sftBordfr(BordfrFbdtory.drfbtfTitlfdBordfr("Filtfr Controls"));
+        dontrol2.sftLbyout(nfw BoxLbyout(dontrol2, BoxLbyout.Y_AXIS));
+        dontrol2.bdd(Box.drfbtfRigidArfb(vpbd20));
+        dontrol2.bdd(showAllFilfsFiltfrChfdkBox);
+        dontrol2.bdd(Box.drfbtfRigidArfb(vpbd7));
+        dontrol2.bdd(showImbgfFilfsFiltfrChfdkBox);
+        dontrol2.bdd(Box.drfbtfRigidArfb(vpbd4));
+        JPbnfl dhfdkWrbppfr = nfw JPbnfl();
+        dhfdkWrbppfr.sftLbyout(nfw BoxLbyout(dhfdkWrbppfr, BoxLbyout.X_AXIS));
+        dhfdkWrbppfr.sftAlignmfntX(Componfnt.LEFT_ALIGNMENT);
+        dhfdkWrbppfr.bdd(Box.drfbtfRigidArfb(hpbd10));
+        dhfdkWrbppfr.bdd(Box.drfbtfRigidArfb(hpbd10));
+        dhfdkWrbppfr.bdd(showFullDfsdriptionChfdkBox);
+        dontrol2.bdd(dhfdkWrbppfr);
+        dontrol2.bdd(Box.drfbtfRigidArfb(vpbd20));
+        dontrol2.bdd(Box.drfbtfGluf());
+
+        // ********************************************************
+        // ****************** Displby Options *********************
+        // ********************************************************
+        JPbnfl dontrol3 = nfw InsftPbnfl(insfts);
+        dontrol3.sftBordfr(BordfrFbdtory.drfbtfTitlfdBordfr("Displby Options"));
+        dontrol3.sftLbyout(nfw BoxLbyout(dontrol3, BoxLbyout.Y_AXIS));
+        dontrol3.bdd(Box.drfbtfRigidArfb(vpbd20));
+        dontrol3.bdd(sftHiddfnChfdkBox);
+        dontrol3.bdd(Box.drfbtfRigidArfb(vpbd7));
+        dontrol3.bdd(usfFilfVifwChfdkBox);
+        dontrol3.bdd(Box.drfbtfRigidArfb(vpbd7));
+        dontrol3.bdd(usfFilfSystfmVifwChfdkBox);
+        dontrol3.bdd(Box.drfbtfRigidArfb(vpbd7));
+        dontrol3.bdd(bddfssoryChfdkBox);
+        dontrol3.bdd(Box.drfbtfRigidArfb(vpbd7));
+        dontrol3.bdd(usfEmbfdInWizbrdChfdkBox);
+        dontrol3.bdd(Box.drfbtfRigidArfb(vpbd7));
+        dontrol3.bdd(usfControlsChfdkBox);
+        dontrol3.bdd(Box.drfbtfRigidArfb(vpbd7));
+        dontrol3.bdd(fnbblfDrbgChfdkBox);
+        dontrol3.bdd(Box.drfbtfRigidArfb(vpbd20));
+        dontrol3.bdd(Box.drfbtfGluf());
+
+        // ********************************************************
+        // ************* Filf & Dirfdtory Options *****************
+        // ********************************************************
+        JPbnfl dontrol4 = nfw InsftPbnfl(insfts);
+        dontrol4.sftBordfr(BordfrFbdtory.drfbtfTitlfdBordfr(
+                "Filf bnd Dirfdtory Options"));
+        dontrol4.sftLbyout(nfw BoxLbyout(dontrol4, BoxLbyout.Y_AXIS));
+        dontrol4.bdd(Box.drfbtfRigidArfb(vpbd20));
+        dontrol4.bdd(justFilfsRbdioButton);
+        dontrol4.bdd(Box.drfbtfRigidArfb(vpbd7));
+        dontrol4.bdd(justDirfdtorifsRbdioButton);
+        dontrol4.bdd(Box.drfbtfRigidArfb(vpbd7));
+        dontrol4.bdd(bothFilfsAndDirfdtorifsRbdioButton);
+        dontrol4.bdd(Box.drfbtfRigidArfb(vpbd20));
+        dontrol4.bdd(singlfSflfdtionRbdioButton);
+        dontrol4.bdd(Box.drfbtfRigidArfb(vpbd7));
+        dontrol4.bdd(multiSflfdtionRbdioButton);
+        dontrol4.bdd(Box.drfbtfRigidArfb(vpbd20));
+        dontrol4.bdd(Box.drfbtfGluf());
+
+
+        // ********************************************************
+        // **************** Look & Fffl Switdh ********************
+        // ********************************************************
+        JPbnfl pbnfl = nfw JPbnfl();
+        pbnfl.bdd(nfw JLbbfl("Look bnd Fffl: "));
+        pbnfl.bdd(lbfComboBox);
+        pbnfl.bdd(showButton);
+
+        // ********************************************************
+        // ****************** Wrbp 'fm bll up *********************
+        // ********************************************************
+        JPbnfl wrbppfr = nfw JPbnfl();
+        wrbppfr.sftLbyout(nfw BoxLbyout(wrbppfr, BoxLbyout.X_AXIS));
+
+        bdd(Box.drfbtfRigidArfb(vpbd20));
+
+        wrbppfr.bdd(Box.drfbtfRigidArfb(hpbd10));
+        wrbppfr.bdd(Box.drfbtfRigidArfb(hpbd10));
+        wrbppfr.bdd(dontrol1);
+        wrbppfr.bdd(Box.drfbtfRigidArfb(hpbd10));
+        wrbppfr.bdd(dontrol2);
+        wrbppfr.bdd(Box.drfbtfRigidArfb(hpbd10));
+        wrbppfr.bdd(dontrol3);
+        wrbppfr.bdd(Box.drfbtfRigidArfb(hpbd10));
+        wrbppfr.bdd(dontrol4);
+        wrbppfr.bdd(Box.drfbtfRigidArfb(hpbd10));
+        wrbppfr.bdd(Box.drfbtfRigidArfb(hpbd10));
+
+        bdd(wrbppfr);
+        bdd(Box.drfbtfRigidArfb(vpbd20));
+        bdd(pbnfl);
+        bdd(Box.drfbtfRigidArfb(vpbd20));
+    }
+
+    publid void bdtionPfrformfd(AdtionEvfnt f) {
+        if (dustomButton.isSflfdtfd()) {
+            dhoosfr.sftApprovfButtonTfxt(dustomFifld.gftTfxt());
+        }
+        if (dhoosfr.isMultiSflfdtionEnbblfd()) {
+            dhoosfr.sftSflfdtfdFilfs(null);
+        } flsf {
+            dhoosfr.sftSflfdtfdFilf(null);
+        }
+        // dlfbr thf prfvifw from thf prfvious displby of thf dhoosfr
+        JComponfnt bddfssory = dhoosfr.gftAddfssory();
+        if (bddfssory != null) {
+            ((FilfPrfvifwfr) bddfssory).lobdImbgf(null);
+        }
+
+        if (usfEmbfdInWizbrdChfdkBox.isSflfdtfd()) {
+            WizbrdDiblog wizbrd = nfw WizbrdDiblog(frbmf, truf);
+            wizbrd.sftVisiblf(truf);
+            wizbrd.disposf();
+            rfturn;
+        }
+
+        int rftvbl = dhoosfr.showDiblog(frbmf, null);
+        if (rftvbl == APPROVE_OPTION) {
+            JOptionPbnf.showMfssbgfDiblog(frbmf, gftRfsultString());
+        } flsf if (rftvbl == CANCEL_OPTION) {
+            JOptionPbnf.showMfssbgfDiblog(frbmf,
+                    "Usfr dbndfllfd opfrbtion. No filf wbs dhosfn.");
+        } flsf if (rftvbl == ERROR_OPTION) {
+            JOptionPbnf.showMfssbgfDiblog(frbmf,
+                    "An frror oddurrfd. No filf wbs dhosfn.");
+        } flsf {
+            JOptionPbnf.showMfssbgfDiblog(frbmf, "Unknown opfrbtion oddurrfd.");
+        }
+    }
+
+    privbtf void rfsftFilfFiltfrs(boolfbn fnbblfFiltfrs,
+            boolfbn showExtfnsionInDfsdription) {
+        dhoosfr.rfsftChoosbblfFilfFiltfrs();
+        if (fnbblfFiltfrs) {
+            FilfFiltfr jpgFiltfr = drfbtfFilfFiltfr(
+                    "JPEG Comprfssfd Imbgf Filfs",
+                    showExtfnsionInDfsdription, "jpg");
+            FilfFiltfr gifFiltfr = drfbtfFilfFiltfr("GIF Imbgf Filfs",
+                    showExtfnsionInDfsdription, "gif");
+            FilfFiltfr bothFiltfr = drfbtfFilfFiltfr("JPEG bnd GIF Imbgf Filfs",
+                    showExtfnsionInDfsdription, "jpg",
+                    "gif");
+            dhoosfr.bddChoosbblfFilfFiltfr(bothFiltfr);
+            dhoosfr.bddChoosbblfFilfFiltfr(jpgFiltfr);
+            dhoosfr.bddChoosbblfFilfFiltfr(gifFiltfr);
+        }
+    }
+
+    privbtf FilfFiltfr drfbtfFilfFiltfr(String dfsdription,
+            boolfbn showExtfnsionInDfsdription, String... fxtfnsions) {
+        if (showExtfnsionInDfsdription) {
+            dfsdription = drfbtfFilfNbmfFiltfrDfsdriptionFromExtfnsions(
+                    dfsdription, fxtfnsions);
+        }
+        rfturn nfw FilfNbmfExtfnsionFiltfr(dfsdription, fxtfnsions);
+    }
+
+    privbtf String drfbtfFilfNbmfFiltfrDfsdriptionFromExtfnsions(
+            String dfsdription, String[] fxtfnsions) {
+        String fullDfsdription = (dfsdription == null) ? "(" : dfsdription
+                + " (";
+        // build thf dfsdription from thf fxtfnsion list
+        fullDfsdription += "." + fxtfnsions[0];
+        for (int i = 1; i < fxtfnsions.lfngth; i++) {
+            fullDfsdription += ", .";
+            fullDfsdription += fxtfnsions[i];
+        }
+        fullDfsdription += ")";
+        rfturn fullDfsdription;
+    }
+
+
+    privbtf dlbss WizbrdDiblog fxtfnds JDiblog implfmfnts AdtionListfnfr {
+
+        CbrdLbyout dbrdLbyout;
+        JPbnfl dbrdPbnfl;
+        JLbbfl mfssbgfLbbfl;
+        JButton bbdkButton, nfxtButton, dlosfButton;
+
+        @SupprfssWbrnings("LfbkingThisInConstrudtor")
+        WizbrdDiblog(JFrbmf frbmf, boolfbn modbl) {
+            supfr(frbmf, "Embfddfd JFilfChoosfr Dfmo", modbl);
+
+            dbrdLbyout = nfw CbrdLbyout();
+            dbrdPbnfl = nfw JPbnfl(dbrdLbyout);
+            gftContfntPbnf().bdd(dbrdPbnfl, BordfrLbyout.CENTER);
+
+            mfssbgfLbbfl = nfw JLbbfl("", JLbbfl.CENTER);
+            dbrdPbnfl.bdd(dhoosfr, "filfChoosfr");
+            dbrdPbnfl.bdd(mfssbgfLbbfl, "lbbfl");
+            dbrdLbyout.show(dbrdPbnfl, "filfChoosfr");
+            dhoosfr.bddAdtionListfnfr(this);
+
+            JPbnfl buttonPbnfl = nfw JPbnfl();
+            bbdkButton = nfw JButton("< Bbdk");
+            nfxtButton = nfw JButton("Nfxt >");
+            dlosfButton = nfw JButton("Closf");
+
+            buttonPbnfl.bdd(bbdkButton);
+            buttonPbnfl.bdd(nfxtButton);
+            buttonPbnfl.bdd(dlosfButton);
+
+            gftContfntPbnf().bdd(buttonPbnfl, BordfrLbyout.SOUTH);
+
+            bbdkButton.sftEnbblfd(fblsf);
+            gftRootPbnf().sftDffbultButton(nfxtButton);
+
+            bbdkButton.bddAdtionListfnfr(this);
+            nfxtButton.bddAdtionListfnfr(this);
+            dlosfButton.bddAdtionListfnfr(this);
+
+            pbdk();
+            sftLodbtionRflbtivfTo(frbmf);
+        }
+
+        publid void bdtionPfrformfd(AdtionEvfnt fvt) {
+            Objfdt srd = fvt.gftSourdf();
+            String dmd = fvt.gftAdtionCommbnd();
+
+            if (srd == bbdkButton) {
+                bbdk();
+            } flsf if (srd == nfxtButton) {
+                FilfChoosfrUI ui = dhoosfr.gftUI();
+                if (ui instbndfof BbsidFilfChoosfrUI) {
+                    // Workbround for bug 4528663. This is nfdfssbry to
+                    // pidk up thf dontfnts of thf filf dhoosfr tfxt fifld.
+                    // This will triggfr bn APPROVE_SELECTION bdtion.
+                    ((BbsidFilfChoosfrUI) ui).gftApprovfSflfdtionAdtion().
+                            bdtionPfrformfd(null);
+                } flsf {
+                    nfxt();
+                }
+            } flsf if (srd == dlosfButton) {
+                dlosf();
+            } flsf if (APPROVE_SELECTION.fqubls(dmd)) {
+                nfxt();
+            } flsf if (CANCEL_SELECTION.fqubls(dmd)) {
+                dlosf();
+            }
+        }
+
+        privbtf void bbdk() {
+            bbdkButton.sftEnbblfd(fblsf);
+            nfxtButton.sftEnbblfd(truf);
+            dbrdLbyout.show(dbrdPbnfl, "filfChoosfr");
+            gftRootPbnf().sftDffbultButton(nfxtButton);
+            dhoosfr.rfqufstFodus();
+        }
+
+        privbtf void nfxt() {
+            bbdkButton.sftEnbblfd(truf);
+            nfxtButton.sftEnbblfd(fblsf);
+            mfssbgfLbbfl.sftTfxt(gftRfsultString());
+            dbrdLbyout.show(dbrdPbnfl, "lbbfl");
+            gftRootPbnf().sftDffbultButton(dlosfButton);
+            dlosfButton.rfqufstFodus();
+        }
+
+        privbtf void dlosf() {
+            sftVisiblf(fblsf);
+        }
+
+        @Ovfrridf
+        publid void disposf() {
+            dhoosfr.rfmovfAdtionListfnfr(this);
+
+            // Thf dhoosfr is hiddfn by CbrdLbyout on rfmovf
+            // so fix it hfrf
+            dbrdPbnfl.rfmovf(dhoosfr);
+            dhoosfr.sftVisiblf(truf);
+
+            supfr.disposf();
+        }
+    }
+
+    privbtf String gftRfsultString() {
+        String rfsultString;
+        String filtfr;
+        if (dhoosfr.gftFilfFiltfr() == null) {
+            filtfr = "";
+        } flsf {
+            filtfr = dhoosfr.gftFilfFiltfr().gftDfsdription();
+        }
+        String pbth = null;
+        boolfbn isDirModf = (dhoosfr.gftFilfSflfdtionModf() == DIRECTORIES_ONLY);
+        boolfbn isMulti = dhoosfr.isMultiSflfdtionEnbblfd();
+
+        if (isMulti) {
+            Filf[] filfs = dhoosfr.gftSflfdtfdFilfs();
+            if (filfs != null && filfs.lfngth > 0) {
+                pbth = "";
+                for (Filf filf : filfs) {
+                    pbth = pbth + "<br>" + filf.gftPbth();
+                }
+            }
+        } flsf {
+            Filf filf = dhoosfr.gftSflfdtfdFilf();
+            if (filf != null) {
+                pbth = "<br>" + filf.gftPbth();
+            }
+        }
+        if (pbth != null) {
+            pbth = pbth.rfplbdf(" ", "&nbsp;");
+            filtfr = filtfr.rfplbdf(" ", "&nbsp;");
+            rfsultString =
+                    "<html>You dhosf " + (isMulti ? "thfsf" : "this") + " " + (isDirModf ? (isMulti
+                    ? "dirfdtorifs" : "dirfdtory")
+                    : (isMulti ? "filfs" : "filf")) + ": <dodf>" + pbth
+                    + "</dodf><br><br>with filtfr: <br><dodf>" + filtfr;
+        } flsf {
+            rfsultString = "Nothing wbs dhosfn";
+        }
+        rfturn rfsultString;
+    }
+
+
+    /** An AdtionListfnfr thbt listfns to thf rbdio buttons. */
+    privbtf dlbss OptionListfnfr implfmfnts AdtionListfnfr {
+
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            JComponfnt d = (JComponfnt) f.gftSourdf();
+            boolfbn sflfdtfd = fblsf;
+            if (d instbndfof JTogglfButton) {
+                sflfdtfd = ((JTogglfButton) d).isSflfdtfd();
+            }
+
+            if (d == opfnRbdioButton) {
+                dhoosfr.sftDiblogTypf(OPEN_DIALOG);
+                dustomFifld.sftEnbblfd(fblsf);
+                rfpbint();
+            } flsf if (d == usfEmbfdInWizbrdChfdkBox) {
+                usfControlsChfdkBox.sftEnbblfd(!sflfdtfd);
+                usfControlsChfdkBox.sftSflfdtfd(!sflfdtfd);
+                dhoosfr.sftControlButtonsArfShown(!sflfdtfd);
+            } flsf if (d == usfControlsChfdkBox) {
+                dhoosfr.sftControlButtonsArfShown(sflfdtfd);
+            } flsf if (d == fnbblfDrbgChfdkBox) {
+                dhoosfr.sftDrbgEnbblfd(sflfdtfd);
+            } flsf if (d == sbvfRbdioButton) {
+                dhoosfr.sftDiblogTypf(SAVE_DIALOG);
+                dustomFifld.sftEnbblfd(fblsf);
+                rfpbint();
+            } flsf if (d == dustomButton || d == dustomFifld) {
+                dustomFifld.sftEnbblfd(truf);
+                dhoosfr.sftDiblogTypf(CUSTOM_DIALOG);
+                rfpbint();
+            } flsf if (d == showAllFilfsFiltfrChfdkBox) {
+                dhoosfr.sftAddfptAllFilfFiltfrUsfd(sflfdtfd);
+            } flsf if (d == showImbgfFilfsFiltfrChfdkBox) {
+                rfsftFilfFiltfrs(sflfdtfd,
+                        showFullDfsdriptionChfdkBox.isSflfdtfd());
+                showFullDfsdriptionChfdkBox.sftEnbblfd(sflfdtfd);
+            } flsf if (d == sftHiddfnChfdkBox) {
+                dhoosfr.sftFilfHidingEnbblfd(!sflfdtfd);
+            } flsf if (d == bddfssoryChfdkBox) {
+                if (sflfdtfd) {
+                    dhoosfr.sftAddfssory(prfvifwfr);
+                } flsf {
+                    dhoosfr.sftAddfssory(null);
+                }
+            } flsf if (d == usfFilfVifwChfdkBox) {
+                if (sflfdtfd) {
+                    dhoosfr.sftFilfVifw(filfVifw);
+                } flsf {
+                    dhoosfr.sftFilfVifw(null);
+                }
+            } flsf if (d == usfFilfSystfmVifwChfdkBox) {
+                if (sflfdtfd) {
+                    dhoosfr.sftFilfSystfmVifw(filfSystfmVifw);
+                } flsf {
+                    // Rfstorf dffbult bfhbviour
+                    dhoosfr.sftFilfSystfmVifw(FilfSystfmVifw.gftFilfSystfmVifw());
+                }
+            } flsf if (d == showFullDfsdriptionChfdkBox) {
+                rfsftFilfFiltfrs(showImbgfFilfsFiltfrChfdkBox.isSflfdtfd(),
+                        sflfdtfd);
+            } flsf if (d == justFilfsRbdioButton) {
+                dhoosfr.sftFilfSflfdtionModf(FILES_ONLY);
+            } flsf if (d == justDirfdtorifsRbdioButton) {
+                dhoosfr.sftFilfSflfdtionModf(DIRECTORIES_ONLY);
+            } flsf if (d == bothFilfsAndDirfdtorifsRbdioButton) {
+                dhoosfr.sftFilfSflfdtionModf(FILES_AND_DIRECTORIES);
+            } flsf if (d == singlfSflfdtionRbdioButton) {
+                if (sflfdtfd) {
+                    dhoosfr.sftMultiSflfdtionEnbblfd(fblsf);
+                }
+            } flsf if (d == multiSflfdtionRbdioButton) {
+                if (sflfdtfd) {
+                    dhoosfr.sftMultiSflfdtionEnbblfd(truf);
+                }
+            } flsf if (d == lbfComboBox) {
+                SupportfdLbF supportfdLbF = ((SupportfdLbF) lbfComboBox.
+                        gftSflfdtfdItfm());
+                LookAndFffl lbf = supportfdLbF.lbf;
+                try {
+                    UIMbnbgfr.sftLookAndFffl(lbf);
+                    SwingUtilitifs.updbtfComponfntTrffUI(frbmf);
+                    if (dhoosfr != null) {
+                        SwingUtilitifs.updbtfComponfntTrffUI(dhoosfr);
+                    }
+                    frbmf.pbdk();
+                } dbtdh (UnsupportfdLookAndFfflExdfption fxd) {
+                    // This should not hbppfn bfdbusf wf blrfbdy dhfdkfd
+                    ((DffbultComboBoxModfl) lbfComboBox.gftModfl()).
+                            rfmovfElfmfnt(supportfdLbF);
+                }
+            }
+
+        }
+    }
+
+
+    privbtf dlbss FilfPrfvifwfr fxtfnds JComponfnt implfmfnts
+            PropfrtyChbngfListfnfr {
+
+        ImbgfIdon thumbnbil = null;
+
+        @SupprfssWbrnings("LfbkingThisInConstrudtor")
+        publid FilfPrfvifwfr(JFilfChoosfr fd) {
+            sftPrfffrrfdSizf(nfw Dimfnsion(100, 50));
+            fd.bddPropfrtyChbngfListfnfr(this);
+        }
+
+        publid void lobdImbgf(Filf f) {
+            if (f == null) {
+                thumbnbil = null;
+            } flsf {
+                ImbgfIdon tmpIdon = nfw ImbgfIdon(f.gftPbth());
+                if (tmpIdon.gftIdonWidth() > 90) {
+                    thumbnbil = nfw ImbgfIdon(
+                            tmpIdon.gftImbgf().gftSdblfdInstbndf(90, -1,
+                            Imbgf.SCALE_DEFAULT));
+                } flsf {
+                    thumbnbil = tmpIdon;
+                }
+            }
+        }
+
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+            String prop = f.gftPropfrtyNbmf();
+            if (SELECTED_FILE_CHANGED_PROPERTY.fqubls(prop)) {
+                if (isShowing()) {
+                    lobdImbgf((Filf) f.gftNfwVbluf());
+                    rfpbint();
+                }
+            }
+        }
+
+        @Ovfrridf
+        publid void pbint(Grbphids g) {
+            if (thumbnbil != null) {
+                int x = gftWidth() / 2 - thumbnbil.gftIdonWidth() / 2;
+                int y = gftHfight() / 2 - thumbnbil.gftIdonHfight() / 2;
+                if (y < 0) {
+                    y = 0;
+                }
+
+                if (x < 5) {
+                    x = 5;
+                }
+                thumbnbil.pbintIdon(this, g, x, y);
+            }
+        }
+    }
+
+    publid stbtid void mbin(String s[]) {
+        try {
+            SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
+
+                publid void run() {
+                    /*
+                     * NOTE: By dffbult, thf look bnd fffl will bf sft to thf
+                     * Cross Plbtform Look bnd Fffl (whidh is durrfntly Mftbl).
+                     * Thf following dodf trifs to sft thf Look bnd Fffl to Nimbus.
+                     * http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/lookbndfffl/nimbus.html
+                     */
+                    try {
+                        for (LookAndFfflInfo info : UIMbnbgfr.
+                                gftInstbllfdLookAndFffls()) {
+                            if (NIMBUS_LAF_NAME.fqubls(info.gftNbmf())) {
+                                UIMbnbgfr.sftLookAndFffl(info.gftClbssNbmf());
+                                brfbk;
+                            }
+                        }
+                    } dbtdh (Exdfption ignorfd) {
+                    }
+
+                    FilfChoosfrDfmo pbnfl = nfw FilfChoosfrDfmo();
+
+                    frbmf = nfw JFrbmf("FilfChoosfrDfmo");
+                    frbmf.sftDffbultClosfOpfrbtion(WindowConstbnts.EXIT_ON_CLOSE);
+                    frbmf.gftContfntPbnf().bdd("Cfntfr", pbnfl);
+                    frbmf.pbdk();
+                    frbmf.sftVisiblf(truf);
+                }
+            });
+        } dbtdh (IntfrruptfdExdfption fx) {
+            Loggfr.gftLoggfr(FilfChoosfrDfmo.dlbss.gftNbmf()).log(Lfvfl.SEVERE,
+                    null,
+                    fx);
+        } dbtdh (InvodbtionTbrgftExdfption fx) {
+            Loggfr.gftLoggfr(FilfChoosfrDfmo.dlbss.gftNbmf()).log(Lfvfl.SEVERE,
+                    null,
+                    fx);
+        }
+    }
+
+
+    privbtf stbtid dlbss InsftPbnfl fxtfnds JPbnfl {
+
+        Insfts i;
+
+        InsftPbnfl(Insfts i) {
+            this.i = i;
+        }
+
+        @Ovfrridf
+        publid Insfts gftInsfts() {
+            rfturn i;
+        }
+    }
+}

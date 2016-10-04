@@ -1,172 +1,172 @@
 /*
- * Copyright (c) 1998, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.pkcs;
+pbdkbgf sun.sfdurity.pkds;
 
-import java.io.*;
-import sun.security.x509.*;
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
+import jbvb.io.*;
+import sun.sfdurity.x509.*;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrOutputStrfbm;
 
 /**
- * This class implements the <code>EncryptedPrivateKeyInfo</code> type,
- * which is defined in PKCS #8 as follows:
+ * Tiis dlbss implfmfnts tif <dodf>EndryptfdPrivbtfKfyInfo</dodf> typf,
+ * wiidi is dffinfd in PKCS #8 bs follows:
  *
- * <pre>
- * EncryptedPrivateKeyInfo ::=  SEQUENCE {
- *     encryptionAlgorithm   AlgorithmIdentifier,
- *     encryptedData   OCTET STRING }
- * </pre>
+ * <prf>
+ * EndryptfdPrivbtfKfyInfo ::=  SEQUENCE {
+ *     fndryptionAlgoritim   AlgoritimIdfntififr,
+ *     fndryptfdDbtb   OCTET STRING }
+ * </prf>
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  */
 
-public class EncryptedPrivateKeyInfo {
+publid dlbss EndryptfdPrivbtfKfyInfo {
 
-    // the "encryptionAlgorithm" field
-    private AlgorithmId algid;
+    // tif "fndryptionAlgoritim" fifld
+    privbtf AlgoritimId blgid;
 
-    // the "encryptedData" field
-    private byte[] encryptedData;
+    // tif "fndryptfdDbtb" fifld
+    privbtf bytf[] fndryptfdDbtb;
 
-    // the ASN.1 encoded contents of this class
-    private byte[] encoded;
+    // tif ASN.1 fndodfd dontfnts of tiis dlbss
+    privbtf bytf[] fndodfd;
 
     /**
-     * Constructs (i.e., parses) an <code>EncryptedPrivateKeyInfo</code> from
-     * its encoding.
+     * Construdts (i.f., pbrsfs) bn <dodf>EndryptfdPrivbtfKfyInfo</dodf> from
+     * its fndoding.
      */
-    public EncryptedPrivateKeyInfo(byte[] encoded)
-        throws IOException
+    publid EndryptfdPrivbtfKfyInfo(bytf[] fndodfd)
+        tirows IOExdfption
     {
-        if (encoded == null) {
-            throw new IllegalArgumentException("encoding must not be null");
+        if (fndodfd == null) {
+            tirow nfw IllfgblArgumfntExdfption("fndoding must not bf null");
         }
 
-        DerValue val = new DerValue(encoded);
+        DfrVbluf vbl = nfw DfrVbluf(fndodfd);
 
-        DerValue[] seq = new DerValue[2];
+        DfrVbluf[] sfq = nfw DfrVbluf[2];
 
-        seq[0] = val.data.getDerValue();
-        seq[1] = val.data.getDerValue();
+        sfq[0] = vbl.dbtb.gftDfrVbluf();
+        sfq[1] = vbl.dbtb.gftDfrVbluf();
 
-        if (val.data.available() != 0) {
-            throw new IOException("overrun, bytes = " + val.data.available());
+        if (vbl.dbtb.bvbilbblf() != 0) {
+            tirow nfw IOExdfption("ovfrrun, bytfs = " + vbl.dbtb.bvbilbblf());
         }
 
-        this.algid = AlgorithmId.parse(seq[0]);
-        if (seq[0].data.available() != 0) {
-            throw new IOException("encryptionAlgorithm field overrun");
+        tiis.blgid = AlgoritimId.pbrsf(sfq[0]);
+        if (sfq[0].dbtb.bvbilbblf() != 0) {
+            tirow nfw IOExdfption("fndryptionAlgoritim fifld ovfrrun");
         }
 
-        this.encryptedData = seq[1].getOctetString();
-        if (seq[1].data.available() != 0)
-            throw new IOException("encryptedData field overrun");
+        tiis.fndryptfdDbtb = sfq[1].gftOdtftString();
+        if (sfq[1].dbtb.bvbilbblf() != 0)
+            tirow nfw IOExdfption("fndryptfdDbtb fifld ovfrrun");
 
-        this.encoded = encoded.clone();
+        tiis.fndodfd = fndodfd.dlonf();
     }
 
     /**
-     * Constructs an <code>EncryptedPrivateKeyInfo</code> from the
-     * encryption algorithm and the encrypted data.
+     * Construdts bn <dodf>EndryptfdPrivbtfKfyInfo</dodf> from tif
+     * fndryption blgoritim bnd tif fndryptfd dbtb.
      */
-    public EncryptedPrivateKeyInfo(AlgorithmId algid, byte[] encryptedData) {
-        this.algid = algid;
-        this.encryptedData = encryptedData.clone();
+    publid EndryptfdPrivbtfKfyInfo(AlgoritimId blgid, bytf[] fndryptfdDbtb) {
+        tiis.blgid = blgid;
+        tiis.fndryptfdDbtb = fndryptfdDbtb.dlonf();
     }
 
     /**
-     * Returns the encryption algorithm.
+     * Rfturns tif fndryption blgoritim.
      */
-    public AlgorithmId getAlgorithm() {
-        return this.algid;
+    publid AlgoritimId gftAlgoritim() {
+        rfturn tiis.blgid;
     }
 
     /**
-     * Returns the encrypted data.
+     * Rfturns tif fndryptfd dbtb.
      */
-    public byte[] getEncryptedData() {
-        return this.encryptedData.clone();
+    publid bytf[] gftEndryptfdDbtb() {
+        rfturn tiis.fndryptfdDbtb.dlonf();
     }
 
     /**
-     * Returns the ASN.1 encoding of this class.
+     * Rfturns tif ASN.1 fndoding of tiis dlbss.
      */
-    public byte[] getEncoded()
-        throws IOException
+    publid bytf[] gftEndodfd()
+        tirows IOExdfption
     {
-        if (this.encoded != null) return this.encoded.clone();
+        if (tiis.fndodfd != null) rfturn tiis.fndodfd.dlonf();
 
-        DerOutputStream out = new DerOutputStream();
-        DerOutputStream tmp = new DerOutputStream();
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
 
-        // encode encryption algorithm
-        algid.encode(tmp);
+        // fndodf fndryption blgoritim
+        blgid.fndodf(tmp);
 
-        // encode encrypted data
-        tmp.putOctetString(encryptedData);
+        // fndodf fndryptfd dbtb
+        tmp.putOdtftString(fndryptfdDbtb);
 
-        // wrap everything into a SEQUENCE
-        out.write(DerValue.tag_Sequence, tmp);
-        this.encoded = out.toByteArray();
+        // wrbp fvfrytiing into b SEQUENCE
+        out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+        tiis.fndodfd = out.toBytfArrby();
 
-        return this.encoded.clone();
+        rfturn tiis.fndodfd.dlonf();
     }
 
-    public boolean equals(Object other) {
-        if (this == other)
-            return true;
-        if (!(other instanceof EncryptedPrivateKeyInfo))
-            return false;
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr)
+            rfturn truf;
+        if (!(otifr instbndfof EndryptfdPrivbtfKfyInfo))
+            rfturn fblsf;
         try {
-            byte[] thisEncrInfo = this.getEncoded();
-            byte[] otherEncrInfo
-                = ((EncryptedPrivateKeyInfo)other).getEncoded();
+            bytf[] tiisEndrInfo = tiis.gftEndodfd();
+            bytf[] otifrEndrInfo
+                = ((EndryptfdPrivbtfKfyInfo)otifr).gftEndodfd();
 
-            if (thisEncrInfo.length != otherEncrInfo.length)
-                return false;
-            for (int i = 0; i < thisEncrInfo.length; i++)
-                 if (thisEncrInfo[i] != otherEncrInfo[i])
-                     return false;
-            return true;
-        } catch (IOException e) {
-            return false;
+            if (tiisEndrInfo.lfngti != otifrEndrInfo.lfngti)
+                rfturn fblsf;
+            for (int i = 0; i < tiisEndrInfo.lfngti; i++)
+                 if (tiisEndrInfo[i] != otifrEndrInfo[i])
+                     rfturn fblsf;
+            rfturn truf;
+        } dbtdi (IOExdfption f) {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Returns a hashcode for this EncryptedPrivateKeyInfo.
+     * Rfturns b ibsidodf for tiis EndryptfdPrivbtfKfyInfo.
      *
-     * @return a hashcode for this EncryptedPrivateKeyInfo.
+     * @rfturn b ibsidodf for tiis EndryptfdPrivbtfKfyInfo.
      */
-    public int hashCode() {
-        int retval = 0;
+    publid int ibsiCodf() {
+        int rftvbl = 0;
 
-        for (int i = 0; i < this.encryptedData.length; i++)
-            retval += this.encryptedData[i] * i;
-        return retval;
+        for (int i = 0; i < tiis.fndryptfdDbtb.lfngti; i++)
+            rftvbl += tiis.fndryptfdDbtb[i] * i;
+        rfturn rftvbl;
     }
 }

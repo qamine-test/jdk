@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.nio.dhbrsft.Chbrsft;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbth;
+import jbvb.util.Collfdtion;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.Prfdidbtf;
+
+/**
+ * Bbsf intfrfbdf for strfbms, whidh brf sfqufndfs of flfmfnts supporting
+ * sfqufntibl bnd pbrbllfl bggrfgbtf opfrbtions.  Thf following fxbmplf
+ * illustrbtfs bn bggrfgbtf opfrbtion using thf strfbm typfs {@link Strfbm}
+ * bnd {@link IntStrfbm}, domputing thf sum of thf wfights of thf rfd widgfts:
+ *
+ * <prf>{@dodf
+ *     int sum = widgfts.strfbm()
+ *                      .filtfr(w -> w.gftColor() == RED)
+ *                      .mbpToInt(w -> w.gftWfight())
+ *                      .sum();
+ * }</prf>
+ *
+ * Sff thf dlbss dodumfntbtion for {@link Strfbm} bnd thf pbdkbgf dodumfntbtion
+ * for <b hrff="pbdkbgf-summbry.html">jbvb.util.strfbm</b> for bdditionbl
+ * spfdifidbtion of strfbms, strfbm opfrbtions, strfbm pipflinfs, bnd
+ * pbrbllflism, whidh govfrns thf bfhbvior of bll strfbm typfs.
+ *
+ * @pbrbm <T> thf typf of thf strfbm flfmfnts
+ * @pbrbm <S> thf typf of thf strfbm implfmfnting {@dodf BbsfStrfbm}
+ * @sindf 1.8
+ * @sff Strfbm
+ * @sff IntStrfbm
+ * @sff LongStrfbm
+ * @sff DoublfStrfbm
+ * @sff <b hrff="pbdkbgf-summbry.html">jbvb.util.strfbm</b>
+ */
+publid intfrfbdf BbsfStrfbm<T, S fxtfnds BbsfStrfbm<T, S>>
+        fxtfnds AutoClosfbblf {
+    /**
+     * Rfturns bn itfrbtor for thf flfmfnts of this strfbm.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
+     *
+     * @rfturn thf flfmfnt itfrbtor for this strfbm
+     */
+    Itfrbtor<T> itfrbtor();
+
+    /**
+     * Rfturns b splitfrbtor for thf flfmfnts of this strfbm.
+     *
+     * <p>This is b <b hrff="pbdkbgf-summbry.html#StrfbmOps">tfrminbl
+     * opfrbtion</b>.
+     *
+     * @rfturn thf flfmfnt splitfrbtor for this strfbm
+     */
+    Splitfrbtor<T> splitfrbtor();
+
+    /**
+     * Rfturns whfthfr this strfbm, if b tfrminbl opfrbtion wfrf to bf fxfdutfd,
+     * would fxfdutf in pbrbllfl.  Cblling this mfthod bftfr invoking bn
+     * tfrminbl strfbm opfrbtion mfthod mby yifld unprfdidtbblf rfsults.
+     *
+     * @rfturn {@dodf truf} if this strfbm would fxfdutf in pbrbllfl if fxfdutfd
+     */
+    boolfbn isPbrbllfl();
+
+    /**
+     * Rfturns bn fquivblfnt strfbm thbt is sfqufntibl.  Mby rfturn
+     * itsflf, fithfr bfdbusf thf strfbm wbs blrfbdy sfqufntibl, or bfdbusf
+     * thf undfrlying strfbm stbtf wbs modififd to bf sfqufntibl.
+     *
+     * <p>This is bn <b hrff="pbdkbgf-summbry.html#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
+     *
+     * @rfturn b sfqufntibl strfbm
+     */
+    S sfqufntibl();
+
+    /**
+     * Rfturns bn fquivblfnt strfbm thbt is pbrbllfl.  Mby rfturn
+     * itsflf, fithfr bfdbusf thf strfbm wbs blrfbdy pbrbllfl, or bfdbusf
+     * thf undfrlying strfbm stbtf wbs modififd to bf pbrbllfl.
+     *
+     * <p>This is bn <b hrff="pbdkbgf-summbry.html#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
+     *
+     * @rfturn b pbrbllfl strfbm
+     */
+    S pbrbllfl();
+
+    /**
+     * Rfturns bn fquivblfnt strfbm thbt is
+     * <b hrff="pbdkbgf-summbry.html#Ordfring">unordfrfd</b>.  Mby rfturn
+     * itsflf, fithfr bfdbusf thf strfbm wbs blrfbdy unordfrfd, or bfdbusf
+     * thf undfrlying strfbm stbtf wbs modififd to bf unordfrfd.
+     *
+     * <p>This is bn <b hrff="pbdkbgf-summbry.html#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
+     *
+     * @rfturn bn unordfrfd strfbm
+     */
+    S unordfrfd();
+
+    /**
+     * Rfturns bn fquivblfnt strfbm with bn bdditionbl dlosf hbndlfr.  Closf
+     * hbndlfrs brf run whfn thf {@link #dlosf()} mfthod
+     * is dbllfd on thf strfbm, bnd brf fxfdutfd in thf ordfr thfy wfrf
+     * bddfd.  All dlosf hbndlfrs brf run, fvfn if fbrlifr dlosf hbndlfrs throw
+     * fxdfptions.  If bny dlosf hbndlfr throws bn fxdfption, thf first
+     * fxdfption thrown will bf rflbyfd to thf dbllfr of {@dodf dlosf()}, with
+     * bny rfmbining fxdfptions bddfd to thbt fxdfption bs supprfssfd fxdfptions
+     * (unlfss onf of thf rfmbining fxdfptions is thf sbmf fxdfption bs thf
+     * first fxdfption, sindf bn fxdfption dbnnot supprfss itsflf.)  Mby
+     * rfturn itsflf.
+     *
+     * <p>This is bn <b hrff="pbdkbgf-summbry.html#StrfbmOps">intfrmfdibtf
+     * opfrbtion</b>.
+     *
+     * @pbrbm dlosfHbndlfr A tbsk to fxfdutf whfn thf strfbm is dlosfd
+     * @rfturn b strfbm with b hbndlfr thbt is run if thf strfbm is dlosfd
+     */
+    S onClosf(Runnbblf dlosfHbndlfr);
+
+    /**
+     * Closfs this strfbm, dbusing bll dlosf hbndlfrs for this strfbm pipflinf
+     * to bf dbllfd.
+     *
+     * @sff AutoClosfbblf#dlosf()
+     */
+    @Ovfrridf
+    void dlosf();
+}

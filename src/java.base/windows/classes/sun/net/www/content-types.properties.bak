@@ -1,276 +1,276 @@
-#sun.net.www MIME content-types table
+#sun.nft.www MIME dontfnt-typfs tbblf
 #
-# Property fields:
+# Propfrty fiflds:
 #
-#   <description> ::= 'description' '=' <descriptive string>
-#    <extensions> ::= 'file_extensions' '=' <comma-delimited list, include '.'>
-#         <image> ::= 'icon' '=' <filename of icon image>
-#        <action> ::= 'browser' | 'application' | 'save' | 'unknown'
-#   <application> ::= 'application' '=' <command line template>
+#   <dfsdription> ::= 'dfsdription' '=' <dfsdriptivf string>
+#    <fxtfnsions> ::= 'filf_fxtfnsions' '=' <dommb-dflimitfd list, indludf '.'>
+#         <imbgf> ::= 'idon' '=' <filfnbmf of idon imbgf>
+#        <bdtion> ::= 'browsfr' | 'bpplidbtion' | 'sbvf' | 'unknown'
+#   <bpplidbtion> ::= 'bpplidbtion' '=' <dommbnd linf tfmplbtf>
 #
-
-#
-# The "we don't know anything about this data" type(s).
-# Used internally to mark unrecognized types.
-#
-content/unknown: description=Unknown Content
-unknown/unknown: description=Unknown Data Type
 
 #
-# The template we should use for temporary files when launching an application
-# to view a document of given type.
+# Tif "wf don't know bnytiing bbout tiis dbtb" typf(s).
+# Usfd intfrnblly to mbrk unrfdognizfd typfs.
 #
-temp.file.template: c:\\temp\\%s
+dontfnt/unknown: dfsdription=Unknown Contfnt
+unknown/unknown: dfsdription=Unknown Dbtb Typf
 
 #
-# The "real" types.
+# Tif tfmplbtf wf siould usf for tfmporbry filfs wifn lbundiing bn bpplidbtion
+# to vifw b dodumfnt of givfn typf.
 #
-application/octet-stream: \
-	description=Generic Binary Stream;\
-	file_extensions=.saveme,.dump,.hqx,.arc,.obj,.lib,.bin,.exe,.zip,.gz
+tfmp.filf.tfmplbtf: d:\\tfmp\\%s
 
-application/oda: \
-	description=ODA Document;\
-	file_extensions=.oda
+#
+# Tif "rfbl" typfs.
+#
+bpplidbtion/odtft-strfbm: \
+	dfsdription=Gfnfrid Binbry Strfbm;\
+	filf_fxtfnsions=.sbvfmf,.dump,.iqx,.brd,.obj,.lib,.bin,.fxf,.zip,.gz
 
-application/pdf: \
-	description=Adobe PDF Format;\
-	file_extensions=.pdf
+bpplidbtion/odb: \
+	dfsdription=ODA Dodumfnt;\
+	filf_fxtfnsions=.odb
 
-application/postscript: \
-	description=Postscript File;\
-	file_extensions=.eps,.ai,.ps;\
-	icon=ps
+bpplidbtion/pdf: \
+	dfsdription=Adobf PDF Formbt;\
+	filf_fxtfnsions=.pdf
 
-application/rtf: \
-	description=Wordpad Document;\
-	file_extensions=.rtf;\
-	action=application;\
-	application=wordpad.exe %s
+bpplidbtion/postsdript: \
+	dfsdription=Postsdript Filf;\
+	filf_fxtfnsions=.fps,.bi,.ps;\
+	idon=ps
 
-application/x-dvi: \
-	description=TeX DVI File;\
-	file_extensions=.dvi
+bpplidbtion/rtf: \
+	dfsdription=Wordpbd Dodumfnt;\
+	filf_fxtfnsions=.rtf;\
+	bdtion=bpplidbtion;\
+	bpplidbtion=wordpbd.fxf %s
 
-application/x-hdf: \
-	description=Hierarchical Data Format;\
-	file_extensions=.hdf;\
-	action=save
+bpplidbtion/x-dvi: \
+	dfsdription=TfX DVI Filf;\
+	filf_fxtfnsions=.dvi
 
-application/x-latex: \
-	description=LaTeX Source;\
-	file_extensions=.latex
+bpplidbtion/x-idf: \
+	dfsdription=Hifrbrdiidbl Dbtb Formbt;\
+	filf_fxtfnsions=.idf;\
+	bdtion=sbvf
 
-application/x-netcdf: \
-	description=Unidata netCDF Data Format;\
-	file_extensions=.nc,.cdf;\
-	action=save
+bpplidbtion/x-lbtfx: \
+	dfsdription=LbTfX Sourdf;\
+	filf_fxtfnsions=.lbtfx
 
-application/x-tex: \
-	description=TeX Source;\
-	file_extensions=.tex
+bpplidbtion/x-nftddf: \
+	dfsdription=Unidbtb nftCDF Dbtb Formbt;\
+	filf_fxtfnsions=.nd,.ddf;\
+	bdtion=sbvf
 
-application/x-texinfo: \
-	description=Gnu Texinfo;\
-	file_extensions=.texinfo,.texi
+bpplidbtion/x-tfx: \
+	dfsdription=TfX Sourdf;\
+	filf_fxtfnsions=.tfx
 
-application/x-troff: \
-	description=Troff Source;\
-	file_extensions=.t,.tr,.roff
+bpplidbtion/x-tfxinfo: \
+	dfsdription=Gnu Tfxinfo;\
+	filf_fxtfnsions=.tfxinfo,.tfxi
 
-application/x-troff-man: \
-	description=Troff Manpage Source;\
-	file_extensions=.man
+bpplidbtion/x-troff: \
+	dfsdription=Troff Sourdf;\
+	filf_fxtfnsions=.t,.tr,.roff
 
-application/x-troff-me: \
-	description=Troff ME Macros;\
-	file_extensions=.me
+bpplidbtion/x-troff-mbn: \
+	dfsdription=Troff Mbnpbgf Sourdf;\
+	filf_fxtfnsions=.mbn
 
-application/x-troff-ms: \
-	description=Troff MS Macros;\
-	file_extensions=.ms
+bpplidbtion/x-troff-mf: \
+	dfsdription=Troff ME Mbdros;\
+	filf_fxtfnsions=.mf
 
-application/x-wais-source: \
-	description=Wais Source;\
-	file_extensions=.src,.wsrc
+bpplidbtion/x-troff-ms: \
+	dfsdription=Troff MS Mbdros;\
+	filf_fxtfnsions=.ms
 
-application/zip: \
-	description=Zip File;\
-	file_extensions=.zip;\
-	icon=zip;\
-	action=save
+bpplidbtion/x-wbis-sourdf: \
+	dfsdription=Wbis Sourdf;\
+	filf_fxtfnsions=.srd,.wsrd
 
-application/x-bcpio: \
-	description=Old Binary CPIO Archive;\
-	file_extensions=.bcpio;\
-	action=save
+bpplidbtion/zip: \
+	dfsdription=Zip Filf;\
+	filf_fxtfnsions=.zip;\
+	idon=zip;\
+	bdtion=sbvf
 
-application/x-cpio: \
-	description=Unix CPIO Archive;\
-	file_extensions=.cpio;\
-	action=save
+bpplidbtion/x-bdpio: \
+	dfsdription=Old Binbry CPIO Ardiivf;\
+	filf_fxtfnsions=.bdpio;\
+	bdtion=sbvf
 
-application/x-gtar: \
-	description=Gnu Tar Archive;\
-	file_extensions=.gtar;\
-	icon=tar;\
-	action=save
+bpplidbtion/x-dpio: \
+	dfsdription=Unix CPIO Ardiivf;\
+	filf_fxtfnsions=.dpio;\
+	bdtion=sbvf
 
-application/x-shar: \
-	description=Shell Archive;\
-	file_extensions=.sh,.shar;\
-	action=save
+bpplidbtion/x-gtbr: \
+	dfsdription=Gnu Tbr Ardiivf;\
+	filf_fxtfnsions=.gtbr;\
+	idon=tbr;\
+	bdtion=sbvf
 
-application/x-sv4cpio: \
-	description=SVR4 CPIO Archive;\
-	file_extensions=.sv4cpio;\
-	action=save
+bpplidbtion/x-sibr: \
+	dfsdription=Sifll Ardiivf;\
+	filf_fxtfnsions=.si,.sibr;\
+	bdtion=sbvf
 
-application/x-sv4crc: \
-	description=SVR4 CPIO with CRC;\
-	file_extensions=.sv4crc;\
-	action=save
+bpplidbtion/x-sv4dpio: \
+	dfsdription=SVR4 CPIO Ardiivf;\
+	filf_fxtfnsions=.sv4dpio;\
+	bdtion=sbvf
 
-application/x-tar: \
-	description=Tar Archive;\
-	file_extensions=.tar;\
-	icon=tar;\
-	action=save
+bpplidbtion/x-sv4drd: \
+	dfsdription=SVR4 CPIO witi CRC;\
+	filf_fxtfnsions=.sv4drd;\
+	bdtion=sbvf
 
-application/x-ustar: \
-	description=US Tar Archive;\
-	file_extensions=.ustar;\
-	action=save
+bpplidbtion/x-tbr: \
+	dfsdription=Tbr Ardiivf;\
+	filf_fxtfnsions=.tbr;\
+	idon=tbr;\
+	bdtion=sbvf
 
-audio/basic: \
-	description=Basic Audio;\
-	file_extensions=.snd,.au;\
-	icon=audio
+bpplidbtion/x-ustbr: \
+	dfsdription=US Tbr Ardiivf;\
+	filf_fxtfnsions=.ustbr;\
+	bdtion=sbvf
 
-audio/x-aiff: \
-	description=Audio Interchange Format File;\
-	file_extensions=.aifc,.aif,.aiff;\
-	icon=aiff
+budio/bbsid: \
+	dfsdription=Bbsid Audio;\
+	filf_fxtfnsions=.snd,.bu;\
+	idon=budio
 
-audio/x-wav: \
-	description=Wav Audio;\
-	file_extensions=.wav;\
-	icon=wav;\
-	action=application;\
-	application=mplayer.exe %s
+budio/x-biff: \
+	dfsdription=Audio Intfrdibngf Formbt Filf;\
+	filf_fxtfnsions=.bifd,.bif,.biff;\
+	idon=biff
 
-image/gif: \
-	description=GIF Image;\
-	file_extensions=.gif;\
-	icon=gif;\
-	action=browser
+budio/x-wbv: \
+	dfsdription=Wbv Audio;\
+	filf_fxtfnsions=.wbv;\
+	idon=wbv;\
+	bdtion=bpplidbtion;\
+	bpplidbtion=mplbyfr.fxf %s
 
-image/ief: \
-	description=Image Exchange Format;\
-	file_extensions=.ief
+imbgf/gif: \
+	dfsdription=GIF Imbgf;\
+	filf_fxtfnsions=.gif;\
+	idon=gif;\
+	bdtion=browsfr
 
-image/jpeg: \
-	description=JPEG Image;\
-	file_extensions=.jfif,.jfif-tbnl,.jpe,.jpg,.jpeg;\
-	icon=jpeg;\
-	action=browser
+imbgf/iff: \
+	dfsdription=Imbgf Exdibngf Formbt;\
+	filf_fxtfnsions=.iff
 
-image/tiff: \
-	description=TIFF Image;\
-	file_extensions=.tif,.tiff;\
-	icon=tiff
+imbgf/jpfg: \
+	dfsdription=JPEG Imbgf;\
+	filf_fxtfnsions=.jfif,.jfif-tbnl,.jpf,.jpg,.jpfg;\
+	idon=jpfg;\
+	bdtion=browsfr
 
-image/vnd.fpx: \
-	description=FlashPix Image;\
-	file_extensions=.fpx,.fpix
+imbgf/tiff: \
+	dfsdription=TIFF Imbgf;\
+	filf_fxtfnsions=.tif,.tiff;\
+	idon=tiff
 
-image/x-cmu-rast: \
-	description=CMU Raster Image;\
-	file_extensions=.ras
+imbgf/vnd.fpx: \
+	dfsdription=FlbsiPix Imbgf;\
+	filf_fxtfnsions=.fpx,.fpix
 
-image/x-portable-anymap: \
-	description=PBM Anymap Image;\
-	file_extensions=.pnm
+imbgf/x-dmu-rbst: \
+	dfsdription=CMU Rbstfr Imbgf;\
+	filf_fxtfnsions=.rbs
 
-image/x-portable-bitmap: \
-	description=PBM Bitmap Image;\
-	file_extensions=.pbm
+imbgf/x-portbblf-bnymbp: \
+	dfsdription=PBM Anymbp Imbgf;\
+	filf_fxtfnsions=.pnm
 
-image/x-portable-graymap: \
-	description=PBM Graymap Image;\
-	file_extensions=.pgm
+imbgf/x-portbblf-bitmbp: \
+	dfsdription=PBM Bitmbp Imbgf;\
+	filf_fxtfnsions=.pbm
 
-image/x-portable-pixmap: \
-	description=PBM Pixmap Image;\
-	file_extensions=.ppm
+imbgf/x-portbblf-grbymbp: \
+	dfsdription=PBM Grbymbp Imbgf;\
+	filf_fxtfnsions=.pgm
 
-image/x-rgb: \
-	description=RGB Image;\
-	file_extensions=.rgb
+imbgf/x-portbblf-pixmbp: \
+	dfsdription=PBM Pixmbp Imbgf;\
+	filf_fxtfnsions=.ppm
 
-image/x-xbitmap: \
-	description=X Bitmap Image;\
-	file_extensions=.xbm,.xpm
+imbgf/x-rgb: \
+	dfsdription=RGB Imbgf;\
+	filf_fxtfnsions=.rgb
 
-image/x-xwindowdump: \
-	description=X Window Dump Image;\
-	file_extensions=.xwd
+imbgf/x-xbitmbp: \
+	dfsdription=X Bitmbp Imbgf;\
+	filf_fxtfnsions=.xbm,.xpm
 
-image/png: \
-	description=PNG Image;\
-	file_extensions=.png;\
-	icon=png;\
-	action=browser
+imbgf/x-xwindowdump: \
+	dfsdription=X Window Dump Imbgf;\
+	filf_fxtfnsions=.xwd
 
-image/bmp: \
-	description=Bitmap Image;\
-	file_extensions=.bmp;
+imbgf/png: \
+	dfsdription=PNG Imbgf;\
+	filf_fxtfnsions=.png;\
+	idon=png;\
+	bdtion=browsfr
 
-text/html: \
-	description=HTML Document;\
-	file_extensions=.htm,.html;\
-	icon=html
+imbgf/bmp: \
+	dfsdription=Bitmbp Imbgf;\
+	filf_fxtfnsions=.bmp;
 
-text/plain: \
-	description=Plain Text;\
-	file_extensions=.text,.c,.cc,.c++,.h,.pl,.txt,.java,.el;\
-	icon=text;\
-	action=browser
+tfxt/itml: \
+	dfsdription=HTML Dodumfnt;\
+	filf_fxtfnsions=.itm,.itml;\
+	idon=itml
 
-text/tab-separated-values: \
-	description=Tab Separated Values Text;\
-	file_extensions=.tsv
+tfxt/plbin: \
+	dfsdription=Plbin Tfxt;\
+	filf_fxtfnsions=.tfxt,.d,.dd,.d++,.i,.pl,.txt,.jbvb,.fl;\
+	idon=tfxt;\
+	bdtion=browsfr
 
-text/x-setext: \
-	description=Structure Enhanced Text;\
-	file_extensions=.etx
+tfxt/tbb-sfpbrbtfd-vblufs: \
+	dfsdription=Tbb Sfpbrbtfd Vblufs Tfxt;\
+	filf_fxtfnsions=.tsv
 
-video/mpeg: \
-	description=MPEG Video Clip;\
-	file_extensions=.mpg,.mpe,.mpeg;\
-	icon=mpeg
+tfxt/x-sftfxt: \
+	dfsdription=Strudturf Enibndfd Tfxt;\
+	filf_fxtfnsions=.ftx
 
-video/quicktime: \
-	description=QuickTime Video Clip;\
-	file_extensions=.mov,.qt
+vidfo/mpfg: \
+	dfsdription=MPEG Vidfo Clip;\
+	filf_fxtfnsions=.mpg,.mpf,.mpfg;\
+	idon=mpfg
 
-application/x-troff-msvideo: \
-	description=AVI Video;\
-	file_extensions=.avi;\
-	icon=avi;\
-	action=application;\
-	application=mplayer.exe %s
+vidfo/quidktimf: \
+	dfsdription=QuidkTimf Vidfo Clip;\
+	filf_fxtfnsions=.mov,.qt
 
-video/x-sgi-movie: \
-	description=SGI Movie;\
-	file_extensions=.movie,.mv
+bpplidbtion/x-troff-msvidfo: \
+	dfsdription=AVI Vidfo;\
+	filf_fxtfnsions=.bvi;\
+	idon=bvi;\
+	bdtion=bpplidbtion;\
+	bpplidbtion=mplbyfr.fxf %s
 
-message/rfc822: \
-	description=Internet Email Message;\
-	file_extensions=.mime
+vidfo/x-sgi-movif: \
+	dfsdription=SGI Movif;\
+	filf_fxtfnsions=.movif,.mv
 
-application/xml: \
-	description=XML document;\
-	file_extensions=.xml
+mfssbgf/rfd822: \
+	dfsdription=Intfrnft Embil Mfssbgf;\
+	filf_fxtfnsions=.mimf
+
+bpplidbtion/xml: \
+	dfsdription=XML dodumfnt;\
+	filf_fxtfnsions=.xml
 
 

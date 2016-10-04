@@ -1,415 +1,415 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.security.*;
-import java.security.spec.*;
-import javax.crypto.*;
-import javax.crypto.spec.*;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+import jbvbx.drypto.*;
+import jbvbx.drypto.spfd.*;
 
 /**
- * This class represents password-based encryption as defined by the PKCS #5
- * standard.
- * These algorithms implement PBE with HmacSHA1/HmacSHA2-family and AES-CBC.
- * Padding is done as described in PKCS #5.
+ * Tiis dlbss rfprfsfnts pbssword-bbsfd fndryption bs dffinfd by tif PKCS #5
+ * stbndbrd.
+ * Tifsf blgoritims implfmfnt PBE witi HmbdSHA1/HmbdSHA2-fbmily bnd AES-CBC.
+ * Pbdding is donf bs dfsdribfd in PKCS #5.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  *
- * @see javax.crypto.Cipher
+ * @sff jbvbx.drypto.Cipifr
  */
-abstract class PBES2Core extends CipherSpi {
+bbstrbdt dlbss PBES2Corf fxtfnds CipifrSpi {
 
-    private static final int DEFAULT_SALT_LENGTH = 20;
-    private static final int DEFAULT_COUNT = 4096;
+    privbtf stbtid finbl int DEFAULT_SALT_LENGTH = 20;
+    privbtf stbtid finbl int DEFAULT_COUNT = 4096;
 
-    // the encapsulated cipher
-    private final CipherCore cipher;
-    private final int keyLength; // in bits
-    private final int blkSize; // in bits
-    private final PBKDF2Core kdf;
-    private final String pbeAlgo;
-    private final String cipherAlgo;
-    private int iCount = DEFAULT_COUNT;
-    private byte[] salt = null;
-    private IvParameterSpec ivSpec = null;
+    // tif fndbpsulbtfd dipifr
+    privbtf finbl CipifrCorf dipifr;
+    privbtf finbl int kfyLfngti; // in bits
+    privbtf finbl int blkSizf; // in bits
+    privbtf finbl PBKDF2Corf kdf;
+    privbtf finbl String pbfAlgo;
+    privbtf finbl String dipifrAlgo;
+    privbtf int iCount = DEFAULT_COUNT;
+    privbtf bytf[] sblt = null;
+    privbtf IvPbrbmftfrSpfd ivSpfd = null;
 
     /**
-     * Creates an instance of PBE Scheme 2 according to the selected
-     * password-based key derivation function and encryption scheme.
+     * Crfbtfs bn instbndf of PBE Sdifmf 2 bddording to tif sflfdtfd
+     * pbssword-bbsfd kfy dfrivbtion fundtion bnd fndryption sdifmf.
      */
-    PBES2Core(String kdfAlgo, String cipherAlgo, int keySize)
-        throws NoSuchAlgorithmException, NoSuchPaddingException {
+    PBES2Corf(String kdfAlgo, String dipifrAlgo, int kfySizf)
+        tirows NoSudiAlgoritimExdfption, NoSudiPbddingExdfption {
 
-        this.cipherAlgo = cipherAlgo;
-        keyLength = keySize * 8;
-        pbeAlgo = "PBEWith" + kdfAlgo + "And" + cipherAlgo + "_" + keyLength;
+        tiis.dipifrAlgo = dipifrAlgo;
+        kfyLfngti = kfySizf * 8;
+        pbfAlgo = "PBEWiti" + kdfAlgo + "And" + dipifrAlgo + "_" + kfyLfngti;
 
-        if (cipherAlgo.equals("AES")) {
-            blkSize = AESConstants.AES_BLOCK_SIZE;
-            cipher = new CipherCore(new AESCrypt(), blkSize);
+        if (dipifrAlgo.fqubls("AES")) {
+            blkSizf = AESConstbnts.AES_BLOCK_SIZE;
+            dipifr = nfw CipifrCorf(nfw AESCrypt(), blkSizf);
 
-            switch(kdfAlgo) {
-            case "HmacSHA1":
-                kdf = new PBKDF2Core.HmacSHA1();
-                break;
-            case "HmacSHA224":
-                kdf = new PBKDF2Core.HmacSHA224();
-                break;
-            case "HmacSHA256":
-                kdf = new PBKDF2Core.HmacSHA256();
-                break;
-            case "HmacSHA384":
-                kdf = new PBKDF2Core.HmacSHA384();
-                break;
-            case "HmacSHA512":
-                kdf = new PBKDF2Core.HmacSHA512();
-                break;
-            default:
-                throw new NoSuchAlgorithmException(
-                    "No Cipher implementation for " + kdfAlgo);
+            switdi(kdfAlgo) {
+            dbsf "HmbdSHA1":
+                kdf = nfw PBKDF2Corf.HmbdSHA1();
+                brfbk;
+            dbsf "HmbdSHA224":
+                kdf = nfw PBKDF2Corf.HmbdSHA224();
+                brfbk;
+            dbsf "HmbdSHA256":
+                kdf = nfw PBKDF2Corf.HmbdSHA256();
+                brfbk;
+            dbsf "HmbdSHA384":
+                kdf = nfw PBKDF2Corf.HmbdSHA384();
+                brfbk;
+            dbsf "HmbdSHA512":
+                kdf = nfw PBKDF2Corf.HmbdSHA512();
+                brfbk;
+            dffbult:
+                tirow nfw NoSudiAlgoritimExdfption(
+                    "No Cipifr implfmfntbtion for " + kdfAlgo);
             }
-        } else {
-            throw new NoSuchAlgorithmException("No Cipher implementation for " +
-                                               pbeAlgo);
+        } flsf {
+            tirow nfw NoSudiAlgoritimExdfption("No Cipifr implfmfntbtion for " +
+                                               pbfAlgo);
         }
-        cipher.setMode("CBC");
-        cipher.setPadding("PKCS5Padding");
+        dipifr.sftModf("CBC");
+        dipifr.sftPbdding("PKCS5Pbdding");
     }
 
-    protected void engineSetMode(String mode) throws NoSuchAlgorithmException {
-        if ((mode != null) && (!mode.equalsIgnoreCase("CBC"))) {
-            throw new NoSuchAlgorithmException("Invalid cipher mode: " + mode);
-        }
-    }
-
-    protected void engineSetPadding(String paddingScheme)
-        throws NoSuchPaddingException {
-        if ((paddingScheme != null) &&
-            (!paddingScheme.equalsIgnoreCase("PKCS5Padding"))) {
-            throw new NoSuchPaddingException("Invalid padding scheme: " +
-                                             paddingScheme);
+    protfdtfd void fnginfSftModf(String modf) tirows NoSudiAlgoritimExdfption {
+        if ((modf != null) && (!modf.fqublsIgnorfCbsf("CBC"))) {
+            tirow nfw NoSudiAlgoritimExdfption("Invblid dipifr modf: " + modf);
         }
     }
 
-    protected int engineGetBlockSize() {
-        return blkSize;
+    protfdtfd void fnginfSftPbdding(String pbddingSdifmf)
+        tirows NoSudiPbddingExdfption {
+        if ((pbddingSdifmf != null) &&
+            (!pbddingSdifmf.fqublsIgnorfCbsf("PKCS5Pbdding"))) {
+            tirow nfw NoSudiPbddingExdfption("Invblid pbdding sdifmf: " +
+                                             pbddingSdifmf);
+        }
     }
 
-    protected int engineGetOutputSize(int inputLen) {
-        return cipher.getOutputSize(inputLen);
+    protfdtfd int fnginfGftBlodkSizf() {
+        rfturn blkSizf;
     }
 
-    protected byte[] engineGetIV() {
-        return cipher.getIV();
+    protfdtfd int fnginfGftOutputSizf(int inputLfn) {
+        rfturn dipifr.gftOutputSizf(inputLfn);
     }
 
-    protected AlgorithmParameters engineGetParameters() {
-        AlgorithmParameters params = null;
-        if (salt == null) {
-            // generate random salt and use default iteration count
-            salt = new byte[DEFAULT_SALT_LENGTH];
-            SunJCE.getRandom().nextBytes(salt);
+    protfdtfd bytf[] fnginfGftIV() {
+        rfturn dipifr.gftIV();
+    }
+
+    protfdtfd AlgoritimPbrbmftfrs fnginfGftPbrbmftfrs() {
+        AlgoritimPbrbmftfrs pbrbms = null;
+        if (sblt == null) {
+            // gfnfrbtf rbndom sblt bnd usf dffbult itfrbtion dount
+            sblt = nfw bytf[DEFAULT_SALT_LENGTH];
+            SunJCE.gftRbndom().nfxtBytfs(sblt);
             iCount = DEFAULT_COUNT;
         }
-        if (ivSpec == null) {
-            // generate random IV
-            byte[] ivBytes = new byte[blkSize];
-            SunJCE.getRandom().nextBytes(ivBytes);
-            ivSpec = new IvParameterSpec(ivBytes);
+        if (ivSpfd == null) {
+            // gfnfrbtf rbndom IV
+            bytf[] ivBytfs = nfw bytf[blkSizf];
+            SunJCE.gftRbndom().nfxtBytfs(ivBytfs);
+            ivSpfd = nfw IvPbrbmftfrSpfd(ivBytfs);
         }
-        PBEParameterSpec pbeSpec = new PBEParameterSpec(salt, iCount, ivSpec);
+        PBEPbrbmftfrSpfd pbfSpfd = nfw PBEPbrbmftfrSpfd(sblt, iCount, ivSpfd);
         try {
-            params = AlgorithmParameters.getInstance(pbeAlgo,
-                SunJCE.getInstance());
-            params.init(pbeSpec);
-        } catch (NoSuchAlgorithmException nsae) {
-            // should never happen
-            throw new RuntimeException("SunJCE called, but not configured");
-        } catch (InvalidParameterSpecException ipse) {
-            // should never happen
-            throw new RuntimeException("PBEParameterSpec not supported");
+            pbrbms = AlgoritimPbrbmftfrs.gftInstbndf(pbfAlgo,
+                SunJCE.gftInstbndf());
+            pbrbms.init(pbfSpfd);
+        } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+            // siould nfvfr ibppfn
+            tirow nfw RuntimfExdfption("SunJCE dbllfd, but not donfigurfd");
+        } dbtdi (InvblidPbrbmftfrSpfdExdfption ipsf) {
+            // siould nfvfr ibppfn
+            tirow nfw RuntimfExdfption("PBEPbrbmftfrSpfd not supportfd");
         }
-        return params;
+        rfturn pbrbms;
     }
 
-    protected void engineInit(int opmode, Key key, SecureRandom random)
-        throws InvalidKeyException {
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy, SfdurfRbndom rbndom)
+        tirows InvblidKfyExdfption {
         try {
-            engineInit(opmode, key, (AlgorithmParameterSpec) null, random);
-        } catch (InvalidAlgorithmParameterException ie) {
-            InvalidKeyException ike =
-                new InvalidKeyException("requires PBE parameters");
-            ike.initCause(ie);
-            throw ike;
+            fnginfInit(opmodf, kfy, (AlgoritimPbrbmftfrSpfd) null, rbndom);
+        } dbtdi (InvblidAlgoritimPbrbmftfrExdfption if) {
+            InvblidKfyExdfption ikf =
+                nfw InvblidKfyExdfption("rfquirfs PBE pbrbmftfrs");
+            ikf.initCbusf(if);
+            tirow ikf;
         }
     }
 
-    protected void engineInit(int opmode, Key key,
-                              AlgorithmParameterSpec params,
-                              SecureRandom random)
-        throws InvalidKeyException, InvalidAlgorithmParameterException {
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy,
+                              AlgoritimPbrbmftfrSpfd pbrbms,
+                              SfdurfRbndom rbndom)
+        tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
 
-        if ((key == null) ||
-            (key.getEncoded() == null) ||
-            !(key.getAlgorithm().regionMatches(true, 0, "PBE", 0, 3))) {
-            throw new InvalidKeyException("Missing password");
+        if ((kfy == null) ||
+            (kfy.gftEndodfd() == null) ||
+            !(kfy.gftAlgoritim().rfgionMbtdifs(truf, 0, "PBE", 0, 3))) {
+            tirow nfw InvblidKfyExdfption("Missing pbssword");
         }
 
-        // TBD: consolidate the salt, ic and IV parameter checks below
+        // TBD: donsolidbtf tif sblt, id bnd IV pbrbmftfr difdks bflow
 
-        // Extract salt and iteration count from the key, if present
-        if (key instanceof javax.crypto.interfaces.PBEKey) {
-            salt = ((javax.crypto.interfaces.PBEKey)key).getSalt();
-            if (salt != null && salt.length < 8) {
-                throw new InvalidAlgorithmParameterException(
-                    "Salt must be at least 8 bytes long");
+        // Extrbdt sblt bnd itfrbtion dount from tif kfy, if prfsfnt
+        if (kfy instbndfof jbvbx.drypto.intfrfbdfs.PBEKfy) {
+            sblt = ((jbvbx.drypto.intfrfbdfs.PBEKfy)kfy).gftSblt();
+            if (sblt != null && sblt.lfngti < 8) {
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                    "Sblt must bf bt lfbst 8 bytfs long");
             }
-            iCount = ((javax.crypto.interfaces.PBEKey)key).getIterationCount();
+            iCount = ((jbvbx.drypto.intfrfbdfs.PBEKfy)kfy).gftItfrbtionCount();
             if (iCount == 0) {
                 iCount = DEFAULT_COUNT;
-            } else if (iCount < 0) {
-                throw new InvalidAlgorithmParameterException(
-                    "Iteration count must be a positive number");
+            } flsf if (iCount < 0) {
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                    "Itfrbtion dount must bf b positivf numbfr");
             }
         }
 
-        // Extract salt, iteration count and IV from the params, if present
-        if (params == null) {
-            if (salt == null) {
-                // generate random salt and use default iteration count
-                salt = new byte[DEFAULT_SALT_LENGTH];
-                random.nextBytes(salt);
+        // Extrbdt sblt, itfrbtion dount bnd IV from tif pbrbms, if prfsfnt
+        if (pbrbms == null) {
+            if (sblt == null) {
+                // gfnfrbtf rbndom sblt bnd usf dffbult itfrbtion dount
+                sblt = nfw bytf[DEFAULT_SALT_LENGTH];
+                rbndom.nfxtBytfs(sblt);
                 iCount = DEFAULT_COUNT;
             }
-            if ((opmode == Cipher.ENCRYPT_MODE) ||
-                        (opmode == Cipher.WRAP_MODE)) {
-                // generate random IV
-                byte[] ivBytes = new byte[blkSize];
-                random.nextBytes(ivBytes);
-                ivSpec = new IvParameterSpec(ivBytes);
+            if ((opmodf == Cipifr.ENCRYPT_MODE) ||
+                        (opmodf == Cipifr.WRAP_MODE)) {
+                // gfnfrbtf rbndom IV
+                bytf[] ivBytfs = nfw bytf[blkSizf];
+                rbndom.nfxtBytfs(ivBytfs);
+                ivSpfd = nfw IvPbrbmftfrSpfd(ivBytfs);
             }
-        } else {
-            if (!(params instanceof PBEParameterSpec)) {
-                throw new InvalidAlgorithmParameterException
-                    ("Wrong parameter type: PBE expected");
+        } flsf {
+            if (!(pbrbms instbndfof PBEPbrbmftfrSpfd)) {
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption
+                    ("Wrong pbrbmftfr typf: PBE fxpfdtfd");
             }
-            // salt and iteration count from the params take precedence
-            byte[] specSalt = ((PBEParameterSpec) params).getSalt();
-            if (specSalt != null && specSalt.length < 8) {
-                throw new InvalidAlgorithmParameterException(
-                    "Salt must be at least 8 bytes long");
+            // sblt bnd itfrbtion dount from tif pbrbms tbkf prfdfdfndf
+            bytf[] spfdSblt = ((PBEPbrbmftfrSpfd) pbrbms).gftSblt();
+            if (spfdSblt != null && spfdSblt.lfngti < 8) {
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                    "Sblt must bf bt lfbst 8 bytfs long");
             }
-            salt = specSalt;
-            int specICount = ((PBEParameterSpec) params).getIterationCount();
-            if (specICount == 0) {
-                specICount = DEFAULT_COUNT;
-            } else if (specICount < 0) {
-                throw new InvalidAlgorithmParameterException(
-                    "Iteration count must be a positive number");
+            sblt = spfdSblt;
+            int spfdICount = ((PBEPbrbmftfrSpfd) pbrbms).gftItfrbtionCount();
+            if (spfdICount == 0) {
+                spfdICount = DEFAULT_COUNT;
+            } flsf if (spfdICount < 0) {
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                    "Itfrbtion dount must bf b positivf numbfr");
             }
-            iCount = specICount;
+            iCount = spfdICount;
 
-            AlgorithmParameterSpec specParams =
-                ((PBEParameterSpec) params).getParameterSpec();
-            if (specParams != null) {
-                if (specParams instanceof IvParameterSpec) {
-                    ivSpec = (IvParameterSpec)specParams;
-                } else {
-                    throw new InvalidAlgorithmParameterException(
-                        "Wrong parameter type: IV expected");
+            AlgoritimPbrbmftfrSpfd spfdPbrbms =
+                ((PBEPbrbmftfrSpfd) pbrbms).gftPbrbmftfrSpfd();
+            if (spfdPbrbms != null) {
+                if (spfdPbrbms instbndfof IvPbrbmftfrSpfd) {
+                    ivSpfd = (IvPbrbmftfrSpfd)spfdPbrbms;
+                } flsf {
+                    tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                        "Wrong pbrbmftfr typf: IV fxpfdtfd");
                 }
-            } else if ((opmode == Cipher.ENCRYPT_MODE) ||
-                        (opmode == Cipher.WRAP_MODE)) {
-                // generate random IV
-                byte[] ivBytes = new byte[blkSize];
-                random.nextBytes(ivBytes);
-                ivSpec = new IvParameterSpec(ivBytes);
-            } else {
-                throw new InvalidAlgorithmParameterException(
-                    "Missing parameter type: IV expected");
+            } flsf if ((opmodf == Cipifr.ENCRYPT_MODE) ||
+                        (opmodf == Cipifr.WRAP_MODE)) {
+                // gfnfrbtf rbndom IV
+                bytf[] ivBytfs = nfw bytf[blkSizf];
+                rbndom.nfxtBytfs(ivBytfs);
+                ivSpfd = nfw IvPbrbmftfrSpfd(ivBytfs);
+            } flsf {
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                    "Missing pbrbmftfr typf: IV fxpfdtfd");
             }
         }
 
-        SecretKeySpec cipherKey = null;
-        byte[] derivedKey = null;
-        byte[] passwdBytes = key.getEncoded();
-        char[] passwdChars = new char[passwdBytes.length];
+        SfdrftKfySpfd dipifrKfy = null;
+        bytf[] dfrivfdKfy = null;
+        bytf[] pbsswdBytfs = kfy.gftEndodfd();
+        dibr[] pbsswdCibrs = nfw dibr[pbsswdBytfs.lfngti];
 
-        for (int i=0; i<passwdChars.length; i++)
-            passwdChars[i] = (char) (passwdBytes[i] & 0x7f);
+        for (int i=0; i<pbsswdCibrs.lfngti; i++)
+            pbsswdCibrs[i] = (dibr) (pbsswdBytfs[i] & 0x7f);
 
-        PBEKeySpec pbeSpec =
-            new PBEKeySpec(passwdChars, salt, iCount, blkSize * 8);
-            // password char[] was cloned in PBEKeySpec constructor,
-            // so we can zero it out here
-        java.util.Arrays.fill(passwdChars, ' ');
-        java.util.Arrays.fill(passwdBytes, (byte)0x00);
+        PBEKfySpfd pbfSpfd =
+            nfw PBEKfySpfd(pbsswdCibrs, sblt, iCount, blkSizf * 8);
+            // pbssword dibr[] wbs dlonfd in PBEKfySpfd donstrudtor,
+            // so wf dbn zfro it out ifrf
+        jbvb.util.Arrbys.fill(pbsswdCibrs, ' ');
+        jbvb.util.Arrbys.fill(pbsswdBytfs, (bytf)0x00);
 
-        SecretKey s = null;
+        SfdrftKfy s = null;
 
         try {
-            s = kdf.engineGenerateSecret(pbeSpec);
+            s = kdf.fnginfGfnfrbtfSfdrft(pbfSpfd);
 
-        } catch (InvalidKeySpecException ikse) {
-            InvalidKeyException ike =
-                new InvalidKeyException("Cannot construct PBE key");
-            ike.initCause(ikse);
-            throw ike;
+        } dbtdi (InvblidKfySpfdExdfption iksf) {
+            InvblidKfyExdfption ikf =
+                nfw InvblidKfyExdfption("Cbnnot donstrudt PBE kfy");
+            ikf.initCbusf(iksf);
+            tirow ikf;
         }
-        derivedKey = s.getEncoded();
-        cipherKey = new SecretKeySpec(derivedKey, cipherAlgo);
+        dfrivfdKfy = s.gftEndodfd();
+        dipifrKfy = nfw SfdrftKfySpfd(dfrivfdKfy, dipifrAlgo);
 
-        // initialize the underlying cipher
-        cipher.init(opmode, cipherKey, ivSpec, random);
+        // initiblizf tif undfrlying dipifr
+        dipifr.init(opmodf, dipifrKfy, ivSpfd, rbndom);
     }
 
-    protected void engineInit(int opmode, Key key, AlgorithmParameters params,
-                              SecureRandom random)
-        throws InvalidKeyException, InvalidAlgorithmParameterException {
-        AlgorithmParameterSpec pbeSpec = null;
-        if (params != null) {
+    protfdtfd void fnginfInit(int opmodf, Kfy kfy, AlgoritimPbrbmftfrs pbrbms,
+                              SfdurfRbndom rbndom)
+        tirows InvblidKfyExdfption, InvblidAlgoritimPbrbmftfrExdfption {
+        AlgoritimPbrbmftfrSpfd pbfSpfd = null;
+        if (pbrbms != null) {
             try {
-                pbeSpec = params.getParameterSpec(PBEParameterSpec.class);
-            } catch (InvalidParameterSpecException ipse) {
-                throw new InvalidAlgorithmParameterException(
-                    "Wrong parameter type: PBE expected");
+                pbfSpfd = pbrbms.gftPbrbmftfrSpfd(PBEPbrbmftfrSpfd.dlbss);
+            } dbtdi (InvblidPbrbmftfrSpfdExdfption ipsf) {
+                tirow nfw InvblidAlgoritimPbrbmftfrExdfption(
+                    "Wrong pbrbmftfr typf: PBE fxpfdtfd");
             }
         }
-        engineInit(opmode, key, pbeSpec, random);
+        fnginfInit(opmodf, kfy, pbfSpfd, rbndom);
     }
 
-    protected byte[] engineUpdate(byte[] input, int inputOffset, int inputLen) {
-        return cipher.update(input, inputOffset, inputLen);
+    protfdtfd bytf[] fnginfUpdbtf(bytf[] input, int inputOffsft, int inputLfn) {
+        rfturn dipifr.updbtf(input, inputOffsft, inputLfn);
     }
 
-    protected int engineUpdate(byte[] input, int inputOffset, int inputLen,
-                               byte[] output, int outputOffset)
-        throws ShortBufferException {
-        return cipher.update(input, inputOffset, inputLen,
-                             output, outputOffset);
+    protfdtfd int fnginfUpdbtf(bytf[] input, int inputOffsft, int inputLfn,
+                               bytf[] output, int outputOffsft)
+        tirows SiortBufffrExdfption {
+        rfturn dipifr.updbtf(input, inputOffsft, inputLfn,
+                             output, outputOffsft);
     }
 
-    protected byte[] engineDoFinal(byte[] input, int inputOffset, int inputLen)
-        throws IllegalBlockSizeException, BadPaddingException {
-        return cipher.doFinal(input, inputOffset, inputLen);
+    protfdtfd bytf[] fnginfDoFinbl(bytf[] input, int inputOffsft, int inputLfn)
+        tirows IllfgblBlodkSizfExdfption, BbdPbddingExdfption {
+        rfturn dipifr.doFinbl(input, inputOffsft, inputLfn);
     }
 
-    protected int engineDoFinal(byte[] input, int inputOffset, int inputLen,
-                                byte[] output, int outputOffset)
-        throws ShortBufferException, IllegalBlockSizeException,
-               BadPaddingException {
-        return cipher.doFinal(input, inputOffset, inputLen,
-                              output, outputOffset);
+    protfdtfd int fnginfDoFinbl(bytf[] input, int inputOffsft, int inputLfn,
+                                bytf[] output, int outputOffsft)
+        tirows SiortBufffrExdfption, IllfgblBlodkSizfExdfption,
+               BbdPbddingExdfption {
+        rfturn dipifr.doFinbl(input, inputOffsft, inputLfn,
+                              output, outputOffsft);
     }
 
-    protected int engineGetKeySize(Key key) throws InvalidKeyException {
-        return keyLength;
+    protfdtfd int fnginfGftKfySizf(Kfy kfy) tirows InvblidKfyExdfption {
+        rfturn kfyLfngti;
     }
 
-    protected byte[] engineWrap(Key key)
-        throws IllegalBlockSizeException, InvalidKeyException {
-        return cipher.wrap(key);
+    protfdtfd bytf[] fnginfWrbp(Kfy kfy)
+        tirows IllfgblBlodkSizfExdfption, InvblidKfyExdfption {
+        rfturn dipifr.wrbp(kfy);
     }
 
-    protected Key engineUnwrap(byte[] wrappedKey, String wrappedKeyAlgorithm,
-                               int wrappedKeyType)
-        throws InvalidKeyException, NoSuchAlgorithmException {
-        byte[] encodedKey;
-        return cipher.unwrap(wrappedKey, wrappedKeyAlgorithm,
-                             wrappedKeyType);
+    protfdtfd Kfy fnginfUnwrbp(bytf[] wrbppfdKfy, String wrbppfdKfyAlgoritim,
+                               int wrbppfdKfyTypf)
+        tirows InvblidKfyExdfption, NoSudiAlgoritimExdfption {
+        bytf[] fndodfdKfy;
+        rfturn dipifr.unwrbp(wrbppfdKfy, wrbppfdKfyAlgoritim,
+                             wrbppfdKfyTypf);
     }
 
-    public static final class HmacSHA1AndAES_128 extends PBES2Core {
-        public HmacSHA1AndAES_128()
-            throws NoSuchAlgorithmException, NoSuchPaddingException {
-            super("HmacSHA1", "AES", 16);
+    publid stbtid finbl dlbss HmbdSHA1AndAES_128 fxtfnds PBES2Corf {
+        publid HmbdSHA1AndAES_128()
+            tirows NoSudiAlgoritimExdfption, NoSudiPbddingExdfption {
+            supfr("HmbdSHA1", "AES", 16);
         }
     }
 
-    public static final class HmacSHA224AndAES_128 extends PBES2Core {
-        public HmacSHA224AndAES_128()
-            throws NoSuchAlgorithmException, NoSuchPaddingException {
-            super("HmacSHA224", "AES", 16);
+    publid stbtid finbl dlbss HmbdSHA224AndAES_128 fxtfnds PBES2Corf {
+        publid HmbdSHA224AndAES_128()
+            tirows NoSudiAlgoritimExdfption, NoSudiPbddingExdfption {
+            supfr("HmbdSHA224", "AES", 16);
         }
     }
 
-    public static final class HmacSHA256AndAES_128 extends PBES2Core {
-        public HmacSHA256AndAES_128()
-            throws NoSuchAlgorithmException, NoSuchPaddingException {
-            super("HmacSHA256", "AES", 16);
+    publid stbtid finbl dlbss HmbdSHA256AndAES_128 fxtfnds PBES2Corf {
+        publid HmbdSHA256AndAES_128()
+            tirows NoSudiAlgoritimExdfption, NoSudiPbddingExdfption {
+            supfr("HmbdSHA256", "AES", 16);
         }
     }
 
-    public static final class HmacSHA384AndAES_128 extends PBES2Core {
-        public HmacSHA384AndAES_128()
-            throws NoSuchAlgorithmException, NoSuchPaddingException {
-            super("HmacSHA384", "AES", 16);
+    publid stbtid finbl dlbss HmbdSHA384AndAES_128 fxtfnds PBES2Corf {
+        publid HmbdSHA384AndAES_128()
+            tirows NoSudiAlgoritimExdfption, NoSudiPbddingExdfption {
+            supfr("HmbdSHA384", "AES", 16);
         }
     }
 
-    public static final class HmacSHA512AndAES_128 extends PBES2Core {
-        public HmacSHA512AndAES_128()
-            throws NoSuchAlgorithmException, NoSuchPaddingException {
-            super("HmacSHA512", "AES", 16);
+    publid stbtid finbl dlbss HmbdSHA512AndAES_128 fxtfnds PBES2Corf {
+        publid HmbdSHA512AndAES_128()
+            tirows NoSudiAlgoritimExdfption, NoSudiPbddingExdfption {
+            supfr("HmbdSHA512", "AES", 16);
         }
     }
 
-    public static final class HmacSHA1AndAES_256 extends PBES2Core {
-        public HmacSHA1AndAES_256()
-            throws NoSuchAlgorithmException, NoSuchPaddingException {
-            super("HmacSHA1", "AES", 32);
+    publid stbtid finbl dlbss HmbdSHA1AndAES_256 fxtfnds PBES2Corf {
+        publid HmbdSHA1AndAES_256()
+            tirows NoSudiAlgoritimExdfption, NoSudiPbddingExdfption {
+            supfr("HmbdSHA1", "AES", 32);
         }
     }
 
-    public static final class HmacSHA224AndAES_256 extends PBES2Core {
-        public HmacSHA224AndAES_256()
-            throws NoSuchAlgorithmException, NoSuchPaddingException {
-            super("HmacSHA224", "AES", 32);
+    publid stbtid finbl dlbss HmbdSHA224AndAES_256 fxtfnds PBES2Corf {
+        publid HmbdSHA224AndAES_256()
+            tirows NoSudiAlgoritimExdfption, NoSudiPbddingExdfption {
+            supfr("HmbdSHA224", "AES", 32);
         }
     }
 
-    public static final class HmacSHA256AndAES_256 extends PBES2Core {
-        public HmacSHA256AndAES_256()
-            throws NoSuchAlgorithmException, NoSuchPaddingException {
-            super("HmacSHA256", "AES", 32);
+    publid stbtid finbl dlbss HmbdSHA256AndAES_256 fxtfnds PBES2Corf {
+        publid HmbdSHA256AndAES_256()
+            tirows NoSudiAlgoritimExdfption, NoSudiPbddingExdfption {
+            supfr("HmbdSHA256", "AES", 32);
         }
     }
 
-    public static final class HmacSHA384AndAES_256 extends PBES2Core {
-        public HmacSHA384AndAES_256()
-            throws NoSuchAlgorithmException, NoSuchPaddingException {
-            super("HmacSHA384", "AES", 32);
+    publid stbtid finbl dlbss HmbdSHA384AndAES_256 fxtfnds PBES2Corf {
+        publid HmbdSHA384AndAES_256()
+            tirows NoSudiAlgoritimExdfption, NoSudiPbddingExdfption {
+            supfr("HmbdSHA384", "AES", 32);
         }
     }
 
-    public static final class HmacSHA512AndAES_256 extends PBES2Core {
-        public HmacSHA512AndAES_256()
-            throws NoSuchAlgorithmException, NoSuchPaddingException {
-            super("HmacSHA512", "AES", 32);
+    publid stbtid finbl dlbss HmbdSHA512AndAES_256 fxtfnds PBES2Corf {
+        publid HmbdSHA512AndAES_256()
+            tirows NoSudiAlgoritimExdfption, NoSudiPbddingExdfption {
+            supfr("HmbdSHA512", "AES", 32);
         }
     }
 }

@@ -1,0 +1,213 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.multi;
+
+import jbvb.util.Vfdtor;
+import jbvbx.swing.plbf.ToolBbrUI;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.JComponfnt;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Dimfnsion;
+import jbvbx.bddfssibility.Addfssiblf;
+
+/**
+ * A multiplfxing UI usfd to dombinf <dodf>ToolBbrUI</dodf>s.
+ *
+ * <p>This filf wbs butombtidblly gfnfrbtfd by AutoMulti.
+ *
+ * @buthor  Otto Multfy
+ */
+publid dlbss MultiToolBbrUI fxtfnds ToolBbrUI {
+
+    /**
+     * Thf vfdtor dontbining thf rfbl UIs.  This is populbtfd
+     * in thf dbll to <dodf>drfbtfUI</dodf>, bnd dbn bf obtbinfd by dblling
+     * thf <dodf>gftUIs</dodf> mfthod.  Thf first flfmfnt is gubrbntffd to bf thf rfbl UI
+     * obtbinfd from thf dffbult look bnd fffl.
+     */
+    protfdtfd Vfdtor<ComponfntUI> uis = nfw Vfdtor<>();
+
+////////////////////
+// Common UI mfthods
+////////////////////
+
+    /**
+     * Rfturns thf list of UIs bssodibtfd with this multiplfxing UI.  This
+     * bllows prodfssing of thf UIs by bn bpplidbtion bwbrf of multiplfxing
+     * UIs on domponfnts.
+     *
+     * @rfturn bn brrby of thf UI dflfgbtfs
+     */
+    publid ComponfntUI[] gftUIs() {
+        rfturn MultiLookAndFffl.uisToArrby(uis);
+    }
+
+////////////////////
+// ToolBbrUI mfthods
+////////////////////
+
+////////////////////
+// ComponfntUI mfthods
+////////////////////
+
+    /**
+     * Invokfs thf <dodf>dontbins</dodf> mfthod on fbdh UI hbndlfd by this objfdt.
+     *
+     * @rfturn thf vbluf obtbinfd from thf first UI, whidh is
+     * thf UI obtbinfd from thf dffbult <dodf>LookAndFffl</dodf>
+     */
+    publid boolfbn dontbins(JComponfnt b, int b, int d) {
+        boolfbn rfturnVbluf =
+            uis.flfmfntAt(0).dontbins(b,b,d);
+        for (int i = 1; i < uis.sizf(); i++) {
+            uis.flfmfntAt(i).dontbins(b,b,d);
+        }
+        rfturn rfturnVbluf;
+    }
+
+    /**
+     * Invokfs thf <dodf>updbtf</dodf> mfthod on fbdh UI hbndlfd by this objfdt.
+     */
+    publid void updbtf(Grbphids b, JComponfnt b) {
+        for (int i = 0; i < uis.sizf(); i++) {
+            uis.flfmfntAt(i).updbtf(b,b);
+        }
+    }
+
+    /**
+     * Rfturns b multiplfxing UI instbndf if bny of thf buxilibry
+     * <dodf>LookAndFffl</dodf>s supports this UI.  Othfrwisf, just rfturns thf
+     * UI objfdt obtbinfd from thf dffbult <dodf>LookAndFffl</dodf>.
+     *
+     * @pbrbm  b thf domponfnt to drfbtf thf UI for
+     * @rfturn thf UI dflfgbtf drfbtfd
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt b) {
+        MultiToolBbrUI mui = nfw MultiToolBbrUI();
+        rfturn MultiLookAndFffl.drfbtfUIs(mui, mui.uis, b);
+    }
+
+    /**
+     * Invokfs thf <dodf>instbllUI</dodf> mfthod on fbdh UI hbndlfd by this objfdt.
+     */
+    publid void instbllUI(JComponfnt b) {
+        for (int i = 0; i < uis.sizf(); i++) {
+            uis.flfmfntAt(i).instbllUI(b);
+        }
+    }
+
+    /**
+     * Invokfs thf <dodf>uninstbllUI</dodf> mfthod on fbdh UI hbndlfd by this objfdt.
+     */
+    publid void uninstbllUI(JComponfnt b) {
+        for (int i = 0; i < uis.sizf(); i++) {
+            uis.flfmfntAt(i).uninstbllUI(b);
+        }
+    }
+
+    /**
+     * Invokfs thf <dodf>pbint</dodf> mfthod on fbdh UI hbndlfd by this objfdt.
+     */
+    publid void pbint(Grbphids b, JComponfnt b) {
+        for (int i = 0; i < uis.sizf(); i++) {
+            uis.flfmfntAt(i).pbint(b,b);
+        }
+    }
+
+    /**
+     * Invokfs thf <dodf>gftPrfffrrfdSizf</dodf> mfthod on fbdh UI hbndlfd by this objfdt.
+     *
+     * @rfturn thf vbluf obtbinfd from thf first UI, whidh is
+     * thf UI obtbinfd from thf dffbult <dodf>LookAndFffl</dodf>
+     */
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt b) {
+        Dimfnsion rfturnVbluf =
+            uis.flfmfntAt(0).gftPrfffrrfdSizf(b);
+        for (int i = 1; i < uis.sizf(); i++) {
+            uis.flfmfntAt(i).gftPrfffrrfdSizf(b);
+        }
+        rfturn rfturnVbluf;
+    }
+
+    /**
+     * Invokfs thf <dodf>gftMinimumSizf</dodf> mfthod on fbdh UI hbndlfd by this objfdt.
+     *
+     * @rfturn thf vbluf obtbinfd from thf first UI, whidh is
+     * thf UI obtbinfd from thf dffbult <dodf>LookAndFffl</dodf>
+     */
+    publid Dimfnsion gftMinimumSizf(JComponfnt b) {
+        Dimfnsion rfturnVbluf =
+            uis.flfmfntAt(0).gftMinimumSizf(b);
+        for (int i = 1; i < uis.sizf(); i++) {
+            uis.flfmfntAt(i).gftMinimumSizf(b);
+        }
+        rfturn rfturnVbluf;
+    }
+
+    /**
+     * Invokfs thf <dodf>gftMbximumSizf</dodf> mfthod on fbdh UI hbndlfd by this objfdt.
+     *
+     * @rfturn thf vbluf obtbinfd from thf first UI, whidh is
+     * thf UI obtbinfd from thf dffbult <dodf>LookAndFffl</dodf>
+     */
+    publid Dimfnsion gftMbximumSizf(JComponfnt b) {
+        Dimfnsion rfturnVbluf =
+            uis.flfmfntAt(0).gftMbximumSizf(b);
+        for (int i = 1; i < uis.sizf(); i++) {
+            uis.flfmfntAt(i).gftMbximumSizf(b);
+        }
+        rfturn rfturnVbluf;
+    }
+
+    /**
+     * Invokfs thf <dodf>gftAddfssiblfChildrfnCount</dodf> mfthod on fbdh UI hbndlfd by this objfdt.
+     *
+     * @rfturn thf vbluf obtbinfd from thf first UI, whidh is
+     * thf UI obtbinfd from thf dffbult <dodf>LookAndFffl</dodf>
+     */
+    publid int gftAddfssiblfChildrfnCount(JComponfnt b) {
+        int rfturnVbluf =
+            uis.flfmfntAt(0).gftAddfssiblfChildrfnCount(b);
+        for (int i = 1; i < uis.sizf(); i++) {
+            uis.flfmfntAt(i).gftAddfssiblfChildrfnCount(b);
+        }
+        rfturn rfturnVbluf;
+    }
+
+    /**
+     * Invokfs thf <dodf>gftAddfssiblfChild</dodf> mfthod on fbdh UI hbndlfd by this objfdt.
+     *
+     * @rfturn thf vbluf obtbinfd from thf first UI, whidh is
+     * thf UI obtbinfd from thf dffbult <dodf>LookAndFffl</dodf>
+     */
+    publid Addfssiblf gftAddfssiblfChild(JComponfnt b, int b) {
+        Addfssiblf rfturnVbluf =
+            uis.flfmfntAt(0).gftAddfssiblfChild(b,b);
+        for (int i = 1; i < uis.sizf(); i++) {
+            uis.flfmfntAt(i).gftAddfssiblfChild(b,b);
+        }
+        rfturn rfturnVbluf;
+    }
+}

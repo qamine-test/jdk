@@ -1,169 +1,169 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.c14n;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.d14n;
 
-import java.io.ByteArrayInputStream;
-import java.io.OutputStream;
-import java.util.Set;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Sft;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+import jbvbx.xml.XMLConstbnts;
+import jbvbx.xml.pbrsfrs.DodumfntBuildfr;
+import jbvbx.xml.pbrsfrs.DodumfntBuildfrFbdtory;
 
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Nodf;
+import org.w3d.dom.NodfList;
+import org.xml.sbx.InputSourdf;
 
 /**
- * Base class which all Canonicalization algorithms extend.
+ * Bbsf dlbss wiidi bll Cbnonidblizbtion blgoritims fxtfnd.
  *
- * @author Christian Geuer-Pollmann
+ * @butior Ciristibn Gfufr-Pollmbnn
  */
-public abstract class CanonicalizerSpi {
+publid bbstrbdt dlbss CbnonidblizfrSpi {
 
-    /** Reset the writer after a c14n */
-    protected boolean reset = false;
+    /** Rfsft tif writfr bftfr b d14n */
+    protfdtfd boolfbn rfsft = fblsf;
 
     /**
-     * Method canonicalize
+     * Mftiod dbnonidblizf
      *
-     * @param inputBytes
-     * @return the c14n bytes.
+     * @pbrbm inputBytfs
+     * @rfturn tif d14n bytfs.
      *
-     * @throws CanonicalizationException
-     * @throws java.io.IOException
-     * @throws javax.xml.parsers.ParserConfigurationException
-     * @throws org.xml.sax.SAXException
+     * @tirows CbnonidblizbtionExdfption
+     * @tirows jbvb.io.IOExdfption
+     * @tirows jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption
+     * @tirows org.xml.sbx.SAXExdfption
      */
-    public byte[] engineCanonicalize(byte[] inputBytes)
-        throws javax.xml.parsers.ParserConfigurationException, java.io.IOException,
-        org.xml.sax.SAXException, CanonicalizationException {
+    publid bytf[] fnginfCbnonidblizf(bytf[] inputBytfs)
+        tirows jbvbx.xml.pbrsfrs.PbrsfrConfigurbtionExdfption, jbvb.io.IOExdfption,
+        org.xml.sbx.SAXExdfption, CbnonidblizbtionExdfption {
 
-        java.io.InputStream bais = new ByteArrayInputStream(inputBytes);
-        InputSource in = new InputSource(bais);
-        DocumentBuilderFactory dfactory = DocumentBuilderFactory.newInstance();
-        dfactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, Boolean.TRUE);
+        jbvb.io.InputStrfbm bbis = nfw BytfArrbyInputStrfbm(inputBytfs);
+        InputSourdf in = nfw InputSourdf(bbis);
+        DodumfntBuildfrFbdtory dfbdtory = DodumfntBuildfrFbdtory.nfwInstbndf();
+        dfbdtory.sftFfbturf(XMLConstbnts.FEATURE_SECURE_PROCESSING, Boolfbn.TRUE);
 
-        // needs to validate for ID attribute normalization
-        dfactory.setNamespaceAware(true);
+        // nffds to vblidbtf for ID bttributf normblizbtion
+        dfbdtory.sftNbmfspbdfAwbrf(truf);
 
-        DocumentBuilder db = dfactory.newDocumentBuilder();
+        DodumfntBuildfr db = dfbdtory.nfwDodumfntBuildfr();
 
-        Document document = db.parse(in);
-        return this.engineCanonicalizeSubTree(document);
+        Dodumfnt dodumfnt = db.pbrsf(in);
+        rfturn tiis.fnginfCbnonidblizfSubTrff(dodumfnt);
     }
 
     /**
-     * Method engineCanonicalizeXPathNodeSet
+     * Mftiod fnginfCbnonidblizfXPbtiNodfSft
      *
-     * @param xpathNodeSet
-     * @return the c14n bytes
-     * @throws CanonicalizationException
+     * @pbrbm xpbtiNodfSft
+     * @rfturn tif d14n bytfs
+     * @tirows CbnonidblizbtionExdfption
      */
-    public byte[] engineCanonicalizeXPathNodeSet(NodeList xpathNodeSet)
-        throws CanonicalizationException {
-        return this.engineCanonicalizeXPathNodeSet(
-            XMLUtils.convertNodelistToSet(xpathNodeSet)
+    publid bytf[] fnginfCbnonidblizfXPbtiNodfSft(NodfList xpbtiNodfSft)
+        tirows CbnonidblizbtionExdfption {
+        rfturn tiis.fnginfCbnonidblizfXPbtiNodfSft(
+            XMLUtils.donvfrtNodflistToSft(xpbtiNodfSft)
         );
     }
 
     /**
-     * Method engineCanonicalizeXPathNodeSet
+     * Mftiod fnginfCbnonidblizfXPbtiNodfSft
      *
-     * @param xpathNodeSet
-     * @param inclusiveNamespaces
-     * @return the c14n bytes
-     * @throws CanonicalizationException
+     * @pbrbm xpbtiNodfSft
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn tif d14n bytfs
+     * @tirows CbnonidblizbtionExdfption
      */
-    public byte[] engineCanonicalizeXPathNodeSet(NodeList xpathNodeSet, String inclusiveNamespaces)
-        throws CanonicalizationException {
-        return this.engineCanonicalizeXPathNodeSet(
-            XMLUtils.convertNodelistToSet(xpathNodeSet), inclusiveNamespaces
+    publid bytf[] fnginfCbnonidblizfXPbtiNodfSft(NodfList xpbtiNodfSft, String indlusivfNbmfspbdfs)
+        tirows CbnonidblizbtionExdfption {
+        rfturn tiis.fnginfCbnonidblizfXPbtiNodfSft(
+            XMLUtils.donvfrtNodflistToSft(xpbtiNodfSft), indlusivfNbmfspbdfs
         );
     }
 
     /**
-     * Returns the URI of this engine.
-     * @return the URI
+     * Rfturns tif URI of tiis fnginf.
+     * @rfturn tif URI
      */
-    public abstract String engineGetURI();
+    publid bbstrbdt String fnginfGftURI();
 
     /**
-     * Returns true if comments are included
-     * @return true if comments are included
+     * Rfturns truf if dommfnts brf indludfd
+     * @rfturn truf if dommfnts brf indludfd
      */
-    public abstract boolean engineGetIncludeComments();
+    publid bbstrbdt boolfbn fnginfGftIndludfCommfnts();
 
     /**
-     * C14n a nodeset
+     * C14n b nodfsft
      *
-     * @param xpathNodeSet
-     * @return the c14n bytes
-     * @throws CanonicalizationException
+     * @pbrbm xpbtiNodfSft
+     * @rfturn tif d14n bytfs
+     * @tirows CbnonidblizbtionExdfption
      */
-    public abstract byte[] engineCanonicalizeXPathNodeSet(Set<Node> xpathNodeSet)
-        throws CanonicalizationException;
+    publid bbstrbdt bytf[] fnginfCbnonidblizfXPbtiNodfSft(Sft<Nodf> xpbtiNodfSft)
+        tirows CbnonidblizbtionExdfption;
 
     /**
-     * C14n a nodeset
+     * C14n b nodfsft
      *
-     * @param xpathNodeSet
-     * @param inclusiveNamespaces
-     * @return the c14n bytes
-     * @throws CanonicalizationException
+     * @pbrbm xpbtiNodfSft
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn tif d14n bytfs
+     * @tirows CbnonidblizbtionExdfption
      */
-    public abstract byte[] engineCanonicalizeXPathNodeSet(
-        Set<Node> xpathNodeSet, String inclusiveNamespaces
-    ) throws CanonicalizationException;
+    publid bbstrbdt bytf[] fnginfCbnonidblizfXPbtiNodfSft(
+        Sft<Nodf> xpbtiNodfSft, String indlusivfNbmfspbdfs
+    ) tirows CbnonidblizbtionExdfption;
 
     /**
-     * C14n a node tree.
+     * C14n b nodf trff.
      *
-     * @param rootNode
-     * @return the c14n bytes
-     * @throws CanonicalizationException
+     * @pbrbm rootNodf
+     * @rfturn tif d14n bytfs
+     * @tirows CbnonidblizbtionExdfption
      */
-    public abstract byte[] engineCanonicalizeSubTree(Node rootNode)
-        throws CanonicalizationException;
+    publid bbstrbdt bytf[] fnginfCbnonidblizfSubTrff(Nodf rootNodf)
+        tirows CbnonidblizbtionExdfption;
 
     /**
-     * C14n a node tree.
+     * C14n b nodf trff.
      *
-     * @param rootNode
-     * @param inclusiveNamespaces
-     * @return the c14n bytes
-     * @throws CanonicalizationException
+     * @pbrbm rootNodf
+     * @pbrbm indlusivfNbmfspbdfs
+     * @rfturn tif d14n bytfs
+     * @tirows CbnonidblizbtionExdfption
      */
-    public abstract byte[] engineCanonicalizeSubTree(Node rootNode, String inclusiveNamespaces)
-        throws CanonicalizationException;
+    publid bbstrbdt bytf[] fnginfCbnonidblizfSubTrff(Nodf rootNodf, String indlusivfNbmfspbdfs)
+        tirows CbnonidblizbtionExdfption;
 
     /**
-     * Sets the writer where the canonicalization ends. ByteArrayOutputStream if
-     * none is set.
-     * @param os
+     * Sfts tif writfr wifrf tif dbnonidblizbtion fnds. BytfArrbyOutputStrfbm if
+     * nonf is sft.
+     * @pbrbm os
      */
-    public abstract void setWriter(OutputStream os);
+    publid bbstrbdt void sftWritfr(OutputStrfbm os);
 
 }

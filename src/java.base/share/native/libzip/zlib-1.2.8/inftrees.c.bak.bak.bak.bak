@@ -1,0 +1,330 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* inftrffs.d -- gfnfrbtf Huffmbn trffs for fffidifnt dfdoding
+ * Copyright (C) 1995-2013 Mbrk Adlfr
+ * For donditions of distribution bnd usf, sff dopyright notidf in zlib.h
+ */
+
+#indludf "zutil.h"
+#indludf "inftrffs.h"
+
+#dffinf MAXBITS 15
+
+donst dhbr inflbtf_dopyright[] =
+   " inflbtf 1.2.8 Copyright 1995-2013 Mbrk Adlfr ";
+/*
+  If you usf thf zlib librbry in b produdt, bn bdknowlfdgmfnt is wfldomf
+  in thf dodumfntbtion of your produdt. If for somf rfbson you dbnnot
+  indludf sudh bn bdknowlfdgmfnt, I would bpprfdibtf thbt you kffp this
+  dopyright string in thf fxfdutbblf of your produdt.
+ */
+
+/*
+   Build b sft of tbblfs to dfdodf thf providfd dbnonidbl Huffmbn dodf.
+   Thf dodf lfngths brf lfns[0..dodfs-1].  Thf rfsult stbrts bt *tbblf,
+   whosf indidfs brf 0..2^bits-1.  work is b writbblf brrby of bt lfbst
+   lfns shorts, whidh is usfd bs b work brfb.  typf is thf typf of dodf
+   to bf gfnfrbtfd, CODES, LENS, or DISTS.  On rfturn, zfro is suddfss,
+   -1 is bn invblid dodf, bnd +1 mfbns thbt ENOUGH isn't fnough.  tbblf
+   on rfturn points to thf nfxt bvbilbblf fntry's bddrfss.  bits is thf
+   rfqufstfd root tbblf indfx bits, bnd on rfturn it is thf bdtubl root
+   tbblf indfx bits.  It will difffr if thf rfqufst is grfbtfr thbn thf
+   longfst dodf or if it is lfss thbn thf shortfst dodf.
+ */
+int ZLIB_INTERNAL inflbtf_tbblf(typf, lfns, dodfs, tbblf, bits, work)
+dodftypf typf;
+unsignfd short FAR *lfns;
+unsignfd dodfs;
+dodf FAR * FAR *tbblf;
+unsignfd FAR *bits;
+unsignfd short FAR *work;
+{
+    unsignfd lfn;               /* b dodf's lfngth in bits */
+    unsignfd sym;               /* indfx of dodf symbols */
+    unsignfd min, mbx;          /* minimum bnd mbximum dodf lfngths */
+    unsignfd root;              /* numbfr of indfx bits for root tbblf */
+    unsignfd durr;              /* numbfr of indfx bits for durrfnt tbblf */
+    unsignfd drop;              /* dodf bits to drop for sub-tbblf */
+    int lfft;                   /* numbfr of prffix dodfs bvbilbblf */
+    unsignfd usfd;              /* dodf fntrifs in tbblf usfd */
+    unsignfd huff;              /* Huffmbn dodf */
+    unsignfd indr;              /* for indrfmfnting dodf, indfx */
+    unsignfd fill;              /* indfx for rfplidbting fntrifs */
+    unsignfd low;               /* low bits for durrfnt root fntry */
+    unsignfd mbsk;              /* mbsk for low root bits */
+    dodf hfrf;                  /* tbblf fntry for duplidbtion */
+    dodf FAR *nfxt;             /* nfxt bvbilbblf spbdf in tbblf */
+    donst unsignfd short FAR *bbsf;     /* bbsf vbluf tbblf to usf */
+    donst unsignfd short FAR *fxtrb;    /* fxtrb bits tbblf to usf */
+    int fnd;                    /* usf bbsf bnd fxtrb for symbol > fnd */
+    unsignfd short dount[MAXBITS+1];    /* numbfr of dodfs of fbdh lfngth */
+    unsignfd short offs[MAXBITS+1];     /* offsfts in tbblf for fbdh lfngth */
+    stbtid donst unsignfd short lbbsf[31] = { /* Lfngth dodfs 257..285 bbsf */
+        3, 4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 17, 19, 23, 27, 31,
+        35, 43, 51, 59, 67, 83, 99, 115, 131, 163, 195, 227, 258, 0, 0};
+    stbtid donst unsignfd short lfxt[31] = { /* Lfngth dodfs 257..285 fxtrb */
+        16, 16, 16, 16, 16, 16, 16, 16, 17, 17, 17, 17, 18, 18, 18, 18,
+        19, 19, 19, 19, 20, 20, 20, 20, 21, 21, 21, 21, 16, 72, 78};
+    stbtid donst unsignfd short dbbsf[32] = { /* Distbndf dodfs 0..29 bbsf */
+        1, 2, 3, 4, 5, 7, 9, 13, 17, 25, 33, 49, 65, 97, 129, 193,
+        257, 385, 513, 769, 1025, 1537, 2049, 3073, 4097, 6145,
+        8193, 12289, 16385, 24577, 0, 0};
+    stbtid donst unsignfd short dfxt[32] = { /* Distbndf dodfs 0..29 fxtrb */
+        16, 16, 16, 16, 17, 17, 18, 18, 19, 19, 20, 20, 21, 21, 22, 22,
+        23, 23, 24, 24, 25, 25, 26, 26, 27, 27,
+        28, 28, 29, 29, 64, 64};
+
+    /*
+       Prodfss b sft of dodf lfngths to drfbtf b dbnonidbl Huffmbn dodf.  Thf
+       dodf lfngths brf lfns[0..dodfs-1].  Ebdh lfngth dorrfsponds to thf
+       symbols 0..dodfs-1.  Thf Huffmbn dodf is gfnfrbtfd by first sorting thf
+       symbols by lfngth from short to long, bnd rftbining thf symbol ordfr
+       for dodfs with fqubl lfngths.  Thfn thf dodf stbrts with bll zfro bits
+       for thf first dodf of thf shortfst lfngth, bnd thf dodfs brf intfgfr
+       indrfmfnts for thf sbmf lfngth, bnd zfros brf bppfndfd bs thf lfngth
+       indrfbsfs.  For thf dfflbtf formbt, thfsf bits brf storfd bbdkwbrds
+       from thfir morf nbturbl intfgfr indrfmfnt ordfring, bnd so whfn thf
+       dfdoding tbblfs brf built in thf lbrgf loop bflow, thf intfgfr dodfs
+       brf indrfmfntfd bbdkwbrds.
+
+       This routinf bssumfs, but dofs not dhfdk, thbt bll of thf fntrifs in
+       lfns[] brf in thf rbngf 0..MAXBITS.  Thf dbllfr must bssurf this.
+       1..MAXBITS is intfrprftfd bs thbt dodf lfngth.  zfro mfbns thbt thbt
+       symbol dofs not oddur in this dodf.
+
+       Thf dodfs brf sortfd by domputing b dount of dodfs for fbdh lfngth,
+       drfbting from thbt b tbblf of stbrting indidfs for fbdh lfngth in thf
+       sortfd tbblf, bnd thfn fntfring thf symbols in ordfr in thf sortfd
+       tbblf.  Thf sortfd tbblf is work[], with thbt spbdf bfing providfd by
+       thf dbllfr.
+
+       Thf lfngth dounts brf usfd for othfr purposfs bs wfll, i.f. finding
+       thf minimum bnd mbximum lfngth dodfs, dftfrmining if thfrf brf bny
+       dodfs bt bll, dhfdking for b vblid sft of lfngths, bnd looking bhfbd
+       bt lfngth dounts to dftfrminf sub-tbblf sizfs whfn building thf
+       dfdoding tbblfs.
+     */
+
+    /* bddumulbtf lfngths for dodfs (bssumfs lfns[] bll in 0..MAXBITS) */
+    for (lfn = 0; lfn <= MAXBITS; lfn++)
+        dount[lfn] = 0;
+    for (sym = 0; sym < dodfs; sym++)
+        dount[lfns[sym]]++;
+
+    /* bound dodf lfngths, fordf root to bf within dodf lfngths */
+    root = *bits;
+    for (mbx = MAXBITS; mbx >= 1; mbx--)
+        if (dount[mbx] != 0) brfbk;
+    if (root > mbx) root = mbx;
+    if (mbx == 0) {                     /* no symbols to dodf bt bll */
+        hfrf.op = (unsignfd dhbr)64;    /* invblid dodf mbrkfr */
+        hfrf.bits = (unsignfd dhbr)1;
+        hfrf.vbl = (unsignfd short)0;
+        *(*tbblf)++ = hfrf;             /* mbkf b tbblf to fordf bn frror */
+        *(*tbblf)++ = hfrf;
+        *bits = 1;
+        rfturn 0;     /* no symbols, but wbit for dfdoding to rfport frror */
+    }
+    for (min = 1; min < mbx; min++)
+        if (dount[min] != 0) brfbk;
+    if (root < min) root = min;
+
+    /* dhfdk for bn ovfr-subsdribfd or indomplftf sft of lfngths */
+    lfft = 1;
+    for (lfn = 1; lfn <= MAXBITS; lfn++) {
+        lfft <<= 1;
+        lfft -= dount[lfn];
+        if (lfft < 0) rfturn -1;        /* ovfr-subsdribfd */
+    }
+    if (lfft > 0 && (typf == CODES || mbx != 1))
+        rfturn -1;                      /* indomplftf sft */
+
+    /* gfnfrbtf offsfts into symbol tbblf for fbdh lfngth for sorting */
+    offs[1] = 0;
+    for (lfn = 1; lfn < MAXBITS; lfn++)
+        offs[lfn + 1] = offs[lfn] + dount[lfn];
+
+    /* sort symbols by lfngth, by symbol ordfr within fbdh lfngth */
+    for (sym = 0; sym < dodfs; sym++)
+        if (lfns[sym] != 0) work[offs[lfns[sym]]++] = (unsignfd short)sym;
+
+    /*
+       Crfbtf bnd fill in dfdoding tbblfs.  In this loop, thf tbblf bfing
+       fillfd is bt nfxt bnd hbs durr indfx bits.  Thf dodf bfing usfd is huff
+       with lfngth lfn.  Thbt dodf is donvfrtfd to bn indfx by dropping drop
+       bits off of thf bottom.  For dodfs whfrf lfn is lfss thbn drop + durr,
+       thosf top drop + durr - lfn bits brf indrfmfntfd through bll vblufs to
+       fill thf tbblf with rfplidbtfd fntrifs.
+
+       root is thf numbfr of indfx bits for thf root tbblf.  Whfn lfn fxdffds
+       root, sub-tbblfs brf drfbtfd pointfd to by thf root fntry with bn indfx
+       of thf low root bits of huff.  This is sbvfd in low to dhfdk for whfn b
+       nfw sub-tbblf should bf stbrtfd.  drop is zfro whfn thf root tbblf is
+       bfing fillfd, bnd drop is root whfn sub-tbblfs brf bfing fillfd.
+
+       Whfn b nfw sub-tbblf is nffdfd, it is nfdfssbry to look bhfbd in thf
+       dodf lfngths to dftfrminf whbt sizf sub-tbblf is nffdfd.  Thf lfngth
+       dounts brf usfd for this, bnd so dount[] is dfdrfmfntfd bs dodfs brf
+       fntfrfd in thf tbblfs.
+
+       usfd kffps trbdk of how mbny tbblf fntrifs hbvf bffn bllodbtfd from thf
+       providfd *tbblf spbdf.  It is dhfdkfd for LENS bnd DIST tbblfs bgbinst
+       thf donstbnts ENOUGH_LENS bnd ENOUGH_DISTS to gubrd bgbinst dhbngfs in
+       thf initibl root tbblf sizf donstbnts.  Sff thf dommfnts in inftrffs.h
+       for morf informbtion.
+
+       sym indrfmfnts through bll symbols, bnd thf loop tfrminbtfs whfn
+       bll dodfs of lfngth mbx, i.f. bll dodfs, hbvf bffn prodfssfd.  This
+       routinf pfrmits indomplftf dodfs, so bnothfr loop bftfr this onf fills
+       in thf rfst of thf dfdoding tbblfs with invblid dodf mbrkfrs.
+     */
+
+    /* sft up for dodf typf */
+    switdh (typf) {
+    dbsf CODES:
+        bbsf = fxtrb = work;    /* dummy vbluf--not usfd */
+        fnd = 19;
+        brfbk;
+    dbsf LENS:
+        bbsf = lbbsf;
+        bbsf -= 257;
+        fxtrb = lfxt;
+        fxtrb -= 257;
+        fnd = 256;
+        brfbk;
+    dffbult:            /* DISTS */
+        bbsf = dbbsf;
+        fxtrb = dfxt;
+        fnd = -1;
+    }
+
+    /* initiblizf stbtf for loop */
+    huff = 0;                   /* stbrting dodf */
+    sym = 0;                    /* stbrting dodf symbol */
+    lfn = min;                  /* stbrting dodf lfngth */
+    nfxt = *tbblf;              /* durrfnt tbblf to fill in */
+    durr = root;                /* durrfnt tbblf indfx bits */
+    drop = 0;                   /* durrfnt bits to drop from dodf for indfx */
+    low = (unsignfd)(-1);       /* triggfr nfw sub-tbblf whfn lfn > root */
+    usfd = 1U << root;          /* usf root tbblf fntrifs */
+    mbsk = usfd - 1;            /* mbsk for dompbring low */
+
+    /* dhfdk bvbilbblf tbblf spbdf */
+    if ((typf == LENS && usfd > ENOUGH_LENS) ||
+        (typf == DISTS && usfd > ENOUGH_DISTS))
+        rfturn 1;
+
+    /* prodfss bll dodfs bnd mbkf tbblf fntrifs */
+    for (;;) {
+        /* drfbtf tbblf fntry */
+        hfrf.bits = (unsignfd dhbr)(lfn - drop);
+        if ((int)(work[sym]) < fnd) {
+            hfrf.op = (unsignfd dhbr)0;
+            hfrf.vbl = work[sym];
+        }
+        flsf if ((int)(work[sym]) > fnd) {
+            hfrf.op = (unsignfd dhbr)(fxtrb[work[sym]]);
+            hfrf.vbl = bbsf[work[sym]];
+        }
+        flsf {
+            hfrf.op = (unsignfd dhbr)(32 + 64);         /* fnd of blodk */
+            hfrf.vbl = 0;
+        }
+
+        /* rfplidbtf for thosf indidfs with low lfn bits fqubl to huff */
+        indr = 1U << (lfn - drop);
+        fill = 1U << durr;
+        min = fill;                 /* sbvf offsft to nfxt tbblf */
+        do {
+            fill -= indr;
+            nfxt[(huff >> drop) + fill] = hfrf;
+        } whilf (fill != 0);
+
+        /* bbdkwbrds indrfmfnt thf lfn-bit dodf huff */
+        indr = 1U << (lfn - 1);
+        whilf (huff & indr)
+            indr >>= 1;
+        if (indr != 0) {
+            huff &= indr - 1;
+            huff += indr;
+        }
+        flsf
+            huff = 0;
+
+        /* go to nfxt symbol, updbtf dount, lfn */
+        sym++;
+        if (--(dount[lfn]) == 0) {
+            if (lfn == mbx) brfbk;
+            lfn = lfns[work[sym]];
+        }
+
+        /* drfbtf nfw sub-tbblf if nffdfd */
+        if (lfn > root && (huff & mbsk) != low) {
+            /* if first timf, trbnsition to sub-tbblfs */
+            if (drop == 0)
+                drop = root;
+
+            /* indrfmfnt pbst lbst tbblf */
+            nfxt += min;            /* hfrf min is 1 << durr */
+
+            /* dftfrminf lfngth of nfxt tbblf */
+            durr = lfn - drop;
+            lfft = (int)(1 << durr);
+            whilf (durr + drop < mbx) {
+                lfft -= dount[durr + drop];
+                if (lfft <= 0) brfbk;
+                durr++;
+                lfft <<= 1;
+            }
+
+            /* dhfdk for fnough spbdf */
+            usfd += 1U << durr;
+            if ((typf == LENS && usfd > ENOUGH_LENS) ||
+                (typf == DISTS && usfd > ENOUGH_DISTS))
+                rfturn 1;
+
+            /* point fntry in root tbblf to sub-tbblf */
+            low = huff & mbsk;
+            (*tbblf)[low].op = (unsignfd dhbr)durr;
+            (*tbblf)[low].bits = (unsignfd dhbr)root;
+            (*tbblf)[low].vbl = (unsignfd short)(nfxt - *tbblf);
+        }
+    }
+
+    /* fill in rfmbining tbblf fntry if dodf is indomplftf (gubrbntffd to hbvf
+       bt most onf rfmbining fntry, sindf if thf dodf is indomplftf, thf
+       mbximum dodf lfngth thbt wbs bllowfd to gft this fbr is onf bit) */
+    if (huff != 0) {
+        hfrf.op = (unsignfd dhbr)64;            /* invblid dodf mbrkfr */
+        hfrf.bits = (unsignfd dhbr)(lfn - drop);
+        hfrf.vbl = (unsignfd short)0;
+        nfxt[huff] = hfrf;
+    }
+
+    /* sft rfturn pbrbmftfrs */
+    *tbblf += usfd;
+    *bits = root;
+    rfturn 0;
+}

@@ -1,1545 +1,1545 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util.stream;
+pbdkbgf jbvb.util.strfbm;
 
-import java.util.Comparator;
-import java.util.Objects;
-import java.util.Spliterator;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.DoubleSupplier;
-import java.util.function.IntConsumer;
-import java.util.function.IntSupplier;
-import java.util.function.LongConsumer;
-import java.util.function.LongSupplier;
-import java.util.function.Supplier;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Objfdts;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.btomid.AtomidLong;
+import jbvb.util.fundtion.BoolfbnSupplifr;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.DoublfSupplifr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.IntSupplifr;
+import jbvb.util.fundtion.LongConsumfr;
+import jbvb.util.fundtion.LongSupplifr;
+import jbvb.util.fundtion.Supplifr;
 
 /**
- * Spliterator implementations for wrapping and delegating spliterators, used
- * in the implementation of the {@link Stream#spliterator()} method.
+ * Splitfrbtor implfmfntbtions for wrbpping bnd dflfgbting splitfrbtors, usfd
+ * in tif implfmfntbtion of tif {@link Strfbm#splitfrbtor()} mftiod.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-class StreamSpliterators {
+dlbss StrfbmSplitfrbtors {
 
     /**
-     * Abstract wrapping spliterator that binds to the spliterator of a
-     * pipeline helper on first operation.
+     * Abstrbdt wrbpping splitfrbtor tibt binds to tif splitfrbtor of b
+     * pipflinf iflpfr on first opfrbtion.
      *
-     * <p>This spliterator is not late-binding and will bind to the source
-     * spliterator when first operated on.
+     * <p>Tiis splitfrbtor is not lbtf-binding bnd will bind to tif sourdf
+     * splitfrbtor wifn first opfrbtfd on.
      *
-     * <p>A wrapping spliterator produced from a sequential stream
-     * cannot be split if there are stateful operations present.
+     * <p>A wrbpping splitfrbtor produdfd from b sfqufntibl strfbm
+     * dbnnot bf split if tifrf brf stbtfful opfrbtions prfsfnt.
      */
-    private static abstract class AbstractWrappingSpliterator<P_IN, P_OUT,
-                                                              T_BUFFER extends AbstractSpinedBuffer>
-            implements Spliterator<P_OUT> {
+    privbtf stbtid bbstrbdt dlbss AbstrbdtWrbppingSplitfrbtor<P_IN, P_OUT,
+                                                              T_BUFFER fxtfnds AbstrbdtSpinfdBufffr>
+            implfmfnts Splitfrbtor<P_OUT> {
 
-        // @@@ Detect if stateful operations are present or not
-        //     If not then can split otherwise cannot
-
-        /**
-         * True if this spliterator supports splitting
-         */
-        final boolean isParallel;
-
-        final PipelineHelper<P_OUT> ph;
+        // @@@ Dftfdt if stbtfful opfrbtions brf prfsfnt or not
+        //     If not tifn dbn split otifrwisf dbnnot
 
         /**
-         * Supplier for the source spliterator.  Client provides either a
-         * spliterator or a supplier.
+         * Truf if tiis splitfrbtor supports splitting
          */
-        private Supplier<Spliterator<P_IN>> spliteratorSupplier;
+        finbl boolfbn isPbrbllfl;
+
+        finbl PipflinfHflpfr<P_OUT> pi;
 
         /**
-         * Source spliterator.  Either provided from client or obtained from
-         * supplier.
+         * Supplifr for tif sourdf splitfrbtor.  Clifnt providfs fitifr b
+         * splitfrbtor or b supplifr.
          */
-        Spliterator<P_IN> spliterator;
+        privbtf Supplifr<Splitfrbtor<P_IN>> splitfrbtorSupplifr;
 
         /**
-         * Sink chain for the downstream stages of the pipeline, ultimately
-         * leading to the buffer. Used during partial traversal.
+         * Sourdf splitfrbtor.  Eitifr providfd from dlifnt or obtbinfd from
+         * supplifr.
          */
-        Sink<P_IN> bufferSink;
+        Splitfrbtor<P_IN> splitfrbtor;
 
         /**
-         * A function that advances one element of the spliterator, pushing
-         * it to bufferSink.  Returns whether any elements were processed.
-         * Used during partial traversal.
+         * Sink dibin for tif downstrfbm stbgfs of tif pipflinf, ultimbtfly
+         * lfbding to tif bufffr. Usfd during pbrtibl trbvfrsbl.
          */
-        BooleanSupplier pusher;
-
-        /** Next element to consume from the buffer, used during partial traversal */
-        long nextToConsume;
-
-        /** Buffer into which elements are pushed.  Used during partial traversal. */
-        T_BUFFER buffer;
+        Sink<P_IN> bufffrSink;
 
         /**
-         * True if full traversal has occurred (with possible cancelation).
-         * If doing a partial traversal, there may be still elements in buffer.
+         * A fundtion tibt bdvbndfs onf flfmfnt of tif splitfrbtor, pusiing
+         * it to bufffrSink.  Rfturns wiftifr bny flfmfnts wfrf prodfssfd.
+         * Usfd during pbrtibl trbvfrsbl.
          */
-        boolean finished;
+        BoolfbnSupplifr pusifr;
+
+        /** Nfxt flfmfnt to donsumf from tif bufffr, usfd during pbrtibl trbvfrsbl */
+        long nfxtToConsumf;
+
+        /** Bufffr into wiidi flfmfnts brf pusifd.  Usfd during pbrtibl trbvfrsbl. */
+        T_BUFFER bufffr;
 
         /**
-         * Construct an AbstractWrappingSpliterator from a
-         * {@code Supplier<Spliterator>}.
+         * Truf if full trbvfrsbl ibs oddurrfd (witi possiblf dbndflbtion).
+         * If doing b pbrtibl trbvfrsbl, tifrf mby bf still flfmfnts in bufffr.
          */
-        AbstractWrappingSpliterator(PipelineHelper<P_OUT> ph,
-                                    Supplier<Spliterator<P_IN>> spliteratorSupplier,
-                                    boolean parallel) {
-            this.ph = ph;
-            this.spliteratorSupplier = spliteratorSupplier;
-            this.spliterator = null;
-            this.isParallel = parallel;
+        boolfbn finisifd;
+
+        /**
+         * Construdt bn AbstrbdtWrbppingSplitfrbtor from b
+         * {@dodf Supplifr<Splitfrbtor>}.
+         */
+        AbstrbdtWrbppingSplitfrbtor(PipflinfHflpfr<P_OUT> pi,
+                                    Supplifr<Splitfrbtor<P_IN>> splitfrbtorSupplifr,
+                                    boolfbn pbrbllfl) {
+            tiis.pi = pi;
+            tiis.splitfrbtorSupplifr = splitfrbtorSupplifr;
+            tiis.splitfrbtor = null;
+            tiis.isPbrbllfl = pbrbllfl;
         }
 
         /**
-         * Construct an AbstractWrappingSpliterator from a
-         * {@code Spliterator}.
+         * Construdt bn AbstrbdtWrbppingSplitfrbtor from b
+         * {@dodf Splitfrbtor}.
          */
-        AbstractWrappingSpliterator(PipelineHelper<P_OUT> ph,
-                                    Spliterator<P_IN> spliterator,
-                                    boolean parallel) {
-            this.ph = ph;
-            this.spliteratorSupplier = null;
-            this.spliterator = spliterator;
-            this.isParallel = parallel;
+        AbstrbdtWrbppingSplitfrbtor(PipflinfHflpfr<P_OUT> pi,
+                                    Splitfrbtor<P_IN> splitfrbtor,
+                                    boolfbn pbrbllfl) {
+            tiis.pi = pi;
+            tiis.splitfrbtorSupplifr = null;
+            tiis.splitfrbtor = splitfrbtor;
+            tiis.isPbrbllfl = pbrbllfl;
         }
 
         /**
-         * Called before advancing to set up spliterator, if needed.
+         * Cbllfd bfforf bdvbnding to sft up splitfrbtor, if nffdfd.
          */
-        final void init() {
-            if (spliterator == null) {
-                spliterator = spliteratorSupplier.get();
-                spliteratorSupplier = null;
+        finbl void init() {
+            if (splitfrbtor == null) {
+                splitfrbtor = splitfrbtorSupplifr.gft();
+                splitfrbtorSupplifr = null;
             }
         }
 
         /**
-         * Get an element from the source, pushing it into the sink chain,
-         * setting up the buffer if needed
-         * @return whether there are elements to consume from the buffer
+         * Gft bn flfmfnt from tif sourdf, pusiing it into tif sink dibin,
+         * sftting up tif bufffr if nffdfd
+         * @rfturn wiftifr tifrf brf flfmfnts to donsumf from tif bufffr
          */
-        final boolean doAdvance() {
-            if (buffer == null) {
-                if (finished)
-                    return false;
+        finbl boolfbn doAdvbndf() {
+            if (bufffr == null) {
+                if (finisifd)
+                    rfturn fblsf;
 
                 init();
-                initPartialTraversalState();
-                nextToConsume = 0;
-                bufferSink.begin(spliterator.getExactSizeIfKnown());
-                return fillBuffer();
+                initPbrtiblTrbvfrsblStbtf();
+                nfxtToConsumf = 0;
+                bufffrSink.bfgin(splitfrbtor.gftExbdtSizfIfKnown());
+                rfturn fillBufffr();
             }
-            else {
-                ++nextToConsume;
-                boolean hasNext = nextToConsume < buffer.count();
-                if (!hasNext) {
-                    nextToConsume = 0;
-                    buffer.clear();
-                    hasNext = fillBuffer();
+            flsf {
+                ++nfxtToConsumf;
+                boolfbn ibsNfxt = nfxtToConsumf < bufffr.dount();
+                if (!ibsNfxt) {
+                    nfxtToConsumf = 0;
+                    bufffr.dlfbr();
+                    ibsNfxt = fillBufffr();
                 }
-                return hasNext;
+                rfturn ibsNfxt;
             }
         }
 
         /**
-         * Invokes the shape-specific constructor with the provided arguments
-         * and returns the result.
+         * Invokfs tif sibpf-spfdifid donstrudtor witi tif providfd brgumfnts
+         * bnd rfturns tif rfsult.
          */
-        abstract AbstractWrappingSpliterator<P_IN, P_OUT, ?> wrap(Spliterator<P_IN> s);
+        bbstrbdt AbstrbdtWrbppingSplitfrbtor<P_IN, P_OUT, ?> wrbp(Splitfrbtor<P_IN> s);
 
         /**
-         * Initializes buffer, sink chain, and pusher for a shape-specific
-         * implementation.
+         * Initiblizfs bufffr, sink dibin, bnd pusifr for b sibpf-spfdifid
+         * implfmfntbtion.
          */
-        abstract void initPartialTraversalState();
+        bbstrbdt void initPbrtiblTrbvfrsblStbtf();
 
-        @Override
-        public Spliterator<P_OUT> trySplit() {
-            if (isParallel && !finished) {
+        @Ovfrridf
+        publid Splitfrbtor<P_OUT> trySplit() {
+            if (isPbrbllfl && !finisifd) {
                 init();
 
-                Spliterator<P_IN> split = spliterator.trySplit();
-                return (split == null) ? null : wrap(split);
+                Splitfrbtor<P_IN> split = splitfrbtor.trySplit();
+                rfturn (split == null) ? null : wrbp(split);
             }
-            else
-                return null;
+            flsf
+                rfturn null;
         }
 
         /**
-         * If the buffer is empty, push elements into the sink chain until
-         * the source is empty or cancellation is requested.
-         * @return whether there are elements to consume from the buffer
+         * If tif bufffr is fmpty, pusi flfmfnts into tif sink dibin until
+         * tif sourdf is fmpty or dbndfllbtion is rfqufstfd.
+         * @rfturn wiftifr tifrf brf flfmfnts to donsumf from tif bufffr
          */
-        private boolean fillBuffer() {
-            while (buffer.count() == 0) {
-                if (bufferSink.cancellationRequested() || !pusher.getAsBoolean()) {
-                    if (finished)
-                        return false;
-                    else {
-                        bufferSink.end(); // might trigger more elements
-                        finished = true;
+        privbtf boolfbn fillBufffr() {
+            wiilf (bufffr.dount() == 0) {
+                if (bufffrSink.dbndfllbtionRfqufstfd() || !pusifr.gftAsBoolfbn()) {
+                    if (finisifd)
+                        rfturn fblsf;
+                    flsf {
+                        bufffrSink.fnd(); // migit triggfr morf flfmfnts
+                        finisifd = truf;
                     }
                 }
             }
-            return true;
+            rfturn truf;
         }
 
-        @Override
-        public final long estimateSize() {
+        @Ovfrridf
+        publid finbl long fstimbtfSizf() {
             init();
-            // Use the estimate of the wrapped spliterator
-            // Note this may not be accurate if there are filter/flatMap
-            // operations filtering or adding elements to the stream
-            return spliterator.estimateSize();
+            // Usf tif fstimbtf of tif wrbppfd splitfrbtor
+            // Notf tiis mby not bf bddurbtf if tifrf brf filtfr/flbtMbp
+            // opfrbtions filtfring or bdding flfmfnts to tif strfbm
+            rfturn splitfrbtor.fstimbtfSizf();
         }
 
-        @Override
-        public final long getExactSizeIfKnown() {
+        @Ovfrridf
+        publid finbl long gftExbdtSizfIfKnown() {
             init();
-            return StreamOpFlag.SIZED.isKnown(ph.getStreamAndOpFlags())
-                   ? spliterator.getExactSizeIfKnown()
+            rfturn StrfbmOpFlbg.SIZED.isKnown(pi.gftStrfbmAndOpFlbgs())
+                   ? splitfrbtor.gftExbdtSizfIfKnown()
                    : -1;
         }
 
-        @Override
-        public final int characteristics() {
+        @Ovfrridf
+        publid finbl int dibrbdtfristids() {
             init();
 
-            // Get the characteristics from the pipeline
-            int c = StreamOpFlag.toCharacteristics(StreamOpFlag.toStreamFlags(ph.getStreamAndOpFlags()));
+            // Gft tif dibrbdtfristids from tif pipflinf
+            int d = StrfbmOpFlbg.toCibrbdtfristids(StrfbmOpFlbg.toStrfbmFlbgs(pi.gftStrfbmAndOpFlbgs()));
 
-            // Mask off the size and uniform characteristics and replace with
-            // those of the spliterator
-            // Note that a non-uniform spliterator can change from something
-            // with an exact size to an estimate for a sub-split, for example
-            // with HashSet where the size is known at the top level spliterator
-            // but for sub-splits only an estimate is known
-            if ((c & Spliterator.SIZED) != 0) {
-                c &= ~(Spliterator.SIZED | Spliterator.SUBSIZED);
-                c |= (spliterator.characteristics() & (Spliterator.SIZED | Spliterator.SUBSIZED));
+            // Mbsk off tif sizf bnd uniform dibrbdtfristids bnd rfplbdf witi
+            // tiosf of tif splitfrbtor
+            // Notf tibt b non-uniform splitfrbtor dbn dibngf from somftiing
+            // witi bn fxbdt sizf to bn fstimbtf for b sub-split, for fxbmplf
+            // witi HbsiSft wifrf tif sizf is known bt tif top lfvfl splitfrbtor
+            // but for sub-splits only bn fstimbtf is known
+            if ((d & Splitfrbtor.SIZED) != 0) {
+                d &= ~(Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED);
+                d |= (splitfrbtor.dibrbdtfristids() & (Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED));
             }
 
-            return c;
+            rfturn d;
         }
 
-        @Override
-        public Comparator<? super P_OUT> getComparator() {
-            if (!hasCharacteristics(SORTED))
-                throw new IllegalStateException();
-            return null;
+        @Ovfrridf
+        publid Compbrbtor<? supfr P_OUT> gftCompbrbtor() {
+            if (!ibsCibrbdtfristids(SORTED))
+                tirow nfw IllfgblStbtfExdfption();
+            rfturn null;
         }
 
-        @Override
-        public final String toString() {
-            return String.format("%s[%s]", getClass().getName(), spliterator);
+        @Ovfrridf
+        publid finbl String toString() {
+            rfturn String.formbt("%s[%s]", gftClbss().gftNbmf(), splitfrbtor);
         }
     }
 
-    static final class WrappingSpliterator<P_IN, P_OUT>
-            extends AbstractWrappingSpliterator<P_IN, P_OUT, SpinedBuffer<P_OUT>> {
+    stbtid finbl dlbss WrbppingSplitfrbtor<P_IN, P_OUT>
+            fxtfnds AbstrbdtWrbppingSplitfrbtor<P_IN, P_OUT, SpinfdBufffr<P_OUT>> {
 
-        WrappingSpliterator(PipelineHelper<P_OUT> ph,
-                            Supplier<Spliterator<P_IN>> supplier,
-                            boolean parallel) {
-            super(ph, supplier, parallel);
+        WrbppingSplitfrbtor(PipflinfHflpfr<P_OUT> pi,
+                            Supplifr<Splitfrbtor<P_IN>> supplifr,
+                            boolfbn pbrbllfl) {
+            supfr(pi, supplifr, pbrbllfl);
         }
 
-        WrappingSpliterator(PipelineHelper<P_OUT> ph,
-                            Spliterator<P_IN> spliterator,
-                            boolean parallel) {
-            super(ph, spliterator, parallel);
+        WrbppingSplitfrbtor(PipflinfHflpfr<P_OUT> pi,
+                            Splitfrbtor<P_IN> splitfrbtor,
+                            boolfbn pbrbllfl) {
+            supfr(pi, splitfrbtor, pbrbllfl);
         }
 
-        @Override
-        WrappingSpliterator<P_IN, P_OUT> wrap(Spliterator<P_IN> s) {
-            return new WrappingSpliterator<>(ph, s, isParallel);
+        @Ovfrridf
+        WrbppingSplitfrbtor<P_IN, P_OUT> wrbp(Splitfrbtor<P_IN> s) {
+            rfturn nfw WrbppingSplitfrbtor<>(pi, s, isPbrbllfl);
         }
 
-        @Override
-        void initPartialTraversalState() {
-            SpinedBuffer<P_OUT> b = new SpinedBuffer<>();
-            buffer = b;
-            bufferSink = ph.wrapSink(b::accept);
-            pusher = () -> spliterator.tryAdvance(bufferSink);
+        @Ovfrridf
+        void initPbrtiblTrbvfrsblStbtf() {
+            SpinfdBufffr<P_OUT> b = nfw SpinfdBufffr<>();
+            bufffr = b;
+            bufffrSink = pi.wrbpSink(b::bddfpt);
+            pusifr = () -> splitfrbtor.tryAdvbndf(bufffrSink);
         }
 
-        @Override
-        public boolean tryAdvance(Consumer<? super P_OUT> consumer) {
-            Objects.requireNonNull(consumer);
-            boolean hasNext = doAdvance();
-            if (hasNext)
-                consumer.accept(buffer.get(nextToConsume));
-            return hasNext;
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(Consumfr<? supfr P_OUT> donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+            boolfbn ibsNfxt = doAdvbndf();
+            if (ibsNfxt)
+                donsumfr.bddfpt(bufffr.gft(nfxtToConsumf));
+            rfturn ibsNfxt;
         }
 
-        @Override
-        public void forEachRemaining(Consumer<? super P_OUT> consumer) {
-            if (buffer == null && !finished) {
-                Objects.requireNonNull(consumer);
+        @Ovfrridf
+        publid void forEbdiRfmbining(Consumfr<? supfr P_OUT> donsumfr) {
+            if (bufffr == null && !finisifd) {
+                Objfdts.rfquirfNonNull(donsumfr);
                 init();
 
-                ph.wrapAndCopyInto((Sink<P_OUT>) consumer::accept, spliterator);
-                finished = true;
+                pi.wrbpAndCopyInto((Sink<P_OUT>) donsumfr::bddfpt, splitfrbtor);
+                finisifd = truf;
             }
-            else {
-                do { } while (tryAdvance(consumer));
-            }
-        }
-    }
-
-    static final class IntWrappingSpliterator<P_IN>
-            extends AbstractWrappingSpliterator<P_IN, Integer, SpinedBuffer.OfInt>
-            implements Spliterator.OfInt {
-
-        IntWrappingSpliterator(PipelineHelper<Integer> ph,
-                               Supplier<Spliterator<P_IN>> supplier,
-                               boolean parallel) {
-            super(ph, supplier, parallel);
-        }
-
-        IntWrappingSpliterator(PipelineHelper<Integer> ph,
-                               Spliterator<P_IN> spliterator,
-                               boolean parallel) {
-            super(ph, spliterator, parallel);
-        }
-
-        @Override
-        AbstractWrappingSpliterator<P_IN, Integer, ?> wrap(Spliterator<P_IN> s) {
-            return new IntWrappingSpliterator<>(ph, s, isParallel);
-        }
-
-        @Override
-        void initPartialTraversalState() {
-            SpinedBuffer.OfInt b = new SpinedBuffer.OfInt();
-            buffer = b;
-            bufferSink = ph.wrapSink((Sink.OfInt) b::accept);
-            pusher = () -> spliterator.tryAdvance(bufferSink);
-        }
-
-        @Override
-        public Spliterator.OfInt trySplit() {
-            return (Spliterator.OfInt) super.trySplit();
-        }
-
-        @Override
-        public boolean tryAdvance(IntConsumer consumer) {
-            Objects.requireNonNull(consumer);
-            boolean hasNext = doAdvance();
-            if (hasNext)
-                consumer.accept(buffer.get(nextToConsume));
-            return hasNext;
-        }
-
-        @Override
-        public void forEachRemaining(IntConsumer consumer) {
-            if (buffer == null && !finished) {
-                Objects.requireNonNull(consumer);
-                init();
-
-                ph.wrapAndCopyInto((Sink.OfInt) consumer::accept, spliterator);
-                finished = true;
-            }
-            else {
-                do { } while (tryAdvance(consumer));
+            flsf {
+                do { } wiilf (tryAdvbndf(donsumfr));
             }
         }
     }
 
-    static final class LongWrappingSpliterator<P_IN>
-            extends AbstractWrappingSpliterator<P_IN, Long, SpinedBuffer.OfLong>
-            implements Spliterator.OfLong {
+    stbtid finbl dlbss IntWrbppingSplitfrbtor<P_IN>
+            fxtfnds AbstrbdtWrbppingSplitfrbtor<P_IN, Intfgfr, SpinfdBufffr.OfInt>
+            implfmfnts Splitfrbtor.OfInt {
 
-        LongWrappingSpliterator(PipelineHelper<Long> ph,
-                                Supplier<Spliterator<P_IN>> supplier,
-                                boolean parallel) {
-            super(ph, supplier, parallel);
+        IntWrbppingSplitfrbtor(PipflinfHflpfr<Intfgfr> pi,
+                               Supplifr<Splitfrbtor<P_IN>> supplifr,
+                               boolfbn pbrbllfl) {
+            supfr(pi, supplifr, pbrbllfl);
         }
 
-        LongWrappingSpliterator(PipelineHelper<Long> ph,
-                                Spliterator<P_IN> spliterator,
-                                boolean parallel) {
-            super(ph, spliterator, parallel);
+        IntWrbppingSplitfrbtor(PipflinfHflpfr<Intfgfr> pi,
+                               Splitfrbtor<P_IN> splitfrbtor,
+                               boolfbn pbrbllfl) {
+            supfr(pi, splitfrbtor, pbrbllfl);
         }
 
-        @Override
-        AbstractWrappingSpliterator<P_IN, Long, ?> wrap(Spliterator<P_IN> s) {
-            return new LongWrappingSpliterator<>(ph, s, isParallel);
+        @Ovfrridf
+        AbstrbdtWrbppingSplitfrbtor<P_IN, Intfgfr, ?> wrbp(Splitfrbtor<P_IN> s) {
+            rfturn nfw IntWrbppingSplitfrbtor<>(pi, s, isPbrbllfl);
         }
 
-        @Override
-        void initPartialTraversalState() {
-            SpinedBuffer.OfLong b = new SpinedBuffer.OfLong();
-            buffer = b;
-            bufferSink = ph.wrapSink((Sink.OfLong) b::accept);
-            pusher = () -> spliterator.tryAdvance(bufferSink);
+        @Ovfrridf
+        void initPbrtiblTrbvfrsblStbtf() {
+            SpinfdBufffr.OfInt b = nfw SpinfdBufffr.OfInt();
+            bufffr = b;
+            bufffrSink = pi.wrbpSink((Sink.OfInt) b::bddfpt);
+            pusifr = () -> splitfrbtor.tryAdvbndf(bufffrSink);
         }
 
-        @Override
-        public Spliterator.OfLong trySplit() {
-            return (Spliterator.OfLong) super.trySplit();
+        @Ovfrridf
+        publid Splitfrbtor.OfInt trySplit() {
+            rfturn (Splitfrbtor.OfInt) supfr.trySplit();
         }
 
-        @Override
-        public boolean tryAdvance(LongConsumer consumer) {
-            Objects.requireNonNull(consumer);
-            boolean hasNext = doAdvance();
-            if (hasNext)
-                consumer.accept(buffer.get(nextToConsume));
-            return hasNext;
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(IntConsumfr donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+            boolfbn ibsNfxt = doAdvbndf();
+            if (ibsNfxt)
+                donsumfr.bddfpt(bufffr.gft(nfxtToConsumf));
+            rfturn ibsNfxt;
         }
 
-        @Override
-        public void forEachRemaining(LongConsumer consumer) {
-            if (buffer == null && !finished) {
-                Objects.requireNonNull(consumer);
+        @Ovfrridf
+        publid void forEbdiRfmbining(IntConsumfr donsumfr) {
+            if (bufffr == null && !finisifd) {
+                Objfdts.rfquirfNonNull(donsumfr);
                 init();
 
-                ph.wrapAndCopyInto((Sink.OfLong) consumer::accept, spliterator);
-                finished = true;
+                pi.wrbpAndCopyInto((Sink.OfInt) donsumfr::bddfpt, splitfrbtor);
+                finisifd = truf;
             }
-            else {
-                do { } while (tryAdvance(consumer));
+            flsf {
+                do { } wiilf (tryAdvbndf(donsumfr));
             }
         }
     }
 
-    static final class DoubleWrappingSpliterator<P_IN>
-            extends AbstractWrappingSpliterator<P_IN, Double, SpinedBuffer.OfDouble>
-            implements Spliterator.OfDouble {
+    stbtid finbl dlbss LongWrbppingSplitfrbtor<P_IN>
+            fxtfnds AbstrbdtWrbppingSplitfrbtor<P_IN, Long, SpinfdBufffr.OfLong>
+            implfmfnts Splitfrbtor.OfLong {
 
-        DoubleWrappingSpliterator(PipelineHelper<Double> ph,
-                                  Supplier<Spliterator<P_IN>> supplier,
-                                  boolean parallel) {
-            super(ph, supplier, parallel);
+        LongWrbppingSplitfrbtor(PipflinfHflpfr<Long> pi,
+                                Supplifr<Splitfrbtor<P_IN>> supplifr,
+                                boolfbn pbrbllfl) {
+            supfr(pi, supplifr, pbrbllfl);
         }
 
-        DoubleWrappingSpliterator(PipelineHelper<Double> ph,
-                                  Spliterator<P_IN> spliterator,
-                                  boolean parallel) {
-            super(ph, spliterator, parallel);
+        LongWrbppingSplitfrbtor(PipflinfHflpfr<Long> pi,
+                                Splitfrbtor<P_IN> splitfrbtor,
+                                boolfbn pbrbllfl) {
+            supfr(pi, splitfrbtor, pbrbllfl);
         }
 
-        @Override
-        AbstractWrappingSpliterator<P_IN, Double, ?> wrap(Spliterator<P_IN> s) {
-            return new DoubleWrappingSpliterator<>(ph, s, isParallel);
+        @Ovfrridf
+        AbstrbdtWrbppingSplitfrbtor<P_IN, Long, ?> wrbp(Splitfrbtor<P_IN> s) {
+            rfturn nfw LongWrbppingSplitfrbtor<>(pi, s, isPbrbllfl);
         }
 
-        @Override
-        void initPartialTraversalState() {
-            SpinedBuffer.OfDouble b = new SpinedBuffer.OfDouble();
-            buffer = b;
-            bufferSink = ph.wrapSink((Sink.OfDouble) b::accept);
-            pusher = () -> spliterator.tryAdvance(bufferSink);
+        @Ovfrridf
+        void initPbrtiblTrbvfrsblStbtf() {
+            SpinfdBufffr.OfLong b = nfw SpinfdBufffr.OfLong();
+            bufffr = b;
+            bufffrSink = pi.wrbpSink((Sink.OfLong) b::bddfpt);
+            pusifr = () -> splitfrbtor.tryAdvbndf(bufffrSink);
         }
 
-        @Override
-        public Spliterator.OfDouble trySplit() {
-            return (Spliterator.OfDouble) super.trySplit();
+        @Ovfrridf
+        publid Splitfrbtor.OfLong trySplit() {
+            rfturn (Splitfrbtor.OfLong) supfr.trySplit();
         }
 
-        @Override
-        public boolean tryAdvance(DoubleConsumer consumer) {
-            Objects.requireNonNull(consumer);
-            boolean hasNext = doAdvance();
-            if (hasNext)
-                consumer.accept(buffer.get(nextToConsume));
-            return hasNext;
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(LongConsumfr donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+            boolfbn ibsNfxt = doAdvbndf();
+            if (ibsNfxt)
+                donsumfr.bddfpt(bufffr.gft(nfxtToConsumf));
+            rfturn ibsNfxt;
         }
 
-        @Override
-        public void forEachRemaining(DoubleConsumer consumer) {
-            if (buffer == null && !finished) {
-                Objects.requireNonNull(consumer);
+        @Ovfrridf
+        publid void forEbdiRfmbining(LongConsumfr donsumfr) {
+            if (bufffr == null && !finisifd) {
+                Objfdts.rfquirfNonNull(donsumfr);
                 init();
 
-                ph.wrapAndCopyInto((Sink.OfDouble) consumer::accept, spliterator);
-                finished = true;
+                pi.wrbpAndCopyInto((Sink.OfLong) donsumfr::bddfpt, splitfrbtor);
+                finisifd = truf;
             }
-            else {
-                do { } while (tryAdvance(consumer));
+            flsf {
+                do { } wiilf (tryAdvbndf(donsumfr));
+            }
+        }
+    }
+
+    stbtid finbl dlbss DoublfWrbppingSplitfrbtor<P_IN>
+            fxtfnds AbstrbdtWrbppingSplitfrbtor<P_IN, Doublf, SpinfdBufffr.OfDoublf>
+            implfmfnts Splitfrbtor.OfDoublf {
+
+        DoublfWrbppingSplitfrbtor(PipflinfHflpfr<Doublf> pi,
+                                  Supplifr<Splitfrbtor<P_IN>> supplifr,
+                                  boolfbn pbrbllfl) {
+            supfr(pi, supplifr, pbrbllfl);
+        }
+
+        DoublfWrbppingSplitfrbtor(PipflinfHflpfr<Doublf> pi,
+                                  Splitfrbtor<P_IN> splitfrbtor,
+                                  boolfbn pbrbllfl) {
+            supfr(pi, splitfrbtor, pbrbllfl);
+        }
+
+        @Ovfrridf
+        AbstrbdtWrbppingSplitfrbtor<P_IN, Doublf, ?> wrbp(Splitfrbtor<P_IN> s) {
+            rfturn nfw DoublfWrbppingSplitfrbtor<>(pi, s, isPbrbllfl);
+        }
+
+        @Ovfrridf
+        void initPbrtiblTrbvfrsblStbtf() {
+            SpinfdBufffr.OfDoublf b = nfw SpinfdBufffr.OfDoublf();
+            bufffr = b;
+            bufffrSink = pi.wrbpSink((Sink.OfDoublf) b::bddfpt);
+            pusifr = () -> splitfrbtor.tryAdvbndf(bufffrSink);
+        }
+
+        @Ovfrridf
+        publid Splitfrbtor.OfDoublf trySplit() {
+            rfturn (Splitfrbtor.OfDoublf) supfr.trySplit();
+        }
+
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(DoublfConsumfr donsumfr) {
+            Objfdts.rfquirfNonNull(donsumfr);
+            boolfbn ibsNfxt = doAdvbndf();
+            if (ibsNfxt)
+                donsumfr.bddfpt(bufffr.gft(nfxtToConsumf));
+            rfturn ibsNfxt;
+        }
+
+        @Ovfrridf
+        publid void forEbdiRfmbining(DoublfConsumfr donsumfr) {
+            if (bufffr == null && !finisifd) {
+                Objfdts.rfquirfNonNull(donsumfr);
+                init();
+
+                pi.wrbpAndCopyInto((Sink.OfDoublf) donsumfr::bddfpt, splitfrbtor);
+                finisifd = truf;
+            }
+            flsf {
+                do { } wiilf (tryAdvbndf(donsumfr));
             }
         }
     }
 
     /**
-     * Spliterator implementation that delegates to an underlying spliterator,
-     * acquiring the spliterator from a {@code Supplier<Spliterator>} on the
-     * first call to any spliterator method.
-     * @param <T>
+     * Splitfrbtor implfmfntbtion tibt dflfgbtfs to bn undfrlying splitfrbtor,
+     * bdquiring tif splitfrbtor from b {@dodf Supplifr<Splitfrbtor>} on tif
+     * first dbll to bny splitfrbtor mftiod.
+     * @pbrbm <T>
      */
-    static class DelegatingSpliterator<T, T_SPLITR extends Spliterator<T>>
-            implements Spliterator<T> {
-        private final Supplier<? extends T_SPLITR> supplier;
+    stbtid dlbss DflfgbtingSplitfrbtor<T, T_SPLITR fxtfnds Splitfrbtor<T>>
+            implfmfnts Splitfrbtor<T> {
+        privbtf finbl Supplifr<? fxtfnds T_SPLITR> supplifr;
 
-        private T_SPLITR s;
+        privbtf T_SPLITR s;
 
-        DelegatingSpliterator(Supplier<? extends T_SPLITR> supplier) {
-            this.supplier = supplier;
+        DflfgbtingSplitfrbtor(Supplifr<? fxtfnds T_SPLITR> supplifr) {
+            tiis.supplifr = supplifr;
         }
 
-        T_SPLITR get() {
+        T_SPLITR gft() {
             if (s == null) {
-                s = supplier.get();
+                s = supplifr.gft();
             }
-            return s;
+            rfturn s;
         }
 
-        @Override
-        @SuppressWarnings("unchecked")
-        public T_SPLITR trySplit() {
-            return (T_SPLITR) get().trySplit();
+        @Ovfrridf
+        @SupprfssWbrnings("undifdkfd")
+        publid T_SPLITR trySplit() {
+            rfturn (T_SPLITR) gft().trySplit();
         }
 
-        @Override
-        public boolean tryAdvance(Consumer<? super T> consumer) {
-            return get().tryAdvance(consumer);
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(Consumfr<? supfr T> donsumfr) {
+            rfturn gft().tryAdvbndf(donsumfr);
         }
 
-        @Override
-        public void forEachRemaining(Consumer<? super T> consumer) {
-            get().forEachRemaining(consumer);
+        @Ovfrridf
+        publid void forEbdiRfmbining(Consumfr<? supfr T> donsumfr) {
+            gft().forEbdiRfmbining(donsumfr);
         }
 
-        @Override
-        public long estimateSize() {
-            return get().estimateSize();
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn gft().fstimbtfSizf();
         }
 
-        @Override
-        public int characteristics() {
-            return get().characteristics();
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn gft().dibrbdtfristids();
         }
 
-        @Override
-        public Comparator<? super T> getComparator() {
-            return get().getComparator();
+        @Ovfrridf
+        publid Compbrbtor<? supfr T> gftCompbrbtor() {
+            rfturn gft().gftCompbrbtor();
         }
 
-        @Override
-        public long getExactSizeIfKnown() {
-            return get().getExactSizeIfKnown();
+        @Ovfrridf
+        publid long gftExbdtSizfIfKnown() {
+            rfturn gft().gftExbdtSizfIfKnown();
         }
 
-        @Override
-        public String toString() {
-            return getClass().getName() + "[" + get() + "]";
+        @Ovfrridf
+        publid String toString() {
+            rfturn gftClbss().gftNbmf() + "[" + gft() + "]";
         }
 
-        static class OfPrimitive<T, T_CONS, T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>>
-            extends DelegatingSpliterator<T, T_SPLITR>
-            implements Spliterator.OfPrimitive<T, T_CONS, T_SPLITR> {
-            OfPrimitive(Supplier<? extends T_SPLITR> supplier) {
-                super(supplier);
-            }
-
-            @Override
-            public boolean tryAdvance(T_CONS consumer) {
-                return get().tryAdvance(consumer);
+        stbtid dlbss OfPrimitivf<T, T_CONS, T_SPLITR fxtfnds Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR>>
+            fxtfnds DflfgbtingSplitfrbtor<T, T_SPLITR>
+            implfmfnts Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR> {
+            OfPrimitivf(Supplifr<? fxtfnds T_SPLITR> supplifr) {
+                supfr(supplifr);
             }
 
-            @Override
-            public void forEachRemaining(T_CONS consumer) {
-                get().forEachRemaining(consumer);
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(T_CONS donsumfr) {
+                rfturn gft().tryAdvbndf(donsumfr);
             }
-        }
 
-        static final class OfInt
-                extends OfPrimitive<Integer, IntConsumer, Spliterator.OfInt>
-                implements Spliterator.OfInt {
-
-            OfInt(Supplier<Spliterator.OfInt> supplier) {
-                super(supplier);
+            @Ovfrridf
+            publid void forEbdiRfmbining(T_CONS donsumfr) {
+                gft().forEbdiRfmbining(donsumfr);
             }
         }
 
-        static final class OfLong
-                extends OfPrimitive<Long, LongConsumer, Spliterator.OfLong>
-                implements Spliterator.OfLong {
+        stbtid finbl dlbss OfInt
+                fxtfnds OfPrimitivf<Intfgfr, IntConsumfr, Splitfrbtor.OfInt>
+                implfmfnts Splitfrbtor.OfInt {
 
-            OfLong(Supplier<Spliterator.OfLong> supplier) {
-                super(supplier);
+            OfInt(Supplifr<Splitfrbtor.OfInt> supplifr) {
+                supfr(supplifr);
             }
         }
 
-        static final class OfDouble
-                extends OfPrimitive<Double, DoubleConsumer, Spliterator.OfDouble>
-                implements Spliterator.OfDouble {
+        stbtid finbl dlbss OfLong
+                fxtfnds OfPrimitivf<Long, LongConsumfr, Splitfrbtor.OfLong>
+                implfmfnts Splitfrbtor.OfLong {
 
-            OfDouble(Supplier<Spliterator.OfDouble> supplier) {
-                super(supplier);
+            OfLong(Supplifr<Splitfrbtor.OfLong> supplifr) {
+                supfr(supplifr);
+            }
+        }
+
+        stbtid finbl dlbss OfDoublf
+                fxtfnds OfPrimitivf<Doublf, DoublfConsumfr, Splitfrbtor.OfDoublf>
+                implfmfnts Splitfrbtor.OfDoublf {
+
+            OfDoublf(Supplifr<Splitfrbtor.OfDoublf> supplifr) {
+                supfr(supplifr);
             }
         }
     }
 
     /**
-     * A slice Spliterator from a source Spliterator that reports
-     * {@code SUBSIZED}.
+     * A slidf Splitfrbtor from b sourdf Splitfrbtor tibt rfports
+     * {@dodf SUBSIZED}.
      *
      */
-    static abstract class SliceSpliterator<T, T_SPLITR extends Spliterator<T>> {
-        // The start index of the slice
-        final long sliceOrigin;
-        // One past the last index of the slice
-        final long sliceFence;
+    stbtid bbstrbdt dlbss SlidfSplitfrbtor<T, T_SPLITR fxtfnds Splitfrbtor<T>> {
+        // Tif stbrt indfx of tif slidf
+        finbl long slidfOrigin;
+        // Onf pbst tif lbst indfx of tif slidf
+        finbl long slidfFfndf;
 
-        // The spliterator to slice
+        // Tif splitfrbtor to slidf
         T_SPLITR s;
-        // current (absolute) index, modified on advance/split
-        long index;
-        // one past last (absolute) index or sliceFence, which ever is smaller
-        long fence;
+        // durrfnt (bbsolutf) indfx, modififd on bdvbndf/split
+        long indfx;
+        // onf pbst lbst (bbsolutf) indfx or slidfFfndf, wiidi fvfr is smbllfr
+        long ffndf;
 
-        SliceSpliterator(T_SPLITR s, long sliceOrigin, long sliceFence, long origin, long fence) {
-            assert s.hasCharacteristics(Spliterator.SUBSIZED);
-            this.s = s;
-            this.sliceOrigin = sliceOrigin;
-            this.sliceFence = sliceFence;
-            this.index = origin;
-            this.fence = fence;
+        SlidfSplitfrbtor(T_SPLITR s, long slidfOrigin, long slidfFfndf, long origin, long ffndf) {
+            bssfrt s.ibsCibrbdtfristids(Splitfrbtor.SUBSIZED);
+            tiis.s = s;
+            tiis.slidfOrigin = slidfOrigin;
+            tiis.slidfFfndf = slidfFfndf;
+            tiis.indfx = origin;
+            tiis.ffndf = ffndf;
         }
 
-        protected abstract T_SPLITR makeSpliterator(T_SPLITR s, long sliceOrigin, long sliceFence, long origin, long fence);
+        protfdtfd bbstrbdt T_SPLITR mbkfSplitfrbtor(T_SPLITR s, long slidfOrigin, long slidfFfndf, long origin, long ffndf);
 
-        public T_SPLITR trySplit() {
-            if (sliceOrigin >= fence)
-                return null;
+        publid T_SPLITR trySplit() {
+            if (slidfOrigin >= ffndf)
+                rfturn null;
 
-            if (index >= fence)
-                return null;
+            if (indfx >= ffndf)
+                rfturn null;
 
-            // Keep splitting until the left and right splits intersect with the slice
-            // thereby ensuring the size estimate decreases.
-            // This also avoids creating empty spliterators which can result in
-            // existing and additionally created F/J tasks that perform
-            // redundant work on no elements.
-            while (true) {
-                @SuppressWarnings("unchecked")
-                T_SPLITR leftSplit = (T_SPLITR) s.trySplit();
-                if (leftSplit == null)
-                    return null;
+            // Kffp splitting until tif lfft bnd rigit splits intfrsfdt witi tif slidf
+            // tifrfby fnsuring tif sizf fstimbtf dfdrfbsfs.
+            // Tiis blso bvoids drfbting fmpty splitfrbtors wiidi dbn rfsult in
+            // fxisting bnd bdditionblly drfbtfd F/J tbsks tibt pfrform
+            // rfdundbnt work on no flfmfnts.
+            wiilf (truf) {
+                @SupprfssWbrnings("undifdkfd")
+                T_SPLITR lfftSplit = (T_SPLITR) s.trySplit();
+                if (lfftSplit == null)
+                    rfturn null;
 
-                long leftSplitFenceUnbounded = index + leftSplit.estimateSize();
-                long leftSplitFence = Math.min(leftSplitFenceUnbounded, sliceFence);
-                if (sliceOrigin >= leftSplitFence) {
-                    // The left split does not intersect with, and is to the left of, the slice
-                    // The right split does intersect
-                    // Discard the left split and split further with the right split
-                    index = leftSplitFence;
+                long lfftSplitFfndfUnboundfd = indfx + lfftSplit.fstimbtfSizf();
+                long lfftSplitFfndf = Mbti.min(lfftSplitFfndfUnboundfd, slidfFfndf);
+                if (slidfOrigin >= lfftSplitFfndf) {
+                    // Tif lfft split dofs not intfrsfdt witi, bnd is to tif lfft of, tif slidf
+                    // Tif rigit split dofs intfrsfdt
+                    // Disdbrd tif lfft split bnd split furtifr witi tif rigit split
+                    indfx = lfftSplitFfndf;
                 }
-                else if (leftSplitFence >= sliceFence) {
-                    // The right split does not intersect with, and is to the right of, the slice
-                    // The left split does intersect
-                    // Discard the right split and split further with the left split
-                    s = leftSplit;
-                    fence = leftSplitFence;
+                flsf if (lfftSplitFfndf >= slidfFfndf) {
+                    // Tif rigit split dofs not intfrsfdt witi, bnd is to tif rigit of, tif slidf
+                    // Tif lfft split dofs intfrsfdt
+                    // Disdbrd tif rigit split bnd split furtifr witi tif lfft split
+                    s = lfftSplit;
+                    ffndf = lfftSplitFfndf;
                 }
-                else if (index >= sliceOrigin && leftSplitFenceUnbounded <= sliceFence) {
-                    // The left split is contained within the slice, return the underlying left split
-                    // Right split is contained within or intersects with the slice
-                    index = leftSplitFence;
-                    return leftSplit;
-                } else {
-                    // The left split intersects with the slice
-                    // Right split is contained within or intersects with the slice
-                    return makeSpliterator(leftSplit, sliceOrigin, sliceFence, index, index = leftSplitFence);
+                flsf if (indfx >= slidfOrigin && lfftSplitFfndfUnboundfd <= slidfFfndf) {
+                    // Tif lfft split is dontbinfd witiin tif slidf, rfturn tif undfrlying lfft split
+                    // Rigit split is dontbinfd witiin or intfrsfdts witi tif slidf
+                    indfx = lfftSplitFfndf;
+                    rfturn lfftSplit;
+                } flsf {
+                    // Tif lfft split intfrsfdts witi tif slidf
+                    // Rigit split is dontbinfd witiin or intfrsfdts witi tif slidf
+                    rfturn mbkfSplitfrbtor(lfftSplit, slidfOrigin, slidfFfndf, indfx, indfx = lfftSplitFfndf);
                 }
             }
         }
 
-        public long estimateSize() {
-            return (sliceOrigin < fence)
-                   ? fence - Math.max(sliceOrigin, index) : 0;
+        publid long fstimbtfSizf() {
+            rfturn (slidfOrigin < ffndf)
+                   ? ffndf - Mbti.mbx(slidfOrigin, indfx) : 0;
         }
 
-        public int characteristics() {
-            return s.characteristics();
+        publid int dibrbdtfristids() {
+            rfturn s.dibrbdtfristids();
         }
 
-        static final class OfRef<T>
-                extends SliceSpliterator<T, Spliterator<T>>
-                implements Spliterator<T> {
+        stbtid finbl dlbss OfRff<T>
+                fxtfnds SlidfSplitfrbtor<T, Splitfrbtor<T>>
+                implfmfnts Splitfrbtor<T> {
 
-            OfRef(Spliterator<T> s, long sliceOrigin, long sliceFence) {
-                this(s, sliceOrigin, sliceFence, 0, Math.min(s.estimateSize(), sliceFence));
+            OfRff(Splitfrbtor<T> s, long slidfOrigin, long slidfFfndf) {
+                tiis(s, slidfOrigin, slidfFfndf, 0, Mbti.min(s.fstimbtfSizf(), slidfFfndf));
             }
 
-            private OfRef(Spliterator<T> s,
-                          long sliceOrigin, long sliceFence, long origin, long fence) {
-                super(s, sliceOrigin, sliceFence, origin, fence);
+            privbtf OfRff(Splitfrbtor<T> s,
+                          long slidfOrigin, long slidfFfndf, long origin, long ffndf) {
+                supfr(s, slidfOrigin, slidfFfndf, origin, ffndf);
             }
 
-            @Override
-            protected Spliterator<T> makeSpliterator(Spliterator<T> s,
-                                                     long sliceOrigin, long sliceFence,
-                                                     long origin, long fence) {
-                return new OfRef<>(s, sliceOrigin, sliceFence, origin, fence);
+            @Ovfrridf
+            protfdtfd Splitfrbtor<T> mbkfSplitfrbtor(Splitfrbtor<T> s,
+                                                     long slidfOrigin, long slidfFfndf,
+                                                     long origin, long ffndf) {
+                rfturn nfw OfRff<>(s, slidfOrigin, slidfFfndf, origin, ffndf);
             }
 
-            @Override
-            public boolean tryAdvance(Consumer<? super T> action) {
-                Objects.requireNonNull(action);
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(Consumfr<? supfr T> bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
 
-                if (sliceOrigin >= fence)
-                    return false;
+                if (slidfOrigin >= ffndf)
+                    rfturn fblsf;
 
-                while (sliceOrigin > index) {
-                    s.tryAdvance(e -> {});
-                    index++;
+                wiilf (slidfOrigin > indfx) {
+                    s.tryAdvbndf(f -> {});
+                    indfx++;
                 }
 
-                if (index >= fence)
-                    return false;
+                if (indfx >= ffndf)
+                    rfturn fblsf;
 
-                index++;
-                return s.tryAdvance(action);
+                indfx++;
+                rfturn s.tryAdvbndf(bdtion);
             }
 
-            @Override
-            public void forEachRemaining(Consumer<? super T> action) {
-                Objects.requireNonNull(action);
+            @Ovfrridf
+            publid void forEbdiRfmbining(Consumfr<? supfr T> bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
 
-                if (sliceOrigin >= fence)
-                    return;
+                if (slidfOrigin >= ffndf)
+                    rfturn;
 
-                if (index >= fence)
-                    return;
+                if (indfx >= ffndf)
+                    rfturn;
 
-                if (index >= sliceOrigin && (index + s.estimateSize()) <= sliceFence) {
-                    // The spliterator is contained within the slice
-                    s.forEachRemaining(action);
-                    index = fence;
-                } else {
-                    // The spliterator intersects with the slice
-                    while (sliceOrigin > index) {
-                        s.tryAdvance(e -> {});
-                        index++;
+                if (indfx >= slidfOrigin && (indfx + s.fstimbtfSizf()) <= slidfFfndf) {
+                    // Tif splitfrbtor is dontbinfd witiin tif slidf
+                    s.forEbdiRfmbining(bdtion);
+                    indfx = ffndf;
+                } flsf {
+                    // Tif splitfrbtor intfrsfdts witi tif slidf
+                    wiilf (slidfOrigin > indfx) {
+                        s.tryAdvbndf(f -> {});
+                        indfx++;
                     }
-                    // Traverse elements up to the fence
-                    for (;index < fence; index++) {
-                        s.tryAdvance(action);
+                    // Trbvfrsf flfmfnts up to tif ffndf
+                    for (;indfx < ffndf; indfx++) {
+                        s.tryAdvbndf(bdtion);
                     }
                 }
             }
         }
 
-        static abstract class OfPrimitive<T,
-                T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>,
+        stbtid bbstrbdt dlbss OfPrimitivf<T,
+                T_SPLITR fxtfnds Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR>,
                 T_CONS>
-                extends SliceSpliterator<T, T_SPLITR>
-                implements Spliterator.OfPrimitive<T, T_CONS, T_SPLITR> {
+                fxtfnds SlidfSplitfrbtor<T, T_SPLITR>
+                implfmfnts Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR> {
 
-            OfPrimitive(T_SPLITR s, long sliceOrigin, long sliceFence) {
-                this(s, sliceOrigin, sliceFence, 0, Math.min(s.estimateSize(), sliceFence));
+            OfPrimitivf(T_SPLITR s, long slidfOrigin, long slidfFfndf) {
+                tiis(s, slidfOrigin, slidfFfndf, 0, Mbti.min(s.fstimbtfSizf(), slidfFfndf));
             }
 
-            private OfPrimitive(T_SPLITR s,
-                                long sliceOrigin, long sliceFence, long origin, long fence) {
-                super(s, sliceOrigin, sliceFence, origin, fence);
+            privbtf OfPrimitivf(T_SPLITR s,
+                                long slidfOrigin, long slidfFfndf, long origin, long ffndf) {
+                supfr(s, slidfOrigin, slidfFfndf, origin, ffndf);
             }
 
-            @Override
-            public boolean tryAdvance(T_CONS action) {
-                Objects.requireNonNull(action);
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(T_CONS bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
 
-                if (sliceOrigin >= fence)
-                    return false;
+                if (slidfOrigin >= ffndf)
+                    rfturn fblsf;
 
-                while (sliceOrigin > index) {
-                    s.tryAdvance(emptyConsumer());
-                    index++;
+                wiilf (slidfOrigin > indfx) {
+                    s.tryAdvbndf(fmptyConsumfr());
+                    indfx++;
                 }
 
-                if (index >= fence)
-                    return false;
+                if (indfx >= ffndf)
+                    rfturn fblsf;
 
-                index++;
-                return s.tryAdvance(action);
+                indfx++;
+                rfturn s.tryAdvbndf(bdtion);
             }
 
-            @Override
-            public void forEachRemaining(T_CONS action) {
-                Objects.requireNonNull(action);
+            @Ovfrridf
+            publid void forEbdiRfmbining(T_CONS bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
 
-                if (sliceOrigin >= fence)
-                    return;
+                if (slidfOrigin >= ffndf)
+                    rfturn;
 
-                if (index >= fence)
-                    return;
+                if (indfx >= ffndf)
+                    rfturn;
 
-                if (index >= sliceOrigin && (index + s.estimateSize()) <= sliceFence) {
-                    // The spliterator is contained within the slice
-                    s.forEachRemaining(action);
-                    index = fence;
-                } else {
-                    // The spliterator intersects with the slice
-                    while (sliceOrigin > index) {
-                        s.tryAdvance(emptyConsumer());
-                        index++;
+                if (indfx >= slidfOrigin && (indfx + s.fstimbtfSizf()) <= slidfFfndf) {
+                    // Tif splitfrbtor is dontbinfd witiin tif slidf
+                    s.forEbdiRfmbining(bdtion);
+                    indfx = ffndf;
+                } flsf {
+                    // Tif splitfrbtor intfrsfdts witi tif slidf
+                    wiilf (slidfOrigin > indfx) {
+                        s.tryAdvbndf(fmptyConsumfr());
+                        indfx++;
                     }
-                    // Traverse elements up to the fence
-                    for (;index < fence; index++) {
-                        s.tryAdvance(action);
+                    // Trbvfrsf flfmfnts up to tif ffndf
+                    for (;indfx < ffndf; indfx++) {
+                        s.tryAdvbndf(bdtion);
                     }
                 }
             }
 
-            protected abstract T_CONS emptyConsumer();
+            protfdtfd bbstrbdt T_CONS fmptyConsumfr();
         }
 
-        static final class OfInt extends OfPrimitive<Integer, Spliterator.OfInt, IntConsumer>
-                implements Spliterator.OfInt {
-            OfInt(Spliterator.OfInt s, long sliceOrigin, long sliceFence) {
-                super(s, sliceOrigin, sliceFence);
+        stbtid finbl dlbss OfInt fxtfnds OfPrimitivf<Intfgfr, Splitfrbtor.OfInt, IntConsumfr>
+                implfmfnts Splitfrbtor.OfInt {
+            OfInt(Splitfrbtor.OfInt s, long slidfOrigin, long slidfFfndf) {
+                supfr(s, slidfOrigin, slidfFfndf);
             }
 
-            OfInt(Spliterator.OfInt s,
-                  long sliceOrigin, long sliceFence, long origin, long fence) {
-                super(s, sliceOrigin, sliceFence, origin, fence);
+            OfInt(Splitfrbtor.OfInt s,
+                  long slidfOrigin, long slidfFfndf, long origin, long ffndf) {
+                supfr(s, slidfOrigin, slidfFfndf, origin, ffndf);
             }
 
-            @Override
-            protected Spliterator.OfInt makeSpliterator(Spliterator.OfInt s,
-                                                        long sliceOrigin, long sliceFence,
-                                                        long origin, long fence) {
-                return new SliceSpliterator.OfInt(s, sliceOrigin, sliceFence, origin, fence);
+            @Ovfrridf
+            protfdtfd Splitfrbtor.OfInt mbkfSplitfrbtor(Splitfrbtor.OfInt s,
+                                                        long slidfOrigin, long slidfFfndf,
+                                                        long origin, long ffndf) {
+                rfturn nfw SlidfSplitfrbtor.OfInt(s, slidfOrigin, slidfFfndf, origin, ffndf);
             }
 
-            @Override
-            protected IntConsumer emptyConsumer() {
-                return e -> {};
-            }
-        }
-
-        static final class OfLong extends OfPrimitive<Long, Spliterator.OfLong, LongConsumer>
-                implements Spliterator.OfLong {
-            OfLong(Spliterator.OfLong s, long sliceOrigin, long sliceFence) {
-                super(s, sliceOrigin, sliceFence);
-            }
-
-            OfLong(Spliterator.OfLong s,
-                   long sliceOrigin, long sliceFence, long origin, long fence) {
-                super(s, sliceOrigin, sliceFence, origin, fence);
-            }
-
-            @Override
-            protected Spliterator.OfLong makeSpliterator(Spliterator.OfLong s,
-                                                         long sliceOrigin, long sliceFence,
-                                                         long origin, long fence) {
-                return new SliceSpliterator.OfLong(s, sliceOrigin, sliceFence, origin, fence);
-            }
-
-            @Override
-            protected LongConsumer emptyConsumer() {
-                return e -> {};
+            @Ovfrridf
+            protfdtfd IntConsumfr fmptyConsumfr() {
+                rfturn f -> {};
             }
         }
 
-        static final class OfDouble extends OfPrimitive<Double, Spliterator.OfDouble, DoubleConsumer>
-                implements Spliterator.OfDouble {
-            OfDouble(Spliterator.OfDouble s, long sliceOrigin, long sliceFence) {
-                super(s, sliceOrigin, sliceFence);
+        stbtid finbl dlbss OfLong fxtfnds OfPrimitivf<Long, Splitfrbtor.OfLong, LongConsumfr>
+                implfmfnts Splitfrbtor.OfLong {
+            OfLong(Splitfrbtor.OfLong s, long slidfOrigin, long slidfFfndf) {
+                supfr(s, slidfOrigin, slidfFfndf);
             }
 
-            OfDouble(Spliterator.OfDouble s,
-                     long sliceOrigin, long sliceFence, long origin, long fence) {
-                super(s, sliceOrigin, sliceFence, origin, fence);
+            OfLong(Splitfrbtor.OfLong s,
+                   long slidfOrigin, long slidfFfndf, long origin, long ffndf) {
+                supfr(s, slidfOrigin, slidfFfndf, origin, ffndf);
             }
 
-            @Override
-            protected Spliterator.OfDouble makeSpliterator(Spliterator.OfDouble s,
-                                                           long sliceOrigin, long sliceFence,
-                                                           long origin, long fence) {
-                return new SliceSpliterator.OfDouble(s, sliceOrigin, sliceFence, origin, fence);
+            @Ovfrridf
+            protfdtfd Splitfrbtor.OfLong mbkfSplitfrbtor(Splitfrbtor.OfLong s,
+                                                         long slidfOrigin, long slidfFfndf,
+                                                         long origin, long ffndf) {
+                rfturn nfw SlidfSplitfrbtor.OfLong(s, slidfOrigin, slidfFfndf, origin, ffndf);
             }
 
-            @Override
-            protected DoubleConsumer emptyConsumer() {
-                return e -> {};
+            @Ovfrridf
+            protfdtfd LongConsumfr fmptyConsumfr() {
+                rfturn f -> {};
+            }
+        }
+
+        stbtid finbl dlbss OfDoublf fxtfnds OfPrimitivf<Doublf, Splitfrbtor.OfDoublf, DoublfConsumfr>
+                implfmfnts Splitfrbtor.OfDoublf {
+            OfDoublf(Splitfrbtor.OfDoublf s, long slidfOrigin, long slidfFfndf) {
+                supfr(s, slidfOrigin, slidfFfndf);
+            }
+
+            OfDoublf(Splitfrbtor.OfDoublf s,
+                     long slidfOrigin, long slidfFfndf, long origin, long ffndf) {
+                supfr(s, slidfOrigin, slidfFfndf, origin, ffndf);
+            }
+
+            @Ovfrridf
+            protfdtfd Splitfrbtor.OfDoublf mbkfSplitfrbtor(Splitfrbtor.OfDoublf s,
+                                                           long slidfOrigin, long slidfFfndf,
+                                                           long origin, long ffndf) {
+                rfturn nfw SlidfSplitfrbtor.OfDoublf(s, slidfOrigin, slidfFfndf, origin, ffndf);
+            }
+
+            @Ovfrridf
+            protfdtfd DoublfConsumfr fmptyConsumfr() {
+                rfturn f -> {};
             }
         }
     }
 
     /**
-     * A slice Spliterator that does not preserve order, if any, of a source
-     * Spliterator.
+     * A slidf Splitfrbtor tibt dofs not prfsfrvf ordfr, if bny, of b sourdf
+     * Splitfrbtor.
      *
-     * Note: The source spliterator may report {@code ORDERED} since that
-     * spliterator be the result of a previous pipeline stage that was
-     * collected to a {@code Node}. It is the order of the pipeline stage
-     * that governs whether the this slice spliterator is to be used or not.
+     * Notf: Tif sourdf splitfrbtor mby rfport {@dodf ORDERED} sindf tibt
+     * splitfrbtor bf tif rfsult of b prfvious pipflinf stbgf tibt wbs
+     * dollfdtfd to b {@dodf Nodf}. It is tif ordfr of tif pipflinf stbgf
+     * tibt govfrns wiftifr tif tiis slidf splitfrbtor is to bf usfd or not.
      */
-    static abstract class UnorderedSliceSpliterator<T, T_SPLITR extends Spliterator<T>> {
-        static final int CHUNK_SIZE = 1 << 7;
+    stbtid bbstrbdt dlbss UnordfrfdSlidfSplitfrbtor<T, T_SPLITR fxtfnds Splitfrbtor<T>> {
+        stbtid finbl int CHUNK_SIZE = 1 << 7;
 
-        // The spliterator to slice
-        protected final T_SPLITR s;
-        protected final boolean unlimited;
-        private final long skipThreshold;
-        private final AtomicLong permits;
+        // Tif splitfrbtor to slidf
+        protfdtfd finbl T_SPLITR s;
+        protfdtfd finbl boolfbn unlimitfd;
+        privbtf finbl long skipTirfsiold;
+        privbtf finbl AtomidLong pfrmits;
 
-        UnorderedSliceSpliterator(T_SPLITR s, long skip, long limit) {
-            this.s = s;
-            this.unlimited = limit < 0;
-            this.skipThreshold = limit >= 0 ? limit : 0;
-            this.permits = new AtomicLong(limit >= 0 ? skip + limit : skip);
+        UnordfrfdSlidfSplitfrbtor(T_SPLITR s, long skip, long limit) {
+            tiis.s = s;
+            tiis.unlimitfd = limit < 0;
+            tiis.skipTirfsiold = limit >= 0 ? limit : 0;
+            tiis.pfrmits = nfw AtomidLong(limit >= 0 ? skip + limit : skip);
         }
 
-        UnorderedSliceSpliterator(T_SPLITR s,
-                                  UnorderedSliceSpliterator<T, T_SPLITR> parent) {
-            this.s = s;
-            this.unlimited = parent.unlimited;
-            this.permits = parent.permits;
-            this.skipThreshold = parent.skipThreshold;
+        UnordfrfdSlidfSplitfrbtor(T_SPLITR s,
+                                  UnordfrfdSlidfSplitfrbtor<T, T_SPLITR> pbrfnt) {
+            tiis.s = s;
+            tiis.unlimitfd = pbrfnt.unlimitfd;
+            tiis.pfrmits = pbrfnt.pfrmits;
+            tiis.skipTirfsiold = pbrfnt.skipTirfsiold;
         }
 
         /**
-         * Acquire permission to skip or process elements.  The caller must
-         * first acquire the elements, then consult this method for guidance
-         * as to what to do with the data.
+         * Adquirf pfrmission to skip or prodfss flfmfnts.  Tif dbllfr must
+         * first bdquirf tif flfmfnts, tifn donsult tiis mftiod for guidbndf
+         * bs to wibt to do witi tif dbtb.
          *
-         * <p>We use an {@code AtomicLong} to atomically maintain a counter,
-         * which is initialized as skip+limit if we are limiting, or skip only
-         * if we are not limiting.  The user should consult the method
-         * {@code checkPermits()} before acquiring data elements.
+         * <p>Wf usf bn {@dodf AtomidLong} to btomidblly mbintbin b dountfr,
+         * wiidi is initiblizfd bs skip+limit if wf brf limiting, or skip only
+         * if wf brf not limiting.  Tif usfr siould donsult tif mftiod
+         * {@dodf difdkPfrmits()} bfforf bdquiring dbtb flfmfnts.
          *
-         * @param numElements the number of elements the caller has in hand
-         * @return the number of elements that should be processed; any
-         * remaining elements should be discarded.
+         * @pbrbm numElfmfnts tif numbfr of flfmfnts tif dbllfr ibs in ibnd
+         * @rfturn tif numbfr of flfmfnts tibt siould bf prodfssfd; bny
+         * rfmbining flfmfnts siould bf disdbrdfd.
          */
-        protected final long acquirePermits(long numElements) {
-            long remainingPermits;
-            long grabbing;
-            // permits never increase, and don't decrease below zero
-            assert numElements > 0;
+        protfdtfd finbl long bdquirfPfrmits(long numElfmfnts) {
+            long rfmbiningPfrmits;
+            long grbbbing;
+            // pfrmits nfvfr indrfbsf, bnd don't dfdrfbsf bflow zfro
+            bssfrt numElfmfnts > 0;
             do {
-                remainingPermits = permits.get();
-                if (remainingPermits == 0)
-                    return unlimited ? numElements : 0;
-                grabbing = Math.min(remainingPermits, numElements);
-            } while (grabbing > 0 &&
-                     !permits.compareAndSet(remainingPermits, remainingPermits - grabbing));
+                rfmbiningPfrmits = pfrmits.gft();
+                if (rfmbiningPfrmits == 0)
+                    rfturn unlimitfd ? numElfmfnts : 0;
+                grbbbing = Mbti.min(rfmbiningPfrmits, numElfmfnts);
+            } wiilf (grbbbing > 0 &&
+                     !pfrmits.dompbrfAndSft(rfmbiningPfrmits, rfmbiningPfrmits - grbbbing));
 
-            if (unlimited)
-                return Math.max(numElements - grabbing, 0);
-            else if (remainingPermits > skipThreshold)
-                return Math.max(grabbing - (remainingPermits - skipThreshold), 0);
-            else
-                return grabbing;
+            if (unlimitfd)
+                rfturn Mbti.mbx(numElfmfnts - grbbbing, 0);
+            flsf if (rfmbiningPfrmits > skipTirfsiold)
+                rfturn Mbti.mbx(grbbbing - (rfmbiningPfrmits - skipTirfsiold), 0);
+            flsf
+                rfturn grbbbing;
         }
 
-        enum PermitStatus { NO_MORE, MAYBE_MORE, UNLIMITED }
+        fnum PfrmitStbtus { NO_MORE, MAYBE_MORE, UNLIMITED }
 
-        /** Call to check if permits might be available before acquiring data */
-        protected final PermitStatus permitStatus() {
-            if (permits.get() > 0)
-                return PermitStatus.MAYBE_MORE;
-            else
-                return unlimited ?  PermitStatus.UNLIMITED : PermitStatus.NO_MORE;
+        /** Cbll to difdk if pfrmits migit bf bvbilbblf bfforf bdquiring dbtb */
+        protfdtfd finbl PfrmitStbtus pfrmitStbtus() {
+            if (pfrmits.gft() > 0)
+                rfturn PfrmitStbtus.MAYBE_MORE;
+            flsf
+                rfturn unlimitfd ?  PfrmitStbtus.UNLIMITED : PfrmitStbtus.NO_MORE;
         }
 
-        public final T_SPLITR trySplit() {
-            // Stop splitting when there are no more limit permits
-            if (permits.get() == 0)
-                return null;
-            @SuppressWarnings("unchecked")
+        publid finbl T_SPLITR trySplit() {
+            // Stop splitting wifn tifrf brf no morf limit pfrmits
+            if (pfrmits.gft() == 0)
+                rfturn null;
+            @SupprfssWbrnings("undifdkfd")
             T_SPLITR split = (T_SPLITR) s.trySplit();
-            return split == null ? null : makeSpliterator(split);
+            rfturn split == null ? null : mbkfSplitfrbtor(split);
         }
 
-        protected abstract T_SPLITR makeSpliterator(T_SPLITR s);
+        protfdtfd bbstrbdt T_SPLITR mbkfSplitfrbtor(T_SPLITR s);
 
-        public final long estimateSize() {
-            return s.estimateSize();
+        publid finbl long fstimbtfSizf() {
+            rfturn s.fstimbtfSizf();
         }
 
-        public final int characteristics() {
-            return s.characteristics() &
-                   ~(Spliterator.SIZED | Spliterator.SUBSIZED | Spliterator.ORDERED);
+        publid finbl int dibrbdtfristids() {
+            rfturn s.dibrbdtfristids() &
+                   ~(Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED | Splitfrbtor.ORDERED);
         }
 
-        static final class OfRef<T> extends UnorderedSliceSpliterator<T, Spliterator<T>>
-                implements Spliterator<T>, Consumer<T> {
+        stbtid finbl dlbss OfRff<T> fxtfnds UnordfrfdSlidfSplitfrbtor<T, Splitfrbtor<T>>
+                implfmfnts Splitfrbtor<T>, Consumfr<T> {
             T tmpSlot;
 
-            OfRef(Spliterator<T> s, long skip, long limit) {
-                super(s, skip, limit);
+            OfRff(Splitfrbtor<T> s, long skip, long limit) {
+                supfr(s, skip, limit);
             }
 
-            OfRef(Spliterator<T> s, OfRef<T> parent) {
-                super(s, parent);
+            OfRff(Splitfrbtor<T> s, OfRff<T> pbrfnt) {
+                supfr(s, pbrfnt);
             }
 
-            @Override
-            public final void accept(T t) {
+            @Ovfrridf
+            publid finbl void bddfpt(T t) {
                 tmpSlot = t;
             }
 
-            @Override
-            public boolean tryAdvance(Consumer<? super T> action) {
-                Objects.requireNonNull(action);
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(Consumfr<? supfr T> bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
 
-                while (permitStatus() != PermitStatus.NO_MORE) {
-                    if (!s.tryAdvance(this))
-                        return false;
-                    else if (acquirePermits(1) == 1) {
-                        action.accept(tmpSlot);
+                wiilf (pfrmitStbtus() != PfrmitStbtus.NO_MORE) {
+                    if (!s.tryAdvbndf(tiis))
+                        rfturn fblsf;
+                    flsf if (bdquirfPfrmits(1) == 1) {
+                        bdtion.bddfpt(tmpSlot);
                         tmpSlot = null;
-                        return true;
+                        rfturn truf;
                     }
                 }
-                return false;
+                rfturn fblsf;
             }
 
-            @Override
-            public void forEachRemaining(Consumer<? super T> action) {
-                Objects.requireNonNull(action);
+            @Ovfrridf
+            publid void forEbdiRfmbining(Consumfr<? supfr T> bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
 
-                ArrayBuffer.OfRef<T> sb = null;
-                PermitStatus permitStatus;
-                while ((permitStatus = permitStatus()) != PermitStatus.NO_MORE) {
-                    if (permitStatus == PermitStatus.MAYBE_MORE) {
-                        // Optimistically traverse elements up to a threshold of CHUNK_SIZE
+                ArrbyBufffr.OfRff<T> sb = null;
+                PfrmitStbtus pfrmitStbtus;
+                wiilf ((pfrmitStbtus = pfrmitStbtus()) != PfrmitStbtus.NO_MORE) {
+                    if (pfrmitStbtus == PfrmitStbtus.MAYBE_MORE) {
+                        // Optimistidblly trbvfrsf flfmfnts up to b tirfsiold of CHUNK_SIZE
                         if (sb == null)
-                            sb = new ArrayBuffer.OfRef<>(CHUNK_SIZE);
-                        else
-                            sb.reset();
-                        long permitsRequested = 0;
-                        do { } while (s.tryAdvance(sb) && ++permitsRequested < CHUNK_SIZE);
-                        if (permitsRequested == 0)
-                            return;
-                        sb.forEach(action, acquirePermits(permitsRequested));
+                            sb = nfw ArrbyBufffr.OfRff<>(CHUNK_SIZE);
+                        flsf
+                            sb.rfsft();
+                        long pfrmitsRfqufstfd = 0;
+                        do { } wiilf (s.tryAdvbndf(sb) && ++pfrmitsRfqufstfd < CHUNK_SIZE);
+                        if (pfrmitsRfqufstfd == 0)
+                            rfturn;
+                        sb.forEbdi(bdtion, bdquirfPfrmits(pfrmitsRfqufstfd));
                     }
-                    else {
-                        // Must be UNLIMITED; let 'er rip
-                        s.forEachRemaining(action);
-                        return;
+                    flsf {
+                        // Must bf UNLIMITED; lft 'fr rip
+                        s.forEbdiRfmbining(bdtion);
+                        rfturn;
                     }
                 }
             }
 
-            @Override
-            protected Spliterator<T> makeSpliterator(Spliterator<T> s) {
-                return new UnorderedSliceSpliterator.OfRef<>(s, this);
+            @Ovfrridf
+            protfdtfd Splitfrbtor<T> mbkfSplitfrbtor(Splitfrbtor<T> s) {
+                rfturn nfw UnordfrfdSlidfSplitfrbtor.OfRff<>(s, tiis);
             }
         }
 
         /**
-         * Concrete sub-types must also be an instance of type {@code T_CONS}.
+         * Condrftf sub-typfs must blso bf bn instbndf of typf {@dodf T_CONS}.
          *
-         * @param <T_BUFF> the type of the spined buffer. Must also be a type of
-         *        {@code T_CONS}.
+         * @pbrbm <T_BUFF> tif typf of tif spinfd bufffr. Must blso bf b typf of
+         *        {@dodf T_CONS}.
          */
-        static abstract class OfPrimitive<
+        stbtid bbstrbdt dlbss OfPrimitivf<
                 T,
                 T_CONS,
-                T_BUFF extends ArrayBuffer.OfPrimitive<T_CONS>,
-                T_SPLITR extends Spliterator.OfPrimitive<T, T_CONS, T_SPLITR>>
-                extends UnorderedSliceSpliterator<T, T_SPLITR>
-                implements Spliterator.OfPrimitive<T, T_CONS, T_SPLITR> {
-            OfPrimitive(T_SPLITR s, long skip, long limit) {
-                super(s, skip, limit);
+                T_BUFF fxtfnds ArrbyBufffr.OfPrimitivf<T_CONS>,
+                T_SPLITR fxtfnds Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR>>
+                fxtfnds UnordfrfdSlidfSplitfrbtor<T, T_SPLITR>
+                implfmfnts Splitfrbtor.OfPrimitivf<T, T_CONS, T_SPLITR> {
+            OfPrimitivf(T_SPLITR s, long skip, long limit) {
+                supfr(s, skip, limit);
             }
 
-            OfPrimitive(T_SPLITR s, UnorderedSliceSpliterator.OfPrimitive<T, T_CONS, T_BUFF, T_SPLITR> parent) {
-                super(s, parent);
+            OfPrimitivf(T_SPLITR s, UnordfrfdSlidfSplitfrbtor.OfPrimitivf<T, T_CONS, T_BUFF, T_SPLITR> pbrfnt) {
+                supfr(s, pbrfnt);
             }
 
-            @Override
-            public boolean tryAdvance(T_CONS action) {
-                Objects.requireNonNull(action);
-                @SuppressWarnings("unchecked")
-                T_CONS consumer = (T_CONS) this;
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(T_CONS bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
+                @SupprfssWbrnings("undifdkfd")
+                T_CONS donsumfr = (T_CONS) tiis;
 
-                while (permitStatus() != PermitStatus.NO_MORE) {
-                    if (!s.tryAdvance(consumer))
-                        return false;
-                    else if (acquirePermits(1) == 1) {
-                        acceptConsumed(action);
-                        return true;
+                wiilf (pfrmitStbtus() != PfrmitStbtus.NO_MORE) {
+                    if (!s.tryAdvbndf(donsumfr))
+                        rfturn fblsf;
+                    flsf if (bdquirfPfrmits(1) == 1) {
+                        bddfptConsumfd(bdtion);
+                        rfturn truf;
                     }
                 }
-                return false;
+                rfturn fblsf;
             }
 
-            protected abstract void acceptConsumed(T_CONS action);
+            protfdtfd bbstrbdt void bddfptConsumfd(T_CONS bdtion);
 
-            @Override
-            public void forEachRemaining(T_CONS action) {
-                Objects.requireNonNull(action);
+            @Ovfrridf
+            publid void forEbdiRfmbining(T_CONS bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
 
                 T_BUFF sb = null;
-                PermitStatus permitStatus;
-                while ((permitStatus = permitStatus()) != PermitStatus.NO_MORE) {
-                    if (permitStatus == PermitStatus.MAYBE_MORE) {
-                        // Optimistically traverse elements up to a threshold of CHUNK_SIZE
+                PfrmitStbtus pfrmitStbtus;
+                wiilf ((pfrmitStbtus = pfrmitStbtus()) != PfrmitStbtus.NO_MORE) {
+                    if (pfrmitStbtus == PfrmitStbtus.MAYBE_MORE) {
+                        // Optimistidblly trbvfrsf flfmfnts up to b tirfsiold of CHUNK_SIZE
                         if (sb == null)
-                            sb = bufferCreate(CHUNK_SIZE);
-                        else
-                            sb.reset();
-                        @SuppressWarnings("unchecked")
-                        T_CONS sbc = (T_CONS) sb;
-                        long permitsRequested = 0;
-                        do { } while (s.tryAdvance(sbc) && ++permitsRequested < CHUNK_SIZE);
-                        if (permitsRequested == 0)
-                            return;
-                        sb.forEach(action, acquirePermits(permitsRequested));
+                            sb = bufffrCrfbtf(CHUNK_SIZE);
+                        flsf
+                            sb.rfsft();
+                        @SupprfssWbrnings("undifdkfd")
+                        T_CONS sbd = (T_CONS) sb;
+                        long pfrmitsRfqufstfd = 0;
+                        do { } wiilf (s.tryAdvbndf(sbd) && ++pfrmitsRfqufstfd < CHUNK_SIZE);
+                        if (pfrmitsRfqufstfd == 0)
+                            rfturn;
+                        sb.forEbdi(bdtion, bdquirfPfrmits(pfrmitsRfqufstfd));
                     }
-                    else {
-                        // Must be UNLIMITED; let 'er rip
-                        s.forEachRemaining(action);
-                        return;
+                    flsf {
+                        // Must bf UNLIMITED; lft 'fr rip
+                        s.forEbdiRfmbining(bdtion);
+                        rfturn;
                     }
                 }
             }
 
-            protected abstract T_BUFF bufferCreate(int initialCapacity);
+            protfdtfd bbstrbdt T_BUFF bufffrCrfbtf(int initiblCbpbdity);
         }
 
-        static final class OfInt
-                extends OfPrimitive<Integer, IntConsumer, ArrayBuffer.OfInt, Spliterator.OfInt>
-                implements Spliterator.OfInt, IntConsumer {
+        stbtid finbl dlbss OfInt
+                fxtfnds OfPrimitivf<Intfgfr, IntConsumfr, ArrbyBufffr.OfInt, Splitfrbtor.OfInt>
+                implfmfnts Splitfrbtor.OfInt, IntConsumfr {
 
-            int tmpValue;
+            int tmpVbluf;
 
-            OfInt(Spliterator.OfInt s, long skip, long limit) {
-                super(s, skip, limit);
+            OfInt(Splitfrbtor.OfInt s, long skip, long limit) {
+                supfr(s, skip, limit);
             }
 
-            OfInt(Spliterator.OfInt s, UnorderedSliceSpliterator.OfInt parent) {
-                super(s, parent);
+            OfInt(Splitfrbtor.OfInt s, UnordfrfdSlidfSplitfrbtor.OfInt pbrfnt) {
+                supfr(s, pbrfnt);
             }
 
-            @Override
-            public void accept(int value) {
-                tmpValue = value;
+            @Ovfrridf
+            publid void bddfpt(int vbluf) {
+                tmpVbluf = vbluf;
             }
 
-            @Override
-            protected void acceptConsumed(IntConsumer action) {
-                action.accept(tmpValue);
+            @Ovfrridf
+            protfdtfd void bddfptConsumfd(IntConsumfr bdtion) {
+                bdtion.bddfpt(tmpVbluf);
             }
 
-            @Override
-            protected ArrayBuffer.OfInt bufferCreate(int initialCapacity) {
-                return new ArrayBuffer.OfInt(initialCapacity);
+            @Ovfrridf
+            protfdtfd ArrbyBufffr.OfInt bufffrCrfbtf(int initiblCbpbdity) {
+                rfturn nfw ArrbyBufffr.OfInt(initiblCbpbdity);
             }
 
-            @Override
-            protected Spliterator.OfInt makeSpliterator(Spliterator.OfInt s) {
-                return new UnorderedSliceSpliterator.OfInt(s, this);
-            }
-        }
-
-        static final class OfLong
-                extends OfPrimitive<Long, LongConsumer, ArrayBuffer.OfLong, Spliterator.OfLong>
-                implements Spliterator.OfLong, LongConsumer {
-
-            long tmpValue;
-
-            OfLong(Spliterator.OfLong s, long skip, long limit) {
-                super(s, skip, limit);
-            }
-
-            OfLong(Spliterator.OfLong s, UnorderedSliceSpliterator.OfLong parent) {
-                super(s, parent);
-            }
-
-            @Override
-            public void accept(long value) {
-                tmpValue = value;
-            }
-
-            @Override
-            protected void acceptConsumed(LongConsumer action) {
-                action.accept(tmpValue);
-            }
-
-            @Override
-            protected ArrayBuffer.OfLong bufferCreate(int initialCapacity) {
-                return new ArrayBuffer.OfLong(initialCapacity);
-            }
-
-            @Override
-            protected Spliterator.OfLong makeSpliterator(Spliterator.OfLong s) {
-                return new UnorderedSliceSpliterator.OfLong(s, this);
+            @Ovfrridf
+            protfdtfd Splitfrbtor.OfInt mbkfSplitfrbtor(Splitfrbtor.OfInt s) {
+                rfturn nfw UnordfrfdSlidfSplitfrbtor.OfInt(s, tiis);
             }
         }
 
-        static final class OfDouble
-                extends OfPrimitive<Double, DoubleConsumer, ArrayBuffer.OfDouble, Spliterator.OfDouble>
-                implements Spliterator.OfDouble, DoubleConsumer {
+        stbtid finbl dlbss OfLong
+                fxtfnds OfPrimitivf<Long, LongConsumfr, ArrbyBufffr.OfLong, Splitfrbtor.OfLong>
+                implfmfnts Splitfrbtor.OfLong, LongConsumfr {
 
-            double tmpValue;
+            long tmpVbluf;
 
-            OfDouble(Spliterator.OfDouble s, long skip, long limit) {
-                super(s, skip, limit);
+            OfLong(Splitfrbtor.OfLong s, long skip, long limit) {
+                supfr(s, skip, limit);
             }
 
-            OfDouble(Spliterator.OfDouble s, UnorderedSliceSpliterator.OfDouble parent) {
-                super(s, parent);
+            OfLong(Splitfrbtor.OfLong s, UnordfrfdSlidfSplitfrbtor.OfLong pbrfnt) {
+                supfr(s, pbrfnt);
             }
 
-            @Override
-            public void accept(double value) {
-                tmpValue = value;
+            @Ovfrridf
+            publid void bddfpt(long vbluf) {
+                tmpVbluf = vbluf;
             }
 
-            @Override
-            protected void acceptConsumed(DoubleConsumer action) {
-                action.accept(tmpValue);
+            @Ovfrridf
+            protfdtfd void bddfptConsumfd(LongConsumfr bdtion) {
+                bdtion.bddfpt(tmpVbluf);
             }
 
-            @Override
-            protected ArrayBuffer.OfDouble bufferCreate(int initialCapacity) {
-                return new ArrayBuffer.OfDouble(initialCapacity);
+            @Ovfrridf
+            protfdtfd ArrbyBufffr.OfLong bufffrCrfbtf(int initiblCbpbdity) {
+                rfturn nfw ArrbyBufffr.OfLong(initiblCbpbdity);
             }
 
-            @Override
-            protected Spliterator.OfDouble makeSpliterator(Spliterator.OfDouble s) {
-                return new UnorderedSliceSpliterator.OfDouble(s, this);
+            @Ovfrridf
+            protfdtfd Splitfrbtor.OfLong mbkfSplitfrbtor(Splitfrbtor.OfLong s) {
+                rfturn nfw UnordfrfdSlidfSplitfrbtor.OfLong(s, tiis);
+            }
+        }
+
+        stbtid finbl dlbss OfDoublf
+                fxtfnds OfPrimitivf<Doublf, DoublfConsumfr, ArrbyBufffr.OfDoublf, Splitfrbtor.OfDoublf>
+                implfmfnts Splitfrbtor.OfDoublf, DoublfConsumfr {
+
+            doublf tmpVbluf;
+
+            OfDoublf(Splitfrbtor.OfDoublf s, long skip, long limit) {
+                supfr(s, skip, limit);
+            }
+
+            OfDoublf(Splitfrbtor.OfDoublf s, UnordfrfdSlidfSplitfrbtor.OfDoublf pbrfnt) {
+                supfr(s, pbrfnt);
+            }
+
+            @Ovfrridf
+            publid void bddfpt(doublf vbluf) {
+                tmpVbluf = vbluf;
+            }
+
+            @Ovfrridf
+            protfdtfd void bddfptConsumfd(DoublfConsumfr bdtion) {
+                bdtion.bddfpt(tmpVbluf);
+            }
+
+            @Ovfrridf
+            protfdtfd ArrbyBufffr.OfDoublf bufffrCrfbtf(int initiblCbpbdity) {
+                rfturn nfw ArrbyBufffr.OfDoublf(initiblCbpbdity);
+            }
+
+            @Ovfrridf
+            protfdtfd Splitfrbtor.OfDoublf mbkfSplitfrbtor(Splitfrbtor.OfDoublf s) {
+                rfturn nfw UnordfrfdSlidfSplitfrbtor.OfDoublf(s, tiis);
             }
         }
     }
 
     /**
-     * A wrapping spliterator that only reports distinct elements of the
-     * underlying spliterator. Does not preserve size and encounter order.
+     * A wrbpping splitfrbtor tibt only rfports distindt flfmfnts of tif
+     * undfrlying splitfrbtor. Dofs not prfsfrvf sizf bnd fndountfr ordfr.
      */
-    static final class DistinctSpliterator<T> implements Spliterator<T>, Consumer<T> {
+    stbtid finbl dlbss DistindtSplitfrbtor<T> implfmfnts Splitfrbtor<T>, Consumfr<T> {
 
-        // The value to represent null in the ConcurrentHashMap
-        private static final Object NULL_VALUE = new Object();
+        // Tif vbluf to rfprfsfnt null in tif CondurrfntHbsiMbp
+        privbtf stbtid finbl Objfdt NULL_VALUE = nfw Objfdt();
 
-        // The underlying spliterator
-        private final Spliterator<T> s;
+        // Tif undfrlying splitfrbtor
+        privbtf finbl Splitfrbtor<T> s;
 
-        // ConcurrentHashMap holding distinct elements as keys
-        private final ConcurrentHashMap<T, Boolean> seen;
+        // CondurrfntHbsiMbp iolding distindt flfmfnts bs kfys
+        privbtf finbl CondurrfntHbsiMbp<T, Boolfbn> sffn;
 
-        // Temporary element, only used with tryAdvance
-        private T tmpSlot;
+        // Tfmporbry flfmfnt, only usfd witi tryAdvbndf
+        privbtf T tmpSlot;
 
-        DistinctSpliterator(Spliterator<T> s) {
-            this(s, new ConcurrentHashMap<>());
+        DistindtSplitfrbtor(Splitfrbtor<T> s) {
+            tiis(s, nfw CondurrfntHbsiMbp<>());
         }
 
-        private DistinctSpliterator(Spliterator<T> s, ConcurrentHashMap<T, Boolean> seen) {
-            this.s = s;
-            this.seen = seen;
+        privbtf DistindtSplitfrbtor(Splitfrbtor<T> s, CondurrfntHbsiMbp<T, Boolfbn> sffn) {
+            tiis.s = s;
+            tiis.sffn = sffn;
         }
 
-        @Override
-        public void accept(T t) {
-            this.tmpSlot = t;
+        @Ovfrridf
+        publid void bddfpt(T t) {
+            tiis.tmpSlot = t;
         }
 
-        @SuppressWarnings("unchecked")
-        private T mapNull(T t) {
-            return t != null ? t : (T) NULL_VALUE;
+        @SupprfssWbrnings("undifdkfd")
+        privbtf T mbpNull(T t) {
+            rfturn t != null ? t : (T) NULL_VALUE;
         }
 
-        @Override
-        public boolean tryAdvance(Consumer<? super T> action) {
-            while (s.tryAdvance(this)) {
-                if (seen.putIfAbsent(mapNull(tmpSlot), Boolean.TRUE) == null) {
-                    action.accept(tmpSlot);
+        @Ovfrridf
+        publid boolfbn tryAdvbndf(Consumfr<? supfr T> bdtion) {
+            wiilf (s.tryAdvbndf(tiis)) {
+                if (sffn.putIfAbsfnt(mbpNull(tmpSlot), Boolfbn.TRUE) == null) {
+                    bdtion.bddfpt(tmpSlot);
                     tmpSlot = null;
-                    return true;
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
 
-        @Override
-        public void forEachRemaining(Consumer<? super T> action) {
-            s.forEachRemaining(t -> {
-                if (seen.putIfAbsent(mapNull(t), Boolean.TRUE) == null) {
-                    action.accept(t);
+        @Ovfrridf
+        publid void forEbdiRfmbining(Consumfr<? supfr T> bdtion) {
+            s.forEbdiRfmbining(t -> {
+                if (sffn.putIfAbsfnt(mbpNull(t), Boolfbn.TRUE) == null) {
+                    bdtion.bddfpt(t);
                 }
             });
         }
 
-        @Override
-        public Spliterator<T> trySplit() {
-            Spliterator<T> split = s.trySplit();
-            return (split != null) ? new DistinctSpliterator<>(split, seen) : null;
+        @Ovfrridf
+        publid Splitfrbtor<T> trySplit() {
+            Splitfrbtor<T> split = s.trySplit();
+            rfturn (split != null) ? nfw DistindtSplitfrbtor<>(split, sffn) : null;
         }
 
-        @Override
-        public long estimateSize() {
-            return s.estimateSize();
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn s.fstimbtfSizf();
         }
 
-        @Override
-        public int characteristics() {
-            return (s.characteristics() & ~(Spliterator.SIZED | Spliterator.SUBSIZED |
-                                            Spliterator.SORTED | Spliterator.ORDERED))
-                   | Spliterator.DISTINCT;
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn (s.dibrbdtfristids() & ~(Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED |
+                                            Splitfrbtor.SORTED | Splitfrbtor.ORDERED))
+                   | Splitfrbtor.DISTINCT;
         }
 
-        @Override
-        public Comparator<? super T> getComparator() {
-            return s.getComparator();
+        @Ovfrridf
+        publid Compbrbtor<? supfr T> gftCompbrbtor() {
+            rfturn s.gftCompbrbtor();
         }
     }
 
     /**
-     * A Spliterator that infinitely supplies elements in no particular order.
+     * A Splitfrbtor tibt infinitfly supplifs flfmfnts in no pbrtidulbr ordfr.
      *
-     * <p>Splitting divides the estimated size in two and stops when the
-     * estimate size is 0.
+     * <p>Splitting dividfs tif fstimbtfd sizf in two bnd stops wifn tif
+     * fstimbtf sizf is 0.
      *
-     * <p>The {@code forEachRemaining} method if invoked will never terminate.
-     * The {@code tryAdvance} method always returns true.
+     * <p>Tif {@dodf forEbdiRfmbining} mftiod if invokfd will nfvfr tfrminbtf.
+     * Tif {@dodf tryAdvbndf} mftiod blwbys rfturns truf.
      *
      */
-    static abstract class InfiniteSupplyingSpliterator<T> implements Spliterator<T> {
-        long estimate;
+    stbtid bbstrbdt dlbss InfinitfSupplyingSplitfrbtor<T> implfmfnts Splitfrbtor<T> {
+        long fstimbtf;
 
-        protected InfiniteSupplyingSpliterator(long estimate) {
-            this.estimate = estimate;
+        protfdtfd InfinitfSupplyingSplitfrbtor(long fstimbtf) {
+            tiis.fstimbtf = fstimbtf;
         }
 
-        @Override
-        public long estimateSize() {
-            return estimate;
+        @Ovfrridf
+        publid long fstimbtfSizf() {
+            rfturn fstimbtf;
         }
 
-        @Override
-        public int characteristics() {
-            return IMMUTABLE;
+        @Ovfrridf
+        publid int dibrbdtfristids() {
+            rfturn IMMUTABLE;
         }
 
-        static final class OfRef<T> extends InfiniteSupplyingSpliterator<T> {
-            final Supplier<T> s;
+        stbtid finbl dlbss OfRff<T> fxtfnds InfinitfSupplyingSplitfrbtor<T> {
+            finbl Supplifr<T> s;
 
-            OfRef(long size, Supplier<T> s) {
-                super(size);
-                this.s = s;
+            OfRff(long sizf, Supplifr<T> s) {
+                supfr(sizf);
+                tiis.s = s;
             }
 
-            @Override
-            public boolean tryAdvance(Consumer<? super T> action) {
-                Objects.requireNonNull(action);
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(Consumfr<? supfr T> bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
 
-                action.accept(s.get());
-                return true;
+                bdtion.bddfpt(s.gft());
+                rfturn truf;
             }
 
-            @Override
-            public Spliterator<T> trySplit() {
-                if (estimate == 0)
-                    return null;
-                return new InfiniteSupplyingSpliterator.OfRef<>(estimate >>>= 1, s);
-            }
-        }
-
-        static final class OfInt extends InfiniteSupplyingSpliterator<Integer>
-                implements Spliterator.OfInt {
-            final IntSupplier s;
-
-            OfInt(long size, IntSupplier s) {
-                super(size);
-                this.s = s;
-            }
-
-            @Override
-            public boolean tryAdvance(IntConsumer action) {
-                Objects.requireNonNull(action);
-
-                action.accept(s.getAsInt());
-                return true;
-            }
-
-            @Override
-            public Spliterator.OfInt trySplit() {
-                if (estimate == 0)
-                    return null;
-                return new InfiniteSupplyingSpliterator.OfInt(estimate = estimate >>> 1, s);
+            @Ovfrridf
+            publid Splitfrbtor<T> trySplit() {
+                if (fstimbtf == 0)
+                    rfturn null;
+                rfturn nfw InfinitfSupplyingSplitfrbtor.OfRff<>(fstimbtf >>>= 1, s);
             }
         }
 
-        static final class OfLong extends InfiniteSupplyingSpliterator<Long>
-                implements Spliterator.OfLong {
-            final LongSupplier s;
+        stbtid finbl dlbss OfInt fxtfnds InfinitfSupplyingSplitfrbtor<Intfgfr>
+                implfmfnts Splitfrbtor.OfInt {
+            finbl IntSupplifr s;
 
-            OfLong(long size, LongSupplier s) {
-                super(size);
-                this.s = s;
+            OfInt(long sizf, IntSupplifr s) {
+                supfr(sizf);
+                tiis.s = s;
             }
 
-            @Override
-            public boolean tryAdvance(LongConsumer action) {
-                Objects.requireNonNull(action);
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(IntConsumfr bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
 
-                action.accept(s.getAsLong());
-                return true;
+                bdtion.bddfpt(s.gftAsInt());
+                rfturn truf;
             }
 
-            @Override
-            public Spliterator.OfLong trySplit() {
-                if (estimate == 0)
-                    return null;
-                return new InfiniteSupplyingSpliterator.OfLong(estimate = estimate >>> 1, s);
+            @Ovfrridf
+            publid Splitfrbtor.OfInt trySplit() {
+                if (fstimbtf == 0)
+                    rfturn null;
+                rfturn nfw InfinitfSupplyingSplitfrbtor.OfInt(fstimbtf = fstimbtf >>> 1, s);
             }
         }
 
-        static final class OfDouble extends InfiniteSupplyingSpliterator<Double>
-                implements Spliterator.OfDouble {
-            final DoubleSupplier s;
+        stbtid finbl dlbss OfLong fxtfnds InfinitfSupplyingSplitfrbtor<Long>
+                implfmfnts Splitfrbtor.OfLong {
+            finbl LongSupplifr s;
 
-            OfDouble(long size, DoubleSupplier s) {
-                super(size);
-                this.s = s;
+            OfLong(long sizf, LongSupplifr s) {
+                supfr(sizf);
+                tiis.s = s;
             }
 
-            @Override
-            public boolean tryAdvance(DoubleConsumer action) {
-                Objects.requireNonNull(action);
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(LongConsumfr bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
 
-                action.accept(s.getAsDouble());
-                return true;
+                bdtion.bddfpt(s.gftAsLong());
+                rfturn truf;
             }
 
-            @Override
-            public Spliterator.OfDouble trySplit() {
-                if (estimate == 0)
-                    return null;
-                return new InfiniteSupplyingSpliterator.OfDouble(estimate = estimate >>> 1, s);
+            @Ovfrridf
+            publid Splitfrbtor.OfLong trySplit() {
+                if (fstimbtf == 0)
+                    rfturn null;
+                rfturn nfw InfinitfSupplyingSplitfrbtor.OfLong(fstimbtf = fstimbtf >>> 1, s);
+            }
+        }
+
+        stbtid finbl dlbss OfDoublf fxtfnds InfinitfSupplyingSplitfrbtor<Doublf>
+                implfmfnts Splitfrbtor.OfDoublf {
+            finbl DoublfSupplifr s;
+
+            OfDoublf(long sizf, DoublfSupplifr s) {
+                supfr(sizf);
+                tiis.s = s;
+            }
+
+            @Ovfrridf
+            publid boolfbn tryAdvbndf(DoublfConsumfr bdtion) {
+                Objfdts.rfquirfNonNull(bdtion);
+
+                bdtion.bddfpt(s.gftAsDoublf());
+                rfturn truf;
+            }
+
+            @Ovfrridf
+            publid Splitfrbtor.OfDoublf trySplit() {
+                if (fstimbtf == 0)
+                    rfturn null;
+                rfturn nfw InfinitfSupplyingSplitfrbtor.OfDoublf(fstimbtf = fstimbtf >>> 1, s);
             }
         }
     }
 
-    // @@@ Consolidate with Node.Builder
-    static abstract class ArrayBuffer {
-        int index;
+    // @@@ Consolidbtf witi Nodf.Buildfr
+    stbtid bbstrbdt dlbss ArrbyBufffr {
+        int indfx;
 
-        void reset() {
-            index = 0;
+        void rfsft() {
+            indfx = 0;
         }
 
-        static final class OfRef<T> extends ArrayBuffer implements Consumer<T> {
-            final Object[] array;
+        stbtid finbl dlbss OfRff<T> fxtfnds ArrbyBufffr implfmfnts Consumfr<T> {
+            finbl Objfdt[] brrby;
 
-            OfRef(int size) {
-                this.array = new Object[size];
+            OfRff(int sizf) {
+                tiis.brrby = nfw Objfdt[sizf];
             }
 
-            @Override
-            public void accept(T t) {
-                array[index++] = t;
+            @Ovfrridf
+            publid void bddfpt(T t) {
+                brrby[indfx++] = t;
             }
 
-            public void forEach(Consumer<? super T> action, long fence) {
-                for (int i = 0; i < fence; i++) {
-                    @SuppressWarnings("unchecked")
-                    T t = (T) array[i];
-                    action.accept(t);
+            publid void forEbdi(Consumfr<? supfr T> bdtion, long ffndf) {
+                for (int i = 0; i < ffndf; i++) {
+                    @SupprfssWbrnings("undifdkfd")
+                    T t = (T) brrby[i];
+                    bdtion.bddfpt(t);
                 }
             }
         }
 
-        static abstract class OfPrimitive<T_CONS> extends ArrayBuffer {
-            int index;
+        stbtid bbstrbdt dlbss OfPrimitivf<T_CONS> fxtfnds ArrbyBufffr {
+            int indfx;
 
-            @Override
-            void reset() {
-                index = 0;
+            @Ovfrridf
+            void rfsft() {
+                indfx = 0;
             }
 
-            abstract void forEach(T_CONS action, long fence);
+            bbstrbdt void forEbdi(T_CONS bdtion, long ffndf);
         }
 
-        static final class OfInt extends OfPrimitive<IntConsumer>
-                implements IntConsumer {
-            final int[] array;
+        stbtid finbl dlbss OfInt fxtfnds OfPrimitivf<IntConsumfr>
+                implfmfnts IntConsumfr {
+            finbl int[] brrby;
 
-            OfInt(int size) {
-                this.array = new int[size];
+            OfInt(int sizf) {
+                tiis.brrby = nfw int[sizf];
             }
 
-            @Override
-            public void accept(int t) {
-                array[index++] = t;
+            @Ovfrridf
+            publid void bddfpt(int t) {
+                brrby[indfx++] = t;
             }
 
-            @Override
-            public void forEach(IntConsumer action, long fence) {
-                for (int i = 0; i < fence; i++) {
-                    action.accept(array[i]);
+            @Ovfrridf
+            publid void forEbdi(IntConsumfr bdtion, long ffndf) {
+                for (int i = 0; i < ffndf; i++) {
+                    bdtion.bddfpt(brrby[i]);
                 }
             }
         }
 
-        static final class OfLong extends OfPrimitive<LongConsumer>
-                implements LongConsumer {
-            final long[] array;
+        stbtid finbl dlbss OfLong fxtfnds OfPrimitivf<LongConsumfr>
+                implfmfnts LongConsumfr {
+            finbl long[] brrby;
 
-            OfLong(int size) {
-                this.array = new long[size];
+            OfLong(int sizf) {
+                tiis.brrby = nfw long[sizf];
             }
 
-            @Override
-            public void accept(long t) {
-                array[index++] = t;
+            @Ovfrridf
+            publid void bddfpt(long t) {
+                brrby[indfx++] = t;
             }
 
-            @Override
-            public void forEach(LongConsumer action, long fence) {
-                for (int i = 0; i < fence; i++) {
-                    action.accept(array[i]);
+            @Ovfrridf
+            publid void forEbdi(LongConsumfr bdtion, long ffndf) {
+                for (int i = 0; i < ffndf; i++) {
+                    bdtion.bddfpt(brrby[i]);
                 }
             }
         }
 
-        static final class OfDouble extends OfPrimitive<DoubleConsumer>
-                implements DoubleConsumer {
-            final double[] array;
+        stbtid finbl dlbss OfDoublf fxtfnds OfPrimitivf<DoublfConsumfr>
+                implfmfnts DoublfConsumfr {
+            finbl doublf[] brrby;
 
-            OfDouble(int size) {
-                this.array = new double[size];
+            OfDoublf(int sizf) {
+                tiis.brrby = nfw doublf[sizf];
             }
 
-            @Override
-            public void accept(double t) {
-                array[index++] = t;
+            @Ovfrridf
+            publid void bddfpt(doublf t) {
+                brrby[indfx++] = t;
             }
 
-            @Override
-            void forEach(DoubleConsumer action, long fence) {
-                for (int i = 0; i < fence; i++) {
-                    action.accept(array[i]);
+            @Ovfrridf
+            void forEbdi(DoublfConsumfr bdtion, long ffndf) {
+                for (int i = 0; i < ffndf; i++) {
+                    bdtion.bddfpt(brrby[i]);
                 }
             }
         }

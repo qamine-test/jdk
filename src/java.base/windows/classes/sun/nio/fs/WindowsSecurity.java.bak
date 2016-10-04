@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import static sun.nio.fs.WindowsNativeDispatcher.*;
-import static sun.nio.fs.WindowsConstants.*;
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdifr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
 
 /**
- * Security related utility methods.
+ * Sfdurity rflbtfd utility mftiods.
  */
 
-class WindowsSecurity {
-    private WindowsSecurity() { }
+dlbss WindowsSfdurity {
+    privbtf WindowsSfdurity() { }
 
-    // opens process token for given access
-    private static long openProcessToken(int access) {
+    // opfns prodfss tokfn for givfn bddfss
+    privbtf stbtid long opfnProdfssTokfn(int bddfss) {
         try {
-            return OpenProcessToken(GetCurrentProcess(), access);
-        } catch (WindowsException x) {
-            return 0L;
+            rfturn OpfnProdfssTokfn(GftCurrfntProdfss(), bddfss);
+        } dbtdi (WindowsExdfption x) {
+            rfturn 0L;
         }
     }
 
     /**
-     * Returns the access token for this process with TOKEN_DUPLICATE access
+     * Rfturns tif bddfss tokfn for tiis prodfss witi TOKEN_DUPLICATE bddfss
      */
-    static final long processTokenWithDuplicateAccess =
-        openProcessToken(TOKEN_DUPLICATE);
+    stbtid finbl long prodfssTokfnWitiDuplidbtfAddfss =
+        opfnProdfssTokfn(TOKEN_DUPLICATE);
 
     /**
-     * Returns the access token for this process with TOKEN_QUERY access
+     * Rfturns tif bddfss tokfn for tiis prodfss witi TOKEN_QUERY bddfss
      */
-    static final long processTokenWithQueryAccess =
-        openProcessToken(TOKEN_QUERY);
+    stbtid finbl long prodfssTokfnWitiQufryAddfss =
+        opfnProdfssTokfn(TOKEN_QUERY);
 
     /**
-     * Returned by enablePrivilege when code may require a given privilege.
-     * The drop method should be invoked after the operation completes so as
-     * to revert the privilege.
+     * Rfturnfd by fnbblfPrivilfgf wifn dodf mby rfquirf b givfn privilfgf.
+     * Tif drop mftiod siould bf invokfd bftfr tif opfrbtion domplftfs so bs
+     * to rfvfrt tif privilfgf.
      */
-    static interface Privilege {
+    stbtid intfrfbdf Privilfgf {
         void drop();
     }
 
     /**
-     * Attempts to enable the given privilege for this method.
+     * Attfmpts to fnbblf tif givfn privilfgf for tiis mftiod.
      */
-    static Privilege enablePrivilege(String priv) {
-        final long pLuid;
+    stbtid Privilfgf fnbblfPrivilfgf(String priv) {
+        finbl long pLuid;
         try {
-            pLuid = LookupPrivilegeValue(priv);
-        } catch (WindowsException x) {
-            // indicates bug in caller
-            throw new AssertionError(x);
+            pLuid = LookupPrivilfgfVbluf(priv);
+        } dbtdi (WindowsExdfption x) {
+            // indidbtfs bug in dbllfr
+            tirow nfw AssfrtionError(x);
         }
 
-        long hToken = 0L;
-        boolean impersontating = false;
-        boolean elevated = false;
+        long iTokfn = 0L;
+        boolfbn impfrsontbting = fblsf;
+        boolfbn flfvbtfd = fblsf;
         try {
-            hToken = OpenThreadToken(GetCurrentThread(),
-                                     TOKEN_ADJUST_PRIVILEGES, false);
-            if (hToken == 0L && processTokenWithDuplicateAccess != 0L) {
-                hToken = DuplicateTokenEx(processTokenWithDuplicateAccess,
+            iTokfn = OpfnTirfbdTokfn(GftCurrfntTirfbd(),
+                                     TOKEN_ADJUST_PRIVILEGES, fblsf);
+            if (iTokfn == 0L && prodfssTokfnWitiDuplidbtfAddfss != 0L) {
+                iTokfn = DuplidbtfTokfnEx(prodfssTokfnWitiDuplidbtfAddfss,
                     (TOKEN_ADJUST_PRIVILEGES|TOKEN_IMPERSONATE));
-                SetThreadToken(0L, hToken);
-                impersontating = true;
+                SftTirfbdTokfn(0L, iTokfn);
+                impfrsontbting = truf;
             }
 
-            if (hToken != 0L) {
-                AdjustTokenPrivileges(hToken, pLuid, SE_PRIVILEGE_ENABLED);
-                elevated = true;
+            if (iTokfn != 0L) {
+                AdjustTokfnPrivilfgfs(iTokfn, pLuid, SE_PRIVILEGE_ENABLED);
+                flfvbtfd = truf;
             }
-        } catch (WindowsException x) {
-            // nothing to do, privilege not enabled
+        } dbtdi (WindowsExdfption x) {
+            // notiing to do, privilfgf not fnbblfd
         }
 
-        final long token = hToken;
-        final boolean stopImpersontating = impersontating;
-        final boolean needToRevert = elevated;
+        finbl long tokfn = iTokfn;
+        finbl boolfbn stopImpfrsontbting = impfrsontbting;
+        finbl boolfbn nffdToRfvfrt = flfvbtfd;
 
-        return new Privilege() {
-            @Override
-            public void drop() {
-                if (token != 0L) {
+        rfturn nfw Privilfgf() {
+            @Ovfrridf
+            publid void drop() {
+                if (tokfn != 0L) {
                     try {
-                        if (stopImpersontating)
-                            SetThreadToken(0L, 0L);
-                        else if (needToRevert)
-                            AdjustTokenPrivileges(token, pLuid, 0);
-                    } catch (WindowsException x) {
-                        // should not happen
-                        throw new AssertionError(x);
-                    } finally {
-                        CloseHandle(token);
+                        if (stopImpfrsontbting)
+                            SftTirfbdTokfn(0L, 0L);
+                        flsf if (nffdToRfvfrt)
+                            AdjustTokfnPrivilfgfs(tokfn, pLuid, 0);
+                    } dbtdi (WindowsExdfption x) {
+                        // siould not ibppfn
+                        tirow nfw AssfrtionError(x);
+                    } finblly {
+                        ClosfHbndlf(tokfn);
                     }
                 }
             }
@@ -123,28 +123,28 @@ class WindowsSecurity {
     }
 
     /**
-     * Check the access right against the securityInfo in the current thread.
+     * Cifdk tif bddfss rigit bgbinst tif sfdurityInfo in tif durrfnt tirfbd.
      */
-    static boolean checkAccessMask(long securityInfo, int accessMask,
-        int genericRead, int genericWrite, int genericExecute, int genericAll)
-        throws WindowsException
+    stbtid boolfbn difdkAddfssMbsk(long sfdurityInfo, int bddfssMbsk,
+        int gfnfridRfbd, int gfnfridWritf, int gfnfridExfdutf, int gfnfridAll)
+        tirows WindowsExdfption
     {
-        int privileges = TOKEN_QUERY;
-        long hToken = OpenThreadToken(GetCurrentThread(), privileges, false);
-        if (hToken == 0L && processTokenWithDuplicateAccess != 0L)
-            hToken = DuplicateTokenEx(processTokenWithDuplicateAccess,
-                privileges);
+        int privilfgfs = TOKEN_QUERY;
+        long iTokfn = OpfnTirfbdTokfn(GftCurrfntTirfbd(), privilfgfs, fblsf);
+        if (iTokfn == 0L && prodfssTokfnWitiDuplidbtfAddfss != 0L)
+            iTokfn = DuplidbtfTokfnEx(prodfssTokfnWitiDuplidbtfAddfss,
+                privilfgfs);
 
-        boolean hasRight = false;
-        if (hToken != 0L) {
+        boolfbn ibsRigit = fblsf;
+        if (iTokfn != 0L) {
             try {
-                hasRight = AccessCheck(hToken, securityInfo, accessMask,
-                    genericRead, genericWrite, genericExecute, genericAll);
-            } finally {
-                CloseHandle(hToken);
+                ibsRigit = AddfssCifdk(iTokfn, sfdurityInfo, bddfssMbsk,
+                    gfnfridRfbd, gfnfridWritf, gfnfridExfdutf, gfnfridAll);
+            } finblly {
+                ClosfHbndlf(iTokfn);
             }
         }
-        return hasRight;
+        rfturn ibsRigit;
     }
 
 }

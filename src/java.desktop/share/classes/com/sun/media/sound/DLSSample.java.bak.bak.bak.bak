@@ -1,0 +1,123 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.InputStrfbm;
+import jbvb.util.Arrbys;
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.SoundbbnkRfsourdf;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+
+/**
+ * This dlbss is usfd to storf thf sbmplf dbtb itsflf.
+ * A sbmplf is fndodfd bs PCM budio strfbm
+ * bnd in DLS Lfvfl 1 filfs it is blwbys b mono 8/16 bit strfbm.
+ * Thfy brf storfd just likf RIFF WAVE filfs brf storfd.
+ * It is storfd insidf b "wbvf" List Chunk insidf DLS filfs.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss DLSSbmplf fxtfnds SoundbbnkRfsourdf {
+
+    bytf[] guid = null;
+    DLSInfo info = nfw DLSInfo();
+    DLSSbmplfOptions sbmplfoptions;
+    ModflBytfBufffr dbtb;
+    AudioFormbt formbt;
+
+    publid DLSSbmplf(Soundbbnk soundBbnk) {
+        supfr(soundBbnk, null, AudioInputStrfbm.dlbss);
+    }
+
+    publid DLSSbmplf() {
+        supfr(null, null, AudioInputStrfbm.dlbss);
+    }
+
+    publid DLSInfo gftInfo() {
+        rfturn info;
+    }
+
+    publid Objfdt gftDbtb() {
+        AudioFormbt formbt = gftFormbt();
+
+        InputStrfbm is = dbtb.gftInputStrfbm();
+        if (is == null)
+            rfturn null;
+        rfturn nfw AudioInputStrfbm(is, formbt, dbtb.dbpbdity());
+    }
+
+    publid ModflBytfBufffr gftDbtbBufffr() {
+        rfturn dbtb;
+    }
+
+    publid AudioFormbt gftFormbt() {
+        rfturn formbt;
+    }
+
+    publid void sftFormbt(AudioFormbt formbt) {
+        this.formbt = formbt;
+    }
+
+    publid void sftDbtb(ModflBytfBufffr dbtb) {
+        this.dbtb = dbtb;
+    }
+
+    publid void sftDbtb(bytf[] dbtb) {
+        this.dbtb = nfw ModflBytfBufffr(dbtb);
+    }
+
+    publid void sftDbtb(bytf[] dbtb, int offsft, int lfngth) {
+        this.dbtb = nfw ModflBytfBufffr(dbtb, offsft, lfngth);
+    }
+
+    publid String gftNbmf() {
+        rfturn info.nbmf;
+    }
+
+    publid void sftNbmf(String nbmf) {
+        info.nbmf = nbmf;
+    }
+
+    publid DLSSbmplfOptions gftSbmplfoptions() {
+        rfturn sbmplfoptions;
+    }
+
+    publid void sftSbmplfoptions(DLSSbmplfOptions sbmplfOptions) {
+        this.sbmplfoptions = sbmplfOptions;
+    }
+
+    publid String toString() {
+        rfturn "Sbmplf: " + info.nbmf;
+    }
+
+    publid bytf[] gftGuid() {
+        rfturn guid == null ? null : Arrbys.dopyOf(guid, guid.lfngth);
+    }
+
+    publid void sftGuid(bytf[] guid) {
+        this.guid = guid == null ? null : Arrbys.dopyOf(guid, guid.lfngth);
+    }
+}

@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security.spec;
+pbdkbgf jbvb.sfdurity.spfd;
 
-import java.math.BigInteger;
+import jbvb.mbti.BigIntfgfr;
 
 /**
- * This class specifies an RSA private key, as defined in the PKCS#1
- * standard, using the Chinese Remainder Theorem (CRT) information values for
- * efficiency.
+ * Tiis dlbss spfdififs bn RSA privbtf kfy, bs dffinfd in tif PKCS#1
+ * stbndbrd, using tif Ciinfsf Rfmbindfr Tiforfm (CRT) informbtion vblufs for
+ * fffidifndy.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  *
- * @see java.security.Key
- * @see java.security.KeyFactory
- * @see KeySpec
- * @see PKCS8EncodedKeySpec
- * @see RSAPrivateKeySpec
- * @see RSAPublicKeySpec
+ * @sff jbvb.sfdurity.Kfy
+ * @sff jbvb.sfdurity.KfyFbdtory
+ * @sff KfySpfd
+ * @sff PKCS8EndodfdKfySpfd
+ * @sff RSAPrivbtfKfySpfd
+ * @sff RSAPublidKfySpfd
  */
 
-public class RSAPrivateCrtKeySpec extends RSAPrivateKeySpec {
+publid dlbss RSAPrivbtfCrtKfySpfd fxtfnds RSAPrivbtfKfySpfd {
 
-    private final BigInteger publicExponent;
-    private final BigInteger primeP;
-    private final BigInteger primeQ;
-    private final BigInteger primeExponentP;
-    private final BigInteger primeExponentQ;
-    private final BigInteger crtCoefficient;
+    privbtf finbl BigIntfgfr publidExponfnt;
+    privbtf finbl BigIntfgfr primfP;
+    privbtf finbl BigIntfgfr primfQ;
+    privbtf finbl BigIntfgfr primfExponfntP;
+    privbtf finbl BigIntfgfr primfExponfntQ;
+    privbtf finbl BigIntfgfr drtCofffidifnt;
 
 
 
    /**
-    * Creates a new {@code RSAPrivateCrtKeySpec}
-    * given the modulus, publicExponent, privateExponent,
-    * primeP, primeQ, primeExponentP, primeExponentQ, and
-    * crtCoefficient as defined in PKCS#1.
+    * Crfbtfs b nfw {@dodf RSAPrivbtfCrtKfySpfd}
+    * givfn tif modulus, publidExponfnt, privbtfExponfnt,
+    * primfP, primfQ, primfExponfntP, primfExponfntQ, bnd
+    * drtCofffidifnt bs dffinfd in PKCS#1.
     *
-    * @param modulus the modulus n
-    * @param publicExponent the public exponent e
-    * @param privateExponent the private exponent d
-    * @param primeP the prime factor p of n
-    * @param primeQ the prime factor q of n
-    * @param primeExponentP this is d mod (p-1)
-    * @param primeExponentQ this is d mod (q-1)
-    * @param crtCoefficient the Chinese Remainder Theorem
-    * coefficient q-1 mod p
+    * @pbrbm modulus tif modulus n
+    * @pbrbm publidExponfnt tif publid fxponfnt f
+    * @pbrbm privbtfExponfnt tif privbtf fxponfnt d
+    * @pbrbm primfP tif primf fbdtor p of n
+    * @pbrbm primfQ tif primf fbdtor q of n
+    * @pbrbm primfExponfntP tiis is d mod (p-1)
+    * @pbrbm primfExponfntQ tiis is d mod (q-1)
+    * @pbrbm drtCofffidifnt tif Ciinfsf Rfmbindfr Tiforfm
+    * dofffidifnt q-1 mod p
     */
-    public RSAPrivateCrtKeySpec(BigInteger modulus,
-                                BigInteger publicExponent,
-                                BigInteger privateExponent,
-                                BigInteger primeP,
-                                BigInteger primeQ,
-                                BigInteger primeExponentP,
-                                BigInteger primeExponentQ,
-                                BigInteger crtCoefficient) {
-        super(modulus, privateExponent);
-        this.publicExponent = publicExponent;
-        this.primeP = primeP;
-        this.primeQ = primeQ;
-        this.primeExponentP = primeExponentP;
-        this.primeExponentQ = primeExponentQ;
-        this.crtCoefficient = crtCoefficient;
+    publid RSAPrivbtfCrtKfySpfd(BigIntfgfr modulus,
+                                BigIntfgfr publidExponfnt,
+                                BigIntfgfr privbtfExponfnt,
+                                BigIntfgfr primfP,
+                                BigIntfgfr primfQ,
+                                BigIntfgfr primfExponfntP,
+                                BigIntfgfr primfExponfntQ,
+                                BigIntfgfr drtCofffidifnt) {
+        supfr(modulus, privbtfExponfnt);
+        tiis.publidExponfnt = publidExponfnt;
+        tiis.primfP = primfP;
+        tiis.primfQ = primfQ;
+        tiis.primfExponfntP = primfExponfntP;
+        tiis.primfExponfntQ = primfExponfntQ;
+        tiis.drtCofffidifnt = drtCofffidifnt;
     }
 
     /**
-     * Returns the public exponent.
+     * Rfturns tif publid fxponfnt.
      *
-     * @return the public exponent
+     * @rfturn tif publid fxponfnt
      */
-    public BigInteger getPublicExponent() {
-        return this.publicExponent;
+    publid BigIntfgfr gftPublidExponfnt() {
+        rfturn tiis.publidExponfnt;
     }
 
     /**
-     * Returns the primeP.
+     * Rfturns tif primfP.
 
-     * @return the primeP
+     * @rfturn tif primfP
      */
-    public BigInteger getPrimeP() {
-        return this.primeP;
+    publid BigIntfgfr gftPrimfP() {
+        rfturn tiis.primfP;
     }
 
     /**
-     * Returns the primeQ.
+     * Rfturns tif primfQ.
      *
-     * @return the primeQ
+     * @rfturn tif primfQ
      */
-    public BigInteger getPrimeQ() {
-        return this.primeQ;
+    publid BigIntfgfr gftPrimfQ() {
+        rfturn tiis.primfQ;
     }
 
     /**
-     * Returns the primeExponentP.
+     * Rfturns tif primfExponfntP.
      *
-     * @return the primeExponentP
+     * @rfturn tif primfExponfntP
      */
-    public BigInteger getPrimeExponentP() {
-        return this.primeExponentP;
+    publid BigIntfgfr gftPrimfExponfntP() {
+        rfturn tiis.primfExponfntP;
     }
 
     /**
-     * Returns the primeExponentQ.
+     * Rfturns tif primfExponfntQ.
      *
-     * @return the primeExponentQ
+     * @rfturn tif primfExponfntQ
      */
-    public BigInteger getPrimeExponentQ() {
-        return this.primeExponentQ;
+    publid BigIntfgfr gftPrimfExponfntQ() {
+        rfturn tiis.primfExponfntQ;
     }
 
     /**
-     * Returns the crtCoefficient.
+     * Rfturns tif drtCofffidifnt.
      *
-     * @return the crtCoefficient
+     * @rfturn tif drtCofffidifnt
      */
-    public BigInteger getCrtCoefficient() {
-        return this.crtCoefficient;
+    publid BigIntfgfr gftCrtCofffidifnt() {
+        rfturn tiis.drtCofffidifnt;
     }
 }

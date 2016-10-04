@@ -1,2068 +1,2068 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.interceptor;
+pbdkbgf dom.sun.jmx.intfrdfptor;
 
 
 // JMX RI
-import static com.sun.jmx.defaults.JmxProperties.MBEANSERVER_LOGGER;
-import com.sun.jmx.mbeanserver.DynamicMBean2;
-import com.sun.jmx.mbeanserver.Introspector;
-import com.sun.jmx.mbeanserver.MBeanInstantiator;
-import com.sun.jmx.mbeanserver.ModifiableClassLoaderRepository;
-import com.sun.jmx.mbeanserver.NamedObject;
-import com.sun.jmx.mbeanserver.Repository;
-import com.sun.jmx.mbeanserver.Repository.RegistrationContext;
-import com.sun.jmx.mbeanserver.Util;
-import com.sun.jmx.remote.util.EnvHelp;
+import stbtid dom.sun.jmx.dffbults.JmxPropfrtifs.MBEANSERVER_LOGGER;
+import dom.sun.jmx.mbfbnsfrvfr.DynbmidMBfbn2;
+import dom.sun.jmx.mbfbnsfrvfr.Introspfdtor;
+import dom.sun.jmx.mbfbnsfrvfr.MBfbnInstbntibtor;
+import dom.sun.jmx.mbfbnsfrvfr.ModifibblfClbssLobdfrRfpository;
+import dom.sun.jmx.mbfbnsfrvfr.NbmfdObjfdt;
+import dom.sun.jmx.mbfbnsfrvfr.Rfpository;
+import dom.sun.jmx.mbfbnsfrvfr.Rfpository.RfgistrbtionContfxt;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
 
-import java.io.ObjectInputStream;
-import java.lang.ref.WeakReference;
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.Permission;
-import java.security.PrivilegedAction;
-import java.security.ProtectionDomain;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.WeakHashMap;
-import java.util.logging.Level;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.ProtfdtionDombin;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiSft;
+import jbvb.util.List;
+import jbvb.util.Sft;
+import jbvb.util.WfbkHbsiMbp;
+import jbvb.util.logging.Lfvfl;
 
 // JMX import
-import javax.management.Attribute;
-import javax.management.AttributeList;
-import javax.management.AttributeNotFoundException;
-import javax.management.DynamicMBean;
-import javax.management.InstanceAlreadyExistsException;
-import javax.management.InstanceNotFoundException;
-import javax.management.IntrospectionException;
-import javax.management.InvalidAttributeValueException;
-import javax.management.JMRuntimeException;
-import javax.management.ListenerNotFoundException;
-import javax.management.MBeanException;
-import javax.management.MBeanInfo;
-import javax.management.MBeanPermission;
-import javax.management.MBeanRegistration;
-import javax.management.MBeanRegistrationException;
-import javax.management.MBeanServer;
-import javax.management.MBeanServerDelegate;
-import javax.management.MBeanServerNotification;
-import javax.management.MBeanTrustPermission;
-import javax.management.NotCompliantMBeanException;
-import javax.management.Notification;
-import javax.management.NotificationBroadcaster;
-import javax.management.NotificationEmitter;
-import javax.management.NotificationFilter;
-import javax.management.NotificationListener;
-import javax.management.ObjectInstance;
-import javax.management.ObjectName;
-import javax.management.OperationsException;
-import javax.management.QueryEval;
-import javax.management.QueryExp;
-import javax.management.ReflectionException;
-import javax.management.RuntimeErrorException;
-import javax.management.RuntimeMBeanException;
-import javax.management.RuntimeOperationsException;
-import javax.management.loading.ClassLoaderRepository;
+import jbvbx.mbnbgfmfnt.Attributf;
+import jbvbx.mbnbgfmfnt.AttributfList;
+import jbvbx.mbnbgfmfnt.AttributfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.DynbmidMBfbn;
+import jbvbx.mbnbgfmfnt.InstbndfAlrfbdyExistsExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.IntrospfdtionExdfption;
+import jbvbx.mbnbgfmfnt.InvblidAttributfVblufExdfption;
+import jbvbx.mbnbgfmfnt.JMRuntimfExdfption;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnInfo;
+import jbvbx.mbnbgfmfnt.MBfbnPfrmission;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtionExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrNotifidbtion;
+import jbvbx.mbnbgfmfnt.MBfbnTrustPfrmission;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionEmittfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.ObjfdtInstbndf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+import jbvbx.mbnbgfmfnt.OpfrbtionsExdfption;
+import jbvbx.mbnbgfmfnt.QufryEvbl;
+import jbvbx.mbnbgfmfnt.QufryExp;
+import jbvbx.mbnbgfmfnt.RfflfdtionExdfption;
+import jbvbx.mbnbgfmfnt.RuntimfErrorExdfption;
+import jbvbx.mbnbgfmfnt.RuntimfMBfbnExdfption;
+import jbvbx.mbnbgfmfnt.RuntimfOpfrbtionsExdfption;
+import jbvbx.mbnbgfmfnt.lobding.ClbssLobdfrRfpository;
 
 /**
- * This is the default class for MBean manipulation on the agent side. It
- * contains the methods necessary for the creation, registration, and
- * deletion of MBeans as well as the access methods for registered MBeans.
- * This is the core component of the JMX infrastructure.
+ * Tiis is tif dffbult dlbss for MBfbn mbnipulbtion on tif bgfnt sidf. It
+ * dontbins tif mftiods nfdfssbry for tif drfbtion, rfgistrbtion, bnd
+ * dflftion of MBfbns bs wfll bs tif bddfss mftiods for rfgistfrfd MBfbns.
+ * Tiis is tif dorf domponfnt of tif JMX infrbstrudturf.
  * <P>
- * Every MBean which is added to the MBean server becomes manageable: its attributes and operations
- * become remotely accessible through the connectors/adaptors connected to that MBean server.
- * A Java object cannot be registered in the MBean server unless it is a JMX compliant MBean.
+ * Evfry MBfbn wiidi is bddfd to tif MBfbn sfrvfr bfdomfs mbnbgfbblf: its bttributfs bnd opfrbtions
+ * bfdomf rfmotfly bddfssiblf tirougi tif donnfdtors/bdbptors donnfdtfd to tibt MBfbn sfrvfr.
+ * A Jbvb objfdt dbnnot bf rfgistfrfd in tif MBfbn sfrvfr unlfss it is b JMX domplibnt MBfbn.
  * <P>
- * When an MBean is registered or unregistered in the MBean server an
- * {@link javax.management.MBeanServerNotification MBeanServerNotification}
- * Notification is emitted. To register an object as listener to MBeanServerNotifications
- * you should call the MBean server method {@link #addNotificationListener addNotificationListener} with <CODE>ObjectName</CODE>
- * the <CODE>ObjectName</CODE> of the {@link javax.management.MBeanServerDelegate MBeanServerDelegate}.
- * This <CODE>ObjectName</CODE> is:
+ * Wifn bn MBfbn is rfgistfrfd or unrfgistfrfd in tif MBfbn sfrvfr bn
+ * {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrNotifidbtion MBfbnSfrvfrNotifidbtion}
+ * Notifidbtion is fmittfd. To rfgistfr bn objfdt bs listfnfr to MBfbnSfrvfrNotifidbtions
+ * you siould dbll tif MBfbn sfrvfr mftiod {@link #bddNotifidbtionListfnfr bddNotifidbtionListfnfr} witi <CODE>ObjfdtNbmf</CODE>
+ * tif <CODE>ObjfdtNbmf</CODE> of tif {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf MBfbnSfrvfrDflfgbtf}.
+ * Tiis <CODE>ObjfdtNbmf</CODE> is:
  * <BR>
- * <CODE>JMImplementation:type=MBeanServerDelegate</CODE>.
+ * <CODE>JMImplfmfntbtion:typf=MBfbnSfrvfrDflfgbtf</CODE>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class DefaultMBeanServerInterceptor implements MBeanServerInterceptor {
+publid dlbss DffbultMBfbnSfrvfrIntfrdfptor implfmfnts MBfbnSfrvfrIntfrdfptor {
 
-    /** The MBeanInstantiator object used by the
-     *  DefaultMBeanServerInterceptor */
-    private final transient MBeanInstantiator instantiator;
+    /** Tif MBfbnInstbntibtor objfdt usfd by tif
+     *  DffbultMBfbnSfrvfrIntfrdfptor */
+    privbtf finbl trbnsifnt MBfbnInstbntibtor instbntibtor;
 
-    /** The MBean server object that is associated to the
-     *  DefaultMBeanServerInterceptor */
-    private transient MBeanServer server = null;
+    /** Tif MBfbn sfrvfr objfdt tibt is bssodibtfd to tif
+     *  DffbultMBfbnSfrvfrIntfrdfptor */
+    privbtf trbnsifnt MBfbnSfrvfr sfrvfr = null;
 
-    /** The MBean server delegate object that is associated to the
-     *  DefaultMBeanServerInterceptor */
-    private final transient MBeanServerDelegate delegate;
+    /** Tif MBfbn sfrvfr dflfgbtf objfdt tibt is bssodibtfd to tif
+     *  DffbultMBfbnSfrvfrIntfrdfptor */
+    privbtf finbl trbnsifnt MBfbnSfrvfrDflfgbtf dflfgbtf;
 
-    /** The Repository object used by the DefaultMBeanServerInterceptor */
-    private final transient Repository repository;
+    /** Tif Rfpository objfdt usfd by tif DffbultMBfbnSfrvfrIntfrdfptor */
+    privbtf finbl trbnsifnt Rfpository rfpository;
 
-    /** Wrappers for client listeners.  */
-    /* See the comment before addNotificationListener below.  */
-    private final transient
-        WeakHashMap<ListenerWrapper, WeakReference<ListenerWrapper>>
-            listenerWrappers =
-                new WeakHashMap<ListenerWrapper,
-                                WeakReference<ListenerWrapper>>();
+    /** Wrbppfrs for dlifnt listfnfrs.  */
+    /* Sff tif dommfnt bfforf bddNotifidbtionListfnfr bflow.  */
+    privbtf finbl trbnsifnt
+        WfbkHbsiMbp<ListfnfrWrbppfr, WfbkRfffrfndf<ListfnfrWrbppfr>>
+            listfnfrWrbppfrs =
+                nfw WfbkHbsiMbp<ListfnfrWrbppfr,
+                                WfbkRfffrfndf<ListfnfrWrbppfr>>();
 
-    /** The default domain of the object names */
-    private final String domain;
+    /** Tif dffbult dombin of tif objfdt nbmfs */
+    privbtf finbl String dombin;
 
-    /** The sequence number identifying the notifications sent */
-    // Now sequence number is handled by MBeanServerDelegate.
-    // private int sequenceNumber=0;
+    /** Tif sfqufndf numbfr idfntifying tif notifidbtions sfnt */
+    // Now sfqufndf numbfr is ibndlfd by MBfbnSfrvfrDflfgbtf.
+    // privbtf int sfqufndfNumbfr=0;
 
     /**
-     * Creates a DefaultMBeanServerInterceptor with the specified
-     * repository instance.
-     * <p>Do not forget to call <code>initialize(outer,delegate)</code>
-     * before using this object.
-     * @param outer A pointer to the MBeanServer object that must be
-     *        passed to the MBeans when invoking their
-     *        {@link javax.management.MBeanRegistration} interface.
-     * @param delegate A pointer to the MBeanServerDelegate associated
-     *        with the new MBeanServer. The new MBeanServer must register
-     *        this MBean in its MBean repository.
-     * @param instantiator The MBeanInstantiator that will be used to
-     *        instantiate MBeans and take care of class loading issues.
-     * @param repository The repository to use for this MBeanServer.
+     * Crfbtfs b DffbultMBfbnSfrvfrIntfrdfptor witi tif spfdififd
+     * rfpository instbndf.
+     * <p>Do not forgft to dbll <dodf>initiblizf(outfr,dflfgbtf)</dodf>
+     * bfforf using tiis objfdt.
+     * @pbrbm outfr A pointfr to tif MBfbnSfrvfr objfdt tibt must bf
+     *        pbssfd to tif MBfbns wifn invoking tifir
+     *        {@link jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion} intfrfbdf.
+     * @pbrbm dflfgbtf A pointfr to tif MBfbnSfrvfrDflfgbtf bssodibtfd
+     *        witi tif nfw MBfbnSfrvfr. Tif nfw MBfbnSfrvfr must rfgistfr
+     *        tiis MBfbn in its MBfbn rfpository.
+     * @pbrbm instbntibtor Tif MBfbnInstbntibtor tibt will bf usfd to
+     *        instbntibtf MBfbns bnd tbkf dbrf of dlbss lobding issufs.
+     * @pbrbm rfpository Tif rfpository to usf for tiis MBfbnSfrvfr.
      */
-    public DefaultMBeanServerInterceptor(MBeanServer         outer,
-                                         MBeanServerDelegate delegate,
-                                         MBeanInstantiator   instantiator,
-                                         Repository          repository) {
-        if (outer == null) throw new
-            IllegalArgumentException("outer MBeanServer cannot be null");
-        if (delegate == null) throw new
-            IllegalArgumentException("MBeanServerDelegate cannot be null");
-        if (instantiator == null) throw new
-            IllegalArgumentException("MBeanInstantiator cannot be null");
-        if (repository == null) throw new
-            IllegalArgumentException("Repository cannot be null");
+    publid DffbultMBfbnSfrvfrIntfrdfptor(MBfbnSfrvfr         outfr,
+                                         MBfbnSfrvfrDflfgbtf dflfgbtf,
+                                         MBfbnInstbntibtor   instbntibtor,
+                                         Rfpository          rfpository) {
+        if (outfr == null) tirow nfw
+            IllfgblArgumfntExdfption("outfr MBfbnSfrvfr dbnnot bf null");
+        if (dflfgbtf == null) tirow nfw
+            IllfgblArgumfntExdfption("MBfbnSfrvfrDflfgbtf dbnnot bf null");
+        if (instbntibtor == null) tirow nfw
+            IllfgblArgumfntExdfption("MBfbnInstbntibtor dbnnot bf null");
+        if (rfpository == null) tirow nfw
+            IllfgblArgumfntExdfption("Rfpository dbnnot bf null");
 
-        this.server   = outer;
-        this.delegate = delegate;
-        this.instantiator = instantiator;
-        this.repository   = repository;
-        this.domain       = repository.getDefaultDomain();
+        tiis.sfrvfr   = outfr;
+        tiis.dflfgbtf = dflfgbtf;
+        tiis.instbntibtor = instbntibtor;
+        tiis.rfpository   = rfpository;
+        tiis.dombin       = rfpository.gftDffbultDombin();
     }
 
-    public ObjectInstance createMBean(String className, ObjectName name)
-        throws ReflectionException, InstanceAlreadyExistsException,
-               MBeanRegistrationException, MBeanException,
-               NotCompliantMBeanException {
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf, ObjfdtNbmf nbmf)
+        tirows RfflfdtionExdfption, InstbndfAlrfbdyExistsExdfption,
+               MBfbnRfgistrbtionExdfption, MBfbnExdfption,
+               NotComplibntMBfbnExdfption {
 
-        return createMBean(className, name, (Object[]) null, (String[]) null);
+        rfturn drfbtfMBfbn(dlbssNbmf, nbmf, (Objfdt[]) null, (String[]) null);
 
     }
 
-    public ObjectInstance createMBean(String className, ObjectName name,
-                                      ObjectName loaderName)
-        throws ReflectionException, InstanceAlreadyExistsException,
-               MBeanRegistrationException, MBeanException,
-               NotCompliantMBeanException, InstanceNotFoundException {
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf, ObjfdtNbmf nbmf,
+                                      ObjfdtNbmf lobdfrNbmf)
+        tirows RfflfdtionExdfption, InstbndfAlrfbdyExistsExdfption,
+               MBfbnRfgistrbtionExdfption, MBfbnExdfption,
+               NotComplibntMBfbnExdfption, InstbndfNotFoundExdfption {
 
-        return createMBean(className, name, loaderName, (Object[]) null,
+        rfturn drfbtfMBfbn(dlbssNbmf, nbmf, lobdfrNbmf, (Objfdt[]) null,
                            (String[]) null);
     }
 
-    public ObjectInstance createMBean(String className, ObjectName name,
-                                      Object[] params, String[] signature)
-        throws ReflectionException, InstanceAlreadyExistsException,
-               MBeanRegistrationException, MBeanException,
-               NotCompliantMBeanException  {
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf, ObjfdtNbmf nbmf,
+                                      Objfdt[] pbrbms, String[] signbturf)
+        tirows RfflfdtionExdfption, InstbndfAlrfbdyExistsExdfption,
+               MBfbnRfgistrbtionExdfption, MBfbnExdfption,
+               NotComplibntMBfbnExdfption  {
 
         try {
-            return createMBean(className, name, null, true,
-                               params, signature);
-        } catch (InstanceNotFoundException e) {
-            /* Can only happen if loaderName doesn't exist, but we just
-               passed null, so we shouldn't get this exception.  */
-            throw EnvHelp.initCause(
-                new IllegalArgumentException("Unexpected exception: " + e), e);
+            rfturn drfbtfMBfbn(dlbssNbmf, nbmf, null, truf,
+                               pbrbms, signbturf);
+        } dbtdi (InstbndfNotFoundExdfption f) {
+            /* Cbn only ibppfn if lobdfrNbmf dofsn't fxist, but wf just
+               pbssfd null, so wf siouldn't gft tiis fxdfption.  */
+            tirow EnvHflp.initCbusf(
+                nfw IllfgblArgumfntExdfption("Unfxpfdtfd fxdfption: " + f), f);
         }
     }
 
-    public ObjectInstance createMBean(String className, ObjectName name,
-                                      ObjectName loaderName,
-                                      Object[] params, String[] signature)
-        throws ReflectionException, InstanceAlreadyExistsException,
-               MBeanRegistrationException, MBeanException,
-               NotCompliantMBeanException, InstanceNotFoundException  {
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf, ObjfdtNbmf nbmf,
+                                      ObjfdtNbmf lobdfrNbmf,
+                                      Objfdt[] pbrbms, String[] signbturf)
+        tirows RfflfdtionExdfption, InstbndfAlrfbdyExistsExdfption,
+               MBfbnRfgistrbtionExdfption, MBfbnExdfption,
+               NotComplibntMBfbnExdfption, InstbndfNotFoundExdfption  {
 
-        return createMBean(className, name, loaderName, false,
-                           params, signature);
+        rfturn drfbtfMBfbn(dlbssNbmf, nbmf, lobdfrNbmf, fblsf,
+                           pbrbms, signbturf);
     }
 
-    private ObjectInstance createMBean(String className, ObjectName name,
-                                       ObjectName loaderName,
-                                       boolean withDefaultLoaderRepository,
-                                       Object[] params, String[] signature)
-        throws ReflectionException, InstanceAlreadyExistsException,
-               MBeanRegistrationException, MBeanException,
-               NotCompliantMBeanException, InstanceNotFoundException {
+    privbtf ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf, ObjfdtNbmf nbmf,
+                                       ObjfdtNbmf lobdfrNbmf,
+                                       boolfbn witiDffbultLobdfrRfpository,
+                                       Objfdt[] pbrbms, String[] signbturf)
+        tirows RfflfdtionExdfption, InstbndfAlrfbdyExistsExdfption,
+               MBfbnRfgistrbtionExdfption, MBfbnExdfption,
+               NotComplibntMBfbnExdfption, InstbndfNotFoundExdfption {
 
-        Class<?> theClass;
+        Clbss<?> tifClbss;
 
-        if (className == null) {
-            final RuntimeException wrapped =
-                new IllegalArgumentException("The class name cannot be null");
-            throw new RuntimeOperationsException(wrapped,
-                      "Exception occurred during MBean creation");
+        if (dlbssNbmf == null) {
+            finbl RuntimfExdfption wrbppfd =
+                nfw IllfgblArgumfntExdfption("Tif dlbss nbmf dbnnot bf null");
+            tirow nfw RuntimfOpfrbtionsExdfption(wrbppfd,
+                      "Exdfption oddurrfd during MBfbn drfbtion");
         }
 
-        if (name != null) {
-            if (name.isPattern()) {
-                final RuntimeException wrapped =
-                    new IllegalArgumentException("Invalid name->" +
-                                                 name.toString());
-                final String msg = "Exception occurred during MBean creation";
-                throw new RuntimeOperationsException(wrapped, msg);
+        if (nbmf != null) {
+            if (nbmf.isPbttfrn()) {
+                finbl RuntimfExdfption wrbppfd =
+                    nfw IllfgblArgumfntExdfption("Invblid nbmf->" +
+                                                 nbmf.toString());
+                finbl String msg = "Exdfption oddurrfd during MBfbn drfbtion";
+                tirow nfw RuntimfOpfrbtionsExdfption(wrbppfd, msg);
             }
 
-            name = nonDefaultDomain(name);
+            nbmf = nonDffbultDombin(nbmf);
         }
 
-        checkMBeanPermission(className, null, null, "instantiate");
-        checkMBeanPermission(className, null, name, "registerMBean");
+        difdkMBfbnPfrmission(dlbssNbmf, null, null, "instbntibtf");
+        difdkMBfbnPfrmission(dlbssNbmf, null, nbmf, "rfgistfrMBfbn");
 
-        /* Load the appropriate class. */
-        if (withDefaultLoaderRepository) {
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-                MBEANSERVER_LOGGER.logp(Level.FINER,
-                        DefaultMBeanServerInterceptor.class.getName(),
-                        "createMBean",
-                        "ClassName = " + className + ", ObjectName = " + name);
+        /* Lobd tif bppropribtf dlbss. */
+        if (witiDffbultLobdfrRfpository) {
+            if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                        DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                        "drfbtfMBfbn",
+                        "ClbssNbmf = " + dlbssNbmf + ", ObjfdtNbmf = " + nbmf);
             }
-            theClass =
-                instantiator.findClassWithDefaultLoaderRepository(className);
-        } else if (loaderName == null) {
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-                MBEANSERVER_LOGGER.logp(Level.FINER,
-                        DefaultMBeanServerInterceptor.class.getName(),
-                        "createMBean", "ClassName = " + className +
-                        ", ObjectName = " + name + ", Loader name = null");
-            }
-
-            theClass = instantiator.findClass(className,
-                                  server.getClass().getClassLoader());
-        } else {
-            loaderName = nonDefaultDomain(loaderName);
-
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-                MBEANSERVER_LOGGER.logp(Level.FINER,
-                        DefaultMBeanServerInterceptor.class.getName(),
-                        "createMBean", "ClassName = " + className +
-                        ", ObjectName = " + name +
-                        ", Loader name = " + loaderName);
+            tifClbss =
+                instbntibtor.findClbssWitiDffbultLobdfrRfpository(dlbssNbmf);
+        } flsf if (lobdfrNbmf == null) {
+            if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                        DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                        "drfbtfMBfbn", "ClbssNbmf = " + dlbssNbmf +
+                        ", ObjfdtNbmf = " + nbmf + ", Lobdfr nbmf = null");
             }
 
-            theClass = instantiator.findClass(className, loaderName);
+            tifClbss = instbntibtor.findClbss(dlbssNbmf,
+                                  sfrvfr.gftClbss().gftClbssLobdfr());
+        } flsf {
+            lobdfrNbmf = nonDffbultDombin(lobdfrNbmf);
+
+            if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                        DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                        "drfbtfMBfbn", "ClbssNbmf = " + dlbssNbmf +
+                        ", ObjfdtNbmf = " + nbmf +
+                        ", Lobdfr nbmf = " + lobdfrNbmf);
+            }
+
+            tifClbss = instbntibtor.findClbss(dlbssNbmf, lobdfrNbmf);
         }
 
-        checkMBeanTrustPermission(theClass);
+        difdkMBfbnTrustPfrmission(tifClbss);
 
-        // Check that the MBean can be instantiated by the MBeanServer.
-        Introspector.testCreation(theClass);
+        // Cifdk tibt tif MBfbn dbn bf instbntibtfd by tif MBfbnSfrvfr.
+        Introspfdtor.tfstCrfbtion(tifClbss);
 
-        // Check the JMX MBean compliance of the class
-        Introspector.checkCompliance(theClass);
+        // Cifdk tif JMX MBfbn domplibndf of tif dlbss
+        Introspfdtor.difdkComplibndf(tifClbss);
 
-        Object moi= instantiator.instantiate(theClass, params,  signature,
-                                             server.getClass().getClassLoader());
+        Objfdt moi= instbntibtor.instbntibtf(tifClbss, pbrbms,  signbturf,
+                                             sfrvfr.gftClbss().gftClbssLobdfr());
 
-        final String infoClassName = getNewMBeanClassName(moi);
+        finbl String infoClbssNbmf = gftNfwMBfbnClbssNbmf(moi);
 
-        return registerObject(infoClassName, moi, name);
+        rfturn rfgistfrObjfdt(infoClbssNbmf, moi, nbmf);
     }
 
-    public ObjectInstance registerMBean(Object object, ObjectName name)
-        throws InstanceAlreadyExistsException, MBeanRegistrationException,
-        NotCompliantMBeanException  {
+    publid ObjfdtInstbndf rfgistfrMBfbn(Objfdt objfdt, ObjfdtNbmf nbmf)
+        tirows InstbndfAlrfbdyExistsExdfption, MBfbnRfgistrbtionExdfption,
+        NotComplibntMBfbnExdfption  {
 
         // ------------------------------
         // ------------------------------
-        Class<?> theClass = object.getClass();
+        Clbss<?> tifClbss = objfdt.gftClbss();
 
-        Introspector.checkCompliance(theClass);
+        Introspfdtor.difdkComplibndf(tifClbss);
 
-        final String infoClassName = getNewMBeanClassName(object);
+        finbl String infoClbssNbmf = gftNfwMBfbnClbssNbmf(objfdt);
 
-        checkMBeanPermission(infoClassName, null, name, "registerMBean");
-        checkMBeanTrustPermission(theClass);
+        difdkMBfbnPfrmission(infoClbssNbmf, null, nbmf, "rfgistfrMBfbn");
+        difdkMBfbnTrustPfrmission(tifClbss);
 
-        return registerObject(infoClassName, object, name);
+        rfturn rfgistfrObjfdt(infoClbssNbmf, objfdt, nbmf);
     }
 
-    private static String getNewMBeanClassName(Object mbeanToRegister)
-            throws NotCompliantMBeanException {
-        if (mbeanToRegister instanceof DynamicMBean) {
-            DynamicMBean mbean = (DynamicMBean) mbeanToRegister;
-            final String name;
+    privbtf stbtid String gftNfwMBfbnClbssNbmf(Objfdt mbfbnToRfgistfr)
+            tirows NotComplibntMBfbnExdfption {
+        if (mbfbnToRfgistfr instbndfof DynbmidMBfbn) {
+            DynbmidMBfbn mbfbn = (DynbmidMBfbn) mbfbnToRfgistfr;
+            finbl String nbmf;
             try {
-                name = mbean.getMBeanInfo().getClassName();
-            } catch (Exception e) {
-                // Includes case where getMBeanInfo() returns null
-                NotCompliantMBeanException ncmbe =
-                    new NotCompliantMBeanException("Bad getMBeanInfo()");
-                ncmbe.initCause(e);
-                throw ncmbe;
+                nbmf = mbfbn.gftMBfbnInfo().gftClbssNbmf();
+            } dbtdi (Exdfption f) {
+                // Indludfs dbsf wifrf gftMBfbnInfo() rfturns null
+                NotComplibntMBfbnExdfption ndmbf =
+                    nfw NotComplibntMBfbnExdfption("Bbd gftMBfbnInfo()");
+                ndmbf.initCbusf(f);
+                tirow ndmbf;
             }
-            if (name == null) {
-                final String msg = "MBeanInfo has null class name";
-                throw new NotCompliantMBeanException(msg);
+            if (nbmf == null) {
+                finbl String msg = "MBfbnInfo ibs null dlbss nbmf";
+                tirow nfw NotComplibntMBfbnExdfption(msg);
             }
-            return name;
-        } else
-            return mbeanToRegister.getClass().getName();
+            rfturn nbmf;
+        } flsf
+            rfturn mbfbnToRfgistfr.gftClbss().gftNbmf();
     }
 
-    private final Set<ObjectName> beingUnregistered =
-        new HashSet<ObjectName>();
+    privbtf finbl Sft<ObjfdtNbmf> bfingUnrfgistfrfd =
+        nfw HbsiSft<ObjfdtNbmf>();
 
-    public void unregisterMBean(ObjectName name)
-            throws InstanceNotFoundException, MBeanRegistrationException  {
+    publid void unrfgistfrMBfbn(ObjfdtNbmf nbmf)
+            tirows InstbndfNotFoundExdfption, MBfbnRfgistrbtionExdfption  {
 
-        if (name == null) {
-            final RuntimeException wrapped =
-                new IllegalArgumentException("Object name cannot be null");
-            throw new RuntimeOperationsException(wrapped,
-                      "Exception occurred trying to unregister the MBean");
+        if (nbmf == null) {
+            finbl RuntimfExdfption wrbppfd =
+                nfw IllfgblArgumfntExdfption("Objfdt nbmf dbnnot bf null");
+            tirow nfw RuntimfOpfrbtionsExdfption(wrbppfd,
+                      "Exdfption oddurrfd trying to unrfgistfr tif MBfbn");
         }
 
-        name = nonDefaultDomain(name);
+        nbmf = nonDffbultDombin(nbmf);
 
-        /* The semantics of preDeregister are tricky.  If it throws an
-           exception, then the unregisterMBean fails.  This allows an
-           MBean to refuse to be unregistered.  If it returns
-           successfully, then the unregisterMBean can proceed.  In
-           this case the preDeregister may have cleaned up some state,
-           and will not expect to be called a second time.  So if two
-           threads try to unregister the same MBean at the same time
-           then one of them must wait for the other one to either (a)
-           call preDeregister and get an exception or (b) call
-           preDeregister successfully and unregister the MBean.
-           Suppose thread T1 is unregistering an MBean and thread T2
-           is trying to unregister the same MBean, so waiting for T1.
-           Then a deadlock is possible if the preDeregister for T1
-           ends up needing a lock held by T2.  Given the semantics
-           just described, there does not seem to be any way to avoid
-           this.  This will not happen to code where it is clear for
-           any given MBean what thread may unregister that MBean.
+        /* Tif sfmbntids of prfDfrfgistfr brf tridky.  If it tirows bn
+           fxdfption, tifn tif unrfgistfrMBfbn fbils.  Tiis bllows bn
+           MBfbn to rffusf to bf unrfgistfrfd.  If it rfturns
+           suddfssfully, tifn tif unrfgistfrMBfbn dbn prodffd.  In
+           tiis dbsf tif prfDfrfgistfr mby ibvf dlfbnfd up somf stbtf,
+           bnd will not fxpfdt to bf dbllfd b sfdond timf.  So if two
+           tirfbds try to unrfgistfr tif sbmf MBfbn bt tif sbmf timf
+           tifn onf of tifm must wbit for tif otifr onf to fitifr (b)
+           dbll prfDfrfgistfr bnd gft bn fxdfption or (b) dbll
+           prfDfrfgistfr suddfssfully bnd unrfgistfr tif MBfbn.
+           Supposf tirfbd T1 is unrfgistfring bn MBfbn bnd tirfbd T2
+           is trying to unrfgistfr tif sbmf MBfbn, so wbiting for T1.
+           Tifn b dfbdlodk is possiblf if tif prfDfrfgistfr for T1
+           fnds up nffding b lodk ifld by T2.  Givfn tif sfmbntids
+           just dfsdribfd, tifrf dofs not sffm to bf bny wby to bvoid
+           tiis.  Tiis will not ibppfn to dodf wifrf it is dlfbr for
+           bny givfn MBfbn wibt tirfbd mby unrfgistfr tibt MBfbn.
 
-           On the other hand we clearly do not want a thread that is
-           unregistering MBean A to have to wait for another thread
-           that is unregistering another MBean B (see bug 6318664).  A
-           deadlock in this situation could reasonably be considered
-           gratuitous.  So holding a global lock across the
-           preDeregister call would be bad.
+           On tif otifr ibnd wf dlfbrly do not wbnt b tirfbd tibt is
+           unrfgistfring MBfbn A to ibvf to wbit for bnotifr tirfbd
+           tibt is unrfgistfring bnotifr MBfbn B (sff bug 6318664).  A
+           dfbdlodk in tiis situbtion dould rfbsonbbly bf donsidfrfd
+           grbtuitous.  So iolding b globbl lodk bdross tif
+           prfDfrfgistfr dbll would bf bbd.
 
-           So we have a set of ObjectNames that some thread is
-           currently unregistering.  When a thread wants to unregister
-           a name, it must first check if the name is in the set, and
-           if so it must wait.  When a thread successfully unregisters
-           a name it removes the name from the set and notifies any
-           waiting threads that the set has changed.
+           So wf ibvf b sft of ObjfdtNbmfs tibt somf tirfbd is
+           durrfntly unrfgistfring.  Wifn b tirfbd wbnts to unrfgistfr
+           b nbmf, it must first difdk if tif nbmf is in tif sft, bnd
+           if so it must wbit.  Wifn b tirfbd suddfssfully unrfgistfrs
+           b nbmf it rfmovfs tif nbmf from tif sft bnd notififs bny
+           wbiting tirfbds tibt tif sft ibs dibngfd.
 
-           This implies that we must be very careful to ensure that
-           the name is removed from the set and waiters notified, no
-           matter what code path is taken.  */
+           Tiis implifs tibt wf must bf vfry dbrfful to fnsurf tibt
+           tif nbmf is rfmovfd from tif sft bnd wbitfrs notififd, no
+           mbttfr wibt dodf pbti is tbkfn.  */
 
-        synchronized (beingUnregistered) {
-            while (beingUnregistered.contains(name)) {
+        syndironizfd (bfingUnrfgistfrfd) {
+            wiilf (bfingUnrfgistfrfd.dontbins(nbmf)) {
                 try {
-                    beingUnregistered.wait();
-                } catch (InterruptedException e) {
-                    throw new MBeanRegistrationException(e, e.toString());
-                    // pretend the exception came from preDeregister;
-                    // in another execution sequence it could have
+                    bfingUnrfgistfrfd.wbit();
+                } dbtdi (IntfrruptfdExdfption f) {
+                    tirow nfw MBfbnRfgistrbtionExdfption(f, f.toString());
+                    // prftfnd tif fxdfption dbmf from prfDfrfgistfr;
+                    // in bnotifr fxfdution sfqufndf it dould ibvf
                 }
             }
-            beingUnregistered.add(name);
+            bfingUnrfgistfrfd.bdd(nbmf);
         }
 
         try {
-            exclusiveUnregisterMBean(name);
-        } finally {
-            synchronized (beingUnregistered) {
-                beingUnregistered.remove(name);
-                beingUnregistered.notifyAll();
+            fxdlusivfUnrfgistfrMBfbn(nbmf);
+        } finblly {
+            syndironizfd (bfingUnrfgistfrfd) {
+                bfingUnrfgistfrfd.rfmovf(nbmf);
+                bfingUnrfgistfrfd.notifyAll();
             }
         }
     }
 
-    private void exclusiveUnregisterMBean(ObjectName name)
-            throws InstanceNotFoundException, MBeanRegistrationException {
+    privbtf void fxdlusivfUnrfgistfrMBfbn(ObjfdtNbmf nbmf)
+            tirows InstbndfNotFoundExdfption, MBfbnRfgistrbtionExdfption {
 
-        DynamicMBean instance = getMBean(name);
-        // may throw InstanceNotFoundException
+        DynbmidMBfbn instbndf = gftMBfbn(nbmf);
+        // mby tirow InstbndfNotFoundExdfption
 
-        checkMBeanPermission(instance, null, name, "unregisterMBean");
+        difdkMBfbnPfrmission(instbndf, null, nbmf, "unrfgistfrMBfbn");
 
-        if (instance instanceof MBeanRegistration)
-            preDeregisterInvoke((MBeanRegistration) instance);
+        if (instbndf instbndfof MBfbnRfgistrbtion)
+            prfDfrfgistfrInvokf((MBfbnRfgistrbtion) instbndf);
 
-        final Object resource = getResource(instance);
+        finbl Objfdt rfsourdf = gftRfsourdf(instbndf);
 
-        // Unregisters the MBean from the repository.
-        // Returns the resource context that was used.
-        // The returned context does nothing for regular MBeans.
-        // For ClassLoader MBeans and JMXNamespace (and JMXDomain)
-        // MBeans - the context makes it possible to unregister these
-        // objects from the appropriate framework artifacts, such as
-        // the CLR or the dispatcher, from within the repository lock.
-        // In case of success, we also need to call context.done() at the
-        // end of this method.
+        // Unrfgistfrs tif MBfbn from tif rfpository.
+        // Rfturns tif rfsourdf dontfxt tibt wbs usfd.
+        // Tif rfturnfd dontfxt dofs notiing for rfgulbr MBfbns.
+        // For ClbssLobdfr MBfbns bnd JMXNbmfspbdf (bnd JMXDombin)
+        // MBfbns - tif dontfxt mbkfs it possiblf to unrfgistfr tifsf
+        // objfdts from tif bppropribtf frbmfwork brtifbdts, sudi bs
+        // tif CLR or tif dispbtdifr, from witiin tif rfpository lodk.
+        // In dbsf of suddfss, wf blso nffd to dbll dontfxt.donf() bt tif
+        // fnd of tiis mftiod.
         //
-        final ResourceContext context =
-                unregisterFromRepository(resource, instance, name);
+        finbl RfsourdfContfxt dontfxt =
+                unrfgistfrFromRfpository(rfsourdf, instbndf, nbmf);
 
         try {
-            if (instance instanceof MBeanRegistration)
-                postDeregisterInvoke(name,(MBeanRegistration) instance);
-        } finally {
-            context.done();
+            if (instbndf instbndfof MBfbnRfgistrbtion)
+                postDfrfgistfrInvokf(nbmf,(MBfbnRfgistrbtion) instbndf);
+        } finblly {
+            dontfxt.donf();
         }
     }
 
-    public ObjectInstance getObjectInstance(ObjectName name)
-            throws InstanceNotFoundException {
+    publid ObjfdtInstbndf gftObjfdtInstbndf(ObjfdtNbmf nbmf)
+            tirows InstbndfNotFoundExdfption {
 
-        name = nonDefaultDomain(name);
-        DynamicMBean instance = getMBean(name);
+        nbmf = nonDffbultDombin(nbmf);
+        DynbmidMBfbn instbndf = gftMBfbn(nbmf);
 
-        checkMBeanPermission(instance, null, name, "getObjectInstance");
+        difdkMBfbnPfrmission(instbndf, null, nbmf, "gftObjfdtInstbndf");
 
-        final String className = getClassName(instance);
+        finbl String dlbssNbmf = gftClbssNbmf(instbndf);
 
-        return new ObjectInstance(name, className);
+        rfturn nfw ObjfdtInstbndf(nbmf, dlbssNbmf);
     }
 
-    public Set<ObjectInstance> queryMBeans(ObjectName name, QueryExp query) {
-        SecurityManager sm = System.getSecurityManager();
+    publid Sft<ObjfdtInstbndf> qufryMBfbns(ObjfdtNbmf nbmf, QufryExp qufry) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            // Check if the caller has the right to invoke 'queryMBeans'
+            // Cifdk if tif dbllfr ibs tif rigit to invokf 'qufryMBfbns'
             //
-            checkMBeanPermission((String) null, null, null, "queryMBeans");
+            difdkMBfbnPfrmission((String) null, null, null, "qufryMBfbns");
 
-            // Perform query without "query".
+            // Pfrform qufry witiout "qufry".
             //
-            Set<ObjectInstance> list = queryMBeansImpl(name, null);
+            Sft<ObjfdtInstbndf> list = qufryMBfbnsImpl(nbmf, null);
 
-            // Check if the caller has the right to invoke 'queryMBeans'
-            // on each specific classname/objectname in the list.
+            // Cifdk if tif dbllfr ibs tif rigit to invokf 'qufryMBfbns'
+            // on fbdi spfdifid dlbssnbmf/objfdtnbmf in tif list.
             //
-            Set<ObjectInstance> allowedList =
-                new HashSet<ObjectInstance>(list.size());
-            for (ObjectInstance oi : list) {
+            Sft<ObjfdtInstbndf> bllowfdList =
+                nfw HbsiSft<ObjfdtInstbndf>(list.sizf());
+            for (ObjfdtInstbndf oi : list) {
                 try {
-                    checkMBeanPermission(oi.getClassName(), null,
-                                         oi.getObjectName(), "queryMBeans");
-                    allowedList.add(oi);
-                } catch (SecurityException e) {
-                    // OK: Do not add this ObjectInstance to the list
+                    difdkMBfbnPfrmission(oi.gftClbssNbmf(), null,
+                                         oi.gftObjfdtNbmf(), "qufryMBfbns");
+                    bllowfdList.bdd(oi);
+                } dbtdi (SfdurityExdfption f) {
+                    // OK: Do not bdd tiis ObjfdtInstbndf to tif list
                 }
             }
 
-            // Apply query to allowed MBeans only.
+            // Apply qufry to bllowfd MBfbns only.
             //
-            return filterListOfObjectInstances(allowedList, query);
-        } else {
-            // Perform query.
+            rfturn filtfrListOfObjfdtInstbndfs(bllowfdList, qufry);
+        } flsf {
+            // Pfrform qufry.
             //
-            return queryMBeansImpl(name, query);
+            rfturn qufryMBfbnsImpl(nbmf, qufry);
         }
     }
 
-    private Set<ObjectInstance> queryMBeansImpl(ObjectName name,
-                                                QueryExp query) {
-        // Query the MBeans on the repository
+    privbtf Sft<ObjfdtInstbndf> qufryMBfbnsImpl(ObjfdtNbmf nbmf,
+                                                QufryExp qufry) {
+        // Qufry tif MBfbns on tif rfpository
         //
-        Set<NamedObject> list = repository.query(name, query);
+        Sft<NbmfdObjfdt> list = rfpository.qufry(nbmf, qufry);
 
-        return (objectInstancesFromFilteredNamedObjects(list, query));
+        rfturn (objfdtInstbndfsFromFiltfrfdNbmfdObjfdts(list, qufry));
     }
 
-    public Set<ObjectName> queryNames(ObjectName name, QueryExp query) {
-        Set<ObjectName> queryList;
-        SecurityManager sm = System.getSecurityManager();
+    publid Sft<ObjfdtNbmf> qufryNbmfs(ObjfdtNbmf nbmf, QufryExp qufry) {
+        Sft<ObjfdtNbmf> qufryList;
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            // Check if the caller has the right to invoke 'queryNames'
+            // Cifdk if tif dbllfr ibs tif rigit to invokf 'qufryNbmfs'
             //
-            checkMBeanPermission((String) null, null, null, "queryNames");
+            difdkMBfbnPfrmission((String) null, null, null, "qufryNbmfs");
 
-            // Perform query without "query".
+            // Pfrform qufry witiout "qufry".
             //
-            Set<ObjectInstance> list = queryMBeansImpl(name, null);
+            Sft<ObjfdtInstbndf> list = qufryMBfbnsImpl(nbmf, null);
 
-            // Check if the caller has the right to invoke 'queryNames'
-            // on each specific classname/objectname in the list.
+            // Cifdk if tif dbllfr ibs tif rigit to invokf 'qufryNbmfs'
+            // on fbdi spfdifid dlbssnbmf/objfdtnbmf in tif list.
             //
-            Set<ObjectInstance> allowedList =
-                new HashSet<ObjectInstance>(list.size());
-            for (ObjectInstance oi : list) {
+            Sft<ObjfdtInstbndf> bllowfdList =
+                nfw HbsiSft<ObjfdtInstbndf>(list.sizf());
+            for (ObjfdtInstbndf oi : list) {
                 try {
-                    checkMBeanPermission(oi.getClassName(), null,
-                                         oi.getObjectName(), "queryNames");
-                    allowedList.add(oi);
-                } catch (SecurityException e) {
-                    // OK: Do not add this ObjectInstance to the list
+                    difdkMBfbnPfrmission(oi.gftClbssNbmf(), null,
+                                         oi.gftObjfdtNbmf(), "qufryNbmfs");
+                    bllowfdList.bdd(oi);
+                } dbtdi (SfdurityExdfption f) {
+                    // OK: Do not bdd tiis ObjfdtInstbndf to tif list
                 }
             }
 
-            // Apply query to allowed MBeans only.
+            // Apply qufry to bllowfd MBfbns only.
             //
-            Set<ObjectInstance> queryObjectInstanceList =
-                filterListOfObjectInstances(allowedList, query);
-            queryList = new HashSet<ObjectName>(queryObjectInstanceList.size());
-            for (ObjectInstance oi : queryObjectInstanceList) {
-                queryList.add(oi.getObjectName());
+            Sft<ObjfdtInstbndf> qufryObjfdtInstbndfList =
+                filtfrListOfObjfdtInstbndfs(bllowfdList, qufry);
+            qufryList = nfw HbsiSft<ObjfdtNbmf>(qufryObjfdtInstbndfList.sizf());
+            for (ObjfdtInstbndf oi : qufryObjfdtInstbndfList) {
+                qufryList.bdd(oi.gftObjfdtNbmf());
             }
-        } else {
-            // Perform query.
+        } flsf {
+            // Pfrform qufry.
             //
-            queryList = queryNamesImpl(name, query);
+            qufryList = qufryNbmfsImpl(nbmf, qufry);
         }
-        return queryList;
+        rfturn qufryList;
     }
 
-    private Set<ObjectName> queryNamesImpl(ObjectName name, QueryExp query) {
-        // Query the MBeans on the repository
+    privbtf Sft<ObjfdtNbmf> qufryNbmfsImpl(ObjfdtNbmf nbmf, QufryExp qufry) {
+        // Qufry tif MBfbns on tif rfpository
         //
-        Set<NamedObject> list = repository.query(name, query);
+        Sft<NbmfdObjfdt> list = rfpository.qufry(nbmf, qufry);
 
-        return (objectNamesFromFilteredNamedObjects(list, query));
+        rfturn (objfdtNbmfsFromFiltfrfdNbmfdObjfdts(list, qufry));
     }
 
-    public boolean isRegistered(ObjectName name) {
-        if (name == null) {
-            throw new RuntimeOperationsException(
-                     new IllegalArgumentException("Object name cannot be null"),
-                     "Object name cannot be null");
+    publid boolfbn isRfgistfrfd(ObjfdtNbmf nbmf) {
+        if (nbmf == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(
+                     nfw IllfgblArgumfntExdfption("Objfdt nbmf dbnnot bf null"),
+                     "Objfdt nbmf dbnnot bf null");
         }
 
-        name = nonDefaultDomain(name);
+        nbmf = nonDffbultDombin(nbmf);
 
-        /* No Permission check */
-        // isRegistered is always unchecked as per JMX spec.
+        /* No Pfrmission difdk */
+        // isRfgistfrfd is blwbys undifdkfd bs pfr JMX spfd.
 
-        return (repository.contains(name));
+        rfturn (rfpository.dontbins(nbmf));
     }
 
-    public String[] getDomains()  {
-        SecurityManager sm = System.getSecurityManager();
+    publid String[] gftDombins()  {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            // Check if the caller has the right to invoke 'getDomains'
+            // Cifdk if tif dbllfr ibs tif rigit to invokf 'gftDombins'
             //
-            checkMBeanPermission((String) null, null, null, "getDomains");
+            difdkMBfbnPfrmission((String) null, null, null, "gftDombins");
 
-            // Return domains
+            // Rfturn dombins
             //
-            String[] domains = repository.getDomains();
+            String[] dombins = rfpository.gftDombins();
 
-            // Check if the caller has the right to invoke 'getDomains'
-            // on each specific domain in the list.
+            // Cifdk if tif dbllfr ibs tif rigit to invokf 'gftDombins'
+            // on fbdi spfdifid dombin in tif list.
             //
-            List<String> result = new ArrayList<String>(domains.length);
-            for (int i = 0; i < domains.length; i++) {
+            List<String> rfsult = nfw ArrbyList<String>(dombins.lfngti);
+            for (int i = 0; i < dombins.lfngti; i++) {
                 try {
-                    ObjectName dom = Util.newObjectName(domains[i] + ":x=x");
-                    checkMBeanPermission((String) null, null, dom, "getDomains");
-                    result.add(domains[i]);
-                } catch (SecurityException e) {
-                    // OK: Do not add this domain to the list
+                    ObjfdtNbmf dom = Util.nfwObjfdtNbmf(dombins[i] + ":x=x");
+                    difdkMBfbnPfrmission((String) null, null, dom, "gftDombins");
+                    rfsult.bdd(dombins[i]);
+                } dbtdi (SfdurityExdfption f) {
+                    // OK: Do not bdd tiis dombin to tif list
                 }
             }
 
-            // Make an array from result.
+            // Mbkf bn brrby from rfsult.
             //
-            return result.toArray(new String[result.size()]);
-        } else {
-            return repository.getDomains();
+            rfturn rfsult.toArrby(nfw String[rfsult.sizf()]);
+        } flsf {
+            rfturn rfpository.gftDombins();
         }
     }
 
-    public Integer getMBeanCount() {
-        return (repository.getCount());
+    publid Intfgfr gftMBfbnCount() {
+        rfturn (rfpository.gftCount());
     }
 
-    public Object getAttribute(ObjectName name, String attribute)
-        throws MBeanException, AttributeNotFoundException,
-               InstanceNotFoundException, ReflectionException {
+    publid Objfdt gftAttributf(ObjfdtNbmf nbmf, String bttributf)
+        tirows MBfbnExdfption, AttributfNotFoundExdfption,
+               InstbndfNotFoundExdfption, RfflfdtionExdfption {
 
-        if (name == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("Object name cannot be null"),
-                "Exception occurred trying to invoke the getter on the MBean");
+        if (nbmf == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(nfw
+                IllfgblArgumfntExdfption("Objfdt nbmf dbnnot bf null"),
+                "Exdfption oddurrfd trying to invokf tif gfttfr on tif MBfbn");
         }
-        if (attribute == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("Attribute cannot be null"),
-                "Exception occurred trying to invoke the getter on the MBean");
-        }
-
-        name = nonDefaultDomain(name);
-
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "getAttribute",
-                    "Attribute = " + attribute + ", ObjectName = " + name);
+        if (bttributf == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(nfw
+                IllfgblArgumfntExdfption("Attributf dbnnot bf null"),
+                "Exdfption oddurrfd trying to invokf tif gfttfr on tif MBfbn");
         }
 
-        final DynamicMBean instance = getMBean(name);
-        checkMBeanPermission(instance, attribute, name, "getAttribute");
+        nbmf = nonDffbultDombin(nbmf);
+
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                    "gftAttributf",
+                    "Attributf = " + bttributf + ", ObjfdtNbmf = " + nbmf);
+        }
+
+        finbl DynbmidMBfbn instbndf = gftMBfbn(nbmf);
+        difdkMBfbnPfrmission(instbndf, bttributf, nbmf, "gftAttributf");
 
         try {
-            return instance.getAttribute(attribute);
-        } catch (AttributeNotFoundException e) {
-            throw e;
-        } catch (Throwable t) {
-            rethrowMaybeMBeanException(t);
-            throw new AssertionError(); // not reached
+            rfturn instbndf.gftAttributf(bttributf);
+        } dbtdi (AttributfNotFoundExdfption f) {
+            tirow f;
+        } dbtdi (Tirowbblf t) {
+            rftirowMbybfMBfbnExdfption(t);
+            tirow nfw AssfrtionError(); // not rfbdifd
         }
     }
 
-    public AttributeList getAttributes(ObjectName name, String[] attributes)
-        throws InstanceNotFoundException, ReflectionException  {
+    publid AttributfList gftAttributfs(ObjfdtNbmf nbmf, String[] bttributfs)
+        tirows InstbndfNotFoundExdfption, RfflfdtionExdfption  {
 
-        if (name == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("ObjectName name cannot be null"),
-                "Exception occurred trying to invoke the getter on the MBean");
+        if (nbmf == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(nfw
+                IllfgblArgumfntExdfption("ObjfdtNbmf nbmf dbnnot bf null"),
+                "Exdfption oddurrfd trying to invokf tif gfttfr on tif MBfbn");
         }
 
-        if (attributes == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("Attributes cannot be null"),
-                "Exception occurred trying to invoke the getter on the MBean");
+        if (bttributfs == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(nfw
+                IllfgblArgumfntExdfption("Attributfs dbnnot bf null"),
+                "Exdfption oddurrfd trying to invokf tif gfttfr on tif MBfbn");
         }
 
-        name = nonDefaultDomain(name);
+        nbmf = nonDffbultDombin(nbmf);
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "getAttributes", "ObjectName = " + name);
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                    "gftAttributfs", "ObjfdtNbmf = " + nbmf);
         }
 
-        final DynamicMBean instance = getMBean(name);
-        final String[] allowedAttributes;
-        final SecurityManager sm = System.getSecurityManager();
+        finbl DynbmidMBfbn instbndf = gftMBfbn(nbmf);
+        finbl String[] bllowfdAttributfs;
+        finbl SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm == null)
-            allowedAttributes = attributes;
-        else {
-            final String classname = getClassName(instance);
+            bllowfdAttributfs = bttributfs;
+        flsf {
+            finbl String dlbssnbmf = gftClbssNbmf(instbndf);
 
-            // Check if the caller has the right to invoke 'getAttribute'
+            // Cifdk if tif dbllfr ibs tif rigit to invokf 'gftAttributf'
             //
-            checkMBeanPermission(classname, null, name, "getAttribute");
+            difdkMBfbnPfrmission(dlbssnbmf, null, nbmf, "gftAttributf");
 
-            // Check if the caller has the right to invoke 'getAttribute'
-            // on each specific attribute
+            // Cifdk if tif dbllfr ibs tif rigit to invokf 'gftAttributf'
+            // on fbdi spfdifid bttributf
             //
-            List<String> allowedList =
-                new ArrayList<String>(attributes.length);
-            for (String attr : attributes) {
+            List<String> bllowfdList =
+                nfw ArrbyList<String>(bttributfs.lfngti);
+            for (String bttr : bttributfs) {
                 try {
-                    checkMBeanPermission(classname, attr, name, "getAttribute");
-                    allowedList.add(attr);
-                } catch (SecurityException e) {
-                    // OK: Do not add this attribute to the list
+                    difdkMBfbnPfrmission(dlbssnbmf, bttr, nbmf, "gftAttributf");
+                    bllowfdList.bdd(bttr);
+                } dbtdi (SfdurityExdfption f) {
+                    // OK: Do not bdd tiis bttributf to tif list
                 }
             }
-            allowedAttributes =
-                    allowedList.toArray(new String[allowedList.size()]);
+            bllowfdAttributfs =
+                    bllowfdList.toArrby(nfw String[bllowfdList.sizf()]);
         }
 
         try {
-            return instance.getAttributes(allowedAttributes);
-        } catch (Throwable t) {
-            rethrow(t);
-            throw new AssertionError();
+            rfturn instbndf.gftAttributfs(bllowfdAttributfs);
+        } dbtdi (Tirowbblf t) {
+            rftirow(t);
+            tirow nfw AssfrtionError();
         }
     }
 
-    public void setAttribute(ObjectName name, Attribute attribute)
-        throws InstanceNotFoundException, AttributeNotFoundException,
-               InvalidAttributeValueException, MBeanException,
-               ReflectionException  {
+    publid void sftAttributf(ObjfdtNbmf nbmf, Attributf bttributf)
+        tirows InstbndfNotFoundExdfption, AttributfNotFoundExdfption,
+               InvblidAttributfVblufExdfption, MBfbnExdfption,
+               RfflfdtionExdfption  {
 
-        if (name == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("ObjectName name cannot be null"),
-                "Exception occurred trying to invoke the setter on the MBean");
+        if (nbmf == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(nfw
+                IllfgblArgumfntExdfption("ObjfdtNbmf nbmf dbnnot bf null"),
+                "Exdfption oddurrfd trying to invokf tif sfttfr on tif MBfbn");
         }
 
-        if (attribute == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("Attribute cannot be null"),
-                "Exception occurred trying to invoke the setter on the MBean");
+        if (bttributf == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(nfw
+                IllfgblArgumfntExdfption("Attributf dbnnot bf null"),
+                "Exdfption oddurrfd trying to invokf tif sfttfr on tif MBfbn");
         }
 
-        name = nonDefaultDomain(name);
+        nbmf = nonDffbultDombin(nbmf);
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "setAttribute", "ObjectName = " + name +
-                    ", Attribute = " + attribute.getName());
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                    "sftAttributf", "ObjfdtNbmf = " + nbmf +
+                    ", Attributf = " + bttributf.gftNbmf());
         }
 
-        DynamicMBean instance = getMBean(name);
-        checkMBeanPermission(instance, attribute.getName(), name, "setAttribute");
+        DynbmidMBfbn instbndf = gftMBfbn(nbmf);
+        difdkMBfbnPfrmission(instbndf, bttributf.gftNbmf(), nbmf, "sftAttributf");
 
         try {
-            instance.setAttribute(attribute);
-        } catch (AttributeNotFoundException e) {
-            throw e;
-        } catch (InvalidAttributeValueException e) {
-            throw e;
-        } catch (Throwable t) {
-            rethrowMaybeMBeanException(t);
-            throw new AssertionError();
+            instbndf.sftAttributf(bttributf);
+        } dbtdi (AttributfNotFoundExdfption f) {
+            tirow f;
+        } dbtdi (InvblidAttributfVblufExdfption f) {
+            tirow f;
+        } dbtdi (Tirowbblf t) {
+            rftirowMbybfMBfbnExdfption(t);
+            tirow nfw AssfrtionError();
         }
     }
 
-    public AttributeList setAttributes(ObjectName name,
-                                       AttributeList attributes)
-            throws InstanceNotFoundException, ReflectionException  {
+    publid AttributfList sftAttributfs(ObjfdtNbmf nbmf,
+                                       AttributfList bttributfs)
+            tirows InstbndfNotFoundExdfption, RfflfdtionExdfption  {
 
-        if (name == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("ObjectName name cannot be null"),
-                "Exception occurred trying to invoke the setter on the MBean");
+        if (nbmf == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(nfw
+                IllfgblArgumfntExdfption("ObjfdtNbmf nbmf dbnnot bf null"),
+                "Exdfption oddurrfd trying to invokf tif sfttfr on tif MBfbn");
         }
 
-        if (attributes == null) {
-            throw new RuntimeOperationsException(new
-            IllegalArgumentException("AttributeList  cannot be null"),
-            "Exception occurred trying to invoke the setter on the MBean");
+        if (bttributfs == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(nfw
+            IllfgblArgumfntExdfption("AttributfList  dbnnot bf null"),
+            "Exdfption oddurrfd trying to invokf tif sfttfr on tif MBfbn");
         }
 
-        name = nonDefaultDomain(name);
+        nbmf = nonDffbultDombin(nbmf);
 
-        final DynamicMBean instance = getMBean(name);
-        final AttributeList allowedAttributes;
-        final SecurityManager sm = System.getSecurityManager();
+        finbl DynbmidMBfbn instbndf = gftMBfbn(nbmf);
+        finbl AttributfList bllowfdAttributfs;
+        finbl SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm == null)
-            allowedAttributes = attributes;
-        else {
-            String classname = getClassName(instance);
+            bllowfdAttributfs = bttributfs;
+        flsf {
+            String dlbssnbmf = gftClbssNbmf(instbndf);
 
-            // Check if the caller has the right to invoke 'setAttribute'
+            // Cifdk if tif dbllfr ibs tif rigit to invokf 'sftAttributf'
             //
-            checkMBeanPermission(classname, null, name, "setAttribute");
+            difdkMBfbnPfrmission(dlbssnbmf, null, nbmf, "sftAttributf");
 
-            // Check if the caller has the right to invoke 'setAttribute'
-            // on each specific attribute
+            // Cifdk if tif dbllfr ibs tif rigit to invokf 'sftAttributf'
+            // on fbdi spfdifid bttributf
             //
-            allowedAttributes = new AttributeList(attributes.size());
-            for (Attribute attribute : attributes.asList()) {
+            bllowfdAttributfs = nfw AttributfList(bttributfs.sizf());
+            for (Attributf bttributf : bttributfs.bsList()) {
                 try {
-                    checkMBeanPermission(classname, attribute.getName(),
-                                         name, "setAttribute");
-                    allowedAttributes.add(attribute);
-                } catch (SecurityException e) {
-                    // OK: Do not add this attribute to the list
+                    difdkMBfbnPfrmission(dlbssnbmf, bttributf.gftNbmf(),
+                                         nbmf, "sftAttributf");
+                    bllowfdAttributfs.bdd(bttributf);
+                } dbtdi (SfdurityExdfption f) {
+                    // OK: Do not bdd tiis bttributf to tif list
                 }
             }
         }
         try {
-            return instance.setAttributes(allowedAttributes);
-        } catch (Throwable t) {
-            rethrow(t);
-            throw new AssertionError();
+            rfturn instbndf.sftAttributfs(bllowfdAttributfs);
+        } dbtdi (Tirowbblf t) {
+            rftirow(t);
+            tirow nfw AssfrtionError();
         }
     }
 
-    public Object invoke(ObjectName name, String operationName,
-                         Object params[], String signature[])
-            throws InstanceNotFoundException, MBeanException,
-                   ReflectionException {
+    publid Objfdt invokf(ObjfdtNbmf nbmf, String opfrbtionNbmf,
+                         Objfdt pbrbms[], String signbturf[])
+            tirows InstbndfNotFoundExdfption, MBfbnExdfption,
+                   RfflfdtionExdfption {
 
-        name = nonDefaultDomain(name);
+        nbmf = nonDffbultDombin(nbmf);
 
-        DynamicMBean instance = getMBean(name);
-        checkMBeanPermission(instance, operationName, name, "invoke");
+        DynbmidMBfbn instbndf = gftMBfbn(nbmf);
+        difdkMBfbnPfrmission(instbndf, opfrbtionNbmf, nbmf, "invokf");
         try {
-            return instance.invoke(operationName, params, signature);
-        } catch (Throwable t) {
-            rethrowMaybeMBeanException(t);
-            throw new AssertionError();
+            rfturn instbndf.invokf(opfrbtionNbmf, pbrbms, signbturf);
+        } dbtdi (Tirowbblf t) {
+            rftirowMbybfMBfbnExdfption(t);
+            tirow nfw AssfrtionError();
         }
     }
 
-    /* Centralize some of the tedious exception wrapping demanded by the JMX
-       spec. */
-    private static void rethrow(Throwable t)
-            throws ReflectionException {
+    /* Cfntrblizf somf of tif tfdious fxdfption wrbpping dfmbndfd by tif JMX
+       spfd. */
+    privbtf stbtid void rftirow(Tirowbblf t)
+            tirows RfflfdtionExdfption {
         try {
-            throw t;
-        } catch (ReflectionException e) {
-            throw e;
-        } catch (RuntimeOperationsException e) {
-            throw e;
-        } catch (RuntimeErrorException e) {
-            throw e;
-        } catch (RuntimeException e) {
-            throw new RuntimeMBeanException(e, e.toString());
-        } catch (Error e) {
-            throw new RuntimeErrorException(e, e.toString());
-        } catch (Throwable t2) {
-            // should not happen
-            throw new RuntimeException("Unexpected exception", t2);
+            tirow t;
+        } dbtdi (RfflfdtionExdfption f) {
+            tirow f;
+        } dbtdi (RuntimfOpfrbtionsExdfption f) {
+            tirow f;
+        } dbtdi (RuntimfErrorExdfption f) {
+            tirow f;
+        } dbtdi (RuntimfExdfption f) {
+            tirow nfw RuntimfMBfbnExdfption(f, f.toString());
+        } dbtdi (Error f) {
+            tirow nfw RuntimfErrorExdfption(f, f.toString());
+        } dbtdi (Tirowbblf t2) {
+            // siould not ibppfn
+            tirow nfw RuntimfExdfption("Unfxpfdtfd fxdfption", t2);
         }
     }
 
-    private static void rethrowMaybeMBeanException(Throwable t)
-            throws ReflectionException, MBeanException {
-        if (t instanceof MBeanException)
-            throw (MBeanException) t;
-        rethrow(t);
+    privbtf stbtid void rftirowMbybfMBfbnExdfption(Tirowbblf t)
+            tirows RfflfdtionExdfption, MBfbnExdfption {
+        if (t instbndfof MBfbnExdfption)
+            tirow (MBfbnExdfption) t;
+        rftirow(t);
     }
 
     /**
-     * Register <code>object</code> in the repository, with the
-     * given <code>name</code>.
-     * This method is called by the various createMBean() flavours
-     * and by registerMBean() after all MBean compliance tests
-     * have been performed.
+     * Rfgistfr <dodf>objfdt</dodf> in tif rfpository, witi tif
+     * givfn <dodf>nbmf</dodf>.
+     * Tiis mftiod is dbllfd by tif vbrious drfbtfMBfbn() flbvours
+     * bnd by rfgistfrMBfbn() bftfr bll MBfbn domplibndf tfsts
+     * ibvf bffn pfrformfd.
      * <p>
-     * This method does not performed any kind of test compliance,
-     * and the caller should make sure that the given <code>object</code>
-     * is MBean compliant.
+     * Tiis mftiod dofs not pfrformfd bny kind of tfst domplibndf,
+     * bnd tif dbllfr siould mbkf surf tibt tif givfn <dodf>objfdt</dodf>
+     * is MBfbn domplibnt.
      * <p>
-     * This methods performed all the basic steps needed for object
-     * registration:
+     * Tiis mftiods pfrformfd bll tif bbsid stfps nffdfd for objfdt
+     * rfgistrbtion:
      * <ul>
-     * <li>If the <code>object</code> implements the MBeanRegistration
-     *     interface, it invokes preRegister() on the object.</li>
-     * <li>Then the object is added to the repository with the given
-     *     <code>name</code>.</li>
-     * <li>Finally, if the <code>object</code> implements the
-     *     MBeanRegistration interface, it invokes postRegister()
-     *     on the object.</li>
+     * <li>If tif <dodf>objfdt</dodf> implfmfnts tif MBfbnRfgistrbtion
+     *     intfrfbdf, it invokfs prfRfgistfr() on tif objfdt.</li>
+     * <li>Tifn tif objfdt is bddfd to tif rfpository witi tif givfn
+     *     <dodf>nbmf</dodf>.</li>
+     * <li>Finblly, if tif <dodf>objfdt</dodf> implfmfnts tif
+     *     MBfbnRfgistrbtion intfrfbdf, it invokfs postRfgistfr()
+     *     on tif objfdt.</li>
      * </ul>
-     * @param object A reference to a MBean compliant object.
-     * @param name   The ObjectName of the <code>object</code> MBean.
-     * @return the actual ObjectName with which the object was registered.
-     * @exception InstanceAlreadyExistsException if an object is already
-     *            registered with that name.
-     * @exception MBeanRegistrationException if an exception occurs during
-     *            registration.
+     * @pbrbm objfdt A rfffrfndf to b MBfbn domplibnt objfdt.
+     * @pbrbm nbmf   Tif ObjfdtNbmf of tif <dodf>objfdt</dodf> MBfbn.
+     * @rfturn tif bdtubl ObjfdtNbmf witi wiidi tif objfdt wbs rfgistfrfd.
+     * @fxdfption InstbndfAlrfbdyExistsExdfption if bn objfdt is blrfbdy
+     *            rfgistfrfd witi tibt nbmf.
+     * @fxdfption MBfbnRfgistrbtionExdfption if bn fxdfption oddurs during
+     *            rfgistrbtion.
      **/
-    private ObjectInstance registerObject(String classname,
-                                          Object object, ObjectName name)
-        throws InstanceAlreadyExistsException,
-               MBeanRegistrationException,
-               NotCompliantMBeanException {
+    privbtf ObjfdtInstbndf rfgistfrObjfdt(String dlbssnbmf,
+                                          Objfdt objfdt, ObjfdtNbmf nbmf)
+        tirows InstbndfAlrfbdyExistsExdfption,
+               MBfbnRfgistrbtionExdfption,
+               NotComplibntMBfbnExdfption {
 
-        if (object == null) {
-            final RuntimeException wrapped =
-                new IllegalArgumentException("Cannot add null object");
-            throw new RuntimeOperationsException(wrapped,
-                        "Exception occurred trying to register the MBean");
+        if (objfdt == null) {
+            finbl RuntimfExdfption wrbppfd =
+                nfw IllfgblArgumfntExdfption("Cbnnot bdd null objfdt");
+            tirow nfw RuntimfOpfrbtionsExdfption(wrbppfd,
+                        "Exdfption oddurrfd trying to rfgistfr tif MBfbn");
         }
 
-        DynamicMBean mbean = Introspector.makeDynamicMBean(object);
+        DynbmidMBfbn mbfbn = Introspfdtor.mbkfDynbmidMBfbn(objfdt);
 
-        return registerDynamicMBean(classname, mbean, name);
+        rfturn rfgistfrDynbmidMBfbn(dlbssnbmf, mbfbn, nbmf);
     }
 
-    private ObjectInstance registerDynamicMBean(String classname,
-                                                DynamicMBean mbean,
-                                                ObjectName name)
-        throws InstanceAlreadyExistsException,
-               MBeanRegistrationException,
-               NotCompliantMBeanException {
+    privbtf ObjfdtInstbndf rfgistfrDynbmidMBfbn(String dlbssnbmf,
+                                                DynbmidMBfbn mbfbn,
+                                                ObjfdtNbmf nbmf)
+        tirows InstbndfAlrfbdyExistsExdfption,
+               MBfbnRfgistrbtionExdfption,
+               NotComplibntMBfbnExdfption {
 
 
-        name = nonDefaultDomain(name);
+        nbmf = nonDffbultDombin(nbmf);
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "registerMBean", "ObjectName = " + name);
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                    "rfgistfrMBfbn", "ObjfdtNbmf = " + nbmf);
         }
 
-        ObjectName logicalName = preRegister(mbean, server, name);
+        ObjfdtNbmf logidblNbmf = prfRfgistfr(mbfbn, sfrvfr, nbmf);
 
-        // preRegister returned successfully, so from this point on we
-        // must call postRegister(false) if there is any problem.
-        boolean registered = false;
-        boolean registerFailed = false;
-        ResourceContext context = null;
+        // prfRfgistfr rfturnfd suddfssfully, so from tiis point on wf
+        // must dbll postRfgistfr(fblsf) if tifrf is bny problfm.
+        boolfbn rfgistfrfd = fblsf;
+        boolfbn rfgistfrFbilfd = fblsf;
+        RfsourdfContfxt dontfxt = null;
 
         try {
-            if (mbean instanceof DynamicMBean2) {
+            if (mbfbn instbndfof DynbmidMBfbn2) {
                 try {
-                    ((DynamicMBean2) mbean).preRegister2(server, logicalName);
-                    registerFailed = true;  // until we succeed
-                } catch (Exception e) {
-                    if (e instanceof RuntimeException)
-                        throw (RuntimeException) e;
-                    if (e instanceof InstanceAlreadyExistsException)
-                        throw (InstanceAlreadyExistsException) e;
-                    throw new RuntimeException(e);
+                    ((DynbmidMBfbn2) mbfbn).prfRfgistfr2(sfrvfr, logidblNbmf);
+                    rfgistfrFbilfd = truf;  // until wf suddffd
+                } dbtdi (Exdfption f) {
+                    if (f instbndfof RuntimfExdfption)
+                        tirow (RuntimfExdfption) f;
+                    if (f instbndfof InstbndfAlrfbdyExistsExdfption)
+                        tirow (InstbndfAlrfbdyExistsExdfption) f;
+                    tirow nfw RuntimfExdfption(f);
                 }
             }
 
-            if (logicalName != name && logicalName != null) {
-                logicalName =
-                        ObjectName.getInstance(nonDefaultDomain(logicalName));
+            if (logidblNbmf != nbmf && logidblNbmf != null) {
+                logidblNbmf =
+                        ObjfdtNbmf.gftInstbndf(nonDffbultDombin(logidblNbmf));
             }
 
-            checkMBeanPermission(classname, null, logicalName, "registerMBean");
+            difdkMBfbnPfrmission(dlbssnbmf, null, logidblNbmf, "rfgistfrMBfbn");
 
-            if (logicalName == null) {
-                final RuntimeException wrapped =
-                    new IllegalArgumentException("No object name specified");
-                throw new RuntimeOperationsException(wrapped,
-                            "Exception occurred trying to register the MBean");
+            if (logidblNbmf == null) {
+                finbl RuntimfExdfption wrbppfd =
+                    nfw IllfgblArgumfntExdfption("No objfdt nbmf spfdififd");
+                tirow nfw RuntimfOpfrbtionsExdfption(wrbppfd,
+                            "Exdfption oddurrfd trying to rfgistfr tif MBfbn");
             }
 
-            final Object resource = getResource(mbean);
+            finbl Objfdt rfsourdf = gftRfsourdf(mbfbn);
 
-            // Register the MBean with the repository.
-            // Returns the resource context that was used.
-            // The returned context does nothing for regular MBeans.
-            // For ClassLoader MBeans the context makes it possible to register these
-            // objects with the appropriate framework artifacts, such as
-            // the CLR, from within the repository lock.
-            // In case of success, we also need to call context.done() at the
-            // end of this method.
+            // Rfgistfr tif MBfbn witi tif rfpository.
+            // Rfturns tif rfsourdf dontfxt tibt wbs usfd.
+            // Tif rfturnfd dontfxt dofs notiing for rfgulbr MBfbns.
+            // For ClbssLobdfr MBfbns tif dontfxt mbkfs it possiblf to rfgistfr tifsf
+            // objfdts witi tif bppropribtf frbmfwork brtifbdts, sudi bs
+            // tif CLR, from witiin tif rfpository lodk.
+            // In dbsf of suddfss, wf blso nffd to dbll dontfxt.donf() bt tif
+            // fnd of tiis mftiod.
             //
-            context = registerWithRepository(resource, mbean, logicalName);
+            dontfxt = rfgistfrWitiRfpository(rfsourdf, mbfbn, logidblNbmf);
 
 
-            registerFailed = false;
-            registered = true;
+            rfgistfrFbilfd = fblsf;
+            rfgistfrfd = truf;
 
-        } finally {
+        } finblly {
             try {
-                postRegister(logicalName, mbean, registered, registerFailed);
-            } finally {
-                if (registered && context!=null) context.done();
+                postRfgistfr(logidblNbmf, mbfbn, rfgistfrfd, rfgistfrFbilfd);
+            } finblly {
+                if (rfgistfrfd && dontfxt!=null) dontfxt.donf();
             }
         }
-        return new ObjectInstance(logicalName, classname);
+        rfturn nfw ObjfdtInstbndf(logidblNbmf, dlbssnbmf);
     }
 
-    private static void throwMBeanRegistrationException(Throwable t, String where)
-    throws MBeanRegistrationException {
-        if (t instanceof RuntimeException) {
-            throw new RuntimeMBeanException((RuntimeException)t,
-                    "RuntimeException thrown " + where);
-        } else if (t instanceof Error) {
-            throw new RuntimeErrorException((Error)t,
-                    "Error thrown " + where);
-        } else if (t instanceof MBeanRegistrationException) {
-            throw (MBeanRegistrationException)t;
-        } else if (t instanceof Exception) {
-            throw new MBeanRegistrationException((Exception)t,
-                    "Exception thrown " + where);
-        } else // neither Error nor Exception??
-            throw new RuntimeException(t);
+    privbtf stbtid void tirowMBfbnRfgistrbtionExdfption(Tirowbblf t, String wifrf)
+    tirows MBfbnRfgistrbtionExdfption {
+        if (t instbndfof RuntimfExdfption) {
+            tirow nfw RuntimfMBfbnExdfption((RuntimfExdfption)t,
+                    "RuntimfExdfption tirown " + wifrf);
+        } flsf if (t instbndfof Error) {
+            tirow nfw RuntimfErrorExdfption((Error)t,
+                    "Error tirown " + wifrf);
+        } flsf if (t instbndfof MBfbnRfgistrbtionExdfption) {
+            tirow (MBfbnRfgistrbtionExdfption)t;
+        } flsf if (t instbndfof Exdfption) {
+            tirow nfw MBfbnRfgistrbtionExdfption((Exdfption)t,
+                    "Exdfption tirown " + wifrf);
+        } flsf // nfitifr Error nor Exdfption??
+            tirow nfw RuntimfExdfption(t);
     }
 
-    private static ObjectName preRegister(
-            DynamicMBean mbean, MBeanServer mbs, ObjectName name)
-            throws InstanceAlreadyExistsException, MBeanRegistrationException {
+    privbtf stbtid ObjfdtNbmf prfRfgistfr(
+            DynbmidMBfbn mbfbn, MBfbnSfrvfr mbs, ObjfdtNbmf nbmf)
+            tirows InstbndfAlrfbdyExistsExdfption, MBfbnRfgistrbtionExdfption {
 
-        ObjectName newName = null;
+        ObjfdtNbmf nfwNbmf = null;
 
         try {
-            if (mbean instanceof MBeanRegistration)
-                newName = ((MBeanRegistration) mbean).preRegister(mbs, name);
-        } catch (Throwable t) {
-            throwMBeanRegistrationException(t, "in preRegister method");
+            if (mbfbn instbndfof MBfbnRfgistrbtion)
+                nfwNbmf = ((MBfbnRfgistrbtion) mbfbn).prfRfgistfr(mbs, nbmf);
+        } dbtdi (Tirowbblf t) {
+            tirowMBfbnRfgistrbtionExdfption(t, "in prfRfgistfr mftiod");
         }
 
-        if (newName != null) return newName;
-        else return name;
+        if (nfwNbmf != null) rfturn nfwNbmf;
+        flsf rfturn nbmf;
     }
 
-    private static void postRegister(
-            ObjectName logicalName, DynamicMBean mbean,
-            boolean registrationDone, boolean registerFailed) {
+    privbtf stbtid void postRfgistfr(
+            ObjfdtNbmf logidblNbmf, DynbmidMBfbn mbfbn,
+            boolfbn rfgistrbtionDonf, boolfbn rfgistfrFbilfd) {
 
-        if (registerFailed && mbean instanceof DynamicMBean2)
-            ((DynamicMBean2) mbean).registerFailed();
+        if (rfgistfrFbilfd && mbfbn instbndfof DynbmidMBfbn2)
+            ((DynbmidMBfbn2) mbfbn).rfgistfrFbilfd();
         try {
-            if (mbean instanceof MBeanRegistration)
-                ((MBeanRegistration) mbean).postRegister(registrationDone);
-        } catch (RuntimeException e) {
-            MBEANSERVER_LOGGER.fine("While registering MBean ["+logicalName+
-                    "]: " + "Exception thrown by postRegister: " +
-                    "rethrowing <"+e+">, but keeping the MBean registered");
-            throw new RuntimeMBeanException(e,
-                      "RuntimeException thrown in postRegister method: "+
-                      "rethrowing <"+e+">, but keeping the MBean registered");
-        } catch (Error er) {
-            MBEANSERVER_LOGGER.fine("While registering MBean ["+logicalName+
-                    "]: " + "Error thrown by postRegister: " +
-                    "rethrowing <"+er+">, but keeping the MBean registered");
-            throw new RuntimeErrorException(er,
-                      "Error thrown in postRegister method: "+
-                      "rethrowing <"+er+">, but keeping the MBean registered");
-        }
-    }
-
-    private static void preDeregisterInvoke(MBeanRegistration moi)
-            throws MBeanRegistrationException {
-        try {
-            moi.preDeregister();
-        } catch (Throwable t) {
-            throwMBeanRegistrationException(t, "in preDeregister method");
+            if (mbfbn instbndfof MBfbnRfgistrbtion)
+                ((MBfbnRfgistrbtion) mbfbn).postRfgistfr(rfgistrbtionDonf);
+        } dbtdi (RuntimfExdfption f) {
+            MBEANSERVER_LOGGER.finf("Wiilf rfgistfring MBfbn ["+logidblNbmf+
+                    "]: " + "Exdfption tirown by postRfgistfr: " +
+                    "rftirowing <"+f+">, but kffping tif MBfbn rfgistfrfd");
+            tirow nfw RuntimfMBfbnExdfption(f,
+                      "RuntimfExdfption tirown in postRfgistfr mftiod: "+
+                      "rftirowing <"+f+">, but kffping tif MBfbn rfgistfrfd");
+        } dbtdi (Error fr) {
+            MBEANSERVER_LOGGER.finf("Wiilf rfgistfring MBfbn ["+logidblNbmf+
+                    "]: " + "Error tirown by postRfgistfr: " +
+                    "rftirowing <"+fr+">, but kffping tif MBfbn rfgistfrfd");
+            tirow nfw RuntimfErrorExdfption(fr,
+                      "Error tirown in postRfgistfr mftiod: "+
+                      "rftirowing <"+fr+">, but kffping tif MBfbn rfgistfrfd");
         }
     }
 
-    private static void postDeregisterInvoke(ObjectName mbean,
-            MBeanRegistration moi) {
+    privbtf stbtid void prfDfrfgistfrInvokf(MBfbnRfgistrbtion moi)
+            tirows MBfbnRfgistrbtionExdfption {
         try {
-            moi.postDeregister();
-        } catch (RuntimeException e) {
-            MBEANSERVER_LOGGER.fine("While unregistering MBean ["+mbean+
-                    "]: " + "Exception thrown by postDeregister: " +
-                    "rethrowing <"+e+">, although the MBean is succesfully " +
-                    "unregistered");
-            throw new RuntimeMBeanException(e,
-                      "RuntimeException thrown in postDeregister method: "+
-                      "rethrowing <"+e+
-                      ">, although the MBean is sucessfully unregistered");
-        } catch (Error er) {
-            MBEANSERVER_LOGGER.fine("While unregistering MBean ["+mbean+
-                    "]: " + "Error thrown by postDeregister: " +
-                    "rethrowing <"+er+">, although the MBean is succesfully " +
-                    "unregistered");
-            throw new RuntimeErrorException(er,
-                      "Error thrown in postDeregister method: "+
-                      "rethrowing <"+er+
-                      ">, although the MBean is sucessfully unregistered");
+            moi.prfDfrfgistfr();
+        } dbtdi (Tirowbblf t) {
+            tirowMBfbnRfgistrbtionExdfption(t, "in prfDfrfgistfr mftiod");
+        }
+    }
+
+    privbtf stbtid void postDfrfgistfrInvokf(ObjfdtNbmf mbfbn,
+            MBfbnRfgistrbtion moi) {
+        try {
+            moi.postDfrfgistfr();
+        } dbtdi (RuntimfExdfption f) {
+            MBEANSERVER_LOGGER.finf("Wiilf unrfgistfring MBfbn ["+mbfbn+
+                    "]: " + "Exdfption tirown by postDfrfgistfr: " +
+                    "rftirowing <"+f+">, bltiougi tif MBfbn is suddfsfully " +
+                    "unrfgistfrfd");
+            tirow nfw RuntimfMBfbnExdfption(f,
+                      "RuntimfExdfption tirown in postDfrfgistfr mftiod: "+
+                      "rftirowing <"+f+
+                      ">, bltiougi tif MBfbn is sudfssfully unrfgistfrfd");
+        } dbtdi (Error fr) {
+            MBEANSERVER_LOGGER.finf("Wiilf unrfgistfring MBfbn ["+mbfbn+
+                    "]: " + "Error tirown by postDfrfgistfr: " +
+                    "rftirowing <"+fr+">, bltiougi tif MBfbn is suddfsfully " +
+                    "unrfgistfrfd");
+            tirow nfw RuntimfErrorExdfption(fr,
+                      "Error tirown in postDfrfgistfr mftiod: "+
+                      "rftirowing <"+fr+
+                      ">, bltiougi tif MBfbn is sudfssfully unrfgistfrfd");
         }
     }
 
     /**
-     * Gets a specific MBean controlled by the DefaultMBeanServerInterceptor.
-     * The name must have a non-default domain.
+     * Gfts b spfdifid MBfbn dontrollfd by tif DffbultMBfbnSfrvfrIntfrdfptor.
+     * Tif nbmf must ibvf b non-dffbult dombin.
      */
-    private DynamicMBean getMBean(ObjectName name)
-        throws InstanceNotFoundException {
+    privbtf DynbmidMBfbn gftMBfbn(ObjfdtNbmf nbmf)
+        tirows InstbndfNotFoundExdfption {
 
-        if (name == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("Object name cannot be null"),
-                               "Exception occurred trying to get an MBean");
+        if (nbmf == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(nfw
+                IllfgblArgumfntExdfption("Objfdt nbmf dbnnot bf null"),
+                               "Exdfption oddurrfd trying to gft bn MBfbn");
         }
-        DynamicMBean obj = repository.retrieve(name);
+        DynbmidMBfbn obj = rfpository.rftrifvf(nbmf);
         if (obj == null) {
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-                MBEANSERVER_LOGGER.logp(Level.FINER,
-                        DefaultMBeanServerInterceptor.class.getName(),
-                        "getMBean", name + " : Found no object");
+            if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+                MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                        DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                        "gftMBfbn", nbmf + " : Found no objfdt");
             }
-            throw new InstanceNotFoundException(name.toString());
+            tirow nfw InstbndfNotFoundExdfption(nbmf.toString());
         }
-        return obj;
+        rfturn obj;
     }
 
-    private static Object getResource(DynamicMBean mbean) {
-        if (mbean instanceof DynamicMBean2)
-            return ((DynamicMBean2) mbean).getResource();
-        else
-            return mbean;
+    privbtf stbtid Objfdt gftRfsourdf(DynbmidMBfbn mbfbn) {
+        if (mbfbn instbndfof DynbmidMBfbn2)
+            rfturn ((DynbmidMBfbn2) mbfbn).gftRfsourdf();
+        flsf
+            rfturn mbfbn;
     }
 
-    private ObjectName nonDefaultDomain(ObjectName name) {
-        if (name == null || name.getDomain().length() > 0)
-            return name;
+    privbtf ObjfdtNbmf nonDffbultDombin(ObjfdtNbmf nbmf) {
+        if (nbmf == null || nbmf.gftDombin().lfngti() > 0)
+            rfturn nbmf;
 
-        /* The ObjectName looks like ":a=b", and that's what its
-           toString() will return in this implementation.  So
-           we can just stick the default domain in front of it
-           to get a non-default-domain name.  We depend on the
-           fact that toString() works like that and that it
-           leaves wildcards in place (so we can detect an error
-           if one is supplied where it shouldn't be).  */
-        final String completeName = domain + name;
+        /* Tif ObjfdtNbmf looks likf ":b=b", bnd tibt's wibt its
+           toString() will rfturn in tiis implfmfntbtion.  So
+           wf dbn just stidk tif dffbult dombin in front of it
+           to gft b non-dffbult-dombin nbmf.  Wf dfpfnd on tif
+           fbdt tibt toString() works likf tibt bnd tibt it
+           lfbvfs wilddbrds in plbdf (so wf dbn dftfdt bn frror
+           if onf is supplifd wifrf it siouldn't bf).  */
+        finbl String domplftfNbmf = dombin + nbmf;
 
-        return Util.newObjectName(completeName);
+        rfturn Util.nfwObjfdtNbmf(domplftfNbmf);
     }
 
-    public String getDefaultDomain()  {
-        return domain;
+    publid String gftDffbultDombin()  {
+        rfturn dombin;
     }
 
     /*
-     * Notification handling.
+     * Notifidbtion ibndling.
      *
-     * This is not trivial, because the MBeanServer translates the
-     * source of a received notification from a reference to an MBean
-     * into the ObjectName of that MBean.  While that does make
-     * notification sending easier for MBean writers, it comes at a
-     * considerable cost.  We need to replace the source of a
-     * notification, which is basically wrong if there are also
-     * listeners registered directly with the MBean (without going
-     * through the MBean server).  We also need to wrap the listener
-     * supplied by the client of the MBeanServer with a listener that
-     * performs the substitution before forwarding.  This is why we
-     * strongly discourage people from putting MBean references in the
-     * source of their notifications.  Instead they should arrange to
-     * put the ObjectName there themselves.
+     * Tiis is not trivibl, bfdbusf tif MBfbnSfrvfr trbnslbtfs tif
+     * sourdf of b rfdfivfd notifidbtion from b rfffrfndf to bn MBfbn
+     * into tif ObjfdtNbmf of tibt MBfbn.  Wiilf tibt dofs mbkf
+     * notifidbtion sfnding fbsifr for MBfbn writfrs, it domfs bt b
+     * donsidfrbblf dost.  Wf nffd to rfplbdf tif sourdf of b
+     * notifidbtion, wiidi is bbsidblly wrong if tifrf brf blso
+     * listfnfrs rfgistfrfd dirfdtly witi tif MBfbn (witiout going
+     * tirougi tif MBfbn sfrvfr).  Wf blso nffd to wrbp tif listfnfr
+     * supplifd by tif dlifnt of tif MBfbnSfrvfr witi b listfnfr tibt
+     * pfrforms tif substitution bfforf forwbrding.  Tiis is wiy wf
+     * strongly disdourbgf pfoplf from putting MBfbn rfffrfndfs in tif
+     * sourdf of tifir notifidbtions.  Instfbd tify siould brrbngf to
+     * put tif ObjfdtNbmf tifrf tifmsflvfs.
      *
-     * However, existing code relies on the substitution, so we are
-     * stuck with it.
+     * Howfvfr, fxisting dodf rflifs on tif substitution, so wf brf
+     * studk witi it.
      *
-     * Here's how we handle it.  When you add a listener, we make a
-     * ListenerWrapper around it.  We look that up in the
-     * listenerWrappers map, and if there was already a wrapper for
-     * that listener with the given ObjectName, we reuse it.  This map
-     * is a WeakHashMap, so a listener that is no longer registered
-     * with any MBean can be garbage collected.
+     * Hfrf's iow wf ibndlf it.  Wifn you bdd b listfnfr, wf mbkf b
+     * ListfnfrWrbppfr bround it.  Wf look tibt up in tif
+     * listfnfrWrbppfrs mbp, bnd if tifrf wbs blrfbdy b wrbppfr for
+     * tibt listfnfr witi tif givfn ObjfdtNbmf, wf rfusf it.  Tiis mbp
+     * is b WfbkHbsiMbp, so b listfnfr tibt is no longfr rfgistfrfd
+     * witi bny MBfbn dbn bf gbrbbgf dollfdtfd.
      *
-     * We cannot use simpler solutions such as always creating a new
-     * wrapper or always registering the same listener with the MBean
-     * and using the handback to find the client's original listener.
-     * The reason is that we need to support the removeListener
-     * variant that removes all (listener,filter,handback) triples on
-     * a broadcaster that have a given listener.  And we do not have
-     * any way to inspect a broadcaster's internal list of triples.
-     * So the same client listener must always map to the same
-     * listener registered with the broadcaster.
+     * Wf dbnnot usf simplfr solutions sudi bs blwbys drfbting b nfw
+     * wrbppfr or blwbys rfgistfring tif sbmf listfnfr witi tif MBfbn
+     * bnd using tif ibndbbdk to find tif dlifnt's originbl listfnfr.
+     * Tif rfbson is tibt wf nffd to support tif rfmovfListfnfr
+     * vbribnt tibt rfmovfs bll (listfnfr,filtfr,ibndbbdk) triplfs on
+     * b brobddbstfr tibt ibvf b givfn listfnfr.  And wf do not ibvf
+     * bny wby to inspfdt b brobddbstfr's intfrnbl list of triplfs.
+     * So tif sbmf dlifnt listfnfr must blwbys mbp to tif sbmf
+     * listfnfr rfgistfrfd witi tif brobddbstfr.
      *
-     * Another possible solution would be to map from ObjectName to
-     * list of listener wrappers (or IdentityHashMap of listener
-     * wrappers), making this list the first time a listener is added
-     * on a given MBean, and removing it when the MBean is removed.
-     * This is probably more costly in memory, but could be useful if
-     * some day we don't want to rely on weak references.
+     * Anotifr possiblf solution would bf to mbp from ObjfdtNbmf to
+     * list of listfnfr wrbppfrs (or IdfntityHbsiMbp of listfnfr
+     * wrbppfrs), mbking tiis list tif first timf b listfnfr is bddfd
+     * on b givfn MBfbn, bnd rfmoving it wifn tif MBfbn is rfmovfd.
+     * Tiis is probbbly morf dostly in mfmory, but dould bf usfful if
+     * somf dby wf don't wbnt to rfly on wfbk rfffrfndfs.
      */
-    public void addNotificationListener(ObjectName name,
-                                        NotificationListener listener,
-                                        NotificationFilter filter,
-                                        Object handback)
-            throws InstanceNotFoundException {
+    publid void bddNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                        NotifidbtionListfnfr listfnfr,
+                                        NotifidbtionFiltfr filtfr,
+                                        Objfdt ibndbbdk)
+            tirows InstbndfNotFoundExdfption {
 
         // ------------------------------
         // ------------------------------
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "addNotificationListener", "ObjectName = " + name);
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                    "bddNotifidbtionListfnfr", "ObjfdtNbmf = " + nbmf);
         }
 
-        DynamicMBean instance = getMBean(name);
-        checkMBeanPermission(instance, null, name, "addNotificationListener");
+        DynbmidMBfbn instbndf = gftMBfbn(nbmf);
+        difdkMBfbnPfrmission(instbndf, null, nbmf, "bddNotifidbtionListfnfr");
 
-        NotificationBroadcaster broadcaster =
-                getNotificationBroadcaster(name, instance,
-                                           NotificationBroadcaster.class);
+        NotifidbtionBrobddbstfr brobddbstfr =
+                gftNotifidbtionBrobddbstfr(nbmf, instbndf,
+                                           NotifidbtionBrobddbstfr.dlbss);
 
         // ------------------
-        // Check listener
+        // Cifdk listfnfr
         // ------------------
-        if (listener == null) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException("Null listener"),"Null listener");
+        if (listfnfr == null) {
+            tirow nfw RuntimfOpfrbtionsExdfption(nfw
+                IllfgblArgumfntExdfption("Null listfnfr"),"Null listfnfr");
         }
 
-        NotificationListener listenerWrapper =
-            getListenerWrapper(listener, name, instance, true);
-        broadcaster.addNotificationListener(listenerWrapper, filter, handback);
+        NotifidbtionListfnfr listfnfrWrbppfr =
+            gftListfnfrWrbppfr(listfnfr, nbmf, instbndf, truf);
+        brobddbstfr.bddNotifidbtionListfnfr(listfnfrWrbppfr, filtfr, ibndbbdk);
     }
 
-    public void addNotificationListener(ObjectName name,
-                                        ObjectName listener,
-                                        NotificationFilter filter,
-                                        Object handback)
-            throws InstanceNotFoundException {
+    publid void bddNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                        ObjfdtNbmf listfnfr,
+                                        NotifidbtionFiltfr filtfr,
+                                        Objfdt ibndbbdk)
+            tirows InstbndfNotFoundExdfption {
 
         // ------------------------------
         // ------------------------------
 
         // ----------------
-        // Get listener object
+        // Gft listfnfr objfdt
         // ----------------
-        DynamicMBean instance = getMBean(listener);
-        Object resource = getResource(instance);
-        if (!(resource instanceof NotificationListener)) {
-            throw new RuntimeOperationsException(new
-                IllegalArgumentException(listener.getCanonicalName()),
-                "The MBean " + listener.getCanonicalName() +
-                " does not implement the NotificationListener interface") ;
+        DynbmidMBfbn instbndf = gftMBfbn(listfnfr);
+        Objfdt rfsourdf = gftRfsourdf(instbndf);
+        if (!(rfsourdf instbndfof NotifidbtionListfnfr)) {
+            tirow nfw RuntimfOpfrbtionsExdfption(nfw
+                IllfgblArgumfntExdfption(listfnfr.gftCbnonidblNbmf()),
+                "Tif MBfbn " + listfnfr.gftCbnonidblNbmf() +
+                " dofs not implfmfnt tif NotifidbtionListfnfr intfrfbdf") ;
         }
 
         // ----------------
-        // Add a listener on an MBean
+        // Add b listfnfr on bn MBfbn
         // ----------------
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "addNotificationListener",
-                    "ObjectName = " + name + ", Listener = " + listener);
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                    "bddNotifidbtionListfnfr",
+                    "ObjfdtNbmf = " + nbmf + ", Listfnfr = " + listfnfr);
         }
-        server.addNotificationListener(name,(NotificationListener) resource,
-                                       filter, handback) ;
+        sfrvfr.bddNotifidbtionListfnfr(nbmf,(NotifidbtionListfnfr) rfsourdf,
+                                       filtfr, ibndbbdk) ;
     }
 
-    public void removeNotificationListener(ObjectName name,
-                                           NotificationListener listener)
-            throws InstanceNotFoundException, ListenerNotFoundException {
-        removeNotificationListener(name, listener, null, null, true);
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                           NotifidbtionListfnfr listfnfr)
+            tirows InstbndfNotFoundExdfption, ListfnfrNotFoundExdfption {
+        rfmovfNotifidbtionListfnfr(nbmf, listfnfr, null, null, truf);
     }
 
-    public void removeNotificationListener(ObjectName name,
-                                           NotificationListener listener,
-                                           NotificationFilter filter,
-                                           Object handback)
-            throws InstanceNotFoundException, ListenerNotFoundException {
-        removeNotificationListener(name, listener, filter, handback, false);
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                           NotifidbtionListfnfr listfnfr,
+                                           NotifidbtionFiltfr filtfr,
+                                           Objfdt ibndbbdk)
+            tirows InstbndfNotFoundExdfption, ListfnfrNotFoundExdfption {
+        rfmovfNotifidbtionListfnfr(nbmf, listfnfr, filtfr, ibndbbdk, fblsf);
     }
 
-    public void removeNotificationListener(ObjectName name,
-                                           ObjectName listener)
-            throws InstanceNotFoundException, ListenerNotFoundException {
-        NotificationListener instance = getListener(listener);
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                           ObjfdtNbmf listfnfr)
+            tirows InstbndfNotFoundExdfption, ListfnfrNotFoundExdfption {
+        NotifidbtionListfnfr instbndf = gftListfnfr(listfnfr);
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "removeNotificationListener",
-                    "ObjectName = " + name + ", Listener = " + listener);
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                    "rfmovfNotifidbtionListfnfr",
+                    "ObjfdtNbmf = " + nbmf + ", Listfnfr = " + listfnfr);
         }
-        server.removeNotificationListener(name, instance);
+        sfrvfr.rfmovfNotifidbtionListfnfr(nbmf, instbndf);
     }
 
-    public void removeNotificationListener(ObjectName name,
-                                           ObjectName listener,
-                                           NotificationFilter filter,
-                                           Object handback)
-            throws InstanceNotFoundException, ListenerNotFoundException {
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                           ObjfdtNbmf listfnfr,
+                                           NotifidbtionFiltfr filtfr,
+                                           Objfdt ibndbbdk)
+            tirows InstbndfNotFoundExdfption, ListfnfrNotFoundExdfption {
 
-        NotificationListener instance = getListener(listener);
+        NotifidbtionListfnfr instbndf = gftListfnfr(listfnfr);
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "removeNotificationListener",
-                    "ObjectName = " + name + ", Listener = " + listener);
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                    "rfmovfNotifidbtionListfnfr",
+                    "ObjfdtNbmf = " + nbmf + ", Listfnfr = " + listfnfr);
         }
-        server.removeNotificationListener(name, instance, filter, handback);
+        sfrvfr.rfmovfNotifidbtionListfnfr(nbmf, instbndf, filtfr, ibndbbdk);
     }
 
-    private NotificationListener getListener(ObjectName listener)
-        throws ListenerNotFoundException {
+    privbtf NotifidbtionListfnfr gftListfnfr(ObjfdtNbmf listfnfr)
+        tirows ListfnfrNotFoundExdfption {
         // ----------------
-        // Get listener object
+        // Gft listfnfr objfdt
         // ----------------
-        DynamicMBean instance;
+        DynbmidMBfbn instbndf;
         try {
-            instance = getMBean(listener);
-        } catch (InstanceNotFoundException e) {
-            throw EnvHelp.initCause(
-                          new ListenerNotFoundException(e.getMessage()), e);
+            instbndf = gftMBfbn(listfnfr);
+        } dbtdi (InstbndfNotFoundExdfption f) {
+            tirow EnvHflp.initCbusf(
+                          nfw ListfnfrNotFoundExdfption(f.gftMfssbgf()), f);
         }
 
-        Object resource = getResource(instance);
-        if (!(resource instanceof NotificationListener)) {
-            final RuntimeException exc =
-                new IllegalArgumentException(listener.getCanonicalName());
-            final String msg =
-                "MBean " + listener.getCanonicalName() + " does not " +
-                "implement " + NotificationListener.class.getName();
-            throw new RuntimeOperationsException(exc, msg);
+        Objfdt rfsourdf = gftRfsourdf(instbndf);
+        if (!(rfsourdf instbndfof NotifidbtionListfnfr)) {
+            finbl RuntimfExdfption fxd =
+                nfw IllfgblArgumfntExdfption(listfnfr.gftCbnonidblNbmf());
+            finbl String msg =
+                "MBfbn " + listfnfr.gftCbnonidblNbmf() + " dofs not " +
+                "implfmfnt " + NotifidbtionListfnfr.dlbss.gftNbmf();
+            tirow nfw RuntimfOpfrbtionsExdfption(fxd, msg);
         }
-        return (NotificationListener) resource;
+        rfturn (NotifidbtionListfnfr) rfsourdf;
     }
 
-    private void removeNotificationListener(ObjectName name,
-                                            NotificationListener listener,
-                                            NotificationFilter filter,
-                                            Object handback,
-                                            boolean removeAll)
-            throws InstanceNotFoundException, ListenerNotFoundException {
+    privbtf void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                            NotifidbtionListfnfr listfnfr,
+                                            NotifidbtionFiltfr filtfr,
+                                            Objfdt ibndbbdk,
+                                            boolfbn rfmovfAll)
+            tirows InstbndfNotFoundExdfption, ListfnfrNotFoundExdfption {
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "removeNotificationListener", "ObjectName = " + name);
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                    "rfmovfNotifidbtionListfnfr", "ObjfdtNbmf = " + nbmf);
         }
 
-        DynamicMBean instance = getMBean(name);
-        checkMBeanPermission(instance, null, name, "removeNotificationListener");
+        DynbmidMBfbn instbndf = gftMBfbn(nbmf);
+        difdkMBfbnPfrmission(instbndf, null, nbmf, "rfmovfNotifidbtionListfnfr");
 
-        /* We could simplify the code by assigning broadcaster after
-           assigning listenerWrapper, but that would change the error
-           behavior when both the broadcaster and the listener are
-           erroneous.  */
+        /* Wf dould simplify tif dodf by bssigning brobddbstfr bftfr
+           bssigning listfnfrWrbppfr, but tibt would dibngf tif frror
+           bfibvior wifn boti tif brobddbstfr bnd tif listfnfr brf
+           frronfous.  */
 
-        Class<? extends NotificationBroadcaster> reqClass =
-            removeAll ? NotificationBroadcaster.class : NotificationEmitter.class;
-        NotificationBroadcaster broadcaster =
-            getNotificationBroadcaster(name, instance, reqClass);
+        Clbss<? fxtfnds NotifidbtionBrobddbstfr> rfqClbss =
+            rfmovfAll ? NotifidbtionBrobddbstfr.dlbss : NotifidbtionEmittfr.dlbss;
+        NotifidbtionBrobddbstfr brobddbstfr =
+            gftNotifidbtionBrobddbstfr(nbmf, instbndf, rfqClbss);
 
-        NotificationListener listenerWrapper =
-            getListenerWrapper(listener, name, instance, false);
+        NotifidbtionListfnfr listfnfrWrbppfr =
+            gftListfnfrWrbppfr(listfnfr, nbmf, instbndf, fblsf);
 
-        if (listenerWrapper == null)
-            throw new ListenerNotFoundException("Unknown listener");
+        if (listfnfrWrbppfr == null)
+            tirow nfw ListfnfrNotFoundExdfption("Unknown listfnfr");
 
-        if (removeAll)
-            broadcaster.removeNotificationListener(listenerWrapper);
-        else {
-            NotificationEmitter emitter = (NotificationEmitter) broadcaster;
-            emitter.removeNotificationListener(listenerWrapper,
-                                               filter,
-                                               handback);
+        if (rfmovfAll)
+            brobddbstfr.rfmovfNotifidbtionListfnfr(listfnfrWrbppfr);
+        flsf {
+            NotifidbtionEmittfr fmittfr = (NotifidbtionEmittfr) brobddbstfr;
+            fmittfr.rfmovfNotifidbtionListfnfr(listfnfrWrbppfr,
+                                               filtfr,
+                                               ibndbbdk);
         }
     }
 
-    private static <T extends NotificationBroadcaster>
-            T getNotificationBroadcaster(ObjectName name, Object instance,
-                                         Class<T> reqClass) {
-        if (reqClass.isInstance(instance))
-            return reqClass.cast(instance);
-        if (instance instanceof DynamicMBean2)
-            instance = ((DynamicMBean2) instance).getResource();
-        if (reqClass.isInstance(instance))
-            return reqClass.cast(instance);
-        final RuntimeException exc =
-            new IllegalArgumentException(name.getCanonicalName());
-        final String msg =
-            "MBean " + name.getCanonicalName() + " does not " +
-            "implement " + reqClass.getName();
-        throw new RuntimeOperationsException(exc, msg);
+    privbtf stbtid <T fxtfnds NotifidbtionBrobddbstfr>
+            T gftNotifidbtionBrobddbstfr(ObjfdtNbmf nbmf, Objfdt instbndf,
+                                         Clbss<T> rfqClbss) {
+        if (rfqClbss.isInstbndf(instbndf))
+            rfturn rfqClbss.dbst(instbndf);
+        if (instbndf instbndfof DynbmidMBfbn2)
+            instbndf = ((DynbmidMBfbn2) instbndf).gftRfsourdf();
+        if (rfqClbss.isInstbndf(instbndf))
+            rfturn rfqClbss.dbst(instbndf);
+        finbl RuntimfExdfption fxd =
+            nfw IllfgblArgumfntExdfption(nbmf.gftCbnonidblNbmf());
+        finbl String msg =
+            "MBfbn " + nbmf.gftCbnonidblNbmf() + " dofs not " +
+            "implfmfnt " + rfqClbss.gftNbmf();
+        tirow nfw RuntimfOpfrbtionsExdfption(fxd, msg);
     }
 
-    public MBeanInfo getMBeanInfo(ObjectName name)
-        throws InstanceNotFoundException, IntrospectionException,
-               ReflectionException {
+    publid MBfbnInfo gftMBfbnInfo(ObjfdtNbmf nbmf)
+        tirows InstbndfNotFoundExdfption, IntrospfdtionExdfption,
+               RfflfdtionExdfption {
 
         // ------------------------------
         // ------------------------------
 
-        DynamicMBean moi = getMBean(name);
-        final MBeanInfo mbi;
+        DynbmidMBfbn moi = gftMBfbn(nbmf);
+        finbl MBfbnInfo mbi;
         try {
-            mbi = moi.getMBeanInfo();
-        } catch (RuntimeMBeanException e) {
-            throw e;
-        } catch (RuntimeErrorException e) {
-            throw e;
-        } catch (RuntimeException e) {
-            throw new RuntimeMBeanException(e,
-                    "getMBeanInfo threw RuntimeException");
-        } catch (Error e) {
-            throw new RuntimeErrorException(e, "getMBeanInfo threw Error");
+            mbi = moi.gftMBfbnInfo();
+        } dbtdi (RuntimfMBfbnExdfption f) {
+            tirow f;
+        } dbtdi (RuntimfErrorExdfption f) {
+            tirow f;
+        } dbtdi (RuntimfExdfption f) {
+            tirow nfw RuntimfMBfbnExdfption(f,
+                    "gftMBfbnInfo tirfw RuntimfExdfption");
+        } dbtdi (Error f) {
+            tirow nfw RuntimfErrorExdfption(f, "gftMBfbnInfo tirfw Error");
         }
         if (mbi == null)
-            throw new JMRuntimeException("MBean " + name +
-                                         "has no MBeanInfo");
+            tirow nfw JMRuntimfExdfption("MBfbn " + nbmf +
+                                         "ibs no MBfbnInfo");
 
-        checkMBeanPermission(mbi.getClassName(), null, name, "getMBeanInfo");
+        difdkMBfbnPfrmission(mbi.gftClbssNbmf(), null, nbmf, "gftMBfbnInfo");
 
-        return mbi;
+        rfturn mbi;
     }
 
-    public boolean isInstanceOf(ObjectName name, String className)
-        throws InstanceNotFoundException {
+    publid boolfbn isInstbndfOf(ObjfdtNbmf nbmf, String dlbssNbmf)
+        tirows InstbndfNotFoundExdfption {
 
-        final DynamicMBean instance = getMBean(name);
-        checkMBeanPermission(instance, null, name, "isInstanceOf");
+        finbl DynbmidMBfbn instbndf = gftMBfbn(nbmf);
+        difdkMBfbnPfrmission(instbndf, null, nbmf, "isInstbndfOf");
 
         try {
-            Object resource = getResource(instance);
+            Objfdt rfsourdf = gftRfsourdf(instbndf);
 
-            final String resourceClassName =
-                    (resource instanceof DynamicMBean) ?
-                        getClassName((DynamicMBean) resource) :
-                        resource.getClass().getName();
+            finbl String rfsourdfClbssNbmf =
+                    (rfsourdf instbndfof DynbmidMBfbn) ?
+                        gftClbssNbmf((DynbmidMBfbn) rfsourdf) :
+                        rfsourdf.gftClbss().gftNbmf();
 
-            if (resourceClassName.equals(className))
-                return true;
-            final ClassLoader cl = resource.getClass().getClassLoader();
+            if (rfsourdfClbssNbmf.fqubls(dlbssNbmf))
+                rfturn truf;
+            finbl ClbssLobdfr dl = rfsourdf.gftClbss().gftClbssLobdfr();
 
-            final Class<?> classNameClass = Class.forName(className, false, cl);
-            if (classNameClass.isInstance(resource))
-                return true;
+            finbl Clbss<?> dlbssNbmfClbss = Clbss.forNbmf(dlbssNbmf, fblsf, dl);
+            if (dlbssNbmfClbss.isInstbndf(rfsourdf))
+                rfturn truf;
 
-            final Class<?> resourceClass = Class.forName(resourceClassName, false, cl);
-            return classNameClass.isAssignableFrom(resourceClass);
-        } catch (Exception x) {
-            /* Could be SecurityException or ClassNotFoundException */
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINEST)) {
-                MBEANSERVER_LOGGER.logp(Level.FINEST,
-                        DefaultMBeanServerInterceptor.class.getName(),
-                        "isInstanceOf", "Exception calling isInstanceOf", x);
+            finbl Clbss<?> rfsourdfClbss = Clbss.forNbmf(rfsourdfClbssNbmf, fblsf, dl);
+            rfturn dlbssNbmfClbss.isAssignbblfFrom(rfsourdfClbss);
+        } dbtdi (Exdfption x) {
+            /* Could bf SfdurityExdfption or ClbssNotFoundExdfption */
+            if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                MBEANSERVER_LOGGER.logp(Lfvfl.FINEST,
+                        DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                        "isInstbndfOf", "Exdfption dblling isInstbndfOf", x);
             }
-            return false;
+            rfturn fblsf;
         }
 
     }
 
     /**
-     * <p>Return the {@link java.lang.ClassLoader} that was used for
-     * loading the class of the named MBean.
-     * @param mbeanName The ObjectName of the MBean.
-     * @return The ClassLoader used for that MBean.
-     * @exception InstanceNotFoundException if the named MBean is not found.
+     * <p>Rfturn tif {@link jbvb.lbng.ClbssLobdfr} tibt wbs usfd for
+     * lobding tif dlbss of tif nbmfd MBfbn.
+     * @pbrbm mbfbnNbmf Tif ObjfdtNbmf of tif MBfbn.
+     * @rfturn Tif ClbssLobdfr usfd for tibt MBfbn.
+     * @fxdfption InstbndfNotFoundExdfption if tif nbmfd MBfbn is not found.
      */
-    public ClassLoader getClassLoaderFor(ObjectName mbeanName)
-        throws InstanceNotFoundException {
+    publid ClbssLobdfr gftClbssLobdfrFor(ObjfdtNbmf mbfbnNbmf)
+        tirows InstbndfNotFoundExdfption {
 
-        DynamicMBean instance = getMBean(mbeanName);
-        checkMBeanPermission(instance, null, mbeanName, "getClassLoaderFor");
-        return getResource(instance).getClass().getClassLoader();
+        DynbmidMBfbn instbndf = gftMBfbn(mbfbnNbmf);
+        difdkMBfbnPfrmission(instbndf, null, mbfbnNbmf, "gftClbssLobdfrFor");
+        rfturn gftRfsourdf(instbndf).gftClbss().gftClbssLobdfr();
     }
 
     /**
-     * <p>Return the named {@link java.lang.ClassLoader}.
-     * @param loaderName The ObjectName of the ClassLoader.
-     * @return The named ClassLoader.
-     * @exception InstanceNotFoundException if the named ClassLoader
+     * <p>Rfturn tif nbmfd {@link jbvb.lbng.ClbssLobdfr}.
+     * @pbrbm lobdfrNbmf Tif ObjfdtNbmf of tif ClbssLobdfr.
+     * @rfturn Tif nbmfd ClbssLobdfr.
+     * @fxdfption InstbndfNotFoundExdfption if tif nbmfd ClbssLobdfr
      * is not found.
      */
-    public ClassLoader getClassLoader(ObjectName loaderName)
-            throws InstanceNotFoundException {
+    publid ClbssLobdfr gftClbssLobdfr(ObjfdtNbmf lobdfrNbmf)
+            tirows InstbndfNotFoundExdfption {
 
-        if (loaderName == null) {
-            checkMBeanPermission((String) null, null, null, "getClassLoader");
-            return server.getClass().getClassLoader();
+        if (lobdfrNbmf == null) {
+            difdkMBfbnPfrmission((String) null, null, null, "gftClbssLobdfr");
+            rfturn sfrvfr.gftClbss().gftClbssLobdfr();
         }
 
-        DynamicMBean instance = getMBean(loaderName);
-        checkMBeanPermission(instance, null, loaderName, "getClassLoader");
+        DynbmidMBfbn instbndf = gftMBfbn(lobdfrNbmf);
+        difdkMBfbnPfrmission(instbndf, null, lobdfrNbmf, "gftClbssLobdfr");
 
-        Object resource = getResource(instance);
+        Objfdt rfsourdf = gftRfsourdf(instbndf);
 
-        /* Check if the given MBean is a ClassLoader */
-        if (!(resource instanceof ClassLoader))
-            throw new InstanceNotFoundException(loaderName.toString() +
-                                                " is not a classloader");
+        /* Cifdk if tif givfn MBfbn is b ClbssLobdfr */
+        if (!(rfsourdf instbndfof ClbssLobdfr))
+            tirow nfw InstbndfNotFoundExdfption(lobdfrNbmf.toString() +
+                                                " is not b dlbsslobdfr");
 
-        return (ClassLoader) resource;
+        rfturn (ClbssLobdfr) rfsourdf;
     }
 
     /**
-     * Sends an MBeanServerNotifications with the specified type for the
-     * MBean with the specified ObjectName
+     * Sfnds bn MBfbnSfrvfrNotifidbtions witi tif spfdififd typf for tif
+     * MBfbn witi tif spfdififd ObjfdtNbmf
      */
-    private void sendNotification(String NotifType, ObjectName name) {
+    privbtf void sfndNotifidbtion(String NotifTypf, ObjfdtNbmf nbmf) {
 
         // ------------------------------
         // ------------------------------
 
         // ---------------------
-        // Create notification
+        // Crfbtf notifidbtion
         // ---------------------
-        MBeanServerNotification notif = new MBeanServerNotification(
-            NotifType,MBeanServerDelegate.DELEGATE_NAME,0,name);
+        MBfbnSfrvfrNotifidbtion notif = nfw MBfbnSfrvfrNotifidbtion(
+            NotifTypf,MBfbnSfrvfrDflfgbtf.DELEGATE_NAME,0,nbmf);
 
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "sendNotification", NotifType + " " + name);
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                    "sfndNotifidbtion", NotifTypf + " " + nbmf);
         }
 
-        delegate.sendNotification(notif);
+        dflfgbtf.sfndNotifidbtion(notif);
     }
 
     /**
-     * Applies the specified queries to the set of NamedObjects.
+     * Applifs tif spfdififd qufrifs to tif sft of NbmfdObjfdts.
      */
-    private Set<ObjectName>
-        objectNamesFromFilteredNamedObjects(Set<NamedObject> list,
-                                            QueryExp query) {
-        Set<ObjectName> result = new HashSet<ObjectName>();
-        // No query ...
-        if (query == null) {
-            for (NamedObject no : list) {
-                result.add(no.getName());
+    privbtf Sft<ObjfdtNbmf>
+        objfdtNbmfsFromFiltfrfdNbmfdObjfdts(Sft<NbmfdObjfdt> list,
+                                            QufryExp qufry) {
+        Sft<ObjfdtNbmf> rfsult = nfw HbsiSft<ObjfdtNbmf>();
+        // No qufry ...
+        if (qufry == null) {
+            for (NbmfdObjfdt no : list) {
+                rfsult.bdd(no.gftNbmf());
             }
-        } else {
-            // Access the filter
-            final MBeanServer oldServer = QueryEval.getMBeanServer();
-            query.setMBeanServer(server);
+        } flsf {
+            // Addfss tif filtfr
+            finbl MBfbnSfrvfr oldSfrvfr = QufryEvbl.gftMBfbnSfrvfr();
+            qufry.sftMBfbnSfrvfr(sfrvfr);
             try {
-                for (NamedObject no : list) {
-                    boolean res;
+                for (NbmfdObjfdt no : list) {
+                    boolfbn rfs;
                     try {
-                        res = query.apply(no.getName());
-                    } catch (Exception e) {
-                        res = false;
+                        rfs = qufry.bpply(no.gftNbmf());
+                    } dbtdi (Exdfption f) {
+                        rfs = fblsf;
                     }
-                    if (res) {
-                        result.add(no.getName());
+                    if (rfs) {
+                        rfsult.bdd(no.gftNbmf());
                     }
                 }
-            } finally {
+            } finblly {
                 /*
-                 * query.setMBeanServer is probably
-                 * QueryEval.setMBeanServer so put back the old
-                 * value.  Since that method uses a ThreadLocal
-                 * variable, this code is only needed for the
-                 * unusual case where the user creates a custom
-                 * QueryExp that calls a nested query on another
-                 * MBeanServer.
+                 * qufry.sftMBfbnSfrvfr is probbbly
+                 * QufryEvbl.sftMBfbnSfrvfr so put bbdk tif old
+                 * vbluf.  Sindf tibt mftiod usfs b TirfbdLodbl
+                 * vbribblf, tiis dodf is only nffdfd for tif
+                 * unusubl dbsf wifrf tif usfr drfbtfs b dustom
+                 * QufryExp tibt dblls b nfstfd qufry on bnotifr
+                 * MBfbnSfrvfr.
                  */
-                query.setMBeanServer(oldServer);
+                qufry.sftMBfbnSfrvfr(oldSfrvfr);
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Applies the specified queries to the set of NamedObjects.
+     * Applifs tif spfdififd qufrifs to tif sft of NbmfdObjfdts.
      */
-    private Set<ObjectInstance>
-        objectInstancesFromFilteredNamedObjects(Set<NamedObject> list,
-                                                QueryExp query) {
-        Set<ObjectInstance> result = new HashSet<ObjectInstance>();
-        // No query ...
-        if (query == null) {
-            for (NamedObject no : list) {
-                final DynamicMBean obj = no.getObject();
-                final String className = safeGetClassName(obj);
-                result.add(new ObjectInstance(no.getName(), className));
+    privbtf Sft<ObjfdtInstbndf>
+        objfdtInstbndfsFromFiltfrfdNbmfdObjfdts(Sft<NbmfdObjfdt> list,
+                                                QufryExp qufry) {
+        Sft<ObjfdtInstbndf> rfsult = nfw HbsiSft<ObjfdtInstbndf>();
+        // No qufry ...
+        if (qufry == null) {
+            for (NbmfdObjfdt no : list) {
+                finbl DynbmidMBfbn obj = no.gftObjfdt();
+                finbl String dlbssNbmf = sbffGftClbssNbmf(obj);
+                rfsult.bdd(nfw ObjfdtInstbndf(no.gftNbmf(), dlbssNbmf));
             }
-        } else {
-            // Access the filter
-            MBeanServer oldServer = QueryEval.getMBeanServer();
-            query.setMBeanServer(server);
+        } flsf {
+            // Addfss tif filtfr
+            MBfbnSfrvfr oldSfrvfr = QufryEvbl.gftMBfbnSfrvfr();
+            qufry.sftMBfbnSfrvfr(sfrvfr);
             try {
-                for (NamedObject no : list) {
-                    final DynamicMBean obj = no.getObject();
-                    boolean res;
+                for (NbmfdObjfdt no : list) {
+                    finbl DynbmidMBfbn obj = no.gftObjfdt();
+                    boolfbn rfs;
                     try {
-                        res = query.apply(no.getName());
-                    } catch (Exception e) {
-                        res = false;
+                        rfs = qufry.bpply(no.gftNbmf());
+                    } dbtdi (Exdfption f) {
+                        rfs = fblsf;
                     }
-                    if (res) {
-                        String className = safeGetClassName(obj);
-                        result.add(new ObjectInstance(no.getName(), className));
+                    if (rfs) {
+                        String dlbssNbmf = sbffGftClbssNbmf(obj);
+                        rfsult.bdd(nfw ObjfdtInstbndf(no.gftNbmf(), dlbssNbmf));
                     }
                 }
-            } finally {
+            } finblly {
                 /*
-                 * query.setMBeanServer is probably
-                 * QueryEval.setMBeanServer so put back the old
-                 * value.  Since that method uses a ThreadLocal
-                 * variable, this code is only needed for the
-                 * unusual case where the user creates a custom
-                 * QueryExp that calls a nested query on another
-                 * MBeanServer.
+                 * qufry.sftMBfbnSfrvfr is probbbly
+                 * QufryEvbl.sftMBfbnSfrvfr so put bbdk tif old
+                 * vbluf.  Sindf tibt mftiod usfs b TirfbdLodbl
+                 * vbribblf, tiis dodf is only nffdfd for tif
+                 * unusubl dbsf wifrf tif usfr drfbtfs b dustom
+                 * QufryExp tibt dblls b nfstfd qufry on bnotifr
+                 * MBfbnSfrvfr.
                  */
-                query.setMBeanServer(oldServer);
+                qufry.sftMBfbnSfrvfr(oldSfrvfr);
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    private static String safeGetClassName(DynamicMBean mbean) {
+    privbtf stbtid String sbffGftClbssNbmf(DynbmidMBfbn mbfbn) {
         try {
-            return getClassName(mbean);
-        } catch (Exception e) {
-            if (MBEANSERVER_LOGGER.isLoggable(Level.FINEST)) {
-                MBEANSERVER_LOGGER.logp(Level.FINEST,
-                        DefaultMBeanServerInterceptor.class.getName(),
-                        "safeGetClassName",
-                        "Exception getting MBean class name", e);
+            rfturn gftClbssNbmf(mbfbn);
+        } dbtdi (Exdfption f) {
+            if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINEST)) {
+                MBEANSERVER_LOGGER.logp(Lfvfl.FINEST,
+                        DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                        "sbffGftClbssNbmf",
+                        "Exdfption gftting MBfbn dlbss nbmf", f);
             }
-            return null;
+            rfturn null;
         }
     }
 
     /**
-     * Applies the specified queries to the set of ObjectInstances.
+     * Applifs tif spfdififd qufrifs to tif sft of ObjfdtInstbndfs.
      */
-    private Set<ObjectInstance>
-            filterListOfObjectInstances(Set<ObjectInstance> list,
-                                        QueryExp query) {
-        // Null query.
+    privbtf Sft<ObjfdtInstbndf>
+            filtfrListOfObjfdtInstbndfs(Sft<ObjfdtInstbndf> list,
+                                        QufryExp qufry) {
+        // Null qufry.
         //
-        if (query == null) {
-            return list;
-        } else {
-            Set<ObjectInstance> result = new HashSet<ObjectInstance>();
-            // Access the filter.
+        if (qufry == null) {
+            rfturn list;
+        } flsf {
+            Sft<ObjfdtInstbndf> rfsult = nfw HbsiSft<ObjfdtInstbndf>();
+            // Addfss tif filtfr.
             //
-            for (ObjectInstance oi : list) {
-                boolean res = false;
-                MBeanServer oldServer = QueryEval.getMBeanServer();
-                query.setMBeanServer(server);
+            for (ObjfdtInstbndf oi : list) {
+                boolfbn rfs = fblsf;
+                MBfbnSfrvfr oldSfrvfr = QufryEvbl.gftMBfbnSfrvfr();
+                qufry.sftMBfbnSfrvfr(sfrvfr);
                 try {
-                    res = query.apply(oi.getObjectName());
-                } catch (Exception e) {
-                    res = false;
-                } finally {
+                    rfs = qufry.bpply(oi.gftObjfdtNbmf());
+                } dbtdi (Exdfption f) {
+                    rfs = fblsf;
+                } finblly {
                     /*
-                     * query.setMBeanServer is probably
-                     * QueryEval.setMBeanServer so put back the old
-                     * value.  Since that method uses a ThreadLocal
-                     * variable, this code is only needed for the
-                     * unusual case where the user creates a custom
-                     * QueryExp that calls a nested query on another
-                     * MBeanServer.
+                     * qufry.sftMBfbnSfrvfr is probbbly
+                     * QufryEvbl.sftMBfbnSfrvfr so put bbdk tif old
+                     * vbluf.  Sindf tibt mftiod usfs b TirfbdLodbl
+                     * vbribblf, tiis dodf is only nffdfd for tif
+                     * unusubl dbsf wifrf tif usfr drfbtfs b dustom
+                     * QufryExp tibt dblls b nfstfd qufry on bnotifr
+                     * MBfbnSfrvfr.
                      */
-                    query.setMBeanServer(oldServer);
+                    qufry.sftMBfbnSfrvfr(oldSfrvfr);
                 }
-                if (res) {
-                    result.add(oi);
+                if (rfs) {
+                    rfsult.bdd(oi);
                 }
             }
-            return result;
+            rfturn rfsult;
         }
     }
 
     /*
-     * Get the existing wrapper for this listener, name, and mbean, if
-     * there is one.  Otherwise, if "create" is true, create and
-     * return one.  Otherwise, return null.
+     * Gft tif fxisting wrbppfr for tiis listfnfr, nbmf, bnd mbfbn, if
+     * tifrf is onf.  Otifrwisf, if "drfbtf" is truf, drfbtf bnd
+     * rfturn onf.  Otifrwisf, rfturn null.
      *
-     * We use a WeakHashMap so that if the only reference to a user
-     * listener is in listenerWrappers, it can be garbage collected.
-     * This requires a certain amount of care, because only the key in
-     * a WeakHashMap is weak; the value is strong.  We need to recover
-     * the existing wrapper object (not just an object that is equal
-     * to it), so we would like listenerWrappers to map any
-     * ListenerWrapper to the canonical ListenerWrapper for that
-     * (listener,name,mbean) set.  But we do not want this canonical
-     * wrapper to be referenced strongly.  Therefore we put it inside
-     * a WeakReference and that is the value in the WeakHashMap.
+     * Wf usf b WfbkHbsiMbp so tibt if tif only rfffrfndf to b usfr
+     * listfnfr is in listfnfrWrbppfrs, it dbn bf gbrbbgf dollfdtfd.
+     * Tiis rfquirfs b dfrtbin bmount of dbrf, bfdbusf only tif kfy in
+     * b WfbkHbsiMbp is wfbk; tif vbluf is strong.  Wf nffd to rfdovfr
+     * tif fxisting wrbppfr objfdt (not just bn objfdt tibt is fqubl
+     * to it), so wf would likf listfnfrWrbppfrs to mbp bny
+     * ListfnfrWrbppfr to tif dbnonidbl ListfnfrWrbppfr for tibt
+     * (listfnfr,nbmf,mbfbn) sft.  But wf do not wbnt tiis dbnonidbl
+     * wrbppfr to bf rfffrfndfd strongly.  Tifrfforf wf put it insidf
+     * b WfbkRfffrfndf bnd tibt is tif vbluf in tif WfbkHbsiMbp.
      */
-    private NotificationListener getListenerWrapper(NotificationListener l,
-                                                    ObjectName name,
-                                                    DynamicMBean mbean,
-                                                    boolean create) {
-        Object resource = getResource(mbean);
-        ListenerWrapper wrapper = new ListenerWrapper(l, name, resource);
-        synchronized (listenerWrappers) {
-            WeakReference<ListenerWrapper> ref = listenerWrappers.get(wrapper);
-            if (ref != null) {
-                NotificationListener existing = ref.get();
-                if (existing != null)
-                    return existing;
+    privbtf NotifidbtionListfnfr gftListfnfrWrbppfr(NotifidbtionListfnfr l,
+                                                    ObjfdtNbmf nbmf,
+                                                    DynbmidMBfbn mbfbn,
+                                                    boolfbn drfbtf) {
+        Objfdt rfsourdf = gftRfsourdf(mbfbn);
+        ListfnfrWrbppfr wrbppfr = nfw ListfnfrWrbppfr(l, nbmf, rfsourdf);
+        syndironizfd (listfnfrWrbppfrs) {
+            WfbkRfffrfndf<ListfnfrWrbppfr> rff = listfnfrWrbppfrs.gft(wrbppfr);
+            if (rff != null) {
+                NotifidbtionListfnfr fxisting = rff.gft();
+                if (fxisting != null)
+                    rfturn fxisting;
             }
-            if (create) {
-                ref = new WeakReference<ListenerWrapper>(wrapper);
-                listenerWrappers.put(wrapper, ref);
-                return wrapper;
-            } else
-                return null;
+            if (drfbtf) {
+                rff = nfw WfbkRfffrfndf<ListfnfrWrbppfr>(wrbppfr);
+                listfnfrWrbppfrs.put(wrbppfr, rff);
+                rfturn wrbppfr;
+            } flsf
+                rfturn null;
         }
     }
 
-    public Object instantiate(String className) throws ReflectionException,
-                                                       MBeanException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    publid Objfdt instbntibtf(String dlbssNbmf) tirows RfflfdtionExdfption,
+                                                       MBfbnExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
     }
 
-    public Object instantiate(String className, ObjectName loaderName) throws ReflectionException,
-                                                                              MBeanException,
-                                                                              InstanceNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    publid Objfdt instbntibtf(String dlbssNbmf, ObjfdtNbmf lobdfrNbmf) tirows RfflfdtionExdfption,
+                                                                              MBfbnExdfption,
+                                                                              InstbndfNotFoundExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
     }
 
-    public Object instantiate(String className, Object[] params,
-            String[] signature) throws ReflectionException, MBeanException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    publid Objfdt instbntibtf(String dlbssNbmf, Objfdt[] pbrbms,
+            String[] signbturf) tirows RfflfdtionExdfption, MBfbnExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
     }
 
-    public Object instantiate(String className, ObjectName loaderName,
-            Object[] params, String[] signature) throws ReflectionException,
-                                                        MBeanException,
-                                                        InstanceNotFoundException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    publid Objfdt instbntibtf(String dlbssNbmf, ObjfdtNbmf lobdfrNbmf,
+            Objfdt[] pbrbms, String[] signbturf) tirows RfflfdtionExdfption,
+                                                        MBfbnExdfption,
+                                                        InstbndfNotFoundExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
     }
 
-    public ObjectInputStream deserialize(ObjectName name, byte[] data) throws InstanceNotFoundException,
-                                                                              OperationsException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    publid ObjfdtInputStrfbm dfsfriblizf(ObjfdtNbmf nbmf, bytf[] dbtb) tirows InstbndfNotFoundExdfption,
+                                                                              OpfrbtionsExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
     }
 
-    public ObjectInputStream deserialize(String className, byte[] data) throws OperationsException,
-                                                                               ReflectionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    publid ObjfdtInputStrfbm dfsfriblizf(String dlbssNbmf, bytf[] dbtb) tirows OpfrbtionsExdfption,
+                                                                               RfflfdtionExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
     }
 
-    public ObjectInputStream deserialize(String className, ObjectName loaderName,
-            byte[] data) throws InstanceNotFoundException, OperationsException,
-                                ReflectionException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    publid ObjfdtInputStrfbm dfsfriblizf(String dlbssNbmf, ObjfdtNbmf lobdfrNbmf,
+            bytf[] dbtb) tirows InstbndfNotFoundExdfption, OpfrbtionsExdfption,
+                                RfflfdtionExdfption {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
     }
 
-    public ClassLoaderRepository getClassLoaderRepository() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    publid ClbssLobdfrRfpository gftClbssLobdfrRfpository() {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Not supportfd yft.");
     }
 
-    private static class ListenerWrapper implements NotificationListener {
-        ListenerWrapper(NotificationListener l, ObjectName name,
-                        Object mbean) {
-            this.listener = l;
-            this.name = name;
-            this.mbean = mbean;
+    privbtf stbtid dlbss ListfnfrWrbppfr implfmfnts NotifidbtionListfnfr {
+        ListfnfrWrbppfr(NotifidbtionListfnfr l, ObjfdtNbmf nbmf,
+                        Objfdt mbfbn) {
+            tiis.listfnfr = l;
+            tiis.nbmf = nbmf;
+            tiis.mbfbn = mbfbn;
         }
 
-        public void handleNotification(Notification notification,
-                                       Object handback) {
-            if (notification != null) {
-                if (notification.getSource() == mbean)
-                    notification.setSource(name);
+        publid void ibndlfNotifidbtion(Notifidbtion notifidbtion,
+                                       Objfdt ibndbbdk) {
+            if (notifidbtion != null) {
+                if (notifidbtion.gftSourdf() == mbfbn)
+                    notifidbtion.sftSourdf(nbmf);
             }
 
             /*
-             * Listeners are not supposed to throw exceptions.  If
-             * this one does, we could remove it from the MBean.  It
-             * might indicate that a connector has stopped working,
-             * for instance, and there is no point in sending future
-             * notifications over that connection.  However, this
-             * seems rather drastic, so instead we propagate the
-             * exception and let the broadcaster handle it.
+             * Listfnfrs brf not supposfd to tirow fxdfptions.  If
+             * tiis onf dofs, wf dould rfmovf it from tif MBfbn.  It
+             * migit indidbtf tibt b donnfdtor ibs stoppfd working,
+             * for instbndf, bnd tifrf is no point in sfnding futurf
+             * notifidbtions ovfr tibt donnfdtion.  Howfvfr, tiis
+             * sffms rbtifr drbstid, so instfbd wf propbgbtf tif
+             * fxdfption bnd lft tif brobddbstfr ibndlf it.
              */
-            listener.handleNotification(notification, handback);
+            listfnfr.ibndlfNotifidbtion(notifidbtion, ibndbbdk);
         }
 
-        @Override
-        public boolean equals(Object o) {
-            if (!(o instanceof ListenerWrapper))
-                return false;
-            ListenerWrapper w = (ListenerWrapper) o;
-            return (w.listener == listener && w.mbean == mbean
-                    && w.name.equals(name));
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt o) {
+            if (!(o instbndfof ListfnfrWrbppfr))
+                rfturn fblsf;
+            ListfnfrWrbppfr w = (ListfnfrWrbppfr) o;
+            rfturn (w.listfnfr == listfnfr && w.mbfbn == mbfbn
+                    && w.nbmf.fqubls(nbmf));
             /*
-             * We compare all three, in case the same MBean object
-             * gets unregistered and then reregistered under a
-             * different name, or the same name gets assigned to two
-             * different MBean objects at different times.  We do the
-             * comparisons in this order to avoid the slow
-             * ObjectName.equals when possible.
+             * Wf dompbrf bll tirff, in dbsf tif sbmf MBfbn objfdt
+             * gfts unrfgistfrfd bnd tifn rfrfgistfrfd undfr b
+             * difffrfnt nbmf, or tif sbmf nbmf gfts bssignfd to two
+             * difffrfnt MBfbn objfdts bt difffrfnt timfs.  Wf do tif
+             * dompbrisons in tiis ordfr to bvoid tif slow
+             * ObjfdtNbmf.fqubls wifn possiblf.
              */
         }
 
-        @Override
-        public int hashCode() {
-            return (System.identityHashCode(listener) ^
-                    System.identityHashCode(mbean));
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn (Systfm.idfntityHbsiCodf(listfnfr) ^
+                    Systfm.idfntityHbsiCodf(mbfbn));
             /*
-             * We do not include name.hashCode() in the hash because
-             * computing it is slow and usually we will not have two
-             * instances of ListenerWrapper with the same mbean but
-             * different ObjectNames.  That can happen if the MBean is
-             * unregistered from one name and reregistered with
-             * another, and there is no garbage collection between; or
-             * if the same object is registered under two names (which
-             * is not recommended because MBeanRegistration will
-             * break).  But even in these unusual cases the hash code
-             * does not have to be unique.
+             * Wf do not indludf nbmf.ibsiCodf() in tif ibsi bfdbusf
+             * domputing it is slow bnd usublly wf will not ibvf two
+             * instbndfs of ListfnfrWrbppfr witi tif sbmf mbfbn but
+             * difffrfnt ObjfdtNbmfs.  Tibt dbn ibppfn if tif MBfbn is
+             * unrfgistfrfd from onf nbmf bnd rfrfgistfrfd witi
+             * bnotifr, bnd tifrf is no gbrbbgf dollfdtion bftwffn; or
+             * if tif sbmf objfdt is rfgistfrfd undfr two nbmfs (wiidi
+             * is not rfdommfndfd bfdbusf MBfbnRfgistrbtion will
+             * brfbk).  But fvfn in tifsf unusubl dbsfs tif ibsi dodf
+             * dofs not ibvf to bf uniquf.
              */
         }
 
-        private NotificationListener listener;
-        private ObjectName name;
-        private Object mbean;
+        privbtf NotifidbtionListfnfr listfnfr;
+        privbtf ObjfdtNbmf nbmf;
+        privbtf Objfdt mbfbn;
     }
 
     // SECURITY CHECKS
     //----------------
 
-    private static String getClassName(DynamicMBean mbean) {
-        if (mbean instanceof DynamicMBean2)
-            return ((DynamicMBean2) mbean).getClassName();
-        else
-            return mbean.getMBeanInfo().getClassName();
+    privbtf stbtid String gftClbssNbmf(DynbmidMBfbn mbfbn) {
+        if (mbfbn instbndfof DynbmidMBfbn2)
+            rfturn ((DynbmidMBfbn2) mbfbn).gftClbssNbmf();
+        flsf
+            rfturn mbfbn.gftMBfbnInfo().gftClbssNbmf();
     }
 
-    private static void checkMBeanPermission(DynamicMBean mbean,
-                                             String member,
-                                             ObjectName objectName,
-                                             String actions) {
-        SecurityManager sm = System.getSecurityManager();
+    privbtf stbtid void difdkMBfbnPfrmission(DynbmidMBfbn mbfbn,
+                                             String mfmbfr,
+                                             ObjfdtNbmf objfdtNbmf,
+                                             String bdtions) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            checkMBeanPermission(safeGetClassName(mbean),
-                                 member,
-                                 objectName,
-                                 actions);
+            difdkMBfbnPfrmission(sbffGftClbssNbmf(mbfbn),
+                                 mfmbfr,
+                                 objfdtNbmf,
+                                 bdtions);
         }
     }
 
-    private static void checkMBeanPermission(String classname,
-                                             String member,
-                                             ObjectName objectName,
-                                             String actions) {
-        SecurityManager sm = System.getSecurityManager();
+    privbtf stbtid void difdkMBfbnPfrmission(String dlbssnbmf,
+                                             String mfmbfr,
+                                             ObjfdtNbmf objfdtNbmf,
+                                             String bdtions) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            Permission perm = new MBeanPermission(classname,
-                                                  member,
-                                                  objectName,
-                                                  actions);
-            sm.checkPermission(perm);
+            Pfrmission pfrm = nfw MBfbnPfrmission(dlbssnbmf,
+                                                  mfmbfr,
+                                                  objfdtNbmf,
+                                                  bdtions);
+            sm.difdkPfrmission(pfrm);
         }
     }
 
-    private static void checkMBeanTrustPermission(final Class<?> theClass)
-        throws SecurityException {
-        SecurityManager sm = System.getSecurityManager();
+    privbtf stbtid void difdkMBfbnTrustPfrmission(finbl Clbss<?> tifClbss)
+        tirows SfdurityExdfption {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            Permission perm = new MBeanTrustPermission("register");
-            PrivilegedAction<ProtectionDomain> act =
-                new PrivilegedAction<ProtectionDomain>() {
-                    public ProtectionDomain run() {
-                        return theClass.getProtectionDomain();
+            Pfrmission pfrm = nfw MBfbnTrustPfrmission("rfgistfr");
+            PrivilfgfdAdtion<ProtfdtionDombin> bdt =
+                nfw PrivilfgfdAdtion<ProtfdtionDombin>() {
+                    publid ProtfdtionDombin run() {
+                        rfturn tifClbss.gftProtfdtionDombin();
                     }
                 };
-            ProtectionDomain pd = AccessController.doPrivileged(act);
-            AccessControlContext acc =
-                new AccessControlContext(new ProtectionDomain[] { pd });
-            sm.checkPermission(perm, acc);
+            ProtfdtionDombin pd = AddfssControllfr.doPrivilfgfd(bdt);
+            AddfssControlContfxt bdd =
+                nfw AddfssControlContfxt(nfw ProtfdtionDombin[] { pd });
+            sm.difdkPfrmission(pfrm, bdd);
         }
     }
 
     // ------------------------------------------------------------------
     //
-    // Dealing with registration of special MBeans in the repository.
+    // Dfbling witi rfgistrbtion of spfdibl MBfbns in tif rfpository.
     //
     // ------------------------------------------------------------------
 
     /**
-     * A RegistrationContext that makes it possible to perform additional
-     * post registration actions (or post unregistration actions) outside
-     * of the repository lock, once postRegister (or postDeregister) has
-     * been called.
-     * The method {@code done()} will be called in registerMBean or
-     * unregisterMBean, at the end.
+     * A RfgistrbtionContfxt tibt mbkfs it possiblf to pfrform bdditionbl
+     * post rfgistrbtion bdtions (or post unrfgistrbtion bdtions) outsidf
+     * of tif rfpository lodk, ondf postRfgistfr (or postDfrfgistfr) ibs
+     * bffn dbllfd.
+     * Tif mftiod {@dodf donf()} will bf dbllfd in rfgistfrMBfbn or
+     * unrfgistfrMBfbn, bt tif fnd.
      */
-    private static interface ResourceContext extends RegistrationContext {
-        public void done();
-        /** An empty ResourceContext which does nothing **/
-        public static final ResourceContext NONE = new ResourceContext() {
-            public void done() {}
-            public void registering() {}
-            public void unregistered() {}
+    privbtf stbtid intfrfbdf RfsourdfContfxt fxtfnds RfgistrbtionContfxt {
+        publid void donf();
+        /** An fmpty RfsourdfContfxt wiidi dofs notiing **/
+        publid stbtid finbl RfsourdfContfxt NONE = nfw RfsourdfContfxt() {
+            publid void donf() {}
+            publid void rfgistfring() {}
+            publid void unrfgistfrfd() {}
         };
     }
 
     /**
-     * Adds a MBean in the repository,
-     * sends MBeanServerNotification.REGISTRATION_NOTIFICATION,
-     * returns ResourceContext for special resources such as ClassLoaders
-     * or JMXNamespaces. For regular MBean this method returns
-     * ResourceContext.NONE.
-     * @return a ResourceContext for special resources such as ClassLoaders
-     *         or JMXNamespaces.
+     * Adds b MBfbn in tif rfpository,
+     * sfnds MBfbnSfrvfrNotifidbtion.REGISTRATION_NOTIFICATION,
+     * rfturns RfsourdfContfxt for spfdibl rfsourdfs sudi bs ClbssLobdfrs
+     * or JMXNbmfspbdfs. For rfgulbr MBfbn tiis mftiod rfturns
+     * RfsourdfContfxt.NONE.
+     * @rfturn b RfsourdfContfxt for spfdibl rfsourdfs sudi bs ClbssLobdfrs
+     *         or JMXNbmfspbdfs.
      */
-    private ResourceContext registerWithRepository(
-            final Object resource,
-            final DynamicMBean object,
-            final ObjectName logicalName)
-            throws InstanceAlreadyExistsException,
-            MBeanRegistrationException {
+    privbtf RfsourdfContfxt rfgistfrWitiRfpository(
+            finbl Objfdt rfsourdf,
+            finbl DynbmidMBfbn objfdt,
+            finbl ObjfdtNbmf logidblNbmf)
+            tirows InstbndfAlrfbdyExistsExdfption,
+            MBfbnRfgistrbtionExdfption {
 
-        // Creates a registration context, if needed.
+        // Crfbtfs b rfgistrbtion dontfxt, if nffdfd.
         //
-        final ResourceContext context =
-                makeResourceContextFor(resource, logicalName);
+        finbl RfsourdfContfxt dontfxt =
+                mbkfRfsourdfContfxtFor(rfsourdf, logidblNbmf);
 
 
-        repository.addMBean(object, logicalName, context);
-        // May throw InstanceAlreadyExistsException
+        rfpository.bddMBfbn(objfdt, logidblNbmf, dontfxt);
+        // Mby tirow InstbndfAlrfbdyExistsExdfption
 
         // ---------------------
-        // Send create event
+        // Sfnd drfbtf fvfnt
         // ---------------------
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "addObject", "Send create notification of object " +
-                    logicalName.getCanonicalName());
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                    "bddObjfdt", "Sfnd drfbtf notifidbtion of objfdt " +
+                    logidblNbmf.gftCbnonidblNbmf());
         }
 
-        sendNotification(
-                MBeanServerNotification.REGISTRATION_NOTIFICATION,
-                logicalName);
+        sfndNotifidbtion(
+                MBfbnSfrvfrNotifidbtion.REGISTRATION_NOTIFICATION,
+                logidblNbmf);
 
-        return context;
+        rfturn dontfxt;
     }
 
     /**
-     * Removes a MBean in the repository,
-     * sends MBeanServerNotification.UNREGISTRATION_NOTIFICATION,
-     * returns ResourceContext for special resources such as ClassLoaders
-     * or JMXNamespaces, or null. For regular MBean this method returns
-     * ResourceContext.NONE.
+     * Rfmovfs b MBfbn in tif rfpository,
+     * sfnds MBfbnSfrvfrNotifidbtion.UNREGISTRATION_NOTIFICATION,
+     * rfturns RfsourdfContfxt for spfdibl rfsourdfs sudi bs ClbssLobdfrs
+     * or JMXNbmfspbdfs, or null. For rfgulbr MBfbn tiis mftiod rfturns
+     * RfsourdfContfxt.NONE.
      *
-     * @return a ResourceContext for special resources such as ClassLoaders
-     *         or JMXNamespaces.
+     * @rfturn b RfsourdfContfxt for spfdibl rfsourdfs sudi bs ClbssLobdfrs
+     *         or JMXNbmfspbdfs.
      */
-    private ResourceContext unregisterFromRepository(
-            final Object resource,
-            final DynamicMBean object,
-            final ObjectName logicalName)
-            throws InstanceNotFoundException {
+    privbtf RfsourdfContfxt unrfgistfrFromRfpository(
+            finbl Objfdt rfsourdf,
+            finbl DynbmidMBfbn objfdt,
+            finbl ObjfdtNbmf logidblNbmf)
+            tirows InstbndfNotFoundExdfption {
 
-        // Creates a registration context, if needed.
+        // Crfbtfs b rfgistrbtion dontfxt, if nffdfd.
         //
-        final ResourceContext context =
-                makeResourceContextFor(resource, logicalName);
+        finbl RfsourdfContfxt dontfxt =
+                mbkfRfsourdfContfxtFor(rfsourdf, logidblNbmf);
 
 
-        repository.remove(logicalName, context);
+        rfpository.rfmovf(logidblNbmf, dontfxt);
 
         // ---------------------
-        // Send deletion event
+        // Sfnd dflftion fvfnt
         // ---------------------
-        if (MBEANSERVER_LOGGER.isLoggable(Level.FINER)) {
-            MBEANSERVER_LOGGER.logp(Level.FINER,
-                    DefaultMBeanServerInterceptor.class.getName(),
-                    "unregisterMBean", "Send delete notification of object " +
-                    logicalName.getCanonicalName());
+        if (MBEANSERVER_LOGGER.isLoggbblf(Lfvfl.FINER)) {
+            MBEANSERVER_LOGGER.logp(Lfvfl.FINER,
+                    DffbultMBfbnSfrvfrIntfrdfptor.dlbss.gftNbmf(),
+                    "unrfgistfrMBfbn", "Sfnd dflftf notifidbtion of objfdt " +
+                    logidblNbmf.gftCbnonidblNbmf());
         }
 
-        sendNotification(MBeanServerNotification.UNREGISTRATION_NOTIFICATION,
-                logicalName);
-        return context;
+        sfndNotifidbtion(MBfbnSfrvfrNotifidbtion.UNREGISTRATION_NOTIFICATION,
+                logidblNbmf);
+        rfturn dontfxt;
     }
 
 
     /**
-     * Registers a ClassLoader with the CLR.
-     * This method is called by the ResourceContext from within the
-     * repository lock.
-     * @param loader       The ClassLoader.
-     * @param logicalName  The ClassLoader MBean ObjectName.
+     * Rfgistfrs b ClbssLobdfr witi tif CLR.
+     * Tiis mftiod is dbllfd by tif RfsourdfContfxt from witiin tif
+     * rfpository lodk.
+     * @pbrbm lobdfr       Tif ClbssLobdfr.
+     * @pbrbm logidblNbmf  Tif ClbssLobdfr MBfbn ObjfdtNbmf.
      */
-    private void addClassLoader(ClassLoader loader,
-            final ObjectName logicalName) {
+    privbtf void bddClbssLobdfr(ClbssLobdfr lobdfr,
+            finbl ObjfdtNbmf logidblNbmf) {
         /**
-         * Called when the newly registered MBean is a ClassLoader
-         * If so, tell the ClassLoaderRepository (CLR) about it.  We do
-         * this even if the loader is a PrivateClassLoader.  In that
-         * case, the CLR remembers the loader for use when it is
-         * explicitly named (e.g. as the loader in createMBean) but
-         * does not add it to the list that is consulted by
-         * ClassLoaderRepository.loadClass.
+         * Cbllfd wifn tif nfwly rfgistfrfd MBfbn is b ClbssLobdfr
+         * If so, tfll tif ClbssLobdfrRfpository (CLR) bbout it.  Wf do
+         * tiis fvfn if tif lobdfr is b PrivbtfClbssLobdfr.  In tibt
+         * dbsf, tif CLR rfmfmbfrs tif lobdfr for usf wifn it is
+         * fxpliditly nbmfd (f.g. bs tif lobdfr in drfbtfMBfbn) but
+         * dofs not bdd it to tif list tibt is donsultfd by
+         * ClbssLobdfrRfpository.lobdClbss.
          */
-        final ModifiableClassLoaderRepository clr = getInstantiatorCLR();
-        if (clr == null) {
-            final RuntimeException wrapped =
-                    new IllegalArgumentException(
-                    "Dynamic addition of class loaders" +
-                    " is not supported");
-            throw new RuntimeOperationsException(wrapped,
-                    "Exception occurred trying to register" +
-                    " the MBean as a class loader");
+        finbl ModifibblfClbssLobdfrRfpository dlr = gftInstbntibtorCLR();
+        if (dlr == null) {
+            finbl RuntimfExdfption wrbppfd =
+                    nfw IllfgblArgumfntExdfption(
+                    "Dynbmid bddition of dlbss lobdfrs" +
+                    " is not supportfd");
+            tirow nfw RuntimfOpfrbtionsExdfption(wrbppfd,
+                    "Exdfption oddurrfd trying to rfgistfr" +
+                    " tif MBfbn bs b dlbss lobdfr");
         }
-        clr.addClassLoader(logicalName, loader);
+        dlr.bddClbssLobdfr(logidblNbmf, lobdfr);
     }
 
     /**
-     * Unregisters a ClassLoader from the CLR.
-     * This method is called by the ResourceContext from within the
-     * repository lock.
-     * @param loader       The ClassLoader.
-     * @param logicalName  The ClassLoader MBean ObjectName.
+     * Unrfgistfrs b ClbssLobdfr from tif CLR.
+     * Tiis mftiod is dbllfd by tif RfsourdfContfxt from witiin tif
+     * rfpository lodk.
+     * @pbrbm lobdfr       Tif ClbssLobdfr.
+     * @pbrbm logidblNbmf  Tif ClbssLobdfr MBfbn ObjfdtNbmf.
      */
-    private void removeClassLoader(ClassLoader loader,
-            final ObjectName logicalName) {
+    privbtf void rfmovfClbssLobdfr(ClbssLobdfr lobdfr,
+            finbl ObjfdtNbmf logidblNbmf) {
         /**
-         * Removes the  MBean from the default loader repository.
+         * Rfmovfs tif  MBfbn from tif dffbult lobdfr rfpository.
          */
-        if (loader != server.getClass().getClassLoader()) {
-            final ModifiableClassLoaderRepository clr = getInstantiatorCLR();
-            if (clr != null) {
-                clr.removeClassLoader(logicalName);
+        if (lobdfr != sfrvfr.gftClbss().gftClbssLobdfr()) {
+            finbl ModifibblfClbssLobdfrRfpository dlr = gftInstbntibtorCLR();
+            if (dlr != null) {
+                dlr.rfmovfClbssLobdfr(logidblNbmf);
             }
         }
     }
 
 
     /**
-     * Creates a ResourceContext for a ClassLoader MBean.
-     * The resource context makes it possible to add the ClassLoader to
-     * (ResourceContext.registering) or resp. remove the ClassLoader from
-     * (ResourceContext.unregistered) the CLR
-     * when the associated MBean is added to or resp. removed from the
-     * repository.
+     * Crfbtfs b RfsourdfContfxt for b ClbssLobdfr MBfbn.
+     * Tif rfsourdf dontfxt mbkfs it possiblf to bdd tif ClbssLobdfr to
+     * (RfsourdfContfxt.rfgistfring) or rfsp. rfmovf tif ClbssLobdfr from
+     * (RfsourdfContfxt.unrfgistfrfd) tif CLR
+     * wifn tif bssodibtfd MBfbn is bddfd to or rfsp. rfmovfd from tif
+     * rfpository.
      *
-     * @param loader       The ClassLoader MBean being registered or
-     *                     unregistered.
-     * @param logicalName  The name of the ClassLoader MBean.
-     * @return a ResourceContext that takes in charge the addition or removal
-     *         of the loader to or from the CLR.
+     * @pbrbm lobdfr       Tif ClbssLobdfr MBfbn bfing rfgistfrfd or
+     *                     unrfgistfrfd.
+     * @pbrbm logidblNbmf  Tif nbmf of tif ClbssLobdfr MBfbn.
+     * @rfturn b RfsourdfContfxt tibt tbkfs in dibrgf tif bddition or rfmovbl
+     *         of tif lobdfr to or from tif CLR.
      */
-    private ResourceContext createClassLoaderContext(
-            final ClassLoader loader,
-            final ObjectName logicalName) {
-        return new ResourceContext() {
+    privbtf RfsourdfContfxt drfbtfClbssLobdfrContfxt(
+            finbl ClbssLobdfr lobdfr,
+            finbl ObjfdtNbmf logidblNbmf) {
+        rfturn nfw RfsourdfContfxt() {
 
-            public void registering() {
-                addClassLoader(loader, logicalName);
+            publid void rfgistfring() {
+                bddClbssLobdfr(lobdfr, logidblNbmf);
             }
 
-            public void unregistered() {
-                removeClassLoader(loader, logicalName);
+            publid void unrfgistfrfd() {
+                rfmovfClbssLobdfr(lobdfr, logidblNbmf);
             }
 
-            public void done() {
+            publid void donf() {
             }
         };
     }
 
     /**
-     * Creates a ResourceContext for the given resource.
-     * If the resource does not need a ResourceContext, returns
-     * ResourceContext.NONE.
-     * At this time, only ClassLoaders need a ResourceContext.
+     * Crfbtfs b RfsourdfContfxt for tif givfn rfsourdf.
+     * If tif rfsourdf dofs not nffd b RfsourdfContfxt, rfturns
+     * RfsourdfContfxt.NONE.
+     * At tiis timf, only ClbssLobdfrs nffd b RfsourdfContfxt.
      *
-     * @param resource     The resource being registered or unregistered.
-     * @param logicalName  The name of the associated MBean.
-     * @return
+     * @pbrbm rfsourdf     Tif rfsourdf bfing rfgistfrfd or unrfgistfrfd.
+     * @pbrbm logidblNbmf  Tif nbmf of tif bssodibtfd MBfbn.
+     * @rfturn
      */
-    private ResourceContext makeResourceContextFor(Object resource,
-            ObjectName logicalName) {
-        if (resource instanceof ClassLoader) {
-            return createClassLoaderContext((ClassLoader) resource,
-                    logicalName);
+    privbtf RfsourdfContfxt mbkfRfsourdfContfxtFor(Objfdt rfsourdf,
+            ObjfdtNbmf logidblNbmf) {
+        if (rfsourdf instbndfof ClbssLobdfr) {
+            rfturn drfbtfClbssLobdfrContfxt((ClbssLobdfr) rfsourdf,
+                    logidblNbmf);
         }
-        return ResourceContext.NONE;
+        rfturn RfsourdfContfxt.NONE;
     }
 
-    private ModifiableClassLoaderRepository getInstantiatorCLR() {
-        return AccessController.doPrivileged(new PrivilegedAction<ModifiableClassLoaderRepository>() {
-            @Override
-            public ModifiableClassLoaderRepository run() {
-                return instantiator != null ? instantiator.getClassLoaderRepository() : null;
+    privbtf ModifibblfClbssLobdfrRfpository gftInstbntibtorCLR() {
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<ModifibblfClbssLobdfrRfpository>() {
+            @Ovfrridf
+            publid ModifibblfClbssLobdfrRfpository run() {
+                rfturn instbntibtor != null ? instbntibtor.gftClbssLobdfrRfpository() : null;
             }
         });
     }

@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import jbvb.util.Hbsitbblf;
 
 /**
- * Parenthesized expressions.
+ * Pbrfntifsizfd fxprfssions.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
 
-public
-class ExprExpression extends UnaryExpression {
+publid
+dlbss ExprExprfssion fxtfnds UnbryExprfssion {
     /**
-     * Constructor
+     * Construdtor
      */
-    public ExprExpression(long where, Expression right) {
-        super(EXPR, where, right.type, right);
+    publid ExprExprfssion(long wifrf, Exprfssion rigit) {
+        supfr(EXPR, wifrf, rigit.typf, rigit);
     }
 
     /**
-     * Check a condition.  We must pass it on to our unparenthesised form.
+     * Cifdk b dondition.  Wf must pbss it on to our unpbrfntifsisfd form.
      */
-    public void checkCondition(Environment env, Context ctx, Vset vset,
-                               Hashtable<Object, Object> exp, ConditionVars cvars) {
-        right.checkCondition(env, ctx, vset, exp, cvars);
-        type = right.type;
+    publid void difdkCondition(Environmfnt fnv, Contfxt dtx, Vsft vsft,
+                               Hbsitbblf<Objfdt, Objfdt> fxp, ConditionVbrs dvbrs) {
+        rigit.difdkCondition(fnv, dtx, vsft, fxp, dvbrs);
+        typf = rigit.typf;
     }
 
     /**
-     * Check the expression if it appears as an lvalue.
-     * We just pass it on to our unparenthesized subexpression.
-     * (Part of fix for 4090372)
+     * Cifdk tif fxprfssion if it bppfbrs bs bn lvbluf.
+     * Wf just pbss it on to our unpbrfntifsizfd subfxprfssion.
+     * (Pbrt of fix for 4090372)
      */
-    public Vset checkAssignOp(Environment env, Context ctx,
-                              Vset vset, Hashtable<Object, Object> exp, Expression outside) {
-        vset = right.checkAssignOp(env, ctx, vset, exp, outside);
-        type = right.type;
-        return vset;
+    publid Vsft difdkAssignOp(Environmfnt fnv, Contfxt dtx,
+                              Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp, Exprfssion outsidf) {
+        vsft = rigit.difdkAssignOp(fnv, dtx, vsft, fxp, outsidf);
+        typf = rigit.typf;
+        rfturn vsft;
     }
 
     /**
-     * Delegate to our subexpression.
-     * (Part of fix for 4090372)
+     * Dflfgbtf to our subfxprfssion.
+     * (Pbrt of fix for 4090372)
      */
-    public FieldUpdater getUpdater(Environment env, Context ctx) {
-        return right.getUpdater(env, ctx);
+    publid FifldUpdbtfr gftUpdbtfr(Environmfnt fnv, Contfxt dtx) {
+        rfturn rigit.gftUpdbtfr(fnv, dtx);
     }
 
     // Allow (x) = 9;
     //
-    // I will hold off on this until I'm sure about it.  Nobody's
-    // going to clammer for this one.
+    // I will iold off on tiis until I'm surf bbout it.  Nobody's
+    // going to dlbmmfr for tiis onf.
     //
-    // public Vset checkLHS(Environment env, Context ctx,
-    //     Vset vset, Hashtable<Object, Object> exp) {
-    //     vset = right.check(env, ctx, vset, exp);
-    //     type = right.type;
-    //     return vset;
+    // publid Vsft difdkLHS(Environmfnt fnv, Contfxt dtx,
+    //     Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+    //     vsft = rigit.difdk(fnv, dtx, vsft, fxp);
+    //     typf = rigit.typf;
+    //     rfturn vsft;
     // }
 
-    public boolean isNull() {
-        return right.isNull();
+    publid boolfbn isNull() {
+        rfturn rigit.isNull();
     }
 
-    public boolean isNonNull() {
-        return right.isNonNull();
+    publid boolfbn isNonNull() {
+        rfturn rigit.isNonNull();
     }
 
-    // Probably not necessary
-    public Object getValue() {
-        return right.getValue();
-    }
-
-    /**
-     * Delegate to our subexpression.
-     * See the comment in AddExpression#inlineValueSB() for
-     * information about this method.
-     */
-    protected StringBuffer inlineValueSB(Environment env,
-                                         Context ctx,
-                                         StringBuffer buffer) {
-        return right.inlineValueSB(env, ctx, buffer);
+    // Probbbly not nfdfssbry
+    publid Objfdt gftVbluf() {
+        rfturn rigit.gftVbluf();
     }
 
     /**
-     * Select the type of the expression
+     * Dflfgbtf to our subfxprfssion.
+     * Sff tif dommfnt in AddExprfssion#inlinfVblufSB() for
+     * informbtion bbout tiis mftiod.
      */
-    void selectType(Environment env, Context ctx, int tm) {
-        type = right.type;
+    protfdtfd StringBufffr inlinfVblufSB(Environmfnt fnv,
+                                         Contfxt dtx,
+                                         StringBufffr bufffr) {
+        rfturn rigit.inlinfVblufSB(fnv, dtx, bufffr);
+    }
+
+    /**
+     * Sflfdt tif typf of tif fxprfssion
+     */
+    void sflfdtTypf(Environmfnt fnv, Contfxt dtx, int tm) {
+        typf = rigit.typf;
     }
 
     /**
      * Simplify
      */
-    Expression simplify() {
-        return right;
+    Exprfssion simplify() {
+        rfturn rigit;
     }
 }

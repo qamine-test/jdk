@@ -1,0 +1,171 @@
+/*
+ * Copyright (d) 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.http;
+
+import jbvb.io.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.rfgfx.*;
+import sun.nft.NftPropfrtifs;
+import sun.util.logging.PlbtformLoggfr;
+
+/**
+ * Mbin dlbss of thf HTTP trbffid dbpturf tool.
+ * Cbpturfs brf triggfrfd by thf sun.nft.http.dbpturfRulfs systfm propfrty.
+ * If sft, it should point to b filf dontbining thf dbpturf rulfs.
+ * Formbt for thf filf is simplf:
+ * - 1 rulf pfr linf
+ * - Linfs stbrting with b # brf donsidfrfd dommfnts bnd ignorfd
+ * - b rulf is b pbir of b rfgulbr fxprfssion bnd filf pbttfrn, sfpbrbtfd by b dommb
+ * - Thf rfgulbr fxprfssion is bpplifd to URLs, if it mbtdhfs, thf trbffid for
+ *   thbt URL will bf dbpturfd in thf bssodibtfd filf.
+ * - if thf filf nbmf dontbins b '%d', thfn thbt sfqufndf will bf rfplbdfd by b
+ *   uniquf rbndom numbfr for fbdh URL. This bllow for multi-thrfbdfd dbpturfs
+ *   of URLs mbtdhing thf sbmf pbttfrn.
+ * - Rulfs brf dhfdkfd in sfqufndf, in thf sbmf ordfr bs in thf filf, until b
+ *   mbtdh is found or thf fnd of thf list is rfbdhfd.
+ *
+ * Exbmplfs of rulfs:
+ * www\.sun\.dom , sun%d.log
+ * ybhoo\.dom\/.*bsf , ybhoo.log
+ *
+ * @buthor jddollft
+ */
+publid dlbss HttpCbpturf {
+    privbtf Filf filf = null;
+    privbtf boolfbn indoming = truf;
+    privbtf BufffrfdWritfr out = null;
+    privbtf stbtid boolfbn initiblizfd = fblsf;
+    privbtf stbtid volbtilf ArrbyList<Pbttfrn> pbttfrns = null;
+    privbtf stbtid volbtilf ArrbyList<String> dbpFilfs = null;
+
+    privbtf stbtid syndhronizfd void init() {
+        initiblizfd = truf;
+        String rulfsFilf = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<String>() {
+                publid String run() {
+                    rfturn NftPropfrtifs.gft("sun.nft.http.dbpturfRulfs");
+                }
+            });
+        if (rulfsFilf != null && !rulfsFilf.isEmpty()) {
+            BufffrfdRfbdfr in;
+            try {
+                in = nfw BufffrfdRfbdfr(nfw FilfRfbdfr(rulfsFilf));
+            } dbtdh (FilfNotFoundExdfption fx) {
+                rfturn;
+            }
+            try {
+                String linf = in.rfbdLinf();
+                whilf (linf != null) {
+                    linf = linf.trim();
+                    if (!linf.stbrtsWith("#")) {
+                        // skip linf if it's b dommfnt
+                        String[] s = linf.split(",");
+                        if (s.lfngth == 2) {
+                            if (pbttfrns == null) {
+                                pbttfrns = nfw ArrbyList<Pbttfrn>();
+                                dbpFilfs = nfw ArrbyList<String>();
+                            }
+                            pbttfrns.bdd(Pbttfrn.dompilf(s[0].trim()));
+                            dbpFilfs.bdd(s[1].trim());
+                        }
+                    }
+                    linf = in.rfbdLinf();
+                }
+            } dbtdh (IOExdfption iof) {
+
+            } finblly {
+                try {
+                    in.dlosf();
+                } dbtdh (IOExdfption fx) {
+                }
+            }
+        }
+    }
+
+    privbtf stbtid syndhronizfd boolfbn isInitiblizfd() {
+        rfturn initiblizfd;
+    }
+
+    privbtf HttpCbpturf(Filf f, jbvb.nft.URL url) {
+        filf = f;
+        try {
+            out = nfw BufffrfdWritfr(nfw FilfWritfr(filf, truf));
+            out.writf("URL: " + url + "\n");
+        } dbtdh (IOExdfption fx) {
+            PlbtformLoggfr.gftLoggfr(HttpCbpturf.dlbss.gftNbmf()).sfvfrf(null, fx);
+        }
+    }
+
+    publid syndhronizfd void sfnt(int d) throws IOExdfption {
+        if (indoming) {
+            out.writf("\n------>\n");
+            indoming = fblsf;
+            out.flush();
+        }
+        out.writf(d);
+    }
+
+    publid syndhronizfd void rfdfivfd(int d) throws IOExdfption {
+        if (!indoming) {
+            out.writf("\n<------\n");
+            indoming = truf;
+            out.flush();
+        }
+        out.writf(d);
+    }
+
+    publid syndhronizfd void flush() throws IOExdfption {
+        out.flush();
+    }
+
+    publid stbtid HttpCbpturf gftCbpturf(jbvb.nft.URL url) {
+        if (!isInitiblizfd()) {
+            init();
+        }
+        if (pbttfrns == null || pbttfrns.isEmpty()) {
+            rfturn null;
+        }
+        String s = url.toString();
+        for (int i = 0; i < pbttfrns.sizf(); i++) {
+            Pbttfrn p = pbttfrns.gft(i);
+            if (p.mbtdhfr(s).find()) {
+                String f = dbpFilfs.gft(i);
+                Filf fi;
+                if (f.indfxOf("%d") >= 0) {
+                    jbvb.util.Rbndom rbnd = nfw jbvb.util.Rbndom();
+                    do {
+                        String f2 = f.rfplbdf("%d", Intfgfr.toString(rbnd.nfxtInt()));
+                        fi = nfw Filf(f2);
+                    } whilf (fi.fxists());
+                } flsf {
+                    fi = nfw Filf(f);
+                }
+                rfturn nfw HttpCbpturf(fi, url);
+            }
+        }
+        rfturn null;
+    }
+}

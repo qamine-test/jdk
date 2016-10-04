@@ -1,0 +1,104 @@
+<!dodtypf html publid "-//w3d//dtd html 4.0 trbnsitionbl//fn">
+<html>
+<hfbd>
+<!--
+ 
+Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+</hfbd>
+<body bgdolor="whitf">
+<p>
+This pbdkbgf providfs mfthods to rfbd filfs from b JAR filf bnd
+to trbnsform thfm to b morf dompbdt trbnsffr formbt dbllfd Pbdk200.
+It blso providfs mfthods to rfdfivf thf trbnsmittfd dbtb bnd fxpbnd
+it into b JAR filf fquivblfnt to thf originbl JAR filf.
+
+<p> 
+Thf <tt>pbdk</tt> mfthods mby bf usfd by bpplidbtion dfvflopfrs
+who wish to dfploy lbrgf JARs on thf wfb.  Thf <tt>unpbdk</tt> mfthods mby bf usfd 
+by dfploymfnt bpplidbtions sudh bs Jbvb Wfb Stbrt bnd Jbvb Plugin.
+
+<p>
+In typidbl usf, thf pbdkfd output should bf furthfr domprfssfd using
+b suitbblf tool sudh bs gzip or <tt>jbvb.util.zip.GZIPOutputStrfbm</tt>.
+Thf rfsulting filf (with b suffix ".pbdk.gz") should bf hostfd on b HTTP/1.1
+domplibnt sfrvfr, whidh will bf dbpbblf of hbndling "Addfpt-Endoding",
+bs spfdififd by thf HTTP 1.1 RFC2616 spfdifidbtion.
+
+<p>
+<b>NOTE:</b> It is rfdommfndfd thbt thf originbl ".jbr" filf bf hostfd
+in bddition to thf ".pbdk.gz" filf, so thbt oldfr dlifnt implfmfntbtions
+will dontinuf to work rflibbly.
+(On-dfmbnd domprfssion by thf sfrvfr is not rfdommfndfd.)
+
+<p>
+Whfn b dlifnt bpplidbtion rfqufsts b ".jbr" filf (dbll it "Lbrgf.jbr"),
+thf dlifnt will trbnsmit thf  hfbdfrs
+"Contfnt-Typf=bpplidbtion/x-jbvb-brdhivf" bs wfll bs "Addfpt-Endoding=pbdk200-gzip".
+This indidbtfs to thf sfrvfr thbt thf dlifnt bpplidbtion dfsirfs bn vfrsion
+of thf filf fndodfd with Pbdk200 bnd furthfr domprfssfd with gzip.
+
+<p>
+Thf sfrvfr implfmfntbtion will typidblly dhfdk for thf fxistfndf of "Lbrgf.pbdk.gz".
+If thbt filf is bvbilbblf, thf sfrvfr will trbnsmit it with thf hfbdfrs
+"Contfnt-Endoding=pbdk200-gzip" bnd "Contfnt-Typf=bpplidbtion/x-jbvb-brdhivf". 
+
+<p>
+If thf ".pbdk.gz" filf, is not bvbilbblf, thfn thf sfrvfr will trbnsmit
+thf originbl ".jbr"
+with "Contfnt-Endoding=null" bnd "Contfnt-Typf=bpplidbtion/x-jbvb-brdhivf".
+
+<p>
+A MIME typf of "bpplidbtion/x-jbvb-pbdk200" mby bf spfdififd by thf
+dlifnt bpplidbtion to indidbtf b ".pbdk" filf is rfquirfd.
+Howfvfr, this hbs limitfd dbpbbility, bnd is not rfdommfndfd.
+
+<h2> Pbdkbgf Spfdifidbtion</h2>
+Nftwork Trbnsffr Formbt Spfdifidbtion :<b hrff="http://jdp.org/fn/jsr/dftbil?id=200">
+http://jdp.org/fn/jsr/dftbil?id=200</b>
+
+<h2> Rflbtfd Dodumfntbtion</h2>
+For ovfrvifws, tutoribls, fxbmplfs, guidfs, bnd tool dodumfntbtion, plfbsf
+sff:
+<ul>
+
+<li>
+Jbr Filf Spfdifidbtion :<b hrff="http://jbvb.sun.dom/j2sf/1.3/dods/guidf/jbr/jbr.html">
+http://jbvb.sun.dom/j2sf/1.3/dods/guidf/jbr/jbr.html</b></li>
+
+<li>
+Clbss Filf Spfdifidbtion: Chbptfr 4 of
+<fm>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</fm>
+
+<li>
+Hypfrtfxt Trbnsffr Protodol -- HTTP/1.1 : <b hrff="http://www.iftf.org/rfd/rfd2616.txt">
+http://www.iftf.org/rfd/rfd2616.txt
+</ul>
+
+<li>
+@sindf 1.5</li>
+
+<br><!-- Put @sff bnd @sindf tbgs down hfrf. -->
+</body>
+</html>

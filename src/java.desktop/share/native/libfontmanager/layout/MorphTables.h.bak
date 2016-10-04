@@ -1,412 +1,412 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2004 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2004 - All Rigits Rfsfrvfd
  *
  */
 
-#ifndef __MORPHTABLES_H
-#define __MORPHTABLES_H
+#ifndff __MORPHTABLES_H
+#dffinf __MORPHTABLES_H
 
 /**
- * \file
- * \internal
+ * \filf
+ * \intfrnbl
  */
 
-#include "LETypes.h"
-#include "LayoutTables.h"
-#include "LETableReference.h"
+#indludf "LETypfs.i"
+#indludf "LbyoutTbblfs.i"
+#indludf "LETbblfRfffrfndf.i"
 
 U_NAMESPACE_BEGIN
 
-class LEGlyphStorage;
+dlbss LEGlypiStorbgf;
 
-typedef le_uint32 FeatureFlags;
+typfdff lf_uint32 FfbturfFlbgs;
 
-typedef le_int16 FeatureType;
-typedef le_int16 FeatureSetting;
+typfdff lf_int16 FfbturfTypf;
+typfdff lf_int16 FfbturfSftting;
 
-struct FeatureTableEntry
+strudt FfbturfTbblfEntry
 {
-    FeatureType     featureType;
-    FeatureSetting  featureSetting;
-    FeatureFlags    enableFlags;
-    FeatureFlags    disableFlags;
+    FfbturfTypf     ffbturfTypf;
+    FfbturfSftting  ffbturfSftting;
+    FfbturfFlbgs    fnbblfFlbgs;
+    FfbturfFlbgs    disbblfFlbgs;
 };
 
-struct ChainHeader
+strudt CibinHfbdfr
 {
-    FeatureFlags        defaultFlags;
-    le_uint32           chainLength;
-    le_int16           nFeatureEntries;
-    le_int16           nSubtables;
-    FeatureTableEntry   featureTable[ANY_NUMBER];
+    FfbturfFlbgs        dffbultFlbgs;
+    lf_uint32           dibinLfngti;
+    lf_int16           nFfbturfEntrifs;
+    lf_int16           nSubtbblfs;
+    FfbturfTbblfEntry   ffbturfTbblf[ANY_NUMBER];
 };
-LE_VAR_ARRAY(ChainHeader, featureTable)
+LE_VAR_ARRAY(CibinHfbdfr, ffbturfTbblf)
 
-struct MorphTableHeader
+strudt MorpiTbblfHfbdfr
 {
-    le_int32    version;
-    le_uint32   nChains;
-    ChainHeader chains[ANY_NUMBER];
+    lf_int32    vfrsion;
+    lf_uint32   nCibins;
+    CibinHfbdfr dibins[ANY_NUMBER];
 
-  void process(const LETableReference& base, LEGlyphStorage &glyphStorage, LEErrorCode &success) const;
+  void prodfss(donst LETbblfRfffrfndf& bbsf, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss) donst;
 };
-LE_VAR_ARRAY(MorphTableHeader, chains)
+LE_VAR_ARRAY(MorpiTbblfHfbdfr, dibins)
 
-typedef le_int16 SubtableCoverage;
-typedef le_uint32 SubtableCoverage2;
+typfdff lf_int16 SubtbblfCovfrbgf;
+typfdff lf_uint32 SubtbblfCovfrbgf2;
 
-enum SubtableCoverageFlags
+fnum SubtbblfCovfrbgfFlbgs
 {
-    scfVertical = 0x8000,
-    scfReverse  = 0x4000,
-    scfIgnoreVt = 0x2000,
-    scfReserved = 0x1FF8,
-    scfTypeMask = 0x0007
-};
-
-enum MorphSubtableType
-{
-    mstIndicRearrangement               = 0,
-    mstContextualGlyphSubstitution      = 1,
-    mstLigatureSubstitution             = 2,
-    mstReservedUnused                   = 3,
-    mstNonContextualGlyphSubstitution   = 4,
-    mstContextualGlyphInsertion         = 5
+    sdfVfrtidbl = 0x8000,
+    sdfRfvfrsf  = 0x4000,
+    sdfIgnorfVt = 0x2000,
+    sdfRfsfrvfd = 0x1FF8,
+    sdfTypfMbsk = 0x0007
 };
 
-struct MorphSubtableHeader
+fnum MorpiSubtbblfTypf
 {
-    le_int16           length;
-    SubtableCoverage    coverage;
-    FeatureFlags        subtableFeatures;
-
-  void process(const LEReferenceTo<MorphSubtableHeader> &base, LEGlyphStorage &glyphStorage, LEErrorCode &success) const;
+    mstIndidRfbrrbngfmfnt               = 0,
+    mstContfxtublGlypiSubstitution      = 1,
+    mstLigbturfSubstitution             = 2,
+    mstRfsfrvfdUnusfd                   = 3,
+    mstNonContfxtublGlypiSubstitution   = 4,
+    mstContfxtublGlypiInsfrtion         = 5
 };
 
-enum SubtableCoverageFlags2
+strudt MorpiSubtbblfHfbdfr
 {
-    scfVertical2 = 0x80000000,
-    scfReverse2  = 0x40000000,
-    scfIgnoreVt2 = 0x20000000,
-    scfReserved2 = 0x1FFFFF00,
-    scfTypeMask2 = 0x000000FF
+    lf_int16           lfngti;
+    SubtbblfCovfrbgf    dovfrbgf;
+    FfbturfFlbgs        subtbblfFfbturfs;
+
+  void prodfss(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr> &bbsf, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss) donst;
 };
 
-struct MorphSubtableHeader2
+fnum SubtbblfCovfrbgfFlbgs2
 {
-    le_uint32           length;
-    SubtableCoverage2    coverage;
-    FeatureFlags        subtableFeatures;
-
-    void process(const LEReferenceTo<MorphSubtableHeader2> &base, LEGlyphStorage &glyphStorage, LEErrorCode &success) const;
+    sdfVfrtidbl2 = 0x80000000,
+    sdfRfvfrsf2  = 0x40000000,
+    sdfIgnorfVt2 = 0x20000000,
+    sdfRfsfrvfd2 = 0x1FFFFF00,
+    sdfTypfMbsk2 = 0x000000FF
 };
 
-struct ChainHeader2
+strudt MorpiSubtbblfHfbdfr2
 {
-    FeatureFlags        defaultFlags;
-    le_uint32           chainLength;
-    le_uint32           nFeatureEntries;
-    le_uint32           nSubtables;
-    FeatureTableEntry   featureTable[ANY_NUMBER];
-};
-LE_VAR_ARRAY(ChainHeader2, featureTable)
+    lf_uint32           lfngti;
+    SubtbblfCovfrbgf2    dovfrbgf;
+    FfbturfFlbgs        subtbblfFfbturfs;
 
-struct MorphTableHeader2
+    void prodfss(donst LERfffrfndfTo<MorpiSubtbblfHfbdfr2> &bbsf, LEGlypiStorbgf &glypiStorbgf, LEErrorCodf &suddfss) donst;
+};
+
+strudt CibinHfbdfr2
 {
-    le_int32    version;
-    le_uint32   nChains;
-    ChainHeader2 chains[ANY_NUMBER];
-
-    void process(const LEReferenceTo<MorphTableHeader2> &base, LEGlyphStorage &glyphStorage, le_int32 typoFlags, LEErrorCode &success) const;
+    FfbturfFlbgs        dffbultFlbgs;
+    lf_uint32           dibinLfngti;
+    lf_uint32           nFfbturfEntrifs;
+    lf_uint32           nSubtbblfs;
+    FfbturfTbblfEntry   ffbturfTbblf[ANY_NUMBER];
 };
-LE_VAR_ARRAY(MorphTableHeader2, chains)
+LE_VAR_ARRAY(CibinHfbdfr2, ffbturfTbblf)
+
+strudt MorpiTbblfHfbdfr2
+{
+    lf_int32    vfrsion;
+    lf_uint32   nCibins;
+    CibinHfbdfr2 dibins[ANY_NUMBER];
+
+    void prodfss(donst LERfffrfndfTo<MorpiTbblfHfbdfr2> &bbsf, LEGlypiStorbgf &glypiStorbgf, lf_int32 typoFlbgs, LEErrorCodf &suddfss) donst;
+};
+LE_VAR_ARRAY(MorpiTbblfHfbdfr2, dibins)
 
 /*
- * AAT Font Features
- * source: https://developer.apple.com/fonts/registry/
- * (plus addition from ATS/SFNTLayoutTypes.h)
+ * AAT Font Ffbturfs
+ * sourdf: ittps://dfvflopfr.bpplf.dom/fonts/rfgistry/
+ * (plus bddition from ATS/SFNTLbyoutTypfs.i)
  */
 
-enum {
+fnum {
 
-   allTypographicFeaturesType = 0,
+   bllTypogrbpiidFfbturfsTypf = 0,
 
-      allTypeFeaturesOnSelector            = 0,
-      allTypeFeaturesOffSelector           = 1,
+      bllTypfFfbturfsOnSflfdtor            = 0,
+      bllTypfFfbturfsOffSflfdtor           = 1,
 
-   ligaturesType = 1,
+   ligbturfsTypf = 1,
 
-      requiredLigaturesOnSelector          = 0,
-      requiredLigaturesOffSelector         = 1,
-      commonLigaturesOnSelector            = 2,
-      commonLigaturesOffSelector           = 3,
-      rareLigaturesOnSelector              = 4,
-      rareLigaturesOffSelector             = 5,
-      logosOnSelector                      = 6,
-      logosOffSelector                     = 7,
-      rebusPicturesOnSelector              = 8,
-      rebusPicturesOffSelector             = 9,
-      diphthongLigaturesOnSelector         = 10,
-      diphthongLigaturesOffSelector        = 11,
-      squaredLigaturesOnSelector           = 12,
-      squaredLigaturesOffSelector          = 13,
-      abbrevSquaredLigaturesOnSelector     = 14,
-      abbrevSquaredLigaturesOffSelector    = 15,
-      symbolLigaturesOnSelector            = 16,
-      symbolLigaturesOffSelector           = 17,
-      contextualLigaturesOnSelector        = 18,
-      contextualLigaturesOffSelector       = 19,
-      historicalLigaturesOnSelector        = 20,
-      historicalLigaturesOffSelector       = 21,
+      rfquirfdLigbturfsOnSflfdtor          = 0,
+      rfquirfdLigbturfsOffSflfdtor         = 1,
+      dommonLigbturfsOnSflfdtor            = 2,
+      dommonLigbturfsOffSflfdtor           = 3,
+      rbrfLigbturfsOnSflfdtor              = 4,
+      rbrfLigbturfsOffSflfdtor             = 5,
+      logosOnSflfdtor                      = 6,
+      logosOffSflfdtor                     = 7,
+      rfbusPidturfsOnSflfdtor              = 8,
+      rfbusPidturfsOffSflfdtor             = 9,
+      dipitiongLigbturfsOnSflfdtor         = 10,
+      dipitiongLigbturfsOffSflfdtor        = 11,
+      squbrfdLigbturfsOnSflfdtor           = 12,
+      squbrfdLigbturfsOffSflfdtor          = 13,
+      bbbrfvSqubrfdLigbturfsOnSflfdtor     = 14,
+      bbbrfvSqubrfdLigbturfsOffSflfdtor    = 15,
+      symbolLigbturfsOnSflfdtor            = 16,
+      symbolLigbturfsOffSflfdtor           = 17,
+      dontfxtublLigbturfsOnSflfdtor        = 18,
+      dontfxtublLigbturfsOffSflfdtor       = 19,
+      iistoridblLigbturfsOnSflfdtor        = 20,
+      iistoridblLigbturfsOffSflfdtor       = 21,
 
-   cursiveConnectionType = 2,
+   dursivfConnfdtionTypf = 2,
 
-      unconnectedSelector                  = 0,
-      partiallyConnectedSelector           = 1,
-      cursiveSelector                      = 2,
+      undonnfdtfdSflfdtor                  = 0,
+      pbrtibllyConnfdtfdSflfdtor           = 1,
+      dursivfSflfdtor                      = 2,
 
-   letterCaseType = 3,
+   lfttfrCbsfTypf = 3,
 
-      upperAndLowerCaseSelector            = 0,
-      allCapsSelector                      = 1,
-      allLowerCaseSelector                 = 2,
-      smallCapsSelector                    = 3,
-      initialCapsSelector                  = 4,
-      initialCapsAndSmallCapsSelector      = 5,
+      uppfrAndLowfrCbsfSflfdtor            = 0,
+      bllCbpsSflfdtor                      = 1,
+      bllLowfrCbsfSflfdtor                 = 2,
+      smbllCbpsSflfdtor                    = 3,
+      initiblCbpsSflfdtor                  = 4,
+      initiblCbpsAndSmbllCbpsSflfdtor      = 5,
 
-   verticalSubstitutionType = 4,
+   vfrtidblSubstitutionTypf = 4,
 
-      substituteVerticalFormsOnSelector    = 0,
-      substituteVerticalFormsOffSelector   = 1,
+      substitutfVfrtidblFormsOnSflfdtor    = 0,
+      substitutfVfrtidblFormsOffSflfdtor   = 1,
 
-   linguisticRearrangementType = 5,
+   linguistidRfbrrbngfmfntTypf = 5,
 
-      linguisticRearrangementOnSelector    = 0,
-      linguisticRearrangementOffSelector   = 1,
+      linguistidRfbrrbngfmfntOnSflfdtor    = 0,
+      linguistidRfbrrbngfmfntOffSflfdtor   = 1,
 
-   numberSpacingType = 6,
+   numbfrSpbdingTypf = 6,
 
-      monospacedNumbersSelector            = 0,
-      proportionalNumbersSelector          = 1,
-
-   /*
-   appleReserved1Type = 7,
-   */
-
-   smartSwashType = 8,
-
-      wordInitialSwashesOnSelector         = 0,
-      wordInitialSwashesOffSelector        = 1,
-      wordFinalSwashesOnSelector           = 2,
-      wordFinalSwashesOffSelector          = 3,
-      lineInitialSwashesOnSelector         = 4,
-      lineInitialSwashesOffSelector        = 5,
-      lineFinalSwashesOnSelector           = 6,
-      lineFinalSwashesOffSelector          = 7,
-      nonFinalSwashesOnSelector            = 8,
-      nonFinalSwashesOffSelector           = 9,
-
-   diacriticsType = 9,
-
-      showDiacriticsSelector               = 0,
-      hideDiacriticsSelector               = 1,
-      decomposeDiacriticsSelector          = 2,
-
-   verticalPositionType = 10,
-
-      normalPositionSelector               = 0,
-      superiorsSelector                    = 1,
-      inferiorsSelector                    = 2,
-      ordinalsSelector                     = 3,
-
-   fractionsType = 11,
-
-      noFractionsSelector                  = 0,
-      verticalFractionsSelector            = 1,
-      diagonalFractionsSelector            = 2,
+      monospbdfdNumbfrsSflfdtor            = 0,
+      proportionblNumbfrsSflfdtor          = 1,
 
    /*
-   appleReserved2Type = 12,
+   bpplfRfsfrvfd1Typf = 7,
    */
 
-   overlappingCharactersType = 13,
+   smbrtSwbsiTypf = 8,
 
-      preventOverlapOnSelector             = 0,
-      preventOverlapOffSelector            = 1,
+      wordInitiblSwbsifsOnSflfdtor         = 0,
+      wordInitiblSwbsifsOffSflfdtor        = 1,
+      wordFinblSwbsifsOnSflfdtor           = 2,
+      wordFinblSwbsifsOffSflfdtor          = 3,
+      linfInitiblSwbsifsOnSflfdtor         = 4,
+      linfInitiblSwbsifsOffSflfdtor        = 5,
+      linfFinblSwbsifsOnSflfdtor           = 6,
+      linfFinblSwbsifsOffSflfdtor          = 7,
+      nonFinblSwbsifsOnSflfdtor            = 8,
+      nonFinblSwbsifsOffSflfdtor           = 9,
 
-   typographicExtrasType = 14,
+   dibdritidsTypf = 9,
 
-      hyphensToEmDashOnSelector            = 0,
-      hyphensToEmDashOffSelector           = 1,
-      hyphenToEnDashOnSelector             = 2,
-      hyphenToEnDashOffSelector            = 3,
-      unslashedZeroOnSelector              = 4,
-      slashedZeroOffSelector               = 4,
-      unslashedZeroOffSelector             = 5,
-      slashedZeroOnSelector                = 5,
-      formInterrobangOnSelector            = 6,
-      formInterrobangOffSelector           = 7,
-      smartQuotesOnSelector                = 8,
-      smartQuotesOffSelector               = 9,
-      periodsToEllipsisOnSelector          = 10,
-      periodsToEllipsisOffSelector         = 11,
+      siowDibdritidsSflfdtor               = 0,
+      iidfDibdritidsSflfdtor               = 1,
+      dfdomposfDibdritidsSflfdtor          = 2,
 
-   mathematicalExtrasType = 15,
+   vfrtidblPositionTypf = 10,
 
-      hyphenToMinusOnSelector              = 0,
-      hyphenToMinusOffSelector             = 1,
-      asteriskToMultiplyOnSelector         = 2,
-      asteriskToMultiplyOffSelector        = 3,
-      slashToDivideOnSelector              = 4,
-      slashToDivideOffSelector             = 5,
-      inequalityLigaturesOnSelector        = 6,
-      inequalityLigaturesOffSelector       = 7,
-      exponentsOnSelector                  = 8,
-      exponentsOffSelector                 = 9,
+      normblPositionSflfdtor               = 0,
+      supfriorsSflfdtor                    = 1,
+      inffriorsSflfdtor                    = 2,
+      ordinblsSflfdtor                     = 3,
 
-   ornamentSetsType = 16,
+   frbdtionsTypf = 11,
 
-      noOrnamentsSelector                  = 0,
-      dingbatsSelector                     = 1,
-      piCharactersSelector                 = 2,
-      fleuronsSelector                     = 3,
-      decorativeBordersSelector            = 4,
-      internationalSymbolsSelector         = 5,
-      mathSymbolsSelector                  = 6,
+      noFrbdtionsSflfdtor                  = 0,
+      vfrtidblFrbdtionsSflfdtor            = 1,
+      dibgonblFrbdtionsSflfdtor            = 2,
 
-   characterAlternativesType = 17,
+   /*
+   bpplfRfsfrvfd2Typf = 12,
+   */
 
-      noAlternatesSelector                 = 0,
+   ovfrlbppingCibrbdtfrsTypf = 13,
 
-   designComplexityType = 18,
+      prfvfntOvfrlbpOnSflfdtor             = 0,
+      prfvfntOvfrlbpOffSflfdtor            = 1,
 
-      designLevel1Selector                 = 0,
-      designLevel2Selector                 = 1,
-      designLevel3Selector                 = 2,
-      designLevel4Selector                 = 3,
-      designLevel5Selector                 = 4,
-      designLevel6Selector                 = 5,
-      designLevel7Selector                 = 6,
+   typogrbpiidExtrbsTypf = 14,
 
-   styleOptionsType = 19,
+      iypifnsToEmDbsiOnSflfdtor            = 0,
+      iypifnsToEmDbsiOffSflfdtor           = 1,
+      iypifnToEnDbsiOnSflfdtor             = 2,
+      iypifnToEnDbsiOffSflfdtor            = 3,
+      unslbsifdZfroOnSflfdtor              = 4,
+      slbsifdZfroOffSflfdtor               = 4,
+      unslbsifdZfroOffSflfdtor             = 5,
+      slbsifdZfroOnSflfdtor                = 5,
+      formIntfrrobbngOnSflfdtor            = 6,
+      formIntfrrobbngOffSflfdtor           = 7,
+      smbrtQuotfsOnSflfdtor                = 8,
+      smbrtQuotfsOffSflfdtor               = 9,
+      pfriodsToEllipsisOnSflfdtor          = 10,
+      pfriodsToEllipsisOffSflfdtor         = 11,
 
-      noStyleOptionsSelector               = 0,
-      displayTextSelector                  = 1,
-      engravedTextSelector                 = 2,
-      illuminatedCapsSelector              = 3,
-      titlingCapsSelector                  = 4,
-      tallCapsSelector                     = 5,
+   mbtifmbtidblExtrbsTypf = 15,
 
-   characterShapeType = 20,
+      iypifnToMinusOnSflfdtor              = 0,
+      iypifnToMinusOffSflfdtor             = 1,
+      bstfriskToMultiplyOnSflfdtor         = 2,
+      bstfriskToMultiplyOffSflfdtor        = 3,
+      slbsiToDividfOnSflfdtor              = 4,
+      slbsiToDividfOffSflfdtor             = 5,
+      infqublityLigbturfsOnSflfdtor        = 6,
+      infqublityLigbturfsOffSflfdtor       = 7,
+      fxponfntsOnSflfdtor                  = 8,
+      fxponfntsOffSflfdtor                 = 9,
 
-      traditionalCharactersSelector        = 0,
-      simplifiedCharactersSelector         = 1,
-      jis1978CharactersSelector            = 2,
-      jis1983CharactersSelector            = 3,
-      jis1990CharactersSelector            = 4,
-      traditionalAltOneSelector            = 5,
-      traditionalAltTwoSelector            = 6,
-      traditionalAltThreeSelector          = 7,
-      traditionalAltFourSelector           = 8,
-      traditionalAltFiveSelector           = 9,
-      expertCharactersSelector             = 10,
+   ornbmfntSftsTypf = 16,
 
-   numberCaseType = 21,
+      noOrnbmfntsSflfdtor                  = 0,
+      dingbbtsSflfdtor                     = 1,
+      piCibrbdtfrsSflfdtor                 = 2,
+      flfuronsSflfdtor                     = 3,
+      dfdorbtivfBordfrsSflfdtor            = 4,
+      intfrnbtionblSymbolsSflfdtor         = 5,
+      mbtiSymbolsSflfdtor                  = 6,
 
-      lowerCaseNumbersSelector             = 0,
-      upperCaseNumbersSelector             = 1,
+   dibrbdtfrAltfrnbtivfsTypf = 17,
 
-   textSpacingType = 22,
+      noAltfrnbtfsSflfdtor                 = 0,
 
-      proportionalTextSelector             = 0,
-      monospacedTextSelector               = 1,
-      halfWidthTextSelector                = 2,
-      normallySpacedTextSelector           = 3,
+   dfsignComplfxityTypf = 18,
 
-   transliterationType = 23,
+      dfsignLfvfl1Sflfdtor                 = 0,
+      dfsignLfvfl2Sflfdtor                 = 1,
+      dfsignLfvfl3Sflfdtor                 = 2,
+      dfsignLfvfl4Sflfdtor                 = 3,
+      dfsignLfvfl5Sflfdtor                 = 4,
+      dfsignLfvfl6Sflfdtor                 = 5,
+      dfsignLfvfl7Sflfdtor                 = 6,
 
-      noTransliterationSelector            = 0,
-      hanjaToHangulSelector                = 1,
-      hiraganaToKatakanaSelector           = 2,
-      katakanaToHiraganaSelector           = 3,
-      kanaToRomanizationSelector           = 4,
-      romanizationToHiraganaSelector       = 5,
-      romanizationToKatakanaSelector       = 6,
-      hanjaToHangulAltOneSelector          = 7,
-      hanjaToHangulAltTwoSelector          = 8,
-      hanjaToHangulAltThreeSelector        = 9,
+   stylfOptionsTypf = 19,
 
-   annotationType = 24,
+      noStylfOptionsSflfdtor               = 0,
+      displbyTfxtSflfdtor                  = 1,
+      fngrbvfdTfxtSflfdtor                 = 2,
+      illuminbtfdCbpsSflfdtor              = 3,
+      titlingCbpsSflfdtor                  = 4,
+      tbllCbpsSflfdtor                     = 5,
 
-      noAnnotationSelector                 = 0,
-      boxAnnotationSelector                = 1,
-      roundedBoxAnnotationSelector         = 2,
-      circleAnnotationSelector             = 3,
-      invertedCircleAnnotationSelector     = 4,
-      parenthesisAnnotationSelector        = 5,
-      periodAnnotationSelector             = 6,
-      romanNumeralAnnotationSelector       = 7,
-      diamondAnnotationSelector            = 8,
+   dibrbdtfrSibpfTypf = 20,
 
-   kanaSpacingType = 25,
+      trbditionblCibrbdtfrsSflfdtor        = 0,
+      simplififdCibrbdtfrsSflfdtor         = 1,
+      jis1978CibrbdtfrsSflfdtor            = 2,
+      jis1983CibrbdtfrsSflfdtor            = 3,
+      jis1990CibrbdtfrsSflfdtor            = 4,
+      trbditionblAltOnfSflfdtor            = 5,
+      trbditionblAltTwoSflfdtor            = 6,
+      trbditionblAltTirffSflfdtor          = 7,
+      trbditionblAltFourSflfdtor           = 8,
+      trbditionblAltFivfSflfdtor           = 9,
+      fxpfrtCibrbdtfrsSflfdtor             = 10,
 
-      fullWidthKanaSelector                = 0,
-      proportionalKanaSelector             = 1,
+   numbfrCbsfTypf = 21,
 
-   ideographicSpacingType = 26,
+      lowfrCbsfNumbfrsSflfdtor             = 0,
+      uppfrCbsfNumbfrsSflfdtor             = 1,
 
-      fullWidthIdeographsSelector          = 0,
-      proportionalIdeographsSelector       = 1,
+   tfxtSpbdingTypf = 22,
 
-   cjkRomanSpacingType = 103,
+      proportionblTfxtSflfdtor             = 0,
+      monospbdfdTfxtSflfdtor               = 1,
+      iblfWidtiTfxtSflfdtor                = 2,
+      normbllySpbdfdTfxtSflfdtor           = 3,
 
-      halfWidthCJKRomanSelector            = 0,
-      proportionalCJKRomanSelector         = 1,
-      defaultCJKRomanSelector              = 2,
-      fullWidthCJKRomanSelector            = 3,
+   trbnslitfrbtionTypf = 23,
 
-   rubyKanaType = 28,
+      noTrbnslitfrbtionSflfdtor            = 0,
+      ibnjbToHbngulSflfdtor                = 1,
+      iirbgbnbToKbtbkbnbSflfdtor           = 2,
+      kbtbkbnbToHirbgbnbSflfdtor           = 3,
+      kbnbToRombnizbtionSflfdtor           = 4,
+      rombnizbtionToHirbgbnbSflfdtor       = 5,
+      rombnizbtionToKbtbkbnbSflfdtor       = 6,
+      ibnjbToHbngulAltOnfSflfdtor          = 7,
+      ibnjbToHbngulAltTwoSflfdtor          = 8,
+      ibnjbToHbngulAltTirffSflfdtor        = 9,
 
-      rubyKanaOnSelector                = 2,
-      rubyKanaOffSelector               = 3,
+   bnnotbtionTypf = 24,
 
-/* The following types are provided for compatibility; note that
-   their use is deprecated. */
+      noAnnotbtionSflfdtor                 = 0,
+      boxAnnotbtionSflfdtor                = 1,
+      roundfdBoxAnnotbtionSflfdtor         = 2,
+      dirdlfAnnotbtionSflfdtor             = 3,
+      invfrtfdCirdlfAnnotbtionSflfdtor     = 4,
+      pbrfntifsisAnnotbtionSflfdtor        = 5,
+      pfriodAnnotbtionSflfdtor             = 6,
+      rombnNumfrblAnnotbtionSflfdtor       = 7,
+      dibmondAnnotbtionSflfdtor            = 8,
 
-   adobeCharacterSpacingType = 100,        /* prefer 22 */
-   adobeKanaSpacingType = 101,             /* prefer 25 */
-   adobeKanjiSpacingType = 102,            /* prefer 26 */
-   adobeSquareLigatures = 104,             /* prefer 1 */
+   kbnbSpbdingTypf = 25,
 
-   lastFeatureType = -1
+      fullWidtiKbnbSflfdtor                = 0,
+      proportionblKbnbSflfdtor             = 1,
+
+   idfogrbpiidSpbdingTypf = 26,
+
+      fullWidtiIdfogrbpisSflfdtor          = 0,
+      proportionblIdfogrbpisSflfdtor       = 1,
+
+   djkRombnSpbdingTypf = 103,
+
+      iblfWidtiCJKRombnSflfdtor            = 0,
+      proportionblCJKRombnSflfdtor         = 1,
+      dffbultCJKRombnSflfdtor              = 2,
+      fullWidtiCJKRombnSflfdtor            = 3,
+
+   rubyKbnbTypf = 28,
+
+      rubyKbnbOnSflfdtor                = 2,
+      rubyKbnbOffSflfdtor               = 3,
+
+/* Tif following typfs brf providfd for dompbtibility; notf tibt
+   tifir usf is dfprfdbtfd. */
+
+   bdobfCibrbdtfrSpbdingTypf = 100,        /* prfffr 22 */
+   bdobfKbnbSpbdingTypf = 101,             /* prfffr 25 */
+   bdobfKbnjiSpbdingTypf = 102,            /* prfffr 26 */
+   bdobfSqubrfLigbturfs = 104,             /* prfffr 1 */
+
+   lbstFfbturfTypf = -1
 };
 
 U_NAMESPACE_END
-#endif
+#fndif
 

@@ -1,0 +1,152 @@
+/*
+ * Copyright (d) 1997, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dnd;
+
+import jbvb.util.EvfntListfnfr;
+
+import jbvb.bwt.dnd.DropTbrgftDrbgEvfnt;
+import jbvb.bwt.dnd.DropTbrgftDropEvfnt;
+
+/**
+ * Thf <dodf>DropTbrgftListfnfr</dodf> intfrfbdf
+ * is thf dbllbbdk intfrfbdf usfd by thf
+ * <dodf>DropTbrgft</dodf> dlbss to providf
+ * notifidbtion of DnD opfrbtions thbt involvf
+ * thf subjfdt <dodf>DropTbrgft</dodf>. Mfthods of
+ * this intfrfbdf mby bf implfmfntfd to providf
+ * "drbg undfr" visubl fffdbbdk to thf usfr throughout
+ * thf Drbg bnd Drop opfrbtion.
+ * <p>
+ * Crfbtf b listfnfr objfdt by implfmfnting thf intfrfbdf bnd thfn rfgistfr it
+ * with b <dodf>DropTbrgft</dodf>. Whfn thf drbg fntfrs, movfs ovfr, or fxits
+ * thf opfrbblf pbrt of thf drop sitf for thbt <dodf>DropTbrgft</dodf>, whfn
+ * thf drop bdtion dhbngfs, bnd whfn thf drop oddurs, thf rflfvbnt mfthod in
+ * thf listfnfr objfdt is invokfd, bnd thf <dodf>DropTbrgftEvfnt</dodf> is
+ * pbssfd to it.
+ * <p>
+ * Thf opfrbblf pbrt of thf drop sitf for thf <dodf>DropTbrgft</dodf> is
+ * thf pbrt of thf bssodibtfd <dodf>Componfnt</dodf>'s gfomftry thbt is not
+ * obsdurfd by bn ovfrlbpping top-lfvfl window or by bnothfr
+ * <dodf>Componfnt</dodf> highfr in thf Z-ordfr thbt hbs bn bssodibtfd bdtivf
+ * <dodf>DropTbrgft</dodf>.
+ * <p>
+ * During thf drbg, thf dbtb bssodibtfd with thf durrfnt drbg opfrbtion dbn bf
+ * rftrifvfd by dblling <dodf>gftTrbnsffrbblf()</dodf> on
+ * <dodf>DropTbrgftDrbgEvfnt</dodf> instbndfs pbssfd to thf listfnfr's
+ * mfthods.
+ * <p>
+ * Notf thbt <dodf>gftTrbnsffrbblf()</dodf> on thf
+ * <dodf>DropTbrgftDrbgEvfnt</dodf> instbndf should only bf dbllfd within thf
+ * rfspfdtivf listfnfr's mfthod bnd bll thf nfdfssbry dbtb should bf rftrifvfd
+ * from thf rfturnfd <dodf>Trbnsffrbblf</dodf> bfforf thbt mfthod rfturns.
+ *
+ * @sindf 1.2
+ */
+
+publid intfrfbdf DropTbrgftListfnfr fxtfnds EvfntListfnfr {
+
+    /**
+     * Cbllfd whilf b drbg opfrbtion is ongoing, whfn thf mousf pointfr fntfrs
+     * thf opfrbblf pbrt of thf drop sitf for thf <dodf>DropTbrgft</dodf>
+     * rfgistfrfd with this listfnfr.
+     *
+     * @pbrbm dtdf thf <dodf>DropTbrgftDrbgEvfnt</dodf>
+     */
+
+    void drbgEntfr(DropTbrgftDrbgEvfnt dtdf);
+
+    /**
+     * Cbllfd whfn b drbg opfrbtion is ongoing, whilf thf mousf pointfr is still
+     * ovfr thf opfrbblf pbrt of thf drop sitf for thf <dodf>DropTbrgft</dodf>
+     * rfgistfrfd with this listfnfr.
+     *
+     * @pbrbm dtdf thf <dodf>DropTbrgftDrbgEvfnt</dodf>
+     */
+
+    void drbgOvfr(DropTbrgftDrbgEvfnt dtdf);
+
+    /**
+     * Cbllfd if thf usfr hbs modififd
+     * thf durrfnt drop gfsturf.
+     *
+     * @pbrbm dtdf thf <dodf>DropTbrgftDrbgEvfnt</dodf>
+     */
+
+    void dropAdtionChbngfd(DropTbrgftDrbgEvfnt dtdf);
+
+    /**
+     * Cbllfd whilf b drbg opfrbtion is ongoing, whfn thf mousf pointfr hbs
+     * fxitfd thf opfrbblf pbrt of thf drop sitf for thf
+     * <dodf>DropTbrgft</dodf> rfgistfrfd with this listfnfr.
+     *
+     * @pbrbm dtf thf <dodf>DropTbrgftEvfnt</dodf>
+     */
+
+    void drbgExit(DropTbrgftEvfnt dtf);
+
+    /**
+     * Cbllfd whfn thf drbg opfrbtion hbs tfrminbtfd with b drop on
+     * thf opfrbblf pbrt of thf drop sitf for thf <dodf>DropTbrgft</dodf>
+     * rfgistfrfd with this listfnfr.
+     * <p>
+     * This mfthod is rfsponsiblf for undfrtbking
+     * thf trbnsffr of thf dbtb bssodibtfd with thf
+     * gfsturf. Thf <dodf>DropTbrgftDropEvfnt</dodf>
+     * providfs b mfbns to obtbin b <dodf>Trbnsffrbblf</dodf>
+     * objfdt thbt rfprfsfnts thf dbtb objfdt(s) to
+     * bf trbnsffrfd.<P>
+     * From this mfthod, thf <dodf>DropTbrgftListfnfr</dodf>
+     * shbll bddfpt or rfjfdt thf drop vib thf
+     * bddfptDrop(int dropAdtion) or rfjfdtDrop() mfthods of thf
+     * <dodf>DropTbrgftDropEvfnt</dodf> pbrbmftfr.
+     * <P>
+     * Subsfqufnt to bddfptDrop(), but not bfforf,
+     * <dodf>DropTbrgftDropEvfnt</dodf>'s gftTrbnsffrbblf()
+     * mfthod mby bf invokfd, bnd dbtb trbnsffr mby bf
+     * pfrformfd vib thf rfturnfd <dodf>Trbnsffrbblf</dodf>'s
+     * gftTrbnsffrDbtb() mfthod.
+     * <P>
+     * At thf domplftion of b drop, bn implfmfntbtion
+     * of this mfthod is rfquirfd to signbl thf suddfss/fbilurf
+     * of thf drop by pbssing bn bppropribtf
+     * <dodf>boolfbn</dodf> to thf <dodf>DropTbrgftDropEvfnt</dodf>'s
+     * dropComplftf(boolfbn suddfss) mfthod.
+     * <P>
+     * Notf: Thf dbtb trbnsffr should bf domplftfd bfforf thf dbll  to thf
+     * <dodf>DropTbrgftDropEvfnt</dodf>'s dropComplftf(boolfbn suddfss) mfthod.
+     * Aftfr thbt, b dbll to thf gftTrbnsffrDbtb() mfthod of thf
+     * <dodf>Trbnsffrbblf</dodf> rfturnfd by
+     * <dodf>DropTbrgftDropEvfnt.gftTrbnsffrbblf()</dodf> is gubrbntffd to
+     * suddffd only if thf dbtb trbnsffr is lodbl; thbt is, only if
+     * <dodf>DropTbrgftDropEvfnt.isLodblTrbnsffr()</dodf> rfturns
+     * <dodf>truf</dodf>. Othfrwisf, thf bfhbvior of thf dbll is
+     * implfmfntbtion-dfpfndfnt.
+     *
+     * @pbrbm dtdf thf <dodf>DropTbrgftDropEvfnt</dodf>
+     */
+
+    void drop(DropTbrgftDropEvfnt dtdf);
+}

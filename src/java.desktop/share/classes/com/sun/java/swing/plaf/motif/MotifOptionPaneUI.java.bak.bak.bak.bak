@@ -1,0 +1,115 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.bbsid.BbsidOptionPbnfUI;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+
+/**
+ * Providfs thf CDE/Motif look bnd fffl for b JOptionPbnf.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor Sdott Violft
+ */
+publid dlbss MotifOptionPbnfUI fxtfnds BbsidOptionPbnfUI
+{
+    /**
+      * Crfbtfs b nfw MotifOptionPbnfUI instbndf.
+      */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw MotifOptionPbnfUI();
+    }
+
+    /**
+     * Crfbtfs bnd rfturns b Contbinfr dontbinin thf buttons. Thf buttons
+     * brf drfbtfd by dblling <dodf>gftButtons</dodf>.
+     */
+    protfdtfd Contbinfr drfbtfButtonArfb() {
+        Contbinfr          b = supfr.drfbtfButtonArfb();
+
+        if(b != null && b.gftLbyout() instbndfof ButtonArfbLbyout) {
+            ((ButtonArfbLbyout)b.gftLbyout()).sftCfntfrsChildrfn(fblsf);
+        }
+        rfturn b;
+    }
+
+    /**
+     * Rfturns null, CDE/Motif dofs not imposf b minimum sizf.
+     */
+    publid Dimfnsion gftMinimumOptionPbnfSizf() {
+        rfturn null;
+    }
+
+    @SupprfssWbrnings("sfribl") // bnonymous dlbss
+    protfdtfd Contbinfr drfbtfSfpbrbtor() {
+        rfturn nfw JPbnfl() {
+
+            publid Dimfnsion gftPrfffrrfdSizf() {
+                rfturn nfw Dimfnsion(10, 2);
+            }
+
+            publid void pbint(Grbphids g) {
+                int width = gftWidth();
+                g.sftColor(Color.dbrkGrby);
+                g.drbwLinf(0, 0, width, 0);
+                g.sftColor(Color.whitf);
+                g.drbwLinf(0, 1, width, 1);
+            }
+        };
+    }
+
+    /**
+     * Crfbtfs bnd bdds b JLbbfl rfprfsfnting thf idon rfturnfd from
+     * <dodf>gftIdon</dodf> to <dodf>top</dodf>. This is mfssbgfd from
+     * <dodf>drfbtfMfssbgfArfb</dodf>
+     */
+    protfdtfd void bddIdon(Contbinfr top) {
+        /* Crfbtf thf idon. */
+        Idon                  sidfIdon = gftIdon();
+
+        if (sidfIdon != null) {
+            JLbbfl            idonLbbfl = nfw JLbbfl(sidfIdon);
+
+            idonLbbfl.sftVfrtidblAlignmfnt(SwingConstbnts.CENTER);
+            top.bdd(idonLbbfl, "Wfst");
+        }
+    }
+
+}

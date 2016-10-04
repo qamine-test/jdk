@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2003, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.accessibility;
+pbdkbgf jbvbx.bddfssibility;
 
 
-import java.util.*;
-import java.awt.*;
-import javax.swing.text.*;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvbx.swing.tfxt.*;
 
 
 /**
- * <P>The AccessibleExtendedText interface contains additional methods
- * not provided by the AccessibleText interface
+ * <P>Tif AddfssiblfExtfndfdTfxt intfrfbdf dontbins bdditionbl mftiods
+ * not providfd by tif AddfssiblfTfxt intfrfbdf
  *
- * Applications can determine if an object supports the AccessibleExtendedText
- * interface by first obtaining its AccessibleContext (see {@link Accessible})
- * and then calling the {@link AccessibleContext#getAccessibleText} method of
- * AccessibleContext.  If the return value is an instance of
- * AccessibleExtendedText, the object supports this interface.
+ * Applidbtions dbn dftfrminf if bn objfdt supports tif AddfssiblfExtfndfdTfxt
+ * intfrfbdf by first obtbining its AddfssiblfContfxt (sff {@link Addfssiblf})
+ * bnd tifn dblling tif {@link AddfssiblfContfxt#gftAddfssiblfTfxt} mftiod of
+ * AddfssiblfContfxt.  If tif rfturn vbluf is bn instbndf of
+ * AddfssiblfExtfndfdTfxt, tif objfdt supports tiis intfrfbdf.
  *
- * @see Accessible
- * @see Accessible#getAccessibleContext
- * @see AccessibleContext
- * @see AccessibleContext#getAccessibleText
+ * @sff Addfssiblf
+ * @sff Addfssiblf#gftAddfssiblfContfxt
+ * @sff AddfssiblfContfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfTfxt
  *
- * @author       Peter Korn
- * @author       Lynn Monsanto
- * @since 1.5
+ * @butior       Pftfr Korn
+ * @butior       Lynn Monsbnto
+ * @sindf 1.5
  */
-public interface AccessibleExtendedText {
+publid intfrfbdf AddfssiblfExtfndfdTfxt {
 
     /**
-     * Constant used to indicate that the part of the text that should be
-     * retrieved is a line of text.
+     * Constbnt usfd to indidbtf tibt tif pbrt of tif tfxt tibt siould bf
+     * rftrifvfd is b linf of tfxt.
      *
-     * @see AccessibleText#getAtIndex
-     * @see AccessibleText#getAfterIndex
-     * @see AccessibleText#getBeforeIndex
+     * @sff AddfssiblfTfxt#gftAtIndfx
+     * @sff AddfssiblfTfxt#gftAftfrIndfx
+     * @sff AddfssiblfTfxt#gftBfforfIndfx
      */
-    public static final int LINE = 4; // BugID: 4849720
+    publid stbtid finbl int LINE = 4; // BugID: 4849720
 
     /**
-     * Constant used to indicate that the part of the text that should be
-     * retrieved is contiguous text with the same text attributes.
+     * Constbnt usfd to indidbtf tibt tif pbrt of tif tfxt tibt siould bf
+     * rftrifvfd is dontiguous tfxt witi tif sbmf tfxt bttributfs.
      *
-     * @see AccessibleText#getAtIndex
-     * @see AccessibleText#getAfterIndex
-     * @see AccessibleText#getBeforeIndex
+     * @sff AddfssiblfTfxt#gftAtIndfx
+     * @sff AddfssiblfTfxt#gftAftfrIndfx
+     * @sff AddfssiblfTfxt#gftBfforfIndfx
      */
-    public static final int ATTRIBUTE_RUN = 5; // BugID: 4849720
+    publid stbtid finbl int ATTRIBUTE_RUN = 5; // BugID: 4849720
 
     /**
-     * Returns the text between two indices
+     * Rfturns tif tfxt bftwffn two indidfs
      *
-     * @param startIndex the start index in the text
-     * @param endIndex the end index in the text
-     * @return the text string if the indices are valid.
-     * Otherwise, null is returned.
+     * @pbrbm stbrtIndfx tif stbrt indfx in tif tfxt
+     * @pbrbm fndIndfx tif fnd indfx in tif tfxt
+     * @rfturn tif tfxt string if tif indidfs brf vblid.
+     * Otifrwisf, null is rfturnfd.
      */
-    public String getTextRange(int startIndex, int endIndex);
+    publid String gftTfxtRbngf(int stbrtIndfx, int fndIndfx);
 
     /**
-     * Returns the <code>AccessibleTextSequence</code> at a given index.
+     * Rfturns tif <dodf>AddfssiblfTfxtSfqufndf</dodf> bt b givfn indfx.
      *
-     * @param part the <code>CHARACTER</code>, <code>WORD</code>,
-     * <code>SENTENCE</code>, <code>LINE</code> or <code>ATTRIBUTE_RUN</code>
-     * to retrieve
-     * @param index an index within the text
-     * @return an <code>AccessibleTextSequence</code> specifying the text
-     * if part and index are valid.  Otherwise, null is returned.
+     * @pbrbm pbrt tif <dodf>CHARACTER</dodf>, <dodf>WORD</dodf>,
+     * <dodf>SENTENCE</dodf>, <dodf>LINE</dodf> or <dodf>ATTRIBUTE_RUN</dodf>
+     * to rftrifvf
+     * @pbrbm indfx bn indfx witiin tif tfxt
+     * @rfturn bn <dodf>AddfssiblfTfxtSfqufndf</dodf> spfdifying tif tfxt
+     * if pbrt bnd indfx brf vblid.  Otifrwisf, null is rfturnfd.
      *
-     * @see AccessibleText#CHARACTER
-     * @see AccessibleText#WORD
-     * @see AccessibleText#SENTENCE
+     * @sff AddfssiblfTfxt#CHARACTER
+     * @sff AddfssiblfTfxt#WORD
+     * @sff AddfssiblfTfxt#SENTENCE
      */
-    public AccessibleTextSequence getTextSequenceAt(int part, int index);
+    publid AddfssiblfTfxtSfqufndf gftTfxtSfqufndfAt(int pbrt, int indfx);
 
     /**
-     * Returns the <code>AccessibleTextSequence</code> after a given index.
+     * Rfturns tif <dodf>AddfssiblfTfxtSfqufndf</dodf> bftfr b givfn indfx.
      *
-     * @param part the <code>CHARACTER</code>, <code>WORD</code>,
-     * <code>SENTENCE</code>, <code>LINE</code> or <code>ATTRIBUTE_RUN</code>
-     * to retrieve
-     * @param index an index within the text
-     * @return an <code>AccessibleTextSequence</code> specifying the text
-     * if part and index are valid.  Otherwise, null is returned.
+     * @pbrbm pbrt tif <dodf>CHARACTER</dodf>, <dodf>WORD</dodf>,
+     * <dodf>SENTENCE</dodf>, <dodf>LINE</dodf> or <dodf>ATTRIBUTE_RUN</dodf>
+     * to rftrifvf
+     * @pbrbm indfx bn indfx witiin tif tfxt
+     * @rfturn bn <dodf>AddfssiblfTfxtSfqufndf</dodf> spfdifying tif tfxt
+     * if pbrt bnd indfx brf vblid.  Otifrwisf, null is rfturnfd.
      *
-     * @see AccessibleText#CHARACTER
-     * @see AccessibleText#WORD
-     * @see AccessibleText#SENTENCE
+     * @sff AddfssiblfTfxt#CHARACTER
+     * @sff AddfssiblfTfxt#WORD
+     * @sff AddfssiblfTfxt#SENTENCE
      */
-    public AccessibleTextSequence getTextSequenceAfter(int part, int index);
+    publid AddfssiblfTfxtSfqufndf gftTfxtSfqufndfAftfr(int pbrt, int indfx);
 
     /**
-     * Returns the <code>AccessibleTextSequence</code> before a given index.
+     * Rfturns tif <dodf>AddfssiblfTfxtSfqufndf</dodf> bfforf b givfn indfx.
      *
-     * @param part the <code>CHARACTER</code>, <code>WORD</code>,
-     * <code>SENTENCE</code>, <code>LINE</code> or <code>ATTRIBUTE_RUN</code>
-     * to retrieve
-     * @param index an index within the text
-     * @return an <code>AccessibleTextSequence</code> specifying the text
-     * if part and index are valid.  Otherwise, null is returned.
+     * @pbrbm pbrt tif <dodf>CHARACTER</dodf>, <dodf>WORD</dodf>,
+     * <dodf>SENTENCE</dodf>, <dodf>LINE</dodf> or <dodf>ATTRIBUTE_RUN</dodf>
+     * to rftrifvf
+     * @pbrbm indfx bn indfx witiin tif tfxt
+     * @rfturn bn <dodf>AddfssiblfTfxtSfqufndf</dodf> spfdifying tif tfxt
+     * if pbrt bnd indfx brf vblid.  Otifrwisf, null is rfturnfd.
      *
-     * @see AccessibleText#CHARACTER
-     * @see AccessibleText#WORD
-     * @see AccessibleText#SENTENCE
+     * @sff AddfssiblfTfxt#CHARACTER
+     * @sff AddfssiblfTfxt#WORD
+     * @sff AddfssiblfTfxt#SENTENCE
      */
-    public AccessibleTextSequence getTextSequenceBefore(int part, int index);
+    publid AddfssiblfTfxtSfqufndf gftTfxtSfqufndfBfforf(int pbrt, int indfx);
 
     /**
-     * Returns the bounding rectangle of the text between two indices.
+     * Rfturns tif bounding rfdtbnglf of tif tfxt bftwffn two indidfs.
      *
-     * @param startIndex the start index in the text
-     * @param endIndex the end index in the text
-     * @return the bounding rectangle of the text if the indices are valid.
-     * Otherwise, null is returned.
+     * @pbrbm stbrtIndfx tif stbrt indfx in tif tfxt
+     * @pbrbm fndIndfx tif fnd indfx in tif tfxt
+     * @rfturn tif bounding rfdtbnglf of tif tfxt if tif indidfs brf vblid.
+     * Otifrwisf, null is rfturnfd.
      */
-    public Rectangle getTextBounds(int startIndex, int endIndex);
+    publid Rfdtbnglf gftTfxtBounds(int stbrtIndfx, int fndIndfx);
 }

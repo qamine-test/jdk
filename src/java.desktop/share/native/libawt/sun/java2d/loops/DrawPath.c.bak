@@ -1,192 +1,192 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <math.h>
-#include <float.h>
-#include "jni_util.h"
+#indludf <mbti.i>
+#indludf <flobt.i>
+#indludf "jni_util.i"
 
-#include "GraphicsPrimitiveMgr.h"
-#include "LineUtils.h"
-#include "ProcessPath.h"
-#include "DrawPath.h"
+#indludf "GrbpiidsPrimitivfMgr.i"
+#indludf "LinfUtils.i"
+#indludf "ProdfssPbti.i"
+#indludf "DrbwPbti.i"
 
-#include "sun_java2d_loops_DrawPath.h"
+#indludf "sun_jbvb2d_loops_DrbwPbti.i"
 
-static void processLine(DrawHandler* hnd,
+stbtid void prodfssLinf(DrbwHbndlfr* ind,
                         jint x0, jint y0, jint x1, jint y1)
 {
-    LineUtils_ProcessLine(DHND(hnd)->pRasInfo,
-                          DHND(hnd)->pixel,
-                          DHND(hnd)->pPrim->funcs.drawline,
-                          DHND(hnd)->pPrim,
-                          DHND(hnd)->pCompInfo,
+    LinfUtils_ProdfssLinf(DHND(ind)->pRbsInfo,
+                          DHND(ind)->pixfl,
+                          DHND(ind)->pPrim->funds.drbwlinf,
+                          DHND(ind)->pPrim,
+                          DHND(ind)->pCompInfo,
                           x0, y0, x1, y1, 0);
 }
 
-static void processPoint(DrawHandler* hnd, jint x0, jint y0)
+stbtid void prodfssPoint(DrbwHbndlfr* ind, jint x0, jint y0)
 {
-    DHND(hnd)->pPrim->funcs.drawline(
-        DHND(hnd)->pRasInfo, x0, y0, DHND(hnd)->pixel, 1, 0,
+    DHND(ind)->pPrim->funds.drbwlinf(
+        DHND(ind)->pRbsInfo, x0, y0, DHND(ind)->pixfl, 1, 0,
         BUMP_POS_PIXEL, 0, BUMP_NOOP, 0,
-        DHND(hnd)->pPrim, DHND(hnd)->pCompInfo);
+        DHND(ind)->pPrim, DHND(ind)->pCompInfo);
 }
 
  /*
-  * Class:     sun_java2d_loops_DrawPath
-  * Method:    DrawPath
-  * Signature: (Lsun/java2d/SunGraphics2D;Lsun/java2d/SurfaceData;IILjava/awt/geom/Path2D.Float;)V
+  * Clbss:     sun_jbvb2d_loops_DrbwPbti
+  * Mftiod:    DrbwPbti
+  * Signbturf: (Lsun/jbvb2d/SunGrbpiids2D;Lsun/jbvb2d/SurfbdfDbtb;IILjbvb/bwt/gfom/Pbti2D.Flobt;)V
   */
-JNIEXPORT void JNICALL Java_sun_java2d_loops_DrawPath_DrawPath
-   (JNIEnv *env, jobject self,
-    jobject sg2d, jobject sData,
-    jint transX, jint transY, jobject p2df)
+JNIEXPORT void JNICALL Jbvb_sun_jbvb2d_loops_DrbwPbti_DrbwPbti
+   (JNIEnv *fnv, jobjfdt sflf,
+    jobjfdt sg2d, jobjfdt sDbtb,
+    jint trbnsX, jint trbnsY, jobjfdt p2df)
 {
-    jarray typesArray;
-    jarray coordsArray;
-    jint numTypes;
-    jboolean ok = JNI_TRUE;
-    jint pixel = GrPrim_Sg2dGetPixel(env, sg2d);
-    jint maxCoords;
-    jfloat *coords;
-    SurfaceDataOps *sdOps;
-    SurfaceDataRasInfo rasInfo;
-    CompositeInfo compInfo;
-    jint ret;
-    NativePrimitive *pPrim = GetNativePrim(env, self);
-    jint stroke;
-    jboolean throwExc = JNI_FALSE;
+    jbrrby typfsArrby;
+    jbrrby doordsArrby;
+    jint numTypfs;
+    jboolfbn ok = JNI_TRUE;
+    jint pixfl = GrPrim_Sg2dGftPixfl(fnv, sg2d);
+    jint mbxCoords;
+    jflobt *doords;
+    SurfbdfDbtbOps *sdOps;
+    SurfbdfDbtbRbsInfo rbsInfo;
+    CompositfInfo dompInfo;
+    jint rft;
+    NbtivfPrimitivf *pPrim = GftNbtivfPrim(fnv, sflf);
+    jint strokf;
+    jboolfbn tirowExd = JNI_FALSE;
 
     if (pPrim == NULL) {
-        return;
+        rfturn;
     }
-    if (pPrim->pCompType->getCompInfo != NULL) {
-        GrPrim_Sg2dGetCompInfo(env, sg2d, pPrim, &compInfo);
+    if (pPrim->pCompTypf->gftCompInfo != NULL) {
+        GrPrim_Sg2dGftCompInfo(fnv, sg2d, pPrim, &dompInfo);
     }
 
-    stroke = (*env)->GetIntField(env, sg2d, sg2dStrokeHintID);
+    strokf = (*fnv)->GftIntFifld(fnv, sg2d, sg2dStrokfHintID);
 
-    sdOps = SurfaceData_GetOps(env, sData);
+    sdOps = SurfbdfDbtb_GftOps(fnv, sDbtb);
     if (sdOps == 0) {
-        return;
+        rfturn;
     }
 
-    typesArray = (jarray)(*env)->GetObjectField(env, p2df, path2DTypesID);
-    coordsArray = (jarray)(*env)->GetObjectField(env, p2df,
-                                                 path2DFloatCoordsID);
-    if (coordsArray == NULL) {
-        JNU_ThrowNullPointerException(env, "coordinates array");
-        return;
+    typfsArrby = (jbrrby)(*fnv)->GftObjfdtFifld(fnv, p2df, pbti2DTypfsID);
+    doordsArrby = (jbrrby)(*fnv)->GftObjfdtFifld(fnv, p2df,
+                                                 pbti2DFlobtCoordsID);
+    if (doordsArrby == NULL) {
+        JNU_TirowNullPointfrExdfption(fnv, "doordinbtfs brrby");
+        rfturn;
     }
-    numTypes = (*env)->GetIntField(env, p2df, path2DNumTypesID);
-    if ((*env)->GetArrayLength(env, typesArray) < numTypes) {
-        JNU_ThrowArrayIndexOutOfBoundsException(env, "types array");
-        return;
-    }
-
-    GrPrim_Sg2dGetClip(env, sg2d, &rasInfo.bounds);
-
-    ret = sdOps->Lock(env, sdOps, &rasInfo, SD_LOCK_FASTEST | pPrim->dstflags);
-    if (ret == SD_FAILURE) {
-        return;
+    numTypfs = (*fnv)->GftIntFifld(fnv, p2df, pbti2DNumTypfsID);
+    if ((*fnv)->GftArrbyLfngti(fnv, typfsArrby) < numTypfs) {
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv, "typfs brrby");
+        rfturn;
     }
 
-    maxCoords = (*env)->GetArrayLength(env, coordsArray);
-    coords = (jfloat*)(*env)->GetPrimitiveArrayCritical(
-            env, coordsArray, NULL);
-    if (coords == NULL) {
-        SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
-        return;
+    GrPrim_Sg2dGftClip(fnv, sg2d, &rbsInfo.bounds);
+
+    rft = sdOps->Lodk(fnv, sdOps, &rbsInfo, SD_LOCK_FASTEST | pPrim->dstflbgs);
+    if (rft == SD_FAILURE) {
+        rfturn;
     }
 
-    if (ret == SD_SLOWLOCK) {
-        GrPrim_RefineBounds(&rasInfo.bounds, transX, transY,
-                     coords, maxCoords);
-        ok = (rasInfo.bounds.x2 > rasInfo.bounds.x1 &&
-              rasInfo.bounds.y2 > rasInfo.bounds.y1);
+    mbxCoords = (*fnv)->GftArrbyLfngti(fnv, doordsArrby);
+    doords = (jflobt*)(*fnv)->GftPrimitivfArrbyCritidbl(
+            fnv, doordsArrby, NULL);
+    if (doords == NULL) {
+        SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
+        rfturn;
+    }
+
+    if (rft == SD_SLOWLOCK) {
+        GrPrim_RffinfBounds(&rbsInfo.bounds, trbnsX, trbnsY,
+                     doords, mbxCoords);
+        ok = (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+              rbsInfo.bounds.y2 > rbsInfo.bounds.y1);
     }
 
     if (ok) {
-        sdOps->GetRasInfo(env, sdOps, &rasInfo);
-        if (rasInfo.rasBase) {
-            if (rasInfo.bounds.x2 > rasInfo.bounds.x1 &&
-                rasInfo.bounds.y2 > rasInfo.bounds.y1)
+        sdOps->GftRbsInfo(fnv, sdOps, &rbsInfo);
+        if (rbsInfo.rbsBbsf) {
+            if (rbsInfo.bounds.x2 > rbsInfo.bounds.x1 &&
+                rbsInfo.bounds.y2 > rbsInfo.bounds.y1)
             {
-                DrawHandlerData dHData;
-                DrawHandler drawHandler =
+                DrbwHbndlfrDbtb dHDbtb;
+                DrbwHbndlfr drbwHbndlfr =
                 {
-                    &processLine,
-                    &processPoint,
+                    &prodfssLinf,
+                    &prodfssPoint,
                     NULL,
                     0, 0, 0, 0,
                     0, 0, 0, 0,
                     NULL
                 };
 
-                jbyte *types = (jbyte*)(*env)->GetPrimitiveArrayCritical(
-                    env, typesArray, NULL);
+                jbytf *typfs = (jbytf*)(*fnv)->GftPrimitivfArrbyCritidbl(
+                    fnv, typfsArrby, NULL);
 
-                /* Initialization of the following fields in the declaration of
-                 * the dHData and drawHandler above causes warnings on sun
-                 * studio compiler with
-                 * -xc99=%none option applied (this option means compliance
-                 *  with C90 standard instead of C99)
+                /* Initiblizbtion of tif following fiflds in tif dfdlbrbtion of
+                 * tif dHDbtb bnd drbwHbndlfr bbovf dbusfs wbrnings on sun
+                 * studio dompilfr witi
+                 * -xd99=%nonf option bpplifd (tiis option mfbns domplibndf
+                 *  witi C90 stbndbrd instfbd of C99)
                  */
-                dHData.pRasInfo = &rasInfo;
-                dHData.pixel = pixel;
-                dHData.pPrim = pPrim;
-                dHData.pCompInfo = &compInfo;
+                dHDbtb.pRbsInfo = &rbsInfo;
+                dHDbtb.pixfl = pixfl;
+                dHDbtb.pPrim = pPrim;
+                dHDbtb.pCompInfo = &dompInfo;
 
-                drawHandler.xMin = rasInfo.bounds.x1;
-                drawHandler.yMin = rasInfo.bounds.y1;
-                drawHandler.xMax = rasInfo.bounds.x2;
-                drawHandler.yMax = rasInfo.bounds.y2;
-                drawHandler.pData = &dHData;
+                drbwHbndlfr.xMin = rbsInfo.bounds.x1;
+                drbwHbndlfr.yMin = rbsInfo.bounds.y1;
+                drbwHbndlfr.xMbx = rbsInfo.bounds.x2;
+                drbwHbndlfr.yMbx = rbsInfo.bounds.y2;
+                drbwHbndlfr.pDbtb = &dHDbtb;
 
-                if (types != NULL) {
-                    if (!doDrawPath(&drawHandler, NULL, transX, transY,
-                                    coords, maxCoords, types, numTypes,
-                                    (stroke == sunHints_INTVAL_STROKE_PURE)?
+                if (typfs != NULL) {
+                    if (!doDrbwPbti(&drbwHbndlfr, NULL, trbnsX, trbnsY,
+                                    doords, mbxCoords, typfs, numTypfs,
+                                    (strokf == sunHints_INTVAL_STROKE_PURE)?
                                             PH_STROKE_PURE : PH_STROKE_DEFAULT))
                     {
-                        throwExc = JNI_TRUE;
+                        tirowExd = JNI_TRUE;
                     }
 
-                    (*env)->ReleasePrimitiveArrayCritical(env, typesArray, types,
+                    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, typfsArrby, typfs,
                                                           JNI_ABORT);
                 }
             }
         }
-        SurfaceData_InvokeRelease(env, sdOps, &rasInfo);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, sdOps, &rbsInfo);
     }
-    (*env)->ReleasePrimitiveArrayCritical(env, coordsArray, coords,
+    (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, doordsArrby, doords,
                                           JNI_ABORT);
 
-    if (throwExc) {
-        JNU_ThrowArrayIndexOutOfBoundsException(env,
-                                                "coords array");
+    if (tirowExd) {
+        JNU_TirowArrbyIndfxOutOfBoundsExdfption(fnv,
+                                                "doords brrby");
     }
 
-    SurfaceData_InvokeUnlock(env, sdOps, &rasInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, sdOps, &rbsInfo);
 }

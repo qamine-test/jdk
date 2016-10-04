@@ -1,1037 +1,1037 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
-// java import
-import java.io.IOException;
-import java.util.Set;
+// jbvb import
+import jbvb.io.IOExdfption;
+import jbvb.util.Sft;
 
 
 /**
- * This interface represents a way to talk to an MBean server, whether
- * local or remote.  The {@link MBeanServer} interface, representing a
- * local MBean server, extends this interface.
+ * Tiis intfrfbdf rfprfsfnts b wby to tblk to bn MBfbn sfrvfr, wiftifr
+ * lodbl or rfmotf.  Tif {@link MBfbnSfrvfr} intfrfbdf, rfprfsfnting b
+ * lodbl MBfbn sfrvfr, fxtfnds tiis intfrfbdf.
  *
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface MBeanServerConnection {
+publid intfrfbdf MBfbnSfrvfrConnfdtion {
     /**
-     * <p>Instantiates and registers an MBean in the MBean server.  The
-     * MBean server will use its {@link
-     * javax.management.loading.ClassLoaderRepository Default Loader
-     * Repository} to load the class of the MBean.  An object name is
-     * associated with the MBean.  If the object name given is null, the
-     * MBean must provide its own name by implementing the {@link
-     * javax.management.MBeanRegistration MBeanRegistration} interface
-     * and returning the name from the {@link
-     * MBeanRegistration#preRegister preRegister} method.</p>
+     * <p>Instbntibtfs bnd rfgistfrs bn MBfbn in tif MBfbn sfrvfr.  Tif
+     * MBfbn sfrvfr will usf its {@link
+     * jbvbx.mbnbgfmfnt.lobding.ClbssLobdfrRfpository Dffbult Lobdfr
+     * Rfpository} to lobd tif dlbss of tif MBfbn.  An objfdt nbmf is
+     * bssodibtfd witi tif MBfbn.  If tif objfdt nbmf givfn is null, tif
+     * MBfbn must providf its own nbmf by implfmfnting tif {@link
+     * jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion MBfbnRfgistrbtion} intfrfbdf
+     * bnd rfturning tif nbmf from tif {@link
+     * MBfbnRfgistrbtion#prfRfgistfr prfRfgistfr} mftiod.</p>
      *
-     * <p>This method is equivalent to {@link
-     * #createMBean(String,ObjectName,Object[],String[])
-     * createMBean(className, name, (Object[]) null, (String[])
+     * <p>Tiis mftiod is fquivblfnt to {@link
+     * #drfbtfMBfbn(String,ObjfdtNbmf,Objfdt[],String[])
+     * drfbtfMBfbn(dlbssNbmf, nbmf, (Objfdt[]) null, (String[])
      * null)}.</p>
      *
-     * @param className The class name of the MBean to be instantiated.
-     * @param name The object name of the MBean. May be null.
+     * @pbrbm dlbssNbmf Tif dlbss nbmf of tif MBfbn to bf instbntibtfd.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn. Mby bf null.
      *
-     * @return An <CODE>ObjectInstance</CODE>, containing the
-     * <CODE>ObjectName</CODE> and the Java class name of the newly
-     * instantiated MBean.  If the contained <code>ObjectName</code>
-     * is <code>n</code>, the contained Java class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(n)}.getClassName()</code>.
+     * @rfturn An <CODE>ObjfdtInstbndf</CODE>, dontbining tif
+     * <CODE>ObjfdtNbmf</CODE> bnd tif Jbvb dlbss nbmf of tif nfwly
+     * instbntibtfd MBfbn.  If tif dontbinfd <dodf>ObjfdtNbmf</dodf>
+     * is <dodf>n</dodf>, tif dontbinfd Jbvb dlbss nbmf is
+     * <dodf>{@link #gftMBfbnInfo gftMBfbnInfo(n)}.gftClbssNbmf()</dodf>.
      *
-     * @exception ReflectionException Wraps a
-     * <CODE>java.lang.ClassNotFoundException</CODE> or a
-     * <CODE>java.lang.Exception</CODE> that occurred
-     * when trying to invoke the MBean's constructor.
-     * @exception InstanceAlreadyExistsException The MBean is already
-     * under the control of the MBean server.
-     * @exception MBeanRegistrationException The
-     * <CODE>preRegister</CODE> (<CODE>MBeanRegistration</CODE>
-     * interface) method of the MBean has thrown an exception. The
-     * MBean will not be registered.
-     * @exception RuntimeMBeanException If the MBean's constructor or its
-     * {@code preRegister} or {@code postRegister} method threw
-     * a {@code RuntimeException}. If the <CODE>postRegister</CODE>
-     * (<CODE>MBeanRegistration</CODE> interface) method of the MBean throws a
-     * <CODE>RuntimeException</CODE>, the <CODE>createMBean</CODE> method will
-     * throw a <CODE>RuntimeMBeanException</CODE>, although the MBean creation
-     * and registration succeeded. In such a case, the MBean will be actually
-     * registered even though the <CODE>createMBean</CODE> method
-     * threw an exception. Note that <CODE>RuntimeMBeanException</CODE> can
-     * also be thrown by <CODE>preRegister</CODE>, in which case the MBean
-     * will not be registered.
-     * @exception RuntimeErrorException If the <CODE>postRegister</CODE>
-     * (<CODE>MBeanRegistration</CODE> interface) method of the MBean throws an
-     * <CODE>Error</CODE>, the <CODE>createMBean</CODE> method will
-     * throw a <CODE>RuntimeErrorException</CODE>, although the MBean creation
-     * and registration succeeded. In such a case, the MBean will be actually
-     * registered even though the <CODE>createMBean</CODE> method
-     * threw an exception.  Note that <CODE>RuntimeErrorException</CODE> can
-     * also be thrown by <CODE>preRegister</CODE>, in which case the MBean
-     * will not be registered.
-     * @exception MBeanException The constructor of the MBean has
-     * thrown an exception
-     * @exception NotCompliantMBeanException This class is not a JMX
-     * compliant MBean
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: The className
-     * passed in parameter is null, the <CODE>ObjectName</CODE> passed
-     * in parameter contains a pattern or no <CODE>ObjectName</CODE>
-     * is specified for the MBean.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
-     * @see javax.management.MBeanRegistration
+     * @fxdfption RfflfdtionExdfption Wrbps b
+     * <CODE>jbvb.lbng.ClbssNotFoundExdfption</CODE> or b
+     * <CODE>jbvb.lbng.Exdfption</CODE> tibt oddurrfd
+     * wifn trying to invokf tif MBfbn's donstrudtor.
+     * @fxdfption InstbndfAlrfbdyExistsExdfption Tif MBfbn is blrfbdy
+     * undfr tif dontrol of tif MBfbn sfrvfr.
+     * @fxdfption MBfbnRfgistrbtionExdfption Tif
+     * <CODE>prfRfgistfr</CODE> (<CODE>MBfbnRfgistrbtion</CODE>
+     * intfrfbdf) mftiod of tif MBfbn ibs tirown bn fxdfption. Tif
+     * MBfbn will not bf rfgistfrfd.
+     * @fxdfption RuntimfMBfbnExdfption If tif MBfbn's donstrudtor or its
+     * {@dodf prfRfgistfr} or {@dodf postRfgistfr} mftiod tirfw
+     * b {@dodf RuntimfExdfption}. If tif <CODE>postRfgistfr</CODE>
+     * (<CODE>MBfbnRfgistrbtion</CODE> intfrfbdf) mftiod of tif MBfbn tirows b
+     * <CODE>RuntimfExdfption</CODE>, tif <CODE>drfbtfMBfbn</CODE> mftiod will
+     * tirow b <CODE>RuntimfMBfbnExdfption</CODE>, bltiougi tif MBfbn drfbtion
+     * bnd rfgistrbtion suddffdfd. In sudi b dbsf, tif MBfbn will bf bdtublly
+     * rfgistfrfd fvfn tiougi tif <CODE>drfbtfMBfbn</CODE> mftiod
+     * tirfw bn fxdfption. Notf tibt <CODE>RuntimfMBfbnExdfption</CODE> dbn
+     * blso bf tirown by <CODE>prfRfgistfr</CODE>, in wiidi dbsf tif MBfbn
+     * will not bf rfgistfrfd.
+     * @fxdfption RuntimfErrorExdfption If tif <CODE>postRfgistfr</CODE>
+     * (<CODE>MBfbnRfgistrbtion</CODE> intfrfbdf) mftiod of tif MBfbn tirows bn
+     * <CODE>Error</CODE>, tif <CODE>drfbtfMBfbn</CODE> mftiod will
+     * tirow b <CODE>RuntimfErrorExdfption</CODE>, bltiougi tif MBfbn drfbtion
+     * bnd rfgistrbtion suddffdfd. In sudi b dbsf, tif MBfbn will bf bdtublly
+     * rfgistfrfd fvfn tiougi tif <CODE>drfbtfMBfbn</CODE> mftiod
+     * tirfw bn fxdfption.  Notf tibt <CODE>RuntimfErrorExdfption</CODE> dbn
+     * blso bf tirown by <CODE>prfRfgistfr</CODE>, in wiidi dbsf tif MBfbn
+     * will not bf rfgistfrfd.
+     * @fxdfption MBfbnExdfption Tif donstrudtor of tif MBfbn ibs
+     * tirown bn fxdfption
+     * @fxdfption NotComplibntMBfbnExdfption Tiis dlbss is not b JMX
+     * domplibnt MBfbn
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps b
+     * <CODE>jbvb.lbng.IllfgblArgumfntExdfption</CODE>: Tif dlbssNbmf
+     * pbssfd in pbrbmftfr is null, tif <CODE>ObjfdtNbmf</CODE> pbssfd
+     * in pbrbmftfr dontbins b pbttfrn or no <CODE>ObjfdtNbmf</CODE>
+     * is spfdififd for tif MBfbn.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
+     * @sff jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion
      */
-    public ObjectInstance createMBean(String className, ObjectName name)
-            throws ReflectionException, InstanceAlreadyExistsException,
-                   MBeanRegistrationException, MBeanException,
-                   NotCompliantMBeanException, IOException;
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf, ObjfdtNbmf nbmf)
+            tirows RfflfdtionExdfption, InstbndfAlrfbdyExistsExdfption,
+                   MBfbnRfgistrbtionExdfption, MBfbnExdfption,
+                   NotComplibntMBfbnExdfption, IOExdfption;
 
     /**
-     * <p>Instantiates and registers an MBean in the MBean server.  The
-     * class loader to be used is identified by its object name. An
-     * object name is associated with the MBean. If the object name of
-     * the loader is null, the ClassLoader that loaded the MBean
-     * server will be used.  If the MBean's object name given is null,
-     * the MBean must provide its own name by implementing the {@link
-     * javax.management.MBeanRegistration MBeanRegistration} interface
-     * and returning the name from the {@link
-     * MBeanRegistration#preRegister preRegister} method.</p>
+     * <p>Instbntibtfs bnd rfgistfrs bn MBfbn in tif MBfbn sfrvfr.  Tif
+     * dlbss lobdfr to bf usfd is idfntififd by its objfdt nbmf. An
+     * objfdt nbmf is bssodibtfd witi tif MBfbn. If tif objfdt nbmf of
+     * tif lobdfr is null, tif ClbssLobdfr tibt lobdfd tif MBfbn
+     * sfrvfr will bf usfd.  If tif MBfbn's objfdt nbmf givfn is null,
+     * tif MBfbn must providf its own nbmf by implfmfnting tif {@link
+     * jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion MBfbnRfgistrbtion} intfrfbdf
+     * bnd rfturning tif nbmf from tif {@link
+     * MBfbnRfgistrbtion#prfRfgistfr prfRfgistfr} mftiod.</p>
      *
-     * <p>This method is equivalent to {@link
-     * #createMBean(String,ObjectName,ObjectName,Object[],String[])
-     * createMBean(className, name, loaderName, (Object[]) null,
+     * <p>Tiis mftiod is fquivblfnt to {@link
+     * #drfbtfMBfbn(String,ObjfdtNbmf,ObjfdtNbmf,Objfdt[],String[])
+     * drfbtfMBfbn(dlbssNbmf, nbmf, lobdfrNbmf, (Objfdt[]) null,
      * (String[]) null)}.</p>
      *
-     * @param className The class name of the MBean to be instantiated.
-     * @param name The object name of the MBean. May be null.
-     * @param loaderName The object name of the class loader to be used.
+     * @pbrbm dlbssNbmf Tif dlbss nbmf of tif MBfbn to bf instbntibtfd.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn. Mby bf null.
+     * @pbrbm lobdfrNbmf Tif objfdt nbmf of tif dlbss lobdfr to bf usfd.
      *
-     * @return An <CODE>ObjectInstance</CODE>, containing the
-     * <CODE>ObjectName</CODE> and the Java class name of the newly
-     * instantiated MBean.  If the contained <code>ObjectName</code>
-     * is <code>n</code>, the contained Java class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(n)}.getClassName()</code>.
+     * @rfturn An <CODE>ObjfdtInstbndf</CODE>, dontbining tif
+     * <CODE>ObjfdtNbmf</CODE> bnd tif Jbvb dlbss nbmf of tif nfwly
+     * instbntibtfd MBfbn.  If tif dontbinfd <dodf>ObjfdtNbmf</dodf>
+     * is <dodf>n</dodf>, tif dontbinfd Jbvb dlbss nbmf is
+     * <dodf>{@link #gftMBfbnInfo gftMBfbnInfo(n)}.gftClbssNbmf()</dodf>.
      *
-     * @exception ReflectionException Wraps a
-     * <CODE>java.lang.ClassNotFoundException</CODE> or a
-     * <CODE>java.lang.Exception</CODE> that occurred when trying to
-     * invoke the MBean's constructor.
-     * @exception InstanceAlreadyExistsException The MBean is already
-     * under the control of the MBean server.
-     * @exception MBeanRegistrationException The
-     * <CODE>preRegister</CODE> (<CODE>MBeanRegistration</CODE>
-     * interface) method of the MBean has thrown an exception. The
-     * MBean will not be registered.
-     * @exception RuntimeMBeanException If the MBean's constructor or its
-     * {@code preRegister} or {@code postRegister} method threw
-     * a {@code RuntimeException}. If the <CODE>postRegister</CODE>
-     * (<CODE>MBeanRegistration</CODE> interface) method of the MBean throws a
-     * <CODE>RuntimeException</CODE>, the <CODE>createMBean</CODE> method will
-     * throw a <CODE>RuntimeMBeanException</CODE>, although the MBean creation
-     * and registration succeeded. In such a case, the MBean will be actually
-     * registered even though the <CODE>createMBean</CODE> method
-     * threw an exception.  Note that <CODE>RuntimeMBeanException</CODE> can
-     * also be thrown by <CODE>preRegister</CODE>, in which case the MBean
-     * will not be registered.
-     * @exception RuntimeErrorException If the <CODE>postRegister</CODE>
-     * (<CODE>MBeanRegistration</CODE> interface) method of the MBean throws an
-     * <CODE>Error</CODE>, the <CODE>createMBean</CODE> method will
-     * throw a <CODE>RuntimeErrorException</CODE>, although the MBean creation
-     * and registration succeeded. In such a case, the MBean will be actually
-     * registered even though the <CODE>createMBean</CODE> method
-     * threw an exception.  Note that <CODE>RuntimeErrorException</CODE> can
-     * also be thrown by <CODE>preRegister</CODE>, in which case the MBean
-     * will not be registered.
-     * @exception MBeanException The constructor of the MBean has
-     * thrown an exception
-     * @exception NotCompliantMBeanException This class is not a JMX
-     * compliant MBean
-     * @exception InstanceNotFoundException The specified class loader
-     * is not registered in the MBean server.
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: The className
-     * passed in parameter is null, the <CODE>ObjectName</CODE> passed
-     * in parameter contains a pattern or no <CODE>ObjectName</CODE>
-     * is specified for the MBean.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
-     * @see javax.management.MBeanRegistration
+     * @fxdfption RfflfdtionExdfption Wrbps b
+     * <CODE>jbvb.lbng.ClbssNotFoundExdfption</CODE> or b
+     * <CODE>jbvb.lbng.Exdfption</CODE> tibt oddurrfd wifn trying to
+     * invokf tif MBfbn's donstrudtor.
+     * @fxdfption InstbndfAlrfbdyExistsExdfption Tif MBfbn is blrfbdy
+     * undfr tif dontrol of tif MBfbn sfrvfr.
+     * @fxdfption MBfbnRfgistrbtionExdfption Tif
+     * <CODE>prfRfgistfr</CODE> (<CODE>MBfbnRfgistrbtion</CODE>
+     * intfrfbdf) mftiod of tif MBfbn ibs tirown bn fxdfption. Tif
+     * MBfbn will not bf rfgistfrfd.
+     * @fxdfption RuntimfMBfbnExdfption If tif MBfbn's donstrudtor or its
+     * {@dodf prfRfgistfr} or {@dodf postRfgistfr} mftiod tirfw
+     * b {@dodf RuntimfExdfption}. If tif <CODE>postRfgistfr</CODE>
+     * (<CODE>MBfbnRfgistrbtion</CODE> intfrfbdf) mftiod of tif MBfbn tirows b
+     * <CODE>RuntimfExdfption</CODE>, tif <CODE>drfbtfMBfbn</CODE> mftiod will
+     * tirow b <CODE>RuntimfMBfbnExdfption</CODE>, bltiougi tif MBfbn drfbtion
+     * bnd rfgistrbtion suddffdfd. In sudi b dbsf, tif MBfbn will bf bdtublly
+     * rfgistfrfd fvfn tiougi tif <CODE>drfbtfMBfbn</CODE> mftiod
+     * tirfw bn fxdfption.  Notf tibt <CODE>RuntimfMBfbnExdfption</CODE> dbn
+     * blso bf tirown by <CODE>prfRfgistfr</CODE>, in wiidi dbsf tif MBfbn
+     * will not bf rfgistfrfd.
+     * @fxdfption RuntimfErrorExdfption If tif <CODE>postRfgistfr</CODE>
+     * (<CODE>MBfbnRfgistrbtion</CODE> intfrfbdf) mftiod of tif MBfbn tirows bn
+     * <CODE>Error</CODE>, tif <CODE>drfbtfMBfbn</CODE> mftiod will
+     * tirow b <CODE>RuntimfErrorExdfption</CODE>, bltiougi tif MBfbn drfbtion
+     * bnd rfgistrbtion suddffdfd. In sudi b dbsf, tif MBfbn will bf bdtublly
+     * rfgistfrfd fvfn tiougi tif <CODE>drfbtfMBfbn</CODE> mftiod
+     * tirfw bn fxdfption.  Notf tibt <CODE>RuntimfErrorExdfption</CODE> dbn
+     * blso bf tirown by <CODE>prfRfgistfr</CODE>, in wiidi dbsf tif MBfbn
+     * will not bf rfgistfrfd.
+     * @fxdfption MBfbnExdfption Tif donstrudtor of tif MBfbn ibs
+     * tirown bn fxdfption
+     * @fxdfption NotComplibntMBfbnExdfption Tiis dlbss is not b JMX
+     * domplibnt MBfbn
+     * @fxdfption InstbndfNotFoundExdfption Tif spfdififd dlbss lobdfr
+     * is not rfgistfrfd in tif MBfbn sfrvfr.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps b
+     * <CODE>jbvb.lbng.IllfgblArgumfntExdfption</CODE>: Tif dlbssNbmf
+     * pbssfd in pbrbmftfr is null, tif <CODE>ObjfdtNbmf</CODE> pbssfd
+     * in pbrbmftfr dontbins b pbttfrn or no <CODE>ObjfdtNbmf</CODE>
+     * is spfdififd for tif MBfbn.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
+     * @sff jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion
      */
-    public ObjectInstance createMBean(String className, ObjectName name,
-                                      ObjectName loaderName)
-            throws ReflectionException, InstanceAlreadyExistsException,
-                   MBeanRegistrationException, MBeanException,
-                   NotCompliantMBeanException, InstanceNotFoundException,
-                   IOException;
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf, ObjfdtNbmf nbmf,
+                                      ObjfdtNbmf lobdfrNbmf)
+            tirows RfflfdtionExdfption, InstbndfAlrfbdyExistsExdfption,
+                   MBfbnRfgistrbtionExdfption, MBfbnExdfption,
+                   NotComplibntMBfbnExdfption, InstbndfNotFoundExdfption,
+                   IOExdfption;
 
 
     /**
-     * Instantiates and registers an MBean in the MBean server.  The
-     * MBean server will use its {@link
-     * javax.management.loading.ClassLoaderRepository Default Loader
-     * Repository} to load the class of the MBean.  An object name is
-     * associated with the MBean.  If the object name given is null, the
-     * MBean must provide its own name by implementing the {@link
-     * javax.management.MBeanRegistration MBeanRegistration} interface
-     * and returning the name from the {@link
-     * MBeanRegistration#preRegister preRegister} method.
+     * Instbntibtfs bnd rfgistfrs bn MBfbn in tif MBfbn sfrvfr.  Tif
+     * MBfbn sfrvfr will usf its {@link
+     * jbvbx.mbnbgfmfnt.lobding.ClbssLobdfrRfpository Dffbult Lobdfr
+     * Rfpository} to lobd tif dlbss of tif MBfbn.  An objfdt nbmf is
+     * bssodibtfd witi tif MBfbn.  If tif objfdt nbmf givfn is null, tif
+     * MBfbn must providf its own nbmf by implfmfnting tif {@link
+     * jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion MBfbnRfgistrbtion} intfrfbdf
+     * bnd rfturning tif nbmf from tif {@link
+     * MBfbnRfgistrbtion#prfRfgistfr prfRfgistfr} mftiod.
      *
-     * @param className The class name of the MBean to be instantiated.
-     * @param name The object name of the MBean. May be null.
-     * @param params An array containing the parameters of the
-     * constructor to be invoked.
-     * @param signature An array containing the signature of the
-     * constructor to be invoked.
+     * @pbrbm dlbssNbmf Tif dlbss nbmf of tif MBfbn to bf instbntibtfd.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn. Mby bf null.
+     * @pbrbm pbrbms An brrby dontbining tif pbrbmftfrs of tif
+     * donstrudtor to bf invokfd.
+     * @pbrbm signbturf An brrby dontbining tif signbturf of tif
+     * donstrudtor to bf invokfd.
      *
-     * @return An <CODE>ObjectInstance</CODE>, containing the
-     * <CODE>ObjectName</CODE> and the Java class name of the newly
-     * instantiated MBean.  If the contained <code>ObjectName</code>
-     * is <code>n</code>, the contained Java class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(n)}.getClassName()</code>.
+     * @rfturn An <CODE>ObjfdtInstbndf</CODE>, dontbining tif
+     * <CODE>ObjfdtNbmf</CODE> bnd tif Jbvb dlbss nbmf of tif nfwly
+     * instbntibtfd MBfbn.  If tif dontbinfd <dodf>ObjfdtNbmf</dodf>
+     * is <dodf>n</dodf>, tif dontbinfd Jbvb dlbss nbmf is
+     * <dodf>{@link #gftMBfbnInfo gftMBfbnInfo(n)}.gftClbssNbmf()</dodf>.
      *
-     * @exception ReflectionException Wraps a
-     * <CODE>java.lang.ClassNotFoundException</CODE> or a
-     * <CODE>java.lang.Exception</CODE> that occurred when trying to
-     * invoke the MBean's constructor.
-     * @exception InstanceAlreadyExistsException The MBean is already
-     * under the control of the MBean server.
-     * @exception MBeanRegistrationException The
-     * <CODE>preRegister</CODE> (<CODE>MBeanRegistration</CODE>
-     * interface) method of the MBean has thrown an exception. The
-     * MBean will not be registered.
-     * @exception RuntimeMBeanException If the MBean's constructor or its
-     * {@code preRegister} or {@code postRegister} method threw
-     * a {@code RuntimeException}. If the <CODE>postRegister</CODE>
-     * (<CODE>MBeanRegistration</CODE> interface) method of the MBean throws a
-     * <CODE>RuntimeException</CODE>, the <CODE>createMBean</CODE> method will
-     * throw a <CODE>RuntimeMBeanException</CODE>, although the MBean creation
-     * and registration succeeded. In such a case, the MBean will be actually
-     * registered even though the <CODE>createMBean</CODE> method
-     * threw an exception.  Note that <CODE>RuntimeMBeanException</CODE> can
-     * also be thrown by <CODE>preRegister</CODE>, in which case the MBean
-     * will not be registered.
-     * @exception RuntimeErrorException If the <CODE>postRegister</CODE>
-     * (<CODE>MBeanRegistration</CODE> interface) method of the MBean throws an
-     * <CODE>Error</CODE>, the <CODE>createMBean</CODE> method will
-     * throw a <CODE>RuntimeErrorException</CODE>, although the MBean creation
-     * and registration succeeded. In such a case, the MBean will be actually
-     * registered even though the <CODE>createMBean</CODE> method
-     * threw an exception.  Note that <CODE>RuntimeErrorException</CODE> can
-     * also be thrown by <CODE>preRegister</CODE>, in which case the MBean
-     * will not be registered.
-     * @exception MBeanException The constructor of the MBean has
-     * thrown an exception
-     * @exception NotCompliantMBeanException This class is not a JMX
-     * compliant MBean
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: The className
-     * passed in parameter is null, the <CODE>ObjectName</CODE> passed
-     * in parameter contains a pattern or no <CODE>ObjectName</CODE>
-     * is specified for the MBean.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
-     * @see javax.management.MBeanRegistration
+     * @fxdfption RfflfdtionExdfption Wrbps b
+     * <CODE>jbvb.lbng.ClbssNotFoundExdfption</CODE> or b
+     * <CODE>jbvb.lbng.Exdfption</CODE> tibt oddurrfd wifn trying to
+     * invokf tif MBfbn's donstrudtor.
+     * @fxdfption InstbndfAlrfbdyExistsExdfption Tif MBfbn is blrfbdy
+     * undfr tif dontrol of tif MBfbn sfrvfr.
+     * @fxdfption MBfbnRfgistrbtionExdfption Tif
+     * <CODE>prfRfgistfr</CODE> (<CODE>MBfbnRfgistrbtion</CODE>
+     * intfrfbdf) mftiod of tif MBfbn ibs tirown bn fxdfption. Tif
+     * MBfbn will not bf rfgistfrfd.
+     * @fxdfption RuntimfMBfbnExdfption If tif MBfbn's donstrudtor or its
+     * {@dodf prfRfgistfr} or {@dodf postRfgistfr} mftiod tirfw
+     * b {@dodf RuntimfExdfption}. If tif <CODE>postRfgistfr</CODE>
+     * (<CODE>MBfbnRfgistrbtion</CODE> intfrfbdf) mftiod of tif MBfbn tirows b
+     * <CODE>RuntimfExdfption</CODE>, tif <CODE>drfbtfMBfbn</CODE> mftiod will
+     * tirow b <CODE>RuntimfMBfbnExdfption</CODE>, bltiougi tif MBfbn drfbtion
+     * bnd rfgistrbtion suddffdfd. In sudi b dbsf, tif MBfbn will bf bdtublly
+     * rfgistfrfd fvfn tiougi tif <CODE>drfbtfMBfbn</CODE> mftiod
+     * tirfw bn fxdfption.  Notf tibt <CODE>RuntimfMBfbnExdfption</CODE> dbn
+     * blso bf tirown by <CODE>prfRfgistfr</CODE>, in wiidi dbsf tif MBfbn
+     * will not bf rfgistfrfd.
+     * @fxdfption RuntimfErrorExdfption If tif <CODE>postRfgistfr</CODE>
+     * (<CODE>MBfbnRfgistrbtion</CODE> intfrfbdf) mftiod of tif MBfbn tirows bn
+     * <CODE>Error</CODE>, tif <CODE>drfbtfMBfbn</CODE> mftiod will
+     * tirow b <CODE>RuntimfErrorExdfption</CODE>, bltiougi tif MBfbn drfbtion
+     * bnd rfgistrbtion suddffdfd. In sudi b dbsf, tif MBfbn will bf bdtublly
+     * rfgistfrfd fvfn tiougi tif <CODE>drfbtfMBfbn</CODE> mftiod
+     * tirfw bn fxdfption.  Notf tibt <CODE>RuntimfErrorExdfption</CODE> dbn
+     * blso bf tirown by <CODE>prfRfgistfr</CODE>, in wiidi dbsf tif MBfbn
+     * will not bf rfgistfrfd.
+     * @fxdfption MBfbnExdfption Tif donstrudtor of tif MBfbn ibs
+     * tirown bn fxdfption
+     * @fxdfption NotComplibntMBfbnExdfption Tiis dlbss is not b JMX
+     * domplibnt MBfbn
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps b
+     * <CODE>jbvb.lbng.IllfgblArgumfntExdfption</CODE>: Tif dlbssNbmf
+     * pbssfd in pbrbmftfr is null, tif <CODE>ObjfdtNbmf</CODE> pbssfd
+     * in pbrbmftfr dontbins b pbttfrn or no <CODE>ObjfdtNbmf</CODE>
+     * is spfdififd for tif MBfbn.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
+     * @sff jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion
      */
-    public ObjectInstance createMBean(String className, ObjectName name,
-                                      Object params[], String signature[])
-            throws ReflectionException, InstanceAlreadyExistsException,
-                   MBeanRegistrationException, MBeanException,
-                   NotCompliantMBeanException, IOException;
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf, ObjfdtNbmf nbmf,
+                                      Objfdt pbrbms[], String signbturf[])
+            tirows RfflfdtionExdfption, InstbndfAlrfbdyExistsExdfption,
+                   MBfbnRfgistrbtionExdfption, MBfbnExdfption,
+                   NotComplibntMBfbnExdfption, IOExdfption;
 
     /**
-     * <p>Instantiates and registers an MBean in the MBean server.  The
-     * class loader to be used is identified by its object name. An
-     * object name is associated with the MBean. If the object name of
-     * the loader is not specified, the ClassLoader that loaded the
-     * MBean server will be used.  If the MBean object name given is
-     * null, the MBean must provide its own name by implementing the
-     * {@link javax.management.MBeanRegistration MBeanRegistration}
-     * interface and returning the name from the {@link
-     * MBeanRegistration#preRegister preRegister} method.
+     * <p>Instbntibtfs bnd rfgistfrs bn MBfbn in tif MBfbn sfrvfr.  Tif
+     * dlbss lobdfr to bf usfd is idfntififd by its objfdt nbmf. An
+     * objfdt nbmf is bssodibtfd witi tif MBfbn. If tif objfdt nbmf of
+     * tif lobdfr is not spfdififd, tif ClbssLobdfr tibt lobdfd tif
+     * MBfbn sfrvfr will bf usfd.  If tif MBfbn objfdt nbmf givfn is
+     * null, tif MBfbn must providf its own nbmf by implfmfnting tif
+     * {@link jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion MBfbnRfgistrbtion}
+     * intfrfbdf bnd rfturning tif nbmf from tif {@link
+     * MBfbnRfgistrbtion#prfRfgistfr prfRfgistfr} mftiod.
      *
-     * @param className The class name of the MBean to be instantiated.
-     * @param name The object name of the MBean. May be null.
-     * @param params An array containing the parameters of the
-     * constructor to be invoked.
-     * @param signature An array containing the signature of the
-     * constructor to be invoked.
-     * @param loaderName The object name of the class loader to be used.
+     * @pbrbm dlbssNbmf Tif dlbss nbmf of tif MBfbn to bf instbntibtfd.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn. Mby bf null.
+     * @pbrbm pbrbms An brrby dontbining tif pbrbmftfrs of tif
+     * donstrudtor to bf invokfd.
+     * @pbrbm signbturf An brrby dontbining tif signbturf of tif
+     * donstrudtor to bf invokfd.
+     * @pbrbm lobdfrNbmf Tif objfdt nbmf of tif dlbss lobdfr to bf usfd.
      *
-     * @return An <CODE>ObjectInstance</CODE>, containing the
-     * <CODE>ObjectName</CODE> and the Java class name of the newly
-     * instantiated MBean.  If the contained <code>ObjectName</code>
-     * is <code>n</code>, the contained Java class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(n)}.getClassName()</code>.
+     * @rfturn An <CODE>ObjfdtInstbndf</CODE>, dontbining tif
+     * <CODE>ObjfdtNbmf</CODE> bnd tif Jbvb dlbss nbmf of tif nfwly
+     * instbntibtfd MBfbn.  If tif dontbinfd <dodf>ObjfdtNbmf</dodf>
+     * is <dodf>n</dodf>, tif dontbinfd Jbvb dlbss nbmf is
+     * <dodf>{@link #gftMBfbnInfo gftMBfbnInfo(n)}.gftClbssNbmf()</dodf>.
      *
-     * @exception ReflectionException Wraps a
-     * <CODE>java.lang.ClassNotFoundException</CODE> or a
-     * <CODE>java.lang.Exception</CODE> that occurred when trying to
-     * invoke the MBean's constructor.
-     * @exception InstanceAlreadyExistsException The MBean is already
-     * under the control of the MBean server.
-     * @exception MBeanRegistrationException The
-     * <CODE>preRegister</CODE> (<CODE>MBeanRegistration</CODE>
-     * interface) method of the MBean has thrown an exception. The
-     * MBean will not be registered.
-     * @exception RuntimeMBeanException The MBean's constructor or its
-     * {@code preRegister} or {@code postRegister} method threw
-     * a {@code RuntimeException}. If the <CODE>postRegister</CODE>
-     * (<CODE>MBeanRegistration</CODE> interface) method of the MBean throws a
-     * <CODE>RuntimeException</CODE>, the <CODE>createMBean</CODE> method will
-     * throw a <CODE>RuntimeMBeanException</CODE>, although the MBean creation
-     * and registration succeeded. In such a case, the MBean will be actually
-     * registered even though the <CODE>createMBean</CODE> method
-     * threw an exception.  Note that <CODE>RuntimeMBeanException</CODE> can
-     * also be thrown by <CODE>preRegister</CODE>, in which case the MBean
-     * will not be registered.
-     * @exception RuntimeErrorException If the <CODE>postRegister</CODE> method
-     * (<CODE>MBeanRegistration</CODE> interface) method of the MBean throws an
-     * <CODE>Error</CODE>, the <CODE>createMBean</CODE> method will
-     * throw a <CODE>RuntimeErrorException</CODE>, although the MBean creation
-     * and registration succeeded. In such a case, the MBean will be actually
-     * registered even though the <CODE>createMBean</CODE> method
-     * threw an exception.  Note that <CODE>RuntimeErrorException</CODE> can
-     * also be thrown by <CODE>preRegister</CODE>, in which case the MBean
-     * will not be registered.
-     * @exception MBeanException The constructor of the MBean has
-     * thrown an exception
-     * @exception NotCompliantMBeanException This class is not a JMX
-     * compliant MBean
-     * @exception InstanceNotFoundException The specified class loader
-     * is not registered in the MBean server.
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: The className
-     * passed in parameter is null, the <CODE>ObjectName</CODE> passed
-     * in parameter contains a pattern or no <CODE>ObjectName</CODE>
-     * is specified for the MBean.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
-     * @see javax.management.MBeanRegistration
+     * @fxdfption RfflfdtionExdfption Wrbps b
+     * <CODE>jbvb.lbng.ClbssNotFoundExdfption</CODE> or b
+     * <CODE>jbvb.lbng.Exdfption</CODE> tibt oddurrfd wifn trying to
+     * invokf tif MBfbn's donstrudtor.
+     * @fxdfption InstbndfAlrfbdyExistsExdfption Tif MBfbn is blrfbdy
+     * undfr tif dontrol of tif MBfbn sfrvfr.
+     * @fxdfption MBfbnRfgistrbtionExdfption Tif
+     * <CODE>prfRfgistfr</CODE> (<CODE>MBfbnRfgistrbtion</CODE>
+     * intfrfbdf) mftiod of tif MBfbn ibs tirown bn fxdfption. Tif
+     * MBfbn will not bf rfgistfrfd.
+     * @fxdfption RuntimfMBfbnExdfption Tif MBfbn's donstrudtor or its
+     * {@dodf prfRfgistfr} or {@dodf postRfgistfr} mftiod tirfw
+     * b {@dodf RuntimfExdfption}. If tif <CODE>postRfgistfr</CODE>
+     * (<CODE>MBfbnRfgistrbtion</CODE> intfrfbdf) mftiod of tif MBfbn tirows b
+     * <CODE>RuntimfExdfption</CODE>, tif <CODE>drfbtfMBfbn</CODE> mftiod will
+     * tirow b <CODE>RuntimfMBfbnExdfption</CODE>, bltiougi tif MBfbn drfbtion
+     * bnd rfgistrbtion suddffdfd. In sudi b dbsf, tif MBfbn will bf bdtublly
+     * rfgistfrfd fvfn tiougi tif <CODE>drfbtfMBfbn</CODE> mftiod
+     * tirfw bn fxdfption.  Notf tibt <CODE>RuntimfMBfbnExdfption</CODE> dbn
+     * blso bf tirown by <CODE>prfRfgistfr</CODE>, in wiidi dbsf tif MBfbn
+     * will not bf rfgistfrfd.
+     * @fxdfption RuntimfErrorExdfption If tif <CODE>postRfgistfr</CODE> mftiod
+     * (<CODE>MBfbnRfgistrbtion</CODE> intfrfbdf) mftiod of tif MBfbn tirows bn
+     * <CODE>Error</CODE>, tif <CODE>drfbtfMBfbn</CODE> mftiod will
+     * tirow b <CODE>RuntimfErrorExdfption</CODE>, bltiougi tif MBfbn drfbtion
+     * bnd rfgistrbtion suddffdfd. In sudi b dbsf, tif MBfbn will bf bdtublly
+     * rfgistfrfd fvfn tiougi tif <CODE>drfbtfMBfbn</CODE> mftiod
+     * tirfw bn fxdfption.  Notf tibt <CODE>RuntimfErrorExdfption</CODE> dbn
+     * blso bf tirown by <CODE>prfRfgistfr</CODE>, in wiidi dbsf tif MBfbn
+     * will not bf rfgistfrfd.
+     * @fxdfption MBfbnExdfption Tif donstrudtor of tif MBfbn ibs
+     * tirown bn fxdfption
+     * @fxdfption NotComplibntMBfbnExdfption Tiis dlbss is not b JMX
+     * domplibnt MBfbn
+     * @fxdfption InstbndfNotFoundExdfption Tif spfdififd dlbss lobdfr
+     * is not rfgistfrfd in tif MBfbn sfrvfr.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps b
+     * <CODE>jbvb.lbng.IllfgblArgumfntExdfption</CODE>: Tif dlbssNbmf
+     * pbssfd in pbrbmftfr is null, tif <CODE>ObjfdtNbmf</CODE> pbssfd
+     * in pbrbmftfr dontbins b pbttfrn or no <CODE>ObjfdtNbmf</CODE>
+     * is spfdififd for tif MBfbn.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
+     * @sff jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion
      */
-    public ObjectInstance createMBean(String className, ObjectName name,
-                                      ObjectName loaderName, Object params[],
-                                      String signature[])
-            throws ReflectionException, InstanceAlreadyExistsException,
-                   MBeanRegistrationException, MBeanException,
-                   NotCompliantMBeanException, InstanceNotFoundException,
-                   IOException;
+    publid ObjfdtInstbndf drfbtfMBfbn(String dlbssNbmf, ObjfdtNbmf nbmf,
+                                      ObjfdtNbmf lobdfrNbmf, Objfdt pbrbms[],
+                                      String signbturf[])
+            tirows RfflfdtionExdfption, InstbndfAlrfbdyExistsExdfption,
+                   MBfbnRfgistrbtionExdfption, MBfbnExdfption,
+                   NotComplibntMBfbnExdfption, InstbndfNotFoundExdfption,
+                   IOExdfption;
 
     /**
-     * Unregisters an MBean from the MBean server. The MBean is
-     * identified by its object name. Once the method has been
-     * invoked, the MBean may no longer be accessed by its object
-     * name.
+     * Unrfgistfrs bn MBfbn from tif MBfbn sfrvfr. Tif MBfbn is
+     * idfntififd by its objfdt nbmf. Ondf tif mftiod ibs bffn
+     * invokfd, tif MBfbn mby no longfr bf bddfssfd by its objfdt
+     * nbmf.
      *
-     * @param name The object name of the MBean to be unregistered.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn to bf unrfgistfrfd.
      *
-     * @exception InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @exception MBeanRegistrationException The preDeregister
-     * ((<CODE>MBeanRegistration</CODE> interface) method of the MBean
-     * has thrown an exception.
-     * @exception RuntimeMBeanException If the <CODE>postDeregister</CODE>
-     * (<CODE>MBeanRegistration</CODE> interface) method of the MBean throws a
-     * <CODE>RuntimeException</CODE>, the <CODE>unregisterMBean</CODE> method
-     * will throw a <CODE>RuntimeMBeanException</CODE>, although the MBean
-     * unregistration succeeded. In such a case, the MBean will be actually
-     * unregistered even though the <CODE>unregisterMBean</CODE> method
-     * threw an exception.  Note that <CODE>RuntimeMBeanException</CODE> can
-     * also be thrown by <CODE>preDeregister</CODE>, in which case the MBean
-     * will remain registered.
-     * @exception RuntimeErrorException If the <CODE>postDeregister</CODE>
-     * (<CODE>MBeanRegistration</CODE> interface) method of the MBean throws an
-     * <CODE>Error</CODE>, the <CODE>unregisterMBean</CODE> method will
-     * throw a <CODE>RuntimeErrorException</CODE>, although the MBean
-     * unregistration succeeded. In such a case, the MBean will be actually
-     * unregistered even though the <CODE>unregisterMBean</CODE> method
-     * threw an exception.  Note that <CODE>RuntimeMBeanException</CODE> can
-     * also be thrown by <CODE>preDeregister</CODE>, in which case the MBean
-     * will remain registered.
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: The object
-     * name in parameter is null or the MBean you are when trying to
-     * unregister is the {@link javax.management.MBeanServerDelegate
-     * MBeanServerDelegate} MBean.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
-     * @see javax.management.MBeanRegistration
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @fxdfption MBfbnRfgistrbtionExdfption Tif prfDfrfgistfr
+     * ((<CODE>MBfbnRfgistrbtion</CODE> intfrfbdf) mftiod of tif MBfbn
+     * ibs tirown bn fxdfption.
+     * @fxdfption RuntimfMBfbnExdfption If tif <CODE>postDfrfgistfr</CODE>
+     * (<CODE>MBfbnRfgistrbtion</CODE> intfrfbdf) mftiod of tif MBfbn tirows b
+     * <CODE>RuntimfExdfption</CODE>, tif <CODE>unrfgistfrMBfbn</CODE> mftiod
+     * will tirow b <CODE>RuntimfMBfbnExdfption</CODE>, bltiougi tif MBfbn
+     * unrfgistrbtion suddffdfd. In sudi b dbsf, tif MBfbn will bf bdtublly
+     * unrfgistfrfd fvfn tiougi tif <CODE>unrfgistfrMBfbn</CODE> mftiod
+     * tirfw bn fxdfption.  Notf tibt <CODE>RuntimfMBfbnExdfption</CODE> dbn
+     * blso bf tirown by <CODE>prfDfrfgistfr</CODE>, in wiidi dbsf tif MBfbn
+     * will rfmbin rfgistfrfd.
+     * @fxdfption RuntimfErrorExdfption If tif <CODE>postDfrfgistfr</CODE>
+     * (<CODE>MBfbnRfgistrbtion</CODE> intfrfbdf) mftiod of tif MBfbn tirows bn
+     * <CODE>Error</CODE>, tif <CODE>unrfgistfrMBfbn</CODE> mftiod will
+     * tirow b <CODE>RuntimfErrorExdfption</CODE>, bltiougi tif MBfbn
+     * unrfgistrbtion suddffdfd. In sudi b dbsf, tif MBfbn will bf bdtublly
+     * unrfgistfrfd fvfn tiougi tif <CODE>unrfgistfrMBfbn</CODE> mftiod
+     * tirfw bn fxdfption.  Notf tibt <CODE>RuntimfMBfbnExdfption</CODE> dbn
+     * blso bf tirown by <CODE>prfDfrfgistfr</CODE>, in wiidi dbsf tif MBfbn
+     * will rfmbin rfgistfrfd.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps b
+     * <CODE>jbvb.lbng.IllfgblArgumfntExdfption</CODE>: Tif objfdt
+     * nbmf in pbrbmftfr is null or tif MBfbn you brf wifn trying to
+     * unrfgistfr is tif {@link jbvbx.mbnbgfmfnt.MBfbnSfrvfrDflfgbtf
+     * MBfbnSfrvfrDflfgbtf} MBfbn.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
+     * @sff jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion
      */
-    public void unregisterMBean(ObjectName name)
-            throws InstanceNotFoundException, MBeanRegistrationException,
-                   IOException;
+    publid void unrfgistfrMBfbn(ObjfdtNbmf nbmf)
+            tirows InstbndfNotFoundExdfption, MBfbnRfgistrbtionExdfption,
+                   IOExdfption;
 
     /**
-     * Gets the <CODE>ObjectInstance</CODE> for a given MBean
-     * registered with the MBean server.
+     * Gfts tif <CODE>ObjfdtInstbndf</CODE> for b givfn MBfbn
+     * rfgistfrfd witi tif MBfbn sfrvfr.
      *
-     * @param name The object name of the MBean.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn.
      *
-     * @return The <CODE>ObjectInstance</CODE> associated with the MBean
-     * specified by <VAR>name</VAR>.  The contained <code>ObjectName</code>
-     * is <code>name</code> and the contained class name is
-     * <code>{@link #getMBeanInfo getMBeanInfo(name)}.getClassName()</code>.
+     * @rfturn Tif <CODE>ObjfdtInstbndf</CODE> bssodibtfd witi tif MBfbn
+     * spfdififd by <VAR>nbmf</VAR>.  Tif dontbinfd <dodf>ObjfdtNbmf</dodf>
+     * is <dodf>nbmf</dodf> bnd tif dontbinfd dlbss nbmf is
+     * <dodf>{@link #gftMBfbnInfo gftMBfbnInfo(nbmf)}.gftClbssNbmf()</dodf>.
      *
-     * @exception InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      */
-    public ObjectInstance getObjectInstance(ObjectName name)
-            throws InstanceNotFoundException, IOException;
+    publid ObjfdtInstbndf gftObjfdtInstbndf(ObjfdtNbmf nbmf)
+            tirows InstbndfNotFoundExdfption, IOExdfption;
 
     /**
-     * Gets MBeans controlled by the MBean server. This method allows
-     * any of the following to be obtained: All MBeans, a set of
-     * MBeans specified by pattern matching on the
-     * <CODE>ObjectName</CODE> and/or a Query expression, a specific
-     * MBean. When the object name is null or no domain and key
-     * properties are specified, all objects are to be selected (and
-     * filtered if a query is specified). It returns the set of
-     * <CODE>ObjectInstance</CODE> objects (containing the
-     * <CODE>ObjectName</CODE> and the Java Class name) for the
-     * selected MBeans.
+     * Gfts MBfbns dontrollfd by tif MBfbn sfrvfr. Tiis mftiod bllows
+     * bny of tif following to bf obtbinfd: All MBfbns, b sft of
+     * MBfbns spfdififd by pbttfrn mbtdiing on tif
+     * <CODE>ObjfdtNbmf</CODE> bnd/or b Qufry fxprfssion, b spfdifid
+     * MBfbn. Wifn tif objfdt nbmf is null or no dombin bnd kfy
+     * propfrtifs brf spfdififd, bll objfdts brf to bf sflfdtfd (bnd
+     * filtfrfd if b qufry is spfdififd). It rfturns tif sft of
+     * <CODE>ObjfdtInstbndf</CODE> objfdts (dontbining tif
+     * <CODE>ObjfdtNbmf</CODE> bnd tif Jbvb Clbss nbmf) for tif
+     * sflfdtfd MBfbns.
      *
-     * @param name The object name pattern identifying the MBeans to
-     * be retrieved. If null or no domain and key properties are
-     * specified, all the MBeans registered will be retrieved.
-     * @param query The query expression to be applied for selecting
-     * MBeans. If null no query expression will be applied for
-     * selecting MBeans.
+     * @pbrbm nbmf Tif objfdt nbmf pbttfrn idfntifying tif MBfbns to
+     * bf rftrifvfd. If null or no dombin bnd kfy propfrtifs brf
+     * spfdififd, bll tif MBfbns rfgistfrfd will bf rftrifvfd.
+     * @pbrbm qufry Tif qufry fxprfssion to bf bpplifd for sflfdting
+     * MBfbns. If null no qufry fxprfssion will bf bpplifd for
+     * sflfdting MBfbns.
      *
-     * @return A set containing the <CODE>ObjectInstance</CODE>
-     * objects for the selected MBeans.  If no MBean satisfies the
-     * query an empty list is returned.
+     * @rfturn A sft dontbining tif <CODE>ObjfdtInstbndf</CODE>
+     * objfdts for tif sflfdtfd MBfbns.  If no MBfbn sbtisfifs tif
+     * qufry bn fmpty list is rfturnfd.
      *
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      */
-    public Set<ObjectInstance> queryMBeans(ObjectName name, QueryExp query)
-            throws IOException;
+    publid Sft<ObjfdtInstbndf> qufryMBfbns(ObjfdtNbmf nbmf, QufryExp qufry)
+            tirows IOExdfption;
 
     /**
-     * Gets the names of MBeans controlled by the MBean server. This
-     * method enables any of the following to be obtained: The names
-     * of all MBeans, the names of a set of MBeans specified by
-     * pattern matching on the <CODE>ObjectName</CODE> and/or a Query
-     * expression, a specific MBean name (equivalent to testing
-     * whether an MBean is registered). When the object name is null
-     * or no domain and key properties are specified, all objects are
-     * selected (and filtered if a query is specified). It returns the
-     * set of ObjectNames for the MBeans selected.
+     * Gfts tif nbmfs of MBfbns dontrollfd by tif MBfbn sfrvfr. Tiis
+     * mftiod fnbblfs bny of tif following to bf obtbinfd: Tif nbmfs
+     * of bll MBfbns, tif nbmfs of b sft of MBfbns spfdififd by
+     * pbttfrn mbtdiing on tif <CODE>ObjfdtNbmf</CODE> bnd/or b Qufry
+     * fxprfssion, b spfdifid MBfbn nbmf (fquivblfnt to tfsting
+     * wiftifr bn MBfbn is rfgistfrfd). Wifn tif objfdt nbmf is null
+     * or no dombin bnd kfy propfrtifs brf spfdififd, bll objfdts brf
+     * sflfdtfd (bnd filtfrfd if b qufry is spfdififd). It rfturns tif
+     * sft of ObjfdtNbmfs for tif MBfbns sflfdtfd.
      *
-     * @param name The object name pattern identifying the MBean names
-     * to be retrieved. If null or no domain and key properties are
-     * specified, the name of all registered MBeans will be retrieved.
-     * @param query The query expression to be applied for selecting
-     * MBeans. If null no query expression will be applied for
-     * selecting MBeans.
+     * @pbrbm nbmf Tif objfdt nbmf pbttfrn idfntifying tif MBfbn nbmfs
+     * to bf rftrifvfd. If null or no dombin bnd kfy propfrtifs brf
+     * spfdififd, tif nbmf of bll rfgistfrfd MBfbns will bf rftrifvfd.
+     * @pbrbm qufry Tif qufry fxprfssion to bf bpplifd for sflfdting
+     * MBfbns. If null no qufry fxprfssion will bf bpplifd for
+     * sflfdting MBfbns.
      *
-     * @return A set containing the ObjectNames for the MBeans
-     * selected.  If no MBean satisfies the query, an empty list is
-     * returned.
+     * @rfturn A sft dontbining tif ObjfdtNbmfs for tif MBfbns
+     * sflfdtfd.  If no MBfbn sbtisfifs tif qufry, bn fmpty list is
+     * rfturnfd.
      *
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      */
-    public Set<ObjectName> queryNames(ObjectName name, QueryExp query)
-            throws IOException;
+    publid Sft<ObjfdtNbmf> qufryNbmfs(ObjfdtNbmf nbmf, QufryExp qufry)
+            tirows IOExdfption;
 
-
-
-    /**
-     * Checks whether an MBean, identified by its object name, is
-     * already registered with the MBean server.
-     *
-     * @param name The object name of the MBean to be checked.
-     *
-     * @return True if the MBean is already registered in the MBean
-     * server, false otherwise.
-     *
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: The object
-     * name in parameter is null.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
-     */
-    public boolean isRegistered(ObjectName name)
-            throws IOException;
 
 
     /**
-     * Returns the number of MBeans registered in the MBean server.
+     * Cifdks wiftifr bn MBfbn, idfntififd by its objfdt nbmf, is
+     * blrfbdy rfgistfrfd witi tif MBfbn sfrvfr.
      *
-     * @return the number of MBeans registered.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn to bf difdkfd.
      *
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @rfturn Truf if tif MBfbn is blrfbdy rfgistfrfd in tif MBfbn
+     * sfrvfr, fblsf otifrwisf.
+     *
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps b
+     * <CODE>jbvb.lbng.IllfgblArgumfntExdfption</CODE>: Tif objfdt
+     * nbmf in pbrbmftfr is null.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      */
-    public Integer getMBeanCount()
-            throws IOException;
+    publid boolfbn isRfgistfrfd(ObjfdtNbmf nbmf)
+            tirows IOExdfption;
+
 
     /**
-     * Gets the value of a specific attribute of a named MBean. The MBean
-     * is identified by its object name.
+     * Rfturns tif numbfr of MBfbns rfgistfrfd in tif MBfbn sfrvfr.
      *
-     * @param name The object name of the MBean from which the
-     * attribute is to be retrieved.
-     * @param attribute A String specifying the name of the attribute
-     * to be retrieved.
+     * @rfturn tif numbfr of MBfbns rfgistfrfd.
      *
-     * @return  The value of the retrieved attribute.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
+     */
+    publid Intfgfr gftMBfbnCount()
+            tirows IOExdfption;
+
+    /**
+     * Gfts tif vbluf of b spfdifid bttributf of b nbmfd MBfbn. Tif MBfbn
+     * is idfntififd by its objfdt nbmf.
      *
-     * @exception AttributeNotFoundException The attribute specified
-     * is not accessible in the MBean.
-     * @exception MBeanException Wraps an exception thrown by the
-     * MBean's getter.
-     * @exception InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @exception ReflectionException Wraps a
-     * <CODE>java.lang.Exception</CODE> thrown when trying to invoke
-     * the setter.
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: The object
-     * name in parameter is null or the attribute in parameter is
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn from wiidi tif
+     * bttributf is to bf rftrifvfd.
+     * @pbrbm bttributf A String spfdifying tif nbmf of tif bttributf
+     * to bf rftrifvfd.
+     *
+     * @rfturn  Tif vbluf of tif rftrifvfd bttributf.
+     *
+     * @fxdfption AttributfNotFoundExdfption Tif bttributf spfdififd
+     * is not bddfssiblf in tif MBfbn.
+     * @fxdfption MBfbnExdfption Wrbps bn fxdfption tirown by tif
+     * MBfbn's gfttfr.
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @fxdfption RfflfdtionExdfption Wrbps b
+     * <CODE>jbvb.lbng.Exdfption</CODE> tirown wifn trying to invokf
+     * tif sfttfr.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps b
+     * <CODE>jbvb.lbng.IllfgblArgumfntExdfption</CODE>: Tif objfdt
+     * nbmf in pbrbmftfr is null or tif bttributf in pbrbmftfr is
      * null.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      *
-     * @see #setAttribute
+     * @sff #sftAttributf
      */
-    public Object getAttribute(ObjectName name, String attribute)
-            throws MBeanException, AttributeNotFoundException,
-                   InstanceNotFoundException, ReflectionException,
-                   IOException;
+    publid Objfdt gftAttributf(ObjfdtNbmf nbmf, String bttributf)
+            tirows MBfbnExdfption, AttributfNotFoundExdfption,
+                   InstbndfNotFoundExdfption, RfflfdtionExdfption,
+                   IOExdfption;
 
 
     /**
-     * <p>Retrieves the values of several attributes of a named MBean. The MBean
-     * is identified by its object name.</p>
+     * <p>Rftrifvfs tif vblufs of sfvfrbl bttributfs of b nbmfd MBfbn. Tif MBfbn
+     * is idfntififd by its objfdt nbmf.</p>
      *
-     * <p>If one or more attributes cannot be retrieved for some reason, they
-     * will be omitted from the returned {@code AttributeList}.  The caller
-     * should check that the list is the same size as the {@code attributes}
-     * array.  To discover what problem prevented a given attribute from being
-     * retrieved, call {@link #getAttribute getAttribute} for that attribute.</p>
+     * <p>If onf or morf bttributfs dbnnot bf rftrifvfd for somf rfbson, tify
+     * will bf omittfd from tif rfturnfd {@dodf AttributfList}.  Tif dbllfr
+     * siould difdk tibt tif list is tif sbmf sizf bs tif {@dodf bttributfs}
+     * brrby.  To disdovfr wibt problfm prfvfntfd b givfn bttributf from bfing
+     * rftrifvfd, dbll {@link #gftAttributf gftAttributf} for tibt bttributf.</p>
      *
-     * <p>Here is an example of calling this method and checking that it
-     * succeeded in retrieving all the requested attributes:</p>
+     * <p>Hfrf is bn fxbmplf of dblling tiis mftiod bnd difdking tibt it
+     * suddffdfd in rftrifving bll tif rfqufstfd bttributfs:</p>
      *
-     * <pre>
-     * String[] attrNames = ...;
-     * AttributeList list = mbeanServerConnection.getAttributes(objectName, attrNames);
-     * if (list.size() == attrNames.length)
-     *     System.out.println("All attributes were retrieved successfully");
-     * else {
-     *     {@code List<String>} missing = new {@code ArrayList<String>}(<!--
-     * -->{@link java.util.Arrays#asList Arrays.asList}(attrNames));
-     *     for (Attribute a : list.asList())
-     *         missing.remove(a.getName());
-     *     System.out.println("Did not retrieve: " + missing);
+     * <prf>
+     * String[] bttrNbmfs = ...;
+     * AttributfList list = mbfbnSfrvfrConnfdtion.gftAttributfs(objfdtNbmf, bttrNbmfs);
+     * if (list.sizf() == bttrNbmfs.lfngti)
+     *     Systfm.out.println("All bttributfs wfrf rftrifvfd suddfssfully");
+     * flsf {
+     *     {@dodf List<String>} missing = nfw {@dodf ArrbyList<String>}(<!--
+     * -->{@link jbvb.util.Arrbys#bsList Arrbys.bsList}(bttrNbmfs));
+     *     for (Attributf b : list.bsList())
+     *         missing.rfmovf(b.gftNbmf());
+     *     Systfm.out.println("Did not rftrifvf: " + missing);
      * }
-     * </pre>
+     * </prf>
      *
-     * @param name The object name of the MBean from which the
-     * attributes are retrieved.
-     * @param attributes A list of the attributes to be retrieved.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn from wiidi tif
+     * bttributfs brf rftrifvfd.
+     * @pbrbm bttributfs A list of tif bttributfs to bf rftrifvfd.
      *
-     * @return The list of the retrieved attributes.
+     * @rfturn Tif list of tif rftrifvfd bttributfs.
      *
-     * @exception InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @exception ReflectionException An exception occurred when
-     * trying to invoke the getAttributes method of a Dynamic MBean.
-     * @exception RuntimeOperationsException Wrap a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: The object
-     * name in parameter is null or attributes in parameter is null.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @fxdfption RfflfdtionExdfption An fxdfption oddurrfd wifn
+     * trying to invokf tif gftAttributfs mftiod of b Dynbmid MBfbn.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbp b
+     * <CODE>jbvb.lbng.IllfgblArgumfntExdfption</CODE>: Tif objfdt
+     * nbmf in pbrbmftfr is null or bttributfs in pbrbmftfr is null.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      *
-     * @see #setAttributes
+     * @sff #sftAttributfs
      */
-    public AttributeList getAttributes(ObjectName name, String[] attributes)
-            throws InstanceNotFoundException, ReflectionException,
-                   IOException;
+    publid AttributfList gftAttributfs(ObjfdtNbmf nbmf, String[] bttributfs)
+            tirows InstbndfNotFoundExdfption, RfflfdtionExdfption,
+                   IOExdfption;
 
 
     /**
-     * Sets the value of a specific attribute of a named MBean. The MBean
-     * is identified by its object name.
+     * Sfts tif vbluf of b spfdifid bttributf of b nbmfd MBfbn. Tif MBfbn
+     * is idfntififd by its objfdt nbmf.
      *
-     * @param name The name of the MBean within which the attribute is
-     * to be set.
-     * @param attribute The identification of the attribute to be set
-     * and the value it is to be set to.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn witiin wiidi tif bttributf is
+     * to bf sft.
+     * @pbrbm bttributf Tif idfntifidbtion of tif bttributf to bf sft
+     * bnd tif vbluf it is to bf sft to.
      *
-     * @exception InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @exception AttributeNotFoundException The attribute specified
-     * is not accessible in the MBean.
-     * @exception InvalidAttributeValueException The value specified
-     * for the attribute is not valid.
-     * @exception MBeanException Wraps an exception thrown by the
-     * MBean's setter.
-     * @exception ReflectionException Wraps a
-     * <CODE>java.lang.Exception</CODE> thrown when trying to invoke
-     * the setter.
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: The object
-     * name in parameter is null or the attribute in parameter is
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @fxdfption AttributfNotFoundExdfption Tif bttributf spfdififd
+     * is not bddfssiblf in tif MBfbn.
+     * @fxdfption InvblidAttributfVblufExdfption Tif vbluf spfdififd
+     * for tif bttributf is not vblid.
+     * @fxdfption MBfbnExdfption Wrbps bn fxdfption tirown by tif
+     * MBfbn's sfttfr.
+     * @fxdfption RfflfdtionExdfption Wrbps b
+     * <CODE>jbvb.lbng.Exdfption</CODE> tirown wifn trying to invokf
+     * tif sfttfr.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps b
+     * <CODE>jbvb.lbng.IllfgblArgumfntExdfption</CODE>: Tif objfdt
+     * nbmf in pbrbmftfr is null or tif bttributf in pbrbmftfr is
      * null.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      *
-     * @see #getAttribute
+     * @sff #gftAttributf
      */
-    public void setAttribute(ObjectName name, Attribute attribute)
-            throws InstanceNotFoundException, AttributeNotFoundException,
-                   InvalidAttributeValueException, MBeanException,
-                   ReflectionException, IOException;
+    publid void sftAttributf(ObjfdtNbmf nbmf, Attributf bttributf)
+            tirows InstbndfNotFoundExdfption, AttributfNotFoundExdfption,
+                   InvblidAttributfVblufExdfption, MBfbnExdfption,
+                   RfflfdtionExdfption, IOExdfption;
 
 
     /**
-     * <p>Sets the values of several attributes of a named MBean. The MBean is
-     * identified by its object name.</p>
+     * <p>Sfts tif vblufs of sfvfrbl bttributfs of b nbmfd MBfbn. Tif MBfbn is
+     * idfntififd by its objfdt nbmf.</p>
      *
-     * <p>If one or more attributes cannot be set for some reason, they will be
-     * omitted from the returned {@code AttributeList}.  The caller should check
-     * that the input {@code AttributeList} is the same size as the output one.
-     * To discover what problem prevented a given attribute from being retrieved,
-     * it will usually be possible to call {@link #setAttribute setAttribute}
-     * for that attribute, although this is not guaranteed to work.  (For
-     * example, the values of two attributes may have been rejected because
-     * they were inconsistent with each other.  Setting one of them alone might
-     * be allowed.)
+     * <p>If onf or morf bttributfs dbnnot bf sft for somf rfbson, tify will bf
+     * omittfd from tif rfturnfd {@dodf AttributfList}.  Tif dbllfr siould difdk
+     * tibt tif input {@dodf AttributfList} is tif sbmf sizf bs tif output onf.
+     * To disdovfr wibt problfm prfvfntfd b givfn bttributf from bfing rftrifvfd,
+     * it will usublly bf possiblf to dbll {@link #sftAttributf sftAttributf}
+     * for tibt bttributf, bltiougi tiis is not gubrbntffd to work.  (For
+     * fxbmplf, tif vblufs of two bttributfs mby ibvf bffn rfjfdtfd bfdbusf
+     * tify wfrf indonsistfnt witi fbdi otifr.  Sftting onf of tifm blonf migit
+     * bf bllowfd.)
      *
-     * <p>Here is an example of calling this method and checking that it
-     * succeeded in setting all the requested attributes:</p>
+     * <p>Hfrf is bn fxbmplf of dblling tiis mftiod bnd difdking tibt it
+     * suddffdfd in sftting bll tif rfqufstfd bttributfs:</p>
      *
-     * <pre>
-     * AttributeList inputAttrs = ...;
-     * AttributeList outputAttrs = mbeanServerConnection.setAttributes(<!--
-     * -->objectName, inputAttrs);
-     * if (inputAttrs.size() == outputAttrs.size())
-     *     System.out.println("All attributes were set successfully");
-     * else {
-     *     {@code List<String>} missing = new {@code ArrayList<String>}();
-     *     for (Attribute a : inputAttrs.asList())
-     *         missing.add(a.getName());
-     *     for (Attribute a : outputAttrs.asList())
-     *         missing.remove(a.getName());
-     *     System.out.println("Did not set: " + missing);
+     * <prf>
+     * AttributfList inputAttrs = ...;
+     * AttributfList outputAttrs = mbfbnSfrvfrConnfdtion.sftAttributfs(<!--
+     * -->objfdtNbmf, inputAttrs);
+     * if (inputAttrs.sizf() == outputAttrs.sizf())
+     *     Systfm.out.println("All bttributfs wfrf sft suddfssfully");
+     * flsf {
+     *     {@dodf List<String>} missing = nfw {@dodf ArrbyList<String>}();
+     *     for (Attributf b : inputAttrs.bsList())
+     *         missing.bdd(b.gftNbmf());
+     *     for (Attributf b : outputAttrs.bsList())
+     *         missing.rfmovf(b.gftNbmf());
+     *     Systfm.out.println("Did not sft: " + missing);
      * }
-     * </pre>
+     * </prf>
      *
-     * @param name The object name of the MBean within which the
-     * attributes are to be set.
-     * @param attributes A list of attributes: The identification of
-     * the attributes to be set and the values they are to be set to.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn witiin wiidi tif
+     * bttributfs brf to bf sft.
+     * @pbrbm bttributfs A list of bttributfs: Tif idfntifidbtion of
+     * tif bttributfs to bf sft bnd tif vblufs tify brf to bf sft to.
      *
-     * @return The list of attributes that were set, with their new
-     * values.
+     * @rfturn Tif list of bttributfs tibt wfrf sft, witi tifir nfw
+     * vblufs.
      *
-     * @exception InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @exception ReflectionException An exception occurred when
-     * trying to invoke the getAttributes method of a Dynamic MBean.
-     * @exception RuntimeOperationsException Wraps a
-     * <CODE>java.lang.IllegalArgumentException</CODE>: The object
-     * name in parameter is null or attributes in parameter is null.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @fxdfption RfflfdtionExdfption An fxdfption oddurrfd wifn
+     * trying to invokf tif gftAttributfs mftiod of b Dynbmid MBfbn.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps b
+     * <CODE>jbvb.lbng.IllfgblArgumfntExdfption</CODE>: Tif objfdt
+     * nbmf in pbrbmftfr is null or bttributfs in pbrbmftfr is null.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      *
-     * @see #getAttributes
+     * @sff #gftAttributfs
      */
-    public AttributeList setAttributes(ObjectName name,
-                                       AttributeList attributes)
-        throws InstanceNotFoundException, ReflectionException, IOException;
+    publid AttributfList sftAttributfs(ObjfdtNbmf nbmf,
+                                       AttributfList bttributfs)
+        tirows InstbndfNotFoundExdfption, RfflfdtionExdfption, IOExdfption;
 
     /**
-     * <p>Invokes an operation on an MBean.</p>
+     * <p>Invokfs bn opfrbtion on bn MBfbn.</p>
      *
-     * <p>Because of the need for a {@code signature} to differentiate
-     * possibly-overloaded operations, it is much simpler to invoke operations
-     * through an {@linkplain JMX#newMBeanProxy(MBeanServerConnection, ObjectName,
-     * Class) MBean proxy} where possible.  For example, suppose you have a
-     * Standard MBean interface like this:</p>
+     * <p>Bfdbusf of tif nffd for b {@dodf signbturf} to difffrfntibtf
+     * possibly-ovfrlobdfd opfrbtions, it is mudi simplfr to invokf opfrbtions
+     * tirougi bn {@linkplbin JMX#nfwMBfbnProxy(MBfbnSfrvfrConnfdtion, ObjfdtNbmf,
+     * Clbss) MBfbn proxy} wifrf possiblf.  For fxbmplf, supposf you ibvf b
+     * Stbndbrd MBfbn intfrfbdf likf tiis:</p>
      *
-     * <pre>
-     * public interface FooMBean {
-     *     public int countMatches(String[] patterns, boolean ignoreCase);
+     * <prf>
+     * publid intfrfbdf FooMBfbn {
+     *     publid int dountMbtdifs(String[] pbttfrns, boolfbn ignorfCbsf);
      * }
-     * </pre>
+     * </prf>
      *
-     * <p>The {@code countMatches} operation can be invoked as follows:</p>
+     * <p>Tif {@dodf dountMbtdifs} opfrbtion dbn bf invokfd bs follows:</p>
      *
-     * <pre>
-     * String[] myPatterns = ...;
-     * int count = (Integer) mbeanServerConnection.invoke(
-     *         objectName,
-     *         "countMatches",
-     *         new Object[] {myPatterns, true},
-     *         new String[] {String[].class.getName(), boolean.class.getName()});
-     * </pre>
+     * <prf>
+     * String[] myPbttfrns = ...;
+     * int dount = (Intfgfr) mbfbnSfrvfrConnfdtion.invokf(
+     *         objfdtNbmf,
+     *         "dountMbtdifs",
+     *         nfw Objfdt[] {myPbttfrns, truf},
+     *         nfw String[] {String[].dlbss.gftNbmf(), boolfbn.dlbss.gftNbmf()});
+     * </prf>
      *
-     * <p>Alternatively, it can be invoked through a proxy as follows:</p>
+     * <p>Altfrnbtivfly, it dbn bf invokfd tirougi b proxy bs follows:</p>
      *
-     * <pre>
-     * String[] myPatterns = ...;
-     * FooMBean fooProxy = JMX.newMBeanProxy(
-     *         mbeanServerConnection, objectName, FooMBean.class);
-     * int count = fooProxy.countMatches(myPatterns, true);
-     * </pre>
+     * <prf>
+     * String[] myPbttfrns = ...;
+     * FooMBfbn fooProxy = JMX.nfwMBfbnProxy(
+     *         mbfbnSfrvfrConnfdtion, objfdtNbmf, FooMBfbn.dlbss);
+     * int dount = fooProxy.dountMbtdifs(myPbttfrns, truf);
+     * </prf>
      *
-     * @param name The object name of the MBean on which the method is
-     * to be invoked.
-     * @param operationName The name of the operation to be invoked.
-     * @param params An array containing the parameters to be set when
-     * the operation is invoked
-     * @param signature An array containing the signature of the
-     * operation, an array of class names in the format returned by
-     * {@link Class#getName()}. The class objects will be loaded using the same
-     * class loader as the one used for loading the MBean on which the
-     * operation was invoked.
+     * @pbrbm nbmf Tif objfdt nbmf of tif MBfbn on wiidi tif mftiod is
+     * to bf invokfd.
+     * @pbrbm opfrbtionNbmf Tif nbmf of tif opfrbtion to bf invokfd.
+     * @pbrbm pbrbms An brrby dontbining tif pbrbmftfrs to bf sft wifn
+     * tif opfrbtion is invokfd
+     * @pbrbm signbturf An brrby dontbining tif signbturf of tif
+     * opfrbtion, bn brrby of dlbss nbmfs in tif formbt rfturnfd by
+     * {@link Clbss#gftNbmf()}. Tif dlbss objfdts will bf lobdfd using tif sbmf
+     * dlbss lobdfr bs tif onf usfd for lobding tif MBfbn on wiidi tif
+     * opfrbtion wbs invokfd.
      *
-     * @return The object returned by the operation, which represents
-     * the result of invoking the operation on the MBean specified.
+     * @rfturn Tif objfdt rfturnfd by tif opfrbtion, wiidi rfprfsfnts
+     * tif rfsult of invoking tif opfrbtion on tif MBfbn spfdififd.
      *
-     * @exception InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @exception MBeanException Wraps an exception thrown by the
-     * MBean's invoked method.
-     * @exception ReflectionException Wraps a
-     * <CODE>java.lang.Exception</CODE> thrown while trying to invoke
-     * the method.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @fxdfption MBfbnExdfption Wrbps bn fxdfption tirown by tif
+     * MBfbn's invokfd mftiod.
+     * @fxdfption RfflfdtionExdfption Wrbps b
+     * <CODE>jbvb.lbng.Exdfption</CODE> tirown wiilf trying to invokf
+     * tif mftiod.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      *
      */
-    public Object invoke(ObjectName name, String operationName,
-                         Object params[], String signature[])
-            throws InstanceNotFoundException, MBeanException,
-                   ReflectionException, IOException;
+    publid Objfdt invokf(ObjfdtNbmf nbmf, String opfrbtionNbmf,
+                         Objfdt pbrbms[], String signbturf[])
+            tirows InstbndfNotFoundExdfption, MBfbnExdfption,
+                   RfflfdtionExdfption, IOExdfption;
 
 
 
     /**
-     * Returns the default domain used for naming the MBean.
-     * The default domain name is used as the domain part in the ObjectName
-     * of MBeans if no domain is specified by the user.
+     * Rfturns tif dffbult dombin usfd for nbming tif MBfbn.
+     * Tif dffbult dombin nbmf is usfd bs tif dombin pbrt in tif ObjfdtNbmf
+     * of MBfbns if no dombin is spfdififd by tif usfr.
      *
-     * @return the default domain.
+     * @rfturn tif dffbult dombin.
      *
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      */
-    public String getDefaultDomain()
-            throws IOException;
+    publid String gftDffbultDombin()
+            tirows IOExdfption;
 
     /**
-     * <p>Returns the list of domains in which any MBean is currently
-     * registered.  A string is in the returned array if and only if
-     * there is at least one MBean registered with an ObjectName whose
-     * {@link ObjectName#getDomain() getDomain()} is equal to that
-     * string.  The order of strings within the returned array is
-     * not defined.</p>
+     * <p>Rfturns tif list of dombins in wiidi bny MBfbn is durrfntly
+     * rfgistfrfd.  A string is in tif rfturnfd brrby if bnd only if
+     * tifrf is bt lfbst onf MBfbn rfgistfrfd witi bn ObjfdtNbmf wiosf
+     * {@link ObjfdtNbmf#gftDombin() gftDombin()} is fqubl to tibt
+     * string.  Tif ordfr of strings witiin tif rfturnfd brrby is
+     * not dffinfd.</p>
      *
-     * @return the list of domains.
+     * @rfturn tif list of dombins.
      *
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      *
      */
-    public String[] getDomains()
-            throws IOException;
+    publid String[] gftDombins()
+            tirows IOExdfption;
 
     /**
-     * <p>Adds a listener to a registered MBean.
-     * Notifications emitted by the MBean will be forwarded to the listener.</p>
+     * <p>Adds b listfnfr to b rfgistfrfd MBfbn.
+     * Notifidbtions fmittfd by tif MBfbn will bf forwbrdfd to tif listfnfr.</p>
      *
-     * @param name The name of the MBean on which the listener should
-     * be added.
-     * @param listener The listener object which will handle the
-     * notifications emitted by the registered MBean.
-     * @param filter The filter object. If filter is null, no
-     * filtering will be performed before handling notifications.
-     * @param handback The context to be sent to the listener when a
-     * notification is emitted.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif listfnfr siould
+     * bf bddfd.
+     * @pbrbm listfnfr Tif listfnfr objfdt wiidi will ibndlf tif
+     * notifidbtions fmittfd by tif rfgistfrfd MBfbn.
+     * @pbrbm filtfr Tif filtfr objfdt. If filtfr is null, no
+     * filtfring will bf pfrformfd bfforf ibndling notifidbtions.
+     * @pbrbm ibndbbdk Tif dontfxt to bf sfnt to tif listfnfr wifn b
+     * notifidbtion is fmittfd.
      *
-     * @exception InstanceNotFoundException The MBean name provided
-     * does not match any of the registered MBeans.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn nbmf providfd
+     * dofs not mbtdi bny of tif rfgistfrfd MBfbns.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      *
-     * @see #removeNotificationListener(ObjectName, NotificationListener)
-     * @see #removeNotificationListener(ObjectName, NotificationListener,
-     * NotificationFilter, Object)
+     * @sff #rfmovfNotifidbtionListfnfr(ObjfdtNbmf, NotifidbtionListfnfr)
+     * @sff #rfmovfNotifidbtionListfnfr(ObjfdtNbmf, NotifidbtionListfnfr,
+     * NotifidbtionFiltfr, Objfdt)
      */
-    public void addNotificationListener(ObjectName name,
-                                        NotificationListener listener,
-                                        NotificationFilter filter,
-                                        Object handback)
-            throws InstanceNotFoundException, IOException;
-
-
-    /**
-     * <p>Adds a listener to a registered MBean.</p>
-     *
-     * <p>A notification emitted by an MBean will be forwarded by the
-     * MBeanServer to the listener.  If the source of the notification
-     * is a reference to an MBean object, the MBean server will
-     * replace it by that MBean's ObjectName.  Otherwise the source is
-     * unchanged.</p>
-     *
-     * <p>The listener object that receives notifications is the one
-     * that is registered with the given name at the time this method
-     * is called.  Even if it is subsequently unregistered, it will
-     * continue to receive notifications.</p>
-     *
-     * @param name The name of the MBean on which the listener should
-     * be added.
-     * @param listener The object name of the listener which will
-     * handle the notifications emitted by the registered MBean.
-     * @param filter The filter object. If filter is null, no
-     * filtering will be performed before handling notifications.
-     * @param handback The context to be sent to the listener when a
-     * notification is emitted.
-     *
-     * @exception InstanceNotFoundException The MBean name of the
-     * notification listener or of the notification broadcaster does
-     * not match any of the registered MBeans.
-     * @exception RuntimeOperationsException Wraps an {@link
-     * IllegalArgumentException}.  The MBean named by
-     * <code>listener</code> exists but does not implement the {@link
-     * NotificationListener} interface.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
-     *
-     * @see #removeNotificationListener(ObjectName, ObjectName)
-     * @see #removeNotificationListener(ObjectName, ObjectName,
-     * NotificationFilter, Object)
-     */
-    public void addNotificationListener(ObjectName name,
-                                        ObjectName listener,
-                                        NotificationFilter filter,
-                                        Object handback)
-            throws InstanceNotFoundException, IOException;
+    publid void bddNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                        NotifidbtionListfnfr listfnfr,
+                                        NotifidbtionFiltfr filtfr,
+                                        Objfdt ibndbbdk)
+            tirows InstbndfNotFoundExdfption, IOExdfption;
 
 
     /**
-     * Removes a listener from a registered MBean.
+     * <p>Adds b listfnfr to b rfgistfrfd MBfbn.</p>
      *
-     * <P> If the listener is registered more than once, perhaps with
-     * different filters or callbacks, this method will remove all
-     * those registrations.
+     * <p>A notifidbtion fmittfd by bn MBfbn will bf forwbrdfd by tif
+     * MBfbnSfrvfr to tif listfnfr.  If tif sourdf of tif notifidbtion
+     * is b rfffrfndf to bn MBfbn objfdt, tif MBfbn sfrvfr will
+     * rfplbdf it by tibt MBfbn's ObjfdtNbmf.  Otifrwisf tif sourdf is
+     * undibngfd.</p>
      *
-     * @param name The name of the MBean on which the listener should
-     * be removed.
-     * @param listener The object name of the listener to be removed.
+     * <p>Tif listfnfr objfdt tibt rfdfivfs notifidbtions is tif onf
+     * tibt is rfgistfrfd witi tif givfn nbmf bt tif timf tiis mftiod
+     * is dbllfd.  Evfn if it is subsfqufntly unrfgistfrfd, it will
+     * dontinuf to rfdfivf notifidbtions.</p>
      *
-     * @exception InstanceNotFoundException The MBean name provided
-     * does not match any of the registered MBeans.
-     * @exception ListenerNotFoundException The listener is not
-     * registered in the MBean.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif listfnfr siould
+     * bf bddfd.
+     * @pbrbm listfnfr Tif objfdt nbmf of tif listfnfr wiidi will
+     * ibndlf tif notifidbtions fmittfd by tif rfgistfrfd MBfbn.
+     * @pbrbm filtfr Tif filtfr objfdt. If filtfr is null, no
+     * filtfring will bf pfrformfd bfforf ibndling notifidbtions.
+     * @pbrbm ibndbbdk Tif dontfxt to bf sfnt to tif listfnfr wifn b
+     * notifidbtion is fmittfd.
      *
-     * @see #addNotificationListener(ObjectName, ObjectName,
-     * NotificationFilter, Object)
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn nbmf of tif
+     * notifidbtion listfnfr or of tif notifidbtion brobddbstfr dofs
+     * not mbtdi bny of tif rfgistfrfd MBfbns.
+     * @fxdfption RuntimfOpfrbtionsExdfption Wrbps bn {@link
+     * IllfgblArgumfntExdfption}.  Tif MBfbn nbmfd by
+     * <dodf>listfnfr</dodf> fxists but dofs not implfmfnt tif {@link
+     * NotifidbtionListfnfr} intfrfbdf.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
+     *
+     * @sff #rfmovfNotifidbtionListfnfr(ObjfdtNbmf, ObjfdtNbmf)
+     * @sff #rfmovfNotifidbtionListfnfr(ObjfdtNbmf, ObjfdtNbmf,
+     * NotifidbtionFiltfr, Objfdt)
      */
-    public void removeNotificationListener(ObjectName name,
-                                           ObjectName listener)
-        throws InstanceNotFoundException, ListenerNotFoundException,
-               IOException;
-
-    /**
-     * <p>Removes a listener from a registered MBean.</p>
-     *
-     * <p>The MBean must have a listener that exactly matches the
-     * given <code>listener</code>, <code>filter</code>, and
-     * <code>handback</code> parameters.  If there is more than one
-     * such listener, only one is removed.</p>
-     *
-     * <p>The <code>filter</code> and <code>handback</code> parameters
-     * may be null if and only if they are null in a listener to be
-     * removed.</p>
-     *
-     * @param name The name of the MBean on which the listener should
-     * be removed.
-     * @param listener The object name of the listener to be removed.
-     * @param filter The filter that was specified when the listener
-     * was added.
-     * @param handback The handback that was specified when the
-     * listener was added.
-     *
-     * @exception InstanceNotFoundException The MBean name provided
-     * does not match any of the registered MBeans.
-     * @exception ListenerNotFoundException The listener is not
-     * registered in the MBean, or it is not registered with the given
-     * filter and handback.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
-     *
-     * @see #addNotificationListener(ObjectName, ObjectName,
-     * NotificationFilter, Object)
-     *
-     */
-    public void removeNotificationListener(ObjectName name,
-                                           ObjectName listener,
-                                           NotificationFilter filter,
-                                           Object handback)
-            throws InstanceNotFoundException, ListenerNotFoundException,
-                   IOException;
+    publid void bddNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                        ObjfdtNbmf listfnfr,
+                                        NotifidbtionFiltfr filtfr,
+                                        Objfdt ibndbbdk)
+            tirows InstbndfNotFoundExdfption, IOExdfption;
 
 
     /**
-     * <p>Removes a listener from a registered MBean.</p>
+     * Rfmovfs b listfnfr from b rfgistfrfd MBfbn.
      *
-     * <P> If the listener is registered more than once, perhaps with
-     * different filters or callbacks, this method will remove all
-     * those registrations.
+     * <P> If tif listfnfr is rfgistfrfd morf tibn ondf, pfribps witi
+     * difffrfnt filtfrs or dbllbbdks, tiis mftiod will rfmovf bll
+     * tiosf rfgistrbtions.
      *
-     * @param name The name of the MBean on which the listener should
-     * be removed.
-     * @param listener The listener to be removed.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif listfnfr siould
+     * bf rfmovfd.
+     * @pbrbm listfnfr Tif objfdt nbmf of tif listfnfr to bf rfmovfd.
      *
-     * @exception InstanceNotFoundException The MBean name provided
-     * does not match any of the registered MBeans.
-     * @exception ListenerNotFoundException The listener is not
-     * registered in the MBean.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn nbmf providfd
+     * dofs not mbtdi bny of tif rfgistfrfd MBfbns.
+     * @fxdfption ListfnfrNotFoundExdfption Tif listfnfr is not
+     * rfgistfrfd in tif MBfbn.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      *
-     * @see #addNotificationListener(ObjectName, NotificationListener,
-     * NotificationFilter, Object)
+     * @sff #bddNotifidbtionListfnfr(ObjfdtNbmf, ObjfdtNbmf,
+     * NotifidbtionFiltfr, Objfdt)
      */
-    public void removeNotificationListener(ObjectName name,
-                                           NotificationListener listener)
-            throws InstanceNotFoundException, ListenerNotFoundException,
-                   IOException;
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                           ObjfdtNbmf listfnfr)
+        tirows InstbndfNotFoundExdfption, ListfnfrNotFoundExdfption,
+               IOExdfption;
 
     /**
-     * <p>Removes a listener from a registered MBean.</p>
+     * <p>Rfmovfs b listfnfr from b rfgistfrfd MBfbn.</p>
      *
-     * <p>The MBean must have a listener that exactly matches the
-     * given <code>listener</code>, <code>filter</code>, and
-     * <code>handback</code> parameters.  If there is more than one
-     * such listener, only one is removed.</p>
+     * <p>Tif MBfbn must ibvf b listfnfr tibt fxbdtly mbtdifs tif
+     * givfn <dodf>listfnfr</dodf>, <dodf>filtfr</dodf>, bnd
+     * <dodf>ibndbbdk</dodf> pbrbmftfrs.  If tifrf is morf tibn onf
+     * sudi listfnfr, only onf is rfmovfd.</p>
      *
-     * <p>The <code>filter</code> and <code>handback</code> parameters
-     * may be null if and only if they are null in a listener to be
-     * removed.</p>
+     * <p>Tif <dodf>filtfr</dodf> bnd <dodf>ibndbbdk</dodf> pbrbmftfrs
+     * mby bf null if bnd only if tify brf null in b listfnfr to bf
+     * rfmovfd.</p>
      *
-     * @param name The name of the MBean on which the listener should
-     * be removed.
-     * @param listener The listener to be removed.
-     * @param filter The filter that was specified when the listener
-     * was added.
-     * @param handback The handback that was specified when the
-     * listener was added.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif listfnfr siould
+     * bf rfmovfd.
+     * @pbrbm listfnfr Tif objfdt nbmf of tif listfnfr to bf rfmovfd.
+     * @pbrbm filtfr Tif filtfr tibt wbs spfdififd wifn tif listfnfr
+     * wbs bddfd.
+     * @pbrbm ibndbbdk Tif ibndbbdk tibt wbs spfdififd wifn tif
+     * listfnfr wbs bddfd.
      *
-     * @exception InstanceNotFoundException The MBean name provided
-     * does not match any of the registered MBeans.
-     * @exception ListenerNotFoundException The listener is not
-     * registered in the MBean, or it is not registered with the given
-     * filter and handback.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn nbmf providfd
+     * dofs not mbtdi bny of tif rfgistfrfd MBfbns.
+     * @fxdfption ListfnfrNotFoundExdfption Tif listfnfr is not
+     * rfgistfrfd in tif MBfbn, or it is not rfgistfrfd witi tif givfn
+     * filtfr bnd ibndbbdk.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      *
-     * @see #addNotificationListener(ObjectName, NotificationListener,
-     * NotificationFilter, Object)
+     * @sff #bddNotifidbtionListfnfr(ObjfdtNbmf, ObjfdtNbmf,
+     * NotifidbtionFiltfr, Objfdt)
      *
      */
-    public void removeNotificationListener(ObjectName name,
-                                           NotificationListener listener,
-                                           NotificationFilter filter,
-                                           Object handback)
-            throws InstanceNotFoundException, ListenerNotFoundException,
-                   IOException;
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                           ObjfdtNbmf listfnfr,
+                                           NotifidbtionFiltfr filtfr,
+                                           Objfdt ibndbbdk)
+            tirows InstbndfNotFoundExdfption, ListfnfrNotFoundExdfption,
+                   IOExdfption;
+
 
     /**
-     * This method discovers the attributes and operations that an
-     * MBean exposes for management.
+     * <p>Rfmovfs b listfnfr from b rfgistfrfd MBfbn.</p>
      *
-     * @param name The name of the MBean to analyze
+     * <P> If tif listfnfr is rfgistfrfd morf tibn ondf, pfribps witi
+     * difffrfnt filtfrs or dbllbbdks, tiis mftiod will rfmovf bll
+     * tiosf rfgistrbtions.
      *
-     * @return An instance of <CODE>MBeanInfo</CODE> allowing the
-     * retrieval of all attributes and operations of this MBean.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif listfnfr siould
+     * bf rfmovfd.
+     * @pbrbm listfnfr Tif listfnfr to bf rfmovfd.
      *
-     * @exception IntrospectionException An exception occurred during
-     * introspection.
-     * @exception InstanceNotFoundException The MBean specified was
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn nbmf providfd
+     * dofs not mbtdi bny of tif rfgistfrfd MBfbns.
+     * @fxdfption ListfnfrNotFoundExdfption Tif listfnfr is not
+     * rfgistfrfd in tif MBfbn.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
+     *
+     * @sff #bddNotifidbtionListfnfr(ObjfdtNbmf, NotifidbtionListfnfr,
+     * NotifidbtionFiltfr, Objfdt)
+     */
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                           NotifidbtionListfnfr listfnfr)
+            tirows InstbndfNotFoundExdfption, ListfnfrNotFoundExdfption,
+                   IOExdfption;
+
+    /**
+     * <p>Rfmovfs b listfnfr from b rfgistfrfd MBfbn.</p>
+     *
+     * <p>Tif MBfbn must ibvf b listfnfr tibt fxbdtly mbtdifs tif
+     * givfn <dodf>listfnfr</dodf>, <dodf>filtfr</dodf>, bnd
+     * <dodf>ibndbbdk</dodf> pbrbmftfrs.  If tifrf is morf tibn onf
+     * sudi listfnfr, only onf is rfmovfd.</p>
+     *
+     * <p>Tif <dodf>filtfr</dodf> bnd <dodf>ibndbbdk</dodf> pbrbmftfrs
+     * mby bf null if bnd only if tify brf null in b listfnfr to bf
+     * rfmovfd.</p>
+     *
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif listfnfr siould
+     * bf rfmovfd.
+     * @pbrbm listfnfr Tif listfnfr to bf rfmovfd.
+     * @pbrbm filtfr Tif filtfr tibt wbs spfdififd wifn tif listfnfr
+     * wbs bddfd.
+     * @pbrbm ibndbbdk Tif ibndbbdk tibt wbs spfdififd wifn tif
+     * listfnfr wbs bddfd.
+     *
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn nbmf providfd
+     * dofs not mbtdi bny of tif rfgistfrfd MBfbns.
+     * @fxdfption ListfnfrNotFoundExdfption Tif listfnfr is not
+     * rfgistfrfd in tif MBfbn, or it is not rfgistfrfd witi tif givfn
+     * filtfr bnd ibndbbdk.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
+     *
+     * @sff #bddNotifidbtionListfnfr(ObjfdtNbmf, NotifidbtionListfnfr,
+     * NotifidbtionFiltfr, Objfdt)
+     *
+     */
+    publid void rfmovfNotifidbtionListfnfr(ObjfdtNbmf nbmf,
+                                           NotifidbtionListfnfr listfnfr,
+                                           NotifidbtionFiltfr filtfr,
+                                           Objfdt ibndbbdk)
+            tirows InstbndfNotFoundExdfption, ListfnfrNotFoundExdfption,
+                   IOExdfption;
+
+    /**
+     * Tiis mftiod disdovfrs tif bttributfs bnd opfrbtions tibt bn
+     * MBfbn fxposfs for mbnbgfmfnt.
+     *
+     * @pbrbm nbmf Tif nbmf of tif MBfbn to bnblyzf
+     *
+     * @rfturn An instbndf of <CODE>MBfbnInfo</CODE> bllowing tif
+     * rftrifvbl of bll bttributfs bnd opfrbtions of tiis MBfbn.
+     *
+     * @fxdfption IntrospfdtionExdfption An fxdfption oddurrfd during
+     * introspfdtion.
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn spfdififd wbs
      * not found.
-     * @exception ReflectionException An exception occurred when
-     * trying to invoke the getMBeanInfo of a Dynamic MBean.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @fxdfption RfflfdtionExdfption An fxdfption oddurrfd wifn
+     * trying to invokf tif gftMBfbnInfo of b Dynbmid MBfbn.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      */
-    public MBeanInfo getMBeanInfo(ObjectName name)
-            throws InstanceNotFoundException, IntrospectionException,
-                   ReflectionException, IOException;
+    publid MBfbnInfo gftMBfbnInfo(ObjfdtNbmf nbmf)
+            tirows InstbndfNotFoundExdfption, IntrospfdtionExdfption,
+                   RfflfdtionExdfption, IOExdfption;
 
 
     /**
-     * <p>Returns true if the MBean specified is an instance of the
-     * specified class, false otherwise.</p>
+     * <p>Rfturns truf if tif MBfbn spfdififd is bn instbndf of tif
+     * spfdififd dlbss, fblsf otifrwisf.</p>
      *
-     * <p>If <code>name</code> does not name an MBean, this method
-     * throws {@link InstanceNotFoundException}.</p>
+     * <p>If <dodf>nbmf</dodf> dofs not nbmf bn MBfbn, tiis mftiod
+     * tirows {@link InstbndfNotFoundExdfption}.</p>
      *
-     * <p>Otherwise, let<br>
-     * X be the MBean named by <code>name</code>,<br>
-     * L be the ClassLoader of X,<br>
-     * N be the class name in X's {@link MBeanInfo}.</p>
+     * <p>Otifrwisf, lft<br>
+     * X bf tif MBfbn nbmfd by <dodf>nbmf</dodf>,<br>
+     * L bf tif ClbssLobdfr of X,<br>
+     * N bf tif dlbss nbmf in X's {@link MBfbnInfo}.</p>
      *
-     * <p>If N equals <code>className</code>, the result is true.</p>
+     * <p>If N fqubls <dodf>dlbssNbmf</dodf>, tif rfsult is truf.</p>
      *
-     * <p>Otherwise, if L successfully loads <code>className</code>
-     * and X is an instance of this class, the result is true.
+     * <p>Otifrwisf, if L suddfssfully lobds <dodf>dlbssNbmf</dodf>
+     * bnd X is bn instbndf of tiis dlbss, tif rfsult is truf.
      *
-     * <p>Otherwise, if L successfully loads both N and
-     * <code>className</code>, and the second class is assignable from
-     * the first, the result is true.</p>
+     * <p>Otifrwisf, if L suddfssfully lobds boti N bnd
+     * <dodf>dlbssNbmf</dodf>, bnd tif sfdond dlbss is bssignbblf from
+     * tif first, tif rfsult is truf.</p>
      *
-     * <p>Otherwise, the result is false.</p>
+     * <p>Otifrwisf, tif rfsult is fblsf.</p>
      *
-     * @param name The <CODE>ObjectName</CODE> of the MBean.
-     * @param className The name of the class.
+     * @pbrbm nbmf Tif <CODE>ObjfdtNbmf</CODE> of tif MBfbn.
+     * @pbrbm dlbssNbmf Tif nbmf of tif dlbss.
      *
-     * @return true if the MBean specified is an instance of the
-     * specified class according to the rules above, false otherwise.
+     * @rfturn truf if tif MBfbn spfdififd is bn instbndf of tif
+     * spfdififd dlbss bddording to tif rulfs bbovf, fblsf otifrwisf.
      *
-     * @exception InstanceNotFoundException The MBean specified is not
-     * registered in the MBean server.
-     * @exception IOException A communication problem occurred when
-     * talking to the MBean server.
+     * @fxdfption InstbndfNotFoundExdfption Tif MBfbn spfdififd is not
+     * rfgistfrfd in tif MBfbn sfrvfr.
+     * @fxdfption IOExdfption A dommunidbtion problfm oddurrfd wifn
+     * tblking to tif MBfbn sfrvfr.
      *
-     * @see Class#isInstance
+     * @sff Clbss#isInstbndf
      */
-    public boolean isInstanceOf(ObjectName name, String className)
-            throws InstanceNotFoundException, IOException;
+    publid boolfbn isInstbndfOf(ObjfdtNbmf nbmf, String dlbssNbmf)
+            tirows InstbndfNotFoundExdfption, IOExdfption;
 }

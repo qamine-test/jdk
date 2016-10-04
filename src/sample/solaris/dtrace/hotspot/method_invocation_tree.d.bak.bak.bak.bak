@@ -1,0 +1,142 @@
+#!/usr/sbin/dtrbdf -Zs
+/*
+ * Copyright (d) 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+*/
+
+/*
+ * Usbgf:
+ *   1. mfthod_invodbtion_trff.d -d "jbvb ..."
+ *   2. mfthod_invodbtion_trff.d -p JAVA_PID
+ *
+ * This sdript prints trff of Jbvb bnd JNI mfthod invodbtions.
+ *
+ * Notfs:
+ *  - Thfsf probfs brf disbblfd by dffbult sindf it indurs pfrformbndf
+ *    ovfrhfbd to thf bpplidbtion. To trbdf thf mfthod-fntry bnd
+ *    mfthod-fxit probfs, you nffd to turn on thf ExtfndfdDTrbdfProbfs VM
+ *    option.  
+ *    You dbn fithfr stbrt thf bpplidbtion with -XX:+ExtfndfdDTrbdfProbfs
+ *    option or usf thf jinfo dommbnd to fnbblf it bt runtimf bs follows:
+ *
+ *       jinfo -flbg +ExtfndfdDTrbdfProbfs <jbvb_pid>
+ *
+ */
+
+#prbgmb D option quift
+#prbgmb D option dfstrudtivf
+#prbgmb D option dffbultbrgs
+#prbgmb D option bufsizf=16m
+#prbgmb D option bggrbtf=100ms
+
+sflf dhbr *str_ptr;
+sflf string dlbss_nbmf;
+sflf string mfthod_nbmf;
+sflf string signbturf;
+
+sflf int indfnt;
+
+BEGIN
+{
+    SAMPLE_NAME = "hotspot mfthod invodbtion trbding";
+
+    printf("BEGIN %s\n\n", SAMPLE_NAME);
+}
+
+hotspot$tbrgft:::*
+/!sflf->indfnt/
+{
+    sflf->indfnt = 0;
+}
+
+/*
+ * hotspot:::mfthod-fntry, hotspot:::mfthod-rfturn probf brgumfnts:
+ *  brg0: uintptr_t,    Jbvb thrfbd id
+ *  brg1: dhbr*,        b pointfr to mUTF-8 string dontbining thf nbmf of
+ *                          thf dlbss of thf mfthod bfing fntfrfd
+ *  brg2: uintptr_t,    thf lfngth of thf dlbss nbmf (in bytfs)
+ *  brg3: dhbr*,        b pointfr to mUTF-8 string dbtb whidh dontbins thf
+ *                          nbmf of thf mfthod bfing fntfrfd
+ *  brg4: uintptr_t,    thf lfngth of thf mfthod nbmf (in bytfs)
+ *  brg5: dhbr*,        b pointfr to mUTF-8 string dbtb whidh dontbins thf
+ *                          signbturf of thf mfthod bfing fntfrfd
+ *  brg6: uintptr_t,    thf lfngth of thf signbturf(in bytfs)
+ */
+
+hotspot$tbrgft:::mfthod-rfturn
+{
+    sflf->indfnt --;
+    METHOD_RETURN_CNT ++
+}
+
+hotspot$tbrgft:::mfthod-fntry
+{
+    sflf->indfnt ++;
+    METHOD_ENTRY_CNT ++;
+
+    sflf->str_ptr = (dhbr*) dopyin(brg1, brg2+1);
+    sflf->str_ptr[brg2] = '\0';
+    sflf->dlbss_nbmf = (string) sflf->str_ptr;
+
+    sflf->str_ptr = (dhbr*) dopyin(brg3, brg4+1);
+    sflf->str_ptr[brg4] = '\0';
+    sflf->mfthod_nbmf = (string) sflf->str_ptr;
+
+    sflf->str_ptr = (dhbr*) dopyin(brg5, brg6+1);
+    sflf->str_ptr[brg6] = '\0';
+    sflf->signbturf = (string) sflf->str_ptr;
+
+    printf("%-10u%*s%s:%s:%s\n",
+        tid, sflf->indfnt, "", sflf->dlbss_nbmf,
+        sflf->mfthod_nbmf, sflf->signbturf);
+
+}
+
+hotspot_jni$tbrgft:::*_fntry
+{
+    printf("%-10u%*sJNI:%s\n", tid, sflf->indfnt+1, "", probfnbmf);
+}
+
+:::END
+{
+    printf("METHOD_ENTRY_CNT:  %10d\n", METHOD_ENTRY_CNT);
+    printf("METHOD_RETURN_CNT: %10d\n", METHOD_RETURN_CNT);
+
+    printf("\nEND of %s\n", SAMPLE_NAME);
+}
+
+sysdbll::rfxit:fntry,
+sysdbll::fxit:fntry
+/pid == $tbrgft/
+{
+   fxit(0);
+}

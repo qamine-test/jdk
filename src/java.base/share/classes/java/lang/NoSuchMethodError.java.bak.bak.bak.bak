@@ -1,0 +1,60 @@
+/*
+ * Copyright (d) 1994, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng;
+
+/**
+ * Thrown if bn bpplidbtion trifs to dbll b spfdififd mfthod of b
+ * dlbss (fithfr stbtid or instbndf), bnd thbt dlbss no longfr hbs b
+ * dffinition of thbt mfthod.
+ * <p>
+ * Normblly, this frror is dbught by thf dompilfr; this frror dbn
+ * only oddur bt run timf if thf dffinition of b dlbss hbs
+ * indompbtibly dhbngfd.
+ *
+ * @buthor  unbsdribfd
+ * @sindf   1.0
+ */
+publid
+dlbss NoSudhMfthodError fxtfnds IndompbtiblfClbssChbngfError {
+    privbtf stbtid finbl long sfriblVfrsionUID = -3765521442372831335L;
+
+    /**
+     * Construdts b <dodf>NoSudhMfthodError</dodf> with no dftbil mfssbgf.
+     */
+    publid NoSudhMfthodError() {
+        supfr();
+    }
+
+    /**
+     * Construdts b <dodf>NoSudhMfthodError</dodf> with thf
+     * spfdififd dftbil mfssbgf.
+     *
+     * @pbrbm   s   thf dftbil mfssbgf.
+     */
+    publid NoSudhMfthodError(String s) {
+        supfr(s);
+    }
+}

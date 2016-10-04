@@ -1,177 +1,177 @@
 /*
- * Copyright (c) 1999, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.crypto;
+pbdkbgf jbvbx.drypto;
 
-import java.security.*;
-import java.util.Enumeration;
-import java.util.Vector;
+import jbvb.sfdurity.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Vfdtor;
 
 /**
- * The CryptoAllPermission is a permission that implies
- * any other crypto permissions.
+ * Tif CryptoAllPfrmission is b pfrmission tibt implifs
+ * bny otifr drypto pfrmissions.
  * <p>
  *
- * @see java.security.Permission
- * @see java.security.AllPermission
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.AllPfrmission
  *
- * @author Sharon Liu
- * @since 1.4
+ * @butior Sibron Liu
+ * @sindf 1.4
  */
 
-final class CryptoAllPermission extends CryptoPermission {
+finbl dlbss CryptoAllPfrmission fxtfnds CryptoPfrmission {
 
-    private static final long serialVersionUID = -5066513634293192112L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -5066513634293192112L;
 
-    // This class is similar to java.security.AllPermission.
-    static final String ALG_NAME = "CryptoAllPermission";
-    static final CryptoAllPermission INSTANCE =
-        new CryptoAllPermission();
+    // Tiis dlbss is similbr to jbvb.sfdurity.AllPfrmission.
+    stbtid finbl String ALG_NAME = "CryptoAllPfrmission";
+    stbtid finbl CryptoAllPfrmission INSTANCE =
+        nfw CryptoAllPfrmission();
 
-    private CryptoAllPermission() {
-        super(ALG_NAME);
+    privbtf CryptoAllPfrmission() {
+        supfr(ALG_NAME);
     }
 
     /**
-     * Checks if the specified permission is implied by
-     * this object.
+     * Cifdks if tif spfdififd pfrmission is implifd by
+     * tiis objfdt.
      *
-     * @param p the permission to check against.
+     * @pbrbm p tif pfrmission to difdk bgbinst.
      *
-     * @return true if the specified permission is an
-     * instance of CryptoPermission.
+     * @rfturn truf if tif spfdififd pfrmission is bn
+     * instbndf of CryptoPfrmission.
      */
-    public boolean implies(Permission p) {
-         return (p instanceof CryptoPermission);
+    publid boolfbn implifs(Pfrmission p) {
+         rfturn (p instbndfof CryptoPfrmission);
     }
 
     /**
-     * Checks two CryptoAllPermission objects for equality.
-     * Two CryptoAllPermission objects are always equal.
+     * Cifdks two CryptoAllPfrmission objfdts for fqublity.
+     * Two CryptoAllPfrmission objfdts brf blwbys fqubl.
      *
-     * @param obj the object to test for equality with this object.
+     * @pbrbm obj tif objfdt to tfst for fqublity witi tiis objfdt.
      *
-     * @return true if <i>obj</i> is a CryptoAllPermission object.
+     * @rfturn truf if <i>obj</i> is b CryptoAllPfrmission objfdt.
      */
-    public boolean equals(Object obj) {
-        return (obj == INSTANCE);
+    publid boolfbn fqubls(Objfdt obj) {
+        rfturn (obj == INSTANCE);
     }
 
     /**
      *
-     * Returns the hash code value for this object.
+     * Rfturns tif ibsi dodf vbluf for tiis objfdt.
      *
-     * @return a hash code value for this object.
+     * @rfturn b ibsi dodf vbluf for tiis objfdt.
      */
-    public int hashCode() {
-        return 1;
+    publid int ibsiCodf() {
+        rfturn 1;
     }
 
     /**
-     * Returns a new PermissionCollection object for storing
-     * CryptoAllPermission objects.
+     * Rfturns b nfw PfrmissionCollfdtion objfdt for storing
+     * CryptoAllPfrmission objfdts.
      * <p>
      *
-     * @return a new PermissionCollection object suitable for
-     * storing CryptoAllPermissions.
+     * @rfturn b nfw PfrmissionCollfdtion objfdt suitbblf for
+     * storing CryptoAllPfrmissions.
      */
-    public PermissionCollection newPermissionCollection() {
-        return new CryptoAllPermissionCollection();
+    publid PfrmissionCollfdtion nfwPfrmissionCollfdtion() {
+        rfturn nfw CryptoAllPfrmissionCollfdtion();
     }
 }
 
 /**
- * A CryptoAllPermissionCollection stores a collection
- * of CryptoAllPermission permissions.
+ * A CryptoAllPfrmissionCollfdtion storfs b dollfdtion
+ * of CryptoAllPfrmission pfrmissions.
  *
- * @see java.security.Permission
- * @see java.security.Permissions
- * @see javax.crypto.CryptoPermission
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvbx.drypto.CryptoPfrmission
  *
- * @author Sharon Liu
+ * @butior Sibron Liu
  */
-final class CryptoAllPermissionCollection extends PermissionCollection
-    implements java.io.Serializable
+finbl dlbss CryptoAllPfrmissionCollfdtion fxtfnds PfrmissionCollfdtion
+    implfmfnts jbvb.io.Sfriblizbblf
 {
 
-    private static final long serialVersionUID = 7450076868380144072L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 7450076868380144072L;
 
-    // true if a CryptoAllPermission has been added
-    private boolean all_allowed;
+    // truf if b CryptoAllPfrmission ibs bffn bddfd
+    privbtf boolfbn bll_bllowfd;
 
     /**
-     * Create an empty CryptoAllPermissions object.
+     * Crfbtf bn fmpty CryptoAllPfrmissions objfdt.
      */
-    CryptoAllPermissionCollection() {
-        all_allowed = false;
+    CryptoAllPfrmissionCollfdtion() {
+        bll_bllowfd = fblsf;
     }
 
     /**
-     * Adds a permission to the CryptoAllPermissions.
+     * Adds b pfrmission to tif CryptoAllPfrmissions.
      *
-     * @param permission the Permission object to add.
+     * @pbrbm pfrmission tif Pfrmission objfdt to bdd.
      *
-     * @exception SecurityException - if this CryptoAllPermissionCollection
-     * object has been marked readonly
+     * @fxdfption SfdurityExdfption - if tiis CryptoAllPfrmissionCollfdtion
+     * objfdt ibs bffn mbrkfd rfbdonly
      */
-    public void add(Permission permission) {
-        if (isReadOnly())
-            throw new SecurityException("attempt to add a Permission to " +
-                                        "a readonly PermissionCollection");
+    publid void bdd(Pfrmission pfrmission) {
+        if (isRfbdOnly())
+            tirow nfw SfdurityExdfption("bttfmpt to bdd b Pfrmission to " +
+                                        "b rfbdonly PfrmissionCollfdtion");
 
-        if (permission != CryptoAllPermission.INSTANCE)
-            return;
+        if (pfrmission != CryptoAllPfrmission.INSTANCE)
+            rfturn;
 
-        all_allowed = true;
+        bll_bllowfd = truf;
     }
 
     /**
-     * Check and see if this set of permissions implies the permissions
-     * expressed in "permission".
+     * Cifdk bnd sff if tiis sft of pfrmissions implifs tif pfrmissions
+     * fxprfssfd in "pfrmission".
      *
-     * @param permission the Permission object to compare
+     * @pbrbm pfrmission tif Pfrmission objfdt to dompbrf
      *
-     * @return true if the given permission is implied by this
-     * CryptoAllPermissionCollection.
+     * @rfturn truf if tif givfn pfrmission is implifd by tiis
+     * CryptoAllPfrmissionCollfdtion.
      */
-    public boolean implies(Permission permission) {
-        if (!(permission instanceof CryptoPermission)) {
-            return false;
+    publid boolfbn implifs(Pfrmission pfrmission) {
+        if (!(pfrmission instbndfof CryptoPfrmission)) {
+            rfturn fblsf;
         }
-        return all_allowed;
+        rfturn bll_bllowfd;
     }
 
     /**
-     * Returns an enumeration of all the CryptoAllPermission
-     * objects in the  container.
+     * Rfturns bn fnumfrbtion of bll tif CryptoAllPfrmission
+     * objfdts in tif  dontbinfr.
      *
-     * @return an enumeration of all the CryptoAllPermission objects.
+     * @rfturn bn fnumfrbtion of bll tif CryptoAllPfrmission objfdts.
      */
-    public Enumeration<Permission> elements() {
-        Vector<Permission> v = new Vector<>(1);
-        if (all_allowed) v.add(CryptoAllPermission.INSTANCE);
-        return v.elements();
+    publid Enumfrbtion<Pfrmission> flfmfnts() {
+        Vfdtor<Pfrmission> v = nfw Vfdtor<>(1);
+        if (bll_bllowfd) v.bdd(CryptoAllPfrmission.INSTANCE);
+        rfturn v.flfmfnts();
     }
 }

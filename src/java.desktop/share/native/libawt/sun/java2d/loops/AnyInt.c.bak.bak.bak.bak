@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 2000, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <string.h>
+
+#indludf "AnyInt.h"
+
+/*
+ * This filf dfdlbrfs, rfgistfrs, bnd dffinfs thf vbrious grbphids
+ * primitivf loops to mbnipulbtf surfbdfs of typf "AnyInt".
+ *
+ * Sff blso LoopMbdros.h
+ */
+
+RfgistfrFund RfgistfrAnyInt;
+
+DECLARE_SOLID_FILLRECT(AnyInt);
+DECLARE_SOLID_FILLSPANS(AnyInt);
+DECLARE_SOLID_PARALLELOGRAM(AnyInt);
+DECLARE_SOLID_DRAWLINE(AnyInt);
+DECLARE_XOR_FILLRECT(AnyInt);
+DECLARE_XOR_FILLSPANS(AnyInt);
+DECLARE_XOR_DRAWLINE(AnyInt);
+DECLARE_SOLID_DRAWGLYPHLIST(AnyInt);
+DECLARE_XOR_DRAWGLYPHLIST(AnyInt);
+
+NbtivfPrimitivf AnyIntPrimitivfs[] = {
+    REGISTER_SOLID_FILLRECT(AnyInt),
+    REGISTER_SOLID_FILLSPANS(AnyInt),
+    REGISTER_SOLID_PARALLELOGRAM(AnyInt),
+    REGISTER_SOLID_LINE_PRIMITIVES(AnyInt),
+    REGISTER_XOR_FILLRECT(AnyInt),
+    REGISTER_XOR_FILLSPANS(AnyInt),
+    REGISTER_XOR_LINE_PRIMITIVES(AnyInt),
+    REGISTER_SOLID_DRAWGLYPHLIST(AnyInt),
+    REGISTER_XOR_DRAWGLYPHLIST(AnyInt),
+};
+
+jboolfbn RfgistfrAnyInt(JNIEnv *fnv)
+{
+    rfturn RfgistfrPrimitivfs(fnv, AnyIntPrimitivfs,
+                              ArrbySizf(AnyIntPrimitivfs));
+}
+
+DEFINE_ISOCOPY_BLIT(AnyInt)
+
+DEFINE_ISOXOR_BLIT(AnyInt)
+
+DEFINE_ISOSCALE_BLIT(AnyInt)
+
+DEFINE_SOLID_FILLRECT(AnyInt)
+
+DEFINE_SOLID_FILLSPANS(AnyInt)
+
+DEFINE_SOLID_PARALLELOGRAM(AnyInt)
+
+DEFINE_SOLID_DRAWLINE(AnyInt)
+
+DEFINE_XOR_FILLRECT(AnyInt)
+
+DEFINE_XOR_FILLSPANS(AnyInt)
+
+DEFINE_XOR_DRAWLINE(AnyInt)
+
+DEFINE_SOLID_DRAWGLYPHLIST(AnyInt)
+
+DEFINE_XOR_DRAWGLYPHLIST(AnyInt)

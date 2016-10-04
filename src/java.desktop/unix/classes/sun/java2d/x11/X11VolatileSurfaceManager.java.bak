@@ -1,128 +1,128 @@
 /*
- * Copyright (c) 2000, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.x11;
+pbdkbgf sun.jbvb2d.x11;
 
-import java.awt.GraphicsConfiguration;
-import java.awt.ImageCapabilities;
-import java.awt.Transparency;
-import java.awt.image.ColorModel;
-import sun.awt.X11GraphicsConfig;
-import sun.awt.image.SunVolatileImage;
-import sun.awt.image.VolatileSurfaceManager;
-import sun.java2d.SurfaceData;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.ImbgfCbpbbilitifs;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.imbgf.ColorModfl;
+import sun.bwt.X11GrbpiidsConfig;
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+import sun.bwt.imbgf.VolbtilfSurfbdfMbnbgfr;
+import sun.jbvb2d.SurfbdfDbtb;
 
 /**
- * X11 platform implementation of the VolatileSurfaceManager class.
- * The class attempts to create and use a pixmap-based SurfaceData
- * object (X11PixmapSurfaceData).
- * If this object cannot be created or re-created as necessary, the
- * class falls back to a system memory based SurfaceData object
- * (BufImgSurfaceData) that will be used until the accelerated
- * SurfaceData can be restored.
+ * X11 plbtform implfmfntbtion of tif VolbtilfSurfbdfMbnbgfr dlbss.
+ * Tif dlbss bttfmpts to drfbtf bnd usf b pixmbp-bbsfd SurfbdfDbtb
+ * objfdt (X11PixmbpSurfbdfDbtb).
+ * If tiis objfdt dbnnot bf drfbtfd or rf-drfbtfd bs nfdfssbry, tif
+ * dlbss fblls bbdk to b systfm mfmory bbsfd SurfbdfDbtb objfdt
+ * (BufImgSurfbdfDbtb) tibt will bf usfd until tif bddflfrbtfd
+ * SurfbdfDbtb dbn bf rfstorfd.
  */
-public class X11VolatileSurfaceManager extends VolatileSurfaceManager {
+publid dlbss X11VolbtilfSurfbdfMbnbgfr fxtfnds VolbtilfSurfbdfMbnbgfr {
 
-    private boolean accelerationEnabled;
+    privbtf boolfbn bddflfrbtionEnbblfd;
 
-    public X11VolatileSurfaceManager(SunVolatileImage vImg, Object context) {
-        super(vImg, context);
+    publid X11VolbtilfSurfbdfMbnbgfr(SunVolbtilfImbgf vImg, Objfdt dontfxt) {
+        supfr(vImg, dontfxt);
 
-        // We only accelerated opaque vImages currently
-        accelerationEnabled = X11SurfaceData.isAccelerationEnabled() &&
-            (vImg.getTransparency() == Transparency.OPAQUE);
+        // Wf only bddflfrbtfd opbquf vImbgfs durrfntly
+        bddflfrbtionEnbblfd = X11SurfbdfDbtb.isAddflfrbtionEnbblfd() &&
+            (vImg.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE);
 
-        if ((context != null) && !accelerationEnabled) {
-            // if we're wrapping a backbuffer drawable, we must ensure that
-            // the accelerated surface is initialized up front, regardless
-            // of whether acceleration is enabled. But we need to set
-            // the  accelerationEnabled field to true to reflect that this
-            // SM is actually accelerated.
-            accelerationEnabled = true;
-            sdAccel = initAcceleratedSurface();
-            sdCurrent = sdAccel;
+        if ((dontfxt != null) && !bddflfrbtionEnbblfd) {
+            // if wf'rf wrbpping b bbdkbufffr drbwbblf, wf must fnsurf tibt
+            // tif bddflfrbtfd surfbdf is initiblizfd up front, rfgbrdlfss
+            // of wiftifr bddflfrbtion is fnbblfd. But wf nffd to sft
+            // tif  bddflfrbtionEnbblfd fifld to truf to rfflfdt tibt tiis
+            // SM is bdtublly bddflfrbtfd.
+            bddflfrbtionEnbblfd = truf;
+            sdAddfl = initAddflfrbtfdSurfbdf();
+            sdCurrfnt = sdAddfl;
 
-            if (sdBackup != null) {
-                // release the system memory backup surface, as we won't be
-                // needing it in this case
-                sdBackup = null;
+            if (sdBbdkup != null) {
+                // rflfbsf tif systfm mfmory bbdkup surfbdf, bs wf won't bf
+                // nffding it in tiis dbsf
+                sdBbdkup = null;
             }
         }
     }
 
-    protected boolean isAccelerationEnabled() {
-        return accelerationEnabled;
+    protfdtfd boolfbn isAddflfrbtionEnbblfd() {
+        rfturn bddflfrbtionEnbblfd;
     }
 
     /**
-     * Create a pixmap-based SurfaceData object
+     * Crfbtf b pixmbp-bbsfd SurfbdfDbtb objfdt
      */
-    protected SurfaceData initAcceleratedSurface() {
-        SurfaceData sData;
+    protfdtfd SurfbdfDbtb initAddflfrbtfdSurfbdf() {
+        SurfbdfDbtb sDbtb;
 
         try {
-            X11GraphicsConfig gc = (X11GraphicsConfig)vImg.getGraphicsConfig();
-            ColorModel cm = gc.getColorModel();
-            long drawable = 0;
-            if (context instanceof Long) {
-                drawable = ((Long)context).longValue();
+            X11GrbpiidsConfig gd = (X11GrbpiidsConfig)vImg.gftGrbpiidsConfig();
+            ColorModfl dm = gd.gftColorModfl();
+            long drbwbblf = 0;
+            if (dontfxt instbndfof Long) {
+                drbwbblf = ((Long)dontfxt).longVbluf();
             }
-            sData = X11SurfaceData.createData(gc,
-                                              vImg.getWidth(),
-                                              vImg.getHeight(),
-                                              cm, vImg, drawable,
-                                              Transparency.OPAQUE);
-        } catch (NullPointerException ex) {
-            sData = null;
-        } catch (OutOfMemoryError er) {
-            sData = null;
+            sDbtb = X11SurfbdfDbtb.drfbtfDbtb(gd,
+                                              vImg.gftWidti(),
+                                              vImg.gftHfigit(),
+                                              dm, vImg, drbwbblf,
+                                              Trbnspbrfndy.OPAQUE);
+        } dbtdi (NullPointfrExdfption fx) {
+            sDbtb = null;
+        } dbtdi (OutOfMfmoryError fr) {
+            sDbtb = null;
         }
 
-        return sData;
+        rfturn sDbtb;
     }
 
-    protected boolean isConfigValid(GraphicsConfiguration gc) {
-        // REMIND: we might be too paranoid here, requiring that
-        // the GC be exactly the same as the original one.  The
-        // real answer is one that guarantees that pixmap copies
-        // will be correct (which requires like bit depths and
-        // formats).
-        return ((gc == null) || (gc == vImg.getGraphicsConfig()));
+    protfdtfd boolfbn isConfigVblid(GrbpiidsConfigurbtion gd) {
+        // REMIND: wf migit bf too pbrbnoid ifrf, rfquiring tibt
+        // tif GC bf fxbdtly tif sbmf bs tif originbl onf.  Tif
+        // rfbl bnswfr is onf tibt gubrbntffs tibt pixmbp dopifs
+        // will bf dorrfdt (wiidi rfquirfs likf bit dfptis bnd
+        // formbts).
+        rfturn ((gd == null) || (gd == vImg.gftGrbpiidsConfig()));
     }
 
     /**
-     * Need to override the default behavior because Pixmaps-based
-     * images are accelerated but not volatile.
+     * Nffd to ovfrridf tif dffbult bfibvior bfdbusf Pixmbps-bbsfd
+     * imbgfs brf bddflfrbtfd but not volbtilf.
      */
-    @Override
-    public ImageCapabilities getCapabilities(GraphicsConfiguration gc) {
-        if (isConfigValid(gc) && isAccelerationEnabled()) {
-            // accelerated but not volatile
-            return new ImageCapabilities(true);
+    @Ovfrridf
+    publid ImbgfCbpbbilitifs gftCbpbbilitifs(GrbpiidsConfigurbtion gd) {
+        if (isConfigVblid(gd) && isAddflfrbtionEnbblfd()) {
+            // bddflfrbtfd but not volbtilf
+            rfturn nfw ImbgfCbpbbilitifs(truf);
         }
-        // neither accelerated nor volatile
-        return new ImageCapabilities(false);
+        // nfitifr bddflfrbtfd nor volbtilf
+        rfturn nfw ImbgfCbpbbilitifs(fblsf);
     }
 }

@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.script;
-import java.util.List;
-import java.io.Writer;
-import java.io.Reader;
+pbdkbgf jbvbx.sdript;
+import jbvb.util.List;
+import jbvb.io.Writfr;
+import jbvb.io.Rfbdfr;
 
 /**
- * The interface whose implementing classes are used to connect Script Engines
- * with objects, such as scoped Bindings, in hosting applications.  Each scope is a set
- * of named attributes whose values can be set and retrieved using the
- * <code>ScriptContext</code> methods. ScriptContexts also expose Readers and Writers
- * that can be used by the ScriptEngines for input and output.
+ * Tif intfrfbdf wiosf implfmfnting dlbssfs brf usfd to donnfdt Sdript Enginfs
+ * witi objfdts, sudi bs sdopfd Bindings, in iosting bpplidbtions.  Ebdi sdopf is b sft
+ * of nbmfd bttributfs wiosf vblufs dbn bf sft bnd rftrifvfd using tif
+ * <dodf>SdriptContfxt</dodf> mftiods. SdriptContfxts blso fxposf Rfbdfrs bnd Writfrs
+ * tibt dbn bf usfd by tif SdriptEnginfs for input bnd output.
  *
- * @author Mike Grogan
- * @since 1.6
+ * @butior Mikf Grogbn
+ * @sindf 1.6
  */
-public interface ScriptContext {
+publid intfrfbdf SdriptContfxt {
 
 
     /**
-     * EngineScope attributes are visible during the lifetime of a single
-     * <code>ScriptEngine</code> and a set of attributes is maintained for each
-     * engine.
+     * EnginfSdopf bttributfs brf visiblf during tif lifftimf of b singlf
+     * <dodf>SdriptEnginf</dodf> bnd b sft of bttributfs is mbintbinfd for fbdi
+     * fnginf.
      */
-    public static final int ENGINE_SCOPE = 100;
+    publid stbtid finbl int ENGINE_SCOPE = 100;
 
     /**
-     * GlobalScope attributes are visible to all engines created by same ScriptEngineFactory.
+     * GlobblSdopf bttributfs brf visiblf to bll fnginfs drfbtfd by sbmf SdriptEnginfFbdtory.
      */
-    public static final int GLOBAL_SCOPE = 200;
+    publid stbtid finbl int GLOBAL_SCOPE = 200;
 
 
     /**
-     * Associates a <code>Bindings</code> instance with a particular scope in this
-     * <code>ScriptContext</code>.  Calls to the <code>getAttribute</code> and
-     * <code>setAttribute</code> methods must map to the <code>get</code> and
-     * <code>put</code> methods of the <code>Bindings</code> for the specified scope.
+     * Assodibtfs b <dodf>Bindings</dodf> instbndf witi b pbrtidulbr sdopf in tiis
+     * <dodf>SdriptContfxt</dodf>.  Cblls to tif <dodf>gftAttributf</dodf> bnd
+     * <dodf>sftAttributf</dodf> mftiods must mbp to tif <dodf>gft</dodf> bnd
+     * <dodf>put</dodf> mftiods of tif <dodf>Bindings</dodf> for tif spfdififd sdopf.
      *
-     * @param  bindings The <code>Bindings</code> to associate with the given scope
-     * @param scope The scope
+     * @pbrbm  bindings Tif <dodf>Bindings</dodf> to bssodibtf witi tif givfn sdopf
+     * @pbrbm sdopf Tif sdopf
      *
-     * @throws IllegalArgumentException If no <code>Bindings</code> is defined for the
-     * specified scope value in ScriptContexts of this type.
-     * @throws NullPointerException if value of scope is <code>ENGINE_SCOPE</code> and
-     * the specified <code>Bindings</code> is null.
+     * @tirows IllfgblArgumfntExdfption If no <dodf>Bindings</dodf> is dffinfd for tif
+     * spfdififd sdopf vbluf in SdriptContfxts of tiis typf.
+     * @tirows NullPointfrExdfption if vbluf of sdopf is <dodf>ENGINE_SCOPE</dodf> bnd
+     * tif spfdififd <dodf>Bindings</dodf> is null.
      *
      */
-    public void setBindings(Bindings bindings, int scope);
+    publid void sftBindings(Bindings bindings, int sdopf);
 
     /**
-     * Gets the <code>Bindings</code>  associated with the given scope in this
-     * <code>ScriptContext</code>.
+     * Gfts tif <dodf>Bindings</dodf>  bssodibtfd witi tif givfn sdopf in tiis
+     * <dodf>SdriptContfxt</dodf>.
      *
-     * @return The associated <code>Bindings</code>.  Returns <code>null</code> if it has not
-     * been set.
+     * @rfturn Tif bssodibtfd <dodf>Bindings</dodf>.  Rfturns <dodf>null</dodf> if it ibs not
+     * bffn sft.
      *
-     * @param scope The scope
-     * @throws IllegalArgumentException If no <code>Bindings</code> is defined for the
-     * specified scope value in <code>ScriptContext</code> of this type.
+     * @pbrbm sdopf Tif sdopf
+     * @tirows IllfgblArgumfntExdfption If no <dodf>Bindings</dodf> is dffinfd for tif
+     * spfdififd sdopf vbluf in <dodf>SdriptContfxt</dodf> of tiis typf.
      */
-    public Bindings getBindings(int scope);
+    publid Bindings gftBindings(int sdopf);
 
     /**
-     * Sets the value of an attribute in a given scope.
+     * Sfts tif vbluf of bn bttributf in b givfn sdopf.
      *
-     * @param name The name of the attribute to set
-     * @param value The value of the attribute
-     * @param scope The scope in which to set the attribute
+     * @pbrbm nbmf Tif nbmf of tif bttributf to sft
+     * @pbrbm vbluf Tif vbluf of tif bttributf
+     * @pbrbm sdopf Tif sdopf in wiidi to sft tif bttributf
      *
-     * @throws IllegalArgumentException
-     *         if the name is empty or if the scope is invalid.
-     * @throws NullPointerException if the name is null.
+     * @tirows IllfgblArgumfntExdfption
+     *         if tif nbmf is fmpty or if tif sdopf is invblid.
+     * @tirows NullPointfrExdfption if tif nbmf is null.
      */
-    public void setAttribute(String name, Object value, int scope);
+    publid void sftAttributf(String nbmf, Objfdt vbluf, int sdopf);
 
     /**
-     * Gets the value of an attribute in a given scope.
+     * Gfts tif vbluf of bn bttributf in b givfn sdopf.
      *
-     * @param name The name of the attribute to retrieve.
-     * @param scope The scope in which to retrieve the attribute.
-     * @return The value of the attribute. Returns <code>null</code> is the name
-     * does not exist in the given scope.
+     * @pbrbm nbmf Tif nbmf of tif bttributf to rftrifvf.
+     * @pbrbm sdopf Tif sdopf in wiidi to rftrifvf tif bttributf.
+     * @rfturn Tif vbluf of tif bttributf. Rfturns <dodf>null</dodf> is tif nbmf
+     * dofs not fxist in tif givfn sdopf.
      *
-     * @throws IllegalArgumentException
-     *         if the name is empty or if the value of scope is invalid.
-     * @throws NullPointerException if the name is null.
+     * @tirows IllfgblArgumfntExdfption
+     *         if tif nbmf is fmpty or if tif vbluf of sdopf is invblid.
+     * @tirows NullPointfrExdfption if tif nbmf is null.
      */
-    public Object getAttribute(String name, int scope);
+    publid Objfdt gftAttributf(String nbmf, int sdopf);
 
     /**
-     * Remove an attribute in a given scope.
+     * Rfmovf bn bttributf in b givfn sdopf.
      *
-     * @param name The name of the attribute to remove
-     * @param scope The scope in which to remove the attribute
+     * @pbrbm nbmf Tif nbmf of tif bttributf to rfmovf
+     * @pbrbm sdopf Tif sdopf in wiidi to rfmovf tif bttributf
      *
-     * @return The removed value.
-     * @throws IllegalArgumentException
-     *         if the name is empty or if the scope is invalid.
-     * @throws NullPointerException if the name is null.
+     * @rfturn Tif rfmovfd vbluf.
+     * @tirows IllfgblArgumfntExdfption
+     *         if tif nbmf is fmpty or if tif sdopf is invblid.
+     * @tirows NullPointfrExdfption if tif nbmf is null.
      */
-    public Object removeAttribute(String name, int scope);
+    publid Objfdt rfmovfAttributf(String nbmf, int sdopf);
 
     /**
-     * Retrieves the value of the attribute with the given name in
-     * the scope occurring earliest in the search order.  The order
-     * is determined by the numeric value of the scope parameter (lowest
-     * scope values first.)
+     * Rftrifvfs tif vbluf of tif bttributf witi tif givfn nbmf in
+     * tif sdopf oddurring fbrlifst in tif sfbrdi ordfr.  Tif ordfr
+     * is dftfrminfd by tif numfrid vbluf of tif sdopf pbrbmftfr (lowfst
+     * sdopf vblufs first.)
      *
-     * @param name The name of the the attribute to retrieve.
-     * @return The value of the attribute in the lowest scope for
-     * which an attribute with the given name is defined.  Returns
-     * null if no attribute with the name exists in any scope.
-     * @throws NullPointerException if the name is null.
-     * @throws IllegalArgumentException if the name is empty.
+     * @pbrbm nbmf Tif nbmf of tif tif bttributf to rftrifvf.
+     * @rfturn Tif vbluf of tif bttributf in tif lowfst sdopf for
+     * wiidi bn bttributf witi tif givfn nbmf is dffinfd.  Rfturns
+     * null if no bttributf witi tif nbmf fxists in bny sdopf.
+     * @tirows NullPointfrExdfption if tif nbmf is null.
+     * @tirows IllfgblArgumfntExdfption if tif nbmf is fmpty.
      */
-    public Object getAttribute(String name);
+    publid Objfdt gftAttributf(String nbmf);
 
 
     /**
-     * Get the lowest scope in which an attribute is defined.
-     * @param name Name of the attribute
+     * Gft tif lowfst sdopf in wiidi bn bttributf is dffinfd.
+     * @pbrbm nbmf Nbmf of tif bttributf
      * .
-     * @return The lowest scope.  Returns -1 if no attribute with the given
-     * name is defined in any scope.
-     * @throws NullPointerException if name is null.
-     * @throws IllegalArgumentException if name is empty.
+     * @rfturn Tif lowfst sdopf.  Rfturns -1 if no bttributf witi tif givfn
+     * nbmf is dffinfd in bny sdopf.
+     * @tirows NullPointfrExdfption if nbmf is null.
+     * @tirows IllfgblArgumfntExdfption if nbmf is fmpty.
      */
-    public int getAttributesScope(String name);
+    publid int gftAttributfsSdopf(String nbmf);
 
     /**
-     * Returns the <code>Writer</code> for scripts to use when displaying output.
+     * Rfturns tif <dodf>Writfr</dodf> for sdripts to usf wifn displbying output.
      *
-     * @return The <code>Writer</code>.
+     * @rfturn Tif <dodf>Writfr</dodf>.
      */
-    public Writer getWriter();
+    publid Writfr gftWritfr();
 
 
     /**
-     * Returns the <code>Writer</code> used to display error output.
+     * Rfturns tif <dodf>Writfr</dodf> usfd to displby frror output.
      *
-     * @return The <code>Writer</code>
+     * @rfturn Tif <dodf>Writfr</dodf>
      */
-    public Writer getErrorWriter();
+    publid Writfr gftErrorWritfr();
 
     /**
-     * Sets the <code>Writer</code> for scripts to use when displaying output.
+     * Sfts tif <dodf>Writfr</dodf> for sdripts to usf wifn displbying output.
      *
-     * @param writer The new <code>Writer</code>.
+     * @pbrbm writfr Tif nfw <dodf>Writfr</dodf>.
      */
-    public void setWriter(Writer writer);
+    publid void sftWritfr(Writfr writfr);
 
 
     /**
-     * Sets the <code>Writer</code> used to display error output.
+     * Sfts tif <dodf>Writfr</dodf> usfd to displby frror output.
      *
-     * @param writer The <code>Writer</code>.
+     * @pbrbm writfr Tif <dodf>Writfr</dodf>.
      */
-    public void setErrorWriter(Writer writer);
+    publid void sftErrorWritfr(Writfr writfr);
 
     /**
-     * Returns a <code>Reader</code> to be used by the script to read
+     * Rfturns b <dodf>Rfbdfr</dodf> to bf usfd by tif sdript to rfbd
      * input.
      *
-     * @return The <code>Reader</code>.
+     * @rfturn Tif <dodf>Rfbdfr</dodf>.
      */
-    public Reader getReader();
+    publid Rfbdfr gftRfbdfr();
 
 
     /**
-     * Sets the <code>Reader</code> for scripts to read input
+     * Sfts tif <dodf>Rfbdfr</dodf> for sdripts to rfbd input
      * .
-     * @param reader The new <code>Reader</code>.
+     * @pbrbm rfbdfr Tif nfw <dodf>Rfbdfr</dodf>.
      */
-    public void setReader(Reader reader);
+    publid void sftRfbdfr(Rfbdfr rfbdfr);
 
     /**
-     * Returns immutable <code>List</code> of all the valid values for
-     * scope in the ScriptContext.
+     * Rfturns immutbblf <dodf>List</dodf> of bll tif vblid vblufs for
+     * sdopf in tif SdriptContfxt.
      *
-     * @return list of scope values
+     * @rfturn list of sdopf vblufs
      */
-    public List<Integer> getScopes();
+    publid List<Intfgfr> gftSdopfs();
 }

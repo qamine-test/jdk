@@ -1,0 +1,397 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.sbmplfd;
+
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Mbp;
+
+/**
+ * An instbndf of thf {@dodf AudioFilfFormbt} dlbss dfsdribfs bn budio filf,
+ * indluding thf filf typf, thf filf's lfngth in bytfs, thf lfngth in sbmplf
+ * frbmfs of thf budio dbtb dontbinfd in thf filf, bnd thf formbt of thf budio
+ * dbtb.
+ * <p>
+ * Thf {@link AudioSystfm} dlbss indludfs mfthods for dftfrmining thf formbt of
+ * bn budio filf, obtbining bn budio input strfbm from bn budio filf, bnd
+ * writing bn budio filf from bn budio input strfbm.
+ * <p>
+ * An {@dodf AudioFilfFormbt} objfdt dbn indludf b sft of propfrtifs. A propfrty
+ * is b pbir of kfy bnd vbluf: thf kfy is of typf {@dodf String}, thf bssodibtfd
+ * propfrty vbluf is bn brbitrbry objfdt. Propfrtifs spfdify bdditionbl
+ * informbtionbl mftb dbtb (likf b buthor, dopyright, or filf durbtion).
+ * Propfrtifs brf optionbl informbtion, bnd filf rfbdfr bnd filf writfr
+ * implfmfntbtions brf not rfquirfd to providf or rfdognizf propfrtifs.
+ * <p>
+ * Thf following tbblf lists somf dommon propfrtifs thbt should bf usfd in
+ * implfmfntbtions:
+ *
+ * <tbblf bordfr=1>
+ *  <dbption>Audio Filf Formbt Propfrtifs</dbption>
+ *  <tr>
+ *   <th>Propfrty kfy</th>
+ *   <th>Vbluf typf</th>
+ *   <th>Dfsdription</th>
+ *  </tr>
+ *  <tr>
+ *   <td>&quot;durbtion&quot;</td>
+ *   <td>{@link jbvb.lbng.Long Long}</td>
+ *   <td>plbybbdk durbtion of thf filf in midrosfdonds</td>
+ *  </tr>
+ *  <tr>
+ *   <td>&quot;buthor&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>nbmf of thf buthor of this filf</td>
+ *  </tr>
+ *  <tr>
+ *   <td>&quot;titlf&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>titlf of this filf</td>
+ *  </tr>
+ *  <tr>
+ *   <td>&quot;dopyright&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>dopyright mfssbgf</td>
+ *  </tr>
+ *  <tr>
+ *   <td>&quot;dbtf&quot;</td>
+ *   <td>{@link jbvb.util.Dbtf Dbtf}</td>
+ *   <td>dbtf of thf rfdording or rflfbsf</td>
+ *  </tr>
+ *  <tr>
+ *   <td>&quot;dommfnt&quot;</td>
+ *   <td>{@link jbvb.lbng.String String}</td>
+ *   <td>bn brbitrbry tfxt</td>
+ *  </tr>
+ * </tbblf>
+ *
+ *
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytlf
+ * @buthor Floribn Bomfrs
+ * @sff AudioInputStrfbm
+ * @sindf 1.3
+ */
+publid dlbss AudioFilfFormbt {
+
+    /**
+     * Filf typf.
+     */
+    privbtf Typf typf;
+
+    /**
+     * Filf lfngth in bytfs.
+     */
+    privbtf int bytfLfngth;
+
+    /**
+     * Formbt of thf budio dbtb dontbinfd in thf filf.
+     */
+    privbtf AudioFormbt formbt;
+
+    /**
+     * Audio dbtb lfngth in sbmplf frbmfs.
+     */
+    privbtf int frbmfLfngth;
+
+    /**
+     * Thf sft of propfrtifs.
+     */
+    privbtf HbshMbp<String, Objfdt> propfrtifs;
+
+    /**
+     * Construdts bn budio filf formbt objfdt. This protfdtfd donstrudtor is
+     * intfndfd for usf by providfrs of filf-rfbding sfrvidfs whfn rfturning
+     * informbtion bbout bn budio filf or bbout supportfd budio filf formbts.
+     *
+     * @pbrbm  typf thf typf of thf budio filf
+     * @pbrbm  bytfLfngth thf lfngth of thf filf in bytfs, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @pbrbm  formbt thf formbt of thf budio dbtb dontbinfd in thf filf
+     * @pbrbm  frbmfLfngth thf budio dbtb lfngth in sbmplf frbmfs, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @sff #gftTypf
+     */
+    protfdtfd AudioFilfFormbt(Typf typf, int bytfLfngth, AudioFormbt formbt, int frbmfLfngth) {
+
+        this.typf = typf;
+        this.bytfLfngth = bytfLfngth;
+        this.formbt = formbt;
+        this.frbmfLfngth = frbmfLfngth;
+        this.propfrtifs = null;
+    }
+
+    /**
+     * Construdts bn budio filf formbt objfdt. This publid donstrudtor mby bf
+     * usfd by bpplidbtions to dfsdribf thf propfrtifs of b rfqufstfd budio
+     * filf.
+     *
+     * @pbrbm  typf thf typf of thf budio filf
+     * @pbrbm  formbt thf formbt of thf budio dbtb dontbinfd in thf filf
+     * @pbrbm  frbmfLfngth thf budio dbtb lfngth in sbmplf frbmfs, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     */
+    publid AudioFilfFormbt(Typf typf, AudioFormbt formbt, int frbmfLfngth) {
+
+
+        this(typf,AudioSystfm.NOT_SPECIFIED,formbt,frbmfLfngth);
+    }
+
+    /**
+     * Construdt bn budio filf formbt objfdt with b sft of dffinfd propfrtifs.
+     * This publid donstrudtor mby bf usfd by bpplidbtions to dfsdribf thf
+     * propfrtifs of b rfqufstfd budio filf. Thf propfrtifs mbp will bf dopifd
+     * to prfvfnt bny dhbngfs to it.
+     *
+     * @pbrbm  typf thf typf of thf budio filf
+     * @pbrbm  formbt thf formbt of thf budio dbtb dontbinfd in thf filf
+     * @pbrbm  frbmfLfngth thf budio dbtb lfngth in sbmplf frbmfs, or
+     *         {@dodf AudioSystfm.NOT_SPECIFIED}
+     * @pbrbm  propfrtifs b {@dodf Mbp<String, Objfdt>} objfdt with propfrtifs
+     * @sindf 1.5
+     */
+    publid AudioFilfFormbt(Typf typf, AudioFormbt formbt,
+                           int frbmfLfngth, Mbp<String, Objfdt> propfrtifs) {
+        this(typf,AudioSystfm.NOT_SPECIFIED,formbt,frbmfLfngth);
+        this.propfrtifs = nfw HbshMbp<String, Objfdt>(propfrtifs);
+    }
+
+    /**
+     * Obtbins thf budio filf typf, sudh bs {@dodf WAVE} or {@dodf AU}.
+     *
+     * @rfturn thf budio filf typf
+     * @sff Typf#WAVE
+     * @sff Typf#AU
+     * @sff Typf#AIFF
+     * @sff Typf#AIFC
+     * @sff Typf#SND
+     */
+    publid Typf gftTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Obtbins thf sizf in bytfs of thf fntirf budio filf (not just its budio
+     * dbtb).
+     *
+     * @rfturn thf budio filf lfngth in bytfs
+     * @sff AudioSystfm#NOT_SPECIFIED
+     */
+    publid int gftBytfLfngth() {
+        rfturn bytfLfngth;
+    }
+
+    /**
+     * Obtbins thf formbt of thf budio dbtb dontbinfd in thf budio filf.
+     *
+     * @rfturn thf budio dbtb formbt
+     */
+    publid AudioFormbt gftFormbt() {
+        rfturn formbt;
+    }
+
+    /**
+     * Obtbins thf lfngth of thf budio dbtb dontbinfd in thf filf, fxprfssfd in
+     * sbmplf frbmfs.
+     *
+     * @rfturn thf numbfr of sbmplf frbmfs of budio dbtb in thf filf
+     * @sff AudioSystfm#NOT_SPECIFIED
+     */
+    publid int gftFrbmfLfngth() {
+        rfturn frbmfLfngth;
+    }
+
+    /**
+     * Obtbin bn unmodifibblf mbp of propfrtifs. Thf dondfpt of propfrtifs is
+     * furthfr fxplbinfd in thf {@link AudioFilfFormbt dlbss dfsdription}.
+     *
+     * @rfturn b {@dodf Mbp<String, Objfdt>} objfdt dontbining bll propfrtifs.
+     *         If no propfrtifs brf rfdognizfd, bn fmpty mbp is rfturnfd.
+     * @sff #gftPropfrty(String)
+     * @sindf 1.5
+     */
+    @SupprfssWbrnings("undhfdkfd") // Cbst of rfsult of dlonf
+    publid Mbp<String, Objfdt> propfrtifs() {
+        Mbp<String,Objfdt> rft;
+        if (propfrtifs == null) {
+            rft = nfw HbshMbp<>(0);
+        } flsf {
+            rft = (Mbp<String,Objfdt>) (propfrtifs.dlonf());
+        }
+        rfturn Collfdtions.unmodifibblfMbp(rft);
+    }
+
+    /**
+     * Obtbin thf propfrty vbluf spfdififd by thf kfy. Thf dondfpt of propfrtifs
+     * is furthfr fxplbinfd in thf {@link AudioFilfFormbt dlbss dfsdription}.
+     * <p>
+     * If thf spfdififd propfrty is not dffinfd for b pbrtidulbr filf formbt,
+     * this mfthod rfturns {@dodf null}.
+     *
+     * @pbrbm  kfy thf kfy of thf dfsirfd propfrty
+     * @rfturn thf vbluf of thf propfrty with thf spfdififd kfy, or {@dodf null}
+     *         if thf propfrty dofs not fxist
+     * @sff #propfrtifs()
+     * @sindf 1.5
+     */
+    publid Objfdt gftPropfrty(String kfy) {
+        if (propfrtifs == null) {
+            rfturn null;
+        }
+        rfturn propfrtifs.gft(kfy);
+    }
+
+    /**
+     * Providfs b string rfprfsfntbtion of thf filf formbt.
+     *
+     * @rfturn thf filf formbt bs b string
+     */
+    @Ovfrridf
+    publid String toString() {
+
+        StringBufffr buf = nfw StringBufffr();
+
+        //$$fb2002-11-01: fix for 4672864: AudioFilfFormbt.toString() throws unfxpfdtfd NullPointfrExdfption
+        if (typf != null) {
+            buf.bppfnd(typf.toString() + " (." + typf.gftExtfnsion() + ") filf");
+        } flsf {
+            buf.bppfnd("unknown filf formbt");
+        }
+
+        if (bytfLfngth != AudioSystfm.NOT_SPECIFIED) {
+            buf.bppfnd(", bytf lfngth: " + bytfLfngth);
+        }
+
+        buf.bppfnd(", dbtb formbt: " + formbt);
+
+        if (frbmfLfngth != AudioSystfm.NOT_SPECIFIED) {
+            buf.bppfnd(", frbmf lfngth: " + frbmfLfngth);
+        }
+
+        rfturn nfw String(buf);
+    }
+
+    /**
+     * An instbndf of thf {@dodf Typf} dlbss rfprfsfnts onf of thf stbndbrd
+     * typfs of budio filf. Stbtid instbndfs brf providfd for thf dommon typfs.
+     */
+    publid stbtid dlbss Typf {
+
+        // FILE FORMAT TYPE DEFINES
+
+        /**
+         * Spfdififs b WAVE filf.
+         */
+        publid stbtid finbl Typf WAVE = nfw Typf("WAVE", "wbv");
+
+        /**
+         * Spfdififs bn AU filf.
+         */
+        publid stbtid finbl Typf AU = nfw Typf("AU", "bu");
+
+        /**
+         * Spfdififs bn AIFF filf.
+         */
+        publid stbtid finbl Typf AIFF = nfw Typf("AIFF", "bif");
+
+        /**
+         * Spfdififs bn AIFF-C filf.
+         */
+        publid stbtid finbl Typf AIFC = nfw Typf("AIFF-C", "bifd");
+
+        /**
+         * Spfdififs b SND filf.
+         */
+        publid stbtid finbl Typf SND = nfw Typf("SND", "snd");
+
+        /**
+         * Filf typf nbmf.
+         */
+        privbtf finbl String nbmf;
+
+        /**
+         * Filf typf fxtfnsion.
+         */
+        privbtf finbl String fxtfnsion;
+
+        /**
+         * Construdts b filf typf.
+         *
+         * @pbrbm  nbmf thf string thbt nbmfs thf filf typf
+         * @pbrbm  fxtfnsion thf string thbt dommonly mbrks thf filf typf
+         *         without lfbding dot
+         */
+        publid Typf(String nbmf, String fxtfnsion) {
+            this.nbmf = nbmf;
+            this.fxtfnsion = fxtfnsion;
+        }
+
+        /**
+         * Finblizfs thf fqubls mfthod.
+         */
+        @Ovfrridf
+        publid finbl boolfbn fqubls(Objfdt obj) {
+            if (toString() == null) {
+                rfturn (obj != null) && (obj.toString() == null);
+            }
+            if (obj instbndfof Typf) {
+                rfturn toString().fqubls(obj.toString());
+            }
+            rfturn fblsf;
+        }
+
+        /**
+         * Finblizfs thf hbshCodf mfthod.
+         */
+        @Ovfrridf
+        publid finbl int hbshCodf() {
+            if (toString() == null) {
+                rfturn 0;
+            }
+            rfturn toString().hbshCodf();
+        }
+
+        /**
+         * Providfs thf filf typf's nbmf bs thf {@dodf String} rfprfsfntbtion of
+         * thf filf typf.
+         *
+         * @rfturn thf filf typf's nbmf
+         */
+        @Ovfrridf
+        publid finbl String toString() {
+            rfturn nbmf;
+        }
+
+        /**
+         * Obtbins thf dommon filf nbmf fxtfnsion for this filf typf.
+         *
+         * @rfturn filf typf fxtfnsion
+         */
+        publid String gftExtfnsion() {
+            rfturn fxtfnsion;
+        }
+    }
+}

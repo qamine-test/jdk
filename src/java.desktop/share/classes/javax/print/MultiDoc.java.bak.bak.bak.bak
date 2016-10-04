@@ -1,0 +1,136 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.print;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * Intfrfbdf MultiDod spfdififs thf intfrfbdf for bn objfdt thbt supplifs morf
+ * thbn onf pifdf of print dbtb for b Print Job. "Dod" is b short,
+ * fbsy-to-pronoundf tfrm thbt mfbns "b pifdf of print dbtb," bnd b "multidod"
+ * is b group of sfvfrbl dods. Thf dlifnt pbssfs to thf Print Job bn objfdt
+ * thbt implfmfnts intfrfbdf MultiDod, bnd thf Print Job dblls mfthods on
+ *  thbt objfdt to obtbin thf print dbtb.
+ * <P>
+ * Intfrfbdf MultiDod providfs bn bbstrbdtion similbr to b "linkfd list" of
+ * dods. A multidod objfdt is likf b nodf in thf linkfd list, dontbining thf
+ * durrfnt dod in thf list bnd b pointfr to thf nfxt nodf (multidod) in thf
+ * list. Thf Print Job dbn dbll thf multidod's {@link #gftDod()
+ * gftDod()} mfthod to gft thf durrfnt dod. Whfn it's rfbdy to go
+ * on to thf nfxt dod, thf Print Job dbn dbll thf multidod's {@link #nfxt()
+ * nfxt()} mfthod to gft thf nfxt multidod, whidh dontbins thf
+ * nfxt dod. So Print Job dodf for bddfssing b multidod might look likf this:
+ * <PRE>
+ *      void prodfssMultiDod(MultiDod thfMultiDod) {
+ *
+ *          MultiDod durrfnt = thfMultiDod;
+
+ *          whilf (durrfnt != null) {
+ *              prodfssDod (durrfnt.gftDod());
+ *              durrfnt = durrfnt.nfxt();
+ *          }
+ *      }
+ * </PRE>
+ * <P>
+ * Of doursf, intfrfbdf MultiDod dbn bf implfmfntfd in bny wby thbt fulfills
+ * thf dontrbdt; it dofsn't hbvf to usf b linkfd list in thf implfmfntbtion.
+ * <P>
+ * To gft bll thf print dbtb for b multidod print job, b Print Sfrvidf
+ * proxy dould usf fithfr of two pbttfrns:
+ * <OL TYPE=1>
+ * <LI>
+ * Thf <B>intfrlfbvfd</B> pbttfrn: Gft thf dod from thf durrfnt multidod. Gft
+ * thf print dbtb rfprfsfntbtion objfdt from thf durrfnt dod. Gft bll thf print
+ * dbtb from thf print dbtb rfprfsfntbtion objfdt. Gft thf nfxt multidod from
+ * thf durrfnt multidod, bnd rfpfbt until thfrf brf no morf. (Thf dodf fxbmplf
+ * bbovf usfs thf intfrlfbvfd pbttfrn.)
+ *
+ * <LI>
+ * Thf <B>bll-bt-ondf</B> pbttfrn: Gft thf dod from thf durrfnt multidod, bnd
+ * sbvf thf dod in b list. Gft thf nfxt multidod from thf durrfnt multidod, bnd
+ * rfpfbt until thfrf brf no morf. Thfn itfrbtf ovfr thf list of sbvfd dods. Gft
+ * thf print dbtb rfprfsfntbtion objfdt from thf durrfnt dod. Gft bll thf print
+ * dbtb from thf print dbtb rfprfsfntbtion objfdt. Go to thf nfxt dod in thf
+ * list, bnd rfpfbt until thfrf brf no morf.
+ * </OL>
+ * Now, donsidfr b printing dlifnt thbt is gfnfrbting print dbtb on thf fly bnd
+ * dofs not hbvf thf rfsourdfs to storf morf thbn onf pifdf of print dbtb bt b
+ * timf. If thf print sfrvidf proxy usfd thf bll-bt-ondf pbttfrn to gft thf
+ * print dbtb, it would posf b problfm for sudh b dlifnt; thf dlifnt would hbvf
+ * to kffp bll thf dods' print dbtb bround until thf print sfrvidf proxy domfs
+ * bbdk bnd bsks for thfm, whidh thf dlifnt is not bblf to do. To work with sudh
+ * b dlifnt, thf print sfrvidf proxy must usf thf intfrlfbvfd pbttfrn.
+ * <P>
+ * To bddrfss this problfm, bnd to simplify thf dfsign of dlifnts providing
+* multiplf dods to b Print Job, fvfry Print Sfrvidf proxy thbt supports
+ * multidod print jobs is rfquirfd to bddfss b MultiDod objfdt using thf
+ * intfrlfbvfd pbttfrn. Thbt is, givfn b MultiDod objfdt, thf print sfrvidf
+ * proxy will dbll {@link #gftDod() gftDod()} onf or morf timfs
+ * until it suddfssfully obtbins thf durrfnt Dod objfdt. Thf print sfrvidf proxy
+ * will thfn obtbin thf durrfnt dod's print dbtb, not prodffding until bll thf
+ * print dbtb is obtbinfd or bn unrfdovfrbblf frror oddurs. If it is bblf to
+ * dontinuf, thf print sfrvidf proxy will thfn dbll {@link #nfxt()
+ * nfxt()} onf or morf timfs until it suddfssfully obtbins fithfr
+ * thf nfxt MultiDod objfdt or bn indidbtion thbt thfrf brf no morf. An
+ * implfmfntbtion of intfrfbdf MultiDod dbn bssumf thf print sfrvidf proxy will
+ * follow this intfrlfbvfd pbttfrn; for bny othfr pbttfrn of usbgf, thf MultiDod
+ * implfmfntbtion's bfhbvior is unspfdififd.
+ * <P>
+ * Thfrf is no rfstridtion on thf numbfr of dlifnt thrfbds thbt mby bf
+ * simultbnfously bddfssing thf sbmf multidod. Thfrfforf, bll implfmfntbtions of
+ * intfrfbdf MultiDod must bf dfsignfd to bf multiplf thrfbd sbff. In fbdt, b
+ * dlifnt thrfbd dould bf bdding dods to thf fnd of thf (dondfptubl) list whilf
+ * b Print Job thrfbd is simultbnfously obtbining dods from thf bfginning of thf
+ * list; providfd thf multidod objfdt syndhronizfs thf thrfbds propfrly, thf two
+ * thrfbds will not intfrffrf with fbdh othfr
+ */
+
+publid intfrfbdf MultiDod {
+
+
+    /**
+     * Obtbin thf durrfnt dod objfdt.
+     *
+     * @rfturn  Currfnt dod objfdt.
+     *
+     * @fxdfption  IOExdfption
+     *     Thrown if b frror oddurrfd rfbding thf dodumfnt.
+     */
+    publid Dod gftDod() throws IOExdfption;
+
+    /**
+     * Go to thf multidod objfdt thbt dontbins thf nfxt dod objfdt in thf
+     * sfqufndf of dod objfdts.
+     *
+     * @rfturn  Multidod objfdt dontbining thf nfxt dod objfdt, or null if
+     * thfrf brf no furthfr dod objfdts.
+     *
+     * @fxdfption  IOExdfption
+     *     Thrown if bn frror oddurrfd lodbting thf nfxt dodumfnt
+     */
+    publid MultiDod nfxt() throws IOExdfption;
+
+}

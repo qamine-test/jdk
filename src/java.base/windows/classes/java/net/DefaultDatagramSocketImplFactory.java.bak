@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 2007, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 /**
- * This class defines a factory for creating DatagramSocketImpls. It defaults
- * to creating plain DatagramSocketImpls, but may create other DatagramSocketImpls
- * by setting the impl.prefix system property.
+ * Tiis dlbss dffinfs b fbdtory for drfbting DbtbgrbmSodkftImpls. It dffbults
+ * to drfbting plbin DbtbgrbmSodkftImpls, but mby drfbtf otifr DbtbgrbmSodkftImpls
+ * by sftting tif impl.prffix systfm propfrty.
  *
- * For Windows versions lower than Windows Vista a TwoStacksPlainDatagramSocketImpl
- * is always created. This impl supports IPv6 on these platform where available.
+ * For Windows vfrsions lowfr tibn Windows Vistb b TwoStbdksPlbinDbtbgrbmSodkftImpl
+ * is blwbys drfbtfd. Tiis impl supports IPv6 on tifsf plbtform wifrf bvbilbblf.
  *
- * On Windows platforms greater than Vista that support a dual layer TCP/IP stack
- * a DualStackPlainDatagramSocketImpl is created for DatagramSockets. For MulticastSockets
- * a TwoStacksPlainDatagramSocketImpl is always created. This is to overcome the lack
- * of behavior defined for multicasting over a dual layer socket by the RFC.
+ * On Windows plbtforms grfbtfr tibn Vistb tibt support b dubl lbyfr TCP/IP stbdk
+ * b DublStbdkPlbinDbtbgrbmSodkftImpl is drfbtfd for DbtbgrbmSodkfts. For MultidbstSodkfts
+ * b TwoStbdksPlbinDbtbgrbmSodkftImpl is blwbys drfbtfd. Tiis is to ovfrdomf tif lbdk
+ * of bfibvior dffinfd for multidbsting ovfr b dubl lbyfr sodkft by tif RFC.
  *
- * @author Chris Hegarty
+ * @butior Ciris Hfgbrty
  */
 
-class DefaultDatagramSocketImplFactory
+dlbss DffbultDbtbgrbmSodkftImplFbdtory
 {
-    static Class<?> prefixImplClass = null;
+    stbtid Clbss<?> prffixImplClbss = null;
 
-    /* the windows version. */
-    private static float version;
+    /* tif windows vfrsion. */
+    privbtf stbtid flobt vfrsion;
 
-    /* java.net.preferIPv4Stack */
-    private static boolean preferIPv4Stack = false;
+    /* jbvb.nft.prfffrIPv4Stbdk */
+    privbtf stbtid boolfbn prfffrIPv4Stbdk = fblsf;
 
-    /* If the version supports a dual stack TCP implementation */
-    private static boolean useDualStackImpl = false;
+    /* If tif vfrsion supports b dubl stbdk TCP implfmfntbtion */
+    privbtf stbtid boolfbn usfDublStbdkImpl = fblsf;
 
-    /* sun.net.useExclusiveBind */
-    private static String exclBindProp;
+    /* sun.nft.usfExdlusivfBind */
+    privbtf stbtid String fxdlBindProp;
 
-    /* True if exclusive binding is on for Windows */
-    private static boolean exclusiveBind = true;
+    /* Truf if fxdlusivf binding is on for Windows */
+    privbtf stbtid boolfbn fxdlusivfBind = truf;
 
 
-    static {
-        // Determine Windows Version.
-        java.security.AccessController.doPrivileged(
-                new PrivilegedAction<Object>() {
-                    public Object run() {
-                        version = 0;
+    stbtid {
+        // Dftfrminf Windows Vfrsion.
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<Objfdt>() {
+                    publid Objfdt run() {
+                        vfrsion = 0;
                         try {
-                            version = Float.parseFloat(System.getProperties()
-                                    .getProperty("os.version"));
-                            preferIPv4Stack = Boolean.parseBoolean(
-                                              System.getProperties()
-                                              .getProperty(
-                                                   "java.net.preferIPv4Stack"));
-                            exclBindProp = System.getProperty(
-                                    "sun.net.useExclusiveBind");
-                        } catch (NumberFormatException e ) {
-                            assert false : e;
+                            vfrsion = Flobt.pbrsfFlobt(Systfm.gftPropfrtifs()
+                                    .gftPropfrty("os.vfrsion"));
+                            prfffrIPv4Stbdk = Boolfbn.pbrsfBoolfbn(
+                                              Systfm.gftPropfrtifs()
+                                              .gftPropfrty(
+                                                   "jbvb.nft.prfffrIPv4Stbdk"));
+                            fxdlBindProp = Systfm.gftPropfrty(
+                                    "sun.nft.usfExdlusivfBind");
+                        } dbtdi (NumbfrFormbtExdfption f ) {
+                            bssfrt fblsf : f;
                         }
-                        return null; // nothing to return
+                        rfturn null; // notiing to rfturn
                     }
                 });
 
-        // (version >= 6.0) implies Vista or greater.
-        if (version >= 6.0 && !preferIPv4Stack) {
-                useDualStackImpl = true;
+        // (vfrsion >= 6.0) implifs Vistb or grfbtfr.
+        if (vfrsion >= 6.0 && !prfffrIPv4Stbdk) {
+                usfDublStbdkImpl = truf;
         }
-        if (exclBindProp != null) {
-            // sun.net.useExclusiveBind is true
-            exclusiveBind = exclBindProp.length() == 0 ? true
-                    : Boolean.parseBoolean(exclBindProp);
-        } else if (version < 6.0) {
-            exclusiveBind = false;
+        if (fxdlBindProp != null) {
+            // sun.nft.usfExdlusivfBind is truf
+            fxdlusivfBind = fxdlBindProp.lfngti() == 0 ? truf
+                    : Boolfbn.pbrsfBoolfbn(fxdlBindProp);
+        } flsf if (vfrsion < 6.0) {
+            fxdlusivfBind = fblsf;
         }
 
-        // impl.prefix
-        String prefix = null;
+        // impl.prffix
+        String prffix = null;
         try {
-            prefix = AccessController.doPrivileged(
-                new sun.security.action.GetPropertyAction("impl.prefix", null));
-            if (prefix != null)
-                prefixImplClass = Class.forName("java.net."+prefix+"DatagramSocketImpl");
-        } catch (Exception e) {
-            System.err.println("Can't find class: java.net." +
-                                prefix +
-                                "DatagramSocketImpl: check impl.prefix property");
+            prffix = AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("impl.prffix", null));
+            if (prffix != null)
+                prffixImplClbss = Clbss.forNbmf("jbvb.nft."+prffix+"DbtbgrbmSodkftImpl");
+        } dbtdi (Exdfption f) {
+            Systfm.frr.println("Cbn't find dlbss: jbvb.nft." +
+                                prffix +
+                                "DbtbgrbmSodkftImpl: difdk impl.prffix propfrty");
         }
     }
 
     /**
-     * Creates a new <code>DatagramSocketImpl</code> instance.
+     * Crfbtfs b nfw <dodf>DbtbgrbmSodkftImpl</dodf> instbndf.
      *
-     * @param   isMulticast true if this impl is to be used for a MutlicastSocket
-     * @return  a new instance of <code>PlainDatagramSocketImpl</code>.
+     * @pbrbm   isMultidbst truf if tiis impl is to bf usfd for b MutlidbstSodkft
+     * @rfturn  b nfw instbndf of <dodf>PlbinDbtbgrbmSodkftImpl</dodf>.
      */
-    static DatagramSocketImpl createDatagramSocketImpl(boolean isMulticast)
-        throws SocketException {
-        if (prefixImplClass != null) {
+    stbtid DbtbgrbmSodkftImpl drfbtfDbtbgrbmSodkftImpl(boolfbn isMultidbst)
+        tirows SodkftExdfption {
+        if (prffixImplClbss != null) {
             try {
-                return (DatagramSocketImpl) prefixImplClass.newInstance();
-            } catch (Exception e) {
-                throw new SocketException("can't instantiate DatagramSocketImpl");
+                rfturn (DbtbgrbmSodkftImpl) prffixImplClbss.nfwInstbndf();
+            } dbtdi (Exdfption f) {
+                tirow nfw SodkftExdfption("dbn't instbntibtf DbtbgrbmSodkftImpl");
             }
-        } else {
-            if (isMulticast)
-                exclusiveBind = false;
-            if (useDualStackImpl && !isMulticast)
-                return new DualStackPlainDatagramSocketImpl(exclusiveBind);
-            else
-                return new TwoStacksPlainDatagramSocketImpl(exclusiveBind);
+        } flsf {
+            if (isMultidbst)
+                fxdlusivfBind = fblsf;
+            if (usfDublStbdkImpl && !isMultidbst)
+                rfturn nfw DublStbdkPlbinDbtbgrbmSodkftImpl(fxdlusivfBind);
+            flsf
+                rfturn nfw TwoStbdksPlbinDbtbgrbmSodkftImpl(fxdlusivfBind);
         }
     }
 }

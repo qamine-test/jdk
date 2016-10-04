@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.security.jgss;
+pbdkbgf dom.sun.sfdurity.jgss;
 
 /**
- * Attribute types that can be specified as an argument of
- * {@link com.sun.security.jgss.ExtendedGSSContext#inquireSecContext}
+ * Attributf typfs tibt dbn bf spfdififd bs bn brgumfnt of
+ * {@link dom.sun.sfdurity.jgss.ExtfndfdGSSContfxt#inquirfSfdContfxt}
  */
-@jdk.Exported
-public enum InquireType {
+@jdk.Exportfd
+publid fnum InquirfTypf {
     /**
-     * Attribute type for retrieving the session key of an established
-     * Kerberos 5 security context. The returned object is an instance of
-     * {@link java.security.Key}, which has the following properties:
+     * Attributf typf for rftrifving tif sfssion kfy of bn fstbblisifd
+     * Kfrbfros 5 sfdurity dontfxt. Tif rfturnfd objfdt is bn instbndf of
+     * {@link jbvb.sfdurity.Kfy}, wiidi ibs tif following propfrtifs:
      *    <ul>
-     *    <li>Algorithm: enctype as a string, where
-     *        enctype is defined in RFC 3961, section 8.
-     *    <li>Format: "RAW"
-     *    <li>Encoded form: the raw key bytes, not in any ASN.1 encoding
+     *    <li>Algoritim: fndtypf bs b string, wifrf
+     *        fndtypf is dffinfd in RFC 3961, sfdtion 8.
+     *    <li>Formbt: "RAW"
+     *    <li>Endodfd form: tif rbw kfy bytfs, not in bny ASN.1 fndoding
      *    </ul>
-     * @deprecated as of 1.9, replaced by {@link #KRB5_GET_SESSION_KEY_EX}
-     * which returns an instance of
-     * {@link sun.security.jgss.krb5.Krb5Context.EncryptionKey}
-     * that implements the {@link javax.crypto.SecretKey} interface and
-     * has similar methods with {@link javax.security.auth.kerberos.KerberosKey}.
+     * @dfprfdbtfd bs of 1.9, rfplbdfd by {@link #KRB5_GET_SESSION_KEY_EX}
+     * wiidi rfturns bn instbndf of
+     * {@link sun.sfdurity.jgss.krb5.Krb5Contfxt.EndryptionKfy}
+     * tibt implfmfnts tif {@link jbvbx.drypto.SfdrftKfy} intfrfbdf bnd
+     * ibs similbr mftiods witi {@link jbvbx.sfdurity.buti.kfrbfros.KfrbfrosKfy}.
      */
-    @Deprecated
+    @Dfprfdbtfd
     KRB5_GET_SESSION_KEY,
     /**
-     * Attribute type for retrieving the session key of an
-     * established Kerberos 5 security context. The return value is an
-     * instance of {@link javax.security.auth.kerberos.EncryptionKey}.
+     * Attributf typf for rftrifving tif sfssion kfy of bn
+     * fstbblisifd Kfrbfros 5 sfdurity dontfxt. Tif rfturn vbluf is bn
+     * instbndf of {@link jbvbx.sfdurity.buti.kfrbfros.EndryptionKfy}.
      *
-     * @since 1.9
+     * @sindf 1.9
      */
     KRB5_GET_SESSION_KEY_EX,
     /**
-     * Attribute type for retrieving the service ticket flags of an
-     * established Kerberos 5 security context. The returned object is
-     * a boolean array for the service ticket flags, which is long enough
-     * to contain all true bits. This means if the user wants to get the
-     * <em>n</em>'th bit but the length of the returned array is less than
-     * <em>n</em>, it is regarded as false.
+     * Attributf typf for rftrifving tif sfrvidf tidkft flbgs of bn
+     * fstbblisifd Kfrbfros 5 sfdurity dontfxt. Tif rfturnfd objfdt is
+     * b boolfbn brrby for tif sfrvidf tidkft flbgs, wiidi is long fnougi
+     * to dontbin bll truf bits. Tiis mfbns if tif usfr wbnts to gft tif
+     * <fm>n</fm>'ti bit but tif lfngti of tif rfturnfd brrby is lfss tibn
+     * <fm>n</fm>, it is rfgbrdfd bs fblsf.
      */
     KRB5_GET_TKT_FLAGS,
     /**
-     * Attribute type for retrieving the authorization data in the
-     * service ticket of an established Kerberos 5 security context.
-     * Only supported on the acceptor side.
+     * Attributf typf for rftrifving tif butiorizbtion dbtb in tif
+     * sfrvidf tidkft of bn fstbblisifd Kfrbfros 5 sfdurity dontfxt.
+     * Only supportfd on tif bddfptor sidf.
      */
     KRB5_GET_AUTHZ_DATA,
     /**
-     * Attribute type for retrieving the authtime in the service ticket
-     * of an established Kerberos 5 security context. The returned object
-     * is a String object in the standard KerberosTime format defined in
-     * RFC 4120 Section 5.2.3.
+     * Attributf typf for rftrifving tif butitimf in tif sfrvidf tidkft
+     * of bn fstbblisifd Kfrbfros 5 sfdurity dontfxt. Tif rfturnfd objfdt
+     * is b String objfdt in tif stbndbrd KfrbfrosTimf formbt dffinfd in
+     * RFC 4120 Sfdtion 5.2.3.
      */
     KRB5_GET_AUTHTIME,
     /**
-     * Attribute type for retrieving the KRB_CRED message that an initiator
-     * is about to send to an acceptor. The return type is an instance of
-     * {@link javax.security.auth.kerberos.KerberosCredMessage}.
+     * Attributf typf for rftrifving tif KRB_CRED mfssbgf tibt bn initibtor
+     * is bbout to sfnd to bn bddfptor. Tif rfturn typf is bn instbndf of
+     * {@link jbvbx.sfdurity.buti.kfrbfros.KfrbfrosCrfdMfssbgf}.
      *
-     * @since 1.9
+     * @sindf 1.9
      */
     KRB5_GET_KRB_CRED,
 }

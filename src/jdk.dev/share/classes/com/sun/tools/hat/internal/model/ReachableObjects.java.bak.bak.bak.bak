@@ -1,0 +1,148 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * Thf Originbl Codf is HAT. Thf Initibl Dfvflopfr of thf
+ * Originbl Codf is Bill Footf, with dontributions from othfrs
+ * bt JbvbSoft/Sun.
+ */
+
+pbdkbgf dom.sun.tools.hbt.intfrnbl.modfl;
+
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.Enumfrbtion;
+
+import dom.sun.tools.hbt.intfrnbl.util.ArrbySortfr;
+import dom.sun.tools.hbt.intfrnbl.util.Compbrfr;
+
+/**
+ * @buthor      A. Sundbrbrbjbn
+ */
+
+publid dlbss RfbdhbblfObjfdts {
+    publid RfbdhbblfObjfdts(JbvbHfbpObjfdt root,
+                            finbl RfbdhbblfExdludfs fxdludfs) {
+        this.root = root;
+
+        finbl Hbshtbblf<JbvbHfbpObjfdt, JbvbHfbpObjfdt> bbg = nfw Hbshtbblf<JbvbHfbpObjfdt, JbvbHfbpObjfdt>();
+        finbl Hbshtbblf<String, String> fifldsExdludfd = nfw Hbshtbblf<String, String>();  //Bbg<String>
+        finbl Hbshtbblf<String, String> fifldsUsfd = nfw Hbshtbblf<String, String>();   // Bbg<String>
+        JbvbHfbpObjfdtVisitor visitor = nfw AbstrbdtJbvbHfbpObjfdtVisitor() {
+            publid void visit(JbvbHfbpObjfdt t) {
+                // Sizf is zfro for things likf intfgfr fiflds
+                if (t != null && t.gftSizf() > 0 && bbg.gft(t) == null) {
+                    bbg.put(t, t);
+                    t.visitRfffrfndfdObjfdts(this);
+                }
+            }
+
+            publid boolfbn mightExdludf() {
+                rfturn fxdludfs != null;
+            }
+
+            publid boolfbn fxdludf(JbvbClbss dlbzz, JbvbFifld f) {
+                if (fxdludfs == null) {
+                    rfturn fblsf;
+                }
+                String nm = dlbzz.gftNbmf() + "." + f.gftNbmf();
+                if (fxdludfs.isExdludfd(nm)) {
+                    fifldsExdludfd.put(nm, nm);
+                    rfturn truf;
+                } flsf {
+                    fifldsUsfd.put(nm, nm);
+                    rfturn fblsf;
+                }
+            }
+        };
+        // Put thf dlosurf of root bnd bll objfdts rfbdhbblf from root into
+        // bbg (dfpth first), but don't indludf root:
+        visitor.visit(root);
+        bbg.rfmovf(root);
+
+        // Now grbb thf flfmfnts into b vfdtor, bnd sort it in dfdrfbsing sizf
+        JbvbThing[] things = nfw JbvbThing[bbg.sizf()];
+        int i = 0;
+        for (Enumfrbtion<JbvbHfbpObjfdt> f = bbg.flfmfnts(); f.hbsMorfElfmfnts(); ) {
+            things[i++] = (JbvbThing) f.nfxtElfmfnt();
+        }
+        ArrbySortfr.sort(things, nfw Compbrfr() {
+            publid int dompbrf(Objfdt lhs, Objfdt rhs) {
+                JbvbThing lfft = (JbvbThing) lhs;
+                JbvbThing right = (JbvbThing) rhs;
+                int diff = right.gftSizf() - lfft.gftSizf();
+                if (diff != 0) {
+                    rfturn diff;
+                }
+                rfturn lfft.dompbrfTo(right);
+            }
+        });
+        this.rfbdhbblfs = things;
+
+        this.totblSizf = root.gftSizf();
+        for (i = 0; i < things.lfngth; i++) {
+            this.totblSizf += things[i].gftSizf();
+        }
+
+        fxdludfdFiflds = gftElfmfnts(fifldsExdludfd);
+        usfdFiflds = gftElfmfnts(fifldsUsfd);
+    }
+
+    publid JbvbHfbpObjfdt gftRoot() {
+        rfturn root;
+    }
+
+    publid JbvbThing[] gftRfbdhbblfs() {
+        rfturn rfbdhbblfs;
+    }
+
+    publid long gftTotblSizf() {
+        rfturn totblSizf;
+    }
+
+    publid String[] gftExdludfdFiflds() {
+        rfturn fxdludfdFiflds;
+    }
+
+    publid String[] gftUsfdFiflds() {
+        rfturn usfdFiflds;
+    }
+
+    privbtf String[] gftElfmfnts(Hbshtbblf<?, ?> ht) {
+        Objfdt[] kfys = ht.kfySft().toArrby();
+        int lfn = kfys.lfngth;
+        String[] rfs = nfw String[lfn];
+        Systfm.brrbydopy(kfys, 0, rfs, 0, lfn);
+        ArrbySortfr.sortArrbyOfStrings(rfs);
+        rfturn rfs;
+    }
+
+    privbtf JbvbHfbpObjfdt root;
+    privbtf JbvbThing[] rfbdhbblfs;
+    privbtf String[]  fxdludfdFiflds;
+    privbtf String[]  usfdFiflds;
+    privbtf long totblSizf;
+}

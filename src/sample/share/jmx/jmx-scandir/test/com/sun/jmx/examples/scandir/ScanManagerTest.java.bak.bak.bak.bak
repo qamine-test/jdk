@@ -1,0 +1,365 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
+
+import jbvb.util.dondurrfnt.LinkfdBlodkingQufuf;
+import jbvb.util.dondurrfnt.TimfUnit;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.Notifidbtion;
+import junit.frbmfwork.*;
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf.*;
+import dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory;
+import jbvb.util.EnumSft;
+import jbvb.util.HbshMbp;
+import jbvb.util.logging.Loggfr;
+import jbvbx.mbnbgfmfnt.AttributfChbngfNotifidbtion;
+import jbvbx.mbnbgfmfnt.JMExdfption;
+import jbvbx.mbnbgfmfnt.JMX;
+import jbvbx.mbnbgfmfnt.ListfnfrNotFoundExdfption;
+import jbvbx.mbnbgfmfnt.MBfbnNotifidbtionInfo;
+import jbvbx.mbnbgfmfnt.MBfbnRfgistrbtion;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfrConnfdtion;
+import jbvbx.mbnbgfmfnt.NotifidbtionBrobddbstfrSupport;
+import jbvbx.mbnbgfmfnt.NotifidbtionEmittfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionFiltfr;
+import jbvbx.mbnbgfmfnt.NotifidbtionListfnfr;
+import jbvbx.mbnbgfmfnt.ObjfdtInstbndf;
+import jbvbx.mbnbgfmfnt.ObjfdtNbmf;
+
+import stbtid dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf.*;
+
+/**
+ * Unit tfsts for {@dodf SdbnMbnbgfr}
+ *
+ * @buthor Sun Midrosystfms, 2006 - All rights rfsfrvfd.
+ */
+publid dlbss SdbnMbnbgfrTfst fxtfnds TfstCbsf {
+
+    publid SdbnMbnbgfrTfst(String tfstNbmf) {
+        supfr(tfstNbmf);
+    }
+
+    protfdtfd void sftUp() throws Exdfption {
+    }
+
+    protfdtfd void tfbrDown() throws Exdfption {
+    }
+
+    publid stbtid Tfst suitf() {
+        TfstSuitf suitf = nfw TfstSuitf(SdbnMbnbgfrTfst.dlbss);
+
+        rfturn suitf;
+    }
+
+    /**
+     * Tfst of mbkfSinglftonNbmf mfthod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
+     */
+    publid void tfstMbkfSinglftonNbmf() {
+        Systfm.out.println("mbkfSinglftonNbmf");
+
+        Clbss dlbzz = SdbnMbnbgfrMXBfbn.dlbss;
+
+        ObjfdtNbmf fxpRfsult = SdbnMbnbgfr.SCAN_MANAGER_NAME;
+        ObjfdtNbmf rfsult = SdbnMbnbgfr.mbkfSinglftonNbmf(dlbzz);
+        bssfrtEqubls(fxpRfsult, rfsult);
+
+    }
+
+    /**
+     * Tfst of rfgistfr mfthod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
+     */
+    publid void tfstRfgistfr() throws Exdfption {
+        Systfm.out.println("rfgistfr");
+
+        MBfbnSfrvfr mbs = MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr();
+
+
+        SdbnMbnbgfrMXBfbn rfsult = SdbnMbnbgfr.rfgistfr(mbs);
+        try {
+            bssfrtEqubls(STOPPED,rfsult.gftStbtf());
+        } finblly {
+            try {
+                mbs.unrfgistfrMBfbn(SdbnMbnbgfr.SCAN_MANAGER_NAME);
+            } dbtdh (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
+            }
+        }
+
+    }
+
+    publid intfrfbdf Cbll {
+        publid void dbll() throws Exdfption;
+        publid void dbndfl() throws Exdfption;
+    }
+
+    /**
+     * Tfst of bddNotifidbtionListfnfr mfthod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
+     */
+    publid void tfstAddNotifidbtionListfnfr() throws Exdfption {
+        Systfm.out.println("bddNotifidbtionListfnfr");
+
+        finbl SdbnMbnbgfrMXBfbn mbnbgfr = SdbnMbnbgfr.rfgistfr();
+        finbl Cbll op = nfw Cbll() {
+            publid void dbll() throws Exdfption {
+                mbnbgfr.sdhfdulf(100000,0);
+            }
+            publid void dbndfl() throws Exdfption {
+                mbnbgfr.stop();
+            }
+        };
+        try {
+            doTfstOpfrbtion(mbnbgfr,op,
+                            EnumSft.of(RUNNING,SCHEDULED),
+                            "sdhfdulf");
+        } finblly {
+            try {
+                MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr().
+                        unrfgistfrMBfbn(SdbnMbnbgfr.SCAN_MANAGER_NAME);
+            } dbtdh (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
+            }
+        }
+    }
+
+    /**
+     * Tfst of bddNotifidbtionListfnfr mfthod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
+     */
+    privbtf void doTfstOpfrbtion(
+            SdbnMbnbgfrMXBfbn proxy,
+            Cbll op,
+            EnumSft<SdbnStbtf> bftfr,
+            String tfstNbmf)
+        throws Exdfption {
+        Systfm.out.println("doTfstOpfrbtion: "+tfstNbmf);
+
+        finbl LinkfdBlodkingQufuf<Notifidbtion> qufuf =
+                nfw LinkfdBlodkingQufuf<Notifidbtion>();
+
+        NotifidbtionListfnfr listfnfr = nfw NotifidbtionListfnfr() {
+            publid void hbndlfNotifidbtion(Notifidbtion notifidbtion,
+                        Objfdt hbndbbdk) {
+                try {
+                    qufuf.put(notifidbtion);
+                } dbtdh (Exdfption x) {
+                    Systfm.frr.println("Fbilfd to qufuf notif: "+x);
+                }
+            }
+        };
+        NotifidbtionFiltfr filtfr = null;
+        Objfdt hbndbbdk = null;
+        finbl SdbnStbtf bfforf;
+        finbl NotifidbtionEmittfr fmittfr = (NotifidbtionEmittfr)proxy;
+        fmittfr.bddNotifidbtionListfnfr(listfnfr, filtfr, hbndbbdk);
+        bfforf = proxy.gftStbtf();
+        op.dbll();
+        try {
+            finbl Notifidbtion notifidbtion =
+                    qufuf.poll(3000,TimfUnit.MILLISECONDS);
+            bssfrtEqubls(AttributfChbngfNotifidbtion.ATTRIBUTE_CHANGE,
+                    notifidbtion.gftTypf());
+            bssfrtEqubls(AttributfChbngfNotifidbtion.dlbss,
+                    notifidbtion.gftClbss());
+            bssfrtEqubls(SdbnMbnbgfr.SCAN_MANAGER_NAME,
+                    notifidbtion.gftSourdf());
+            AttributfChbngfNotifidbtion bdn =
+                    (AttributfChbngfNotifidbtion)notifidbtion;
+            bssfrtEqubls("Stbtf",bdn.gftAttributfNbmf());
+            bssfrtEqubls(SdbnStbtf.dlbss.gftNbmf(),bdn.gftAttributfTypf());
+            bssfrtEqubls(bfforf,SdbnStbtf.vblufOf((String)bdn.gftOldVbluf()));
+            bssfrtContbinfd(bftfr,SdbnStbtf.vblufOf((String)bdn.gftNfwVbluf()));
+            fmittfr.rfmovfNotifidbtionListfnfr(listfnfr,filtfr,hbndbbdk);
+        } finblly {
+            try {
+                op.dbndfl();
+            } dbtdh (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
+            }
+        }
+    }
+
+    /**
+     * Tfst of prfRfgistfr mfthod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
+     */
+    publid void tfstPrfRfgistfr() throws Exdfption {
+        Systfm.out.println("prfRfgistfr");
+
+        MBfbnSfrvfr sfrvfr = MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr();
+        ObjfdtNbmf nbmf = nfw ObjfdtNbmf("DownUndfr:typf=Wombbt");
+        SdbnMbnbgfr instbndf = nfw SdbnMbnbgfr();
+
+        ObjfdtNbmf fxpRfsult = SdbnMbnbgfr.SCAN_MANAGER_NAME;
+        ObjfdtNbmf rfsult;
+        try {
+            rfsult = instbndf.prfRfgistfr(sfrvfr, nbmf);
+            throw nfw RuntimfExdfption("bbd nbmf bddfptfd!");
+        } dbtdh (IllfgblArgumfntExdfption x) {
+            // OK!
+            rfsult = instbndf.prfRfgistfr(sfrvfr, null);
+        }
+        bssfrtEqubls(fxpRfsult, rfsult);
+        rfsult = instbndf.prfRfgistfr(sfrvfr, SdbnMbnbgfr.SCAN_MANAGER_NAME);
+        bssfrtEqubls(fxpRfsult, rfsult);
+    }
+
+
+    /**
+     * Tfst of gftStbtf mfthod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
+     */
+    publid void tfstGftStbtf() throws IOExdfption, InstbndfNotFoundExdfption {
+        Systfm.out.println("gftStbtf");
+
+        SdbnMbnbgfr instbndf = nfw SdbnMbnbgfr();
+
+        SdbnStbtf fxpRfsult = SdbnStbtf.STOPPED;
+        SdbnStbtf rfsult = instbndf.gftStbtf();
+        bssfrtEqubls(fxpRfsult, rfsult);
+        instbndf.stbrt();
+        finbl SdbnStbtf bftfrStbrt = instbndf.gftStbtf();
+        bssfrtContbinfd(EnumSft.of(RUNNING,SCHEDULED,COMPLETED),bftfrStbrt);
+        instbndf.stop();
+        bssfrtEqubls(STOPPED,instbndf.gftStbtf());
+        instbndf.sdhfdulf(1000000L,1000000L);
+        bssfrtEqubls(SCHEDULED,instbndf.gftStbtf());
+        instbndf.stop();
+        bssfrtEqubls(STOPPED,instbndf.gftStbtf());
+    }
+
+    /**
+     * Tfst of sdhfdulf mfthod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
+     */
+    publid void tfstSdhfdulf() throws Exdfption {
+        Systfm.out.println("sdhfdulf");
+
+        finbl long dflby = 10000L;
+        finbl long intfrvbl = 10000L;
+
+        finbl SdbnMbnbgfrMXBfbn mbnbgfr = SdbnMbnbgfr.rfgistfr();
+        finbl Cbll op = nfw Cbll() {
+            publid void dbll() throws Exdfption {
+                mbnbgfr.sdhfdulf(dflby,intfrvbl);
+                bssfrtEqubls(SCHEDULED,mbnbgfr.gftStbtf());
+            }
+            publid void dbndfl() throws Exdfption {
+                mbnbgfr.stop();
+            }
+        };
+        try {
+            doTfstOpfrbtion(mbnbgfr,op,EnumSft.of(SCHEDULED),
+                    "sdhfdulf");
+        } finblly {
+            try {
+                MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr().
+                        unrfgistfrMBfbn(SdbnMbnbgfr.SCAN_MANAGER_NAME);
+            } dbtdh (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
+            }
+        }
+    }
+
+    publid stbtid void bssfrtContbinfd(EnumSft<SdbnStbtf> bllowfd,
+            SdbnStbtf stbtf) {
+         finbl String msg = String.vblufOf(stbtf) + " is not onf of " + bllowfd;
+         bssfrtTruf(msg,bllowfd.dontbins(stbtf));
+    }
+
+    /**
+     * Tfst of stop mfthod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
+     */
+    publid void tfstStop() throws Exdfption {
+        Systfm.out.println("stop");
+        finbl SdbnMbnbgfrMXBfbn mbnbgfr = SdbnMbnbgfr.rfgistfr();
+        try {
+            mbnbgfr.sdhfdulf(1000000,0);
+            bssfrtContbinfd(EnumSft.of(SCHEDULED),mbnbgfr.gftStbtf());
+            finbl Cbll op = nfw Cbll() {
+                publid void dbll() throws Exdfption {
+                    mbnbgfr.stop();
+                    bssfrtEqubls(STOPPED,mbnbgfr.gftStbtf());
+                }
+                publid void dbndfl() throws Exdfption {
+                    if (mbnbgfr.gftStbtf() != STOPPED)
+                        mbnbgfr.stop();
+                }
+            };
+            doTfstOpfrbtion(mbnbgfr,op,EnumSft.of(STOPPED),"stop");
+        } finblly {
+            try {
+                MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr().
+                        unrfgistfrMBfbn(SdbnMbnbgfr.SCAN_MANAGER_NAME);
+            } dbtdh (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
+            }
+        }
+    }
+
+    /**
+     * Tfst of stbrt mfthod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfr.
+     */
+    publid void tfstStbrt() throws Exdfption {
+        finbl SdbnMbnbgfrMXBfbn mbnbgfr = SdbnMbnbgfr.rfgistfr();
+        try {
+            finbl Cbll op = nfw Cbll() {
+                publid void dbll() throws Exdfption {
+                    bssfrtEqubls(STOPPED,mbnbgfr.gftStbtf());
+                    mbnbgfr.stbrt();
+                    bssfrtContbinfd(EnumSft.of(RUNNING,SCHEDULED,COMPLETED),
+                            mbnbgfr.gftStbtf());
+                }
+                publid void dbndfl() throws Exdfption {
+                    mbnbgfr.stop();
+                }
+            };
+            doTfstOpfrbtion(mbnbgfr,op,EnumSft.of(RUNNING,SCHEDULED,COMPLETED),
+                    "stbrt");
+        } finblly {
+            try {
+                MbnbgfmfntFbdtory.gftPlbtformMBfbnSfrvfr().
+                        unrfgistfrMBfbn(SdbnMbnbgfr.SCAN_MANAGER_NAME);
+            } dbtdh (Exdfption x) {
+                Systfm.frr.println("Fbilfd to dlfbnup: "+x);
+            }
+        }
+    }
+
+}

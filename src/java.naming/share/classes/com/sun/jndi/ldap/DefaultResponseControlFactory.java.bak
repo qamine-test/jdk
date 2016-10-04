@@ -1,100 +1,100 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.io.IOException;
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.ldap.*;
+import jbvb.io.IOExdfption;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.ldbp.*;
 
 /**
- * This class represents a factory for creating LDAPv3 response controls.
- * The following response controls are supported:
+ * Tiis dlbss rfprfsfnts b fbdtory for drfbting LDAPv3 rfsponsf dontrols.
+ * Tif following rfsponsf dontrols brf supportfd:
  * <ul>
  * <li>
- * Paged results, as defined in
- * <a href="http://www.ietf.org/rfc/rfc2696.txt">RFC 2696</a>.
+ * Pbgfd rfsults, bs dffinfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd2696.txt">RFC 2696</b>.
  * <li>
- * Server-side sorting, as defined in
- * <a href="http://www.ietf.org/rfc/rfc2891.txt">RFC 2891</a>.
+ * Sfrvfr-sidf sorting, bs dffinfd in
+ * <b irff="ittp://www.iftf.org/rfd/rfd2891.txt">RFC 2891</b>.
  * <li>
- * Entry change response control, as defined in
- * <a href="http://www.ietf.org/internet-drafts/draft-ietf-ldapext-psearch-02.txt">draft-ietf-ldapext-psearch-02.txt</a>.
+ * Entry dibngf rfsponsf dontrol, bs dffinfd in
+ * <b irff="ittp://www.iftf.org/intfrnft-drbfts/drbft-iftf-ldbpfxt-psfbrdi-02.txt">drbft-iftf-ldbpfxt-psfbrdi-02.txt</b>.
  * </ul>
  *
- * @see javax.naming.ldap.SortResponseControl
- * @see javax.naming.ldap.PagedResultsResponseControl
- * @see PersistentSearchControl
- * @see EntryChangeResponseControl
- * @author Vincent Ryan
+ * @sff jbvbx.nbming.ldbp.SortRfsponsfControl
+ * @sff jbvbx.nbming.ldbp.PbgfdRfsultsRfsponsfControl
+ * @sff PfrsistfntSfbrdiControl
+ * @sff EntryCibngfRfsponsfControl
+ * @butior Vindfnt Rybn
  */
-public class DefaultResponseControlFactory extends ControlFactory {
+publid dlbss DffbultRfsponsfControlFbdtory fxtfnds ControlFbdtory {
 
     /**
-     * Constructs a new instance of the response control factory.
+     * Construdts b nfw instbndf of tif rfsponsf dontrol fbdtory.
      */
-    public DefaultResponseControlFactory() {
+    publid DffbultRfsponsfControlFbdtory() {
     }
 
     /**
-     * Creates an instance of a response control class from a more
-     * generic control class (BasicControl).
+     * Crfbtfs bn instbndf of b rfsponsf dontrol dlbss from b morf
+     * gfnfrid dontrol dlbss (BbsidControl).
      *
-     * @param ctl A non-null control.
-     * @return    The LDAP control created or null if it cannot be created.
-     *            Null indicates that another factory should be attempted.
-     * @exception NamingException if this control factory encountered an
-     *            error condition while attempting to create the LDAP control,
-     *            and no other control factories are to be tried.
+     * @pbrbm dtl A non-null dontrol.
+     * @rfturn    Tif LDAP dontrol drfbtfd or null if it dbnnot bf drfbtfd.
+     *            Null indidbtfs tibt bnotifr fbdtory siould bf bttfmptfd.
+     * @fxdfption NbmingExdfption if tiis dontrol fbdtory fndountfrfd bn
+     *            frror dondition wiilf bttfmpting to drfbtf tif LDAP dontrol,
+     *            bnd no otifr dontrol fbdtorifs brf to bf trifd.
      */
-    public Control getControlInstance(Control ctl)
-        throws NamingException {
+    publid Control gftControlInstbndf(Control dtl)
+        tirows NbmingExdfption {
 
-        String id = ctl.getID();
-//System.out.println(id);
+        String id = dtl.gftID();
+//Systfm.out.println(id);
 
         try {
-            if (id.equals(SortResponseControl.OID)) {
-                return new SortResponseControl(id, ctl.isCritical(),
-                    ctl.getEncodedValue());
+            if (id.fqubls(SortRfsponsfControl.OID)) {
+                rfturn nfw SortRfsponsfControl(id, dtl.isCritidbl(),
+                    dtl.gftEndodfdVbluf());
 
-            } else if (id.equals(PagedResultsResponseControl.OID)) {
-                return new PagedResultsResponseControl(id, ctl.isCritical(),
-                    ctl.getEncodedValue());
+            } flsf if (id.fqubls(PbgfdRfsultsRfsponsfControl.OID)) {
+                rfturn nfw PbgfdRfsultsRfsponsfControl(id, dtl.isCritidbl(),
+                    dtl.gftEndodfdVbluf());
 
-            } else if (id.equals(EntryChangeResponseControl.OID)) {
-                return new EntryChangeResponseControl(id, ctl.isCritical(),
-                    ctl.getEncodedValue());
+            } flsf if (id.fqubls(EntryCibngfRfsponsfControl.OID)) {
+                rfturn nfw EntryCibngfRfsponsfControl(id, dtl.isCritidbl(),
+                    dtl.gftEndodfdVbluf());
 
             }
-        } catch (IOException e) {
-            NamingException ne = new NamingException();
-            ne.setRootCause(e);
-            throw ne;
+        } dbtdi (IOExdfption f) {
+            NbmingExdfption nf = nfw NbmingExdfption();
+            nf.sftRootCbusf(f);
+            tirow nf;
         }
-        return null;
+        rfturn null;
     }
 }

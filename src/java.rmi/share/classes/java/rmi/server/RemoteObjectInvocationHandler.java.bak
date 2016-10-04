@@ -1,281 +1,281 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.rmi.server;
+pbdkbgf jbvb.rmi.sfrvfr;
 
-import java.io.InvalidObjectException;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
-import java.rmi.Remote;
-import java.rmi.UnexpectedException;
-import java.rmi.activation.Activatable;
-import java.util.Map;
-import java.util.WeakHashMap;
-import sun.rmi.server.Util;
-import sun.rmi.server.WeakClassHashMap;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.lbng.rfflfdt.InvodbtionHbndlfr;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.UnfxpfdtfdExdfption;
+import jbvb.rmi.bdtivbtion.Adtivbtbblf;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
+import sun.rmi.sfrvfr.Util;
+import sun.rmi.sfrvfr.WfbkClbssHbsiMbp;
 
 /**
- * An implementation of the <code>InvocationHandler</code> interface for
- * use with Java Remote Method Invocation (Java RMI).  This invocation
- * handler can be used in conjunction with a dynamic proxy instance as a
- * replacement for a pregenerated stub class.
+ * An implfmfntbtion of tif <dodf>InvodbtionHbndlfr</dodf> intfrfbdf for
+ * usf witi Jbvb Rfmotf Mftiod Invodbtion (Jbvb RMI).  Tiis invodbtion
+ * ibndlfr dbn bf usfd in donjundtion witi b dynbmid proxy instbndf bs b
+ * rfplbdfmfnt for b prfgfnfrbtfd stub dlbss.
  *
- * <p>Applications are not expected to use this class directly.  A remote
- * object exported to use a dynamic proxy with {@link UnicastRemoteObject}
- * or {@link Activatable} has an instance of this class as that proxy's
- * invocation handler.
+ * <p>Applidbtions brf not fxpfdtfd to usf tiis dlbss dirfdtly.  A rfmotf
+ * objfdt fxportfd to usf b dynbmid proxy witi {@link UnidbstRfmotfObjfdt}
+ * or {@link Adtivbtbblf} ibs bn instbndf of tiis dlbss bs tibt proxy's
+ * invodbtion ibndlfr.
  *
- * @author  Ann Wollrath
- * @since   1.5
+ * @butior  Ann Wollrbti
+ * @sindf   1.5
  **/
-public class RemoteObjectInvocationHandler
-    extends RemoteObject
-    implements InvocationHandler
+publid dlbss RfmotfObjfdtInvodbtionHbndlfr
+    fxtfnds RfmotfObjfdt
+    implfmfnts InvodbtionHbndlfr
 {
-    private static final long serialVersionUID = 2L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 2L;
 
     /**
-     * A weak hash map, mapping classes to weak hash maps that map
-     * method objects to method hashes.
+     * A wfbk ibsi mbp, mbpping dlbssfs to wfbk ibsi mbps tibt mbp
+     * mftiod objfdts to mftiod ibsifs.
      **/
-    private static final MethodToHash_Maps methodToHash_Maps =
-        new MethodToHash_Maps();
+    privbtf stbtid finbl MftiodToHbsi_Mbps mftiodToHbsi_Mbps =
+        nfw MftiodToHbsi_Mbps();
 
     /**
-     * Creates a new <code>RemoteObjectInvocationHandler</code> constructed
-     * with the specified <code>RemoteRef</code>.
+     * Crfbtfs b nfw <dodf>RfmotfObjfdtInvodbtionHbndlfr</dodf> donstrudtfd
+     * witi tif spfdififd <dodf>RfmotfRff</dodf>.
      *
-     * @param ref the remote ref
+     * @pbrbm rff tif rfmotf rff
      *
-     * @throws NullPointerException if <code>ref</code> is <code>null</code>
+     * @tirows NullPointfrExdfption if <dodf>rff</dodf> is <dodf>null</dodf>
      **/
-    public RemoteObjectInvocationHandler(RemoteRef ref) {
-        super(ref);
-        if (ref == null) {
-            throw new NullPointerException();
+    publid RfmotfObjfdtInvodbtionHbndlfr(RfmotfRff rff) {
+        supfr(rff);
+        if (rff == null) {
+            tirow nfw NullPointfrExdfption();
         }
     }
 
     /**
-     * Processes a method invocation made on the encapsulating
-     * proxy instance, <code>proxy</code>, and returns the result.
+     * Prodfssfs b mftiod invodbtion mbdf on tif fndbpsulbting
+     * proxy instbndf, <dodf>proxy</dodf>, bnd rfturns tif rfsult.
      *
-     * <p><code>RemoteObjectInvocationHandler</code> implements this method
-     * as follows:
+     * <p><dodf>RfmotfObjfdtInvodbtionHbndlfr</dodf> implfmfnts tiis mftiod
+     * bs follows:
      *
-     * <p>If <code>method</code> is one of the following methods, it
-     * is processed as described below:
-     *
-     * <ul>
-     *
-     * <li>{@link Object#hashCode Object.hashCode}: Returns the hash
-     * code value for the proxy.
-     *
-     * <li>{@link Object#equals Object.equals}: Returns <code>true</code>
-     * if the argument (<code>args[0]</code>) is an instance of a dynamic
-     * proxy class and this invocation handler is equal to the invocation
-     * handler of that argument, and returns <code>false</code> otherwise.
-     *
-     * <li>{@link Object#toString Object.toString}: Returns a string
-     * representation of the proxy.
-     * </ul>
-     *
-     * <p>Otherwise, a remote call is made as follows:
+     * <p>If <dodf>mftiod</dodf> is onf of tif following mftiods, it
+     * is prodfssfd bs dfsdribfd bflow:
      *
      * <ul>
-     * <li>If <code>proxy</code> is not an instance of the interface
-     * {@link Remote}, then an {@link IllegalArgumentException} is thrown.
      *
-     * <li>Otherwise, the {@link RemoteRef#invoke invoke} method is invoked
-     * on this invocation handler's <code>RemoteRef</code>, passing
-     * <code>proxy</code>, <code>method</code>, <code>args</code>, and the
-     * method hash (defined in section 8.3 of the "Java Remote Method
-     * Invocation (RMI) Specification") for <code>method</code>, and the
-     * result is returned.
+     * <li>{@link Objfdt#ibsiCodf Objfdt.ibsiCodf}: Rfturns tif ibsi
+     * dodf vbluf for tif proxy.
      *
-     * <li>If an exception is thrown by <code>RemoteRef.invoke</code> and
-     * that exception is a checked exception that is not assignable to any
-     * exception in the <code>throws</code> clause of the method
-     * implemented by the <code>proxy</code>'s class, then that exception
-     * is wrapped in an {@link UnexpectedException} and the wrapped
-     * exception is thrown.  Otherwise, the exception thrown by
-     * <code>invoke</code> is thrown by this method.
+     * <li>{@link Objfdt#fqubls Objfdt.fqubls}: Rfturns <dodf>truf</dodf>
+     * if tif brgumfnt (<dodf>brgs[0]</dodf>) is bn instbndf of b dynbmid
+     * proxy dlbss bnd tiis invodbtion ibndlfr is fqubl to tif invodbtion
+     * ibndlfr of tibt brgumfnt, bnd rfturns <dodf>fblsf</dodf> otifrwisf.
+     *
+     * <li>{@link Objfdt#toString Objfdt.toString}: Rfturns b string
+     * rfprfsfntbtion of tif proxy.
      * </ul>
      *
-     * <p>The semantics of this method are unspecified if the
-     * arguments could not have been produced by an instance of some
-     * valid dynamic proxy class containing this invocation handler.
+     * <p>Otifrwisf, b rfmotf dbll is mbdf bs follows:
      *
-     * @param proxy the proxy instance that the method was invoked on
-     * @param method the <code>Method</code> instance corresponding to the
-     * interface method invoked on the proxy instance
-     * @param args an array of objects containing the values of the
-     * arguments passed in the method invocation on the proxy instance, or
-     * <code>null</code> if the method takes no arguments
-     * @return the value to return from the method invocation on the proxy
-     * instance
-     * @throws  Throwable the exception to throw from the method invocation
-     * on the proxy instance
+     * <ul>
+     * <li>If <dodf>proxy</dodf> is not bn instbndf of tif intfrfbdf
+     * {@link Rfmotf}, tifn bn {@link IllfgblArgumfntExdfption} is tirown.
+     *
+     * <li>Otifrwisf, tif {@link RfmotfRff#invokf invokf} mftiod is invokfd
+     * on tiis invodbtion ibndlfr's <dodf>RfmotfRff</dodf>, pbssing
+     * <dodf>proxy</dodf>, <dodf>mftiod</dodf>, <dodf>brgs</dodf>, bnd tif
+     * mftiod ibsi (dffinfd in sfdtion 8.3 of tif "Jbvb Rfmotf Mftiod
+     * Invodbtion (RMI) Spfdifidbtion") for <dodf>mftiod</dodf>, bnd tif
+     * rfsult is rfturnfd.
+     *
+     * <li>If bn fxdfption is tirown by <dodf>RfmotfRff.invokf</dodf> bnd
+     * tibt fxdfption is b difdkfd fxdfption tibt is not bssignbblf to bny
+     * fxdfption in tif <dodf>tirows</dodf> dlbusf of tif mftiod
+     * implfmfntfd by tif <dodf>proxy</dodf>'s dlbss, tifn tibt fxdfption
+     * is wrbppfd in bn {@link UnfxpfdtfdExdfption} bnd tif wrbppfd
+     * fxdfption is tirown.  Otifrwisf, tif fxdfption tirown by
+     * <dodf>invokf</dodf> is tirown by tiis mftiod.
+     * </ul>
+     *
+     * <p>Tif sfmbntids of tiis mftiod brf unspfdififd if tif
+     * brgumfnts dould not ibvf bffn produdfd by bn instbndf of somf
+     * vblid dynbmid proxy dlbss dontbining tiis invodbtion ibndlfr.
+     *
+     * @pbrbm proxy tif proxy instbndf tibt tif mftiod wbs invokfd on
+     * @pbrbm mftiod tif <dodf>Mftiod</dodf> instbndf dorrfsponding to tif
+     * intfrfbdf mftiod invokfd on tif proxy instbndf
+     * @pbrbm brgs bn brrby of objfdts dontbining tif vblufs of tif
+     * brgumfnts pbssfd in tif mftiod invodbtion on tif proxy instbndf, or
+     * <dodf>null</dodf> if tif mftiod tbkfs no brgumfnts
+     * @rfturn tif vbluf to rfturn from tif mftiod invodbtion on tif proxy
+     * instbndf
+     * @tirows  Tirowbblf tif fxdfption to tirow from tif mftiod invodbtion
+     * on tif proxy instbndf
      **/
-    public Object invoke(Object proxy, Method method, Object[] args)
-        throws Throwable
+    publid Objfdt invokf(Objfdt proxy, Mftiod mftiod, Objfdt[] brgs)
+        tirows Tirowbblf
     {
-        if (method.getDeclaringClass() == Object.class) {
-            return invokeObjectMethod(proxy, method, args);
-        } else {
-            return invokeRemoteMethod(proxy, method, args);
+        if (mftiod.gftDfdlbringClbss() == Objfdt.dlbss) {
+            rfturn invokfObjfdtMftiod(proxy, mftiod, brgs);
+        } flsf {
+            rfturn invokfRfmotfMftiod(proxy, mftiod, brgs);
         }
     }
 
     /**
-     * Handles java.lang.Object methods.
+     * Hbndlfs jbvb.lbng.Objfdt mftiods.
      **/
-    private Object invokeObjectMethod(Object proxy,
-                                      Method method,
-                                      Object[] args)
+    privbtf Objfdt invokfObjfdtMftiod(Objfdt proxy,
+                                      Mftiod mftiod,
+                                      Objfdt[] brgs)
     {
-        String name = method.getName();
+        String nbmf = mftiod.gftNbmf();
 
-        if (name.equals("hashCode")) {
-            return hashCode();
+        if (nbmf.fqubls("ibsiCodf")) {
+            rfturn ibsiCodf();
 
-        } else if (name.equals("equals")) {
-            Object obj = args[0];
-            return
+        } flsf if (nbmf.fqubls("fqubls")) {
+            Objfdt obj = brgs[0];
+            rfturn
                 proxy == obj ||
                 (obj != null &&
-                 Proxy.isProxyClass(obj.getClass()) &&
-                 equals(Proxy.getInvocationHandler(obj)));
+                 Proxy.isProxyClbss(obj.gftClbss()) &&
+                 fqubls(Proxy.gftInvodbtionHbndlfr(obj)));
 
-        } else if (name.equals("toString")) {
-            return proxyToString(proxy);
+        } flsf if (nbmf.fqubls("toString")) {
+            rfturn proxyToString(proxy);
 
-        } else {
-            throw new IllegalArgumentException(
-                "unexpected Object method: " + method);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption(
+                "unfxpfdtfd Objfdt mftiod: " + mftiod);
         }
     }
 
     /**
-     * Handles remote methods.
+     * Hbndlfs rfmotf mftiods.
      **/
-    private Object invokeRemoteMethod(Object proxy,
-                                      Method method,
-                                      Object[] args)
-        throws Exception
+    privbtf Objfdt invokfRfmotfMftiod(Objfdt proxy,
+                                      Mftiod mftiod,
+                                      Objfdt[] brgs)
+        tirows Exdfption
     {
         try {
-            if (!(proxy instanceof Remote)) {
-                throw new IllegalArgumentException(
-                    "proxy not Remote instance");
+            if (!(proxy instbndfof Rfmotf)) {
+                tirow nfw IllfgblArgumfntExdfption(
+                    "proxy not Rfmotf instbndf");
             }
-            return ref.invoke((Remote) proxy, method, args,
-                              getMethodHash(method));
-        } catch (Exception e) {
-            if (!(e instanceof RuntimeException)) {
-                Class<?> cl = proxy.getClass();
+            rfturn rff.invokf((Rfmotf) proxy, mftiod, brgs,
+                              gftMftiodHbsi(mftiod));
+        } dbtdi (Exdfption f) {
+            if (!(f instbndfof RuntimfExdfption)) {
+                Clbss<?> dl = proxy.gftClbss();
                 try {
-                    method = cl.getMethod(method.getName(),
-                                          method.getParameterTypes());
-                } catch (NoSuchMethodException nsme) {
-                    throw (IllegalArgumentException)
-                        new IllegalArgumentException().initCause(nsme);
+                    mftiod = dl.gftMftiod(mftiod.gftNbmf(),
+                                          mftiod.gftPbrbmftfrTypfs());
+                } dbtdi (NoSudiMftiodExdfption nsmf) {
+                    tirow (IllfgblArgumfntExdfption)
+                        nfw IllfgblArgumfntExdfption().initCbusf(nsmf);
                 }
-                Class<?> thrownType = e.getClass();
-                for (Class<?> declaredType : method.getExceptionTypes()) {
-                    if (declaredType.isAssignableFrom(thrownType)) {
-                        throw e;
+                Clbss<?> tirownTypf = f.gftClbss();
+                for (Clbss<?> dfdlbrfdTypf : mftiod.gftExdfptionTypfs()) {
+                    if (dfdlbrfdTypf.isAssignbblfFrom(tirownTypf)) {
+                        tirow f;
                     }
                 }
-                e = new UnexpectedException("unexpected exception", e);
+                f = nfw UnfxpfdtfdExdfption("unfxpfdtfd fxdfption", f);
             }
-            throw e;
+            tirow f;
         }
     }
 
     /**
-     * Returns a string representation for a proxy that uses this invocation
-     * handler.
+     * Rfturns b string rfprfsfntbtion for b proxy tibt usfs tiis invodbtion
+     * ibndlfr.
      **/
-    private String proxyToString(Object proxy) {
-        Class<?>[] interfaces = proxy.getClass().getInterfaces();
-        if (interfaces.length == 0) {
-            return "Proxy[" + this + "]";
+    privbtf String proxyToString(Objfdt proxy) {
+        Clbss<?>[] intfrfbdfs = proxy.gftClbss().gftIntfrfbdfs();
+        if (intfrfbdfs.lfngti == 0) {
+            rfturn "Proxy[" + tiis + "]";
         }
-        String iface = interfaces[0].getName();
-        if (iface.equals("java.rmi.Remote") && interfaces.length > 1) {
-            iface = interfaces[1].getName();
+        String ifbdf = intfrfbdfs[0].gftNbmf();
+        if (ifbdf.fqubls("jbvb.rmi.Rfmotf") && intfrfbdfs.lfngti > 1) {
+            ifbdf = intfrfbdfs[1].gftNbmf();
         }
-        int dot = iface.lastIndexOf('.');
+        int dot = ifbdf.lbstIndfxOf('.');
         if (dot >= 0) {
-            iface = iface.substring(dot + 1);
+            ifbdf = ifbdf.substring(dot + 1);
         }
-        return "Proxy[" + iface + "," + this + "]";
+        rfturn "Proxy[" + ifbdf + "," + tiis + "]";
     }
 
     /**
-     * @throws InvalidObjectException unconditionally
+     * @tirows InvblidObjfdtExdfption undonditionblly
      **/
-    private void readObjectNoData() throws InvalidObjectException {
-        throw new InvalidObjectException("no data in stream; class: " +
-                                         this.getClass().getName());
+    privbtf void rfbdObjfdtNoDbtb() tirows InvblidObjfdtExdfption {
+        tirow nfw InvblidObjfdtExdfption("no dbtb in strfbm; dlbss: " +
+                                         tiis.gftClbss().gftNbmf());
     }
 
     /**
-     * Returns the method hash for the specified method.  Subsequent calls
-     * to "getMethodHash" passing the same method argument should be faster
-     * since this method caches internally the result of the method to
-     * method hash mapping.  The method hash is calculated using the
-     * "computeMethodHash" method.
+     * Rfturns tif mftiod ibsi for tif spfdififd mftiod.  Subsfqufnt dblls
+     * to "gftMftiodHbsi" pbssing tif sbmf mftiod brgumfnt siould bf fbstfr
+     * sindf tiis mftiod dbdifs intfrnblly tif rfsult of tif mftiod to
+     * mftiod ibsi mbpping.  Tif mftiod ibsi is dbldulbtfd using tif
+     * "domputfMftiodHbsi" mftiod.
      *
-     * @param method the remote method
-     * @return the method hash for the specified method
+     * @pbrbm mftiod tif rfmotf mftiod
+     * @rfturn tif mftiod ibsi for tif spfdififd mftiod
      */
-    private static long getMethodHash(Method method) {
-        return methodToHash_Maps.get(method.getDeclaringClass()).get(method);
+    privbtf stbtid long gftMftiodHbsi(Mftiod mftiod) {
+        rfturn mftiodToHbsi_Mbps.gft(mftiod.gftDfdlbringClbss()).gft(mftiod);
     }
 
     /**
-     * A weak hash map, mapping classes to weak hash maps that map
-     * method objects to method hashes.
+     * A wfbk ibsi mbp, mbpping dlbssfs to wfbk ibsi mbps tibt mbp
+     * mftiod objfdts to mftiod ibsifs.
      **/
-    private static class MethodToHash_Maps
-        extends WeakClassHashMap<Map<Method,Long>>
+    privbtf stbtid dlbss MftiodToHbsi_Mbps
+        fxtfnds WfbkClbssHbsiMbp<Mbp<Mftiod,Long>>
     {
-        MethodToHash_Maps() {}
+        MftiodToHbsi_Mbps() {}
 
-        protected Map<Method,Long> computeValue(Class<?> remoteClass) {
-            return new WeakHashMap<Method,Long>() {
-                public synchronized Long get(Object key) {
-                    Long hash = super.get(key);
-                    if (hash == null) {
-                        Method method = (Method) key;
-                        hash = Util.computeMethodHash(method);
-                        put(method, hash);
+        protfdtfd Mbp<Mftiod,Long> domputfVbluf(Clbss<?> rfmotfClbss) {
+            rfturn nfw WfbkHbsiMbp<Mftiod,Long>() {
+                publid syndironizfd Long gft(Objfdt kfy) {
+                    Long ibsi = supfr.gft(kfy);
+                    if (ibsi == null) {
+                        Mftiod mftiod = (Mftiod) kfy;
+                        ibsi = Util.domputfMftiodHbsi(mftiod);
+                        put(mftiod, ibsi);
                     }
-                    return hash;
+                    rfturn ibsi;
                 }
             };
         }

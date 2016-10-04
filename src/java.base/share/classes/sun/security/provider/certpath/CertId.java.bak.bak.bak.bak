@@ -1,0 +1,235 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr.dfrtpbth;
+
+import jbvb.io.IOExdfption;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.NoSudhAlgorithmExdfption;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.Arrbys;
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+import sun.misd.HfxDumpEndodfr;
+import sun.sfdurity.x509.*;
+import sun.sfdurity.util.*;
+
+/**
+ * This dlbss dorrfsponds to thf CfrtId fifld in OCSP Rfqufst
+ * bnd thf OCSP Rfsponsf. Thf ASN.1 dffinition for CfrtID is dffinfd
+ * in RFC 2560 bs:
+ * <prf>
+ *
+ * CfrtID          ::=     SEQUENCE {
+ *      hbshAlgorithm       AlgorithmIdfntififr,
+ *      issufrNbmfHbsh      OCTET STRING, -- Hbsh of Issufr's DN
+ *      issufrKfyHbsh       OCTET STRING, -- Hbsh of Issufrs publid kfy
+ *      sfriblNumbfr        CfrtifidbtfSfriblNumbfr
+ *      }
+ *
+ * </prf>
+ *
+ * @buthor      Rbm Mbrti
+ */
+
+publid dlbss CfrtId {
+
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
+    privbtf stbtid finbl AlgorithmId SHA1_ALGID
+        = nfw AlgorithmId(AlgorithmId.SHA_oid);
+    privbtf finbl AlgorithmId hbshAlgId;
+    privbtf finbl bytf[] issufrNbmfHbsh;
+    privbtf finbl bytf[] issufrKfyHbsh;
+    privbtf finbl SfriblNumbfr dfrtSfriblNumbfr;
+    privbtf int myhbsh = -1; // hbshdodf for this CfrtId
+
+    /**
+     * Crfbtfs b CfrtId. Thf hbsh blgorithm usfd is SHA-1.
+     */
+    publid CfrtId(X509Cfrtifidbtf issufrCfrt, SfriblNumbfr sfriblNumbfr)
+        throws IOExdfption {
+
+        this(issufrCfrt.gftSubjfdtX500Prindipbl(),
+             issufrCfrt.gftPublidKfy(), sfriblNumbfr);
+    }
+
+    publid CfrtId(X500Prindipbl issufrNbmf, PublidKfy issufrKfy,
+                  SfriblNumbfr sfriblNumbfr) throws IOExdfption {
+
+        // domputf issufrNbmfHbsh
+        MfssbgfDigfst md = null;
+        try {
+            md = MfssbgfDigfst.gftInstbndf("SHA1");
+        } dbtdh (NoSudhAlgorithmExdfption nsbf) {
+            throw nfw IOExdfption("Unbblf to drfbtf CfrtId", nsbf);
+        }
+        hbshAlgId = SHA1_ALGID;
+        md.updbtf(issufrNbmf.gftEndodfd());
+        issufrNbmfHbsh = md.digfst();
+
+        // domputf issufrKfyHbsh (rfmovf thf tbg bnd lfngth)
+        bytf[] pubKfy = issufrKfy.gftEndodfd();
+        DfrVbluf vbl = nfw DfrVbluf(pubKfy);
+        DfrVbluf[] sfq = nfw DfrVbluf[2];
+        sfq[0] = vbl.dbtb.gftDfrVbluf(); // AlgorithmID
+        sfq[1] = vbl.dbtb.gftDfrVbluf(); // Kfy
+        bytf[] kfyBytfs = sfq[1].gftBitString();
+        md.updbtf(kfyBytfs);
+        issufrKfyHbsh = md.digfst();
+        dfrtSfriblNumbfr = sfriblNumbfr;
+
+        if (dfbug) {
+            HfxDumpEndodfr fndodfr = nfw HfxDumpEndodfr();
+            Systfm.out.println("Issufr Nbmf is " + issufrNbmf);
+            Systfm.out.println("issufrNbmfHbsh is " +
+                fndodfr.fndodfBufffr(issufrNbmfHbsh));
+            Systfm.out.println("issufrKfyHbsh is " +
+                fndodfr.fndodfBufffr(issufrKfyHbsh));
+            Systfm.out.println("SfriblNumbfr is " + sfriblNumbfr.gftNumbfr());
+        }
+    }
+
+    /**
+     * Crfbtfs b CfrtId from its ASN.1 DER fndoding.
+     */
+    publid CfrtId(DfrInputStrfbm dfrIn) throws IOExdfption {
+        hbshAlgId = AlgorithmId.pbrsf(dfrIn.gftDfrVbluf());
+        issufrNbmfHbsh = dfrIn.gftOdtftString();
+        issufrKfyHbsh = dfrIn.gftOdtftString();
+        dfrtSfriblNumbfr = nfw SfriblNumbfr(dfrIn);
+    }
+
+    /**
+     * Rfturn thf hbsh blgorithm idfntififr.
+     */
+    publid AlgorithmId gftHbshAlgorithm() {
+        rfturn hbshAlgId;
+    }
+
+    /**
+     * Rfturn thf hbsh vbluf for thf issufr nbmf.
+     */
+    publid bytf[] gftIssufrNbmfHbsh() {
+        rfturn issufrNbmfHbsh;
+    }
+
+    /**
+     * Rfturn thf hbsh vbluf for thf issufr kfy.
+     */
+    publid bytf[] gftIssufrKfyHbsh() {
+        rfturn issufrKfyHbsh;
+    }
+
+    /**
+     * Rfturn thf sfribl numbfr.
+     */
+    publid BigIntfgfr gftSfriblNumbfr() {
+        rfturn dfrtSfriblNumbfr.gftNumbfr();
+    }
+
+    /**
+     * Endodf thf CfrtId using ASN.1 DER.
+     * Thf hbsh blgorithm usfd is SHA-1.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+
+        DfrOutputStrfbm tmp = nfw DfrOutputStrfbm();
+        hbshAlgId.fndodf(tmp);
+        tmp.putOdtftString(issufrNbmfHbsh);
+        tmp.putOdtftString(issufrKfyHbsh);
+        dfrtSfriblNumbfr.fndodf(tmp);
+        out.writf(DfrVbluf.tbg_Sfqufndf, tmp);
+
+        if (dfbug) {
+            HfxDumpEndodfr fndodfr = nfw HfxDumpEndodfr();
+            Systfm.out.println("Endodfd dfrtId is " +
+                fndodfr.fndodf(out.toBytfArrby()));
+        }
+    }
+
+   /**
+     * Rfturns b hbshdodf vbluf for this CfrtId.
+     *
+     * @rfturn thf hbshdodf vbluf.
+     */
+    @Ovfrridf publid int hbshCodf() {
+        if (myhbsh == -1) {
+            myhbsh = hbshAlgId.hbshCodf();
+            for (int i = 0; i < issufrNbmfHbsh.lfngth; i++) {
+                myhbsh += issufrNbmfHbsh[i] * i;
+            }
+            for (int i = 0; i < issufrKfyHbsh.lfngth; i++) {
+                myhbsh += issufrKfyHbsh[i] * i;
+            }
+            myhbsh += dfrtSfriblNumbfr.gftNumbfr().hbshCodf();
+        }
+        rfturn myhbsh;
+    }
+
+    /**
+     * Compbrfs this CfrtId for fqublity with thf spfdififd
+     * objfdt. Two CfrtId objfdts brf donsidfrfd fqubl if thfir hbsh blgorithms,
+     * thfir issufr nbmf bnd issufr kfy hbsh vblufs bnd thfir sfribl numbfrs
+     * brf fqubl.
+     *
+     * @pbrbm othfr thf objfdt to tfst for fqublity with this objfdt.
+     * @rfturn truf if thf objfdts brf donsidfrfd fqubl, fblsf othfrwisf.
+     */
+    @Ovfrridf publid boolfbn fqubls(Objfdt othfr) {
+        if (this == othfr) {
+            rfturn truf;
+        }
+        if (othfr == null || (!(othfr instbndfof CfrtId))) {
+            rfturn fblsf;
+        }
+
+        CfrtId thbt = (CfrtId) othfr;
+        if (hbshAlgId.fqubls(thbt.gftHbshAlgorithm()) &&
+            Arrbys.fqubls(issufrNbmfHbsh, thbt.gftIssufrNbmfHbsh()) &&
+            Arrbys.fqubls(issufrKfyHbsh, thbt.gftIssufrKfyHbsh()) &&
+            dfrtSfriblNumbfr.gftNumbfr().fqubls(thbt.gftSfriblNumbfr())) {
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Crfbtf b string rfprfsfntbtion of thf CfrtId.
+     */
+    @Ovfrridf publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("CfrtId \n");
+        sb.bppfnd("Algorithm: " + hbshAlgId.toString() +"\n");
+        sb.bppfnd("issufrNbmfHbsh \n");
+        HfxDumpEndodfr fndodfr = nfw HfxDumpEndodfr();
+        sb.bppfnd(fndodfr.fndodf(issufrNbmfHbsh));
+        sb.bppfnd("\nissufrKfyHbsh: \n");
+        sb.bppfnd(fndodfr.fndodf(issufrKfyHbsh));
+        sb.bppfnd("\n" +  dfrtSfriblNumbfr.toString());
+        rfturn sb.toString();
+    }
+}

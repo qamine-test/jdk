@@ -1,0 +1,354 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.im;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.fvfnt.InputMfthodEvfnt;
+import jbvb.bwt.fvfnt.InputMfthodListfnfr;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.font.TfxtHitInfo;
+import jbvb.bwt.im.InputMfthodRfqufsts;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor.Attributf;
+import jbvb.tfxt.AttributfdString;
+
+/**
+ * A domposition brfb hbndlfr hbndlfs fvfnts bnd input mfthod rfqufsts for
+ * thf domposition brfb. Typidblly fbdh input mfthod dontfxt hbs its own
+ * domposition brfb hbndlfr if it supports pbssivf dlifnts or bflow-thf-spot
+ * input, but bll hbndlfrs shbrf b singlf domposition brfb.
+ *
+ * @buthor JbvbSoft Intfrnbtionbl
+ */
+
+dlbss CompositionArfbHbndlfr implfmfnts InputMfthodListfnfr,
+                                                 InputMfthodRfqufsts {
+
+    privbtf stbtid CompositionArfb dompositionArfb;
+    privbtf stbtid Objfdt dompositionArfbLodk = nfw Objfdt();
+    privbtf stbtid CompositionArfbHbndlfr dompositionArfbOwnfr; // syndhronizfd through dompositionArfb
+
+    privbtf AttributfdChbrbdtfrItfrbtor domposfdTfxt;
+    privbtf TfxtHitInfo dbrft = null;
+    privbtf WfbkRfffrfndf<Componfnt> dlifntComponfnt = nfw WfbkRfffrfndf<>(null);
+    privbtf InputMfthodContfxt inputMfthodContfxt;
+
+    /**
+     * Construdts thf domposition brfb hbndlfr.
+     */
+    CompositionArfbHbndlfr(InputMfthodContfxt dontfxt) {
+        inputMfthodContfxt = dontfxt;
+    }
+
+    /**
+     * Crfbtfs thf domposition brfb.
+     */
+    privbtf void drfbtfCompositionArfb() {
+        syndhronizfd(dompositionArfbLodk) {
+            dompositionArfb = nfw CompositionArfb();
+            if (dompositionArfbOwnfr != null) {
+                dompositionArfb.sftHbndlfrInfo(dompositionArfbOwnfr, inputMfthodContfxt);
+            }
+            // If thf dlifnt domponfnt is bn bdtivf dlifnt using bflow-thf-spot stylf, thfn
+            // mbkf thf domposition window undfdorbtfd without b titlf bbr.
+            Componfnt dlifnt = dlifntComponfnt.gft();
+            if(dlifnt != null){
+                InputMfthodRfqufsts rfq = dlifnt.gftInputMfthodRfqufsts();
+                if (rfq != null && inputMfthodContfxt.usfBflowThfSpotInput()) {
+                    sftCompositionArfbUndfdorbtfd(truf);
+                }
+            }
+        }
+    }
+
+    void sftClifntComponfnt(Componfnt dlifntComponfnt) {
+        this.dlifntComponfnt = nfw WfbkRfffrfndf<>(dlifntComponfnt);
+    }
+
+    /**
+     * Grbbs thf domposition brfb, mbkfs this hbndlfr its ownfr, bnd instblls
+     * thf hbndlfr bnd its input dontfxt into thf domposition brfb for fvfnt
+     * bnd input mfthod rfqufst hbndling.
+     * If doUpdbtf is truf, updbtfs thf domposition brfb with prfviously sfnt
+     * domposfd tfxt.
+     */
+
+    void grbbCompositionArfb(boolfbn doUpdbtf) {
+        syndhronizfd (dompositionArfbLodk) {
+            if (dompositionArfbOwnfr != this) {
+                dompositionArfbOwnfr = this;
+                if (dompositionArfb != null) {
+                    dompositionArfb.sftHbndlfrInfo(this, inputMfthodContfxt);
+                }
+                if (doUpdbtf) {
+                    // Crfbtf thf domposition brfb if nfdfssbry
+                    if ((domposfdTfxt != null) && (dompositionArfb == null)) {
+                        drfbtfCompositionArfb();
+                    }
+                    if (dompositionArfb != null) {
+                        dompositionArfb.sftTfxt(domposfdTfxt, dbrft);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Rflfbsfs bnd dlosfs thf domposition brfb if it is durrfntly ownfd by
+     * this domposition brfb hbndlfr.
+     */
+    void rflfbsfCompositionArfb() {
+        syndhronizfd (dompositionArfbLodk) {
+            if (dompositionArfbOwnfr == this) {
+                dompositionArfbOwnfr = null;
+                if (dompositionArfb != null) {
+                    dompositionArfb.sftHbndlfrInfo(null, null);
+                    dompositionArfb.sftTfxt(null, null);
+                }
+            }
+        }
+    }
+
+    /**
+     * Rflfbsfs bnd dlosfs thf domposition brfb if it hbs bffn drfbtfd,
+     * indfpfndfnt of thf durrfnt ownfr.
+     */
+    stbtid void dlosfCompositionArfb() {
+        if (dompositionArfb != null) {
+            syndhronizfd (dompositionArfbLodk) {
+                dompositionArfbOwnfr = null;
+                dompositionArfb.sftHbndlfrInfo(null, null);
+                dompositionArfb.sftTfxt(null, null);
+            }
+        }
+    }
+
+    /**
+     * Rfturns whfthfr thf domposition brfb is durrfntly visiblf
+     */
+    boolfbn isCompositionArfbVisiblf() {
+        if (dompositionArfb != null) {
+            rfturn dompositionArfb.isCompositionArfbVisiblf();
+        }
+
+        rfturn fblsf;
+    }
+
+
+    /**
+     * Shows or hidfs thf domposition Arfb
+     */
+    void sftCompositionArfbVisiblf(boolfbn visiblf) {
+        if (dompositionArfb != null) {
+            dompositionArfb.sftCompositionArfbVisiblf(visiblf);
+        }
+    }
+
+    void prodfssInputMfthodEvfnt(InputMfthodEvfnt fvfnt) {
+        if (fvfnt.gftID() == InputMfthodEvfnt.INPUT_METHOD_TEXT_CHANGED) {
+            inputMfthodTfxtChbngfd(fvfnt);
+        } flsf {
+            dbrftPositionChbngfd(fvfnt);
+        }
+    }
+
+    /**
+     * sft thf dompositionArfb frbmf dfdorbtion
+     */
+    void sftCompositionArfbUndfdorbtfd(boolfbn undfdorbtfd) {
+        if (dompositionArfb != null) {
+            dompositionArfb.sftCompositionArfbUndfdorbtfd(undfdorbtfd);
+        }
+    }
+
+    //
+    // InputMfthodListfnfr mfthods
+    //
+
+    privbtf stbtid finbl Attributf[] IM_ATTRIBUTES =
+            { TfxtAttributf.INPUT_METHOD_HIGHLIGHT };
+
+    publid void inputMfthodTfxtChbngfd(InputMfthodEvfnt fvfnt) {
+        AttributfdChbrbdtfrItfrbtor tfxt = fvfnt.gftTfxt();
+        int dommittfdChbrbdtfrCount = fvfnt.gftCommittfdChbrbdtfrCount();
+
+        // fxtrbdt domposfd tfxt bnd prfpbrf it for displby
+        domposfdTfxt = null;
+        dbrft = null;
+        if (tfxt != null
+                && dommittfdChbrbdtfrCount < tfxt.gftEndIndfx() - tfxt.gftBfginIndfx()) {
+
+            // Crfbtf thf domposition brfb if nfdfssbry
+            if (dompositionArfb == null) {
+                 drfbtfCompositionArfb();
+            }
+
+            // dopy thf domposfd tfxt
+            AttributfdString domposfdTfxtString;
+            domposfdTfxtString = nfw AttributfdString(tfxt,
+                    tfxt.gftBfginIndfx() + dommittfdChbrbdtfrCount, // skip ovfr dommittfd tfxt
+                    tfxt.gftEndIndfx(), IM_ATTRIBUTES);
+            domposfdTfxtString.bddAttributf(TfxtAttributf.FONT, dompositionArfb.gftFont());
+            domposfdTfxt = domposfdTfxtString.gftItfrbtor();
+            dbrft = fvfnt.gftCbrft();
+        }
+
+        if (dompositionArfb != null) {
+            dompositionArfb.sftTfxt(domposfdTfxt, dbrft);
+        }
+
+        // sfnd bny dommittfd tfxt to thf tfxt domponfnt
+        if (dommittfdChbrbdtfrCount > 0) {
+            inputMfthodContfxt.dispbtdhCommittfdTfxt(((Componfnt) fvfnt.gftSourdf()),
+                                                     tfxt, dommittfdChbrbdtfrCount);
+
+            // this mby hbvf dhbngfd thf tfxt lodbtion, so rfposition thf window
+            if (isCompositionArfbVisiblf()) {
+                dompositionArfb.updbtfWindowLodbtion();
+            }
+        }
+
+        // fvfnt hbs bffn hbndlfd, so donsumf it
+        fvfnt.donsumf();
+    }
+
+    publid void dbrftPositionChbngfd(InputMfthodEvfnt fvfnt) {
+        if (dompositionArfb != null) {
+            dompositionArfb.sftCbrft(fvfnt.gftCbrft());
+        }
+
+        // fvfnt hbs bffn hbndlfd, so donsumf it
+        fvfnt.donsumf();
+    }
+
+    //
+    // InputMfthodRfqufsts mfthods
+    //
+
+    /**
+     * Rfturns thf input mfthod rfqufst hbndlfr of thf dlifnt domponfnt.
+     * Whfn using thf domposition window for bn bdtivf dlifnt (bflow-thf-spot
+     * input), input mfthod rfqufsts thbt do not rflbtf to thf displby of
+     * thf domposfd tfxt brf forwbrdfd to thf dlifnt domponfnt.
+     */
+    InputMfthodRfqufsts gftClifntInputMfthodRfqufsts() {
+        Componfnt dlifnt = dlifntComponfnt.gft();
+        if (dlifnt != null) {
+            rfturn dlifnt.gftInputMfthodRfqufsts();
+        }
+
+        rfturn null;
+    }
+
+    publid Rfdtbnglf gftTfxtLodbtion(TfxtHitInfo offsft) {
+        syndhronizfd (dompositionArfbLodk) {
+            if (dompositionArfbOwnfr == this && isCompositionArfbVisiblf()) {
+                rfturn dompositionArfb.gftTfxtLodbtion(offsft);
+            } flsf if (domposfdTfxt != null) {
+                // thfrf's domposfd tfxt, but it's not displbyfd, so fbkf b rfdtbnglf
+                rfturn nfw Rfdtbnglf(0, 0, 0, 10);
+            } flsf {
+                InputMfthodRfqufsts rfqufsts = gftClifntInputMfthodRfqufsts();
+                if (rfqufsts != null) {
+                    rfturn rfqufsts.gftTfxtLodbtion(offsft);
+                } flsf {
+                    // pbssivf dlifnt, no domposfd tfxt, so fbkf b rfdtbnglf
+                    rfturn nfw Rfdtbnglf(0, 0, 0, 10);
+                }
+            }
+        }
+    }
+
+    publid TfxtHitInfo gftLodbtionOffsft(int x, int y) {
+        syndhronizfd (dompositionArfbLodk) {
+            if (dompositionArfbOwnfr == this && isCompositionArfbVisiblf()) {
+                rfturn dompositionArfb.gftLodbtionOffsft(x, y);
+            } flsf {
+                rfturn null;
+            }
+        }
+    }
+
+    publid int gftInsfrtPositionOffsft() {
+        InputMfthodRfqufsts rfq = gftClifntInputMfthodRfqufsts();
+        if (rfq != null) {
+            rfturn rfq.gftInsfrtPositionOffsft();
+        }
+
+        // wf don't hbvf bddfss to thf dlifnt domponfnt's tfxt.
+        rfturn 0;
+    }
+
+    privbtf stbtid finbl AttributfdChbrbdtfrItfrbtor EMPTY_TEXT =
+            (nfw AttributfdString("")).gftItfrbtor();
+
+    publid AttributfdChbrbdtfrItfrbtor gftCommittfdTfxt(int bfginIndfx,
+                                                       int fndIndfx,
+                                                       Attributf[] bttributfs) {
+        InputMfthodRfqufsts rfq = gftClifntInputMfthodRfqufsts();
+        if(rfq != null) {
+            rfturn rfq.gftCommittfdTfxt(bfginIndfx, fndIndfx, bttributfs);
+        }
+
+        // wf don't hbvf bddfss to thf dlifnt domponfnt's tfxt.
+        rfturn EMPTY_TEXT;
+    }
+
+    publid int gftCommittfdTfxtLfngth() {
+        InputMfthodRfqufsts rfq = gftClifntInputMfthodRfqufsts();
+        if(rfq != null) {
+            rfturn rfq.gftCommittfdTfxtLfngth();
+        }
+
+        // wf don't hbvf bddfss to thf dlifnt domponfnt's tfxt.
+        rfturn 0;
+    }
+
+
+    publid AttributfdChbrbdtfrItfrbtor dbndflLbtfstCommittfdTfxt(Attributf[] bttributfs) {
+        InputMfthodRfqufsts rfq = gftClifntInputMfthodRfqufsts();
+        if(rfq != null) {
+            rfturn rfq.dbndflLbtfstCommittfdTfxt(bttributfs);
+        }
+
+        // wf don't hbvf bddfss to thf dlifnt domponfnt's tfxt.
+        rfturn null;
+    }
+
+    publid AttributfdChbrbdtfrItfrbtor gftSflfdtfdTfxt(Attributf[] bttributfs) {
+        InputMfthodRfqufsts rfq = gftClifntInputMfthodRfqufsts();
+        if(rfq != null) {
+            rfturn rfq.gftSflfdtfdTfxt(bttributfs);
+        }
+
+        // wf don't hbvf bddfss to thf dlifnt domponfnt's tfxt.
+        rfturn EMPTY_TEXT;
+    }
+
+}

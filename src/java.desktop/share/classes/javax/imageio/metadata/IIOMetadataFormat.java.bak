@@ -1,209 +1,209 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.metadata;
+pbdkbgf jbvbx.imbgfio.mftbdbtb;
 
-import java.util.Locale;
-import javax.imageio.ImageTypeSpecifier;
+import jbvb.util.Lodblf;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
 
 /**
- * An object describing the structure of metadata documents returned
- * from <code>IIOMetadata.getAsTree</code> and passed to
- * <code>IIOMetadata.setFromTree</code> and <code>mergeTree</code>.
- * Document structures are described by a set of constraints on the
- * type and number of child elements that may belong to a given parent
- * element type, the names, types, and values of attributes that may
- * belong to an element, and the type and values of
- * <code>Object</code> reference that may be stored at a node.
+ * An objfdt dfsdribing tif strudturf of mftbdbtb dodumfnts rfturnfd
+ * from <dodf>IIOMftbdbtb.gftAsTrff</dodf> bnd pbssfd to
+ * <dodf>IIOMftbdbtb.sftFromTrff</dodf> bnd <dodf>mfrgfTrff</dodf>.
+ * Dodumfnt strudturfs brf dfsdribfd by b sft of donstrbints on tif
+ * typf bnd numbfr of diild flfmfnts tibt mby bflong to b givfn pbrfnt
+ * flfmfnt typf, tif nbmfs, typfs, bnd vblufs of bttributfs tibt mby
+ * bflong to bn flfmfnt, bnd tif typf bnd vblufs of
+ * <dodf>Objfdt</dodf> rfffrfndf tibt mby bf storfd bt b nodf.
  *
- * <p> N.B: classes that implement this interface should contain a
- * method declared as <code>public static getInstance()</code> which
- * returns an instance of the class.  Commonly, an implementation will
- * construct only a single instance and cache it for future
- * invocations of <code>getInstance</code>.
+ * <p> N.B: dlbssfs tibt implfmfnt tiis intfrfbdf siould dontbin b
+ * mftiod dfdlbrfd bs <dodf>publid stbtid gftInstbndf()</dodf> wiidi
+ * rfturns bn instbndf of tif dlbss.  Commonly, bn implfmfntbtion will
+ * donstrudt only b singlf instbndf bnd dbdif it for futurf
+ * invodbtions of <dodf>gftInstbndf</dodf>.
  *
- * <p> The structures that may be described by this class are a subset
- * of those expressible using XML document type definitions (DTDs),
- * with the addition of some basic information on the datatypes of
- * attributes and the ability to store an <code>Object</code>
- * reference within a node.  In the future, XML Schemas could be used
- * to represent these structures, and many others.
+ * <p> Tif strudturfs tibt mby bf dfsdribfd by tiis dlbss brf b subsft
+ * of tiosf fxprfssiblf using XML dodumfnt typf dffinitions (DTDs),
+ * witi tif bddition of somf bbsid informbtion on tif dbtbtypfs of
+ * bttributfs bnd tif bbility to storf bn <dodf>Objfdt</dodf>
+ * rfffrfndf witiin b nodf.  In tif futurf, XML Sdifmbs dould bf usfd
+ * to rfprfsfnt tifsf strudturfs, bnd mbny otifrs.
  *
- * <p> The differences between
- * <code>IIOMetadataFormat</code>-described structures and DTDs are as
+ * <p> Tif difffrfndfs bftwffn
+ * <dodf>IIOMftbdbtbFormbt</dodf>-dfsdribfd strudturfs bnd DTDs brf bs
  * follows:
  *
  * <ul>
- * <li> Elements may not contain text or mix text with embedded
- * tags.
+ * <li> Elfmfnts mby not dontbin tfxt or mix tfxt witi fmbfddfd
+ * tbgs.
  *
- * <li> The children of an element must conform to one of a few simple
- * patterns, described in the documentation for the
- * <code>CHILD_*</code> constants;
+ * <li> Tif diildrfn of bn flfmfnt must donform to onf of b ffw simplf
+ * pbttfrns, dfsdribfd in tif dodumfntbtion for tif
+ * <dodf>CHILD_*</dodf> donstbnts;
  *
- * <li> The in-memory representation of an elements may contain a
- * reference to an <code>Object</code>.  There is no provision for
- * representing such objects textually.
+ * <li> Tif in-mfmory rfprfsfntbtion of bn flfmfnts mby dontbin b
+ * rfffrfndf to bn <dodf>Objfdt</dodf>.  Tifrf is no provision for
+ * rfprfsfnting sudi objfdts tfxtublly.
  * </ul>
  *
  */
-public interface IIOMetadataFormat {
+publid intfrfbdf IIOMftbdbtbFormbt {
 
-    // Child policies
+    // Ciild polidifs
 
     /**
-     * A constant returned by <code>getChildPolicy</code> to indicate
-     * that an element may not have any children.  In other words, it
-     * is required to be a leaf node.
+     * A donstbnt rfturnfd by <dodf>gftCiildPolidy</dodf> to indidbtf
+     * tibt bn flfmfnt mby not ibvf bny diildrfn.  In otifr words, it
+     * is rfquirfd to bf b lfbf nodf.
      */
     int CHILD_POLICY_EMPTY = 0;
 
     /**
-     * A constant returned by <code>getChildPolicy</code> to indicate
-     * that an element must have a single instance of each of its
-     * legal child elements, in order.  In DTD terms, the contents of
-     * the element are defined by a sequence <code>a,b,c,d,...</code>.
+     * A donstbnt rfturnfd by <dodf>gftCiildPolidy</dodf> to indidbtf
+     * tibt bn flfmfnt must ibvf b singlf instbndf of fbdi of its
+     * lfgbl diild flfmfnts, in ordfr.  In DTD tfrms, tif dontfnts of
+     * tif flfmfnt brf dffinfd by b sfqufndf <dodf>b,b,d,d,...</dodf>.
      */
     int CHILD_POLICY_ALL = 1;
 
     /**
-     * A constant returned by <code>getChildPolicy</code> to indicate
-     * that an element must have zero or one instance of each of its
-     * legal child elements, in order.  In DTD terms, the contents of
-     * the element are defined by a sequence
-     * <code>a?,b?,c?,d?,...</code>.
+     * A donstbnt rfturnfd by <dodf>gftCiildPolidy</dodf> to indidbtf
+     * tibt bn flfmfnt must ibvf zfro or onf instbndf of fbdi of its
+     * lfgbl diild flfmfnts, in ordfr.  In DTD tfrms, tif dontfnts of
+     * tif flfmfnt brf dffinfd by b sfqufndf
+     * <dodf>b?,b?,d?,d?,...</dodf>.
      */
     int CHILD_POLICY_SOME = 2;
 
     /**
-     * A constant returned by <code>getChildPolicy</code> to indicate
-     * that an element must have zero or one children, selected from
-     * among its legal child elements.  In DTD terms, the contents of
-     * the element are defined by a selection
-     * <code>a|b|c|d|...</code>.
+     * A donstbnt rfturnfd by <dodf>gftCiildPolidy</dodf> to indidbtf
+     * tibt bn flfmfnt must ibvf zfro or onf diildrfn, sflfdtfd from
+     * bmong its lfgbl diild flfmfnts.  In DTD tfrms, tif dontfnts of
+     * tif flfmfnt brf dffinfd by b sflfdtion
+     * <dodf>b|b|d|d|...</dodf>.
      */
     int CHILD_POLICY_CHOICE = 3;
 
     /**
-     * A constant returned by <code>getChildPolicy</code> to indicate
-     * that an element must have a sequence of instances of any of its
-     * legal child elements.  In DTD terms, the contents of the
-     * element are defined by a sequence <code>(a|b|c|d|...)*</code>.
+     * A donstbnt rfturnfd by <dodf>gftCiildPolidy</dodf> to indidbtf
+     * tibt bn flfmfnt must ibvf b sfqufndf of instbndfs of bny of its
+     * lfgbl diild flfmfnts.  In DTD tfrms, tif dontfnts of tif
+     * flfmfnt brf dffinfd by b sfqufndf <dodf>(b|b|d|d|...)*</dodf>.
      */
     int CHILD_POLICY_SEQUENCE = 4;
 
     /**
-     * A constant returned by <code>getChildPolicy</code> to indicate
-     * that an element must have zero or more instances of its unique
-     * legal child element.  In DTD terms, the contents of the element
-     * are defined by a starred expression <code>a*</code>.
+     * A donstbnt rfturnfd by <dodf>gftCiildPolidy</dodf> to indidbtf
+     * tibt bn flfmfnt must ibvf zfro or morf instbndfs of its uniquf
+     * lfgbl diild flfmfnt.  In DTD tfrms, tif dontfnts of tif flfmfnt
+     * brf dffinfd by b stbrrfd fxprfssion <dodf>b*</dodf>.
      */
     int CHILD_POLICY_REPEAT = 5;
 
     /**
-     * The largest valid <code>CHILD_POLICY_*</code> constant,
-     * to be used for range checks.
+     * Tif lbrgfst vblid <dodf>CHILD_POLICY_*</dodf> donstbnt,
+     * to bf usfd for rbngf difdks.
      */
     int CHILD_POLICY_MAX = CHILD_POLICY_REPEAT;
 
     /**
-     * A constant returned by <code>getObjectValueType</code> to
-     * indicate the absence of a user object.
+     * A donstbnt rfturnfd by <dodf>gftObjfdtVblufTypf</dodf> to
+     * indidbtf tif bbsfndf of b usfr objfdt.
      */
     int VALUE_NONE = 0;
 
     /**
-     * A constant returned by <code>getAttributeValueType</code> and
-     * <code>getObjectValueType</code> to indicate that the attribute
-     * or user object may be set a single, arbitrary value.
+     * A donstbnt rfturnfd by <dodf>gftAttributfVblufTypf</dodf> bnd
+     * <dodf>gftObjfdtVblufTypf</dodf> to indidbtf tibt tif bttributf
+     * or usfr objfdt mby bf sft b singlf, brbitrbry vbluf.
      */
     int VALUE_ARBITRARY = 1;
 
     /**
-     * A constant returned by <code>getAttributeValueType</code> and
-     * <code>getObjectValueType</code> to indicate that the attribute
-     * or user object may be set a range of values.  Both the minimum
-     * and maximum values of the range are exclusive.  It is
-     * recommended that ranges of integers be inclusive on both ends,
-     * and that exclusive ranges be used only for floating-point data.
+     * A donstbnt rfturnfd by <dodf>gftAttributfVblufTypf</dodf> bnd
+     * <dodf>gftObjfdtVblufTypf</dodf> to indidbtf tibt tif bttributf
+     * or usfr objfdt mby bf sft b rbngf of vblufs.  Boti tif minimum
+     * bnd mbximum vblufs of tif rbngf brf fxdlusivf.  It is
+     * rfdommfndfd tibt rbngfs of intfgfrs bf indlusivf on boti fnds,
+     * bnd tibt fxdlusivf rbngfs bf usfd only for flobting-point dbtb.
      *
-     * @see #VALUE_RANGE_MIN_MAX_INCLUSIVE
+     * @sff #VALUE_RANGE_MIN_MAX_INCLUSIVE
      */
     int VALUE_RANGE = 2;
 
     /**
-     * A value that may be or'ed with <code>VALUE_RANGE</code> to
-     * obtain <code>VALUE_RANGE_MIN_INCLUSIVE</code>, and with
-     * <code>VALUE_RANGE_MAX_INCLUSIVE</code> to obtain
-     * <code>VALUE_RANGE_MIN_MAX_INCLUSIVE</code>.
+     * A vbluf tibt mby bf or'fd witi <dodf>VALUE_RANGE</dodf> to
+     * obtbin <dodf>VALUE_RANGE_MIN_INCLUSIVE</dodf>, bnd witi
+     * <dodf>VALUE_RANGE_MAX_INCLUSIVE</dodf> to obtbin
+     * <dodf>VALUE_RANGE_MIN_MAX_INCLUSIVE</dodf>.
      *
-     * <p> Similarly, the value may be and'ed with the value of
-     * <code>getAttributeValueType</code>or
-     * <code>getObjectValueType</code> to determine if the minimum
-     * value of the range is inclusive.
+     * <p> Similbrly, tif vbluf mby bf bnd'fd witi tif vbluf of
+     * <dodf>gftAttributfVblufTypf</dodf>or
+     * <dodf>gftObjfdtVblufTypf</dodf> to dftfrminf if tif minimum
+     * vbluf of tif rbngf is indlusivf.
      */
     int VALUE_RANGE_MIN_INCLUSIVE_MASK = 4;
 
     /**
-     * A value that may be or'ed with <code>VALUE_RANGE</code> to
-     * obtain <code>VALUE_RANGE_MAX_INCLUSIVE</code>, and with
-     * <code>VALUE_RANGE_MIN_INCLUSIVE</code> to obtain
-     * <code>VALUE_RANGE_MIN_MAX_INCLUSIVE</code>.
+     * A vbluf tibt mby bf or'fd witi <dodf>VALUE_RANGE</dodf> to
+     * obtbin <dodf>VALUE_RANGE_MAX_INCLUSIVE</dodf>, bnd witi
+     * <dodf>VALUE_RANGE_MIN_INCLUSIVE</dodf> to obtbin
+     * <dodf>VALUE_RANGE_MIN_MAX_INCLUSIVE</dodf>.
      *
-     * <p> Similarly, the value may be and'ed with the value of
-     * <code>getAttributeValueType</code>or
-     * <code>getObjectValueType</code> to determine if the maximum
-     * value of the range is inclusive.
+     * <p> Similbrly, tif vbluf mby bf bnd'fd witi tif vbluf of
+     * <dodf>gftAttributfVblufTypf</dodf>or
+     * <dodf>gftObjfdtVblufTypf</dodf> to dftfrminf if tif mbximum
+     * vbluf of tif rbngf is indlusivf.
      */
     int VALUE_RANGE_MAX_INCLUSIVE_MASK = 8;
 
     /**
-     * A constant returned by <code>getAttributeValueType</code> and
-     * <code>getObjectValueType</code> to indicate that the attribute
-     * or user object may be set to a range of values.  The minimum
-     * (but not the maximum) value of the range is inclusive.
+     * A donstbnt rfturnfd by <dodf>gftAttributfVblufTypf</dodf> bnd
+     * <dodf>gftObjfdtVblufTypf</dodf> to indidbtf tibt tif bttributf
+     * or usfr objfdt mby bf sft to b rbngf of vblufs.  Tif minimum
+     * (but not tif mbximum) vbluf of tif rbngf is indlusivf.
      */
     int VALUE_RANGE_MIN_INCLUSIVE = VALUE_RANGE |
         VALUE_RANGE_MIN_INCLUSIVE_MASK;
 
     /**
-     * A constant returned by <code>getAttributeValueType</code> and
-     * <code>getObjectValueType</code> to indicate that the attribute
-     * or user object may be set to a range of values.  The maximum
-     * (but not the minimum) value of the range is inclusive.
+     * A donstbnt rfturnfd by <dodf>gftAttributfVblufTypf</dodf> bnd
+     * <dodf>gftObjfdtVblufTypf</dodf> to indidbtf tibt tif bttributf
+     * or usfr objfdt mby bf sft to b rbngf of vblufs.  Tif mbximum
+     * (but not tif minimum) vbluf of tif rbngf is indlusivf.
      */
     int VALUE_RANGE_MAX_INCLUSIVE = VALUE_RANGE |
         VALUE_RANGE_MAX_INCLUSIVE_MASK;
 
     /**
-     * A constant returned by <code>getAttributeValueType</code> and
-     * <code>getObjectValueType</code> to indicate that the attribute
-     * or user object may be set a range of values.  Both the minimum
-     * and maximum values of the range are inclusive.  It is
-     * recommended that ranges of integers be inclusive on both ends,
-     * and that exclusive ranges be used only for floating-point data.
+     * A donstbnt rfturnfd by <dodf>gftAttributfVblufTypf</dodf> bnd
+     * <dodf>gftObjfdtVblufTypf</dodf> to indidbtf tibt tif bttributf
+     * or usfr objfdt mby bf sft b rbngf of vblufs.  Boti tif minimum
+     * bnd mbximum vblufs of tif rbngf brf indlusivf.  It is
+     * rfdommfndfd tibt rbngfs of intfgfrs bf indlusivf on boti fnds,
+     * bnd tibt fxdlusivf rbngfs bf usfd only for flobting-point dbtb.
      */
     int VALUE_RANGE_MIN_MAX_INCLUSIVE =
         VALUE_RANGE |
@@ -211,629 +211,629 @@ public interface IIOMetadataFormat {
         VALUE_RANGE_MAX_INCLUSIVE_MASK;
 
     /**
-     * A constant returned by <code>getAttributeValueType</code> and
-     * <code>getObjectValueType</code> to indicate that the attribute
-     * or user object may be set one of a number of enumerated values.
-     * In the case of attributes, these values are
-     * <code>String</code>s; for objects, they are
-     * <code>Object</code>s implementing a given class or interface.
+     * A donstbnt rfturnfd by <dodf>gftAttributfVblufTypf</dodf> bnd
+     * <dodf>gftObjfdtVblufTypf</dodf> to indidbtf tibt tif bttributf
+     * or usfr objfdt mby bf sft onf of b numbfr of fnumfrbtfd vblufs.
+     * In tif dbsf of bttributfs, tifsf vblufs brf
+     * <dodf>String</dodf>s; for objfdts, tify brf
+     * <dodf>Objfdt</dodf>s implfmfnting b givfn dlbss or intfrfbdf.
      *
-     * <p> Attribute values of type <code>DATATYPE_BOOLEAN</code>
-     * should be marked as enumerations.
+     * <p> Attributf vblufs of typf <dodf>DATATYPE_BOOLEAN</dodf>
+     * siould bf mbrkfd bs fnumfrbtions.
      */
     int VALUE_ENUMERATION = 16;
 
     /**
-     * A constant returned by <code>getAttributeValueType</code> and
-     * <code>getObjectValueType</code> to indicate that the attribute
-     * or user object may be set to a list or array of values.  In the
-     * case of attributes, the list will consist of
-     * whitespace-separated values within a <code>String</code>; for
-     * objects, an array will be used.
+     * A donstbnt rfturnfd by <dodf>gftAttributfVblufTypf</dodf> bnd
+     * <dodf>gftObjfdtVblufTypf</dodf> to indidbtf tibt tif bttributf
+     * or usfr objfdt mby bf sft to b list or brrby of vblufs.  In tif
+     * dbsf of bttributfs, tif list will donsist of
+     * wiitfspbdf-sfpbrbtfd vblufs witiin b <dodf>String</dodf>; for
+     * objfdts, bn brrby will bf usfd.
      */
     int VALUE_LIST = 32;
 
     /**
-     * A constant returned by <code>getAttributeDataType</code>
-     * indicating that the value of an attribute is a general Unicode
+     * A donstbnt rfturnfd by <dodf>gftAttributfDbtbTypf</dodf>
+     * indidbting tibt tif vbluf of bn bttributf is b gfnfrbl Unidodf
      * string.
      */
     int DATATYPE_STRING = 0;
 
     /**
-     * A constant returned by <code>getAttributeDataType</code>
-     * indicating that the value of an attribute is one of the boolean
-     * values 'true' or 'false'.
-     * Attribute values of type DATATYPE_BOOLEAN should be marked as
-     * enumerations, and the permitted values should be the string
-     * literal values "TRUE" or "FALSE", although a plugin may also
-     * recognise lower or mixed case equivalents.
+     * A donstbnt rfturnfd by <dodf>gftAttributfDbtbTypf</dodf>
+     * indidbting tibt tif vbluf of bn bttributf is onf of tif boolfbn
+     * vblufs 'truf' or 'fblsf'.
+     * Attributf vblufs of typf DATATYPE_BOOLEAN siould bf mbrkfd bs
+     * fnumfrbtions, bnd tif pfrmittfd vblufs siould bf tif string
+     * litfrbl vblufs "TRUE" or "FALSE", bltiougi b plugin mby blso
+     * rfdognisf lowfr or mixfd dbsf fquivblfnts.
      */
     int DATATYPE_BOOLEAN = 1;
 
     /**
-     * A constant returned by <code>getAttributeDataType</code>
-     * indicating that the value of an attribute is a string
-     * representation of an integer.
+     * A donstbnt rfturnfd by <dodf>gftAttributfDbtbTypf</dodf>
+     * indidbting tibt tif vbluf of bn bttributf is b string
+     * rfprfsfntbtion of bn intfgfr.
      */
     int DATATYPE_INTEGER = 2;
 
     /**
-     * A constant returned by <code>getAttributeDataType</code>
-     * indicating that the value of an attribute is a string
-     * representation of a decimal floating-point number.
+     * A donstbnt rfturnfd by <dodf>gftAttributfDbtbTypf</dodf>
+     * indidbting tibt tif vbluf of bn bttributf is b string
+     * rfprfsfntbtion of b dfdimbl flobting-point numbfr.
      */
     int DATATYPE_FLOAT = 3;
 
     /**
-     * A constant returned by <code>getAttributeDataType</code>
-     * indicating that the value of an attribute is a string
-     * representation of a double-precision decimal floating-point
-     * number.
+     * A donstbnt rfturnfd by <dodf>gftAttributfDbtbTypf</dodf>
+     * indidbting tibt tif vbluf of bn bttributf is b string
+     * rfprfsfntbtion of b doublf-prfdision dfdimbl flobting-point
+     * numbfr.
      */
     int DATATYPE_DOUBLE = 4;
 
     // Root
 
     /**
-     * Returns the name of the root element of the format.
+     * Rfturns tif nbmf of tif root flfmfnt of tif formbt.
      *
-     * @return a <code>String</code>.
+     * @rfturn b <dodf>String</dodf>.
      */
-    String getRootName();
+    String gftRootNbmf();
 
-    // Multiplicity
+    // Multiplidity
 
     /**
-     * Returns <code>true</code> if the element (and the subtree below
-     * it) is allowed to appear in a metadata document for an image of
-     * the given type, defined by an <code>ImageTypeSpecifier</code>.
-     * For example, a metadata document format might contain an
-     * element that describes the primary colors of the image, which
-     * would not be allowed when writing a grayscale image.
+     * Rfturns <dodf>truf</dodf> if tif flfmfnt (bnd tif subtrff bflow
+     * it) is bllowfd to bppfbr in b mftbdbtb dodumfnt for bn imbgf of
+     * tif givfn typf, dffinfd by bn <dodf>ImbgfTypfSpfdififr</dodf>.
+     * For fxbmplf, b mftbdbtb dodumfnt formbt migit dontbin bn
+     * flfmfnt tibt dfsdribfs tif primbry dolors of tif imbgf, wiidi
+     * would not bf bllowfd wifn writing b grbysdblf imbgf.
      *
-     * @param elementName the name of the element being queried.
-     * @param imageType an <code>ImageTypeSpecifier</code> indicating
-     * the type of the image that will be associated with the
-     * metadata.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
+     * @pbrbm imbgfTypf bn <dodf>ImbgfTypfSpfdififr</dodf> indidbting
+     * tif typf of tif imbgf tibt will bf bssodibtfd witi tif
+     * mftbdbtb.
      *
-     * @return <code>true</code> if the node is meaningful for images
-     * of the given type.
+     * @rfturn <dodf>truf</dodf> if tif nodf is mfbningful for imbgfs
+     * of tif givfn typf.
      */
-    boolean canNodeAppear(String elementName, ImageTypeSpecifier imageType);
+    boolfbn dbnNodfAppfbr(String flfmfntNbmf, ImbgfTypfSpfdififr imbgfTypf);
 
     /**
-     * Returns the minimum number of children of the named element
-     * with child policy <code>CHILD_POLICY_REPEAT</code>.  For
-     * example, an element representing color primary information
-     * might be required to have at least 3 children, one for each
-     * primary.
+     * Rfturns tif minimum numbfr of diildrfn of tif nbmfd flfmfnt
+     * witi diild polidy <dodf>CHILD_POLICY_REPEAT</dodf>.  For
+     * fxbmplf, bn flfmfnt rfprfsfnting dolor primbry informbtion
+     * migit bf rfquirfd to ibvf bt lfbst 3 diildrfn, onf for fbdi
+     * primbry.
      *
-     * @param elementName the name of the element being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
      *
-     * @return an <code>int</code>.
+     * @rfturn bn <dodf>int</dodf>.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if the named element does
-     * not have a child policy of <code>CHILD_POLICY_REPEAT</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if tif nbmfd flfmfnt dofs
+     * not ibvf b diild polidy of <dodf>CHILD_POLICY_REPEAT</dodf>.
      */
-    int getElementMinChildren(String elementName);
+    int gftElfmfntMinCiildrfn(String flfmfntNbmf);
 
     /**
-     * Returns the maximum number of children of the named element
-     * with child policy <code>CHILD_POLICY_REPEAT</code>.  For
-     * example, an element representing an entry in an 8-bit color
-     * palette might be allowed to repeat up to 256 times.  A value of
-     * <code>Integer.MAX_VALUE</code> may be used to specify that
-     * there is no upper bound.
+     * Rfturns tif mbximum numbfr of diildrfn of tif nbmfd flfmfnt
+     * witi diild polidy <dodf>CHILD_POLICY_REPEAT</dodf>.  For
+     * fxbmplf, bn flfmfnt rfprfsfnting bn fntry in bn 8-bit dolor
+     * pblfttf migit bf bllowfd to rfpfbt up to 256 timfs.  A vbluf of
+     * <dodf>Intfgfr.MAX_VALUE</dodf> mby bf usfd to spfdify tibt
+     * tifrf is no uppfr bound.
      *
-     * @param elementName the name of the element being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
      *
-     * @return an <code>int</code>.
+     * @rfturn bn <dodf>int</dodf>.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if the named element does
-     * not have a child policy of <code>CHILD_POLICY_REPEAT</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if tif nbmfd flfmfnt dofs
+     * not ibvf b diild polidy of <dodf>CHILD_POLICY_REPEAT</dodf>.
      */
-    int getElementMaxChildren(String elementName);
+    int gftElfmfntMbxCiildrfn(String flfmfntNbmf);
 
     /**
-     * Returns a <code>String</code> containing a description of the
-     * named element, or <code>null</code>.  The description will be
-     * localized for the supplied <code>Locale</code> if possible.
+     * Rfturns b <dodf>String</dodf> dontbining b dfsdription of tif
+     * nbmfd flfmfnt, or <dodf>null</dodf>.  Tif dfsdription will bf
+     * lodblizfd for tif supplifd <dodf>Lodblf</dodf> if possiblf.
      *
-     * <p> If <code>locale</code> is <code>null</code>, the current
-     * default <code>Locale</code> returned by <code>Locale.getLocale</code>
-     * will be used.
+     * <p> If <dodf>lodblf</dodf> is <dodf>null</dodf>, tif durrfnt
+     * dffbult <dodf>Lodblf</dodf> rfturnfd by <dodf>Lodblf.gftLodblf</dodf>
+     * will bf usfd.
      *
-     * @param elementName the name of the element.
-     * @param locale the <code>Locale</code> for which localization
-     * will be attempted.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt.
+     * @pbrbm lodblf tif <dodf>Lodblf</dodf> for wiidi lodblizbtion
+     * will bf bttfmptfd.
      *
-     * @return the element description.
+     * @rfturn tif flfmfnt dfsdription.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this format.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis formbt.
      */
-    String getElementDescription(String elementName, Locale locale);
+    String gftElfmfntDfsdription(String flfmfntNbmf, Lodblf lodblf);
 
-    // Children
+    // Ciildrfn
 
     /**
-     * Returns one of the constants starting with
-     * <code>CHILD_POLICY_</code>, indicating the legal pattern of
-     * children for the named element.
+     * Rfturns onf of tif donstbnts stbrting witi
+     * <dodf>CHILD_POLICY_</dodf>, indidbting tif lfgbl pbttfrn of
+     * diildrfn for tif nbmfd flfmfnt.
      *
-     * @param elementName the name of the element being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
      *
-     * @return one of the <code>CHILD_POLICY_*</code> constants.
+     * @rfturn onf of tif <dodf>CHILD_POLICY_*</dodf> donstbnts.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
      */
-    int getChildPolicy(String elementName);
+    int gftCiildPolidy(String flfmfntNbmf);
 
     /**
-     * Returns an array of <code>String</code>s indicating the names
-     * of the element which are allowed to be children of the named
-     * element, in the order in which they should appear.  If the
-     * element cannot have children, <code>null</code> is returned.
+     * Rfturns bn brrby of <dodf>String</dodf>s indidbting tif nbmfs
+     * of tif flfmfnt wiidi brf bllowfd to bf diildrfn of tif nbmfd
+     * flfmfnt, in tif ordfr in wiidi tify siould bppfbr.  If tif
+     * flfmfnt dbnnot ibvf diildrfn, <dodf>null</dodf> is rfturnfd.
      *
-     * @param elementName the name of the element being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
      *
-     * @return an array of <code>String</code>s, or null.
+     * @rfturn bn brrby of <dodf>String</dodf>s, or null.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
      */
-    String[] getChildNames(String elementName);
+    String[] gftCiildNbmfs(String flfmfntNbmf);
 
-    // Attributes
+    // Attributfs
 
     /**
-     * Returns an array of <code>String</code>s listing the names of
-     * the attributes that may be associated with the named element.
+     * Rfturns bn brrby of <dodf>String</dodf>s listing tif nbmfs of
+     * tif bttributfs tibt mby bf bssodibtfd witi tif nbmfd flfmfnt.
      *
-     * @param elementName the name of the element being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
      *
-     * @return an array of <code>String</code>s.
+     * @rfturn bn brrby of <dodf>String</dodf>s.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
      */
-    String[] getAttributeNames(String elementName);
+    String[] gftAttributfNbmfs(String flfmfntNbmf);
 
     /**
-     * Returns one of the constants starting with <code>VALUE_</code>,
-     * indicating whether the values of the given attribute within the
-     * named element are arbitrary, constrained to lie within a
-     * specified range, constrained to be one of a set of enumerated
-     * values, or are a whitespace-separated list of arbitrary values.
+     * Rfturns onf of tif donstbnts stbrting witi <dodf>VALUE_</dodf>,
+     * indidbting wiftifr tif vblufs of tif givfn bttributf witiin tif
+     * nbmfd flfmfnt brf brbitrbry, donstrbinfd to lif witiin b
+     * spfdififd rbngf, donstrbinfd to bf onf of b sft of fnumfrbtfd
+     * vblufs, or brf b wiitfspbdf-sfpbrbtfd list of brbitrbry vblufs.
      *
-     * @param elementName the name of the element being queried.
-     * @param attrName the name of the attribute being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf bfing qufrifd.
      *
-     * @return one of the <code>VALUE_*</code> constants.
+     * @rfturn onf of tif <dodf>VALUE_*</dodf> donstbnts.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code> or is not a legal attribute name for this
-     * element.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf> or is not b lfgbl bttributf nbmf for tiis
+     * flfmfnt.
      */
-    int getAttributeValueType(String elementName, String attrName);
+    int gftAttributfVblufTypf(String flfmfntNbmf, String bttrNbmf);
 
     /**
-     * Returns one of the constants starting with
-     * <code>DATATYPE_</code>, indicating the format and
-     * interpretation of the value of the given attribute within the
-     * named element.  If <code>getAttributeValueType</code> returns
-     * <code>VALUE_LIST</code>, then the legal value is a
-     * whitespace-spearated list of values of the returned datatype.
+     * Rfturns onf of tif donstbnts stbrting witi
+     * <dodf>DATATYPE_</dodf>, indidbting tif formbt bnd
+     * intfrprftbtion of tif vbluf of tif givfn bttributf witiin tif
+     * nbmfd flfmfnt.  If <dodf>gftAttributfVblufTypf</dodf> rfturns
+     * <dodf>VALUE_LIST</dodf>, tifn tif lfgbl vbluf is b
+     * wiitfspbdf-spfbrbtfd list of vblufs of tif rfturnfd dbtbtypf.
      *
-     * @param elementName the name of the element being queried.
-     * @param attrName the name of the attribute being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf bfing qufrifd.
      *
-     * @return one of the <code>DATATYPE_*</code> constants.
+     * @rfturn onf of tif <dodf>DATATYPE_*</dodf> donstbnts.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code> or is not a legal attribute name for this
-     * element.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf> or is not b lfgbl bttributf nbmf for tiis
+     * flfmfnt.
      */
-    int getAttributeDataType(String elementName, String attrName);
+    int gftAttributfDbtbTypf(String flfmfntNbmf, String bttrNbmf);
 
     /**
-     * Returns <code>true</code> if the named attribute must be
-     * present within the named element.
+     * Rfturns <dodf>truf</dodf> if tif nbmfd bttributf must bf
+     * prfsfnt witiin tif nbmfd flfmfnt.
      *
-     * @param elementName the name of the element being queried.
-     * @param attrName the name of the attribute being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf bfing qufrifd.
      *
-     * @return <code>true</code> if the attribute must be present.
+     * @rfturn <dodf>truf</dodf> if tif bttributf must bf prfsfnt.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code> or is not a legal attribute name for this
-     * element.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf> or is not b lfgbl bttributf nbmf for tiis
+     * flfmfnt.
      */
-    boolean isAttributeRequired(String elementName, String attrName);
+    boolfbn isAttributfRfquirfd(String flfmfntNbmf, String bttrNbmf);
 
     /**
-     * Returns the default value of the named attribute, if it is not
-     * explicitly present within the named element, as a
-     * <code>String</code>, or <code>null</code> if no default value
-     * is available.
+     * Rfturns tif dffbult vbluf of tif nbmfd bttributf, if it is not
+     * fxpliditly prfsfnt witiin tif nbmfd flfmfnt, bs b
+     * <dodf>String</dodf>, or <dodf>null</dodf> if no dffbult vbluf
+     * is bvbilbblf.
      *
-     * @param elementName the name of the element being queried.
-     * @param attrName the name of the attribute being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf bfing qufrifd.
      *
-     * @return a <code>String</code> containing the default value, or
-     * <code>null</code>.
+     * @rfturn b <dodf>String</dodf> dontbining tif dffbult vbluf, or
+     * <dodf>null</dodf>.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code> or is not a legal attribute name for this
-     * element.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf> or is not b lfgbl bttributf nbmf for tiis
+     * flfmfnt.
      */
-    String getAttributeDefaultValue(String elementName, String attrName);
+    String gftAttributfDffbultVbluf(String flfmfntNbmf, String bttrNbmf);
 
     /**
-     * Returns an array of <code>String</code>s containing the legal
-     * enumerated values for the given attribute within the named
-     * element.  This method should only be called if
-     * <code>getAttributeValueType</code> returns
-     * <code>VALUE_ENUMERATION</code>.
+     * Rfturns bn brrby of <dodf>String</dodf>s dontbining tif lfgbl
+     * fnumfrbtfd vblufs for tif givfn bttributf witiin tif nbmfd
+     * flfmfnt.  Tiis mftiod siould only bf dbllfd if
+     * <dodf>gftAttributfVblufTypf</dodf> rfturns
+     * <dodf>VALUE_ENUMERATION</dodf>.
      *
-     * @param elementName the name of the element being queried.
-     * @param attrName the name of the attribute being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf bfing qufrifd.
      *
-     * @return an array of <code>String</code>s.
+     * @rfturn bn brrby of <dodf>String</dodf>s.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code> or is not a legal attribute name for this
-     * element.
-     * @exception IllegalArgumentException if the given attribute is
-     * not defined as an enumeration.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf> or is not b lfgbl bttributf nbmf for tiis
+     * flfmfnt.
+     * @fxdfption IllfgblArgumfntExdfption if tif givfn bttributf is
+     * not dffinfd bs bn fnumfrbtion.
      */
-    String[] getAttributeEnumerations(String elementName, String attrName);
+    String[] gftAttributfEnumfrbtions(String flfmfntNbmf, String bttrNbmf);
 
     /**
-     * Returns the minimum legal value for the attribute.  Whether
-     * this value is inclusive or exclusive may be determined by the
-     * value of <code>getAttributeValueType</code>.  The value is
-     * returned as a <code>String</code>; its interpretation is
-     * dependent on the value of <code>getAttributeDataType</code>.
-     * This method should only be called if
-     * <code>getAttributeValueType</code> returns
-     * <code>VALUE_RANGE_*</code>.
+     * Rfturns tif minimum lfgbl vbluf for tif bttributf.  Wiftifr
+     * tiis vbluf is indlusivf or fxdlusivf mby bf dftfrminfd by tif
+     * vbluf of <dodf>gftAttributfVblufTypf</dodf>.  Tif vbluf is
+     * rfturnfd bs b <dodf>String</dodf>; its intfrprftbtion is
+     * dfpfndfnt on tif vbluf of <dodf>gftAttributfDbtbTypf</dodf>.
+     * Tiis mftiod siould only bf dbllfd if
+     * <dodf>gftAttributfVblufTypf</dodf> rfturns
+     * <dodf>VALUE_RANGE_*</dodf>.
      *
-     * @param elementName the name of the element being queried.
-     * @param attrName the name of the attribute being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf bfing qufrifd.
      *
-     * @return a <code>String</code> containing the smallest legal
-     * value for the attribute.
+     * @rfturn b <dodf>String</dodf> dontbining tif smbllfst lfgbl
+     * vbluf for tif bttributf.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code> or is not a legal attribute name for this
-     * element.
-     * @exception IllegalArgumentException if the given attribute is
-     * not defined as a range.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf> or is not b lfgbl bttributf nbmf for tiis
+     * flfmfnt.
+     * @fxdfption IllfgblArgumfntExdfption if tif givfn bttributf is
+     * not dffinfd bs b rbngf.
      */
-    String getAttributeMinValue(String elementName, String attrName);
+    String gftAttributfMinVbluf(String flfmfntNbmf, String bttrNbmf);
 
     /**
-     * Returns the maximum legal value for the attribute.  Whether
-     * this value is inclusive or exclusive may be determined by the
-     * value of <code>getAttributeValueType</code>.  The value is
-     * returned as a <code>String</code>; its interpretation is
-     * dependent on the value of <code>getAttributeDataType</code>.
-     * This method should only be called if
-     * <code>getAttributeValueType</code> returns
-     * <code>VALUE_RANGE_*</code>.
+     * Rfturns tif mbximum lfgbl vbluf for tif bttributf.  Wiftifr
+     * tiis vbluf is indlusivf or fxdlusivf mby bf dftfrminfd by tif
+     * vbluf of <dodf>gftAttributfVblufTypf</dodf>.  Tif vbluf is
+     * rfturnfd bs b <dodf>String</dodf>; its intfrprftbtion is
+     * dfpfndfnt on tif vbluf of <dodf>gftAttributfDbtbTypf</dodf>.
+     * Tiis mftiod siould only bf dbllfd if
+     * <dodf>gftAttributfVblufTypf</dodf> rfturns
+     * <dodf>VALUE_RANGE_*</dodf>.
      *
-     * @param elementName the name of the element being queried, as a
-     * <code>String</code>.
-     * @param attrName the name of the attribute being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd, bs b
+     * <dodf>String</dodf>.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf bfing qufrifd.
      *
-     * @return a <code>String</code> containing the largest legal
-     * value for the attribute.
+     * @rfturn b <dodf>String</dodf> dontbining tif lbrgfst lfgbl
+     * vbluf for tif bttributf.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code> or is not a legal attribute name for this
-     * element.
-     * @exception IllegalArgumentException if the given attribute is
-     * not defined as a range.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf> or is not b lfgbl bttributf nbmf for tiis
+     * flfmfnt.
+     * @fxdfption IllfgblArgumfntExdfption if tif givfn bttributf is
+     * not dffinfd bs b rbngf.
      */
-    String getAttributeMaxValue(String elementName, String attrName);
+    String gftAttributfMbxVbluf(String flfmfntNbmf, String bttrNbmf);
 
     /**
-     * Returns the minimum number of list items that may be used to
-     * define this attribute.  The attribute itself is defined as a
-     * <code>String</code> containing multiple whitespace-separated
-     * items.  This method should only be called if
-     * <code>getAttributeValueType</code> returns
-     * <code>VALUE_LIST</code>.
+     * Rfturns tif minimum numbfr of list itfms tibt mby bf usfd to
+     * dffinf tiis bttributf.  Tif bttributf itsflf is dffinfd bs b
+     * <dodf>String</dodf> dontbining multiplf wiitfspbdf-sfpbrbtfd
+     * itfms.  Tiis mftiod siould only bf dbllfd if
+     * <dodf>gftAttributfVblufTypf</dodf> rfturns
+     * <dodf>VALUE_LIST</dodf>.
      *
-     * @param elementName the name of the element being queried.
-     * @param attrName the name of the attribute being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf bfing qufrifd.
      *
-     * @return the smallest legal number of list items for the
-     * attribute.
+     * @rfturn tif smbllfst lfgbl numbfr of list itfms for tif
+     * bttributf.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code> or is not a legal attribute name for this
-     * element.
-     * @exception IllegalArgumentException if the given attribute is
-     * not defined as a list.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf> or is not b lfgbl bttributf nbmf for tiis
+     * flfmfnt.
+     * @fxdfption IllfgblArgumfntExdfption if tif givfn bttributf is
+     * not dffinfd bs b list.
      */
-    int getAttributeListMinLength(String elementName, String attrName);
+    int gftAttributfListMinLfngti(String flfmfntNbmf, String bttrNbmf);
 
     /**
-     * Returns the maximum number of list items that may be used to
-     * define this attribute.  A value of
-     * <code>Integer.MAX_VALUE</code> may be used to specify that
-     * there is no upper bound.  The attribute itself is defined as a
-     * <code>String</code> containing multiple whitespace-separated
-     * items.  This method should only be called if
-     * <code>getAttributeValueType</code> returns
-     * <code>VALUE_LIST</code>.
+     * Rfturns tif mbximum numbfr of list itfms tibt mby bf usfd to
+     * dffinf tiis bttributf.  A vbluf of
+     * <dodf>Intfgfr.MAX_VALUE</dodf> mby bf usfd to spfdify tibt
+     * tifrf is no uppfr bound.  Tif bttributf itsflf is dffinfd bs b
+     * <dodf>String</dodf> dontbining multiplf wiitfspbdf-sfpbrbtfd
+     * itfms.  Tiis mftiod siould only bf dbllfd if
+     * <dodf>gftAttributfVblufTypf</dodf> rfturns
+     * <dodf>VALUE_LIST</dodf>.
      *
-     * @param elementName the name of the element being queried.
-     * @param attrName the name of the attribute being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf bfing qufrifd.
      *
-     * @return the largest legal number of list items for the
-     * attribute.
+     * @rfturn tif lbrgfst lfgbl numbfr of list itfms for tif
+     * bttributf.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code> or is not a legal attribute name for this
-     * element.
-     * @exception IllegalArgumentException if the given attribute is
-     * not defined as a list.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf> or is not b lfgbl bttributf nbmf for tiis
+     * flfmfnt.
+     * @fxdfption IllfgblArgumfntExdfption if tif givfn bttributf is
+     * not dffinfd bs b list.
      */
-    int getAttributeListMaxLength(String elementName, String attrName);
+    int gftAttributfListMbxLfngti(String flfmfntNbmf, String bttrNbmf);
 
     /**
-     * Returns a <code>String</code> containing a description of the
-     * named attribute, or <code>null</code>.  The description will be
-     * localized for the supplied <code>Locale</code> if possible.
+     * Rfturns b <dodf>String</dodf> dontbining b dfsdription of tif
+     * nbmfd bttributf, or <dodf>null</dodf>.  Tif dfsdription will bf
+     * lodblizfd for tif supplifd <dodf>Lodblf</dodf> if possiblf.
      *
-     * <p> If <code>locale</code> is <code>null</code>, the current
-     * default <code>Locale</code> returned by <code>Locale.getLocale</code>
-     * will be used.
+     * <p> If <dodf>lodblf</dodf> is <dodf>null</dodf>, tif durrfnt
+     * dffbult <dodf>Lodblf</dodf> rfturnfd by <dodf>Lodblf.gftLodblf</dodf>
+     * will bf usfd.
      *
-     * @param elementName the name of the element.
-     * @param attrName the name of the attribute.
-     * @param locale the <code>Locale</code> for which localization
-     * will be attempted.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf.
+     * @pbrbm lodblf tif <dodf>Lodblf</dodf> for wiidi lodblizbtion
+     * will bf bttfmptfd.
      *
-     * @return the attribute description.
+     * @rfturn tif bttributf dfsdription.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code> or is not a legal attribute name for this
-     * element.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf> or is not b lfgbl bttributf nbmf for tiis
+     * flfmfnt.
      */
-    String getAttributeDescription(String elementName, String attrName,
-                                   Locale locale);
+    String gftAttributfDfsdription(String flfmfntNbmf, String bttrNbmf,
+                                   Lodblf lodblf);
 
-    // Object value
-
-    /**
-     * Returns one of the enumerated values starting with
-     * <code>VALUE_</code>, indicating the type of values
-     * (enumeration, range, or array) that are allowed for the
-     * <code>Object</code> reference.  If no object value can be
-     * stored within the given element, the result of this method will
-     * be <code>VALUE_NONE</code>.
-     *
-     * <p> <code>Object</code> references whose legal values are
-     * defined as a range must implement the <code>Comparable</code>
-     * interface.
-     *
-     * @param elementName the name of the element being queried.
-     *
-     * @return one of the <code>VALUE_*</code> constants.
-     *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     *
-     * @see Comparable
-     */
-    int getObjectValueType(String elementName);
+    // Objfdt vbluf
 
     /**
-     * Returns the <code>Class</code> type of the <code>Object</code>
-     * reference stored within the element.  If this element may not
-     * contain an <code>Object</code> reference, an
-     * <code>IllegalArgumentException</code> will be thrown.  If the
-     * class type is an array, this field indicates the underlying
-     * class type (<i>e.g</i>, for an array of <code>int</code>s, this
-     * method would return <code>int.class</code>).
+     * Rfturns onf of tif fnumfrbtfd vblufs stbrting witi
+     * <dodf>VALUE_</dodf>, indidbting tif typf of vblufs
+     * (fnumfrbtion, rbngf, or brrby) tibt brf bllowfd for tif
+     * <dodf>Objfdt</dodf> rfffrfndf.  If no objfdt vbluf dbn bf
+     * storfd witiin tif givfn flfmfnt, tif rfsult of tiis mftiod will
+     * bf <dodf>VALUE_NONE</dodf>.
      *
-     * <p> <code>Object</code> references whose legal values are
-     * defined as a range must implement the <code>Comparable</code>
-     * interface.
+     * <p> <dodf>Objfdt</dodf> rfffrfndfs wiosf lfgbl vblufs brf
+     * dffinfd bs b rbngf must implfmfnt tif <dodf>Compbrbblf</dodf>
+     * intfrfbdf.
      *
-     * @param elementName the name of the element being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
      *
-     * @return a <code>Class</code> object.
+     * @rfturn onf of tif <dodf>VALUE_*</dodf> donstbnts.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if the named element cannot
-     * contain an object value (<i>i.e.</i>, if
-     * <code>getObjectValueType(elementName) == VALUE_NONE</code>).
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     *
+     * @sff Compbrbblf
      */
-    Class<?> getObjectClass(String elementName);
+    int gftObjfdtVblufTypf(String flfmfntNbmf);
 
     /**
-     * Returns an <code>Object</code>s containing the default
-     * value for the <code>Object</code> reference within
-     * the named element.
+     * Rfturns tif <dodf>Clbss</dodf> typf of tif <dodf>Objfdt</dodf>
+     * rfffrfndf storfd witiin tif flfmfnt.  If tiis flfmfnt mby not
+     * dontbin bn <dodf>Objfdt</dodf> rfffrfndf, bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> will bf tirown.  If tif
+     * dlbss typf is bn brrby, tiis fifld indidbtfs tif undfrlying
+     * dlbss typf (<i>f.g</i>, for bn brrby of <dodf>int</dodf>s, tiis
+     * mftiod would rfturn <dodf>int.dlbss</dodf>).
      *
-     * @param elementName the name of the element being queried.
+     * <p> <dodf>Objfdt</dodf> rfffrfndfs wiosf lfgbl vblufs brf
+     * dffinfd bs b rbngf must implfmfnt tif <dodf>Compbrbblf</dodf>
+     * intfrfbdf.
      *
-     * @return an <code>Object</code>.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if the named element cannot
-     * contain an object value (<i>i.e.</i>, if
-     * <code>getObjectValueType(elementName) == VALUE_NONE</code>).
+     * @rfturn b <dodf>Clbss</dodf> objfdt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if tif nbmfd flfmfnt dbnnot
+     * dontbin bn objfdt vbluf (<i>i.f.</i>, if
+     * <dodf>gftObjfdtVblufTypf(flfmfntNbmf) == VALUE_NONE</dodf>).
      */
-    Object getObjectDefaultValue(String elementName);
+    Clbss<?> gftObjfdtClbss(String flfmfntNbmf);
 
     /**
-     * Returns an array of <code>Object</code>s containing the legal
-     * enumerated values for the <code>Object</code> reference within
-     * the named element.  This method should only be called if
-     * <code>getObjectValueType</code> returns
-     * <code>VALUE_ENUMERATION</code>.
+     * Rfturns bn <dodf>Objfdt</dodf>s dontbining tif dffbult
+     * vbluf for tif <dodf>Objfdt</dodf> rfffrfndf witiin
+     * tif nbmfd flfmfnt.
      *
-     * <p> The <code>Object</code> associated with a node that accepts
-     * enumerated values must be equal to one of the values returned by
-     * this method, as defined by the <code>==</code> operator (as
-     * opposed to the <code>Object.equals</code> method).
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
      *
-     * @param elementName the name of the element being queried.
+     * @rfturn bn <dodf>Objfdt</dodf>.
      *
-     * @return an array of <code>Object</code>s.
-     *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if the named element cannot
-     * contain an object value (<i>i.e.</i>, if
-     * <code>getObjectValueType(elementName) == VALUE_NONE</code>).
-     * @exception IllegalArgumentException if the <code>Object</code>
-     * is not defined as an enumeration.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if tif nbmfd flfmfnt dbnnot
+     * dontbin bn objfdt vbluf (<i>i.f.</i>, if
+     * <dodf>gftObjfdtVblufTypf(flfmfntNbmf) == VALUE_NONE</dodf>).
      */
-    Object[] getObjectEnumerations(String elementName);
+    Objfdt gftObjfdtDffbultVbluf(String flfmfntNbmf);
 
     /**
-     * Returns the minimum legal value for the <code>Object</code>
-     * reference within the named element.  Whether this value is
-     * inclusive or exclusive may be determined by the value of
-     * <code>getObjectValueType</code>.  This method should only be
-     * called if <code>getObjectValueType</code> returns one of the
-     * constants starting with <code>VALUE_RANGE</code>.
+     * Rfturns bn brrby of <dodf>Objfdt</dodf>s dontbining tif lfgbl
+     * fnumfrbtfd vblufs for tif <dodf>Objfdt</dodf> rfffrfndf witiin
+     * tif nbmfd flfmfnt.  Tiis mftiod siould only bf dbllfd if
+     * <dodf>gftObjfdtVblufTypf</dodf> rfturns
+     * <dodf>VALUE_ENUMERATION</dodf>.
      *
-     * @param elementName the name of the element being queried.
+     * <p> Tif <dodf>Objfdt</dodf> bssodibtfd witi b nodf tibt bddfpts
+     * fnumfrbtfd vblufs must bf fqubl to onf of tif vblufs rfturnfd by
+     * tiis mftiod, bs dffinfd by tif <dodf>==</dodf> opfrbtor (bs
+     * opposfd to tif <dodf>Objfdt.fqubls</dodf> mftiod).
      *
-     * @return the smallest legal value for the attribute.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if the named element cannot
-     * contain an object value (<i>i.e.</i>, if
-     * <code>getObjectValueType(elementName) == VALUE_NONE</code>).
-     * @exception IllegalArgumentException if the <code>Object</code>
-     * is not defined as a range.
+     * @rfturn bn brrby of <dodf>Objfdt</dodf>s.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if tif nbmfd flfmfnt dbnnot
+     * dontbin bn objfdt vbluf (<i>i.f.</i>, if
+     * <dodf>gftObjfdtVblufTypf(flfmfntNbmf) == VALUE_NONE</dodf>).
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>Objfdt</dodf>
+     * is not dffinfd bs bn fnumfrbtion.
      */
-    Comparable<?> getObjectMinValue(String elementName);
+    Objfdt[] gftObjfdtEnumfrbtions(String flfmfntNbmf);
 
     /**
-     * Returns the maximum legal value for the <code>Object</code>
-     * reference within the named element.  Whether this value is
-     * inclusive or exclusive may be determined by the value of
-     * <code>getObjectValueType</code>.  This method should only be
-     * called if <code>getObjectValueType</code> returns one of the
-     * constants starting with <code>VALUE_RANGE</code>.
+     * Rfturns tif minimum lfgbl vbluf for tif <dodf>Objfdt</dodf>
+     * rfffrfndf witiin tif nbmfd flfmfnt.  Wiftifr tiis vbluf is
+     * indlusivf or fxdlusivf mby bf dftfrminfd by tif vbluf of
+     * <dodf>gftObjfdtVblufTypf</dodf>.  Tiis mftiod siould only bf
+     * dbllfd if <dodf>gftObjfdtVblufTypf</dodf> rfturns onf of tif
+     * donstbnts stbrting witi <dodf>VALUE_RANGE</dodf>.
      *
-     * @return the smallest legal value for the attribute.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
      *
-     * @param elementName the name of the element being queried.
+     * @rfturn tif smbllfst lfgbl vbluf for tif bttributf.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if the named element cannot
-     * contain an object value (<i>i.e.</i>, if
-     * <code>getObjectValueType(elementName) == VALUE_NONE</code>).
-     * @exception IllegalArgumentException if the <code>Object</code>
-     * is not defined as a range.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if tif nbmfd flfmfnt dbnnot
+     * dontbin bn objfdt vbluf (<i>i.f.</i>, if
+     * <dodf>gftObjfdtVblufTypf(flfmfntNbmf) == VALUE_NONE</dodf>).
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>Objfdt</dodf>
+     * is not dffinfd bs b rbngf.
      */
-    Comparable<?> getObjectMaxValue(String elementName);
+    Compbrbblf<?> gftObjfdtMinVbluf(String flfmfntNbmf);
 
     /**
-     * Returns the minimum number of array elements that may be used
-     * to define the <code>Object</code> reference within the named
-     * element.  This method should only be called if
-     * <code>getObjectValueType</code> returns
-     * <code>VALUE_LIST</code>.
+     * Rfturns tif mbximum lfgbl vbluf for tif <dodf>Objfdt</dodf>
+     * rfffrfndf witiin tif nbmfd flfmfnt.  Wiftifr tiis vbluf is
+     * indlusivf or fxdlusivf mby bf dftfrminfd by tif vbluf of
+     * <dodf>gftObjfdtVblufTypf</dodf>.  Tiis mftiod siould only bf
+     * dbllfd if <dodf>gftObjfdtVblufTypf</dodf> rfturns onf of tif
+     * donstbnts stbrting witi <dodf>VALUE_RANGE</dodf>.
      *
-     * @param elementName the name of the element being queried.
+     * @rfturn tif smbllfst lfgbl vbluf for tif bttributf.
      *
-     * @return the smallest valid array length for the
-     * <code>Object</code> reference.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if the named element cannot
-     * contain an object value (<i>i.e.</i>, if
-     * <code>getObjectValueType(elementName) == VALUE_NONE</code>).
-     * @exception IllegalArgumentException if the <code>Object</code> is not
-     * an array.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if tif nbmfd flfmfnt dbnnot
+     * dontbin bn objfdt vbluf (<i>i.f.</i>, if
+     * <dodf>gftObjfdtVblufTypf(flfmfntNbmf) == VALUE_NONE</dodf>).
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>Objfdt</dodf>
+     * is not dffinfd bs b rbngf.
      */
-    int getObjectArrayMinLength(String elementName);
+    Compbrbblf<?> gftObjfdtMbxVbluf(String flfmfntNbmf);
 
     /**
-     * Returns the maximum number of array elements that may be used
-     * to define the <code>Object</code> reference within the named
-     * element.  A value of <code>Integer.MAX_VALUE</code> may be used
-     * to specify that there is no upper bound.  This method should
-     * only be called if <code>getObjectValueType</code> returns
-     * <code>VALUE_LIST</code>.
+     * Rfturns tif minimum numbfr of brrby flfmfnts tibt mby bf usfd
+     * to dffinf tif <dodf>Objfdt</dodf> rfffrfndf witiin tif nbmfd
+     * flfmfnt.  Tiis mftiod siould only bf dbllfd if
+     * <dodf>gftObjfdtVblufTypf</dodf> rfturns
+     * <dodf>VALUE_LIST</dodf>.
      *
-     * @param elementName the name of the element being queried.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
      *
-     * @return the largest valid array length for the
-     * <code>Object</code> reference.
+     * @rfturn tif smbllfst vblid brrby lfngti for tif
+     * <dodf>Objfdt</dodf> rfffrfndf.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code> or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if the named element cannot
-     * contain an object value (<i>i.e.</i>, if
-     * <code>getObjectValueType(elementName) == VALUE_NONE</code>).
-     * @exception IllegalArgumentException if the <code>Object</code> is not
-     * an array.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if tif nbmfd flfmfnt dbnnot
+     * dontbin bn objfdt vbluf (<i>i.f.</i>, if
+     * <dodf>gftObjfdtVblufTypf(flfmfntNbmf) == VALUE_NONE</dodf>).
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>Objfdt</dodf> is not
+     * bn brrby.
      */
-    int getObjectArrayMaxLength(String elementName);
+    int gftObjfdtArrbyMinLfngti(String flfmfntNbmf);
+
+    /**
+     * Rfturns tif mbximum numbfr of brrby flfmfnts tibt mby bf usfd
+     * to dffinf tif <dodf>Objfdt</dodf> rfffrfndf witiin tif nbmfd
+     * flfmfnt.  A vbluf of <dodf>Intfgfr.MAX_VALUE</dodf> mby bf usfd
+     * to spfdify tibt tifrf is no uppfr bound.  Tiis mftiod siould
+     * only bf dbllfd if <dodf>gftObjfdtVblufTypf</dodf> rfturns
+     * <dodf>VALUE_LIST</dodf>.
+     *
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt bfing qufrifd.
+     *
+     * @rfturn tif lbrgfst vblid brrby lfngti for tif
+     * <dodf>Objfdt</dodf> rfffrfndf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf> or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if tif nbmfd flfmfnt dbnnot
+     * dontbin bn objfdt vbluf (<i>i.f.</i>, if
+     * <dodf>gftObjfdtVblufTypf(flfmfntNbmf) == VALUE_NONE</dodf>).
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>Objfdt</dodf> is not
+     * bn brrby.
+     */
+    int gftObjfdtArrbyMbxLfngti(String flfmfntNbmf);
 }

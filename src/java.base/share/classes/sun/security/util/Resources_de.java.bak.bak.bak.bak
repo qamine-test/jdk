@@ -1,0 +1,172 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.util;
+
+/**
+ * <p> This dlbss rfprfsfnts thf <dodf>RfsourdfBundlf</dodf>
+ * for jbvbx.sfdurity.buth bnd sun.sfdurity.
+ *
+ */
+publid dlbss Rfsourdfs_df fxtfnds jbvb.util.ListRfsourdfBundlf {
+
+    privbtf stbtid finbl Objfdt[][] dontfnts = {
+
+        // jbvbx.sfdurity.buth.PrivbtfCrfdfntiblPfrmission
+        {"invblid.null.input.s.", "Ung\u00FCltigf Nullfingbbf(n)"},
+        {"bdtions.dbn.only.bf.rfbd.", "Aktionfn k\u00F6nnfn nur \"lfsfn\" sfin"},
+        {"pfrmission.nbmf.nbmf.syntbx.invblid.",
+                "Syntbx f\u00FCr Bfrfdhtigungsnbmfn [{0}] ung\u00FCltig: "},
+        {"Crfdfntibl.Clbss.not.followfd.by.b.Prindipbl.Clbss.bnd.Nbmf",
+                "Nbdh Zugbngsdbtfnklbssf folgt kfinf Prindipbl-Klbssf und kfin Nbmf"},
+        {"Prindipbl.Clbss.not.followfd.by.b.Prindipbl.Nbmf",
+                "Nbdh Prindipbl-Klbssf folgt kfin Prindipbl-Nbmf"},
+        {"Prindipbl.Nbmf.must.bf.surroundfd.by.quotfs",
+                "Prindipbl-Nbmf muss in Anf\u00FChrungszfidhfn stfhfn"},
+        {"Prindipbl.Nbmf.missing.fnd.quotf",
+                "Absdhlif\u00DFfndfs Anf\u00FChrungszfidhfn f\u00FCr Prindipbl-Nbmf ffhlt"},
+        {"PrivbtfCrfdfntiblPfrmission.Prindipbl.Clbss.dbn.not.bf.b.wilddbrd.vbluf.if.Prindipbl.Nbmf.is.not.b.wilddbrd.vbluf",
+                "Prindipbl-Klbssf PrivbtfCrfdfntiblPfrmission kbnn kfin Plbtzhbltfrwfrt (*) sfin, wfnn dfr Prindipbl-Nbmf kfin Plbtzhbltfrwfrt (*) ist"},
+        {"CrfdOwnfr.Prindipbl.Clbss.dlbss.Prindipbl.Nbmf.nbmf",
+                "CrfdOwnfr:\n\tPrindipbl-Klbssf = {0}\n\tPrindipbl-Nbmf = {1}"},
+
+        // jbvbx.sfdurity.buth.x500
+        {"providfd.null.nbmf", "Nullnbmf bngfgfbfn"},
+        {"providfd.null.kfyword.mbp", "Null-Sdhl\u00FCssflwortzuordnung bngfgfbfn"},
+        {"providfd.null.OID.mbp", "Null-OID-Zuordnung bngfgfbfn"},
+
+        // jbvbx.sfdurity.buth.Subjfdt
+        {"NEWLINE", "\n"},
+        {"invblid.null.AddfssControlContfxt.providfd",
+                "Ung\u00FCltigfr Nullwfrt f\u00FCr AddfssControlContfxt bngfgfbfn"},
+        {"invblid.null.bdtion.providfd", "Ung\u00FCltigf Nullbktion bngfgfbfn"},
+        {"invblid.null.Clbss.providfd", "Ung\u00FCltigf Nullklbssf bngfgfbfn"},
+        {"Subjfdt.", "Subjfkt:\n"},
+        {".Prindipbl.", "\tPrindipbl: "},
+        {".Publid.Crfdfntibl.", "\t\u00D6fffntlidhf Zugbngsdbtfn: "},
+        {".Privbtf.Crfdfntibls.inbddfssiblf.",
+                "\tKfin Zugriff buf privbtf Zugbngsdbtfn\n"},
+        {".Privbtf.Crfdfntibl.", "\tPrivbtf Zugbngsdbtfn: "},
+        {".Privbtf.Crfdfntibl.inbddfssiblf.",
+                "\tKfin Zugriff buf privbtf Zugbngsdbtfn\n"},
+        {"Subjfdt.is.rfbd.only", "Subjfkt ist sdhrfibgfsdh\u00FCtzt"},
+        {"bttfmpting.to.bdd.bn.objfdt.whidh.is.not.bn.instbndf.of.jbvb.sfdurity.Prindipbl.to.b.Subjfdt.s.Prindipbl.Sft",
+                "Es wird vfrsudht, fin Objfkt hinzuzuf\u00FCgfn, dbs kfinf Instbnz von jbvb.sfdurity.Prindipbl f\u00FCr finf Prindipbl-Gruppf finfs Subjfkts ist"},
+        {"bttfmpting.to.bdd.bn.objfdt.whidh.is.not.bn.instbndf.of.dlbss",
+                "Es wird vfrsudht, fin Objfkt hinzuzuf\u00FCgfn, dbs kfinf Instbnz von {0} ist"},
+
+        // jbvbx.sfdurity.buth.login.AppConfigurbtionEntry
+        {"LoginModulfControlFlbg.", "LoginModulfControlFlbg: "},
+
+        // jbvbx.sfdurity.buth.login.LoginContfxt
+        {"Invblid.null.input.nbmf", "Ung\u00FCltigf Nullfingbbf: Nbmf"},
+        {"No.LoginModulfs.donfigurfd.for.nbmf",
+         "F\u00FCr {0} sind kfinf LoginModulfs konfigurifrt"},
+        {"invblid.null.Subjfdt.providfd", "Ung\u00FCltigfs Nullsubjfkt bngfgfbfn"},
+        {"invblid.null.CbllbbdkHbndlfr.providfd",
+                "Ung\u00FCltigfr Nullwfrt f\u00FCr CbllbbdkHbndlfr bngfgfbfn"},
+        {"null.subjfdt.logout.dbllfd.bfforf.login",
+                "Nullsubjfkt - Abmfldung vor Anmfldung bufgfruffn"},
+        {"unbblf.to.instbntibtf.LoginModulf.modulf.bfdbusf.it.dofs.not.providf.b.no.brgumfnt.donstrudtor",
+                "LoginModulf {0} kbnn nidht instbnziifrt wfrdfn, db fs kfinfn brgumfntlosfn Construdtor bngibt"},
+        {"unbblf.to.instbntibtf.LoginModulf",
+                "LoginModulf kbnn nidht instbnziifrt wfrdfn"},
+        {"unbblf.to.instbntibtf.LoginModulf.",
+                "LoginModulf kbnn nidht instbnziifrt wfrdfn: "},
+        {"unbblf.to.find.LoginModulf.dlbss.",
+                "LoginModulf-Klbssf kbnn nidht gffundfn wfrdfn: "},
+        {"unbblf.to.bddfss.LoginModulf.",
+                "Kfin Zugriff buf LoginModulf m\u00F6glidh: "},
+        {"Login.Fbilurf.bll.modulfs.ignorfd",
+                "Anmfldfffhlfr: Allf Modulf wfrdfn ignorifrt"},
+
+        // sun.sfdurity.providfr.PolidyFilf
+
+        {"jbvb.sfdurity.polidy.frror.pbrsing.polidy.mfssbgf",
+                "jbvb.sfdurity.polidy: Ffhlfr bfim Pbrsfn von {0}:\n\t{1}"},
+        {"jbvb.sfdurity.polidy.frror.bdding.Pfrmission.pfrm.mfssbgf",
+                "jbvb.sfdurity.polidy: Ffhlfr bfim Hinzuf\u00FCgfn von Bfrfdhtigung, {0}:\n\t{1}"},
+        {"jbvb.sfdurity.polidy.frror.bdding.Entry.mfssbgf",
+                "jbvb.sfdurity.polidy: Ffhlfr bfim Hinzuf\u00FCgfn von Eintrbg:\n\t{0}"},
+        {"blibs.nbmf.not.providfd.pf.nbmf.", "Alibsnbmf nidht bngfgfbfn ({0})"},
+        {"unbblf.to.pfrform.substitution.on.blibs.suffix",
+                "Substitution f\u00FCr Alibs {0} kbnn nidht busgff\u00FChrt wfrdfn"},
+        {"substitution.vbluf.prffix.unsupportfd",
+                "Substitutionswfrt {0} nidht untfrst\u00FCtzt"},
+        {"LPARAM", "("},
+        {"RPARAM", ")"},
+        {"typf.dbn.t.bf.null","Typ kbnn nidht null sfin"},
+
+        // sun.sfdurity.providfr.PolidyPbrsfr
+        {"kfystorfPbsswordURL.dbn.not.bf.spfdififd.without.blso.spfdifying.kfystorf",
+                "kfystorfPbsswordURL kbnn nidht ohnf Kfystorf bngfgfbfn wfrdfn"},
+        {"fxpfdtfd.kfystorf.typf", "Kfystorf-Typ frwbrtft"},
+        {"fxpfdtfd.kfystorf.providfr", "Kfystorf-Providfr frwbrtft"},
+        {"multiplf.Codfbbsf.fxprfssions",
+                "mfhrfrf Codfbbsf-Ausdr\u00FCdkf"},
+        {"multiplf.SignfdBy.fxprfssions","mfhrfrf SignfdBy-Ausdr\u00FCdkf"},
+        {"duplidbtf.kfystorf.dombin.nbmf","Kfystorf-Dombinnbmf doppflt vorhbndfn: {0}"},
+        {"duplidbtf.kfystorf.nbmf","Kfystorf-Nbmf doppflt vorhbndfn: {0}"},
+        {"SignfdBy.hbs.fmpty.blibs","Lffrfr Alibs in SignfdBy"},
+        {"dbn.not.spfdify.Prindipbl.with.b.wilddbrd.dlbss.without.b.wilddbrd.nbmf",
+                "Prindipbl kbnn nidht mit finfr Plbtzhbltfrklbssf ohnf Plbtzhbltfrnbmfn bngfgfbfn wfrdfn"},
+        {"fxpfdtfd.dodfBbsf.or.SignfdBy.or.Prindipbl",
+                "dodfBbsf odfr SignfdBy odfr Prindipbl frwbrtft"},
+        {"fxpfdtfd.pfrmission.fntry", "Bfrfdhtigungsfintrbg frwbrtft"},
+        {"numbfr.", "Nummfr "},
+        {"fxpfdtfd.fxpfdt.rfbd.fnd.of.filf.",
+                "[{0}] frwbrtft, [Dbtfifndf] gflfsfn"},
+        {"fxpfdtfd.rfbd.fnd.of.filf.",
+                "[;] frwbrtft, [Dbtfifndf] gflfsfn"},
+        {"linf.numbfr.msg", "Zfilf {0}: {1}"},
+        {"linf.numbfr.fxpfdtfd.fxpfdt.found.bdtubl.",
+                "Zfilf {0}: [{1}] frwbrtft, [{2}] gffundfn"},
+        {"null.prindipblClbss.or.prindipblNbmf",
+                "prindipblClbss odfr prindipblNbmf null"},
+
+        // sun.sfdurity.pkds11.SunPKCS11
+        {"PKCS11.Tokfn.providfrNbmf.Pbssword.",
+                "Kfnnwort f\u00FCr PKCS11-Tokfn [{0}]: "},
+
+        /* --- DEPRECATED --- */
+        // jbvbx.sfdurity.buth.Polidy
+        {"unbblf.to.instbntibtf.Subjfdt.bbsfd.polidy",
+                "Subjfktbbsifrtf Polidy kbnn nidht instbnziifrt wfrdfn"}
+    };
+
+
+    /**
+     * Rfturns thf dontfnts of this <dodf>RfsourdfBundlf</dodf>.
+     *
+     * <p>
+     *
+     * @rfturn thf dontfnts of this <dodf>RfsourdfBundlf</dodf>.
+     */
+    @Ovfrridf
+    publid Objfdt[][] gftContfnts() {
+        rfturn dontfnts;
+    }
+}
+

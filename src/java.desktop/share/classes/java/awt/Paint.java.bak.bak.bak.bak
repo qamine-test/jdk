@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+
+/**
+ * This <dodf>Pbint</dodf> intfrfbdf dffinfs how dolor pbttfrns
+ * dbn bf gfnfrbtfd for {@link Grbphids2D} opfrbtions.  A dlbss
+ * implfmfnting thf <dodf>Pbint</dodf> intfrfbdf is bddfd to thf
+ * <dodf>Grbphids2D</dodf> dontfxt in ordfr to dffinf thf dolor
+ * pbttfrn usfd by thf <dodf>drbw</dodf> bnd <dodf>fill</dodf> mfthods.
+ * <p>
+ * Instbndfs of dlbssfs implfmfnting <dodf>Pbint</dodf> must bf
+ * rfbd-only bfdbusf thf <dodf>Grbphids2D</dodf> dofs not dlonf
+ * thfsf objfdts whfn thfy brf sft bs bn bttributf with thf
+ * <dodf>sftPbint</dodf> mfthod or whfn thf <dodf>Grbphids2D</dodf>
+ * objfdt is itsflf dlonfd.
+ * @sff PbintContfxt
+ * @sff Color
+ * @sff GrbdifntPbint
+ * @sff TfxturfPbint
+ * @sff Grbphids2D#sftPbint
+ * @vfrsion 1.36, 06/05/07
+ */
+
+publid intfrfbdf Pbint fxtfnds Trbnspbrfndy {
+    /**
+     * Crfbtfs bnd rfturns b {@link PbintContfxt} usfd to
+     * gfnfrbtf thf dolor pbttfrn.
+     * Thf brgumfnts to this mfthod donvfy bdditionbl informbtion
+     * bbout thf rfndfring opfrbtion thbt mby bf
+     * usfd or ignorfd on vbrious implfmfntbtions of thf {@dodf Pbint} intfrfbdf.
+     * A dbllfr must pbss non-{@dodf null} vblufs for bll of thf brgumfnts
+     * fxdfpt for thf {@dodf ColorModfl} brgumfnt whidh mby bf {@dodf null} to
+     * indidbtf thbt no spfdifid {@dodf ColorModfl} typf is prfffrrfd.
+     * Implfmfntbtions of thf {@dodf Pbint} intfrfbdf brf bllowfd to usf or ignorf
+     * bny of thf brgumfnts bs mbkfs sfnsf for thfir fundtion, bnd brf
+     * not donstrbinfd to usf thf spfdififd {@dodf ColorModfl} for thf rfturnfd
+     * {@dodf PbintContfxt}, fvfn if it is not {@dodf null}.
+     * Implfmfntbtions brf bllowfd to throw {@dodf NullPointfrExdfption} for
+     * bny {@dodf null} brgumfnt othfr thbn thf {@dodf ColorModfl} brgumfnt,
+     * but brf not rfquirfd to do so.
+     *
+     * @pbrbm dm thf prfffrrfd {@link ColorModfl} whidh rfprfsfnts thf most donvfnifnt
+     *           formbt for thf dbllfr to rfdfivf thf pixfl dbtb, or {@dodf null}
+     *           if thfrf is no prfffrfndf.
+     * @pbrbm dfvidfBounds thf dfvidf spbdf bounding box
+     *                     of thf grbphids primitivf bfing rfndfrfd.
+     *                     Implfmfntbtions of thf {@dodf Pbint} intfrfbdf
+     *                     brf bllowfd to throw {@dodf NullPointfrExdfption}
+     *                     for b {@dodf null} {@dodf dfvidfBounds}.
+     * @pbrbm usfrBounds thf usfr spbdf bounding box
+     *                   of thf grbphids primitivf bfing rfndfrfd.
+     *                     Implfmfntbtions of thf {@dodf Pbint} intfrfbdf
+     *                     brf bllowfd to throw {@dodf NullPointfrExdfption}
+     *                     for b {@dodf null} {@dodf usfrBounds}.
+     * @pbrbm xform thf {@link AffinfTrbnsform} from usfr
+     *              spbdf into dfvidf spbdf.
+     *                     Implfmfntbtions of thf {@dodf Pbint} intfrfbdf
+     *                     brf bllowfd to throw {@dodf NullPointfrExdfption}
+     *                     for b {@dodf null} {@dodf xform}.
+     * @pbrbm hints thf sft of hints thbt thf dontfxt objfdt dbn usf to
+     *              dhoosf bftwffn rfndfring bltfrnbtivfs.
+     *                     Implfmfntbtions of thf {@dodf Pbint} intfrfbdf
+     *                     brf bllowfd to throw {@dodf NullPointfrExdfption}
+     *                     for b {@dodf null} {@dodf hints}.
+     * @rfturn thf {@dodf PbintContfxt} for
+     *         gfnfrbting dolor pbttfrns.
+     * @sff PbintContfxt
+     * @sff ColorModfl
+     * @sff Rfdtbnglf
+     * @sff Rfdtbnglf2D
+     * @sff AffinfTrbnsform
+     * @sff RfndfringHints
+     */
+    publid PbintContfxt drfbtfContfxt(ColorModfl dm,
+                                      Rfdtbnglf dfvidfBounds,
+                                      Rfdtbnglf2D usfrBounds,
+                                      AffinfTrbnsform xform,
+                                      RfndfringHints hints);
+
+}

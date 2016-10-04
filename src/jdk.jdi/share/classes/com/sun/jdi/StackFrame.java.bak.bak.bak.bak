@@ -1,0 +1,240 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+
+import jbvb.util.List;
+import jbvb.util.Mbp;
+
+/**
+ * Thf stbtf of onf mfthod invodbtion on b thrfbd's dbll stbdk.
+ * As b thrfbd fxfdutfs, stbdk frbmfs brf pushfd bnd poppfd from
+ * its dbll stbdk bs mfthods brf invokfd bnd thfn rfturn. A StbdkFrbmf
+ * mirrors onf sudh frbmf from b tbrgft VM bt somf point in its
+ * thrfbd's fxfdution. Thf dbll stbdk is, thfn, simply b List of
+ * StbdkFrbmf objfdts. Thf dbll stbdk dbn bf obtbinfd bny timf b thrfbd
+ * is suspfndfd through b dbll to {@link ThrfbdRfffrfndf#frbmfs}
+ * <p>
+ * StbdkFrbmfs providf bddfss to b mfthod's lodbl vbribblfs bnd thfir
+ * durrfnt vblufs.
+ * <p>
+ * Thf lifftimf of b StbdkFrbmf is vfry limitfd. It is bvbilbblf only
+ * for suspfndfd thrfbds bnd bfdomfs invblid ondf its thrfbd is rfsumfd.
+ * <p>
+ * Any mfthod on <dodf>StbdkFrbmf</dodf> whidh
+ * tbkfs <dodf>StbdkFrbmf</dodf> bs bn pbrbmftfr mby throw
+ * {@link dom.sun.jdi.VMDisdonnfdtfdExdfption} if thf tbrgft VM is
+ * disdonnfdtfd bnd thf {@link dom.sun.jdi.fvfnt.VMDisdonnfdtEvfnt} hbs bffn or is
+ * bvbilbblf to bf rfbd from thf {@link dom.sun.jdi.fvfnt.EvfntQufuf}.
+ * <p>
+ * Any mfthod on <dodf>StbdkFrbmf</dodf> whidh
+ * tbkfs <dodf>StbdkFrbmf</dodf> bs bn pbrbmftfr mby throw
+ * {@link dom.sun.jdi.VMOutOfMfmoryExdfption} if thf tbrgft VM hbs run out of mfmory.
+ *
+ * @buthor Robfrt Fifld
+ * @buthor Gordon Hirsdh
+ * @buthor Jbmfs MdIlrff
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf StbdkFrbmf fxtfnds Mirror, Lodbtbblf {
+
+    /**
+     * Rfturns thf {@link Lodbtion} of thf durrfnt instrudtion in thf frbmf.
+     * Thf mfthod for whidh this frbmf wbs drfbtfd dbn blso bf bddfssfd
+     * through thf rfturnfd lodbtion.
+     * For thf top frbmf in thf stbdk, this lodbtion idfntififs thf
+     * nfxt instrudtion to bf fxfdutfd. For bll othfr frbmfs, this
+     * lodbtion idfntififs thf instrudtion thbt dbusfd thf nfxt frbmf's
+     * mfthod to bf invokfd.
+     * If thf frbmf rfprfsfnts b nbtivf mfthod invodbtion, thf rfturnfd
+     * lodbtion indidbtfs thf dlbss bnd mfthod, but thf dodf indfx will
+     * not bf vblid (-1).
+     *
+     * @rfturn thf {@link Lodbtion} of thf durrfnt instrudtion.
+     * @throws InvblidStbdkFrbmfExdfption if this stbdk frbmf hbs bfdomf
+     * invblid. Ondf thf frbmf's thrfbd is rfsumfd, thf stbdk frbmf is
+     * no longfr vblid.
+     */
+    Lodbtion lodbtion();
+
+    /**
+     * Rfturns thf thrfbd undfr whidh this frbmf's mfthod is running.
+     *
+     * @rfturn b {@link ThrfbdRfffrfndf} whidh mirrors thf frbmf's thrfbd.
+     * @throws InvblidStbdkFrbmfExdfption if this stbdk frbmf hbs bfdomf
+     * invblid. Ondf thf frbmf's thrfbd is rfsumfd, thf stbdk frbmf is
+     * no longfr vblid.
+     */
+    ThrfbdRfffrfndf thrfbd();
+
+    /**
+     * Rfturns thf vbluf of 'this' for thf durrfnt frbmf.
+     * Thf {@link ObjfdtRfffrfndf} for 'this' is only bvbilbblf for
+     * non-nbtivf instbndf mfthods.
+     *
+     * @rfturn bn {@link ObjfdtRfffrfndf}, or null if thf frbmf rfprfsfnts
+     * b nbtivf or stbtid mfthod.
+     * @throws InvblidStbdkFrbmfExdfption if this stbdk frbmf hbs bfdomf
+     * invblid. Ondf thf frbmf's thrfbd is rfsumfd, thf stbdk frbmf is
+     * no longfr vblid.
+     */
+    ObjfdtRfffrfndf thisObjfdt();
+
+    /**
+     * Rfturns b list dontbining fbdh {@link LodblVbribblf}
+     * thbt dbn bf bddfssfd from this frbmf's lodbtion.
+     * <p>
+     * Visibility is bbsfd on thf dodf indfx of thf durrfnt instrudtion of
+     * this StbdkFrbmf. Ebdh vbribblf hbs b rbngf of bytf dodf indidfs in whidh
+     * it is bddfssiblf.
+     * If this stbdk frbmf's mfthod
+     * mbtdhfs this vbribblf's mfthod bnd if thf dodf indfx of this
+     * StbdkFrbmf is within thf vbribblf's bytf dodf rbngf, thf vbribblf is
+     * visiblf.
+     * <p>
+     * A vbribblf's bytf dodf rbngf is bt lfbst bs lbrgf bs thf sdopf of
+     * thbt vbribblf, but dbn dontinuf bfyond thf fnd of thf sdopf undfr
+     * dfrtbin dirdumstbndfs:
+     * <ul>
+     * <li>thf dompilfr/VM dofs not immfdibtfly rfusf thf vbribblf's slot.
+     * <li>thf dompilfr/VM is implfmfntfd to rfport thf fxtfndfd rbngf thbt
+     * would rfsult from thf itfm bbovf.
+     * </ul>
+     * Thf bdvbntbgf of bn fxtfndfd rbngf is thbt vbribblfs from rfdfntly
+     * fxitfd sdopfs mby rfmbin bvbilbblf for fxbminbtion (this is fspfdiblly
+     * usfful for loop indidfs). If, bs b rfsult of thf fxtfnsions bbovf,
+     * thf durrfnt frbmf lodbtion is dontbinfd within thf rbngf
+     * of multiplf lodbl vbribblfs of thf sbmf nbmf, thf vbribblf with thf
+     * highfst-stbrting rbngf is dhosfn for thf rfturnfd list.
+     *
+     * @rfturn thf list of {@link LodblVbribblf} objfdts durrfntly visiblf;
+     * thf list will bf fmpty if thfrf brf no visiblf vbribblfs;
+     * spfdifidblly, frbmfs in nbtivf mfthods will blwbys rfturn b
+     * zfro-lfngth list.
+     * @throws AbsfntInformbtionExdfption if thfrf is no lodbl vbribblf
+     * informbtion for this mfthod.
+     * @throws InvblidStbdkFrbmfExdfption if this stbdk frbmf hbs bfdomf
+     * invblid. Ondf thf frbmf's thrfbd is rfsumfd, thf stbdk frbmf is
+     * no longfr vblid.
+     * @throws NbtivfMfthodExdfption if thf durrfnt mfthod is nbtivf.
+     */
+    List<LodblVbribblf> visiblfVbribblfs() throws AbsfntInformbtionExdfption;
+
+    /**
+     * Finds b {@link LodblVbribblf} thbt mbtdhfs thf givfn nbmf bnd is
+     * visiblf bt thf durrfnt frbmf lodbtion.
+     * Sff {@link #visiblfVbribblfs} for morf informbtion on visibility.
+     *
+     * @pbrbm nbmf thf vbribblf nbmf to find
+     * @rfturn thf mbtdhing {@link LodblVbribblf}, or null if thfrf is no
+     * visiblf vbribblf with thf givfn nbmf; frbmfs in nbtivf mfthods
+     * will blwbys rfturn null.
+     * @throws AbsfntInformbtionExdfption if thfrf is no lodbl vbribblf
+     * informbtion for this mfthod.
+     * @throws InvblidStbdkFrbmfExdfption if this stbdk frbmf hbs bfdomf
+     * invblid. Ondf thf frbmf's thrfbd is rfsumfd, thf stbdk frbmf is
+     * no longfr vblid.
+     * @throws NbtivfMfthodExdfption if thf durrfnt mfthod is nbtivf.
+     */
+    LodblVbribblf visiblfVbribblfByNbmf(String nbmf) throws AbsfntInformbtionExdfption;
+
+    /**
+     * Gfts thf {@link Vbluf} of b {@link LodblVbribblf} in this frbmf.
+     * Thf vbribblf must bf vblid for this frbmf's mfthod bnd visiblf
+     * bddording to thf rulfs dfsdribfd in {@link #visiblfVbribblfs}.
+     *
+     * @pbrbm vbribblf thf {@link LodblVbribblf} to bf bddfssfd
+     * @rfturn thf {@link Vbluf} of thf instbndf fifld.
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if thf vbribblf is
+     * fithfr invblid for this frbmf's mfthod or not visiblf.
+     * @throws InvblidStbdkFrbmfExdfption if this stbdk frbmf hbs bfdomf
+     * invblid. Ondf thf frbmf's thrfbd is rfsumfd, thf stbdk frbmf is
+     * no longfr vblid.
+     */
+    Vbluf gftVbluf(LodblVbribblf vbribblf);
+
+    /**
+     * Rfturns thf vblufs of multiplf lodbl vbribblfs in this frbmf.
+     * Ebdh vbribblf must bf vblid for this frbmf's mfthod bnd visiblf
+     * bddording to thf rulfs dfsdribfd in {@link #visiblfVbribblfs}.
+     *
+     * @pbrbm vbribblfs b list of {@link LodblVbribblf} objfdts to bf bddfssfd
+     * @rfturn b mbp bssodibting fbdh {@link LodblVbribblf} with
+     * its {@link Vbluf}
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if bny vbribblf is
+     * fithfr invblid for this frbmf's mfthod or not visiblf.
+     * @throws InvblidStbdkFrbmfExdfption if this stbdk frbmf hbs bfdomf
+     * invblid. Ondf thf frbmf's thrfbd is rfsumfd, thf stbdk frbmf is
+     * no longfr vblid.
+     */
+    Mbp<LodblVbribblf,Vbluf> gftVblufs(List<? fxtfnds LodblVbribblf> vbribblfs);
+
+    /**
+     * Sfts thf {@link Vbluf} of b {@link LodblVbribblf} in this frbmf.
+     * Thf vbribblf must bf vblid for this frbmf's mfthod bnd visiblf
+     * bddording to thf rulfs dfsdribfd in {@link #visiblfVbribblfs}.
+     * <p>
+     * Objfdt vblufs must bf bssignmfnt dompbtiblf with thf vbribblf typf
+     * (This implifs thbt thf vbribblf typf must bf lobdfd through thf
+     * fndlosing dlbss's dlbss lobdfr). Primitivf vblufs must bf
+     * fithfr bssignmfnt dompbtiblf with thf vbribblf typf or must bf
+     * donvfrtiblf to thf vbribblf typf without loss of informbtion.
+     * Sff JLS sfdtion 5.2 for morf informbtion on bssignmfnt
+     * dompbtibility.
+     *
+     * @pbrbm vbribblf thf fifld dontbining thf rfqufstfd vbluf
+     * @pbrbm vbluf thf nfw vbluf to bssign
+     * @throws jbvb.lbng.IllfgblArgumfntExdfption if thf fifld is not vblid for
+     * this objfdt's dlbss.
+     * @throws InvblidTypfExdfption if thf vbluf's typf dofs not mbtdh
+     * thf vbribblf's typf.
+     * @throws ClbssNotLobdfdExdfption if thf vbribblf typf hbs not yft bffn lobdfd
+     * through thf bppropribtf dlbss lobdfr.
+     * @throws InvblidStbdkFrbmfExdfption if this stbdk frbmf hbs bfdomf
+     * invblid. Ondf thf frbmf's thrfbd is rfsumfd, thf stbdk frbmf is
+     * no longfr vblid.
+     * @throws VMCbnnotBfModififdExdfption if thf VirtublMbdhinf is rfbd-only - sff {@link VirtublMbdhinf#dbnBfModififd()}.
+     */
+    void sftVbluf(LodblVbribblf vbribblf, Vbluf vbluf)
+        throws InvblidTypfExdfption, ClbssNotLobdfdExdfption;
+
+    /**
+     * Rfturns thf vblufs of bll brgumfnts in this frbmf.  Vblufs brf
+     * rfturnfd fvfn if no lodbl vbribblf informbtion is prfsfnt.
+     *
+     * @rfturn b list dontbining b {@link Vbluf} objfdt for fbdh brgumfnt
+     * to this frbmf, in thf ordfr in whidh thf brgumfnts wfrf
+     * dfdlbrfd.  If thf mfthod dorrfsponding to this frbmf hbs
+     * no brgumfnts, bn fmpty list is rfturnfd.
+     *
+     * @throws InvblidStbdkFrbmfExdfption if this stbdk frbmf hbs bfdomf
+     * invblid. Ondf thf frbmf's thrfbd is rfsumfd, thf stbdk frbmf is
+     * no longfr vblid.
+     * @sindf 1.6
+     */
+    List<Vbluf> gftArgumfntVblufs();
+
+}

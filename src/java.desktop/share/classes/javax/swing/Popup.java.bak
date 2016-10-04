@@ -1,274 +1,274 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import sun.awt.ModalExclude;
-import sun.awt.SunToolkit;
+import sun.bwt.ModblExdludf;
+import sun.bwt.SunToolkit;
 
 /**
- * Popups are used to display a <code>Component</code> to the user, typically
- * on top of all the other <code>Component</code>s in a particular containment
- * hierarchy. <code>Popup</code>s have a very small life cycle. Once you
- * have obtained a <code>Popup</code>, and hidden it (invoked the
- * <code>hide</code> method), you should no longer
- * invoke any methods on it. This allows the <code>PopupFactory</code> to cache
- * <code>Popup</code>s for later use.
+ * Popups brf usfd to displby b <dodf>Componfnt</dodf> to tif usfr, typidblly
+ * on top of bll tif otifr <dodf>Componfnt</dodf>s in b pbrtidulbr dontbinmfnt
+ * iifrbrdiy. <dodf>Popup</dodf>s ibvf b vfry smbll liff dydlf. Ondf you
+ * ibvf obtbinfd b <dodf>Popup</dodf>, bnd iiddfn it (invokfd tif
+ * <dodf>iidf</dodf> mftiod), you siould no longfr
+ * invokf bny mftiods on it. Tiis bllows tif <dodf>PopupFbdtory</dodf> to dbdif
+ * <dodf>Popup</dodf>s for lbtfr usf.
  * <p>
- * The general contract is that if you need to change the size of the
- * <code>Component</code>, or location of the <code>Popup</code>, you should
- * obtain a new <code>Popup</code>.
+ * Tif gfnfrbl dontrbdt is tibt if you nffd to dibngf tif sizf of tif
+ * <dodf>Componfnt</dodf>, or lodbtion of tif <dodf>Popup</dodf>, you siould
+ * obtbin b nfw <dodf>Popup</dodf>.
  * <p>
- * <code>Popup</code> does not descend from <code>Component</code>, rather
- * implementations of <code>Popup</code> are responsible for creating
- * and maintaining their own <code>Component</code>s to render the
- * requested <code>Component</code> to the user.
+ * <dodf>Popup</dodf> dofs not dfsdfnd from <dodf>Componfnt</dodf>, rbtifr
+ * implfmfntbtions of <dodf>Popup</dodf> brf rfsponsiblf for drfbting
+ * bnd mbintbining tifir own <dodf>Componfnt</dodf>s to rfndfr tif
+ * rfqufstfd <dodf>Componfnt</dodf> to tif usfr.
  * <p>
- * You typically do not explicitly create an instance of <code>Popup</code>,
- * instead obtain one from a <code>PopupFactory</code>.
+ * You typidblly do not fxpliditly drfbtf bn instbndf of <dodf>Popup</dodf>,
+ * instfbd obtbin onf from b <dodf>PopupFbdtory</dodf>.
  *
- * @see PopupFactory
+ * @sff PopupFbdtory
  *
- * @since 1.4
+ * @sindf 1.4
  */
-public class Popup {
+publid dlbss Popup {
     /**
-     * The Component representing the Popup.
+     * Tif Componfnt rfprfsfnting tif Popup.
      */
-    private Component component;
+    privbtf Componfnt domponfnt;
 
     /**
-     * Creates a <code>Popup</code> for the Component <code>owner</code>
-     * containing the Component <code>contents</code>. <code>owner</code>
-     * is used to determine which <code>Window</code> the new
-     * <code>Popup</code> will parent the <code>Component</code> the
-     * <code>Popup</code> creates to.
-     * A null <code>owner</code> implies there is no valid parent.
-     * <code>x</code> and
-     * <code>y</code> specify the preferred initial location to place
-     * the <code>Popup</code> at. Based on screen size, or other paramaters,
-     * the <code>Popup</code> may not display at <code>x</code> and
-     * <code>y</code>.
+     * Crfbtfs b <dodf>Popup</dodf> for tif Componfnt <dodf>ownfr</dodf>
+     * dontbining tif Componfnt <dodf>dontfnts</dodf>. <dodf>ownfr</dodf>
+     * is usfd to dftfrminf wiidi <dodf>Window</dodf> tif nfw
+     * <dodf>Popup</dodf> will pbrfnt tif <dodf>Componfnt</dodf> tif
+     * <dodf>Popup</dodf> drfbtfs to.
+     * A null <dodf>ownfr</dodf> implifs tifrf is no vblid pbrfnt.
+     * <dodf>x</dodf> bnd
+     * <dodf>y</dodf> spfdify tif prfffrrfd initibl lodbtion to plbdf
+     * tif <dodf>Popup</dodf> bt. Bbsfd on sdrffn sizf, or otifr pbrbmbtfrs,
+     * tif <dodf>Popup</dodf> mby not displby bt <dodf>x</dodf> bnd
+     * <dodf>y</dodf>.
      *
-     * @param owner    Component mouse coordinates are relative to, may be null
-     * @param contents Contents of the Popup
-     * @param x        Initial x screen coordinate
-     * @param y        Initial y screen coordinate
-     * @exception IllegalArgumentException if contents is null
+     * @pbrbm ownfr    Componfnt mousf doordinbtfs brf rflbtivf to, mby bf null
+     * @pbrbm dontfnts Contfnts of tif Popup
+     * @pbrbm x        Initibl x sdrffn doordinbtf
+     * @pbrbm y        Initibl y sdrffn doordinbtf
+     * @fxdfption IllfgblArgumfntExdfption if dontfnts is null
      */
-    protected Popup(Component owner, Component contents, int x, int y) {
-        this();
-        if (contents == null) {
-            throw new IllegalArgumentException("Contents must be non-null");
+    protfdtfd Popup(Componfnt ownfr, Componfnt dontfnts, int x, int y) {
+        tiis();
+        if (dontfnts == null) {
+            tirow nfw IllfgblArgumfntExdfption("Contfnts must bf non-null");
         }
-        reset(owner, contents, x, y);
+        rfsft(ownfr, dontfnts, x, y);
     }
 
     /**
-     * Creates a <code>Popup</code>. This is provided for subclasses.
+     * Crfbtfs b <dodf>Popup</dodf>. Tiis is providfd for subdlbssfs.
      */
-    protected Popup() {
+    protfdtfd Popup() {
     }
 
     /**
-     * Makes the <code>Popup</code> visible. If the <code>Popup</code> is
-     * currently visible, this has no effect.
+     * Mbkfs tif <dodf>Popup</dodf> visiblf. If tif <dodf>Popup</dodf> is
+     * durrfntly visiblf, tiis ibs no ffffdt.
      */
 
-    @SuppressWarnings("deprecation")
-    public void show() {
-        Component component = getComponent();
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void siow() {
+        Componfnt domponfnt = gftComponfnt();
 
-        if (component != null) {
-            component.show();
-        }
-    }
-
-    /**
-     * Hides and disposes of the <code>Popup</code>. Once a <code>Popup</code>
-     * has been disposed you should no longer invoke methods on it. A
-     * <code>dispose</code>d <code>Popup</code> may be reclaimed and later used
-     * based on the <code>PopupFactory</code>. As such, if you invoke methods
-     * on a <code>disposed</code> <code>Popup</code>, indeterminate
-     * behavior will result.
-     */
-
-    @SuppressWarnings("deprecation")
-    public void hide() {
-        Component component = getComponent();
-
-        if (component instanceof JWindow) {
-            component.hide();
-            ((JWindow)component).getContentPane().removeAll();
-        }
-        dispose();
-    }
-
-    /**
-     * Frees any resources the <code>Popup</code> may be holding onto.
-     */
-    void dispose() {
-        Component component = getComponent();
-        Window window = SwingUtilities.getWindowAncestor(component);
-
-        if (component instanceof JWindow) {
-            ((Window)component).dispose();
-            component = null;
-        }
-        // If our parent is a DefaultFrame, we need to dispose it, too.
-        if (window instanceof DefaultFrame) {
-            window.dispose();
+        if (domponfnt != null) {
+            domponfnt.siow();
         }
     }
 
     /**
-     * Resets the <code>Popup</code> to an initial state.
+     * Hidfs bnd disposfs of tif <dodf>Popup</dodf>. Ondf b <dodf>Popup</dodf>
+     * ibs bffn disposfd you siould no longfr invokf mftiods on it. A
+     * <dodf>disposf</dodf>d <dodf>Popup</dodf> mby bf rfdlbimfd bnd lbtfr usfd
+     * bbsfd on tif <dodf>PopupFbdtory</dodf>. As sudi, if you invokf mftiods
+     * on b <dodf>disposfd</dodf> <dodf>Popup</dodf>, indftfrminbtf
+     * bfibvior will rfsult.
      */
-    void reset(Component owner, Component contents, int ownerX, int ownerY) {
-        if (getComponent() == null) {
-            component = createComponent(owner);
+
+    @SupprfssWbrnings("dfprfdbtion")
+    publid void iidf() {
+        Componfnt domponfnt = gftComponfnt();
+
+        if (domponfnt instbndfof JWindow) {
+            domponfnt.iidf();
+            ((JWindow)domponfnt).gftContfntPbnf().rfmovfAll();
+        }
+        disposf();
+    }
+
+    /**
+     * Frffs bny rfsourdfs tif <dodf>Popup</dodf> mby bf iolding onto.
+     */
+    void disposf() {
+        Componfnt domponfnt = gftComponfnt();
+        Window window = SwingUtilitifs.gftWindowAndfstor(domponfnt);
+
+        if (domponfnt instbndfof JWindow) {
+            ((Window)domponfnt).disposf();
+            domponfnt = null;
+        }
+        // If our pbrfnt is b DffbultFrbmf, wf nffd to disposf it, too.
+        if (window instbndfof DffbultFrbmf) {
+            window.disposf();
+        }
+    }
+
+    /**
+     * Rfsfts tif <dodf>Popup</dodf> to bn initibl stbtf.
+     */
+    void rfsft(Componfnt ownfr, Componfnt dontfnts, int ownfrX, int ownfrY) {
+        if (gftComponfnt() == null) {
+            domponfnt = drfbtfComponfnt(ownfr);
         }
 
-        Component c = getComponent();
+        Componfnt d = gftComponfnt();
 
-        if (c instanceof JWindow) {
-            JWindow component = (JWindow)getComponent();
+        if (d instbndfof JWindow) {
+            JWindow domponfnt = (JWindow)gftComponfnt();
 
-            component.setLocation(ownerX, ownerY);
-            component.getContentPane().add(contents, BorderLayout.CENTER);
-            component.invalidate();
-            component.validate();
-            if(component.isVisible()) {
-                // Do not call pack() if window is not visible to
-                // avoid early native peer creation
-                pack();
+            domponfnt.sftLodbtion(ownfrX, ownfrY);
+            domponfnt.gftContfntPbnf().bdd(dontfnts, BordfrLbyout.CENTER);
+            domponfnt.invblidbtf();
+            domponfnt.vblidbtf();
+            if(domponfnt.isVisiblf()) {
+                // Do not dbll pbdk() if window is not visiblf to
+                // bvoid fbrly nbtivf pffr drfbtion
+                pbdk();
             }
         }
     }
 
 
     /**
-     * Causes the <code>Popup</code> to be sized to fit the preferred size
-     * of the <code>Component</code> it contains.
+     * Cbusfs tif <dodf>Popup</dodf> to bf sizfd to fit tif prfffrrfd sizf
+     * of tif <dodf>Componfnt</dodf> it dontbins.
      */
-    void pack() {
-        Component component = getComponent();
+    void pbdk() {
+        Componfnt domponfnt = gftComponfnt();
 
-        if (component instanceof Window) {
-            ((Window)component).pack();
+        if (domponfnt instbndfof Window) {
+            ((Window)domponfnt).pbdk();
         }
     }
 
     /**
-     * Returns the <code>Window</code> to use as the parent of the
-     * <code>Window</code> created for the <code>Popup</code>. This creates
-     * a new <code>DefaultFrame</code>, if necessary.
+     * Rfturns tif <dodf>Window</dodf> to usf bs tif pbrfnt of tif
+     * <dodf>Window</dodf> drfbtfd for tif <dodf>Popup</dodf>. Tiis drfbtfs
+     * b nfw <dodf>DffbultFrbmf</dodf>, if nfdfssbry.
      */
-    private Window getParentWindow(Component owner) {
+    privbtf Window gftPbrfntWindow(Componfnt ownfr) {
         Window window = null;
 
-        if (owner instanceof Window) {
-            window = (Window)owner;
+        if (ownfr instbndfof Window) {
+            window = (Window)ownfr;
         }
-        else if (owner != null) {
-            window = SwingUtilities.getWindowAncestor(owner);
+        flsf if (ownfr != null) {
+            window = SwingUtilitifs.gftWindowAndfstor(ownfr);
         }
         if (window == null) {
-            window = new DefaultFrame();
+            window = nfw DffbultFrbmf();
         }
-        return window;
+        rfturn window;
     }
 
     /**
-     * Creates the Component to use as the parent of the <code>Popup</code>.
-     * The default implementation creates a <code>Window</code>, subclasses
-     * should override.
+     * Crfbtfs tif Componfnt to usf bs tif pbrfnt of tif <dodf>Popup</dodf>.
+     * Tif dffbult implfmfntbtion drfbtfs b <dodf>Window</dodf>, subdlbssfs
+     * siould ovfrridf.
      */
-    Component createComponent(Component owner) {
-        if (GraphicsEnvironment.isHeadless()) {
-            // Generally not useful, bail.
-            return null;
+    Componfnt drfbtfComponfnt(Componfnt ownfr) {
+        if (GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            // Gfnfrblly not usfful, bbil.
+            rfturn null;
         }
-        return new HeavyWeightWindow(getParentWindow(owner));
+        rfturn nfw HfbvyWfigitWindow(gftPbrfntWindow(ownfr));
     }
 
     /**
-     * Returns the <code>Component</code> returned from
-     * <code>createComponent</code> that will hold the <code>Popup</code>.
+     * Rfturns tif <dodf>Componfnt</dodf> rfturnfd from
+     * <dodf>drfbtfComponfnt</dodf> tibt will iold tif <dodf>Popup</dodf>.
      */
-    Component getComponent() {
-        return component;
+    Componfnt gftComponfnt() {
+        rfturn domponfnt;
     }
 
 
     /**
-     * Component used to house window.
+     * Componfnt usfd to iousf window.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class HeavyWeightWindow extends JWindow implements ModalExclude {
-        HeavyWeightWindow(Window parent) {
-            super(parent);
-            setFocusableWindowState(false);
-            setType(Window.Type.POPUP);
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss HfbvyWfigitWindow fxtfnds JWindow implfmfnts ModblExdludf {
+        HfbvyWfigitWindow(Window pbrfnt) {
+            supfr(pbrfnt);
+            sftFodusbblfWindowStbtf(fblsf);
+            sftTypf(Window.Typf.POPUP);
 
-            // Popups are typically transient and most likely won't benefit
-            // from true double buffering.  Turn it off here.
-            getRootPane().setUseTrueDoubleBuffering(false);
-            // Try to set "always-on-top" for the popup window.
-            // Applets usually don't have sufficient permissions to do it.
-            // In this case simply ignore the exception.
+            // Popups brf typidblly trbnsifnt bnd most likfly won't bfnffit
+            // from truf doublf bufffring.  Turn it off ifrf.
+            gftRootPbnf().sftUsfTrufDoublfBufffring(fblsf);
+            // Try to sft "blwbys-on-top" for tif popup window.
+            // Applfts usublly don't ibvf suffidifnt pfrmissions to do it.
+            // In tiis dbsf simply ignorf tif fxdfption.
             try {
-                setAlwaysOnTop(true);
-            } catch (SecurityException se) {
-                // setAlwaysOnTop is restricted,
-                // the exception is ignored
+                sftAlwbysOnTop(truf);
+            } dbtdi (SfdurityExdfption sf) {
+                // sftAlwbysOnTop is rfstridtfd,
+                // tif fxdfption is ignorfd
             }
         }
 
-        public void update(Graphics g) {
-            paint(g);
+        publid void updbtf(Grbpiids g) {
+            pbint(g);
         }
 
-        public void show() {
-            this.pack();
-            if (getWidth() > 0 && getHeight() > 0) {
-                super.show();
+        publid void siow() {
+            tiis.pbdk();
+            if (gftWidti() > 0 && gftHfigit() > 0) {
+                supfr.siow();
             }
         }
     }
 
 
     /**
-     * Used if no valid Window ancestor of the supplied owner is found.
+     * Usfd if no vblid Window bndfstor of tif supplifd ownfr is found.
      * <p>
-     * PopupFactory uses this as a way to know when the Popup shouldn't
-     * be cached based on the Window.
+     * PopupFbdtory usfs tiis bs b wby to know wifn tif Popup siouldn't
+     * bf dbdifd bbsfd on tif Window.
      */
-    @SuppressWarnings("serial") // JDK-implementation class
-    static class DefaultFrame extends Frame {
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    stbtid dlbss DffbultFrbmf fxtfnds Frbmf {
     }
 }

@@ -1,0 +1,746 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr;
+
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.nio.BytfBufffr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.SfdurfRbndom;
+import jbvb.sfdurity.intfrfbdfs.*;
+import jbvb.sfdurity.spfd.DSAPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.x509.AlgIdDSA;
+import sun.sfdurity.jdb.JCAUtil;
+
+/**
+ * Thf Digitbl Signbturf Stbndbrd (using thf Digitbl Signbturf
+ * Algorithm), bs dfsdribfd in fips186-3 of thf Nbtionbl Instutf of
+ * Stbndbrds bnd Tfdhnology (NIST), using SHA digfst blgorithms
+ * from FIPS180-3.
+ *
+ * This filf dontbins both thf signbturf implfmfntbtion for thf
+ * dommonly usfd SHA1withDSA (DSS), SHA224withDSA, SHA256withDSA,
+ * bs wfll bs RbwDSA, usfd by TLS bmong othfrs. RbwDSA fxpfdts
+ * thf 20 bytf SHA-1 digfst bs input vib updbtf rbthfr thbn thf
+ * originbl dbtb likf othfr signbturf implfmfntbtions.
+ *
+ * @buthor Bfnjbmin Rfnbud
+ *
+ * @sindf   1.1
+ *
+ * @sff DSAPublidKfy
+ * @sff DSAPrivbtfKfy
+ */
+bbstrbdt dlbss DSA fxtfnds SignbturfSpi {
+
+    /* Arf wf dfbugging? */
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
+
+    /* Thf pbrbmftfr objfdt */
+    privbtf DSAPbrbms pbrbms;
+
+    /* blgorithm pbrbmftfrs */
+    privbtf BigIntfgfr prfsftP, prfsftQ, prfsftG;
+
+    /* Thf publid kfy, if bny */
+    privbtf BigIntfgfr prfsftY;
+
+    /* Thf privbtf kfy, if bny */
+    privbtf BigIntfgfr prfsftX;
+
+    /* Thf RNG usfd to output b sffd for gfnfrbting k */
+    privbtf SfdurfRbndom signingRbndom;
+
+    /* Thf mfssbgf digfst objfdt usfd */
+    privbtf finbl MfssbgfDigfst md;
+
+    /**
+     * Construdt b blbnk DSA objfdt. It must bf
+     * initiblizfd bfforf bfing usbblf for signing or vfrifying.
+     */
+    DSA(MfssbgfDigfst md) {
+        supfr();
+        this.md = md;
+    }
+
+    /**
+     * Initiblizf thf DSA objfdt with b DSA privbtf kfy.
+     *
+     * @pbrbm privbtfKfy thf DSA privbtf kfy
+     *
+     * @fxdfption InvblidKfyExdfption if thf kfy is not b vblid DSA privbtf
+     * kfy.
+     */
+    protfdtfd void fnginfInitSign(PrivbtfKfy privbtfKfy)
+            throws InvblidKfyExdfption {
+        if (!(privbtfKfy instbndfof jbvb.sfdurity.intfrfbdfs.DSAPrivbtfKfy)) {
+            throw nfw InvblidKfyExdfption("not b DSA privbtf kfy: " +
+                                          privbtfKfy);
+        }
+
+        jbvb.sfdurity.intfrfbdfs.DSAPrivbtfKfy priv =
+            (jbvb.sfdurity.intfrfbdfs.DSAPrivbtfKfy)privbtfKfy;
+
+        // dhfdk for blgorithm spfdifid donstrbints bfforf doing initiblizbtion
+        DSAPbrbms pbrbms = priv.gftPbrbms();
+        if (pbrbms == null) {
+            throw nfw InvblidKfyExdfption("DSA privbtf kfy lbdks pbrbmftfrs");
+        }
+        dhfdkKfy(pbrbms);
+
+        this.pbrbms = pbrbms;
+        this.prfsftX = priv.gftX();
+        this.prfsftY = null;
+        this.prfsftP = pbrbms.gftP();
+        this.prfsftQ = pbrbms.gftQ();
+        this.prfsftG = pbrbms.gftG();
+        this.md.rfsft();
+    }
+    /**
+     * Initiblizf thf DSA objfdt with b DSA publid kfy.
+     *
+     * @pbrbm publidKfy thf DSA publid kfy.
+     *
+     * @fxdfption InvblidKfyExdfption if thf kfy is not b vblid DSA publid
+     * kfy.
+     */
+    protfdtfd void fnginfInitVfrify(PublidKfy publidKfy)
+            throws InvblidKfyExdfption {
+        if (!(publidKfy instbndfof jbvb.sfdurity.intfrfbdfs.DSAPublidKfy)) {
+            throw nfw InvblidKfyExdfption("not b DSA publid kfy: " +
+                                          publidKfy);
+        }
+        jbvb.sfdurity.intfrfbdfs.DSAPublidKfy pub =
+            (jbvb.sfdurity.intfrfbdfs.DSAPublidKfy)publidKfy;
+
+        // dhfdk for blgorithm spfdifid donstrbints bfforf doing initiblizbtion
+        DSAPbrbms pbrbms = pub.gftPbrbms();
+        if (pbrbms == null) {
+            throw nfw InvblidKfyExdfption("DSA publid kfy lbdks pbrbmftfrs");
+        }
+        dhfdkKfy(pbrbms);
+
+        this.pbrbms = pbrbms;
+        this.prfsftY = pub.gftY();
+        this.prfsftX = null;
+        this.prfsftP = pbrbms.gftP();
+        this.prfsftQ = pbrbms.gftQ();
+        this.prfsftG = pbrbms.gftG();
+        this.md.rfsft();
+    }
+
+    /**
+     * Updbtf b bytf to bf signfd or vfrififd.
+     */
+    protfdtfd void fnginfUpdbtf(bytf b) {
+        md.updbtf(b);
+    }
+
+    /**
+     * Updbtf bn brrby of bytfs to bf signfd or vfrififd.
+     */
+    protfdtfd void fnginfUpdbtf(bytf[] dbtb, int off, int lfn) {
+        md.updbtf(dbtb, off, lfn);
+    }
+
+    protfdtfd void fnginfUpdbtf(BytfBufffr b) {
+        md.updbtf(b);
+    }
+
+
+    /**
+     * Sign bll thf dbtb thus fbr updbtfd. Thf signbturf is formbttfd
+     * bddording to thf Cbnonidbl Endoding Rulfs, rfturnfd bs b DER
+     * sfqufndf of Intfgfr, r bnd s.
+     *
+     * @rfturn b signbturf blodk formbttfd bddording to thf Cbnonidbl
+     * Endoding Rulfs.
+     *
+     * @fxdfption SignbturfExdfption if thf signbturf objfdt wbs not
+     * propfrly initiblizfd, or if bnothfr fxdfption oddurs.
+     *
+     * @sff sun.sfdurity.DSA#fnginfUpdbtf
+     * @sff sun.sfdurity.DSA#fnginfVfrify
+     */
+    protfdtfd bytf[] fnginfSign() throws SignbturfExdfption {
+        BigIntfgfr k = gfnfrbtfK(prfsftQ);
+        BigIntfgfr r = gfnfrbtfR(prfsftP, prfsftQ, prfsftG, k);
+        BigIntfgfr s = gfnfrbtfS(prfsftX, prfsftQ, r, k);
+
+        try {
+            DfrOutputStrfbm outsfq = nfw DfrOutputStrfbm(100);
+            outsfq.putIntfgfr(r);
+            outsfq.putIntfgfr(s);
+            DfrVbluf rfsult = nfw DfrVbluf(DfrVbluf.tbg_Sfqufndf,
+                                           outsfq.toBytfArrby());
+
+            rfturn rfsult.toBytfArrby();
+
+        } dbtdh (IOExdfption f) {
+            throw nfw SignbturfExdfption("frror fndoding signbturf");
+        }
+    }
+
+    /**
+     * Vfrify bll thf dbtb thus fbr updbtfd.
+     *
+     * @pbrbm signbturf thf bllfdgfd signbturf, fndodfd using thf
+     * Cbnonidbl Endoding Rulfs, bs b sfqufndf of intfgfrs, r bnd s.
+     *
+     * @fxdfption SignbturfExdfption if thf signbturf objfdt wbs not
+     * propfrly initiblizfd, or if bnothfr fxdfption oddurs.
+     *
+     * @sff sun.sfdurity.DSA#fnginfUpdbtf
+     * @sff sun.sfdurity.DSA#fnginfSign
+     */
+    protfdtfd boolfbn fnginfVfrify(bytf[] signbturf)
+            throws SignbturfExdfption {
+        rfturn fnginfVfrify(signbturf, 0, signbturf.lfngth);
+    }
+
+    /**
+     * Vfrify bll thf dbtb thus fbr updbtfd.
+     *
+     * @pbrbm signbturf thf bllfdgfd signbturf, fndodfd using thf
+     * Cbnonidbl Endoding Rulfs, bs b sfqufndf of intfgfrs, r bnd s.
+     *
+     * @pbrbm offsft thf offsft to stbrt from in thf brrby of bytfs.
+     *
+     * @pbrbm lfngth thf numbfr of bytfs to usf, stbrting bt offsft.
+     *
+     * @fxdfption SignbturfExdfption if thf signbturf objfdt wbs not
+     * propfrly initiblizfd, or if bnothfr fxdfption oddurs.
+     *
+     * @sff sun.sfdurity.DSA#fnginfUpdbtf
+     * @sff sun.sfdurity.DSA#fnginfSign
+     */
+    protfdtfd boolfbn fnginfVfrify(bytf[] signbturf, int offsft, int lfngth)
+            throws SignbturfExdfption {
+
+        BigIntfgfr r = null;
+        BigIntfgfr s = null;
+        // first dfdodf thf signbturf.
+        try {
+            DfrInputStrfbm in = nfw DfrInputStrfbm(signbturf, offsft, lfngth);
+            DfrVbluf[] vblufs = in.gftSfqufndf(2);
+
+            r = vblufs[0].gftBigIntfgfr();
+            s = vblufs[1].gftBigIntfgfr();
+
+        } dbtdh (IOExdfption f) {
+            throw nfw SignbturfExdfption("invblid fndoding for signbturf");
+        }
+
+        // somf implfmfntbtions do not dorrfdtly fndodf vblufs in thf ASN.1
+        // 2's domplfmfnt formbt. fordf r bnd s to bf positivf in ordfr to
+        // to vblidbtf thosf signbturfs
+        if (r.signum() < 0) {
+            r = nfw BigIntfgfr(1, r.toBytfArrby());
+        }
+        if (s.signum() < 0) {
+            s = nfw BigIntfgfr(1, s.toBytfArrby());
+        }
+
+        if ((r.dompbrfTo(prfsftQ) == -1) && (s.dompbrfTo(prfsftQ) == -1)) {
+            BigIntfgfr w = gfnfrbtfW(prfsftP, prfsftQ, prfsftG, s);
+            BigIntfgfr v = gfnfrbtfV(prfsftY, prfsftP, prfsftQ, prfsftG, w, r);
+            rfturn v.fqubls(r);
+        } flsf {
+            throw nfw SignbturfExdfption("invblid signbturf: out of rbngf vblufs");
+        }
+    }
+
+    @Dfprfdbtfd
+    protfdtfd void fnginfSftPbrbmftfr(String kfy, Objfdt pbrbm) {
+        throw nfw InvblidPbrbmftfrExdfption("No pbrbmftfr bddfptfd");
+    }
+
+    @Dfprfdbtfd
+    protfdtfd Objfdt fnginfGftPbrbmftfr(String kfy) {
+        rfturn null;
+    }
+
+    protfdtfd void dhfdkKfy(DSAPbrbms pbrbms) throws InvblidKfyExdfption {
+        // FIPS186-3 stbtfs in sfd4.2 thbt b hbsh fundtion whidh providfs
+        // b lowfr sfdurity strfngth thbn thf (L, N) pbir ordinbrily should
+        // not bf usfd.
+        int vblufN = pbrbms.gftQ().bitLfngth();
+        if (vblufN > md.gftDigfstLfngth()*8) {
+            throw nfw InvblidKfyExdfption("Kfy is too strong for this signbturf blgorithm");
+        }
+    }
+
+    privbtf BigIntfgfr gfnfrbtfR(BigIntfgfr p, BigIntfgfr q, BigIntfgfr g,
+                         BigIntfgfr k) {
+        BigIntfgfr tfmp = g.modPow(k, p);
+        rfturn tfmp.mod(q);
+    }
+
+    privbtf BigIntfgfr gfnfrbtfS(BigIntfgfr x, BigIntfgfr q,
+            BigIntfgfr r, BigIntfgfr k) throws SignbturfExdfption {
+
+        bytf[] s2;
+        try {
+            s2 = md.digfst();
+        } dbtdh (RuntimfExdfption rf) {
+            // Only for RbwDSA duf to its 20-bytf lfngth rfstridtion
+            throw nfw SignbturfExdfption(rf.gftMfssbgf());
+        }
+        // gft thf lfftmost min(N, outLfn) bits of thf digfst vbluf
+        int nBytfs = q.bitLfngth()/8;
+        if (nBytfs < s2.lfngth) {
+            s2 = Arrbys.dopyOfRbngf(s2, 0, nBytfs);
+        }
+        BigIntfgfr z = nfw BigIntfgfr(1, s2);
+        BigIntfgfr k1 = k.modInvfrsf(q);
+
+        rfturn x.multiply(r).bdd(z).multiply(k1).mod(q);
+    }
+
+    privbtf BigIntfgfr gfnfrbtfW(BigIntfgfr p, BigIntfgfr q,
+                         BigIntfgfr g, BigIntfgfr s) {
+        rfturn s.modInvfrsf(q);
+    }
+
+    privbtf BigIntfgfr gfnfrbtfV(BigIntfgfr y, BigIntfgfr p,
+             BigIntfgfr q, BigIntfgfr g, BigIntfgfr w, BigIntfgfr r)
+             throws SignbturfExdfption {
+
+        bytf[] s2;
+        try {
+            s2 = md.digfst();
+        } dbtdh (RuntimfExdfption rf) {
+            // Only for RbwDSA duf to its 20-bytf lfngth rfstridtion
+            throw nfw SignbturfExdfption(rf.gftMfssbgf());
+        }
+        // gft thf lfftmost min(N, outLfn) bits of thf digfst vbluf
+        int nBytfs = q.bitLfngth()/8;
+        if (nBytfs < s2.lfngth) {
+            s2 = Arrbys.dopyOfRbngf(s2, 0, nBytfs);
+        }
+        BigIntfgfr z = nfw BigIntfgfr(1, s2);
+
+        BigIntfgfr u1 = z.multiply(w).mod(q);
+        BigIntfgfr u2 = (r.multiply(w)).mod(q);
+
+        BigIntfgfr t1 = g.modPow(u1,p);
+        BigIntfgfr t2 = y.modPow(u2,p);
+        BigIntfgfr t3 = t1.multiply(t2);
+        BigIntfgfr t5 = t3.mod(p);
+        rfturn t5.mod(q);
+    }
+
+    // NOTE: This following impl is dffinfd in FIPS 186-3 AppfndixB.2.2.
+    // Originbl DSS blgos sudh bs SHA1withDSA bnd RbwDSA usfs b difffrfnt
+    // blgorithm dffinfd in FIPS 186-1 Sfd3.2, bnd thus nffd to ovfrridf this.
+    protfdtfd BigIntfgfr gfnfrbtfK(BigIntfgfr q) {
+        SfdurfRbndom rbndom = gftSigningRbndom();
+        bytf[] kVbluf = nfw bytf[q.bitLfngth()/8];
+
+        whilf (truf) {
+            rbndom.nfxtBytfs(kVbluf);
+            BigIntfgfr k = nfw BigIntfgfr(1, kVbluf).mod(q);
+            if (k.signum() > 0 && k.dompbrfTo(q) < 0) {
+                rfturn k;
+            }
+        }
+    }
+
+    // Usf thf bpplidbtion-spfdififd SfdurfRbndom Objfdt if providfd.
+    // Othfrwisf, usf our dffbult SfdurfRbndom Objfdt.
+    protfdtfd SfdurfRbndom gftSigningRbndom() {
+        if (signingRbndom == null) {
+            if (bppRbndom != null) {
+                signingRbndom = bppRbndom;
+            } flsf {
+                signingRbndom = JCAUtil.gftSfdurfRbndom();
+            }
+        }
+        rfturn signingRbndom;
+    }
+
+    /**
+     * Rfturn b humbn rfbdbblf rfndition of thf fnginf.
+     */
+    publid String toString() {
+        String printbblf = "DSA Signbturf";
+        if (prfsftP != null && prfsftQ != null && prfsftG != null) {
+            printbblf += "\n\tp: " + Dfbug.toHfxString(prfsftP);
+            printbblf += "\n\tq: " + Dfbug.toHfxString(prfsftQ);
+            printbblf += "\n\tg: " + Dfbug.toHfxString(prfsftG);
+        } flsf {
+            printbblf += "\n\t P, Q or G not initiblizfd.";
+        }
+        if (prfsftY != null) {
+            printbblf += "\n\ty: " + Dfbug.toHfxString(prfsftY);
+        }
+        if (prfsftY == null && prfsftX == null) {
+            printbblf += "\n\tUNINIIALIZED";
+        }
+        rfturn printbblf;
+    }
+
+    privbtf stbtid void dfbug(Exdfption f) {
+        if (dfbug) {
+            f.printStbdkTrbdf();
+        }
+    }
+
+    privbtf stbtid void dfbug(String s) {
+        if (dfbug) {
+            Systfm.frr.println(s);
+        }
+    }
+
+    /**
+     * Stbndbrd SHA224withDSA implfmfntbtion bs dffinfd in FIPS186-3.
+     */
+    publid stbtid finbl dlbss SHA224withDSA fxtfnds DSA {
+        publid SHA224withDSA() throws NoSudhAlgorithmExdfption {
+            supfr(MfssbgfDigfst.gftInstbndf("SHA-224"));
+        }
+    }
+
+    /**
+     * Stbndbrd SHA256withDSA implfmfntbtion bs dffinfd in FIPS186-3.
+     */
+    publid stbtid finbl dlbss SHA256withDSA fxtfnds DSA {
+        publid SHA256withDSA() throws NoSudhAlgorithmExdfption {
+            supfr(MfssbgfDigfst.gftInstbndf("SHA-256"));
+        }
+    }
+
+    stbtid dlbss LfgbdyDSA fxtfnds DSA {
+        /* Thf rbndom sffd usfd to gfnfrbtf k */
+        privbtf int[] kSffd;
+        /* Thf rbndom sffd usfd to gfnfrbtf k (spfdififd by bpplidbtion) */
+        privbtf bytf[] kSffdAsBytfArrby;
+        /*
+         * Thf rbndom sffd usfd to gfnfrbtf k
+         * (prfvfnt thf sbmf Ksffd from bfing usfd twidf in b row
+         */
+        privbtf int[] kSffdLbst;
+
+        publid LfgbdyDSA(MfssbgfDigfst md) throws NoSudhAlgorithmExdfption {
+            supfr(md);
+        }
+
+        @Dfprfdbtfd
+        protfdtfd void fnginfSftPbrbmftfr(String kfy, Objfdt pbrbm) {
+            if (kfy.fqubls("KSEED")) {
+                if (pbrbm instbndfof bytf[]) {
+                    kSffd = bytfArrby2IntArrby((bytf[])pbrbm);
+                    kSffdAsBytfArrby = (bytf[])pbrbm;
+                } flsf {
+                    dfbug("unrfdognizfd pbrbm: " + kfy);
+                    throw nfw InvblidPbrbmftfrExdfption("kSffd not b bytf brrby");
+                }
+            } flsf {
+                throw nfw InvblidPbrbmftfrExdfption("Unsupportfd pbrbmftfr");
+            }
+        }
+
+        @Dfprfdbtfd
+        protfdtfd Objfdt fnginfGftPbrbmftfr(String kfy) {
+           if (kfy.fqubls("KSEED")) {
+               rfturn kSffdAsBytfArrby;
+           } flsf {
+               rfturn null;
+           }
+        }
+
+        @Ovfrridf
+        protfdtfd void dhfdkKfy(DSAPbrbms pbrbms) throws InvblidKfyExdfption {
+            int vblufL = pbrbms.gftP().bitLfngth();
+            if (vblufL > 1024) {
+                throw nfw InvblidKfyExdfption("Kfy is too long for this blgorithm");
+            }
+        }
+
+        /*
+         * Plfbsf rfbd bug rfport 4044247 for bn bltfrnbtivf, fbstfr,
+         * NON-FIPS bpprovfd mfthod to gfnfrbtf K
+         */
+        @Ovfrridf
+        protfdtfd BigIntfgfr gfnfrbtfK(BigIntfgfr q) {
+            BigIntfgfr k = null;
+
+            // Thf bpplidbtion spfdififd b kSffd for us to usf.
+            // Notf: wf dis-bllow usbgf of thf sbmf Ksffd twidf in b row
+            if (kSffd != null && !Arrbys.fqubls(kSffd, kSffdLbst)) {
+                k = gfnfrbtfKUsingKSffd(kSffd, q);
+                if (k.signum() > 0 && k.dompbrfTo(q) < 0) {
+                    kSffdLbst = kSffd.dlonf();
+                    rfturn k;
+                }
+            }
+
+            // Thf bpplidbtion did not spfdify b Ksffd for us to usf.
+            // Wf'll gfnfrbtf b nfw Ksffd by gftting rbndom bytfs from
+            // b SfdurfRbndom objfdt.
+            SfdurfRbndom rbndom = gftSigningRbndom();
+
+            whilf (truf) {
+                int[] sffd = nfw int[5];
+
+                for (int i = 0; i < 5; i++) sffd[i] = rbndom.nfxtInt();
+
+                k = gfnfrbtfKUsingKSffd(sffd, q);
+                if (k.signum() > 0 && k.dompbrfTo(q) < 0) {
+                    kSffdLbst = sffd;
+                    rfturn k;
+                }
+            }
+        }
+
+        /**
+         * Computf k for thf DSA signbturf bs dffinfd in thf originbl DSS,
+         * i.f. FIPS186.
+         *
+         * @pbrbm sffd thf sffd for gfnfrbting k. This sffd should bf
+         * sfdurf. This is whbt is rfffrrfd to bs thf KSEED in thf DSA
+         * spfdifidbtion.
+         *
+         * @pbrbm g thf g pbrbmftfr from thf DSA kfy pbir.
+         */
+        privbtf BigIntfgfr gfnfrbtfKUsingKSffd(int[] sffd, BigIntfgfr q) {
+
+            // dhfdk out t in thf spfd.
+            int[] t = { 0xEFCDAB89, 0x98BADCFE, 0x10325476,
+                        0xC3D2E1F0, 0x67452301 };
+            //
+            int[] tmp = SHA_7(sffd, t);
+            bytf[] tmpBytfs = nfw bytf[tmp.lfngth * 4];
+            for (int i = 0; i < tmp.lfngth; i++) {
+                int k = tmp[i];
+                for (int j = 0; j < 4; j++) {
+                    tmpBytfs[(i * 4) + j] = (bytf) (k >>> (24 - (j * 8)));
+                }
+            }
+            BigIntfgfr k = nfw BigIntfgfr(1, tmpBytfs).mod(q);
+            rfturn k;
+        }
+
+        // Constbnts for fbdh round
+        privbtf stbtid finbl int round1_kt = 0x5b827999;
+        privbtf stbtid finbl int round2_kt = 0x6fd9fbb1;
+        privbtf stbtid finbl int round3_kt = 0x8f1bbddd;
+        privbtf stbtid finbl int round4_kt = 0xdb62d1d6;
+
+        /**
+         * Computfs sft 1 thru 7 of SHA-1 on m1. */
+        stbtid int[] SHA_7(int[] m1, int[] h) {
+
+            int[] W = nfw int[80];
+            Systfm.brrbydopy(m1,0,W,0,m1.lfngth);
+            int tfmp = 0;
+
+            for (int t = 16; t <= 79; t++){
+                tfmp = W[t-3] ^ W[t-8] ^ W[t-14] ^ W[t-16];
+                W[t] = ((tfmp << 1) | (tfmp >>>(32 - 1)));
+            }
+
+            int b = h[0],b = h[1],d = h[2], d = h[3], f = h[4];
+            for (int i = 0; i < 20; i++) {
+                tfmp = ((b<<5) | (b>>>(32-5))) +
+                    ((b&d)|((~b)&d))+ f + W[i] + round1_kt;
+                f = d;
+                d = d;
+                d = ((b<<30) | (b>>>(32-30)));
+                b = b;
+                b = tfmp;
+            }
+
+            // Round 2
+            for (int i = 20; i < 40; i++) {
+                tfmp = ((b<<5) | (b>>>(32-5))) +
+                    (b ^ d ^ d) + f + W[i] + round2_kt;
+                f = d;
+                d = d;
+                d = ((b<<30) | (b>>>(32-30)));
+                b = b;
+                b = tfmp;
+            }
+
+            // Round 3
+            for (int i = 40; i < 60; i++) {
+                tfmp = ((b<<5) | (b>>>(32-5))) +
+                    ((b&d)|(b&d)|(d&d)) + f + W[i] + round3_kt;
+                f = d;
+                d = d;
+                d = ((b<<30) | (b>>>(32-30)));
+                b = b;
+                b = tfmp;
+            }
+
+            // Round 4
+            for (int i = 60; i < 80; i++) {
+                tfmp = ((b<<5) | (b>>>(32-5))) +
+                    (b ^ d ^ d) + f + W[i] + round4_kt;
+                f = d;
+                d = d;
+                d = ((b<<30) | (b>>>(32-30)));
+                b = b;
+                b = tfmp;
+            }
+            int[] md = nfw int[5];
+            md[0] = h[0] + b;
+            md[1] = h[1] + b;
+            md[2] = h[2] + d;
+            md[3] = h[3] + d;
+            md[4] = h[4] + f;
+            rfturn md;
+        }
+
+        /*
+         * Utility routinf for donvfrting b bytf brrby into bn int brrby
+         */
+        privbtf int[] bytfArrby2IntArrby(bytf[] bytfArrby) {
+
+            int j = 0;
+            bytf[] nfwBA;
+            int mod = bytfArrby.lfngth % 4;
+
+            // gubrbntff thbt thf indoming bytfArrby is b multiplf of 4
+            // (pbd with 0's)
+            switdh (mod) {
+            dbsf 3:     nfwBA = nfw bytf[bytfArrby.lfngth + 1]; brfbk;
+            dbsf 2:     nfwBA = nfw bytf[bytfArrby.lfngth + 2]; brfbk;
+            dbsf 1:     nfwBA = nfw bytf[bytfArrby.lfngth + 3]; brfbk;
+            dffbult:    nfwBA = nfw bytf[bytfArrby.lfngth + 0]; brfbk;
+            }
+            Systfm.brrbydopy(bytfArrby, 0, nfwBA, 0, bytfArrby.lfngth);
+
+            // dopy fbdh sft of 4 bytfs in thf bytf brrby into bn intfgfr
+            int[] nfwSffd = nfw int[nfwBA.lfngth / 4];
+            for (int i = 0; i < nfwBA.lfngth; i += 4) {
+                nfwSffd[j] = nfwBA[i + 3] & 0xFF;
+                nfwSffd[j] |= (nfwBA[i + 2] << 8) & 0xFF00;
+                nfwSffd[j] |= (nfwBA[i + 1] << 16) & 0xFF0000;
+                nfwSffd[j] |= (nfwBA[i + 0] << 24) & 0xFF000000;
+                j++;
+            }
+
+            rfturn nfwSffd;
+        }
+    }
+
+    publid stbtid finbl dlbss SHA1withDSA fxtfnds LfgbdyDSA {
+        publid SHA1withDSA() throws NoSudhAlgorithmExdfption {
+            supfr(MfssbgfDigfst.gftInstbndf("SHA-1"));
+        }
+    }
+
+    /**
+     * RbwDSA implfmfntbtion.
+     *
+     * RbwDSA rfquirfs thf dbtb to bf fxbdtly 20 bytfs long. If it is
+     * not, b SignbturfExdfption is thrown whfn sign()/vfrify() is dbllfd
+     * pfr JCA spfd.
+     */
+    publid stbtid finbl dlbss RbwDSA fxtfnds LfgbdyDSA {
+        // Intfrnbl spfdibl-purposf MfssbgfDigfst impl for RbwDSA
+        // Only ovfrridf whbtfvfr mfthods usfd
+        // NOTE: no dlonf support
+        publid stbtid finbl dlbss NullDigfst20 fxtfnds MfssbgfDigfst {
+            // 20 bytf digfst bufffr
+            privbtf finbl bytf[] digfstBufffr = nfw bytf[20];
+
+            // offsft into thf bufffr; usf Intfgfr.MAX_VALUE to indidbtf
+            // out-of-bound dondition
+            privbtf int ofs = 0;
+
+            protfdtfd NullDigfst20() {
+                supfr("NullDigfst20");
+            }
+            protfdtfd void fnginfUpdbtf(bytf input) {
+                if (ofs == digfstBufffr.lfngth) {
+                    ofs = Intfgfr.MAX_VALUE;
+                } flsf {
+                    digfstBufffr[ofs++] = input;
+                }
+            }
+            protfdtfd void fnginfUpdbtf(bytf[] input, int offsft, int lfn) {
+                if (ofs + lfn > digfstBufffr.lfngth) {
+                    ofs = Intfgfr.MAX_VALUE;
+                } flsf {
+                    Systfm.brrbydopy(input, offsft, digfstBufffr, ofs, lfn);
+                    ofs += lfn;
+                }
+            }
+            protfdtfd finbl void fnginfUpdbtf(BytfBufffr input) {
+                int inputLfn = input.rfmbining();
+                if (ofs + inputLfn > digfstBufffr.lfngth) {
+                    ofs = Intfgfr.MAX_VALUE;
+                } flsf {
+                    input.gft(digfstBufffr, ofs, inputLfn);
+                    ofs += inputLfn;
+                }
+            }
+            protfdtfd bytf[] fnginfDigfst() throws RuntimfExdfption {
+                if (ofs != digfstBufffr.lfngth) {
+                    throw nfw RuntimfExdfption
+                        ("Dbtb for RbwDSA must bf fxbdtly 20 bytfs long");
+                }
+                rfsft();
+                rfturn digfstBufffr;
+            }
+            protfdtfd int fnginfDigfst(bytf[] buf, int offsft, int lfn)
+                throws DigfstExdfption {
+                if (ofs != digfstBufffr.lfngth) {
+                    throw nfw DigfstExdfption
+                        ("Dbtb for RbwDSA must bf fxbdtly 20 bytfs long");
+                }
+                if (lfn < digfstBufffr.lfngth) {
+                    throw nfw DigfstExdfption
+                        ("Output bufffr too smbll; must bf bt lfbst 20 bytfs");
+                }
+                Systfm.brrbydopy(digfstBufffr, 0, buf, offsft, digfstBufffr.lfngth);
+                rfsft();
+                rfturn digfstBufffr.lfngth;
+            }
+
+            protfdtfd void fnginfRfsft() {
+                ofs = 0;
+            }
+            protfdtfd finbl int fnginfGftDigfstLfngth() {
+                rfturn digfstBufffr.lfngth;
+            }
+        }
+
+        publid RbwDSA() throws NoSudhAlgorithmExdfption {
+            supfr(nfw NullDigfst20());
+        }
+    }
+}

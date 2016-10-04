@@ -1,539 +1,539 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
-package com.sun.org.apache.xml.internal.security.keys.content;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt;
 
-import java.math.BigInteger;
-import java.security.cert.X509Certificate;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
 
-import com.sun.org.apache.xml.internal.security.exceptions.XMLSecurityException;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509CRL;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509Certificate;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509Digest;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509IssuerSerial;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509SKI;
-import com.sun.org.apache.xml.internal.security.keys.content.x509.XMLX509SubjectName;
-import com.sun.org.apache.xml.internal.security.utils.Constants;
-import com.sun.org.apache.xml.internal.security.utils.SignatureElementProxy;
-import com.sun.org.apache.xml.internal.security.utils.XMLUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.fxdfptions.XMLSfdurityExdfption;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.x509.XMLX509CRL;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.x509.XMLX509Cfrtifidbtf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.x509.XMLX509Digfst;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.x509.XMLX509IssufrSfribl;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.x509.XMLX509SKI;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.kfys.dontfnt.x509.XMLX509SubjfdtNbmf;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.Constbnts;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.SignbturfElfmfntProxy;
+import dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.utils.XMLUtils;
+import org.w3d.dom.Dodumfnt;
+import org.w3d.dom.Elfmfnt;
+import org.w3d.dom.Nodf;
 
-public class X509Data extends SignatureElementProxy implements KeyInfoContent {
+publid dlbss X509Dbtb fxtfnds SignbturfElfmfntProxy implfmfnts KfyInfoContfnt {
 
-    /** {@link org.apache.commons.logging} logging facility */
-    private static java.util.logging.Logger log =
-        java.util.logging.Logger.getLogger(X509Data.class.getName());
+    /** {@link org.bpbdif.dommons.logging} logging fbdility */
+    privbtf stbtid jbvb.util.logging.Loggfr log =
+        jbvb.util.logging.Loggfr.gftLoggfr(X509Dbtb.dlbss.gftNbmf());
 
     /**
-     * Constructor X509Data
+     * Construdtor X509Dbtb
      *
-     * @param doc
+     * @pbrbm dod
      */
-    public X509Data(Document doc) {
-        super(doc);
+    publid X509Dbtb(Dodumfnt dod) {
+        supfr(dod);
 
-        XMLUtils.addReturnToElement(this.constructionElement);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Constructor X509Data
+     * Construdtor X509Dbtb
      *
-     * @param element
-     * @param baseURI
-     * @throws XMLSecurityException
+     * @pbrbm flfmfnt
+     * @pbrbm bbsfURI
+     * @tirows XMLSfdurityExdfption
      */
-    public X509Data(Element element, String baseURI) throws XMLSecurityException {
-        super(element, baseURI);
+    publid X509Dbtb(Elfmfnt flfmfnt, String bbsfURI) tirows XMLSfdurityExdfption {
+        supfr(flfmfnt, bbsfURI);
 
-        Node sibling = this.constructionElement.getFirstChild();
-        while (sibling != null) {
-            if (sibling.getNodeType() != Node.ELEMENT_NODE) {
-                sibling = sibling.getNextSibling();
-                continue;
+        Nodf sibling = tiis.donstrudtionElfmfnt.gftFirstCiild();
+        wiilf (sibling != null) {
+            if (sibling.gftNodfTypf() != Nodf.ELEMENT_NODE) {
+                sibling = sibling.gftNfxtSibling();
+                dontinuf;
             }
-            return;
+            rfturn;
         }
-        /* No Elements found */
-        Object exArgs[] = { "Elements", Constants._TAG_X509DATA };
-        throw new XMLSecurityException("xml.WrongContent", exArgs);
+        /* No Elfmfnts found */
+        Objfdt fxArgs[] = { "Elfmfnts", Constbnts._TAG_X509DATA };
+        tirow nfw XMLSfdurityExdfption("xml.WrongContfnt", fxArgs);
     }
 
     /**
-     * Method addIssuerSerial
+     * Mftiod bddIssufrSfribl
      *
-     * @param X509IssuerName
-     * @param X509SerialNumber
+     * @pbrbm X509IssufrNbmf
+     * @pbrbm X509SfriblNumbfr
      */
-    public void addIssuerSerial(String X509IssuerName, BigInteger X509SerialNumber) {
-        this.add(new XMLX509IssuerSerial(this.doc, X509IssuerName, X509SerialNumber));
+    publid void bddIssufrSfribl(String X509IssufrNbmf, BigIntfgfr X509SfriblNumbfr) {
+        tiis.bdd(nfw XMLX509IssufrSfribl(tiis.dod, X509IssufrNbmf, X509SfriblNumbfr));
     }
 
     /**
-     * Method addIssuerSerial
+     * Mftiod bddIssufrSfribl
      *
-     * @param X509IssuerName
-     * @param X509SerialNumber
+     * @pbrbm X509IssufrNbmf
+     * @pbrbm X509SfriblNumbfr
      */
-    public void addIssuerSerial(String X509IssuerName, String X509SerialNumber) {
-        this.add(new XMLX509IssuerSerial(this.doc, X509IssuerName, X509SerialNumber));
+    publid void bddIssufrSfribl(String X509IssufrNbmf, String X509SfriblNumbfr) {
+        tiis.bdd(nfw XMLX509IssufrSfribl(tiis.dod, X509IssufrNbmf, X509SfriblNumbfr));
     }
 
     /**
-     * Method addIssuerSerial
+     * Mftiod bddIssufrSfribl
      *
-     * @param X509IssuerName
-     * @param X509SerialNumber
+     * @pbrbm X509IssufrNbmf
+     * @pbrbm X509SfriblNumbfr
      */
-    public void addIssuerSerial(String X509IssuerName, int X509SerialNumber) {
-        this.add(new XMLX509IssuerSerial(this.doc, X509IssuerName, X509SerialNumber));
+    publid void bddIssufrSfribl(String X509IssufrNbmf, int X509SfriblNumbfr) {
+        tiis.bdd(nfw XMLX509IssufrSfribl(tiis.dod, X509IssufrNbmf, X509SfriblNumbfr));
     }
 
     /**
-     * Method add
+     * Mftiod bdd
      *
-     * @param xmlX509IssuerSerial
+     * @pbrbm xmlX509IssufrSfribl
      */
-    public void add(XMLX509IssuerSerial xmlX509IssuerSerial) {
+    publid void bdd(XMLX509IssufrSfribl xmlX509IssufrSfribl) {
 
-        this.constructionElement.appendChild(xmlX509IssuerSerial.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+        tiis.donstrudtionElfmfnt.bppfndCiild(xmlX509IssufrSfribl.gftElfmfnt());
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Method addSKI
+     * Mftiod bddSKI
      *
-     * @param skiBytes
+     * @pbrbm skiBytfs
      */
-    public void addSKI(byte[] skiBytes) {
-        this.add(new XMLX509SKI(this.doc, skiBytes));
+    publid void bddSKI(bytf[] skiBytfs) {
+        tiis.bdd(nfw XMLX509SKI(tiis.dod, skiBytfs));
     }
 
     /**
-     * Method addSKI
+     * Mftiod bddSKI
      *
-     * @param x509certificate
-     * @throws XMLSecurityException
+     * @pbrbm x509dfrtifidbtf
+     * @tirows XMLSfdurityExdfption
      */
-    public void addSKI(X509Certificate x509certificate)
-        throws XMLSecurityException {
-        this.add(new XMLX509SKI(this.doc, x509certificate));
+    publid void bddSKI(X509Cfrtifidbtf x509dfrtifidbtf)
+        tirows XMLSfdurityExdfption {
+        tiis.bdd(nfw XMLX509SKI(tiis.dod, x509dfrtifidbtf));
     }
 
     /**
-     * Method add
+     * Mftiod bdd
      *
-     * @param xmlX509SKI
+     * @pbrbm xmlX509SKI
      */
-    public void add(XMLX509SKI xmlX509SKI) {
-        this.constructionElement.appendChild(xmlX509SKI.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+    publid void bdd(XMLX509SKI xmlX509SKI) {
+        tiis.donstrudtionElfmfnt.bppfndCiild(xmlX509SKI.gftElfmfnt());
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Method addSubjectName
+     * Mftiod bddSubjfdtNbmf
      *
-     * @param subjectName
+     * @pbrbm subjfdtNbmf
      */
-    public void addSubjectName(String subjectName) {
-        this.add(new XMLX509SubjectName(this.doc, subjectName));
+    publid void bddSubjfdtNbmf(String subjfdtNbmf) {
+        tiis.bdd(nfw XMLX509SubjfdtNbmf(tiis.dod, subjfdtNbmf));
     }
 
     /**
-     * Method addSubjectName
+     * Mftiod bddSubjfdtNbmf
      *
-     * @param x509certificate
+     * @pbrbm x509dfrtifidbtf
      */
-    public void addSubjectName(X509Certificate x509certificate) {
-        this.add(new XMLX509SubjectName(this.doc, x509certificate));
+    publid void bddSubjfdtNbmf(X509Cfrtifidbtf x509dfrtifidbtf) {
+        tiis.bdd(nfw XMLX509SubjfdtNbmf(tiis.dod, x509dfrtifidbtf));
     }
 
     /**
-     * Method add
+     * Mftiod bdd
      *
-     * @param xmlX509SubjectName
+     * @pbrbm xmlX509SubjfdtNbmf
      */
-    public void add(XMLX509SubjectName xmlX509SubjectName) {
-        this.constructionElement.appendChild(xmlX509SubjectName.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+    publid void bdd(XMLX509SubjfdtNbmf xmlX509SubjfdtNbmf) {
+        tiis.donstrudtionElfmfnt.bppfndCiild(xmlX509SubjfdtNbmf.gftElfmfnt());
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Method addCertificate
+     * Mftiod bddCfrtifidbtf
      *
-     * @param x509certificate
-     * @throws XMLSecurityException
+     * @pbrbm x509dfrtifidbtf
+     * @tirows XMLSfdurityExdfption
      */
-    public void addCertificate(X509Certificate x509certificate)
-        throws XMLSecurityException {
-        this.add(new XMLX509Certificate(this.doc, x509certificate));
+    publid void bddCfrtifidbtf(X509Cfrtifidbtf x509dfrtifidbtf)
+        tirows XMLSfdurityExdfption {
+        tiis.bdd(nfw XMLX509Cfrtifidbtf(tiis.dod, x509dfrtifidbtf));
     }
 
     /**
-     * Method addCertificate
+     * Mftiod bddCfrtifidbtf
      *
-     * @param x509certificateBytes
+     * @pbrbm x509dfrtifidbtfBytfs
      */
-    public void addCertificate(byte[] x509certificateBytes) {
-        this.add(new XMLX509Certificate(this.doc, x509certificateBytes));
+    publid void bddCfrtifidbtf(bytf[] x509dfrtifidbtfBytfs) {
+        tiis.bdd(nfw XMLX509Cfrtifidbtf(tiis.dod, x509dfrtifidbtfBytfs));
     }
 
     /**
-     * Method add
+     * Mftiod bdd
      *
-     * @param xmlX509Certificate
+     * @pbrbm xmlX509Cfrtifidbtf
      */
-    public void add(XMLX509Certificate xmlX509Certificate) {
-        this.constructionElement.appendChild(xmlX509Certificate.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+    publid void bdd(XMLX509Cfrtifidbtf xmlX509Cfrtifidbtf) {
+        tiis.donstrudtionElfmfnt.bppfndCiild(xmlX509Cfrtifidbtf.gftElfmfnt());
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Method addCRL
+     * Mftiod bddCRL
      *
-     * @param crlBytes
+     * @pbrbm drlBytfs
      */
-    public void addCRL(byte[] crlBytes) {
-        this.add(new XMLX509CRL(this.doc, crlBytes));
+    publid void bddCRL(bytf[] drlBytfs) {
+        tiis.bdd(nfw XMLX509CRL(tiis.dod, drlBytfs));
     }
 
     /**
-     * Method add
+     * Mftiod bdd
      *
-     * @param xmlX509CRL
+     * @pbrbm xmlX509CRL
      */
-    public void add(XMLX509CRL xmlX509CRL) {
-        this.constructionElement.appendChild(xmlX509CRL.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+    publid void bdd(XMLX509CRL xmlX509CRL) {
+        tiis.donstrudtionElfmfnt.bppfndCiild(xmlX509CRL.gftElfmfnt());
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Method addDigest
+     * Mftiod bddDigfst
      *
-     * @param x509certificate
-     * @param algorithmURI
-     * @throws XMLSecurityException
+     * @pbrbm x509dfrtifidbtf
+     * @pbrbm blgoritimURI
+     * @tirows XMLSfdurityExdfption
      */
-    public void addDigest(X509Certificate x509certificate, String algorithmURI)
-        throws XMLSecurityException {
-        this.add(new XMLX509Digest(this.doc, x509certificate, algorithmURI));
+    publid void bddDigfst(X509Cfrtifidbtf x509dfrtifidbtf, String blgoritimURI)
+        tirows XMLSfdurityExdfption {
+        tiis.bdd(nfw XMLX509Digfst(tiis.dod, x509dfrtifidbtf, blgoritimURI));
     }
 
     /**
-     * Method addDigest
+     * Mftiod bddDigfst
      *
-     * @param x509CertificateDigestByes
-     * @param algorithmURI
+     * @pbrbm x509CfrtifidbtfDigfstByfs
+     * @pbrbm blgoritimURI
      */
-    public void addDigest(byte[] x509certificateDigestBytes, String algorithmURI) {
-        this.add(new XMLX509Digest(this.doc, x509certificateDigestBytes, algorithmURI));
+    publid void bddDigfst(bytf[] x509dfrtifidbtfDigfstBytfs, String blgoritimURI) {
+        tiis.bdd(nfw XMLX509Digfst(tiis.dod, x509dfrtifidbtfDigfstBytfs, blgoritimURI));
     }
 
     /**
-     * Method add
+     * Mftiod bdd
      *
-     * @param XMLX509Digest
+     * @pbrbm XMLX509Digfst
      */
-    public void add(XMLX509Digest xmlX509Digest) {
-        this.constructionElement.appendChild(xmlX509Digest.getElement());
-        XMLUtils.addReturnToElement(this.constructionElement);
+    publid void bdd(XMLX509Digfst xmlX509Digfst) {
+        tiis.donstrudtionElfmfnt.bppfndCiild(xmlX509Digfst.gftElfmfnt());
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Method addUnknownElement
+     * Mftiod bddUnknownElfmfnt
      *
-     * @param element
+     * @pbrbm flfmfnt
      */
-    public void addUnknownElement(Element element) {
-        this.constructionElement.appendChild(element);
-        XMLUtils.addReturnToElement(this.constructionElement);
+    publid void bddUnknownElfmfnt(Elfmfnt flfmfnt) {
+        tiis.donstrudtionElfmfnt.bppfndCiild(flfmfnt);
+        XMLUtils.bddRfturnToElfmfnt(tiis.donstrudtionElfmfnt);
     }
 
     /**
-     * Method lengthIssuerSerial
+     * Mftiod lfngtiIssufrSfribl
      *
-     * @return the number of IssuerSerial elements in this X509Data
+     * @rfturn tif numbfr of IssufrSfribl flfmfnts in tiis X509Dbtb
      */
-    public int lengthIssuerSerial() {
-        return this.length(Constants.SignatureSpecNS, Constants._TAG_X509ISSUERSERIAL);
+    publid int lfngtiIssufrSfribl() {
+        rfturn tiis.lfngti(Constbnts.SignbturfSpfdNS, Constbnts._TAG_X509ISSUERSERIAL);
     }
 
     /**
-     * Method lengthSKI
+     * Mftiod lfngtiSKI
      *
-     * @return the number of SKI elements in this X509Data
+     * @rfturn tif numbfr of SKI flfmfnts in tiis X509Dbtb
      */
-    public int lengthSKI() {
-        return this.length(Constants.SignatureSpecNS, Constants._TAG_X509SKI);
+    publid int lfngtiSKI() {
+        rfturn tiis.lfngti(Constbnts.SignbturfSpfdNS, Constbnts._TAG_X509SKI);
     }
 
     /**
-     * Method lengthSubjectName
+     * Mftiod lfngtiSubjfdtNbmf
      *
-     * @return the number of SubjectName elements in this X509Data
+     * @rfturn tif numbfr of SubjfdtNbmf flfmfnts in tiis X509Dbtb
      */
-    public int lengthSubjectName() {
-        return this.length(Constants.SignatureSpecNS, Constants._TAG_X509SUBJECTNAME);
+    publid int lfngtiSubjfdtNbmf() {
+        rfturn tiis.lfngti(Constbnts.SignbturfSpfdNS, Constbnts._TAG_X509SUBJECTNAME);
     }
 
     /**
-     * Method lengthCertificate
+     * Mftiod lfngtiCfrtifidbtf
      *
-     * @return the number of Certificate elements in this X509Data
+     * @rfturn tif numbfr of Cfrtifidbtf flfmfnts in tiis X509Dbtb
      */
-    public int lengthCertificate() {
-        return this.length(Constants.SignatureSpecNS, Constants._TAG_X509CERTIFICATE);
+    publid int lfngtiCfrtifidbtf() {
+        rfturn tiis.lfngti(Constbnts.SignbturfSpfdNS, Constbnts._TAG_X509CERTIFICATE);
     }
 
     /**
-     * Method lengthCRL
+     * Mftiod lfngtiCRL
      *
-     * @return the number of CRL elements in this X509Data
+     * @rfturn tif numbfr of CRL flfmfnts in tiis X509Dbtb
      */
-    public int lengthCRL() {
-        return this.length(Constants.SignatureSpecNS, Constants._TAG_X509CRL);
+    publid int lfngtiCRL() {
+        rfturn tiis.lfngti(Constbnts.SignbturfSpfdNS, Constbnts._TAG_X509CRL);
     }
 
     /**
-     * Method lengthDigest
+     * Mftiod lfngtiDigfst
      *
-     * @return the number of X509Digest elements in this X509Data
+     * @rfturn tif numbfr of X509Digfst flfmfnts in tiis X509Dbtb
      */
-    public int lengthDigest() {
-        return this.length(Constants.SignatureSpec11NS, Constants._TAG_X509DIGEST);
+    publid int lfngtiDigfst() {
+        rfturn tiis.lfngti(Constbnts.SignbturfSpfd11NS, Constbnts._TAG_X509DIGEST);
     }
 
     /**
-     * Method lengthUnknownElement
+     * Mftiod lfngtiUnknownElfmfnt
      *
-     * @return the number of UnknownElement elements in this X509Data
+     * @rfturn tif numbfr of UnknownElfmfnt flfmfnts in tiis X509Dbtb
      */
-    public int lengthUnknownElement() {
-        int result = 0;
-        Node n = this.constructionElement.getFirstChild();
-        while (n != null){
-            if ((n.getNodeType() == Node.ELEMENT_NODE)
-                && !n.getNamespaceURI().equals(Constants.SignatureSpecNS)) {
-                result++;
+    publid int lfngtiUnknownElfmfnt() {
+        int rfsult = 0;
+        Nodf n = tiis.donstrudtionElfmfnt.gftFirstCiild();
+        wiilf (n != null){
+            if ((n.gftNodfTypf() == Nodf.ELEMENT_NODE)
+                && !n.gftNbmfspbdfURI().fqubls(Constbnts.SignbturfSpfdNS)) {
+                rfsult++;
             }
-            n = n.getNextSibling();
+            n = n.gftNfxtSibling();
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Method itemIssuerSerial
+     * Mftiod itfmIssufrSfribl
      *
-     * @param i
-     * @return the X509IssuerSerial, null if not present
-     * @throws XMLSecurityException
+     * @pbrbm i
+     * @rfturn tif X509IssufrSfribl, null if not prfsfnt
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLX509IssuerSerial itemIssuerSerial(int i) throws XMLSecurityException {
-        Element e =
-            XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_X509ISSUERSERIAL, i);
+    publid XMLX509IssufrSfribl itfmIssufrSfribl(int i) tirows XMLSfdurityExdfption {
+        Elfmfnt f =
+            XMLUtils.sflfdtDsNodf(
+                tiis.donstrudtionElfmfnt.gftFirstCiild(), Constbnts._TAG_X509ISSUERSERIAL, i);
 
-        if (e != null) {
-            return new XMLX509IssuerSerial(e, this.baseURI);
+        if (f != null) {
+            rfturn nfw XMLX509IssufrSfribl(f, tiis.bbsfURI);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Method itemSKI
+     * Mftiod itfmSKI
      *
-     * @param i
-     * @return the X509SKI, null if not present
-     * @throws XMLSecurityException
+     * @pbrbm i
+     * @rfturn tif X509SKI, null if not prfsfnt
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLX509SKI itemSKI(int i) throws XMLSecurityException {
+    publid XMLX509SKI itfmSKI(int i) tirows XMLSfdurityExdfption {
 
-        Element e =
-            XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_X509SKI, i);
+        Elfmfnt f =
+            XMLUtils.sflfdtDsNodf(
+                tiis.donstrudtionElfmfnt.gftFirstCiild(), Constbnts._TAG_X509SKI, i);
 
-        if (e != null) {
-            return new XMLX509SKI(e, this.baseURI);
+        if (f != null) {
+            rfturn nfw XMLX509SKI(f, tiis.bbsfURI);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Method itemSubjectName
+     * Mftiod itfmSubjfdtNbmf
      *
-     * @param i
-     * @return the X509SubjectName, null if not present
-     * @throws XMLSecurityException
+     * @pbrbm i
+     * @rfturn tif X509SubjfdtNbmf, null if not prfsfnt
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLX509SubjectName itemSubjectName(int i) throws XMLSecurityException {
+    publid XMLX509SubjfdtNbmf itfmSubjfdtNbmf(int i) tirows XMLSfdurityExdfption {
 
-        Element e =
-            XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_X509SUBJECTNAME, i);
+        Elfmfnt f =
+            XMLUtils.sflfdtDsNodf(
+                tiis.donstrudtionElfmfnt.gftFirstCiild(), Constbnts._TAG_X509SUBJECTNAME, i);
 
-        if (e != null) {
-            return new XMLX509SubjectName(e, this.baseURI);
+        if (f != null) {
+            rfturn nfw XMLX509SubjfdtNbmf(f, tiis.bbsfURI);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Method itemCertificate
+     * Mftiod itfmCfrtifidbtf
      *
-     * @param i
-     * @return the X509Certifacte, null if not present
-     * @throws XMLSecurityException
+     * @pbrbm i
+     * @rfturn tif X509Cfrtifbdtf, null if not prfsfnt
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLX509Certificate itemCertificate(int i) throws XMLSecurityException {
+    publid XMLX509Cfrtifidbtf itfmCfrtifidbtf(int i) tirows XMLSfdurityExdfption {
 
-        Element e =
-            XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_X509CERTIFICATE, i);
+        Elfmfnt f =
+            XMLUtils.sflfdtDsNodf(
+                tiis.donstrudtionElfmfnt.gftFirstCiild(), Constbnts._TAG_X509CERTIFICATE, i);
 
-        if (e != null) {
-            return new XMLX509Certificate(e, this.baseURI);
+        if (f != null) {
+            rfturn nfw XMLX509Cfrtifidbtf(f, tiis.bbsfURI);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Method itemCRL
+     * Mftiod itfmCRL
      *
-     * @param i
-     * @return the X509CRL, null if not present
-     * @throws XMLSecurityException
+     * @pbrbm i
+     * @rfturn tif X509CRL, null if not prfsfnt
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLX509CRL itemCRL(int i) throws XMLSecurityException {
+    publid XMLX509CRL itfmCRL(int i) tirows XMLSfdurityExdfption {
 
-        Element e =
-            XMLUtils.selectDsNode(
-                this.constructionElement.getFirstChild(), Constants._TAG_X509CRL, i);
+        Elfmfnt f =
+            XMLUtils.sflfdtDsNodf(
+                tiis.donstrudtionElfmfnt.gftFirstCiild(), Constbnts._TAG_X509CRL, i);
 
-        if (e != null) {
-            return new XMLX509CRL(e, this.baseURI);
+        if (f != null) {
+            rfturn nfw XMLX509CRL(f, tiis.bbsfURI);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Method itemDigest
+     * Mftiod itfmDigfst
      *
-     * @param i
-     * @return the X509Digest, null if not present
-     * @throws XMLSecurityException
+     * @pbrbm i
+     * @rfturn tif X509Digfst, null if not prfsfnt
+     * @tirows XMLSfdurityExdfption
      */
-    public XMLX509Digest itemDigest(int i) throws XMLSecurityException {
+    publid XMLX509Digfst itfmDigfst(int i) tirows XMLSfdurityExdfption {
 
-        Element e =
-            XMLUtils.selectDs11Node(
-                this.constructionElement.getFirstChild(), Constants._TAG_X509DIGEST, i);
+        Elfmfnt f =
+            XMLUtils.sflfdtDs11Nodf(
+                tiis.donstrudtionElfmfnt.gftFirstCiild(), Constbnts._TAG_X509DIGEST, i);
 
-        if (e != null) {
-            return new XMLX509Digest(e, this.baseURI);
+        if (f != null) {
+            rfturn nfw XMLX509Digfst(f, tiis.bbsfURI);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Method itemUnknownElement
+     * Mftiod itfmUnknownElfmfnt
      *
-     * @param i
-     * @return the Unknown Element at i
-     * TODO implement
+     * @pbrbm i
+     * @rfturn tif Unknown Elfmfnt bt i
+     * TODO implfmfnt
      **/
-    public Element itemUnknownElement(int i) {
-        if (log.isLoggable(java.util.logging.Level.FINE)) {
-            log.log(java.util.logging.Level.FINE, "itemUnknownElement not implemented:" + i);
+    publid Elfmfnt itfmUnknownElfmfnt(int i) {
+        if (log.isLoggbblf(jbvb.util.logging.Lfvfl.FINE)) {
+            log.log(jbvb.util.logging.Lfvfl.FINE, "itfmUnknownElfmfnt not implfmfntfd:" + i);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Method containsIssuerSerial
+     * Mftiod dontbinsIssufrSfribl
      *
-     * @return true if this X509Data contains a IssuerSerial
+     * @rfturn truf if tiis X509Dbtb dontbins b IssufrSfribl
      */
-    public boolean containsIssuerSerial() {
-        return this.lengthIssuerSerial() > 0;
+    publid boolfbn dontbinsIssufrSfribl() {
+        rfturn tiis.lfngtiIssufrSfribl() > 0;
     }
 
     /**
-     * Method containsSKI
+     * Mftiod dontbinsSKI
      *
-     * @return true if this X509Data contains a SKI
+     * @rfturn truf if tiis X509Dbtb dontbins b SKI
      */
-    public boolean containsSKI() {
-        return this.lengthSKI() > 0;
+    publid boolfbn dontbinsSKI() {
+        rfturn tiis.lfngtiSKI() > 0;
     }
 
     /**
-     * Method containsSubjectName
+     * Mftiod dontbinsSubjfdtNbmf
      *
-     * @return true if this X509Data contains a SubjectName
+     * @rfturn truf if tiis X509Dbtb dontbins b SubjfdtNbmf
      */
-    public boolean containsSubjectName() {
-        return this.lengthSubjectName() > 0;
+    publid boolfbn dontbinsSubjfdtNbmf() {
+        rfturn tiis.lfngtiSubjfdtNbmf() > 0;
     }
 
     /**
-     * Method containsCertificate
+     * Mftiod dontbinsCfrtifidbtf
      *
-     * @return true if this X509Data contains a Certificate
+     * @rfturn truf if tiis X509Dbtb dontbins b Cfrtifidbtf
      */
-    public boolean containsCertificate() {
-        return this.lengthCertificate() > 0;
+    publid boolfbn dontbinsCfrtifidbtf() {
+        rfturn tiis.lfngtiCfrtifidbtf() > 0;
     }
 
     /**
-     * Method containsDigest
+     * Mftiod dontbinsDigfst
      *
-     * @return true if this X509Data contains an X509Digest
+     * @rfturn truf if tiis X509Dbtb dontbins bn X509Digfst
      */
-    public boolean containsDigest() {
-        return this.lengthDigest() > 0;
+    publid boolfbn dontbinsDigfst() {
+        rfturn tiis.lfngtiDigfst() > 0;
     }
 
     /**
-     * Method containsCRL
+     * Mftiod dontbinsCRL
      *
-     * @return true if this X509Data contains a CRL
+     * @rfturn truf if tiis X509Dbtb dontbins b CRL
      */
-    public boolean containsCRL() {
-        return this.lengthCRL() > 0;
+    publid boolfbn dontbinsCRL() {
+        rfturn tiis.lfngtiCRL() > 0;
     }
 
     /**
-     * Method containsUnknownElement
+     * Mftiod dontbinsUnknownElfmfnt
      *
-     * @return true if this X509Data contains an UnknownElement
+     * @rfturn truf if tiis X509Dbtb dontbins bn UnknownElfmfnt
      */
-    public boolean containsUnknownElement() {
-        return this.lengthUnknownElement() > 0;
+    publid boolfbn dontbinsUnknownElfmfnt() {
+        rfturn tiis.lfngtiUnknownElfmfnt() > 0;
     }
 
-    /** @inheritDoc */
-    public String getBaseLocalName() {
-        return Constants._TAG_X509DATA;
+    /** @inifritDod */
+    publid String gftBbsfLodblNbmf() {
+        rfturn Constbnts._TAG_X509DATA;
     }
 }

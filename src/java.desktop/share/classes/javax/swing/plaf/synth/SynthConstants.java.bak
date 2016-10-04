@@ -1,71 +1,71 @@
 /*
- * Copyright (c) 2002, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import javax.swing.*;
+import jbvbx.swing.*;
 
 /**
- * Constants used by Synth. Not all Components support all states. A
- * Component will at least be in one of the primary states. That is, the
- * return value from <code>SynthContext.getComponentState()</code> will at
- * least be one of <code>ENABLED</code>, <code>MOUSE_OVER</code>,
- * <code>PRESSED</code> or <code>DISABLED</code>, and may also contain
- * <code>FOCUSED</code>, <code>SELECTED</code> or <code>DEFAULT</code>.
+ * Constbnts usfd by Synti. Not bll Componfnts support bll stbtfs. A
+ * Componfnt will bt lfbst bf in onf of tif primbry stbtfs. Tibt is, tif
+ * rfturn vbluf from <dodf>SyntiContfxt.gftComponfntStbtf()</dodf> will bt
+ * lfbst bf onf of <dodf>ENABLED</dodf>, <dodf>MOUSE_OVER</dodf>,
+ * <dodf>PRESSED</dodf> or <dodf>DISABLED</dodf>, bnd mby blso dontbin
+ * <dodf>FOCUSED</dodf>, <dodf>SELECTED</dodf> or <dodf>DEFAULT</dodf>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface SynthConstants {
+publid intfrfbdf SyntiConstbnts {
     /**
-     * Primary state indicating the component is enabled.
+     * Primbry stbtf indidbting tif domponfnt is fnbblfd.
      */
-    public static final int ENABLED = 1 << 0;
+    publid stbtid finbl int ENABLED = 1 << 0;
     /**
-     * Primary state indicating the mouse is over the region.
+     * Primbry stbtf indidbting tif mousf is ovfr tif rfgion.
      */
-    public static final int MOUSE_OVER = 1 << 1;
+    publid stbtid finbl int MOUSE_OVER = 1 << 1;
     /**
-     * Primary state indicating the region is in a pressed state. Pressed
-     * does not necessarily mean the user has pressed the mouse button.
+     * Primbry stbtf indidbting tif rfgion is in b prfssfd stbtf. Prfssfd
+     * dofs not nfdfssbrily mfbn tif usfr ibs prfssfd tif mousf button.
      */
-    public static final int PRESSED = 1 << 2;
+    publid stbtid finbl int PRESSED = 1 << 2;
     /**
-     * Primary state indicating the region is not enabled.
+     * Primbry stbtf indidbting tif rfgion is not fnbblfd.
      */
-    public static final int DISABLED = 1 << 3;
+    publid stbtid finbl int DISABLED = 1 << 3;
 
     /**
-     * Indicates the region has focus.
+     * Indidbtfs tif rfgion ibs fodus.
      */
-    public static final int FOCUSED = 1 << 8;
+    publid stbtid finbl int FOCUSED = 1 << 8;
     /**
-     * Indicates the region is selected.
+     * Indidbtfs tif rfgion is sflfdtfd.
      */
-    public static final int SELECTED = 1 << 9;
+    publid stbtid finbl int SELECTED = 1 << 9;
     /**
-     * Indicates the region is the default. This is typically used for buttons
-     * to indicate this button is somehow special.
+     * Indidbtfs tif rfgion is tif dffbult. Tiis is typidblly usfd for buttons
+     * to indidbtf tiis button is somfiow spfdibl.
      */
-    public static final int DEFAULT = 1 << 10;
+    publid stbtid finbl int DEFAULT = 1 << 10;
 }

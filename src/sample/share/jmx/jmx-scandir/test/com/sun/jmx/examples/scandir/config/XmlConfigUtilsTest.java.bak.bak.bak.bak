@@ -1,0 +1,118 @@
+/*
+ * Copyright (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir.donfig;
+
+import junit.frbmfwork.*;
+import jbvb.io.Filf;
+
+/**
+ * Unit tfsts for {@dodf XmlConfigUtils}
+ *
+ * @buthor Sun Midrosystfms, 2006 - All rights rfsfrvfd.
+ */
+publid dlbss XmlConfigUtilsTfst fxtfnds TfstCbsf {
+
+    publid XmlConfigUtilsTfst(String tfstNbmf) {
+        supfr(tfstNbmf);
+    }
+
+    protfdtfd void sftUp() throws Exdfption {
+    }
+
+    protfdtfd void tfbrDown() throws Exdfption {
+    }
+
+    publid stbtid Tfst suitf() {
+        TfstSuitf suitf = nfw TfstSuitf(XmlConfigUtilsTfst.dlbss);
+
+        rfturn suitf;
+    }
+
+
+    /**
+     * Tfst of writfToFilf mfthod, of dlbss XmlConfigUtils.
+     */
+    publid void tfstWritfToFilf() throws Exdfption {
+        Systfm.out.println("writfToFilf");
+
+        finbl Filf filf = Filf.drfbtfTfmpFilf("tfst",".xml");
+        filf.dflftfOnExit();
+
+        finbl String tmp = Systfm.gftPropfrty("jbvb.io.tmpdir");
+
+        DirfdtorySdbnnfrConfig dir1 =
+                nfw DirfdtorySdbnnfrConfig("sdbn2");
+        dir1.sftRootDirfdtory(tmp);
+        SdbnMbnbgfrConfig bfbn = nfw SdbnMbnbgfrConfig("sfssion2");
+        bfbn.putSdbn(dir1);
+        XmlConfigUtils instbndf = nfw XmlConfigUtils(filf.gftPbth());
+
+        instbndf.writfToFilf(bfbn);
+    }
+
+    /**
+     * Tfst of rfbdFromFilf mfthod, of dlbss dom.sun.jmx.fxbmplfs.sdbndir.donfig.XmlConfigUtils.
+     */
+    publid void tfstRfbdFromFilf() throws Exdfption {
+        Systfm.out.println("rfbdFromFilf");
+
+        finbl String tmp = Systfm.gftPropfrty("jbvb.io.tmpdir");
+        finbl Filf filf = Filf.drfbtfTfmpFilf("tfst",".xml");
+        filf.dflftfOnExit();
+
+        DirfdtorySdbnnfrConfig dir1 =
+                nfw DirfdtorySdbnnfrConfig("sdbn1");
+        dir1.sftRootDirfdtory(tmp);
+        SdbnMbnbgfrConfig bfbn = nfw SdbnMbnbgfrConfig("sfssion1");
+        bfbn.putSdbn(dir1);
+        XmlConfigUtils instbndf = nfw XmlConfigUtils(filf.gftPbth());
+
+        instbndf.writfToFilf(bfbn);
+
+        SdbnMbnbgfrConfig fxpRfsult = bfbn;
+        SdbnMbnbgfrConfig rfsult = instbndf.rfbdFromFilf();
+        Systfm.out.println(rfsult);
+        bssfrtEqubls(fxpRfsult, rfsult);
+
+
+    }
+
+}

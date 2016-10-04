@@ -1,153 +1,153 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
 
-class XLabelPeer extends XComponentPeer implements LabelPeer {
+dlbss XLbbflPffr fxtfnds XComponfntPffr implfmfnts LbbflPffr {
     /**
-     * Create the label
+     * Crfbtf tif lbbfl
      */
 
-    static final int            TEXT_XPAD = 8;
-    static final int            TEXT_YPAD = 6;
-    String label;
-    int alignment;
+    stbtid finbl int            TEXT_XPAD = 8;
+    stbtid finbl int            TEXT_YPAD = 6;
+    String lbbfl;
+    int blignmfnt;
 
-    FontMetrics cachedFontMetrics;
+    FontMftrids dbdifdFontMftrids;
     Font oldfont;
 
-    FontMetrics getFontMetrics()
+    FontMftrids gftFontMftrids()
     {
-        if (cachedFontMetrics != null)
-            return cachedFontMetrics;
-        else return getFontMetrics(getPeerFont());
+        if (dbdifdFontMftrids != null)
+            rfturn dbdifdFontMftrids;
+        flsf rfturn gftFontMftrids(gftPffrFont());
 
     }
 
-    void preInit(XCreateWindowParams params) {
-        super.preInit(params);
-        Label target = (Label) this.target;
-        label = target.getText();
-        if (label == null) {
-            label = "";
+    void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.prfInit(pbrbms);
+        Lbbfl tbrgft = (Lbbfl) tiis.tbrgft;
+        lbbfl = tbrgft.gftTfxt();
+        if (lbbfl == null) {
+            lbbfl = "";
         }
-        alignment = target.getAlignment();
+        blignmfnt = tbrgft.gftAlignmfnt();
     }
 
-    XLabelPeer(Label target) {
-        super(target);
+    XLbbflPffr(Lbbfl tbrgft) {
+        supfr(tbrgft);
     }
 
     /**
-     * Minimum size.
+     * Minimum sizf.
      */
-    public Dimension getMinimumSize() {
-        FontMetrics fm = getFontMetrics();
+    publid Dimfnsion gftMinimumSizf() {
+        FontMftrids fm = gftFontMftrids();
         int w;
         try {
-            w = fm.stringWidth(label);
+            w = fm.stringWidti(lbbfl);
         }
-        catch (NullPointerException e) {
+        dbtdi (NullPointfrExdfption f) {
             w = 0;
         }
-        return new Dimension(w + TEXT_XPAD,
-                             fm.getAscent() + fm.getMaxDescent() + TEXT_YPAD);
+        rfturn nfw Dimfnsion(w + TEXT_XPAD,
+                             fm.gftAsdfnt() + fm.gftMbxDfsdfnt() + TEXT_YPAD);
     }
 
 
     /**
-     * Paint the label
+     * Pbint tif lbbfl
      */
-    // NOTE: This method is called by privileged threads.
+    // NOTE: Tiis mftiod is dbllfd by privilfgfd tirfbds.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    @Override
-    void paintPeer(final Graphics g) {
-        int textX = 0;
-        int textY = 0;
-        g.setColor(getPeerBackground());
-        g.fillRect(0, 0, width, height);
+    @Ovfrridf
+    void pbintPffr(finbl Grbpiids g) {
+        int tfxtX = 0;
+        int tfxtY = 0;
+        g.sftColor(gftPffrBbdkground());
+        g.fillRfdt(0, 0, widti, ifigit);
 
-        Font f = getPeerFont();
-        g.setFont(f);
-        FontMetrics fm = g.getFontMetrics();
+        Font f = gftPffrFont();
+        g.sftFont(f);
+        FontMftrids fm = g.gftFontMftrids();
 
-        if (cachedFontMetrics == null)
+        if (dbdifdFontMftrids == null)
         {
-            cachedFontMetrics = fm;
+            dbdifdFontMftrids = fm;
         }
-        else
+        flsf
         {
             if (oldfont != f)
-                cachedFontMetrics = fm;
+                dbdifdFontMftrids = fm;
         }
 
-        switch (alignment) {
-          case Label.LEFT:
-              textX = 2;
-              textY = (height + fm.getMaxAscent() - fm.getMaxDescent()) / 2;
-              break;
-          case Label.RIGHT:
-              textX = width - (fm.stringWidth(label) + 2);
-              textY = (height + fm.getMaxAscent() - fm.getMaxDescent()) / 2;
-              break;
-          case Label.CENTER:
-              textX = (width - fm.stringWidth(label)) / 2;
-              textY = (height + fm.getMaxAscent() - fm.getMaxDescent()) / 2;
-              break;
+        switdi (blignmfnt) {
+          dbsf Lbbfl.LEFT:
+              tfxtX = 2;
+              tfxtY = (ifigit + fm.gftMbxAsdfnt() - fm.gftMbxDfsdfnt()) / 2;
+              brfbk;
+          dbsf Lbbfl.RIGHT:
+              tfxtX = widti - (fm.stringWidti(lbbfl) + 2);
+              tfxtY = (ifigit + fm.gftMbxAsdfnt() - fm.gftMbxDfsdfnt()) / 2;
+              brfbk;
+          dbsf Lbbfl.CENTER:
+              tfxtX = (widti - fm.stringWidti(lbbfl)) / 2;
+              tfxtY = (ifigit + fm.gftMbxAsdfnt() - fm.gftMbxDfsdfnt()) / 2;
+              brfbk;
         }
-        if (isEnabled()) {
-            g.setColor(getPeerForeground());
-            g.drawString(label, textX, textY);
+        if (isEnbblfd()) {
+            g.sftColor(gftPffrForfground());
+            g.drbwString(lbbfl, tfxtX, tfxtY);
         }
-        else {
-            g.setColor(getPeerBackground().brighter());
-            g.drawString(label, textX, textY);
-            g.setColor(getPeerBackground().darker());
-            g.drawString(label, textX - 1, textY - 1);
+        flsf {
+            g.sftColor(gftPffrBbdkground().brigitfr());
+            g.drbwString(lbbfl, tfxtX, tfxtY);
+            g.sftColor(gftPffrBbdkground().dbrkfr());
+            g.drbwString(lbbfl, tfxtX - 1, tfxtY - 1);
         }
     }
 
-    @Override
-    public void setText(String label) {
-        if (label == null) {
-            label = "";
+    @Ovfrridf
+    publid void sftTfxt(String lbbfl) {
+        if (lbbfl == null) {
+            lbbfl = "";
         }
-        if (!label.equals(this.label)) {
-            this.label = label;
-            repaint();
+        if (!lbbfl.fqubls(tiis.lbbfl)) {
+            tiis.lbbfl = lbbfl;
+            rfpbint();
         }
     }
 
-    @Override
-    public void setAlignment(final int alignment) {
-        if (this.alignment != alignment) {
-            this.alignment = alignment;
-            repaint();
+    @Ovfrridf
+    publid void sftAlignmfnt(finbl int blignmfnt) {
+        if (tiis.blignmfnt != blignmfnt) {
+            tiis.blignmfnt = blignmfnt;
+            rfpbint();
         }
     }
 }

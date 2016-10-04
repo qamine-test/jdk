@@ -1,149 +1,149 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.jar;
+pbdkbgf jbvb.util.jbr;
 
-import java.util.zip.*;
-import java.io.*;
+import jbvb.util.zip.*;
+import jbvb.io.*;
 
 /**
- * The <code>JarOutputStream</code> class is used to write the contents
- * of a JAR file to any output stream. It extends the class
- * <code>java.util.zip.ZipOutputStream</code> with support
- * for writing an optional <code>Manifest</code> entry. The
- * <code>Manifest</code> can be used to specify meta-information about
- * the JAR file and its entries.
+ * Tif <dodf>JbrOutputStrfbm</dodf> dlbss is usfd to writf tif dontfnts
+ * of b JAR filf to bny output strfbm. It fxtfnds tif dlbss
+ * <dodf>jbvb.util.zip.ZipOutputStrfbm</dodf> witi support
+ * for writing bn optionbl <dodf>Mbniffst</dodf> fntry. Tif
+ * <dodf>Mbniffst</dodf> dbn bf usfd to spfdify mftb-informbtion bbout
+ * tif JAR filf bnd its fntrifs.
  *
- * @author  David Connelly
- * @see     Manifest
- * @see     java.util.zip.ZipOutputStream
- * @since   1.2
+ * @butior  Dbvid Connflly
+ * @sff     Mbniffst
+ * @sff     jbvb.util.zip.ZipOutputStrfbm
+ * @sindf   1.2
  */
-public
-class JarOutputStream extends ZipOutputStream {
-    private static final int JAR_MAGIC = 0xCAFE;
+publid
+dlbss JbrOutputStrfbm fxtfnds ZipOutputStrfbm {
+    privbtf stbtid finbl int JAR_MAGIC = 0xCAFE;
 
     /**
-     * Creates a new <code>JarOutputStream</code> with the specified
-     * <code>Manifest</code>. The manifest is written as the first
-     * entry to the output stream.
+     * Crfbtfs b nfw <dodf>JbrOutputStrfbm</dodf> witi tif spfdififd
+     * <dodf>Mbniffst</dodf>. Tif mbniffst is writtfn bs tif first
+     * fntry to tif output strfbm.
      *
-     * @param out the actual output stream
-     * @param man the optional <code>Manifest</code>
-     * @exception IOException if an I/O error has occurred
+     * @pbrbm out tif bdtubl output strfbm
+     * @pbrbm mbn tif optionbl <dodf>Mbniffst</dodf>
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public JarOutputStream(OutputStream out, Manifest man) throws IOException {
-        super(out);
-        if (man == null) {
-            throw new NullPointerException("man");
+    publid JbrOutputStrfbm(OutputStrfbm out, Mbniffst mbn) tirows IOExdfption {
+        supfr(out);
+        if (mbn == null) {
+            tirow nfw NullPointfrExdfption("mbn");
         }
-        ZipEntry e = new ZipEntry(JarFile.MANIFEST_NAME);
-        putNextEntry(e);
-        man.write(new BufferedOutputStream(this));
-        closeEntry();
+        ZipEntry f = nfw ZipEntry(JbrFilf.MANIFEST_NAME);
+        putNfxtEntry(f);
+        mbn.writf(nfw BufffrfdOutputStrfbm(tiis));
+        dlosfEntry();
     }
 
     /**
-     * Creates a new <code>JarOutputStream</code> with no manifest.
-     * @param out the actual output stream
-     * @exception IOException if an I/O error has occurred
+     * Crfbtfs b nfw <dodf>JbrOutputStrfbm</dodf> witi no mbniffst.
+     * @pbrbm out tif bdtubl output strfbm
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public JarOutputStream(OutputStream out) throws IOException {
-        super(out);
+    publid JbrOutputStrfbm(OutputStrfbm out) tirows IOExdfption {
+        supfr(out);
     }
 
     /**
-     * Begins writing a new JAR file entry and positions the stream
-     * to the start of the entry data. This method will also close
-     * any previous entry. The default compression method will be
-     * used if no compression method was specified for the entry.
-     * The current time will be used if the entry has no set modification
-     * time.
+     * Bfgins writing b nfw JAR filf fntry bnd positions tif strfbm
+     * to tif stbrt of tif fntry dbtb. Tiis mftiod will blso dlosf
+     * bny prfvious fntry. Tif dffbult domprfssion mftiod will bf
+     * usfd if no domprfssion mftiod wbs spfdififd for tif fntry.
+     * Tif durrfnt timf will bf usfd if tif fntry ibs no sft modifidbtion
+     * timf.
      *
-     * @param ze the ZIP/JAR entry to be written
-     * @exception ZipException if a ZIP error has occurred
-     * @exception IOException if an I/O error has occurred
+     * @pbrbm zf tif ZIP/JAR fntry to bf writtfn
+     * @fxdfption ZipExdfption if b ZIP frror ibs oddurrfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public void putNextEntry(ZipEntry ze) throws IOException {
+    publid void putNfxtEntry(ZipEntry zf) tirows IOExdfption {
         if (firstEntry) {
-            // Make sure that extra field data for first JAR
-            // entry includes JAR magic number id.
-            byte[] edata = ze.getExtra();
-            if (edata == null || !hasMagic(edata)) {
-                if (edata == null) {
-                    edata = new byte[4];
-                } else {
-                    // Prepend magic to existing extra data
-                    byte[] tmp = new byte[edata.length + 4];
-                    System.arraycopy(edata, 0, tmp, 4, edata.length);
-                    edata = tmp;
+            // Mbkf surf tibt fxtrb fifld dbtb for first JAR
+            // fntry indludfs JAR mbgid numbfr id.
+            bytf[] fdbtb = zf.gftExtrb();
+            if (fdbtb == null || !ibsMbgid(fdbtb)) {
+                if (fdbtb == null) {
+                    fdbtb = nfw bytf[4];
+                } flsf {
+                    // Prfpfnd mbgid to fxisting fxtrb dbtb
+                    bytf[] tmp = nfw bytf[fdbtb.lfngti + 4];
+                    Systfm.brrbydopy(fdbtb, 0, tmp, 4, fdbtb.lfngti);
+                    fdbtb = tmp;
                 }
-                set16(edata, 0, JAR_MAGIC); // extra field id
-                set16(edata, 2, 0);         // extra field size
-                ze.setExtra(edata);
+                sft16(fdbtb, 0, JAR_MAGIC); // fxtrb fifld id
+                sft16(fdbtb, 2, 0);         // fxtrb fifld sizf
+                zf.sftExtrb(fdbtb);
             }
-            firstEntry = false;
+            firstEntry = fblsf;
         }
-        super.putNextEntry(ze);
+        supfr.putNfxtEntry(zf);
     }
 
-    private boolean firstEntry = true;
+    privbtf boolfbn firstEntry = truf;
 
     /*
-     * Returns true if specified byte array contains the
-     * jar magic extra field id.
+     * Rfturns truf if spfdififd bytf brrby dontbins tif
+     * jbr mbgid fxtrb fifld id.
      */
-    private static boolean hasMagic(byte[] edata) {
+    privbtf stbtid boolfbn ibsMbgid(bytf[] fdbtb) {
         try {
             int i = 0;
-            while (i < edata.length) {
-                if (get16(edata, i) == JAR_MAGIC) {
-                    return true;
+            wiilf (i < fdbtb.lfngti) {
+                if (gft16(fdbtb, i) == JAR_MAGIC) {
+                    rfturn truf;
                 }
-                i += get16(edata, i + 2) + 4;
+                i += gft16(fdbtb, i + 2) + 4;
             }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            // Invalid extra field data
+        } dbtdi (ArrbyIndfxOutOfBoundsExdfption f) {
+            // Invblid fxtrb fifld dbtb
         }
-        return false;
+        rfturn fblsf;
     }
 
     /*
-     * Fetches unsigned 16-bit value from byte array at specified offset.
-     * The bytes are assumed to be in Intel (little-endian) byte order.
+     * Fftdifs unsignfd 16-bit vbluf from bytf brrby bt spfdififd offsft.
+     * Tif bytfs brf bssumfd to bf in Intfl (littlf-fndibn) bytf ordfr.
      */
-    private static int get16(byte[] b, int off) {
-        return Byte.toUnsignedInt(b[off]) | ( Byte.toUnsignedInt(b[off+1]) << 8);
+    privbtf stbtid int gft16(bytf[] b, int off) {
+        rfturn Bytf.toUnsignfdInt(b[off]) | ( Bytf.toUnsignfdInt(b[off+1]) << 8);
     }
 
     /*
-     * Sets 16-bit value at specified offset. The bytes are assumed to
-     * be in Intel (little-endian) byte order.
+     * Sfts 16-bit vbluf bt spfdififd offsft. Tif bytfs brf bssumfd to
+     * bf in Intfl (littlf-fndibn) bytf ordfr.
      */
-    private static void set16(byte[] b, int off, int value) {
-        b[off+0] = (byte)value;
-        b[off+1] = (byte)(value >> 8);
+    privbtf stbtid void sft16(bytf[] b, int off, int vbluf) {
+        b[off+0] = (bytf)vbluf;
+        b[off+1] = (bytf)(vbluf >> 8);
     }
 }

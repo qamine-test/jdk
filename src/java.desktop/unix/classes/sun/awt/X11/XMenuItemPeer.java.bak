@@ -1,461 +1,461 @@
 /*
- * Copyright (c) 2002, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.*;
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAddfssor;
 
-public class XMenuItemPeer implements MenuItemPeer {
+publid dlbss XMfnuItfmPffr implfmfnts MfnuItfmPffr {
 
     /************************************************
      *
-     * Data members
+     * Dbtb mfmbfrs
      *
      ************************************************/
 
     /*
-     * Primary members
+     * Primbry mfmbfrs
      */
 
     /**
-     * Window that this item belongs to.
+     * Window tibt tiis itfm bflongs to.
      */
-    private XBaseMenuWindow container;
+    privbtf XBbsfMfnuWindow dontbinfr;
 
     /**
-     * Target MenuItem. Note that 'target' member
-     * in XWindow is required for dispatching events.
-     * This member is only used for accessing its fields
-     * and firing ActionEvent & ItemEvent
+     * Tbrgft MfnuItfm. Notf tibt 'tbrgft' mfmbfr
+     * in XWindow is rfquirfd for dispbtdiing fvfnts.
+     * Tiis mfmbfr is only usfd for bddfssing its fiflds
+     * bnd firing AdtionEvfnt & ItfmEvfnt
      */
-    private MenuItem target;
+    privbtf MfnuItfm tbrgft;
 
     /*
-     * Mapping to window
+     * Mbpping to window
      */
 
     /**
-     * Rectangle occupied by menu item in container's
-     * coordinates. Filled by map(...) function from
-     * XBaseMenuWindow.map()
+     * Rfdtbnglf oddupifd by mfnu itfm in dontbinfr's
+     * doordinbtfs. Fillfd by mbp(...) fundtion from
+     * XBbsfMfnuWindow.mbp()
      */
-    private Rectangle bounds;
+    privbtf Rfdtbnglf bounds;
 
     /**
-     * Point in container's coordinate system used as
-     * origin by drawText.
+     * Point in dontbinfr's doordinbtf systfm usfd bs
+     * origin by drbwTfxt.
      */
-    private Point textOrigin;
+    privbtf Point tfxtOrigin;
 
     /*
-     * Size constants
+     * Sizf donstbnts
      */
-    private final static int SEPARATOR_WIDTH = 20;
-    private final static int SEPARATOR_HEIGHT = 5;
+    privbtf finbl stbtid int SEPARATOR_WIDTH = 20;
+    privbtf finbl stbtid int SEPARATOR_HEIGHT = 5;
 
     /************************************************
      *
-     * Text Metrics
+     * Tfxt Mftrids
      *
      ************************************************/
 
     /**
-     * Text metrics are filled in calcTextMetrics function
-     * and reset in resetTextMetrics function. Text metrics
-     * contain calculated dimensions of various components of
-     * menu item.
+     * Tfxt mftrids brf fillfd in dbldTfxtMftrids fundtion
+     * bnd rfsft in rfsftTfxtMftrids fundtion. Tfxt mftrids
+     * dontbin dbldulbtfd dimfnsions of vbrious domponfnts of
+     * mfnu itfm.
      */
-    private TextMetrics textMetrics;
+    privbtf TfxtMftrids tfxtMftrids;
 
-    static class TextMetrics implements Cloneable {
+    stbtid dlbss TfxtMftrids implfmfnts Clonfbblf {
         /*
-         * Calculated text size members
+         * Cbldulbtfd tfxt sizf mfmbfrs
          */
-        private Dimension textDimension;
-        private int shortcutWidth;
-        private int textBaseline;
+        privbtf Dimfnsion tfxtDimfnsion;
+        privbtf int siortdutWidti;
+        privbtf int tfxtBbsflinf;
 
-        TextMetrics(Dimension textDimension, int shortcutWidth, int textBaseline) {
-            this.textDimension = textDimension;
-            this.shortcutWidth = shortcutWidth;
-            this.textBaseline = textBaseline;
+        TfxtMftrids(Dimfnsion tfxtDimfnsion, int siortdutWidti, int tfxtBbsflinf) {
+            tiis.tfxtDimfnsion = tfxtDimfnsion;
+            tiis.siortdutWidti = siortdutWidti;
+            tiis.tfxtBbsflinf = tfxtBbsflinf;
         }
 
-        public Object clone() {
+        publid Objfdt dlonf() {
             try {
-                return super.clone();
-            } catch (CloneNotSupportedException ex) {
-                throw new InternalError(ex);
+                rfturn supfr.dlonf();
+            } dbtdi (ClonfNotSupportfdExdfption fx) {
+                tirow nfw IntfrnblError(fx);
             }
         }
 
-        Dimension getTextDimension() {
-            return this.textDimension;
+        Dimfnsion gftTfxtDimfnsion() {
+            rfturn tiis.tfxtDimfnsion;
         }
 
-        int getShortcutWidth() {
-            return this.shortcutWidth;
+        int gftSiortdutWidti() {
+            rfturn tiis.siortdutWidti;
         }
 
-        int getTextBaseline() {
-            return this.textBaseline;
+        int gftTfxtBbsflinf() {
+            rfturn tiis.tfxtBbsflinf;
         }
     }
 
     /************************************************
      *
-     * Construction
+     * Construdtion
      *
      ************************************************/
-    XMenuItemPeer(MenuItem target) {
-        this.target = target;
+    XMfnuItfmPffr(MfnuItfm tbrgft) {
+        tiis.tbrgft = tbrgft;
     }
 
     /************************************************
      *
-     * Implementaion of interface methods
+     * Implfmfntbion of intfrfbdf mftiods
      *
      ************************************************/
 
     /*
-     * From MenuComponentPeer
+     * From MfnuComponfntPffr
      */
-    public void dispose() {
-        //Empty function
+    publid void disposf() {
+        //Empty fundtion
     }
 
-    public void setFont(Font font) {
-        resetTextMetrics();
-        repaintIfShowing();
+    publid void sftFont(Font font) {
+        rfsftTfxtMftrids();
+        rfpbintIfSiowing();
     }
     /*
-     * From MenuItemPeer
+     * From MfnuItfmPffr
      */
-    public void setLabel(String label) {
-        resetTextMetrics();
-        repaintIfShowing();
+    publid void sftLbbfl(String lbbfl) {
+        rfsftTfxtMftrids();
+        rfpbintIfSiowing();
     }
 
-    public void setEnabled(boolean enabled) {
-        repaintIfShowing();
-    }
-
-    /**
-     * DEPRECATED:  Replaced by setEnabled(boolean).
-     * @see java.awt.peer.MenuItemPeer
-     */
-    public void enable() {
-        setEnabled( true );
+    publid void sftEnbblfd(boolfbn fnbblfd) {
+        rfpbintIfSiowing();
     }
 
     /**
-     * DEPRECATED:  Replaced by setEnabled(boolean).
-     * @see java.awt.peer.MenuItemPeer
+     * DEPRECATED:  Rfplbdfd by sftEnbblfd(boolfbn).
+     * @sff jbvb.bwt.pffr.MfnuItfmPffr
      */
-    public void disable() {
-        setEnabled( false );
+    publid void fnbblf() {
+        sftEnbblfd( truf );
+    }
+
+    /**
+     * DEPRECATED:  Rfplbdfd by sftEnbblfd(boolfbn).
+     * @sff jbvb.bwt.pffr.MfnuItfmPffr
+     */
+    publid void disbblf() {
+        sftEnbblfd( fblsf );
     }
 
     /************************************************
      *
-     * Access to target's fields
+     * Addfss to tbrgft's fiflds
      *
      ************************************************/
 
-    MenuItem getTarget() {
-        return this.target;
+    MfnuItfm gftTbrgft() {
+        rfturn tiis.tbrgft;
     }
 
-    Font getTargetFont() {
-        if (target == null) {
-            return XWindow.getDefaultFont();
+    Font gftTbrgftFont() {
+        if (tbrgft == null) {
+            rfturn XWindow.gftDffbultFont();
         }
-        return AWTAccessor.getMenuComponentAccessor().getFont_NoClientCode(target);
+        rfturn AWTAddfssor.gftMfnuComponfntAddfssor().gftFont_NoClifntCodf(tbrgft);
     }
 
-    String getTargetLabel() {
-        if (target == null) {
-            return "";
+    String gftTbrgftLbbfl() {
+        if (tbrgft == null) {
+            rfturn "";
         }
-        String label = AWTAccessor.getMenuItemAccessor().getLabel(target);
-        return (label == null) ? "" : label;
+        String lbbfl = AWTAddfssor.gftMfnuItfmAddfssor().gftLbbfl(tbrgft);
+        rfturn (lbbfl == null) ? "" : lbbfl;
     }
 
-    boolean isTargetEnabled() {
-        if (target == null) {
-            return false;
+    boolfbn isTbrgftEnbblfd() {
+        if (tbrgft == null) {
+            rfturn fblsf;
         }
-        return AWTAccessor.getMenuItemAccessor().isEnabled(target);
+        rfturn AWTAddfssor.gftMfnuItfmAddfssor().isEnbblfd(tbrgft);
     }
 
     /**
-     * Returns true if item and all its parents are enabled
-     * This function is used to fix
-     * 6184485: Popup menu is not disabled on XToolkit even when calling setEnabled (false)
+     * Rfturns truf if itfm bnd bll its pbrfnts brf fnbblfd
+     * Tiis fundtion is usfd to fix
+     * 6184485: Popup mfnu is not disbblfd on XToolkit fvfn wifn dblling sftEnbblfd (fblsf)
      */
-    boolean isTargetItemEnabled() {
-        if (target == null) {
-            return false;
+    boolfbn isTbrgftItfmEnbblfd() {
+        if (tbrgft == null) {
+            rfturn fblsf;
         }
-        return AWTAccessor.getMenuItemAccessor().isItemEnabled(target);
+        rfturn AWTAddfssor.gftMfnuItfmAddfssor().isItfmEnbblfd(tbrgft);
     }
 
-    String getTargetActionCommand() {
-        if (target == null) {
-            return "";
+    String gftTbrgftAdtionCommbnd() {
+        if (tbrgft == null) {
+            rfturn "";
         }
-        return AWTAccessor.getMenuItemAccessor().getActionCommandImpl(target);
+        rfturn AWTAddfssor.gftMfnuItfmAddfssor().gftAdtionCommbndImpl(tbrgft);
     }
 
-    MenuShortcut getTargetShortcut() {
-        if (target == null) {
-            return null;
+    MfnuSiortdut gftTbrgftSiortdut() {
+        if (tbrgft == null) {
+            rfturn null;
         }
-        return AWTAccessor.getMenuItemAccessor().getShortcut(target);
+        rfturn AWTAddfssor.gftMfnuItfmAddfssor().gftSiortdut(tbrgft);
     }
 
-    String getShortcutText() {
-        //Fix for 6180413: shortcuts should not be displayed for any of the menuitems in a popup menu
-        if (container == null) {
-            return null;
+    String gftSiortdutTfxt() {
+        //Fix for 6180413: siortduts siould not bf displbyfd for bny of tif mfnuitfms in b popup mfnu
+        if (dontbinfr == null) {
+            rfturn null;
         }
-        if (container.getRootMenuWindow() instanceof XPopupMenuPeer) {
-            return null;
+        if (dontbinfr.gftRootMfnuWindow() instbndfof XPopupMfnuPffr) {
+            rfturn null;
         }
-        MenuShortcut sc = getTargetShortcut();
-        //TODO:This can potentially call user code
-        return (sc == null) ? null : sc.toString();
+        MfnuSiortdut sd = gftTbrgftSiortdut();
+        //TODO:Tiis dbn potfntiblly dbll usfr dodf
+        rfturn (sd == null) ? null : sd.toString();
     }
 
 
     /************************************************
      *
-     * Basic manipulations
+     * Bbsid mbnipulbtions
      *
      ************************************************/
 
     /**
-     * This function is called when filling item vectors
-     * in XMenuWindow & XMenuBar. We need it because peers
-     * are created earlier than windows.
-     * @param container the window that this item belongs to.
+     * Tiis fundtion is dbllfd wifn filling itfm vfdtors
+     * in XMfnuWindow & XMfnuBbr. Wf nffd it bfdbusf pffrs
+     * brf drfbtfd fbrlifr tibn windows.
+     * @pbrbm dontbinfr tif window tibt tiis itfm bflongs to.
      */
-    void setContainer(XBaseMenuWindow container) {
-        synchronized(XBaseMenuWindow.getMenuTreeLock()) {
-            this.container = container;
+    void sftContbinfr(XBbsfMfnuWindow dontbinfr) {
+        syndironizfd(XBbsfMfnuWindow.gftMfnuTrffLodk()) {
+            tiis.dontbinfr = dontbinfr;
         }
     }
 
     /**
-     * returns the window that this item belongs to
+     * rfturns tif window tibt tiis itfm bflongs to
      */
-    XBaseMenuWindow getContainer() {
-        return this.container;
+    XBbsfMfnuWindow gftContbinfr() {
+        rfturn tiis.dontbinfr;
     }
 
     /************************************************
      *
-     * Overridable behaviour
+     * Ovfrridbblf bfibviour
      *
      ************************************************/
 
     /**
-     * This function should be overriden simply to
-     * return false in inherited classes.
+     * Tiis fundtion siould bf ovfrridfn simply to
+     * rfturn fblsf in inifritfd dlbssfs.
      */
-    boolean isSeparator() {
-        boolean r = (getTargetLabel().equals("-"));
-        return r;
+    boolfbn isSfpbrbtor() {
+        boolfbn r = (gftTbrgftLbbfl().fqubls("-"));
+        rfturn r;
     }
 
     /************************************************
      *
-     * Utility functions
+     * Utility fundtions
      *
      ************************************************/
 
     /**
-     * Returns true if container exists and is showing
+     * Rfturns truf if dontbinfr fxists bnd is siowing
      */
-    boolean isContainerShowing() {
-        if (container == null) {
-            return false;
+    boolfbn isContbinfrSiowing() {
+        if (dontbinfr == null) {
+            rfturn fblsf;
         }
-        return container.isShowing();
+        rfturn dontbinfr.isSiowing();
     }
 
     /**
-     * Repaints item if it is showing
+     * Rfpbints itfm if it is siowing
      */
-    void repaintIfShowing() {
-        if (isContainerShowing()) {
-            container.postPaintEvent();
+    void rfpbintIfSiowing() {
+        if (isContbinfrSiowing()) {
+            dontbinfr.postPbintEvfnt();
         }
     }
 
     /**
-     * This function is invoked when the user clicks
-     * on menu item.
-     * @param when the timestamp of action event
+     * Tiis fundtion is invokfd wifn tif usfr dlidks
+     * on mfnu itfm.
+     * @pbrbm wifn tif timfstbmp of bdtion fvfnt
      */
-    void action(long when) {
-        if (!isSeparator() && isTargetItemEnabled()) {
-            XWindow.postEventStatic(new ActionEvent(target, ActionEvent.ACTION_PERFORMED,
-                                                    getTargetActionCommand(), when,
+    void bdtion(long wifn) {
+        if (!isSfpbrbtor() && isTbrgftItfmEnbblfd()) {
+            XWindow.postEvfntStbtid(nfw AdtionEvfnt(tbrgft, AdtionEvfnt.ACTION_PERFORMED,
+                                                    gftTbrgftAdtionCommbnd(), wifn,
                                                     0));
         }
     }
     /************************************************
      *
-     * Text metrics
+     * Tfxt mftrids
      *
      ************************************************/
 
     /**
-     * Returns text metrics of menu item.
-     * This function does not use any locks
-     * and is guaranteed to return some value
-     * (possibly actual, possibly expired)
+     * Rfturns tfxt mftrids of mfnu itfm.
+     * Tiis fundtion dofs not usf bny lodks
+     * bnd is gubrbntffd to rfturn somf vbluf
+     * (possibly bdtubl, possibly fxpirfd)
      */
-    TextMetrics getTextMetrics() {
-        TextMetrics textMetrics = this.textMetrics;
-        if (textMetrics == null) {
-            textMetrics = calcTextMetrics();
-            this.textMetrics = textMetrics;
+    TfxtMftrids gftTfxtMftrids() {
+        TfxtMftrids tfxtMftrids = tiis.tfxtMftrids;
+        if (tfxtMftrids == null) {
+            tfxtMftrids = dbldTfxtMftrids();
+            tiis.tfxtMftrids = tfxtMftrids;
         }
-        return textMetrics;
+        rfturn tfxtMftrids;
     }
 
     /**
-     * Returns dimensions of item's label.
-     * This function does not use any locks
-     * Returns actual or expired  value
-     * or null if error occurs
+     * Rfturns dimfnsions of itfm's lbbfl.
+     * Tiis fundtion dofs not usf bny lodks
+     * Rfturns bdtubl or fxpirfd  vbluf
+     * or null if frror oddurs
      */
-    /*Dimension getTextDimension() {
-        TextMetrics textMetrics = this.textMetrics;
-        if (textMetrics == null) {
-            textMetrics = calcTextMetrics();
-            this.textMetrics = textMetrics;
+    /*Dimfnsion gftTfxtDimfnsion() {
+        TfxtMftrids tfxtMftrids = tiis.tfxtMftrids;
+        if (tfxtMftrids == null) {
+            tfxtMftrids = dbldTfxtMftrids();
+            tiis.tfxtMftrids = tfxtMftrids;
         }
-        return (textMetrics != null) ? textMetrics.textDimension : null;
+        rfturn (tfxtMftrids != null) ? tfxtMftrids.tfxtDimfnsion : null;
         }*/
 
     /**
-     * Returns width of item's shortcut label,
-     * 0 if item has no shortcut.
-     * The height of shortcut can be deternimed
-     * from text dimensions.
-     * This function does not use any locks
-     * and is guaranteed to return some value
-     * (possibly actual, possibly expired)
+     * Rfturns widti of itfm's siortdut lbbfl,
+     * 0 if itfm ibs no siortdut.
+     * Tif ifigit of siortdut dbn bf dftfrnimfd
+     * from tfxt dimfnsions.
+     * Tiis fundtion dofs not usf bny lodks
+     * bnd is gubrbntffd to rfturn somf vbluf
+     * (possibly bdtubl, possibly fxpirfd)
      */
-    /*int getShortcutWidth() {
-        TextMetrics textMetrics = this.textMetrics;
-        if (textMetrics == null) {
-            textMetrics = calcTextMetrics();
-            this.textMetrics = textMetrics;
+    /*int gftSiortdutWidti() {
+        TfxtMftrids tfxtMftrids = tiis.tfxtMftrids;
+        if (tfxtMftrids == null) {
+            tfxtMftrids = dbldTfxtMftrids();
+            tiis.tfxtMftrids = tfxtMftrids;
         }
-        return (textMetrics != null) ? textMetrics.shortcutWidth : 0;
+        rfturn (tfxtMftrids != null) ? tfxtMftrids.siortdutWidti : 0;
     }
 
-    int getTextBaseline() {
-        TextMetrics textMetrics = this.textMetrics;
-        if (textMetrics == null) {
-            textMetrics = calcTextMetrics();
-            this.textMetrics = textMetrics;
+    int gftTfxtBbsflinf() {
+        TfxtMftrids tfxtMftrids = tiis.tfxtMftrids;
+        if (tfxtMftrids == null) {
+            tfxtMftrids = dbldTfxtMftrids();
+            tiis.tfxtMftrids = tfxtMftrids;
         }
-        return (textMetrics != null) ? textMetrics.textBaseline : 0;
+        rfturn (tfxtMftrids != null) ? tfxtMftrids.tfxtBbsflinf : 0;
         }*/
 
-    TextMetrics calcTextMetrics() {
-        if (container == null) {
-            return null;
+    TfxtMftrids dbldTfxtMftrids() {
+        if (dontbinfr == null) {
+            rfturn null;
         }
-        if (isSeparator()) {
-            return new TextMetrics(new Dimension(SEPARATOR_WIDTH, SEPARATOR_HEIGHT), 0, 0);
+        if (isSfpbrbtor()) {
+            rfturn nfw TfxtMftrids(nfw Dimfnsion(SEPARATOR_WIDTH, SEPARATOR_HEIGHT), 0, 0);
         }
-        Graphics g = container.getGraphics();
+        Grbpiids g = dontbinfr.gftGrbpiids();
         if (g == null) {
-            return null;
+            rfturn null;
         }
         try {
-            g.setFont(getTargetFont());
-            FontMetrics fm = g.getFontMetrics();
-            String str = getTargetLabel();
-            int width = fm.stringWidth(str);
-            int height = fm.getHeight();
-            Dimension textDimension = new Dimension(width, height);
-            int textBaseline = fm.getHeight() - fm.getAscent();
-            String sc = getShortcutText();
-            int shortcutWidth = (sc == null) ? 0 : fm.stringWidth(sc);
-            return new TextMetrics(textDimension, shortcutWidth, textBaseline);
-        } finally {
-            g.dispose();
+            g.sftFont(gftTbrgftFont());
+            FontMftrids fm = g.gftFontMftrids();
+            String str = gftTbrgftLbbfl();
+            int widti = fm.stringWidti(str);
+            int ifigit = fm.gftHfigit();
+            Dimfnsion tfxtDimfnsion = nfw Dimfnsion(widti, ifigit);
+            int tfxtBbsflinf = fm.gftHfigit() - fm.gftAsdfnt();
+            String sd = gftSiortdutTfxt();
+            int siortdutWidti = (sd == null) ? 0 : fm.stringWidti(sd);
+            rfturn nfw TfxtMftrids(tfxtDimfnsion, siortdutWidti, tfxtBbsflinf);
+        } finblly {
+            g.disposf();
         }
     }
 
-    void resetTextMetrics() {
-        textMetrics = null;
-        if (container != null) {
-            container.updateSize();
+    void rfsftTfxtMftrids() {
+        tfxtMftrids = null;
+        if (dontbinfr != null) {
+            dontbinfr.updbtfSizf();
         }
     }
 
     /************************************************
      *
-     * Mapping utility functions
+     * Mbpping utility fundtions
      *
      ************************************************/
 
     /**
-     * Sets mapping of item to window.
-     * @param bounds bounds of item in container's coordinates
-     * @param textOrigin point for drawString in container's coordinates
-     * @see XBaseMenuWindow.map()
+     * Sfts mbpping of itfm to window.
+     * @pbrbm bounds bounds of itfm in dontbinfr's doordinbtfs
+     * @pbrbm tfxtOrigin point for drbwString in dontbinfr's doordinbtfs
+     * @sff XBbsfMfnuWindow.mbp()
      */
-    void map(Rectangle bounds, Point textOrigin) {
-        this.bounds = bounds;
-        this.textOrigin = textOrigin;
+    void mbp(Rfdtbnglf bounds, Point tfxtOrigin) {
+        tiis.bounds = bounds;
+        tiis.tfxtOrigin = tfxtOrigin;
     }
 
     /**
-     * returns bounds of item that were previously set by map() function
+     * rfturns bounds of itfm tibt wfrf prfviously sft by mbp() fundtion
      */
-    Rectangle getBounds() {
-        return bounds;
+    Rfdtbnglf gftBounds() {
+        rfturn bounds;
     }
 
     /**
-     * returns origin of item's text that was previously set by map() function
+     * rfturns origin of itfm's tfxt tibt wbs prfviously sft by mbp() fundtion
      */
-    Point getTextOrigin() {
-        return textOrigin;
+    Point gftTfxtOrigin() {
+        rfturn tfxtOrigin;
     }
 
 }

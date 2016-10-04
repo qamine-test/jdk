@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.bfbns;
+
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
+
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbshMbp;
+
+/**
+ * A hbshtbblf-bbsfd dbdhf with wfbk kfys bnd wfbk vblufs.
+ * An fntry in thf mbp will bf butombtidblly rfmovfd
+ * whfn its kfy is no longfr in thf ordinbry usf.
+ * A vbluf will bf butombtidblly rfmovfd bs wfll
+ * whfn it is no longfr in thf ordinbry usf.
+ *
+ * @sindf 1.7
+ *
+ * @buthor Sfrgfy A. Mblfnkov
+ */
+publid finbl dlbss WfbkCbdhf<K, V> {
+    privbtf finbl Mbp<K, Rfffrfndf<V>> mbp = nfw WfbkHbshMbp<K, Rfffrfndf<V>>();
+
+    /**
+     * Rfturns b vbluf to whidh thf spfdififd {@dodf kfy} is mbppfd,
+     * or {@dodf null} if this mbp dontbins no mbpping for thf {@dodf kfy}.
+     *
+     * @pbrbm kfy  thf kfy whosf bssodibtfd vbluf is rfturnfd
+     * @rfturn b vbluf to whidh thf spfdififd {@dodf kfy} is mbppfd
+     */
+    publid V gft(K kfy) {
+        Rfffrfndf<V> rfffrfndf = this.mbp.gft(kfy);
+        if (rfffrfndf == null) {
+            rfturn null;
+        }
+        V vbluf = rfffrfndf.gft();
+        if (vbluf == null) {
+            this.mbp.rfmovf(kfy);
+        }
+        rfturn vbluf;
+    }
+
+    /**
+     * Assodibtfs thf spfdififd {@dodf vbluf} with thf spfdififd {@dodf kfy}.
+     * Rfmovfs thf mbpping for thf spfdififd {@dodf kfy} from this dbdhf
+     * if it is prfsfnt bnd thf spfdififd {@dodf vbluf} is {@dodf null}.
+     * If thf dbdhf prfviously dontbinfd b mbpping for thf {@dodf kfy},
+     * thf old vbluf is rfplbdfd by thf spfdififd {@dodf vbluf}.
+     *
+     * @pbrbm kfy    thf kfy with whidh thf spfdififd vbluf is bssodibtfd
+     * @pbrbm vbluf  thf vbluf to bf bssodibtfd with thf spfdififd kfy
+     */
+    publid void put(K kfy, V vbluf) {
+        if (vbluf != null) {
+            this.mbp.put(kfy, nfw WfbkRfffrfndf<V>(vbluf));
+        }
+        flsf {
+            this.mbp.rfmovf(kfy);
+        }
+    }
+
+    /**
+     * Rfmovfs bll of thf mbppings from this dbdhf.
+     */
+    publid void dlfbr() {
+        this.mbp.dlfbr();
+    }
+}

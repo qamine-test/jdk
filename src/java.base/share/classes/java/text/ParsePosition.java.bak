@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998 - All Rigits Rfsfrvfd
  *
- *   The original version of this source code and documentation is copyrighted
- * and owned by Taligent, Inc., a wholly-owned subsidiary of IBM. These
- * materials are provided under terms of a License Agreement between Taligent
- * and Sun. This technology is protected by multiple US and International
- * patents. This notice and attribution to Taligent may not be removed.
- *   Taligent is a registered trademark of Taligent, Inc.
+ *   Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd
+ * bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd subsidibry of IBM. Tifsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package java.text;
+pbdkbgf jbvb.tfxt;
 
 
 /**
- * <code>ParsePosition</code> is a simple class used by <code>Format</code>
- * and its subclasses to keep track of the current position during parsing.
- * The <code>parseObject</code> method in the various <code>Format</code>
- * classes requires a <code>ParsePosition</code> object as an argument.
+ * <dodf>PbrsfPosition</dodf> is b simplf dlbss usfd by <dodf>Formbt</dodf>
+ * bnd its subdlbssfs to kffp trbdk of tif durrfnt position during pbrsing.
+ * Tif <dodf>pbrsfObjfdt</dodf> mftiod in tif vbrious <dodf>Formbt</dodf>
+ * dlbssfs rfquirfs b <dodf>PbrsfPosition</dodf> objfdt bs bn brgumfnt.
  *
  * <p>
- * By design, as you parse through a string with different formats,
- * you can use the same <code>ParsePosition</code>, since the index parameter
- * records the current position.
+ * By dfsign, bs you pbrsf tirougi b string witi difffrfnt formbts,
+ * you dbn usf tif sbmf <dodf>PbrsfPosition</dodf>, sindf tif indfx pbrbmftfr
+ * rfdords tif durrfnt position.
  *
- * @author      Mark Davis
- * @see         java.text.Format
+ * @butior      Mbrk Dbvis
+ * @sff         jbvb.tfxt.Formbt
  */
 
-public class ParsePosition {
+publid dlbss PbrsfPosition {
 
     /**
-     * Input: the place you start parsing.
-     * <br>Output: position where the parse stopped.
-     * This is designed to be used serially,
-     * with each call setting index up for the next one.
+     * Input: tif plbdf you stbrt pbrsing.
+     * <br>Output: position wifrf tif pbrsf stoppfd.
+     * Tiis is dfsignfd to bf usfd sfriblly,
+     * witi fbdi dbll sftting indfx up for tif nfxt onf.
      */
-    int index = 0;
-    int errorIndex = -1;
+    int indfx = 0;
+    int frrorIndfx = -1;
 
     /**
-     * Retrieve the current parse position.  On input to a parse method, this
-     * is the index of the character at which parsing will begin; on output, it
-     * is the index of the character following the last character parsed.
+     * Rftrifvf tif durrfnt pbrsf position.  On input to b pbrsf mftiod, tiis
+     * is tif indfx of tif dibrbdtfr bt wiidi pbrsing will bfgin; on output, it
+     * is tif indfx of tif dibrbdtfr following tif lbst dibrbdtfr pbrsfd.
      *
-     * @return the current parse position
+     * @rfturn tif durrfnt pbrsf position
      */
-    public int getIndex() {
-        return index;
+    publid int gftIndfx() {
+        rfturn indfx;
     }
 
     /**
-     * Set the current parse position.
+     * Sft tif durrfnt pbrsf position.
      *
-     * @param index the current parse position
+     * @pbrbm indfx tif durrfnt pbrsf position
      */
-    public void setIndex(int index) {
-        this.index = index;
+    publid void sftIndfx(int indfx) {
+        tiis.indfx = indfx;
     }
 
     /**
-     * Create a new ParsePosition with the given initial index.
+     * Crfbtf b nfw PbrsfPosition witi tif givfn initibl indfx.
      *
-     * @param index initial index
+     * @pbrbm indfx initibl indfx
      */
-    public ParsePosition(int index) {
-        this.index = index;
+    publid PbrsfPosition(int indfx) {
+        tiis.indfx = indfx;
     }
     /**
-     * Set the index at which a parse error occurred.  Formatters
-     * should set this before returning an error code from their
-     * parseObject method.  The default value is -1 if this is not set.
+     * Sft tif indfx bt wiidi b pbrsf frror oddurrfd.  Formbttfrs
+     * siould sft tiis bfforf rfturning bn frror dodf from tifir
+     * pbrsfObjfdt mftiod.  Tif dffbult vbluf is -1 if tiis is not sft.
      *
-     * @param ei the index at which an error occurred
-     * @since 1.2
+     * @pbrbm fi tif indfx bt wiidi bn frror oddurrfd
+     * @sindf 1.2
      */
-    public void setErrorIndex(int ei)
+    publid void sftErrorIndfx(int fi)
     {
-        errorIndex = ei;
+        frrorIndfx = fi;
     }
 
     /**
-     * Retrieve the index at which an error occurred, or -1 if the
-     * error index has not been set.
+     * Rftrifvf tif indfx bt wiidi bn frror oddurrfd, or -1 if tif
+     * frror indfx ibs not bffn sft.
      *
-     * @return the index at which an error occurred
-     * @since 1.2
+     * @rfturn tif indfx bt wiidi bn frror oddurrfd
+     * @sindf 1.2
      */
-    public int getErrorIndex()
+    publid int gftErrorIndfx()
     {
-        return errorIndex;
+        rfturn frrorIndfx;
     }
 
     /**
-     * Overrides equals
+     * Ovfrridfs fqubls
      */
-    public boolean equals(Object obj)
+    publid boolfbn fqubls(Objfdt obj)
     {
-        if (obj == null) return false;
-        if (!(obj instanceof ParsePosition))
-            return false;
-        ParsePosition other = (ParsePosition) obj;
-        return (index == other.index && errorIndex == other.errorIndex);
+        if (obj == null) rfturn fblsf;
+        if (!(obj instbndfof PbrsfPosition))
+            rfturn fblsf;
+        PbrsfPosition otifr = (PbrsfPosition) obj;
+        rfturn (indfx == otifr.indfx && frrorIndfx == otifr.frrorIndfx);
     }
 
     /**
-     * Returns a hash code for this ParsePosition.
-     * @return a hash code value for this object
+     * Rfturns b ibsi dodf for tiis PbrsfPosition.
+     * @rfturn b ibsi dodf vbluf for tiis objfdt
      */
-    public int hashCode() {
-        return (errorIndex << 16) | index;
+    publid int ibsiCodf() {
+        rfturn (frrorIndfx << 16) | indfx;
     }
 
     /**
-     * Return a string representation of this ParsePosition.
-     * @return  a string representation of this object
+     * Rfturn b string rfprfsfntbtion of tiis PbrsfPosition.
+     * @rfturn  b string rfprfsfntbtion of tiis objfdt
      */
-    public String toString() {
-        return getClass().getName() +
-            "[index=" + index +
-            ",errorIndex=" + errorIndex + ']';
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() +
+            "[indfx=" + indfx +
+            ",frrorIndfx=" + frrorIndfx + ']';
     }
 }

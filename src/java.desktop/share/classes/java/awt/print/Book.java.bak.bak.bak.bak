@@ -1,0 +1,221 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.print;
+
+import jbvb.util.Vfdtor;
+
+/**
+ * Thf <dodf>Book</dodf> dlbss providfs b rfprfsfntbtion of b dodumfnt in
+ * whidh pbgfs mby hbvf difffrfnt pbgf formbts bnd pbgf pbintfrs. This
+ * dlbss usfs thf {@link Pbgfbblf} intfrfbdf to intfrbdt with b
+ * {@link PrintfrJob}.
+ * @sff Pbgfbblf
+ * @sff PrintfrJob
+*/
+
+publid dlbss Book implfmfnts Pbgfbblf {
+
+ /* Clbss Constbnts */
+
+ /* Clbss Vbribblfs */
+
+ /* Instbndf Vbribblfs */
+
+    /**
+     * Thf sft of pbgfs thbt mbkf up thf Book.
+     */
+    privbtf Vfdtor<BookPbgf> mPbgfs;
+
+ /* Instbndf Mfthods */
+
+    /**
+     *  Crfbtfs b nfw, fmpty <dodf>Book</dodf>.
+     */
+    publid Book() {
+        mPbgfs = nfw Vfdtor<>();
+    }
+
+    /**
+     * Rfturns thf numbfr of pbgfs in this <dodf>Book</dodf>.
+     * @rfturn thf numbfr of pbgfs this <dodf>Book</dodf> dontbins.
+     */
+    publid int gftNumbfrOfPbgfs(){
+        rfturn mPbgfs.sizf();
+    }
+
+    /**
+     * Rfturns thf {@link PbgfFormbt} of thf pbgf spfdififd by
+     * <dodf>pbgfIndfx</dodf>.
+     * @pbrbm pbgfIndfx thf zfro bbsfd indfx of thf pbgf whosf
+     *            <dodf>PbgfFormbt</dodf> is bfing rfqufstfd
+     * @rfturn thf <dodf>PbgfFormbt</dodf> dfsdribing thf sizf bnd
+     *          orifntbtion of thf pbgf.
+     * @throws IndfxOutOfBoundsExdfption if thf <dodf>Pbgfbblf</dodf>
+     *          dofs not dontbin thf rfqufstfd pbgf
+     */
+    publid PbgfFormbt gftPbgfFormbt(int pbgfIndfx)
+        throws IndfxOutOfBoundsExdfption
+    {
+        rfturn gftPbgf(pbgfIndfx).gftPbgfFormbt();
+    }
+
+    /**
+     * Rfturns thf {@link Printbblf} instbndf rfsponsiblf for rfndfring
+     * thf pbgf spfdififd by <dodf>pbgfIndfx</dodf>.
+     * @pbrbm pbgfIndfx thf zfro bbsfd indfx of thf pbgf whosf
+     *                  <dodf>Printbblf</dodf> is bfing rfqufstfd
+     * @rfturn thf <dodf>Printbblf</dodf> thbt rfndfrs thf pbgf.
+     * @throws IndfxOutOfBoundsExdfption if thf <dodf>Pbgfbblf</dodf>
+     *            dofs not dontbin thf rfqufstfd pbgf
+     */
+    publid Printbblf gftPrintbblf(int pbgfIndfx)
+        throws IndfxOutOfBoundsExdfption
+    {
+        rfturn gftPbgf(pbgfIndfx).gftPrintbblf();
+    }
+
+    /**
+     * Sfts thf <dodf>PbgfFormbt</dodf> bnd thf <dodf>Pbintfr</dodf> for b
+     * spfdififd pbgf numbfr.
+     * @pbrbm pbgfIndfx thf zfro bbsfd indfx of thf pbgf whosf
+     *                  pbintfr bnd formbt is bltfrfd
+     * @pbrbm pbintfr   thf <dodf>Printbblf</dodf> instbndf thbt
+     *                  rfndfrs thf pbgf
+     * @pbrbm pbgf      thf sizf bnd orifntbtion of thf pbgf
+     * @throws IndfxOutOfBoundsExdfption if thf spfdififd
+     *          pbgf is not blrfbdy in this <dodf>Book</dodf>
+     * @throws NullPointfrExdfption if thf <dodf>pbintfr</dodf> or
+     *          <dodf>pbgf</dodf> brgumfnt is <dodf>null</dodf>
+     */
+    publid void sftPbgf(int pbgfIndfx, Printbblf pbintfr, PbgfFormbt pbgf)
+        throws IndfxOutOfBoundsExdfption
+    {
+        if (pbintfr == null) {
+            throw nfw NullPointfrExdfption("pbintfr is null");
+        }
+
+        if (pbgf == null) {
+            throw nfw NullPointfrExdfption("pbgf is null");
+        }
+
+        mPbgfs.sftElfmfntAt(nfw BookPbgf(pbintfr, pbgf), pbgfIndfx);
+    }
+
+    /**
+     * Appfnds b singlf pbgf to thf fnd of this <dodf>Book</dodf>.
+     * @pbrbm pbintfr   thf <dodf>Printbblf</dodf> instbndf thbt
+     *                  rfndfrs thf pbgf
+     * @pbrbm pbgf      thf sizf bnd orifntbtion of thf pbgf
+     * @throws NullPointfrExdfption
+     *          If thf <dodf>pbintfr</dodf> or <dodf>pbgf</dodf>
+     *          brgumfnt is <dodf>null</dodf>
+     */
+    publid void bppfnd(Printbblf pbintfr, PbgfFormbt pbgf) {
+        mPbgfs.bddElfmfnt(nfw BookPbgf(pbintfr, pbgf));
+    }
+
+    /**
+     * Appfnds <dodf>numPbgfs</dodf> pbgfs to thf fnd of this
+     * <dodf>Book</dodf>.  Ebdh of thf pbgfs is bssodibtfd with
+     * <dodf>pbgf</dodf>.
+     * @pbrbm pbintfr   thf <dodf>Printbblf</dodf> instbndf thbt rfndfrs
+     *                  thf pbgf
+     * @pbrbm pbgf      thf sizf bnd orifntbtion of thf pbgf
+     * @pbrbm numPbgfs  thf numbfr of pbgfs to bf bddfd to thf
+     *                  this <dodf>Book</dodf>.
+     * @throws NullPointfrExdfption
+     *          If thf <dodf>pbintfr</dodf> or <dodf>pbgf</dodf>
+     *          brgumfnt is <dodf>null</dodf>
+     */
+    publid void bppfnd(Printbblf pbintfr, PbgfFormbt pbgf, int numPbgfs) {
+        BookPbgf bookPbgf = nfw BookPbgf(pbintfr, pbgf);
+        int pbgfIndfx = mPbgfs.sizf();
+        int nfwSizf = pbgfIndfx + numPbgfs;
+
+        mPbgfs.sftSizf(nfwSizf);
+        for(int i = pbgfIndfx; i < nfwSizf; i++){
+            mPbgfs.sftElfmfntAt(bookPbgf, i);
+        }
+    }
+
+    /**
+     * Rfturn thf BookPbgf for thf pbgf spfdififd by 'pbgfIndfx'.
+     */
+    privbtf BookPbgf gftPbgf(int pbgfIndfx)
+        throws ArrbyIndfxOutOfBoundsExdfption
+    {
+        rfturn mPbgfs.flfmfntAt(pbgfIndfx);
+    }
+
+    /**
+     * Thf BookPbgf innfr dlbss dfsdribfs bn individubl
+     * pbgf in b Book through b PbgfFormbt-Printbblf pbir.
+     */
+    privbtf dlbss BookPbgf {
+        /**
+         *  Thf sizf bnd orifntbtion of thf pbgf.
+         */
+        privbtf PbgfFormbt mFormbt;
+
+        /**
+         * Thf instbndf thbt will drbw thf pbgf.
+         */
+        privbtf Printbblf mPbintfr;
+
+        /**
+         * A nfw instbndf whfrf 'formbt' dfsdribfs thf pbgf's
+         * sizf bnd orifntbtion bnd 'pbintfr' is thf instbndf
+         * thbt will drbw thf pbgf's grbphids.
+         * @throws  NullPointfrExdfption
+         *          If thf <dodf>pbintfr</dodf> or <dodf>formbt</dodf>
+         *          brgumfnt is <dodf>null</dodf>
+         */
+        BookPbgf(Printbblf pbintfr, PbgfFormbt formbt) {
+
+            if (pbintfr == null || formbt == null) {
+                throw nfw NullPointfrExdfption();
+            }
+
+            mFormbt = formbt;
+            mPbintfr = pbintfr;
+        }
+
+        /**
+         * Rfturn thf instbndf thbt pbints thf
+         * pbgf.
+         */
+        Printbblf gftPrintbblf() {
+            rfturn mPbintfr;
+        }
+
+        /**
+         * Rfturn thf formbt of thf pbgf.
+         */
+        PbgfFormbt gftPbgfFormbt() {
+            rfturn mFormbt;
+        }
+    }
+}

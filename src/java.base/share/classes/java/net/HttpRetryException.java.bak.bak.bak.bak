@@ -1,0 +1,99 @@
+/*
+ * Copyright (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+import jbvb.io.IOExdfption;
+
+/**
+ * Thrown to indidbtf thbt b HTTP rfqufst nffds to bf rftrifd
+ * but dbnnot bf rftrifd butombtidblly, duf to strfbming modf
+ * bfing fnbblfd.
+ *
+ * @buthor  Midhbfl MdMbhon
+ * @sindf   1.5
+ */
+publid
+dlbss HttpRftryExdfption fxtfnds IOExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = -9186022286469111381L;
+
+    privbtf int rfsponsfCodf;
+    privbtf String lodbtion;
+
+    /**
+     * Construdts b nfw {@dodf HttpRftryExdfption} from thf
+     * spfdififd rfsponsf dodf bnd fxdfption dftbil mfssbgf
+     *
+     * @pbrbm   dftbil   thf dftbil mfssbgf.
+     * @pbrbm   dodf   thf HTTP rfsponsf dodf from sfrvfr.
+     */
+    publid HttpRftryExdfption(String dftbil, int dodf) {
+        supfr(dftbil);
+        rfsponsfCodf = dodf;
+    }
+
+    /**
+     * Construdts b nfw {@dodf HttpRftryExdfption} with dftbil mfssbgf
+     * rfsponsfCodf bnd thf dontfnts of thf Lodbtion rfsponsf hfbdfr fifld.
+     *
+     * @pbrbm   dftbil   thf dftbil mfssbgf.
+     * @pbrbm   dodf   thf HTTP rfsponsf dodf from sfrvfr.
+     * @pbrbm   lodbtion   thf URL to bf rfdirfdtfd to
+     */
+    publid HttpRftryExdfption(String dftbil, int dodf, String lodbtion) {
+        supfr (dftbil);
+        rfsponsfCodf = dodf;
+        this.lodbtion = lodbtion;
+    }
+
+    /**
+     * Rfturns thf http rfsponsf dodf
+     *
+     * @rfturn  Thf http rfsponsf dodf.
+     */
+    publid int rfsponsfCodf() {
+        rfturn rfsponsfCodf;
+    }
+
+    /**
+     * Rfturns b string fxplbining why thf http rfqufst dould
+     * not bf rftrifd.
+     *
+     * @rfturn  Thf rfbson string
+     */
+    publid String gftRfbson() {
+        rfturn supfr.gftMfssbgf();
+    }
+
+    /**
+     * Rfturns thf vbluf of thf Lodbtion hfbdfr fifld if thf
+     * frror rfsultfd from rfdirfdtion.
+     *
+     * @rfturn Thf lodbtion string
+     */
+    publid String gftLodbtion() {
+        rfturn lodbtion;
+    }
+}

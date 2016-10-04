@@ -1,499 +1,499 @@
 #
-# This is the "master security properties file".
+# Tiis is tif "mbstfr sfdurity propfrtifs filf".
 #
-# An alternate java.security properties file may be specified
-# from the command line via the system property
+# An bltfrnbtf jbvb.sfdurity propfrtifs filf mby bf spfdififd
+# from tif dommbnd linf vib tif systfm propfrty
 #
-#    -Djava.security.properties=<URL>
+#    -Djbvb.sfdurity.propfrtifs=<URL>
 #
-# This properties file appends to the master security properties file.
-# If both properties files specify values for the same key, the value
-# from the command-line properties file is selected, as it is the last
-# one loaded.
+# Tiis propfrtifs filf bppfnds to tif mbstfr sfdurity propfrtifs filf.
+# If boti propfrtifs filfs spfdify vblufs for tif sbmf kfy, tif vbluf
+# from tif dommbnd-linf propfrtifs filf is sflfdtfd, bs it is tif lbst
+# onf lobdfd.
 #
-# Also, if you specify
+# Also, if you spfdify
 #
-#    -Djava.security.properties==<URL> (2 equals),
+#    -Djbvb.sfdurity.propfrtifs==<URL> (2 fqubls),
 #
-# then that properties file completely overrides the master security
-# properties file.
+# tifn tibt propfrtifs filf domplftfly ovfrridfs tif mbstfr sfdurity
+# propfrtifs filf.
 #
-# To disable the ability to specify an additional properties file from
-# the command line, set the key security.overridePropertiesFile
-# to false in the master security properties file. It is set to true
-# by default.
+# To disbblf tif bbility to spfdify bn bdditionbl propfrtifs filf from
+# tif dommbnd linf, sft tif kfy sfdurity.ovfrridfPropfrtifsFilf
+# to fblsf in tif mbstfr sfdurity propfrtifs filf. It is sft to truf
+# by dffbult.
 
-# In this file, various security properties are set for use by
-# java.security classes. This is where users can statically register
-# Cryptography Package Providers ("providers" for short). The term
-# "provider" refers to a package or set of packages that supply a
-# concrete implementation of a subset of the cryptography aspects of
-# the Java Security API. A provider may, for example, implement one or
-# more digital signature algorithms or message digest algorithms.
+# In tiis filf, vbrious sfdurity propfrtifs brf sft for usf by
+# jbvb.sfdurity dlbssfs. Tiis is wifrf usfrs dbn stbtidblly rfgistfr
+# Cryptogrbpiy Pbdkbgf Providfrs ("providfrs" for siort). Tif tfrm
+# "providfr" rfffrs to b pbdkbgf or sft of pbdkbgfs tibt supply b
+# dondrftf implfmfntbtion of b subsft of tif dryptogrbpiy bspfdts of
+# tif Jbvb Sfdurity API. A providfr mby, for fxbmplf, implfmfnt onf or
+# morf digitbl signbturf blgoritims or mfssbgf digfst blgoritims.
 #
-# Each provider must implement a subclass of the Provider class.
-# To register a provider in this master security properties file,
-# specify the Provider subclass name and priority in the format
+# Ebdi providfr must implfmfnt b subdlbss of tif Providfr dlbss.
+# To rfgistfr b providfr in tiis mbstfr sfdurity propfrtifs filf,
+# spfdify tif Providfr subdlbss nbmf bnd priority in tif formbt
 #
-#    security.provider.<n>=<className>
+#    sfdurity.providfr.<n>=<dlbssNbmf>
 #
-# This declares a provider, and specifies its preference
-# order n. The preference order is the order in which providers are
-# searched for requested algorithms (when no specific provider is
-# requested). The order is 1-based; 1 is the most preferred, followed
-# by 2, and so on.
+# Tiis dfdlbrfs b providfr, bnd spfdififs its prfffrfndf
+# ordfr n. Tif prfffrfndf ordfr is tif ordfr in wiidi providfrs brf
+# sfbrdifd for rfqufstfd blgoritims (wifn no spfdifid providfr is
+# rfqufstfd). Tif ordfr is 1-bbsfd; 1 is tif most prfffrrfd, followfd
+# by 2, bnd so on.
 #
-# <className> must specify the subclass of the Provider class whose
-# constructor sets the values of various properties that are required
-# for the Java Security API to look up the algorithms or other
-# facilities implemented by the provider.
+# <dlbssNbmf> must spfdify tif subdlbss of tif Providfr dlbss wiosf
+# donstrudtor sfts tif vblufs of vbrious propfrtifs tibt brf rfquirfd
+# for tif Jbvb Sfdurity API to look up tif blgoritims or otifr
+# fbdilitifs implfmfntfd by tif providfr.
 #
-# There must be at least one provider specification in java.security.
-# There is a default provider that comes standard with the JDK. It
-# is called the "SUN" provider, and its Provider subclass
-# named Sun appears in the sun.security.provider package. Thus, the
-# "SUN" provider is registered via the following:
+# Tifrf must bf bt lfbst onf providfr spfdifidbtion in jbvb.sfdurity.
+# Tifrf is b dffbult providfr tibt domfs stbndbrd witi tif JDK. It
+# is dbllfd tif "SUN" providfr, bnd its Providfr subdlbss
+# nbmfd Sun bppfbrs in tif sun.sfdurity.providfr pbdkbgf. Tius, tif
+# "SUN" providfr is rfgistfrfd vib tif following:
 #
-#    security.provider.1=sun.security.provider.Sun
+#    sfdurity.providfr.1=sun.sfdurity.providfr.Sun
 #
-# (The number 1 is used for the default provider.)
+# (Tif numbfr 1 is usfd for tif dffbult providfr.)
 #
-# Note: Providers can be dynamically registered instead by calls to
-# either the addProvider or insertProviderAt method in the Security
-# class.
-
-#
-# List of providers and their preference orders (see above):
-#
-security.provider.1=sun.security.provider.Sun
-security.provider.2=sun.security.rsa.SunRsaSign
-security.provider.3=sun.security.ec.SunEC
-security.provider.4=com.sun.net.ssl.internal.ssl.Provider
-security.provider.5=com.sun.crypto.provider.SunJCE
-security.provider.6=sun.security.jgss.SunProvider
-security.provider.7=com.sun.security.sasl.Provider
-security.provider.8=org.jcp.xml.dsig.internal.dom.XMLDSigRI
-security.provider.9=sun.security.smartcardio.SunPCSC
-security.provider.10=sun.security.mscapi.SunMSCAPI
+# Notf: Providfrs dbn bf dynbmidblly rfgistfrfd instfbd by dblls to
+# fitifr tif bddProvidfr or insfrtProvidfrAt mftiod in tif Sfdurity
+# dlbss.
 
 #
-# Sun Provider SecureRandom seed source.
+# List of providfrs bnd tifir prfffrfndf ordfrs (sff bbovf):
 #
-# Select the primary source of seed data for the "SHA1PRNG" and
-# "NativePRNG" SecureRandom implementations in the "Sun" provider.
-# (Other SecureRandom implementations might also use this property.)
+sfdurity.providfr.1=sun.sfdurity.providfr.Sun
+sfdurity.providfr.2=sun.sfdurity.rsb.SunRsbSign
+sfdurity.providfr.3=sun.sfdurity.fd.SunEC
+sfdurity.providfr.4=dom.sun.nft.ssl.intfrnbl.ssl.Providfr
+sfdurity.providfr.5=dom.sun.drypto.providfr.SunJCE
+sfdurity.providfr.6=sun.sfdurity.jgss.SunProvidfr
+sfdurity.providfr.7=dom.sun.sfdurity.sbsl.Providfr
+sfdurity.providfr.8=org.jdp.xml.dsig.intfrnbl.dom.XMLDSigRI
+sfdurity.providfr.9=sun.sfdurity.smbrtdbrdio.SunPCSC
+sfdurity.providfr.10=sun.sfdurity.msdbpi.SunMSCAPI
+
 #
-# On Unix-like systems (for example, Solaris/Linux/MacOS), the
-# "NativePRNG" and "SHA1PRNG" implementations obtains seed data from
-# special device files such as file:/dev/random.
+# Sun Providfr SfdurfRbndom sffd sourdf.
 #
-# On Windows systems, specifying the URLs "file:/dev/random" or
-# "file:/dev/urandom" will enable the native Microsoft CryptoAPI seeding
-# mechanism for SHA1PRNG.
+# Sflfdt tif primbry sourdf of sffd dbtb for tif "SHA1PRNG" bnd
+# "NbtivfPRNG" SfdurfRbndom implfmfntbtions in tif "Sun" providfr.
+# (Otifr SfdurfRbndom implfmfntbtions migit blso usf tiis propfrty.)
 #
-# By default, an attempt is made to use the entropy gathering device
-# specified by the "securerandom.source" Security property.  If an
-# exception occurs while accessing the specified URL:
+# On Unix-likf systfms (for fxbmplf, Solbris/Linux/MbdOS), tif
+# "NbtivfPRNG" bnd "SHA1PRNG" implfmfntbtions obtbins sffd dbtb from
+# spfdibl dfvidf filfs sudi bs filf:/dfv/rbndom.
+#
+# On Windows systfms, spfdifying tif URLs "filf:/dfv/rbndom" or
+# "filf:/dfv/urbndom" will fnbblf tif nbtivf Midrosoft CryptoAPI sffding
+# mfdibnism for SHA1PRNG.
+#
+# By dffbult, bn bttfmpt is mbdf to usf tif fntropy gbtifring dfvidf
+# spfdififd by tif "sfdurfrbndom.sourdf" Sfdurity propfrty.  If bn
+# fxdfption oddurs wiilf bddfssing tif spfdififd URL:
 #
 #     SHA1PRNG:
-#         the traditional system/thread activity algorithm will be used.
+#         tif trbditionbl systfm/tirfbd bdtivity blgoritim will bf usfd.
 #
-#     NativePRNG:
-#         a default value of /dev/random will be used.  If neither
-#         are available, the implementation will be disabled.
-#         "file" is the only currently supported protocol type.
+#     NbtivfPRNG:
+#         b dffbult vbluf of /dfv/rbndom will bf usfd.  If nfitifr
+#         brf bvbilbblf, tif implfmfntbtion will bf disbblfd.
+#         "filf" is tif only durrfntly supportfd protodol typf.
 #
-# The entropy gathering device can also be specified with the System
-# property "java.security.egd". For example:
+# Tif fntropy gbtifring dfvidf dbn blso bf spfdififd witi tif Systfm
+# propfrty "jbvb.sfdurity.fgd". For fxbmplf:
 #
-#   % java -Djava.security.egd=file:/dev/random MainClass
+#   % jbvb -Djbvb.sfdurity.fgd=filf:/dfv/rbndom MbinClbss
 #
-# Specifying this System property will override the
-# "securerandom.source" Security property.
+# Spfdifying tiis Systfm propfrty will ovfrridf tif
+# "sfdurfrbndom.sourdf" Sfdurity propfrty.
 #
-# In addition, if "file:/dev/random" or "file:/dev/urandom" is
-# specified, the "NativePRNG" implementation will be more preferred than
-# SHA1PRNG in the Sun provider.
+# In bddition, if "filf:/dfv/rbndom" or "filf:/dfv/urbndom" is
+# spfdififd, tif "NbtivfPRNG" implfmfntbtion will bf morf prfffrrfd tibn
+# SHA1PRNG in tif Sun providfr.
 #
-securerandom.source=file:/dev/random
+sfdurfrbndom.sourdf=filf:/dfv/rbndom
 
 #
-# A list of known strong SecureRandom implementations.
+# A list of known strong SfdurfRbndom implfmfntbtions.
 #
-# To help guide applications in selecting a suitable strong
-# java.security.SecureRandom implementation, Java distributions should
-# indicate a list of known strong implementations using the property.
+# To iflp guidf bpplidbtions in sflfdting b suitbblf strong
+# jbvb.sfdurity.SfdurfRbndom implfmfntbtion, Jbvb distributions siould
+# indidbtf b list of known strong implfmfntbtions using tif propfrty.
 #
-# This is a comma-separated list of algorithm and/or algorithm:provider
-# entries.
+# Tiis is b dommb-sfpbrbtfd list of blgoritim bnd/or blgoritim:providfr
+# fntrifs.
 #
-securerandom.strongAlgorithms=Windows-PRNG:SunMSCAPI,SHA1PRNG:SUN
+sfdurfrbndom.strongAlgoritims=Windows-PRNG:SunMSCAPI,SHA1PRNG:SUN
 
 #
-# Class to instantiate as the javax.security.auth.login.Configuration
-# provider.
+# Clbss to instbntibtf bs tif jbvbx.sfdurity.buti.login.Configurbtion
+# providfr.
 #
-login.configuration.provider=sun.security.provider.ConfigFile
+login.donfigurbtion.providfr=sun.sfdurity.providfr.ConfigFilf
 
 #
-# Default login configuration file
+# Dffbult login donfigurbtion filf
 #
-#login.config.url.1=file:${user.home}/.java.login.config
+#login.donfig.url.1=filf:${usfr.iomf}/.jbvb.login.donfig
 
 #
-# Class to instantiate as the system Policy. This is the name of the class
-# that will be used as the Policy object.
+# Clbss to instbntibtf bs tif systfm Polidy. Tiis is tif nbmf of tif dlbss
+# tibt will bf usfd bs tif Polidy objfdt.
 #
-policy.provider=sun.security.provider.PolicyFile
+polidy.providfr=sun.sfdurity.providfr.PolidyFilf
 
-# The default is to have a single system-wide policy file,
-# and a policy file in the user's home directory.
-policy.url.1=file:${java.home}/lib/security/java.policy
-policy.url.2=file:${user.home}/.java.policy
+# Tif dffbult is to ibvf b singlf systfm-widf polidy filf,
+# bnd b polidy filf in tif usfr's iomf dirfdtory.
+polidy.url.1=filf:${jbvb.iomf}/lib/sfdurity/jbvb.polidy
+polidy.url.2=filf:${usfr.iomf}/.jbvb.polidy
 
-# whether or not we expand properties in the policy file
-# if this is set to false, properties (${...}) will not be expanded in policy
-# files.
-policy.expandProperties=true
+# wiftifr or not wf fxpbnd propfrtifs in tif polidy filf
+# if tiis is sft to fblsf, propfrtifs (${...}) will not bf fxpbndfd in polidy
+# filfs.
+polidy.fxpbndPropfrtifs=truf
 
-# whether or not we allow an extra policy to be passed on the command line
-# with -Djava.security.policy=somefile. Comment out this line to disable
-# this feature.
-policy.allowSystemProperty=true
+# wiftifr or not wf bllow bn fxtrb polidy to bf pbssfd on tif dommbnd linf
+# witi -Djbvb.sfdurity.polidy=somffilf. Commfnt out tiis linf to disbblf
+# tiis ffbturf.
+polidy.bllowSystfmPropfrty=truf
 
-# whether or not we look into the IdentityScope for trusted Identities
-# when encountering a 1.1 signed JAR file. If the identity is found
-# and is trusted, we grant it AllPermission.
-policy.ignoreIdentityScope=false
-
-#
-# Default keystore type.
-#
-keystore.type=jks
+# wiftifr or not wf look into tif IdfntitySdopf for trustfd Idfntitifs
+# wifn fndountfring b 1.1 signfd JAR filf. If tif idfntity is found
+# bnd is trustfd, wf grbnt it AllPfrmission.
+polidy.ignorfIdfntitySdopf=fblsf
 
 #
-# List of comma-separated packages that start with or equal this string
-# will cause a security exception to be thrown when
-# passed to checkPackageAccess unless the
-# corresponding RuntimePermission ("accessClassInPackage."+package) has
-# been granted.
-package.access=sun.,\
-               com.sun.xml.internal.,\
-               com.sun.imageio.,\
-               com.sun.istack.internal.,\
-               com.sun.jmx.,\
-               com.sun.media.sound.,\
-               com.sun.naming.internal.,\
-               com.sun.proxy.,\
-               com.sun.corba.se.,\
-               com.sun.org.apache.bcel.internal.,\
-               com.sun.org.apache.regexp.internal.,\
-               com.sun.org.apache.xerces.internal.,\
-               com.sun.org.apache.xpath.internal.,\
-               com.sun.org.apache.xalan.internal.extensions.,\
-               com.sun.org.apache.xalan.internal.lib.,\
-               com.sun.org.apache.xalan.internal.res.,\
-               com.sun.org.apache.xalan.internal.templates.,\
-               com.sun.org.apache.xalan.internal.utils.,\
-               com.sun.org.apache.xalan.internal.xslt.,\
-               com.sun.org.apache.xalan.internal.xsltc.cmdline.,\
-               com.sun.org.apache.xalan.internal.xsltc.compiler.,\
-               com.sun.org.apache.xalan.internal.xsltc.trax.,\
-               com.sun.org.apache.xalan.internal.xsltc.util.,\
-               com.sun.org.apache.xml.internal.res.,\
-               com.sun.org.apache.xml.internal.security.,\
-               com.sun.org.apache.xml.internal.serializer.utils.,\
-               com.sun.org.apache.xml.internal.utils.,\
-               com.sun.org.glassfish.,\
-               com.oracle.xmlns.internal.,\
-               com.oracle.webservices.internal.,\
-               org.jcp.xml.dsig.internal.,\
-               jdk.internal.,\
-               jdk.nashorn.internal.,\
-               jdk.nashorn.tools.,\
-               com.sun.activation.registries.,\
-               com.sun.java.accessibility.
+# Dffbult kfystorf typf.
+#
+kfystorf.typf=jks
 
 #
-# List of comma-separated packages that start with or equal this string
-# will cause a security exception to be thrown when
-# passed to checkPackageDefinition unless the
-# corresponding RuntimePermission ("defineClassInPackage."+package) has
-# been granted.
-#
-# by default, none of the class loaders supplied with the JDK call
-# checkPackageDefinition.
-#
-package.definition=sun.,\
-                   com.sun.xml.internal.,\
-                   com.sun.imageio.,\
-                   com.sun.istack.internal.,\
-                   com.sun.jmx.,\
-                   com.sun.media.sound.,\
-                   com.sun.naming.internal.,\
-                   com.sun.proxy.,\
-                   com.sun.corba.se.,\
-                   com.sun.org.apache.bcel.internal.,\
-                   com.sun.org.apache.regexp.internal.,\
-                   com.sun.org.apache.xerces.internal.,\
-                   com.sun.org.apache.xpath.internal.,\
-                   com.sun.org.apache.xalan.internal.extensions.,\
-                   com.sun.org.apache.xalan.internal.lib.,\
-                   com.sun.org.apache.xalan.internal.res.,\
-                   com.sun.org.apache.xalan.internal.templates.,\
-                   com.sun.org.apache.xalan.internal.utils.,\
-                   com.sun.org.apache.xalan.internal.xslt.,\
-                   com.sun.org.apache.xalan.internal.xsltc.cmdline.,\
-                   com.sun.org.apache.xalan.internal.xsltc.compiler.,\
-                   com.sun.org.apache.xalan.internal.xsltc.trax.,\
-                   com.sun.org.apache.xalan.internal.xsltc.util.,\
-                   com.sun.org.apache.xml.internal.res.,\
-                   com.sun.org.apache.xml.internal.security.,\
-                   com.sun.org.apache.xml.internal.serializer.utils.,\
-                   com.sun.org.apache.xml.internal.utils.,\
-                   com.sun.org.glassfish.,\
-                   com.oracle.xmlns.internal.,\
-                   com.oracle.webservices.internal.,\
-                   org.jcp.xml.dsig.internal.,\
-                   jdk.internal.,\
-                   jdk.nashorn.internal.,\
-                   jdk.nashorn.tools.,\
-                   com.sun.activation.registries.,\
-                   com.sun.java.accessibility.
+# List of dommb-sfpbrbtfd pbdkbgfs tibt stbrt witi or fqubl tiis string
+# will dbusf b sfdurity fxdfption to bf tirown wifn
+# pbssfd to difdkPbdkbgfAddfss unlfss tif
+# dorrfsponding RuntimfPfrmission ("bddfssClbssInPbdkbgf."+pbdkbgf) ibs
+# bffn grbntfd.
+pbdkbgf.bddfss=sun.,\
+               dom.sun.xml.intfrnbl.,\
+               dom.sun.imbgfio.,\
+               dom.sun.istbdk.intfrnbl.,\
+               dom.sun.jmx.,\
+               dom.sun.mfdib.sound.,\
+               dom.sun.nbming.intfrnbl.,\
+               dom.sun.proxy.,\
+               dom.sun.dorbb.sf.,\
+               dom.sun.org.bpbdif.bdfl.intfrnbl.,\
+               dom.sun.org.bpbdif.rfgfxp.intfrnbl.,\
+               dom.sun.org.bpbdif.xfrdfs.intfrnbl.,\
+               dom.sun.org.bpbdif.xpbti.intfrnbl.,\
+               dom.sun.org.bpbdif.xblbn.intfrnbl.fxtfnsions.,\
+               dom.sun.org.bpbdif.xblbn.intfrnbl.lib.,\
+               dom.sun.org.bpbdif.xblbn.intfrnbl.rfs.,\
+               dom.sun.org.bpbdif.xblbn.intfrnbl.tfmplbtfs.,\
+               dom.sun.org.bpbdif.xblbn.intfrnbl.utils.,\
+               dom.sun.org.bpbdif.xblbn.intfrnbl.xslt.,\
+               dom.sun.org.bpbdif.xblbn.intfrnbl.xsltd.dmdlinf.,\
+               dom.sun.org.bpbdif.xblbn.intfrnbl.xsltd.dompilfr.,\
+               dom.sun.org.bpbdif.xblbn.intfrnbl.xsltd.trbx.,\
+               dom.sun.org.bpbdif.xblbn.intfrnbl.xsltd.util.,\
+               dom.sun.org.bpbdif.xml.intfrnbl.rfs.,\
+               dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.,\
+               dom.sun.org.bpbdif.xml.intfrnbl.sfriblizfr.utils.,\
+               dom.sun.org.bpbdif.xml.intfrnbl.utils.,\
+               dom.sun.org.glbssfisi.,\
+               dom.orbdlf.xmlns.intfrnbl.,\
+               dom.orbdlf.wfbsfrvidfs.intfrnbl.,\
+               org.jdp.xml.dsig.intfrnbl.,\
+               jdk.intfrnbl.,\
+               jdk.nbsiorn.intfrnbl.,\
+               jdk.nbsiorn.tools.,\
+               dom.sun.bdtivbtion.rfgistrifs.,\
+               dom.sun.jbvb.bddfssibility.
 
 #
-# Determines whether this properties file can be appended to
-# or overridden on the command line via -Djava.security.properties
+# List of dommb-sfpbrbtfd pbdkbgfs tibt stbrt witi or fqubl tiis string
+# will dbusf b sfdurity fxdfption to bf tirown wifn
+# pbssfd to difdkPbdkbgfDffinition unlfss tif
+# dorrfsponding RuntimfPfrmission ("dffinfClbssInPbdkbgf."+pbdkbgf) ibs
+# bffn grbntfd.
 #
-security.overridePropertiesFile=true
+# by dffbult, nonf of tif dlbss lobdfrs supplifd witi tif JDK dbll
+# difdkPbdkbgfDffinition.
+#
+pbdkbgf.dffinition=sun.,\
+                   dom.sun.xml.intfrnbl.,\
+                   dom.sun.imbgfio.,\
+                   dom.sun.istbdk.intfrnbl.,\
+                   dom.sun.jmx.,\
+                   dom.sun.mfdib.sound.,\
+                   dom.sun.nbming.intfrnbl.,\
+                   dom.sun.proxy.,\
+                   dom.sun.dorbb.sf.,\
+                   dom.sun.org.bpbdif.bdfl.intfrnbl.,\
+                   dom.sun.org.bpbdif.rfgfxp.intfrnbl.,\
+                   dom.sun.org.bpbdif.xfrdfs.intfrnbl.,\
+                   dom.sun.org.bpbdif.xpbti.intfrnbl.,\
+                   dom.sun.org.bpbdif.xblbn.intfrnbl.fxtfnsions.,\
+                   dom.sun.org.bpbdif.xblbn.intfrnbl.lib.,\
+                   dom.sun.org.bpbdif.xblbn.intfrnbl.rfs.,\
+                   dom.sun.org.bpbdif.xblbn.intfrnbl.tfmplbtfs.,\
+                   dom.sun.org.bpbdif.xblbn.intfrnbl.utils.,\
+                   dom.sun.org.bpbdif.xblbn.intfrnbl.xslt.,\
+                   dom.sun.org.bpbdif.xblbn.intfrnbl.xsltd.dmdlinf.,\
+                   dom.sun.org.bpbdif.xblbn.intfrnbl.xsltd.dompilfr.,\
+                   dom.sun.org.bpbdif.xblbn.intfrnbl.xsltd.trbx.,\
+                   dom.sun.org.bpbdif.xblbn.intfrnbl.xsltd.util.,\
+                   dom.sun.org.bpbdif.xml.intfrnbl.rfs.,\
+                   dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.,\
+                   dom.sun.org.bpbdif.xml.intfrnbl.sfriblizfr.utils.,\
+                   dom.sun.org.bpbdif.xml.intfrnbl.utils.,\
+                   dom.sun.org.glbssfisi.,\
+                   dom.orbdlf.xmlns.intfrnbl.,\
+                   dom.orbdlf.wfbsfrvidfs.intfrnbl.,\
+                   org.jdp.xml.dsig.intfrnbl.,\
+                   jdk.intfrnbl.,\
+                   jdk.nbsiorn.intfrnbl.,\
+                   jdk.nbsiorn.tools.,\
+                   dom.sun.bdtivbtion.rfgistrifs.,\
+                   dom.sun.jbvb.bddfssibility.
 
 #
-# Determines the default key and trust manager factory algorithms for
-# the javax.net.ssl package.
+# Dftfrminfs wiftifr tiis propfrtifs filf dbn bf bppfndfd to
+# or ovfrriddfn on tif dommbnd linf vib -Djbvb.sfdurity.propfrtifs
 #
-ssl.KeyManagerFactory.algorithm=SunX509
-ssl.TrustManagerFactory.algorithm=PKIX
+sfdurity.ovfrridfPropfrtifsFilf=truf
 
 #
-# The Java-level namelookup cache policy for successful lookups:
+# Dftfrminfs tif dffbult kfy bnd trust mbnbgfr fbdtory blgoritims for
+# tif jbvbx.nft.ssl pbdkbgf.
 #
-# any negative value: caching forever
-# any positive value: the number of seconds to cache an address for
-# zero: do not cache
-#
-# default value is forever (FOREVER). For security reasons, this
-# caching is made forever when a security manager is set. When a security
-# manager is not set, the default behavior in this implementation
-# is to cache for 30 seconds.
-#
-# NOTE: setting this to anything other than the default value can have
-#       serious security implications. Do not set it unless
-#       you are sure you are not exposed to DNS spoofing attack.
-#
-#networkaddress.cache.ttl=-1
-
-# The Java-level namelookup cache policy for failed lookups:
-#
-# any negative value: cache forever
-# any positive value: the number of seconds to cache negative lookup results
-# zero: do not cache
-#
-# In some Microsoft Windows networking environments that employ
-# the WINS name service in addition to DNS, name service lookups
-# that fail may take a noticeably long time to return (approx. 5 seconds).
-# For this reason the default caching policy is to maintain these
-# results for 10 seconds.
-#
-#
-networkaddress.cache.negative.ttl=10
+ssl.KfyMbnbgfrFbdtory.blgoritim=SunX509
+ssl.TrustMbnbgfrFbdtory.blgoritim=PKIX
 
 #
-# Properties to configure OCSP for certificate revocation checking
+# Tif Jbvb-lfvfl nbmflookup dbdif polidy for suddfssful lookups:
 #
+# bny nfgbtivf vbluf: dbdiing forfvfr
+# bny positivf vbluf: tif numbfr of sfdonds to dbdif bn bddrfss for
+# zfro: do not dbdif
+#
+# dffbult vbluf is forfvfr (FOREVER). For sfdurity rfbsons, tiis
+# dbdiing is mbdf forfvfr wifn b sfdurity mbnbgfr is sft. Wifn b sfdurity
+# mbnbgfr is not sft, tif dffbult bfibvior in tiis implfmfntbtion
+# is to dbdif for 30 sfdonds.
+#
+# NOTE: sftting tiis to bnytiing otifr tibn tif dffbult vbluf dbn ibvf
+#       sfrious sfdurity implidbtions. Do not sft it unlfss
+#       you brf surf you brf not fxposfd to DNS spoofing bttbdk.
+#
+#nftworkbddrfss.dbdif.ttl=-1
 
-# Enable OCSP
+# Tif Jbvb-lfvfl nbmflookup dbdif polidy for fbilfd lookups:
 #
-# By default, OCSP is not used for certificate revocation checking.
-# This property enables the use of OCSP when set to the value "true".
+# bny nfgbtivf vbluf: dbdif forfvfr
+# bny positivf vbluf: tif numbfr of sfdonds to dbdif nfgbtivf lookup rfsults
+# zfro: do not dbdif
 #
-# NOTE: SocketPermission is required to connect to an OCSP responder.
+# In somf Midrosoft Windows nftworking fnvironmfnts tibt fmploy
+# tif WINS nbmf sfrvidf in bddition to DNS, nbmf sfrvidf lookups
+# tibt fbil mby tbkf b notidfbbly long timf to rfturn (bpprox. 5 sfdonds).
+# For tiis rfbson tif dffbult dbdiing polidy is to mbintbin tifsf
+# rfsults for 10 sfdonds.
 #
-# Example,
-#   ocsp.enable=true
-
 #
-# Location of the OCSP responder
-#
-# By default, the location of the OCSP responder is determined implicitly
-# from the certificate being validated. This property explicitly specifies
-# the location of the OCSP responder. The property is used when the
-# Authority Information Access extension (defined in RFC 3280) is absent
-# from the certificate or when it requires overriding.
-#
-# Example,
-#   ocsp.responderURL=http://ocsp.example.net:80
-
-#
-# Subject name of the OCSP responder's certificate
-#
-# By default, the certificate of the OCSP responder is that of the issuer
-# of the certificate being validated. This property identifies the certificate
-# of the OCSP responder when the default does not apply. Its value is a string
-# distinguished name (defined in RFC 2253) which identifies a certificate in
-# the set of certificates supplied during cert path validation. In cases where
-# the subject name alone is not sufficient to uniquely identify the certificate
-# then both the "ocsp.responderCertIssuerName" and
-# "ocsp.responderCertSerialNumber" properties must be used instead. When this
-# property is set then those two properties are ignored.
-#
-# Example,
-#   ocsp.responderCertSubjectName="CN=OCSP Responder, O=XYZ Corp"
+nftworkbddrfss.dbdif.nfgbtivf.ttl=10
 
 #
-# Issuer name of the OCSP responder's certificate
+# Propfrtifs to donfigurf OCSP for dfrtifidbtf rfvodbtion difdking
 #
-# By default, the certificate of the OCSP responder is that of the issuer
-# of the certificate being validated. This property identifies the certificate
-# of the OCSP responder when the default does not apply. Its value is a string
-# distinguished name (defined in RFC 2253) which identifies a certificate in
-# the set of certificates supplied during cert path validation. When this
-# property is set then the "ocsp.responderCertSerialNumber" property must also
-# be set. When the "ocsp.responderCertSubjectName" property is set then this
-# property is ignored.
+
+# Enbblf OCSP
 #
-# Example,
-#   ocsp.responderCertIssuerName="CN=Enterprise CA, O=XYZ Corp"
+# By dffbult, OCSP is not usfd for dfrtifidbtf rfvodbtion difdking.
+# Tiis propfrty fnbblfs tif usf of OCSP wifn sft to tif vbluf "truf".
+#
+# NOTE: SodkftPfrmission is rfquirfd to donnfdt to bn OCSP rfspondfr.
+#
+# Exbmplf,
+#   odsp.fnbblf=truf
 
 #
-# Serial number of the OCSP responder's certificate
+# Lodbtion of tif OCSP rfspondfr
 #
-# By default, the certificate of the OCSP responder is that of the issuer
-# of the certificate being validated. This property identifies the certificate
-# of the OCSP responder when the default does not apply. Its value is a string
-# of hexadecimal digits (colon or space separators may be present) which
-# identifies a certificate in the set of certificates supplied during cert path
-# validation. When this property is set then the "ocsp.responderCertIssuerName"
-# property must also be set. When the "ocsp.responderCertSubjectName" property
-# is set then this property is ignored.
+# By dffbult, tif lodbtion of tif OCSP rfspondfr is dftfrminfd impliditly
+# from tif dfrtifidbtf bfing vblidbtfd. Tiis propfrty fxpliditly spfdififs
+# tif lodbtion of tif OCSP rfspondfr. Tif propfrty is usfd wifn tif
+# Autiority Informbtion Addfss fxtfnsion (dffinfd in RFC 3280) is bbsfnt
+# from tif dfrtifidbtf or wifn it rfquirfs ovfrriding.
 #
-# Example,
-#   ocsp.responderCertSerialNumber=2A:FF:00
+# Exbmplf,
+#   odsp.rfspondfrURL=ittp://odsp.fxbmplf.nft:80
 
 #
-# Policy for failed Kerberos KDC lookups:
+# Subjfdt nbmf of tif OCSP rfspondfr's dfrtifidbtf
 #
-# When a KDC is unavailable (network error, service failure, etc), it is
-# put inside a blacklist and accessed less often for future requests. The
-# value (case-insensitive) for this policy can be:
+# By dffbult, tif dfrtifidbtf of tif OCSP rfspondfr is tibt of tif issufr
+# of tif dfrtifidbtf bfing vblidbtfd. Tiis propfrty idfntififs tif dfrtifidbtf
+# of tif OCSP rfspondfr wifn tif dffbult dofs not bpply. Its vbluf is b string
+# distinguisifd nbmf (dffinfd in RFC 2253) wiidi idfntififs b dfrtifidbtf in
+# tif sft of dfrtifidbtfs supplifd during dfrt pbti vblidbtion. In dbsfs wifrf
+# tif subjfdt nbmf blonf is not suffidifnt to uniqufly idfntify tif dfrtifidbtf
+# tifn boti tif "odsp.rfspondfrCfrtIssufrNbmf" bnd
+# "odsp.rfspondfrCfrtSfriblNumbfr" propfrtifs must bf usfd instfbd. Wifn tiis
+# propfrty is sft tifn tiosf two propfrtifs brf ignorfd.
 #
-# tryLast
-#    KDCs in the blacklist are always tried after those not on the list.
-#
-# tryLess[:max_retries,timeout]
-#    KDCs in the blacklist are still tried by their order in the configuration,
-#    but with smaller max_retries and timeout values. max_retries and timeout
-#    are optional numerical parameters (default 1 and 5000, which means once
-#    and 5 seconds). Please notes that if any of the values defined here is
-#    more than what is defined in krb5.conf, it will be ignored.
-#
-# Whenever a KDC is detected as available, it is removed from the blacklist.
-# The blacklist is reset when krb5.conf is reloaded. You can add
-# refreshKrb5Config=true to a JAAS configuration file so that krb5.conf is
-# reloaded whenever a JAAS authentication is attempted.
-#
-# Example,
-#   krb5.kdc.bad.policy = tryLast
-#   krb5.kdc.bad.policy = tryLess:2,2000
-krb5.kdc.bad.policy = tryLast
+# Exbmplf,
+#   odsp.rfspondfrCfrtSubjfdtNbmf="CN=OCSP Rfspondfr, O=XYZ Corp"
 
-# Algorithm restrictions for certification path (CertPath) processing
 #
-# In some environments, certain algorithms or key lengths may be undesirable
-# for certification path building and validation.  For example, "MD2" is
-# generally no longer considered to be a secure hash algorithm.  This section
-# describes the mechanism for disabling algorithms based on algorithm name
-# and/or key length.  This includes algorithms used in certificates, as well
-# as revocation information such as CRLs and signed OCSP Responses.
+# Issufr nbmf of tif OCSP rfspondfr's dfrtifidbtf
 #
-# The syntax of the disabled algorithm string is described as this Java
-# BNF-style:
-#   DisabledAlgorithms:
-#       " DisabledAlgorithm { , DisabledAlgorithm } "
+# By dffbult, tif dfrtifidbtf of tif OCSP rfspondfr is tibt of tif issufr
+# of tif dfrtifidbtf bfing vblidbtfd. Tiis propfrty idfntififs tif dfrtifidbtf
+# of tif OCSP rfspondfr wifn tif dffbult dofs not bpply. Its vbluf is b string
+# distinguisifd nbmf (dffinfd in RFC 2253) wiidi idfntififs b dfrtifidbtf in
+# tif sft of dfrtifidbtfs supplifd during dfrt pbti vblidbtion. Wifn tiis
+# propfrty is sft tifn tif "odsp.rfspondfrCfrtSfriblNumbfr" propfrty must blso
+# bf sft. Wifn tif "odsp.rfspondfrCfrtSubjfdtNbmf" propfrty is sft tifn tiis
+# propfrty is ignorfd.
 #
-#   DisabledAlgorithm:
-#       AlgorithmName [Constraint]
+# Exbmplf,
+#   odsp.rfspondfrCfrtIssufrNbmf="CN=Entfrprisf CA, O=XYZ Corp"
+
 #
-#   AlgorithmName:
-#       (see below)
+# Sfribl numbfr of tif OCSP rfspondfr's dfrtifidbtf
 #
-#   Constraint:
-#       KeySizeConstraint
+# By dffbult, tif dfrtifidbtf of tif OCSP rfspondfr is tibt of tif issufr
+# of tif dfrtifidbtf bfing vblidbtfd. Tiis propfrty idfntififs tif dfrtifidbtf
+# of tif OCSP rfspondfr wifn tif dffbult dofs not bpply. Its vbluf is b string
+# of ifxbdfdimbl digits (dolon or spbdf sfpbrbtors mby bf prfsfnt) wiidi
+# idfntififs b dfrtifidbtf in tif sft of dfrtifidbtfs supplifd during dfrt pbti
+# vblidbtion. Wifn tiis propfrty is sft tifn tif "odsp.rfspondfrCfrtIssufrNbmf"
+# propfrty must blso bf sft. Wifn tif "odsp.rfspondfrCfrtSubjfdtNbmf" propfrty
+# is sft tifn tiis propfrty is ignorfd.
 #
-#   KeySizeConstraint:
-#       keySize Operator DecimalInteger
+# Exbmplf,
+#   odsp.rfspondfrCfrtSfriblNumbfr=2A:FF:00
+
 #
-#   Operator:
+# Polidy for fbilfd Kfrbfros KDC lookups:
+#
+# Wifn b KDC is unbvbilbblf (nftwork frror, sfrvidf fbilurf, ftd), it is
+# put insidf b blbdklist bnd bddfssfd lfss oftfn for futurf rfqufsts. Tif
+# vbluf (dbsf-insfnsitivf) for tiis polidy dbn bf:
+#
+# tryLbst
+#    KDCs in tif blbdklist brf blwbys trifd bftfr tiosf not on tif list.
+#
+# tryLfss[:mbx_rftrifs,timfout]
+#    KDCs in tif blbdklist brf still trifd by tifir ordfr in tif donfigurbtion,
+#    but witi smbllfr mbx_rftrifs bnd timfout vblufs. mbx_rftrifs bnd timfout
+#    brf optionbl numfridbl pbrbmftfrs (dffbult 1 bnd 5000, wiidi mfbns ondf
+#    bnd 5 sfdonds). Plfbsf notfs tibt if bny of tif vblufs dffinfd ifrf is
+#    morf tibn wibt is dffinfd in krb5.donf, it will bf ignorfd.
+#
+# Wifnfvfr b KDC is dftfdtfd bs bvbilbblf, it is rfmovfd from tif blbdklist.
+# Tif blbdklist is rfsft wifn krb5.donf is rflobdfd. You dbn bdd
+# rffrfsiKrb5Config=truf to b JAAS donfigurbtion filf so tibt krb5.donf is
+# rflobdfd wifnfvfr b JAAS butifntidbtion is bttfmptfd.
+#
+# Exbmplf,
+#   krb5.kdd.bbd.polidy = tryLbst
+#   krb5.kdd.bbd.polidy = tryLfss:2,2000
+krb5.kdd.bbd.polidy = tryLbst
+
+# Algoritim rfstridtions for dfrtifidbtion pbti (CfrtPbti) prodfssing
+#
+# In somf fnvironmfnts, dfrtbin blgoritims or kfy lfngtis mby bf undfsirbblf
+# for dfrtifidbtion pbti building bnd vblidbtion.  For fxbmplf, "MD2" is
+# gfnfrblly no longfr donsidfrfd to bf b sfdurf ibsi blgoritim.  Tiis sfdtion
+# dfsdribfs tif mfdibnism for disbbling blgoritims bbsfd on blgoritim nbmf
+# bnd/or kfy lfngti.  Tiis indludfs blgoritims usfd in dfrtifidbtfs, bs wfll
+# bs rfvodbtion informbtion sudi bs CRLs bnd signfd OCSP Rfsponsfs.
+#
+# Tif syntbx of tif disbblfd blgoritim string is dfsdribfd bs tiis Jbvb
+# BNF-stylf:
+#   DisbblfdAlgoritims:
+#       " DisbblfdAlgoritim { , DisbblfdAlgoritim } "
+#
+#   DisbblfdAlgoritim:
+#       AlgoritimNbmf [Constrbint]
+#
+#   AlgoritimNbmf:
+#       (sff bflow)
+#
+#   Constrbint:
+#       KfySizfConstrbint
+#
+#   KfySizfConstrbint:
+#       kfySizf Opfrbtor DfdimblIntfgfr
+#
+#   Opfrbtor:
 #       <= | < | == | != | >= | >
 #
-#   DecimalInteger:
-#       DecimalDigits
+#   DfdimblIntfgfr:
+#       DfdimblDigits
 #
-#   DecimalDigits:
-#       DecimalDigit {DecimalDigit}
+#   DfdimblDigits:
+#       DfdimblDigit {DfdimblDigit}
 #
-#   DecimalDigit: one of
+#   DfdimblDigit: onf of
 #       1 2 3 4 5 6 7 8 9 0
 #
-# The "AlgorithmName" is the standard algorithm name of the disabled
-# algorithm. See "Java Cryptography Architecture Standard Algorithm Name
-# Documentation" for information about Standard Algorithm Names.  Matching
-# is performed using a case-insensitive sub-element matching rule.  (For
-# example, in "SHA1withECDSA" the sub-elements are "SHA1" for hashing and
-# "ECDSA" for signatures.)  If the assertion "AlgorithmName" is a
-# sub-element of the certificate algorithm name, the algorithm will be
-# rejected during certification path building and validation.  For example,
-# the assertion algorithm name "DSA" will disable all certificate algorithms
-# that rely on DSA, such as NONEwithDSA, SHA1withDSA.  However, the assertion
-# will not disable algorithms related to "ECDSA".
+# Tif "AlgoritimNbmf" is tif stbndbrd blgoritim nbmf of tif disbblfd
+# blgoritim. Sff "Jbvb Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf
+# Dodumfntbtion" for informbtion bbout Stbndbrd Algoritim Nbmfs.  Mbtdiing
+# is pfrformfd using b dbsf-insfnsitivf sub-flfmfnt mbtdiing rulf.  (For
+# fxbmplf, in "SHA1witiECDSA" tif sub-flfmfnts brf "SHA1" for ibsiing bnd
+# "ECDSA" for signbturfs.)  If tif bssfrtion "AlgoritimNbmf" is b
+# sub-flfmfnt of tif dfrtifidbtf blgoritim nbmf, tif blgoritim will bf
+# rfjfdtfd during dfrtifidbtion pbti building bnd vblidbtion.  For fxbmplf,
+# tif bssfrtion blgoritim nbmf "DSA" will disbblf bll dfrtifidbtf blgoritims
+# tibt rfly on DSA, sudi bs NONEwitiDSA, SHA1witiDSA.  Howfvfr, tif bssfrtion
+# will not disbblf blgoritims rflbtfd to "ECDSA".
 #
-# A "Constraint" provides further guidance for the algorithm being specified.
-# The "KeySizeConstraint" requires a key of a valid size range if the
-# "AlgorithmName" is of a key algorithm.  The "DecimalInteger" indicates the
-# key size specified in number of bits.  For example, "RSA keySize <= 1024"
-# indicates that any RSA key with key size less than or equal to 1024 bits
-# should be disabled, and "RSA keySize < 1024, RSA keySize > 2048" indicates
-# that any RSA key with key size less than 1024 or greater than 2048 should
-# be disabled. Note that the "KeySizeConstraint" only makes sense to key
-# algorithms.
+# A "Constrbint" providfs furtifr guidbndf for tif blgoritim bfing spfdififd.
+# Tif "KfySizfConstrbint" rfquirfs b kfy of b vblid sizf rbngf if tif
+# "AlgoritimNbmf" is of b kfy blgoritim.  Tif "DfdimblIntfgfr" indidbtfs tif
+# kfy sizf spfdififd in numbfr of bits.  For fxbmplf, "RSA kfySizf <= 1024"
+# indidbtfs tibt bny RSA kfy witi kfy sizf lfss tibn or fqubl to 1024 bits
+# siould bf disbblfd, bnd "RSA kfySizf < 1024, RSA kfySizf > 2048" indidbtfs
+# tibt bny RSA kfy witi kfy sizf lfss tibn 1024 or grfbtfr tibn 2048 siould
+# bf disbblfd. Notf tibt tif "KfySizfConstrbint" only mbkfs sfnsf to kfy
+# blgoritims.
 #
-# Note: This property is currently used by Oracle's PKIX implementation. It
-# is not guaranteed to be examined and used by other implementations.
+# Notf: Tiis propfrty is durrfntly usfd by Orbdlf's PKIX implfmfntbtion. It
+# is not gubrbntffd to bf fxbminfd bnd usfd by otifr implfmfntbtions.
 #
-# Example:
-#   jdk.certpath.disabledAlgorithms=MD2, DSA, RSA keySize < 2048
+# Exbmplf:
+#   jdk.dfrtpbti.disbblfdAlgoritims=MD2, DSA, RSA kfySizf < 2048
 #
 #
-jdk.certpath.disabledAlgorithms=MD2, MD5, RSA keySize < 1024
+jdk.dfrtpbti.disbblfdAlgoritims=MD2, MD5, RSA kfySizf < 1024
 
-# Algorithm restrictions for Secure Socket Layer/Transport Layer Security
-# (SSL/TLS) processing
+# Algoritim rfstridtions for Sfdurf Sodkft Lbyfr/Trbnsport Lbyfr Sfdurity
+# (SSL/TLS) prodfssing
 #
-# In some environments, certain algorithms or key lengths may be undesirable
-# when using SSL/TLS.  This section describes the mechanism for disabling
-# algorithms during SSL/TLS security parameters negotiation, including cipher
-# suites selection, peer authentication and key exchange mechanisms.
+# In somf fnvironmfnts, dfrtbin blgoritims or kfy lfngtis mby bf undfsirbblf
+# wifn using SSL/TLS.  Tiis sfdtion dfsdribfs tif mfdibnism for disbbling
+# blgoritims during SSL/TLS sfdurity pbrbmftfrs nfgotibtion, indluding dipifr
+# suitfs sflfdtion, pffr butifntidbtion bnd kfy fxdibngf mfdibnisms.
 #
-# For PKI-based peer authentication and key exchange mechanisms, this list
-# of disabled algorithms will also be checked during certification path
-# building and validation, including algorithms used in certificates, as
-# well as revocation information such as CRLs and signed OCSP Responses.
-# This is in addition to the jdk.certpath.disabledAlgorithms property above.
+# For PKI-bbsfd pffr butifntidbtion bnd kfy fxdibngf mfdibnisms, tiis list
+# of disbblfd blgoritims will blso bf difdkfd during dfrtifidbtion pbti
+# building bnd vblidbtion, indluding blgoritims usfd in dfrtifidbtfs, bs
+# wfll bs rfvodbtion informbtion sudi bs CRLs bnd signfd OCSP Rfsponsfs.
+# Tiis is in bddition to tif jdk.dfrtpbti.disbblfdAlgoritims propfrty bbovf.
 #
-# See the specification of "jdk.certpath.disabledAlgorithms" for the
-# syntax of the disabled algorithm string.
+# Sff tif spfdifidbtion of "jdk.dfrtpbti.disbblfdAlgoritims" for tif
+# syntbx of tif disbblfd blgoritim string.
 #
-# Note: This property is currently used by Oracle's JSSE implementation.
-# It is not guaranteed to be examined and used by other implementations.
+# Notf: Tiis propfrty is durrfntly usfd by Orbdlf's JSSE implfmfntbtion.
+# It is not gubrbntffd to bf fxbminfd bnd usfd by otifr implfmfntbtions.
 #
-# Example:
-#   jdk.tls.disabledAlgorithms=MD5, SHA1, DSA, RSA keySize < 2048
+# Exbmplf:
+#   jdk.tls.disbblfdAlgoritims=MD5, SHA1, DSA, RSA kfySizf < 2048

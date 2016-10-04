@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.swing;
+pbdkbgf sun.swing;
 
-import java.awt.GraphicsConfiguration;
-import java.awt.Image;
-import java.lang.ref.SoftReference;
-import java.util.Iterator;
-import java.util.LinkedList;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.Imbgf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.util.Itfrbtor;
+import jbvb.util.LinkfdList;
 
 /**
- * Cache is used to cache an image based on a set of arguments.
+ * Cbdif is usfd to dbdif bn imbgf bbsfd on b sft of brgumfnts.
  */
-public class ImageCache {
-    // Maximum number of entries to cache
-    private int maxCount;
-    // The entries.
-    final private LinkedList<SoftReference<Entry>> entries;
+publid dlbss ImbgfCbdif {
+    // Mbximum numbfr of fntrifs to dbdif
+    privbtf int mbxCount;
+    // Tif fntrifs.
+    finbl privbtf LinkfdList<SoftRfffrfndf<Entry>> fntrifs;
 
-    public ImageCache(int maxCount) {
-        this.maxCount = maxCount;
-        entries = new LinkedList<SoftReference<Entry>>();
+    publid ImbgfCbdif(int mbxCount) {
+        tiis.mbxCount = mbxCount;
+        fntrifs = nfw LinkfdList<SoftRfffrfndf<Entry>>();
     }
 
-    void setMaxCount(int maxCount) {
-        this.maxCount = maxCount;
+    void sftMbxCount(int mbxCount) {
+        tiis.mbxCount = mbxCount;
     }
 
-    public void flush() {
-        entries.clear();
+    publid void flusi() {
+        fntrifs.dlfbr();
     }
 
-    private Entry getEntry(Object key, GraphicsConfiguration config,
-                           int w, int h, Object[] args) {
-        Entry entry;
-        Iterator<SoftReference<Entry>> iter = entries.listIterator();
-        while (iter.hasNext()) {
-            SoftReference<Entry> ref = iter.next();
-            entry = ref.get();
-            if (entry == null) {
-                // SoftReference was invalidated, remove the entry
-                iter.remove();
+    privbtf Entry gftEntry(Objfdt kfy, GrbpiidsConfigurbtion donfig,
+                           int w, int i, Objfdt[] brgs) {
+        Entry fntry;
+        Itfrbtor<SoftRfffrfndf<Entry>> itfr = fntrifs.listItfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            SoftRfffrfndf<Entry> rff = itfr.nfxt();
+            fntry = rff.gft();
+            if (fntry == null) {
+                // SoftRfffrfndf wbs invblidbtfd, rfmovf tif fntry
+                itfr.rfmovf();
             }
-            else if (entry.equals(config, w, h, args)) {
-                // Put most recently used entries at the head
-                iter.remove();
-                entries.addFirst(ref);
-                return entry;
+            flsf if (fntry.fqubls(donfig, w, i, brgs)) {
+                // Put most rfdfntly usfd fntrifs bt tif ifbd
+                itfr.rfmovf();
+                fntrifs.bddFirst(rff);
+                rfturn fntry;
             }
         }
-        // Entry doesn't exist
-        entry = new Entry(config, w, h, args);
-        if (entries.size() >= maxCount) {
-            entries.removeLast();
+        // Entry dofsn't fxist
+        fntry = nfw Entry(donfig, w, i, brgs);
+        if (fntrifs.sizf() >= mbxCount) {
+            fntrifs.rfmovfLbst();
         }
-        entries.addFirst(new SoftReference<Entry>(entry));
-        return entry;
+        fntrifs.bddFirst(nfw SoftRfffrfndf<Entry>(fntry));
+        rfturn fntry;
     }
 
     /**
-     * Returns the cached Image, or null, for the specified arguments.
+     * Rfturns tif dbdifd Imbgf, or null, for tif spfdififd brgumfnts.
      */
-    public Image getImage(Object key, GraphicsConfiguration config,
-            int w, int h, Object[] args) {
-        Entry entry = getEntry(key, config, w, h, args);
-        return entry.getImage();
+    publid Imbgf gftImbgf(Objfdt kfy, GrbpiidsConfigurbtion donfig,
+            int w, int i, Objfdt[] brgs) {
+        Entry fntry = gftEntry(kfy, donfig, w, i, brgs);
+        rfturn fntry.gftImbgf();
     }
 
     /**
-     * Sets the cached image for the specified constraints.
+     * Sfts tif dbdifd imbgf for tif spfdififd donstrbints.
      */
-    public void setImage(Object key, GraphicsConfiguration config,
-            int w, int h, Object[] args, Image image) {
-        Entry entry = getEntry(key, config, w, h, args);
-        entry.setImage(image);
+    publid void sftImbgf(Objfdt kfy, GrbpiidsConfigurbtion donfig,
+            int w, int i, Objfdt[] brgs, Imbgf imbgf) {
+        Entry fntry = gftEntry(kfy, donfig, w, i, brgs);
+        fntry.sftImbgf(imbgf);
     }
 
 
     /**
-     * Caches set of arguments and Image.
+     * Cbdifs sft of brgumfnts bnd Imbgf.
      */
-    private static class Entry {
-        final private GraphicsConfiguration config;
-        final private int w;
-        final private int h;
-        final private Object[] args;
-        private Image image;
+    privbtf stbtid dlbss Entry {
+        finbl privbtf GrbpiidsConfigurbtion donfig;
+        finbl privbtf int w;
+        finbl privbtf int i;
+        finbl privbtf Objfdt[] brgs;
+        privbtf Imbgf imbgf;
 
-        Entry(GraphicsConfiguration config, int w, int h, Object[] args) {
-            this.config = config;
-            this.args = args;
-            this.w = w;
-            this.h = h;
+        Entry(GrbpiidsConfigurbtion donfig, int w, int i, Objfdt[] brgs) {
+            tiis.donfig = donfig;
+            tiis.brgs = brgs;
+            tiis.w = w;
+            tiis.i = i;
         }
 
-        public void setImage(Image image) {
-            this.image = image;
+        publid void sftImbgf(Imbgf imbgf) {
+            tiis.imbgf = imbgf;
         }
 
-        public Image getImage() {
-            return image;
+        publid Imbgf gftImbgf() {
+            rfturn imbgf;
         }
 
-        public String toString() {
-            String value = super.toString() +
-                    "[ graphicsConfig=" + config +
-                    ", image=" + image +
-                    ", w=" + w + ", h=" + h;
-            if (args != null) {
-                for (int counter = 0; counter < args.length; counter++) {
-                    value += ", " + args[counter];
+        publid String toString() {
+            String vbluf = supfr.toString() +
+                    "[ grbpiidsConfig=" + donfig +
+                    ", imbgf=" + imbgf +
+                    ", w=" + w + ", i=" + i;
+            if (brgs != null) {
+                for (int dountfr = 0; dountfr < brgs.lfngti; dountfr++) {
+                    vbluf += ", " + brgs[dountfr];
                 }
             }
-            value += "]";
-            return value;
+            vbluf += "]";
+            rfturn vbluf;
         }
 
-        public boolean equals(GraphicsConfiguration config,
-                 int w, int h, Object[] args) {
-            if (this.w == w && this.h == h &&
-                    ((this.config != null && this.config.equals(config)) ||
-                    (this.config == null && config == null))) {
-                if (this.args == null && args == null) {
-                    return true;
+        publid boolfbn fqubls(GrbpiidsConfigurbtion donfig,
+                 int w, int i, Objfdt[] brgs) {
+            if (tiis.w == w && tiis.i == i &&
+                    ((tiis.donfig != null && tiis.donfig.fqubls(donfig)) ||
+                    (tiis.donfig == null && donfig == null))) {
+                if (tiis.brgs == null && brgs == null) {
+                    rfturn truf;
                 }
-                if (this.args != null && args != null &&
-                        this.args.length == args.length) {
-                    for (int counter = args.length - 1; counter >= 0;
-                    counter--) {
-                        Object a1 = this.args[counter];
-                        Object a2 = args[counter];
-                        if ((a1 == null && a2 != null) ||
-                                (a1 != null && !a1.equals(a2))) {
-                            return false;
+                if (tiis.brgs != null && brgs != null &&
+                        tiis.brgs.lfngti == brgs.lfngti) {
+                    for (int dountfr = brgs.lfngti - 1; dountfr >= 0;
+                    dountfr--) {
+                        Objfdt b1 = tiis.brgs[dountfr];
+                        Objfdt b2 = brgs[dountfr];
+                        if ((b1 == null && b2 != null) ||
+                                (b1 != null && !b1.fqubls(b2))) {
+                            rfturn fblsf;
                         }
                     }
-                    return true;
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
     }
 }

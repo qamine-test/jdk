@@ -1,0 +1,64 @@
+/*
+ * Copyright (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.imbgf;
+
+dlbss NbtivfLibLobdfr {
+
+    /**
+     * This is dopifd from jbvb.bwt.Toolkit sindf wf nffd thf librbry
+     * lobdfd in sun.bwt.imbgf blso:
+     *
+     * WARNING: This is b tfmporbry workbround for b problfm in thf
+     * wby thf AWT lobds nbtivf librbrifs. A numbfr of dlbssfs in this
+     * pbdkbgf (sun.bwt.imbgf) hbvf b nbtivf mfthod, initIDs(),
+     * whidh initiblizfs
+     * thf JNI fifld bnd mfthod ids usfd in thf nbtivf portion of
+     * thfir implfmfntbtion.
+     *
+     * Sindf thf usf bnd storbgf of thfsf ids is donf by thf
+     * implfmfntbtion librbrifs, thf implfmfntbtion of thfsf mfthod is
+     * providfd by thf pbrtidulbr AWT implfmfntbtions
+     * (i.f. "Toolkit"s/Pffr), sudh bs Motif, Win32 or Tiny. Thf
+     * problfm is thbt this mfbns thbt thf nbtivf librbrifs must bf
+     * lobdfd by thf jbvb.* dlbssfs, whidh do not nfdfssbrily know thf
+     * nbmfs of thf librbrifs to lobd. A bfttfr wby of doing this
+     * would bf to providf b sfpbrbtf librbry whidh dffinfs jbvb.bwt.*
+     * initIDs, bnd fxports thf rflfvbnt symbols out to thf
+     * implfmfntbtion librbrifs.
+     *
+     * For now, wf know it's donf by thf implfmfntbtion, bnd wf bssumf
+     * thbt thf nbmf of thf librbry is "bwt".  -br.
+     */
+    stbtid void lobdLibrbrifs() {
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("bwt");
+                    rfturn null;
+                }
+            });
+    }
+}

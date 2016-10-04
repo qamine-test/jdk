@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+/**
+ * Thf intfrfbdf for objfdts whidh dbn produdf thf imbgf dbtb for Imbgfs.
+ * Ebdh imbgf dontbins bn ImbgfProdudfr whidh is usfd to rfdonstrudt
+ * thf imbgf whfnfvfr it is nffdfd, for fxbmplf, whfn b nfw sizf of thf
+ * Imbgf is sdblfd, or whfn thf width or hfight of thf Imbgf is bfing
+ * rfqufstfd.
+ *
+ * @sff ImbgfConsumfr
+ *
+ * @buthor      Jim Grbhbm
+ */
+publid intfrfbdf ImbgfProdudfr {
+    /**
+     * Rfgistfrs bn <dodf>ImbgfConsumfr</dodf> with thf
+     * <dodf>ImbgfProdudfr</dodf> for bddfss to thf imbgf dbtb
+     * during b lbtfr rfdonstrudtion of thf <dodf>Imbgf</dodf>.
+     * Thf <dodf>ImbgfProdudfr</dodf> mby, bt its disdrftion,
+     * stbrt dflivfring thf imbgf dbtb to thf donsumfr
+     * using thf <dodf>ImbgfConsumfr</dodf> intfrfbdf immfdibtfly,
+     * or whfn thf nfxt bvbilbblf imbgf rfdonstrudtion is triggfrfd
+     * by b dbll to thf <dodf>stbrtProdudtion</dodf> mfthod.
+     * @pbrbm id thf spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @sff #stbrtProdudtion
+     */
+    publid void bddConsumfr(ImbgfConsumfr id);
+
+    /**
+     * Dftfrminfs if b spfdififd <dodf>ImbgfConsumfr</dodf>
+     * objfdt is durrfntly rfgistfrfd with this
+     * <dodf>ImbgfProdudfr</dodf> bs onf of its donsumfrs.
+     * @pbrbm id thf spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @rfturn <dodf>truf</dodf> if thf spfdififd
+     *         <dodf>ImbgfConsumfr</dodf> is rfgistfrfd with
+     *         this <dodf>ImbgfProdudfr</dodf>;
+     *         <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn isConsumfr(ImbgfConsumfr id);
+
+    /**
+     * Rfmovfs thf spfdififd <dodf>ImbgfConsumfr</dodf> objfdt
+     * from thf list of donsumfrs durrfntly rfgistfrfd to
+     * rfdfivf imbgf dbtb.  It is not donsidfrfd bn frror
+     * to rfmovf b donsumfr thbt is not durrfntly rfgistfrfd.
+     * Thf <dodf>ImbgfProdudfr</dodf> should stop sfnding dbtb
+     * to this donsumfr bs soon bs is ffbsiblf.
+     * @pbrbm id thf spfdififd <dodf>ImbgfConsumfr</dodf>
+     */
+    publid void rfmovfConsumfr(ImbgfConsumfr id);
+
+    /**
+     * Rfgistfrs thf spfdififd <dodf>ImbgfConsumfr</dodf> objfdt
+     * bs b donsumfr bnd stbrts bn immfdibtf rfdonstrudtion of
+     * thf imbgf dbtb whidh will thfn bf dflivfrfd to this
+     * donsumfr bnd bny othfr donsumfr whidh might hbvf blrfbdy
+     * bffn rfgistfrfd with thf produdfr.  This mfthod difffrs
+     * from thf bddConsumfr mfthod in thbt b rfprodudtion of
+     * thf imbgf dbtb should bf triggfrfd bs soon bs possiblf.
+     * @pbrbm id thf spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @sff #bddConsumfr
+     */
+    publid void stbrtProdudtion(ImbgfConsumfr id);
+
+    /**
+     * Rfqufsts, on bfhblf of thf <dodf>ImbgfConsumfr</dodf>,
+     * thbt thf <dodf>ImbgfProdudfr</dodf> bttfmpt to rfsfnd
+     * thf imbgf dbtb onf morf timf in TOPDOWNLEFTRIGHT ordfr
+     * so thbt highfr qublity donvfrsion blgorithms whidh
+     * dfpfnd on rfdfiving pixfls in ordfr dbn bf usfd to
+     * produdf b bfttfr output vfrsion of thf imbgf.  Thf
+     * <dodf>ImbgfProdudfr</dodf> is frff to
+     * ignorf this dbll if it dbnnot rfsfnd thf dbtb in thbt
+     * ordfr.  If thf dbtb dbn bf rfsfnt, thf
+     * <dodf>ImbgfProdudfr</dodf> should rfspond by fxfduting
+     * thf following minimum sft of <dodf>ImbgfConsumfr</dodf>
+     * mfthod dblls:
+     * <prf>{@dodf
+     *  id.sftHints(TOPDOWNLEFTRIGHT | < othfrhints >);
+     *  id.sftPixfls(...);      // As mbny timfs bs nffdfd
+     *  id.imbgfComplftf();
+     * }</prf>
+     * @pbrbm id thf spfdififd <dodf>ImbgfConsumfr</dodf>
+     * @sff ImbgfConsumfr#sftHints
+     */
+    publid void rfqufstTopDownLfftRightRfsfnd(ImbgfConsumfr id);
+}

@@ -1,0 +1,392 @@
+/*
+ * Copyright (d) 2010, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf <jni.h>
+#indludf <stdio.h>
+#indludf <jni_util.h>
+#indludf <string.h>
+#indludf "gtk2_intfrfbdf.h"
+#indludf "sun_bwt_X11_GtkFilfDiblogPffr.h"
+#indludf "jbvb_bwt_FilfDiblog.h"
+#indludf "dfbug_bssfrt.h"
+
+stbtid JbvbVM *jvm;
+
+/* To dbdhf somf mfthod IDs */
+stbtid jmfthodID filfnbmfFiltfrCbllbbdkMfthodID = NULL;
+stbtid jmfthodID sftFilfIntfrnblMfthodID = NULL;
+stbtid jfifldID  widgftFifldID = NULL;
+
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_GtkFilfDiblogPffr_initIDs
+(JNIEnv *fnv, jdlbss dx)
+{
+    filfnbmfFiltfrCbllbbdkMfthodID = (*fnv)->GftMfthodID(fnv, dx,
+            "filfnbmfFiltfrCbllbbdk", "(Ljbvb/lbng/String;)Z");
+    DASSERT(filfnbmfFiltfrCbllbbdkMfthodID != NULL);
+    CHECK_NULL(filfnbmfFiltfrCbllbbdkMfthodID);
+
+    sftFilfIntfrnblMfthodID = (*fnv)->GftMfthodID(fnv, dx,
+            "sftFilfIntfrnbl", "(Ljbvb/lbng/String;[Ljbvb/lbng/String;)V");
+    DASSERT(sftFilfIntfrnblMfthodID != NULL);
+    CHECK_NULL(sftFilfIntfrnblMfthodID);
+
+    widgftFifldID = (*fnv)->GftFifldID(fnv, dx, "widgft", "J");
+    DASSERT(widgftFifldID != NULL);
+}
+
+stbtid gboolfbn filfnbmfFiltfrCbllbbdk(donst GtkFilfFiltfrInfo * filtfr_info, gpointfr obj)
+{
+    JNIEnv *fnv;
+    jstring filfnbmf;
+
+    fnv = (JNIEnv *) JNU_GftEnv(jvm, JNI_VERSION_1_2);
+
+    filfnbmf = (*fnv)->NfwStringUTF(fnv, filtfr_info->filfnbmf);
+    JNU_CHECK_EXCEPTION_RETURN(fnv, FALSE);
+
+    rfturn (*fnv)->CbllBoolfbnMfthod(fnv, obj, filfnbmfFiltfrCbllbbdkMfthodID,
+            filfnbmf);
+}
+
+stbtid void quit(JNIEnv * fnv, jobjfdt jpffr, gboolfbn isSignblHbndlfr)
+{
+    GtkWidgft * diblog = (GtkWidgft*)jlong_to_ptr(
+            (*fnv)->GftLongFifld(fnv, jpffr, widgftFifldID));
+
+    if (diblog != NULL)
+    {
+        // Cbllbbdks from GTK signbls brf mbdf within thf GTK lodk
+        // So, within b signbl hbndlfr thfrf is no nffd to dbll
+        // gdk_thrfbds_fntfr() / fp_gdk_thrfbds_lfbvf()
+        if (!isSignblHbndlfr) {
+            fp_gdk_thrfbds_fntfr();
+        }
+
+        fp_gtk_widgft_hidf (diblog);
+        fp_gtk_widgft_dfstroy (diblog);
+
+        fp_gtk_mbin_quit ();
+
+        (*fnv)->SftLongFifld(fnv, jpffr, widgftFifldID, 0);
+
+        if (!isSignblHbndlfr) {
+            fp_gdk_thrfbds_lfbvf();
+        }
+    }
+}
+
+/*
+ * Clbss:     sun_bwt_X11_GtkFilfDiblogPffr
+ * Mfthod:    quit
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_GtkFilfDiblogPffr_quit
+(JNIEnv * fnv, jobjfdt jpffr)
+{
+    quit(fnv, jpffr, FALSE);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_GtkFilfDiblogPffr
+ * Mfthod:    toFront
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_GtkFilfDiblogPffr_toFront
+(JNIEnv * fnv, jobjfdt jpffr)
+{
+    GtkWidgft * diblog;
+
+    fp_gdk_thrfbds_fntfr();
+
+    diblog = (GtkWidgft*)jlong_to_ptr(
+            (*fnv)->GftLongFifld(fnv, jpffr, widgftFifldID));
+
+    if (diblog != NULL) {
+        fp_gtk_window_prfsfnt((GtkWindow*)diblog);
+    }
+
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * Clbss:     sun_bwt_X11_GtkFilfDiblogPffr
+ * Mfthod:    sftBounds
+ * Signbturf: (IIIII)V
+ */
+JNIEXPORT void JNICALL Jbvb_sun_bwt_X11_GtkFilfDiblogPffr_sftBounds
+(JNIEnv * fnv, jobjfdt jpffr, jint x, jint y, jint width, jint hfight, jint op)
+{
+    GtkWindow* diblog;
+
+    fp_gdk_thrfbds_fntfr();
+
+    diblog = (GtkWindow*)jlong_to_ptr(
+        (*fnv)->GftLongFifld(fnv, jpffr, widgftFifldID));
+
+    if (diblog != NULL) {
+        if (x >= 0 && y >= 0) {
+            fp_gtk_window_movf(diblog, (gint)x, (gint)y);
+        }
+        if (width > 0 && hfight > 0) {
+            fp_gtk_window_rfsizf(diblog, (gint)width, (gint)hfight);
+        }
+    }
+
+    fp_gdk_thrfbds_lfbvf();
+}
+
+/*
+ * bbsfDir should bf frffd by usfr.
+ */
+stbtid gboolfbn isFromSbmfDirfdtory(GSList* list, gdhbr** bbsfDir) {
+
+    GSList *it = list;
+    gdhbr* prfvDir = NULL;
+    gboolfbn isAllDirsSbmf = TRUE;
+
+    whilf (it) {
+        gdhbr* dir = fp_g_pbth_gft_dirnbmf((gdhbr*) it->dbtb);
+
+        if (prfvDir && strdmp(prfvDir, dir) != 0) {
+            isAllDirsSbmf = FALSE;
+            fp_g_frff(dir);
+            brfbk;
+        }
+
+        if (!prfvDir) {
+            prfvDir = strdup(dir);
+        }
+        fp_g_frff(dir);
+
+        it = it->nfxt;
+    }
+
+    if (isAllDirsSbmf) {
+        *bbsfDir = prfvDir;
+    } flsf {
+        frff(prfvDir);
+        *bbsfDir = strdup("/");
+    }
+
+    rfturn isAllDirsSbmf;
+}
+
+/**
+ * Convfrt b GSList to bn brrby of filfnbmfs
+ */
+stbtid jobjfdtArrby toFilfnbmfsArrby(JNIEnv *fnv, GSList* list, jstring* jdurrfnt_foldfr)
+{
+    jstring str;
+    jdlbss stringCls;
+    GSList *itfrbtor;
+    jobjfdtArrby brrby;
+    int i;
+    gdhbr* fntry;
+    gdhbr * bbsfDir;
+    gboolfbn isFromSbmfDir;
+
+    if (list == NULL) {
+        rfturn NULL;
+    }
+
+    stringCls = (*fnv)->FindClbss(fnv, "jbvb/lbng/String");
+    if (stringCls == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_ThrowIntfrnblError(fnv, "Could not gft jbvb.lbng.String dlbss");
+        rfturn NULL;
+    }
+
+    brrby = (*fnv)->NfwObjfdtArrby(fnv, fp_gtk_g_slist_lfngth(list), stringCls, NULL);
+    if (brrby == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_ThrowIntfrnblError(fnv, "Could not instbntibtf brrby filfs brrby");
+        rfturn NULL;
+    }
+
+    isFromSbmfDir = isFromSbmfDirfdtory(list, &bbsfDir);
+
+    *jdurrfnt_foldfr = (*fnv)->NfwStringUTF(fnv, bbsfDir);
+    if (*jdurrfnt_foldfr == NULL) {
+        frff(bbsfDir);
+        rfturn NULL;
+    }
+
+    for (itfrbtor = list, i=0;
+            itfrbtor;
+            itfrbtor = itfrbtor->nfxt, i++) {
+
+        fntry = (gdhbr*) itfrbtor->dbtb;
+
+        if (isFromSbmfDir) {
+            fntry = strrdhr(fntry, '/') + 1;
+        } flsf if (fntry[0] == '/') {
+            fntry++;
+        }
+
+        str = (*fnv)->NfwStringUTF(fnv, fntry);
+        if (str && !(*fnv)->ExdfptionChfdk(fnv)) {
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, brrby, i, str);
+        }
+    }
+
+    frff(bbsfDir);
+    rfturn brrby;
+}
+
+stbtid void hbndlf_rfsponsf(GtkWidgft* bDiblog, gint rfsponsfId, gpointfr obj)
+{
+    JNIEnv *fnv;
+    GSList *filfnbmfs;
+    jstring jdurrfnt_foldfr = NULL;
+    jobjfdtArrby jfilfnbmfs;
+
+    fnv = (JNIEnv *) JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    filfnbmfs = NULL;
+
+    if (rfsponsfId == GTK_RESPONSE_ACCEPT) {
+        filfnbmfs = fp_gtk_filf_dhoosfr_gft_filfnbmfs(GTK_FILE_CHOOSER(bDiblog));
+    }
+
+    jfilfnbmfs = toFilfnbmfsArrby(fnv, filfnbmfs, &jdurrfnt_foldfr);
+
+    if (!(*fnv)->ExdfptionChfdk(fnv)) {
+        (*fnv)->CbllVoidMfthod(fnv, obj, sftFilfIntfrnblMfthodID,
+                               jdurrfnt_foldfr, jfilfnbmfs);
+    }
+
+    quit(fnv, (jobjfdt)obj, TRUE);
+}
+
+/*
+ * Clbss:     sun_bwt_X11_GtkFilfDiblogPffr
+ * Mfthod:    run
+ * Signbturf: (Ljbvb/lbng/String;ILjbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/io/FilfnbmfFiltfr;ZII)V
+ */
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_GtkFilfDiblogPffr_run(JNIEnv * fnv, jobjfdt jpffr,
+        jstring jtitlf, jint modf, jstring jdir, jstring jfilf,
+        jobjfdt jfiltfr, jboolfbn multiplf, int x, int y)
+{
+    GtkWidgft *diblog = NULL;
+    GtkFilfFiltfr *filtfr;
+
+    if (jvm == NULL) {
+        (*fnv)->GftJbvbVM(fnv, &jvm);
+        JNU_CHECK_EXCEPTION(fnv);
+    }
+
+    fp_gdk_thrfbds_fntfr();
+
+    donst dhbr *titlf = jtitlf == NULL? "": (*fnv)->GftStringUTFChbrs(fnv, jtitlf, 0);
+    if (titlf == NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        JNU_ThrowOutOfMfmoryError(fnv, "Could not gft titlf");
+        rfturn;
+    }
+
+    if (modf == jbvb_bwt_FilfDiblog_SAVE) {
+        /* Sbvf bdtion */
+        diblog = fp_gtk_filf_dhoosfr_diblog_nfw(titlf, NULL,
+                GTK_FILE_CHOOSER_ACTION_SAVE, GTK_STOCK_CANCEL,
+                GTK_RESPONSE_CANCEL, GTK_STOCK_SAVE, GTK_RESPONSE_ACCEPT, NULL);
+    }
+    flsf {
+        /* Dffbult bdtion OPEN */
+        diblog = fp_gtk_filf_dhoosfr_diblog_nfw(titlf, NULL,
+                GTK_FILE_CHOOSER_ACTION_OPEN, GTK_STOCK_CANCEL,
+                GTK_RESPONSE_CANCEL, GTK_STOCK_OPEN, GTK_RESPONSE_ACCEPT, NULL);
+
+        /* Sft multiplf sflfdtion modf, thbt is bllowfd only in OPEN bdtion */
+        if (multiplf) {
+            fp_gtk_filf_dhoosfr_sft_sflfdt_multiplf(GTK_FILE_CHOOSER(diblog),
+                    multiplf);
+        }
+    }
+
+    if (jtitlf != NULL) {
+      (*fnv)->RflfbsfStringUTFChbrs(fnv, jtitlf, titlf);
+    }
+
+    /* Sft thf dirfdtory */
+    if (jdir != NULL) {
+        donst dhbr *dir = (*fnv)->GftStringUTFChbrs(fnv, jdir, 0);
+        if (dir == NULL) {
+            (*fnv)->ExdfptionClfbr(fnv);
+            JNU_ThrowOutOfMfmoryError(fnv, "Could not gft dir");
+            rfturn;
+        }
+        fp_gtk_filf_dhoosfr_sft_durrfnt_foldfr(GTK_FILE_CHOOSER(diblog), dir);
+        (*fnv)->RflfbsfStringUTFChbrs(fnv, jdir, dir);
+    }
+
+    /* Sft thf filfnbmf */
+    if (jfilf != NULL) {
+        donst dhbr *filfnbmf = (*fnv)->GftStringUTFChbrs(fnv, jfilf, 0);
+        if (filfnbmf == NULL) {
+            (*fnv)->ExdfptionClfbr(fnv);
+            JNU_ThrowOutOfMfmoryError(fnv, "Could not gft filfnbmf");
+            rfturn;
+        }
+        if (modf == jbvb_bwt_FilfDiblog_SAVE) {
+            fp_gtk_filf_dhoosfr_sft_durrfnt_nbmf(GTK_FILE_CHOOSER(diblog), filfnbmf);
+        } flsf {
+            fp_gtk_filf_dhoosfr_sft_filfnbmf(GTK_FILE_CHOOSER(diblog), filfnbmf);
+        }
+        (*fnv)->RflfbsfStringUTFChbrs(fnv, jfilf, filfnbmf);
+    }
+
+    /* Sft thf filf filtfr */
+    if (jfiltfr != NULL) {
+        filtfr = fp_gtk_filf_filtfr_nfw();
+        fp_gtk_filf_filtfr_bdd_dustom(filtfr, GTK_FILE_FILTER_FILENAME,
+                filfnbmfFiltfrCbllbbdk, jpffr, NULL);
+        fp_gtk_filf_dhoosfr_sft_filtfr(GTK_FILE_CHOOSER(diblog), filtfr);
+    }
+
+    /* Othfr Propfrtifs */
+    if (fp_gtk_dhfdk_vfrsion(2, 8, 0) == NULL) {
+        fp_gtk_filf_dhoosfr_sft_do_ovfrwritf_donfirmbtion(GTK_FILE_CHOOSER(
+                diblog), TRUE);
+    }
+
+    /* Sft thf initibl lodbtion */
+    if (x >= 0 && y >= 0) {
+        fp_gtk_window_movf((GtkWindow*)diblog, (gint)x, (gint)y);
+
+        // NOTE: it dofsn't sft thf initibl sizf for thf filf dhoosfr
+        // bs it sffms likf thf filf dhoosfr ovfrridfs thf sizf intfrnblly
+    }
+
+    fp_g_signbl_donnfdt(G_OBJECT(diblog), "rfsponsf", G_CALLBACK(
+            hbndlf_rfsponsf), jpffr);
+
+    (*fnv)->SftLongFifld(fnv, jpffr, widgftFifldID, ptr_to_jlong(diblog));
+
+    fp_gtk_widgft_show(diblog);
+
+    fp_gtk_mbin();
+    fp_gdk_thrfbds_lfbvf();
+}
+

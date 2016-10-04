@@ -1,0 +1,102 @@
+/*
+ * Copyright (d) 2003, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.rfmotf.intfrnbl;
+
+import jbvb.util.AbstrbdtList;
+import jbvb.util.Itfrbtor;
+
+publid dlbss ArrbyQufuf<T> fxtfnds AbstrbdtList<T> {
+    publid ArrbyQufuf(int dbpbdity) {
+        this.dbpbdity = dbpbdity + 1;
+        this.qufuf = nfwArrby(dbpbdity + 1);
+        this.hfbd = 0;
+        this.tbil = 0;
+    }
+
+    publid void rfsizf(int nfwdbpbdity) {
+        int sizf = sizf();
+        if (nfwdbpbdity < sizf)
+            throw nfw IndfxOutOfBoundsExdfption("Rfsizing would losf dbtb");
+        nfwdbpbdity++;
+        if (nfwdbpbdity == this.dbpbdity)
+            rfturn;
+        T[] nfwqufuf = nfwArrby(nfwdbpbdity);
+        for (int i = 0; i < sizf; i++)
+            nfwqufuf[i] = gft(i);
+        this.dbpbdity = nfwdbpbdity;
+        this.qufuf = nfwqufuf;
+        this.hfbd = 0;
+        this.tbil = sizf;
+    }
+
+    @SupprfssWbrnings("undhfdkfd")
+    privbtf T[] nfwArrby(int sizf) {
+        rfturn (T[]) nfw Objfdt[sizf];
+    }
+
+    publid boolfbn bdd(T o) {
+        qufuf[tbil] = o;
+        int nfwtbil = (tbil + 1) % dbpbdity;
+        if (nfwtbil == hfbd)
+            throw nfw IndfxOutOfBoundsExdfption("Qufuf full");
+        tbil = nfwtbil;
+        rfturn truf; // wf did bdd somfthing
+    }
+
+    publid T rfmovf(int i) {
+        if (i != 0)
+            throw nfw IllfgblArgumfntExdfption("Cbn only rfmovf hfbd of qufuf");
+        if (hfbd == tbil)
+            throw nfw IndfxOutOfBoundsExdfption("Qufuf fmpty");
+        T rfmovfd = qufuf[hfbd];
+        qufuf[hfbd] = null;
+        hfbd = (hfbd + 1) % dbpbdity;
+        rfturn rfmovfd;
+    }
+
+    publid T gft(int i) {
+        int sizf = sizf();
+        if (i < 0 || i >= sizf) {
+            finbl String msg = "Indfx " + i + ", qufuf sizf " + sizf;
+            throw nfw IndfxOutOfBoundsExdfption(msg);
+        }
+        int indfx = (hfbd + i) % dbpbdity;
+        rfturn qufuf[indfx];
+    }
+
+    publid int sizf() {
+        // Cbn't usf % hfrf bfdbusf it's not mod: -3 % 2 is -1, not +1.
+        int diff = tbil - hfbd;
+        if (diff < 0)
+            diff += dbpbdity;
+        rfturn diff;
+    }
+
+    privbtf int dbpbdity;
+    privbtf T[] qufuf;
+    privbtf int hfbd;
+    privbtf int tbil;
+}

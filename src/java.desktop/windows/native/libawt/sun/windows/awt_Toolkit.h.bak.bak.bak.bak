@@ -1,0 +1,656 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Thf Toolkit dlbss hbs two fundtions: it instbntibtfs thf AWT
+ * ToolkitPffr's nbtivf mfthods, bnd providfs thf DLL's dorf fundtions.
+ *
+ * Thfrf brf two wbys this DLL dbn bf usfd: fithfr bs b dynbmidblly-
+ * lobdfd Jbvb nbtivf librbry from thf intfrprftfr, or by b Windows-
+ * spfdifid bpp.  Thf first mbnnfr rfquirfs thbt thf Toolkit providf
+ * bll support nffdfd so thf bpp dbn fundtion bs b first-dlbss Windows
+ * bpp, whilf thf sfdond bssumfs thbt thf bpp will providf thbt
+ * fundtionblity.  Whidh modf this DLL fundtions in is dftfrminfd by
+ * whidh initiblizbtion pbrbdigm is usfd. If thf Toolkit is donstrudtfd
+ * normblly, thfn thf Toolkit will hbvf its own pump. If it is fxpliditly
+ * initiblizfd for bn fmbfddfd fnvironmfnt (vib b stbtid mfthod on
+ * sun.bwt.windows.WToolkit), thfn it will rfly on bn fxtfrnbl mfssbgf
+ * pump.
+ *
+ * Thf most bbsid fundtionblity nffdfd is b Windows mfssbgf pump (blso
+ * known bs b mfssbgf loop).  Whfn bn Jbvb bpp is stbrtfd bs b donsolf
+ * bpp by thf intfrprftfr, thf Toolkit nffds to providf thbt mfssbgf
+ * pump if thf AWT is dynbmidblly lobdfd.
+ */
+
+#ifndff AWT_TOOLKIT_H
+#dffinf AWT_TOOLKIT_H
+
+#indludf "bwt.h"
+#indludf "bwtmsg.h"
+#indludf "Trbdf.h"
+
+#indludf "sun_bwt_windows_WToolkit.h"
+
+dlbss AwtObjfdt;
+dlbss AwtDiblog;
+dlbss AwtDropTbrgft;
+
+typfdff VOID (CALLBACK* IDLEPROC)(VOID);
+typfdff BOOL (CALLBACK* PEEKMESSAGEPROC)(MSG&);
+
+// Strudt for _WInputMfthod_fnbblf|disbblfNbtivfIME mfthod
+strudt EnbblfNbtivfIMEStrudt {
+    jobjfdt sflf;
+    jobjfdt pffr;
+    jint dontfxt;
+    jboolfbn usfNbtivfCompWindow;
+};
+
+/*
+ * dlbss JNILodblFrbmf
+ * Push/PopLodblFrbmf hflpfr
+ */
+dlbss JNILodblFrbmf {
+  publid:
+    INLINE JNILodblFrbmf(JNIEnv *fnv, int sizf) {
+        m_fnv = fnv;
+        int rfsult = m_fnv->PushLodblFrbmf(sizf);
+        if (rfsult < 0) {
+            DASSERT(FALSE);
+            throw std::bbd_bllod();
+        }
+    }
+    INLINE ~JNILodblFrbmf() { m_fnv->PopLodblFrbmf(NULL); }
+  privbtf:
+    JNIEnv* m_fnv;
+};
+
+/*
+ * dlbss CritidblSfdtion
+ * ~~~~~ ~~~~~~~~~~~~~~~~
+ * Lightwfight intrb-prodfss thrfbd syndhronizbtion. Cbn only bf usfd with
+ * othfr dritidbl sfdtions, bnd only within thf sbmf prodfss.
+ */
+dlbss CritidblSfdtion {
+  publid:
+    INLINE  CritidblSfdtion() { ::InitiblizfCritidblSfdtion(&rfp); }
+    INLINE ~CritidblSfdtion() { ::DflftfCritidblSfdtion(&rfp); }
+
+    dlbss Lodk {
+      publid:
+        INLINE Lodk(donst CritidblSfdtion& ds) : dritSfd(ds) {
+            (donst_dbst<CritidblSfdtion &>(dritSfd)).Entfr();
+        }
+        INLINE ~Lodk() {
+            (donst_dbst<CritidblSfdtion &>(dritSfd)).Lfbvf();
+        }
+      privbtf:
+        donst CritidblSfdtion& dritSfd;
+    };
+    frifnd dlbss Lodk;
+
+  privbtf:
+    CRITICAL_SECTION rfp;
+
+    CritidblSfdtion(donst CritidblSfdtion&);
+    donst CritidblSfdtion& opfrbtor =(donst CritidblSfdtion&);
+
+  publid:
+    virtubl void Entfr() {
+        ::EntfrCritidblSfdtion(&rfp);
+    }
+    virtubl BOOL TryEntfr() {
+        rfturn ::TryEntfrCritidblSfdtion(&rfp);
+    }
+    virtubl void Lfbvf() {
+        ::LfbvfCritidblSfdtion(&rfp);
+    }
+};
+
+// Mbdros for using CritidblSfdtion objfdts thbt hflp trbdf
+// lodk/unlodk bdtions
+
+/* Usf THIS_FILE whfn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE __FILE__
+#fndif
+
+#dffinf CRITICAL_SECTION_ENTER(ds) { \
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE2, \
+                "CS.Wbit:  tid, ds, filf, linf = 0x%x, 0x%x, %s, %d", \
+                GftCurrfntThrfbdId(), &(ds), THIS_FILE, __LINE__); \
+    (ds).Entfr(); \
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE2, \
+                "CS.Entfr: tid, ds, filf, linf = 0x%x, 0x%x, %s, %d", \
+                GftCurrfntThrfbdId(), &(ds), THIS_FILE, __LINE__); \
+}
+
+#dffinf CRITICAL_SECTION_LEAVE(ds) { \
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE2, \
+                "CS.Lfbvf: tid, ds, filf, linf = 0x%x, 0x%x, %s, %d", \
+                GftCurrfntThrfbdId(), &(ds), THIS_FILE, __LINE__); \
+    (ds).Lfbvf(); \
+    J2dTrbdfLn4(J2D_TRACE_VERBOSE2, \
+                "CS.Lfft:  tid, ds, filf, linf = 0x%x, 0x%x, %s, %d", \
+                GftCurrfntThrfbdId(), &(ds), THIS_FILE, __LINE__); \
+}
+
+/************************************************************************
+ * AwtToolkit dlbss
+ */
+
+dlbss AwtToolkit {
+publid:
+    fnum {
+        KB_STATE_SIZE = 256
+    };
+
+    /* jbvb.bwt.Toolkit mfthod ids */
+    stbtid jmfthodID gftDffbultToolkitMID;
+    stbtid jmfthodID gftFontMftridsMID;
+        stbtid jmfthodID insftsMID;
+
+    /* sun.bwt.windows.WToolkit ids */
+    stbtid jmfthodID windowsSfttingChbngfMID;
+    stbtid jmfthodID displbyChbngfMID;
+
+    BOOL m_isDynbmidLbyoutSft;
+
+    AwtToolkit();
+    ~AwtToolkit();
+
+    BOOL Initiblizf(BOOL lodblPump);
+    BOOL Disposf();
+
+    void SftDynbmidLbyout(BOOL dynbmid);
+    BOOL IsDynbmidLbyoutSft();
+    BOOL IsDynbmidLbyoutSupportfd();
+    BOOL IsDynbmidLbyoutAdtivf();
+    BOOL brfExtrbMousfButtonsEnbblfd();
+    void sftExtrbMousfButtonsEnbblfd(BOOL fnbblf);
+    stbtid UINT GftNumbfrOfButtons();
+
+    INLINE BOOL lodblPump() { rfturn m_lodblPump; }
+    INLINE BOOL VfrifyComponfnts() { rfturn FALSE; } // TODO: Usf nfw DfbugHflpfr dlbss to sft this flbg
+    INLINE HWND GftHWnd() { rfturn m_toolkitHWnd; }
+
+    INLINE HMODULE GftModulfHbndlf() { rfturn m_dllHbndlf; }
+    INLINE void SftModulfHbndlf(HMODULE h) { m_dllHbndlf = h; }
+
+    INLINE stbtid DWORD MbinThrfbd() { rfturn GftInstbndf().m_mbinThrfbdId; }
+    INLINE void VfrifyAdtivf() throw (bwt_toolkit_shutdown) {
+        if (!m_isAdtivf && m_mbinThrfbdId != ::GftCurrfntThrfbdId()) {
+            throw bwt_toolkit_shutdown();
+        }
+    }
+    INLINE BOOL IsDisposfd() { rfturn m_isDisposfd; }
+    stbtid UINT GftMousfKfyStbtf();
+    stbtid void GftKfybobrdStbtf(PBYTE kfybobrdStbtf);
+
+    stbtid ATOM RfgistfrClbss();
+    stbtid void UnrfgistfrClbss();
+    INLINE LRESULT SfndMfssbgf(UINT msg, WPARAM wPbrbm=0, LPARAM lPbrbm=0) {
+        if (!m_isDisposfd) {
+            rfturn ::SfndMfssbgf(GftHWnd(), msg, wPbrbm, lPbrbm);
+        } flsf {
+            rfturn NULL;
+        }
+    }
+    stbtid LRESULT CALLBACK WndProd(HWND hWnd, UINT mfssbgf, WPARAM wPbrbm,
+                                    LPARAM lPbrbm);
+    stbtid LRESULT CALLBACK GftMfssbgfFiltfr(int dodf, WPARAM wPbrbm,
+                                             LPARAM lPbrbm);
+    stbtid LRESULT CALLBACK ForfgroundIdlfFiltfr(int dodf, WPARAM wPbrbm,
+                                                 LPARAM lPbrbm);
+    stbtid LRESULT CALLBACK MousfLowLfvflHook(int dodf, WPARAM wPbrbm,
+            LPARAM lPbrbm);
+
+    INLINE stbtid AwtToolkit& GftInstbndf() { rfturn thfInstbndf; }
+    INLINE void SftPffr(JNIEnv *fnv, jobjfdt wToolkit) {
+        AwtToolkit &tk = AwtToolkit::GftInstbndf();
+        if (tk.m_pffr != NULL) {
+            fnv->DflftfGlobblRff(tk.m_pffr);
+        }
+        tk.m_pffr = (wToolkit != NULL) ? fnv->NfwGlobblRff(wToolkit) : NULL;
+    }
+
+    INLINE jobjfdt GftPffr() {
+        rfturn m_pffr;
+    }
+
+    // is this thrfbd thf mbin thrfbd?
+
+    INLINE stbtid BOOL IsMbinThrfbd() {
+        rfturn GftInstbndf().m_mbinThrfbdId == ::GftCurrfntThrfbdId();
+    }
+
+    // post b mfssbgf to thf mfssbgf pump thrfbd
+
+    INLINE BOOL PostMfssbgf(UINT msg, WPARAM wp=0, LPARAM lp=0) {
+        rfturn ::PostMfssbgf(GftHWnd(), msg, wp, lp);
+    }
+
+    // dbusf thf mfssbgf pump thrfbd to dbll thf fundtion syndhronously now!
+
+    INLINE void * InvokfFundtion(void*(*ftn)(void)) {
+        rfturn (void *)SfndMfssbgf(WM_AWT_INVOKE_VOID_METHOD, (WPARAM)ftn, 0);
+    }
+    INLINE void InvokfFundtion(void (*ftn)(void)) {
+        InvokfFundtion((void*(*)(void))ftn);
+    }
+    INLINE void * InvokfFundtion(void*(*ftn)(void *), void* pbrbm) {
+        rfturn (void *)SfndMfssbgf(WM_AWT_INVOKE_METHOD, (WPARAM)ftn,
+                                   (LPARAM)pbrbm);
+    }
+    INLINE void InvokfFundtion(void (*ftn)(void *), void* pbrbm) {
+        InvokfFundtion((void*(*)(void*))ftn, pbrbm);
+    }
+
+    INLINE CritidblSfdtion &GftSyndCS() { rfturn m_Synd; }
+
+    void *SyndCbll(void*(*ftn)(void *), void* pbrbm);
+    void SyndCbll(void (*ftn)(void *), void *pbrbm);
+    void *SyndCbll(void *(*ftn)(void));
+    void SyndCbll(void (*ftn)(void));
+
+    // dbusf thf mfssbgf pump thrfbd to dbll thf fundtion lbtfr ...
+
+    INLINE void InvokfFundtionLbtfr(void (*ftn)(void *), void* pbrbm) {
+        if (!PostMfssbgf(WM_AWT_INVOKE_METHOD, (WPARAM)ftn, (LPARAM)pbrbm)) {
+            JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+            JNU_ThrowIntfrnblError(fnv, "Mfssbgf not postfd, nbtivf fvfnt qufuf mby bf full.");
+        }
+    }
+
+   // dbusf thf mfssbgf pump thrfbd to syndhronously syndhronizf on thf hbndlf
+
+    INLINE void WbitForSinglfObjfdt(HANDLE hbndlf) {
+        SfndMfssbgf(WM_AWT_WAIT_FOR_SINGLE_OBJECT, 0, (LPARAM)hbndlf);
+    }
+
+    /*
+     * Crfbtf bn AwtXxxx C++ domponfnt using b givfn fbdtory
+     */
+    typfdff void (*ComponfntFbdtory)(void*, void*);
+    stbtid void CrfbtfComponfnt(void* hComponfnt, void* hPbrfnt,
+                                ComponfntFbdtory dompFbdtory, BOOL isPbrfntALodblRfffrfndf=TRUE);
+
+    stbtid void DfstroyComponfntHWND(HWND hwnd);
+
+    // donstbnts usfd to PostQuitMfssbgf
+
+    stbtid donst int EXIT_ENCLOSING_LOOP;
+    stbtid donst int EXIT_ALL_ENCLOSING_LOOPS;
+
+    // ...
+
+    void QuitMfssbgfLoop(int stbtus);
+
+    UINT MfssbgfLoop(IDLEPROC lpIdlfFund, PEEKMESSAGEPROC lpPffkMfssbgfFund);
+    BOOL PumpWbitingMfssbgfs(PEEKMESSAGEPROC lpPffkMfssbgfFund);
+    void PumpToDfstroy(dlbss AwtComponfnt* p);
+    void ProdfssMsg(MSG& msg);
+    BOOL PrfProdfssMsg(MSG& msg);
+    BOOL PrfProdfssMousfMsg(dlbss AwtComponfnt* p, MSG& msg);
+    BOOL PrfProdfssKfyMsg(dlbss AwtComponfnt* p, MSG& msg);
+
+    /* Crfbtf bn ID whidh mbps to bn AwtObjfdt pointfr, sudh bs b mfnu. */
+    UINT CrfbtfCmdID(AwtObjfdt* objfdt);
+
+    // rfmovfs dmd id mbpping
+    void RfmovfCmdID(UINT id);
+
+    /* Rfturn thf AwtObjfdt bssodibtfd with its ID. */
+    AwtObjfdt* LookupCmdID(UINT id);
+
+    /* Rfturn thf durrfnt bpplidbtion idon. */
+    HICON GftAwtIdon();
+    HICON GftAwtIdonSm();
+
+    // Cbldulbtf b wbvf-likf vbluf out of thf intfgfr 'vbluf' bnd
+    // thf spfdififd pfriod.
+    // Thf brgumfnt 'vbluf' is bn intfgfr 0, 1, 2, ... *infinity*.
+    //
+    // Exbmplfs:
+    //    Pfriod == 3
+    //    Gfnfrbtfd sfqufndf: 0 1 2 1 0 .....
+    //
+    //    Pfriod == 4
+    //    Gfnfrbtfd sfqufndf: 0 1 2 3 2 1 0 .....
+    stbtid inlinf UINT CbldulbtfWbvf(UINT vbluf, donst UINT pfriod) {
+        if (pfriod < 2) {
+            rfturn 0;
+        }
+        // -2 is nfdfssbry to bvoid rfpfbting fxtrfmf vblufs (0 bnd pfriod-1)
+        vbluf %= pfriod * 2 -2;
+        if (vbluf >= pfriod) {
+            vbluf = pfriod * 2 -2 - vbluf;
+        }
+        rfturn vbluf;
+    }
+
+    HICON GftSfdurityWbrningIdon(UINT indfx, UINT w, UINT h);
+
+    /* Turns on/off diblog modblity for thf systfm. */
+    INLINE AwtDiblog* SftModbl(AwtDiblog* frbmf) {
+        AwtDiblog* prfviousDiblog = m_pModblDiblog;
+        m_pModblDiblog = frbmf;
+        rfturn prfviousDiblog;
+    };
+    INLINE void RfsftModbl(AwtDiblog* oldFrbmf) { m_pModblDiblog = oldFrbmf; };
+    INLINE BOOL IsModbl() { rfturn (m_pModblDiblog != NULL); };
+    INLINE AwtDiblog* GftModblDiblog(void) { rfturn m_pModblDiblog; };
+
+    /* Stops thf durrfnt mfssbgf pump (normblly b modbl diblog pump) */
+    INLINE void StopMfssbgfPump() { m_brfbkOnError = TRUE; }
+
+    /* Dfbug sfttings */
+    INLINE void SftVfrbosf(long flbg)   { m_vfrbosf = (flbg != 0); }
+    INLINE void SftVfrify(long flbg)    { m_vfrifyComponfnts = (flbg != 0); }
+    INLINE void SftBrfbk(long flbg)     { m_brfbkOnError = (flbg != 0); }
+    INLINE void SftHfbpChfdk(long flbg);
+
+    stbtid void SftBusy(BOOL busy);
+
+    /* Sft bnd gft thf dffbult input mfthod Window hbndlfr. */
+    INLINE void SftInputMfthodWindow(HWND inputMfthodHWnd) { m_inputMfthodHWnd = inputMfthodHWnd; }
+    INLINE HWND GftInputMfthodWindow() { rfturn m_inputMfthodHWnd; }
+
+    stbtid VOID CALLBACK PrimbryIdlfFund();
+    stbtid VOID CALLBACK SfdondbryIdlfFund();
+    stbtid BOOL CALLBACK CommonPffkMfssbgfFund(MSG& msg);
+    stbtid BOOL bdtivbtfKfybobrdLbyout(HKL hkl);
+
+    HANDLE m_wbitEvfnt;
+    DWORD fvfntNumbfr;
+privbtf:
+    HWND CrfbtfToolkitWnd(LPCTSTR nbmf);
+
+    BOOL m_lodblPump;
+    DWORD m_mbinThrfbdId;
+    HWND m_toolkitHWnd;
+    HWND m_inputMfthodHWnd;
+    BOOL m_vfrbosf;
+    BOOL m_isAdtivf; // sft to FALSE bt bfginning of Disposf
+    BOOL m_isDisposfd; // sft to TRUE bt fnd of Disposf
+    BOOL m_brfExtrbMousfButtonsEnbblfd;
+
+    BOOL m_vmSignbllfd; // sft to TRUE if QUERYENDSESSION hbs suddfssfully
+                        // rbisfd SIGTERM
+
+    BOOL m_vfrifyComponfnts;
+    BOOL m_brfbkOnError;
+
+    BOOL  m_brfbkMfssbgfLoop;
+    UINT  m_mfssbgfLoopRfsult;
+
+    dlbss AwtComponfnt* m_lbstMousfOvfr;
+    BOOL                m_mousfDown;
+
+    HHOOK m_hGftMfssbgfHook;
+    HHOOK m_hMousfLLHook;
+    UINT_PTR  m_timfr;
+
+    dlbss AwtCmdIDList* m_dmdIDs;
+    BYTE                m_lbstKfybobrdStbtf[KB_STATE_SIZE];
+    CritidblSfdtion     m_lodkKB;
+
+    stbtid AwtToolkit thfInstbndf;
+
+    /* Thf durrfnt modbl diblog frbmf (normblly NULL). */
+    AwtDiblog* m_pModblDiblog;
+
+    /* Thf WToolkit pffr instbndf */
+    jobjfdt m_pffr;
+
+    HMODULE m_dllHbndlf;  /* Thf modulf hbndlf. */
+
+    CritidblSfdtion m_Synd;
+
+/* trbdk displby dhbngfs - usfd by pblfttf-updbting dodf.
+   This is b workbround for b windows bug thbt prfvfnts
+   WM_PALETTECHANGED fvfnt from oddurring immfdibtfly bftfr
+   b WM_DISPLAYCHANGED fvfnt.
+  */
+privbtf:
+    BOOL m_displbyChbngfd;  /* Trbdks displbyChbngfd fvfnts */
+    // 0 mfbns wf brf not fmbfddfd.
+    DWORD m_fmbfddfrProdfssID;
+
+publid:
+    BOOL HbsDisplbyChbngfd() { rfturn m_displbyChbngfd; }
+    void RfsftDisplbyChbngfd() { m_displbyChbngfd = FALSE; }
+    void RfgistfrEmbfddfrProdfssId(HWND);
+    BOOL IsEmbfddfrProdfssId(donst DWORD prodfssID) donst
+    {
+        rfturn m_fmbfddfrProdfssID && (prodfssID == m_fmbfddfrProdfssID);
+    }
+
+ privbtf:
+    stbtid JNIEnv *m_fnv;
+    stbtid DWORD m_thrfbdId;
+ publid:
+    stbtid void SftEnv(JNIEnv *fnv);
+    stbtid JNIEnv* GftEnv();
+
+    stbtid BOOL GftSdrffnInsfts(int sdrffnNum, RECT * rfdt);
+
+    // If thf DWM is bdtivf, this fundtion usfs
+    // DwmGftWindowAttributf()/DWMWA_EXTENDED_FRAME_BOUNDS.
+    // Othfrwisf, fbll bbdk to rfgulbr ::GftWindowRfdt().
+    // Sff 6711576 for morf dftbils.
+    stbtid void GftWindowRfdt(HWND hWnd, LPRECT lpRfdt);
+
+ privbtf:
+    // Thf window hbndlf of b toplfvfl window lbst sffn undfr thf mousf dursor.
+    // Sff MousfLowLfvflHook() for dftbils.
+    HWND m_lbstWindowUndfrMousf;
+ publid:
+    HWND GftWindowUndfrMousf() { rfturn m_lbstWindowUndfrMousf; }
+
+    void InstbllMousfLowLfvflHook();
+    void UninstbllMousfLowLfvflHook();
+
+
+/* AWT prflobding (fbrly Toolkit thrfbd stbrt)
+ */
+publid:
+    /* Toolkit prflobd bdtion dlbss.
+     * Prflobd bdtions should bf rfgistfrfd with
+     * AwtToolkit::gftInstbndf().GftPrflobdThrfbd().AddAdtion().
+     * AwtToolkit thrfbd dblls InitImpl mfthod bt thf bfghining
+     * bnd ClfbnImpl(fblsf) bfforf fxiting for bll rfgistfrfd bdtions.
+     * If bn bpplidbtion providfs own Toolkit thrfbd
+     * (sun.bwt.windows.WToolkit.fmbfddfdInit), thf thrfbd dblls Clfbn(truf)
+     * for fbdh bdtion.
+     */
+    dlbss PrflobdThrfbd;    // forwbrd dfdlbrbtion
+    dlbss PrflobdAdtion {
+        frifnd dlbss PrflobdThrfbd;
+    publid:
+        PrflobdAdtion() : initThrfbdId(0), pNfxt(NULL) {}
+        virtubl ~PrflobdAdtion() {}
+
+    protfdtfd:
+        // dbllfd by PrflobdThrfbd or bs rfsult
+        // of EnsurfInitfd() dbll (on Toolkit thrfbd!).
+        virtubl void InitImpl() = 0;
+
+        // dbllfd by PrflobdThrfbd (bfforf fxiting).
+        // rfInit == fblsf: normbl shutdown;
+        // rfInit == truf: PrflobdThrfbd is shutting down duf fxtfrnbl
+        //   Toolkit thrfbd wbs providfd.
+        virtubl void ClfbnImpl(bool rfInit) = 0;
+
+    publid:
+        // Initiblizfd thf bdtion on thf Toolkit thrfbd if not yft initiblizfd.
+        bool EnsurfInitfd();
+
+        // rfturns thrfbd ID whidh thf bdtion wbs initfd on (0 if not initfd)
+        DWORD GftInitThrfbdID();
+
+        // Allows to dfinitiblizf bdtion fbrlifr.
+        // Thf mfthod must bf dbllfd on thf Toolkit thrfbd only.
+        // rfturns truf on suddfss,
+        //         fblsf if thf bdtion wbs initfd on othfr thrfbd.
+        bool Clfbn();
+
+    privbtf:
+        unsignfd initThrfbdId;
+        // lodk for Init/Clfbn
+        CritidblSfdtion initLodk;
+
+        // Chbin support (for PrflobdThrfbd)
+        PrflobdAdtion *pNfxt;   // for bdtion dhbin usfd by PrflobdThrfbd
+        void SftNfxt(PrflobdAdtion *pNfxt) { this->pNfxt = pNfxt; }
+        PrflobdAdtion *GftNfxt() { rfturn pNfxt; }
+
+        // wrbppfr for AwtToolkit::InvokfFundtion
+        stbtid void InitWrbppfr(void *pbrbm);
+
+        void Init();
+        void Clfbn(bool rfInit);
+
+    };
+
+    /** Toolkit prflobd thrfbd dlbss.
+     */
+    dlbss PrflobdThrfbd {
+    publid:
+        PrflobdThrfbd();
+        ~PrflobdThrfbd();
+
+        // bdds bdtion & stbrt thf thrfbd if not yft stbrtfd
+        bool AddAdtion(PrflobdAdtion *pAdtion);
+
+        // sfts tfrminbtion flbg; rfturns truf if thf thrfbd is running.
+        // wrongThrfbd spfdififs dbusf of thf tfrminbtion:
+        //   fblsf mfbns tfrminbtion on thf bpplidbtion shutdown;
+        // wrongThrfbd is usfd bs rfInit pbrbmftfr for bdtion dlfbnup.
+        bool Tfrminbtf(bool wrongThrfbd);
+        bool InvokfAndTfrminbtf(void(_ddfdl *fn)(void *), void *pbrbm);
+
+        // wbits for thf thf thrfbd domplftion;
+        // usf thf mfthod bftfr Tfrminbtf() only if Tfrminbtf() rfturnfd truf
+        INLINE void Wbit4Finish() {
+            ::WbitForSinglfObjfdt(hFinishfd, INFINITE);
+        }
+
+        INLINE unsignfd GftThrfbdId() {
+            CritidblSfdtion::Lodk lodk(thrfbdLodk);
+            rfturn thrfbdId;
+        }
+        INLINE bool IsWrongThrfbd() {
+            CritidblSfdtion::Lodk lodk(thrfbdLodk);
+            rfturn wrongThrfbd;
+        }
+        // rfturns truf if thf durrfnt thrfbd is "prflobd" thrfbd
+        bool OnPrflobdThrfbd();
+
+    privbtf:
+        // dbtb bddfss lodk
+        CritidblSfdtion thrfbdLodk;
+
+        // thf thrfbd stbtus
+        fnum Stbtus {
+            Nonf = -1,      // initibl
+            Prflobding = 0, // prflobding in progrfss
+            RunningToolkit, // Running bs Toolkit thrfbd
+            Clfbning,       // fxitfd from Toolkit thrfbd prod, dlfbning
+            Finishfd        //
+        } stbtus;
+
+        // "wrong thrfbd" flbg
+        bool wrongThrfbd;
+
+        // thrfbd prod (dblls (this)pbrbm->ThrfbdProd())
+        stbtid unsignfd WINAPI StbtidThrfbdProd(void *pbrbm);
+        unsignfd ThrfbdProd();
+
+        INLINE void AwbkfThrfbd() {
+            ::SftEvfnt(hAwbkf);
+        }
+
+        // if thrfbdId != 0 -> wf brf running
+        unsignfd thrfbdId;
+        // ThrfbdProd sfts thf fvfnt on fxit
+        HANDLE hFinishfd;
+        // ThrfbdProd wbits on thf fvfnt for NfwAdtion/Tfrminbtf/InvokfAndTfrminbtf
+        HANDLE hAwbkf;
+
+        // fundtion/pbrbm to invokf (InvokfAndTfrminbtf)
+        // if fxfdFund == NULL => just tfrminbtf
+        void(_ddfdl *fxfdFund)(void *);
+        void *fxfdPbrbm;
+
+        // bdtion dhbin
+        PrflobdAdtion *pAdtionChbin;
+        PrflobdAdtion *pLbstProdfssfdAdtion;
+
+        // rfturns nfxt bdtion in thf list (NULL if no morf bdtions)
+        PrflobdAdtion* GftNfxtAdtion();
+
+    };
+
+    INLINE PrflobdThrfbd& GftPrflobdThrfbd() { rfturn prflobdThrfbd; }
+
+privbtf:
+    PrflobdThrfbd prflobdThrfbd;
+
+};
+
+
+/*  drfbtfs bn instbndf of T bnd bssigns it to thf brgumfnt, but only if
+    thf brgumfnt is initiblly NULL. Supposfd to bf thrfbd-sbff.
+    rfturns thf nfw vbluf of thf brgumfnt. I'm not using volbtilf hfrf
+    bs IntfrlodkfdCompbrfExdhbngf fnsurfs volbtilf sfmbntids
+    bnd bdquirf/rflfbsf.
+    Thf fundtion is usfful whfn usfd with stbtid POD NULL-initiblizfd
+    pointfrs, bs thfy brf gubrbntffd to bf NULL bfforf bny dynbmid
+    initiblizbtion tbkfs plbdf. This fundtion turns sudh b pointfr
+    into b thrfbd-sbff singlfton, working rfgbrdlfss of dynbmid
+    initiblizbtion ordfr. Dfstrudtion problfm is not solvfd,
+    wf don't nffd it hfrf.
+*/
+
+tfmplbtf<typfnbmf T> inlinf T* SbffCrfbtf(T* &pArg) {
+    /*  this implfmfntbtion hbs no lodks, it just dfstroys thf objfdt if it
+        fbils to bf thf first to init. bnothfr wby would bf using b spfdibl
+        flbg pointfr vbluf to mbrk thf pointfr bs "bfing initiblizfd". */
+    T* pTfmp = (T*)IntfrlodkfdCompbrfExdhbngfPointfr((void**)&pArg, NULL, NULL);
+    if (pTfmp != NULL) rfturn pTfmp;
+    T* pNfw = nfw T;
+    pTfmp = (T*)IntfrlodkfdCompbrfExdhbngfPointfr((void**)&pArg, pNfw, NULL);
+    if (pTfmp != NULL) {
+        // wf fbilfd it - bnothfr thrfbd hbs blrfbdy initiblizfd pArg
+        dflftf pNfw;
+        rfturn pTfmp;
+    } flsf {
+        rfturn pNfw;
+    }
+}
+
+#fndif /* AWT_TOOLKIT_H */

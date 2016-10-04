@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans;
+pbdkbgf jbvb.bfbns;
 
 /**
  * <p>
- * This interface is intended to be implemented by, or delegated from, instances
- * of java.beans.beancontext.BeanContext, in order to propagate to its nested hierarchy
- * of java.beans.beancontext.BeanContextChild instances, the current "designTime" property.
+ * Tiis intfrfbdf is intfndfd to bf implfmfntfd by, or dflfgbtfd from, instbndfs
+ * of jbvb.bfbns.bfbndontfxt.BfbnContfxt, in ordfr to propbgbtf to its nfstfd iifrbrdiy
+ * of jbvb.bfbns.bfbndontfxt.BfbnContfxtCiild instbndfs, tif durrfnt "dfsignTimf" propfrty.
  * <p>
- * The JavaBeans&trade; specification defines the notion of design time as is a
- * mode in which JavaBeans instances should function during their composition
- * and customization in a interactive design, composition or construction tool,
- * as opposed to runtime when the JavaBean is part of an applet, application,
- * or other live Java executable abstraction.
+ * Tif JbvbBfbns&trbdf; spfdifidbtion dffinfs tif notion of dfsign timf bs is b
+ * modf in wiidi JbvbBfbns instbndfs siould fundtion during tifir domposition
+ * bnd dustomizbtion in b intfrbdtivf dfsign, domposition or donstrudtion tool,
+ * bs opposfd to runtimf wifn tif JbvbBfbn is pbrt of bn bpplft, bpplidbtion,
+ * or otifr livf Jbvb fxfdutbblf bbstrbdtion.
  *
- * @author Laurence P. G. Cable
- * @since 1.2
+ * @butior Lburfndf P. G. Cbblf
+ * @sindf 1.2
  *
- * @see java.beans.beancontext.BeanContext
- * @see java.beans.beancontext.BeanContextChild
- * @see java.beans.beancontext.BeanContextMembershipListener
- * @see java.beans.PropertyChangeEvent
+ * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxt
+ * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxtCiild
+ * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxtMfmbfrsiipListfnfr
+ * @sff jbvb.bfbns.PropfrtyCibngfEvfnt
  */
 
-public interface DesignMode {
+publid intfrfbdf DfsignModf {
 
     /**
-     * The standard value of the propertyName as fired from a BeanContext or
-     * other source of PropertyChangeEvents.
+     * Tif stbndbrd vbluf of tif propfrtyNbmf bs firfd from b BfbnContfxt or
+     * otifr sourdf of PropfrtyCibngfEvfnts.
      */
 
-    static String PROPERTYNAME = "designTime";
+    stbtid String PROPERTYNAME = "dfsignTimf";
 
     /**
-     * Sets the "value" of the "designTime" property.
+     * Sfts tif "vbluf" of tif "dfsignTimf" propfrty.
      * <p>
-     * If the implementing object is an instance of java.beans.beancontext.BeanContext,
-     * or a subinterface thereof, then that BeanContext should fire a
-     * PropertyChangeEvent, to its registered BeanContextMembershipListeners, with
-     * parameters:
+     * If tif implfmfnting objfdt is bn instbndf of jbvb.bfbns.bfbndontfxt.BfbnContfxt,
+     * or b subintfrfbdf tifrfof, tifn tibt BfbnContfxt siould firf b
+     * PropfrtyCibngfEvfnt, to its rfgistfrfd BfbnContfxtMfmbfrsiipListfnfrs, witi
+     * pbrbmftfrs:
      * <ul>
-     *    <li><code>propertyName</code> - <code>java.beans.DesignMode.PROPERTYNAME</code>
-     *    <li><code>oldValue</code> - previous value of "designTime"
-     *    <li><code>newValue</code> - current value of "designTime"
+     *    <li><dodf>propfrtyNbmf</dodf> - <dodf>jbvb.bfbns.DfsignModf.PROPERTYNAME</dodf>
+     *    <li><dodf>oldVbluf</dodf> - prfvious vbluf of "dfsignTimf"
+     *    <li><dodf>nfwVbluf</dodf> - durrfnt vbluf of "dfsignTimf"
      * </ul>
-     * Note it is illegal for a BeanContextChild to invoke this method
-     * associated with a BeanContext that it is nested within.
+     * Notf it is illfgbl for b BfbnContfxtCiild to invokf tiis mftiod
+     * bssodibtfd witi b BfbnContfxt tibt it is nfstfd witiin.
      *
-     * @param designTime  the current "value" of the "designTime" property
-     * @see java.beans.beancontext.BeanContext
-     * @see java.beans.beancontext.BeanContextMembershipListener
-     * @see java.beans.PropertyChangeEvent
+     * @pbrbm dfsignTimf  tif durrfnt "vbluf" of tif "dfsignTimf" propfrty
+     * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxt
+     * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxtMfmbfrsiipListfnfr
+     * @sff jbvb.bfbns.PropfrtyCibngfEvfnt
      */
 
-    void setDesignTime(boolean designTime);
+    void sftDfsignTimf(boolfbn dfsignTimf);
 
     /**
-     * A value of true denotes that JavaBeans should behave in design time
-     * mode, a value of false denotes runtime behavior.
+     * A vbluf of truf dfnotfs tibt JbvbBfbns siould bfibvf in dfsign timf
+     * modf, b vbluf of fblsf dfnotfs runtimf bfibvior.
      *
-     * @return the current "value" of the "designTime" property.
+     * @rfturn tif durrfnt "vbluf" of tif "dfsignTimf" propfrty.
      */
 
-    boolean isDesignTime();
+    boolfbn isDfsignTimf();
 }

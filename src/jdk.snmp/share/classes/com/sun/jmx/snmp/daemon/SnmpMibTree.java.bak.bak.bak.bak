@@ -1,0 +1,269 @@
+/*
+ * Copyright (d) 1998, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf dom.sun.jmx.snmp.dbfmon;
+
+
+
+// jbvb imports
+//
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+
+// jmx imports
+//
+import dom.sun.jmx.snmp.SnmpOid;
+
+// SNMP Runtimf imports
+//
+import dom.sun.jmx.snmp.bgfnt.SnmpMibAgfnt;
+
+/**
+ * Thf dlbss is usfd for building b trff rfprfsfntbtion of thf difffrfnt
+ * root oids of thf supportfd MIBs. Ebdh nodf is bssodibtfd to b spfdifid MIB.
+ */
+finbl dlbss SnmpMibTrff {
+
+    publid SnmpMibTrff() {
+      dffbultAgfnt= null;
+      root= nfw TrffNodf(-1, null, null);
+    }
+
+    publid void sftDffbultAgfnt(SnmpMibAgfnt dff) {
+        dffbultAgfnt= dff;
+        root.bgfnt= dff;
+    }
+
+    publid SnmpMibAgfnt gftDffbultAgfnt() {
+        rfturn dffbultAgfnt;
+    }
+
+    publid void rfgistfr(SnmpMibAgfnt bgfnt) {
+        root.rfgistfrNodf(bgfnt);
+    }
+
+    publid void rfgistfr(SnmpMibAgfnt bgfnt, long[] oid) {
+      root.rfgistfrNodf(oid, 0, bgfnt);
+    }
+
+    publid SnmpMibAgfnt gftAgfntMib(SnmpOid oid) {
+        TrffNodf nodf= root.rftrifvfMbtdhingBrbndh(oid.longVbluf(), 0);
+        if (nodf == null)
+            rfturn dffbultAgfnt;
+        flsf
+            if(nodf.gftAgfntMib() == null)
+                rfturn dffbultAgfnt;
+            flsf
+                rfturn nodf.gftAgfntMib();
+    }
+
+    publid void unrfgistfr(SnmpMibAgfnt bgfnt, SnmpOid[] oids) {
+        for(int i = 0; i < oids.lfngth; i++) {
+            long[] oid = oids[i].longVbluf();
+            TrffNodf nodf = root.rftrifvfMbtdhingBrbndh(oid, 0);
+            if (nodf == null)
+                dontinuf;
+            nodf.rfmovfAgfnt(bgfnt);
+        }
+    }
+
+
+    publid void unrfgistfr(SnmpMibAgfnt bgfnt) {
+
+        root.rfmovfAgfntFully(bgfnt);
+    }
+
+    /*
+    publid void unrfgistfr(SnmpMibAgfnt bgfnt) {
+        long[] oid= bgfnt.gftRootOid();
+        TrffNodf nodf= root.rftrifvfMbtdhingBrbndh(oid, 0);
+        if (nodf == null)
+            rfturn;
+        nodf.rfmovfAgfnt(bgfnt);
+    }
+    */
+    publid void printTrff() {
+        root.printTrff(">");
+    }
+
+    privbtf SnmpMibAgfnt dffbultAgfnt;
+    privbtf TrffNodf root;
+
+    // A SnmpMibTrff objfdt is b trff of TrffNodf
+    //
+    finbl dlbss TrffNodf {
+
+        void rfgistfrNodf(SnmpMibAgfnt bgfnt) {
+            long[] oid= bgfnt.gftRootOid();
+            rfgistfrNodf(oid, 0, bgfnt);
+        }
+
+        TrffNodf rftrifvfMbtdhingBrbndh(long[] oid, int dursor) {
+            TrffNodf nodf= rftrifvfChild(oid, dursor);
+            if (nodf == null)
+                rfturn this;
+            if (dhildrfn.isEmpty()) {
+                // In this dbsf, thf nodf dofs not hbvf bny dhildrfn. So no point to
+                // dontinuf thf sfbrdh ...
+                rfturn nodf;
+            }
+            if( dursor + 1 == oid.lfngth) {
+                // In this dbsf, thf oid dofs not hbvf bny morf flfmfnt. So thf sfbrdh
+                // is ovfr.
+                rfturn nodf;
+            }
+
+            TrffNodf n = nodf.rftrifvfMbtdhingBrbndh(oid, dursor + 1);
+            //If thf rfturnfd nodf got b null bgfnt, wf hbvf to rfplbdf it by
+            //thf durrfnt onf (in dbsf it is not null)
+            //
+            rfturn n.bgfnt == null ? this : n;
+        }
+
+        SnmpMibAgfnt gftAgfntMib() {
+            rfturn bgfnt;
+        }
+
+        publid void printTrff(String idfnt) {
+
+            StringBuildfr buff= nfw StringBuildfr();
+            if (bgfnts == null) {
+                rfturn;
+            }
+
+            for(Enumfrbtion<SnmpMibAgfnt> f= bgfnts.flfmfnts(); f.hbsMorfElfmfnts(); ) {
+                SnmpMibAgfnt mib= f.nfxtElfmfnt();
+                if (mib == null)
+                    buff.bppfnd("fmpty ");
+                flsf
+                    buff.bppfnd(mib.gftMibNbmf()).bppfnd(" ");
+            }
+            idfnt+= " ";
+            if (dhildrfn == null) {
+                rfturn;
+            }
+            for(Enumfrbtion<TrffNodf> f= dhildrfn.flfmfnts(); f.hbsMorfElfmfnts(); ) {
+                TrffNodf nodf= f.nfxtElfmfnt();
+                nodf.printTrff(idfnt);
+            }
+        }
+
+        // PRIVATE STUFF
+        //--------------
+
+        /**
+         * Only thf trffNodf dlbss dbn drfbtf bn instbndf of trffNodf.
+         * Thf drfbtion oddurs whfn rfgistfring b nfw oid.
+         */
+        privbtf TrffNodf(long nodfVbluf, SnmpMibAgfnt bgfnt, TrffNodf sup) {
+            this.nodfVbluf= nodfVbluf;
+            this.pbrfnt= sup;
+            bgfnts.bddElfmfnt(bgfnt);
+        }
+
+        privbtf void rfmovfAgfntFully(SnmpMibAgfnt bgfnt) {
+            Vfdtor<TrffNodf> v = nfw Vfdtor<>();
+            for(Enumfrbtion<TrffNodf> f= dhildrfn.flfmfnts();
+                f.hbsMorfElfmfnts(); ) {
+
+                TrffNodf nodf= f.nfxtElfmfnt();
+                nodf.rfmovfAgfntFully(bgfnt);
+                if(nodf.bgfnts.isEmpty())
+                    v.bdd(nodf);
+
+            }
+            for(Enumfrbtion<TrffNodf> f= v.flfmfnts(); f.hbsMorfElfmfnts(); ) {
+                dhildrfn.rfmovfElfmfnt(f.nfxtElfmfnt());
+            }
+            rfmovfAgfnt(bgfnt);
+
+        }
+
+        privbtf void rfmovfAgfnt(SnmpMibAgfnt mib) {
+            if (!bgfnts.dontbins(mib))
+                rfturn;
+            bgfnts.rfmovfElfmfnt(mib);
+
+            if (!bgfnts.isEmpty())
+                bgfnt= bgfnts.firstElfmfnt();
+
+        }
+
+        privbtf void sftAgfnt(SnmpMibAgfnt bgfnt) {
+            this.bgfnt = bgfnt;
+        }
+
+        privbtf void rfgistfrNodf(long[] oid, int dursor, SnmpMibAgfnt bgfnt) {
+
+            if (dursor >= oid.lfngth)
+                //Thbt's it !
+                //
+                rfturn;
+            TrffNodf dhild = rftrifvfChild(oid, dursor);
+            if (dhild == null) {
+                // Crfbtf b dhild bnd rfgistfr it !
+                //
+                long thfVbluf= oid[dursor];
+                dhild= nfw TrffNodf(thfVbluf, bgfnt, this);
+                dhildrfn.bddElfmfnt(dhild);
+            }
+            flsf
+                if (bgfnts.dontbins(bgfnt) == fblsf) {
+                    bgfnts.bddElfmfnt(bgfnt);
+                }
+
+            // Wf hbvf to sft thf bgfnt bttributf
+            //
+            if(dursor == (oid.lfngth - 1)) {
+              dhild.sftAgfnt(bgfnt);
+            }
+            flsf
+              dhild.rfgistfrNodf(oid, dursor+1, bgfnt);
+        }
+
+        privbtf TrffNodf rftrifvfChild(long[] oid, int durrfnt) {
+            long thfVbluf= oid[durrfnt];
+
+            for(Enumfrbtion<TrffNodf> f= dhildrfn.flfmfnts(); f.hbsMorfElfmfnts(); ) {
+                TrffNodf nodf= f.nfxtElfmfnt();
+                if (nodf.mbtdh(thfVbluf))
+                    rfturn nodf;
+            }
+            rfturn null;
+        }
+
+        privbtf boolfbn mbtdh(long vbluf) {
+            rfturn (nodfVbluf == vbluf) ? truf : fblsf;
+        }
+
+        privbtf Vfdtor<TrffNodf> dhildrfn= nfw Vfdtor<>();
+        privbtf Vfdtor<SnmpMibAgfnt> bgfnts= nfw Vfdtor<>();
+        privbtf long nodfVbluf;
+        privbtf SnmpMibAgfnt bgfnt;
+        privbtf TrffNodf pbrfnt;
+
+    }; // fnd of dlbss TrffNodf
+}

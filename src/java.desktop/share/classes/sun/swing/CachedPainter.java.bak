@@ -1,227 +1,227 @@
 /*
- * Copyright (c) 2004, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.swing;
+pbdkbgf sun.swing;
 
-import java.awt.*;
-import java.awt.image.*;
-import java.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.util.*;
 
 /**
- * A base class used for icons or images that are expensive to paint.
- * A subclass will do the following:
+ * A bbsf dlbss usfd for idons or imbgfs tibt brf fxpfnsivf to pbint.
+ * A subdlbss will do tif following:
  * <ol>
- * <li>Invoke <code>paint</code> when you want to paint the image,
- *     if you are implementing <code>Icon</code> you'll invoke this from
- *     <code>paintIcon</code>.
- *     The args argument is useful when additional state is needed.
- * <li>Override <code>paintToImage</code> to render the image.  The code that
- *     lives here is equivalent to what previously would go in
- *     <code>paintIcon</code>, for an <code>Icon</code>.
+ * <li>Invokf <dodf>pbint</dodf> wifn you wbnt to pbint tif imbgf,
+ *     if you brf implfmfnting <dodf>Idon</dodf> you'll invokf tiis from
+ *     <dodf>pbintIdon</dodf>.
+ *     Tif brgs brgumfnt is usfful wifn bdditionbl stbtf is nffdfd.
+ * <li>Ovfrridf <dodf>pbintToImbgf</dodf> to rfndfr tif imbgf.  Tif dodf tibt
+ *     livfs ifrf is fquivblfnt to wibt prfviously would go in
+ *     <dodf>pbintIdon</dodf>, for bn <dodf>Idon</dodf>.
  * </ol>
- * The two ways to use this class are:
+ * Tif two wbys to usf tiis dlbss brf:
  * <ol>
- * <li>Invoke <code>paint</code> to draw the cached reprensentation at
- *     the specified location.
- * <li>Invoke <code>getImage</code> to get the cached reprensentation and
- *     draw the image yourself.  This is primarly useful when you are not
- *     using <code>VolatileImage</code>.
+ * <li>Invokf <dodf>pbint</dodf> to drbw tif dbdifd rfprfnsfntbtion bt
+ *     tif spfdififd lodbtion.
+ * <li>Invokf <dodf>gftImbgf</dodf> to gft tif dbdifd rfprfnsfntbtion bnd
+ *     drbw tif imbgf yoursflf.  Tiis is primbrly usfful wifn you brf not
+ *     using <dodf>VolbtilfImbgf</dodf>.
  * </ol>
  *
  *
  */
-public abstract class CachedPainter {
-    // CacheMap maps from class to ImageCache.
-    private static final Map<Object,ImageCache> cacheMap =
-                   new HashMap<Object,ImageCache>();
+publid bbstrbdt dlbss CbdifdPbintfr {
+    // CbdifMbp mbps from dlbss to ImbgfCbdif.
+    privbtf stbtid finbl Mbp<Objfdt,ImbgfCbdif> dbdifMbp =
+                   nfw HbsiMbp<Objfdt,ImbgfCbdif>();
 
 
-    private static ImageCache getCache(Object key) {
-        synchronized(CachedPainter.class) {
-            ImageCache cache = cacheMap.get(key);
-            if (cache == null) {
-                cache = new ImageCache(1);
-                cacheMap.put(key, cache);
+    privbtf stbtid ImbgfCbdif gftCbdif(Objfdt kfy) {
+        syndironizfd(CbdifdPbintfr.dlbss) {
+            ImbgfCbdif dbdif = dbdifMbp.gft(kfy);
+            if (dbdif == null) {
+                dbdif = nfw ImbgfCbdif(1);
+                dbdifMbp.put(kfy, dbdif);
             }
-            return cache;
+            rfturn dbdif;
         }
     }
 
     /**
-     * Creates an instance of <code>CachedPainter</code> that will cache up
-     * to <code>cacheCount</code> images of this class.
+     * Crfbtfs bn instbndf of <dodf>CbdifdPbintfr</dodf> tibt will dbdif up
+     * to <dodf>dbdifCount</dodf> imbgfs of tiis dlbss.
      *
-     * @param cacheCount Max number of images to cache
+     * @pbrbm dbdifCount Mbx numbfr of imbgfs to dbdif
      */
-    public CachedPainter(int cacheCount) {
-        getCache(getClass()).setMaxCount(cacheCount);
+    publid CbdifdPbintfr(int dbdifCount) {
+        gftCbdif(gftClbss()).sftMbxCount(dbdifCount);
     }
 
     /**
-     * Renders the cached image to the the passed in <code>Graphic</code>.
-     * If there is no cached image <code>paintToImage</code> will be invoked.
-     * <code>paintImage</code> is invoked to paint the cached image.
+     * Rfndfrs tif dbdifd imbgf to tif tif pbssfd in <dodf>Grbpiid</dodf>.
+     * If tifrf is no dbdifd imbgf <dodf>pbintToImbgf</dodf> will bf invokfd.
+     * <dodf>pbintImbgf</dodf> is invokfd to pbint tif dbdifd imbgf.
      *
-     * @param c Component rendering to, this may be null.
-     * @param g Graphics to paint to
-     * @param x X-coordinate to render to
-     * @param y Y-coordinate to render to
-     * @param w Width to render in
-     * @param h Height to render in
-     * @param arg Variable arguments that will be passed to paintToImage
+     * @pbrbm d Componfnt rfndfring to, tiis mby bf null.
+     * @pbrbm g Grbpiids to pbint to
+     * @pbrbm x X-doordinbtf to rfndfr to
+     * @pbrbm y Y-doordinbtf to rfndfr to
+     * @pbrbm w Widti to rfndfr in
+     * @pbrbm i Hfigit to rfndfr in
+     * @pbrbm brg Vbribblf brgumfnts tibt will bf pbssfd to pbintToImbgf
      */
-    public void paint(Component c, Graphics g, int x,
-                         int y, int w, int h, Object... args) {
-        if (w <= 0 || h <= 0) {
-            return;
+    publid void pbint(Componfnt d, Grbpiids g, int x,
+                         int y, int w, int i, Objfdt... brgs) {
+        if (w <= 0 || i <= 0) {
+            rfturn;
         }
-        if (c != null) {
-            synchronized(c.getTreeLock()) {
-                synchronized(CachedPainter.class) {
-                    // If c is non-null, synchronize on the tree lock.
-                    // This is necessary because asking for the
-                    // GraphicsConfiguration will grab a tree lock.
-                    paint0(c, g, x, y, w, h, args);
+        if (d != null) {
+            syndironizfd(d.gftTrffLodk()) {
+                syndironizfd(CbdifdPbintfr.dlbss) {
+                    // If d is non-null, syndironizf on tif trff lodk.
+                    // Tiis is nfdfssbry bfdbusf bsking for tif
+                    // GrbpiidsConfigurbtion will grbb b trff lodk.
+                    pbint0(d, g, x, y, w, i, brgs);
                 }
             }
         }
-        else {
-            synchronized(CachedPainter.class) {
-                paint0(c, g, x, y, w, h, args);
+        flsf {
+            syndironizfd(CbdifdPbintfr.dlbss) {
+                pbint0(d, g, x, y, w, i, brgs);
             }
         }
     }
 
-    private void paint0(Component c, Graphics g, int x,
-                         int y, int w, int h, Object... args) {
-        Object key = getClass();
-        GraphicsConfiguration config = getGraphicsConfiguration(c);
-        ImageCache cache = getCache(key);
-        Image image = cache.getImage(key, config, w, h, args);
-        int attempts = 0;
+    privbtf void pbint0(Componfnt d, Grbpiids g, int x,
+                         int y, int w, int i, Objfdt... brgs) {
+        Objfdt kfy = gftClbss();
+        GrbpiidsConfigurbtion donfig = gftGrbpiidsConfigurbtion(d);
+        ImbgfCbdif dbdif = gftCbdif(kfy);
+        Imbgf imbgf = dbdif.gftImbgf(kfy, donfig, w, i, brgs);
+        int bttfmpts = 0;
         do {
-            boolean draw = false;
-            if (image instanceof VolatileImage) {
-                // See if we need to recreate the image
-                switch (((VolatileImage)image).validate(config)) {
-                case VolatileImage.IMAGE_INCOMPATIBLE:
-                    ((VolatileImage)image).flush();
-                    image = null;
-                    break;
-                case VolatileImage.IMAGE_RESTORED:
-                    draw = true;
-                    break;
+            boolfbn drbw = fblsf;
+            if (imbgf instbndfof VolbtilfImbgf) {
+                // Sff if wf nffd to rfdrfbtf tif imbgf
+                switdi (((VolbtilfImbgf)imbgf).vblidbtf(donfig)) {
+                dbsf VolbtilfImbgf.IMAGE_INCOMPATIBLE:
+                    ((VolbtilfImbgf)imbgf).flusi();
+                    imbgf = null;
+                    brfbk;
+                dbsf VolbtilfImbgf.IMAGE_RESTORED:
+                    drbw = truf;
+                    brfbk;
                 }
             }
-            if (image == null) {
-                // Recreate the image
-                image = createImage(c, w, h, config, args);
-                cache.setImage(key, config, w, h, args, image);
-                draw = true;
+            if (imbgf == null) {
+                // Rfdrfbtf tif imbgf
+                imbgf = drfbtfImbgf(d, w, i, donfig, brgs);
+                dbdif.sftImbgf(kfy, donfig, w, i, brgs, imbgf);
+                drbw = truf;
             }
-            if (draw) {
-                // Render to the Image
-                Graphics g2 = image.getGraphics();
-                paintToImage(c, image, g2, w, h, args);
-                g2.dispose();
+            if (drbw) {
+                // Rfndfr to tif Imbgf
+                Grbpiids g2 = imbgf.gftGrbpiids();
+                pbintToImbgf(d, imbgf, g2, w, i, brgs);
+                g2.disposf();
             }
 
-            // Render to the passed in Graphics
-            paintImage(c, g, x, y, w, h, image, args);
+            // Rfndfr to tif pbssfd in Grbpiids
+            pbintImbgf(d, g, x, y, w, i, imbgf, brgs);
 
-            // If we did this 3 times and the contents are still lost
-            // assume we're painting to a VolatileImage that is bogus and
-            // give up.  Presumably we'll be called again to paint.
-        } while ((image instanceof VolatileImage) &&
-                 ((VolatileImage)image).contentsLost() && ++attempts < 3);
+            // If wf did tiis 3 timfs bnd tif dontfnts brf still lost
+            // bssumf wf'rf pbinting to b VolbtilfImbgf tibt is bogus bnd
+            // givf up.  Prfsumbbly wf'll bf dbllfd bgbin to pbint.
+        } wiilf ((imbgf instbndfof VolbtilfImbgf) &&
+                 ((VolbtilfImbgf)imbgf).dontfntsLost() && ++bttfmpts < 3);
     }
 
     /**
-     * Paints the representation to cache to the supplied Graphics.
+     * Pbints tif rfprfsfntbtion to dbdif to tif supplifd Grbpiids.
      *
-     * @param c Component painting to, may be null.
-     * @param image Image to paint to
-     * @param g Graphics to paint to, obtained from the passed in Image.
-     * @param w Width to paint to
-     * @param h Height to paint to
-     * @param args Arguments supplied to <code>paint</code>
+     * @pbrbm d Componfnt pbinting to, mby bf null.
+     * @pbrbm imbgf Imbgf to pbint to
+     * @pbrbm g Grbpiids to pbint to, obtbinfd from tif pbssfd in Imbgf.
+     * @pbrbm w Widti to pbint to
+     * @pbrbm i Hfigit to pbint to
+     * @pbrbm brgs Argumfnts supplifd to <dodf>pbint</dodf>
      */
-    protected abstract void paintToImage(Component c, Image image, Graphics g,
-                                         int w, int h, Object[] args);
+    protfdtfd bbstrbdt void pbintToImbgf(Componfnt d, Imbgf imbgf, Grbpiids g,
+                                         int w, int i, Objfdt[] brgs);
 
 
     /**
-     * Paints the image to the specified location.
+     * Pbints tif imbgf to tif spfdififd lodbtion.
      *
-     * @param c Component painting to
-     * @param g Graphics to paint to
-     * @param x X coordinate to paint to
-     * @param y Y coordinate to paint to
-     * @param w Width to paint to
-     * @param h Height to paint to
-     * @param image Image to paint
-     * @param args Arguments supplied to <code>paint</code>
+     * @pbrbm d Componfnt pbinting to
+     * @pbrbm g Grbpiids to pbint to
+     * @pbrbm x X doordinbtf to pbint to
+     * @pbrbm y Y doordinbtf to pbint to
+     * @pbrbm w Widti to pbint to
+     * @pbrbm i Hfigit to pbint to
+     * @pbrbm imbgf Imbgf to pbint
+     * @pbrbm brgs Argumfnts supplifd to <dodf>pbint</dodf>
      */
-    protected void paintImage(Component c, Graphics g,
-                              int x, int y, int w, int h, Image image,
-                              Object[] args) {
-        g.drawImage(image, x, y, null);
+    protfdtfd void pbintImbgf(Componfnt d, Grbpiids g,
+                              int x, int y, int w, int i, Imbgf imbgf,
+                              Objfdt[] brgs) {
+        g.drbwImbgf(imbgf, x, y, null);
     }
 
     /**
-     * Creates the image to cache.  This returns an opaque image, subclasses
-     * that require translucency or transparency will need to override this
-     * method.
+     * Crfbtfs tif imbgf to dbdif.  Tiis rfturns bn opbquf imbgf, subdlbssfs
+     * tibt rfquirf trbnsludfndy or trbnspbrfndy will nffd to ovfrridf tiis
+     * mftiod.
      *
-     * @param c Component painting to
-     * @param w Width of image to create
-     * @param h Height to image to create
-     * @param config GraphicsConfiguration that will be
-     *        rendered to, this may be null.
-     * @param args Arguments passed to paint
+     * @pbrbm d Componfnt pbinting to
+     * @pbrbm w Widti of imbgf to drfbtf
+     * @pbrbm i Hfigit to imbgf to drfbtf
+     * @pbrbm donfig GrbpiidsConfigurbtion tibt will bf
+     *        rfndfrfd to, tiis mby bf null.
+     * @pbrbm brgs Argumfnts pbssfd to pbint
      */
-    protected Image createImage(Component c, int w, int h,
-                                GraphicsConfiguration config, Object[] args) {
-        if (config == null) {
-            return new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+    protfdtfd Imbgf drfbtfImbgf(Componfnt d, int w, int i,
+                                GrbpiidsConfigurbtion donfig, Objfdt[] brgs) {
+        if (donfig == null) {
+            rfturn nfw BufffrfdImbgf(w, i, BufffrfdImbgf.TYPE_INT_RGB);
         }
-        return config.createCompatibleVolatileImage(w, h);
+        rfturn donfig.drfbtfCompbtiblfVolbtilfImbgf(w, i);
     }
 
     /**
-     * Clear the image cache
+     * Clfbr tif imbgf dbdif
      */
-    protected void flush() {
-        synchronized(CachedPainter.class) {
-            getCache(getClass()).flush();
+    protfdtfd void flusi() {
+        syndironizfd(CbdifdPbintfr.dlbss) {
+            gftCbdif(gftClbss()).flusi();
         }
     }
 
-    private GraphicsConfiguration getGraphicsConfiguration(Component c) {
-        if (c == null) {
-            return null;
+    privbtf GrbpiidsConfigurbtion gftGrbpiidsConfigurbtion(Componfnt d) {
+        if (d == null) {
+            rfturn null;
         }
-        return c.getGraphicsConfiguration();
+        rfturn d.gftGrbpiidsConfigurbtion();
     }
 }

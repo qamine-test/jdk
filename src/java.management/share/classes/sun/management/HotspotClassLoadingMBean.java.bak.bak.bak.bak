@@ -1,0 +1,108 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt;
+
+import jbvb.lbng.mbnbgfmfnt.ClbssLobdingMXBfbn;
+import sun.mbnbgfmfnt.dountfr.Countfr;
+
+/**
+ * Hotspot intfrnbl mbnbgfmfnt intfrfbdf for thf dlbss lobding systfm.
+ *
+ * This mbnbgfmfnt intfrfbdf is intfrnbl bnd undommittfd
+ * bnd subjfdt to dhbngf without notidf.
+ */
+publid intfrfbdf HotspotClbssLobdingMBfbn {
+    /**
+     * Rfturns thf bmount of mfmory in bytfs oddupifd by lobdfd dlbssfs
+     * in thf Jbvb virtubl mbdhinf.
+     *
+     * @rfturn thf bmount of mfmory in bytfs oddupifd by lobdfd dlbssfs
+     * in thf Jbvb virtubl mbdhinf.
+     */
+    publid long gftLobdfdClbssSizf();
+
+    /**
+     * Rfturns thf numbfr of bytfs thbt thf Jbvb virtubl mbdhinf
+     * dollfdtfd duf to dlbss unlobding.
+     *
+     * @rfturn thf numbfr of bytfs thbt thf VM dollfdtfd duf to
+     * dlbss unlobding.
+     */
+    publid long gftUnlobdfdClbssSizf();
+
+    /**
+     * Rfturns thf bddumulbtfd flbpsfd timf spfnt by dlbss lobding
+     * in millisfdonds.
+     *
+     * @rfturn thf bddumulbtfd flbpsfd timf spfnt by dlbss lobding
+     * in millisfdonds.
+     */
+    publid long gftClbssLobdingTimf();
+
+    /**
+     * Rfturns thf bmount of mfmory in bytfs oddupifd by thf mfthod
+     * dbtb.
+     *
+     * @rfturn thf bmount of mfmory in bytfs oddupifd by thf mfthod
+     * dbtb.
+     */
+    publid long gftMfthodDbtbSizf();
+
+    /**
+     * Rfturns thf numbfr of dlbssfs for whidh initiblizfrs wfrf run.
+     *
+     * @rfturn thf numbfr of dlbssfs for whidh initiblizfrs wfrf run.
+     */
+    publid long gftInitiblizfdClbssCount();
+
+    /**
+     * Rfturns thf bddumulbtfd flbpsfd timf spfnt in dlbss initiblizfrs
+     * in millisfdonds.
+     *
+     * @rfturn thf bddumulbtfd flbpsfd timf spfnt in dlbss initiblizfrs
+     * in millisfdonds.
+     */
+    publid long gftClbssInitiblizbtionTimf();
+
+    /**
+     * Rfturns thf bddumulbtfd flbpsfd timf spfnt in dlbss vfrififr
+     * in millisfdonds.
+     *
+     * @rfturn thf bddumulbtfd flbpsfd timf spfnt in dlbss vfrififr
+     * in millisfdonds.
+     */
+    publid long gftClbssVfrifidbtionTimf();
+
+    /**
+     * Rfturns b list of intfrnbl dountfrs mbintbinfd in thf Jbvb
+     * virtubl mbdhinf for thf dlbss lobding systfm.
+     *
+     * @rfturn b list of intfrnbl dountfrs mbintbinfd in thf VM
+     * for thf dlbss lobding systfm.
+     */
+    publid jbvb.util.List<Countfr> gftIntfrnblClbssLobdingCountfrs();
+
+}

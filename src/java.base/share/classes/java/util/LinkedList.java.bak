@@ -1,1261 +1,1261 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.util.function.Consumer;
+import jbvb.util.fundtion.Consumfr;
 
 /**
- * Doubly-linked list implementation of the {@code List} and {@code Deque}
- * interfaces.  Implements all optional list operations, and permits all
- * elements (including {@code null}).
+ * Doubly-linkfd list implfmfntbtion of tif {@dodf List} bnd {@dodf Dfquf}
+ * intfrfbdfs.  Implfmfnts bll optionbl list opfrbtions, bnd pfrmits bll
+ * flfmfnts (indluding {@dodf null}).
  *
- * <p>All of the operations perform as could be expected for a doubly-linked
- * list.  Operations that index into the list will traverse the list from
- * the beginning or the end, whichever is closer to the specified index.
+ * <p>All of tif opfrbtions pfrform bs dould bf fxpfdtfd for b doubly-linkfd
+ * list.  Opfrbtions tibt indfx into tif list will trbvfrsf tif list from
+ * tif bfginning or tif fnd, wiidifvfr is dlosfr to tif spfdififd indfx.
  *
- * <p><strong>Note that this implementation is not synchronized.</strong>
- * If multiple threads access a linked list concurrently, and at least
- * one of the threads modifies the list structurally, it <i>must</i> be
- * synchronized externally.  (A structural modification is any operation
- * that adds or deletes one or more elements; merely setting the value of
- * an element is not a structural modification.)  This is typically
- * accomplished by synchronizing on some object that naturally
- * encapsulates the list.
+ * <p><strong>Notf tibt tiis implfmfntbtion is not syndironizfd.</strong>
+ * If multiplf tirfbds bddfss b linkfd list dondurrfntly, bnd bt lfbst
+ * onf of tif tirfbds modififs tif list strudturblly, it <i>must</i> bf
+ * syndironizfd fxtfrnblly.  (A strudturbl modifidbtion is bny opfrbtion
+ * tibt bdds or dflftfs onf or morf flfmfnts; mfrfly sftting tif vbluf of
+ * bn flfmfnt is not b strudturbl modifidbtion.)  Tiis is typidblly
+ * bddomplisifd by syndironizing on somf objfdt tibt nbturblly
+ * fndbpsulbtfs tif list.
  *
- * If no such object exists, the list should be "wrapped" using the
- * {@link Collections#synchronizedList Collections.synchronizedList}
- * method.  This is best done at creation time, to prevent accidental
- * unsynchronized access to the list:<pre>
- *   List list = Collections.synchronizedList(new LinkedList(...));</pre>
+ * If no sudi objfdt fxists, tif list siould bf "wrbppfd" using tif
+ * {@link Collfdtions#syndironizfdList Collfdtions.syndironizfdList}
+ * mftiod.  Tiis is bfst donf bt drfbtion timf, to prfvfnt bddidfntbl
+ * unsyndironizfd bddfss to tif list:<prf>
+ *   List list = Collfdtions.syndironizfdList(nfw LinkfdList(...));</prf>
  *
- * <p>The iterators returned by this class's {@code iterator} and
- * {@code listIterator} methods are <i>fail-fast</i>: if the list is
- * structurally modified at any time after the iterator is created, in
- * any way except through the Iterator's own {@code remove} or
- * {@code add} methods, the iterator will throw a {@link
- * ConcurrentModificationException}.  Thus, in the face of concurrent
- * modification, the iterator fails quickly and cleanly, rather than
- * risking arbitrary, non-deterministic behavior at an undetermined
- * time in the future.
+ * <p>Tif itfrbtors rfturnfd by tiis dlbss's {@dodf itfrbtor} bnd
+ * {@dodf listItfrbtor} mftiods brf <i>fbil-fbst</i>: if tif list is
+ * strudturblly modififd bt bny timf bftfr tif itfrbtor is drfbtfd, in
+ * bny wby fxdfpt tirougi tif Itfrbtor's own {@dodf rfmovf} or
+ * {@dodf bdd} mftiods, tif itfrbtor will tirow b {@link
+ * CondurrfntModifidbtionExdfption}.  Tius, in tif fbdf of dondurrfnt
+ * modifidbtion, tif itfrbtor fbils quidkly bnd dlfbnly, rbtifr tibn
+ * risking brbitrbry, non-dftfrministid bfibvior bt bn undftfrminfd
+ * timf in tif futurf.
  *
- * <p>Note that the fail-fast behavior of an iterator cannot be guaranteed
- * as it is, generally speaking, impossible to make any hard guarantees in the
- * presence of unsynchronized concurrent modification.  Fail-fast iterators
- * throw {@code ConcurrentModificationException} on a best-effort basis.
- * Therefore, it would be wrong to write a program that depended on this
- * exception for its correctness:   <i>the fail-fast behavior of iterators
- * should be used only to detect bugs.</i>
+ * <p>Notf tibt tif fbil-fbst bfibvior of bn itfrbtor dbnnot bf gubrbntffd
+ * bs it is, gfnfrblly spfbking, impossiblf to mbkf bny ibrd gubrbntffs in tif
+ * prfsfndf of unsyndironizfd dondurrfnt modifidbtion.  Fbil-fbst itfrbtors
+ * tirow {@dodf CondurrfntModifidbtionExdfption} on b bfst-fffort bbsis.
+ * Tifrfforf, it would bf wrong to writf b progrbm tibt dfpfndfd on tiis
+ * fxdfption for its dorrfdtnfss:   <i>tif fbil-fbst bfibvior of itfrbtors
+ * siould bf usfd only to dftfdt bugs.</i>
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @author  Josh Bloch
- * @see     List
- * @see     ArrayList
- * @since 1.2
- * @param <E> the type of elements held in this collection
+ * @butior  Josi Blodi
+ * @sff     List
+ * @sff     ArrbyList
+ * @sindf 1.2
+ * @pbrbm <E> tif typf of flfmfnts ifld in tiis dollfdtion
  */
 
-public class LinkedList<E>
-    extends AbstractSequentialList<E>
-    implements List<E>, Deque<E>, Cloneable, java.io.Serializable
+publid dlbss LinkfdList<E>
+    fxtfnds AbstrbdtSfqufntiblList<E>
+    implfmfnts List<E>, Dfquf<E>, Clonfbblf, jbvb.io.Sfriblizbblf
 {
-    transient int size = 0;
+    trbnsifnt int sizf = 0;
 
     /**
-     * Pointer to first node.
-     * Invariant: (first == null && last == null) ||
-     *            (first.prev == null && first.item != null)
+     * Pointfr to first nodf.
+     * Invbribnt: (first == null && lbst == null) ||
+     *            (first.prfv == null && first.itfm != null)
      */
-    transient Node<E> first;
+    trbnsifnt Nodf<E> first;
 
     /**
-     * Pointer to last node.
-     * Invariant: (first == null && last == null) ||
-     *            (last.next == null && last.item != null)
+     * Pointfr to lbst nodf.
+     * Invbribnt: (first == null && lbst == null) ||
+     *            (lbst.nfxt == null && lbst.itfm != null)
      */
-    transient Node<E> last;
+    trbnsifnt Nodf<E> lbst;
 
     /**
-     * Constructs an empty list.
+     * Construdts bn fmpty list.
      */
-    public LinkedList() {
+    publid LinkfdList() {
     }
 
     /**
-     * Constructs a list containing the elements of the specified
-     * collection, in the order they are returned by the collection's
-     * iterator.
+     * Construdts b list dontbining tif flfmfnts of tif spfdififd
+     * dollfdtion, in tif ordfr tify brf rfturnfd by tif dollfdtion's
+     * itfrbtor.
      *
-     * @param  c the collection whose elements are to be placed into this list
-     * @throws NullPointerException if the specified collection is null
+     * @pbrbm  d tif dollfdtion wiosf flfmfnts brf to bf plbdfd into tiis list
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
      */
-    public LinkedList(Collection<? extends E> c) {
-        this();
-        addAll(c);
+    publid LinkfdList(Collfdtion<? fxtfnds E> d) {
+        tiis();
+        bddAll(d);
     }
 
     /**
-     * Links e as first element.
+     * Links f bs first flfmfnt.
      */
-    private void linkFirst(E e) {
-        final Node<E> f = first;
-        final Node<E> newNode = new Node<>(null, e, f);
-        first = newNode;
+    privbtf void linkFirst(E f) {
+        finbl Nodf<E> f = first;
+        finbl Nodf<E> nfwNodf = nfw Nodf<>(null, f, f);
+        first = nfwNodf;
         if (f == null)
-            last = newNode;
-        else
-            f.prev = newNode;
-        size++;
+            lbst = nfwNodf;
+        flsf
+            f.prfv = nfwNodf;
+        sizf++;
         modCount++;
     }
 
     /**
-     * Links e as last element.
+     * Links f bs lbst flfmfnt.
      */
-    void linkLast(E e) {
-        final Node<E> l = last;
-        final Node<E> newNode = new Node<>(l, e, null);
-        last = newNode;
+    void linkLbst(E f) {
+        finbl Nodf<E> l = lbst;
+        finbl Nodf<E> nfwNodf = nfw Nodf<>(l, f, null);
+        lbst = nfwNodf;
         if (l == null)
-            first = newNode;
-        else
-            l.next = newNode;
-        size++;
+            first = nfwNodf;
+        flsf
+            l.nfxt = nfwNodf;
+        sizf++;
         modCount++;
     }
 
     /**
-     * Inserts element e before non-null Node succ.
+     * Insfrts flfmfnt f bfforf non-null Nodf sudd.
      */
-    void linkBefore(E e, Node<E> succ) {
-        // assert succ != null;
-        final Node<E> pred = succ.prev;
-        final Node<E> newNode = new Node<>(pred, e, succ);
-        succ.prev = newNode;
-        if (pred == null)
-            first = newNode;
-        else
-            pred.next = newNode;
-        size++;
+    void linkBfforf(E f, Nodf<E> sudd) {
+        // bssfrt sudd != null;
+        finbl Nodf<E> prfd = sudd.prfv;
+        finbl Nodf<E> nfwNodf = nfw Nodf<>(prfd, f, sudd);
+        sudd.prfv = nfwNodf;
+        if (prfd == null)
+            first = nfwNodf;
+        flsf
+            prfd.nfxt = nfwNodf;
+        sizf++;
         modCount++;
     }
 
     /**
-     * Unlinks non-null first node f.
+     * Unlinks non-null first nodf f.
      */
-    private E unlinkFirst(Node<E> f) {
-        // assert f == first && f != null;
-        final E element = f.item;
-        final Node<E> next = f.next;
-        f.item = null;
-        f.next = null; // help GC
-        first = next;
-        if (next == null)
-            last = null;
-        else
-            next.prev = null;
-        size--;
+    privbtf E unlinkFirst(Nodf<E> f) {
+        // bssfrt f == first && f != null;
+        finbl E flfmfnt = f.itfm;
+        finbl Nodf<E> nfxt = f.nfxt;
+        f.itfm = null;
+        f.nfxt = null; // iflp GC
+        first = nfxt;
+        if (nfxt == null)
+            lbst = null;
+        flsf
+            nfxt.prfv = null;
+        sizf--;
         modCount++;
-        return element;
+        rfturn flfmfnt;
     }
 
     /**
-     * Unlinks non-null last node l.
+     * Unlinks non-null lbst nodf l.
      */
-    private E unlinkLast(Node<E> l) {
-        // assert l == last && l != null;
-        final E element = l.item;
-        final Node<E> prev = l.prev;
-        l.item = null;
-        l.prev = null; // help GC
-        last = prev;
-        if (prev == null)
+    privbtf E unlinkLbst(Nodf<E> l) {
+        // bssfrt l == lbst && l != null;
+        finbl E flfmfnt = l.itfm;
+        finbl Nodf<E> prfv = l.prfv;
+        l.itfm = null;
+        l.prfv = null; // iflp GC
+        lbst = prfv;
+        if (prfv == null)
             first = null;
-        else
-            prev.next = null;
-        size--;
+        flsf
+            prfv.nfxt = null;
+        sizf--;
         modCount++;
-        return element;
+        rfturn flfmfnt;
     }
 
     /**
-     * Unlinks non-null node x.
+     * Unlinks non-null nodf x.
      */
-    E unlink(Node<E> x) {
-        // assert x != null;
-        final E element = x.item;
-        final Node<E> next = x.next;
-        final Node<E> prev = x.prev;
+    E unlink(Nodf<E> x) {
+        // bssfrt x != null;
+        finbl E flfmfnt = x.itfm;
+        finbl Nodf<E> nfxt = x.nfxt;
+        finbl Nodf<E> prfv = x.prfv;
 
-        if (prev == null) {
-            first = next;
-        } else {
-            prev.next = next;
-            x.prev = null;
+        if (prfv == null) {
+            first = nfxt;
+        } flsf {
+            prfv.nfxt = nfxt;
+            x.prfv = null;
         }
 
-        if (next == null) {
-            last = prev;
-        } else {
-            next.prev = prev;
-            x.next = null;
+        if (nfxt == null) {
+            lbst = prfv;
+        } flsf {
+            nfxt.prfv = prfv;
+            x.nfxt = null;
         }
 
-        x.item = null;
-        size--;
+        x.itfm = null;
+        sizf--;
         modCount++;
-        return element;
+        rfturn flfmfnt;
     }
 
     /**
-     * Returns the first element in this list.
+     * Rfturns tif first flfmfnt in tiis list.
      *
-     * @return the first element in this list
-     * @throws NoSuchElementException if this list is empty
+     * @rfturn tif first flfmfnt in tiis list
+     * @tirows NoSudiElfmfntExdfption if tiis list is fmpty
      */
-    public E getFirst() {
-        final Node<E> f = first;
+    publid E gftFirst() {
+        finbl Nodf<E> f = first;
         if (f == null)
-            throw new NoSuchElementException();
-        return f.item;
+            tirow nfw NoSudiElfmfntExdfption();
+        rfturn f.itfm;
     }
 
     /**
-     * Returns the last element in this list.
+     * Rfturns tif lbst flfmfnt in tiis list.
      *
-     * @return the last element in this list
-     * @throws NoSuchElementException if this list is empty
+     * @rfturn tif lbst flfmfnt in tiis list
+     * @tirows NoSudiElfmfntExdfption if tiis list is fmpty
      */
-    public E getLast() {
-        final Node<E> l = last;
+    publid E gftLbst() {
+        finbl Nodf<E> l = lbst;
         if (l == null)
-            throw new NoSuchElementException();
-        return l.item;
+            tirow nfw NoSudiElfmfntExdfption();
+        rfturn l.itfm;
     }
 
     /**
-     * Removes and returns the first element from this list.
+     * Rfmovfs bnd rfturns tif first flfmfnt from tiis list.
      *
-     * @return the first element from this list
-     * @throws NoSuchElementException if this list is empty
+     * @rfturn tif first flfmfnt from tiis list
+     * @tirows NoSudiElfmfntExdfption if tiis list is fmpty
      */
-    public E removeFirst() {
-        final Node<E> f = first;
+    publid E rfmovfFirst() {
+        finbl Nodf<E> f = first;
         if (f == null)
-            throw new NoSuchElementException();
-        return unlinkFirst(f);
+            tirow nfw NoSudiElfmfntExdfption();
+        rfturn unlinkFirst(f);
     }
 
     /**
-     * Removes and returns the last element from this list.
+     * Rfmovfs bnd rfturns tif lbst flfmfnt from tiis list.
      *
-     * @return the last element from this list
-     * @throws NoSuchElementException if this list is empty
+     * @rfturn tif lbst flfmfnt from tiis list
+     * @tirows NoSudiElfmfntExdfption if tiis list is fmpty
      */
-    public E removeLast() {
-        final Node<E> l = last;
+    publid E rfmovfLbst() {
+        finbl Nodf<E> l = lbst;
         if (l == null)
-            throw new NoSuchElementException();
-        return unlinkLast(l);
+            tirow nfw NoSudiElfmfntExdfption();
+        rfturn unlinkLbst(l);
     }
 
     /**
-     * Inserts the specified element at the beginning of this list.
+     * Insfrts tif spfdififd flfmfnt bt tif bfginning of tiis list.
      *
-     * @param e the element to add
+     * @pbrbm f tif flfmfnt to bdd
      */
-    public void addFirst(E e) {
-        linkFirst(e);
+    publid void bddFirst(E f) {
+        linkFirst(f);
     }
 
     /**
-     * Appends the specified element to the end of this list.
+     * Appfnds tif spfdififd flfmfnt to tif fnd of tiis list.
      *
-     * <p>This method is equivalent to {@link #add}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #bdd}.
      *
-     * @param e the element to add
+     * @pbrbm f tif flfmfnt to bdd
      */
-    public void addLast(E e) {
-        linkLast(e);
+    publid void bddLbst(E f) {
+        linkLbst(f);
     }
 
     /**
-     * Returns {@code true} if this list contains the specified element.
-     * More formally, returns {@code true} if and only if this list contains
-     * at least one element {@code e} such that
-     * <tt>(o==null&nbsp;?&nbsp;e==null&nbsp;:&nbsp;o.equals(e))</tt>.
+     * Rfturns {@dodf truf} if tiis list dontbins tif spfdififd flfmfnt.
+     * Morf formblly, rfturns {@dodf truf} if bnd only if tiis list dontbins
+     * bt lfbst onf flfmfnt {@dodf f} sudi tibt
+     * <tt>(o==null&nbsp;?&nbsp;f==null&nbsp;:&nbsp;o.fqubls(f))</tt>.
      *
-     * @param o element whose presence in this list is to be tested
-     * @return {@code true} if this list contains the specified element
+     * @pbrbm o flfmfnt wiosf prfsfndf in tiis list is to bf tfstfd
+     * @rfturn {@dodf truf} if tiis list dontbins tif spfdififd flfmfnt
      */
-    public boolean contains(Object o) {
-        return indexOf(o) != -1;
+    publid boolfbn dontbins(Objfdt o) {
+        rfturn indfxOf(o) != -1;
     }
 
     /**
-     * Returns the number of elements in this list.
+     * Rfturns tif numbfr of flfmfnts in tiis list.
      *
-     * @return the number of elements in this list
+     * @rfturn tif numbfr of flfmfnts in tiis list
      */
-    public int size() {
-        return size;
+    publid int sizf() {
+        rfturn sizf;
     }
 
     /**
-     * Appends the specified element to the end of this list.
+     * Appfnds tif spfdififd flfmfnt to tif fnd of tiis list.
      *
-     * <p>This method is equivalent to {@link #addLast}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #bddLbst}.
      *
-     * @param e element to be appended to this list
-     * @return {@code true} (as specified by {@link Collection#add})
+     * @pbrbm f flfmfnt to bf bppfndfd to tiis list
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Collfdtion#bdd})
      */
-    public boolean add(E e) {
-        linkLast(e);
-        return true;
+    publid boolfbn bdd(E f) {
+        linkLbst(f);
+        rfturn truf;
     }
 
     /**
-     * Removes the first occurrence of the specified element from this list,
-     * if it is present.  If this list does not contain the element, it is
-     * unchanged.  More formally, removes the element with the lowest index
-     * {@code i} such that
-     * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equals(get(i)))</tt>
-     * (if such an element exists).  Returns {@code true} if this list
-     * contained the specified element (or equivalently, if this list
-     * changed as a result of the call).
+     * Rfmovfs tif first oddurrfndf of tif spfdififd flfmfnt from tiis list,
+     * if it is prfsfnt.  If tiis list dofs not dontbin tif flfmfnt, it is
+     * undibngfd.  Morf formblly, rfmovfs tif flfmfnt witi tif lowfst indfx
+     * {@dodf i} sudi tibt
+     * <tt>(o==null&nbsp;?&nbsp;gft(i)==null&nbsp;:&nbsp;o.fqubls(gft(i)))</tt>
+     * (if sudi bn flfmfnt fxists).  Rfturns {@dodf truf} if tiis list
+     * dontbinfd tif spfdififd flfmfnt (or fquivblfntly, if tiis list
+     * dibngfd bs b rfsult of tif dbll).
      *
-     * @param o element to be removed from this list, if present
-     * @return {@code true} if this list contained the specified element
+     * @pbrbm o flfmfnt to bf rfmovfd from tiis list, if prfsfnt
+     * @rfturn {@dodf truf} if tiis list dontbinfd tif spfdififd flfmfnt
      */
-    public boolean remove(Object o) {
+    publid boolfbn rfmovf(Objfdt o) {
         if (o == null) {
-            for (Node<E> x = first; x != null; x = x.next) {
-                if (x.item == null) {
+            for (Nodf<E> x = first; x != null; x = x.nfxt) {
+                if (x.itfm == null) {
                     unlink(x);
-                    return true;
+                    rfturn truf;
                 }
             }
-        } else {
-            for (Node<E> x = first; x != null; x = x.next) {
-                if (o.equals(x.item)) {
+        } flsf {
+            for (Nodf<E> x = first; x != null; x = x.nfxt) {
+                if (o.fqubls(x.itfm)) {
                     unlink(x);
-                    return true;
+                    rfturn truf;
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Appends all of the elements in the specified collection to the end of
-     * this list, in the order that they are returned by the specified
-     * collection's iterator.  The behavior of this operation is undefined if
-     * the specified collection is modified while the operation is in
-     * progress.  (Note that this will occur if the specified collection is
-     * this list, and it's nonempty.)
+     * Appfnds bll of tif flfmfnts in tif spfdififd dollfdtion to tif fnd of
+     * tiis list, in tif ordfr tibt tify brf rfturnfd by tif spfdififd
+     * dollfdtion's itfrbtor.  Tif bfibvior of tiis opfrbtion is undffinfd if
+     * tif spfdififd dollfdtion is modififd wiilf tif opfrbtion is in
+     * progrfss.  (Notf tibt tiis will oddur if tif spfdififd dollfdtion is
+     * tiis list, bnd it's nonfmpty.)
      *
-     * @param c collection containing elements to be added to this list
-     * @return {@code true} if this list changed as a result of the call
-     * @throws NullPointerException if the specified collection is null
+     * @pbrbm d dollfdtion dontbining flfmfnts to bf bddfd to tiis list
+     * @rfturn {@dodf truf} if tiis list dibngfd bs b rfsult of tif dbll
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
      */
-    public boolean addAll(Collection<? extends E> c) {
-        return addAll(size, c);
+    publid boolfbn bddAll(Collfdtion<? fxtfnds E> d) {
+        rfturn bddAll(sizf, d);
     }
 
     /**
-     * Inserts all of the elements in the specified collection into this
-     * list, starting at the specified position.  Shifts the element
-     * currently at that position (if any) and any subsequent elements to
-     * the right (increases their indices).  The new elements will appear
-     * in the list in the order that they are returned by the
-     * specified collection's iterator.
+     * Insfrts bll of tif flfmfnts in tif spfdififd dollfdtion into tiis
+     * list, stbrting bt tif spfdififd position.  Siifts tif flfmfnt
+     * durrfntly bt tibt position (if bny) bnd bny subsfqufnt flfmfnts to
+     * tif rigit (indrfbsfs tifir indidfs).  Tif nfw flfmfnts will bppfbr
+     * in tif list in tif ordfr tibt tify brf rfturnfd by tif
+     * spfdififd dollfdtion's itfrbtor.
      *
-     * @param index index at which to insert the first element
-     *              from the specified collection
-     * @param c collection containing elements to be added to this list
-     * @return {@code true} if this list changed as a result of the call
-     * @throws IndexOutOfBoundsException {@inheritDoc}
-     * @throws NullPointerException if the specified collection is null
+     * @pbrbm indfx indfx bt wiidi to insfrt tif first flfmfnt
+     *              from tif spfdififd dollfdtion
+     * @pbrbm d dollfdtion dontbining flfmfnts to bf bddfd to tiis list
+     * @rfturn {@dodf truf} if tiis list dibngfd bs b rfsult of tif dbll
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
+     * @tirows NullPointfrExdfption if tif spfdififd dollfdtion is null
      */
-    public boolean addAll(int index, Collection<? extends E> c) {
-        checkPositionIndex(index);
+    publid boolfbn bddAll(int indfx, Collfdtion<? fxtfnds E> d) {
+        difdkPositionIndfx(indfx);
 
-        Object[] a = c.toArray();
-        int numNew = a.length;
-        if (numNew == 0)
-            return false;
+        Objfdt[] b = d.toArrby();
+        int numNfw = b.lfngti;
+        if (numNfw == 0)
+            rfturn fblsf;
 
-        Node<E> pred, succ;
-        if (index == size) {
-            succ = null;
-            pred = last;
-        } else {
-            succ = node(index);
-            pred = succ.prev;
+        Nodf<E> prfd, sudd;
+        if (indfx == sizf) {
+            sudd = null;
+            prfd = lbst;
+        } flsf {
+            sudd = nodf(indfx);
+            prfd = sudd.prfv;
         }
 
-        for (Object o : a) {
-            @SuppressWarnings("unchecked") E e = (E) o;
-            Node<E> newNode = new Node<>(pred, e, null);
-            if (pred == null)
-                first = newNode;
-            else
-                pred.next = newNode;
-            pred = newNode;
+        for (Objfdt o : b) {
+            @SupprfssWbrnings("undifdkfd") E f = (E) o;
+            Nodf<E> nfwNodf = nfw Nodf<>(prfd, f, null);
+            if (prfd == null)
+                first = nfwNodf;
+            flsf
+                prfd.nfxt = nfwNodf;
+            prfd = nfwNodf;
         }
 
-        if (succ == null) {
-            last = pred;
-        } else {
-            pred.next = succ;
-            succ.prev = pred;
+        if (sudd == null) {
+            lbst = prfd;
+        } flsf {
+            prfd.nfxt = sudd;
+            sudd.prfv = prfd;
         }
 
-        size += numNew;
+        sizf += numNfw;
         modCount++;
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Removes all of the elements from this list.
-     * The list will be empty after this call returns.
+     * Rfmovfs bll of tif flfmfnts from tiis list.
+     * Tif list will bf fmpty bftfr tiis dbll rfturns.
      */
-    public void clear() {
-        // Clearing all of the links between nodes is "unnecessary", but:
-        // - helps a generational GC if the discarded nodes inhabit
-        //   more than one generation
-        // - is sure to free memory even if there is a reachable Iterator
-        for (Node<E> x = first; x != null; ) {
-            Node<E> next = x.next;
-            x.item = null;
-            x.next = null;
-            x.prev = null;
-            x = next;
+    publid void dlfbr() {
+        // Clfbring bll of tif links bftwffn nodfs is "unnfdfssbry", but:
+        // - iflps b gfnfrbtionbl GC if tif disdbrdfd nodfs inibbit
+        //   morf tibn onf gfnfrbtion
+        // - is surf to frff mfmory fvfn if tifrf is b rfbdibblf Itfrbtor
+        for (Nodf<E> x = first; x != null; ) {
+            Nodf<E> nfxt = x.nfxt;
+            x.itfm = null;
+            x.nfxt = null;
+            x.prfv = null;
+            x = nfxt;
         }
-        first = last = null;
-        size = 0;
+        first = lbst = null;
+        sizf = 0;
         modCount++;
     }
 
 
-    // Positional Access Operations
+    // Positionbl Addfss Opfrbtions
 
     /**
-     * Returns the element at the specified position in this list.
+     * Rfturns tif flfmfnt bt tif spfdififd position in tiis list.
      *
-     * @param index index of the element to return
-     * @return the element at the specified position in this list
-     * @throws IndexOutOfBoundsException {@inheritDoc}
+     * @pbrbm indfx indfx of tif flfmfnt to rfturn
+     * @rfturn tif flfmfnt bt tif spfdififd position in tiis list
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
      */
-    public E get(int index) {
-        checkElementIndex(index);
-        return node(index).item;
+    publid E gft(int indfx) {
+        difdkElfmfntIndfx(indfx);
+        rfturn nodf(indfx).itfm;
     }
 
     /**
-     * Replaces the element at the specified position in this list with the
-     * specified element.
+     * Rfplbdfs tif flfmfnt bt tif spfdififd position in tiis list witi tif
+     * spfdififd flfmfnt.
      *
-     * @param index index of the element to replace
-     * @param element element to be stored at the specified position
-     * @return the element previously at the specified position
-     * @throws IndexOutOfBoundsException {@inheritDoc}
+     * @pbrbm indfx indfx of tif flfmfnt to rfplbdf
+     * @pbrbm flfmfnt flfmfnt to bf storfd bt tif spfdififd position
+     * @rfturn tif flfmfnt prfviously bt tif spfdififd position
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
      */
-    public E set(int index, E element) {
-        checkElementIndex(index);
-        Node<E> x = node(index);
-        E oldVal = x.item;
-        x.item = element;
-        return oldVal;
+    publid E sft(int indfx, E flfmfnt) {
+        difdkElfmfntIndfx(indfx);
+        Nodf<E> x = nodf(indfx);
+        E oldVbl = x.itfm;
+        x.itfm = flfmfnt;
+        rfturn oldVbl;
     }
 
     /**
-     * Inserts the specified element at the specified position in this list.
-     * Shifts the element currently at that position (if any) and any
-     * subsequent elements to the right (adds one to their indices).
+     * Insfrts tif spfdififd flfmfnt bt tif spfdififd position in tiis list.
+     * Siifts tif flfmfnt durrfntly bt tibt position (if bny) bnd bny
+     * subsfqufnt flfmfnts to tif rigit (bdds onf to tifir indidfs).
      *
-     * @param index index at which the specified element is to be inserted
-     * @param element element to be inserted
-     * @throws IndexOutOfBoundsException {@inheritDoc}
+     * @pbrbm indfx indfx bt wiidi tif spfdififd flfmfnt is to bf insfrtfd
+     * @pbrbm flfmfnt flfmfnt to bf insfrtfd
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
      */
-    public void add(int index, E element) {
-        checkPositionIndex(index);
+    publid void bdd(int indfx, E flfmfnt) {
+        difdkPositionIndfx(indfx);
 
-        if (index == size)
-            linkLast(element);
-        else
-            linkBefore(element, node(index));
+        if (indfx == sizf)
+            linkLbst(flfmfnt);
+        flsf
+            linkBfforf(flfmfnt, nodf(indfx));
     }
 
     /**
-     * Removes the element at the specified position in this list.  Shifts any
-     * subsequent elements to the left (subtracts one from their indices).
-     * Returns the element that was removed from the list.
+     * Rfmovfs tif flfmfnt bt tif spfdififd position in tiis list.  Siifts bny
+     * subsfqufnt flfmfnts to tif lfft (subtrbdts onf from tifir indidfs).
+     * Rfturns tif flfmfnt tibt wbs rfmovfd from tif list.
      *
-     * @param index the index of the element to be removed
-     * @return the element previously at the specified position
-     * @throws IndexOutOfBoundsException {@inheritDoc}
+     * @pbrbm indfx tif indfx of tif flfmfnt to bf rfmovfd
+     * @rfturn tif flfmfnt prfviously bt tif spfdififd position
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
      */
-    public E remove(int index) {
-        checkElementIndex(index);
-        return unlink(node(index));
+    publid E rfmovf(int indfx) {
+        difdkElfmfntIndfx(indfx);
+        rfturn unlink(nodf(indfx));
     }
 
     /**
-     * Tells if the argument is the index of an existing element.
+     * Tflls if tif brgumfnt is tif indfx of bn fxisting flfmfnt.
      */
-    private boolean isElementIndex(int index) {
-        return index >= 0 && index < size;
+    privbtf boolfbn isElfmfntIndfx(int indfx) {
+        rfturn indfx >= 0 && indfx < sizf;
     }
 
     /**
-     * Tells if the argument is the index of a valid position for an
-     * iterator or an add operation.
+     * Tflls if tif brgumfnt is tif indfx of b vblid position for bn
+     * itfrbtor or bn bdd opfrbtion.
      */
-    private boolean isPositionIndex(int index) {
-        return index >= 0 && index <= size;
+    privbtf boolfbn isPositionIndfx(int indfx) {
+        rfturn indfx >= 0 && indfx <= sizf;
     }
 
     /**
-     * Constructs an IndexOutOfBoundsException detail message.
-     * Of the many possible refactorings of the error handling code,
-     * this "outlining" performs best with both server and client VMs.
+     * Construdts bn IndfxOutOfBoundsExdfption dftbil mfssbgf.
+     * Of tif mbny possiblf rffbdtorings of tif frror ibndling dodf,
+     * tiis "outlining" pfrforms bfst witi boti sfrvfr bnd dlifnt VMs.
      */
-    private String outOfBoundsMsg(int index) {
-        return "Index: "+index+", Size: "+size;
+    privbtf String outOfBoundsMsg(int indfx) {
+        rfturn "Indfx: "+indfx+", Sizf: "+sizf;
     }
 
-    private void checkElementIndex(int index) {
-        if (!isElementIndex(index))
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+    privbtf void difdkElfmfntIndfx(int indfx) {
+        if (!isElfmfntIndfx(indfx))
+            tirow nfw IndfxOutOfBoundsExdfption(outOfBoundsMsg(indfx));
     }
 
-    private void checkPositionIndex(int index) {
-        if (!isPositionIndex(index))
-            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+    privbtf void difdkPositionIndfx(int indfx) {
+        if (!isPositionIndfx(indfx))
+            tirow nfw IndfxOutOfBoundsExdfption(outOfBoundsMsg(indfx));
     }
 
     /**
-     * Returns the (non-null) Node at the specified element index.
+     * Rfturns tif (non-null) Nodf bt tif spfdififd flfmfnt indfx.
      */
-    Node<E> node(int index) {
-        // assert isElementIndex(index);
+    Nodf<E> nodf(int indfx) {
+        // bssfrt isElfmfntIndfx(indfx);
 
-        if (index < (size >> 1)) {
-            Node<E> x = first;
-            for (int i = 0; i < index; i++)
-                x = x.next;
-            return x;
-        } else {
-            Node<E> x = last;
-            for (int i = size - 1; i > index; i--)
-                x = x.prev;
-            return x;
+        if (indfx < (sizf >> 1)) {
+            Nodf<E> x = first;
+            for (int i = 0; i < indfx; i++)
+                x = x.nfxt;
+            rfturn x;
+        } flsf {
+            Nodf<E> x = lbst;
+            for (int i = sizf - 1; i > indfx; i--)
+                x = x.prfv;
+            rfturn x;
         }
     }
 
-    // Search Operations
+    // Sfbrdi Opfrbtions
 
     /**
-     * Returns the index of the first occurrence of the specified element
-     * in this list, or -1 if this list does not contain the element.
-     * More formally, returns the lowest index {@code i} such that
-     * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equals(get(i)))</tt>,
-     * or -1 if there is no such index.
+     * Rfturns tif indfx of tif first oddurrfndf of tif spfdififd flfmfnt
+     * in tiis list, or -1 if tiis list dofs not dontbin tif flfmfnt.
+     * Morf formblly, rfturns tif lowfst indfx {@dodf i} sudi tibt
+     * <tt>(o==null&nbsp;?&nbsp;gft(i)==null&nbsp;:&nbsp;o.fqubls(gft(i)))</tt>,
+     * or -1 if tifrf is no sudi indfx.
      *
-     * @param o element to search for
-     * @return the index of the first occurrence of the specified element in
-     *         this list, or -1 if this list does not contain the element
+     * @pbrbm o flfmfnt to sfbrdi for
+     * @rfturn tif indfx of tif first oddurrfndf of tif spfdififd flfmfnt in
+     *         tiis list, or -1 if tiis list dofs not dontbin tif flfmfnt
      */
-    public int indexOf(Object o) {
-        int index = 0;
+    publid int indfxOf(Objfdt o) {
+        int indfx = 0;
         if (o == null) {
-            for (Node<E> x = first; x != null; x = x.next) {
-                if (x.item == null)
-                    return index;
-                index++;
+            for (Nodf<E> x = first; x != null; x = x.nfxt) {
+                if (x.itfm == null)
+                    rfturn indfx;
+                indfx++;
             }
-        } else {
-            for (Node<E> x = first; x != null; x = x.next) {
-                if (o.equals(x.item))
-                    return index;
-                index++;
+        } flsf {
+            for (Nodf<E> x = first; x != null; x = x.nfxt) {
+                if (o.fqubls(x.itfm))
+                    rfturn indfx;
+                indfx++;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns the index of the last occurrence of the specified element
-     * in this list, or -1 if this list does not contain the element.
-     * More formally, returns the highest index {@code i} such that
-     * <tt>(o==null&nbsp;?&nbsp;get(i)==null&nbsp;:&nbsp;o.equals(get(i)))</tt>,
-     * or -1 if there is no such index.
+     * Rfturns tif indfx of tif lbst oddurrfndf of tif spfdififd flfmfnt
+     * in tiis list, or -1 if tiis list dofs not dontbin tif flfmfnt.
+     * Morf formblly, rfturns tif iigifst indfx {@dodf i} sudi tibt
+     * <tt>(o==null&nbsp;?&nbsp;gft(i)==null&nbsp;:&nbsp;o.fqubls(gft(i)))</tt>,
+     * or -1 if tifrf is no sudi indfx.
      *
-     * @param o element to search for
-     * @return the index of the last occurrence of the specified element in
-     *         this list, or -1 if this list does not contain the element
+     * @pbrbm o flfmfnt to sfbrdi for
+     * @rfturn tif indfx of tif lbst oddurrfndf of tif spfdififd flfmfnt in
+     *         tiis list, or -1 if tiis list dofs not dontbin tif flfmfnt
      */
-    public int lastIndexOf(Object o) {
-        int index = size;
+    publid int lbstIndfxOf(Objfdt o) {
+        int indfx = sizf;
         if (o == null) {
-            for (Node<E> x = last; x != null; x = x.prev) {
-                index--;
-                if (x.item == null)
-                    return index;
+            for (Nodf<E> x = lbst; x != null; x = x.prfv) {
+                indfx--;
+                if (x.itfm == null)
+                    rfturn indfx;
             }
-        } else {
-            for (Node<E> x = last; x != null; x = x.prev) {
-                index--;
-                if (o.equals(x.item))
-                    return index;
+        } flsf {
+            for (Nodf<E> x = lbst; x != null; x = x.prfv) {
+                indfx--;
+                if (o.fqubls(x.itfm))
+                    rfturn indfx;
             }
         }
-        return -1;
+        rfturn -1;
     }
 
-    // Queue operations.
+    // Qufuf opfrbtions.
 
     /**
-     * Retrieves, but does not remove, the head (first element) of this list.
+     * Rftrifvfs, but dofs not rfmovf, tif ifbd (first flfmfnt) of tiis list.
      *
-     * @return the head of this list, or {@code null} if this list is empty
-     * @since 1.5
+     * @rfturn tif ifbd of tiis list, or {@dodf null} if tiis list is fmpty
+     * @sindf 1.5
      */
-    public E peek() {
-        final Node<E> f = first;
-        return (f == null) ? null : f.item;
-    }
-
-    /**
-     * Retrieves, but does not remove, the head (first element) of this list.
-     *
-     * @return the head of this list
-     * @throws NoSuchElementException if this list is empty
-     * @since 1.5
-     */
-    public E element() {
-        return getFirst();
+    publid E pffk() {
+        finbl Nodf<E> f = first;
+        rfturn (f == null) ? null : f.itfm;
     }
 
     /**
-     * Retrieves and removes the head (first element) of this list.
+     * Rftrifvfs, but dofs not rfmovf, tif ifbd (first flfmfnt) of tiis list.
      *
-     * @return the head of this list, or {@code null} if this list is empty
-     * @since 1.5
+     * @rfturn tif ifbd of tiis list
+     * @tirows NoSudiElfmfntExdfption if tiis list is fmpty
+     * @sindf 1.5
      */
-    public E poll() {
-        final Node<E> f = first;
-        return (f == null) ? null : unlinkFirst(f);
+    publid E flfmfnt() {
+        rfturn gftFirst();
     }
 
     /**
-     * Retrieves and removes the head (first element) of this list.
+     * Rftrifvfs bnd rfmovfs tif ifbd (first flfmfnt) of tiis list.
      *
-     * @return the head of this list
-     * @throws NoSuchElementException if this list is empty
-     * @since 1.5
+     * @rfturn tif ifbd of tiis list, or {@dodf null} if tiis list is fmpty
+     * @sindf 1.5
      */
-    public E remove() {
-        return removeFirst();
+    publid E poll() {
+        finbl Nodf<E> f = first;
+        rfturn (f == null) ? null : unlinkFirst(f);
     }
 
     /**
-     * Adds the specified element as the tail (last element) of this list.
+     * Rftrifvfs bnd rfmovfs tif ifbd (first flfmfnt) of tiis list.
      *
-     * @param e the element to add
-     * @return {@code true} (as specified by {@link Queue#offer})
-     * @since 1.5
+     * @rfturn tif ifbd of tiis list
+     * @tirows NoSudiElfmfntExdfption if tiis list is fmpty
+     * @sindf 1.5
      */
-    public boolean offer(E e) {
-        return add(e);
-    }
-
-    // Deque operations
-    /**
-     * Inserts the specified element at the front of this list.
-     *
-     * @param e the element to insert
-     * @return {@code true} (as specified by {@link Deque#offerFirst})
-     * @since 1.6
-     */
-    public boolean offerFirst(E e) {
-        addFirst(e);
-        return true;
+    publid E rfmovf() {
+        rfturn rfmovfFirst();
     }
 
     /**
-     * Inserts the specified element at the end of this list.
+     * Adds tif spfdififd flfmfnt bs tif tbil (lbst flfmfnt) of tiis list.
      *
-     * @param e the element to insert
-     * @return {@code true} (as specified by {@link Deque#offerLast})
-     * @since 1.6
+     * @pbrbm f tif flfmfnt to bdd
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Qufuf#offfr})
+     * @sindf 1.5
      */
-    public boolean offerLast(E e) {
-        addLast(e);
-        return true;
+    publid boolfbn offfr(E f) {
+        rfturn bdd(f);
+    }
+
+    // Dfquf opfrbtions
+    /**
+     * Insfrts tif spfdififd flfmfnt bt tif front of tiis list.
+     *
+     * @pbrbm f tif flfmfnt to insfrt
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Dfquf#offfrFirst})
+     * @sindf 1.6
+     */
+    publid boolfbn offfrFirst(E f) {
+        bddFirst(f);
+        rfturn truf;
     }
 
     /**
-     * Retrieves, but does not remove, the first element of this list,
-     * or returns {@code null} if this list is empty.
+     * Insfrts tif spfdififd flfmfnt bt tif fnd of tiis list.
      *
-     * @return the first element of this list, or {@code null}
-     *         if this list is empty
-     * @since 1.6
+     * @pbrbm f tif flfmfnt to insfrt
+     * @rfturn {@dodf truf} (bs spfdififd by {@link Dfquf#offfrLbst})
+     * @sindf 1.6
      */
-    public E peekFirst() {
-        final Node<E> f = first;
-        return (f == null) ? null : f.item;
+    publid boolfbn offfrLbst(E f) {
+        bddLbst(f);
+        rfturn truf;
+    }
+
+    /**
+     * Rftrifvfs, but dofs not rfmovf, tif first flfmfnt of tiis list,
+     * or rfturns {@dodf null} if tiis list is fmpty.
+     *
+     * @rfturn tif first flfmfnt of tiis list, or {@dodf null}
+     *         if tiis list is fmpty
+     * @sindf 1.6
+     */
+    publid E pffkFirst() {
+        finbl Nodf<E> f = first;
+        rfturn (f == null) ? null : f.itfm;
      }
 
     /**
-     * Retrieves, but does not remove, the last element of this list,
-     * or returns {@code null} if this list is empty.
+     * Rftrifvfs, but dofs not rfmovf, tif lbst flfmfnt of tiis list,
+     * or rfturns {@dodf null} if tiis list is fmpty.
      *
-     * @return the last element of this list, or {@code null}
-     *         if this list is empty
-     * @since 1.6
+     * @rfturn tif lbst flfmfnt of tiis list, or {@dodf null}
+     *         if tiis list is fmpty
+     * @sindf 1.6
      */
-    public E peekLast() {
-        final Node<E> l = last;
-        return (l == null) ? null : l.item;
+    publid E pffkLbst() {
+        finbl Nodf<E> l = lbst;
+        rfturn (l == null) ? null : l.itfm;
     }
 
     /**
-     * Retrieves and removes the first element of this list,
-     * or returns {@code null} if this list is empty.
+     * Rftrifvfs bnd rfmovfs tif first flfmfnt of tiis list,
+     * or rfturns {@dodf null} if tiis list is fmpty.
      *
-     * @return the first element of this list, or {@code null} if
-     *     this list is empty
-     * @since 1.6
+     * @rfturn tif first flfmfnt of tiis list, or {@dodf null} if
+     *     tiis list is fmpty
+     * @sindf 1.6
      */
-    public E pollFirst() {
-        final Node<E> f = first;
-        return (f == null) ? null : unlinkFirst(f);
+    publid E pollFirst() {
+        finbl Nodf<E> f = first;
+        rfturn (f == null) ? null : unlinkFirst(f);
     }
 
     /**
-     * Retrieves and removes the last element of this list,
-     * or returns {@code null} if this list is empty.
+     * Rftrifvfs bnd rfmovfs tif lbst flfmfnt of tiis list,
+     * or rfturns {@dodf null} if tiis list is fmpty.
      *
-     * @return the last element of this list, or {@code null} if
-     *     this list is empty
-     * @since 1.6
+     * @rfturn tif lbst flfmfnt of tiis list, or {@dodf null} if
+     *     tiis list is fmpty
+     * @sindf 1.6
      */
-    public E pollLast() {
-        final Node<E> l = last;
-        return (l == null) ? null : unlinkLast(l);
+    publid E pollLbst() {
+        finbl Nodf<E> l = lbst;
+        rfturn (l == null) ? null : unlinkLbst(l);
     }
 
     /**
-     * Pushes an element onto the stack represented by this list.  In other
-     * words, inserts the element at the front of this list.
+     * Pusifs bn flfmfnt onto tif stbdk rfprfsfntfd by tiis list.  In otifr
+     * words, insfrts tif flfmfnt bt tif front of tiis list.
      *
-     * <p>This method is equivalent to {@link #addFirst}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #bddFirst}.
      *
-     * @param e the element to push
-     * @since 1.6
+     * @pbrbm f tif flfmfnt to pusi
+     * @sindf 1.6
      */
-    public void push(E e) {
-        addFirst(e);
+    publid void pusi(E f) {
+        bddFirst(f);
     }
 
     /**
-     * Pops an element from the stack represented by this list.  In other
-     * words, removes and returns the first element of this list.
+     * Pops bn flfmfnt from tif stbdk rfprfsfntfd by tiis list.  In otifr
+     * words, rfmovfs bnd rfturns tif first flfmfnt of tiis list.
      *
-     * <p>This method is equivalent to {@link #removeFirst()}.
+     * <p>Tiis mftiod is fquivblfnt to {@link #rfmovfFirst()}.
      *
-     * @return the element at the front of this list (which is the top
-     *         of the stack represented by this list)
-     * @throws NoSuchElementException if this list is empty
-     * @since 1.6
+     * @rfturn tif flfmfnt bt tif front of tiis list (wiidi is tif top
+     *         of tif stbdk rfprfsfntfd by tiis list)
+     * @tirows NoSudiElfmfntExdfption if tiis list is fmpty
+     * @sindf 1.6
      */
-    public E pop() {
-        return removeFirst();
+    publid E pop() {
+        rfturn rfmovfFirst();
     }
 
     /**
-     * Removes the first occurrence of the specified element in this
-     * list (when traversing the list from head to tail).  If the list
-     * does not contain the element, it is unchanged.
+     * Rfmovfs tif first oddurrfndf of tif spfdififd flfmfnt in tiis
+     * list (wifn trbvfrsing tif list from ifbd to tbil).  If tif list
+     * dofs not dontbin tif flfmfnt, it is undibngfd.
      *
-     * @param o element to be removed from this list, if present
-     * @return {@code true} if the list contained the specified element
-     * @since 1.6
+     * @pbrbm o flfmfnt to bf rfmovfd from tiis list, if prfsfnt
+     * @rfturn {@dodf truf} if tif list dontbinfd tif spfdififd flfmfnt
+     * @sindf 1.6
      */
-    public boolean removeFirstOccurrence(Object o) {
-        return remove(o);
+    publid boolfbn rfmovfFirstOddurrfndf(Objfdt o) {
+        rfturn rfmovf(o);
     }
 
     /**
-     * Removes the last occurrence of the specified element in this
-     * list (when traversing the list from head to tail).  If the list
-     * does not contain the element, it is unchanged.
+     * Rfmovfs tif lbst oddurrfndf of tif spfdififd flfmfnt in tiis
+     * list (wifn trbvfrsing tif list from ifbd to tbil).  If tif list
+     * dofs not dontbin tif flfmfnt, it is undibngfd.
      *
-     * @param o element to be removed from this list, if present
-     * @return {@code true} if the list contained the specified element
-     * @since 1.6
+     * @pbrbm o flfmfnt to bf rfmovfd from tiis list, if prfsfnt
+     * @rfturn {@dodf truf} if tif list dontbinfd tif spfdififd flfmfnt
+     * @sindf 1.6
      */
-    public boolean removeLastOccurrence(Object o) {
+    publid boolfbn rfmovfLbstOddurrfndf(Objfdt o) {
         if (o == null) {
-            for (Node<E> x = last; x != null; x = x.prev) {
-                if (x.item == null) {
+            for (Nodf<E> x = lbst; x != null; x = x.prfv) {
+                if (x.itfm == null) {
                     unlink(x);
-                    return true;
+                    rfturn truf;
                 }
             }
-        } else {
-            for (Node<E> x = last; x != null; x = x.prev) {
-                if (o.equals(x.item)) {
+        } flsf {
+            for (Nodf<E> x = lbst; x != null; x = x.prfv) {
+                if (o.fqubls(x.itfm)) {
                     unlink(x);
-                    return true;
+                    rfturn truf;
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a list-iterator of the elements in this list (in proper
-     * sequence), starting at the specified position in the list.
-     * Obeys the general contract of {@code List.listIterator(int)}.<p>
+     * Rfturns b list-itfrbtor of tif flfmfnts in tiis list (in propfr
+     * sfqufndf), stbrting bt tif spfdififd position in tif list.
+     * Obfys tif gfnfrbl dontrbdt of {@dodf List.listItfrbtor(int)}.<p>
      *
-     * The list-iterator is <i>fail-fast</i>: if the list is structurally
-     * modified at any time after the Iterator is created, in any way except
-     * through the list-iterator's own {@code remove} or {@code add}
-     * methods, the list-iterator will throw a
-     * {@code ConcurrentModificationException}.  Thus, in the face of
-     * concurrent modification, the iterator fails quickly and cleanly, rather
-     * than risking arbitrary, non-deterministic behavior at an undetermined
-     * time in the future.
+     * Tif list-itfrbtor is <i>fbil-fbst</i>: if tif list is strudturblly
+     * modififd bt bny timf bftfr tif Itfrbtor is drfbtfd, in bny wby fxdfpt
+     * tirougi tif list-itfrbtor's own {@dodf rfmovf} or {@dodf bdd}
+     * mftiods, tif list-itfrbtor will tirow b
+     * {@dodf CondurrfntModifidbtionExdfption}.  Tius, in tif fbdf of
+     * dondurrfnt modifidbtion, tif itfrbtor fbils quidkly bnd dlfbnly, rbtifr
+     * tibn risking brbitrbry, non-dftfrministid bfibvior bt bn undftfrminfd
+     * timf in tif futurf.
      *
-     * @param index index of the first element to be returned from the
-     *              list-iterator (by a call to {@code next})
-     * @return a ListIterator of the elements in this list (in proper
-     *         sequence), starting at the specified position in the list
-     * @throws IndexOutOfBoundsException {@inheritDoc}
-     * @see List#listIterator(int)
+     * @pbrbm indfx indfx of tif first flfmfnt to bf rfturnfd from tif
+     *              list-itfrbtor (by b dbll to {@dodf nfxt})
+     * @rfturn b ListItfrbtor of tif flfmfnts in tiis list (in propfr
+     *         sfqufndf), stbrting bt tif spfdififd position in tif list
+     * @tirows IndfxOutOfBoundsExdfption {@inifritDod}
+     * @sff List#listItfrbtor(int)
      */
-    public ListIterator<E> listIterator(int index) {
-        checkPositionIndex(index);
-        return new ListItr(index);
+    publid ListItfrbtor<E> listItfrbtor(int indfx) {
+        difdkPositionIndfx(indfx);
+        rfturn nfw ListItr(indfx);
     }
 
-    private class ListItr implements ListIterator<E> {
-        private Node<E> lastReturned;
-        private Node<E> next;
-        private int nextIndex;
-        private int expectedModCount = modCount;
+    privbtf dlbss ListItr implfmfnts ListItfrbtor<E> {
+        privbtf Nodf<E> lbstRfturnfd;
+        privbtf Nodf<E> nfxt;
+        privbtf int nfxtIndfx;
+        privbtf int fxpfdtfdModCount = modCount;
 
-        ListItr(int index) {
-            // assert isPositionIndex(index);
-            next = (index == size) ? null : node(index);
-            nextIndex = index;
+        ListItr(int indfx) {
+            // bssfrt isPositionIndfx(indfx);
+            nfxt = (indfx == sizf) ? null : nodf(indfx);
+            nfxtIndfx = indfx;
         }
 
-        public boolean hasNext() {
-            return nextIndex < size;
+        publid boolfbn ibsNfxt() {
+            rfturn nfxtIndfx < sizf;
         }
 
-        public E next() {
-            checkForComodification();
-            if (!hasNext())
-                throw new NoSuchElementException();
+        publid E nfxt() {
+            difdkForComodifidbtion();
+            if (!ibsNfxt())
+                tirow nfw NoSudiElfmfntExdfption();
 
-            lastReturned = next;
-            next = next.next;
-            nextIndex++;
-            return lastReturned.item;
+            lbstRfturnfd = nfxt;
+            nfxt = nfxt.nfxt;
+            nfxtIndfx++;
+            rfturn lbstRfturnfd.itfm;
         }
 
-        public boolean hasPrevious() {
-            return nextIndex > 0;
+        publid boolfbn ibsPrfvious() {
+            rfturn nfxtIndfx > 0;
         }
 
-        public E previous() {
-            checkForComodification();
-            if (!hasPrevious())
-                throw new NoSuchElementException();
+        publid E prfvious() {
+            difdkForComodifidbtion();
+            if (!ibsPrfvious())
+                tirow nfw NoSudiElfmfntExdfption();
 
-            lastReturned = next = (next == null) ? last : next.prev;
-            nextIndex--;
-            return lastReturned.item;
+            lbstRfturnfd = nfxt = (nfxt == null) ? lbst : nfxt.prfv;
+            nfxtIndfx--;
+            rfturn lbstRfturnfd.itfm;
         }
 
-        public int nextIndex() {
-            return nextIndex;
+        publid int nfxtIndfx() {
+            rfturn nfxtIndfx;
         }
 
-        public int previousIndex() {
-            return nextIndex - 1;
+        publid int prfviousIndfx() {
+            rfturn nfxtIndfx - 1;
         }
 
-        public void remove() {
-            checkForComodification();
-            if (lastReturned == null)
-                throw new IllegalStateException();
+        publid void rfmovf() {
+            difdkForComodifidbtion();
+            if (lbstRfturnfd == null)
+                tirow nfw IllfgblStbtfExdfption();
 
-            Node<E> lastNext = lastReturned.next;
-            unlink(lastReturned);
-            if (next == lastReturned)
-                next = lastNext;
-            else
-                nextIndex--;
-            lastReturned = null;
-            expectedModCount++;
+            Nodf<E> lbstNfxt = lbstRfturnfd.nfxt;
+            unlink(lbstRfturnfd);
+            if (nfxt == lbstRfturnfd)
+                nfxt = lbstNfxt;
+            flsf
+                nfxtIndfx--;
+            lbstRfturnfd = null;
+            fxpfdtfdModCount++;
         }
 
-        public void set(E e) {
-            if (lastReturned == null)
-                throw new IllegalStateException();
-            checkForComodification();
-            lastReturned.item = e;
+        publid void sft(E f) {
+            if (lbstRfturnfd == null)
+                tirow nfw IllfgblStbtfExdfption();
+            difdkForComodifidbtion();
+            lbstRfturnfd.itfm = f;
         }
 
-        public void add(E e) {
-            checkForComodification();
-            lastReturned = null;
-            if (next == null)
-                linkLast(e);
-            else
-                linkBefore(e, next);
-            nextIndex++;
-            expectedModCount++;
+        publid void bdd(E f) {
+            difdkForComodifidbtion();
+            lbstRfturnfd = null;
+            if (nfxt == null)
+                linkLbst(f);
+            flsf
+                linkBfforf(f, nfxt);
+            nfxtIndfx++;
+            fxpfdtfdModCount++;
         }
 
-        public void forEachRemaining(Consumer<? super E> action) {
-            Objects.requireNonNull(action);
-            while (modCount == expectedModCount && nextIndex < size) {
-                action.accept(next.item);
-                lastReturned = next;
-                next = next.next;
-                nextIndex++;
+        publid void forEbdiRfmbining(Consumfr<? supfr E> bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+            wiilf (modCount == fxpfdtfdModCount && nfxtIndfx < sizf) {
+                bdtion.bddfpt(nfxt.itfm);
+                lbstRfturnfd = nfxt;
+                nfxt = nfxt.nfxt;
+                nfxtIndfx++;
             }
-            checkForComodification();
+            difdkForComodifidbtion();
         }
 
-        final void checkForComodification() {
-            if (modCount != expectedModCount)
-                throw new ConcurrentModificationException();
-        }
-    }
-
-    private static class Node<E> {
-        E item;
-        Node<E> next;
-        Node<E> prev;
-
-        Node(Node<E> prev, E element, Node<E> next) {
-            this.item = element;
-            this.next = next;
-            this.prev = prev;
+        finbl void difdkForComodifidbtion() {
+            if (modCount != fxpfdtfdModCount)
+                tirow nfw CondurrfntModifidbtionExdfption();
         }
     }
 
-    /**
-     * @since 1.6
-     */
-    public Iterator<E> descendingIterator() {
-        return new DescendingIterator();
+    privbtf stbtid dlbss Nodf<E> {
+        E itfm;
+        Nodf<E> nfxt;
+        Nodf<E> prfv;
+
+        Nodf(Nodf<E> prfv, E flfmfnt, Nodf<E> nfxt) {
+            tiis.itfm = flfmfnt;
+            tiis.nfxt = nfxt;
+            tiis.prfv = prfv;
+        }
     }
 
     /**
-     * Adapter to provide descending iterators via ListItr.previous
+     * @sindf 1.6
      */
-    private class DescendingIterator implements Iterator<E> {
-        private final ListItr itr = new ListItr(size());
-        public boolean hasNext() {
-            return itr.hasPrevious();
+    publid Itfrbtor<E> dfsdfndingItfrbtor() {
+        rfturn nfw DfsdfndingItfrbtor();
+    }
+
+    /**
+     * Adbptfr to providf dfsdfnding itfrbtors vib ListItr.prfvious
+     */
+    privbtf dlbss DfsdfndingItfrbtor implfmfnts Itfrbtor<E> {
+        privbtf finbl ListItr itr = nfw ListItr(sizf());
+        publid boolfbn ibsNfxt() {
+            rfturn itr.ibsPrfvious();
         }
-        public E next() {
-            return itr.previous();
+        publid E nfxt() {
+            rfturn itr.prfvious();
         }
-        public void remove() {
-            itr.remove();
+        publid void rfmovf() {
+            itr.rfmovf();
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private LinkedList<E> superClone() {
+    @SupprfssWbrnings("undifdkfd")
+    privbtf LinkfdList<E> supfrClonf() {
         try {
-            return (LinkedList<E>) super.clone();
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e);
+            rfturn (LinkfdList<E>) supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f);
         }
     }
 
     /**
-     * Returns a shallow copy of this {@code LinkedList}. (The elements
-     * themselves are not cloned.)
+     * Rfturns b sibllow dopy of tiis {@dodf LinkfdList}. (Tif flfmfnts
+     * tifmsflvfs brf not dlonfd.)
      *
-     * @return a shallow copy of this {@code LinkedList} instance
+     * @rfturn b sibllow dopy of tiis {@dodf LinkfdList} instbndf
      */
-    public Object clone() {
-        LinkedList<E> clone = superClone();
+    publid Objfdt dlonf() {
+        LinkfdList<E> dlonf = supfrClonf();
 
-        // Put clone into "virgin" state
-        clone.first = clone.last = null;
-        clone.size = 0;
-        clone.modCount = 0;
+        // Put dlonf into "virgin" stbtf
+        dlonf.first = dlonf.lbst = null;
+        dlonf.sizf = 0;
+        dlonf.modCount = 0;
 
-        // Initialize clone with our elements
-        for (Node<E> x = first; x != null; x = x.next)
-            clone.add(x.item);
+        // Initiblizf dlonf witi our flfmfnts
+        for (Nodf<E> x = first; x != null; x = x.nfxt)
+            dlonf.bdd(x.itfm);
 
-        return clone;
+        rfturn dlonf;
     }
 
     /**
-     * Returns an array containing all of the elements in this list
-     * in proper sequence (from first to last element).
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis list
+     * in propfr sfqufndf (from first to lbst flfmfnt).
      *
-     * <p>The returned array will be "safe" in that no references to it are
-     * maintained by this list.  (In other words, this method must allocate
-     * a new array).  The caller is thus free to modify the returned array.
+     * <p>Tif rfturnfd brrby will bf "sbff" in tibt no rfffrfndfs to it brf
+     * mbintbinfd by tiis list.  (In otifr words, tiis mftiod must bllodbtf
+     * b nfw brrby).  Tif dbllfr is tius frff to modify tif rfturnfd brrby.
      *
-     * <p>This method acts as bridge between array-based and collection-based
+     * <p>Tiis mftiod bdts bs bridgf bftwffn brrby-bbsfd bnd dollfdtion-bbsfd
      * APIs.
      *
-     * @return an array containing all of the elements in this list
-     *         in proper sequence
+     * @rfturn bn brrby dontbining bll of tif flfmfnts in tiis list
+     *         in propfr sfqufndf
      */
-    public Object[] toArray() {
-        Object[] result = new Object[size];
+    publid Objfdt[] toArrby() {
+        Objfdt[] rfsult = nfw Objfdt[sizf];
         int i = 0;
-        for (Node<E> x = first; x != null; x = x.next)
-            result[i++] = x.item;
-        return result;
+        for (Nodf<E> x = first; x != null; x = x.nfxt)
+            rfsult[i++] = x.itfm;
+        rfturn rfsult;
     }
 
     /**
-     * Returns an array containing all of the elements in this list in
-     * proper sequence (from first to last element); the runtime type of
-     * the returned array is that of the specified array.  If the list fits
-     * in the specified array, it is returned therein.  Otherwise, a new
-     * array is allocated with the runtime type of the specified array and
-     * the size of this list.
+     * Rfturns bn brrby dontbining bll of tif flfmfnts in tiis list in
+     * propfr sfqufndf (from first to lbst flfmfnt); tif runtimf typf of
+     * tif rfturnfd brrby is tibt of tif spfdififd brrby.  If tif list fits
+     * in tif spfdififd brrby, it is rfturnfd tifrfin.  Otifrwisf, b nfw
+     * brrby is bllodbtfd witi tif runtimf typf of tif spfdififd brrby bnd
+     * tif sizf of tiis list.
      *
-     * <p>If the list fits in the specified array with room to spare (i.e.,
-     * the array has more elements than the list), the element in the array
-     * immediately following the end of the list is set to {@code null}.
-     * (This is useful in determining the length of the list <i>only</i> if
-     * the caller knows that the list does not contain any null elements.)
+     * <p>If tif list fits in tif spfdififd brrby witi room to spbrf (i.f.,
+     * tif brrby ibs morf flfmfnts tibn tif list), tif flfmfnt in tif brrby
+     * immfdibtfly following tif fnd of tif list is sft to {@dodf null}.
+     * (Tiis is usfful in dftfrmining tif lfngti of tif list <i>only</i> if
+     * tif dbllfr knows tibt tif list dofs not dontbin bny null flfmfnts.)
      *
-     * <p>Like the {@link #toArray()} method, this method acts as bridge between
-     * array-based and collection-based APIs.  Further, this method allows
-     * precise control over the runtime type of the output array, and may,
-     * under certain circumstances, be used to save allocation costs.
+     * <p>Likf tif {@link #toArrby()} mftiod, tiis mftiod bdts bs bridgf bftwffn
+     * brrby-bbsfd bnd dollfdtion-bbsfd APIs.  Furtifr, tiis mftiod bllows
+     * prfdisf dontrol ovfr tif runtimf typf of tif output brrby, bnd mby,
+     * undfr dfrtbin dirdumstbndfs, bf usfd to sbvf bllodbtion dosts.
      *
-     * <p>Suppose {@code x} is a list known to contain only strings.
-     * The following code can be used to dump the list into a newly
-     * allocated array of {@code String}:
+     * <p>Supposf {@dodf x} is b list known to dontbin only strings.
+     * Tif following dodf dbn bf usfd to dump tif list into b nfwly
+     * bllodbtfd brrby of {@dodf String}:
      *
-     * <pre>
-     *     String[] y = x.toArray(new String[0]);</pre>
+     * <prf>
+     *     String[] y = x.toArrby(nfw String[0]);</prf>
      *
-     * Note that {@code toArray(new Object[0])} is identical in function to
-     * {@code toArray()}.
+     * Notf tibt {@dodf toArrby(nfw Objfdt[0])} is idfntidbl in fundtion to
+     * {@dodf toArrby()}.
      *
-     * @param a the array into which the elements of the list are to
-     *          be stored, if it is big enough; otherwise, a new array of the
-     *          same runtime type is allocated for this purpose.
-     * @return an array containing the elements of the list
-     * @throws ArrayStoreException if the runtime type of the specified array
-     *         is not a supertype of the runtime type of every element in
-     *         this list
-     * @throws NullPointerException if the specified array is null
+     * @pbrbm b tif brrby into wiidi tif flfmfnts of tif list brf to
+     *          bf storfd, if it is big fnougi; otifrwisf, b nfw brrby of tif
+     *          sbmf runtimf typf is bllodbtfd for tiis purposf.
+     * @rfturn bn brrby dontbining tif flfmfnts of tif list
+     * @tirows ArrbyStorfExdfption if tif runtimf typf of tif spfdififd brrby
+     *         is not b supfrtypf of tif runtimf typf of fvfry flfmfnt in
+     *         tiis list
+     * @tirows NullPointfrExdfption if tif spfdififd brrby is null
      */
-    @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] a) {
-        if (a.length < size)
-            a = (T[])java.lang.reflect.Array.newInstance(
-                                a.getClass().getComponentType(), size);
+    @SupprfssWbrnings("undifdkfd")
+    publid <T> T[] toArrby(T[] b) {
+        if (b.lfngti < sizf)
+            b = (T[])jbvb.lbng.rfflfdt.Arrby.nfwInstbndf(
+                                b.gftClbss().gftComponfntTypf(), sizf);
         int i = 0;
-        Object[] result = a;
-        for (Node<E> x = first; x != null; x = x.next)
-            result[i++] = x.item;
+        Objfdt[] rfsult = b;
+        for (Nodf<E> x = first; x != null; x = x.nfxt)
+            rfsult[i++] = x.itfm;
 
-        if (a.length > size)
-            a[size] = null;
+        if (b.lfngti > sizf)
+            b[sizf] = null;
 
-        return a;
+        rfturn b;
     }
 
-    private static final long serialVersionUID = 876323262645176354L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 876323262645176354L;
 
     /**
-     * Saves the state of this {@code LinkedList} instance to a stream
-     * (that is, serializes it).
+     * Sbvfs tif stbtf of tiis {@dodf LinkfdList} instbndf to b strfbm
+     * (tibt is, sfriblizfs it).
      *
-     * @serialData The size of the list (the number of elements it
-     *             contains) is emitted (int), followed by all of its
-     *             elements (each an Object) in the proper order.
+     * @sfriblDbtb Tif sizf of tif list (tif numbfr of flfmfnts it
+     *             dontbins) is fmittfd (int), followfd by bll of its
+     *             flfmfnts (fbdi bn Objfdt) in tif propfr ordfr.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-        throws java.io.IOException {
-        // Write out any hidden serialization magic
-        s.defaultWriteObject();
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        tirows jbvb.io.IOExdfption {
+        // Writf out bny iiddfn sfriblizbtion mbgid
+        s.dffbultWritfObjfdt();
 
-        // Write out size
-        s.writeInt(size);
+        // Writf out sizf
+        s.writfInt(sizf);
 
-        // Write out all elements in the proper order.
-        for (Node<E> x = first; x != null; x = x.next)
-            s.writeObject(x.item);
+        // Writf out bll flfmfnts in tif propfr ordfr.
+        for (Nodf<E> x = first; x != null; x = x.nfxt)
+            s.writfObjfdt(x.itfm);
     }
 
     /**
-     * Reconstitutes this {@code LinkedList} instance from a stream
-     * (that is, deserializes it).
+     * Rfdonstitutfs tiis {@dodf LinkfdList} instbndf from b strfbm
+     * (tibt is, dfsfriblizfs it).
      */
-    @SuppressWarnings("unchecked")
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.IOException, ClassNotFoundException {
-        // Read in any hidden serialization magic
-        s.defaultReadObject();
+    @SupprfssWbrnings("undifdkfd")
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        // Rfbd in bny iiddfn sfriblizbtion mbgid
+        s.dffbultRfbdObjfdt();
 
-        // Read in size
-        int size = s.readInt();
+        // Rfbd in sizf
+        int sizf = s.rfbdInt();
 
-        // Read in all elements in the proper order.
-        for (int i = 0; i < size; i++)
-            linkLast((E)s.readObject());
+        // Rfbd in bll flfmfnts in tif propfr ordfr.
+        for (int i = 0; i < sizf; i++)
+            linkLbst((E)s.rfbdObjfdt());
     }
 
     /**
-     * Creates a <em><a href="Spliterator.html#binding">late-binding</a></em>
-     * and <em>fail-fast</em> {@link Spliterator} over the elements in this
+     * Crfbtfs b <fm><b irff="Splitfrbtor.itml#binding">lbtf-binding</b></fm>
+     * bnd <fm>fbil-fbst</fm> {@link Splitfrbtor} ovfr tif flfmfnts in tiis
      * list.
      *
-     * <p>The {@code Spliterator} reports {@link Spliterator#SIZED} and
-     * {@link Spliterator#ORDERED}.  Overriding implementations should document
-     * the reporting of additional characteristic values.
+     * <p>Tif {@dodf Splitfrbtor} rfports {@link Splitfrbtor#SIZED} bnd
+     * {@link Splitfrbtor#ORDERED}.  Ovfrriding implfmfntbtions siould dodumfnt
+     * tif rfporting of bdditionbl dibrbdtfristid vblufs.
      *
-     * @implNote
-     * The {@code Spliterator} additionally reports {@link Spliterator#SUBSIZED}
-     * and implements {@code trySplit} to permit limited parallelism..
+     * @implNotf
+     * Tif {@dodf Splitfrbtor} bdditionblly rfports {@link Splitfrbtor#SUBSIZED}
+     * bnd implfmfnts {@dodf trySplit} to pfrmit limitfd pbrbllflism..
      *
-     * @return a {@code Spliterator} over the elements in this list
-     * @since 1.8
+     * @rfturn b {@dodf Splitfrbtor} ovfr tif flfmfnts in tiis list
+     * @sindf 1.8
      */
-    @Override
-    public Spliterator<E> spliterator() {
-        return new LLSpliterator<>(this, -1, 0);
+    @Ovfrridf
+    publid Splitfrbtor<E> splitfrbtor() {
+        rfturn nfw LLSplitfrbtor<>(tiis, -1, 0);
     }
 
-    /** A customized variant of Spliterators.IteratorSpliterator */
-    static final class LLSpliterator<E> implements Spliterator<E> {
-        static final int BATCH_UNIT = 1 << 10;  // batch array size increment
-        static final int MAX_BATCH = 1 << 25;  // max batch array size;
-        final LinkedList<E> list; // null OK unless traversed
-        Node<E> current;      // current node; null until initialized
-        int est;              // size estimate; -1 until first needed
-        int expectedModCount; // initialized when est set
-        int batch;            // batch size for splits
+    /** A dustomizfd vbribnt of Splitfrbtors.ItfrbtorSplitfrbtor */
+    stbtid finbl dlbss LLSplitfrbtor<E> implfmfnts Splitfrbtor<E> {
+        stbtid finbl int BATCH_UNIT = 1 << 10;  // bbtdi brrby sizf indrfmfnt
+        stbtid finbl int MAX_BATCH = 1 << 25;  // mbx bbtdi brrby sizf;
+        finbl LinkfdList<E> list; // null OK unlfss trbvfrsfd
+        Nodf<E> durrfnt;      // durrfnt nodf; null until initiblizfd
+        int fst;              // sizf fstimbtf; -1 until first nffdfd
+        int fxpfdtfdModCount; // initiblizfd wifn fst sft
+        int bbtdi;            // bbtdi sizf for splits
 
-        LLSpliterator(LinkedList<E> list, int est, int expectedModCount) {
-            this.list = list;
-            this.est = est;
-            this.expectedModCount = expectedModCount;
+        LLSplitfrbtor(LinkfdList<E> list, int fst, int fxpfdtfdModCount) {
+            tiis.list = list;
+            tiis.fst = fst;
+            tiis.fxpfdtfdModCount = fxpfdtfdModCount;
         }
 
-        final int getEst() {
-            int s; // force initialization
-            final LinkedList<E> lst;
-            if ((s = est) < 0) {
+        finbl int gftEst() {
+            int s; // fordf initiblizbtion
+            finbl LinkfdList<E> lst;
+            if ((s = fst) < 0) {
                 if ((lst = list) == null)
-                    s = est = 0;
-                else {
-                    expectedModCount = lst.modCount;
-                    current = lst.first;
-                    s = est = lst.size;
+                    s = fst = 0;
+                flsf {
+                    fxpfdtfdModCount = lst.modCount;
+                    durrfnt = lst.first;
+                    s = fst = lst.sizf;
                 }
             }
-            return s;
+            rfturn s;
         }
 
-        public long estimateSize() { return (long) getEst(); }
+        publid long fstimbtfSizf() { rfturn (long) gftEst(); }
 
-        public Spliterator<E> trySplit() {
-            Node<E> p;
-            int s = getEst();
-            if (s > 1 && (p = current) != null) {
-                int n = batch + BATCH_UNIT;
+        publid Splitfrbtor<E> trySplit() {
+            Nodf<E> p;
+            int s = gftEst();
+            if (s > 1 && (p = durrfnt) != null) {
+                int n = bbtdi + BATCH_UNIT;
                 if (n > s)
                     n = s;
                 if (n > MAX_BATCH)
                     n = MAX_BATCH;
-                Object[] a = new Object[n];
+                Objfdt[] b = nfw Objfdt[n];
                 int j = 0;
-                do { a[j++] = p.item; } while ((p = p.next) != null && j < n);
-                current = p;
-                batch = j;
-                est = s - j;
-                return Spliterators.spliterator(a, 0, j, Spliterator.ORDERED);
+                do { b[j++] = p.itfm; } wiilf ((p = p.nfxt) != null && j < n);
+                durrfnt = p;
+                bbtdi = j;
+                fst = s - j;
+                rfturn Splitfrbtors.splitfrbtor(b, 0, j, Splitfrbtor.ORDERED);
             }
-            return null;
+            rfturn null;
         }
 
-        public void forEachRemaining(Consumer<? super E> action) {
-            Node<E> p; int n;
-            if (action == null) throw new NullPointerException();
-            if ((n = getEst()) > 0 && (p = current) != null) {
-                current = null;
-                est = 0;
+        publid void forEbdiRfmbining(Consumfr<? supfr E> bdtion) {
+            Nodf<E> p; int n;
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            if ((n = gftEst()) > 0 && (p = durrfnt) != null) {
+                durrfnt = null;
+                fst = 0;
                 do {
-                    E e = p.item;
-                    p = p.next;
-                    action.accept(e);
-                } while (p != null && --n > 0);
+                    E f = p.itfm;
+                    p = p.nfxt;
+                    bdtion.bddfpt(f);
+                } wiilf (p != null && --n > 0);
             }
-            if (list.modCount != expectedModCount)
-                throw new ConcurrentModificationException();
+            if (list.modCount != fxpfdtfdModCount)
+                tirow nfw CondurrfntModifidbtionExdfption();
         }
 
-        public boolean tryAdvance(Consumer<? super E> action) {
-            Node<E> p;
-            if (action == null) throw new NullPointerException();
-            if (getEst() > 0 && (p = current) != null) {
-                --est;
-                E e = p.item;
-                current = p.next;
-                action.accept(e);
-                if (list.modCount != expectedModCount)
-                    throw new ConcurrentModificationException();
-                return true;
+        publid boolfbn tryAdvbndf(Consumfr<? supfr E> bdtion) {
+            Nodf<E> p;
+            if (bdtion == null) tirow nfw NullPointfrExdfption();
+            if (gftEst() > 0 && (p = durrfnt) != null) {
+                --fst;
+                E f = p.itfm;
+                durrfnt = p.nfxt;
+                bdtion.bddfpt(f);
+                if (list.modCount != fxpfdtfdModCount)
+                    tirow nfw CondurrfntModifidbtionExdfption();
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
-        public int characteristics() {
-            return Spliterator.ORDERED | Spliterator.SIZED | Spliterator.SUBSIZED;
+        publid int dibrbdtfristids() {
+            rfturn Splitfrbtor.ORDERED | Splitfrbtor.SIZED | Splitfrbtor.SUBSIZED;
         }
     }
 

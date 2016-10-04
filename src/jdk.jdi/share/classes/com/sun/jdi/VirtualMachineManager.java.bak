@@ -1,431 +1,431 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi;
+pbdkbgf dom.sun.jdi;
 
-import com.sun.jdi.connect.*;
-import com.sun.jdi.connect.spi.Connection;
-import java.util.List;
-import java.io.IOException;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.Connfdtion;
+import jbvb.util.List;
+import jbvb.io.IOExdfption;
 
 /**
- * A manager of connections to target virtual machines. The
- * VirtualMachineManager allows one application to debug
- * multiple target VMs. (Note that the converse is not
- * supported; a target VM can be debugged by only one
- * debugger application.) This interface
- * contains methods to manage connections
- * to remote target VMs and to obtain the {@link VirtualMachine}
- * mirror for available target VMs.
+ * A mbnbgfr of donnfdtions to tbrgft virtubl mbdiinfs. Tif
+ * VirtublMbdiinfMbnbgfr bllows onf bpplidbtion to dfbug
+ * multiplf tbrgft VMs. (Notf tibt tif donvfrsf is not
+ * supportfd; b tbrgft VM dbn bf dfbuggfd by only onf
+ * dfbuggfr bpplidbtion.) Tiis intfrfbdf
+ * dontbins mftiods to mbnbgf donnfdtions
+ * to rfmotf tbrgft VMs bnd to obtbin tif {@link VirtublMbdiinf}
+ * mirror for bvbilbblf tbrgft VMs.
  * <p>
- * Connections can be made using one of several different
- * {@link com.sun.jdi.connect.Connector} objects. Each connector encapsulates
- * a different way of connecting the debugger with a target VM.
+ * Connfdtions dbn bf mbdf using onf of sfvfrbl difffrfnt
+ * {@link dom.sun.jdi.donnfdt.Connfdtor} objfdts. Ebdi donnfdtor fndbpsulbtfs
+ * b difffrfnt wby of donnfdting tif dfbuggfr witi b tbrgft VM.
  * <p>
- * The VirtualMachineManager supports many different scenarios for
- * connecting a debugger to a virtual machine. Four examples
- * are presented in the table below. The
- * examples use the command line syntax in Sun's implementation.
- * Some {@link com.sun.jdi.connect.Connector} implementations may require slightly
- * different handling than presented below.
+ * Tif VirtublMbdiinfMbnbgfr supports mbny difffrfnt sdfnbrios for
+ * donnfdting b dfbuggfr to b virtubl mbdiinf. Four fxbmplfs
+ * brf prfsfntfd in tif tbblf bflow. Tif
+ * fxbmplfs usf tif dommbnd linf syntbx in Sun's implfmfntbtion.
+ * Somf {@link dom.sun.jdi.donnfdt.Connfdtor} implfmfntbtions mby rfquirf sligitly
+ * difffrfnt ibndling tibn prfsfntfd bflow.
  * <p>
- * <TABLE BORDER WIDTH="75%" SUMMARY="Four scenarios for connecting a debugger
- *  to a virtual machine">
+ * <TABLE BORDER WIDTH="75%" SUMMARY="Four sdfnbrios for donnfdting b dfbuggfr
+ *  to b virtubl mbdiinf">
  * <TR>
- * <TH scope=col>Scenario</TH>
- * <TH scope=col>Description</TH>
+ * <TH sdopf=dol>Sdfnbrio</TH>
+ * <TH sdopf=dol>Dfsdription</TH>
  * <TR>
- * <TD>Debugger launches target VM (simplest, most-common scenario)</TD>
+ * <TD>Dfbuggfr lbundifs tbrgft VM (simplfst, most-dommon sdfnbrio)</TD>
  *
- * <TD>Debugger calls the
- * {@link com.sun.jdi.connect.LaunchingConnector#launch(java.util.Map)}
- * method of the default connector, obtained with {@link #defaultConnector}. The
- * target VM is launched, and a connection between that VM and the
- * debugger is established. A {@link VirtualMachine} mirror is returned.
- * <P>Or, for more control
+ * <TD>Dfbuggfr dblls tif
+ * {@link dom.sun.jdi.donnfdt.LbundiingConnfdtor#lbundi(jbvb.util.Mbp)}
+ * mftiod of tif dffbult donnfdtor, obtbinfd witi {@link #dffbultConnfdtor}. Tif
+ * tbrgft VM is lbundifd, bnd b donnfdtion bftwffn tibt VM bnd tif
+ * dfbuggfr is fstbblisifd. A {@link VirtublMbdiinf} mirror is rfturnfd.
+ * <P>Or, for morf dontrol
  * <UL>
  * <LI>
- * Debugger selects a connector from the list returned by
- * {@link #launchingConnectors} with desired characteristics
- * (for example, transport type, etc.).
+ * Dfbuggfr sflfdts b donnfdtor from tif list rfturnfd by
+ * {@link #lbundiingConnfdtors} witi dfsirfd dibrbdtfristids
+ * (for fxbmplf, trbnsport typf, ftd.).
  * <LI>
- * Debugger calls the
- * {@link com.sun.jdi.connect.LaunchingConnector#launch(java.util.Map)}
- * method of the selected connector. The
- * target VM is launched, and a connection between that VM and the
- * debugger is established. A {@link VirtualMachine} mirror is returned.
+ * Dfbuggfr dblls tif
+ * {@link dom.sun.jdi.donnfdt.LbundiingConnfdtor#lbundi(jbvb.util.Mbp)}
+ * mftiod of tif sflfdtfd donnfdtor. Tif
+ * tbrgft VM is lbundifd, bnd b donnfdtion bftwffn tibt VM bnd tif
+ * dfbuggfr is fstbblisifd. A {@link VirtublMbdiinf} mirror is rfturnfd.
  * </UL>
  * </TD>
  * </TR>
  * <TR>
- * <TD>Debugger attaches to previously-running VM</TD>
+ * <TD>Dfbuggfr bttbdifs to prfviously-running VM</TD>
  * <TD>
  * <UL>
  * <LI>
- * Target VM is launched using the options
- * <code>-agentlib:jdwp=transport=xxx,server=y</code>
+ * Tbrgft VM is lbundifd using tif options
+ * <dodf>-bgfntlib:jdwp=trbnsport=xxx,sfrvfr=y</dodf>
  * </LI>
  * <LI>
- * Target VM generates and outputs the tranport-specific address at which it will
- * listen for a connection.</LI>
+ * Tbrgft VM gfnfrbtfs bnd outputs tif trbnport-spfdifid bddrfss bt wiidi it will
+ * listfn for b donnfdtion.</LI>
  * <LI>
- * Debugger is launched. Debugger selects a connector in the list
- * returned by {@link #attachingConnectors} matching the transport with
- * the name "xxx".
+ * Dfbuggfr is lbundifd. Dfbuggfr sflfdts b donnfdtor in tif list
+ * rfturnfd by {@link #bttbdiingConnfdtors} mbtdiing tif trbnsport witi
+ * tif nbmf "xxx".
  * <LI>
- * Debugger presents the default connector parameters (obtained through
- * {@link com.sun.jdi.connect.Connector#defaultArguments()}) to the end user,
- * allowing the user to
- * fill in the transport-specific address generated by the target VM.
+ * Dfbuggfr prfsfnts tif dffbult donnfdtor pbrbmftfrs (obtbinfd tirougi
+ * {@link dom.sun.jdi.donnfdt.Connfdtor#dffbultArgumfnts()}) to tif fnd usfr,
+ * bllowing tif usfr to
+ * fill in tif trbnsport-spfdifid bddrfss gfnfrbtfd by tif tbrgft VM.
  * <LI>
- * Debugger calls the {@link com.sun.jdi.connect.AttachingConnector#attach(java.util.Map)} method
- * of the selected to attach to the target VM. A {@link VirtualMachine}
- * mirror is returned.
+ * Dfbuggfr dblls tif {@link dom.sun.jdi.donnfdt.AttbdiingConnfdtor#bttbdi(jbvb.util.Mbp)} mftiod
+ * of tif sflfdtfd to bttbdi to tif tbrgft VM. A {@link VirtublMbdiinf}
+ * mirror is rfturnfd.
  * </UL>
  * </TD>
  * </TR>
  *
  * <TR>
- * <TD>Target VM attaches to previously-running debugger</TD>
+ * <TD>Tbrgft VM bttbdifs to prfviously-running dfbuggfr</TD>
  * <TD>
  * <LI>
- * At startup, debugger selects one or more connectors from
- * the list returned by {@link #listeningConnectors} for one or more
- * transports.</LI>
+ * At stbrtup, dfbuggfr sflfdts onf or morf donnfdtors from
+ * tif list rfturnfd by {@link #listfningConnfdtors} for onf or morf
+ * trbnsports.</LI>
  * <LI>
- * Debugger calls the {@link com.sun.jdi.connect.ListeningConnector#startListening(java.util.Map)} method for each selected
- * connector. For each call, a transport-specific address string is
- * generated and returned. The debugger makes the transport names and
- * corresponding address strings available to the end user.
+ * Dfbuggfr dblls tif {@link dom.sun.jdi.donnfdt.ListfningConnfdtor#stbrtListfning(jbvb.util.Mbp)} mftiod for fbdi sflfdtfd
+ * donnfdtor. For fbdi dbll, b trbnsport-spfdifid bddrfss string is
+ * gfnfrbtfd bnd rfturnfd. Tif dfbuggfr mbkfs tif trbnsport nbmfs bnd
+ * dorrfsponding bddrfss strings bvbilbblf to tif fnd usfr.
  * <LI>
- * Debugger calls
- * {@link com.sun.jdi.connect.ListeningConnector#accept(java.util.Map)}
- * for each selected connector to wait for
- * a target VM to connect.</LI>
+ * Dfbuggfr dblls
+ * {@link dom.sun.jdi.donnfdt.ListfningConnfdtor#bddfpt(jbvb.util.Mbp)}
+ * for fbdi sflfdtfd donnfdtor to wbit for
+ * b tbrgft VM to donnfdt.</LI>
  * <LI>
- * Later, target VM is launched by end user with the options
- * <code>-agentlib:jdwp=transport=xxx,address=yyy</code>
- * where "xxx" the transport for one of the connectors selected by the
- * the debugger and "yyy"
- * is the address generated by
- * {@link com.sun.jdi.connect.ListeningConnector#accept(java.util.Map)} for that
- * transport.</LI>
+ * Lbtfr, tbrgft VM is lbundifd by fnd usfr witi tif options
+ * <dodf>-bgfntlib:jdwp=trbnsport=xxx,bddrfss=yyy</dodf>
+ * wifrf "xxx" tif trbnsport for onf of tif donnfdtors sflfdtfd by tif
+ * tif dfbuggfr bnd "yyy"
+ * is tif bddrfss gfnfrbtfd by
+ * {@link dom.sun.jdi.donnfdt.ListfningConnfdtor#bddfpt(jbvb.util.Mbp)} for tibt
+ * trbnsport.</LI>
  * <LI>
- * Debugger's call to {@link com.sun.jdi.connect.ListeningConnector#accept(java.util.Map)} returns
- * a {@link VirtualMachine} mirror.</LI>
+ * Dfbuggfr's dbll to {@link dom.sun.jdi.donnfdt.ListfningConnfdtor#bddfpt(jbvb.util.Mbp)} rfturns
+ * b {@link VirtublMbdiinf} mirror.</LI>
  * </TD>
  * </TR>
  *
  * <TR>
- * <TD>Target VM launches debugger (sometimes called "Just-In-Time" debugging)</TD>
+ * <TD>Tbrgft VM lbundifs dfbuggfr (somftimfs dbllfd "Just-In-Timf" dfbugging)</TD>
  * <TD>
  * <LI>
- * Target VM is launched with the options
- * <code>-agentlib:jdwp=launch=cmdline,onuncaught=y,transport=xxx,server=y</code>
+ * Tbrgft VM is lbundifd witi tif options
+ * <dodf>-bgfntlib:jdwp=lbundi=dmdlinf,onundbugit=y,trbnsport=xxx,sfrvfr=y</dodf>
  * </LI>
  * <LI>
- * Later, an uncaught exception is thrown in the target VM. The target
- * VM generates the tranport-specific address at which it will
- * listen for a connection.
- * <LI>Target VM launches the debugger with the following items concatenated
- * together (separated by spaces) to form the command line:
+ * Lbtfr, bn undbugit fxdfption is tirown in tif tbrgft VM. Tif tbrgft
+ * VM gfnfrbtfs tif trbnport-spfdifid bddrfss bt wiidi it will
+ * listfn for b donnfdtion.
+ * <LI>Tbrgft VM lbundifs tif dfbuggfr witi tif following itfms dondbtfnbtfd
+ * togftifr (sfpbrbtfd by spbdfs) to form tif dommbnd linf:
  * <UL>
- * <LI> The launch= value
- * <LI> The transport= value
- * <LI> The generated transport-specific address at which VM is listening for
- * debugger connection.
+ * <LI> Tif lbundi= vbluf
+ * <LI> Tif trbnsport= vbluf
+ * <LI> Tif gfnfrbtfd trbnsport-spfdifid bddrfss bt wiidi VM is listfning for
+ * dfbuggfr donnfdtion.
  * </UL>
  * <LI>
- * Upon launch, debugger selects a connector in the list
- * returned by {@link #attachingConnectors} matching the transport with
- * the name "xxx".
+ * Upon lbundi, dfbuggfr sflfdts b donnfdtor in tif list
+ * rfturnfd by {@link #bttbdiingConnfdtors} mbtdiing tif trbnsport witi
+ * tif nbmf "xxx".
  * <LI>
- * Debugger changes the default connector parameters (obtained through
- * {@link com.sun.jdi.connect.Connector#defaultArguments()}) to specify
- * the transport specific address at which the VM is listenig. Optionally,
- * other connector arguments can be presented to the user.
+ * Dfbuggfr dibngfs tif dffbult donnfdtor pbrbmftfrs (obtbinfd tirougi
+ * {@link dom.sun.jdi.donnfdt.Connfdtor#dffbultArgumfnts()}) to spfdify
+ * tif trbnsport spfdifid bddrfss bt wiidi tif VM is listfnig. Optionblly,
+ * otifr donnfdtor brgumfnts dbn bf prfsfntfd to tif usfr.
  * <LI>
- * Debugger calls the
- * {@link com.sun.jdi.connect.AttachingConnector#attach(java.util.Map)} method
- * of the selected to attach to the target VM. A {@link VirtualMachine}
- * mirror is returned.
+ * Dfbuggfr dblls tif
+ * {@link dom.sun.jdi.donnfdt.AttbdiingConnfdtor#bttbdi(jbvb.util.Mbp)} mftiod
+ * of tif sflfdtfd to bttbdi to tif tbrgft VM. A {@link VirtublMbdiinf}
+ * mirror is rfturnfd.
  * </TD>
  * </TR>
  * </TABLE>
  *
- * <p> Connectors are created at start-up time. That is, they
- * are created the first time that {@link
- * com.sun.jdi.Bootstrap#virtualMachineManager()} is invoked.
- * The list of all Connectors created at start-up time can be
- * obtained from the VirtualMachineManager by invoking the
- * {@link #allConnectors allConnectors} method.
+ * <p> Connfdtors brf drfbtfd bt stbrt-up timf. Tibt is, tify
+ * brf drfbtfd tif first timf tibt {@link
+ * dom.sun.jdi.Bootstrbp#virtublMbdiinfMbnbgfr()} is invokfd.
+ * Tif list of bll Connfdtors drfbtfd bt stbrt-up timf dbn bf
+ * obtbinfd from tif VirtublMbdiinfMbnbgfr by invoking tif
+ * {@link #bllConnfdtors bllConnfdtors} mftiod.
  *
- * <p> Connectors are created at start-up time if they are
- * installed on the platform. In addition, Connectors are created
- * automatically by the VirtualMachineManager to encapsulate any
- * {@link com.sun.jdi.connect.spi.TransportService} implementations
- * that are installed on the platform. These two mechanisms for
- * creating Connectors are described here.
+ * <p> Connfdtors brf drfbtfd bt stbrt-up timf if tify brf
+ * instbllfd on tif plbtform. In bddition, Connfdtors brf drfbtfd
+ * butombtidblly by tif VirtublMbdiinfMbnbgfr to fndbpsulbtf bny
+ * {@link dom.sun.jdi.donnfdt.spi.TrbnsportSfrvidf} implfmfntbtions
+ * tibt brf instbllfd on tif plbtform. Tifsf two mfdibnisms for
+ * drfbting Connfdtors brf dfsdribfd ifrf.
  *
- * <p> A Connector is installed on the platform if it is installed
- * in a jar file that is visible to the defining class loader of
- * the {@link com.sun.jdi.connect.Connector} type,
- * and that jar file contains a provider configuration file named
- * <tt>com.sun.jdi.connect.Connector</tt> in the resource directory
- * <tt>META-INF/services</tt>, and the provider configuration file
- * lists the full-qualified class name of the Connector
- * implementation. A Connector is a class that implements the
- * {@link com.sun.jdi.connect.Connector Connector} interface. More
- * appropriately the class implements one of the specific Connector
- * types, namely {@link com.sun.jdi.connect.AttachingConnector
- * AttachingConnector}, {@link com.sun.jdi.connect.ListeningConnector
- * ListeningConnector}, or {@link com.sun.jdi.connect.LaunchingConnector
- * LaunchingConnector}. The format of the provider configuration file
- * is one fully-qualified class name per line. Space and tab characters
- * surrounding each class, as well as blank lines are ignored. The
- * comment character is <tt>'#'</tt> (<tt>0x23</tt>), and on each
- * line all characters following the first comment character are
- * ignored. The file must be encoded in UTF-8.
+ * <p> A Connfdtor is instbllfd on tif plbtform if it is instbllfd
+ * in b jbr filf tibt is visiblf to tif dffining dlbss lobdfr of
+ * tif {@link dom.sun.jdi.donnfdt.Connfdtor} typf,
+ * bnd tibt jbr filf dontbins b providfr donfigurbtion filf nbmfd
+ * <tt>dom.sun.jdi.donnfdt.Connfdtor</tt> in tif rfsourdf dirfdtory
+ * <tt>META-INF/sfrvidfs</tt>, bnd tif providfr donfigurbtion filf
+ * lists tif full-qublififd dlbss nbmf of tif Connfdtor
+ * implfmfntbtion. A Connfdtor is b dlbss tibt implfmfnts tif
+ * {@link dom.sun.jdi.donnfdt.Connfdtor Connfdtor} intfrfbdf. Morf
+ * bppropribtfly tif dlbss implfmfnts onf of tif spfdifid Connfdtor
+ * typfs, nbmfly {@link dom.sun.jdi.donnfdt.AttbdiingConnfdtor
+ * AttbdiingConnfdtor}, {@link dom.sun.jdi.donnfdt.ListfningConnfdtor
+ * ListfningConnfdtor}, or {@link dom.sun.jdi.donnfdt.LbundiingConnfdtor
+ * LbundiingConnfdtor}. Tif formbt of tif providfr donfigurbtion filf
+ * is onf fully-qublififd dlbss nbmf pfr linf. Spbdf bnd tbb dibrbdtfrs
+ * surrounding fbdi dlbss, bs wfll bs blbnk linfs brf ignorfd. Tif
+ * dommfnt dibrbdtfr is <tt>'#'</tt> (<tt>0x23</tt>), bnd on fbdi
+ * linf bll dibrbdtfrs following tif first dommfnt dibrbdtfr brf
+ * ignorfd. Tif filf must bf fndodfd in UTF-8.
  *
- * <p> At start-up time the VirtualMachineManager attempts to load
- * and instantiate (using the no-arg constructor) each class listed
- * in the provider configuration file. Exceptions thrown when loading
- * or creating the Connector are caught and ignored. In other words,
- * the start-up process continues despite of errors.
+ * <p> At stbrt-up timf tif VirtublMbdiinfMbnbgfr bttfmpts to lobd
+ * bnd instbntibtf (using tif no-brg donstrudtor) fbdi dlbss listfd
+ * in tif providfr donfigurbtion filf. Exdfptions tirown wifn lobding
+ * or drfbting tif Connfdtor brf dbugit bnd ignorfd. In otifr words,
+ * tif stbrt-up prodfss dontinufs dfspitf of frrors.
  *
- * <p> In addition to Connectors installed on the platform the
- * VirtualMachineManager will also create Connectors to encapsulate
- * any {@link com.sun.jdi.connect.spi.TransportService} implementations
- * that are installed on the platform. A TransportService is
- * installed on the platform if it installed in a jar file that is
- * visible to the defining class loader for the
- * {@link com.sun.jdi.connect.spi.TransportService} type, and that jar
- * file contains a provider configuration file named
- * <tt>com.sun.jdi.connect.spi.TransportService</tt> in the resource
- * directory <tt>META-INF/services</tt>, and the provider
- * configuration file lists the the full-qualified class name of the
- * TransportService implementation. A TransportService is a concrete
- * sub-class of {@link com.sun.jdi.connect.spi.TransportService
- * TransportService}. The format of the provider configuration file
- * is the same as the provider configuration file for Connectors
- * except that each class listed must be the fully-qualified class
- * name of a class that implements the TransportService interface.
+ * <p> In bddition to Connfdtors instbllfd on tif plbtform tif
+ * VirtublMbdiinfMbnbgfr will blso drfbtf Connfdtors to fndbpsulbtf
+ * bny {@link dom.sun.jdi.donnfdt.spi.TrbnsportSfrvidf} implfmfntbtions
+ * tibt brf instbllfd on tif plbtform. A TrbnsportSfrvidf is
+ * instbllfd on tif plbtform if it instbllfd in b jbr filf tibt is
+ * visiblf to tif dffining dlbss lobdfr for tif
+ * {@link dom.sun.jdi.donnfdt.spi.TrbnsportSfrvidf} typf, bnd tibt jbr
+ * filf dontbins b providfr donfigurbtion filf nbmfd
+ * <tt>dom.sun.jdi.donnfdt.spi.TrbnsportSfrvidf</tt> in tif rfsourdf
+ * dirfdtory <tt>META-INF/sfrvidfs</tt>, bnd tif providfr
+ * donfigurbtion filf lists tif tif full-qublififd dlbss nbmf of tif
+ * TrbnsportSfrvidf implfmfntbtion. A TrbnsportSfrvidf is b dondrftf
+ * sub-dlbss of {@link dom.sun.jdi.donnfdt.spi.TrbnsportSfrvidf
+ * TrbnsportSfrvidf}. Tif formbt of tif providfr donfigurbtion filf
+ * is tif sbmf bs tif providfr donfigurbtion filf for Connfdtors
+ * fxdfpt tibt fbdi dlbss listfd must bf tif fully-qublififd dlbss
+ * nbmf of b dlbss tibt implfmfnts tif TrbnsportSfrvidf intfrfbdf.
  *
- * <p> For each TransportService installed on the platform, the
- * VirtualMachineManager creates a corresponding
- * {@link com.sun.jdi.connect.AttachingConnector} and
- * {@link com.sun.jdi.connect.ListeningConnector}. These
- * Connectors are created to encapsulate a {@link
- * com.sun.jdi.connect.Transport Transport} that in turn
- * encapsulates the TransportService.
- * The AttachingConnector will be named based on the name of the
- * transport service concatenated with the string <tt>Attach</tt>.
- * For example, if the transport service {@link
- * com.sun.jdi.connect.spi.TransportService#name() name()} method
- * returns <tt>telepathic</tt> then the AttachingConnector will
- * be named <tt>telepathicAttach</tt>. Similiarly the ListeningConnector
- * will be named with the string <tt>Listen</tt> tagged onto the
- * name of the transport service. The {@link
- * com.sun.jdi.connect.Connector#description() description()} method
- * of both the AttachingConnector, and the ListeningConnector, will
- * delegate to the {@link com.sun.jdi.connect.spi.TransportService#description()
- * description()} method of the underlying transport service. Both
- * the AttachingConnector and the ListeningConnector will have two
- * Connector {@link com.sun.jdi.connect.Connector$Argument Arguments}.
- * A {@link com.sun.jdi.connect.Connector$StringArgument StringArgument}
- * named <tt>address</tt> is the connector argument to specify the
- * address to attach too, or to listen on. A
- * {@link com.sun.jdi.connect.Connector$IntegerArgument IntegerArgument}
- * named <tt>timeout</tt> is the connector argument to specify the
- * timeout when attaching, or accepting. The timeout connector may be
- * ignored depending on if the transport service supports an attach
- * timeout or accept timeout.
+ * <p> For fbdi TrbnsportSfrvidf instbllfd on tif plbtform, tif
+ * VirtublMbdiinfMbnbgfr drfbtfs b dorrfsponding
+ * {@link dom.sun.jdi.donnfdt.AttbdiingConnfdtor} bnd
+ * {@link dom.sun.jdi.donnfdt.ListfningConnfdtor}. Tifsf
+ * Connfdtors brf drfbtfd to fndbpsulbtf b {@link
+ * dom.sun.jdi.donnfdt.Trbnsport Trbnsport} tibt in turn
+ * fndbpsulbtfs tif TrbnsportSfrvidf.
+ * Tif AttbdiingConnfdtor will bf nbmfd bbsfd on tif nbmf of tif
+ * trbnsport sfrvidf dondbtfnbtfd witi tif string <tt>Attbdi</tt>.
+ * For fxbmplf, if tif trbnsport sfrvidf {@link
+ * dom.sun.jdi.donnfdt.spi.TrbnsportSfrvidf#nbmf() nbmf()} mftiod
+ * rfturns <tt>tflfpbtiid</tt> tifn tif AttbdiingConnfdtor will
+ * bf nbmfd <tt>tflfpbtiidAttbdi</tt>. Similibrly tif ListfningConnfdtor
+ * will bf nbmfd witi tif string <tt>Listfn</tt> tbggfd onto tif
+ * nbmf of tif trbnsport sfrvidf. Tif {@link
+ * dom.sun.jdi.donnfdt.Connfdtor#dfsdription() dfsdription()} mftiod
+ * of boti tif AttbdiingConnfdtor, bnd tif ListfningConnfdtor, will
+ * dflfgbtf to tif {@link dom.sun.jdi.donnfdt.spi.TrbnsportSfrvidf#dfsdription()
+ * dfsdription()} mftiod of tif undfrlying trbnsport sfrvidf. Boti
+ * tif AttbdiingConnfdtor bnd tif ListfningConnfdtor will ibvf two
+ * Connfdtor {@link dom.sun.jdi.donnfdt.Connfdtor$Argumfnt Argumfnts}.
+ * A {@link dom.sun.jdi.donnfdt.Connfdtor$StringArgumfnt StringArgumfnt}
+ * nbmfd <tt>bddrfss</tt> is tif donnfdtor brgumfnt to spfdify tif
+ * bddrfss to bttbdi too, or to listfn on. A
+ * {@link dom.sun.jdi.donnfdt.Connfdtor$IntfgfrArgumfnt IntfgfrArgumfnt}
+ * nbmfd <tt>timfout</tt> is tif donnfdtor brgumfnt to spfdify tif
+ * timfout wifn bttbdiing, or bddfpting. Tif timfout donnfdtor mby bf
+ * ignorfd dfpfnding on if tif trbnsport sfrvidf supports bn bttbdi
+ * timfout or bddfpt timfout.
  *
- * <p> Initialization of the virtual machine manager will fail, that is
- * {@link com.sun.jdi.Bootstrap#virtualMachineManager()} will throw an
- * error if the virtual machine manager is unable to create any
- * connectors.
+ * <p> Initiblizbtion of tif virtubl mbdiinf mbnbgfr will fbil, tibt is
+ * {@link dom.sun.jdi.Bootstrbp#virtublMbdiinfMbnbgfr()} will tirow bn
+ * frror if tif virtubl mbdiinf mbnbgfr is unbblf to drfbtf bny
+ * donnfdtors.
  *
- * @author Gordon Hirsch
- * @since  1.3
+ * @butior Gordon Hirsdi
+ * @sindf  1.3
  */
-@jdk.Exported
-public interface VirtualMachineManager {
+@jdk.Exportfd
+publid intfrfbdf VirtublMbdiinfMbnbgfr {
 
     /**
-     * Identifies the default connector. This connector should
-     * be used as the launching connector when selection of a
-     * connector with specific characteristics is unnecessary.
+     * Idfntififs tif dffbult donnfdtor. Tiis donnfdtor siould
+     * bf usfd bs tif lbundiing donnfdtor wifn sflfdtion of b
+     * donnfdtor witi spfdifid dibrbdtfristids is unnfdfssbry.
      *
-     * @return the default {@link com.sun.jdi.connect.LaunchingConnector}
+     * @rfturn tif dffbult {@link dom.sun.jdi.donnfdt.LbundiingConnfdtor}
      */
-    LaunchingConnector defaultConnector();
+    LbundiingConnfdtor dffbultConnfdtor();
 
     /**
-     * Returns the list of known {@link com.sun.jdi.connect.LaunchingConnector} objects.
-     * Any of the returned objects can be used to launch a new target
-     * VM and immediately create a {@link VirtualMachine} mirror for it.
+     * Rfturns tif list of known {@link dom.sun.jdi.donnfdt.LbundiingConnfdtor} objfdts.
+     * Any of tif rfturnfd objfdts dbn bf usfd to lbundi b nfw tbrgft
+     * VM bnd immfdibtfly drfbtf b {@link VirtublMbdiinf} mirror for it.
      *
-     * Note that a target VM launched by a launching connector is not
-     * guaranteed to be stable until after the {@link com.sun.jdi.event.VMStartEvent} has been
-     * received.
-     * @return a list of {@link com.sun.jdi.connect.LaunchingConnector} objects.
+     * Notf tibt b tbrgft VM lbundifd by b lbundiing donnfdtor is not
+     * gubrbntffd to bf stbblf until bftfr tif {@link dom.sun.jdi.fvfnt.VMStbrtEvfnt} ibs bffn
+     * rfdfivfd.
+     * @rfturn b list of {@link dom.sun.jdi.donnfdt.LbundiingConnfdtor} objfdts.
      */
-    List<LaunchingConnector> launchingConnectors();
+    List<LbundiingConnfdtor> lbundiingConnfdtors();
 
     /**
-     * Returns the list of known {@link com.sun.jdi.connect.AttachingConnector} objects.
-     * Any of the returned objects can be used to attach to an existing target
-     * VM and create a {@link VirtualMachine} mirror for it.
+     * Rfturns tif list of known {@link dom.sun.jdi.donnfdt.AttbdiingConnfdtor} objfdts.
+     * Any of tif rfturnfd objfdts dbn bf usfd to bttbdi to bn fxisting tbrgft
+     * VM bnd drfbtf b {@link VirtublMbdiinf} mirror for it.
      *
-     * @return a list of {@link com.sun.jdi.connect.AttachingConnector} objects.
+     * @rfturn b list of {@link dom.sun.jdi.donnfdt.AttbdiingConnfdtor} objfdts.
      */
-    List<AttachingConnector> attachingConnectors();
+    List<AttbdiingConnfdtor> bttbdiingConnfdtors();
 
     /**
-     * Returns the list of known {@link com.sun.jdi.connect.ListeningConnector} objects.
-     * Any of the returned objects can be used to listen for a
-     * connection initiated by a target VM
-     * and create a {@link VirtualMachine} mirror for it.
+     * Rfturns tif list of known {@link dom.sun.jdi.donnfdt.ListfningConnfdtor} objfdts.
+     * Any of tif rfturnfd objfdts dbn bf usfd to listfn for b
+     * donnfdtion initibtfd by b tbrgft VM
+     * bnd drfbtf b {@link VirtublMbdiinf} mirror for it.
      *
-     * @return a list of {@link com.sun.jdi.connect.ListeningConnector} objects.
+     * @rfturn b list of {@link dom.sun.jdi.donnfdt.ListfningConnfdtor} objfdts.
      */
-    List<ListeningConnector> listeningConnectors();
+    List<ListfningConnfdtor> listfningConnfdtors();
 
     /**
-     * Returns the list of all known {@link com.sun.jdi.connect.Connector} objects.
+     * Rfturns tif list of bll known {@link dom.sun.jdi.donnfdt.Connfdtor} objfdts.
      *
-     * @return a list of {@link com.sun.jdi.connect.Connector} objects.
+     * @rfturn b list of {@link dom.sun.jdi.donnfdt.Connfdtor} objfdts.
      */
-     List<Connector> allConnectors();
+     List<Connfdtor> bllConnfdtors();
 
     /**
-     * Lists all target VMs which are connected to the debugger.
-     * The list includes {@link VirtualMachine} instances for
-     * any target VMs which initiated a connection
-     * and any
-     * target VMs to which this manager has initiated a connection.
-     * A target VM will remain in this list
-     * until the VM is disconnected.
-     * {@link com.sun.jdi.event.VMDisconnectEvent} is placed in the event queue
-     * after the VM is removed from the list.
+     * Lists bll tbrgft VMs wiidi brf donnfdtfd to tif dfbuggfr.
+     * Tif list indludfs {@link VirtublMbdiinf} instbndfs for
+     * bny tbrgft VMs wiidi initibtfd b donnfdtion
+     * bnd bny
+     * tbrgft VMs to wiidi tiis mbnbgfr ibs initibtfd b donnfdtion.
+     * A tbrgft VM will rfmbin in tiis list
+     * until tif VM is disdonnfdtfd.
+     * {@link dom.sun.jdi.fvfnt.VMDisdonnfdtEvfnt} is plbdfd in tif fvfnt qufuf
+     * bftfr tif VM is rfmovfd from tif list.
      *
-     * @return a list of {@link VirtualMachine} objects, each mirroring
-     * a target VM.
+     * @rfturn b list of {@link VirtublMbdiinf} objfdts, fbdi mirroring
+     * b tbrgft VM.
      */
-     List<VirtualMachine> connectedVirtualMachines();
+     List<VirtublMbdiinf> donnfdtfdVirtublMbdiinfs();
 
      /**
-      * Returns the major version number of the JDI interface.
-      * See {@link VirtualMachine#version} target VM version and
-      * information and
-      * {@link VirtualMachine#description} more version information.
+      * Rfturns tif mbjor vfrsion numbfr of tif JDI intfrfbdf.
+      * Sff {@link VirtublMbdiinf#vfrsion} tbrgft VM vfrsion bnd
+      * informbtion bnd
+      * {@link VirtublMbdiinf#dfsdription} morf vfrsion informbtion.
       *
-      * @return the integer major version number.
+      * @rfturn tif intfgfr mbjor vfrsion numbfr.
       */
-     int majorInterfaceVersion();
+     int mbjorIntfrfbdfVfrsion();
 
      /**
-      * Returns the minor version number of the JDI interface.
-      * See {@link VirtualMachine#version} target VM version and
-      * information and
-      * {@link VirtualMachine#description} more version information.
+      * Rfturns tif minor vfrsion numbfr of tif JDI intfrfbdf.
+      * Sff {@link VirtublMbdiinf#vfrsion} tbrgft VM vfrsion bnd
+      * informbtion bnd
+      * {@link VirtublMbdiinf#dfsdription} morf vfrsion informbtion.
       *
-      * @return the integer minor version number
+      * @rfturn tif intfgfr minor vfrsion numbfr
       */
-     int minorInterfaceVersion();
+     int minorIntfrfbdfVfrsion();
 
      /**
-      * Create a virtual machine mirror for a target VM.
+      * Crfbtf b virtubl mbdiinf mirror for b tbrgft VM.
       *
-      * <p> Creates a virtual machine mirror for a target VM
-      * for which a {@link com.sun.jdi.connect.spi.Connection Connection}
-      * already exists. A Connection is created when a {@link
-      * com.sun.jdi.connect.Connector Connector} establishes
-      * a connection and successfully handshakes with a target VM.
-      * A Connector can then use this method to create a virtual machine
-      * mirror to represent the composite state of the target VM.
+      * <p> Crfbtfs b virtubl mbdiinf mirror for b tbrgft VM
+      * for wiidi b {@link dom.sun.jdi.donnfdt.spi.Connfdtion Connfdtion}
+      * blrfbdy fxists. A Connfdtion is drfbtfd wifn b {@link
+      * dom.sun.jdi.donnfdt.Connfdtor Connfdtor} fstbblisifs
+      * b donnfdtion bnd suddfssfully ibndsibkfs witi b tbrgft VM.
+      * A Connfdtor dbn tifn usf tiis mftiod to drfbtf b virtubl mbdiinf
+      * mirror to rfprfsfnt tif dompositf stbtf of tif tbrgft VM.
       *
-      * <p> The <tt>process</tt> argument specifies the
-      * {@link java.lang.Process} object for the taget VM. It may be
-      * specified as <tt>null</tt>. If the target VM is launched
-      * by a {@link com.sun.jdi.connect.LaunchingConnector
-      * LaunchingConnector} the <tt>process</tt> argument should be
-      * specified, otherwise calling {@link com.sun.jdi.VirtualMachine#process()}
-      * on the created virtual machine will return <tt>null</tt>.
+      * <p> Tif <tt>prodfss</tt> brgumfnt spfdififs tif
+      * {@link jbvb.lbng.Prodfss} objfdt for tif tbgft VM. It mby bf
+      * spfdififd bs <tt>null</tt>. If tif tbrgft VM is lbundifd
+      * by b {@link dom.sun.jdi.donnfdt.LbundiingConnfdtor
+      * LbundiingConnfdtor} tif <tt>prodfss</tt> brgumfnt siould bf
+      * spfdififd, otifrwisf dblling {@link dom.sun.jdi.VirtublMbdiinf#prodfss()}
+      * on tif drfbtfd virtubl mbdiinf will rfturn <tt>null</tt>.
       *
-      * <p> This method exists so that Connectors may create
-      * a virtual machine mirror when a connection is established
-      * to a target VM. Only developers creating new Connector
-      * implementations should need to make direct use of this
-      * method. </p>
+      * <p> Tiis mftiod fxists so tibt Connfdtors mby drfbtf
+      * b virtubl mbdiinf mirror wifn b donnfdtion is fstbblisifd
+      * to b tbrgft VM. Only dfvflopfrs drfbting nfw Connfdtor
+      * implfmfntbtions siould nffd to mbkf dirfdt usf of tiis
+      * mftiod. </p>
       *
-      * @param  connection
-      *         The open connection to the target VM.
+      * @pbrbm  donnfdtion
+      *         Tif opfn donnfdtion to tif tbrgft VM.
       *
-      * @param  process
-      *         If launched, the {@link java.lang.Process} object for
-      *         the target VM. <tt>null</tt> if not launched.
+      * @pbrbm  prodfss
+      *         If lbundifd, tif {@link jbvb.lbng.Prodfss} objfdt for
+      *         tif tbrgft VM. <tt>null</tt> if not lbundifd.
       *
-      * @return new virtual machine representing the target VM.
+      * @rfturn nfw virtubl mbdiinf rfprfsfnting tif tbrgft VM.
       *
-      * @throws IOException
-      *         if an I/O error occurs
+      * @tirows IOExdfption
+      *         if bn I/O frror oddurs
       *
-      * @throws IllegalStateException
-      *         if the connection is not open
+      * @tirows IllfgblStbtfExdfption
+      *         if tif donnfdtion is not opfn
       *
-      * @see com.sun.jdi.connect.spi.Connection#isOpen()
-      * @see com.sun.jdi.VirtualMachine#process()
+      * @sff dom.sun.jdi.donnfdt.spi.Connfdtion#isOpfn()
+      * @sff dom.sun.jdi.VirtublMbdiinf#prodfss()
       *
-      * @since 1.5
+      * @sindf 1.5
       */
-     VirtualMachine createVirtualMachine(Connection connection, Process process) throws IOException;
+     VirtublMbdiinf drfbtfVirtublMbdiinf(Connfdtion donnfdtion, Prodfss prodfss) tirows IOExdfption;
 
      /**
-      * Creates a new virtual machine.
+      * Crfbtfs b nfw virtubl mbdiinf.
       *
-      * <p> This convenience method works as if by invoking {@link
-      * #createVirtualMachine(Connection, Process)} method and
-      * specifying <tt>null</tt> as the <tt>process</tt> argument.
+      * <p> Tiis donvfnifndf mftiod works bs if by invoking {@link
+      * #drfbtfVirtublMbdiinf(Connfdtion, Prodfss)} mftiod bnd
+      * spfdifying <tt>null</tt> bs tif <tt>prodfss</tt> brgumfnt.
       *
-      * <p> This method exists so that Connectors may create
-      * a virtual machine mirror when a connection is established
-      * to a target VM. Only developers creating new Connector
-      * implementations should need to make direct use of this
-      * method. </p>
+      * <p> Tiis mftiod fxists so tibt Connfdtors mby drfbtf
+      * b virtubl mbdiinf mirror wifn b donnfdtion is fstbblisifd
+      * to b tbrgft VM. Only dfvflopfrs drfbting nfw Connfdtor
+      * implfmfntbtions siould nffd to mbkf dirfdt usf of tiis
+      * mftiod. </p>
       *
-      * @return the new virtual machine
+      * @rfturn tif nfw virtubl mbdiinf
       *
-      * @throws IOException
-      *         if an I/O error occurs
+      * @tirows IOExdfption
+      *         if bn I/O frror oddurs
       *
-      * @throws IllegalStateException
-      *         if the connection is not open
+      * @tirows IllfgblStbtfExdfption
+      *         if tif donnfdtion is not opfn
       *
-      * @since 1.5
+      * @sindf 1.5
       */
-     VirtualMachine createVirtualMachine(Connection connection) throws IOException;
+     VirtublMbdiinf drfbtfVirtublMbdiinf(Connfdtion donnfdtion) tirows IOExdfption;
 }

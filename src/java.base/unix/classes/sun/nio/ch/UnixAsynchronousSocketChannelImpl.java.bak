@@ -1,753 +1,753 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.channels.*;
-import java.nio.ByteBuffer;
-import java.net.*;
-import java.util.concurrent.*;
-import java.io.IOException;
-import java.io.FileDescriptor;
-import java.security.AccessController;
-import sun.net.NetHooks;
-import sun.security.action.GetPropertyAction;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.BytfBufffr;
+import jbvb.nft.*;
+import jbvb.util.dondurrfnt.*;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.nft.NftHooks;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 /**
- * Unix implementation of AsynchronousSocketChannel
+ * Unix implfmfntbtion of AsyndironousSodkftCibnnfl
  */
 
-class UnixAsynchronousSocketChannelImpl
-    extends AsynchronousSocketChannelImpl implements Port.PollableChannel
+dlbss UnixAsyndironousSodkftCibnnflImpl
+    fxtfnds AsyndironousSodkftCibnnflImpl implfmfnts Port.PollbblfCibnnfl
 {
-    private final static NativeDispatcher nd = new SocketDispatcher();
-    private static enum OpType { CONNECT, READ, WRITE };
+    privbtf finbl stbtid NbtivfDispbtdifr nd = nfw SodkftDispbtdifr();
+    privbtf stbtid fnum OpTypf { CONNECT, READ, WRITE };
 
-    private static final boolean disableSynchronousRead;
-    static {
-        String propValue = AccessController.doPrivileged(
-            new GetPropertyAction("sun.nio.ch.disableSynchronousRead", "false"));
-        disableSynchronousRead = (propValue.length() == 0) ?
-            true : Boolean.valueOf(propValue);
+    privbtf stbtid finbl boolfbn disbblfSyndironousRfbd;
+    stbtid {
+        String propVbluf = AddfssControllfr.doPrivilfgfd(
+            nfw GftPropfrtyAdtion("sun.nio.di.disbblfSyndironousRfbd", "fblsf"));
+        disbblfSyndironousRfbd = (propVbluf.lfngti() == 0) ?
+            truf : Boolfbn.vblufOf(propVbluf);
     }
 
-    private final Port port;
-    private final int fdVal;
+    privbtf finbl Port port;
+    privbtf finbl int fdVbl;
 
-    // used to ensure that the context for I/O operations that complete
-    // ascynrhonously is visible to the pooled threads handling I/O events.
-    private final Object updateLock = new Object();
+    // usfd to fnsurf tibt tif dontfxt for I/O opfrbtions tibt domplftf
+    // bsdynrionously is visiblf to tif poolfd tirfbds ibndling I/O fvfnts.
+    privbtf finbl Objfdt updbtfLodk = nfw Objfdt();
 
-    // pending connect (updateLock)
-    private boolean connectPending;
-    private CompletionHandler<Void,Object> connectHandler;
-    private Object connectAttachment;
-    private PendingFuture<Void,Object> connectFuture;
+    // pfnding donnfdt (updbtfLodk)
+    privbtf boolfbn donnfdtPfnding;
+    privbtf ComplftionHbndlfr<Void,Objfdt> donnfdtHbndlfr;
+    privbtf Objfdt donnfdtAttbdimfnt;
+    privbtf PfndingFuturf<Void,Objfdt> donnfdtFuturf;
 
-    // pending remote address (stateLock)
-    private SocketAddress pendingRemote;
+    // pfnding rfmotf bddrfss (stbtfLodk)
+    privbtf SodkftAddrfss pfndingRfmotf;
 
-    // pending read (updateLock)
-    private boolean readPending;
-    private boolean isScatteringRead;
-    private ByteBuffer readBuffer;
-    private ByteBuffer[] readBuffers;
-    private CompletionHandler<Number,Object> readHandler;
-    private Object readAttachment;
-    private PendingFuture<Number,Object> readFuture;
-    private Future<?> readTimer;
+    // pfnding rfbd (updbtfLodk)
+    privbtf boolfbn rfbdPfnding;
+    privbtf boolfbn isSdbttfringRfbd;
+    privbtf BytfBufffr rfbdBufffr;
+    privbtf BytfBufffr[] rfbdBufffrs;
+    privbtf ComplftionHbndlfr<Numbfr,Objfdt> rfbdHbndlfr;
+    privbtf Objfdt rfbdAttbdimfnt;
+    privbtf PfndingFuturf<Numbfr,Objfdt> rfbdFuturf;
+    privbtf Futurf<?> rfbdTimfr;
 
-    // pending write (updateLock)
-    private boolean writePending;
-    private boolean isGatheringWrite;
-    private ByteBuffer writeBuffer;
-    private ByteBuffer[] writeBuffers;
-    private CompletionHandler<Number,Object> writeHandler;
-    private Object writeAttachment;
-    private PendingFuture<Number,Object> writeFuture;
-    private Future<?> writeTimer;
+    // pfnding writf (updbtfLodk)
+    privbtf boolfbn writfPfnding;
+    privbtf boolfbn isGbtifringWritf;
+    privbtf BytfBufffr writfBufffr;
+    privbtf BytfBufffr[] writfBufffrs;
+    privbtf ComplftionHbndlfr<Numbfr,Objfdt> writfHbndlfr;
+    privbtf Objfdt writfAttbdimfnt;
+    privbtf PfndingFuturf<Numbfr,Objfdt> writfFuturf;
+    privbtf Futurf<?> writfTimfr;
 
 
-    UnixAsynchronousSocketChannelImpl(Port port)
-        throws IOException
+    UnixAsyndironousSodkftCibnnflImpl(Port port)
+        tirows IOExdfption
     {
-        super(port);
+        supfr(port);
 
-        // set non-blocking
+        // sft non-blodking
         try {
-            IOUtil.configureBlocking(fd, false);
-        } catch (IOException x) {
-            nd.close(fd);
-            throw x;
+            IOUtil.donfigurfBlodking(fd, fblsf);
+        } dbtdi (IOExdfption x) {
+            nd.dlosf(fd);
+            tirow x;
         }
 
-        this.port = port;
-        this.fdVal = IOUtil.fdVal(fd);
+        tiis.port = port;
+        tiis.fdVbl = IOUtil.fdVbl(fd);
 
-        // add mapping from file descriptor to this channel
-        port.register(fdVal, this);
+        // bdd mbpping from filf dfsdriptor to tiis dibnnfl
+        port.rfgistfr(fdVbl, tiis);
     }
 
-    // Constructor for sockets created by UnixAsynchronousServerSocketChannelImpl
-    UnixAsynchronousSocketChannelImpl(Port port,
-                                      FileDescriptor fd,
-                                      InetSocketAddress remote)
-        throws IOException
+    // Construdtor for sodkfts drfbtfd by UnixAsyndironousSfrvfrSodkftCibnnflImpl
+    UnixAsyndironousSodkftCibnnflImpl(Port port,
+                                      FilfDfsdriptor fd,
+                                      InftSodkftAddrfss rfmotf)
+        tirows IOExdfption
     {
-        super(port, fd, remote);
+        supfr(port, fd, rfmotf);
 
-        this.fdVal = IOUtil.fdVal(fd);
-        IOUtil.configureBlocking(fd, false);
+        tiis.fdVbl = IOUtil.fdVbl(fd);
+        IOUtil.donfigurfBlodking(fd, fblsf);
 
         try {
-            port.register(fdVal, this);
-        } catch (ShutdownChannelGroupException x) {
-            // ShutdownChannelGroupException thrown if we attempt to register a
-            // new channel after the group is shutdown
-            throw new IOException(x);
+            port.rfgistfr(fdVbl, tiis);
+        } dbtdi (SiutdownCibnnflGroupExdfption x) {
+            // SiutdownCibnnflGroupExdfption tirown if wf bttfmpt to rfgistfr b
+            // nfw dibnnfl bftfr tif group is siutdown
+            tirow nfw IOExdfption(x);
         }
 
-        this.port = port;
+        tiis.port = port;
     }
 
-    @Override
-    public AsynchronousChannelGroupImpl group() {
-        return port;
+    @Ovfrridf
+    publid AsyndironousCibnnflGroupImpl group() {
+        rfturn port;
     }
 
-    // register events for outstanding I/O operations, caller already owns updateLock
-    private void updateEvents() {
-        assert Thread.holdsLock(updateLock);
-        int events = 0;
-        if (readPending)
-            events |= Net.POLLIN;
-        if (connectPending || writePending)
-            events |= Net.POLLOUT;
-        if (events != 0)
-            port.startPoll(fdVal, events);
+    // rfgistfr fvfnts for outstbnding I/O opfrbtions, dbllfr blrfbdy owns updbtfLodk
+    privbtf void updbtfEvfnts() {
+        bssfrt Tirfbd.ioldsLodk(updbtfLodk);
+        int fvfnts = 0;
+        if (rfbdPfnding)
+            fvfnts |= Nft.POLLIN;
+        if (donnfdtPfnding || writfPfnding)
+            fvfnts |= Nft.POLLOUT;
+        if (fvfnts != 0)
+            port.stbrtPoll(fdVbl, fvfnts);
     }
 
-    // register events for outstanding I/O operations
-    private void lockAndUpdateEvents() {
-        synchronized (updateLock) {
-            updateEvents();
+    // rfgistfr fvfnts for outstbnding I/O opfrbtions
+    privbtf void lodkAndUpdbtfEvfnts() {
+        syndironizfd (updbtfLodk) {
+            updbtfEvfnts();
         }
     }
 
-    // invoke to finish read and/or write operations
-    private void finish(boolean mayInvokeDirect,
-                        boolean readable,
-                        boolean writable)
+    // invokf to finisi rfbd bnd/or writf opfrbtions
+    privbtf void finisi(boolfbn mbyInvokfDirfdt,
+                        boolfbn rfbdbblf,
+                        boolfbn writbblf)
     {
-        boolean finishRead = false;
-        boolean finishWrite = false;
-        boolean finishConnect = false;
+        boolfbn finisiRfbd = fblsf;
+        boolfbn finisiWritf = fblsf;
+        boolfbn finisiConnfdt = fblsf;
 
-        // map event to pending result
-        synchronized (updateLock) {
-            if (readable && this.readPending) {
-                this.readPending = false;
-                finishRead = true;
+        // mbp fvfnt to pfnding rfsult
+        syndironizfd (updbtfLodk) {
+            if (rfbdbblf && tiis.rfbdPfnding) {
+                tiis.rfbdPfnding = fblsf;
+                finisiRfbd = truf;
             }
-            if (writable) {
-                if (this.writePending) {
-                    this.writePending = false;
-                    finishWrite = true;
-                } else if (this.connectPending) {
-                    this.connectPending = false;
-                    finishConnect = true;
+            if (writbblf) {
+                if (tiis.writfPfnding) {
+                    tiis.writfPfnding = fblsf;
+                    finisiWritf = truf;
+                } flsf if (tiis.donnfdtPfnding) {
+                    tiis.donnfdtPfnding = fblsf;
+                    finisiConnfdt = truf;
                 }
             }
         }
 
-        // complete the I/O operation. Special case for when channel is
-        // ready for both reading and writing. In that case, submit task to
-        // complete write if write operation has a completion handler.
-        if (finishRead) {
-            if (finishWrite)
-                finishWrite(false);
-            finishRead(mayInvokeDirect);
-            return;
+        // domplftf tif I/O opfrbtion. Spfdibl dbsf for wifn dibnnfl is
+        // rfbdy for boti rfbding bnd writing. In tibt dbsf, submit tbsk to
+        // domplftf writf if writf opfrbtion ibs b domplftion ibndlfr.
+        if (finisiRfbd) {
+            if (finisiWritf)
+                finisiWritf(fblsf);
+            finisiRfbd(mbyInvokfDirfdt);
+            rfturn;
         }
-        if (finishWrite) {
-            finishWrite(mayInvokeDirect);
+        if (finisiWritf) {
+            finisiWritf(mbyInvokfDirfdt);
         }
-        if (finishConnect) {
-            finishConnect(mayInvokeDirect);
+        if (finisiConnfdt) {
+            finisiConnfdt(mbyInvokfDirfdt);
         }
     }
 
     /**
-     * Invoked by event handler thread when file descriptor is polled
+     * Invokfd by fvfnt ibndlfr tirfbd wifn filf dfsdriptor is pollfd
      */
-    @Override
-    public void onEvent(int events, boolean mayInvokeDirect) {
-        boolean readable = (events & Net.POLLIN) > 0;
-        boolean writable = (events & Net.POLLOUT) > 0;
-        if ((events & (Net.POLLERR | Net.POLLHUP)) > 0) {
-            readable = true;
-            writable = true;
+    @Ovfrridf
+    publid void onEvfnt(int fvfnts, boolfbn mbyInvokfDirfdt) {
+        boolfbn rfbdbblf = (fvfnts & Nft.POLLIN) > 0;
+        boolfbn writbblf = (fvfnts & Nft.POLLOUT) > 0;
+        if ((fvfnts & (Nft.POLLERR | Nft.POLLHUP)) > 0) {
+            rfbdbblf = truf;
+            writbblf = truf;
         }
-        finish(mayInvokeDirect, readable, writable);
+        finisi(mbyInvokfDirfdt, rfbdbblf, writbblf);
     }
 
-    @Override
-    void implClose() throws IOException {
-        // remove the mapping
-        port.unregister(fdVal);
+    @Ovfrridf
+    void implClosf() tirows IOExdfption {
+        // rfmovf tif mbpping
+        port.unrfgistfr(fdVbl);
 
-        // close file descriptor
-        nd.close(fd);
+        // dlosf filf dfsdriptor
+        nd.dlosf(fd);
 
-        // All outstanding I/O operations are required to fail
-        finish(false, true, true);
+        // All outstbnding I/O opfrbtions brf rfquirfd to fbil
+        finisi(fblsf, truf, truf);
     }
 
-    @Override
-    public void onCancel(PendingFuture<?,?> task) {
-        if (task.getContext() == OpType.CONNECT)
-            killConnect();
-        if (task.getContext() == OpType.READ)
-            killReading();
-        if (task.getContext() == OpType.WRITE)
+    @Ovfrridf
+    publid void onCbndfl(PfndingFuturf<?,?> tbsk) {
+        if (tbsk.gftContfxt() == OpTypf.CONNECT)
+            killConnfdt();
+        if (tbsk.gftContfxt() == OpTypf.READ)
+            killRfbding();
+        if (tbsk.gftContfxt() == OpTypf.WRITE)
             killWriting();
     }
 
-    // -- connect --
+    // -- donnfdt --
 
-    private void setConnected() throws IOException {
-        synchronized (stateLock) {
-            state = ST_CONNECTED;
-            localAddress = Net.localAddress(fd);
-            remoteAddress = (InetSocketAddress)pendingRemote;
+    privbtf void sftConnfdtfd() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            stbtf = ST_CONNECTED;
+            lodblAddrfss = Nft.lodblAddrfss(fd);
+            rfmotfAddrfss = (InftSodkftAddrfss)pfndingRfmotf;
         }
     }
 
-    private void finishConnect(boolean mayInvokeDirect) {
-        Throwable e = null;
+    privbtf void finisiConnfdt(boolfbn mbyInvokfDirfdt) {
+        Tirowbblf f = null;
         try {
-            begin();
-            checkConnect(fdVal);
-            setConnected();
-        } catch (Throwable x) {
-            if (x instanceof ClosedChannelException)
-                x = new AsynchronousCloseException();
-            e = x;
-        } finally {
-            end();
+            bfgin();
+            difdkConnfdt(fdVbl);
+            sftConnfdtfd();
+        } dbtdi (Tirowbblf x) {
+            if (x instbndfof ClosfdCibnnflExdfption)
+                x = nfw AsyndironousClosfExdfption();
+            f = x;
+        } finblly {
+            fnd();
         }
-        if (e != null) {
-            // close channel if connection cannot be established
+        if (f != null) {
+            // dlosf dibnnfl if donnfdtion dbnnot bf fstbblisifd
             try {
-                close();
-            } catch (Throwable suppressed) {
-                e.addSuppressed(suppressed);
+                dlosf();
+            } dbtdi (Tirowbblf supprfssfd) {
+                f.bddSupprfssfd(supprfssfd);
             }
         }
 
-        // invoke handler and set result
-        CompletionHandler<Void,Object> handler = connectHandler;
-        Object att = connectAttachment;
-        PendingFuture<Void,Object> future = connectFuture;
-        if (handler == null) {
-            future.setResult(null, e);
-        } else {
-            if (mayInvokeDirect) {
-                Invoker.invokeUnchecked(handler, att, null, e);
-            } else {
-                Invoker.invokeIndirectly(this, handler, att, null, e);
+        // invokf ibndlfr bnd sft rfsult
+        ComplftionHbndlfr<Void,Objfdt> ibndlfr = donnfdtHbndlfr;
+        Objfdt btt = donnfdtAttbdimfnt;
+        PfndingFuturf<Void,Objfdt> futurf = donnfdtFuturf;
+        if (ibndlfr == null) {
+            futurf.sftRfsult(null, f);
+        } flsf {
+            if (mbyInvokfDirfdt) {
+                Invokfr.invokfUndifdkfd(ibndlfr, btt, null, f);
+            } flsf {
+                Invokfr.invokfIndirfdtly(tiis, ibndlfr, btt, null, f);
             }
         }
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    <A> Future<Void> implConnect(SocketAddress remote,
-                                 A attachment,
-                                 CompletionHandler<Void,? super A> handler)
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    <A> Futurf<Void> implConnfdt(SodkftAddrfss rfmotf,
+                                 A bttbdimfnt,
+                                 ComplftionHbndlfr<Void,? supfr A> ibndlfr)
     {
-        if (!isOpen()) {
-            Throwable e = new ClosedChannelException();
-            if (handler == null) {
-                return CompletedFuture.withFailure(e);
-            } else {
-                Invoker.invoke(this, handler, attachment, null, e);
-                return null;
+        if (!isOpfn()) {
+            Tirowbblf f = nfw ClosfdCibnnflExdfption();
+            if (ibndlfr == null) {
+                rfturn ComplftfdFuturf.witiFbilurf(f);
+            } flsf {
+                Invokfr.invokf(tiis, ibndlfr, bttbdimfnt, null, f);
+                rfturn null;
             }
         }
 
-        InetSocketAddress isa = Net.checkAddress(remote);
+        InftSodkftAddrfss isb = Nft.difdkAddrfss(rfmotf);
 
-        // permission check
-        SecurityManager sm = System.getSecurityManager();
+        // pfrmission difdk
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null)
-            sm.checkConnect(isa.getAddress().getHostAddress(), isa.getPort());
+            sm.difdkConnfdt(isb.gftAddrfss().gftHostAddrfss(), isb.gftPort());
 
-        // check and set state
-        boolean notifyBeforeTcpConnect;
-        synchronized (stateLock) {
-            if (state == ST_CONNECTED)
-                throw new AlreadyConnectedException();
-            if (state == ST_PENDING)
-                throw new ConnectionPendingException();
-            state = ST_PENDING;
-            pendingRemote = remote;
-            notifyBeforeTcpConnect = (localAddress == null);
+        // difdk bnd sft stbtf
+        boolfbn notifyBfforfTdpConnfdt;
+        syndironizfd (stbtfLodk) {
+            if (stbtf == ST_CONNECTED)
+                tirow nfw AlrfbdyConnfdtfdExdfption();
+            if (stbtf == ST_PENDING)
+                tirow nfw ConnfdtionPfndingExdfption();
+            stbtf = ST_PENDING;
+            pfndingRfmotf = rfmotf;
+            notifyBfforfTdpConnfdt = (lodblAddrfss == null);
         }
 
-        Throwable e = null;
+        Tirowbblf f = null;
         try {
-            begin();
-            // notify hook if unbound
-            if (notifyBeforeTcpConnect)
-                NetHooks.beforeTcpConnect(fd, isa.getAddress(), isa.getPort());
-            int n = Net.connect(fd, isa.getAddress(), isa.getPort());
-            if (n == IOStatus.UNAVAILABLE) {
-                // connection could not be established immediately
-                PendingFuture<Void,A> result = null;
-                synchronized (updateLock) {
-                    if (handler == null) {
-                        result = new PendingFuture<Void,A>(this, OpType.CONNECT);
-                        this.connectFuture = (PendingFuture<Void,Object>)result;
-                    } else {
-                        this.connectHandler = (CompletionHandler<Void,Object>)handler;
-                        this.connectAttachment = attachment;
+            bfgin();
+            // notify iook if unbound
+            if (notifyBfforfTdpConnfdt)
+                NftHooks.bfforfTdpConnfdt(fd, isb.gftAddrfss(), isb.gftPort());
+            int n = Nft.donnfdt(fd, isb.gftAddrfss(), isb.gftPort());
+            if (n == IOStbtus.UNAVAILABLE) {
+                // donnfdtion dould not bf fstbblisifd immfdibtfly
+                PfndingFuturf<Void,A> rfsult = null;
+                syndironizfd (updbtfLodk) {
+                    if (ibndlfr == null) {
+                        rfsult = nfw PfndingFuturf<Void,A>(tiis, OpTypf.CONNECT);
+                        tiis.donnfdtFuturf = (PfndingFuturf<Void,Objfdt>)rfsult;
+                    } flsf {
+                        tiis.donnfdtHbndlfr = (ComplftionHbndlfr<Void,Objfdt>)ibndlfr;
+                        tiis.donnfdtAttbdimfnt = bttbdimfnt;
                     }
-                    this.connectPending = true;
-                    updateEvents();
+                    tiis.donnfdtPfnding = truf;
+                    updbtfEvfnts();
                 }
-                return result;
+                rfturn rfsult;
             }
-            setConnected();
-        } catch (Throwable x) {
-            if (x instanceof ClosedChannelException)
-                x = new AsynchronousCloseException();
-            e = x;
-        } finally {
-            end();
+            sftConnfdtfd();
+        } dbtdi (Tirowbblf x) {
+            if (x instbndfof ClosfdCibnnflExdfption)
+                x = nfw AsyndironousClosfExdfption();
+            f = x;
+        } finblly {
+            fnd();
         }
 
-        // close channel if connect fails
-        if (e != null) {
+        // dlosf dibnnfl if donnfdt fbils
+        if (f != null) {
             try {
-                close();
-            } catch (Throwable suppressed) {
-                e.addSuppressed(suppressed);
+                dlosf();
+            } dbtdi (Tirowbblf supprfssfd) {
+                f.bddSupprfssfd(supprfssfd);
             }
         }
-        if (handler == null) {
-            return CompletedFuture.withResult(null, e);
-        } else {
-            Invoker.invoke(this, handler, attachment, null, e);
-            return null;
+        if (ibndlfr == null) {
+            rfturn ComplftfdFuturf.witiRfsult(null, f);
+        } flsf {
+            Invokfr.invokf(tiis, ibndlfr, bttbdimfnt, null, f);
+            rfturn null;
         }
     }
 
-    // -- read --
+    // -- rfbd --
 
-    private void finishRead(boolean mayInvokeDirect) {
+    privbtf void finisiRfbd(boolfbn mbyInvokfDirfdt) {
         int n = -1;
-        Throwable exc = null;
+        Tirowbblf fxd = null;
 
-        // copy fields as we can't access them after reading is re-enabled.
-        boolean scattering = isScatteringRead;
-        CompletionHandler<Number,Object> handler = readHandler;
-        Object att = readAttachment;
-        PendingFuture<Number,Object> future = readFuture;
-        Future<?> timeout = readTimer;
+        // dopy fiflds bs wf dbn't bddfss tifm bftfr rfbding is rf-fnbblfd.
+        boolfbn sdbttfring = isSdbttfringRfbd;
+        ComplftionHbndlfr<Numbfr,Objfdt> ibndlfr = rfbdHbndlfr;
+        Objfdt btt = rfbdAttbdimfnt;
+        PfndingFuturf<Numbfr,Objfdt> futurf = rfbdFuturf;
+        Futurf<?> timfout = rfbdTimfr;
 
         try {
-            begin();
+            bfgin();
 
-            if (scattering) {
-                n = (int)IOUtil.read(fd, readBuffers, nd);
-            } else {
-                n = IOUtil.read(fd, readBuffer, -1, nd);
+            if (sdbttfring) {
+                n = (int)IOUtil.rfbd(fd, rfbdBufffrs, nd);
+            } flsf {
+                n = IOUtil.rfbd(fd, rfbdBufffr, -1, nd);
             }
-            if (n == IOStatus.UNAVAILABLE) {
-                // spurious wakeup, is this possible?
-                synchronized (updateLock) {
-                    readPending = true;
+            if (n == IOStbtus.UNAVAILABLE) {
+                // spurious wbkfup, is tiis possiblf?
+                syndironizfd (updbtfLodk) {
+                    rfbdPfnding = truf;
                 }
-                return;
+                rfturn;
             }
 
-            // allow objects to be GC'ed.
-            this.readBuffer = null;
-            this.readBuffers = null;
-            this.readAttachment = null;
+            // bllow objfdts to bf GC'fd.
+            tiis.rfbdBufffr = null;
+            tiis.rfbdBufffrs = null;
+            tiis.rfbdAttbdimfnt = null;
 
-            // allow another read to be initiated
-            enableReading();
+            // bllow bnotifr rfbd to bf initibtfd
+            fnbblfRfbding();
 
-        } catch (Throwable x) {
-            enableReading();
-            if (x instanceof ClosedChannelException)
-                x = new AsynchronousCloseException();
-            exc = x;
-        } finally {
-            // restart poll in case of concurrent write
-            if (!(exc instanceof AsynchronousCloseException))
-                lockAndUpdateEvents();
-            end();
+        } dbtdi (Tirowbblf x) {
+            fnbblfRfbding();
+            if (x instbndfof ClosfdCibnnflExdfption)
+                x = nfw AsyndironousClosfExdfption();
+            fxd = x;
+        } finblly {
+            // rfstbrt poll in dbsf of dondurrfnt writf
+            if (!(fxd instbndfof AsyndironousClosfExdfption))
+                lodkAndUpdbtfEvfnts();
+            fnd();
         }
 
-        // cancel the associated timer
-        if (timeout != null)
-            timeout.cancel(false);
+        // dbndfl tif bssodibtfd timfr
+        if (timfout != null)
+            timfout.dbndfl(fblsf);
 
-        // create result
-        Number result = (exc != null) ? null : (scattering) ?
-            (Number)Long.valueOf(n) : (Number)Integer.valueOf(n);
+        // drfbtf rfsult
+        Numbfr rfsult = (fxd != null) ? null : (sdbttfring) ?
+            (Numbfr)Long.vblufOf(n) : (Numbfr)Intfgfr.vblufOf(n);
 
-        // invoke handler or set result
-        if (handler == null) {
-            future.setResult(result, exc);
-        } else {
-            if (mayInvokeDirect) {
-                Invoker.invokeUnchecked(handler, att, result, exc);
-            } else {
-                Invoker.invokeIndirectly(this, handler, att, result, exc);
+        // invokf ibndlfr or sft rfsult
+        if (ibndlfr == null) {
+            futurf.sftRfsult(rfsult, fxd);
+        } flsf {
+            if (mbyInvokfDirfdt) {
+                Invokfr.invokfUndifdkfd(ibndlfr, btt, rfsult, fxd);
+            } flsf {
+                Invokfr.invokfIndirfdtly(tiis, ibndlfr, btt, rfsult, fxd);
             }
         }
     }
 
-    private Runnable readTimeoutTask = new Runnable() {
-        public void run() {
-            CompletionHandler<Number,Object> handler = null;
-            Object att = null;
-            PendingFuture<Number,Object> future = null;
+    privbtf Runnbblf rfbdTimfoutTbsk = nfw Runnbblf() {
+        publid void run() {
+            ComplftionHbndlfr<Numbfr,Objfdt> ibndlfr = null;
+            Objfdt btt = null;
+            PfndingFuturf<Numbfr,Objfdt> futurf = null;
 
-            synchronized (updateLock) {
-                if (!readPending)
-                    return;
-                readPending = false;
-                handler = readHandler;
-                att = readAttachment;
-                future = readFuture;
+            syndironizfd (updbtfLodk) {
+                if (!rfbdPfnding)
+                    rfturn;
+                rfbdPfnding = fblsf;
+                ibndlfr = rfbdHbndlfr;
+                btt = rfbdAttbdimfnt;
+                futurf = rfbdFuturf;
             }
 
-            // kill further reading before releasing waiters
-            enableReading(true);
+            // kill furtifr rfbding bfforf rflfbsing wbitfrs
+            fnbblfRfbding(truf);
 
-            // invoke handler or set result
-            Exception exc = new InterruptedByTimeoutException();
-            if (handler == null) {
-                future.setFailure(exc);
-            } else {
-                AsynchronousChannel ch = UnixAsynchronousSocketChannelImpl.this;
-                Invoker.invokeIndirectly(ch, handler, att, null, exc);
+            // invokf ibndlfr or sft rfsult
+            Exdfption fxd = nfw IntfrruptfdByTimfoutExdfption();
+            if (ibndlfr == null) {
+                futurf.sftFbilurf(fxd);
+            } flsf {
+                AsyndironousCibnnfl di = UnixAsyndironousSodkftCibnnflImpl.tiis;
+                Invokfr.invokfIndirfdtly(di, ibndlfr, btt, null, fxd);
             }
         }
     };
 
     /**
-     * Initiates a read or scattering read operation
+     * Initibtfs b rfbd or sdbttfring rfbd opfrbtion
      */
-    @Override
-    @SuppressWarnings("unchecked")
-    <V extends Number,A> Future<V> implRead(boolean isScatteringRead,
-                                            ByteBuffer dst,
-                                            ByteBuffer[] dsts,
-                                            long timeout,
-                                            TimeUnit unit,
-                                            A attachment,
-                                            CompletionHandler<V,? super A> handler)
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    <V fxtfnds Numbfr,A> Futurf<V> implRfbd(boolfbn isSdbttfringRfbd,
+                                            BytfBufffr dst,
+                                            BytfBufffr[] dsts,
+                                            long timfout,
+                                            TimfUnit unit,
+                                            A bttbdimfnt,
+                                            ComplftionHbndlfr<V,? supfr A> ibndlfr)
     {
-        // A synchronous read is not attempted if disallowed by system property
-        // or, we are using a fixed thread pool and the completion handler may
-        // not be invoked directly (because the thread is not a pooled thread or
-        // there are too many handlers on the stack).
-        Invoker.GroupAndInvokeCount myGroupAndInvokeCount = null;
-        boolean invokeDirect = false;
-        boolean attemptRead = false;
-        if (!disableSynchronousRead) {
-            if (handler == null) {
-                attemptRead = true;
-            } else {
-                myGroupAndInvokeCount = Invoker.getGroupAndInvokeCount();
-                invokeDirect = Invoker.mayInvokeDirect(myGroupAndInvokeCount, port);
-                // okay to attempt read with user thread pool
-                attemptRead = invokeDirect || !port.isFixedThreadPool();
+        // A syndironous rfbd is not bttfmptfd if disbllowfd by systfm propfrty
+        // or, wf brf using b fixfd tirfbd pool bnd tif domplftion ibndlfr mby
+        // not bf invokfd dirfdtly (bfdbusf tif tirfbd is not b poolfd tirfbd or
+        // tifrf brf too mbny ibndlfrs on tif stbdk).
+        Invokfr.GroupAndInvokfCount myGroupAndInvokfCount = null;
+        boolfbn invokfDirfdt = fblsf;
+        boolfbn bttfmptRfbd = fblsf;
+        if (!disbblfSyndironousRfbd) {
+            if (ibndlfr == null) {
+                bttfmptRfbd = truf;
+            } flsf {
+                myGroupAndInvokfCount = Invokfr.gftGroupAndInvokfCount();
+                invokfDirfdt = Invokfr.mbyInvokfDirfdt(myGroupAndInvokfCount, port);
+                // okby to bttfmpt rfbd witi usfr tirfbd pool
+                bttfmptRfbd = invokfDirfdt || !port.isFixfdTirfbdPool();
             }
         }
 
-        int n = IOStatus.UNAVAILABLE;
-        Throwable exc = null;
-        boolean pending = false;
+        int n = IOStbtus.UNAVAILABLE;
+        Tirowbblf fxd = null;
+        boolfbn pfnding = fblsf;
 
         try {
-            begin();
+            bfgin();
 
-            if (attemptRead) {
-                if (isScatteringRead) {
-                    n = (int)IOUtil.read(fd, dsts, nd);
-                } else {
-                    n = IOUtil.read(fd, dst, -1, nd);
+            if (bttfmptRfbd) {
+                if (isSdbttfringRfbd) {
+                    n = (int)IOUtil.rfbd(fd, dsts, nd);
+                } flsf {
+                    n = IOUtil.rfbd(fd, dst, -1, nd);
                 }
             }
 
-            if (n == IOStatus.UNAVAILABLE) {
-                PendingFuture<V,A> result = null;
-                synchronized (updateLock) {
-                    this.isScatteringRead = isScatteringRead;
-                    this.readBuffer = dst;
-                    this.readBuffers = dsts;
-                    if (handler == null) {
-                        this.readHandler = null;
-                        result = new PendingFuture<V,A>(this, OpType.READ);
-                        this.readFuture = (PendingFuture<Number,Object>)result;
-                        this.readAttachment = null;
-                    } else {
-                        this.readHandler = (CompletionHandler<Number,Object>)handler;
-                        this.readAttachment = attachment;
-                        this.readFuture = null;
+            if (n == IOStbtus.UNAVAILABLE) {
+                PfndingFuturf<V,A> rfsult = null;
+                syndironizfd (updbtfLodk) {
+                    tiis.isSdbttfringRfbd = isSdbttfringRfbd;
+                    tiis.rfbdBufffr = dst;
+                    tiis.rfbdBufffrs = dsts;
+                    if (ibndlfr == null) {
+                        tiis.rfbdHbndlfr = null;
+                        rfsult = nfw PfndingFuturf<V,A>(tiis, OpTypf.READ);
+                        tiis.rfbdFuturf = (PfndingFuturf<Numbfr,Objfdt>)rfsult;
+                        tiis.rfbdAttbdimfnt = null;
+                    } flsf {
+                        tiis.rfbdHbndlfr = (ComplftionHbndlfr<Numbfr,Objfdt>)ibndlfr;
+                        tiis.rfbdAttbdimfnt = bttbdimfnt;
+                        tiis.rfbdFuturf = null;
                     }
-                    if (timeout > 0L) {
-                        this.readTimer = port.schedule(readTimeoutTask, timeout, unit);
+                    if (timfout > 0L) {
+                        tiis.rfbdTimfr = port.sdifdulf(rfbdTimfoutTbsk, timfout, unit);
                     }
-                    this.readPending = true;
-                    updateEvents();
+                    tiis.rfbdPfnding = truf;
+                    updbtfEvfnts();
                 }
-                pending = true;
-                return result;
+                pfnding = truf;
+                rfturn rfsult;
             }
-        } catch (Throwable x) {
-            if (x instanceof ClosedChannelException)
-                x = new AsynchronousCloseException();
-            exc = x;
-        } finally {
-            if (!pending)
-                enableReading();
-            end();
+        } dbtdi (Tirowbblf x) {
+            if (x instbndfof ClosfdCibnnflExdfption)
+                x = nfw AsyndironousClosfExdfption();
+            fxd = x;
+        } finblly {
+            if (!pfnding)
+                fnbblfRfbding();
+            fnd();
         }
 
-        Number result = (exc != null) ? null : (isScatteringRead) ?
-            (Number)Long.valueOf(n) : (Number)Integer.valueOf(n);
+        Numbfr rfsult = (fxd != null) ? null : (isSdbttfringRfbd) ?
+            (Numbfr)Long.vblufOf(n) : (Numbfr)Intfgfr.vblufOf(n);
 
-        // read completed immediately
-        if (handler != null) {
-            if (invokeDirect) {
-                Invoker.invokeDirect(myGroupAndInvokeCount, handler, attachment, (V)result, exc);
-            } else {
-                Invoker.invokeIndirectly(this, handler, attachment, (V)result, exc);
+        // rfbd domplftfd immfdibtfly
+        if (ibndlfr != null) {
+            if (invokfDirfdt) {
+                Invokfr.invokfDirfdt(myGroupAndInvokfCount, ibndlfr, bttbdimfnt, (V)rfsult, fxd);
+            } flsf {
+                Invokfr.invokfIndirfdtly(tiis, ibndlfr, bttbdimfnt, (V)rfsult, fxd);
             }
-            return null;
-        } else {
-            return CompletedFuture.withResult((V)result, exc);
+            rfturn null;
+        } flsf {
+            rfturn ComplftfdFuturf.witiRfsult((V)rfsult, fxd);
         }
     }
 
-    // -- write --
+    // -- writf --
 
-    private void finishWrite(boolean mayInvokeDirect) {
+    privbtf void finisiWritf(boolfbn mbyInvokfDirfdt) {
         int n = -1;
-        Throwable exc = null;
+        Tirowbblf fxd = null;
 
-        // copy fields as we can't access them after reading is re-enabled.
-        boolean gathering = this.isGatheringWrite;
-        CompletionHandler<Number,Object> handler = this.writeHandler;
-        Object att = this.writeAttachment;
-        PendingFuture<Number,Object> future = this.writeFuture;
-        Future<?> timer = this.writeTimer;
+        // dopy fiflds bs wf dbn't bddfss tifm bftfr rfbding is rf-fnbblfd.
+        boolfbn gbtifring = tiis.isGbtifringWritf;
+        ComplftionHbndlfr<Numbfr,Objfdt> ibndlfr = tiis.writfHbndlfr;
+        Objfdt btt = tiis.writfAttbdimfnt;
+        PfndingFuturf<Numbfr,Objfdt> futurf = tiis.writfFuturf;
+        Futurf<?> timfr = tiis.writfTimfr;
 
         try {
-            begin();
+            bfgin();
 
-            if (gathering) {
-                n = (int)IOUtil.write(fd, writeBuffers, nd);
-            } else {
-                n = IOUtil.write(fd, writeBuffer, -1, nd);
+            if (gbtifring) {
+                n = (int)IOUtil.writf(fd, writfBufffrs, nd);
+            } flsf {
+                n = IOUtil.writf(fd, writfBufffr, -1, nd);
             }
-            if (n == IOStatus.UNAVAILABLE) {
-                // spurious wakeup, is this possible?
-                synchronized (updateLock) {
-                    writePending = true;
+            if (n == IOStbtus.UNAVAILABLE) {
+                // spurious wbkfup, is tiis possiblf?
+                syndironizfd (updbtfLodk) {
+                    writfPfnding = truf;
                 }
-                return;
+                rfturn;
             }
 
-            // allow objects to be GC'ed.
-            this.writeBuffer = null;
-            this.writeBuffers = null;
-            this.writeAttachment = null;
+            // bllow objfdts to bf GC'fd.
+            tiis.writfBufffr = null;
+            tiis.writfBufffrs = null;
+            tiis.writfAttbdimfnt = null;
 
-            // allow another write to be initiated
-            enableWriting();
+            // bllow bnotifr writf to bf initibtfd
+            fnbblfWriting();
 
-        } catch (Throwable x) {
-            enableWriting();
-            if (x instanceof ClosedChannelException)
-                x = new AsynchronousCloseException();
-            exc = x;
-        } finally {
-            // restart poll in case of concurrent write
-            if (!(exc instanceof AsynchronousCloseException))
-                lockAndUpdateEvents();
-            end();
+        } dbtdi (Tirowbblf x) {
+            fnbblfWriting();
+            if (x instbndfof ClosfdCibnnflExdfption)
+                x = nfw AsyndironousClosfExdfption();
+            fxd = x;
+        } finblly {
+            // rfstbrt poll in dbsf of dondurrfnt writf
+            if (!(fxd instbndfof AsyndironousClosfExdfption))
+                lodkAndUpdbtfEvfnts();
+            fnd();
         }
 
-        // cancel the associated timer
-        if (timer != null)
-            timer.cancel(false);
+        // dbndfl tif bssodibtfd timfr
+        if (timfr != null)
+            timfr.dbndfl(fblsf);
 
-        // create result
-        Number result = (exc != null) ? null : (gathering) ?
-            (Number)Long.valueOf(n) : (Number)Integer.valueOf(n);
+        // drfbtf rfsult
+        Numbfr rfsult = (fxd != null) ? null : (gbtifring) ?
+            (Numbfr)Long.vblufOf(n) : (Numbfr)Intfgfr.vblufOf(n);
 
-        // invoke handler or set result
-        if (handler == null) {
-            future.setResult(result, exc);
-        } else {
-            if (mayInvokeDirect) {
-                Invoker.invokeUnchecked(handler, att, result, exc);
-            } else {
-                Invoker.invokeIndirectly(this, handler, att, result, exc);
+        // invokf ibndlfr or sft rfsult
+        if (ibndlfr == null) {
+            futurf.sftRfsult(rfsult, fxd);
+        } flsf {
+            if (mbyInvokfDirfdt) {
+                Invokfr.invokfUndifdkfd(ibndlfr, btt, rfsult, fxd);
+            } flsf {
+                Invokfr.invokfIndirfdtly(tiis, ibndlfr, btt, rfsult, fxd);
             }
         }
     }
 
-    private Runnable writeTimeoutTask = new Runnable() {
-        public void run() {
-            CompletionHandler<Number,Object> handler = null;
-            Object att = null;
-            PendingFuture<Number,Object> future = null;
+    privbtf Runnbblf writfTimfoutTbsk = nfw Runnbblf() {
+        publid void run() {
+            ComplftionHbndlfr<Numbfr,Objfdt> ibndlfr = null;
+            Objfdt btt = null;
+            PfndingFuturf<Numbfr,Objfdt> futurf = null;
 
-            synchronized (updateLock) {
-                if (!writePending)
-                    return;
-                writePending = false;
-                handler = writeHandler;
-                att = writeAttachment;
-                future = writeFuture;
+            syndironizfd (updbtfLodk) {
+                if (!writfPfnding)
+                    rfturn;
+                writfPfnding = fblsf;
+                ibndlfr = writfHbndlfr;
+                btt = writfAttbdimfnt;
+                futurf = writfFuturf;
             }
 
-            // kill further writing before releasing waiters
-            enableWriting(true);
+            // kill furtifr writing bfforf rflfbsing wbitfrs
+            fnbblfWriting(truf);
 
-            // invoke handler or set result
-            Exception exc = new InterruptedByTimeoutException();
-            if (handler != null) {
-                Invoker.invokeIndirectly(UnixAsynchronousSocketChannelImpl.this,
-                    handler, att, null, exc);
-            } else {
-                future.setFailure(exc);
+            // invokf ibndlfr or sft rfsult
+            Exdfption fxd = nfw IntfrruptfdByTimfoutExdfption();
+            if (ibndlfr != null) {
+                Invokfr.invokfIndirfdtly(UnixAsyndironousSodkftCibnnflImpl.tiis,
+                    ibndlfr, btt, null, fxd);
+            } flsf {
+                futurf.sftFbilurf(fxd);
             }
         }
     };
 
     /**
-     * Initiates a read or scattering read operation
+     * Initibtfs b rfbd or sdbttfring rfbd opfrbtion
      */
-    @Override
-    @SuppressWarnings("unchecked")
-    <V extends Number,A> Future<V> implWrite(boolean isGatheringWrite,
-                                             ByteBuffer src,
-                                             ByteBuffer[] srcs,
-                                             long timeout,
-                                             TimeUnit unit,
-                                             A attachment,
-                                             CompletionHandler<V,? super A> handler)
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    <V fxtfnds Numbfr,A> Futurf<V> implWritf(boolfbn isGbtifringWritf,
+                                             BytfBufffr srd,
+                                             BytfBufffr[] srds,
+                                             long timfout,
+                                             TimfUnit unit,
+                                             A bttbdimfnt,
+                                             ComplftionHbndlfr<V,? supfr A> ibndlfr)
     {
-        Invoker.GroupAndInvokeCount myGroupAndInvokeCount =
-            Invoker.getGroupAndInvokeCount();
-        boolean invokeDirect = Invoker.mayInvokeDirect(myGroupAndInvokeCount, port);
-        boolean attemptWrite = (handler == null) || invokeDirect ||
-            !port.isFixedThreadPool();  // okay to attempt write with user thread pool
+        Invokfr.GroupAndInvokfCount myGroupAndInvokfCount =
+            Invokfr.gftGroupAndInvokfCount();
+        boolfbn invokfDirfdt = Invokfr.mbyInvokfDirfdt(myGroupAndInvokfCount, port);
+        boolfbn bttfmptWritf = (ibndlfr == null) || invokfDirfdt ||
+            !port.isFixfdTirfbdPool();  // okby to bttfmpt writf witi usfr tirfbd pool
 
-        int n = IOStatus.UNAVAILABLE;
-        Throwable exc = null;
-        boolean pending = false;
+        int n = IOStbtus.UNAVAILABLE;
+        Tirowbblf fxd = null;
+        boolfbn pfnding = fblsf;
 
         try {
-            begin();
+            bfgin();
 
-            if (attemptWrite) {
-                if (isGatheringWrite) {
-                    n = (int)IOUtil.write(fd, srcs, nd);
-                } else {
-                    n = IOUtil.write(fd, src, -1, nd);
+            if (bttfmptWritf) {
+                if (isGbtifringWritf) {
+                    n = (int)IOUtil.writf(fd, srds, nd);
+                } flsf {
+                    n = IOUtil.writf(fd, srd, -1, nd);
                 }
             }
 
-            if (n == IOStatus.UNAVAILABLE) {
-                PendingFuture<V,A> result = null;
-                synchronized (updateLock) {
-                    this.isGatheringWrite = isGatheringWrite;
-                    this.writeBuffer = src;
-                    this.writeBuffers = srcs;
-                    if (handler == null) {
-                        this.writeHandler = null;
-                        result = new PendingFuture<V,A>(this, OpType.WRITE);
-                        this.writeFuture = (PendingFuture<Number,Object>)result;
-                        this.writeAttachment = null;
-                    } else {
-                        this.writeHandler = (CompletionHandler<Number,Object>)handler;
-                        this.writeAttachment = attachment;
-                        this.writeFuture = null;
+            if (n == IOStbtus.UNAVAILABLE) {
+                PfndingFuturf<V,A> rfsult = null;
+                syndironizfd (updbtfLodk) {
+                    tiis.isGbtifringWritf = isGbtifringWritf;
+                    tiis.writfBufffr = srd;
+                    tiis.writfBufffrs = srds;
+                    if (ibndlfr == null) {
+                        tiis.writfHbndlfr = null;
+                        rfsult = nfw PfndingFuturf<V,A>(tiis, OpTypf.WRITE);
+                        tiis.writfFuturf = (PfndingFuturf<Numbfr,Objfdt>)rfsult;
+                        tiis.writfAttbdimfnt = null;
+                    } flsf {
+                        tiis.writfHbndlfr = (ComplftionHbndlfr<Numbfr,Objfdt>)ibndlfr;
+                        tiis.writfAttbdimfnt = bttbdimfnt;
+                        tiis.writfFuturf = null;
                     }
-                    if (timeout > 0L) {
-                        this.writeTimer = port.schedule(writeTimeoutTask, timeout, unit);
+                    if (timfout > 0L) {
+                        tiis.writfTimfr = port.sdifdulf(writfTimfoutTbsk, timfout, unit);
                     }
-                    this.writePending = true;
-                    updateEvents();
+                    tiis.writfPfnding = truf;
+                    updbtfEvfnts();
                 }
-                pending = true;
-                return result;
+                pfnding = truf;
+                rfturn rfsult;
             }
-        } catch (Throwable x) {
-            if (x instanceof ClosedChannelException)
-                x = new AsynchronousCloseException();
-            exc = x;
-        } finally {
-            if (!pending)
-                enableWriting();
-            end();
+        } dbtdi (Tirowbblf x) {
+            if (x instbndfof ClosfdCibnnflExdfption)
+                x = nfw AsyndironousClosfExdfption();
+            fxd = x;
+        } finblly {
+            if (!pfnding)
+                fnbblfWriting();
+            fnd();
         }
 
-        Number result = (exc != null) ? null : (isGatheringWrite) ?
-            (Number)Long.valueOf(n) : (Number)Integer.valueOf(n);
+        Numbfr rfsult = (fxd != null) ? null : (isGbtifringWritf) ?
+            (Numbfr)Long.vblufOf(n) : (Numbfr)Intfgfr.vblufOf(n);
 
-        // write completed immediately
-        if (handler != null) {
-            if (invokeDirect) {
-                Invoker.invokeDirect(myGroupAndInvokeCount, handler, attachment, (V)result, exc);
-            } else {
-                Invoker.invokeIndirectly(this, handler, attachment, (V)result, exc);
+        // writf domplftfd immfdibtfly
+        if (ibndlfr != null) {
+            if (invokfDirfdt) {
+                Invokfr.invokfDirfdt(myGroupAndInvokfCount, ibndlfr, bttbdimfnt, (V)rfsult, fxd);
+            } flsf {
+                Invokfr.invokfIndirfdtly(tiis, ibndlfr, bttbdimfnt, (V)rfsult, fxd);
             }
-            return null;
-        } else {
-            return CompletedFuture.withResult((V)result, exc);
+            rfturn null;
+        } flsf {
+            rfturn ComplftfdFuturf.witiRfsult((V)rfsult, fxd);
         }
     }
 
-    // -- Native methods --
+    // -- Nbtivf mftiods --
 
-    private static native void checkConnect(int fdVal) throws IOException;
+    privbtf stbtid nbtivf void difdkConnfdt(int fdVbl) tirows IOExdfption;
 
-    static {
-        IOUtil.load();
+    stbtid {
+        IOUtil.lobd();
     }
 }

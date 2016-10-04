@@ -1,56 +1,56 @@
 '\" t
-.\"  Copyright (c) 2004, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Troubleshooting Tools
-.\"     Title: jinfo.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Troublfsiooting Tools
+.\"     Titlf: jinfo.1
 .\"
 .if n .pl 99999
-.TH jinfo 1 "21 November 2013" "JDK 8" "Troubleshooting Tools"
+.TH jinfo 1 "21 Novfmbfr 2013" "JDK 8" "Troublfsiooting Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jinfo \- Generbtes configurbtion informbtion\&. This commbnd is experimentbl bnd unsupported\&.
+jinfo \- Gfnfrbtfs donfigurbtion informbtion\&. Tiis dommbnd is fxpfrimfntbl bnd unsupportfd\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
@@ -59,74 +59,74 @@ jinfo \- Generbtes configurbtion informbtion\&. This commbnd is experimentbl bnd
 .fi     
 .nf     
 
-\fBjinfo\fR [ \fIoption \fR] \fIexecutbble core\fR
+\fBjinfo\fR [ \fIoption \fR] \fIfxfdutbblf dorf\fR
 .fi     
 .nf     
 
-\fBjinfo\fR [ \fIoption \fR] \fI[ servier\-id ] remote\-hostnbme\-or\-IP\fR
+\fBjinfo\fR [ \fIoption \fR] \fI[ sfrvifr\-id ] rfmotf\-iostnbmf\-or\-IP\fR
 .fi     
 .sp     
 .TP     
 \fIoption\fR
-The commbnd-line options\&. See Options\&.
+Tif dommbnd-linf options\&. Sff Options\&.
 .TP     
 \fIpid\fR
-The process ID for which the configurbtion informbtion is to be printed\&. The process must be b Jbvb process\&. To get b list of Jbvb processes running on b mbchine, use the jps(1) commbnd\&.
+Tif prodfss ID for wiidi tif donfigurbtion informbtion is to bf printfd\&. Tif prodfss must bf b Jbvb prodfss\&. To gft b list of Jbvb prodfssfs running on b mbdiinf, usf tif jps(1) dommbnd\&.
 .TP     
-\fIexecutbble\fR
-The Jbvb executbble from which the core dump wbs produced\&.
+\fIfxfdutbblf\fR
+Tif Jbvb fxfdutbblf from wiidi tif dorf dump wbs produdfd\&.
 .TP     
-\fIcore\fR
-The core file for which the configurbtion informbtion is to be printed\&.
+\fIdorf\fR
+Tif dorf filf for wiidi tif donfigurbtion informbtion is to bf printfd\&.
 .TP     
-\fIremote-hostnbme-or-IP\fR
-The remote debug server \f3hostnbme\fR or \f3IP\fR bddress\&. See jsbdebugd(1)\&.
+\fIrfmotf-iostnbmf-or-IP\fR
+Tif rfmotf dfbug sfrvfr \f3iostnbmf\fR or \f3IP\fR bddrfss\&. Sff jsbdfbugd(1)\&.
 .TP     
-\fIserver-id\fR
-An optionbl unique ID to use when multiple debug servers bre running on the sbme remote host\&.
+\fIsfrvfr-id\fR
+An optionbl uniquf ID to usf wifn multiplf dfbug sfrvfrs brf running on tif sbmf rfmotf iost\&.
 .SH DESCRIPTION    
-The \f3jinfo\fR commbnd prints Jbvb configurbtion informbtion for b specified Jbvb process or core file or b remote debug server\&. The configurbtion informbtion includes Jbvb system properties bnd Jbvb Virtubl Mbchine (JVM) commbnd-line flbgs\&. If the specified process is running on b 64-bit JVM, then you might need to specify the \f3-J-d64\fR option, for exbmple: \f3jinfo\fR\f3-J-d64 -sysprops pid\fR\&.
+Tif \f3jinfo\fR dommbnd prints Jbvb donfigurbtion informbtion for b spfdififd Jbvb prodfss or dorf filf or b rfmotf dfbug sfrvfr\&. Tif donfigurbtion informbtion indludfs Jbvb systfm propfrtifs bnd Jbvb Virtubl Mbdiinf (JVM) dommbnd-linf flbgs\&. If tif spfdififd prodfss is running on b 64-bit JVM, tifn you migit nffd to spfdify tif \f3-J-d64\fR option, for fxbmplf: \f3jinfo\fR\f3-J-d64 -sysprops pid\fR\&.
 .PP
-This utility is unsupported bnd might not be bvbilbble in future relebses of the JDK\&. In Windows Systems where \f3dbgeng\&.dll\fR is not present, Debugging Tools For Windows must be instblled to hbve these tools working\&. The \f3PATH\fR environment vbribble should contbin the locbtion of the jvm\&.dll thbt is used by the tbrget process or the locbtion from which the crbsh dump file wbs produced\&. For exbmple, \f3set PATH=%JDK_HOME%\ejre\ebin\eclient;%PATH%\fR \&.
+Tiis utility is unsupportfd bnd migit not bf bvbilbblf in futurf rflfbsfs of tif JDK\&. In Windows Systfms wifrf \f3dbgfng\&.dll\fR is not prfsfnt, Dfbugging Tools For Windows must bf instbllfd to ibvf tifsf tools working\&. Tif \f3PATH\fR fnvironmfnt vbribblf siould dontbin tif lodbtion of tif jvm\&.dll tibt is usfd by tif tbrgft prodfss or tif lodbtion from wiidi tif drbsi dump filf wbs produdfd\&. For fxbmplf, \f3sft PATH=%JDK_HOME%\fjrf\fbin\fdlifnt;%PATH%\fR \&.
 .SH OPTIONS    
 .TP     
 no-option
-Prints both commbnd-line flbgs bnd system property nbme-vblue pbirs\&.
+Prints boti dommbnd-linf flbgs bnd systfm propfrty nbmf-vbluf pbirs\&.
 .TP
--flbg \fInbme\fR
+-flbg \fInbmf\fR
 .br
-Prints the nbme bnd vblue of the specified commbnd-line flbg\&.
+Prints tif nbmf bnd vbluf of tif spfdififd dommbnd-linf flbg\&.
 .TP
--flbg \fI[+|-]nbme\fR
+-flbg \fI[+|-]nbmf\fR
 .br
-enbbles or disbbles the specified Boolebn commbnd-line flbg\&.
+fnbblfs or disbblfs tif spfdififd Boolfbn dommbnd-linf flbg\&.
 .TP
--flbg \fInbme=vblue\fR
+-flbg \fInbmf=vbluf\fR
 .br
-Sets the specified commbnd-line flbg to the specified vblue\&.
+Sfts tif spfdififd dommbnd-linf flbg to tif spfdififd vbluf\&.
 .TP
 -flbgs
 .br
-Prints commbnd-line flbgs pbssed to the JVM\&.
+Prints dommbnd-linf flbgs pbssfd to tif JVM\&.
 .TP
 -sysprops
 .br
-Prints Jbvb system properties bs nbme-vblue pbirs\&.
+Prints Jbvb systfm propfrtifs bs nbmf-vbluf pbirs\&.
 .TP
--h
+-i
 .br
-Prints b help messbge\&.
+Prints b iflp mfssbgf\&.
 .TP
--help
+-iflp
 .br
-Prints b help messbge\&.
+Prints b iflp mfssbgf\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
 jps(1)
 .TP 0.2i    
 \(bu
-jsbdebugd(1)
+jsbdfbugd(1)
 .RE
 .br
 'pl 8.5i

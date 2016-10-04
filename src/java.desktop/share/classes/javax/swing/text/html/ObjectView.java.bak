@@ -1,161 +1,161 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.html;
+pbdkbgf jbvbx.swing.tfxt.itml;
 
-import java.util.Enumeration;
-import java.awt.*;
-import javax.swing.*;
-import javax.swing.text.*;
-import java.beans.*;
-import java.lang.reflect.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.bwt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvb.bfbns.*;
+import jbvb.lbng.rfflfdt.*;
 
-import sun.reflect.misc.MethodUtil;
-import sun.reflect.misc.ReflectUtil;
+import sun.rfflfdt.misd.MftiodUtil;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * Component decorator that implements the view interface
- * for &lt;object&gt; elements.
+ * Componfnt dfdorbtor tibt implfmfnts tif vifw intfrfbdf
+ * for &lt;objfdt&gt; flfmfnts.
  * <p>
- * This view will try to load the class specified by the
- * <code>classid</code> attribute.  If possible, the Classloader
- * used to load the associated Document is used.
- * This would typically be the same as the ClassLoader
- * used to load the EditorKit.  If the document's
- * ClassLoader is null, <code>Class.forName</code> is used.
+ * Tiis vifw will try to lobd tif dlbss spfdififd by tif
+ * <dodf>dlbssid</dodf> bttributf.  If possiblf, tif Clbsslobdfr
+ * usfd to lobd tif bssodibtfd Dodumfnt is usfd.
+ * Tiis would typidblly bf tif sbmf bs tif ClbssLobdfr
+ * usfd to lobd tif EditorKit.  If tif dodumfnt's
+ * ClbssLobdfr is null, <dodf>Clbss.forNbmf</dodf> is usfd.
  * <p>
- * If the class can successfully be loaded, an attempt will
- * be made to create an instance of it by calling
- * <code>Class.newInstance</code>.  An attempt will be made
- * to narrow the instance to type <code>java.awt.Component</code>
- * to display the object.
+ * If tif dlbss dbn suddfssfully bf lobdfd, bn bttfmpt will
+ * bf mbdf to drfbtf bn instbndf of it by dblling
+ * <dodf>Clbss.nfwInstbndf</dodf>.  An bttfmpt will bf mbdf
+ * to nbrrow tif instbndf to typf <dodf>jbvb.bwt.Componfnt</dodf>
+ * to displby tif objfdt.
  * <p>
- * This view can also manage a set of parameters with limitations.
- * The parameters to the &lt;object&gt; element are expected to
- * be present on the associated elements attribute set as simple
- * strings.  Each bean property will be queried as a key on
- * the AttributeSet, with the expectation that a non-null value
- * (of type String) will be present if there was a parameter
- * specification for the property.  Reflection is used to
- * set the parameter.  Currently, this is limited to a very
- * simple single parameter of type String.
+ * Tiis vifw dbn blso mbnbgf b sft of pbrbmftfrs witi limitbtions.
+ * Tif pbrbmftfrs to tif &lt;objfdt&gt; flfmfnt brf fxpfdtfd to
+ * bf prfsfnt on tif bssodibtfd flfmfnts bttributf sft bs simplf
+ * strings.  Ebdi bfbn propfrty will bf qufrifd bs b kfy on
+ * tif AttributfSft, witi tif fxpfdtbtion tibt b non-null vbluf
+ * (of typf String) will bf prfsfnt if tifrf wbs b pbrbmftfr
+ * spfdifidbtion for tif propfrty.  Rfflfdtion is usfd to
+ * sft tif pbrbmftfr.  Currfntly, tiis is limitfd to b vfry
+ * simplf singlf pbrbmftfr of typf String.
  * <p>
- * A simple example HTML invocation is:
- * <pre>
- *      &lt;object classid="javax.swing.JLabel"&gt;
- *      &lt;param name="text" value="sample text"&gt;
- *      &lt;/object&gt;
- * </pre>
+ * A simplf fxbmplf HTML invodbtion is:
+ * <prf>
+ *      &lt;objfdt dlbssid="jbvbx.swing.JLbbfl"&gt;
+ *      &lt;pbrbm nbmf="tfxt" vbluf="sbmplf tfxt"&gt;
+ *      &lt;/objfdt&gt;
+ * </prf>
  *
- * @author Timothy Prinzing
+ * @butior Timotiy Prinzing
  */
-public class ObjectView extends ComponentView  {
+publid dlbss ObjfdtVifw fxtfnds ComponfntVifw  {
 
     /**
-     * Creates a new ObjectView object.
+     * Crfbtfs b nfw ObjfdtVifw objfdt.
      *
-     * @param elem the element to decorate
+     * @pbrbm flfm tif flfmfnt to dfdorbtf
      */
-    public ObjectView(Element elem) {
-        super(elem);
+    publid ObjfdtVifw(Elfmfnt flfm) {
+        supfr(flfm);
     }
 
     /**
-     * Create the component.  The classid is used
-     * as a specification of the classname, which
-     * we try to load.
+     * Crfbtf tif domponfnt.  Tif dlbssid is usfd
+     * bs b spfdifidbtion of tif dlbssnbmf, wiidi
+     * wf try to lobd.
      */
-    protected Component createComponent() {
-        AttributeSet attr = getElement().getAttributes();
-        String classname = (String) attr.getAttribute(HTML.Attribute.CLASSID);
+    protfdtfd Componfnt drfbtfComponfnt() {
+        AttributfSft bttr = gftElfmfnt().gftAttributfs();
+        String dlbssnbmf = (String) bttr.gftAttributf(HTML.Attributf.CLASSID);
         try {
-            ReflectUtil.checkPackageAccess(classname);
-            Class<?> c = Class.forName(classname, true,Thread.currentThread().
-                                       getContextClassLoader());
-            Object o = c.newInstance();
-            if (o instanceof Component) {
-                Component comp = (Component) o;
-                setParameters(comp, attr);
-                return comp;
+            RfflfdtUtil.difdkPbdkbgfAddfss(dlbssnbmf);
+            Clbss<?> d = Clbss.forNbmf(dlbssnbmf, truf,Tirfbd.durrfntTirfbd().
+                                       gftContfxtClbssLobdfr());
+            Objfdt o = d.nfwInstbndf();
+            if (o instbndfof Componfnt) {
+                Componfnt domp = (Componfnt) o;
+                sftPbrbmftfrs(domp, bttr);
+                rfturn domp;
             }
-        } catch (Throwable e) {
-            // couldn't create a component... fall through to the
-            // couldn't load representation.
+        } dbtdi (Tirowbblf f) {
+            // douldn't drfbtf b domponfnt... fbll tirougi to tif
+            // douldn't lobd rfprfsfntbtion.
         }
 
-        return getUnloadableRepresentation();
+        rfturn gftUnlobdbblfRfprfsfntbtion();
     }
 
     /**
-     * Fetch a component that can be used to represent the
-     * object if it can't be created.
+     * Fftdi b domponfnt tibt dbn bf usfd to rfprfsfnt tif
+     * objfdt if it dbn't bf drfbtfd.
      */
-    Component getUnloadableRepresentation() {
-        // PENDING(prinz) get some artwork and return something
-        // interesting here.
-        Component comp = new JLabel("??");
-        comp.setForeground(Color.red);
-        return comp;
+    Componfnt gftUnlobdbblfRfprfsfntbtion() {
+        // PENDING(prinz) gft somf brtwork bnd rfturn somftiing
+        // intfrfsting ifrf.
+        Componfnt domp = nfw JLbbfl("??");
+        domp.sftForfground(Color.rfd);
+        rfturn domp;
     }
 
     /**
-     * Initialize this component according the KEY/VALUEs passed in
-     * via the &lt;param&gt; elements in the corresponding
-     * &lt;object&gt; element.
+     * Initiblizf tiis domponfnt bddording tif KEY/VALUEs pbssfd in
+     * vib tif &lt;pbrbm&gt; flfmfnts in tif dorrfsponding
+     * &lt;objfdt&gt; flfmfnt.
      */
-    private void setParameters(Component comp, AttributeSet attr) {
-        Class<?> k = comp.getClass();
-        BeanInfo bi;
+    privbtf void sftPbrbmftfrs(Componfnt domp, AttributfSft bttr) {
+        Clbss<?> k = domp.gftClbss();
+        BfbnInfo bi;
         try {
-            bi = Introspector.getBeanInfo(k);
-        } catch (IntrospectionException ex) {
-            System.err.println("introspector failed, ex: "+ex);
-            return;             // quit for now
+            bi = Introspfdtor.gftBfbnInfo(k);
+        } dbtdi (IntrospfdtionExdfption fx) {
+            Systfm.frr.println("introspfdtor fbilfd, fx: "+fx);
+            rfturn;             // quit for now
         }
-        PropertyDescriptor props[] = bi.getPropertyDescriptors();
-        for (int i=0; i < props.length; i++) {
-            //      System.err.println("checking on props[i]: "+props[i].getName());
-            Object v = attr.getAttribute(props[i].getName());
-            if (v instanceof String) {
-                // found a property parameter
-                String value = (String) v;
-                Method writer = props[i].getWriteMethod();
-                if (writer == null) {
-                    // read-only property. ignore
-                    return;     // for now
+        PropfrtyDfsdriptor props[] = bi.gftPropfrtyDfsdriptors();
+        for (int i=0; i < props.lfngti; i++) {
+            //      Systfm.frr.println("difdking on props[i]: "+props[i].gftNbmf());
+            Objfdt v = bttr.gftAttributf(props[i].gftNbmf());
+            if (v instbndfof String) {
+                // found b propfrty pbrbmftfr
+                String vbluf = (String) v;
+                Mftiod writfr = props[i].gftWritfMftiod();
+                if (writfr == null) {
+                    // rfbd-only propfrty. ignorf
+                    rfturn;     // for now
                 }
-                Class<?>[] params = writer.getParameterTypes();
-                if (params.length != 1) {
-                    // zero or more than one argument, ignore
-                    return;     // for now
+                Clbss<?>[] pbrbms = writfr.gftPbrbmftfrTypfs();
+                if (pbrbms.lfngti != 1) {
+                    // zfro or morf tibn onf brgumfnt, ignorf
+                    rfturn;     // for now
                 }
-                Object [] args = { value };
+                Objfdt [] brgs = { vbluf };
                 try {
-                    MethodUtil.invoke(writer, comp, args);
-                } catch (Exception ex) {
-                    System.err.println("Invocation failed");
-                    // invocation code
+                    MftiodUtil.invokf(writfr, domp, brgs);
+                } dbtdi (Exdfption fx) {
+                    Systfm.frr.println("Invodbtion fbilfd");
+                    // invodbtion dodf
                 }
             }
         }

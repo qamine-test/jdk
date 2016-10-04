@@ -1,1541 +1,1541 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.peer.ComponentPeer;
-import java.awt.image.ColorModel;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.pffr.ComponfntPffr;
+import jbvb.bwt.imbgf.ColorModfl;
 
-import java.lang.ref.WeakReference;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
-import java.lang.reflect.Method;
+import jbvb.lbng.rfflfdt.Mftiod;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
-import sun.awt.*;
+import sun.bwt.*;
 
-import sun.awt.image.PixelConverter;
+import sun.bwt.imbgf.PixflConvfrtfr;
 
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SurfbdfDbtb;
 
-public class XWindow extends XBaseWindow implements X11ComponentPeer {
-    private static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XWindow");
-    private static PlatformLogger insLog = PlatformLogger.getLogger("sun.awt.X11.insets.XWindow");
-    private static PlatformLogger eventLog = PlatformLogger.getLogger("sun.awt.X11.event.XWindow");
-    private static final PlatformLogger focusLog = PlatformLogger.getLogger("sun.awt.X11.focus.XWindow");
-    private static PlatformLogger keyEventLog = PlatformLogger.getLogger("sun.awt.X11.kye.XWindow");
-  /* If a motion comes in while a multi-click is pending,
-   * allow a smudge factor so that moving the mouse by a small
-   * amount does not wipe out the multi-click state variables.
+publid dlbss XWindow fxtfnds XBbsfWindow implfmfnts X11ComponfntPffr {
+    privbtf stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XWindow");
+    privbtf stbtid PlbtformLoggfr insLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.insfts.XWindow");
+    privbtf stbtid PlbtformLoggfr fvfntLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.fvfnt.XWindow");
+    privbtf stbtid finbl PlbtformLoggfr fodusLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.fodus.XWindow");
+    privbtf stbtid PlbtformLoggfr kfyEvfntLog = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.kyf.XWindow");
+  /* If b motion domfs in wiilf b multi-dlidk is pfnding,
+   * bllow b smudgf fbdtor so tibt moving tif mousf by b smbll
+   * bmount dofs not wipf out tif multi-dlidk stbtf vbribblfs.
    */
-    private final static int AWT_MULTICLICK_SMUDGE = 4;
-    // ButtonXXX events stuff
-    static int rbutton = 0;
-    static int lastX = 0, lastY = 0;
-    static long lastTime = 0;
-    static long lastButton = 0;
-    static WeakReference<XWindow> lastWindowRef = null;
-    static int clickCount = 0;
+    privbtf finbl stbtid int AWT_MULTICLICK_SMUDGE = 4;
+    // ButtonXXX fvfnts stuff
+    stbtid int rbutton = 0;
+    stbtid int lbstX = 0, lbstY = 0;
+    stbtid long lbstTimf = 0;
+    stbtid long lbstButton = 0;
+    stbtid WfbkRfffrfndf<XWindow> lbstWindowRff = null;
+    stbtid int dlidkCount = 0;
 
-    // used to check if we need to re-create surfaceData.
-    int oldWidth = -1;
-    int oldHeight = -1;
+    // usfd to difdk if wf nffd to rf-drfbtf surfbdfDbtb.
+    int oldWidti = -1;
+    int oldHfigit = -1;
 
-    protected PropMwmHints mwm_hints;
-    protected static XAtom wm_protocols;
-    protected static XAtom wm_delete_window;
-    protected static XAtom wm_take_focus;
+    protfdtfd PropMwmHints mwm_iints;
+    protfdtfd stbtid XAtom wm_protodols;
+    protfdtfd stbtid XAtom wm_dflftf_window;
+    protfdtfd stbtid XAtom wm_tbkf_fodus;
 
-    private boolean stateChanged; // Indicates whether the value on savedState is valid
-    private int savedState; // Holds last known state of the top-level window
+    privbtf boolfbn stbtfCibngfd; // Indidbtfs wiftifr tif vbluf on sbvfdStbtf is vblid
+    privbtf int sbvfdStbtf; // Holds lbst known stbtf of tif top-lfvfl window
 
-    XWindowAttributesData winAttr;
+    XWindowAttributfsDbtb winAttr;
 
-    protected X11GraphicsConfig graphicsConfig;
-    protected AwtGraphicsConfigData graphicsConfigData;
+    protfdtfd X11GrbpiidsConfig grbpiidsConfig;
+    protfdtfd AwtGrbpiidsConfigDbtb grbpiidsConfigDbtb;
 
-    private boolean reparented;
+    privbtf boolfbn rfpbrfntfd;
 
-    XWindow parent;
+    XWindow pbrfnt;
 
-    Component target;
+    Componfnt tbrgft;
 
-    private static int JAWT_LOCK_ERROR=0x00000001;
-    private static int JAWT_LOCK_CLIP_CHANGED=0x00000002;
-    private static int JAWT_LOCK_BOUNDS_CHANGED=0x00000004;
-    private static int JAWT_LOCK_SURFACE_CHANGED=0x00000008;
-    private int drawState = JAWT_LOCK_CLIP_CHANGED |
+    privbtf stbtid int JAWT_LOCK_ERROR=0x00000001;
+    privbtf stbtid int JAWT_LOCK_CLIP_CHANGED=0x00000002;
+    privbtf stbtid int JAWT_LOCK_BOUNDS_CHANGED=0x00000004;
+    privbtf stbtid int JAWT_LOCK_SURFACE_CHANGED=0x00000008;
+    privbtf int drbwStbtf = JAWT_LOCK_CLIP_CHANGED |
     JAWT_LOCK_BOUNDS_CHANGED |
     JAWT_LOCK_SURFACE_CHANGED;
 
-    public static final String TARGET = "target",
-        REPARENTED = "reparented"; // whether it is reparented by default
+    publid stbtid finbl String TARGET = "tbrgft",
+        REPARENTED = "rfpbrfntfd"; // wiftifr it is rfpbrfntfd by dffbult
 
-    SurfaceData surfaceData;
+    SurfbdfDbtb surfbdfDbtb;
 
-    XRepaintArea paintArea;
+    XRfpbintArfb pbintArfb;
 
-    // fallback default font object
-    private static Font defaultFont;
+    // fbllbbdk dffbult font objfdt
+    privbtf stbtid Font dffbultFont;
 
-    static synchronized Font getDefaultFont() {
-        if (null == defaultFont) {
-            defaultFont = new Font(Font.DIALOG, Font.PLAIN, 12);
+    stbtid syndironizfd Font gftDffbultFont() {
+        if (null == dffbultFont) {
+            dffbultFont = nfw Font(Font.DIALOG, Font.PLAIN, 12);
         }
-        return defaultFont;
+        rfturn dffbultFont;
     }
 
-    /* A bitmask keeps the button's numbers as Button1Mask, Button2Mask, Button3Mask
-     * which are allowed to
-     * generate the CLICK event after the RELEASE has happened.
-     * There are conditions that must be true for that sending CLICK event:
-     * 1) button was initially PRESSED
-     * 2) no movement or drag has happened until RELEASE
+    /* A bitmbsk kffps tif button's numbfrs bs Button1Mbsk, Button2Mbsk, Button3Mbsk
+     * wiidi brf bllowfd to
+     * gfnfrbtf tif CLICK fvfnt bftfr tif RELEASE ibs ibppfnfd.
+     * Tifrf brf donditions tibt must bf truf for tibt sfnding CLICK fvfnt:
+     * 1) button wbs initiblly PRESSED
+     * 2) no movfmfnt or drbg ibs ibppfnfd until RELEASE
     */
-    private int mouseButtonClickAllowed = 0;
+    privbtf int mousfButtonClidkAllowfd = 0;
 
-    native int getNativeColor(Color clr, GraphicsConfiguration gc);
-    native void getWMInsets(long window, long left, long top, long right, long bottom, long border);
-    native long getTopWindow(long window, long rootWin);
-    native void getWindowBounds(long window, long x, long y, long width, long height);
-    private native static void initIDs();
+    nbtivf int gftNbtivfColor(Color dlr, GrbpiidsConfigurbtion gd);
+    nbtivf void gftWMInsfts(long window, long lfft, long top, long rigit, long bottom, long bordfr);
+    nbtivf long gftTopWindow(long window, long rootWin);
+    nbtivf void gftWindowBounds(long window, long x, long y, long widti, long ifigit);
+    privbtf nbtivf stbtid void initIDs();
 
-    static {
+    stbtid {
         initIDs();
     }
 
-    XWindow(XCreateWindowParams params) {
-        super(params);
+    XWindow(XCrfbtfWindowPbrbms pbrbms) {
+        supfr(pbrbms);
     }
 
     XWindow() {
     }
 
-    XWindow(long parentWindow, Rectangle bounds) {
-        super(new XCreateWindowParams(new Object[] {
+    XWindow(long pbrfntWindow, Rfdtbnglf bounds) {
+        supfr(nfw XCrfbtfWindowPbrbms(nfw Objfdt[] {
             BOUNDS, bounds,
-            PARENT_WINDOW, Long.valueOf(parentWindow)}));
+            PARENT_WINDOW, Long.vblufOf(pbrfntWindow)}));
     }
 
-    XWindow(Component target, long parentWindow, Rectangle bounds) {
-        super(new XCreateWindowParams(new Object[] {
+    XWindow(Componfnt tbrgft, long pbrfntWindow, Rfdtbnglf bounds) {
+        supfr(nfw XCrfbtfWindowPbrbms(nfw Objfdt[] {
             BOUNDS, bounds,
-            PARENT_WINDOW, Long.valueOf(parentWindow),
-            TARGET, target}));
+            PARENT_WINDOW, Long.vblufOf(pbrfntWindow),
+            TARGET, tbrgft}));
     }
 
-    XWindow(Component target, long parentWindow) {
-        this(target, parentWindow, new Rectangle(target.getBounds()));
+    XWindow(Componfnt tbrgft, long pbrfntWindow) {
+        tiis(tbrgft, pbrfntWindow, nfw Rfdtbnglf(tbrgft.gftBounds()));
     }
 
-    XWindow(Component target) {
-        this(target, (target.getParent() == null) ? 0 : getParentWindowID(target), new Rectangle(target.getBounds()));
+    XWindow(Componfnt tbrgft) {
+        tiis(tbrgft, (tbrgft.gftPbrfnt() == null) ? 0 : gftPbrfntWindowID(tbrgft), nfw Rfdtbnglf(tbrgft.gftBounds()));
     }
 
-    XWindow(Object target) {
-        this(null, 0, null);
+    XWindow(Objfdt tbrgft) {
+        tiis(null, 0, null);
     }
 
-    /* This create is used by the XEmbeddedFramePeer since it has to create the window
-       as a child of the netscape window. This netscape window is passed in as wid */
-    XWindow(long parentWindow) {
-        super(new XCreateWindowParams(new Object[] {
-            PARENT_WINDOW, Long.valueOf(parentWindow),
-            REPARENTED, Boolean.TRUE,
-            EMBEDDED, Boolean.TRUE}));
+    /* Tiis drfbtf is usfd by tif XEmbfddfdFrbmfPffr sindf it ibs to drfbtf tif window
+       bs b diild of tif nftsdbpf window. Tiis nftsdbpf window is pbssfd in bs wid */
+    XWindow(long pbrfntWindow) {
+        supfr(nfw XCrfbtfWindowPbrbms(nfw Objfdt[] {
+            PARENT_WINDOW, Long.vblufOf(pbrfntWindow),
+            REPARENTED, Boolfbn.TRUE,
+            EMBEDDED, Boolfbn.TRUE}));
     }
 
-    protected void initGraphicsConfiguration() {
-        graphicsConfig = (X11GraphicsConfig) target.getGraphicsConfiguration();
-        graphicsConfigData = new AwtGraphicsConfigData(graphicsConfig.getAData());
+    protfdtfd void initGrbpiidsConfigurbtion() {
+        grbpiidsConfig = (X11GrbpiidsConfig) tbrgft.gftGrbpiidsConfigurbtion();
+        grbpiidsConfigDbtb = nfw AwtGrbpiidsConfigDbtb(grbpiidsConfig.gftADbtb());
     }
 
-    void preInit(XCreateWindowParams params) {
-        super.preInit(params);
-        reparented = Boolean.TRUE.equals(params.get(REPARENTED));
+    void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.prfInit(pbrbms);
+        rfpbrfntfd = Boolfbn.TRUE.fqubls(pbrbms.gft(REPARENTED));
 
-        target = (Component)params.get(TARGET);
+        tbrgft = (Componfnt)pbrbms.gft(TARGET);
 
-        initGraphicsConfiguration();
+        initGrbpiidsConfigurbtion();
 
-        AwtGraphicsConfigData gData = getGraphicsConfigurationData();
-        X11GraphicsConfig config = (X11GraphicsConfig) getGraphicsConfiguration();
-        XVisualInfo visInfo = gData.get_awt_visInfo();
-        params.putIfNull(EVENT_MASK, XConstants.KeyPressMask | XConstants.KeyReleaseMask
-            | XConstants.FocusChangeMask | XConstants.ButtonPressMask | XConstants.ButtonReleaseMask
-            | XConstants.EnterWindowMask | XConstants.LeaveWindowMask | XConstants.PointerMotionMask
-            | XConstants.ButtonMotionMask | XConstants.ExposureMask | XConstants.StructureNotifyMask);
+        AwtGrbpiidsConfigDbtb gDbtb = gftGrbpiidsConfigurbtionDbtb();
+        X11GrbpiidsConfig donfig = (X11GrbpiidsConfig) gftGrbpiidsConfigurbtion();
+        XVisublInfo visInfo = gDbtb.gft_bwt_visInfo();
+        pbrbms.putIfNull(EVENT_MASK, XConstbnts.KfyPrfssMbsk | XConstbnts.KfyRflfbsfMbsk
+            | XConstbnts.FodusCibngfMbsk | XConstbnts.ButtonPrfssMbsk | XConstbnts.ButtonRflfbsfMbsk
+            | XConstbnts.EntfrWindowMbsk | XConstbnts.LfbvfWindowMbsk | XConstbnts.PointfrMotionMbsk
+            | XConstbnts.ButtonMotionMbsk | XConstbnts.ExposurfMbsk | XConstbnts.StrudturfNotifyMbsk);
 
-        if (target != null) {
-            params.putIfNull(BOUNDS, new Rectangle(target.getBounds()));
-        } else {
-            params.putIfNull(BOUNDS, new Rectangle(0, 0, MIN_SIZE, MIN_SIZE));
+        if (tbrgft != null) {
+            pbrbms.putIfNull(BOUNDS, nfw Rfdtbnglf(tbrgft.gftBounds()));
+        } flsf {
+            pbrbms.putIfNull(BOUNDS, nfw Rfdtbnglf(0, 0, MIN_SIZE, MIN_SIZE));
         }
-        params.putIfNull(BORDER_PIXEL, Long.valueOf(0));
-        getColorModel(); // fix 4948833: this call forces the color map to be initialized
-        params.putIfNull(COLORMAP, gData.get_awt_cmap());
-        params.putIfNull(DEPTH, gData.get_awt_depth());
-        params.putIfNull(VISUAL_CLASS, Integer.valueOf(XConstants.InputOutput));
-        params.putIfNull(VISUAL, visInfo.get_visual());
-        params.putIfNull(VALUE_MASK, XConstants.CWBorderPixel | XConstants.CWEventMask | XConstants.CWColormap);
-        Long parentWindow = (Long)params.get(PARENT_WINDOW);
-        if (parentWindow == null || parentWindow.longValue() == 0) {
-            XToolkit.awtLock();
+        pbrbms.putIfNull(BORDER_PIXEL, Long.vblufOf(0));
+        gftColorModfl(); // fix 4948833: tiis dbll fordfs tif dolor mbp to bf initiblizfd
+        pbrbms.putIfNull(COLORMAP, gDbtb.gft_bwt_dmbp());
+        pbrbms.putIfNull(DEPTH, gDbtb.gft_bwt_dfpti());
+        pbrbms.putIfNull(VISUAL_CLASS, Intfgfr.vblufOf(XConstbnts.InputOutput));
+        pbrbms.putIfNull(VISUAL, visInfo.gft_visubl());
+        pbrbms.putIfNull(VALUE_MASK, XConstbnts.CWBordfrPixfl | XConstbnts.CWEvfntMbsk | XConstbnts.CWColormbp);
+        Long pbrfntWindow = (Long)pbrbms.gft(PARENT_WINDOW);
+        if (pbrfntWindow == null || pbrfntWindow.longVbluf() == 0) {
+            XToolkit.bwtLodk();
             try {
-                int screen = visInfo.get_screen();
-                if (screen != -1) {
-                    params.add(PARENT_WINDOW, XlibWrapper.RootWindow(XToolkit.getDisplay(), screen));
-                } else {
-                    params.add(PARENT_WINDOW, XToolkit.getDefaultRootWindow());
+                int sdrffn = visInfo.gft_sdrffn();
+                if (sdrffn != -1) {
+                    pbrbms.bdd(PARENT_WINDOW, XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), sdrffn));
+                } flsf {
+                    pbrbms.bdd(PARENT_WINDOW, XToolkit.gftDffbultRootWindow());
                 }
-            } finally {
-                XToolkit.awtUnlock();
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
         }
 
-        paintArea = new XRepaintArea();
-        if (target != null) {
-            this.parent = getParentXWindowObject(target.getParent());
+        pbintArfb = nfw XRfpbintArfb();
+        if (tbrgft != null) {
+            tiis.pbrfnt = gftPbrfntXWindowObjfdt(tbrgft.gftPbrfnt());
         }
 
-        params.putIfNull(BACKING_STORE, XToolkit.getBackingStoreType());
+        pbrbms.putIfNull(BACKING_STORE, XToolkit.gftBbdkingStorfTypf());
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            if (wm_protocols == null) {
-                wm_protocols = XAtom.get("WM_PROTOCOLS");
-                wm_delete_window = XAtom.get("WM_DELETE_WINDOW");
-                wm_take_focus = XAtom.get("WM_TAKE_FOCUS");
+            if (wm_protodols == null) {
+                wm_protodols = XAtom.gft("WM_PROTOCOLS");
+                wm_dflftf_window = XAtom.gft("WM_DELETE_WINDOW");
+                wm_tbkf_fodus = XAtom.gft("WM_TAKE_FOCUS");
             }
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlodk();
         }
-        winAttr = new XWindowAttributesData();
-        savedState = XUtilConstants.WithdrawnState;
+        winAttr = nfw XWindowAttributfsDbtb();
+        sbvfdStbtf = XUtilConstbnts.WitidrbwnStbtf;
     }
 
-    void postInit(XCreateWindowParams params) {
-        super.postInit(params);
+    void postInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.postInit(pbrbms);
 
-        setWMClass(getWMClass());
+        sftWMClbss(gftWMClbss());
 
-        surfaceData = graphicsConfig.createSurfaceData(this);
-        Color c;
-        if (target != null && (c = target.getBackground()) != null) {
-            // We need a version of setBackground that does not call repaint !!
-            // and one that does not get overridden. The problem is that in postInit
-            // we call setBackground and we don't have all the stuff initialized to
-            // do a full paint for most peers. So we cannot call setBackground in postInit.
-            // instead we need to call xSetBackground.
-            xSetBackground(c);
+        surfbdfDbtb = grbpiidsConfig.drfbtfSurfbdfDbtb(tiis);
+        Color d;
+        if (tbrgft != null && (d = tbrgft.gftBbdkground()) != null) {
+            // Wf nffd b vfrsion of sftBbdkground tibt dofs not dbll rfpbint !!
+            // bnd onf tibt dofs not gft ovfrriddfn. Tif problfm is tibt in postInit
+            // wf dbll sftBbdkground bnd wf don't ibvf bll tif stuff initiblizfd to
+            // do b full pbint for most pffrs. So wf dbnnot dbll sftBbdkground in postInit.
+            // instfbd wf nffd to dbll xSftBbdkground.
+            xSftBbdkground(d);
         }
     }
 
-    public GraphicsConfiguration getGraphicsConfiguration() {
-        if (graphicsConfig == null) {
-            initGraphicsConfiguration();
+    publid GrbpiidsConfigurbtion gftGrbpiidsConfigurbtion() {
+        if (grbpiidsConfig == null) {
+            initGrbpiidsConfigurbtion();
         }
-        return graphicsConfig;
+        rfturn grbpiidsConfig;
     }
 
-    public AwtGraphicsConfigData getGraphicsConfigurationData() {
-        if (graphicsConfigData == null) {
-            initGraphicsConfiguration();
+    publid AwtGrbpiidsConfigDbtb gftGrbpiidsConfigurbtionDbtb() {
+        if (grbpiidsConfigDbtb == null) {
+            initGrbpiidsConfigurbtion();
         }
-        return graphicsConfigData;
+        rfturn grbpiidsConfigDbtb;
     }
 
-    protected String[] getWMClass() {
-        return new String[] {XToolkit.getCorrectXIDString(getClass().getName()), XToolkit.getAWTAppClassName()};
+    protfdtfd String[] gftWMClbss() {
+        rfturn nfw String[] {XToolkit.gftCorrfdtXIDString(gftClbss().gftNbmf()), XToolkit.gftAWTAppClbssNbmf()};
     }
 
-    void setReparented(boolean newValue) {
-        reparented = newValue;
+    void sftRfpbrfntfd(boolfbn nfwVbluf) {
+        rfpbrfntfd = nfwVbluf;
     }
 
-    boolean isReparented() {
-        return reparented;
+    boolfbn isRfpbrfntfd() {
+        rfturn rfpbrfntfd;
     }
 
-    static long getParentWindowID(Component target) {
+    stbtid long gftPbrfntWindowID(Componfnt tbrgft) {
 
-        ComponentPeer peer = target.getParent().getPeer();
-        Component temp = target.getParent();
-        while (!(peer instanceof XWindow))
+        ComponfntPffr pffr = tbrgft.gftPbrfnt().gftPffr();
+        Componfnt tfmp = tbrgft.gftPbrfnt();
+        wiilf (!(pffr instbndfof XWindow))
         {
-            temp = temp.getParent();
-            peer = temp.getPeer();
+            tfmp = tfmp.gftPbrfnt();
+            pffr = tfmp.gftPffr();
         }
 
-        if (peer != null && peer instanceof XWindow)
-            return ((XWindow)peer).getContentWindow();
-        else return 0;
+        if (pffr != null && pffr instbndfof XWindow)
+            rfturn ((XWindow)pffr).gftContfntWindow();
+        flsf rfturn 0;
     }
 
 
-    static XWindow getParentXWindowObject(Component target) {
-        if (target == null) return null;
-        Component temp = target.getParent();
-        if (temp == null) return null;
-        ComponentPeer peer = temp.getPeer();
-        if (peer == null) return null;
-        while ((peer != null) && !(peer instanceof XWindow))
+    stbtid XWindow gftPbrfntXWindowObjfdt(Componfnt tbrgft) {
+        if (tbrgft == null) rfturn null;
+        Componfnt tfmp = tbrgft.gftPbrfnt();
+        if (tfmp == null) rfturn null;
+        ComponfntPffr pffr = tfmp.gftPffr();
+        if (pffr == null) rfturn null;
+        wiilf ((pffr != null) && !(pffr instbndfof XWindow))
         {
-            temp = temp.getParent();
-            peer = temp.getPeer();
+            tfmp = tfmp.gftPbrfnt();
+            pffr = tfmp.gftPffr();
         }
-        if (peer != null && peer instanceof XWindow)
-            return (XWindow) peer;
-        else return null;
+        if (pffr != null && pffr instbndfof XWindow)
+            rfturn (XWindow) pffr;
+        flsf rfturn null;
     }
 
 
-    boolean isParentOf(XWindow win) {
-        if (!(target instanceof Container) || win == null || win.getTarget() == null) {
-            return false;
+    boolfbn isPbrfntOf(XWindow win) {
+        if (!(tbrgft instbndfof Contbinfr) || win == null || win.gftTbrgft() == null) {
+            rfturn fblsf;
         }
-        Container parent = AWTAccessor.getComponentAccessor().getParent(win.target);
-        while (parent != null && parent != target) {
-            parent = AWTAccessor.getComponentAccessor().getParent(parent);
+        Contbinfr pbrfnt = AWTAddfssor.gftComponfntAddfssor().gftPbrfnt(win.tbrgft);
+        wiilf (pbrfnt != null && pbrfnt != tbrgft) {
+            pbrfnt = AWTAddfssor.gftComponfntAddfssor().gftPbrfnt(pbrfnt);
         }
-        return (parent == target);
+        rfturn (pbrfnt == tbrgft);
     }
 
-    public Object getTarget() {
-        return target;
+    publid Objfdt gftTbrgft() {
+        rfturn tbrgft;
     }
-    public Component getEventSource() {
-        return target;
-    }
-
-    public ColorModel getColorModel(int transparency) {
-        return graphicsConfig.getColorModel (transparency);
+    publid Componfnt gftEvfntSourdf() {
+        rfturn tbrgft;
     }
 
-    public ColorModel getColorModel() {
-        if (graphicsConfig != null) {
-            return graphicsConfig.getColorModel ();
+    publid ColorModfl gftColorModfl(int trbnspbrfndy) {
+        rfturn grbpiidsConfig.gftColorModfl (trbnspbrfndy);
+    }
+
+    publid ColorModfl gftColorModfl() {
+        if (grbpiidsConfig != null) {
+            rfturn grbpiidsConfig.gftColorModfl ();
         }
-        else {
-            return XToolkit.getStaticColorModel();
+        flsf {
+            rfturn XToolkit.gftStbtidColorModfl();
         }
     }
 
-    Graphics getGraphics(SurfaceData surfData, Color afore, Color aback, Font afont) {
-        if (surfData == null) return null;
+    Grbpiids gftGrbpiids(SurfbdfDbtb surfDbtb, Color bforf, Color bbbdk, Font bfont) {
+        if (surfDbtb == null) rfturn null;
 
-        Component target = this.target;
+        Componfnt tbrgft = tiis.tbrgft;
 
-        /* Fix for bug 4746122. Color and Font shouldn't be null */
-        Color bgColor = aback;
+        /* Fix for bug 4746122. Color bnd Font siouldn't bf null */
+        Color bgColor = bbbdk;
         if (bgColor == null) {
-            bgColor = SystemColor.window;
+            bgColor = SystfmColor.window;
         }
-        Color fgColor = afore;
+        Color fgColor = bforf;
         if (fgColor == null) {
-            fgColor = SystemColor.windowText;
+            fgColor = SystfmColor.windowTfxt;
         }
-        Font font = afont;
+        Font font = bfont;
         if (font == null) {
-            font = XWindow.getDefaultFont();
+            font = XWindow.gftDffbultFont();
         }
-        return new SunGraphics2D(surfData, fgColor, bgColor, font);
+        rfturn nfw SunGrbpiids2D(surfDbtb, fgColor, bgColor, font);
     }
 
-    public Graphics getGraphics() {
-        return getGraphics(surfaceData,
-                           target.getForeground(),
-                           target.getBackground(),
-                           target.getFont());
+    publid Grbpiids gftGrbpiids() {
+        rfturn gftGrbpiids(surfbdfDbtb,
+                           tbrgft.gftForfground(),
+                           tbrgft.gftBbdkground(),
+                           tbrgft.gftFont());
     }
 
-    public FontMetrics getFontMetrics(Font font) {
-        return Toolkit.getDefaultToolkit().getFontMetrics(font);
+    publid FontMftrids gftFontMftrids(Font font) {
+        rfturn Toolkit.gftDffbultToolkit().gftFontMftrids(font);
     }
 
-    public Rectangle getTargetBounds() {
-        return target.getBounds();
+    publid Rfdtbnglf gftTbrgftBounds() {
+        rfturn tbrgft.gftBounds();
     }
 
     /**
-     * Returns true if the event has been handled and should not be
-     * posted to Java.
+     * Rfturns truf if tif fvfnt ibs bffn ibndlfd bnd siould not bf
+     * postfd to Jbvb.
      */
-    boolean prePostEvent(AWTEvent e) {
-        return false;
+    boolfbn prfPostEvfnt(AWTEvfnt f) {
+        rfturn fblsf;
     }
 
-    static Method m_sendMessage;
-    static void sendEvent(final AWTEvent e) {
-        // The uses of this method imply that the incoming event is system-generated
-        SunToolkit.setSystemGenerated(e);
-        PeerEvent pe = new PeerEvent(Toolkit.getDefaultToolkit(), new Runnable() {
-                public void run() {
-                    AWTAccessor.getAWTEventAccessor().setPosted(e);
-                    ((Component)e.getSource()).dispatchEvent(e);
+    stbtid Mftiod m_sfndMfssbgf;
+    stbtid void sfndEvfnt(finbl AWTEvfnt f) {
+        // Tif usfs of tiis mftiod imply tibt tif indoming fvfnt is systfm-gfnfrbtfd
+        SunToolkit.sftSystfmGfnfrbtfd(f);
+        PffrEvfnt pf = nfw PffrEvfnt(Toolkit.gftDffbultToolkit(), nfw Runnbblf() {
+                publid void run() {
+                    AWTAddfssor.gftAWTEvfntAddfssor().sftPostfd(f);
+                    ((Componfnt)f.gftSourdf()).dispbtdiEvfnt(f);
                 }
-            }, PeerEvent.ULTIMATE_PRIORITY_EVENT);
-        if (focusLog.isLoggable(PlatformLogger.Level.FINER) && (e instanceof FocusEvent)) {
-            focusLog.finer("Sending " + e);
+            }, PffrEvfnt.ULTIMATE_PRIORITY_EVENT);
+        if (fodusLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER) && (f instbndfof FodusEvfnt)) {
+            fodusLog.finfr("Sfnding " + f);
         }
-        XToolkit.postEvent(XToolkit.targetToAppContext(e.getSource()), pe);
+        XToolkit.postEvfnt(XToolkit.tbrgftToAppContfxt(f.gftSourdf()), pf);
     }
 
 
 /*
- * Post an event to the event queue.
+ * Post bn fvfnt to tif fvfnt qufuf.
  */
-// NOTE: This method may be called by privileged threads.
+// NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
 //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    void postEvent(AWTEvent event) {
-        XToolkit.postEvent(XToolkit.targetToAppContext(event.getSource()), event);
+    void postEvfnt(AWTEvfnt fvfnt) {
+        XToolkit.postEvfnt(XToolkit.tbrgftToAppContfxt(fvfnt.gftSourdf()), fvfnt);
     }
 
-    static void postEventStatic(AWTEvent event) {
-        XToolkit.postEvent(XToolkit.targetToAppContext(event.getSource()), event);
+    stbtid void postEvfntStbtid(AWTEvfnt fvfnt) {
+        XToolkit.postEvfnt(XToolkit.tbrgftToAppContfxt(fvfnt.gftSourdf()), fvfnt);
     }
 
-    public void postEventToEventQueue(final AWTEvent event) {
-        //fix for 6239938 : Choice drop-down does not disappear when it loses focus, on XToolkit
-        if (!prePostEvent(event)) {
-            //event hasn't been handled and must be posted to EventQueue
-            postEvent(event);
+    publid void postEvfntToEvfntQufuf(finbl AWTEvfnt fvfnt) {
+        //fix for 6239938 : Cioidf drop-down dofs not disbppfbr wifn it losfs fodus, on XToolkit
+        if (!prfPostEvfnt(fvfnt)) {
+            //fvfnt ibsn't bffn ibndlfd bnd must bf postfd to EvfntQufuf
+            postEvfnt(fvfnt);
         }
     }
 
-    // overriden in XCanvasPeer
-    protected boolean doEraseBackground() {
-        return true;
+    // ovfrridfn in XCbnvbsPffr
+    protfdtfd boolfbn doErbsfBbdkground() {
+        rfturn truf;
     }
 
-    // We need a version of setBackground that does not call repaint !!
-    // and one that does not get overridden. The problem is that in postInit
-    // we call setBackground and we don't have all the stuff initialized to
-    // do a full paint for most peers. So we cannot call setBackground in postInit.
-    final public void xSetBackground(Color c) {
-        XToolkit.awtLock();
+    // Wf nffd b vfrsion of sftBbdkground tibt dofs not dbll rfpbint !!
+    // bnd onf tibt dofs not gft ovfrriddfn. Tif problfm is tibt in postInit
+    // wf dbll sftBbdkground bnd wf don't ibvf bll tif stuff initiblizfd to
+    // do b full pbint for most pffrs. So wf dbnnot dbll sftBbdkground in postInit.
+    finbl publid void xSftBbdkground(Color d) {
+        XToolkit.bwtLodk();
         try {
-            winBackground(c);
-            // fix for 6558510: handle sun.awt.noerasebackground flag,
-            // see doEraseBackground() and preInit() methods in XCanvasPeer
-            if (!doEraseBackground()) {
-                return;
+            winBbdkground(d);
+            // fix for 6558510: ibndlf sun.bwt.nofrbsfbbdkground flbg,
+            // sff doErbsfBbdkground() bnd prfInit() mftiods in XCbnvbsPffr
+            if (!doErbsfBbdkground()) {
+                rfturn;
             }
-            // 6304250: XAWT: Items in choice show a blue border on OpenGL + Solaris10 when background color is set
-            // Note: When OGL is enabled, surfaceData.pixelFor() will not
-            // return a pixel value appropriate for passing to
-            // XSetWindowBackground().  Therefore, we will use the ColorModel
-            // for this component in order to calculate a pixel value from
-            // the given RGB value.
-            ColorModel cm = getColorModel();
-            int pixel = PixelConverter.instance.rgbToPixel(c.getRGB(), cm);
-            XlibWrapper.XSetWindowBackground(XToolkit.getDisplay(), getContentWindow(), pixel);
-            XlibWrapper.XClearWindow(XToolkit.getDisplay(), getContentWindow());
+            // 6304250: XAWT: Itfms in dioidf siow b bluf bordfr on OpfnGL + Solbris10 wifn bbdkground dolor is sft
+            // Notf: Wifn OGL is fnbblfd, surfbdfDbtb.pixflFor() will not
+            // rfturn b pixfl vbluf bppropribtf for pbssing to
+            // XSftWindowBbdkground().  Tifrfforf, wf will usf tif ColorModfl
+            // for tiis domponfnt in ordfr to dbldulbtf b pixfl vbluf from
+            // tif givfn RGB vbluf.
+            ColorModfl dm = gftColorModfl();
+            int pixfl = PixflConvfrtfr.instbndf.rgbToPixfl(d.gftRGB(), dm);
+            XlibWrbppfr.XSftWindowBbdkground(XToolkit.gftDisplby(), gftContfntWindow(), pixfl);
+            XlibWrbppfr.XClfbrWindow(XToolkit.gftDisplby(), gftContfntWindow());
         }
-        finally {
-            XToolkit.awtUnlock();
+        finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    public void setBackground(Color c) {
-        xSetBackground(c);
+    publid void sftBbdkground(Color d) {
+        xSftBbdkground(d);
     }
 
-    Color backgroundColor;
-    void winBackground(Color c) {
-        backgroundColor = c;
+    Color bbdkgroundColor;
+    void winBbdkground(Color d) {
+        bbdkgroundColor = d;
     }
 
-    public Color getWinBackground() {
-        Color c = null;
+    publid Color gftWinBbdkground() {
+        Color d = null;
 
-        if (backgroundColor != null) {
-            c = backgroundColor;
-        } else if (parent != null) {
-            c = parent.getWinBackground();
+        if (bbdkgroundColor != null) {
+            d = bbdkgroundColor;
+        } flsf if (pbrfnt != null) {
+            d = pbrfnt.gftWinBbdkground();
         }
 
-        if (c instanceof SystemColor) {
-            c = new Color(c.getRGB());
+        if (d instbndfof SystfmColor) {
+            d = nfw Color(d.gftRGB());
         }
 
-        return c;
+        rfturn d;
     }
 
-    public boolean isEmbedded() {
-        return embedded;
+    publid boolfbn isEmbfddfd() {
+        rfturn fmbfddfd;
     }
 
-    public final void repaint(int x, int y, int width, int height) {
-        if (!isVisible() || getWidth() == 0 || getHeight() == 0) {
-            return;
+    publid finbl void rfpbint(int x, int y, int widti, int ifigit) {
+        if (!isVisiblf() || gftWidti() == 0 || gftHfigit() == 0) {
+            rfturn;
         }
-        Graphics g = getGraphics();
+        Grbpiids g = gftGrbpiids();
         if (g != null) {
             try {
-                g.setClip(x, y, width, height);
-                if (SunToolkit.isDispatchThreadForAppContext(getTarget())) {
-                    paint(g); // The native and target will be painted in place.
-                } else {
-                    paintPeer(g);
-                    postPaintEvent(target, x, y, width, height);
+                g.sftClip(x, y, widti, ifigit);
+                if (SunToolkit.isDispbtdiTirfbdForAppContfxt(gftTbrgft())) {
+                    pbint(g); // Tif nbtivf bnd tbrgft will bf pbintfd in plbdf.
+                } flsf {
+                    pbintPffr(g);
+                    postPbintEvfnt(tbrgft, x, y, widti, ifigit);
                 }
-            } finally {
-                g.dispose();
+            } finblly {
+                g.disposf();
             }
         }
     }
 
-    void repaint() {
-        repaint(0, 0, getWidth(), getHeight());
+    void rfpbint() {
+        rfpbint(0, 0, gftWidti(), gftHfigit());
     }
 
-    public void paint(final Graphics g) {
-        // paint peer
-        paintPeer(g);
+    publid void pbint(finbl Grbpiids g) {
+        // pbint pffr
+        pbintPffr(g);
     }
 
-    void paintPeer(final Graphics g) {
+    void pbintPffr(finbl Grbpiids g) {
     }
-    //used by Peers to avoid flickering withing paint()
-    protected void flush(){
-        XToolkit.awtLock();
+    //usfd by Pffrs to bvoid flidkfring witiing pbint()
+    protfdtfd void flusi(){
+        XToolkit.bwtLodk();
         try {
-            XlibWrapper.XFlush(XToolkit.getDisplay());
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbppfr.XFlusi(XToolkit.gftDisplby());
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    public void popup(int x, int y, int width, int height) {
-        // TBD: grab the pointer
-        xSetBounds(x, y, width, height);
+    publid void popup(int x, int y, int widti, int ifigit) {
+        // TBD: grbb tif pointfr
+        xSftBounds(x, y, widti, ifigit);
     }
 
-    public void handleExposeEvent(XEvent xev) {
-        super.handleExposeEvent(xev);
-        XExposeEvent xe = xev.get_xexpose();
-        if (isEventDisabled(xev)) {
-            return;
+    publid void ibndlfExposfEvfnt(XEvfnt xfv) {
+        supfr.ibndlfExposfEvfnt(xfv);
+        XExposfEvfnt xf = xfv.gft_xfxposf();
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
         }
-        int x = xe.get_x();
-        int y = xe.get_y();
-        int w = xe.get_width();
-        int h = xe.get_height();
+        int x = xf.gft_x();
+        int y = xf.gft_y();
+        int w = xf.gft_widti();
+        int i = xf.gft_ifigit();
 
-        Component target = getEventSource();
-        AWTAccessor.ComponentAccessor compAccessor = AWTAccessor.getComponentAccessor();
+        Componfnt tbrgft = gftEvfntSourdf();
+        AWTAddfssor.ComponfntAddfssor dompAddfssor = AWTAddfssor.gftComponfntAddfssor();
 
-        if (!compAccessor.getIgnoreRepaint(target)
-            && compAccessor.getWidth(target) != 0
-            && compAccessor.getHeight(target) != 0)
+        if (!dompAddfssor.gftIgnorfRfpbint(tbrgft)
+            && dompAddfssor.gftWidti(tbrgft) != 0
+            && dompAddfssor.gftHfigit(tbrgft) != 0)
         {
-            postPaintEvent(target, x, y, w, h);
+            postPbintEvfnt(tbrgft, x, y, w, i);
         }
     }
 
-    public void postPaintEvent(Component target, int x, int y, int w, int h) {
-        PaintEvent event = PaintEventDispatcher.getPaintEventDispatcher().
-            createPaintEvent(target, x, y, w, h);
-        if (event != null) {
-            postEventToEventQueue(event);
+    publid void postPbintEvfnt(Componfnt tbrgft, int x, int y, int w, int i) {
+        PbintEvfnt fvfnt = PbintEvfntDispbtdifr.gftPbintEvfntDispbtdifr().
+            drfbtfPbintEvfnt(tbrgft, x, y, w, i);
+        if (fvfnt != null) {
+            postEvfntToEvfntQufuf(fvfnt);
         }
     }
 
-    static int getModifiers(int state, int button, int keyCode) {
-        return getModifiers(state, button, keyCode, 0,  false);
+    stbtid int gftModififrs(int stbtf, int button, int kfyCodf) {
+        rfturn gftModififrs(stbtf, button, kfyCodf, 0,  fblsf);
     }
 
-    static int getModifiers(int state, int button, int keyCode, int type, boolean wheel_mouse) {
-        int modifiers = 0;
+    stbtid int gftModififrs(int stbtf, int button, int kfyCodf, int typf, boolfbn wiffl_mousf) {
+        int modififrs = 0;
 
-        if (((state & XConstants.ShiftMask) != 0) ^ (keyCode == KeyEvent.VK_SHIFT)) {
-            modifiers |= InputEvent.SHIFT_DOWN_MASK;
+        if (((stbtf & XConstbnts.SiiftMbsk) != 0) ^ (kfyCodf == KfyEvfnt.VK_SHIFT)) {
+            modififrs |= InputEvfnt.SHIFT_DOWN_MASK;
         }
-        if (((state & XConstants.ControlMask) != 0) ^ (keyCode == KeyEvent.VK_CONTROL)) {
-            modifiers |= InputEvent.CTRL_DOWN_MASK;
+        if (((stbtf & XConstbnts.ControlMbsk) != 0) ^ (kfyCodf == KfyEvfnt.VK_CONTROL)) {
+            modififrs |= InputEvfnt.CTRL_DOWN_MASK;
         }
-        if (((state & XToolkit.metaMask) != 0) ^ (keyCode == KeyEvent.VK_META)) {
-            modifiers |= InputEvent.META_DOWN_MASK;
+        if (((stbtf & XToolkit.mftbMbsk) != 0) ^ (kfyCodf == KfyEvfnt.VK_META)) {
+            modififrs |= InputEvfnt.META_DOWN_MASK;
         }
-        if (((state & XToolkit.altMask) != 0) ^ (keyCode == KeyEvent.VK_ALT)) {
-            modifiers |= InputEvent.ALT_DOWN_MASK;
+        if (((stbtf & XToolkit.bltMbsk) != 0) ^ (kfyCodf == KfyEvfnt.VK_ALT)) {
+            modififrs |= InputEvfnt.ALT_DOWN_MASK;
         }
-        if (((state & XToolkit.modeSwitchMask) != 0) ^ (keyCode == KeyEvent.VK_ALT_GRAPH)) {
-            modifiers |= InputEvent.ALT_GRAPH_DOWN_MASK;
+        if (((stbtf & XToolkit.modfSwitdiMbsk) != 0) ^ (kfyCodf == KfyEvfnt.VK_ALT_GRAPH)) {
+            modififrs |= InputEvfnt.ALT_GRAPH_DOWN_MASK;
         }
-        //InputEvent.BUTTON_DOWN_MASK array is starting from BUTTON1_DOWN_MASK on index == 0.
-        // button currently reflects a real button number and starts from 1. (except NOBUTTON which is zero )
+        //InputEvfnt.BUTTON_DOWN_MASK brrby is stbrting from BUTTON1_DOWN_MASK on indfx == 0.
+        // button durrfntly rfflfdts b rfbl button numbfr bnd stbrts from 1. (fxdfpt NOBUTTON wiidi is zfro )
 
-        /* this is an attempt to refactor button IDs in : MouseEvent, InputEvent, XlibWrapper and XWindow.*/
+        /* tiis is bn bttfmpt to rffbdtor button IDs in : MousfEvfnt, InputEvfnt, XlibWrbppfr bnd XWindow.*/
 
-        //reflects a button number similar to MouseEvent.BUTTON1, 2, 3 etc.
-        for (int i = 0; i < XConstants.buttons.length; i ++){
-            //modifier should be added if :
-            // 1) current button is now still in PRESSED state (means that user just pressed mouse but not released yet) or
-            // 2) if Xsystem reports that "state" represents that button was just released. This only happens on RELEASE with 1,2,3 buttons.
-            // ONLY one of these conditions should be TRUE to add that modifier.
-            if (((state & XlibUtil.getButtonMask(i + 1)) != 0) != (button == XConstants.buttons[i])){
-                //exclude wheel buttons from adding their numbers as modifiers
-                if (!wheel_mouse) {
-                    modifiers |= InputEvent.getMaskForButton(i+1);
+        //rfflfdts b button numbfr similbr to MousfEvfnt.BUTTON1, 2, 3 ftd.
+        for (int i = 0; i < XConstbnts.buttons.lfngti; i ++){
+            //modififr siould bf bddfd if :
+            // 1) durrfnt button is now still in PRESSED stbtf (mfbns tibt usfr just prfssfd mousf but not rflfbsfd yft) or
+            // 2) if Xsystfm rfports tibt "stbtf" rfprfsfnts tibt button wbs just rflfbsfd. Tiis only ibppfns on RELEASE witi 1,2,3 buttons.
+            // ONLY onf of tifsf donditions siould bf TRUE to bdd tibt modififr.
+            if (((stbtf & XlibUtil.gftButtonMbsk(i + 1)) != 0) != (button == XConstbnts.buttons[i])){
+                //fxdludf wiffl buttons from bdding tifir numbfrs bs modififrs
+                if (!wiffl_mousf) {
+                    modififrs |= InputEvfnt.gftMbskForButton(i+1);
                 }
             }
         }
-        return modifiers;
+        rfturn modififrs;
     }
 
-    static int getXModifiers(AWTKeyStroke stroke) {
-        int mods = stroke.getModifiers();
-        int res = 0;
-        if ((mods & (InputEvent.SHIFT_DOWN_MASK | InputEvent.SHIFT_MASK)) != 0) {
-            res |= XConstants.ShiftMask;
+    stbtid int gftXModififrs(AWTKfyStrokf strokf) {
+        int mods = strokf.gftModififrs();
+        int rfs = 0;
+        if ((mods & (InputEvfnt.SHIFT_DOWN_MASK | InputEvfnt.SHIFT_MASK)) != 0) {
+            rfs |= XConstbnts.SiiftMbsk;
         }
-        if ((mods & (InputEvent.CTRL_DOWN_MASK | InputEvent.CTRL_MASK)) != 0) {
-            res |= XConstants.ControlMask;
+        if ((mods & (InputEvfnt.CTRL_DOWN_MASK | InputEvfnt.CTRL_MASK)) != 0) {
+            rfs |= XConstbnts.ControlMbsk;
         }
-        if ((mods & (InputEvent.ALT_DOWN_MASK | InputEvent.ALT_MASK)) != 0) {
-            res |= XToolkit.altMask;
+        if ((mods & (InputEvfnt.ALT_DOWN_MASK | InputEvfnt.ALT_MASK)) != 0) {
+            rfs |= XToolkit.bltMbsk;
         }
-        if ((mods & (InputEvent.META_DOWN_MASK | InputEvent.META_MASK)) != 0) {
-            res |= XToolkit.metaMask;
+        if ((mods & (InputEvfnt.META_DOWN_MASK | InputEvfnt.META_MASK)) != 0) {
+            rfs |= XToolkit.mftbMbsk;
         }
-        if ((mods & (InputEvent.ALT_GRAPH_DOWN_MASK | InputEvent.ALT_GRAPH_MASK)) != 0) {
-            res |= XToolkit.modeSwitchMask;
+        if ((mods & (InputEvfnt.ALT_GRAPH_DOWN_MASK | InputEvfnt.ALT_GRAPH_MASK)) != 0) {
+            rfs |= XToolkit.modfSwitdiMbsk;
         }
-        return res;
+        rfturn rfs;
     }
 
     /**
-     * Returns true if this event is disabled and shouldn't be passed to Java.
-     * Default implementation returns false for all events.
+     * Rfturns truf if tiis fvfnt is disbblfd bnd siouldn't bf pbssfd to Jbvb.
+     * Dffbult implfmfntbtion rfturns fblsf for bll fvfnts.
      */
-    static int getRightButtonNumber() {
-        if (rbutton == 0) { // not initialized yet
-            XToolkit.awtLock();
+    stbtid int gftRigitButtonNumbfr() {
+        if (rbutton == 0) { // not initiblizfd yft
+            XToolkit.bwtLodk();
             try {
-                rbutton = XlibWrapper.XGetPointerMapping(XToolkit.getDisplay(), XlibWrapper.ibuffer, 3);
+                rbutton = XlibWrbppfr.XGftPointfrMbpping(XToolkit.gftDisplby(), XlibWrbppfr.ibufffr, 3);
             }
-            finally {
-                XToolkit.awtUnlock();
+            finblly {
+                XToolkit.bwtUnlodk();
             }
         }
-        return rbutton;
+        rfturn rbutton;
     }
 
-    static int getMouseMovementSmudge() {
-        //TODO: It's possible to read corresponding settings
-        return AWT_MULTICLICK_SMUDGE;
+    stbtid int gftMousfMovfmfntSmudgf() {
+        //TODO: It's possiblf to rfbd dorrfsponding sfttings
+        rfturn AWT_MULTICLICK_SMUDGE;
     }
 
-    public void handleButtonPressRelease(XEvent xev) {
-        super.handleButtonPressRelease(xev);
-        XButtonEvent xbe = xev.get_xbutton();
-        if (isEventDisabled(xev)) {
-            return;
+    publid void ibndlfButtonPrfssRflfbsf(XEvfnt xfv) {
+        supfr.ibndlfButtonPrfssRflfbsf(xfv);
+        XButtonEvfnt xbf = xfv.gft_xbutton();
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
         }
-        if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
-            eventLog.fine(xbe.toString());
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fvfntLog.finf(xbf.toString());
         }
-        long when;
-        int modifiers;
-        boolean popupTrigger = false;
+        long wifn;
+        int modififrs;
+        boolfbn popupTriggfr = fblsf;
         int button=0;
-        boolean wheel_mouse = false;
-        int lbutton = xbe.get_button();
+        boolfbn wiffl_mousf = fblsf;
+        int lbutton = xbf.gft_button();
         /*
-         * Ignore the buttons above 20 due to the bit limit for
-         * InputEvent.BUTTON_DOWN_MASK.
-         * One more bit is reserved for FIRST_HIGH_BIT.
+         * Ignorf tif buttons bbovf 20 duf to tif bit limit for
+         * InputEvfnt.BUTTON_DOWN_MASK.
+         * Onf morf bit is rfsfrvfd for FIRST_HIGH_BIT.
          */
         if (lbutton > SunToolkit.MAX_BUTTONS_SUPPORTED) {
-            return;
+            rfturn;
         }
-        int type = xev.get_type();
-        when = xbe.get_time();
-        long jWhen = XToolkit.nowMillisUTC_offset(when);
+        int typf = xfv.gft_typf();
+        wifn = xbf.gft_timf();
+        long jWifn = XToolkit.nowMillisUTC_offsft(wifn);
 
-        int x = xbe.get_x();
-        int y = xbe.get_y();
-        if (xev.get_xany().get_window() != window) {
-            Point localXY = toLocal(xbe.get_x_root(), xbe.get_y_root());
-            x = localXY.x;
-            y = localXY.y;
+        int x = xbf.gft_x();
+        int y = xbf.gft_y();
+        if (xfv.gft_xbny().gft_window() != window) {
+            Point lodblXY = toLodbl(xbf.gft_x_root(), xbf.gft_y_root());
+            x = lodblXY.x;
+            y = lodblXY.y;
         }
 
-        if (type == XConstants.ButtonPress) {
-            //Allow this mouse button to generate CLICK event on next ButtonRelease
-            mouseButtonClickAllowed |= XlibUtil.getButtonMask(lbutton);
-            XWindow lastWindow = (lastWindowRef != null) ? (lastWindowRef.get()):(null);
+        if (typf == XConstbnts.ButtonPrfss) {
+            //Allow tiis mousf button to gfnfrbtf CLICK fvfnt on nfxt ButtonRflfbsf
+            mousfButtonClidkAllowfd |= XlibUtil.gftButtonMbsk(lbutton);
+            XWindow lbstWindow = (lbstWindowRff != null) ? (lbstWindowRff.gft()):(null);
             /*
-               multiclick checking
+               multidlidk difdking
             */
-            if (eventLog.isLoggable(PlatformLogger.Level.FINEST)) {
-                eventLog.finest("lastWindow = " + lastWindow + ", lastButton "
-                + lastButton + ", lastTime " + lastTime + ", multiClickTime "
-                + XToolkit.getMultiClickTime());
+            if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                fvfntLog.finfst("lbstWindow = " + lbstWindow + ", lbstButton "
+                + lbstButton + ", lbstTimf " + lbstTimf + ", multiClidkTimf "
+                + XToolkit.gftMultiClidkTimf());
             }
-            if (lastWindow == this && lastButton == lbutton && (when - lastTime) < XToolkit.getMultiClickTime()) {
-                clickCount++;
-            } else {
-                clickCount = 1;
-                lastWindowRef = new WeakReference<>(this);
-                lastButton = lbutton;
-                lastX = x;
-                lastY = y;
+            if (lbstWindow == tiis && lbstButton == lbutton && (wifn - lbstTimf) < XToolkit.gftMultiClidkTimf()) {
+                dlidkCount++;
+            } flsf {
+                dlidkCount = 1;
+                lbstWindowRff = nfw WfbkRfffrfndf<>(tiis);
+                lbstButton = lbutton;
+                lbstX = x;
+                lbstY = y;
             }
-            lastTime = when;
+            lbstTimf = wifn;
 
 
             /*
-               Check for popup trigger !!
+               Cifdk for popup triggfr !!
             */
-            if (lbutton == getRightButtonNumber() || lbutton > 2) {
-                popupTrigger = true;
-            } else {
-                popupTrigger = false;
+            if (lbutton == gftRigitButtonNumbfr() || lbutton > 2) {
+                popupTriggfr = truf;
+            } flsf {
+                popupTriggfr = fblsf;
             }
         }
 
-        button = XConstants.buttons[lbutton - 1];
-        // 4 and 5 buttons are usually considered assigned to a first wheel
-        if (lbutton == XConstants.buttons[3] ||
-            lbutton == XConstants.buttons[4]) {
-            wheel_mouse = true;
+        button = XConstbnts.buttons[lbutton - 1];
+        // 4 bnd 5 buttons brf usublly donsidfrfd bssignfd to b first wiffl
+        if (lbutton == XConstbnts.buttons[3] ||
+            lbutton == XConstbnts.buttons[4]) {
+            wiffl_mousf = truf;
         }
 
-        // mapping extra buttons to numbers starting from 4.
-        if ((button > XConstants.buttons[4]) && (!Toolkit.getDefaultToolkit().areExtraMouseButtonsEnabled())){
-            return;
+        // mbpping fxtrb buttons to numbfrs stbrting from 4.
+        if ((button > XConstbnts.buttons[4]) && (!Toolkit.gftDffbultToolkit().brfExtrbMousfButtonsEnbblfd())){
+            rfturn;
         }
 
-        if (button > XConstants.buttons[4]){
+        if (button > XConstbnts.buttons[4]){
             button -= 2;
         }
-        modifiers = getModifiers(xbe.get_state(),button,0, type, wheel_mouse);
+        modififrs = gftModififrs(xbf.gft_stbtf(),button,0, typf, wiffl_mousf);
 
-        if (!wheel_mouse) {
-            MouseEvent me = new MouseEvent(getEventSource(),
-                                           type == XConstants.ButtonPress ? MouseEvent.MOUSE_PRESSED : MouseEvent.MOUSE_RELEASED,
-                                           jWhen,modifiers, x, y,
-                                           xbe.get_x_root(),
-                                           xbe.get_y_root(),
-                                           clickCount,popupTrigger,button);
+        if (!wiffl_mousf) {
+            MousfEvfnt mf = nfw MousfEvfnt(gftEvfntSourdf(),
+                                           typf == XConstbnts.ButtonPrfss ? MousfEvfnt.MOUSE_PRESSED : MousfEvfnt.MOUSE_RELEASED,
+                                           jWifn,modififrs, x, y,
+                                           xbf.gft_x_root(),
+                                           xbf.gft_y_root(),
+                                           dlidkCount,popupTriggfr,button);
 
-            postEventToEventQueue(me);
+            postEvfntToEvfntQufuf(mf);
 
-            if ((type == XConstants.ButtonRelease) &&
-                ((mouseButtonClickAllowed & XlibUtil.getButtonMask(lbutton)) != 0) ) // No up-button in the drag-state
+            if ((typf == XConstbnts.ButtonRflfbsf) &&
+                ((mousfButtonClidkAllowfd & XlibUtil.gftButtonMbsk(lbutton)) != 0) ) // No up-button in tif drbg-stbtf
             {
-                postEventToEventQueue(me = new MouseEvent(getEventSource(),
-                                                     MouseEvent.MOUSE_CLICKED,
-                                                     jWhen,
-                                                     modifiers,
+                postEvfntToEvfntQufuf(mf = nfw MousfEvfnt(gftEvfntSourdf(),
+                                                     MousfEvfnt.MOUSE_CLICKED,
+                                                     jWifn,
+                                                     modififrs,
                                                      x, y,
-                                                     xbe.get_x_root(),
-                                                     xbe.get_y_root(),
-                                                     clickCount,
-                                                     false, button));
+                                                     xbf.gft_x_root(),
+                                                     xbf.gft_y_root(),
+                                                     dlidkCount,
+                                                     fblsf, button));
             }
 
         }
-        else {
-            if (xev.get_type() == XConstants.ButtonPress) {
-                MouseWheelEvent mwe = new MouseWheelEvent(getEventSource(),MouseEvent.MOUSE_WHEEL, jWhen,
-                                                          modifiers,
+        flsf {
+            if (xfv.gft_typf() == XConstbnts.ButtonPrfss) {
+                MousfWifflEvfnt mwf = nfw MousfWifflEvfnt(gftEvfntSourdf(),MousfEvfnt.MOUSE_WHEEL, jWifn,
+                                                          modififrs,
                                                           x, y,
-                                                          xbe.get_x_root(),
-                                                          xbe.get_y_root(),
-                                                          1,false,MouseWheelEvent.WHEEL_UNIT_SCROLL,
+                                                          xbf.gft_x_root(),
+                                                          xbf.gft_y_root(),
+                                                          1,fblsf,MousfWifflEvfnt.WHEEL_UNIT_SCROLL,
                                                           3,button==4 ?  -1 : 1);
-                postEventToEventQueue(mwe);
+                postEvfntToEvfntQufuf(mwf);
             }
         }
 
-        /* Update the state variable AFTER the CLICKED event post. */
-        if (type == XConstants.ButtonRelease) {
-            /* Exclude this mouse button from allowed list.*/
-            mouseButtonClickAllowed &= ~ XlibUtil.getButtonMask(lbutton);
+        /* Updbtf tif stbtf vbribblf AFTER tif CLICKED fvfnt post. */
+        if (typf == XConstbnts.ButtonRflfbsf) {
+            /* Exdludf tiis mousf button from bllowfd list.*/
+            mousfButtonClidkAllowfd &= ~ XlibUtil.gftButtonMbsk(lbutton);
         }
     }
 
-    public void handleMotionNotify(XEvent xev) {
-        super.handleMotionNotify(xev);
-        XMotionEvent xme = xev.get_xmotion();
-        if (isEventDisabled(xev)) {
-            return;
+    publid void ibndlfMotionNotify(XEvfnt xfv) {
+        supfr.ibndlfMotionNotify(xfv);
+        XMotionEvfnt xmf = xfv.gft_xmotion();
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
         }
 
-        int mouseKeyState = 0; //(xme.get_state() & (XConstants.buttonsMask[0] | XConstants.buttonsMask[1] | XConstants.buttonsMask[2]));
+        int mousfKfyStbtf = 0; //(xmf.gft_stbtf() & (XConstbnts.buttonsMbsk[0] | XConstbnts.buttonsMbsk[1] | XConstbnts.buttonsMbsk[2]));
 
-        //this doesn't work for extra buttons because Xsystem is sending state==0 for every extra button event.
-        // we can't correct it in MouseEvent class as we done it with modifiers, because exact type (DRAG|MOVE)
-        // should be passed from XWindow.
-        final int buttonsNumber = XToolkit.getNumberOfButtonsForMask();
+        //tiis dofsn't work for fxtrb buttons bfdbusf Xsystfm is sfnding stbtf==0 for fvfry fxtrb button fvfnt.
+        // wf dbn't dorrfdt it in MousfEvfnt dlbss bs wf donf it witi modififrs, bfdbusf fxbdt typf (DRAG|MOVE)
+        // siould bf pbssfd from XWindow.
+        finbl int buttonsNumbfr = XToolkit.gftNumbfrOfButtonsForMbsk();
 
-        for (int i = 0; i < buttonsNumber; i++){
-            // TODO : here is the bug in WM: extra buttons doesn't have state!=0 as they should.
+        for (int i = 0; i < buttonsNumbfr; i++){
+            // TODO : ifrf is tif bug in WM: fxtrb buttons dofsn't ibvf stbtf!=0 bs tify siould.
             if ((i != 4) && (i != 5)) {
-                mouseKeyState = mouseKeyState | (xme.get_state() & XlibUtil.getButtonMask(i + 1));
+                mousfKfyStbtf = mousfKfyStbtf | (xmf.gft_stbtf() & XlibUtil.gftButtonMbsk(i + 1));
             }
         }
 
-        boolean isDragging = (mouseKeyState != 0);
-        int mouseEventType = 0;
+        boolfbn isDrbgging = (mousfKfyStbtf != 0);
+        int mousfEvfntTypf = 0;
 
-        if (isDragging) {
-            mouseEventType = MouseEvent.MOUSE_DRAGGED;
-        } else {
-            mouseEventType = MouseEvent.MOUSE_MOVED;
+        if (isDrbgging) {
+            mousfEvfntTypf = MousfEvfnt.MOUSE_DRAGGED;
+        } flsf {
+            mousfEvfntTypf = MousfEvfnt.MOUSE_MOVED;
         }
 
         /*
-           Fix for 6176814 .  Add multiclick checking.
+           Fix for 6176814 .  Add multidlidk difdking.
         */
-        int x = xme.get_x();
-        int y = xme.get_y();
-        XWindow lastWindow = (lastWindowRef != null) ? (lastWindowRef.get()):(null);
+        int x = xmf.gft_x();
+        int y = xmf.gft_y();
+        XWindow lbstWindow = (lbstWindowRff != null) ? (lbstWindowRff.gft()):(null);
 
-        if (!(lastWindow == this &&
-              (xme.get_time() - lastTime) < XToolkit.getMultiClickTime()  &&
-              (Math.abs(lastX - x) < AWT_MULTICLICK_SMUDGE &&
-               Math.abs(lastY - y) < AWT_MULTICLICK_SMUDGE))) {
-          clickCount = 0;
-          lastWindowRef = null;
-          mouseButtonClickAllowed = 0;
-          lastTime = 0;
-          lastX = 0;
-          lastY = 0;
+        if (!(lbstWindow == tiis &&
+              (xmf.gft_timf() - lbstTimf) < XToolkit.gftMultiClidkTimf()  &&
+              (Mbti.bbs(lbstX - x) < AWT_MULTICLICK_SMUDGE &&
+               Mbti.bbs(lbstY - y) < AWT_MULTICLICK_SMUDGE))) {
+          dlidkCount = 0;
+          lbstWindowRff = null;
+          mousfButtonClidkAllowfd = 0;
+          lbstTimf = 0;
+          lbstX = 0;
+          lbstY = 0;
         }
 
-        long jWhen = XToolkit.nowMillisUTC_offset(xme.get_time());
-        int modifiers = getModifiers(xme.get_state(), 0, 0);
-        boolean popupTrigger = false;
+        long jWifn = XToolkit.nowMillisUTC_offsft(xmf.gft_timf());
+        int modififrs = gftModififrs(xmf.gft_stbtf(), 0, 0);
+        boolfbn popupTriggfr = fblsf;
 
-        Component source = getEventSource();
+        Componfnt sourdf = gftEvfntSourdf();
 
-        if (xme.get_window() != window) {
-            Point localXY = toLocal(xme.get_x_root(), xme.get_y_root());
-            x = localXY.x;
-            y = localXY.y;
+        if (xmf.gft_window() != window) {
+            Point lodblXY = toLodbl(xmf.gft_x_root(), xmf.gft_y_root());
+            x = lodblXY.x;
+            y = lodblXY.y;
         }
         /* Fix for 5039416.
-         * According to canvas.c we shouldn't post any MouseEvent if mouse is dragging and clickCount!=0.
+         * Addording to dbnvbs.d wf siouldn't post bny MousfEvfnt if mousf is drbgging bnd dlidkCount!=0.
          */
-        if ((isDragging && clickCount == 0) || !isDragging) {
-            MouseEvent mme = new MouseEvent(source, mouseEventType, jWhen,
-                                            modifiers, x, y, xme.get_x_root(), xme.get_y_root(),
-                                            clickCount, popupTrigger, MouseEvent.NOBUTTON);
-            postEventToEventQueue(mme);
+        if ((isDrbgging && dlidkCount == 0) || !isDrbgging) {
+            MousfEvfnt mmf = nfw MousfEvfnt(sourdf, mousfEvfntTypf, jWifn,
+                                            modififrs, x, y, xmf.gft_x_root(), xmf.gft_y_root(),
+                                            dlidkCount, popupTriggfr, MousfEvfnt.NOBUTTON);
+            postEvfntToEvfntQufuf(mmf);
         }
     }
 
 
-    // REMIND: need to implement looking for disabled events
-    public native boolean x11inputMethodLookupString(long event, long [] keysymArray);
-    native boolean haveCurrentX11InputMethodInstance();
+    // REMIND: nffd to implfmfnt looking for disbblfd fvfnts
+    publid nbtivf boolfbn x11inputMftiodLookupString(long fvfnt, long [] kfysymArrby);
+    nbtivf boolfbn ibvfCurrfntX11InputMftiodInstbndf();
 
-    private boolean mouseAboveMe;
+    privbtf boolfbn mousfAbovfMf;
 
-    public boolean isMouseAbove() {
-        synchronized (getStateLock()) {
-            return mouseAboveMe;
+    publid boolfbn isMousfAbovf() {
+        syndironizfd (gftStbtfLodk()) {
+            rfturn mousfAbovfMf;
         }
     }
-    protected void setMouseAbove(boolean above) {
-        synchronized (getStateLock()) {
-            mouseAboveMe = above;
-        }
-    }
-
-    protected void enterNotify(long window) {
-        if (window == getWindow()) {
-            setMouseAbove(true);
-        }
-    }
-    protected void leaveNotify(long window) {
-        if (window == getWindow()) {
-            setMouseAbove(false);
+    protfdtfd void sftMousfAbovf(boolfbn bbovf) {
+        syndironizfd (gftStbtfLodk()) {
+            mousfAbovfMf = bbovf;
         }
     }
 
-    public void handleXCrossingEvent(XEvent xev) {
-        super.handleXCrossingEvent(xev);
-        XCrossingEvent xce = xev.get_xcrossing();
+    protfdtfd void fntfrNotify(long window) {
+        if (window == gftWindow()) {
+            sftMousfAbovf(truf);
+        }
+    }
+    protfdtfd void lfbvfNotify(long window) {
+        if (window == gftWindow()) {
+            sftMousfAbovf(fblsf);
+        }
+    }
 
-        if (eventLog.isLoggable(PlatformLogger.Level.FINEST)) {
-            eventLog.finest(xce.toString());
+    publid void ibndlfXCrossingEvfnt(XEvfnt xfv) {
+        supfr.ibndlfXCrossingEvfnt(xfv);
+        XCrossingEvfnt xdf = xfv.gft_xdrossing();
+
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            fvfntLog.finfst(xdf.toString());
         }
 
-        if (xce.get_type() == XConstants.EnterNotify) {
-            enterNotify(xce.get_window());
-        } else { // LeaveNotify:
-            leaveNotify(xce.get_window());
+        if (xdf.gft_typf() == XConstbnts.EntfrNotify) {
+            fntfrNotify(xdf.gft_window());
+        } flsf { // LfbvfNotify:
+            lfbvfNotify(xdf.gft_window());
         }
 
-        // Skip event If it was caused by a grab
-        // This is needed because on displays with focus-follows-mouse on MousePress X system generates
-        // two XCrossing events with mode != NormalNotify. First of them notifies that the mouse has left
-        // current component. Second one notifies that it has entered into the same component.
-        // This looks like the window under the mouse has actually changed and Java handle these  events
-        // accordingly. This leads to impossibility to make a double click on Component (6404708)
-        XWindowPeer toplevel = getToplevelXWindow();
-        if (toplevel != null && !toplevel.isModalBlocked()){
-            if (xce.get_mode() != XConstants.NotifyNormal) {
-                // 6404708 : need update cursor in accordance with skipping Leave/EnterNotify event
-                // whereas it doesn't need to handled further.
-                if (xce.get_type() == XConstants.EnterNotify) {
-                    XAwtState.setComponentMouseEntered(getEventSource());
-                    XGlobalCursorManager.nativeUpdateCursor(getEventSource());
-                } else { // LeaveNotify:
-                    XAwtState.setComponentMouseEntered(null);
+        // Skip fvfnt If it wbs dbusfd by b grbb
+        // Tiis is nffdfd bfdbusf on displbys witi fodus-follows-mousf on MousfPrfss X systfm gfnfrbtfs
+        // two XCrossing fvfnts witi modf != NormblNotify. First of tifm notififs tibt tif mousf ibs lfft
+        // durrfnt domponfnt. Sfdond onf notififs tibt it ibs fntfrfd into tif sbmf domponfnt.
+        // Tiis looks likf tif window undfr tif mousf ibs bdtublly dibngfd bnd Jbvb ibndlf tifsf  fvfnts
+        // bddordingly. Tiis lfbds to impossibility to mbkf b doublf dlidk on Componfnt (6404708)
+        XWindowPffr toplfvfl = gftToplfvflXWindow();
+        if (toplfvfl != null && !toplfvfl.isModblBlodkfd()){
+            if (xdf.gft_modf() != XConstbnts.NotifyNormbl) {
+                // 6404708 : nffd updbtf dursor in bddordbndf witi skipping Lfbvf/EntfrNotify fvfnt
+                // wifrfbs it dofsn't nffd to ibndlfd furtifr.
+                if (xdf.gft_typf() == XConstbnts.EntfrNotify) {
+                    XAwtStbtf.sftComponfntMousfEntfrfd(gftEvfntSourdf());
+                    XGlobblCursorMbnbgfr.nbtivfUpdbtfCursor(gftEvfntSourdf());
+                } flsf { // LfbvfNotify:
+                    XAwtStbtf.sftComponfntMousfEntfrfd(null);
                 }
-                return;
+                rfturn;
             }
         }
-        // X sends XCrossing to all hierarchy so if the edge of child equals to
-        // ancestor and mouse enters child, the ancestor will get an event too.
-        // From java point the event is bogus as ancestor is obscured, so if
-        // the child can get java event itself, we skip it on ancestor.
-        long childWnd = xce.get_subwindow();
-        if (childWnd != XConstants.None) {
-            XBaseWindow child = XToolkit.windowToXWindow(childWnd);
-            if (child != null && child instanceof XWindow &&
-                !child.isEventDisabled(xev))
+        // X sfnds XCrossing to bll iifrbrdiy so if tif fdgf of diild fqubls to
+        // bndfstor bnd mousf fntfrs diild, tif bndfstor will gft bn fvfnt too.
+        // From jbvb point tif fvfnt is bogus bs bndfstor is obsdurfd, so if
+        // tif diild dbn gft jbvb fvfnt itsflf, wf skip it on bndfstor.
+        long diildWnd = xdf.gft_subwindow();
+        if (diildWnd != XConstbnts.Nonf) {
+            XBbsfWindow diild = XToolkit.windowToXWindow(diildWnd);
+            if (diild != null && diild instbndfof XWindow &&
+                !diild.isEvfntDisbblfd(xfv))
             {
-                return;
+                rfturn;
             }
         }
 
-        // Remember old component with mouse to have the opportunity to send it MOUSE_EXITED.
-        final Component compWithMouse = XAwtState.getComponentMouseEntered();
-        if (toplevel != null) {
-            if(!toplevel.isModalBlocked()){
-                if (xce.get_type() == XConstants.EnterNotify) {
-                    // Change XAwtState's component mouse entered to the up-to-date one before requesting
-                    // to update the cursor since XAwtState.getComponentMouseEntered() is used when the
-                    // cursor is updated (in XGlobalCursorManager.findHeavyweightUnderCursor()).
-                    XAwtState.setComponentMouseEntered(getEventSource());
-                    XGlobalCursorManager.nativeUpdateCursor(getEventSource());
-                } else { // LeaveNotify:
-                    XAwtState.setComponentMouseEntered(null);
+        // Rfmfmbfr old domponfnt witi mousf to ibvf tif opportunity to sfnd it MOUSE_EXITED.
+        finbl Componfnt dompWitiMousf = XAwtStbtf.gftComponfntMousfEntfrfd();
+        if (toplfvfl != null) {
+            if(!toplfvfl.isModblBlodkfd()){
+                if (xdf.gft_typf() == XConstbnts.EntfrNotify) {
+                    // Cibngf XAwtStbtf's domponfnt mousf fntfrfd to tif up-to-dbtf onf bfforf rfqufsting
+                    // to updbtf tif dursor sindf XAwtStbtf.gftComponfntMousfEntfrfd() is usfd wifn tif
+                    // dursor is updbtfd (in XGlobblCursorMbnbgfr.findHfbvywfigitUndfrCursor()).
+                    XAwtStbtf.sftComponfntMousfEntfrfd(gftEvfntSourdf());
+                    XGlobblCursorMbnbgfr.nbtivfUpdbtfCursor(gftEvfntSourdf());
+                } flsf { // LfbvfNotify:
+                    XAwtStbtf.sftComponfntMousfEntfrfd(null);
                 }
-            } else {
-                ((XComponentPeer) AWTAccessor.getComponentAccessor().getPeer(target))
-                    .pSetCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+            } flsf {
+                ((XComponfntPffr) AWTAddfssor.gftComponfntAddfssor().gftPffr(tbrgft))
+                    .pSftCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
             }
         }
 
-        if (isEventDisabled(xev)) {
-            return;
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
         }
 
-        long jWhen = XToolkit.nowMillisUTC_offset(xce.get_time());
-        int modifiers = getModifiers(xce.get_state(),0,0);
-        int clickCount = 0;
-        boolean popupTrigger = false;
-        int x = xce.get_x();
-        int y = xce.get_y();
-        if (xce.get_window() != window) {
-            Point localXY = toLocal(xce.get_x_root(), xce.get_y_root());
-            x = localXY.x;
-            y = localXY.y;
+        long jWifn = XToolkit.nowMillisUTC_offsft(xdf.gft_timf());
+        int modififrs = gftModififrs(xdf.gft_stbtf(),0,0);
+        int dlidkCount = 0;
+        boolfbn popupTriggfr = fblsf;
+        int x = xdf.gft_x();
+        int y = xdf.gft_y();
+        if (xdf.gft_window() != window) {
+            Point lodblXY = toLodbl(xdf.gft_x_root(), xdf.gft_y_root());
+            x = lodblXY.x;
+            y = lodblXY.y;
         }
 
-        // This code tracks boundary crossing and ensures MOUSE_ENTER/EXIT
-        // are posted in alternate pairs
-        if (compWithMouse != null) {
-            MouseEvent me = new MouseEvent(compWithMouse,
-                MouseEvent.MOUSE_EXITED, jWhen, modifiers, xce.get_x(),
-                xce.get_y(), xce.get_x_root(), xce.get_y_root(), clickCount, popupTrigger,
-                MouseEvent.NOBUTTON);
-            postEventToEventQueue(me);
-            eventLog.finest("Clearing last window ref");
-            lastWindowRef = null;
+        // Tiis dodf trbdks boundbry drossing bnd fnsurfs MOUSE_ENTER/EXIT
+        // brf postfd in bltfrnbtf pbirs
+        if (dompWitiMousf != null) {
+            MousfEvfnt mf = nfw MousfEvfnt(dompWitiMousf,
+                MousfEvfnt.MOUSE_EXITED, jWifn, modififrs, xdf.gft_x(),
+                xdf.gft_y(), xdf.gft_x_root(), xdf.gft_y_root(), dlidkCount, popupTriggfr,
+                MousfEvfnt.NOBUTTON);
+            postEvfntToEvfntQufuf(mf);
+            fvfntLog.finfst("Clfbring lbst window rff");
+            lbstWindowRff = null;
         }
-        if (xce.get_type() == XConstants.EnterNotify) {
-            MouseEvent me = new MouseEvent(getEventSource(), MouseEvent.MOUSE_ENTERED,
-                jWhen, modifiers, xce.get_x(), xce.get_y(), xce.get_x_root(), xce.get_y_root(), clickCount,
-                popupTrigger, MouseEvent.NOBUTTON);
-            postEventToEventQueue(me);
+        if (xdf.gft_typf() == XConstbnts.EntfrNotify) {
+            MousfEvfnt mf = nfw MousfEvfnt(gftEvfntSourdf(), MousfEvfnt.MOUSE_ENTERED,
+                jWifn, modififrs, xdf.gft_x(), xdf.gft_y(), xdf.gft_x_root(), xdf.gft_y_root(), dlidkCount,
+                popupTriggfr, MousfEvfnt.NOBUTTON);
+            postEvfntToEvfntQufuf(mf);
         }
     }
 
-    public void doLayout(int x, int y, int width, int height) {}
+    publid void doLbyout(int x, int y, int widti, int ifigit) {}
 
-    public void handleConfigureNotifyEvent(XEvent xev) {
-        Rectangle oldBounds = getBounds();
+    publid void ibndlfConfigurfNotifyEvfnt(XEvfnt xfv) {
+        Rfdtbnglf oldBounds = gftBounds();
 
-        super.handleConfigureNotifyEvent(xev);
-        if (insLog.isLoggable(PlatformLogger.Level.FINER)) {
-            insLog.finer("Configure, {0}, event disabled: {1}",
-                     xev.get_xconfigure(), isEventDisabled(xev));
+        supfr.ibndlfConfigurfNotifyEvfnt(xfv);
+        if (insLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+            insLog.finfr("Configurf, {0}, fvfnt disbblfd: {1}",
+                     xfv.gft_xdonfigurf(), isEvfntDisbblfd(xfv));
         }
-        if (isEventDisabled(xev)) {
-            return;
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
         }
 
-//  if ( Check if it's a resize, a move, or a stacking order change )
+//  if ( Cifdk if it's b rfsizf, b movf, or b stbdking ordfr dibngf )
 //  {
-        Rectangle bounds = getBounds();
-        if (!bounds.getSize().equals(oldBounds.getSize())) {
-            postEventToEventQueue(new ComponentEvent(getEventSource(), ComponentEvent.COMPONENT_RESIZED));
+        Rfdtbnglf bounds = gftBounds();
+        if (!bounds.gftSizf().fqubls(oldBounds.gftSizf())) {
+            postEvfntToEvfntQufuf(nfw ComponfntEvfnt(gftEvfntSourdf(), ComponfntEvfnt.COMPONENT_RESIZED));
         }
-        if (!bounds.getLocation().equals(oldBounds.getLocation())) {
-            postEventToEventQueue(new ComponentEvent(getEventSource(), ComponentEvent.COMPONENT_MOVED));
+        if (!bounds.gftLodbtion().fqubls(oldBounds.gftLodbtion())) {
+            postEvfntToEvfntQufuf(nfw ComponfntEvfnt(gftEvfntSourdf(), ComponfntEvfnt.COMPONENT_MOVED));
         }
 //  }
     }
 
-    public void handleMapNotifyEvent(XEvent xev) {
-        super.handleMapNotifyEvent(xev);
-        if (log.isLoggable(PlatformLogger.Level.FINE)) {
-            log.fine("Mapped {0}", this);
+    publid void ibndlfMbpNotifyEvfnt(XEvfnt xfv) {
+        supfr.ibndlfMbpNotifyEvfnt(xfv);
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            log.finf("Mbppfd {0}", tiis);
         }
-        if (isEventDisabled(xev)) {
-            return;
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
         }
-        ComponentEvent ce;
+        ComponfntEvfnt df;
 
-        ce = new ComponentEvent(getEventSource(), ComponentEvent.COMPONENT_SHOWN);
-        postEventToEventQueue(ce);
+        df = nfw ComponfntEvfnt(gftEvfntSourdf(), ComponfntEvfnt.COMPONENT_SHOWN);
+        postEvfntToEvfntQufuf(df);
     }
 
-    public void handleUnmapNotifyEvent(XEvent xev) {
-        super.handleUnmapNotifyEvent(xev);
-        if (isEventDisabled(xev)) {
-            return;
+    publid void ibndlfUnmbpNotifyEvfnt(XEvfnt xfv) {
+        supfr.ibndlfUnmbpNotifyEvfnt(xfv);
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
         }
-        ComponentEvent ce;
+        ComponfntEvfnt df;
 
-        ce = new ComponentEvent(target, ComponentEvent.COMPONENT_HIDDEN);
-        postEventToEventQueue(ce);
+        df = nfw ComponfntEvfnt(tbrgft, ComponfntEvfnt.COMPONENT_HIDDEN);
+        postEvfntToEvfntQufuf(df);
     }
 
-    private void dumpKeysymArray(XKeyEvent ev) {
-        if (keyEventLog.isLoggable(PlatformLogger.Level.FINE)) {
-            keyEventLog.fine("  "+Long.toHexString(XlibWrapper.XKeycodeToKeysym(XToolkit.getDisplay(), ev.get_keycode(), 0))+
-                             "\n        "+Long.toHexString(XlibWrapper.XKeycodeToKeysym(XToolkit.getDisplay(), ev.get_keycode(), 1))+
-                             "\n        "+Long.toHexString(XlibWrapper.XKeycodeToKeysym(XToolkit.getDisplay(), ev.get_keycode(), 2))+
-                             "\n        "+Long.toHexString(XlibWrapper.XKeycodeToKeysym(XToolkit.getDisplay(), ev.get_keycode(), 3)));
+    privbtf void dumpKfysymArrby(XKfyEvfnt fv) {
+        if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            kfyEvfntLog.finf("  "+Long.toHfxString(XlibWrbppfr.XKfydodfToKfysym(XToolkit.gftDisplby(), fv.gft_kfydodf(), 0))+
+                             "\n        "+Long.toHfxString(XlibWrbppfr.XKfydodfToKfysym(XToolkit.gftDisplby(), fv.gft_kfydodf(), 1))+
+                             "\n        "+Long.toHfxString(XlibWrbppfr.XKfydodfToKfysym(XToolkit.gftDisplby(), fv.gft_kfydodf(), 2))+
+                             "\n        "+Long.toHfxString(XlibWrbppfr.XKfydodfToKfysym(XToolkit.gftDisplby(), fv.gft_kfydodf(), 3)));
         }
     }
     /**
-       Return unicode character or 0 if no correspondent character found.
-       Parameter is a keysym basically from keysymdef.h
-       XXX: how about vendor keys? Is there some with Unicode value and not in the list?
+       Rfturn unidodf dibrbdtfr or 0 if no dorrfspondfnt dibrbdtfr found.
+       Pbrbmftfr is b kfysym bbsidblly from kfysymdff.i
+       XXX: iow bbout vfndor kfys? Is tifrf somf witi Unidodf vbluf bnd not in tif list?
     */
-    int keysymToUnicode( long keysym, int state ) {
-        return XKeysym.convertKeysym( keysym, state );
+    int kfysymToUnidodf( long kfysym, int stbtf ) {
+        rfturn XKfysym.donvfrtKfysym( kfysym, stbtf );
     }
-    int keyEventType2Id( int xEventType ) {
-        return xEventType == XConstants.KeyPress ? java.awt.event.KeyEvent.KEY_PRESSED :
-               xEventType == XConstants.KeyRelease ? java.awt.event.KeyEvent.KEY_RELEASED : 0;
+    int kfyEvfntTypf2Id( int xEvfntTypf ) {
+        rfturn xEvfntTypf == XConstbnts.KfyPrfss ? jbvb.bwt.fvfnt.KfyEvfnt.KEY_PRESSED :
+               xEvfntTypf == XConstbnts.KfyRflfbsf ? jbvb.bwt.fvfnt.KfyEvfnt.KEY_RELEASED : 0;
     }
-    static private long xkeycodeToKeysym(XKeyEvent ev) {
-        return XKeysym.getKeysym( ev );
+    stbtid privbtf long xkfydodfToKfysym(XKfyEvfnt fv) {
+        rfturn XKfysym.gftKfysym( fv );
     }
-    private long xkeycodeToPrimaryKeysym(XKeyEvent ev) {
-        return XKeysym.xkeycode2primary_keysym( ev );
+    privbtf long xkfydodfToPrimbryKfysym(XKfyEvfnt fv) {
+        rfturn XKfysym.xkfydodf2primbry_kfysym( fv );
     }
-    static private int primaryUnicode2JavaKeycode(int uni) {
-        return (uni > 0? sun.awt.ExtendedKeyCodes.getExtendedKeyCodeForChar(uni) : 0);
-        //return (uni > 0? uni + 0x01000000 : 0);
+    stbtid privbtf int primbryUnidodf2JbvbKfydodf(int uni) {
+        rfturn (uni > 0? sun.bwt.ExtfndfdKfyCodfs.gftExtfndfdKfyCodfForCibr(uni) : 0);
+        //rfturn (uni > 0? uni + 0x01000000 : 0);
     }
-    void logIncomingKeyEvent(XKeyEvent ev) {
-        if (keyEventLog.isLoggable(PlatformLogger.Level.FINE)) {
-            keyEventLog.fine("--XWindow.java:handleKeyEvent:"+ev);
+    void logIndomingKfyEvfnt(XKfyEvfnt fv) {
+        if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            kfyEvfntLog.finf("--XWindow.jbvb:ibndlfKfyEvfnt:"+fv);
         }
-        dumpKeysymArray(ev);
-        if (keyEventLog.isLoggable(PlatformLogger.Level.FINE)) {
-            keyEventLog.fine("XXXXXXXXXXXXXX javakeycode will be most probably:0x"+ Integer.toHexString(XKeysym.getJavaKeycodeOnly(ev)));
+        dumpKfysymArrby(fv);
+        if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            kfyEvfntLog.finf("XXXXXXXXXXXXXX jbvbkfydodf will bf most probbbly:0x"+ Intfgfr.toHfxString(XKfysym.gftJbvbKfydodfOnly(fv)));
         }
     }
-    public void handleKeyPress(XEvent xev) {
-        super.handleKeyPress(xev);
-        XKeyEvent ev = xev.get_xkey();
-        if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
-            eventLog.fine(ev.toString());
+    publid void ibndlfKfyPrfss(XEvfnt xfv) {
+        supfr.ibndlfKfyPrfss(xfv);
+        XKfyEvfnt fv = xfv.gft_xkfy();
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fvfntLog.finf(fv.toString());
         }
-        if (isEventDisabled(xev)) {
-            return;
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
         }
-        handleKeyPress(ev);
+        ibndlfKfyPrfss(fv);
     }
-    // called directly from this package, unlike handleKeyRelease.
-    // un-final it if you need to override it in a subclass.
-    final void handleKeyPress(XKeyEvent ev) {
-        long keysym[] = new long[2];
-        int unicodeKey = 0;
-        keysym[0] = XConstants.NoSymbol;
+    // dbllfd dirfdtly from tiis pbdkbgf, unlikf ibndlfKfyRflfbsf.
+    // un-finbl it if you nffd to ovfrridf it in b subdlbss.
+    finbl void ibndlfKfyPrfss(XKfyEvfnt fv) {
+        long kfysym[] = nfw long[2];
+        int unidodfKfy = 0;
+        kfysym[0] = XConstbnts.NoSymbol;
 
-        if (keyEventLog.isLoggable(PlatformLogger.Level.FINE)) {
-            logIncomingKeyEvent( ev );
+        if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            logIndomingKfyEvfnt( fv );
         }
-        if ( //TODO check if there's an active input method instance
-             // without calling a native method. Is it necessary though?
-            haveCurrentX11InputMethodInstance()) {
-            if (x11inputMethodLookupString(ev.pData, keysym)) {
-                if (keyEventLog.isLoggable(PlatformLogger.Level.FINE)) {
-                    keyEventLog.fine("--XWindow.java XIM did process event; return; dec keysym processed:"+(keysym[0])+
-                                   "; hex keysym processed:"+Long.toHexString(keysym[0])
+        if ( //TODO difdk if tifrf's bn bdtivf input mftiod instbndf
+             // witiout dblling b nbtivf mftiod. Is it nfdfssbry tiougi?
+            ibvfCurrfntX11InputMftiodInstbndf()) {
+            if (x11inputMftiodLookupString(fv.pDbtb, kfysym)) {
+                if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    kfyEvfntLog.finf("--XWindow.jbvb XIM did prodfss fvfnt; rfturn; dfd kfysym prodfssfd:"+(kfysym[0])+
+                                   "; ifx kfysym prodfssfd:"+Long.toHfxString(kfysym[0])
                                    );
                 }
-                return;
-            }else {
-                unicodeKey = keysymToUnicode( keysym[0], ev.get_state() );
-                if (keyEventLog.isLoggable(PlatformLogger.Level.FINE)) {
-                    keyEventLog.fine("--XWindow.java XIM did NOT process event, hex keysym:"+Long.toHexString(keysym[0])+"\n"+
-                                     "                                         unicode key:"+Integer.toHexString(unicodeKey));
+                rfturn;
+            }flsf {
+                unidodfKfy = kfysymToUnidodf( kfysym[0], fv.gft_stbtf() );
+                if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    kfyEvfntLog.finf("--XWindow.jbvb XIM did NOT prodfss fvfnt, ifx kfysym:"+Long.toHfxString(kfysym[0])+"\n"+
+                                     "                                         unidodf kfy:"+Intfgfr.toHfxString(unidodfKfy));
                 }
             }
-        }else  {
-            // No input method instance found. For example, there's a Java Input Method.
-            // Produce do-it-yourself keysym and perhaps unicode character.
-            keysym[0] = xkeycodeToKeysym(ev);
-            unicodeKey = keysymToUnicode( keysym[0], ev.get_state() );
-            if (keyEventLog.isLoggable(PlatformLogger.Level.FINE)) {
-                keyEventLog.fine("--XWindow.java XIM is absent;             hex keysym:"+Long.toHexString(keysym[0])+"\n"+
-                                 "                                         unicode key:"+Integer.toHexString(unicodeKey));
+        }flsf  {
+            // No input mftiod instbndf found. For fxbmplf, tifrf's b Jbvb Input Mftiod.
+            // Produdf do-it-yoursflf kfysym bnd pfribps unidodf dibrbdtfr.
+            kfysym[0] = xkfydodfToKfysym(fv);
+            unidodfKfy = kfysymToUnidodf( kfysym[0], fv.gft_stbtf() );
+            if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                kfyEvfntLog.finf("--XWindow.jbvb XIM is bbsfnt;             ifx kfysym:"+Long.toHfxString(kfysym[0])+"\n"+
+                                 "                                         unidodf kfy:"+Intfgfr.toHfxString(unidodfKfy));
             }
         }
-        // Keysym should be converted to Unicode, if possible and necessary,
-        // and Java KeyEvent keycode should be calculated.
-        // For press we should post pressed & typed Java events.
+        // Kfysym siould bf donvfrtfd to Unidodf, if possiblf bnd nfdfssbry,
+        // bnd Jbvb KfyEvfnt kfydodf siould bf dbldulbtfd.
+        // For prfss wf siould post prfssfd & typfd Jbvb fvfnts.
         //
-        // Press event might be not processed to this time because
-        //  (1) either XIM could not handle it or
-        //  (2) it was Latin 1:1 mapping.
+        // Prfss fvfnt migit bf not prodfssfd to tiis timf bfdbusf
+        //  (1) fitifr XIM dould not ibndlf it or
+        //  (2) it wbs Lbtin 1:1 mbpping.
         //
-        // Preserve modifiers to get Java key code for dead keys
-        boolean isDeadKey = isDeadKey(keysym[0]);
-        XKeysym.Keysym2JavaKeycode jkc = isDeadKey ? XKeysym.getJavaKeycode(keysym[0])
-                : XKeysym.getJavaKeycode(ev);
-        if( jkc == null ) {
-            jkc = new XKeysym.Keysym2JavaKeycode(java.awt.event.KeyEvent.VK_UNDEFINED, java.awt.event.KeyEvent.KEY_LOCATION_UNKNOWN);
+        // Prfsfrvf modififrs to gft Jbvb kfy dodf for dfbd kfys
+        boolfbn isDfbdKfy = isDfbdKfy(kfysym[0]);
+        XKfysym.Kfysym2JbvbKfydodf jkd = isDfbdKfy ? XKfysym.gftJbvbKfydodf(kfysym[0])
+                : XKfysym.gftJbvbKfydodf(fv);
+        if( jkd == null ) {
+            jkd = nfw XKfysym.Kfysym2JbvbKfydodf(jbvb.bwt.fvfnt.KfyEvfnt.VK_UNDEFINED, jbvb.bwt.fvfnt.KfyEvfnt.KEY_LOCATION_UNKNOWN);
         }
 
-        // Take the first keysym from a keysym array associated with the XKeyevent
-        // and convert it to Unicode. Then, even if a Java keycode for the keystroke
-        // is undefined, we still have a guess of what has been engraved on a keytop.
-        int unicodeFromPrimaryKeysym = keysymToUnicode( xkeycodeToPrimaryKeysym(ev) ,0);
+        // Tbkf tif first kfysym from b kfysym brrby bssodibtfd witi tif XKfyfvfnt
+        // bnd donvfrt it to Unidodf. Tifn, fvfn if b Jbvb kfydodf for tif kfystrokf
+        // is undffinfd, wf still ibvf b gufss of wibt ibs bffn fngrbvfd on b kfytop.
+        int unidodfFromPrimbryKfysym = kfysymToUnidodf( xkfydodfToPrimbryKfysym(fv) ,0);
 
-        if (keyEventLog.isLoggable(PlatformLogger.Level.FINE)) {
-            keyEventLog.fine(">>>Fire Event:"+
-               (ev.get_type() == XConstants.KeyPress ? "KEY_PRESSED; " : "KEY_RELEASED; ")+
-               "jkeycode:decimal="+jkc.getJavaKeycode()+
-               ", hex=0x"+Integer.toHexString(jkc.getJavaKeycode())+"; "+
-               " legacy jkeycode: decimal="+XKeysym.getLegacyJavaKeycodeOnly(ev)+
-               ", hex=0x"+Integer.toHexString(XKeysym.getLegacyJavaKeycodeOnly(ev))+"; "
+        if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            kfyEvfntLog.finf(">>>Firf Evfnt:"+
+               (fv.gft_typf() == XConstbnts.KfyPrfss ? "KEY_PRESSED; " : "KEY_RELEASED; ")+
+               "jkfydodf:dfdimbl="+jkd.gftJbvbKfydodf()+
+               ", ifx=0x"+Intfgfr.toHfxString(jkd.gftJbvbKfydodf())+"; "+
+               " lfgbdy jkfydodf: dfdimbl="+XKfysym.gftLfgbdyJbvbKfydodfOnly(fv)+
+               ", ifx=0x"+Intfgfr.toHfxString(XKfysym.gftLfgbdyJbvbKfydodfOnly(fv))+"; "
             );
         }
 
-        int jkeyToReturn = XKeysym.getLegacyJavaKeycodeOnly(ev); // someway backward compatible
-        int jkeyExtended = jkc.getJavaKeycode() == java.awt.event.KeyEvent.VK_UNDEFINED ?
-                           primaryUnicode2JavaKeycode( unicodeFromPrimaryKeysym ) :
-                             jkc.getJavaKeycode();
-        postKeyEvent( java.awt.event.KeyEvent.KEY_PRESSED,
-                          ev.get_time(),
-                          isDeadKey ? jkeyExtended : jkeyToReturn,
-                          (unicodeKey == 0 ? java.awt.event.KeyEvent.CHAR_UNDEFINED : unicodeKey),
-                          jkc.getKeyLocation(),
-                          ev.get_state(),ev.getPData(), XKeyEvent.getSize(), (long)(ev.get_keycode()),
-                          unicodeFromPrimaryKeysym,
-                          jkeyExtended);
+        int jkfyToRfturn = XKfysym.gftLfgbdyJbvbKfydodfOnly(fv); // somfwby bbdkwbrd dompbtiblf
+        int jkfyExtfndfd = jkd.gftJbvbKfydodf() == jbvb.bwt.fvfnt.KfyEvfnt.VK_UNDEFINED ?
+                           primbryUnidodf2JbvbKfydodf( unidodfFromPrimbryKfysym ) :
+                             jkd.gftJbvbKfydodf();
+        postKfyEvfnt( jbvb.bwt.fvfnt.KfyEvfnt.KEY_PRESSED,
+                          fv.gft_timf(),
+                          isDfbdKfy ? jkfyExtfndfd : jkfyToRfturn,
+                          (unidodfKfy == 0 ? jbvb.bwt.fvfnt.KfyEvfnt.CHAR_UNDEFINED : unidodfKfy),
+                          jkd.gftKfyLodbtion(),
+                          fv.gft_stbtf(),fv.gftPDbtb(), XKfyEvfnt.gftSizf(), (long)(fv.gft_kfydodf()),
+                          unidodfFromPrimbryKfysym,
+                          jkfyExtfndfd);
 
 
-        if (unicodeKey > 0 && !isDeadKey) {
-                if (keyEventLog.isLoggable(PlatformLogger.Level.FINE)) {
-                    keyEventLog.fine("fire _TYPED on "+unicodeKey);
+        if (unidodfKfy > 0 && !isDfbdKfy) {
+                if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                    kfyEvfntLog.finf("firf _TYPED on "+unidodfKfy);
                 }
-                postKeyEvent( java.awt.event.KeyEvent.KEY_TYPED,
-                              ev.get_time(),
-                              java.awt.event.KeyEvent.VK_UNDEFINED,
-                              unicodeKey,
-                              java.awt.event.KeyEvent.KEY_LOCATION_UNKNOWN,
-                              ev.get_state(),ev.getPData(), XKeyEvent.getSize(), (long)0,
-                              unicodeFromPrimaryKeysym,
-                              java.awt.event.KeyEvent.VK_UNDEFINED);
+                postKfyEvfnt( jbvb.bwt.fvfnt.KfyEvfnt.KEY_TYPED,
+                              fv.gft_timf(),
+                              jbvb.bwt.fvfnt.KfyEvfnt.VK_UNDEFINED,
+                              unidodfKfy,
+                              jbvb.bwt.fvfnt.KfyEvfnt.KEY_LOCATION_UNKNOWN,
+                              fv.gft_stbtf(),fv.gftPDbtb(), XKfyEvfnt.gftSizf(), (long)0,
+                              unidodfFromPrimbryKfysym,
+                              jbvb.bwt.fvfnt.KfyEvfnt.VK_UNDEFINED);
 
         }
 
 
     }
 
-    public void handleKeyRelease(XEvent xev) {
-        super.handleKeyRelease(xev);
-        XKeyEvent ev = xev.get_xkey();
-        if (eventLog.isLoggable(PlatformLogger.Level.FINE)) {
-            eventLog.fine(ev.toString());
+    publid void ibndlfKfyRflfbsf(XEvfnt xfv) {
+        supfr.ibndlfKfyRflfbsf(xfv);
+        XKfyEvfnt fv = xfv.gft_xkfy();
+        if (fvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            fvfntLog.finf(fv.toString());
         }
-        if (isEventDisabled(xev)) {
-            return;
+        if (isEvfntDisbblfd(xfv)) {
+            rfturn;
         }
-        handleKeyRelease(ev);
+        ibndlfKfyRflfbsf(fv);
     }
-    // un-private it if you need to call it from elsewhere
-    private void handleKeyRelease(XKeyEvent ev) {
-        int unicodeKey = 0;
+    // un-privbtf it if you nffd to dbll it from flsfwifrf
+    privbtf void ibndlfKfyRflfbsf(XKfyEvfnt fv) {
+        int unidodfKfy = 0;
 
-        if (keyEventLog.isLoggable(PlatformLogger.Level.FINE)) {
-            logIncomingKeyEvent( ev );
+        if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            logIndomingKfyEvfnt( fv );
         }
-        // Keysym should be converted to Unicode, if possible and necessary,
-        // and Java KeyEvent keycode should be calculated.
-        // For release we should post released event.
+        // Kfysym siould bf donvfrtfd to Unidodf, if possiblf bnd nfdfssbry,
+        // bnd Jbvb KfyEvfnt kfydodf siould bf dbldulbtfd.
+        // For rflfbsf wf siould post rflfbsfd fvfnt.
         //
-        // Preserve modifiers to get Java key code for dead keys
-        long keysym = xkeycodeToKeysym(ev);
-        boolean isDeadKey = isDeadKey(keysym);
-        XKeysym.Keysym2JavaKeycode jkc = isDeadKey ? XKeysym.getJavaKeycode(keysym)
-                : XKeysym.getJavaKeycode(ev);
-        if( jkc == null ) {
-            jkc = new XKeysym.Keysym2JavaKeycode(java.awt.event.KeyEvent.VK_UNDEFINED, java.awt.event.KeyEvent.KEY_LOCATION_UNKNOWN);
+        // Prfsfrvf modififrs to gft Jbvb kfy dodf for dfbd kfys
+        long kfysym = xkfydodfToKfysym(fv);
+        boolfbn isDfbdKfy = isDfbdKfy(kfysym);
+        XKfysym.Kfysym2JbvbKfydodf jkd = isDfbdKfy ? XKfysym.gftJbvbKfydodf(kfysym)
+                : XKfysym.gftJbvbKfydodf(fv);
+        if( jkd == null ) {
+            jkd = nfw XKfysym.Kfysym2JbvbKfydodf(jbvb.bwt.fvfnt.KfyEvfnt.VK_UNDEFINED, jbvb.bwt.fvfnt.KfyEvfnt.KEY_LOCATION_UNKNOWN);
         }
-        if (keyEventLog.isLoggable(PlatformLogger.Level.FINE)) {
-            keyEventLog.fine(">>>Fire Event:"+
-               (ev.get_type() == XConstants.KeyPress ? "KEY_PRESSED; " : "KEY_RELEASED; ")+
-               "jkeycode:decimal="+jkc.getJavaKeycode()+
-               ", hex=0x"+Integer.toHexString(jkc.getJavaKeycode())+"; "+
-               " legacy jkeycode: decimal="+XKeysym.getLegacyJavaKeycodeOnly(ev)+
-               ", hex=0x"+Integer.toHexString(XKeysym.getLegacyJavaKeycodeOnly(ev))+"; "
+        if (kfyEvfntLog.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+            kfyEvfntLog.finf(">>>Firf Evfnt:"+
+               (fv.gft_typf() == XConstbnts.KfyPrfss ? "KEY_PRESSED; " : "KEY_RELEASED; ")+
+               "jkfydodf:dfdimbl="+jkd.gftJbvbKfydodf()+
+               ", ifx=0x"+Intfgfr.toHfxString(jkd.gftJbvbKfydodf())+"; "+
+               " lfgbdy jkfydodf: dfdimbl="+XKfysym.gftLfgbdyJbvbKfydodfOnly(fv)+
+               ", ifx=0x"+Intfgfr.toHfxString(XKfysym.gftLfgbdyJbvbKfydodfOnly(fv))+"; "
             );
         }
-        // We obtain keysym from IM and derive unicodeKey from it for KeyPress only.
-        // We used to cache that value and retrieve it on KeyRelease,
-        // but in case for example of a dead key+vowel pair, a vowel after a deadkey
-        // might never be cached before.
-        // Also, switching between keyboard layouts, we might cache a wrong letter.
-        // That's why we use the same procedure as if there was no IM instance: do-it-yourself unicode.
-        unicodeKey = keysymToUnicode( xkeycodeToKeysym(ev), ev.get_state() );
+        // Wf obtbin kfysym from IM bnd dfrivf unidodfKfy from it for KfyPrfss only.
+        // Wf usfd to dbdif tibt vbluf bnd rftrifvf it on KfyRflfbsf,
+        // but in dbsf for fxbmplf of b dfbd kfy+vowfl pbir, b vowfl bftfr b dfbdkfy
+        // migit nfvfr bf dbdifd bfforf.
+        // Also, switdiing bftwffn kfybobrd lbyouts, wf migit dbdif b wrong lfttfr.
+        // Tibt's wiy wf usf tif sbmf prodfdurf bs if tifrf wbs no IM instbndf: do-it-yoursflf unidodf.
+        unidodfKfy = kfysymToUnidodf( xkfydodfToKfysym(fv), fv.gft_stbtf() );
 
-        // Take a first keysym from a keysym array associated with the XKeyevent
-        // and convert it to Unicode. Then, even if Java keycode for the keystroke
-        // is undefined, we still will have a guess of what was engraved on a keytop.
-        int unicodeFromPrimaryKeysym = keysymToUnicode( xkeycodeToPrimaryKeysym(ev) ,0);
+        // Tbkf b first kfysym from b kfysym brrby bssodibtfd witi tif XKfyfvfnt
+        // bnd donvfrt it to Unidodf. Tifn, fvfn if Jbvb kfydodf for tif kfystrokf
+        // is undffinfd, wf still will ibvf b gufss of wibt wbs fngrbvfd on b kfytop.
+        int unidodfFromPrimbryKfysym = kfysymToUnidodf( xkfydodfToPrimbryKfysym(fv) ,0);
 
-        int jkeyToReturn = XKeysym.getLegacyJavaKeycodeOnly(ev); // someway backward compatible
-        int jkeyExtended = jkc.getJavaKeycode() == java.awt.event.KeyEvent.VK_UNDEFINED ?
-                           primaryUnicode2JavaKeycode( unicodeFromPrimaryKeysym ) :
-                             jkc.getJavaKeycode();
-        postKeyEvent(  java.awt.event.KeyEvent.KEY_RELEASED,
-                          ev.get_time(),
-                          isDeadKey ? jkeyExtended : jkeyToReturn,
-                          (unicodeKey == 0 ? java.awt.event.KeyEvent.CHAR_UNDEFINED : unicodeKey),
-                          jkc.getKeyLocation(),
-                          ev.get_state(),ev.getPData(), XKeyEvent.getSize(), (long)(ev.get_keycode()),
-                          unicodeFromPrimaryKeysym,
-                          jkeyExtended);
+        int jkfyToRfturn = XKfysym.gftLfgbdyJbvbKfydodfOnly(fv); // somfwby bbdkwbrd dompbtiblf
+        int jkfyExtfndfd = jkd.gftJbvbKfydodf() == jbvb.bwt.fvfnt.KfyEvfnt.VK_UNDEFINED ?
+                           primbryUnidodf2JbvbKfydodf( unidodfFromPrimbryKfysym ) :
+                             jkd.gftJbvbKfydodf();
+        postKfyEvfnt(  jbvb.bwt.fvfnt.KfyEvfnt.KEY_RELEASED,
+                          fv.gft_timf(),
+                          isDfbdKfy ? jkfyExtfndfd : jkfyToRfturn,
+                          (unidodfKfy == 0 ? jbvb.bwt.fvfnt.KfyEvfnt.CHAR_UNDEFINED : unidodfKfy),
+                          jkd.gftKfyLodbtion(),
+                          fv.gft_stbtf(),fv.gftPDbtb(), XKfyEvfnt.gftSizf(), (long)(fv.gft_kfydodf()),
+                          unidodfFromPrimbryKfysym,
+                          jkfyExtfndfd);
 
 
     }
 
 
-    private boolean isDeadKey(long keysym){
-        return XKeySymConstants.XK_dead_grave <= keysym && keysym <= XKeySymConstants.XK_dead_semivoiced_sound;
+    privbtf boolfbn isDfbdKfy(long kfysym){
+        rfturn XKfySymConstbnts.XK_dfbd_grbvf <= kfysym && kfysym <= XKfySymConstbnts.XK_dfbd_sfmivoidfd_sound;
     }
 
     /*
-     * XmNiconic and Map/UnmapNotify (that XmNiconic relies on) are
-     * unreliable, since mapping changes can happen for a virtual desktop
-     * switch or MacOS style shading that became quite popular under X as
-     * well.  Yes, it probably should not be this way, as it violates
-     * ICCCM, but reality is that quite a lot of window managers abuse
-     * mapping state.
+     * XmNidonid bnd Mbp/UnmbpNotify (tibt XmNidonid rflifs on) brf
+     * unrflibblf, sindf mbpping dibngfs dbn ibppfn for b virtubl dfsktop
+     * switdi or MbdOS stylf sibding tibt bfdbmf quitf populbr undfr X bs
+     * wfll.  Yfs, it probbbly siould not bf tiis wby, bs it violbtfs
+     * ICCCM, but rfblity is tibt quitf b lot of window mbnbgfrs bbusf
+     * mbpping stbtf.
      */
-    int getWMState() {
-        if (stateChanged) {
-            stateChanged = false;
-            WindowPropertyGetter getter =
-                new WindowPropertyGetter(window, XWM.XA_WM_STATE, 0, 1, false,
+    int gftWMStbtf() {
+        if (stbtfCibngfd) {
+            stbtfCibngfd = fblsf;
+            WindowPropfrtyGfttfr gfttfr =
+                nfw WindowPropfrtyGfttfr(window, XWM.XA_WM_STATE, 0, 1, fblsf,
                                          XWM.XA_WM_STATE);
             try {
-                int status = getter.execute();
-                if (status != XConstants.Success || getter.getData() == 0) {
-                    return savedState = XUtilConstants.WithdrawnState;
+                int stbtus = gfttfr.fxfdutf();
+                if (stbtus != XConstbnts.Suddfss || gfttfr.gftDbtb() == 0) {
+                    rfturn sbvfdStbtf = XUtilConstbnts.WitidrbwnStbtf;
                 }
 
-                if (getter.getActualType() != XWM.XA_WM_STATE.getAtom() && getter.getActualFormat() != 32) {
-                    return savedState = XUtilConstants.WithdrawnState;
+                if (gfttfr.gftAdtublTypf() != XWM.XA_WM_STATE.gftAtom() && gfttfr.gftAdtublFormbt() != 32) {
+                    rfturn sbvfdStbtf = XUtilConstbnts.WitidrbwnStbtf;
                 }
-                savedState = (int)Native.getCard32(getter.getData());
-            } finally {
-                getter.dispose();
+                sbvfdStbtf = (int)Nbtivf.gftCbrd32(gfttfr.gftDbtb());
+            } finblly {
+                gfttfr.disposf();
             }
         }
-        return savedState;
+        rfturn sbvfdStbtf;
     }
 
     /**
-     * Override this methods to get notifications when top-level window state changes. The state is
-     * meant in terms of ICCCM: WithdrawnState, IconicState, NormalState
+     * Ovfrridf tiis mftiods to gft notifidbtions wifn top-lfvfl window stbtf dibngfs. Tif stbtf is
+     * mfbnt in tfrms of ICCCM: WitidrbwnStbtf, IdonidStbtf, NormblStbtf
      */
-    protected void stateChanged(long time, int oldState, int newState) {
+    protfdtfd void stbtfCibngfd(long timf, int oldStbtf, int nfwStbtf) {
     }
 
-    @Override
-    public void handlePropertyNotify(XEvent xev) {
-        super.handlePropertyNotify(xev);
-        XPropertyEvent ev = xev.get_xproperty();
-        if (ev.get_atom() == XWM.XA_WM_STATE.getAtom()) {
-            // State has changed, invalidate saved value
-            stateChanged = true;
-            stateChanged(ev.get_time(), savedState, getWMState());
+    @Ovfrridf
+    publid void ibndlfPropfrtyNotify(XEvfnt xfv) {
+        supfr.ibndlfPropfrtyNotify(xfv);
+        XPropfrtyEvfnt fv = xfv.gft_xpropfrty();
+        if (fv.gft_btom() == XWM.XA_WM_STATE.gftAtom()) {
+            // Stbtf ibs dibngfd, invblidbtf sbvfd vbluf
+            stbtfCibngfd = truf;
+            stbtfCibngfd(fv.gft_timf(), sbvfdStbtf, gftWMStbtf());
         }
     }
 
-    public void reshape(Rectangle bounds) {
-        reshape(bounds.x, bounds.y, bounds.width, bounds.height);
+    publid void rfsibpf(Rfdtbnglf bounds) {
+        rfsibpf(bounds.x, bounds.y, bounds.widti, bounds.ifigit);
     }
 
-    public void reshape(int x, int y, int width, int height) {
-        if (width <= 0) {
-            width = 1;
+    publid void rfsibpf(int x, int y, int widti, int ifigit) {
+        if (widti <= 0) {
+            widti = 1;
         }
-        if (height <= 0) {
-            height = 1;
+        if (ifigit <= 0) {
+            ifigit = 1;
         }
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        xSetBounds(x, y, width, height);
-        // Fixed 6322593, 6304251, 6315137:
-        // XWindow's SurfaceData should be invalidated and recreated as part
-        // of the process of resizing the window
-        // see the evaluation of the bug 6304251 for more information
-        validateSurface();
-        layout();
+        tiis.x = x;
+        tiis.y = y;
+        tiis.widti = widti;
+        tiis.ifigit = ifigit;
+        xSftBounds(x, y, widti, ifigit);
+        // Fixfd 6322593, 6304251, 6315137:
+        // XWindow's SurfbdfDbtb siould bf invblidbtfd bnd rfdrfbtfd bs pbrt
+        // of tif prodfss of rfsizing tif window
+        // sff tif fvblubtion of tif bug 6304251 for morf informbtion
+        vblidbtfSurfbdf();
+        lbyout();
     }
 
-    public void layout() {}
+    publid void lbyout() {}
 
-    boolean isShowing() {
-        return visible;
+    boolfbn isSiowing() {
+        rfturn visiblf;
     }
 
-    boolean isResizable() {
-        return true;
+    boolfbn isRfsizbblf() {
+        rfturn truf;
     }
 
-    boolean isLocationByPlatform() {
-        return false;
+    boolfbn isLodbtionByPlbtform() {
+        rfturn fblsf;
     }
 
-    void updateSizeHints() {
-        updateSizeHints(x, y, width, height);
+    void updbtfSizfHints() {
+        updbtfSizfHints(x, y, widti, ifigit);
     }
 
-    void updateSizeHints(int x, int y, int width, int height) {
-        long flags = XUtilConstants.PSize | (isLocationByPlatform() ? 0 : (XUtilConstants.PPosition | XUtilConstants.USPosition));
-        if (!isResizable()) {
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("Window {0} is not resizable", this);
+    void updbtfSizfHints(int x, int y, int widti, int ifigit) {
+        long flbgs = XUtilConstbnts.PSizf | (isLodbtionByPlbtform() ? 0 : (XUtilConstbnts.PPosition | XUtilConstbnts.USPosition));
+        if (!isRfsizbblf()) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Window {0} is not rfsizbblf", tiis);
             }
-            flags |= XUtilConstants.PMinSize | XUtilConstants.PMaxSize;
-        } else {
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("Window {0} is resizable", this);
-            }
-        }
-        setSizeHints(flags, x, y, width, height);
-    }
-
-    void updateSizeHints(int x, int y) {
-        long flags = isLocationByPlatform() ? 0 : (XUtilConstants.PPosition | XUtilConstants.USPosition);
-        if (!isResizable()) {
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("Window {0} is not resizable", this);
-            }
-            flags |= XUtilConstants.PMinSize | XUtilConstants.PMaxSize | XUtilConstants.PSize;
-        } else {
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("Window {0} is resizable", this);
+            flbgs |= XUtilConstbnts.PMinSizf | XUtilConstbnts.PMbxSizf;
+        } flsf {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Window {0} is rfsizbblf", tiis);
             }
         }
-        setSizeHints(flags, x, y, width, height);
+        sftSizfHints(flbgs, x, y, widti, ifigit);
     }
 
-    void validateSurface() {
-        if ((width != oldWidth) || (height != oldHeight)) {
-            doValidateSurface();
+    void updbtfSizfHints(int x, int y) {
+        long flbgs = isLodbtionByPlbtform() ? 0 : (XUtilConstbnts.PPosition | XUtilConstbnts.USPosition);
+        if (!isRfsizbblf()) {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Window {0} is not rfsizbblf", tiis);
+            }
+            flbgs |= XUtilConstbnts.PMinSizf | XUtilConstbnts.PMbxSizf | XUtilConstbnts.PSizf;
+        } flsf {
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Window {0} is rfsizbblf", tiis);
+            }
+        }
+        sftSizfHints(flbgs, x, y, widti, ifigit);
+    }
 
-            oldWidth = width;
-            oldHeight = height;
+    void vblidbtfSurfbdf() {
+        if ((widti != oldWidti) || (ifigit != oldHfigit)) {
+            doVblidbtfSurfbdf();
+
+            oldWidti = widti;
+            oldHfigit = ifigit;
         }
     }
 
-    final void doValidateSurface() {
-        SurfaceData oldData = surfaceData;
-        if (oldData != null) {
-            surfaceData = graphicsConfig.createSurfaceData(this);
-            oldData.invalidate();
+    finbl void doVblidbtfSurfbdf() {
+        SurfbdfDbtb oldDbtb = surfbdfDbtb;
+        if (oldDbtb != null) {
+            surfbdfDbtb = grbpiidsConfig.drfbtfSurfbdfDbtb(tiis);
+            oldDbtb.invblidbtf();
         }
     }
 
-    public SurfaceData getSurfaceData() {
-        return surfaceData;
+    publid SurfbdfDbtb gftSurfbdfDbtb() {
+        rfturn surfbdfDbtb;
     }
 
-    public void dispose() {
-        SurfaceData oldData = surfaceData;
-        surfaceData = null;
-        if (oldData != null) {
-            oldData.invalidate();
+    publid void disposf() {
+        SurfbdfDbtb oldDbtb = surfbdfDbtb;
+        surfbdfDbtb = null;
+        if (oldDbtb != null) {
+            oldDbtb.invblidbtf();
         }
-        XToolkit.targetDisposedPeer(target, this);
-        destroy();
+        XToolkit.tbrgftDisposfdPffr(tbrgft, tiis);
+        dfstroy();
     }
 
-    public Point getLocationOnScreen() {
-        synchronized (target.getTreeLock()) {
-            Component comp = target;
+    publid Point gftLodbtionOnSdrffn() {
+        syndironizfd (tbrgft.gftTrffLodk()) {
+            Componfnt domp = tbrgft;
 
-            while (comp != null && !(comp instanceof Window)) {
-                comp = AWTAccessor.getComponentAccessor().getParent(comp);
+            wiilf (domp != null && !(domp instbndfof Window)) {
+                domp = AWTAddfssor.gftComponfntAddfssor().gftPbrfnt(domp);
             }
 
-            // applets, embedded, etc - translate directly
-            // XXX: override in subclass?
-            if (comp == null || comp instanceof sun.awt.EmbeddedFrame) {
-                return toGlobal(0, 0);
+            // bpplfts, fmbfddfd, ftd - trbnslbtf dirfdtly
+            // XXX: ovfrridf in subdlbss?
+            if (domp == null || domp instbndfof sun.bwt.EmbfddfdFrbmf) {
+                rfturn toGlobbl(0, 0);
             }
 
-            XToolkit.awtLock();
+            XToolkit.bwtLodk();
             try {
-                Object wpeer = XToolkit.targetToPeer(comp);
-                if (wpeer == null
-                    || !(wpeer instanceof XDecoratedPeer)
-                    || ((XDecoratedPeer)wpeer).configure_seen)
+                Objfdt wpffr = XToolkit.tbrgftToPffr(domp);
+                if (wpffr == null
+                    || !(wpffr instbndfof XDfdorbtfdPffr)
+                    || ((XDfdorbtfdPffr)wpffr).donfigurf_sffn)
                 {
-                    return toGlobal(0, 0);
+                    rfturn toGlobbl(0, 0);
                 }
 
-                // wpeer is an XDecoratedPeer not yet fully adopted by WM
-                Point pt = toOtherWindow(getContentWindow(),
-                                         ((XDecoratedPeer)wpeer).getContentWindow(),
+                // wpffr is bn XDfdorbtfdPffr not yft fully bdoptfd by WM
+                Point pt = toOtifrWindow(gftContfntWindow(),
+                                         ((XDfdorbtfdPffr)wpffr).gftContfntWindow(),
                                          0, 0);
 
                 if (pt == null) {
-                    pt = new Point(((XBaseWindow)wpeer).getAbsoluteX(), ((XBaseWindow)wpeer).getAbsoluteY());
+                    pt = nfw Point(((XBbsfWindow)wpffr).gftAbsolutfX(), ((XBbsfWindow)wpffr).gftAbsolutfY());
                 }
-                pt.x += comp.getX();
-                pt.y += comp.getY();
-                return pt;
-            } finally {
-                XToolkit.awtUnlock();
+                pt.x += domp.gftX();
+                pt.y += domp.gftY();
+                rfturn pt;
+            } finblly {
+                XToolkit.bwtUnlodk();
             }
         }
     }
 
 
-    static void setBData(KeyEvent e, byte[] data) {
-        AWTAccessor.getAWTEventAccessor().setBData(e, data);
+    stbtid void sftBDbtb(KfyEvfnt f, bytf[] dbtb) {
+        AWTAddfssor.gftAWTEvfntAddfssor().sftBDbtb(f, dbtb);
     }
 
-    public void postKeyEvent(int id, long when, int keyCode, int keyChar,
-        int keyLocation, int state, long event, int eventSize, long rawCode,
-        int unicodeFromPrimaryKeysym, int extendedKeyCode)
+    publid void postKfyEvfnt(int id, long wifn, int kfyCodf, int kfyCibr,
+        int kfyLodbtion, int stbtf, long fvfnt, int fvfntSizf, long rbwCodf,
+        int unidodfFromPrimbryKfysym, int fxtfndfdKfyCodf)
 
     {
-        long jWhen = XToolkit.nowMillisUTC_offset(when);
-        int modifiers = getModifiers(state, 0, keyCode);
+        long jWifn = XToolkit.nowMillisUTC_offsft(wifn);
+        int modififrs = gftModififrs(stbtf, 0, kfyCodf);
 
-        KeyEvent ke = new KeyEvent(getEventSource(), id, jWhen,
-                                   modifiers, keyCode, (char)keyChar, keyLocation);
-        if (event != 0) {
-            byte[] data = Native.toBytes(event, eventSize);
-            setBData(ke, data);
+        KfyEvfnt kf = nfw KfyEvfnt(gftEvfntSourdf(), id, jWifn,
+                                   modififrs, kfyCodf, (dibr)kfyCibr, kfyLodbtion);
+        if (fvfnt != 0) {
+            bytf[] dbtb = Nbtivf.toBytfs(fvfnt, fvfntSizf);
+            sftBDbtb(kf, dbtb);
         }
 
-        AWTAccessor.KeyEventAccessor kea = AWTAccessor.getKeyEventAccessor();
-        kea.setRawCode(ke, rawCode);
-        kea.setPrimaryLevelUnicode(ke, (long)unicodeFromPrimaryKeysym);
-        kea.setExtendedKeyCode(ke, (long)extendedKeyCode);
-        postEventToEventQueue(ke);
+        AWTAddfssor.KfyEvfntAddfssor kfb = AWTAddfssor.gftKfyEvfntAddfssor();
+        kfb.sftRbwCodf(kf, rbwCodf);
+        kfb.sftPrimbryLfvflUnidodf(kf, (long)unidodfFromPrimbryKfysym);
+        kfb.sftExtfndfdKfyCodf(kf, (long)fxtfndfdKfyCodf);
+        postEvfntToEvfntQufuf(kf);
     }
 
-    static native int getAWTKeyCodeForKeySym(int keysym);
-    static native int getKeySymForAWTKeyCode(int keycode);
+    stbtid nbtivf int gftAWTKfyCodfForKfySym(int kfysym);
+    stbtid nbtivf int gftKfySymForAWTKfyCodf(int kfydodf);
 
-    /* These two methods are actually applicable to toplevel windows only.
-     * However, the functionality is required by both the XWindowPeer and
-     * XWarningWindow, both of which have the XWindow as a common ancestor.
-     * See XWM.setMotifDecor() for details.
+    /* Tifsf two mftiods brf bdtublly bpplidbblf to toplfvfl windows only.
+     * Howfvfr, tif fundtionblity is rfquirfd by boti tif XWindowPffr bnd
+     * XWbrningWindow, boti of wiidi ibvf tif XWindow bs b dommon bndfstor.
+     * Sff XWM.sftMotifDfdor() for dftbils.
      */
-    public PropMwmHints getMWMHints() {
-        if (mwm_hints == null) {
-            mwm_hints = new PropMwmHints();
-            if (!XWM.XA_MWM_HINTS.getAtomData(getWindow(), mwm_hints.pData, MWMConstants.PROP_MWM_HINTS_ELEMENTS)) {
-                mwm_hints.zero();
+    publid PropMwmHints gftMWMHints() {
+        if (mwm_iints == null) {
+            mwm_iints = nfw PropMwmHints();
+            if (!XWM.XA_MWM_HINTS.gftAtomDbtb(gftWindow(), mwm_iints.pDbtb, MWMConstbnts.PROP_MWM_HINTS_ELEMENTS)) {
+                mwm_iints.zfro();
             }
         }
-        return mwm_hints;
+        rfturn mwm_iints;
     }
 
-    public void setMWMHints(PropMwmHints hints) {
-        mwm_hints = hints;
-        if (hints != null) {
-            XWM.XA_MWM_HINTS.setAtomData(getWindow(), mwm_hints.pData, MWMConstants.PROP_MWM_HINTS_ELEMENTS);
+    publid void sftMWMHints(PropMwmHints iints) {
+        mwm_iints = iints;
+        if (iints != null) {
+            XWM.XA_MWM_HINTS.sftAtomDbtb(gftWindow(), mwm_iints.pDbtb, MWMConstbnts.PROP_MWM_HINTS_ELEMENTS);
         }
     }
 
-    protected final void initWMProtocols() {
-        wm_protocols.setAtomListProperty(this, getWMProtocols());
+    protfdtfd finbl void initWMProtodols() {
+        wm_protodols.sftAtomListPropfrty(tiis, gftWMProtodols());
     }
 
     /**
-     * Returns list of protocols which should be installed on this window.
-     * Descendants can override this method to add class-specific protocols
+     * Rfturns list of protodols wiidi siould bf instbllfd on tiis window.
+     * Dfsdfndbnts dbn ovfrridf tiis mftiod to bdd dlbss-spfdifid protodols
      */
-    protected XAtomList getWMProtocols() {
-        // No protocols on simple window
-        return new XAtomList();
+    protfdtfd XAtomList gftWMProtodols() {
+        // No protodols on simplf window
+        rfturn nfw XAtomList();
     }
 
     /**
-     * Indicates if the window is currently in the FSEM.
-     * Synchronization: state lock.
+     * Indidbtfs if tif window is durrfntly in tif FSEM.
+     * Syndironizbtion: stbtf lodk.
      */
-    private boolean fullScreenExclusiveModeState = false;
+    privbtf boolfbn fullSdrffnExdlusivfModfStbtf = fblsf;
 
-    // Implementation of the X11ComponentPeer
-    @Override
-    public void setFullScreenExclusiveModeState(boolean state) {
-        synchronized (getStateLock()) {
-            fullScreenExclusiveModeState = state;
+    // Implfmfntbtion of tif X11ComponfntPffr
+    @Ovfrridf
+    publid void sftFullSdrffnExdlusivfModfStbtf(boolfbn stbtf) {
+        syndironizfd (gftStbtfLodk()) {
+            fullSdrffnExdlusivfModfStbtf = stbtf;
         }
     }
 
-    public final boolean isFullScreenExclusiveMode() {
-        synchronized (getStateLock()) {
-            return fullScreenExclusiveModeState;
+    publid finbl boolfbn isFullSdrffnExdlusivfModf() {
+        syndironizfd (gftStbtfLodk()) {
+            rfturn fullSdrffnExdlusivfModfStbtf;
         }
     }
 

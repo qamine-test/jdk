@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.xr;
+pbdkbgf sun.jbvb2d.xr;
 
 /**
- * XRender pipeline backend interface.
- * Currently there are two different backends implemented:
- * - XRBackendJava: And experimental backend, generating protocol directly using java-code and xcb's socket handoff functionality.
- * - XRBackendNative: Native 1:1 binding with libX11.
+ * XRfndfr pipflinf bbdkfnd intfrfbdf.
+ * Currfntly tifrf brf two difffrfnt bbdkfnds implfmfntfd:
+ * - XRBbdkfndJbvb: And fxpfrimfntbl bbdkfnd, gfnfrbting protodol dirfdtly using jbvb-dodf bnd xdb's sodkft ibndoff fundtionblity.
+ * - XRBbdkfndNbtivf: Nbtivf 1:1 binding witi libX11.
  */
 
-import java.awt.geom.*;
-import java.util.*;
+import jbvb.bwt.gfom.*;
+import jbvb.util.*;
 
 import sun.font.*;
-import sun.java2d.jules.*;
-import sun.java2d.pipe.*;
+import sun.jbvb2d.julfs.*;
+import sun.jbvb2d.pipf.*;
 
-public interface XRBackend {
+publid intfrfbdf XRBbdkfnd {
 
-    public void freePicture(int picture);
+    publid void frffPidturf(int pidturf);
 
-    public void freePixmap(int pixmap);
+    publid void frffPixmbp(int pixmbp);
 
-    public int createPixmap(int drawable, int depth, int width, int height);
+    publid int drfbtfPixmbp(int drbwbblf, int dfpti, int widti, int ifigit);
 
-    public int createPicture(int drawable, int formatID);
+    publid int drfbtfPidturf(int drbwbblf, int formbtID);
 
-    public long createGC(int drawable);
+    publid long drfbtfGC(int drbwbblf);
 
-    public void freeGC(long gc); /* TODO: Use!! */
+    publid void frffGC(long gd); /* TODO: Usf!! */
 
-    public void copyArea(int src, int dst, long gc, int srcx, int srcy,
-                         int width, int height, int dstx, int dsty);
+    publid void dopyArfb(int srd, int dst, long gd, int srdx, int srdy,
+                         int widti, int ifigit, int dstx, int dsty);
 
-    public void putMaskImage(int drawable, long gc, byte[] imageData,
+    publid void putMbskImbgf(int drbwbblf, long gd, bytf[] imbgfDbtb,
                              int sx, int sy, int dx, int dy,
-                             int width, int height, int maskOff,
-                             int maskScan, float ea);
+                             int widti, int ifigit, int mbskOff,
+                             int mbskSdbn, flobt fb);
 
-    public void setGCClipRectangles(long gc, Region clip);
+    publid void sftGCClipRfdtbnglfs(long gd, Rfgion dlip);
 
-    public void GCRectangles(int drawable, long gc, GrowableRectArray rects);
+    publid void GCRfdtbnglfs(int drbwbblf, long gd, GrowbblfRfdtArrby rfdts);
 
-    public void setClipRectangles(int picture, Region clip);
+    publid void sftClipRfdtbnglfs(int pidturf, Rfgion dlip);
 
-    public void setGCExposures(long gc, boolean exposure);
+    publid void sftGCExposurfs(long gd, boolfbn fxposurf);
 
-    public void setGCForeground(long gc, int pixel);
+    publid void sftGCForfground(long gd, int pixfl);
 
-    public void setPictureTransform(int picture, AffineTransform transform);
+    publid void sftPidturfTrbnsform(int pidturf, AffinfTrbnsform trbnsform);
 
-    public void setPictureRepeat(int picture, int repeat);
+    publid void sftPidturfRfpfbt(int pidturf, int rfpfbt);
 
-    public void setFilter(int picture, int filter);
+    publid void sftFiltfr(int pidturf, int filtfr);
 
-    public void renderRectangle(int dst, byte op, XRColor color,
-                                int x, int y, int width, int height);
+    publid void rfndfrRfdtbnglf(int dst, bytf op, XRColor dolor,
+                                int x, int y, int widti, int ifigit);
 
-    public void renderRectangles(int dst, byte op, XRColor color,
-                                 GrowableRectArray rects);
+    publid void rfndfrRfdtbnglfs(int dst, bytf op, XRColor dolor,
+                                 GrowbblfRfdtArrby rfdts);
 
-    public void renderComposite(byte op, int src, int mask, int dst,
-                                int srcX, int srcY, int maskX, int maskY,
-                                int dstX, int dstY, int width, int height);
+    publid void rfndfrCompositf(bytf op, int srd, int mbsk, int dst,
+                                int srdX, int srdY, int mbskX, int mbskY,
+                                int dstX, int dstY, int widti, int ifigit);
 
-    public int XRenderCreateGlyphSet(int formatID);
+    publid int XRfndfrCrfbtfGlypiSft(int formbtID);
 
-    public void XRenderAddGlyphs(int glyphSet, GlyphList gl,
-                                 List<XRGlyphCacheEntry> cacheEntries,
-                                 byte[] pixelData);
+    publid void XRfndfrAddGlypis(int glypiSft, GlypiList gl,
+                                 List<XRGlypiCbdifEntry> dbdifEntrifs,
+                                 bytf[] pixflDbtb);
 
-    public void XRenderFreeGlyphs(int glyphSet, int[] gids);
+    publid void XRfndfrFrffGlypis(int glypiSft, int[] gids);
 
-    public void XRenderCompositeText(byte op, int src, int dst,
-                                     int maskFormatID,
-                                     int xSrc, int ySrc, int xDst, int yDst,
-                                     int glyphset, GrowableEltArray elts);
+    publid void XRfndfrCompositfTfxt(bytf op, int srd, int dst,
+                                     int mbskFormbtID,
+                                     int xSrd, int ySrd, int xDst, int yDst,
+                                     int glypisft, GrowbblfEltArrby flts);
 
-    public int createRadialGradient(float centerX, float centerY,
-                                    float innerRadius, float outerRadius,
-                                    float[] fractions, int[] pixels,
-                                    int repeat);
+    publid int drfbtfRbdiblGrbdifnt(flobt dfntfrX, flobt dfntfrY,
+                                    flobt innfrRbdius, flobt outfrRbdius,
+                                    flobt[] frbdtions, int[] pixfls,
+                                    int rfpfbt);
 
-    public int createLinearGradient(Point2D p1, Point2D p2, float[] fractions,
-                                    int[] pixels, int repeat);
+    publid int drfbtfLinfbrGrbdifnt(Point2D p1, Point2D p2, flobt[] frbdtions,
+                                    int[] pixfls, int rfpfbt);
 
-    public void setGCMode(long gc, boolean copy);
+    publid void sftGCModf(long gd, boolfbn dopy);
 
-    public void renderCompositeTrapezoids(byte op, int src, int maskFormat,
-                                          int dst, int srcX, int srcY,
-                                          TrapezoidList trapList);
+    publid void rfndfrCompositfTrbpfzoids(bytf op, int srd, int mbskFormbt,
+                                          int dst, int srdX, int srdY,
+                                          TrbpfzoidList trbpList);
 }

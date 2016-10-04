@@ -1,89 +1,89 @@
 /*
- * Copyright (c) 1999, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
 /**
- * Represents "user defined" exceptions thrown by MBean methods
- * in the agent. It "wraps" the actual "user defined" exception thrown.
- * This exception will be built by the MBeanServer when a call to an
- * MBean method results in an unknown exception.
+ * Rfprfsfnts "usfr dffinfd" fxdfptions tirown by MBfbn mftiods
+ * in tif bgfnt. It "wrbps" tif bdtubl "usfr dffinfd" fxdfption tirown.
+ * Tiis fxdfption will bf built by tif MBfbnSfrvfr wifn b dbll to bn
+ * MBfbn mftiod rfsults in bn unknown fxdfption.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class MBeanException extends JMException   {
+publid dlbss MBfbnExdfption fxtfnds JMExdfption   {
 
 
-    /* Serial version */
-    private static final long serialVersionUID = 4066342430588744142L;
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 4066342430588744142L;
 
     /**
-     * @serial Encapsulated {@link Exception}
+     * @sfribl Endbpsulbtfd {@link Exdfption}
      */
-    private java.lang.Exception exception ;
+    privbtf jbvb.lbng.Exdfption fxdfption ;
 
 
     /**
-     * Creates an <CODE>MBeanException</CODE> that wraps the actual <CODE>java.lang.Exception</CODE>.
+     * Crfbtfs bn <CODE>MBfbnExdfption</CODE> tibt wrbps tif bdtubl <CODE>jbvb.lbng.Exdfption</CODE>.
      *
-     * @param e the wrapped exception.
+     * @pbrbm f tif wrbppfd fxdfption.
      */
-    public MBeanException(java.lang.Exception e) {
-        super() ;
-        exception = e ;
+    publid MBfbnExdfption(jbvb.lbng.Exdfption f) {
+        supfr() ;
+        fxdfption = f ;
     }
 
     /**
-     * Creates an <CODE>MBeanException</CODE> that wraps the actual <CODE>java.lang.Exception</CODE> with
-     * a detail message.
+     * Crfbtfs bn <CODE>MBfbnExdfption</CODE> tibt wrbps tif bdtubl <CODE>jbvb.lbng.Exdfption</CODE> witi
+     * b dftbil mfssbgf.
      *
-     * @param e the wrapped exception.
-     * @param message the detail message.
+     * @pbrbm f tif wrbppfd fxdfption.
+     * @pbrbm mfssbgf tif dftbil mfssbgf.
      */
-    public MBeanException(java.lang.Exception e, String message) {
-        super(message) ;
-        exception = e ;
+    publid MBfbnExdfption(jbvb.lbng.Exdfption f, String mfssbgf) {
+        supfr(mfssbgf) ;
+        fxdfption = f ;
     }
 
 
     /**
-     * Return the actual {@link Exception} thrown.
+     * Rfturn tif bdtubl {@link Exdfption} tirown.
      *
-     * @return the wrapped exception.
+     * @rfturn tif wrbppfd fxdfption.
      */
-    public Exception getTargetException()  {
-        return exception;
+    publid Exdfption gftTbrgftExdfption()  {
+        rfturn fxdfption;
     }
 
     /**
-     * Return the actual {@link Exception} thrown.
+     * Rfturn tif bdtubl {@link Exdfption} tirown.
      *
-     * @return the wrapped exception.
+     * @rfturn tif wrbppfd fxdfption.
      */
-    public Throwable getCause() {
-        return exception;
+    publid Tirowbblf gftCbusf() {
+        rfturn fxdfption;
     }
 }

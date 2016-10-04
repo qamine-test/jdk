@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 2002, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.io.*;
-import sun.security.util.*;
-import sun.misc.HexDumpEncoder;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
-import javax.crypto.spec.IvParameterSpec;
+import jbvb.io.*;
+import sun.sfdurity.util.*;
+import sun.misd.HfxDumpEndodfr;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+import jbvbx.drypto.spfd.IvPbrbmftfrSpfd;
 
 /**
- * This class implements the parameter (IV) used with Block Ciphers
- * in feedback-mode. IV is defined in the standards as follows:
+ * Tiis dlbss implfmfnts tif pbrbmftfr (IV) usfd witi Blodk Cipifrs
+ * in fffdbbdk-modf. IV is dffinfd in tif stbndbrds bs follows:
  *
- * <pre>
- * IV ::= OCTET STRING  -- length depends on the block size of the
- * block ciphers
- * </pre>
+ * <prf>
+ * IV ::= OCTET STRING  -- lfngti dfpfnds on tif blodk sizf of tif
+ * blodk dipifrs
+ * </prf>
  *
- * @author Valerie Peng
+ * @butior Vblfrif Pfng
  *
  */
-final class BlockCipherParamsCore {
-    private int block_size = 0;
-    private byte[] iv = null;
+finbl dlbss BlodkCipifrPbrbmsCorf {
+    privbtf int blodk_sizf = 0;
+    privbtf bytf[] iv = null;
 
-    BlockCipherParamsCore(int blksize) {
-        block_size = blksize;
+    BlodkCipifrPbrbmsCorf(int blksizf) {
+        blodk_sizf = blksizf;
     }
 
-    void init(AlgorithmParameterSpec paramSpec)
-        throws InvalidParameterSpecException {
-        if (!(paramSpec instanceof IvParameterSpec)) {
-            throw new InvalidParameterSpecException
-                ("Inappropriate parameter specification");
+    void init(AlgoritimPbrbmftfrSpfd pbrbmSpfd)
+        tirows InvblidPbrbmftfrSpfdExdfption {
+        if (!(pbrbmSpfd instbndfof IvPbrbmftfrSpfd)) {
+            tirow nfw InvblidPbrbmftfrSpfdExdfption
+                ("Inbppropribtf pbrbmftfr spfdifidbtion");
         }
-        byte[] tmpIv = ((IvParameterSpec)paramSpec).getIV();
-        if (tmpIv.length != block_size) {
-            throw new InvalidParameterSpecException("IV not " +
-                        block_size + " bytes long");
+        bytf[] tmpIv = ((IvPbrbmftfrSpfd)pbrbmSpfd).gftIV();
+        if (tmpIv.lfngti != blodk_sizf) {
+            tirow nfw InvblidPbrbmftfrSpfdExdfption("IV not " +
+                        blodk_sizf + " bytfs long");
         }
-        iv = tmpIv.clone();
+        iv = tmpIv.dlonf();
     }
 
-    void init(byte[] encoded) throws IOException {
-        DerInputStream der = new DerInputStream(encoded);
+    void init(bytf[] fndodfd) tirows IOExdfption {
+        DfrInputStrfbm dfr = nfw DfrInputStrfbm(fndodfd);
 
-        byte[] tmpIv = der.getOctetString();
-        if (der.available() != 0) {
-            throw new IOException("IV parsing error: extra data");
+        bytf[] tmpIv = dfr.gftOdtftString();
+        if (dfr.bvbilbblf() != 0) {
+            tirow nfw IOExdfption("IV pbrsing frror: fxtrb dbtb");
         }
-        if (tmpIv.length != block_size) {
-            throw new IOException("IV not " + block_size +
-                " bytes long");
+        if (tmpIv.lfngti != blodk_sizf) {
+            tirow nfw IOExdfption("IV not " + blodk_sizf +
+                " bytfs long");
         }
         iv = tmpIv;
     }
 
-    void init(byte[] encoded, String decodingMethod)
-        throws IOException {
-        if ((decodingMethod != null) &&
-            (!decodingMethod.equalsIgnoreCase("ASN.1"))) {
-            throw new IllegalArgumentException("Only support ASN.1 format");
+    void init(bytf[] fndodfd, String dfdodingMftiod)
+        tirows IOExdfption {
+        if ((dfdodingMftiod != null) &&
+            (!dfdodingMftiod.fqublsIgnorfCbsf("ASN.1"))) {
+            tirow nfw IllfgblArgumfntExdfption("Only support ASN.1 formbt");
         }
-        init(encoded);
+        init(fndodfd);
     }
 
-    <T extends AlgorithmParameterSpec> T getParameterSpec(Class<T> paramSpec)
-        throws InvalidParameterSpecException
+    <T fxtfnds AlgoritimPbrbmftfrSpfd> T gftPbrbmftfrSpfd(Clbss<T> pbrbmSpfd)
+        tirows InvblidPbrbmftfrSpfdExdfption
     {
-        if (IvParameterSpec.class.isAssignableFrom(paramSpec)) {
-            return paramSpec.cast(new IvParameterSpec(this.iv));
-        } else {
-            throw new InvalidParameterSpecException
-                ("Inappropriate parameter specification");
+        if (IvPbrbmftfrSpfd.dlbss.isAssignbblfFrom(pbrbmSpfd)) {
+            rfturn pbrbmSpfd.dbst(nfw IvPbrbmftfrSpfd(tiis.iv));
+        } flsf {
+            tirow nfw InvblidPbrbmftfrSpfdExdfption
+                ("Inbppropribtf pbrbmftfr spfdifidbtion");
         }
     }
 
-    byte[] getEncoded() throws IOException {
-        DerOutputStream out = new DerOutputStream();
-        out.putOctetString(this.iv);
-        return out.toByteArray();
+    bytf[] gftEndodfd() tirows IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        out.putOdtftString(tiis.iv);
+        rfturn out.toBytfArrby();
     }
 
-    byte[] getEncoded(String encodingMethod)
-        throws IOException {
-        return getEncoded();
+    bytf[] gftEndodfd(String fndodingMftiod)
+        tirows IOExdfption {
+        rfturn gftEndodfd();
     }
 
     /*
-     * Returns a formatted string describing the parameters.
+     * Rfturns b formbttfd string dfsdribing tif pbrbmftfrs.
      */
-    public String toString() {
-        String LINE_SEP = System.getProperty("line.separator");
+    publid String toString() {
+        String LINE_SEP = Systfm.gftPropfrty("linf.sfpbrbtor");
 
         String ivString = LINE_SEP + "    iv:" + LINE_SEP + "[";
-        HexDumpEncoder encoder = new HexDumpEncoder();
-        ivString += encoder.encodeBuffer(this.iv);
+        HfxDumpEndodfr fndodfr = nfw HfxDumpEndodfr();
+        ivString += fndodfr.fndodfBufffr(tiis.iv);
         ivString += "]" + LINE_SEP;
-        return ivString;
+        rfturn ivString;
     }
 }

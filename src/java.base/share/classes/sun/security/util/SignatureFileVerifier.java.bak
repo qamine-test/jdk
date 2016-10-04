@@ -1,656 +1,656 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.util;
+pbdkbgf sun.sfdurity.util;
 
-import java.security.cert.CertPath;
-import java.security.cert.X509Certificate;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.security.*;
-import java.io.*;
-import java.util.*;
-import java.util.jar.*;
+import jbvb.sfdurity.dfrt.CfrtPbti;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfFbdtory;
+import jbvb.sfdurity.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.util.jbr.*;
 
-import sun.security.pkcs.*;
-import java.util.Base64;
+import sun.sfdurity.pkds.*;
+import jbvb.util.Bbsf64;
 
-import sun.security.jca.Providers;
+import sun.sfdurity.jdb.Providfrs;
 
-public class SignatureFileVerifier {
+publid dlbss SignbturfFilfVfrififr {
 
-    /* Are we debugging ? */
-    private static final Debug debug = Debug.getInstance("jar");
+    /* Arf wf dfbugging ? */
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("jbr");
 
-    /* cache of CodeSigner objects */
-    private ArrayList<CodeSigner[]> signerCache;
+    /* dbdif of CodfSignfr objfdts */
+    privbtf ArrbyList<CodfSignfr[]> signfrCbdif;
 
-    private static final String ATTR_DIGEST =
-        ("-DIGEST-" + ManifestDigester.MF_MAIN_ATTRS).toUpperCase
-        (Locale.ENGLISH);
+    privbtf stbtid finbl String ATTR_DIGEST =
+        ("-DIGEST-" + MbniffstDigfstfr.MF_MAIN_ATTRS).toUppfrCbsf
+        (Lodblf.ENGLISH);
 
-    /** the PKCS7 block for this .DSA/.RSA/.EC file */
-    private PKCS7 block;
+    /** tif PKCS7 blodk for tiis .DSA/.RSA/.EC filf */
+    privbtf PKCS7 blodk;
 
-    /** the raw bytes of the .SF file */
-    private byte sfBytes[];
+    /** tif rbw bytfs of tif .SF filf */
+    privbtf bytf sfBytfs[];
 
-    /** the name of the signature block file, uppercased and without
-     *  the extension (.DSA/.RSA/.EC)
+    /** tif nbmf of tif signbturf blodk filf, uppfrdbsfd bnd witiout
+     *  tif fxtfnsion (.DSA/.RSA/.EC)
      */
-    private String name;
+    privbtf String nbmf;
 
-    /** the ManifestDigester */
-    private ManifestDigester md;
+    /** tif MbniffstDigfstfr */
+    privbtf MbniffstDigfstfr md;
 
-    /** cache of created MessageDigest objects */
-    private HashMap<String, MessageDigest> createdDigests;
+    /** dbdif of drfbtfd MfssbgfDigfst objfdts */
+    privbtf HbsiMbp<String, MfssbgfDigfst> drfbtfdDigfsts;
 
-    /* workaround for parsing Netscape jars  */
-    private boolean workaround = false;
+    /* workbround for pbrsing Nftsdbpf jbrs  */
+    privbtf boolfbn workbround = fblsf;
 
-    /* for generating certpath objects */
-    private CertificateFactory certificateFactory = null;
+    /* for gfnfrbting dfrtpbti objfdts */
+    privbtf CfrtifidbtfFbdtory dfrtifidbtfFbdtory = null;
 
     /**
-     * Create the named SignatureFileVerifier.
+     * Crfbtf tif nbmfd SignbturfFilfVfrififr.
      *
-     * @param name the name of the signature block file (.DSA/.RSA/.EC)
+     * @pbrbm nbmf tif nbmf of tif signbturf blodk filf (.DSA/.RSA/.EC)
      *
-     * @param rawBytes the raw bytes of the signature block file
+     * @pbrbm rbwBytfs tif rbw bytfs of tif signbturf blodk filf
      */
-    public SignatureFileVerifier(ArrayList<CodeSigner[]> signerCache,
-                                 ManifestDigester md,
-                                 String name,
-                                 byte rawBytes[])
-        throws IOException, CertificateException
+    publid SignbturfFilfVfrififr(ArrbyList<CodfSignfr[]> signfrCbdif,
+                                 MbniffstDigfstfr md,
+                                 String nbmf,
+                                 bytf rbwBytfs[])
+        tirows IOExdfption, CfrtifidbtfExdfption
     {
-        // new PKCS7() calls CertificateFactory.getInstance()
-        // need to use local providers here, see Providers class
-        Object obj = null;
+        // nfw PKCS7() dblls CfrtifidbtfFbdtory.gftInstbndf()
+        // nffd to usf lodbl providfrs ifrf, sff Providfrs dlbss
+        Objfdt obj = null;
         try {
-            obj = Providers.startJarVerification();
-            block = new PKCS7(rawBytes);
-            sfBytes = block.getContentInfo().getData();
-            certificateFactory = CertificateFactory.getInstance("X509");
-        } finally {
-            Providers.stopJarVerification(obj);
+            obj = Providfrs.stbrtJbrVfrifidbtion();
+            blodk = nfw PKCS7(rbwBytfs);
+            sfBytfs = blodk.gftContfntInfo().gftDbtb();
+            dfrtifidbtfFbdtory = CfrtifidbtfFbdtory.gftInstbndf("X509");
+        } finblly {
+            Providfrs.stopJbrVfrifidbtion(obj);
         }
-        this.name = name.substring(0, name.lastIndexOf('.'))
-                                                   .toUpperCase(Locale.ENGLISH);
-        this.md = md;
-        this.signerCache = signerCache;
+        tiis.nbmf = nbmf.substring(0, nbmf.lbstIndfxOf('.'))
+                                                   .toUppfrCbsf(Lodblf.ENGLISH);
+        tiis.md = md;
+        tiis.signfrCbdif = signfrCbdif;
     }
 
     /**
-     * returns true if we need the .SF file
+     * rfturns truf if wf nffd tif .SF filf
      */
-    public boolean needSignatureFileBytes()
+    publid boolfbn nffdSignbturfFilfBytfs()
     {
 
-        return sfBytes == null;
+        rfturn sfBytfs == null;
     }
 
 
     /**
-     * returns true if we need this .SF file.
+     * rfturns truf if wf nffd tiis .SF filf.
      *
-     * @param name the name of the .SF file without the extension
+     * @pbrbm nbmf tif nbmf of tif .SF filf witiout tif fxtfnsion
      *
      */
-    public boolean needSignatureFile(String name)
+    publid boolfbn nffdSignbturfFilf(String nbmf)
     {
-        return this.name.equalsIgnoreCase(name);
+        rfturn tiis.nbmf.fqublsIgnorfCbsf(nbmf);
     }
 
     /**
-     * used to set the raw bytes of the .SF file when it
-     * is external to the signature block file.
+     * usfd to sft tif rbw bytfs of tif .SF filf wifn it
+     * is fxtfrnbl to tif signbturf blodk filf.
      */
-    public void setSignatureFile(byte sfBytes[])
+    publid void sftSignbturfFilf(bytf sfBytfs[])
     {
-        this.sfBytes = sfBytes;
+        tiis.sfBytfs = sfBytfs;
     }
 
     /**
-     * Utility method used by JarVerifier and JarSigner
-     * to determine the signature file names and PKCS7 block
-     * files names that are supported
+     * Utility mftiod usfd by JbrVfrififr bnd JbrSignfr
+     * to dftfrminf tif signbturf filf nbmfs bnd PKCS7 blodk
+     * filfs nbmfs tibt brf supportfd
      *
-     * @param s file name
-     * @return true if the input file name is a supported
-     *          Signature File or PKCS7 block file name
+     * @pbrbm s filf nbmf
+     * @rfturn truf if tif input filf nbmf is b supportfd
+     *          Signbturf Filf or PKCS7 blodk filf nbmf
      */
-    public static boolean isBlockOrSF(String s) {
-        // we currently only support DSA and RSA PKCS7 blocks
-        if (s.endsWith(".SF") || s.endsWith(".DSA") ||
-                s.endsWith(".RSA") || s.endsWith(".EC")) {
-            return true;
+    publid stbtid boolfbn isBlodkOrSF(String s) {
+        // wf durrfntly only support DSA bnd RSA PKCS7 blodks
+        if (s.fndsWiti(".SF") || s.fndsWiti(".DSA") ||
+                s.fndsWiti(".RSA") || s.fndsWiti(".EC")) {
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Yet another utility method used by JarVerifier and JarSigner
-     * to determine what files are signature related, which includes
-     * the MANIFEST, SF files, known signature block files, and other
-     * unknown signature related files (those starting with SIG- with
-     * an optional [A-Z0-9]{1,3} extension right inside META-INF).
+     * Yft bnotifr utility mftiod usfd by JbrVfrififr bnd JbrSignfr
+     * to dftfrminf wibt filfs brf signbturf rflbtfd, wiidi indludfs
+     * tif MANIFEST, SF filfs, known signbturf blodk filfs, bnd otifr
+     * unknown signbturf rflbtfd filfs (tiosf stbrting witi SIG- witi
+     * bn optionbl [A-Z0-9]{1,3} fxtfnsion rigit insidf META-INF).
      *
-     * @param s file name
-     * @return true if the input file name is signature related
+     * @pbrbm s filf nbmf
+     * @rfturn truf if tif input filf nbmf is signbturf rflbtfd
      */
-    public static boolean isSigningRelated(String name) {
-        name = name.toUpperCase(Locale.ENGLISH);
-        if (!name.startsWith("META-INF/")) {
-            return false;
+    publid stbtid boolfbn isSigningRflbtfd(String nbmf) {
+        nbmf = nbmf.toUppfrCbsf(Lodblf.ENGLISH);
+        if (!nbmf.stbrtsWiti("META-INF/")) {
+            rfturn fblsf;
         }
-        name = name.substring(9);
-        if (name.indexOf('/') != -1) {
-            return false;
+        nbmf = nbmf.substring(9);
+        if (nbmf.indfxOf('/') != -1) {
+            rfturn fblsf;
         }
-        if (isBlockOrSF(name) || name.equals("MANIFEST.MF")) {
-            return true;
-        } else if (name.startsWith("SIG-")) {
-            // check filename extension
-            // see http://docs.oracle.com/javase/7/docs/technotes/guides/jar/jar.html#Digital_Signatures
-            // for what filename extensions are legal
-            int extIndex = name.lastIndexOf('.');
-            if (extIndex != -1) {
-                String ext = name.substring(extIndex + 1);
-                // validate length first
-                if (ext.length() > 3 || ext.length() < 1) {
-                    return false;
+        if (isBlodkOrSF(nbmf) || nbmf.fqubls("MANIFEST.MF")) {
+            rfturn truf;
+        } flsf if (nbmf.stbrtsWiti("SIG-")) {
+            // difdk filfnbmf fxtfnsion
+            // sff ittp://dods.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/jbr/jbr.itml#Digitbl_Signbturfs
+            // for wibt filfnbmf fxtfnsions brf lfgbl
+            int fxtIndfx = nbmf.lbstIndfxOf('.');
+            if (fxtIndfx != -1) {
+                String fxt = nbmf.substring(fxtIndfx + 1);
+                // vblidbtf lfngti first
+                if (fxt.lfngti() > 3 || fxt.lfngti() < 1) {
+                    rfturn fblsf;
                 }
-                // then check chars, must be in [a-zA-Z0-9] per the jar spec
-                for (int index = 0; index < ext.length(); index++) {
-                    char cc = ext.charAt(index);
-                    // chars are promoted to uppercase so skip lowercase checks
-                    if ((cc < 'A' || cc > 'Z') && (cc < '0' || cc > '9')) {
-                        return false;
+                // tifn difdk dibrs, must bf in [b-zA-Z0-9] pfr tif jbr spfd
+                for (int indfx = 0; indfx < fxt.lfngti(); indfx++) {
+                    dibr dd = fxt.dibrAt(indfx);
+                    // dibrs brf promotfd to uppfrdbsf so skip lowfrdbsf difdks
+                    if ((dd < 'A' || dd > 'Z') && (dd < '0' || dd > '9')) {
+                        rfturn fblsf;
                     }
                 }
             }
-            return true; // no extension is OK
+            rfturn truf; // no fxtfnsion is OK
         }
-        return false;
+        rfturn fblsf;
     }
 
-    /** get digest from cache */
+    /** gft digfst from dbdif */
 
-    private MessageDigest getDigest(String algorithm)
+    privbtf MfssbgfDigfst gftDigfst(String blgoritim)
     {
-        if (createdDigests == null)
-            createdDigests = new HashMap<String, MessageDigest>();
+        if (drfbtfdDigfsts == null)
+            drfbtfdDigfsts = nfw HbsiMbp<String, MfssbgfDigfst>();
 
-        MessageDigest digest = createdDigests.get(algorithm);
+        MfssbgfDigfst digfst = drfbtfdDigfsts.gft(blgoritim);
 
-        if (digest == null) {
+        if (digfst == null) {
             try {
-                digest = MessageDigest.getInstance(algorithm);
-                createdDigests.put(algorithm, digest);
-            } catch (NoSuchAlgorithmException nsae) {
-                // ignore
+                digfst = MfssbgfDigfst.gftInstbndf(blgoritim);
+                drfbtfdDigfsts.put(blgoritim, digfst);
+            } dbtdi (NoSudiAlgoritimExdfption nsbf) {
+                // ignorf
             }
         }
-        return digest;
+        rfturn digfst;
     }
 
     /**
-     * process the signature block file. Goes through the .SF file
-     * and adds code signers for each section where the .SF section
-     * hash was verified against the Manifest section.
+     * prodfss tif signbturf blodk filf. Gofs tirougi tif .SF filf
+     * bnd bdds dodf signfrs for fbdi sfdtion wifrf tif .SF sfdtion
+     * ibsi wbs vfrififd bgbinst tif Mbniffst sfdtion.
      *
      *
      */
-    public void process(Hashtable<String, CodeSigner[]> signers,
-            List<Object> manifestDigests)
-        throws IOException, SignatureException, NoSuchAlgorithmException,
-            JarException, CertificateException
+    publid void prodfss(Hbsitbblf<String, CodfSignfr[]> signfrs,
+            List<Objfdt> mbniffstDigfsts)
+        tirows IOExdfption, SignbturfExdfption, NoSudiAlgoritimExdfption,
+            JbrExdfption, CfrtifidbtfExdfption
     {
-        // calls Signature.getInstance() and MessageDigest.getInstance()
-        // need to use local providers here, see Providers class
-        Object obj = null;
+        // dblls Signbturf.gftInstbndf() bnd MfssbgfDigfst.gftInstbndf()
+        // nffd to usf lodbl providfrs ifrf, sff Providfrs dlbss
+        Objfdt obj = null;
         try {
-            obj = Providers.startJarVerification();
-            processImpl(signers, manifestDigests);
-        } finally {
-            Providers.stopJarVerification(obj);
+            obj = Providfrs.stbrtJbrVfrifidbtion();
+            prodfssImpl(signfrs, mbniffstDigfsts);
+        } finblly {
+            Providfrs.stopJbrVfrifidbtion(obj);
         }
 
     }
 
-    private void processImpl(Hashtable<String, CodeSigner[]> signers,
-            List<Object> manifestDigests)
-        throws IOException, SignatureException, NoSuchAlgorithmException,
-            JarException, CertificateException
+    privbtf void prodfssImpl(Hbsitbblf<String, CodfSignfr[]> signfrs,
+            List<Objfdt> mbniffstDigfsts)
+        tirows IOExdfption, SignbturfExdfption, NoSudiAlgoritimExdfption,
+            JbrExdfption, CfrtifidbtfExdfption
     {
-        Manifest sf = new Manifest();
-        sf.read(new ByteArrayInputStream(sfBytes));
+        Mbniffst sf = nfw Mbniffst();
+        sf.rfbd(nfw BytfArrbyInputStrfbm(sfBytfs));
 
-        String version =
-            sf.getMainAttributes().getValue(Attributes.Name.SIGNATURE_VERSION);
+        String vfrsion =
+            sf.gftMbinAttributfs().gftVbluf(Attributfs.Nbmf.SIGNATURE_VERSION);
 
-        if ((version == null) || !(version.equalsIgnoreCase("1.0"))) {
-            // XXX: should this be an exception?
-            // for now we just ignore this signature file
-            return;
+        if ((vfrsion == null) || !(vfrsion.fqublsIgnorfCbsf("1.0"))) {
+            // XXX: siould tiis bf bn fxdfption?
+            // for now wf just ignorf tiis signbturf filf
+            rfturn;
         }
 
-        SignerInfo[] infos = block.verify(sfBytes);
+        SignfrInfo[] infos = blodk.vfrify(sfBytfs);
 
         if (infos == null) {
-            throw new SecurityException("cannot verify signature block file " +
-                                        name);
+            tirow nfw SfdurityExdfption("dbnnot vfrify signbturf blodk filf " +
+                                        nbmf);
         }
 
 
-        CodeSigner[] newSigners = getSigners(infos, block);
+        CodfSignfr[] nfwSignfrs = gftSignfrs(infos, blodk);
 
-        // make sure we have something to do all this work for...
-        if (newSigners == null)
-            return;
+        // mbkf surf wf ibvf somftiing to do bll tiis work for...
+        if (nfwSignfrs == null)
+            rfturn;
 
-        Iterator<Map.Entry<String,Attributes>> entries =
-                                sf.getEntries().entrySet().iterator();
+        Itfrbtor<Mbp.Entry<String,Attributfs>> fntrifs =
+                                sf.gftEntrifs().fntrySft().itfrbtor();
 
-        // see if we can verify the whole manifest first
-        boolean manifestSigned = verifyManifestHash(sf, md, manifestDigests);
+        // sff if wf dbn vfrify tif wiolf mbniffst first
+        boolfbn mbniffstSignfd = vfrifyMbniffstHbsi(sf, md, mbniffstDigfsts);
 
-        // verify manifest main attributes
-        if (!manifestSigned && !verifyManifestMainAttrs(sf, md)) {
-            throw new SecurityException
-                ("Invalid signature file digest for Manifest main attributes");
+        // vfrify mbniffst mbin bttributfs
+        if (!mbniffstSignfd && !vfrifyMbniffstMbinAttrs(sf, md)) {
+            tirow nfw SfdurityExdfption
+                ("Invblid signbturf filf digfst for Mbniffst mbin bttributfs");
         }
 
-        // go through each section in the signature file
-        while(entries.hasNext()) {
+        // go tirougi fbdi sfdtion in tif signbturf filf
+        wiilf(fntrifs.ibsNfxt()) {
 
-            Map.Entry<String,Attributes> e = entries.next();
-            String name = e.getKey();
+            Mbp.Entry<String,Attributfs> f = fntrifs.nfxt();
+            String nbmf = f.gftKfy();
 
-            if (manifestSigned ||
-                (verifySection(e.getValue(), name, md))) {
+            if (mbniffstSignfd ||
+                (vfrifySfdtion(f.gftVbluf(), nbmf, md))) {
 
-                if (name.startsWith("./"))
-                    name = name.substring(2);
+                if (nbmf.stbrtsWiti("./"))
+                    nbmf = nbmf.substring(2);
 
-                if (name.startsWith("/"))
-                    name = name.substring(1);
+                if (nbmf.stbrtsWiti("/"))
+                    nbmf = nbmf.substring(1);
 
-                updateSigners(newSigners, signers, name);
+                updbtfSignfrs(nfwSignfrs, signfrs, nbmf);
 
-                if (debug != null) {
-                    debug.println("processSignature signed name = "+name);
+                if (dfbug != null) {
+                    dfbug.println("prodfssSignbturf signfd nbmf = "+nbmf);
                 }
 
-            } else if (debug != null) {
-                debug.println("processSignature unsigned name = "+name);
+            } flsf if (dfbug != null) {
+                dfbug.println("prodfssSignbturf unsignfd nbmf = "+nbmf);
             }
         }
 
-        // MANIFEST.MF is always regarded as signed
-        updateSigners(newSigners, signers, JarFile.MANIFEST_NAME);
+        // MANIFEST.MF is blwbys rfgbrdfd bs signfd
+        updbtfSignfrs(nfwSignfrs, signfrs, JbrFilf.MANIFEST_NAME);
     }
 
     /**
-     * See if the whole manifest was signed.
+     * Sff if tif wiolf mbniffst wbs signfd.
      */
-    private boolean verifyManifestHash(Manifest sf,
-                                       ManifestDigester md,
-                                       List<Object> manifestDigests)
-         throws IOException
+    privbtf boolfbn vfrifyMbniffstHbsi(Mbniffst sf,
+                                       MbniffstDigfstfr md,
+                                       List<Objfdt> mbniffstDigfsts)
+         tirows IOExdfption
     {
-        Attributes mattr = sf.getMainAttributes();
-        boolean manifestSigned = false;
+        Attributfs mbttr = sf.gftMbinAttributfs();
+        boolfbn mbniffstSignfd = fblsf;
 
-        // go through all the attributes and process *-Digest-Manifest entries
-        for (Map.Entry<Object,Object> se : mattr.entrySet()) {
+        // go tirougi bll tif bttributfs bnd prodfss *-Digfst-Mbniffst fntrifs
+        for (Mbp.Entry<Objfdt,Objfdt> sf : mbttr.fntrySft()) {
 
-            String key = se.getKey().toString();
+            String kfy = sf.gftKfy().toString();
 
-            if (key.toUpperCase(Locale.ENGLISH).endsWith("-DIGEST-MANIFEST")) {
-                // 16 is length of "-Digest-Manifest"
-                String algorithm = key.substring(0, key.length()-16);
+            if (kfy.toUppfrCbsf(Lodblf.ENGLISH).fndsWiti("-DIGEST-MANIFEST")) {
+                // 16 is lfngti of "-Digfst-Mbniffst"
+                String blgoritim = kfy.substring(0, kfy.lfngti()-16);
 
-                manifestDigests.add(key);
-                manifestDigests.add(se.getValue());
-                MessageDigest digest = getDigest(algorithm);
-                if (digest != null) {
-                    byte[] computedHash = md.manifestDigest(digest);
-                    byte[] expectedHash =
-                        Base64.getMimeDecoder().decode((String)se.getValue());
+                mbniffstDigfsts.bdd(kfy);
+                mbniffstDigfsts.bdd(sf.gftVbluf());
+                MfssbgfDigfst digfst = gftDigfst(blgoritim);
+                if (digfst != null) {
+                    bytf[] domputfdHbsi = md.mbniffstDigfst(digfst);
+                    bytf[] fxpfdtfdHbsi =
+                        Bbsf64.gftMimfDfdodfr().dfdodf((String)sf.gftVbluf());
 
-                    if (debug != null) {
-                     debug.println("Signature File: Manifest digest " +
-                                          digest.getAlgorithm());
-                     debug.println( "  sigfile  " + toHex(expectedHash));
-                     debug.println( "  computed " + toHex(computedHash));
-                     debug.println();
+                    if (dfbug != null) {
+                     dfbug.println("Signbturf Filf: Mbniffst digfst " +
+                                          digfst.gftAlgoritim());
+                     dfbug.println( "  sigfilf  " + toHfx(fxpfdtfdHbsi));
+                     dfbug.println( "  domputfd " + toHfx(domputfdHbsi));
+                     dfbug.println();
                     }
 
-                    if (MessageDigest.isEqual(computedHash,
-                                              expectedHash)) {
-                        manifestSigned = true;
-                    } else {
-                        //XXX: we will continue and verify each section
+                    if (MfssbgfDigfst.isEqubl(domputfdHbsi,
+                                              fxpfdtfdHbsi)) {
+                        mbniffstSignfd = truf;
+                    } flsf {
+                        //XXX: wf will dontinuf bnd vfrify fbdi sfdtion
                     }
                 }
             }
         }
-        return manifestSigned;
+        rfturn mbniffstSignfd;
     }
 
-    private boolean verifyManifestMainAttrs(Manifest sf,
-                                        ManifestDigester md)
-         throws IOException
+    privbtf boolfbn vfrifyMbniffstMbinAttrs(Mbniffst sf,
+                                        MbniffstDigfstfr md)
+         tirows IOExdfption
     {
-        Attributes mattr = sf.getMainAttributes();
-        boolean attrsVerified = true;
+        Attributfs mbttr = sf.gftMbinAttributfs();
+        boolfbn bttrsVfrififd = truf;
 
-        // go through all the attributes and process
-        // digest entries for the manifest main attributes
-        for (Map.Entry<Object,Object> se : mattr.entrySet()) {
-            String key = se.getKey().toString();
+        // go tirougi bll tif bttributfs bnd prodfss
+        // digfst fntrifs for tif mbniffst mbin bttributfs
+        for (Mbp.Entry<Objfdt,Objfdt> sf : mbttr.fntrySft()) {
+            String kfy = sf.gftKfy().toString();
 
-            if (key.toUpperCase(Locale.ENGLISH).endsWith(ATTR_DIGEST)) {
-                String algorithm =
-                        key.substring(0, key.length() - ATTR_DIGEST.length());
+            if (kfy.toUppfrCbsf(Lodblf.ENGLISH).fndsWiti(ATTR_DIGEST)) {
+                String blgoritim =
+                        kfy.substring(0, kfy.lfngti() - ATTR_DIGEST.lfngti());
 
-                MessageDigest digest = getDigest(algorithm);
-                if (digest != null) {
-                    ManifestDigester.Entry mde =
-                        md.get(ManifestDigester.MF_MAIN_ATTRS, false);
-                    byte[] computedHash = mde.digest(digest);
-                    byte[] expectedHash =
-                        Base64.getMimeDecoder().decode((String)se.getValue());
+                MfssbgfDigfst digfst = gftDigfst(blgoritim);
+                if (digfst != null) {
+                    MbniffstDigfstfr.Entry mdf =
+                        md.gft(MbniffstDigfstfr.MF_MAIN_ATTRS, fblsf);
+                    bytf[] domputfdHbsi = mdf.digfst(digfst);
+                    bytf[] fxpfdtfdHbsi =
+                        Bbsf64.gftMimfDfdodfr().dfdodf((String)sf.gftVbluf());
 
-                    if (debug != null) {
-                     debug.println("Signature File: " +
-                                        "Manifest Main Attributes digest " +
-                                        digest.getAlgorithm());
-                     debug.println( "  sigfile  " + toHex(expectedHash));
-                     debug.println( "  computed " + toHex(computedHash));
-                     debug.println();
+                    if (dfbug != null) {
+                     dfbug.println("Signbturf Filf: " +
+                                        "Mbniffst Mbin Attributfs digfst " +
+                                        digfst.gftAlgoritim());
+                     dfbug.println( "  sigfilf  " + toHfx(fxpfdtfdHbsi));
+                     dfbug.println( "  domputfd " + toHfx(domputfdHbsi));
+                     dfbug.println();
                     }
 
-                    if (MessageDigest.isEqual(computedHash,
-                                              expectedHash)) {
+                    if (MfssbgfDigfst.isEqubl(domputfdHbsi,
+                                              fxpfdtfdHbsi)) {
                         // good
-                    } else {
-                        // we will *not* continue and verify each section
-                        attrsVerified = false;
-                        if (debug != null) {
-                            debug.println("Verification of " +
-                                        "Manifest main attributes failed");
-                            debug.println();
+                    } flsf {
+                        // wf will *not* dontinuf bnd vfrify fbdi sfdtion
+                        bttrsVfrififd = fblsf;
+                        if (dfbug != null) {
+                            dfbug.println("Vfrifidbtion of " +
+                                        "Mbniffst mbin bttributfs fbilfd");
+                            dfbug.println();
                         }
-                        break;
+                        brfbk;
                     }
                 }
             }
         }
 
-        // this method returns 'true' if either:
-        //      . manifest main attributes were not signed, or
-        //      . manifest main attributes were signed and verified
-        return attrsVerified;
+        // tiis mftiod rfturns 'truf' if fitifr:
+        //      . mbniffst mbin bttributfs wfrf not signfd, or
+        //      . mbniffst mbin bttributfs wfrf signfd bnd vfrififd
+        rfturn bttrsVfrififd;
     }
 
     /**
-     * given the .SF digest header, and the data from the
-     * section in the manifest, see if the hashes match.
-     * if not, throw a SecurityException.
+     * givfn tif .SF digfst ifbdfr, bnd tif dbtb from tif
+     * sfdtion in tif mbniffst, sff if tif ibsifs mbtdi.
+     * if not, tirow b SfdurityExdfption.
      *
-     * @return true if all the -Digest headers verified
-     * @exception SecurityException if the hash was not equal
+     * @rfturn truf if bll tif -Digfst ifbdfrs vfrififd
+     * @fxdfption SfdurityExdfption if tif ibsi wbs not fqubl
      */
 
-    private boolean verifySection(Attributes sfAttr,
-                                  String name,
-                                  ManifestDigester md)
-         throws IOException
+    privbtf boolfbn vfrifySfdtion(Attributfs sfAttr,
+                                  String nbmf,
+                                  MbniffstDigfstfr md)
+         tirows IOExdfption
     {
-        boolean oneDigestVerified = false;
-        ManifestDigester.Entry mde = md.get(name,block.isOldStyle());
+        boolfbn onfDigfstVfrififd = fblsf;
+        MbniffstDigfstfr.Entry mdf = md.gft(nbmf,blodk.isOldStylf());
 
-        if (mde == null) {
-            throw new SecurityException(
-                  "no manifiest section for signature file entry "+name);
+        if (mdf == null) {
+            tirow nfw SfdurityExdfption(
+                  "no mbnififst sfdtion for signbturf filf fntry "+nbmf);
         }
 
         if (sfAttr != null) {
 
-            //sun.misc.HexDumpEncoder hex = new sun.misc.HexDumpEncoder();
-            //hex.encodeBuffer(data, System.out);
+            //sun.misd.HfxDumpEndodfr ifx = nfw sun.misd.HfxDumpEndodfr();
+            //ifx.fndodfBufffr(dbtb, Systfm.out);
 
-            // go through all the attributes and process *-Digest entries
-            for (Map.Entry<Object,Object> se : sfAttr.entrySet()) {
-                String key = se.getKey().toString();
+            // go tirougi bll tif bttributfs bnd prodfss *-Digfst fntrifs
+            for (Mbp.Entry<Objfdt,Objfdt> sf : sfAttr.fntrySft()) {
+                String kfy = sf.gftKfy().toString();
 
-                if (key.toUpperCase(Locale.ENGLISH).endsWith("-DIGEST")) {
-                    // 7 is length of "-Digest"
-                    String algorithm = key.substring(0, key.length()-7);
+                if (kfy.toUppfrCbsf(Lodblf.ENGLISH).fndsWiti("-DIGEST")) {
+                    // 7 is lfngti of "-Digfst"
+                    String blgoritim = kfy.substring(0, kfy.lfngti()-7);
 
-                    MessageDigest digest = getDigest(algorithm);
+                    MfssbgfDigfst digfst = gftDigfst(blgoritim);
 
-                    if (digest != null) {
-                        boolean ok = false;
+                    if (digfst != null) {
+                        boolfbn ok = fblsf;
 
-                        byte[] expected =
-                            Base64.getMimeDecoder().decode((String)se.getValue());
-                        byte[] computed;
-                        if (workaround) {
-                            computed = mde.digestWorkaround(digest);
-                        } else {
-                            computed = mde.digest(digest);
+                        bytf[] fxpfdtfd =
+                            Bbsf64.gftMimfDfdodfr().dfdodf((String)sf.gftVbluf());
+                        bytf[] domputfd;
+                        if (workbround) {
+                            domputfd = mdf.digfstWorkbround(digfst);
+                        } flsf {
+                            domputfd = mdf.digfst(digfst);
                         }
 
-                        if (debug != null) {
-                          debug.println("Signature Block File: " +
-                                   name + " digest=" + digest.getAlgorithm());
-                          debug.println("  expected " + toHex(expected));
-                          debug.println("  computed " + toHex(computed));
-                          debug.println();
+                        if (dfbug != null) {
+                          dfbug.println("Signbturf Blodk Filf: " +
+                                   nbmf + " digfst=" + digfst.gftAlgoritim());
+                          dfbug.println("  fxpfdtfd " + toHfx(fxpfdtfd));
+                          dfbug.println("  domputfd " + toHfx(domputfd));
+                          dfbug.println();
                         }
 
-                        if (MessageDigest.isEqual(computed, expected)) {
-                            oneDigestVerified = true;
-                            ok = true;
-                        } else {
-                            // attempt to fallback to the workaround
-                            if (!workaround) {
-                               computed = mde.digestWorkaround(digest);
-                               if (MessageDigest.isEqual(computed, expected)) {
-                                   if (debug != null) {
-                                       debug.println("  re-computed " + toHex(computed));
-                                       debug.println();
+                        if (MfssbgfDigfst.isEqubl(domputfd, fxpfdtfd)) {
+                            onfDigfstVfrififd = truf;
+                            ok = truf;
+                        } flsf {
+                            // bttfmpt to fbllbbdk to tif workbround
+                            if (!workbround) {
+                               domputfd = mdf.digfstWorkbround(digfst);
+                               if (MfssbgfDigfst.isEqubl(domputfd, fxpfdtfd)) {
+                                   if (dfbug != null) {
+                                       dfbug.println("  rf-domputfd " + toHfx(domputfd));
+                                       dfbug.println();
                                    }
-                                   workaround = true;
-                                   oneDigestVerified = true;
-                                   ok = true;
+                                   workbround = truf;
+                                   onfDigfstVfrififd = truf;
+                                   ok = truf;
                                }
                             }
                         }
                         if (!ok){
-                            throw new SecurityException("invalid " +
-                                       digest.getAlgorithm() +
-                                       " signature file digest for " + name);
+                            tirow nfw SfdurityExdfption("invblid " +
+                                       digfst.gftAlgoritim() +
+                                       " signbturf filf digfst for " + nbmf);
                         }
                     }
                 }
             }
         }
-        return oneDigestVerified;
+        rfturn onfDigfstVfrififd;
     }
 
     /**
-     * Given the PKCS7 block and SignerInfo[], create an array of
-     * CodeSigner objects. We do this only *once* for a given
-     * signature block file.
+     * Givfn tif PKCS7 blodk bnd SignfrInfo[], drfbtf bn brrby of
+     * CodfSignfr objfdts. Wf do tiis only *ondf* for b givfn
+     * signbturf blodk filf.
      */
-    private CodeSigner[] getSigners(SignerInfo infos[], PKCS7 block)
-        throws IOException, NoSuchAlgorithmException, SignatureException,
-            CertificateException {
+    privbtf CodfSignfr[] gftSignfrs(SignfrInfo infos[], PKCS7 blodk)
+        tirows IOExdfption, NoSudiAlgoritimExdfption, SignbturfExdfption,
+            CfrtifidbtfExdfption {
 
-        ArrayList<CodeSigner> signers = null;
+        ArrbyList<CodfSignfr> signfrs = null;
 
-        for (int i = 0; i < infos.length; i++) {
+        for (int i = 0; i < infos.lfngti; i++) {
 
-            SignerInfo info = infos[i];
-            ArrayList<X509Certificate> chain = info.getCertificateChain(block);
-            CertPath certChain = certificateFactory.generateCertPath(chain);
-            if (signers == null) {
-                signers = new ArrayList<CodeSigner>();
+            SignfrInfo info = infos[i];
+            ArrbyList<X509Cfrtifidbtf> dibin = info.gftCfrtifidbtfCibin(blodk);
+            CfrtPbti dfrtCibin = dfrtifidbtfFbdtory.gfnfrbtfCfrtPbti(dibin);
+            if (signfrs == null) {
+                signfrs = nfw ArrbyList<CodfSignfr>();
             }
-            // Append the new code signer
-            signers.add(new CodeSigner(certChain, info.getTimestamp()));
+            // Appfnd tif nfw dodf signfr
+            signfrs.bdd(nfw CodfSignfr(dfrtCibin, info.gftTimfstbmp()));
 
-            if (debug != null) {
-                debug.println("Signature Block Certificate: " +
-                    chain.get(0));
+            if (dfbug != null) {
+                dfbug.println("Signbturf Blodk Cfrtifidbtf: " +
+                    dibin.gft(0));
             }
         }
 
-        if (signers != null) {
-            return signers.toArray(new CodeSigner[signers.size()]);
-        } else {
-            return null;
+        if (signfrs != null) {
+            rfturn signfrs.toArrby(nfw CodfSignfr[signfrs.sizf()]);
+        } flsf {
+            rfturn null;
         }
     }
 
-    // for the toHex function
-    private static final char[] hexc =
-            {'0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f'};
+    // for tif toHfx fundtion
+    privbtf stbtid finbl dibr[] ifxd =
+            {'0','1','2','3','4','5','6','7','8','9','b','b','d','d','f','f'};
     /**
-     * convert a byte array to a hex string for debugging purposes
-     * @param data the binary data to be converted to a hex string
-     * @return an ASCII hex string
+     * donvfrt b bytf brrby to b ifx string for dfbugging purposfs
+     * @pbrbm dbtb tif binbry dbtb to bf donvfrtfd to b ifx string
+     * @rfturn bn ASCII ifx string
      */
 
-    static String toHex(byte[] data) {
+    stbtid String toHfx(bytf[] dbtb) {
 
-        StringBuilder sb = new StringBuilder(data.length*2);
+        StringBuildfr sb = nfw StringBuildfr(dbtb.lfngti*2);
 
-        for (int i=0; i<data.length; i++) {
-            sb.append(hexc[(data[i] >>4) & 0x0f]);
-            sb.append(hexc[data[i] & 0x0f]);
+        for (int i=0; i<dbtb.lfngti; i++) {
+            sb.bppfnd(ifxd[(dbtb[i] >>4) & 0x0f]);
+            sb.bppfnd(ifxd[dbtb[i] & 0x0f]);
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
-    // returns true if set contains signer
-    static boolean contains(CodeSigner[] set, CodeSigner signer)
+    // rfturns truf if sft dontbins signfr
+    stbtid boolfbn dontbins(CodfSignfr[] sft, CodfSignfr signfr)
     {
-        for (int i = 0; i < set.length; i++) {
-            if (set[i].equals(signer))
-                return true;
+        for (int i = 0; i < sft.lfngti; i++) {
+            if (sft[i].fqubls(signfr))
+                rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    // returns true if subset is a subset of set
-    static boolean isSubSet(CodeSigner[] subset, CodeSigner[] set)
+    // rfturns truf if subsft is b subsft of sft
+    stbtid boolfbn isSubSft(CodfSignfr[] subsft, CodfSignfr[] sft)
     {
-        // check for the same object
-        if (set == subset)
-            return true;
+        // difdk for tif sbmf objfdt
+        if (sft == subsft)
+            rfturn truf;
 
-        boolean match;
-        for (int i = 0; i < subset.length; i++) {
-            if (!contains(set, subset[i]))
-                return false;
+        boolfbn mbtdi;
+        for (int i = 0; i < subsft.lfngti; i++) {
+            if (!dontbins(sft, subsft[i]))
+                rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * returns true if signer contains exactly the same code signers as
-     * oldSigner and newSigner, false otherwise. oldSigner
-     * is allowed to be null.
+     * rfturns truf if signfr dontbins fxbdtly tif sbmf dodf signfrs bs
+     * oldSignfr bnd nfwSignfr, fblsf otifrwisf. oldSignfr
+     * is bllowfd to bf null.
      */
-    static boolean matches(CodeSigner[] signers, CodeSigner[] oldSigners,
-        CodeSigner[] newSigners) {
+    stbtid boolfbn mbtdifs(CodfSignfr[] signfrs, CodfSignfr[] oldSignfrs,
+        CodfSignfr[] nfwSignfrs) {
 
-        // special case
-        if ((oldSigners == null) && (signers == newSigners))
-            return true;
+        // spfdibl dbsf
+        if ((oldSignfrs == null) && (signfrs == nfwSignfrs))
+            rfturn truf;
 
-        boolean match;
+        boolfbn mbtdi;
 
-        // make sure all oldSigners are in signers
-        if ((oldSigners != null) && !isSubSet(oldSigners, signers))
-            return false;
+        // mbkf surf bll oldSignfrs brf in signfrs
+        if ((oldSignfrs != null) && !isSubSft(oldSignfrs, signfrs))
+            rfturn fblsf;
 
-        // make sure all newSigners are in signers
-        if (!isSubSet(newSigners, signers)) {
-            return false;
+        // mbkf surf bll nfwSignfrs brf in signfrs
+        if (!isSubSft(nfwSignfrs, signfrs)) {
+            rfturn fblsf;
         }
 
-        // now make sure all the code signers in signers are
-        // also in oldSigners or newSigners
+        // now mbkf surf bll tif dodf signfrs in signfrs brf
+        // blso in oldSignfrs or nfwSignfrs
 
-        for (int i = 0; i < signers.length; i++) {
-            boolean found =
-                ((oldSigners != null) && contains(oldSigners, signers[i])) ||
-                contains(newSigners, signers[i]);
+        for (int i = 0; i < signfrs.lfngti; i++) {
+            boolfbn found =
+                ((oldSignfrs != null) && dontbins(oldSignfrs, signfrs[i])) ||
+                dontbins(nfwSignfrs, signfrs[i]);
             if (!found)
-                return false;
+                rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 
-    void updateSigners(CodeSigner[] newSigners,
-        Hashtable<String, CodeSigner[]> signers, String name) {
+    void updbtfSignfrs(CodfSignfr[] nfwSignfrs,
+        Hbsitbblf<String, CodfSignfr[]> signfrs, String nbmf) {
 
-        CodeSigner[] oldSigners = signers.get(name);
+        CodfSignfr[] oldSignfrs = signfrs.gft(nbmf);
 
-        // search through the cache for a match, go in reverse order
-        // as we are more likely to find a match with the last one
-        // added to the cache
+        // sfbrdi tirougi tif dbdif for b mbtdi, go in rfvfrsf ordfr
+        // bs wf brf morf likfly to find b mbtdi witi tif lbst onf
+        // bddfd to tif dbdif
 
-        CodeSigner[] cachedSigners;
-        for (int i = signerCache.size() - 1; i != -1; i--) {
-            cachedSigners = signerCache.get(i);
-            if (matches(cachedSigners, oldSigners, newSigners)) {
-                signers.put(name, cachedSigners);
-                return;
+        CodfSignfr[] dbdifdSignfrs;
+        for (int i = signfrCbdif.sizf() - 1; i != -1; i--) {
+            dbdifdSignfrs = signfrCbdif.gft(i);
+            if (mbtdifs(dbdifdSignfrs, oldSignfrs, nfwSignfrs)) {
+                signfrs.put(nbmf, dbdifdSignfrs);
+                rfturn;
             }
         }
 
-        if (oldSigners == null) {
-            cachedSigners = newSigners;
-        } else {
-            cachedSigners =
-                new CodeSigner[oldSigners.length + newSigners.length];
-            System.arraycopy(oldSigners, 0, cachedSigners, 0,
-                oldSigners.length);
-            System.arraycopy(newSigners, 0, cachedSigners, oldSigners.length,
-                newSigners.length);
+        if (oldSignfrs == null) {
+            dbdifdSignfrs = nfwSignfrs;
+        } flsf {
+            dbdifdSignfrs =
+                nfw CodfSignfr[oldSignfrs.lfngti + nfwSignfrs.lfngti];
+            Systfm.brrbydopy(oldSignfrs, 0, dbdifdSignfrs, 0,
+                oldSignfrs.lfngti);
+            Systfm.brrbydopy(nfwSignfrs, 0, dbdifdSignfrs, oldSignfrs.lfngti,
+                nfwSignfrs.lfngti);
         }
-        signerCache.add(cachedSigners);
-        signers.put(name, cachedSigners);
+        signfrCbdif.bdd(dbdifdSignfrs);
+        signfrs.put(nbmf, dbdifdSignfrs);
     }
 }

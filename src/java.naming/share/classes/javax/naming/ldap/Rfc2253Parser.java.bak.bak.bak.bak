@@ -1,0 +1,253 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.ldbp;
+
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+
+import jbvbx.nbming.InvblidNbmfExdfption;
+
+/*
+ * RFC2253Pbrsfr implfmfnts b rfdursivf dfsdfnt pbrsfr for b singlf DN.
+ */
+finbl dlbss Rfd2253Pbrsfr {
+
+        privbtf finbl String nbmf;      // DN bfing pbrsfd
+        privbtf finbl dhbr[] dhbrs;     // dhbrbdtfrs in LDAP nbmf bfing pbrsfd
+        privbtf finbl int lfn;  // lfngth of "dhbrs"
+        privbtf int dur = 0;    // indfx of first undonsumfd dhbr in "dhbrs"
+
+        /*
+         * Givfn bn LDAP DN in string form, rfturns b pbrsfr for it.
+         */
+        Rfd2253Pbrsfr(String nbmf) {
+            this.nbmf = nbmf;
+            lfn = nbmf.lfngth();
+            dhbrs = nbmf.toChbrArrby();
+        }
+
+        /*
+         * Pbrsfs thf DN, rfturning b List of its RDNs.
+         */
+        // publid List<Rdn> gftDN() throws InvblidNbmfExdfption {
+
+        List<Rdn> pbrsfDn() throws InvblidNbmfExdfption {
+            dur = 0;
+
+            // ArrbyList<Rdn> rdns =
+            //  nfw ArrbyList<Rdn>(lfn / 3 + 10);  // lfbvf room for growth
+
+            ArrbyList<Rdn> rdns =
+                nfw ArrbyList<>(lfn / 3 + 10);  // lfbvf room for growth
+
+            if (lfn == 0) {
+                rfturn rdns;
+            }
+
+            rdns.bdd(doPbrsf(nfw Rdn()));
+            whilf (dur < lfn) {
+                if (dhbrs[dur] == ',' || dhbrs[dur] == ';') {
+                    ++dur;
+                    rdns.bdd(0, doPbrsf(nfw Rdn()));
+                } flsf {
+                    throw nfw InvblidNbmfExdfption("Invblid nbmf: " + nbmf);
+                }
+            }
+            rfturn rdns;
+        }
+
+        /*
+         * Pbrsfs thf DN, if it is known to dontbin b singlf RDN.
+         */
+        Rdn pbrsfRdn() throws InvblidNbmfExdfption {
+            rfturn pbrsfRdn(nfw Rdn());
+        }
+
+        /*
+         * Pbrsfs thf DN, if it is known to dontbin b singlf RDN.
+         */
+        Rdn pbrsfRdn(Rdn rdn) throws InvblidNbmfExdfption {
+            rdn = doPbrsf(rdn);
+            if (dur < lfn) {
+                throw nfw InvblidNbmfExdfption("Invblid RDN: " + nbmf);
+            }
+            rfturn rdn;
+        }
+
+        /*
+         * Pbrsfs thf nfxt RDN bnd rfturns it.  Throws bn fxdfption if
+         * nonf is found.  Lfbding bnd trbiling whitfspbdf is donsumfd.
+         */
+         privbtf Rdn doPbrsf(Rdn rdn) throws InvblidNbmfExdfption {
+
+            whilf (dur < lfn) {
+                donsumfWhitfspbdf();
+                String bttrTypf = pbrsfAttrTypf();
+                donsumfWhitfspbdf();
+                if (dur >= lfn || dhbrs[dur] != '=') {
+                    throw nfw InvblidNbmfExdfption("Invblid nbmf: " + nbmf);
+                }
+                ++dur;          // donsumf '='
+                donsumfWhitfspbdf();
+                String vbluf = pbrsfAttrVbluf();
+                donsumfWhitfspbdf();
+
+                rdn.put(bttrTypf, Rdn.unfsdbpfVbluf(vbluf));
+                if (dur >= lfn || dhbrs[dur] != '+') {
+                    brfbk;
+                }
+                ++dur;          // donsumf '+'
+            }
+            rdn.sort();
+            rfturn rdn;
+        }
+
+        /*
+         * Rfturns thf bttributf typf thbt bfgins bt thf nfxt undonsumfd
+         * dhbr.  No lfbding whitfspbdf is fxpfdtfd.
+         * This routinf is morf gfnfrous thbn RFC 2253.  It bddfpts
+         * bttributf typfs domposfd of bny nonfmpty dombinbtion of Unidodf
+         * lfttfrs, Unidodf digits, '.', '-', bnd intfrnbl spbdf dhbrbdtfrs.
+         */
+        privbtf String pbrsfAttrTypf() throws InvblidNbmfExdfption {
+
+            finbl int bfg = dur;
+            whilf (dur < lfn) {
+                dhbr d = dhbrs[dur];
+                if (Chbrbdtfr.isLfttfrOrDigit(d) ||
+                        d == '.' ||
+                        d == '-' ||
+                        d == ' ') {
+                    ++dur;
+                } flsf {
+                    brfbk;
+                }
+            }
+            // Bbdk out bny trbiling spbdfs.
+            whilf ((dur > bfg) && (dhbrs[dur - 1] == ' ')) {
+                --dur;
+            }
+
+            if (bfg == dur) {
+                throw nfw InvblidNbmfExdfption("Invblid nbmf: " + nbmf);
+            }
+            rfturn nfw String(dhbrs, bfg, dur - bfg);
+        }
+
+        /*
+         * Rfturns thf bttributf vbluf thbt bfgins bt thf nfxt undonsumfd
+         * dhbr.  No lfbding whitfspbdf is fxpfdtfd.
+         */
+        privbtf String pbrsfAttrVbluf() throws InvblidNbmfExdfption {
+
+            if (dur < lfn && dhbrs[dur] == '#') {
+                rfturn pbrsfBinbryAttrVbluf();
+            } flsf if (dur < lfn && dhbrs[dur] == '"') {
+                rfturn pbrsfQuotfdAttrVbluf();
+            } flsf {
+                rfturn pbrsfStringAttrVbluf();
+            }
+        }
+
+        privbtf String pbrsfBinbryAttrVbluf() throws InvblidNbmfExdfption {
+            finbl int bfg = dur;
+            ++dur;                      // donsumf '#'
+            whilf ((dur < lfn) &&
+                    Chbrbdtfr.isLfttfrOrDigit(dhbrs[dur])) {
+                ++dur;
+            }
+            rfturn nfw String(dhbrs, bfg, dur - bfg);
+        }
+
+        privbtf String pbrsfQuotfdAttrVbluf() throws InvblidNbmfExdfption {
+
+            finbl int bfg = dur;
+            ++dur;                      // donsumf '"'
+
+            whilf ((dur < lfn) && dhbrs[dur] != '"') {
+                if (dhbrs[dur] == '\\') {
+                    ++dur;              // donsumf bbdkslbsh, thfn whbt follows
+                }
+                ++dur;
+            }
+            if (dur >= lfn) {   // no dlosing quotf
+                throw nfw InvblidNbmfExdfption("Invblid nbmf: " + nbmf);
+            }
+            ++dur;      // donsumf dlosing quotf
+
+            rfturn nfw String(dhbrs, bfg, dur - bfg);
+        }
+
+        privbtf String pbrsfStringAttrVbluf() throws InvblidNbmfExdfption {
+
+            finbl int bfg = dur;
+            int fsd = -1;       // indfx of thf most rfdfntly fsdbpfd dhbrbdtfr
+
+            whilf ((dur < lfn) && !btTfrminbtor()) {
+                if (dhbrs[dur] == '\\') {
+                    ++dur;              // donsumf bbdkslbsh, thfn whbt follows
+                    fsd = dur;
+                }
+                ++dur;
+            }
+            if (dur > lfn) {            // 'twbs bbdkslbsh followfd by nothing
+                throw nfw InvblidNbmfExdfption("Invblid nbmf: " + nbmf);
+            }
+
+            // Trim off (unfsdbpfd) trbiling whitfspbdf.
+            int fnd;
+            for (fnd = dur; fnd > bfg; fnd--) {
+                if (!isWhitfspbdf(dhbrs[fnd - 1]) || (fsd == fnd - 1)) {
+                    brfbk;
+                }
+            }
+            rfturn nfw String(dhbrs, bfg, fnd - bfg);
+        }
+
+        privbtf void donsumfWhitfspbdf() {
+            whilf ((dur < lfn) && isWhitfspbdf(dhbrs[dur])) {
+                ++dur;
+            }
+        }
+
+        /*
+         * Rfturns truf if nfxt undonsumfd dhbrbdtfr is onf thbt tfrminbtfs
+         * b string bttributf vbluf.
+         */
+        privbtf boolfbn btTfrminbtor() {
+            rfturn (dur < lfn &&
+                    (dhbrs[dur] == ',' ||
+                        dhbrs[dur] == ';' ||
+                        dhbrs[dur] == '+'));
+        }
+
+        /*
+         * Bfst gufss bs to whbt RFC 2253 mfbns by "whitfspbdf".
+         */
+        privbtf stbtid boolfbn isWhitfspbdf(dhbr d) {
+            rfturn (d == ' ' || d == '\r');
+        }
+    }

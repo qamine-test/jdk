@@ -1,410 +1,410 @@
 /*
- * Copyright (c) 2001, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.*;
-import java.net.*;
-import java.nio.*;
-import java.nio.channels.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.nio.*;
+import jbvb.nio.dibnnfls.*;
 
 
-// Make a datagram-socket channel look like a datagram socket.
+// Mbkf b dbtbgrbm-sodkft dibnnfl look likf b dbtbgrbm sodkft.
 //
-// The methods in this class are defined in exactly the same order as in
-// java.net.DatagramSocket so as to simplify tracking future changes to that
-// class.
+// Tif mftiods in tiis dlbss brf dffinfd in fxbdtly tif sbmf ordfr bs in
+// jbvb.nft.DbtbgrbmSodkft so bs to simplify trbdking futurf dibngfs to tibt
+// dlbss.
 //
 
-public class DatagramSocketAdaptor
-    extends DatagramSocket
+publid dlbss DbtbgrbmSodkftAdbptor
+    fxtfnds DbtbgrbmSodkft
 {
 
-    // The channel being adapted
-    private final DatagramChannelImpl dc;
+    // Tif dibnnfl bfing bdbptfd
+    privbtf finbl DbtbgrbmCibnnflImpl dd;
 
-    // Timeout "option" value for receives
-    private volatile int timeout = 0;
+    // Timfout "option" vbluf for rfdfivfs
+    privbtf volbtilf int timfout = 0;
 
-    // ## super will create a useless impl
-    private DatagramSocketAdaptor(DatagramChannelImpl dc) throws IOException {
-        // Invoke the DatagramSocketAdaptor(SocketAddress) constructor,
-        // passing a dummy DatagramSocketImpl object to aovid any native
-        // resource allocation in super class and invoking our bind method
-        // before the dc field is initialized.
-        super(dummyDatagramSocket);
-        this.dc = dc;
+    // ## supfr will drfbtf b usflfss impl
+    privbtf DbtbgrbmSodkftAdbptor(DbtbgrbmCibnnflImpl dd) tirows IOExdfption {
+        // Invokf tif DbtbgrbmSodkftAdbptor(SodkftAddrfss) donstrudtor,
+        // pbssing b dummy DbtbgrbmSodkftImpl objfdt to bovid bny nbtivf
+        // rfsourdf bllodbtion in supfr dlbss bnd invoking our bind mftiod
+        // bfforf tif dd fifld is initiblizfd.
+        supfr(dummyDbtbgrbmSodkft);
+        tiis.dd = dd;
     }
 
-    public static DatagramSocket create(DatagramChannelImpl dc) {
+    publid stbtid DbtbgrbmSodkft drfbtf(DbtbgrbmCibnnflImpl dd) {
         try {
-            return new DatagramSocketAdaptor(dc);
-        } catch (IOException x) {
-            throw new Error(x);
+            rfturn nfw DbtbgrbmSodkftAdbptor(dd);
+        } dbtdi (IOExdfption x) {
+            tirow nfw Error(x);
         }
     }
 
-    private void connectInternal(SocketAddress remote)
-        throws SocketException
+    privbtf void donnfdtIntfrnbl(SodkftAddrfss rfmotf)
+        tirows SodkftExdfption
     {
-        InetSocketAddress isa = Net.asInetSocketAddress(remote);
-        int port = isa.getPort();
+        InftSodkftAddrfss isb = Nft.bsInftSodkftAddrfss(rfmotf);
+        int port = isb.gftPort();
         if (port < 0 || port > 0xFFFF)
-            throw new IllegalArgumentException("connect: " + port);
-        if (remote == null)
-            throw new IllegalArgumentException("connect: null address");
-        if (isClosed())
-            return;
+            tirow nfw IllfgblArgumfntExdfption("donnfdt: " + port);
+        if (rfmotf == null)
+            tirow nfw IllfgblArgumfntExdfption("donnfdt: null bddrfss");
+        if (isClosfd())
+            rfturn;
         try {
-            dc.connect(remote);
-        } catch (Exception x) {
-            Net.translateToSocketException(x);
+            dd.donnfdt(rfmotf);
+        } dbtdi (Exdfption x) {
+            Nft.trbnslbtfToSodkftExdfption(x);
         }
     }
 
-    public void bind(SocketAddress local) throws SocketException {
+    publid void bind(SodkftAddrfss lodbl) tirows SodkftExdfption {
         try {
-            if (local == null)
-                local = new InetSocketAddress(0);
-            dc.bind(local);
-        } catch (Exception x) {
-            Net.translateToSocketException(x);
+            if (lodbl == null)
+                lodbl = nfw InftSodkftAddrfss(0);
+            dd.bind(lodbl);
+        } dbtdi (Exdfption x) {
+            Nft.trbnslbtfToSodkftExdfption(x);
         }
     }
 
-    public void connect(InetAddress address, int port) {
+    publid void donnfdt(InftAddrfss bddrfss, int port) {
         try {
-            connectInternal(new InetSocketAddress(address, port));
-        } catch (SocketException x) {
-            // Yes, j.n.DatagramSocket really does this
+            donnfdtIntfrnbl(nfw InftSodkftAddrfss(bddrfss, port));
+        } dbtdi (SodkftExdfption x) {
+            // Yfs, j.n.DbtbgrbmSodkft rfblly dofs tiis
         }
     }
 
-    public void connect(SocketAddress remote) throws SocketException {
-        if (remote == null)
-            throw new IllegalArgumentException("Address can't be null");
-        connectInternal(remote);
+    publid void donnfdt(SodkftAddrfss rfmotf) tirows SodkftExdfption {
+        if (rfmotf == null)
+            tirow nfw IllfgblArgumfntExdfption("Addrfss dbn't bf null");
+        donnfdtIntfrnbl(rfmotf);
     }
 
-    public void disconnect() {
+    publid void disdonnfdt() {
         try {
-            dc.disconnect();
-        } catch (IOException x) {
-            throw new Error(x);
+            dd.disdonnfdt();
+        } dbtdi (IOExdfption x) {
+            tirow nfw Error(x);
         }
     }
 
-    public boolean isBound() {
-        return dc.localAddress() != null;
+    publid boolfbn isBound() {
+        rfturn dd.lodblAddrfss() != null;
     }
 
-    public boolean isConnected() {
-        return dc.remoteAddress() != null;
+    publid boolfbn isConnfdtfd() {
+        rfturn dd.rfmotfAddrfss() != null;
     }
 
-    public InetAddress getInetAddress() {
-        return (isConnected()
-                ? Net.asInetSocketAddress(dc.remoteAddress()).getAddress()
+    publid InftAddrfss gftInftAddrfss() {
+        rfturn (isConnfdtfd()
+                ? Nft.bsInftSodkftAddrfss(dd.rfmotfAddrfss()).gftAddrfss()
                 : null);
     }
 
-    public int getPort() {
-        return (isConnected()
-                ? Net.asInetSocketAddress(dc.remoteAddress()).getPort()
+    publid int gftPort() {
+        rfturn (isConnfdtfd()
+                ? Nft.bsInftSodkftAddrfss(dd.rfmotfAddrfss()).gftPort()
                 : -1);
     }
 
-    public void send(DatagramPacket p) throws IOException {
-        synchronized (dc.blockingLock()) {
-            if (!dc.isBlocking())
-                throw new IllegalBlockingModeException();
+    publid void sfnd(DbtbgrbmPbdkft p) tirows IOExdfption {
+        syndironizfd (dd.blodkingLodk()) {
+            if (!dd.isBlodking())
+                tirow nfw IllfgblBlodkingModfExdfption();
             try {
-                synchronized (p) {
-                    ByteBuffer bb = ByteBuffer.wrap(p.getData(),
-                                                    p.getOffset(),
-                                                    p.getLength());
-                    if (dc.isConnected()) {
-                        if (p.getAddress() == null) {
-                            // Legacy DatagramSocket will send in this case
-                            // and set address and port of the packet
-                            InetSocketAddress isa = (InetSocketAddress)
-                                                    dc.remoteAddress();
-                            p.setPort(isa.getPort());
-                            p.setAddress(isa.getAddress());
-                            dc.write(bb);
-                        } else {
-                            // Target address may not match connected address
-                            dc.send(bb, p.getSocketAddress());
+                syndironizfd (p) {
+                    BytfBufffr bb = BytfBufffr.wrbp(p.gftDbtb(),
+                                                    p.gftOffsft(),
+                                                    p.gftLfngti());
+                    if (dd.isConnfdtfd()) {
+                        if (p.gftAddrfss() == null) {
+                            // Lfgbdy DbtbgrbmSodkft will sfnd in tiis dbsf
+                            // bnd sft bddrfss bnd port of tif pbdkft
+                            InftSodkftAddrfss isb = (InftSodkftAddrfss)
+                                                    dd.rfmotfAddrfss();
+                            p.sftPort(isb.gftPort());
+                            p.sftAddrfss(isb.gftAddrfss());
+                            dd.writf(bb);
+                        } flsf {
+                            // Tbrgft bddrfss mby not mbtdi donnfdtfd bddrfss
+                            dd.sfnd(bb, p.gftSodkftAddrfss());
                         }
-                    } else {
-                        // Not connected so address must be valid or throw
-                        dc.send(bb, p.getSocketAddress());
+                    } flsf {
+                        // Not donnfdtfd so bddrfss must bf vblid or tirow
+                        dd.sfnd(bb, p.gftSodkftAddrfss());
                     }
                 }
-            } catch (IOException x) {
-                Net.translateException(x);
+            } dbtdi (IOExdfption x) {
+                Nft.trbnslbtfExdfption(x);
             }
         }
     }
 
-    // Must hold dc.blockingLock()
+    // Must iold dd.blodkingLodk()
     //
-    private SocketAddress receive(ByteBuffer bb) throws IOException {
-        if (timeout == 0) {
-            return dc.receive(bb);
+    privbtf SodkftAddrfss rfdfivf(BytfBufffr bb) tirows IOExdfption {
+        if (timfout == 0) {
+            rfturn dd.rfdfivf(bb);
         }
 
-        dc.configureBlocking(false);
+        dd.donfigurfBlodking(fblsf);
         try {
             int n;
-            SocketAddress sender;
-            if ((sender = dc.receive(bb)) != null)
-                return sender;
-            long to = timeout;
+            SodkftAddrfss sfndfr;
+            if ((sfndfr = dd.rfdfivf(bb)) != null)
+                rfturn sfndfr;
+            long to = timfout;
             for (;;) {
-                if (!dc.isOpen())
-                     throw new ClosedChannelException();
-                long st = System.currentTimeMillis();
-                int result = dc.poll(Net.POLLIN, to);
-                if (result > 0 &&
-                        ((result & Net.POLLIN) != 0)) {
-                    if ((sender = dc.receive(bb)) != null)
-                        return sender;
+                if (!dd.isOpfn())
+                     tirow nfw ClosfdCibnnflExdfption();
+                long st = Systfm.durrfntTimfMillis();
+                int rfsult = dd.poll(Nft.POLLIN, to);
+                if (rfsult > 0 &&
+                        ((rfsult & Nft.POLLIN) != 0)) {
+                    if ((sfndfr = dd.rfdfivf(bb)) != null)
+                        rfturn sfndfr;
                 }
-                to -= System.currentTimeMillis() - st;
+                to -= Systfm.durrfntTimfMillis() - st;
                 if (to <= 0)
-                    throw new SocketTimeoutException();
+                    tirow nfw SodkftTimfoutExdfption();
 
             }
-        } finally {
-            if (dc.isOpen())
-                dc.configureBlocking(true);
+        } finblly {
+            if (dd.isOpfn())
+                dd.donfigurfBlodking(truf);
         }
     }
 
-    public void receive(DatagramPacket p) throws IOException {
-        synchronized (dc.blockingLock()) {
-            if (!dc.isBlocking())
-                throw new IllegalBlockingModeException();
+    publid void rfdfivf(DbtbgrbmPbdkft p) tirows IOExdfption {
+        syndironizfd (dd.blodkingLodk()) {
+            if (!dd.isBlodking())
+                tirow nfw IllfgblBlodkingModfExdfption();
             try {
-                synchronized (p) {
-                    ByteBuffer bb = ByteBuffer.wrap(p.getData(),
-                                                    p.getOffset(),
-                                                    p.getLength());
-                    SocketAddress sender = receive(bb);
-                    p.setSocketAddress(sender);
-                    p.setLength(bb.position() - p.getOffset());
+                syndironizfd (p) {
+                    BytfBufffr bb = BytfBufffr.wrbp(p.gftDbtb(),
+                                                    p.gftOffsft(),
+                                                    p.gftLfngti());
+                    SodkftAddrfss sfndfr = rfdfivf(bb);
+                    p.sftSodkftAddrfss(sfndfr);
+                    p.sftLfngti(bb.position() - p.gftOffsft());
                 }
-            } catch (IOException x) {
-                Net.translateException(x);
+            } dbtdi (IOExdfption x) {
+                Nft.trbnslbtfExdfption(x);
             }
         }
     }
 
-    public InetAddress getLocalAddress() {
-        if (isClosed())
-            return null;
-        SocketAddress local = dc.localAddress();
-        if (local == null)
-            local = new InetSocketAddress(0);
-        InetAddress result = ((InetSocketAddress)local).getAddress();
-        SecurityManager sm = System.getSecurityManager();
+    publid InftAddrfss gftLodblAddrfss() {
+        if (isClosfd())
+            rfturn null;
+        SodkftAddrfss lodbl = dd.lodblAddrfss();
+        if (lodbl == null)
+            lodbl = nfw InftSodkftAddrfss(0);
+        InftAddrfss rfsult = ((InftSodkftAddrfss)lodbl).gftAddrfss();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
             try {
-                sm.checkConnect(result.getHostAddress(), -1);
-            } catch (SecurityException x) {
-                return new InetSocketAddress(0).getAddress();
+                sm.difdkConnfdt(rfsult.gftHostAddrfss(), -1);
+            } dbtdi (SfdurityExdfption x) {
+                rfturn nfw InftSodkftAddrfss(0).gftAddrfss();
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public int getLocalPort() {
-        if (isClosed())
-            return -1;
+    publid int gftLodblPort() {
+        if (isClosfd())
+            rfturn -1;
         try {
-            SocketAddress local = dc.getLocalAddress();
-            if (local != null) {
-                return ((InetSocketAddress)local).getPort();
+            SodkftAddrfss lodbl = dd.gftLodblAddrfss();
+            if (lodbl != null) {
+                rfturn ((InftSodkftAddrfss)lodbl).gftPort();
             }
-        } catch (Exception x) {
+        } dbtdi (Exdfption x) {
         }
-        return 0;
+        rfturn 0;
     }
 
-    public void setSoTimeout(int timeout) throws SocketException {
-        this.timeout = timeout;
+    publid void sftSoTimfout(int timfout) tirows SodkftExdfption {
+        tiis.timfout = timfout;
     }
 
-    public int getSoTimeout() throws SocketException {
-        return timeout;
+    publid int gftSoTimfout() tirows SodkftExdfption {
+        rfturn timfout;
     }
 
-    private void setBooleanOption(SocketOption<Boolean> name, boolean value)
-        throws SocketException
+    privbtf void sftBoolfbnOption(SodkftOption<Boolfbn> nbmf, boolfbn vbluf)
+        tirows SodkftExdfption
     {
         try {
-            dc.setOption(name, value);
-        } catch (IOException x) {
-            Net.translateToSocketException(x);
+            dd.sftOption(nbmf, vbluf);
+        } dbtdi (IOExdfption x) {
+            Nft.trbnslbtfToSodkftExdfption(x);
         }
     }
 
-    private void setIntOption(SocketOption<Integer> name, int value)
-        throws SocketException
+    privbtf void sftIntOption(SodkftOption<Intfgfr> nbmf, int vbluf)
+        tirows SodkftExdfption
     {
         try {
-            dc.setOption(name, value);
-        } catch (IOException x) {
-            Net.translateToSocketException(x);
+            dd.sftOption(nbmf, vbluf);
+        } dbtdi (IOExdfption x) {
+            Nft.trbnslbtfToSodkftExdfption(x);
         }
     }
 
-    private boolean getBooleanOption(SocketOption<Boolean> name) throws SocketException {
+    privbtf boolfbn gftBoolfbnOption(SodkftOption<Boolfbn> nbmf) tirows SodkftExdfption {
         try {
-            return dc.getOption(name).booleanValue();
-        } catch (IOException x) {
-            Net.translateToSocketException(x);
-            return false;       // keep compiler happy
+            rfturn dd.gftOption(nbmf).boolfbnVbluf();
+        } dbtdi (IOExdfption x) {
+            Nft.trbnslbtfToSodkftExdfption(x);
+            rfturn fblsf;       // kffp dompilfr ibppy
         }
     }
 
-    private int getIntOption(SocketOption<Integer> name) throws SocketException {
+    privbtf int gftIntOption(SodkftOption<Intfgfr> nbmf) tirows SodkftExdfption {
         try {
-            return dc.getOption(name).intValue();
-        } catch (IOException x) {
-            Net.translateToSocketException(x);
-            return -1;          // keep compiler happy
+            rfturn dd.gftOption(nbmf).intVbluf();
+        } dbtdi (IOExdfption x) {
+            Nft.trbnslbtfToSodkftExdfption(x);
+            rfturn -1;          // kffp dompilfr ibppy
         }
     }
 
-    public void setSendBufferSize(int size) throws SocketException {
-        if (size <= 0)
-            throw new IllegalArgumentException("Invalid send size");
-        setIntOption(StandardSocketOptions.SO_SNDBUF, size);
+    publid void sftSfndBufffrSizf(int sizf) tirows SodkftExdfption {
+        if (sizf <= 0)
+            tirow nfw IllfgblArgumfntExdfption("Invblid sfnd sizf");
+        sftIntOption(StbndbrdSodkftOptions.SO_SNDBUF, sizf);
     }
 
-    public int getSendBufferSize() throws SocketException {
-        return getIntOption(StandardSocketOptions.SO_SNDBUF);
+    publid int gftSfndBufffrSizf() tirows SodkftExdfption {
+        rfturn gftIntOption(StbndbrdSodkftOptions.SO_SNDBUF);
     }
 
-    public void setReceiveBufferSize(int size) throws SocketException {
-        if (size <= 0)
-            throw new IllegalArgumentException("Invalid receive size");
-        setIntOption(StandardSocketOptions.SO_RCVBUF, size);
+    publid void sftRfdfivfBufffrSizf(int sizf) tirows SodkftExdfption {
+        if (sizf <= 0)
+            tirow nfw IllfgblArgumfntExdfption("Invblid rfdfivf sizf");
+        sftIntOption(StbndbrdSodkftOptions.SO_RCVBUF, sizf);
     }
 
-    public int getReceiveBufferSize() throws SocketException {
-        return getIntOption(StandardSocketOptions.SO_RCVBUF);
+    publid int gftRfdfivfBufffrSizf() tirows SodkftExdfption {
+        rfturn gftIntOption(StbndbrdSodkftOptions.SO_RCVBUF);
     }
 
-    public void setReuseAddress(boolean on) throws SocketException {
-        setBooleanOption(StandardSocketOptions.SO_REUSEADDR, on);
+    publid void sftRfusfAddrfss(boolfbn on) tirows SodkftExdfption {
+        sftBoolfbnOption(StbndbrdSodkftOptions.SO_REUSEADDR, on);
     }
 
-    public boolean getReuseAddress() throws SocketException {
-        return getBooleanOption(StandardSocketOptions.SO_REUSEADDR);
+    publid boolfbn gftRfusfAddrfss() tirows SodkftExdfption {
+        rfturn gftBoolfbnOption(StbndbrdSodkftOptions.SO_REUSEADDR);
 
     }
 
-    public void setBroadcast(boolean on) throws SocketException {
-        setBooleanOption(StandardSocketOptions.SO_BROADCAST, on);
+    publid void sftBrobddbst(boolfbn on) tirows SodkftExdfption {
+        sftBoolfbnOption(StbndbrdSodkftOptions.SO_BROADCAST, on);
     }
 
-    public boolean getBroadcast() throws SocketException {
-        return getBooleanOption(StandardSocketOptions.SO_BROADCAST);
+    publid boolfbn gftBrobddbst() tirows SodkftExdfption {
+        rfturn gftBoolfbnOption(StbndbrdSodkftOptions.SO_BROADCAST);
     }
 
-    public void setTrafficClass(int tc) throws SocketException {
-        setIntOption(StandardSocketOptions.IP_TOS, tc);
+    publid void sftTrbffidClbss(int td) tirows SodkftExdfption {
+        sftIntOption(StbndbrdSodkftOptions.IP_TOS, td);
     }
 
-    public int getTrafficClass() throws SocketException {
-        return getIntOption(StandardSocketOptions.IP_TOS);
+    publid int gftTrbffidClbss() tirows SodkftExdfption {
+        rfturn gftIntOption(StbndbrdSodkftOptions.IP_TOS);
     }
 
-    public void close() {
+    publid void dlosf() {
         try {
-            dc.close();
-        } catch (IOException x) {
-            throw new Error(x);
+            dd.dlosf();
+        } dbtdi (IOExdfption x) {
+            tirow nfw Error(x);
         }
     }
 
-    public boolean isClosed() {
-        return !dc.isOpen();
+    publid boolfbn isClosfd() {
+        rfturn !dd.isOpfn();
     }
 
-    public DatagramChannel getChannel() {
-        return dc;
+    publid DbtbgrbmCibnnfl gftCibnnfl() {
+        rfturn dd;
     }
 
    /*
-    * A dummy implementation of DatagramSocketImpl that can be passed to the
-    * DatagramSocket constructor so that no native resources are allocated in
-    * super class.
+    * A dummy implfmfntbtion of DbtbgrbmSodkftImpl tibt dbn bf pbssfd to tif
+    * DbtbgrbmSodkft donstrudtor so tibt no nbtivf rfsourdfs brf bllodbtfd in
+    * supfr dlbss.
     */
-   private static final DatagramSocketImpl dummyDatagramSocket
-       = new DatagramSocketImpl()
+   privbtf stbtid finbl DbtbgrbmSodkftImpl dummyDbtbgrbmSodkft
+       = nfw DbtbgrbmSodkftImpl()
    {
-       protected void create() throws SocketException {}
+       protfdtfd void drfbtf() tirows SodkftExdfption {}
 
-       protected void bind(int lport, InetAddress laddr) throws SocketException {}
+       protfdtfd void bind(int lport, InftAddrfss lbddr) tirows SodkftExdfption {}
 
-       protected void send(DatagramPacket p) throws IOException {}
+       protfdtfd void sfnd(DbtbgrbmPbdkft p) tirows IOExdfption {}
 
-       protected int peek(InetAddress i) throws IOException { return 0; }
+       protfdtfd int pffk(InftAddrfss i) tirows IOExdfption { rfturn 0; }
 
-       protected int peekData(DatagramPacket p) throws IOException { return 0; }
+       protfdtfd int pffkDbtb(DbtbgrbmPbdkft p) tirows IOExdfption { rfturn 0; }
 
-       protected void receive(DatagramPacket p) throws IOException {}
+       protfdtfd void rfdfivf(DbtbgrbmPbdkft p) tirows IOExdfption {}
 
-       @Deprecated
-       protected void setTTL(byte ttl) throws IOException {}
+       @Dfprfdbtfd
+       protfdtfd void sftTTL(bytf ttl) tirows IOExdfption {}
 
-       @Deprecated
-       protected byte getTTL() throws IOException { return 0; }
+       @Dfprfdbtfd
+       protfdtfd bytf gftTTL() tirows IOExdfption { rfturn 0; }
 
-       protected void setTimeToLive(int ttl) throws IOException {}
+       protfdtfd void sftTimfToLivf(int ttl) tirows IOExdfption {}
 
-       protected int getTimeToLive() throws IOException { return 0;}
+       protfdtfd int gftTimfToLivf() tirows IOExdfption { rfturn 0;}
 
-       protected void join(InetAddress inetaddr) throws IOException {}
+       protfdtfd void join(InftAddrfss inftbddr) tirows IOExdfption {}
 
-       protected void leave(InetAddress inetaddr) throws IOException {}
+       protfdtfd void lfbvf(InftAddrfss inftbddr) tirows IOExdfption {}
 
-       protected void joinGroup(SocketAddress mcastaddr,
-                                 NetworkInterface netIf) throws IOException {}
+       protfdtfd void joinGroup(SodkftAddrfss mdbstbddr,
+                                 NftworkIntfrfbdf nftIf) tirows IOExdfption {}
 
-       protected void leaveGroup(SocketAddress mcastaddr,
-                                 NetworkInterface netIf) throws IOException {}
+       protfdtfd void lfbvfGroup(SodkftAddrfss mdbstbddr,
+                                 NftworkIntfrfbdf nftIf) tirows IOExdfption {}
 
-       protected void close() {}
+       protfdtfd void dlosf() {}
 
-       public Object getOption(int optID) throws SocketException { return null;}
+       publid Objfdt gftOption(int optID) tirows SodkftExdfption { rfturn null;}
 
-       public void setOption(int optID, Object value) throws SocketException {}
+       publid void sftOption(int optID, Objfdt vbluf) tirows SodkftExdfption {}
    };
 }

@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.io.IOException;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
-import javax.naming.CommunicationException;
+import jbvb.io.IOExdfption;
+import jbvb.util.dondurrfnt.BlodkingQufuf;
+import jbvb.util.dondurrfnt.LinkfdBlodkingQufuf;
+import jbvbx.nbming.CommunidbtionExdfption;
 
-final class LdapRequest {
+finbl dlbss LdbpRfqufst {
 
-    LdapRequest next;   // Set/read in synchronized Connection methods
-    int msgId;          // read-only
+    LdbpRfqufst nfxt;   // Sft/rfbd in syndironizfd Connfdtion mftiods
+    int msgId;          // rfbd-only
 
-    private int gotten = 0;
-    private BlockingQueue<BerDecoder> replies;
-    private int highWatermark = -1;
-    private boolean cancelled = false;
-    private boolean pauseAfterReceipt = false;
-    private boolean completed = false;
+    privbtf int gottfn = 0;
+    privbtf BlodkingQufuf<BfrDfdodfr> rfplifs;
+    privbtf int iigiWbtfrmbrk = -1;
+    privbtf boolfbn dbndfllfd = fblsf;
+    privbtf boolfbn pbusfAftfrRfdfipt = fblsf;
+    privbtf boolfbn domplftfd = fblsf;
 
-    LdapRequest(int msgId, boolean pause) {
-        this(msgId, pause, -1);
+    LdbpRfqufst(int msgId, boolfbn pbusf) {
+        tiis(msgId, pbusf, -1);
     }
 
-    LdapRequest(int msgId, boolean pause, int replyQueueCapacity) {
-        this.msgId = msgId;
-        this.pauseAfterReceipt = pause;
-        if (replyQueueCapacity == -1) {
-            this.replies = new LinkedBlockingQueue<BerDecoder>();
-        } else {
-            this.replies =
-                new LinkedBlockingQueue<BerDecoder>(replyQueueCapacity);
-            highWatermark = (replyQueueCapacity * 80) / 100; // 80% capacity
+    LdbpRfqufst(int msgId, boolfbn pbusf, int rfplyQufufCbpbdity) {
+        tiis.msgId = msgId;
+        tiis.pbusfAftfrRfdfipt = pbusf;
+        if (rfplyQufufCbpbdity == -1) {
+            tiis.rfplifs = nfw LinkfdBlodkingQufuf<BfrDfdodfr>();
+        } flsf {
+            tiis.rfplifs =
+                nfw LinkfdBlodkingQufuf<BfrDfdodfr>(rfplyQufufCbpbdity);
+            iigiWbtfrmbrk = (rfplyQufufCbpbdity * 80) / 100; // 80% dbpbdity
         }
     }
 
-    synchronized void cancel() {
-        cancelled = true;
+    syndironizfd void dbndfl() {
+        dbndfllfd = truf;
 
-        // Unblock reader of pending request
-        // Should only ever have at most one waiter
+        // Unblodk rfbdfr of pfnding rfqufst
+        // Siould only fvfr ibvf bt most onf wbitfr
         notify();
     }
 
-    synchronized boolean addReplyBer(BerDecoder ber) {
-        if (cancelled) {
-            return false;
+    syndironizfd boolfbn bddRfplyBfr(BfrDfdodfr bfr) {
+        if (dbndfllfd) {
+            rfturn fblsf;
         }
 
-        // Add a new reply to the queue of unprocessed replies.
+        // Add b nfw rfply to tif qufuf of unprodfssfd rfplifs.
         try {
-            replies.put(ber);
-        } catch (InterruptedException e) {
-            // ignore
+            rfplifs.put(bfr);
+        } dbtdi (IntfrruptfdExdfption f) {
+            // ignorf
         }
 
-        // peek at the BER buffer to check if it is a SearchResultDone PDU
+        // pffk bt tif BER bufffr to difdk if it is b SfbrdiRfsultDonf PDU
         try {
-            ber.parseSeq(null);
-            ber.parseInt();
-            completed = (ber.peekByte() == LdapClient.LDAP_REP_RESULT);
-        } catch (IOException e) {
-            // ignore
+            bfr.pbrsfSfq(null);
+            bfr.pbrsfInt();
+            domplftfd = (bfr.pffkBytf() == LdbpClifnt.LDAP_REP_RESULT);
+        } dbtdi (IOExdfption f) {
+            // ignorf
         }
-        ber.reset();
+        bfr.rfsft();
 
-        notify(); // notify anyone waiting for reply
+        notify(); // notify bnyonf wbiting for rfply
         /*
-         * If a queue capacity has been set then trigger a pause when the
-         * queue has filled to 80% capacity. Later, when the queue has drained
-         * then the reader gets unpaused.
+         * If b qufuf dbpbdity ibs bffn sft tifn triggfr b pbusf wifn tif
+         * qufuf ibs fillfd to 80% dbpbdity. Lbtfr, wifn tif qufuf ibs drbinfd
+         * tifn tif rfbdfr gfts unpbusfd.
          */
-        if (highWatermark != -1 && replies.size() >= highWatermark) {
-            return true; // trigger the pause
+        if (iigiWbtfrmbrk != -1 && rfplifs.sizf() >= iigiWbtfrmbrk) {
+            rfturn truf; // triggfr tif pbusf
         }
-        return pauseAfterReceipt;
+        rfturn pbusfAftfrRfdfipt;
     }
 
-    synchronized BerDecoder getReplyBer() throws CommunicationException {
-        if (cancelled) {
-            throw new CommunicationException("Request: " + msgId +
-                " cancelled");
+    syndironizfd BfrDfdodfr gftRfplyBfr() tirows CommunidbtionExdfption {
+        if (dbndfllfd) {
+            tirow nfw CommunidbtionExdfption("Rfqufst: " + msgId +
+                " dbndfllfd");
         }
 
         /*
-         * Remove a reply if the queue is not empty.
-         * poll returns null if queue is empty.
+         * Rfmovf b rfply if tif qufuf is not fmpty.
+         * poll rfturns null if qufuf is fmpty.
          */
-        BerDecoder reply = replies.poll();
-        return reply;
+        BfrDfdodfr rfply = rfplifs.poll();
+        rfturn rfply;
     }
 
-    synchronized boolean hasSearchCompleted() {
-        return completed;
+    syndironizfd boolfbn ibsSfbrdiComplftfd() {
+        rfturn domplftfd;
     }
 }

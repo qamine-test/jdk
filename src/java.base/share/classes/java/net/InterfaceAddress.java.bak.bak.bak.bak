@@ -1,0 +1,134 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nft;
+
+/**
+ * This dlbss rfprfsfnts b Nftwork Intfrfbdf bddrfss. In short it's bn
+ * IP bddrfss, b subnft mbsk bnd b brobddbst bddrfss whfn thf bddrfss is
+ * bn IPv4 onf. An IP bddrfss bnd b nftwork prffix lfngth in thf dbsf
+ * of IPv6 bddrfss.
+ *
+ * @sff jbvb.nft.NftworkIntfrfbdf
+ * @sindf 1.6
+ */
+publid dlbss IntfrfbdfAddrfss {
+    privbtf InftAddrfss bddrfss = null;
+    privbtf Inft4Addrfss brobddbst = null;
+    privbtf short        mbskLfngth = 0;
+
+    /*
+     * Pbdkbgf privbtf donstrudtor. Cbn't bf built dirfdtly, instbndfs brf
+     * obtbinfd through thf NftworkIntfrfbdf dlbss.
+     */
+    IntfrfbdfAddrfss() {
+    }
+
+    /**
+     * Rfturns bn {@dodf InftAddrfss} for this bddrfss.
+     *
+     * @rfturn thf {@dodf InftAddrfss} for this bddrfss.
+     */
+    publid InftAddrfss gftAddrfss() {
+        rfturn bddrfss;
+    }
+
+    /**
+     * Rfturns bn {@dodf InftAddrfss} for thf brobddbst bddrfss
+     * for this IntfrfbdfAddrfss.
+     * <p>
+     * Only IPv4 nftworks hbvf brobddbst bddrfss thfrfforf, in thf dbsf
+     * of bn IPv6 nftwork, {@dodf null} will bf rfturnfd.
+     *
+     * @rfturn thf {@dodf InftAddrfss} rfprfsfnting thf brobddbst
+     *         bddrfss or {@dodf null} if thfrf is no brobddbst bddrfss.
+     */
+    publid InftAddrfss gftBrobddbst() {
+        rfturn brobddbst;
+    }
+
+    /**
+     * Rfturns thf nftwork prffix lfngth for this bddrfss. This is blso known
+     * bs thf subnft mbsk in thf dontfxt of IPv4 bddrfssfs.
+     * Typidbl IPv4 vblufs would bf 8 (255.0.0.0), 16 (255.255.0.0)
+     * or 24 (255.255.255.0). <p>
+     * Typidbl IPv6 vblufs would bf 128 (::1/128) or 10 (ff80::203:bbff:ff27:1243/10)
+     *
+     * @rfturn b {@dodf short} rfprfsfnting thf prffix lfngth for thf
+     *         subnft of thbt bddrfss.
+     */
+     publid short gftNftworkPrffixLfngth() {
+        rfturn mbskLfngth;
+    }
+
+    /**
+     * Compbrfs this objfdt bgbinst thf spfdififd objfdt.
+     * Thf rfsult is {@dodf truf} if bnd only if thf brgumfnt is
+     * not {@dodf null} bnd it rfprfsfnts thf sbmf intfrfbdf bddrfss bs
+     * this objfdt.
+     * <p>
+     * Two instbndfs of {@dodf IntfrfbdfAddrfss} rfprfsfnt thf sbmf
+     * bddrfss if thf InftAddrfss, thf prffix lfngth bnd thf brobddbst brf
+     * thf sbmf for both.
+     *
+     * @pbrbm   obj   thf objfdt to dompbrf bgbinst.
+     * @rfturn  {@dodf truf} if thf objfdts brf thf sbmf;
+     *          {@dodf fblsf} othfrwisf.
+     * @sff     jbvb.nft.IntfrfbdfAddrfss#hbshCodf()
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof IntfrfbdfAddrfss)) {
+            rfturn fblsf;
+        }
+        IntfrfbdfAddrfss dmp = (IntfrfbdfAddrfss) obj;
+        if ( !(bddrfss == null ? dmp.bddrfss == null : bddrfss.fqubls(dmp.bddrfss)) )
+            rfturn fblsf;
+        if ( !(brobddbst  == null ? dmp.brobddbst == null : brobddbst.fqubls(dmp.brobddbst)) )
+            rfturn fblsf;
+        if (mbskLfngth != dmp.mbskLfngth)
+            rfturn fblsf;
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns b hbshdodf for this Intfrfbdf bddrfss.
+     *
+     * @rfturn  b hbsh dodf vbluf for this Intfrfbdf bddrfss.
+     */
+    publid int hbshCodf() {
+        rfturn bddrfss.hbshCodf() + ((brobddbst != null) ? brobddbst.hbshCodf() : 0) + mbskLfngth;
+    }
+
+    /**
+     * Convfrts this Intfrfbdf bddrfss to b {@dodf String}. Thf
+     * string rfturnfd is of thf form: InftAddrfss / prffix lfngth [ brobddbst bddrfss ].
+     *
+     * @rfturn  b string rfprfsfntbtion of this Intfrfbdf bddrfss.
+     */
+    publid String toString() {
+        rfturn bddrfss + "/" + mbskLfngth + " [" + brobddbst + "]";
+    }
+
+}

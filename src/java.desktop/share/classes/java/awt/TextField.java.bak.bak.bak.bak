@@ -1,0 +1,777 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.pffr.TfxtFifldPffr;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.EvfntListfnfr;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvbx.bddfssibility.*;
+
+
+/**
+ * A <dodf>TfxtFifld</dodf> objfdt is b tfxt domponfnt
+ * thbt bllows for thf fditing of b singlf linf of tfxt.
+ * <p>
+ * For fxbmplf, thf following imbgf dfpidts b frbmf with four
+ * tfxt fiflds of vbrying widths. Two of thfsf tfxt fiflds
+ * displby thf prfdffinfd tfxt <dodf>"Hfllo"</dodf>.
+ * <p>
+ * <img srd="dod-filfs/TfxtFifld-1.gif" blt="Thf prfdfding tfxt dfsdribfs this imbgf."
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
+ * <p>
+ * Hfrf is thf dodf thbt produdfs thfsf four tfxt fiflds:
+ *
+ * <hr><blodkquotf><prf>
+ * TfxtFifld tf1, tf2, tf3, tf4;
+ * // b blbnk tfxt fifld
+ * tf1 = nfw TfxtFifld();
+ * // blbnk fifld of 20 dolumns
+ * tf2 = nfw TfxtFifld("", 20);
+ * // prfdffinfd tfxt displbyfd
+ * tf3 = nfw TfxtFifld("Hfllo!");
+ * // prfdffinfd tfxt in 30 dolumns
+ * tf4 = nfw TfxtFifld("Hfllo", 30);
+ * </prf></blodkquotf><hr>
+ * <p>
+ * Evfry timf thf usfr typfs b kfy in thf tfxt fifld, onf or
+ * morf kfy fvfnts brf sfnt to thf tfxt fifld.  A <dodf>KfyEvfnt</dodf>
+ * mby bf onf of thrff typfs: kfyPrfssfd, kfyRflfbsfd, or kfyTypfd.
+ * Thf propfrtifs of b kfy fvfnt indidbtf whidh of thfsf typfs
+ * it is, bs wfll bs bdditionbl informbtion bbout thf fvfnt,
+ * sudh bs whbt modififrs brf bpplifd to thf kfy fvfnt bnd thf
+ * timf bt whidh thf fvfnt oddurrfd.
+ * <p>
+ * Thf kfy fvfnt is pbssfd to fvfry <dodf>KfyListfnfr</dodf>
+ * or <dodf>KfyAdbptfr</dodf> objfdt whidh rfgistfrfd to rfdfivf sudh
+ * fvfnts using thf domponfnt's <dodf>bddKfyListfnfr</dodf> mfthod.
+ * (<dodf>KfyAdbptfr</dodf> objfdts implfmfnt thf
+ * <dodf>KfyListfnfr</dodf> intfrfbdf.)
+ * <p>
+ * It is blso possiblf to firf bn <dodf>AdtionEvfnt</dodf>.
+ * If bdtion fvfnts brf fnbblfd for thf tfxt fifld, thfy mby
+ * bf firfd by prfssing thf <dodf>Rfturn</dodf> kfy.
+ * <p>
+ * Thf <dodf>TfxtFifld</dodf> dlbss's <dodf>prodfssEvfnt</dodf>
+ * mfthod fxbminfs thf bdtion fvfnt bnd pbssfs it blong to
+ * <dodf>prodfssAdtionEvfnt</dodf>. Thf lbttfr mfthod rfdirfdts thf
+ * fvfnt to bny <dodf>AdtionListfnfr</dodf> objfdts thbt hbvf
+ * rfgistfrfd to rfdfivf bdtion fvfnts gfnfrbtfd by this
+ * tfxt fifld.
+ *
+ * @buthor      Sbmi Shbio
+ * @sff         jbvb.bwt.fvfnt.KfyEvfnt
+ * @sff         jbvb.bwt.fvfnt.KfyAdbptfr
+ * @sff         jbvb.bwt.fvfnt.KfyListfnfr
+ * @sff         jbvb.bwt.fvfnt.AdtionEvfnt
+ * @sff         jbvb.bwt.Componfnt#bddKfyListfnfr
+ * @sff         jbvb.bwt.TfxtFifld#prodfssEvfnt
+ * @sff         jbvb.bwt.TfxtFifld#prodfssAdtionEvfnt
+ * @sff         jbvb.bwt.TfxtFifld#bddAdtionListfnfr
+ * @sindf       1.0
+ */
+publid dlbss TfxtFifld fxtfnds TfxtComponfnt {
+
+    /**
+     * Thf numbfr of dolumns in thf tfxt fifld.
+     * A dolumn is bn bpproximbtf bvfrbgf dhbrbdtfr
+     * width thbt is plbtform-dfpfndfnt.
+     * Gubrbntffd to bf non-nfgbtivf.
+     *
+     * @sfribl
+     * @sff #sftColumns(int)
+     * @sff #gftColumns()
+     */
+    int dolumns;
+
+    /**
+     * Thf fdho dhbrbdtfr, whidh is usfd whfn
+     * thf usfr wishfs to disguisf thf dhbrbdtfrs
+     * typfd into thf tfxt fifld.
+     * Thf disguisfs brf rfmovfd if fdhoChbr = <dodf>0</dodf>.
+     *
+     * @sfribl
+     * @sff #gftEdhoChbr()
+     * @sff #sftEdhoChbr(dhbr)
+     * @sff #fdhoChbrIsSft()
+     */
+    dhbr fdhoChbr;
+
+    trbnsifnt AdtionListfnfr bdtionListfnfr;
+
+    privbtf stbtid finbl String bbsf = "tfxtfifld";
+    privbtf stbtid int nbmfCountfr = 0;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -2966288784432217853L;
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod ids
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+    }
+
+    /**
+     * Construdts b nfw tfxt fifld.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid TfxtFifld() throws HfbdlfssExdfption {
+        this("", 0);
+    }
+
+    /**
+     * Construdts b nfw tfxt fifld initiblizfd with thf spfdififd tfxt.
+     * @pbrbm      tfxt       thf tfxt to bf displbyfd. If
+     *             <dodf>tfxt</dodf> is <dodf>null</dodf>, thf fmpty
+     *             string <dodf>""</dodf> will bf displbyfd.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid TfxtFifld(String tfxt) throws HfbdlfssExdfption {
+        this(tfxt, (tfxt != null) ? tfxt.lfngth() : 0);
+    }
+
+    /**
+     * Construdts b nfw fmpty tfxt fifld with thf spfdififd numbfr
+     * of dolumns.  A dolumn is bn bpproximbtf bvfrbgf dhbrbdtfr
+     * width thbt is plbtform-dfpfndfnt.
+     * @pbrbm      dolumns     thf numbfr of dolumns.  If
+     *             <dodf>dolumns</dodf> is lfss thbn <dodf>0</dodf>,
+     *             <dodf>dolumns</dodf> is sft to <dodf>0</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid TfxtFifld(int dolumns) throws HfbdlfssExdfption {
+        this("", dolumns);
+    }
+
+    /**
+     * Construdts b nfw tfxt fifld initiblizfd with thf spfdififd tfxt
+     * to bf displbyfd, bnd widf fnough to hold thf spfdififd
+     * numbfr of dolumns. A dolumn is bn bpproximbtf bvfrbgf dhbrbdtfr
+     * width thbt is plbtform-dfpfndfnt.
+     * @pbrbm      tfxt       thf tfxt to bf displbyfd. If
+     *             <dodf>tfxt</dodf> is <dodf>null</dodf>, thf fmpty
+     *             string <dodf>""</dodf> will bf displbyfd.
+     * @pbrbm      dolumns     thf numbfr of dolumns.  If
+     *             <dodf>dolumns</dodf> is lfss thbn <dodf>0</dodf>,
+     *             <dodf>dolumns</dodf> is sft to <dodf>0</dodf>.
+     * @fxdfption HfbdlfssExdfption if GrbphidsEnvironmfnt.isHfbdlfss()
+     * rfturns truf.
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    publid TfxtFifld(String tfxt, int dolumns) throws HfbdlfssExdfption {
+        supfr(tfxt);
+        this.dolumns = (dolumns >= 0) ? dolumns : 0;
+    }
+
+    /**
+     * Construdt b nbmf for this domponfnt.  Cbllfd by gftNbmf() whfn thf
+     * nbmf is null.
+     */
+    String donstrudtComponfntNbmf() {
+        syndhronizfd (TfxtFifld.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
+        }
+    }
+
+    /**
+     * Crfbtfs thf TfxtFifld's pffr.  Thf pffr bllows us to modify thf
+     * bppfbrbndf of thf TfxtFifld without dhbnging its fundtionblity.
+     */
+    publid void bddNotify() {
+        syndhronizfd (gftTrffLodk()) {
+            if (pffr == null)
+                pffr = gftToolkit().drfbtfTfxtFifld(this);
+            supfr.bddNotify();
+        }
+    }
+
+    /**
+     * Gfts thf dhbrbdtfr thbt is to bf usfd for fdhoing.
+     * <p>
+     * An fdho dhbrbdtfr is usfful for tfxt fiflds whfrf
+     * usfr input should not bf fdhofd to thf sdrffn, bs in
+     * thf dbsf of b tfxt fifld for fntfring b pbssword.
+     * If <dodf>fdhoChbr</dodf> = <dodf>0</dodf>, usfr
+     * input is fdhofd to thf sdrffn undhbngfd.
+     * <p>
+     * A Jbvb plbtform implfmfntbtion mby support only b limitfd,
+     * non-fmpty sft of fdho dhbrbdtfrs. This fundtion rfturns thf
+     * fdho dhbrbdtfr originblly rfqufstfd vib sftEdhoChbr(). Thf fdho
+     * dhbrbdtfr bdtublly usfd by thf TfxtFifld implfmfntbtion might bf
+     * difffrfnt.
+     * @rfturn      thf fdho dhbrbdtfr for this tfxt fifld.
+     * @sff         jbvb.bwt.TfxtFifld#fdhoChbrIsSft
+     * @sff         jbvb.bwt.TfxtFifld#sftEdhoChbr
+     */
+    publid dhbr gftEdhoChbr() {
+        rfturn fdhoChbr;
+    }
+
+    /**
+     * Sfts thf fdho dhbrbdtfr for this tfxt fifld.
+     * <p>
+     * An fdho dhbrbdtfr is usfful for tfxt fiflds whfrf
+     * usfr input should not bf fdhofd to thf sdrffn, bs in
+     * thf dbsf of b tfxt fifld for fntfring b pbssword.
+     * Sftting <dodf>fdhoChbr</dodf> = <dodf>0</dodf> bllows
+     * usfr input to bf fdhofd to thf sdrffn bgbin.
+     * <p>
+     * A Jbvb plbtform implfmfntbtion mby support only b limitfd,
+     * non-fmpty sft of fdho dhbrbdtfrs. Attfmpts to sft bn
+     * unsupportfd fdho dhbrbdtfr will dbusf thf dffbult fdho
+     * dhbrbdtfr to bf usfd instfbd. Subsfqufnt dblls to gftEdhoChbr()
+     * will rfturn thf fdho dhbrbdtfr originblly rfqufstfd. This might
+     * or might not bf idfntidbl to thf fdho dhbrbdtfr bdtublly
+     * usfd by thf TfxtFifld implfmfntbtion.
+     * @pbrbm       d   thf fdho dhbrbdtfr for this tfxt fifld.
+     * @sff         jbvb.bwt.TfxtFifld#fdhoChbrIsSft
+     * @sff         jbvb.bwt.TfxtFifld#gftEdhoChbr
+     * @sindf       1.1
+     */
+    publid void sftEdhoChbr(dhbr d) {
+        sftEdhoChbrbdtfr(d);
+    }
+
+    /**
+     * Sfts thf dhbrbdtfr to bf fdhofd whfn protfdtfd input is displbyfd.
+     *
+     *  @pbrbm  d thf fdho dhbrbdtfr for this tfxt fifld
+     *
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftEdhoChbr(dhbr)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid syndhronizfd void sftEdhoChbrbdtfr(dhbr d) {
+        if (fdhoChbr != d) {
+            fdhoChbr = d;
+            TfxtFifldPffr pffr = (TfxtFifldPffr)this.pffr;
+            if (pffr != null) {
+                pffr.sftEdhoChbr(d);
+            }
+        }
+    }
+
+    /**
+     * Sfts thf tfxt thbt is prfsfntfd by this
+     * tfxt domponfnt to bf thf spfdififd tfxt.
+     * @pbrbm       t   thf nfw tfxt.
+     * @sff         jbvb.bwt.TfxtComponfnt#gftTfxt
+     */
+    publid void sftTfxt(String t) {
+        supfr.sftTfxt(t);
+
+        // This dould dhbngf thf prfffrrfd sizf of thf Componfnt.
+        invblidbtfIfVblid();
+    }
+
+    /**
+     * Indidbtfs whfthfr or not this tfxt fifld hbs b
+     * dhbrbdtfr sft for fdhoing.
+     * <p>
+     * An fdho dhbrbdtfr is usfful for tfxt fiflds whfrf
+     * usfr input should not bf fdhofd to thf sdrffn, bs in
+     * thf dbsf of b tfxt fifld for fntfring b pbssword.
+     * @rfturn     <dodf>truf</dodf> if this tfxt fifld hbs
+     *                 b dhbrbdtfr sft for fdhoing;
+     *                 <dodf>fblsf</dodf> othfrwisf.
+     * @sff        jbvb.bwt.TfxtFifld#sftEdhoChbr
+     * @sff        jbvb.bwt.TfxtFifld#gftEdhoChbr
+     */
+    publid boolfbn fdhoChbrIsSft() {
+        rfturn fdhoChbr != 0;
+    }
+
+    /**
+     * Gfts thf numbfr of dolumns in this tfxt fifld. A dolumn is bn
+     * bpproximbtf bvfrbgf dhbrbdtfr width thbt is plbtform-dfpfndfnt.
+     * @rfturn     thf numbfr of dolumns.
+     * @sff        jbvb.bwt.TfxtFifld#sftColumns
+     * @sindf      1.1
+     */
+    publid int gftColumns() {
+        rfturn dolumns;
+    }
+
+    /**
+     * Sfts thf numbfr of dolumns in this tfxt fifld. A dolumn is bn
+     * bpproximbtf bvfrbgf dhbrbdtfr width thbt is plbtform-dfpfndfnt.
+     * @pbrbm      dolumns   thf numbfr of dolumns.
+     * @sff        jbvb.bwt.TfxtFifld#gftColumns
+     * @fxdfption  IllfgblArgumfntExdfption   if thf vbluf
+     *                 supplifd for <dodf>dolumns</dodf>
+     *                 is lfss thbn <dodf>0</dodf>.
+     * @sindf      1.1
+     */
+    publid void sftColumns(int dolumns) {
+        int oldVbl;
+        syndhronizfd (this) {
+            oldVbl = this.dolumns;
+            if (dolumns < 0) {
+                throw nfw IllfgblArgumfntExdfption("dolumns lfss thbn zfro.");
+            }
+            if (dolumns != oldVbl) {
+                this.dolumns = dolumns;
+            }
+        }
+
+        if (dolumns != oldVbl) {
+            invblidbtf();
+        }
+    }
+
+    /**
+     * Gfts thf prfffrrfd sizf of this tfxt fifld
+     * with thf spfdififd numbfr of dolumns.
+     * @pbrbm     dolumns thf numbfr of dolumns
+     *                 in this tfxt fifld.
+     * @rfturn    thf prfffrrfd dimfnsions for
+     *                 displbying this tfxt fifld.
+     * @sindf     1.1
+     */
+    publid Dimfnsion gftPrfffrrfdSizf(int dolumns) {
+        rfturn prfffrrfdSizf(dolumns);
+    }
+
+    /**
+     * Rfturns thf prfffrrfd sizf for this tfxt fifld
+     * with thf spfdififd numbfr of dolumns.
+     *
+     * @pbrbm  dolumns thf numbfr of dolumns
+     * @rfturn thf prfffrrfd sizf for thf tfxt fifld
+     *
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftPrfffrrfdSizf(int)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid Dimfnsion prfffrrfdSizf(int dolumns) {
+        syndhronizfd (gftTrffLodk()) {
+            TfxtFifldPffr pffr = (TfxtFifldPffr)this.pffr;
+            rfturn (pffr != null) ?
+                       pffr.gftPrfffrrfdSizf(dolumns) :
+                       supfr.prfffrrfdSizf();
+        }
+    }
+
+    /**
+     * Gfts thf prfffrrfd sizf of this tfxt fifld.
+     * @rfturn     thf prfffrrfd dimfnsions for
+     *                         displbying this tfxt fifld.
+     * @sindf      1.1
+     */
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        rfturn prfffrrfdSizf();
+    }
+
+    /**
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftPrfffrrfdSizf()</dodf>.
+     */
+    @Dfprfdbtfd
+    publid Dimfnsion prfffrrfdSizf() {
+        syndhronizfd (gftTrffLodk()) {
+            rfturn (dolumns > 0) ?
+                       prfffrrfdSizf(dolumns) :
+                       supfr.prfffrrfdSizf();
+        }
+    }
+
+    /**
+     * Gfts thf minimum dimfnsions for b tfxt fifld with
+     * thf spfdififd numbfr of dolumns.
+     * @pbrbm  dolumns thf numbfr of dolumns in
+     *         this tfxt fifld.
+     * @rfturn thf minimum sizf for this tfxt fifld
+     * @sindf    1.1
+     */
+    publid Dimfnsion gftMinimumSizf(int dolumns) {
+        rfturn minimumSizf(dolumns);
+    }
+
+    /**
+     * Rfturns thf minimum dimfnsions for b tfxt fifld with
+     * thf spfdififd numbfr of dolumns.
+     *
+     * @pbrbm  dolumns thf numbfr of dolumns
+     * @rfturn thf minimum sizf for this tfxt fifld
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftMinimumSizf(int)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid Dimfnsion minimumSizf(int dolumns) {
+        syndhronizfd (gftTrffLodk()) {
+            TfxtFifldPffr pffr = (TfxtFifldPffr)this.pffr;
+            rfturn (pffr != null) ?
+                       pffr.gftMinimumSizf(dolumns) :
+                       supfr.minimumSizf();
+        }
+    }
+
+    /**
+     * Gfts thf minimum dimfnsions for this tfxt fifld.
+     * @rfturn     thf minimum dimfnsions for
+     *                  displbying this tfxt fifld.
+     * @sindf      1.1
+     */
+    publid Dimfnsion gftMinimumSizf() {
+        rfturn minimumSizf();
+    }
+
+    /**
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftMinimumSizf()</dodf>.
+     */
+    @Dfprfdbtfd
+    publid Dimfnsion minimumSizf() {
+        syndhronizfd (gftTrffLodk()) {
+            rfturn (dolumns > 0) ?
+                       minimumSizf(dolumns) :
+                       supfr.minimumSizf();
+        }
+    }
+
+    /**
+     * Adds thf spfdififd bdtion listfnfr to rfdfivf
+     * bdtion fvfnts from this tfxt fifld.
+     * If l is null, no fxdfption is thrown bnd no bdtion is pfrformfd.
+     * <p>Rfffr to <b hrff="dod-filfs/AWTThrfbdIssufs.html#ListfnfrsThrfbds"
+     * >AWT Thrfbding Issufs</b> for dftbils on AWT's thrfbding modfl.
+     *
+     * @pbrbm      l thf bdtion listfnfr.
+     * @sff        #rfmovfAdtionListfnfr
+     * @sff        #gftAdtionListfnfrs
+     * @sff        jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sindf      1.1
+     */
+    publid syndhronizfd void bddAdtionListfnfr(AdtionListfnfr l) {
+        if (l == null) {
+            rfturn;
+        }
+        bdtionListfnfr = AWTEvfntMultidbstfr.bdd(bdtionListfnfr, l);
+        nfwEvfntsOnly = truf;
+    }
+
+    /**
+     * Rfmovfs thf spfdififd bdtion listfnfr so thbt it no longfr
+     * rfdfivfs bdtion fvfnts from this tfxt fifld.
+     * If l is null, no fxdfption is thrown bnd no bdtion is pfrformfd.
+     * <p>Rfffr to <b hrff="dod-filfs/AWTThrfbdIssufs.html#ListfnfrsThrfbds"
+     * >AWT Thrfbding Issufs</b> for dftbils on AWT's thrfbding modfl.
+     *
+     * @pbrbm           l thf bdtion listfnfr.
+     * @sff             #bddAdtionListfnfr
+     * @sff             #gftAdtionListfnfrs
+     * @sff             jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sindf           1.1
+     */
+    publid syndhronizfd void rfmovfAdtionListfnfr(AdtionListfnfr l) {
+        if (l == null) {
+            rfturn;
+        }
+        bdtionListfnfr = AWTEvfntMultidbstfr.rfmovf(bdtionListfnfr, l);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf bdtion listfnfrs
+     * rfgistfrfd on this tfxtfifld.
+     *
+     * @rfturn bll of this tfxtfifld's <dodf>AdtionListfnfr</dodf>s
+     *         or bn fmpty brrby if no bdtion
+     *         listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff #bddAdtionListfnfr
+     * @sff #rfmovfAdtionListfnfr
+     * @sff jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sindf 1.4
+     */
+    publid syndhronizfd AdtionListfnfr[] gftAdtionListfnfrs() {
+        rfturn gftListfnfrs(AdtionListfnfr.dlbss);
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf objfdts durrfntly rfgistfrfd
+     * bs <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon this <dodf>TfxtFifld</dodf>.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s brf rfgistfrfd using thf
+     * <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mfthod.
+     *
+     * <p>
+     * You dbn spfdify thf <dodf>listfnfrTypf</dodf> brgumfnt
+     * with b dlbss litfrbl, sudh bs
+     * <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b
+     * <dodf>TfxtFifld</dodf> <dodf>t</dodf>
+     * for its bdtion listfnfrs with thf following dodf:
+     *
+     * <prf>AdtionListfnfr[] bls = (AdtionListfnfr[])(t.gftListfnfrs(AdtionListfnfr.dlbss));</prf>
+     *
+     * If no sudh listfnfrs fxist, this mfthod rfturns bn fmpty brrby.
+     *
+     * @pbrbm listfnfrTypf thf typf of listfnfrs rfqufstfd; this pbrbmftfr
+     *          should spfdify bn intfrfbdf thbt dfsdfnds from
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s on this tfxtfifld,
+     *          or bn fmpty brrby if no sudh
+     *          listfnfrs hbvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf>
+     *          dofsn't spfdify b dlbss or intfrfbdf thbt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     *
+     * @sff #gftAdtionListfnfrs
+     * @sindf 1.3
+     */
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        EvfntListfnfr l = null;
+        if  (listfnfrTypf == AdtionListfnfr.dlbss) {
+            l = bdtionListfnfr;
+        } flsf {
+            rfturn supfr.gftListfnfrs(listfnfrTypf);
+        }
+        rfturn AWTEvfntMultidbstfr.gftListfnfrs(l, listfnfrTypf);
+    }
+
+    // REMIND: rfmovf whfn filtfring is donf bt lowfr lfvfl
+    boolfbn fvfntEnbblfd(AWTEvfnt f) {
+        if (f.id == AdtionEvfnt.ACTION_PERFORMED) {
+            if ((fvfntMbsk & AWTEvfnt.ACTION_EVENT_MASK) != 0 ||
+                bdtionListfnfr != null) {
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+        rfturn supfr.fvfntEnbblfd(f);
+    }
+
+    /**
+     * Prodfssfs fvfnts on this tfxt fifld. If thf fvfnt
+     * is bn instbndf of <dodf>AdtionEvfnt</dodf>,
+     * it invokfs thf <dodf>prodfssAdtionEvfnt</dodf>
+     * mfthod. Othfrwisf, it invokfs <dodf>prodfssEvfnt</dodf>
+     * on thf supfrdlbss.
+     * <p>Notf thbt if thf fvfnt pbrbmftfr is <dodf>null</dodf>
+     * thf bfhbvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
+     *
+     * @pbrbm      f thf fvfnt
+     * @sff        jbvb.bwt.fvfnt.AdtionEvfnt
+     * @sff        jbvb.bwt.TfxtFifld#prodfssAdtionEvfnt
+     * @sindf      1.1
+     */
+    protfdtfd void prodfssEvfnt(AWTEvfnt f) {
+        if (f instbndfof AdtionEvfnt) {
+            prodfssAdtionEvfnt((AdtionEvfnt)f);
+            rfturn;
+        }
+        supfr.prodfssEvfnt(f);
+    }
+
+    /**
+     * Prodfssfs bdtion fvfnts oddurring on this tfxt fifld by
+     * dispbtdhing thfm to bny rfgistfrfd
+     * <dodf>AdtionListfnfr</dodf> objfdts.
+     * <p>
+     * This mfthod is not dbllfd unlfss bdtion fvfnts brf
+     * fnbblfd for this domponfnt. Adtion fvfnts brf fnbblfd
+     * whfn onf of thf following oddurs:
+     * <ul>
+     * <li>An <dodf>AdtionListfnfr</dodf> objfdt is rfgistfrfd
+     * vib <dodf>bddAdtionListfnfr</dodf>.
+     * <li>Adtion fvfnts brf fnbblfd vib <dodf>fnbblfEvfnts</dodf>.
+     * </ul>
+     * <p>Notf thbt if thf fvfnt pbrbmftfr is <dodf>null</dodf>
+     * thf bfhbvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
+     *
+     * @pbrbm       f thf bdtion fvfnt
+     * @sff         jbvb.bwt.fvfnt.AdtionListfnfr
+     * @sff         jbvb.bwt.TfxtFifld#bddAdtionListfnfr
+     * @sff         jbvb.bwt.Componfnt#fnbblfEvfnts
+     * @sindf       1.1
+     */
+    protfdtfd void prodfssAdtionEvfnt(AdtionEvfnt f) {
+        AdtionListfnfr listfnfr = bdtionListfnfr;
+        if (listfnfr != null) {
+            listfnfr.bdtionPfrformfd(f);
+        }
+    }
+
+    /**
+     * Rfturns b string rfprfsfnting thf stbtf of this <dodf>TfxtFifld</dodf>.
+     * This mfthod is intfndfd to bf usfd only for dfbugging purposfs, bnd thf
+     * dontfnt bnd formbt of thf rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Thf rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
+     *
+     * @rfturn      thf pbrbmftfr string of this tfxt fifld
+     */
+    protfdtfd String pbrbmString() {
+        String str = supfr.pbrbmString();
+        if (fdhoChbr != 0) {
+            str += ",fdho=" + fdhoChbr;
+        }
+        rfturn str;
+    }
+
+
+    /*
+     * Sfriblizbtion support.
+     */
+    /**
+     * Thf tfxtFifld Sfriblizfd Dbtb Vfrsion.
+     *
+     * @sfribl
+     */
+    privbtf int tfxtFifldSfriblizfdDbtbVfrsion = 1;
+
+    /**
+     * Writfs dffbult sfriblizbblf fiflds to strfbm.  Writfs
+     * b list of sfriblizbblf AdtionListfnfr(s) bs optionbl dbtb.
+     * Thf non-sfriblizbblf AdtionListfnfr(s) brf dftfdtfd bnd
+     * no bttfmpt is mbdf to sfriblizf thfm.
+     *
+     * @sfriblDbtb Null tfrminbtfd sfqufndf of zfro or morf pbirs.
+     *             A pbir donsists of b String bnd Objfdt.
+     *             Thf String indidbtfs thf typf of objfdt bnd
+     *             is onf of thf following :
+     *             AdtionListfnfrK indidbting bnd AdtionListfnfr objfdt.
+     *
+     * @sff AWTEvfntMultidbstfr#sbvf(ObjfdtOutputStrfbm, String, EvfntListfnfr)
+     * @sff jbvb.bwt.Componfnt#bdtionListfnfrK
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+      throws IOExdfption
+    {
+        s.dffbultWritfObjfdt();
+
+        AWTEvfntMultidbstfr.sbvf(s, bdtionListfnfrK, bdtionListfnfr);
+        s.writfObjfdt(null);
+    }
+
+    /**
+     * Rfbd thf ObjfdtInputStrfbm bnd if it isn't null,
+     * bdd b listfnfr to rfdfivf bdtion fvfnts firfd by thf
+     * TfxtFifld.  Unrfdognizfd kfys or vblufs will bf
+     * ignorfd.
+     *
+     * @fxdfption HfbdlfssExdfption if
+     * <dodf>GrbphidsEnvironmfnt.isHfbdlfss()</dodf> rfturns
+     * <dodf>truf</dodf>
+     * @sff #rfmovfAdtionListfnfr(AdtionListfnfr)
+     * @sff #bddAdtionListfnfr(AdtionListfnfr)
+     * @sff jbvb.bwt.GrbphidsEnvironmfnt#isHfbdlfss
+     */
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      throws ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
+    {
+        // HfbdlfssExdfption will bf thrown by TfxtComponfnt's rfbdObjfdt
+        s.dffbultRfbdObjfdt();
+
+        // Mbkf surf thf stbtf wf just rfbd in for dolumns hbs lfgbl vblufs
+        if (dolumns < 0) {
+            dolumns = 0;
+        }
+
+        // Rfbd in listfnfrs, if bny
+        Objfdt kfyOrNull;
+        whilf(null != (kfyOrNull = s.rfbdObjfdt())) {
+            String kfy = ((String)kfyOrNull).intfrn();
+
+            if (bdtionListfnfrK == kfy) {
+                bddAdtionListfnfr((AdtionListfnfr)(s.rfbdObjfdt()));
+            } flsf {
+                // skip vbluf for unrfdognizfd kfy
+                s.rfbdObjfdt();
+            }
+        }
+    }
+
+
+/////////////////
+// Addfssibility support
+////////////////
+
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this TfxtFifld.
+     * For tfxt fiflds, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfAWTTfxtFifld.
+     * A nfw AddfssiblfAWTTfxtFifld instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfAWTTfxtFifld thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this TfxtFifld
+     * @sindf 1.3
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTTfxtFifld();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>TfxtFifld</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to tfxt fifld usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
+     */
+    protfdtfd dlbss AddfssiblfAWTTfxtFifld fxtfnds AddfssiblfAWTTfxtComponfnt
+    {
+        /*
+         * JDK 1.3 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = 6219164359235943158L;
+
+        /**
+         * Gfts thf stbtf sft of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dfsdribing thf stbtfs
+         * of thf objfdt
+         * @sff AddfssiblfStbtf
+         */
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            stbtfs.bdd(AddfssiblfStbtf.SINGLE_LINE);
+            rfturn stbtfs;
+        }
+    }
+
+}

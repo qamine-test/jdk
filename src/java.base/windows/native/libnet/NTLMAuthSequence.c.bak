@@ -1,290 +1,290 @@
 /*
- * Copyright (c) 2002, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <jni.h>
-#include <windows.h>
-#include <rpc.h>
-#include <winsock.h>
-#include <lm.h>
+#indludf <jni.i>
+#indludf <windows.i>
+#indludf <rpd.i>
+#indludf <winsodk.i>
+#indludf <lm.i>
 
-#include <stdio.h>
-#include <stdarg.h>
-#include <stdlib.h>
-#include <string.h>
-#include <tchar.h>
-#include <fcntl.h>
+#indludf <stdio.i>
+#indludf <stdbrg.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <tdibr.i>
+#indludf <fdntl.i>
 
-#include "jni_util.h"
+#indludf "jni_util.i"
 
-#define SECURITY_WIN32
-#include "sspi.h"
+#dffinf SECURITY_WIN32
+#indludf "sspi.i"
 
-static void endSequence (PCredHandle credHand, PCtxtHandle ctxHandle, JNIEnv *env, jobject status);
+stbtid void fndSfqufndf (PCrfdHbndlf drfdHbnd, PCtxtHbndlf dtxHbndlf, JNIEnv *fnv, jobjfdt stbtus);
 
-static jfieldID ntlm_ctxHandleID;
-static jfieldID ntlm_crdHandleID;
-static jfieldID status_seqCompleteID;
+stbtid jfifldID ntlm_dtxHbndlfID;
+stbtid jfifldID ntlm_drdHbndlfID;
+stbtid jfifldID stbtus_sfqComplftfID;
 
-static HINSTANCE lib = NULL;
+stbtid HINSTANCE lib = NULL;
 
-JNIEXPORT void JNICALL Java_sun_net_www_protocol_http_ntlm_NTLMAuthSequence_initFirst
-(JNIEnv *env, jclass authseq_clazz, jclass status_clazz)
+JNIEXPORT void JNICALL Jbvb_sun_nft_www_protodol_ittp_ntlm_NTLMAutiSfqufndf_initFirst
+(JNIEnv *fnv, jdlbss butisfq_dlbzz, jdlbss stbtus_dlbzz)
 {
-    ntlm_ctxHandleID = (*env)->GetFieldID(env, authseq_clazz, "ctxHandle", "J");
-    CHECK_NULL(ntlm_ctxHandleID);
-    ntlm_crdHandleID = (*env)->GetFieldID(env, authseq_clazz, "crdHandle", "J");
-    CHECK_NULL(ntlm_crdHandleID);
-    status_seqCompleteID = (*env)->GetFieldID(env, status_clazz, "sequenceComplete", "Z");
+    ntlm_dtxHbndlfID = (*fnv)->GftFifldID(fnv, butisfq_dlbzz, "dtxHbndlf", "J");
+    CHECK_NULL(ntlm_dtxHbndlfID);
+    ntlm_drdHbndlfID = (*fnv)->GftFifldID(fnv, butisfq_dlbzz, "drdHbndlf", "J");
+    CHECK_NULL(ntlm_drdHbndlfID);
+    stbtus_sfqComplftfID = (*fnv)->GftFifldID(fnv, stbtus_dlbzz, "sfqufndfComplftf", "Z");
 }
 
 /*
- * Class:     sun_net_www_protocol_http_NTLMAuthSequence
- * Method:    getCredentialsHandle
- * Signature: (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)J
+ * Clbss:     sun_nft_www_protodol_ittp_NTLMAutiSfqufndf
+ * Mftiod:    gftCrfdfntiblsHbndlf
+ * Signbturf: (Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;)J
  */
 
-JNIEXPORT jlong JNICALL Java_sun_net_www_protocol_http_ntlm_NTLMAuthSequence_getCredentialsHandle
-(JNIEnv *env, jobject this, jstring user, jstring domain, jstring password)
+JNIEXPORT jlong JNICALL Jbvb_sun_nft_www_protodol_ittp_ntlm_NTLMAutiSfqufndf_gftCrfdfntiblsHbndlf
+(JNIEnv *fnv, jobjfdt tiis, jstring usfr, jstring dombin, jstring pbssword)
 {
-    SEC_WINNT_AUTH_IDENTITY   AuthId;
-    SEC_WINNT_AUTH_IDENTITY * pAuthId;
-    const CHAR        *pUser = 0;
-    const CHAR        *pDomain = 0;
-    const CHAR        *pPassword = 0;
-    CredHandle      *pCred;
-    TimeStamp            ltime;
-    jboolean         isCopy;
+    SEC_WINNT_AUTH_IDENTITY   AutiId;
+    SEC_WINNT_AUTH_IDENTITY * pAutiId;
+    donst CHAR        *pUsfr = 0;
+    donst CHAR        *pDombin = 0;
+    donst CHAR        *pPbssword = 0;
+    CrfdHbndlf      *pCrfd;
+    TimfStbmp            ltimf;
+    jboolfbn         isCopy;
     SECURITY_STATUS      ss;
 
-    if (user != 0) {
-        pUser = JNU_GetStringPlatformChars(env, user, &isCopy);
-        if (pUser == NULL)
-            return 0;  // pending Exception
+    if (usfr != 0) {
+        pUsfr = JNU_GftStringPlbtformCibrs(fnv, usfr, &isCopy);
+        if (pUsfr == NULL)
+            rfturn 0;  // pfnding Exdfption
     }
-    if (domain != 0) {
-        pDomain = JNU_GetStringPlatformChars(env, domain, &isCopy);
-        if (pDomain == NULL) {
-            if (pUser != NULL)
-                JNU_ReleaseStringPlatformChars(env, user, pUser);
-            return 0;  // pending Exception
+    if (dombin != 0) {
+        pDombin = JNU_GftStringPlbtformCibrs(fnv, dombin, &isCopy);
+        if (pDombin == NULL) {
+            if (pUsfr != NULL)
+                JNU_RflfbsfStringPlbtformCibrs(fnv, usfr, pUsfr);
+            rfturn 0;  // pfnding Exdfption
         }
     }
-    if (password != 0) {
-        pPassword = JNU_GetStringPlatformChars(env, password, &isCopy);
-        if (pPassword == NULL) {
-            if(pUser != NULL)
-                JNU_ReleaseStringPlatformChars(env, user, pUser);
-            if(pDomain != NULL)
-                JNU_ReleaseStringPlatformChars(env, domain, pDomain);
-            return 0;  // pending Exception
+    if (pbssword != 0) {
+        pPbssword = JNU_GftStringPlbtformCibrs(fnv, pbssword, &isCopy);
+        if (pPbssword == NULL) {
+            if(pUsfr != NULL)
+                JNU_RflfbsfStringPlbtformCibrs(fnv, usfr, pUsfr);
+            if(pDombin != NULL)
+                JNU_RflfbsfStringPlbtformCibrs(fnv, dombin, pDombin);
+            rfturn 0;  // pfnding Exdfption
         }
     }
-    pCred = (CredHandle *)malloc(sizeof (CredHandle));
-    if (pCred == NULL) {
-        JNU_ThrowOutOfMemoryError(env, "native memory allocation failed");
-        if (pUser != NULL)
-            JNU_ReleaseStringPlatformChars(env, user, pUser);
-        if (pPassword != NULL)
-            JNU_ReleaseStringPlatformChars(env, password, pPassword);
-        if (pDomain != NULL)
-            JNU_ReleaseStringPlatformChars(env, domain, pDomain);
-        return NULL;
+    pCrfd = (CrfdHbndlf *)mbllod(sizfof (CrfdHbndlf));
+    if (pCrfd == NULL) {
+        JNU_TirowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+        if (pUsfr != NULL)
+            JNU_RflfbsfStringPlbtformCibrs(fnv, usfr, pUsfr);
+        if (pPbssword != NULL)
+            JNU_RflfbsfStringPlbtformCibrs(fnv, pbssword, pPbssword);
+        if (pDombin != NULL)
+            JNU_RflfbsfStringPlbtformCibrs(fnv, dombin, pDombin);
+        rfturn NULL;
     }
 
-    if ( ((pUser != NULL) || (pPassword != NULL)) || (pDomain != NULL)) {
-        pAuthId = &AuthId;
+    if ( ((pUsfr != NULL) || (pPbssword != NULL)) || (pDombin != NULL)) {
+        pAutiId = &AutiId;
 
-        memset( &AuthId, 0, sizeof( AuthId ));
+        mfmsft( &AutiId, 0, sizfof( AutiId ));
 
-        if ( pUser != NULL ) {
-            AuthId.User       = (unsigned char *) pUser;
-            AuthId.UserLength = (unsigned long) strlen( pUser );
+        if ( pUsfr != NULL ) {
+            AutiId.Usfr       = (unsignfd dibr *) pUsfr;
+            AutiId.UsfrLfngti = (unsignfd long) strlfn( pUsfr );
         }
 
-        if ( pPassword != NULL ) {
-            AuthId.Password       = (unsigned char *) pPassword;
-            AuthId.PasswordLength = (unsigned long) strlen( pPassword );
+        if ( pPbssword != NULL ) {
+            AutiId.Pbssword       = (unsignfd dibr *) pPbssword;
+            AutiId.PbsswordLfngti = (unsignfd long) strlfn( pPbssword );
         }
 
-        if ( pDomain != NULL ) {
-            AuthId.Domain       = (unsigned char *) pDomain;
-            AuthId.DomainLength = (unsigned long) strlen( pDomain );
+        if ( pDombin != NULL ) {
+            AutiId.Dombin       = (unsignfd dibr *) pDombin;
+            AutiId.DombinLfngti = (unsignfd long) strlfn( pDombin );
         }
 
-        AuthId.Flags = SEC_WINNT_AUTH_IDENTITY_ANSI;
-    } else {
-        pAuthId = NULL;
+        AutiId.Flbgs = SEC_WINNT_AUTH_IDENTITY_ANSI;
+    } flsf {
+        pAutiId = NULL;
     }
 
-    ss = AcquireCredentialsHandleA(
+    ss = AdquirfCrfdfntiblsHbndlfA(
         NULL, "NTLM", SECPKG_CRED_OUTBOUND,
-        NULL, pAuthId, NULL, NULL,
-        pCred, &ltime
+        NULL, pAutiId, NULL, NULL,
+        pCrfd, &ltimf
         );
 
-    /* Release resources held by JNU_GetStringPlatformChars */
-    if (pUser != NULL)
-        JNU_ReleaseStringPlatformChars(env, user, pUser);
-    if (pPassword != NULL)
-        JNU_ReleaseStringPlatformChars(env, password, pPassword);
-    if (pDomain != NULL)
-        JNU_ReleaseStringPlatformChars(env, domain, pDomain);
+    /* Rflfbsf rfsourdfs ifld by JNU_GftStringPlbtformCibrs */
+    if (pUsfr != NULL)
+        JNU_RflfbsfStringPlbtformCibrs(fnv, usfr, pUsfr);
+    if (pPbssword != NULL)
+        JNU_RflfbsfStringPlbtformCibrs(fnv, pbssword, pPbssword);
+    if (pDombin != NULL)
+        JNU_RflfbsfStringPlbtformCibrs(fnv, dombin, pDombin);
 
     if (ss == 0) {
-        return (jlong) pCred;
-    } else {
-        return 0;
+        rfturn (jlong) pCrfd;
+    } flsf {
+        rfturn 0;
     }
 }
 
 
 /*
- * Class:     sun_net_www_protocol_http_ntlm_NTLMAuthSequence
- * Method:    getNextToken
- * Signature: (J[BLsun/net/www/protocol/http/ntlm/NTLMAuthSequence/Status;)[B
+ * Clbss:     sun_nft_www_protodol_ittp_ntlm_NTLMAutiSfqufndf
+ * Mftiod:    gftNfxtTokfn
+ * Signbturf: (J[BLsun/nft/www/protodol/ittp/ntlm/NTLMAutiSfqufndf/Stbtus;)[B
  */
-JNIEXPORT jbyteArray JNICALL Java_sun_net_www_protocol_http_ntlm_NTLMAuthSequence_getNextToken
-(JNIEnv *env, jobject this, jlong crdHandle, jbyteArray lastToken, jobject status)
+JNIEXPORT jbytfArrby JNICALL Jbvb_sun_nft_www_protodol_ittp_ntlm_NTLMAutiSfqufndf_gftNfxtTokfn
+(JNIEnv *fnv, jobjfdt tiis, jlong drdHbndlf, jbytfArrby lbstTokfn, jobjfdt stbtus)
 {
 
     VOID        *pInput = 0;
-    DWORD            inputLen;
+    DWORD            inputLfn;
     CHAR         buffOut[1024];
-    jboolean         isCopy;
+    jboolfbn         isCopy;
     SECURITY_STATUS      ss;
-    SecBufferDesc        OutBuffDesc;
-    SecBuffer            OutSecBuff;
-    SecBufferDesc        InBuffDesc;
-    SecBuffer            InSecBuff;
-    ULONG                ContextAttributes;
-    CredHandle      *pCred = (CredHandle *)crdHandle;
-    CtxtHandle      *pCtx;
-    CtxtHandle      *newContext;
-    TimeStamp            ltime;
-    jbyteArray       result;
+    SfdBufffrDfsd        OutBuffDfsd;
+    SfdBufffr            OutSfdBuff;
+    SfdBufffrDfsd        InBuffDfsd;
+    SfdBufffr            InSfdBuff;
+    ULONG                ContfxtAttributfs;
+    CrfdHbndlf      *pCrfd = (CrfdHbndlf *)drdHbndlf;
+    CtxtHbndlf      *pCtx;
+    CtxtHbndlf      *nfwContfxt;
+    TimfStbmp            ltimf;
+    jbytfArrby       rfsult;
 
 
-    pCtx = (CtxtHandle *) (*env)->GetLongField (env, this, ntlm_ctxHandleID);
-    if (pCtx == 0) { /* first call */
-        newContext = (CtxtHandle *)malloc(sizeof(CtxtHandle));
-        if (newContext != NULL) {
-            (*env)->SetLongField (env, this, ntlm_ctxHandleID, (jlong)newContext);
-        } else {
-            JNU_ThrowOutOfMemoryError(env, "native memory allocation failed");
-            return NULL;
+    pCtx = (CtxtHbndlf *) (*fnv)->GftLongFifld (fnv, tiis, ntlm_dtxHbndlfID);
+    if (pCtx == 0) { /* first dbll */
+        nfwContfxt = (CtxtHbndlf *)mbllod(sizfof(CtxtHbndlf));
+        if (nfwContfxt != NULL) {
+            (*fnv)->SftLongFifld (fnv, tiis, ntlm_dtxHbndlfID, (jlong)nfwContfxt);
+        } flsf {
+            JNU_TirowOutOfMfmoryError(fnv, "nbtivf mfmory bllodbtion fbilfd");
+            rfturn NULL;
         }
-    } else {
-        newContext = pCtx;
+    } flsf {
+        nfwContfxt = pCtx;
     }
 
-    OutBuffDesc.ulVersion = 0;
-    OutBuffDesc.cBuffers  = 1;
-    OutBuffDesc.pBuffers  = &OutSecBuff;
+    OutBuffDfsd.ulVfrsion = 0;
+    OutBuffDfsd.dBufffrs  = 1;
+    OutBuffDfsd.pBufffrs  = &OutSfdBuff;
 
-    OutSecBuff.cbBuffer   = 1024;
-    OutSecBuff.BufferType = SECBUFFER_TOKEN;
-    OutSecBuff.pvBuffer   = buffOut;
+    OutSfdBuff.dbBufffr   = 1024;
+    OutSfdBuff.BufffrTypf = SECBUFFER_TOKEN;
+    OutSfdBuff.pvBufffr   = buffOut;
 
     /*
-     *  Prepare our Input buffer - Note the server is expecting the client's
-     *  negotiation packet on the first call
+     *  Prfpbrf our Input bufffr - Notf tif sfrvfr is fxpfdting tif dlifnt's
+     *  nfgotibtion pbdkft on tif first dbll
      */
 
-    if (lastToken != 0)
+    if (lbstTokfn != 0)
     {
-        pInput = (VOID *)(*env)->GetByteArrayElements(env, lastToken, &isCopy);
+        pInput = (VOID *)(*fnv)->GftBytfArrbyElfmfnts(fnv, lbstTokfn, &isCopy);
         CHECK_NULL_RETURN(pInput, NULL);
-        inputLen = (*env)->GetArrayLength(env, lastToken);
+        inputLfn = (*fnv)->GftArrbyLfngti(fnv, lbstTokfn);
 
-        InBuffDesc.ulVersion = 0;
-        InBuffDesc.cBuffers  = 1;
-        InBuffDesc.pBuffers  = &InSecBuff;
+        InBuffDfsd.ulVfrsion = 0;
+        InBuffDfsd.dBufffrs  = 1;
+        InBuffDfsd.pBufffrs  = &InSfdBuff;
 
-        InSecBuff.cbBuffer       = inputLen;
-        InSecBuff.BufferType = SECBUFFER_TOKEN;
-        InSecBuff.pvBuffer       = pInput;
+        InSfdBuff.dbBufffr       = inputLfn;
+        InSfdBuff.BufffrTypf = SECBUFFER_TOKEN;
+        InSfdBuff.pvBufffr       = pInput;
     }
 
     /*
-     *  will return success when its done but we still
-     *  need to send the out buffer if there are bytes to send
+     *  will rfturn suddfss wifn its donf but wf still
+     *  nffd to sfnd tif out bufffr if tifrf brf bytfs to sfnd
      */
 
-    ss = InitializeSecurityContextA(
-        pCred, pCtx, NULL, 0, 0, SECURITY_NATIVE_DREP,
-        lastToken ? &InBuffDesc : NULL, 0, newContext, &OutBuffDesc,
-        &ContextAttributes, &ltime
+    ss = InitiblizfSfdurityContfxtA(
+        pCrfd, pCtx, NULL, 0, 0, SECURITY_NATIVE_DREP,
+        lbstTokfn ? &InBuffDfsd : NULL, 0, nfwContfxt, &OutBuffDfsd,
+        &ContfxtAttributfs, &ltimf
     );
 
     if (pInput != 0) {
-        (*env)->ReleaseByteArrayElements(env, lastToken, pInput, JNI_ABORT);
+        (*fnv)->RflfbsfBytfArrbyElfmfnts(fnv, lbstTokfn, pInput, JNI_ABORT);
     }
 
     if (ss < 0) {
-        endSequence (pCred, pCtx, env, status);
-        return 0;
+        fndSfqufndf (pCrfd, pCtx, fnv, stbtus);
+        rfturn 0;
     }
 
     if ((ss == SEC_I_COMPLETE_NEEDED) || (ss == SEC_I_COMPLETE_AND_CONTINUE) ) {
-        ss = CompleteAuthToken( pCtx, &OutBuffDesc );
+        ss = ComplftfAutiTokfn( pCtx, &OutBuffDfsd );
 
         if (ss < 0) {
-            endSequence (pCred, pCtx, env, status);
-            return 0;
+            fndSfqufndf (pCrfd, pCtx, fnv, stbtus);
+            rfturn 0;
         }
     }
 
-    if ( OutSecBuff.cbBuffer > 0 ) {
-        jbyteArray ret = (*env)->NewByteArray(env, OutSecBuff.cbBuffer);
-        if (ret != NULL) {
-            (*env)->SetByteArrayRegion(env, ret, 0, OutSecBuff.cbBuffer,
-                    OutSecBuff.pvBuffer);
+    if ( OutSfdBuff.dbBufffr > 0 ) {
+        jbytfArrby rft = (*fnv)->NfwBytfArrby(fnv, OutSfdBuff.dbBufffr);
+        if (rft != NULL) {
+            (*fnv)->SftBytfArrbyRfgion(fnv, rft, 0, OutSfdBuff.dbBufffr,
+                    OutSfdBuff.pvBufffr);
         }
-        if (lastToken != 0) // 2nd stage
-            endSequence (pCred, pCtx, env, status);
-        result = ret;
+        if (lbstTokfn != 0) // 2nd stbgf
+            fndSfqufndf (pCrfd, pCtx, fnv, stbtus);
+        rfsult = rft;
     }
 
     if ((ss != SEC_I_CONTINUE_NEEDED) && (ss == SEC_I_COMPLETE_AND_CONTINUE)) {
-        endSequence (pCred, pCtx, env, status);
+        fndSfqufndf (pCrfd, pCtx, fnv, stbtus);
     }
 
-    return result;
+    rfturn rfsult;
 }
 
-static void endSequence (PCredHandle credHand, PCtxtHandle ctxHandle, JNIEnv *env, jobject status) {
-    if (credHand != 0) {
-        FreeCredentialsHandle(credHand);
-        free(credHand);
+stbtid void fndSfqufndf (PCrfdHbndlf drfdHbnd, PCtxtHbndlf dtxHbndlf, JNIEnv *fnv, jobjfdt stbtus) {
+    if (drfdHbnd != 0) {
+        FrffCrfdfntiblsHbndlf(drfdHbnd);
+        frff(drfdHbnd);
     }
 
-    if (ctxHandle != 0) {
-        DeleteSecurityContext(ctxHandle);
-        free(ctxHandle);
+    if (dtxHbndlf != 0) {
+        DflftfSfdurityContfxt(dtxHbndlf);
+        frff(dtxHbndlf);
     }
 
-    /* Sequence is complete so set flag */
-    (*env)->SetBooleanField(env, status, status_seqCompleteID, JNI_TRUE);
+    /* Sfqufndf is domplftf so sft flbg */
+    (*fnv)->SftBoolfbnFifld(fnv, stbtus, stbtus_sfqComplftfID, JNI_TRUE);
 }

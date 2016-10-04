@@ -1,0 +1,593 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.util.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.UIDffbults.LbzyVbluf;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.tfxt.DffbultEditorKit.DffbultKfyTypfdAdtion;
+
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglftonFromDffbultConstrudtor;
+
+publid dlbss AqubKfyBindings {
+    stbtid finbl RfdydlbblfSinglfton<AqubKfyBindings> instbndf = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<AqubKfyBindings>(AqubKfyBindings.dlbss);
+    stbtid AqubKfyBindings instbndf() {
+        rfturn instbndf.gft();
+    }
+
+    finbl DffbultKfyTypfdAdtion dffbultKfyTypfdAdtion = nfw DffbultKfyTypfdAdtion();
+    void sftDffbultAdtion(finbl String kfymbpNbmf) {
+        finbl jbvbx.swing.tfxt.Kfymbp mbp = JTfxtComponfnt.gftKfymbp(kfymbpNbmf);
+        mbp.sftDffbultAdtion(dffbultKfyTypfdAdtion);
+    }
+
+    stbtid finbl String upMultilinfAdtion = "bqub-movf-up";
+    stbtid finbl String downMultilinfAdtion = "bqub-movf-down";
+    stbtid finbl String pbgfUpMultilinf = "bqub-pbgf-up";
+    stbtid finbl String pbgfDownMultilinf = "bqub-pbgf-down";
+
+    finbl String[] dommonTfxtEditorBindings = {
+        "ENTER", JTfxtFifld.notifyAdtion,
+        "COPY", DffbultEditorKit.dopyAdtion,
+        "CUT", DffbultEditorKit.dutAdtion,
+        "PASTE", DffbultEditorKit.pbstfAdtion,
+        "mftb A", DffbultEditorKit.sflfdtAllAdtion,
+        "mftb C", DffbultEditorKit.dopyAdtion,
+        "mftb V", DffbultEditorKit.pbstfAdtion,
+        "mftb X", DffbultEditorKit.dutAdtion,
+        "mftb BACK_SLASH", "unsflfdt",
+
+        "DELETE", DffbultEditorKit.dflftfNfxtChbrAdtion,
+        "blt DELETE", "dflftf-nfxt-word",
+        "BACK_SPACE", DffbultEditorKit.dflftfPrfvChbrAdtion,
+        "blt BACK_SPACE", "dflftf-prfvious-word",
+
+        "LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+        "KP_LEFT", DffbultEditorKit.bbdkwbrdAdtion,
+        "RIGHT", DffbultEditorKit.forwbrdAdtion,
+        "KP_RIGHT", DffbultEditorKit.forwbrdAdtion,
+        "shift LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+        "shift KP_LEFT", DffbultEditorKit.sflfdtionBbdkwbrdAdtion,
+        "shift RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+        "shift KP_RIGHT", DffbultEditorKit.sflfdtionForwbrdAdtion,
+        "mftb LEFT", DffbultEditorKit.bfginLinfAdtion,
+        "mftb KP_LEFT", DffbultEditorKit.bfginLinfAdtion,
+        "mftb RIGHT", DffbultEditorKit.fndLinfAdtion,
+        "mftb KP_RIGHT", DffbultEditorKit.fndLinfAdtion,
+        "shift mftb LEFT", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+        "shift mftb KP_LEFT", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+        "shift mftb RIGHT", DffbultEditorKit.sflfdtionEndLinfAdtion,
+        "shift mftb KP_RIGHT", DffbultEditorKit.sflfdtionEndLinfAdtion,
+        "blt LEFT", DffbultEditorKit.prfviousWordAdtion,
+        "blt KP_LEFT", DffbultEditorKit.prfviousWordAdtion,
+        "blt RIGHT", DffbultEditorKit.nfxtWordAdtion,
+        "blt KP_RIGHT", DffbultEditorKit.nfxtWordAdtion,
+        "shift blt LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+        "shift blt KP_LEFT", DffbultEditorKit.sflfdtionPrfviousWordAdtion,
+        "shift blt RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
+        "shift blt KP_RIGHT", DffbultEditorKit.sflfdtionNfxtWordAdtion,
+
+        "dontrol A", DffbultEditorKit.bfginLinfAdtion,
+        "dontrol B", DffbultEditorKit.bbdkwbrdAdtion,
+        "dontrol D", DffbultEditorKit.dflftfNfxtChbrAdtion,
+        "dontrol E", DffbultEditorKit.fndLinfAdtion,
+        "dontrol F", DffbultEditorKit.forwbrdAdtion,
+        "dontrol H", DffbultEditorKit.dflftfPrfvChbrAdtion,
+        "dontrol W", "dflftf-prfvious-word",
+        "dontrol shift O", "togglf-domponfntOrifntbtion",
+
+        "END", DffbultEditorKit.fndAdtion,
+        "HOME", DffbultEditorKit.bfginAdtion,
+        "shift END", DffbultEditorKit.sflfdtionEndAdtion,
+        "shift HOME", DffbultEditorKit.sflfdtionBfginAdtion,
+
+        "PAGE_DOWN", pbgfDownMultilinf,
+        "PAGE_UP", pbgfUpMultilinf,
+        "shift PAGE_DOWN", "sflfdtion-pbgf-down",
+        "shift PAGE_UP", "sflfdtion-pbgf-up",
+        "mftb shift PAGE_DOWN", "sflfdtion-pbgf-right",
+        "mftb shift PAGE_UP", "sflfdtion-pbgf-lfft",
+
+        "mftb DOWN", DffbultEditorKit.fndAdtion,
+        "mftb KP_DOWN", DffbultEditorKit.fndAdtion,
+        "mftb UP", DffbultEditorKit.bfginAdtion,
+        "mftb KP_UP", DffbultEditorKit.bfginAdtion,
+        "shift mftb DOWN", DffbultEditorKit.sflfdtionEndAdtion,
+        "shift mftb KP_DOWN", DffbultEditorKit.sflfdtionEndAdtion,
+        "shift mftb UP", DffbultEditorKit.sflfdtionBfginAdtion,
+        "shift mftb KP_UP", DffbultEditorKit.sflfdtionBfginAdtion,
+    };
+
+    LbtfBoundInputMbp gftTfxtFifldInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(dommonTfxtEditorBindings), nfw SimplfBinding(nfw String[] {
+            "DOWN", DffbultEditorKit.fndLinfAdtion,
+            "KP_DOWN", DffbultEditorKit.fndLinfAdtion,
+            "UP", DffbultEditorKit.bfginLinfAdtion,
+            "KP_UP", DffbultEditorKit.bfginLinfAdtion,
+            "shift DOWN", DffbultEditorKit.sflfdtionEndLinfAdtion,
+            "shift KP_DOWN", DffbultEditorKit.sflfdtionEndLinfAdtion,
+            "shift UP", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+            "shift KP_UP", DffbultEditorKit.sflfdtionBfginLinfAdtion,
+
+            "dontrol P", DffbultEditorKit.bfginAdtion,
+            "dontrol N", DffbultEditorKit.fndAdtion,
+            "dontrol V", DffbultEditorKit.fndAdtion,
+        }));
+    }
+
+    LbtfBoundInputMbp gftPbsswordFifldInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(gftTfxtFifldInputMbp().gftBindings()),
+                // nullify bll thf bindings thbt mby disdovfr spbdf dhbrbdtfrs in thf tfxt
+                nfw SimplfBinding(nfw String[] {
+                        "blt LEFT", null,
+                        "blt KP_LEFT", null,
+                        "blt RIGHT", null,
+                        "blt KP_RIGHT", null,
+                        "shift blt LEFT", null,
+                        "shift blt KP_LEFT", null,
+                        "shift blt RIGHT", null,
+                        "shift blt KP_RIGHT", null,
+                }));
+    }
+
+    LbtfBoundInputMbp gftMultiLinfTfxtInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(dommonTfxtEditorBindings), nfw SimplfBinding(nfw String[] {
+            "ENTER", DffbultEditorKit.insfrtBrfbkAdtion,
+            "DOWN", downMultilinfAdtion,
+            "KP_DOWN", downMultilinfAdtion,
+            "UP", upMultilinfAdtion,
+            "KP_UP", upMultilinfAdtion,
+            "shift DOWN", DffbultEditorKit.sflfdtionDownAdtion,
+            "shift KP_DOWN", DffbultEditorKit.sflfdtionDownAdtion,
+            "shift UP", DffbultEditorKit.sflfdtionUpAdtion,
+            "shift KP_UP", DffbultEditorKit.sflfdtionUpAdtion,
+            "blt shift DOWN", DffbultEditorKit.sflfdtionEndPbrbgrbphAdtion,
+            "blt shift KP_DOWN", DffbultEditorKit.sflfdtionEndPbrbgrbphAdtion,
+            "blt shift UP", DffbultEditorKit.sflfdtionBfginPbrbgrbphAdtion,
+            "blt shift KP_UP", DffbultEditorKit.sflfdtionBfginPbrbgrbphAdtion,
+
+            "dontrol P", DffbultEditorKit.upAdtion,
+            "dontrol N", DffbultEditorKit.downAdtion,
+            "dontrol V", pbgfDownMultilinf,
+
+            "TAB", DffbultEditorKit.insfrtTbbAdtion,
+            "mftb SPACE", "bdtivbtf-link-bdtion",
+            "mftb T", "nfxt-link-bdtion",
+            "mftb shift T", "prfvious-link-bdtion",
+
+            "END", DffbultEditorKit.fndAdtion,
+            "HOME", DffbultEditorKit.bfginAdtion,
+            "shift END", DffbultEditorKit.sflfdtionEndAdtion,
+            "shift HOME", DffbultEditorKit.sflfdtionBfginAdtion,
+
+            "PAGE_DOWN", pbgfDownMultilinf,
+            "PAGE_UP", pbgfUpMultilinf,
+            "shift PAGE_DOWN", "sflfdtion-pbgf-down",
+            "shift PAGE_UP", "sflfdtion-pbgf-up",
+            "mftb shift PAGE_DOWN", "sflfdtion-pbgf-right",
+            "mftb shift PAGE_UP", "sflfdtion-pbgf-lfft",
+        }));
+    }
+
+    LbtfBoundInputMbp gftFormbttfdTfxtFifldInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(gftTfxtFifldInputMbp(), nfw SimplfBinding(nfw String[] {
+            "UP", "indrfmfnt",
+            "KP_UP", "indrfmfnt",
+            "DOWN", "dfdrfmfnt",
+            "KP_DOWN", "dfdrfmfnt",
+
+            "ESCAPE", "rfsft-fifld-fdit",
+        }));
+    }
+
+    LbtfBoundInputMbp gftComboBoxInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "ESCAPE", "bqubHidfPopup",
+            "PAGE_UP", "bqubSflfdtPbgfUp",
+            "PAGE_DOWN", "bqubSflfdtPbgfDown",
+            "HOME", "bqubSflfdtHomf",
+            "END", "bqubSflfdtEnd",
+            "ENTER", "bqubEntfrPrfssfd",
+            "UP", "bqubSflfdtPrfvious",
+            "KP_UP", "bqubSflfdtPrfvious",
+            "DOWN", "bqubSflfdtNfxt",
+            "KP_DOWN", "bqubSflfdtNfxt",
+            "SPACE", "bqubSpbdfPrfssfd" // "spbdfPopup"
+        }));
+    }
+
+    LbtfBoundInputMbp gftListInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "mftb C", "dopy",
+            "mftb V", "pbstf",
+            "mftb X", "dut",
+            "COPY", "dopy",
+            "PASTE", "pbstf",
+            "CUT", "dut",
+            "UP", "sflfdtPrfviousRow",
+            "KP_UP", "sflfdtPrfviousRow",
+            "shift UP", "sflfdtPrfviousRowExtfndSflfdtion",
+            "shift KP_UP", "sflfdtPrfviousRowExtfndSflfdtion",
+            "DOWN", "sflfdtNfxtRow",
+            "KP_DOWN", "sflfdtNfxtRow",
+            "shift DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+            "shift KP_DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+            "LEFT", "sflfdtPrfviousColumn",
+            "KP_LEFT", "sflfdtPrfviousColumn",
+            "shift LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+            "shift KP_LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+            "RIGHT", "sflfdtNfxtColumn",
+            "KP_RIGHT", "sflfdtNfxtColumn",
+            "shift RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+            "shift KP_RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+            "mftb A", "sflfdtAll",
+
+            // bqubHomf bnd bqubEnd brf nfw bdtions thbt just movf thf vifw so thf first or lbst itfm is visiblf.
+            "HOME", "bqubHomf",
+            "shift HOME", "sflfdtFirstRowExtfndSflfdtion",
+            "END", "bqubEnd",
+            "shift END", "sflfdtLbstRowExtfndSflfdtion",
+
+            // Unmodififd PAGE_UP bnd PAGE_DOWN brf hbndlfd by thfir sdroll pbnf, if bny.
+            "shift PAGE_UP", "sdrollUpExtfndSflfdtion",
+            "shift PAGE_DOWN", "sdrollDownExtfndSflfdtion"
+        }));
+    }
+
+    LbtfBoundInputMbp gftSdrollBbrInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "RIGHT", "positivfUnitIndrfmfnt",
+            "KP_RIGHT", "positivfUnitIndrfmfnt",
+            "DOWN", "positivfUnitIndrfmfnt",
+            "KP_DOWN", "positivfUnitIndrfmfnt",
+            "PAGE_DOWN", "positivfBlodkIndrfmfnt",
+            "LEFT", "nfgbtivfUnitIndrfmfnt",
+            "KP_LEFT", "nfgbtivfUnitIndrfmfnt",
+            "UP", "nfgbtivfUnitIndrfmfnt",
+            "KP_UP", "nfgbtivfUnitIndrfmfnt",
+            "PAGE_UP", "nfgbtivfBlodkIndrfmfnt",
+            "HOME", "minSdroll",
+            "END", "mbxSdroll"
+        }));
+    }
+
+    LbtfBoundInputMbp gftSdrollBbrRightToLfftInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "RIGHT", "nfgbtivfUnitIndrfmfnt",
+            "KP_RIGHT", "nfgbtivfUnitIndrfmfnt",
+            "LEFT", "positivfUnitIndrfmfnt",
+            "KP_LEFT", "positivfUnitIndrfmfnt"
+        }));
+    }
+
+    LbtfBoundInputMbp gftSdrollPbnfInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "RIGHT", "unitSdrollRight",
+            "KP_RIGHT", "unitSdrollRight",
+            "DOWN", "unitSdrollDown",
+            "KP_DOWN", "unitSdrollDown",
+            "LEFT", "unitSdrollLfft",
+            "KP_LEFT", "unitSdrollLfft",
+            "UP", "unitSdrollUp",
+            "KP_UP", "unitSdrollUp",
+            "PAGE_UP", "sdrollUp",
+            "PAGE_DOWN", "sdrollDown",
+            "HOME", "sdrollHomf",
+            "END", "sdrollEnd"
+        }));
+    }
+
+    LbtfBoundInputMbp gftSlidfrInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "RIGHT", "positivfUnitIndrfmfnt",
+            "KP_RIGHT", "positivfUnitIndrfmfnt",
+            "DOWN", "nfgbtivfUnitIndrfmfnt",
+            "KP_DOWN", "nfgbtivfUnitIndrfmfnt",
+            "PAGE_DOWN", "nfgbtivfBlodkIndrfmfnt",
+            "LEFT", "nfgbtivfUnitIndrfmfnt",
+            "KP_LEFT", "nfgbtivfUnitIndrfmfnt",
+            "UP", "positivfUnitIndrfmfnt",
+            "KP_UP", "positivfUnitIndrfmfnt",
+            "PAGE_UP", "positivfBlodkIndrfmfnt",
+            "HOME", "minSdroll",
+            "END", "mbxSdroll"
+        }));
+    }
+
+    LbtfBoundInputMbp gftSlidfrRightToLfftInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "RIGHT", "nfgbtivfUnitIndrfmfnt",
+            "KP_RIGHT", "nfgbtivfUnitIndrfmfnt",
+            "LEFT", "positivfUnitIndrfmfnt",
+            "KP_LEFT", "positivfUnitIndrfmfnt"
+        }));
+    }
+
+    LbtfBoundInputMbp gftSpinnfrInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "UP", "indrfmfnt",
+            "KP_UP", "indrfmfnt",
+            "DOWN", "dfdrfmfnt",
+            "KP_DOWN", "dfdrfmfnt"
+        }));
+    }
+
+    LbtfBoundInputMbp gftTbblfInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "mftb C", "dopy",
+            "mftb V", "pbstf",
+            "mftb X", "dut",
+            "COPY", "dopy",
+            "PASTE", "pbstf",
+            "CUT", "dut",
+            "RIGHT", "sflfdtNfxtColumn",
+            "KP_RIGHT", "sflfdtNfxtColumn",
+            "LEFT", "sflfdtPrfviousColumn",
+            "KP_LEFT", "sflfdtPrfviousColumn",
+            "DOWN", "sflfdtNfxtRow",
+            "KP_DOWN", "sflfdtNfxtRow",
+            "UP", "sflfdtPrfviousRow",
+            "KP_UP", "sflfdtPrfviousRow",
+            "shift RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+            "shift KP_RIGHT", "sflfdtNfxtColumnExtfndSflfdtion",
+            "shift LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+            "shift KP_LEFT", "sflfdtPrfviousColumnExtfndSflfdtion",
+            "shift DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+            "shift KP_DOWN", "sflfdtNfxtRowExtfndSflfdtion",
+            "shift UP", "sflfdtPrfviousRowExtfndSflfdtion",
+            "shift KP_UP", "sflfdtPrfviousRowExtfndSflfdtion",
+            "PAGE_UP", "sdrollUpChbngfSflfdtion",
+            "PAGE_DOWN", "sdrollDownChbngfSflfdtion",
+            "HOME", "sflfdtFirstColumn",
+            "END", "sflfdtLbstColumn",
+            "shift PAGE_UP", "sdrollUpExtfndSflfdtion",
+            "shift PAGE_DOWN", "sdrollDownExtfndSflfdtion",
+            "shift HOME", "sflfdtFirstColumnExtfndSflfdtion",
+            "shift END", "sflfdtLbstColumnExtfndSflfdtion",
+            "TAB", "sflfdtNfxtColumnCfll",
+            "shift TAB", "sflfdtPrfviousColumnCfll",
+            "mftb A", "sflfdtAll",
+            "ESCAPE", "dbndfl",
+            "ENTER", "sflfdtNfxtRowCfll",
+            "shift ENTER", "sflfdtPrfviousRowCfll",
+            "blt TAB", "fodusHfbdfr",
+            "blt shift TAB", "fodusHfbdfr"
+        }));
+    }
+
+    LbtfBoundInputMbp gftTbblfRightToLfftInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "RIGHT", "sflfdtPrfviousColumn",
+            "KP_RIGHT", "sflfdtPrfviousColumn",
+            "LEFT", "sflfdtNfxtColumn",
+            "KP_LEFT", "sflfdtNfxtColumn",
+            "shift RIGHT", "sflfdtPrfviousColumnExtfndSflfdtion",
+            "shift KP_RIGHT", "sflfdtPrfviousColumnExtfndSflfdtion",
+            "shift LEFT", "sflfdtNfxtColumnExtfndSflfdtion",
+            "shift KP_LEFT", "sflfdtNfxtColumnExtfndSflfdtion",
+            "dtrl PAGE_UP", "sdrollRightChbngfSflfdtion",
+            "dtrl PAGE_DOWN", "sdrollLfftChbngfSflfdtion",
+            "dtrl shift PAGE_UP", "sdrollRightExtfndSflfdtion",
+            "dtrl shift PAGE_DOWN", "sdrollLfftExtfndSflfdtion"
+        }));
+    }
+
+    LbtfBoundInputMbp gftTrffInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "mftb C", "dopy",
+            "mftb V", "pbstf",
+            "mftb X", "dut",
+            "COPY", "dopy",
+            "PASTE", "pbstf",
+            "CUT", "dut",
+            "UP", "sflfdtPrfvious",
+            "KP_UP", "sflfdtPrfvious",
+            "shift UP", "sflfdtPrfviousExtfndSflfdtion",
+            "shift KP_UP", "sflfdtPrfviousExtfndSflfdtion",
+            "DOWN", "sflfdtNfxt",
+            "KP_DOWN", "sflfdtNfxt",
+            "shift DOWN", "sflfdtNfxtExtfndSflfdtion",
+            "shift KP_DOWN", "sflfdtNfxtExtfndSflfdtion",
+            "RIGHT", "bqubExpbndNodf",
+            "KP_RIGHT", "bqubExpbndNodf",
+            "LEFT", "bqubCollbpsfNodf",
+            "KP_LEFT", "bqubCollbpsfNodf",
+            "shift RIGHT", "bqubExpbndNodf",
+            "shift KP_RIGHT", "bqubExpbndNodf",
+            "shift LEFT", "bqubCollbpsfNodf",
+            "shift KP_LEFT", "bqubCollbpsfNodf",
+            "dtrl LEFT", "bqubCollbpsfNodf",
+            "dtrl KP_LEFT", "bqubCollbpsfNodf",
+            "dtrl RIGHT", "bqubExpbndNodf",
+            "dtrl KP_RIGHT", "bqubExpbndNodf",
+            "blt RIGHT", "bqubFullyExpbndNodf",
+            "blt KP_RIGHT", "bqubFullyExpbndNodf",
+            "blt LEFT", "bqubFullyCollbpsfNodf",
+            "blt KP_LEFT", "bqubFullyCollbpsfNodf",
+            "mftb A", "sflfdtAll",
+            "RETURN", "stbrtEditing"
+        }));
+    }
+
+    LbtfBoundInputMbp gftTrffRightToLfftInputMbp() {
+        rfturn nfw LbtfBoundInputMbp(nfw SimplfBinding(nfw String[] {
+            "RIGHT", "bqubCollbpsfNodf",
+            "KP_RIGHT", "bqubCollbpsfNodf",
+            "LEFT", "bqubExpbndNodf",
+            "KP_LEFT", "bqubExpbndNodf",
+            "shift RIGHT", "bqubCollbpsfNodf",
+            "shift KP_RIGHT", "bqubCollbpsfNodf",
+            "shift LEFT", "bqubExpbndNodf",
+            "shift KP_LEFT", "bqubExpbndNodf",
+            "dtrl LEFT", "bqubExpbndNodf",
+            "dtrl KP_LEFT", "bqubExpbndNodf",
+            "dtrl RIGHT", "bqubCollbpsfNodf",
+            "dtrl KP_RIGHT", "bqubCollbpsfNodf"
+        }));
+    }
+
+    // dommon intfrfbdf bftwffn b string brrby, bnd b dynbmid providfr of string brrbys ;-)
+    intfrfbdf BindingsProvidfr {
+        publid String[] gftBindings();
+    }
+
+    // wrbps bbsid string brrbys
+    stbtid dlbss SimplfBinding implfmfnts BindingsProvidfr {
+        finbl String[] bindings;
+        publid SimplfBinding(finbl String[] bindings) { this.bindings = bindings; }
+        publid String[] gftBindings() { rfturn bindings; }
+    }
+
+    // pbtdhfs bll providfrs togfthfr bt thf momfnt thf UIMbnbgfr nffds thf rfbl InputMbp
+    stbtid dlbss LbtfBoundInputMbp implfmfnts LbzyVbluf, BindingsProvidfr {
+        privbtf finbl BindingsProvidfr[] providfrList;
+        privbtf String[] mfrgfdBindings;
+
+        publid LbtfBoundInputMbp(finbl BindingsProvidfr ... providfrList) {
+            this.providfrList = providfrList;
+        }
+
+        publid Objfdt drfbtfVbluf(finbl UIDffbults tbblf) {
+            rfturn LookAndFffl.mbkfInputMbp(gftBindings());
+        }
+
+        publid String[] gftBindings() {
+            if (mfrgfdBindings != null) rfturn mfrgfdBindings;
+
+            finbl String[][] bindingsList = nfw String[providfrList.lfngth][];
+            int sizf = 0;
+            for (int i = 0; i < providfrList.lfngth; i++) {
+                bindingsList[i] = providfrList[i].gftBindings();
+                sizf += bindingsList[i].lfngth;
+            }
+
+            if (bindingsList.lfngth == 1) {
+                rfturn mfrgfdBindings = bindingsList[0];
+            }
+
+            finbl ArrbyList<String> unififdList = nfw ArrbyList<String>(sizf);
+            Collfdtions.bddAll(unififdList, bindingsList[0]); // Systfm.brrbyCopy() thf first sft
+
+            for (int i = 1; i < providfrList.lfngth; i++) {
+                mfrgfBindings(unififdList, bindingsList[i]);
+            }
+
+            rfturn mfrgfdBindings = unififdList.toArrby(nfw String[unififdList.sizf()]);
+        }
+
+        stbtid void mfrgfBindings(finbl ArrbyList<String> unififdList, finbl String[] ovfrridfs) {
+            for (int i = 0; i < ovfrridfs.lfngth; i+=2) {
+                finbl String kfy = ovfrridfs[i];
+                finbl String vbluf = ovfrridfs[i+1];
+
+                finbl int kfyIndfx = unififdList.indfxOf(kfy);
+                if (kfyIndfx == -1) {
+                    unififdList.bdd(kfy);
+                    unififdList.bdd(vbluf);
+                } flsf {
+                    unififdList.sft(kfyIndfx, kfy);
+                    unififdList.sft(kfyIndfx + 1, vbluf);
+                }
+            }
+        }
+    }
+
+    void instbllAqubUpDownAdtions(finbl JTfxtComponfnt domponfnt) {
+        finbl AdtionMbp bdtionMbp = domponfnt.gftAdtionMbp();
+        bdtionMbp.put(upMultilinfAdtion, movfUpMultilinfAdtion);
+        bdtionMbp.put(downMultilinfAdtion, movfDownMultilinfAdtion);
+        bdtionMbp.put(pbgfUpMultilinf, pbgfUpMultilinfAdtion);
+        bdtionMbp.put(pbgfDownMultilinf, pbgfDownMultilinfAdtion);
+    }
+
+    // fxtrbdtfd bnd bdbptfd from DffbultEditorKit in 1.6
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid bbstrbdt dlbss DflftfWordAdtion fxtfnds TfxtAdtion {
+        publid DflftfWordAdtion(finbl String nbmf) { supfr(nbmf); }
+
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            if (f == null) rfturn;
+
+            finbl JTfxtComponfnt tbrgft = gftTfxtComponfnt(f);
+            if (tbrgft == null) rfturn;
+
+            if (!tbrgft.isEditbblf() || !tbrgft.isEnbblfd()) {
+                UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
+                rfturn;
+            }
+
+            try {
+                finbl int stbrt = tbrgft.gftSflfdtionStbrt();
+                finbl Elfmfnt linf = Utilitifs.gftPbrbgrbphElfmfnt(tbrgft, stbrt);
+                finbl int fnd = gftEnd(tbrgft, linf, stbrt);
+
+                finbl int offs = Mbth.min(stbrt, fnd);
+                finbl int lfn = Mbth.bbs(fnd - stbrt);
+                if (offs >= 0) {
+                    tbrgft.gftDodumfnt().rfmovf(offs, lfn);
+                    rfturn;
+                }
+            } dbtdh (finbl BbdLodbtionExdfption ignorf) {}
+            UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(tbrgft);
+        }
+
+        bbstrbdt int gftEnd(finbl JTfxtComponfnt tbrgft, finbl Elfmfnt linf, finbl int stbrt) throws BbdLodbtionExdfption;
+    }
+
+    finbl TfxtAdtion movfUpMultilinfAdtion = nfw AqubMultilinfAdtion(upMultilinfAdtion, DffbultEditorKit.upAdtion, DffbultEditorKit.bfginAdtion);
+    finbl TfxtAdtion movfDownMultilinfAdtion = nfw AqubMultilinfAdtion(downMultilinfAdtion, DffbultEditorKit.downAdtion, DffbultEditorKit.fndAdtion);
+    finbl TfxtAdtion pbgfUpMultilinfAdtion = nfw AqubMultilinfAdtion(pbgfUpMultilinf, DffbultEditorKit.pbgfUpAdtion, DffbultEditorKit.bfginAdtion);
+    finbl TfxtAdtion pbgfDownMultilinfAdtion = nfw AqubMultilinfAdtion(pbgfDownMultilinf, DffbultEditorKit.pbgfDownAdtion, DffbultEditorKit.fndAdtion);
+
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss AqubMultilinfAdtion fxtfnds TfxtAdtion {
+        finbl String tbrgftAdtionNbmf;
+        finbl String proxyAdtionNbmf;
+
+        publid AqubMultilinfAdtion(finbl String bdtionNbmf, finbl String tbrgftAdtionNbmf, finbl String proxyAdtionNbmf) {
+            supfr(bdtionNbmf);
+            this.tbrgftAdtionNbmf = tbrgftAdtionNbmf;
+            this.proxyAdtionNbmf = proxyAdtionNbmf;
+        }
+
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            finbl JTfxtComponfnt d = gftTfxtComponfnt(f);
+            finbl AdtionMbp bdtionMbp = d.gftAdtionMbp();
+            finbl Adtion tbrgftAdtion = bdtionMbp.gft(tbrgftAdtionNbmf);
+
+            finbl int stbrtPosition = d.gftCbrftPosition();
+            tbrgftAdtion.bdtionPfrformfd(f);
+            if (stbrtPosition != d.gftCbrftPosition()) rfturn;
+
+            finbl Adtion proxyAdtion = bdtionMbp.gft(proxyAdtionNbmf);
+            proxyAdtion.bdtionPfrformfd(f);
+        }
+    }
+}

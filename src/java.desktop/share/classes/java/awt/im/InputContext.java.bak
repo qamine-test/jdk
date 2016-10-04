@@ -1,338 +1,338 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.im;
+pbdkbgf jbvb.bwt.im;
 
-import java.awt.Component;
-import java.util.Locale;
-import java.awt.AWTEvent;
-import java.beans.Transient;
-import java.lang.Character.Subset;
-import sun.awt.im.InputMethodContext;
+import jbvb.bwt.Componfnt;
+import jbvb.util.Lodblf;
+import jbvb.bwt.AWTEvfnt;
+import jbvb.bfbns.Trbnsifnt;
+import jbvb.lbng.Cibrbdtfr.Subsft;
+import sun.bwt.im.InputMftiodContfxt;
 
 /**
- * Provides methods to control text input facilities such as input
- * methods and keyboard layouts.
- * Two methods handle both input methods and keyboard layouts: selectInputMethod
- * lets a client component select an input method or keyboard layout by locale,
- * getLocale lets a client component obtain the locale of the current input method
- * or keyboard layout.
- * The other methods more specifically support interaction with input methods:
- * They let client components control the behavior of input methods, and
- * dispatch events from the client component to the input method.
+ * Providfs mftiods to dontrol tfxt input fbdilitifs sudi bs input
+ * mftiods bnd kfybobrd lbyouts.
+ * Two mftiods ibndlf boti input mftiods bnd kfybobrd lbyouts: sflfdtInputMftiod
+ * lfts b dlifnt domponfnt sflfdt bn input mftiod or kfybobrd lbyout by lodblf,
+ * gftLodblf lfts b dlifnt domponfnt obtbin tif lodblf of tif durrfnt input mftiod
+ * or kfybobrd lbyout.
+ * Tif otifr mftiods morf spfdifidblly support intfrbdtion witi input mftiods:
+ * Tify lft dlifnt domponfnts dontrol tif bfibvior of input mftiods, bnd
+ * dispbtdi fvfnts from tif dlifnt domponfnt to tif input mftiod.
  *
  * <p>
- * By default, one InputContext instance is created per Window instance,
- * and this input context is shared by all components within the window's
- * container hierarchy. However, this means that only one text input
- * operation is possible at any one time within a window, and that the
- * text needs to be committed when moving the focus from one text component
- * to another. If this is not desired, text components can create their
- * own input context instances.
+ * By dffbult, onf InputContfxt instbndf is drfbtfd pfr Window instbndf,
+ * bnd tiis input dontfxt is sibrfd by bll domponfnts witiin tif window's
+ * dontbinfr iifrbrdiy. Howfvfr, tiis mfbns tibt only onf tfxt input
+ * opfrbtion is possiblf bt bny onf timf witiin b window, bnd tibt tif
+ * tfxt nffds to bf dommittfd wifn moving tif fodus from onf tfxt domponfnt
+ * to bnotifr. If tiis is not dfsirfd, tfxt domponfnts dbn drfbtf tifir
+ * own input dontfxt instbndfs.
  *
  * <p>
- * The Java Platform supports input methods that have been developed in the Java
- * programming language, using the interfaces in the {@link java.awt.im.spi} package,
- * and installed into a Java SE Runtime Environment as extensions. Implementations
- * may also support using the native input methods of the platforms they run on;
- * however, not all platforms and locales provide input methods. Keyboard layouts
- * are provided by the host platform.
+ * Tif Jbvb Plbtform supports input mftiods tibt ibvf bffn dfvflopfd in tif Jbvb
+ * progrbmming lbngubgf, using tif intfrfbdfs in tif {@link jbvb.bwt.im.spi} pbdkbgf,
+ * bnd instbllfd into b Jbvb SE Runtimf Environmfnt bs fxtfnsions. Implfmfntbtions
+ * mby blso support using tif nbtivf input mftiods of tif plbtforms tify run on;
+ * iowfvfr, not bll plbtforms bnd lodblfs providf input mftiods. Kfybobrd lbyouts
+ * brf providfd by tif iost plbtform.
  *
  * <p>
- * Input methods are <em>unavailable</em> if (a) no input method written
- * in the Java programming language has been installed and (b) the Java Platform implementation
- * or the underlying platform does not support native input methods. In this case,
- * input contexts can still be created and used; their behavior is specified with
- * the individual methods below.
+ * Input mftiods brf <fm>unbvbilbblf</fm> if (b) no input mftiod writtfn
+ * in tif Jbvb progrbmming lbngubgf ibs bffn instbllfd bnd (b) tif Jbvb Plbtform implfmfntbtion
+ * or tif undfrlying plbtform dofs not support nbtivf input mftiods. In tiis dbsf,
+ * input dontfxts dbn still bf drfbtfd bnd usfd; tifir bfibvior is spfdififd witi
+ * tif individubl mftiods bflow.
  *
- * @see java.awt.Component#getInputContext
- * @see java.awt.Component#enableInputMethods
- * @author JavaSoft Asia/Pacific
- * @since 1.2
+ * @sff jbvb.bwt.Componfnt#gftInputContfxt
+ * @sff jbvb.bwt.Componfnt#fnbblfInputMftiods
+ * @butior JbvbSoft Asib/Pbdifid
+ * @sindf 1.2
  */
 
-public class InputContext {
+publid dlbss InputContfxt {
 
     /**
-     * Constructs an InputContext.
-     * This method is protected so clients cannot instantiate
-     * InputContext directly. Input contexts are obtained by
-     * calling {@link #getInstance}.
+     * Construdts bn InputContfxt.
+     * Tiis mftiod is protfdtfd so dlifnts dbnnot instbntibtf
+     * InputContfxt dirfdtly. Input dontfxts brf obtbinfd by
+     * dblling {@link #gftInstbndf}.
      */
-    protected InputContext() {
-        // real implementation is in sun.awt.im.InputContext
+    protfdtfd InputContfxt() {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
     }
 
     /**
-     * Returns a new InputContext instance.
-     * @return a new InputContext instance
+     * Rfturns b nfw InputContfxt instbndf.
+     * @rfturn b nfw InputContfxt instbndf
      */
-    public static InputContext getInstance() {
-        return new sun.awt.im.InputMethodContext();
+    publid stbtid InputContfxt gftInstbndf() {
+        rfturn nfw sun.bwt.im.InputMftiodContfxt();
     }
 
     /**
-     * Attempts to select an input method or keyboard layout that
-     * supports the given locale, and returns a value indicating whether such
-     * an input method or keyboard layout has been successfully selected. The
-     * following steps are taken until an input method has been selected:
+     * Attfmpts to sflfdt bn input mftiod or kfybobrd lbyout tibt
+     * supports tif givfn lodblf, bnd rfturns b vbluf indidbting wiftifr sudi
+     * bn input mftiod or kfybobrd lbyout ibs bffn suddfssfully sflfdtfd. Tif
+     * following stfps brf tbkfn until bn input mftiod ibs bffn sflfdtfd:
      *
      * <ul>
      * <li>
-     * If the currently selected input method or keyboard layout supports the
-     * requested locale, it remains selected.</li>
+     * If tif durrfntly sflfdtfd input mftiod or kfybobrd lbyout supports tif
+     * rfqufstfd lodblf, it rfmbins sflfdtfd.</li>
      *
      * <li>
-     * If there is no input method or keyboard layout available that supports
-     * the requested locale, the current input method or keyboard layout remains
-     * selected.</li>
+     * If tifrf is no input mftiod or kfybobrd lbyout bvbilbblf tibt supports
+     * tif rfqufstfd lodblf, tif durrfnt input mftiod or kfybobrd lbyout rfmbins
+     * sflfdtfd.</li>
      *
      * <li>
-     * If the user has previously selected an input method or keyboard layout
-     * for the requested locale from the user interface, then the most recently
-     * selected such input method or keyboard layout is reselected.</li>
+     * If tif usfr ibs prfviously sflfdtfd bn input mftiod or kfybobrd lbyout
+     * for tif rfqufstfd lodblf from tif usfr intfrfbdf, tifn tif most rfdfntly
+     * sflfdtfd sudi input mftiod or kfybobrd lbyout is rfsflfdtfd.</li>
      *
      * <li>
-     * Otherwise, an input method or keyboard layout that supports the requested
-     * locale is selected in an implementation dependent way.</li>
+     * Otifrwisf, bn input mftiod or kfybobrd lbyout tibt supports tif rfqufstfd
+     * lodblf is sflfdtfd in bn implfmfntbtion dfpfndfnt wby.</li>
      *
      * </ul>
-     * Before switching away from an input method, any currently uncommitted text
-     * is committed. If no input method or keyboard layout supporting the requested
-     * locale is available, then false is returned.
+     * Bfforf switdiing bwby from bn input mftiod, bny durrfntly undommittfd tfxt
+     * is dommittfd. If no input mftiod or kfybobrd lbyout supporting tif rfqufstfd
+     * lodblf is bvbilbblf, tifn fblsf is rfturnfd.
      *
      * <p>
-     * Not all host operating systems provide API to determine the locale of
-     * the currently selected native input method or keyboard layout, and to
-     * select a native input method or keyboard layout by locale.
-     * For host operating systems that don't provide such API,
-     * <code>selectInputMethod</code> assumes that native input methods or
-     * keyboard layouts provided by the host operating system support only the
-     * system's default locale.
+     * Not bll iost opfrbting systfms providf API to dftfrminf tif lodblf of
+     * tif durrfntly sflfdtfd nbtivf input mftiod or kfybobrd lbyout, bnd to
+     * sflfdt b nbtivf input mftiod or kfybobrd lbyout by lodblf.
+     * For iost opfrbting systfms tibt don't providf sudi API,
+     * <dodf>sflfdtInputMftiod</dodf> bssumfs tibt nbtivf input mftiods or
+     * kfybobrd lbyouts providfd by tif iost opfrbting systfm support only tif
+     * systfm's dffbult lodblf.
      *
      * <p>
-     * A text editing component may call this method, for example, when
-     * the user changes the insertion point, so that the user can
-     * immediately continue typing in the language of the surrounding text.
+     * A tfxt fditing domponfnt mby dbll tiis mftiod, for fxbmplf, wifn
+     * tif usfr dibngfs tif insfrtion point, so tibt tif usfr dbn
+     * immfdibtfly dontinuf typing in tif lbngubgf of tif surrounding tfxt.
      *
-     * @param locale The desired new locale.
-     * @return true if the input method or keyboard layout that's active after
-     *         this call supports the desired locale.
-     * @exception NullPointerException if <code>locale</code> is null
+     * @pbrbm lodblf Tif dfsirfd nfw lodblf.
+     * @rfturn truf if tif input mftiod or kfybobrd lbyout tibt's bdtivf bftfr
+     *         tiis dbll supports tif dfsirfd lodblf.
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
      */
-    public boolean selectInputMethod(Locale locale) {
-        // real implementation is in sun.awt.im.InputContext
-        return false;
+    publid boolfbn sflfdtInputMftiod(Lodblf lodblf) {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+        rfturn fblsf;
     }
 
     /**
-     * Returns the current locale of the current input method or keyboard
-     * layout.
-     * Returns null if the input context does not have a current input method
-     * or keyboard layout or if the current input method's
-     * {@link java.awt.im.spi.InputMethod#getLocale()} method returns null.
+     * Rfturns tif durrfnt lodblf of tif durrfnt input mftiod or kfybobrd
+     * lbyout.
+     * Rfturns null if tif input dontfxt dofs not ibvf b durrfnt input mftiod
+     * or kfybobrd lbyout or if tif durrfnt input mftiod's
+     * {@link jbvb.bwt.im.spi.InputMftiod#gftLodblf()} mftiod rfturns null.
      *
      * <p>
-     * Not all host operating systems provide API to determine the locale of
-     * the currently selected native input method or keyboard layout.
-     * For host operating systems that don't provide such API,
-     * <code>getLocale</code> assumes that the current locale of all native
-     * input methods or keyboard layouts provided by the host operating system
-     * is the system's default locale.
+     * Not bll iost opfrbting systfms providf API to dftfrminf tif lodblf of
+     * tif durrfntly sflfdtfd nbtivf input mftiod or kfybobrd lbyout.
+     * For iost opfrbting systfms tibt don't providf sudi API,
+     * <dodf>gftLodblf</dodf> bssumfs tibt tif durrfnt lodblf of bll nbtivf
+     * input mftiods or kfybobrd lbyouts providfd by tif iost opfrbting systfm
+     * is tif systfm's dffbult lodblf.
      *
-     * @return the current locale of the current input method or keyboard layout
-     * @since 1.3
+     * @rfturn tif durrfnt lodblf of tif durrfnt input mftiod or kfybobrd lbyout
+     * @sindf 1.3
      */
-    public Locale getLocale() {
-        // real implementation is in sun.awt.im.InputContext
-        return null;
+    publid Lodblf gftLodblf() {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+        rfturn null;
     }
 
     /**
-     * Sets the subsets of the Unicode character set that input methods of this input
-     * context should be allowed to input. Null may be passed in to
-     * indicate that all characters are allowed. The initial value
-     * is null. The setting applies to the current input method as well
-     * as input methods selected after this call is made. However,
-     * applications cannot rely on this call having the desired effect,
-     * since this setting cannot be passed on to all host input methods -
-     * applications still need to apply their own character validation.
-     * If no input methods are available, then this method has no effect.
+     * Sfts tif subsfts of tif Unidodf dibrbdtfr sft tibt input mftiods of tiis input
+     * dontfxt siould bf bllowfd to input. Null mby bf pbssfd in to
+     * indidbtf tibt bll dibrbdtfrs brf bllowfd. Tif initibl vbluf
+     * is null. Tif sftting bpplifs to tif durrfnt input mftiod bs wfll
+     * bs input mftiods sflfdtfd bftfr tiis dbll is mbdf. Howfvfr,
+     * bpplidbtions dbnnot rfly on tiis dbll ibving tif dfsirfd ffffdt,
+     * sindf tiis sftting dbnnot bf pbssfd on to bll iost input mftiods -
+     * bpplidbtions still nffd to bpply tifir own dibrbdtfr vblidbtion.
+     * If no input mftiods brf bvbilbblf, tifn tiis mftiod ibs no ffffdt.
      *
-     * @param subsets The subsets of the Unicode character set from which characters may be input
+     * @pbrbm subsfts Tif subsfts of tif Unidodf dibrbdtfr sft from wiidi dibrbdtfrs mby bf input
      */
-    public void setCharacterSubsets(Subset[] subsets) {
-        // real implementation is in sun.awt.im.InputContext
+    publid void sftCibrbdtfrSubsfts(Subsft[] subsfts) {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
     }
 
     /**
-     * Enables or disables the current input method for composition,
-     * depending on the value of the parameter <code>enable</code>.
+     * Enbblfs or disbblfs tif durrfnt input mftiod for domposition,
+     * dfpfnding on tif vbluf of tif pbrbmftfr <dodf>fnbblf</dodf>.
      * <p>
-     * An input method that is enabled for composition interprets incoming
-     * events for both composition and control purposes, while a
-     * disabled input method does not interpret events for composition.
-     * Note however that events are passed on to the input method regardless
-     * whether it is enabled or not, and that an input method that is disabled
-     * for composition may still interpret events for control purposes,
-     * including to enable or disable itself for composition.
+     * An input mftiod tibt is fnbblfd for domposition intfrprfts indoming
+     * fvfnts for boti domposition bnd dontrol purposfs, wiilf b
+     * disbblfd input mftiod dofs not intfrprft fvfnts for domposition.
+     * Notf iowfvfr tibt fvfnts brf pbssfd on to tif input mftiod rfgbrdlfss
+     * wiftifr it is fnbblfd or not, bnd tibt bn input mftiod tibt is disbblfd
+     * for domposition mby still intfrprft fvfnts for dontrol purposfs,
+     * indluding to fnbblf or disbblf itsflf for domposition.
      * <p>
-     * For input methods provided by host operating systems, it is not always possible to
-     * determine whether this operation is supported. For example, an input method may enable
-     * composition only for some locales, and do nothing for other locales. For such input
-     * methods, it is possible that this method does not throw
-     * {@link java.lang.UnsupportedOperationException UnsupportedOperationException},
-     * but also does not affect whether composition is enabled.
+     * For input mftiods providfd by iost opfrbting systfms, it is not blwbys possiblf to
+     * dftfrminf wiftifr tiis opfrbtion is supportfd. For fxbmplf, bn input mftiod mby fnbblf
+     * domposition only for somf lodblfs, bnd do notiing for otifr lodblfs. For sudi input
+     * mftiods, it is possiblf tibt tiis mftiod dofs not tirow
+     * {@link jbvb.lbng.UnsupportfdOpfrbtionExdfption UnsupportfdOpfrbtionExdfption},
+     * but blso dofs not bfffdt wiftifr domposition is fnbblfd.
      *
-     * @param enable whether to enable the current input method for composition
-     * @throws UnsupportedOperationException if there is no current input
-     * method available or the current input method does not support
-     * the enabling/disabling operation
-     * @see #isCompositionEnabled
-     * @since 1.3
+     * @pbrbm fnbblf wiftifr to fnbblf tif durrfnt input mftiod for domposition
+     * @tirows UnsupportfdOpfrbtionExdfption if tifrf is no durrfnt input
+     * mftiod bvbilbblf or tif durrfnt input mftiod dofs not support
+     * tif fnbbling/disbbling opfrbtion
+     * @sff #isCompositionEnbblfd
+     * @sindf 1.3
      */
-    public void setCompositionEnabled(boolean enable) {
-        // real implementation is in sun.awt.im.InputContext
+    publid void sftCompositionEnbblfd(boolfbn fnbblf) {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
     }
 
     /**
-     * Determines whether the current input method is enabled for composition.
-     * An input method that is enabled for composition interprets incoming
-     * events for both composition and control purposes, while a
-     * disabled input method does not interpret events for composition.
+     * Dftfrminfs wiftifr tif durrfnt input mftiod is fnbblfd for domposition.
+     * An input mftiod tibt is fnbblfd for domposition intfrprfts indoming
+     * fvfnts for boti domposition bnd dontrol purposfs, wiilf b
+     * disbblfd input mftiod dofs not intfrprft fvfnts for domposition.
      *
-     * @return <code>true</code> if the current input method is enabled for
-     * composition; <code>false</code> otherwise
-     * @throws UnsupportedOperationException if there is no current input
-     * method available or the current input method does not support
-     * checking whether it is enabled for composition
-     * @see #setCompositionEnabled
-     * @since 1.3
+     * @rfturn <dodf>truf</dodf> if tif durrfnt input mftiod is fnbblfd for
+     * domposition; <dodf>fblsf</dodf> otifrwisf
+     * @tirows UnsupportfdOpfrbtionExdfption if tifrf is no durrfnt input
+     * mftiod bvbilbblf or tif durrfnt input mftiod dofs not support
+     * difdking wiftifr it is fnbblfd for domposition
+     * @sff #sftCompositionEnbblfd
+     * @sindf 1.3
      */
-    @Transient
-    public boolean isCompositionEnabled() {
-        // real implementation is in sun.awt.im.InputContext
-        return false;
+    @Trbnsifnt
+    publid boolfbn isCompositionEnbblfd() {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+        rfturn fblsf;
     }
 
     /**
-     * Asks the current input method to reconvert text from the
-     * current client component. The input method obtains the text to
-     * be reconverted from the client component using the
-     * {@link InputMethodRequests#getSelectedText InputMethodRequests.getSelectedText}
-     * method. The other <code>InputMethodRequests</code> methods
-     * must be prepared to deal with further information requests by
-     * the input method. The composed and/or committed text will be
-     * sent to the client component as a sequence of
-     * <code>InputMethodEvent</code>s. If the input method cannot
-     * reconvert the given text, the text is returned as committed
-     * text in an <code>InputMethodEvent</code>.
+     * Asks tif durrfnt input mftiod to rfdonvfrt tfxt from tif
+     * durrfnt dlifnt domponfnt. Tif input mftiod obtbins tif tfxt to
+     * bf rfdonvfrtfd from tif dlifnt domponfnt using tif
+     * {@link InputMftiodRfqufsts#gftSflfdtfdTfxt InputMftiodRfqufsts.gftSflfdtfdTfxt}
+     * mftiod. Tif otifr <dodf>InputMftiodRfqufsts</dodf> mftiods
+     * must bf prfpbrfd to dfbl witi furtifr informbtion rfqufsts by
+     * tif input mftiod. Tif domposfd bnd/or dommittfd tfxt will bf
+     * sfnt to tif dlifnt domponfnt bs b sfqufndf of
+     * <dodf>InputMftiodEvfnt</dodf>s. If tif input mftiod dbnnot
+     * rfdonvfrt tif givfn tfxt, tif tfxt is rfturnfd bs dommittfd
+     * tfxt in bn <dodf>InputMftiodEvfnt</dodf>.
      *
-     * @throws UnsupportedOperationException if there is no current input
-     * method available or the current input method does not support
-     * the reconversion operation.
+     * @tirows UnsupportfdOpfrbtionExdfption if tifrf is no durrfnt input
+     * mftiod bvbilbblf or tif durrfnt input mftiod dofs not support
+     * tif rfdonvfrsion opfrbtion.
      *
-     * @since 1.3
+     * @sindf 1.3
      */
-    public void reconvert() {
-        // real implementation is in sun.awt.im.InputContext
+    publid void rfdonvfrt() {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
     }
 
     /**
-     * Dispatches an event to the active input method. Called by AWT.
-     * If no input method is available, then the event will never be consumed.
+     * Dispbtdifs bn fvfnt to tif bdtivf input mftiod. Cbllfd by AWT.
+     * If no input mftiod is bvbilbblf, tifn tif fvfnt will nfvfr bf donsumfd.
      *
-     * @param event The event
-     * @exception NullPointerException if <code>event</code> is null
+     * @pbrbm fvfnt Tif fvfnt
+     * @fxdfption NullPointfrExdfption if <dodf>fvfnt</dodf> is null
      */
-    public void dispatchEvent(AWTEvent event) {
-        // real implementation is in sun.awt.im.InputContext
+    publid void dispbtdiEvfnt(AWTEvfnt fvfnt) {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
     }
 
     /**
-     * Notifies the input context that a client component has been
-     * removed from its containment hierarchy, or that input method
-     * support has been disabled for the component. This method is
-     * usually called from the client component's
-     * {@link java.awt.Component#removeNotify() Component.removeNotify}
-     * method. Potentially pending input from input methods
-     * for this component is discarded.
-     * If no input methods are available, then this method has no effect.
+     * Notififs tif input dontfxt tibt b dlifnt domponfnt ibs bffn
+     * rfmovfd from its dontbinmfnt iifrbrdiy, or tibt input mftiod
+     * support ibs bffn disbblfd for tif domponfnt. Tiis mftiod is
+     * usublly dbllfd from tif dlifnt domponfnt's
+     * {@link jbvb.bwt.Componfnt#rfmovfNotify() Componfnt.rfmovfNotify}
+     * mftiod. Potfntiblly pfnding input from input mftiods
+     * for tiis domponfnt is disdbrdfd.
+     * If no input mftiods brf bvbilbblf, tifn tiis mftiod ibs no ffffdt.
      *
-     * @param client Client component
-     * @exception NullPointerException if <code>client</code> is null
+     * @pbrbm dlifnt Clifnt domponfnt
+     * @fxdfption NullPointfrExdfption if <dodf>dlifnt</dodf> is null
      */
-    public void removeNotify(Component client) {
-        // real implementation is in sun.awt.im.InputContext
+    publid void rfmovfNotify(Componfnt dlifnt) {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
     }
 
     /**
-     * Ends any input composition that may currently be going on in this
-     * context. Depending on the platform and possibly user preferences,
-     * this may commit or delete uncommitted text. Any changes to the text
-     * are communicated to the active component using an input method event.
-     * If no input methods are available, then this method has no effect.
+     * Ends bny input domposition tibt mby durrfntly bf going on in tiis
+     * dontfxt. Dfpfnding on tif plbtform bnd possibly usfr prfffrfndfs,
+     * tiis mby dommit or dflftf undommittfd tfxt. Any dibngfs to tif tfxt
+     * brf dommunidbtfd to tif bdtivf domponfnt using bn input mftiod fvfnt.
+     * If no input mftiods brf bvbilbblf, tifn tiis mftiod ibs no ffffdt.
      *
      * <p>
-     * A text editing component may call this in a variety of situations,
-     * for example, when the user moves the insertion point within the text
-     * (but outside the composed text), or when the component's text is
-     * saved to a file or copied to the clipboard.
+     * A tfxt fditing domponfnt mby dbll tiis in b vbrifty of situbtions,
+     * for fxbmplf, wifn tif usfr movfs tif insfrtion point witiin tif tfxt
+     * (but outsidf tif domposfd tfxt), or wifn tif domponfnt's tfxt is
+     * sbvfd to b filf or dopifd to tif dlipbobrd.
      *
      */
-    public void endComposition() {
-        // real implementation is in sun.awt.im.InputContext
+    publid void fndComposition() {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
     }
 
     /**
-     * Releases the resources used by this input context.
-     * Called by AWT for the default input context of each Window.
-     * If no input methods are available, then this method
-     * has no effect.
+     * Rflfbsfs tif rfsourdfs usfd by tiis input dontfxt.
+     * Cbllfd by AWT for tif dffbult input dontfxt of fbdi Window.
+     * If no input mftiods brf bvbilbblf, tifn tiis mftiod
+     * ibs no ffffdt.
      */
-    public void dispose() {
-        // real implementation is in sun.awt.im.InputContext
+    publid void disposf() {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
     }
 
     /**
-     * Returns a control object from the current input method, or null. A
-     * control object provides methods that control the behavior of the
-     * input method or obtain information from the input method. The type
-     * of the object is an input method specific class. Clients have to
-     * compare the result against known input method control object
-     * classes and cast to the appropriate class to invoke the methods
-     * provided.
+     * Rfturns b dontrol objfdt from tif durrfnt input mftiod, or null. A
+     * dontrol objfdt providfs mftiods tibt dontrol tif bfibvior of tif
+     * input mftiod or obtbin informbtion from tif input mftiod. Tif typf
+     * of tif objfdt is bn input mftiod spfdifid dlbss. Clifnts ibvf to
+     * dompbrf tif rfsult bgbinst known input mftiod dontrol objfdt
+     * dlbssfs bnd dbst to tif bppropribtf dlbss to invokf tif mftiods
+     * providfd.
      * <p>
-     * If no input methods are available or the current input method does
-     * not provide an input method control object, then null is returned.
+     * If no input mftiods brf bvbilbblf or tif durrfnt input mftiod dofs
+     * not providf bn input mftiod dontrol objfdt, tifn null is rfturnfd.
      *
-     * @return A control object from the current input method, or null.
+     * @rfturn A dontrol objfdt from tif durrfnt input mftiod, or null.
      */
-    public Object getInputMethodControlObject() {
-        // real implementation is in sun.awt.im.InputContext
-        return null;
+    publid Objfdt gftInputMftiodControlObjfdt() {
+        // rfbl implfmfntbtion is in sun.bwt.im.InputContfxt
+        rfturn null;
     }
 
 }

@@ -1,0 +1,143 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.IntfgfrSyntbx;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+import jbvbx.print.bttributf.PrintJobAttributf;
+
+/**
+ * Clbss JobImprfssions is bn intfgfr vblufd printing bttributf dlbss thbt
+ * spfdififs thf totbl sizf in numbfr of imprfssions of thf dodumfnt(s) bfing
+ * submittfd. An "imprfssion" is thf imbgf (possibly mbny print-strfbm pbgfs in
+ * difffrfnt donfigurbtions) imposfd onto b singlf mfdib pbgf.
+ * <P>
+ * Thf JobImprfssions bttributf dfsdribfs thf sizf of thf job. This bttributf is
+ * not intfndfd to bf b dountfr; it is intfndfd to bf usfful routing bnd
+ * sdhfduling informbtion if known. Thf printfr mby try to domputf thf
+ * JobImprfssions bttributf's vbluf if it is not supplifd in thf Print Rfqufst.
+ * Evfn if thf dlifnt dofs supply b vbluf for thf JobImprfssions bttributf in
+ * thf Print Rfqufst, thf printfr mby dhoosf to dhbngf thf vbluf if thf printfr
+ * is bblf to domputf b vbluf whidh is morf bddurbtf thbn thf dlifnt supplifd
+ * vbluf. Thf printfr mby bf bblf to dftfrminf thf dorrfdt vbluf for thf
+ * JobImprfssions bttributf fithfr right bt job submission timf or bt bny lbtfr
+ * point in timf.
+ * <P>
+ * As with {@link JobKOdtfts JobKOdtfts}, thf JobImprfssions vbluf must not
+ * indludf thf multiplidbtivf fbdtors dontributfd by thf numbfr of dopifs
+ * spfdififd by thf {@link Copifs Copifs} bttributf, indfpfndfnt of whfthfr thf
+ * dfvidf dbn prodfss multiplf dopifs without mbking multiplf pbssfs ovfr thf
+ * job or dodumfnt dbtb bnd indfpfndfnt of whfthfr thf output is dollbtfd or
+ * not. Thus thf vbluf is indfpfndfnt of thf implfmfntbtion bnd rfflfdts thf
+ * sizf of thf dodumfnt(s) mfbsurfd in imprfssions indfpfndfnt of thf numbfr of
+ * dopifs.
+ * <P>
+ * As with {@link JobKOdtfts JobKOdtfts}, thf JobImprfssions vbluf must blso not
+ * indludf thf multiplidbtivf fbdtor duf to b dopifs instrudtion fmbfddfd in thf
+ * dodumfnt dbtb. If thf dodumfnt dbtb bdtublly indludfs rfplidbtions of thf
+ * dodumfnt dbtb, this vbluf will indludf sudh rfplidbtion. In othfr words, this
+ * vbluf is blwbys thf numbfr of imprfssions in thf sourdf dodumfnt dbtb, rbthfr
+ * thbn b mfbsurf of thf numbfr of imprfssions to bf produdfd by thf job.
+ * <P>
+ * <B>IPP Compbtibility:</B> Thf intfgfr vbluf givfs thf IPP intfgfr vbluf. Thf
+ * dbtfgory nbmf rfturnfd by <CODE>gftNbmf()</CODE> givfs thf IPP bttributf
+ * nbmf.
+ *
+ * @sff JobImprfssionsSupportfd
+ * @sff JobImprfssionsComplftfd
+ * @sff JobKOdtfts
+ * @sff JobMfdibShffts
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid finbl dlbss JobImprfssions fxtfnds IntfgfrSyntbx
+    implfmfnts PrintRfqufstAttributf, PrintJobAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 8225537206784322464L;
+
+
+    /**
+     * Construdt b nfw job imprfssions bttributf with thf givfn intfgfr vbluf.
+     *
+     * @pbrbm  vbluf  Intfgfr vbluf.
+     *
+     * @fxdfption  IllfgblArgumfntExdfption
+     *  (Undhfdkfd fxdfption) Thrown if <CODE>vbluf</CODE> is lfss thbn 0.
+     */
+    publid JobImprfssions(int vbluf) {
+        supfr(vbluf, 0, Intfgfr.MAX_VALUE);
+    }
+
+    /**
+     * Rfturns whfthfr this job imprfssions bttributf is fquivblfnt to thf
+     * pbssfd in objfdt. To bf fquivblfnt, bll of thf following donditions must
+     * bf truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss JobImprfssions.
+     * <LI>
+     * This job imprfssions bttributf's vbluf bnd <CODE>objfdt</CODE>'s vbluf
+     * brf fqubl.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this job
+     *          imprfssions bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn supfr.fqubls (objfdt) && objfdt instbndfof JobImprfssions;
+    }
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss JobImprfssions, thf dbtfgory is dlbss JobImprfssions itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn JobImprfssions.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss JobImprfssions, thf dbtfgory nbmf is
+     * <CODE>"job-imprfssions"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "job-imprfssions";
+    }
+
+}

@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 1999, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.midi;
+
+
+/**
+ * A <dodf>Trbnsmittfr</dodf> sfnds <dodf>{@link MidiEvfnt}</dodf> objfdts to onf or morf
+ * <dodf>{@link Rfdfivfr Rfdfivfrs}</dodf>. Common MIDI trbnsmittfrs indludf sfqufndfrs
+ * bnd MIDI input ports.
+ *
+ * @sff Rfdfivfr
+ *
+ * @buthor Kbrb Kytlf
+ */
+publid intfrfbdf Trbnsmittfr fxtfnds AutoClosfbblf {
+
+
+    /**
+     * Sfts thf rfdfivfr to whidh this trbnsmittfr will dflivfr MIDI mfssbgfs.
+     * If b rfdfivfr is durrfntly sft, it is rfplbdfd with this onf.
+     * @pbrbm rfdfivfr thf dfsirfd rfdfivfr.
+     */
+    publid void sftRfdfivfr(Rfdfivfr rfdfivfr);
+
+
+    /**
+     * Obtbins thf durrfnt rfdfivfr to whidh this trbnsmittfr will dflivfr MIDI mfssbgfs.
+     * @rfturn thf durrfnt rfdfivfr.  If no rfdfivfr is durrfntly sft,
+     * rfturns <dodf>null</dodf>
+     */
+    publid Rfdfivfr gftRfdfivfr();
+
+
+    /**
+     * Indidbtfs thbt thf bpplidbtion hbs finishfd using thf trbnsmittfr, bnd
+     * thbt limitfd rfsourdfs it rfquirfs mby bf rflfbsfd or mbdf bvbilbblf.
+     *
+     * <p>If thf drfbtion of this <dodf>Trbnsmittfr</dodf> rfsultfd in
+     * impliditly opfning thf undfrlying dfvidf, thf dfvidf is
+     * impliditly dlosfd by this mfthod. This is truf unlfss thf dfvidf is
+     * kfpt opfn by othfr <dodf>Rfdfivfr</dodf> or <dodf>Trbnsmittfr</dodf>
+     * instbndfs thbt opfnfd thf dfvidf impliditly, bnd unlfss thf dfvidf
+     * hbs bffn opfnfd fxpliditly. If thf dfvidf this
+     * <dodf>Trbnsmittfr</dodf> is rftrifvfd from is dlosfd fxpliditly
+     * by dblling {@link MidiDfvidf#dlosf MidiDfvidf.dlosf}, thf
+     * <dodf>Trbnsmittfr</dodf> is dlosfd, too.  For b dftbilfd
+     * dfsdription of opfn/dlosf bfhbviour sff thf dlbss dfsdription
+     * of {@link jbvbx.sound.midi.MidiDfvidf MidiDfvidf}.
+     *
+     * @sff jbvbx.sound.midi.MidiSystfm#gftTrbnsmittfr
+     */
+    publid void dlosf();
+}

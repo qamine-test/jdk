@@ -1,222 +1,222 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.opengl;
+pbdkbgf sun.jbvb2d.opfngl;
 
-import java.awt.Transparency;
-import java.awt.geom.Path2D;
-import sun.java2d.InvalidPipeException;
-import sun.java2d.SunGraphics2D;
-import sun.java2d.loops.GraphicsPrimitive;
-import sun.java2d.pipe.BufferedRenderPipe;
-import sun.java2d.pipe.ParallelogramPipe;
-import sun.java2d.pipe.RenderQueue;
-import sun.java2d.pipe.SpanIterator;
-import static sun.java2d.pipe.BufferedOpCodes.*;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.gfom.Pbti2D;
+import sun.jbvb2d.InvblidPipfExdfption;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.loops.GrbpiidsPrimitivf;
+import sun.jbvb2d.pipf.BufffrfdRfndfrPipf;
+import sun.jbvb2d.pipf.PbrbllflogrbmPipf;
+import sun.jbvb2d.pipf.RfndfrQufuf;
+import sun.jbvb2d.pipf.SpbnItfrbtor;
+import stbtid sun.jbvb2d.pipf.BufffrfdOpCodfs.*;
 
-class OGLRenderer extends BufferedRenderPipe {
+dlbss OGLRfndfrfr fxtfnds BufffrfdRfndfrPipf {
 
-    OGLRenderer(RenderQueue rq) {
-        super(rq);
+    OGLRfndfrfr(RfndfrQufuf rq) {
+        supfr(rq);
     }
 
-    @Override
-    protected void validateContext(SunGraphics2D sg2d) {
-        int ctxflags =
-            sg2d.paint.getTransparency() == Transparency.OPAQUE ?
-                OGLContext.SRC_IS_OPAQUE : OGLContext.NO_CONTEXT_FLAGS;
-        OGLSurfaceData dstData;
+    @Ovfrridf
+    protfdtfd void vblidbtfContfxt(SunGrbpiids2D sg2d) {
+        int dtxflbgs =
+            sg2d.pbint.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE ?
+                OGLContfxt.SRC_IS_OPAQUE : OGLContfxt.NO_CONTEXT_FLAGS;
+        OGLSurfbdfDbtb dstDbtb;
         try {
-            dstData = (OGLSurfaceData)sg2d.surfaceData;
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            dstDbtb = (OGLSurfbdfDbtb)sg2d.surfbdfDbtb;
+        } dbtdi (ClbssCbstExdfption f) {
+            tirow nfw InvblidPipfExdfption("wrong surfbdf dbtb typf: " + sg2d.surfbdfDbtb);
         }
-        OGLContext.validateContext(dstData, dstData,
-                                   sg2d.getCompClip(), sg2d.composite,
-                                   null, sg2d.paint, sg2d, ctxflags);
+        OGLContfxt.vblidbtfContfxt(dstDbtb, dstDbtb,
+                                   sg2d.gftCompClip(), sg2d.dompositf,
+                                   null, sg2d.pbint, sg2d, dtxflbgs);
     }
 
-    @Override
-    protected void validateContextAA(SunGraphics2D sg2d) {
-        int ctxflags = OGLContext.NO_CONTEXT_FLAGS;
-        OGLSurfaceData dstData;
+    @Ovfrridf
+    protfdtfd void vblidbtfContfxtAA(SunGrbpiids2D sg2d) {
+        int dtxflbgs = OGLContfxt.NO_CONTEXT_FLAGS;
+        OGLSurfbdfDbtb dstDbtb;
         try {
-            dstData = (OGLSurfaceData)sg2d.surfaceData;
-        } catch (ClassCastException e) {
-            throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+            dstDbtb = (OGLSurfbdfDbtb)sg2d.surfbdfDbtb;
+        } dbtdi (ClbssCbstExdfption f) {
+            tirow nfw InvblidPipfExdfption("wrong surfbdf dbtb typf: " + sg2d.surfbdfDbtb);
         }
-        OGLContext.validateContext(dstData, dstData,
-                                   sg2d.getCompClip(), sg2d.composite,
-                                   null, sg2d.paint, sg2d, ctxflags);
+        OGLContfxt.vblidbtfContfxt(dstDbtb, dstDbtb,
+                                   sg2d.gftCompClip(), sg2d.dompositf,
+                                   null, sg2d.pbint, sg2d, dtxflbgs);
     }
 
-    void copyArea(SunGraphics2D sg2d,
-                  int x, int y, int w, int h, int dx, int dy)
+    void dopyArfb(SunGrbpiids2D sg2d,
+                  int x, int y, int w, int i, int dx, int dy)
     {
-        rq.lock();
+        rq.lodk();
         try {
-            int ctxflags =
-                sg2d.surfaceData.getTransparency() == Transparency.OPAQUE ?
-                    OGLContext.SRC_IS_OPAQUE : OGLContext.NO_CONTEXT_FLAGS;
-            OGLSurfaceData dstData;
+            int dtxflbgs =
+                sg2d.surfbdfDbtb.gftTrbnspbrfndy() == Trbnspbrfndy.OPAQUE ?
+                    OGLContfxt.SRC_IS_OPAQUE : OGLContfxt.NO_CONTEXT_FLAGS;
+            OGLSurfbdfDbtb dstDbtb;
             try {
-                dstData = (OGLSurfaceData)sg2d.surfaceData;
-            } catch (ClassCastException e) {
-                throw new InvalidPipeException("wrong surface data type: " + sg2d.surfaceData);
+                dstDbtb = (OGLSurfbdfDbtb)sg2d.surfbdfDbtb;
+            } dbtdi (ClbssCbstExdfption f) {
+                tirow nfw InvblidPipfExdfption("wrong surfbdf dbtb typf: " + sg2d.surfbdfDbtb);
             }
-            OGLContext.validateContext(dstData, dstData,
-                                       sg2d.getCompClip(), sg2d.composite,
-                                       null, null, null, ctxflags);
+            OGLContfxt.vblidbtfContfxt(dstDbtb, dstDbtb,
+                                       sg2d.gftCompClip(), sg2d.dompositf,
+                                       null, null, null, dtxflbgs);
 
-            rq.ensureCapacity(28);
+            rq.fnsurfCbpbdity(28);
             buf.putInt(COPY_AREA);
-            buf.putInt(x).putInt(y).putInt(w).putInt(h);
+            buf.putInt(x).putInt(y).putInt(w).putInt(i);
             buf.putInt(dx).putInt(dy);
-        } finally {
-            rq.unlock();
+        } finblly {
+            rq.unlodk();
         }
     }
 
-    @Override
-    protected native void drawPoly(int[] xPoints, int[] yPoints,
-                                   int nPoints, boolean isClosed,
-                                   int transX, int transY);
+    @Ovfrridf
+    protfdtfd nbtivf void drbwPoly(int[] xPoints, int[] yPoints,
+                                   int nPoints, boolfbn isClosfd,
+                                   int trbnsX, int trbnsY);
 
-    OGLRenderer traceWrap() {
-        return new Tracer(this);
+    OGLRfndfrfr trbdfWrbp() {
+        rfturn nfw Trbdfr(tiis);
     }
 
-    private class Tracer extends OGLRenderer {
-        private OGLRenderer oglr;
-        Tracer(OGLRenderer oglr) {
-            super(oglr.rq);
-            this.oglr = oglr;
+    privbtf dlbss Trbdfr fxtfnds OGLRfndfrfr {
+        privbtf OGLRfndfrfr oglr;
+        Trbdfr(OGLRfndfrfr oglr) {
+            supfr(oglr.rq);
+            tiis.oglr = oglr;
         }
-        public ParallelogramPipe getAAParallelogramPipe() {
-            final ParallelogramPipe realpipe = oglr.getAAParallelogramPipe();
-            return new ParallelogramPipe() {
-                public void fillParallelogram(SunGraphics2D sg2d,
-                                              double ux1, double uy1,
-                                              double ux2, double uy2,
-                                              double x, double y,
-                                              double dx1, double dy1,
-                                              double dx2, double dy2)
+        publid PbrbllflogrbmPipf gftAAPbrbllflogrbmPipf() {
+            finbl PbrbllflogrbmPipf rfblpipf = oglr.gftAAPbrbllflogrbmPipf();
+            rfturn nfw PbrbllflogrbmPipf() {
+                publid void fillPbrbllflogrbm(SunGrbpiids2D sg2d,
+                                              doublf ux1, doublf uy1,
+                                              doublf ux2, doublf uy2,
+                                              doublf x, doublf y,
+                                              doublf dx1, doublf dy1,
+                                              doublf dx2, doublf dy2)
                 {
-                    GraphicsPrimitive.tracePrimitive("OGLFillAAParallelogram");
-                    realpipe.fillParallelogram(sg2d,
+                    GrbpiidsPrimitivf.trbdfPrimitivf("OGLFillAAPbrbllflogrbm");
+                    rfblpipf.fillPbrbllflogrbm(sg2d,
                                                ux1, uy1, ux2, uy2,
                                                x, y, dx1, dy1, dx2, dy2);
                 }
-                public void drawParallelogram(SunGraphics2D sg2d,
-                                              double ux1, double uy1,
-                                              double ux2, double uy2,
-                                              double x, double y,
-                                              double dx1, double dy1,
-                                              double dx2, double dy2,
-                                              double lw1, double lw2)
+                publid void drbwPbrbllflogrbm(SunGrbpiids2D sg2d,
+                                              doublf ux1, doublf uy1,
+                                              doublf ux2, doublf uy2,
+                                              doublf x, doublf y,
+                                              doublf dx1, doublf dy1,
+                                              doublf dx2, doublf dy2,
+                                              doublf lw1, doublf lw2)
                 {
-                    GraphicsPrimitive.tracePrimitive("OGLDrawAAParallelogram");
-                    realpipe.drawParallelogram(sg2d,
+                    GrbpiidsPrimitivf.trbdfPrimitivf("OGLDrbwAAPbrbllflogrbm");
+                    rfblpipf.drbwPbrbllflogrbm(sg2d,
                                                ux1, uy1, ux2, uy2,
                                                x, y, dx1, dy1, dx2, dy2,
                                                lw1, lw2);
                 }
             };
         }
-        protected void validateContext(SunGraphics2D sg2d) {
-            oglr.validateContext(sg2d);
+        protfdtfd void vblidbtfContfxt(SunGrbpiids2D sg2d) {
+            oglr.vblidbtfContfxt(sg2d);
         }
-        public void drawLine(SunGraphics2D sg2d,
+        publid void drbwLinf(SunGrbpiids2D sg2d,
                              int x1, int y1, int x2, int y2)
         {
-            GraphicsPrimitive.tracePrimitive("OGLDrawLine");
-            oglr.drawLine(sg2d, x1, y1, x2, y2);
+            GrbpiidsPrimitivf.trbdfPrimitivf("OGLDrbwLinf");
+            oglr.drbwLinf(sg2d, x1, y1, x2, y2);
         }
-        public void drawRect(SunGraphics2D sg2d, int x, int y, int w, int h) {
-            GraphicsPrimitive.tracePrimitive("OGLDrawRect");
-            oglr.drawRect(sg2d, x, y, w, h);
+        publid void drbwRfdt(SunGrbpiids2D sg2d, int x, int y, int w, int i) {
+            GrbpiidsPrimitivf.trbdfPrimitivf("OGLDrbwRfdt");
+            oglr.drbwRfdt(sg2d, x, y, w, i);
         }
-        protected void drawPoly(SunGraphics2D sg2d,
+        protfdtfd void drbwPoly(SunGrbpiids2D sg2d,
                                 int[] xPoints, int[] yPoints,
-                                int nPoints, boolean isClosed)
+                                int nPoints, boolfbn isClosfd)
         {
-            GraphicsPrimitive.tracePrimitive("OGLDrawPoly");
-            oglr.drawPoly(sg2d, xPoints, yPoints, nPoints, isClosed);
+            GrbpiidsPrimitivf.trbdfPrimitivf("OGLDrbwPoly");
+            oglr.drbwPoly(sg2d, xPoints, yPoints, nPoints, isClosfd);
         }
-        public void fillRect(SunGraphics2D sg2d, int x, int y, int w, int h) {
-            GraphicsPrimitive.tracePrimitive("OGLFillRect");
-            oglr.fillRect(sg2d, x, y, w, h);
+        publid void fillRfdt(SunGrbpiids2D sg2d, int x, int y, int w, int i) {
+            GrbpiidsPrimitivf.trbdfPrimitivf("OGLFillRfdt");
+            oglr.fillRfdt(sg2d, x, y, w, i);
         }
-        protected void drawPath(SunGraphics2D sg2d,
-                                Path2D.Float p2df, int transx, int transy)
+        protfdtfd void drbwPbti(SunGrbpiids2D sg2d,
+                                Pbti2D.Flobt p2df, int trbnsx, int trbnsy)
         {
-            GraphicsPrimitive.tracePrimitive("OGLDrawPath");
-            oglr.drawPath(sg2d, p2df, transx, transy);
+            GrbpiidsPrimitivf.trbdfPrimitivf("OGLDrbwPbti");
+            oglr.drbwPbti(sg2d, p2df, trbnsx, trbnsy);
         }
-        protected void fillPath(SunGraphics2D sg2d,
-                                Path2D.Float p2df, int transx, int transy)
+        protfdtfd void fillPbti(SunGrbpiids2D sg2d,
+                                Pbti2D.Flobt p2df, int trbnsx, int trbnsy)
         {
-            GraphicsPrimitive.tracePrimitive("OGLFillPath");
-            oglr.fillPath(sg2d, p2df, transx, transy);
+            GrbpiidsPrimitivf.trbdfPrimitivf("OGLFillPbti");
+            oglr.fillPbti(sg2d, p2df, trbnsx, trbnsy);
         }
-        protected void fillSpans(SunGraphics2D sg2d, SpanIterator si,
-                                 int transx, int transy)
+        protfdtfd void fillSpbns(SunGrbpiids2D sg2d, SpbnItfrbtor si,
+                                 int trbnsx, int trbnsy)
         {
-            GraphicsPrimitive.tracePrimitive("OGLFillSpans");
-            oglr.fillSpans(sg2d, si, transx, transy);
+            GrbpiidsPrimitivf.trbdfPrimitivf("OGLFillSpbns");
+            oglr.fillSpbns(sg2d, si, trbnsx, trbnsy);
         }
-        public void fillParallelogram(SunGraphics2D sg2d,
-                                      double ux1, double uy1,
-                                      double ux2, double uy2,
-                                      double x, double y,
-                                      double dx1, double dy1,
-                                      double dx2, double dy2)
+        publid void fillPbrbllflogrbm(SunGrbpiids2D sg2d,
+                                      doublf ux1, doublf uy1,
+                                      doublf ux2, doublf uy2,
+                                      doublf x, doublf y,
+                                      doublf dx1, doublf dy1,
+                                      doublf dx2, doublf dy2)
         {
-            GraphicsPrimitive.tracePrimitive("OGLFillParallelogram");
-            oglr.fillParallelogram(sg2d,
+            GrbpiidsPrimitivf.trbdfPrimitivf("OGLFillPbrbllflogrbm");
+            oglr.fillPbrbllflogrbm(sg2d,
                                    ux1, uy1, ux2, uy2,
                                    x, y, dx1, dy1, dx2, dy2);
         }
-        public void drawParallelogram(SunGraphics2D sg2d,
-                                      double ux1, double uy1,
-                                      double ux2, double uy2,
-                                      double x, double y,
-                                      double dx1, double dy1,
-                                      double dx2, double dy2,
-                                      double lw1, double lw2)
+        publid void drbwPbrbllflogrbm(SunGrbpiids2D sg2d,
+                                      doublf ux1, doublf uy1,
+                                      doublf ux2, doublf uy2,
+                                      doublf x, doublf y,
+                                      doublf dx1, doublf dy1,
+                                      doublf dx2, doublf dy2,
+                                      doublf lw1, doublf lw2)
         {
-            GraphicsPrimitive.tracePrimitive("OGLDrawParallelogram");
-            oglr.drawParallelogram(sg2d,
+            GrbpiidsPrimitivf.trbdfPrimitivf("OGLDrbwPbrbllflogrbm");
+            oglr.drbwPbrbllflogrbm(sg2d,
                                    ux1, uy1, ux2, uy2,
                                    x, y, dx1, dy1, dx2, dy2, lw1, lw2);
         }
-        public void copyArea(SunGraphics2D sg2d,
-                             int x, int y, int w, int h, int dx, int dy)
+        publid void dopyArfb(SunGrbpiids2D sg2d,
+                             int x, int y, int w, int i, int dx, int dy)
         {
-            GraphicsPrimitive.tracePrimitive("OGLCopyArea");
-            oglr.copyArea(sg2d, x, y, w, h, dx, dy);
+            GrbpiidsPrimitivf.trbdfPrimitivf("OGLCopyArfb");
+            oglr.dopyArfb(sg2d, x, y, w, i, dx, dy);
         }
     }
 }

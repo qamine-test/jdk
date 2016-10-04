@@ -1,98 +1,98 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "jni.h"
-#include "jvm.h"
+#indludf "jni.i"
+#indludf "jvm.i"
 
-#include "java_io_ObjectStreamClass.h"
+#indludf "jbvb_io_ObjfdtStrfbmClbss.i"
 
-static jclass noSuchMethodErrCl;
+stbtid jdlbss noSudiMftiodErrCl;
 
 /*
- * Class:     java_io_ObjectStreamClass
- * Method:    initNative
- * Signature: ()V
+ * Clbss:     jbvb_io_ObjfdtStrfbmClbss
+ * Mftiod:    initNbtivf
+ * Signbturf: ()V
  *
- * Native code initialization hook.
+ * Nbtivf dodf initiblizbtion iook.
  */
 JNIEXPORT void JNICALL
-Java_java_io_ObjectStreamClass_initNative(JNIEnv *env, jclass this)
+Jbvb_jbvb_io_ObjfdtStrfbmClbss_initNbtivf(JNIEnv *fnv, jdlbss tiis)
 {
-    jclass cl = (*env)->FindClass(env, "java/lang/NoSuchMethodError");
-    if (cl == NULL) {           /* exception thrown */
-        return;
+    jdlbss dl = (*fnv)->FindClbss(fnv, "jbvb/lbng/NoSudiMftiodError");
+    if (dl == NULL) {           /* fxdfption tirown */
+        rfturn;
     }
-    noSuchMethodErrCl = (*env)->NewGlobalRef(env, cl);
+    noSudiMftiodErrCl = (*fnv)->NfwGlobblRff(fnv, dl);
 }
 
 /*
- * Class:     java_io_ObjectStreamClass
- * Method:    hasStaticInitializer
- * Signature: (Ljava/lang/Class;)Z
+ * Clbss:     jbvb_io_ObjfdtStrfbmClbss
+ * Mftiod:    ibsStbtidInitiblizfr
+ * Signbturf: (Ljbvb/lbng/Clbss;)Z
  *
- * Returns true if the given class defines a <clinit>()V method; returns false
- * otherwise.
+ * Rfturns truf if tif givfn dlbss dffinfs b <dlinit>()V mftiod; rfturns fblsf
+ * otifrwisf.
  */
-JNIEXPORT jboolean JNICALL
-Java_java_io_ObjectStreamClass_hasStaticInitializer(JNIEnv *env, jclass this,
-                                                    jclass clazz)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_jbvb_io_ObjfdtStrfbmClbss_ibsStbtidInitiblizfr(JNIEnv *fnv, jdlbss tiis,
+                                                    jdlbss dlbzz)
 {
-    jclass superCl = NULL;
-    jmethodID superClinitId = NULL;
-    jmethodID clinitId =
-        (*env)->GetStaticMethodID(env, clazz, "<clinit>", "()V");
-    if (clinitId == NULL) {     /* error thrown */
-        jthrowable th = (*env)->ExceptionOccurred(env);
-        (*env)->ExceptionClear(env);    /* normal return */
-        if (!(*env)->IsInstanceOf(env, th, noSuchMethodErrCl)) {
-            (*env)->Throw(env, th);
+    jdlbss supfrCl = NULL;
+    jmftiodID supfrClinitId = NULL;
+    jmftiodID dlinitId =
+        (*fnv)->GftStbtidMftiodID(fnv, dlbzz, "<dlinit>", "()V");
+    if (dlinitId == NULL) {     /* frror tirown */
+        jtirowbblf ti = (*fnv)->ExdfptionOddurrfd(fnv);
+        (*fnv)->ExdfptionClfbr(fnv);    /* normbl rfturn */
+        if (!(*fnv)->IsInstbndfOf(fnv, ti, noSudiMftiodErrCl)) {
+            (*fnv)->Tirow(fnv, ti);
         }
-        return JNI_FALSE;
+        rfturn JNI_FALSE;
     }
 
     /*
-     * Check superclass for static initializer as well--if the same method ID
-     * is returned, then the static initializer is from a superclass.
-     * Empirically, this step appears to be unnecessary in 1.4; however, the
-     * JNI spec makes no guarantee that GetStaticMethodID will not return the
-     * ID for a superclass initializer.
+     * Cifdk supfrdlbss for stbtid initiblizfr bs wfll--if tif sbmf mftiod ID
+     * is rfturnfd, tifn tif stbtid initiblizfr is from b supfrdlbss.
+     * Empiridblly, tiis stfp bppfbrs to bf unnfdfssbry in 1.4; iowfvfr, tif
+     * JNI spfd mbkfs no gubrbntff tibt GftStbtidMftiodID will not rfturn tif
+     * ID for b supfrdlbss initiblizfr.
      */
 
-    if ((superCl = (*env)->GetSuperclass(env, clazz)) == NULL) {
-        return JNI_TRUE;
+    if ((supfrCl = (*fnv)->GftSupfrdlbss(fnv, dlbzz)) == NULL) {
+        rfturn JNI_TRUE;
     }
-    superClinitId =
-        (*env)->GetStaticMethodID(env, superCl, "<clinit>", "()V");
-    if (superClinitId == NULL) {        /* error thrown */
-        jthrowable th = (*env)->ExceptionOccurred(env);
-        (*env)->ExceptionClear(env);    /* normal return */
-        if (!(*env)->IsInstanceOf(env, th, noSuchMethodErrCl)) {
-            (*env)->Throw(env, th);
+    supfrClinitId =
+        (*fnv)->GftStbtidMftiodID(fnv, supfrCl, "<dlinit>", "()V");
+    if (supfrClinitId == NULL) {        /* frror tirown */
+        jtirowbblf ti = (*fnv)->ExdfptionOddurrfd(fnv);
+        (*fnv)->ExdfptionClfbr(fnv);    /* normbl rfturn */
+        if (!(*fnv)->IsInstbndfOf(fnv, ti, noSudiMftiodErrCl)) {
+            (*fnv)->Tirow(fnv, ti);
         }
-        return JNI_TRUE;
+        rfturn JNI_TRUE;
     }
 
-    return (clinitId != superClinitId);
+    rfturn (dlinitId != supfrClinitId);
 }

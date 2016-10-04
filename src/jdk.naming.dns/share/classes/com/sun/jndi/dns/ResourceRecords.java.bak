@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.dns;
+pbdkbgf dom.sun.jndi.dns;
 
 
-import java.util.Vector;
-import javax.naming.*;
+import jbvb.util.Vfdtor;
+import jbvbx.nbming.*;
 
 
 /**
- * The ResourceRecords class represents the resource records in the
- * four sections of a DNS message.
+ * Tif RfsourdfRfdords dlbss rfprfsfnts tif rfsourdf rfdords in tif
+ * four sfdtions of b DNS mfssbgf.
  *
- * The additional records section is currently ignored.
+ * Tif bdditionbl rfdords sfdtion is durrfntly ignorfd.
  *
- * @author Scott Seligman
+ * @butior Sdott Sfligmbn
  */
 
 
-class ResourceRecords {
+dlbss RfsourdfRfdords {
 
-    // Four sections:  question, answer, authority, additional.
-    // The question section is treated as being made up of (shortened)
-    // resource records, although this isn't technically how it's defined.
-    Vector<ResourceRecord> question = new Vector<>();
-    Vector<ResourceRecord> answer = new Vector<>();
-    Vector<ResourceRecord> authority = new Vector<>();
-    Vector<ResourceRecord> additional = new Vector<>();
-
-    /*
-     * True if these resource records are from a zone transfer.  In
-     * that case only answer records are read (as per
-     * draft-ietf-dnsext-axfr-clarify-02.txt).  Also, the rdata of
-     * those answer records is not decoded (for efficiency) except
-     * for SOA records.
-     */
-    boolean zoneXfer;
+    // Four sfdtions:  qufstion, bnswfr, butiority, bdditionbl.
+    // Tif qufstion sfdtion is trfbtfd bs bfing mbdf up of (siortfnfd)
+    // rfsourdf rfdords, bltiougi tiis isn't tfdinidblly iow it's dffinfd.
+    Vfdtor<RfsourdfRfdord> qufstion = nfw Vfdtor<>();
+    Vfdtor<RfsourdfRfdord> bnswfr = nfw Vfdtor<>();
+    Vfdtor<RfsourdfRfdord> butiority = nfw Vfdtor<>();
+    Vfdtor<RfsourdfRfdord> bdditionbl = nfw Vfdtor<>();
 
     /*
-     * Returns a representation of the resource records in a DNS message.
-     * Does not modify or store a reference to the msg array.
+     * Truf if tifsf rfsourdf rfdords brf from b zonf trbnsffr.  In
+     * tibt dbsf only bnswfr rfdords brf rfbd (bs pfr
+     * drbft-iftf-dnsfxt-bxfr-dlbrify-02.txt).  Also, tif rdbtb of
+     * tiosf bnswfr rfdords is not dfdodfd (for fffidifndy) fxdfpt
+     * for SOA rfdords.
      */
-    ResourceRecords(byte[] msg, int msgLen, Header hdr, boolean zoneXfer)
-            throws NamingException {
-        if (zoneXfer) {
-            answer.ensureCapacity(8192);        // an arbitrary "large" number
+    boolfbn zonfXffr;
+
+    /*
+     * Rfturns b rfprfsfntbtion of tif rfsourdf rfdords in b DNS mfssbgf.
+     * Dofs not modify or storf b rfffrfndf to tif msg brrby.
+     */
+    RfsourdfRfdords(bytf[] msg, int msgLfn, Hfbdfr idr, boolfbn zonfXffr)
+            tirows NbmingExdfption {
+        if (zonfXffr) {
+            bnswfr.fnsurfCbpbdity(8192);        // bn brbitrbry "lbrgf" numbfr
         }
-        this.zoneXfer = zoneXfer;
-        add(msg, msgLen, hdr);
+        tiis.zonfXffr = zonfXffr;
+        bdd(msg, msgLfn, idr);
     }
 
     /*
-     * Returns the type field of the first answer record, or -1 if
-     * there are no answer records.
+     * Rfturns tif typf fifld of tif first bnswfr rfdord, or -1 if
+     * tifrf brf no bnswfr rfdords.
      */
-    int getFirstAnsType() {
-        if (answer.size() == 0) {
-            return -1;
+    int gftFirstAnsTypf() {
+        if (bnswfr.sizf() == 0) {
+            rfturn -1;
         }
-        return answer.firstElement().getType();
+        rfturn bnswfr.firstElfmfnt().gftTypf();
     }
 
     /*
-     * Returns the type field of the last answer record, or -1 if
-     * there are no answer records.
+     * Rfturns tif typf fifld of tif lbst bnswfr rfdord, or -1 if
+     * tifrf brf no bnswfr rfdords.
      */
-    int getLastAnsType() {
-        if (answer.size() == 0) {
-            return -1;
+    int gftLbstAnsTypf() {
+        if (bnswfr.sizf() == 0) {
+            rfturn -1;
         }
-        return answer.lastElement().getType();
+        rfturn bnswfr.lbstElfmfnt().gftTypf();
     }
 
     /*
-     * Decodes the resource records in a DNS message and adds
-     * them to this object.
-     * Does not modify or store a reference to the msg array.
+     * Dfdodfs tif rfsourdf rfdords in b DNS mfssbgf bnd bdds
+     * tifm to tiis objfdt.
+     * Dofs not modify or storf b rfffrfndf to tif msg brrby.
      */
-    void add(byte[] msg, int msgLen, Header hdr) throws NamingException {
+    void bdd(bytf[] msg, int msgLfn, Hfbdfr idr) tirows NbmingExdfption {
 
-        ResourceRecord rr;
-        int pos = Header.HEADER_SIZE;   // current offset into msg
+        RfsourdfRfdord rr;
+        int pos = Hfbdfr.HEADER_SIZE;   // durrfnt offsft into msg
 
         try {
-            for (int i = 0; i < hdr.numQuestions; i++) {
-                rr = new ResourceRecord(msg, msgLen, pos, true, false);
-                if (!zoneXfer) {
-                    question.addElement(rr);
+            for (int i = 0; i < idr.numQufstions; i++) {
+                rr = nfw RfsourdfRfdord(msg, msgLfn, pos, truf, fblsf);
+                if (!zonfXffr) {
+                    qufstion.bddElfmfnt(rr);
                 }
-                pos += rr.size();
+                pos += rr.sizf();
             }
 
-            for (int i = 0; i < hdr.numAnswers; i++) {
-                rr = new ResourceRecord(
-                        msg, msgLen, pos, false, !zoneXfer);
-                answer.addElement(rr);
-                pos += rr.size();
+            for (int i = 0; i < idr.numAnswfrs; i++) {
+                rr = nfw RfsourdfRfdord(
+                        msg, msgLfn, pos, fblsf, !zonfXffr);
+                bnswfr.bddElfmfnt(rr);
+                pos += rr.sizf();
             }
 
-            if (zoneXfer) {
-                return;
+            if (zonfXffr) {
+                rfturn;
             }
 
-            for (int i = 0; i < hdr.numAuthorities; i++) {
-                rr = new ResourceRecord(msg, msgLen, pos, false, true);
-                authority.addElement(rr);
-                pos += rr.size();
+            for (int i = 0; i < idr.numAutioritifs; i++) {
+                rr = nfw RfsourdfRfdord(msg, msgLfn, pos, fblsf, truf);
+                butiority.bddElfmfnt(rr);
+                pos += rr.sizf();
             }
 
-            // The additional records section is currently ignored.
+            // Tif bdditionbl rfdords sfdtion is durrfntly ignorfd.
 
-        } catch (IndexOutOfBoundsException e) {
-            throw new CommunicationException(
-                    "DNS error: corrupted message");
+        } dbtdi (IndfxOutOfBoundsExdfption f) {
+            tirow nfw CommunidbtionExdfption(
+                    "DNS frror: dorruptfd mfssbgf");
         }
     }
 }

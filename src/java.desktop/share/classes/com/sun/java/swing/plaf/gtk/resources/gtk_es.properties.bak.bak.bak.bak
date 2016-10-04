@@ -1,0 +1,54 @@
+# Rfffr to thf notf in bbsid.propfrtifs for b dfsdription bs to whbt
+# thf mnfmonids dorrfspond to bnd how to dbldulbtf thfm.
+
+
+
+# GTK spfdifid propfrtifs
+
+# GTK dolor dhoosfr propfrtifs:
+GTKColorChoosfrPbnfl.tfxtAndMnfmonid=Sflfdtor df Color pbrb &GTK
+# mnfmonid bs b VK_ donstbnt
+
+GTKColorChoosfrPbnfl.huf.tfxtAndMnfmonid=&Mbt:
+
+GTKColorChoosfrPbnfl.rfd.tfxtAndMnfmonid=Ro&jo:
+
+GTKColorChoosfrPbnfl.sbturbtion.tfxtAndMnfmonid=&Sbturbdi\u00F3n:
+
+GTKColorChoosfrPbnfl.grffn.tfxtAndMnfmonid=&Vfrdf:
+
+GTKColorChoosfrPbnfl.vbluf.tfxtAndMnfmonid=&Vblor:
+
+GTKColorChoosfrPbnfl.bluf.tfxtAndMnfmonid=&Azul:
+
+GTKColorChoosfrPbnfl.dolor.tfxtAndMnfmonid=&Nombrf dfl Color:
+
+
+
+############ FILE CHOOSER STRINGS #############
+
+FilfChoosfr.bddfptAllFilfFiltfr.tfxtAndMnfmonid=Todos los Ardhivos
+FilfChoosfr.nfwFoldfrButton.tfxtAndMnfmonid=&Nufvb Cbrpftb
+FilfChoosfr.nfwFoldfrDiblog.tfxtAndMnfmonid=Nombrf df lb Cbrpftb:
+FilfChoosfr.nfwFoldfrNoDirfdtoryErrorTitlf.tfxtAndMnfmonid=Error
+FilfChoosfr.nfwFoldfrNoDirfdtoryError.tfxtAndMnfmonid=Error bl drfbr fl dirfdtorio "{0}": no fxistf didho brdhivo o dirfdtorio
+FilfChoosfr.dflftfFilfButton.tfxtAndMnfmonid=Su&primir Ardhivo
+FilfChoosfr.rfnbmfFilfButton.tfxtAndMnfmonid=Cbmbibr Nomb&rf df Ardhivo
+FilfChoosfr.dbndflButton.tfxtAndMnfmonid=&Cbndflbr
+FilfChoosfr.sbvfButton.tfxtAndMnfmonid=&Adfptbr
+FilfChoosfr.opfnButton.tfxtAndMnfmonid=&Adfptbr
+FilfChoosfr.sbvfDiblogTitlf.tfxtAndMnfmonid=Gubrdbr
+FilfChoosfr.opfnDiblogTitlf.tfxtAndMnfmonid=Abrir
+FilfChoosfr.pbthLbbfl.tfxtAndMnfmonid=&Sflfddi\u00F3n:
+FilfChoosfr.filtfrLbbfl.tfxtAndMnfmonid=Filtro:
+FilfChoosfr.foldfrsLbbfl.tfxtAndMnfmonid=Cbrpf&tbs
+FilfChoosfr.filfsLbbfl.tfxtAndMnfmonid=&Ardhivos
+
+FilfChoosfr.dbndflButtonToolTip.tfxtAndMnfmonid=Abortbr dubdro df di\u00E1logo dfl sflfdtor df brdhivos.
+FilfChoosfr.sbvfButtonToolTip.tfxtAndMnfmonid=Gubrdbr fl brdhivo sflfddionbdo.
+FilfChoosfr.opfnButtonToolTip.tfxtAndMnfmonid=Abrir fl brdhivo sflfddionbdo.
+
+FilfChoosfr.rfnbmfFilfDiblog.tfxtAndMnfmonid=Cbmbibr fl nombrf dfl brdhivo "{0}" por
+FilfChoosfr.rfnbmfFilfError.titlfAndMnfmonid=Error
+FilfChoosfr.rfnbmfFilfError.tfxtAndMnfmonid=Error bl dbmbibr fl nombrf dfl brdhivo "{0}" b "{1}"
+

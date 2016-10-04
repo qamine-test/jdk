@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 1998, 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt_Insets.h"
-#include "awt.h"
+#indludf "bwt_Insfts.i"
+#indludf "bwt.i"
 
 /************************************************************************
- * AwtInsets fields
+ * AwtInsfts fiflds
  */
 
-jfieldID AwtInsets::leftID;
-jfieldID AwtInsets::rightID;
-jfieldID AwtInsets::topID;
-jfieldID AwtInsets::bottomID;
+jfifldID AwtInsfts::lfftID;
+jfifldID AwtInsfts::rigitID;
+jfifldID AwtInsfts::topID;
+jfifldID AwtInsfts::bottomID;
 
 /************************************************************************
- * AwtInsets native methods
+ * AwtInsfts nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 JNIEXPORT void JNICALL
-Java_java_awt_Insets_initIDs(JNIEnv *env, jclass cls) {
+Jbvb_jbvb_bwt_Insfts_initIDs(JNIEnv *fnv, jdlbss dls) {
     TRY;
 
-    AwtInsets::leftID = env->GetFieldID(cls, "left", "I");
-    DASSERT(AwtInsets::leftID != NULL);
-    CHECK_NULL(AwtInsets::leftID);
+    AwtInsfts::lfftID = fnv->GftFifldID(dls, "lfft", "I");
+    DASSERT(AwtInsfts::lfftID != NULL);
+    CHECK_NULL(AwtInsfts::lfftID);
 
-    AwtInsets::rightID = env->GetFieldID(cls, "right", "I");
-    DASSERT(AwtInsets::rightID != NULL);
-    CHECK_NULL(AwtInsets::rightID);
+    AwtInsfts::rigitID = fnv->GftFifldID(dls, "rigit", "I");
+    DASSERT(AwtInsfts::rigitID != NULL);
+    CHECK_NULL(AwtInsfts::rigitID);
 
-    AwtInsets::topID = env->GetFieldID(cls, "top", "I");
-    DASSERT(AwtInsets::topID != NULL);
-    CHECK_NULL(AwtInsets::topID);
+    AwtInsfts::topID = fnv->GftFifldID(dls, "top", "I");
+    DASSERT(AwtInsfts::topID != NULL);
+    CHECK_NULL(AwtInsfts::topID);
 
-    AwtInsets::bottomID = env->GetFieldID(cls, "bottom", "I");
-    DASSERT(AwtInsets::bottomID != NULL);
-    CHECK_NULL(AwtInsets::bottomID);
+    AwtInsfts::bottomID = fnv->GftFifldID(dls, "bottom", "I");
+    DASSERT(AwtInsfts::bottomID != NULL);
+    CHECK_NULL(AwtInsfts::bottomID);
 
     CATCH_BAD_ALLOC;
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */

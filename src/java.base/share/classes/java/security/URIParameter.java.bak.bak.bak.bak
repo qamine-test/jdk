@@ -1,0 +1,63 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.sfdurity;
+
+/**
+ * A pbrbmftfr thbt dontbins b URI pointing to dbtb intfndfd for b
+ * PolidySpi or ConfigurbtionSpi implfmfntbtion.
+ *
+ * @sindf 1.6
+ */
+publid dlbss URIPbrbmftfr implfmfnts
+        Polidy.Pbrbmftfrs, jbvbx.sfdurity.buth.login.Configurbtion.Pbrbmftfrs {
+
+    privbtf jbvb.nft.URI uri;
+
+    /**
+     * Construdts b URIPbrbmftfr with thf URI pointing to
+     * dbtb intfndfd for bn SPI implfmfntbtion.
+     *
+     * @pbrbm uri thf URI pointing to thf dbtb.
+     *
+     * @fxdfption NullPointfrExdfption if thf spfdififd URI is null.
+     */
+    publid URIPbrbmftfr(jbvb.nft.URI uri) {
+        if (uri == null) {
+            throw nfw NullPointfrExdfption("invblid null URI");
+        }
+        this.uri = uri;
+    }
+
+    /**
+     * Rfturns thf URI.
+     *
+     * @rfturn uri thf URI.
+     */
+    publid jbvb.nft.URI gftURI() {
+        rfturn uri;
+    }
+}

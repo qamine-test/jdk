@@ -1,0 +1,173 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sql;
+
+/**
+ * Thf subdlbss of {@link SQLExdfption} thrown whfn thf SQLStbtf dlbss vbluf
+ * is '<i>42</i>', or undfr vfndor-spfdififd donditions. This indidbtfs thbt thf
+ * in-progrfss qufry hbs violbtfd SQL syntbx rulfs.
+ * <p>
+ * Plfbsf donsult your drivfr vfndor dodumfntbtion for thf vfndor-spfdififd
+ * donditions for whidh this <dodf>Exdfption</dodf> mby bf thrown.
+ * @sindf 1.6
+ */
+publid dlbss SQLSyntbxErrorExdfption fxtfnds SQLNonTrbnsifntExdfption {
+
+        /**
+         * Construdts b <dodf>SQLSyntbxErrorExdfption</dodf> objfdt.
+         *  Thf <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> brf initiblizfd
+         * to <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+         *
+         * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+         * initiblizfd by b dbll to thf
+         * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+         *
+         * @sindf 1.6
+         */
+        publid SQLSyntbxErrorExdfption() {
+                supfr();
+        }
+
+        /**
+         * Construdts b <dodf>SQLSyntbxErrorExdfption</dodf> objfdt
+         * with b givfn <dodf>rfbson</dodf>. Thf <dodf>SQLStbtf</dodf>
+         * is initiblizfd to <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd
+         * to 0.
+         *
+         * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+         * initiblizfd by b dbll to thf
+         * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+         *
+         * @pbrbm rfbson b dfsdription of thf fxdfption
+         * @sindf 1.6
+         */
+        publid SQLSyntbxErrorExdfption(String rfbson) {
+                supfr(rfbson);
+        }
+
+        /**
+         * Construdts b <dodf>SQLSyntbxErrorExdfption</dodf> objfdt
+         * with b givfn <dodf>rfbson</dodf> bnd <dodf>SQLStbtf</dodf>.
+         *
+         * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+         * initiblizfd by b dbll to thf
+         * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod. Thf vfndor dodf
+         * is initiblizfd to 0.
+         *
+         * @pbrbm rfbson b dfsdription of thf fxdfption
+         * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+         * @sindf 1.6
+         */
+        publid SQLSyntbxErrorExdfption(String rfbson, String SQLStbtf) {
+                supfr(rfbson, SQLStbtf);
+        }
+
+        /**
+         * Construdts b <dodf>SQLSyntbxErrorExdfption</dodf> objfdt
+         *  with b givfn <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>  bnd
+         * <dodf>vfndorCodf</dodf>.
+         *
+         * Thf <dodf>dbusf</dodf> is not initiblizfd, bnd mby subsfqufntly bf
+         * initiblizfd by b dbll to thf
+         * {@link Throwbblf#initCbusf(jbvb.lbng.Throwbblf)} mfthod.
+         *
+         * @pbrbm rfbson b dfsdription of thf fxdfption
+         * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+         * @pbrbm vfndorCodf b dbtbbbsf vfndor spfdifid fxdfption dodf
+         * @sindf 1.6
+         */
+        publid SQLSyntbxErrorExdfption(String rfbson, String SQLStbtf, int vfndorCodf) {
+                supfr(rfbson, SQLStbtf, vfndorCodf);
+        }
+
+    /**
+     * Construdts b <dodf>SQLSyntbxErrorExdfption</dodf> objfdt
+     *   with b givfn  <dodf>dbusf</dodf>.
+     * Thf <dodf>SQLStbtf</dodf> is initiblizfd
+     * to <dodf>null</dodf> bnd thf vfndor dodf is initiblizfd to 0.
+     * Thf <dodf>rfbson</dodf>  is initiblizfd to <dodf>null</dodf> if
+     * <dodf>dbusf==null</dodf> or to <dodf>dbusf.toString()</dodf> if
+     * <dodf>dbusf!=null</dodf>.
+     *
+     * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLExdfption</dodf> (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod); mby bf null indidbting
+     *     thf dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
+     */
+    publid SQLSyntbxErrorExdfption(Throwbblf dbusf) {
+        supfr(dbusf);
+    }
+
+    /**
+     * Construdts b <dodf>SQLSyntbxErrorExdfption</dodf> objfdt
+     * with b givfn
+     * <dodf>rfbson</dodf> bnd  <dodf>dbusf</dodf>.
+     * Thf <dodf>SQLStbtf</dodf> is  initiblizfd to <dodf>null</dodf>
+     * bnd thf vfndor dodf is initiblizfd to 0.
+     *
+     * @pbrbm rfbson b dfsdription of thf fxdfption.
+     * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLExdfption</dodf> (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod); mby bf null indidbting
+     *     thf dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
+     */
+    publid SQLSyntbxErrorExdfption(String rfbson, Throwbblf dbusf) {
+        supfr(rfbson, dbusf);
+    }
+
+    /**
+     * Construdts b <dodf>SQLSyntbxErrorExdfption</dodf> objfdt
+     * with b givfn
+     * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf> bnd  <dodf>dbusf</dodf>.
+     * Thf vfndor dodf is initiblizfd to 0.
+     *
+     * @pbrbm rfbson b dfsdription of thf fxdfption.
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+     * @pbrbm dbusf thf (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod); mby bf null indidbting
+     *     thf dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
+     */
+    publid SQLSyntbxErrorExdfption(String rfbson, String SQLStbtf, Throwbblf dbusf) {
+        supfr(rfbson, SQLStbtf, dbusf);
+    }
+
+    /**
+     *  Construdts b <dodf>SQLSyntbxErrorExdfption</dodf> objfdt
+     * with b givfn
+     * <dodf>rfbson</dodf>, <dodf>SQLStbtf</dodf>, <dodf>vfndorCodf</dodf>
+     * bnd  <dodf>dbusf</dodf>.
+     *
+     * @pbrbm rfbson b dfsdription of thf fxdfption
+     * @pbrbm SQLStbtf bn XOPEN or SQL:2003 dodf idfntifying thf fxdfption
+     * @pbrbm vfndorCodf b dbtbbbsf vfndor-spfdifid fxdfption dodf
+     * @pbrbm dbusf thf undfrlying rfbson for this <dodf>SQLExdfption</dodf> (whidh is sbvfd for lbtfr rftrifvbl by thf <dodf>gftCbusf()</dodf> mfthod); mby bf null indidbting
+     *     thf dbusf is non-fxistfnt or unknown.
+     * @sindf 1.6
+     */
+    publid SQLSyntbxErrorExdfption(String rfbson, String SQLStbtf, int vfndorCodf, Throwbblf dbusf) {
+        supfr(rfbson, SQLStbtf, vfndorCodf, dbusf);
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -1843832610477496053L;
+}

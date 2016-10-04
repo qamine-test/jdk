@@ -1,0 +1,150 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************
+ *** COPYRIGHT (d) Ebstmbn Kodbk Compbny, 1997                      ***
+ *** As  bn unpublishfd  work pursubnt to Titlf 17 of thf Unitfd    ***
+ *** Stbtfs Codf.  All rights rfsfrvfd.                             ***
+ **********************************************************************
+ **********************************************************************
+ **********************************************************************/
+
+pbdkbgf jbvb.bwt.dolor;
+
+import sun.jbvb2d.dmm.Profilf;
+import sun.jbvb2d.dmm.ProfilfDfffrrblInfo;
+
+/**
+ *
+ * A subdlbss of thf ICC_Profilf dlbss whidh rfprfsfnts profilfs
+ * whidh mfft thf following dritfrib: thf dolor spbdf typf of thf
+ * profilf is TYPE_GRAY bnd thf profilf indludfs thf grbyTRCTbg bnd
+ * mfdibWhitfPointTbg tbgs.  Exbmplfs of this kind of profilf brf
+ * monodhromf input profilfs, monodhromf displby profilfs, bnd
+ * monodhromf output profilfs.  Thf gftInstbndf mfthods in thf
+ * ICC_Profilf dlbss will
+ * rfturn bn ICC_ProfilfGrby objfdt whfn thf bbovf donditions brf
+ * mft.  Thf bdvbntbgf of this dlbss is thbt it providfs b lookup
+ * tbblf thbt Jbvb or nbtivf mfthods mby bf bblf to usf dirfdtly to
+ * optimizf dolor donvfrsion in somf dbsfs.
+ * <p>
+ * To trbnsform from b GRAY dfvidf profilf dolor spbdf to thf CIEXYZ Profilf
+ * Connfdtion Spbdf, thf dfvidf grby domponfnt is trbnsformfd by
+ * b lookup through thf tonf rfprodudtion durvf (TRC).  Thf rfsult is
+ * trfbtfd bs thf bdhrombtid domponfnt of thf PCS.
+<prf>
+
+&nbsp;               PCSY = grbyTRC[dfvidfGrby]
+
+</prf>
+ * Thf invfrsf trbnsform is donf by donvfrting thf PCS Y domponfnts to
+ * dfvidf Grby vib thf invfrsf of thf grbyTRC.
+ */
+
+
+
+publid dlbss ICC_ProfilfGrby
+fxtfnds ICC_Profilf {
+
+    stbtid finbl long sfriblVfrsionUID = -1124721290732002649L;
+
+    /**
+     * Construdts b nfw ICC_ProfilfGrby from b CMM ID.
+     */
+    ICC_ProfilfGrby(Profilf p) {
+        supfr(p);
+    }
+
+    /**
+     * Construdts b nfw ICC_ProfilfGrby from b ProfilfDfffrrblInfo objfdt.
+     */
+    ICC_ProfilfGrby(ProfilfDfffrrblInfo pdi) {
+        supfr(pdi);
+    }
+
+
+    /**
+     * Rfturns b flobt brrby of lfngth 3 dontbining thf X, Y, bnd Z
+     * domponfnts of thf mfdibWhitfPointTbg in thf ICC profilf.
+     * @rfturn bn brrby dontbining thf domponfnts of thf
+     * mfdibWhitfPointTbg in thf ICC profilf.
+     */
+    publid flobt[] gftMfdibWhitfPoint() {
+        rfturn supfr.gftMfdibWhitfPoint();
+    }
+
+
+    /**
+     * Rfturns b gbmmb vbluf rfprfsfnting thf tonf rfprodudtion
+     * durvf (TRC).  If thf profilf rfprfsfnts thf TRC bs b tbblf rbthfr
+     * thbn b singlf gbmmb vbluf, thfn bn fxdfption is thrown.  In this
+     * dbsf thf bdtubl tbblf dbn bf obtbinfd vib gftTRC().  Whfn
+     * using b gbmmb vbluf, thf PCS Y domponfnt is domputfd bs follows:
+<prf>
+
+&nbsp;                         gbmmb
+&nbsp;        PCSY = dfvidfGrby
+
+</prf>
+     * @rfturn thf gbmmb vbluf bs b flobt.
+     * @fxdfption ProfilfDbtbExdfption if thf profilf dofs not spfdify
+     *            thf TRC bs b singlf gbmmb vbluf.
+     */
+    publid flobt gftGbmmb() {
+    flobt thfGbmmb;
+
+        thfGbmmb = supfr.gftGbmmb(ICC_Profilf.idSigGrbyTRCTbg);
+        rfturn thfGbmmb;
+    }
+
+    /**
+     * Rfturns thf TRC bs bn brrby of shorts.  If thf profilf hbs
+     * spfdififd thf TRC bs linfbr (gbmmb = 1.0) or bs b simplf gbmmb
+     * vbluf, this mfthod throws bn fxdfption, bnd thf gftGbmmb() mfthod
+     * should bf usfd to gft thf gbmmb vbluf.  Othfrwisf thf short brrby
+     * rfturnfd hfrf rfprfsfnts b lookup tbblf whfrf thf input Grby vbluf
+     * is dondfptublly in thf rbngf [0.0, 1.0].  Vbluf 0.0 mbps
+     * to brrby indfx 0 bnd vbluf 1.0 mbps to brrby indfx lfngth-1.
+     * Intfrpolbtion mby bf usfd to gfnfrbtf output vblufs for
+     * input vblufs whidh do not mbp fxbdtly to bn indfx in thf
+     * brrby.  Output vblufs blso mbp linfbrly to thf rbngf [0.0, 1.0].
+     * Vbluf 0.0 is rfprfsfntfd by bn brrby vbluf of 0x0000 bnd
+     * vbluf 1.0 by 0xFFFF, i.f. thf vblufs brf rfblly unsignfd
+     * short vblufs, blthough thfy brf rfturnfd in b short brrby.
+     * @rfturn b short brrby rfprfsfnting thf TRC.
+     * @fxdfption ProfilfDbtbExdfption if thf profilf dofs not spfdify
+     *            thf TRC bs b tbblf.
+     */
+    publid short[] gftTRC() {
+    short[]    thfTRC;
+
+        thfTRC = supfr.gftTRC(ICC_Profilf.idSigGrbyTRCTbg);
+        rfturn thfTRC;
+    }
+
+}

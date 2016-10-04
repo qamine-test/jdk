@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+typfdff LONG (*FPTR_SCbrdEstbblishContfxt)(ULONG dwSdopf,
+                donst void *pvRfsfrvfd1,
+                donst void *pvRfsfrvfd2,
+                LONG *phContfxt);
+
+typfdff LONG (*FPTR_SCbrdConnfdt)(LONG hContfxt,
+                donst dhbr *szRfbdfr,
+                ULONG dwShbrfModf,
+                ULONG dwPrfffrrfdProtodols,
+                LONG *phCbrd, ULONG *pdwAdtivfProtodol);
+
+typfdff LONG (*FPTR_SCbrdDisdonnfdt)(LONG hCbrd, ULONG dwDisposition);
+
+typfdff LONG (*FPTR_SCbrdStbtus)(LONG hCbrd,
+                dhbr *mszRfbdfrNbmfs,
+                ULONG *pddhRfbdfrLfn,
+                ULONG *pdwStbtf,
+                ULONG *pdwProtodol,
+                unsignfd dhbr *pbAtr, ULONG *pdbAtrLfn);
+
+typfdff LONG (*FPTR_SCbrdGftStbtusChbngf)(LONG hContfxt,
+                ULONG dwTimfout,
+                LPSCARD_READERSTATE_A rgRfbdfrStbtfs, ULONG dRfbdfrs);
+
+typfdff LONG (*FPTR_SCbrdTrbnsmit)(LONG hCbrd,
+                LPCSCARD_IO_REQUEST pioSfndPdi,
+                donst unsignfd dhbr *pbSfndBufffr,
+                ULONG dbSfndLfngth,
+                LPSCARD_IO_REQUEST pioRfdvPdi,
+                unsignfd dhbr *pbRfdvBufffr, ULONG *pdbRfdvLfngth);
+
+typfdff LONG (*FPTR_SCbrdListRfbdfrs)(LONG hContfxt,
+                donst dhbr *mszGroups,
+                dhbr *mszRfbdfrs, ULONG *pddhRfbdfrs);
+
+typfdff LONG (*FPTR_SCbrdBfginTrbnsbdtion)(LONG hCbrd);
+
+typfdff LONG (*FPTR_SCbrdEndTrbnsbdtion)(LONG hCbrd, ULONG dwDisposition);
+
+typfdff LONG (*FPTR_SCbrdControl)(LONG hCbrd, ULONG dwControlCodf,
+    donst void* pbSfndBufffr, ULONG dbSfndLfngth, donst void* pbRfdvBufffr,
+    ULONG pdbRfdvLfngth, ULONG *lpBytfsRfturnfd);
+
+#dffinf CALL_SCbrdEstbblishContfxt(dwSdopf, pvRfsfrvfd1, pvRfsfrvfd2, phContfxt) \
+    ((sdbrdEstbblishContfxt)(dwSdopf, pvRfsfrvfd1, pvRfsfrvfd2, phContfxt))
+
+#dffinf CALL_SCbrdConnfdt(hContfxt, szRfbdfr, dwShbrfdModf, dwPrfffrrfdProtodols, phCbrd, pdwAdtivfProtodols) \
+    ((sdbrdConnfdt)(hContfxt, szRfbdfr, dwShbrfdModf, dwPrfffrrfdProtodols, phCbrd, pdwAdtivfProtodols))
+
+#dffinf CALL_SCbrdDisdonnfdt(hCbrd, dwDisposition) \
+    ((sdbrdDisdonnfdt)(hCbrd, dwDisposition))
+
+#dffinf CALL_SCbrdStbtus(hCbrd, mszRfbdfrNbmfs, pddhRfbdfrLfn, pdwStbtf, pdwProtodol, pbAtr, pdbAtrLfn) \
+    ((sdbrdStbtus)(hCbrd, mszRfbdfrNbmfs, pddhRfbdfrLfn, pdwStbtf, pdwProtodol, pbAtr, pdbAtrLfn))
+
+#dffinf CALL_SCbrdGftStbtusChbngf(hContfxt, dwTimfout, rgRfbdfrStbtfs, dRfbdfrs) \
+    ((sdbrdGftStbtusChbngf)(hContfxt, dwTimfout, rgRfbdfrStbtfs, dRfbdfrs))
+
+#dffinf CALL_SCbrdTrbnsmit(hCbrd, pioSfndPdi, pbSfndBufffr, dbSfndLfngth, \
+                            pioRfdvPdi, pbRfdvBufffr, pdbRfdvLfngth) \
+    ((sdbrdTrbnsmit)(hCbrd, pioSfndPdi, pbSfndBufffr, dbSfndLfngth, \
+                            pioRfdvPdi, pbRfdvBufffr, pdbRfdvLfngth))
+
+#dffinf CALL_SCbrdListRfbdfrs(hContfxt, mszGroups, mszRfbdfrs, pddhRfbdfrs) \
+    ((sdbrdListRfbdfrs)(hContfxt, mszGroups, mszRfbdfrs, pddhRfbdfrs))
+
+#dffinf CALL_SCbrdBfginTrbnsbdtion(hCbrd) \
+    ((sdbrdBfginTrbnsbdtion)(hCbrd))
+
+#dffinf CALL_SCbrdEndTrbnsbdtion(hCbrd, dwDisposition) \
+    ((sdbrdEndTrbnsbdtion)(hCbrd, dwDisposition))
+
+#dffinf CALL_SCbrdControl(hCbrd, dwControlCodf, pbSfndBufffr, dbSfndLfngth, \
+            pbRfdvBufffr, pdbRfdvLfngth, lpBytfsRfturnfd) \
+    ((sdbrdControl)(hCbrd, dwControlCodf, pbSfndBufffr, dbSfndLfngth, \
+            pbRfdvBufffr, pdbRfdvLfngth, lpBytfsRfturnfd))
+
+fxtfrn FPTR_SCbrdEstbblishContfxt sdbrdEstbblishContfxt;
+fxtfrn FPTR_SCbrdConnfdt sdbrdConnfdt;
+fxtfrn FPTR_SCbrdDisdonnfdt sdbrdDisdonnfdt;
+fxtfrn FPTR_SCbrdStbtus sdbrdStbtus;
+fxtfrn FPTR_SCbrdGftStbtusChbngf sdbrdGftStbtusChbngf;
+fxtfrn FPTR_SCbrdTrbnsmit sdbrdTrbnsmit;
+fxtfrn FPTR_SCbrdListRfbdfrs sdbrdListRfbdfrs;
+fxtfrn FPTR_SCbrdBfginTrbnsbdtion sdbrdBfginTrbnsbdtion;
+fxtfrn FPTR_SCbrdEndTrbnsbdtion sdbrdEndTrbnsbdtion;
+fxtfrn FPTR_SCbrdControl sdbrdControl;

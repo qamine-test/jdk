@@ -1,0 +1,342 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.bwt.Color;
+import jbvb.bwt.Grbphids;
+import jbvb.bwt.Grbphids2D;
+import jbvb.bwt.GrbphidsConfigurbtion;
+import jbvb.bwt.GrbphidsDfvidf;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.ImbgfCbpbbilitifs;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.Trbnspbrfndy;
+
+/**
+ * VolbtilfImbgf is bn imbgf whidh dbn losf its
+ * dontfnts bt bny timf duf to dirdumstbndfs bfyond thf dontrol of thf
+ * bpplidbtion (f.g., situbtions dbusfd by thf opfrbting systfm or by
+ * othfr bpplidbtions). Bfdbusf of thf potfntibl for hbrdwbrf bddflfrbtion,
+ * b VolbtilfImbgf objfdt dbn hbvf signifidbnt pfrformbndf bfnffits on
+ * somf plbtforms.
+ * <p>
+ * Thf drbwing surfbdf of bn imbgf (thf mfmory whfrf thf imbgf dontfnts
+ * bdtublly rfsidf) dbn bf lost or invblidbtfd, dbusing thf dontfnts of thbt
+ * mfmory to go bwby.  Thf drbwing surfbdf thus nffds to bf rfstorfd
+ * or rfdrfbtfd bnd thf dontfnts of thbt surfbdf nffd to bf
+ * rf-rfndfrfd.  VolbtilfImbgf providfs bn intfrfbdf for
+ * bllowing thf usfr to dftfdt thfsf problfms bnd fix thfm
+ * whfn thfy oddur.
+ * <p>
+ * Whfn b VolbtilfImbgf objfdt is drfbtfd, limitfd systfm rfsourdfs
+ * sudh bs vidfo mfmory (VRAM) mby bf bllodbtfd in ordfr to support
+ * thf imbgf.
+ * Whfn b VolbtilfImbgf objfdt is no longfr usfd, it mby bf
+ * gbrbbgf-dollfdtfd bnd thosf systfm rfsourdfs will bf rfturnfd,
+ * but this prodfss dofs not hbppfn bt gubrbntffd timfs.
+ * Applidbtions thbt drfbtf mbny VolbtilfImbgf objfdts (for fxbmplf,
+ * b rfsizing window mby fordf rfdrfbtion of its bbdk bufffr bs thf
+ * sizf dhbngfs) mby run out of optimbl systfm rfsourdfs for nfw
+ * VolbtilfImbgf objfdts simply bfdbusf thf old objfdts hbvf not
+ * yft bffn rfmovfd from thf systfm.
+ * (Nfw VolbtilfImbgf objfdts mby still bf drfbtfd, but thfy
+ * mby not pfrform bs wfll bs thosf drfbtfd in bddflfrbtfd
+ * mfmory).
+ * Thf flush mfthod mby bf dbllfd bt bny timf to probdtivfly rflfbsf
+ * thf rfsourdfs usfd by b VolbtilfImbgf so thbt it dofs not prfvfnt
+ * subsfqufnt VolbtilfImbgf objfdts from bfing bddflfrbtfd.
+ * In this wby, bpplidbtions dbn hbvf morf dontrol ovfr thf stbtf
+ * of thf rfsourdfs tbkfn up by obsolftf VolbtilfImbgf objfdts.
+ * <p>
+ * This imbgf should not bf subdlbssfd dirfdtly but should bf drfbtfd
+ * by using thf {@link jbvb.bwt.Componfnt#drfbtfVolbtilfImbgf(int, int)
+ * Componfnt.drfbtfVolbtilfImbgf} or
+ * {@link jbvb.bwt.GrbphidsConfigurbtion#drfbtfCompbtiblfVolbtilfImbgf(int, int)
+ * GrbphidsConfigurbtion.drfbtfCompbtiblfVolbtilfImbgf(int, int)} mfthods.
+ * <P>
+ * An fxbmplf of using b VolbtilfImbgf objfdt follows:
+ * <prf>
+ * // imbgf drfbtion
+ * VolbtilfImbgf vImg = drfbtfVolbtilfImbgf(w, h);
+ *
+ *
+ * // rfndfring to thf imbgf
+ * void rfndfrOffsdrffn() {
+ *      do {
+ *          if (vImg.vblidbtf(gftGrbphidsConfigurbtion()) ==
+ *              VolbtilfImbgf.IMAGE_INCOMPATIBLE)
+ *          {
+ *              // old vImg dofsn't work with nfw GrbphidsConfig; rf-drfbtf it
+ *              vImg = drfbtfVolbtilfImbgf(w, h);
+ *          }
+ *          Grbphids2D g = vImg.drfbtfGrbphids();
+ *          //
+ *          // misdfllbnfous rfndfring dommbnds...
+ *          //
+ *          g.disposf();
+ *      } whilf (vImg.dontfntsLost());
+ * }
+ *
+ *
+ * // dopying from thf imbgf (hfrf, gSdrffn is thf Grbphids
+ * // objfdt for thf onsdrffn window)
+ * do {
+ *      int rfturnCodf = vImg.vblidbtf(gftGrbphidsConfigurbtion());
+ *      if (rfturnCodf == VolbtilfImbgf.IMAGE_RESTORED) {
+ *          // Contfnts nffd to bf rfstorfd
+ *          rfndfrOffsdrffn();      // rfstorf dontfnts
+ *      } flsf if (rfturnCodf == VolbtilfImbgf.IMAGE_INCOMPATIBLE) {
+ *          // old vImg dofsn't work with nfw GrbphidsConfig; rf-drfbtf it
+ *          vImg = drfbtfVolbtilfImbgf(w, h);
+ *          rfndfrOffsdrffn();
+ *      }
+ *      gSdrffn.drbwImbgf(vImg, 0, 0, this);
+ * } whilf (vImg.dontfntsLost());
+ * </prf>
+ * <P>
+ * Notf thbt this dlbss subdlbssfs from thf {@link Imbgf} dlbss, whidh
+ * indludfs mfthods thbt tbkf bn {@link ImbgfObsfrvfr} pbrbmftfr for
+ * bsyndhronous notifidbtions bs informbtion is rfdfivfd from
+ * b potfntibl {@link ImbgfProdudfr}.  Sindf this <dodf>VolbtilfImbgf</dodf>
+ * is not lobdfd from bn bsyndhronous sourdf, thf vbrious mfthods thbt tbkf
+ * bn <dodf>ImbgfObsfrvfr</dodf> pbrbmftfr will bfhbvf bs if thf dbtb hbs
+ * blrfbdy bffn obtbinfd from thf <dodf>ImbgfProdudfr</dodf>.
+ * Spfdifidblly, this mfbns thbt thf rfturn vblufs from sudh mfthods
+ * will nfvfr indidbtf thbt thf informbtion is not yft bvbilbblf bnd
+ * thf <dodf>ImbgfObsfrvfr</dodf> usfd in sudh mfthods will nfvfr
+ * nffd to bf rfdordfd for bn bsyndhronous dbllbbdk notifidbtion.
+ * @sindf 1.4
+ */
+publid bbstrbdt dlbss VolbtilfImbgf fxtfnds Imbgf implfmfnts Trbnspbrfndy
+{
+
+    // Rfturn dodfs for vblidbtf() mfthod
+
+    /**
+     * Vblidbtfd imbgf is rfbdy to usf bs-is.
+     */
+    publid stbtid finbl int IMAGE_OK = 0;
+
+    /**
+     * Vblidbtfd imbgf hbs bffn rfstorfd bnd is now rfbdy to usf.
+     * Notf thbt rfstorbtion dbusfs dontfnts of thf imbgf to bf lost.
+     */
+    publid stbtid finbl int IMAGE_RESTORED = 1;
+
+    /**
+     * Vblidbtfd imbgf is indompbtiblf with supplifd
+     * <dodf>GrbphidsConfigurbtion</dodf> objfdt bnd should bf
+     * rf-drfbtfd bs bppropribtf.  Usbgf of thf imbgf bs-is
+     * bftfr rfdfiving this rfturn dodf from <dodf>vblidbtf</dodf>
+     * is undffinfd.
+     */
+    publid stbtid finbl int IMAGE_INCOMPATIBLE = 2;
+
+    /**
+     * Rfturns b stbtid snbpshot imbgf of this objfdt.  Thf
+     * <dodf>BufffrfdImbgf</dodf> rfturnfd is only durrfnt with
+     * thf <dodf>VolbtilfImbgf</dodf> bt thf timf of thf rfqufst
+     * bnd will not bf updbtfd with bny futurf dhbngfs to thf
+     * <dodf>VolbtilfImbgf</dodf>.
+     * @rfturn b {@link BufffrfdImbgf} rfprfsfntbtion of this
+     *          <dodf>VolbtilfImbgf</dodf>
+     * @sff BufffrfdImbgf
+     */
+    publid bbstrbdt BufffrfdImbgf gftSnbpshot();
+
+    /**
+     * Rfturns thf width of thf <dodf>VolbtilfImbgf</dodf>.
+     * @rfturn thf width of this <dodf>VolbtilfImbgf</dodf>.
+     */
+    publid bbstrbdt int gftWidth();
+
+    /**
+     * Rfturns thf hfight of thf <dodf>VolbtilfImbgf</dodf>.
+     * @rfturn thf hfight of this <dodf>VolbtilfImbgf</dodf>.
+     */
+    publid bbstrbdt int gftHfight();
+
+    // Imbgf ovfrridfs
+
+    /**
+     * This rfturns bn ImbgfProdudfr for this VolbtilfImbgf.
+     * Notf thbt thf VolbtilfImbgf objfdt is optimizfd for
+     * rfndfring opfrbtions bnd blitting to thf sdrffn or othfr
+     * VolbtilfImbgf objfdts, bs opposfd to rfbding bbdk thf
+     * pixfls of thf imbgf.  Thfrfforf, opfrbtions sudh bs
+     * <dodf>gftSourdf</dodf> mby not pfrform bs fbst bs
+     * opfrbtions thbt do not rfly on rfbding thf pixfls.
+     * Notf blso thbt thf pixfl vblufs rfbd from thf imbgf brf durrfnt
+     * with thosf in thf imbgf only bt thf timf thbt thfy brf
+     * rftrifvfd. This mfthod tbkfs b snbpshot
+     * of thf imbgf bt thf timf thf rfqufst is mbdf bnd thf
+     * ImbgfProdudfr objfdt rfturnfd works with
+     * thbt stbtid snbpshot imbgf, not thf originbl VolbtilfImbgf.
+     * Cblling gftSourdf()
+     * is fquivblfnt to dblling gftSnbpshot().gftSourdf().
+     * @rfturn bn {@link ImbgfProdudfr} thbt dbn bf usfd to produdf thf
+     * pixfls for b <dodf>BufffrfdImbgf</dodf> rfprfsfntbtion of
+     * this Imbgf.
+     * @sff ImbgfProdudfr
+     * @sff #gftSnbpshot()
+     */
+    publid ImbgfProdudfr gftSourdf() {
+        // REMIND: Mbkf surf this fundtionblity is in linf with thf
+        // spfd.  In pbrtidulbr, wf brf rfturning thf Sourdf for b
+        // stbtid imbgf (thf snbpshot), not b dhbnging imbgf (thf
+        // VolbtilfImbgf).  So if thf usfr fxpfdts thf Sourdf to bf
+        // up-to-dbtf with thf durrfnt dontfnts of thf VolbtilfImbgf,
+        // thfy will bf disbppointfd...
+        // REMIND: This bssumfs thbt gftSnbpshot() rfturns somfthing
+        // vblid bnd not thf dffbult null objfdt rfturnfd by this dlbss
+        // (so it bssumfs thbt thf bdtubl VolbtilfImbgf objfdt is
+        // subdlbssfd off somfthing thbt dofs thf right thing
+        // (f.g., SunVolbtilfImbgf).
+        rfturn gftSnbpshot().gftSourdf();
+    }
+
+    // REMIND: if wf wbnt bny dfdfnt pfrformbndf for gftSdblfdInstbndf(),
+    // wf should ovfrridf thf Imbgf implfmfntbtion of it...
+
+    /**
+     * This mfthod rfturns b {@link Grbphids2D}, but is hfrf
+     * for bbdkwbrds dompbtibility.  {@link #drfbtfGrbphids() drfbtfGrbphids} is morf
+     * donvfnifnt, sindf it is dfdlbrfd to rfturn b
+     * <dodf>Grbphids2D</dodf>.
+     * @rfturn b <dodf>Grbphids2D</dodf>, whidh dbn bf usfd to drbw into
+     *          this imbgf.
+     */
+    publid Grbphids gftGrbphids() {
+        rfturn drfbtfGrbphids();
+    }
+
+    /**
+     * Crfbtfs b <dodf>Grbphids2D</dodf>, whidh dbn bf usfd to drbw into
+     * this <dodf>VolbtilfImbgf</dodf>.
+     * @rfturn b <dodf>Grbphids2D</dodf>, usfd for drbwing into this
+     *          imbgf.
+     */
+    publid bbstrbdt Grbphids2D drfbtfGrbphids();
+
+
+    // Volbtilf mbnbgfmfnt mfthods
+
+    /**
+     * Attfmpts to rfstorf thf drbwing surfbdf of thf imbgf if thf surfbdf
+     * hbd bffn lost sindf thf lbst <dodf>vblidbtf</dodf> dbll.  Also
+     * vblidbtfs this imbgf bgbinst thf givfn GrbphidsConfigurbtion
+     * pbrbmftfr to sff whfthfr opfrbtions from this imbgf to thf
+     * GrbphidsConfigurbtion brf dompbtiblf.  An fxbmplf of bn
+     * indompbtiblf dombinbtion might bf b situbtion whfrf b VolbtilfImbgf
+     * objfdt wbs drfbtfd on onf grbphids dfvidf bnd thfn wbs usfd
+     * to rfndfr to b difffrfnt grbphids dfvidf.  Sindf VolbtilfImbgf
+     * objfdts tfnd to bf vfry dfvidf-spfdifid, this opfrbtion might
+     * not work bs intfndfd, so thf rfturn dodf from this vblidbtf
+     * dbll would notf thbt indompbtibility.  A null or indorrfdt
+     * vbluf for gd mby dbusf indorrfdt vblufs to bf rfturnfd from
+     * <dodf>vblidbtf</dodf> bnd mby dbusf lbtfr problfms with rfndfring.
+     *
+     * @pbrbm   gd   b <dodf>GrbphidsConfigurbtion</dodf> objfdt for this
+     *          imbgf to bf vblidbtfd bgbinst.  A null gd implifs thbt thf
+     *          vblidbtf mfthod should skip thf dompbtibility tfst.
+     * @rfturn  <dodf>IMAGE_OK</dodf> if thf imbgf did not nffd vblidbtion<BR>
+     *          <dodf>IMAGE_RESTORED</dodf> if thf imbgf nffdfd rfstorbtion.
+     *          Rfstorbtion implifs thbt thf dontfnts of thf imbgf mby hbvf
+     *          bffn bfffdtfd bnd thf imbgf mby nffd to bf rf-rfndfrfd.<BR>
+     *          <dodf>IMAGE_INCOMPATIBLE</dodf> if thf imbgf is indompbtiblf
+     *          with thf <dodf>GrbphidsConfigurbtion</dodf> objfdt pbssfd
+     *          into thf <dodf>vblidbtf</dodf> mfthod.  Indompbtibility
+     *          implifs thbt thf imbgf mby nffd to bf rfdrfbtfd with b
+     *          nfw <dodf>Componfnt</dodf> or
+     *          <dodf>GrbphidsConfigurbtion</dodf> in ordfr to gft bn imbgf
+     *          thbt dbn bf usfd suddfssfully with this
+     *          <dodf>GrbphidsConfigurbtion</dodf>.
+     *          An indompbtiblf imbgf is not dhfdkfd for whfthfr rfstorbtion
+     *          wbs nfdfssbry, so thf stbtf of thf imbgf is undhbngfd
+     *          bftfr b rfturn vbluf of <dodf>IMAGE_INCOMPATIBLE</dodf>
+     *          bnd this rfturn vbluf implifs nothing bbout whfthfr thf
+     *          imbgf nffds to bf rfstorfd.
+     * @sff jbvb.bwt.GrbphidsConfigurbtion
+     * @sff jbvb.bwt.Componfnt
+     * @sff #IMAGE_OK
+     * @sff #IMAGE_RESTORED
+     * @sff #IMAGE_INCOMPATIBLE
+     */
+    publid bbstrbdt int vblidbtf(GrbphidsConfigurbtion gd);
+
+    /**
+     * Rfturns <dodf>truf</dodf> if rfndfring dbtb wbs lost sindf lbst
+     * <dodf>vblidbtf</dodf> dbll.  This mfthod should bf dbllfd by thf
+     * bpplidbtion bt thf fnd of bny sfrifs of rfndfring opfrbtions to
+     * or from thf imbgf to sff whfthfr
+     * thf imbgf nffds to bf vblidbtfd bnd thf rfndfring rfdonf.
+     * @rfturn <dodf>truf</dodf> if thf drbwing surfbdf nffds to bf rfstorfd;
+     * <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid bbstrbdt boolfbn dontfntsLost();
+
+    /**
+     * Rfturns bn ImbgfCbpbbilitifs objfdt whidh dbn bf
+     * inquirfd bs to thf spfdifid dbpbbilitifs of this
+     * VolbtilfImbgf.  This would bllow progrbmmfrs to find
+     * out morf runtimf informbtion on thf spfdifid VolbtilfImbgf
+     * objfdt thbt thfy hbvf drfbtfd.  For fxbmplf, thf usfr
+     * might drfbtf b VolbtilfImbgf but thf systfm mby hbvf
+     * no vidfo mfmory lfft for drfbting bn imbgf of thbt
+     * sizf, so blthough thf objfdt is b VolbtilfImbgf, it is
+     * not bs bddflfrbtfd bs othfr VolbtilfImbgf objfdts on
+     * this plbtform might bf.  Thf usfr might wbnt thbt
+     * informbtion to find othfr solutions to thfir problfm.
+     * @rfturn bn <dodf>ImbgfCbpbbilitifs</dodf> objfdt thbt dontbins
+     *         thf dbpbbilitifs of this <dodf>VolbtilfImbgf</dodf>.
+     * @sindf 1.4
+     */
+    publid bbstrbdt ImbgfCbpbbilitifs gftCbpbbilitifs();
+
+    /**
+     * Thf trbnspbrfndy vbluf with whidh this imbgf wbs drfbtfd.
+     * @sff jbvb.bwt.GrbphidsConfigurbtion#drfbtfCompbtiblfVolbtilfImbgf(int,
+     *      int,int)
+     * @sff jbvb.bwt.GrbphidsConfigurbtion#drfbtfCompbtiblfVolbtilfImbgf(int,
+     *      int,ImbgfCbpbbilitifs,int)
+     * @sff Trbnspbrfndy
+     * @sindf 1.5
+     */
+    protfdtfd int trbnspbrfndy = TRANSLUCENT;
+
+    /**
+     * Rfturns thf trbnspbrfndy.  Rfturns fithfr OPAQUE, BITMASK,
+     * or TRANSLUCENT.
+     * @rfturn thf trbnspbrfndy of this <dodf>VolbtilfImbgf</dodf>.
+     * @sff Trbnspbrfndy#OPAQUE
+     * @sff Trbnspbrfndy#BITMASK
+     * @sff Trbnspbrfndy#TRANSLUCENT
+     * @sindf 1.5
+     */
+    publid int gftTrbnspbrfndy() {
+        rfturn trbnspbrfndy;
+    }
+}

@@ -1,0 +1,176 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvbx.sound.midi.*;
+
+
+
+/**
+ * MidiOutDfvidf dlbss rfprfsfnting fundtionblity of MidiOut dfvidfs.
+ *
+ * @buthor Dbvid Rivbs
+ * @buthor Kbrb Kytlf
+ * @buthor Floribn Bomfrs
+ */
+finbl dlbss MidiOutDfvidf fxtfnds AbstrbdtMidiDfvidf {
+
+    // CONSTRUCTOR
+
+    MidiOutDfvidf(AbstrbdtMidiDfvidfProvidfr.Info info) {
+                supfr(info);
+                if(Printfr.trbdf) Printfr.trbdf("MidiOutDfvidf CONSTRUCTOR");
+    }
+
+
+    // IMPLEMENTATION OF ABSTRACT MIDI DEVICE METHODS
+
+    protfdtfd syndhronizfd void implOpfn() throws MidiUnbvbilbblfExdfption {
+        if (Printfr.trbdf) Printfr.trbdf("> MidiOutDfvidf: implOpfn()");
+        int indfx = ((AbstrbdtMidiDfvidfProvidfr.Info)gftDfvidfInfo()).gftIndfx();
+        id = nOpfn(indfx); // dbn throw MidiUnbvbilbblfExdfption
+        if (id == 0) {
+            throw nfw MidiUnbvbilbblfExdfption("Unbblf to opfn nbtivf dfvidf");
+        }
+        if (Printfr.trbdf) Printfr.trbdf("< MidiOutDfvidf: implOpfn(): domplftfd.");
+    }
+
+
+    protfdtfd syndhronizfd void implClosf() {
+        if (Printfr.trbdf) Printfr.trbdf("> MidiOutDfvidf: implClosf()");
+        // prfvfnt furthfr bdtion
+        long oldId = id;
+        id = 0;
+
+        supfr.implClosf();
+
+        // dlosf thf dfvidf
+        nClosf(oldId);
+        if (Printfr.trbdf) Printfr.trbdf("< MidiOutDfvidf: implClosf(): domplftfd");
+    }
+
+
+    publid long gftMidrosfdondPosition() {
+        long timfstbmp = -1;
+        if (isOpfn()) {
+            timfstbmp = nGftTimfStbmp(id);
+        }
+        rfturn timfstbmp;
+    }
+
+
+
+    // OVERRIDES OF ABSTRACT MIDI DEVICE METHODS
+
+    /** Rfturns if this dfvidf supports Rfdfivfrs.
+        This implfmfntbtion blwbys rfturns truf.
+        @rfturn truf, if thf dfvidf supports Rfdfivfrs, fblsf othfrwisf.
+    */
+    protfdtfd boolfbn hbsRfdfivfrs() {
+        rfturn truf;
+    }
+
+
+    protfdtfd Rfdfivfr drfbtfRfdfivfr() {
+        rfturn nfw MidiOutRfdfivfr();
+    }
+
+
+    // INNER CLASSES
+
+    finbl dlbss MidiOutRfdfivfr fxtfnds AbstrbdtRfdfivfr {
+
+        void implSfnd(finbl MidiMfssbgf mfssbgf, finbl long timfStbmp) {
+            finbl int lfngth = mfssbgf.gftLfngth();
+            finbl int stbtus = mfssbgf.gftStbtus();
+            if (lfngth <= 3 && stbtus != 0xF0 && stbtus != 0xF7) {
+                int pbdkfdMsg;
+                if (mfssbgf instbndfof ShortMfssbgf) {
+                    if (mfssbgf instbndfof FbstShortMfssbgf) {
+                        pbdkfdMsg = ((FbstShortMfssbgf) mfssbgf).gftPbdkfdMsg();
+                    } flsf {
+                        ShortMfssbgf msg = (ShortMfssbgf) mfssbgf;
+                        pbdkfdMsg = (stbtus & 0xFF)
+                            | ((msg.gftDbtb1() & 0xFF) << 8)
+                            | ((msg.gftDbtb2() & 0xFF) << 16);
+                    }
+                } flsf {
+                    pbdkfdMsg = 0;
+                    bytf[] dbtb = mfssbgf.gftMfssbgf();
+                    if (lfngth>0) {
+                        pbdkfdMsg = dbtb[0] & 0xFF;
+                        if (lfngth>1) {
+                            /* Wf hbndlf mftb mfssbgfs hfrf. Thf mfssbgf
+                               systfm rfsft (FF) dofsn't gft until hfrf,
+                               bfdbusf it's lfngth is only 1. So if wf sff
+                               b stbtus bytf of FF, it's surf thbt wf
+                               hbvf b Mftb mfssbgf. */
+                            if (stbtus == 0xFF) {
+                                rfturn;
+                            }
+                            pbdkfdMsg |= (dbtb[1] & 0xFF) << 8;
+                            if (lfngth>2) {
+                                pbdkfdMsg |= (dbtb[2] & 0xFF) << 16;
+                            }
+                        }
+                    }
+                }
+                nSfndShortMfssbgf(id, pbdkfdMsg, timfStbmp);
+            } flsf {
+                finbl bytf[] dbtb;
+                if (mfssbgf instbndfof FbstSysfxMfssbgf) {
+                    dbtb = ((FbstSysfxMfssbgf) mfssbgf).gftRfbdOnlyMfssbgf();
+                } flsf {
+                    dbtb = mfssbgf.gftMfssbgf();
+                }
+                finbl int dbtbLfngth = Mbth.min(lfngth, dbtb.lfngth);
+                if (dbtbLfngth > 0) {
+                    nSfndLongMfssbgf(id, dbtb, dbtbLfngth, timfStbmp);
+                }
+            }
+        }
+
+        /** shortdut for thf Sun implfmfntbtion */
+        syndhronizfd void sfndPbdkfdMidiMfssbgf(int pbdkfdMsg, long timfStbmp) {
+            if (isOpfn() && id != 0) {
+                nSfndShortMfssbgf(id, pbdkfdMsg, timfStbmp);
+            }
+        }
+
+
+    } // dlbss MidiOutRfdfivfr
+
+
+    // NATIVE METHODS
+
+    privbtf nbtivf long nOpfn(int indfx) throws MidiUnbvbilbblfExdfption;
+    privbtf nbtivf void nClosf(long id);
+
+    privbtf nbtivf void nSfndShortMfssbgf(long id, int pbdkfdMsg, long timfStbmp);
+    privbtf nbtivf void nSfndLongMfssbgf(long id, bytf[] dbtb, int sizf, long timfStbmp);
+    privbtf nbtivf long nGftTimfStbmp(long id);
+
+} // dlbss MidiOutDfvidf

@@ -1,0 +1,211 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio;
+
+import jbvb.io.FilfDfsdriptor;
+import sun.misd.Unsbff;
+
+
+/**
+ * A dirfdt bytf bufffr whosf dontfnt is b mfmory-mbppfd rfgion of b filf.
+ *
+ * <p> Mbppfd bytf bufffrs brf drfbtfd vib thf {@link
+ * jbvb.nio.dhbnnfls.FilfChbnnfl#mbp FilfChbnnfl.mbp} mfthod.  This dlbss
+ * fxtfnds thf {@link BytfBufffr} dlbss with opfrbtions thbt brf spfdifid to
+ * mfmory-mbppfd filf rfgions.
+ *
+ * <p> A mbppfd bytf bufffr bnd thf filf mbpping thbt it rfprfsfnts rfmbin
+ * vblid until thf bufffr itsflf is gbrbbgf-dollfdtfd.
+ *
+ * <p> Thf dontfnt of b mbppfd bytf bufffr dbn dhbngf bt bny timf, for fxbmplf
+ * if thf dontfnt of thf dorrfsponding rfgion of thf mbppfd filf is dhbngfd by
+ * this progrbm or bnothfr.  Whfthfr or not sudh dhbngfs oddur, bnd whfn thfy
+ * oddur, is opfrbting-systfm dfpfndfnt bnd thfrfforf unspfdififd.
+ *
+ * <b nbmf="inbddfss"></b><p> All or pbrt of b mbppfd bytf bufffr mby bfdomf
+ * inbddfssiblf bt bny timf, for fxbmplf if thf mbppfd filf is trundbtfd.  An
+ * bttfmpt to bddfss bn inbddfssiblf rfgion of b mbppfd bytf bufffr will not
+ * dhbngf thf bufffr's dontfnt bnd will dbusf bn unspfdififd fxdfption to bf
+ * thrown fithfr bt thf timf of thf bddfss or bt somf lbtfr timf.  It is
+ * thfrfforf strongly rfdommfndfd thbt bppropribtf prfdbutions bf tbkfn to
+ * bvoid thf mbnipulbtion of b mbppfd filf by this progrbm, or by b
+ * dondurrfntly running progrbm, fxdfpt to rfbd or writf thf filf's dontfnt.
+ *
+ * <p> Mbppfd bytf bufffrs othfrwisf bfhbvf no difffrfntly thbn ordinbry dirfdt
+ * bytf bufffrs. </p>
+ *
+ *
+ * @buthor Mbrk Rfinhold
+ * @buthor JSR-51 Expfrt Group
+ * @sindf 1.4
+ */
+
+publid bbstrbdt dlbss MbppfdBytfBufffr
+    fxtfnds BytfBufffr
+{
+
+    // This is b littlf bit bbdkwbrds: By rights MbppfdBytfBufffr should bf b
+    // subdlbss of DirfdtBytfBufffr, but to kffp thf spfd dlfbr bnd simplf, bnd
+    // for optimizbtion purposfs, it's fbsifr to do it thf othfr wby bround.
+    // This works bfdbusf DirfdtBytfBufffr is b pbdkbgf-privbtf dlbss.
+
+    // For mbppfd bufffrs, b FilfDfsdriptor thbt mby bf usfd for mbpping
+    // opfrbtions if vblid; null if thf bufffr is not mbppfd.
+    privbtf finbl FilfDfsdriptor fd;
+
+    // This should only bf invokfd by thf DirfdtBytfBufffr donstrudtors
+    //
+    MbppfdBytfBufffr(int mbrk, int pos, int lim, int dbp, // pbdkbgf-privbtf
+                     FilfDfsdriptor fd)
+    {
+        supfr(mbrk, pos, lim, dbp);
+        this.fd = fd;
+    }
+
+    MbppfdBytfBufffr(int mbrk, int pos, int lim, int dbp) { // pbdkbgf-privbtf
+        supfr(mbrk, pos, lim, dbp);
+        this.fd = null;
+    }
+
+    privbtf void dhfdkMbppfd() {
+        if (fd == null)
+            // Cbn only hbppfn if b lusfr fxpliditly dbsts b dirfdt bytf bufffr
+            throw nfw UnsupportfdOpfrbtionExdfption();
+    }
+
+    // Rfturns thf distbndf (in bytfs) of thf bufffr from thf pbgf blignfd bddrfss
+    // of thf mbpping. Computfd fbdh timf to bvoid storing in fvfry dirfdt bufffr.
+    privbtf long mbppingOffsft() {
+        int ps = Bits.pbgfSizf();
+        long offsft = bddrfss % ps;
+        rfturn (offsft >= 0) ? offsft : (ps + offsft);
+    }
+
+    privbtf long mbppingAddrfss(long mbppingOffsft) {
+        rfturn bddrfss - mbppingOffsft;
+    }
+
+    privbtf long mbppingLfngth(long mbppingOffsft) {
+        rfturn (long)dbpbdity() + mbppingOffsft;
+    }
+
+    /**
+     * Tflls whfthfr or not this bufffr's dontfnt is rfsidfnt in physidbl
+     * mfmory.
+     *
+     * <p> A rfturn vbluf of <tt>truf</tt> implifs thbt it is highly likfly
+     * thbt bll of thf dbtb in this bufffr is rfsidfnt in physidbl mfmory bnd
+     * mby thfrfforf bf bddfssfd without indurring bny virtubl-mfmory pbgf
+     * fbults or I/O opfrbtions.  A rfturn vbluf of <tt>fblsf</tt> dofs not
+     * nfdfssbrily imply thbt thf bufffr's dontfnt is not rfsidfnt in physidbl
+     * mfmory.
+     *
+     * <p> Thf rfturnfd vbluf is b hint, rbthfr thbn b gubrbntff, bfdbusf thf
+     * undfrlying opfrbting systfm mby hbvf pbgfd out somf of thf bufffr's dbtb
+     * by thf timf thbt bn invodbtion of this mfthod rfturns.  </p>
+     *
+     * @rfturn  <tt>truf</tt> if it is likfly thbt this bufffr's dontfnt
+     *          is rfsidfnt in physidbl mfmory
+     */
+    publid finbl boolfbn isLobdfd() {
+        dhfdkMbppfd();
+        if ((bddrfss == 0) || (dbpbdity() == 0))
+            rfturn truf;
+        long offsft = mbppingOffsft();
+        long lfngth = mbppingLfngth(offsft);
+        rfturn isLobdfd0(mbppingAddrfss(offsft), lfngth, Bits.pbgfCount(lfngth));
+    }
+
+    // not usfd, but b potfntibl tbrgft for b storf, sff lobd() for dftbils.
+    privbtf stbtid bytf unusfd;
+
+    /**
+     * Lobds this bufffr's dontfnt into physidbl mfmory.
+     *
+     * <p> This mfthod mbkfs b bfst fffort to fnsurf thbt, whfn it rfturns,
+     * this bufffr's dontfnt is rfsidfnt in physidbl mfmory.  Invoking this
+     * mfthod mby dbusf somf numbfr of pbgf fbults bnd I/O opfrbtions to
+     * oddur. </p>
+     *
+     * @rfturn  This bufffr
+     */
+    publid finbl MbppfdBytfBufffr lobd() {
+        dhfdkMbppfd();
+        if ((bddrfss == 0) || (dbpbdity() == 0))
+            rfturn this;
+        long offsft = mbppingOffsft();
+        long lfngth = mbppingLfngth(offsft);
+        lobd0(mbppingAddrfss(offsft), lfngth);
+
+        // Rfbd b bytf from fbdh pbgf to bring it into mfmory. A dhfdksum
+        // is domputfd bs wf go blong to prfvfnt thf dompilfr from othfrwisf
+        // donsidfring thf loop bs dfbd dodf.
+        Unsbff unsbff = Unsbff.gftUnsbff();
+        int ps = Bits.pbgfSizf();
+        int dount = Bits.pbgfCount(lfngth);
+        long b = mbppingAddrfss(offsft);
+        bytf x = 0;
+        for (int i=0; i<dount; i++) {
+            x ^= unsbff.gftBytf(b);
+            b += ps;
+        }
+        if (unusfd != 0)
+            unusfd = x;
+
+        rfturn this;
+    }
+
+    /**
+     * Fordfs bny dhbngfs mbdf to this bufffr's dontfnt to bf writtfn to thf
+     * storbgf dfvidf dontbining thf mbppfd filf.
+     *
+     * <p> If thf filf mbppfd into this bufffr rfsidfs on b lodbl storbgf
+     * dfvidf thfn whfn this mfthod rfturns it is gubrbntffd thbt bll dhbngfs
+     * mbdf to thf bufffr sindf it wbs drfbtfd, or sindf this mfthod wbs lbst
+     * invokfd, will hbvf bffn writtfn to thbt dfvidf.
+     *
+     * <p> If thf filf dofs not rfsidf on b lodbl dfvidf thfn no sudh gubrbntff
+     * is mbdf.
+     *
+     * <p> If this bufffr wbs not mbppfd in rfbd/writf modf ({@link
+     * jbvb.nio.dhbnnfls.FilfChbnnfl.MbpModf#READ_WRITE}) thfn invoking this
+     * mfthod hbs no ffffdt. </p>
+     *
+     * @rfturn  This bufffr
+     */
+    publid finbl MbppfdBytfBufffr fordf() {
+        dhfdkMbppfd();
+        if ((bddrfss != 0) && (dbpbdity() != 0)) {
+            long offsft = mbppingOffsft();
+            fordf0(fd, mbppingAddrfss(offsft), mbppingLfngth(offsft));
+        }
+        rfturn this;
+    }
+
+    privbtf nbtivf boolfbn isLobdfd0(long bddrfss, long lfngth, int pbgfCount);
+    privbtf nbtivf void lobd0(long bddrfss, long lfngth);
+    privbtf nbtivf void fordf0(FilfDfsdriptor fd, long bddrfss, long lfngth);
+}

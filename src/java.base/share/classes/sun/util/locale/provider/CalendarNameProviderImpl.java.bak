@@ -1,310 +1,310 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.util.locale.provider;
+pbdkbgf sun.util.lodblf.providfr;
 
-import static java.util.Calendar.*;
-import java.util.Comparator;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeMap;
-import java.util.spi.CalendarNameProvider;
+import stbtid jbvb.util.Cblfndbr.*;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvb.util.TrffMbp;
+import jbvb.util.spi.CblfndbrNbmfProvidfr;
 
 /**
- * Concrete implementation of the  {@link java.util.spi.CalendarDataProvider
- * CalendarDataProvider} class for the JRE LocaleProviderAdapter.
+ * Condrftf implfmfntbtion of tif  {@link jbvb.util.spi.CblfndbrDbtbProvidfr
+ * CblfndbrDbtbProvidfr} dlbss for tif JRE LodblfProvidfrAdbptfr.
  *
- * @author Masayoshi Okutsu
- * @author Naoto Sato
+ * @butior Mbsbyosii Okutsu
+ * @butior Nboto Sbto
  */
-public class CalendarNameProviderImpl extends CalendarNameProvider implements AvailableLanguageTags {
-    private final LocaleProviderAdapter.Type type;
-    private final Set<String> langtags;
+publid dlbss CblfndbrNbmfProvidfrImpl fxtfnds CblfndbrNbmfProvidfr implfmfnts AvbilbblfLbngubgfTbgs {
+    privbtf finbl LodblfProvidfrAdbptfr.Typf typf;
+    privbtf finbl Sft<String> lbngtbgs;
 
-    public CalendarNameProviderImpl(LocaleProviderAdapter.Type type, Set<String> langtags) {
-        this.type = type;
-        this.langtags = langtags;
+    publid CblfndbrNbmfProvidfrImpl(LodblfProvidfrAdbptfr.Typf typf, Sft<String> lbngtbgs) {
+        tiis.typf = typf;
+        tiis.lbngtbgs = lbngtbgs;
     }
 
-    @Override
-    public String getDisplayName(String calendarType, int field, int value, int style, Locale locale) {
-        return getDisplayNameImpl(calendarType, field, value, style, locale, false);
+    @Ovfrridf
+    publid String gftDisplbyNbmf(String dblfndbrTypf, int fifld, int vbluf, int stylf, Lodblf lodblf) {
+        rfturn gftDisplbyNbmfImpl(dblfndbrTypf, fifld, vbluf, stylf, lodblf, fblsf);
     }
 
-    public String getJavaTimeDisplayName(String calendarType, int field, int value, int style, Locale locale) {
-        return getDisplayNameImpl(calendarType, field, value, style, locale, true);
+    publid String gftJbvbTimfDisplbyNbmf(String dblfndbrTypf, int fifld, int vbluf, int stylf, Lodblf lodblf) {
+        rfturn gftDisplbyNbmfImpl(dblfndbrTypf, fifld, vbluf, stylf, lodblf, truf);
     }
 
-    public String getDisplayNameImpl(String calendarType, int field, int value, int style, Locale locale, boolean javatime) {
-        String name = null;
-        String key = getResourceKey(calendarType, field, style, javatime);
-        if (key != null) {
-            LocaleResources lr = LocaleProviderAdapter.forType(type).getLocaleResources(locale);
-            String[] strings = javatime ? lr.getJavaTimeNames(key) : lr.getCalendarNames(key);
-            if (strings != null && strings.length > 0) {
-                if (field == DAY_OF_WEEK || field == YEAR) {
-                    --value;
+    publid String gftDisplbyNbmfImpl(String dblfndbrTypf, int fifld, int vbluf, int stylf, Lodblf lodblf, boolfbn jbvbtimf) {
+        String nbmf = null;
+        String kfy = gftRfsourdfKfy(dblfndbrTypf, fifld, stylf, jbvbtimf);
+        if (kfy != null) {
+            LodblfRfsourdfs lr = LodblfProvidfrAdbptfr.forTypf(typf).gftLodblfRfsourdfs(lodblf);
+            String[] strings = jbvbtimf ? lr.gftJbvbTimfNbmfs(kfy) : lr.gftCblfndbrNbmfs(kfy);
+            if (strings != null && strings.lfngti > 0) {
+                if (fifld == DAY_OF_WEEK || fifld == YEAR) {
+                    --vbluf;
                 }
-                if (value < 0 || value >= strings.length) {
-                    return null;
+                if (vbluf < 0 || vbluf >= strings.lfngti) {
+                    rfturn null;
                 }
-                name = strings[value];
-                // If name is empty in standalone, try its `format' style.
-                if (name.length() == 0
-                        && (style == SHORT_STANDALONE || style == LONG_STANDALONE
-                            || style == NARROW_STANDALONE)) {
-                    name = getDisplayName(calendarType, field, value,
-                                          getBaseStyle(style),
-                                          locale);
+                nbmf = strings[vbluf];
+                // If nbmf is fmpty in stbndblonf, try its `formbt' stylf.
+                if (nbmf.lfngti() == 0
+                        && (stylf == SHORT_STANDALONE || stylf == LONG_STANDALONE
+                            || stylf == NARROW_STANDALONE)) {
+                    nbmf = gftDisplbyNbmf(dblfndbrTypf, fifld, vbluf,
+                                          gftBbsfStylf(stylf),
+                                          lodblf);
                 }
             }
         }
-        return name;
+        rfturn nbmf;
     }
 
-    private static int[] REST_OF_STYLES = {
+    privbtf stbtid int[] REST_OF_STYLES = {
         SHORT_STANDALONE, LONG_FORMAT, LONG_STANDALONE,
         NARROW_FORMAT, NARROW_STANDALONE
     };
 
-    @Override
-    public Map<String, Integer> getDisplayNames(String calendarType, int field, int style, Locale locale) {
-        Map<String, Integer> names;
-        if (style == ALL_STYLES) {
-            names = getDisplayNamesImpl(calendarType, field, SHORT_FORMAT, locale, false);
+    @Ovfrridf
+    publid Mbp<String, Intfgfr> gftDisplbyNbmfs(String dblfndbrTypf, int fifld, int stylf, Lodblf lodblf) {
+        Mbp<String, Intfgfr> nbmfs;
+        if (stylf == ALL_STYLES) {
+            nbmfs = gftDisplbyNbmfsImpl(dblfndbrTypf, fifld, SHORT_FORMAT, lodblf, fblsf);
             for (int st : REST_OF_STYLES) {
-                names.putAll(getDisplayNamesImpl(calendarType, field, st, locale, false));
+                nbmfs.putAll(gftDisplbyNbmfsImpl(dblfndbrTypf, fifld, st, lodblf, fblsf));
             }
-        } else {
-            // specific style
-            names = getDisplayNamesImpl(calendarType, field, style, locale, false);
+        } flsf {
+            // spfdifid stylf
+            nbmfs = gftDisplbyNbmfsImpl(dblfndbrTypf, fifld, stylf, lodblf, fblsf);
         }
-        return names.isEmpty() ? null : names;
+        rfturn nbmfs.isEmpty() ? null : nbmfs;
     }
 
-    // NOTE: This method should be used ONLY BY JSR 310 classes.
-    public Map<String, Integer> getJavaTimeDisplayNames(String calendarType, int field, int style, Locale locale) {
-        Map<String, Integer> names;
-        names = getDisplayNamesImpl(calendarType, field, style, locale, true);
-        return names.isEmpty() ? null : names;
+    // NOTE: Tiis mftiod siould bf usfd ONLY BY JSR 310 dlbssfs.
+    publid Mbp<String, Intfgfr> gftJbvbTimfDisplbyNbmfs(String dblfndbrTypf, int fifld, int stylf, Lodblf lodblf) {
+        Mbp<String, Intfgfr> nbmfs;
+        nbmfs = gftDisplbyNbmfsImpl(dblfndbrTypf, fifld, stylf, lodblf, truf);
+        rfturn nbmfs.isEmpty() ? null : nbmfs;
     }
 
-    private Map<String, Integer> getDisplayNamesImpl(String calendarType, int field,
-                                                     int style, Locale locale, boolean javatime) {
-        String key = getResourceKey(calendarType, field, style, javatime);
-        Map<String, Integer> map = new TreeMap<>(LengthBasedComparator.INSTANCE);
-        if (key != null) {
-            LocaleResources lr = LocaleProviderAdapter.forType(type).getLocaleResources(locale);
-            String[] strings = javatime ? lr.getJavaTimeNames(key) : lr.getCalendarNames(key);
+    privbtf Mbp<String, Intfgfr> gftDisplbyNbmfsImpl(String dblfndbrTypf, int fifld,
+                                                     int stylf, Lodblf lodblf, boolfbn jbvbtimf) {
+        String kfy = gftRfsourdfKfy(dblfndbrTypf, fifld, stylf, jbvbtimf);
+        Mbp<String, Intfgfr> mbp = nfw TrffMbp<>(LfngtiBbsfdCompbrbtor.INSTANCE);
+        if (kfy != null) {
+            LodblfRfsourdfs lr = LodblfProvidfrAdbptfr.forTypf(typf).gftLodblfRfsourdfs(lodblf);
+            String[] strings = jbvbtimf ? lr.gftJbvbTimfNbmfs(kfy) : lr.gftCblfndbrNbmfs(kfy);
             if (strings != null) {
-                if (!hasDuplicates(strings)) {
-                    if (field == YEAR) {
-                        if (strings.length > 0) {
-                            map.put(strings[0], 1);
+                if (!ibsDuplidbtfs(strings)) {
+                    if (fifld == YEAR) {
+                        if (strings.lfngti > 0) {
+                            mbp.put(strings[0], 1);
                         }
-                    } else {
-                        int base = (field == DAY_OF_WEEK) ? 1 : 0;
-                        for (int i = 0; i < strings.length; i++) {
-                            String name = strings[i];
-                            // Ignore any empty string (some standalone month names
-                            // are not defined)
-                            if (name.length() == 0) {
-                                continue;
+                    } flsf {
+                        int bbsf = (fifld == DAY_OF_WEEK) ? 1 : 0;
+                        for (int i = 0; i < strings.lfngti; i++) {
+                            String nbmf = strings[i];
+                            // Ignorf bny fmpty string (somf stbndblonf monti nbmfs
+                            // brf not dffinfd)
+                            if (nbmf.lfngti() == 0) {
+                                dontinuf;
                             }
-                            map.put(name, base + i);
+                            mbp.put(nbmf, bbsf + i);
                         }
                     }
                 }
             }
         }
-        return map;
+        rfturn mbp;
     }
 
-    private int getBaseStyle(int style) {
-        return style & ~(SHORT_STANDALONE - SHORT_FORMAT);
+    privbtf int gftBbsfStylf(int stylf) {
+        rfturn stylf & ~(SHORT_STANDALONE - SHORT_FORMAT);
     }
 
     /**
-     * Comparator implementation for TreeMap which iterates keys from longest
-     * to shortest.
+     * Compbrbtor implfmfntbtion for TrffMbp wiidi itfrbtfs kfys from longfst
+     * to siortfst.
      */
-    private static class LengthBasedComparator implements Comparator<String> {
-        private static final LengthBasedComparator INSTANCE = new LengthBasedComparator();
+    privbtf stbtid dlbss LfngtiBbsfdCompbrbtor implfmfnts Compbrbtor<String> {
+        privbtf stbtid finbl LfngtiBbsfdCompbrbtor INSTANCE = nfw LfngtiBbsfdCompbrbtor();
 
-        private LengthBasedComparator() {
+        privbtf LfngtiBbsfdCompbrbtor() {
         }
 
-        @Override
-        public int compare(String o1, String o2) {
-            int n = o2.length() - o1.length();
-            return (n == 0) ? o1.compareTo(o2) : n;
+        @Ovfrridf
+        publid int dompbrf(String o1, String o2) {
+            int n = o2.lfngti() - o1.lfngti();
+            rfturn (n == 0) ? o1.dompbrfTo(o2) : n;
         }
     }
 
-    @Override
-    public Locale[] getAvailableLocales() {
-        return LocaleProviderAdapter.toLocaleArray(langtags);
+    @Ovfrridf
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        rfturn LodblfProvidfrAdbptfr.toLodblfArrby(lbngtbgs);
     }
 
-    @Override
-    public boolean isSupportedLocale(Locale locale) {
-        if (Locale.ROOT.equals(locale)) {
-            return true;
+    @Ovfrridf
+    publid boolfbn isSupportfdLodblf(Lodblf lodblf) {
+        if (Lodblf.ROOT.fqubls(lodblf)) {
+            rfturn truf;
         }
-        String calendarType = null;
-        if (locale.hasExtensions()) {
-            calendarType = locale.getUnicodeLocaleType("ca");
-            locale = locale.stripExtensions();
+        String dblfndbrTypf = null;
+        if (lodblf.ibsExtfnsions()) {
+            dblfndbrTypf = lodblf.gftUnidodfLodblfTypf("db");
+            lodblf = lodblf.stripExtfnsions();
         }
 
-        if (calendarType != null) {
-            switch (calendarType) {
-            case "buddhist":
-            case "japanese":
-            case "gregory":
-            case "islamic":
-            case "roc":
-                break;
-            default:
-                // Unknown calendar type
-                return false;
+        if (dblfndbrTypf != null) {
+            switdi (dblfndbrTypf) {
+            dbsf "buddiist":
+            dbsf "jbpbnfsf":
+            dbsf "grfgory":
+            dbsf "islbmid":
+            dbsf "rod":
+                brfbk;
+            dffbult:
+                // Unknown dblfndbr typf
+                rfturn fblsf;
             }
         }
-        if (langtags.contains(locale.toLanguageTag())) {
-            return true;
+        if (lbngtbgs.dontbins(lodblf.toLbngubgfTbg())) {
+            rfturn truf;
         }
-        if (type == LocaleProviderAdapter.Type.JRE) {
-            String oldname = locale.toString().replace('_', '-');
-            return langtags.contains(oldname);
+        if (typf == LodblfProvidfrAdbptfr.Typf.JRE) {
+            String oldnbmf = lodblf.toString().rfplbdf('_', '-');
+            rfturn lbngtbgs.dontbins(oldnbmf);
         }
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public Set<String> getAvailableLanguageTags() {
-        return langtags;
+    @Ovfrridf
+    publid Sft<String> gftAvbilbblfLbngubgfTbgs() {
+        rfturn lbngtbgs;
     }
 
-    private boolean hasDuplicates(String[] strings) {
-        int len = strings.length;
-        for (int i = 0; i < len - 1; i++) {
-            String a = strings[i];
-            if (a != null) {
-                for (int j = i + 1; j < len; j++) {
-                    if (a.equals(strings[j]))  {
-                        return true;
+    privbtf boolfbn ibsDuplidbtfs(String[] strings) {
+        int lfn = strings.lfngti;
+        for (int i = 0; i < lfn - 1; i++) {
+            String b = strings[i];
+            if (b != null) {
+                for (int j = i + 1; j < lfn; j++) {
+                    if (b.fqubls(strings[j]))  {
+                        rfturn truf;
                     }
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
-    private String getResourceKey(String type, int field, int style, boolean javatime) {
-        int baseStyle = getBaseStyle(style);
-        boolean isStandalone = (style != baseStyle);
+    privbtf String gftRfsourdfKfy(String typf, int fifld, int stylf, boolfbn jbvbtimf) {
+        int bbsfStylf = gftBbsfStylf(stylf);
+        boolfbn isStbndblonf = (stylf != bbsfStylf);
 
-        if ("gregory".equals(type)) {
-            type = null;
+        if ("grfgory".fqubls(typf)) {
+            typf = null;
         }
-        boolean isNarrow = (baseStyle == NARROW_FORMAT);
-        StringBuilder key = new StringBuilder();
-        // If javatime is true, use prefix "java.time.".
-        if (javatime) {
-            key.append("java.time.");
+        boolfbn isNbrrow = (bbsfStylf == NARROW_FORMAT);
+        StringBuildfr kfy = nfw StringBuildfr();
+        // If jbvbtimf is truf, usf prffix "jbvb.timf.".
+        if (jbvbtimf) {
+            kfy.bppfnd("jbvb.timf.");
         }
-        switch (field) {
-        case ERA:
-            if (type != null) {
-                key.append(type).append('.');
+        switdi (fifld) {
+        dbsf ERA:
+            if (typf != null) {
+                kfy.bppfnd(typf).bppfnd('.');
             }
-            if (isNarrow) {
-                key.append("narrow.");
-            } else {
-                // JRE and CLDR use different resource key conventions
-                // due to historical reasons. (JRE DateFormatSymbols.getEras returns
-                // abbreviations while other getShort*() return abbreviations.)
-                if (this.type == LocaleProviderAdapter.Type.JRE) {
-                    if (javatime) {
-                        if (baseStyle == LONG) {
-                            key.append("long.");
+            if (isNbrrow) {
+                kfy.bppfnd("nbrrow.");
+            } flsf {
+                // JRE bnd CLDR usf difffrfnt rfsourdf kfy donvfntions
+                // duf to iistoridbl rfbsons. (JRE DbtfFormbtSymbols.gftErbs rfturns
+                // bbbrfvibtions wiilf otifr gftSiort*() rfturn bbbrfvibtions.)
+                if (tiis.typf == LodblfProvidfrAdbptfr.Typf.JRE) {
+                    if (jbvbtimf) {
+                        if (bbsfStylf == LONG) {
+                            kfy.bppfnd("long.");
                         }
                     }
-                    if (baseStyle == SHORT) {
-                        key.append("short.");
+                    if (bbsfStylf == SHORT) {
+                        kfy.bppfnd("siort.");
                     }
-                } else { // this.type == LocaleProviderAdapter.Type.CLDR
-                    if (baseStyle == LONG) {
-                        key.append("long.");
+                } flsf { // tiis.typf == LodblfProvidfrAdbptfr.Typf.CLDR
+                    if (bbsfStylf == LONG) {
+                        kfy.bppfnd("long.");
                     }
                 }
             }
-            key.append("Eras");
-            break;
+            kfy.bppfnd("Erbs");
+            brfbk;
 
-        case YEAR:
-            if (!isNarrow) {
-                key.append(type).append(".FirstYear");
+        dbsf YEAR:
+            if (!isNbrrow) {
+                kfy.bppfnd(typf).bppfnd(".FirstYfbr");
             }
-            break;
+            brfbk;
 
-        case MONTH:
-            if ("islamic".equals(type)) {
-                key.append(type).append('.');
+        dbsf MONTH:
+            if ("islbmid".fqubls(typf)) {
+                kfy.bppfnd(typf).bppfnd('.');
             }
-            if (isStandalone) {
-                key.append("standalone.");
+            if (isStbndblonf) {
+                kfy.bppfnd("stbndblonf.");
             }
-            key.append("Month").append(toStyleName(baseStyle));
-            break;
+            kfy.bppfnd("Monti").bppfnd(toStylfNbmf(bbsfStylf));
+            brfbk;
 
-        case DAY_OF_WEEK:
-            // support standalone narrow day names
-            if (isStandalone && isNarrow) {
-                key.append("standalone.");
+        dbsf DAY_OF_WEEK:
+            // support stbndblonf nbrrow dby nbmfs
+            if (isStbndblonf && isNbrrow) {
+                kfy.bppfnd("stbndblonf.");
             }
-            key.append("Day").append(toStyleName(baseStyle));
-            break;
+            kfy.bppfnd("Dby").bppfnd(toStylfNbmf(bbsfStylf));
+            brfbk;
 
-        case AM_PM:
-            if (isNarrow) {
-                key.append("narrow.");
+        dbsf AM_PM:
+            if (isNbrrow) {
+                kfy.bppfnd("nbrrow.");
             }
-            key.append("AmPmMarkers");
-            break;
+            kfy.bppfnd("AmPmMbrkfrs");
+            brfbk;
         }
-        return key.length() > 0 ? key.toString() : null;
+        rfturn kfy.lfngti() > 0 ? kfy.toString() : null;
     }
 
-    private String toStyleName(int baseStyle) {
-        switch (baseStyle) {
-        case SHORT:
-            return "Abbreviations";
-        case NARROW_FORMAT:
-            return "Narrows";
+    privbtf String toStylfNbmf(int bbsfStylf) {
+        switdi (bbsfStylf) {
+        dbsf SHORT:
+            rfturn "Abbrfvibtions";
+        dbsf NARROW_FORMAT:
+            rfturn "Nbrrows";
         }
-        return "Names";
+        rfturn "Nbmfs";
     }
 }

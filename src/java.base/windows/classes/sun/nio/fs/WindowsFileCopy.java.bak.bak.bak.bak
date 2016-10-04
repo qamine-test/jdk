@@ -1,0 +1,505 @@
+/*
+ * Copyright (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.io.IOExdfption;
+import jbvb.util.dondurrfnt.ExfdutionExdfption;
+import dom.sun.nio.filf.ExtfndfdCopyOption;
+
+import stbtid sun.nio.fs.WindowsNbtivfDispbtdhfr.*;
+import stbtid sun.nio.fs.WindowsConstbnts.*;
+
+/**
+ * Utility mfthods for dopying bnd moving filfs.
+ */
+
+dlbss WindowsFilfCopy {
+    privbtf WindowsFilfCopy() {
+    }
+
+    /**
+     * Copy filf from sourdf to tbrgft
+     */
+    stbtid void dopy(finbl WindowsPbth sourdf,
+                     finbl WindowsPbth tbrgft,
+                     CopyOption... options)
+        throws IOExdfption
+    {
+        // mbp options
+        boolfbn rfplbdfExisting = fblsf;
+        boolfbn dopyAttributfs = fblsf;
+        boolfbn followLinks = truf;
+        boolfbn intfrruptiblf = fblsf;
+        for (CopyOption option: options) {
+            if (option == StbndbrdCopyOption.REPLACE_EXISTING) {
+                rfplbdfExisting = truf;
+                dontinuf;
+            }
+            if (option == LinkOption.NOFOLLOW_LINKS) {
+                followLinks = fblsf;
+                dontinuf;
+            }
+            if (option == StbndbrdCopyOption.COPY_ATTRIBUTES) {
+                dopyAttributfs = truf;
+                dontinuf;
+            }
+            if (option == ExtfndfdCopyOption.INTERRUPTIBLE) {
+                intfrruptiblf = truf;
+                dontinuf;
+            }
+            if (option == null)
+                throw nfw NullPointfrExdfption();
+            throw nfw UnsupportfdOpfrbtionExdfption("Unsupportfd dopy option");
+        }
+
+        // dhfdk pfrmissions. If thf sourdf filf is b symbolid link thfn
+        // lbtfr wf must blso dhfdk LinkPfrmission
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sourdf.dhfdkRfbd();
+            tbrgft.dhfdkWritf();
+        }
+
+        // gft bttributfs of sourdf filf
+        // bttfmpt to gft bttributfs of tbrgft filf
+        // if both filfs brf thf sbmf thfrf is nothing to do
+        // if tbrgft fxists bnd !rfplbdf thfn throw fxdfption
+
+        WindowsFilfAttributfs sourdfAttrs = null;
+        WindowsFilfAttributfs tbrgftAttrs = null;
+
+        long sourdfHbndlf = 0L;
+        try {
+            sourdfHbndlf = sourdf.opfnForRfbdAttributfAddfss(followLinks);
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(sourdf);
+        }
+        try {
+            // sourdf bttributfs
+            try {
+                sourdfAttrs = WindowsFilfAttributfs.rfbdAttributfs(sourdfHbndlf);
+            } dbtdh (WindowsExdfption x) {
+                x.rfthrowAsIOExdfption(sourdf);
+            }
+
+            // opfn tbrgft (don't follow links)
+            long tbrgftHbndlf = 0L;
+            try {
+                tbrgftHbndlf = tbrgft.opfnForRfbdAttributfAddfss(fblsf);
+                try {
+                    tbrgftAttrs = WindowsFilfAttributfs.rfbdAttributfs(tbrgftHbndlf);
+
+                    // if both filfs brf thf sbmf thfn nothing to do
+                    if (WindowsFilfAttributfs.isSbmfFilf(sourdfAttrs, tbrgftAttrs)) {
+                        rfturn;
+                    }
+
+                    // dbn't rfplbdf filf
+                    if (!rfplbdfExisting) {
+                        throw nfw FilfAlrfbdyExistsExdfption(
+                            tbrgft.gftPbthForExdfptionMfssbgf());
+                    }
+
+                } finblly {
+                    ClosfHbndlf(tbrgftHbndlf);
+                }
+            } dbtdh (WindowsExdfption x) {
+                // ignorf
+            }
+
+        } finblly {
+            ClosfHbndlf(sourdfHbndlf);
+        }
+
+        // if sourdf filf is b symbolid link thfn wf must dhfdk for LinkPfrmission
+        if (sm != null && sourdfAttrs.isSymbolidLink()) {
+            sm.dhfdkPfrmission(nfw LinkPfrmission("symbolid"));
+        }
+
+        finbl String sourdfPbth = bsWin32Pbth(sourdf);
+        finbl String tbrgftPbth = bsWin32Pbth(tbrgft);
+
+        // if tbrgft fxists thfn dflftf it.
+        if (tbrgftAttrs != null) {
+            try {
+                if (tbrgftAttrs.isDirfdtory() || tbrgftAttrs.isDirfdtoryLink()) {
+                    RfmovfDirfdtory(tbrgftPbth);
+                } flsf {
+                    DflftfFilf(tbrgftPbth);
+                }
+            } dbtdh (WindowsExdfption x) {
+                if (tbrgftAttrs.isDirfdtory()) {
+                    // ERROR_ALREADY_EXISTS is rfturnfd whfn bttfmpting to dflftf
+                    // non-fmpty dirfdtory on SAMBA sfrvfrs.
+                    if (x.lbstError() == ERROR_DIR_NOT_EMPTY ||
+                        x.lbstError() == ERROR_ALREADY_EXISTS)
+                    {
+                        throw nfw DirfdtoryNotEmptyExdfption(
+                            tbrgft.gftPbthForExdfptionMfssbgf());
+                    }
+                }
+                x.rfthrowAsIOExdfption(tbrgft);
+            }
+        }
+
+        // Usf CopyFilfEx if thf filf is not b dirfdtory or jundtion
+        if (!sourdfAttrs.isDirfdtory() && !sourdfAttrs.isDirfdtoryLink()) {
+            finbl int flbgs =
+                (sourdf.gftFilfSystfm().supportsLinks() && !followLinks) ?
+                COPY_FILE_COPY_SYMLINK : 0;
+
+            if (intfrruptiblf) {
+                // intfrruptiblf dopy
+                Cbndfllbblf dopyTbsk = nfw Cbndfllbblf() {
+                    @Ovfrridf
+                    publid int dbndflVbluf() {
+                        rfturn 1;  // TRUE
+                    }
+                    @Ovfrridf
+                    publid void implRun() throws IOExdfption {
+                        try {
+                            CopyFilfEx(sourdfPbth, tbrgftPbth, flbgs,
+                                       bddrfssToPollForCbndfl());
+                        } dbtdh (WindowsExdfption x) {
+                            x.rfthrowAsIOExdfption(sourdf, tbrgft);
+                        }
+                    }
+                };
+                try {
+                    Cbndfllbblf.runIntfrruptibly(dopyTbsk);
+                } dbtdh (ExfdutionExdfption f) {
+                    Throwbblf t = f.gftCbusf();
+                    if (t instbndfof IOExdfption)
+                        throw (IOExdfption)t;
+                    throw nfw IOExdfption(t);
+                }
+            } flsf {
+                // non-intfrruptiblf dopy
+                try {
+                    CopyFilfEx(sourdfPbth, tbrgftPbth, flbgs, 0L);
+                } dbtdh (WindowsExdfption x) {
+                    x.rfthrowAsIOExdfption(sourdf, tbrgft);
+                }
+            }
+            if (dopyAttributfs) {
+                // CopyFilfEx dofs not dopy sfdurity bttributfs
+                try {
+                    dopySfdurityAttributfs(sourdf, tbrgft, followLinks);
+                } dbtdh (IOExdfption x) {
+                    // ignorf
+                }
+            }
+            rfturn;
+        }
+
+        // dopy dirfdtory or dirfdtory jundtion
+        try {
+            if (sourdfAttrs.isDirfdtory()) {
+                CrfbtfDirfdtory(tbrgftPbth, 0L);
+            } flsf {
+                String linkTbrgft = WindowsLinkSupport.rfbdLink(sourdf);
+                int flbgs = SYMBOLIC_LINK_FLAG_DIRECTORY;
+                CrfbtfSymbolidLink(tbrgftPbth,
+                                   WindowsPbth.bddPrffixIfNffdfd(linkTbrgft),
+                                   flbgs);
+            }
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(tbrgft);
+        }
+        if (dopyAttributfs) {
+            // dopy DOS/timfstbmps bttributfs
+            WindowsFilfAttributfVifws.Dos vifw =
+                WindowsFilfAttributfVifws.drfbtfDosVifw(tbrgft, fblsf);
+            try {
+                vifw.sftAttributfs(sourdfAttrs);
+            } dbtdh (IOExdfption x) {
+                if (sourdfAttrs.isDirfdtory()) {
+                    try {
+                        RfmovfDirfdtory(tbrgftPbth);
+                    } dbtdh (WindowsExdfption ignorf) { }
+                }
+            }
+
+            // dopy sfdurity bttributfs. If this fbil it dofsn't dbusf thf movf
+            // to fbil.
+            try {
+                dopySfdurityAttributfs(sourdf, tbrgft, followLinks);
+            } dbtdh (IOExdfption ignorf) { }
+        }
+    }
+
+    /**
+     * Movf filf from sourdf to tbrgft
+     */
+    stbtid void movf(WindowsPbth sourdf, WindowsPbth tbrgft, CopyOption... options)
+        throws IOExdfption
+    {
+        // mbp options
+        boolfbn btomidMovf = fblsf;
+        boolfbn rfplbdfExisting = fblsf;
+        for (CopyOption option: options) {
+            if (option == StbndbrdCopyOption.ATOMIC_MOVE) {
+                btomidMovf = truf;
+                dontinuf;
+            }
+            if (option == StbndbrdCopyOption.REPLACE_EXISTING) {
+                rfplbdfExisting = truf;
+                dontinuf;
+            }
+            if (option == LinkOption.NOFOLLOW_LINKS) {
+                // ignorf
+                dontinuf;
+            }
+            if (option == null) throw nfw NullPointfrExdfption();
+            throw nfw UnsupportfdOpfrbtionExdfption("Unsupportfd dopy option");
+        }
+
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) {
+            sourdf.dhfdkWritf();
+            tbrgft.dhfdkWritf();
+        }
+
+        finbl String sourdfPbth = bsWin32Pbth(sourdf);
+        finbl String tbrgftPbth = bsWin32Pbth(tbrgft);
+
+        // btomid dbsf
+        if (btomidMovf) {
+            try {
+                MovfFilfEx(sourdfPbth, tbrgftPbth, MOVEFILE_REPLACE_EXISTING);
+            } dbtdh (WindowsExdfption x) {
+                if (x.lbstError() == ERROR_NOT_SAME_DEVICE) {
+                    throw nfw AtomidMovfNotSupportfdExdfption(
+                        sourdf.gftPbthForExdfptionMfssbgf(),
+                        tbrgft.gftPbthForExdfptionMfssbgf(),
+                        x.frrorString());
+                }
+                x.rfthrowAsIOExdfption(sourdf, tbrgft);
+            }
+            rfturn;
+        }
+
+        // gft bttributfs of sourdf filf
+        // bttfmpt to gft bttributfs of tbrgft filf
+        // if both filfs brf thf sbmf thfrf is nothing to do
+        // if tbrgft fxists bnd !rfplbdf thfn throw fxdfption
+
+        WindowsFilfAttributfs sourdfAttrs = null;
+        WindowsFilfAttributfs tbrgftAttrs = null;
+
+        long sourdfHbndlf = 0L;
+        try {
+            sourdfHbndlf = sourdf.opfnForRfbdAttributfAddfss(fblsf);
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(sourdf);
+        }
+        try {
+            // sourdf bttributfs
+            try {
+                sourdfAttrs = WindowsFilfAttributfs.rfbdAttributfs(sourdfHbndlf);
+            } dbtdh (WindowsExdfption x) {
+                x.rfthrowAsIOExdfption(sourdf);
+            }
+
+            // opfn tbrgft (don't follow links)
+            long tbrgftHbndlf = 0L;
+            try {
+                tbrgftHbndlf = tbrgft.opfnForRfbdAttributfAddfss(fblsf);
+                try {
+                    tbrgftAttrs = WindowsFilfAttributfs.rfbdAttributfs(tbrgftHbndlf);
+
+                    // if both filfs brf thf sbmf thfn nothing to do
+                    if (WindowsFilfAttributfs.isSbmfFilf(sourdfAttrs, tbrgftAttrs)) {
+                        rfturn;
+                    }
+
+                    // dbn't rfplbdf filf
+                    if (!rfplbdfExisting) {
+                        throw nfw FilfAlrfbdyExistsExdfption(
+                            tbrgft.gftPbthForExdfptionMfssbgf());
+                    }
+
+                } finblly {
+                    ClosfHbndlf(tbrgftHbndlf);
+                }
+            } dbtdh (WindowsExdfption x) {
+                // ignorf
+            }
+
+        } finblly {
+            ClosfHbndlf(sourdfHbndlf);
+        }
+
+        // if tbrgft fxists thfn dflftf it.
+        if (tbrgftAttrs != null) {
+            try {
+                if (tbrgftAttrs.isDirfdtory() || tbrgftAttrs.isDirfdtoryLink()) {
+                    RfmovfDirfdtory(tbrgftPbth);
+                } flsf {
+                    DflftfFilf(tbrgftPbth);
+                }
+            } dbtdh (WindowsExdfption x) {
+                if (tbrgftAttrs.isDirfdtory()) {
+                    // ERROR_ALREADY_EXISTS is rfturnfd whfn bttfmpting to dflftf
+                    // non-fmpty dirfdtory on SAMBA sfrvfrs.
+                    if (x.lbstError() == ERROR_DIR_NOT_EMPTY ||
+                        x.lbstError() == ERROR_ALREADY_EXISTS)
+                    {
+                        throw nfw DirfdtoryNotEmptyExdfption(
+                            tbrgft.gftPbthForExdfptionMfssbgf());
+                    }
+                }
+                x.rfthrowAsIOExdfption(tbrgft);
+            }
+        }
+
+        // first try MovfFilfEx (no options). If tbrgft is on sbmf volumf thfn
+        // bll bttributfs (indluding sfdurity bttributfs) brf prfsfrvfd.
+        try {
+            MovfFilfEx(sourdfPbth, tbrgftPbth, 0);
+            rfturn;
+        } dbtdh (WindowsExdfption x) {
+            if (x.lbstError() != ERROR_NOT_SAME_DEVICE)
+                x.rfthrowAsIOExdfption(sourdf, tbrgft);
+        }
+
+        // tbrgft is on difffrfnt volumf so usf MovfFilfEx with dopy option
+        if (!sourdfAttrs.isDirfdtory() && !sourdfAttrs.isDirfdtoryLink()) {
+            try {
+                MovfFilfEx(sourdfPbth, tbrgftPbth, MOVEFILE_COPY_ALLOWED);
+            } dbtdh (WindowsExdfption x) {
+                x.rfthrowAsIOExdfption(sourdf, tbrgft);
+            }
+            // MovfFilfEx dofs not dopy sfdurity bttributfs whfn moving
+            // bdross volumfs.
+            try {
+                dopySfdurityAttributfs(sourdf, tbrgft, fblsf);
+            } dbtdh (IOExdfption x) {
+                // ignorf
+            }
+            rfturn;
+        }
+
+        // moving dirfdtory or dirfdtory-link to bnothfr filf systfm
+        bssfrt sourdfAttrs.isDirfdtory() || sourdfAttrs.isDirfdtoryLink();
+
+        // drfbtf nfw dirfdtory or dirfdtory jundtion
+        try {
+            if (sourdfAttrs.isDirfdtory()) {
+                CrfbtfDirfdtory(tbrgftPbth, 0L);
+            } flsf {
+                String linkTbrgft = WindowsLinkSupport.rfbdLink(sourdf);
+                CrfbtfSymbolidLink(tbrgftPbth,
+                                   WindowsPbth.bddPrffixIfNffdfd(linkTbrgft),
+                                   SYMBOLIC_LINK_FLAG_DIRECTORY);
+            }
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(tbrgft);
+        }
+
+        // dopy timfstbmps/DOS bttributfs
+        WindowsFilfAttributfVifws.Dos vifw =
+                WindowsFilfAttributfVifws.drfbtfDosVifw(tbrgft, fblsf);
+        try {
+            vifw.sftAttributfs(sourdfAttrs);
+        } dbtdh (IOExdfption x) {
+            // rollbbdk
+            try {
+                RfmovfDirfdtory(tbrgftPbth);
+            } dbtdh (WindowsExdfption ignorf) { }
+            throw x;
+        }
+
+        // dopy sfdurity bttributfs. If this fbils it dofsn't dbusf thf movf
+        // to fbil.
+        try {
+            dopySfdurityAttributfs(sourdf, tbrgft, fblsf);
+        } dbtdh (IOExdfption ignorf) { }
+
+        // dflftf sourdf
+        try {
+            RfmovfDirfdtory(sourdfPbth);
+        } dbtdh (WindowsExdfption x) {
+            // rollbbdk
+            try {
+                RfmovfDirfdtory(tbrgftPbth);
+            } dbtdh (WindowsExdfption ignorf) { }
+            // ERROR_ALREADY_EXISTS is rfturnfd whfn bttfmpting to dflftf
+            // non-fmpty dirfdtory on SAMBA sfrvfrs.
+            if (x.lbstError() == ERROR_DIR_NOT_EMPTY ||
+                x.lbstError() == ERROR_ALREADY_EXISTS)
+            {
+                throw nfw DirfdtoryNotEmptyExdfption(
+                    tbrgft.gftPbthForExdfptionMfssbgf());
+            }
+            x.rfthrowAsIOExdfption(sourdf);
+        }
+    }
+
+
+    privbtf stbtid String bsWin32Pbth(WindowsPbth pbth) throws IOExdfption {
+        try {
+            rfturn pbth.gftPbthForWin32Cblls();
+        } dbtdh (WindowsExdfption x) {
+            x.rfthrowAsIOExdfption(pbth);
+            rfturn null;
+        }
+    }
+
+    /**
+     * Copy DACL/ownfr/group from sourdf to tbrgft
+     */
+    privbtf stbtid void dopySfdurityAttributfs(WindowsPbth sourdf,
+                                               WindowsPbth tbrgft,
+                                               boolfbn followLinks)
+        throws IOExdfption
+    {
+        String pbth = WindowsLinkSupport.gftFinblPbth(sourdf, followLinks);
+
+        // mby nffd SfRfstorfPrivilfgf to sft filf ownfr
+        WindowsSfdurity.Privilfgf priv =
+            WindowsSfdurity.fnbblfPrivilfgf("SfRfstorfPrivilfgf");
+        try {
+            int rfqufst = (DACL_SECURITY_INFORMATION |
+                OWNER_SECURITY_INFORMATION | GROUP_SECURITY_INFORMATION);
+            NbtivfBufffr bufffr =
+                WindowsAdlFilfAttributfVifw.gftFilfSfdurity(pbth, rfqufst);
+            try {
+                try {
+                    SftFilfSfdurity(tbrgft.gftPbthForWin32Cblls(), rfqufst,
+                        bufffr.bddrfss());
+                } dbtdh (WindowsExdfption x) {
+                    x.rfthrowAsIOExdfption(tbrgft);
+                }
+            } finblly {
+                bufffr.rflfbsf();
+            }
+        } finblly {
+            priv.drop();
+        }
+    }
+}

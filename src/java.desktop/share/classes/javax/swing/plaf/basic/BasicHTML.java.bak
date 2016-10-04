@@ -1,657 +1,657 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import java.io.*;
-import java.awt.*;
-import java.net.URL;
+import jbvb.io.*;
+import jbvb.bwt.*;
+import jbvb.nft.URL;
 
-import javax.swing.*;
-import javax.swing.text.*;
-import javax.swing.text.html.*;
+import jbvbx.swing.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.tfxt.itml.*;
 
-import sun.swing.SwingUtilities2;
+import sun.swing.SwingUtilitifs2;
 
 /**
- * Support for providing html views for the swing components.
- * This translates a simple html string to a javax.swing.text.View
- * implementation that can render the html and provide the necessary
- * layout semantics.
+ * Support for providing itml vifws for tif swing domponfnts.
+ * Tiis trbnslbtfs b simplf itml string to b jbvbx.swing.tfxt.Vifw
+ * implfmfntbtion tibt dbn rfndfr tif itml bnd providf tif nfdfssbry
+ * lbyout sfmbntids.
  *
- * @author  Timothy Prinzing
- * @since 1.3
+ * @butior  Timotiy Prinzing
+ * @sindf 1.3
  */
-public class BasicHTML {
+publid dlbss BbsidHTML {
 
     /**
-     * Create an html renderer for the given component and
-     * string of html.
+     * Crfbtf bn itml rfndfrfr for tif givfn domponfnt bnd
+     * string of itml.
      *
-     * @param c a component
-     * @param html an HTML string
-     * @return an HTML renderer
+     * @pbrbm d b domponfnt
+     * @pbrbm itml bn HTML string
+     * @rfturn bn HTML rfndfrfr
      */
-    public static View createHTMLView(JComponent c, String html) {
-        BasicEditorKit kit = getFactory();
-        Document doc = kit.createDefaultDocument(c.getFont(),
-                                                 c.getForeground());
-        Object base = c.getClientProperty(documentBaseKey);
-        if (base instanceof URL) {
-            ((HTMLDocument)doc).setBase((URL)base);
+    publid stbtid Vifw drfbtfHTMLVifw(JComponfnt d, String itml) {
+        BbsidEditorKit kit = gftFbdtory();
+        Dodumfnt dod = kit.drfbtfDffbultDodumfnt(d.gftFont(),
+                                                 d.gftForfground());
+        Objfdt bbsf = d.gftClifntPropfrty(dodumfntBbsfKfy);
+        if (bbsf instbndfof URL) {
+            ((HTMLDodumfnt)dod).sftBbsf((URL)bbsf);
         }
-        Reader r = new StringReader(html);
+        Rfbdfr r = nfw StringRfbdfr(itml);
         try {
-            kit.read(r, doc, 0);
-        } catch (Throwable e) {
+            kit.rfbd(r, dod, 0);
+        } dbtdi (Tirowbblf f) {
         }
-        ViewFactory f = kit.getViewFactory();
-        View hview = f.create(doc.getDefaultRootElement());
-        View v = new Renderer(c, f, hview);
-        return v;
+        VifwFbdtory f = kit.gftVifwFbdtory();
+        Vifw ivifw = f.drfbtf(dod.gftDffbultRootElfmfnt());
+        Vifw v = nfw Rfndfrfr(d, f, ivifw);
+        rfturn v;
     }
 
     /**
-     * Returns the baseline for the html renderer.
+     * Rfturns tif bbsflinf for tif itml rfndfrfr.
      *
-     * @param view the View to get the baseline for
-     * @param w the width to get the baseline for
-     * @param h the height to get the baseline for
-     * @throws IllegalArgumentException if width or height is &lt; 0
-     * @return baseline or a value &lt; 0 indicating there is no reasonable
-     *                  baseline
-     * @see java.awt.FontMetrics
-     * @see javax.swing.JComponent#getBaseline(int,int)
-     * @since 1.6
+     * @pbrbm vifw tif Vifw to gft tif bbsflinf for
+     * @pbrbm w tif widti to gft tif bbsflinf for
+     * @pbrbm i tif ifigit to gft tif bbsflinf for
+     * @tirows IllfgblArgumfntExdfption if widti or ifigit is &lt; 0
+     * @rfturn bbsflinf or b vbluf &lt; 0 indidbting tifrf is no rfbsonbblf
+     *                  bbsflinf
+     * @sff jbvb.bwt.FontMftrids
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int,int)
+     * @sindf 1.6
      */
-    public static int getHTMLBaseline(View view, int w, int h) {
-        if (w < 0 || h < 0) {
-            throw new IllegalArgumentException(
-                    "Width and height must be >= 0");
+    publid stbtid int gftHTMLBbsflinf(Vifw vifw, int w, int i) {
+        if (w < 0 || i < 0) {
+            tirow nfw IllfgblArgumfntExdfption(
+                    "Widti bnd ifigit must bf >= 0");
         }
-        if (view instanceof Renderer) {
-            return getBaseline(view.getView(0), w, h);
+        if (vifw instbndfof Rfndfrfr) {
+            rfturn gftBbsflinf(vifw.gftVifw(0), w, i);
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Gets the baseline for the specified component.  This digs out
-     * the View client property, and if non-null the baseline is calculated
-     * from it.  Otherwise the baseline is the value <code>y + ascent</code>.
+     * Gfts tif bbsflinf for tif spfdififd domponfnt.  Tiis digs out
+     * tif Vifw dlifnt propfrty, bnd if non-null tif bbsflinf is dbldulbtfd
+     * from it.  Otifrwisf tif bbsflinf is tif vbluf <dodf>y + bsdfnt</dodf>.
      */
-    static int getBaseline(JComponent c, int y, int ascent,
-                                  int w, int h) {
-        View view = (View)c.getClientProperty(BasicHTML.propertyKey);
-        if (view != null) {
-            int baseline = getHTMLBaseline(view, w, h);
-            if (baseline < 0) {
-                return baseline;
+    stbtid int gftBbsflinf(JComponfnt d, int y, int bsdfnt,
+                                  int w, int i) {
+        Vifw vifw = (Vifw)d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
+        if (vifw != null) {
+            int bbsflinf = gftHTMLBbsflinf(vifw, w, i);
+            if (bbsflinf < 0) {
+                rfturn bbsflinf;
             }
-            return y + baseline;
+            rfturn y + bbsflinf;
         }
-        return y + ascent;
+        rfturn y + bsdfnt;
     }
 
     /**
-     * Gets the baseline for the specified View.
+     * Gfts tif bbsflinf for tif spfdififd Vifw.
      */
-    static int getBaseline(View view, int w, int h) {
-        if (hasParagraph(view)) {
-            view.setSize(w, h);
-            return getBaseline(view, new Rectangle(0, 0, w, h));
+    stbtid int gftBbsflinf(Vifw vifw, int w, int i) {
+        if (ibsPbrbgrbpi(vifw)) {
+            vifw.sftSizf(w, i);
+            rfturn gftBbsflinf(vifw, nfw Rfdtbnglf(0, 0, w, i));
         }
-        return -1;
+        rfturn -1;
     }
 
-    private static int getBaseline(View view, Shape bounds) {
-        if (view.getViewCount() == 0) {
-            return -1;
+    privbtf stbtid int gftBbsflinf(Vifw vifw, Sibpf bounds) {
+        if (vifw.gftVifwCount() == 0) {
+            rfturn -1;
         }
-        AttributeSet attributes = view.getElement().getAttributes();
-        Object name = null;
-        if (attributes != null) {
-            name = attributes.getAttribute(StyleConstants.NameAttribute);
+        AttributfSft bttributfs = vifw.gftElfmfnt().gftAttributfs();
+        Objfdt nbmf = null;
+        if (bttributfs != null) {
+            nbmf = bttributfs.gftAttributf(StylfConstbnts.NbmfAttributf);
         }
-        int index = 0;
-        if (name == HTML.Tag.HTML && view.getViewCount() > 1) {
-            // For html on widgets the header is not visible, skip it.
-            index++;
+        int indfx = 0;
+        if (nbmf == HTML.Tbg.HTML && vifw.gftVifwCount() > 1) {
+            // For itml on widgfts tif ifbdfr is not visiblf, skip it.
+            indfx++;
         }
-        bounds = view.getChildAllocation(index, bounds);
+        bounds = vifw.gftCiildAllodbtion(indfx, bounds);
         if (bounds == null) {
-            return -1;
+            rfturn -1;
         }
-        View child = view.getView(index);
-        if (view instanceof javax.swing.text.ParagraphView) {
-            Rectangle rect;
-            if (bounds instanceof Rectangle) {
-                rect = (Rectangle)bounds;
+        Vifw diild = vifw.gftVifw(indfx);
+        if (vifw instbndfof jbvbx.swing.tfxt.PbrbgrbpiVifw) {
+            Rfdtbnglf rfdt;
+            if (bounds instbndfof Rfdtbnglf) {
+                rfdt = (Rfdtbnglf)bounds;
             }
-            else {
-                rect = bounds.getBounds();
+            flsf {
+                rfdt = bounds.gftBounds();
             }
-            return rect.y + (int)(rect.height *
-                                  child.getAlignment(View.Y_AXIS));
+            rfturn rfdt.y + (int)(rfdt.ifigit *
+                                  diild.gftAlignmfnt(Vifw.Y_AXIS));
         }
-        return getBaseline(child, bounds);
+        rfturn gftBbsflinf(diild, bounds);
     }
 
-    private static boolean hasParagraph(View view) {
-        if (view instanceof javax.swing.text.ParagraphView) {
-            return true;
+    privbtf stbtid boolfbn ibsPbrbgrbpi(Vifw vifw) {
+        if (vifw instbndfof jbvbx.swing.tfxt.PbrbgrbpiVifw) {
+            rfturn truf;
         }
-        if (view.getViewCount() == 0) {
-            return false;
+        if (vifw.gftVifwCount() == 0) {
+            rfturn fblsf;
         }
-        AttributeSet attributes = view.getElement().getAttributes();
-        Object name = null;
-        if (attributes != null) {
-            name = attributes.getAttribute(StyleConstants.NameAttribute);
+        AttributfSft bttributfs = vifw.gftElfmfnt().gftAttributfs();
+        Objfdt nbmf = null;
+        if (bttributfs != null) {
+            nbmf = bttributfs.gftAttributf(StylfConstbnts.NbmfAttributf);
         }
-        int index = 0;
-        if (name == HTML.Tag.HTML && view.getViewCount() > 1) {
-            // For html on widgets the header is not visible, skip it.
-            index = 1;
+        int indfx = 0;
+        if (nbmf == HTML.Tbg.HTML && vifw.gftVifwCount() > 1) {
+            // For itml on widgfts tif ifbdfr is not visiblf, skip it.
+            indfx = 1;
         }
-        return hasParagraph(view.getView(index));
+        rfturn ibsPbrbgrbpi(vifw.gftVifw(indfx));
     }
 
     /**
-     * Check the given string to see if it should trigger the
-     * html rendering logic in a non-text component that supports
-     * html rendering.
+     * Cifdk tif givfn string to sff if it siould triggfr tif
+     * itml rfndfring logid in b non-tfxt domponfnt tibt supports
+     * itml rfndfring.
      *
-     * @param s a text
-     * @return {@code true} if the given string should trigger the
-     *         html rendering logic in a non-text component
+     * @pbrbm s b tfxt
+     * @rfturn {@dodf truf} if tif givfn string siould triggfr tif
+     *         itml rfndfring logid in b non-tfxt domponfnt
      */
-    public static boolean isHTMLString(String s) {
+    publid stbtid boolfbn isHTMLString(String s) {
         if (s != null) {
-            if ((s.length() >= 6) && (s.charAt(0) == '<') && (s.charAt(5) == '>')) {
-                String tag = s.substring(1,5);
-                return tag.equalsIgnoreCase(propertyKey);
+            if ((s.lfngti() >= 6) && (s.dibrAt(0) == '<') && (s.dibrAt(5) == '>')) {
+                String tbg = s.substring(1,5);
+                rfturn tbg.fqublsIgnorfCbsf(propfrtyKfy);
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Stash the HTML render for the given text into the client
-     * properties of the given JComponent. If the given text is
-     * <em>NOT HTML</em> the property will be cleared of any
-     * renderer.
+     * Stbsi tif HTML rfndfr for tif givfn tfxt into tif dlifnt
+     * propfrtifs of tif givfn JComponfnt. If tif givfn tfxt is
+     * <fm>NOT HTML</fm> tif propfrty will bf dlfbrfd of bny
+     * rfndfrfr.
      * <p>
-     * This method is useful for ComponentUI implementations
-     * that are static (i.e. shared) and get their state
-     * entirely from the JComponent.
+     * Tiis mftiod is usfful for ComponfntUI implfmfntbtions
+     * tibt brf stbtid (i.f. sibrfd) bnd gft tifir stbtf
+     * fntirfly from tif JComponfnt.
      *
-     * @param c a component
-     * @param text a text
+     * @pbrbm d b domponfnt
+     * @pbrbm tfxt b tfxt
      */
-    public static void updateRenderer(JComponent c, String text) {
-        View value = null;
-        View oldValue = (View)c.getClientProperty(BasicHTML.propertyKey);
-        Boolean htmlDisabled = (Boolean) c.getClientProperty(htmlDisable);
-        if (htmlDisabled != Boolean.TRUE && BasicHTML.isHTMLString(text)) {
-            value = BasicHTML.createHTMLView(c, text);
+    publid stbtid void updbtfRfndfrfr(JComponfnt d, String tfxt) {
+        Vifw vbluf = null;
+        Vifw oldVbluf = (Vifw)d.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
+        Boolfbn itmlDisbblfd = (Boolfbn) d.gftClifntPropfrty(itmlDisbblf);
+        if (itmlDisbblfd != Boolfbn.TRUE && BbsidHTML.isHTMLString(tfxt)) {
+            vbluf = BbsidHTML.drfbtfHTMLVifw(d, tfxt);
         }
-        if (value != oldValue && oldValue != null) {
-            for (int i = 0; i < oldValue.getViewCount(); i++) {
-                oldValue.getView(i).setParent(null);
+        if (vbluf != oldVbluf && oldVbluf != null) {
+            for (int i = 0; i < oldVbluf.gftVifwCount(); i++) {
+                oldVbluf.gftVifw(i).sftPbrfnt(null);
             }
         }
-        c.putClientProperty(BasicHTML.propertyKey, value);
+        d.putClifntPropfrty(BbsidHTML.propfrtyKfy, vbluf);
     }
 
     /**
-     * If this client property of a JComponent is set to Boolean.TRUE
-     * the component's 'text' property is never treated as HTML.
+     * If tiis dlifnt propfrty of b JComponfnt is sft to Boolfbn.TRUE
+     * tif domponfnt's 'tfxt' propfrty is nfvfr trfbtfd bs HTML.
      */
-    private static final String htmlDisable = "html.disable";
+    privbtf stbtid finbl String itmlDisbblf = "itml.disbblf";
 
     /**
-     * Key to use for the html renderer when stored as a
-     * client property of a JComponent.
+     * Kfy to usf for tif itml rfndfrfr wifn storfd bs b
+     * dlifnt propfrty of b JComponfnt.
      */
-    public static final String propertyKey = "html";
+    publid stbtid finbl String propfrtyKfy = "itml";
 
     /**
-     * Key stored as a client property to indicate the base that relative
-     * references are resolved against. For example, lets say you keep
-     * your images in the directory resources relative to the code path,
-     * you would use the following the set the base:
-     * <pre>
-     *   jComponent.putClientProperty(documentBaseKey,
-     *                                xxx.class.getResource("resources/"));
-     * </pre>
+     * Kfy storfd bs b dlifnt propfrty to indidbtf tif bbsf tibt rflbtivf
+     * rfffrfndfs brf rfsolvfd bgbinst. For fxbmplf, lfts sby you kffp
+     * your imbgfs in tif dirfdtory rfsourdfs rflbtivf to tif dodf pbti,
+     * you would usf tif following tif sft tif bbsf:
+     * <prf>
+     *   jComponfnt.putClifntPropfrty(dodumfntBbsfKfy,
+     *                                xxx.dlbss.gftRfsourdf("rfsourdfs/"));
+     * </prf>
      */
-    public static final String documentBaseKey = "html.base";
+    publid stbtid finbl String dodumfntBbsfKfy = "itml.bbsf";
 
-    static BasicEditorKit getFactory() {
-        if (basicHTMLFactory == null) {
-            basicHTMLViewFactory = new BasicHTMLViewFactory();
-            basicHTMLFactory = new BasicEditorKit();
+    stbtid BbsidEditorKit gftFbdtory() {
+        if (bbsidHTMLFbdtory == null) {
+            bbsidHTMLVifwFbdtory = nfw BbsidHTMLVifwFbdtory();
+            bbsidHTMLFbdtory = nfw BbsidEditorKit();
         }
-        return basicHTMLFactory;
+        rfturn bbsidHTMLFbdtory;
     }
 
     /**
-     * The source of the html renderers
+     * Tif sourdf of tif itml rfndfrfrs
      */
-    private static BasicEditorKit basicHTMLFactory;
+    privbtf stbtid BbsidEditorKit bbsidHTMLFbdtory;
 
     /**
-     * Creates the Views that visually represent the model.
+     * Crfbtfs tif Vifws tibt visublly rfprfsfnt tif modfl.
      */
-    private static ViewFactory basicHTMLViewFactory;
+    privbtf stbtid VifwFbdtory bbsidHTMLVifwFbdtory;
 
     /**
-     * Overrides to the default stylesheet.  Should consider
-     * just creating a completely fresh stylesheet.
+     * Ovfrridfs to tif dffbult stylfsifft.  Siould donsidfr
+     * just drfbting b domplftfly frfsi stylfsifft.
      */
-    private static final String styleChanges =
-    "p { margin-top: 0; margin-bottom: 0; margin-left: 0; margin-right: 0 }" +
-    "body { margin-top: 0; margin-bottom: 0; margin-left: 0; margin-right: 0 }";
+    privbtf stbtid finbl String stylfCibngfs =
+    "p { mbrgin-top: 0; mbrgin-bottom: 0; mbrgin-lfft: 0; mbrgin-rigit: 0 }" +
+    "body { mbrgin-top: 0; mbrgin-bottom: 0; mbrgin-lfft: 0; mbrgin-rigit: 0 }";
 
     /**
-     * The views produced for the ComponentUI implementations aren't
-     * going to be edited and don't need full html support.  This kit
-     * alters the HTMLEditorKit to try and trim things down a bit.
-     * It does the following:
+     * Tif vifws produdfd for tif ComponfntUI implfmfntbtions brfn't
+     * going to bf fditfd bnd don't nffd full itml support.  Tiis kit
+     * bltfrs tif HTMLEditorKit to try bnd trim tiings down b bit.
+     * It dofs tif following:
      * <ul>
-     * <li>It doesn't produce Views for things like comments,
-     * head, title, unknown tags, etc.
-     * <li>It installs a different set of css settings from the default
-     * provided by HTMLEditorKit.
+     * <li>It dofsn't produdf Vifws for tiings likf dommfnts,
+     * ifbd, titlf, unknown tbgs, ftd.
+     * <li>It instblls b difffrfnt sft of dss sfttings from tif dffbult
+     * providfd by HTMLEditorKit.
      * </ul>
      */
-    @SuppressWarnings("serial") // JDK-implementation class
-    static class BasicEditorKit extends HTMLEditorKit {
-        /** Shared base style for all documents created by us use. */
-        private static StyleSheet defaultStyles;
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    stbtid dlbss BbsidEditorKit fxtfnds HTMLEditorKit {
+        /** Sibrfd bbsf stylf for bll dodumfnts drfbtfd by us usf. */
+        privbtf stbtid StylfSifft dffbultStylfs;
 
         /**
-         * Overriden to return our own slimmed down style sheet.
+         * Ovfrridfn to rfturn our own slimmfd down stylf sifft.
          */
-        public StyleSheet getStyleSheet() {
-            if (defaultStyles == null) {
-                defaultStyles = new StyleSheet();
-                StringReader r = new StringReader(styleChanges);
+        publid StylfSifft gftStylfSifft() {
+            if (dffbultStylfs == null) {
+                dffbultStylfs = nfw StylfSifft();
+                StringRfbdfr r = nfw StringRfbdfr(stylfCibngfs);
                 try {
-                    defaultStyles.loadRules(r, null);
-                } catch (Throwable e) {
-                    // don't want to die in static initialization...
-                    // just display things wrong.
+                    dffbultStylfs.lobdRulfs(r, null);
+                } dbtdi (Tirowbblf f) {
+                    // don't wbnt to dif in stbtid initiblizbtion...
+                    // just displby tiings wrong.
                 }
-                r.close();
-                defaultStyles.addStyleSheet(super.getStyleSheet());
+                r.dlosf();
+                dffbultStylfs.bddStylfSifft(supfr.gftStylfSifft());
             }
-            return defaultStyles;
+            rfturn dffbultStylfs;
         }
 
         /**
-         * Sets the async policy to flush everything in one chunk, and
-         * to not display unknown tags.
+         * Sfts tif bsynd polidy to flusi fvfrytiing in onf diunk, bnd
+         * to not displby unknown tbgs.
          */
-        public Document createDefaultDocument(Font defaultFont,
-                                              Color foreground) {
-            StyleSheet styles = getStyleSheet();
-            StyleSheet ss = new StyleSheet();
-            ss.addStyleSheet(styles);
-            BasicDocument doc = new BasicDocument(ss, defaultFont, foreground);
-            doc.setAsynchronousLoadPriority(Integer.MAX_VALUE);
-            doc.setPreservesUnknownTags(false);
-            return doc;
+        publid Dodumfnt drfbtfDffbultDodumfnt(Font dffbultFont,
+                                              Color forfground) {
+            StylfSifft stylfs = gftStylfSifft();
+            StylfSifft ss = nfw StylfSifft();
+            ss.bddStylfSifft(stylfs);
+            BbsidDodumfnt dod = nfw BbsidDodumfnt(ss, dffbultFont, forfground);
+            dod.sftAsyndironousLobdPriority(Intfgfr.MAX_VALUE);
+            dod.sftPrfsfrvfsUnknownTbgs(fblsf);
+            rfturn dod;
         }
 
         /**
-         * Returns the ViewFactory that is used to make sure the Views don't
-         * load in the background.
+         * Rfturns tif VifwFbdtory tibt is usfd to mbkf surf tif Vifws don't
+         * lobd in tif bbdkground.
          */
-        public ViewFactory getViewFactory() {
-            return basicHTMLViewFactory;
+        publid VifwFbdtory gftVifwFbdtory() {
+            rfturn bbsidHTMLVifwFbdtory;
         }
     }
 
 
     /**
-     * BasicHTMLViewFactory extends HTMLFactory to force images to be loaded
-     * synchronously.
+     * BbsidHTMLVifwFbdtory fxtfnds HTMLFbdtory to fordf imbgfs to bf lobdfd
+     * syndironously.
      */
-    static class BasicHTMLViewFactory extends HTMLEditorKit.HTMLFactory {
-        public View create(Element elem) {
-            View view = super.create(elem);
+    stbtid dlbss BbsidHTMLVifwFbdtory fxtfnds HTMLEditorKit.HTMLFbdtory {
+        publid Vifw drfbtf(Elfmfnt flfm) {
+            Vifw vifw = supfr.drfbtf(flfm);
 
-            if (view instanceof ImageView) {
-                ((ImageView)view).setLoadsSynchronously(true);
+            if (vifw instbndfof ImbgfVifw) {
+                ((ImbgfVifw)vifw).sftLobdsSyndironously(truf);
             }
-            return view;
+            rfturn vifw;
         }
     }
 
 
     /**
-     * The subclass of HTMLDocument that is used as the model. getForeground
-     * is overridden to return the foreground property from the Component this
-     * was created for.
+     * Tif subdlbss of HTMLDodumfnt tibt is usfd bs tif modfl. gftForfground
+     * is ovfrriddfn to rfturn tif forfground propfrty from tif Componfnt tiis
+     * wbs drfbtfd for.
      */
-    @SuppressWarnings("serial") // Superclass is not serializable across versions
-    static class BasicDocument extends HTMLDocument {
-        /** The host, that is where we are rendering. */
-        // private JComponent host;
+    @SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+    stbtid dlbss BbsidDodumfnt fxtfnds HTMLDodumfnt {
+        /** Tif iost, tibt is wifrf wf brf rfndfring. */
+        // privbtf JComponfnt iost;
 
-        BasicDocument(StyleSheet s, Font defaultFont, Color foreground) {
-            super(s);
-            setPreservesUnknownTags(false);
-            setFontAndColor(defaultFont, foreground);
+        BbsidDodumfnt(StylfSifft s, Font dffbultFont, Color forfground) {
+            supfr(s);
+            sftPrfsfrvfsUnknownTbgs(fblsf);
+            sftFontAndColor(dffbultFont, forfground);
         }
 
         /**
-         * Sets the default font and default color. These are set by
-         * adding a rule for the body that specifies the font and color.
-         * This allows the html to override these should it wish to have
-         * a custom font or color.
+         * Sfts tif dffbult font bnd dffbult dolor. Tifsf brf sft by
+         * bdding b rulf for tif body tibt spfdififs tif font bnd dolor.
+         * Tiis bllows tif itml to ovfrridf tifsf siould it wisi to ibvf
+         * b dustom font or dolor.
          */
-        private void setFontAndColor(Font font, Color fg) {
-            getStyleSheet().addRule(sun.swing.SwingUtilities2.
-                                    displayPropertiesToCSS(font,fg));
+        privbtf void sftFontAndColor(Font font, Color fg) {
+            gftStylfSifft().bddRulf(sun.swing.SwingUtilitifs2.
+                                    displbyPropfrtifsToCSS(font,fg));
         }
     }
 
 
     /**
-     * Root text view that acts as an HTML renderer.
+     * Root tfxt vifw tibt bdts bs bn HTML rfndfrfr.
      */
-    static class Renderer extends View {
+    stbtid dlbss Rfndfrfr fxtfnds Vifw {
 
-        Renderer(JComponent c, ViewFactory f, View v) {
-            super(null);
-            host = c;
-            factory = f;
-            view = v;
-            view.setParent(this);
-            // initially layout to the preferred size
-            setSize(view.getPreferredSpan(X_AXIS), view.getPreferredSpan(Y_AXIS));
+        Rfndfrfr(JComponfnt d, VifwFbdtory f, Vifw v) {
+            supfr(null);
+            iost = d;
+            fbdtory = f;
+            vifw = v;
+            vifw.sftPbrfnt(tiis);
+            // initiblly lbyout to tif prfffrrfd sizf
+            sftSizf(vifw.gftPrfffrrfdSpbn(X_AXIS), vifw.gftPrfffrrfdSpbn(Y_AXIS));
         }
 
         /**
-         * Fetches the attributes to use when rendering.  At the root
-         * level there are no attributes.  If an attribute is resolved
-         * up the view hierarchy this is the end of the line.
+         * Fftdifs tif bttributfs to usf wifn rfndfring.  At tif root
+         * lfvfl tifrf brf no bttributfs.  If bn bttributf is rfsolvfd
+         * up tif vifw iifrbrdiy tiis is tif fnd of tif linf.
          */
-        public AttributeSet getAttributes() {
-            return null;
+        publid AttributfSft gftAttributfs() {
+            rfturn null;
         }
 
         /**
-         * Determines the preferred span for this view along an axis.
+         * Dftfrminfs tif prfffrrfd spbn for tiis vifw blong bn bxis.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @return the span the view would like to be rendered into.
-         *         Typically the view is told to render into the span
-         *         that is returned, although there is no guarantee.
-         *         The parent may choose to resize or break the view.
+         * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+         * @rfturn tif spbn tif vifw would likf to bf rfndfrfd into.
+         *         Typidblly tif vifw is told to rfndfr into tif spbn
+         *         tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+         *         Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
          */
-        public float getPreferredSpan(int axis) {
-            if (axis == X_AXIS) {
-                // width currently laid out to
-                return width;
+        publid flobt gftPrfffrrfdSpbn(int bxis) {
+            if (bxis == X_AXIS) {
+                // widti durrfntly lbid out to
+                rfturn widti;
             }
-            return view.getPreferredSpan(axis);
+            rfturn vifw.gftPrfffrrfdSpbn(bxis);
         }
 
         /**
-         * Determines the minimum span for this view along an axis.
+         * Dftfrminfs tif minimum spbn for tiis vifw blong bn bxis.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @return the span the view would like to be rendered into.
-         *         Typically the view is told to render into the span
-         *         that is returned, although there is no guarantee.
-         *         The parent may choose to resize or break the view.
+         * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+         * @rfturn tif spbn tif vifw would likf to bf rfndfrfd into.
+         *         Typidblly tif vifw is told to rfndfr into tif spbn
+         *         tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+         *         Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
          */
-        public float getMinimumSpan(int axis) {
-            return view.getMinimumSpan(axis);
+        publid flobt gftMinimumSpbn(int bxis) {
+            rfturn vifw.gftMinimumSpbn(bxis);
         }
 
         /**
-         * Determines the maximum span for this view along an axis.
+         * Dftfrminfs tif mbximum spbn for tiis vifw blong bn bxis.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @return the span the view would like to be rendered into.
-         *         Typically the view is told to render into the span
-         *         that is returned, although there is no guarantee.
-         *         The parent may choose to resize or break the view.
+         * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+         * @rfturn tif spbn tif vifw would likf to bf rfndfrfd into.
+         *         Typidblly tif vifw is told to rfndfr into tif spbn
+         *         tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+         *         Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
          */
-        public float getMaximumSpan(int axis) {
-            return Integer.MAX_VALUE;
+        publid flobt gftMbximumSpbn(int bxis) {
+            rfturn Intfgfr.MAX_VALUE;
         }
 
         /**
-         * Specifies that a preference has changed.
-         * Child views can call this on the parent to indicate that
-         * the preference has changed.  The root view routes this to
-         * invalidate on the hosting component.
+         * Spfdififs tibt b prfffrfndf ibs dibngfd.
+         * Ciild vifws dbn dbll tiis on tif pbrfnt to indidbtf tibt
+         * tif prfffrfndf ibs dibngfd.  Tif root vifw routfs tiis to
+         * invblidbtf on tif iosting domponfnt.
          * <p>
-         * This can be called on a different thread from the
-         * event dispatching thread and is basically unsafe to
-         * propagate into the component.  To make this safe,
-         * the operation is transferred over to the event dispatching
-         * thread for completion.  It is a design goal that all view
-         * methods be safe to call without concern for concurrency,
-         * and this behavior helps make that true.
+         * Tiis dbn bf dbllfd on b difffrfnt tirfbd from tif
+         * fvfnt dispbtdiing tirfbd bnd is bbsidblly unsbff to
+         * propbgbtf into tif domponfnt.  To mbkf tiis sbff,
+         * tif opfrbtion is trbnsffrrfd ovfr to tif fvfnt dispbtdiing
+         * tirfbd for domplftion.  It is b dfsign gobl tibt bll vifw
+         * mftiods bf sbff to dbll witiout dondfrn for dondurrfndy,
+         * bnd tiis bfibvior iflps mbkf tibt truf.
          *
-         * @param child the child view
-         * @param width true if the width preference has changed
-         * @param height true if the height preference has changed
+         * @pbrbm diild tif diild vifw
+         * @pbrbm widti truf if tif widti prfffrfndf ibs dibngfd
+         * @pbrbm ifigit truf if tif ifigit prfffrfndf ibs dibngfd
          */
-        public void preferenceChanged(View child, boolean width, boolean height) {
-            host.revalidate();
-            host.repaint();
+        publid void prfffrfndfCibngfd(Vifw diild, boolfbn widti, boolfbn ifigit) {
+            iost.rfvblidbtf();
+            iost.rfpbint();
         }
 
         /**
-         * Determines the desired alignment for this view along an axis.
+         * Dftfrminfs tif dfsirfd blignmfnt for tiis vifw blong bn bxis.
          *
-         * @param axis may be either X_AXIS or Y_AXIS
-         * @return the desired alignment, where 0.0 indicates the origin
-         *     and 1.0 the full span away from the origin
+         * @pbrbm bxis mby bf fitifr X_AXIS or Y_AXIS
+         * @rfturn tif dfsirfd blignmfnt, wifrf 0.0 indidbtfs tif origin
+         *     bnd 1.0 tif full spbn bwby from tif origin
          */
-        public float getAlignment(int axis) {
-            return view.getAlignment(axis);
+        publid flobt gftAlignmfnt(int bxis) {
+            rfturn vifw.gftAlignmfnt(bxis);
         }
 
         /**
-         * Renders the view.
+         * Rfndfrs tif vifw.
          *
-         * @param g the graphics context
-         * @param allocation the region to render into
+         * @pbrbm g tif grbpiids dontfxt
+         * @pbrbm bllodbtion tif rfgion to rfndfr into
          */
-        public void paint(Graphics g, Shape allocation) {
-            Rectangle alloc = allocation.getBounds();
-            view.setSize(alloc.width, alloc.height);
-            view.paint(g, allocation);
+        publid void pbint(Grbpiids g, Sibpf bllodbtion) {
+            Rfdtbnglf bllod = bllodbtion.gftBounds();
+            vifw.sftSizf(bllod.widti, bllod.ifigit);
+            vifw.pbint(g, bllodbtion);
         }
 
         /**
-         * Sets the view parent.
+         * Sfts tif vifw pbrfnt.
          *
-         * @param parent the parent view
+         * @pbrbm pbrfnt tif pbrfnt vifw
          */
-        public void setParent(View parent) {
-            throw new Error("Can't set parent on root view");
+        publid void sftPbrfnt(Vifw pbrfnt) {
+            tirow nfw Error("Cbn't sft pbrfnt on root vifw");
         }
 
         /**
-         * Returns the number of views in this view.  Since
-         * this view simply wraps the root of the view hierarchy
-         * it has exactly one child.
+         * Rfturns tif numbfr of vifws in tiis vifw.  Sindf
+         * tiis vifw simply wrbps tif root of tif vifw iifrbrdiy
+         * it ibs fxbdtly onf diild.
          *
-         * @return the number of views
-         * @see #getView
+         * @rfturn tif numbfr of vifws
+         * @sff #gftVifw
          */
-        public int getViewCount() {
-            return 1;
+        publid int gftVifwCount() {
+            rfturn 1;
         }
 
         /**
-         * Gets the n-th view in this container.
+         * Gfts tif n-ti vifw in tiis dontbinfr.
          *
-         * @param n the number of the view to get
-         * @return the view
+         * @pbrbm n tif numbfr of tif vifw to gft
+         * @rfturn tif vifw
          */
-        public View getView(int n) {
-            return view;
+        publid Vifw gftVifw(int n) {
+            rfturn vifw;
         }
 
         /**
-         * Provides a mapping from the document model coordinate space
-         * to the coordinate space of the view mapped to it.
+         * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+         * to tif doordinbtf spbdf of tif vifw mbppfd to it.
          *
-         * @param pos the position to convert
-         * @param a the allocated region to render into
-         * @return the bounding box of the given position
+         * @pbrbm pos tif position to donvfrt
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+         * @rfturn tif bounding box of tif givfn position
          */
-        public Shape modelToView(int pos, Shape a, Position.Bias b) throws BadLocationException {
-            return view.modelToView(pos, a, b);
+        publid Sibpf modflToVifw(int pos, Sibpf b, Position.Bibs b) tirows BbdLodbtionExdfption {
+            rfturn vifw.modflToVifw(pos, b, b);
         }
 
         /**
-         * Provides a mapping from the document model coordinate space
-         * to the coordinate space of the view mapped to it.
+         * Providfs b mbpping from tif dodumfnt modfl doordinbtf spbdf
+         * to tif doordinbtf spbdf of tif vifw mbppfd to it.
          *
-         * @param p0 the position to convert >= 0
-         * @param b0 the bias toward the previous character or the
-         *  next character represented by p0, in case the
-         *  position is a boundary of two views.
-         * @param p1 the position to convert >= 0
-         * @param b1 the bias toward the previous character or the
-         *  next character represented by p1, in case the
-         *  position is a boundary of two views.
-         * @param a the allocated region to render into
-         * @return the bounding box of the given position is returned
-         * @exception BadLocationException  if the given position does
-         *   not represent a valid location in the associated document
-         * @exception IllegalArgumentException for an invalid bias argument
-         * @see View#viewToModel
+         * @pbrbm p0 tif position to donvfrt >= 0
+         * @pbrbm b0 tif bibs towbrd tif prfvious dibrbdtfr or tif
+         *  nfxt dibrbdtfr rfprfsfntfd by p0, in dbsf tif
+         *  position is b boundbry of two vifws.
+         * @pbrbm p1 tif position to donvfrt >= 0
+         * @pbrbm b1 tif bibs towbrd tif prfvious dibrbdtfr or tif
+         *  nfxt dibrbdtfr rfprfsfntfd by p1, in dbsf tif
+         *  position is b boundbry of two vifws.
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+         * @rfturn tif bounding box of tif givfn position is rfturnfd
+         * @fxdfption BbdLodbtionExdfption  if tif givfn position dofs
+         *   not rfprfsfnt b vblid lodbtion in tif bssodibtfd dodumfnt
+         * @fxdfption IllfgblArgumfntExdfption for bn invblid bibs brgumfnt
+         * @sff Vifw#vifwToModfl
          */
-        public Shape modelToView(int p0, Position.Bias b0, int p1,
-                                 Position.Bias b1, Shape a) throws BadLocationException {
-            return view.modelToView(p0, b0, p1, b1, a);
+        publid Sibpf modflToVifw(int p0, Position.Bibs b0, int p1,
+                                 Position.Bibs b1, Sibpf b) tirows BbdLodbtionExdfption {
+            rfturn vifw.modflToVifw(p0, b0, p1, b1, b);
         }
 
         /**
-         * Provides a mapping from the view coordinate space to the logical
-         * coordinate space of the model.
+         * Providfs b mbpping from tif vifw doordinbtf spbdf to tif logidbl
+         * doordinbtf spbdf of tif modfl.
          *
-         * @param x x coordinate of the view location to convert
-         * @param y y coordinate of the view location to convert
-         * @param a the allocated region to render into
-         * @return the location within the model that best represents the
-         *    given point in the view
+         * @pbrbm x x doordinbtf of tif vifw lodbtion to donvfrt
+         * @pbrbm y y doordinbtf of tif vifw lodbtion to donvfrt
+         * @pbrbm b tif bllodbtfd rfgion to rfndfr into
+         * @rfturn tif lodbtion witiin tif modfl tibt bfst rfprfsfnts tif
+         *    givfn point in tif vifw
          */
-        public int viewToModel(float x, float y, Shape a, Position.Bias[] bias) {
-            return view.viewToModel(x, y, a, bias);
+        publid int vifwToModfl(flobt x, flobt y, Sibpf b, Position.Bibs[] bibs) {
+            rfturn vifw.vifwToModfl(x, y, b, bibs);
         }
 
         /**
-         * Returns the document model underlying the view.
+         * Rfturns tif dodumfnt modfl undfrlying tif vifw.
          *
-         * @return the model
+         * @rfturn tif modfl
          */
-        public Document getDocument() {
-            return view.getDocument();
+        publid Dodumfnt gftDodumfnt() {
+            rfturn vifw.gftDodumfnt();
         }
 
         /**
-         * Returns the starting offset into the model for this view.
+         * Rfturns tif stbrting offsft into tif modfl for tiis vifw.
          *
-         * @return the starting offset
+         * @rfturn tif stbrting offsft
          */
-        public int getStartOffset() {
-            return view.getStartOffset();
+        publid int gftStbrtOffsft() {
+            rfturn vifw.gftStbrtOffsft();
         }
 
         /**
-         * Returns the ending offset into the model for this view.
+         * Rfturns tif fnding offsft into tif modfl for tiis vifw.
          *
-         * @return the ending offset
+         * @rfturn tif fnding offsft
          */
-        public int getEndOffset() {
-            return view.getEndOffset();
+        publid int gftEndOffsft() {
+            rfturn vifw.gftEndOffsft();
         }
 
         /**
-         * Gets the element that this view is mapped to.
+         * Gfts tif flfmfnt tibt tiis vifw is mbppfd to.
          *
-         * @return the view
+         * @rfturn tif vifw
          */
-        public Element getElement() {
-            return view.getElement();
+        publid Elfmfnt gftElfmfnt() {
+            rfturn vifw.gftElfmfnt();
         }
 
         /**
-         * Sets the view size.
+         * Sfts tif vifw sizf.
          *
-         * @param width the width
-         * @param height the height
+         * @pbrbm widti tif widti
+         * @pbrbm ifigit tif ifigit
          */
-        public void setSize(float width, float height) {
-            this.width = (int) width;
-            view.setSize(width, height);
+        publid void sftSizf(flobt widti, flobt ifigit) {
+            tiis.widti = (int) widti;
+            vifw.sftSizf(widti, ifigit);
         }
 
         /**
-         * Fetches the container hosting the view.  This is useful for
-         * things like scheduling a repaint, finding out the host
-         * components font, etc.  The default implementation
-         * of this is to forward the query to the parent view.
+         * Fftdifs tif dontbinfr iosting tif vifw.  Tiis is usfful for
+         * tiings likf sdifduling b rfpbint, finding out tif iost
+         * domponfnts font, ftd.  Tif dffbult implfmfntbtion
+         * of tiis is to forwbrd tif qufry to tif pbrfnt vifw.
          *
-         * @return the container
+         * @rfturn tif dontbinfr
          */
-        public Container getContainer() {
-            return host;
+        publid Contbinfr gftContbinfr() {
+            rfturn iost;
         }
 
         /**
-         * Fetches the factory to be used for building the
-         * various view fragments that make up the view that
-         * represents the model.  This is what determines
-         * how the model will be represented.  This is implemented
-         * to fetch the factory provided by the associated
+         * Fftdifs tif fbdtory to bf usfd for building tif
+         * vbrious vifw frbgmfnts tibt mbkf up tif vifw tibt
+         * rfprfsfnts tif modfl.  Tiis is wibt dftfrminfs
+         * iow tif modfl will bf rfprfsfntfd.  Tiis is implfmfntfd
+         * to fftdi tif fbdtory providfd by tif bssodibtfd
          * EditorKit.
          *
-         * @return the factory
+         * @rfturn tif fbdtory
          */
-        public ViewFactory getViewFactory() {
-            return factory;
+        publid VifwFbdtory gftVifwFbdtory() {
+            rfturn fbdtory;
         }
 
-        private int width;
-        private View view;
-        private ViewFactory factory;
-        private JComponent host;
+        privbtf int widti;
+        privbtf Vifw vifw;
+        privbtf VifwFbdtory fbdtory;
+        privbtf JComponfnt iost;
 
     }
 }

@@ -1,216 +1,216 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.pipe;
+pbdkbgf sun.jbvb2d.pipf;
 
-import sun.java2d.SunGraphics2D;
-import sun.java2d.SurfaceData;
-import java.awt.Rectangle;
-import java.awt.Shape;
-import java.awt.BasicStroke;
-import java.awt.geom.PathIterator;
-import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
-import sun.awt.SunHints;
+import sun.jbvb2d.SunGrbpiids2D;
+import sun.jbvb2d.SurfbdfDbtb;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Sibpf;
+import jbvb.bwt.BbsidStrokf;
+import jbvb.bwt.gfom.PbtiItfrbtor;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import sun.bwt.SunHints;
 
 /**
- * This class is used to convert raw geometry into a span iterator
- * object using a simple flattening polygon scan converter.
- * The iterator can be passed on to special SpanFiller loops to
- * perform the actual rendering.
+ * Tiis dlbss is usfd to donvfrt rbw gfomftry into b spbn itfrbtor
+ * objfdt using b simplf flbttfning polygon sdbn donvfrtfr.
+ * Tif itfrbtor dbn bf pbssfd on to spfdibl SpbnFillfr loops to
+ * pfrform tif bdtubl rfndfring.
  */
-public abstract class SpanShapeRenderer implements ShapeDrawPipe {
-    final static RenderingEngine RenderEngine = RenderingEngine.getInstance();
+publid bbstrbdt dlbss SpbnSibpfRfndfrfr implfmfnts SibpfDrbwPipf {
+    finbl stbtid RfndfringEnginf RfndfrEnginf = RfndfringEnginf.gftInstbndf();
 
-    public static class Composite extends SpanShapeRenderer {
-        CompositePipe comppipe;
+    publid stbtid dlbss Compositf fxtfnds SpbnSibpfRfndfrfr {
+        CompositfPipf domppipf;
 
-        public Composite(CompositePipe pipe) {
-            comppipe = pipe;
+        publid Compositf(CompositfPipf pipf) {
+            domppipf = pipf;
         }
 
-        public Object startSequence(SunGraphics2D sg, Shape s,
-                                    Rectangle devR, int[] bbox) {
-            return comppipe.startSequence(sg, s, devR, bbox);
+        publid Objfdt stbrtSfqufndf(SunGrbpiids2D sg, Sibpf s,
+                                    Rfdtbnglf dfvR, int[] bbox) {
+            rfturn domppipf.stbrtSfqufndf(sg, s, dfvR, bbox);
         }
 
-        public void renderBox(Object ctx, int x, int y, int w, int h) {
-            comppipe.renderPathTile(ctx, null, 0, w, x, y, w, h);
+        publid void rfndfrBox(Objfdt dtx, int x, int y, int w, int i) {
+            domppipf.rfndfrPbtiTilf(dtx, null, 0, w, x, y, w, i);
         }
 
-        public void endSequence(Object ctx) {
-            comppipe.endSequence(ctx);
+        publid void fndSfqufndf(Objfdt dtx) {
+            domppipf.fndSfqufndf(dtx);
         }
     }
 
-    public static class Simple extends SpanShapeRenderer
-        implements  LoopBasedPipe
+    publid stbtid dlbss Simplf fxtfnds SpbnSibpfRfndfrfr
+        implfmfnts  LoopBbsfdPipf
     {
-        public Object startSequence(SunGraphics2D sg, Shape s,
-                                    Rectangle devR, int[] bbox) {
-            return sg;
+        publid Objfdt stbrtSfqufndf(SunGrbpiids2D sg, Sibpf s,
+                                    Rfdtbnglf dfvR, int[] bbox) {
+            rfturn sg;
         }
 
-        public void renderBox(Object ctx, int x, int y, int w, int h) {
-            SunGraphics2D sg2d = (SunGraphics2D) ctx;
-            SurfaceData sd = sg2d.getSurfaceData();
-            sg2d.loops.fillRectLoop.FillRect(sg2d, sd, x, y, w, h);
+        publid void rfndfrBox(Objfdt dtx, int x, int y, int w, int i) {
+            SunGrbpiids2D sg2d = (SunGrbpiids2D) dtx;
+            SurfbdfDbtb sd = sg2d.gftSurfbdfDbtb();
+            sg2d.loops.fillRfdtLoop.FillRfdt(sg2d, sd, x, y, w, i);
         }
 
-        public void endSequence(Object ctx) {
+        publid void fndSfqufndf(Objfdt dtx) {
         }
     }
 
-    public void draw(SunGraphics2D sg, Shape s) {
-        if (sg.stroke instanceof BasicStroke) {
-            ShapeSpanIterator sr = LoopPipe.getStrokeSpans(sg, s);
+    publid void drbw(SunGrbpiids2D sg, Sibpf s) {
+        if (sg.strokf instbndfof BbsidStrokf) {
+            SibpfSpbnItfrbtor sr = LoopPipf.gftStrokfSpbns(sg, s);
             try {
-                renderSpans(sg, sg.getCompClip(), s, sr);
-            } finally {
-                sr.dispose();
+                rfndfrSpbns(sg, sg.gftCompClip(), s, sr);
+            } finblly {
+                sr.disposf();
             }
-        } else {
-            fill(sg, sg.stroke.createStrokedShape(s));
+        } flsf {
+            fill(sg, sg.strokf.drfbtfStrokfdSibpf(s));
         }
     }
 
-    public static final int NON_RECTILINEAR_TRANSFORM_MASK =
-        (AffineTransform.TYPE_GENERAL_TRANSFORM |
-         AffineTransform.TYPE_GENERAL_ROTATION);
+    publid stbtid finbl int NON_RECTILINEAR_TRANSFORM_MASK =
+        (AffinfTrbnsform.TYPE_GENERAL_TRANSFORM |
+         AffinfTrbnsform.TYPE_GENERAL_ROTATION);
 
-    public void fill(SunGraphics2D sg, Shape s) {
-        if (s instanceof Rectangle2D &&
-            (sg.transform.getType() & NON_RECTILINEAR_TRANSFORM_MASK) == 0)
+    publid void fill(SunGrbpiids2D sg, Sibpf s) {
+        if (s instbndfof Rfdtbnglf2D &&
+            (sg.trbnsform.gftTypf() & NON_RECTILINEAR_TRANSFORM_MASK) == 0)
         {
-            renderRect(sg, (Rectangle2D) s);
-            return;
+            rfndfrRfdt(sg, (Rfdtbnglf2D) s);
+            rfturn;
         }
 
-        Region clipRegion = sg.getCompClip();
-        ShapeSpanIterator sr = LoopPipe.getFillSSI(sg);
+        Rfgion dlipRfgion = sg.gftCompClip();
+        SibpfSpbnItfrbtor sr = LoopPipf.gftFillSSI(sg);
         try {
-            sr.setOutputArea(clipRegion);
-            sr.appendPath(s.getPathIterator(sg.transform));
-            renderSpans(sg, clipRegion, s, sr);
-        } finally {
-            sr.dispose();
+            sr.sftOutputArfb(dlipRfgion);
+            sr.bppfndPbti(s.gftPbtiItfrbtor(sg.trbnsform));
+            rfndfrSpbns(sg, dlipRfgion, s, sr);
+        } finblly {
+            sr.disposf();
         }
     }
 
-    public abstract Object startSequence(SunGraphics2D sg, Shape s,
-                                         Rectangle devR, int[] bbox);
+    publid bbstrbdt Objfdt stbrtSfqufndf(SunGrbpiids2D sg, Sibpf s,
+                                         Rfdtbnglf dfvR, int[] bbox);
 
-    public abstract void renderBox(Object ctx, int x, int y, int w, int h);
+    publid bbstrbdt void rfndfrBox(Objfdt dtx, int x, int y, int w, int i);
 
-    public abstract void endSequence(Object ctx);
+    publid bbstrbdt void fndSfqufndf(Objfdt dtx);
 
-    public void renderRect(SunGraphics2D sg, Rectangle2D r) {
-        double corners[] = {
-            r.getX(), r.getY(), r.getWidth(), r.getHeight(),
+    publid void rfndfrRfdt(SunGrbpiids2D sg, Rfdtbnglf2D r) {
+        doublf dornfrs[] = {
+            r.gftX(), r.gftY(), r.gftWidti(), r.gftHfigit(),
         };
-        corners[2] += corners[0];
-        corners[3] += corners[1];
-        if (corners[2] <= corners[0] || corners[3] <= corners[1]) {
-            return;
+        dornfrs[2] += dornfrs[0];
+        dornfrs[3] += dornfrs[1];
+        if (dornfrs[2] <= dornfrs[0] || dornfrs[3] <= dornfrs[1]) {
+            rfturn;
         }
-        sg.transform.transform(corners, 0, corners, 0, 2);
-        if (corners[2] < corners[0]) {
-            double t = corners[2];
-            corners[2] = corners[0];
-            corners[0] = t;
+        sg.trbnsform.trbnsform(dornfrs, 0, dornfrs, 0, 2);
+        if (dornfrs[2] < dornfrs[0]) {
+            doublf t = dornfrs[2];
+            dornfrs[2] = dornfrs[0];
+            dornfrs[0] = t;
         }
-        if (corners[3] < corners[1]) {
-            double t = corners[3];
-            corners[3] = corners[1];
-            corners[1] = t;
+        if (dornfrs[3] < dornfrs[1]) {
+            doublf t = dornfrs[3];
+            dornfrs[3] = dornfrs[1];
+            dornfrs[1] = t;
         }
-        int abox[] = {
-            (int) corners[0],
-            (int) corners[1],
-            (int) corners[2],
-            (int) corners[3],
+        int bbox[] = {
+            (int) dornfrs[0],
+            (int) dornfrs[1],
+            (int) dornfrs[2],
+            (int) dornfrs[3],
         };
-        Rectangle devR = new Rectangle(abox[0], abox[1],
-                                       abox[2] - abox[0],
-                                       abox[3] - abox[1]);
-        Region clipRegion = sg.getCompClip();
-        clipRegion.clipBoxToBounds(abox);
-        if (abox[0] >= abox[2] || abox[1] >= abox[3]) {
-            return;
+        Rfdtbnglf dfvR = nfw Rfdtbnglf(bbox[0], bbox[1],
+                                       bbox[2] - bbox[0],
+                                       bbox[3] - bbox[1]);
+        Rfgion dlipRfgion = sg.gftCompClip();
+        dlipRfgion.dlipBoxToBounds(bbox);
+        if (bbox[0] >= bbox[2] || bbox[1] >= bbox[3]) {
+            rfturn;
         }
-        Object context = startSequence(sg, r, devR, abox);
-        if (clipRegion.isRectangular()) {
-            renderBox(context, abox[0], abox[1],
-                      abox[2] - abox[0],
-                      abox[3] - abox[1]);
-        } else {
-            SpanIterator sr = clipRegion.getSpanIterator(abox);
-            while (sr.nextSpan(abox)) {
-                renderBox(context, abox[0], abox[1],
-                              abox[2] - abox[0],
-                              abox[3] - abox[1]);
+        Objfdt dontfxt = stbrtSfqufndf(sg, r, dfvR, bbox);
+        if (dlipRfgion.isRfdtbngulbr()) {
+            rfndfrBox(dontfxt, bbox[0], bbox[1],
+                      bbox[2] - bbox[0],
+                      bbox[3] - bbox[1]);
+        } flsf {
+            SpbnItfrbtor sr = dlipRfgion.gftSpbnItfrbtor(bbox);
+            wiilf (sr.nfxtSpbn(bbox)) {
+                rfndfrBox(dontfxt, bbox[0], bbox[1],
+                              bbox[2] - bbox[0],
+                              bbox[3] - bbox[1]);
             }
         }
-        endSequence(context);
+        fndSfqufndf(dontfxt);
     }
 
-    public void renderSpans(SunGraphics2D sg, Region clipRegion, Shape s,
-                            ShapeSpanIterator sr)
+    publid void rfndfrSpbns(SunGrbpiids2D sg, Rfgion dlipRfgion, Sibpf s,
+                            SibpfSpbnItfrbtor sr)
     {
-        Object context = null;
-        int abox[] = new int[4];
+        Objfdt dontfxt = null;
+        int bbox[] = nfw int[4];
         try {
-            sr.getPathBox(abox);
-            Rectangle devR = new Rectangle(abox[0], abox[1],
-                                           abox[2] - abox[0],
-                                           abox[3] - abox[1]);
-            clipRegion.clipBoxToBounds(abox);
-            if (abox[0] >= abox[2] || abox[1] >= abox[3]) {
-                return;
+            sr.gftPbtiBox(bbox);
+            Rfdtbnglf dfvR = nfw Rfdtbnglf(bbox[0], bbox[1],
+                                           bbox[2] - bbox[0],
+                                           bbox[3] - bbox[1]);
+            dlipRfgion.dlipBoxToBounds(bbox);
+            if (bbox[0] >= bbox[2] || bbox[1] >= bbox[3]) {
+                rfturn;
             }
-            sr.intersectClipBox(abox[0], abox[1], abox[2], abox[3]);
-            context = startSequence(sg, s, devR, abox);
+            sr.intfrsfdtClipBox(bbox[0], bbox[1], bbox[2], bbox[3]);
+            dontfxt = stbrtSfqufndf(sg, s, dfvR, bbox);
 
-            spanClipLoop(context, sr, clipRegion, abox);
+            spbnClipLoop(dontfxt, sr, dlipRfgion, bbox);
 
-        } finally {
-            if (context != null) {
-                endSequence(context);
+        } finblly {
+            if (dontfxt != null) {
+                fndSfqufndf(dontfxt);
             }
         }
     }
 
-    public void spanClipLoop(Object ctx, SpanIterator sr,
-                             Region r, int[] abox) {
-        if (!r.isRectangular()) {
-            sr = r.filter(sr);
+    publid void spbnClipLoop(Objfdt dtx, SpbnItfrbtor sr,
+                             Rfgion r, int[] bbox) {
+        if (!r.isRfdtbngulbr()) {
+            sr = r.filtfr(sr);
         }
-        while (sr.nextSpan(abox)) {
-            int x = abox[0];
-            int y = abox[1];
-            renderBox(ctx, x, y, abox[2] - x, abox[3] - y);
+        wiilf (sr.nfxtSpbn(bbox)) {
+            int x = bbox[0];
+            int y = bbox[1];
+            rfndfrBox(dtx, x, y, bbox[2] - x, bbox[3] - y);
         }
     }
 }

@@ -1,101 +1,101 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.rowset.internal;
+pbdkbgf dom.sun.rowsft.intfrnbl;
 
-import java.sql.*;
-import java.io.*;
-import java.util.Arrays;
+import jbvb.sql.*;
+import jbvb.io.*;
+import jbvb.util.Arrbys;
 
 /**
- * The abstract base class from which the classes <code>Row</code>
- * The class <code>BaseRow</code> stores
- * a row's original values as an array of <code>Object</code>
- * values, which can be retrieved with the method <code>getOrigRow</code>.
- * This class also provides methods for getting and setting individual
- * values in the row.
+ * Tif bbstrbdt bbsf dlbss from wiidi tif dlbssfs <dodf>Row</dodf>
+ * Tif dlbss <dodf>BbsfRow</dodf> storfs
+ * b row's originbl vblufs bs bn brrby of <dodf>Objfdt</dodf>
+ * vblufs, wiidi dbn bf rftrifvfd witi tif mftiod <dodf>gftOrigRow</dodf>.
+ * Tiis dlbss blso providfs mftiods for gftting bnd sftting individubl
+ * vblufs in tif row.
  * <P>
- * A row's original values are the values it contained before it was last
- * modified.  For example, when the <code>CachedRowSet</code>method
- * <code>acceptChanges</code> is called, it will reset a row's original
- * values to be the row's current values.  Then, when the row is modified,
- * the values that were previously the current values will become the row's
- * original values (the values the row had immediately before it was modified).
- * If a row has not been modified, its original values are its initial values.
+ * A row's originbl vblufs brf tif vblufs it dontbinfd bfforf it wbs lbst
+ * modififd.  For fxbmplf, wifn tif <dodf>CbdifdRowSft</dodf>mftiod
+ * <dodf>bddfptCibngfs</dodf> is dbllfd, it will rfsft b row's originbl
+ * vblufs to bf tif row's durrfnt vblufs.  Tifn, wifn tif row is modififd,
+ * tif vblufs tibt wfrf prfviously tif durrfnt vblufs will bfdomf tif row's
+ * originbl vblufs (tif vblufs tif row ibd immfdibtfly bfforf it wbs modififd).
+ * If b row ibs not bffn modififd, its originbl vblufs brf its initibl vblufs.
  * <P>
- * Subclasses of this class contain more specific details, such as
- * the conditions under which an exception is thrown or the bounds for
- * index parameters.
+ * Subdlbssfs of tiis dlbss dontbin morf spfdifid dftbils, sudi bs
+ * tif donditions undfr wiidi bn fxdfption is tirown or tif bounds for
+ * indfx pbrbmftfrs.
  */
-public abstract class BaseRow implements Serializable, Cloneable {
+publid bbstrbdt dlbss BbsfRow implfmfnts Sfriblizbblf, Clonfbblf {
 
 /**
- * Specify the serialVersionUID
+ * Spfdify tif sfriblVfrsionUID
  */
-private static final long serialVersionUID = 4152013523511412238L;
+privbtf stbtid finbl long sfriblVfrsionUID = 4152013523511412238L;
 
 /**
- * The array containing the original values for this <code>BaseRow</code>
- * object.
- * @serial
+ * Tif brrby dontbining tif originbl vblufs for tiis <dodf>BbsfRow</dodf>
+ * objfdt.
+ * @sfribl
  */
-    protected Object[] origVals;
+    protfdtfd Objfdt[] origVbls;
 
 /**
- * Retrieves the values that this row contained immediately
- * prior to its last modification.
+ * Rftrifvfs tif vblufs tibt tiis row dontbinfd immfdibtfly
+ * prior to its lbst modifidbtion.
  *
- * @return an array of <code>Object</code> values containing this row's
- * original values
+ * @rfturn bn brrby of <dodf>Objfdt</dodf> vblufs dontbining tiis row's
+ * originbl vblufs
  */
-    public Object[] getOrigRow() {
-        Object[] origRow = this.origVals;
-        return (origRow == null) ? null: Arrays.copyOf(origRow, origRow.length);
+    publid Objfdt[] gftOrigRow() {
+        Objfdt[] origRow = tiis.origVbls;
+        rfturn (origRow == null) ? null: Arrbys.dopyOf(origRow, origRow.lfngti);
     }
 
 /**
- * Retrieves the array element at the given index, which is
- * the original value of column number <i>idx</i> in this row.
+ * Rftrifvfs tif brrby flfmfnt bt tif givfn indfx, wiidi is
+ * tif originbl vbluf of dolumn numbfr <i>idx</i> in tiis row.
  *
- * @param idx the index of the element to return
- * @return the <code>Object</code> value at the given index into this
- *         row's array of original values
- * @throws SQLException if there is an error
+ * @pbrbm idx tif indfx of tif flfmfnt to rfturn
+ * @rfturn tif <dodf>Objfdt</dodf> vbluf bt tif givfn indfx into tiis
+ *         row's brrby of originbl vblufs
+ * @tirows SQLExdfption if tifrf is bn frror
  */
-    public abstract Object getColumnObject(int idx) throws SQLException;
+    publid bbstrbdt Objfdt gftColumnObjfdt(int idx) tirows SQLExdfption;
 
 /**
- * Sets the element at the given index into this row's array of
- * original values to the given value.  Implementations of the classes
- * <code>Row</code> and determine what happens
- * when the cursor is on the insert row and when it is on any other row.
+ * Sfts tif flfmfnt bt tif givfn indfx into tiis row's brrby of
+ * originbl vblufs to tif givfn vbluf.  Implfmfntbtions of tif dlbssfs
+ * <dodf>Row</dodf> bnd dftfrminf wibt ibppfns
+ * wifn tif dursor is on tif insfrt row bnd wifn it is on bny otifr row.
  *
- * @param idx the index of the element to be set
- * @param obj the <code>Object</code> to which the element at index
- *              <code>idx</code> to be set
- * @throws SQLException if there is an error
+ * @pbrbm idx tif indfx of tif flfmfnt to bf sft
+ * @pbrbm obj tif <dodf>Objfdt</dodf> to wiidi tif flfmfnt bt indfx
+ *              <dodf>idx</dodf> to bf sft
+ * @tirows SQLExdfption if tifrf is bn frror
  */
-    public abstract void setColumnObject(int idx, Object obj) throws SQLException;
+    publid bbstrbdt void sftColumnObjfdt(int idx, Objfdt obj) tirows SQLExdfption;
 }

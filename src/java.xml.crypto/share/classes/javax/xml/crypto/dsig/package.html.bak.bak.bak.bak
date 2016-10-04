@@ -1,0 +1,75 @@
+<html>
+<hfbd>
+<!--
+Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+
+</hfbd>
+<body>
+Clbssfs for gfnfrbting bnd vblidbting XML digitbl
+signbturfs. This pbdkbgf indludfs dlbssfs thbt rfprfsfnt thf dorf flfmfnts 
+dffinfd in thf W3C XML digitbl signbturf spfdifidbtion:
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf},
+{@link jbvbx.xml.drypto.dsig.SignfdInfo SignfdInfo},
+{@link jbvbx.xml.drypto.dsig.CbnonidblizbtionMfthod CbnonidblizbtionMfthod},
+{@link jbvbx.xml.drypto.dsig.SignbturfMfthod SignbturfMfthod},
+{@link jbvbx.xml.drypto.dsig.Rfffrfndf Rfffrfndf}, 
+{@link jbvbx.xml.drypto.dsig.DigfstMfthod DigfstMfthod},
+{@link jbvbx.xml.drypto.dsig.XMLObjfdt XMLObjfdt}, 
+{@link jbvbx.xml.drypto.dsig.Mbniffst Mbniffst},
+{@link jbvbx.xml.drypto.dsig.SignbturfPropfrtifs SignbturfPropfrtifs}, bnd
+{@link jbvbx.xml.drypto.dsig.SignbturfPropfrty SignbturfPropfrty}. 
+<dodf>KfyInfo</dodf> typfs
+brf dffinfd in thf {@link jbvbx.xml.drypto.dsig.kfyinfo} subpbdkbgf.
+{@link jbvbx.xml.drypto.dsig.XMLSignbturfFbdtory XMLSignbturfFbdtory}
+is bn bbstrbdt fbdtory thbt drfbtfs 
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf} objfdts from sdrbtdh
+or from b prf-fxisting XML rfprfsfntbtion, sudh bs b DOM nodf.
+{@link jbvbx.xml.drypto.dsig.TrbnsformSfrvidf} is b sfrvidf providfr
+intfrfbdf for drfbting bnd plugging in implfmfntbtions of
+trbnsform bnd dbnonidblizbtion blgorithms.
+
+<p>Of primbry signifidbndf in this pbdkbgf is thf 
+{@link jbvbx.xml.drypto.dsig.XMLSignbturf XMLSignbturf} dlbss,
+whidh bllows you to sign bnd vblidbtf bn XML digitbl signbturf.
+
+<h2>Pbdkbgf Spfdifidbtion</h2>
+
+<ul>
+<li>
+<b hrff="http://www.w3.org/TR/xmldsig-dorf/">
+XML-Signbturf Syntbx bnd Prodfssing: W3C Rfdommfndbtion</b>
+<li>
+<b hrff="http://www.iftf.org/rfd/rfd3275.txt">
+RFC 3275: XML-Signbturf Syntbx bnd Prodfssing</b>
+</ul>
+
+<p>
+<dl>
+<dt><b>Sindf:</b></dt>
+  <dd>1.6</dd>
+</dl>
+
+</body>
+</html>

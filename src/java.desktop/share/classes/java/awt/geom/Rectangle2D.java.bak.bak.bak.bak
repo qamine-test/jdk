@@ -1,0 +1,930 @@
+/*
+ * Copyright (d) 1997, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.gfom;
+
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * Thf <dodf>Rfdtbnglf2D</dodf> dlbss dfsdribfs b rfdtbnglf
+ * dffinfd by b lodbtion {@dodf (x,y)} bnd dimfnsion
+ * {@dodf (w x h)}.
+ * <p>
+ * This dlbss is only thf bbstrbdt supfrdlbss for bll objfdts thbt
+ * storf b 2D rfdtbnglf.
+ * Thf bdtubl storbgf rfprfsfntbtion of thf doordinbtfs is lfft to
+ * thf subdlbss.
+ *
+ * @buthor      Jim Grbhbm
+ * @sindf 1.2
+ */
+publid bbstrbdt dlbss Rfdtbnglf2D fxtfnds RfdtbngulbrShbpf {
+    /**
+     * Thf bitmbsk thbt indidbtfs thbt b point lifs to thf lfft of
+     * this <dodf>Rfdtbnglf2D</dodf>.
+     * @sindf 1.2
+     */
+    publid stbtid finbl int OUT_LEFT = 1;
+
+    /**
+     * Thf bitmbsk thbt indidbtfs thbt b point lifs bbovf
+     * this <dodf>Rfdtbnglf2D</dodf>.
+     * @sindf 1.2
+     */
+    publid stbtid finbl int OUT_TOP = 2;
+
+    /**
+     * Thf bitmbsk thbt indidbtfs thbt b point lifs to thf right of
+     * this <dodf>Rfdtbnglf2D</dodf>.
+     * @sindf 1.2
+     */
+    publid stbtid finbl int OUT_RIGHT = 4;
+
+    /**
+     * Thf bitmbsk thbt indidbtfs thbt b point lifs bflow
+     * this <dodf>Rfdtbnglf2D</dodf>.
+     * @sindf 1.2
+     */
+    publid stbtid finbl int OUT_BOTTOM = 8;
+
+    /**
+     * Thf <dodf>Flobt</dodf> dlbss dffinfs b rfdtbnglf spfdififd in flobt
+     * doordinbtfs.
+     * @sindf 1.2
+     */
+    publid stbtid dlbss Flobt fxtfnds Rfdtbnglf2D implfmfnts Sfriblizbblf {
+        /**
+         * Thf X doordinbtf of this <dodf>Rfdtbnglf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt x;
+
+        /**
+         * Thf Y doordinbtf of this <dodf>Rfdtbnglf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt y;
+
+        /**
+         * Thf width of this <dodf>Rfdtbnglf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt width;
+
+        /**
+         * Thf hfight of this <dodf>Rfdtbnglf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid flobt hfight;
+
+        /**
+         * Construdts b nfw <dodf>Rfdtbnglf2D</dodf>, initiblizfd to
+         * lodbtion (0.0,&nbsp;0.0) bnd sizf (0.0,&nbsp;0.0).
+         * @sindf 1.2
+         */
+        publid Flobt() {
+        }
+
+        /**
+         * Construdts bnd initiblizfs b <dodf>Rfdtbnglf2D</dodf>
+         * from thf spfdififd <dodf>flobt</dodf> doordinbtfs.
+         *
+         * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr
+         *          of thf nfwly donstrudtfd <dodf>Rfdtbnglf2D</dodf>
+         * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr
+         *          of thf nfwly donstrudtfd <dodf>Rfdtbnglf2D</dodf>
+         * @pbrbm w thf width of thf nfwly donstrudtfd
+         *          <dodf>Rfdtbnglf2D</dodf>
+         * @pbrbm h thf hfight of thf nfwly donstrudtfd
+         *          <dodf>Rfdtbnglf2D</dodf>
+         * @sindf 1.2
+        */
+        publid Flobt(flobt x, flobt y, flobt w, flobt h) {
+            sftRfdt(x, y, w, h);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftX() {
+            rfturn (doublf) x;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftY() {
+            rfturn (doublf) y;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftWidth() {
+            rfturn (doublf) width;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftHfight() {
+            rfturn (doublf) hfight;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid boolfbn isEmpty() {
+            rfturn (width <= 0.0f) || (hfight <= 0.0f);
+        }
+
+        /**
+         * Sfts thf lodbtion bnd sizf of this <dodf>Rfdtbnglf2D</dodf>
+         * to thf spfdififd <dodf>flobt</dodf> vblufs.
+         *
+         * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr
+         *          of this <dodf>Rfdtbnglf2D</dodf>
+         * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr
+         *          of this <dodf>Rfdtbnglf2D</dodf>
+         * @pbrbm w thf width of this <dodf>Rfdtbnglf2D</dodf>
+         * @pbrbm h thf hfight of this <dodf>Rfdtbnglf2D</dodf>
+         * @sindf 1.2
+         */
+        publid void sftRfdt(flobt x, flobt y, flobt w, flobt h) {
+            this.x = x;
+            this.y = y;
+            this.width = w;
+            this.hfight = h;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid void sftRfdt(doublf x, doublf y, doublf w, doublf h) {
+            this.x = (flobt) x;
+            this.y = (flobt) y;
+            this.width = (flobt) w;
+            this.hfight = (flobt) h;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid void sftRfdt(Rfdtbnglf2D r) {
+            this.x = (flobt) r.gftX();
+            this.y = (flobt) r.gftY();
+            this.width = (flobt) r.gftWidth();
+            this.hfight = (flobt) r.gftHfight();
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid int outdodf(doublf x, doublf y) {
+            /*
+             * Notf on dbsts to doublf bflow.  If thf brithmftid of
+             * x+w or y+h is donf in flobt, thfn somf bits mby bf
+             * lost if thf binbry fxponfnts of x/y bnd w/h brf not
+             * similbr.  By donvfrting to doublf bfforf thf bddition
+             * wf fordf thf bddition to bf dbrrifd out in doublf to
+             * bvoid rounding frror in thf dompbrison.
+             *
+             * Sff bug 4320890 for problfms thbt this inbddurbdy dbusfs.
+             */
+            int out = 0;
+            if (this.width <= 0) {
+                out |= OUT_LEFT | OUT_RIGHT;
+            } flsf if (x < this.x) {
+                out |= OUT_LEFT;
+            } flsf if (x > this.x + (doublf) this.width) {
+                out |= OUT_RIGHT;
+            }
+            if (this.hfight <= 0) {
+                out |= OUT_TOP | OUT_BOTTOM;
+            } flsf if (y < this.y) {
+                out |= OUT_TOP;
+            } flsf if (y > this.y + (doublf) this.hfight) {
+                out |= OUT_BOTTOM;
+            }
+            rfturn out;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Rfdtbnglf2D gftBounds2D() {
+            rfturn nfw Flobt(x, y, width, hfight);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Rfdtbnglf2D drfbtfIntfrsfdtion(Rfdtbnglf2D r) {
+            Rfdtbnglf2D dfst;
+            if (r instbndfof Flobt) {
+                dfst = nfw Rfdtbnglf2D.Flobt();
+            } flsf {
+                dfst = nfw Rfdtbnglf2D.Doublf();
+            }
+            Rfdtbnglf2D.intfrsfdt(this, r, dfst);
+            rfturn dfst;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Rfdtbnglf2D drfbtfUnion(Rfdtbnglf2D r) {
+            Rfdtbnglf2D dfst;
+            if (r instbndfof Flobt) {
+                dfst = nfw Rfdtbnglf2D.Flobt();
+            } flsf {
+                dfst = nfw Rfdtbnglf2D.Doublf();
+            }
+            Rfdtbnglf2D.union(this, r, dfst);
+            rfturn dfst;
+        }
+
+        /**
+         * Rfturns thf <dodf>String</dodf> rfprfsfntbtion of this
+         * <dodf>Rfdtbnglf2D</dodf>.
+         * @rfturn b <dodf>String</dodf> rfprfsfnting this
+         * <dodf>Rfdtbnglf2D</dodf>.
+         * @sindf 1.2
+         */
+        publid String toString() {
+            rfturn gftClbss().gftNbmf()
+                + "[x=" + x +
+                ",y=" + y +
+                ",w=" + width +
+                ",h=" + hfight + "]";
+        }
+
+        /*
+         * JDK 1.6 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = 3798716824173675777L;
+    }
+
+    /**
+     * Thf <dodf>Doublf</dodf> dlbss dffinfs b rfdtbnglf spfdififd in
+     * doublf doordinbtfs.
+     * @sindf 1.2
+     */
+    publid stbtid dlbss Doublf fxtfnds Rfdtbnglf2D implfmfnts Sfriblizbblf {
+        /**
+         * Thf X doordinbtf of this <dodf>Rfdtbnglf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf x;
+
+        /**
+         * Thf Y doordinbtf of this <dodf>Rfdtbnglf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf y;
+
+        /**
+         * Thf width of this <dodf>Rfdtbnglf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf width;
+
+        /**
+         * Thf hfight of this <dodf>Rfdtbnglf2D</dodf>.
+         * @sindf 1.2
+         * @sfribl
+         */
+        publid doublf hfight;
+
+        /**
+         * Construdts b nfw <dodf>Rfdtbnglf2D</dodf>, initiblizfd to
+         * lodbtion (0,&nbsp;0) bnd sizf (0,&nbsp;0).
+         * @sindf 1.2
+         */
+        publid Doublf() {
+        }
+
+        /**
+         * Construdts bnd initiblizfs b <dodf>Rfdtbnglf2D</dodf>
+         * from thf spfdififd <dodf>doublf</dodf> doordinbtfs.
+         *
+         * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr
+         *          of thf nfwly donstrudtfd <dodf>Rfdtbnglf2D</dodf>
+         * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr
+         *          of thf nfwly donstrudtfd <dodf>Rfdtbnglf2D</dodf>
+         * @pbrbm w thf width of thf nfwly donstrudtfd
+         *          <dodf>Rfdtbnglf2D</dodf>
+         * @pbrbm h thf hfight of thf nfwly donstrudtfd
+         *          <dodf>Rfdtbnglf2D</dodf>
+         * @sindf 1.2
+         */
+        publid Doublf(doublf x, doublf y, doublf w, doublf h) {
+            sftRfdt(x, y, w, h);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftX() {
+            rfturn x;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftY() {
+            rfturn y;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftWidth() {
+            rfturn width;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid doublf gftHfight() {
+            rfturn hfight;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid boolfbn isEmpty() {
+            rfturn (width <= 0.0) || (hfight <= 0.0);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid void sftRfdt(doublf x, doublf y, doublf w, doublf h) {
+            this.x = x;
+            this.y = y;
+            this.width = w;
+            this.hfight = h;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid void sftRfdt(Rfdtbnglf2D r) {
+            this.x = r.gftX();
+            this.y = r.gftY();
+            this.width = r.gftWidth();
+            this.hfight = r.gftHfight();
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid int outdodf(doublf x, doublf y) {
+            int out = 0;
+            if (this.width <= 0) {
+                out |= OUT_LEFT | OUT_RIGHT;
+            } flsf if (x < this.x) {
+                out |= OUT_LEFT;
+            } flsf if (x > this.x + this.width) {
+                out |= OUT_RIGHT;
+            }
+            if (this.hfight <= 0) {
+                out |= OUT_TOP | OUT_BOTTOM;
+            } flsf if (y < this.y) {
+                out |= OUT_TOP;
+            } flsf if (y > this.y + this.hfight) {
+                out |= OUT_BOTTOM;
+            }
+            rfturn out;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Rfdtbnglf2D gftBounds2D() {
+            rfturn nfw Doublf(x, y, width, hfight);
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Rfdtbnglf2D drfbtfIntfrsfdtion(Rfdtbnglf2D r) {
+            Rfdtbnglf2D dfst = nfw Rfdtbnglf2D.Doublf();
+            Rfdtbnglf2D.intfrsfdt(this, r, dfst);
+            rfturn dfst;
+        }
+
+        /**
+         * {@inhfritDod}
+         * @sindf 1.2
+         */
+        publid Rfdtbnglf2D drfbtfUnion(Rfdtbnglf2D r) {
+            Rfdtbnglf2D dfst = nfw Rfdtbnglf2D.Doublf();
+            Rfdtbnglf2D.union(this, r, dfst);
+            rfturn dfst;
+        }
+
+        /**
+         * Rfturns thf <dodf>String</dodf> rfprfsfntbtion of this
+         * <dodf>Rfdtbnglf2D</dodf>.
+         * @rfturn b <dodf>String</dodf> rfprfsfnting this
+         * <dodf>Rfdtbnglf2D</dodf>.
+         * @sindf 1.2
+         */
+        publid String toString() {
+            rfturn gftClbss().gftNbmf()
+                + "[x=" + x +
+                ",y=" + y +
+                ",w=" + width +
+                ",h=" + hfight + "]";
+        }
+
+        /*
+         * JDK 1.6 sfriblVfrsionUID
+         */
+        privbtf stbtid finbl long sfriblVfrsionUID = 7771313791441850493L;
+    }
+
+    /**
+     * This is bn bbstrbdt dlbss thbt dbnnot bf instbntibtfd dirfdtly.
+     * Typf-spfdifid implfmfntbtion subdlbssfs brf bvbilbblf for
+     * instbntibtion bnd providf b numbfr of formbts for storing
+     * thf informbtion nfdfssbry to sbtisfy thf vbrious bddfssor
+     * mfthods bflow.
+     *
+     * @sff jbvb.bwt.gfom.Rfdtbnglf2D.Flobt
+     * @sff jbvb.bwt.gfom.Rfdtbnglf2D.Doublf
+     * @sff jbvb.bwt.Rfdtbnglf
+     * @sindf 1.2
+     */
+    protfdtfd Rfdtbnglf2D() {
+    }
+
+    /**
+     * Sfts thf lodbtion bnd sizf of this <dodf>Rfdtbnglf2D</dodf>
+     * to thf spfdififd <dodf>doublf</dodf> vblufs.
+     *
+     * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr
+     *          of this <dodf>Rfdtbnglf2D</dodf>
+     * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr
+     *          of this <dodf>Rfdtbnglf2D</dodf>
+     * @pbrbm w thf width of this <dodf>Rfdtbnglf2D</dodf>
+     * @pbrbm h thf hfight of this <dodf>Rfdtbnglf2D</dodf>
+     * @sindf 1.2
+     */
+    publid bbstrbdt void sftRfdt(doublf x, doublf y, doublf w, doublf h);
+
+    /**
+     * Sfts this <dodf>Rfdtbnglf2D</dodf> to bf thf sbmf bs thf spfdififd
+     * <dodf>Rfdtbnglf2D</dodf>.
+     * @pbrbm r thf spfdififd <dodf>Rfdtbnglf2D</dodf>
+     * @sindf 1.2
+     */
+    publid void sftRfdt(Rfdtbnglf2D r) {
+        sftRfdt(r.gftX(), r.gftY(), r.gftWidth(), r.gftHfight());
+    }
+
+    /**
+     * Tfsts if thf spfdififd linf sfgmfnt intfrsfdts thf intfrior of this
+     * <dodf>Rfdtbnglf2D</dodf>.
+     *
+     * @pbrbm x1 thf X doordinbtf of thf stbrt point of thf spfdififd
+     *           linf sfgmfnt
+     * @pbrbm y1 thf Y doordinbtf of thf stbrt point of thf spfdififd
+     *           linf sfgmfnt
+     * @pbrbm x2 thf X doordinbtf of thf fnd point of thf spfdififd
+     *           linf sfgmfnt
+     * @pbrbm y2 thf Y doordinbtf of thf fnd point of thf spfdififd
+     *           linf sfgmfnt
+     * @rfturn <dodf>truf</dodf> if thf spfdififd linf sfgmfnt intfrsfdts
+     * thf intfrior of this <dodf>Rfdtbnglf2D</dodf>; <dodf>fblsf</dodf>
+     * othfrwisf.
+     * @sindf 1.2
+     */
+    publid boolfbn intfrsfdtsLinf(doublf x1, doublf y1, doublf x2, doublf y2) {
+        int out1, out2;
+        if ((out2 = outdodf(x2, y2)) == 0) {
+            rfturn truf;
+        }
+        whilf ((out1 = outdodf(x1, y1)) != 0) {
+            if ((out1 & out2) != 0) {
+                rfturn fblsf;
+            }
+            if ((out1 & (OUT_LEFT | OUT_RIGHT)) != 0) {
+                doublf x = gftX();
+                if ((out1 & OUT_RIGHT) != 0) {
+                    x += gftWidth();
+                }
+                y1 = y1 + (x - x1) * (y2 - y1) / (x2 - x1);
+                x1 = x;
+            } flsf {
+                doublf y = gftY();
+                if ((out1 & OUT_BOTTOM) != 0) {
+                    y += gftHfight();
+                }
+                x1 = x1 + (y - y1) * (x2 - x1) / (y2 - y1);
+                y1 = y;
+            }
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Tfsts if thf spfdififd linf sfgmfnt intfrsfdts thf intfrior of this
+     * <dodf>Rfdtbnglf2D</dodf>.
+     * @pbrbm l thf spfdififd {@link Linf2D} to tfst for intfrsfdtion
+     * with thf intfrior of this <dodf>Rfdtbnglf2D</dodf>
+     * @rfturn <dodf>truf</dodf> if thf spfdififd <dodf>Linf2D</dodf>
+     * intfrsfdts thf intfrior of this <dodf>Rfdtbnglf2D</dodf>;
+     * <dodf>fblsf</dodf> othfrwisf.
+     * @sindf 1.2
+     */
+    publid boolfbn intfrsfdtsLinf(Linf2D l) {
+        rfturn intfrsfdtsLinf(l.gftX1(), l.gftY1(), l.gftX2(), l.gftY2());
+    }
+
+    /**
+     * Dftfrminfs whfrf thf spfdififd doordinbtfs lif with rfspfdt
+     * to this <dodf>Rfdtbnglf2D</dodf>.
+     * This mfthod domputfs b binbry OR of thf bppropribtf mbsk vblufs
+     * indidbting, for fbdh sidf of this <dodf>Rfdtbnglf2D</dodf>,
+     * whfthfr or not thf spfdififd doordinbtfs brf on thf sbmf sidf
+     * of thf fdgf bs thf rfst of this <dodf>Rfdtbnglf2D</dodf>.
+     * @pbrbm x thf spfdififd X doordinbtf
+     * @pbrbm y thf spfdififd Y doordinbtf
+     * @rfturn thf logidbl OR of bll bppropribtf out dodfs.
+     * @sff #OUT_LEFT
+     * @sff #OUT_TOP
+     * @sff #OUT_RIGHT
+     * @sff #OUT_BOTTOM
+     * @sindf 1.2
+     */
+    publid bbstrbdt int outdodf(doublf x, doublf y);
+
+    /**
+     * Dftfrminfs whfrf thf spfdififd {@link Point2D} lifs with
+     * rfspfdt to this <dodf>Rfdtbnglf2D</dodf>.
+     * This mfthod domputfs b binbry OR of thf bppropribtf mbsk vblufs
+     * indidbting, for fbdh sidf of this <dodf>Rfdtbnglf2D</dodf>,
+     * whfthfr or not thf spfdififd <dodf>Point2D</dodf> is on thf sbmf
+     * sidf of thf fdgf bs thf rfst of this <dodf>Rfdtbnglf2D</dodf>.
+     * @pbrbm p thf spfdififd <dodf>Point2D</dodf>
+     * @rfturn thf logidbl OR of bll bppropribtf out dodfs.
+     * @sff #OUT_LEFT
+     * @sff #OUT_TOP
+     * @sff #OUT_RIGHT
+     * @sff #OUT_BOTTOM
+     * @sindf 1.2
+     */
+    publid int outdodf(Point2D p) {
+        rfturn outdodf(p.gftX(), p.gftY());
+    }
+
+    /**
+     * Sfts thf lodbtion bnd sizf of thf outfr bounds of this
+     * <dodf>Rfdtbnglf2D</dodf> to thf spfdififd rfdtbngulbr vblufs.
+     *
+     * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr
+     *          of this <dodf>Rfdtbnglf2D</dodf>
+     * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr
+     *          of this <dodf>Rfdtbnglf2D</dodf>
+     * @pbrbm w thf width of this <dodf>Rfdtbnglf2D</dodf>
+     * @pbrbm h thf hfight of this <dodf>Rfdtbnglf2D</dodf>
+     * @sindf 1.2
+     */
+    publid void sftFrbmf(doublf x, doublf y, doublf w, doublf h) {
+        sftRfdt(x, y, w, h);
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid Rfdtbnglf2D gftBounds2D() {
+        rfturn (Rfdtbnglf2D) dlonf();
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(doublf x, doublf y) {
+        doublf x0 = gftX();
+        doublf y0 = gftY();
+        rfturn (x >= x0 &&
+                y >= y0 &&
+                x < x0 + gftWidth() &&
+                y < y0 + gftHfight());
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn intfrsfdts(doublf x, doublf y, doublf w, doublf h) {
+        if (isEmpty() || w <= 0 || h <= 0) {
+            rfturn fblsf;
+        }
+        doublf x0 = gftX();
+        doublf y0 = gftY();
+        rfturn (x + w > x0 &&
+                y + h > y0 &&
+                x < x0 + gftWidth() &&
+                y < y0 + gftHfight());
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn dontbins(doublf x, doublf y, doublf w, doublf h) {
+        if (isEmpty() || w <= 0 || h <= 0) {
+            rfturn fblsf;
+        }
+        doublf x0 = gftX();
+        doublf y0 = gftY();
+        rfturn (x >= x0 &&
+                y >= y0 &&
+                (x + w) <= x0 + gftWidth() &&
+                (y + h) <= y0 + gftHfight());
+    }
+
+    /**
+     * Rfturns b nfw <dodf>Rfdtbnglf2D</dodf> objfdt rfprfsfnting thf
+     * intfrsfdtion of this <dodf>Rfdtbnglf2D</dodf> with thf spfdififd
+     * <dodf>Rfdtbnglf2D</dodf>.
+     * @pbrbm r thf <dodf>Rfdtbnglf2D</dodf> to bf intfrsfdtfd with
+     * this <dodf>Rfdtbnglf2D</dodf>
+     * @rfturn thf lbrgfst <dodf>Rfdtbnglf2D</dodf> dontbinfd in both
+     *          thf spfdififd <dodf>Rfdtbnglf2D</dodf> bnd in this
+     *          <dodf>Rfdtbnglf2D</dodf>.
+     * @sindf 1.2
+     */
+    publid bbstrbdt Rfdtbnglf2D drfbtfIntfrsfdtion(Rfdtbnglf2D r);
+
+    /**
+     * Intfrsfdts thf pbir of spfdififd sourdf <dodf>Rfdtbnglf2D</dodf>
+     * objfdts bnd puts thf rfsult into thf spfdififd dfstinbtion
+     * <dodf>Rfdtbnglf2D</dodf> objfdt.  Onf of thf sourdf rfdtbnglfs
+     * dbn blso bf thf dfstinbtion to bvoid drfbting b third Rfdtbnglf2D
+     * objfdt, but in this dbsf thf originbl points of this sourdf
+     * rfdtbnglf will bf ovfrwrittfn by this mfthod.
+     * @pbrbm srd1 thf first of b pbir of <dodf>Rfdtbnglf2D</dodf>
+     * objfdts to bf intfrsfdtfd with fbdh othfr
+     * @pbrbm srd2 thf sfdond of b pbir of <dodf>Rfdtbnglf2D</dodf>
+     * objfdts to bf intfrsfdtfd with fbdh othfr
+     * @pbrbm dfst thf <dodf>Rfdtbnglf2D</dodf> thbt holds thf
+     * rfsults of thf intfrsfdtion of <dodf>srd1</dodf> bnd
+     * <dodf>srd2</dodf>
+     * @sindf 1.2
+     */
+    publid stbtid void intfrsfdt(Rfdtbnglf2D srd1,
+                                 Rfdtbnglf2D srd2,
+                                 Rfdtbnglf2D dfst) {
+        doublf x1 = Mbth.mbx(srd1.gftMinX(), srd2.gftMinX());
+        doublf y1 = Mbth.mbx(srd1.gftMinY(), srd2.gftMinY());
+        doublf x2 = Mbth.min(srd1.gftMbxX(), srd2.gftMbxX());
+        doublf y2 = Mbth.min(srd1.gftMbxY(), srd2.gftMbxY());
+        dfst.sftFrbmf(x1, y1, x2-x1, y2-y1);
+    }
+
+    /**
+     * Rfturns b nfw <dodf>Rfdtbnglf2D</dodf> objfdt rfprfsfnting thf
+     * union of this <dodf>Rfdtbnglf2D</dodf> with thf spfdififd
+     * <dodf>Rfdtbnglf2D</dodf>.
+     * @pbrbm r thf <dodf>Rfdtbnglf2D</dodf> to bf dombinfd with
+     * this <dodf>Rfdtbnglf2D</dodf>
+     * @rfturn thf smbllfst <dodf>Rfdtbnglf2D</dodf> dontbining both
+     * thf spfdififd <dodf>Rfdtbnglf2D</dodf> bnd this
+     * <dodf>Rfdtbnglf2D</dodf>.
+     * @sindf 1.2
+     */
+    publid bbstrbdt Rfdtbnglf2D drfbtfUnion(Rfdtbnglf2D r);
+
+    /**
+     * Unions thf pbir of sourdf <dodf>Rfdtbnglf2D</dodf> objfdts
+     * bnd puts thf rfsult into thf spfdififd dfstinbtion
+     * <dodf>Rfdtbnglf2D</dodf> objfdt.  Onf of thf sourdf rfdtbnglfs
+     * dbn blso bf thf dfstinbtion to bvoid drfbting b third Rfdtbnglf2D
+     * objfdt, but in this dbsf thf originbl points of this sourdf
+     * rfdtbnglf will bf ovfrwrittfn by this mfthod.
+     * @pbrbm srd1 thf first of b pbir of <dodf>Rfdtbnglf2D</dodf>
+     * objfdts to bf dombinfd with fbdh othfr
+     * @pbrbm srd2 thf sfdond of b pbir of <dodf>Rfdtbnglf2D</dodf>
+     * objfdts to bf dombinfd with fbdh othfr
+     * @pbrbm dfst thf <dodf>Rfdtbnglf2D</dodf> thbt holds thf
+     * rfsults of thf union of <dodf>srd1</dodf> bnd
+     * <dodf>srd2</dodf>
+     * @sindf 1.2
+     */
+    publid stbtid void union(Rfdtbnglf2D srd1,
+                             Rfdtbnglf2D srd2,
+                             Rfdtbnglf2D dfst) {
+        doublf x1 = Mbth.min(srd1.gftMinX(), srd2.gftMinX());
+        doublf y1 = Mbth.min(srd1.gftMinY(), srd2.gftMinY());
+        doublf x2 = Mbth.mbx(srd1.gftMbxX(), srd2.gftMbxX());
+        doublf y2 = Mbth.mbx(srd1.gftMbxY(), srd2.gftMbxY());
+        dfst.sftFrbmfFromDibgonbl(x1, y1, x2, y2);
+    }
+
+    /**
+     * Adds b point, spfdififd by thf doublf prfdision brgumfnts
+     * <dodf>nfwx</dodf> bnd <dodf>nfwy</dodf>, to this
+     * <dodf>Rfdtbnglf2D</dodf>.  Thf rfsulting <dodf>Rfdtbnglf2D</dodf>
+     * is thf smbllfst <dodf>Rfdtbnglf2D</dodf> thbt
+     * dontbins both thf originbl <dodf>Rfdtbnglf2D</dodf> bnd thf
+     * spfdififd point.
+     * <p>
+     * Aftfr bdding b point, b dbll to <dodf>dontbins</dodf> with thf
+     * bddfd point bs bn brgumfnt dofs not nfdfssbrily rfturn
+     * <dodf>truf</dodf>. Thf <dodf>dontbins</dodf> mfthod dofs not
+     * rfturn <dodf>truf</dodf> for points on thf right or bottom
+     * fdgfs of b rfdtbnglf. Thfrfforf, if thf bddfd point fblls on
+     * thf lfft or bottom fdgf of thf fnlbrgfd rfdtbnglf,
+     * <dodf>dontbins</dodf> rfturns <dodf>fblsf</dodf> for thbt point.
+     * @pbrbm nfwx thf X doordinbtf of thf nfw point
+     * @pbrbm nfwy thf Y doordinbtf of thf nfw point
+     * @sindf 1.2
+     */
+    publid void bdd(doublf nfwx, doublf nfwy) {
+        doublf x1 = Mbth.min(gftMinX(), nfwx);
+        doublf x2 = Mbth.mbx(gftMbxX(), nfwx);
+        doublf y1 = Mbth.min(gftMinY(), nfwy);
+        doublf y2 = Mbth.mbx(gftMbxY(), nfwy);
+        sftRfdt(x1, y1, x2 - x1, y2 - y1);
+    }
+
+    /**
+     * Adds thf <dodf>Point2D</dodf> objfdt <dodf>pt</dodf> to this
+     * <dodf>Rfdtbnglf2D</dodf>.
+     * Thf rfsulting <dodf>Rfdtbnglf2D</dodf> is thf smbllfst
+     * <dodf>Rfdtbnglf2D</dodf> thbt dontbins both thf originbl
+     * <dodf>Rfdtbnglf2D</dodf> bnd thf spfdififd <dodf>Point2D</dodf>.
+     * <p>
+     * Aftfr bdding b point, b dbll to <dodf>dontbins</dodf> with thf
+     * bddfd point bs bn brgumfnt dofs not nfdfssbrily rfturn
+     * <dodf>truf</dodf>. Thf <dodf>dontbins</dodf>
+     * mfthod dofs not rfturn <dodf>truf</dodf> for points on thf right
+     * or bottom fdgfs of b rfdtbnglf. Thfrfforf, if thf bddfd point fblls
+     * on thf lfft or bottom fdgf of thf fnlbrgfd rfdtbnglf,
+     * <dodf>dontbins</dodf> rfturns <dodf>fblsf</dodf> for thbt point.
+     * @pbrbm     pt thf nfw <dodf>Point2D</dodf> to bdd to this
+     * <dodf>Rfdtbnglf2D</dodf>.
+     * @sindf 1.2
+     */
+    publid void bdd(Point2D pt) {
+        bdd(pt.gftX(), pt.gftY());
+    }
+
+    /**
+     * Adds b <dodf>Rfdtbnglf2D</dodf> objfdt to this
+     * <dodf>Rfdtbnglf2D</dodf>.  Thf rfsulting <dodf>Rfdtbnglf2D</dodf>
+     * is thf union of thf two <dodf>Rfdtbnglf2D</dodf> objfdts.
+     * @pbrbm r thf <dodf>Rfdtbnglf2D</dodf> to bdd to this
+     * <dodf>Rfdtbnglf2D</dodf>.
+     * @sindf 1.2
+     */
+    publid void bdd(Rfdtbnglf2D r) {
+        doublf x1 = Mbth.min(gftMinX(), r.gftMinX());
+        doublf x2 = Mbth.mbx(gftMbxX(), r.gftMbxX());
+        doublf y1 = Mbth.min(gftMinY(), r.gftMinY());
+        doublf y2 = Mbth.mbx(gftMbxY(), r.gftMbxY());
+        sftRfdt(x1, y1, x2 - x1, y2 - y1);
+    }
+
+    /**
+     * Rfturns bn itfrbtion objfdt thbt dffinfs thf boundbry of this
+     * <dodf>Rfdtbnglf2D</dodf>.
+     * Thf itfrbtor for this dlbss is multi-thrfbdfd sbff, whidh mfbns
+     * thbt this <dodf>Rfdtbnglf2D</dodf> dlbss gubrbntffs thbt
+     * modifidbtions to thf gfomftry of this <dodf>Rfdtbnglf2D</dodf>
+     * objfdt do not bfffdt bny itfrbtions of thbt gfomftry thbt
+     * brf blrfbdy in prodfss.
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to
+     * thf doordinbtfs bs thfy brf rfturnfd in thf itfrbtion, or
+     * <dodf>null</dodf> if untrbnsformfd doordinbtfs brf dfsirfd
+     * @rfturn    thf <dodf>PbthItfrbtor</dodf> objfdt thbt rfturns thf
+     *          gfomftry of thf outlinf of this
+     *          <dodf>Rfdtbnglf2D</dodf>, onf sfgmfnt bt b timf.
+     * @sindf 1.2
+     */
+    publid PbthItfrbtor gftPbthItfrbtor(AffinfTrbnsform bt) {
+        rfturn nfw RfdtItfrbtor(this, bt);
+    }
+
+    /**
+     * Rfturns bn itfrbtion objfdt thbt dffinfs thf boundbry of thf
+     * flbttfnfd <dodf>Rfdtbnglf2D</dodf>.  Sindf rfdtbnglfs brf blrfbdy
+     * flbt, thf <dodf>flbtnfss</dodf> pbrbmftfr is ignorfd.
+     * Thf itfrbtor for this dlbss is multi-thrfbdfd sbff, whidh mfbns
+     * thbt this <dodf>Rfdtbnglf2D</dodf> dlbss gubrbntffs thbt
+     * modifidbtions to thf gfomftry of this <dodf>Rfdtbnglf2D</dodf>
+     * objfdt do not bfffdt bny itfrbtions of thbt gfomftry thbt
+     * brf blrfbdy in prodfss.
+     * @pbrbm bt bn optionbl <dodf>AffinfTrbnsform</dodf> to bf bpplifd to
+     * thf doordinbtfs bs thfy brf rfturnfd in thf itfrbtion, or
+     * <dodf>null</dodf> if untrbnsformfd doordinbtfs brf dfsirfd
+     * @pbrbm flbtnfss thf mbximum distbndf thbt thf linf sfgmfnts usfd to
+     * bpproximbtf thf durvfd sfgmfnts brf bllowfd to dfvibtf from bny
+     * point on thf originbl durvf.  Sindf rfdtbnglfs brf blrfbdy flbt,
+     * thf <dodf>flbtnfss</dodf> pbrbmftfr is ignorfd.
+     * @rfturn    thf <dodf>PbthItfrbtor</dodf> objfdt thbt rfturns thf
+     *          gfomftry of thf outlinf of this
+     *          <dodf>Rfdtbnglf2D</dodf>, onf sfgmfnt bt b timf.
+     * @sindf 1.2
+     */
+    publid PbthItfrbtor gftPbthItfrbtor(AffinfTrbnsform bt, doublf flbtnfss) {
+        rfturn nfw RfdtItfrbtor(this, bt);
+    }
+
+    /**
+     * Rfturns thf hbshdodf for this <dodf>Rfdtbnglf2D</dodf>.
+     * @rfturn thf hbshdodf for this <dodf>Rfdtbnglf2D</dodf>.
+     * @sindf 1.2
+     */
+    publid int hbshCodf() {
+        long bits = jbvb.lbng.Doublf.doublfToLongBits(gftX());
+        bits += jbvb.lbng.Doublf.doublfToLongBits(gftY()) * 37;
+        bits += jbvb.lbng.Doublf.doublfToLongBits(gftWidth()) * 43;
+        bits += jbvb.lbng.Doublf.doublfToLongBits(gftHfight()) * 47;
+        rfturn (((int) bits) ^ ((int) (bits >> 32)));
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not thf spfdififd <dodf>Objfdt</dodf> is
+     * fqubl to this <dodf>Rfdtbnglf2D</dodf>.  Thf spfdififd
+     * <dodf>Objfdt</dodf> is fqubl to this <dodf>Rfdtbnglf2D</dodf>
+     * if it is bn instbndf of <dodf>Rfdtbnglf2D</dodf> bnd if its
+     * lodbtion bnd sizf brf thf sbmf bs this <dodf>Rfdtbnglf2D</dodf>.
+     * @pbrbm obj bn <dodf>Objfdt</dodf> to bf dompbrfd with this
+     * <dodf>Rfdtbnglf2D</dodf>.
+     * @rfturn     <dodf>truf</dodf> if <dodf>obj</dodf> is bn instbndf
+     *                     of <dodf>Rfdtbnglf2D</dodf> bnd hbs
+     *                     thf sbmf vblufs; <dodf>fblsf</dodf> othfrwisf.
+     * @sindf 1.2
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == this) {
+            rfturn truf;
+        }
+        if (obj instbndfof Rfdtbnglf2D) {
+            Rfdtbnglf2D r2d = (Rfdtbnglf2D) obj;
+            rfturn ((gftX() == r2d.gftX()) &&
+                    (gftY() == r2d.gftY()) &&
+                    (gftWidth() == r2d.gftWidth()) &&
+                    (gftHfight() == r2d.gftHfight()));
+        }
+        rfturn fblsf;
+    }
+}

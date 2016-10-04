@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,2506 +30,2506 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-/* Class reader writer (java_crw_demo) for instrumenting bytecodes */
+/* Clbss rfbdfr writfr (jbvb_drw_dfmo) for instrumfnting bytfdodfs */
 
 /*
- * As long as the callbacks allow for it and the class number is unique,
- *     this code is completely re-entrant and any number of classfile
- *     injections can happen at the same time.
+ * As long bs tif dbllbbdks bllow for it bnd tif dlbss numbfr is uniquf,
+ *     tiis dodf is domplftfly rf-fntrbnt bnd bny numbfr of dlbssfilf
+ *     injfdtions dbn ibppfn bt tif sbmf timf.
  *
- *     The current logic requires a unique number for this class instance
- *     or (jclass,jobject loader) pair, this is done via the ClassIndex
- *     in hprof, which is passed in as the 'unsigned cnum' to java_crw_demo().
- *     It's up to the user of this interface if it wants to use this
- *     feature.
+ *     Tif durrfnt logid rfquirfs b uniquf numbfr for tiis dlbss instbndf
+ *     or (jdlbss,jobjfdt lobdfr) pbir, tiis is donf vib tif ClbssIndfx
+ *     in iprof, wiidi is pbssfd in bs tif 'unsignfd dnum' to jbvb_drw_dfmo().
+ *     It's up to tif usfr of tiis intfrfbdf if it wbnts to usf tiis
+ *     ffbturf.
  *
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
 
-/* Get Java and class file and bytecode information. */
+/* Gft Jbvb bnd dlbss filf bnd bytfdodf informbtion. */
 
-#include <jni.h>
+#indludf <jni.i>
 
-#include "classfile_constants.h"
+#indludf "dlbssfilf_donstbnts.i"
 
 
-/* Include our own interface for cross check */
+/* Indludf our own intfrfbdf for dross difdk */
 
-#include "java_crw_demo.h"
+#indludf "jbvb_drw_dfmo.i"
 
-/* Macros over error functions to capture line numbers */
+/* Mbdros ovfr frror fundtions to dbpturf linf numbfrs */
 
-/* Fatal error used in all builds. */
+/* Fbtbl frror usfd in bll builds. */
 
-/* Use THIS_FILE when it is available. */
-#ifndef THIS_FILE
-    #define THIS_FILE "java_crw.demo.c" /* Never use __FILE__ */
-#endif
+/* Usf THIS_FILE wifn it is bvbilbblf. */
+#ifndff THIS_FILE
+    #dffinf THIS_FILE "jbvb_drw.dfmo.d" /* Nfvfr usf __FILE__ */
+#fndif
 
-#define CRW_FATAL(ci, message) fatal_error(ci, message, THIS_FILE, __LINE__)
+#dffinf CRW_FATAL(di, mfssbgf) fbtbl_frror(di, mfssbgf, THIS_FILE, __LINE__)
 
-#if defined(DEBUG) || !defined(NDEBUG)
+#if dffinfd(DEBUG) || !dffinfd(NDEBUG)
 
-  /* This assert macro is only used in the debug builds. */
-  #define CRW_ASSERT(ci, cond) \
-        ((cond)?(void)0:assert_error(ci, #cond, THIS_FILE, __LINE__))
+  /* Tiis bssfrt mbdro is only usfd in tif dfbug builds. */
+  #dffinf CRW_ASSERT(di, dond) \
+        ((dond)?(void)0:bssfrt_frror(di, #dond, THIS_FILE, __LINE__))
 
-#else
+#flsf
 
-  #define CRW_ASSERT(ci, cond)
+  #dffinf CRW_ASSERT(di, dond)
 
-#endif
+#fndif
 
-#define CRW_ASSERT_MI(mi) CRW_ASSERT((mi)?(mi)->ci:NULL,(mi)!=NULL)
+#dffinf CRW_ASSERT_MI(mi) CRW_ASSERT((mi)?(mi)->di:NULL,(mi)!=NULL)
 
-#define CRW_ASSERT_CI(ci) CRW_ASSERT(ci, ( (ci) != NULL && \
-                         (ci)->input_position <= (ci)->input_len && \
-                         (ci)->output_position <= (ci)->output_len) )
+#dffinf CRW_ASSERT_CI(di) CRW_ASSERT(di, ( (di) != NULL && \
+                         (di)->input_position <= (di)->input_lfn && \
+                         (di)->output_position <= (di)->output_lfn) )
 
-#define BUFSIZE 256
+#dffinf BUFSIZE 256
 
-#ifdef _WIN32
-#define snprintf(buffer, count, format, ...) _snprintf_s(buffer, count, _TRUNCATE, format, ##__VA_ARGS__)
-#endif
+#ifdff _WIN32
+#dffinf snprintf(bufffr, dount, formbt, ...) _snprintf_s(bufffr, dount, _TRUNCATE, formbt, ##__VA_ARGS__)
+#fndif
 
-/* Typedefs for various integral numbers, just for code clarity */
+/* Typfdffs for vbrious intfgrbl numbfrs, just for dodf dlbrity */
 
-typedef unsigned       ClassOpcode;             /* One opcode */
-typedef unsigned char  ByteCode;                /* One byte from bytecodes */
-typedef int            ByteOffset;              /* Byte offset */
-typedef int            ClassConstant;           /* Constant pool kind */
-typedef long           CrwPosition;             /* Position in class image */
-typedef unsigned short CrwCpoolIndex;           /* Index into constant pool */
+typfdff unsignfd       ClbssOpdodf;             /* Onf opdodf */
+typfdff unsignfd dibr  BytfCodf;                /* Onf bytf from bytfdodfs */
+typfdff int            BytfOffsft;              /* Bytf offsft */
+typfdff int            ClbssConstbnt;           /* Constbnt pool kind */
+typfdff long           CrwPosition;             /* Position in dlbss imbgf */
+typfdff unsignfd siort CrwCpoolIndfx;           /* Indfx into donstbnt pool */
 
-/* Misc support macros */
+/* Misd support mbdros */
 
-/* Given the position of an opcode, find the next 4byte boundary position */
-#define NEXT_4BYTE_BOUNDARY(opcode_pos) (((opcode_pos)+4) & (~3))
+/* Givfn tif position of bn opdodf, find tif nfxt 4bytf boundbry position */
+#dffinf NEXT_4BYTE_BOUNDARY(opdodf_pos) (((opdodf_pos)+4) & (~3))
 
-#define LARGEST_INJECTION               (12*3) /* 3 injections at same site */
-#define MAXIMUM_NEW_CPOOL_ENTRIES       64 /* don't add more than 32 entries */
+#dffinf LARGEST_INJECTION               (12*3) /* 3 injfdtions bt sbmf sitf */
+#dffinf MAXIMUM_NEW_CPOOL_ENTRIES       64 /* don't bdd morf tibn 32 fntrifs */
 
-/* Constant Pool Entry (internal table that mirrors pool in file image) */
+/* Constbnt Pool Entry (intfrnbl tbblf tibt mirrors pool in filf imbgf) */
 
-typedef struct {
-    const char *        ptr;            /* Pointer to any string */
-    unsigned short      len;            /* Length of string */
-    unsigned int        index1;         /* 1st 16 bit index or 32bit value. */
-    unsigned int        index2;         /* 2nd 16 bit index or 32bit value. */
-    ClassConstant       tag;            /* Tag or kind of entry. */
-} CrwConstantPoolEntry;
+typfdff strudt {
+    donst dibr *        ptr;            /* Pointfr to bny string */
+    unsignfd siort      lfn;            /* Lfngti of string */
+    unsignfd int        indfx1;         /* 1st 16 bit indfx or 32bit vbluf. */
+    unsignfd int        indfx2;         /* 2nd 16 bit indfx or 32bit vbluf. */
+    ClbssConstbnt       tbg;            /* Tbg or kind of fntry. */
+} CrwConstbntPoolEntry;
 
-struct MethodImage;
+strudt MftiodImbgf;
 
-/* Class file image storage structure */
+/* Clbss filf imbgf storbgf strudturf */
 
-typedef struct CrwClassImage {
+typfdff strudt CrwClbssImbgf {
 
-    /* Unique class number for this class */
-    unsigned                    number;
+    /* Uniquf dlbss numbfr for tiis dlbss */
+    unsignfd                    numbfr;
 
-    /* Name of class, given or gotten out of class image */
-    const char *                name;
+    /* Nbmf of dlbss, givfn or gottfn out of dlbss imbgf */
+    donst dibr *                nbmf;
 
-    /* Input and Output class images tracking */
-    const unsigned char *       input;
-    unsigned char *             output;
-    CrwPosition                 input_len;
-    CrwPosition                 output_len;
+    /* Input bnd Output dlbss imbgfs trbdking */
+    donst unsignfd dibr *       input;
+    unsignfd dibr *             output;
+    CrwPosition                 input_lfn;
+    CrwPosition                 output_lfn;
     CrwPosition                 input_position;
     CrwPosition                 output_position;
 
-    /* Mirrored constant pool */
-    CrwConstantPoolEntry *      cpool;
-    CrwCpoolIndex               cpool_max_elements;             /* Max count */
-    CrwCpoolIndex               cpool_count_plus_one;
+    /* Mirrorfd donstbnt pool */
+    CrwConstbntPoolEntry *      dpool;
+    CrwCpoolIndfx               dpool_mbx_flfmfnts;             /* Mbx dount */
+    CrwCpoolIndfx               dpool_dount_plus_onf;
 
-    /* Input flags about class (e.g. is it a system class) */
-    int                         system_class;
+    /* Input flbgs bbout dlbss (f.g. is it b systfm dlbss) */
+    int                         systfm_dlbss;
 
-    /* Class access flags gotten from file. */
-    unsigned                    access_flags;
+    /* Clbss bddfss flbgs gottfn from filf. */
+    unsignfd                    bddfss_flbgs;
 
-    /* Names of classes and methods. */
-    char* tclass_name;          /* Name of class that has tracker methods. */
-    char* tclass_sig;           /* Signature of class */
-    char* call_name;            /* Method name to call at offset 0 */
-    char* call_sig;             /* Signature of this method */
-    char* return_name;          /* Method name to call before any return */
-    char* return_sig;           /* Signature of this method */
-    char* obj_init_name;        /* Method name to call in Object <init> */
-    char* obj_init_sig;         /* Signature of this method */
-    char* newarray_name;        /* Method name to call after newarray opcodes */
-    char* newarray_sig;         /* Signature of this method */
+    /* Nbmfs of dlbssfs bnd mftiods. */
+    dibr* tdlbss_nbmf;          /* Nbmf of dlbss tibt ibs trbdkfr mftiods. */
+    dibr* tdlbss_sig;           /* Signbturf of dlbss */
+    dibr* dbll_nbmf;            /* Mftiod nbmf to dbll bt offsft 0 */
+    dibr* dbll_sig;             /* Signbturf of tiis mftiod */
+    dibr* rfturn_nbmf;          /* Mftiod nbmf to dbll bfforf bny rfturn */
+    dibr* rfturn_sig;           /* Signbturf of tiis mftiod */
+    dibr* obj_init_nbmf;        /* Mftiod nbmf to dbll in Objfdt <init> */
+    dibr* obj_init_sig;         /* Signbturf of tiis mftiod */
+    dibr* nfwbrrby_nbmf;        /* Mftiod nbmf to dbll bftfr nfwbrrby opdodfs */
+    dibr* nfwbrrby_sig;         /* Signbturf of tiis mftiod */
 
-    /* Constant pool index values for new entries */
-    CrwCpoolIndex               tracker_class_index;
-    CrwCpoolIndex               object_init_tracker_index;
-    CrwCpoolIndex               newarray_tracker_index;
-    CrwCpoolIndex               call_tracker_index;
-    CrwCpoolIndex               return_tracker_index;
-    CrwCpoolIndex               class_number_index; /* Class number in pool */
+    /* Constbnt pool indfx vblufs for nfw fntrifs */
+    CrwCpoolIndfx               trbdkfr_dlbss_indfx;
+    CrwCpoolIndfx               objfdt_init_trbdkfr_indfx;
+    CrwCpoolIndfx               nfwbrrby_trbdkfr_indfx;
+    CrwCpoolIndfx               dbll_trbdkfr_indfx;
+    CrwCpoolIndfx               rfturn_trbdkfr_indfx;
+    CrwCpoolIndfx               dlbss_numbfr_indfx; /* Clbss numbfr in pool */
 
-    /* Count of injections made into this class */
-    int                         injection_count;
+    /* Count of injfdtions mbdf into tiis dlbss */
+    int                         injfdtion_dount;
 
-    /* This class must be the java.lang.Object class */
-    jboolean                    is_object_class;
+    /* Tiis dlbss must bf tif jbvb.lbng.Objfdt dlbss */
+    jboolfbn                    is_objfdt_dlbss;
 
-    /* This class must be the java.lang.Thread class */
-    jboolean                    is_thread_class;
+    /* Tiis dlbss must bf tif jbvb.lbng.Tirfbd dlbss */
+    jboolfbn                    is_tirfbd_dlbss;
 
-    /* Callback functions */
-    FatalErrorHandler           fatal_error_handler;
-    MethodNumberRegister        mnum_callback;
+    /* Cbllbbdk fundtions */
+    FbtblErrorHbndlfr           fbtbl_frror_ibndlfr;
+    MftiodNumbfrRfgistfr        mnum_dbllbbdk;
 
-    /* Table of method names and descr's */
-    int                         method_count;
-    const char **               method_name;
-    const char **               method_descr;
-    struct MethodImage *        current_mi;
+    /* Tbblf of mftiod nbmfs bnd dfsdr's */
+    int                         mftiod_dount;
+    donst dibr **               mftiod_nbmf;
+    donst dibr **               mftiod_dfsdr;
+    strudt MftiodImbgf *        durrfnt_mi;
 
-} CrwClassImage;
+} CrwClbssImbgf;
 
-/* Injection bytecodes (holds injected bytecodes for each code position) */
+/* Injfdtion bytfdodfs (iolds injfdtfd bytfdodfs for fbdi dodf position) */
 
-typedef struct {
-    ByteCode *  code;
-    ByteOffset  len;
-} Injection;
+typfdff strudt {
+    BytfCodf *  dodf;
+    BytfOffsft  lfn;
+} Injfdtion;
 
-/* Method transformation data (allocated/freed as each method is processed) */
+/* Mftiod trbnsformbtion dbtb (bllodbtfd/frffd bs fbdi mftiod is prodfssfd) */
 
-typedef struct MethodImage {
+typfdff strudt MftiodImbgf {
 
-    /* Back reference to Class image data. */
-    CrwClassImage *     ci;
+    /* Bbdk rfffrfndf to Clbss imbgf dbtb. */
+    CrwClbssImbgf *     di;
 
-    /* Unique method number for this class. */
-    unsigned            number;
+    /* Uniquf mftiod numbfr for tiis dlbss. */
+    unsignfd            numbfr;
 
-    /* Method name and descr */
-    const char *        name;
-    const char *        descr;
+    /* Mftiod nbmf bnd dfsdr */
+    donst dibr *        nbmf;
+    donst dibr *        dfsdr;
 
-    /* Map of input bytecode offsets to output bytecode offsets */
-    ByteOffset *        map;
+    /* Mbp of input bytfdodf offsfts to output bytfdodf offsfts */
+    BytfOffsft *        mbp;
 
-    /* Bytecode injections for each input bytecode offset */
-    Injection *         injections;
+    /* Bytfdodf injfdtions for fbdi input bytfdodf offsft */
+    Injfdtion *         injfdtions;
 
-    /* Widening setting for each input bytecode offset */
-    signed char *       widening;
+    /* Widfning sftting for fbdi input bytfdodf offsft */
+    signfd dibr *       widfning;
 
-    /* Length of original input bytecodes, and new bytecodes. */
-    ByteOffset          code_len;
-    ByteOffset          new_code_len;
+    /* Lfngti of originbl input bytfdodfs, bnd nfw bytfdodfs. */
+    BytfOffsft          dodf_lfn;
+    BytfOffsft          nfw_dodf_lfn;
 
-    /* Location in input where bytecodes are located. */
-    CrwPosition         start_of_input_bytecodes;
+    /* Lodbtion in input wifrf bytfdodfs brf lodbtfd. */
+    CrwPosition         stbrt_of_input_bytfdodfs;
 
-    /* Original max_stack and new max stack */
-    unsigned            max_stack;
-    unsigned            new_max_stack;
+    /* Originbl mbx_stbdk bnd nfw mbx stbdk */
+    unsignfd            mbx_stbdk;
+    unsignfd            nfw_mbx_stbdk;
 
-    jboolean            object_init_method;
-    jboolean            skip_call_return_sites;
+    jboolfbn            objfdt_init_mftiod;
+    jboolfbn            skip_dbll_rfturn_sitfs;
 
-    /* Method access flags gotten from file. */
-    unsigned            access_flags;
+    /* Mftiod bddfss flbgs gottfn from filf. */
+    unsignfd            bddfss_flbgs;
 
-} MethodImage;
+} MftiodImbgf;
 
 /* ----------------------------------------------------------------- */
-/* General support functions (memory and error handling) */
+/* Gfnfrbl support fundtions (mfmory bnd frror ibndling) */
 
-static void
-fatal_error(CrwClassImage *ci, const char *message, const char *file, int line)
+stbtid void
+fbtbl_frror(CrwClbssImbgf *di, donst dibr *mfssbgf, donst dibr *filf, int linf)
 {
-    if ( ci != NULL && ci->fatal_error_handler != NULL ) {
-        (*ci->fatal_error_handler)(message, file, line);
-    } else {
-        /* Normal operation should NEVER reach here */
+    if ( di != NULL && di->fbtbl_frror_ibndlfr != NULL ) {
+        (*di->fbtbl_frror_ibndlfr)(mfssbgf, filf, linf);
+    } flsf {
+        /* Normbl opfrbtion siould NEVER rfbdi ifrf */
         /* NO CRW FATAL ERROR HANDLER! */
-        (void)fprintf(stderr, "CRW: %s [%s:%d]\n", message, file, line);
+        (void)fprintf(stdfrr, "CRW: %s [%s:%d]\n", mfssbgf, filf, linf);
     }
-    abort();
+    bbort();
 }
 
-#if defined(DEBUG) || !defined(NDEBUG)
-static void
-assert_error(CrwClassImage *ci, const char *condition,
-                 const char *file, int line)
+#if dffinfd(DEBUG) || !dffinfd(NDEBUG)
+stbtid void
+bssfrt_frror(CrwClbssImbgf *di, donst dibr *dondition,
+                 donst dibr *filf, int linf)
 {
-    char buf[512];
-    MethodImage *mi;
-    ByteOffset byte_code_offset;
+    dibr buf[512];
+    MftiodImbgf *mi;
+    BytfOffsft bytf_dodf_offsft;
 
-    mi = ci->current_mi;
+    mi = di->durrfnt_mi;
     if ( mi != NULL ) {
-        byte_code_offset = (ByteOffset)(mi->ci->input_position - mi->start_of_input_bytecodes);
-    } else {
-        byte_code_offset=-1;
+        bytf_dodf_offsft = (BytfOffsft)(mi->di->input_position - mi->stbrt_of_input_bytfdodfs);
+    } flsf {
+        bytf_dodf_offsft=-1;
     }
 
     (void)sprintf(buf,
                 "CRW ASSERTION FAILURE: %s (%s:%s:%d)",
-                condition,
-                ci->name==NULL?"?":ci->name,
-                (mi==NULL||mi->name==NULL)?"?":mi->name,
-                byte_code_offset);
-    fatal_error(ci, buf, file, line);
+                dondition,
+                di->nbmf==NULL?"?":di->nbmf,
+                (mi==NULL||mi->nbmf==NULL)?"?":mi->nbmf,
+                bytf_dodf_offsft);
+    fbtbl_frror(di, buf, filf, linf);
 }
-#endif
+#fndif
 
-static void *
-allocate(CrwClassImage *ci, int nbytes)
+stbtid void *
+bllodbtf(CrwClbssImbgf *di, int nbytfs)
 {
     void * ptr;
 
-    if ( nbytes <= 0 ) {
-        CRW_FATAL(ci, "Cannot allocate <= 0 bytes");
+    if ( nbytfs <= 0 ) {
+        CRW_FATAL(di, "Cbnnot bllodbtf <= 0 bytfs");
     }
-    ptr = malloc(nbytes);
+    ptr = mbllod(nbytfs);
     if ( ptr == NULL ) {
-        CRW_FATAL(ci, "Ran out of malloc memory");
+        CRW_FATAL(di, "Rbn out of mbllod mfmory");
     }
-    return ptr;
+    rfturn ptr;
 }
 
-static void *
-reallocate(CrwClassImage *ci, void *optr, int nbytes)
+stbtid void *
+rfbllodbtf(CrwClbssImbgf *di, void *optr, int nbytfs)
 {
     void * ptr;
 
     if ( optr == NULL ) {
-        CRW_FATAL(ci, "Cannot deallocate NULL");
+        CRW_FATAL(di, "Cbnnot dfbllodbtf NULL");
     }
-    if ( nbytes <= 0 ) {
-        CRW_FATAL(ci, "Cannot reallocate <= 0 bytes");
+    if ( nbytfs <= 0 ) {
+        CRW_FATAL(di, "Cbnnot rfbllodbtf <= 0 bytfs");
     }
-    ptr = realloc(optr, nbytes);
+    ptr = rfbllod(optr, nbytfs);
     if ( ptr == NULL ) {
-        CRW_FATAL(ci, "Ran out of malloc memory");
+        CRW_FATAL(di, "Rbn out of mbllod mfmory");
     }
-    return ptr;
+    rfturn ptr;
 }
 
-static void *
-allocate_clean(CrwClassImage *ci, int nbytes)
+stbtid void *
+bllodbtf_dlfbn(CrwClbssImbgf *di, int nbytfs)
 {
     void * ptr;
 
-    if ( nbytes <= 0 ) {
-        CRW_FATAL(ci, "Cannot allocate <= 0 bytes");
+    if ( nbytfs <= 0 ) {
+        CRW_FATAL(di, "Cbnnot bllodbtf <= 0 bytfs");
     }
-    ptr = calloc(nbytes, 1);
+    ptr = dbllod(nbytfs, 1);
     if ( ptr == NULL ) {
-        CRW_FATAL(ci, "Ran out of malloc memory");
+        CRW_FATAL(di, "Rbn out of mbllod mfmory");
     }
-    return ptr;
+    rfturn ptr;
 }
 
-static const char *
-duplicate(CrwClassImage *ci, const char *str, int len)
+stbtid donst dibr *
+duplidbtf(CrwClbssImbgf *di, donst dibr *str, int lfn)
 {
-    char *copy;
+    dibr *dopy;
 
-    copy = (char*)allocate(ci, len+1);
-    (void)memcpy(copy, str, len);
-    copy[len] = 0;
-    return (const char *)copy;
+    dopy = (dibr*)bllodbtf(di, lfn+1);
+    (void)mfmdpy(dopy, str, lfn);
+    dopy[lfn] = 0;
+    rfturn (donst dibr *)dopy;
 }
 
-static void
-deallocate(CrwClassImage *ci, void *ptr)
+stbtid void
+dfbllodbtf(CrwClbssImbgf *di, void *ptr)
 {
     if ( ptr == NULL ) {
-        CRW_FATAL(ci, "Cannot deallocate NULL");
+        CRW_FATAL(di, "Cbnnot dfbllodbtf NULL");
     }
-    (void)free(ptr);
+    (void)frff(ptr);
 }
 
 /* ----------------------------------------------------------------- */
-/* Functions for reading/writing bytes to/from the class images */
+/* Fundtions for rfbding/writing bytfs to/from tif dlbss imbgfs */
 
-static unsigned
-readU1(CrwClassImage *ci)
+stbtid unsignfd
+rfbdU1(CrwClbssImbgf *di)
 {
-    CRW_ASSERT_CI(ci);
-    return ((unsigned)(ci->input[ci->input_position++])) & 0xFF;
+    CRW_ASSERT_CI(di);
+    rfturn ((unsignfd)(di->input[di->input_position++])) & 0xFF;
 }
 
-static unsigned
-readU2(CrwClassImage *ci)
+stbtid unsignfd
+rfbdU2(CrwClbssImbgf *di)
 {
-    unsigned res;
+    unsignfd rfs;
 
-    res = readU1(ci);
-    return (res << 8) + readU1(ci);
+    rfs = rfbdU1(di);
+    rfturn (rfs << 8) + rfbdU1(di);
 }
 
-static signed short
-readS2(CrwClassImage *ci)
+stbtid signfd siort
+rfbdS2(CrwClbssImbgf *di)
 {
-    unsigned res;
+    unsignfd rfs;
 
-    res = readU1(ci);
-    return ((res << 8) + readU1(ci)) & 0xFFFF;
+    rfs = rfbdU1(di);
+    rfturn ((rfs << 8) + rfbdU1(di)) & 0xFFFF;
 }
 
-static unsigned
-readU4(CrwClassImage *ci)
+stbtid unsignfd
+rfbdU4(CrwClbssImbgf *di)
 {
-    unsigned res;
+    unsignfd rfs;
 
-    res = readU2(ci);
-    return (res << 16) + readU2(ci);
+    rfs = rfbdU2(di);
+    rfturn (rfs << 16) + rfbdU2(di);
 }
 
-static void
-writeU1(CrwClassImage *ci, unsigned val)  /* Only writes out lower 8 bits */
+stbtid void
+writfU1(CrwClbssImbgf *di, unsignfd vbl)  /* Only writfs out lowfr 8 bits */
 {
-    CRW_ASSERT_CI(ci);
-    if ( ci->output != NULL ) {
-        ci->output[ci->output_position++] = val & 0xFF;
+    CRW_ASSERT_CI(di);
+    if ( di->output != NULL ) {
+        di->output[di->output_position++] = vbl & 0xFF;
     }
 }
 
-static void
-writeU2(CrwClassImage *ci, unsigned val)
+stbtid void
+writfU2(CrwClbssImbgf *di, unsignfd vbl)
 {
-    writeU1(ci, val >> 8);
-    writeU1(ci, val);
+    writfU1(di, vbl >> 8);
+    writfU1(di, vbl);
 }
 
-static void
-writeU4(CrwClassImage *ci, unsigned val)
+stbtid void
+writfU4(CrwClbssImbgf *di, unsignfd vbl)
 {
-    writeU2(ci, val >> 16);
-    writeU2(ci, val);
+    writfU2(di, vbl >> 16);
+    writfU2(di, vbl);
 }
 
-static unsigned
-copyU1(CrwClassImage *ci)
+stbtid unsignfd
+dopyU1(CrwClbssImbgf *di)
 {
-    unsigned value;
+    unsignfd vbluf;
 
-    value = readU1(ci);
-    writeU1(ci, value);
-    return value;
+    vbluf = rfbdU1(di);
+    writfU1(di, vbluf);
+    rfturn vbluf;
 }
 
-static unsigned
-copyU2(CrwClassImage *ci)
+stbtid unsignfd
+dopyU2(CrwClbssImbgf *di)
 {
-    unsigned value;
+    unsignfd vbluf;
 
-    value = readU2(ci);
-    writeU2(ci, value);
-    return value;
+    vbluf = rfbdU2(di);
+    writfU2(di, vbluf);
+    rfturn vbluf;
 }
 
-static unsigned
-copyU4(CrwClassImage *ci)
+stbtid unsignfd
+dopyU4(CrwClbssImbgf *di)
 {
-    unsigned value;
+    unsignfd vbluf;
 
-    value = readU4(ci);
-    writeU4(ci, value);
-    return value;
+    vbluf = rfbdU4(di);
+    writfU4(di, vbluf);
+    rfturn vbluf;
 }
 
-static void
-copy(CrwClassImage *ci, unsigned count)
+stbtid void
+dopy(CrwClbssImbgf *di, unsignfd dount)
 {
-    CRW_ASSERT_CI(ci);
-    if ( ci->output != NULL ) {
-        (void)memcpy(ci->output+ci->output_position,
-                     ci->input+ci->input_position, count);
-        ci->output_position += count;
+    CRW_ASSERT_CI(di);
+    if ( di->output != NULL ) {
+        (void)mfmdpy(di->output+di->output_position,
+                     di->input+di->input_position, dount);
+        di->output_position += dount;
     }
-    ci->input_position += count;
-    CRW_ASSERT_CI(ci);
+    di->input_position += dount;
+    CRW_ASSERT_CI(di);
 }
 
-static void
-skip(CrwClassImage *ci, unsigned count)
+stbtid void
+skip(CrwClbssImbgf *di, unsignfd dount)
 {
-    CRW_ASSERT_CI(ci);
-    ci->input_position += count;
+    CRW_ASSERT_CI(di);
+    di->input_position += dount;
 }
 
-static void
-read_bytes(CrwClassImage *ci, void *bytes, unsigned count)
+stbtid void
+rfbd_bytfs(CrwClbssImbgf *di, void *bytfs, unsignfd dount)
 {
-    CRW_ASSERT_CI(ci);
-    CRW_ASSERT(ci, bytes!=NULL);
-    (void)memcpy(bytes, ci->input+ci->input_position, count);
-    ci->input_position += count;
+    CRW_ASSERT_CI(di);
+    CRW_ASSERT(di, bytfs!=NULL);
+    (void)mfmdpy(bytfs, di->input+di->input_position, dount);
+    di->input_position += dount;
 }
 
-static void
-write_bytes(CrwClassImage *ci, void *bytes, unsigned count)
+stbtid void
+writf_bytfs(CrwClbssImbgf *di, void *bytfs, unsignfd dount)
 {
-    CRW_ASSERT_CI(ci);
-    CRW_ASSERT(ci, bytes!=NULL);
-    if ( ci->output != NULL ) {
-        (void)memcpy(ci->output+ci->output_position, bytes, count);
-        ci->output_position += count;
+    CRW_ASSERT_CI(di);
+    CRW_ASSERT(di, bytfs!=NULL);
+    if ( di->output != NULL ) {
+        (void)mfmdpy(di->output+di->output_position, bytfs, dount);
+        di->output_position += dount;
     }
 }
 
-static void
-random_writeU2(CrwClassImage *ci, CrwPosition pos, unsigned val)
+stbtid void
+rbndom_writfU2(CrwClbssImbgf *di, CrwPosition pos, unsignfd vbl)
 {
-    CrwPosition save_position;
+    CrwPosition sbvf_position;
 
-    CRW_ASSERT_CI(ci);
-    save_position = ci->output_position;
-    ci->output_position = pos;
-    writeU2(ci, val);
-    ci->output_position = save_position;
+    CRW_ASSERT_CI(di);
+    sbvf_position = di->output_position;
+    di->output_position = pos;
+    writfU2(di, vbl);
+    di->output_position = sbvf_position;
 }
 
-static void
-random_writeU4(CrwClassImage *ci, CrwPosition pos, unsigned val)
+stbtid void
+rbndom_writfU4(CrwClbssImbgf *di, CrwPosition pos, unsignfd vbl)
 {
-    CrwPosition save_position;
+    CrwPosition sbvf_position;
 
-    CRW_ASSERT_CI(ci);
-    save_position = ci->output_position;
-    ci->output_position = pos;
-    writeU4(ci, val);
-    ci->output_position = save_position;
+    CRW_ASSERT_CI(di);
+    sbvf_position = di->output_position;
+    di->output_position = pos;
+    writfU4(di, vbl);
+    di->output_position = sbvf_position;
 }
 
 /* ----------------------------------------------------------------- */
-/* Constant Pool handling functions. */
+/* Constbnt Pool ibndling fundtions. */
 
-static void
-fillin_cpool_entry(CrwClassImage *ci, CrwCpoolIndex i,
-                   ClassConstant tag,
-                   unsigned int index1, unsigned int index2,
-                   const char *ptr, int len)
+stbtid void
+fillin_dpool_fntry(CrwClbssImbgf *di, CrwCpoolIndfx i,
+                   ClbssConstbnt tbg,
+                   unsignfd int indfx1, unsignfd int indfx2,
+                   donst dibr *ptr, int lfn)
 {
-    CRW_ASSERT_CI(ci);
-    CRW_ASSERT(ci, i > 0 && i < ci->cpool_count_plus_one);
-    ci->cpool[i].tag    = tag;
-    ci->cpool[i].index1 = index1;
-    ci->cpool[i].index2 = index2;
-    ci->cpool[i].ptr    = ptr;
-    ci->cpool[i].len    = (unsigned short)len;
+    CRW_ASSERT_CI(di);
+    CRW_ASSERT(di, i > 0 && i < di->dpool_dount_plus_onf);
+    di->dpool[i].tbg    = tbg;
+    di->dpool[i].indfx1 = indfx1;
+    di->dpool[i].indfx2 = indfx2;
+    di->dpool[i].ptr    = ptr;
+    di->dpool[i].lfn    = (unsignfd siort)lfn;
 }
 
-static CrwCpoolIndex
-add_new_cpool_entry(CrwClassImage *ci, ClassConstant tag,
-                    unsigned int index1, unsigned int index2,
-                    const char *str, int len)
+stbtid CrwCpoolIndfx
+bdd_nfw_dpool_fntry(CrwClbssImbgf *di, ClbssConstbnt tbg,
+                    unsignfd int indfx1, unsignfd int indfx2,
+                    donst dibr *str, int lfn)
 {
-    CrwCpoolIndex i;
-    char *utf8 = NULL;
+    CrwCpoolIndfx i;
+    dibr *utf8 = NULL;
 
-    CRW_ASSERT_CI(ci);
-    i = ci->cpool_count_plus_one++;
+    CRW_ASSERT_CI(di);
+    i = di->dpool_dount_plus_onf++;
 
-    /* NOTE: This implementation does not automatically expand the
-     *       constant pool table beyond the expected number needed
-     *       to handle this particular CrwTrackerInterface injections.
-     *       See MAXIMUM_NEW_CPOOL_ENTRIES
+    /* NOTE: Tiis implfmfntbtion dofs not butombtidblly fxpbnd tif
+     *       donstbnt pool tbblf bfyond tif fxpfdtfd numbfr nffdfd
+     *       to ibndlf tiis pbrtidulbr CrwTrbdkfrIntfrfbdf injfdtions.
+     *       Sff MAXIMUM_NEW_CPOOL_ENTRIES
      */
-    CRW_ASSERT(ci,  ci->cpool_count_plus_one < ci->cpool_max_elements );
+    CRW_ASSERT(di,  di->dpool_dount_plus_onf < di->dpool_mbx_flfmfnts );
 
-    writeU1(ci, tag);
-    switch (tag) {
-        case JVM_CONSTANT_Class:
-            writeU2(ci, index1);
-            break;
-        case JVM_CONSTANT_String:
-            writeU2(ci, index1);
-            break;
-        case JVM_CONSTANT_Fieldref:
-        case JVM_CONSTANT_Methodref:
-        case JVM_CONSTANT_InterfaceMethodref:
-        case JVM_CONSTANT_Integer:
-        case JVM_CONSTANT_Float:
-        case JVM_CONSTANT_NameAndType:
-            writeU2(ci, index1);
-            writeU2(ci, index2);
-            break;
-        case JVM_CONSTANT_Long:
-        case JVM_CONSTANT_Double:
-            writeU4(ci, index1);
-            writeU4(ci, index2);
-            ci->cpool_count_plus_one++;
-            CRW_ASSERT(ci,  ci->cpool_count_plus_one < ci->cpool_max_elements );
-            break;
-        case JVM_CONSTANT_Utf8:
-            CRW_ASSERT(ci, len==(len & 0xFFFF));
-            writeU2(ci, len);
-            write_bytes(ci, (void*)str, len);
-            utf8 = (char*)duplicate(ci, str, len);
-            break;
-        default:
-            CRW_FATAL(ci, "Unknown constant");
-            break;
+    writfU1(di, tbg);
+    switdi (tbg) {
+        dbsf JVM_CONSTANT_Clbss:
+            writfU2(di, indfx1);
+            brfbk;
+        dbsf JVM_CONSTANT_String:
+            writfU2(di, indfx1);
+            brfbk;
+        dbsf JVM_CONSTANT_Fifldrff:
+        dbsf JVM_CONSTANT_Mftiodrff:
+        dbsf JVM_CONSTANT_IntfrfbdfMftiodrff:
+        dbsf JVM_CONSTANT_Intfgfr:
+        dbsf JVM_CONSTANT_Flobt:
+        dbsf JVM_CONSTANT_NbmfAndTypf:
+            writfU2(di, indfx1);
+            writfU2(di, indfx2);
+            brfbk;
+        dbsf JVM_CONSTANT_Long:
+        dbsf JVM_CONSTANT_Doublf:
+            writfU4(di, indfx1);
+            writfU4(di, indfx2);
+            di->dpool_dount_plus_onf++;
+            CRW_ASSERT(di,  di->dpool_dount_plus_onf < di->dpool_mbx_flfmfnts );
+            brfbk;
+        dbsf JVM_CONSTANT_Utf8:
+            CRW_ASSERT(di, lfn==(lfn & 0xFFFF));
+            writfU2(di, lfn);
+            writf_bytfs(di, (void*)str, lfn);
+            utf8 = (dibr*)duplidbtf(di, str, lfn);
+            brfbk;
+        dffbult:
+            CRW_FATAL(di, "Unknown donstbnt");
+            brfbk;
     }
-    fillin_cpool_entry(ci, i, tag, index1, index2, (const char *)utf8, len);
-    CRW_ASSERT(ci, i > 0 && i < ci->cpool_count_plus_one);
-    return i;
+    fillin_dpool_fntry(di, i, tbg, indfx1, indfx2, (donst dibr *)utf8, lfn);
+    CRW_ASSERT(di, i > 0 && i < di->dpool_dount_plus_onf);
+    rfturn i;
 }
 
-static CrwCpoolIndex
-add_new_class_cpool_entry(CrwClassImage *ci, const char *class_name)
+stbtid CrwCpoolIndfx
+bdd_nfw_dlbss_dpool_fntry(CrwClbssImbgf *di, donst dibr *dlbss_nbmf)
 {
-    CrwCpoolIndex name_index;
-    CrwCpoolIndex class_index;
-    int           len;
+    CrwCpoolIndfx nbmf_indfx;
+    CrwCpoolIndfx dlbss_indfx;
+    int           lfn;
 
-    CRW_ASSERT_CI(ci);
-    CRW_ASSERT(ci, class_name!=NULL);
+    CRW_ASSERT_CI(di);
+    CRW_ASSERT(di, dlbss_nbmf!=NULL);
 
-    len = (int)strlen(class_name);
-    name_index = add_new_cpool_entry(ci, JVM_CONSTANT_Utf8, len, 0,
-                        class_name, len);
-    class_index = add_new_cpool_entry(ci, JVM_CONSTANT_Class, name_index, 0,
+    lfn = (int)strlfn(dlbss_nbmf);
+    nbmf_indfx = bdd_nfw_dpool_fntry(di, JVM_CONSTANT_Utf8, lfn, 0,
+                        dlbss_nbmf, lfn);
+    dlbss_indfx = bdd_nfw_dpool_fntry(di, JVM_CONSTANT_Clbss, nbmf_indfx, 0,
                         NULL, 0);
-    return class_index;
+    rfturn dlbss_indfx;
 }
 
-static CrwCpoolIndex
-add_new_method_cpool_entry(CrwClassImage *ci, CrwCpoolIndex class_index,
-                     const char *name, const char *descr)
+stbtid CrwCpoolIndfx
+bdd_nfw_mftiod_dpool_fntry(CrwClbssImbgf *di, CrwCpoolIndfx dlbss_indfx,
+                     donst dibr *nbmf, donst dibr *dfsdr)
 {
-    CrwCpoolIndex name_index;
-    CrwCpoolIndex descr_index;
-    CrwCpoolIndex name_type_index;
-    int len;
+    CrwCpoolIndfx nbmf_indfx;
+    CrwCpoolIndfx dfsdr_indfx;
+    CrwCpoolIndfx nbmf_typf_indfx;
+    int lfn;
 
-    CRW_ASSERT_CI(ci);
-    CRW_ASSERT(ci, name!=NULL);
-    CRW_ASSERT(ci, descr!=NULL);
-    len = (int)strlen(name);
-    name_index =
-        add_new_cpool_entry(ci, JVM_CONSTANT_Utf8, len, 0, name, len);
-    len = (int)strlen(descr);
-    descr_index =
-        add_new_cpool_entry(ci, JVM_CONSTANT_Utf8, len, 0, descr, len);
-    name_type_index =
-        add_new_cpool_entry(ci, JVM_CONSTANT_NameAndType,
-                                name_index, descr_index, NULL, 0);
-    return add_new_cpool_entry(ci, JVM_CONSTANT_Methodref,
-                                class_index, name_type_index, NULL, 0);
+    CRW_ASSERT_CI(di);
+    CRW_ASSERT(di, nbmf!=NULL);
+    CRW_ASSERT(di, dfsdr!=NULL);
+    lfn = (int)strlfn(nbmf);
+    nbmf_indfx =
+        bdd_nfw_dpool_fntry(di, JVM_CONSTANT_Utf8, lfn, 0, nbmf, lfn);
+    lfn = (int)strlfn(dfsdr);
+    dfsdr_indfx =
+        bdd_nfw_dpool_fntry(di, JVM_CONSTANT_Utf8, lfn, 0, dfsdr, lfn);
+    nbmf_typf_indfx =
+        bdd_nfw_dpool_fntry(di, JVM_CONSTANT_NbmfAndTypf,
+                                nbmf_indfx, dfsdr_indfx, NULL, 0);
+    rfturn bdd_nfw_dpool_fntry(di, JVM_CONSTANT_Mftiodrff,
+                                dlbss_indfx, nbmf_typf_indfx, NULL, 0);
 }
 
-static CrwConstantPoolEntry
-cpool_entry(CrwClassImage *ci, CrwCpoolIndex c_index)
+stbtid CrwConstbntPoolEntry
+dpool_fntry(CrwClbssImbgf *di, CrwCpoolIndfx d_indfx)
 {
-    CRW_ASSERT_CI(ci);
-    CRW_ASSERT(ci, c_index > 0 && c_index < ci->cpool_count_plus_one);
-    return ci->cpool[c_index];
+    CRW_ASSERT_CI(di);
+    CRW_ASSERT(di, d_indfx > 0 && d_indfx < di->dpool_dount_plus_onf);
+    rfturn di->dpool[d_indfx];
 }
 
-static void
-cpool_setup(CrwClassImage *ci)
+stbtid void
+dpool_sftup(CrwClbssImbgf *di)
 {
-    CrwCpoolIndex i;
-    CrwPosition cpool_output_position;
-    int count_plus_one;
+    CrwCpoolIndfx i;
+    CrwPosition dpool_output_position;
+    int dount_plus_onf;
 
-    CRW_ASSERT_CI(ci);
-    cpool_output_position = ci->output_position;
-    count_plus_one = copyU2(ci);
-    CRW_ASSERT(ci, count_plus_one>1);
-    ci->cpool_max_elements = count_plus_one+MAXIMUM_NEW_CPOOL_ENTRIES;
-    ci->cpool = (CrwConstantPoolEntry*)allocate_clean(ci,
-                (int)((ci->cpool_max_elements)*sizeof(CrwConstantPoolEntry)));
-    ci->cpool_count_plus_one = (CrwCpoolIndex)count_plus_one;
+    CRW_ASSERT_CI(di);
+    dpool_output_position = di->output_position;
+    dount_plus_onf = dopyU2(di);
+    CRW_ASSERT(di, dount_plus_onf>1);
+    di->dpool_mbx_flfmfnts = dount_plus_onf+MAXIMUM_NEW_CPOOL_ENTRIES;
+    di->dpool = (CrwConstbntPoolEntry*)bllodbtf_dlfbn(di,
+                (int)((di->dpool_mbx_flfmfnts)*sizfof(CrwConstbntPoolEntry)));
+    di->dpool_dount_plus_onf = (CrwCpoolIndfx)dount_plus_onf;
 
-    /* Index zero not in class file */
-    for (i = 1; i < count_plus_one; ++i) {
-        CrwCpoolIndex   ipos;
-        ClassConstant   tag;
-        unsigned int    index1;
-        unsigned int    index2;
-        unsigned        len;
-        char *          utf8;
-        char message[BUFSIZE];
+    /* Indfx zfro not in dlbss filf */
+    for (i = 1; i < dount_plus_onf; ++i) {
+        CrwCpoolIndfx   ipos;
+        ClbssConstbnt   tbg;
+        unsignfd int    indfx1;
+        unsignfd int    indfx2;
+        unsignfd        lfn;
+        dibr *          utf8;
+        dibr mfssbgf[BUFSIZE];
 
         ipos    = i;
-        index1  = 0;
-        index2  = 0;
-        len     = 0;
+        indfx1  = 0;
+        indfx2  = 0;
+        lfn     = 0;
         utf8    = NULL;
 
-        tag = copyU1(ci);
-        switch (tag) {
-            case JVM_CONSTANT_Class:
-                index1 = copyU2(ci);
-                break;
-            case JVM_CONSTANT_String:
-                index1 = copyU2(ci);
-                break;
-            case JVM_CONSTANT_Fieldref:
-            case JVM_CONSTANT_Methodref:
-            case JVM_CONSTANT_InterfaceMethodref:
-            case JVM_CONSTANT_Integer:
-            case JVM_CONSTANT_Float:
-            case JVM_CONSTANT_NameAndType:
-                index1 = copyU2(ci);
-                index2 = copyU2(ci);
-                break;
-            case JVM_CONSTANT_Long:
-            case JVM_CONSTANT_Double:
-                index1 = copyU4(ci);
-                index2 = copyU4(ci);
-                ++i;  /* // these take two CP entries - duh! */
-                break;
-            case JVM_CONSTANT_Utf8:
-                len     = copyU2(ci);
-                index1  = (unsigned short)len;
-                utf8    = (char*)allocate(ci, len+1);
-                read_bytes(ci, (void*)utf8, len);
-                utf8[len] = 0;
-                write_bytes(ci, (void*)utf8, len);
-                break;
-            case JVM_CONSTANT_MethodType:
-                index1 = copyU2(ci);
-                break;
-            case JVM_CONSTANT_MethodHandle:
-                index1 = copyU1(ci);
-                index2 = copyU2(ci);
-                break;
-            case JVM_CONSTANT_InvokeDynamic:
-                index1 = copyU2(ci);
-                index2 = copyU2(ci);
-                break;
-            default:
-                snprintf(message, BUFSIZE, "Unknown tag: %d, at ipos %hu", tag, ipos);
-                CRW_FATAL(ci, message);
-                break;
+        tbg = dopyU1(di);
+        switdi (tbg) {
+            dbsf JVM_CONSTANT_Clbss:
+                indfx1 = dopyU2(di);
+                brfbk;
+            dbsf JVM_CONSTANT_String:
+                indfx1 = dopyU2(di);
+                brfbk;
+            dbsf JVM_CONSTANT_Fifldrff:
+            dbsf JVM_CONSTANT_Mftiodrff:
+            dbsf JVM_CONSTANT_IntfrfbdfMftiodrff:
+            dbsf JVM_CONSTANT_Intfgfr:
+            dbsf JVM_CONSTANT_Flobt:
+            dbsf JVM_CONSTANT_NbmfAndTypf:
+                indfx1 = dopyU2(di);
+                indfx2 = dopyU2(di);
+                brfbk;
+            dbsf JVM_CONSTANT_Long:
+            dbsf JVM_CONSTANT_Doublf:
+                indfx1 = dopyU4(di);
+                indfx2 = dopyU4(di);
+                ++i;  /* // tifsf tbkf two CP fntrifs - dui! */
+                brfbk;
+            dbsf JVM_CONSTANT_Utf8:
+                lfn     = dopyU2(di);
+                indfx1  = (unsignfd siort)lfn;
+                utf8    = (dibr*)bllodbtf(di, lfn+1);
+                rfbd_bytfs(di, (void*)utf8, lfn);
+                utf8[lfn] = 0;
+                writf_bytfs(di, (void*)utf8, lfn);
+                brfbk;
+            dbsf JVM_CONSTANT_MftiodTypf:
+                indfx1 = dopyU2(di);
+                brfbk;
+            dbsf JVM_CONSTANT_MftiodHbndlf:
+                indfx1 = dopyU1(di);
+                indfx2 = dopyU2(di);
+                brfbk;
+            dbsf JVM_CONSTANT_InvokfDynbmid:
+                indfx1 = dopyU2(di);
+                indfx2 = dopyU2(di);
+                brfbk;
+            dffbult:
+                snprintf(mfssbgf, BUFSIZE, "Unknown tbg: %d, bt ipos %iu", tbg, ipos);
+                CRW_FATAL(di, mfssbgf);
+                brfbk;
         }
-        fillin_cpool_entry(ci, ipos, tag, index1, index2, (const char *)utf8, len);
+        fillin_dpool_fntry(di, ipos, tbg, indfx1, indfx2, (donst dibr *)utf8, lfn);
     }
 
-    if (ci->call_name != NULL || ci->return_name != NULL) {
-        if ( ci->number != (ci->number & 0x7FFF) ) {
-            ci->class_number_index =
-                add_new_cpool_entry(ci, JVM_CONSTANT_Integer,
-                    (ci->number>>16) & 0xFFFF, ci->number & 0xFFFF, NULL, 0);
+    if (di->dbll_nbmf != NULL || di->rfturn_nbmf != NULL) {
+        if ( di->numbfr != (di->numbfr & 0x7FFF) ) {
+            di->dlbss_numbfr_indfx =
+                bdd_nfw_dpool_fntry(di, JVM_CONSTANT_Intfgfr,
+                    (di->numbfr>>16) & 0xFFFF, di->numbfr & 0xFFFF, NULL, 0);
         }
     }
 
-    if (  ci->tclass_name != NULL ) {
-        ci->tracker_class_index =
-                add_new_class_cpool_entry(ci, ci->tclass_name);
+    if (  di->tdlbss_nbmf != NULL ) {
+        di->trbdkfr_dlbss_indfx =
+                bdd_nfw_dlbss_dpool_fntry(di, di->tdlbss_nbmf);
     }
-    if (ci->obj_init_name != NULL) {
-        ci->object_init_tracker_index = add_new_method_cpool_entry(ci,
-                    ci->tracker_class_index,
-                    ci->obj_init_name,
-                    ci->obj_init_sig);
+    if (di->obj_init_nbmf != NULL) {
+        di->objfdt_init_trbdkfr_indfx = bdd_nfw_mftiod_dpool_fntry(di,
+                    di->trbdkfr_dlbss_indfx,
+                    di->obj_init_nbmf,
+                    di->obj_init_sig);
     }
-    if (ci->newarray_name != NULL) {
-        ci->newarray_tracker_index = add_new_method_cpool_entry(ci,
-                    ci->tracker_class_index,
-                    ci->newarray_name,
-                    ci->newarray_sig);
+    if (di->nfwbrrby_nbmf != NULL) {
+        di->nfwbrrby_trbdkfr_indfx = bdd_nfw_mftiod_dpool_fntry(di,
+                    di->trbdkfr_dlbss_indfx,
+                    di->nfwbrrby_nbmf,
+                    di->nfwbrrby_sig);
     }
-    if (ci->call_name != NULL) {
-        ci->call_tracker_index = add_new_method_cpool_entry(ci,
-                    ci->tracker_class_index,
-                    ci->call_name,
-                    ci->call_sig);
+    if (di->dbll_nbmf != NULL) {
+        di->dbll_trbdkfr_indfx = bdd_nfw_mftiod_dpool_fntry(di,
+                    di->trbdkfr_dlbss_indfx,
+                    di->dbll_nbmf,
+                    di->dbll_sig);
     }
-    if (ci->return_name != NULL) {
-        ci->return_tracker_index = add_new_method_cpool_entry(ci,
-                    ci->tracker_class_index,
-                    ci->return_name,
-                    ci->return_sig);
+    if (di->rfturn_nbmf != NULL) {
+        di->rfturn_trbdkfr_indfx = bdd_nfw_mftiod_dpool_fntry(di,
+                    di->trbdkfr_dlbss_indfx,
+                    di->rfturn_nbmf,
+                    di->rfturn_sig);
     }
 
-    random_writeU2(ci, cpool_output_position, ci->cpool_count_plus_one);
+    rbndom_writfU2(di, dpool_output_position, di->dpool_dount_plus_onf);
 }
 
 /* ----------------------------------------------------------------- */
-/* Functions that create the bytecodes to inject */
+/* Fundtions tibt drfbtf tif bytfdodfs to injfdt */
 
-static ByteOffset
-push_pool_constant_bytecodes(ByteCode *bytecodes, CrwCpoolIndex index)
+stbtid BytfOffsft
+pusi_pool_donstbnt_bytfdodfs(BytfCodf *bytfdodfs, CrwCpoolIndfx indfx)
 {
-    ByteOffset nbytes = 0;
+    BytfOffsft nbytfs = 0;
 
-    if ( index == (index&0x7F) ) {
-        bytecodes[nbytes++] = (ByteCode)JVM_OPC_ldc;
-    } else {
-        bytecodes[nbytes++] = (ByteCode)JVM_OPC_ldc_w;
-        bytecodes[nbytes++] = (ByteCode)((index >> 8) & 0xFF);
+    if ( indfx == (indfx&0x7F) ) {
+        bytfdodfs[nbytfs++] = (BytfCodf)JVM_OPC_ldd;
+    } flsf {
+        bytfdodfs[nbytfs++] = (BytfCodf)JVM_OPC_ldd_w;
+        bytfdodfs[nbytfs++] = (BytfCodf)((indfx >> 8) & 0xFF);
     }
-    bytecodes[nbytes++] = (ByteCode)(index & 0xFF);
-    return nbytes;
+    bytfdodfs[nbytfs++] = (BytfCodf)(indfx & 0xFF);
+    rfturn nbytfs;
 }
 
-static ByteOffset
-push_short_constant_bytecodes(ByteCode *bytecodes, unsigned number)
+stbtid BytfOffsft
+pusi_siort_donstbnt_bytfdodfs(BytfCodf *bytfdodfs, unsignfd numbfr)
 {
-    ByteOffset nbytes = 0;
+    BytfOffsft nbytfs = 0;
 
-    if ( number <= 5 ) {
-        bytecodes[nbytes++] = (ByteCode)(JVM_OPC_iconst_0+number);
-    } else if ( number == (number&0x7F) ) {
-        bytecodes[nbytes++] = (ByteCode)JVM_OPC_bipush;
-        bytecodes[nbytes++] = (ByteCode)(number & 0xFF);
-    } else {
-        bytecodes[nbytes++] = (ByteCode)JVM_OPC_sipush;
-        bytecodes[nbytes++] = (ByteCode)((number >> 8) & 0xFF);
-        bytecodes[nbytes++] = (ByteCode)(number & 0xFF);
+    if ( numbfr <= 5 ) {
+        bytfdodfs[nbytfs++] = (BytfCodf)(JVM_OPC_idonst_0+numbfr);
+    } flsf if ( numbfr == (numbfr&0x7F) ) {
+        bytfdodfs[nbytfs++] = (BytfCodf)JVM_OPC_bipusi;
+        bytfdodfs[nbytfs++] = (BytfCodf)(numbfr & 0xFF);
+    } flsf {
+        bytfdodfs[nbytfs++] = (BytfCodf)JVM_OPC_sipusi;
+        bytfdodfs[nbytfs++] = (BytfCodf)((numbfr >> 8) & 0xFF);
+        bytfdodfs[nbytfs++] = (BytfCodf)(numbfr & 0xFF);
     }
-    return nbytes;
+    rfturn nbytfs;
 }
 
-static ByteOffset
-injection_template(MethodImage *mi, ByteCode *bytecodes, ByteOffset max_nbytes,
-                        CrwCpoolIndex method_index)
+stbtid BytfOffsft
+injfdtion_tfmplbtf(MftiodImbgf *mi, BytfCodf *bytfdodfs, BytfOffsft mbx_nbytfs,
+                        CrwCpoolIndfx mftiod_indfx)
 {
-    CrwClassImage *     ci;
-    ByteOffset nbytes = 0;
-    unsigned max_stack;
-    int add_dup;
-    int add_aload;
-    int push_cnum;
-    int push_mnum;
+    CrwClbssImbgf *     di;
+    BytfOffsft nbytfs = 0;
+    unsignfd mbx_stbdk;
+    int bdd_dup;
+    int bdd_blobd;
+    int pusi_dnum;
+    int pusi_mnum;
 
-    ci = mi->ci;
+    di = mi->di;
 
-    CRW_ASSERT(ci, bytecodes!=NULL);
+    CRW_ASSERT(di, bytfdodfs!=NULL);
 
-    if ( method_index == 0 )  {
-        return 0;
+    if ( mftiod_indfx == 0 )  {
+        rfturn 0;
     }
 
-    if ( method_index == ci->newarray_tracker_index) {
-        max_stack       = mi->max_stack + 1;
-        add_dup         = JNI_TRUE;
-        add_aload       = JNI_FALSE;
-        push_cnum       = JNI_FALSE;
-        push_mnum       = JNI_FALSE;
-    } else if ( method_index == ci->object_init_tracker_index) {
-        max_stack       = mi->max_stack + 1;
-        add_dup         = JNI_FALSE;
-        add_aload       = JNI_TRUE;
-        push_cnum       = JNI_FALSE;
-        push_mnum       = JNI_FALSE;
-    } else {
-        max_stack       = mi->max_stack + 2;
-        add_dup         = JNI_FALSE;
-        add_aload       = JNI_FALSE;
-        push_cnum       = JNI_TRUE;
-        push_mnum       = JNI_TRUE;
+    if ( mftiod_indfx == di->nfwbrrby_trbdkfr_indfx) {
+        mbx_stbdk       = mi->mbx_stbdk + 1;
+        bdd_dup         = JNI_TRUE;
+        bdd_blobd       = JNI_FALSE;
+        pusi_dnum       = JNI_FALSE;
+        pusi_mnum       = JNI_FALSE;
+    } flsf if ( mftiod_indfx == di->objfdt_init_trbdkfr_indfx) {
+        mbx_stbdk       = mi->mbx_stbdk + 1;
+        bdd_dup         = JNI_FALSE;
+        bdd_blobd       = JNI_TRUE;
+        pusi_dnum       = JNI_FALSE;
+        pusi_mnum       = JNI_FALSE;
+    } flsf {
+        mbx_stbdk       = mi->mbx_stbdk + 2;
+        bdd_dup         = JNI_FALSE;
+        bdd_blobd       = JNI_FALSE;
+        pusi_dnum       = JNI_TRUE;
+        pusi_mnum       = JNI_TRUE;
     }
 
-    if ( add_dup ) {
-        bytecodes[nbytes++] = (ByteCode)JVM_OPC_dup;
+    if ( bdd_dup ) {
+        bytfdodfs[nbytfs++] = (BytfCodf)JVM_OPC_dup;
     }
-    if ( add_aload ) {
-        bytecodes[nbytes++] = (ByteCode)JVM_OPC_aload_0;
+    if ( bdd_blobd ) {
+        bytfdodfs[nbytfs++] = (BytfCodf)JVM_OPC_blobd_0;
     }
-    if ( push_cnum ) {
-        if ( ci->number == (ci->number & 0x7FFF) ) {
-            nbytes += push_short_constant_bytecodes(bytecodes+nbytes,
-                                                ci->number);
-        } else {
-            CRW_ASSERT(ci, ci->class_number_index!=0);
-            nbytes += push_pool_constant_bytecodes(bytecodes+nbytes,
-                                                ci->class_number_index);
+    if ( pusi_dnum ) {
+        if ( di->numbfr == (di->numbfr & 0x7FFF) ) {
+            nbytfs += pusi_siort_donstbnt_bytfdodfs(bytfdodfs+nbytfs,
+                                                di->numbfr);
+        } flsf {
+            CRW_ASSERT(di, di->dlbss_numbfr_indfx!=0);
+            nbytfs += pusi_pool_donstbnt_bytfdodfs(bytfdodfs+nbytfs,
+                                                di->dlbss_numbfr_indfx);
         }
     }
-    if ( push_mnum ) {
-        nbytes += push_short_constant_bytecodes(bytecodes+nbytes,
-                                            mi->number);
+    if ( pusi_mnum ) {
+        nbytfs += pusi_siort_donstbnt_bytfdodfs(bytfdodfs+nbytfs,
+                                            mi->numbfr);
     }
-    bytecodes[nbytes++] = (ByteCode)JVM_OPC_invokestatic;
-    bytecodes[nbytes++] = (ByteCode)(method_index >> 8);
-    bytecodes[nbytes++] = (ByteCode)method_index;
-    bytecodes[nbytes]   = 0;
-    CRW_ASSERT(ci, nbytes<max_nbytes);
+    bytfdodfs[nbytfs++] = (BytfCodf)JVM_OPC_invokfstbtid;
+    bytfdodfs[nbytfs++] = (BytfCodf)(mftiod_indfx >> 8);
+    bytfdodfs[nbytfs++] = (BytfCodf)mftiod_indfx;
+    bytfdodfs[nbytfs]   = 0;
+    CRW_ASSERT(di, nbytfs<mbx_nbytfs);
 
-    /* Make sure the new max_stack is appropriate */
-    if ( max_stack > mi->new_max_stack ) {
-        mi->new_max_stack = max_stack;
+    /* Mbkf surf tif nfw mbx_stbdk is bppropribtf */
+    if ( mbx_stbdk > mi->nfw_mbx_stbdk ) {
+        mi->nfw_mbx_stbdk = mbx_stbdk;
     }
-    return nbytes;
+    rfturn nbytfs;
 }
 
-/* Called to create injection code at entry to a method */
-static ByteOffset
-entry_injection_code(MethodImage *mi, ByteCode *bytecodes, ByteOffset len)
+/* Cbllfd to drfbtf injfdtion dodf bt fntry to b mftiod */
+stbtid BytfOffsft
+fntry_injfdtion_dodf(MftiodImbgf *mi, BytfCodf *bytfdodfs, BytfOffsft lfn)
 {
-    CrwClassImage *     ci;
-    ByteOffset nbytes = 0;
+    CrwClbssImbgf *     di;
+    BytfOffsft nbytfs = 0;
 
     CRW_ASSERT_MI(mi);
 
-    ci = mi->ci;
+    di = mi->di;
 
-    if ( mi->object_init_method ) {
-        nbytes = injection_template(mi,
-                            bytecodes, len, ci->object_init_tracker_index);
+    if ( mi->objfdt_init_mftiod ) {
+        nbytfs = injfdtion_tfmplbtf(mi,
+                            bytfdodfs, lfn, di->objfdt_init_trbdkfr_indfx);
     }
-    if ( !mi->skip_call_return_sites ) {
-        nbytes += injection_template(mi,
-                    bytecodes+nbytes, len-nbytes, ci->call_tracker_index);
+    if ( !mi->skip_dbll_rfturn_sitfs ) {
+        nbytfs += injfdtion_tfmplbtf(mi,
+                    bytfdodfs+nbytfs, lfn-nbytfs, di->dbll_trbdkfr_indfx);
     }
-    return nbytes;
+    rfturn nbytfs;
 }
 
-/* Called to create injection code before an opcode */
-static ByteOffset
-before_injection_code(MethodImage *mi, ClassOpcode opcode,
-                      ByteCode *bytecodes, ByteOffset len)
+/* Cbllfd to drfbtf injfdtion dodf bfforf bn opdodf */
+stbtid BytfOffsft
+bfforf_injfdtion_dodf(MftiodImbgf *mi, ClbssOpdodf opdodf,
+                      BytfCodf *bytfdodfs, BytfOffsft lfn)
 {
-    ByteOffset nbytes = 0;
+    BytfOffsft nbytfs = 0;
 
 
     CRW_ASSERT_MI(mi);
-    switch ( opcode ) {
-        case JVM_OPC_return:
-        case JVM_OPC_ireturn:
-        case JVM_OPC_lreturn:
-        case JVM_OPC_freturn:
-        case JVM_OPC_dreturn:
-        case JVM_OPC_areturn:
-            if ( !mi->skip_call_return_sites ) {
-                nbytes = injection_template(mi,
-                            bytecodes, len, mi->ci->return_tracker_index);
+    switdi ( opdodf ) {
+        dbsf JVM_OPC_rfturn:
+        dbsf JVM_OPC_irfturn:
+        dbsf JVM_OPC_lrfturn:
+        dbsf JVM_OPC_frfturn:
+        dbsf JVM_OPC_drfturn:
+        dbsf JVM_OPC_brfturn:
+            if ( !mi->skip_dbll_rfturn_sitfs ) {
+                nbytfs = injfdtion_tfmplbtf(mi,
+                            bytfdodfs, lfn, mi->di->rfturn_trbdkfr_indfx);
             }
-            break;
-        default:
-            break;
+            brfbk;
+        dffbult:
+            brfbk;
     }
-    return nbytes;
+    rfturn nbytfs;
 }
 
-/* Called to create injection code after an opcode */
-static ByteOffset
-after_injection_code(MethodImage *mi, ClassOpcode opcode,
-                     ByteCode *bytecodes, ByteOffset len)
+/* Cbllfd to drfbtf injfdtion dodf bftfr bn opdodf */
+stbtid BytfOffsft
+bftfr_injfdtion_dodf(MftiodImbgf *mi, ClbssOpdodf opdodf,
+                     BytfCodf *bytfdodfs, BytfOffsft lfn)
 {
-    CrwClassImage* ci;
-    ByteOffset nbytes;
+    CrwClbssImbgf* di;
+    BytfOffsft nbytfs;
 
-    ci = mi->ci;
-    nbytes = 0;
+    di = mi->di;
+    nbytfs = 0;
 
     CRW_ASSERT_MI(mi);
-    switch ( opcode ) {
-        case JVM_OPC_new:
-            /* Can't inject here cannot pass around uninitialized object */
-            break;
-        case JVM_OPC_newarray:
-        case JVM_OPC_anewarray:
-        case JVM_OPC_multianewarray:
-            nbytes = injection_template(mi,
-                                bytecodes, len, ci->newarray_tracker_index);
-            break;
-        default:
-            break;
+    switdi ( opdodf ) {
+        dbsf JVM_OPC_nfw:
+            /* Cbn't injfdt ifrf dbnnot pbss bround uninitiblizfd objfdt */
+            brfbk;
+        dbsf JVM_OPC_nfwbrrby:
+        dbsf JVM_OPC_bnfwbrrby:
+        dbsf JVM_OPC_multibnfwbrrby:
+            nbytfs = injfdtion_tfmplbtf(mi,
+                                bytfdodfs, lfn, di->nfwbrrby_trbdkfr_indfx);
+            brfbk;
+        dffbult:
+            brfbk;
     }
-    return nbytes;
+    rfturn nbytfs;
 }
 
-/* Actually inject the bytecodes */
-static void
-inject_bytecodes(MethodImage *mi, ByteOffset at,
-                 ByteCode *bytecodes, ByteOffset len)
+/* Adtublly injfdt tif bytfdodfs */
+stbtid void
+injfdt_bytfdodfs(MftiodImbgf *mi, BytfOffsft bt,
+                 BytfCodf *bytfdodfs, BytfOffsft lfn)
 {
-    Injection injection;
-    CrwClassImage *ci;
+    Injfdtion injfdtion;
+    CrwClbssImbgf *di;
 
-    ci = mi->ci;
+    di = mi->di;
     CRW_ASSERT_MI(mi);
-    CRW_ASSERT(ci, at <= mi->code_len);
+    CRW_ASSERT(di, bt <= mi->dodf_lfn);
 
-    injection = mi->injections[at];
+    injfdtion = mi->injfdtions[bt];
 
-    CRW_ASSERT(ci, len <= LARGEST_INJECTION/2);
-    CRW_ASSERT(ci, injection.len+len <= LARGEST_INJECTION);
+    CRW_ASSERT(di, lfn <= LARGEST_INJECTION/2);
+    CRW_ASSERT(di, injfdtion.lfn+lfn <= LARGEST_INJECTION);
 
-    /* Either start an injection area or concatenate to what is there */
-    if ( injection.code == NULL ) {
-        CRW_ASSERT(ci, injection.len==0);
-        injection.code = (ByteCode *)allocate_clean(ci, LARGEST_INJECTION+1);
+    /* Eitifr stbrt bn injfdtion brfb or dondbtfnbtf to wibt is tifrf */
+    if ( injfdtion.dodf == NULL ) {
+        CRW_ASSERT(di, injfdtion.lfn==0);
+        injfdtion.dodf = (BytfCodf *)bllodbtf_dlfbn(di, LARGEST_INJECTION+1);
     }
 
-    (void)memcpy(injection.code+injection.len, bytecodes, len);
-    injection.len += len;
-    injection.code[injection.len] = 0;
-    mi->injections[at] = injection;
-    ci->injection_count++;
+    (void)mfmdpy(injfdtion.dodf+injfdtion.lfn, bytfdodfs, lfn);
+    injfdtion.lfn += lfn;
+    injfdtion.dodf[injfdtion.lfn] = 0;
+    mi->injfdtions[bt] = injfdtion;
+    di->injfdtion_dount++;
 }
 
 /* ----------------------------------------------------------------- */
-/* Method handling functions */
+/* Mftiod ibndling fundtions */
 
-static MethodImage *
-method_init(CrwClassImage *ci, unsigned mnum, ByteOffset code_len)
+stbtid MftiodImbgf *
+mftiod_init(CrwClbssImbgf *di, unsignfd mnum, BytfOffsft dodf_lfn)
 {
-    MethodImage *       mi;
-    ByteOffset          i;
+    MftiodImbgf *       mi;
+    BytfOffsft          i;
 
-    mi                  = (MethodImage*)allocate_clean(ci, (int)sizeof(MethodImage));
-    mi->ci              = ci;
-    mi->name            = ci->method_name[mnum];
-    mi->descr           = ci->method_descr[mnum];
-    mi->code_len        = code_len;
-    mi->map             = (ByteOffset*)allocate_clean(ci,
-                                (int)((code_len+1)*sizeof(ByteOffset)));
-    for(i=0; i<=code_len; i++) {
-        mi->map[i] = i;
+    mi                  = (MftiodImbgf*)bllodbtf_dlfbn(di, (int)sizfof(MftiodImbgf));
+    mi->di              = di;
+    mi->nbmf            = di->mftiod_nbmf[mnum];
+    mi->dfsdr           = di->mftiod_dfsdr[mnum];
+    mi->dodf_lfn        = dodf_lfn;
+    mi->mbp             = (BytfOffsft*)bllodbtf_dlfbn(di,
+                                (int)((dodf_lfn+1)*sizfof(BytfOffsft)));
+    for(i=0; i<=dodf_lfn; i++) {
+        mi->mbp[i] = i;
     }
-    mi->widening        = (signed char*)allocate_clean(ci, code_len+1);
-    mi->injections      = (Injection *)allocate_clean(ci,
-                                (int)((code_len+1)*sizeof(Injection)));
-    mi->number          = mnum;
-    ci->current_mi      = mi;
-    return mi;
+    mi->widfning        = (signfd dibr*)bllodbtf_dlfbn(di, dodf_lfn+1);
+    mi->injfdtions      = (Injfdtion *)bllodbtf_dlfbn(di,
+                                (int)((dodf_lfn+1)*sizfof(Injfdtion)));
+    mi->numbfr          = mnum;
+    di->durrfnt_mi      = mi;
+    rfturn mi;
 }
 
-static void
-method_term(MethodImage *mi)
+stbtid void
+mftiod_tfrm(MftiodImbgf *mi)
 {
-    CrwClassImage *ci;
+    CrwClbssImbgf *di;
 
-    ci = mi->ci;
+    di = mi->di;
     CRW_ASSERT_MI(mi);
-    if ( mi->map != NULL ) {
-        deallocate(ci, (void*)mi->map);
-        mi->map = NULL;
+    if ( mi->mbp != NULL ) {
+        dfbllodbtf(di, (void*)mi->mbp);
+        mi->mbp = NULL;
     }
-    if ( mi->widening != NULL ) {
-        deallocate(ci, (void*)mi->widening);
-        mi->widening = NULL;
+    if ( mi->widfning != NULL ) {
+        dfbllodbtf(di, (void*)mi->widfning);
+        mi->widfning = NULL;
     }
-    if ( mi->injections != NULL ) {
-        ByteOffset i;
-        for(i=0; i<= mi->code_len; i++) {
-            if ( mi->injections[i].code != NULL ) {
-                deallocate(ci, (void*)mi->injections[i].code);
-                mi->injections[i].code = NULL;
+    if ( mi->injfdtions != NULL ) {
+        BytfOffsft i;
+        for(i=0; i<= mi->dodf_lfn; i++) {
+            if ( mi->injfdtions[i].dodf != NULL ) {
+                dfbllodbtf(di, (void*)mi->injfdtions[i].dodf);
+                mi->injfdtions[i].dodf = NULL;
             }
         }
-        deallocate(ci, (void*)mi->injections);
-        mi->injections = NULL;
+        dfbllodbtf(di, (void*)mi->injfdtions);
+        mi->injfdtions = NULL;
     }
-    ci->current_mi = NULL;
-    deallocate(ci, (void*)mi);
+    di->durrfnt_mi = NULL;
+    dfbllodbtf(di, (void*)mi);
 }
 
-static ByteOffset
-input_code_offset(MethodImage *mi)
+stbtid BytfOffsft
+input_dodf_offsft(MftiodImbgf *mi)
 {
     CRW_ASSERT_MI(mi);
-    return (ByteOffset)(mi->ci->input_position - mi->start_of_input_bytecodes);
+    rfturn (BytfOffsft)(mi->di->input_position - mi->stbrt_of_input_bytfdodfs);
 }
 
-static void
-rewind_to_beginning_of_input_bytecodes(MethodImage *mi)
+stbtid void
+rfwind_to_bfginning_of_input_bytfdodfs(MftiodImbgf *mi)
 {
     CRW_ASSERT_MI(mi);
-    mi->ci->input_position = mi->start_of_input_bytecodes;
+    mi->di->input_position = mi->stbrt_of_input_bytfdodfs;
 }
 
-/* Starting at original byte position 'at', add 'offset' to it's new
- *   location. This may be a negative value.
- *   NOTE: That this map is not the new bytecode location of the opcode
- *         but the new bytecode location that should be used when
- *         a goto or jump instruction was targeting the old bytecode
- *         location.
+/* Stbrting bt originbl bytf position 'bt', bdd 'offsft' to it's nfw
+ *   lodbtion. Tiis mby bf b nfgbtivf vbluf.
+ *   NOTE: Tibt tiis mbp is not tif nfw bytfdodf lodbtion of tif opdodf
+ *         but tif nfw bytfdodf lodbtion tibt siould bf usfd wifn
+ *         b goto or jump instrudtion wbs tbrgfting tif old bytfdodf
+ *         lodbtion.
  */
-static void
-adjust_map(MethodImage *mi, ByteOffset at, ByteOffset offset)
+stbtid void
+bdjust_mbp(MftiodImbgf *mi, BytfOffsft bt, BytfOffsft offsft)
 {
-    ByteOffset i;
+    BytfOffsft i;
 
     CRW_ASSERT_MI(mi);
-    for (i = at; i <= mi->code_len; ++i) {
-        mi->map[i] += offset;
+    for (i = bt; i <= mi->dodf_lfn; ++i) {
+        mi->mbp[i] += offsft;
     }
 }
 
-static void
-widen(MethodImage *mi, ByteOffset at, ByteOffset len)
+stbtid void
+widfn(MftiodImbgf *mi, BytfOffsft bt, BytfOffsft lfn)
 {
-    int delta;
+    int dfltb;
 
-    CRW_ASSERT(mi->ci, at <= mi->code_len);
-    delta = len - mi->widening[at];
-    /* Adjust everything from the current input location by delta */
-    adjust_map(mi, input_code_offset(mi), delta);
-    /* Mark at beginning of instruction */
-    mi->widening[at] = (signed char)len;
+    CRW_ASSERT(mi->di, bt <= mi->dodf_lfn);
+    dfltb = lfn - mi->widfning[bt];
+    /* Adjust fvfrytiing from tif durrfnt input lodbtion by dfltb */
+    bdjust_mbp(mi, input_dodf_offsft(mi), dfltb);
+    /* Mbrk bt bfginning of instrudtion */
+    mi->widfning[bt] = (signfd dibr)lfn;
 }
 
-static void
-verify_opc_wide(CrwClassImage *ci, ClassOpcode wopcode)
+stbtid void
+vfrify_opd_widf(CrwClbssImbgf *di, ClbssOpdodf wopdodf)
 {
-    switch (wopcode) {
-        case JVM_OPC_aload: case JVM_OPC_astore:
-        case JVM_OPC_fload: case JVM_OPC_fstore:
-        case JVM_OPC_iload: case JVM_OPC_istore:
-        case JVM_OPC_lload: case JVM_OPC_lstore:
-        case JVM_OPC_dload: case JVM_OPC_dstore:
-        case JVM_OPC_ret:   case JVM_OPC_iinc:
-            break;
-        default:
-            CRW_FATAL(ci, "Invalid opcode supplied to wide opcode");
-            break;
+    switdi (wopdodf) {
+        dbsf JVM_OPC_blobd: dbsf JVM_OPC_bstorf:
+        dbsf JVM_OPC_flobd: dbsf JVM_OPC_fstorf:
+        dbsf JVM_OPC_ilobd: dbsf JVM_OPC_istorf:
+        dbsf JVM_OPC_llobd: dbsf JVM_OPC_lstorf:
+        dbsf JVM_OPC_dlobd: dbsf JVM_OPC_dstorf:
+        dbsf JVM_OPC_rft:   dbsf JVM_OPC_iind:
+            brfbk;
+        dffbult:
+            CRW_FATAL(di, "Invblid opdodf supplifd to widf opdodf");
+            brfbk;
     }
 }
 
-static unsigned
-opcode_length(CrwClassImage *ci, ClassOpcode opcode)
+stbtid unsignfd
+opdodf_lfngti(CrwClbssImbgf *di, ClbssOpdodf opdodf)
 {
-    /* Define array that holds length of an opcode */
-    static unsigned char _opcode_length[JVM_OPC_MAX+1] =
+    /* Dffinf brrby tibt iolds lfngti of bn opdodf */
+    stbtid unsignfd dibr _opdodf_lfngti[JVM_OPC_MAX+1] =
                           JVM_OPCODE_LENGTH_INITIALIZER;
 
-    if ( opcode > JVM_OPC_MAX ) {
-        CRW_FATAL(ci, "Invalid opcode supplied to opcode_length()");
+    if ( opdodf > JVM_OPC_MAX ) {
+        CRW_FATAL(di, "Invblid opdodf supplifd to opdodf_lfngti()");
     }
-    return _opcode_length[opcode];
+    rfturn _opdodf_lfngti[opdodf];
 }
 
-/* Walk one instruction and inject instrumentation */
-static void
-inject_for_opcode(MethodImage *mi)
+/* Wblk onf instrudtion bnd injfdt instrumfntbtion */
+stbtid void
+injfdt_for_opdodf(MftiodImbgf *mi)
 {
-    CrwClassImage *  ci;
-    ClassOpcode      opcode;
+    CrwClbssImbgf *  di;
+    ClbssOpdodf      opdodf;
     int              pos;
 
     CRW_ASSERT_MI(mi);
-    ci = mi->ci;
-    pos = input_code_offset(mi);
-    opcode = readU1(ci);
+    di = mi->di;
+    pos = input_dodf_offsft(mi);
+    opdodf = rfbdU1(di);
 
-    if (opcode == JVM_OPC_wide) {
-        ClassOpcode     wopcode;
+    if (opdodf == JVM_OPC_widf) {
+        ClbssOpdodf     wopdodf;
 
-        wopcode = readU1(ci);
-        /* lvIndex not used */
-        (void)readU2(ci);
-        verify_opc_wide(ci, wopcode);
-        if ( wopcode==JVM_OPC_iinc ) {
-            (void)readU1(ci);
-            (void)readU1(ci);
+        wopdodf = rfbdU1(di);
+        /* lvIndfx not usfd */
+        (void)rfbdU2(di);
+        vfrify_opd_widf(di, wopdodf);
+        if ( wopdodf==JVM_OPC_iind ) {
+            (void)rfbdU1(di);
+            (void)rfbdU1(di);
         }
-    } else {
+    } flsf {
 
-        ByteCode        bytecodes[LARGEST_INJECTION+1];
-        int             header;
-        int             instr_len;
+        BytfCodf        bytfdodfs[LARGEST_INJECTION+1];
+        int             ifbdfr;
+        int             instr_lfn;
         int             low;
-        int             high;
-        int             npairs;
-        ByteOffset      len;
+        int             iigi;
+        int             npbirs;
+        BytfOffsft      lfn;
 
-        /* Get bytecodes to inject before this opcode */
-        len = before_injection_code(mi, opcode, bytecodes, (int)sizeof(bytecodes));
-        if ( len > 0 ) {
-            inject_bytecodes(mi, pos, bytecodes, len);
-            /* Adjust map after processing this opcode */
+        /* Gft bytfdodfs to injfdt bfforf tiis opdodf */
+        lfn = bfforf_injfdtion_dodf(mi, opdodf, bytfdodfs, (int)sizfof(bytfdodfs));
+        if ( lfn > 0 ) {
+            injfdt_bytfdodfs(mi, pos, bytfdodfs, lfn);
+            /* Adjust mbp bftfr prodfssing tiis opdodf */
         }
 
-        /* Process this opcode */
-        switch (opcode) {
-            case JVM_OPC_tableswitch:
-                header = NEXT_4BYTE_BOUNDARY(pos);
-                skip(ci, header - (pos+1));
-                (void)readU4(ci);
-                low = readU4(ci);
-                high = readU4(ci);
-                skip(ci, (high+1-low) * 4);
-                break;
-            case JVM_OPC_lookupswitch:
-                header = NEXT_4BYTE_BOUNDARY(pos);
-                skip(ci, header - (pos+1));
-                (void)readU4(ci);
-                npairs = readU4(ci);
-                skip(ci, npairs * 8);
-                break;
-            default:
-                instr_len = opcode_length(ci, opcode);
-                skip(ci, instr_len-1);
-                break;
+        /* Prodfss tiis opdodf */
+        switdi (opdodf) {
+            dbsf JVM_OPC_tbblfswitdi:
+                ifbdfr = NEXT_4BYTE_BOUNDARY(pos);
+                skip(di, ifbdfr - (pos+1));
+                (void)rfbdU4(di);
+                low = rfbdU4(di);
+                iigi = rfbdU4(di);
+                skip(di, (iigi+1-low) * 4);
+                brfbk;
+            dbsf JVM_OPC_lookupswitdi:
+                ifbdfr = NEXT_4BYTE_BOUNDARY(pos);
+                skip(di, ifbdfr - (pos+1));
+                (void)rfbdU4(di);
+                npbirs = rfbdU4(di);
+                skip(di, npbirs * 8);
+                brfbk;
+            dffbult:
+                instr_lfn = opdodf_lfngti(di, opdodf);
+                skip(di, instr_lfn-1);
+                brfbk;
         }
 
-        /* Get position after this opcode is processed */
-        pos = input_code_offset(mi);
+        /* Gft position bftfr tiis opdodf is prodfssfd */
+        pos = input_dodf_offsft(mi);
 
-        /* Adjust for any before_injection_code() */
-        if ( len > 0 ) {
-            /* Adjust everything past this opcode.
-             *   Why past it? Because we want any jumps to this bytecode loc
-             *   to go to the injected code, not where the opcode
-             *   was moved too.
-             *   Consider a 'return' opcode that is jumped too.
-             *   NOTE: This may not be correct in all cases, but will
-             *         when we are only dealing with non-variable opcodes
-             *         like the return opcodes. Be careful if the
-             *         before_injection_code() changes to include other
-             *         opcodes that have variable length.
+        /* Adjust for bny bfforf_injfdtion_dodf() */
+        if ( lfn > 0 ) {
+            /* Adjust fvfrytiing pbst tiis opdodf.
+             *   Wiy pbst it? Bfdbusf wf wbnt bny jumps to tiis bytfdodf lod
+             *   to go to tif injfdtfd dodf, not wifrf tif opdodf
+             *   wbs movfd too.
+             *   Considfr b 'rfturn' opdodf tibt is jumpfd too.
+             *   NOTE: Tiis mby not bf dorrfdt in bll dbsfs, but will
+             *         wifn wf brf only dfbling witi non-vbribblf opdodfs
+             *         likf tif rfturn opdodfs. Bf dbrfful if tif
+             *         bfforf_injfdtion_dodf() dibngfs to indludf otifr
+             *         opdodfs tibt ibvf vbribblf lfngti.
              */
-            adjust_map(mi, pos, len);
+            bdjust_mbp(mi, pos, lfn);
         }
 
-        /* Get bytecodes to inject after this opcode */
-        len = after_injection_code(mi, opcode, bytecodes, (int)sizeof(bytecodes));
-        if ( len > 0 ) {
-            inject_bytecodes(mi, pos, bytecodes, len);
+        /* Gft bytfdodfs to injfdt bftfr tiis opdodf */
+        lfn = bftfr_injfdtion_dodf(mi, opdodf, bytfdodfs, (int)sizfof(bytfdodfs));
+        if ( lfn > 0 ) {
+            injfdt_bytfdodfs(mi, pos, bytfdodfs, lfn);
 
-            /* Adjust for any after_injection_code() */
-            adjust_map(mi, pos, len);
+            /* Adjust for bny bftfr_injfdtion_dodf() */
+            bdjust_mbp(mi, pos, lfn);
         }
 
     }
 }
 
-/* Map original bytecode location to it's new location. (See adjust_map()). */
-static ByteOffset
-method_code_map(MethodImage *mi, ByteOffset pos)
+/* Mbp originbl bytfdodf lodbtion to it's nfw lodbtion. (Sff bdjust_mbp()). */
+stbtid BytfOffsft
+mftiod_dodf_mbp(MftiodImbgf *mi, BytfOffsft pos)
 {
     CRW_ASSERT_MI(mi);
-    CRW_ASSERT(mi->ci, pos <= mi->code_len);
-    return mi->map[pos];
+    CRW_ASSERT(mi->di, pos <= mi->dodf_lfn);
+    rfturn mi->mbp[pos];
 }
 
-static int
-adjust_instruction(MethodImage *mi)
+stbtid int
+bdjust_instrudtion(MftiodImbgf *mi)
 {
-    CrwClassImage *     ci;
-    ClassOpcode         opcode;
+    CrwClbssImbgf *     di;
+    ClbssOpdodf         opdodf;
     int                 pos;
-    int                 new_pos;
+    int                 nfw_pos;
 
     CRW_ASSERT_MI(mi);
-    ci = mi->ci;
-    pos = input_code_offset(mi);
-    new_pos = method_code_map(mi,pos);
+    di = mi->di;
+    pos = input_dodf_offsft(mi);
+    nfw_pos = mftiod_dodf_mbp(mi,pos);
 
-    opcode = readU1(ci);
+    opdodf = rfbdU1(di);
 
-    if (opcode == JVM_OPC_wide) {
-        ClassOpcode wopcode;
+    if (opdodf == JVM_OPC_widf) {
+        ClbssOpdodf wopdodf;
 
-        wopcode = readU1(ci);
-        /* lvIndex not used */
-        (void)readU2(ci);
-        verify_opc_wide(ci, wopcode);
-        if ( wopcode==JVM_OPC_iinc ) {
-            (void)readU1(ci);
-            (void)readU1(ci);
+        wopdodf = rfbdU1(di);
+        /* lvIndfx not usfd */
+        (void)rfbdU2(di);
+        vfrify_opd_widf(di, wopdodf);
+        if ( wopdodf==JVM_OPC_iind ) {
+            (void)rfbdU1(di);
+            (void)rfbdU1(di);
         }
-    } else {
+    } flsf {
 
-        int widened;
-        int header;
-        int newHeader;
+        int widfnfd;
+        int ifbdfr;
+        int nfwHfbdfr;
         int low;
-        int high;
-        int new_pad;
-        int old_pad;
-        int delta;
-        int new_delta;
-        int delta_pad;
-        int npairs;
-        int instr_len;
+        int iigi;
+        int nfw_pbd;
+        int old_pbd;
+        int dfltb;
+        int nfw_dfltb;
+        int dfltb_pbd;
+        int npbirs;
+        int instr_lfn;
 
-        switch (opcode) {
+        switdi (opdodf) {
 
-        case JVM_OPC_tableswitch:
-            widened     = mi->widening[pos];
-            header      = NEXT_4BYTE_BOUNDARY(pos);
-            newHeader   = NEXT_4BYTE_BOUNDARY(new_pos);
+        dbsf JVM_OPC_tbblfswitdi:
+            widfnfd     = mi->widfning[pos];
+            ifbdfr      = NEXT_4BYTE_BOUNDARY(pos);
+            nfwHfbdfr   = NEXT_4BYTE_BOUNDARY(nfw_pos);
 
-            skip(ci, header - (pos+1));
+            skip(di, ifbdfr - (pos+1));
 
-            delta       = readU4(ci);
-            low         = readU4(ci);
-            high        = readU4(ci);
-            skip(ci, (high+1-low) * 4);
-            new_pad     = newHeader - new_pos;
-            old_pad     = header - pos;
-            delta_pad   = new_pad - old_pad;
-            if (widened != delta_pad) {
-                widen(mi, pos, delta_pad);
-                return 0;
+            dfltb       = rfbdU4(di);
+            low         = rfbdU4(di);
+            iigi        = rfbdU4(di);
+            skip(di, (iigi+1-low) * 4);
+            nfw_pbd     = nfwHfbdfr - nfw_pos;
+            old_pbd     = ifbdfr - pos;
+            dfltb_pbd   = nfw_pbd - old_pbd;
+            if (widfnfd != dfltb_pbd) {
+                widfn(mi, pos, dfltb_pbd);
+                rfturn 0;
             }
-            break;
+            brfbk;
 
-        case JVM_OPC_lookupswitch:
-            widened     = mi->widening[pos];
-            header      = NEXT_4BYTE_BOUNDARY(pos);
-            newHeader   = NEXT_4BYTE_BOUNDARY(new_pos);
+        dbsf JVM_OPC_lookupswitdi:
+            widfnfd     = mi->widfning[pos];
+            ifbdfr      = NEXT_4BYTE_BOUNDARY(pos);
+            nfwHfbdfr   = NEXT_4BYTE_BOUNDARY(nfw_pos);
 
-            skip(ci, header - (pos+1));
+            skip(di, ifbdfr - (pos+1));
 
-            delta       = readU4(ci);
-            npairs      = readU4(ci);
-            skip(ci, npairs * 8);
-            new_pad     = newHeader - new_pos;
-            old_pad     = header - pos;
-            delta_pad   = new_pad - old_pad;
-            if (widened != delta_pad) {
-                widen(mi, pos, delta_pad);
-                return 0;
+            dfltb       = rfbdU4(di);
+            npbirs      = rfbdU4(di);
+            skip(di, npbirs * 8);
+            nfw_pbd     = nfwHfbdfr - nfw_pos;
+            old_pbd     = ifbdfr - pos;
+            dfltb_pbd   = nfw_pbd - old_pbd;
+            if (widfnfd != dfltb_pbd) {
+                widfn(mi, pos, dfltb_pbd);
+                rfturn 0;
             }
-            break;
+            brfbk;
 
-        case JVM_OPC_jsr: case JVM_OPC_goto:
-        case JVM_OPC_ifeq: case JVM_OPC_ifge: case JVM_OPC_ifgt:
-        case JVM_OPC_ifle: case JVM_OPC_iflt: case JVM_OPC_ifne:
-        case JVM_OPC_if_icmpeq: case JVM_OPC_if_icmpne: case JVM_OPC_if_icmpge:
-        case JVM_OPC_if_icmpgt: case JVM_OPC_if_icmple: case JVM_OPC_if_icmplt:
-        case JVM_OPC_if_acmpeq: case JVM_OPC_if_acmpne:
-        case JVM_OPC_ifnull: case JVM_OPC_ifnonnull:
-            widened     = mi->widening[pos];
-            delta       = readS2(ci);
-            if (widened == 0) {
-                new_delta = method_code_map(mi,pos+delta) - new_pos;
-                if ((new_delta < -32768) || (new_delta > 32767)) {
-                    switch (opcode) {
-                        case JVM_OPC_jsr: case JVM_OPC_goto:
-                            widen(mi, pos, 2);
-                            break;
-                        default:
-                            widen(mi, pos, 5);
-                            break;
+        dbsf JVM_OPC_jsr: dbsf JVM_OPC_goto:
+        dbsf JVM_OPC_iffq: dbsf JVM_OPC_ifgf: dbsf JVM_OPC_ifgt:
+        dbsf JVM_OPC_iflf: dbsf JVM_OPC_iflt: dbsf JVM_OPC_ifnf:
+        dbsf JVM_OPC_if_idmpfq: dbsf JVM_OPC_if_idmpnf: dbsf JVM_OPC_if_idmpgf:
+        dbsf JVM_OPC_if_idmpgt: dbsf JVM_OPC_if_idmplf: dbsf JVM_OPC_if_idmplt:
+        dbsf JVM_OPC_if_bdmpfq: dbsf JVM_OPC_if_bdmpnf:
+        dbsf JVM_OPC_ifnull: dbsf JVM_OPC_ifnonnull:
+            widfnfd     = mi->widfning[pos];
+            dfltb       = rfbdS2(di);
+            if (widfnfd == 0) {
+                nfw_dfltb = mftiod_dodf_mbp(mi,pos+dfltb) - nfw_pos;
+                if ((nfw_dfltb < -32768) || (nfw_dfltb > 32767)) {
+                    switdi (opdodf) {
+                        dbsf JVM_OPC_jsr: dbsf JVM_OPC_goto:
+                            widfn(mi, pos, 2);
+                            brfbk;
+                        dffbult:
+                            widfn(mi, pos, 5);
+                            brfbk;
                     }
-                    return 0;
+                    rfturn 0;
                 }
             }
-            break;
+            brfbk;
 
-        case JVM_OPC_jsr_w:
-        case JVM_OPC_goto_w:
-            (void)readU4(ci);
-            break;
+        dbsf JVM_OPC_jsr_w:
+        dbsf JVM_OPC_goto_w:
+            (void)rfbdU4(di);
+            brfbk;
 
-        default:
-            instr_len = opcode_length(ci, opcode);
-            skip(ci, instr_len-1);
-            break;
+        dffbult:
+            instr_lfn = opdodf_lfngti(di, opdodf);
+            skip(di, instr_lfn-1);
+            brfbk;
         }
     }
-    return 1;
+    rfturn 1;
 }
 
-static void
-write_instruction(MethodImage *mi)
+stbtid void
+writf_instrudtion(MftiodImbgf *mi)
 {
-    CrwClassImage *     ci;
-    ClassOpcode         opcode;
-    ByteOffset          new_code_len;
+    CrwClbssImbgf *     di;
+    ClbssOpdodf         opdodf;
+    BytfOffsft          nfw_dodf_lfn;
     int                 pos;
-    int                 new_pos;
+    int                 nfw_pos;
 
     CRW_ASSERT_MI(mi);
-    ci = mi->ci;
-    pos = input_code_offset(mi);
-    new_pos = method_code_map(mi,pos);
-    new_code_len = mi->injections[pos].len;
-    if (new_code_len > 0) {
-        write_bytes(ci, (void*)mi->injections[pos].code, new_code_len);
+    di = mi->di;
+    pos = input_dodf_offsft(mi);
+    nfw_pos = mftiod_dodf_mbp(mi,pos);
+    nfw_dodf_lfn = mi->injfdtions[pos].lfn;
+    if (nfw_dodf_lfn > 0) {
+        writf_bytfs(di, (void*)mi->injfdtions[pos].dodf, nfw_dodf_lfn);
     }
 
-    opcode = readU1(ci);
-    if (opcode == JVM_OPC_wide) {
-        ClassOpcode     wopcode;
+    opdodf = rfbdU1(di);
+    if (opdodf == JVM_OPC_widf) {
+        ClbssOpdodf     wopdodf;
 
-        writeU1(ci, opcode);
+        writfU1(di, opdodf);
 
-        wopcode = copyU1(ci);
-        /* lvIndex not used */
-        (void)copyU2(ci);
-        verify_opc_wide(ci, wopcode);
-        if ( wopcode==JVM_OPC_iinc ) {
-            (void)copyU1(ci);
-            (void)copyU1(ci);
+        wopdodf = dopyU1(di);
+        /* lvIndfx not usfd */
+        (void)dopyU2(di);
+        vfrify_opd_widf(di, wopdodf);
+        if ( wopdodf==JVM_OPC_iind ) {
+            (void)dopyU1(di);
+            (void)dopyU1(di);
         }
-    } else {
+    } flsf {
 
-        ClassOpcode new_opcode;
-        int             header;
-        int             newHeader;
+        ClbssOpdodf nfw_opdodf;
+        int             ifbdfr;
+        int             nfwHfbdfr;
         int             low;
-        int             high;
+        int             iigi;
         int             i;
-        int             npairs;
-        int             widened;
-        int             instr_len;
-        int             delta;
-        int             new_delta;
+        int             npbirs;
+        int             widfnfd;
+        int             instr_lfn;
+        int             dfltb;
+        int             nfw_dfltb;
 
-        switch (opcode) {
+        switdi (opdodf) {
 
-            case JVM_OPC_tableswitch:
-                header = NEXT_4BYTE_BOUNDARY(pos);
-                newHeader = NEXT_4BYTE_BOUNDARY(new_pos);
+            dbsf JVM_OPC_tbblfswitdi:
+                ifbdfr = NEXT_4BYTE_BOUNDARY(pos);
+                nfwHfbdfr = NEXT_4BYTE_BOUNDARY(nfw_pos);
 
-                skip(ci, header - (pos+1));
+                skip(di, ifbdfr - (pos+1));
 
-                delta = readU4(ci);
-                new_delta = method_code_map(mi,pos+delta) - new_pos;
-                low = readU4(ci);
-                high = readU4(ci);
+                dfltb = rfbdU4(di);
+                nfw_dfltb = mftiod_dodf_mbp(mi,pos+dfltb) - nfw_pos;
+                low = rfbdU4(di);
+                iigi = rfbdU4(di);
 
-                writeU1(ci, opcode);
-                for (i = new_pos+1; i < newHeader; ++i) {
-                    writeU1(ci, 0);
+                writfU1(di, opdodf);
+                for (i = nfw_pos+1; i < nfwHfbdfr; ++i) {
+                    writfU1(di, 0);
                 }
-                writeU4(ci, new_delta);
-                writeU4(ci, low);
-                writeU4(ci, high);
+                writfU4(di, nfw_dfltb);
+                writfU4(di, low);
+                writfU4(di, iigi);
 
-                for (i = low; i <= high; ++i) {
-                    delta = readU4(ci);
-                    new_delta = method_code_map(mi,pos+delta) - new_pos;
-                    writeU4(ci, new_delta);
+                for (i = low; i <= iigi; ++i) {
+                    dfltb = rfbdU4(di);
+                    nfw_dfltb = mftiod_dodf_mbp(mi,pos+dfltb) - nfw_pos;
+                    writfU4(di, nfw_dfltb);
                 }
-                break;
+                brfbk;
 
-            case JVM_OPC_lookupswitch:
-                header = NEXT_4BYTE_BOUNDARY(pos);
-                newHeader = NEXT_4BYTE_BOUNDARY(new_pos);
+            dbsf JVM_OPC_lookupswitdi:
+                ifbdfr = NEXT_4BYTE_BOUNDARY(pos);
+                nfwHfbdfr = NEXT_4BYTE_BOUNDARY(nfw_pos);
 
-                skip(ci, header - (pos+1));
+                skip(di, ifbdfr - (pos+1));
 
-                delta = readU4(ci);
-                new_delta = method_code_map(mi,pos+delta) - new_pos;
-                npairs = readU4(ci);
-                writeU1(ci, opcode);
-                for (i = new_pos+1; i < newHeader; ++i) {
-                    writeU1(ci, 0);
+                dfltb = rfbdU4(di);
+                nfw_dfltb = mftiod_dodf_mbp(mi,pos+dfltb) - nfw_pos;
+                npbirs = rfbdU4(di);
+                writfU1(di, opdodf);
+                for (i = nfw_pos+1; i < nfwHfbdfr; ++i) {
+                    writfU1(di, 0);
                 }
-                writeU4(ci, new_delta);
-                writeU4(ci, npairs);
-                for (i = 0; i< npairs; ++i) {
-                    unsigned match = readU4(ci);
-                    delta = readU4(ci);
-                    new_delta = method_code_map(mi,pos+delta) - new_pos;
-                    writeU4(ci, match);
-                    writeU4(ci, new_delta);
+                writfU4(di, nfw_dfltb);
+                writfU4(di, npbirs);
+                for (i = 0; i< npbirs; ++i) {
+                    unsignfd mbtdi = rfbdU4(di);
+                    dfltb = rfbdU4(di);
+                    nfw_dfltb = mftiod_dodf_mbp(mi,pos+dfltb) - nfw_pos;
+                    writfU4(di, mbtdi);
+                    writfU4(di, nfw_dfltb);
                 }
-                break;
+                brfbk;
 
-            case JVM_OPC_jsr: case JVM_OPC_goto:
-            case JVM_OPC_ifeq: case JVM_OPC_ifge: case JVM_OPC_ifgt:
-            case JVM_OPC_ifle: case JVM_OPC_iflt: case JVM_OPC_ifne:
-            case JVM_OPC_if_icmpeq: case JVM_OPC_if_icmpne: case JVM_OPC_if_icmpge:
-            case JVM_OPC_if_icmpgt: case JVM_OPC_if_icmple: case JVM_OPC_if_icmplt:
-            case JVM_OPC_if_acmpeq: case JVM_OPC_if_acmpne:
-            case JVM_OPC_ifnull: case JVM_OPC_ifnonnull:
-                widened = mi->widening[pos];
-                delta = readS2(ci);
-                new_delta = method_code_map(mi,pos+delta) - new_pos;
-                new_opcode = opcode;
-                if (widened == 0) {
-                    writeU1(ci, opcode);
-                    writeU2(ci, new_delta);
-                } else if (widened == 2) {
-                    switch (opcode) {
-                        case JVM_OPC_jsr:
-                            new_opcode = JVM_OPC_jsr_w;
-                            break;
-                        case JVM_OPC_goto:
-                            new_opcode = JVM_OPC_goto_w;
-                            break;
-                        default:
-                            CRW_FATAL(ci, "unexpected opcode");
-                            break;
+            dbsf JVM_OPC_jsr: dbsf JVM_OPC_goto:
+            dbsf JVM_OPC_iffq: dbsf JVM_OPC_ifgf: dbsf JVM_OPC_ifgt:
+            dbsf JVM_OPC_iflf: dbsf JVM_OPC_iflt: dbsf JVM_OPC_ifnf:
+            dbsf JVM_OPC_if_idmpfq: dbsf JVM_OPC_if_idmpnf: dbsf JVM_OPC_if_idmpgf:
+            dbsf JVM_OPC_if_idmpgt: dbsf JVM_OPC_if_idmplf: dbsf JVM_OPC_if_idmplt:
+            dbsf JVM_OPC_if_bdmpfq: dbsf JVM_OPC_if_bdmpnf:
+            dbsf JVM_OPC_ifnull: dbsf JVM_OPC_ifnonnull:
+                widfnfd = mi->widfning[pos];
+                dfltb = rfbdS2(di);
+                nfw_dfltb = mftiod_dodf_mbp(mi,pos+dfltb) - nfw_pos;
+                nfw_opdodf = opdodf;
+                if (widfnfd == 0) {
+                    writfU1(di, opdodf);
+                    writfU2(di, nfw_dfltb);
+                } flsf if (widfnfd == 2) {
+                    switdi (opdodf) {
+                        dbsf JVM_OPC_jsr:
+                            nfw_opdodf = JVM_OPC_jsr_w;
+                            brfbk;
+                        dbsf JVM_OPC_goto:
+                            nfw_opdodf = JVM_OPC_goto_w;
+                            brfbk;
+                        dffbult:
+                            CRW_FATAL(di, "unfxpfdtfd opdodf");
+                            brfbk;
                     }
-                    writeU1(ci, new_opcode);
-                    writeU4(ci, new_delta);
-                } else if (widened == 5) {
-                    switch (opcode) {
-                        case JVM_OPC_ifeq:
-                            new_opcode = JVM_OPC_ifne;
-                            break;
-                        case JVM_OPC_ifge:
-                            new_opcode = JVM_OPC_iflt;
-                            break;
-                        case JVM_OPC_ifgt:
-                            new_opcode = JVM_OPC_ifle;
-                            break;
-                        case JVM_OPC_ifle:
-                            new_opcode = JVM_OPC_ifgt;
-                            break;
-                        case JVM_OPC_iflt:
-                            new_opcode = JVM_OPC_ifge;
-                            break;
-                        case JVM_OPC_ifne:
-                            new_opcode = JVM_OPC_ifeq;
-                            break;
-                        case JVM_OPC_if_icmpeq:
-                            new_opcode = JVM_OPC_if_icmpne;
-                            break;
-                        case JVM_OPC_if_icmpne:
-                            new_opcode = JVM_OPC_if_icmpeq;
-                            break;
-                        case JVM_OPC_if_icmpge:
-                            new_opcode = JVM_OPC_if_icmplt;
-                            break;
-                        case JVM_OPC_if_icmpgt:
-                            new_opcode = JVM_OPC_if_icmple;
-                            break;
-                        case JVM_OPC_if_icmple:
-                            new_opcode = JVM_OPC_if_icmpgt;
-                            break;
-                        case JVM_OPC_if_icmplt:
-                            new_opcode = JVM_OPC_if_icmpge;
-                            break;
-                        case JVM_OPC_if_acmpeq:
-                            new_opcode = JVM_OPC_if_acmpne;
-                            break;
-                        case JVM_OPC_if_acmpne:
-                            new_opcode = JVM_OPC_if_acmpeq;
-                            break;
-                        case JVM_OPC_ifnull:
-                            new_opcode = JVM_OPC_ifnonnull;
-                            break;
-                        case JVM_OPC_ifnonnull:
-                            new_opcode = JVM_OPC_ifnull;
-                            break;
-                        default:
-                            CRW_FATAL(ci, "Unexpected opcode");
-                        break;
+                    writfU1(di, nfw_opdodf);
+                    writfU4(di, nfw_dfltb);
+                } flsf if (widfnfd == 5) {
+                    switdi (opdodf) {
+                        dbsf JVM_OPC_iffq:
+                            nfw_opdodf = JVM_OPC_ifnf;
+                            brfbk;
+                        dbsf JVM_OPC_ifgf:
+                            nfw_opdodf = JVM_OPC_iflt;
+                            brfbk;
+                        dbsf JVM_OPC_ifgt:
+                            nfw_opdodf = JVM_OPC_iflf;
+                            brfbk;
+                        dbsf JVM_OPC_iflf:
+                            nfw_opdodf = JVM_OPC_ifgt;
+                            brfbk;
+                        dbsf JVM_OPC_iflt:
+                            nfw_opdodf = JVM_OPC_ifgf;
+                            brfbk;
+                        dbsf JVM_OPC_ifnf:
+                            nfw_opdodf = JVM_OPC_iffq;
+                            brfbk;
+                        dbsf JVM_OPC_if_idmpfq:
+                            nfw_opdodf = JVM_OPC_if_idmpnf;
+                            brfbk;
+                        dbsf JVM_OPC_if_idmpnf:
+                            nfw_opdodf = JVM_OPC_if_idmpfq;
+                            brfbk;
+                        dbsf JVM_OPC_if_idmpgf:
+                            nfw_opdodf = JVM_OPC_if_idmplt;
+                            brfbk;
+                        dbsf JVM_OPC_if_idmpgt:
+                            nfw_opdodf = JVM_OPC_if_idmplf;
+                            brfbk;
+                        dbsf JVM_OPC_if_idmplf:
+                            nfw_opdodf = JVM_OPC_if_idmpgt;
+                            brfbk;
+                        dbsf JVM_OPC_if_idmplt:
+                            nfw_opdodf = JVM_OPC_if_idmpgf;
+                            brfbk;
+                        dbsf JVM_OPC_if_bdmpfq:
+                            nfw_opdodf = JVM_OPC_if_bdmpnf;
+                            brfbk;
+                        dbsf JVM_OPC_if_bdmpnf:
+                            nfw_opdodf = JVM_OPC_if_bdmpfq;
+                            brfbk;
+                        dbsf JVM_OPC_ifnull:
+                            nfw_opdodf = JVM_OPC_ifnonnull;
+                            brfbk;
+                        dbsf JVM_OPC_ifnonnull:
+                            nfw_opdodf = JVM_OPC_ifnull;
+                            brfbk;
+                        dffbult:
+                            CRW_FATAL(di, "Unfxpfdtfd opdodf");
+                        brfbk;
                     }
-                    writeU1(ci, new_opcode);    /* write inverse branch */
-                    writeU2(ci, 3 + 5);         /* beyond if and goto_w */
-                    writeU1(ci, JVM_OPC_goto_w);    /* add a goto_w */
-                    writeU4(ci, new_delta-3); /* write new and wide delta */
-                } else {
-                    CRW_FATAL(ci, "Unexpected widening");
+                    writfU1(di, nfw_opdodf);    /* writf invfrsf brbndi */
+                    writfU2(di, 3 + 5);         /* bfyond if bnd goto_w */
+                    writfU1(di, JVM_OPC_goto_w);    /* bdd b goto_w */
+                    writfU4(di, nfw_dfltb-3); /* writf nfw bnd widf dfltb */
+                } flsf {
+                    CRW_FATAL(di, "Unfxpfdtfd widfning");
                 }
-                break;
+                brfbk;
 
-            case JVM_OPC_jsr_w:
-            case JVM_OPC_goto_w:
-                delta = readU4(ci);
-                new_delta = method_code_map(mi,pos+delta) - new_pos;
-                writeU1(ci, opcode);
-                writeU4(ci, new_delta);
-                break;
+            dbsf JVM_OPC_jsr_w:
+            dbsf JVM_OPC_goto_w:
+                dfltb = rfbdU4(di);
+                nfw_dfltb = mftiod_dodf_mbp(mi,pos+dfltb) - nfw_pos;
+                writfU1(di, opdodf);
+                writfU4(di, nfw_dfltb);
+                brfbk;
 
-            default:
-                instr_len = opcode_length(ci, opcode);
-                writeU1(ci, opcode);
-                copy(ci, instr_len-1);
-                break;
+            dffbult:
+                instr_lfn = opdodf_lfngti(di, opdodf);
+                writfU1(di, opdodf);
+                dopy(di, instr_lfn-1);
+                brfbk;
         }
     }
 }
 
-static void
-method_inject_and_write_code(MethodImage *mi)
+stbtid void
+mftiod_injfdt_bnd_writf_dodf(MftiodImbgf *mi)
 {
-    ByteCode bytecodes[LARGEST_INJECTION+1];
-    ByteOffset   len;
+    BytfCodf bytfdodfs[LARGEST_INJECTION+1];
+    BytfOffsft   lfn;
 
     CRW_ASSERT_MI(mi);
 
-    /* Do injections */
-    rewind_to_beginning_of_input_bytecodes(mi);
-    len = entry_injection_code(mi, bytecodes, (int)sizeof(bytecodes));
-    if ( len > 0 ) {
+    /* Do injfdtions */
+    rfwind_to_bfginning_of_input_bytfdodfs(mi);
+    lfn = fntry_injfdtion_dodf(mi, bytfdodfs, (int)sizfof(bytfdodfs));
+    if ( lfn > 0 ) {
         int pos;
 
         pos = 0;
-        inject_bytecodes(mi, pos, bytecodes, len);
-        /* Adjust pos 0 to map to new pos 0, you never want to
-         *  jump into this entry code injection. So the new pos 0
-         *  will be past this entry_injection_code().
+        injfdt_bytfdodfs(mi, pos, bytfdodfs, lfn);
+        /* Adjust pos 0 to mbp to nfw pos 0, you nfvfr wbnt to
+         *  jump into tiis fntry dodf injfdtion. So tif nfw pos 0
+         *  will bf pbst tiis fntry_injfdtion_dodf().
          */
-        adjust_map(mi, pos, len); /* Inject before behavior */
+        bdjust_mbp(mi, pos, lfn); /* Injfdt bfforf bfibvior */
     }
-    while (input_code_offset(mi) < mi->code_len) {
-        inject_for_opcode(mi);
+    wiilf (input_dodf_offsft(mi) < mi->dodf_lfn) {
+        injfdt_for_opdodf(mi);
     }
 
-    /* Adjust instructions */
-    rewind_to_beginning_of_input_bytecodes(mi);
-    while (input_code_offset(mi) < mi->code_len) {
-        if (!adjust_instruction(mi)) {
-            rewind_to_beginning_of_input_bytecodes(mi);
+    /* Adjust instrudtions */
+    rfwind_to_bfginning_of_input_bytfdodfs(mi);
+    wiilf (input_dodf_offsft(mi) < mi->dodf_lfn) {
+        if (!bdjust_instrudtion(mi)) {
+            rfwind_to_bfginning_of_input_bytfdodfs(mi);
         }
     }
 
-    /* Write new instructions */
-    rewind_to_beginning_of_input_bytecodes(mi);
-    while (input_code_offset(mi) < mi->code_len) {
-        write_instruction(mi);
+    /* Writf nfw instrudtions */
+    rfwind_to_bfginning_of_input_bytfdodfs(mi);
+    wiilf (input_dodf_offsft(mi) < mi->dodf_lfn) {
+        writf_instrudtion(mi);
     }
 }
 
-static void
-copy_attribute(CrwClassImage *ci)
+stbtid void
+dopy_bttributf(CrwClbssImbgf *di)
 {
-    int len;
+    int lfn;
 
-    (void)copyU2(ci);
-    len = copyU4(ci);
-    copy(ci, len);
+    (void)dopyU2(di);
+    lfn = dopyU4(di);
+    dopy(di, lfn);
 }
 
-static void
-copy_attributes(CrwClassImage *ci)
+stbtid void
+dopy_bttributfs(CrwClbssImbgf *di)
 {
-    unsigned i;
-    unsigned count;
+    unsignfd i;
+    unsignfd dount;
 
-    count = copyU2(ci);
-    for (i = 0; i < count; ++i) {
-        copy_attribute(ci);
+    dount = dopyU2(di);
+    for (i = 0; i < dount; ++i) {
+        dopy_bttributf(di);
     }
 }
 
-static void
-copy_all_fields(CrwClassImage *ci)
+stbtid void
+dopy_bll_fiflds(CrwClbssImbgf *di)
 {
-    unsigned i;
-    unsigned count;
+    unsignfd i;
+    unsignfd dount;
 
-    count = copyU2(ci);
-    for (i = 0; i < count; ++i) {
-        /* access, name, descriptor */
-        copy(ci, 6);
-        copy_attributes(ci);
+    dount = dopyU2(di);
+    for (i = 0; i < dount; ++i) {
+        /* bddfss, nbmf, dfsdriptor */
+        dopy(di, 6);
+        dopy_bttributfs(di);
     }
 }
 
-static void
-write_line_table(MethodImage *mi)
+stbtid void
+writf_linf_tbblf(MftiodImbgf *mi)
 {
-    unsigned             i;
-    unsigned             count;
-    CrwClassImage *      ci;
+    unsignfd             i;
+    unsignfd             dount;
+    CrwClbssImbgf *      di;
 
     CRW_ASSERT_MI(mi);
-    ci = mi->ci;
-    (void)copyU4(ci);
-    count = copyU2(ci);
-    for(i=0; i<count; i++) {
-        ByteOffset start_pc;
-        ByteOffset new_start_pc;
+    di = mi->di;
+    (void)dopyU4(di);
+    dount = dopyU2(di);
+    for(i=0; i<dount; i++) {
+        BytfOffsft stbrt_pd;
+        BytfOffsft nfw_stbrt_pd;
 
-        start_pc = readU2(ci);
+        stbrt_pd = rfbdU2(di);
 
-        if ( start_pc == 0 ) {
-            new_start_pc = 0; /* Don't skip entry injection code. */
-        } else {
-            new_start_pc = method_code_map(mi, start_pc);
+        if ( stbrt_pd == 0 ) {
+            nfw_stbrt_pd = 0; /* Don't skip fntry injfdtion dodf. */
+        } flsf {
+            nfw_stbrt_pd = mftiod_dodf_mbp(mi, stbrt_pd);
         }
 
-        writeU2(ci, new_start_pc);
-        (void)copyU2(ci);
+        writfU2(di, nfw_stbrt_pd);
+        (void)dopyU2(di);
     }
 }
 
-/* Used for LocalVariableTable and LocalVariableTypeTable attributes */
-static void
-write_var_table(MethodImage *mi)
+/* Usfd for LodblVbribblfTbblf bnd LodblVbribblfTypfTbblf bttributfs */
+stbtid void
+writf_vbr_tbblf(MftiodImbgf *mi)
 {
-    unsigned             i;
-    unsigned             count;
-    CrwClassImage *      ci;
+    unsignfd             i;
+    unsignfd             dount;
+    CrwClbssImbgf *      di;
 
     CRW_ASSERT_MI(mi);
-    ci = mi->ci;
-    (void)copyU4(ci);
-    count = copyU2(ci);
-    for(i=0; i<count; i++) {
-        ByteOffset start_pc;
-        ByteOffset new_start_pc;
-        ByteOffset length;
-        ByteOffset new_length;
-        ByteOffset end_pc;
-        ByteOffset new_end_pc;
+    di = mi->di;
+    (void)dopyU4(di);
+    dount = dopyU2(di);
+    for(i=0; i<dount; i++) {
+        BytfOffsft stbrt_pd;
+        BytfOffsft nfw_stbrt_pd;
+        BytfOffsft lfngti;
+        BytfOffsft nfw_lfngti;
+        BytfOffsft fnd_pd;
+        BytfOffsft nfw_fnd_pd;
 
-        start_pc        = readU2(ci);
-        length          = readU2(ci);
+        stbrt_pd        = rfbdU2(di);
+        lfngti          = rfbdU2(di);
 
-        if ( start_pc == 0 ) {
-            new_start_pc = 0; /* Don't skip entry injection code. */
-        } else {
-            new_start_pc = method_code_map(mi, start_pc);
+        if ( stbrt_pd == 0 ) {
+            nfw_stbrt_pd = 0; /* Don't skip fntry injfdtion dodf. */
+        } flsf {
+            nfw_stbrt_pd = mftiod_dodf_mbp(mi, stbrt_pd);
         }
-        end_pc          = start_pc + length;
-        new_end_pc      = method_code_map(mi, end_pc);
-        new_length      = new_end_pc - new_start_pc;
+        fnd_pd          = stbrt_pd + lfngti;
+        nfw_fnd_pd      = mftiod_dodf_mbp(mi, fnd_pd);
+        nfw_lfngti      = nfw_fnd_pd - nfw_stbrt_pd;
 
-        writeU2(ci, new_start_pc);
-        writeU2(ci, new_length);
-        (void)copyU2(ci);
-        (void)copyU2(ci);
-        (void)copyU2(ci);
+        writfU2(di, nfw_stbrt_pd);
+        writfU2(di, nfw_lfngti);
+        (void)dopyU2(di);
+        (void)dopyU2(di);
+        (void)dopyU2(di);
     }
 }
 
-/* The uoffset field is u2 or u4 depending on the code_len.
- *   Note that the code_len is likely changing, so be careful here.
+/* Tif uoffsft fifld is u2 or u4 dfpfnding on tif dodf_lfn.
+ *   Notf tibt tif dodf_lfn is likfly dibnging, so bf dbrfful ifrf.
  */
-static unsigned
-readUoffset(MethodImage *mi)
+stbtid unsignfd
+rfbdUoffsft(MftiodImbgf *mi)
 {
-    if ( mi->code_len > 65535 ) {
-        return readU4(mi->ci);
+    if ( mi->dodf_lfn > 65535 ) {
+        rfturn rfbdU4(mi->di);
     }
-    return readU2(mi->ci);
+    rfturn rfbdU2(mi->di);
 }
 
-static void
-writeUoffset(MethodImage *mi, unsigned val)
+stbtid void
+writfUoffsft(MftiodImbgf *mi, unsignfd vbl)
 {
-    if ( mi->new_code_len > 65535 ) {
-        writeU4(mi->ci, val);
+    if ( mi->nfw_dodf_lfn > 65535 ) {
+        writfU4(mi->di, vbl);
     }
-    writeU2(mi->ci, val);
+    writfU2(mi->di, vbl);
 }
 
-static unsigned
-copyUoffset(MethodImage *mi)
+stbtid unsignfd
+dopyUoffsft(MftiodImbgf *mi)
 {
-    unsigned uoffset;
+    unsignfd uoffsft;
 
-    uoffset = readUoffset(mi);
-    writeUoffset(mi, uoffset);
-    return uoffset;
+    uoffsft = rfbdUoffsft(mi);
+    writfUoffsft(mi, uoffsft);
+    rfturn uoffsft;
 }
 
-/* Copy over verification_type_info structure */
-static void
-copy_verification_types(MethodImage *mi, int ntypes)
+/* Copy ovfr vfrifidbtion_typf_info strudturf */
+stbtid void
+dopy_vfrifidbtion_typfs(MftiodImbgf *mi, int ntypfs)
 {
-    /* If there were ntypes, we just copy that over, no changes */
-    if ( ntypes > 0 ) {
+    /* If tifrf wfrf ntypfs, wf just dopy tibt ovfr, no dibngfs */
+    if ( ntypfs > 0 ) {
         int j;
 
-        for ( j = 0 ; j < ntypes ; j++ ) {
-            unsigned tag;
+        for ( j = 0 ; j < ntypfs ; j++ ) {
+            unsignfd tbg;
 
-            tag = copyU1(mi->ci);
-            switch ( tag ) {
-                case JVM_ITEM_Object:
-                    (void)copyU2(mi->ci); /* Constant pool entry */
-                    break;
-                case JVM_ITEM_Uninitialized:
-                    /* Code offset for 'new' opcode is for this object */
-                    writeUoffset(mi, method_code_map(mi, readUoffset(mi)));
-                    break;
+            tbg = dopyU1(mi->di);
+            switdi ( tbg ) {
+                dbsf JVM_ITEM_Objfdt:
+                    (void)dopyU2(mi->di); /* Constbnt pool fntry */
+                    brfbk;
+                dbsf JVM_ITEM_Uninitiblizfd:
+                    /* Codf offsft for 'nfw' opdodf is for tiis objfdt */
+                    writfUoffsft(mi, mftiod_dodf_mbp(mi, rfbdUoffsft(mi)));
+                    brfbk;
             }
         }
     }
 }
 
-/* Process the StackMapTable attribute. We didn't add any basic blocks
- *   so the frame count remains the same but we may need to process the
- *   frame types due to offset changes putting things out of range.
+/* Prodfss tif StbdkMbpTbblf bttributf. Wf didn't bdd bny bbsid blodks
+ *   so tif frbmf dount rfmbins tif sbmf but wf mby nffd to prodfss tif
+ *   frbmf typfs duf to offsft dibngfs putting tiings out of rbngf.
  */
-static void
-write_stackmap_table(MethodImage *mi)
+stbtid void
+writf_stbdkmbp_tbblf(MftiodImbgf *mi)
 {
-    CrwClassImage *ci;
-    CrwPosition    save_position;
-    ByteOffset     last_pc;
-    ByteOffset     last_new_pc;
-    unsigned       i;
-    unsigned       attr_len;
-    unsigned       new_attr_len;
-    unsigned       count;
-    unsigned       delta_adj;
+    CrwClbssImbgf *di;
+    CrwPosition    sbvf_position;
+    BytfOffsft     lbst_pd;
+    BytfOffsft     lbst_nfw_pd;
+    unsignfd       i;
+    unsignfd       bttr_lfn;
+    unsignfd       nfw_bttr_lfn;
+    unsignfd       dount;
+    unsignfd       dfltb_bdj;
 
     CRW_ASSERT_MI(mi);
-    ci = mi->ci;
+    di = mi->di;
 
-    /* Save the position of the attribute length so we can fix it later */
-    save_position = ci->output_position;
-    attr_len      = copyU4(ci);
-    count         = copyUoffset(mi);  /* uoffset: number_of_entries */
-    if ( count == 0 ) {
-        CRW_ASSERT(ci, attr_len==2);
-        return;
+    /* Sbvf tif position of tif bttributf lfngti so wf dbn fix it lbtfr */
+    sbvf_position = di->output_position;
+    bttr_lfn      = dopyU4(di);
+    dount         = dopyUoffsft(mi);  /* uoffsft: numbfr_of_fntrifs */
+    if ( dount == 0 ) {
+        CRW_ASSERT(di, bttr_lfn==2);
+        rfturn;
     }
 
-    /* Process entire stackmap */
-    last_pc     = 0;
-    last_new_pc = 0;
-    delta_adj   = 0;
-    for ( i = 0 ; i < count ; i++ ) {
-        ByteOffset new_pc=0;    /* new pc in instrumented code */
-        unsigned   ft;        /* frame_type */
-        int        delta=0;     /* pc delta */
-        int        new_delta=0; /* new pc delta */
+    /* Prodfss fntirf stbdkmbp */
+    lbst_pd     = 0;
+    lbst_nfw_pd = 0;
+    dfltb_bdj   = 0;
+    for ( i = 0 ; i < dount ; i++ ) {
+        BytfOffsft nfw_pd=0;    /* nfw pd in instrumfntfd dodf */
+        unsignfd   ft;        /* frbmf_typf */
+        int        dfltb=0;     /* pd dfltb */
+        int        nfw_dfltb=0; /* nfw pd dfltb */
 
-        ft = readU1(ci);
+        ft = rfbdU1(di);
         if ( ft <= 63 ) {
-            /* Frame Type: same_frame ([0,63]) */
-            unsigned   new_ft;    /* new frame_type */
+            /* Frbmf Typf: sbmf_frbmf ([0,63]) */
+            unsignfd   nfw_ft;    /* nfw frbmf_typf */
 
-            delta     = (delta_adj + ft);
-            new_pc    = method_code_map(mi, last_pc + delta);
-            new_delta = new_pc - last_new_pc;
-            new_ft    = (new_delta - delta_adj);
-            if ( new_ft > 63 ) {
-                /* Change to same_frame_extended (251) */
-                new_ft = 251;
-                writeU1(ci, new_ft);
-                writeUoffset(mi, (new_delta - delta_adj));
-            } else {
-                writeU1(ci, new_ft);
+            dfltb     = (dfltb_bdj + ft);
+            nfw_pd    = mftiod_dodf_mbp(mi, lbst_pd + dfltb);
+            nfw_dfltb = nfw_pd - lbst_nfw_pd;
+            nfw_ft    = (nfw_dfltb - dfltb_bdj);
+            if ( nfw_ft > 63 ) {
+                /* Cibngf to sbmf_frbmf_fxtfndfd (251) */
+                nfw_ft = 251;
+                writfU1(di, nfw_ft);
+                writfUoffsft(mi, (nfw_dfltb - dfltb_bdj));
+            } flsf {
+                writfU1(di, nfw_ft);
             }
-        } else if ( ft >= 64 && ft <= 127 ) {
-            /* Frame Type: same_locals_1_stack_item_frame ([64,127]) */
-            unsigned   new_ft;    /* new frame_type */
+        } flsf if ( ft >= 64 && ft <= 127 ) {
+            /* Frbmf Typf: sbmf_lodbls_1_stbdk_itfm_frbmf ([64,127]) */
+            unsignfd   nfw_ft;    /* nfw frbmf_typf */
 
-            delta     = (delta_adj + ft - 64);
-            new_pc    = method_code_map(mi, last_pc + delta);
-            new_delta = new_pc - last_new_pc;
-            if ( (new_delta - delta_adj) > 63 ) {
-                /* Change to same_locals_1_stack_item_frame_extended (247) */
-                new_ft = 247;
-                writeU1(ci, new_ft);
-                writeUoffset(mi, (new_delta - delta_adj));
-            } else {
-                new_ft = (new_delta - delta_adj) + 64;
-                writeU1(ci, new_ft);
+            dfltb     = (dfltb_bdj + ft - 64);
+            nfw_pd    = mftiod_dodf_mbp(mi, lbst_pd + dfltb);
+            nfw_dfltb = nfw_pd - lbst_nfw_pd;
+            if ( (nfw_dfltb - dfltb_bdj) > 63 ) {
+                /* Cibngf to sbmf_lodbls_1_stbdk_itfm_frbmf_fxtfndfd (247) */
+                nfw_ft = 247;
+                writfU1(di, nfw_ft);
+                writfUoffsft(mi, (nfw_dfltb - dfltb_bdj));
+            } flsf {
+                nfw_ft = (nfw_dfltb - dfltb_bdj) + 64;
+                writfU1(di, nfw_ft);
             }
-            copy_verification_types(mi, 1);
-        } else if ( ft >= 128 && ft <= 246 ) {
-            /* Frame Type: reserved_for_future_use ([128,246]) */
-            CRW_FATAL(ci, "Unknown frame type in StackMapTable attribute");
-        } else if ( ft == 247 ) {
-            /* Frame Type: same_locals_1_stack_item_frame_extended (247) */
-            delta     = (delta_adj + readUoffset(mi));
-            new_pc    = method_code_map(mi, last_pc + delta);
-            new_delta = new_pc - last_new_pc;
-            writeU1(ci, ft);
-            writeUoffset(mi, (new_delta - delta_adj));
-            copy_verification_types(mi, 1);
-        } else if ( ft >= 248 && ft <= 250 ) {
-            /* Frame Type: chop_frame ([248,250]) */
-            delta     = (delta_adj + readUoffset(mi));
-            new_pc    = method_code_map(mi, last_pc + delta);
-            new_delta = new_pc - last_new_pc;
-            writeU1(ci, ft);
-            writeUoffset(mi, (new_delta - delta_adj));
-        } else if ( ft == 251 ) {
-            /* Frame Type: same_frame_extended (251) */
-            delta     = (delta_adj + readUoffset(mi));
-            new_pc    = method_code_map(mi, last_pc + delta);
-            new_delta = new_pc - last_new_pc;
-            writeU1(ci, ft);
-            writeUoffset(mi, (new_delta - delta_adj));
-        } else if ( ft >= 252 && ft <= 254 ) {
-            /* Frame Type: append_frame ([252,254]) */
-            delta     = (delta_adj + readUoffset(mi));
-            new_pc    = method_code_map(mi, last_pc + delta);
-            new_delta = new_pc - last_new_pc;
-            writeU1(ci, ft);
-            writeUoffset(mi, (new_delta - delta_adj));
-            copy_verification_types(mi, (ft - 251));
-        } else if ( ft == 255 ) {
-            unsigned   ntypes;
+            dopy_vfrifidbtion_typfs(mi, 1);
+        } flsf if ( ft >= 128 && ft <= 246 ) {
+            /* Frbmf Typf: rfsfrvfd_for_futurf_usf ([128,246]) */
+            CRW_FATAL(di, "Unknown frbmf typf in StbdkMbpTbblf bttributf");
+        } flsf if ( ft == 247 ) {
+            /* Frbmf Typf: sbmf_lodbls_1_stbdk_itfm_frbmf_fxtfndfd (247) */
+            dfltb     = (dfltb_bdj + rfbdUoffsft(mi));
+            nfw_pd    = mftiod_dodf_mbp(mi, lbst_pd + dfltb);
+            nfw_dfltb = nfw_pd - lbst_nfw_pd;
+            writfU1(di, ft);
+            writfUoffsft(mi, (nfw_dfltb - dfltb_bdj));
+            dopy_vfrifidbtion_typfs(mi, 1);
+        } flsf if ( ft >= 248 && ft <= 250 ) {
+            /* Frbmf Typf: diop_frbmf ([248,250]) */
+            dfltb     = (dfltb_bdj + rfbdUoffsft(mi));
+            nfw_pd    = mftiod_dodf_mbp(mi, lbst_pd + dfltb);
+            nfw_dfltb = nfw_pd - lbst_nfw_pd;
+            writfU1(di, ft);
+            writfUoffsft(mi, (nfw_dfltb - dfltb_bdj));
+        } flsf if ( ft == 251 ) {
+            /* Frbmf Typf: sbmf_frbmf_fxtfndfd (251) */
+            dfltb     = (dfltb_bdj + rfbdUoffsft(mi));
+            nfw_pd    = mftiod_dodf_mbp(mi, lbst_pd + dfltb);
+            nfw_dfltb = nfw_pd - lbst_nfw_pd;
+            writfU1(di, ft);
+            writfUoffsft(mi, (nfw_dfltb - dfltb_bdj));
+        } flsf if ( ft >= 252 && ft <= 254 ) {
+            /* Frbmf Typf: bppfnd_frbmf ([252,254]) */
+            dfltb     = (dfltb_bdj + rfbdUoffsft(mi));
+            nfw_pd    = mftiod_dodf_mbp(mi, lbst_pd + dfltb);
+            nfw_dfltb = nfw_pd - lbst_nfw_pd;
+            writfU1(di, ft);
+            writfUoffsft(mi, (nfw_dfltb - dfltb_bdj));
+            dopy_vfrifidbtion_typfs(mi, (ft - 251));
+        } flsf if ( ft == 255 ) {
+            unsignfd   ntypfs;
 
-            /* Frame Type: full_frame (255) */
-            delta     = (delta_adj + readUoffset(mi));
-            new_pc    = method_code_map(mi, last_pc + delta);
-            new_delta = new_pc - last_new_pc;
-            writeU1(ci, ft);
-            writeUoffset(mi, (new_delta - delta_adj));
-            ntypes    = copyU2(ci); /* ulocalvar */
-            copy_verification_types(mi, ntypes);
-            ntypes    = copyU2(ci); /* ustack */
-            copy_verification_types(mi, ntypes);
+            /* Frbmf Typf: full_frbmf (255) */
+            dfltb     = (dfltb_bdj + rfbdUoffsft(mi));
+            nfw_pd    = mftiod_dodf_mbp(mi, lbst_pd + dfltb);
+            nfw_dfltb = nfw_pd - lbst_nfw_pd;
+            writfU1(di, ft);
+            writfUoffsft(mi, (nfw_dfltb - dfltb_bdj));
+            ntypfs    = dopyU2(di); /* ulodblvbr */
+            dopy_vfrifidbtion_typfs(mi, ntypfs);
+            ntypfs    = dopyU2(di); /* ustbdk */
+            dopy_vfrifidbtion_typfs(mi, ntypfs);
         }
 
-        /* Update last_pc and last_new_pc (save on calls to method_code_map) */
-        CRW_ASSERT(ci, delta >= 0);
-        CRW_ASSERT(ci, new_delta >= 0);
-        last_pc    += delta;
-        last_new_pc = new_pc;
-        CRW_ASSERT(ci, last_pc <= mi->code_len);
-        CRW_ASSERT(ci, last_new_pc <= mi->new_code_len);
+        /* Updbtf lbst_pd bnd lbst_nfw_pd (sbvf on dblls to mftiod_dodf_mbp) */
+        CRW_ASSERT(di, dfltb >= 0);
+        CRW_ASSERT(di, nfw_dfltb >= 0);
+        lbst_pd    += dfltb;
+        lbst_nfw_pd = nfw_pd;
+        CRW_ASSERT(di, lbst_pd <= mi->dodf_lfn);
+        CRW_ASSERT(di, lbst_nfw_pd <= mi->nfw_dodf_lfn);
 
-        /* Delta adjustment, all deltas are -1 now in attribute */
-        delta_adj = 1;
+        /* Dfltb bdjustmfnt, bll dfltbs brf -1 now in bttributf */
+        dfltb_bdj = 1;
     }
 
-    /* Update the attribute length */
-    new_attr_len = ci->output_position - (save_position + 4);
-    CRW_ASSERT(ci, new_attr_len >= attr_len);
-    random_writeU4(ci, save_position, new_attr_len);
+    /* Updbtf tif bttributf lfngti */
+    nfw_bttr_lfn = di->output_position - (sbvf_position + 4);
+    CRW_ASSERT(di, nfw_bttr_lfn >= bttr_lfn);
+    rbndom_writfU4(di, sbvf_position, nfw_bttr_lfn);
 }
 
-/* Process the CLDC StackMap attribute. We didn't add any basic blocks
- *   so the frame count remains the same but we may need to process the
- *   frame types due to offset changes putting things out of range.
+/* Prodfss tif CLDC StbdkMbp bttributf. Wf didn't bdd bny bbsid blodks
+ *   so tif frbmf dount rfmbins tif sbmf but wf mby nffd to prodfss tif
+ *   frbmf typfs duf to offsft dibngfs putting tiings out of rbngf.
  */
-static void
-write_cldc_stackmap_table(MethodImage *mi)
+stbtid void
+writf_dldd_stbdkmbp_tbblf(MftiodImbgf *mi)
 {
-    CrwClassImage *ci;
-    CrwPosition    save_position;
-    unsigned       i;
-    unsigned       attr_len;
-    unsigned       new_attr_len;
-    unsigned       count;
+    CrwClbssImbgf *di;
+    CrwPosition    sbvf_position;
+    unsignfd       i;
+    unsignfd       bttr_lfn;
+    unsignfd       nfw_bttr_lfn;
+    unsignfd       dount;
 
     CRW_ASSERT_MI(mi);
-    ci = mi->ci;
+    di = mi->di;
 
-    /* Save the position of the attribute length so we can fix it later */
-    save_position = ci->output_position;
-    attr_len      = copyU4(ci);
-    count         = copyUoffset(mi);  /* uoffset: number_of_entries */
-    if ( count == 0 ) {
-        CRW_ASSERT(ci, attr_len==2);
-        return;
+    /* Sbvf tif position of tif bttributf lfngti so wf dbn fix it lbtfr */
+    sbvf_position = di->output_position;
+    bttr_lfn      = dopyU4(di);
+    dount         = dopyUoffsft(mi);  /* uoffsft: numbfr_of_fntrifs */
+    if ( dount == 0 ) {
+        CRW_ASSERT(di, bttr_lfn==2);
+        rfturn;
     }
 
-    /* Process entire stackmap */
-    for ( i = 0 ; i < count ; i++ ) {
-        unsigned   ntypes;
+    /* Prodfss fntirf stbdkmbp */
+    for ( i = 0 ; i < dount ; i++ ) {
+        unsignfd   ntypfs;
 
-        writeUoffset(mi, method_code_map(mi, readUoffset(mi)));
-        ntypes    = copyU2(ci); /* ulocalvar */
-        copy_verification_types(mi, ntypes);
-        ntypes    = copyU2(ci); /* ustack */
-        copy_verification_types(mi, ntypes);
+        writfUoffsft(mi, mftiod_dodf_mbp(mi, rfbdUoffsft(mi)));
+        ntypfs    = dopyU2(di); /* ulodblvbr */
+        dopy_vfrifidbtion_typfs(mi, ntypfs);
+        ntypfs    = dopyU2(di); /* ustbdk */
+        dopy_vfrifidbtion_typfs(mi, ntypfs);
     }
 
-    /* Update the attribute length */
-    new_attr_len = ci->output_position - (save_position + 4);
-    CRW_ASSERT(ci, new_attr_len >= attr_len);
-    random_writeU4(ci, save_position, new_attr_len);
+    /* Updbtf tif bttributf lfngti */
+    nfw_bttr_lfn = di->output_position - (sbvf_position + 4);
+    CRW_ASSERT(di, nfw_bttr_lfn >= bttr_lfn);
+    rbndom_writfU4(di, sbvf_position, nfw_bttr_lfn);
 }
 
-static void
-method_write_exception_table(MethodImage *mi)
+stbtid void
+mftiod_writf_fxdfption_tbblf(MftiodImbgf *mi)
 {
-    unsigned            i;
-    unsigned            count;
-    CrwClassImage *     ci;
+    unsignfd            i;
+    unsignfd            dount;
+    CrwClbssImbgf *     di;
 
     CRW_ASSERT_MI(mi);
-    ci = mi->ci;
-    count = copyU2(ci);
-    for(i=0; i<count; i++) {
-        ByteOffset start_pc;
-        ByteOffset new_start_pc;
-        ByteOffset end_pc;
-        ByteOffset new_end_pc;
-        ByteOffset handler_pc;
-        ByteOffset new_handler_pc;
+    di = mi->di;
+    dount = dopyU2(di);
+    for(i=0; i<dount; i++) {
+        BytfOffsft stbrt_pd;
+        BytfOffsft nfw_stbrt_pd;
+        BytfOffsft fnd_pd;
+        BytfOffsft nfw_fnd_pd;
+        BytfOffsft ibndlfr_pd;
+        BytfOffsft nfw_ibndlfr_pd;
 
-        start_pc        = readU2(ci);
-        end_pc          = readU2(ci);
-        handler_pc      = readU2(ci);
+        stbrt_pd        = rfbdU2(di);
+        fnd_pd          = rfbdU2(di);
+        ibndlfr_pd      = rfbdU2(di);
 
-        new_start_pc    = method_code_map(mi, start_pc);
-        new_end_pc      = method_code_map(mi, end_pc);
-        new_handler_pc  = method_code_map(mi, handler_pc);
+        nfw_stbrt_pd    = mftiod_dodf_mbp(mi, stbrt_pd);
+        nfw_fnd_pd      = mftiod_dodf_mbp(mi, fnd_pd);
+        nfw_ibndlfr_pd  = mftiod_dodf_mbp(mi, ibndlfr_pd);
 
-        writeU2(ci, new_start_pc);
-        writeU2(ci, new_end_pc);
-        writeU2(ci, new_handler_pc);
-        (void)copyU2(ci);
+        writfU2(di, nfw_stbrt_pd);
+        writfU2(di, nfw_fnd_pd);
+        writfU2(di, nfw_ibndlfr_pd);
+        (void)dopyU2(di);
     }
 }
 
-static int
-attribute_match(CrwClassImage *ci, CrwCpoolIndex name_index, const char *name)
+stbtid int
+bttributf_mbtdi(CrwClbssImbgf *di, CrwCpoolIndfx nbmf_indfx, donst dibr *nbmf)
 {
-    CrwConstantPoolEntry cs;
-    int                  len;
+    CrwConstbntPoolEntry ds;
+    int                  lfn;
 
-    CRW_ASSERT_CI(ci);
-    CRW_ASSERT(ci, name!=NULL);
-    len = (int)strlen(name);
-    cs = cpool_entry(ci, name_index);
-    if ( cs.len==len && strncmp(cs.ptr, name, len)==0) {
-       return 1;
+    CRW_ASSERT_CI(di);
+    CRW_ASSERT(di, nbmf!=NULL);
+    lfn = (int)strlfn(nbmf);
+    ds = dpool_fntry(di, nbmf_indfx);
+    if ( ds.lfn==lfn && strndmp(ds.ptr, nbmf, lfn)==0) {
+       rfturn 1;
     }
-    return 0;
+    rfturn 0;
 }
 
-static void
-method_write_code_attribute(MethodImage *mi)
+stbtid void
+mftiod_writf_dodf_bttributf(MftiodImbgf *mi)
 {
-    CrwClassImage *     ci;
-    CrwCpoolIndex       name_index;
+    CrwClbssImbgf *     di;
+    CrwCpoolIndfx       nbmf_indfx;
 
     CRW_ASSERT_MI(mi);
-    ci = mi->ci;
-    name_index = copyU2(ci);
-    if ( attribute_match(ci, name_index, "LineNumberTable") ) {
-        write_line_table(mi);
-    } else if ( attribute_match(ci, name_index, "LocalVariableTable") ) {
-        write_var_table(mi);
-    } else if ( attribute_match(ci, name_index, "LocalVariableTypeTable") ) {
-        write_var_table(mi); /* Exact same format as the LocalVariableTable */
-    } else if ( attribute_match(ci, name_index, "StackMapTable") ) {
-        write_stackmap_table(mi);
-    } else if ( attribute_match(ci, name_index, "StackMap") ) {
-        write_cldc_stackmap_table(mi);
-    } else {
-        unsigned len;
-        len = copyU4(ci);
-        copy(ci, len);
+    di = mi->di;
+    nbmf_indfx = dopyU2(di);
+    if ( bttributf_mbtdi(di, nbmf_indfx, "LinfNumbfrTbblf") ) {
+        writf_linf_tbblf(mi);
+    } flsf if ( bttributf_mbtdi(di, nbmf_indfx, "LodblVbribblfTbblf") ) {
+        writf_vbr_tbblf(mi);
+    } flsf if ( bttributf_mbtdi(di, nbmf_indfx, "LodblVbribblfTypfTbblf") ) {
+        writf_vbr_tbblf(mi); /* Exbdt sbmf formbt bs tif LodblVbribblfTbblf */
+    } flsf if ( bttributf_mbtdi(di, nbmf_indfx, "StbdkMbpTbblf") ) {
+        writf_stbdkmbp_tbblf(mi);
+    } flsf if ( bttributf_mbtdi(di, nbmf_indfx, "StbdkMbp") ) {
+        writf_dldd_stbdkmbp_tbblf(mi);
+    } flsf {
+        unsignfd lfn;
+        lfn = dopyU4(di);
+        dopy(di, lfn);
     }
 }
 
-static int
-is_init_method(const char *name)
+stbtid int
+is_init_mftiod(donst dibr *nbmf)
 {
-    if ( name!=NULL && strcmp(name,"<init>")==0 ) {
-        return JNI_TRUE;
+    if ( nbmf!=NULL && strdmp(nbmf,"<init>")==0 ) {
+        rfturn JNI_TRUE;
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
-static int
-is_clinit_method(const char *name)
+stbtid int
+is_dlinit_mftiod(donst dibr *nbmf)
 {
-    if ( name!=NULL && strcmp(name,"<clinit>")==0 ) {
-        return JNI_TRUE;
+    if ( nbmf!=NULL && strdmp(nbmf,"<dlinit>")==0 ) {
+        rfturn JNI_TRUE;
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
-static int
-is_finalize_method(const char *name)
+stbtid int
+is_finblizf_mftiod(donst dibr *nbmf)
 {
-    if ( name!=NULL && strcmp(name,"finalize")==0 ) {
-        return JNI_TRUE;
+    if ( nbmf!=NULL && strdmp(nbmf,"finblizf")==0 ) {
+        rfturn JNI_TRUE;
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
-static int
-skip_method(CrwClassImage *ci, const char *name,
-                unsigned access_flags, ByteOffset code_len,
-                int system_class, jboolean *pskip_call_return_sites)
+stbtid int
+skip_mftiod(CrwClbssImbgf *di, donst dibr *nbmf,
+                unsignfd bddfss_flbgs, BytfOffsft dodf_lfn,
+                int systfm_dlbss, jboolfbn *pskip_dbll_rfturn_sitfs)
 {
-    *pskip_call_return_sites = JNI_FALSE;
-    if ( system_class ) {
-        if ( code_len == 1 && is_init_method(name) ) {
-            return JNI_TRUE;
-        } else if ( code_len == 1 && is_finalize_method(name) ) {
-            return JNI_TRUE;
-        } else if ( is_clinit_method(name) ) {
-            return JNI_TRUE;
-        } else if ( ci->is_thread_class && strcmp(name,"currentThread")==0 ) {
-            return JNI_TRUE;
+    *pskip_dbll_rfturn_sitfs = JNI_FALSE;
+    if ( systfm_dlbss ) {
+        if ( dodf_lfn == 1 && is_init_mftiod(nbmf) ) {
+            rfturn JNI_TRUE;
+        } flsf if ( dodf_lfn == 1 && is_finblizf_mftiod(nbmf) ) {
+            rfturn JNI_TRUE;
+        } flsf if ( is_dlinit_mftiod(nbmf) ) {
+            rfturn JNI_TRUE;
+        } flsf if ( di->is_tirfbd_dlbss && strdmp(nbmf,"durrfntTirfbd")==0 ) {
+            rfturn JNI_TRUE;
         }
         /*
-        if ( access_flags & JVM_ACC_PRIVATE ) {
-            *pskip_call_return_sites = JNI_TRUE;
+        if ( bddfss_flbgs & JVM_ACC_PRIVATE ) {
+            *pskip_dbll_rfturn_sitfs = JNI_TRUE;
         }
         */
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
-/* Process all code attributes */
-static void
-method_write_bytecodes(CrwClassImage *ci, unsigned mnum, unsigned access_flags)
+/* Prodfss bll dodf bttributfs */
+stbtid void
+mftiod_writf_bytfdodfs(CrwClbssImbgf *di, unsignfd mnum, unsignfd bddfss_flbgs)
 {
-    CrwPosition         output_attr_len_position;
-    CrwPosition         output_max_stack_position;
-    CrwPosition         output_code_len_position;
-    CrwPosition         start_of_output_bytecodes;
-    unsigned            i;
-    unsigned            attr_len;
-    unsigned            max_stack;
-    ByteOffset          code_len;
-    unsigned            attr_count;
-    unsigned            new_attr_len;
-    MethodImage *       mi;
-    jboolean            object_init_method;
-    jboolean            skip_call_return_sites;
+    CrwPosition         output_bttr_lfn_position;
+    CrwPosition         output_mbx_stbdk_position;
+    CrwPosition         output_dodf_lfn_position;
+    CrwPosition         stbrt_of_output_bytfdodfs;
+    unsignfd            i;
+    unsignfd            bttr_lfn;
+    unsignfd            mbx_stbdk;
+    BytfOffsft          dodf_lfn;
+    unsignfd            bttr_dount;
+    unsignfd            nfw_bttr_lfn;
+    MftiodImbgf *       mi;
+    jboolfbn            objfdt_init_mftiod;
+    jboolfbn            skip_dbll_rfturn_sitfs;
 
-    CRW_ASSERT_CI(ci);
+    CRW_ASSERT_CI(di);
 
-    /* Attribute Length */
-    output_attr_len_position = ci->output_position;
-    attr_len = copyU4(ci);
+    /* Attributf Lfngti */
+    output_bttr_lfn_position = di->output_position;
+    bttr_lfn = dopyU4(di);
 
-    /* Max Stack */
-    output_max_stack_position = ci->output_position;
-    max_stack = copyU2(ci);
+    /* Mbx Stbdk */
+    output_mbx_stbdk_position = di->output_position;
+    mbx_stbdk = dopyU2(di);
 
-    /* Max Locals */
-    (void)copyU2(ci);
+    /* Mbx Lodbls */
+    (void)dopyU2(di);
 
-    /* Code Length */
-    output_code_len_position = ci->output_position;
-    code_len = copyU4(ci);
-    start_of_output_bytecodes = ci->output_position;
+    /* Codf Lfngti */
+    output_dodf_lfn_position = di->output_position;
+    dodf_lfn = dopyU4(di);
+    stbrt_of_output_bytfdodfs = di->output_position;
 
-    /* Some methods should not be instrumented */
-    object_init_method = JNI_FALSE;
-    skip_call_return_sites = JNI_FALSE;
-    if ( ci->is_object_class &&
-         is_init_method(ci->method_name[mnum]) &&
-         strcmp(ci->method_descr[mnum],"()V")==0 ) {
-        object_init_method = JNI_TRUE;
-        skip_call_return_sites = JNI_TRUE;
-    } else if ( skip_method(ci, ci->method_name[mnum], access_flags,
-                code_len, ci->system_class, &skip_call_return_sites) ) {
-        /* Copy remainder minus already copied, the U2 max_stack,
-         *   U2 max_locals, and U4 code_length fields have already
-         *   been processed.
+    /* Somf mftiods siould not bf instrumfntfd */
+    objfdt_init_mftiod = JNI_FALSE;
+    skip_dbll_rfturn_sitfs = JNI_FALSE;
+    if ( di->is_objfdt_dlbss &&
+         is_init_mftiod(di->mftiod_nbmf[mnum]) &&
+         strdmp(di->mftiod_dfsdr[mnum],"()V")==0 ) {
+        objfdt_init_mftiod = JNI_TRUE;
+        skip_dbll_rfturn_sitfs = JNI_TRUE;
+    } flsf if ( skip_mftiod(di, di->mftiod_nbmf[mnum], bddfss_flbgs,
+                dodf_lfn, di->systfm_dlbss, &skip_dbll_rfturn_sitfs) ) {
+        /* Copy rfmbindfr minus blrfbdy dopifd, tif U2 mbx_stbdk,
+         *   U2 mbx_lodbls, bnd U4 dodf_lfngti fiflds ibvf blrfbdy
+         *   bffn prodfssfd.
          */
-        copy(ci, attr_len - (2+2+4));
-        return;
+        dopy(di, bttr_lfn - (2+2+4));
+        rfturn;
     }
 
-    /* Start Injection */
-    mi = method_init(ci, mnum, code_len);
-    mi->object_init_method = object_init_method;
-    mi->access_flags = access_flags;
-    mi->skip_call_return_sites = skip_call_return_sites;
+    /* Stbrt Injfdtion */
+    mi = mftiod_init(di, mnum, dodf_lfn);
+    mi->objfdt_init_mftiod = objfdt_init_mftiod;
+    mi->bddfss_flbgs = bddfss_flbgs;
+    mi->skip_dbll_rfturn_sitfs = skip_dbll_rfturn_sitfs;
 
-    /* Save the current position as the start of the input bytecodes */
-    mi->start_of_input_bytecodes = ci->input_position;
+    /* Sbvf tif durrfnt position bs tif stbrt of tif input bytfdodfs */
+    mi->stbrt_of_input_bytfdodfs = di->input_position;
 
-    /* The max stack may increase */
-    mi->max_stack = max_stack;
-    mi->new_max_stack = max_stack;
+    /* Tif mbx stbdk mby indrfbsf */
+    mi->mbx_stbdk = mbx_stbdk;
+    mi->nfw_mbx_stbdk = mbx_stbdk;
 
-    /* Adjust all code offsets */
-    method_inject_and_write_code(mi);
+    /* Adjust bll dodf offsfts */
+    mftiod_injfdt_bnd_writf_dodf(mi);
 
-    /* Fix up code length (save new_code_len for later attribute processing) */
-    mi->new_code_len = (int)(ci->output_position - start_of_output_bytecodes);
-    random_writeU4(ci, output_code_len_position, mi->new_code_len);
+    /* Fix up dodf lfngti (sbvf nfw_dodf_lfn for lbtfr bttributf prodfssing) */
+    mi->nfw_dodf_lfn = (int)(di->output_position - stbrt_of_output_bytfdodfs);
+    rbndom_writfU4(di, output_dodf_lfn_position, mi->nfw_dodf_lfn);
 
-    /* Fixup max stack */
-    CRW_ASSERT(ci, mi->new_max_stack <= 0xFFFF);
-    random_writeU2(ci, output_max_stack_position, mi->new_max_stack);
+    /* Fixup mbx stbdk */
+    CRW_ASSERT(di, mi->nfw_mbx_stbdk <= 0xFFFF);
+    rbndom_writfU2(di, output_mbx_stbdk_position, mi->nfw_mbx_stbdk);
 
-    /* Copy exception table */
-    method_write_exception_table(mi);
+    /* Copy fxdfption tbblf */
+    mftiod_writf_fxdfption_tbblf(mi);
 
-    /* Copy code attributes (needs mi->new_code_len) */
-    attr_count = copyU2(ci);
-    for (i = 0; i < attr_count; ++i) {
-        method_write_code_attribute(mi);
+    /* Copy dodf bttributfs (nffds mi->nfw_dodf_lfn) */
+    bttr_dount = dopyU2(di);
+    for (i = 0; i < bttr_dount; ++i) {
+        mftiod_writf_dodf_bttributf(mi);
     }
 
-    /* Fix up attribute length */
-    new_attr_len = (int)(ci->output_position - (output_attr_len_position + 4));
-    random_writeU4(ci, output_attr_len_position, new_attr_len);
+    /* Fix up bttributf lfngti */
+    nfw_bttr_lfn = (int)(di->output_position - (output_bttr_lfn_position + 4));
+    rbndom_writfU4(di, output_bttr_lfn_position, nfw_bttr_lfn);
 
-    /* Free method data */
-    method_term(mi);
+    /* Frff mftiod dbtb */
+    mftiod_tfrm(mi);
     mi = NULL;
 
 }
 
-static void
-method_write(CrwClassImage *ci, unsigned mnum)
+stbtid void
+mftiod_writf(CrwClbssImbgf *di, unsignfd mnum)
 {
-    unsigned            i;
-    unsigned            access_flags;
-    CrwCpoolIndex       name_index;
-    CrwCpoolIndex       descr_index;
-    unsigned            attr_count;
+    unsignfd            i;
+    unsignfd            bddfss_flbgs;
+    CrwCpoolIndfx       nbmf_indfx;
+    CrwCpoolIndfx       dfsdr_indfx;
+    unsignfd            bttr_dount;
 
-    access_flags = copyU2(ci);
-    name_index = copyU2(ci);
-    ci->method_name[mnum] = cpool_entry(ci, name_index).ptr;
-    descr_index = copyU2(ci);
-    ci->method_descr[mnum] = cpool_entry(ci, descr_index).ptr;
-    attr_count = copyU2(ci);
+    bddfss_flbgs = dopyU2(di);
+    nbmf_indfx = dopyU2(di);
+    di->mftiod_nbmf[mnum] = dpool_fntry(di, nbmf_indfx).ptr;
+    dfsdr_indfx = dopyU2(di);
+    di->mftiod_dfsdr[mnum] = dpool_fntry(di, dfsdr_indfx).ptr;
+    bttr_dount = dopyU2(di);
 
-    for (i = 0; i < attr_count; ++i) {
-        CrwCpoolIndex name_index;
+    for (i = 0; i < bttr_dount; ++i) {
+        CrwCpoolIndfx nbmf_indfx;
 
-        name_index = copyU2(ci);
-        if ( attribute_match(ci, name_index, "Code") ) {
-            method_write_bytecodes(ci, mnum, access_flags);
-        } else {
-            unsigned len;
-            len = copyU4(ci);
-            copy(ci, len);
+        nbmf_indfx = dopyU2(di);
+        if ( bttributf_mbtdi(di, nbmf_indfx, "Codf") ) {
+            mftiod_writf_bytfdodfs(di, mnum, bddfss_flbgs);
+        } flsf {
+            unsignfd lfn;
+            lfn = dopyU4(di);
+            dopy(di, lfn);
         }
     }
 }
 
-static void
-method_write_all(CrwClassImage *ci)
+stbtid void
+mftiod_writf_bll(CrwClbssImbgf *di)
 {
-    unsigned i;
-    unsigned count;
+    unsignfd i;
+    unsignfd dount;
 
-    count = copyU2(ci);
-    ci->method_count = count;
-    if ( count > 0 ) {
-        ci->method_name = (const char **)allocate_clean(ci, count*(int)sizeof(const char*));
-        ci->method_descr = (const char **)allocate_clean(ci, count*(int)sizeof(const char*));
+    dount = dopyU2(di);
+    di->mftiod_dount = dount;
+    if ( dount > 0 ) {
+        di->mftiod_nbmf = (donst dibr **)bllodbtf_dlfbn(di, dount*(int)sizfof(donst dibr*));
+        di->mftiod_dfsdr = (donst dibr **)bllodbtf_dlfbn(di, dount*(int)sizfof(donst dibr*));
     }
 
-    for (i = 0; i < count; ++i) {
-        method_write(ci, i);
+    for (i = 0; i < dount; ++i) {
+        mftiod_writf(di, i);
     }
 
-    if ( ci->mnum_callback != NULL ) {
-        (*(ci->mnum_callback))(ci->number, ci->method_name, ci->method_descr,
-                         count);
+    if ( di->mnum_dbllbbdk != NULL ) {
+        (*(di->mnum_dbllbbdk))(di->numbfr, di->mftiod_nbmf, di->mftiod_dfsdr,
+                         dount);
     }
 }
 
 /* ------------------------------------------------------------------- */
-/* Cleanup function. */
+/* Clfbnup fundtion. */
 
-static void
-cleanup(CrwClassImage *ci)
+stbtid void
+dlfbnup(CrwClbssImbgf *di)
 {
-    CRW_ASSERT_CI(ci);
-    if ( ci->name != NULL ) {
-        deallocate(ci, (void*)ci->name);
-        ci->name = NULL;
+    CRW_ASSERT_CI(di);
+    if ( di->nbmf != NULL ) {
+        dfbllodbtf(di, (void*)di->nbmf);
+        di->nbmf = NULL;
     }
-    if ( ci->method_name != NULL ) {
-        deallocate(ci, (void*)ci->method_name);
-        ci->method_name = NULL;
+    if ( di->mftiod_nbmf != NULL ) {
+        dfbllodbtf(di, (void*)di->mftiod_nbmf);
+        di->mftiod_nbmf = NULL;
     }
-    if ( ci->method_descr != NULL ) {
-        deallocate(ci, (void*)ci->method_descr);
-        ci->method_descr = NULL;
+    if ( di->mftiod_dfsdr != NULL ) {
+        dfbllodbtf(di, (void*)di->mftiod_dfsdr);
+        di->mftiod_dfsdr = NULL;
     }
-    if ( ci->cpool != NULL ) {
-        CrwCpoolIndex i;
-        for(i=0; i<ci->cpool_count_plus_one; i++) {
-            if ( ci->cpool[i].ptr != NULL ) {
-                deallocate(ci, (void*)(ci->cpool[i].ptr));
-                ci->cpool[i].ptr = NULL;
+    if ( di->dpool != NULL ) {
+        CrwCpoolIndfx i;
+        for(i=0; i<di->dpool_dount_plus_onf; i++) {
+            if ( di->dpool[i].ptr != NULL ) {
+                dfbllodbtf(di, (void*)(di->dpool[i].ptr));
+                di->dpool[i].ptr = NULL;
             }
         }
-        deallocate(ci, (void*)ci->cpool);
-        ci->cpool = NULL;
+        dfbllodbtf(di, (void*)di->dpool);
+        di->dpool = NULL;
     }
 }
 
-static jboolean
-skip_class(unsigned access_flags)
+stbtid jboolfbn
+skip_dlbss(unsignfd bddfss_flbgs)
 {
-    if ( access_flags & JVM_ACC_INTERFACE ) {
-        return JNI_TRUE;
+    if ( bddfss_flbgs & JVM_ACC_INTERFACE ) {
+        rfturn JNI_TRUE;
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
-static long
-inject_class(struct CrwClassImage *ci,
-                 int system_class,
-                 char* tclass_name,
-                 char* tclass_sig,
-                 char* call_name,
-                 char* call_sig,
-                 char* return_name,
-                 char* return_sig,
-                 char* obj_init_name,
-                 char* obj_init_sig,
-                 char* newarray_name,
-                 char* newarray_sig,
-                 unsigned char *buf,
-                 long buf_len)
+stbtid long
+injfdt_dlbss(strudt CrwClbssImbgf *di,
+                 int systfm_dlbss,
+                 dibr* tdlbss_nbmf,
+                 dibr* tdlbss_sig,
+                 dibr* dbll_nbmf,
+                 dibr* dbll_sig,
+                 dibr* rfturn_nbmf,
+                 dibr* rfturn_sig,
+                 dibr* obj_init_nbmf,
+                 dibr* obj_init_sig,
+                 dibr* nfwbrrby_nbmf,
+                 dibr* nfwbrrby_sig,
+                 unsignfd dibr *buf,
+                 long buf_lfn)
 {
-    CrwConstantPoolEntry        cs;
-    CrwCpoolIndex               this_class;
-    CrwCpoolIndex               super_class;
-    unsigned                    magic;
-    unsigned                    classfileMajorVersion;
-    unsigned                    classfileMinorVersion;
-    unsigned                    interface_count;
+    CrwConstbntPoolEntry        ds;
+    CrwCpoolIndfx               tiis_dlbss;
+    CrwCpoolIndfx               supfr_dlbss;
+    unsignfd                    mbgid;
+    unsignfd                    dlbssfilfMbjorVfrsion;
+    unsignfd                    dlbssfilfMinorVfrsion;
+    unsignfd                    intfrfbdf_dount;
 
-    CRW_ASSERT_CI(ci);
-    CRW_ASSERT(ci, buf!=NULL);
-    CRW_ASSERT(ci, buf_len!=0);
+    CRW_ASSERT_CI(di);
+    CRW_ASSERT(di, buf!=NULL);
+    CRW_ASSERT(di, buf_lfn!=0);
 
-    CRW_ASSERT(ci, strchr(tclass_name,'.')==NULL); /* internal qualified name */
+    CRW_ASSERT(di, strdir(tdlbss_nbmf,'.')==NULL); /* intfrnbl qublififd nbmf */
 
-    ci->injection_count         = 0;
-    ci->system_class            = system_class;
-    ci->tclass_name             = tclass_name;
-    ci->tclass_sig              = tclass_sig;
-    ci->call_name               = call_name;
-    ci->call_sig                = call_sig;
-    ci->return_name             = return_name;
-    ci->return_sig              = return_sig;
-    ci->obj_init_name           = obj_init_name;
-    ci->obj_init_sig            = obj_init_sig;
-    ci->newarray_name           = newarray_name;
-    ci->newarray_sig            = newarray_sig;
-    ci->output                  = buf;
-    ci->output_len              = buf_len;
+    di->injfdtion_dount         = 0;
+    di->systfm_dlbss            = systfm_dlbss;
+    di->tdlbss_nbmf             = tdlbss_nbmf;
+    di->tdlbss_sig              = tdlbss_sig;
+    di->dbll_nbmf               = dbll_nbmf;
+    di->dbll_sig                = dbll_sig;
+    di->rfturn_nbmf             = rfturn_nbmf;
+    di->rfturn_sig              = rfturn_sig;
+    di->obj_init_nbmf           = obj_init_nbmf;
+    di->obj_init_sig            = obj_init_sig;
+    di->nfwbrrby_nbmf           = nfwbrrby_nbmf;
+    di->nfwbrrby_sig            = nfwbrrby_sig;
+    di->output                  = buf;
+    di->output_lfn              = buf_lfn;
 
-    magic = copyU4(ci);
-    CRW_ASSERT(ci, magic==0xCAFEBABE);
-    if ( magic != 0xCAFEBABE ) {
-        return (long)0;
+    mbgid = dopyU4(di);
+    CRW_ASSERT(di, mbgid==0xCAFEBABE);
+    if ( mbgid != 0xCAFEBABE ) {
+        rfturn (long)0;
     }
 
-    /* minor version number not used */
-    classfileMinorVersion = copyU2(ci);
-    /* major version number not used */
-    classfileMajorVersion = copyU2(ci);
-    CRW_ASSERT(ci,  (classfileMajorVersion <= JVM_CLASSFILE_MAJOR_VERSION) ||
-                   ((classfileMajorVersion == JVM_CLASSFILE_MAJOR_VERSION) &&
-                    (classfileMinorVersion <= JVM_CLASSFILE_MINOR_VERSION)));
+    /* minor vfrsion numbfr not usfd */
+    dlbssfilfMinorVfrsion = dopyU2(di);
+    /* mbjor vfrsion numbfr not usfd */
+    dlbssfilfMbjorVfrsion = dopyU2(di);
+    CRW_ASSERT(di,  (dlbssfilfMbjorVfrsion <= JVM_CLASSFILE_MAJOR_VERSION) ||
+                   ((dlbssfilfMbjorVfrsion == JVM_CLASSFILE_MAJOR_VERSION) &&
+                    (dlbssfilfMinorVfrsion <= JVM_CLASSFILE_MINOR_VERSION)));
 
-    cpool_setup(ci);
+    dpool_sftup(di);
 
-    ci->access_flags        = copyU2(ci);
-    if ( skip_class(ci->access_flags) ) {
-        return (long)0;
+    di->bddfss_flbgs        = dopyU2(di);
+    if ( skip_dlbss(di->bddfss_flbgs) ) {
+        rfturn (long)0;
     }
 
-    this_class          = copyU2(ci);
+    tiis_dlbss          = dopyU2(di);
 
-    cs = cpool_entry(ci, (CrwCpoolIndex)(cpool_entry(ci, this_class).index1));
-    if ( ci->name == NULL ) {
-        ci->name = duplicate(ci, cs.ptr, cs.len);
-        CRW_ASSERT(ci, strchr(ci->name,'.')==NULL); /* internal qualified name */
+    ds = dpool_fntry(di, (CrwCpoolIndfx)(dpool_fntry(di, tiis_dlbss).indfx1));
+    if ( di->nbmf == NULL ) {
+        di->nbmf = duplidbtf(di, ds.ptr, ds.lfn);
+        CRW_ASSERT(di, strdir(di->nbmf,'.')==NULL); /* intfrnbl qublififd nbmf */
     }
-    CRW_ASSERT(ci, (int)strlen(ci->name)==cs.len && strncmp(ci->name, cs.ptr, cs.len)==0);
+    CRW_ASSERT(di, (int)strlfn(di->nbmf)==ds.lfn && strndmp(di->nbmf, ds.ptr, ds.lfn)==0);
 
-    super_class         = copyU2(ci);
-    if ( super_class == 0 ) {
-        ci->is_object_class = JNI_TRUE;
-        CRW_ASSERT(ci, strcmp(ci->name,"java/lang/Object")==0);
-    }
-
-    interface_count     = copyU2(ci);
-    copy(ci, interface_count * 2);
-
-    copy_all_fields(ci);
-
-    method_write_all(ci);
-
-    if ( ci->injection_count == 0 ) {
-        return (long)0;
+    supfr_dlbss         = dopyU2(di);
+    if ( supfr_dlbss == 0 ) {
+        di->is_objfdt_dlbss = JNI_TRUE;
+        CRW_ASSERT(di, strdmp(di->nbmf,"jbvb/lbng/Objfdt")==0);
     }
 
-    copy_attributes(ci);
+    intfrfbdf_dount     = dopyU2(di);
+    dopy(di, intfrfbdf_dount * 2);
 
-    return (long)ci->output_position;
+    dopy_bll_fiflds(di);
+
+    mftiod_writf_bll(di);
+
+    if ( di->injfdtion_dount == 0 ) {
+        rfturn (long)0;
+    }
+
+    dopy_bttributfs(di);
+
+    rfturn (long)di->output_position;
 }
 
 /* ------------------------------------------------------------------- */
-/* Exported interfaces */
+/* Exportfd intfrfbdfs */
 
 JNIEXPORT void JNICALL
-java_crw_demo(unsigned class_number,
-         const char *name,
-         const unsigned char *file_image,
-         long file_len,
-         int system_class,
-         char* tclass_name,     /* Name of class that has tracker methods. */
-         char* tclass_sig,      /* Signature of tclass */
-         char* call_name,       /* Method name to call at offset 0 */
-         char* call_sig,        /* Signature of this method */
-         char* return_name,     /* Method name to call before any return */
-         char* return_sig,      /* Signature of this method */
-         char* obj_init_name,   /* Method name to call in Object <init> */
-         char* obj_init_sig,    /* Signature of this method */
-         char* newarray_name,   /* Method name to call after newarray opcodes */
-         char* newarray_sig,    /* Signature of this method */
-         unsigned char **pnew_file_image,
-         long *pnew_file_len,
-         FatalErrorHandler fatal_error_handler,
-         MethodNumberRegister mnum_callback)
+jbvb_drw_dfmo(unsignfd dlbss_numbfr,
+         donst dibr *nbmf,
+         donst unsignfd dibr *filf_imbgf,
+         long filf_lfn,
+         int systfm_dlbss,
+         dibr* tdlbss_nbmf,     /* Nbmf of dlbss tibt ibs trbdkfr mftiods. */
+         dibr* tdlbss_sig,      /* Signbturf of tdlbss */
+         dibr* dbll_nbmf,       /* Mftiod nbmf to dbll bt offsft 0 */
+         dibr* dbll_sig,        /* Signbturf of tiis mftiod */
+         dibr* rfturn_nbmf,     /* Mftiod nbmf to dbll bfforf bny rfturn */
+         dibr* rfturn_sig,      /* Signbturf of tiis mftiod */
+         dibr* obj_init_nbmf,   /* Mftiod nbmf to dbll in Objfdt <init> */
+         dibr* obj_init_sig,    /* Signbturf of tiis mftiod */
+         dibr* nfwbrrby_nbmf,   /* Mftiod nbmf to dbll bftfr nfwbrrby opdodfs */
+         dibr* nfwbrrby_sig,    /* Signbturf of tiis mftiod */
+         unsignfd dibr **pnfw_filf_imbgf,
+         long *pnfw_filf_lfn,
+         FbtblErrorHbndlfr fbtbl_frror_ibndlfr,
+         MftiodNumbfrRfgistfr mnum_dbllbbdk)
 {
-    CrwClassImage ci;
-    long          max_length;
-    long          new_length;
-    void         *new_image;
-    int           len;
+    CrwClbssImbgf di;
+    long          mbx_lfngti;
+    long          nfw_lfngti;
+    void         *nfw_imbgf;
+    int           lfn;
 
-    /* Initial setup of the CrwClassImage structure */
-    (void)memset(&ci, 0, (int)sizeof(CrwClassImage));
-    ci.fatal_error_handler = fatal_error_handler;
-    ci.mnum_callback       = mnum_callback;
+    /* Initibl sftup of tif CrwClbssImbgf strudturf */
+    (void)mfmsft(&di, 0, (int)sizfof(CrwClbssImbgf));
+    di.fbtbl_frror_ibndlfr = fbtbl_frror_ibndlfr;
+    di.mnum_dbllbbdk       = mnum_dbllbbdk;
 
-    /* Do some interface error checks */
-    if ( pnew_file_image==NULL ) {
-        CRW_FATAL(&ci, "pnew_file_image==NULL");
+    /* Do somf intfrfbdf frror difdks */
+    if ( pnfw_filf_imbgf==NULL ) {
+        CRW_FATAL(&di, "pnfw_filf_imbgf==NULL");
     }
-    if ( pnew_file_len==NULL ) {
-        CRW_FATAL(&ci, "pnew_file_len==NULL");
-    }
-
-    /* No file length means do nothing */
-    *pnew_file_image = NULL;
-    *pnew_file_len = 0;
-    if ( file_len==0 ) {
-        return;
+    if ( pnfw_filf_lfn==NULL ) {
+        CRW_FATAL(&di, "pnfw_filf_lfn==NULL");
     }
 
-    /* Do some more interface error checks */
-    if ( file_image == NULL ) {
-        CRW_FATAL(&ci, "file_image == NULL");
+    /* No filf lfngti mfbns do notiing */
+    *pnfw_filf_imbgf = NULL;
+    *pnfw_filf_lfn = 0;
+    if ( filf_lfn==0 ) {
+        rfturn;
     }
-    if ( file_len < 0 ) {
-        CRW_FATAL(&ci, "file_len < 0");
+
+    /* Do somf morf intfrfbdf frror difdks */
+    if ( filf_imbgf == NULL ) {
+        CRW_FATAL(&di, "filf_imbgf == NULL");
     }
-    if ( system_class != 0 && system_class != 1 ) {
-        CRW_FATAL(&ci, "system_class is not 0 or 1");
+    if ( filf_lfn < 0 ) {
+        CRW_FATAL(&di, "filf_lfn < 0");
     }
-    if ( tclass_name == NULL ) {
-        CRW_FATAL(&ci, "tclass_name == NULL");
+    if ( systfm_dlbss != 0 && systfm_dlbss != 1 ) {
+        CRW_FATAL(&di, "systfm_dlbss is not 0 or 1");
     }
-    if ( tclass_sig == NULL || tclass_sig[0]!='L' ) {
-        CRW_FATAL(&ci, "tclass_sig is not a valid class signature");
+    if ( tdlbss_nbmf == NULL ) {
+        CRW_FATAL(&di, "tdlbss_nbmf == NULL");
     }
-    len = (int)strlen(tclass_sig);
-    if ( tclass_sig[len-1]!=';' ) {
-        CRW_FATAL(&ci, "tclass_sig is not a valid class signature");
+    if ( tdlbss_sig == NULL || tdlbss_sig[0]!='L' ) {
+        CRW_FATAL(&di, "tdlbss_sig is not b vblid dlbss signbturf");
     }
-    if ( call_name != NULL ) {
-        if ( call_sig == NULL || strcmp(call_sig, "(II)V") != 0 ) {
-            CRW_FATAL(&ci, "call_sig is not (II)V");
+    lfn = (int)strlfn(tdlbss_sig);
+    if ( tdlbss_sig[lfn-1]!=';' ) {
+        CRW_FATAL(&di, "tdlbss_sig is not b vblid dlbss signbturf");
+    }
+    if ( dbll_nbmf != NULL ) {
+        if ( dbll_sig == NULL || strdmp(dbll_sig, "(II)V") != 0 ) {
+            CRW_FATAL(&di, "dbll_sig is not (II)V");
         }
     }
-    if ( return_name != NULL ) {
-        if ( return_sig == NULL || strcmp(return_sig, "(II)V") != 0 ) {
-            CRW_FATAL(&ci, "return_sig is not (II)V");
+    if ( rfturn_nbmf != NULL ) {
+        if ( rfturn_sig == NULL || strdmp(rfturn_sig, "(II)V") != 0 ) {
+            CRW_FATAL(&di, "rfturn_sig is not (II)V");
         }
     }
-    if ( obj_init_name != NULL ) {
-        if ( obj_init_sig == NULL || strcmp(obj_init_sig, "(Ljava/lang/Object;)V") != 0 ) {
-            CRW_FATAL(&ci, "obj_init_sig is not (Ljava/lang/Object;)V");
+    if ( obj_init_nbmf != NULL ) {
+        if ( obj_init_sig == NULL || strdmp(obj_init_sig, "(Ljbvb/lbng/Objfdt;)V") != 0 ) {
+            CRW_FATAL(&di, "obj_init_sig is not (Ljbvb/lbng/Objfdt;)V");
         }
     }
-    if ( newarray_name != NULL ) {
-        if ( newarray_sig == NULL || strcmp(newarray_sig, "(Ljava/lang/Object;)V") != 0 ) {
-            CRW_FATAL(&ci, "newarray_sig is not (Ljava/lang/Object;)V");
+    if ( nfwbrrby_nbmf != NULL ) {
+        if ( nfwbrrby_sig == NULL || strdmp(nfwbrrby_sig, "(Ljbvb/lbng/Objfdt;)V") != 0 ) {
+            CRW_FATAL(&di, "nfwbrrby_sig is not (Ljbvb/lbng/Objfdt;)V");
         }
     }
 
-    /* Finish setup the CrwClassImage structure */
-    ci.is_thread_class = JNI_FALSE;
-    if ( name != NULL ) {
-        CRW_ASSERT(&ci, strchr(name,'.')==NULL); /* internal qualified name */
+    /* Finisi sftup tif CrwClbssImbgf strudturf */
+    di.is_tirfbd_dlbss = JNI_FALSE;
+    if ( nbmf != NULL ) {
+        CRW_ASSERT(&di, strdir(nbmf,'.')==NULL); /* intfrnbl qublififd nbmf */
 
-        ci.name = duplicate(&ci, name, (int)strlen(name));
-        if ( strcmp(name, "java/lang/Thread")==0 ) {
-            ci.is_thread_class = JNI_TRUE;
+        di.nbmf = duplidbtf(&di, nbmf, (int)strlfn(nbmf));
+        if ( strdmp(nbmf, "jbvb/lbng/Tirfbd")==0 ) {
+            di.is_tirfbd_dlbss = JNI_TRUE;
         }
     }
-    ci.number = class_number;
-    ci.input = file_image;
-    ci.input_len = file_len;
+    di.numbfr = dlbss_numbfr;
+    di.input = filf_imbgf;
+    di.input_lfn = filf_lfn;
 
-    /* Do the injection */
-    max_length = file_len*2 + 512; /* Twice as big + 512 */
-    new_image = allocate(&ci, (int)max_length);
-    new_length = inject_class(&ci,
-                                 system_class,
-                                 tclass_name,
-                                 tclass_sig,
-                                 call_name,
-                                 call_sig,
-                                 return_name,
-                                 return_sig,
-                                 obj_init_name,
+    /* Do tif injfdtion */
+    mbx_lfngti = filf_lfn*2 + 512; /* Twidf bs big + 512 */
+    nfw_imbgf = bllodbtf(&di, (int)mbx_lfngti);
+    nfw_lfngti = injfdt_dlbss(&di,
+                                 systfm_dlbss,
+                                 tdlbss_nbmf,
+                                 tdlbss_sig,
+                                 dbll_nbmf,
+                                 dbll_sig,
+                                 rfturn_nbmf,
+                                 rfturn_sig,
+                                 obj_init_nbmf,
                                  obj_init_sig,
-                                 newarray_name,
-                                 newarray_sig,
-                                 new_image,
-                                 max_length);
+                                 nfwbrrby_nbmf,
+                                 nfwbrrby_sig,
+                                 nfw_imbgf,
+                                 mbx_lfngti);
 
-    /* Dispose or shrink the space to be returned. */
-    if ( new_length == 0 ) {
-        deallocate(&ci, (void*)new_image);
-        new_image = NULL;
-    } else {
-        new_image = (void*)reallocate(&ci, (void*)new_image, (int)new_length);
+    /* Disposf or sirink tif spbdf to bf rfturnfd. */
+    if ( nfw_lfngti == 0 ) {
+        dfbllodbtf(&di, (void*)nfw_imbgf);
+        nfw_imbgf = NULL;
+    } flsf {
+        nfw_imbgf = (void*)rfbllodbtf(&di, (void*)nfw_imbgf, (int)nfw_lfngti);
     }
 
-    /* Return the new class image */
-    *pnew_file_image = (unsigned char *)new_image;
-    *pnew_file_len = (long)new_length;
+    /* Rfturn tif nfw dlbss imbgf */
+    *pnfw_filf_imbgf = (unsignfd dibr *)nfw_imbgf;
+    *pnfw_filf_lfn = (long)nfw_lfngti;
 
-    /* Cleanup before we leave. */
-    cleanup(&ci);
+    /* Clfbnup bfforf wf lfbvf. */
+    dlfbnup(&di);
 }
 
-/* Return the classname for this class which is inside the classfile image. */
-JNIEXPORT char * JNICALL
-java_crw_demo_classname(const unsigned char *file_image, long file_len,
-        FatalErrorHandler fatal_error_handler)
+/* Rfturn tif dlbssnbmf for tiis dlbss wiidi is insidf tif dlbssfilf imbgf. */
+JNIEXPORT dibr * JNICALL
+jbvb_drw_dfmo_dlbssnbmf(donst unsignfd dibr *filf_imbgf, long filf_lfn,
+        FbtblErrorHbndlfr fbtbl_frror_ibndlfr)
 {
-    CrwClassImage               ci;
-    CrwConstantPoolEntry        cs;
-    CrwCpoolIndex               this_class;
-    unsigned                    magic;
-    char *                      name;
+    CrwClbssImbgf               di;
+    CrwConstbntPoolEntry        ds;
+    CrwCpoolIndfx               tiis_dlbss;
+    unsignfd                    mbgid;
+    dibr *                      nbmf;
 
-    name = NULL;
+    nbmf = NULL;
 
-    if ( file_len==0 || file_image==NULL ) {
-        return name;
+    if ( filf_lfn==0 || filf_imbgf==NULL ) {
+        rfturn nbmf;
     }
 
-    /* The only fields we need filled in are the image pointer and the error
-     *    handler.
-     *    By not adding an output buffer pointer, no output is created.
+    /* Tif only fiflds wf nffd fillfd in brf tif imbgf pointfr bnd tif frror
+     *    ibndlfr.
+     *    By not bdding bn output bufffr pointfr, no output is drfbtfd.
      */
-    (void)memset(&ci, 0, (int)sizeof(CrwClassImage));
-    ci.input     = file_image;
-    ci.input_len = file_len;
-    ci.fatal_error_handler = fatal_error_handler;
+    (void)mfmsft(&di, 0, (int)sizfof(CrwClbssImbgf));
+    di.input     = filf_imbgf;
+    di.input_lfn = filf_lfn;
+    di.fbtbl_frror_ibndlfr = fbtbl_frror_ibndlfr;
 
-    /* Read out the bytes from the classfile image */
+    /* Rfbd out tif bytfs from tif dlbssfilf imbgf */
 
-    magic = readU4(&ci); /* magic number */
-    CRW_ASSERT(&ci, magic==0xCAFEBABE);
-    if ( magic != 0xCAFEBABE ) {
-        return name;
+    mbgid = rfbdU4(&di); /* mbgid numbfr */
+    CRW_ASSERT(&di, mbgid==0xCAFEBABE);
+    if ( mbgid != 0xCAFEBABE ) {
+        rfturn nbmf;
     }
-    (void)readU2(&ci); /* minor version number */
-    (void)readU2(&ci); /* major version number */
+    (void)rfbdU2(&di); /* minor vfrsion numbfr */
+    (void)rfbdU2(&di); /* mbjor vfrsion numbfr */
 
-    /* Read in constant pool. Since no output setup, writes are NOP's */
-    cpool_setup(&ci);
+    /* Rfbd in donstbnt pool. Sindf no output sftup, writfs brf NOP's */
+    dpool_sftup(&di);
 
-    (void)readU2(&ci); /* access flags */
-    this_class = readU2(&ci); /* 'this' class */
+    (void)rfbdU2(&di); /* bddfss flbgs */
+    tiis_dlbss = rfbdU2(&di); /* 'tiis' dlbss */
 
-    /* Get 'this' constant pool entry */
-    cs = cpool_entry(&ci, (CrwCpoolIndex)(cpool_entry(&ci, this_class).index1));
+    /* Gft 'tiis' donstbnt pool fntry */
+    ds = dpool_fntry(&di, (CrwCpoolIndfx)(dpool_fntry(&di, tiis_dlbss).indfx1));
 
-    /* Duplicate the name */
-    name = (char *)duplicate(&ci, cs.ptr, cs.len);
+    /* Duplidbtf tif nbmf */
+    nbmf = (dibr *)duplidbtf(&di, ds.ptr, ds.lfn);
 
-    /* Cleanup before we leave. */
-    cleanup(&ci);
+    /* Clfbnup bfforf wf lfbvf. */
+    dlfbnup(&di);
 
-    /* Return malloc space */
-    return name;
+    /* Rfturn mbllod spbdf */
+    rfturn nbmf;
 }

@@ -1,542 +1,542 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import java.util.Arrays;
-import java.io.*;
-import java.security.*;
-import javax.crypto.*;
-import static com.sun.crypto.provider.AESConstants.AES_BLOCK_SIZE;
+import jbvb.util.Arrbys;
+import jbvb.io.*;
+import jbvb.sfdurity.*;
+import jbvbx.drypto.*;
+import stbtid dom.sun.drypto.providfr.AESConstbnts.AES_BLOCK_SIZE;
 
 /**
- * This class represents ciphers in GaloisCounter (GCM) mode.
+ * Tiis dlbss rfprfsfnts dipifrs in GbloisCountfr (GCM) modf.
  *
- * <p>This mode currently should only be used w/ AES cipher.
- * Although no checking is done, caller should only pass AES
- * Cipher to the constructor.
+ * <p>Tiis modf durrfntly siould only bf usfd w/ AES dipifr.
+ * Altiougi no difdking is donf, dbllfr siould only pbss AES
+ * Cipifr to tif donstrudtor.
  *
- * <p>NOTE: Unlike other modes, when used for decryption, this class
- * will buffer all processed outputs internally and won't return them
- * until the tag has been successfully verified.
+ * <p>NOTE: Unlikf otifr modfs, wifn usfd for dfdryption, tiis dlbss
+ * will bufffr bll prodfssfd outputs intfrnblly bnd won't rfturn tifm
+ * until tif tbg ibs bffn suddfssfully vfrififd.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-final class GaloisCounterMode extends FeedbackCipher {
+finbl dlbss GbloisCountfrModf fxtfnds FffdbbdkCipifr {
 
-    static int DEFAULT_TAG_LEN = AES_BLOCK_SIZE;
-    static int DEFAULT_IV_LEN = 12; // in bytes
+    stbtid int DEFAULT_TAG_LEN = AES_BLOCK_SIZE;
+    stbtid int DEFAULT_IV_LEN = 12; // in bytfs
 
-    // buffer for AAD data; if null, meaning update has been called
-    private ByteArrayOutputStream aadBuffer = new ByteArrayOutputStream();
-    private int sizeOfAAD = 0;
+    // bufffr for AAD dbtb; if null, mfbning updbtf ibs bffn dbllfd
+    privbtf BytfArrbyOutputStrfbm bbdBufffr = nfw BytfArrbyOutputStrfbm();
+    privbtf int sizfOfAAD = 0;
 
-    // buffer for storing input in decryption, not used for encryption
-    private ByteArrayOutputStream ibuffer = null;
+    // bufffr for storing input in dfdryption, not usfd for fndryption
+    privbtf BytfArrbyOutputStrfbm ibufffr = null;
 
-    // in bytes; need to convert to bits (default value 128) when needed
-    private int tagLenBytes = DEFAULT_TAG_LEN;
+    // in bytfs; nffd to donvfrt to bits (dffbult vbluf 128) wifn nffdfd
+    privbtf int tbgLfnBytfs = DEFAULT_TAG_LEN;
 
-    // these following 2 fields can only be initialized after init() is
-    // called, e.g. after cipher key k is set, and STAY UNCHANGED
-    private byte[] subkeyH = null;
-    private byte[] preCounterBlock = null;
+    // tifsf following 2 fiflds dbn only bf initiblizfd bftfr init() is
+    // dbllfd, f.g. bftfr dipifr kfy k is sft, bnd STAY UNCHANGED
+    privbtf bytf[] subkfyH = null;
+    privbtf bytf[] prfCountfrBlodk = null;
 
-    private GCTR gctrPAndC = null;
-    private GHASH ghashAllToS = null;
+    privbtf GCTR gdtrPAndC = null;
+    privbtf GHASH gibsiAllToS = null;
 
-    // length of total data, i.e. len(C)
-    private int processed = 0;
+    // lfngti of totbl dbtb, i.f. lfn(C)
+    privbtf int prodfssfd = 0;
 
-    // additional variables for save/restore calls
-    private byte[] aadBufferSave = null;
-    private int sizeOfAADSave = 0;
-    private byte[] ibufferSave = null;
-    private int processedSave = 0;
+    // bdditionbl vbribblfs for sbvf/rfstorf dblls
+    privbtf bytf[] bbdBufffrSbvf = null;
+    privbtf int sizfOfAADSbvf = 0;
+    privbtf bytf[] ibufffrSbvf = null;
+    privbtf int prodfssfdSbvf = 0;
 
-    // value must be 16-byte long; used by GCTR and GHASH as well
-    static void increment32(byte[] value) {
-        if (value.length != AES_BLOCK_SIZE) {
-            // should never happen
-            throw new ProviderException("Illegal counter block length");
+    // vbluf must bf 16-bytf long; usfd by GCTR bnd GHASH bs wfll
+    stbtid void indrfmfnt32(bytf[] vbluf) {
+        if (vbluf.lfngti != AES_BLOCK_SIZE) {
+            // siould nfvfr ibppfn
+            tirow nfw ProvidfrExdfption("Illfgbl dountfr blodk lfngti");
         }
-        // start from last byte and only go over 4 bytes, i.e. total 32 bits
-        int n = value.length - 1;
-        while ((n >= value.length - 4) && (++value[n] == 0)) {
+        // stbrt from lbst bytf bnd only go ovfr 4 bytfs, i.f. totbl 32 bits
+        int n = vbluf.lfngti - 1;
+        wiilf ((n >= vbluf.lfngti - 4) && (++vbluf[n] == 0)) {
             n--;
         }
     }
 
-    // ivLen in bits
-    private static byte[] getLengthBlock(int ivLen) {
-        byte[] out = new byte[AES_BLOCK_SIZE];
-        out[12] = (byte)(ivLen >>> 24);
-        out[13] = (byte)(ivLen >>> 16);
-        out[14] = (byte)(ivLen >>> 8);
-        out[15] = (byte)ivLen;
-        return out;
+    // ivLfn in bits
+    privbtf stbtid bytf[] gftLfngtiBlodk(int ivLfn) {
+        bytf[] out = nfw bytf[AES_BLOCK_SIZE];
+        out[12] = (bytf)(ivLfn >>> 24);
+        out[13] = (bytf)(ivLfn >>> 16);
+        out[14] = (bytf)(ivLfn >>> 8);
+        out[15] = (bytf)ivLfn;
+        rfturn out;
     }
 
-    // aLen and cLen both in bits
-    private static byte[] getLengthBlock(int aLen, int cLen) {
-        byte[] out = new byte[AES_BLOCK_SIZE];
-        out[4] = (byte)(aLen >>> 24);
-        out[5] = (byte)(aLen >>> 16);
-        out[6] = (byte)(aLen >>> 8);
-        out[7] = (byte)aLen;
-        out[12] = (byte)(cLen >>> 24);
-        out[13] = (byte)(cLen >>> 16);
-        out[14] = (byte)(cLen >>> 8);
-        out[15] = (byte)cLen;
-        return out;
+    // bLfn bnd dLfn boti in bits
+    privbtf stbtid bytf[] gftLfngtiBlodk(int bLfn, int dLfn) {
+        bytf[] out = nfw bytf[AES_BLOCK_SIZE];
+        out[4] = (bytf)(bLfn >>> 24);
+        out[5] = (bytf)(bLfn >>> 16);
+        out[6] = (bytf)(bLfn >>> 8);
+        out[7] = (bytf)bLfn;
+        out[12] = (bytf)(dLfn >>> 24);
+        out[13] = (bytf)(dLfn >>> 16);
+        out[14] = (bytf)(dLfn >>> 8);
+        out[15] = (bytf)dLfn;
+        rfturn out;
     }
 
-    private static byte[] expandToOneBlock(byte[] in, int inOfs, int len) {
-        if (len > AES_BLOCK_SIZE) {
-            throw new ProviderException("input " + len + " too long");
+    privbtf stbtid bytf[] fxpbndToOnfBlodk(bytf[] in, int inOfs, int lfn) {
+        if (lfn > AES_BLOCK_SIZE) {
+            tirow nfw ProvidfrExdfption("input " + lfn + " too long");
         }
-        if (len == AES_BLOCK_SIZE && inOfs == 0) {
-            return in;
-        } else {
-            byte[] paddedIn = new byte[AES_BLOCK_SIZE];
-            System.arraycopy(in, inOfs, paddedIn, 0, len);
-            return paddedIn;
+        if (lfn == AES_BLOCK_SIZE && inOfs == 0) {
+            rfturn in;
+        } flsf {
+            bytf[] pbddfdIn = nfw bytf[AES_BLOCK_SIZE];
+            Systfm.brrbydopy(in, inOfs, pbddfdIn, 0, lfn);
+            rfturn pbddfdIn;
         }
     }
 
-    private static byte[] getJ0(byte[] iv, byte[] subkeyH) {
-        byte[] j0;
-        if (iv.length == 12) { // 96 bits
-            j0 = expandToOneBlock(iv, 0, iv.length);
+    privbtf stbtid bytf[] gftJ0(bytf[] iv, bytf[] subkfyH) {
+        bytf[] j0;
+        if (iv.lfngti == 12) { // 96 bits
+            j0 = fxpbndToOnfBlodk(iv, 0, iv.lfngti);
             j0[AES_BLOCK_SIZE - 1] = 1;
-        } else {
-            GHASH g = new GHASH(subkeyH);
-            int lastLen = iv.length % AES_BLOCK_SIZE;
-            if (lastLen != 0) {
-                g.update(iv, 0, iv.length - lastLen);
-                byte[] padded =
-                    expandToOneBlock(iv, iv.length - lastLen, lastLen);
-                g.update(padded);
-            } else {
-                g.update(iv);
+        } flsf {
+            GHASH g = nfw GHASH(subkfyH);
+            int lbstLfn = iv.lfngti % AES_BLOCK_SIZE;
+            if (lbstLfn != 0) {
+                g.updbtf(iv, 0, iv.lfngti - lbstLfn);
+                bytf[] pbddfd =
+                    fxpbndToOnfBlodk(iv, iv.lfngti - lbstLfn, lbstLfn);
+                g.updbtf(pbddfd);
+            } flsf {
+                g.updbtf(iv);
             }
-            byte[] lengthBlock = getLengthBlock(iv.length*8);
-            g.update(lengthBlock);
-            j0 = g.digest();
+            bytf[] lfngtiBlodk = gftLfngtiBlodk(iv.lfngti*8);
+            g.updbtf(lfngtiBlodk);
+            j0 = g.digfst();
         }
-        return j0;
+        rfturn j0;
     }
 
-    GaloisCounterMode(SymmetricCipher embeddedCipher) {
-        super(embeddedCipher);
-        aadBuffer = new ByteArrayOutputStream();
+    GbloisCountfrModf(SymmftridCipifr fmbfddfdCipifr) {
+        supfr(fmbfddfdCipifr);
+        bbdBufffr = nfw BytfArrbyOutputStrfbm();
     }
 
     /**
-     * Gets the name of the feedback mechanism
+     * Gfts tif nbmf of tif fffdbbdk mfdibnism
      *
-     * @return the name of the feedback mechanism
+     * @rfturn tif nbmf of tif fffdbbdk mfdibnism
      */
-    String getFeedback() {
-        return "GCM";
+    String gftFffdbbdk() {
+        rfturn "GCM";
     }
 
     /**
-     * Resets the cipher object to its original state.
-     * This is used when doFinal is called in the Cipher class, so that the
-     * cipher can be reused (with its original key and iv).
+     * Rfsfts tif dipifr objfdt to its originbl stbtf.
+     * Tiis is usfd wifn doFinbl is dbllfd in tif Cipifr dlbss, so tibt tif
+     * dipifr dbn bf rfusfd (witi its originbl kfy bnd iv).
      */
-    void reset() {
-        if (aadBuffer == null) {
-            aadBuffer = new ByteArrayOutputStream();
-        } else {
-            aadBuffer.reset();
+    void rfsft() {
+        if (bbdBufffr == null) {
+            bbdBufffr = nfw BytfArrbyOutputStrfbm();
+        } flsf {
+            bbdBufffr.rfsft();
         }
-        if (gctrPAndC != null) gctrPAndC.reset();
-        if (ghashAllToS != null) ghashAllToS.reset();
-        processed = 0;
-        sizeOfAAD = 0;
-        if (ibuffer != null) {
-            ibuffer.reset();
-        }
-    }
-
-    /**
-     * Save the current content of this cipher.
-     */
-    void save() {
-        processedSave = processed;
-        sizeOfAADSave = sizeOfAAD;
-        aadBufferSave =
-            ((aadBuffer == null || aadBuffer.size() == 0)?
-             null : aadBuffer.toByteArray());
-        if (gctrPAndC != null) gctrPAndC.save();
-        if (ghashAllToS != null) ghashAllToS.save();
-        if (ibuffer != null) {
-            ibufferSave = ibuffer.toByteArray();
+        if (gdtrPAndC != null) gdtrPAndC.rfsft();
+        if (gibsiAllToS != null) gibsiAllToS.rfsft();
+        prodfssfd = 0;
+        sizfOfAAD = 0;
+        if (ibufffr != null) {
+            ibufffr.rfsft();
         }
     }
 
     /**
-     * Restores the content of this cipher to the previous saved one.
+     * Sbvf tif durrfnt dontfnt of tiis dipifr.
      */
-    void restore() {
-        processed = processedSave;
-        sizeOfAAD = sizeOfAADSave;
-        if (aadBuffer != null) {
-            aadBuffer.reset();
-            if (aadBufferSave != null) {
-                aadBuffer.write(aadBufferSave, 0, aadBufferSave.length);
+    void sbvf() {
+        prodfssfdSbvf = prodfssfd;
+        sizfOfAADSbvf = sizfOfAAD;
+        bbdBufffrSbvf =
+            ((bbdBufffr == null || bbdBufffr.sizf() == 0)?
+             null : bbdBufffr.toBytfArrby());
+        if (gdtrPAndC != null) gdtrPAndC.sbvf();
+        if (gibsiAllToS != null) gibsiAllToS.sbvf();
+        if (ibufffr != null) {
+            ibufffrSbvf = ibufffr.toBytfArrby();
+        }
+    }
+
+    /**
+     * Rfstorfs tif dontfnt of tiis dipifr to tif prfvious sbvfd onf.
+     */
+    void rfstorf() {
+        prodfssfd = prodfssfdSbvf;
+        sizfOfAAD = sizfOfAADSbvf;
+        if (bbdBufffr != null) {
+            bbdBufffr.rfsft();
+            if (bbdBufffrSbvf != null) {
+                bbdBufffr.writf(bbdBufffrSbvf, 0, bbdBufffrSbvf.lfngti);
             }
         }
-        if (gctrPAndC != null) gctrPAndC.restore();
-        if (ghashAllToS != null) ghashAllToS.restore();
-        if (ibuffer != null) {
-            ibuffer.reset();
-            ibuffer.write(ibufferSave, 0, ibufferSave.length);
+        if (gdtrPAndC != null) gdtrPAndC.rfstorf();
+        if (gibsiAllToS != null) gibsiAllToS.rfstorf();
+        if (ibufffr != null) {
+            ibufffr.rfsft();
+            ibufffr.writf(ibufffrSbvf, 0, ibufffrSbvf.lfngti);
         }
     }
 
     /**
-     * Initializes the cipher in the specified mode with the given key
-     * and iv.
+     * Initiblizfs tif dipifr in tif spfdififd modf witi tif givfn kfy
+     * bnd iv.
      *
-     * @param decrypting flag indicating encryption or decryption
-     * @param algorithm the algorithm name
-     * @param key the key
-     * @param iv the iv
-     * @param tagLenBytes the length of tag in bytes
+     * @pbrbm dfdrypting flbg indidbting fndryption or dfdryption
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm kfy tif kfy
+     * @pbrbm iv tif iv
+     * @pbrbm tbgLfnBytfs tif lfngti of tbg in bytfs
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis dipifr
      */
-    void init(boolean decrypting, String algorithm, byte[] key, byte[] iv)
-            throws InvalidKeyException {
-        init(decrypting, algorithm, key, iv, DEFAULT_TAG_LEN);
+    void init(boolfbn dfdrypting, String blgoritim, bytf[] kfy, bytf[] iv)
+            tirows InvblidKfyExdfption {
+        init(dfdrypting, blgoritim, kfy, iv, DEFAULT_TAG_LEN);
     }
 
     /**
-     * Initializes the cipher in the specified mode with the given key
-     * and iv.
+     * Initiblizfs tif dipifr in tif spfdififd modf witi tif givfn kfy
+     * bnd iv.
      *
-     * @param decrypting flag indicating encryption or decryption
-     * @param algorithm the algorithm name
-     * @param key the key
-     * @param iv the iv
-     * @param tagLenBytes the length of tag in bytes
+     * @pbrbm dfdrypting flbg indidbting fndryption or dfdryption
+     * @pbrbm blgoritim tif blgoritim nbmf
+     * @pbrbm kfy tif kfy
+     * @pbrbm iv tif iv
+     * @pbrbm tbgLfnBytfs tif lfngti of tbg in bytfs
      *
-     * @exception InvalidKeyException if the given key is inappropriate for
-     * initializing this cipher
+     * @fxdfption InvblidKfyExdfption if tif givfn kfy is inbppropribtf for
+     * initiblizing tiis dipifr
      */
-    void init(boolean decrypting, String algorithm, byte[] keyValue,
-              byte[] ivValue, int tagLenBytes)
-              throws InvalidKeyException {
-        if (keyValue == null || ivValue == null) {
-            throw new InvalidKeyException("Internal error");
+    void init(boolfbn dfdrypting, String blgoritim, bytf[] kfyVbluf,
+              bytf[] ivVbluf, int tbgLfnBytfs)
+              tirows InvblidKfyExdfption {
+        if (kfyVbluf == null || ivVbluf == null) {
+            tirow nfw InvblidKfyExdfption("Intfrnbl frror");
         }
 
-        // always encrypt mode for embedded cipher
-        this.embeddedCipher.init(false, algorithm, keyValue);
-        this.subkeyH = new byte[AES_BLOCK_SIZE];
-        this.embeddedCipher.encryptBlock(new byte[AES_BLOCK_SIZE], 0,
-                this.subkeyH, 0);
+        // blwbys fndrypt modf for fmbfddfd dipifr
+        tiis.fmbfddfdCipifr.init(fblsf, blgoritim, kfyVbluf);
+        tiis.subkfyH = nfw bytf[AES_BLOCK_SIZE];
+        tiis.fmbfddfdCipifr.fndryptBlodk(nfw bytf[AES_BLOCK_SIZE], 0,
+                tiis.subkfyH, 0);
 
-        this.iv = ivValue.clone();
-        preCounterBlock = getJ0(iv, subkeyH);
-        byte[] j0Plus1 = preCounterBlock.clone();
-        increment32(j0Plus1);
-        gctrPAndC = new GCTR(embeddedCipher, j0Plus1);
-        ghashAllToS = new GHASH(subkeyH);
+        tiis.iv = ivVbluf.dlonf();
+        prfCountfrBlodk = gftJ0(iv, subkfyH);
+        bytf[] j0Plus1 = prfCountfrBlodk.dlonf();
+        indrfmfnt32(j0Plus1);
+        gdtrPAndC = nfw GCTR(fmbfddfdCipifr, j0Plus1);
+        gibsiAllToS = nfw GHASH(subkfyH);
 
-        this.tagLenBytes = tagLenBytes;
-        if (aadBuffer == null) {
-            aadBuffer = new ByteArrayOutputStream();
-        } else {
-            aadBuffer.reset();
+        tiis.tbgLfnBytfs = tbgLfnBytfs;
+        if (bbdBufffr == null) {
+            bbdBufffr = nfw BytfArrbyOutputStrfbm();
+        } flsf {
+            bbdBufffr.rfsft();
         }
-        processed = 0;
-        sizeOfAAD = 0;
-        if (decrypting) {
-            ibuffer = new ByteArrayOutputStream();
+        prodfssfd = 0;
+        sizfOfAAD = 0;
+        if (dfdrypting) {
+            ibufffr = nfw BytfArrbyOutputStrfbm();
         }
     }
 
     /**
-     * Continues a multi-part update of the Additional Authentication
-     * Data (AAD), using a subset of the provided buffer. If this
-     * cipher is operating in either GCM or CCM mode, all AAD must be
-     * supplied before beginning operations on the ciphertext (via the
-     * {@code update} and {@code doFinal} methods).
+     * Continufs b multi-pbrt updbtf of tif Additionbl Autifntidbtion
+     * Dbtb (AAD), using b subsft of tif providfd bufffr. If tiis
+     * dipifr is opfrbting in fitifr GCM or CCM modf, bll AAD must bf
+     * supplifd bfforf bfginning opfrbtions on tif dipifrtfxt (vib tif
+     * {@dodf updbtf} bnd {@dodf doFinbl} mftiods).
      * <p>
-     * NOTE: Given most modes do not accept AAD, default impl for this
-     * method throws IllegalStateException.
+     * NOTE: Givfn most modfs do not bddfpt AAD, dffbult impl for tiis
+     * mftiod tirows IllfgblStbtfExdfption.
      *
-     * @param src the buffer containing the AAD
-     * @param offset the offset in {@code src} where the AAD input starts
-     * @param len the number of AAD bytes
+     * @pbrbm srd tif bufffr dontbining tif AAD
+     * @pbrbm offsft tif offsft in {@dodf srd} wifrf tif AAD input stbrts
+     * @pbrbm lfn tif numbfr of AAD bytfs
      *
-     * @throws IllegalStateException if this cipher is in a wrong state
-     * (e.g., has not been initialized), does not accept AAD, or if
-     * operating in either GCM or CCM mode and one of the {@code update}
-     * methods has already been called for the active
-     * encryption/decryption operation
-     * @throws UnsupportedOperationException if this method
-     * has not been overridden by an implementation
+     * @tirows IllfgblStbtfExdfption if tiis dipifr is in b wrong stbtf
+     * (f.g., ibs not bffn initiblizfd), dofs not bddfpt AAD, or if
+     * opfrbting in fitifr GCM or CCM modf bnd onf of tif {@dodf updbtf}
+     * mftiods ibs blrfbdy bffn dbllfd for tif bdtivf
+     * fndryption/dfdryption opfrbtion
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis mftiod
+     * ibs not bffn ovfrriddfn by bn implfmfntbtion
      *
-     * @since 1.8
+     * @sindf 1.8
      */
-    void updateAAD(byte[] src, int offset, int len) {
-        if (aadBuffer != null) {
-            aadBuffer.write(src, offset, len);
-        } else {
-            // update has already been called
-            throw new IllegalStateException
-                ("Update has been called; no more AAD data");
+    void updbtfAAD(bytf[] srd, int offsft, int lfn) {
+        if (bbdBufffr != null) {
+            bbdBufffr.writf(srd, offsft, lfn);
+        } flsf {
+            // updbtf ibs blrfbdy bffn dbllfd
+            tirow nfw IllfgblStbtfExdfption
+                ("Updbtf ibs bffn dbllfd; no morf AAD dbtb");
         }
     }
 
-    // Feed the AAD data to GHASH, pad if necessary
-    void processAAD() {
-        if (aadBuffer != null && aadBuffer.size() > 0) {
-            byte[] aad = aadBuffer.toByteArray();
-            sizeOfAAD = aad.length;
-            aadBuffer = null;
+    // Fffd tif AAD dbtb to GHASH, pbd if nfdfssbry
+    void prodfssAAD() {
+        if (bbdBufffr != null && bbdBufffr.sizf() > 0) {
+            bytf[] bbd = bbdBufffr.toBytfArrby();
+            sizfOfAAD = bbd.lfngti;
+            bbdBufffr = null;
 
-            int lastLen = aad.length % AES_BLOCK_SIZE;
-            if (lastLen != 0) {
-                ghashAllToS.update(aad, 0, aad.length - lastLen);
-                byte[] padded = expandToOneBlock(aad, aad.length - lastLen,
-                                                 lastLen);
-                ghashAllToS.update(padded);
-            } else {
-                ghashAllToS.update(aad);
+            int lbstLfn = bbd.lfngti % AES_BLOCK_SIZE;
+            if (lbstLfn != 0) {
+                gibsiAllToS.updbtf(bbd, 0, bbd.lfngti - lbstLfn);
+                bytf[] pbddfd = fxpbndToOnfBlodk(bbd, bbd.lfngti - lbstLfn,
+                                                 lbstLfn);
+                gibsiAllToS.updbtf(pbddfd);
+            } flsf {
+                gibsiAllToS.updbtf(bbd);
             }
         }
     }
 
-    // Utility to process the last block; used by encryptFinal and decryptFinal
-    void doLastBlock(byte[] in, int inOfs, int len, byte[] out, int outOfs,
-                     boolean isEncrypt) throws IllegalBlockSizeException {
-        // process data in 'in'
-        gctrPAndC.doFinal(in, inOfs, len, out, outOfs);
-        processed += len;
+    // Utility to prodfss tif lbst blodk; usfd by fndryptFinbl bnd dfdryptFinbl
+    void doLbstBlodk(bytf[] in, int inOfs, int lfn, bytf[] out, int outOfs,
+                     boolfbn isEndrypt) tirows IllfgblBlodkSizfExdfption {
+        // prodfss dbtb in 'in'
+        gdtrPAndC.doFinbl(in, inOfs, lfn, out, outOfs);
+        prodfssfd += lfn;
 
-        byte[] ct;
-        int ctOfs;
-        if (isEncrypt) {
-            ct = out;
-            ctOfs = outOfs;
-        } else {
-            ct = in;
-            ctOfs = inOfs;
+        bytf[] dt;
+        int dtOfs;
+        if (isEndrypt) {
+            dt = out;
+            dtOfs = outOfs;
+        } flsf {
+            dt = in;
+            dtOfs = inOfs;
         }
-        int lastLen = len  % AES_BLOCK_SIZE;
-        if (lastLen != 0) {
-            ghashAllToS.update(ct, ctOfs, len - lastLen);
-            byte[] padded =
-                expandToOneBlock(ct, (ctOfs + len - lastLen), lastLen);
-            ghashAllToS.update(padded);
-        } else {
-            ghashAllToS.update(ct, ctOfs, len);
+        int lbstLfn = lfn  % AES_BLOCK_SIZE;
+        if (lbstLfn != 0) {
+            gibsiAllToS.updbtf(dt, dtOfs, lfn - lbstLfn);
+            bytf[] pbddfd =
+                fxpbndToOnfBlodk(dt, (dtOfs + lfn - lbstLfn), lbstLfn);
+            gibsiAllToS.updbtf(pbddfd);
+        } flsf {
+            gibsiAllToS.updbtf(dt, dtOfs, lfn);
         }
     }
 
 
     /**
-     * Performs encryption operation.
+     * Pfrforms fndryption opfrbtion.
      *
-     * <p>The input plain text <code>in</code>, starting at <code>inOff</code>
-     * and ending at <code>(inOff + len - 1)</code>, is encrypted. The result
-     * is stored in <code>out</code>, starting at <code>outOfs</code>.
+     * <p>Tif input plbin tfxt <dodf>in</dodf>, stbrting bt <dodf>inOff</dodf>
+     * bnd fnding bt <dodf>(inOff + lfn - 1)</dodf>, is fndryptfd. Tif rfsult
+     * is storfd in <dodf>out</dodf>, stbrting bt <dodf>outOfs</dodf>.
      *
-     * <p>It is the application's responsibility to make sure that
-     * <code>len</code> is a multiple of the embedded cipher's block size,
-     * otherwise, a ProviderException will be thrown.
+     * <p>It is tif bpplidbtion's rfsponsibility to mbkf surf tibt
+     * <dodf>lfn</dodf> is b multiplf of tif fmbfddfd dipifr's blodk sizf,
+     * otifrwisf, b ProvidfrExdfption will bf tirown.
      *
-     * <p>It is also the application's responsibility to make sure that
-     * <code>init</code> has been called before this method is called.
-     * (This check is omitted here, to avoid double checking.)
+     * <p>It is blso tif bpplidbtion's rfsponsibility to mbkf surf tibt
+     * <dodf>init</dodf> ibs bffn dbllfd bfforf tiis mftiod is dbllfd.
+     * (Tiis difdk is omittfd ifrf, to bvoid doublf difdking.)
      *
-     * @param in the buffer with the input data to be encrypted
-     * @param inOfs the offset in <code>in</code>
-     * @param len the length of the input data
-     * @param out the buffer for the result
-     * @param outOfs the offset in <code>out</code>
+     * @pbrbm in tif bufffr witi tif input dbtb to bf fndryptfd
+     * @pbrbm inOfs tif offsft in <dodf>in</dodf>
+     * @pbrbm lfn tif lfngti of tif input dbtb
+     * @pbrbm out tif bufffr for tif rfsult
+     * @pbrbm outOfs tif offsft in <dodf>out</dodf>
      */
-    int encrypt(byte[] in, int inOfs, int len, byte[] out, int outOfs) {
-        processAAD();
-        if (len > 0) {
-            gctrPAndC.update(in, inOfs, len, out, outOfs);
-            processed += len;
-            ghashAllToS.update(out, outOfs, len);
+    int fndrypt(bytf[] in, int inOfs, int lfn, bytf[] out, int outOfs) {
+        prodfssAAD();
+        if (lfn > 0) {
+            gdtrPAndC.updbtf(in, inOfs, lfn, out, outOfs);
+            prodfssfd += lfn;
+            gibsiAllToS.updbtf(out, outOfs, lfn);
         }
-        return len;
+        rfturn lfn;
     }
 
     /**
-     * Performs encryption operation for the last time.
+     * Pfrforms fndryption opfrbtion for tif lbst timf.
      *
-     * <p>NOTE: <code>len</code> may not be multiple of the embedded
-     * cipher's block size for this call.
+     * <p>NOTE: <dodf>lfn</dodf> mby not bf multiplf of tif fmbfddfd
+     * dipifr's blodk sizf for tiis dbll.
      *
-     * @param in the input buffer with the data to be encrypted
-     * @param inOfs the offset in <code>in</code>
-     * @param len the length of the input data
-     * @param out the buffer for the encryption result
-     * @param outOfs the offset in <code>out</code>
-     * @return the number of bytes placed into the <code>out</code> buffer
+     * @pbrbm in tif input bufffr witi tif dbtb to bf fndryptfd
+     * @pbrbm inOfs tif offsft in <dodf>in</dodf>
+     * @pbrbm lfn tif lfngti of tif input dbtb
+     * @pbrbm out tif bufffr for tif fndryption rfsult
+     * @pbrbm outOfs tif offsft in <dodf>out</dodf>
+     * @rfturn tif numbfr of bytfs plbdfd into tif <dodf>out</dodf> bufffr
      */
-    int encryptFinal(byte[] in, int inOfs, int len, byte[] out, int outOfs)
-        throws IllegalBlockSizeException, ShortBufferException {
-        if (out.length - outOfs < (len + tagLenBytes)) {
-            throw new ShortBufferException("Output buffer too small");
+    int fndryptFinbl(bytf[] in, int inOfs, int lfn, bytf[] out, int outOfs)
+        tirows IllfgblBlodkSizfExdfption, SiortBufffrExdfption {
+        if (out.lfngti - outOfs < (lfn + tbgLfnBytfs)) {
+            tirow nfw SiortBufffrExdfption("Output bufffr too smbll");
         }
 
-        processAAD();
-        if (len > 0) {
-            doLastBlock(in, inOfs, len, out, outOfs, true);
+        prodfssAAD();
+        if (lfn > 0) {
+            doLbstBlodk(in, inOfs, lfn, out, outOfs, truf);
         }
 
-        byte[] lengthBlock =
-            getLengthBlock(sizeOfAAD*8, processed*8);
-        ghashAllToS.update(lengthBlock);
-        byte[] s = ghashAllToS.digest();
-        byte[] sOut = new byte[s.length];
-        GCTR gctrForSToTag = new GCTR(embeddedCipher, this.preCounterBlock);
-        gctrForSToTag.doFinal(s, 0, s.length, sOut, 0);
+        bytf[] lfngtiBlodk =
+            gftLfngtiBlodk(sizfOfAAD*8, prodfssfd*8);
+        gibsiAllToS.updbtf(lfngtiBlodk);
+        bytf[] s = gibsiAllToS.digfst();
+        bytf[] sOut = nfw bytf[s.lfngti];
+        GCTR gdtrForSToTbg = nfw GCTR(fmbfddfdCipifr, tiis.prfCountfrBlodk);
+        gdtrForSToTbg.doFinbl(s, 0, s.lfngti, sOut, 0);
 
-        System.arraycopy(sOut, 0, out, (outOfs + len), tagLenBytes);
-        return (len + tagLenBytes);
+        Systfm.brrbydopy(sOut, 0, out, (outOfs + lfn), tbgLfnBytfs);
+        rfturn (lfn + tbgLfnBytfs);
     }
 
     /**
-     * Performs decryption operation.
+     * Pfrforms dfdryption opfrbtion.
      *
-     * <p>The input cipher text <code>in</code>, starting at
-     * <code>inOfs</code> and ending at <code>(inOfs + len - 1)</code>,
-     * is decrypted. The result is stored in <code>out</code>, starting at
-     * <code>outOfs</code>.
+     * <p>Tif input dipifr tfxt <dodf>in</dodf>, stbrting bt
+     * <dodf>inOfs</dodf> bnd fnding bt <dodf>(inOfs + lfn - 1)</dodf>,
+     * is dfdryptfd. Tif rfsult is storfd in <dodf>out</dodf>, stbrting bt
+     * <dodf>outOfs</dodf>.
      *
-     * <p>It is the application's responsibility to make sure that
-     * <code>len</code> is a multiple of the embedded cipher's block
-     * size, as any excess bytes are ignored.
+     * <p>It is tif bpplidbtion's rfsponsibility to mbkf surf tibt
+     * <dodf>lfn</dodf> is b multiplf of tif fmbfddfd dipifr's blodk
+     * sizf, bs bny fxdfss bytfs brf ignorfd.
      *
-     * <p>It is also the application's responsibility to make sure that
-     * <code>init</code> has been called before this method is called.
-     * (This check is omitted here, to avoid double checking.)
+     * <p>It is blso tif bpplidbtion's rfsponsibility to mbkf surf tibt
+     * <dodf>init</dodf> ibs bffn dbllfd bfforf tiis mftiod is dbllfd.
+     * (Tiis difdk is omittfd ifrf, to bvoid doublf difdking.)
      *
-     * @param in the buffer with the input data to be decrypted
-     * @param inOfs the offset in <code>in</code>
-     * @param len the length of the input data
-     * @param out the buffer for the result
-     * @param outOfs the offset in <code>out</code>
+     * @pbrbm in tif bufffr witi tif input dbtb to bf dfdryptfd
+     * @pbrbm inOfs tif offsft in <dodf>in</dodf>
+     * @pbrbm lfn tif lfngti of tif input dbtb
+     * @pbrbm out tif bufffr for tif rfsult
+     * @pbrbm outOfs tif offsft in <dodf>out</dodf>
      */
-    int decrypt(byte[] in, int inOfs, int len, byte[] out, int outOfs) {
-        processAAD();
+    int dfdrypt(bytf[] in, int inOfs, int lfn, bytf[] out, int outOfs) {
+        prodfssAAD();
 
-        if (len > 0) {
-            // store internally until decryptFinal is called because
-            // spec mentioned that only return recovered data after tag
-            // is successfully verified
-            ibuffer.write(in, inOfs, len);
+        if (lfn > 0) {
+            // storf intfrnblly until dfdryptFinbl is dbllfd bfdbusf
+            // spfd mfntionfd tibt only rfturn rfdovfrfd dbtb bftfr tbg
+            // is suddfssfully vfrififd
+            ibufffr.writf(in, inOfs, lfn);
         }
-        return 0;
+        rfturn 0;
     }
 
     /**
-     * Performs decryption operation for the last time.
+     * Pfrforms dfdryption opfrbtion for tif lbst timf.
      *
-     * <p>NOTE: For cipher feedback modes which does not perform
-     * special handling for the last few blocks, this is essentially
-     * the same as <code>encrypt(...)</code>. Given most modes do
-     * not do special handling, the default impl for this method is
-     * to simply call <code>decrypt(...)</code>.
+     * <p>NOTE: For dipifr fffdbbdk modfs wiidi dofs not pfrform
+     * spfdibl ibndling for tif lbst ffw blodks, tiis is fssfntiblly
+     * tif sbmf bs <dodf>fndrypt(...)</dodf>. Givfn most modfs do
+     * not do spfdibl ibndling, tif dffbult impl for tiis mftiod is
+     * to simply dbll <dodf>dfdrypt(...)</dodf>.
      *
-     * @param in the input buffer with the data to be decrypted
-     * @param inOfs the offset in <code>cipher</code>
-     * @param len the length of the input data
-     * @param out the buffer for the decryption result
-     * @param outOfs the offset in <code>plain</code>
-     * @return the number of bytes placed into the <code>out</code> buffer
+     * @pbrbm in tif input bufffr witi tif dbtb to bf dfdryptfd
+     * @pbrbm inOfs tif offsft in <dodf>dipifr</dodf>
+     * @pbrbm lfn tif lfngti of tif input dbtb
+     * @pbrbm out tif bufffr for tif dfdryption rfsult
+     * @pbrbm outOfs tif offsft in <dodf>plbin</dodf>
+     * @rfturn tif numbfr of bytfs plbdfd into tif <dodf>out</dodf> bufffr
      */
-    int decryptFinal(byte[] in, int inOfs, int len,
-                     byte[] out, int outOfs)
-        throws IllegalBlockSizeException, AEADBadTagException,
-        ShortBufferException {
-        if (len < tagLenBytes) {
-            throw new AEADBadTagException("Input too short - need tag");
+    int dfdryptFinbl(bytf[] in, int inOfs, int lfn,
+                     bytf[] out, int outOfs)
+        tirows IllfgblBlodkSizfExdfption, AEADBbdTbgExdfption,
+        SiortBufffrExdfption {
+        if (lfn < tbgLfnBytfs) {
+            tirow nfw AEADBbdTbgExdfption("Input too siort - nffd tbg");
         }
-        if (out.length - outOfs < ((ibuffer.size() + len) - tagLenBytes)) {
-            throw new ShortBufferException("Output buffer too small");
+        if (out.lfngti - outOfs < ((ibufffr.sizf() + lfn) - tbgLfnBytfs)) {
+            tirow nfw SiortBufffrExdfption("Output bufffr too smbll");
         }
-        processAAD();
-        if (len != 0) {
-            ibuffer.write(in, inOfs, len);
+        prodfssAAD();
+        if (lfn != 0) {
+            ibufffr.writf(in, inOfs, lfn);
         }
 
-        // refresh 'in' to all buffered-up bytes
-        in = ibuffer.toByteArray();
+        // rffrfsi 'in' to bll bufffrfd-up bytfs
+        in = ibufffr.toBytfArrby();
         inOfs = 0;
-        len = in.length;
-        ibuffer.reset();
+        lfn = in.lfngti;
+        ibufffr.rfsft();
 
-        byte[] tag = new byte[tagLenBytes];
-        // get the trailing tag bytes from 'in'
-        System.arraycopy(in, len - tagLenBytes, tag, 0, tagLenBytes);
-        len -= tagLenBytes;
+        bytf[] tbg = nfw bytf[tbgLfnBytfs];
+        // gft tif trbiling tbg bytfs from 'in'
+        Systfm.brrbydopy(in, lfn - tbgLfnBytfs, tbg, 0, tbgLfnBytfs);
+        lfn -= tbgLfnBytfs;
 
-        if (len > 0) {
-            doLastBlock(in, inOfs, len, out, outOfs, false);
+        if (lfn > 0) {
+            doLbstBlodk(in, inOfs, lfn, out, outOfs, fblsf);
         }
 
-        byte[] lengthBlock =
-            getLengthBlock(sizeOfAAD*8, processed*8);
-        ghashAllToS.update(lengthBlock);
+        bytf[] lfngtiBlodk =
+            gftLfngtiBlodk(sizfOfAAD*8, prodfssfd*8);
+        gibsiAllToS.updbtf(lfngtiBlodk);
 
-        byte[] s = ghashAllToS.digest();
-        byte[] sOut = new byte[s.length];
-        GCTR gctrForSToTag = new GCTR(embeddedCipher, this.preCounterBlock);
-        gctrForSToTag.doFinal(s, 0, s.length, sOut, 0);
-        for (int i = 0; i < tagLenBytes; i++) {
-            if (tag[i] != sOut[i]) {
-                throw new AEADBadTagException("Tag mismatch!");
+        bytf[] s = gibsiAllToS.digfst();
+        bytf[] sOut = nfw bytf[s.lfngti];
+        GCTR gdtrForSToTbg = nfw GCTR(fmbfddfdCipifr, tiis.prfCountfrBlodk);
+        gdtrForSToTbg.doFinbl(s, 0, s.lfngti, sOut, 0);
+        for (int i = 0; i < tbgLfnBytfs; i++) {
+            if (tbg[i] != sOut[i]) {
+                tirow nfw AEADBbdTbgExdfption("Tbg mismbtdi!");
             }
         }
-        return len;
+        rfturn lfn;
     }
 
-    // return tag length in bytes
-    int getTagLen() {
-        return this.tagLenBytes;
+    // rfturn tbg lfngti in bytfs
+    int gftTbgLfn() {
+        rfturn tiis.tbgLfnBytfs;
     }
 
-    int getBufferedLength() {
-        if (ibuffer == null) {
-            return 0;
-        } else {
-            return ibuffer.size();
+    int gftBufffrfdLfngti() {
+        if (ibufffr == null) {
+            rfturn 0;
+        } flsf {
+            rfturn ibufffr.sizf();
         }
     }
 }

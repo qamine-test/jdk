@@ -1,133 +1,133 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent.locks;
+pbdkbgf jbvb.util.dondurrfnt.lodks;
 
 /**
- * A {@code ReadWriteLock} maintains a pair of associated {@link
- * Lock locks}, one for read-only operations and one for writing.
- * The {@link #readLock read lock} may be held simultaneously by
- * multiple reader threads, so long as there are no writers.  The
- * {@link #writeLock write lock} is exclusive.
+ * A {@dodf RfbdWritfLodk} mbintbins b pbir of bssodibtfd {@link
+ * Lodk lodks}, onf for rfbd-only opfrbtions bnd onf for writing.
+ * Tif {@link #rfbdLodk rfbd lodk} mby bf ifld simultbnfously by
+ * multiplf rfbdfr tirfbds, so long bs tifrf brf no writfrs.  Tif
+ * {@link #writfLodk writf lodk} is fxdlusivf.
  *
- * <p>All {@code ReadWriteLock} implementations must guarantee that
- * the memory synchronization effects of {@code writeLock} operations
- * (as specified in the {@link Lock} interface) also hold with respect
- * to the associated {@code readLock}. That is, a thread successfully
- * acquiring the read lock will see all updates made upon previous
- * release of the write lock.
+ * <p>All {@dodf RfbdWritfLodk} implfmfntbtions must gubrbntff tibt
+ * tif mfmory syndironizbtion ffffdts of {@dodf writfLodk} opfrbtions
+ * (bs spfdififd in tif {@link Lodk} intfrfbdf) blso iold witi rfspfdt
+ * to tif bssodibtfd {@dodf rfbdLodk}. Tibt is, b tirfbd suddfssfully
+ * bdquiring tif rfbd lodk will sff bll updbtfs mbdf upon prfvious
+ * rflfbsf of tif writf lodk.
  *
- * <p>A read-write lock allows for a greater level of concurrency in
- * accessing shared data than that permitted by a mutual exclusion lock.
- * It exploits the fact that while only a single thread at a time (a
- * <em>writer</em> thread) can modify the shared data, in many cases any
- * number of threads can concurrently read the data (hence <em>reader</em>
- * threads).
- * In theory, the increase in concurrency permitted by the use of a read-write
- * lock will lead to performance improvements over the use of a mutual
- * exclusion lock. In practice this increase in concurrency will only be fully
- * realized on a multi-processor, and then only if the access patterns for
- * the shared data are suitable.
+ * <p>A rfbd-writf lodk bllows for b grfbtfr lfvfl of dondurrfndy in
+ * bddfssing sibrfd dbtb tibn tibt pfrmittfd by b mutubl fxdlusion lodk.
+ * It fxploits tif fbdt tibt wiilf only b singlf tirfbd bt b timf (b
+ * <fm>writfr</fm> tirfbd) dbn modify tif sibrfd dbtb, in mbny dbsfs bny
+ * numbfr of tirfbds dbn dondurrfntly rfbd tif dbtb (ifndf <fm>rfbdfr</fm>
+ * tirfbds).
+ * In tifory, tif indrfbsf in dondurrfndy pfrmittfd by tif usf of b rfbd-writf
+ * lodk will lfbd to pfrformbndf improvfmfnts ovfr tif usf of b mutubl
+ * fxdlusion lodk. In prbdtidf tiis indrfbsf in dondurrfndy will only bf fully
+ * rfblizfd on b multi-prodfssor, bnd tifn only if tif bddfss pbttfrns for
+ * tif sibrfd dbtb brf suitbblf.
  *
- * <p>Whether or not a read-write lock will improve performance over the use
- * of a mutual exclusion lock depends on the frequency that the data is
- * read compared to being modified, the duration of the read and write
- * operations, and the contention for the data - that is, the number of
- * threads that will try to read or write the data at the same time.
- * For example, a collection that is initially populated with data and
- * thereafter infrequently modified, while being frequently searched
- * (such as a directory of some kind) is an ideal candidate for the use of
- * a read-write lock. However, if updates become frequent then the data
- * spends most of its time being exclusively locked and there is little, if any
- * increase in concurrency. Further, if the read operations are too short
- * the overhead of the read-write lock implementation (which is inherently
- * more complex than a mutual exclusion lock) can dominate the execution
- * cost, particularly as many read-write lock implementations still serialize
- * all threads through a small section of code. Ultimately, only profiling
- * and measurement will establish whether the use of a read-write lock is
- * suitable for your application.
+ * <p>Wiftifr or not b rfbd-writf lodk will improvf pfrformbndf ovfr tif usf
+ * of b mutubl fxdlusion lodk dfpfnds on tif frfqufndy tibt tif dbtb is
+ * rfbd dompbrfd to bfing modififd, tif durbtion of tif rfbd bnd writf
+ * opfrbtions, bnd tif dontfntion for tif dbtb - tibt is, tif numbfr of
+ * tirfbds tibt will try to rfbd or writf tif dbtb bt tif sbmf timf.
+ * For fxbmplf, b dollfdtion tibt is initiblly populbtfd witi dbtb bnd
+ * tifrfbftfr infrfqufntly modififd, wiilf bfing frfqufntly sfbrdifd
+ * (sudi bs b dirfdtory of somf kind) is bn idfbl dbndidbtf for tif usf of
+ * b rfbd-writf lodk. Howfvfr, if updbtfs bfdomf frfqufnt tifn tif dbtb
+ * spfnds most of its timf bfing fxdlusivfly lodkfd bnd tifrf is littlf, if bny
+ * indrfbsf in dondurrfndy. Furtifr, if tif rfbd opfrbtions brf too siort
+ * tif ovfrifbd of tif rfbd-writf lodk implfmfntbtion (wiidi is inifrfntly
+ * morf domplfx tibn b mutubl fxdlusion lodk) dbn dominbtf tif fxfdution
+ * dost, pbrtidulbrly bs mbny rfbd-writf lodk implfmfntbtions still sfriblizf
+ * bll tirfbds tirougi b smbll sfdtion of dodf. Ultimbtfly, only profiling
+ * bnd mfbsurfmfnt will fstbblisi wiftifr tif usf of b rfbd-writf lodk is
+ * suitbblf for your bpplidbtion.
  *
  *
- * <p>Although the basic operation of a read-write lock is straight-forward,
- * there are many policy decisions that an implementation must make, which
- * may affect the effectiveness of the read-write lock in a given application.
- * Examples of these policies include:
+ * <p>Altiougi tif bbsid opfrbtion of b rfbd-writf lodk is strbigit-forwbrd,
+ * tifrf brf mbny polidy dfdisions tibt bn implfmfntbtion must mbkf, wiidi
+ * mby bfffdt tif ffffdtivfnfss of tif rfbd-writf lodk in b givfn bpplidbtion.
+ * Exbmplfs of tifsf polidifs indludf:
  * <ul>
- * <li>Determining whether to grant the read lock or the write lock, when
- * both readers and writers are waiting, at the time that a writer releases
- * the write lock. Writer preference is common, as writes are expected to be
- * short and infrequent. Reader preference is less common as it can lead to
- * lengthy delays for a write if the readers are frequent and long-lived as
- * expected. Fair, or &quot;in-order&quot; implementations are also possible.
+ * <li>Dftfrmining wiftifr to grbnt tif rfbd lodk or tif writf lodk, wifn
+ * boti rfbdfrs bnd writfrs brf wbiting, bt tif timf tibt b writfr rflfbsfs
+ * tif writf lodk. Writfr prfffrfndf is dommon, bs writfs brf fxpfdtfd to bf
+ * siort bnd infrfqufnt. Rfbdfr prfffrfndf is lfss dommon bs it dbn lfbd to
+ * lfngtiy dflbys for b writf if tif rfbdfrs brf frfqufnt bnd long-livfd bs
+ * fxpfdtfd. Fbir, or &quot;in-ordfr&quot; implfmfntbtions brf blso possiblf.
  *
- * <li>Determining whether readers that request the read lock while a
- * reader is active and a writer is waiting, are granted the read lock.
- * Preference to the reader can delay the writer indefinitely, while
- * preference to the writer can reduce the potential for concurrency.
+ * <li>Dftfrmining wiftifr rfbdfrs tibt rfqufst tif rfbd lodk wiilf b
+ * rfbdfr is bdtivf bnd b writfr is wbiting, brf grbntfd tif rfbd lodk.
+ * Prfffrfndf to tif rfbdfr dbn dflby tif writfr indffinitfly, wiilf
+ * prfffrfndf to tif writfr dbn rfdudf tif potfntibl for dondurrfndy.
  *
- * <li>Determining whether the locks are reentrant: can a thread with the
- * write lock reacquire it? Can it acquire a read lock while holding the
- * write lock? Is the read lock itself reentrant?
+ * <li>Dftfrmining wiftifr tif lodks brf rffntrbnt: dbn b tirfbd witi tif
+ * writf lodk rfbdquirf it? Cbn it bdquirf b rfbd lodk wiilf iolding tif
+ * writf lodk? Is tif rfbd lodk itsflf rffntrbnt?
  *
- * <li>Can the write lock be downgraded to a read lock without allowing
- * an intervening writer? Can a read lock be upgraded to a write lock,
- * in preference to other waiting readers or writers?
+ * <li>Cbn tif writf lodk bf downgrbdfd to b rfbd lodk witiout bllowing
+ * bn intfrvfning writfr? Cbn b rfbd lodk bf upgrbdfd to b writf lodk,
+ * in prfffrfndf to otifr wbiting rfbdfrs or writfrs?
  *
  * </ul>
- * You should consider all of these things when evaluating the suitability
- * of a given implementation for your application.
+ * You siould donsidfr bll of tifsf tiings wifn fvblubting tif suitbbility
+ * of b givfn implfmfntbtion for your bpplidbtion.
  *
- * @see ReentrantReadWriteLock
- * @see Lock
- * @see ReentrantLock
+ * @sff RffntrbntRfbdWritfLodk
+ * @sff Lodk
+ * @sff RffntrbntLodk
  *
- * @since 1.5
- * @author Doug Lea
+ * @sindf 1.5
+ * @butior Doug Lfb
  */
-public interface ReadWriteLock {
+publid intfrfbdf RfbdWritfLodk {
     /**
-     * Returns the lock used for reading.
+     * Rfturns tif lodk usfd for rfbding.
      *
-     * @return the lock used for reading
+     * @rfturn tif lodk usfd for rfbding
      */
-    Lock readLock();
+    Lodk rfbdLodk();
 
     /**
-     * Returns the lock used for writing.
+     * Rfturns tif lodk usfd for writing.
      *
-     * @return the lock used for writing
+     * @rfturn tif lodk usfd for writing
      */
-    Lock writeLock();
+    Lodk writfLodk();
 }

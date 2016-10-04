@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
     /* AUTOMATICALLY GENERATED FILE - DO NOT EDIT */
 
 
-    /* Include file for the Java(tm) Virtual Machine Tool Interface */
+    /* Indludf filf for tif Jbvb(tm) Virtubl Mbdiinf Tool Intfrfbdf */
 
-#ifndef _JAVA_JVMTI_H_
-#define _JAVA_JVMTI_H_
+#ifndff _JAVA_JVMTI_H_
+#dffinf _JAVA_JVMTI_H_
 
-#include "jni.h"
+#indludf "jni.i"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
-enum {
+fnum {
     JVMTI_VERSION_1   = 0x30010000,
     JVMTI_VERSION_1_0 = 0x30010000,
     JVMTI_VERSION_1_1 = 0x30010100,
     JVMTI_VERSION_1_2 = 0x30010200,
 
-    JVMTI_VERSION = 0x30000000 + (1 * 0x10000) + (2 * 0x100) + 1  /* version: 1.2.1 */
+    JVMTI_VERSION = 0x30000000 + (1 * 0x10000) + (2 * 0x100) + 1  /* vfrsion: 1.2.1 */
 };
 
 JNIEXPORT jint JNICALL
-Agent_OnLoad(JavaVM *vm, char *options, void *reserved);
+Agfnt_OnLobd(JbvbVM *vm, dibr *options, void *rfsfrvfd);
 
 JNIEXPORT jint JNICALL
-Agent_OnAttach(JavaVM* vm, char* options, void* reserved);
+Agfnt_OnAttbdi(JbvbVM* vm, dibr* options, void* rfsfrvfd);
 
 JNIEXPORT void JNICALL
-Agent_OnUnload(JavaVM *vm);
+Agfnt_OnUnlobd(JbvbVM *vm);
 
-    /* Forward declaration of the environment */
+    /* Forwbrd dfdlbrbtion of tif fnvironmfnt */
 
-struct _jvmtiEnv;
+strudt _jvmtiEnv;
 
-struct jvmtiInterface_1_;
+strudt jvmtiIntfrfbdf_1_;
 
-#ifdef __cplusplus
-typedef _jvmtiEnv jvmtiEnv;
-#else
-typedef const struct jvmtiInterface_1_ *jvmtiEnv;
-#endif /* __cplusplus */
+#ifdff __dplusplus
+typfdff _jvmtiEnv jvmtiEnv;
+#flsf
+typfdff donst strudt jvmtiIntfrfbdf_1_ *jvmtiEnv;
+#fndif /* __dplusplus */
 
-/* Derived Base Types */
+/* Dfrivfd Bbsf Typfs */
 
-typedef jobject jthread;
-typedef jobject jthreadGroup;
-typedef jlong jlocation;
-struct _jrawMonitorID;
-typedef struct _jrawMonitorID *jrawMonitorID;
-typedef struct JNINativeInterface_ jniNativeInterface;
+typfdff jobjfdt jtirfbd;
+typfdff jobjfdt jtirfbdGroup;
+typfdff jlong jlodbtion;
+strudt _jrbwMonitorID;
+typfdff strudt _jrbwMonitorID *jrbwMonitorID;
+typfdff strudt JNINbtivfIntfrfbdf_ jniNbtivfIntfrfbdf;
 
-    /* Constants */
+    /* Constbnts */
 
 
-    /* Thread State Flags */
+    /* Tirfbd Stbtf Flbgs */
 
-enum {
+fnum {
     JVMTI_THREAD_STATE_ALIVE = 0x0001,
     JVMTI_THREAD_STATE_TERMINATED = 0x0002,
     JVMTI_THREAD_STATE_RUNNABLE = 0x0004,
@@ -100,9 +100,9 @@ enum {
     JVMTI_THREAD_STATE_VENDOR_3 = 0x40000000
 };
 
-    /* java.lang.Thread.State Conversion Masks */
+    /* jbvb.lbng.Tirfbd.Stbtf Convfrsion Mbsks */
 
-enum {
+fnum {
     JVMTI_JAVA_LANG_THREAD_STATE_MASK = JVMTI_THREAD_STATE_TERMINATED | JVMTI_THREAD_STATE_ALIVE | JVMTI_THREAD_STATE_RUNNABLE | JVMTI_THREAD_STATE_BLOCKED_ON_MONITOR_ENTER | JVMTI_THREAD_STATE_WAITING | JVMTI_THREAD_STATE_WAITING_INDEFINITELY | JVMTI_THREAD_STATE_WAITING_WITH_TIMEOUT,
     JVMTI_JAVA_LANG_THREAD_STATE_NEW = 0,
     JVMTI_JAVA_LANG_THREAD_STATE_TERMINATED = JVMTI_THREAD_STATE_TERMINATED,
@@ -112,33 +112,33 @@ enum {
     JVMTI_JAVA_LANG_THREAD_STATE_TIMED_WAITING = JVMTI_THREAD_STATE_ALIVE | JVMTI_THREAD_STATE_WAITING | JVMTI_THREAD_STATE_WAITING_WITH_TIMEOUT
 };
 
-    /* Thread Priority Constants */
+    /* Tirfbd Priority Constbnts */
 
-enum {
+fnum {
     JVMTI_THREAD_MIN_PRIORITY = 1,
     JVMTI_THREAD_NORM_PRIORITY = 5,
     JVMTI_THREAD_MAX_PRIORITY = 10
 };
 
-    /* Heap Filter Flags */
+    /* Hfbp Filtfr Flbgs */
 
-enum {
+fnum {
     JVMTI_HEAP_FILTER_TAGGED = 0x4,
     JVMTI_HEAP_FILTER_UNTAGGED = 0x8,
     JVMTI_HEAP_FILTER_CLASS_TAGGED = 0x10,
     JVMTI_HEAP_FILTER_CLASS_UNTAGGED = 0x20
 };
 
-    /* Heap Visit Control Flags */
+    /* Hfbp Visit Control Flbgs */
 
-enum {
+fnum {
     JVMTI_VISIT_OBJECTS = 0x100,
     JVMTI_VISIT_ABORT = 0x8000
 };
 
-    /* Heap Reference Enumeration */
+    /* Hfbp Rfffrfndf Enumfrbtion */
 
-typedef enum {
+typfdff fnum {
     JVMTI_HEAP_REFERENCE_CLASS = 1,
     JVMTI_HEAP_REFERENCE_FIELD = 2,
     JVMTI_HEAP_REFERENCE_ARRAY_ELEMENT = 3,
@@ -156,11 +156,11 @@ typedef enum {
     JVMTI_HEAP_REFERENCE_JNI_LOCAL = 25,
     JVMTI_HEAP_REFERENCE_THREAD = 26,
     JVMTI_HEAP_REFERENCE_OTHER = 27
-} jvmtiHeapReferenceKind;
+} jvmtiHfbpRfffrfndfKind;
 
-    /* Primitive Type Enumeration */
+    /* Primitivf Typf Enumfrbtion */
 
-typedef enum {
+typfdff fnum {
     JVMTI_PRIMITIVE_TYPE_BOOLEAN = 90,
     JVMTI_PRIMITIVE_TYPE_BYTE = 66,
     JVMTI_PRIMITIVE_TYPE_CHAR = 67,
@@ -169,19 +169,19 @@ typedef enum {
     JVMTI_PRIMITIVE_TYPE_LONG = 74,
     JVMTI_PRIMITIVE_TYPE_FLOAT = 70,
     JVMTI_PRIMITIVE_TYPE_DOUBLE = 68
-} jvmtiPrimitiveType;
+} jvmtiPrimitivfTypf;
 
-    /* Heap Object Filter Enumeration */
+    /* Hfbp Objfdt Filtfr Enumfrbtion */
 
-typedef enum {
+typfdff fnum {
     JVMTI_HEAP_OBJECT_TAGGED = 1,
     JVMTI_HEAP_OBJECT_UNTAGGED = 2,
     JVMTI_HEAP_OBJECT_EITHER = 3
-} jvmtiHeapObjectFilter;
+} jvmtiHfbpObjfdtFiltfr;
 
-    /* Heap Root Kind Enumeration */
+    /* Hfbp Root Kind Enumfrbtion */
 
-typedef enum {
+typfdff fnum {
     JVMTI_HEAP_ROOT_JNI_GLOBAL = 1,
     JVMTI_HEAP_ROOT_SYSTEM_CLASS = 2,
     JVMTI_HEAP_ROOT_MONITOR = 3,
@@ -189,11 +189,11 @@ typedef enum {
     JVMTI_HEAP_ROOT_JNI_LOCAL = 5,
     JVMTI_HEAP_ROOT_THREAD = 6,
     JVMTI_HEAP_ROOT_OTHER = 7
-} jvmtiHeapRootKind;
+} jvmtiHfbpRootKind;
 
-    /* Object Reference Enumeration */
+    /* Objfdt Rfffrfndf Enumfrbtion */
 
-typedef enum {
+typfdff fnum {
     JVMTI_REFERENCE_CLASS = 1,
     JVMTI_REFERENCE_FIELD = 2,
     JVMTI_REFERENCE_ARRAY_ELEMENT = 3,
@@ -203,19 +203,19 @@ typedef enum {
     JVMTI_REFERENCE_INTERFACE = 7,
     JVMTI_REFERENCE_STATIC_FIELD = 8,
     JVMTI_REFERENCE_CONSTANT_POOL = 9
-} jvmtiObjectReferenceKind;
+} jvmtiObjfdtRfffrfndfKind;
 
-    /* Iteration Control Enumeration */
+    /* Itfrbtion Control Enumfrbtion */
 
-typedef enum {
+typfdff fnum {
     JVMTI_ITERATION_CONTINUE = 1,
     JVMTI_ITERATION_IGNORE = 2,
     JVMTI_ITERATION_ABORT = 0
-} jvmtiIterationControl;
+} jvmtiItfrbtionControl;
 
-    /* Class Status Flags */
+    /* Clbss Stbtus Flbgs */
 
-enum {
+fnum {
     JVMTI_CLASS_STATUS_VERIFIED = 1,
     JVMTI_CLASS_STATUS_PREPARED = 2,
     JVMTI_CLASS_STATUS_INITIALIZED = 4,
@@ -224,16 +224,16 @@ enum {
     JVMTI_CLASS_STATUS_PRIMITIVE = 32
 };
 
-    /* Event Enable/Disable */
+    /* Evfnt Enbblf/Disbblf */
 
-typedef enum {
+typfdff fnum {
     JVMTI_ENABLE = 1,
     JVMTI_DISABLE = 0
-} jvmtiEventMode;
+} jvmtiEvfntModf;
 
-    /* Extension Function/Event Parameter Types */
+    /* Extfnsion Fundtion/Evfnt Pbrbmftfr Typfs */
 
-typedef enum {
+typfdff fnum {
     JVMTI_TYPE_JBYTE = 101,
     JVMTI_TYPE_JCHAR = 102,
     JVMTI_TYPE_JSHORT = 103,
@@ -251,11 +251,11 @@ typedef enum {
     JVMTI_TYPE_CCHAR = 115,
     JVMTI_TYPE_CVOID = 116,
     JVMTI_TYPE_JNIENV = 117
-} jvmtiParamTypes;
+} jvmtiPbrbmTypfs;
 
-    /* Extension Function/Event Parameter Kinds */
+    /* Extfnsion Fundtion/Evfnt Pbrbmftfr Kinds */
 
-typedef enum {
+typfdff fnum {
     JVMTI_KIND_IN = 91,
     JVMTI_KIND_IN_PTR = 92,
     JVMTI_KIND_IN_BUF = 93,
@@ -263,70 +263,70 @@ typedef enum {
     JVMTI_KIND_ALLOC_ALLOC_BUF = 95,
     JVMTI_KIND_OUT = 96,
     JVMTI_KIND_OUT_BUF = 97
-} jvmtiParamKind;
+} jvmtiPbrbmKind;
 
-    /* Timer Kinds */
+    /* Timfr Kinds */
 
-typedef enum {
+typfdff fnum {
     JVMTI_TIMER_USER_CPU = 30,
     JVMTI_TIMER_TOTAL_CPU = 31,
     JVMTI_TIMER_ELAPSED = 32
-} jvmtiTimerKind;
+} jvmtiTimfrKind;
 
-    /* Phases of execution */
+    /* Pibsfs of fxfdution */
 
-typedef enum {
+typfdff fnum {
     JVMTI_PHASE_ONLOAD = 1,
     JVMTI_PHASE_PRIMORDIAL = 2,
     JVMTI_PHASE_START = 6,
     JVMTI_PHASE_LIVE = 4,
     JVMTI_PHASE_DEAD = 8
-} jvmtiPhase;
+} jvmtiPibsf;
 
-    /* Version Interface Types */
+    /* Vfrsion Intfrfbdf Typfs */
 
-enum {
+fnum {
     JVMTI_VERSION_INTERFACE_JNI = 0x00000000,
     JVMTI_VERSION_INTERFACE_JVMTI = 0x30000000
 };
 
-    /* Version Masks */
+    /* Vfrsion Mbsks */
 
-enum {
+fnum {
     JVMTI_VERSION_MASK_INTERFACE_TYPE = 0x70000000,
     JVMTI_VERSION_MASK_MAJOR = 0x0FFF0000,
     JVMTI_VERSION_MASK_MINOR = 0x0000FF00,
     JVMTI_VERSION_MASK_MICRO = 0x000000FF
 };
 
-    /* Version Shifts */
+    /* Vfrsion Siifts */
 
-enum {
+fnum {
     JVMTI_VERSION_SHIFT_MAJOR = 16,
     JVMTI_VERSION_SHIFT_MINOR = 8,
     JVMTI_VERSION_SHIFT_MICRO = 0
 };
 
-    /* Verbose Flag Enumeration */
+    /* Vfrbosf Flbg Enumfrbtion */
 
-typedef enum {
+typfdff fnum {
     JVMTI_VERBOSE_OTHER = 0,
     JVMTI_VERBOSE_GC = 1,
     JVMTI_VERBOSE_CLASS = 2,
     JVMTI_VERBOSE_JNI = 4
-} jvmtiVerboseFlag;
+} jvmtiVfrbosfFlbg;
 
-    /* JLocation Format Enumeration */
+    /* JLodbtion Formbt Enumfrbtion */
 
-typedef enum {
+typfdff fnum {
     JVMTI_JLOCATION_JVMBCI = 1,
     JVMTI_JLOCATION_MACHINEPC = 2,
     JVMTI_JLOCATION_OTHER = 0
-} jvmtiJlocationFormat;
+} jvmtiJlodbtionFormbt;
 
-    /* Resource Exhaustion Flags */
+    /* Rfsourdf Exibustion Flbgs */
 
-enum {
+fnum {
     JVMTI_RESOURCE_EXHAUSTED_OOM_ERROR = 0x0001,
     JVMTI_RESOURCE_EXHAUSTED_JAVA_HEAP = 0x0002,
     JVMTI_RESOURCE_EXHAUSTED_THREADS = 0x0004
@@ -334,7 +334,7 @@ enum {
 
     /* Errors */
 
-typedef enum {
+typfdff fnum {
     JVMTI_ERROR_NONE = 0,
     JVMTI_ERROR_INVALID_THREAD = 10,
     JVMTI_ERROR_INVALID_THREAD_GROUP = 11,
@@ -387,9 +387,9 @@ typedef enum {
     JVMTI_ERROR_MAX = 116
 } jvmtiError;
 
-    /* Event IDs */
+    /* Evfnt IDs */
 
-typedef enum {
+typfdff fnum {
     JVMTI_MIN_EVENT_TYPE_VAL = 50,
     JVMTI_EVENT_VM_INIT = 50,
     JVMTI_EVENT_VM_DEATH = 51,
@@ -423,2112 +423,2112 @@ typedef enum {
     JVMTI_EVENT_OBJECT_FREE = 83,
     JVMTI_EVENT_VM_OBJECT_ALLOC = 84,
     JVMTI_MAX_EVENT_TYPE_VAL = 84
-} jvmtiEvent;
+} jvmtiEvfnt;
 
 
-    /* Pre-Declarations */
-struct _jvmtiThreadInfo;
-typedef struct _jvmtiThreadInfo jvmtiThreadInfo;
-struct _jvmtiMonitorStackDepthInfo;
-typedef struct _jvmtiMonitorStackDepthInfo jvmtiMonitorStackDepthInfo;
-struct _jvmtiThreadGroupInfo;
-typedef struct _jvmtiThreadGroupInfo jvmtiThreadGroupInfo;
-struct _jvmtiFrameInfo;
-typedef struct _jvmtiFrameInfo jvmtiFrameInfo;
-struct _jvmtiStackInfo;
-typedef struct _jvmtiStackInfo jvmtiStackInfo;
-struct _jvmtiHeapReferenceInfoField;
-typedef struct _jvmtiHeapReferenceInfoField jvmtiHeapReferenceInfoField;
-struct _jvmtiHeapReferenceInfoArray;
-typedef struct _jvmtiHeapReferenceInfoArray jvmtiHeapReferenceInfoArray;
-struct _jvmtiHeapReferenceInfoConstantPool;
-typedef struct _jvmtiHeapReferenceInfoConstantPool jvmtiHeapReferenceInfoConstantPool;
-struct _jvmtiHeapReferenceInfoStackLocal;
-typedef struct _jvmtiHeapReferenceInfoStackLocal jvmtiHeapReferenceInfoStackLocal;
-struct _jvmtiHeapReferenceInfoJniLocal;
-typedef struct _jvmtiHeapReferenceInfoJniLocal jvmtiHeapReferenceInfoJniLocal;
-struct _jvmtiHeapReferenceInfoReserved;
-typedef struct _jvmtiHeapReferenceInfoReserved jvmtiHeapReferenceInfoReserved;
-union _jvmtiHeapReferenceInfo;
-typedef union _jvmtiHeapReferenceInfo jvmtiHeapReferenceInfo;
-struct _jvmtiHeapCallbacks;
-typedef struct _jvmtiHeapCallbacks jvmtiHeapCallbacks;
-struct _jvmtiClassDefinition;
-typedef struct _jvmtiClassDefinition jvmtiClassDefinition;
-struct _jvmtiMonitorUsage;
-typedef struct _jvmtiMonitorUsage jvmtiMonitorUsage;
-struct _jvmtiLineNumberEntry;
-typedef struct _jvmtiLineNumberEntry jvmtiLineNumberEntry;
-struct _jvmtiLocalVariableEntry;
-typedef struct _jvmtiLocalVariableEntry jvmtiLocalVariableEntry;
-struct _jvmtiParamInfo;
-typedef struct _jvmtiParamInfo jvmtiParamInfo;
-struct _jvmtiExtensionFunctionInfo;
-typedef struct _jvmtiExtensionFunctionInfo jvmtiExtensionFunctionInfo;
-struct _jvmtiExtensionEventInfo;
-typedef struct _jvmtiExtensionEventInfo jvmtiExtensionEventInfo;
-struct _jvmtiTimerInfo;
-typedef struct _jvmtiTimerInfo jvmtiTimerInfo;
-struct _jvmtiAddrLocationMap;
-typedef struct _jvmtiAddrLocationMap jvmtiAddrLocationMap;
+    /* Prf-Dfdlbrbtions */
+strudt _jvmtiTirfbdInfo;
+typfdff strudt _jvmtiTirfbdInfo jvmtiTirfbdInfo;
+strudt _jvmtiMonitorStbdkDfptiInfo;
+typfdff strudt _jvmtiMonitorStbdkDfptiInfo jvmtiMonitorStbdkDfptiInfo;
+strudt _jvmtiTirfbdGroupInfo;
+typfdff strudt _jvmtiTirfbdGroupInfo jvmtiTirfbdGroupInfo;
+strudt _jvmtiFrbmfInfo;
+typfdff strudt _jvmtiFrbmfInfo jvmtiFrbmfInfo;
+strudt _jvmtiStbdkInfo;
+typfdff strudt _jvmtiStbdkInfo jvmtiStbdkInfo;
+strudt _jvmtiHfbpRfffrfndfInfoFifld;
+typfdff strudt _jvmtiHfbpRfffrfndfInfoFifld jvmtiHfbpRfffrfndfInfoFifld;
+strudt _jvmtiHfbpRfffrfndfInfoArrby;
+typfdff strudt _jvmtiHfbpRfffrfndfInfoArrby jvmtiHfbpRfffrfndfInfoArrby;
+strudt _jvmtiHfbpRfffrfndfInfoConstbntPool;
+typfdff strudt _jvmtiHfbpRfffrfndfInfoConstbntPool jvmtiHfbpRfffrfndfInfoConstbntPool;
+strudt _jvmtiHfbpRfffrfndfInfoStbdkLodbl;
+typfdff strudt _jvmtiHfbpRfffrfndfInfoStbdkLodbl jvmtiHfbpRfffrfndfInfoStbdkLodbl;
+strudt _jvmtiHfbpRfffrfndfInfoJniLodbl;
+typfdff strudt _jvmtiHfbpRfffrfndfInfoJniLodbl jvmtiHfbpRfffrfndfInfoJniLodbl;
+strudt _jvmtiHfbpRfffrfndfInfoRfsfrvfd;
+typfdff strudt _jvmtiHfbpRfffrfndfInfoRfsfrvfd jvmtiHfbpRfffrfndfInfoRfsfrvfd;
+union _jvmtiHfbpRfffrfndfInfo;
+typfdff union _jvmtiHfbpRfffrfndfInfo jvmtiHfbpRfffrfndfInfo;
+strudt _jvmtiHfbpCbllbbdks;
+typfdff strudt _jvmtiHfbpCbllbbdks jvmtiHfbpCbllbbdks;
+strudt _jvmtiClbssDffinition;
+typfdff strudt _jvmtiClbssDffinition jvmtiClbssDffinition;
+strudt _jvmtiMonitorUsbgf;
+typfdff strudt _jvmtiMonitorUsbgf jvmtiMonitorUsbgf;
+strudt _jvmtiLinfNumbfrEntry;
+typfdff strudt _jvmtiLinfNumbfrEntry jvmtiLinfNumbfrEntry;
+strudt _jvmtiLodblVbribblfEntry;
+typfdff strudt _jvmtiLodblVbribblfEntry jvmtiLodblVbribblfEntry;
+strudt _jvmtiPbrbmInfo;
+typfdff strudt _jvmtiPbrbmInfo jvmtiPbrbmInfo;
+strudt _jvmtiExtfnsionFundtionInfo;
+typfdff strudt _jvmtiExtfnsionFundtionInfo jvmtiExtfnsionFundtionInfo;
+strudt _jvmtiExtfnsionEvfntInfo;
+typfdff strudt _jvmtiExtfnsionEvfntInfo jvmtiExtfnsionEvfntInfo;
+strudt _jvmtiTimfrInfo;
+typfdff strudt _jvmtiTimfrInfo jvmtiTimfrInfo;
+strudt _jvmtiAddrLodbtionMbp;
+typfdff strudt _jvmtiAddrLodbtionMbp jvmtiAddrLodbtionMbp;
 
-    /* Function Types */
+    /* Fundtion Typfs */
 
-typedef void (JNICALL *jvmtiStartFunction)
-    (jvmtiEnv* jvmti_env, JNIEnv* jni_env, void* arg);
+typfdff void (JNICALL *jvmtiStbrtFundtion)
+    (jvmtiEnv* jvmti_fnv, JNIEnv* jni_fnv, void* brg);
 
-typedef jint (JNICALL *jvmtiHeapIterationCallback)
-    (jlong class_tag, jlong size, jlong* tag_ptr, jint length, void* user_data);
+typfdff jint (JNICALL *jvmtiHfbpItfrbtionCbllbbdk)
+    (jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, jint lfngti, void* usfr_dbtb);
 
-typedef jint (JNICALL *jvmtiHeapReferenceCallback)
-    (jvmtiHeapReferenceKind reference_kind, const jvmtiHeapReferenceInfo* reference_info, jlong class_tag, jlong referrer_class_tag, jlong size, jlong* tag_ptr, jlong* referrer_tag_ptr, jint length, void* user_data);
+typfdff jint (JNICALL *jvmtiHfbpRfffrfndfCbllbbdk)
+    (jvmtiHfbpRfffrfndfKind rfffrfndf_kind, donst jvmtiHfbpRfffrfndfInfo* rfffrfndf_info, jlong dlbss_tbg, jlong rfffrrfr_dlbss_tbg, jlong sizf, jlong* tbg_ptr, jlong* rfffrrfr_tbg_ptr, jint lfngti, void* usfr_dbtb);
 
-typedef jint (JNICALL *jvmtiPrimitiveFieldCallback)
-    (jvmtiHeapReferenceKind kind, const jvmtiHeapReferenceInfo* info, jlong object_class_tag, jlong* object_tag_ptr, jvalue value, jvmtiPrimitiveType value_type, void* user_data);
+typfdff jint (JNICALL *jvmtiPrimitivfFifldCbllbbdk)
+    (jvmtiHfbpRfffrfndfKind kind, donst jvmtiHfbpRfffrfndfInfo* info, jlong objfdt_dlbss_tbg, jlong* objfdt_tbg_ptr, jvbluf vbluf, jvmtiPrimitivfTypf vbluf_typf, void* usfr_dbtb);
 
-typedef jint (JNICALL *jvmtiArrayPrimitiveValueCallback)
-    (jlong class_tag, jlong size, jlong* tag_ptr, jint element_count, jvmtiPrimitiveType element_type, const void* elements, void* user_data);
+typfdff jint (JNICALL *jvmtiArrbyPrimitivfVblufCbllbbdk)
+    (jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, jint flfmfnt_dount, jvmtiPrimitivfTypf flfmfnt_typf, donst void* flfmfnts, void* usfr_dbtb);
 
-typedef jint (JNICALL *jvmtiStringPrimitiveValueCallback)
-    (jlong class_tag, jlong size, jlong* tag_ptr, const jchar* value, jint value_length, void* user_data);
+typfdff jint (JNICALL *jvmtiStringPrimitivfVblufCbllbbdk)
+    (jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, donst jdibr* vbluf, jint vbluf_lfngti, void* usfr_dbtb);
 
-typedef jint (JNICALL *jvmtiReservedCallback)
+typfdff jint (JNICALL *jvmtiRfsfrvfdCbllbbdk)
     ();
 
-typedef jvmtiIterationControl (JNICALL *jvmtiHeapObjectCallback)
-    (jlong class_tag, jlong size, jlong* tag_ptr, void* user_data);
+typfdff jvmtiItfrbtionControl (JNICALL *jvmtiHfbpObjfdtCbllbbdk)
+    (jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, void* usfr_dbtb);
 
-typedef jvmtiIterationControl (JNICALL *jvmtiHeapRootCallback)
-    (jvmtiHeapRootKind root_kind, jlong class_tag, jlong size, jlong* tag_ptr, void* user_data);
+typfdff jvmtiItfrbtionControl (JNICALL *jvmtiHfbpRootCbllbbdk)
+    (jvmtiHfbpRootKind root_kind, jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, void* usfr_dbtb);
 
-typedef jvmtiIterationControl (JNICALL *jvmtiStackReferenceCallback)
-    (jvmtiHeapRootKind root_kind, jlong class_tag, jlong size, jlong* tag_ptr, jlong thread_tag, jint depth, jmethodID method, jint slot, void* user_data);
+typfdff jvmtiItfrbtionControl (JNICALL *jvmtiStbdkRfffrfndfCbllbbdk)
+    (jvmtiHfbpRootKind root_kind, jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, jlong tirfbd_tbg, jint dfpti, jmftiodID mftiod, jint slot, void* usfr_dbtb);
 
-typedef jvmtiIterationControl (JNICALL *jvmtiObjectReferenceCallback)
-    (jvmtiObjectReferenceKind reference_kind, jlong class_tag, jlong size, jlong* tag_ptr, jlong referrer_tag, jint referrer_index, void* user_data);
+typfdff jvmtiItfrbtionControl (JNICALL *jvmtiObjfdtRfffrfndfCbllbbdk)
+    (jvmtiObjfdtRfffrfndfKind rfffrfndf_kind, jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr, jlong rfffrrfr_tbg, jint rfffrrfr_indfx, void* usfr_dbtb);
 
-typedef jvmtiError (JNICALL *jvmtiExtensionFunction)
-    (jvmtiEnv* jvmti_env,  ...);
+typfdff jvmtiError (JNICALL *jvmtiExtfnsionFundtion)
+    (jvmtiEnv* jvmti_fnv,  ...);
 
-typedef void (JNICALL *jvmtiExtensionEvent)
-    (jvmtiEnv* jvmti_env,  ...);
+typfdff void (JNICALL *jvmtiExtfnsionEvfnt)
+    (jvmtiEnv* jvmti_fnv,  ...);
 
 
-    /* Structure Types */
-struct _jvmtiThreadInfo {
-    char* name;
+    /* Strudturf Typfs */
+strudt _jvmtiTirfbdInfo {
+    dibr* nbmf;
     jint priority;
-    jboolean is_daemon;
-    jthreadGroup thread_group;
-    jobject context_class_loader;
+    jboolfbn is_dbfmon;
+    jtirfbdGroup tirfbd_group;
+    jobjfdt dontfxt_dlbss_lobdfr;
 };
-struct _jvmtiMonitorStackDepthInfo {
-    jobject monitor;
-    jint stack_depth;
+strudt _jvmtiMonitorStbdkDfptiInfo {
+    jobjfdt monitor;
+    jint stbdk_dfpti;
 };
-struct _jvmtiThreadGroupInfo {
-    jthreadGroup parent;
-    char* name;
-    jint max_priority;
-    jboolean is_daemon;
+strudt _jvmtiTirfbdGroupInfo {
+    jtirfbdGroup pbrfnt;
+    dibr* nbmf;
+    jint mbx_priority;
+    jboolfbn is_dbfmon;
 };
-struct _jvmtiFrameInfo {
-    jmethodID method;
-    jlocation location;
+strudt _jvmtiFrbmfInfo {
+    jmftiodID mftiod;
+    jlodbtion lodbtion;
 };
-struct _jvmtiStackInfo {
-    jthread thread;
-    jint state;
-    jvmtiFrameInfo* frame_buffer;
-    jint frame_count;
+strudt _jvmtiStbdkInfo {
+    jtirfbd tirfbd;
+    jint stbtf;
+    jvmtiFrbmfInfo* frbmf_bufffr;
+    jint frbmf_dount;
 };
-struct _jvmtiHeapReferenceInfoField {
-    jint index;
+strudt _jvmtiHfbpRfffrfndfInfoFifld {
+    jint indfx;
 };
-struct _jvmtiHeapReferenceInfoArray {
-    jint index;
+strudt _jvmtiHfbpRfffrfndfInfoArrby {
+    jint indfx;
 };
-struct _jvmtiHeapReferenceInfoConstantPool {
-    jint index;
+strudt _jvmtiHfbpRfffrfndfInfoConstbntPool {
+    jint indfx;
 };
-struct _jvmtiHeapReferenceInfoStackLocal {
-    jlong thread_tag;
-    jlong thread_id;
-    jint depth;
-    jmethodID method;
-    jlocation location;
+strudt _jvmtiHfbpRfffrfndfInfoStbdkLodbl {
+    jlong tirfbd_tbg;
+    jlong tirfbd_id;
+    jint dfpti;
+    jmftiodID mftiod;
+    jlodbtion lodbtion;
     jint slot;
 };
-struct _jvmtiHeapReferenceInfoJniLocal {
-    jlong thread_tag;
-    jlong thread_id;
-    jint depth;
-    jmethodID method;
+strudt _jvmtiHfbpRfffrfndfInfoJniLodbl {
+    jlong tirfbd_tbg;
+    jlong tirfbd_id;
+    jint dfpti;
+    jmftiodID mftiod;
 };
-struct _jvmtiHeapReferenceInfoReserved {
-    jlong reserved1;
-    jlong reserved2;
-    jlong reserved3;
-    jlong reserved4;
-    jlong reserved5;
-    jlong reserved6;
-    jlong reserved7;
-    jlong reserved8;
+strudt _jvmtiHfbpRfffrfndfInfoRfsfrvfd {
+    jlong rfsfrvfd1;
+    jlong rfsfrvfd2;
+    jlong rfsfrvfd3;
+    jlong rfsfrvfd4;
+    jlong rfsfrvfd5;
+    jlong rfsfrvfd6;
+    jlong rfsfrvfd7;
+    jlong rfsfrvfd8;
 };
-union _jvmtiHeapReferenceInfo {
-    jvmtiHeapReferenceInfoField field;
-    jvmtiHeapReferenceInfoArray array;
-    jvmtiHeapReferenceInfoConstantPool constant_pool;
-    jvmtiHeapReferenceInfoStackLocal stack_local;
-    jvmtiHeapReferenceInfoJniLocal jni_local;
-    jvmtiHeapReferenceInfoReserved other;
+union _jvmtiHfbpRfffrfndfInfo {
+    jvmtiHfbpRfffrfndfInfoFifld fifld;
+    jvmtiHfbpRfffrfndfInfoArrby brrby;
+    jvmtiHfbpRfffrfndfInfoConstbntPool donstbnt_pool;
+    jvmtiHfbpRfffrfndfInfoStbdkLodbl stbdk_lodbl;
+    jvmtiHfbpRfffrfndfInfoJniLodbl jni_lodbl;
+    jvmtiHfbpRfffrfndfInfoRfsfrvfd otifr;
 };
-struct _jvmtiHeapCallbacks {
-    jvmtiHeapIterationCallback heap_iteration_callback;
-    jvmtiHeapReferenceCallback heap_reference_callback;
-    jvmtiPrimitiveFieldCallback primitive_field_callback;
-    jvmtiArrayPrimitiveValueCallback array_primitive_value_callback;
-    jvmtiStringPrimitiveValueCallback string_primitive_value_callback;
-    jvmtiReservedCallback reserved5;
-    jvmtiReservedCallback reserved6;
-    jvmtiReservedCallback reserved7;
-    jvmtiReservedCallback reserved8;
-    jvmtiReservedCallback reserved9;
-    jvmtiReservedCallback reserved10;
-    jvmtiReservedCallback reserved11;
-    jvmtiReservedCallback reserved12;
-    jvmtiReservedCallback reserved13;
-    jvmtiReservedCallback reserved14;
-    jvmtiReservedCallback reserved15;
+strudt _jvmtiHfbpCbllbbdks {
+    jvmtiHfbpItfrbtionCbllbbdk ifbp_itfrbtion_dbllbbdk;
+    jvmtiHfbpRfffrfndfCbllbbdk ifbp_rfffrfndf_dbllbbdk;
+    jvmtiPrimitivfFifldCbllbbdk primitivf_fifld_dbllbbdk;
+    jvmtiArrbyPrimitivfVblufCbllbbdk brrby_primitivf_vbluf_dbllbbdk;
+    jvmtiStringPrimitivfVblufCbllbbdk string_primitivf_vbluf_dbllbbdk;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd5;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd6;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd7;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd8;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd9;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd10;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd11;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd12;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd13;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd14;
+    jvmtiRfsfrvfdCbllbbdk rfsfrvfd15;
 };
-struct _jvmtiClassDefinition {
-    jclass klass;
-    jint class_byte_count;
-    const unsigned char* class_bytes;
+strudt _jvmtiClbssDffinition {
+    jdlbss klbss;
+    jint dlbss_bytf_dount;
+    donst unsignfd dibr* dlbss_bytfs;
 };
-struct _jvmtiMonitorUsage {
-    jthread owner;
-    jint entry_count;
-    jint waiter_count;
-    jthread* waiters;
-    jint notify_waiter_count;
-    jthread* notify_waiters;
+strudt _jvmtiMonitorUsbgf {
+    jtirfbd ownfr;
+    jint fntry_dount;
+    jint wbitfr_dount;
+    jtirfbd* wbitfrs;
+    jint notify_wbitfr_dount;
+    jtirfbd* notify_wbitfrs;
 };
-struct _jvmtiLineNumberEntry {
-    jlocation start_location;
-    jint line_number;
+strudt _jvmtiLinfNumbfrEntry {
+    jlodbtion stbrt_lodbtion;
+    jint linf_numbfr;
 };
-struct _jvmtiLocalVariableEntry {
-    jlocation start_location;
-    jint length;
-    char* name;
-    char* signature;
-    char* generic_signature;
+strudt _jvmtiLodblVbribblfEntry {
+    jlodbtion stbrt_lodbtion;
+    jint lfngti;
+    dibr* nbmf;
+    dibr* signbturf;
+    dibr* gfnfrid_signbturf;
     jint slot;
 };
-struct _jvmtiParamInfo {
-    char* name;
-    jvmtiParamKind kind;
-    jvmtiParamTypes base_type;
-    jboolean null_ok;
+strudt _jvmtiPbrbmInfo {
+    dibr* nbmf;
+    jvmtiPbrbmKind kind;
+    jvmtiPbrbmTypfs bbsf_typf;
+    jboolfbn null_ok;
 };
-struct _jvmtiExtensionFunctionInfo {
-    jvmtiExtensionFunction func;
-    char* id;
-    char* short_description;
-    jint param_count;
-    jvmtiParamInfo* params;
-    jint error_count;
-    jvmtiError* errors;
+strudt _jvmtiExtfnsionFundtionInfo {
+    jvmtiExtfnsionFundtion fund;
+    dibr* id;
+    dibr* siort_dfsdription;
+    jint pbrbm_dount;
+    jvmtiPbrbmInfo* pbrbms;
+    jint frror_dount;
+    jvmtiError* frrors;
 };
-struct _jvmtiExtensionEventInfo {
-    jint extension_event_index;
-    char* id;
-    char* short_description;
-    jint param_count;
-    jvmtiParamInfo* params;
+strudt _jvmtiExtfnsionEvfntInfo {
+    jint fxtfnsion_fvfnt_indfx;
+    dibr* id;
+    dibr* siort_dfsdription;
+    jint pbrbm_dount;
+    jvmtiPbrbmInfo* pbrbms;
 };
-struct _jvmtiTimerInfo {
-    jlong max_value;
-    jboolean may_skip_forward;
-    jboolean may_skip_backward;
-    jvmtiTimerKind kind;
-    jlong reserved1;
-    jlong reserved2;
+strudt _jvmtiTimfrInfo {
+    jlong mbx_vbluf;
+    jboolfbn mby_skip_forwbrd;
+    jboolfbn mby_skip_bbdkwbrd;
+    jvmtiTimfrKind kind;
+    jlong rfsfrvfd1;
+    jlong rfsfrvfd2;
 };
-struct _jvmtiAddrLocationMap {
-    const void* start_address;
-    jlocation location;
+strudt _jvmtiAddrLodbtionMbp {
+    donst void* stbrt_bddrfss;
+    jlodbtion lodbtion;
 };
 
-typedef struct {
-    unsigned int can_tag_objects : 1;
-    unsigned int can_generate_field_modification_events : 1;
-    unsigned int can_generate_field_access_events : 1;
-    unsigned int can_get_bytecodes : 1;
-    unsigned int can_get_synthetic_attribute : 1;
-    unsigned int can_get_owned_monitor_info : 1;
-    unsigned int can_get_current_contended_monitor : 1;
-    unsigned int can_get_monitor_info : 1;
-    unsigned int can_pop_frame : 1;
-    unsigned int can_redefine_classes : 1;
-    unsigned int can_signal_thread : 1;
-    unsigned int can_get_source_file_name : 1;
-    unsigned int can_get_line_numbers : 1;
-    unsigned int can_get_source_debug_extension : 1;
-    unsigned int can_access_local_variables : 1;
-    unsigned int can_maintain_original_method_order : 1;
-    unsigned int can_generate_single_step_events : 1;
-    unsigned int can_generate_exception_events : 1;
-    unsigned int can_generate_frame_pop_events : 1;
-    unsigned int can_generate_breakpoint_events : 1;
-    unsigned int can_suspend : 1;
-    unsigned int can_redefine_any_class : 1;
-    unsigned int can_get_current_thread_cpu_time : 1;
-    unsigned int can_get_thread_cpu_time : 1;
-    unsigned int can_generate_method_entry_events : 1;
-    unsigned int can_generate_method_exit_events : 1;
-    unsigned int can_generate_all_class_hook_events : 1;
-    unsigned int can_generate_compiled_method_load_events : 1;
-    unsigned int can_generate_monitor_events : 1;
-    unsigned int can_generate_vm_object_alloc_events : 1;
-    unsigned int can_generate_native_method_bind_events : 1;
-    unsigned int can_generate_garbage_collection_events : 1;
-    unsigned int can_generate_object_free_events : 1;
-    unsigned int can_force_early_return : 1;
-    unsigned int can_get_owned_monitor_stack_depth_info : 1;
-    unsigned int can_get_constant_pool : 1;
-    unsigned int can_set_native_method_prefix : 1;
-    unsigned int can_retransform_classes : 1;
-    unsigned int can_retransform_any_class : 1;
-    unsigned int can_generate_resource_exhaustion_heap_events : 1;
-    unsigned int can_generate_resource_exhaustion_threads_events : 1;
-    unsigned int : 7;
-    unsigned int : 16;
-    unsigned int : 16;
-    unsigned int : 16;
-    unsigned int : 16;
-    unsigned int : 16;
-} jvmtiCapabilities;
+typfdff strudt {
+    unsignfd int dbn_tbg_objfdts : 1;
+    unsignfd int dbn_gfnfrbtf_fifld_modifidbtion_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_fifld_bddfss_fvfnts : 1;
+    unsignfd int dbn_gft_bytfdodfs : 1;
+    unsignfd int dbn_gft_syntiftid_bttributf : 1;
+    unsignfd int dbn_gft_ownfd_monitor_info : 1;
+    unsignfd int dbn_gft_durrfnt_dontfndfd_monitor : 1;
+    unsignfd int dbn_gft_monitor_info : 1;
+    unsignfd int dbn_pop_frbmf : 1;
+    unsignfd int dbn_rfdffinf_dlbssfs : 1;
+    unsignfd int dbn_signbl_tirfbd : 1;
+    unsignfd int dbn_gft_sourdf_filf_nbmf : 1;
+    unsignfd int dbn_gft_linf_numbfrs : 1;
+    unsignfd int dbn_gft_sourdf_dfbug_fxtfnsion : 1;
+    unsignfd int dbn_bddfss_lodbl_vbribblfs : 1;
+    unsignfd int dbn_mbintbin_originbl_mftiod_ordfr : 1;
+    unsignfd int dbn_gfnfrbtf_singlf_stfp_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_fxdfption_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_frbmf_pop_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_brfbkpoint_fvfnts : 1;
+    unsignfd int dbn_suspfnd : 1;
+    unsignfd int dbn_rfdffinf_bny_dlbss : 1;
+    unsignfd int dbn_gft_durrfnt_tirfbd_dpu_timf : 1;
+    unsignfd int dbn_gft_tirfbd_dpu_timf : 1;
+    unsignfd int dbn_gfnfrbtf_mftiod_fntry_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_mftiod_fxit_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_bll_dlbss_iook_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_dompilfd_mftiod_lobd_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_monitor_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_vm_objfdt_bllod_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_nbtivf_mftiod_bind_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_gbrbbgf_dollfdtion_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_objfdt_frff_fvfnts : 1;
+    unsignfd int dbn_fordf_fbrly_rfturn : 1;
+    unsignfd int dbn_gft_ownfd_monitor_stbdk_dfpti_info : 1;
+    unsignfd int dbn_gft_donstbnt_pool : 1;
+    unsignfd int dbn_sft_nbtivf_mftiod_prffix : 1;
+    unsignfd int dbn_rftrbnsform_dlbssfs : 1;
+    unsignfd int dbn_rftrbnsform_bny_dlbss : 1;
+    unsignfd int dbn_gfnfrbtf_rfsourdf_fxibustion_ifbp_fvfnts : 1;
+    unsignfd int dbn_gfnfrbtf_rfsourdf_fxibustion_tirfbds_fvfnts : 1;
+    unsignfd int : 7;
+    unsignfd int : 16;
+    unsignfd int : 16;
+    unsignfd int : 16;
+    unsignfd int : 16;
+    unsignfd int : 16;
+} jvmtiCbpbbilitifs;
 
 
-    /* Event Definitions */
+    /* Evfnt Dffinitions */
 
-typedef void (JNICALL *jvmtiEventReserved)(void);
+typfdff void (JNICALL *jvmtiEvfntRfsfrvfd)(void);
 
 
-typedef void (JNICALL *jvmtiEventBreakpoint)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jmethodID method,
-     jlocation location);
+typfdff void (JNICALL *jvmtiEvfntBrfbkpoint)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jmftiodID mftiod,
+     jlodbtion lodbtion);
 
-typedef void (JNICALL *jvmtiEventClassFileLoadHook)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jclass class_being_redefined,
-     jobject loader,
-     const char* name,
-     jobject protection_domain,
-     jint class_data_len,
-     const unsigned char* class_data,
-     jint* new_class_data_len,
-     unsigned char** new_class_data);
+typfdff void (JNICALL *jvmtiEvfntClbssFilfLobdHook)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jdlbss dlbss_bfing_rfdffinfd,
+     jobjfdt lobdfr,
+     donst dibr* nbmf,
+     jobjfdt protfdtion_dombin,
+     jint dlbss_dbtb_lfn,
+     donst unsignfd dibr* dlbss_dbtb,
+     jint* nfw_dlbss_dbtb_lfn,
+     unsignfd dibr** nfw_dlbss_dbtb);
 
-typedef void (JNICALL *jvmtiEventClassLoad)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jclass klass);
+typfdff void (JNICALL *jvmtiEvfntClbssLobd)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jdlbss klbss);
 
-typedef void (JNICALL *jvmtiEventClassPrepare)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jclass klass);
+typfdff void (JNICALL *jvmtiEvfntClbssPrfpbrf)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jdlbss klbss);
 
-typedef void (JNICALL *jvmtiEventCompiledMethodLoad)
-    (jvmtiEnv *jvmti_env,
-     jmethodID method,
-     jint code_size,
-     const void* code_addr,
-     jint map_length,
-     const jvmtiAddrLocationMap* map,
-     const void* compile_info);
+typfdff void (JNICALL *jvmtiEvfntCompilfdMftiodLobd)
+    (jvmtiEnv *jvmti_fnv,
+     jmftiodID mftiod,
+     jint dodf_sizf,
+     donst void* dodf_bddr,
+     jint mbp_lfngti,
+     donst jvmtiAddrLodbtionMbp* mbp,
+     donst void* dompilf_info);
 
-typedef void (JNICALL *jvmtiEventCompiledMethodUnload)
-    (jvmtiEnv *jvmti_env,
-     jmethodID method,
-     const void* code_addr);
+typfdff void (JNICALL *jvmtiEvfntCompilfdMftiodUnlobd)
+    (jvmtiEnv *jvmti_fnv,
+     jmftiodID mftiod,
+     donst void* dodf_bddr);
 
-typedef void (JNICALL *jvmtiEventDataDumpRequest)
-    (jvmtiEnv *jvmti_env);
+typfdff void (JNICALL *jvmtiEvfntDbtbDumpRfqufst)
+    (jvmtiEnv *jvmti_fnv);
 
-typedef void (JNICALL *jvmtiEventDynamicCodeGenerated)
-    (jvmtiEnv *jvmti_env,
-     const char* name,
-     const void* address,
-     jint length);
+typfdff void (JNICALL *jvmtiEvfntDynbmidCodfGfnfrbtfd)
+    (jvmtiEnv *jvmti_fnv,
+     donst dibr* nbmf,
+     donst void* bddrfss,
+     jint lfngti);
 
-typedef void (JNICALL *jvmtiEventException)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jmethodID method,
-     jlocation location,
-     jobject exception,
-     jmethodID catch_method,
-     jlocation catch_location);
+typfdff void (JNICALL *jvmtiEvfntExdfption)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jmftiodID mftiod,
+     jlodbtion lodbtion,
+     jobjfdt fxdfption,
+     jmftiodID dbtdi_mftiod,
+     jlodbtion dbtdi_lodbtion);
 
-typedef void (JNICALL *jvmtiEventExceptionCatch)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jmethodID method,
-     jlocation location,
-     jobject exception);
+typfdff void (JNICALL *jvmtiEvfntExdfptionCbtdi)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jmftiodID mftiod,
+     jlodbtion lodbtion,
+     jobjfdt fxdfption);
 
-typedef void (JNICALL *jvmtiEventFieldAccess)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jmethodID method,
-     jlocation location,
-     jclass field_klass,
-     jobject object,
-     jfieldID field);
+typfdff void (JNICALL *jvmtiEvfntFifldAddfss)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jmftiodID mftiod,
+     jlodbtion lodbtion,
+     jdlbss fifld_klbss,
+     jobjfdt objfdt,
+     jfifldID fifld);
 
-typedef void (JNICALL *jvmtiEventFieldModification)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jmethodID method,
-     jlocation location,
-     jclass field_klass,
-     jobject object,
-     jfieldID field,
-     char signature_type,
-     jvalue new_value);
+typfdff void (JNICALL *jvmtiEvfntFifldModifidbtion)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jmftiodID mftiod,
+     jlodbtion lodbtion,
+     jdlbss fifld_klbss,
+     jobjfdt objfdt,
+     jfifldID fifld,
+     dibr signbturf_typf,
+     jvbluf nfw_vbluf);
 
-typedef void (JNICALL *jvmtiEventFramePop)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jmethodID method,
-     jboolean was_popped_by_exception);
+typfdff void (JNICALL *jvmtiEvfntFrbmfPop)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jmftiodID mftiod,
+     jboolfbn wbs_poppfd_by_fxdfption);
 
-typedef void (JNICALL *jvmtiEventGarbageCollectionFinish)
-    (jvmtiEnv *jvmti_env);
+typfdff void (JNICALL *jvmtiEvfntGbrbbgfCollfdtionFinisi)
+    (jvmtiEnv *jvmti_fnv);
 
-typedef void (JNICALL *jvmtiEventGarbageCollectionStart)
-    (jvmtiEnv *jvmti_env);
+typfdff void (JNICALL *jvmtiEvfntGbrbbgfCollfdtionStbrt)
+    (jvmtiEnv *jvmti_fnv);
 
-typedef void (JNICALL *jvmtiEventMethodEntry)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jmethodID method);
+typfdff void (JNICALL *jvmtiEvfntMftiodEntry)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jmftiodID mftiod);
 
-typedef void (JNICALL *jvmtiEventMethodExit)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jmethodID method,
-     jboolean was_popped_by_exception,
-     jvalue return_value);
+typfdff void (JNICALL *jvmtiEvfntMftiodExit)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jmftiodID mftiod,
+     jboolfbn wbs_poppfd_by_fxdfption,
+     jvbluf rfturn_vbluf);
 
-typedef void (JNICALL *jvmtiEventMonitorContendedEnter)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jobject object);
+typfdff void (JNICALL *jvmtiEvfntMonitorContfndfdEntfr)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jobjfdt objfdt);
 
-typedef void (JNICALL *jvmtiEventMonitorContendedEntered)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jobject object);
+typfdff void (JNICALL *jvmtiEvfntMonitorContfndfdEntfrfd)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jobjfdt objfdt);
 
-typedef void (JNICALL *jvmtiEventMonitorWait)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jobject object,
-     jlong timeout);
+typfdff void (JNICALL *jvmtiEvfntMonitorWbit)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jobjfdt objfdt,
+     jlong timfout);
 
-typedef void (JNICALL *jvmtiEventMonitorWaited)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jobject object,
-     jboolean timed_out);
+typfdff void (JNICALL *jvmtiEvfntMonitorWbitfd)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jobjfdt objfdt,
+     jboolfbn timfd_out);
 
-typedef void (JNICALL *jvmtiEventNativeMethodBind)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jmethodID method,
-     void* address,
-     void** new_address_ptr);
+typfdff void (JNICALL *jvmtiEvfntNbtivfMftiodBind)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jmftiodID mftiod,
+     void* bddrfss,
+     void** nfw_bddrfss_ptr);
 
-typedef void (JNICALL *jvmtiEventObjectFree)
-    (jvmtiEnv *jvmti_env,
-     jlong tag);
+typfdff void (JNICALL *jvmtiEvfntObjfdtFrff)
+    (jvmtiEnv *jvmti_fnv,
+     jlong tbg);
 
-typedef void (JNICALL *jvmtiEventResourceExhausted)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jint flags,
-     const void* reserved,
-     const char* description);
+typfdff void (JNICALL *jvmtiEvfntRfsourdfExibustfd)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jint flbgs,
+     donst void* rfsfrvfd,
+     donst dibr* dfsdription);
 
-typedef void (JNICALL *jvmtiEventSingleStep)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jmethodID method,
-     jlocation location);
+typfdff void (JNICALL *jvmtiEvfntSinglfStfp)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jmftiodID mftiod,
+     jlodbtion lodbtion);
 
-typedef void (JNICALL *jvmtiEventThreadEnd)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread);
+typfdff void (JNICALL *jvmtiEvfntTirfbdEnd)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd);
 
-typedef void (JNICALL *jvmtiEventThreadStart)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread);
+typfdff void (JNICALL *jvmtiEvfntTirfbdStbrt)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd);
 
-typedef void (JNICALL *jvmtiEventVMDeath)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env);
+typfdff void (JNICALL *jvmtiEvfntVMDfbti)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv);
 
-typedef void (JNICALL *jvmtiEventVMInit)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread);
+typfdff void (JNICALL *jvmtiEvfntVMInit)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd);
 
-typedef void (JNICALL *jvmtiEventVMObjectAlloc)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env,
-     jthread thread,
-     jobject object,
-     jclass object_klass,
-     jlong size);
+typfdff void (JNICALL *jvmtiEvfntVMObjfdtAllod)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv,
+     jtirfbd tirfbd,
+     jobjfdt objfdt,
+     jdlbss objfdt_klbss,
+     jlong sizf);
 
-typedef void (JNICALL *jvmtiEventVMStart)
-    (jvmtiEnv *jvmti_env,
-     JNIEnv* jni_env);
+typfdff void (JNICALL *jvmtiEvfntVMStbrt)
+    (jvmtiEnv *jvmti_fnv,
+     JNIEnv* jni_fnv);
 
-    /* Event Callback Structure */
+    /* Evfnt Cbllbbdk Strudturf */
 
-typedef struct {
-                              /*   50 : VM Initialization Event */
-    jvmtiEventVMInit VMInit;
-                              /*   51 : VM Death Event */
-    jvmtiEventVMDeath VMDeath;
-                              /*   52 : Thread Start */
-    jvmtiEventThreadStart ThreadStart;
-                              /*   53 : Thread End */
-    jvmtiEventThreadEnd ThreadEnd;
-                              /*   54 : Class File Load Hook */
-    jvmtiEventClassFileLoadHook ClassFileLoadHook;
-                              /*   55 : Class Load */
-    jvmtiEventClassLoad ClassLoad;
-                              /*   56 : Class Prepare */
-    jvmtiEventClassPrepare ClassPrepare;
-                              /*   57 : VM Start Event */
-    jvmtiEventVMStart VMStart;
-                              /*   58 : Exception */
-    jvmtiEventException Exception;
-                              /*   59 : Exception Catch */
-    jvmtiEventExceptionCatch ExceptionCatch;
-                              /*   60 : Single Step */
-    jvmtiEventSingleStep SingleStep;
-                              /*   61 : Frame Pop */
-    jvmtiEventFramePop FramePop;
-                              /*   62 : Breakpoint */
-    jvmtiEventBreakpoint Breakpoint;
-                              /*   63 : Field Access */
-    jvmtiEventFieldAccess FieldAccess;
-                              /*   64 : Field Modification */
-    jvmtiEventFieldModification FieldModification;
-                              /*   65 : Method Entry */
-    jvmtiEventMethodEntry MethodEntry;
-                              /*   66 : Method Exit */
-    jvmtiEventMethodExit MethodExit;
-                              /*   67 : Native Method Bind */
-    jvmtiEventNativeMethodBind NativeMethodBind;
-                              /*   68 : Compiled Method Load */
-    jvmtiEventCompiledMethodLoad CompiledMethodLoad;
-                              /*   69 : Compiled Method Unload */
-    jvmtiEventCompiledMethodUnload CompiledMethodUnload;
-                              /*   70 : Dynamic Code Generated */
-    jvmtiEventDynamicCodeGenerated DynamicCodeGenerated;
-                              /*   71 : Data Dump Request */
-    jvmtiEventDataDumpRequest DataDumpRequest;
+typfdff strudt {
+                              /*   50 : VM Initiblizbtion Evfnt */
+    jvmtiEvfntVMInit VMInit;
+                              /*   51 : VM Dfbti Evfnt */
+    jvmtiEvfntVMDfbti VMDfbti;
+                              /*   52 : Tirfbd Stbrt */
+    jvmtiEvfntTirfbdStbrt TirfbdStbrt;
+                              /*   53 : Tirfbd End */
+    jvmtiEvfntTirfbdEnd TirfbdEnd;
+                              /*   54 : Clbss Filf Lobd Hook */
+    jvmtiEvfntClbssFilfLobdHook ClbssFilfLobdHook;
+                              /*   55 : Clbss Lobd */
+    jvmtiEvfntClbssLobd ClbssLobd;
+                              /*   56 : Clbss Prfpbrf */
+    jvmtiEvfntClbssPrfpbrf ClbssPrfpbrf;
+                              /*   57 : VM Stbrt Evfnt */
+    jvmtiEvfntVMStbrt VMStbrt;
+                              /*   58 : Exdfption */
+    jvmtiEvfntExdfption Exdfption;
+                              /*   59 : Exdfption Cbtdi */
+    jvmtiEvfntExdfptionCbtdi ExdfptionCbtdi;
+                              /*   60 : Singlf Stfp */
+    jvmtiEvfntSinglfStfp SinglfStfp;
+                              /*   61 : Frbmf Pop */
+    jvmtiEvfntFrbmfPop FrbmfPop;
+                              /*   62 : Brfbkpoint */
+    jvmtiEvfntBrfbkpoint Brfbkpoint;
+                              /*   63 : Fifld Addfss */
+    jvmtiEvfntFifldAddfss FifldAddfss;
+                              /*   64 : Fifld Modifidbtion */
+    jvmtiEvfntFifldModifidbtion FifldModifidbtion;
+                              /*   65 : Mftiod Entry */
+    jvmtiEvfntMftiodEntry MftiodEntry;
+                              /*   66 : Mftiod Exit */
+    jvmtiEvfntMftiodExit MftiodExit;
+                              /*   67 : Nbtivf Mftiod Bind */
+    jvmtiEvfntNbtivfMftiodBind NbtivfMftiodBind;
+                              /*   68 : Compilfd Mftiod Lobd */
+    jvmtiEvfntCompilfdMftiodLobd CompilfdMftiodLobd;
+                              /*   69 : Compilfd Mftiod Unlobd */
+    jvmtiEvfntCompilfdMftiodUnlobd CompilfdMftiodUnlobd;
+                              /*   70 : Dynbmid Codf Gfnfrbtfd */
+    jvmtiEvfntDynbmidCodfGfnfrbtfd DynbmidCodfGfnfrbtfd;
+                              /*   71 : Dbtb Dump Rfqufst */
+    jvmtiEvfntDbtbDumpRfqufst DbtbDumpRfqufst;
                               /*   72 */
-    jvmtiEventReserved reserved72;
-                              /*   73 : Monitor Wait */
-    jvmtiEventMonitorWait MonitorWait;
-                              /*   74 : Monitor Waited */
-    jvmtiEventMonitorWaited MonitorWaited;
-                              /*   75 : Monitor Contended Enter */
-    jvmtiEventMonitorContendedEnter MonitorContendedEnter;
-                              /*   76 : Monitor Contended Entered */
-    jvmtiEventMonitorContendedEntered MonitorContendedEntered;
+    jvmtiEvfntRfsfrvfd rfsfrvfd72;
+                              /*   73 : Monitor Wbit */
+    jvmtiEvfntMonitorWbit MonitorWbit;
+                              /*   74 : Monitor Wbitfd */
+    jvmtiEvfntMonitorWbitfd MonitorWbitfd;
+                              /*   75 : Monitor Contfndfd Entfr */
+    jvmtiEvfntMonitorContfndfdEntfr MonitorContfndfdEntfr;
+                              /*   76 : Monitor Contfndfd Entfrfd */
+    jvmtiEvfntMonitorContfndfdEntfrfd MonitorContfndfdEntfrfd;
                               /*   77 */
-    jvmtiEventReserved reserved77;
+    jvmtiEvfntRfsfrvfd rfsfrvfd77;
                               /*   78 */
-    jvmtiEventReserved reserved78;
+    jvmtiEvfntRfsfrvfd rfsfrvfd78;
                               /*   79 */
-    jvmtiEventReserved reserved79;
-                              /*   80 : Resource Exhausted */
-    jvmtiEventResourceExhausted ResourceExhausted;
-                              /*   81 : Garbage Collection Start */
-    jvmtiEventGarbageCollectionStart GarbageCollectionStart;
-                              /*   82 : Garbage Collection Finish */
-    jvmtiEventGarbageCollectionFinish GarbageCollectionFinish;
-                              /*   83 : Object Free */
-    jvmtiEventObjectFree ObjectFree;
-                              /*   84 : VM Object Allocation */
-    jvmtiEventVMObjectAlloc VMObjectAlloc;
-} jvmtiEventCallbacks;
+    jvmtiEvfntRfsfrvfd rfsfrvfd79;
+                              /*   80 : Rfsourdf Exibustfd */
+    jvmtiEvfntRfsourdfExibustfd RfsourdfExibustfd;
+                              /*   81 : Gbrbbgf Collfdtion Stbrt */
+    jvmtiEvfntGbrbbgfCollfdtionStbrt GbrbbgfCollfdtionStbrt;
+                              /*   82 : Gbrbbgf Collfdtion Finisi */
+    jvmtiEvfntGbrbbgfCollfdtionFinisi GbrbbgfCollfdtionFinisi;
+                              /*   83 : Objfdt Frff */
+    jvmtiEvfntObjfdtFrff ObjfdtFrff;
+                              /*   84 : VM Objfdt Allodbtion */
+    jvmtiEvfntVMObjfdtAllod VMObjfdtAllod;
+} jvmtiEvfntCbllbbdks;
 
 
-    /* Function Interface */
+    /* Fundtion Intfrfbdf */
 
-typedef struct jvmtiInterface_1_ {
+typfdff strudt jvmtiIntfrfbdf_1_ {
 
   /*   1 :  RESERVED */
-  void *reserved1;
+  void *rfsfrvfd1;
 
-  /*   2 : Set Event Notification Mode */
-  jvmtiError (JNICALL *SetEventNotificationMode) (jvmtiEnv* env,
-    jvmtiEventMode mode,
-    jvmtiEvent event_type,
-    jthread event_thread,
+  /*   2 : Sft Evfnt Notifidbtion Modf */
+  jvmtiError (JNICALL *SftEvfntNotifidbtionModf) (jvmtiEnv* fnv,
+    jvmtiEvfntModf modf,
+    jvmtiEvfnt fvfnt_typf,
+    jtirfbd fvfnt_tirfbd,
      ...);
 
   /*   3 :  RESERVED */
-  void *reserved3;
+  void *rfsfrvfd3;
 
-  /*   4 : Get All Threads */
-  jvmtiError (JNICALL *GetAllThreads) (jvmtiEnv* env,
-    jint* threads_count_ptr,
-    jthread** threads_ptr);
+  /*   4 : Gft All Tirfbds */
+  jvmtiError (JNICALL *GftAllTirfbds) (jvmtiEnv* fnv,
+    jint* tirfbds_dount_ptr,
+    jtirfbd** tirfbds_ptr);
 
-  /*   5 : Suspend Thread */
-  jvmtiError (JNICALL *SuspendThread) (jvmtiEnv* env,
-    jthread thread);
+  /*   5 : Suspfnd Tirfbd */
+  jvmtiError (JNICALL *SuspfndTirfbd) (jvmtiEnv* fnv,
+    jtirfbd tirfbd);
 
-  /*   6 : Resume Thread */
-  jvmtiError (JNICALL *ResumeThread) (jvmtiEnv* env,
-    jthread thread);
+  /*   6 : Rfsumf Tirfbd */
+  jvmtiError (JNICALL *RfsumfTirfbd) (jvmtiEnv* fnv,
+    jtirfbd tirfbd);
 
-  /*   7 : Stop Thread */
-  jvmtiError (JNICALL *StopThread) (jvmtiEnv* env,
-    jthread thread,
-    jobject exception);
+  /*   7 : Stop Tirfbd */
+  jvmtiError (JNICALL *StopTirfbd) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jobjfdt fxdfption);
 
-  /*   8 : Interrupt Thread */
-  jvmtiError (JNICALL *InterruptThread) (jvmtiEnv* env,
-    jthread thread);
+  /*   8 : Intfrrupt Tirfbd */
+  jvmtiError (JNICALL *IntfrruptTirfbd) (jvmtiEnv* fnv,
+    jtirfbd tirfbd);
 
-  /*   9 : Get Thread Info */
-  jvmtiError (JNICALL *GetThreadInfo) (jvmtiEnv* env,
-    jthread thread,
-    jvmtiThreadInfo* info_ptr);
+  /*   9 : Gft Tirfbd Info */
+  jvmtiError (JNICALL *GftTirfbdInfo) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jvmtiTirfbdInfo* info_ptr);
 
-  /*   10 : Get Owned Monitor Info */
-  jvmtiError (JNICALL *GetOwnedMonitorInfo) (jvmtiEnv* env,
-    jthread thread,
-    jint* owned_monitor_count_ptr,
-    jobject** owned_monitors_ptr);
+  /*   10 : Gft Ownfd Monitor Info */
+  jvmtiError (JNICALL *GftOwnfdMonitorInfo) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint* ownfd_monitor_dount_ptr,
+    jobjfdt** ownfd_monitors_ptr);
 
-  /*   11 : Get Current Contended Monitor */
-  jvmtiError (JNICALL *GetCurrentContendedMonitor) (jvmtiEnv* env,
-    jthread thread,
-    jobject* monitor_ptr);
+  /*   11 : Gft Currfnt Contfndfd Monitor */
+  jvmtiError (JNICALL *GftCurrfntContfndfdMonitor) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jobjfdt* monitor_ptr);
 
-  /*   12 : Run Agent Thread */
-  jvmtiError (JNICALL *RunAgentThread) (jvmtiEnv* env,
-    jthread thread,
-    jvmtiStartFunction proc,
-    const void* arg,
+  /*   12 : Run Agfnt Tirfbd */
+  jvmtiError (JNICALL *RunAgfntTirfbd) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jvmtiStbrtFundtion prod,
+    donst void* brg,
     jint priority);
 
-  /*   13 : Get Top Thread Groups */
-  jvmtiError (JNICALL *GetTopThreadGroups) (jvmtiEnv* env,
-    jint* group_count_ptr,
-    jthreadGroup** groups_ptr);
+  /*   13 : Gft Top Tirfbd Groups */
+  jvmtiError (JNICALL *GftTopTirfbdGroups) (jvmtiEnv* fnv,
+    jint* group_dount_ptr,
+    jtirfbdGroup** groups_ptr);
 
-  /*   14 : Get Thread Group Info */
-  jvmtiError (JNICALL *GetThreadGroupInfo) (jvmtiEnv* env,
-    jthreadGroup group,
-    jvmtiThreadGroupInfo* info_ptr);
+  /*   14 : Gft Tirfbd Group Info */
+  jvmtiError (JNICALL *GftTirfbdGroupInfo) (jvmtiEnv* fnv,
+    jtirfbdGroup group,
+    jvmtiTirfbdGroupInfo* info_ptr);
 
-  /*   15 : Get Thread Group Children */
-  jvmtiError (JNICALL *GetThreadGroupChildren) (jvmtiEnv* env,
-    jthreadGroup group,
-    jint* thread_count_ptr,
-    jthread** threads_ptr,
-    jint* group_count_ptr,
-    jthreadGroup** groups_ptr);
+  /*   15 : Gft Tirfbd Group Ciildrfn */
+  jvmtiError (JNICALL *GftTirfbdGroupCiildrfn) (jvmtiEnv* fnv,
+    jtirfbdGroup group,
+    jint* tirfbd_dount_ptr,
+    jtirfbd** tirfbds_ptr,
+    jint* group_dount_ptr,
+    jtirfbdGroup** groups_ptr);
 
-  /*   16 : Get Frame Count */
-  jvmtiError (JNICALL *GetFrameCount) (jvmtiEnv* env,
-    jthread thread,
-    jint* count_ptr);
+  /*   16 : Gft Frbmf Count */
+  jvmtiError (JNICALL *GftFrbmfCount) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint* dount_ptr);
 
-  /*   17 : Get Thread State */
-  jvmtiError (JNICALL *GetThreadState) (jvmtiEnv* env,
-    jthread thread,
-    jint* thread_state_ptr);
+  /*   17 : Gft Tirfbd Stbtf */
+  jvmtiError (JNICALL *GftTirfbdStbtf) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint* tirfbd_stbtf_ptr);
 
-  /*   18 : Get Current Thread */
-  jvmtiError (JNICALL *GetCurrentThread) (jvmtiEnv* env,
-    jthread* thread_ptr);
+  /*   18 : Gft Currfnt Tirfbd */
+  jvmtiError (JNICALL *GftCurrfntTirfbd) (jvmtiEnv* fnv,
+    jtirfbd* tirfbd_ptr);
 
-  /*   19 : Get Frame Location */
-  jvmtiError (JNICALL *GetFrameLocation) (jvmtiEnv* env,
-    jthread thread,
-    jint depth,
-    jmethodID* method_ptr,
-    jlocation* location_ptr);
+  /*   19 : Gft Frbmf Lodbtion */
+  jvmtiError (JNICALL *GftFrbmfLodbtion) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint dfpti,
+    jmftiodID* mftiod_ptr,
+    jlodbtion* lodbtion_ptr);
 
-  /*   20 : Notify Frame Pop */
-  jvmtiError (JNICALL *NotifyFramePop) (jvmtiEnv* env,
-    jthread thread,
-    jint depth);
+  /*   20 : Notify Frbmf Pop */
+  jvmtiError (JNICALL *NotifyFrbmfPop) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint dfpti);
 
-  /*   21 : Get Local Variable - Object */
-  jvmtiError (JNICALL *GetLocalObject) (jvmtiEnv* env,
-    jthread thread,
-    jint depth,
+  /*   21 : Gft Lodbl Vbribblf - Objfdt */
+  jvmtiError (JNICALL *GftLodblObjfdt) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint dfpti,
     jint slot,
-    jobject* value_ptr);
+    jobjfdt* vbluf_ptr);
 
-  /*   22 : Get Local Variable - Int */
-  jvmtiError (JNICALL *GetLocalInt) (jvmtiEnv* env,
-    jthread thread,
-    jint depth,
+  /*   22 : Gft Lodbl Vbribblf - Int */
+  jvmtiError (JNICALL *GftLodblInt) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint dfpti,
     jint slot,
-    jint* value_ptr);
+    jint* vbluf_ptr);
 
-  /*   23 : Get Local Variable - Long */
-  jvmtiError (JNICALL *GetLocalLong) (jvmtiEnv* env,
-    jthread thread,
-    jint depth,
+  /*   23 : Gft Lodbl Vbribblf - Long */
+  jvmtiError (JNICALL *GftLodblLong) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint dfpti,
     jint slot,
-    jlong* value_ptr);
+    jlong* vbluf_ptr);
 
-  /*   24 : Get Local Variable - Float */
-  jvmtiError (JNICALL *GetLocalFloat) (jvmtiEnv* env,
-    jthread thread,
-    jint depth,
+  /*   24 : Gft Lodbl Vbribblf - Flobt */
+  jvmtiError (JNICALL *GftLodblFlobt) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint dfpti,
     jint slot,
-    jfloat* value_ptr);
+    jflobt* vbluf_ptr);
 
-  /*   25 : Get Local Variable - Double */
-  jvmtiError (JNICALL *GetLocalDouble) (jvmtiEnv* env,
-    jthread thread,
-    jint depth,
+  /*   25 : Gft Lodbl Vbribblf - Doublf */
+  jvmtiError (JNICALL *GftLodblDoublf) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint dfpti,
     jint slot,
-    jdouble* value_ptr);
+    jdoublf* vbluf_ptr);
 
-  /*   26 : Set Local Variable - Object */
-  jvmtiError (JNICALL *SetLocalObject) (jvmtiEnv* env,
-    jthread thread,
-    jint depth,
+  /*   26 : Sft Lodbl Vbribblf - Objfdt */
+  jvmtiError (JNICALL *SftLodblObjfdt) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint dfpti,
     jint slot,
-    jobject value);
+    jobjfdt vbluf);
 
-  /*   27 : Set Local Variable - Int */
-  jvmtiError (JNICALL *SetLocalInt) (jvmtiEnv* env,
-    jthread thread,
-    jint depth,
+  /*   27 : Sft Lodbl Vbribblf - Int */
+  jvmtiError (JNICALL *SftLodblInt) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint dfpti,
     jint slot,
-    jint value);
+    jint vbluf);
 
-  /*   28 : Set Local Variable - Long */
-  jvmtiError (JNICALL *SetLocalLong) (jvmtiEnv* env,
-    jthread thread,
-    jint depth,
+  /*   28 : Sft Lodbl Vbribblf - Long */
+  jvmtiError (JNICALL *SftLodblLong) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint dfpti,
     jint slot,
-    jlong value);
+    jlong vbluf);
 
-  /*   29 : Set Local Variable - Float */
-  jvmtiError (JNICALL *SetLocalFloat) (jvmtiEnv* env,
-    jthread thread,
-    jint depth,
+  /*   29 : Sft Lodbl Vbribblf - Flobt */
+  jvmtiError (JNICALL *SftLodblFlobt) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint dfpti,
     jint slot,
-    jfloat value);
+    jflobt vbluf);
 
-  /*   30 : Set Local Variable - Double */
-  jvmtiError (JNICALL *SetLocalDouble) (jvmtiEnv* env,
-    jthread thread,
-    jint depth,
+  /*   30 : Sft Lodbl Vbribblf - Doublf */
+  jvmtiError (JNICALL *SftLodblDoublf) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint dfpti,
     jint slot,
-    jdouble value);
+    jdoublf vbluf);
 
-  /*   31 : Create Raw Monitor */
-  jvmtiError (JNICALL *CreateRawMonitor) (jvmtiEnv* env,
-    const char* name,
-    jrawMonitorID* monitor_ptr);
+  /*   31 : Crfbtf Rbw Monitor */
+  jvmtiError (JNICALL *CrfbtfRbwMonitor) (jvmtiEnv* fnv,
+    donst dibr* nbmf,
+    jrbwMonitorID* monitor_ptr);
 
-  /*   32 : Destroy Raw Monitor */
-  jvmtiError (JNICALL *DestroyRawMonitor) (jvmtiEnv* env,
-    jrawMonitorID monitor);
+  /*   32 : Dfstroy Rbw Monitor */
+  jvmtiError (JNICALL *DfstroyRbwMonitor) (jvmtiEnv* fnv,
+    jrbwMonitorID monitor);
 
-  /*   33 : Raw Monitor Enter */
-  jvmtiError (JNICALL *RawMonitorEnter) (jvmtiEnv* env,
-    jrawMonitorID monitor);
+  /*   33 : Rbw Monitor Entfr */
+  jvmtiError (JNICALL *RbwMonitorEntfr) (jvmtiEnv* fnv,
+    jrbwMonitorID monitor);
 
-  /*   34 : Raw Monitor Exit */
-  jvmtiError (JNICALL *RawMonitorExit) (jvmtiEnv* env,
-    jrawMonitorID monitor);
+  /*   34 : Rbw Monitor Exit */
+  jvmtiError (JNICALL *RbwMonitorExit) (jvmtiEnv* fnv,
+    jrbwMonitorID monitor);
 
-  /*   35 : Raw Monitor Wait */
-  jvmtiError (JNICALL *RawMonitorWait) (jvmtiEnv* env,
-    jrawMonitorID monitor,
+  /*   35 : Rbw Monitor Wbit */
+  jvmtiError (JNICALL *RbwMonitorWbit) (jvmtiEnv* fnv,
+    jrbwMonitorID monitor,
     jlong millis);
 
-  /*   36 : Raw Monitor Notify */
-  jvmtiError (JNICALL *RawMonitorNotify) (jvmtiEnv* env,
-    jrawMonitorID monitor);
+  /*   36 : Rbw Monitor Notify */
+  jvmtiError (JNICALL *RbwMonitorNotify) (jvmtiEnv* fnv,
+    jrbwMonitorID monitor);
 
-  /*   37 : Raw Monitor Notify All */
-  jvmtiError (JNICALL *RawMonitorNotifyAll) (jvmtiEnv* env,
-    jrawMonitorID monitor);
+  /*   37 : Rbw Monitor Notify All */
+  jvmtiError (JNICALL *RbwMonitorNotifyAll) (jvmtiEnv* fnv,
+    jrbwMonitorID monitor);
 
-  /*   38 : Set Breakpoint */
-  jvmtiError (JNICALL *SetBreakpoint) (jvmtiEnv* env,
-    jmethodID method,
-    jlocation location);
+  /*   38 : Sft Brfbkpoint */
+  jvmtiError (JNICALL *SftBrfbkpoint) (jvmtiEnv* fnv,
+    jmftiodID mftiod,
+    jlodbtion lodbtion);
 
-  /*   39 : Clear Breakpoint */
-  jvmtiError (JNICALL *ClearBreakpoint) (jvmtiEnv* env,
-    jmethodID method,
-    jlocation location);
+  /*   39 : Clfbr Brfbkpoint */
+  jvmtiError (JNICALL *ClfbrBrfbkpoint) (jvmtiEnv* fnv,
+    jmftiodID mftiod,
+    jlodbtion lodbtion);
 
   /*   40 :  RESERVED */
-  void *reserved40;
+  void *rfsfrvfd40;
 
-  /*   41 : Set Field Access Watch */
-  jvmtiError (JNICALL *SetFieldAccessWatch) (jvmtiEnv* env,
-    jclass klass,
-    jfieldID field);
+  /*   41 : Sft Fifld Addfss Wbtdi */
+  jvmtiError (JNICALL *SftFifldAddfssWbtdi) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld);
 
-  /*   42 : Clear Field Access Watch */
-  jvmtiError (JNICALL *ClearFieldAccessWatch) (jvmtiEnv* env,
-    jclass klass,
-    jfieldID field);
+  /*   42 : Clfbr Fifld Addfss Wbtdi */
+  jvmtiError (JNICALL *ClfbrFifldAddfssWbtdi) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld);
 
-  /*   43 : Set Field Modification Watch */
-  jvmtiError (JNICALL *SetFieldModificationWatch) (jvmtiEnv* env,
-    jclass klass,
-    jfieldID field);
+  /*   43 : Sft Fifld Modifidbtion Wbtdi */
+  jvmtiError (JNICALL *SftFifldModifidbtionWbtdi) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld);
 
-  /*   44 : Clear Field Modification Watch */
-  jvmtiError (JNICALL *ClearFieldModificationWatch) (jvmtiEnv* env,
-    jclass klass,
-    jfieldID field);
+  /*   44 : Clfbr Fifld Modifidbtion Wbtdi */
+  jvmtiError (JNICALL *ClfbrFifldModifidbtionWbtdi) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld);
 
-  /*   45 : Is Modifiable Class */
-  jvmtiError (JNICALL *IsModifiableClass) (jvmtiEnv* env,
-    jclass klass,
-    jboolean* is_modifiable_class_ptr);
+  /*   45 : Is Modifibblf Clbss */
+  jvmtiError (JNICALL *IsModifibblfClbss) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jboolfbn* is_modifibblf_dlbss_ptr);
 
-  /*   46 : Allocate */
-  jvmtiError (JNICALL *Allocate) (jvmtiEnv* env,
-    jlong size,
-    unsigned char** mem_ptr);
+  /*   46 : Allodbtf */
+  jvmtiError (JNICALL *Allodbtf) (jvmtiEnv* fnv,
+    jlong sizf,
+    unsignfd dibr** mfm_ptr);
 
-  /*   47 : Deallocate */
-  jvmtiError (JNICALL *Deallocate) (jvmtiEnv* env,
-    unsigned char* mem);
+  /*   47 : Dfbllodbtf */
+  jvmtiError (JNICALL *Dfbllodbtf) (jvmtiEnv* fnv,
+    unsignfd dibr* mfm);
 
-  /*   48 : Get Class Signature */
-  jvmtiError (JNICALL *GetClassSignature) (jvmtiEnv* env,
-    jclass klass,
-    char** signature_ptr,
-    char** generic_ptr);
+  /*   48 : Gft Clbss Signbturf */
+  jvmtiError (JNICALL *GftClbssSignbturf) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    dibr** signbturf_ptr,
+    dibr** gfnfrid_ptr);
 
-  /*   49 : Get Class Status */
-  jvmtiError (JNICALL *GetClassStatus) (jvmtiEnv* env,
-    jclass klass,
-    jint* status_ptr);
+  /*   49 : Gft Clbss Stbtus */
+  jvmtiError (JNICALL *GftClbssStbtus) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jint* stbtus_ptr);
 
-  /*   50 : Get Source File Name */
-  jvmtiError (JNICALL *GetSourceFileName) (jvmtiEnv* env,
-    jclass klass,
-    char** source_name_ptr);
+  /*   50 : Gft Sourdf Filf Nbmf */
+  jvmtiError (JNICALL *GftSourdfFilfNbmf) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    dibr** sourdf_nbmf_ptr);
 
-  /*   51 : Get Class Modifiers */
-  jvmtiError (JNICALL *GetClassModifiers) (jvmtiEnv* env,
-    jclass klass,
-    jint* modifiers_ptr);
+  /*   51 : Gft Clbss Modififrs */
+  jvmtiError (JNICALL *GftClbssModififrs) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jint* modififrs_ptr);
 
-  /*   52 : Get Class Methods */
-  jvmtiError (JNICALL *GetClassMethods) (jvmtiEnv* env,
-    jclass klass,
-    jint* method_count_ptr,
-    jmethodID** methods_ptr);
+  /*   52 : Gft Clbss Mftiods */
+  jvmtiError (JNICALL *GftClbssMftiods) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jint* mftiod_dount_ptr,
+    jmftiodID** mftiods_ptr);
 
-  /*   53 : Get Class Fields */
-  jvmtiError (JNICALL *GetClassFields) (jvmtiEnv* env,
-    jclass klass,
-    jint* field_count_ptr,
-    jfieldID** fields_ptr);
+  /*   53 : Gft Clbss Fiflds */
+  jvmtiError (JNICALL *GftClbssFiflds) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jint* fifld_dount_ptr,
+    jfifldID** fiflds_ptr);
 
-  /*   54 : Get Implemented Interfaces */
-  jvmtiError (JNICALL *GetImplementedInterfaces) (jvmtiEnv* env,
-    jclass klass,
-    jint* interface_count_ptr,
-    jclass** interfaces_ptr);
+  /*   54 : Gft Implfmfntfd Intfrfbdfs */
+  jvmtiError (JNICALL *GftImplfmfntfdIntfrfbdfs) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jint* intfrfbdf_dount_ptr,
+    jdlbss** intfrfbdfs_ptr);
 
-  /*   55 : Is Interface */
-  jvmtiError (JNICALL *IsInterface) (jvmtiEnv* env,
-    jclass klass,
-    jboolean* is_interface_ptr);
+  /*   55 : Is Intfrfbdf */
+  jvmtiError (JNICALL *IsIntfrfbdf) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jboolfbn* is_intfrfbdf_ptr);
 
-  /*   56 : Is Array Class */
-  jvmtiError (JNICALL *IsArrayClass) (jvmtiEnv* env,
-    jclass klass,
-    jboolean* is_array_class_ptr);
+  /*   56 : Is Arrby Clbss */
+  jvmtiError (JNICALL *IsArrbyClbss) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jboolfbn* is_brrby_dlbss_ptr);
 
-  /*   57 : Get Class Loader */
-  jvmtiError (JNICALL *GetClassLoader) (jvmtiEnv* env,
-    jclass klass,
-    jobject* classloader_ptr);
+  /*   57 : Gft Clbss Lobdfr */
+  jvmtiError (JNICALL *GftClbssLobdfr) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jobjfdt* dlbsslobdfr_ptr);
 
-  /*   58 : Get Object Hash Code */
-  jvmtiError (JNICALL *GetObjectHashCode) (jvmtiEnv* env,
-    jobject object,
-    jint* hash_code_ptr);
+  /*   58 : Gft Objfdt Hbsi Codf */
+  jvmtiError (JNICALL *GftObjfdtHbsiCodf) (jvmtiEnv* fnv,
+    jobjfdt objfdt,
+    jint* ibsi_dodf_ptr);
 
-  /*   59 : Get Object Monitor Usage */
-  jvmtiError (JNICALL *GetObjectMonitorUsage) (jvmtiEnv* env,
-    jobject object,
-    jvmtiMonitorUsage* info_ptr);
+  /*   59 : Gft Objfdt Monitor Usbgf */
+  jvmtiError (JNICALL *GftObjfdtMonitorUsbgf) (jvmtiEnv* fnv,
+    jobjfdt objfdt,
+    jvmtiMonitorUsbgf* info_ptr);
 
-  /*   60 : Get Field Name (and Signature) */
-  jvmtiError (JNICALL *GetFieldName) (jvmtiEnv* env,
-    jclass klass,
-    jfieldID field,
-    char** name_ptr,
-    char** signature_ptr,
-    char** generic_ptr);
+  /*   60 : Gft Fifld Nbmf (bnd Signbturf) */
+  jvmtiError (JNICALL *GftFifldNbmf) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld,
+    dibr** nbmf_ptr,
+    dibr** signbturf_ptr,
+    dibr** gfnfrid_ptr);
 
-  /*   61 : Get Field Declaring Class */
-  jvmtiError (JNICALL *GetFieldDeclaringClass) (jvmtiEnv* env,
-    jclass klass,
-    jfieldID field,
-    jclass* declaring_class_ptr);
+  /*   61 : Gft Fifld Dfdlbring Clbss */
+  jvmtiError (JNICALL *GftFifldDfdlbringClbss) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld,
+    jdlbss* dfdlbring_dlbss_ptr);
 
-  /*   62 : Get Field Modifiers */
-  jvmtiError (JNICALL *GetFieldModifiers) (jvmtiEnv* env,
-    jclass klass,
-    jfieldID field,
-    jint* modifiers_ptr);
+  /*   62 : Gft Fifld Modififrs */
+  jvmtiError (JNICALL *GftFifldModififrs) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld,
+    jint* modififrs_ptr);
 
-  /*   63 : Is Field Synthetic */
-  jvmtiError (JNICALL *IsFieldSynthetic) (jvmtiEnv* env,
-    jclass klass,
-    jfieldID field,
-    jboolean* is_synthetic_ptr);
+  /*   63 : Is Fifld Syntiftid */
+  jvmtiError (JNICALL *IsFifldSyntiftid) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jfifldID fifld,
+    jboolfbn* is_syntiftid_ptr);
 
-  /*   64 : Get Method Name (and Signature) */
-  jvmtiError (JNICALL *GetMethodName) (jvmtiEnv* env,
-    jmethodID method,
-    char** name_ptr,
-    char** signature_ptr,
-    char** generic_ptr);
+  /*   64 : Gft Mftiod Nbmf (bnd Signbturf) */
+  jvmtiError (JNICALL *GftMftiodNbmf) (jvmtiEnv* fnv,
+    jmftiodID mftiod,
+    dibr** nbmf_ptr,
+    dibr** signbturf_ptr,
+    dibr** gfnfrid_ptr);
 
-  /*   65 : Get Method Declaring Class */
-  jvmtiError (JNICALL *GetMethodDeclaringClass) (jvmtiEnv* env,
-    jmethodID method,
-    jclass* declaring_class_ptr);
+  /*   65 : Gft Mftiod Dfdlbring Clbss */
+  jvmtiError (JNICALL *GftMftiodDfdlbringClbss) (jvmtiEnv* fnv,
+    jmftiodID mftiod,
+    jdlbss* dfdlbring_dlbss_ptr);
 
-  /*   66 : Get Method Modifiers */
-  jvmtiError (JNICALL *GetMethodModifiers) (jvmtiEnv* env,
-    jmethodID method,
-    jint* modifiers_ptr);
+  /*   66 : Gft Mftiod Modififrs */
+  jvmtiError (JNICALL *GftMftiodModififrs) (jvmtiEnv* fnv,
+    jmftiodID mftiod,
+    jint* modififrs_ptr);
 
   /*   67 :  RESERVED */
-  void *reserved67;
+  void *rfsfrvfd67;
 
-  /*   68 : Get Max Locals */
-  jvmtiError (JNICALL *GetMaxLocals) (jvmtiEnv* env,
-    jmethodID method,
-    jint* max_ptr);
+  /*   68 : Gft Mbx Lodbls */
+  jvmtiError (JNICALL *GftMbxLodbls) (jvmtiEnv* fnv,
+    jmftiodID mftiod,
+    jint* mbx_ptr);
 
-  /*   69 : Get Arguments Size */
-  jvmtiError (JNICALL *GetArgumentsSize) (jvmtiEnv* env,
-    jmethodID method,
-    jint* size_ptr);
+  /*   69 : Gft Argumfnts Sizf */
+  jvmtiError (JNICALL *GftArgumfntsSizf) (jvmtiEnv* fnv,
+    jmftiodID mftiod,
+    jint* sizf_ptr);
 
-  /*   70 : Get Line Number Table */
-  jvmtiError (JNICALL *GetLineNumberTable) (jvmtiEnv* env,
-    jmethodID method,
-    jint* entry_count_ptr,
-    jvmtiLineNumberEntry** table_ptr);
+  /*   70 : Gft Linf Numbfr Tbblf */
+  jvmtiError (JNICALL *GftLinfNumbfrTbblf) (jvmtiEnv* fnv,
+    jmftiodID mftiod,
+    jint* fntry_dount_ptr,
+    jvmtiLinfNumbfrEntry** tbblf_ptr);
 
-  /*   71 : Get Method Location */
-  jvmtiError (JNICALL *GetMethodLocation) (jvmtiEnv* env,
-    jmethodID method,
-    jlocation* start_location_ptr,
-    jlocation* end_location_ptr);
+  /*   71 : Gft Mftiod Lodbtion */
+  jvmtiError (JNICALL *GftMftiodLodbtion) (jvmtiEnv* fnv,
+    jmftiodID mftiod,
+    jlodbtion* stbrt_lodbtion_ptr,
+    jlodbtion* fnd_lodbtion_ptr);
 
-  /*   72 : Get Local Variable Table */
-  jvmtiError (JNICALL *GetLocalVariableTable) (jvmtiEnv* env,
-    jmethodID method,
-    jint* entry_count_ptr,
-    jvmtiLocalVariableEntry** table_ptr);
+  /*   72 : Gft Lodbl Vbribblf Tbblf */
+  jvmtiError (JNICALL *GftLodblVbribblfTbblf) (jvmtiEnv* fnv,
+    jmftiodID mftiod,
+    jint* fntry_dount_ptr,
+    jvmtiLodblVbribblfEntry** tbblf_ptr);
 
-  /*   73 : Set Native Method Prefix */
-  jvmtiError (JNICALL *SetNativeMethodPrefix) (jvmtiEnv* env,
-    const char* prefix);
+  /*   73 : Sft Nbtivf Mftiod Prffix */
+  jvmtiError (JNICALL *SftNbtivfMftiodPrffix) (jvmtiEnv* fnv,
+    donst dibr* prffix);
 
-  /*   74 : Set Native Method Prefixes */
-  jvmtiError (JNICALL *SetNativeMethodPrefixes) (jvmtiEnv* env,
-    jint prefix_count,
-    char** prefixes);
+  /*   74 : Sft Nbtivf Mftiod Prffixfs */
+  jvmtiError (JNICALL *SftNbtivfMftiodPrffixfs) (jvmtiEnv* fnv,
+    jint prffix_dount,
+    dibr** prffixfs);
 
-  /*   75 : Get Bytecodes */
-  jvmtiError (JNICALL *GetBytecodes) (jvmtiEnv* env,
-    jmethodID method,
-    jint* bytecode_count_ptr,
-    unsigned char** bytecodes_ptr);
+  /*   75 : Gft Bytfdodfs */
+  jvmtiError (JNICALL *GftBytfdodfs) (jvmtiEnv* fnv,
+    jmftiodID mftiod,
+    jint* bytfdodf_dount_ptr,
+    unsignfd dibr** bytfdodfs_ptr);
 
-  /*   76 : Is Method Native */
-  jvmtiError (JNICALL *IsMethodNative) (jvmtiEnv* env,
-    jmethodID method,
-    jboolean* is_native_ptr);
+  /*   76 : Is Mftiod Nbtivf */
+  jvmtiError (JNICALL *IsMftiodNbtivf) (jvmtiEnv* fnv,
+    jmftiodID mftiod,
+    jboolfbn* is_nbtivf_ptr);
 
-  /*   77 : Is Method Synthetic */
-  jvmtiError (JNICALL *IsMethodSynthetic) (jvmtiEnv* env,
-    jmethodID method,
-    jboolean* is_synthetic_ptr);
+  /*   77 : Is Mftiod Syntiftid */
+  jvmtiError (JNICALL *IsMftiodSyntiftid) (jvmtiEnv* fnv,
+    jmftiodID mftiod,
+    jboolfbn* is_syntiftid_ptr);
 
-  /*   78 : Get Loaded Classes */
-  jvmtiError (JNICALL *GetLoadedClasses) (jvmtiEnv* env,
-    jint* class_count_ptr,
-    jclass** classes_ptr);
+  /*   78 : Gft Lobdfd Clbssfs */
+  jvmtiError (JNICALL *GftLobdfdClbssfs) (jvmtiEnv* fnv,
+    jint* dlbss_dount_ptr,
+    jdlbss** dlbssfs_ptr);
 
-  /*   79 : Get Classloader Classes */
-  jvmtiError (JNICALL *GetClassLoaderClasses) (jvmtiEnv* env,
-    jobject initiating_loader,
-    jint* class_count_ptr,
-    jclass** classes_ptr);
+  /*   79 : Gft Clbsslobdfr Clbssfs */
+  jvmtiError (JNICALL *GftClbssLobdfrClbssfs) (jvmtiEnv* fnv,
+    jobjfdt initibting_lobdfr,
+    jint* dlbss_dount_ptr,
+    jdlbss** dlbssfs_ptr);
 
-  /*   80 : Pop Frame */
-  jvmtiError (JNICALL *PopFrame) (jvmtiEnv* env,
-    jthread thread);
+  /*   80 : Pop Frbmf */
+  jvmtiError (JNICALL *PopFrbmf) (jvmtiEnv* fnv,
+    jtirfbd tirfbd);
 
-  /*   81 : Force Early Return - Object */
-  jvmtiError (JNICALL *ForceEarlyReturnObject) (jvmtiEnv* env,
-    jthread thread,
-    jobject value);
+  /*   81 : Fordf Ebrly Rfturn - Objfdt */
+  jvmtiError (JNICALL *FordfEbrlyRfturnObjfdt) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jobjfdt vbluf);
 
-  /*   82 : Force Early Return - Int */
-  jvmtiError (JNICALL *ForceEarlyReturnInt) (jvmtiEnv* env,
-    jthread thread,
-    jint value);
+  /*   82 : Fordf Ebrly Rfturn - Int */
+  jvmtiError (JNICALL *FordfEbrlyRfturnInt) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint vbluf);
 
-  /*   83 : Force Early Return - Long */
-  jvmtiError (JNICALL *ForceEarlyReturnLong) (jvmtiEnv* env,
-    jthread thread,
-    jlong value);
+  /*   83 : Fordf Ebrly Rfturn - Long */
+  jvmtiError (JNICALL *FordfEbrlyRfturnLong) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jlong vbluf);
 
-  /*   84 : Force Early Return - Float */
-  jvmtiError (JNICALL *ForceEarlyReturnFloat) (jvmtiEnv* env,
-    jthread thread,
-    jfloat value);
+  /*   84 : Fordf Ebrly Rfturn - Flobt */
+  jvmtiError (JNICALL *FordfEbrlyRfturnFlobt) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jflobt vbluf);
 
-  /*   85 : Force Early Return - Double */
-  jvmtiError (JNICALL *ForceEarlyReturnDouble) (jvmtiEnv* env,
-    jthread thread,
-    jdouble value);
+  /*   85 : Fordf Ebrly Rfturn - Doublf */
+  jvmtiError (JNICALL *FordfEbrlyRfturnDoublf) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jdoublf vbluf);
 
-  /*   86 : Force Early Return - Void */
-  jvmtiError (JNICALL *ForceEarlyReturnVoid) (jvmtiEnv* env,
-    jthread thread);
+  /*   86 : Fordf Ebrly Rfturn - Void */
+  jvmtiError (JNICALL *FordfEbrlyRfturnVoid) (jvmtiEnv* fnv,
+    jtirfbd tirfbd);
 
-  /*   87 : Redefine Classes */
-  jvmtiError (JNICALL *RedefineClasses) (jvmtiEnv* env,
-    jint class_count,
-    const jvmtiClassDefinition* class_definitions);
+  /*   87 : Rfdffinf Clbssfs */
+  jvmtiError (JNICALL *RfdffinfClbssfs) (jvmtiEnv* fnv,
+    jint dlbss_dount,
+    donst jvmtiClbssDffinition* dlbss_dffinitions);
 
-  /*   88 : Get Version Number */
-  jvmtiError (JNICALL *GetVersionNumber) (jvmtiEnv* env,
-    jint* version_ptr);
+  /*   88 : Gft Vfrsion Numbfr */
+  jvmtiError (JNICALL *GftVfrsionNumbfr) (jvmtiEnv* fnv,
+    jint* vfrsion_ptr);
 
-  /*   89 : Get Capabilities */
-  jvmtiError (JNICALL *GetCapabilities) (jvmtiEnv* env,
-    jvmtiCapabilities* capabilities_ptr);
+  /*   89 : Gft Cbpbbilitifs */
+  jvmtiError (JNICALL *GftCbpbbilitifs) (jvmtiEnv* fnv,
+    jvmtiCbpbbilitifs* dbpbbilitifs_ptr);
 
-  /*   90 : Get Source Debug Extension */
-  jvmtiError (JNICALL *GetSourceDebugExtension) (jvmtiEnv* env,
-    jclass klass,
-    char** source_debug_extension_ptr);
+  /*   90 : Gft Sourdf Dfbug Extfnsion */
+  jvmtiError (JNICALL *GftSourdfDfbugExtfnsion) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    dibr** sourdf_dfbug_fxtfnsion_ptr);
 
-  /*   91 : Is Method Obsolete */
-  jvmtiError (JNICALL *IsMethodObsolete) (jvmtiEnv* env,
-    jmethodID method,
-    jboolean* is_obsolete_ptr);
+  /*   91 : Is Mftiod Obsolftf */
+  jvmtiError (JNICALL *IsMftiodObsolftf) (jvmtiEnv* fnv,
+    jmftiodID mftiod,
+    jboolfbn* is_obsolftf_ptr);
 
-  /*   92 : Suspend Thread List */
-  jvmtiError (JNICALL *SuspendThreadList) (jvmtiEnv* env,
-    jint request_count,
-    const jthread* request_list,
-    jvmtiError* results);
+  /*   92 : Suspfnd Tirfbd List */
+  jvmtiError (JNICALL *SuspfndTirfbdList) (jvmtiEnv* fnv,
+    jint rfqufst_dount,
+    donst jtirfbd* rfqufst_list,
+    jvmtiError* rfsults);
 
-  /*   93 : Resume Thread List */
-  jvmtiError (JNICALL *ResumeThreadList) (jvmtiEnv* env,
-    jint request_count,
-    const jthread* request_list,
-    jvmtiError* results);
+  /*   93 : Rfsumf Tirfbd List */
+  jvmtiError (JNICALL *RfsumfTirfbdList) (jvmtiEnv* fnv,
+    jint rfqufst_dount,
+    donst jtirfbd* rfqufst_list,
+    jvmtiError* rfsults);
 
   /*   94 :  RESERVED */
-  void *reserved94;
+  void *rfsfrvfd94;
 
   /*   95 :  RESERVED */
-  void *reserved95;
+  void *rfsfrvfd95;
 
   /*   96 :  RESERVED */
-  void *reserved96;
+  void *rfsfrvfd96;
 
   /*   97 :  RESERVED */
-  void *reserved97;
+  void *rfsfrvfd97;
 
   /*   98 :  RESERVED */
-  void *reserved98;
+  void *rfsfrvfd98;
 
   /*   99 :  RESERVED */
-  void *reserved99;
+  void *rfsfrvfd99;
 
-  /*   100 : Get All Stack Traces */
-  jvmtiError (JNICALL *GetAllStackTraces) (jvmtiEnv* env,
-    jint max_frame_count,
-    jvmtiStackInfo** stack_info_ptr,
-    jint* thread_count_ptr);
+  /*   100 : Gft All Stbdk Trbdfs */
+  jvmtiError (JNICALL *GftAllStbdkTrbdfs) (jvmtiEnv* fnv,
+    jint mbx_frbmf_dount,
+    jvmtiStbdkInfo** stbdk_info_ptr,
+    jint* tirfbd_dount_ptr);
 
-  /*   101 : Get Thread List Stack Traces */
-  jvmtiError (JNICALL *GetThreadListStackTraces) (jvmtiEnv* env,
-    jint thread_count,
-    const jthread* thread_list,
-    jint max_frame_count,
-    jvmtiStackInfo** stack_info_ptr);
+  /*   101 : Gft Tirfbd List Stbdk Trbdfs */
+  jvmtiError (JNICALL *GftTirfbdListStbdkTrbdfs) (jvmtiEnv* fnv,
+    jint tirfbd_dount,
+    donst jtirfbd* tirfbd_list,
+    jint mbx_frbmf_dount,
+    jvmtiStbdkInfo** stbdk_info_ptr);
 
-  /*   102 : Get Thread Local Storage */
-  jvmtiError (JNICALL *GetThreadLocalStorage) (jvmtiEnv* env,
-    jthread thread,
-    void** data_ptr);
+  /*   102 : Gft Tirfbd Lodbl Storbgf */
+  jvmtiError (JNICALL *GftTirfbdLodblStorbgf) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    void** dbtb_ptr);
 
-  /*   103 : Set Thread Local Storage */
-  jvmtiError (JNICALL *SetThreadLocalStorage) (jvmtiEnv* env,
-    jthread thread,
-    const void* data);
+  /*   103 : Sft Tirfbd Lodbl Storbgf */
+  jvmtiError (JNICALL *SftTirfbdLodblStorbgf) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    donst void* dbtb);
 
-  /*   104 : Get Stack Trace */
-  jvmtiError (JNICALL *GetStackTrace) (jvmtiEnv* env,
-    jthread thread,
-    jint start_depth,
-    jint max_frame_count,
-    jvmtiFrameInfo* frame_buffer,
-    jint* count_ptr);
+  /*   104 : Gft Stbdk Trbdf */
+  jvmtiError (JNICALL *GftStbdkTrbdf) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint stbrt_dfpti,
+    jint mbx_frbmf_dount,
+    jvmtiFrbmfInfo* frbmf_bufffr,
+    jint* dount_ptr);
 
   /*   105 :  RESERVED */
-  void *reserved105;
+  void *rfsfrvfd105;
 
-  /*   106 : Get Tag */
-  jvmtiError (JNICALL *GetTag) (jvmtiEnv* env,
-    jobject object,
-    jlong* tag_ptr);
+  /*   106 : Gft Tbg */
+  jvmtiError (JNICALL *GftTbg) (jvmtiEnv* fnv,
+    jobjfdt objfdt,
+    jlong* tbg_ptr);
 
-  /*   107 : Set Tag */
-  jvmtiError (JNICALL *SetTag) (jvmtiEnv* env,
-    jobject object,
-    jlong tag);
+  /*   107 : Sft Tbg */
+  jvmtiError (JNICALL *SftTbg) (jvmtiEnv* fnv,
+    jobjfdt objfdt,
+    jlong tbg);
 
-  /*   108 : Force Garbage Collection */
-  jvmtiError (JNICALL *ForceGarbageCollection) (jvmtiEnv* env);
+  /*   108 : Fordf Gbrbbgf Collfdtion */
+  jvmtiError (JNICALL *FordfGbrbbgfCollfdtion) (jvmtiEnv* fnv);
 
-  /*   109 : Iterate Over Objects Reachable From Object */
-  jvmtiError (JNICALL *IterateOverObjectsReachableFromObject) (jvmtiEnv* env,
-    jobject object,
-    jvmtiObjectReferenceCallback object_reference_callback,
-    const void* user_data);
+  /*   109 : Itfrbtf Ovfr Objfdts Rfbdibblf From Objfdt */
+  jvmtiError (JNICALL *ItfrbtfOvfrObjfdtsRfbdibblfFromObjfdt) (jvmtiEnv* fnv,
+    jobjfdt objfdt,
+    jvmtiObjfdtRfffrfndfCbllbbdk objfdt_rfffrfndf_dbllbbdk,
+    donst void* usfr_dbtb);
 
-  /*   110 : Iterate Over Reachable Objects */
-  jvmtiError (JNICALL *IterateOverReachableObjects) (jvmtiEnv* env,
-    jvmtiHeapRootCallback heap_root_callback,
-    jvmtiStackReferenceCallback stack_ref_callback,
-    jvmtiObjectReferenceCallback object_ref_callback,
-    const void* user_data);
+  /*   110 : Itfrbtf Ovfr Rfbdibblf Objfdts */
+  jvmtiError (JNICALL *ItfrbtfOvfrRfbdibblfObjfdts) (jvmtiEnv* fnv,
+    jvmtiHfbpRootCbllbbdk ifbp_root_dbllbbdk,
+    jvmtiStbdkRfffrfndfCbllbbdk stbdk_rff_dbllbbdk,
+    jvmtiObjfdtRfffrfndfCbllbbdk objfdt_rff_dbllbbdk,
+    donst void* usfr_dbtb);
 
-  /*   111 : Iterate Over Heap */
-  jvmtiError (JNICALL *IterateOverHeap) (jvmtiEnv* env,
-    jvmtiHeapObjectFilter object_filter,
-    jvmtiHeapObjectCallback heap_object_callback,
-    const void* user_data);
+  /*   111 : Itfrbtf Ovfr Hfbp */
+  jvmtiError (JNICALL *ItfrbtfOvfrHfbp) (jvmtiEnv* fnv,
+    jvmtiHfbpObjfdtFiltfr objfdt_filtfr,
+    jvmtiHfbpObjfdtCbllbbdk ifbp_objfdt_dbllbbdk,
+    donst void* usfr_dbtb);
 
-  /*   112 : Iterate Over Instances Of Class */
-  jvmtiError (JNICALL *IterateOverInstancesOfClass) (jvmtiEnv* env,
-    jclass klass,
-    jvmtiHeapObjectFilter object_filter,
-    jvmtiHeapObjectCallback heap_object_callback,
-    const void* user_data);
+  /*   112 : Itfrbtf Ovfr Instbndfs Of Clbss */
+  jvmtiError (JNICALL *ItfrbtfOvfrInstbndfsOfClbss) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jvmtiHfbpObjfdtFiltfr objfdt_filtfr,
+    jvmtiHfbpObjfdtCbllbbdk ifbp_objfdt_dbllbbdk,
+    donst void* usfr_dbtb);
 
   /*   113 :  RESERVED */
-  void *reserved113;
+  void *rfsfrvfd113;
 
-  /*   114 : Get Objects With Tags */
-  jvmtiError (JNICALL *GetObjectsWithTags) (jvmtiEnv* env,
-    jint tag_count,
-    const jlong* tags,
-    jint* count_ptr,
-    jobject** object_result_ptr,
-    jlong** tag_result_ptr);
+  /*   114 : Gft Objfdts Witi Tbgs */
+  jvmtiError (JNICALL *GftObjfdtsWitiTbgs) (jvmtiEnv* fnv,
+    jint tbg_dount,
+    donst jlong* tbgs,
+    jint* dount_ptr,
+    jobjfdt** objfdt_rfsult_ptr,
+    jlong** tbg_rfsult_ptr);
 
-  /*   115 : Follow References */
-  jvmtiError (JNICALL *FollowReferences) (jvmtiEnv* env,
-    jint heap_filter,
-    jclass klass,
-    jobject initial_object,
-    const jvmtiHeapCallbacks* callbacks,
-    const void* user_data);
+  /*   115 : Follow Rfffrfndfs */
+  jvmtiError (JNICALL *FollowRfffrfndfs) (jvmtiEnv* fnv,
+    jint ifbp_filtfr,
+    jdlbss klbss,
+    jobjfdt initibl_objfdt,
+    donst jvmtiHfbpCbllbbdks* dbllbbdks,
+    donst void* usfr_dbtb);
 
-  /*   116 : Iterate Through Heap */
-  jvmtiError (JNICALL *IterateThroughHeap) (jvmtiEnv* env,
-    jint heap_filter,
-    jclass klass,
-    const jvmtiHeapCallbacks* callbacks,
-    const void* user_data);
+  /*   116 : Itfrbtf Tirougi Hfbp */
+  jvmtiError (JNICALL *ItfrbtfTirougiHfbp) (jvmtiEnv* fnv,
+    jint ifbp_filtfr,
+    jdlbss klbss,
+    donst jvmtiHfbpCbllbbdks* dbllbbdks,
+    donst void* usfr_dbtb);
 
   /*   117 :  RESERVED */
-  void *reserved117;
+  void *rfsfrvfd117;
 
   /*   118 :  RESERVED */
-  void *reserved118;
+  void *rfsfrvfd118;
 
   /*   119 :  RESERVED */
-  void *reserved119;
+  void *rfsfrvfd119;
 
-  /*   120 : Set JNI Function Table */
-  jvmtiError (JNICALL *SetJNIFunctionTable) (jvmtiEnv* env,
-    const jniNativeInterface* function_table);
+  /*   120 : Sft JNI Fundtion Tbblf */
+  jvmtiError (JNICALL *SftJNIFundtionTbblf) (jvmtiEnv* fnv,
+    donst jniNbtivfIntfrfbdf* fundtion_tbblf);
 
-  /*   121 : Get JNI Function Table */
-  jvmtiError (JNICALL *GetJNIFunctionTable) (jvmtiEnv* env,
-    jniNativeInterface** function_table);
+  /*   121 : Gft JNI Fundtion Tbblf */
+  jvmtiError (JNICALL *GftJNIFundtionTbblf) (jvmtiEnv* fnv,
+    jniNbtivfIntfrfbdf** fundtion_tbblf);
 
-  /*   122 : Set Event Callbacks */
-  jvmtiError (JNICALL *SetEventCallbacks) (jvmtiEnv* env,
-    const jvmtiEventCallbacks* callbacks,
-    jint size_of_callbacks);
+  /*   122 : Sft Evfnt Cbllbbdks */
+  jvmtiError (JNICALL *SftEvfntCbllbbdks) (jvmtiEnv* fnv,
+    donst jvmtiEvfntCbllbbdks* dbllbbdks,
+    jint sizf_of_dbllbbdks);
 
-  /*   123 : Generate Events */
-  jvmtiError (JNICALL *GenerateEvents) (jvmtiEnv* env,
-    jvmtiEvent event_type);
+  /*   123 : Gfnfrbtf Evfnts */
+  jvmtiError (JNICALL *GfnfrbtfEvfnts) (jvmtiEnv* fnv,
+    jvmtiEvfnt fvfnt_typf);
 
-  /*   124 : Get Extension Functions */
-  jvmtiError (JNICALL *GetExtensionFunctions) (jvmtiEnv* env,
-    jint* extension_count_ptr,
-    jvmtiExtensionFunctionInfo** extensions);
+  /*   124 : Gft Extfnsion Fundtions */
+  jvmtiError (JNICALL *GftExtfnsionFundtions) (jvmtiEnv* fnv,
+    jint* fxtfnsion_dount_ptr,
+    jvmtiExtfnsionFundtionInfo** fxtfnsions);
 
-  /*   125 : Get Extension Events */
-  jvmtiError (JNICALL *GetExtensionEvents) (jvmtiEnv* env,
-    jint* extension_count_ptr,
-    jvmtiExtensionEventInfo** extensions);
+  /*   125 : Gft Extfnsion Evfnts */
+  jvmtiError (JNICALL *GftExtfnsionEvfnts) (jvmtiEnv* fnv,
+    jint* fxtfnsion_dount_ptr,
+    jvmtiExtfnsionEvfntInfo** fxtfnsions);
 
-  /*   126 : Set Extension Event Callback */
-  jvmtiError (JNICALL *SetExtensionEventCallback) (jvmtiEnv* env,
-    jint extension_event_index,
-    jvmtiExtensionEvent callback);
+  /*   126 : Sft Extfnsion Evfnt Cbllbbdk */
+  jvmtiError (JNICALL *SftExtfnsionEvfntCbllbbdk) (jvmtiEnv* fnv,
+    jint fxtfnsion_fvfnt_indfx,
+    jvmtiExtfnsionEvfnt dbllbbdk);
 
-  /*   127 : Dispose Environment */
-  jvmtiError (JNICALL *DisposeEnvironment) (jvmtiEnv* env);
+  /*   127 : Disposf Environmfnt */
+  jvmtiError (JNICALL *DisposfEnvironmfnt) (jvmtiEnv* fnv);
 
-  /*   128 : Get Error Name */
-  jvmtiError (JNICALL *GetErrorName) (jvmtiEnv* env,
-    jvmtiError error,
-    char** name_ptr);
+  /*   128 : Gft Error Nbmf */
+  jvmtiError (JNICALL *GftErrorNbmf) (jvmtiEnv* fnv,
+    jvmtiError frror,
+    dibr** nbmf_ptr);
 
-  /*   129 : Get JLocation Format */
-  jvmtiError (JNICALL *GetJLocationFormat) (jvmtiEnv* env,
-    jvmtiJlocationFormat* format_ptr);
+  /*   129 : Gft JLodbtion Formbt */
+  jvmtiError (JNICALL *GftJLodbtionFormbt) (jvmtiEnv* fnv,
+    jvmtiJlodbtionFormbt* formbt_ptr);
 
-  /*   130 : Get System Properties */
-  jvmtiError (JNICALL *GetSystemProperties) (jvmtiEnv* env,
-    jint* count_ptr,
-    char*** property_ptr);
+  /*   130 : Gft Systfm Propfrtifs */
+  jvmtiError (JNICALL *GftSystfmPropfrtifs) (jvmtiEnv* fnv,
+    jint* dount_ptr,
+    dibr*** propfrty_ptr);
 
-  /*   131 : Get System Property */
-  jvmtiError (JNICALL *GetSystemProperty) (jvmtiEnv* env,
-    const char* property,
-    char** value_ptr);
+  /*   131 : Gft Systfm Propfrty */
+  jvmtiError (JNICALL *GftSystfmPropfrty) (jvmtiEnv* fnv,
+    donst dibr* propfrty,
+    dibr** vbluf_ptr);
 
-  /*   132 : Set System Property */
-  jvmtiError (JNICALL *SetSystemProperty) (jvmtiEnv* env,
-    const char* property,
-    const char* value);
+  /*   132 : Sft Systfm Propfrty */
+  jvmtiError (JNICALL *SftSystfmPropfrty) (jvmtiEnv* fnv,
+    donst dibr* propfrty,
+    donst dibr* vbluf);
 
-  /*   133 : Get Phase */
-  jvmtiError (JNICALL *GetPhase) (jvmtiEnv* env,
-    jvmtiPhase* phase_ptr);
+  /*   133 : Gft Pibsf */
+  jvmtiError (JNICALL *GftPibsf) (jvmtiEnv* fnv,
+    jvmtiPibsf* pibsf_ptr);
 
-  /*   134 : Get Current Thread CPU Timer Information */
-  jvmtiError (JNICALL *GetCurrentThreadCpuTimerInfo) (jvmtiEnv* env,
-    jvmtiTimerInfo* info_ptr);
+  /*   134 : Gft Currfnt Tirfbd CPU Timfr Informbtion */
+  jvmtiError (JNICALL *GftCurrfntTirfbdCpuTimfrInfo) (jvmtiEnv* fnv,
+    jvmtiTimfrInfo* info_ptr);
 
-  /*   135 : Get Current Thread CPU Time */
-  jvmtiError (JNICALL *GetCurrentThreadCpuTime) (jvmtiEnv* env,
-    jlong* nanos_ptr);
+  /*   135 : Gft Currfnt Tirfbd CPU Timf */
+  jvmtiError (JNICALL *GftCurrfntTirfbdCpuTimf) (jvmtiEnv* fnv,
+    jlong* nbnos_ptr);
 
-  /*   136 : Get Thread CPU Timer Information */
-  jvmtiError (JNICALL *GetThreadCpuTimerInfo) (jvmtiEnv* env,
-    jvmtiTimerInfo* info_ptr);
+  /*   136 : Gft Tirfbd CPU Timfr Informbtion */
+  jvmtiError (JNICALL *GftTirfbdCpuTimfrInfo) (jvmtiEnv* fnv,
+    jvmtiTimfrInfo* info_ptr);
 
-  /*   137 : Get Thread CPU Time */
-  jvmtiError (JNICALL *GetThreadCpuTime) (jvmtiEnv* env,
-    jthread thread,
-    jlong* nanos_ptr);
+  /*   137 : Gft Tirfbd CPU Timf */
+  jvmtiError (JNICALL *GftTirfbdCpuTimf) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jlong* nbnos_ptr);
 
-  /*   138 : Get Timer Information */
-  jvmtiError (JNICALL *GetTimerInfo) (jvmtiEnv* env,
-    jvmtiTimerInfo* info_ptr);
+  /*   138 : Gft Timfr Informbtion */
+  jvmtiError (JNICALL *GftTimfrInfo) (jvmtiEnv* fnv,
+    jvmtiTimfrInfo* info_ptr);
 
-  /*   139 : Get Time */
-  jvmtiError (JNICALL *GetTime) (jvmtiEnv* env,
-    jlong* nanos_ptr);
+  /*   139 : Gft Timf */
+  jvmtiError (JNICALL *GftTimf) (jvmtiEnv* fnv,
+    jlong* nbnos_ptr);
 
-  /*   140 : Get Potential Capabilities */
-  jvmtiError (JNICALL *GetPotentialCapabilities) (jvmtiEnv* env,
-    jvmtiCapabilities* capabilities_ptr);
+  /*   140 : Gft Potfntibl Cbpbbilitifs */
+  jvmtiError (JNICALL *GftPotfntiblCbpbbilitifs) (jvmtiEnv* fnv,
+    jvmtiCbpbbilitifs* dbpbbilitifs_ptr);
 
   /*   141 :  RESERVED */
-  void *reserved141;
+  void *rfsfrvfd141;
 
-  /*   142 : Add Capabilities */
-  jvmtiError (JNICALL *AddCapabilities) (jvmtiEnv* env,
-    const jvmtiCapabilities* capabilities_ptr);
+  /*   142 : Add Cbpbbilitifs */
+  jvmtiError (JNICALL *AddCbpbbilitifs) (jvmtiEnv* fnv,
+    donst jvmtiCbpbbilitifs* dbpbbilitifs_ptr);
 
-  /*   143 : Relinquish Capabilities */
-  jvmtiError (JNICALL *RelinquishCapabilities) (jvmtiEnv* env,
-    const jvmtiCapabilities* capabilities_ptr);
+  /*   143 : Rflinquisi Cbpbbilitifs */
+  jvmtiError (JNICALL *RflinquisiCbpbbilitifs) (jvmtiEnv* fnv,
+    donst jvmtiCbpbbilitifs* dbpbbilitifs_ptr);
 
-  /*   144 : Get Available Processors */
-  jvmtiError (JNICALL *GetAvailableProcessors) (jvmtiEnv* env,
-    jint* processor_count_ptr);
+  /*   144 : Gft Avbilbblf Prodfssors */
+  jvmtiError (JNICALL *GftAvbilbblfProdfssors) (jvmtiEnv* fnv,
+    jint* prodfssor_dount_ptr);
 
-  /*   145 : Get Class Version Numbers */
-  jvmtiError (JNICALL *GetClassVersionNumbers) (jvmtiEnv* env,
-    jclass klass,
-    jint* minor_version_ptr,
-    jint* major_version_ptr);
+  /*   145 : Gft Clbss Vfrsion Numbfrs */
+  jvmtiError (JNICALL *GftClbssVfrsionNumbfrs) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jint* minor_vfrsion_ptr,
+    jint* mbjor_vfrsion_ptr);
 
-  /*   146 : Get Constant Pool */
-  jvmtiError (JNICALL *GetConstantPool) (jvmtiEnv* env,
-    jclass klass,
-    jint* constant_pool_count_ptr,
-    jint* constant_pool_byte_count_ptr,
-    unsigned char** constant_pool_bytes_ptr);
+  /*   146 : Gft Constbnt Pool */
+  jvmtiError (JNICALL *GftConstbntPool) (jvmtiEnv* fnv,
+    jdlbss klbss,
+    jint* donstbnt_pool_dount_ptr,
+    jint* donstbnt_pool_bytf_dount_ptr,
+    unsignfd dibr** donstbnt_pool_bytfs_ptr);
 
-  /*   147 : Get Environment Local Storage */
-  jvmtiError (JNICALL *GetEnvironmentLocalStorage) (jvmtiEnv* env,
-    void** data_ptr);
+  /*   147 : Gft Environmfnt Lodbl Storbgf */
+  jvmtiError (JNICALL *GftEnvironmfntLodblStorbgf) (jvmtiEnv* fnv,
+    void** dbtb_ptr);
 
-  /*   148 : Set Environment Local Storage */
-  jvmtiError (JNICALL *SetEnvironmentLocalStorage) (jvmtiEnv* env,
-    const void* data);
+  /*   148 : Sft Environmfnt Lodbl Storbgf */
+  jvmtiError (JNICALL *SftEnvironmfntLodblStorbgf) (jvmtiEnv* fnv,
+    donst void* dbtb);
 
-  /*   149 : Add To Bootstrap Class Loader Search */
-  jvmtiError (JNICALL *AddToBootstrapClassLoaderSearch) (jvmtiEnv* env,
-    const char* segment);
+  /*   149 : Add To Bootstrbp Clbss Lobdfr Sfbrdi */
+  jvmtiError (JNICALL *AddToBootstrbpClbssLobdfrSfbrdi) (jvmtiEnv* fnv,
+    donst dibr* sfgmfnt);
 
-  /*   150 : Set Verbose Flag */
-  jvmtiError (JNICALL *SetVerboseFlag) (jvmtiEnv* env,
-    jvmtiVerboseFlag flag,
-    jboolean value);
+  /*   150 : Sft Vfrbosf Flbg */
+  jvmtiError (JNICALL *SftVfrbosfFlbg) (jvmtiEnv* fnv,
+    jvmtiVfrbosfFlbg flbg,
+    jboolfbn vbluf);
 
-  /*   151 : Add To System Class Loader Search */
-  jvmtiError (JNICALL *AddToSystemClassLoaderSearch) (jvmtiEnv* env,
-    const char* segment);
+  /*   151 : Add To Systfm Clbss Lobdfr Sfbrdi */
+  jvmtiError (JNICALL *AddToSystfmClbssLobdfrSfbrdi) (jvmtiEnv* fnv,
+    donst dibr* sfgmfnt);
 
-  /*   152 : Retransform Classes */
-  jvmtiError (JNICALL *RetransformClasses) (jvmtiEnv* env,
-    jint class_count,
-    const jclass* classes);
+  /*   152 : Rftrbnsform Clbssfs */
+  jvmtiError (JNICALL *RftrbnsformClbssfs) (jvmtiEnv* fnv,
+    jint dlbss_dount,
+    donst jdlbss* dlbssfs);
 
-  /*   153 : Get Owned Monitor Stack Depth Info */
-  jvmtiError (JNICALL *GetOwnedMonitorStackDepthInfo) (jvmtiEnv* env,
-    jthread thread,
-    jint* monitor_info_count_ptr,
-    jvmtiMonitorStackDepthInfo** monitor_info_ptr);
+  /*   153 : Gft Ownfd Monitor Stbdk Dfpti Info */
+  jvmtiError (JNICALL *GftOwnfdMonitorStbdkDfptiInfo) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint* monitor_info_dount_ptr,
+    jvmtiMonitorStbdkDfptiInfo** monitor_info_ptr);
 
-  /*   154 : Get Object Size */
-  jvmtiError (JNICALL *GetObjectSize) (jvmtiEnv* env,
-    jobject object,
-    jlong* size_ptr);
+  /*   154 : Gft Objfdt Sizf */
+  jvmtiError (JNICALL *GftObjfdtSizf) (jvmtiEnv* fnv,
+    jobjfdt objfdt,
+    jlong* sizf_ptr);
 
-  /*   155 : Get Local Instance */
-  jvmtiError (JNICALL *GetLocalInstance) (jvmtiEnv* env,
-    jthread thread,
-    jint depth,
-    jobject* value_ptr);
+  /*   155 : Gft Lodbl Instbndf */
+  jvmtiError (JNICALL *GftLodblInstbndf) (jvmtiEnv* fnv,
+    jtirfbd tirfbd,
+    jint dfpti,
+    jobjfdt* vbluf_ptr);
 
-} jvmtiInterface_1;
+} jvmtiIntfrfbdf_1;
 
-struct _jvmtiEnv {
-    const struct jvmtiInterface_1_ *functions;
-#ifdef __cplusplus
+strudt _jvmtiEnv {
+    donst strudt jvmtiIntfrfbdf_1_ *fundtions;
+#ifdff __dplusplus
 
 
-  jvmtiError Allocate(jlong size,
-            unsigned char** mem_ptr) {
-    return functions->Allocate(this, size, mem_ptr);
+  jvmtiError Allodbtf(jlong sizf,
+            unsignfd dibr** mfm_ptr) {
+    rfturn fundtions->Allodbtf(tiis, sizf, mfm_ptr);
   }
 
-  jvmtiError Deallocate(unsigned char* mem) {
-    return functions->Deallocate(this, mem);
+  jvmtiError Dfbllodbtf(unsignfd dibr* mfm) {
+    rfturn fundtions->Dfbllodbtf(tiis, mfm);
   }
 
-  jvmtiError GetThreadState(jthread thread,
-            jint* thread_state_ptr) {
-    return functions->GetThreadState(this, thread, thread_state_ptr);
+  jvmtiError GftTirfbdStbtf(jtirfbd tirfbd,
+            jint* tirfbd_stbtf_ptr) {
+    rfturn fundtions->GftTirfbdStbtf(tiis, tirfbd, tirfbd_stbtf_ptr);
   }
 
-  jvmtiError GetCurrentThread(jthread* thread_ptr) {
-    return functions->GetCurrentThread(this, thread_ptr);
+  jvmtiError GftCurrfntTirfbd(jtirfbd* tirfbd_ptr) {
+    rfturn fundtions->GftCurrfntTirfbd(tiis, tirfbd_ptr);
   }
 
-  jvmtiError GetAllThreads(jint* threads_count_ptr,
-            jthread** threads_ptr) {
-    return functions->GetAllThreads(this, threads_count_ptr, threads_ptr);
+  jvmtiError GftAllTirfbds(jint* tirfbds_dount_ptr,
+            jtirfbd** tirfbds_ptr) {
+    rfturn fundtions->GftAllTirfbds(tiis, tirfbds_dount_ptr, tirfbds_ptr);
   }
 
-  jvmtiError SuspendThread(jthread thread) {
-    return functions->SuspendThread(this, thread);
+  jvmtiError SuspfndTirfbd(jtirfbd tirfbd) {
+    rfturn fundtions->SuspfndTirfbd(tiis, tirfbd);
   }
 
-  jvmtiError SuspendThreadList(jint request_count,
-            const jthread* request_list,
-            jvmtiError* results) {
-    return functions->SuspendThreadList(this, request_count, request_list, results);
+  jvmtiError SuspfndTirfbdList(jint rfqufst_dount,
+            donst jtirfbd* rfqufst_list,
+            jvmtiError* rfsults) {
+    rfturn fundtions->SuspfndTirfbdList(tiis, rfqufst_dount, rfqufst_list, rfsults);
   }
 
-  jvmtiError ResumeThread(jthread thread) {
-    return functions->ResumeThread(this, thread);
+  jvmtiError RfsumfTirfbd(jtirfbd tirfbd) {
+    rfturn fundtions->RfsumfTirfbd(tiis, tirfbd);
   }
 
-  jvmtiError ResumeThreadList(jint request_count,
-            const jthread* request_list,
-            jvmtiError* results) {
-    return functions->ResumeThreadList(this, request_count, request_list, results);
+  jvmtiError RfsumfTirfbdList(jint rfqufst_dount,
+            donst jtirfbd* rfqufst_list,
+            jvmtiError* rfsults) {
+    rfturn fundtions->RfsumfTirfbdList(tiis, rfqufst_dount, rfqufst_list, rfsults);
   }
 
-  jvmtiError StopThread(jthread thread,
-            jobject exception) {
-    return functions->StopThread(this, thread, exception);
+  jvmtiError StopTirfbd(jtirfbd tirfbd,
+            jobjfdt fxdfption) {
+    rfturn fundtions->StopTirfbd(tiis, tirfbd, fxdfption);
   }
 
-  jvmtiError InterruptThread(jthread thread) {
-    return functions->InterruptThread(this, thread);
+  jvmtiError IntfrruptTirfbd(jtirfbd tirfbd) {
+    rfturn fundtions->IntfrruptTirfbd(tiis, tirfbd);
   }
 
-  jvmtiError GetThreadInfo(jthread thread,
-            jvmtiThreadInfo* info_ptr) {
-    return functions->GetThreadInfo(this, thread, info_ptr);
+  jvmtiError GftTirfbdInfo(jtirfbd tirfbd,
+            jvmtiTirfbdInfo* info_ptr) {
+    rfturn fundtions->GftTirfbdInfo(tiis, tirfbd, info_ptr);
   }
 
-  jvmtiError GetOwnedMonitorInfo(jthread thread,
-            jint* owned_monitor_count_ptr,
-            jobject** owned_monitors_ptr) {
-    return functions->GetOwnedMonitorInfo(this, thread, owned_monitor_count_ptr, owned_monitors_ptr);
+  jvmtiError GftOwnfdMonitorInfo(jtirfbd tirfbd,
+            jint* ownfd_monitor_dount_ptr,
+            jobjfdt** ownfd_monitors_ptr) {
+    rfturn fundtions->GftOwnfdMonitorInfo(tiis, tirfbd, ownfd_monitor_dount_ptr, ownfd_monitors_ptr);
   }
 
-  jvmtiError GetOwnedMonitorStackDepthInfo(jthread thread,
-            jint* monitor_info_count_ptr,
-            jvmtiMonitorStackDepthInfo** monitor_info_ptr) {
-    return functions->GetOwnedMonitorStackDepthInfo(this, thread, monitor_info_count_ptr, monitor_info_ptr);
+  jvmtiError GftOwnfdMonitorStbdkDfptiInfo(jtirfbd tirfbd,
+            jint* monitor_info_dount_ptr,
+            jvmtiMonitorStbdkDfptiInfo** monitor_info_ptr) {
+    rfturn fundtions->GftOwnfdMonitorStbdkDfptiInfo(tiis, tirfbd, monitor_info_dount_ptr, monitor_info_ptr);
   }
 
-  jvmtiError GetCurrentContendedMonitor(jthread thread,
-            jobject* monitor_ptr) {
-    return functions->GetCurrentContendedMonitor(this, thread, monitor_ptr);
+  jvmtiError GftCurrfntContfndfdMonitor(jtirfbd tirfbd,
+            jobjfdt* monitor_ptr) {
+    rfturn fundtions->GftCurrfntContfndfdMonitor(tiis, tirfbd, monitor_ptr);
   }
 
-  jvmtiError RunAgentThread(jthread thread,
-            jvmtiStartFunction proc,
-            const void* arg,
+  jvmtiError RunAgfntTirfbd(jtirfbd tirfbd,
+            jvmtiStbrtFundtion prod,
+            donst void* brg,
             jint priority) {
-    return functions->RunAgentThread(this, thread, proc, arg, priority);
+    rfturn fundtions->RunAgfntTirfbd(tiis, tirfbd, prod, brg, priority);
   }
 
-  jvmtiError SetThreadLocalStorage(jthread thread,
-            const void* data) {
-    return functions->SetThreadLocalStorage(this, thread, data);
+  jvmtiError SftTirfbdLodblStorbgf(jtirfbd tirfbd,
+            donst void* dbtb) {
+    rfturn fundtions->SftTirfbdLodblStorbgf(tiis, tirfbd, dbtb);
   }
 
-  jvmtiError GetThreadLocalStorage(jthread thread,
-            void** data_ptr) {
-    return functions->GetThreadLocalStorage(this, thread, data_ptr);
+  jvmtiError GftTirfbdLodblStorbgf(jtirfbd tirfbd,
+            void** dbtb_ptr) {
+    rfturn fundtions->GftTirfbdLodblStorbgf(tiis, tirfbd, dbtb_ptr);
   }
 
-  jvmtiError GetTopThreadGroups(jint* group_count_ptr,
-            jthreadGroup** groups_ptr) {
-    return functions->GetTopThreadGroups(this, group_count_ptr, groups_ptr);
+  jvmtiError GftTopTirfbdGroups(jint* group_dount_ptr,
+            jtirfbdGroup** groups_ptr) {
+    rfturn fundtions->GftTopTirfbdGroups(tiis, group_dount_ptr, groups_ptr);
   }
 
-  jvmtiError GetThreadGroupInfo(jthreadGroup group,
-            jvmtiThreadGroupInfo* info_ptr) {
-    return functions->GetThreadGroupInfo(this, group, info_ptr);
+  jvmtiError GftTirfbdGroupInfo(jtirfbdGroup group,
+            jvmtiTirfbdGroupInfo* info_ptr) {
+    rfturn fundtions->GftTirfbdGroupInfo(tiis, group, info_ptr);
   }
 
-  jvmtiError GetThreadGroupChildren(jthreadGroup group,
-            jint* thread_count_ptr,
-            jthread** threads_ptr,
-            jint* group_count_ptr,
-            jthreadGroup** groups_ptr) {
-    return functions->GetThreadGroupChildren(this, group, thread_count_ptr, threads_ptr, group_count_ptr, groups_ptr);
+  jvmtiError GftTirfbdGroupCiildrfn(jtirfbdGroup group,
+            jint* tirfbd_dount_ptr,
+            jtirfbd** tirfbds_ptr,
+            jint* group_dount_ptr,
+            jtirfbdGroup** groups_ptr) {
+    rfturn fundtions->GftTirfbdGroupCiildrfn(tiis, group, tirfbd_dount_ptr, tirfbds_ptr, group_dount_ptr, groups_ptr);
   }
 
-  jvmtiError GetStackTrace(jthread thread,
-            jint start_depth,
-            jint max_frame_count,
-            jvmtiFrameInfo* frame_buffer,
-            jint* count_ptr) {
-    return functions->GetStackTrace(this, thread, start_depth, max_frame_count, frame_buffer, count_ptr);
+  jvmtiError GftStbdkTrbdf(jtirfbd tirfbd,
+            jint stbrt_dfpti,
+            jint mbx_frbmf_dount,
+            jvmtiFrbmfInfo* frbmf_bufffr,
+            jint* dount_ptr) {
+    rfturn fundtions->GftStbdkTrbdf(tiis, tirfbd, stbrt_dfpti, mbx_frbmf_dount, frbmf_bufffr, dount_ptr);
   }
 
-  jvmtiError GetAllStackTraces(jint max_frame_count,
-            jvmtiStackInfo** stack_info_ptr,
-            jint* thread_count_ptr) {
-    return functions->GetAllStackTraces(this, max_frame_count, stack_info_ptr, thread_count_ptr);
+  jvmtiError GftAllStbdkTrbdfs(jint mbx_frbmf_dount,
+            jvmtiStbdkInfo** stbdk_info_ptr,
+            jint* tirfbd_dount_ptr) {
+    rfturn fundtions->GftAllStbdkTrbdfs(tiis, mbx_frbmf_dount, stbdk_info_ptr, tirfbd_dount_ptr);
   }
 
-  jvmtiError GetThreadListStackTraces(jint thread_count,
-            const jthread* thread_list,
-            jint max_frame_count,
-            jvmtiStackInfo** stack_info_ptr) {
-    return functions->GetThreadListStackTraces(this, thread_count, thread_list, max_frame_count, stack_info_ptr);
+  jvmtiError GftTirfbdListStbdkTrbdfs(jint tirfbd_dount,
+            donst jtirfbd* tirfbd_list,
+            jint mbx_frbmf_dount,
+            jvmtiStbdkInfo** stbdk_info_ptr) {
+    rfturn fundtions->GftTirfbdListStbdkTrbdfs(tiis, tirfbd_dount, tirfbd_list, mbx_frbmf_dount, stbdk_info_ptr);
   }
 
-  jvmtiError GetFrameCount(jthread thread,
-            jint* count_ptr) {
-    return functions->GetFrameCount(this, thread, count_ptr);
+  jvmtiError GftFrbmfCount(jtirfbd tirfbd,
+            jint* dount_ptr) {
+    rfturn fundtions->GftFrbmfCount(tiis, tirfbd, dount_ptr);
   }
 
-  jvmtiError PopFrame(jthread thread) {
-    return functions->PopFrame(this, thread);
+  jvmtiError PopFrbmf(jtirfbd tirfbd) {
+    rfturn fundtions->PopFrbmf(tiis, tirfbd);
   }
 
-  jvmtiError GetFrameLocation(jthread thread,
-            jint depth,
-            jmethodID* method_ptr,
-            jlocation* location_ptr) {
-    return functions->GetFrameLocation(this, thread, depth, method_ptr, location_ptr);
+  jvmtiError GftFrbmfLodbtion(jtirfbd tirfbd,
+            jint dfpti,
+            jmftiodID* mftiod_ptr,
+            jlodbtion* lodbtion_ptr) {
+    rfturn fundtions->GftFrbmfLodbtion(tiis, tirfbd, dfpti, mftiod_ptr, lodbtion_ptr);
   }
 
-  jvmtiError NotifyFramePop(jthread thread,
-            jint depth) {
-    return functions->NotifyFramePop(this, thread, depth);
+  jvmtiError NotifyFrbmfPop(jtirfbd tirfbd,
+            jint dfpti) {
+    rfturn fundtions->NotifyFrbmfPop(tiis, tirfbd, dfpti);
   }
 
-  jvmtiError ForceEarlyReturnObject(jthread thread,
-            jobject value) {
-    return functions->ForceEarlyReturnObject(this, thread, value);
+  jvmtiError FordfEbrlyRfturnObjfdt(jtirfbd tirfbd,
+            jobjfdt vbluf) {
+    rfturn fundtions->FordfEbrlyRfturnObjfdt(tiis, tirfbd, vbluf);
   }
 
-  jvmtiError ForceEarlyReturnInt(jthread thread,
-            jint value) {
-    return functions->ForceEarlyReturnInt(this, thread, value);
+  jvmtiError FordfEbrlyRfturnInt(jtirfbd tirfbd,
+            jint vbluf) {
+    rfturn fundtions->FordfEbrlyRfturnInt(tiis, tirfbd, vbluf);
   }
 
-  jvmtiError ForceEarlyReturnLong(jthread thread,
-            jlong value) {
-    return functions->ForceEarlyReturnLong(this, thread, value);
+  jvmtiError FordfEbrlyRfturnLong(jtirfbd tirfbd,
+            jlong vbluf) {
+    rfturn fundtions->FordfEbrlyRfturnLong(tiis, tirfbd, vbluf);
   }
 
-  jvmtiError ForceEarlyReturnFloat(jthread thread,
-            jfloat value) {
-    return functions->ForceEarlyReturnFloat(this, thread, value);
+  jvmtiError FordfEbrlyRfturnFlobt(jtirfbd tirfbd,
+            jflobt vbluf) {
+    rfturn fundtions->FordfEbrlyRfturnFlobt(tiis, tirfbd, vbluf);
   }
 
-  jvmtiError ForceEarlyReturnDouble(jthread thread,
-            jdouble value) {
-    return functions->ForceEarlyReturnDouble(this, thread, value);
+  jvmtiError FordfEbrlyRfturnDoublf(jtirfbd tirfbd,
+            jdoublf vbluf) {
+    rfturn fundtions->FordfEbrlyRfturnDoublf(tiis, tirfbd, vbluf);
   }
 
-  jvmtiError ForceEarlyReturnVoid(jthread thread) {
-    return functions->ForceEarlyReturnVoid(this, thread);
+  jvmtiError FordfEbrlyRfturnVoid(jtirfbd tirfbd) {
+    rfturn fundtions->FordfEbrlyRfturnVoid(tiis, tirfbd);
   }
 
-  jvmtiError FollowReferences(jint heap_filter,
-            jclass klass,
-            jobject initial_object,
-            const jvmtiHeapCallbacks* callbacks,
-            const void* user_data) {
-    return functions->FollowReferences(this, heap_filter, klass, initial_object, callbacks, user_data);
+  jvmtiError FollowRfffrfndfs(jint ifbp_filtfr,
+            jdlbss klbss,
+            jobjfdt initibl_objfdt,
+            donst jvmtiHfbpCbllbbdks* dbllbbdks,
+            donst void* usfr_dbtb) {
+    rfturn fundtions->FollowRfffrfndfs(tiis, ifbp_filtfr, klbss, initibl_objfdt, dbllbbdks, usfr_dbtb);
   }
 
-  jvmtiError IterateThroughHeap(jint heap_filter,
-            jclass klass,
-            const jvmtiHeapCallbacks* callbacks,
-            const void* user_data) {
-    return functions->IterateThroughHeap(this, heap_filter, klass, callbacks, user_data);
+  jvmtiError ItfrbtfTirougiHfbp(jint ifbp_filtfr,
+            jdlbss klbss,
+            donst jvmtiHfbpCbllbbdks* dbllbbdks,
+            donst void* usfr_dbtb) {
+    rfturn fundtions->ItfrbtfTirougiHfbp(tiis, ifbp_filtfr, klbss, dbllbbdks, usfr_dbtb);
   }
 
-  jvmtiError GetTag(jobject object,
-            jlong* tag_ptr) {
-    return functions->GetTag(this, object, tag_ptr);
+  jvmtiError GftTbg(jobjfdt objfdt,
+            jlong* tbg_ptr) {
+    rfturn fundtions->GftTbg(tiis, objfdt, tbg_ptr);
   }
 
-  jvmtiError SetTag(jobject object,
-            jlong tag) {
-    return functions->SetTag(this, object, tag);
+  jvmtiError SftTbg(jobjfdt objfdt,
+            jlong tbg) {
+    rfturn fundtions->SftTbg(tiis, objfdt, tbg);
   }
 
-  jvmtiError GetObjectsWithTags(jint tag_count,
-            const jlong* tags,
-            jint* count_ptr,
-            jobject** object_result_ptr,
-            jlong** tag_result_ptr) {
-    return functions->GetObjectsWithTags(this, tag_count, tags, count_ptr, object_result_ptr, tag_result_ptr);
+  jvmtiError GftObjfdtsWitiTbgs(jint tbg_dount,
+            donst jlong* tbgs,
+            jint* dount_ptr,
+            jobjfdt** objfdt_rfsult_ptr,
+            jlong** tbg_rfsult_ptr) {
+    rfturn fundtions->GftObjfdtsWitiTbgs(tiis, tbg_dount, tbgs, dount_ptr, objfdt_rfsult_ptr, tbg_rfsult_ptr);
   }
 
-  jvmtiError ForceGarbageCollection() {
-    return functions->ForceGarbageCollection(this);
+  jvmtiError FordfGbrbbgfCollfdtion() {
+    rfturn fundtions->FordfGbrbbgfCollfdtion(tiis);
   }
 
-  jvmtiError IterateOverObjectsReachableFromObject(jobject object,
-            jvmtiObjectReferenceCallback object_reference_callback,
-            const void* user_data) {
-    return functions->IterateOverObjectsReachableFromObject(this, object, object_reference_callback, user_data);
+  jvmtiError ItfrbtfOvfrObjfdtsRfbdibblfFromObjfdt(jobjfdt objfdt,
+            jvmtiObjfdtRfffrfndfCbllbbdk objfdt_rfffrfndf_dbllbbdk,
+            donst void* usfr_dbtb) {
+    rfturn fundtions->ItfrbtfOvfrObjfdtsRfbdibblfFromObjfdt(tiis, objfdt, objfdt_rfffrfndf_dbllbbdk, usfr_dbtb);
   }
 
-  jvmtiError IterateOverReachableObjects(jvmtiHeapRootCallback heap_root_callback,
-            jvmtiStackReferenceCallback stack_ref_callback,
-            jvmtiObjectReferenceCallback object_ref_callback,
-            const void* user_data) {
-    return functions->IterateOverReachableObjects(this, heap_root_callback, stack_ref_callback, object_ref_callback, user_data);
+  jvmtiError ItfrbtfOvfrRfbdibblfObjfdts(jvmtiHfbpRootCbllbbdk ifbp_root_dbllbbdk,
+            jvmtiStbdkRfffrfndfCbllbbdk stbdk_rff_dbllbbdk,
+            jvmtiObjfdtRfffrfndfCbllbbdk objfdt_rff_dbllbbdk,
+            donst void* usfr_dbtb) {
+    rfturn fundtions->ItfrbtfOvfrRfbdibblfObjfdts(tiis, ifbp_root_dbllbbdk, stbdk_rff_dbllbbdk, objfdt_rff_dbllbbdk, usfr_dbtb);
   }
 
-  jvmtiError IterateOverHeap(jvmtiHeapObjectFilter object_filter,
-            jvmtiHeapObjectCallback heap_object_callback,
-            const void* user_data) {
-    return functions->IterateOverHeap(this, object_filter, heap_object_callback, user_data);
+  jvmtiError ItfrbtfOvfrHfbp(jvmtiHfbpObjfdtFiltfr objfdt_filtfr,
+            jvmtiHfbpObjfdtCbllbbdk ifbp_objfdt_dbllbbdk,
+            donst void* usfr_dbtb) {
+    rfturn fundtions->ItfrbtfOvfrHfbp(tiis, objfdt_filtfr, ifbp_objfdt_dbllbbdk, usfr_dbtb);
   }
 
-  jvmtiError IterateOverInstancesOfClass(jclass klass,
-            jvmtiHeapObjectFilter object_filter,
-            jvmtiHeapObjectCallback heap_object_callback,
-            const void* user_data) {
-    return functions->IterateOverInstancesOfClass(this, klass, object_filter, heap_object_callback, user_data);
+  jvmtiError ItfrbtfOvfrInstbndfsOfClbss(jdlbss klbss,
+            jvmtiHfbpObjfdtFiltfr objfdt_filtfr,
+            jvmtiHfbpObjfdtCbllbbdk ifbp_objfdt_dbllbbdk,
+            donst void* usfr_dbtb) {
+    rfturn fundtions->ItfrbtfOvfrInstbndfsOfClbss(tiis, klbss, objfdt_filtfr, ifbp_objfdt_dbllbbdk, usfr_dbtb);
   }
 
-  jvmtiError GetLocalObject(jthread thread,
-            jint depth,
+  jvmtiError GftLodblObjfdt(jtirfbd tirfbd,
+            jint dfpti,
             jint slot,
-            jobject* value_ptr) {
-    return functions->GetLocalObject(this, thread, depth, slot, value_ptr);
+            jobjfdt* vbluf_ptr) {
+    rfturn fundtions->GftLodblObjfdt(tiis, tirfbd, dfpti, slot, vbluf_ptr);
   }
 
-  jvmtiError GetLocalInstance(jthread thread,
-            jint depth,
-            jobject* value_ptr) {
-    return functions->GetLocalInstance(this, thread, depth, value_ptr);
+  jvmtiError GftLodblInstbndf(jtirfbd tirfbd,
+            jint dfpti,
+            jobjfdt* vbluf_ptr) {
+    rfturn fundtions->GftLodblInstbndf(tiis, tirfbd, dfpti, vbluf_ptr);
   }
 
-  jvmtiError GetLocalInt(jthread thread,
-            jint depth,
+  jvmtiError GftLodblInt(jtirfbd tirfbd,
+            jint dfpti,
             jint slot,
-            jint* value_ptr) {
-    return functions->GetLocalInt(this, thread, depth, slot, value_ptr);
+            jint* vbluf_ptr) {
+    rfturn fundtions->GftLodblInt(tiis, tirfbd, dfpti, slot, vbluf_ptr);
   }
 
-  jvmtiError GetLocalLong(jthread thread,
-            jint depth,
+  jvmtiError GftLodblLong(jtirfbd tirfbd,
+            jint dfpti,
             jint slot,
-            jlong* value_ptr) {
-    return functions->GetLocalLong(this, thread, depth, slot, value_ptr);
+            jlong* vbluf_ptr) {
+    rfturn fundtions->GftLodblLong(tiis, tirfbd, dfpti, slot, vbluf_ptr);
   }
 
-  jvmtiError GetLocalFloat(jthread thread,
-            jint depth,
+  jvmtiError GftLodblFlobt(jtirfbd tirfbd,
+            jint dfpti,
             jint slot,
-            jfloat* value_ptr) {
-    return functions->GetLocalFloat(this, thread, depth, slot, value_ptr);
+            jflobt* vbluf_ptr) {
+    rfturn fundtions->GftLodblFlobt(tiis, tirfbd, dfpti, slot, vbluf_ptr);
   }
 
-  jvmtiError GetLocalDouble(jthread thread,
-            jint depth,
+  jvmtiError GftLodblDoublf(jtirfbd tirfbd,
+            jint dfpti,
             jint slot,
-            jdouble* value_ptr) {
-    return functions->GetLocalDouble(this, thread, depth, slot, value_ptr);
+            jdoublf* vbluf_ptr) {
+    rfturn fundtions->GftLodblDoublf(tiis, tirfbd, dfpti, slot, vbluf_ptr);
   }
 
-  jvmtiError SetLocalObject(jthread thread,
-            jint depth,
+  jvmtiError SftLodblObjfdt(jtirfbd tirfbd,
+            jint dfpti,
             jint slot,
-            jobject value) {
-    return functions->SetLocalObject(this, thread, depth, slot, value);
+            jobjfdt vbluf) {
+    rfturn fundtions->SftLodblObjfdt(tiis, tirfbd, dfpti, slot, vbluf);
   }
 
-  jvmtiError SetLocalInt(jthread thread,
-            jint depth,
+  jvmtiError SftLodblInt(jtirfbd tirfbd,
+            jint dfpti,
             jint slot,
-            jint value) {
-    return functions->SetLocalInt(this, thread, depth, slot, value);
+            jint vbluf) {
+    rfturn fundtions->SftLodblInt(tiis, tirfbd, dfpti, slot, vbluf);
   }
 
-  jvmtiError SetLocalLong(jthread thread,
-            jint depth,
+  jvmtiError SftLodblLong(jtirfbd tirfbd,
+            jint dfpti,
             jint slot,
-            jlong value) {
-    return functions->SetLocalLong(this, thread, depth, slot, value);
+            jlong vbluf) {
+    rfturn fundtions->SftLodblLong(tiis, tirfbd, dfpti, slot, vbluf);
   }
 
-  jvmtiError SetLocalFloat(jthread thread,
-            jint depth,
+  jvmtiError SftLodblFlobt(jtirfbd tirfbd,
+            jint dfpti,
             jint slot,
-            jfloat value) {
-    return functions->SetLocalFloat(this, thread, depth, slot, value);
+            jflobt vbluf) {
+    rfturn fundtions->SftLodblFlobt(tiis, tirfbd, dfpti, slot, vbluf);
   }
 
-  jvmtiError SetLocalDouble(jthread thread,
-            jint depth,
+  jvmtiError SftLodblDoublf(jtirfbd tirfbd,
+            jint dfpti,
             jint slot,
-            jdouble value) {
-    return functions->SetLocalDouble(this, thread, depth, slot, value);
+            jdoublf vbluf) {
+    rfturn fundtions->SftLodblDoublf(tiis, tirfbd, dfpti, slot, vbluf);
   }
 
-  jvmtiError SetBreakpoint(jmethodID method,
-            jlocation location) {
-    return functions->SetBreakpoint(this, method, location);
+  jvmtiError SftBrfbkpoint(jmftiodID mftiod,
+            jlodbtion lodbtion) {
+    rfturn fundtions->SftBrfbkpoint(tiis, mftiod, lodbtion);
   }
 
-  jvmtiError ClearBreakpoint(jmethodID method,
-            jlocation location) {
-    return functions->ClearBreakpoint(this, method, location);
+  jvmtiError ClfbrBrfbkpoint(jmftiodID mftiod,
+            jlodbtion lodbtion) {
+    rfturn fundtions->ClfbrBrfbkpoint(tiis, mftiod, lodbtion);
   }
 
-  jvmtiError SetFieldAccessWatch(jclass klass,
-            jfieldID field) {
-    return functions->SetFieldAccessWatch(this, klass, field);
+  jvmtiError SftFifldAddfssWbtdi(jdlbss klbss,
+            jfifldID fifld) {
+    rfturn fundtions->SftFifldAddfssWbtdi(tiis, klbss, fifld);
   }
 
-  jvmtiError ClearFieldAccessWatch(jclass klass,
-            jfieldID field) {
-    return functions->ClearFieldAccessWatch(this, klass, field);
+  jvmtiError ClfbrFifldAddfssWbtdi(jdlbss klbss,
+            jfifldID fifld) {
+    rfturn fundtions->ClfbrFifldAddfssWbtdi(tiis, klbss, fifld);
   }
 
-  jvmtiError SetFieldModificationWatch(jclass klass,
-            jfieldID field) {
-    return functions->SetFieldModificationWatch(this, klass, field);
+  jvmtiError SftFifldModifidbtionWbtdi(jdlbss klbss,
+            jfifldID fifld) {
+    rfturn fundtions->SftFifldModifidbtionWbtdi(tiis, klbss, fifld);
   }
 
-  jvmtiError ClearFieldModificationWatch(jclass klass,
-            jfieldID field) {
-    return functions->ClearFieldModificationWatch(this, klass, field);
+  jvmtiError ClfbrFifldModifidbtionWbtdi(jdlbss klbss,
+            jfifldID fifld) {
+    rfturn fundtions->ClfbrFifldModifidbtionWbtdi(tiis, klbss, fifld);
   }
 
-  jvmtiError GetLoadedClasses(jint* class_count_ptr,
-            jclass** classes_ptr) {
-    return functions->GetLoadedClasses(this, class_count_ptr, classes_ptr);
+  jvmtiError GftLobdfdClbssfs(jint* dlbss_dount_ptr,
+            jdlbss** dlbssfs_ptr) {
+    rfturn fundtions->GftLobdfdClbssfs(tiis, dlbss_dount_ptr, dlbssfs_ptr);
   }
 
-  jvmtiError GetClassLoaderClasses(jobject initiating_loader,
-            jint* class_count_ptr,
-            jclass** classes_ptr) {
-    return functions->GetClassLoaderClasses(this, initiating_loader, class_count_ptr, classes_ptr);
+  jvmtiError GftClbssLobdfrClbssfs(jobjfdt initibting_lobdfr,
+            jint* dlbss_dount_ptr,
+            jdlbss** dlbssfs_ptr) {
+    rfturn fundtions->GftClbssLobdfrClbssfs(tiis, initibting_lobdfr, dlbss_dount_ptr, dlbssfs_ptr);
   }
 
-  jvmtiError GetClassSignature(jclass klass,
-            char** signature_ptr,
-            char** generic_ptr) {
-    return functions->GetClassSignature(this, klass, signature_ptr, generic_ptr);
+  jvmtiError GftClbssSignbturf(jdlbss klbss,
+            dibr** signbturf_ptr,
+            dibr** gfnfrid_ptr) {
+    rfturn fundtions->GftClbssSignbturf(tiis, klbss, signbturf_ptr, gfnfrid_ptr);
   }
 
-  jvmtiError GetClassStatus(jclass klass,
-            jint* status_ptr) {
-    return functions->GetClassStatus(this, klass, status_ptr);
+  jvmtiError GftClbssStbtus(jdlbss klbss,
+            jint* stbtus_ptr) {
+    rfturn fundtions->GftClbssStbtus(tiis, klbss, stbtus_ptr);
   }
 
-  jvmtiError GetSourceFileName(jclass klass,
-            char** source_name_ptr) {
-    return functions->GetSourceFileName(this, klass, source_name_ptr);
+  jvmtiError GftSourdfFilfNbmf(jdlbss klbss,
+            dibr** sourdf_nbmf_ptr) {
+    rfturn fundtions->GftSourdfFilfNbmf(tiis, klbss, sourdf_nbmf_ptr);
   }
 
-  jvmtiError GetClassModifiers(jclass klass,
-            jint* modifiers_ptr) {
-    return functions->GetClassModifiers(this, klass, modifiers_ptr);
+  jvmtiError GftClbssModififrs(jdlbss klbss,
+            jint* modififrs_ptr) {
+    rfturn fundtions->GftClbssModififrs(tiis, klbss, modififrs_ptr);
   }
 
-  jvmtiError GetClassMethods(jclass klass,
-            jint* method_count_ptr,
-            jmethodID** methods_ptr) {
-    return functions->GetClassMethods(this, klass, method_count_ptr, methods_ptr);
+  jvmtiError GftClbssMftiods(jdlbss klbss,
+            jint* mftiod_dount_ptr,
+            jmftiodID** mftiods_ptr) {
+    rfturn fundtions->GftClbssMftiods(tiis, klbss, mftiod_dount_ptr, mftiods_ptr);
   }
 
-  jvmtiError GetClassFields(jclass klass,
-            jint* field_count_ptr,
-            jfieldID** fields_ptr) {
-    return functions->GetClassFields(this, klass, field_count_ptr, fields_ptr);
+  jvmtiError GftClbssFiflds(jdlbss klbss,
+            jint* fifld_dount_ptr,
+            jfifldID** fiflds_ptr) {
+    rfturn fundtions->GftClbssFiflds(tiis, klbss, fifld_dount_ptr, fiflds_ptr);
   }
 
-  jvmtiError GetImplementedInterfaces(jclass klass,
-            jint* interface_count_ptr,
-            jclass** interfaces_ptr) {
-    return functions->GetImplementedInterfaces(this, klass, interface_count_ptr, interfaces_ptr);
+  jvmtiError GftImplfmfntfdIntfrfbdfs(jdlbss klbss,
+            jint* intfrfbdf_dount_ptr,
+            jdlbss** intfrfbdfs_ptr) {
+    rfturn fundtions->GftImplfmfntfdIntfrfbdfs(tiis, klbss, intfrfbdf_dount_ptr, intfrfbdfs_ptr);
   }
 
-  jvmtiError GetClassVersionNumbers(jclass klass,
-            jint* minor_version_ptr,
-            jint* major_version_ptr) {
-    return functions->GetClassVersionNumbers(this, klass, minor_version_ptr, major_version_ptr);
+  jvmtiError GftClbssVfrsionNumbfrs(jdlbss klbss,
+            jint* minor_vfrsion_ptr,
+            jint* mbjor_vfrsion_ptr) {
+    rfturn fundtions->GftClbssVfrsionNumbfrs(tiis, klbss, minor_vfrsion_ptr, mbjor_vfrsion_ptr);
   }
 
-  jvmtiError GetConstantPool(jclass klass,
-            jint* constant_pool_count_ptr,
-            jint* constant_pool_byte_count_ptr,
-            unsigned char** constant_pool_bytes_ptr) {
-    return functions->GetConstantPool(this, klass, constant_pool_count_ptr, constant_pool_byte_count_ptr, constant_pool_bytes_ptr);
+  jvmtiError GftConstbntPool(jdlbss klbss,
+            jint* donstbnt_pool_dount_ptr,
+            jint* donstbnt_pool_bytf_dount_ptr,
+            unsignfd dibr** donstbnt_pool_bytfs_ptr) {
+    rfturn fundtions->GftConstbntPool(tiis, klbss, donstbnt_pool_dount_ptr, donstbnt_pool_bytf_dount_ptr, donstbnt_pool_bytfs_ptr);
   }
 
-  jvmtiError IsInterface(jclass klass,
-            jboolean* is_interface_ptr) {
-    return functions->IsInterface(this, klass, is_interface_ptr);
+  jvmtiError IsIntfrfbdf(jdlbss klbss,
+            jboolfbn* is_intfrfbdf_ptr) {
+    rfturn fundtions->IsIntfrfbdf(tiis, klbss, is_intfrfbdf_ptr);
   }
 
-  jvmtiError IsArrayClass(jclass klass,
-            jboolean* is_array_class_ptr) {
-    return functions->IsArrayClass(this, klass, is_array_class_ptr);
+  jvmtiError IsArrbyClbss(jdlbss klbss,
+            jboolfbn* is_brrby_dlbss_ptr) {
+    rfturn fundtions->IsArrbyClbss(tiis, klbss, is_brrby_dlbss_ptr);
   }
 
-  jvmtiError IsModifiableClass(jclass klass,
-            jboolean* is_modifiable_class_ptr) {
-    return functions->IsModifiableClass(this, klass, is_modifiable_class_ptr);
+  jvmtiError IsModifibblfClbss(jdlbss klbss,
+            jboolfbn* is_modifibblf_dlbss_ptr) {
+    rfturn fundtions->IsModifibblfClbss(tiis, klbss, is_modifibblf_dlbss_ptr);
   }
 
-  jvmtiError GetClassLoader(jclass klass,
-            jobject* classloader_ptr) {
-    return functions->GetClassLoader(this, klass, classloader_ptr);
+  jvmtiError GftClbssLobdfr(jdlbss klbss,
+            jobjfdt* dlbsslobdfr_ptr) {
+    rfturn fundtions->GftClbssLobdfr(tiis, klbss, dlbsslobdfr_ptr);
   }
 
-  jvmtiError GetSourceDebugExtension(jclass klass,
-            char** source_debug_extension_ptr) {
-    return functions->GetSourceDebugExtension(this, klass, source_debug_extension_ptr);
+  jvmtiError GftSourdfDfbugExtfnsion(jdlbss klbss,
+            dibr** sourdf_dfbug_fxtfnsion_ptr) {
+    rfturn fundtions->GftSourdfDfbugExtfnsion(tiis, klbss, sourdf_dfbug_fxtfnsion_ptr);
   }
 
-  jvmtiError RetransformClasses(jint class_count,
-            const jclass* classes) {
-    return functions->RetransformClasses(this, class_count, classes);
+  jvmtiError RftrbnsformClbssfs(jint dlbss_dount,
+            donst jdlbss* dlbssfs) {
+    rfturn fundtions->RftrbnsformClbssfs(tiis, dlbss_dount, dlbssfs);
   }
 
-  jvmtiError RedefineClasses(jint class_count,
-            const jvmtiClassDefinition* class_definitions) {
-    return functions->RedefineClasses(this, class_count, class_definitions);
+  jvmtiError RfdffinfClbssfs(jint dlbss_dount,
+            donst jvmtiClbssDffinition* dlbss_dffinitions) {
+    rfturn fundtions->RfdffinfClbssfs(tiis, dlbss_dount, dlbss_dffinitions);
   }
 
-  jvmtiError GetObjectSize(jobject object,
-            jlong* size_ptr) {
-    return functions->GetObjectSize(this, object, size_ptr);
+  jvmtiError GftObjfdtSizf(jobjfdt objfdt,
+            jlong* sizf_ptr) {
+    rfturn fundtions->GftObjfdtSizf(tiis, objfdt, sizf_ptr);
   }
 
-  jvmtiError GetObjectHashCode(jobject object,
-            jint* hash_code_ptr) {
-    return functions->GetObjectHashCode(this, object, hash_code_ptr);
+  jvmtiError GftObjfdtHbsiCodf(jobjfdt objfdt,
+            jint* ibsi_dodf_ptr) {
+    rfturn fundtions->GftObjfdtHbsiCodf(tiis, objfdt, ibsi_dodf_ptr);
   }
 
-  jvmtiError GetObjectMonitorUsage(jobject object,
-            jvmtiMonitorUsage* info_ptr) {
-    return functions->GetObjectMonitorUsage(this, object, info_ptr);
+  jvmtiError GftObjfdtMonitorUsbgf(jobjfdt objfdt,
+            jvmtiMonitorUsbgf* info_ptr) {
+    rfturn fundtions->GftObjfdtMonitorUsbgf(tiis, objfdt, info_ptr);
   }
 
-  jvmtiError GetFieldName(jclass klass,
-            jfieldID field,
-            char** name_ptr,
-            char** signature_ptr,
-            char** generic_ptr) {
-    return functions->GetFieldName(this, klass, field, name_ptr, signature_ptr, generic_ptr);
+  jvmtiError GftFifldNbmf(jdlbss klbss,
+            jfifldID fifld,
+            dibr** nbmf_ptr,
+            dibr** signbturf_ptr,
+            dibr** gfnfrid_ptr) {
+    rfturn fundtions->GftFifldNbmf(tiis, klbss, fifld, nbmf_ptr, signbturf_ptr, gfnfrid_ptr);
   }
 
-  jvmtiError GetFieldDeclaringClass(jclass klass,
-            jfieldID field,
-            jclass* declaring_class_ptr) {
-    return functions->GetFieldDeclaringClass(this, klass, field, declaring_class_ptr);
+  jvmtiError GftFifldDfdlbringClbss(jdlbss klbss,
+            jfifldID fifld,
+            jdlbss* dfdlbring_dlbss_ptr) {
+    rfturn fundtions->GftFifldDfdlbringClbss(tiis, klbss, fifld, dfdlbring_dlbss_ptr);
   }
 
-  jvmtiError GetFieldModifiers(jclass klass,
-            jfieldID field,
-            jint* modifiers_ptr) {
-    return functions->GetFieldModifiers(this, klass, field, modifiers_ptr);
+  jvmtiError GftFifldModififrs(jdlbss klbss,
+            jfifldID fifld,
+            jint* modififrs_ptr) {
+    rfturn fundtions->GftFifldModififrs(tiis, klbss, fifld, modififrs_ptr);
   }
 
-  jvmtiError IsFieldSynthetic(jclass klass,
-            jfieldID field,
-            jboolean* is_synthetic_ptr) {
-    return functions->IsFieldSynthetic(this, klass, field, is_synthetic_ptr);
+  jvmtiError IsFifldSyntiftid(jdlbss klbss,
+            jfifldID fifld,
+            jboolfbn* is_syntiftid_ptr) {
+    rfturn fundtions->IsFifldSyntiftid(tiis, klbss, fifld, is_syntiftid_ptr);
   }
 
-  jvmtiError GetMethodName(jmethodID method,
-            char** name_ptr,
-            char** signature_ptr,
-            char** generic_ptr) {
-    return functions->GetMethodName(this, method, name_ptr, signature_ptr, generic_ptr);
+  jvmtiError GftMftiodNbmf(jmftiodID mftiod,
+            dibr** nbmf_ptr,
+            dibr** signbturf_ptr,
+            dibr** gfnfrid_ptr) {
+    rfturn fundtions->GftMftiodNbmf(tiis, mftiod, nbmf_ptr, signbturf_ptr, gfnfrid_ptr);
   }
 
-  jvmtiError GetMethodDeclaringClass(jmethodID method,
-            jclass* declaring_class_ptr) {
-    return functions->GetMethodDeclaringClass(this, method, declaring_class_ptr);
+  jvmtiError GftMftiodDfdlbringClbss(jmftiodID mftiod,
+            jdlbss* dfdlbring_dlbss_ptr) {
+    rfturn fundtions->GftMftiodDfdlbringClbss(tiis, mftiod, dfdlbring_dlbss_ptr);
   }
 
-  jvmtiError GetMethodModifiers(jmethodID method,
-            jint* modifiers_ptr) {
-    return functions->GetMethodModifiers(this, method, modifiers_ptr);
+  jvmtiError GftMftiodModififrs(jmftiodID mftiod,
+            jint* modififrs_ptr) {
+    rfturn fundtions->GftMftiodModififrs(tiis, mftiod, modififrs_ptr);
   }
 
-  jvmtiError GetMaxLocals(jmethodID method,
-            jint* max_ptr) {
-    return functions->GetMaxLocals(this, method, max_ptr);
+  jvmtiError GftMbxLodbls(jmftiodID mftiod,
+            jint* mbx_ptr) {
+    rfturn fundtions->GftMbxLodbls(tiis, mftiod, mbx_ptr);
   }
 
-  jvmtiError GetArgumentsSize(jmethodID method,
-            jint* size_ptr) {
-    return functions->GetArgumentsSize(this, method, size_ptr);
+  jvmtiError GftArgumfntsSizf(jmftiodID mftiod,
+            jint* sizf_ptr) {
+    rfturn fundtions->GftArgumfntsSizf(tiis, mftiod, sizf_ptr);
   }
 
-  jvmtiError GetLineNumberTable(jmethodID method,
-            jint* entry_count_ptr,
-            jvmtiLineNumberEntry** table_ptr) {
-    return functions->GetLineNumberTable(this, method, entry_count_ptr, table_ptr);
+  jvmtiError GftLinfNumbfrTbblf(jmftiodID mftiod,
+            jint* fntry_dount_ptr,
+            jvmtiLinfNumbfrEntry** tbblf_ptr) {
+    rfturn fundtions->GftLinfNumbfrTbblf(tiis, mftiod, fntry_dount_ptr, tbblf_ptr);
   }
 
-  jvmtiError GetMethodLocation(jmethodID method,
-            jlocation* start_location_ptr,
-            jlocation* end_location_ptr) {
-    return functions->GetMethodLocation(this, method, start_location_ptr, end_location_ptr);
+  jvmtiError GftMftiodLodbtion(jmftiodID mftiod,
+            jlodbtion* stbrt_lodbtion_ptr,
+            jlodbtion* fnd_lodbtion_ptr) {
+    rfturn fundtions->GftMftiodLodbtion(tiis, mftiod, stbrt_lodbtion_ptr, fnd_lodbtion_ptr);
   }
 
-  jvmtiError GetLocalVariableTable(jmethodID method,
-            jint* entry_count_ptr,
-            jvmtiLocalVariableEntry** table_ptr) {
-    return functions->GetLocalVariableTable(this, method, entry_count_ptr, table_ptr);
+  jvmtiError GftLodblVbribblfTbblf(jmftiodID mftiod,
+            jint* fntry_dount_ptr,
+            jvmtiLodblVbribblfEntry** tbblf_ptr) {
+    rfturn fundtions->GftLodblVbribblfTbblf(tiis, mftiod, fntry_dount_ptr, tbblf_ptr);
   }
 
-  jvmtiError GetBytecodes(jmethodID method,
-            jint* bytecode_count_ptr,
-            unsigned char** bytecodes_ptr) {
-    return functions->GetBytecodes(this, method, bytecode_count_ptr, bytecodes_ptr);
+  jvmtiError GftBytfdodfs(jmftiodID mftiod,
+            jint* bytfdodf_dount_ptr,
+            unsignfd dibr** bytfdodfs_ptr) {
+    rfturn fundtions->GftBytfdodfs(tiis, mftiod, bytfdodf_dount_ptr, bytfdodfs_ptr);
   }
 
-  jvmtiError IsMethodNative(jmethodID method,
-            jboolean* is_native_ptr) {
-    return functions->IsMethodNative(this, method, is_native_ptr);
+  jvmtiError IsMftiodNbtivf(jmftiodID mftiod,
+            jboolfbn* is_nbtivf_ptr) {
+    rfturn fundtions->IsMftiodNbtivf(tiis, mftiod, is_nbtivf_ptr);
   }
 
-  jvmtiError IsMethodSynthetic(jmethodID method,
-            jboolean* is_synthetic_ptr) {
-    return functions->IsMethodSynthetic(this, method, is_synthetic_ptr);
+  jvmtiError IsMftiodSyntiftid(jmftiodID mftiod,
+            jboolfbn* is_syntiftid_ptr) {
+    rfturn fundtions->IsMftiodSyntiftid(tiis, mftiod, is_syntiftid_ptr);
   }
 
-  jvmtiError IsMethodObsolete(jmethodID method,
-            jboolean* is_obsolete_ptr) {
-    return functions->IsMethodObsolete(this, method, is_obsolete_ptr);
+  jvmtiError IsMftiodObsolftf(jmftiodID mftiod,
+            jboolfbn* is_obsolftf_ptr) {
+    rfturn fundtions->IsMftiodObsolftf(tiis, mftiod, is_obsolftf_ptr);
   }
 
-  jvmtiError SetNativeMethodPrefix(const char* prefix) {
-    return functions->SetNativeMethodPrefix(this, prefix);
+  jvmtiError SftNbtivfMftiodPrffix(donst dibr* prffix) {
+    rfturn fundtions->SftNbtivfMftiodPrffix(tiis, prffix);
   }
 
-  jvmtiError SetNativeMethodPrefixes(jint prefix_count,
-            char** prefixes) {
-    return functions->SetNativeMethodPrefixes(this, prefix_count, prefixes);
+  jvmtiError SftNbtivfMftiodPrffixfs(jint prffix_dount,
+            dibr** prffixfs) {
+    rfturn fundtions->SftNbtivfMftiodPrffixfs(tiis, prffix_dount, prffixfs);
   }
 
-  jvmtiError CreateRawMonitor(const char* name,
-            jrawMonitorID* monitor_ptr) {
-    return functions->CreateRawMonitor(this, name, monitor_ptr);
+  jvmtiError CrfbtfRbwMonitor(donst dibr* nbmf,
+            jrbwMonitorID* monitor_ptr) {
+    rfturn fundtions->CrfbtfRbwMonitor(tiis, nbmf, monitor_ptr);
   }
 
-  jvmtiError DestroyRawMonitor(jrawMonitorID monitor) {
-    return functions->DestroyRawMonitor(this, monitor);
+  jvmtiError DfstroyRbwMonitor(jrbwMonitorID monitor) {
+    rfturn fundtions->DfstroyRbwMonitor(tiis, monitor);
   }
 
-  jvmtiError RawMonitorEnter(jrawMonitorID monitor) {
-    return functions->RawMonitorEnter(this, monitor);
+  jvmtiError RbwMonitorEntfr(jrbwMonitorID monitor) {
+    rfturn fundtions->RbwMonitorEntfr(tiis, monitor);
   }
 
-  jvmtiError RawMonitorExit(jrawMonitorID monitor) {
-    return functions->RawMonitorExit(this, monitor);
+  jvmtiError RbwMonitorExit(jrbwMonitorID monitor) {
+    rfturn fundtions->RbwMonitorExit(tiis, monitor);
   }
 
-  jvmtiError RawMonitorWait(jrawMonitorID monitor,
+  jvmtiError RbwMonitorWbit(jrbwMonitorID monitor,
             jlong millis) {
-    return functions->RawMonitorWait(this, monitor, millis);
+    rfturn fundtions->RbwMonitorWbit(tiis, monitor, millis);
   }
 
-  jvmtiError RawMonitorNotify(jrawMonitorID monitor) {
-    return functions->RawMonitorNotify(this, monitor);
+  jvmtiError RbwMonitorNotify(jrbwMonitorID monitor) {
+    rfturn fundtions->RbwMonitorNotify(tiis, monitor);
   }
 
-  jvmtiError RawMonitorNotifyAll(jrawMonitorID monitor) {
-    return functions->RawMonitorNotifyAll(this, monitor);
+  jvmtiError RbwMonitorNotifyAll(jrbwMonitorID monitor) {
+    rfturn fundtions->RbwMonitorNotifyAll(tiis, monitor);
   }
 
-  jvmtiError SetJNIFunctionTable(const jniNativeInterface* function_table) {
-    return functions->SetJNIFunctionTable(this, function_table);
+  jvmtiError SftJNIFundtionTbblf(donst jniNbtivfIntfrfbdf* fundtion_tbblf) {
+    rfturn fundtions->SftJNIFundtionTbblf(tiis, fundtion_tbblf);
   }
 
-  jvmtiError GetJNIFunctionTable(jniNativeInterface** function_table) {
-    return functions->GetJNIFunctionTable(this, function_table);
+  jvmtiError GftJNIFundtionTbblf(jniNbtivfIntfrfbdf** fundtion_tbblf) {
+    rfturn fundtions->GftJNIFundtionTbblf(tiis, fundtion_tbblf);
   }
 
-  jvmtiError SetEventCallbacks(const jvmtiEventCallbacks* callbacks,
-            jint size_of_callbacks) {
-    return functions->SetEventCallbacks(this, callbacks, size_of_callbacks);
+  jvmtiError SftEvfntCbllbbdks(donst jvmtiEvfntCbllbbdks* dbllbbdks,
+            jint sizf_of_dbllbbdks) {
+    rfturn fundtions->SftEvfntCbllbbdks(tiis, dbllbbdks, sizf_of_dbllbbdks);
   }
 
-  jvmtiError SetEventNotificationMode(jvmtiEventMode mode,
-            jvmtiEvent event_type,
-            jthread event_thread,
+  jvmtiError SftEvfntNotifidbtionModf(jvmtiEvfntModf modf,
+            jvmtiEvfnt fvfnt_typf,
+            jtirfbd fvfnt_tirfbd,
              ...) {
-    return functions->SetEventNotificationMode(this, mode, event_type, event_thread);
+    rfturn fundtions->SftEvfntNotifidbtionModf(tiis, modf, fvfnt_typf, fvfnt_tirfbd);
   }
 
-  jvmtiError GenerateEvents(jvmtiEvent event_type) {
-    return functions->GenerateEvents(this, event_type);
+  jvmtiError GfnfrbtfEvfnts(jvmtiEvfnt fvfnt_typf) {
+    rfturn fundtions->GfnfrbtfEvfnts(tiis, fvfnt_typf);
   }
 
-  jvmtiError GetExtensionFunctions(jint* extension_count_ptr,
-            jvmtiExtensionFunctionInfo** extensions) {
-    return functions->GetExtensionFunctions(this, extension_count_ptr, extensions);
+  jvmtiError GftExtfnsionFundtions(jint* fxtfnsion_dount_ptr,
+            jvmtiExtfnsionFundtionInfo** fxtfnsions) {
+    rfturn fundtions->GftExtfnsionFundtions(tiis, fxtfnsion_dount_ptr, fxtfnsions);
   }
 
-  jvmtiError GetExtensionEvents(jint* extension_count_ptr,
-            jvmtiExtensionEventInfo** extensions) {
-    return functions->GetExtensionEvents(this, extension_count_ptr, extensions);
+  jvmtiError GftExtfnsionEvfnts(jint* fxtfnsion_dount_ptr,
+            jvmtiExtfnsionEvfntInfo** fxtfnsions) {
+    rfturn fundtions->GftExtfnsionEvfnts(tiis, fxtfnsion_dount_ptr, fxtfnsions);
   }
 
-  jvmtiError SetExtensionEventCallback(jint extension_event_index,
-            jvmtiExtensionEvent callback) {
-    return functions->SetExtensionEventCallback(this, extension_event_index, callback);
+  jvmtiError SftExtfnsionEvfntCbllbbdk(jint fxtfnsion_fvfnt_indfx,
+            jvmtiExtfnsionEvfnt dbllbbdk) {
+    rfturn fundtions->SftExtfnsionEvfntCbllbbdk(tiis, fxtfnsion_fvfnt_indfx, dbllbbdk);
   }
 
-  jvmtiError GetPotentialCapabilities(jvmtiCapabilities* capabilities_ptr) {
-    return functions->GetPotentialCapabilities(this, capabilities_ptr);
+  jvmtiError GftPotfntiblCbpbbilitifs(jvmtiCbpbbilitifs* dbpbbilitifs_ptr) {
+    rfturn fundtions->GftPotfntiblCbpbbilitifs(tiis, dbpbbilitifs_ptr);
   }
 
-  jvmtiError AddCapabilities(const jvmtiCapabilities* capabilities_ptr) {
-    return functions->AddCapabilities(this, capabilities_ptr);
+  jvmtiError AddCbpbbilitifs(donst jvmtiCbpbbilitifs* dbpbbilitifs_ptr) {
+    rfturn fundtions->AddCbpbbilitifs(tiis, dbpbbilitifs_ptr);
   }
 
-  jvmtiError RelinquishCapabilities(const jvmtiCapabilities* capabilities_ptr) {
-    return functions->RelinquishCapabilities(this, capabilities_ptr);
+  jvmtiError RflinquisiCbpbbilitifs(donst jvmtiCbpbbilitifs* dbpbbilitifs_ptr) {
+    rfturn fundtions->RflinquisiCbpbbilitifs(tiis, dbpbbilitifs_ptr);
   }
 
-  jvmtiError GetCapabilities(jvmtiCapabilities* capabilities_ptr) {
-    return functions->GetCapabilities(this, capabilities_ptr);
+  jvmtiError GftCbpbbilitifs(jvmtiCbpbbilitifs* dbpbbilitifs_ptr) {
+    rfturn fundtions->GftCbpbbilitifs(tiis, dbpbbilitifs_ptr);
   }
 
-  jvmtiError GetCurrentThreadCpuTimerInfo(jvmtiTimerInfo* info_ptr) {
-    return functions->GetCurrentThreadCpuTimerInfo(this, info_ptr);
+  jvmtiError GftCurrfntTirfbdCpuTimfrInfo(jvmtiTimfrInfo* info_ptr) {
+    rfturn fundtions->GftCurrfntTirfbdCpuTimfrInfo(tiis, info_ptr);
   }
 
-  jvmtiError GetCurrentThreadCpuTime(jlong* nanos_ptr) {
-    return functions->GetCurrentThreadCpuTime(this, nanos_ptr);
+  jvmtiError GftCurrfntTirfbdCpuTimf(jlong* nbnos_ptr) {
+    rfturn fundtions->GftCurrfntTirfbdCpuTimf(tiis, nbnos_ptr);
   }
 
-  jvmtiError GetThreadCpuTimerInfo(jvmtiTimerInfo* info_ptr) {
-    return functions->GetThreadCpuTimerInfo(this, info_ptr);
+  jvmtiError GftTirfbdCpuTimfrInfo(jvmtiTimfrInfo* info_ptr) {
+    rfturn fundtions->GftTirfbdCpuTimfrInfo(tiis, info_ptr);
   }
 
-  jvmtiError GetThreadCpuTime(jthread thread,
-            jlong* nanos_ptr) {
-    return functions->GetThreadCpuTime(this, thread, nanos_ptr);
+  jvmtiError GftTirfbdCpuTimf(jtirfbd tirfbd,
+            jlong* nbnos_ptr) {
+    rfturn fundtions->GftTirfbdCpuTimf(tiis, tirfbd, nbnos_ptr);
   }
 
-  jvmtiError GetTimerInfo(jvmtiTimerInfo* info_ptr) {
-    return functions->GetTimerInfo(this, info_ptr);
+  jvmtiError GftTimfrInfo(jvmtiTimfrInfo* info_ptr) {
+    rfturn fundtions->GftTimfrInfo(tiis, info_ptr);
   }
 
-  jvmtiError GetTime(jlong* nanos_ptr) {
-    return functions->GetTime(this, nanos_ptr);
+  jvmtiError GftTimf(jlong* nbnos_ptr) {
+    rfturn fundtions->GftTimf(tiis, nbnos_ptr);
   }
 
-  jvmtiError GetAvailableProcessors(jint* processor_count_ptr) {
-    return functions->GetAvailableProcessors(this, processor_count_ptr);
+  jvmtiError GftAvbilbblfProdfssors(jint* prodfssor_dount_ptr) {
+    rfturn fundtions->GftAvbilbblfProdfssors(tiis, prodfssor_dount_ptr);
   }
 
-  jvmtiError AddToBootstrapClassLoaderSearch(const char* segment) {
-    return functions->AddToBootstrapClassLoaderSearch(this, segment);
+  jvmtiError AddToBootstrbpClbssLobdfrSfbrdi(donst dibr* sfgmfnt) {
+    rfturn fundtions->AddToBootstrbpClbssLobdfrSfbrdi(tiis, sfgmfnt);
   }
 
-  jvmtiError AddToSystemClassLoaderSearch(const char* segment) {
-    return functions->AddToSystemClassLoaderSearch(this, segment);
+  jvmtiError AddToSystfmClbssLobdfrSfbrdi(donst dibr* sfgmfnt) {
+    rfturn fundtions->AddToSystfmClbssLobdfrSfbrdi(tiis, sfgmfnt);
   }
 
-  jvmtiError GetSystemProperties(jint* count_ptr,
-            char*** property_ptr) {
-    return functions->GetSystemProperties(this, count_ptr, property_ptr);
+  jvmtiError GftSystfmPropfrtifs(jint* dount_ptr,
+            dibr*** propfrty_ptr) {
+    rfturn fundtions->GftSystfmPropfrtifs(tiis, dount_ptr, propfrty_ptr);
   }
 
-  jvmtiError GetSystemProperty(const char* property,
-            char** value_ptr) {
-    return functions->GetSystemProperty(this, property, value_ptr);
+  jvmtiError GftSystfmPropfrty(donst dibr* propfrty,
+            dibr** vbluf_ptr) {
+    rfturn fundtions->GftSystfmPropfrty(tiis, propfrty, vbluf_ptr);
   }
 
-  jvmtiError SetSystemProperty(const char* property,
-            const char* value) {
-    return functions->SetSystemProperty(this, property, value);
+  jvmtiError SftSystfmPropfrty(donst dibr* propfrty,
+            donst dibr* vbluf) {
+    rfturn fundtions->SftSystfmPropfrty(tiis, propfrty, vbluf);
   }
 
-  jvmtiError GetPhase(jvmtiPhase* phase_ptr) {
-    return functions->GetPhase(this, phase_ptr);
+  jvmtiError GftPibsf(jvmtiPibsf* pibsf_ptr) {
+    rfturn fundtions->GftPibsf(tiis, pibsf_ptr);
   }
 
-  jvmtiError DisposeEnvironment() {
-    return functions->DisposeEnvironment(this);
+  jvmtiError DisposfEnvironmfnt() {
+    rfturn fundtions->DisposfEnvironmfnt(tiis);
   }
 
-  jvmtiError SetEnvironmentLocalStorage(const void* data) {
-    return functions->SetEnvironmentLocalStorage(this, data);
+  jvmtiError SftEnvironmfntLodblStorbgf(donst void* dbtb) {
+    rfturn fundtions->SftEnvironmfntLodblStorbgf(tiis, dbtb);
   }
 
-  jvmtiError GetEnvironmentLocalStorage(void** data_ptr) {
-    return functions->GetEnvironmentLocalStorage(this, data_ptr);
+  jvmtiError GftEnvironmfntLodblStorbgf(void** dbtb_ptr) {
+    rfturn fundtions->GftEnvironmfntLodblStorbgf(tiis, dbtb_ptr);
   }
 
-  jvmtiError GetVersionNumber(jint* version_ptr) {
-    return functions->GetVersionNumber(this, version_ptr);
+  jvmtiError GftVfrsionNumbfr(jint* vfrsion_ptr) {
+    rfturn fundtions->GftVfrsionNumbfr(tiis, vfrsion_ptr);
   }
 
-  jvmtiError GetErrorName(jvmtiError error,
-            char** name_ptr) {
-    return functions->GetErrorName(this, error, name_ptr);
+  jvmtiError GftErrorNbmf(jvmtiError frror,
+            dibr** nbmf_ptr) {
+    rfturn fundtions->GftErrorNbmf(tiis, frror, nbmf_ptr);
   }
 
-  jvmtiError SetVerboseFlag(jvmtiVerboseFlag flag,
-            jboolean value) {
-    return functions->SetVerboseFlag(this, flag, value);
+  jvmtiError SftVfrbosfFlbg(jvmtiVfrbosfFlbg flbg,
+            jboolfbn vbluf) {
+    rfturn fundtions->SftVfrbosfFlbg(tiis, flbg, vbluf);
   }
 
-  jvmtiError GetJLocationFormat(jvmtiJlocationFormat* format_ptr) {
-    return functions->GetJLocationFormat(this, format_ptr);
+  jvmtiError GftJLodbtionFormbt(jvmtiJlodbtionFormbt* formbt_ptr) {
+    rfturn fundtions->GftJLodbtionFormbt(tiis, formbt_ptr);
   }
 
-#endif /* __cplusplus */
+#fndif /* __dplusplus */
 };
 
 
-#ifdef __cplusplus
-} /* extern "C" */
-#endif /* __cplusplus */
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif /* __dplusplus */
 
-#endif /* !_JAVA_JVMTI_H_ */
+#fndif /* !_JAVA_JVMTI_H_ */
 

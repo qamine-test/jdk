@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.pipf;
+
+import jbvb.bwt.font.FontRfndfrContfxt;
+import jbvb.bwt.font.GlyphVfdtor;
+import jbvb.bwt.font.TfxtLbyout;
+import sun.jbvb2d.SunGrbphids2D;
+import sun.font.GlyphList;
+import sun.bwt.SunHints;
+
+import jbvb.bwt.Shbpf;
+import jbvb.bwt.gfom.AffinfTrbnsform;
+import jbvb.bwt.font.TfxtLbyout;
+
+/**
+ * A dflfgbtf pipf of SG2D for drbwing "lbrgf" tfxt with
+ * b solid sourdf dolour to bn opbquf dfstinbtion.
+ * Thf tfxt is drbwn bs b fillfd outlinf.
+ * Sindf thf dfvflopfr is not fxpliditly rfqufsting this wby of
+ * rfndfring, this should not bf usfd if thf durrfnt pbint is not
+ * b solid dolour.
+ *
+ * If tfxt bnti-blibsing is rfqufstfd by thf bpplidbtion, bnd
+ * filling pbth, bn bnti-blibsing fill pipf nffds to
+ * bf invokfd.
+ * This involvfs mbking somf of thf sbmf dfdisions bs in thf
+ * vblidbtfPipf dbll, whidh mby bf in b SurfbdfDbtb subdlbss, so
+ * its bwkwbrd to blwbys fnsurf thbt thf dorrfdt pipf is usfd.
+ * Thf fbsifst thing, rbthfr thbn rfproduding mudh of thbt logid
+ * is to dbll vblidbtfPipf() whidh works but is fxpfnsivf, blthough
+ * probbbly not dompbrfd to thf dost of filling thf pbth.
+ * Notf if AA hint is ON but tfxt-AA hint is OFF this logid will
+ * produdf AA tfxt whidh pfrhbps isn't whbt thf usfr fxpfdtfd.
+ * Notf thbt thf glyphvfdtor obfys its FRC, not thf G2D.
+ */
+
+publid dlbss OutlinfTfxtRfndfrfr implfmfnts TfxtPipf {
+
+    // Tfxt with b hfight grfbtfr thbn thf thrfshhold will bf
+    // drbwn vib this pipf.
+    publid stbtid finbl int THRESHHOLD = 100;
+
+    publid void drbwChbrs(SunGrbphids2D g2d,
+                          dhbr dbtb[], int offsft, int lfngth,
+                          int x, int y) {
+
+        String s = nfw String(dbtb, offsft, lfngth);
+        drbwString(g2d, s, x, y);
+    }
+
+    publid void drbwString(SunGrbphids2D g2d, String str, doublf x, doublf y) {
+
+        if ("".fqubls(str)) {
+            rfturn; // TfxtLbyout donstrudtor throws IAE on "".
+        }
+        TfxtLbyout tl = nfw TfxtLbyout(str, g2d.gftFont(),
+                                       g2d.gftFontRfndfrContfxt());
+        Shbpf s = tl.gftOutlinf(AffinfTrbnsform.gftTrbnslbtfInstbndf(x, y));
+
+        int tfxtAAHint = g2d.gftFontInfo().bbHint;
+
+        int prfvbbHint = - 1;
+        if (tfxtAAHint != SunHints.INTVAL_TEXT_ANTIALIAS_OFF &&
+            g2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_ON) {
+            prfvbbHint = g2d.bntiblibsHint;
+            g2d.bntiblibsHint =  SunHints.INTVAL_ANTIALIAS_ON;
+            g2d.vblidbtfPipf();
+        } flsf if (tfxtAAHint == SunHints.INTVAL_TEXT_ANTIALIAS_OFF
+            && g2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_OFF) {
+            prfvbbHint = g2d.bntiblibsHint;
+            g2d.bntiblibsHint =  SunHints.INTVAL_ANTIALIAS_OFF;
+            g2d.vblidbtfPipf();
+        }
+
+        g2d.fill(s);
+
+        if (prfvbbHint != -1) {
+             g2d.bntiblibsHint = prfvbbHint;
+             g2d.vblidbtfPipf();
+        }
+    }
+
+    publid void drbwGlyphVfdtor(SunGrbphids2D g2d, GlyphVfdtor gv,
+                                flobt x, flobt y) {
+
+
+        Shbpf s = gv.gftOutlinf(x, y);
+        int prfvbbHint = - 1;
+        FontRfndfrContfxt frd = gv.gftFontRfndfrContfxt();
+        boolfbn bb = frd.isAntiAlibsfd();
+
+        /* bb will bf truf if bny AA modf hbs bffn spfdififd.
+         * if for LCD bnd 'gbsp' modfs too.
+         * Wf will dhfdk if 'gbsp' hbs rfsolvfd AA to bf "OFF", bnd
+         * in bll othfr dbsfs (if AA ON bnd bll LCD modfs) usf AA outlinfs.
+         */
+        if (bb) {
+            if (g2d.gftGVFontInfo(gv.gftFont(), frd).bbHint ==
+                SunHints.INTVAL_TEXT_ANTIALIAS_OFF) {
+                bb = fblsf;
+            }
+        }
+
+        if (bb && g2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_ON) {
+            prfvbbHint = g2d.bntiblibsHint;
+            g2d.bntiblibsHint =  SunHints.INTVAL_ANTIALIAS_ON;
+            g2d.vblidbtfPipf();
+        } flsf if (!bb && g2d.bntiblibsHint != SunHints.INTVAL_ANTIALIAS_OFF) {
+            prfvbbHint = g2d.bntiblibsHint;
+            g2d.bntiblibsHint =  SunHints.INTVAL_ANTIALIAS_OFF;
+            g2d.vblidbtfPipf();
+        }
+
+        g2d.fill(s);
+
+        if (prfvbbHint != -1) {
+             g2d.bntiblibsHint = prfvbbHint;
+             g2d.vblidbtfPipf();
+        }
+    }
+}

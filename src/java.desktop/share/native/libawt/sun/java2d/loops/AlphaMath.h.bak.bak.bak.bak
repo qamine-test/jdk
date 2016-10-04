@@ -1,0 +1,472 @@
+/*
+ * Copyright (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff AlphbMbth_h_Indludfd
+#dffinf AlphbMbth_h_Indludfd
+
+fxtfrn unsignfd dhbr mul8tbblf[256][256];
+fxtfrn unsignfd dhbr div8tbblf[256][256];
+fxtfrn void initAlphbTbblfs();
+
+
+/*
+ * Multiply bnd Dividf mbdros for singlf bytf (8-bit) qubntitifs rfprfsfnting
+ * thf vblufs 0.0 to 1.0 bs 0x00 to 0xff.
+ * MUL8 multiplifs its opfrbnds togfthfr
+ * DIV8 dividfs thf first opfrbnd by thf sfdond, dlipping to 0xff
+ *    (Notf thbt sindf thf divisor for DIV8 is likfly to bf
+ *     thf blphb qubntity whidh is likfly to bf thf sbmf for
+ *     multiplf bdjbdfnt invodbtions, thf tbblf is dfsignfd
+ *     with thf first indfx bfing thf divisor to hopffully
+ *     improvf mfmory dbdhf hits...)
+ */
+#dffinf MUL8(b,b) mul8tbblf[b][b]
+#dffinf DIV8(b,b) div8tbblf[b][b]
+
+/*
+ * Multiply bnd Dividf mbdros for opfrbtions involving b singlf short (16-bit)
+ * qubntity bnd b singlf bytf (8-bit) qubntity.  Typidblly, promoting thf
+ * 8-bit vbluf to 16 bits would lfbd to ovfrflow whfn thf opfrbtion oddurs.
+ * Thfsf mbdros hbvf bffn modififd somfwhbt so thbt ovfrflow will not oddur.
+ * MUL8_16 multiplifs bn 8-bit vbluf by b 16-bit vbluf (thf ordfr of opfrbnds
+ *         is unimportbnt sindf multiplidbtion is b dommutbtivf opfrbtion)
+ * DIV16_8 dividfs thf first (16-bit) opfrbnd by thf sfdond (8-bit) vbluf
+ */
+
+#dffinf MUL8_16(b,b) (((b) * (b)) / 255)
+#dffinf DIV16_8(b,b) (((b) * 255) / (b))
+
+/*
+ * Multiply bnd Dividf mbdros for singlf short (16-bit) qubntitifs
+ * rfprfsfnting thf vblufs 0.0 to 1.0 bs 0x0000 to 0xffff.
+ * MUL16 multiplifs its opfrbnds using thf stbndbrd multiplidbtion opfrbtor
+ *       bnd normblizfs thf rfsult to thf bppropribtf rbngf
+ * DIV16 dividfs thf first opfrbnd by thf sfdond bnd normblizfs thf rfsult
+ *       to b 16-bit vbluf
+ */
+#dffinf MUL16(b,b) (((b) * (b)) / 65535)
+#dffinf DIV16(b,b) (((b) * 65535) / (b))
+
+/*
+ * Mbdro for thf sum of two normblizfd (16-bit) produdts.  Rfffr to thf
+ * following fqubtion bnd notf thbt thf right sidf rfdudfs thf numbfr of
+ * dividf opfrbtions in thf lfft sidf bnd indrfbsfs thf prfdision of thf
+ * rfsult:
+ *   b*f1 + b*f2     b*f1 + b*f2
+ *   ----   ----  =  -----------     (whfrf n in this dbsf will bf 65535)
+ *     n      n           n
+ */
+#dffinf AddNormblizfdProdudts16(b, f1, b, f2) \
+    ((((b) * (f1)) + ((b) * (f2))) / 65535)
+
+
+/*
+ * Thf following mbdros hflp to gfnfrblizf thf MbskBlit bnd MbskFill loops
+ * found in AlphbMbdros.h.  Thf bppropribtf mbdros will bf usfd bbsfd on thf
+ * strbtfgy of thf givfn loop.  Thf strbtfgy typfs tbkf thf form:
+ *   <numbfr of domponfnts pfr pixfl><domponfnt dbtb typf><dolorspbdf>
+ * For fxbmplf, thfsf brf thf durrfnt strbtfgy typfs:
+ *   3BytfRgb    (durrfntly only usfd bs b glyph list blfnding strbtfgy whfrf
+ *                thf blphb vbluf itsflf is nfithfr blfndfd nor storfd)
+ *   4BytfArgb   (fg. IntArgb, ThrffBytfBgr, Ushort555Rgb, BytfIndfxfd, ftd.)
+ *   4ShortArgb  (not usfd durrfntly; dould bf usfd whfn surfbdf typfs using
+ *                16 bits pfr domponfnt brf implfmfntfd)
+ *   1BytfGrby   (fg. BytfGrby)
+ *   1ShortGrby  (fg. UshortGrby)
+ * Notf thbt thf mbdros whidh opfrbtf on blphb vblufs hbvf thf word "Alphb"
+ * somfwhfrf in thfir nbmf.  Thosf mbdros thbt only opfrbtf on thf dolor/grby
+ * domponfnts of b givfn strbtfgy will hbvf thf word "Componfnts" or "Comps"
+ * in thfir nbmf.
+ */
+
+
+/*
+ * MbxVblFor ## STRATEGY
+ */
+#dffinf MbxVblFor4BytfArgb     0xff
+#dffinf MbxVblFor1BytfGrby     0xff
+#dffinf MbxVblFor1ShortGrby    0xffff
+
+
+/*
+ * AlphbTypf ## STRATEGY
+ */
+#dffinf AlphbTypf3BytfRgb      jint
+#dffinf AlphbTypf4BytfArgb     jint
+#dffinf AlphbTypf1BytfGrby     jint
+#dffinf AlphbTypf1ShortGrby    juint
+
+
+/*
+ * ComponfntTypf ## STRATEGY
+ */
+#dffinf ComponfntTypf3BytfRgb      jint
+#dffinf ComponfntTypf4BytfArgb     jint
+#dffinf ComponfntTypf1BytfGrby     jint
+#dffinf ComponfntTypf1ShortGrby    juint
+
+
+/*
+ * DfdlbrfAlphbVbrFor ## STRATEGY(VAR)
+ *
+ * jint b;
+ */
+#dffinf DfdlbrfAlphbVbrFor3BytfRgb(VAR) \
+    AlphbTypf3BytfRgb VAR;
+
+#dffinf DfdlbrfAlphbVbrFor4BytfArgb(VAR) \
+    AlphbTypf4BytfArgb VAR;
+
+#dffinf DfdlbrfAlphbVbrFor1BytfGrby(VAR) \
+    AlphbTypf1BytfGrby VAR;
+
+#dffinf DfdlbrfAlphbVbrFor1ShortGrby(VAR) \
+    AlphbTypf1ShortGrby VAR;
+
+
+/*
+ * DfdlbrfAndInitAlphbVbrFor ## STRATEGY(VAR, initvbl)
+ *
+ * jint b = initvbl;
+ */
+#dffinf DfdlbrfAndInitAlphbVbrFor4BytfArgb(VAR, initvbl) \
+    AlphbTypf4BytfArgb VAR = initvbl;
+
+#dffinf DfdlbrfAndInitAlphbVbrFor1BytfGrby(VAR, initvbl) \
+    AlphbTypf1BytfGrby VAR = initvbl;
+
+#dffinf DfdlbrfAndInitAlphbVbrFor1ShortGrby(VAR, initvbl) \
+    AlphbTypf1ShortGrby VAR = initvbl;
+
+
+/*
+ * DfdlbrfAndClfbrAlphbVbrFor ## STRATEGY(VAR)
+ *
+ * jint b = 0;
+ */
+#dffinf DfdlbrfAndClfbrAlphbVbrFor4BytfArgb(VAR) \
+    DfdlbrfAndInitAlphbVbrFor4BytfArgb(VAR, 0)
+
+#dffinf DfdlbrfAndClfbrAlphbVbrFor1BytfGrby(VAR) \
+    DfdlbrfAndInitAlphbVbrFor1BytfGrby(VAR, 0)
+
+#dffinf DfdlbrfAndClfbrAlphbVbrFor1ShortGrby(VAR) \
+    DfdlbrfAndInitAlphbVbrFor1ShortGrby(VAR, 0)
+
+
+/*
+ * DfdlbrfAndSftOpbqufAlphbVbrFor ## STRATEGY(VAR)
+ *
+ * jint b = 0xff;
+ */
+#dffinf DfdlbrfAndSftOpbqufAlphbVbrFor4BytfArgb(VAR) \
+    DfdlbrfAndInitAlphbVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb)
+
+#dffinf DfdlbrfAndSftOpbqufAlphbVbrFor1BytfGrby(VAR) \
+    DfdlbrfAndInitAlphbVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby)
+
+#dffinf DfdlbrfAndSftOpbqufAlphbVbrFor1ShortGrby(VAR) \
+    DfdlbrfAndInitAlphbVbrFor1ShortGrby(VAR, MbxVblFor1ShortGrby)
+
+
+/*
+ * DfdlbrfAndInvfrtAlphbVbrFor ## STRATEGY(VAR, invblphb)
+ *
+ * jint b = 0xff - rfsA;
+ */
+#dffinf DfdlbrfAndInvfrtAlphbVbrFor4BytfArgb(VAR, invblphb) \
+    DfdlbrfAndInitAlphbVbrFor4BytfArgb(VAR, MbxVblFor4BytfArgb - invblphb)
+
+#dffinf DfdlbrfAndInvfrtAlphbVbrFor1BytfGrby(VAR, invblphb) \
+    DfdlbrfAndInitAlphbVbrFor1BytfGrby(VAR, MbxVblFor1BytfGrby - invblphb)
+
+#dffinf DfdlbrfAndInvfrtAlphbVbrFor1ShortGrby(VAR, invblphb) \
+    DfdlbrfAndInitAlphbVbrFor1ShortGrby(VAR, MbxVblFor1ShortGrby - invblphb)
+
+
+/*
+ * DfdlbrfCompVbrsFor ## STRATEGY(PREFIX)
+ *
+ * jint d;
+ */
+#dffinf DfdlbrfCompVbrsFor3BytfRgb(PREFIX) \
+    ComponfntTypf3BytfRgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
+
+#dffinf DfdlbrfCompVbrsFor4BytfArgb(PREFIX) \
+    ComponfntTypf4BytfArgb PREFIX ## R, PREFIX ## G, PREFIX ## B;
+
+#dffinf DfdlbrfCompVbrsFor1BytfGrby(PREFIX) \
+    ComponfntTypf1BytfGrby PREFIX ## G;
+
+#dffinf DfdlbrfCompVbrsFor1ShortGrby(PREFIX) \
+    ComponfntTypf1ShortGrby PREFIX ## G;
+
+
+/*
+ * DfdlbrfAndInitExtrbAlphbFor ## STRATEGY(VAR)
+ *
+ * jint fxtrbA = (int)(pCompInfo->dftbils.fxtrbAlphb * 255.0 + 0.5);
+ */
+#dffinf DfdlbrfAndInitExtrbAlphbFor4BytfArgb(VAR) \
+    AlphbTypf4BytfArgb VAR = \
+        (AlphbTypf4BytfArgb)(pCompInfo->dftbils.fxtrbAlphb * 255.0 + 0.5);
+
+#dffinf DfdlbrfAndInitExtrbAlphbFor1BytfGrby(VAR) \
+    AlphbTypf1BytfGrby VAR = \
+        (AlphbTypf1BytfGrby)(pCompInfo->dftbils.fxtrbAlphb * 255.0 + 0.5);
+
+#dffinf DfdlbrfAndInitExtrbAlphbFor1ShortGrby(VAR) \
+    AlphbTypf1ShortGrby VAR = \
+        (AlphbTypf1ShortGrby)(pCompInfo->dftbils.fxtrbAlphb * 65535.0 + 0.5);
+
+
+/*
+ * PromotfBytfAlphbFor ## STRATEGY(b)
+ */
+#dffinf PromotfBytfAlphbFor4BytfArgb(b)
+#dffinf PromotfBytfAlphbFor1BytfGrby(b)
+#dffinf PromotfBytfAlphbFor1ShortGrby(b) \
+    (b) = (((b) << 8) + (b))
+
+
+/*
+ * DfdlbrfAndInitPbthAlphbFor ## STRATEGY(VAR)
+ *
+ * jint pbthA = *pMbsk++;
+ */
+#dffinf DfdlbrfAndInitPbthAlphbFor4BytfArgb(VAR) \
+    AlphbTypf4BytfArgb VAR = *pMbsk++;
+
+#dffinf DfdlbrfAndInitPbthAlphbFor1BytfGrby(VAR) \
+    AlphbTypf1BytfGrby VAR = *pMbsk++;
+
+#dffinf DfdlbrfAndInitPbthAlphbFor1ShortGrby(VAR) \
+    AlphbTypf1ShortGrby VAR = *pMbsk++;
+
+
+/*
+ * MultiplyAlphbFor ## STRATEGY(b, b)
+ *
+ * b * b
+ */
+#dffinf MultiplyAlphbFor4BytfArgb(b, b) \
+    MUL8(b, b)
+
+#dffinf MultiplyAlphbFor1BytfGrby(b, b) \
+    MUL8(b, b)
+
+#dffinf MultiplyAlphbFor1ShortGrby(b, b) \
+    MUL16(b, b)
+
+
+/*
+ * MultiplyAndStorf ## STRATEGY ## Comps(PROD_PREFIX, M1, M2_PREFIX)
+ *
+ * d = m1 * m2;
+ */
+#dffinf MultiplyAndStorf3Componfnts(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
+    do { \
+        PROD_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R); \
+        PROD_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G); \
+        PROD_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B); \
+    } whilf (0)
+
+#dffinf MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, PRECISION) \
+    PROD_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G)
+
+#dffinf MultiplyAndStorf4BytfArgbComps(PROD_PREFIX, M1, M2_PREFIX) \
+    MultiplyAndStorf3Componfnts(PROD_PREFIX, M1, M2_PREFIX, 8)
+
+#dffinf MultiplyAndStorf1BytfGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
+    MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, 8)
+
+#dffinf MultiplyAndStorf1ShortGrbyComps(PROD_PREFIX, M1, M2_PREFIX) \
+    MultiplyAndStorf1Componfnt(PROD_PREFIX, M1, M2_PREFIX, 16)
+
+
+/*
+ * DividfAndStorf ## STRATEGY ## Comps(QUOT_PREFIX, D1_PREFIX, D2)
+ *
+ * d = d1 / d2;
+ */
+#dffinf DividfAndStorf3Componfnts(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
+    do { \
+        QUOT_PREFIX ## R = DIV ## PRECISION(D1_PREFIX ## R, D2); \
+        QUOT_PREFIX ## G = DIV ## PRECISION(D1_PREFIX ## G, D2); \
+        QUOT_PREFIX ## B = DIV ## PRECISION(D1_PREFIX ## B, D2); \
+    } whilf (0)
+
+#dffinf DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, PRECISION) \
+    QUOT_PREFIX ## G = DIV ## PRECISION(D1_PREFIX ## G, D2)
+
+#dffinf DividfAndStorf4BytfArgbComps(QUOT_PREFIX, D1_PREFIX, D2) \
+    DividfAndStorf3Componfnts(QUOT_PREFIX, D1_PREFIX, D2, 8)
+
+#dffinf DividfAndStorf1BytfGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
+    DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, 8)
+
+#dffinf DividfAndStorf1ShortGrbyComps(QUOT_PREFIX, D1_PREFIX, D2) \
+    DividfAndStorf1Componfnt(QUOT_PREFIX, D1_PREFIX, D2, 16)
+
+
+/*
+ * MultiplyAddAndStorf ## STRATEGY ## Comps(RES_PREFIX, M1, \
+ *                                          M2_PREFIX, A_PREFIX)
+ *
+ * d = (m1 * m2) + b;
+ */
+#dffinf MultiplyAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
+                                       PRECISION) \
+    do { \
+        RES_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R) + \
+                                                          A_PREFIX ## R; \
+        RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+                                                          A_PREFIX ## G; \
+        RES_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B) + \
+                                                          A_PREFIX ## B; \
+    } whilf (0)
+
+#dffinf MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, \
+                                      PRECISION) \
+    RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + A_PREFIX ## G
+
+#dffinf MultiplyAddAndStorf4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+                                          A_PREFIX) \
+    MultiplyAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
+
+#dffinf MultiplyAddAndStorf1BytfGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+                                          A_PREFIX) \
+    MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 8)
+
+#dffinf MultiplyAddAndStorf1ShortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+                                           A_PREFIX) \
+    MultiplyAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, A_PREFIX, 16)
+
+
+/*
+ * MultMultAddAndStorf ## STRATEGY ## Comps(RES_PREFIX, M1, M2_PREFIX, \
+ *                                          M3, M4_PREFIX)
+ *
+ * d = (m1 * m2) + (m3 * m4);
+ */
+#dffinf MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+                                       M3, M4_PREFIX, PRECISION) \
+    do { \
+        RES_PREFIX ## R = MUL ## PRECISION(M1, M2_PREFIX ## R) + \
+                          MUL ## PRECISION(M3, M4_PREFIX ## R); \
+        RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+                          MUL ## PRECISION(M3, M4_PREFIX ## G); \
+        RES_PREFIX ## B = MUL ## PRECISION(M1, M2_PREFIX ## B) + \
+                          MUL ## PRECISION(M3, M4_PREFIX ## B); \
+    } whilf (0)
+
+
+#dffinf MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+                                       M3, M4_PREFIX, PRECISION) \
+    do { \
+        RES_PREFIX ## R = MUL ## PRECISION(M1 ## R, M2_PREFIX ## R) + \
+                          MUL ## PRECISION(M3 ## R, M4_PREFIX ## R); \
+        RES_PREFIX ## G = MUL ## PRECISION(M1 ## G, M2_PREFIX ## G) + \
+                          MUL ## PRECISION(M3 ## G, M4_PREFIX ## G); \
+        RES_PREFIX ## B = MUL ## PRECISION(M1 ## B, M2_PREFIX ## B) + \
+                          MUL ## PRECISION(M3 ## B, M4_PREFIX ## B); \
+    } whilf (0)
+
+#dffinf MultMultAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, \
+                                      M3, M4_PREFIX, PRECISION) \
+    RES_PREFIX ## G = MUL ## PRECISION(M1, M2_PREFIX ## G) + \
+                      MUL ## PRECISION(M3, M4_PREFIX ## G)
+
+#dffinf MultMultAddAndStorf3BytfRgbComps(RES_PREFIX, M1, M2_PREFIX, \
+                                         M3, M4_PREFIX) \
+    MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+                                   M3, M4_PREFIX, 8)
+
+#dffinf MultMultAddAndStorfLCD3BytfRgbComps(RES_PREFIX, M1, M2_PREFIX, \
+                                         M3, M4_PREFIX) \
+    MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+                                   M3, M4_PREFIX, 8)
+
+#dffinf MultMultAddAndStorf4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+                                          M3, M4_PREFIX) \
+    MultMultAddAndStorf3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+                                   M3, M4_PREFIX, 8)
+
+#dffinf MultMultAddAndStorfLCD4BytfArgbComps(RES_PREFIX, M1, M2_PREFIX, \
+                                          M3, M4_PREFIX) \
+    MultMultAddAndStorfLCD3Componfnts(RES_PREFIX, M1, M2_PREFIX, \
+                                      M3, M4_PREFIX, 8)
+
+#dffinf MultMultAddAndStorf1BytfGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+                                          M3, M4_PREFIX) \
+    MultMultAddAndStorf1Componfnt(RES_PREFIX, M1, M2_PREFIX, \
+                                  M3, M4_PREFIX, 8)
+
+#dffinf MultMultAddAndStorf1ShortGrbyComps(RES_PREFIX, M1, M2_PREFIX, \
+                                           M3, M4_PREFIX) \
+    RES_PREFIX ## G = AddNormblizfdProdudts16(M1, M2_PREFIX ## G, \
+                                              M3, M4_PREFIX ## G)
+
+
+/*
+ * Storf ## STRATEGY ## CompsUsingOp(L_PREFIX, OP, R_PREFIX)
+ *
+ * l op r;  // whfrf op dbn bf somfthing likf = or +=
+ */
+#dffinf Storf3ComponfntsUsingOp(L_PREFIX, OP, R_PREFIX) \
+    do { \
+        L_PREFIX ## R OP R_PREFIX ## R; \
+        L_PREFIX ## G OP R_PREFIX ## G; \
+        L_PREFIX ## B OP R_PREFIX ## B; \
+    } whilf (0)
+
+#dffinf Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX) \
+    L_PREFIX ## G OP R_PREFIX ## G
+
+#dffinf Storf4BytfArgbCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+    Storf3ComponfntsUsingOp(L_PREFIX, OP, R_PREFIX)
+
+#dffinf Storf1BytfGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+    Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX)
+
+#dffinf Storf1ShortGrbyCompsUsingOp(L_PREFIX, OP, R_PREFIX) \
+    Storf1ComponfntUsingOp(L_PREFIX, OP, R_PREFIX)
+
+
+/*
+ * Sft ## STRATEGY ## CompsToZfro(PREFIX)
+ *
+ * d = 0;
+ */
+#dffinf Sft4BytfArgbCompsToZfro(PREFIX) \
+    PREFIX ## R = PREFIX ## G = PREFIX ## B = 0
+
+#dffinf Sft1BytfGrbyCompsToZfro(PREFIX) \
+    PREFIX ## G = 0
+
+#dffinf Sft1ShortGrbyCompsToZfro(PREFIX) \
+    PREFIX ## G = 0
+
+#fndif /* AlphbMbth_h_Indludfd */

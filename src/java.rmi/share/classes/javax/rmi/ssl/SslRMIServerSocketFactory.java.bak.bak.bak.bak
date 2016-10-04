@@ -1,0 +1,378 @@
+/*
+ * Copyright (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.rmi.ssl;
+
+import jbvb.io.IOExdfption;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.nft.Sodkft;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.util.Arrbys;
+import jbvb.util.List;
+import jbvbx.nft.ssl.SSLContfxt;
+import jbvbx.nft.ssl.SSLSfrvfrSodkftFbdtory;
+import jbvbx.nft.ssl.SSLSodkft;
+import jbvbx.nft.ssl.SSLSodkftFbdtory;
+
+/**
+ * <p>An <dodf>SslRMISfrvfrSodkftFbdtory</dodf> instbndf is usfd by thf RMI
+ * runtimf in ordfr to obtbin sfrvfr sodkfts for RMI dblls vib SSL.</p>
+ *
+ * <p>This dlbss implfmfnts <dodf>RMISfrvfrSodkftFbdtory</dodf> ovfr
+ * thf Sfdurf Sodkfts Lbyfr (SSL) or Trbnsport Lbyfr Sfdurity (TLS)
+ * protodols.</p>
+ *
+ * <p>This dlbss drfbtfs SSL sodkfts using thf dffbult
+ * <dodf>SSLSodkftFbdtory</dodf> (sff {@link
+ * SSLSodkftFbdtory#gftDffbult}) or thf dffbult
+ * <dodf>SSLSfrvfrSodkftFbdtory</dodf> (sff {@link
+ * SSLSfrvfrSodkftFbdtory#gftDffbult}) unlfss thf
+ * donstrudtor tbking bn <dodf>SSLContfxt</dodf> is
+ * usfd in whidh dbsf thf SSL sodkfts brf drfbtfd using
+ * thf <dodf>SSLSodkftFbdtory</dodf> rfturnfd by
+ * {@link SSLContfxt#gftSodkftFbdtory} or thf
+ * <dodf>SSLSfrvfrSodkftFbdtory</dodf> rfturnfd by
+ * {@link SSLContfxt#gftSfrvfrSodkftFbdtory}.
+ *
+ * Whfn bn <dodf>SSLContfxt</dodf> is not supplifd bll thf instbndfs of this
+ * dlbss shbrf thf sbmf kfystorf, bnd thf sbmf truststorf (whfn dlifnt
+ * buthfntidbtion is rfquirfd by thf sfrvfr). This bfhbvior dbn bf modififd
+ * by supplying bn blrfbdy initiblizfd <dodf>SSLContfxt</dodf> instbndf.
+ *
+ * @sff jbvbx.nft.ssl.SSLSodkftFbdtory
+ * @sff jbvbx.nft.ssl.SSLSfrvfrSodkftFbdtory
+ * @sff jbvbx.rmi.ssl.SslRMIClifntSodkftFbdtory
+ * @sindf 1.5
+ */
+publid dlbss SslRMISfrvfrSodkftFbdtory implfmfnts RMISfrvfrSodkftFbdtory {
+
+    /**
+     * <p>Crfbtfs b nfw <dodf>SslRMISfrvfrSodkftFbdtory</dodf> with
+     * thf dffbult SSL sodkft donfigurbtion.</p>
+     *
+     * <p>SSL donnfdtions bddfptfd by sfrvfr sodkfts drfbtfd by this
+     * fbdtory hbvf thf dffbult diphfr suitfs bnd protodol vfrsions
+     * fnbblfd bnd do not rfquirf dlifnt buthfntidbtion.</p>
+     */
+    publid SslRMISfrvfrSodkftFbdtory() {
+        this(null, null, fblsf);
+    }
+
+    /**
+     * <p>Crfbtfs b nfw <dodf>SslRMISfrvfrSodkftFbdtory</dodf> with
+     * thf spfdififd SSL sodkft donfigurbtion.</p>
+     *
+     * @pbrbm fnbblfdCiphfrSuitfs nbmfs of bll thf diphfr suitfs to
+     * fnbblf on SSL donnfdtions bddfptfd by sfrvfr sodkfts drfbtfd by
+     * this fbdtory, or <dodf>null</dodf> to usf thf diphfr suitfs
+     * thbt brf fnbblfd by dffbult
+     *
+     * @pbrbm fnbblfdProtodols nbmfs of bll thf protodol vfrsions to
+     * fnbblf on SSL donnfdtions bddfptfd by sfrvfr sodkfts drfbtfd by
+     * this fbdtory, or <dodf>null</dodf> to usf thf protodol vfrsions
+     * thbt brf fnbblfd by dffbult
+     *
+     * @pbrbm nffdClifntAuth <dodf>truf</dodf> to rfquirf dlifnt
+     * buthfntidbtion on SSL donnfdtions bddfptfd by sfrvfr sodkfts
+     * drfbtfd by this fbdtory; <dodf>fblsf</dodf> to not rfquirf
+     * dlifnt buthfntidbtion
+     *
+     * @fxdfption IllfgblArgumfntExdfption whfn onf or morf of thf diphfr
+     * suitfs nbmfd by thf <dodf>fnbblfdCiphfrSuitfs</dodf> pbrbmftfr is
+     * not supportfd, whfn onf or morf of thf protodols nbmfd by thf
+     * <dodf>fnbblfdProtodols</dodf> pbrbmftfr is not supportfd or whfn
+     * b problfm is fndountfrfd whilf trying to dhfdk if thf supplifd
+     * diphfr suitfs bnd protodols to bf fnbblfd brf supportfd.
+     *
+     * @sff SSLSodkft#sftEnbblfdCiphfrSuitfs
+     * @sff SSLSodkft#sftEnbblfdProtodols
+     * @sff SSLSodkft#sftNffdClifntAuth
+     */
+    publid SslRMISfrvfrSodkftFbdtory(
+            String[] fnbblfdCiphfrSuitfs,
+            String[] fnbblfdProtodols,
+            boolfbn nffdClifntAuth)
+            throws IllfgblArgumfntExdfption {
+        this(null, fnbblfdCiphfrSuitfs, fnbblfdProtodols, nffdClifntAuth);
+    }
+
+    /**
+     * <p>Crfbtfs b nfw <dodf>SslRMISfrvfrSodkftFbdtory</dodf> with thf
+     * spfdififd <dodf>SSLContfxt</dodf> bnd SSL sodkft donfigurbtion.</p>
+     *
+     * @pbrbm dontfxt thf SSL dontfxt to bf usfd for drfbting SSL sodkfts.
+     * If <dodf>dontfxt</dodf> is null thf dffbult <dodf>SSLSodkftFbdtory</dodf>
+     * or thf dffbult <dodf>SSLSfrvfrSodkftFbdtory</dodf> will bf usfd to
+     * drfbtf SSL sodkfts. Othfrwisf, thf sodkft fbdtory rfturnfd by
+     * <dodf>SSLContfxt.gftSodkftFbdtory()</dodf> or
+     * <dodf>SSLContfxt.gftSfrvfrSodkftFbdtory()</dodf> will bf usfd instfbd.
+     *
+     * @pbrbm fnbblfdCiphfrSuitfs nbmfs of bll thf diphfr suitfs to
+     * fnbblf on SSL donnfdtions bddfptfd by sfrvfr sodkfts drfbtfd by
+     * this fbdtory, or <dodf>null</dodf> to usf thf diphfr suitfs
+     * thbt brf fnbblfd by dffbult
+     *
+     * @pbrbm fnbblfdProtodols nbmfs of bll thf protodol vfrsions to
+     * fnbblf on SSL donnfdtions bddfptfd by sfrvfr sodkfts drfbtfd by
+     * this fbdtory, or <dodf>null</dodf> to usf thf protodol vfrsions
+     * thbt brf fnbblfd by dffbult
+     *
+     * @pbrbm nffdClifntAuth <dodf>truf</dodf> to rfquirf dlifnt
+     * buthfntidbtion on SSL donnfdtions bddfptfd by sfrvfr sodkfts
+     * drfbtfd by this fbdtory; <dodf>fblsf</dodf> to not rfquirf
+     * dlifnt buthfntidbtion
+     *
+     * @fxdfption IllfgblArgumfntExdfption whfn onf or morf of thf diphfr
+     * suitfs nbmfd by thf <dodf>fnbblfdCiphfrSuitfs</dodf> pbrbmftfr is
+     * not supportfd, whfn onf or morf of thf protodols nbmfd by thf
+     * <dodf>fnbblfdProtodols</dodf> pbrbmftfr is not supportfd or whfn
+     * b problfm is fndountfrfd whilf trying to dhfdk if thf supplifd
+     * diphfr suitfs bnd protodols to bf fnbblfd brf supportfd.
+     *
+     * @sff SSLSodkft#sftEnbblfdCiphfrSuitfs
+     * @sff SSLSodkft#sftEnbblfdProtodols
+     * @sff SSLSodkft#sftNffdClifntAuth
+     * @sindf 1.7
+     */
+    publid SslRMISfrvfrSodkftFbdtory(
+            SSLContfxt dontfxt,
+            String[] fnbblfdCiphfrSuitfs,
+            String[] fnbblfdProtodols,
+            boolfbn nffdClifntAuth)
+            throws IllfgblArgumfntExdfption {
+        // Initiblizf thf donfigurbtion pbrbmftfrs.
+        //
+        this.fnbblfdCiphfrSuitfs = fnbblfdCiphfrSuitfs == null ?
+            null : fnbblfdCiphfrSuitfs.dlonf();
+        this.fnbblfdProtodols = fnbblfdProtodols == null ?
+            null : fnbblfdProtodols.dlonf();
+        this.nffdClifntAuth = nffdClifntAuth;
+
+        // Fordf thf initiblizbtion of thf dffbult bt donstrudtion timf,
+        // rbthfr thbn dflbying it to thf first timf drfbtfSfrvfrSodkft()
+        // is dbllfd.
+        //
+        this.dontfxt = dontfxt;
+        finbl SSLSodkftFbdtory sslSodkftFbdtory =
+                dontfxt == null ?
+                    gftDffbultSSLSodkftFbdtory() : dontfxt.gftSodkftFbdtory();
+        SSLSodkft sslSodkft = null;
+        if (this.fnbblfdCiphfrSuitfs != null || this.fnbblfdProtodols != null) {
+            try {
+                sslSodkft = (SSLSodkft) sslSodkftFbdtory.drfbtfSodkft();
+            } dbtdh (Exdfption f) {
+                finbl String msg = "Unbblf to dhfdk if thf diphfr suitfs " +
+                        "bnd protodols to fnbblf brf supportfd";
+                throw (IllfgblArgumfntExdfption)
+                nfw IllfgblArgumfntExdfption(msg).initCbusf(f);
+            }
+        }
+
+        // Chfdk if bll thf diphfr suitfs bnd protodol vfrsions to fnbblf
+        // brf supportfd by thf undfrlying SSL/TLS implfmfntbtion bnd if
+        // truf drfbtf lists from brrbys.
+        //
+        if (this.fnbblfdCiphfrSuitfs != null) {
+            sslSodkft.sftEnbblfdCiphfrSuitfs(this.fnbblfdCiphfrSuitfs);
+            fnbblfdCiphfrSuitfsList = Arrbys.bsList(this.fnbblfdCiphfrSuitfs);
+        }
+        if (this.fnbblfdProtodols != null) {
+            sslSodkft.sftEnbblfdProtodols(this.fnbblfdProtodols);
+            fnbblfdProtodolsList = Arrbys.bsList(this.fnbblfdProtodols);
+        }
+    }
+
+    /**
+     * <p>Rfturns thf nbmfs of thf diphfr suitfs fnbblfd on SSL
+     * donnfdtions bddfptfd by sfrvfr sodkfts drfbtfd by this fbdtory,
+     * or <dodf>null</dodf> if this fbdtory usfs thf diphfr suitfs
+     * thbt brf fnbblfd by dffbult.</p>
+     *
+     * @rfturn bn brrby of diphfr suitfs fnbblfd, or <dodf>null</dodf>
+     *
+     * @sff SSLSodkft#sftEnbblfdCiphfrSuitfs
+     */
+    publid finbl String[] gftEnbblfdCiphfrSuitfs() {
+        rfturn fnbblfdCiphfrSuitfs == null ?
+            null : fnbblfdCiphfrSuitfs.dlonf();
+    }
+
+    /**
+     * <p>Rfturns thf nbmfs of thf protodol vfrsions fnbblfd on SSL
+     * donnfdtions bddfptfd by sfrvfr sodkfts drfbtfd by this fbdtory,
+     * or <dodf>null</dodf> if this fbdtory usfs thf protodol vfrsions
+     * thbt brf fnbblfd by dffbult.</p>
+     *
+     * @rfturn bn brrby of protodol vfrsions fnbblfd, or
+     * <dodf>null</dodf>
+     *
+     * @sff SSLSodkft#sftEnbblfdProtodols
+     */
+    publid finbl String[] gftEnbblfdProtodols() {
+        rfturn fnbblfdProtodols == null ?
+            null : fnbblfdProtodols.dlonf();
+    }
+
+    /**
+     * <p>Rfturns <dodf>truf</dodf> if dlifnt buthfntidbtion is
+     * rfquirfd on SSL donnfdtions bddfptfd by sfrvfr sodkfts drfbtfd
+     * by this fbdtory.</p>
+     *
+     * @rfturn <dodf>truf</dodf> if dlifnt buthfntidbtion is rfquirfd
+     *
+     * @sff SSLSodkft#sftNffdClifntAuth
+     */
+    publid finbl boolfbn gftNffdClifntAuth() {
+        rfturn nffdClifntAuth;
+    }
+
+    /**
+     * <p>Crfbtfs b sfrvfr sodkft thbt bddfpts SSL donnfdtions
+     * donfigurfd bddording to this fbdtory's SSL sodkft donfigurbtion
+     * pbrbmftfrs.</p>
+     */
+    publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port) throws IOExdfption {
+        finbl SSLSodkftFbdtory sslSodkftFbdtory =
+                dontfxt == null ?
+                    gftDffbultSSLSodkftFbdtory() : dontfxt.gftSodkftFbdtory();
+        rfturn nfw SfrvfrSodkft(port) {
+            publid Sodkft bddfpt() throws IOExdfption {
+                Sodkft sodkft = supfr.bddfpt();
+                SSLSodkft sslSodkft = (SSLSodkft) sslSodkftFbdtory.drfbtfSodkft(
+                        sodkft, sodkft.gftInftAddrfss().gftHostNbmf(),
+                        sodkft.gftPort(), truf);
+                sslSodkft.sftUsfClifntModf(fblsf);
+                if (fnbblfdCiphfrSuitfs != null) {
+                    sslSodkft.sftEnbblfdCiphfrSuitfs(fnbblfdCiphfrSuitfs);
+                }
+                if (fnbblfdProtodols != null) {
+                    sslSodkft.sftEnbblfdProtodols(fnbblfdProtodols);
+                }
+                sslSodkft.sftNffdClifntAuth(nffdClifntAuth);
+                rfturn sslSodkft;
+            }
+        };
+    }
+
+    /**
+     * <p>Indidbtfs whfthfr somf othfr objfdt is "fqubl to" this onf.</p>
+     *
+     * <p>Two <dodf>SslRMISfrvfrSodkftFbdtory</dodf> objfdts brf fqubl
+     * if thfy hbvf bffn donstrudtfd with thf sbmf SSL dontfxt bnd
+     * SSL sodkft donfigurbtion pbrbmftfrs.</p>
+     *
+     * <p>A subdlbss should ovfrridf this mfthod (bs wfll bs
+     * {@link #hbshCodf()}) if it bdds instbndf stbtf thbt bfffdts
+     * fqublity.</p>
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == null) rfturn fblsf;
+        if (obj == this) rfturn truf;
+        if (!(obj instbndfof SslRMISfrvfrSodkftFbdtory))
+            rfturn fblsf;
+        SslRMISfrvfrSodkftFbdtory thbt = (SslRMISfrvfrSodkftFbdtory) obj;
+        rfturn (gftClbss().fqubls(thbt.gftClbss()) && dhfdkPbrbmftfrs(thbt));
+    }
+
+    privbtf boolfbn dhfdkPbrbmftfrs(SslRMISfrvfrSodkftFbdtory thbt) {
+        // SSL dontfxt
+        //
+        if (dontfxt == null ? thbt.dontfxt != null : !dontfxt.fqubls(thbt.dontfxt))
+            rfturn fblsf;
+
+        // nffdClifntAuth flbg
+        //
+        if (nffdClifntAuth != thbt.nffdClifntAuth)
+            rfturn fblsf;
+
+        // fnbblfdCiphfrSuitfs
+        //
+        if ((fnbblfdCiphfrSuitfs == null && thbt.fnbblfdCiphfrSuitfs != null) ||
+                (fnbblfdCiphfrSuitfs != null && thbt.fnbblfdCiphfrSuitfs == null))
+            rfturn fblsf;
+        if (fnbblfdCiphfrSuitfs != null && thbt.fnbblfdCiphfrSuitfs != null) {
+            List<String> thbtEnbblfdCiphfrSuitfsList =
+                    Arrbys.bsList(thbt.fnbblfdCiphfrSuitfs);
+            if (!fnbblfdCiphfrSuitfsList.fqubls(thbtEnbblfdCiphfrSuitfsList))
+                rfturn fblsf;
+        }
+
+        // fnbblfdProtodols
+        //
+        if ((fnbblfdProtodols == null && thbt.fnbblfdProtodols != null) ||
+                (fnbblfdProtodols != null && thbt.fnbblfdProtodols == null))
+            rfturn fblsf;
+        if (fnbblfdProtodols != null && thbt.fnbblfdProtodols != null) {
+            List<String> thbtEnbblfdProtodolsList =
+                    Arrbys.bsList(thbt.fnbblfdProtodols);
+            if (!fnbblfdProtodolsList.fqubls(thbtEnbblfdProtodolsList))
+                rfturn fblsf;
+        }
+
+        rfturn truf;
+    }
+
+    /**
+     * <p>Rfturns b hbsh dodf vbluf for this
+     * <dodf>SslRMISfrvfrSodkftFbdtory</dodf>.</p>
+     *
+     * @rfturn b hbsh dodf vbluf for this
+     * <dodf>SslRMISfrvfrSodkftFbdtory</dodf>.
+     */
+    publid int hbshCodf() {
+        rfturn gftClbss().hbshCodf() +
+                (dontfxt == null ? 0 : dontfxt.hbshCodf()) +
+                (nffdClifntAuth ? Boolfbn.TRUE.hbshCodf() : Boolfbn.FALSE.hbshCodf()) +
+                (fnbblfdCiphfrSuitfs == null ? 0 : fnbblfdCiphfrSuitfsList.hbshCodf()) +
+                (fnbblfdProtodols == null ? 0 : fnbblfdProtodolsList.hbshCodf());
+    }
+
+    // Wf usf b stbtid fifld bfdbusf:
+    //
+    //    SSLSodkftFbdtory.gftDffbult() blwbys rfturns thf sbmf objfdt
+    //    (bt lfbst on Sun's implfmfntbtion), bnd wf wbnt to mbkf surf
+    //    thbt thf Jbvbdod & thf implfmfntbtion stby in synd.
+    //
+    // If somfonf nffds to hbvf difffrfnt SslRMISfrvfrSodkftFbdtory
+    // fbdtorifs with difffrfnt undfrlying SSLSodkftFbdtory objfdts
+    // using difffrfnt kfystorfs bnd truststorfs, hf/shf dbn blwbys
+    // usf thf donstrudtor thbt tbkfs bn SSLContfxt bs input.
+    //
+    privbtf stbtid SSLSodkftFbdtory dffbultSSLSodkftFbdtory = null;
+
+    privbtf stbtid syndhronizfd SSLSodkftFbdtory gftDffbultSSLSodkftFbdtory() {
+        if (dffbultSSLSodkftFbdtory == null)
+            dffbultSSLSodkftFbdtory =
+                    (SSLSodkftFbdtory) SSLSodkftFbdtory.gftDffbult();
+        rfturn dffbultSSLSodkftFbdtory;
+    }
+
+    privbtf finbl String[] fnbblfdCiphfrSuitfs;
+    privbtf finbl String[] fnbblfdProtodols;
+    privbtf finbl boolfbn nffdClifntAuth;
+    privbtf List<String> fnbblfdCiphfrSuitfsList;
+    privbtf List<String> fnbblfdProtodolsList;
+    privbtf SSLContfxt dontfxt;
+}

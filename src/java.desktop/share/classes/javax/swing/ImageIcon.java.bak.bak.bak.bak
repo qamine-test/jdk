@@ -1,0 +1,718 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.bfbns.Trbnsifnt;
+import jbvb.nft.URL;
+
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+
+import jbvb.util.Lodblf;
+import jbvbx.bddfssibility.*;
+
+import sun.bwt.AppContfxt;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.sfdurity.*;
+
+/**
+ * An implfmfntbtion of thf Idon intfrfbdf thbt pbints Idons
+ * from Imbgfs. Imbgfs thbt brf drfbtfd from b URL, filfnbmf or bytf brrby
+ * brf prflobdfd using MfdibTrbdkfr to monitor thf lobdfd stbtf
+ * of thf imbgf.
+ *
+ * <p>
+ * For furthfr informbtion bnd fxbmplfs of using imbgf idons, sff
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/idon.html">How to Usf Idons</b>
+ * in <fm>Thf Jbvb Tutoribl.</fm>
+ *
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Jfff Dinkins
+ * @buthor Lynn Monsbnto
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss ImbgfIdon implfmfnts Idon, Sfriblizbblf, Addfssiblf {
+    /* Kffp rfffrfndfs to thf filfnbmf bnd lodbtion so thbt
+     * bltfrnbtf pfrsistfndf sdhfmfs hbvf thf option to brdhivf
+     * imbgfs symbolidblly rbthfr thbn indluding thf imbgf dbtb
+     * in thf brdhivf.
+     */
+    trbnsifnt privbtf String filfnbmf;
+    trbnsifnt privbtf URL lodbtion;
+
+    trbnsifnt Imbgf imbgf;
+    trbnsifnt int lobdStbtus = 0;
+    ImbgfObsfrvfr imbgfObsfrvfr;
+    String dfsdription = null;
+
+    /**
+     * Do not usf this shbrfd domponfnt, whidh is usfd to trbdk imbgf lobding.
+     * It is lfft for bbdkwbrd dompbtibility only.
+     * @dfprfdbtfd sindf 1.8
+     */
+    @Dfprfdbtfd
+    protfdtfd finbl stbtid Componfnt domponfnt;
+
+    /**
+     * Do not usf this shbrfd mfdib trbdkfr, whidh is usfd to lobd imbgfs.
+     * It is lfft for bbdkwbrd dompbtibility only.
+     * @dfprfdbtfd sindf 1.8
+     */
+    @Dfprfdbtfd
+    protfdtfd finbl stbtid MfdibTrbdkfr trbdkfr;
+
+    stbtid {
+        domponfnt = AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Componfnt>() {
+            publid Componfnt run() {
+                try {
+                    finbl Componfnt domponfnt = drfbtfNoPfrmsComponfnt();
+
+                    // 6482575 - dlfbr thf bppContfxt fifld so bs not to lfbk it
+                    Fifld bppContfxtFifld =
+
+                            Componfnt.dlbss.gftDfdlbrfdFifld("bppContfxt");
+                    bppContfxtFifld.sftAddfssiblf(truf);
+                    bppContfxtFifld.sft(domponfnt, null);
+
+                    rfturn domponfnt;
+                } dbtdh (Throwbblf f) {
+                    // Wf don't dbrf bbout domponfnt.
+                    // So don't prfvfnt dlbss initiblisbtion.
+                    f.printStbdkTrbdf();
+                    rfturn null;
+                }
+            }
+        });
+        trbdkfr = nfw MfdibTrbdkfr(domponfnt);
+    }
+
+    privbtf stbtid Componfnt drfbtfNoPfrmsComponfnt() {
+        // 7020198 - sft bdd fifld to no pfrmissions bnd no subjfdt
+        // Notf, will hbvf bppContfxt sft.
+        rfturn AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<Componfnt>() {
+                    publid Componfnt run() {
+                        rfturn nfw Componfnt() {
+                        };
+                    }
+                },
+                nfw AddfssControlContfxt(nfw ProtfdtionDombin[]{
+                        nfw ProtfdtionDombin(null, null)
+                })
+        );
+    }
+
+    /**
+     * Id usfd in lobding imbgfs from MfdibTrbdkfr.
+     */
+    privbtf stbtid int mfdibTrbdkfrID;
+
+    privbtf finbl stbtid Objfdt TRACKER_KEY = nfw StringBuildfr("TRACKER_KEY");
+
+    int width = -1;
+    int hfight = -1;
+
+    /**
+     * Crfbtfs bn ImbgfIdon from thf spfdififd filf. Thf imbgf will
+     * bf prflobdfd by using MfdibTrbdkfr to monitor thf lobding stbtf
+     * of thf imbgf.
+     * @pbrbm filfnbmf thf nbmf of thf filf dontbining thf imbgf
+     * @pbrbm dfsdription b briff tfxtubl dfsdription of thf imbgf
+     * @sff #ImbgfIdon(String)
+     */
+    publid ImbgfIdon(String filfnbmf, String dfsdription) {
+        imbgf = Toolkit.gftDffbultToolkit().gftImbgf(filfnbmf);
+        if (imbgf == null) {
+            rfturn;
+        }
+        this.filfnbmf = filfnbmf;
+        this.dfsdription = dfsdription;
+        lobdImbgf(imbgf);
+    }
+
+    /**
+     * Crfbtfs bn ImbgfIdon from thf spfdififd filf. Thf imbgf will
+     * bf prflobdfd by using MfdibTrbdkfr to monitor thf lobding stbtf
+     * of thf imbgf. Thf spfdififd String dbn bf b filf nbmf or b
+     * filf pbth. Whfn spfdifying b pbth, usf thf Intfrnft-stbndbrd
+     * forwbrd-slbsh ("/") bs b sfpbrbtor.
+     * (Thf string is donvfrtfd to bn URL, so thf forwbrd-slbsh works
+     * on bll systfms.)
+     * For fxbmplf, spfdify:
+     * <prf>
+     *    nfw ImbgfIdon("imbgfs/myImbgf.gif") </prf>
+     * Thf dfsdription is initiblizfd to thf <dodf>filfnbmf</dodf> string.
+     *
+     * @pbrbm filfnbmf b String spfdifying b filfnbmf or pbth
+     * @sff #gftDfsdription
+     */
+    @ConstrudtorPropfrtifs({"dfsdription"})
+    publid ImbgfIdon (String filfnbmf) {
+        this(filfnbmf, filfnbmf);
+    }
+
+    /**
+     * Crfbtfs bn ImbgfIdon from thf spfdififd URL. Thf imbgf will
+     * bf prflobdfd by using MfdibTrbdkfr to monitor thf lobdfd stbtf
+     * of thf imbgf.
+     * @pbrbm lodbtion thf URL for thf imbgf
+     * @pbrbm dfsdription b briff tfxtubl dfsdription of thf imbgf
+     * @sff #ImbgfIdon(String)
+     */
+    publid ImbgfIdon(URL lodbtion, String dfsdription) {
+        imbgf = Toolkit.gftDffbultToolkit().gftImbgf(lodbtion);
+        if (imbgf == null) {
+            rfturn;
+        }
+        this.lodbtion = lodbtion;
+        this.dfsdription = dfsdription;
+        lobdImbgf(imbgf);
+    }
+
+    /**
+     * Crfbtfs bn ImbgfIdon from thf spfdififd URL. Thf imbgf will
+     * bf prflobdfd by using MfdibTrbdkfr to monitor thf lobdfd stbtf
+     * of thf imbgf.
+     * Thf idon's dfsdription is initiblizfd to bf
+     * b string rfprfsfntbtion of thf URL.
+     * @pbrbm lodbtion thf URL for thf imbgf
+     * @sff #gftDfsdription
+     */
+    publid ImbgfIdon (URL lodbtion) {
+        this(lodbtion, lodbtion.toExtfrnblForm());
+    }
+
+    /**
+     * Crfbtfs bn ImbgfIdon from thf imbgf.
+     * @pbrbm imbgf thf imbgf
+     * @pbrbm dfsdription b briff tfxtubl dfsdription of thf imbgf
+     */
+    publid ImbgfIdon(Imbgf imbgf, String dfsdription) {
+        this(imbgf);
+        this.dfsdription = dfsdription;
+    }
+
+    /**
+     * Crfbtfs bn ImbgfIdon from bn imbgf objfdt.
+     * If thf imbgf hbs b "dommfnt" propfrty thbt is b string,
+     * thfn thf string is usfd bs thf dfsdription of this idon.
+     * @pbrbm imbgf thf imbgf
+     * @sff #gftDfsdription
+     * @sff jbvb.bwt.Imbgf#gftPropfrty
+     */
+    publid ImbgfIdon (Imbgf imbgf) {
+        this.imbgf = imbgf;
+        Objfdt o = imbgf.gftPropfrty("dommfnt", imbgfObsfrvfr);
+        if (o instbndfof String) {
+            dfsdription = (String) o;
+        }
+        lobdImbgf(imbgf);
+    }
+
+    /**
+     * Crfbtfs bn ImbgfIdon from bn brrby of bytfs whidh wfrf
+     * rfbd from bn imbgf filf dontbining b supportfd imbgf formbt,
+     * sudh bs GIF, JPEG, or (bs of 1.3) PNG.
+     * Normblly this brrby is drfbtfd
+     * by rfbding bn imbgf using Clbss.gftRfsourdfAsStrfbm(), but
+     * thf bytf brrby mby blso bf stbtidblly storfd in b dlbss.
+     *
+     * @pbrbm  imbgfDbtb bn brrby of pixfls in bn imbgf formbt supportfd
+     *         by thf AWT Toolkit, sudh bs GIF, JPEG, or (bs of 1.3) PNG
+     * @pbrbm  dfsdription b briff tfxtubl dfsdription of thf imbgf
+     * @sff    jbvb.bwt.Toolkit#drfbtfImbgf
+     */
+    publid ImbgfIdon (bytf[] imbgfDbtb, String dfsdription) {
+        this.imbgf = Toolkit.gftDffbultToolkit().drfbtfImbgf(imbgfDbtb);
+        if (imbgf == null) {
+            rfturn;
+        }
+        this.dfsdription = dfsdription;
+        lobdImbgf(imbgf);
+    }
+
+    /**
+     * Crfbtfs bn ImbgfIdon from bn brrby of bytfs whidh wfrf
+     * rfbd from bn imbgf filf dontbining b supportfd imbgf formbt,
+     * sudh bs GIF, JPEG, or (bs of 1.3) PNG.
+     * Normblly this brrby is drfbtfd
+     * by rfbding bn imbgf using Clbss.gftRfsourdfAsStrfbm(), but
+     * thf bytf brrby mby blso bf stbtidblly storfd in b dlbss.
+     * If thf rfsulting imbgf hbs b "dommfnt" propfrty thbt is b string,
+     * thfn thf string is usfd bs thf dfsdription of this idon.
+     *
+     * @pbrbm  imbgfDbtb bn brrby of pixfls in bn imbgf formbt supportfd by
+     *             thf AWT Toolkit, sudh bs GIF, JPEG, or (bs of 1.3) PNG
+     * @sff    jbvb.bwt.Toolkit#drfbtfImbgf
+     * @sff #gftDfsdription
+     * @sff jbvb.bwt.Imbgf#gftPropfrty
+     */
+    publid ImbgfIdon (bytf[] imbgfDbtb) {
+        this.imbgf = Toolkit.gftDffbultToolkit().drfbtfImbgf(imbgfDbtb);
+        if (imbgf == null) {
+            rfturn;
+        }
+        Objfdt o = imbgf.gftPropfrty("dommfnt", imbgfObsfrvfr);
+        if (o instbndfof String) {
+            dfsdription = (String) o;
+        }
+        lobdImbgf(imbgf);
+    }
+
+    /**
+     * Crfbtfs bn uninitiblizfd imbgf idon.
+     */
+    publid ImbgfIdon() {
+    }
+
+    /**
+     * Lobds thf imbgf, rfturning only whfn thf imbgf is lobdfd.
+     * @pbrbm imbgf thf imbgf
+     */
+    protfdtfd void lobdImbgf(Imbgf imbgf) {
+        MfdibTrbdkfr mTrbdkfr = gftTrbdkfr();
+        syndhronizfd(mTrbdkfr) {
+            int id = gftNfxtID();
+
+            mTrbdkfr.bddImbgf(imbgf, id);
+            try {
+                mTrbdkfr.wbitForID(id, 0);
+            } dbtdh (IntfrruptfdExdfption f) {
+                Systfm.out.println("INTERRUPTED whilf lobding Imbgf");
+            }
+            lobdStbtus = mTrbdkfr.stbtusID(id, fblsf);
+            mTrbdkfr.rfmovfImbgf(imbgf, id);
+
+            width = imbgf.gftWidth(imbgfObsfrvfr);
+            hfight = imbgf.gftHfight(imbgfObsfrvfr);
+        }
+    }
+
+    /**
+     * Rfturns bn ID to usf with thf MfdibTrbdkfr in lobding bn imbgf.
+     */
+    privbtf int gftNfxtID() {
+        syndhronizfd(gftTrbdkfr()) {
+            rfturn ++mfdibTrbdkfrID;
+        }
+    }
+
+    /**
+     * Rfturns thf MfdibTrbdkfr for thf durrfnt AppContfxt, drfbting b nfw
+     * MfdibTrbdkfr if nfdfssbry.
+     */
+    privbtf MfdibTrbdkfr gftTrbdkfr() {
+        Objfdt trbdkfrObj;
+        AppContfxt bd = AppContfxt.gftAppContfxt();
+        // Opt: Only syndhronizf if trbdkfrObj domfs bbdk null?
+        // If null, syndhronizf, rf-dhfdk for null, bnd put nfw trbdkfr
+        syndhronizfd(bd) {
+            trbdkfrObj = bd.gft(TRACKER_KEY);
+            if (trbdkfrObj == null) {
+                Componfnt domp = nfw Componfnt() {};
+                trbdkfrObj = nfw MfdibTrbdkfr(domp);
+                bd.put(TRACKER_KEY, trbdkfrObj);
+            }
+        }
+        rfturn (MfdibTrbdkfr) trbdkfrObj;
+    }
+
+    /**
+     * Rfturns thf stbtus of thf imbgf lobding opfrbtion.
+     * @rfturn thf lobding stbtus bs dffinfd by jbvb.bwt.MfdibTrbdkfr
+     * @sff jbvb.bwt.MfdibTrbdkfr#ABORTED
+     * @sff jbvb.bwt.MfdibTrbdkfr#ERRORED
+     * @sff jbvb.bwt.MfdibTrbdkfr#COMPLETE
+     */
+    publid int gftImbgfLobdStbtus() {
+        rfturn lobdStbtus;
+    }
+
+    /**
+     * Rfturns this idon's <dodf>Imbgf</dodf>.
+     * @rfturn thf <dodf>Imbgf</dodf> objfdt for this <dodf>ImbgfIdon</dodf>
+     */
+    @Trbnsifnt
+    publid Imbgf gftImbgf() {
+        rfturn imbgf;
+    }
+
+    /**
+     * Sfts thf imbgf displbyfd by this idon.
+     * @pbrbm imbgf thf imbgf
+     */
+    publid void sftImbgf(Imbgf imbgf) {
+        this.imbgf = imbgf;
+        lobdImbgf(imbgf);
+    }
+
+    /**
+     * Gfts thf dfsdription of thf imbgf.  This is mfbnt to bf b briff
+     * tfxtubl dfsdription of thf objfdt.  For fxbmplf, it might bf
+     * prfsfntfd to b blind usfr to givf bn indidbtion of thf purposf
+     * of thf imbgf.
+     * Thf dfsdription mby bf null.
+     *
+     * @rfturn b briff tfxtubl dfsdription of thf imbgf
+     */
+    publid String gftDfsdription() {
+        rfturn dfsdription;
+    }
+
+    /**
+     * Sfts thf dfsdription of thf imbgf.  This is mfbnt to bf b briff
+     * tfxtubl dfsdription of thf objfdt.  For fxbmplf, it might bf
+     * prfsfntfd to b blind usfr to givf bn indidbtion of thf purposf
+     * of thf imbgf.
+     * @pbrbm dfsdription b briff tfxtubl dfsdription of thf imbgf
+     */
+    publid void sftDfsdription(String dfsdription) {
+        this.dfsdription = dfsdription;
+    }
+
+    /**
+     * Pbints thf idon.
+     * Thf top-lfft dornfr of thf idon is drbwn bt
+     * thf point (<dodf>x</dodf>, <dodf>y</dodf>)
+     * in thf doordinbtf spbdf of thf grbphids dontfxt <dodf>g</dodf>.
+     * If this idon hbs no imbgf obsfrvfr,
+     * this mfthod usfs thf <dodf>d</dodf> domponfnt
+     * bs thf obsfrvfr.
+     *
+     * @pbrbm d thf domponfnt to bf usfd bs thf obsfrvfr
+     *          if this idon hbs no imbgf obsfrvfr
+     * @pbrbm g thf grbphids dontfxt
+     * @pbrbm x thf X doordinbtf of thf idon's top-lfft dornfr
+     * @pbrbm y thf Y doordinbtf of thf idon's top-lfft dornfr
+     */
+    publid syndhronizfd void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+        if(imbgfObsfrvfr == null) {
+           g.drbwImbgf(imbgf, x, y, d);
+        } flsf {
+           g.drbwImbgf(imbgf, x, y, imbgfObsfrvfr);
+        }
+    }
+
+    /**
+     * Gfts thf width of thf idon.
+     *
+     * @rfturn thf width in pixfls of this idon
+     */
+    publid int gftIdonWidth() {
+        rfturn width;
+    }
+
+    /**
+     * Gfts thf hfight of thf idon.
+     *
+     * @rfturn thf hfight in pixfls of this idon
+     */
+    publid int gftIdonHfight() {
+        rfturn hfight;
+    }
+
+    /**
+     * Sfts thf imbgf obsfrvfr for thf imbgf.  Sft this
+     * propfrty if thf ImbgfIdon dontbins bn bnimbtfd GIF, so
+     * thf obsfrvfr is notififd to updbtf its displby.
+     * For fxbmplf:
+     * <prf>
+     *     idon = nfw ImbgfIdon(...)
+     *     button.sftIdon(idon);
+     *     idon.sftImbgfObsfrvfr(button);
+     * </prf>
+     *
+     * @pbrbm obsfrvfr thf imbgf obsfrvfr
+     */
+    publid void sftImbgfObsfrvfr(ImbgfObsfrvfr obsfrvfr) {
+        imbgfObsfrvfr = obsfrvfr;
+    }
+
+    /**
+     * Rfturns thf imbgf obsfrvfr for thf imbgf.
+     *
+     * @rfturn thf imbgf obsfrvfr, whidh mby bf null
+     */
+    @Trbnsifnt
+    publid ImbgfObsfrvfr gftImbgfObsfrvfr() {
+        rfturn imbgfObsfrvfr;
+    }
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this imbgf.
+     *
+     * @rfturn b string rfprfsfnting this imbgf
+     */
+    publid String toString() {
+        if (dfsdription != null) {
+            rfturn dfsdription;
+        }
+        rfturn supfr.toString();
+    }
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws ClbssNotFoundExdfption, IOExdfption
+    {
+        s.dffbultRfbdObjfdt();
+
+        int w = s.rfbdInt();
+        int h = s.rfbdInt();
+        int[] pixfls = (int[])(s.rfbdObjfdt());
+
+        if (pixfls != null) {
+            Toolkit tk = Toolkit.gftDffbultToolkit();
+            ColorModfl dm = ColorModfl.gftRGBdffbult();
+            imbgf = tk.drfbtfImbgf(nfw MfmoryImbgfSourdf(w, h, dm, pixfls, 0, w));
+            lobdImbgf(imbgf);
+        }
+    }
+
+
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+        throws IOExdfption
+    {
+        s.dffbultWritfObjfdt();
+
+        int w = gftIdonWidth();
+        int h = gftIdonHfight();
+        int[] pixfls = imbgf != null? nfw int[w * h] : null;
+
+        if (imbgf != null) {
+            try {
+                PixflGrbbbfr pg = nfw PixflGrbbbfr(imbgf, 0, 0, w, h, pixfls, 0, w);
+                pg.grbbPixfls();
+                if ((pg.gftStbtus() & ImbgfObsfrvfr.ABORT) != 0) {
+                    throw nfw IOExdfption("fbilfd to lobd imbgf dontfnts");
+                }
+            }
+            dbtdh (IntfrruptfdExdfption f) {
+                throw nfw IOExdfption("imbgf lobd intfrruptfd");
+            }
+        }
+
+        s.writfInt(w);
+        s.writfInt(h);
+        s.writfObjfdt(pixfls);
+    }
+
+    /**
+     * --- Addfssibility Support ---
+     */
+
+    privbtf AddfssiblfImbgfIdon bddfssiblfContfxt = null;
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this ImbgfIdon.
+     * For imbgf idons, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfImbgfIdon.
+     * A nfw AddfssiblfImbgfIdon instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfImbgfIdon thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this ImbgfIdon
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Thf AddfssiblfContfxt bssodibtfd with this ImbgfIdon.
+     * @sindf 1.3
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfImbgfIdon();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>ImbgfIdon</dodf> dlbss.  It providfs bn implfmfntbtion of thf
+     * Jbvb Addfssibility API bppropribtf to imbgf idon usfr-intfrfbdf
+     * flfmfnts.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     * @sindf 1.3
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfImbgfIdon fxtfnds AddfssiblfContfxt
+        implfmfnts AddfssiblfIdon, Sfriblizbblf {
+
+        /*
+         * AddfssiblfContfst implfmfntbtion -----------------
+         */
+
+        /**
+         * Gfts thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf
+         * objfdt
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.ICON;
+        }
+
+        /**
+         * Gfts thf stbtf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dontbining thf durrfnt
+         * stbtf sft of thf objfdt
+         * @sff AddfssiblfStbtf
+         */
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            rfturn null;
+        }
+
+        /**
+         * Gfts thf Addfssiblf pbrfnt of this objfdt.  If thf pbrfnt of this
+         * objfdt implfmfnts Addfssiblf, this mfthod should simply rfturn
+         * gftPbrfnt().
+         *
+         * @rfturn thf Addfssiblf pbrfnt of this objfdt -- dbn bf null if this
+         * objfdt dofs not hbvf bn Addfssiblf pbrfnt
+         */
+        publid Addfssiblf gftAddfssiblfPbrfnt() {
+            rfturn null;
+        }
+
+        /**
+         * Gfts thf indfx of this objfdt in its bddfssiblf pbrfnt.
+         *
+         * @rfturn thf indfx of this objfdt in its pbrfnt; -1 if this
+         * objfdt dofs not hbvf bn bddfssiblf pbrfnt.
+         * @sff #gftAddfssiblfPbrfnt
+         */
+        publid int gftAddfssiblfIndfxInPbrfnt() {
+            rfturn -1;
+        }
+
+        /**
+         * Rfturns thf numbfr of bddfssiblf dhildrfn in thf objfdt.  If bll
+         * of thf dhildrfn of this objfdt implfmfnt Addfssiblf, thbn this
+         * mfthod should rfturn thf numbfr of dhildrfn of this objfdt.
+         *
+         * @rfturn thf numbfr of bddfssiblf dhildrfn in thf objfdt.
+         */
+        publid int gftAddfssiblfChildrfnCount() {
+            rfturn 0;
+        }
+
+        /**
+         * Rfturns thf nth Addfssiblf dhild of thf objfdt.
+         *
+         * @pbrbm i zfro-bbsfd indfx of dhild
+         * @rfturn thf nth Addfssiblf dhild of thf objfdt
+         */
+        publid Addfssiblf gftAddfssiblfChild(int i) {
+            rfturn null;
+        }
+
+        /**
+         * Rfturns thf lodblf of this objfdt.
+         *
+         * @rfturn thf lodblf of this objfdt
+         */
+        publid Lodblf gftLodblf() throws IllfgblComponfntStbtfExdfption {
+            rfturn null;
+        }
+
+        /*
+         * AddfssiblfIdon implfmfntbtion -----------------
+         */
+
+        /**
+         * Gfts thf dfsdription of thf idon.  This is mfbnt to bf b briff
+         * tfxtubl dfsdription of thf objfdt.  For fxbmplf, it might bf
+         * prfsfntfd to b blind usfr to givf bn indidbtion of thf purposf
+         * of thf idon.
+         *
+         * @rfturn thf dfsdription of thf idon
+         */
+        publid String gftAddfssiblfIdonDfsdription() {
+            rfturn ImbgfIdon.this.gftDfsdription();
+        }
+
+        /**
+         * Sfts thf dfsdription of thf idon.  This is mfbnt to bf b briff
+         * tfxtubl dfsdription of thf objfdt.  For fxbmplf, it might bf
+         * prfsfntfd to b blind usfr to givf bn indidbtion of thf purposf
+         * of thf idon.
+         *
+         * @pbrbm dfsdription thf dfsdription of thf idon
+         */
+        publid void sftAddfssiblfIdonDfsdription(String dfsdription) {
+            ImbgfIdon.this.sftDfsdription(dfsdription);
+        }
+
+        /**
+         * Gfts thf hfight of thf idon.
+         *
+         * @rfturn thf hfight of thf idon
+         */
+        publid int gftAddfssiblfIdonHfight() {
+            rfturn ImbgfIdon.this.hfight;
+        }
+
+        /**
+         * Gfts thf width of thf idon.
+         *
+         * @rfturn thf width of thf idon
+         */
+        publid int gftAddfssiblfIdonWidth() {
+            rfturn ImbgfIdon.this.width;
+        }
+
+        privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+            throws ClbssNotFoundExdfption, IOExdfption
+        {
+            s.dffbultRfbdObjfdt();
+        }
+
+        privbtf void writfObjfdt(ObjfdtOutputStrfbm s)
+            throws IOExdfption
+        {
+            s.dffbultWritfObjfdt();
+        }
+    }  // AddfssiblfImbgfIdon
+}

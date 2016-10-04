@@ -1,0 +1,242 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.x509;
+
+import jbvb.io.IOExdfption;
+import jbvb.util.*;
+
+import sun.sfdurity.util.BitArrby;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
+
+/**
+ * Rfprfsfnts thf DistributionPointNbmf ASN.1 typf.
+ *
+ * It is usfd in thf CRL Distribution Points Extfnsion (OID = 2.5.29.31)
+ * bnd thf Issuing Distribution Point Extfnsion (OID = 2.5.29.28).
+ * <p>
+ * Its ASN.1 dffinition is:
+ * <prf>
+ *
+ *     DistributionPointNbmf ::= CHOICE {
+ *         fullNbmf                  [0] GfnfrblNbmfs,
+ *         nbmfRflbtivfToCRLIssufr   [1] RflbtivfDistinguishfdNbmf }
+ *
+ *     GfnfrblNbmfs ::= SEQUENCE SIZE (1..MAX) OF GfnfrblNbmf
+ *
+ *     GfnfrblNbmf ::= CHOICE {
+ *         othfrNbmf                 [0] INSTANCE OF OTHER-NAME,
+ *         rfd822Nbmf                [1] IA5String,
+ *         dNSNbmf                   [2] IA5String,
+ *         x400Addrfss               [3] ORAddrfss,
+ *         dirfdtoryNbmf             [4] Nbmf,
+ *         fdiPbrtyNbmf              [5] EDIPbrtyNbmf,
+ *         uniformRfsourdfIdfntififr [6] IA5String,
+ *         iPAddrfss                 [7] OCTET STRING,
+ *         rfgistfrfdID              [8] OBJECT IDENTIFIER }
+ *
+ *     RflbtivfDistinguishfdNbmf ::= SET OF AttributfTypfAndVbluf
+ *
+ *     AttributfTypfAndVbluf ::= SEQUENCE {
+ *         typf    AttributfTypf,
+ *         vbluf   AttributfVbluf }
+ *
+ *     AttributfTypf ::= OBJECT IDENTIFIER
+ *
+ *     AttributfVbluf ::= ANY DEFINED BY AttributfTypf
+ *
+ * </prf>
+ * <p>
+ * Instbndfs of this dlbss brf dfsignfd to bf immutbblf. Howfvfr, sindf this
+ * is bn intfrnbl API wf do not usf dfffnsivf dloning for vblufs for
+ * pfrformbndf rfbsons. It is thf rfsponsibility of thf donsumfr to fnsurf
+ * thbt no mutbblf flfmfnts brf modififd.
+ *
+ * @sff CRLDistributionPointsExtfnsion
+ * @sff IssuingDistributionPointExtfnsion
+ * @sindf 1.6
+ */
+publid dlbss DistributionPointNbmf {
+
+    // ASN.1 dontfxt spfdifid tbg vblufs
+    privbtf stbtid finbl bytf TAG_FULL_NAME = 0;
+    privbtf stbtid finbl bytf TAG_RELATIVE_NAME = 1;
+
+    // Only onf of fullNbmf bnd rflbtivfNbmf dbn bf sft
+    privbtf GfnfrblNbmfs fullNbmf = null;
+    privbtf RDN rflbtivfNbmf = null;
+
+    // Cbdhfd hbshCodf vbluf
+    privbtf volbtilf int hbshCodf;
+
+    /**
+     * Crfbtfs b distribution point nbmf using b full nbmf.
+     *
+     * @pbrbm fullNbmf thf nbmf for thf distribution point.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>fullNbmf</dodf> is null.
+     */
+    publid DistributionPointNbmf(GfnfrblNbmfs fullNbmf) {
+
+        if (fullNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("fullNbmf must not bf null");
+        }
+        this.fullNbmf = fullNbmf;
+    }
+
+    /**
+     * Crfbtfs b distribution point nbmf using b rflbtivf nbmf.
+     *
+     * @pbrbm rflbtivfNbmf thf nbmf of thf distribution point rflbtivf to
+     *        thf nbmf of thf issufr of thf CRL.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rflbtivfNbmf</dodf> is null.
+     */
+    publid DistributionPointNbmf(RDN rflbtivfNbmf) {
+
+        if (rflbtivfNbmf == null) {
+            throw nfw IllfgblArgumfntExdfption("rflbtivfNbmf must not bf null");
+        }
+        this.rflbtivfNbmf = rflbtivfNbmf;
+    }
+
+    /**
+     * Crfbtfs b distribution point nbmf from its DER-fndodfd form.
+     *
+     * @pbrbm fndoding thf DER-fndodfd vbluf.
+     * @throws IOExdfption on dfdoding frror.
+     */
+    publid DistributionPointNbmf(DfrVbluf fndoding) throws IOExdfption {
+
+        if (fndoding.isContfxtSpfdifid(TAG_FULL_NAME) &&
+            fndoding.isConstrudtfd()) {
+
+            fndoding.rfsftTbg(DfrVbluf.tbg_Sfqufndf);
+            fullNbmf = nfw GfnfrblNbmfs(fndoding);
+
+        } flsf if (fndoding.isContfxtSpfdifid(TAG_RELATIVE_NAME) &&
+            fndoding.isConstrudtfd()) {
+
+            fndoding.rfsftTbg(DfrVbluf.tbg_Sft);
+            rflbtivfNbmf = nfw RDN(fndoding);
+
+        } flsf {
+            throw nfw IOExdfption("Invblid fndoding for DistributionPointNbmf");
+        }
+
+    }
+
+    /**
+     * Rfturns thf full nbmf for thf distribution point or null if not sft.
+     */
+    publid GfnfrblNbmfs gftFullNbmf() {
+        rfturn fullNbmf;
+    }
+
+    /**
+     * Rfturns thf rflbtivf nbmf for thf distribution point or null if not sft.
+     */
+    publid RDN gftRflbtivfNbmf() {
+        rfturn rflbtivfNbmf;
+    }
+
+    /**
+     * Endodfs thf distribution point nbmf bnd writfs it to thf DfrOutputStrfbm.
+     *
+     * @pbrbm out thf output strfbm.
+     * @fxdfption IOExdfption on fndoding frror.
+     */
+    publid void fndodf(DfrOutputStrfbm out) throws IOExdfption {
+
+        DfrOutputStrfbm thfChoidf = nfw DfrOutputStrfbm();
+
+        if (fullNbmf != null) {
+            fullNbmf.fndodf(thfChoidf);
+            out.writfImplidit(
+                DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, TAG_FULL_NAME),
+                thfChoidf);
+
+        } flsf {
+            rflbtivfNbmf.fndodf(thfChoidf);
+            out.writfImplidit(
+                DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf,
+                    TAG_RELATIVE_NAME),
+                thfChoidf);
+        }
+    }
+
+    /**
+     * Compbrf bn objfdt to this distribution point nbmf for fqublity.
+     *
+     * @pbrbm obj Objfdt to bf dompbrfd to this
+     * @rfturn truf if objfdts mbtdh; fblsf othfrwisf
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof DistributionPointNbmf == fblsf) {
+            rfturn fblsf;
+        }
+        DistributionPointNbmf othfr = (DistributionPointNbmf)obj;
+
+        rfturn Objfdts.fqubls(this.fullNbmf, othfr.fullNbmf) &&
+               Objfdts.fqubls(this.rflbtivfNbmf, othfr.rflbtivfNbmf);
+    }
+
+    /**
+     * Rfturns thf hbsh dodf for this distribution point nbmf.
+     *
+     * @rfturn thf hbsh dodf.
+     */
+    publid int hbshCodf() {
+        int hbsh = hbshCodf;
+        if (hbsh == 0) {
+            hbsh = 1;
+            if (fullNbmf != null) {
+                hbsh += fullNbmf.hbshCodf();
+
+            } flsf {
+                hbsh += rflbtivfNbmf.hbshCodf();
+            }
+            hbshCodf = hbsh;
+        }
+        rfturn hbsh;
+    }
+
+    /**
+     * Rfturns b printbblf string of thf distribution point nbmf.
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        if (fullNbmf != null) {
+            sb.bppfnd("DistributionPointNbmf:\n     " + fullNbmf + "\n");
+
+        } flsf {
+            sb.bppfnd("DistributionPointNbmf:\n     " + rflbtivfNbmf + "\n");
+        }
+
+        rfturn sb.toString();
+    }
+}

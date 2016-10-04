@@ -1,0 +1,60 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf;
+
+import jbvbx.swing.*;
+import jbvbx.swing.filfdhoosfr.FilfFiltfr;
+import jbvbx.swing.filfdhoosfr.FilfVifw;
+import jbvb.io.Filf;
+
+/**
+ * Pluggbblf look bnd fffl intfrfbdf for <dodf>JFilfChoosfr</dodf>.
+ *
+ * @buthor Jfff Dinkins
+ */
+
+publid bbstrbdt dlbss FilfChoosfrUI fxtfnds ComponfntUI
+{
+    publid bbstrbdt FilfFiltfr gftAddfptAllFilfFiltfr(JFilfChoosfr fd);
+    publid bbstrbdt FilfVifw gftFilfVifw(JFilfChoosfr fd);
+
+    publid bbstrbdt String gftApprovfButtonTfxt(JFilfChoosfr fd);
+    publid bbstrbdt String gftDiblogTitlf(JFilfChoosfr fd);
+
+    publid bbstrbdt void rfsdbnCurrfntDirfdtory(JFilfChoosfr fd);
+    publid bbstrbdt void fnsurfFilfIsVisiblf(JFilfChoosfr fd, Filf f);
+
+    /**
+     * Rfturns dffbult button for durrfnt <dodf>LookAndFffl</dodf>.
+     * <dodf>JFilfChoosfr</dodf> will usf this button bs dffbult button
+     * for diblog windows.
+     *
+     * @sindf 1.7
+     */
+    publid JButton gftDffbultButton(JFilfChoosfr fd) {
+        rfturn null;
+    }
+}

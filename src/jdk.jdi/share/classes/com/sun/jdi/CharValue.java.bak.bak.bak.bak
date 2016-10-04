@@ -1,0 +1,62 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+
+/**
+ * Providfs bddfss to b primitivf <dodf>dhbr</dodf> vbluf in
+ * thf tbrgft VM.
+ *
+ * @buthor Robfrt Fifld
+ * @buthor Gordon Hirsdh
+ * @buthor Jbmfs MdIlrff
+ * @sindf  1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf ChbrVbluf fxtfnds PrimitivfVbluf, Compbrbblf<ChbrVbluf> {
+
+    /**
+     * Rfturns this ChbrVbluf bs b <dodf>dhbr</dodf>.
+     *
+     * @rfturn thf <dodf>dhbr</dodf> mirrorfd by this objfdt.
+     */
+    dhbr vbluf();
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this ChbrVbluf for fqublity.
+     *
+     * @rfturn truf if thf Objfdt is b ChbrVbluf bnd if bpplying "=="
+     * to thf two mirrorfd primitivfs would fvblubtf to truf; fblsf
+     * othfrwisf.
+     */
+    boolfbn fqubls(Objfdt obj);
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this ChbrVbluf.
+     *
+     * @rfturn thf intfgfr hbsh dodf
+     */
+    int hbshCodf();
+}

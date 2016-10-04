@@ -1,0 +1,377 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns.bfbndontfxt;
+
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.bfbns.PropfrtyChbngfSupport;
+
+import jbvb.bfbns.VftobblfChbngfListfnfr;
+import jbvb.bfbns.VftobblfChbngfSupport;
+
+import jbvb.bfbns.PropfrtyVftoExdfption;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * <p>
+ * This is b gfnfrbl support dlbss to providf support for implfmfnting thf
+ * BfbnContfxtChild protodol.
+ *
+ * This dlbss mby fithfr bf dirfdtly subdlbssfd, or fndbpsulbtfd bnd dflfgbtfd
+ * to in ordfr to implfmfnt this intfrfbdf for b givfn domponfnt.
+ * </p>
+ *
+ * @buthor      Lburfndf P. G. Cbblf
+ * @sindf       1.2
+ *
+ * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxt
+ * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxtSfrvidfs
+ * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxtChild
+ */
+
+publid dlbss BfbnContfxtChildSupport implfmfnts BfbnContfxtChild, BfbnContfxtSfrvidfsListfnfr, Sfriblizbblf {
+
+    stbtid finbl long sfriblVfrsionUID = 6328947014421475877L;
+
+    /**
+     * donstrudt b BfbnContfxtChildSupport whfrf this dlbss hbs bffn
+     * subdlbssfd in ordfr to implfmfnt thf JbvbBfbn domponfnt itsflf.
+     */
+
+    publid BfbnContfxtChildSupport() {
+        supfr();
+
+        bfbnContfxtChildPffr = this;
+
+        pdSupport = nfw PropfrtyChbngfSupport(bfbnContfxtChildPffr);
+        vdSupport = nfw VftobblfChbngfSupport(bfbnContfxtChildPffr);
+    }
+
+    /**
+     * donstrudt b BfbnContfxtChildSupport whfrf thf JbvbBfbn domponfnt
+     * itsflf implfmfnts BfbnContfxtChild, bnd fndbpsulbtfs this, dflfgbting
+     * thbt intfrfbdf to this implfmfntbtion
+     * @pbrbm bdd thf undfrlying bfbn dontfxt dhild
+     */
+
+    publid BfbnContfxtChildSupport(BfbnContfxtChild bdd) {
+        supfr();
+
+        bfbnContfxtChildPffr = (bdd != null) ? bdd : this;
+
+        pdSupport = nfw PropfrtyChbngfSupport(bfbnContfxtChildPffr);
+        vdSupport = nfw VftobblfChbngfSupport(bfbnContfxtChildPffr);
+    }
+
+    /**
+     * Sfts thf <dodf>BfbnContfxt</dodf> for
+     * this <dodf>BfbnContfxtChildSupport</dodf>.
+     * @pbrbm bd thf nfw vbluf to bf bssignfd to thf <dodf>BfbnContfxt</dodf>
+     * propfrty
+     * @throws PropfrtyVftoExdfption if thf dhbngf is rfjfdtfd
+     */
+    publid syndhronizfd void sftBfbnContfxt(BfbnContfxt bd) throws PropfrtyVftoExdfption {
+        if (bd == bfbnContfxt) rfturn;
+
+        BfbnContfxt oldVbluf = bfbnContfxt;
+        BfbnContfxt nfwVbluf = bd;
+
+        if (!rfjfdtfdSftBCOndf) {
+            if (rfjfdtfdSftBCOndf = !vblidbtfPfndingSftBfbnContfxt(bd)) {
+                throw nfw PropfrtyVftoExdfption(
+                    "sftBfbnContfxt() dhbngf rfjfdtfd:",
+                    nfw PropfrtyChbngfEvfnt(bfbnContfxtChildPffr, "bfbnContfxt", oldVbluf, nfwVbluf)
+                );
+            }
+
+            try {
+                firfVftobblfChbngf("bfbnContfxt",
+                                   oldVbluf,
+                                   nfwVbluf
+                );
+            } dbtdh (PropfrtyVftoExdfption pvf) {
+                rfjfdtfdSftBCOndf = truf;
+
+                throw pvf; // rf-throw
+            }
+        }
+
+        if (bfbnContfxt != null) rflfbsfBfbnContfxtRfsourdfs();
+
+        bfbnContfxt       = nfwVbluf;
+        rfjfdtfdSftBCOndf = fblsf;
+
+        firfPropfrtyChbngf("bfbnContfxt",
+                           oldVbluf,
+                           nfwVbluf
+        );
+
+        if (bfbnContfxt != null) initiblizfBfbnContfxtRfsourdfs();
+    }
+
+    /**
+     * Gfts thf nfsting <dodf>BfbnContfxt</dodf>
+     * for this <dodf>BfbnContfxtChildSupport</dodf>.
+     * @rfturn thf nfsting <dodf>BfbnContfxt</dodf> for
+     * this <dodf>BfbnContfxtChildSupport</dodf>.
+     */
+    publid syndhronizfd BfbnContfxt gftBfbnContfxt() { rfturn bfbnContfxt; }
+
+    /**
+     * Add b PropfrtyChbngfListfnfr for b spfdifid propfrty.
+     * Thf sbmf listfnfr objfdt mby bf bddfd morf thbn ondf.  For fbdh
+     * propfrty,  thf listfnfr will bf invokfd thf numbfr of timfs it wbs bddfd
+     * for thbt propfrty.
+     * If <dodf>nbmf</dodf> or <dodf>pdl</dodf> is null, no fxdfption is thrown
+     * bnd no bdtion is tbkfn.
+     *
+     * @pbrbm nbmf Thf nbmf of thf propfrty to listfn on
+     * @pbrbm pdl Thf <dodf>PropfrtyChbngfListfnfr</dodf> to bf bddfd
+     */
+    publid void bddPropfrtyChbngfListfnfr(String nbmf, PropfrtyChbngfListfnfr pdl) {
+        pdSupport.bddPropfrtyChbngfListfnfr(nbmf, pdl);
+    }
+
+    /**
+     * Rfmovf b PropfrtyChbngfListfnfr for b spfdifid propfrty.
+     * If <dodf>pdl</dodf> wbs bddfd morf thbn ondf to thf sbmf fvfnt
+     * sourdf for thf spfdififd propfrty, it will bf notififd onf lfss timf
+     * bftfr bfing rfmovfd.
+     * If <dodf>nbmf</dodf> is null, no fxdfption is thrown
+     * bnd no bdtion is tbkfn.
+     * If <dodf>pdl</dodf> is null, or wbs nfvfr bddfd for thf spfdififd
+     * propfrty, no fxdfption is thrown bnd no bdtion is tbkfn.
+     *
+     * @pbrbm nbmf Thf nbmf of thf propfrty thbt wbs listfnfd on
+     * @pbrbm pdl Thf PropfrtyChbngfListfnfr to bf rfmovfd
+     */
+    publid void rfmovfPropfrtyChbngfListfnfr(String nbmf, PropfrtyChbngfListfnfr pdl) {
+        pdSupport.rfmovfPropfrtyChbngfListfnfr(nbmf, pdl);
+    }
+
+    /**
+     * Add b VftobblfChbngfListfnfr for b spfdifid propfrty.
+     * Thf sbmf listfnfr objfdt mby bf bddfd morf thbn ondf.  For fbdh
+     * propfrty,  thf listfnfr will bf invokfd thf numbfr of timfs it wbs bddfd
+     * for thbt propfrty.
+     * If <dodf>nbmf</dodf> or <dodf>vdl</dodf> is null, no fxdfption is thrown
+     * bnd no bdtion is tbkfn.
+     *
+     * @pbrbm nbmf Thf nbmf of thf propfrty to listfn on
+     * @pbrbm vdl Thf <dodf>VftobblfChbngfListfnfr</dodf> to bf bddfd
+     */
+    publid void bddVftobblfChbngfListfnfr(String nbmf, VftobblfChbngfListfnfr vdl) {
+        vdSupport.bddVftobblfChbngfListfnfr(nbmf, vdl);
+    }
+
+    /**
+     * Rfmovfs b <dodf>VftobblfChbngfListfnfr</dodf>.
+     * If <dodf>pdl</dodf> wbs bddfd morf thbn ondf to thf sbmf fvfnt
+     * sourdf for thf spfdififd propfrty, it will bf notififd onf lfss timf
+     * bftfr bfing rfmovfd.
+     * If <dodf>nbmf</dodf> is null, no fxdfption is thrown
+     * bnd no bdtion is tbkfn.
+     * If <dodf>vdl</dodf> is null, or wbs nfvfr bddfd for thf spfdififd
+     * propfrty, no fxdfption is thrown bnd no bdtion is tbkfn.
+     *
+     * @pbrbm nbmf Thf nbmf of thf propfrty thbt wbs listfnfd on
+     * @pbrbm vdl Thf <dodf>VftobblfChbngfListfnfr</dodf> to bf rfmovfd
+     */
+    publid void rfmovfVftobblfChbngfListfnfr(String nbmf, VftobblfChbngfListfnfr vdl) {
+        vdSupport.rfmovfVftobblfChbngfListfnfr(nbmf, vdl);
+    }
+
+    /**
+     * A sfrvidf providfd by thf nfsting BfbnContfxt hbs bffn rfvokfd.
+     *
+     * Subdlbssfs mby ovfrridf this mfthod in ordfr to implfmfnt thfir own
+     * bfhbviors.
+     * @pbrbm bdsrf Thf <dodf>BfbnContfxtSfrvidfRfvokfdEvfnt</dodf> firfd bs b
+     * rfsult of b sfrvidf bfing rfvokfd
+     */
+    publid void sfrvidfRfvokfd(BfbnContfxtSfrvidfRfvokfdEvfnt bdsrf) { }
+
+    /**
+     * A nfw sfrvidf is bvbilbblf from thf nfsting BfbnContfxt.
+     *
+     * Subdlbssfs mby ovfrridf this mfthod in ordfr to implfmfnt thfir own
+     * bfhbviors
+     * @pbrbm bdsbf Thf BfbnContfxtSfrvidfAvbilbblfEvfnt firfd bs b
+     * rfsult of b sfrvidf bfdoming bvbilbblf
+     *
+     */
+    publid void sfrvidfAvbilbblf(BfbnContfxtSfrvidfAvbilbblfEvfnt bdsbf) { }
+
+    /**
+     * Gfts thf <tt>BfbnContfxtChild</tt> bssodibtfd with this
+     * <tt>BfbnContfxtChildSupport</tt>.
+     *
+     * @rfturn thf <tt>BfbnContfxtChild</tt> pffr of this dlbss
+     */
+    publid BfbnContfxtChild gftBfbnContfxtChildPffr() { rfturn bfbnContfxtChildPffr; }
+
+    /**
+     * Rfports whfthfr or not this dlbss is b dflfgbtf of bnothfr.
+     *
+     * @rfturn truf if this dlbss is b dflfgbtf of bnothfr
+     */
+    publid boolfbn isDflfgbtfd() { rfturn !this.fqubls(bfbnContfxtChildPffr); }
+
+    /**
+     * Rfport b bound propfrty updbtf to bny rfgistfrfd listfnfrs. No fvfnt is
+     * firfd if old bnd nfw brf fqubl bnd non-null.
+     * @pbrbm nbmf Thf progrbmmbtid nbmf of thf propfrty thbt wbs dhbngfd
+     * @pbrbm oldVbluf  Thf old vbluf of thf propfrty
+     * @pbrbm nfwVbluf  Thf nfw vbluf of thf propfrty
+     */
+    publid void firfPropfrtyChbngf(String nbmf, Objfdt oldVbluf, Objfdt nfwVbluf) {
+        pdSupport.firfPropfrtyChbngf(nbmf, oldVbluf, nfwVbluf);
+    }
+
+    /**
+     * Rfport b vftobblf propfrty updbtf to bny rfgistfrfd listfnfrs.
+     * If bnyonf vftos thf dhbngf, thfn firf b nfw fvfnt
+     * rfvfrting fvfryonf to thf old vbluf bnd thfn rfthrow
+     * thf PropfrtyVftoExdfption. <P>
+     *
+     * No fvfnt is firfd if old bnd nfw brf fqubl bnd non-null.
+     *
+     * @pbrbm nbmf Thf progrbmmbtid nbmf of thf propfrty thbt is bbout to
+     * dhbngf
+     *
+     * @pbrbm oldVbluf Thf old vbluf of thf propfrty
+     * @pbrbm nfwVbluf - Thf nfw vbluf of thf propfrty
+     *
+     * @throws PropfrtyVftoExdfption if thf rfdipifnt wishfs thf propfrty
+     * dhbngf to bf rollfd bbdk.
+     */
+    publid void firfVftobblfChbngf(String nbmf, Objfdt oldVbluf, Objfdt nfwVbluf) throws PropfrtyVftoExdfption {
+        vdSupport.firfVftobblfChbngf(nbmf, oldVbluf, nfwVbluf);
+    }
+
+    /**
+     * Cbllfd from sftBfbnContfxt to vblidbtf (or othfrwisf) thf
+     * pfnding dhbngf in thf nfsting BfbnContfxt propfrty vbluf.
+     * Rfturning fblsf will dbusf sftBfbnContfxt to throw
+     * PropfrtyVftoExdfption.
+     * @pbrbm nfwVbluf thf nfw vbluf thbt hbs bffn rfqufstfd for
+     *  thf BfbnContfxt propfrty
+     * @rfturn <dodf>truf</dodf> if thf dhbngf opfrbtion is to bf vftofd
+     */
+    publid boolfbn vblidbtfPfndingSftBfbnContfxt(BfbnContfxt nfwVbluf) {
+        rfturn truf;
+    }
+
+    /**
+     * This mfthod mby bf ovfrriddfn by subdlbssfs to providf thfir own
+     * rflfbsf bfhbviors. Whfn invokfd bny rfsourdfs hfld by this instbndf
+     * obtbinfd from its durrfnt BfbnContfxt propfrty should bf rflfbsfd
+     * sindf thf objfdt is no longfr nfstfd within thbt BfbnContfxt.
+     */
+
+    protfdtfd  void rflfbsfBfbnContfxtRfsourdfs() {
+        // do nothing
+    }
+
+    /**
+     * This mfthod mby bf ovfrriddfn by subdlbssfs to providf thfir own
+     * initiblizbtion bfhbviors. Whfn invokfd bny rfsourdfs rfquirfd by thf
+     * BfbnContfxtChild should bf obtbinfd from thf durrfnt BfbnContfxt.
+     */
+
+    protfdtfd void initiblizfBfbnContfxtRfsourdfs() {
+        // do nothing
+    }
+
+    /**
+     * Writf thf pfrsistfndf stbtf of thf objfdt.
+     */
+
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm oos) throws IOExdfption {
+
+        /*
+         * don't sfriblizf if wf brf dflfgbtfd bnd thf dflfgbtor is not blso
+         * sfriblizbblf.
+         */
+
+        if (!fqubls(bfbnContfxtChildPffr) && !(bfbnContfxtChildPffr instbndfof Sfriblizbblf))
+            throw nfw IOExdfption("BfbnContfxtChildSupport bfbnContfxtChildPffr not Sfriblizbblf");
+
+        flsf
+            oos.dffbultWritfObjfdt();
+
+    }
+
+
+    /**
+     * Rfstorf b pfrsistfnt objfdt, must wbit for subsfqufnt sftBfbnContfxt()
+     * to fully rfstorf bny rfsourdfs obtbinfd from thf nfw nfsting
+     * BfbnContfxt
+     */
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm ois) throws IOExdfption, ClbssNotFoundExdfption {
+        ois.dffbultRfbdObjfdt();
+    }
+
+    /*
+     * fiflds
+     */
+
+    /**
+     * Thf <dodf>BfbnContfxt</dodf> in whidh
+     * this <dodf>BfbnContfxtChild</dodf> is nfstfd.
+     */
+    publid    BfbnContfxtChild      bfbnContfxtChildPffr;
+
+   /**
+    * Thf <tt>PropfrtyChbngfSupport</tt> bssodibtfd with this
+    * <tt>BfbnContfxtChildSupport</tt>.
+    */
+    protfdtfd PropfrtyChbngfSupport pdSupport;
+
+   /**
+    * Thf <tt>VftobblfChbngfSupport</tt> bssodibtfd with this
+    * <tt>BfbnContfxtChildSupport</tt>.
+    */
+    protfdtfd VftobblfChbngfSupport vdSupport;
+
+    /**
+     * Thf bfbn dontfxt.
+     */
+    protfdtfd trbnsifnt BfbnContfxt           bfbnContfxt;
+
+   /**
+    * A flbg indidbting thbt thfrf hbs bffn
+    * bt lfbst onf <dodf>PropfrtyChbngfVftoExdfption</dodf>
+    * thrown for thf bttfmptfd sftBfbnContfxt opfrbtion.
+    */
+    protfdtfd trbnsifnt boolfbn               rfjfdtfdSftBCOndf;
+
+}

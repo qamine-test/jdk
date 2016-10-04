@@ -1,0 +1,351 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf bpplf.lbf;
+
+import jbvb.nio.*;
+import jbvb.util.*;
+
+import bpplf.lbf.JRSUIConstbnts.*;
+
+publid finbl dlbss JRSUIControl {
+    privbtf stbtid nbtivf int initNbtivfJRSUI();
+
+    privbtf stbtid nbtivf long gftPtrOfBufffr(BytfBufffr bytfBufffr);
+    privbtf stbtid nbtivf long gftCFDidtionbry(boolfbn flippfd);
+    privbtf stbtid nbtivf void disposfCFDidtionbry(long dfDidtionbryPtr);
+
+    privbtf stbtid nbtivf int syndChbngfs(long dfDidtionbryPtr, long bytfBufffrPtr);
+
+//    privbtf stbtid nbtivf int pbint(long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, OSXSurfbdfDbtb osxsd, doublf x, doublf y, doublf w, doublf h);
+//    privbtf stbtid nbtivf int pbintChbngfs(long dfDidtionbryPtr, long bytfBufffrPtr, long oldPropfrtifs, long nfwPropfrtifs, OSXSurfbdfDbtb osxsd, doublf x, doublf y, doublf w, doublf h);
+
+    privbtf stbtid nbtivf int pbintToCGContfxt                    (long dgContfxt,    long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, doublf x, doublf y, doublf w, doublf h);
+    privbtf stbtid nbtivf int pbintChbngfsToCGContfxt            (long dgContfxt,    long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, doublf x, doublf y, doublf w, doublf h, long bytfBufffrPtr);
+
+    privbtf stbtid nbtivf int pbintImbgf        (int[] dbtb, int imgW, int imgH,    long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, doublf x, doublf y, doublf w, doublf h);
+    privbtf stbtid nbtivf int pbintChbngfsImbgf    (int[] dbtb, int imgW, int imgH,    long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, doublf x, doublf y, doublf w, doublf h, long bytfBufffrPtr);
+
+    privbtf stbtid nbtivf int gftNbtivfHitPbrt(                            long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, doublf x, doublf y, doublf w, doublf h, doublf hitX, doublf hitY);
+    privbtf stbtid nbtivf void gftNbtivfPbrtBounds(finbl doublf[] rfdt,    long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, doublf x, doublf y, doublf w, doublf h, int pbrt);
+    privbtf stbtid nbtivf doublf gftNbtivfSdrollBbrOffsftChbngf(        long dfDidtionbryPtr, long oldPropfrtifs, long nfwPropfrtifs, doublf x, doublf y, doublf w, doublf h, int offsft, int visiblfAmount, int fxtfnt);
+
+    privbtf stbtid finbl int INCOHERENT = 2;
+    privbtf stbtid finbl int NOT_INIT = 1;
+    privbtf stbtid finbl int SUCCESS = 0;
+    privbtf stbtid finbl int NULL_PTR = -1;
+    privbtf stbtid finbl int NULL_CG_REF = -2;
+
+    privbtf stbtid int nbtivfJRSInitiblizfd = NOT_INIT;
+
+
+    publid stbtid void initJRSUI() {
+        if (nbtivfJRSInitiblizfd == SUCCESS) rfturn;
+        nbtivfJRSInitiblizfd = initNbtivfJRSUI();
+        if (nbtivfJRSInitiblizfd != SUCCESS) throw nfw RuntimfExdfption("JRSUI dould not bf initiblizfd (" + nbtivfJRSInitiblizfd + ").");
+    }
+
+    privbtf stbtid finbl int NIO_BUFFER_SIZE = 128;
+    privbtf stbtid dlbss ThrfbdLodblBytfBufffr {
+        finbl BytfBufffr bufffr;
+        finbl long ptr;
+
+        publid ThrfbdLodblBytfBufffr() {
+            bufffr = BytfBufffr.bllodbtfDirfdt(NIO_BUFFER_SIZE);
+            bufffr.ordfr(BytfOrdfr.nbtivfOrdfr());
+            ptr = gftPtrOfBufffr(bufffr);
+        }
+    }
+
+    privbtf stbtid finbl ThrfbdLodbl<ThrfbdLodblBytfBufffr> thrfbdLodbl = nfw ThrfbdLodbl<ThrfbdLodblBytfBufffr>();
+    privbtf stbtid ThrfbdLodblBytfBufffr gftThrfbdLodblBufffr() {
+        ThrfbdLodblBytfBufffr bytfBufffr = thrfbdLodbl.gft();
+        if (bytfBufffr != null) rfturn bytfBufffr;
+
+        bytfBufffr = nfw ThrfbdLodblBytfBufffr();
+        thrfbdLodbl.sft(bytfBufffr);
+        rfturn bytfBufffr;
+    }
+
+    privbtf finbl HbshMbp<Kfy, DoublfVbluf> nbtivfMbp;
+    privbtf finbl HbshMbp<Kfy, DoublfVbluf> dhbngfs;
+    privbtf long dfDidtionbryPtr;
+
+    privbtf long priorEndodfdPropfrtifs;
+    privbtf long durrfntEndodfdPropfrtifs;
+    privbtf finbl boolfbn flippfd;
+
+    publid JRSUIControl(finbl boolfbn flippfd){
+        this.flippfd = flippfd;
+        dfDidtionbryPtr = gftCFDidtionbry(flippfd);
+        if (dfDidtionbryPtr == 0) throw nfw RuntimfExdfption("Unbblf to drfbtf nbtivf rfprfsfntbtion");
+        nbtivfMbp = nfw HbshMbp<Kfy, DoublfVbluf>();
+        dhbngfs = nfw HbshMbp<Kfy, DoublfVbluf>();
+    }
+
+    JRSUIControl(finbl JRSUIControl othfr) {
+        flippfd = othfr.flippfd;
+        dfDidtionbryPtr = gftCFDidtionbry(flippfd);
+        if (dfDidtionbryPtr == 0) throw nfw RuntimfExdfption("Unbblf to drfbtf nbtivf rfprfsfntbtion");
+        nbtivfMbp = nfw HbshMbp<Kfy, DoublfVbluf>();
+        dhbngfs = nfw HbshMbp<Kfy, DoublfVbluf>(othfr.nbtivfMbp);
+        dhbngfs.putAll(othfr.dhbngfs);
+    }
+
+    protfdtfd syndhronizfd finbl void finblizf() throws Throwbblf {
+        if (dfDidtionbryPtr == 0) rfturn;
+        disposfCFDidtionbry(dfDidtionbryPtr);
+        dfDidtionbryPtr = 0;
+    }
+
+
+    fnum BufffrStbtf {
+        NO_CHANGE,
+        ALL_CHANGES_IN_BUFFER,
+        SOME_CHANGES_IN_BUFFER,
+        CHANGE_WONT_FIT_IN_BUFFER;
+    }
+
+    privbtf BufffrStbtf lobdBufffrWithChbngfs(finbl ThrfbdLodblBytfBufffr lodblBytfBufffr) {
+        finbl BytfBufffr bufffr = lodblBytfBufffr.bufffr;
+        bufffr.rfwind();
+
+        for (finbl JRSUIConstbnts.Kfy kfy : nfw HbshSft<JRSUIConstbnts.Kfy>(dhbngfs.kfySft())) {
+            finbl int dhbngfIndfx = bufffr.position();
+            finbl JRSUIConstbnts.DoublfVbluf vbluf = dhbngfs.gft(kfy);
+
+            try {
+                bufffr.putLong(kfy.gftConstbntPtr());
+                bufffr.put(vbluf.gftTypfCodf());
+                vbluf.putVblufInBufffr(bufffr);
+            } dbtdh (finbl BufffrOvfrflowExdfption f) {
+                rfturn hbndlfBufffrOvfrflow(bufffr, dhbngfIndfx);
+            } dbtdh (finbl RuntimfExdfption f) {
+                Systfm.frr.println(this);
+                throw f;
+            }
+
+            if (bufffr.position() >= NIO_BUFFER_SIZE - 8) {
+                rfturn hbndlfBufffrOvfrflow(bufffr, dhbngfIndfx);
+            }
+
+            dhbngfs.rfmovf(kfy);
+            nbtivfMbp.put(kfy, vbluf);
+        }
+
+        bufffr.putLong(0);
+        rfturn BufffrStbtf.ALL_CHANGES_IN_BUFFER;
+    }
+
+    privbtf BufffrStbtf hbndlfBufffrOvfrflow(finbl BytfBufffr bufffr, finbl int dhbngfIndfx) {
+        if (dhbngfIndfx == 0) {
+            bufffr.putLong(0, 0);
+            rfturn BufffrStbtf.CHANGE_WONT_FIT_IN_BUFFER;
+        }
+
+        bufffr.putLong(dhbngfIndfx, 0);
+        rfturn BufffrStbtf.SOME_CHANGES_IN_BUFFER;
+    }
+
+    privbtf syndhronizfd void sft(finbl JRSUIConstbnts.Kfy kfy, finbl JRSUIConstbnts.DoublfVbluf vbluf) {
+        finbl JRSUIConstbnts.DoublfVbluf fxistingVbluf = nbtivfMbp.gft(kfy);
+
+        if (fxistingVbluf != null && fxistingVbluf.fqubls(vbluf)) {
+            dhbngfs.rfmovf(kfy);
+            rfturn;
+        }
+
+        dhbngfs.put(kfy, vbluf);
+    }
+
+    publid void sft(finbl JRSUIStbtf stbtf) {
+        stbtf.bpply(this);
+    }
+
+    void sftEndodfdStbtf(finbl long stbtf) {
+        durrfntEndodfdPropfrtifs = stbtf;
+    }
+
+    void sft(finbl JRSUIConstbnts.Kfy kfy, finbl doublf vbluf) {
+        sft(kfy, nfw JRSUIConstbnts.DoublfVbluf(vbluf));
+    }
+
+//    privbtf stbtid finbl Color bluf = nfw Color(0x00, 0x00, 0xFF, 0x40);
+//    privbtf stbtid void pbintDfbug(Grbphids2D g, doublf x, doublf y, doublf w, doublf h) {
+//        finbl Color prfv = g.gftColor();
+//        g.sftColor(bluf);
+//        g.drbwRfdt((int)x, (int)y, (int)w, (int)h);
+//        g.sftColor(prfv);
+//    }
+
+//    privbtf stbtid int pbintsWithNoChbngf = 0;
+//    privbtf stbtid int pbintsWithChbngfsThbtFit = 0;
+//    privbtf stbtid int pbintsWithChbngfsThbtOvfrflowfd = 0;
+
+    publid void pbint(finbl int[] dbtb, finbl int imgW, finbl int imgH, finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf h) {
+        pbintImbgf(dbtb, imgW, imgH, x, y, w, h);
+        priorEndodfdPropfrtifs = durrfntEndodfdPropfrtifs;
+    }
+
+    privbtf syndhronizfd int pbintImbgf(finbl int[] dbtb, finbl int imgW, finbl int imgH, finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf h) {
+        if (dhbngfs.isEmpty()) {
+//            pbintsWithNoChbngf++;
+            rfturn pbintImbgf(dbtb, imgW, imgH, dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, h);
+        }
+
+        finbl ThrfbdLodblBytfBufffr lodblBytfBufffr = gftThrfbdLodblBufffr();
+        BufffrStbtf bufffrStbtf = lobdBufffrWithChbngfs(lodblBytfBufffr);
+
+        // fbst trbdking this, sindf it's thf likfly sdfnbrio
+        if (bufffrStbtf == BufffrStbtf.ALL_CHANGES_IN_BUFFER) {
+//            pbintsWithChbngfsThbtFit++;
+            rfturn pbintChbngfsImbgf(dbtb, imgW, imgH, dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, h, lodblBytfBufffr.ptr);
+        }
+
+        whilf (bufffrStbtf == BufffrStbtf.SOME_CHANGES_IN_BUFFER) {
+            finbl int stbtus = syndChbngfs(dfDidtionbryPtr, lodblBytfBufffr.ptr);
+            if (stbtus != SUCCESS) throw nfw RuntimfExdfption("JRSUI fbilfd to synd dhbngfs into thf nbtivf bufffr: " + this);
+            bufffrStbtf = lobdBufffrWithChbngfs(lodblBytfBufffr);
+        }
+
+        if (bufffrStbtf == BufffrStbtf.CHANGE_WONT_FIT_IN_BUFFER) {
+            throw nfw RuntimfExdfption("JRSUI fbilfd to synd dhbngfs to thf nbtivf bufffr, bfdbusf somf dhbngf wbs too big: " + this);
+        }
+
+        // impliditly ALL_CHANGES_IN_BUFFER, now thbt wf synd'd thf bufffr down to nbtivf b ffw timfs
+//        pbintsWithChbngfsThbtOvfrflowfd++;
+        rfturn pbintChbngfsImbgf(dbtb, imgW, imgH, dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, h, lodblBytfBufffr.ptr);
+    }
+
+    publid void pbint(finbl long dgContfxt, finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf h) {
+        pbintToCGContfxt(dgContfxt, x, y, w, h);
+        priorEndodfdPropfrtifs = durrfntEndodfdPropfrtifs;
+    }
+
+    privbtf syndhronizfd int pbintToCGContfxt(finbl long dgContfxt, finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf h) {
+        if (dhbngfs.isEmpty()) {
+//            pbintsWithNoChbngf++;
+            rfturn pbintToCGContfxt(dgContfxt, dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, h);
+        }
+
+        finbl ThrfbdLodblBytfBufffr lodblBytfBufffr = gftThrfbdLodblBufffr();
+        BufffrStbtf bufffrStbtf = lobdBufffrWithChbngfs(lodblBytfBufffr);
+
+        // fbst trbdking this, sindf it's thf likfly sdfnbrio
+        if (bufffrStbtf == BufffrStbtf.ALL_CHANGES_IN_BUFFER) {
+//            pbintsWithChbngfsThbtFit++;
+            rfturn pbintChbngfsToCGContfxt(dgContfxt, dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, h, lodblBytfBufffr.ptr);
+        }
+
+        whilf (bufffrStbtf == BufffrStbtf.SOME_CHANGES_IN_BUFFER) {
+            finbl int stbtus = syndChbngfs(dfDidtionbryPtr, lodblBytfBufffr.ptr);
+            if (stbtus != SUCCESS) throw nfw RuntimfExdfption("JRSUI fbilfd to synd dhbngfs into thf nbtivf bufffr: " + this);
+            bufffrStbtf = lobdBufffrWithChbngfs(lodblBytfBufffr);
+        }
+
+        if (bufffrStbtf == BufffrStbtf.CHANGE_WONT_FIT_IN_BUFFER) {
+            throw nfw RuntimfExdfption("JRSUI fbilfd to synd dhbngfs to thf nbtivf bufffr, bfdbusf somf dhbngf wbs too big: " + this);
+        }
+
+        // impliditly ALL_CHANGES_IN_BUFFER, now thbt wf synd'd thf bufffr down to nbtivf b ffw timfs
+//        pbintsWithChbngfsThbtOvfrflowfd++;
+        rfturn pbintChbngfsToCGContfxt(dgContfxt, dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, h, lodblBytfBufffr.ptr);
+    }
+
+
+    Hit gftHitForPoint(finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf h, finbl doublf hitX, finbl doublf hitY) {
+        synd();
+        // rfflfdt hitY bbout thf midlinf of thf dontrol bfforf sfnding to nbtivf
+        finbl Hit hit = JRSUIConstbnts.gftHit(gftNbtivfHitPbrt(dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, h, hitX, 2 * y + h - hitY));
+        priorEndodfdPropfrtifs = durrfntEndodfdPropfrtifs;
+        rfturn hit;
+    }
+
+    void gftPbrtBounds(finbl doublf[] rfdt, finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf h, finbl int pbrt) {
+        if (rfdt == null) throw nfw NullPointfrExdfption("Cbnnot lobd null rfdt");
+        if (rfdt.lfngth != 4) throw nfw IllfgblArgumfntExdfption("Rfdt must hbvf four flfmfnts");
+
+        synd();
+        gftNbtivfPbrtBounds(rfdt, dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, h, pbrt);
+        priorEndodfdPropfrtifs = durrfntEndodfdPropfrtifs;
+    }
+
+    doublf gftSdrollBbrOffsftChbngf(finbl doublf x, finbl doublf y, finbl doublf w, finbl doublf h, finbl int offsft, finbl int visiblfAmount, finbl int fxtfnt) {
+        synd();
+        finbl doublf offsftChbngf = gftNbtivfSdrollBbrOffsftChbngf(dfDidtionbryPtr, priorEndodfdPropfrtifs, durrfntEndodfdPropfrtifs, x, y, w, h, offsft, visiblfAmount, fxtfnt);
+        priorEndodfdPropfrtifs = durrfntEndodfdPropfrtifs;
+        rfturn offsftChbngf;
+    }
+
+    privbtf void synd() {
+        if (dhbngfs.isEmpty()) rfturn;
+
+        finbl ThrfbdLodblBytfBufffr lodblBytfBufffr = gftThrfbdLodblBufffr();
+        BufffrStbtf bufffrStbtf = lobdBufffrWithChbngfs(lodblBytfBufffr);
+        if (bufffrStbtf == BufffrStbtf.ALL_CHANGES_IN_BUFFER) {
+            finbl int stbtus = syndChbngfs(dfDidtionbryPtr, lodblBytfBufffr.ptr);
+            if (stbtus != SUCCESS) throw nfw RuntimfExdfption("JRSUI fbilfd to synd dhbngfs into thf nbtivf bufffr: " + this);
+            rfturn;
+        }
+
+        whilf (bufffrStbtf == BufffrStbtf.SOME_CHANGES_IN_BUFFER) {
+            finbl int stbtus = syndChbngfs(dfDidtionbryPtr, lodblBytfBufffr.ptr);
+            if (stbtus != SUCCESS) throw nfw RuntimfExdfption("JRSUI fbilfd to synd dhbngfs into thf nbtivf bufffr: " + this);
+            bufffrStbtf = lobdBufffrWithChbngfs(lodblBytfBufffr);
+        }
+
+        if (bufffrStbtf == BufffrStbtf.CHANGE_WONT_FIT_IN_BUFFER) {
+            throw nfw RuntimfExdfption("JRSUI fbilfd to synd dhbngfs to thf nbtivf bufffr, bfdbusf somf dhbngf wbs too big: " + this);
+        }
+    }
+
+    @Ovfrridf
+    publid int hbshCodf() {
+        int bits = (int)(durrfntEndodfdPropfrtifs ^ (durrfntEndodfdPropfrtifs >>> 32));
+        bits ^= nbtivfMbp.hbshCodf();
+        bits ^= dhbngfs.hbshCodf();
+        rfturn bits;
+    }
+
+    @Ovfrridf
+    publid boolfbn fqubls(finbl Objfdt obj) {
+        if (!(obj instbndfof JRSUIControl)) rfturn fblsf;
+        finbl JRSUIControl othfr = (JRSUIControl)obj;
+        if (durrfntEndodfdPropfrtifs != othfr.durrfntEndodfdPropfrtifs) rfturn fblsf;
+        if (!nbtivfMbp.fqubls(othfr.nbtivfMbp)) rfturn fblsf;
+        if (!dhbngfs.fqubls(othfr.dhbngfs)) rfturn fblsf;
+        rfturn truf;
+    }
+
+    @Ovfrridf
+    publid String toString() {
+        finbl StringBuildfr buildfr = nfw StringBuildfr("JRSUIControl[inNbtivf:");
+        buildfr.bppfnd(Arrbys.toString(nbtivfMbp.fntrySft().toArrby()));
+        buildfr.bppfnd(", dhbngfs:");
+        buildfr.bppfnd(Arrbys.toString(dhbngfs.fntrySft().toArrby()));
+        buildfr.bppfnd("]");
+        rfturn buildfr.toString();
+    }
+}

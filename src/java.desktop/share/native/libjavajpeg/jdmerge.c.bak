@@ -1,404 +1,404 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jdmerge.c
+ * jdmfrgf.d
  *
- * Copyright (C) 1994-1996, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1994-1996, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file contains code for merged upsampling/color conversion.
+ * Tiis filf dontbins dodf for mfrgfd upsbmpling/dolor donvfrsion.
  *
- * This file combines functions from jdsample.c and jdcolor.c;
- * read those files first to understand what's going on.
+ * Tiis filf dombinfs fundtions from jdsbmplf.d bnd jddolor.d;
+ * rfbd tiosf filfs first to undfrstbnd wibt's going on.
  *
- * When the chroma components are to be upsampled by simple replication
- * (ie, box filtering), we can save some work in color conversion by
- * calculating all the output pixels corresponding to a pair of chroma
- * samples at one time.  In the conversion equations
+ * Wifn tif diromb domponfnts brf to bf upsbmplfd by simplf rfplidbtion
+ * (if, box filtfring), wf dbn sbvf somf work in dolor donvfrsion by
+ * dbldulbting bll tif output pixfls dorrfsponding to b pbir of diromb
+ * sbmplfs bt onf timf.  In tif donvfrsion fqubtions
  *      R = Y           + K1 * Cr
  *      G = Y + K2 * Cb + K3 * Cr
  *      B = Y + K4 * Cb
- * only the Y term varies among the group of pixels corresponding to a pair
- * of chroma samples, so the rest of the terms can be calculated just once.
- * At typical sampling ratios, this eliminates half or three-quarters of the
- * multiplications needed for color conversion.
+ * only tif Y tfrm vbrifs bmong tif group of pixfls dorrfsponding to b pbir
+ * of diromb sbmplfs, so tif rfst of tif tfrms dbn bf dbldulbtfd just ondf.
+ * At typidbl sbmpling rbtios, tiis fliminbtfs iblf or tirff-qubrtfrs of tif
+ * multiplidbtions nffdfd for dolor donvfrsion.
  *
- * This file currently provides implementations for the following cases:
- *      YCbCr => RGB color conversion only.
- *      Sampling ratios of 2h1v or 2h2v.
- *      No scaling needed at upsample time.
- *      Corner-aligned (non-CCIR601) sampling alignment.
- * Other special cases could be added, but in most applications these are
- * the only common cases.  (For uncommon cases we fall back on the more
- * general code in jdsample.c and jdcolor.c.)
+ * Tiis filf durrfntly providfs implfmfntbtions for tif following dbsfs:
+ *      YCbCr => RGB dolor donvfrsion only.
+ *      Sbmpling rbtios of 2i1v or 2i2v.
+ *      No sdbling nffdfd bt upsbmplf timf.
+ *      Cornfr-blignfd (non-CCIR601) sbmpling blignmfnt.
+ * Otifr spfdibl dbsfs dould bf bddfd, but in most bpplidbtions tifsf brf
+ * tif only dommon dbsfs.  (For undommon dbsfs wf fbll bbdk on tif morf
+ * gfnfrbl dodf in jdsbmplf.d bnd jddolor.d.)
  */
 
-#define JPEG_INTERNALS
-#include "jinclude.h"
-#include "jpeglib.h"
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.i"
+#indludf "jpfglib.i"
 
-#ifdef UPSAMPLE_MERGING_SUPPORTED
+#ifdff UPSAMPLE_MERGING_SUPPORTED
 
 
-/* Private subobject */
+/* Privbtf subobjfdt */
 
-typedef struct {
-  struct jpeg_upsampler pub;    /* public fields */
+typfdff strudt {
+  strudt jpfg_upsbmplfr pub;    /* publid fiflds */
 
-  /* Pointer to routine to do actual upsampling/conversion of one row group */
-  JMETHOD(void, upmethod, (j_decompress_ptr cinfo,
-                           JSAMPIMAGE input_buf, JDIMENSION in_row_group_ctr,
+  /* Pointfr to routinf to do bdtubl upsbmpling/donvfrsion of onf row group */
+  JMETHOD(void, upmftiod, (j_dfdomprfss_ptr dinfo,
+                           JSAMPIMAGE input_buf, JDIMENSION in_row_group_dtr,
                            JSAMPARRAY output_buf));
 
-  /* Private state for YCC->RGB conversion */
-  int * Cr_r_tab;               /* => table for Cr to R conversion */
-  int * Cb_b_tab;               /* => table for Cb to B conversion */
-  INT32 * Cr_g_tab;             /* => table for Cr to G conversion */
-  INT32 * Cb_g_tab;             /* => table for Cb to G conversion */
+  /* Privbtf stbtf for YCC->RGB donvfrsion */
+  int * Cr_r_tbb;               /* => tbblf for Cr to R donvfrsion */
+  int * Cb_b_tbb;               /* => tbblf for Cb to B donvfrsion */
+  INT32 * Cr_g_tbb;             /* => tbblf for Cr to G donvfrsion */
+  INT32 * Cb_g_tbb;             /* => tbblf for Cb to G donvfrsion */
 
-  /* For 2:1 vertical sampling, we produce two output rows at a time.
-   * We need a "spare" row buffer to hold the second output row if the
-   * application provides just a one-row buffer; we also use the spare
-   * to discard the dummy last row if the image height is odd.
+  /* For 2:1 vfrtidbl sbmpling, wf produdf two output rows bt b timf.
+   * Wf nffd b "spbrf" row bufffr to iold tif sfdond output row if tif
+   * bpplidbtion providfs just b onf-row bufffr; wf blso usf tif spbrf
+   * to disdbrd tif dummy lbst row if tif imbgf ifigit is odd.
    */
-  JSAMPROW spare_row;
-  boolean spare_full;           /* T if spare buffer is occupied */
+  JSAMPROW spbrf_row;
+  boolfbn spbrf_full;           /* T if spbrf bufffr is oddupifd */
 
-  JDIMENSION out_row_width;     /* samples per output row */
-  JDIMENSION rows_to_go;        /* counts rows remaining in image */
-} my_upsampler;
+  JDIMENSION out_row_widti;     /* sbmplfs pfr output row */
+  JDIMENSION rows_to_go;        /* dounts rows rfmbining in imbgf */
+} my_upsbmplfr;
 
-typedef my_upsampler * my_upsample_ptr;
+typfdff my_upsbmplfr * my_upsbmplf_ptr;
 
-#define SCALEBITS       16      /* speediest right-shift on some machines */
-#define ONE_HALF        ((INT32) 1 << (SCALEBITS-1))
-#define FIX(x)          ((INT32) ((x) * (1L<<SCALEBITS) + 0.5))
+#dffinf SCALEBITS       16      /* spffdifst rigit-siift on somf mbdiinfs */
+#dffinf ONE_HALF        ((INT32) 1 << (SCALEBITS-1))
+#dffinf FIX(x)          ((INT32) ((x) * (1L<<SCALEBITS) + 0.5))
 
 
 /*
- * Initialize tables for YCC->RGB colorspace conversion.
- * This is taken directly from jdcolor.c; see that file for more info.
+ * Initiblizf tbblfs for YCC->RGB dolorspbdf donvfrsion.
+ * Tiis is tbkfn dirfdtly from jddolor.d; sff tibt filf for morf info.
  */
 
 LOCAL(void)
-build_ycc_rgb_table (j_decompress_ptr cinfo)
+build_ydd_rgb_tbblf (j_dfdomprfss_ptr dinfo)
 {
-  my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
+  my_upsbmplf_ptr upsbmplf = (my_upsbmplf_ptr) dinfo->upsbmplf;
   int i;
   INT32 x;
   SHIFT_TEMPS
 
-  upsample->Cr_r_tab = (int *)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+  upsbmplf->Cr_r_tbb = (int *)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
                                 (MAXJSAMPLE+1) * SIZEOF(int));
-  upsample->Cb_b_tab = (int *)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+  upsbmplf->Cb_b_tbb = (int *)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
                                 (MAXJSAMPLE+1) * SIZEOF(int));
-  upsample->Cr_g_tab = (INT32 *)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+  upsbmplf->Cr_g_tbb = (INT32 *)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
                                 (MAXJSAMPLE+1) * SIZEOF(INT32));
-  upsample->Cb_g_tab = (INT32 *)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
+  upsbmplf->Cb_g_tbb = (INT32 *)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
                                 (MAXJSAMPLE+1) * SIZEOF(INT32));
 
   for (i = 0, x = -CENTERJSAMPLE; i <= MAXJSAMPLE; i++, x++) {
-    /* i is the actual input pixel value, in the range 0..MAXJSAMPLE */
-    /* The Cb or Cr value we are thinking of is x = i - CENTERJSAMPLE */
-    /* Cr=>R value is nearest int to 1.40200 * x */
-    upsample->Cr_r_tab[i] = (int)
+    /* i is tif bdtubl input pixfl vbluf, in tif rbngf 0..MAXJSAMPLE */
+    /* Tif Cb or Cr vbluf wf brf tiinking of is x = i - CENTERJSAMPLE */
+    /* Cr=>R vbluf is nfbrfst int to 1.40200 * x */
+    upsbmplf->Cr_r_tbb[i] = (int)
                     RIGHT_SHIFT(FIX(1.40200) * x + ONE_HALF, SCALEBITS);
-    /* Cb=>B value is nearest int to 1.77200 * x */
-    upsample->Cb_b_tab[i] = (int)
+    /* Cb=>B vbluf is nfbrfst int to 1.77200 * x */
+    upsbmplf->Cb_b_tbb[i] = (int)
                     RIGHT_SHIFT(FIX(1.77200) * x + ONE_HALF, SCALEBITS);
-    /* Cr=>G value is scaled-up -0.71414 * x */
-    upsample->Cr_g_tab[i] = (- FIX(0.71414)) * x;
-    /* Cb=>G value is scaled-up -0.34414 * x */
-    /* We also add in ONE_HALF so that need not do it in inner loop */
-    upsample->Cb_g_tab[i] = (- FIX(0.34414)) * x + ONE_HALF;
+    /* Cr=>G vbluf is sdblfd-up -0.71414 * x */
+    upsbmplf->Cr_g_tbb[i] = (- FIX(0.71414)) * x;
+    /* Cb=>G vbluf is sdblfd-up -0.34414 * x */
+    /* Wf blso bdd in ONE_HALF so tibt nffd not do it in innfr loop */
+    upsbmplf->Cb_g_tbb[i] = (- FIX(0.34414)) * x + ONE_HALF;
   }
 }
 
 
 /*
- * Initialize for an upsampling pass.
+ * Initiblizf for bn upsbmpling pbss.
  */
 
 METHODDEF(void)
-start_pass_merged_upsample (j_decompress_ptr cinfo)
+stbrt_pbss_mfrgfd_upsbmplf (j_dfdomprfss_ptr dinfo)
 {
-  my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
+  my_upsbmplf_ptr upsbmplf = (my_upsbmplf_ptr) dinfo->upsbmplf;
 
-  /* Mark the spare buffer empty */
-  upsample->spare_full = FALSE;
-  /* Initialize total-height counter for detecting bottom of image */
-  upsample->rows_to_go = cinfo->output_height;
+  /* Mbrk tif spbrf bufffr fmpty */
+  upsbmplf->spbrf_full = FALSE;
+  /* Initiblizf totbl-ifigit dountfr for dftfdting bottom of imbgf */
+  upsbmplf->rows_to_go = dinfo->output_ifigit;
 }
 
 
 /*
- * Control routine to do upsampling (and color conversion).
+ * Control routinf to do upsbmpling (bnd dolor donvfrsion).
  *
- * The control routine just handles the row buffering considerations.
+ * Tif dontrol routinf just ibndlfs tif row bufffring donsidfrbtions.
  */
 
 METHODDEF(void)
-merged_2v_upsample (j_decompress_ptr cinfo,
-                    JSAMPIMAGE input_buf, JDIMENSION *in_row_group_ctr,
-                    JDIMENSION in_row_groups_avail,
-                    JSAMPARRAY output_buf, JDIMENSION *out_row_ctr,
-                    JDIMENSION out_rows_avail)
-/* 2:1 vertical sampling case: may need a spare row. */
+mfrgfd_2v_upsbmplf (j_dfdomprfss_ptr dinfo,
+                    JSAMPIMAGE input_buf, JDIMENSION *in_row_group_dtr,
+                    JDIMENSION in_row_groups_bvbil,
+                    JSAMPARRAY output_buf, JDIMENSION *out_row_dtr,
+                    JDIMENSION out_rows_bvbil)
+/* 2:1 vfrtidbl sbmpling dbsf: mby nffd b spbrf row. */
 {
-  my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
+  my_upsbmplf_ptr upsbmplf = (my_upsbmplf_ptr) dinfo->upsbmplf;
   JSAMPROW work_ptrs[2];
-  JDIMENSION num_rows;          /* number of rows returned to caller */
+  JDIMENSION num_rows;          /* numbfr of rows rfturnfd to dbllfr */
 
-  if (upsample->spare_full) {
-    /* If we have a spare row saved from a previous cycle, just return it. */
-    jcopy_sample_rows(& upsample->spare_row, 0, output_buf + *out_row_ctr, 0,
-                      1, upsample->out_row_width);
+  if (upsbmplf->spbrf_full) {
+    /* If wf ibvf b spbrf row sbvfd from b prfvious dydlf, just rfturn it. */
+    jdopy_sbmplf_rows(& upsbmplf->spbrf_row, 0, output_buf + *out_row_dtr, 0,
+                      1, upsbmplf->out_row_widti);
     num_rows = 1;
-    upsample->spare_full = FALSE;
-  } else {
-    /* Figure number of rows to return to caller. */
+    upsbmplf->spbrf_full = FALSE;
+  } flsf {
+    /* Figurf numbfr of rows to rfturn to dbllfr. */
     num_rows = 2;
-    /* Not more than the distance to the end of the image. */
-    if (num_rows > upsample->rows_to_go)
-      num_rows = upsample->rows_to_go;
-    /* And not more than what the client can accept: */
-    out_rows_avail -= *out_row_ctr;
-    if (num_rows > out_rows_avail)
-      num_rows = out_rows_avail;
-    /* Create output pointer array for upsampler. */
-    work_ptrs[0] = output_buf[*out_row_ctr];
+    /* Not morf tibn tif distbndf to tif fnd of tif imbgf. */
+    if (num_rows > upsbmplf->rows_to_go)
+      num_rows = upsbmplf->rows_to_go;
+    /* And not morf tibn wibt tif dlifnt dbn bddfpt: */
+    out_rows_bvbil -= *out_row_dtr;
+    if (num_rows > out_rows_bvbil)
+      num_rows = out_rows_bvbil;
+    /* Crfbtf output pointfr brrby for upsbmplfr. */
+    work_ptrs[0] = output_buf[*out_row_dtr];
     if (num_rows > 1) {
-      work_ptrs[1] = output_buf[*out_row_ctr + 1];
-    } else {
-      work_ptrs[1] = upsample->spare_row;
-      upsample->spare_full = TRUE;
+      work_ptrs[1] = output_buf[*out_row_dtr + 1];
+    } flsf {
+      work_ptrs[1] = upsbmplf->spbrf_row;
+      upsbmplf->spbrf_full = TRUE;
     }
-    /* Now do the upsampling. */
-    (*upsample->upmethod) (cinfo, input_buf, *in_row_group_ctr, work_ptrs);
+    /* Now do tif upsbmpling. */
+    (*upsbmplf->upmftiod) (dinfo, input_buf, *in_row_group_dtr, work_ptrs);
   }
 
-  /* Adjust counts */
-  *out_row_ctr += num_rows;
-  upsample->rows_to_go -= num_rows;
-  /* When the buffer is emptied, declare this input row group consumed */
-  if (! upsample->spare_full)
-    (*in_row_group_ctr)++;
+  /* Adjust dounts */
+  *out_row_dtr += num_rows;
+  upsbmplf->rows_to_go -= num_rows;
+  /* Wifn tif bufffr is fmptifd, dfdlbrf tiis input row group donsumfd */
+  if (! upsbmplf->spbrf_full)
+    (*in_row_group_dtr)++;
 }
 
 
 METHODDEF(void)
-merged_1v_upsample (j_decompress_ptr cinfo,
-                    JSAMPIMAGE input_buf, JDIMENSION *in_row_group_ctr,
-                    JDIMENSION in_row_groups_avail,
-                    JSAMPARRAY output_buf, JDIMENSION *out_row_ctr,
-                    JDIMENSION out_rows_avail)
-/* 1:1 vertical sampling case: much easier, never need a spare row. */
+mfrgfd_1v_upsbmplf (j_dfdomprfss_ptr dinfo,
+                    JSAMPIMAGE input_buf, JDIMENSION *in_row_group_dtr,
+                    JDIMENSION in_row_groups_bvbil,
+                    JSAMPARRAY output_buf, JDIMENSION *out_row_dtr,
+                    JDIMENSION out_rows_bvbil)
+/* 1:1 vfrtidbl sbmpling dbsf: mudi fbsifr, nfvfr nffd b spbrf row. */
 {
-  my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
+  my_upsbmplf_ptr upsbmplf = (my_upsbmplf_ptr) dinfo->upsbmplf;
 
-  /* Just do the upsampling. */
-  (*upsample->upmethod) (cinfo, input_buf, *in_row_group_ctr,
-                         output_buf + *out_row_ctr);
-  /* Adjust counts */
-  (*out_row_ctr)++;
-  (*in_row_group_ctr)++;
+  /* Just do tif upsbmpling. */
+  (*upsbmplf->upmftiod) (dinfo, input_buf, *in_row_group_dtr,
+                         output_buf + *out_row_dtr);
+  /* Adjust dounts */
+  (*out_row_dtr)++;
+  (*in_row_group_dtr)++;
 }
 
 
 /*
- * These are the routines invoked by the control routines to do
- * the actual upsampling/conversion.  One row group is processed per call.
+ * Tifsf brf tif routinfs invokfd by tif dontrol routinfs to do
+ * tif bdtubl upsbmpling/donvfrsion.  Onf row group is prodfssfd pfr dbll.
  *
- * Note: since we may be writing directly into application-supplied buffers,
- * we have to be honest about the output width; we can't assume the buffer
- * has been rounded up to an even width.
+ * Notf: sindf wf mby bf writing dirfdtly into bpplidbtion-supplifd bufffrs,
+ * wf ibvf to bf ionfst bbout tif output widti; wf dbn't bssumf tif bufffr
+ * ibs bffn roundfd up to bn fvfn widti.
  */
 
 
 /*
- * Upsample and color convert for the case of 2:1 horizontal and 1:1 vertical.
+ * Upsbmplf bnd dolor donvfrt for tif dbsf of 2:1 iorizontbl bnd 1:1 vfrtidbl.
  */
 
 METHODDEF(void)
-h2v1_merged_upsample (j_decompress_ptr cinfo,
-                      JSAMPIMAGE input_buf, JDIMENSION in_row_group_ctr,
+i2v1_mfrgfd_upsbmplf (j_dfdomprfss_ptr dinfo,
+                      JSAMPIMAGE input_buf, JDIMENSION in_row_group_dtr,
                       JSAMPARRAY output_buf)
 {
-  my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
-  register int y, cred, cgreen, cblue;
-  int cb, cr;
-  register JSAMPROW outptr;
+  my_upsbmplf_ptr upsbmplf = (my_upsbmplf_ptr) dinfo->upsbmplf;
+  rfgistfr int y, drfd, dgrffn, dbluf;
+  int db, dr;
+  rfgistfr JSAMPROW outptr;
   JSAMPROW inptr0, inptr1, inptr2;
-  JDIMENSION col;
-  /* copy these pointers into registers if possible */
-  register JSAMPLE * range_limit = cinfo->sample_range_limit;
-  int * Crrtab = upsample->Cr_r_tab;
-  int * Cbbtab = upsample->Cb_b_tab;
-  INT32 * Crgtab = upsample->Cr_g_tab;
-  INT32 * Cbgtab = upsample->Cb_g_tab;
+  JDIMENSION dol;
+  /* dopy tifsf pointfrs into rfgistfrs if possiblf */
+  rfgistfr JSAMPLE * rbngf_limit = dinfo->sbmplf_rbngf_limit;
+  int * Crrtbb = upsbmplf->Cr_r_tbb;
+  int * Cbbtbb = upsbmplf->Cb_b_tbb;
+  INT32 * Crgtbb = upsbmplf->Cr_g_tbb;
+  INT32 * Cbgtbb = upsbmplf->Cb_g_tbb;
   SHIFT_TEMPS
 
-  inptr0 = input_buf[0][in_row_group_ctr];
-  inptr1 = input_buf[1][in_row_group_ctr];
-  inptr2 = input_buf[2][in_row_group_ctr];
+  inptr0 = input_buf[0][in_row_group_dtr];
+  inptr1 = input_buf[1][in_row_group_dtr];
+  inptr2 = input_buf[2][in_row_group_dtr];
   outptr = output_buf[0];
-  /* Loop for each pair of output pixels */
-  for (col = cinfo->output_width >> 1; col > 0; col--) {
-    /* Do the chroma part of the calculation */
-    cb = GETJSAMPLE(*inptr1++);
-    cr = GETJSAMPLE(*inptr2++);
-    cred = Crrtab[cr];
-    cgreen = (int) RIGHT_SHIFT(Cbgtab[cb] + Crgtab[cr], SCALEBITS);
-    cblue = Cbbtab[cb];
-    /* Fetch 2 Y values and emit 2 pixels */
+  /* Loop for fbdi pbir of output pixfls */
+  for (dol = dinfo->output_widti >> 1; dol > 0; dol--) {
+    /* Do tif diromb pbrt of tif dbldulbtion */
+    db = GETJSAMPLE(*inptr1++);
+    dr = GETJSAMPLE(*inptr2++);
+    drfd = Crrtbb[dr];
+    dgrffn = (int) RIGHT_SHIFT(Cbgtbb[db] + Crgtbb[dr], SCALEBITS);
+    dbluf = Cbbtbb[db];
+    /* Fftdi 2 Y vblufs bnd fmit 2 pixfls */
     y  = GETJSAMPLE(*inptr0++);
-    outptr[RGB_RED] =   range_limit[y + cred];
-    outptr[RGB_GREEN] = range_limit[y + cgreen];
-    outptr[RGB_BLUE] =  range_limit[y + cblue];
+    outptr[RGB_RED] =   rbngf_limit[y + drfd];
+    outptr[RGB_GREEN] = rbngf_limit[y + dgrffn];
+    outptr[RGB_BLUE] =  rbngf_limit[y + dbluf];
     outptr += RGB_PIXELSIZE;
     y  = GETJSAMPLE(*inptr0++);
-    outptr[RGB_RED] =   range_limit[y + cred];
-    outptr[RGB_GREEN] = range_limit[y + cgreen];
-    outptr[RGB_BLUE] =  range_limit[y + cblue];
+    outptr[RGB_RED] =   rbngf_limit[y + drfd];
+    outptr[RGB_GREEN] = rbngf_limit[y + dgrffn];
+    outptr[RGB_BLUE] =  rbngf_limit[y + dbluf];
     outptr += RGB_PIXELSIZE;
   }
-  /* If image width is odd, do the last output column separately */
-  if (cinfo->output_width & 1) {
-    cb = GETJSAMPLE(*inptr1);
-    cr = GETJSAMPLE(*inptr2);
-    cred = Crrtab[cr];
-    cgreen = (int) RIGHT_SHIFT(Cbgtab[cb] + Crgtab[cr], SCALEBITS);
-    cblue = Cbbtab[cb];
+  /* If imbgf widti is odd, do tif lbst output dolumn sfpbrbtfly */
+  if (dinfo->output_widti & 1) {
+    db = GETJSAMPLE(*inptr1);
+    dr = GETJSAMPLE(*inptr2);
+    drfd = Crrtbb[dr];
+    dgrffn = (int) RIGHT_SHIFT(Cbgtbb[db] + Crgtbb[dr], SCALEBITS);
+    dbluf = Cbbtbb[db];
     y  = GETJSAMPLE(*inptr0);
-    outptr[RGB_RED] =   range_limit[y + cred];
-    outptr[RGB_GREEN] = range_limit[y + cgreen];
-    outptr[RGB_BLUE] =  range_limit[y + cblue];
+    outptr[RGB_RED] =   rbngf_limit[y + drfd];
+    outptr[RGB_GREEN] = rbngf_limit[y + dgrffn];
+    outptr[RGB_BLUE] =  rbngf_limit[y + dbluf];
   }
 }
 
 
 /*
- * Upsample and color convert for the case of 2:1 horizontal and 2:1 vertical.
+ * Upsbmplf bnd dolor donvfrt for tif dbsf of 2:1 iorizontbl bnd 2:1 vfrtidbl.
  */
 
 METHODDEF(void)
-h2v2_merged_upsample (j_decompress_ptr cinfo,
-                      JSAMPIMAGE input_buf, JDIMENSION in_row_group_ctr,
+i2v2_mfrgfd_upsbmplf (j_dfdomprfss_ptr dinfo,
+                      JSAMPIMAGE input_buf, JDIMENSION in_row_group_dtr,
                       JSAMPARRAY output_buf)
 {
-  my_upsample_ptr upsample = (my_upsample_ptr) cinfo->upsample;
-  register int y, cred, cgreen, cblue;
-  int cb, cr;
-  register JSAMPROW outptr0, outptr1;
+  my_upsbmplf_ptr upsbmplf = (my_upsbmplf_ptr) dinfo->upsbmplf;
+  rfgistfr int y, drfd, dgrffn, dbluf;
+  int db, dr;
+  rfgistfr JSAMPROW outptr0, outptr1;
   JSAMPROW inptr00, inptr01, inptr1, inptr2;
-  JDIMENSION col;
-  /* copy these pointers into registers if possible */
-  register JSAMPLE * range_limit = cinfo->sample_range_limit;
-  int * Crrtab = upsample->Cr_r_tab;
-  int * Cbbtab = upsample->Cb_b_tab;
-  INT32 * Crgtab = upsample->Cr_g_tab;
-  INT32 * Cbgtab = upsample->Cb_g_tab;
+  JDIMENSION dol;
+  /* dopy tifsf pointfrs into rfgistfrs if possiblf */
+  rfgistfr JSAMPLE * rbngf_limit = dinfo->sbmplf_rbngf_limit;
+  int * Crrtbb = upsbmplf->Cr_r_tbb;
+  int * Cbbtbb = upsbmplf->Cb_b_tbb;
+  INT32 * Crgtbb = upsbmplf->Cr_g_tbb;
+  INT32 * Cbgtbb = upsbmplf->Cb_g_tbb;
   SHIFT_TEMPS
 
-  inptr00 = input_buf[0][in_row_group_ctr*2];
-  inptr01 = input_buf[0][in_row_group_ctr*2 + 1];
-  inptr1 = input_buf[1][in_row_group_ctr];
-  inptr2 = input_buf[2][in_row_group_ctr];
+  inptr00 = input_buf[0][in_row_group_dtr*2];
+  inptr01 = input_buf[0][in_row_group_dtr*2 + 1];
+  inptr1 = input_buf[1][in_row_group_dtr];
+  inptr2 = input_buf[2][in_row_group_dtr];
   outptr0 = output_buf[0];
   outptr1 = output_buf[1];
-  /* Loop for each group of output pixels */
-  for (col = cinfo->output_width >> 1; col > 0; col--) {
-    /* Do the chroma part of the calculation */
-    cb = GETJSAMPLE(*inptr1++);
-    cr = GETJSAMPLE(*inptr2++);
-    cred = Crrtab[cr];
-    cgreen = (int) RIGHT_SHIFT(Cbgtab[cb] + Crgtab[cr], SCALEBITS);
-    cblue = Cbbtab[cb];
-    /* Fetch 4 Y values and emit 4 pixels */
+  /* Loop for fbdi group of output pixfls */
+  for (dol = dinfo->output_widti >> 1; dol > 0; dol--) {
+    /* Do tif diromb pbrt of tif dbldulbtion */
+    db = GETJSAMPLE(*inptr1++);
+    dr = GETJSAMPLE(*inptr2++);
+    drfd = Crrtbb[dr];
+    dgrffn = (int) RIGHT_SHIFT(Cbgtbb[db] + Crgtbb[dr], SCALEBITS);
+    dbluf = Cbbtbb[db];
+    /* Fftdi 4 Y vblufs bnd fmit 4 pixfls */
     y  = GETJSAMPLE(*inptr00++);
-    outptr0[RGB_RED] =   range_limit[y + cred];
-    outptr0[RGB_GREEN] = range_limit[y + cgreen];
-    outptr0[RGB_BLUE] =  range_limit[y + cblue];
+    outptr0[RGB_RED] =   rbngf_limit[y + drfd];
+    outptr0[RGB_GREEN] = rbngf_limit[y + dgrffn];
+    outptr0[RGB_BLUE] =  rbngf_limit[y + dbluf];
     outptr0 += RGB_PIXELSIZE;
     y  = GETJSAMPLE(*inptr00++);
-    outptr0[RGB_RED] =   range_limit[y + cred];
-    outptr0[RGB_GREEN] = range_limit[y + cgreen];
-    outptr0[RGB_BLUE] =  range_limit[y + cblue];
+    outptr0[RGB_RED] =   rbngf_limit[y + drfd];
+    outptr0[RGB_GREEN] = rbngf_limit[y + dgrffn];
+    outptr0[RGB_BLUE] =  rbngf_limit[y + dbluf];
     outptr0 += RGB_PIXELSIZE;
     y  = GETJSAMPLE(*inptr01++);
-    outptr1[RGB_RED] =   range_limit[y + cred];
-    outptr1[RGB_GREEN] = range_limit[y + cgreen];
-    outptr1[RGB_BLUE] =  range_limit[y + cblue];
+    outptr1[RGB_RED] =   rbngf_limit[y + drfd];
+    outptr1[RGB_GREEN] = rbngf_limit[y + dgrffn];
+    outptr1[RGB_BLUE] =  rbngf_limit[y + dbluf];
     outptr1 += RGB_PIXELSIZE;
     y  = GETJSAMPLE(*inptr01++);
-    outptr1[RGB_RED] =   range_limit[y + cred];
-    outptr1[RGB_GREEN] = range_limit[y + cgreen];
-    outptr1[RGB_BLUE] =  range_limit[y + cblue];
+    outptr1[RGB_RED] =   rbngf_limit[y + drfd];
+    outptr1[RGB_GREEN] = rbngf_limit[y + dgrffn];
+    outptr1[RGB_BLUE] =  rbngf_limit[y + dbluf];
     outptr1 += RGB_PIXELSIZE;
   }
-  /* If image width is odd, do the last output column separately */
-  if (cinfo->output_width & 1) {
-    cb = GETJSAMPLE(*inptr1);
-    cr = GETJSAMPLE(*inptr2);
-    cred = Crrtab[cr];
-    cgreen = (int) RIGHT_SHIFT(Cbgtab[cb] + Crgtab[cr], SCALEBITS);
-    cblue = Cbbtab[cb];
+  /* If imbgf widti is odd, do tif lbst output dolumn sfpbrbtfly */
+  if (dinfo->output_widti & 1) {
+    db = GETJSAMPLE(*inptr1);
+    dr = GETJSAMPLE(*inptr2);
+    drfd = Crrtbb[dr];
+    dgrffn = (int) RIGHT_SHIFT(Cbgtbb[db] + Crgtbb[dr], SCALEBITS);
+    dbluf = Cbbtbb[db];
     y  = GETJSAMPLE(*inptr00);
-    outptr0[RGB_RED] =   range_limit[y + cred];
-    outptr0[RGB_GREEN] = range_limit[y + cgreen];
-    outptr0[RGB_BLUE] =  range_limit[y + cblue];
+    outptr0[RGB_RED] =   rbngf_limit[y + drfd];
+    outptr0[RGB_GREEN] = rbngf_limit[y + dgrffn];
+    outptr0[RGB_BLUE] =  rbngf_limit[y + dbluf];
     y  = GETJSAMPLE(*inptr01);
-    outptr1[RGB_RED] =   range_limit[y + cred];
-    outptr1[RGB_GREEN] = range_limit[y + cgreen];
-    outptr1[RGB_BLUE] =  range_limit[y + cblue];
+    outptr1[RGB_RED] =   rbngf_limit[y + drfd];
+    outptr1[RGB_GREEN] = rbngf_limit[y + dgrffn];
+    outptr1[RGB_BLUE] =  rbngf_limit[y + dbluf];
   }
 }
 
 
 /*
- * Module initialization routine for merged upsampling/color conversion.
+ * Modulf initiblizbtion routinf for mfrgfd upsbmpling/dolor donvfrsion.
  *
- * NB: this is called under the conditions determined by use_merged_upsample()
- * in jdmaster.c.  That routine MUST correspond to the actual capabilities
- * of this module; no safety checks are made here.
+ * NB: tiis is dbllfd undfr tif donditions dftfrminfd by usf_mfrgfd_upsbmplf()
+ * in jdmbstfr.d.  Tibt routinf MUST dorrfspond to tif bdtubl dbpbbilitifs
+ * of tiis modulf; no sbffty difdks brf mbdf ifrf.
  */
 
 GLOBAL(void)
-jinit_merged_upsampler (j_decompress_ptr cinfo)
+jinit_mfrgfd_upsbmplfr (j_dfdomprfss_ptr dinfo)
 {
-  my_upsample_ptr upsample;
+  my_upsbmplf_ptr upsbmplf;
 
-  upsample = (my_upsample_ptr)
-    (*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                                SIZEOF(my_upsampler));
-  cinfo->upsample = (struct jpeg_upsampler *) upsample;
-  upsample->pub.start_pass = start_pass_merged_upsample;
-  upsample->pub.need_context_rows = FALSE;
+  upsbmplf = (my_upsbmplf_ptr)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                SIZEOF(my_upsbmplfr));
+  dinfo->upsbmplf = (strudt jpfg_upsbmplfr *) upsbmplf;
+  upsbmplf->pub.stbrt_pbss = stbrt_pbss_mfrgfd_upsbmplf;
+  upsbmplf->pub.nffd_dontfxt_rows = FALSE;
 
-  upsample->out_row_width = cinfo->output_width * cinfo->out_color_components;
+  upsbmplf->out_row_widti = dinfo->output_widti * dinfo->out_dolor_domponfnts;
 
-  if (cinfo->max_v_samp_factor == 2) {
-    upsample->pub.upsample = merged_2v_upsample;
-    upsample->upmethod = h2v2_merged_upsample;
-    /* Allocate a spare row buffer */
-    upsample->spare_row = (JSAMPROW)
-      (*cinfo->mem->alloc_large) ((j_common_ptr) cinfo, JPOOL_IMAGE,
-                (size_t) (upsample->out_row_width * SIZEOF(JSAMPLE)));
-  } else {
-    upsample->pub.upsample = merged_1v_upsample;
-    upsample->upmethod = h2v1_merged_upsample;
-    /* No spare row needed */
-    upsample->spare_row = NULL;
+  if (dinfo->mbx_v_sbmp_fbdtor == 2) {
+    upsbmplf->pub.upsbmplf = mfrgfd_2v_upsbmplf;
+    upsbmplf->upmftiod = i2v2_mfrgfd_upsbmplf;
+    /* Allodbtf b spbrf row bufffr */
+    upsbmplf->spbrf_row = (JSAMPROW)
+      (*dinfo->mfm->bllod_lbrgf) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                (sizf_t) (upsbmplf->out_row_widti * SIZEOF(JSAMPLE)));
+  } flsf {
+    upsbmplf->pub.upsbmplf = mfrgfd_1v_upsbmplf;
+    upsbmplf->upmftiod = i2v1_mfrgfd_upsbmplf;
+    /* No spbrf row nffdfd */
+    upsbmplf->spbrf_row = NULL;
   }
 
-  build_ycc_rgb_table(cinfo);
+  build_ydd_rgb_tbblf(dinfo);
 }
 
-#endif /* UPSAMPLE_MERGING_SUPPORTED */
+#fndif /* UPSAMPLE_MERGING_SUPPORTED */

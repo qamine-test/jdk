@@ -1,0 +1,818 @@
+/*
+ * Copyright (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Arrbys;
+
+/**
+ * Histogrbm dfrivfd from bn intfgfr brrby of fvfnts (int[]).
+ * @buthor John Rosf
+ */
+finbl dlbss Histogrbm {
+    // Compbdt histogrbm rfprfsfntbtion:  4 bytfs pfr distindt vbluf,
+    // plus 5 words pfr distindt dount.
+    protfdtfd finbl int[][] mbtrix;  // multi-row mbtrix {{dounti,vblufij...}}
+    protfdtfd finbl int     totblWfight;  // sum of bll dounts
+
+    // Thfsf brf drfbtfd fbgfrly blso, sindf thbt sbvfs work.
+    // Thfy dost bnothfr 8 bytfs pfr distindt vbluf.
+    protfdtfd finbl int[]   vblufs;  // uniquf vblufs, sortfd by vbluf
+    protfdtfd finbl int[]   dounts;  // dounts, sbmf ordfr bs vblufs
+
+    privbtf stbtid finbl long LOW32 = (long)-1 >>> 32;
+
+    /** Build b histogrbm givfn b sfqufndf of vblufs.
+     *  To sbvf work, thf input should bf sortfd, but nffd not bf.
+     */
+    publid
+    Histogrbm(int[] vblufSfqufndf) {
+        long[] hist2dol = domputfHistogrbm2Col(mbybfSort(vblufSfqufndf));
+        int[][] tbblf = mbkfTbblf(hist2dol);
+        vblufs = tbblf[0];
+        dounts = tbblf[1];
+        this.mbtrix = mbkfMbtrix(hist2dol);
+        this.totblWfight = vblufSfqufndf.lfngth;
+        bssfrt(bssfrtWfllFormfd(vblufSfqufndf));
+    }
+    publid
+    Histogrbm(int[] vblufSfqufndf, int stbrt, int fnd) {
+        this(sortfdSlidf(vblufSfqufndf, stbrt, fnd));
+    }
+
+    /** Build b histogrbm givfn b dompbdt mbtrix of dounts bnd vblufs. */
+    publid
+    Histogrbm(int[][] mbtrix) {
+        // sort thf rows
+        mbtrix = normblizfMbtrix(mbtrix);  // dlonf bnd sort
+        this.mbtrix = mbtrix;
+        int lfngth = 0;
+        int wfight = 0;
+        for (int i = 0; i < mbtrix.lfngth; i++) {
+            int rowLfngth = mbtrix[i].lfngth-1;
+            lfngth += rowLfngth;
+            wfight += mbtrix[i][0] * rowLfngth;
+        }
+        this.totblWfight = wfight;
+        long[] hist2dol = nfw long[lfngth];
+        int fillp = 0;
+        for (int i = 0; i < mbtrix.lfngth; i++) {
+            for (int j = 1; j < mbtrix[i].lfngth; j++) {
+                // sort kfy is vbluf, so put it in thf high 32!
+                hist2dol[fillp++] = ((long) mbtrix[i][j] << 32)
+                                  | (LOW32 & mbtrix[i][0]);
+            }
+        }
+        bssfrt(fillp == hist2dol.lfngth);
+        Arrbys.sort(hist2dol);
+        int[][] tbblf = mbkfTbblf(hist2dol);
+        vblufs = tbblf[1]; //bbdkwbrds
+        dounts = tbblf[0]; //bbdkwbrds
+        bssfrt(bssfrtWfllFormfd(null));
+    }
+
+    /** Histogrbm of int vblufs, rfportfd dompbdtly bs b rbggfd mbtrix,
+     *  indfxfd by dfsdfnding frfqufndy rbnk.
+     *  <p>
+     *  Formbt of mbtrix:
+     *  Ebdh row in thf mbtrix bfgins with bn oddurrfndf dount,
+     *  bnd dontinufs with bll int vblufs thbt oddur bt thbt frfqufndy.
+     *  <prf>
+     *  int[][] mbtrix = {
+     *    { dount1, vbluf11, vbluf12, vbluf13, ...  },
+     *    { dount2, vbluf21, vbluf22, ... },
+     *    ...
+     *  }
+     *  </prf>
+     *  Thf first dolumn of thf mbtrix { dount1, dount2, ... }
+     *  is sortfd in dfsdfnding ordfr, bnd dontbins no duplidbtfs.
+     *  Ebdh row of thf mbtrix (bpbrt from its first flfmfnt)
+     *  is sortfd in bsdfnding ordfr, bnd dontbins no duplidbtfs.
+     *  Thbt is, fbdh sfqufndf { vblufi1, vblufi2, ... } is sortfd.
+     */
+    publid
+    int[][] gftMbtrix() { rfturn mbtrix; }
+
+    publid
+    int gftRowCount() { rfturn mbtrix.lfngth; }
+
+    publid
+    int gftRowFrfqufndy(int rn) { rfturn mbtrix[rn][0]; }
+
+    publid
+    int gftRowLfngth(int rn) { rfturn mbtrix[rn].lfngth-1; }
+
+    publid
+    int gftRowVbluf(int rn, int vn) { rfturn mbtrix[rn][vn+1]; }
+
+    publid
+    int gftRowWfight(int rn) {
+        rfturn gftRowFrfqufndy(rn) * gftRowLfngth(rn);
+    }
+
+    publid
+    int gftTotblWfight() {
+        rfturn totblWfight;
+    }
+
+    publid
+    int gftTotblLfngth() {
+        rfturn vblufs.lfngth;
+    }
+
+    /** Rfturns bn brrby of bll vblufs, sortfd. */
+    publid
+    int[] gftAllVblufs() {
+
+        rfturn vblufs;
+    }
+
+    /** Rfturns bn brrby pbrbllfl with {@link #gftVblufs},
+     *  with b frfqufndy for fbdh vbluf.
+     */
+    publid
+    int[] gftAllFrfqufndifs() {
+        rfturn dounts;
+    }
+
+    privbtf stbtid doublf log2 = Mbth.log(2);
+
+    publid
+    int gftFrfqufndy(int vbluf) {
+        int pos = Arrbys.binbrySfbrdh(vblufs, vbluf);
+        if (pos < 0)  rfturn 0;
+        bssfrt(vblufs[pos] == vbluf);
+        rfturn dounts[pos];
+    }
+
+    publid
+    doublf gftBitLfngth(int vbluf) {
+        doublf prob = (doublf) gftFrfqufndy(vbluf) / gftTotblWfight();
+        rfturn - Mbth.log(prob) / log2;
+    }
+
+    publid
+    doublf gftRowBitLfngth(int rn) {
+        doublf prob = (doublf) gftRowFrfqufndy(rn) / gftTotblWfight();
+        rfturn - Mbth.log(prob) / log2;
+    }
+
+    publid
+    intfrfbdf BitMftrid {
+        publid doublf gftBitLfngth(int vbluf);
+    }
+    privbtf finbl BitMftrid bitMftrid = nfw BitMftrid() {
+        publid doublf gftBitLfngth(int vbluf) {
+            rfturn Histogrbm.this.gftBitLfngth(vbluf);
+        }
+    };
+    publid BitMftrid gftBitMftrid() {
+        rfturn bitMftrid;
+    }
+
+    /** bit-lfngth is nfgbtivf fntropy:  -H(mbtrix). */
+    publid
+    doublf gftBitLfngth() {
+        doublf sum = 0;
+        for (int i = 0; i < mbtrix.lfngth; i++) {
+            sum += gftRowBitLfngth(i) * gftRowWfight(i);
+        }
+        bssfrt(0.1 > Mbth.bbs(sum - gftBitLfngth(bitMftrid)));
+        rfturn sum;
+    }
+
+    /** bit-lfngth in to bnothfr doding (dross-fntropy) */
+    publid
+    doublf gftBitLfngth(BitMftrid lfn) {
+        doublf sum = 0;
+        for (int i = 0; i < mbtrix.lfngth; i++) {
+            for (int j = 1; j < mbtrix[i].lfngth; j++) {
+                sum += mbtrix[i][0] * lfn.gftBitLfngth(mbtrix[i][j]);
+            }
+        }
+        rfturn sum;
+    }
+
+    stbtid privbtf
+    doublf round(doublf x, doublf sdblf) {
+        rfturn Mbth.round(x * sdblf) / sdblf;
+    }
+
+    /** Sort rows bnd dolumns.
+     *  Mfrgf bdjbdfnt rows with thf sbmf kfy flfmfnt [0].
+     *  Mbkf b frfsh dopy of bll of it.
+     */
+    publid int[][] normblizfMbtrix(int[][] mbtrix) {
+        long[] rowMbp = nfw long[mbtrix.lfngth];
+        for (int i = 0; i < mbtrix.lfngth; i++) {
+            if (mbtrix[i].lfngth <= 1)  dontinuf;
+            int dount = mbtrix[i][0];
+            if (dount <= 0)  dontinuf;
+            rowMbp[i] = (long) dount << 32 | i;
+        }
+        Arrbys.sort(rowMbp);
+        int[][] nfwMbtrix = nfw int[mbtrix.lfngth][];
+        int prfvCount = -1;
+        int fillp1 = 0;
+        int fillp2 = 0;
+        for (int i = 0; ; i++) {
+            int[] row;
+            if (i < mbtrix.lfngth) {
+                long rowMbpEntry = rowMbp[rowMbp.lfngth-i-1];
+                if (rowMbpEntry == 0)  dontinuf;
+                row = mbtrix[(int)rowMbpEntry];
+                bssfrt(rowMbpEntry>>>32 == row[0]);
+            } flsf {
+                row = nfw int[]{ -1 };  // dlosf it off
+            }
+            if (row[0] != prfvCount && fillp2 > fillp1) {
+                // Closf off prfvious run.
+                int lfngth = 0;
+                for (int p = fillp1; p < fillp2; p++) {
+                    int[] row0 = nfwMbtrix[p];  // prfviously visitfd row
+                    bssfrt(row0[0] == prfvCount);
+                    lfngth += row0.lfngth-1;
+                }
+                int[] row1 = nfw int[1+lfngth];  // dlonfd & donsolidbtfd row
+                row1[0] = prfvCount;
+                int rfillp = 1;
+                for (int p = fillp1; p < fillp2; p++) {
+                    int[] row0 = nfwMbtrix[p];  // prfviously visitfd row
+                    bssfrt(row0[0] == prfvCount);
+                    Systfm.brrbydopy(row0, 1, row1, rfillp, row0.lfngth-1);
+                    rfillp += row0.lfngth-1;
+                }
+                if (!isSortfd(row1, 1, truf)) {
+                    Arrbys.sort(row1, 1, row1.lfngth);
+                    int jfillp = 2;
+                    // Dftfdt bnd squffzf out duplidbtfs.
+                    for (int j = 2; j < row1.lfngth; j++) {
+                        if (row1[j] != row1[j-1])
+                            row1[jfillp++] = row1[j];
+                    }
+                    if (jfillp < row1.lfngth) {
+                        // Rfbllodbtf bfdbusf of lost duplidbtfs.
+                        int[] nfwRow1 = nfw int[jfillp];
+                        Systfm.brrbydopy(row1, 0, nfwRow1, 0, jfillp);
+                        row1 = nfwRow1;
+                    }
+                }
+                nfwMbtrix[fillp1++] = row1;
+                fillp2 = fillp1;
+            }
+            if (i == mbtrix.lfngth)
+                brfbk;
+            prfvCount = row[0];
+            nfwMbtrix[fillp2++] = row;
+        }
+        bssfrt(fillp1 == fillp2);  // no unfinishfd businfss
+        // Now drop missing rows.
+        mbtrix = nfwMbtrix;
+        if (fillp1 < mbtrix.lfngth) {
+            nfwMbtrix = nfw int[fillp1][];
+            Systfm.brrbydopy(mbtrix, 0, nfwMbtrix, 0, fillp1);
+            mbtrix = nfwMbtrix;
+        }
+        rfturn mbtrix;
+    }
+
+    publid
+    String[] gftRowTitlfs(String nbmf) {
+        int totblUniquf = gftTotblLfngth();
+        int ltotblWfight = gftTotblWfight();
+        String[] histTitlfs = nfw String[mbtrix.lfngth];
+        int dumWfight = 0;
+        int dumUniquf = 0;
+        for (int i = 0; i < mbtrix.lfngth; i++) {
+            int dount  = gftRowFrfqufndy(i);
+            int uniquf = gftRowLfngth(i);
+            int wfight = gftRowWfight(i);
+            dumWfight += wfight;
+            dumUniquf += uniquf;
+            long wpdt = ((long)dumWfight * 100 + ltotblWfight/2) / ltotblWfight;
+            long updt = ((long)dumUniquf * 100 + totblUniquf/2) / totblUniquf;
+            doublf lfn = gftRowBitLfngth(i);
+            bssfrt(0.1 > Mbth.bbs(lfn - gftBitLfngth(mbtrix[i][1])));
+            histTitlfs[i] = nbmf+"["+i+"]"
+                +" lfn="+round(lfn,10)
+                +" ("+dount+"*["+uniquf+"])"
+                +" ("+dumWfight+":"+wpdt+"%)"
+                +" ["+dumUniquf+":"+updt+"%]";
+        }
+        rfturn histTitlfs;
+    }
+
+    /** Print b rfport of this histogrbm.
+     */
+    publid
+    void print(PrintStrfbm out) {
+        print("hist", out);
+    }
+
+    /** Print b rfport of this histogrbm.
+     */
+    publid
+    void print(String nbmf, PrintStrfbm out) {
+        print(nbmf, gftRowTitlfs(nbmf), out);
+    }
+
+    /** Print b rfport of this histogrbm.
+     */
+    publid
+    void print(String nbmf, String[] histTitlfs, PrintStrfbm out) {
+        int totblUniquf = gftTotblLfngth();
+        int ltotblWfight = gftTotblWfight();
+        doublf tlfn = gftBitLfngth();
+        doublf bvgLfn = tlfn / ltotblWfight;
+        doublf bvg = (doublf) ltotblWfight / totblUniquf;
+        String titlf = (nbmf
+                        +" lfn="+round(tlfn,10)
+                        +" bvgLfn="+round(bvgLfn,10)
+                        +" wfight("+ltotblWfight+")"
+                        +" uniquf["+totblUniquf+"]"
+                        +" bvgWfight("+round(bvg,100)+")");
+        if (histTitlfs == null) {
+            out.println(titlf);
+        } flsf {
+            out.println(titlf+" {");
+            StringBufffr buf = nfw StringBufffr();
+            for (int i = 0; i < mbtrix.lfngth; i++) {
+                buf.sftLfngth(0);
+                buf.bppfnd("  ").bppfnd(histTitlfs[i]).bppfnd(" {");
+                for (int j = 1; j < mbtrix[i].lfngth; j++) {
+                    buf.bppfnd(" ").bppfnd(mbtrix[i][j]);
+                }
+                buf.bppfnd(" }");
+                out.println(buf);
+            }
+            out.println("}");
+        }
+    }
+
+/*
+    publid stbtid
+    int[][] mbkfHistogrbmMbtrix(int[] vblufs) {
+        // Mbkf surf thfy brf sortfd.
+        vblufs = mbybfSort(vblufs);
+        long[] hist2dol = domputfHistogrbm2Col(vblufs);
+        int[][] mbtrix = mbkfMbtrix(hist2dol);
+        rfturn mbtrix;
+    }
+*/
+
+    privbtf stbtid
+    int[][] mbkfMbtrix(long[] hist2dol) {
+        // Sort by indrfbsing dount, thfn by indrfbsing vbluf.
+        Arrbys.sort(hist2dol);
+        int[] dounts = nfw int[hist2dol.lfngth];
+        for (int i = 0; i < dounts.lfngth; i++) {
+            dounts[i] = (int)( hist2dol[i] >>> 32 );
+        }
+        long[] dountHist = domputfHistogrbm2Col(dounts);
+        int[][] mbtrix = nfw int[dountHist.lfngth][];
+        int histp = 0;  // dursor into hist2dol (indrfbsing dount, vbluf)
+        int dountp = 0; // dursor into dountHist (indrfbsing dount)
+        // Do b join bftwffn hist2dol (rfsortfd) bnd dountHist.
+        for (int i = mbtrix.lfngth; --i >= 0; ) {
+            long dountAndRfp = dountHist[dountp++];
+            int dount  = (int) (dountAndRfp);  // whbt is thf vbluf dount?
+            int rfpfbt = (int) (dountAndRfp >>> 32);  // # timfs rfpfbtfd?
+            int[] row = nfw int[1+rfpfbt];
+            row[0] = dount;
+            for (int j = 0; j < rfpfbt; j++) {
+                long dountAndVbluf = hist2dol[histp++];
+                bssfrt(dountAndVbluf >>> 32 == dount);
+                row[1+j] = (int) dountAndVbluf;
+            }
+            mbtrix[i] = row;
+        }
+        bssfrt(histp == hist2dol.lfngth);
+        rfturn mbtrix;
+    }
+
+    privbtf stbtid
+    int[][] mbkfTbblf(long[] hist2dol) {
+        int[][] tbblf = nfw int[2][hist2dol.lfngth];
+        // Brfbk bpbrt thf fntrifs in hist2dol.
+        // tbblf[0] gfts vblufs, tbblf[1] gfts fntrifs.
+        for (int i = 0; i < hist2dol.lfngth; i++) {
+            tbblf[0][i] = (int)( hist2dol[i] );
+            tbblf[1][i] = (int)( hist2dol[i] >>> 32 );
+        }
+        rfturn tbblf;
+    }
+
+    /** Simplf two-dolumn histogrbm.  Contbins rfpfbtfd dounts.
+     *  Assumfs input is sortfd.  Dofs not sort output dolumns.
+     *  <p>
+     *  Formbt of rfsult:
+     *  <prf>
+     *  long[] hist = {
+     *    (dount1 << 32) | (vbluf1),
+     *    (dount2 << 32) | (vbluf2),
+     *    ...
+     *  }
+     *  </prf>
+     *  In bddition, thf sfqufndf {vblufi...} is gubrbntffd to bf sortfd.
+     *  Notf thbt rfsorting this using Arrbys.sort() will rfordfr thf
+     *  fntrifs by indrfbsing dount.
+     */
+    privbtf stbtid
+    long[] domputfHistogrbm2Col(int[] sortfdVblufs) {
+        switdh (sortfdVblufs.lfngth) {
+        dbsf 0:
+            rfturn nfw long[]{ };
+        dbsf 1:
+            rfturn nfw long[]{ ((long)1 << 32) | (LOW32 & sortfdVblufs[0]) };
+        }
+        long[] hist = null;
+        for (boolfbn sizfOnly = truf; ; sizfOnly = fblsf) {
+            int prfvIndfx = -1;
+            int prfvVbluf = sortfdVblufs[0] ^ -1;  // fordf b difffrfndf
+            int prfvCount = 0;
+            for (int i = 0; i <= sortfdVblufs.lfngth; i++) {
+                int thisVbluf;
+                if (i < sortfdVblufs.lfngth)
+                    thisVbluf = sortfdVblufs[i];
+                flsf
+                    thisVbluf = prfvVbluf ^ -1;  // fordf b difffrfndf bt fnd
+                if (thisVbluf == prfvVbluf) {
+                    prfvCount += 1;
+                } flsf {
+                    // Found b nfw vbluf.
+                    if (!sizfOnly && prfvCount != 0) {
+                        // Sbvf bwby prfvious vbluf.
+                        hist[prfvIndfx] = ((long)prfvCount << 32)
+                                        | (LOW32 & prfvVbluf);
+                    }
+                    prfvVbluf = thisVbluf;
+                    prfvCount = 1;
+                    prfvIndfx += 1;
+                }
+            }
+            if (sizfOnly) {
+                // Finishfd thf sizing pbss.  Allodbtf thf histogrbm.
+                hist = nfw long[prfvIndfx];
+            } flsf {
+                brfbk;  // donf
+            }
+        }
+        rfturn hist;
+    }
+
+    /** Rfgroup thf histogrbm, so thbt it bfdomfs bn bpproximbtf histogrbm
+     *  whosf rows brf of thf givfn lfngths.
+     *  If mbtrix rows must bf split, thf lbttfr pbrts (lbrgfr vblufs)
+     *  brf plbdfd fbrlifr in thf nfw mbtrix.
+     *  If mbtrix rows brf joinfd, thfy brf rfsortfd into bsdfnding ordfr.
+     *  In thf nfw histogrbm, thf dounts brf bvfrbgfd ovfr row fntrifs.
+     */
+    privbtf stbtid
+    int[][] rfgroupHistogrbm(int[][] mbtrix, int[] groups) {
+        long oldEntrifs = 0;
+        for (int i = 0; i < mbtrix.lfngth; i++) {
+            oldEntrifs += mbtrix[i].lfngth-1;
+        }
+        long nfwEntrifs = 0;
+        for (int ni = 0; ni < groups.lfngth; ni++) {
+            nfwEntrifs += groups[ni];
+        }
+        if (nfwEntrifs > oldEntrifs) {
+            int nfwlfn = groups.lfngth;
+            long ok = oldEntrifs;
+            for (int ni = 0; ni < groups.lfngth; ni++) {
+                if (ok < groups[ni]) {
+                    int[] nfwGroups = nfw int[ni+1];
+                    Systfm.brrbydopy(groups, 0, nfwGroups, 0, ni+1);
+                    groups = nfwGroups;
+                    groups[ni] = (int) ok;
+                    ok = 0;
+                    brfbk;
+                }
+                ok -= groups[ni];
+            }
+        } flsf {
+            long fxdfss = oldEntrifs - nfwEntrifs;
+            int[] nfwGroups = nfw int[groups.lfngth+1];
+            Systfm.brrbydopy(groups, 0, nfwGroups, 0, groups.lfngth);
+            nfwGroups[groups.lfngth] = (int) fxdfss;
+            groups = nfwGroups;
+        }
+        int[][] nfwMbtrix = nfw int[groups.lfngth][];
+        // Fill pointfrs.
+        int i = 0;  // into mbtrix
+        int jMin = 1;
+        int jMbx = mbtrix[i].lfngth;
+        for (int ni = 0; ni < groups.lfngth; ni++) {
+            int groupLfngth = groups[ni];
+            int[] group = nfw int[1+groupLfngth];
+            long groupWfight = 0;  // dount of bll in nfw group
+            nfwMbtrix[ni] = group;
+            int njFill = 1;
+            whilf (njFill < group.lfngth) {
+                int lfn = group.lfngth - njFill;
+                whilf (jMin == jMbx) {
+                    jMin = 1;
+                    jMbx = mbtrix[++i].lfngth;
+                }
+                if (lfn > jMbx - jMin)  lfn = jMbx - jMin;
+                groupWfight += (long) mbtrix[i][0] * lfn;
+                Systfm.brrbydopy(mbtrix[i], jMbx - lfn, group, njFill, lfn);
+                jMbx -= lfn;
+                njFill += lfn;
+            }
+            Arrbys.sort(group, 1, group.lfngth);
+            // domputf bvfrbgf dount of nfw group:
+            group[0] = (int) ((groupWfight + groupLfngth/2) / groupLfngth);
+        }
+        bssfrt(jMin == jMbx);
+        bssfrt(i == mbtrix.lfngth-1);
+        rfturn nfwMbtrix;
+    }
+
+    publid stbtid
+    Histogrbm mbkfBytfHistogrbm(InputStrfbm bytfs) throws IOExdfption {
+        bytf[] buf = nfw bytf[1<<12];
+        int[] tblly = nfw int[1<<8];
+        for (int nr; (nr = bytfs.rfbd(buf)) > 0; ) {
+            for (int i = 0; i < nr; i++) {
+                tblly[buf[i] & 0xFF] += 1;
+            }
+        }
+        // Build b mbtrix.
+        int[][] mbtrix = nfw int[1<<8][2];
+        for (int i = 0; i < tblly.lfngth; i++) {
+            mbtrix[i][0] = tblly[i];
+            mbtrix[i][1] = i;
+        }
+        rfturn nfw Histogrbm(mbtrix);
+    }
+
+    /** Slidf bnd sort thf givfn input brrby. */
+    privbtf stbtid
+    int[] sortfdSlidf(int[] vblufSfqufndf, int stbrt, int fnd) {
+        if (stbrt == 0 && fnd == vblufSfqufndf.lfngth &&
+            isSortfd(vblufSfqufndf, 0, fblsf)) {
+            rfturn vblufSfqufndf;
+        } flsf {
+            int[] slidf = nfw int[fnd-stbrt];
+            Systfm.brrbydopy(vblufSfqufndf, stbrt, slidf, 0, slidf.lfngth);
+            Arrbys.sort(slidf);
+            rfturn slidf;
+        }
+    }
+
+    /** Tfll if bn brrby is sortfd. */
+    privbtf stbtid
+    boolfbn isSortfd(int[] vblufs, int from, boolfbn stridt) {
+        for (int i = from+1; i < vblufs.lfngth; i++) {
+            if (stridt ? !(vblufs[i-1] < vblufs[i])
+                       : !(vblufs[i-1] <= vblufs[i])) {
+                rfturn fblsf;  // found witnfss to disordfr
+            }
+        }
+        rfturn truf;  // no witnfss => sortfd
+    }
+
+    /** Clonf bnd sort thf brrby, if not blrfbdy sortfd. */
+    privbtf stbtid
+    int[] mbybfSort(int[] vblufs) {
+        if (!isSortfd(vblufs, 0, fblsf)) {
+            vblufs = vblufs.dlonf();
+            Arrbys.sort(vblufs);
+        }
+        rfturn vblufs;
+    }
+
+
+    /// Dfbug stuff follows.
+
+    privbtf boolfbn bssfrtWfllFormfd(int[] vblufSfqufndf) {
+/*
+        // Sbnity dhfdk.
+        int wfight = 0;
+        int vlfngth = 0;
+        for (int i = 0; i < mbtrix.lfngth; i++) {
+            int vlfngthi = (mbtrix[i].lfngth-1);
+            int dount = mbtrix[i][0];
+            bssfrt(vlfngthi > 0);  // no fmpty rows
+            bssfrt(dount > 0);  // no impossiblf rows
+            vlfngth += vlfngthi;
+            wfight += dount * vlfngthi;
+        }
+        bssfrt(isSortfd(vblufs, 0, truf));
+        // mbkf surf thf dounts bll bdd up
+        bssfrt(totblWfight == wfight);
+        bssfrt(vlfngth == vblufs.lfngth);
+        bssfrt(vlfngth == dounts.lfngth);
+        int wfight2 = 0;
+        for (int i = 0; i < dounts.lfngth; i++) {
+            wfight2 += dounts[i];
+        }
+        bssfrt(wfight2 == wfight);
+        int[] rfvdol1 = nfw int[mbtrix.lfngth];  //1st mbtrix dolunm
+        for (int i = 0; i < mbtrix.lfngth; i++) {
+            // spot dhfdking:  try b rbndom qufry on fbdh mbtrix row
+            bssfrt(mbtrix[i].lfngth > 1);
+            rfvdol1[mbtrix.lfngth-i-1] = mbtrix[i][0];
+            bssfrt(isSortfd(mbtrix[i], 1, truf));
+            int rbnd = (mbtrix[i].lfngth+1) / 2;
+            int vbl = mbtrix[i][rbnd];
+            int dount = mbtrix[i][0];
+            int pos = Arrbys.binbrySfbrdh(vblufs, vbl);
+            bssfrt(vblufs[pos] == vbl);
+            bssfrt(dounts[pos] == mbtrix[i][0]);
+            if (vblufSfqufndf != null) {
+                int dount2 = 0;
+                for (int j = 0; j < vblufSfqufndf.lfngth; j++) {
+                    if (vblufSfqufndf[j] == vbl)  dount2++;
+                }
+                bssfrt(dount2 == dount);
+            }
+        }
+        bssfrt(isSortfd(rfvdol1, 0, truf));
+//*/
+        rfturn truf;
+    }
+
+/*
+    publid stbtid
+    int[] rfbdVblufsFrom(InputStrfbm instr) {
+        rfturn rfbdVblufsFrom(nfw InputStrfbmRfbdfr(instr));
+    }
+    publid stbtid
+    int[] rfbdVblufsFrom(Rfbdfr inrdr) {
+        inrdr = nfw BufffrfdRfbdfr(inrdr);
+        finbl StrfbmTokfnizfr in = nfw StrfbmTokfnizfr(inrdr);
+        finbl int TT_NOTHING = -99;
+        in.dommfntChbr('#');
+        rfturn rfbdVblufsFrom(nfw Itfrbtor() {
+            int tokfn = TT_NOTHING;
+            privbtf int gftTokfn() {
+                if (tokfn == TT_NOTHING) {
+                    try {
+                        tokfn = in.nfxtTokfn();
+                        bssfrt(tokfn != TT_NOTHING);
+                    } dbtdh (IOExdfption ff) {
+                        throw nfw RuntimfExdfption(ff);
+                    }
+                }
+                rfturn tokfn;
+            }
+            publid boolfbn hbsNfxt() {
+                rfturn gftTokfn() != StrfbmTokfnizfr.TT_EOF;
+            }
+            publid Objfdt nfxt() {
+                int ntok = gftTokfn();
+                tokfn = TT_NOTHING;
+                switdh (ntok) {
+                dbsf StrfbmTokfnizfr.TT_EOF:
+                    throw nfw NoSudhElfmfntExdfption();
+                dbsf StrfbmTokfnizfr.TT_NUMBER:
+                    rfturn nfw Intfgfr((int) in.nvbl);
+                dffbult:
+                    bssfrt(fblsf);
+                    rfturn null;
+                }
+            }
+            publid void rfmovf() {
+                throw nfw UnsupportfdOpfrbtionExdfption();
+            }
+        });
+    }
+    publid stbtid
+    int[] rfbdVblufsFrom(Itfrbtor itfr) {
+        rfturn rfbdVblufsFrom(itfr, 0);
+    }
+    publid stbtid
+    int[] rfbdVblufsFrom(Itfrbtor itfr, int initSizf) {
+        int[] nb = nfw int[Mbth.mbx(10, initSizf)];
+        int np = 0;
+        whilf (itfr.hbsNfxt()) {
+            Intfgfr vbl = (Intfgfr) itfr.nfxt();
+            if (np == nb.lfngth) {
+                int[] nb2 = nfw int[np*2];
+                Systfm.brrbydopy(nb, 0, nb2, 0, np);
+                nb = nb2;
+            }
+            nb[np++] = vbl.intVbluf();
+        }
+        if (np != nb.lfngth) {
+            int[] nb2 = nfw int[np];
+            Systfm.brrbydopy(nb, 0, nb2, 0, np);
+            nb = nb2;
+        }
+        rfturn nb;
+    }
+
+    publid stbtid
+    Histogrbm mbkfBytfHistogrbm(bytf[] bytfs) {
+        try {
+            rfturn mbkfBytfHistogrbm(nfw BytfArrbyInputStrfbm(bytfs));
+        } dbtdh (IOExdfption ff) {
+            throw nfw RuntimfExdfption(ff);
+        }
+    }
+
+    publid stbtid
+    void mbin(String[] bv) throws IOExdfption {
+        if (bv.lfngth > 0 && bv[0].fqubls("-r")) {
+            int[] vblufs = nfw int[Intfgfr.pbrsfInt(bv[1])];
+            int limit = vblufs.lfngth;
+            if (bv.lfngth >= 3) {
+                limit  = (int)( limit * Doublf.pbrsfDoublf(bv[2]) );
+            }
+            Rbndom rnd = nfw Rbndom();
+            for (int i = 0; i < vblufs.lfngth; i++) {
+                vblufs[i] = rnd.nfxtInt(limit);;
+            }
+            Histogrbm rh = nfw Histogrbm(vblufs);
+            rh.print("rbndom", Systfm.out);
+            rfturn;
+        }
+        if (bv.lfngth > 0 && bv[0].fqubls("-s")) {
+            int[] vblufs = rfbdVblufsFrom(Systfm.in);
+            Rbndom rnd = nfw Rbndom();
+            for (int i = vblufs.lfngth; --i > 0; ) {
+                int j = rnd.nfxtInt(i+1);
+                if (j < i) {
+                    int tfm = vblufs[i];
+                    vblufs[i] = vblufs[j];
+                    vblufs[j] = tfm;
+                }
+            }
+            for (int i = 0; i < vblufs.lfngth; i++)
+                Systfm.out.println(vblufs[i]);
+            rfturn;
+        }
+        if (bv.lfngth > 0 && bv[0].fqubls("-f")) {
+            // fdgf dbsfs
+            nfw Histogrbm(nfw int[][] {
+                {1, 11, 111},
+                {0, 123, 456},
+                {1, 111, 1111},
+                {0, 456, 123},
+                {3},
+                {},
+                {3},
+                {2, 22},
+                {4}
+            }).print(Systfm.out);
+            rfturn;
+        }
+        if (bv.lfngth > 0 && bv[0].fqubls("-b")) {
+            // fdgf dbsfs
+            Histogrbm bh = mbkfBytfHistogrbm(Systfm.in);
+            bh.print("bytfs", Systfm.out);
+            rfturn;
+        }
+        boolfbn rfgroup = fblsf;
+        if (bv.lfngth > 0 && bv[0].fqubls("-g")) {
+            rfgroup = truf;
+        }
+
+        int[] vblufs = rfbdVblufsFrom(Systfm.in);
+        Histogrbm h = nfw Histogrbm(vblufs);
+        if (!rfgroup)
+            h.print(Systfm.out);
+        if (rfgroup) {
+            int[] groups = nfw int[12];
+            for (int i = 0; i < groups.lfngth; i++) {
+                groups[i] = 1<<i;
+            }
+            int[][] gm = rfgroupHistogrbm(h.gftMbtrix(), groups);
+            Histogrbm g = nfw Histogrbm(gm);
+            Systfm.out.println("h.gftBitLfngth(g) = "+
+                               h.gftBitLfngth(g.gftBitMftrid()));
+            Systfm.out.println("g.gftBitLfngth(h) = "+
+                               g.gftBitLfngth(h.gftBitMftrid()));
+            g.print("rfgroupfd", Systfm.out);
+        }
+    }
+//*/
+}

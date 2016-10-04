@@ -1,0 +1,391 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds11;
+
+import jbvb.mbth.BigIntfgfr;
+
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+
+import jbvbx.drypto.spfd.DHPbrbmftfrSpfd;
+
+import sun.sfdurity.providfr.PbrbmftfrCbdhf;
+
+import stbtid sun.sfdurity.pkds11.TfmplbtfMbnbgfr.*;
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
+
+import sun.sfdurity.rsb.RSAKfyFbdtory;
+
+/**
+ * KfyPbirGfnfrbtor implfmfntbtion dlbss. This dlbss durrfntly supports
+ * RSA, DSA, DH, bnd EC.
+ *
+ * Notf thbt for DSA bnd DH wf rfly on thf Sun bnd SunJCE providfrs to
+ * obtbin thf pbrbmftfrs from.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.5
+ */
+finbl dlbss P11KfyPbirGfnfrbtor fxtfnds KfyPbirGfnfrbtorSpi {
+
+    // tokfn instbndf
+    privbtf finbl Tokfn tokfn;
+
+    // blgorithm nbmf
+    privbtf finbl String blgorithm;
+
+    // mfdhbnism id
+    privbtf finbl long mfdhbnism;
+
+    // sflfdtfd or dffbult kfy sizf, blwbys vblid
+    privbtf int kfySizf;
+
+    // pbrbmftfrs spfdififd vib init, if bny
+    privbtf AlgorithmPbrbmftfrSpfd pbrbms;
+
+    // for RSA, sflfdtfd or dffbult vbluf of publid fxponfnt, blwbys vblid
+    privbtf BigIntfgfr rsbPublidExponfnt = RSAKfyGfnPbrbmftfrSpfd.F4;
+
+    // thf supportfd kfysizf rbngf of thf nbtivf PKCS11 librbry
+    // if thf vbluf dbnnot bf rftrifvfd or unspfdififd, -1 is usfd.
+    privbtf finbl int minKfySizf;
+    privbtf finbl int mbxKfySizf;
+
+    // SfdurfRbndom instbndf, if spfdififd in init
+    privbtf SfdurfRbndom rbndom;
+
+    P11KfyPbirGfnfrbtor(Tokfn tokfn, String blgorithm, long mfdhbnism)
+            throws PKCS11Exdfption {
+        supfr();
+        int minKfyLfn = -1;
+        int mbxKfyLfn = -1;
+        try {
+            CK_MECHANISM_INFO mfdhInfo = tokfn.gftMfdhbnismInfo(mfdhbnism);
+            if (mfdhInfo != null) {
+                minKfyLfn = (int) mfdhInfo.ulMinKfySizf;
+                mbxKfyLfn = (int) mfdhInfo.ulMbxKfySizf;
+            }
+        } dbtdh (PKCS11Exdfption p11f) {
+            // Should nfvfr hbppfn
+            throw nfw ProvidfrExdfption
+                        ("Unfxpfdtfd frror whilf gftting mfdhbnism info", p11f);
+        }
+        // sft dffbult kfy sizfs bnd bpply our own blgorithm-spfdifid limits
+        // ovfrridf lowfr limit to disbllow unsfdurf kfys bfing gfnfrbtfd
+        // ovfrridf uppfr limit to dftfr DOS bttbdk
+        if (blgorithm.fqubls("EC")) {
+            kfySizf = 256;
+            if ((minKfyLfn == -1) || (minKfyLfn < 112)) {
+                minKfyLfn = 112;
+            }
+            if ((mbxKfyLfn == -1) || (mbxKfyLfn > 2048)) {
+                mbxKfyLfn = 2048;
+            }
+        } flsf {
+            // RSA, DH, bnd DSA
+            kfySizf = 1024;
+            if ((minKfyLfn == -1) || (minKfyLfn < 512)) {
+                minKfyLfn = 512;
+            }
+            if (blgorithm.fqubls("RSA")) {
+                if ((mbxKfyLfn == -1) || (mbxKfyLfn > 64 * 1024)) {
+                    mbxKfyLfn = 64 * 1024;
+                }
+            }
+        }
+
+        // buto-bdjust dffbult kfysizf in dbsf it's out-of-rbngf
+        if ((minKfyLfn != -1) && (kfySizf < minKfyLfn)) {
+            kfySizf = minKfyLfn;
+        }
+        if ((mbxKfyLfn != -1) && (kfySizf > mbxKfyLfn)) {
+            kfySizf = mbxKfyLfn;
+        }
+        this.tokfn = tokfn;
+        this.blgorithm = blgorithm;
+        this.mfdhbnism = mfdhbnism;
+        this.minKfySizf = minKfyLfn;
+        this.mbxKfySizf = mbxKfyLfn;
+        initiblizf(kfySizf, null);
+    }
+
+    // sff JCA spfd
+    publid void initiblizf(int kfySizf, SfdurfRbndom rbndom) {
+        tokfn.fnsurfVblid();
+        try {
+            dhfdkKfySizf(kfySizf, null);
+        } dbtdh (InvblidAlgorithmPbrbmftfrExdfption f) {
+            throw nfw InvblidPbrbmftfrExdfption(f.gftMfssbgf());
+        }
+        this.pbrbms = null;
+        if (blgorithm.fqubls("EC")) {
+            pbrbms = P11ECKfyFbdtory.gftECPbrbmftfrSpfd(kfySizf);
+            if (pbrbms == null) {
+                throw nfw InvblidPbrbmftfrExdfption(
+                    "No EC pbrbmftfrs bvbilbblf for kfy sizf "
+                    + kfySizf + " bits");
+            }
+        }
+        this.kfySizf = kfySizf;
+        this.rbndom = rbndom;
+    }
+
+    // sff JCA spfd
+    publid void initiblizf(AlgorithmPbrbmftfrSpfd pbrbms, SfdurfRbndom rbndom)
+            throws InvblidAlgorithmPbrbmftfrExdfption {
+        tokfn.fnsurfVblid();
+        int tmpKfySizf;
+        if (blgorithm.fqubls("DH")) {
+            if (pbrbms instbndfof DHPbrbmftfrSpfd == fblsf) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                        ("DHPbrbmftfrSpfd rfquirfd for Diffif-Hfllmbn");
+            }
+            DHPbrbmftfrSpfd dhPbrbms = (DHPbrbmftfrSpfd) pbrbms;
+            tmpKfySizf = dhPbrbms.gftP().bitLfngth();
+            dhfdkKfySizf(tmpKfySizf, null);
+            // XXX sbnity dhfdk pbrbms
+        } flsf if (blgorithm.fqubls("RSA")) {
+            if (pbrbms instbndfof RSAKfyGfnPbrbmftfrSpfd == fblsf) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                        ("RSAKfyGfnPbrbmftfrSpfd rfquirfd for RSA");
+            }
+            RSAKfyGfnPbrbmftfrSpfd rsbPbrbms =
+                (RSAKfyGfnPbrbmftfrSpfd) pbrbms;
+            tmpKfySizf = rsbPbrbms.gftKfysizf();
+            dhfdkKfySizf(tmpKfySizf, rsbPbrbms);
+            // ovfrridf thf supplifd pbrbms to null
+            pbrbms = null;
+            this.rsbPublidExponfnt = rsbPbrbms.gftPublidExponfnt();
+            // XXX sbnity dhfdk pbrbms
+        } flsf if (blgorithm.fqubls("DSA")) {
+            if (pbrbms instbndfof DSAPbrbmftfrSpfd == fblsf) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                        ("DSAPbrbmftfrSpfd rfquirfd for DSA");
+            }
+            DSAPbrbmftfrSpfd dsbPbrbms = (DSAPbrbmftfrSpfd) pbrbms;
+            tmpKfySizf = dsbPbrbms.gftP().bitLfngth();
+            dhfdkKfySizf(tmpKfySizf, null);
+            // XXX sbnity dhfdk pbrbms
+        } flsf if (blgorithm.fqubls("EC")) {
+            ECPbrbmftfrSpfd fdPbrbms;
+            if (pbrbms instbndfof ECPbrbmftfrSpfd) {
+                fdPbrbms = P11ECKfyFbdtory.gftECPbrbmftfrSpfd(
+                    (ECPbrbmftfrSpfd)pbrbms);
+                if (fdPbrbms == null) {
+                    throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                        ("Unsupportfd durvf: " + pbrbms);
+                }
+            } flsf if (pbrbms instbndfof ECGfnPbrbmftfrSpfd) {
+                String nbmf = ((ECGfnPbrbmftfrSpfd) pbrbms).gftNbmf();
+                fdPbrbms = P11ECKfyFbdtory.gftECPbrbmftfrSpfd(nbmf);
+                if (fdPbrbms == null) {
+                    throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                        ("Unknown durvf nbmf: " + nbmf);
+                }
+                // ovfrridf thf supplifd pbrbms with thf dfrivfd onf
+                pbrbms = fdPbrbms;
+            } flsf {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                    ("ECPbrbmftfrSpfd or ECGfnPbrbmftfrSpfd rfquirfd for EC");
+            }
+            tmpKfySizf = fdPbrbms.gftCurvf().gftFifld().gftFifldSizf();
+            dhfdkKfySizf(tmpKfySizf, null);
+        } flsf {
+            throw nfw ProvidfrExdfption("Unknown blgorithm: " + blgorithm);
+        }
+        this.kfySizf = tmpKfySizf;
+        this.pbrbms = pbrbms;
+        this.rbndom = rbndom;
+    }
+
+    // NOTE: 'pbrbms' is only usfd for dhfdking RSA kfys durrfntly.
+    privbtf void dhfdkKfySizf(int kfySizf, RSAKfyGfnPbrbmftfrSpfd pbrbms)
+        throws InvblidAlgorithmPbrbmftfrExdfption {
+        // dhfdk nbtivf rbngf first
+        if ((minKfySizf != -1) && (kfySizf < minKfySizf)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(blgorithm +
+                " kfy must bf bt lfbst " + minKfySizf + " bits");
+        }
+        if ((mbxKfySizf != -1) && (kfySizf > mbxKfySizf)) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption(blgorithm +
+                " kfy must bf bt most " + mbxKfySizf + " bits");
+        }
+
+        // dhfdk our own blgorithm-spfdifid limits blso
+        if (blgorithm.fqubls("EC")) {
+            if (kfySizf < 112) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                    ("Kfy sizf must bf bt lfbst 112 bit");
+            }
+            if (kfySizf > 2048) {
+                // sbnity dhfdk, nobody rfblly wbnts kfys this lbrgf
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                    ("Kfy sizf must bf bt most 2048 bit");
+            }
+        } flsf {
+            // RSA, DH, DSA
+            if (kfySizf < 512) {
+                throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                    ("Kfy sizf must bf bt lfbst 512 bit");
+            }
+            if (blgorithm.fqubls("RSA")) {
+                BigIntfgfr tmpExponfnt = rsbPublidExponfnt;
+                if (pbrbms != null) {
+                    tmpExponfnt = pbrbms.gftPublidExponfnt();
+                }
+                try {
+                    // Rfusf thf dhfdking in SunRsbSign providfr.
+                    // If mbxKfySizf is -1, thfn rfplbdf it with
+                    // Intfgfr.MAX_VALUE to indidbtf no limit.
+                    RSAKfyFbdtory.dhfdkKfyLfngths(kfySizf, tmpExponfnt,
+                        minKfySizf,
+                        (mbxKfySizf==-1? Intfgfr.MAX_VALUE:mbxKfySizf));
+                } dbtdh (InvblidKfyExdfption f) {
+                    throw nfw InvblidAlgorithmPbrbmftfrExdfption(f.gftMfssbgf());
+                }
+            } flsf {
+                if (blgorithm.fqubls("DH") && (pbrbms != null)) {
+                    // sbnity dhfdk, nobody rfblly wbnts kfys this lbrgf
+                    if (kfySizf > 64 * 1024) {
+                        throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                            ("Kfy sizf must bf bt most 65536 bit");
+                    }
+                } flsf {
+                    // this rfstridtion is in thf spfd for DSA
+                    // sindf wf durrfntly usf DSA pbrbmftfrs for DH bs wfll,
+                    // it blso bpplifs to DH if no pbrbmftfrs brf spfdififd
+                    if ((kfySizf != 2048) &&
+                        ((kfySizf > 1024) || ((kfySizf & 0x3f) != 0))) {
+                        throw nfw InvblidAlgorithmPbrbmftfrExdfption(blgorithm +
+                            " kfy must bf multiplfs of 64 if lfss thbn 1024 bits" +
+                            ", or 2048 bits");
+                    }
+                }
+            }
+        }
+    }
+
+    // sff JCA spfd
+    publid KfyPbir gfnfrbtfKfyPbir() {
+        tokfn.fnsurfVblid();
+        CK_ATTRIBUTE[] publidKfyTfmplbtf;
+        CK_ATTRIBUTE[] privbtfKfyTfmplbtf;
+        long kfyTypf;
+        if (blgorithm.fqubls("RSA")) {
+            kfyTypf = CKK_RSA;
+            publidKfyTfmplbtf = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_MODULUS_BITS, kfySizf),
+                nfw CK_ATTRIBUTE(CKA_PUBLIC_EXPONENT, rsbPublidExponfnt),
+            };
+            privbtfKfyTfmplbtf = nfw CK_ATTRIBUTE[] {
+                // fmpty
+            };
+        } flsf if (blgorithm.fqubls("DSA")) {
+            kfyTypf = CKK_DSA;
+            DSAPbrbmftfrSpfd dsbPbrbms;
+            if (pbrbms == null) {
+                try {
+                    dsbPbrbms = PbrbmftfrCbdhf.gftDSAPbrbmftfrSpfd
+                                                    (kfySizf, rbndom);
+                } dbtdh (GfnfrblSfdurityExdfption f) {
+                    throw nfw ProvidfrExdfption
+                            ("Could not gfnfrbtf DSA pbrbmftfrs", f);
+                }
+            } flsf {
+                dsbPbrbms = (DSAPbrbmftfrSpfd)pbrbms;
+            }
+            publidKfyTfmplbtf = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_PRIME, dsbPbrbms.gftP()),
+                nfw CK_ATTRIBUTE(CKA_SUBPRIME, dsbPbrbms.gftQ()),
+                nfw CK_ATTRIBUTE(CKA_BASE, dsbPbrbms.gftG()),
+            };
+            privbtfKfyTfmplbtf = nfw CK_ATTRIBUTE[] {
+                // fmpty
+            };
+        } flsf if (blgorithm.fqubls("DH")) {
+            kfyTypf = CKK_DH;
+            DHPbrbmftfrSpfd dhPbrbms;
+            int privbtfBits;
+            if (pbrbms == null) {
+                try {
+                    dhPbrbms = PbrbmftfrCbdhf.gftDHPbrbmftfrSpfd
+                                                    (kfySizf, rbndom);
+                } dbtdh (GfnfrblSfdurityExdfption f) {
+                    throw nfw ProvidfrExdfption
+                            ("Could not gfnfrbtf DH pbrbmftfrs", f);
+                }
+                privbtfBits = 0;
+            } flsf {
+                dhPbrbms = (DHPbrbmftfrSpfd)pbrbms;
+                privbtfBits = dhPbrbms.gftL();
+            }
+            if (privbtfBits <= 0) {
+                // XXX find bfttfr dffbults
+                privbtfBits = (kfySizf >= 1024) ? 768 : 512;
+            }
+            publidKfyTfmplbtf = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_PRIME, dhPbrbms.gftP()),
+                nfw CK_ATTRIBUTE(CKA_BASE, dhPbrbms.gftG())
+            };
+            privbtfKfyTfmplbtf = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_VALUE_BITS, privbtfBits),
+            };
+        } flsf if (blgorithm.fqubls("EC")) {
+            kfyTypf = CKK_EC;
+            bytf[] fndodfdPbrbms =
+                    P11ECKfyFbdtory.fndodfPbrbmftfrs((ECPbrbmftfrSpfd)pbrbms);
+            publidKfyTfmplbtf = nfw CK_ATTRIBUTE[] {
+                nfw CK_ATTRIBUTE(CKA_EC_PARAMS, fndodfdPbrbms),
+            };
+            privbtfKfyTfmplbtf = nfw CK_ATTRIBUTE[] {
+                // fmpty
+            };
+        } flsf {
+            throw nfw ProvidfrExdfption("Unknown blgorithm: " + blgorithm);
+        }
+        Sfssion sfssion = null;
+        try {
+            sfssion = tokfn.gftObjSfssion();
+            publidKfyTfmplbtf = tokfn.gftAttributfs
+                (O_GENERATE, CKO_PUBLIC_KEY, kfyTypf, publidKfyTfmplbtf);
+            privbtfKfyTfmplbtf = tokfn.gftAttributfs
+                (O_GENERATE, CKO_PRIVATE_KEY, kfyTypf, privbtfKfyTfmplbtf);
+            long[] kfyIDs = tokfn.p11.C_GfnfrbtfKfyPbir
+                (sfssion.id(), nfw CK_MECHANISM(mfdhbnism),
+                publidKfyTfmplbtf, privbtfKfyTfmplbtf);
+            PublidKfy publidKfy = P11Kfy.publidKfy
+                (sfssion, kfyIDs[0], blgorithm, kfySizf, publidKfyTfmplbtf);
+            PrivbtfKfy privbtfKfy = P11Kfy.privbtfKfy
+                (sfssion, kfyIDs[1], blgorithm, kfySizf, privbtfKfyTfmplbtf);
+            rfturn nfw KfyPbir(publidKfy, privbtfKfy);
+        } dbtdh (PKCS11Exdfption f) {
+            throw nfw ProvidfrExdfption(f);
+        } finblly {
+            tokfn.rflfbsfSfssion(sfssion);
+        }
+    }
+}

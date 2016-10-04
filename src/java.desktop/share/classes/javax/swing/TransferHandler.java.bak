@@ -1,1795 +1,1795 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.datatransfer.*;
-import java.awt.dnd.*;
-import java.beans.*;
-import java.lang.reflect.*;
-import java.io.*;
-import java.util.TooManyListenersException;
-import javax.swing.plaf.UIResource;
-import javax.swing.event.*;
-import javax.swing.text.JTextComponent;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.dbtbtrbnsffr.*;
+import jbvb.bwt.dnd.*;
+import jbvb.bfbns.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.io.*;
+import jbvb.util.TooMbnyListfnfrsExdfption;
+import jbvbx.swing.plbf.UIRfsourdf;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.JTfxtComponfnt;
 
-import sun.reflect.misc.MethodUtil;
-import sun.swing.SwingUtilities2;
-import sun.awt.AppContext;
+import sun.rfflfdt.misd.MftiodUtil;
+import sun.swing.SwingUtilitifs2;
+import sun.bwt.AppContfxt;
 import sun.swing.*;
-import sun.awt.SunToolkit;
+import sun.bwt.SunToolkit;
 
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
-import java.security.AccessControlContext;
-import java.security.ProtectionDomain;
-import sun.misc.SharedSecrets;
-import sun.misc.JavaSecurityAccess;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.ProtfdtionDombin;
+import sun.misd.SibrfdSfdrfts;
+import sun.misd.JbvbSfdurityAddfss;
 
-import sun.awt.AWTAccessor;
+import sun.bwt.AWTAddfssor;
 
 /**
- * This class is used to handle the transfer of a <code>Transferable</code>
- * to and from Swing components.  The <code>Transferable</code> is used to
- * represent data that is exchanged via a cut, copy, or paste
- * to/from a clipboard.  It is also used in drag-and-drop operations
- * to represent a drag from a component, and a drop to a component.
- * Swing provides functionality that automatically supports cut, copy,
- * and paste keyboard bindings that use the functionality provided by
- * an implementation of this class.  Swing also provides functionality
- * that automatically supports drag and drop that uses the functionality
- * provided by an implementation of this class.  The Swing developer can
- * concentrate on specifying the semantics of a transfer primarily by setting
- * the <code>transferHandler</code> property on a Swing component.
+ * Tiis dlbss is usfd to ibndlf tif trbnsffr of b <dodf>Trbnsffrbblf</dodf>
+ * to bnd from Swing domponfnts.  Tif <dodf>Trbnsffrbblf</dodf> is usfd to
+ * rfprfsfnt dbtb tibt is fxdibngfd vib b dut, dopy, or pbstf
+ * to/from b dlipbobrd.  It is blso usfd in drbg-bnd-drop opfrbtions
+ * to rfprfsfnt b drbg from b domponfnt, bnd b drop to b domponfnt.
+ * Swing providfs fundtionblity tibt butombtidblly supports dut, dopy,
+ * bnd pbstf kfybobrd bindings tibt usf tif fundtionblity providfd by
+ * bn implfmfntbtion of tiis dlbss.  Swing blso providfs fundtionblity
+ * tibt butombtidblly supports drbg bnd drop tibt usfs tif fundtionblity
+ * providfd by bn implfmfntbtion of tiis dlbss.  Tif Swing dfvflopfr dbn
+ * dondfntrbtf on spfdifying tif sfmbntids of b trbnsffr primbrily by sftting
+ * tif <dodf>trbnsffrHbndlfr</dodf> propfrty on b Swing domponfnt.
  * <p>
- * This class is implemented to provide a default behavior of transferring
- * a component property simply by specifying the name of the property in
- * the constructor.  For example, to transfer the foreground color from
- * one component to another either via the clipboard or a drag and drop operation
- * a <code>TransferHandler</code> can be constructed with the string "foreground".  The
- * built in support will use the color returned by <code>getForeground</code> as the source
- * of the transfer, and <code>setForeground</code> for the target of a transfer.
+ * Tiis dlbss is implfmfntfd to providf b dffbult bfibvior of trbnsffrring
+ * b domponfnt propfrty simply by spfdifying tif nbmf of tif propfrty in
+ * tif donstrudtor.  For fxbmplf, to trbnsffr tif forfground dolor from
+ * onf domponfnt to bnotifr fitifr vib tif dlipbobrd or b drbg bnd drop opfrbtion
+ * b <dodf>TrbnsffrHbndlfr</dodf> dbn bf donstrudtfd witi tif string "forfground".  Tif
+ * built in support will usf tif dolor rfturnfd by <dodf>gftForfground</dodf> bs tif sourdf
+ * of tif trbnsffr, bnd <dodf>sftForfground</dodf> for tif tbrgft of b trbnsffr.
  * <p>
- * Please see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/dnd/index.html">
- * How to Use Drag and Drop and Data Transfer</a>,
- * a section in <em>The Java Tutorial</em>, for more information.
+ * Plfbsf sff
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/dnd/indfx.itml">
+ * How to Usf Drbg bnd Drop bnd Dbtb Trbnsffr</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl</fm>, for morf informbtion.
  *
  *
- * @author Timothy Prinzing
- * @author Shannon Hickey
- * @since 1.4
+ * @butior Timotiy Prinzing
+ * @butior Sibnnon Hidkfy
+ * @sindf 1.4
  */
-@SuppressWarnings("serial")
-public class TransferHandler implements Serializable {
+@SupprfssWbrnings("sfribl")
+publid dlbss TrbnsffrHbndlfr implfmfnts Sfriblizbblf {
 
     /**
-     * An <code>int</code> representing no transfer action.
+     * An <dodf>int</dodf> rfprfsfnting no trbnsffr bdtion.
      */
-    public static final int NONE = DnDConstants.ACTION_NONE;
+    publid stbtid finbl int NONE = DnDConstbnts.ACTION_NONE;
 
     /**
-     * An <code>int</code> representing a &quot;copy&quot; transfer action.
-     * This value is used when data is copied to a clipboard
-     * or copied elsewhere in a drag and drop operation.
+     * An <dodf>int</dodf> rfprfsfnting b &quot;dopy&quot; trbnsffr bdtion.
+     * Tiis vbluf is usfd wifn dbtb is dopifd to b dlipbobrd
+     * or dopifd flsfwifrf in b drbg bnd drop opfrbtion.
      */
-    public static final int COPY = DnDConstants.ACTION_COPY;
+    publid stbtid finbl int COPY = DnDConstbnts.ACTION_COPY;
 
     /**
-     * An <code>int</code> representing a &quot;move&quot; transfer action.
-     * This value is used when data is moved to a clipboard (i.e. a cut)
-     * or moved elsewhere in a drag and drop operation.
+     * An <dodf>int</dodf> rfprfsfnting b &quot;movf&quot; trbnsffr bdtion.
+     * Tiis vbluf is usfd wifn dbtb is movfd to b dlipbobrd (i.f. b dut)
+     * or movfd flsfwifrf in b drbg bnd drop opfrbtion.
      */
-    public static final int MOVE = DnDConstants.ACTION_MOVE;
+    publid stbtid finbl int MOVE = DnDConstbnts.ACTION_MOVE;
 
     /**
-     * An <code>int</code> representing a source action capability of either
-     * &quot;copy&quot; or &quot;move&quot;.
+     * An <dodf>int</dodf> rfprfsfnting b sourdf bdtion dbpbbility of fitifr
+     * &quot;dopy&quot; or &quot;movf&quot;.
      */
-    public static final int COPY_OR_MOVE = DnDConstants.ACTION_COPY_OR_MOVE;
+    publid stbtid finbl int COPY_OR_MOVE = DnDConstbnts.ACTION_COPY_OR_MOVE;
 
     /**
-     * An <code>int</code> representing a &quot;link&quot; transfer action.
-     * This value is used to specify that data should be linked in a drag
-     * and drop operation.
+     * An <dodf>int</dodf> rfprfsfnting b &quot;link&quot; trbnsffr bdtion.
+     * Tiis vbluf is usfd to spfdify tibt dbtb siould bf linkfd in b drbg
+     * bnd drop opfrbtion.
      *
-     * @see java.awt.dnd.DnDConstants#ACTION_LINK
-     * @since 1.6
+     * @sff jbvb.bwt.dnd.DnDConstbnts#ACTION_LINK
+     * @sindf 1.6
      */
-    public static final int LINK = DnDConstants.ACTION_LINK;
+    publid stbtid finbl int LINK = DnDConstbnts.ACTION_LINK;
 
     /**
-     * An interface to tag things with a {@code getTransferHandler} method.
+     * An intfrfbdf to tbg tiings witi b {@dodf gftTrbnsffrHbndlfr} mftiod.
      */
-    interface HasGetTransferHandler {
+    intfrfbdf HbsGftTrbnsffrHbndlfr {
 
-        /** Returns the {@code TransferHandler}.
+        /** Rfturns tif {@dodf TrbnsffrHbndlfr}.
          *
-         * @return The {@code TransferHandler} or {@code null}
+         * @rfturn Tif {@dodf TrbnsffrHbndlfr} or {@dodf null}
          */
-        public TransferHandler getTransferHandler();
+        publid TrbnsffrHbndlfr gftTrbnsffrHbndlfr();
     }
 
     /**
-     * Represents a location where dropped data should be inserted.
-     * This is a base class that only encapsulates a point.
-     * Components supporting drop may provide subclasses of this
-     * containing more information.
+     * Rfprfsfnts b lodbtion wifrf droppfd dbtb siould bf insfrtfd.
+     * Tiis is b bbsf dlbss tibt only fndbpsulbtfs b point.
+     * Componfnts supporting drop mby providf subdlbssfs of tiis
+     * dontbining morf informbtion.
      * <p>
-     * Developers typically shouldn't create instances of, or extend, this
-     * class. Instead, these are something provided by the DnD
-     * implementation by <code>TransferSupport</code> instances and by
-     * components with a <code>getDropLocation()</code> method.
+     * Dfvflopfrs typidblly siouldn't drfbtf instbndfs of, or fxtfnd, tiis
+     * dlbss. Instfbd, tifsf brf somftiing providfd by tif DnD
+     * implfmfntbtion by <dodf>TrbnsffrSupport</dodf> instbndfs bnd by
+     * domponfnts witi b <dodf>gftDropLodbtion()</dodf> mftiod.
      *
-     * @see javax.swing.TransferHandler.TransferSupport#getDropLocation
-     * @since 1.6
+     * @sff jbvbx.swing.TrbnsffrHbndlfr.TrbnsffrSupport#gftDropLodbtion
+     * @sindf 1.6
      */
-    public static class DropLocation {
-        private final Point dropPoint;
+    publid stbtid dlbss DropLodbtion {
+        privbtf finbl Point dropPoint;
 
         /**
-         * Constructs a drop location for the given point.
+         * Construdts b drop lodbtion for tif givfn point.
          *
-         * @param dropPoint the drop point, representing the mouse's
-         *        current location within the component.
-         * @throws IllegalArgumentException if the point
-         *         is <code>null</code>
+         * @pbrbm dropPoint tif drop point, rfprfsfnting tif mousf's
+         *        durrfnt lodbtion witiin tif domponfnt.
+         * @tirows IllfgblArgumfntExdfption if tif point
+         *         is <dodf>null</dodf>
          */
-        protected DropLocation(Point dropPoint) {
+        protfdtfd DropLodbtion(Point dropPoint) {
             if (dropPoint == null) {
-                throw new IllegalArgumentException("Point cannot be null");
+                tirow nfw IllfgblArgumfntExdfption("Point dbnnot bf null");
             }
 
-            this.dropPoint = new Point(dropPoint);
+            tiis.dropPoint = nfw Point(dropPoint);
         }
 
         /**
-         * Returns the drop point, representing the mouse's
-         * current location within the component.
+         * Rfturns tif drop point, rfprfsfnting tif mousf's
+         * durrfnt lodbtion witiin tif domponfnt.
          *
-         * @return the drop point.
+         * @rfturn tif drop point.
          */
-        public final Point getDropPoint() {
-            return new Point(dropPoint);
+        publid finbl Point gftDropPoint() {
+            rfturn nfw Point(dropPoint);
         }
 
         /**
-         * Returns a string representation of this drop location.
-         * This method is intended to be used for debugging purposes,
-         * and the content and format of the returned string may vary
-         * between implementations.
+         * Rfturns b string rfprfsfntbtion of tiis drop lodbtion.
+         * Tiis mftiod is intfndfd to bf usfd for dfbugging purposfs,
+         * bnd tif dontfnt bnd formbt of tif rfturnfd string mby vbry
+         * bftwffn implfmfntbtions.
          *
-         * @return a string representation of this drop location
+         * @rfturn b string rfprfsfntbtion of tiis drop lodbtion
          */
-        public String toString() {
-            return getClass().getName() + "[dropPoint=" + dropPoint + "]";
+        publid String toString() {
+            rfturn gftClbss().gftNbmf() + "[dropPoint=" + dropPoint + "]";
         }
     };
 
     /**
-     * This class encapsulates all relevant details of a clipboard
-     * or drag and drop transfer, and also allows for customizing
-     * aspects of the drag and drop experience.
+     * Tiis dlbss fndbpsulbtfs bll rflfvbnt dftbils of b dlipbobrd
+     * or drbg bnd drop trbnsffr, bnd blso bllows for dustomizing
+     * bspfdts of tif drbg bnd drop fxpfrifndf.
      * <p>
-     * The main purpose of this class is to provide the information
-     * needed by a developer to determine the suitability of a
-     * transfer or to import the data contained within. But it also
-     * doubles as a controller for customizing properties during drag
-     * and drop, such as whether or not to show the drop location,
-     * and which drop action to use.
+     * Tif mbin purposf of tiis dlbss is to providf tif informbtion
+     * nffdfd by b dfvflopfr to dftfrminf tif suitbbility of b
+     * trbnsffr or to import tif dbtb dontbinfd witiin. But it blso
+     * doublfs bs b dontrollfr for dustomizing propfrtifs during drbg
+     * bnd drop, sudi bs wiftifr or not to siow tif drop lodbtion,
+     * bnd wiidi drop bdtion to usf.
      * <p>
-     * Developers typically need not create instances of this
-     * class. Instead, they are something provided by the DnD
-     * implementation to certain methods in <code>TransferHandler</code>.
+     * Dfvflopfrs typidblly nffd not drfbtf instbndfs of tiis
+     * dlbss. Instfbd, tify brf somftiing providfd by tif DnD
+     * implfmfntbtion to dfrtbin mftiods in <dodf>TrbnsffrHbndlfr</dodf>.
      *
-     * @see #canImport(TransferHandler.TransferSupport)
-     * @see #importData(TransferHandler.TransferSupport)
-     * @since 1.6
+     * @sff #dbnImport(TrbnsffrHbndlfr.TrbnsffrSupport)
+     * @sff #importDbtb(TrbnsffrHbndlfr.TrbnsffrSupport)
+     * @sindf 1.6
      */
-    public final static class TransferSupport {
-        private boolean isDrop;
-        private Component component;
+    publid finbl stbtid dlbss TrbnsffrSupport {
+        privbtf boolfbn isDrop;
+        privbtf Componfnt domponfnt;
 
-        private boolean showDropLocationIsSet;
-        private boolean showDropLocation;
+        privbtf boolfbn siowDropLodbtionIsSft;
+        privbtf boolfbn siowDropLodbtion;
 
-        private int dropAction = -1;
+        privbtf int dropAdtion = -1;
 
         /**
-         * The source is a {@code DropTargetDragEvent} or
-         * {@code DropTargetDropEvent} for drops,
-         * and a {@code Transferable} otherwise
+         * Tif sourdf is b {@dodf DropTbrgftDrbgEvfnt} or
+         * {@dodf DropTbrgftDropEvfnt} for drops,
+         * bnd b {@dodf Trbnsffrbblf} otifrwisf
          */
-        private Object source;
+        privbtf Objfdt sourdf;
 
-        private DropLocation dropLocation;
+        privbtf DropLodbtion dropLodbtion;
 
         /**
-         * Create a <code>TransferSupport</code> with <code>isDrop()</code>
-         * <code>true</code> for the given component, event, and index.
+         * Crfbtf b <dodf>TrbnsffrSupport</dodf> witi <dodf>isDrop()</dodf>
+         * <dodf>truf</dodf> for tif givfn domponfnt, fvfnt, bnd indfx.
          *
-         * @param component the target component
-         * @param event a <code>DropTargetEvent</code>
+         * @pbrbm domponfnt tif tbrgft domponfnt
+         * @pbrbm fvfnt b <dodf>DropTbrgftEvfnt</dodf>
          */
-        private TransferSupport(Component component,
-                             DropTargetEvent event) {
+        privbtf TrbnsffrSupport(Componfnt domponfnt,
+                             DropTbrgftEvfnt fvfnt) {
 
-            isDrop = true;
-            setDNDVariables(component, event);
+            isDrop = truf;
+            sftDNDVbribblfs(domponfnt, fvfnt);
         }
 
         /**
-         * Create a <code>TransferSupport</code> with <code>isDrop()</code>
-         * <code>false</code> for the given component and
-         * <code>Transferable</code>.
+         * Crfbtf b <dodf>TrbnsffrSupport</dodf> witi <dodf>isDrop()</dodf>
+         * <dodf>fblsf</dodf> for tif givfn domponfnt bnd
+         * <dodf>Trbnsffrbblf</dodf>.
          *
-         * @param component the target component
-         * @param transferable the transferable
-         * @throws NullPointerException if either parameter
-         *         is <code>null</code>
+         * @pbrbm domponfnt tif tbrgft domponfnt
+         * @pbrbm trbnsffrbblf tif trbnsffrbblf
+         * @tirows NullPointfrExdfption if fitifr pbrbmftfr
+         *         is <dodf>null</dodf>
          */
-        public TransferSupport(Component component, Transferable transferable) {
-            if (component == null) {
-                throw new NullPointerException("component is null");
+        publid TrbnsffrSupport(Componfnt domponfnt, Trbnsffrbblf trbnsffrbblf) {
+            if (domponfnt == null) {
+                tirow nfw NullPointfrExdfption("domponfnt is null");
             }
 
-            if (transferable == null) {
-                throw new NullPointerException("transferable is null");
+            if (trbnsffrbblf == null) {
+                tirow nfw NullPointfrExdfption("trbnsffrbblf is null");
             }
 
-            isDrop = false;
-            this.component = component;
-            this.source = transferable;
+            isDrop = fblsf;
+            tiis.domponfnt = domponfnt;
+            tiis.sourdf = trbnsffrbblf;
         }
 
         /**
-         * Allows for a single instance to be reused during DnD.
+         * Allows for b singlf instbndf to bf rfusfd during DnD.
          *
-         * @param component the target component
-         * @param event a <code>DropTargetEvent</code>
+         * @pbrbm domponfnt tif tbrgft domponfnt
+         * @pbrbm fvfnt b <dodf>DropTbrgftEvfnt</dodf>
          */
-        private void setDNDVariables(Component component,
-                                     DropTargetEvent event) {
+        privbtf void sftDNDVbribblfs(Componfnt domponfnt,
+                                     DropTbrgftEvfnt fvfnt) {
 
-            assert isDrop;
+            bssfrt isDrop;
 
-            this.component = component;
-            this.source = event;
-            dropLocation = null;
-            dropAction = -1;
-            showDropLocationIsSet = false;
+            tiis.domponfnt = domponfnt;
+            tiis.sourdf = fvfnt;
+            dropLodbtion = null;
+            dropAdtion = -1;
+            siowDropLodbtionIsSft = fblsf;
 
-            if (source == null) {
-                return;
+            if (sourdf == null) {
+                rfturn;
             }
 
-            assert source instanceof DropTargetDragEvent ||
-                   source instanceof DropTargetDropEvent;
+            bssfrt sourdf instbndfof DropTbrgftDrbgEvfnt ||
+                   sourdf instbndfof DropTbrgftDropEvfnt;
 
-            Point p = source instanceof DropTargetDragEvent
-                          ? ((DropTargetDragEvent)source).getLocation()
-                          : ((DropTargetDropEvent)source).getLocation();
+            Point p = sourdf instbndfof DropTbrgftDrbgEvfnt
+                          ? ((DropTbrgftDrbgEvfnt)sourdf).gftLodbtion()
+                          : ((DropTbrgftDropEvfnt)sourdf).gftLodbtion();
 
-            if (SunToolkit.isInstanceOf(component, "javax.swing.text.JTextComponent")) {
-                dropLocation = SwingAccessor.getJTextComponentAccessor().
-                                   dropLocationForPoint((JTextComponent)component, p);
-            } else if (component instanceof JComponent) {
-                dropLocation = ((JComponent)component).dropLocationForPoint(p);
+            if (SunToolkit.isInstbndfOf(domponfnt, "jbvbx.swing.tfxt.JTfxtComponfnt")) {
+                dropLodbtion = SwingAddfssor.gftJTfxtComponfntAddfssor().
+                                   dropLodbtionForPoint((JTfxtComponfnt)domponfnt, p);
+            } flsf if (domponfnt instbndfof JComponfnt) {
+                dropLodbtion = ((JComponfnt)domponfnt).dropLodbtionForPoint(p);
             }
 
             /*
-             * The drop location may be null at this point if the component
-             * doesn't return custom drop locations. In this case, a point-only
-             * drop location will be created lazily when requested.
+             * Tif drop lodbtion mby bf null bt tiis point if tif domponfnt
+             * dofsn't rfturn dustom drop lodbtions. In tiis dbsf, b point-only
+             * drop lodbtion will bf drfbtfd lbzily wifn rfqufstfd.
              */
         }
 
         /**
-         * Returns whether or not this <code>TransferSupport</code>
-         * represents a drop operation.
+         * Rfturns wiftifr or not tiis <dodf>TrbnsffrSupport</dodf>
+         * rfprfsfnts b drop opfrbtion.
          *
-         * @return <code>true</code> if this is a drop operation,
-         *         <code>false</code> otherwise.
+         * @rfturn <dodf>truf</dodf> if tiis is b drop opfrbtion,
+         *         <dodf>fblsf</dodf> otifrwisf.
          */
-        public boolean isDrop() {
-            return isDrop;
+        publid boolfbn isDrop() {
+            rfturn isDrop;
         }
 
         /**
-         * Returns the target component of this transfer.
+         * Rfturns tif tbrgft domponfnt of tiis trbnsffr.
          *
-         * @return the target component
+         * @rfturn tif tbrgft domponfnt
          */
-        public Component getComponent() {
-            return component;
+        publid Componfnt gftComponfnt() {
+            rfturn domponfnt;
         }
 
         /**
-         * Checks that this is a drop and throws an
-         * {@code IllegalStateException} if it isn't.
+         * Cifdks tibt tiis is b drop bnd tirows bn
+         * {@dodf IllfgblStbtfExdfption} if it isn't.
          *
-         * @throws IllegalStateException if {@code isDrop} is false.
+         * @tirows IllfgblStbtfExdfption if {@dodf isDrop} is fblsf.
          */
-        private void assureIsDrop() {
+        privbtf void bssurfIsDrop() {
             if (!isDrop) {
-                throw new IllegalStateException("Not a drop");
+                tirow nfw IllfgblStbtfExdfption("Not b drop");
             }
         }
 
         /**
-         * Returns the current (non-{@code null}) drop location for the component,
-         * when this {@code TransferSupport} represents a drop.
+         * Rfturns tif durrfnt (non-{@dodf null}) drop lodbtion for tif domponfnt,
+         * wifn tiis {@dodf TrbnsffrSupport} rfprfsfnts b drop.
          * <p>
-         * Note: For components with built-in drop support, this location
-         * will be a subclass of {@code DropLocation} of the same type
-         * returned by that component's {@code getDropLocation} method.
+         * Notf: For domponfnts witi built-in drop support, tiis lodbtion
+         * will bf b subdlbss of {@dodf DropLodbtion} of tif sbmf typf
+         * rfturnfd by tibt domponfnt's {@dodf gftDropLodbtion} mftiod.
          * <p>
-         * This method is only for use with drag and drop transfers.
-         * Calling it when {@code isDrop()} is {@code false} results
-         * in an {@code IllegalStateException}.
+         * Tiis mftiod is only for usf witi drbg bnd drop trbnsffrs.
+         * Cblling it wifn {@dodf isDrop()} is {@dodf fblsf} rfsults
+         * in bn {@dodf IllfgblStbtfExdfption}.
          *
-         * @return the drop location
-         * @throws IllegalStateException if this is not a drop
-         * @see #isDrop()
+         * @rfturn tif drop lodbtion
+         * @tirows IllfgblStbtfExdfption if tiis is not b drop
+         * @sff #isDrop()
          */
-        public DropLocation getDropLocation() {
-            assureIsDrop();
+        publid DropLodbtion gftDropLodbtion() {
+            bssurfIsDrop();
 
-            if (dropLocation == null) {
+            if (dropLodbtion == null) {
                 /*
-                 * component didn't give us a custom drop location,
-                 * so lazily create a point-only location
+                 * domponfnt didn't givf us b dustom drop lodbtion,
+                 * so lbzily drfbtf b point-only lodbtion
                  */
-                Point p = source instanceof DropTargetDragEvent
-                              ? ((DropTargetDragEvent)source).getLocation()
-                              : ((DropTargetDropEvent)source).getLocation();
+                Point p = sourdf instbndfof DropTbrgftDrbgEvfnt
+                              ? ((DropTbrgftDrbgEvfnt)sourdf).gftLodbtion()
+                              : ((DropTbrgftDropEvfnt)sourdf).gftLodbtion();
 
-                dropLocation = new DropLocation(p);
+                dropLodbtion = nfw DropLodbtion(p);
             }
 
-            return dropLocation;
+            rfturn dropLodbtion;
         }
 
         /**
-         * Sets whether or not the drop location should be visually indicated
-         * for the transfer - which must represent a drop. This is applicable to
-         * those components that automatically
-         * show the drop location when appropriate during a drag and drop
-         * operation). By default, the drop location is shown only when the
-         * {@code TransferHandler} has said it can accept the import represented
-         * by this {@code TransferSupport}. With this method you can force the
-         * drop location to always be shown, or always not be shown.
+         * Sfts wiftifr or not tif drop lodbtion siould bf visublly indidbtfd
+         * for tif trbnsffr - wiidi must rfprfsfnt b drop. Tiis is bpplidbblf to
+         * tiosf domponfnts tibt butombtidblly
+         * siow tif drop lodbtion wifn bppropribtf during b drbg bnd drop
+         * opfrbtion). By dffbult, tif drop lodbtion is siown only wifn tif
+         * {@dodf TrbnsffrHbndlfr} ibs sbid it dbn bddfpt tif import rfprfsfntfd
+         * by tiis {@dodf TrbnsffrSupport}. Witi tiis mftiod you dbn fordf tif
+         * drop lodbtion to blwbys bf siown, or blwbys not bf siown.
          * <p>
-         * This method is only for use with drag and drop transfers.
-         * Calling it when {@code isDrop()} is {@code false} results
-         * in an {@code IllegalStateException}.
+         * Tiis mftiod is only for usf witi drbg bnd drop trbnsffrs.
+         * Cblling it wifn {@dodf isDrop()} is {@dodf fblsf} rfsults
+         * in bn {@dodf IllfgblStbtfExdfption}.
          *
-         * @param showDropLocation whether or not to indicate the drop location
-         * @throws IllegalStateException if this is not a drop
-         * @see #isDrop()
+         * @pbrbm siowDropLodbtion wiftifr or not to indidbtf tif drop lodbtion
+         * @tirows IllfgblStbtfExdfption if tiis is not b drop
+         * @sff #isDrop()
          */
-        public void setShowDropLocation(boolean showDropLocation) {
-            assureIsDrop();
+        publid void sftSiowDropLodbtion(boolfbn siowDropLodbtion) {
+            bssurfIsDrop();
 
-            this.showDropLocation = showDropLocation;
-            this.showDropLocationIsSet = true;
+            tiis.siowDropLodbtion = siowDropLodbtion;
+            tiis.siowDropLodbtionIsSft = truf;
         }
 
         /**
-         * Sets the drop action for the transfer - which must represent a drop
-         * - to the given action,
-         * instead of the default user drop action. The action must be
-         * supported by the source's drop actions, and must be one
-         * of {@code COPY}, {@code MOVE} or {@code LINK}.
+         * Sfts tif drop bdtion for tif trbnsffr - wiidi must rfprfsfnt b drop
+         * - to tif givfn bdtion,
+         * instfbd of tif dffbult usfr drop bdtion. Tif bdtion must bf
+         * supportfd by tif sourdf's drop bdtions, bnd must bf onf
+         * of {@dodf COPY}, {@dodf MOVE} or {@dodf LINK}.
          * <p>
-         * This method is only for use with drag and drop transfers.
-         * Calling it when {@code isDrop()} is {@code false} results
-         * in an {@code IllegalStateException}.
+         * Tiis mftiod is only for usf witi drbg bnd drop trbnsffrs.
+         * Cblling it wifn {@dodf isDrop()} is {@dodf fblsf} rfsults
+         * in bn {@dodf IllfgblStbtfExdfption}.
          *
-         * @param dropAction the drop action
-         * @throws IllegalStateException if this is not a drop
-         * @throws IllegalArgumentException if an invalid action is specified
-         * @see #getDropAction
-         * @see #getUserDropAction
-         * @see #getSourceDropActions
-         * @see #isDrop()
+         * @pbrbm dropAdtion tif drop bdtion
+         * @tirows IllfgblStbtfExdfption if tiis is not b drop
+         * @tirows IllfgblArgumfntExdfption if bn invblid bdtion is spfdififd
+         * @sff #gftDropAdtion
+         * @sff #gftUsfrDropAdtion
+         * @sff #gftSourdfDropAdtions
+         * @sff #isDrop()
          */
-        public void setDropAction(int dropAction) {
-            assureIsDrop();
+        publid void sftDropAdtion(int dropAdtion) {
+            bssurfIsDrop();
 
-            int action = dropAction & getSourceDropActions();
+            int bdtion = dropAdtion & gftSourdfDropAdtions();
 
-            if (!(action == COPY || action == MOVE || action == LINK)) {
-                throw new IllegalArgumentException("unsupported drop action: " + dropAction);
+            if (!(bdtion == COPY || bdtion == MOVE || bdtion == LINK)) {
+                tirow nfw IllfgblArgumfntExdfption("unsupportfd drop bdtion: " + dropAdtion);
             }
 
-            this.dropAction = dropAction;
+            tiis.dropAdtion = dropAdtion;
         }
 
         /**
-         * Returns the action chosen for the drop, when this
-         * {@code TransferSupport} represents a drop.
+         * Rfturns tif bdtion diosfn for tif drop, wifn tiis
+         * {@dodf TrbnsffrSupport} rfprfsfnts b drop.
          * <p>
-         * Unless explicitly chosen by way of {@code setDropAction},
-         * this returns the user drop action provided by
-         * {@code getUserDropAction}.
+         * Unlfss fxpliditly diosfn by wby of {@dodf sftDropAdtion},
+         * tiis rfturns tif usfr drop bdtion providfd by
+         * {@dodf gftUsfrDropAdtion}.
          * <p>
-         * You may wish to query this in {@code TransferHandler}'s
-         * {@code importData} method to customize processing based
-         * on the action.
+         * You mby wisi to qufry tiis in {@dodf TrbnsffrHbndlfr}'s
+         * {@dodf importDbtb} mftiod to dustomizf prodfssing bbsfd
+         * on tif bdtion.
          * <p>
-         * This method is only for use with drag and drop transfers.
-         * Calling it when {@code isDrop()} is {@code false} results
-         * in an {@code IllegalStateException}.
+         * Tiis mftiod is only for usf witi drbg bnd drop trbnsffrs.
+         * Cblling it wifn {@dodf isDrop()} is {@dodf fblsf} rfsults
+         * in bn {@dodf IllfgblStbtfExdfption}.
          *
-         * @return the action chosen for the drop
-         * @throws IllegalStateException if this is not a drop
-         * @see #setDropAction
-         * @see #getUserDropAction
-         * @see #isDrop()
+         * @rfturn tif bdtion diosfn for tif drop
+         * @tirows IllfgblStbtfExdfption if tiis is not b drop
+         * @sff #sftDropAdtion
+         * @sff #gftUsfrDropAdtion
+         * @sff #isDrop()
          */
-        public int getDropAction() {
-            return dropAction == -1 ? getUserDropAction() : dropAction;
+        publid int gftDropAdtion() {
+            rfturn dropAdtion == -1 ? gftUsfrDropAdtion() : dropAdtion;
         }
 
         /**
-         * Returns the user drop action for the drop, when this
-         * {@code TransferSupport} represents a drop.
+         * Rfturns tif usfr drop bdtion for tif drop, wifn tiis
+         * {@dodf TrbnsffrSupport} rfprfsfnts b drop.
          * <p>
-         * The user drop action is chosen for a drop as described in the
-         * documentation for {@link java.awt.dnd.DropTargetDragEvent} and
-         * {@link java.awt.dnd.DropTargetDropEvent}. A different action
-         * may be chosen as the drop action by way of the {@code setDropAction}
-         * method.
+         * Tif usfr drop bdtion is diosfn for b drop bs dfsdribfd in tif
+         * dodumfntbtion for {@link jbvb.bwt.dnd.DropTbrgftDrbgEvfnt} bnd
+         * {@link jbvb.bwt.dnd.DropTbrgftDropEvfnt}. A difffrfnt bdtion
+         * mby bf diosfn bs tif drop bdtion by wby of tif {@dodf sftDropAdtion}
+         * mftiod.
          * <p>
-         * You may wish to query this in {@code TransferHandler}'s
-         * {@code canImport} method when determining the suitability of a
-         * drop or when deciding on a drop action to explicitly choose.
+         * You mby wisi to qufry tiis in {@dodf TrbnsffrHbndlfr}'s
+         * {@dodf dbnImport} mftiod wifn dftfrmining tif suitbbility of b
+         * drop or wifn dfdiding on b drop bdtion to fxpliditly dioosf.
          * <p>
-         * This method is only for use with drag and drop transfers.
-         * Calling it when {@code isDrop()} is {@code false} results
-         * in an {@code IllegalStateException}.
+         * Tiis mftiod is only for usf witi drbg bnd drop trbnsffrs.
+         * Cblling it wifn {@dodf isDrop()} is {@dodf fblsf} rfsults
+         * in bn {@dodf IllfgblStbtfExdfption}.
          *
-         * @return the user drop action
-         * @throws IllegalStateException if this is not a drop
-         * @see #setDropAction
-         * @see #getDropAction
-         * @see #isDrop()
+         * @rfturn tif usfr drop bdtion
+         * @tirows IllfgblStbtfExdfption if tiis is not b drop
+         * @sff #sftDropAdtion
+         * @sff #gftDropAdtion
+         * @sff #isDrop()
          */
-        public int getUserDropAction() {
-            assureIsDrop();
+        publid int gftUsfrDropAdtion() {
+            bssurfIsDrop();
 
-            return (source instanceof DropTargetDragEvent)
-                ? ((DropTargetDragEvent)source).getDropAction()
-                : ((DropTargetDropEvent)source).getDropAction();
+            rfturn (sourdf instbndfof DropTbrgftDrbgEvfnt)
+                ? ((DropTbrgftDrbgEvfnt)sourdf).gftDropAdtion()
+                : ((DropTbrgftDropEvfnt)sourdf).gftDropAdtion();
         }
 
         /**
-         * Returns the drag source's supported drop actions, when this
-         * {@code TransferSupport} represents a drop.
+         * Rfturns tif drbg sourdf's supportfd drop bdtions, wifn tiis
+         * {@dodf TrbnsffrSupport} rfprfsfnts b drop.
          * <p>
-         * The source actions represent the set of actions supported by the
-         * source of this transfer, and are represented as some bitwise-OR
-         * combination of {@code COPY}, {@code MOVE} and {@code LINK}.
-         * You may wish to query this in {@code TransferHandler}'s
-         * {@code canImport} method when determining the suitability of a drop
-         * or when deciding on a drop action to explicitly choose. To determine
-         * if a particular action is supported by the source, bitwise-AND
-         * the action with the source drop actions, and then compare the result
-         * against the original action. For example:
-         * <pre>
-         * boolean copySupported = (COPY &amp; getSourceDropActions()) == COPY;
-         * </pre>
+         * Tif sourdf bdtions rfprfsfnt tif sft of bdtions supportfd by tif
+         * sourdf of tiis trbnsffr, bnd brf rfprfsfntfd bs somf bitwisf-OR
+         * dombinbtion of {@dodf COPY}, {@dodf MOVE} bnd {@dodf LINK}.
+         * You mby wisi to qufry tiis in {@dodf TrbnsffrHbndlfr}'s
+         * {@dodf dbnImport} mftiod wifn dftfrmining tif suitbbility of b drop
+         * or wifn dfdiding on b drop bdtion to fxpliditly dioosf. To dftfrminf
+         * if b pbrtidulbr bdtion is supportfd by tif sourdf, bitwisf-AND
+         * tif bdtion witi tif sourdf drop bdtions, bnd tifn dompbrf tif rfsult
+         * bgbinst tif originbl bdtion. For fxbmplf:
+         * <prf>
+         * boolfbn dopySupportfd = (COPY &bmp; gftSourdfDropAdtions()) == COPY;
+         * </prf>
          * <p>
-         * This method is only for use with drag and drop transfers.
-         * Calling it when {@code isDrop()} is {@code false} results
-         * in an {@code IllegalStateException}.
+         * Tiis mftiod is only for usf witi drbg bnd drop trbnsffrs.
+         * Cblling it wifn {@dodf isDrop()} is {@dodf fblsf} rfsults
+         * in bn {@dodf IllfgblStbtfExdfption}.
          *
-         * @return the drag source's supported drop actions
-         * @throws IllegalStateException if this is not a drop
-         * @see #isDrop()
+         * @rfturn tif drbg sourdf's supportfd drop bdtions
+         * @tirows IllfgblStbtfExdfption if tiis is not b drop
+         * @sff #isDrop()
          */
-        public int getSourceDropActions() {
-            assureIsDrop();
+        publid int gftSourdfDropAdtions() {
+            bssurfIsDrop();
 
-            return (source instanceof DropTargetDragEvent)
-                ? ((DropTargetDragEvent)source).getSourceActions()
-                : ((DropTargetDropEvent)source).getSourceActions();
+            rfturn (sourdf instbndfof DropTbrgftDrbgEvfnt)
+                ? ((DropTbrgftDrbgEvfnt)sourdf).gftSourdfAdtions()
+                : ((DropTbrgftDropEvfnt)sourdf).gftSourdfAdtions();
         }
 
         /**
-         * Returns the data flavors for this transfer.
+         * Rfturns tif dbtb flbvors for tiis trbnsffr.
          *
-         * @return the data flavors for this transfer
+         * @rfturn tif dbtb flbvors for tiis trbnsffr
          */
-        public DataFlavor[] getDataFlavors() {
+        publid DbtbFlbvor[] gftDbtbFlbvors() {
             if (isDrop) {
-                if (source instanceof DropTargetDragEvent) {
-                    return ((DropTargetDragEvent)source).getCurrentDataFlavors();
-                } else {
-                    return ((DropTargetDropEvent)source).getCurrentDataFlavors();
+                if (sourdf instbndfof DropTbrgftDrbgEvfnt) {
+                    rfturn ((DropTbrgftDrbgEvfnt)sourdf).gftCurrfntDbtbFlbvors();
+                } flsf {
+                    rfturn ((DropTbrgftDropEvfnt)sourdf).gftCurrfntDbtbFlbvors();
                 }
             }
 
-            return ((Transferable)source).getTransferDataFlavors();
+            rfturn ((Trbnsffrbblf)sourdf).gftTrbnsffrDbtbFlbvors();
         }
 
         /**
-         * Returns whether or not the given data flavor is supported.
+         * Rfturns wiftifr or not tif givfn dbtb flbvor is supportfd.
          *
-         * @param df the <code>DataFlavor</code> to test
-         * @return whether or not the given flavor is supported.
+         * @pbrbm df tif <dodf>DbtbFlbvor</dodf> to tfst
+         * @rfturn wiftifr or not tif givfn flbvor is supportfd.
          */
-        public boolean isDataFlavorSupported(DataFlavor df) {
+        publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor df) {
             if (isDrop) {
-                if (source instanceof DropTargetDragEvent) {
-                    return ((DropTargetDragEvent)source).isDataFlavorSupported(df);
-                } else {
-                    return ((DropTargetDropEvent)source).isDataFlavorSupported(df);
+                if (sourdf instbndfof DropTbrgftDrbgEvfnt) {
+                    rfturn ((DropTbrgftDrbgEvfnt)sourdf).isDbtbFlbvorSupportfd(df);
+                } flsf {
+                    rfturn ((DropTbrgftDropEvfnt)sourdf).isDbtbFlbvorSupportfd(df);
                 }
             }
 
-            return ((Transferable)source).isDataFlavorSupported(df);
+            rfturn ((Trbnsffrbblf)sourdf).isDbtbFlbvorSupportfd(df);
         }
 
         /**
-         * Returns the <code>Transferable</code> associated with this transfer.
+         * Rfturns tif <dodf>Trbnsffrbblf</dodf> bssodibtfd witi tiis trbnsffr.
          * <p>
-         * Note: Unless it is necessary to fetch the <code>Transferable</code>
-         * directly, use one of the other methods on this class to inquire about
-         * the transfer. This may perform better than fetching the
-         * <code>Transferable</code> and asking it directly.
+         * Notf: Unlfss it is nfdfssbry to fftdi tif <dodf>Trbnsffrbblf</dodf>
+         * dirfdtly, usf onf of tif otifr mftiods on tiis dlbss to inquirf bbout
+         * tif trbnsffr. Tiis mby pfrform bfttfr tibn fftdiing tif
+         * <dodf>Trbnsffrbblf</dodf> bnd bsking it dirfdtly.
          *
-         * @return the <code>Transferable</code> associated with this transfer
+         * @rfturn tif <dodf>Trbnsffrbblf</dodf> bssodibtfd witi tiis trbnsffr
          */
-        public Transferable getTransferable() {
+        publid Trbnsffrbblf gftTrbnsffrbblf() {
             if (isDrop) {
-                if (source instanceof DropTargetDragEvent) {
-                    return ((DropTargetDragEvent)source).getTransferable();
-                } else {
-                    return ((DropTargetDropEvent)source).getTransferable();
+                if (sourdf instbndfof DropTbrgftDrbgEvfnt) {
+                    rfturn ((DropTbrgftDrbgEvfnt)sourdf).gftTrbnsffrbblf();
+                } flsf {
+                    rfturn ((DropTbrgftDropEvfnt)sourdf).gftTrbnsffrbblf();
                 }
             }
 
-            return (Transferable)source;
+            rfturn (Trbnsffrbblf)sourdf;
         }
     }
 
 
     /**
-     * Returns an {@code Action} that performs cut operations to the
-     * clipboard. When performed, this action operates on the {@code JComponent}
-     * source of the {@code ActionEvent} by invoking {@code exportToClipboard},
-     * with a {@code MOVE} action, on the component's {@code TransferHandler}.
+     * Rfturns bn {@dodf Adtion} tibt pfrforms dut opfrbtions to tif
+     * dlipbobrd. Wifn pfrformfd, tiis bdtion opfrbtfs on tif {@dodf JComponfnt}
+     * sourdf of tif {@dodf AdtionEvfnt} by invoking {@dodf fxportToClipbobrd},
+     * witi b {@dodf MOVE} bdtion, on tif domponfnt's {@dodf TrbnsffrHbndlfr}.
      *
-     * @return an {@code Action} for performing cuts to the clipboard
+     * @rfturn bn {@dodf Adtion} for pfrforming duts to tif dlipbobrd
      */
-    public static Action getCutAction() {
-        return cutAction;
+    publid stbtid Adtion gftCutAdtion() {
+        rfturn dutAdtion;
     }
 
     /**
-     * Returns an {@code Action} that performs copy operations to the
-     * clipboard. When performed, this action operates on the {@code JComponent}
-     * source of the {@code ActionEvent} by invoking {@code exportToClipboard},
-     * with a {@code COPY} action, on the component's {@code TransferHandler}.
+     * Rfturns bn {@dodf Adtion} tibt pfrforms dopy opfrbtions to tif
+     * dlipbobrd. Wifn pfrformfd, tiis bdtion opfrbtfs on tif {@dodf JComponfnt}
+     * sourdf of tif {@dodf AdtionEvfnt} by invoking {@dodf fxportToClipbobrd},
+     * witi b {@dodf COPY} bdtion, on tif domponfnt's {@dodf TrbnsffrHbndlfr}.
      *
-     * @return an {@code Action} for performing copies to the clipboard
+     * @rfturn bn {@dodf Adtion} for pfrforming dopifs to tif dlipbobrd
      */
-    public static Action getCopyAction() {
-        return copyAction;
+    publid stbtid Adtion gftCopyAdtion() {
+        rfturn dopyAdtion;
     }
 
     /**
-     * Returns an {@code Action} that performs paste operations from the
-     * clipboard. When performed, this action operates on the {@code JComponent}
-     * source of the {@code ActionEvent} by invoking {@code importData},
-     * with the clipboard contents, on the component's {@code TransferHandler}.
+     * Rfturns bn {@dodf Adtion} tibt pfrforms pbstf opfrbtions from tif
+     * dlipbobrd. Wifn pfrformfd, tiis bdtion opfrbtfs on tif {@dodf JComponfnt}
+     * sourdf of tif {@dodf AdtionEvfnt} by invoking {@dodf importDbtb},
+     * witi tif dlipbobrd dontfnts, on tif domponfnt's {@dodf TrbnsffrHbndlfr}.
      *
-     * @return an {@code Action} for performing pastes from the clipboard
+     * @rfturn bn {@dodf Adtion} for pfrforming pbstfs from tif dlipbobrd
      */
-    public static Action getPasteAction() {
-        return pasteAction;
-    }
-
-
-    /**
-     * Constructs a transfer handler that can transfer a Java Bean property
-     * from one component to another via the clipboard or a drag and drop
-     * operation.
-     *
-     * @param property  the name of the property to transfer; this can
-     *  be <code>null</code> if there is no property associated with the transfer
-     *  handler (a subclass that performs some other kind of transfer, for example)
-     */
-    public TransferHandler(String property) {
-        propertyName = property;
-    }
-
-    /**
-     * Convenience constructor for subclasses.
-     */
-    protected TransferHandler() {
-        this(null);
+    publid stbtid Adtion gftPbstfAdtion() {
+        rfturn pbstfAdtion;
     }
 
 
     /**
-     * image for the {@code startDrag} method
+     * Construdts b trbnsffr ibndlfr tibt dbn trbnsffr b Jbvb Bfbn propfrty
+     * from onf domponfnt to bnotifr vib tif dlipbobrd or b drbg bnd drop
+     * opfrbtion.
      *
-     * @see java.awt.dnd.DragGestureEvent#startDrag(Cursor dragCursor, Image dragImage, Point imageOffset, Transferable transferable, DragSourceListener dsl)
+     * @pbrbm propfrty  tif nbmf of tif propfrty to trbnsffr; tiis dbn
+     *  bf <dodf>null</dodf> if tifrf is no propfrty bssodibtfd witi tif trbnsffr
+     *  ibndlfr (b subdlbss tibt pfrforms somf otifr kind of trbnsffr, for fxbmplf)
      */
-    private  Image dragImage;
-
-    /**
-     * anchor offset for the {@code startDrag} method
-     *
-     * @see java.awt.dnd.DragGestureEvent#startDrag(Cursor dragCursor, Image dragImage, Point imageOffset, Transferable transferable, DragSourceListener dsl)
-     */
-    private  Point dragImageOffset;
-
-    /**
-     * Sets the drag image parameter. The image has to be prepared
-     * for rendering by the moment of the call. The image is stored
-     * by reference because of some performance reasons.
-     *
-     * @param img an image to drag
-     */
-    public void setDragImage(Image img) {
-        dragImage = img;
+    publid TrbnsffrHbndlfr(String propfrty) {
+        propfrtyNbmf = propfrty;
     }
 
     /**
-     * Returns the drag image. If there is no image to drag,
-     * the returned value is {@code null}.
-     *
-     * @return the reference to the drag image
+     * Convfnifndf donstrudtor for subdlbssfs.
      */
-    public Image getDragImage() {
-        return dragImage;
+    protfdtfd TrbnsffrHbndlfr() {
+        tiis(null);
+    }
+
+
+    /**
+     * imbgf for tif {@dodf stbrtDrbg} mftiod
+     *
+     * @sff jbvb.bwt.dnd.DrbgGfsturfEvfnt#stbrtDrbg(Cursor drbgCursor, Imbgf drbgImbgf, Point imbgfOffsft, Trbnsffrbblf trbnsffrbblf, DrbgSourdfListfnfr dsl)
+     */
+    privbtf  Imbgf drbgImbgf;
+
+    /**
+     * bndior offsft for tif {@dodf stbrtDrbg} mftiod
+     *
+     * @sff jbvb.bwt.dnd.DrbgGfsturfEvfnt#stbrtDrbg(Cursor drbgCursor, Imbgf drbgImbgf, Point imbgfOffsft, Trbnsffrbblf trbnsffrbblf, DrbgSourdfListfnfr dsl)
+     */
+    privbtf  Point drbgImbgfOffsft;
+
+    /**
+     * Sfts tif drbg imbgf pbrbmftfr. Tif imbgf ibs to bf prfpbrfd
+     * for rfndfring by tif momfnt of tif dbll. Tif imbgf is storfd
+     * by rfffrfndf bfdbusf of somf pfrformbndf rfbsons.
+     *
+     * @pbrbm img bn imbgf to drbg
+     */
+    publid void sftDrbgImbgf(Imbgf img) {
+        drbgImbgf = img;
     }
 
     /**
-     * Sets an anchor offset for the image to drag.
-     * It can not be {@code null}.
+     * Rfturns tif drbg imbgf. If tifrf is no imbgf to drbg,
+     * tif rfturnfd vbluf is {@dodf null}.
      *
-     * @param p a {@code Point} object that corresponds
-     * to coordinates of an anchor offset of the image
-     * relative to the upper left corner of the image
+     * @rfturn tif rfffrfndf to tif drbg imbgf
      */
-    public void setDragImageOffset(Point p) {
-        dragImageOffset = new Point(p);
+    publid Imbgf gftDrbgImbgf() {
+        rfturn drbgImbgf;
     }
 
     /**
-     * Returns an anchor offset for the image to drag.
+     * Sfts bn bndior offsft for tif imbgf to drbg.
+     * It dbn not bf {@dodf null}.
      *
-     * @return a {@code Point} object that corresponds
-     * to coordinates of an anchor offset of the image
-     * relative to the upper left corner of the image.
-     * The point {@code (0,0)} returns by default.
+     * @pbrbm p b {@dodf Point} objfdt tibt dorrfsponds
+     * to doordinbtfs of bn bndior offsft of tif imbgf
+     * rflbtivf to tif uppfr lfft dornfr of tif imbgf
      */
-    public Point getDragImageOffset() {
-        if (dragImageOffset == null) {
-            return new Point(0,0);
+    publid void sftDrbgImbgfOffsft(Point p) {
+        drbgImbgfOffsft = nfw Point(p);
+    }
+
+    /**
+     * Rfturns bn bndior offsft for tif imbgf to drbg.
+     *
+     * @rfturn b {@dodf Point} objfdt tibt dorrfsponds
+     * to doordinbtfs of bn bndior offsft of tif imbgf
+     * rflbtivf to tif uppfr lfft dornfr of tif imbgf.
+     * Tif point {@dodf (0,0)} rfturns by dffbult.
+     */
+    publid Point gftDrbgImbgfOffsft() {
+        if (drbgImbgfOffsft == null) {
+            rfturn nfw Point(0,0);
         }
-        return new Point(dragImageOffset);
+        rfturn nfw Point(drbgImbgfOffsft);
     }
 
     /**
-     * Causes the Swing drag support to be initiated.  This is called by
-     * the various UI implementations in the <code>javax.swing.plaf.basic</code>
-     * package if the dragEnabled property is set on the component.
-     * This can be called by custom UI
-     * implementations to use the Swing drag support.  This method can also be called
-     * by a Swing extension written as a subclass of <code>JComponent</code>
-     * to take advantage of the Swing drag support.
+     * Cbusfs tif Swing drbg support to bf initibtfd.  Tiis is dbllfd by
+     * tif vbrious UI implfmfntbtions in tif <dodf>jbvbx.swing.plbf.bbsid</dodf>
+     * pbdkbgf if tif drbgEnbblfd propfrty is sft on tif domponfnt.
+     * Tiis dbn bf dbllfd by dustom UI
+     * implfmfntbtions to usf tif Swing drbg support.  Tiis mftiod dbn blso bf dbllfd
+     * by b Swing fxtfnsion writtfn bs b subdlbss of <dodf>JComponfnt</dodf>
+     * to tbkf bdvbntbgf of tif Swing drbg support.
      * <p>
-     * The transfer <em>will not necessarily</em> have been completed at the
-     * return of this call (i.e. the call does not block waiting for the drop).
-     * The transfer will take place through the Swing implementation of the
-     * <code>java.awt.dnd</code> mechanism, requiring no further effort
-     * from the developer. The <code>exportDone</code> method will be called
-     * when the transfer has completed.
+     * Tif trbnsffr <fm>will not nfdfssbrily</fm> ibvf bffn domplftfd bt tif
+     * rfturn of tiis dbll (i.f. tif dbll dofs not blodk wbiting for tif drop).
+     * Tif trbnsffr will tbkf plbdf tirougi tif Swing implfmfntbtion of tif
+     * <dodf>jbvb.bwt.dnd</dodf> mfdibnism, rfquiring no furtifr fffort
+     * from tif dfvflopfr. Tif <dodf>fxportDonf</dodf> mftiod will bf dbllfd
+     * wifn tif trbnsffr ibs domplftfd.
      *
-     * @param comp  the component holding the data to be transferred;
-     *              provided to enable sharing of <code>TransferHandler</code>s
-     * @param e     the event that triggered the transfer
-     * @param action the transfer action initially requested;
-     *               either {@code COPY}, {@code MOVE} or {@code LINK};
-     *               the DnD system may change the action used during the
-     *               course of the drag operation
+     * @pbrbm domp  tif domponfnt iolding tif dbtb to bf trbnsffrrfd;
+     *              providfd to fnbblf sibring of <dodf>TrbnsffrHbndlfr</dodf>s
+     * @pbrbm f     tif fvfnt tibt triggfrfd tif trbnsffr
+     * @pbrbm bdtion tif trbnsffr bdtion initiblly rfqufstfd;
+     *               fitifr {@dodf COPY}, {@dodf MOVE} or {@dodf LINK};
+     *               tif DnD systfm mby dibngf tif bdtion usfd during tif
+     *               doursf of tif drbg opfrbtion
      */
-    public void exportAsDrag(JComponent comp, InputEvent e, int action) {
-        int srcActions = getSourceActions(comp);
+    publid void fxportAsDrbg(JComponfnt domp, InputEvfnt f, int bdtion) {
+        int srdAdtions = gftSourdfAdtions(domp);
 
-        // only mouse events supported for drag operations
-        if (!(e instanceof MouseEvent)
-                // only support known actions
-                || !(action == COPY || action == MOVE || action == LINK)
-                // only support valid source actions
-                || (srcActions & action) == 0) {
+        // only mousf fvfnts supportfd for drbg opfrbtions
+        if (!(f instbndfof MousfEvfnt)
+                // only support known bdtions
+                || !(bdtion == COPY || bdtion == MOVE || bdtion == LINK)
+                // only support vblid sourdf bdtions
+                || (srdAdtions & bdtion) == 0) {
 
-            action = NONE;
+            bdtion = NONE;
         }
 
-        if (action != NONE && !GraphicsEnvironment.isHeadless()) {
-            if (recognizer == null) {
-                recognizer = new SwingDragGestureRecognizer(new DragHandler());
+        if (bdtion != NONE && !GrbpiidsEnvironmfnt.isHfbdlfss()) {
+            if (rfdognizfr == null) {
+                rfdognizfr = nfw SwingDrbgGfsturfRfdognizfr(nfw DrbgHbndlfr());
             }
-            recognizer.gestured(comp, (MouseEvent)e, srcActions, action);
-        } else {
-            exportDone(comp, null, NONE);
+            rfdognizfr.gfsturfd(domp, (MousfEvfnt)f, srdAdtions, bdtion);
+        } flsf {
+            fxportDonf(domp, null, NONE);
         }
     }
 
     /**
-     * Causes a transfer from the given component to the
-     * given clipboard.  This method is called by the default cut and
-     * copy actions registered in a component's action map.
+     * Cbusfs b trbnsffr from tif givfn domponfnt to tif
+     * givfn dlipbobrd.  Tiis mftiod is dbllfd by tif dffbult dut bnd
+     * dopy bdtions rfgistfrfd in b domponfnt's bdtion mbp.
      * <p>
-     * The transfer will take place using the <code>java.awt.datatransfer</code>
-     * mechanism, requiring no further effort from the developer. Any data
-     * transfer <em>will</em> be complete and the <code>exportDone</code>
-     * method will be called with the action that occurred, before this method
-     * returns. Should the clipboard be unavailable when attempting to place
-     * data on it, the <code>IllegalStateException</code> thrown by
-     * {@link Clipboard#setContents(Transferable, ClipboardOwner)} will
-     * be propagated through this method. However,
-     * <code>exportDone</code> will first be called with an action
-     * of <code>NONE</code> for consistency.
+     * Tif trbnsffr will tbkf plbdf using tif <dodf>jbvb.bwt.dbtbtrbnsffr</dodf>
+     * mfdibnism, rfquiring no furtifr fffort from tif dfvflopfr. Any dbtb
+     * trbnsffr <fm>will</fm> bf domplftf bnd tif <dodf>fxportDonf</dodf>
+     * mftiod will bf dbllfd witi tif bdtion tibt oddurrfd, bfforf tiis mftiod
+     * rfturns. Siould tif dlipbobrd bf unbvbilbblf wifn bttfmpting to plbdf
+     * dbtb on it, tif <dodf>IllfgblStbtfExdfption</dodf> tirown by
+     * {@link Clipbobrd#sftContfnts(Trbnsffrbblf, ClipbobrdOwnfr)} will
+     * bf propbgbtfd tirougi tiis mftiod. Howfvfr,
+     * <dodf>fxportDonf</dodf> will first bf dbllfd witi bn bdtion
+     * of <dodf>NONE</dodf> for donsistfndy.
      *
-     * @param comp  the component holding the data to be transferred;
-     *              provided to enable sharing of <code>TransferHandler</code>s
-     * @param clip  the clipboard to transfer the data into
-     * @param action the transfer action requested; this should
-     *  be a value of either <code>COPY</code> or <code>MOVE</code>;
-     *  the operation performed is the intersection  of the transfer
-     *  capabilities given by getSourceActions and the requested action;
-     *  the intersection may result in an action of <code>NONE</code>
-     *  if the requested action isn't supported
-     * @throws IllegalStateException if the clipboard is currently unavailable
-     * @see Clipboard#setContents(Transferable, ClipboardOwner)
+     * @pbrbm domp  tif domponfnt iolding tif dbtb to bf trbnsffrrfd;
+     *              providfd to fnbblf sibring of <dodf>TrbnsffrHbndlfr</dodf>s
+     * @pbrbm dlip  tif dlipbobrd to trbnsffr tif dbtb into
+     * @pbrbm bdtion tif trbnsffr bdtion rfqufstfd; tiis siould
+     *  bf b vbluf of fitifr <dodf>COPY</dodf> or <dodf>MOVE</dodf>;
+     *  tif opfrbtion pfrformfd is tif intfrsfdtion  of tif trbnsffr
+     *  dbpbbilitifs givfn by gftSourdfAdtions bnd tif rfqufstfd bdtion;
+     *  tif intfrsfdtion mby rfsult in bn bdtion of <dodf>NONE</dodf>
+     *  if tif rfqufstfd bdtion isn't supportfd
+     * @tirows IllfgblStbtfExdfption if tif dlipbobrd is durrfntly unbvbilbblf
+     * @sff Clipbobrd#sftContfnts(Trbnsffrbblf, ClipbobrdOwnfr)
      */
-    public void exportToClipboard(JComponent comp, Clipboard clip, int action)
-                                                  throws IllegalStateException {
+    publid void fxportToClipbobrd(JComponfnt domp, Clipbobrd dlip, int bdtion)
+                                                  tirows IllfgblStbtfExdfption {
 
-        if ((action == COPY || action == MOVE)
-                && (getSourceActions(comp) & action) != 0) {
+        if ((bdtion == COPY || bdtion == MOVE)
+                && (gftSourdfAdtions(domp) & bdtion) != 0) {
 
-            Transferable t = createTransferable(comp);
+            Trbnsffrbblf t = drfbtfTrbnsffrbblf(domp);
             if (t != null) {
                 try {
-                    clip.setContents(t, null);
-                    exportDone(comp, t, action);
-                    return;
-                } catch (IllegalStateException ise) {
-                    exportDone(comp, t, NONE);
-                    throw ise;
+                    dlip.sftContfnts(t, null);
+                    fxportDonf(domp, t, bdtion);
+                    rfturn;
+                } dbtdi (IllfgblStbtfExdfption isf) {
+                    fxportDonf(domp, t, NONE);
+                    tirow isf;
                 }
             }
         }
 
-        exportDone(comp, null, NONE);
+        fxportDonf(domp, null, NONE);
     }
 
     /**
-     * Causes a transfer to occur from a clipboard or a drag and
-     * drop operation. The <code>Transferable</code> to be
-     * imported and the component to transfer to are contained
-     * within the <code>TransferSupport</code>.
+     * Cbusfs b trbnsffr to oddur from b dlipbobrd or b drbg bnd
+     * drop opfrbtion. Tif <dodf>Trbnsffrbblf</dodf> to bf
+     * importfd bnd tif domponfnt to trbnsffr to brf dontbinfd
+     * witiin tif <dodf>TrbnsffrSupport</dodf>.
      * <p>
-     * While the drag and drop implementation calls {@code canImport}
-     * to determine the suitability of a transfer before calling this
-     * method, the implementation of paste does not. As such, it cannot
-     * be assumed that the transfer is acceptable upon a call to
-     * this method for paste. It is recommended that {@code canImport} be
-     * explicitly called to cover this case.
+     * Wiilf tif drbg bnd drop implfmfntbtion dblls {@dodf dbnImport}
+     * to dftfrminf tif suitbbility of b trbnsffr bfforf dblling tiis
+     * mftiod, tif implfmfntbtion of pbstf dofs not. As sudi, it dbnnot
+     * bf bssumfd tibt tif trbnsffr is bddfptbblf upon b dbll to
+     * tiis mftiod for pbstf. It is rfdommfndfd tibt {@dodf dbnImport} bf
+     * fxpliditly dbllfd to dovfr tiis dbsf.
      * <p>
-     * Note: The <code>TransferSupport</code> object passed to this method
-     * is only valid for the duration of the method call. It is undefined
-     * what values it may contain after this method returns.
+     * Notf: Tif <dodf>TrbnsffrSupport</dodf> objfdt pbssfd to tiis mftiod
+     * is only vblid for tif durbtion of tif mftiod dbll. It is undffinfd
+     * wibt vblufs it mby dontbin bftfr tiis mftiod rfturns.
      *
-     * @param support the object containing the details of
-     *        the transfer, not <code>null</code>.
-     * @return true if the data was inserted into the component,
-     *         false otherwise
-     * @throws NullPointerException if <code>support</code> is {@code null}
-     * @see #canImport(TransferHandler.TransferSupport)
-     * @since 1.6
+     * @pbrbm support tif objfdt dontbining tif dftbils of
+     *        tif trbnsffr, not <dodf>null</dodf>.
+     * @rfturn truf if tif dbtb wbs insfrtfd into tif domponfnt,
+     *         fblsf otifrwisf
+     * @tirows NullPointfrExdfption if <dodf>support</dodf> is {@dodf null}
+     * @sff #dbnImport(TrbnsffrHbndlfr.TrbnsffrSupport)
+     * @sindf 1.6
      */
-    public boolean importData(TransferSupport support) {
-        return support.getComponent() instanceof JComponent
-            ? importData((JComponent)support.getComponent(), support.getTransferable())
-            : false;
+    publid boolfbn importDbtb(TrbnsffrSupport support) {
+        rfturn support.gftComponfnt() instbndfof JComponfnt
+            ? importDbtb((JComponfnt)support.gftComponfnt(), support.gftTrbnsffrbblf())
+            : fblsf;
     }
 
     /**
-     * Causes a transfer to a component from a clipboard or a
-     * DND drop operation.  The <code>Transferable</code> represents
-     * the data to be imported into the component.
+     * Cbusfs b trbnsffr to b domponfnt from b dlipbobrd or b
+     * DND drop opfrbtion.  Tif <dodf>Trbnsffrbblf</dodf> rfprfsfnts
+     * tif dbtb to bf importfd into tif domponfnt.
      * <p>
-     * Note: Swing now calls the newer version of <code>importData</code>
-     * that takes a <code>TransferSupport</code>, which in turn calls this
-     * method (if the component in the {@code TransferSupport} is a
-     * {@code JComponent}). Developers are encouraged to call and override the
-     * newer version as it provides more information (and is the only
-     * version that supports use with a {@code TransferHandler} set directly
-     * on a {@code JFrame} or other non-{@code JComponent}).
+     * Notf: Swing now dblls tif nfwfr vfrsion of <dodf>importDbtb</dodf>
+     * tibt tbkfs b <dodf>TrbnsffrSupport</dodf>, wiidi in turn dblls tiis
+     * mftiod (if tif domponfnt in tif {@dodf TrbnsffrSupport} is b
+     * {@dodf JComponfnt}). Dfvflopfrs brf fndourbgfd to dbll bnd ovfrridf tif
+     * nfwfr vfrsion bs it providfs morf informbtion (bnd is tif only
+     * vfrsion tibt supports usf witi b {@dodf TrbnsffrHbndlfr} sft dirfdtly
+     * on b {@dodf JFrbmf} or otifr non-{@dodf JComponfnt}).
      *
-     * @param comp  the component to receive the transfer;
-     *              provided to enable sharing of <code>TransferHandler</code>s
-     * @param t     the data to import
-     * @return  true if the data was inserted into the component, false otherwise
-     * @see #importData(TransferHandler.TransferSupport)
+     * @pbrbm domp  tif domponfnt to rfdfivf tif trbnsffr;
+     *              providfd to fnbblf sibring of <dodf>TrbnsffrHbndlfr</dodf>s
+     * @pbrbm t     tif dbtb to import
+     * @rfturn  truf if tif dbtb wbs insfrtfd into tif domponfnt, fblsf otifrwisf
+     * @sff #importDbtb(TrbnsffrHbndlfr.TrbnsffrSupport)
      */
-    public boolean importData(JComponent comp, Transferable t) {
-        PropertyDescriptor prop = getPropertyDescriptor(comp);
+    publid boolfbn importDbtb(JComponfnt domp, Trbnsffrbblf t) {
+        PropfrtyDfsdriptor prop = gftPropfrtyDfsdriptor(domp);
         if (prop != null) {
-            Method writer = prop.getWriteMethod();
-            if (writer == null) {
-                // read-only property. ignore
-                return false;
+            Mftiod writfr = prop.gftWritfMftiod();
+            if (writfr == null) {
+                // rfbd-only propfrty. ignorf
+                rfturn fblsf;
             }
-            Class<?>[] params = writer.getParameterTypes();
-            if (params.length != 1) {
-                // zero or more than one argument, ignore
-                return false;
+            Clbss<?>[] pbrbms = writfr.gftPbrbmftfrTypfs();
+            if (pbrbms.lfngti != 1) {
+                // zfro or morf tibn onf brgumfnt, ignorf
+                rfturn fblsf;
             }
-            DataFlavor flavor = getPropertyDataFlavor(params[0], t.getTransferDataFlavors());
-            if (flavor != null) {
+            DbtbFlbvor flbvor = gftPropfrtyDbtbFlbvor(pbrbms[0], t.gftTrbnsffrDbtbFlbvors());
+            if (flbvor != null) {
                 try {
-                    Object value = t.getTransferData(flavor);
-                    Object[] args = { value };
-                    MethodUtil.invoke(writer, comp, args);
-                    return true;
-                } catch (Exception ex) {
-                    System.err.println("Invocation failed");
-                    // invocation code
+                    Objfdt vbluf = t.gftTrbnsffrDbtb(flbvor);
+                    Objfdt[] brgs = { vbluf };
+                    MftiodUtil.invokf(writfr, domp, brgs);
+                    rfturn truf;
+                } dbtdi (Exdfption fx) {
+                    Systfm.frr.println("Invodbtion fbilfd");
+                    // invodbtion dodf
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * This method is called repeatedly during a drag and drop operation
-     * to allow the developer to configure properties of, and to return
-     * the acceptability of transfers; with a return value of {@code true}
-     * indicating that the transfer represented by the given
-     * {@code TransferSupport} (which contains all of the details of the
-     * transfer) is acceptable at the current time, and a value of {@code false}
-     * rejecting the transfer.
+     * Tiis mftiod is dbllfd rfpfbtfdly during b drbg bnd drop opfrbtion
+     * to bllow tif dfvflopfr to donfigurf propfrtifs of, bnd to rfturn
+     * tif bddfptbbility of trbnsffrs; witi b rfturn vbluf of {@dodf truf}
+     * indidbting tibt tif trbnsffr rfprfsfntfd by tif givfn
+     * {@dodf TrbnsffrSupport} (wiidi dontbins bll of tif dftbils of tif
+     * trbnsffr) is bddfptbblf bt tif durrfnt timf, bnd b vbluf of {@dodf fblsf}
+     * rfjfdting tif trbnsffr.
      * <p>
-     * For those components that automatically display a drop location during
-     * drag and drop, accepting the transfer, by default, tells them to show
-     * the drop location. This can be changed by calling
-     * {@code setShowDropLocation} on the {@code TransferSupport}.
+     * For tiosf domponfnts tibt butombtidblly displby b drop lodbtion during
+     * drbg bnd drop, bddfpting tif trbnsffr, by dffbult, tflls tifm to siow
+     * tif drop lodbtion. Tiis dbn bf dibngfd by dblling
+     * {@dodf sftSiowDropLodbtion} on tif {@dodf TrbnsffrSupport}.
      * <p>
-     * By default, when the transfer is accepted, the chosen drop action is that
-     * picked by the user via their drag gesture. The developer can override
-     * this and choose a different action, from the supported source
-     * actions, by calling {@code setDropAction} on the {@code TransferSupport}.
+     * By dffbult, wifn tif trbnsffr is bddfptfd, tif diosfn drop bdtion is tibt
+     * pidkfd by tif usfr vib tifir drbg gfsturf. Tif dfvflopfr dbn ovfrridf
+     * tiis bnd dioosf b difffrfnt bdtion, from tif supportfd sourdf
+     * bdtions, by dblling {@dodf sftDropAdtion} on tif {@dodf TrbnsffrSupport}.
      * <p>
-     * On every call to {@code canImport}, the {@code TransferSupport} contains
-     * fresh state. As such, any properties set on it must be set on every
-     * call. Upon a drop, {@code canImport} is called one final time before
-     * calling into {@code importData}. Any state set on the
-     * {@code TransferSupport} during that last call will be available in
-     * {@code importData}.
+     * On fvfry dbll to {@dodf dbnImport}, tif {@dodf TrbnsffrSupport} dontbins
+     * frfsi stbtf. As sudi, bny propfrtifs sft on it must bf sft on fvfry
+     * dbll. Upon b drop, {@dodf dbnImport} is dbllfd onf finbl timf bfforf
+     * dblling into {@dodf importDbtb}. Any stbtf sft on tif
+     * {@dodf TrbnsffrSupport} during tibt lbst dbll will bf bvbilbblf in
+     * {@dodf importDbtb}.
      * <p>
-     * This method is not called internally in response to paste operations.
-     * As such, it is recommended that implementations of {@code importData}
-     * explicitly call this method for such cases and that this method
-     * be prepared to return the suitability of paste operations as well.
+     * Tiis mftiod is not dbllfd intfrnblly in rfsponsf to pbstf opfrbtions.
+     * As sudi, it is rfdommfndfd tibt implfmfntbtions of {@dodf importDbtb}
+     * fxpliditly dbll tiis mftiod for sudi dbsfs bnd tibt tiis mftiod
+     * bf prfpbrfd to rfturn tif suitbbility of pbstf opfrbtions bs wfll.
      * <p>
-     * Note: The <code>TransferSupport</code> object passed to this method
-     * is only valid for the duration of the method call. It is undefined
-     * what values it may contain after this method returns.
+     * Notf: Tif <dodf>TrbnsffrSupport</dodf> objfdt pbssfd to tiis mftiod
+     * is only vblid for tif durbtion of tif mftiod dbll. It is undffinfd
+     * wibt vblufs it mby dontbin bftfr tiis mftiod rfturns.
      *
-     * @param support the object containing the details of
-     *        the transfer, not <code>null</code>.
-     * @return <code>true</code> if the import can happen,
-     *         <code>false</code> otherwise
-     * @throws NullPointerException if <code>support</code> is {@code null}
-     * @see #importData(TransferHandler.TransferSupport)
-     * @see javax.swing.TransferHandler.TransferSupport#setShowDropLocation
-     * @see javax.swing.TransferHandler.TransferSupport#setDropAction
-     * @since 1.6
+     * @pbrbm support tif objfdt dontbining tif dftbils of
+     *        tif trbnsffr, not <dodf>null</dodf>.
+     * @rfturn <dodf>truf</dodf> if tif import dbn ibppfn,
+     *         <dodf>fblsf</dodf> otifrwisf
+     * @tirows NullPointfrExdfption if <dodf>support</dodf> is {@dodf null}
+     * @sff #importDbtb(TrbnsffrHbndlfr.TrbnsffrSupport)
+     * @sff jbvbx.swing.TrbnsffrHbndlfr.TrbnsffrSupport#sftSiowDropLodbtion
+     * @sff jbvbx.swing.TrbnsffrHbndlfr.TrbnsffrSupport#sftDropAdtion
+     * @sindf 1.6
      */
-    public boolean canImport(TransferSupport support) {
-        return support.getComponent() instanceof JComponent
-            ? canImport((JComponent)support.getComponent(), support.getDataFlavors())
-            : false;
+    publid boolfbn dbnImport(TrbnsffrSupport support) {
+        rfturn support.gftComponfnt() instbndfof JComponfnt
+            ? dbnImport((JComponfnt)support.gftComponfnt(), support.gftDbtbFlbvors())
+            : fblsf;
     }
 
     /**
-     * Indicates whether a component will accept an import of the given
-     * set of data flavors prior to actually attempting to import it.
+     * Indidbtfs wiftifr b domponfnt will bddfpt bn import of tif givfn
+     * sft of dbtb flbvors prior to bdtublly bttfmpting to import it.
      * <p>
-     * Note: Swing now calls the newer version of <code>canImport</code>
-     * that takes a <code>TransferSupport</code>, which in turn calls this
-     * method (only if the component in the {@code TransferSupport} is a
-     * {@code JComponent}). Developers are encouraged to call and override the
-     * newer version as it provides more information (and is the only
-     * version that supports use with a {@code TransferHandler} set directly
-     * on a {@code JFrame} or other non-{@code JComponent}).
+     * Notf: Swing now dblls tif nfwfr vfrsion of <dodf>dbnImport</dodf>
+     * tibt tbkfs b <dodf>TrbnsffrSupport</dodf>, wiidi in turn dblls tiis
+     * mftiod (only if tif domponfnt in tif {@dodf TrbnsffrSupport} is b
+     * {@dodf JComponfnt}). Dfvflopfrs brf fndourbgfd to dbll bnd ovfrridf tif
+     * nfwfr vfrsion bs it providfs morf informbtion (bnd is tif only
+     * vfrsion tibt supports usf witi b {@dodf TrbnsffrHbndlfr} sft dirfdtly
+     * on b {@dodf JFrbmf} or otifr non-{@dodf JComponfnt}).
      *
-     * @param comp  the component to receive the transfer;
-     *              provided to enable sharing of <code>TransferHandler</code>s
-     * @param transferFlavors  the data formats available
-     * @return  true if the data can be inserted into the component, false otherwise
-     * @see #canImport(TransferHandler.TransferSupport)
+     * @pbrbm domp  tif domponfnt to rfdfivf tif trbnsffr;
+     *              providfd to fnbblf sibring of <dodf>TrbnsffrHbndlfr</dodf>s
+     * @pbrbm trbnsffrFlbvors  tif dbtb formbts bvbilbblf
+     * @rfturn  truf if tif dbtb dbn bf insfrtfd into tif domponfnt, fblsf otifrwisf
+     * @sff #dbnImport(TrbnsffrHbndlfr.TrbnsffrSupport)
      */
-    public boolean canImport(JComponent comp, DataFlavor[] transferFlavors) {
-        PropertyDescriptor prop = getPropertyDescriptor(comp);
+    publid boolfbn dbnImport(JComponfnt domp, DbtbFlbvor[] trbnsffrFlbvors) {
+        PropfrtyDfsdriptor prop = gftPropfrtyDfsdriptor(domp);
         if (prop != null) {
-            Method writer = prop.getWriteMethod();
-            if (writer == null) {
-                // read-only property. ignore
-                return false;
+            Mftiod writfr = prop.gftWritfMftiod();
+            if (writfr == null) {
+                // rfbd-only propfrty. ignorf
+                rfturn fblsf;
             }
-            Class<?>[] params = writer.getParameterTypes();
-            if (params.length != 1) {
-                // zero or more than one argument, ignore
-                return false;
+            Clbss<?>[] pbrbms = writfr.gftPbrbmftfrTypfs();
+            if (pbrbms.lfngti != 1) {
+                // zfro or morf tibn onf brgumfnt, ignorf
+                rfturn fblsf;
             }
-            DataFlavor flavor = getPropertyDataFlavor(params[0], transferFlavors);
-            if (flavor != null) {
-                return true;
+            DbtbFlbvor flbvor = gftPropfrtyDbtbFlbvor(pbrbms[0], trbnsffrFlbvors);
+            if (flbvor != null) {
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns the type of transfer actions supported by the source;
-     * any bitwise-OR combination of {@code COPY}, {@code MOVE}
-     * and {@code LINK}.
+     * Rfturns tif typf of trbnsffr bdtions supportfd by tif sourdf;
+     * bny bitwisf-OR dombinbtion of {@dodf COPY}, {@dodf MOVE}
+     * bnd {@dodf LINK}.
      * <p>
-     * Some models are not mutable, so a transfer operation of {@code MOVE}
-     * should not be advertised in that case. Returning {@code NONE}
-     * disables transfers from the component.
+     * Somf modfls brf not mutbblf, so b trbnsffr opfrbtion of {@dodf MOVE}
+     * siould not bf bdvfrtisfd in tibt dbsf. Rfturning {@dodf NONE}
+     * disbblfs trbnsffrs from tif domponfnt.
      *
-     * @param c  the component holding the data to be transferred;
-     *           provided to enable sharing of <code>TransferHandler</code>s
-     * @return {@code COPY} if the transfer property can be found,
-     *          otherwise returns <code>NONE</code>
+     * @pbrbm d  tif domponfnt iolding tif dbtb to bf trbnsffrrfd;
+     *           providfd to fnbblf sibring of <dodf>TrbnsffrHbndlfr</dodf>s
+     * @rfturn {@dodf COPY} if tif trbnsffr propfrty dbn bf found,
+     *          otifrwisf rfturns <dodf>NONE</dodf>
      */
-    public int getSourceActions(JComponent c) {
-        PropertyDescriptor prop = getPropertyDescriptor(c);
+    publid int gftSourdfAdtions(JComponfnt d) {
+        PropfrtyDfsdriptor prop = gftPropfrtyDfsdriptor(d);
         if (prop != null) {
-            return COPY;
+            rfturn COPY;
         }
-        return NONE;
+        rfturn NONE;
     }
 
     /**
-     * Returns an object that establishes the look of a transfer.  This is
-     * useful for both providing feedback while performing a drag operation and for
-     * representing the transfer in a clipboard implementation that has a visual
-     * appearance.  The implementation of the <code>Icon</code> interface should
-     * not alter the graphics clip or alpha level.
-     * The icon implementation need not be rectangular or paint all of the
-     * bounding rectangle and logic that calls the icons paint method should
-     * not assume the all bits are painted. <code>null</code> is a valid return value
-     * for this method and indicates there is no visual representation provided.
-     * In that case, the calling logic is free to represent the
-     * transferable however it wants.
+     * Rfturns bn objfdt tibt fstbblisifs tif look of b trbnsffr.  Tiis is
+     * usfful for boti providing fffdbbdk wiilf pfrforming b drbg opfrbtion bnd for
+     * rfprfsfnting tif trbnsffr in b dlipbobrd implfmfntbtion tibt ibs b visubl
+     * bppfbrbndf.  Tif implfmfntbtion of tif <dodf>Idon</dodf> intfrfbdf siould
+     * not bltfr tif grbpiids dlip or blpib lfvfl.
+     * Tif idon implfmfntbtion nffd not bf rfdtbngulbr or pbint bll of tif
+     * bounding rfdtbnglf bnd logid tibt dblls tif idons pbint mftiod siould
+     * not bssumf tif bll bits brf pbintfd. <dodf>null</dodf> is b vblid rfturn vbluf
+     * for tiis mftiod bnd indidbtfs tifrf is no visubl rfprfsfntbtion providfd.
+     * In tibt dbsf, tif dblling logid is frff to rfprfsfnt tif
+     * trbnsffrbblf iowfvfr it wbnts.
      * <p>
-     * The default Swing logic will not do an alpha blended drag animation if
-     * the return is <code>null</code>.
+     * Tif dffbult Swing logid will not do bn blpib blfndfd drbg bnimbtion if
+     * tif rfturn is <dodf>null</dodf>.
      *
-     * @param t  the data to be transferred; this value is expected to have been
-     *  created by the <code>createTransferable</code> method
-     * @return  <code>null</code>, indicating
-     *    there is no default visual representation
+     * @pbrbm t  tif dbtb to bf trbnsffrrfd; tiis vbluf is fxpfdtfd to ibvf bffn
+     *  drfbtfd by tif <dodf>drfbtfTrbnsffrbblf</dodf> mftiod
+     * @rfturn  <dodf>null</dodf>, indidbting
+     *    tifrf is no dffbult visubl rfprfsfntbtion
      */
-    public Icon getVisualRepresentation(Transferable t) {
-        return null;
+    publid Idon gftVisublRfprfsfntbtion(Trbnsffrbblf t) {
+        rfturn null;
     }
 
     /**
-     * Creates a <code>Transferable</code> to use as the source for
-     * a data transfer. Returns the representation of the data to
-     * be transferred, or <code>null</code> if the component's
-     * property is <code>null</code>
+     * Crfbtfs b <dodf>Trbnsffrbblf</dodf> to usf bs tif sourdf for
+     * b dbtb trbnsffr. Rfturns tif rfprfsfntbtion of tif dbtb to
+     * bf trbnsffrrfd, or <dodf>null</dodf> if tif domponfnt's
+     * propfrty is <dodf>null</dodf>
      *
-     * @param c  the component holding the data to be transferred;
-     *              provided to enable sharing of <code>TransferHandler</code>s
-     * @return  the representation of the data to be transferred, or
-     *  <code>null</code> if the property associated with <code>c</code>
-     *  is <code>null</code>
+     * @pbrbm d  tif domponfnt iolding tif dbtb to bf trbnsffrrfd;
+     *              providfd to fnbblf sibring of <dodf>TrbnsffrHbndlfr</dodf>s
+     * @rfturn  tif rfprfsfntbtion of tif dbtb to bf trbnsffrrfd, or
+     *  <dodf>null</dodf> if tif propfrty bssodibtfd witi <dodf>d</dodf>
+     *  is <dodf>null</dodf>
      *
      */
-    protected Transferable createTransferable(JComponent c) {
-        PropertyDescriptor property = getPropertyDescriptor(c);
-        if (property != null) {
-            return new PropertyTransferable(property, c);
+    protfdtfd Trbnsffrbblf drfbtfTrbnsffrbblf(JComponfnt d) {
+        PropfrtyDfsdriptor propfrty = gftPropfrtyDfsdriptor(d);
+        if (propfrty != null) {
+            rfturn nfw PropfrtyTrbnsffrbblf(propfrty, d);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Invoked after data has been exported.  This method should remove
-     * the data that was transferred if the action was <code>MOVE</code>.
+     * Invokfd bftfr dbtb ibs bffn fxportfd.  Tiis mftiod siould rfmovf
+     * tif dbtb tibt wbs trbnsffrrfd if tif bdtion wbs <dodf>MOVE</dodf>.
      * <p>
-     * This method is implemented to do nothing since <code>MOVE</code>
-     * is not a supported action of this implementation
-     * (<code>getSourceActions</code> does not include <code>MOVE</code>).
+     * Tiis mftiod is implfmfntfd to do notiing sindf <dodf>MOVE</dodf>
+     * is not b supportfd bdtion of tiis implfmfntbtion
+     * (<dodf>gftSourdfAdtions</dodf> dofs not indludf <dodf>MOVE</dodf>).
      *
-     * @param source the component that was the source of the data
-     * @param data   The data that was transferred or possibly null
-     *               if the action is <code>NONE</code>.
-     * @param action the actual action that was performed
+     * @pbrbm sourdf tif domponfnt tibt wbs tif sourdf of tif dbtb
+     * @pbrbm dbtb   Tif dbtb tibt wbs trbnsffrrfd or possibly null
+     *               if tif bdtion is <dodf>NONE</dodf>.
+     * @pbrbm bdtion tif bdtubl bdtion tibt wbs pfrformfd
      */
-    protected void exportDone(JComponent source, Transferable data, int action) {
+    protfdtfd void fxportDonf(JComponfnt sourdf, Trbnsffrbblf dbtb, int bdtion) {
     }
 
     /**
-     * Fetches the property descriptor for the property assigned to this transfer
-     * handler on the given component (transfer handler may be shared).  This
-     * returns <code>null</code> if the property descriptor can't be found
-     * or there is an error attempting to fetch the property descriptor.
+     * Fftdifs tif propfrty dfsdriptor for tif propfrty bssignfd to tiis trbnsffr
+     * ibndlfr on tif givfn domponfnt (trbnsffr ibndlfr mby bf sibrfd).  Tiis
+     * rfturns <dodf>null</dodf> if tif propfrty dfsdriptor dbn't bf found
+     * or tifrf is bn frror bttfmpting to fftdi tif propfrty dfsdriptor.
      */
-    private PropertyDescriptor getPropertyDescriptor(JComponent comp) {
-        if (propertyName == null) {
-            return null;
+    privbtf PropfrtyDfsdriptor gftPropfrtyDfsdriptor(JComponfnt domp) {
+        if (propfrtyNbmf == null) {
+            rfturn null;
         }
-        Class<?> k = comp.getClass();
-        BeanInfo bi;
+        Clbss<?> k = domp.gftClbss();
+        BfbnInfo bi;
         try {
-            bi = Introspector.getBeanInfo(k);
-        } catch (IntrospectionException ex) {
-            return null;
+            bi = Introspfdtor.gftBfbnInfo(k);
+        } dbtdi (IntrospfdtionExdfption fx) {
+            rfturn null;
         }
-        PropertyDescriptor props[] = bi.getPropertyDescriptors();
-        for (int i=0; i < props.length; i++) {
-            if (propertyName.equals(props[i].getName())) {
-                Method reader = props[i].getReadMethod();
+        PropfrtyDfsdriptor props[] = bi.gftPropfrtyDfsdriptors();
+        for (int i=0; i < props.lfngti; i++) {
+            if (propfrtyNbmf.fqubls(props[i].gftNbmf())) {
+                Mftiod rfbdfr = props[i].gftRfbdMftiod();
 
-                if (reader != null) {
-                    Class<?>[] params = reader.getParameterTypes();
+                if (rfbdfr != null) {
+                    Clbss<?>[] pbrbms = rfbdfr.gftPbrbmftfrTypfs();
 
-                    if (params == null || params.length == 0) {
-                        // found the desired descriptor
-                        return props[i];
+                    if (pbrbms == null || pbrbms.lfngti == 0) {
+                        // found tif dfsirfd dfsdriptor
+                        rfturn props[i];
                     }
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Fetches the data flavor from the array of possible flavors that
-     * has data of the type represented by property type.  Null is
-     * returned if there is no match.
+     * Fftdifs tif dbtb flbvor from tif brrby of possiblf flbvors tibt
+     * ibs dbtb of tif typf rfprfsfntfd by propfrty typf.  Null is
+     * rfturnfd if tifrf is no mbtdi.
      */
-    private DataFlavor getPropertyDataFlavor(Class<?> k, DataFlavor[] flavors) {
-        for(int i = 0; i < flavors.length; i++) {
-            DataFlavor flavor = flavors[i];
-            if ("application".equals(flavor.getPrimaryType()) &&
-                "x-java-jvm-local-objectref".equals(flavor.getSubType()) &&
-                k.isAssignableFrom(flavor.getRepresentationClass())) {
+    privbtf DbtbFlbvor gftPropfrtyDbtbFlbvor(Clbss<?> k, DbtbFlbvor[] flbvors) {
+        for(int i = 0; i < flbvors.lfngti; i++) {
+            DbtbFlbvor flbvor = flbvors[i];
+            if ("bpplidbtion".fqubls(flbvor.gftPrimbryTypf()) &&
+                "x-jbvb-jvm-lodbl-objfdtrff".fqubls(flbvor.gftSubTypf()) &&
+                k.isAssignbblfFrom(flbvor.gftRfprfsfntbtionClbss())) {
 
-                return flavor;
+                rfturn flbvor;
             }
         }
-        return null;
+        rfturn null;
     }
 
 
-    private String propertyName;
-    private static SwingDragGestureRecognizer recognizer = null;
+    privbtf String propfrtyNbmf;
+    privbtf stbtid SwingDrbgGfsturfRfdognizfr rfdognizfr = null;
 
-    private static DropTargetListener getDropTargetListener() {
-        synchronized(DropHandler.class) {
-            DropHandler handler =
-                (DropHandler)AppContext.getAppContext().get(DropHandler.class);
+    privbtf stbtid DropTbrgftListfnfr gftDropTbrgftListfnfr() {
+        syndironizfd(DropHbndlfr.dlbss) {
+            DropHbndlfr ibndlfr =
+                (DropHbndlfr)AppContfxt.gftAppContfxt().gft(DropHbndlfr.dlbss);
 
-            if (handler == null) {
-                handler = new DropHandler();
-                AppContext.getAppContext().put(DropHandler.class, handler);
+            if (ibndlfr == null) {
+                ibndlfr = nfw DropHbndlfr();
+                AppContfxt.gftAppContfxt().put(DropHbndlfr.dlbss, ibndlfr);
             }
 
-            return handler;
+            rfturn ibndlfr;
         }
     }
 
-    static class PropertyTransferable implements Transferable {
+    stbtid dlbss PropfrtyTrbnsffrbblf implfmfnts Trbnsffrbblf {
 
-        PropertyTransferable(PropertyDescriptor p, JComponent c) {
-            property = p;
-            component = c;
+        PropfrtyTrbnsffrbblf(PropfrtyDfsdriptor p, JComponfnt d) {
+            propfrty = p;
+            domponfnt = d;
         }
 
-        // --- Transferable methods ----------------------------------------------
+        // --- Trbnsffrbblf mftiods ----------------------------------------------
 
         /**
-         * Returns an array of <code>DataFlavor</code> objects indicating the flavors the data
-         * can be provided in.  The array should be ordered according to preference
-         * for providing the data (from most richly descriptive to least descriptive).
-         * @return an array of data flavors in which this data can be transferred
+         * Rfturns bn brrby of <dodf>DbtbFlbvor</dodf> objfdts indidbting tif flbvors tif dbtb
+         * dbn bf providfd in.  Tif brrby siould bf ordfrfd bddording to prfffrfndf
+         * for providing tif dbtb (from most ridily dfsdriptivf to lfbst dfsdriptivf).
+         * @rfturn bn brrby of dbtb flbvors in wiidi tiis dbtb dbn bf trbnsffrrfd
          */
-        public DataFlavor[] getTransferDataFlavors() {
-            DataFlavor[] flavors = new DataFlavor[1];
-            Class<?> propertyType = property.getPropertyType();
-            String mimeType = DataFlavor.javaJVMLocalObjectMimeType + ";class=" + propertyType.getName();
+        publid DbtbFlbvor[] gftTrbnsffrDbtbFlbvors() {
+            DbtbFlbvor[] flbvors = nfw DbtbFlbvor[1];
+            Clbss<?> propfrtyTypf = propfrty.gftPropfrtyTypf();
+            String mimfTypf = DbtbFlbvor.jbvbJVMLodblObjfdtMimfTypf + ";dlbss=" + propfrtyTypf.gftNbmf();
             try {
-                flavors[0] = new DataFlavor(mimeType);
-            } catch (ClassNotFoundException cnfe) {
-                flavors = new DataFlavor[0];
+                flbvors[0] = nfw DbtbFlbvor(mimfTypf);
+            } dbtdi (ClbssNotFoundExdfption dnff) {
+                flbvors = nfw DbtbFlbvor[0];
             }
-            return flavors;
+            rfturn flbvors;
         }
 
         /**
-         * Returns whether the specified data flavor is supported for
-         * this object.
-         * @param flavor the requested flavor for the data
-         * @return true if this <code>DataFlavor</code> is supported,
-         *   otherwise false
+         * Rfturns wiftifr tif spfdififd dbtb flbvor is supportfd for
+         * tiis objfdt.
+         * @pbrbm flbvor tif rfqufstfd flbvor for tif dbtb
+         * @rfturn truf if tiis <dodf>DbtbFlbvor</dodf> is supportfd,
+         *   otifrwisf fblsf
          */
-        public boolean isDataFlavorSupported(DataFlavor flavor) {
-            Class<?> propertyType = property.getPropertyType();
-            if ("application".equals(flavor.getPrimaryType()) &&
-                "x-java-jvm-local-objectref".equals(flavor.getSubType()) &&
-                flavor.getRepresentationClass().isAssignableFrom(propertyType)) {
+        publid boolfbn isDbtbFlbvorSupportfd(DbtbFlbvor flbvor) {
+            Clbss<?> propfrtyTypf = propfrty.gftPropfrtyTypf();
+            if ("bpplidbtion".fqubls(flbvor.gftPrimbryTypf()) &&
+                "x-jbvb-jvm-lodbl-objfdtrff".fqubls(flbvor.gftSubTypf()) &&
+                flbvor.gftRfprfsfntbtionClbss().isAssignbblfFrom(propfrtyTypf)) {
 
-                return true;
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
         /**
-         * Returns an object which represents the data to be transferred.  The class
-         * of the object returned is defined by the representation class of the flavor.
+         * Rfturns bn objfdt wiidi rfprfsfnts tif dbtb to bf trbnsffrrfd.  Tif dlbss
+         * of tif objfdt rfturnfd is dffinfd by tif rfprfsfntbtion dlbss of tif flbvor.
          *
-         * @param flavor the requested flavor for the data
-         * @see DataFlavor#getRepresentationClass
-         * @exception IOException                if the data is no longer available
-         *              in the requested flavor.
-         * @exception UnsupportedFlavorException if the requested data flavor is
-         *              not supported.
+         * @pbrbm flbvor tif rfqufstfd flbvor for tif dbtb
+         * @sff DbtbFlbvor#gftRfprfsfntbtionClbss
+         * @fxdfption IOExdfption                if tif dbtb is no longfr bvbilbblf
+         *              in tif rfqufstfd flbvor.
+         * @fxdfption UnsupportfdFlbvorExdfption if tif rfqufstfd dbtb flbvor is
+         *              not supportfd.
          */
-        public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
-            if (! isDataFlavorSupported(flavor)) {
-                throw new UnsupportedFlavorException(flavor);
+        publid Objfdt gftTrbnsffrDbtb(DbtbFlbvor flbvor) tirows UnsupportfdFlbvorExdfption, IOExdfption {
+            if (! isDbtbFlbvorSupportfd(flbvor)) {
+                tirow nfw UnsupportfdFlbvorExdfption(flbvor);
             }
-            Method reader = property.getReadMethod();
-            Object value = null;
+            Mftiod rfbdfr = propfrty.gftRfbdMftiod();
+            Objfdt vbluf = null;
             try {
-                value = MethodUtil.invoke(reader, component, (Object[])null);
-            } catch (Exception ex) {
-                throw new IOException("Property read failed: " + property.getName());
+                vbluf = MftiodUtil.invokf(rfbdfr, domponfnt, (Objfdt[])null);
+            } dbtdi (Exdfption fx) {
+                tirow nfw IOExdfption("Propfrty rfbd fbilfd: " + propfrty.gftNbmf());
             }
-            return value;
+            rfturn vbluf;
         }
 
-        JComponent component;
-        PropertyDescriptor property;
+        JComponfnt domponfnt;
+        PropfrtyDfsdriptor propfrty;
     }
 
     /**
-     * This is the default drop target for drag and drop operations if
-     * one isn't provided by the developer.  <code>DropTarget</code>
-     * only supports one <code>DropTargetListener</code> and doesn't
-     * function properly if it isn't set.
-     * This class sets the one listener as the linkage of drop handling
-     * to the <code>TransferHandler</code>, and adds support for
-     * additional listeners which some of the <code>ComponentUI</code>
-     * implementations install to manipulate a drop insertion location.
+     * Tiis is tif dffbult drop tbrgft for drbg bnd drop opfrbtions if
+     * onf isn't providfd by tif dfvflopfr.  <dodf>DropTbrgft</dodf>
+     * only supports onf <dodf>DropTbrgftListfnfr</dodf> bnd dofsn't
+     * fundtion propfrly if it isn't sft.
+     * Tiis dlbss sfts tif onf listfnfr bs tif linkbgf of drop ibndling
+     * to tif <dodf>TrbnsffrHbndlfr</dodf>, bnd bdds support for
+     * bdditionbl listfnfrs wiidi somf of tif <dodf>ComponfntUI</dodf>
+     * implfmfntbtions instbll to mbnipulbtf b drop insfrtion lodbtion.
      */
-    static class SwingDropTarget extends DropTarget implements UIResource {
+    stbtid dlbss SwingDropTbrgft fxtfnds DropTbrgft implfmfnts UIRfsourdf {
 
-        SwingDropTarget(Component c) {
-            super(c, COPY_OR_MOVE | LINK, null);
+        SwingDropTbrgft(Componfnt d) {
+            supfr(d, COPY_OR_MOVE | LINK, null);
             try {
-                // addDropTargetListener is overridden
-                // we specifically need to add to the superclass
-                super.addDropTargetListener(getDropTargetListener());
-            } catch (TooManyListenersException tmle) {}
+                // bddDropTbrgftListfnfr is ovfrriddfn
+                // wf spfdifidblly nffd to bdd to tif supfrdlbss
+                supfr.bddDropTbrgftListfnfr(gftDropTbrgftListfnfr());
+            } dbtdi (TooMbnyListfnfrsExdfption tmlf) {}
         }
 
-        public void addDropTargetListener(DropTargetListener dtl) throws TooManyListenersException {
-            // Since the super class only supports one DropTargetListener,
-            // and we add one from the constructor, we always add to the
-            // extended list.
-            if (listenerList == null) {
-                listenerList = new EventListenerList();
+        publid void bddDropTbrgftListfnfr(DropTbrgftListfnfr dtl) tirows TooMbnyListfnfrsExdfption {
+            // Sindf tif supfr dlbss only supports onf DropTbrgftListfnfr,
+            // bnd wf bdd onf from tif donstrudtor, wf blwbys bdd to tif
+            // fxtfndfd list.
+            if (listfnfrList == null) {
+                listfnfrList = nfw EvfntListfnfrList();
             }
-            listenerList.add(DropTargetListener.class, dtl);
+            listfnfrList.bdd(DropTbrgftListfnfr.dlbss, dtl);
         }
 
-        public void removeDropTargetListener(DropTargetListener dtl) {
-            if (listenerList != null) {
-                listenerList.remove(DropTargetListener.class, dtl);
+        publid void rfmovfDropTbrgftListfnfr(DropTbrgftListfnfr dtl) {
+            if (listfnfrList != null) {
+                listfnfrList.rfmovf(DropTbrgftListfnfr.dlbss, dtl);
             }
         }
 
-        // --- DropTargetListener methods (multicast) --------------------------
+        // --- DropTbrgftListfnfr mftiods (multidbst) --------------------------
 
-        public void dragEnter(DropTargetDragEvent e) {
-            super.dragEnter(e);
-            if (listenerList != null) {
-                Object[] listeners = listenerList.getListenerList();
-                for (int i = listeners.length-2; i>=0; i-=2) {
-                    if (listeners[i]==DropTargetListener.class) {
-                        ((DropTargetListener)listeners[i+1]).dragEnter(e);
+        publid void drbgEntfr(DropTbrgftDrbgEvfnt f) {
+            supfr.drbgEntfr(f);
+            if (listfnfrList != null) {
+                Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+                for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+                    if (listfnfrs[i]==DropTbrgftListfnfr.dlbss) {
+                        ((DropTbrgftListfnfr)listfnfrs[i+1]).drbgEntfr(f);
                     }
                 }
             }
         }
 
-        public void dragOver(DropTargetDragEvent e) {
-            super.dragOver(e);
-            if (listenerList != null) {
-                Object[] listeners = listenerList.getListenerList();
-                for (int i = listeners.length-2; i>=0; i-=2) {
-                    if (listeners[i]==DropTargetListener.class) {
-                        ((DropTargetListener)listeners[i+1]).dragOver(e);
+        publid void drbgOvfr(DropTbrgftDrbgEvfnt f) {
+            supfr.drbgOvfr(f);
+            if (listfnfrList != null) {
+                Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+                for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+                    if (listfnfrs[i]==DropTbrgftListfnfr.dlbss) {
+                        ((DropTbrgftListfnfr)listfnfrs[i+1]).drbgOvfr(f);
                     }
                 }
             }
         }
 
-        public void dragExit(DropTargetEvent e) {
-            super.dragExit(e);
-            if (listenerList != null) {
-                Object[] listeners = listenerList.getListenerList();
-                for (int i = listeners.length-2; i>=0; i-=2) {
-                    if (listeners[i]==DropTargetListener.class) {
-                        ((DropTargetListener)listeners[i+1]).dragExit(e);
+        publid void drbgExit(DropTbrgftEvfnt f) {
+            supfr.drbgExit(f);
+            if (listfnfrList != null) {
+                Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+                for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+                    if (listfnfrs[i]==DropTbrgftListfnfr.dlbss) {
+                        ((DropTbrgftListfnfr)listfnfrs[i+1]).drbgExit(f);
                     }
                 }
             }
-            if (!isActive()) {
-                // If the Drop target is inactive the dragExit will not be dispatched to the dtListener,
-                // so make sure that we clean up the dtListener anyway.
-                DropTargetListener dtListener = getDropTargetListener();
-                    if (dtListener != null && dtListener instanceof DropHandler) {
-                        ((DropHandler)dtListener).cleanup(false);
+            if (!isAdtivf()) {
+                // If tif Drop tbrgft is inbdtivf tif drbgExit will not bf dispbtdifd to tif dtListfnfr,
+                // so mbkf surf tibt wf dlfbn up tif dtListfnfr bnywby.
+                DropTbrgftListfnfr dtListfnfr = gftDropTbrgftListfnfr();
+                    if (dtListfnfr != null && dtListfnfr instbndfof DropHbndlfr) {
+                        ((DropHbndlfr)dtListfnfr).dlfbnup(fblsf);
                     }
             }
         }
 
-        public void drop(DropTargetDropEvent e) {
-            super.drop(e);
-            if (listenerList != null) {
-                Object[] listeners = listenerList.getListenerList();
-                for (int i = listeners.length-2; i>=0; i-=2) {
-                    if (listeners[i]==DropTargetListener.class) {
-                        ((DropTargetListener)listeners[i+1]).drop(e);
-                    }
-                }
-            }
-        }
-
-        public void dropActionChanged(DropTargetDragEvent e) {
-            super.dropActionChanged(e);
-            if (listenerList != null) {
-                Object[] listeners = listenerList.getListenerList();
-                for (int i = listeners.length-2; i>=0; i-=2) {
-                    if (listeners[i]==DropTargetListener.class) {
-                        ((DropTargetListener)listeners[i+1]).dropActionChanged(e);
+        publid void drop(DropTbrgftDropEvfnt f) {
+            supfr.drop(f);
+            if (listfnfrList != null) {
+                Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+                for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+                    if (listfnfrs[i]==DropTbrgftListfnfr.dlbss) {
+                        ((DropTbrgftListfnfr)listfnfrs[i+1]).drop(f);
                     }
                 }
             }
         }
 
-        private EventListenerList listenerList;
+        publid void dropAdtionCibngfd(DropTbrgftDrbgEvfnt f) {
+            supfr.dropAdtionCibngfd(f);
+            if (listfnfrList != null) {
+                Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+                for (int i = listfnfrs.lfngti-2; i>=0; i-=2) {
+                    if (listfnfrs[i]==DropTbrgftListfnfr.dlbss) {
+                        ((DropTbrgftListfnfr)listfnfrs[i+1]).dropAdtionCibngfd(f);
+                    }
+                }
+            }
+        }
+
+        privbtf EvfntListfnfrList listfnfrList;
     }
 
-    private static class DropHandler implements DropTargetListener,
-                                                Serializable,
-                                                ActionListener {
+    privbtf stbtid dlbss DropHbndlfr implfmfnts DropTbrgftListfnfr,
+                                                Sfriblizbblf,
+                                                AdtionListfnfr {
 
-        private Timer timer;
-        private Point lastPosition;
-        private Rectangle outer = new Rectangle();
-        private Rectangle inner = new Rectangle();
-        private int hysteresis = 10;
+        privbtf Timfr timfr;
+        privbtf Point lbstPosition;
+        privbtf Rfdtbnglf outfr = nfw Rfdtbnglf();
+        privbtf Rfdtbnglf innfr = nfw Rfdtbnglf();
+        privbtf int iystfrfsis = 10;
 
-        private Component component;
-        private Object state;
-        private TransferSupport support =
-            new TransferSupport(null, (DropTargetEvent)null);
+        privbtf Componfnt domponfnt;
+        privbtf Objfdt stbtf;
+        privbtf TrbnsffrSupport support =
+            nfw TrbnsffrSupport(null, (DropTbrgftEvfnt)null);
 
-        private static final int AUTOSCROLL_INSET = 10;
+        privbtf stbtid finbl int AUTOSCROLL_INSET = 10;
 
         /**
-         * Update the geometry of the autoscroll region.  The geometry is
-         * maintained as a pair of rectangles.  The region can cause
-         * a scroll if the pointer sits inside it for the duration of the
-         * timer.  The region that causes the timer countdown is the area
-         * between the two rectangles.
+         * Updbtf tif gfomftry of tif butosdroll rfgion.  Tif gfomftry is
+         * mbintbinfd bs b pbir of rfdtbnglfs.  Tif rfgion dbn dbusf
+         * b sdroll if tif pointfr sits insidf it for tif durbtion of tif
+         * timfr.  Tif rfgion tibt dbusfs tif timfr dountdown is tif brfb
+         * bftwffn tif two rfdtbnglfs.
          * <p>
-         * This is implemented to use the visible area of the component
-         * as the outer rectangle, and the insets are fixed at 10. Should
-         * the component be smaller than a total of 20 in any direction,
-         * autoscroll will not occur in that direction.
+         * Tiis is implfmfntfd to usf tif visiblf brfb of tif domponfnt
+         * bs tif outfr rfdtbnglf, bnd tif insfts brf fixfd bt 10. Siould
+         * tif domponfnt bf smbllfr tibn b totbl of 20 in bny dirfdtion,
+         * butosdroll will not oddur in tibt dirfdtion.
          */
-        private void updateAutoscrollRegion(JComponent c) {
-            // compute the outer
-            Rectangle visible = c.getVisibleRect();
-            outer.setBounds(visible.x, visible.y, visible.width, visible.height);
+        privbtf void updbtfAutosdrollRfgion(JComponfnt d) {
+            // domputf tif outfr
+            Rfdtbnglf visiblf = d.gftVisiblfRfdt();
+            outfr.sftBounds(visiblf.x, visiblf.y, visiblf.widti, visiblf.ifigit);
 
-            // compute the insets
-            Insets i = new Insets(0, 0, 0, 0);
-            if (c instanceof Scrollable) {
-                int minSize = 2 * AUTOSCROLL_INSET;
+            // domputf tif insfts
+            Insfts i = nfw Insfts(0, 0, 0, 0);
+            if (d instbndfof Sdrollbblf) {
+                int minSizf = 2 * AUTOSCROLL_INSET;
 
-                if (visible.width >= minSize) {
-                    i.left = i.right = AUTOSCROLL_INSET;
+                if (visiblf.widti >= minSizf) {
+                    i.lfft = i.rigit = AUTOSCROLL_INSET;
                 }
 
-                if (visible.height >= minSize) {
+                if (visiblf.ifigit >= minSizf) {
                     i.top = i.bottom = AUTOSCROLL_INSET;
                 }
             }
 
-            // set the inner from the insets
-            inner.setBounds(visible.x + i.left,
-                          visible.y + i.top,
-                          visible.width - (i.left + i.right),
-                          visible.height - (i.top  + i.bottom));
+            // sft tif innfr from tif insfts
+            innfr.sftBounds(visiblf.x + i.lfft,
+                          visiblf.y + i.top,
+                          visiblf.widti - (i.lfft + i.rigit),
+                          visiblf.ifigit - (i.top  + i.bottom));
         }
 
         /**
-         * Perform an autoscroll operation.  This is implemented to scroll by the
-         * unit increment of the Scrollable using scrollRectToVisible.  If the
-         * cursor is in a corner of the autoscroll region, more than one axis will
-         * scroll.
+         * Pfrform bn butosdroll opfrbtion.  Tiis is implfmfntfd to sdroll by tif
+         * unit indrfmfnt of tif Sdrollbblf using sdrollRfdtToVisiblf.  If tif
+         * dursor is in b dornfr of tif butosdroll rfgion, morf tibn onf bxis will
+         * sdroll.
          */
-        private void autoscroll(JComponent c, Point pos) {
-            if (c instanceof Scrollable) {
-                Scrollable s = (Scrollable) c;
-                if (pos.y < inner.y) {
-                    // scroll upward
-                    int dy = s.getScrollableUnitIncrement(outer, SwingConstants.VERTICAL, -1);
-                    Rectangle r = new Rectangle(inner.x, outer.y - dy, inner.width, dy);
-                    c.scrollRectToVisible(r);
-                } else if (pos.y > (inner.y + inner.height)) {
-                    // scroll downard
-                    int dy = s.getScrollableUnitIncrement(outer, SwingConstants.VERTICAL, 1);
-                    Rectangle r = new Rectangle(inner.x, outer.y + outer.height, inner.width, dy);
-                    c.scrollRectToVisible(r);
+        privbtf void butosdroll(JComponfnt d, Point pos) {
+            if (d instbndfof Sdrollbblf) {
+                Sdrollbblf s = (Sdrollbblf) d;
+                if (pos.y < innfr.y) {
+                    // sdroll upwbrd
+                    int dy = s.gftSdrollbblfUnitIndrfmfnt(outfr, SwingConstbnts.VERTICAL, -1);
+                    Rfdtbnglf r = nfw Rfdtbnglf(innfr.x, outfr.y - dy, innfr.widti, dy);
+                    d.sdrollRfdtToVisiblf(r);
+                } flsf if (pos.y > (innfr.y + innfr.ifigit)) {
+                    // sdroll downbrd
+                    int dy = s.gftSdrollbblfUnitIndrfmfnt(outfr, SwingConstbnts.VERTICAL, 1);
+                    Rfdtbnglf r = nfw Rfdtbnglf(innfr.x, outfr.y + outfr.ifigit, innfr.widti, dy);
+                    d.sdrollRfdtToVisiblf(r);
                 }
 
-                if (pos.x < inner.x) {
-                    // scroll left
-                    int dx = s.getScrollableUnitIncrement(outer, SwingConstants.HORIZONTAL, -1);
-                    Rectangle r = new Rectangle(outer.x - dx, inner.y, dx, inner.height);
-                    c.scrollRectToVisible(r);
-                } else if (pos.x > (inner.x + inner.width)) {
-                    // scroll right
-                    int dx = s.getScrollableUnitIncrement(outer, SwingConstants.HORIZONTAL, 1);
-                    Rectangle r = new Rectangle(outer.x + outer.width, inner.y, dx, inner.height);
-                    c.scrollRectToVisible(r);
+                if (pos.x < innfr.x) {
+                    // sdroll lfft
+                    int dx = s.gftSdrollbblfUnitIndrfmfnt(outfr, SwingConstbnts.HORIZONTAL, -1);
+                    Rfdtbnglf r = nfw Rfdtbnglf(outfr.x - dx, innfr.y, dx, innfr.ifigit);
+                    d.sdrollRfdtToVisiblf(r);
+                } flsf if (pos.x > (innfr.x + innfr.widti)) {
+                    // sdroll rigit
+                    int dx = s.gftSdrollbblfUnitIndrfmfnt(outfr, SwingConstbnts.HORIZONTAL, 1);
+                    Rfdtbnglf r = nfw Rfdtbnglf(outfr.x + outfr.widti, innfr.y, dx, innfr.ifigit);
+                    d.sdrollRfdtToVisiblf(r);
                 }
             }
         }
 
         /**
-         * Initializes the internal properties if they haven't been already
-         * inited. This is done lazily to avoid loading of desktop properties.
+         * Initiblizfs tif intfrnbl propfrtifs if tify ibvfn't bffn blrfbdy
+         * initfd. Tiis is donf lbzily to bvoid lobding of dfsktop propfrtifs.
          */
-        private void initPropertiesIfNecessary() {
-            if (timer == null) {
-                Toolkit t = Toolkit.getDefaultToolkit();
-                Integer prop;
+        privbtf void initPropfrtifsIfNfdfssbry() {
+            if (timfr == null) {
+                Toolkit t = Toolkit.gftDffbultToolkit();
+                Intfgfr prop;
 
-                prop = (Integer)
-                    t.getDesktopProperty("DnD.Autoscroll.interval");
+                prop = (Intfgfr)
+                    t.gftDfsktopPropfrty("DnD.Autosdroll.intfrvbl");
 
-                timer = new Timer(prop == null ? 100 : prop.intValue(), this);
+                timfr = nfw Timfr(prop == null ? 100 : prop.intVbluf(), tiis);
 
-                prop = (Integer)
-                    t.getDesktopProperty("DnD.Autoscroll.initialDelay");
+                prop = (Intfgfr)
+                    t.gftDfsktopPropfrty("DnD.Autosdroll.initiblDflby");
 
-                timer.setInitialDelay(prop == null ? 100 : prop.intValue());
+                timfr.sftInitiblDflby(prop == null ? 100 : prop.intVbluf());
 
-                prop = (Integer)
-                    t.getDesktopProperty("DnD.Autoscroll.cursorHysteresis");
+                prop = (Intfgfr)
+                    t.gftDfsktopPropfrty("DnD.Autosdroll.dursorHystfrfsis");
 
                 if (prop != null) {
-                    hysteresis = prop.intValue();
+                    iystfrfsis = prop.intVbluf();
                 }
             }
         }
 
         /**
-         * The timer fired, perform autoscroll if the pointer is within the
-         * autoscroll region.
+         * Tif timfr firfd, pfrform butosdroll if tif pointfr is witiin tif
+         * butosdroll rfgion.
          * <P>
-         * @param e the <code>ActionEvent</code>
+         * @pbrbm f tif <dodf>AdtionEvfnt</dodf>
          */
-        public void actionPerformed(ActionEvent e) {
-            updateAutoscrollRegion((JComponent)component);
-            if (outer.contains(lastPosition) && !inner.contains(lastPosition)) {
-                autoscroll((JComponent)component, lastPosition);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            updbtfAutosdrollRfgion((JComponfnt)domponfnt);
+            if (outfr.dontbins(lbstPosition) && !innfr.dontbins(lbstPosition)) {
+                butosdroll((JComponfnt)domponfnt, lbstPosition);
             }
         }
 
-        // --- DropTargetListener methods -----------------------------------
+        // --- DropTbrgftListfnfr mftiods -----------------------------------
 
-        private void setComponentDropLocation(TransferSupport support,
-                                              boolean forDrop) {
+        privbtf void sftComponfntDropLodbtion(TrbnsffrSupport support,
+                                              boolfbn forDrop) {
 
-            DropLocation dropLocation = (support == null)
+            DropLodbtion dropLodbtion = (support == null)
                                         ? null
-                                        : support.getDropLocation();
+                                        : support.gftDropLodbtion();
 
-            if (SunToolkit.isInstanceOf(component, "javax.swing.text.JTextComponent")) {
-                state = SwingAccessor.getJTextComponentAccessor().
-                            setDropLocation((JTextComponent)component, dropLocation, state, forDrop);
-            } else if (component instanceof JComponent) {
-                state = ((JComponent)component).setDropLocation(dropLocation, state, forDrop);
+            if (SunToolkit.isInstbndfOf(domponfnt, "jbvbx.swing.tfxt.JTfxtComponfnt")) {
+                stbtf = SwingAddfssor.gftJTfxtComponfntAddfssor().
+                            sftDropLodbtion((JTfxtComponfnt)domponfnt, dropLodbtion, stbtf, forDrop);
+            } flsf if (domponfnt instbndfof JComponfnt) {
+                stbtf = ((JComponfnt)domponfnt).sftDropLodbtion(dropLodbtion, stbtf, forDrop);
             }
         }
 
-        private void handleDrag(DropTargetDragEvent e) {
-            TransferHandler importer =
-                ((HasGetTransferHandler)component).getTransferHandler();
+        privbtf void ibndlfDrbg(DropTbrgftDrbgEvfnt f) {
+            TrbnsffrHbndlfr importfr =
+                ((HbsGftTrbnsffrHbndlfr)domponfnt).gftTrbnsffrHbndlfr();
 
-            if (importer == null) {
-                e.rejectDrag();
-                setComponentDropLocation(null, false);
-                return;
+            if (importfr == null) {
+                f.rfjfdtDrbg();
+                sftComponfntDropLodbtion(null, fblsf);
+                rfturn;
             }
 
-            support.setDNDVariables(component, e);
-            boolean canImport = importer.canImport(support);
+            support.sftDNDVbribblfs(domponfnt, f);
+            boolfbn dbnImport = importfr.dbnImport(support);
 
-            if (canImport) {
-                e.acceptDrag(support.getDropAction());
-            } else {
-                e.rejectDrag();
+            if (dbnImport) {
+                f.bddfptDrbg(support.gftDropAdtion());
+            } flsf {
+                f.rfjfdtDrbg();
             }
 
-            boolean showLocation = support.showDropLocationIsSet ?
-                                   support.showDropLocation :
-                                   canImport;
+            boolfbn siowLodbtion = support.siowDropLodbtionIsSft ?
+                                   support.siowDropLodbtion :
+                                   dbnImport;
 
-            setComponentDropLocation(showLocation ? support : null, false);
+            sftComponfntDropLodbtion(siowLodbtion ? support : null, fblsf);
         }
 
-        public void dragEnter(DropTargetDragEvent e) {
-            state = null;
-            component = e.getDropTargetContext().getComponent();
+        publid void drbgEntfr(DropTbrgftDrbgEvfnt f) {
+            stbtf = null;
+            domponfnt = f.gftDropTbrgftContfxt().gftComponfnt();
 
-            handleDrag(e);
+            ibndlfDrbg(f);
 
-            if (component instanceof JComponent) {
-                lastPosition = e.getLocation();
-                updateAutoscrollRegion((JComponent)component);
-                initPropertiesIfNecessary();
+            if (domponfnt instbndfof JComponfnt) {
+                lbstPosition = f.gftLodbtion();
+                updbtfAutosdrollRfgion((JComponfnt)domponfnt);
+                initPropfrtifsIfNfdfssbry();
             }
         }
 
-        public void dragOver(DropTargetDragEvent e) {
-            handleDrag(e);
+        publid void drbgOvfr(DropTbrgftDrbgEvfnt f) {
+            ibndlfDrbg(f);
 
-            if (!(component instanceof JComponent)) {
-                return;
+            if (!(domponfnt instbndfof JComponfnt)) {
+                rfturn;
             }
 
-            Point p = e.getLocation();
+            Point p = f.gftLodbtion();
 
-            if (Math.abs(p.x - lastPosition.x) > hysteresis
-                    || Math.abs(p.y - lastPosition.y) > hysteresis) {
-                // no autoscroll
-                if (timer.isRunning()) timer.stop();
-            } else {
-                if (!timer.isRunning()) timer.start();
+            if (Mbti.bbs(p.x - lbstPosition.x) > iystfrfsis
+                    || Mbti.bbs(p.y - lbstPosition.y) > iystfrfsis) {
+                // no butosdroll
+                if (timfr.isRunning()) timfr.stop();
+            } flsf {
+                if (!timfr.isRunning()) timfr.stbrt();
             }
 
-            lastPosition = p;
+            lbstPosition = p;
         }
 
-        public void dragExit(DropTargetEvent e) {
-            cleanup(false);
+        publid void drbgExit(DropTbrgftEvfnt f) {
+            dlfbnup(fblsf);
         }
 
-        public void drop(DropTargetDropEvent e) {
-            TransferHandler importer =
-                ((HasGetTransferHandler)component).getTransferHandler();
+        publid void drop(DropTbrgftDropEvfnt f) {
+            TrbnsffrHbndlfr importfr =
+                ((HbsGftTrbnsffrHbndlfr)domponfnt).gftTrbnsffrHbndlfr();
 
-            if (importer == null) {
-                e.rejectDrop();
-                cleanup(false);
-                return;
+            if (importfr == null) {
+                f.rfjfdtDrop();
+                dlfbnup(fblsf);
+                rfturn;
             }
 
-            support.setDNDVariables(component, e);
-            boolean canImport = importer.canImport(support);
+            support.sftDNDVbribblfs(domponfnt, f);
+            boolfbn dbnImport = importfr.dbnImport(support);
 
-            if (canImport) {
-                e.acceptDrop(support.getDropAction());
+            if (dbnImport) {
+                f.bddfptDrop(support.gftDropAdtion());
 
-                boolean showLocation = support.showDropLocationIsSet ?
-                                       support.showDropLocation :
-                                       canImport;
+                boolfbn siowLodbtion = support.siowDropLodbtionIsSft ?
+                                       support.siowDropLodbtion :
+                                       dbnImport;
 
-                setComponentDropLocation(showLocation ? support : null, false);
+                sftComponfntDropLodbtion(siowLodbtion ? support : null, fblsf);
 
-                boolean success;
+                boolfbn suddfss;
 
                 try {
-                    success = importer.importData(support);
-                } catch (RuntimeException re) {
-                    success = false;
+                    suddfss = importfr.importDbtb(support);
+                } dbtdi (RuntimfExdfption rf) {
+                    suddfss = fblsf;
                 }
 
-                e.dropComplete(success);
-                cleanup(success);
-            } else {
-                e.rejectDrop();
-                cleanup(false);
+                f.dropComplftf(suddfss);
+                dlfbnup(suddfss);
+            } flsf {
+                f.rfjfdtDrop();
+                dlfbnup(fblsf);
             }
         }
 
-        public void dropActionChanged(DropTargetDragEvent e) {
+        publid void dropAdtionCibngfd(DropTbrgftDrbgEvfnt f) {
             /*
-             * Work-around for Linux bug where dropActionChanged
-             * is called before dragEnter.
+             * Work-bround for Linux bug wifrf dropAdtionCibngfd
+             * is dbllfd bfforf drbgEntfr.
              */
-            if (component == null) {
-                return;
+            if (domponfnt == null) {
+                rfturn;
             }
 
-            handleDrag(e);
+            ibndlfDrbg(f);
         }
 
-        private void cleanup(boolean forDrop) {
-            setComponentDropLocation(null, forDrop);
-            if (component instanceof JComponent) {
-                ((JComponent)component).dndDone();
+        privbtf void dlfbnup(boolfbn forDrop) {
+            sftComponfntDropLodbtion(null, forDrop);
+            if (domponfnt instbndfof JComponfnt) {
+                ((JComponfnt)domponfnt).dndDonf();
             }
 
-            if (timer != null) {
-                timer.stop();
+            if (timfr != null) {
+                timfr.stop();
             }
 
-            state = null;
-            component = null;
-            lastPosition = null;
+            stbtf = null;
+            domponfnt = null;
+            lbstPosition = null;
         }
     }
 
     /**
-     * This is the default drag handler for drag and drop operations that
-     * use the <code>TransferHandler</code>.
+     * Tiis is tif dffbult drbg ibndlfr for drbg bnd drop opfrbtions tibt
+     * usf tif <dodf>TrbnsffrHbndlfr</dodf>.
      */
-    private static class DragHandler implements DragGestureListener, DragSourceListener {
+    privbtf stbtid dlbss DrbgHbndlfr implfmfnts DrbgGfsturfListfnfr, DrbgSourdfListfnfr {
 
-        private boolean scrolls;
+        privbtf boolfbn sdrolls;
 
-        // --- DragGestureListener methods -----------------------------------
+        // --- DrbgGfsturfListfnfr mftiods -----------------------------------
 
         /**
-         * a Drag gesture has been recognized
+         * b Drbg gfsturf ibs bffn rfdognizfd
          */
-        public void dragGestureRecognized(DragGestureEvent dge) {
-            JComponent c = (JComponent) dge.getComponent();
-            TransferHandler th = c.getTransferHandler();
-            Transferable t = th.createTransferable(c);
+        publid void drbgGfsturfRfdognizfd(DrbgGfsturfEvfnt dgf) {
+            JComponfnt d = (JComponfnt) dgf.gftComponfnt();
+            TrbnsffrHbndlfr ti = d.gftTrbnsffrHbndlfr();
+            Trbnsffrbblf t = ti.drfbtfTrbnsffrbblf(d);
             if (t != null) {
-                scrolls = c.getAutoscrolls();
-                c.setAutoscrolls(false);
+                sdrolls = d.gftAutosdrolls();
+                d.sftAutosdrolls(fblsf);
                 try {
-                    Image im = th.getDragImage();
+                    Imbgf im = ti.gftDrbgImbgf();
                     if (im == null) {
-                        dge.startDrag(null, t, this);
-                    } else {
-                        dge.startDrag(null, im, th.getDragImageOffset(), t, this);
+                        dgf.stbrtDrbg(null, t, tiis);
+                    } flsf {
+                        dgf.stbrtDrbg(null, im, ti.gftDrbgImbgfOffsft(), t, tiis);
                     }
-                    return;
-                } catch (RuntimeException re) {
-                    c.setAutoscrolls(scrolls);
+                    rfturn;
+                } dbtdi (RuntimfExdfption rf) {
+                    d.sftAutosdrolls(sdrolls);
                 }
             }
 
-            th.exportDone(c, t, NONE);
+            ti.fxportDonf(d, t, NONE);
         }
 
-        // --- DragSourceListener methods -----------------------------------
+        // --- DrbgSourdfListfnfr mftiods -----------------------------------
 
         /**
-         * as the hotspot enters a platform dependent drop site
+         * bs tif iotspot fntfrs b plbtform dfpfndfnt drop sitf
          */
-        public void dragEnter(DragSourceDragEvent dsde) {
-        }
-
-        /**
-         * as the hotspot moves over a platform dependent drop site
-         */
-        public void dragOver(DragSourceDragEvent dsde) {
+        publid void drbgEntfr(DrbgSourdfDrbgEvfnt dsdf) {
         }
 
         /**
-         * as the hotspot exits a platform dependent drop site
+         * bs tif iotspot movfs ovfr b plbtform dfpfndfnt drop sitf
          */
-        public void dragExit(DragSourceEvent dsde) {
+        publid void drbgOvfr(DrbgSourdfDrbgEvfnt dsdf) {
         }
 
         /**
-         * as the operation completes
+         * bs tif iotspot fxits b plbtform dfpfndfnt drop sitf
          */
-        public void dragDropEnd(DragSourceDropEvent dsde) {
-            DragSourceContext dsc = dsde.getDragSourceContext();
-            JComponent c = (JComponent)dsc.getComponent();
-            if (dsde.getDropSuccess()) {
-                c.getTransferHandler().exportDone(c, dsc.getTransferable(), dsde.getDropAction());
-            } else {
-                c.getTransferHandler().exportDone(c, dsc.getTransferable(), NONE);
+        publid void drbgExit(DrbgSourdfEvfnt dsdf) {
+        }
+
+        /**
+         * bs tif opfrbtion domplftfs
+         */
+        publid void drbgDropEnd(DrbgSourdfDropEvfnt dsdf) {
+            DrbgSourdfContfxt dsd = dsdf.gftDrbgSourdfContfxt();
+            JComponfnt d = (JComponfnt)dsd.gftComponfnt();
+            if (dsdf.gftDropSuddfss()) {
+                d.gftTrbnsffrHbndlfr().fxportDonf(d, dsd.gftTrbnsffrbblf(), dsdf.gftDropAdtion());
+            } flsf {
+                d.gftTrbnsffrHbndlfr().fxportDonf(d, dsd.gftTrbnsffrbblf(), NONE);
             }
-            c.setAutoscrolls(scrolls);
+            d.sftAutosdrolls(sdrolls);
         }
 
-        public void dropActionChanged(DragSourceDragEvent dsde) {
+        publid void dropAdtionCibngfd(DrbgSourdfDrbgEvfnt dsdf) {
         }
     }
 
-    private static class SwingDragGestureRecognizer extends DragGestureRecognizer {
+    privbtf stbtid dlbss SwingDrbgGfsturfRfdognizfr fxtfnds DrbgGfsturfRfdognizfr {
 
-        SwingDragGestureRecognizer(DragGestureListener dgl) {
-            super(DragSource.getDefaultDragSource(), null, NONE, dgl);
+        SwingDrbgGfsturfRfdognizfr(DrbgGfsturfListfnfr dgl) {
+            supfr(DrbgSourdf.gftDffbultDrbgSourdf(), null, NONE, dgl);
         }
 
-        void gestured(JComponent c, MouseEvent e, int srcActions, int action) {
-            setComponent(c);
-            setSourceActions(srcActions);
-            appendEvent(e);
-            fireDragGestureRecognized(action, e.getPoint());
+        void gfsturfd(JComponfnt d, MousfEvfnt f, int srdAdtions, int bdtion) {
+            sftComponfnt(d);
+            sftSourdfAdtions(srdAdtions);
+            bppfndEvfnt(f);
+            firfDrbgGfsturfRfdognizfd(bdtion, f.gftPoint());
         }
 
         /**
-         * register this DragGestureRecognizer's Listeners with the Component
+         * rfgistfr tiis DrbgGfsturfRfdognizfr's Listfnfrs witi tif Componfnt
          */
-        protected void registerListeners() {
+        protfdtfd void rfgistfrListfnfrs() {
         }
 
         /**
-         * unregister this DragGestureRecognizer's Listeners with the Component
+         * unrfgistfr tiis DrbgGfsturfRfdognizfr's Listfnfrs witi tif Componfnt
          *
-         * subclasses must override this method
+         * subdlbssfs must ovfrridf tiis mftiod
          */
-        protected void unregisterListeners() {
+        protfdtfd void unrfgistfrListfnfrs() {
         }
 
     }
 
-    static final Action cutAction = new TransferAction("cut");
-    static final Action copyAction = new TransferAction("copy");
-    static final Action pasteAction = new TransferAction("paste");
+    stbtid finbl Adtion dutAdtion = nfw TrbnsffrAdtion("dut");
+    stbtid finbl Adtion dopyAdtion = nfw TrbnsffrAdtion("dopy");
+    stbtid finbl Adtion pbstfAdtion = nfw TrbnsffrAdtion("pbstf");
 
-    static class TransferAction extends UIAction implements UIResource {
+    stbtid dlbss TrbnsffrAdtion fxtfnds UIAdtion implfmfnts UIRfsourdf {
 
-        TransferAction(String name) {
-            super(name);
+        TrbnsffrAdtion(String nbmf) {
+            supfr(nbmf);
         }
 
-        public boolean isEnabled(Object sender) {
-            if (sender instanceof JComponent
-                && ((JComponent)sender).getTransferHandler() == null) {
-                    return false;
+        publid boolfbn isEnbblfd(Objfdt sfndfr) {
+            if (sfndfr instbndfof JComponfnt
+                && ((JComponfnt)sfndfr).gftTrbnsffrHbndlfr() == null) {
+                    rfturn fblsf;
             }
 
-            return true;
+            rfturn truf;
         }
 
-        private static final JavaSecurityAccess javaSecurityAccess =
-            SharedSecrets.getJavaSecurityAccess();
+        privbtf stbtid finbl JbvbSfdurityAddfss jbvbSfdurityAddfss =
+            SibrfdSfdrfts.gftJbvbSfdurityAddfss();
 
-        public void actionPerformed(final ActionEvent e) {
-            final Object src = e.getSource();
+        publid void bdtionPfrformfd(finbl AdtionEvfnt f) {
+            finbl Objfdt srd = f.gftSourdf();
 
-            final PrivilegedAction<Void> action = new PrivilegedAction<Void>() {
-                public Void run() {
-                    actionPerformedImpl(e);
-                    return null;
+            finbl PrivilfgfdAdtion<Void> bdtion = nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    bdtionPfrformfdImpl(f);
+                    rfturn null;
                 }
             };
 
-            final AccessControlContext stack = AccessController.getContext();
-            final AccessControlContext srcAcc = AWTAccessor.getComponentAccessor().getAccessControlContext((Component)src);
-            final AccessControlContext eventAcc = AWTAccessor.getAWTEventAccessor().getAccessControlContext(e);
+            finbl AddfssControlContfxt stbdk = AddfssControllfr.gftContfxt();
+            finbl AddfssControlContfxt srdAdd = AWTAddfssor.gftComponfntAddfssor().gftAddfssControlContfxt((Componfnt)srd);
+            finbl AddfssControlContfxt fvfntAdd = AWTAddfssor.gftAWTEvfntAddfssor().gftAddfssControlContfxt(f);
 
-                if (srcAcc == null) {
-                    javaSecurityAccess.doIntersectionPrivilege(action, stack, eventAcc);
-                } else {
-                    javaSecurityAccess.doIntersectionPrivilege(
-                        new PrivilegedAction<Void>() {
-                            public Void run() {
-                                javaSecurityAccess.doIntersectionPrivilege(action, eventAcc);
-                                return null;
+                if (srdAdd == null) {
+                    jbvbSfdurityAddfss.doIntfrsfdtionPrivilfgf(bdtion, stbdk, fvfntAdd);
+                } flsf {
+                    jbvbSfdurityAddfss.doIntfrsfdtionPrivilfgf(
+                        nfw PrivilfgfdAdtion<Void>() {
+                            publid Void run() {
+                                jbvbSfdurityAddfss.doIntfrsfdtionPrivilfgf(bdtion, fvfntAdd);
+                                rfturn null;
                              }
-                    }, stack, srcAcc);
+                    }, stbdk, srdAdd);
                 }
         }
 
-        private void actionPerformedImpl(ActionEvent e) {
-            Object src = e.getSource();
-            if (src instanceof JComponent) {
-                JComponent c = (JComponent) src;
-                TransferHandler th = c.getTransferHandler();
-                Clipboard clipboard = getClipboard(c);
-                String name = (String) getValue(Action.NAME);
+        privbtf void bdtionPfrformfdImpl(AdtionEvfnt f) {
+            Objfdt srd = f.gftSourdf();
+            if (srd instbndfof JComponfnt) {
+                JComponfnt d = (JComponfnt) srd;
+                TrbnsffrHbndlfr ti = d.gftTrbnsffrHbndlfr();
+                Clipbobrd dlipbobrd = gftClipbobrd(d);
+                String nbmf = (String) gftVbluf(Adtion.NAME);
 
-                Transferable trans = null;
+                Trbnsffrbblf trbns = null;
 
-                // any of these calls may throw IllegalStateException
+                // bny of tifsf dblls mby tirow IllfgblStbtfExdfption
                 try {
-                    if ((clipboard != null) && (th != null) && (name != null)) {
-                        if ("cut".equals(name)) {
-                            th.exportToClipboard(c, clipboard, MOVE);
-                        } else if ("copy".equals(name)) {
-                            th.exportToClipboard(c, clipboard, COPY);
-                        } else if ("paste".equals(name)) {
-                            trans = clipboard.getContents(null);
+                    if ((dlipbobrd != null) && (ti != null) && (nbmf != null)) {
+                        if ("dut".fqubls(nbmf)) {
+                            ti.fxportToClipbobrd(d, dlipbobrd, MOVE);
+                        } flsf if ("dopy".fqubls(nbmf)) {
+                            ti.fxportToClipbobrd(d, dlipbobrd, COPY);
+                        } flsf if ("pbstf".fqubls(nbmf)) {
+                            trbns = dlipbobrd.gftContfnts(null);
                         }
                     }
-                } catch (IllegalStateException ise) {
-                    // clipboard was unavailable
-                    UIManager.getLookAndFeel().provideErrorFeedback(c);
-                    return;
+                } dbtdi (IllfgblStbtfExdfption isf) {
+                    // dlipbobrd wbs unbvbilbblf
+                    UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(d);
+                    rfturn;
                 }
 
-                // this is a paste action, import data into the component
-                if (trans != null) {
-                    th.importData(new TransferSupport(c, trans));
+                // tiis is b pbstf bdtion, import dbtb into tif domponfnt
+                if (trbns != null) {
+                    ti.importDbtb(nfw TrbnsffrSupport(d, trbns));
                 }
             }
         }
 
         /**
-         * Returns the clipboard to use for cut/copy/paste.
+         * Rfturns tif dlipbobrd to usf for dut/dopy/pbstf.
          */
-        private Clipboard getClipboard(JComponent c) {
-            if (SwingUtilities2.canAccessSystemClipboard()) {
-                return c.getToolkit().getSystemClipboard();
+        privbtf Clipbobrd gftClipbobrd(JComponfnt d) {
+            if (SwingUtilitifs2.dbnAddfssSystfmClipbobrd()) {
+                rfturn d.gftToolkit().gftSystfmClipbobrd();
             }
-            Clipboard clipboard = (Clipboard)sun.awt.AppContext.getAppContext().
-                get(SandboxClipboardKey);
-            if (clipboard == null) {
-                clipboard = new Clipboard("Sandboxed Component Clipboard");
-                sun.awt.AppContext.getAppContext().put(SandboxClipboardKey,
-                                                       clipboard);
+            Clipbobrd dlipbobrd = (Clipbobrd)sun.bwt.AppContfxt.gftAppContfxt().
+                gft(SbndboxClipbobrdKfy);
+            if (dlipbobrd == null) {
+                dlipbobrd = nfw Clipbobrd("Sbndboxfd Componfnt Clipbobrd");
+                sun.bwt.AppContfxt.gftAppContfxt().put(SbndboxClipbobrdKfy,
+                                                       dlipbobrd);
             }
-            return clipboard;
+            rfturn dlipbobrd;
         }
 
         /**
-         * Key used in app context to lookup Clipboard to use if access to
-         * System clipboard is denied.
+         * Kfy usfd in bpp dontfxt to lookup Clipbobrd to usf if bddfss to
+         * Systfm dlipbobrd is dfnifd.
          */
-        private static Object SandboxClipboardKey = new Object();
+        privbtf stbtid Objfdt SbndboxClipbobrdKfy = nfw Objfdt();
 
     }
 

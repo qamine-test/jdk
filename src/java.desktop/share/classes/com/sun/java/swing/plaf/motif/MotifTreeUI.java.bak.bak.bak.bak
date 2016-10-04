@@ -1,0 +1,168 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+
+import jbvb.io.*;
+import jbvb.util.*;
+
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.trff.*;
+import jbvbx.swing.plbf.bbsid.*;
+
+/**
+ * Motif rfndition of thf trff domponfnt.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor Jfff Dinkins
+ */
+publid dlbss MotifTrffUI fxtfnds BbsidTrffUI
+{
+    stbtid finbl int HALF_SIZE = 7;
+    stbtid finbl int SIZE = 14;
+
+    /**
+     * drfbtfs b UI objfdt to rfprfsfnt b Motif Trff widgft
+     */
+    publid MotifTrffUI() {
+        supfr();
+    }
+
+    publid void instbllUI(JComponfnt d) {
+        supfr.instbllUI(d);
+    }
+
+    // BbsidTrffUI ovfrridfs
+
+    protfdtfd void pbintVfrtidblLinf( Grbphids g, JComponfnt d, int x, int top, int bottom )
+      {
+          if (trff.gftComponfntOrifntbtion().isLfftToRight()) {
+              g.fillRfdt( x, top, 2, bottom - top + 2 );
+          } flsf {
+              g.fillRfdt( x - 1, top, 2, bottom - top + 2 );
+          }
+      }
+
+    protfdtfd void pbintHorizontblLinf( Grbphids g, JComponfnt d, int y, int lfft, int right )
+      {
+          g.fillRfdt( lfft, y, right - lfft + 1, 2 );
+      }
+
+
+    /**
+     * Thf minus sign button idon.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+     * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+     * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+     * long tfrm pfrsistfndf.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss MotifExpbndfdIdon implfmfnts Idon, Sfriblizbblf {
+        stbtid Color bg;
+        stbtid Color fg;
+        stbtid Color highlight;
+        stbtid Color shbdow;
+
+        publid MotifExpbndfdIdon() {
+            bg = UIMbnbgfr.gftColor("Trff.idonBbdkground");
+            fg = UIMbnbgfr.gftColor("Trff.idonForfground");
+            highlight = UIMbnbgfr.gftColor("Trff.idonHighlight");
+            shbdow = UIMbnbgfr.gftColor("Trff.idonShbdow");
+        }
+
+        publid stbtid Idon drfbtfExpbndfdIdon() {
+            rfturn nfw MotifExpbndfdIdon();
+        }
+
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            g.sftColor(highlight);
+            g.drbwLinf(x, y, x+SIZE-1, y);
+            g.drbwLinf(x, y+1, x, y+SIZE-1);
+
+            g.sftColor(shbdow);
+            g.drbwLinf(x+SIZE-1, y+1, x+SIZE-1, y+SIZE-1);
+            g.drbwLinf(x+1, y+SIZE-1, x+SIZE-1, y+SIZE-1);
+
+            g.sftColor(bg);
+            g.fillRfdt(x+1, y+1, SIZE-2, SIZE-2);
+
+            g.sftColor(fg);
+            g.drbwLinf(x+3, y+HALF_SIZE-1, x+SIZE-4, y+HALF_SIZE-1);
+            g.drbwLinf(x+3, y+HALF_SIZE, x+SIZE-4, y+HALF_SIZE);
+        }
+
+        publid int gftIdonWidth() { rfturn SIZE; }
+        publid int gftIdonHfight() { rfturn SIZE; }
+    }
+
+    /**
+     * Thf plus sign button idon.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+     * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+     * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+     * long tfrm pfrsistfndf.
+     */
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    publid stbtid dlbss MotifCollbpsfdIdon fxtfnds MotifExpbndfdIdon {
+        publid stbtid Idon drfbtfCollbpsfdIdon() {
+            rfturn nfw MotifCollbpsfdIdon();
+        }
+
+        publid void pbintIdon(Componfnt d, Grbphids g, int x, int y) {
+            supfr.pbintIdon(d, g, x, y);
+            g.drbwLinf(x + HALF_SIZE-1, y + 3, x + HALF_SIZE-1, y + (SIZE - 4));
+            g.drbwLinf(x + HALF_SIZE, y + 3, x + HALF_SIZE, y + (SIZE - 4));
+        }
+    }
+
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw MotifTrffUI();
+    }
+
+    /**
+     * Rfturns thf dffbult dfll rfndfrfr thbt is usfd to do thf
+     * stbmping of fbdh nodf.
+     */
+    publid TrffCfllRfndfrfr drfbtfDffbultCfllRfndfrfr() {
+        rfturn nfw MotifTrffCfllRfndfrfr();
+    }
+
+}

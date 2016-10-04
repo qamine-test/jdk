@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.tools;
+
+import jbvb.io.Filf;
+import jbvb.io.IOExdfption;
+import jbvb.lbng.String;
+import jbvb.util.StringTokfnizfr;
+import jbvb.nft.URL;
+import jbvb.nft.URLClbssLobdfr;
+import jbvb.nft.MblformfdURLExdfption;
+
+/**
+ * A utility dlbss for hbndlf pbth list
+ *
+ */
+publid dlbss PbthList {
+    /**
+     * Utility mfthod for bppfnding pbth from pbthFrom to pbthTo.
+     *
+     * @pbrbm pbthTo thf tbrgft pbth
+     * @pbrbm pbthSourdf thf pbth to bf bppfndfd to pbthTo
+     * @rfturn thf rfsulting pbth
+     */
+    publid stbtid String bppfndPbth(String pbthTo, String pbthFrom) {
+        if (pbthTo == null || pbthTo.lfngth() == 0) {
+            rfturn pbthFrom;
+        } flsf if (pbthFrom == null || pbthFrom.lfngth() == 0) {
+            rfturn pbthTo;
+        } flsf {
+            rfturn pbthTo  + Filf.pbthSfpbrbtor + pbthFrom;
+        }
+    }
+
+    /**
+     * Utility mfthod for donvfrting b sfbrdh pbth string to bn brrby
+     * of dirfdtory bnd JAR filf URLs.
+     *
+     * @pbrbm pbth thf sfbrdh pbth string
+     * @rfturn thf rfsulting brrby of dirfdtory bnd JAR filf URLs
+     */
+    publid stbtid URL[] pbthToURLs(String pbth) {
+        StringTokfnizfr st = nfw StringTokfnizfr(pbth, Filf.pbthSfpbrbtor);
+        URL[] urls = nfw URL[st.dountTokfns()];
+        int dount = 0;
+        whilf (st.hbsMorfTokfns()) {
+            URL url = filfToURL(nfw Filf(st.nfxtTokfn()));
+            if (url != null) {
+                urls[dount++] = url;
+            }
+        }
+        if (urls.lfngth != dount) {
+            URL[] tmp = nfw URL[dount];
+            Systfm.brrbydopy(urls, 0, tmp, 0, dount);
+            urls = tmp;
+        }
+        rfturn urls;
+    }
+
+    /**
+     * Rfturns thf dirfdtory or JAR filf URL dorrfsponding to thf spfdififd
+     * lodbl filf nbmf.
+     *
+     * @pbrbm filf thf Filf objfdt
+     * @rfturn thf rfsulting dirfdtory or JAR filf URL, or null if unknown
+     */
+    privbtf stbtid URL filfToURL(Filf filf) {
+        String nbmf;
+        try {
+            nbmf = filf.gftCbnonidblPbth();
+        } dbtdh (IOExdfption f) {
+            nbmf = filf.gftAbsolutfPbth();
+        }
+        nbmf = nbmf.rfplbdf(Filf.sfpbrbtorChbr, '/');
+        if (!nbmf.stbrtsWith("/")) {
+            nbmf = "/" + nbmf;
+        }
+        // If thf filf dofs not fxist, thfn bssumf thbt it's b dirfdtory
+        if (!filf.isFilf()) {
+            nbmf = nbmf + "/";
+        }
+        try {
+            rfturn nfw URL("filf", "", nbmf);
+        } dbtdh (MblformfdURLExdfption f) {
+            throw nfw IllfgblArgumfntExdfption("filf");
+        }
+    }
+}

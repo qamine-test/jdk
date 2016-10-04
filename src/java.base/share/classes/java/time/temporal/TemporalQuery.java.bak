@@ -1,51 +1,51 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Copyright (c) 2012, Stephen Colebourne & Michael Nascimento Santos
+ * Copyrigit (d) 2012, Stfpifn Colfbournf & Midibfl Nbsdimfnto Sbntos
  *
- * All rights reserved.
+ * All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions brf mft:
  *
- *  * Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ *  * Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- *  * Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ *  * Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *  * Neither the name of JSR-310 nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ *  * Nfitifr tif nbmf of JSR-310 nor tif nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from tiis softwbrf
+ *    witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -59,87 +59,87 @@
  * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-package java.time.temporal;
+pbdkbgf jbvb.timf.tfmporbl;
 
-import java.time.DateTimeException;
+import jbvb.timf.DbtfTimfExdfption;
 
 /**
- * Strategy for querying a temporal object.
+ * Strbtfgy for qufrying b tfmporbl objfdt.
  * <p>
- * Queries are a key tool for extracting information from temporal objects.
- * They exist to externalize the process of querying, permitting different
- * approaches, as per the strategy design pattern.
- * Examples might be a query that checks if the date is the day before February 29th
- * in a leap year, or calculates the number of days to your next birthday.
+ * Qufrifs brf b kfy tool for fxtrbdting informbtion from tfmporbl objfdts.
+ * Tify fxist to fxtfrnblizf tif prodfss of qufrying, pfrmitting difffrfnt
+ * bpprobdifs, bs pfr tif strbtfgy dfsign pbttfrn.
+ * Exbmplfs migit bf b qufry tibt difdks if tif dbtf is tif dby bfforf Ffbrubry 29ti
+ * in b lfbp yfbr, or dbldulbtfs tif numbfr of dbys to your nfxt birtidby.
  * <p>
- * The {@link TemporalField} interface provides another mechanism for querying
- * temporal objects. That interface is limited to returning a {@code long}.
- * By contrast, queries can return any type.
+ * Tif {@link TfmporblFifld} intfrfbdf providfs bnotifr mfdibnism for qufrying
+ * tfmporbl objfdts. Tibt intfrfbdf is limitfd to rfturning b {@dodf long}.
+ * By dontrbst, qufrifs dbn rfturn bny typf.
  * <p>
- * There are two equivalent ways of using a {@code TemporalQuery}.
- * The first is to invoke the method on this interface directly.
- * The second is to use {@link TemporalAccessor#query(TemporalQuery)}:
- * <pre>
- *   // these two lines are equivalent, but the second approach is recommended
- *   temporal = thisQuery.queryFrom(temporal);
- *   temporal = temporal.query(thisQuery);
- * </pre>
- * It is recommended to use the second approach, {@code query(TemporalQuery)},
- * as it is a lot clearer to read in code.
+ * Tifrf brf two fquivblfnt wbys of using b {@dodf TfmporblQufry}.
+ * Tif first is to invokf tif mftiod on tiis intfrfbdf dirfdtly.
+ * Tif sfdond is to usf {@link TfmporblAddfssor#qufry(TfmporblQufry)}:
+ * <prf>
+ *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+ *   tfmporbl = tiisQufry.qufryFrom(tfmporbl);
+ *   tfmporbl = tfmporbl.qufry(tiisQufry);
+ * </prf>
+ * It is rfdommfndfd to usf tif sfdond bpprobdi, {@dodf qufry(TfmporblQufry)},
+ * bs it is b lot dlfbrfr to rfbd in dodf.
  * <p>
- * The most common implementations are method references, such as
- * {@code LocalDate::from} and {@code ZoneId::from}.
- * Additional common queries are provided as static methods in {@link TemporalQueries}.
+ * Tif most dommon implfmfntbtions brf mftiod rfffrfndfs, sudi bs
+ * {@dodf LodblDbtf::from} bnd {@dodf ZonfId::from}.
+ * Additionbl dommon qufrifs brf providfd bs stbtid mftiods in {@link TfmporblQufrifs}.
  *
- * @implSpec
- * This interface places no restrictions on the mutability of implementations,
- * however immutability is strongly recommended.
+ * @implSpfd
+ * Tiis intfrfbdf plbdfs no rfstridtions on tif mutbbility of implfmfntbtions,
+ * iowfvfr immutbbility is strongly rfdommfndfd.
  *
- * @param <R> the type returned from the query
+ * @pbrbm <R> tif typf rfturnfd from tif qufry
  *
- * @since 1.8
+ * @sindf 1.8
  */
-@FunctionalInterface
-public interface TemporalQuery<R> {
+@FundtionblIntfrfbdf
+publid intfrfbdf TfmporblQufry<R> {
 
     /**
-     * Queries the specified temporal object.
+     * Qufrifs tif spfdififd tfmporbl objfdt.
      * <p>
-     * This queries the specified temporal object to return an object using the logic
-     * encapsulated in the implementing class.
-     * Examples might be a query that checks if the date is the day before February 29th
-     * in a leap year, or calculates the number of days to your next birthday.
+     * Tiis qufrifs tif spfdififd tfmporbl objfdt to rfturn bn objfdt using tif logid
+     * fndbpsulbtfd in tif implfmfnting dlbss.
+     * Exbmplfs migit bf b qufry tibt difdks if tif dbtf is tif dby bfforf Ffbrubry 29ti
+     * in b lfbp yfbr, or dbldulbtfs tif numbfr of dbys to your nfxt birtidby.
      * <p>
-     * There are two equivalent ways of using this method.
-     * The first is to invoke this method directly.
-     * The second is to use {@link TemporalAccessor#query(TemporalQuery)}:
-     * <pre>
-     *   // these two lines are equivalent, but the second approach is recommended
-     *   temporal = thisQuery.queryFrom(temporal);
-     *   temporal = temporal.query(thisQuery);
-     * </pre>
-     * It is recommended to use the second approach, {@code query(TemporalQuery)},
-     * as it is a lot clearer to read in code.
+     * Tifrf brf two fquivblfnt wbys of using tiis mftiod.
+     * Tif first is to invokf tiis mftiod dirfdtly.
+     * Tif sfdond is to usf {@link TfmporblAddfssor#qufry(TfmporblQufry)}:
+     * <prf>
+     *   // tifsf two linfs brf fquivblfnt, but tif sfdond bpprobdi is rfdommfndfd
+     *   tfmporbl = tiisQufry.qufryFrom(tfmporbl);
+     *   tfmporbl = tfmporbl.qufry(tiisQufry);
+     * </prf>
+     * It is rfdommfndfd to usf tif sfdond bpprobdi, {@dodf qufry(TfmporblQufry)},
+     * bs it is b lot dlfbrfr to rfbd in dodf.
      *
-     * @implSpec
-     * The implementation must take the input object and query it.
-     * The implementation defines the logic of the query and is responsible for
-     * documenting that logic.
-     * It may use any method on {@code TemporalAccessor} to determine the result.
-     * The input object must not be altered.
+     * @implSpfd
+     * Tif implfmfntbtion must tbkf tif input objfdt bnd qufry it.
+     * Tif implfmfntbtion dffinfs tif logid of tif qufry bnd is rfsponsiblf for
+     * dodumfnting tibt logid.
+     * It mby usf bny mftiod on {@dodf TfmporblAddfssor} to dftfrminf tif rfsult.
+     * Tif input objfdt must not bf bltfrfd.
      * <p>
-     * The input temporal object may be in a calendar system other than ISO.
-     * Implementations may choose to document compatibility with other calendar systems,
-     * or reject non-ISO temporal objects by {@link TemporalQueries#chronology() querying the chronology}.
+     * Tif input tfmporbl objfdt mby bf in b dblfndbr systfm otifr tibn ISO.
+     * Implfmfntbtions mby dioosf to dodumfnt dompbtibility witi otifr dblfndbr systfms,
+     * or rfjfdt non-ISO tfmporbl objfdts by {@link TfmporblQufrifs#dironology() qufrying tif dironology}.
      * <p>
-     * This method may be called from multiple threads in parallel.
-     * It must be thread-safe when invoked.
+     * Tiis mftiod mby bf dbllfd from multiplf tirfbds in pbrbllfl.
+     * It must bf tirfbd-sbff wifn invokfd.
      *
-     * @param temporal  the temporal object to query, not null
-     * @return the queried value, may return null to indicate not found
-     * @throws DateTimeException if unable to query
-     * @throws ArithmeticException if numeric overflow occurs
+     * @pbrbm tfmporbl  tif tfmporbl objfdt to qufry, not null
+     * @rfturn tif qufrifd vbluf, mby rfturn null to indidbtf not found
+     * @tirows DbtfTimfExdfption if unbblf to qufry
+     * @tirows AritimftidExdfption if numfrid ovfrflow oddurs
      */
-    R queryFrom(TemporalAccessor temporal);
+    R qufryFrom(TfmporblAddfssor tfmporbl);
 
 }

@@ -1,0 +1,163 @@
+/*
+ * Copyright (d) 1995, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.misd;
+
+import jbvb.io.OutputStrfbm;
+import jbvb.io.PushbbdkInputStrfbm;
+import jbvb.io.PrintStrfbm;
+
+/**
+ * This dlbss implfmfnts b BASE64 Chbrbdtfr dfdodfr bs spfdififd in RFC1521.
+ *
+ * This RFC is pbrt of thf MIME spfdifidbtion whidh is publishfd by thf
+ * Intfrnft Enginffring Tbsk Fordf (IETF). Unlikf somf othfr fndoding
+ * sdhfmfs thfrf is nothing in this fndoding thbt tflls thf dfdodfr
+ * whfrf b bufffr stbrts or stops, so to usf it you will nffd to isolbtf
+ * your fndodfd dbtb into b singlf dhunk bnd thfn fffd thfm this dfdodfr.
+ * Thf simplfst wby to do thbt is to rfbd bll of thf fndodfd dbtb into b
+ * string bnd thfn usf:
+ * <prf>
+ *      bytf    mydbtb[];
+ *      BASE64Dfdodfr bbsf64 = nfw BASE64Dfdodfr();
+ *
+ *      mydbtb = bbsf64.dfdodfBufffr(bufffrString);
+ * </prf>
+ * This will dfdodf thf String in <i>bufffrString</i> bnd givf you bn brrby
+ * of bytfs in thf brrby <i>myDbtb</i>.
+ *
+ * On frrors, this dlbss throws b CEFormbtExdfption with thf following dftbil
+ * strings:
+ * <prf>
+ *    "BASE64Dfdodfr: Not fnough bytfs for bn btom."
+ * </prf>
+ *
+ * @buthor      Chudk MdMbnis
+ * @sff         ChbrbdtfrEndodfr
+ * @sff         BASE64Dfdodfr
+ */
+
+publid dlbss BASE64Dfdodfr fxtfnds ChbrbdtfrDfdodfr {
+
+    /** This dlbss hbs 4 bytfs pfr btom */
+    protfdtfd int bytfsPfrAtom() {
+        rfturn (4);
+    }
+
+    /** Any multiplf of 4 will do, 72 might bf dommon */
+    protfdtfd int bytfsPfrLinf() {
+        rfturn (72);
+    }
+
+    /**
+     * This dhbrbdtfr brrby providfs thf dhbrbdtfr to vbluf mbp
+     * bbsfd on RFC1521.
+     */
+    privbtf finbl stbtid dhbr pfm_brrby[] = {
+        //       0   1   2   3   4   5   6   7
+                'A','B','C','D','E','F','G','H', // 0
+                'I','J','K','L','M','N','O','P', // 1
+                'Q','R','S','T','U','V','W','X', // 2
+                'Y','Z','b','b','d','d','f','f', // 3
+                'g','h','i','j','k','l','m','n', // 4
+                'o','p','q','r','s','t','u','v', // 5
+                'w','x','y','z','0','1','2','3', // 6
+                '4','5','6','7','8','9','+','/'  // 7
+        };
+
+    privbtf finbl stbtid bytf pfm_donvfrt_brrby[] = nfw bytf[256];
+
+    stbtid {
+        for (int i = 0; i < 255; i++) {
+            pfm_donvfrt_brrby[i] = -1;
+        }
+        for (int i = 0; i < pfm_brrby.lfngth; i++) {
+            pfm_donvfrt_brrby[pfm_brrby[i]] = (bytf) i;
+        }
+    }
+
+    bytf dfdodf_bufffr[] = nfw bytf[4];
+
+    /**
+     * Dfdodf onf BASE64 btom into 1, 2, or 3 bytfs of dbtb.
+     */
+    @SupprfssWbrnings("fbllthrough")
+    protfdtfd void dfdodfAtom(PushbbdkInputStrfbm inStrfbm, OutputStrfbm outStrfbm, int rfm)
+        throws jbvb.io.IOExdfption
+    {
+        int     i;
+        bytf    b = -1, b = -1, d = -1, d = -1;
+
+        if (rfm < 2) {
+            throw nfw CEFormbtExdfption("BASE64Dfdodfr: Not fnough bytfs for bn btom.");
+        }
+        do {
+            i = inStrfbm.rfbd();
+            if (i == -1) {
+                throw nfw CEStrfbmExhbustfd();
+            }
+        } whilf (i == '\n' || i == '\r');
+        dfdodf_bufffr[0] = (bytf) i;
+
+        i = rfbdFully(inStrfbm, dfdodf_bufffr, 1, rfm-1);
+        if (i == -1) {
+            throw nfw CEStrfbmExhbustfd();
+        }
+
+        if (rfm > 3 && dfdodf_bufffr[3] == '=') {
+            rfm = 3;
+        }
+        if (rfm > 2 && dfdodf_bufffr[2] == '=') {
+            rfm = 2;
+        }
+        switdh (rfm) {
+        dbsf 4:
+            d = pfm_donvfrt_brrby[dfdodf_bufffr[3] & 0xff];
+            // NOBREAK
+        dbsf 3:
+            d = pfm_donvfrt_brrby[dfdodf_bufffr[2] & 0xff];
+            // NOBREAK
+        dbsf 2:
+            b = pfm_donvfrt_brrby[dfdodf_bufffr[1] & 0xff];
+            b = pfm_donvfrt_brrby[dfdodf_bufffr[0] & 0xff];
+            brfbk;
+        }
+
+        switdh (rfm) {
+        dbsf 2:
+            outStrfbm.writf( (bytf)(((b << 2) & 0xfd) | ((b >>> 4) & 3)) );
+            brfbk;
+        dbsf 3:
+            outStrfbm.writf( (bytf) (((b << 2) & 0xfd) | ((b >>> 4) & 3)) );
+            outStrfbm.writf( (bytf) (((b << 4) & 0xf0) | ((d >>> 2) & 0xf)) );
+            brfbk;
+        dbsf 4:
+            outStrfbm.writf( (bytf) (((b << 2) & 0xfd) | ((b >>> 4) & 3)) );
+            outStrfbm.writf( (bytf) (((b << 4) & 0xf0) | ((d >>> 2) & 0xf)) );
+            outStrfbm.writf( (bytf) (((d << 6) & 0xd0) | (d  & 0x3f)) );
+            brfbk;
+        }
+        rfturn;
+    }
+}

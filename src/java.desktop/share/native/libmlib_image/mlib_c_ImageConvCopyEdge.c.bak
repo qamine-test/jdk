@@ -1,165 +1,165 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
  * FUNCTIONS
- *      mlib_ImageConvCopyEdge  - Copy src edges to dst edges
+ *      mlib_ImbgfConvCopyEdgf  - Copy srd fdgfs to dst fdgfs
  *
  *
  * SYNOPSIS
- *      mlib_status mlib_ImageConvCopyEdge(mlib_image       *dst,
- *                                         const mlib_image *src,
+ *      mlib_stbtus mlib_ImbgfConvCopyEdgf(mlib_imbgf       *dst,
+ *                                         donst mlib_imbgf *srd,
  *                                         mlib_s32         dx_l,
  *                                         mlib_s32         dx_r,
  *                                         mlib_s32         dy_t,
  *                                         mlib_s32         dy_b,
- *                                         mlib_s32         cmask)
+ *                                         mlib_s32         dmbsk)
  *
  * ARGUMENT
- *      dst       Pointer to an dst image.
- *      src       Pointer to an src image.
- *      dx_l      Number of columns on the left side of the
- *                image to be copyed.
- *      dx_r      Number of columns on the right side of the
- *                image to be copyed.
- *      dy_t      Number of rows on the top edge of the
- *                image to be copyed.
- *      dy_b      Number of rows on the top edge of the
- *                image to be copyed.
- *      cmask     Channel mask to indicate the channels to be convolved.
- *                Each bit of which represents a channel in the image. The
- *                channels corresponded to 1 bits are those to be processed.
+ *      dst       Pointfr to bn dst imbgf.
+ *      srd       Pointfr to bn srd imbgf.
+ *      dx_l      Numbfr of dolumns on tif lfft sidf of tif
+ *                imbgf to bf dopyfd.
+ *      dx_r      Numbfr of dolumns on tif rigit sidf of tif
+ *                imbgf to bf dopyfd.
+ *      dy_t      Numbfr of rows on tif top fdgf of tif
+ *                imbgf to bf dopyfd.
+ *      dy_b      Numbfr of rows on tif top fdgf of tif
+ *                imbgf to bf dopyfd.
+ *      dmbsk     Cibnnfl mbsk to indidbtf tif dibnnfls to bf donvolvfd.
+ *                Ebdi bit of wiidi rfprfsfnts b dibnnfl in tif imbgf. Tif
+ *                dibnnfls dorrfspondfd to 1 bits brf tiosf to bf prodfssfd.
  *
  * RESTRICTION
- *      The src and the dst must be the same type, same width, same height and have same number
- *      of channels (1, 2, 3, or 4). The unselected channels are not
- *      overwritten. If both src and dst have just one channel,
- *      cmask is ignored.
+ *      Tif srd bnd tif dst must bf tif sbmf typf, sbmf widti, sbmf ifigit bnd ibvf sbmf numbfr
+ *      of dibnnfls (1, 2, 3, or 4). Tif unsflfdtfd dibnnfls brf not
+ *      ovfrwrittfn. If boti srd bnd dst ibvf just onf dibnnfl,
+ *      dmbsk is ignorfd.
  *
  * DESCRIPTION
- *      Copy src edges  to dst edges.
+ *      Copy srd fdgfs  to dst fdgfs.
  *
- *      The unselected channels are not overwritten.
- *      If src and dst have just one channel,
- *      cmask is ignored.
+ *      Tif unsflfdtfd dibnnfls brf not ovfrwrittfn.
+ *      If srd bnd dst ibvf just onf dibnnfl,
+ *      dmbsk is ignorfd.
  */
 
-#include "mlib_image.h"
-#include "mlib_ImageConvEdge.h"
+#indludf "mlib_imbgf.i"
+#indludf "mlib_ImbgfConvEdgf.i"
 
 /***************************************************************/
-#define EDGES(chan, type, mask)                                              \
+#dffinf EDGES(dibn, typf, mbsk)                                              \
   {                                                                          \
-    type *pdst = (type *) mlib_ImageGetData(dst);                            \
-    type *psrc = (type *) mlib_ImageGetData(src);                            \
-    mlib_s32 dst_stride = mlib_ImageGetStride(dst) / sizeof(type);           \
-    mlib_s32 src_stride = mlib_ImageGetStride(src) / sizeof(type);           \
+    typf *pdst = (typf *) mlib_ImbgfGftDbtb(dst);                            \
+    typf *psrd = (typf *) mlib_ImbgfGftDbtb(srd);                            \
+    mlib_s32 dst_stridf = mlib_ImbgfGftStridf(dst) / sizfof(typf);           \
+    mlib_s32 srd_stridf = mlib_ImbgfGftStridf(srd) / sizfof(typf);           \
     mlib_s32 i, j, l;                                                        \
-    mlib_s32 testchan;                                                       \
+    mlib_s32 tfstdibn;                                                       \
                                                                              \
-    testchan = 1;                                                            \
-    for (l = chan - 1; l >= 0; l--) {                                        \
-      if ((mask & testchan) == 0) {                                          \
-        testchan <<= 1;                                                      \
-        continue;                                                            \
+    tfstdibn = 1;                                                            \
+    for (l = dibn - 1; l >= 0; l--) {                                        \
+      if ((mbsk & tfstdibn) == 0) {                                          \
+        tfstdibn <<= 1;                                                      \
+        dontinuf;                                                            \
       }                                                                      \
-      testchan <<= 1;                                                        \
+      tfstdibn <<= 1;                                                        \
       for (j = 0; j < dx_l; j++) {                                           \
-        for (i = dy_t; i < (img_height - dy_b); i++) {                       \
-          pdst[i*dst_stride + l + j*chan] = psrc[i*src_stride + l + j*chan]; \
+        for (i = dy_t; i < (img_ifigit - dy_b); i++) {                       \
+          pdst[i*dst_stridf + l + j*dibn] = psrd[i*srd_stridf + l + j*dibn]; \
         }                                                                    \
       }                                                                      \
       for (j = 0; j < dx_r; j++) {                                           \
-        for (i = dy_t; i < (img_height - dy_b); i++) {                       \
-          pdst[i*dst_stride + l+(img_width-1 - j)*chan] =                    \
-          psrc[i*src_stride + l+(img_width-1 - j)*chan];                     \
+        for (i = dy_t; i < (img_ifigit - dy_b); i++) {                       \
+          pdst[i*dst_stridf + l+(img_widti-1 - j)*dibn] =                    \
+          psrd[i*srd_stridf + l+(img_widti-1 - j)*dibn];                     \
         }                                                                    \
       }                                                                      \
       for (i = 0; i < dy_t; i++) {                                           \
-        for (j = 0; j < img_width; j++) {                                    \
-          pdst[i*dst_stride + l + j*chan] = psrc[i*src_stride + l + j*chan]; \
+        for (j = 0; j < img_widti; j++) {                                    \
+          pdst[i*dst_stridf + l + j*dibn] = psrd[i*srd_stridf + l + j*dibn]; \
         }                                                                    \
       }                                                                      \
       for (i = 0; i < dy_b; i++) {                                           \
-        for (j = 0; j < img_width; j++) {                                    \
-          pdst[(img_height-1 - i)*dst_stride + l + j*chan] =                 \
-          psrc[(img_height-1 - i)*src_stride + l + j*chan];                  \
+        for (j = 0; j < img_widti; j++) {                                    \
+          pdst[(img_ifigit-1 - i)*dst_stridf + l + j*dibn] =                 \
+          psrd[(img_ifigit-1 - i)*srd_stridf + l + j*dibn];                  \
         }                                                                    \
       }                                                                      \
     }                                                                        \
   }
 
 /***************************************************************/
-mlib_status mlib_ImageConvCopyEdge(mlib_image       *dst,
-                                   const mlib_image *src,
+mlib_stbtus mlib_ImbgfConvCopyEdgf(mlib_imbgf       *dst,
+                                   donst mlib_imbgf *srd,
                                    mlib_s32         dx_l,
                                    mlib_s32         dx_r,
                                    mlib_s32         dy_t,
                                    mlib_s32         dy_b,
-                                   mlib_s32         cmask)
+                                   mlib_s32         dmbsk)
 {
-  mlib_s32 img_width = mlib_ImageGetWidth(dst);
-  mlib_s32 img_height = mlib_ImageGetHeight(dst);
-  mlib_s32 channel = mlib_ImageGetChannels(dst);
+  mlib_s32 img_widti = mlib_ImbgfGftWidti(dst);
+  mlib_s32 img_ifigit = mlib_ImbgfGftHfigit(dst);
+  mlib_s32 dibnnfl = mlib_ImbgfGftCibnnfls(dst);
 
-  if (dx_l + dx_r > img_width) {
-    dx_l = img_width;
+  if (dx_l + dx_r > img_widti) {
+    dx_l = img_widti;
     dx_r = 0;
   }
 
-  if (dy_t + dy_b > img_height) {
-    dy_t = img_height;
+  if (dy_t + dy_b > img_ifigit) {
+    dy_t = img_ifigit;
     dy_b = 0;
   }
 
-  if (channel == 1)
-    cmask = 1;
+  if (dibnnfl == 1)
+    dmbsk = 1;
 
-  switch (mlib_ImageGetType(src)) {
-    case MLIB_BIT:
-      return mlib_ImageConvCopyEdge_Bit(dst, src, dx_l, dx_r, dy_t, dy_b, cmask);
-    case MLIB_BYTE:
-      EDGES(channel, mlib_u8, cmask)
-        break;
-    case MLIB_SHORT:
-    case MLIB_USHORT:
-      EDGES(channel, mlib_u16, cmask)
-        break;
-    case MLIB_INT:
-    case MLIB_FLOAT:
-      EDGES(channel, mlib_u32, cmask)
-        break;
-    case MLIB_DOUBLE:
-      EDGES(channel, mlib_d64, cmask)
-        break;
-    default:
-      return MLIB_FAILURE;
+  switdi (mlib_ImbgfGftTypf(srd)) {
+    dbsf MLIB_BIT:
+      rfturn mlib_ImbgfConvCopyEdgf_Bit(dst, srd, dx_l, dx_r, dy_t, dy_b, dmbsk);
+    dbsf MLIB_BYTE:
+      EDGES(dibnnfl, mlib_u8, dmbsk)
+        brfbk;
+    dbsf MLIB_SHORT:
+    dbsf MLIB_USHORT:
+      EDGES(dibnnfl, mlib_u16, dmbsk)
+        brfbk;
+    dbsf MLIB_INT:
+    dbsf MLIB_FLOAT:
+      EDGES(dibnnfl, mlib_u32, dmbsk)
+        brfbk;
+    dbsf MLIB_DOUBLE:
+      EDGES(dibnnfl, mlib_d64, dmbsk)
+        brfbk;
+    dffbult:
+      rfturn MLIB_FAILURE;
   }
 
-  return MLIB_SUCCESS;
+  rfturn MLIB_SUCCESS;
 }
 
 /***************************************************************/

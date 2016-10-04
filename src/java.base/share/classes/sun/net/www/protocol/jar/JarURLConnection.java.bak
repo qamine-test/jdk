@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.net.www.protocol.jar;
+pbdkbgf sun.nft.www.protodol.jbr;
 
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.FileNotFoundException;
-import java.io.BufferedInputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.MalformedURLException;
-import java.net.UnknownServiceException;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.List;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.jar.Manifest;
-import java.security.Permission;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.FilfNotFoundExdfption;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.nft.URL;
+import jbvb.nft.URLConnfdtion;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.UnknownSfrvidfExdfption;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import jbvb.util.jbr.JbrEntry;
+import jbvb.util.jbr.JbrFilf;
+import jbvb.util.jbr.Mbniffst;
+import jbvb.sfdurity.Pfrmission;
 
 /**
- * @author Benjamin Renaud
- * @since 1.2
+ * @butior Bfnjbmin Rfnbud
+ * @sindf 1.2
  */
-public class JarURLConnection extends java.net.JarURLConnection {
+publid dlbss JbrURLConnfdtion fxtfnds jbvb.nft.JbrURLConnfdtion {
 
-    private static final boolean debug = false;
+    privbtf stbtid finbl boolfbn dfbug = fblsf;
 
-    /* the Jar file factory. It handles both retrieval and caching.
+    /* tif Jbr filf fbdtory. It ibndlfs boti rftrifvbl bnd dbdiing.
      */
-    private static final JarFileFactory factory = JarFileFactory.getInstance();
+    privbtf stbtid finbl JbrFilfFbdtory fbdtory = JbrFilfFbdtory.gftInstbndf();
 
-    /* the url for the Jar file */
-    private URL jarFileURL;
+    /* tif url for tif Jbr filf */
+    privbtf URL jbrFilfURL;
 
-    /* the permission to get this JAR file. This is the actual, ultimate,
-     * permission, returned by the jar file factory.
+    /* tif pfrmission to gft tiis JAR filf. Tiis is tif bdtubl, ultimbtf,
+     * pfrmission, rfturnfd by tif jbr filf fbdtory.
      */
-    private Permission permission;
+    privbtf Pfrmission pfrmission;
 
-    /* the url connection for the JAR file */
-    private URLConnection jarFileURLConnection;
+    /* tif url donnfdtion for tif JAR filf */
+    privbtf URLConnfdtion jbrFilfURLConnfdtion;
 
-    /* the entry name, if any */
-    private String entryName;
+    /* tif fntry nbmf, if bny */
+    privbtf String fntryNbmf;
 
-    /* the JarEntry */
-    private JarEntry jarEntry;
+    /* tif JbrEntry */
+    privbtf JbrEntry jbrEntry;
 
-    /* the jar file corresponding to this connection */
-    private JarFile jarFile;
+    /* tif jbr filf dorrfsponding to tiis donnfdtion */
+    privbtf JbrFilf jbrFilf;
 
-    /* the content type for this connection */
-    private String contentType;
+    /* tif dontfnt typf for tiis donnfdtion */
+    privbtf String dontfntTypf;
 
-    public JarURLConnection(URL url, Handler handler)
-    throws MalformedURLException, IOException {
-        super(url);
+    publid JbrURLConnfdtion(URL url, Hbndlfr ibndlfr)
+    tirows MblformfdURLExdfption, IOExdfption {
+        supfr(url);
 
-        jarFileURL = getJarFileURL();
-        jarFileURLConnection = jarFileURL.openConnection();
-        entryName = getEntryName();
+        jbrFilfURL = gftJbrFilfURL();
+        jbrFilfURLConnfdtion = jbrFilfURL.opfnConnfdtion();
+        fntryNbmf = gftEntryNbmf();
     }
 
-    public JarFile getJarFile() throws IOException {
-        connect();
-        return jarFile;
+    publid JbrFilf gftJbrFilf() tirows IOExdfption {
+        donnfdt();
+        rfturn jbrFilf;
     }
 
-    public JarEntry getJarEntry() throws IOException {
-        connect();
-        return jarEntry;
+    publid JbrEntry gftJbrEntry() tirows IOExdfption {
+        donnfdt();
+        rfturn jbrEntry;
     }
 
-    public Permission getPermission() throws IOException {
-        return jarFileURLConnection.getPermission();
+    publid Pfrmission gftPfrmission() tirows IOExdfption {
+        rfturn jbrFilfURLConnfdtion.gftPfrmission();
     }
 
-    class JarURLInputStream extends java.io.FilterInputStream {
-        JarURLInputStream (InputStream src) {
-            super (src);
+    dlbss JbrURLInputStrfbm fxtfnds jbvb.io.FiltfrInputStrfbm {
+        JbrURLInputStrfbm (InputStrfbm srd) {
+            supfr (srd);
         }
-        public void close () throws IOException {
+        publid void dlosf () tirows IOExdfption {
             try {
-                super.close();
-            } finally {
-                if (!getUseCaches()) {
-                    jarFile.close();
+                supfr.dlosf();
+            } finblly {
+                if (!gftUsfCbdifs()) {
+                    jbrFilf.dlosf();
                 }
             }
         }
@@ -116,259 +116,259 @@ public class JarURLConnection extends java.net.JarURLConnection {
 
 
 
-    public void connect() throws IOException {
-        if (!connected) {
-            /* the factory call will do the security checks */
-            jarFile = factory.get(getJarFileURL(), getUseCaches());
+    publid void donnfdt() tirows IOExdfption {
+        if (!donnfdtfd) {
+            /* tif fbdtory dbll will do tif sfdurity difdks */
+            jbrFilf = fbdtory.gft(gftJbrFilfURL(), gftUsfCbdifs());
 
-            /* we also ask the factory the permission that was required
-             * to get the jarFile, and set it as our permission.
+            /* wf blso bsk tif fbdtory tif pfrmission tibt wbs rfquirfd
+             * to gft tif jbrFilf, bnd sft it bs our pfrmission.
              */
-            if (getUseCaches()) {
-                jarFileURLConnection = factory.getConnection(jarFile);
+            if (gftUsfCbdifs()) {
+                jbrFilfURLConnfdtion = fbdtory.gftConnfdtion(jbrFilf);
             }
 
-            if ((entryName != null)) {
-                jarEntry = (JarEntry)jarFile.getEntry(entryName);
-                if (jarEntry == null) {
+            if ((fntryNbmf != null)) {
+                jbrEntry = (JbrEntry)jbrFilf.gftEntry(fntryNbmf);
+                if (jbrEntry == null) {
                     try {
-                        if (!getUseCaches()) {
-                            jarFile.close();
+                        if (!gftUsfCbdifs()) {
+                            jbrFilf.dlosf();
                         }
-                    } catch (Exception e) {
+                    } dbtdi (Exdfption f) {
                     }
-                    throw new FileNotFoundException("JAR entry " + entryName +
+                    tirow nfw FilfNotFoundExdfption("JAR fntry " + fntryNbmf +
                                                     " not found in " +
-                                                    jarFile.getName());
+                                                    jbrFilf.gftNbmf());
                 }
             }
-            connected = true;
+            donnfdtfd = truf;
         }
     }
 
-    public InputStream getInputStream() throws IOException {
-        connect();
+    publid InputStrfbm gftInputStrfbm() tirows IOExdfption {
+        donnfdt();
 
-        InputStream result = null;
+        InputStrfbm rfsult = null;
 
-        if (entryName == null) {
-            throw new IOException("no entry name specified");
-        } else {
-            if (jarEntry == null) {
-                throw new FileNotFoundException("JAR entry " + entryName +
+        if (fntryNbmf == null) {
+            tirow nfw IOExdfption("no fntry nbmf spfdififd");
+        } flsf {
+            if (jbrEntry == null) {
+                tirow nfw FilfNotFoundExdfption("JAR fntry " + fntryNbmf +
                                                 " not found in " +
-                                                jarFile.getName());
+                                                jbrFilf.gftNbmf());
             }
-            result = new JarURLInputStream (jarFile.getInputStream(jarEntry));
+            rfsult = nfw JbrURLInputStrfbm (jbrFilf.gftInputStrfbm(jbrEntry));
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public int getContentLength() {
-        long result = getContentLengthLong();
-        if (result > Integer.MAX_VALUE)
-            return -1;
-        return (int) result;
+    publid int gftContfntLfngti() {
+        long rfsult = gftContfntLfngtiLong();
+        if (rfsult > Intfgfr.MAX_VALUE)
+            rfturn -1;
+        rfturn (int) rfsult;
     }
 
-    public long getContentLengthLong() {
-        long result = -1;
+    publid long gftContfntLfngtiLong() {
+        long rfsult = -1;
         try {
-            connect();
-            if (jarEntry == null) {
-                /* if the URL referes to an archive */
-                result = jarFileURLConnection.getContentLengthLong();
-            } else {
-                /* if the URL referes to an archive entry */
-                result = getJarEntry().getSize();
+            donnfdt();
+            if (jbrEntry == null) {
+                /* if tif URL rfffrfs to bn brdiivf */
+                rfsult = jbrFilfURLConnfdtion.gftContfntLfngtiLong();
+            } flsf {
+                /* if tif URL rfffrfs to bn brdiivf fntry */
+                rfsult = gftJbrEntry().gftSizf();
             }
-        } catch (IOException e) {
+        } dbtdi (IOExdfption f) {
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public Object getContent() throws IOException {
-        Object result = null;
+    publid Objfdt gftContfnt() tirows IOExdfption {
+        Objfdt rfsult = null;
 
-        connect();
-        if (entryName == null) {
-            result = jarFile;
-        } else {
-            result = super.getContent();
+        donnfdt();
+        if (fntryNbmf == null) {
+            rfsult = jbrFilf;
+        } flsf {
+            rfsult = supfr.gftContfnt();
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public String getContentType() {
-        if (contentType == null) {
-            if (entryName == null) {
-                contentType = "x-java/jar";
-            } else {
+    publid String gftContfntTypf() {
+        if (dontfntTypf == null) {
+            if (fntryNbmf == null) {
+                dontfntTypf = "x-jbvb/jbr";
+            } flsf {
                 try {
-                    connect();
-                    InputStream in = jarFile.getInputStream(jarEntry);
-                    contentType = guessContentTypeFromStream(
-                                        new BufferedInputStream(in));
-                    in.close();
-                } catch (IOException e) {
-                    // don't do anything
+                    donnfdt();
+                    InputStrfbm in = jbrFilf.gftInputStrfbm(jbrEntry);
+                    dontfntTypf = gufssContfntTypfFromStrfbm(
+                                        nfw BufffrfdInputStrfbm(in));
+                    in.dlosf();
+                } dbtdi (IOExdfption f) {
+                    // don't do bnytiing
                 }
             }
-            if (contentType == null) {
-                contentType = guessContentTypeFromName(entryName);
+            if (dontfntTypf == null) {
+                dontfntTypf = gufssContfntTypfFromNbmf(fntryNbmf);
             }
-            if (contentType == null) {
-                contentType = "content/unknown";
+            if (dontfntTypf == null) {
+                dontfntTypf = "dontfnt/unknown";
             }
         }
-        return contentType;
+        rfturn dontfntTypf;
     }
 
-    public String getHeaderField(String name) {
-        return jarFileURLConnection.getHeaderField(name);
-    }
-
-    /**
-     * Sets the general request property.
-     *
-     * @param   key     the keyword by which the request is known
-     *                  (e.g., "<code>accept</code>").
-     * @param   value   the value associated with it.
-     */
-    public void setRequestProperty(String key, String value) {
-        jarFileURLConnection.setRequestProperty(key, value);
+    publid String gftHfbdfrFifld(String nbmf) {
+        rfturn jbrFilfURLConnfdtion.gftHfbdfrFifld(nbmf);
     }
 
     /**
-     * Returns the value of the named general request property for this
-     * connection.
+     * Sfts tif gfnfrbl rfqufst propfrty.
      *
-     * @return  the value of the named general request property for this
-     *           connection.
+     * @pbrbm   kfy     tif kfyword by wiidi tif rfqufst is known
+     *                  (f.g., "<dodf>bddfpt</dodf>").
+     * @pbrbm   vbluf   tif vbluf bssodibtfd witi it.
      */
-    public String getRequestProperty(String key) {
-        return jarFileURLConnection.getRequestProperty(key);
+    publid void sftRfqufstPropfrty(String kfy, String vbluf) {
+        jbrFilfURLConnfdtion.sftRfqufstPropfrty(kfy, vbluf);
     }
 
     /**
-     * Adds a general request property specified by a
-     * key-value pair.  This method will not overwrite
-     * existing values associated with the same key.
+     * Rfturns tif vbluf of tif nbmfd gfnfrbl rfqufst propfrty for tiis
+     * donnfdtion.
      *
-     * @param   key     the keyword by which the request is known
-     *                  (e.g., "<code>accept</code>").
-     * @param   value   the value associated with it.
+     * @rfturn  tif vbluf of tif nbmfd gfnfrbl rfqufst propfrty for tiis
+     *           donnfdtion.
      */
-    public void addRequestProperty(String key, String value) {
-        jarFileURLConnection.addRequestProperty(key, value);
+    publid String gftRfqufstPropfrty(String kfy) {
+        rfturn jbrFilfURLConnfdtion.gftRfqufstPropfrty(kfy);
     }
 
     /**
-     * Returns an unmodifiable Map of general request
-     * properties for this connection. The Map keys
-     * are Strings that represent the request-header
-     * field names. Each Map value is a unmodifiable List
-     * of Strings that represents the corresponding
-     * field values.
+     * Adds b gfnfrbl rfqufst propfrty spfdififd by b
+     * kfy-vbluf pbir.  Tiis mftiod will not ovfrwritf
+     * fxisting vblufs bssodibtfd witi tif sbmf kfy.
      *
-     * @return  a Map of the general request properties for this connection.
+     * @pbrbm   kfy     tif kfyword by wiidi tif rfqufst is known
+     *                  (f.g., "<dodf>bddfpt</dodf>").
+     * @pbrbm   vbluf   tif vbluf bssodibtfd witi it.
      */
-    public Map<String,List<String>> getRequestProperties() {
-        return jarFileURLConnection.getRequestProperties();
+    publid void bddRfqufstPropfrty(String kfy, String vbluf) {
+        jbrFilfURLConnfdtion.bddRfqufstPropfrty(kfy, vbluf);
     }
 
     /**
-     * Set the value of the <code>allowUserInteraction</code> field of
-     * this <code>URLConnection</code>.
+     * Rfturns bn unmodifibblf Mbp of gfnfrbl rfqufst
+     * propfrtifs for tiis donnfdtion. Tif Mbp kfys
+     * brf Strings tibt rfprfsfnt tif rfqufst-ifbdfr
+     * fifld nbmfs. Ebdi Mbp vbluf is b unmodifibblf List
+     * of Strings tibt rfprfsfnts tif dorrfsponding
+     * fifld vblufs.
      *
-     * @param   allowuserinteraction   the new value.
-     * @see     java.net.URLConnection#allowUserInteraction
+     * @rfturn  b Mbp of tif gfnfrbl rfqufst propfrtifs for tiis donnfdtion.
      */
-    public void setAllowUserInteraction(boolean allowuserinteraction) {
-        jarFileURLConnection.setAllowUserInteraction(allowuserinteraction);
+    publid Mbp<String,List<String>> gftRfqufstPropfrtifs() {
+        rfturn jbrFilfURLConnfdtion.gftRfqufstPropfrtifs();
     }
 
     /**
-     * Returns the value of the <code>allowUserInteraction</code> field for
-     * this object.
+     * Sft tif vbluf of tif <dodf>bllowUsfrIntfrbdtion</dodf> fifld of
+     * tiis <dodf>URLConnfdtion</dodf>.
      *
-     * @return  the value of the <code>allowUserInteraction</code> field for
-     *          this object.
-     * @see     java.net.URLConnection#allowUserInteraction
+     * @pbrbm   bllowusfrintfrbdtion   tif nfw vbluf.
+     * @sff     jbvb.nft.URLConnfdtion#bllowUsfrIntfrbdtion
      */
-    public boolean getAllowUserInteraction() {
-        return jarFileURLConnection.getAllowUserInteraction();
+    publid void sftAllowUsfrIntfrbdtion(boolfbn bllowusfrintfrbdtion) {
+        jbrFilfURLConnfdtion.sftAllowUsfrIntfrbdtion(bllowusfrintfrbdtion);
+    }
+
+    /**
+     * Rfturns tif vbluf of tif <dodf>bllowUsfrIntfrbdtion</dodf> fifld for
+     * tiis objfdt.
+     *
+     * @rfturn  tif vbluf of tif <dodf>bllowUsfrIntfrbdtion</dodf> fifld for
+     *          tiis objfdt.
+     * @sff     jbvb.nft.URLConnfdtion#bllowUsfrIntfrbdtion
+     */
+    publid boolfbn gftAllowUsfrIntfrbdtion() {
+        rfturn jbrFilfURLConnfdtion.gftAllowUsfrIntfrbdtion();
     }
 
     /*
-     * cache control
+     * dbdif dontrol
      */
 
     /**
-     * Sets the value of the <code>useCaches</code> field of this
-     * <code>URLConnection</code> to the specified value.
+     * Sfts tif vbluf of tif <dodf>usfCbdifs</dodf> fifld of tiis
+     * <dodf>URLConnfdtion</dodf> to tif spfdififd vbluf.
      * <p>
-     * Some protocols do caching of documents.  Occasionally, it is important
-     * to be able to "tunnel through" and ignore the caches (e.g., the
-     * "reload" button in a browser).  If the UseCaches flag on a connection
-     * is true, the connection is allowed to use whatever caches it can.
-     *  If false, caches are to be ignored.
-     *  The default value comes from DefaultUseCaches, which defaults to
-     * true.
+     * Somf protodols do dbdiing of dodumfnts.  Oddbsionblly, it is importbnt
+     * to bf bblf to "tunnfl tirougi" bnd ignorf tif dbdifs (f.g., tif
+     * "rflobd" button in b browsfr).  If tif UsfCbdifs flbg on b donnfdtion
+     * is truf, tif donnfdtion is bllowfd to usf wibtfvfr dbdifs it dbn.
+     *  If fblsf, dbdifs brf to bf ignorfd.
+     *  Tif dffbult vbluf domfs from DffbultUsfCbdifs, wiidi dffbults to
+     * truf.
      *
-     * @see     java.net.URLConnection#useCaches
+     * @sff     jbvb.nft.URLConnfdtion#usfCbdifs
      */
-    public void setUseCaches(boolean usecaches) {
-        jarFileURLConnection.setUseCaches(usecaches);
+    publid void sftUsfCbdifs(boolfbn usfdbdifs) {
+        jbrFilfURLConnfdtion.sftUsfCbdifs(usfdbdifs);
     }
 
     /**
-     * Returns the value of this <code>URLConnection</code>'s
-     * <code>useCaches</code> field.
+     * Rfturns tif vbluf of tiis <dodf>URLConnfdtion</dodf>'s
+     * <dodf>usfCbdifs</dodf> fifld.
      *
-     * @return  the value of this <code>URLConnection</code>'s
-     *          <code>useCaches</code> field.
-     * @see     java.net.URLConnection#useCaches
+     * @rfturn  tif vbluf of tiis <dodf>URLConnfdtion</dodf>'s
+     *          <dodf>usfCbdifs</dodf> fifld.
+     * @sff     jbvb.nft.URLConnfdtion#usfCbdifs
      */
-    public boolean getUseCaches() {
-        return jarFileURLConnection.getUseCaches();
+    publid boolfbn gftUsfCbdifs() {
+        rfturn jbrFilfURLConnfdtion.gftUsfCbdifs();
     }
 
     /**
-     * Sets the value of the <code>ifModifiedSince</code> field of
-     * this <code>URLConnection</code> to the specified value.
+     * Sfts tif vbluf of tif <dodf>ifModififdSindf</dodf> fifld of
+     * tiis <dodf>URLConnfdtion</dodf> to tif spfdififd vbluf.
      *
-     * @param   value   the new value.
-     * @see     java.net.URLConnection#ifModifiedSince
+     * @pbrbm   vbluf   tif nfw vbluf.
+     * @sff     jbvb.nft.URLConnfdtion#ifModififdSindf
      */
-    public void setIfModifiedSince(long ifmodifiedsince) {
-        jarFileURLConnection.setIfModifiedSince(ifmodifiedsince);
+    publid void sftIfModififdSindf(long ifmodififdsindf) {
+        jbrFilfURLConnfdtion.sftIfModififdSindf(ifmodififdsindf);
     }
 
    /**
-     * Sets the default value of the <code>useCaches</code> field to the
-     * specified value.
+     * Sfts tif dffbult vbluf of tif <dodf>usfCbdifs</dodf> fifld to tif
+     * spfdififd vbluf.
      *
-     * @param   defaultusecaches   the new value.
-     * @see     java.net.URLConnection#useCaches
+     * @pbrbm   dffbultusfdbdifs   tif nfw vbluf.
+     * @sff     jbvb.nft.URLConnfdtion#usfCbdifs
      */
-    public void setDefaultUseCaches(boolean defaultusecaches) {
-        jarFileURLConnection.setDefaultUseCaches(defaultusecaches);
+    publid void sftDffbultUsfCbdifs(boolfbn dffbultusfdbdifs) {
+        jbrFilfURLConnfdtion.sftDffbultUsfCbdifs(dffbultusfdbdifs);
     }
 
    /**
-     * Returns the default value of a <code>URLConnection</code>'s
-     * <code>useCaches</code> flag.
+     * Rfturns tif dffbult vbluf of b <dodf>URLConnfdtion</dodf>'s
+     * <dodf>usfCbdifs</dodf> flbg.
      * <p>
-     * Ths default is "sticky", being a part of the static state of all
-     * URLConnections.  This flag applies to the next, and all following
-     * URLConnections that are created.
+     * Tis dffbult is "stidky", bfing b pbrt of tif stbtid stbtf of bll
+     * URLConnfdtions.  Tiis flbg bpplifs to tif nfxt, bnd bll following
+     * URLConnfdtions tibt brf drfbtfd.
      *
-     * @return  the default value of a <code>URLConnection</code>'s
-     *          <code>useCaches</code> flag.
-     * @see     java.net.URLConnection#useCaches
+     * @rfturn  tif dffbult vbluf of b <dodf>URLConnfdtion</dodf>'s
+     *          <dodf>usfCbdifs</dodf> flbg.
+     * @sff     jbvb.nft.URLConnfdtion#usfCbdifs
      */
-    public boolean getDefaultUseCaches() {
-        return jarFileURLConnection.getDefaultUseCaches();
+    publid boolfbn gftDffbultUsfCbdifs() {
+        rfturn jbrFilfURLConnfdtion.gftDffbultUsfCbdifs();
     }
 }

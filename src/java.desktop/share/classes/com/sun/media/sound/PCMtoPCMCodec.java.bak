@@ -1,67 +1,67 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.media.sound;
+pbdkbgf dom.sun.mfdib.sound;
 
-import java.io.IOException;
-import java.util.Vector;
+import jbvb.io.IOExdfption;
+import jbvb.util.Vfdtor;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+import jbvbx.sound.sbmplfd.AudioSystfm;
 
 
 /**
- * Converts among signed/unsigned and little/big endianness of sampled.
+ * Convfrts bmong signfd/unsignfd bnd littlf/big fndibnnfss of sbmplfd.
  *
- * @author Jan Borgersen
+ * @butior Jbn Borgfrsfn
  */
-public final class PCMtoPCMCodec extends SunCodec {
+publid finbl dlbss PCMtoPCMCodfd fxtfnds SunCodfd {
 
 
-    private static final AudioFormat.Encoding[] inputEncodings = {
-        AudioFormat.Encoding.PCM_SIGNED,
-        AudioFormat.Encoding.PCM_UNSIGNED,
+    privbtf stbtid finbl AudioFormbt.Endoding[] inputEndodings = {
+        AudioFormbt.Endoding.PCM_SIGNED,
+        AudioFormbt.Endoding.PCM_UNSIGNED,
     };
 
-    private static final AudioFormat.Encoding[] outputEncodings = {
-        AudioFormat.Encoding.PCM_SIGNED,
-        AudioFormat.Encoding.PCM_UNSIGNED,
+    privbtf stbtid finbl AudioFormbt.Endoding[] outputEndodings = {
+        AudioFormbt.Endoding.PCM_SIGNED,
+        AudioFormbt.Endoding.PCM_UNSIGNED,
     };
 
 
 
-    private static final int tempBufferSize = 64;
-    private byte tempBuffer [] = null;
+    privbtf stbtid finbl int tfmpBufffrSizf = 64;
+    privbtf bytf tfmpBufffr [] = null;
 
     /**
-     * Constructs a new PCMtoPCM codec object.
+     * Construdts b nfw PCMtoPCM dodfd objfdt.
      */
-    public PCMtoPCMCodec() {
+    publid PCMtoPCMCodfd() {
 
-        super( inputEncodings, outputEncodings);
+        supfr( inputEndodings, outputEndodings);
     }
 
     // NEW CODE
@@ -69,73 +69,73 @@ public final class PCMtoPCMCodec extends SunCodec {
 
     /**
      */
-    public AudioFormat.Encoding[] getTargetEncodings(AudioFormat sourceFormat){
+    publid AudioFormbt.Endoding[] gftTbrgftEndodings(AudioFormbt sourdfFormbt){
 
-        if( sourceFormat.getEncoding().equals( AudioFormat.Encoding.PCM_SIGNED ) ||
-            sourceFormat.getEncoding().equals( AudioFormat.Encoding.PCM_UNSIGNED ) ) {
+        if( sourdfFormbt.gftEndoding().fqubls( AudioFormbt.Endoding.PCM_SIGNED ) ||
+            sourdfFormbt.gftEndoding().fqubls( AudioFormbt.Endoding.PCM_UNSIGNED ) ) {
 
-                AudioFormat.Encoding encs[] = new AudioFormat.Encoding[2];
-                encs[0] = AudioFormat.Encoding.PCM_SIGNED;
-                encs[1] = AudioFormat.Encoding.PCM_UNSIGNED;
-                return encs;
-            } else {
-                return new AudioFormat.Encoding[0];
+                AudioFormbt.Endoding fnds[] = nfw AudioFormbt.Endoding[2];
+                fnds[0] = AudioFormbt.Endoding.PCM_SIGNED;
+                fnds[1] = AudioFormbt.Endoding.PCM_UNSIGNED;
+                rfturn fnds;
+            } flsf {
+                rfturn nfw AudioFormbt.Endoding[0];
             }
     }
 
 
     /**
      */
-    public AudioFormat[] getTargetFormats(AudioFormat.Encoding targetEncoding, AudioFormat sourceFormat){
+    publid AudioFormbt[] gftTbrgftFormbts(AudioFormbt.Endoding tbrgftEndoding, AudioFormbt sourdfFormbt){
 
-        // filter out targetEncoding from the old getOutputFormats( sourceFormat ) method
+        // filtfr out tbrgftEndoding from tif old gftOutputFormbts( sourdfFormbt ) mftiod
 
-        AudioFormat[] formats = getOutputFormats( sourceFormat );
-        Vector<AudioFormat> newFormats = new Vector<>();
-        for(int i=0; i<formats.length; i++ ) {
-            if( formats[i].getEncoding().equals( targetEncoding ) ) {
-                newFormats.addElement( formats[i] );
+        AudioFormbt[] formbts = gftOutputFormbts( sourdfFormbt );
+        Vfdtor<AudioFormbt> nfwFormbts = nfw Vfdtor<>();
+        for(int i=0; i<formbts.lfngti; i++ ) {
+            if( formbts[i].gftEndoding().fqubls( tbrgftEndoding ) ) {
+                nfwFormbts.bddElfmfnt( formbts[i] );
             }
         }
 
-        AudioFormat[] formatArray = new AudioFormat[newFormats.size()];
+        AudioFormbt[] formbtArrby = nfw AudioFormbt[nfwFormbts.sizf()];
 
-        for (int i = 0; i < formatArray.length; i++) {
-            formatArray[i] = newFormats.elementAt(i);
+        for (int i = 0; i < formbtArrby.lfngti; i++) {
+            formbtArrby[i] = nfwFormbts.flfmfntAt(i);
         }
 
-        return formatArray;
+        rfturn formbtArrby;
     }
 
 
     /**
      */
-    public AudioInputStream getAudioInputStream(AudioFormat.Encoding targetEncoding, AudioInputStream sourceStream) {
+    publid AudioInputStrfbm gftAudioInputStrfbm(AudioFormbt.Endoding tbrgftEndoding, AudioInputStrfbm sourdfStrfbm) {
 
-        if( isConversionSupported(targetEncoding, sourceStream.getFormat()) ) {
+        if( isConvfrsionSupportfd(tbrgftEndoding, sourdfStrfbm.gftFormbt()) ) {
 
-            AudioFormat sourceFormat = sourceStream.getFormat();
-            AudioFormat targetFormat = new AudioFormat( targetEncoding,
-                                                        sourceFormat.getSampleRate(),
-                                                        sourceFormat.getSampleSizeInBits(),
-                                                        sourceFormat.getChannels(),
-                                                        sourceFormat.getFrameSize(),
-                                                        sourceFormat.getFrameRate(),
-                                                        sourceFormat.isBigEndian() );
+            AudioFormbt sourdfFormbt = sourdfStrfbm.gftFormbt();
+            AudioFormbt tbrgftFormbt = nfw AudioFormbt( tbrgftEndoding,
+                                                        sourdfFormbt.gftSbmplfRbtf(),
+                                                        sourdfFormbt.gftSbmplfSizfInBits(),
+                                                        sourdfFormbt.gftCibnnfls(),
+                                                        sourdfFormbt.gftFrbmfSizf(),
+                                                        sourdfFormbt.gftFrbmfRbtf(),
+                                                        sourdfFormbt.isBigEndibn() );
 
-            return getAudioInputStream( targetFormat, sourceStream );
+            rfturn gftAudioInputStrfbm( tbrgftFormbt, sourdfStrfbm );
 
-        } else {
-            throw new IllegalArgumentException("Unsupported conversion: " + sourceStream.getFormat().toString() + " to " + targetEncoding.toString() );
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption("Unsupportfd donvfrsion: " + sourdfStrfbm.gftFormbt().toString() + " to " + tbrgftEndoding.toString() );
         }
 
     }
     /**
-     * use old code
+     * usf old dodf
      */
-    public AudioInputStream getAudioInputStream(AudioFormat targetFormat, AudioInputStream sourceStream){
+    publid AudioInputStrfbm gftAudioInputStrfbm(AudioFormbt tbrgftFormbt, AudioInputStrfbm sourdfStrfbm){
 
-        return getConvertedStream( targetFormat, sourceStream );
+        rfturn gftConvfrtfdStrfbm( tbrgftFormbt, sourdfStrfbm );
     }
 
 
@@ -144,446 +144,446 @@ public final class PCMtoPCMCodec extends SunCodec {
     // OLD CODE
 
     /**
-     * Opens the codec with the specified parameters.
-     * @param stream stream from which data to be processed should be read
-     * @param outputFormat desired data format of the stream after processing
-     * @return stream from which processed data may be read
-     * @throws IllegalArgumentException if the format combination supplied is
-     * not supported.
+     * Opfns tif dodfd witi tif spfdififd pbrbmftfrs.
+     * @pbrbm strfbm strfbm from wiidi dbtb to bf prodfssfd siould bf rfbd
+     * @pbrbm outputFormbt dfsirfd dbtb formbt of tif strfbm bftfr prodfssing
+     * @rfturn strfbm from wiidi prodfssfd dbtb mby bf rfbd
+     * @tirows IllfgblArgumfntExdfption if tif formbt dombinbtion supplifd is
+     * not supportfd.
      */
-    /*  public AudioInputStream getConvertedStream(AudioFormat outputFormat, AudioInputStream stream) {*/
-    private AudioInputStream getConvertedStream(AudioFormat outputFormat, AudioInputStream stream) {
+    /*  publid AudioInputStrfbm gftConvfrtfdStrfbm(AudioFormbt outputFormbt, AudioInputStrfbm strfbm) {*/
+    privbtf AudioInputStrfbm gftConvfrtfdStrfbm(AudioFormbt outputFormbt, AudioInputStrfbm strfbm) {
 
-        AudioInputStream cs = null;
+        AudioInputStrfbm ds = null;
 
-        AudioFormat inputFormat = stream.getFormat();
+        AudioFormbt inputFormbt = strfbm.gftFormbt();
 
-        if( inputFormat.matches(outputFormat) ) {
+        if( inputFormbt.mbtdifs(outputFormbt) ) {
 
-            cs = stream;
-        } else {
+            ds = strfbm;
+        } flsf {
 
-            cs = (AudioInputStream) (new PCMtoPCMCodecStream(stream, outputFormat));
-            tempBuffer = new byte[tempBufferSize];
+            ds = (AudioInputStrfbm) (nfw PCMtoPCMCodfdStrfbm(strfbm, outputFormbt));
+            tfmpBufffr = nfw bytf[tfmpBufffrSizf];
         }
-        return cs;
+        rfturn ds;
     }
 
 
 
     /**
-     * Obtains the set of output formats supported by the codec
-     * given a particular input format.
-     * If no output formats are supported for this input format,
-     * returns an array of length 0.
-     * @return array of supported output formats.
+     * Obtbins tif sft of output formbts supportfd by tif dodfd
+     * givfn b pbrtidulbr input formbt.
+     * If no output formbts brf supportfd for tiis input formbt,
+     * rfturns bn brrby of lfngti 0.
+     * @rfturn brrby of supportfd output formbts.
      */
-    /*  public AudioFormat[] getOutputFormats(AudioFormat inputFormat) { */
-    private AudioFormat[] getOutputFormats(AudioFormat inputFormat) {
+    /*  publid AudioFormbt[] gftOutputFormbts(AudioFormbt inputFormbt) { */
+    privbtf AudioFormbt[] gftOutputFormbts(AudioFormbt inputFormbt) {
 
-        Vector<AudioFormat> formats = new Vector<>();
-        AudioFormat format;
+        Vfdtor<AudioFormbt> formbts = nfw Vfdtor<>();
+        AudioFormbt formbt;
 
-        int sampleSize = inputFormat.getSampleSizeInBits();
-        boolean isBigEndian = inputFormat.isBigEndian();
+        int sbmplfSizf = inputFormbt.gftSbmplfSizfInBits();
+        boolfbn isBigEndibn = inputFormbt.isBigEndibn();
 
 
-        if ( sampleSize==8 ) {
-            if ( AudioFormat.Encoding.PCM_SIGNED.equals(inputFormat.getEncoding()) ) {
+        if ( sbmplfSizf==8 ) {
+            if ( AudioFormbt.Endoding.PCM_SIGNED.fqubls(inputFormbt.gftEndoding()) ) {
 
-                format = new AudioFormat(AudioFormat.Encoding.PCM_UNSIGNED,
-                                         inputFormat.getSampleRate(),
-                                         inputFormat.getSampleSizeInBits(),
-                                         inputFormat.getChannels(),
-                                         inputFormat.getFrameSize(),
-                                         inputFormat.getFrameRate(),
-                                         false );
-                formats.addElement(format);
+                formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_UNSIGNED,
+                                         inputFormbt.gftSbmplfRbtf(),
+                                         inputFormbt.gftSbmplfSizfInBits(),
+                                         inputFormbt.gftCibnnfls(),
+                                         inputFormbt.gftFrbmfSizf(),
+                                         inputFormbt.gftFrbmfRbtf(),
+                                         fblsf );
+                formbts.bddElfmfnt(formbt);
             }
 
-            if ( AudioFormat.Encoding.PCM_UNSIGNED.equals(inputFormat.getEncoding()) ) {
+            if ( AudioFormbt.Endoding.PCM_UNSIGNED.fqubls(inputFormbt.gftEndoding()) ) {
 
-                format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                                         inputFormat.getSampleRate(),
-                                         inputFormat.getSampleSizeInBits(),
-                                         inputFormat.getChannels(),
-                                         inputFormat.getFrameSize(),
-                                         inputFormat.getFrameRate(),
-                                         false );
-                formats.addElement(format);
+                formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_SIGNED,
+                                         inputFormbt.gftSbmplfRbtf(),
+                                         inputFormbt.gftSbmplfSizfInBits(),
+                                         inputFormbt.gftCibnnfls(),
+                                         inputFormbt.gftFrbmfSizf(),
+                                         inputFormbt.gftFrbmfRbtf(),
+                                         fblsf );
+                formbts.bddElfmfnt(formbt);
             }
 
-        } else if ( sampleSize==16 ) {
+        } flsf if ( sbmplfSizf==16 ) {
 
-            if ( AudioFormat.Encoding.PCM_SIGNED.equals(inputFormat.getEncoding()) && isBigEndian ) {
+            if ( AudioFormbt.Endoding.PCM_SIGNED.fqubls(inputFormbt.gftEndoding()) && isBigEndibn ) {
 
-                format = new AudioFormat(AudioFormat.Encoding.PCM_UNSIGNED,
-                                         inputFormat.getSampleRate(),
-                                         inputFormat.getSampleSizeInBits(),
-                                         inputFormat.getChannels(),
-                                         inputFormat.getFrameSize(),
-                                         inputFormat.getFrameRate(),
-                                         true );
-                formats.addElement(format);
-                format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                                         inputFormat.getSampleRate(),
-                                         inputFormat.getSampleSizeInBits(),
-                                         inputFormat.getChannels(),
-                                         inputFormat.getFrameSize(),
-                                         inputFormat.getFrameRate(),
-                                         false );
-                formats.addElement(format);
-                format = new AudioFormat(AudioFormat.Encoding.PCM_UNSIGNED,
-                                         inputFormat.getSampleRate(),
-                                         inputFormat.getSampleSizeInBits(),
-                                         inputFormat.getChannels(),
-                                         inputFormat.getFrameSize(),
-                                         inputFormat.getFrameRate(),
-                                         false );
-                formats.addElement(format);
+                formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_UNSIGNED,
+                                         inputFormbt.gftSbmplfRbtf(),
+                                         inputFormbt.gftSbmplfSizfInBits(),
+                                         inputFormbt.gftCibnnfls(),
+                                         inputFormbt.gftFrbmfSizf(),
+                                         inputFormbt.gftFrbmfRbtf(),
+                                         truf );
+                formbts.bddElfmfnt(formbt);
+                formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_SIGNED,
+                                         inputFormbt.gftSbmplfRbtf(),
+                                         inputFormbt.gftSbmplfSizfInBits(),
+                                         inputFormbt.gftCibnnfls(),
+                                         inputFormbt.gftFrbmfSizf(),
+                                         inputFormbt.gftFrbmfRbtf(),
+                                         fblsf );
+                formbts.bddElfmfnt(formbt);
+                formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_UNSIGNED,
+                                         inputFormbt.gftSbmplfRbtf(),
+                                         inputFormbt.gftSbmplfSizfInBits(),
+                                         inputFormbt.gftCibnnfls(),
+                                         inputFormbt.gftFrbmfSizf(),
+                                         inputFormbt.gftFrbmfRbtf(),
+                                         fblsf );
+                formbts.bddElfmfnt(formbt);
             }
 
-            if ( AudioFormat.Encoding.PCM_UNSIGNED.equals(inputFormat.getEncoding()) && isBigEndian ) {
+            if ( AudioFormbt.Endoding.PCM_UNSIGNED.fqubls(inputFormbt.gftEndoding()) && isBigEndibn ) {
 
-                format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                                         inputFormat.getSampleRate(),
-                                         inputFormat.getSampleSizeInBits(),
-                                         inputFormat.getChannels(),
-                                         inputFormat.getFrameSize(),
-                                         inputFormat.getFrameRate(),
-                                         true );
-                formats.addElement(format);
-                format = new AudioFormat(AudioFormat.Encoding.PCM_UNSIGNED,
-                                         inputFormat.getSampleRate(),
-                                         inputFormat.getSampleSizeInBits(),
-                                         inputFormat.getChannels(),
-                                         inputFormat.getFrameSize(),
-                                         inputFormat.getFrameRate(),
-                                         false );
-                formats.addElement(format);
-                format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                                         inputFormat.getSampleRate(),
-                                         inputFormat.getSampleSizeInBits(),
-                                         inputFormat.getChannels(),
-                                         inputFormat.getFrameSize(),
-                                         inputFormat.getFrameRate(),
-                                         false );
-                formats.addElement(format);
+                formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_SIGNED,
+                                         inputFormbt.gftSbmplfRbtf(),
+                                         inputFormbt.gftSbmplfSizfInBits(),
+                                         inputFormbt.gftCibnnfls(),
+                                         inputFormbt.gftFrbmfSizf(),
+                                         inputFormbt.gftFrbmfRbtf(),
+                                         truf );
+                formbts.bddElfmfnt(formbt);
+                formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_UNSIGNED,
+                                         inputFormbt.gftSbmplfRbtf(),
+                                         inputFormbt.gftSbmplfSizfInBits(),
+                                         inputFormbt.gftCibnnfls(),
+                                         inputFormbt.gftFrbmfSizf(),
+                                         inputFormbt.gftFrbmfRbtf(),
+                                         fblsf );
+                formbts.bddElfmfnt(formbt);
+                formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_SIGNED,
+                                         inputFormbt.gftSbmplfRbtf(),
+                                         inputFormbt.gftSbmplfSizfInBits(),
+                                         inputFormbt.gftCibnnfls(),
+                                         inputFormbt.gftFrbmfSizf(),
+                                         inputFormbt.gftFrbmfRbtf(),
+                                         fblsf );
+                formbts.bddElfmfnt(formbt);
             }
 
-            if ( AudioFormat.Encoding.PCM_SIGNED.equals(inputFormat.getEncoding()) && !isBigEndian ) {
+            if ( AudioFormbt.Endoding.PCM_SIGNED.fqubls(inputFormbt.gftEndoding()) && !isBigEndibn ) {
 
-                format = new AudioFormat(AudioFormat.Encoding.PCM_UNSIGNED,
-                                         inputFormat.getSampleRate(),
-                                         inputFormat.getSampleSizeInBits(),
-                                         inputFormat.getChannels(),
-                                         inputFormat.getFrameSize(),
-                                         inputFormat.getFrameRate(),
-                                         false );
-                formats.addElement(format);
-                format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                                         inputFormat.getSampleRate(),
-                                         inputFormat.getSampleSizeInBits(),
-                                         inputFormat.getChannels(),
-                                         inputFormat.getFrameSize(),
-                                         inputFormat.getFrameRate(),
-                                         true );
-                formats.addElement(format);
-                format = new AudioFormat(AudioFormat.Encoding.PCM_UNSIGNED,
-                                         inputFormat.getSampleRate(),
-                                         inputFormat.getSampleSizeInBits(),
-                                         inputFormat.getChannels(),
-                                         inputFormat.getFrameSize(),
-                                         inputFormat.getFrameRate(),
-                                         true );
-                formats.addElement(format);
+                formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_UNSIGNED,
+                                         inputFormbt.gftSbmplfRbtf(),
+                                         inputFormbt.gftSbmplfSizfInBits(),
+                                         inputFormbt.gftCibnnfls(),
+                                         inputFormbt.gftFrbmfSizf(),
+                                         inputFormbt.gftFrbmfRbtf(),
+                                         fblsf );
+                formbts.bddElfmfnt(formbt);
+                formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_SIGNED,
+                                         inputFormbt.gftSbmplfRbtf(),
+                                         inputFormbt.gftSbmplfSizfInBits(),
+                                         inputFormbt.gftCibnnfls(),
+                                         inputFormbt.gftFrbmfSizf(),
+                                         inputFormbt.gftFrbmfRbtf(),
+                                         truf );
+                formbts.bddElfmfnt(formbt);
+                formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_UNSIGNED,
+                                         inputFormbt.gftSbmplfRbtf(),
+                                         inputFormbt.gftSbmplfSizfInBits(),
+                                         inputFormbt.gftCibnnfls(),
+                                         inputFormbt.gftFrbmfSizf(),
+                                         inputFormbt.gftFrbmfRbtf(),
+                                         truf );
+                formbts.bddElfmfnt(formbt);
             }
 
-            if ( AudioFormat.Encoding.PCM_UNSIGNED.equals(inputFormat.getEncoding()) && !isBigEndian ) {
+            if ( AudioFormbt.Endoding.PCM_UNSIGNED.fqubls(inputFormbt.gftEndoding()) && !isBigEndibn ) {
 
-                format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                                         inputFormat.getSampleRate(),
-                                         inputFormat.getSampleSizeInBits(),
-                                         inputFormat.getChannels(),
-                                         inputFormat.getFrameSize(),
-                                         inputFormat.getFrameRate(),
-                                         false );
-                formats.addElement(format);
-                format = new AudioFormat(AudioFormat.Encoding.PCM_UNSIGNED,
-                                         inputFormat.getSampleRate(),
-                                         inputFormat.getSampleSizeInBits(),
-                                         inputFormat.getChannels(),
-                                         inputFormat.getFrameSize(),
-                                         inputFormat.getFrameRate(),
-                                         true );
-                formats.addElement(format);
-                format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
-                                         inputFormat.getSampleRate(),
-                                         inputFormat.getSampleSizeInBits(),
-                                         inputFormat.getChannels(),
-                                         inputFormat.getFrameSize(),
-                                         inputFormat.getFrameRate(),
-                                         true );
-                formats.addElement(format);
-            }
-        }
-        AudioFormat[] formatArray;
-
-        synchronized(formats) {
-
-            formatArray = new AudioFormat[formats.size()];
-
-            for (int i = 0; i < formatArray.length; i++) {
-
-                formatArray[i] = formats.elementAt(i);
+                formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_SIGNED,
+                                         inputFormbt.gftSbmplfRbtf(),
+                                         inputFormbt.gftSbmplfSizfInBits(),
+                                         inputFormbt.gftCibnnfls(),
+                                         inputFormbt.gftFrbmfSizf(),
+                                         inputFormbt.gftFrbmfRbtf(),
+                                         fblsf );
+                formbts.bddElfmfnt(formbt);
+                formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_UNSIGNED,
+                                         inputFormbt.gftSbmplfRbtf(),
+                                         inputFormbt.gftSbmplfSizfInBits(),
+                                         inputFormbt.gftCibnnfls(),
+                                         inputFormbt.gftFrbmfSizf(),
+                                         inputFormbt.gftFrbmfRbtf(),
+                                         truf );
+                formbts.bddElfmfnt(formbt);
+                formbt = nfw AudioFormbt(AudioFormbt.Endoding.PCM_SIGNED,
+                                         inputFormbt.gftSbmplfRbtf(),
+                                         inputFormbt.gftSbmplfSizfInBits(),
+                                         inputFormbt.gftCibnnfls(),
+                                         inputFormbt.gftFrbmfSizf(),
+                                         inputFormbt.gftFrbmfRbtf(),
+                                         truf );
+                formbts.bddElfmfnt(formbt);
             }
         }
+        AudioFormbt[] formbtArrby;
 
-        return formatArray;
+        syndironizfd(formbts) {
+
+            formbtArrby = nfw AudioFormbt[formbts.sizf()];
+
+            for (int i = 0; i < formbtArrby.lfngti; i++) {
+
+                formbtArrby[i] = formbts.flfmfntAt(i);
+            }
+        }
+
+        rfturn formbtArrby;
     }
 
 
-    class PCMtoPCMCodecStream extends AudioInputStream {
+    dlbss PCMtoPCMCodfdStrfbm fxtfnds AudioInputStrfbm {
 
-        private final int PCM_SWITCH_SIGNED_8BIT                = 1;
-        private final int PCM_SWITCH_ENDIAN                             = 2;
-        private final int PCM_SWITCH_SIGNED_LE                  = 3;
-        private final int PCM_SWITCH_SIGNED_BE                  = 4;
-        private final int PCM_UNSIGNED_LE2SIGNED_BE             = 5;
-        private final int PCM_SIGNED_LE2UNSIGNED_BE             = 6;
-        private final int PCM_UNSIGNED_BE2SIGNED_LE             = 7;
-        private final int PCM_SIGNED_BE2UNSIGNED_LE             = 8;
+        privbtf finbl int PCM_SWITCH_SIGNED_8BIT                = 1;
+        privbtf finbl int PCM_SWITCH_ENDIAN                             = 2;
+        privbtf finbl int PCM_SWITCH_SIGNED_LE                  = 3;
+        privbtf finbl int PCM_SWITCH_SIGNED_BE                  = 4;
+        privbtf finbl int PCM_UNSIGNED_LE2SIGNED_BE             = 5;
+        privbtf finbl int PCM_SIGNED_LE2UNSIGNED_BE             = 6;
+        privbtf finbl int PCM_UNSIGNED_BE2SIGNED_LE             = 7;
+        privbtf finbl int PCM_SIGNED_BE2UNSIGNED_LE             = 8;
 
-        private final int sampleSizeInBytes;
-        private int conversionType = 0;
+        privbtf finbl int sbmplfSizfInBytfs;
+        privbtf int donvfrsionTypf = 0;
 
 
-        PCMtoPCMCodecStream(AudioInputStream stream, AudioFormat outputFormat) {
+        PCMtoPCMCodfdStrfbm(AudioInputStrfbm strfbm, AudioFormbt outputFormbt) {
 
-            super(stream, outputFormat, -1);
+            supfr(strfbm, outputFormbt, -1);
 
-            int sampleSizeInBits = 0;
-            AudioFormat.Encoding inputEncoding = null;
-            AudioFormat.Encoding outputEncoding = null;
-            boolean inputIsBigEndian;
-            boolean outputIsBigEndian;
+            int sbmplfSizfInBits = 0;
+            AudioFormbt.Endoding inputEndoding = null;
+            AudioFormbt.Endoding outputEndoding = null;
+            boolfbn inputIsBigEndibn;
+            boolfbn outputIsBigEndibn;
 
-            AudioFormat inputFormat = stream.getFormat();
+            AudioFormbt inputFormbt = strfbm.gftFormbt();
 
-            // throw an IllegalArgumentException if not ok
-            if ( ! (isConversionSupported(inputFormat, outputFormat)) ) {
+            // tirow bn IllfgblArgumfntExdfption if not ok
+            if ( ! (isConvfrsionSupportfd(inputFormbt, outputFormbt)) ) {
 
-                throw new IllegalArgumentException("Unsupported conversion: " + inputFormat.toString() + " to " + outputFormat.toString());
+                tirow nfw IllfgblArgumfntExdfption("Unsupportfd donvfrsion: " + inputFormbt.toString() + " to " + outputFormbt.toString());
             }
 
-            inputEncoding = inputFormat.getEncoding();
-            outputEncoding = outputFormat.getEncoding();
-            inputIsBigEndian = inputFormat.isBigEndian();
-            outputIsBigEndian = outputFormat.isBigEndian();
-            sampleSizeInBits = inputFormat.getSampleSizeInBits();
-            sampleSizeInBytes = sampleSizeInBits/8;
+            inputEndoding = inputFormbt.gftEndoding();
+            outputEndoding = outputFormbt.gftEndoding();
+            inputIsBigEndibn = inputFormbt.isBigEndibn();
+            outputIsBigEndibn = outputFormbt.isBigEndibn();
+            sbmplfSizfInBits = inputFormbt.gftSbmplfSizfInBits();
+            sbmplfSizfInBytfs = sbmplfSizfInBits/8;
 
-            // determine conversion to perform
+            // dftfrminf donvfrsion to pfrform
 
-            if( sampleSizeInBits==8 ) {
-                if( AudioFormat.Encoding.PCM_UNSIGNED.equals(inputEncoding) &&
-                    AudioFormat.Encoding.PCM_SIGNED.equals(outputEncoding) ) {
-                    conversionType = PCM_SWITCH_SIGNED_8BIT;
-                    if(Printer.debug) Printer.debug("PCMtoPCMCodecStream: conversionType = PCM_SWITCH_SIGNED_8BIT");
+            if( sbmplfSizfInBits==8 ) {
+                if( AudioFormbt.Endoding.PCM_UNSIGNED.fqubls(inputEndoding) &&
+                    AudioFormbt.Endoding.PCM_SIGNED.fqubls(outputEndoding) ) {
+                    donvfrsionTypf = PCM_SWITCH_SIGNED_8BIT;
+                    if(Printfr.dfbug) Printfr.dfbug("PCMtoPCMCodfdStrfbm: donvfrsionTypf = PCM_SWITCH_SIGNED_8BIT");
 
-                } else if( AudioFormat.Encoding.PCM_SIGNED.equals(inputEncoding) &&
-                           AudioFormat.Encoding.PCM_UNSIGNED.equals(outputEncoding) ) {
-                    conversionType = PCM_SWITCH_SIGNED_8BIT;
-                    if(Printer.debug) Printer.debug("PCMtoPCMCodecStream: conversionType = PCM_SWITCH_SIGNED_8BIT");
+                } flsf if( AudioFormbt.Endoding.PCM_SIGNED.fqubls(inputEndoding) &&
+                           AudioFormbt.Endoding.PCM_UNSIGNED.fqubls(outputEndoding) ) {
+                    donvfrsionTypf = PCM_SWITCH_SIGNED_8BIT;
+                    if(Printfr.dfbug) Printfr.dfbug("PCMtoPCMCodfdStrfbm: donvfrsionTypf = PCM_SWITCH_SIGNED_8BIT");
                 }
-            } else {
+            } flsf {
 
-                if( inputEncoding.equals(outputEncoding) && (inputIsBigEndian != outputIsBigEndian) ) {
+                if( inputEndoding.fqubls(outputEndoding) && (inputIsBigEndibn != outputIsBigEndibn) ) {
 
-                    conversionType = PCM_SWITCH_ENDIAN;
-                    if(Printer.debug) Printer.debug("PCMtoPCMCodecStream: conversionType = PCM_SWITCH_ENDIAN");
+                    donvfrsionTypf = PCM_SWITCH_ENDIAN;
+                    if(Printfr.dfbug) Printfr.dfbug("PCMtoPCMCodfdStrfbm: donvfrsionTypf = PCM_SWITCH_ENDIAN");
 
 
-                } else if (AudioFormat.Encoding.PCM_UNSIGNED.equals(inputEncoding) && !inputIsBigEndian &&
-                            AudioFormat.Encoding.PCM_SIGNED.equals(outputEncoding) && outputIsBigEndian) {
+                } flsf if (AudioFormbt.Endoding.PCM_UNSIGNED.fqubls(inputEndoding) && !inputIsBigEndibn &&
+                            AudioFormbt.Endoding.PCM_SIGNED.fqubls(outputEndoding) && outputIsBigEndibn) {
 
-                    conversionType = PCM_UNSIGNED_LE2SIGNED_BE;
-                    if(Printer.debug) Printer.debug("PCMtoPCMCodecStream: conversionType = PCM_UNSIGNED_LE2SIGNED_BE");
+                    donvfrsionTypf = PCM_UNSIGNED_LE2SIGNED_BE;
+                    if(Printfr.dfbug) Printfr.dfbug("PCMtoPCMCodfdStrfbm: donvfrsionTypf = PCM_UNSIGNED_LE2SIGNED_BE");
 
-                } else if (AudioFormat.Encoding.PCM_SIGNED.equals(inputEncoding) && !inputIsBigEndian &&
-                           AudioFormat.Encoding.PCM_UNSIGNED.equals(outputEncoding) && outputIsBigEndian) {
+                } flsf if (AudioFormbt.Endoding.PCM_SIGNED.fqubls(inputEndoding) && !inputIsBigEndibn &&
+                           AudioFormbt.Endoding.PCM_UNSIGNED.fqubls(outputEndoding) && outputIsBigEndibn) {
 
-                    conversionType = PCM_SIGNED_LE2UNSIGNED_BE;
-                    if(Printer.debug) Printer.debug("PCMtoPCMCodecStream: conversionType = PCM_SIGNED_LE2UNSIGNED_BE");
+                    donvfrsionTypf = PCM_SIGNED_LE2UNSIGNED_BE;
+                    if(Printfr.dfbug) Printfr.dfbug("PCMtoPCMCodfdStrfbm: donvfrsionTypf = PCM_SIGNED_LE2UNSIGNED_BE");
 
-                } else if (AudioFormat.Encoding.PCM_UNSIGNED.equals(inputEncoding) && inputIsBigEndian &&
-                           AudioFormat.Encoding.PCM_SIGNED.equals(outputEncoding) && !outputIsBigEndian) {
+                } flsf if (AudioFormbt.Endoding.PCM_UNSIGNED.fqubls(inputEndoding) && inputIsBigEndibn &&
+                           AudioFormbt.Endoding.PCM_SIGNED.fqubls(outputEndoding) && !outputIsBigEndibn) {
 
-                    conversionType = PCM_UNSIGNED_BE2SIGNED_LE;
-                    if(Printer.debug) Printer.debug("PCMtoPCMCodecStream: conversionType = PCM_UNSIGNED_BE2SIGNED_LE");
+                    donvfrsionTypf = PCM_UNSIGNED_BE2SIGNED_LE;
+                    if(Printfr.dfbug) Printfr.dfbug("PCMtoPCMCodfdStrfbm: donvfrsionTypf = PCM_UNSIGNED_BE2SIGNED_LE");
 
-                } else if (AudioFormat.Encoding.PCM_SIGNED.equals(inputEncoding) && inputIsBigEndian &&
-                           AudioFormat.Encoding.PCM_UNSIGNED.equals(outputEncoding) && !outputIsBigEndian) {
+                } flsf if (AudioFormbt.Endoding.PCM_SIGNED.fqubls(inputEndoding) && inputIsBigEndibn &&
+                           AudioFormbt.Endoding.PCM_UNSIGNED.fqubls(outputEndoding) && !outputIsBigEndibn) {
 
-                    conversionType = PCM_SIGNED_BE2UNSIGNED_LE;
-                    if(Printer.debug) Printer.debug("PCMtoPCMCodecStream: conversionType = PCM_SIGNED_BE2UNSIGNED_LE");
+                    donvfrsionTypf = PCM_SIGNED_BE2UNSIGNED_LE;
+                    if(Printfr.dfbug) Printfr.dfbug("PCMtoPCMCodfdStrfbm: donvfrsionTypf = PCM_SIGNED_BE2UNSIGNED_LE");
 
                 }
             }
 
-            // set the audio stream length in frames if we know it
+            // sft tif budio strfbm lfngti in frbmfs if wf know it
 
-            frameSize = inputFormat.getFrameSize();
-            if( frameSize == AudioSystem.NOT_SPECIFIED ) {
-                frameSize=1;
+            frbmfSizf = inputFormbt.gftFrbmfSizf();
+            if( frbmfSizf == AudioSystfm.NOT_SPECIFIED ) {
+                frbmfSizf=1;
             }
-            if( stream instanceof AudioInputStream ) {
-                frameLength = stream.getFrameLength();
-            } else {
-                frameLength = AudioSystem.NOT_SPECIFIED;
+            if( strfbm instbndfof AudioInputStrfbm ) {
+                frbmfLfngti = strfbm.gftFrbmfLfngti();
+            } flsf {
+                frbmfLfngti = AudioSystfm.NOT_SPECIFIED;
             }
 
-            // set framePos to zero
-            framePos = 0;
+            // sft frbmfPos to zfro
+            frbmfPos = 0;
 
         }
 
         /**
-         * Note that this only works for sign conversions.
-         * Other conversions require a read of at least 2 bytes.
+         * Notf tibt tiis only works for sign donvfrsions.
+         * Otifr donvfrsions rfquirf b rfbd of bt lfbst 2 bytfs.
          */
 
-        public int read() throws IOException {
+        publid int rfbd() tirows IOExdfption {
 
-            // $$jb: do we want to implement this function?
+            // $$jb: do wf wbnt to implfmfnt tiis fundtion?
 
-            int temp;
-            byte tempbyte;
+            int tfmp;
+            bytf tfmpbytf;
 
-            if( frameSize==1 ) {
-                if( conversionType == PCM_SWITCH_SIGNED_8BIT ) {
-                    temp = super.read();
+            if( frbmfSizf==1 ) {
+                if( donvfrsionTypf == PCM_SWITCH_SIGNED_8BIT ) {
+                    tfmp = supfr.rfbd();
 
-                    if( temp < 0 ) return temp;         // EOF or error
+                    if( tfmp < 0 ) rfturn tfmp;         // EOF or frror
 
-                    tempbyte = (byte) (temp & 0xf);
-                    tempbyte = (tempbyte >= 0) ? (byte)(0x80 | tempbyte) : (byte)(0x7F & tempbyte);
-                    temp = (int) tempbyte & 0xf;
+                    tfmpbytf = (bytf) (tfmp & 0xf);
+                    tfmpbytf = (tfmpbytf >= 0) ? (bytf)(0x80 | tfmpbytf) : (bytf)(0x7F & tfmpbytf);
+                    tfmp = (int) tfmpbytf & 0xf;
 
-                    return temp;
+                    rfturn tfmp;
 
-                } else {
-                    // $$jb: what to return here?
-                    throw new IOException("cannot read a single byte if frame size > 1");
+                } flsf {
+                    // $$jb: wibt to rfturn ifrf?
+                    tirow nfw IOExdfption("dbnnot rfbd b singlf bytf if frbmf sizf > 1");
                 }
-            } else {
-                throw new IOException("cannot read a single byte if frame size > 1");
+            } flsf {
+                tirow nfw IOExdfption("dbnnot rfbd b singlf bytf if frbmf sizf > 1");
             }
         }
 
 
-        public int read(byte[] b) throws IOException {
+        publid int rfbd(bytf[] b) tirows IOExdfption {
 
-            return read(b, 0, b.length);
+            rfturn rfbd(b, 0, b.lfngti);
         }
 
-        public int read(byte[] b, int off, int len) throws IOException {
+        publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
 
 
             int i;
 
-            // don't read fractional frames
-            if ( len%frameSize != 0 ) {
-                len -= (len%frameSize);
+            // don't rfbd frbdtionbl frbmfs
+            if ( lfn%frbmfSizf != 0 ) {
+                lfn -= (lfn%frbmfSizf);
             }
-            // don't read past our own set length
-            if( (frameLength!=AudioSystem.NOT_SPECIFIED) && ( (len/frameSize) >(frameLength-framePos)) ) {
-                len = (int)(frameLength-framePos) * frameSize;
-            }
-
-            int readCount = super.read(b, off, len);
-            byte tempByte;
-
-            if(readCount<0) {   // EOF or error
-                return readCount;
+            // don't rfbd pbst our own sft lfngti
+            if( (frbmfLfngti!=AudioSystfm.NOT_SPECIFIED) && ( (lfn/frbmfSizf) >(frbmfLfngti-frbmfPos)) ) {
+                lfn = (int)(frbmfLfngti-frbmfPos) * frbmfSizf;
             }
 
-            // now do the conversions
+            int rfbdCount = supfr.rfbd(b, off, lfn);
+            bytf tfmpBytf;
 
-            switch( conversionType ) {
-
-            case PCM_SWITCH_SIGNED_8BIT:
-                switchSigned8bit(b,off,len,readCount);
-                break;
-
-            case PCM_SWITCH_ENDIAN:
-                switchEndian(b,off,len,readCount);
-                break;
-
-            case PCM_SWITCH_SIGNED_LE:
-                switchSignedLE(b,off,len,readCount);
-                break;
-
-            case PCM_SWITCH_SIGNED_BE:
-                switchSignedBE(b,off,len,readCount);
-                break;
-
-            case PCM_UNSIGNED_LE2SIGNED_BE:
-            case PCM_SIGNED_LE2UNSIGNED_BE:
-                switchSignedLE(b,off,len,readCount);
-                switchEndian(b,off,len,readCount);
-                break;
-
-            case PCM_UNSIGNED_BE2SIGNED_LE:
-            case PCM_SIGNED_BE2UNSIGNED_LE:
-                switchSignedBE(b,off,len,readCount);
-                switchEndian(b,off,len,readCount);
-                break;
-
-            default:
-                                // do nothing
+            if(rfbdCount<0) {   // EOF or frror
+                rfturn rfbdCount;
             }
 
-            // we've done the conversion, just return the readCount
-            return readCount;
+            // now do tif donvfrsions
+
+            switdi( donvfrsionTypf ) {
+
+            dbsf PCM_SWITCH_SIGNED_8BIT:
+                switdiSignfd8bit(b,off,lfn,rfbdCount);
+                brfbk;
+
+            dbsf PCM_SWITCH_ENDIAN:
+                switdiEndibn(b,off,lfn,rfbdCount);
+                brfbk;
+
+            dbsf PCM_SWITCH_SIGNED_LE:
+                switdiSignfdLE(b,off,lfn,rfbdCount);
+                brfbk;
+
+            dbsf PCM_SWITCH_SIGNED_BE:
+                switdiSignfdBE(b,off,lfn,rfbdCount);
+                brfbk;
+
+            dbsf PCM_UNSIGNED_LE2SIGNED_BE:
+            dbsf PCM_SIGNED_LE2UNSIGNED_BE:
+                switdiSignfdLE(b,off,lfn,rfbdCount);
+                switdiEndibn(b,off,lfn,rfbdCount);
+                brfbk;
+
+            dbsf PCM_UNSIGNED_BE2SIGNED_LE:
+            dbsf PCM_SIGNED_BE2UNSIGNED_LE:
+                switdiSignfdBE(b,off,lfn,rfbdCount);
+                switdiEndibn(b,off,lfn,rfbdCount);
+                brfbk;
+
+            dffbult:
+                                // do notiing
+            }
+
+            // wf'vf donf tif donvfrsion, just rfturn tif rfbdCount
+            rfturn rfbdCount;
 
         }
 
-        private void switchSigned8bit(byte[] b, int off, int len, int readCount) {
+        privbtf void switdiSignfd8bit(bytf[] b, int off, int lfn, int rfbdCount) {
 
-            for(int i=off; i < (off+readCount); i++) {
-                b[i] = (b[i] >= 0) ? (byte)(0x80 | b[i]) : (byte)(0x7F & b[i]);
+            for(int i=off; i < (off+rfbdCount); i++) {
+                b[i] = (b[i] >= 0) ? (bytf)(0x80 | b[i]) : (bytf)(0x7F & b[i]);
             }
         }
 
-        private void switchSignedBE(byte[] b, int off, int len, int readCount) {
+        privbtf void switdiSignfdBE(bytf[] b, int off, int lfn, int rfbdCount) {
 
-            for(int i=off; i < (off+readCount); i+= sampleSizeInBytes ) {
-                b[i] = (b[i] >= 0) ? (byte)(0x80 | b[i]) : (byte)(0x7F & b[i]);
+            for(int i=off; i < (off+rfbdCount); i+= sbmplfSizfInBytfs ) {
+                b[i] = (b[i] >= 0) ? (bytf)(0x80 | b[i]) : (bytf)(0x7F & b[i]);
             }
         }
 
-        private void switchSignedLE(byte[] b, int off, int len, int readCount) {
+        privbtf void switdiSignfdLE(bytf[] b, int off, int lfn, int rfbdCount) {
 
-            for(int i=(off+sampleSizeInBytes-1); i < (off+readCount); i+= sampleSizeInBytes ) {
-                b[i] = (b[i] >= 0) ? (byte)(0x80 | b[i]) : (byte)(0x7F & b[i]);
+            for(int i=(off+sbmplfSizfInBytfs-1); i < (off+rfbdCount); i+= sbmplfSizfInBytfs ) {
+                b[i] = (b[i] >= 0) ? (bytf)(0x80 | b[i]) : (bytf)(0x7F & b[i]);
             }
         }
 
-        private void switchEndian(byte[] b, int off, int len, int readCount) {
+        privbtf void switdiEndibn(bytf[] b, int off, int lfn, int rfbdCount) {
 
-            if(sampleSizeInBytes == 2) {
-                for(int i=off; i < (off+readCount); i += sampleSizeInBytes ) {
-                    byte temp;
-                    temp = b[i];
+            if(sbmplfSizfInBytfs == 2) {
+                for(int i=off; i < (off+rfbdCount); i += sbmplfSizfInBytfs ) {
+                    bytf tfmp;
+                    tfmp = b[i];
                     b[i] = b[i+1];
-                    b[i+1] = temp;
+                    b[i+1] = tfmp;
                 }
             }
         }
 
 
 
-    } // end class PCMtoPCMCodecStream
+    } // fnd dlbss PCMtoPCMCodfdStrfbm
 
-} // end class PCMtoPCMCodec
+} // fnd dlbss PCMtoPCMCodfd

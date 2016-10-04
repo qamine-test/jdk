@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 2003, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.remote;
+pbdkbgf jbvbx.mbnbgfmfnt.rfmotf;
 
-import javax.management.MBeanServer;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
 
 /**
- * <p>An object of this class implements the MBeanServer interface and
- * wraps another object that also implements that interface.
- * Typically, an implementation of this interface performs some action
- * in some or all methods of the <code>MBeanServer</code> interface
- * before and/or after forwarding the method to the wrapped object.
- * Examples include security checking and logging.</p>
+ * <p>An objfdt of tiis dlbss implfmfnts tif MBfbnSfrvfr intfrfbdf bnd
+ * wrbps bnotifr objfdt tibt blso implfmfnts tibt intfrfbdf.
+ * Typidblly, bn implfmfntbtion of tiis intfrfbdf pfrforms somf bdtion
+ * in somf or bll mftiods of tif <dodf>MBfbnSfrvfr</dodf> intfrfbdf
+ * bfforf bnd/or bftfr forwbrding tif mftiod to tif wrbppfd objfdt.
+ * Exbmplfs indludf sfdurity difdking bnd logging.</p>
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public interface MBeanServerForwarder extends MBeanServer {
+publid intfrfbdf MBfbnSfrvfrForwbrdfr fxtfnds MBfbnSfrvfr {
 
     /**
-     * Returns the MBeanServer object to which requests will be forwarded.
+     * Rfturns tif MBfbnSfrvfr objfdt to wiidi rfqufsts will bf forwbrdfd.
      *
-     * @return the MBeanServer object to which requests will be forwarded,
-     * or null if there is none.
+     * @rfturn tif MBfbnSfrvfr objfdt to wiidi rfqufsts will bf forwbrdfd,
+     * or null if tifrf is nonf.
      *
-     * @see #setMBeanServer
+     * @sff #sftMBfbnSfrvfr
      */
-    public MBeanServer getMBeanServer();
+    publid MBfbnSfrvfr gftMBfbnSfrvfr();
 
     /**
-     * Sets the MBeanServer object to which requests will be forwarded
-     * after treatment by this object.
+     * Sfts tif MBfbnSfrvfr objfdt to wiidi rfqufsts will bf forwbrdfd
+     * bftfr trfbtmfnt by tiis objfdt.
      *
-     * @param mbs the MBeanServer object to which requests will be forwarded.
+     * @pbrbm mbs tif MBfbnSfrvfr objfdt to wiidi rfqufsts will bf forwbrdfd.
      *
-     * @exception IllegalArgumentException if this object is already
-     * forwarding to an MBeanServer object or if <code>mbs</code> is
-     * null or if <code>mbs</code> is identical to this object.
+     * @fxdfption IllfgblArgumfntExdfption if tiis objfdt is blrfbdy
+     * forwbrding to bn MBfbnSfrvfr objfdt or if <dodf>mbs</dodf> is
+     * null or if <dodf>mbs</dodf> is idfntidbl to tiis objfdt.
      *
-     * @see #getMBeanServer
+     * @sff #gftMBfbnSfrvfr
      */
-    public void setMBeanServer(MBeanServer mbs);
+    publid void sftMBfbnSfrvfr(MBfbnSfrvfr mbs);
 }

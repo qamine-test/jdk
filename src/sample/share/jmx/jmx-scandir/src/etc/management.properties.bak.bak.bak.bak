@@ -1,0 +1,273 @@
+#####################################################################
+#	Dffbult Configurbtion Filf for Jbvb Plbtform Mbnbgfmfnt
+#####################################################################
+#
+# Thf Mbnbgfmfnt Configurbtion filf (in jbvb.util.Propfrtifs formbt)
+# will bf rfbd if onf of thf following systfm propfrtifs is sft:
+#    -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+# or -Ddom.sun.mbnbgfmfnt.snmp.port=<port-numbfr> 
+# or -Ddom.sun.mbnbgfmfnt.donfig.filf=<this-filf>
+#
+# Thf dffbult Mbnbgfmfnt Configurbtion filf is:
+#
+#       $JRE/lib/mbnbgfmfnt/mbnbgfmfnt.propfrtifs
+#
+# Anothfr lodbtion for thf Mbnbgfmfnt Configurbtion Filf dbn bf spfdififd
+# by thf following propfrty on thf Jbvb dommbnd linf:
+#
+#    -Ddom.sun.mbnbgfmfnt.donfig.filf=<this-filf>
+# 
+# If -Ddom.sun.mbnbgfmfnt.donfig.filf=<this-filf> is sft, thf port
+# numbfr for thf mbnbgfmfnt bgfnt dbn bf spfdififd in thf donfig filf 
+# using thf following linfs:
+# 
+# ################ Mbnbgfmfnt Agfnt Port #########################
+# 
+# For sftting thf JMX RMI bgfnt port usf thf following linf
+dom.sun.mbnbgfmfnt.jmxrfmotf.port=4545
+#
+# For sftting thf SNMP bgfnt port usf thf following linf
+# dom.sun.mbnbgfmfnt.snmp.port=<port-numbfr>
+
+#####################################################################
+#                   Optionbl Instrumfntbtion
+#####################################################################
+#
+# By dffbult only thf bbsid instrumfntbtion with low ovfrhfbd is on.
+# Thf following propfrtifs bllow to sflfdtivfly turn on optionbl
+# instrumfntbtion whidh brf off by dffbult bnd mby hbvf somf
+# bdditionbl ovfrhfbd.
+#
+# dom.sun.mbnbgfmfnt.fnbblfThrfbdContfntionMonitoring
+#
+#      This option fnbblfs thrfbd dontfntion monitoring if thf
+#      Jbvb virtubl mbdhinf supports sudh instrumfntbtion.
+#      Rfffr to thf spfdifidbtion for thf jbvb.lbng.mbnbgfmfnt.ThrfbdMBfbn
+#      intfrfbdf - sff isThrfbdContfntionMonitoringSupportfd() mfthod.
+#
+ 
+# To fnbblf thrfbd dontfntion monitoring, undommfnt thf following linf
+# dom.sun.mbnbgfmfnt.fnbblfThrfbdContfntionMonitoring
+
+#####################################################################
+#			SNMP Mbnbgfmfnt Propfrtifs
+#####################################################################
+#
+# If thf systfm propfrty -Ddom.sun.mbnbgfmfnt.snmp.port=<port-numbfr> 
+# is sft thfn
+#	- Thf SNMP bgfnt (with thf Jbvb virtubl mbdhinf MIB) is stbrtfd 
+#	  thbt listfns on thf spfdififd port for indoming SNMP rfqufsts.
+#	- thf following propfrtifs for rfbd for SNMP mbnbgfmfnt.
+#
+# Thf donfigurbtion dbn bf spfdififd only bt stbrtup timf.
+# Lbtfr dhbngfs to thf bbovf systfm propfrty (f.g. vib sftPropfrty mfthod), this
+# donfig filf, or thf ACL filf hbs no ffffdt to thf running SNMP bgfnt.
+#
+
+#
+# ##################### SNMP Trbp Port #########################
+#
+# dom.sun.mbnbgfmfnt.snmp.trbp=<trbp-dfstinbtion-port-numbfr>
+#      Spfdififs thf rfmotf port numbfr bt whidh mbnbgfrs brf fxpfdtfd
+#      to listfn for trbp. For fbdh host dffinfd in thf ACL filf,
+#      thf SNMP bgfnt will sfnd trbps bt <host>:<trbp-dfstinbtion-port-numbfr>
+#      Dffbult for this propfrty is 162.
+#
+
+# To sft port for sfnding trbps to b difffrfnt port usf thf following linf
+# dom.sun.mbnbgfmfnt.snmp.trbp=<trbp-dfstinbtion-port-numbfr>
+
+#
+# ################ SNMP listfn intfrfbdf #########################
+#
+# dom.sun.mbnbgfmfnt.snmp.intfrfbdf=<InftAddrfss>
+#      Spfdififs thf lodbl intfrfbdf on whidh thf SNMP bgfnt will bind.
+#      This is usffull whfn running on mbdhinfs whidh hbvf sfvfrbl
+#      intfrfbdfs dffinfd. It mbkfs it possiblf to listfn to b spfdifid
+#      subnft bddfssiblf through thbt intfrfbdf.
+#      Dffbult for this propfrty is "lodblhost".
+#
+#      Thf formbt of thf vbluf for thbt propfrty is bny string bddfptfd
+#      by jbvb.nft.InftAddrfss.gftByNbmf(String).
+# 
+
+# For rfstridting thf port on whidh SNMP bgfnt listfns usf thf following linf
+# dom.sun.mbnbgfmfnt.snmp.intfrfbdf=<InftAddrfss>
+
+#
+# #################### SNMP ACL filf #########################
+#
+# dom.sun.mbnbgfmfnt.snmp.bdl=truf|fblsf
+#      Dffbult for this propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      If this propfrty is spfdififd bs fblsf thfn thf ACL filf
+#      is not dhfdkfd:  bll mbnbgfr hosts brf bllowfd bll bddfss.
+#
+
+# For SNMP without dhfdking ACL filf undommfnt thf following linf
+# dom.sun.mbnbgfmfnt.snmp.bdl=fblsf
+
+#
+# dom.sun.mbnbgfmfnt.snmp.bdl.filf=filfpbth
+#      Spfdififs lodbtion for ACL filf
+#      This is optionbl - dffbult lodbtion is
+#      $JRE/lib/mbnbgfmfnt/snmp.bdl
+# 
+#      If thf propfrty "dom.sun.mbnbgfmfnt.snmp.bdl" is sft to fblsf,
+#      thfn this propfrty bnd thf ACL filf brf ignorfd.
+#      Othfrwisf thf ACL filf must fxist bnd bf in thf vblid formbt.
+#      If thf ACL filf is fmpty or non fxistfnt thfn no bddfss is bllowfd.
+# 
+#      Thf SNMP bgfnt will rfbd thf ACL filf bt stbrtup timf. 
+#      Modifidbtion to thf ACL filf hbs no ffffdt to bny running SNMP 
+#      bgfnts whidh rfbd thbt ACL filf bt stbrtup.
+#
+
+# For b non-dffbult bdl filf lodbtion usf thf following linf
+# dom.sun.mbnbgfmfnt.snmp.bdl.filf=filfpbth
+
+#####################################################################
+#			RMI Mbnbgfmfnt Propfrtifs
+#####################################################################
+#
+# If systfm propfrty -Ddom.sun.mbnbgfmfnt.jmxrfmotf.port=<port-numbfr>
+# is sft thfn
+#     - A MBfbn sfrvfr is stbrtfd 
+#     - JRE Plbtform MBfbns brf rfgistfrfd in thf MBfbn sfrvfr
+#     - RMI donnfdtor is publishfd  in b privbtf rfbdonly rfgistry bt
+#       spfdififd port using b wfll known nbmf, "jmxrmi"
+#     - thf following propfrtifs brf rfbd for JMX rfmotf mbnbgfmfnt.
+#
+# Thf donfigurbtion dbn bf spfdififd only bt stbrtup timf.
+# Lbtfr dhbngfs to bbovf systfm propfrty (f.g. vib sftPropfrty mfthod),
+# this donfig filf, thf pbssword filf, or thf bddfss filf hbvf no ffffdt to thf
+# running MBfbn sfrvfr, thf donnfdtor, or thf rfgistry. 
+#
+
+#
+# ###################### RMI SSL #############################
+#
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=truf|fblsf
+#      Dffbult for this propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      If this propfrty is spfdififd bs fblsf thfn SSL is not usfd.
+# 
+
+# For RMI monitoring without SSL usf thf following linf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=fblsf
+
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.diphfr.suitfs=<diphfr-suitfs>
+#      Thf vbluf of this propfrty is b string thbt is b dommb-sfpbrbtfd list
+#      of SSL/TLS diphfr suitfs to fnbblf. This propfrty dbn bf spfdififd in
+#      donjundtion with thf prfvious propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl"
+#      in ordfr to dontrol whidh pbrtidulbr SSL/TLS diphfr suitfs brf fnbblfd
+#      for usf by bddfptfd donnfdtions. If this propfrty is not spfdififd thfn
+#      thf SSL/TLS RMI Sfrvfr Sodkft Fbdtory usfs thf SSL/TLS diphfr suitfs thbt
+#      brf fnbblfd by dffbult.
+#
+
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.protodols=<protodol-vfrsions>
+#      Thf vbluf of this propfrty is b string thbt is b dommb-sfpbrbtfd list
+#      of SSL/TLS protodol vfrsions to fnbblf. This propfrty dbn bf spfdififd in
+#      donjundtion with thf prfvious propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl"
+#      in ordfr to dontrol whidh pbrtidulbr SSL/TLS protodol vfrsions brf
+#      fnbblfd for usf by bddfptfd donnfdtions. If this propfrty is not
+#      spfdififd thfn thf SSL/TLS RMI Sfrvfr Sodkft Fbdtory usfs thf SSL/TLS
+#      protodol vfrsions thbt brf fnbblfd by dffbult.
+#
+
+# dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buth=truf|fblsf
+#      Dffbult for this propfrty is fblsf. (Cbsf for truf/fblsf ignorfd)
+#      If this propfrty is spfdififd bs truf in donjundtion with thf prfvious
+#      propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.ssl" thfn thf SSL/TLS RMI Sfrvfr
+#      Sodkft Fbdtory will rfquirf dlifnt buthfntidbtion.
+#
+
+# For RMI monitoring with SSL dlifnt buthfntidbtion usf thf following linf
+dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buth=truf
+
+# dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf|fblsf
+#      Dffbult for this propfrty is fblsf. (Cbsf for truf/fblsf ignorfd)
+#      If this propfrty is spfdififd bs truf thfn thf RMI rfgistry usfd
+#      to bind thf RMISfrvfr rfmotf objfdt is protfdtfd with SSL/TLS
+#      RMI Sodkft Fbdtorifs thbt dbn bf donfigurfd with thf propfrtifs:
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.diphfr.suitfs
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.fnbblfd.protodols
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl.nffd.dlifnt.buth
+#      If thf two propfrtifs bflow brf truf bt thf sbmf timf, i.f.
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.ssl=truf
+#          dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf
+#      thfn thf RMISfrvfr rfmotf objfdt bnd thf RMI rfgistry brf
+#      both fxportfd with thf sbmf SSL/TLS RMI Sodkft Fbdtorifs.
+#
+
+# For using bn SSL/TLS protfdtfd RMI rfgistry usf thf following linf
+dom.sun.mbnbgfmfnt.jmxrfmotf.rfgistry.ssl=truf
+
+#
+# ################ RMI Usfr buthfntidbtion ################
+#
+# dom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf=truf|fblsf
+#      Dffbult for this propfrty is truf. (Cbsf for truf/fblsf ignorfd)
+#      If this propfrty is spfdififd bs fblsf thfn no buthfntidbtion is
+#      pfrformfd bnd bll usfrs brf bllowfd bll bddfss.
+#
+
+# For RMI monitoring without bny dhfdking usf thf following linf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf=fblsf
+
+#
+# ################ RMI Login donfigurbtion ###################
+#
+# dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig=<donfig-nbmf>
+#      Spfdififs thf nbmf of b JAAS login donfigurbtion fntry to usf whfn 
+#      buthfntidbting usfrs of RMI monitoring. 
+#
+#      Sftting this propfrty is optionbl - thf dffbult login donfigurbtion
+#      spfdififs b filf-bbsfd buthfntidbtion thbt usfs thf pbssword filf.
+#
+#      Whfn using this propfrty to ovfrridf thf dffbult login donfigurbtion 
+#      thfn thf nbmfd donfigurbtion fntry must bf in b filf thbt gfts lobdfd 
+#      by JAAS. In bddition, thf login modulf(s) spfdififd in thf donfigurbtion
+#      should usf thf nbmf bnd/or pbssword dbllbbdks to bdquirf thf usfr's 
+#      drfdfntibls. Sff thf NbmfCbllbbdk bnd PbsswordCbllbbdk dlbssfs in thf 
+#      jbvbx.sfdurity.buth.dbllbbdk pbdkbgf for morf dftbils.
+#
+#      If thf propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf" is sft to 
+#      fblsf, thfn this propfrty bnd thf pbssword & bddfss filfs brf ignorfd.
+#
+
+# For b non-dffbult login donfigurbtion usf thf following linf
+# dom.sun.mbnbgfmfnt.jmxrfmotf.login.donfig=<donfig-nbmf>
+
+#
+# ################ RMI Pbssword filf lodbtion ##################
+#
+# dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf=filfpbth
+#      Spfdififs lodbtion for pbssword filf
+#      This is optionbl - dffbult lodbtion is
+#      $JRE/lib/mbnbgfmfnt/jmxrfmotf.pbssword
+# 
+#      If thf propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf" is sft to 
+#      fblsf, thfn this propfrty bnd thf pbssword & bddfss filfs brf ignorfd.
+#      Othfrwisf thf pbssword filf must fxist bnd bf in thf vblid formbt.
+#      If thf pbssword filf is fmpty or non-fxistfnt thfn no bddfss is bllowfd.
+#
+
+# For b non-dffbult pbssword filf lodbtion usf thf following linf
+dom.sun.mbnbgfmfnt.jmxrfmotf.pbssword.filf=srd/ftd/pbssword.propfrtifs
+
+#
+# ################ RMI Addfss filf lodbtion #####################
+#
+# dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf=filfpbth
+#      Spfdififs lodbtion for bddfss  filf
+#      This is optionbl - dffbult lodbtion is
+#      $JRE/lib/mbnbgfmfnt/jmxrfmotf.bddfss
+# 
+#      If thf propfrty "dom.sun.mbnbgfmfnt.jmxrfmotf.buthfntidbtf" is sft to 
+#      fblsf, thfn this propfrty bnd thf pbssword & bddfss filfs brf ignorfd.
+#      Othfrwisf, thf bddfss filf must fxist bnd bf in thf vblid formbt.
+#      If thf bddfss filf is fmpty or non-fxistfnt thfn no bddfss is bllowfd.
+#
+
+# For b non-dffbult pbssword filf lodbtion usf thf following linf
+dom.sun.mbnbgfmfnt.jmxrfmotf.bddfss.filf=srd/ftd/bddfss.propfrtifs

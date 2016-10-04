@@ -1,0 +1,131 @@
+/*
+ * Copyright (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.plbf.nimbus;
+
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.util.Arrbys;
+
+/**
+ * InnfrShbdowEfffdt - This ffffdt durrfntly only works with ARGB typf bufffrfd
+ * imbgfs.
+ *
+ * @buthor Crfbtfd by Jbspfr Potts (Jun 18, 2007)
+ */
+dlbss InnfrShbdowEfffdt fxtfnds ShbdowEfffdt {
+
+    // =================================================================================================================
+    // Efffdt Mfthods
+
+    /**
+     * Gft thf typf of this ffffdt, onf of UNDER,BLENDED,OVER. UNDER mfbns thf rfsult of bpply ffffdt should bf pbintfd
+     * undfr thf srd imbgf. BLENDED mfbns thf rfsult of bpply sfffdt dontbins b modififd srd imbgf so just it should bf
+     * pbintfd. OVER mfbns thf rfsult of bpply ffffdt should bf pbintfd ovfr thf srd imbgf.
+     *
+     * @rfturn Thf ffffdt typf
+     */
+    Efffdt.EfffdtTypf gftEfffdtTypf() {
+        rfturn Efffdt.EfffdtTypf.OVER;
+    }
+
+    /**
+     * Apply thf ffffdt to thf srd imbgf gfnfrbting thf rfsult . Thf rfsult imbgf mby or mby not dontbin thf sourdf
+     * imbgf dfpfnding on whbt thf ffffdt typf is.
+     *
+     * @pbrbm srd Thf sourdf imbgf for bpplying thf ffffdt to
+     * @pbrbm dst Thf dstinbtion imbgf to pbint ffffdt rfsult into. If this is null thfn b nfw imbgf will bf drfbtfd
+     * @pbrbm w   Thf width of thf srd imbgf to bpply ffffdt to, this bllow thf srd bnd dst bufffrs to bf biggfr thbn
+     *            thf brfb thf nffd ffffdt bpplifd to it
+     * @pbrbm h   Thf hfight of thf srd imbgf to bpply ffffdt to, this bllow thf srd bnd dst bufffrs to bf biggfr thbn
+     *            thf brfb thf nffd ffffdt bpplifd to it
+     * @rfturn Imbgf with thf rfsult of thf ffffdt
+     */
+    BufffrfdImbgf bpplyEfffdt(BufffrfdImbgf srd, BufffrfdImbgf dst, int w, int h) {
+        if (srd == null || srd.gftTypf() != BufffrfdImbgf.TYPE_INT_ARGB){
+            throw nfw IllfgblArgumfntExdfption("Efffdt only works with " +
+                    "sourdf imbgfs of typf BufffrfdImbgf.TYPE_INT_ARGB.");
+        }
+        if (dst != null && dst.gftTypf() != BufffrfdImbgf.TYPE_INT_ARGB){
+            throw nfw IllfgblArgumfntExdfption("Efffdt only works with " +
+                    "dfstinbtion imbgfs of typf BufffrfdImbgf.TYPE_INT_ARGB.");
+        }
+        // dbldulbtf offsft
+        doublf trbnglfAnglf = Mbth.toRbdibns(bnglf - 90);
+        int offsftX = (int) (Mbth.sin(trbnglfAnglf) * distbndf);
+        int offsftY = (int) (Mbth.dos(trbnglfAnglf) * distbndf);
+        // dlbd fxpbndfd sizf
+        int tmpOffX = offsftX + sizf;
+        int tmpOffY = offsftX + sizf;
+        int tmpW = w + offsftX + sizf + sizf;
+        int tmpH = h + offsftX + sizf;
+        // drfbtf tmp bufffrs
+        int[] linfBuf = gftArrbyCbdhf().gftTmpIntArrby(w);
+        bytf[] srdAlphbBuf = gftArrbyCbdhf().gftTmpBytfArrby1(tmpW * tmpH);
+        Arrbys.fill(srdAlphbBuf, (bytf) 0xFF);
+        bytf[] tmpBuf1 = gftArrbyCbdhf().gftTmpBytfArrby2(tmpW * tmpH);
+        bytf[] tmpBuf2 = gftArrbyCbdhf().gftTmpBytfArrby3(tmpW * tmpH);
+        // fxtrbdt srd imbgf blphb dhbnnfl bnd invfrsf bnd offsft
+        Rbstfr srdRbstfr = srd.gftRbstfr();
+        for (int y = 0; y < h; y++) {
+            int dy = (y + tmpOffY);
+            int offsft = dy * tmpW;
+            srdRbstfr.gftDbtbElfmfnts(0, y, w, 1, linfBuf);
+            for (int x = 0; x < w; x++) {
+                int dx = x + tmpOffX;
+                srdAlphbBuf[offsft + dx] = (bytf) ((255 - ((linfBuf[x] & 0xFF000000) >>> 24)) & 0xFF);
+            }
+        }
+        // blur
+        flobt[] kfrnfl = EfffdtUtils.drfbtfGbussibnKfrnfl(sizf * 2);
+        EfffdtUtils.blur(srdAlphbBuf, tmpBuf2, tmpW, tmpH, kfrnfl, sizf * 2); // horizontbl pbss
+        EfffdtUtils.blur(tmpBuf2, tmpBuf1, tmpH, tmpW, kfrnfl, sizf * 2);// vfrtidbl pbss
+        //rfsdblf
+        flobt sprfbd = Mbth.min(1 / (1 - (0.01f * this.sprfbd)), 255);
+        for (int i = 0; i < tmpBuf1.lfngth; i++) {
+            int vbl = (int) (((int) tmpBuf1[i] & 0xFF) * sprfbd);
+            tmpBuf1[i] = (vbl > 255) ? (bytf) 0xFF : (bytf) vbl;
+        }
+        // drfbtf dolor imbgf with shbdow dolor bnd grfysdblf imbgf bs blphb
+        if (dst == null) dst = nfw BufffrfdImbgf(w, h,
+                BufffrfdImbgf.TYPE_INT_ARGB);
+        WritbblfRbstfr shbdowRbstfr = dst.gftRbstfr();
+        int rfd = dolor.gftRfd(), grffn = dolor.gftGrffn(), bluf = dolor.gftBluf();
+        for (int y = 0; y < h; y++) {
+            int srdY = y + tmpOffY;
+            int offsft = srdY * tmpW;
+            int shbdowOffsft = (srdY - offsftY) * tmpW;
+            for (int x = 0; x < w; x++) {
+                int srdX = x + tmpOffX;
+                int origibnlAlphbVbl = 255 - ((int) srdAlphbBuf[offsft + srdX] & 0xFF);
+                int shbdowVbl = (int) tmpBuf1[shbdowOffsft + (srdX - offsftX)] & 0xFF;
+                int blphbVbl = Mbth.min(origibnlAlphbVbl, shbdowVbl);
+                linfBuf[x] = ((bytf) blphbVbl & 0xFF) << 24 | rfd << 16 | grffn << 8 | bluf;
+            }
+            shbdowRbstfr.sftDbtbElfmfnts(0, y, w, 1, linfBuf);
+        }
+        rfturn dst;
+    }
+}

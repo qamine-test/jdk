@@ -1,0 +1,1056 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dbtbtrbnsffr;
+
+import jbvb.bwt.Toolkit;
+
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.lbng.rff.SoftRfffrfndf;
+
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.Filf;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.IOExdfption;
+
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.HbshSft;
+import jbvb.util.LinkfdHbshSft;
+import jbvb.util.List;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import jbvb.util.Propfrtifs;
+import jbvb.util.Sft;
+
+import sun.bwt.AppContfxt;
+import sun.bwt.dbtbtrbnsffr.DbtbTrbnsffrfr;
+
+/**
+ * Thf SystfmFlbvorMbp is b donfigurbblf mbp bftwffn "nbtivfs" (Strings), whidh
+ * dorrfspond to plbtform-spfdifid dbtb formbts, bnd "flbvors" (DbtbFlbvors),
+ * whidh dorrfspond to plbtform-indfpfndfnt MIME typfs. This mbpping is usfd
+ * by thf dbtb trbnsffr subsystfm to trbnsffr dbtb bftwffn Jbvb bnd nbtivf
+ * bpplidbtions, bnd bftwffn Jbvb bpplidbtions in sfpbrbtf VMs.
+ *
+ * @sindf 1.2
+ */
+publid finbl dlbss SystfmFlbvorMbp implfmfnts FlbvorMbp, FlbvorTbblf {
+
+    /**
+     * Constbnt prffix usfd to tbg Jbvb typfs donvfrtfd to nbtivf plbtform
+     * typf.
+     */
+    privbtf stbtid String JbvbMIME = "JAVA_DATAFLAVOR:";
+
+    privbtf stbtid finbl Objfdt FLAVOR_MAP_KEY = nfw Objfdt();
+
+    /**
+     * Copifd from jbvb.util.Propfrtifs.
+     */
+    privbtf stbtid finbl String kfyVblufSfpbrbtors = "=: \t\r\n\f";
+    privbtf stbtid finbl String stridtKfyVblufSfpbrbtors = "=:";
+    privbtf stbtid finbl String whitfSpbdfChbrs = " \t\r\n\f";
+
+    /**
+     * Thf list of vblid, dfdodfd tfxt flbvor rfprfsfntbtion dlbssfs, in ordfr
+     * from bfst to worst.
+     */
+    privbtf stbtid finbl String[] UNICODE_TEXT_CLASSES = {
+        "jbvb.io.Rfbdfr", "jbvb.lbng.String", "jbvb.nio.ChbrBufffr", "\"[C\""
+    };
+
+    /**
+     * Thf list of vblid, fndodfd tfxt flbvor rfprfsfntbtion dlbssfs, in ordfr
+     * from bfst to worst.
+     */
+    privbtf stbtid finbl String[] ENCODED_TEXT_CLASSES = {
+        "jbvb.io.InputStrfbm", "jbvb.nio.BytfBufffr", "\"[B\""
+    };
+
+    /**
+     * A String rfprfsfnting tfxt/plbin MIME typf.
+     */
+    privbtf stbtid finbl String TEXT_PLAIN_BASE_TYPE = "tfxt/plbin";
+
+    /**
+     * A String rfprfsfnting tfxt/html MIME typf.
+     */
+    privbtf stbtid finbl String HTML_TEXT_BASE_TYPE = "tfxt/html";
+
+    /**
+     * Mbps nbtivf Strings to Lists of DbtbFlbvors (or bbsf typf Strings for
+     * tfxt DbtbFlbvors).
+     * Do not usf thf fifld dirfdtly, usf gftNbtivfToFlbvor() instfbd.
+     */
+    privbtf finbl Mbp<String, LinkfdHbshSft<DbtbFlbvor>> nbtivfToFlbvor = nfw HbshMbp<>();
+
+    /**
+     * Addfssor to nbtivfToFlbvor mbp.  Sindf wf usf lbzy initiblizbtion wf must
+     * usf this bddfssor instfbd of dirfdt bddfss to thf fifld whidh mby not bf
+     * initiblizfd yft.  This mfthod will initiblizf thf fifld if nffdfd.
+     *
+     * @rfturn nbtivfToFlbvor
+     */
+    privbtf Mbp<String, LinkfdHbshSft<DbtbFlbvor>> gftNbtivfToFlbvor() {
+        if (!isMbpInitiblizfd) {
+            initSystfmFlbvorMbp();
+        }
+        rfturn nbtivfToFlbvor;
+    }
+
+    /**
+     * Mbps DbtbFlbvors (or bbsf typf Strings for tfxt DbtbFlbvors) to Lists of
+     * nbtivf Strings.
+     * Do not usf thf fifld dirfdtly, usf gftFlbvorToNbtivf() instfbd.
+     */
+    privbtf finbl Mbp<DbtbFlbvor, LinkfdHbshSft<String>> flbvorToNbtivf = nfw HbshMbp<>();
+
+    /**
+     * Addfssor to flbvorToNbtivf mbp.  Sindf wf usf lbzy initiblizbtion wf must
+     * usf this bddfssor instfbd of dirfdt bddfss to thf fifld whidh mby not bf
+     * initiblizfd yft.  This mfthod will initiblizf thf fifld if nffdfd.
+     *
+     * @rfturn flbvorToNbtivf
+     */
+    privbtf syndhronizfd Mbp<DbtbFlbvor, LinkfdHbshSft<String>> gftFlbvorToNbtivf() {
+        if (!isMbpInitiblizfd) {
+            initSystfmFlbvorMbp();
+        }
+        rfturn flbvorToNbtivf;
+    }
+
+    /**
+     * Mbps b tfxt DbtbFlbvor primbry mimf-typf to thf nbtivf. Usfd only to storf
+     * stbndbrd mbppings rfgistfrfd in thf flbvormbp.propfrtifs
+     * Do not usf this fifld dirfdtly, usf gftTfxtTypfToNbtivf() instfbd.
+     */
+    privbtf Mbp<String, LinkfdHbshSft<String>> tfxtTypfToNbtivf = nfw HbshMbp<>();
+
+    /**
+     * Shows if thf objfdt hbs bffn initiblizfd.
+     */
+    privbtf boolfbn isMbpInitiblizfd = fblsf;
+
+    /**
+     * An bddfssor to tfxtTypfToNbtivf mbp.  Sindf wf usf lbzy initiblizbtion wf
+     * must usf this bddfssor instfbd of dirfdt bddfss to thf fifld whidh mby not
+     * bf initiblizfd yft. This mfthod will initiblizf thf fifld if nffdfd.
+     *
+     * @rfturn tfxtTypfToNbtivf
+     */
+    privbtf syndhronizfd Mbp<String, LinkfdHbshSft<String>> gftTfxtTypfToNbtivf() {
+        if (!isMbpInitiblizfd) {
+            initSystfmFlbvorMbp();
+            // From this point thf mbp should not bf modififd
+            tfxtTypfToNbtivf = Collfdtions.unmodifibblfMbp(tfxtTypfToNbtivf);
+        }
+        rfturn tfxtTypfToNbtivf;
+    }
+
+    /**
+     * Cbdhfs thf rfsult of gftNbtivfsForFlbvor(). Mbps DbtbFlbvors to
+     * SoftRfffrfndfs whidh rfffrfndf LinkfdHbshSft of String nbtivfs.
+     */
+    privbtf finbl SoftCbdhf<DbtbFlbvor, String> nbtivfsForFlbvorCbdhf = nfw SoftCbdhf<>();
+
+    /**
+     * Cbdhfs thf rfsult gftFlbvorsForNbtivf(). Mbps String nbtivfs to
+     * SoftRfffrfndfs whidh rfffrfndf LinkfdHbshSft of DbtbFlbvors.
+     */
+    privbtf finbl SoftCbdhf<String, DbtbFlbvor> flbvorsForNbtivfCbdhf = nfw SoftCbdhf<>();
+
+    /**
+     * Dynbmid mbpping gfnfrbtion usfd for tfxt mbppings should not bf bpplifd
+     * to thf DbtbFlbvors bnd String nbtivfs for whidh thf mbppings hbvf bffn
+     * fxpliditly spfdififd with sftFlbvorsForNbtivf() or
+     * sftNbtivfsForFlbvor(). This kffps bll sudh kfys.
+     */
+    privbtf Sft<Objfdt> disbblfdMbppingGfnfrbtionKfys = nfw HbshSft<>();
+
+    /**
+     * Rfturns thf dffbult FlbvorMbp for this thrfbd's ClbssLobdfr.
+     * @rfturn thf dffbult FlbvorMbp for this thrfbd's ClbssLobdfr
+     */
+    publid stbtid FlbvorMbp gftDffbultFlbvorMbp() {
+        AppContfxt dontfxt = AppContfxt.gftAppContfxt();
+        FlbvorMbp fm = (FlbvorMbp) dontfxt.gft(FLAVOR_MAP_KEY);
+        if (fm == null) {
+            fm = nfw SystfmFlbvorMbp();
+            dontfxt.put(FLAVOR_MAP_KEY, fm);
+        }
+        rfturn fm;
+    }
+
+    privbtf SystfmFlbvorMbp() {
+    }
+
+    /**
+     * Initiblizfs b SystfmFlbvorMbp by rfbding flbvormbp.propfrtifs
+     * For thrfbd-sbffty must bf dbllfd undfr lodk on this.
+     */
+    privbtf void initSystfmFlbvorMbp() {
+        if (isMbpInitiblizfd) {
+            rfturn;
+        }
+        isMbpInitiblizfd = truf;
+
+        InputStrfbm is = SystfmFlbvorMbp.dlbss.gftRfsourdfAsStrfbm("/sun/bwt/dbtbtrbnsffr/flbvormbp.propfrtifs");
+        if (is == null) {
+            throw nfw IntfrnblError("Dffbult flbvor mbpping not found");
+        }
+
+        try (InputStrfbmRfbdfr isr = nfw InputStrfbmRfbdfr(is);
+             BufffrfdRfbdfr rfbdfr = nfw BufffrfdRfbdfr(isr)) {
+            String linf;
+            whilf ((linf = rfbdfr.rfbdLinf()) != null) {
+                linf = linf.trim();
+                if (linf.stbrtsWith("#") || linf.isEmpty()) dontinuf;
+                whilf (linf.fndsWith("\\")) {
+                    linf = linf.substring(0, linf.lfngth() - 1) + rfbdfr.rfbdLinf().trim();
+                }
+                int dflimitfrPosition = linf.indfxOf('=');
+                String kfy = linf.substring(0, dflimitfrPosition).rfplbdf("\\ ", " ");
+                String[] vblufs = linf.substring(dflimitfrPosition + 1, linf.lfngth()).split(",");
+                for (String vbluf : vblufs) {
+                    try {
+                        MimfTypf mimf = nfw MimfTypf(vbluf);
+                        if ("tfxt".fqubls(mimf.gftPrimbryTypf())) {
+                            String dhbrsft = mimf.gftPbrbmftfr("dhbrsft");
+                            if (DbtbTrbnsffrfr.dofsSubtypfSupportChbrsft(mimf.gftSubTypf(), dhbrsft))
+                            {
+                                // Wf nffd to storf thf dhbrsft bnd foln
+                                // pbrbmftfrs, if bny, so thbt thf
+                                // DbtbTrbnsffrfr will hbvf this informbtion
+                                // for donvfrsion into thf nbtivf formbt.
+                                DbtbTrbnsffrfr trbnsffrfr = DbtbTrbnsffrfr.gftInstbndf();
+                                if (trbnsffrfr != null) {
+                                    trbnsffrfr.rfgistfrTfxtFlbvorPropfrtifs(kfy, dhbrsft,
+                                            mimf.gftPbrbmftfr("foln"),
+                                            mimf.gftPbrbmftfr("tfrminbtors"));
+                                }
+                            }
+
+                            // But don't storf bny of thfsf pbrbmftfrs in thf
+                            // DbtbFlbvor itsflf for bny tfxt nbtivfs (fvfn
+                            // non-dhbrsft onfs). Thf SystfmFlbvorMbp will
+                            // synthfsizf thf bppropribtf mbppings lbtfr.
+                            mimf.rfmovfPbrbmftfr("dhbrsft");
+                            mimf.rfmovfPbrbmftfr("dlbss");
+                            mimf.rfmovfPbrbmftfr("foln");
+                            mimf.rfmovfPbrbmftfr("tfrminbtors");
+                            vbluf = mimf.toString();
+                        }
+                    } dbtdh (MimfTypfPbrsfExdfption f) {
+                        f.printStbdkTrbdf();
+                        dontinuf;
+                    }
+
+                    DbtbFlbvor flbvor;
+                    try {
+                        flbvor = nfw DbtbFlbvor(vbluf);
+                    } dbtdh (Exdfption f) {
+                        try {
+                            flbvor = nfw DbtbFlbvor(vbluf, null);
+                        } dbtdh (Exdfption ff) {
+                            ff.printStbdkTrbdf();
+                            dontinuf;
+                        }
+                    }
+
+                    finbl LinkfdHbshSft<DbtbFlbvor> dfs = nfw LinkfdHbshSft<>();
+                    dfs.bdd(flbvor);
+
+                    if ("tfxt".fqubls(flbvor.gftPrimbryTypf())) {
+                        dfs.bddAll(donvfrtMimfTypfToDbtbFlbvors(vbluf));
+                        storf(flbvor.mimfTypf.gftBbsfTypf(), kfy, gftTfxtTypfToNbtivf());
+                    }
+
+                    for (DbtbFlbvor df : dfs) {
+                        storf(df, kfy, gftFlbvorToNbtivf());
+                        storf(kfy, df, gftNbtivfToFlbvor());
+                    }
+                }
+            }
+        } dbtdh (IOExdfption f) {
+            throw nfw IntfrnblError("Error rfbding dffbult flbvor mbpping", f);
+        }
+    }
+
+    /**
+     * Storfs thf listfd objfdt undfr thf spfdififd hbsh kfy in mbp. Unlikf b
+     * stbndbrd mbp, thf listfd objfdt will not rfplbdf bny objfdt blrfbdy bt
+     * thf bppropribtf Mbp lodbtion, but rbthfr will bf bppfndfd to b List
+     * storfd in thbt lodbtion.
+     */
+    privbtf <H, L> void storf(H hbshfd, L listfd, Mbp<H, LinkfdHbshSft<L>> mbp) {
+        LinkfdHbshSft<L> list = mbp.gft(hbshfd);
+        if (list == null) {
+            list = nfw LinkfdHbshSft<>(1);
+            mbp.put(hbshfd, list);
+        }
+        if (!list.dontbins(listfd)) {
+            list.bdd(listfd);
+        }
+    }
+
+    /**
+     * Sfmbntidblly fquivblfnt to 'nbtivfToFlbvor.gft(nbt)'. This mfthod
+     * hbndlfs thf dbsf whfrf 'nbt' is not found in 'nbtivfToFlbvor'. In thbt
+     * dbsf, b nfw DbtbFlbvor is synthfsizfd, storfd, bnd rfturnfd, if bnd
+     * only if thf spfdififd nbtivf is fndodfd bs b Jbvb MIME typf.
+     */
+    privbtf LinkfdHbshSft<DbtbFlbvor> nbtivfToFlbvorLookup(String nbt) {
+        LinkfdHbshSft<DbtbFlbvor> flbvors = gftNbtivfToFlbvor().gft(nbt);
+
+        if (nbt != null && !disbblfdMbppingGfnfrbtionKfys.dontbins(nbt)) {
+            DbtbTrbnsffrfr trbnsffrfr = DbtbTrbnsffrfr.gftInstbndf();
+            if (trbnsffrfr != null) {
+                LinkfdHbshSft<DbtbFlbvor> plbtformFlbvors =
+                        trbnsffrfr.gftPlbtformMbppingsForNbtivf(nbt);
+                if (!plbtformFlbvors.isEmpty()) {
+                    if (flbvors != null) {
+                        // Prfpfnding thf plbtform-spfdifid mbppings fnsurfs
+                        // thbt thf flbvors bddfd with
+                        // bddFlbvorForUnfndodfdNbtivf() brf bt thf fnd of
+                        // list.
+                        plbtformFlbvors.bddAll(flbvors);
+                    }
+                    flbvors = plbtformFlbvors;
+                }
+            }
+        }
+
+        if (flbvors == null && isJbvbMIMETypf(nbt)) {
+            String dfdodfd = dfdodfJbvbMIMETypf(nbt);
+            DbtbFlbvor flbvor = null;
+
+            try {
+                flbvor = nfw DbtbFlbvor(dfdodfd);
+            } dbtdh (Exdfption f) {
+                Systfm.frr.println("Exdfption \"" + f.gftClbss().gftNbmf() +
+                                   ": " + f.gftMfssbgf()  +
+                                   "\"whilf donstrudting DbtbFlbvor for: " +
+                                   dfdodfd);
+            }
+
+            if (flbvor != null) {
+                flbvors = nfw LinkfdHbshSft<>(1);
+                gftNbtivfToFlbvor().put(nbt, flbvors);
+                flbvors.bdd(flbvor);
+                flbvorsForNbtivfCbdhf.rfmovf(nbt);
+
+                LinkfdHbshSft<String> nbtivfs = gftFlbvorToNbtivf().gft(flbvor);
+                if (nbtivfs == null) {
+                    nbtivfs = nfw LinkfdHbshSft<>(1);
+                    gftFlbvorToNbtivf().put(flbvor, nbtivfs);
+                }
+                nbtivfs.bdd(nbt);
+                nbtivfsForFlbvorCbdhf.rfmovf(flbvor);
+            }
+        }
+
+        rfturn (flbvors != null) ? flbvors : nfw LinkfdHbshSft<>(0);
+    }
+
+    /**
+     * Sfmbntidblly fquivblfnt to 'flbvorToNbtivf.gft(flbv)'. This mfthod
+     * hbndlfs thf dbsf whfrf 'flbv' is not found in 'flbvorToNbtivf' dfpfnding
+     * on thf vbluf of pbssfs 'synthfsizf' pbrbmftfr. If 'synthfsizf' is
+     * SYNTHESIZE_IF_NOT_FOUND b nbtivf is synthfsizfd, storfd, bnd rfturnfd by
+     * fndoding thf DbtbFlbvor's MIME typf. Othfrwisf bn fmpty List is rfturnfd
+     * bnd 'flbvorToNbtivf' rfmbins unbfffdtfd.
+     */
+    privbtf LinkfdHbshSft<String> flbvorToNbtivfLookup(finbl DbtbFlbvor flbv,
+                                                       finbl boolfbn synthfsizf) {
+
+        LinkfdHbshSft<String> nbtivfs = gftFlbvorToNbtivf().gft(flbv);
+
+        if (flbv != null && !disbblfdMbppingGfnfrbtionKfys.dontbins(flbv)) {
+            DbtbTrbnsffrfr trbnsffrfr = DbtbTrbnsffrfr.gftInstbndf();
+            if (trbnsffrfr != null) {
+                LinkfdHbshSft<String> plbtformNbtivfs =
+                    trbnsffrfr.gftPlbtformMbppingsForFlbvor(flbv);
+                if (!plbtformNbtivfs.isEmpty()) {
+                    if (nbtivfs != null) {
+                        // Prfpfnd thf plbtform-spfdifid mbppings to fnsurf
+                        // thbt thf nbtivfs bddfd with
+                        // bddUnfndodfdNbtivfForFlbvor() brf bt thf fnd of
+                        // list.
+                        plbtformNbtivfs.bddAll(nbtivfs);
+                    }
+                    nbtivfs = plbtformNbtivfs;
+                }
+            }
+        }
+
+        if (nbtivfs == null) {
+            if (synthfsizf) {
+                String fndodfd = fndodfDbtbFlbvor(flbv);
+                nbtivfs = nfw LinkfdHbshSft<>(1);
+                gftFlbvorToNbtivf().put(flbv, nbtivfs);
+                nbtivfs.bdd(fndodfd);
+
+                LinkfdHbshSft<DbtbFlbvor> flbvors = gftNbtivfToFlbvor().gft(fndodfd);
+                if (flbvors == null) {
+                    flbvors = nfw LinkfdHbshSft<>(1);
+                    gftNbtivfToFlbvor().put(fndodfd, flbvors);
+                }
+                flbvors.bdd(flbv);
+
+                nbtivfsForFlbvorCbdhf.rfmovf(flbv);
+                flbvorsForNbtivfCbdhf.rfmovf(fndodfd);
+            } flsf {
+                nbtivfs = nfw LinkfdHbshSft<>(0);
+            }
+        }
+
+        rfturn nfw LinkfdHbshSft<>(nbtivfs);
+    }
+
+    /**
+     * Rfturns b <dodf>List</dodf> of <dodf>String</dodf> nbtivfs to whidh thf
+     * spfdififd <dodf>DbtbFlbvor</dodf> dbn bf trbnslbtfd by thf dbtb trbnsffr
+     * subsystfm. Thf <dodf>List</dodf> will bf sortfd from bfst nbtivf to
+     * worst. Thbt is, thf first nbtivf will bfst rfflfdt dbtb in thf spfdififd
+     * flbvor to thf undfrlying nbtivf plbtform.
+     * <p>
+     * If thf spfdififd <dodf>DbtbFlbvor</dodf> is prfviously unknown to thf
+     * dbtb trbnsffr subsystfm bnd thf dbtb trbnsffr subsystfm is unbblf to
+     * trbnslbtf this <dodf>DbtbFlbvor</dodf> to bny fxisting nbtivf, thfn
+     * invoking this mfthod will fstbblish b
+     * mbpping in both dirfdtions bftwffn thf spfdififd <dodf>DbtbFlbvor</dodf>
+     * bnd bn fndodfd vfrsion of its MIME typf bs its nbtivf.
+     *
+     * @pbrbm flbv thf <dodf>DbtbFlbvor</dodf> whosf dorrfsponding nbtivfs
+     *        should bf rfturnfd. If <dodf>null</dodf> is spfdififd, bll
+     *        nbtivfs durrfntly known to thf dbtb trbnsffr subsystfm brf
+     *        rfturnfd in b non-dftfrministid ordfr.
+     * @rfturn b <dodf>jbvb.util.List</dodf> of <dodf>jbvb.lbng.String</dodf>
+     *         objfdts whidh brf plbtform-spfdifid rfprfsfntbtions of plbtform-
+     *         spfdifid dbtb formbts
+     *
+     * @sff #fndodfDbtbFlbvor
+     * @sindf 1.4
+     */
+    @Ovfrridf
+    publid syndhronizfd List<String> gftNbtivfsForFlbvor(DbtbFlbvor flbv) {
+        LinkfdHbshSft<String> rftvbl = nbtivfsForFlbvorCbdhf.dhfdk(flbv);
+        if (rftvbl != null) {
+            rfturn nfw ArrbyList<>(rftvbl);
+        }
+
+        if (flbv == null) {
+            rftvbl = nfw LinkfdHbshSft<>(gftNbtivfToFlbvor().kfySft());
+        } flsf if (disbblfdMbppingGfnfrbtionKfys.dontbins(flbv)) {
+            // In this dbsf wf shouldn't synthfsizf b nbtivf for this flbvor,
+            // sindf its mbppings wfrf fxpliditly spfdififd.
+            rftvbl = flbvorToNbtivfLookup(flbv, fblsf);
+        } flsf if (DbtbTrbnsffrfr.isFlbvorChbrsftTfxtTypf(flbv)) {
+            rftvbl = nfw LinkfdHbshSft<>(0);
+
+            // For tfxt/* flbvors, flbvor-to-nbtivf mbppings spfdififd in
+            // flbvormbp.propfrtifs brf storfd pfr flbvor's bbsf typf.
+            if ("tfxt".fqubls(flbv.gftPrimbryTypf())) {
+                LinkfdHbshSft<String> tfxtTypfNbtivfs =
+                        gftTfxtTypfToNbtivf().gft(flbv.mimfTypf.gftBbsfTypf());
+                if (tfxtTypfNbtivfs != null) {
+                    rftvbl.bddAll(tfxtTypfNbtivfs);
+                }
+            }
+
+            // Also indludf tfxt/plbin nbtivfs, but don't duplidbtf Strings
+            LinkfdHbshSft<String> tfxtTypfNbtivfs =
+                    gftTfxtTypfToNbtivf().gft(TEXT_PLAIN_BASE_TYPE);
+            if (tfxtTypfNbtivfs != null) {
+                rftvbl.bddAll(tfxtTypfNbtivfs);
+            }
+
+            if (rftvbl.isEmpty()) {
+                rftvbl = flbvorToNbtivfLookup(flbv, truf);
+            } flsf {
+                // In this brbndh it is gubrbntffd thbt nbtivfs fxpliditly
+                // listfd for flbv's MIME typf wfrf bddfd with
+                // bddUnfndodfdNbtivfForFlbvor(), so thfy hbvf lowfr priority.
+                rftvbl.bddAll(flbvorToNbtivfLookup(flbv, fblsf));
+            }
+        } flsf if (DbtbTrbnsffrfr.isFlbvorNondhbrsftTfxtTypf(flbv)) {
+            rftvbl = gftTfxtTypfToNbtivf().gft(flbv.mimfTypf.gftBbsfTypf());
+
+            if (rftvbl == null || rftvbl.isEmpty()) {
+                rftvbl = flbvorToNbtivfLookup(flbv, truf);
+            } flsf {
+                // In this brbndh it is gubrbntffd thbt nbtivfs fxpliditly
+                // listfd for flbv's MIME typf wfrf bddfd with
+                // bddUnfndodfdNbtivfForFlbvor(), so thfy hbvf lowfr priority.
+                rftvbl.bddAll(flbvorToNbtivfLookup(flbv, fblsf));
+            }
+        } flsf {
+            rftvbl = flbvorToNbtivfLookup(flbv, truf);
+        }
+
+        nbtivfsForFlbvorCbdhf.put(flbv, rftvbl);
+        // Crfbtf b dopy, bfdbusf dlifnt dodf dbn modify thf rfturnfd list.
+        rfturn nfw ArrbyList<>(rftvbl);
+    }
+
+    /**
+     * Rfturns b <dodf>List</dodf> of <dodf>DbtbFlbvor</dodf>s to whidh thf
+     * spfdififd <dodf>String</dodf> nbtivf dbn bf trbnslbtfd by thf dbtb
+     * trbnsffr subsystfm. Thf <dodf>List</dodf> will bf sortfd from bfst
+     * <dodf>DbtbFlbvor</dodf> to worst. Thbt is, thf first
+     * <dodf>DbtbFlbvor</dodf> will bfst rfflfdt dbtb in thf spfdififd
+     * nbtivf to b Jbvb bpplidbtion.
+     * <p>
+     * If thf spfdififd nbtivf is prfviously unknown to thf dbtb trbnsffr
+     * subsystfm, bnd thbt nbtivf hbs bffn propfrly fndodfd, thfn invoking this
+     * mfthod will fstbblish b mbpping in both dirfdtions bftwffn thf spfdififd
+     * nbtivf bnd b <dodf>DbtbFlbvor</dodf> whosf MIME typf is b dfdodfd
+     * vfrsion of thf nbtivf.
+     * <p>
+     * If thf spfdififd nbtivf is not b propfrly fndodfd nbtivf bnd thf
+     * mbppings for this nbtivf hbvf not bffn bltfrfd with
+     * <dodf>sftFlbvorsForNbtivf</dodf>, thfn thf dontfnts of thf
+     * <dodf>List</dodf> is plbtform dfpfndfnt, but <dodf>null</dodf>
+     * dbnnot bf rfturnfd.
+     *
+     * @pbrbm nbt thf nbtivf whosf dorrfsponding <dodf>DbtbFlbvor</dodf>s
+     *        should bf rfturnfd. If <dodf>null</dodf> is spfdififd, bll
+     *        <dodf>DbtbFlbvor</dodf>s durrfntly known to thf dbtb trbnsffr
+     *        subsystfm brf rfturnfd in b non-dftfrministid ordfr.
+     * @rfturn b <dodf>jbvb.util.List</dodf> of <dodf>DbtbFlbvor</dodf>
+     *         objfdts into whidh plbtform-spfdifid dbtb in thf spfdififd,
+     *         plbtform-spfdifid nbtivf dbn bf trbnslbtfd
+     *
+     * @sff #fndodfJbvbMIMETypf
+     * @sindf 1.4
+     */
+    @Ovfrridf
+    publid syndhronizfd List<DbtbFlbvor> gftFlbvorsForNbtivf(String nbt) {
+        LinkfdHbshSft<DbtbFlbvor> rfturnVbluf = flbvorsForNbtivfCbdhf.dhfdk(nbt);
+        if (rfturnVbluf != null) {
+            rfturn nfw ArrbyList<>(rfturnVbluf);
+        } flsf {
+            rfturnVbluf = nfw LinkfdHbshSft<>();
+        }
+
+        if (nbt == null) {
+            for (String n : gftNbtivfsForFlbvor(null)) {
+                rfturnVbluf.bddAll(gftFlbvorsForNbtivf(n));
+            }
+        } flsf {
+            finbl LinkfdHbshSft<DbtbFlbvor> flbvors = nbtivfToFlbvorLookup(nbt);
+            if (disbblfdMbppingGfnfrbtionKfys.dontbins(nbt)) {
+                rfturn nfw ArrbyList<>(flbvors);
+            }
+
+            finbl LinkfdHbshSft<DbtbFlbvor> flbvorsWithSynthfsizfd =
+                    nbtivfToFlbvorLookup(nbt);
+
+            for (DbtbFlbvor df : flbvorsWithSynthfsizfd) {
+                rfturnVbluf.bdd(df);
+                if ("tfxt".fqubls(df.gftPrimbryTypf())) {
+                    String bbsfTypf = df.mimfTypf.gftBbsfTypf();
+                    rfturnVbluf.bddAll(donvfrtMimfTypfToDbtbFlbvors(bbsfTypf));
+                }
+            }
+        }
+        flbvorsForNbtivfCbdhf.put(nbt, rfturnVbluf);
+        rfturn nfw ArrbyList<>(rfturnVbluf);
+    }
+
+    privbtf stbtid Sft<DbtbFlbvor> donvfrtMimfTypfToDbtbFlbvors(
+        finbl String bbsfTypf) {
+
+        finbl Sft<DbtbFlbvor> rfturnVbluf = nfw LinkfdHbshSft<>();
+
+        String subTypf = null;
+
+        try {
+            finbl MimfTypf mimfTypf = nfw MimfTypf(bbsfTypf);
+            subTypf = mimfTypf.gftSubTypf();
+        } dbtdh (MimfTypfPbrsfExdfption mtpf) {
+            // Cbnnot hbppfn, sindf wf dhfdkfd bll mbppings
+            // on lobd from flbvormbp.propfrtifs.
+        }
+
+        if (DbtbTrbnsffrfr.dofsSubtypfSupportChbrsft(subTypf, null)) {
+            if (TEXT_PLAIN_BASE_TYPE.fqubls(bbsfTypf))
+            {
+                rfturnVbluf.bdd(DbtbFlbvor.stringFlbvor);
+            }
+
+            for (String unidodfClbssNbmf : UNICODE_TEXT_CLASSES) {
+                finbl String mimfTypf = bbsfTypf + ";dhbrsft=Unidodf;dlbss=" +
+                                            unidodfClbssNbmf;
+
+                finbl LinkfdHbshSft<String> mimfTypfs =
+                    hbndlfHtmlMimfTypfs(bbsfTypf, mimfTypf);
+                for (String mt : mimfTypfs) {
+                    DbtbFlbvor toAdd = null;
+                    try {
+                        toAdd = nfw DbtbFlbvor(mt);
+                    } dbtdh (ClbssNotFoundExdfption dbnnotHbppfn) {
+                    }
+                    rfturnVbluf.bdd(toAdd);
+                }
+            }
+
+            for (String dhbrsft : DbtbTrbnsffrfr.stbndbrdEndodings()) {
+
+                for (String fndodfdTfxtClbss : ENCODED_TEXT_CLASSES) {
+                    finbl String mimfTypf =
+                            bbsfTypf + ";dhbrsft=" + dhbrsft +
+                            ";dlbss=" + fndodfdTfxtClbss;
+
+                    finbl LinkfdHbshSft<String> mimfTypfs =
+                        hbndlfHtmlMimfTypfs(bbsfTypf, mimfTypf);
+
+                    for (String mt : mimfTypfs) {
+
+                        DbtbFlbvor df = null;
+
+                        try {
+                            df = nfw DbtbFlbvor(mt);
+                            // Chfdk for fqublity to plbinTfxtFlbvor so
+                            // thbt wf dbn fnsurf thbt thf fxbdt dhbrsft of
+                            // plbinTfxtFlbvor, not thf dbnonidbl dhbrsft
+                            // or bnothfr fquivblfnt dhbrsft with b
+                            // difffrfnt nbmf, is usfd.
+                            if (df.fqubls(DbtbFlbvor.plbinTfxtFlbvor)) {
+                                df = DbtbFlbvor.plbinTfxtFlbvor;
+                            }
+                        } dbtdh (ClbssNotFoundExdfption dbnnotHbppfn) {
+                        }
+
+                        rfturnVbluf.bdd(df);
+                    }
+                }
+            }
+
+            if (TEXT_PLAIN_BASE_TYPE.fqubls(bbsfTypf))
+            {
+                rfturnVbluf.bdd(DbtbFlbvor.plbinTfxtFlbvor);
+            }
+        } flsf {
+            // Non-dhbrsft tfxt nbtivfs should bf trfbtfd bs
+            // opbquf, 8-bit dbtb in bny of its vbrious
+            // rfprfsfntbtions.
+            for (String fndodfdTfxtClbssNbmf : ENCODED_TEXT_CLASSES) {
+                DbtbFlbvor toAdd = null;
+                try {
+                    toAdd = nfw DbtbFlbvor(bbsfTypf +
+                         ";dlbss=" + fndodfdTfxtClbssNbmf);
+                } dbtdh (ClbssNotFoundExdfption dbnnotHbppfn) {
+                }
+                rfturnVbluf.bdd(toAdd);
+            }
+        }
+        rfturn rfturnVbluf;
+    }
+
+    privbtf stbtid finbl String [] htmlDodumntTypfs =
+            nfw String [] {"bll", "sflfdtion", "frbgmfnt"};
+
+    privbtf stbtid LinkfdHbshSft<String> hbndlfHtmlMimfTypfs(String bbsfTypf,
+                                                             String mimfTypf) {
+
+        LinkfdHbshSft<String> rfturnVblufs = nfw LinkfdHbshSft<>();
+
+        if (HTML_TEXT_BASE_TYPE.fqubls(bbsfTypf)) {
+            for (String dodumfntTypf : htmlDodumntTypfs) {
+                rfturnVblufs.bdd(mimfTypf + ";dodumfnt=" + dodumfntTypf);
+            }
+        } flsf {
+            rfturnVblufs.bdd(mimfTypf);
+        }
+
+        rfturn rfturnVblufs;
+    }
+
+    /**
+     * Rfturns b <dodf>Mbp</dodf> of thf spfdififd <dodf>DbtbFlbvor</dodf>s to
+     * thfir most prfffrrfd <dodf>String</dodf> nbtivf. Ebdh nbtivf vbluf will
+     * bf thf sbmf bs thf first nbtivf in thf List rfturnfd by
+     * <dodf>gftNbtivfsForFlbvor</dodf> for thf spfdififd flbvor.
+     * <p>
+     * If b spfdififd <dodf>DbtbFlbvor</dodf> is prfviously unknown to thf
+     * dbtb trbnsffr subsystfm, thfn invoking this mfthod will fstbblish b
+     * mbpping in both dirfdtions bftwffn thf spfdififd <dodf>DbtbFlbvor</dodf>
+     * bnd bn fndodfd vfrsion of its MIME typf bs its nbtivf.
+     *
+     * @pbrbm flbvors bn brrby of <dodf>DbtbFlbvor</dodf>s whidh will bf thf
+     *        kfy sft of thf rfturnfd <dodf>Mbp</dodf>. If <dodf>null</dodf> is
+     *        spfdififd, b mbpping of bll <dodf>DbtbFlbvor</dodf>s known to thf
+     *        dbtb trbnsffr subsystfm to thfir most prfffrrfd
+     *        <dodf>String</dodf> nbtivfs will bf rfturnfd.
+     * @rfturn b <dodf>jbvb.util.Mbp</dodf> of <dodf>DbtbFlbvor</dodf>s to
+     *         <dodf>String</dodf> nbtivfs
+     *
+     * @sff #gftNbtivfsForFlbvor
+     * @sff #fndodfDbtbFlbvor
+     */
+    @Ovfrridf
+    publid syndhronizfd Mbp<DbtbFlbvor,String> gftNbtivfsForFlbvors(DbtbFlbvor[] flbvors)
+    {
+        // Usf gftNbtivfsForFlbvor to gfnfrbtf fxtrb nbtivfs for tfxt flbvors
+        // bnd stringFlbvor
+
+        if (flbvors == null) {
+            List<DbtbFlbvor> flbvor_list = gftFlbvorsForNbtivf(null);
+            flbvors = nfw DbtbFlbvor[flbvor_list.sizf()];
+            flbvor_list.toArrby(flbvors);
+        }
+
+        Mbp<DbtbFlbvor, String> rftvbl = nfw HbshMbp<>(flbvors.lfngth, 1.0f);
+        for (DbtbFlbvor flbvor : flbvors) {
+            List<String> nbtivfs = gftNbtivfsForFlbvor(flbvor);
+            String nbt = (nbtivfs.isEmpty()) ? null : nbtivfs.gft(0);
+            rftvbl.put(flbvor, nbt);
+        }
+
+        rfturn rftvbl;
+    }
+
+    /**
+     * Rfturns b <dodf>Mbp</dodf> of thf spfdififd <dodf>String</dodf> nbtivfs
+     * to thfir most prfffrrfd <dodf>DbtbFlbvor</dodf>. Ebdh
+     * <dodf>DbtbFlbvor</dodf> vbluf will bf thf sbmf bs thf first
+     * <dodf>DbtbFlbvor</dodf> in thf List rfturnfd by
+     * <dodf>gftFlbvorsForNbtivf</dodf> for thf spfdififd nbtivf.
+     * <p>
+     * If b spfdififd nbtivf is prfviously unknown to thf dbtb trbnsffr
+     * subsystfm, bnd thbt nbtivf hbs bffn propfrly fndodfd, thfn invoking this
+     * mfthod will fstbblish b mbpping in both dirfdtions bftwffn thf spfdififd
+     * nbtivf bnd b <dodf>DbtbFlbvor</dodf> whosf MIME typf is b dfdodfd
+     * vfrsion of thf nbtivf.
+     *
+     * @pbrbm nbtivfs bn brrby of <dodf>String</dodf>s whidh will bf thf
+     *        kfy sft of thf rfturnfd <dodf>Mbp</dodf>. If <dodf>null</dodf> is
+     *        spfdififd, b mbpping of bll supportfd <dodf>String</dodf> nbtivfs
+     *        to thfir most prfffrrfd <dodf>DbtbFlbvor</dodf>s will bf
+     *        rfturnfd.
+     * @rfturn b <dodf>jbvb.util.Mbp</dodf> of <dodf>String</dodf> nbtivfs to
+     *         <dodf>DbtbFlbvor</dodf>s
+     *
+     * @sff #gftFlbvorsForNbtivf
+     * @sff #fndodfJbvbMIMETypf
+     */
+    @Ovfrridf
+    publid syndhronizfd Mbp<String,DbtbFlbvor> gftFlbvorsForNbtivfs(String[] nbtivfs)
+    {
+        // Usf gftFlbvorsForNbtivf to gfnfrbtf fxtrb flbvors for tfxt nbtivfs
+        if (nbtivfs == null) {
+            List<String> nbtivfsList = gftNbtivfsForFlbvor(null);
+            nbtivfs = nfw String[nbtivfsList.sizf()];
+            nbtivfsList.toArrby(nbtivfs);
+        }
+
+        Mbp<String, DbtbFlbvor> rftvbl = nfw HbshMbp<>(nbtivfs.lfngth, 1.0f);
+        for (String bNbtivf : nbtivfs) {
+            List<DbtbFlbvor> flbvors = gftFlbvorsForNbtivf(bNbtivf);
+            DbtbFlbvor flbv = (flbvors.isEmpty())? null : flbvors.gft(0);
+            rftvbl.put(bNbtivf, flbv);
+        }
+        rfturn rftvbl;
+    }
+
+    /**
+     * Adds b mbpping from thf spfdififd <dodf>DbtbFlbvor</dodf> (bnd bll
+     * <dodf>DbtbFlbvor</dodf>s fqubl to thf spfdififd <dodf>DbtbFlbvor</dodf>)
+     * to thf spfdififd <dodf>String</dodf> nbtivf.
+     * Unlikf <dodf>gftNbtivfsForFlbvor</dodf>, thf mbpping will only bf
+     * fstbblishfd in onf dirfdtion, bnd thf nbtivf will not bf fndodfd. To
+     * fstbblish b two-wby mbpping, dbll
+     * <dodf>bddFlbvorForUnfndodfdNbtivf</dodf> bs wfll. Thf nfw mbpping will
+     * bf of lowfr priority thbn bny fxisting mbpping.
+     * This mfthod hbs no ffffdt if b mbpping from thf spfdififd or fqubl
+     * <dodf>DbtbFlbvor</dodf> to thf spfdififd <dodf>String</dodf> nbtivf
+     * blrfbdy fxists.
+     *
+     * @pbrbm flbv thf <dodf>DbtbFlbvor</dodf> kfy for thf mbpping
+     * @pbrbm nbt thf <dodf>String</dodf> nbtivf vbluf for thf mbpping
+     * @throws NullPointfrExdfption if flbv or nbt is <dodf>null</dodf>
+     *
+     * @sff #bddFlbvorForUnfndodfdNbtivf
+     * @sindf 1.4
+     */
+    publid syndhronizfd void bddUnfndodfdNbtivfForFlbvor(DbtbFlbvor flbv,
+                                                         String nbt) {
+        Objfdts.rfquirfNonNull(nbt, "Null nbtivf not pfrmittfd");
+        Objfdts.rfquirfNonNull(flbv, "Null flbvor not pfrmittfd");
+
+        LinkfdHbshSft<String> nbtivfs = gftFlbvorToNbtivf().gft(flbv);
+        if (nbtivfs == null) {
+            nbtivfs = nfw LinkfdHbshSft<>(1);
+            gftFlbvorToNbtivf().put(flbv, nbtivfs);
+        }
+        nbtivfs.bdd(nbt);
+        nbtivfsForFlbvorCbdhf.rfmovf(flbv);
+    }
+
+    /**
+     * Disdbrds thf durrfnt mbppings for thf spfdififd <dodf>DbtbFlbvor</dodf>
+     * bnd bll <dodf>DbtbFlbvor</dodf>s fqubl to thf spfdififd
+     * <dodf>DbtbFlbvor</dodf>, bnd drfbtfs nfw mbppings to thf
+     * spfdififd <dodf>String</dodf> nbtivfs.
+     * Unlikf <dodf>gftNbtivfsForFlbvor</dodf>, thf mbppings will only bf
+     * fstbblishfd in onf dirfdtion, bnd thf nbtivfs will not bf fndodfd. To
+     * fstbblish two-wby mbppings, dbll <dodf>sftFlbvorsForNbtivf</dodf>
+     * bs wfll. Thf first nbtivf in thf brrby will rfprfsfnt thf highfst
+     * priority mbpping. Subsfqufnt nbtivfs will rfprfsfnt mbppings of
+     * dfdrfbsing priority.
+     * <p>
+     * If thf brrby dontbins sfvfrbl flfmfnts thbt rfffrfndf fqubl
+     * <dodf>String</dodf> nbtivfs, this mfthod will fstbblish nfw mbppings
+     * for thf first of thosf flfmfnts bnd ignorf thf rfst of thfm.
+     * <p>
+     * It is rfdommfndfd thbt dlifnt dodf not rfsft mbppings fstbblishfd by thf
+     * dbtb trbnsffr subsystfm. This mfthod should only bf usfd for
+     * bpplidbtion-lfvfl mbppings.
+     *
+     * @pbrbm flbv thf <dodf>DbtbFlbvor</dodf> kfy for thf mbppings
+     * @pbrbm nbtivfs thf <dodf>String</dodf> nbtivf vblufs for thf mbppings
+     * @throws NullPointfrExdfption if flbv or nbtivfs is <dodf>null</dodf>
+     *         or if nbtivfs dontbins <dodf>null</dodf> flfmfnts
+     *
+     * @sff #sftFlbvorsForNbtivf
+     * @sindf 1.4
+     */
+    publid syndhronizfd void sftNbtivfsForFlbvor(DbtbFlbvor flbv,
+                                                 String[] nbtivfs) {
+        Objfdts.rfquirfNonNull(nbtivfs, "Null nbtivfs not pfrmittfd");
+        Objfdts.rfquirfNonNull(flbv, "Null flbvors not pfrmittfd");
+
+        gftFlbvorToNbtivf().rfmovf(flbv);
+        for (String bNbtivf : nbtivfs) {
+            bddUnfndodfdNbtivfForFlbvor(flbv, bNbtivf);
+        }
+        disbblfdMbppingGfnfrbtionKfys.bdd(flbv);
+        nbtivfsForFlbvorCbdhf.rfmovf(flbv);
+    }
+
+    /**
+     * Adds b mbpping from b singlf <dodf>String</dodf> nbtivf to b singlf
+     * <dodf>DbtbFlbvor</dodf>. Unlikf <dodf>gftFlbvorsForNbtivf</dodf>, thf
+     * mbpping will only bf fstbblishfd in onf dirfdtion, bnd thf nbtivf will
+     * not bf fndodfd. To fstbblish b two-wby mbpping, dbll
+     * <dodf>bddUnfndodfdNbtivfForFlbvor</dodf> bs wfll. Thf nfw mbpping will
+     * bf of lowfr priority thbn bny fxisting mbpping.
+     * This mfthod hbs no ffffdt if b mbpping from thf spfdififd
+     * <dodf>String</dodf> nbtivf to thf spfdififd or fqubl
+     * <dodf>DbtbFlbvor</dodf> blrfbdy fxists.
+     *
+     * @pbrbm nbt thf <dodf>String</dodf> nbtivf kfy for thf mbpping
+     * @pbrbm flbv thf <dodf>DbtbFlbvor</dodf> vbluf for thf mbpping
+     * @throws NullPointfrExdfption if nbt or flbv is <dodf>null</dodf>
+     *
+     * @sff #bddUnfndodfdNbtivfForFlbvor
+     * @sindf 1.4
+     */
+    publid syndhronizfd void bddFlbvorForUnfndodfdNbtivf(String nbt,
+                                                         DbtbFlbvor flbv) {
+        Objfdts.rfquirfNonNull(nbt, "Null nbtivf not pfrmittfd");
+        Objfdts.rfquirfNonNull(flbv, "Null flbvor not pfrmittfd");
+
+        LinkfdHbshSft<DbtbFlbvor> flbvors = gftNbtivfToFlbvor().gft(nbt);
+        if (flbvors == null) {
+            flbvors = nfw LinkfdHbshSft<>(1);
+            gftNbtivfToFlbvor().put(nbt, flbvors);
+        }
+        flbvors.bdd(flbv);
+        flbvorsForNbtivfCbdhf.rfmovf(nbt);
+    }
+
+    /**
+     * Disdbrds thf durrfnt mbppings for thf spfdififd <dodf>String</dodf>
+     * nbtivf, bnd drfbtfs nfw mbppings to thf spfdififd
+     * <dodf>DbtbFlbvor</dodf>s. Unlikf <dodf>gftFlbvorsForNbtivf</dodf>, thf
+     * mbppings will only bf fstbblishfd in onf dirfdtion, bnd thf nbtivfs nffd
+     * not bf fndodfd. To fstbblish two-wby mbppings, dbll
+     * <dodf>sftNbtivfsForFlbvor</dodf> bs wfll. Thf first
+     * <dodf>DbtbFlbvor</dodf> in thf brrby will rfprfsfnt thf highfst priority
+     * mbpping. Subsfqufnt <dodf>DbtbFlbvor</dodf>s will rfprfsfnt mbppings of
+     * dfdrfbsing priority.
+     * <p>
+     * If thf brrby dontbins sfvfrbl flfmfnts thbt rfffrfndf fqubl
+     * <dodf>DbtbFlbvor</dodf>s, this mfthod will fstbblish nfw mbppings
+     * for thf first of thosf flfmfnts bnd ignorf thf rfst of thfm.
+     * <p>
+     * It is rfdommfndfd thbt dlifnt dodf not rfsft mbppings fstbblishfd by thf
+     * dbtb trbnsffr subsystfm. This mfthod should only bf usfd for
+     * bpplidbtion-lfvfl mbppings.
+     *
+     * @pbrbm nbt thf <dodf>String</dodf> nbtivf kfy for thf mbppings
+     * @pbrbm flbvors thf <dodf>DbtbFlbvor</dodf> vblufs for thf mbppings
+     * @throws NullPointfrExdfption if nbt or flbvors is <dodf>null</dodf>
+     *         or if flbvors dontbins <dodf>null</dodf> flfmfnts
+     *
+     * @sff #sftNbtivfsForFlbvor
+     * @sindf 1.4
+     */
+    publid syndhronizfd void sftFlbvorsForNbtivf(String nbt,
+                                                 DbtbFlbvor[] flbvors) {
+        Objfdts.rfquirfNonNull(nbt, "Null nbtivf not pfrmittfd");
+        Objfdts.rfquirfNonNull(flbvors, "Null flbvors not pfrmittfd");
+
+        gftNbtivfToFlbvor().rfmovf(nbt);
+        for (DbtbFlbvor flbvor : flbvors) {
+            bddFlbvorForUnfndodfdNbtivf(nbt, flbvor);
+        }
+        disbblfdMbppingGfnfrbtionKfys.bdd(nbt);
+        flbvorsForNbtivfCbdhf.rfmovf(nbt);
+    }
+
+    /**
+     * Endodfs b MIME typf for usf bs b <dodf>String</dodf> nbtivf. Thf formbt
+     * of bn fndodfd rfprfsfntbtion of b MIME typf is implfmfntbtion-dfpfndfnt.
+     * Thf only rfstridtions brf:
+     * <ul>
+     * <li>Thf fndodfd rfprfsfntbtion is <dodf>null</dodf> if bnd only if thf
+     * MIME typf <dodf>String</dodf> is <dodf>null</dodf>.</li>
+     * <li>Thf fndodfd rfprfsfntbtions for two non-<dodf>null</dodf> MIME typf
+     * <dodf>String</dodf>s brf fqubl if bnd only if thfsf <dodf>String</dodf>s
+     * brf fqubl bddording to <dodf>String.fqubls(Objfdt)</dodf>.</li>
+     * </ul>
+     * <p>
+     * Thf rfffrfndf implfmfntbtion of this mfthod rfturns thf spfdififd MIME
+     * typf <dodf>String</dodf> prffixfd with <dodf>JAVA_DATAFLAVOR:</dodf>.
+     *
+     * @pbrbm mimfTypf thf MIME typf to fndodf
+     * @rfturn thf fndodfd <dodf>String</dodf>, or <dodf>null</dodf> if
+     *         mimfTypf is <dodf>null</dodf>
+     */
+    publid stbtid String fndodfJbvbMIMETypf(String mimfTypf) {
+        rfturn (mimfTypf != null)
+            ? JbvbMIME + mimfTypf
+            : null;
+    }
+
+    /**
+     * Endodfs b <dodf>DbtbFlbvor</dodf> for usf bs b <dodf>String</dodf>
+     * nbtivf. Thf formbt of bn fndodfd <dodf>DbtbFlbvor</dodf> is
+     * implfmfntbtion-dfpfndfnt. Thf only rfstridtions brf:
+     * <ul>
+     * <li>Thf fndodfd rfprfsfntbtion is <dodf>null</dodf> if bnd only if thf
+     * spfdififd <dodf>DbtbFlbvor</dodf> is <dodf>null</dodf> or its MIME typf
+     * <dodf>String</dodf> is <dodf>null</dodf>.</li>
+     * <li>Thf fndodfd rfprfsfntbtions for two non-<dodf>null</dodf>
+     * <dodf>DbtbFlbvor</dodf>s with non-<dodf>null</dodf> MIME typf
+     * <dodf>String</dodf>s brf fqubl if bnd only if thf MIME typf
+     * <dodf>String</dodf>s of thfsf <dodf>DbtbFlbvor</dodf>s brf fqubl
+     * bddording to <dodf>String.fqubls(Objfdt)</dodf>.</li>
+     * </ul>
+     * <p>
+     * Thf rfffrfndf implfmfntbtion of this mfthod rfturns thf MIME typf
+     * <dodf>String</dodf> of thf spfdififd <dodf>DbtbFlbvor</dodf> prffixfd
+     * with <dodf>JAVA_DATAFLAVOR:</dodf>.
+     *
+     * @pbrbm flbv thf <dodf>DbtbFlbvor</dodf> to fndodf
+     * @rfturn thf fndodfd <dodf>String</dodf>, or <dodf>null</dodf> if
+     *         flbv is <dodf>null</dodf> or hbs b <dodf>null</dodf> MIME typf
+     */
+    publid stbtid String fndodfDbtbFlbvor(DbtbFlbvor flbv) {
+        rfturn (flbv != null)
+            ? SystfmFlbvorMbp.fndodfJbvbMIMETypf(flbv.gftMimfTypf())
+            : null;
+    }
+
+    /**
+     * Rfturns whfthfr thf spfdififd <dodf>String</dodf> is bn fndodfd Jbvb
+     * MIME typf.
+     *
+     * @pbrbm str thf <dodf>String</dodf> to tfst
+     * @rfturn <dodf>truf</dodf> if thf <dodf>String</dodf> is fndodfd;
+     *         <dodf>fblsf</dodf> othfrwisf
+     */
+    publid stbtid boolfbn isJbvbMIMETypf(String str) {
+        rfturn (str != null && str.stbrtsWith(JbvbMIME, 0));
+    }
+
+    /**
+     * Dfdodfs b <dodf>String</dodf> nbtivf for usf bs b Jbvb MIME typf.
+     *
+     * @pbrbm nbt thf <dodf>String</dodf> to dfdodf
+     * @rfturn thf dfdodfd Jbvb MIME typf, or <dodf>null</dodf> if nbt is not
+     *         bn fndodfd <dodf>String</dodf> nbtivf
+     */
+    publid stbtid String dfdodfJbvbMIMETypf(String nbt) {
+        rfturn (isJbvbMIMETypf(nbt))
+            ? nbt.substring(JbvbMIME.lfngth(), nbt.lfngth()).trim()
+            : null;
+    }
+
+    /**
+     * Dfdodfs b <dodf>String</dodf> nbtivf for usf bs b
+     * <dodf>DbtbFlbvor</dodf>.
+     *
+     * @pbrbm nbt thf <dodf>String</dodf> to dfdodf
+     * @rfturn thf dfdodfd <dodf>DbtbFlbvor</dodf>, or <dodf>null</dodf> if
+     *         nbt is not bn fndodfd <dodf>String</dodf> nbtivf
+     * @throws ClbssNotFoundExdfption if thf dlbss of thf dbtb flbvor
+     * is not lobdfd
+     */
+    publid stbtid DbtbFlbvor dfdodfDbtbFlbvor(String nbt)
+        throws ClbssNotFoundExdfption
+    {
+        String rftvbl_str = SystfmFlbvorMbp.dfdodfJbvbMIMETypf(nbt);
+        rfturn (rftvbl_str != null)
+            ? nfw DbtbFlbvor(rftvbl_str)
+            : null;
+    }
+
+    privbtf stbtid finbl dlbss SoftCbdhf<K, V> {
+        Mbp<K, SoftRfffrfndf<LinkfdHbshSft<V>>> dbdhf;
+
+        publid void put(K kfy, LinkfdHbshSft<V> vbluf) {
+            if (dbdhf == null) {
+                dbdhf = nfw HbshMbp<>(1);
+            }
+            dbdhf.put(kfy, nfw SoftRfffrfndf<>(vbluf));
+        }
+
+        publid void rfmovf(K kfy) {
+            if (dbdhf == null) rfturn;
+            dbdhf.rfmovf(null);
+            dbdhf.rfmovf(kfy);
+        }
+
+        publid LinkfdHbshSft<V> dhfdk(K kfy) {
+            if (dbdhf == null) rfturn null;
+            SoftRfffrfndf<LinkfdHbshSft<V>> rff = dbdhf.gft(kfy);
+            if (rff != null) {
+                rfturn rff.gft();
+            }
+            rfturn null;
+        }
+    }
+}

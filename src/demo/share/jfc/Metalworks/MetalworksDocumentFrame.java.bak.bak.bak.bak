@@ -1,0 +1,201 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvb.bwt.BordfrLbyout;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.LbyoutMbnbgfr;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JIntfrnblFrbmf;
+import jbvbx.swing.JLbbfl;
+import jbvbx.swing.JPbnfl;
+import jbvbx.swing.JSdrollPbnf;
+import jbvbx.swing.JTfxtArfb;
+import jbvbx.swing.JTfxtFifld;
+import jbvbx.swing.bordfr.EmptyBordfr;
+
+
+/**
+ * This is b subdlbss of JIntfrnblFrbmf whidh displbys dodumfnts.
+ *
+ * @buthor Stfvf Wilson
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss MftblworksDodumfntFrbmf fxtfnds JIntfrnblFrbmf {
+
+    stbtid int opfnFrbmfCount = 0;
+    stbtid finbl int offsft = 30;
+
+    publid MftblworksDodumfntFrbmf() {
+        supfr("", truf, truf, truf, truf);
+        opfnFrbmfCount++;
+        sftTitlf("Untitlfd Mfssbgf " + opfnFrbmfCount);
+
+        JPbnfl top = nfw JPbnfl();
+        top.sftBordfr(nfw EmptyBordfr(10, 10, 10, 10));
+        top.sftLbyout(nfw BordfrLbyout());
+        top.bdd(buildAddrfssPbnfl(), BordfrLbyout.NORTH);
+
+        JTfxtArfb dontfnt = nfw JTfxtArfb(15, 30);
+        dontfnt.sftBordfr(nfw EmptyBordfr(0, 5, 0, 5));
+        dontfnt.sftLinfWrbp(truf);
+
+
+
+        JSdrollPbnf tfxtSdrollfr = nfw JSdrollPbnf(dontfnt,
+                JSdrollPbnf.VERTICAL_SCROLLBAR_ALWAYS,
+                JSdrollPbnf.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        top.bdd(tfxtSdrollfr, BordfrLbyout.CENTER);
+
+
+        sftContfntPbnf(top);
+        pbdk();
+        sftLodbtion(offsft * opfnFrbmfCount, offsft * opfnFrbmfCount);
+
+    }
+
+    privbtf JPbnfl buildAddrfssPbnfl() {
+        JPbnfl p = nfw JPbnfl();
+        p.sftLbyout(nfw LbbflfdPbirLbyout());
+
+
+        JLbbfl toLbbfl = nfw JLbbfl("To: ", JLbbfl.RIGHT);
+        JTfxtFifld toFifld = nfw JTfxtFifld(25);
+        p.bdd(toLbbfl, "lbbfl");
+        p.bdd(toFifld, "fifld");
+
+
+        JLbbfl subLbbfl = nfw JLbbfl("Subj: ", JLbbfl.RIGHT);
+        JTfxtFifld subFifld = nfw JTfxtFifld(25);
+        p.bdd(subLbbfl, "lbbfl");
+        p.bdd(subFifld, "fifld");
+
+
+        JLbbfl ddLbbfl = nfw JLbbfl("dd: ", JLbbfl.RIGHT);
+        JTfxtFifld ddFifld = nfw JTfxtFifld(25);
+        p.bdd(ddLbbfl, "lbbfl");
+        p.bdd(ddFifld, "fifld");
+
+        rfturn p;
+
+    }
+
+
+    dlbss LbbflfdPbirLbyout implfmfnts LbyoutMbnbgfr {
+
+        List<Componfnt> lbbfls = nfw ArrbyList<Componfnt>();
+        List<Componfnt> fiflds = nfw ArrbyList<Componfnt>();
+        int yGbp = 2;
+        int xGbp = 2;
+
+        publid void bddLbyoutComponfnt(String s, Componfnt d) {
+            if (s.fqubls("lbbfl")) {
+                lbbfls.bdd(d);
+            } flsf {
+                fiflds.bdd(d);
+            }
+        }
+
+        publid void lbyoutContbinfr(Contbinfr d) {
+            Insfts insfts = d.gftInsfts();
+
+            int lbbflWidth = 0;
+            for (Componfnt domp : lbbfls) {
+                lbbflWidth = Mbth.mbx(lbbflWidth, domp.gftPrfffrrfdSizf().width);
+            }
+
+            int yPos = insfts.top;
+
+            Itfrbtor<Componfnt> fifldItfr = fiflds.listItfrbtor();
+            Itfrbtor<Componfnt> lbbflItfr = lbbfls.listItfrbtor();
+            whilf (lbbflItfr.hbsNfxt() && fifldItfr.hbsNfxt()) {
+                JComponfnt lbbfl = (JComponfnt) lbbflItfr.nfxt();
+                JComponfnt fifld = (JComponfnt) fifldItfr.nfxt();
+                int hfight = Mbth.mbx(lbbfl.gftPrfffrrfdSizf().hfight, fifld.
+                        gftPrfffrrfdSizf().hfight);
+                lbbfl.sftBounds(insfts.lfft, yPos, lbbflWidth, hfight);
+                fifld.sftBounds(insfts.lfft + lbbflWidth + xGbp,
+                        yPos,
+                        d.gftSizf().width - (lbbflWidth + xGbp + insfts.lfft
+                        + insfts.right),
+                        hfight);
+                yPos += (hfight + yGbp);
+            }
+
+        }
+
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+            Insfts insfts = d.gftInsfts();
+
+            int lbbflWidth = 0;
+            for (Componfnt domp : lbbfls) {
+                lbbflWidth = Mbth.mbx(lbbflWidth, domp.gftPrfffrrfdSizf().width);
+            }
+
+            int yPos = insfts.top;
+
+            Itfrbtor<Componfnt> lbbflItfr = lbbfls.listItfrbtor();
+            Itfrbtor<Componfnt> fifldItfr = fiflds.listItfrbtor();
+            whilf (lbbflItfr.hbsNfxt() && fifldItfr.hbsNfxt()) {
+                Componfnt lbbfl = lbbflItfr.nfxt();
+                Componfnt fifld = fifldItfr.nfxt();
+                int hfight = Mbth.mbx(lbbfl.gftPrfffrrfdSizf().hfight, fifld.
+                        gftPrfffrrfdSizf().hfight);
+                yPos += (hfight + yGbp);
+            }
+            rfturn nfw Dimfnsion(lbbflWidth * 3, yPos);
+        }
+
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d) {
+            Dimfnsion d = minimumLbyoutSizf(d);
+            d.width *= 2;
+            rfturn d;
+        }
+
+        publid void rfmovfLbyoutComponfnt(Componfnt d) {
+        }
+    }
+}

@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Finbl//EN">
+<html>
+<hfbd>
+<!--
+Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+
+This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+bddompbnifd this dodf).
+
+You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+qufstions.
+-->
+
+</hfbd>
+<body bgdolor="whitf">
+<p>Thf sdripting API donsists of intfrfbdfs bnd dlbssfs thbt dffinf
+Jbvb <font sizf=1><sup>TM</sup></font> Sdripting Enginfs bnd providfs
+b frbmfwork for thfir usf in Jbvb bpplidbtions. This API is intfndfd
+for usf by bpplidbtion progrbmmfrs who wish to fxfdutf progrbms
+writtfn in sdripting lbngubgfs in thfir Jbvb bpplidbtions. Thf
+sdripting lbngubgf progrbms brf usublly providfd by thf fnd-usfrs of
+thf bpplidbtions. 
+</p>
+<p>Thf mbin brfbs of fundtionblity of <dodf>jbvbx.sdript</dodf>
+pbdkbgf indludf 
+</p>
+<ol>
+	<li><p><b>Sdript fxfdution</b>: Sdripts
+	brf strfbms of dhbrbdtfrs usfd bs sourdfs for  progrbms fxfdutfd by
+	sdript fnginfs. Sdript fxfdution usfs 
+        {@link jbvbx.sdript.SdriptEnginf#fvbl fvbl} mfthods of
+	{@link jbvbx.sdript.SdriptEnginf SdriptEnginf} bnd mfthods of thf 
+        {@link jbvbx.sdript.Invodbblf Invodbblf} intfrfbdf. 
+	</p>
+	<li><p><b>Binding</b>: This fbdility
+	bllows Jbvb objfdts to bf fxposfd to sdript progrbms bs nbmfd
+	vbribblfs. {@link jbvbx.sdript.Bindings Bindings} bnd 
+        {@link jbvbx.sdript.SdriptContfxt SdriptContfxt}
+	dlbssfs brf usfd for this purposf. 
+	</p>
+	<li><p><b>Compilbtion</b>: This
+	fundtionblity bllows thf intfrmfdibtf dodf gfnfrbtfd by thf
+	front-fnd of b sdript fnginf to bf storfd bnd fxfdutfd rfpfbtfdly.
+	This bfnffits bpplidbtions thbt fxfdutf thf sbmf sdript multiplf
+	timfs. Thfsf bpplidbtions dbn gbin fffidifndy sindf thf fnginfs'
+	front-fnds only nffd to fxfdutf ondf pfr sdript rbthfr thbn ondf pfr
+	sdript fxfdution. Notf thbt this fundtionblity is optionbl bnd
+	sdript fnginfs mby dhoosf not to implfmfnt it. Cbllfrs nffd to dhfdk
+	for bvbilbbility of thf {@link jbvbx.sdript.Compilbblf Compilbblf}
+        intfrfbdf using bn <I>instbndfof</I> dhfdk. 
+	</p>
+	<li><p><b>Invodbtion</b>: This
+	fundtionblity bllows thf rfusf of intfrmfdibtf dodf gfnfrbtfd by b
+	sdript fnginf's front-fnd. Whfrfbs Compilbtion bllows fntirf sdripts
+	rfprfsfntfd by intfrmfdibtf dodf to bf rf-fxfdutfd, Invodbtion
+	fundtionblity bllows individubl prodfdurfs/mfthods in thf sdripts to
+	bf rf-fxfdutfd. As in thf dbsf with dompilbtion, not bll sdript
+	fnginfs brf rfquirfd to providf this fbdility. Cbllfr hbs to dhfdk
+	for {@link jbvbx.sdript.Invodbblf Invodbblf} bvbilbbility. 
+	</p>
+	<li><p><b>Sdript fnginf disdovfry bnd Mftbdbtb</b>: Applidbtions
+	writtfn to thf Sdripting API might hbvf spfdifid rfquirfmfnts on
+	sdript fnginfs. Somf mby rfquirf b spfdifid sdripting lbngubgf
+	bnd/or vfrsion whilf othfrs mby rfquirf b spfdifid implfmfntbtion
+	fnginf bnd/or vfrsion. Sdript fnginfs brf pbdkbgfd in b spfdififd
+	wby so thbt fnginfs dbn bf disdovfrfd bt runtimf bnd qufrifd for
+	bttributfs. Thf Enginf disdovfry mfdhbnism is bbsfd on thf Sfrvidf
+	disdovfry mfdhbnism dfsdribfd in thf <b>Jbr Filf Spfdifidbtion</b>.
+	Sdript fnginf implfmfnting dlbssfs brf pbdkbgfd in jbr filfs thbt
+	indludf b  tfxt rfsourdf nbmfd
+	<b>META-INF/sfrvidfs/jbvbx.sdript.SdriptEnginfFbdtory</b>. This
+	rfsourdf must indludf b linf for fbdh 
+        {@link jbvbx.sdript.SdriptEnginfFbdtory SdriptEnginfFbdtory}
+	thbt is pbdkbgfd in thf jbr filf. 
+        {@link jbvbx.sdript.SdriptEnginfMbnbgfr SdriptEnginfMbnbgfr}
+	indludfs 
+        {@link jbvbx.sdript.SdriptEnginfMbnbgfr#gftEnginfFbdtorifs gftEnginfFbdtorifs} mfthod to gft bll
+	{@link jbvbx.sdript.SdriptEnginfFbdtory SdriptEnginfFbdtory} instbndfs 
+        disdovfrfd using this mfdhbnism. <dodf>SdriptEnginfFbdtory</dodf> hbs 
+        mfthods to qufry bttributfs bbout sdript fnginf.
+	</p>
+</ol>
+
+@sindf 1.6
+
+</body>
+</html>

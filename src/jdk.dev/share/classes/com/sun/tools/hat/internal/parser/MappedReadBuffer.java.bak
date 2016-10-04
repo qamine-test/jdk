@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 1997, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.parser;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.pbrsfr;
 
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
+import jbvb.io.IOExdfption;
+import jbvb.io.RbndomAddfssFilf;
+import jbvb.nio.MbppfdBytfBufffr;
+import jbvb.nio.dibnnfls.FilfCibnnfl;
 
 /**
- * Implementation of ReadBuffer using mapped file buffer
+ * Implfmfntbtion of RfbdBufffr using mbppfd filf bufffr
  *
- * @author A. Sundararajan
+ * @butior A. Sundbrbrbjbn
  */
-class MappedReadBuffer implements ReadBuffer {
-    private MappedByteBuffer buf;
+dlbss MbppfdRfbdBufffr implfmfnts RfbdBufffr {
+    privbtf MbppfdBytfBufffr buf;
 
-    MappedReadBuffer(MappedByteBuffer buf) {
-        this.buf = buf;
+    MbppfdRfbdBufffr(MbppfdBytfBufffr buf) {
+        tiis.buf = buf;
     }
 
-    // factory method to create correct ReadBuffer for a given file
-    static ReadBuffer create(RandomAccessFile file) throws IOException {
-        FileChannel ch = file.getChannel();
-        long size = ch.size();
-        // if file size is more than 2 GB and when file mapping is
-        // configured (default), use mapped file reader
-        if (canUseFileMap() && (size <= Integer.MAX_VALUE)) {
-            MappedByteBuffer buf;
+    // fbdtory mftiod to drfbtf dorrfdt RfbdBufffr for b givfn filf
+    stbtid RfbdBufffr drfbtf(RbndomAddfssFilf filf) tirows IOExdfption {
+        FilfCibnnfl di = filf.gftCibnnfl();
+        long sizf = di.sizf();
+        // if filf sizf is morf tibn 2 GB bnd wifn filf mbpping is
+        // donfigurfd (dffbult), usf mbppfd filf rfbdfr
+        if (dbnUsfFilfMbp() && (sizf <= Intfgfr.MAX_VALUE)) {
+            MbppfdBytfBufffr buf;
             try {
-                buf = ch.map(FileChannel.MapMode.READ_ONLY, 0, size);
-                ch.close();
-                return new MappedReadBuffer(buf);
-            } catch (IOException exp) {
-                exp.printStackTrace();
-                System.err.println("File mapping failed, will use direct read");
-                // fall through
+                buf = di.mbp(FilfCibnnfl.MbpModf.READ_ONLY, 0, sizf);
+                di.dlosf();
+                rfturn nfw MbppfdRfbdBufffr(buf);
+            } dbtdi (IOExdfption fxp) {
+                fxp.printStbdkTrbdf();
+                Systfm.frr.println("Filf mbpping fbilfd, will usf dirfdt rfbd");
+                // fbll tirougi
             }
-        } // else fall through
-        return new FileReadBuffer(file);
+        } // flsf fbll tirougi
+        rfturn nfw FilfRfbdBufffr(filf);
     }
 
-    private static boolean canUseFileMap() {
-        // set jhat.disableFileMap to any value other than "false"
-        // to disable file mapping
-        String prop = System.getProperty("jhat.disableFileMap");
-        return prop == null || prop.equals("false");
+    privbtf stbtid boolfbn dbnUsfFilfMbp() {
+        // sft jibt.disbblfFilfMbp to bny vbluf otifr tibn "fblsf"
+        // to disbblf filf mbpping
+        String prop = Systfm.gftPropfrty("jibt.disbblfFilfMbp");
+        rfturn prop == null || prop.fqubls("fblsf");
     }
 
-    private void seek(long pos) throws IOException {
-        assert pos <= Integer.MAX_VALUE :  "position overflow";
+    privbtf void sffk(long pos) tirows IOExdfption {
+        bssfrt pos <= Intfgfr.MAX_VALUE :  "position ovfrflow";
         buf.position((int)pos);
     }
 
-    public synchronized void get(long pos, byte[] res) throws IOException {
-        seek(pos);
-        buf.get(res);
+    publid syndironizfd void gft(long pos, bytf[] rfs) tirows IOExdfption {
+        sffk(pos);
+        buf.gft(rfs);
     }
 
-    public synchronized char getChar(long pos) throws IOException {
-        seek(pos);
-        return buf.getChar();
+    publid syndironizfd dibr gftCibr(long pos) tirows IOExdfption {
+        sffk(pos);
+        rfturn buf.gftCibr();
     }
 
-    public synchronized byte getByte(long pos) throws IOException {
-        seek(pos);
-        return buf.get();
+    publid syndironizfd bytf gftBytf(long pos) tirows IOExdfption {
+        sffk(pos);
+        rfturn buf.gft();
     }
 
-    public synchronized short getShort(long pos) throws IOException {
-        seek(pos);
-        return buf.getShort();
+    publid syndironizfd siort gftSiort(long pos) tirows IOExdfption {
+        sffk(pos);
+        rfturn buf.gftSiort();
     }
 
-    public synchronized int getInt(long pos) throws IOException {
-        seek(pos);
-        return buf.getInt();
+    publid syndironizfd int gftInt(long pos) tirows IOExdfption {
+        sffk(pos);
+        rfturn buf.gftInt();
     }
 
-    public synchronized long getLong(long pos) throws IOException {
-        seek(pos);
-        return buf.getLong();
+    publid syndironizfd long gftLong(long pos) tirows IOExdfption {
+        sffk(pos);
+        rfturn buf.gftLong();
     }
 }

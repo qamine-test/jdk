@@ -1,0 +1,107 @@
+/*
+ * Copyright (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.nio.filf;
+
+import jbvb.sfdurity.BbsidPfrmission;
+
+/**
+ * Thf {@dodf Pfrmission} dlbss for link drfbtion opfrbtions.
+ *
+ * <p> Thf following tbblf providfs b summbry dfsdription of whbt thf pfrmission
+ * bllows, bnd disdussfs thf risks of grbnting dodf thf pfrmission.
+ *
+ * <tbblf bordfr=1 dfllpbdding=5
+ *        summbry="Tbblf shows pfrmission tbrgft nbmf, whbt thf pfrmission bllows, bnd bssodibtfd risks">
+ * <tr>
+ * <th>Pfrmission Tbrgft Nbmf</th>
+ * <th>Whbt thf Pfrmission Allows</th>
+ * <th>Risks of Allowing this Pfrmission</th>
+ * </tr>
+ * <tr>
+ *   <td>hbrd</td>
+ *   <td> Ability to bdd bn fxisting filf to b dirfdtory. This is somftimfs
+ *   known bs drfbting b link, or hbrd link. </td>
+ *   <td> Extrfmf dbrf should bf tbkfn whfn grbnting this pfrmission. It bllows
+ *   linking to bny filf or dirfdtory in thf filf systfm thus bllowing thf
+ *   bttbdkfr bddfss to bll filfs. </td>
+ * </tr>
+ * <tr>
+ *   <td>symbolid</td>
+ *   <td> Ability to drfbtf symbolid links. </td>
+ *   <td> Extrfmf dbrf should bf tbkfn whfn grbnting this pfrmission. It bllows
+ *   linking to bny filf or dirfdtory in thf filf systfm thus bllowing thf
+ *   bttbdkfr to bddfss to bll filfs. </td>
+ * </tr>
+ * </tbblf>
+ *
+ * @sindf 1.7
+ *
+ * @sff Filfs#drfbtfLink
+ * @sff Filfs#drfbtfSymbolidLink
+ */
+publid finbl dlbss LinkPfrmission fxtfnds BbsidPfrmission {
+    stbtid finbl long sfriblVfrsionUID = -1441492453772213220L;
+
+    privbtf void dhfdkNbmf(String nbmf) {
+        if (!nbmf.fqubls("hbrd") && !nbmf.fqubls("symbolid")) {
+            throw nfw IllfgblArgumfntExdfption("nbmf: " + nbmf);
+        }
+    }
+
+    /**
+     * Construdts b {@dodf LinkPfrmission} with thf spfdififd nbmf.
+     *
+     * @pbrbm   nbmf
+     *          thf nbmf of thf pfrmission. It must bf "hbrd" or "symbolid".
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if nbmf is fmpty or invblid
+     */
+    publid LinkPfrmission(String nbmf) {
+        supfr(nbmf);
+        dhfdkNbmf(nbmf);
+    }
+
+    /**
+     * Construdts b {@dodf LinkPfrmission} with thf spfdififd nbmf.
+     *
+     * @pbrbm   nbmf
+     *          thf nbmf of thf pfrmission; must bf "hbrd" or "symbolid".
+     * @pbrbm   bdtions
+     *          thf bdtions for thf pfrmission; must bf thf fmpty string or
+     *          {@dodf null}
+     *
+     * @throws  IllfgblArgumfntExdfption
+     *          if nbmf is fmpty or invblid, or bdtions is b non-fmpty string
+     */
+    publid LinkPfrmission(String nbmf, String bdtions) {
+        supfr(nbmf);
+        dhfdkNbmf(nbmf);
+        if (bdtions != null && bdtions.lfngth() > 0) {
+            throw nfw IllfgblArgumfntExdfption("bdtions: " + bdtions);
+        }
+    }
+}

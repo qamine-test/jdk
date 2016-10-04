@@ -1,879 +1,879 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt.h"
-#include "awt_DataTransferer.h"
-#include "awt_DnDDT.h"
-#include "awt_TextComponent.h"
-#include <shlobj.h>
-#include <shellapi.h>
-#include <sun_awt_windows_WDataTransferer.h>
+#indludf "bwt.i"
+#indludf "bwt_DbtbTrbnsffrfr.i"
+#indludf "bwt_DnDDT.i"
+#indludf "bwt_TfxtComponfnt.i"
+#indludf <silobj.i>
+#indludf <sifllbpi.i>
+#indludf <sun_bwt_windows_WDbtbTrbnsffrfr.i>
 
-#include "locale_str.h"
+#indludf "lodblf_str.i"
 
-#define GALLOCFLG (GMEM_DDESHARE | GMEM_MOVEABLE | GMEM_ZEROINIT)
-#define WIN_TO_JAVA_PIXEL(r, g, b) (0xFF000000 | (r) << 16 | (g) << 8  | (b) << 0)
+#dffinf GALLOCFLG (GMEM_DDESHARE | GMEM_MOVEABLE | GMEM_ZEROINIT)
+#dffinf WIN_TO_JAVA_PIXEL(r, g, b) (0xFF000000 | (r) << 16 | (g) << 8  | (b) << 0)
 
-DECLARE_JAVA_CLASS(dataTransfererClazz, "sun/awt/datatransfer/DataTransferer");
+DECLARE_JAVA_CLASS(dbtbTrbnsffrfrClbzz, "sun/bwt/dbtbtrbnsffr/DbtbTrbnsffrfr");
 
-jobject
-AwtDataTransferer::GetDataTransferer(JNIEnv* env) {
-    DECLARE_STATIC_OBJECT_JAVA_METHOD(getInstanceMethodID, dataTransfererClazz,
-                                      "getInstance",
-                                      "()Lsun/awt/datatransfer/DataTransferer;");
-    return env->CallStaticObjectMethod(clazz, getInstanceMethodID);
+jobjfdt
+AwtDbtbTrbnsffrfr::GftDbtbTrbnsffrfr(JNIEnv* fnv) {
+    DECLARE_STATIC_OBJECT_JAVA_METHOD(gftInstbndfMftiodID, dbtbTrbnsffrfrClbzz,
+                                      "gftInstbndf",
+                                      "()Lsun/bwt/dbtbtrbnsffr/DbtbTrbnsffrfr;");
+    rfturn fnv->CbllStbtidObjfdtMftiod(dlbzz, gftInstbndfMftiodID);
 }
 
-jbyteArray
-AwtDataTransferer::ConvertData(JNIEnv* env, jobject source, jobject contents,
-                               jlong format, jobject formatMap) {
-    jobject transferer = GetDataTransferer(env);
+jbytfArrby
+AwtDbtbTrbnsffrfr::ConvfrtDbtb(JNIEnv* fnv, jobjfdt sourdf, jobjfdt dontfnts,
+                               jlong formbt, jobjfdt formbtMbp) {
+    jobjfdt trbnsffrfr = GftDbtbTrbnsffrfr(fnv);
 
-    if (!JNU_IsNull(env, transferer)) {
-        jbyteArray ret = NULL;
-        DECLARE_OBJECT_JAVA_METHOD(convertDataMethodID, dataTransfererClazz,
-                                   "convertData",
-                                   "(Ljava/lang/Object;Ljava/awt/datatransfer/Transferable;JLjava/util/Map;Z)[B");
+    if (!JNU_IsNull(fnv, trbnsffrfr)) {
+        jbytfArrby rft = NULL;
+        DECLARE_OBJECT_JAVA_METHOD(donvfrtDbtbMftiodID, dbtbTrbnsffrfrClbzz,
+                                   "donvfrtDbtb",
+                                   "(Ljbvb/lbng/Objfdt;Ljbvb/bwt/dbtbtrbnsffr/Trbnsffrbblf;JLjbvb/util/Mbp;Z)[B");
 
-        ret = (jbyteArray)env->CallObjectMethod(transferer, convertDataMethodID,
-                                                source, contents, format,
-                                                formatMap, AwtToolkit::IsMainThread());
+        rft = (jbytfArrby)fnv->CbllObjfdtMftiod(trbnsffrfr, donvfrtDbtbMftiodID,
+                                                sourdf, dontfnts, formbt,
+                                                formbtMbp, AwtToolkit::IsMbinTirfbd());
 
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-            env->ExceptionDescribe();
-            env->ExceptionClear();
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
         }
 
-        env->DeleteLocalRef(transferer);
+        fnv->DflftfLodblRff(trbnsffrfr);
 
-        return ret;
-    } else {
-        return NULL;
+        rfturn rft;
+    } flsf {
+        rfturn NULL;
     }
 }
 
-jobject
-AwtDataTransferer::ConcatData(JNIEnv* env, jobject obj1, jobject obj2) {
-    jobject transferer = GetDataTransferer(env);
+jobjfdt
+AwtDbtbTrbnsffrfr::CondbtDbtb(JNIEnv* fnv, jobjfdt obj1, jobjfdt obj2) {
+    jobjfdt trbnsffrfr = GftDbtbTrbnsffrfr(fnv);
 
-    if (!JNU_IsNull(env, transferer)) {
-        jobject ret = NULL;
-        DECLARE_OBJECT_JAVA_METHOD(concatDataMethodID, dataTransfererClazz,
-                                   "concatData",
-                                   "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+    if (!JNU_IsNull(fnv, trbnsffrfr)) {
+        jobjfdt rft = NULL;
+        DECLARE_OBJECT_JAVA_METHOD(dondbtDbtbMftiodID, dbtbTrbnsffrfrClbzz,
+                                   "dondbtDbtb",
+                                   "(Ljbvb/lbng/Objfdt;Ljbvb/lbng/Objfdt;)Ljbvb/lbng/Objfdt;");
 
-        ret = env->CallObjectMethod(transferer, concatDataMethodID, obj1, obj2);
+        rft = fnv->CbllObjfdtMftiod(trbnsffrfr, dondbtDbtbMftiodID, obj1, obj2);
 
-        if (!JNU_IsNull(env, safe_ExceptionOccurred(env))) {
-            env->ExceptionDescribe();
-            env->ExceptionClear();
+        if (!JNU_IsNull(fnv, sbff_ExdfptionOddurrfd(fnv))) {
+            fnv->ExdfptionDfsdribf();
+            fnv->ExdfptionClfbr();
         }
 
-        env->DeleteLocalRef(transferer);
+        fnv->DflftfLodblRff(trbnsffrfr);
 
-        return ret;
-    } else {
-        return NULL;
+        rfturn rft;
+    } flsf {
+        rfturn NULL;
     }
 }
 
 /**
- * This routine retrieves palette entries from enhanced metafile or
- * a logical color palette, builds appropriate LOGPALETTE structure,
- * writes it into a created Java byte array and returns a local
- * reference to the array.
- * This routine is used for image data transfer.
+ * Tiis routinf rftrifvfs pblfttf fntrifs from fnibndfd mftbfilf or
+ * b logidbl dolor pblfttf, builds bppropribtf LOGPALETTE strudturf,
+ * writfs it into b drfbtfd Jbvb bytf brrby bnd rfturns b lodbl
+ * rfffrfndf to tif brrby.
+ * Tiis routinf is usfd for imbgf dbtb trbnsffr.
  *
- * @param hGdiObj - a handle to the GDI object to retrieve palette entries from,
- *        it can be a handle to either a logical color palette (OBJ_PAL type)
- *        or an enhanced metafile (OBJ_ENHMETAFILE). If it is neither of these
- *        types the routine fails(see bFailSafe).
- * @param dwGdiObjType - a type of the passed GDI object. It should be specified
- *        if the type of the passed GDI object is known to the caller. Otherwise
- *        pass 0.
- * @param bFailSafe - if FALSE, the routine will return NULL in case of failure,
- *        otherwise it will return an array with empty LOGPALETTE structure
- *        in case of failure.
- * @return a local reference to Java byte array which contains LOGPALETTE
- *        structure which defines a logical color palette or a palette of
- *        an enhanced metafile.
+ * @pbrbm iGdiObj - b ibndlf to tif GDI objfdt to rftrifvf pblfttf fntrifs from,
+ *        it dbn bf b ibndlf to fitifr b logidbl dolor pblfttf (OBJ_PAL typf)
+ *        or bn fnibndfd mftbfilf (OBJ_ENHMETAFILE). If it is nfitifr of tifsf
+ *        typfs tif routinf fbils(sff bFbilSbff).
+ * @pbrbm dwGdiObjTypf - b typf of tif pbssfd GDI objfdt. It siould bf spfdififd
+ *        if tif typf of tif pbssfd GDI objfdt is known to tif dbllfr. Otifrwisf
+ *        pbss 0.
+ * @pbrbm bFbilSbff - if FALSE, tif routinf will rfturn NULL in dbsf of fbilurf,
+ *        otifrwisf it will rfturn bn brrby witi fmpty LOGPALETTE strudturf
+ *        in dbsf of fbilurf.
+ * @rfturn b lodbl rfffrfndf to Jbvb bytf brrby wiidi dontbins LOGPALETTE
+ *        strudturf wiidi dffinfs b logidbl dolor pblfttf or b pblfttf of
+ *        bn fnibndfd mftbfilf.
  */
-jbyteArray
-AwtDataTransferer::GetPaletteBytes(HGDIOBJ hGdiObj, DWORD dwGdiObjType,
-                                   BOOL bFailSafe) {
+jbytfArrby
+AwtDbtbTrbnsffrfr::GftPblfttfBytfs(HGDIOBJ iGdiObj, DWORD dwGdiObjTypf,
+                                   BOOL bFbilSbff) {
 
-    if (hGdiObj == NULL) {
-        dwGdiObjType = 0;
-    } else if (dwGdiObjType == 0) {
-        dwGdiObjType = ::GetObjectType(hGdiObj);
-    } else {
-        DASSERT(::GetObjectType(hGdiObj) == dwGdiObjType);
+    if (iGdiObj == NULL) {
+        dwGdiObjTypf = 0;
+    } flsf if (dwGdiObjTypf == 0) {
+        dwGdiObjTypf = ::GftObjfdtTypf(iGdiObj);
+    } flsf {
+        DASSERT(::GftObjfdtTypf(iGdiObj) == dwGdiObjTypf);
     }
 
-    if (!bFailSafe && dwGdiObjType == 0) {
-        return NULL;
+    if (!bFbilSbff && dwGdiObjTypf == 0) {
+        rfturn NULL;
     }
 
-    UINT nEntries = 0;
+    UINT nEntrifs = 0;
 
-    switch (dwGdiObjType) {
-    case OBJ_PAL:
-        nEntries =
-            ::GetPaletteEntries((HPALETTE)hGdiObj, 0, 0, NULL);
-        break;
-    case OBJ_ENHMETAFILE:
-        nEntries =
-            ::GetEnhMetaFilePaletteEntries((HENHMETAFILE)hGdiObj, 0, NULL);
-        break;
+    switdi (dwGdiObjTypf) {
+    dbsf OBJ_PAL:
+        nEntrifs =
+            ::GftPblfttfEntrifs((HPALETTE)iGdiObj, 0, 0, NULL);
+        brfbk;
+    dbsf OBJ_ENHMETAFILE:
+        nEntrifs =
+            ::GftEniMftbFilfPblfttfEntrifs((HENHMETAFILE)iGdiObj, 0, NULL);
+        brfbk;
     }
 
-    if (!bFailSafe && (nEntries == 0 || nEntries == GDI_ERROR)) {
-        return NULL;
+    if (!bFbilSbff && (nEntrifs == 0 || nEntrifs == GDI_ERROR)) {
+        rfturn NULL;
     }
 
-    JNIEnv* env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-    jsize size = sizeof(LOGPALETTE) + nEntries * sizeof(PALETTEENTRY);
+    JNIEnv* fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+    jsizf sizf = sizfof(LOGPALETTE) + nEntrifs * sizfof(PALETTEENTRY);
 
-    jbyteArray paletteBytes = env->NewByteArray(size);
-    if (JNU_IsNull(env, paletteBytes)) {
-        throw std::bad_alloc();
+    jbytfArrby pblfttfBytfs = fnv->NfwBytfArrby(sizf);
+    if (JNU_IsNull(fnv, pblfttfBytfs)) {
+        tirow std::bbd_bllod();
     }
 
-    LOGPALETTE* pLogPalette =
-        (LOGPALETTE*)env->GetPrimitiveArrayCritical(paletteBytes, NULL);
-    PALETTEENTRY* pPalEntries = (PALETTEENTRY*)pLogPalette->palPalEntry;
+    LOGPALETTE* pLogPblfttf =
+        (LOGPALETTE*)fnv->GftPrimitivfArrbyCritidbl(pblfttfBytfs, NULL);
+    PALETTEENTRY* pPblEntrifs = (PALETTEENTRY*)pLogPblfttf->pblPblEntry;
 
-    pLogPalette->palVersion = 0x300;
-    pLogPalette->palNumEntries = nEntries;
+    pLogPblfttf->pblVfrsion = 0x300;
+    pLogPblfttf->pblNumEntrifs = nEntrifs;
 
-    switch (dwGdiObjType) {
-    case OBJ_PAL:
-        VERIFY(::GetPaletteEntries((HPALETTE)hGdiObj, 0, nEntries,
-                                   pPalEntries) == nEntries);
-        break;
-    case OBJ_ENHMETAFILE:
-        VERIFY(::GetEnhMetaFilePaletteEntries((HENHMETAFILE)hGdiObj, nEntries,
-                                              pPalEntries) == nEntries);
-        break;
+    switdi (dwGdiObjTypf) {
+    dbsf OBJ_PAL:
+        VERIFY(::GftPblfttfEntrifs((HPALETTE)iGdiObj, 0, nEntrifs,
+                                   pPblEntrifs) == nEntrifs);
+        brfbk;
+    dbsf OBJ_ENHMETAFILE:
+        VERIFY(::GftEniMftbFilfPblfttfEntrifs((HENHMETAFILE)iGdiObj, nEntrifs,
+                                              pPblEntrifs) == nEntrifs);
+        brfbk;
     }
 
-    env->ReleasePrimitiveArrayCritical(paletteBytes, pLogPalette, 0);
+    fnv->RflfbsfPrimitivfArrbyCritidbl(pblfttfBytfs, pLogPblfttf, 0);
 
-    return paletteBytes;
+    rfturn pblfttfBytfs;
 }
 
-jbyteArray
-AwtDataTransferer::LCIDToTextEncoding(JNIEnv *env, LCID lcid) {
-    LANGID langID = LANGIDFROMLCID(lcid);
-    const char *encoding = getEncodingFromLangID(langID);
+jbytfArrby
+AwtDbtbTrbnsffrfr::LCIDToTfxtEndoding(JNIEnv *fnv, LCID ldid) {
+    LANGID lbngID = LANGIDFROMLCID(ldid);
+    donst dibr *fndoding = gftEndodingFromLbngID(lbngID);
 
-    // Warning C4244.
-    // Cast SIZE_T (__int64 on 64-bit/unsigned int on 32-bit)
-    // to jsize (long).
-    // We assume that the encoding name length cannot exceed INT_MAX.
-    jsize length = (jsize)strlen(encoding);
+    // Wbrning C4244.
+    // Cbst SIZE_T (__int64 on 64-bit/unsignfd int on 32-bit)
+    // to jsizf (long).
+    // Wf bssumf tibt tif fndoding nbmf lfngti dbnnot fxdffd INT_MAX.
+    jsizf lfngti = (jsizf)strlfn(fndoding);
 
-    jbyteArray retval = env->NewByteArray(length);
-    if (retval == NULL) {
-        throw std::bad_alloc();
+    jbytfArrby rftvbl = fnv->NfwBytfArrby(lfngti);
+    if (rftvbl == NULL) {
+        tirow std::bbd_bllod();
     }
-    env->SetByteArrayRegion(retval, 0, length, (jbyte *)encoding);
-    free((void *)encoding);
-    return retval;
+    fnv->SftBytfArrbyRfgion(rftvbl, 0, lfngti, (jbytf *)fndoding);
+    frff((void *)fndoding);
+    rfturn rftvbl;
 }
 
-static VOID CALLBACK
-IdleFunc() {
+stbtid VOID CALLBACK
+IdlfFund() {
     /*
-     * Fix for 4485987 and 4669873.
-     * If IdleFunc is a noop, the secondary message pump occasionally occupies
-     * all processor time and causes drag freezes. GetQueueStatus is needed to
-     * mark all messages that are currently in the queue as old, otherwise
-     * WaitMessage will return immediatelly as we selectively get messages from
-     * the queue.
+     * Fix for 4485987 bnd 4669873.
+     * If IdlfFund is b noop, tif sfdondbry mfssbgf pump oddbsionblly oddupifs
+     * bll prodfssor timf bnd dbusfs drbg frffzfs. GftQufufStbtus is nffdfd to
+     * mbrk bll mfssbgfs tibt brf durrfntly in tif qufuf bs old, otifrwisf
+     * WbitMfssbgf will rfturn immfdibtflly bs wf sflfdtivfly gft mfssbgfs from
+     * tif qufuf.
      */
-    ::WaitMessage();
-    ::GetQueueStatus(QS_ALLINPUT);
+    ::WbitMfssbgf();
+    ::GftQufufStbtus(QS_ALLINPUT);
 }
 
-static BOOL CALLBACK
-PeekMessageFunc(MSG& msg) {
-    return ::PeekMessage(&msg, NULL, WM_QUIT, WM_QUIT, PM_REMOVE) ||
-           ::PeekMessage(&msg, NULL, WM_AWT_INVOKE_METHOD, WM_AWT_INVOKE_METHOD, PM_REMOVE) ||
-           ::PeekMessage(&msg, NULL, WM_PAINT, WM_PAINT, PM_REMOVE);
+stbtid BOOL CALLBACK
+PffkMfssbgfFund(MSG& msg) {
+    rfturn ::PffkMfssbgf(&msg, NULL, WM_QUIT, WM_QUIT, PM_REMOVE) ||
+           ::PffkMfssbgf(&msg, NULL, WM_AWT_INVOKE_METHOD, WM_AWT_INVOKE_METHOD, PM_REMOVE) ||
+           ::PffkMfssbgf(&msg, NULL, WM_PAINT, WM_PAINT, PM_REMOVE);
 }
 
 void
-AwtDataTransferer::SecondaryMessageLoop() {
-    DASSERT(AwtToolkit::MainThread() == ::GetCurrentThreadId());
+AwtDbtbTrbnsffrfr::SfdondbryMfssbgfLoop() {
+    DASSERT(AwtToolkit::MbinTirfbd() == ::GftCurrfntTirfbdId());
 
-    AwtToolkit::GetInstance().MessageLoop(IdleFunc,
-                                          PeekMessageFunc);
+    AwtToolkit::GftInstbndf().MfssbgfLoop(IdlfFund,
+                                          PffkMfssbgfFund);
 }
 
-extern "C" {
+fxtfrn "C" {
 
 /*
- * Class:     sun_awt_datatransfer_DataTransferer
- * Method:    draqQueryFile
- * Signature: ([B)[Ljava/lang/String;
+ * Clbss:     sun_bwt_dbtbtrbnsffr_DbtbTrbnsffrfr
+ * Mftiod:    drbqQufryFilf
+ * Signbturf: ([B)[Ljbvb/lbng/String;
  */
-JNIEXPORT jobjectArray JNICALL
-Java_sun_awt_windows_WDataTransferer_dragQueryFile
-    (JNIEnv *env, jobject obj, jbyteArray bytes)
+JNIEXPORT jobjfdtArrby JNICALL
+Jbvb_sun_bwt_windows_WDbtbTrbnsffrfr_drbgQufryFilf
+    (JNIEnv *fnv, jobjfdt obj, jbytfArrby bytfs)
 {
     TRY;
 
     /*
-     * Fix for the BugTraq ID 4327064 - inter-jvm DnD crashes the droping jvm.
-     * On Win9X DragQueryFile() doesn't accept a pointer to the local help as the first
-     * argument, so we should dump the bits into global memory.
+     * Fix for tif BugTrbq ID 4327064 - intfr-jvm DnD drbsifs tif droping jvm.
+     * On Win9X DrbgQufryFilf() dofsn't bddfpt b pointfr to tif lodbl iflp bs tif first
+     * brgumfnt, so wf siould dump tif bits into globbl mfmory.
      */
-    UINT size = env->GetArrayLength(bytes);
-    HGLOBAL hglobal = NULL;
-    jbyte *bBytes = NULL;
-    HDROP hdrop = NULL;
-    LPTSTR buffer = NULL;
+    UINT sizf = fnv->GftArrbyLfngti(bytfs);
+    HGLOBAL iglobbl = NULL;
+    jbytf *bBytfs = NULL;
+    HDROP idrop = NULL;
+    LPTSTR bufffr = NULL;
 
-    hglobal = ::GlobalAlloc(GALLOCFLG, size);
+    iglobbl = ::GlobblAllod(GALLOCFLG, sizf);
 
-    if (hglobal == NULL) {
-        throw std::bad_alloc();
+    if (iglobbl == NULL) {
+        tirow std::bbd_bllod();
     }
 
     try {
 
-        bBytes = (jbyte*)::GlobalLock(hglobal);
-        env->GetByteArrayRegion(bytes, 0, size, bBytes);
+        bBytfs = (jbytf*)::GlobblLodk(iglobbl);
+        fnv->GftBytfArrbyRfgion(bytfs, 0, sizf, bBytfs);
 
-        hdrop = (HDROP)bBytes;
+        idrop = (HDROP)bBytfs;
 
-        UINT nFilenames = ::DragQueryFile(hdrop, 0xFFFFFFFF, NULL, 0);
+        UINT nFilfnbmfs = ::DrbgQufryFilf(idrop, 0xFFFFFFFF, NULL, 0);
 
-        jclass str_clazz = env->FindClass("java/lang/String");
-        DASSERT(str_clazz != NULL);
-        if (str_clazz == NULL) {
-           throw std::bad_alloc();
+        jdlbss str_dlbzz = fnv->FindClbss("jbvb/lbng/String");
+        DASSERT(str_dlbzz != NULL);
+        if (str_dlbzz == NULL) {
+           tirow std::bbd_bllod();
         }
-        jobjectArray filenames = env->NewObjectArray(nFilenames, str_clazz,
+        jobjfdtArrby filfnbmfs = fnv->NfwObjfdtArrby(nFilfnbmfs, str_dlbzz,
                                                      NULL);
-        if (filenames == NULL) {
-            throw std::bad_alloc();
+        if (filfnbmfs == NULL) {
+            tirow std::bbd_bllod();
         }
 
-        UINT bufsize = 512; // in characters, not in bytes
-        buffer = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, bufsize, sizeof(TCHAR));
+        UINT bufsizf = 512; // in dibrbdtfrs, not in bytfs
+        bufffr = (LPTSTR)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, bufsizf, sizfof(TCHAR));
 
-        for (UINT i = 0; i < nFilenames; i++) {
-            UINT size = ::DragQueryFile(hdrop, i, NULL, 0);
-            if (size > bufsize) {
-                bufsize = size;
-                buffer = (LPTSTR)SAFE_SIZE_ARRAY_REALLOC(safe_Realloc, buffer, bufsize, sizeof(TCHAR));
+        for (UINT i = 0; i < nFilfnbmfs; i++) {
+            UINT sizf = ::DrbgQufryFilf(idrop, i, NULL, 0);
+            if (sizf > bufsizf) {
+                bufsizf = sizf;
+                bufffr = (LPTSTR)SAFE_SIZE_ARRAY_REALLOC(sbff_Rfbllod, bufffr, bufsizf, sizfof(TCHAR));
             }
-            ::DragQueryFile(hdrop, i, buffer, bufsize);
+            ::DrbgQufryFilf(idrop, i, bufffr, bufsizf);
 
-            jstring name = JNU_NewStringPlatform(env, buffer);
-            if (name == NULL) {
-                throw std::bad_alloc();
+            jstring nbmf = JNU_NfwStringPlbtform(fnv, bufffr);
+            if (nbmf == NULL) {
+                tirow std::bbd_bllod();
             }
 
-            env->SetObjectArrayElement(filenames, i, name);
+            fnv->SftObjfdtArrbyElfmfnt(filfnbmfs, i, nbmf);
         }
 
-        free(buffer);
-        ::GlobalUnlock(hglobal);
-        ::GlobalFree(hglobal);
-        return filenames;
+        frff(bufffr);
+        ::GlobblUnlodk(iglobbl);
+        ::GlobblFrff(iglobbl);
+        rfturn filfnbmfs;
 
-    } catch (std::bad_alloc&) {
-        free(buffer);
-        ::GlobalUnlock(hglobal);
-        ::GlobalFree(hglobal);
-        throw;
+    } dbtdi (std::bbd_bllod&) {
+        frff(bufffr);
+        ::GlobblUnlodk(iglobbl);
+        ::GlobblFrff(iglobbl);
+        tirow;
     }
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 /*
- * Class:     sun_awt_windows_WDataTransferer
- * Method:    platformImageBytesToImageData
- * Signature: ([BI)[I
+ * Clbss:     sun_bwt_windows_WDbtbTrbnsffrfr
+ * Mftiod:    plbtformImbgfBytfsToImbgfDbtb
+ * Signbturf: ([BI)[I
  */
-JNIEXPORT jintArray JNICALL
-Java_sun_awt_windows_WDataTransferer_platformImageBytesToImageData(
-    JNIEnv *env, jobject self, jbyteArray bytes, jlong format) {
+JNIEXPORT jintArrby JNICALL
+Jbvb_sun_bwt_windows_WDbtbTrbnsffrfr_plbtformImbgfBytfsToImbgfDbtb(
+    JNIEnv *fnv, jobjfdt sflf, jbytfArrby bytfs, jlong formbt) {
 
     TRY;
 
-    HDC hdc = NULL;
+    HDC idd = NULL;
 
-    LOGPALETTE* pLogPalette = NULL;
-    WORD uPaletteEntries = 0;
-    SIZE_T uOffset = 0;
-    HPALETTE hPalette = NULL;
-    HPALETTE hOldPalette = NULL;
+    LOGPALETTE* pLogPblfttf = NULL;
+    WORD uPblfttfEntrifs = 0;
+    SIZE_T uOffsft = 0;
+    HPALETTE iPblfttf = NULL;
+    HPALETTE iOldPblfttf = NULL;
 
-    BITMAPINFO* pSrcBmi = NULL;
-    BITMAPINFOHEADER* pSrcBmih = NULL;
-    LPVOID pSrcBits = NULL;
+    BITMAPINFO* pSrdBmi = NULL;
+    BITMAPINFOHEADER* pSrdBmii = NULL;
+    LPVOID pSrdBits = NULL;
     BITMAPINFO* pDstBmi = NULL;
-    BITMAPINFOHEADER* pDstBmih = NULL;
+    BITMAPINFOHEADER* pDstBmii = NULL;
     LPVOID pDstBits = NULL;
 
-    LPBYTE lpEnhMetaFileBits = NULL;
-    HENHMETAFILE hEnhMetaFile = NULL;
+    LPBYTE lpEniMftbFilfBits = NULL;
+    HENHMETAFILE iEniMftbFilf = NULL;
 
-    HBITMAP hDibSection = NULL;
-    HBITMAP hOldBitmap = NULL;
-    jintArray buffer = NULL;
-    LONG width = 0;
-    LONG height = 0;
-    int numPixels = 0;
+    HBITMAP iDibSfdtion = NULL;
+    HBITMAP iOldBitmbp = NULL;
+    jintArrby bufffr = NULL;
+    LONG widti = 0;
+    LONG ifigit = 0;
+    int numPixfls = 0;
 
-    if (JNU_IsNull(env, bytes)) {
-        return NULL;
+    if (JNU_IsNull(fnv, bytfs)) {
+        rfturn NULL;
     }
 
-    jsize size = env->GetArrayLength(bytes);
-    if (size == 0) {
-        return NULL;
+    jsizf sizf = fnv->GftArrbyLfngti(bytfs);
+    if (sizf == 0) {
+        rfturn NULL;
     }
 
-    jbyte* bBytes = (jbyte*)SAFE_SIZE_ARRAY_ALLOC(safe_Malloc, size, sizeof(jbyte));
+    jbytf* bBytfs = (jbytf*)SAFE_SIZE_ARRAY_ALLOC(sbff_Mbllod, sizf, sizfof(jbytf));
 
     try {
 
-        env->GetByteArrayRegion(bytes, 0, size, bBytes);
+        fnv->GftBytfArrbyRfgion(bytfs, 0, sizf, bBytfs);
 
-        pLogPalette = (LOGPALETTE*)bBytes;
-        uPaletteEntries = pLogPalette->palNumEntries;
-        uOffset = sizeof(LOGPALETTE) + uPaletteEntries * sizeof(PALETTEENTRY);
-        DASSERT(uOffset < (SIZE_T)size);
+        pLogPblfttf = (LOGPALETTE*)bBytfs;
+        uPblfttfEntrifs = pLogPblfttf->pblNumEntrifs;
+        uOffsft = sizfof(LOGPALETTE) + uPblfttfEntrifs * sizfof(PALETTEENTRY);
+        DASSERT(uOffsft < (SIZE_T)sizf);
 
-        if (uPaletteEntries == 0) {
-            pLogPalette = NULL;
+        if (uPblfttfEntrifs == 0) {
+            pLogPblfttf = NULL;
         }
 
-        hdc = ::CreateCompatibleDC(NULL);
-        if (hdc == NULL) {
-            free(bBytes);
-            return NULL;
+        idd = ::CrfbtfCompbtiblfDC(NULL);
+        if (idd == NULL) {
+            frff(bBytfs);
+            rfturn NULL;
         }
 
-        switch (format) {
-        case CF_DIB:
+        switdi (formbt) {
+        dbsf CF_DIB:
 
-            pSrcBmi = (BITMAPINFO*)((LPSTR)bBytes + uOffset);
-            pSrcBmih = &pSrcBmi->bmiHeader;
+            pSrdBmi = (BITMAPINFO*)((LPSTR)bBytfs + uOffsft);
+            pSrdBmii = &pSrdBmi->bmiHfbdfr;
 
-            width = pSrcBmih->biWidth;
-            height = abs(pSrcBmih->biHeight);
+            widti = pSrdBmii->biWidti;
+            ifigit = bbs(pSrdBmii->biHfigit);
 
             {
-                DWORD nColorEntries = 0;
+                DWORD nColorEntrifs = 0;
 
-                switch (pSrcBmih->biBitCount) {
-                case  0: nColorEntries = 0; break;
-                case  1: nColorEntries = 2; break;
-                case  4:
-                case  8:
-                    nColorEntries = (pSrcBmih->biClrUsed != 0) ?
-                        pSrcBmih->biClrUsed : (1 << pSrcBmih->biBitCount);
-                    break;
-                case 16:
-                case 24:
-                case 32:
-                    nColorEntries = pSrcBmih->biClrUsed;
-                    // If biBitCount is 16 or 32 and biCompression is
-                    // BI_BITFIELDS the color table will be prefixed with
-                    // three DWORD color masks.
-                    if (pSrcBmih->biCompression == BI_BITFIELDS &&
-                        (pSrcBmih->biBitCount == 16 ||
-                         pSrcBmih->biBitCount == 32)) {
-                        nColorEntries += 3;
+                switdi (pSrdBmii->biBitCount) {
+                dbsf  0: nColorEntrifs = 0; brfbk;
+                dbsf  1: nColorEntrifs = 2; brfbk;
+                dbsf  4:
+                dbsf  8:
+                    nColorEntrifs = (pSrdBmii->biClrUsfd != 0) ?
+                        pSrdBmii->biClrUsfd : (1 << pSrdBmii->biBitCount);
+                    brfbk;
+                dbsf 16:
+                dbsf 24:
+                dbsf 32:
+                    nColorEntrifs = pSrdBmii->biClrUsfd;
+                    // If biBitCount is 16 or 32 bnd biComprfssion is
+                    // BI_BITFIELDS tif dolor tbblf will bf prffixfd witi
+                    // tirff DWORD dolor mbsks.
+                    if (pSrdBmii->biComprfssion == BI_BITFIELDS &&
+                        (pSrdBmii->biBitCount == 16 ||
+                         pSrdBmii->biBitCount == 32)) {
+                        nColorEntrifs += 3;
                     }
-                    break;
-                default:
-                    // The header is probably corrupted.
-                    // Fail immediatelly to avoid memory access violation.
-                    free(bBytes);
-                    ::DeleteDC(hdc);
-                    return NULL;
+                    brfbk;
+                dffbult:
+                    // Tif ifbdfr is probbbly dorruptfd.
+                    // Fbil immfdibtflly to bvoid mfmory bddfss violbtion.
+                    frff(bBytfs);
+                    ::DflftfDC(idd);
+                    rfturn NULL;
                 }
 
-                pSrcBits = (LPSTR)pSrcBmi + pSrcBmih->biSize
-                    + nColorEntries * sizeof(RGBQUAD);
+                pSrdBits = (LPSTR)pSrdBmi + pSrdBmii->biSizf
+                    + nColorEntrifs * sizfof(RGBQUAD);
             }
-            break;
-        case CF_ENHMETAFILE:
-        case CF_METAFILEPICT:
-            lpEnhMetaFileBits = (BYTE*)bBytes + uOffset;
-            // Warning C4244. size is jsize, uOffset is SIZE_T.
-            // We assert that size > uOffset, so it is safe to cast to jsize.
-            hEnhMetaFile = ::SetEnhMetaFileBits(size - (jsize)uOffset,
-                                                lpEnhMetaFileBits);
-            DASSERT(hEnhMetaFile != NULL);
+            brfbk;
+        dbsf CF_ENHMETAFILE:
+        dbsf CF_METAFILEPICT:
+            lpEniMftbFilfBits = (BYTE*)bBytfs + uOffsft;
+            // Wbrning C4244. sizf is jsizf, uOffsft is SIZE_T.
+            // Wf bssfrt tibt sizf > uOffsft, so it is sbff to dbst to jsizf.
+            iEniMftbFilf = ::SftEniMftbFilfBits(sizf - (jsizf)uOffsft,
+                                                lpEniMftbFilfBits);
+            DASSERT(iEniMftbFilf != NULL);
 
             {
-                UINT uHeaderSize =
-                    ::GetEnhMetaFileHeader(hEnhMetaFile, 0, NULL);
-                DASSERT(uHeaderSize != 0);
-                ENHMETAHEADER* lpemh = (ENHMETAHEADER*)safe_Malloc(uHeaderSize);
-                VERIFY(::GetEnhMetaFileHeader(hEnhMetaFile, uHeaderSize,
-                                              lpemh) == uHeaderSize);
-                LPRECTL lpFrame = &lpemh->rclFrame;
-                POINT p = { abs(lpFrame->right - lpFrame->left),
-                            abs(lpFrame->bottom - lpFrame->top) };
-                VERIFY(::SaveDC(hdc));
-                VERIFY(::SetMapMode(hdc, MM_HIMETRIC));
-                VERIFY(::LPtoDP(hdc, &p, 1));
-                VERIFY(::RestoreDC(hdc, -1));
-                width = p.x;
-                height = -p.y;
+                UINT uHfbdfrSizf =
+                    ::GftEniMftbFilfHfbdfr(iEniMftbFilf, 0, NULL);
+                DASSERT(uHfbdfrSizf != 0);
+                ENHMETAHEADER* lpfmi = (ENHMETAHEADER*)sbff_Mbllod(uHfbdfrSizf);
+                VERIFY(::GftEniMftbFilfHfbdfr(iEniMftbFilf, uHfbdfrSizf,
+                                              lpfmi) == uHfbdfrSizf);
+                LPRECTL lpFrbmf = &lpfmi->rdlFrbmf;
+                POINT p = { bbs(lpFrbmf->rigit - lpFrbmf->lfft),
+                            bbs(lpFrbmf->bottom - lpFrbmf->top) };
+                VERIFY(::SbvfDC(idd));
+                VERIFY(::SftMbpModf(idd, MM_HIMETRIC));
+                VERIFY(::LPtoDP(idd, &p, 1));
+                VERIFY(::RfstorfDC(idd, -1));
+                widti = p.x;
+                ifigit = -p.y;
 
-                free(lpemh);
+                frff(lpfmi);
             }
-            break;
-        default:
-            DASSERT(FALSE); // Other formats are not supported yet.
-            free(bBytes);
-            ::DeleteDC(hdc);
-            return NULL;
+            brfbk;
+        dffbult:
+            DASSERT(FALSE); // Otifr formbts brf not supportfd yft.
+            frff(bBytfs);
+            ::DflftfDC(idd);
+            rfturn NULL;
         }
 
-        // JNI doesn't allow to store more than INT_MAX in a single array.
-        // We report conversion failure in this case.
-        if (width * height > INT_MAX) {
-            free(bBytes);
-            ::DeleteDC(hdc);
-            return NULL;
+        // JNI dofsn't bllow to storf morf tibn INT_MAX in b singlf brrby.
+        // Wf rfport donvfrsion fbilurf in tiis dbsf.
+        if (widti * ifigit > INT_MAX) {
+            frff(bBytfs);
+            ::DflftfDC(idd);
+            rfturn NULL;
         }
 
-        numPixels = width * height;
+        numPixfls = widti * ifigit;
 
-        if (pLogPalette != NULL) {
-            hPalette = ::CreatePalette(pLogPalette);
-            if (hPalette == NULL) {
-                free(bBytes);
-                ::DeleteDC(hdc);
-                return NULL;
+        if (pLogPblfttf != NULL) {
+            iPblfttf = ::CrfbtfPblfttf(pLogPblfttf);
+            if (iPblfttf == NULL) {
+                frff(bBytfs);
+                ::DflftfDC(idd);
+                rfturn NULL;
             }
-            hOldPalette = ::SelectPalette(hdc, hPalette, FALSE);
-            ::RealizePalette(hdc);
+            iOldPblfttf = ::SflfdtPblfttf(idd, iPblfttf, FALSE);
+            ::RfblizfPblfttf(idd);
         }
 
-        // allocate memory for BITMAPINFO
-        pDstBmi = (BITMAPINFO *)safe_Calloc(1, sizeof(BITMAPINFO));
-        pDstBmih = &pDstBmi->bmiHeader;
+        // bllodbtf mfmory for BITMAPINFO
+        pDstBmi = (BITMAPINFO *)sbff_Cbllod(1, sizfof(BITMAPINFO));
+        pDstBmii = &pDstBmi->bmiHfbdfr;
 
-        static const int BITS_PER_PIXEL = 32;
+        stbtid donst int BITS_PER_PIXEL = 32;
 
-        // prepare BITMAPINFO for a 32-bit RGB bitmap
-        pDstBmih->biSize = sizeof(BITMAPINFOHEADER);
-        pDstBmih->biWidth = width;
-        pDstBmih->biHeight = -height; // negative height means a top-down DIB
-        pDstBmih->biPlanes = 1;
-        pDstBmih->biBitCount = BITS_PER_PIXEL;
-        pDstBmih->biCompression = BI_RGB;
-        // NOTE: MSDN says that biSizeImage may be set to 0 for BI_RGB bitmaps,
-        // but this causes CreateDIBSection to allocate zero-size memory block
-        // for DIB data. It works okay when biSizeImage is explicitly specified.
-        pDstBmih->biSizeImage = width * height * (BITS_PER_PIXEL >> 3);
+        // prfpbrf BITMAPINFO for b 32-bit RGB bitmbp
+        pDstBmii->biSizf = sizfof(BITMAPINFOHEADER);
+        pDstBmii->biWidti = widti;
+        pDstBmii->biHfigit = -ifigit; // nfgbtivf ifigit mfbns b top-down DIB
+        pDstBmii->biPlbnfs = 1;
+        pDstBmii->biBitCount = BITS_PER_PIXEL;
+        pDstBmii->biComprfssion = BI_RGB;
+        // NOTE: MSDN sbys tibt biSizfImbgf mby bf sft to 0 for BI_RGB bitmbps,
+        // but tiis dbusfs CrfbtfDIBSfdtion to bllodbtf zfro-sizf mfmory blodk
+        // for DIB dbtb. It works okby wifn biSizfImbgf is fxpliditly spfdififd.
+        pDstBmii->biSizfImbgf = widti * ifigit * (BITS_PER_PIXEL >> 3);
 
-        hDibSection = ::CreateDIBSection(hdc, (BITMAPINFO*)pDstBmi,
+        iDibSfdtion = ::CrfbtfDIBSfdtion(idd, (BITMAPINFO*)pDstBmi,
                                          DIB_RGB_COLORS, &pDstBits,
                                          NULL, 0);
 
-        if (hDibSection == NULL) {
-            free(pDstBmi); pDstBmi = NULL;
-            if (hPalette != NULL) {
-                VERIFY(::SelectPalette(hdc, hOldPalette, FALSE) != NULL);
-                hOldPalette = NULL;
-                VERIFY(::DeleteObject(hPalette)); hPalette = NULL;
+        if (iDibSfdtion == NULL) {
+            frff(pDstBmi); pDstBmi = NULL;
+            if (iPblfttf != NULL) {
+                VERIFY(::SflfdtPblfttf(idd, iOldPblfttf, FALSE) != NULL);
+                iOldPblfttf = NULL;
+                VERIFY(::DflftfObjfdt(iPblfttf)); iPblfttf = NULL;
             }
-            VERIFY(::DeleteDC(hdc)); hdc = NULL;
-            free(bBytes); bBytes = NULL;
+            VERIFY(::DflftfDC(idd)); idd = NULL;
+            frff(bBytfs); bBytfs = NULL;
 
-            JNU_ThrowIOException(env, "failed to get drop data");
-            return NULL;
+            JNU_TirowIOExdfption(fnv, "fbilfd to gft drop dbtb");
+            rfturn NULL;
         }
 
-        hOldBitmap = (HBITMAP)::SelectObject(hdc, hDibSection);
-        DASSERT(hOldBitmap != NULL);
+        iOldBitmbp = (HBITMAP)::SflfdtObjfdt(idd, iDibSfdtion);
+        DASSERT(iOldBitmbp != NULL);
 
-        switch (format) {
-        case CF_DIB:
-            VERIFY(::StretchDIBits(hdc,
-                                   0, 0, width, height,
-                                   0, 0, width, height,
-                                   pSrcBits, pSrcBmi,
+        switdi (formbt) {
+        dbsf CF_DIB:
+            VERIFY(::StrftdiDIBits(idd,
+                                   0, 0, widti, ifigit,
+                                   0, 0, widti, ifigit,
+                                   pSrdBits, pSrdBmi,
                                    DIB_RGB_COLORS, SRCCOPY) != GDI_ERROR);
-            break;
-        case CF_ENHMETAFILE:
-        case CF_METAFILEPICT: {
-            RECT rect = { 0, 0, width, height };
+            brfbk;
+        dbsf CF_ENHMETAFILE:
+        dbsf CF_METAFILEPICT: {
+            RECT rfdt = { 0, 0, widti, ifigit };
 
-            VERIFY(::PlayEnhMetaFile(hdc, hEnhMetaFile, &rect));
-            VERIFY(::DeleteEnhMetaFile(hEnhMetaFile)); hEnhMetaFile = NULL;
-            break;
+            VERIFY(::PlbyEniMftbFilf(idd, iEniMftbFilf, &rfdt));
+            VERIFY(::DflftfEniMftbFilf(iEniMftbFilf)); iEniMftbFilf = NULL;
+            brfbk;
         }
-        default:
-            // Other formats are not supported yet.
+        dffbult:
+            // Otifr formbts brf not supportfd yft.
             DASSERT(FALSE);
-            break;
+            brfbk;
         }
 
-        // convert Win32 pixel format (BGRX) to Java format (ARGB)
-        DASSERT(sizeof(jint) == sizeof(RGBQUAD));
+        // donvfrt Win32 pixfl formbt (BGRX) to Jbvb formbt (ARGB)
+        DASSERT(sizfof(jint) == sizfof(RGBQUAD));
         RGBQUAD* prgbq = (RGBQUAD*)pDstBits;
-        for(int nPixel = 0; nPixel < numPixels; nPixel++, prgbq++) {
-            jint jpixel = WIN_TO_JAVA_PIXEL(prgbq->rgbRed,
-                                            prgbq->rgbGreen,
-                                            prgbq->rgbBlue);
-            // stuff the 32-bit pixel back into the 32-bit RGBQUAD
-            *prgbq = *((RGBQUAD*)(&jpixel));
+        for(int nPixfl = 0; nPixfl < numPixfls; nPixfl++, prgbq++) {
+            jint jpixfl = WIN_TO_JAVA_PIXEL(prgbq->rgbRfd,
+                                            prgbq->rgbGrffn,
+                                            prgbq->rgbBluf);
+            // stuff tif 32-bit pixfl bbdk into tif 32-bit RGBQUAD
+            *prgbq = *((RGBQUAD*)(&jpixfl));
         }
 
-        buffer = env->NewIntArray(numPixels + 2);
-        if (buffer == NULL) {
-            throw std::bad_alloc();
+        bufffr = fnv->NfwIntArrby(numPixfls + 2);
+        if (bufffr == NULL) {
+            tirow std::bbd_bllod();
         }
 
-        // copy pixels into Java array
-        env->SetIntArrayRegion(buffer, 0, numPixels, (jint*)pDstBits);
+        // dopy pixfls into Jbvb brrby
+        fnv->SftIntArrbyRfgion(bufffr, 0, numPixfls, (jint*)pDstBits);
 
-        // copy dimensions into Java array
-        env->SetIntArrayRegion(buffer, numPixels, 1, (jint*)&width);
-        env->SetIntArrayRegion(buffer, numPixels + 1, 1, (jint*)&height);
+        // dopy dimfnsions into Jbvb brrby
+        fnv->SftIntArrbyRfgion(bufffr, numPixfls, 1, (jint*)&widti);
+        fnv->SftIntArrbyRfgion(bufffr, numPixfls + 1, 1, (jint*)&ifigit);
 
-        VERIFY(::SelectObject(hdc, hOldBitmap) != NULL); hOldBitmap = NULL;
-        VERIFY(::DeleteObject(hDibSection)); hDibSection = NULL;
-        free(pDstBmi); pDstBmi = NULL;
-        if (hPalette != NULL) {
-            VERIFY(::SelectPalette(hdc, hOldPalette, FALSE) != NULL);
-            hOldPalette = NULL;
-            VERIFY(::DeleteObject(hPalette)); hPalette = NULL;
+        VERIFY(::SflfdtObjfdt(idd, iOldBitmbp) != NULL); iOldBitmbp = NULL;
+        VERIFY(::DflftfObjfdt(iDibSfdtion)); iDibSfdtion = NULL;
+        frff(pDstBmi); pDstBmi = NULL;
+        if (iPblfttf != NULL) {
+            VERIFY(::SflfdtPblfttf(idd, iOldPblfttf, FALSE) != NULL);
+            iOldPblfttf = NULL;
+            VERIFY(::DflftfObjfdt(iPblfttf)); iPblfttf = NULL;
         }
-        VERIFY(::DeleteDC(hdc)); hdc = NULL;
-        free(bBytes); bBytes = NULL;
-    } catch (...) {
-        if (hdc != NULL && hOldBitmap != NULL) {
-            VERIFY(::SelectObject(hdc, hOldBitmap) != NULL); hOldBitmap = NULL;
+        VERIFY(::DflftfDC(idd)); idd = NULL;
+        frff(bBytfs); bBytfs = NULL;
+    } dbtdi (...) {
+        if (idd != NULL && iOldBitmbp != NULL) {
+            VERIFY(::SflfdtObjfdt(idd, iOldBitmbp) != NULL); iOldBitmbp = NULL;
         }
-        if (hDibSection != NULL) {
-            VERIFY(::DeleteObject(hDibSection)); hDibSection = NULL;
+        if (iDibSfdtion != NULL) {
+            VERIFY(::DflftfObjfdt(iDibSfdtion)); iDibSfdtion = NULL;
         }
         if (pDstBmi != NULL) {
-            free(pDstBmi); pDstBmi = NULL;
+            frff(pDstBmi); pDstBmi = NULL;
         }
-        if (hPalette != NULL) {
-            if (hdc != NULL) {
-                VERIFY(::SelectPalette(hdc, hOldPalette, FALSE) != NULL);
-                hOldPalette = NULL;
+        if (iPblfttf != NULL) {
+            if (idd != NULL) {
+                VERIFY(::SflfdtPblfttf(idd, iOldPblfttf, FALSE) != NULL);
+                iOldPblfttf = NULL;
             }
-            VERIFY(::DeleteObject(hPalette)); hPalette = NULL;
+            VERIFY(::DflftfObjfdt(iPblfttf)); iPblfttf = NULL;
         }
-        if (hdc != NULL) {
-            VERIFY(::DeleteDC(hdc)); hdc = NULL;
+        if (idd != NULL) {
+            VERIFY(::DflftfDC(idd)); idd = NULL;
         }
-        if (hEnhMetaFile != NULL) {
-            VERIFY(::DeleteEnhMetaFile(hEnhMetaFile)); hEnhMetaFile = NULL;
+        if (iEniMftbFilf != NULL) {
+            VERIFY(::DflftfEniMftbFilf(iEniMftbFilf)); iEniMftbFilf = NULL;
         }
-        if (bBytes != NULL) {
-            free(bBytes); bBytes = NULL;
+        if (bBytfs != NULL) {
+            frff(bBytfs); bBytfs = NULL;
         }
-        throw;
+        tirow;
     }
 
-    return buffer;
+    rfturn bufffr;
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 /*
- * Class:     sun_awt_windows_WDataTransferer
- * Method:    imageDataToPlatformImageBytes
- * Signature: ([BIII)[B
+ * Clbss:     sun_bwt_windows_WDbtbTrbnsffrfr
+ * Mftiod:    imbgfDbtbToPlbtformImbgfBytfs
+ * Signbturf: ([BIII)[B
  */
-JNIEXPORT jbyteArray JNICALL
-Java_sun_awt_windows_WDataTransferer_imageDataToPlatformImageBytes(JNIEnv *env,
-                                               jobject self, jbyteArray imageData,
-                                               jint width, jint height,
-                                               jlong format) {
+JNIEXPORT jbytfArrby JNICALL
+Jbvb_sun_bwt_windows_WDbtbTrbnsffrfr_imbgfDbtbToPlbtformImbgfBytfs(JNIEnv *fnv,
+                                               jobjfdt sflf, jbytfArrby imbgfDbtb,
+                                               jint widti, jint ifigit,
+                                               jlong formbt) {
 
     TRY;
 
-    if (JNU_IsNull(env, imageData)) {
-        return NULL;
+    if (JNU_IsNull(fnv, imbgfDbtb)) {
+        rfturn NULL;
     }
 
-    UINT size = env->GetArrayLength(imageData);
-    if (size == 0) {
-        return NULL;
+    UINT sizf = fnv->GftArrbyLfngti(imbgfDbtb);
+    if (sizf == 0) {
+        rfturn NULL;
     }
 
-    // In the passed imageData array all lines are padded with zeroes except for
-    // the last one, so we have to add one pad size here.
-    int mod = (width * 3) % 4;
-    int pad = mod > 0 ? 4 - mod : 0;
-    int nBytes = sizeof(BITMAPINFO) + size + pad;
-    BITMAPINFO* pinfo = (BITMAPINFO*)safe_Calloc(1, nBytes);
+    // In tif pbssfd imbgfDbtb brrby bll linfs brf pbddfd witi zfrofs fxdfpt for
+    // tif lbst onf, so wf ibvf to bdd onf pbd sizf ifrf.
+    int mod = (widti * 3) % 4;
+    int pbd = mod > 0 ? 4 - mod : 0;
+    int nBytfs = sizfof(BITMAPINFO) + sizf + pbd;
+    BITMAPINFO* pinfo = (BITMAPINFO*)sbff_Cbllod(1, nBytfs);
 
-    static const int BITS_PER_PIXEL = 24;
+    stbtid donst int BITS_PER_PIXEL = 24;
 
-    // prepare BITMAPINFO for a 24-bit BGR bitmap
-    pinfo->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-    pinfo->bmiHeader.biWidth = width;
-    pinfo->bmiHeader.biHeight = height; // positive height means a bottom-up DIB
-    pinfo->bmiHeader.biPlanes = 1;
-    pinfo->bmiHeader.biBitCount = BITS_PER_PIXEL;
-    pinfo->bmiHeader.biCompression = BI_RGB;
-    // NOTE: MSDN says that biSizeImage may be set to 0 for BI_RGB bitmaps,
-    // but some programs (e.g. Imaging for Windows NT by Wang Laboratories)
-    // don't handle such DIBs correctly, so we specify the size explicitly.
-    pinfo->bmiHeader.biSizeImage = size + pad;
+    // prfpbrf BITMAPINFO for b 24-bit BGR bitmbp
+    pinfo->bmiHfbdfr.biSizf = sizfof(BITMAPINFOHEADER);
+    pinfo->bmiHfbdfr.biWidti = widti;
+    pinfo->bmiHfbdfr.biHfigit = ifigit; // positivf ifigit mfbns b bottom-up DIB
+    pinfo->bmiHfbdfr.biPlbnfs = 1;
+    pinfo->bmiHfbdfr.biBitCount = BITS_PER_PIXEL;
+    pinfo->bmiHfbdfr.biComprfssion = BI_RGB;
+    // NOTE: MSDN sbys tibt biSizfImbgf mby bf sft to 0 for BI_RGB bitmbps,
+    // but somf progrbms (f.g. Imbging for Windows NT by Wbng Lbborbtorifs)
+    // don't ibndlf sudi DIBs dorrfdtly, so wf spfdify tif sizf fxpliditly.
+    pinfo->bmiHfbdfr.biSizfImbgf = sizf + pbd;
 
-    jbyte *array = (jbyte*)((LPSTR)pinfo + sizeof(BITMAPINFOHEADER));
-    env->GetByteArrayRegion(imageData, 0, size, array);
-    HRESULT hr = S_OK;
+    jbytf *brrby = (jbytf*)((LPSTR)pinfo + sizfof(BITMAPINFOHEADER));
+    fnv->GftBytfArrbyRfgion(imbgfDbtb, 0, sizf, brrby);
+    HRESULT ir = S_OK;
 
-    jbyteArray bytes = NULL;
-    switch (format) {
-    case CF_DIB:
-        bytes = env->NewByteArray(nBytes);
-        if( NULL == bytes ) {
-            hr = E_OUTOFMEMORY;
-        } else {
-            env->SetByteArrayRegion(bytes, 0, nBytes, (jbyte*)pinfo);
+    jbytfArrby bytfs = NULL;
+    switdi (formbt) {
+    dbsf CF_DIB:
+        bytfs = fnv->NfwBytfArrby(nBytfs);
+        if( NULL == bytfs ) {
+            ir = E_OUTOFMEMORY;
+        } flsf {
+            fnv->SftBytfArrbyRfgion(bytfs, 0, nBytfs, (jbytf*)pinfo);
         }
-        break;
-    case CF_ENHMETAFILE:
+        brfbk;
+    dbsf CF_ENHMETAFILE:
     {
-        HDC hdc = ::GetDC(NULL);
-        if( NULL == hdc) {
-            hr = HRESULT_FROM_WIN32(::GetLastError());
-        } else {
-            POINT p = { width, height };
-            //We are trying to support context-independent metafile.
-            //To implement it we have to select correct MM_HIMETRIC map mode.
-            VERIFY(::SetMapMode(hdc, MM_HIMETRIC));
-            VERIFY(::DPtoLP(hdc, &p, 1));
-            //In accordance with CreateEnhMetaFile documentation the rectangle have to
-            //be normal (left <= right, top <= bottom)
-            RECT r = { min(0, p.x), min(0, p.y), max(0, p.x), max(0, p.y) };
-            //Due to inversed row order in source bitmap the destination
-            //height have to be negative.
-            HDC hemfdc = ::CreateEnhMetaFile(NULL, NULL, &r, NULL);
-            if( NULL == hemfdc) {
-                hr = HRESULT_FROM_WIN32(::GetLastError());
-            } else {
-                int iMFHeight = r.bottom - r.top;
-                int iMFWidth = r.right - r.left;
-                VERIFY(::SetMapMode(hemfdc, MM_HIMETRIC));
-                if( GDI_ERROR == ::StretchDIBits(hemfdc,
-                    0, iMFHeight, iMFWidth, -iMFHeight,
-                    0, 0, width, height,
-                    (LPVOID)array, pinfo,
+        HDC idd = ::GftDC(NULL);
+        if( NULL == idd) {
+            ir = HRESULT_FROM_WIN32(::GftLbstError());
+        } flsf {
+            POINT p = { widti, ifigit };
+            //Wf brf trying to support dontfxt-indfpfndfnt mftbfilf.
+            //To implfmfnt it wf ibvf to sflfdt dorrfdt MM_HIMETRIC mbp modf.
+            VERIFY(::SftMbpModf(idd, MM_HIMETRIC));
+            VERIFY(::DPtoLP(idd, &p, 1));
+            //In bddordbndf witi CrfbtfEniMftbFilf dodumfntbtion tif rfdtbnglf ibvf to
+            //bf normbl (lfft <= rigit, top <= bottom)
+            RECT r = { min(0, p.x), min(0, p.y), mbx(0, p.x), mbx(0, p.y) };
+            //Duf to invfrsfd row ordfr in sourdf bitmbp tif dfstinbtion
+            //ifigit ibvf to bf nfgbtivf.
+            HDC ifmfdd = ::CrfbtfEniMftbFilf(NULL, NULL, &r, NULL);
+            if( NULL == ifmfdd) {
+                ir = HRESULT_FROM_WIN32(::GftLbstError());
+            } flsf {
+                int iMFHfigit = r.bottom - r.top;
+                int iMFWidti = r.rigit - r.lfft;
+                VERIFY(::SftMbpModf(ifmfdd, MM_HIMETRIC));
+                if( GDI_ERROR == ::StrftdiDIBits(ifmfdd,
+                    0, iMFHfigit, iMFWidti, -iMFHfigit,
+                    0, 0, widti, ifigit,
+                    (LPVOID)brrby, pinfo,
                     DIB_RGB_COLORS, SRCCOPY))
                 {
-                    hr = HRESULT_FROM_WIN32(::GetLastError());
+                    ir = HRESULT_FROM_WIN32(::GftLbstError());
                 }
-                HENHMETAFILE hemf = ::CloseEnhMetaFile(hemfdc);
-                if( NULL == hemf) {
-                    hr = HRESULT_FROM_WIN32(::GetLastError());
-                } else {
-                    if(SUCCEEDED(hr)){
-                        UINT uEmfSize = ::GetEnhMetaFileBits(hemf, 0, NULL);
-                        if( 0 == uEmfSize) {
-                            hr = HRESULT_FROM_WIN32(::GetLastError());
-                        } else {
-                            LPBYTE lpbEmfBuffer = NULL;
+                HENHMETAFILE ifmf = ::ClosfEniMftbFilf(ifmfdd);
+                if( NULL == ifmf) {
+                    ir = HRESULT_FROM_WIN32(::GftLbstError());
+                } flsf {
+                    if(SUCCEEDED(ir)){
+                        UINT uEmfSizf = ::GftEniMftbFilfBits(ifmf, 0, NULL);
+                        if( 0 == uEmfSizf) {
+                            ir = HRESULT_FROM_WIN32(::GftLbstError());
+                        } flsf {
+                            LPBYTE lpbEmfBufffr = NULL;
                             try {
-                                lpbEmfBuffer = (LPBYTE)safe_Malloc(uEmfSize);
-                                VERIFY(::GetEnhMetaFileBits(hemf, uEmfSize,
-                                                            lpbEmfBuffer) == uEmfSize);
-                                bytes = env->NewByteArray(uEmfSize);
-                                if(NULL == bytes) {
-                                    hr = E_OUTOFMEMORY;
-                                } else {
-                                    env->SetByteArrayRegion(bytes, 0, uEmfSize, (jbyte*)lpbEmfBuffer);
+                                lpbEmfBufffr = (LPBYTE)sbff_Mbllod(uEmfSizf);
+                                VERIFY(::GftEniMftbFilfBits(ifmf, uEmfSizf,
+                                                            lpbEmfBufffr) == uEmfSizf);
+                                bytfs = fnv->NfwBytfArrby(uEmfSizf);
+                                if(NULL == bytfs) {
+                                    ir = E_OUTOFMEMORY;
+                                } flsf {
+                                    fnv->SftBytfArrbyRfgion(bytfs, 0, uEmfSizf, (jbytf*)lpbEmfBufffr);
                                 }
-                            } catch (std::bad_alloc &) {
-                                hr = E_OUTOFMEMORY;
+                            } dbtdi (std::bbd_bllod &) {
+                                ir = E_OUTOFMEMORY;
                             }
-                            free(lpbEmfBuffer);
+                            frff(lpbEmfBufffr);
                         }
                     }
-                    VERIFY(::DeleteEnhMetaFile(hemf));
+                    VERIFY(::DflftfEniMftbFilf(ifmf));
                 }
             }
-            VERIFY(::ReleaseDC(NULL, hdc));
+            VERIFY(::RflfbsfDC(NULL, idd));
         }
-        break;
+        brfbk;
     }
-    case CF_METAFILEPICT:
+    dbsf CF_METAFILEPICT:
     {
-        HDC hdc = ::GetDC(NULL);
-        if( NULL == hdc) {
-            hr = HRESULT_FROM_WIN32(::GetLastError());
-        } else {
-            POINT p = { width, height };
-            VERIFY(::SetMapMode(hdc, MM_HIMETRIC));
-            VERIFY(::DPtoLP(hdc, &p, 1));
-            RECT r = { min(0, p.x), min(0, p.y), max(0, p.x), max(0, p.y) };
-            HDC hmfdc = ::CreateMetaFile(NULL);
-            if( NULL == hmfdc) {
-                hr = HRESULT_FROM_WIN32(::GetLastError());
-            } else {
-                VERIFY(::SetMapMode(hmfdc, MM_HIMETRIC));
-                int iMFHeight = r.bottom - r.top;
-                int iMFWidth = r.right - r.left;
-                //The destination Y coordinate (3d parameter in StretchDIBits call) is different for
-                //CF_ENHMETAFILE and CF_METAFILEPICT formats due to applying MM_ANISOTROPIC map mode
-                //at very last moment. MM_ANISOTROPIC map mode changes the Y-axis direction and can be
-                //selected just for metafile header.
-                if( GDI_ERROR == ::StretchDIBits(hmfdc,
-                    0, 0, iMFWidth, -iMFHeight,
-                    0, 0, width, height,
-                    (LPVOID)array, pinfo,
+        HDC idd = ::GftDC(NULL);
+        if( NULL == idd) {
+            ir = HRESULT_FROM_WIN32(::GftLbstError());
+        } flsf {
+            POINT p = { widti, ifigit };
+            VERIFY(::SftMbpModf(idd, MM_HIMETRIC));
+            VERIFY(::DPtoLP(idd, &p, 1));
+            RECT r = { min(0, p.x), min(0, p.y), mbx(0, p.x), mbx(0, p.y) };
+            HDC imfdd = ::CrfbtfMftbFilf(NULL);
+            if( NULL == imfdd) {
+                ir = HRESULT_FROM_WIN32(::GftLbstError());
+            } flsf {
+                VERIFY(::SftMbpModf(imfdd, MM_HIMETRIC));
+                int iMFHfigit = r.bottom - r.top;
+                int iMFWidti = r.rigit - r.lfft;
+                //Tif dfstinbtion Y doordinbtf (3d pbrbmftfr in StrftdiDIBits dbll) is difffrfnt for
+                //CF_ENHMETAFILE bnd CF_METAFILEPICT formbts duf to bpplying MM_ANISOTROPIC mbp modf
+                //bt vfry lbst momfnt. MM_ANISOTROPIC mbp modf dibngfs tif Y-bxis dirfdtion bnd dbn bf
+                //sflfdtfd just for mftbfilf ifbdfr.
+                if( GDI_ERROR == ::StrftdiDIBits(imfdd,
+                    0, 0, iMFWidti, -iMFHfigit,
+                    0, 0, widti, ifigit,
+                    (LPVOID)brrby, pinfo,
                     DIB_RGB_COLORS, SRCCOPY))
                 {
-                    hr = HRESULT_FROM_WIN32(::GetLastError());
+                    ir = HRESULT_FROM_WIN32(::GftLbstError());
                 }
-                HMETAFILE hmf = ::CloseMetaFile(hmfdc);
-                if( NULL == hmf) {
-                    hr = HRESULT_FROM_WIN32(::GetLastError());
-                } else {
-                    if(SUCCEEDED(hr)){
-                        UINT uMfSize = ::GetMetaFileBitsEx(hmf, 0, NULL);
-                        if( 0 == uMfSize) {
-                            hr = HRESULT_FROM_WIN32(::GetLastError());
-                        } else {
-                            LPBYTE lpbMfBuffer = NULL;
+                HMETAFILE imf = ::ClosfMftbFilf(imfdd);
+                if( NULL == imf) {
+                    ir = HRESULT_FROM_WIN32(::GftLbstError());
+                } flsf {
+                    if(SUCCEEDED(ir)){
+                        UINT uMfSizf = ::GftMftbFilfBitsEx(imf, 0, NULL);
+                        if( 0 == uMfSizf) {
+                            ir = HRESULT_FROM_WIN32(::GftLbstError());
+                        } flsf {
+                            LPBYTE lpbMfBufffr = NULL;
                             try {
-                                lpbMfBuffer = (LPBYTE)SAFE_SIZE_STRUCT_ALLOC(safe_Malloc,
-                                        sizeof(METAFILEPICT), uMfSize, 1);
-                                const UINT uMfSizeWithHead = uMfSize + sizeof(METAFILEPICT);
-                                VERIFY(::GetMetaFileBitsEx(hmf, uMfSize,
-                                                            lpbMfBuffer + sizeof(METAFILEPICT)) == uMfSize);
-                                bytes = env->NewByteArray(uMfSizeWithHead);
-                                if(NULL == bytes) {
-                                    hr = E_OUTOFMEMORY;
-                                } else {
-                                    LPMETAFILEPICT lpMfp = (LPMETAFILEPICT)lpbMfBuffer;
-                                    lpMfp->mm = MM_ANISOTROPIC; // should use MM_ANISOTROPIC exactly (MSDN)
-                                    lpMfp->xExt = iMFWidth;
-                                    lpMfp->yExt = iMFHeight;
-                                    env->SetByteArrayRegion(bytes, 0, uMfSizeWithHead, (jbyte*)lpbMfBuffer);
+                                lpbMfBufffr = (LPBYTE)SAFE_SIZE_STRUCT_ALLOC(sbff_Mbllod,
+                                        sizfof(METAFILEPICT), uMfSizf, 1);
+                                donst UINT uMfSizfWitiHfbd = uMfSizf + sizfof(METAFILEPICT);
+                                VERIFY(::GftMftbFilfBitsEx(imf, uMfSizf,
+                                                            lpbMfBufffr + sizfof(METAFILEPICT)) == uMfSizf);
+                                bytfs = fnv->NfwBytfArrby(uMfSizfWitiHfbd);
+                                if(NULL == bytfs) {
+                                    ir = E_OUTOFMEMORY;
+                                } flsf {
+                                    LPMETAFILEPICT lpMfp = (LPMETAFILEPICT)lpbMfBufffr;
+                                    lpMfp->mm = MM_ANISOTROPIC; // siould usf MM_ANISOTROPIC fxbdtly (MSDN)
+                                    lpMfp->xExt = iMFWidti;
+                                    lpMfp->yExt = iMFHfigit;
+                                    fnv->SftBytfArrbyRfgion(bytfs, 0, uMfSizfWitiHfbd, (jbytf*)lpbMfBufffr);
                                 }
-                            } catch (std::bad_alloc &) {
-                                hr = E_OUTOFMEMORY;
+                            } dbtdi (std::bbd_bllod &) {
+                                ir = E_OUTOFMEMORY;
                             }
-                            free(lpbMfBuffer);
+                            frff(lpbMfBufffr);
                         }
                     }
-                    VERIFY(::DeleteMetaFile(hmf));
+                    VERIFY(::DflftfMftbFilf(imf));
                 }
             }
-            VERIFY(::ReleaseDC(NULL, hdc));
+            VERIFY(::RflfbsfDC(NULL, idd));
         }
-        break;
+        brfbk;
     }
-    default:
-        DASSERT(FALSE); // Other formats are not supported yet.
-        hr = E_NOTIMPL;
-        break;
+    dffbult:
+        DASSERT(FALSE); // Otifr formbts brf not supportfd yft.
+        ir = E_NOTIMPL;
+        brfbk;
     }
-    free(pinfo);
-    if(FAILED(hr)){
-        if(E_OUTOFMEMORY == hr)
-            throw std::bad_alloc();
-        return NULL;
+    frff(pinfo);
+    if(FAILED(ir)){
+        if(E_OUTOFMEMORY == ir)
+            tirow std::bbd_bllod();
+        rfturn NULL;
     }
-    return bytes;
+    rfturn bytfs;
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 /*
- * Class:     sun_awt_windows_WDataTransferer
- * Method:    registerClipboardFormat
- * Signature: (Ljava/lang/String;)J
+ * Clbss:     sun_bwt_windows_WDbtbTrbnsffrfr
+ * Mftiod:    rfgistfrClipbobrdFormbt
+ * Signbturf: (Ljbvb/lbng/String;)J
  */
 JNIEXPORT jlong JNICALL
-Java_sun_awt_windows_WDataTransferer_registerClipboardFormat(JNIEnv *env,
-                                                             jclass cls,
+Jbvb_sun_bwt_windows_WDbtbTrbnsffrfr_rfgistfrClipbobrdFormbt(JNIEnv *fnv,
+                                                             jdlbss dls,
                                                              jstring str)
 {
     TRY;
 
-    LPCTSTR cStr = JNU_GetStringPlatformChars(env, str, NULL);
-    CHECK_NULL_RETURN(cStr, 0);
-    jlong value = ::RegisterClipboardFormat(cStr);
-    JNU_ReleaseStringPlatformChars(env, str, cStr);
+    LPCTSTR dStr = JNU_GftStringPlbtformCibrs(fnv, str, NULL);
+    CHECK_NULL_RETURN(dStr, 0);
+    jlong vbluf = ::RfgistfrClipbobrdFormbt(dStr);
+    JNU_RflfbsfStringPlbtformCibrs(fnv, str, dStr);
 
-    return value;
+    rfturn vbluf;
 
     CATCH_BAD_ALLOC_RET(0);
 }
 
 /*
- * Class:     sun_awt_windows_WDataTransferer
- * Method:    getClipboardFormatName
- * Signature: (J)Ljava/lang/String;
+ * Clbss:     sun_bwt_windows_WDbtbTrbnsffrfr
+ * Mftiod:    gftClipbobrdFormbtNbmf
+ * Signbturf: (J)Ljbvb/lbng/String;
  */
 JNIEXPORT jstring JNICALL
-Java_sun_awt_windows_WDataTransferer_getClipboardFormatName(JNIEnv *env,
-                                                            jclass cls,
-                                                            jlong format)
+Jbvb_sun_bwt_windows_WDbtbTrbnsffrfr_gftClipbobrdFormbtNbmf(JNIEnv *fnv,
+                                                            jdlbss dls,
+                                                            jlong formbt)
 {
     TRY;
 
-    LPTSTR buf = new TCHAR[512]; // perhaps a bad idea to limit ourselves to 512
-    VERIFY(::GetClipboardFormatName((UINT)format, buf, 512));
-    jstring name = JNU_NewStringPlatform(env, buf);
-    delete [] buf;
-    if (name == NULL) {
-        throw std::bad_alloc();
+    LPTSTR buf = nfw TCHAR[512]; // pfribps b bbd idfb to limit oursflvfs to 512
+    VERIFY(::GftClipbobrdFormbtNbmf((UINT)formbt, buf, 512));
+    jstring nbmf = JNU_NfwStringPlbtform(fnv, buf);
+    dflftf [] buf;
+    if (nbmf == NULL) {
+        tirow std::bbd_bllod();
     }
-    return name;
+    rfturn nbmf;
 
     CATCH_BAD_ALLOC_RET(NULL);
 }
 
 /*
- * Class:     sun_awt_windows_WToolkitThreadBlockedHandler
- * Method:    startSecondaryEventLoop
- * Signature: ()V;
+ * Clbss:     sun_bwt_windows_WToolkitTirfbdBlodkfdHbndlfr
+ * Mftiod:    stbrtSfdondbryEvfntLoop
+ * Signbturf: ()V;
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WToolkitThreadBlockedHandler_startSecondaryEventLoop(JNIEnv *env, jclass)
+Jbvb_sun_bwt_windows_WToolkitTirfbdBlodkfdHbndlfr_stbrtSfdondbryEvfntLoop(JNIEnv *fnv, jdlbss)
 {
     TRY;
 
-    AwtDataTransferer::SecondaryMessageLoop();
+    AwtDbtbTrbnsffrfr::SfdondbryMfssbgfLoop();
 
     CATCH_BAD_ALLOC;
 }

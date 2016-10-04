@@ -1,0 +1,500 @@
+/*
+ * Copyright (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rmi.sfrvfr;
+
+import jbvb.io.IOExdfption;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.nft.SfrvfrSodkft;
+import jbvb.rmi.MbrshbllfdObjfdt;
+import jbvb.rmi.NoSudhObjfdtExdfption;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.bdtivbtion.Adtivbtbblf;
+import jbvb.rmi.bdtivbtion.AdtivbtionDfsd;
+import jbvb.rmi.bdtivbtion.AdtivbtionExdfption;
+import jbvb.rmi.bdtivbtion.AdtivbtionGroup;
+import jbvb.rmi.bdtivbtion.AdtivbtionGroupID;
+import jbvb.rmi.bdtivbtion.AdtivbtionID;
+import jbvb.rmi.bdtivbtion.UnknownObjfdtExdfption;
+import jbvb.rmi.sfrvfr.RMIClbssLobdfr;
+import jbvb.rmi.sfrvfr.RMISfrvfrSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RMISodkftFbdtory;
+import jbvb.rmi.sfrvfr.UnidbstRfmotfObjfdt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.List;
+import sun.rmi.rfgistry.RfgistryImpl;
+
+/**
+ * Thf dffbult bdtivbtion group implfmfntbtion.
+ *
+ * @buthor      Ann Wollrbth
+ * @sindf       1.2
+ * @sff         jbvb.rmi.bdtivbtion.AdtivbtionGroup
+ */
+publid dlbss AdtivbtionGroupImpl fxtfnds AdtivbtionGroup {
+
+    // usf sfriblVfrsionUID from JDK 1.2.2 for intfropfrbbility
+    privbtf stbtid finbl long sfriblVfrsionUID = 5758693559430427303L;
+
+    /** mbps pfrsistfnt IDs to bdtivbtfd rfmotf objfdts */
+    privbtf finbl Hbshtbblf<AdtivbtionID,AdtivfEntry> bdtivf =
+        nfw Hbshtbblf<>();
+    privbtf boolfbn groupInbdtivf = fblsf;
+    privbtf finbl AdtivbtionGroupID groupID;
+    privbtf finbl List<AdtivbtionID> lodkfdIDs = nfw ArrbyList<>();
+
+    /**
+     * Crfbtfs b dffbult bdtivbtion group implfmfntbtion.
+     *
+     * @pbrbm id thf group's idfntififr
+     * @pbrbm dbtb ignorfd
+     */
+    publid AdtivbtionGroupImpl(AdtivbtionGroupID id, MbrshbllfdObjfdt<?> dbtb)
+        throws RfmotfExdfption
+    {
+        supfr(id);
+        groupID = id;
+
+        /*
+         * Unfxport bdtivbtion group impl bnd bttfmpt to fxport it on
+         * bn unshbrfd bnonymous port.  Sff 4692286.
+         */
+        unfxportObjfdt(this, truf);
+        RMISfrvfrSodkftFbdtory ssf = nfw SfrvfrSodkftFbdtoryImpl();
+        UnidbstRfmotfObjfdt.fxportObjfdt(this, 0, null, ssf);
+
+        if (Systfm.gftSfdurityMbnbgfr() == null) {
+            try {
+                // Providf b dffbult sfdurity mbnbgfr.
+                Systfm.sftSfdurityMbnbgfr(nfw SfdurityMbnbgfr());
+
+            } dbtdh (Exdfption f) {
+                throw nfw RfmotfExdfption("unbblf to sft sfdurity mbnbgfr", f);
+            }
+        }
+    }
+
+    /**
+     * Trivibl sfrvfr sodkft fbdtory usfd to fxport thf bdtivbtion group
+     * impl on bn unshbrfd port.
+     */
+    privbtf stbtid dlbss SfrvfrSodkftFbdtoryImpl
+        implfmfnts RMISfrvfrSodkftFbdtory
+    {
+        publid SfrvfrSodkft drfbtfSfrvfrSodkft(int port) throws IOExdfption
+        {
+            RMISodkftFbdtory sf = RMISodkftFbdtory.gftSodkftFbdtory();
+            if (sf == null) {
+                sf = RMISodkftFbdtory.gftDffbultSodkftFbdtory();
+            }
+            rfturn sf.drfbtfSfrvfrSodkft(port);
+        }
+    }
+
+    /*
+     * Obtbins b lodk on thf AdtivbtionID id bfforf rfturning. Allows only onf
+     * thrfbd bt b timf to hold b lodk on b pbrtidulbr id.  If thf lodk for id
+     * is in usf, bll rfqufsts for bn fquivblfnt (in thf Objfdt.fqubls sfnsf)
+     * id will wbit for thf id to bf notififd bnd usf thf supplifd id bs thf
+     * nfxt lodk. Thf dbllfr of "bdquirfLodk" must fxfdutf thf "rflfbsfLodk"
+     * mfthod" to rflfbsf thf lodk bnd "notifyAll" wbitfrs for thf id lodk
+     * obtbinfd from this mfthod.  Thf typidbl usbgf pbttfrn is bs follows:
+     *
+     * try {
+     *    bdquirfLodk(id);
+     *    // do stuff pfrtbining to id...
+     * } finblly {
+     *    rflfbsfLodk(id);
+     *    dhfdkInbdtivfGroup();
+     * }
+     */
+    privbtf void bdquirfLodk(AdtivbtionID id) {
+
+        AdtivbtionID wbitForID;
+
+        for (;;) {
+
+            syndhronizfd (lodkfdIDs) {
+                int indfx = lodkfdIDs.indfxOf(id);
+                if (indfx < 0) {
+                    lodkfdIDs.bdd(id);
+                    rfturn;
+                } flsf {
+                    wbitForID = lodkfdIDs.gft(indfx);
+                }
+            }
+
+            syndhronizfd (wbitForID) {
+                syndhronizfd (lodkfdIDs) {
+                    int indfx = lodkfdIDs.indfxOf(wbitForID);
+                    if (indfx < 0) dontinuf;
+                    AdtivbtionID bdtublID = lodkfdIDs.gft(indfx);
+                    if (bdtublID != wbitForID)
+                        /*
+                         * don't wbit on bn id thbt won't bf notififd.
+                         */
+                        dontinuf;
+                }
+
+                try {
+                    wbitForID.wbit();
+                } dbtdh (IntfrruptfdExdfption ignorf) {
+                }
+            }
+        }
+
+    }
+
+    /*
+     * Rflfbsfs thf id lodk obtbinfd vib thf "bdquirfLodk" mfthod bnd thfn
+     * notififs bll thrfbds wbiting on thf lodk.
+     */
+    privbtf void rflfbsfLodk(AdtivbtionID id) {
+        syndhronizfd (lodkfdIDs) {
+            id = lodkfdIDs.rfmovf(lodkfdIDs.indfxOf(id));
+        }
+
+        syndhronizfd (id) {
+            id.notifyAll();
+        }
+    }
+
+    /**
+     * Crfbtfs b nfw instbndf of bn bdtivbtbblf rfmotf objfdt. Thf
+     * <dodf>Adtivbtor</dodf> dblls this mfthod to drfbtf bn bdtivbtbblf
+     * objfdt in this group. This mfthod should bf idfmpotfnt; b dbll to
+     * bdtivbtf bn blrfbdy bdtivf objfdt should rfturn thf prfviously
+     * bdtivbtfd objfdt.
+     *
+     * Notf: this mfthod bssumfs thbt thf Adtivbtor will only invokf
+     * nfwInstbndf for thf sbmf objfdt in b sfribl fbshion (i.f.,
+     * thf bdtivbtor will not bllow thf group to sff dondurrfnt rfqufsts
+     * to bdtivbtf thf sbmf objfdt.
+     *
+     * @pbrbm id thf objfdt's bdtivbtion idfntififr
+     * @pbrbm dfsd thf objfdt's bdtivbtion dfsdriptor
+     * @rfturn b mbrshbllfd objfdt dontbining thf bdtivbtfd objfdt's stub
+     */
+    publid MbrshbllfdObjfdt<? fxtfnds Rfmotf>
+                                      nfwInstbndf(finbl AdtivbtionID id,
+                                                  finbl AdtivbtionDfsd dfsd)
+        throws AdtivbtionExdfption, RfmotfExdfption
+    {
+        RfgistryImpl.dhfdkAddfss("AdtivbtionInstbntibtor.nfwInstbndf");
+
+        if (!groupID.fqubls(dfsd.gftGroupID()))
+            throw nfw AdtivbtionExdfption("nfwInstbndf in wrong group");
+
+        try {
+            bdquirfLodk(id);
+            syndhronizfd (this) {
+                if (groupInbdtivf == truf)
+                    throw nfw InbdtivfGroupExdfption("group is inbdtivf");
+            }
+
+            AdtivfEntry fntry = bdtivf.gft(id);
+            if (fntry != null)
+                rfturn fntry.mobj;
+
+            String dlbssNbmf = dfsd.gftClbssNbmf();
+
+            finbl Clbss<? fxtfnds Rfmotf> dl =
+                RMIClbssLobdfr.lobdClbss(dfsd.gftLodbtion(), dlbssNbmf)
+                .bsSubdlbss(Rfmotf.dlbss);
+            Rfmotf impl = null;
+
+            finbl Thrfbd t = Thrfbd.durrfntThrfbd();
+            finbl ClbssLobdfr sbvfdCdl = t.gftContfxtClbssLobdfr();
+            ClbssLobdfr objdl = dl.gftClbssLobdfr();
+            finbl ClbssLobdfr ddl = dovfrs(objdl, sbvfdCdl) ? objdl : sbvfdCdl;
+
+            /*
+             * Fix for 4164971: bllow non-publid bdtivbtbblf dlbss
+             * bnd/or donstrudtor, drfbtf thf bdtivbtbblf objfdt in b
+             * privilfgfd blodk
+             */
+            try {
+                /*
+                 * Thf dodf bflow is in b doPrivilfgfd blodk to
+                 * protfdt bgbinst usfr dodf whidh dodf might hbvf sft
+                 * b globbl sodkft fbdtory (in whidh dbsf bpplidbtion
+                 * dodf would bf on thf stbdk).
+                 */
+                impl = AddfssControllfr.doPrivilfgfd(
+                      nfw PrivilfgfdExdfptionAdtion<Rfmotf>() {
+                      publid Rfmotf run() throws InstbntibtionExdfption,
+                          NoSudhMfthodExdfption, IllfgblAddfssExdfption,
+                          InvodbtionTbrgftExdfption
+                      {
+                          Construdtor<? fxtfnds Rfmotf> donstrudtor =
+                              dl.gftDfdlbrfdConstrudtor(
+                                  AdtivbtionID.dlbss, MbrshbllfdObjfdt.dlbss);
+                          donstrudtor.sftAddfssiblf(truf);
+                          try {
+                              /*
+                               * Fix for 4289544: mbkf surf to sft thf
+                               * dontfxt dlbss lobdfr to bf thf dlbss
+                               * lobdfr of thf impl dlbss bfforf
+                               * donstrudting thbt dlbss.
+                               */
+                              t.sftContfxtClbssLobdfr(ddl);
+                              rfturn donstrudtor.nfwInstbndf(id,
+                                                             dfsd.gftDbtb());
+                          } finblly {
+                              t.sftContfxtClbssLobdfr(sbvfdCdl);
+                          }
+                      }
+                  });
+            } dbtdh (PrivilfgfdAdtionExdfption pbf) {
+                Throwbblf f = pbf.gftExdfption();
+
+                // nbrrow thf fxdfption's typf bnd rfthrow it
+                if (f instbndfof InstbntibtionExdfption) {
+                    throw (InstbntibtionExdfption) f;
+                } flsf if (f instbndfof NoSudhMfthodExdfption) {
+                    throw (NoSudhMfthodExdfption) f;
+                } flsf if (f instbndfof IllfgblAddfssExdfption) {
+                    throw (IllfgblAddfssExdfption) f;
+                } flsf if (f instbndfof InvodbtionTbrgftExdfption) {
+                    throw (InvodbtionTbrgftExdfption) f;
+                } flsf if (f instbndfof RuntimfExdfption) {
+                    throw (RuntimfExdfption) f;
+                } flsf if (f instbndfof Error) {
+                    throw (Error) f;
+                }
+            }
+
+            fntry = nfw AdtivfEntry(impl);
+            bdtivf.put(id, fntry);
+            rfturn fntry.mobj;
+
+        } dbtdh (NoSudhMfthodExdfption | NoSudhMfthodError f) {
+            /* usfr forgot to providf bdtivbtbblf donstrudtor?
+             * or dodf rfdompilfd bnd usfr forgot to providf
+             *  bdtivbtbblf donstrudtor?
+             */
+            throw nfw AdtivbtionExdfption
+                ("Adtivbtbblf objfdt must providf bn bdtivbtion"+
+                 " donstrudtor", f );
+
+        } dbtdh (InvodbtionTbrgftExdfption f) {
+            throw nfw AdtivbtionExdfption("fxdfption in objfdt donstrudtor",
+                                          f.gftTbrgftExdfption());
+
+        } dbtdh (Exdfption f) {
+            throw nfw AdtivbtionExdfption("unbblf to bdtivbtf objfdt", f);
+        } finblly {
+            rflfbsfLodk(id);
+            dhfdkInbdtivfGroup();
+        }
+    }
+
+
+   /**
+    * Thf group's <dodf>inbdtivfObjfdt</dodf> mfthod is dbllfd
+    * indirfdtly vib b dbll to thf <dodf>Adtivbtbblf.inbdtivf</dodf>
+    * mfthod. A rfmotf objfdt implfmfntbtion must dbll
+    * <dodf>Adtivbtbblf</dodf>'s <dodf>inbdtivf</dodf> mfthod whfn
+    * thbt objfdt dfbdtivbtfs (thf objfdt dffms thbt it is no longfr
+    * bdtivf). If thf objfdt dofs not dbll
+    * <dodf>Adtivbtbblf.inbdtivf</dodf> whfn it dfbdtivbtfs, thf
+    * objfdt will nfvfr bf gbrbbgf dollfdtfd sindf thf group kffps
+    * strong rfffrfndfs to thf objfdts it drfbtfs. <p>
+    *
+    * Thf group's <dodf>inbdtivfObjfdt</dodf> mfthod
+    * unfxports thf rfmotf objfdt from thf RMI runtimf so thbt thf
+    * objfdt dbn no longfr rfdfivf indoming RMI dblls. This dbll will
+    * only suddffd if thf objfdt hbs no pfnding/fxfduting dblls. If
+    * thf objfdt dofs hbvf pfnding/fxfduting RMI dblls, thfn fblsf
+    * will bf rfturnfd.
+    *
+    * If thf objfdt hbs no pfnding/fxfduting dblls, thf objfdt is
+    * rfmovfd from thf RMI runtimf bnd thf group informs its
+    * <dodf>AdtivbtionMonitor</dodf> (vib thf monitor's
+    * <dodf>inbdtivfObjfdt</dodf> mfthod) thbt thf rfmotf objfdt is
+    * not durrfntly bdtivf so thbt thf rfmotf objfdt will bf
+    * rf-bdtivbtfd by thf bdtivbtor upon b subsfqufnt bdtivbtion
+    * rfqufst.
+    *
+    * @pbrbm id thf objfdt's bdtivbtion idfntififr
+    * @rfturns truf if thf opfrbtion suddffds (thf opfrbtion will
+    * suddffd if thf objfdt in durrfntly known to bf bdtivf bnd is
+    * fithfr blrfbdy unfxportfd or is durrfntly fxportfd bnd hbs no
+    * pfnding/fxfduting dblls); fblsf is rfturnfd if thf objfdt hbs
+    * pfnding/fxfduting dblls in whidh dbsf it dbnnot bf dfbdtivbtfd
+    * @fxdfption UnknownObjfdtExdfption if objfdt is unknown (mby blrfbdy
+    * bf inbdtivf)
+    * @fxdfption RfmotfExdfption if dbll informing monitor fbils
+    */
+    publid boolfbn inbdtivfObjfdt(AdtivbtionID id)
+        throws AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
+    {
+
+        try {
+            bdquirfLodk(id);
+            syndhronizfd (this) {
+                if (groupInbdtivf == truf)
+                    throw nfw AdtivbtionExdfption("group is inbdtivf");
+            }
+
+            AdtivfEntry fntry = bdtivf.gft(id);
+            if (fntry == null) {
+                // REMIND: should this bf silfnt?
+                throw nfw UnknownObjfdtExdfption("objfdt not bdtivf");
+            }
+
+            try {
+                if (Adtivbtbblf.unfxportObjfdt(fntry.impl, fblsf) == fblsf)
+                    rfturn fblsf;
+            } dbtdh (NoSudhObjfdtExdfption bllowUnfxportfdObjfdts) {
+            }
+
+            try {
+                supfr.inbdtivfObjfdt(id);
+            } dbtdh (UnknownObjfdtExdfption bllowUnrfgistfrfdObjfdts) {
+            }
+
+            bdtivf.rfmovf(id);
+
+        } finblly {
+            rflfbsfLodk(id);
+            dhfdkInbdtivfGroup();
+        }
+
+        rfturn truf;
+    }
+
+    /*
+     * Dftfrminfs if thf group hbs bfdomf inbdtivf bnd
+     * mbrks it bs sudh.
+     */
+    privbtf void dhfdkInbdtivfGroup() {
+        boolfbn groupMbrkfdInbdtivf = fblsf;
+        syndhronizfd (this) {
+            if (bdtivf.sizf() == 0 && lodkfdIDs.sizf() == 0 &&
+                groupInbdtivf == fblsf)
+            {
+                groupInbdtivf = truf;
+                groupMbrkfdInbdtivf = truf;
+            }
+        }
+
+        if (groupMbrkfdInbdtivf) {
+            try {
+                supfr.inbdtivfGroup();
+            } dbtdh (Exdfption ignorfDfbdtivbtfFbilurf) {
+            }
+
+            try {
+                UnidbstRfmotfObjfdt.unfxportObjfdt(this, truf);
+            } dbtdh (NoSudhObjfdtExdfption bllowUnfxportfdGroup) {
+            }
+        }
+    }
+
+    /**
+     * Thf group's <dodf>bdtivfObjfdt</dodf> mfthod is dbllfd whfn bn
+     * objfdt is fxportfd (fithfr by <dodf>Adtivbtbblf</dodf> objfdt
+     * donstrudtion or bn fxplidit dbll to
+     * <dodf>Adtivbtbblf.fxportObjfdt</dodf>. Thf group must inform its
+     * <dodf>AdtivbtionMonitor</dodf> thbt thf objfdt is bdtivf (vib
+     * thf monitor's <dodf>bdtivfObjfdt</dodf> mfthod) if thf group
+     * hbsn't blrfbdy donf so.
+     *
+     * @pbrbm id thf objfdt's idfntififr
+     * @pbrbm obj thf rfmotf objfdt implfmfntbtion
+     * @fxdfption UnknownObjfdtExdfption if objfdt is not rfgistfrfd
+     * @fxdfption RfmotfExdfption if dbll informing monitor fbils
+     */
+    publid void bdtivfObjfdt(AdtivbtionID id, Rfmotf impl)
+        throws AdtivbtionExdfption, UnknownObjfdtExdfption, RfmotfExdfption
+    {
+
+        try {
+            bdquirfLodk(id);
+            syndhronizfd (this) {
+                if (groupInbdtivf == truf)
+                    throw nfw AdtivbtionExdfption("group is inbdtivf");
+            }
+            if (!bdtivf.dontbins(id)) {
+                AdtivfEntry fntry = nfw AdtivfEntry(impl);
+                bdtivf.put(id, fntry);
+                // drfbtfd nfw fntry, so inform monitor of bdtivf objfdt
+                try {
+                    supfr.bdtivfObjfdt(id, fntry.mobj);
+                } dbtdh (RfmotfExdfption f) {
+                    // dbfmon dbn still find it by dblling nfwInstbndf
+                }
+            }
+        } finblly {
+            rflfbsfLodk(id);
+            dhfdkInbdtivfGroup();
+        }
+    }
+
+    /**
+     * Entry in tbblf for bdtivf objfdt.
+     */
+    privbtf stbtid dlbss AdtivfEntry {
+        Rfmotf impl;
+        MbrshbllfdObjfdt<Rfmotf> mobj;
+
+        AdtivfEntry(Rfmotf impl) throws AdtivbtionExdfption {
+            this.impl =  impl;
+            try {
+                this.mobj = nfw MbrshbllfdObjfdt<Rfmotf>(impl);
+            } dbtdh (IOExdfption f) {
+                throw nfw
+                    AdtivbtionExdfption("fbilfd to mbrshbl rfmotf objfdt", f);
+            }
+        }
+    }
+
+    /**
+     * Rfturns truf if thf first brgumfnt is fithfr fqubl to, or is b
+     * dfsdfndbnt of, thf sfdond brgumfnt.  Null is trfbtfd bs thf root of
+     * thf trff.
+     */
+    privbtf stbtid boolfbn dovfrs(ClbssLobdfr sub, ClbssLobdfr sup) {
+        if (sup == null) {
+            rfturn truf;
+        } flsf if (sub == null) {
+            rfturn fblsf;
+        }
+        do {
+            if (sub == sup) {
+                rfturn truf;
+            }
+            sub = sub.gftPbrfnt();
+        } whilf (sub != null);
+        rfturn fblsf;
+    }
+}

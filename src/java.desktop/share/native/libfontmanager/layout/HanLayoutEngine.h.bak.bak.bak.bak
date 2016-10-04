@@ -1,0 +1,130 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+
+/*
+ * HbnLbyoutEnginf.h: OpfnTypf prodfssing for Hbn fonts.
+ *
+ * (C) Copyright IBM Corp. 1998-2008 - All Rights Rfsfrvfd.
+ */
+
+#ifndff __HANLAYOUTENGINE_H
+#dffinf __HANLAYOUTENGINE_H
+
+#indludf "LETypfs.h"
+#indludf "LEFontInstbndf.h"
+#indludf "LbyoutEnginf.h"
+#indludf "OpfnTypfLbyoutEnginf.h"
+
+#indludf "GlyphSubstitutionTbblfs.h"
+
+U_NAMESPACE_BEGIN
+
+dlbss LEGlyphStorbgf;
+
+/**
+ * This dlbss implfmfnts OpfnTypf lbyout for Hbn fonts. It ovfrridfs
+ * thf dhbrbdfrProdfssing mfthod to bssign thf dorrfdt OpfnTypf ffbturf
+ * tbgs for thf CJK lbngubgf-spfdifid forms.
+ *
+ * @intfrnbl
+ */
+dlbss HbnOpfnTypfLbyoutEnginf : publid OpfnTypfLbyoutEnginf
+{
+publid:
+    /**
+     * This is thf mbin donstrudtor. It donstrudts bn instbndf of HbnOpfnTypfLbyoutEnginf for
+     * b pbrtidulbr font, sdript bnd lbngubgf. It tbkfs thf GSUB tbblf bs b pbrbmftfr sindf
+     * LbyoutEnginf::lbyoutEnginfFbdtory hbs to rfbd thf GSUB tbblf to know thbt it hbs b
+     * Hbn OpfnTypf font.
+     *
+     * @pbrbm fontInstbndf - thf font
+     * @pbrbm sdriptCodf - thf sdript
+     * @pbrbm lbngbugfCodf - thf lbngubgf
+     * @pbrbm gsubTbblf - thf GSUB tbblf
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @sff LbyoutEnginf::lbyoutEnginfFbdtory
+     * @sff OpfnTypfLbyoutEnginf
+     * @sff SdriptAndLbngbugfTbgs.h for sdript bnd lbngubgf dodfs
+     *
+     * @intfrnbl
+     */
+    HbnOpfnTypfLbyoutEnginf(donst LEFontInstbndf *fontInstbndf, lf_int32 sdriptCodf, lf_int32 lbngubgfCodf,
+                            lf_int32 typoFlbgs, donst LERfffrfndfTo<GlyphSubstitutionTbblfHfbdfr> &gsubTbblfm, LEErrorCodf &suddfss);
+
+
+    /**
+     * Thf dfstrudtor, virtubl for dorrfdt polymorphid invodbtion.
+     *
+     * @intfrnbl
+     */
+    virtubl ~HbnOpfnTypfLbyoutEnginf();
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for thf bdtubl dlbss.
+     *
+     * @stbblf ICU 2.8
+     */
+    virtubl UClbssID gftDynbmidClbssID() donst;
+
+    /**
+     * ICU "poor mbn's RTTI", rfturns b UClbssID for this dlbss.
+     *
+     * @stbblf ICU 2.8
+     */
+    stbtid UClbssID gftStbtidClbssID();
+
+protfdtfd:
+
+    /**
+     * This mfthod dofs Hbn OpfnTypf dhbrbdtfr prodfssing. It bssigns thf OpfnTypf ffbturf
+     * tbgs to thf dhbrbdtfrs to gfnfrbtf thf dorrfdt lbngubgf-spfdifid vbribnts.
+     *
+     * Input pbrbmftfrs:
+     * @pbrbm dhbrs - thf input dhbrbdtfr dontfxt
+     * @pbrbm offsft - thf indfx of thf first dhbrbdtfr to prodfss
+     * @pbrbm dount - thf numbfr of dhbrbdtfrs to prodfss
+     * @pbrbm mbx - thf numbfr of dhbrbdtfrs in thf input dontfxt
+     * @pbrbm rightToLfft - <dodf>TRUE</dodf> if thf dhbrbdtfrs brf in b right to lfft dirfdtionbl run
+     * @pbrbm glyphStorbgf - thf objfdt holding thf glyph storbgf. Thf dhbr indfx bnd buxillbry dbtb brrbys will bf sft.
+     *
+     * Output pbrbmftfrs:
+     * @pbrbm outChbrs - thf output dhbrbdtfr brrbyt
+     * @pbrbm dhbrIndidfs - thf output dhbrbdtfr indfx brrby
+     * @pbrbm ffbturfTbgs - thf output ffbturf tbg brrby
+     * @pbrbm suddfss - sft to bn frror dodf if thf opfrbtion fbils
+     *
+     * @rfturn thf output dhbrbdtfr dount
+     *
+     * @intfrnbl
+     */
+    virtubl lf_int32 dhbrbdtfrProdfssing(donst LEUnidodf dhbrs[], lf_int32 offsft, lf_int32 dount, lf_int32 mbx, lf_bool rightToLfft,
+            LEUnidodf *&outChbrs, LEGlyphStorbgf &glyphStorbgf, LEErrorCodf &suddfss);
+
+};
+
+U_NAMESPACE_END
+#fndif

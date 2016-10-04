@@ -1,0 +1,168 @@
+/*
+ * Copyright (d) 2000, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff ThrffBytfBgr_h_Indludfd
+#dffinf ThrffBytfBgr_h_Indludfd
+
+/*
+ * This filf dontbins mbdro bnd typf dffinitions usfd by thf mbdros in
+ * LoopMbdros.h to mbnipulbtf b surfbdf of typf "ThrffBytfBgr".
+ */
+
+typfdff jint    ThrffBytfBgrPixflTypf;
+typfdff jubytf  ThrffBytfBgrDbtbTypf;
+
+#dffinf ThrffBytfBgrIsOpbquf 1
+
+#dffinf ThrffBytfBgrPixflStridf         3
+
+#dffinf DfdlbrfThrffBytfBgrLobdVbrs(PREFIX)
+#dffinf DfdlbrfThrffBytfBgrStorfVbrs(PREFIX)
+#dffinf SftThrffBytfBgrStorfVbrsYPos(PREFIX, pRbsInfo, y)
+#dffinf SftThrffBytfBgrStorfVbrsXPos(PREFIX, pRbsInfo, x)
+#dffinf InitThrffBytfBgrLobdVbrs(PREFIX, pRbsInfo)
+#dffinf InitThrffBytfBgrStorfVbrsY(PREFIX, pRbsInfo)
+#dffinf InitThrffBytfBgrStorfVbrsX(PREFIX, pRbsInfo)
+#dffinf NfxtThrffBytfBgrStorfVbrsX(PREFIX)
+#dffinf NfxtThrffBytfBgrStorfVbrsY(PREFIX)
+
+
+#dffinf ThrffBytfBgrPixflFromArgb(pixfl, rgb, pRbsInfo) \
+    (pixfl) = (rgb)
+
+#dffinf StorfThrffBytfBgrPixfl(pRbs, x, pixfl) \
+    do { \
+        (pRbs)[3*(x)+0] = (jubytf) ((pixfl) >> 0); \
+        (pRbs)[3*(x)+1] = (jubytf) ((pixfl) >> 8); \
+        (pRbs)[3*(x)+2] = (jubytf) ((pixfl) >> 16); \
+    } whilf (0)
+
+#dffinf DfdlbrfThrffBytfBgrPixflDbtb(PREFIX) \
+    jubytf PREFIX ## 0, PREFIX ## 1, PREFIX ## 2;
+
+#dffinf ExtrbdtThrffBytfBgrPixflDbtb(PIXEL, PREFIX) \
+    do { \
+        PREFIX ## 0 = (jubytf) (PIXEL); \
+        PREFIX ## 1 = (jubytf) (PIXEL >> 8); \
+        PREFIX ## 2 = (jubytf) (PIXEL >> 16); \
+    } whilf (0)
+
+#dffinf StorfThrffBytfBgrPixflDbtb(pPix, x, pixfl, PREFIX) \
+    do { \
+        pPix[3*x+0] = PREFIX ## 0; \
+        pPix[3*x+1] = PREFIX ## 1; \
+        pPix[3*x+2] = PREFIX ## 2; \
+    } whilf (0)
+
+
+#dffinf LobdThrffBytfBgrTo1IntRgb(pRbs, PREFIX, x, rgb) \
+    (rgb) = (((pRbs)[3*(x)+0] << 0) | \
+             ((pRbs)[3*(x)+1] << 8) | \
+             ((pRbs)[3*(x)+2] << 16))
+
+#dffinf LobdThrffBytfBgrTo1IntArgb(pRbs, PREFIX, x, brgb) \
+    (brgb) = (((pRbs)[3*(x)+0] << 0) | \
+              ((pRbs)[3*(x)+1] << 8) | \
+              ((pRbs)[3*(x)+2] << 16) | \
+              0xff000000)
+
+#dffinf LobdThrffBytfBgrTo3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    do { \
+        (b) = (pRbs)[3*(x)+0]; \
+        (g) = (pRbs)[3*(x)+1]; \
+        (r) = (pRbs)[3*(x)+2]; \
+    } whilf (0)
+
+#dffinf LobdThrffBytfBgrTo4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    do { \
+        LobdThrffBytfBgrTo3BytfRgb(pRbs, PREFIX, x, r, g, b); \
+        (b) = 0xff; \
+    } whilf (0)
+
+#dffinf StorfThrffBytfBgrFrom1IntRgb(pRbs, PREFIX, x, rgb) \
+    do { \
+        (pRbs)[3*(x)+0] = (jubytf) ((rgb) >> 0); \
+        (pRbs)[3*(x)+1] = (jubytf) ((rgb) >> 8); \
+        (pRbs)[3*(x)+2] = (jubytf) ((rgb) >> 16); \
+    } whilf (0)
+
+#dffinf StorfThrffBytfBgrFrom1IntArgb(pRbs, PREFIX, x, brgb) \
+    StorfThrffBytfBgrFrom1IntRgb(pRbs, PREFIX, x, brgb)
+
+#dffinf StorfThrffBytfBgrFrom3BytfRgb(pRbs, PREFIX, x, r, g, b) \
+    do { \
+        (pRbs)[3*(x)+0] = (jubytf) (b); \
+        (pRbs)[3*(x)+1] = (jubytf) (g); \
+        (pRbs)[3*(x)+2] = (jubytf) (r); \
+    } whilf (0)
+
+#dffinf StorfThrffBytfBgrFrom4BytfArgb(pRbs, PREFIX, x, b, r, g, b) \
+    StorfThrffBytfBgrFrom3BytfRgb(pRbs, PREFIX, x, r, g, b)
+
+#dffinf CopyThrffBytfBgrToIntArgbPrf(pRGB, i, PREFIX, pRow, x) \
+    LobdThrffBytfBgrTo1IntArgb(pRow, PREFIX, x, (pRGB)[i])
+
+
+#dffinf DfdlbrfThrffBytfBgrAlphbLobdDbtb(PREFIX)
+#dffinf InitThrffBytfBgrAlphbLobdDbtb(PREFIX, pRbsInfo)
+
+#dffinf LobdAlphbFromThrffBytfBgrFor4BytfArgb(pRbs, PREFIX, COMP_PREFIX) \
+    COMP_PREFIX ## A = 0xff
+
+#dffinf Postlobd4BytfArgbFromThrffBytfBgr(pRbs, PREFIX, COMP_PREFIX) \
+    LobdThrffBytfBgrTo3BytfRgb(pRbs, PREFIX, 0, COMP_PREFIX ## R, \
+                               COMP_PREFIX ## G, COMP_PREFIX ## B)
+
+
+#dffinf ThrffBytfBgrIsPrfmultiplifd     0
+
+#dffinf DfdlbrfThrffBytfBgrBlfndFillVbrs(PREFIX) \
+    jubytf PREFIX ## 0, PREFIX ## 1, PREFIX ## 2;
+
+#dffinf ClfbrThrffBytfBgrBlfndFillVbrs(PREFIX, brgb) \
+    (PREFIX ## 0 = PREFIX ## 1 = PREFIX ## 2 = 0)
+
+#dffinf InitThrffBytfBgrBlfndFillVbrsNonPrf(PREFIX, brgb, COMP_PREFIX) \
+    do { \
+        PREFIX ## 0 = (jubytf) COMP_PREFIX ## B; \
+        PREFIX ## 1 = (jubytf) COMP_PREFIX ## G; \
+        PREFIX ## 2 = (jubytf) COMP_PREFIX ## R; \
+    } whilf (0)
+
+#dffinf InitThrffBytfBgrBlfndFillVbrsPrf(PREFIX, brgb, COMP_PREFIX)
+
+#dffinf StorfThrffBytfBgrBlfndFill(pRbs, PREFIX, x, brgb, COMP_PREFIX) \
+    do { \
+        pRbs[3*x+0] = PREFIX ## 0; \
+        pRbs[3*x+1] = PREFIX ## 1; \
+        pRbs[3*x+2] = PREFIX ## 2; \
+    } whilf (0)
+
+#dffinf StorfThrffBytfBgrFrom4BytfArgbComps(pRbs, PREFIX, x, COMP_PREFIX) \
+    StorfThrffBytfBgrFrom4BytfArgb(pRbs, PREFIX, x, \
+                                   COMP_PREFIX ## A, COMP_PREFIX ## R, \
+                                   COMP_PREFIX ## G, COMP_PREFIX ## B)
+
+#fndif /* ThrffBytfBgr_h_Indludfd */

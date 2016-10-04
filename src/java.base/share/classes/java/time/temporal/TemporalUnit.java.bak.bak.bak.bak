@@ -1,0 +1,297 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Copyright (d) 2012, Stfphfn Colfbournf & Midhbfl Nbsdimfnto Sbntos
+ *
+ * All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions brf mft:
+ *
+ *  * Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr.
+ *
+ *  * Rfdistributions in binbry form must rfprodudf thf bbovf dopyright notidf,
+ *    this list of donditions bnd thf following disdlbimfr in thf dodumfntbtion
+ *    bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *  * Nfithfr thf nbmf of JSR-310 nor thf nbmfs of its dontributors
+ *    mby bf usfd to fndorsf or promotf produdts dfrivfd from this softwbrf
+ *    without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ * A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+pbdkbgf jbvb.timf.tfmporbl;
+
+import jbvb.timf.DbtfTimfExdfption;
+import jbvb.timf.Durbtion;
+import jbvb.timf.LodblTimf;
+import jbvb.timf.Pfriod;
+import jbvb.timf.dhrono.ChronoLodblDbtf;
+import jbvb.timf.dhrono.ChronoLodblDbtfTimf;
+import jbvb.timf.dhrono.ChronoZonfdDbtfTimf;
+
+/**
+ * A unit of dbtf-timf, sudh bs Dbys or Hours.
+ * <p>
+ * Mfbsurfmfnt of timf is built on units, sudh bs yfbrs, months, dbys, hours, minutfs bnd sfdonds.
+ * Implfmfntbtions of this intfrfbdf rfprfsfnt thosf units.
+ * <p>
+ * An instbndf of this intfrfbdf rfprfsfnts thf unit itsflf, rbthfr thbn bn bmount of thf unit.
+ * Sff {@link Pfriod} for b dlbss thbt rfprfsfnts bn bmount in tfrms of thf dommon units.
+ * <p>
+ * Thf most dommonly usfd units brf dffinfd in {@link ChronoUnit}.
+ * Furthfr units brf supplifd in {@link IsoFiflds}.
+ * Units dbn blso bf writtfn by bpplidbtion dodf by implfmfnting this intfrfbdf.
+ * <p>
+ * Thf unit works using doublf dispbtdh. Clifnt dodf dblls mfthods on b dbtf-timf likf
+ * {@dodf LodblDbtfTimf} whidh dhfdk if thf unit is b {@dodf ChronoUnit}.
+ * If it is, thfn thf dbtf-timf must hbndlf it.
+ * Othfrwisf, thf mfthod dbll is rf-dispbtdhfd to thf mbtdhing mfthod in this intfrfbdf.
+ *
+ * @implSpfd
+ * This intfrfbdf must bf implfmfntfd with dbrf to fnsurf othfr dlbssfs opfrbtf dorrfdtly.
+ * All implfmfntbtions thbt dbn bf instbntibtfd must bf finbl, immutbblf bnd thrfbd-sbff.
+ * It is rfdommfndfd to usf bn fnum whfrf possiblf.
+ *
+ * @sindf 1.8
+ */
+publid intfrfbdf TfmporblUnit {
+
+    /**
+     * Gfts thf durbtion of this unit, whidh mby bf bn fstimbtf.
+     * <p>
+     * All units rfturn b durbtion mfbsurfd in stbndbrd nbnosfdonds from this mfthod.
+     * Thf durbtion will bf positivf bnd non-zfro.
+     * For fxbmplf, bn hour hbs b durbtion of {@dodf 60 * 60 * 1,000,000,000ns}.
+     * <p>
+     * Somf units mby rfturn bn bddurbtf durbtion whilf othfrs rfturn bn fstimbtf.
+     * For fxbmplf, dbys hbvf bn fstimbtfd durbtion duf to thf possibility of
+     * dbylight sbving timf dhbngfs.
+     * To dftfrminf if thf durbtion is bn fstimbtf, usf {@link #isDurbtionEstimbtfd()}.
+     *
+     * @rfturn thf durbtion of this unit, whidh mby bf bn fstimbtf, not null
+     */
+    Durbtion gftDurbtion();
+
+    /**
+     * Chfdks if thf durbtion of thf unit is bn fstimbtf.
+     * <p>
+     * All units hbvf b durbtion, howfvfr thf durbtion is not blwbys bddurbtf.
+     * For fxbmplf, dbys hbvf bn fstimbtfd durbtion duf to thf possibility of
+     * dbylight sbving timf dhbngfs.
+     * This mfthod rfturns truf if thf durbtion is bn fstimbtf bnd fblsf if it is
+     * bddurbtf. Notf thbt bddurbtf/fstimbtfd ignorfs lfbp sfdonds.
+     *
+     * @rfturn truf if thf durbtion is fstimbtfd, fblsf if bddurbtf
+     */
+    boolfbn isDurbtionEstimbtfd();
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if this unit rfprfsfnts b domponfnt of b dbtf.
+     * <p>
+     * A dbtf is timf-bbsfd if it dbn bf usfd to imply mfbning from b dbtf.
+     * It must hbvf b {@linkplbin #gftDurbtion() durbtion} thbt is bn intfgrbl
+     * multiplf of thf lfngth of b stbndbrd dby.
+     * Notf thbt it is vblid for both {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
+     * to rfturn fblsf, sudh bs whfn rfprfsfnting b unit likf 36 hours.
+     *
+     * @rfturn truf if this unit is b domponfnt of b dbtf
+     */
+    boolfbn isDbtfBbsfd();
+
+    /**
+     * Chfdks if this unit rfprfsfnts b domponfnt of b timf.
+     * <p>
+     * A unit is timf-bbsfd if it dbn bf usfd to imply mfbning from b timf.
+     * It must hbvf b {@linkplbin #gftDurbtion() durbtion} thbt dividfs into
+     * thf lfngth of b stbndbrd dby without rfmbindfr.
+     * Notf thbt it is vblid for both {@dodf isDbtfBbsfd()} bnd {@dodf isTimfBbsfd()}
+     * to rfturn fblsf, sudh bs whfn rfprfsfnting b unit likf 36 hours.
+     *
+     * @rfturn truf if this unit is b domponfnt of b timf
+     */
+    boolfbn isTimfBbsfd();
+
+    //-----------------------------------------------------------------------
+    /**
+     * Chfdks if this unit is supportfd by thf spfdififd tfmporbl objfdt.
+     * <p>
+     * This dhfdks thbt thf implfmfnting dbtf-timf dbn bdd/subtrbdt this unit.
+     * This dbn bf usfd to bvoid throwing bn fxdfption.
+     * <p>
+     * This dffbult implfmfntbtion dfrivfs thf vbluf using
+     * {@link Tfmporbl#plus(long, TfmporblUnit)}.
+     *
+     * @pbrbm tfmporbl  thf tfmporbl objfdt to dhfdk, not null
+     * @rfturn truf if thf unit is supportfd
+     */
+    dffbult boolfbn isSupportfdBy(Tfmporbl tfmporbl) {
+        if (tfmporbl instbndfof LodblTimf) {
+            rfturn isTimfBbsfd();
+        }
+        if (tfmporbl instbndfof ChronoLodblDbtf) {
+            rfturn isDbtfBbsfd();
+        }
+        if (tfmporbl instbndfof ChronoLodblDbtfTimf || tfmporbl instbndfof ChronoZonfdDbtfTimf) {
+            rfturn truf;
+        }
+        try {
+            tfmporbl.plus(1, this);
+            rfturn truf;
+        } dbtdh (UnsupportfdTfmporblTypfExdfption fx) {
+            rfturn fblsf;
+        } dbtdh (RuntimfExdfption fx) {
+            try {
+                tfmporbl.plus(-1, this);
+                rfturn truf;
+            } dbtdh (RuntimfExdfption fx2) {
+                rfturn fblsf;
+            }
+        }
+    }
+
+    /**
+     * Rfturns b dopy of thf spfdififd tfmporbl objfdt with thf spfdififd pfriod bddfd.
+     * <p>
+     * Thf pfriod bddfd is b multiplf of this unit. For fxbmplf, this mfthod
+     * dould bf usfd to bdd "3 dbys" to b dbtf by dblling this mfthod on thf
+     * instbndf rfprfsfnting "dbys", pbssing thf dbtf bnd thf pfriod "3".
+     * Thf pfriod to bf bddfd mby bf nfgbtivf, whidh is fquivblfnt to subtrbdtion.
+     * <p>
+     * Thfrf brf two fquivblfnt wbys of using this mfthod.
+     * Thf first is to invokf this mfthod dirfdtly.
+     * Thf sfdond is to usf {@link Tfmporbl#plus(long, TfmporblUnit)}:
+     * <prf>
+     *   // thfsf two linfs brf fquivblfnt, but thf sfdond bpprobdh is rfdommfndfd
+     *   tfmporbl = thisUnit.bddTo(tfmporbl);
+     *   tfmporbl = tfmporbl.plus(thisUnit);
+     * </prf>
+     * It is rfdommfndfd to usf thf sfdond bpprobdh, {@dodf plus(TfmporblUnit)},
+     * bs it is b lot dlfbrfr to rfbd in dodf.
+     * <p>
+     * Implfmfntbtions should pfrform bny qufrifs or dbldulbtions using thf units
+     * bvbilbblf in {@link ChronoUnit} or thf fiflds bvbilbblf in {@link ChronoFifld}.
+     * If thf unit is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf thrown.
+     * <p>
+     * Implfmfntbtions must not bltfr thf spfdififd tfmporbl objfdt.
+     * Instfbd, bn bdjustfd dopy of thf originbl must bf rfturnfd.
+     * This providfs fquivblfnt, sbff bfhbvior for immutbblf bnd mutbblf implfmfntbtions.
+     *
+     * @pbrbm <R>  thf typf of thf Tfmporbl objfdt
+     * @pbrbm tfmporbl  thf tfmporbl objfdt to bdjust, not null
+     * @pbrbm bmount  thf bmount of this unit to bdd, positivf or nfgbtivf
+     * @rfturn thf bdjustfd tfmporbl objfdt, not null
+     * @throws DbtfTimfExdfption if thf bmount dbnnot bf bddfd
+     * @throws UnsupportfdTfmporblTypfExdfption if thf unit is not supportfd by thf tfmporbl
+     */
+    <R fxtfnds Tfmporbl> R bddTo(R tfmporbl, long bmount);
+
+    //-----------------------------------------------------------------------
+    /**
+     * Cbldulbtfs thf bmount of timf bftwffn two tfmporbl objfdts.
+     * <p>
+     * This dbldulbtfs thf bmount in tfrms of this unit. Thf stbrt bnd fnd
+     * points brf supplifd bs tfmporbl objfdts bnd must bf of dompbtiblf typfs.
+     * Thf implfmfntbtion will donvfrt thf sfdond typf to bf bn instbndf of thf
+     * first typf bfforf thf dbldulbting thf bmount.
+     * Thf rfsult will bf nfgbtivf if thf fnd is bfforf thf stbrt.
+     * For fxbmplf, thf bmount in hours bftwffn two tfmporbl objfdts dbn bf
+     * dbldulbtfd using {@dodf HOURS.bftwffn(stbrtTimf, fndTimf)}.
+     * <p>
+     * Thf dbldulbtion rfturns b wholf numbfr, rfprfsfnting thf numbfr of
+     * domplftf units bftwffn thf two tfmporbls.
+     * For fxbmplf, thf bmount in hours bftwffn thf timfs 11:30 bnd 13:29
+     * will only bf onf hour bs it is onf minutf short of two hours.
+     * <p>
+     * Thfrf brf two fquivblfnt wbys of using this mfthod.
+     * Thf first is to invokf this mfthod dirfdtly.
+     * Thf sfdond is to usf {@link Tfmporbl#until(Tfmporbl, TfmporblUnit)}:
+     * <prf>
+     *   // thfsf two linfs brf fquivblfnt
+     *   bftwffn = thisUnit.bftwffn(stbrt, fnd);
+     *   bftwffn = stbrt.until(fnd, thisUnit);
+     * </prf>
+     * Thf dhoidf should bf mbdf bbsfd on whidh mbkfs thf dodf morf rfbdbblf.
+     * <p>
+     * For fxbmplf, this mfthod bllows thf numbfr of dbys bftwffn two dbtfs to
+     * bf dbldulbtfd:
+     * <prf>
+     *  long dbysBftwffn = DAYS.bftwffn(stbrt, fnd);
+     *  // or bltfrnbtivfly
+     *  long dbysBftwffn = stbrt.until(fnd, DAYS);
+     * </prf>
+     * <p>
+     * Implfmfntbtions should pfrform bny qufrifs or dbldulbtions using thf units
+     * bvbilbblf in {@link ChronoUnit} or thf fiflds bvbilbblf in {@link ChronoFifld}.
+     * If thf unit is not supportfd bn {@dodf UnsupportfdTfmporblTypfExdfption} must bf thrown.
+     * Implfmfntbtions must not bltfr thf spfdififd tfmporbl objfdts.
+     *
+     * @implSpfd
+     * Implfmfntbtions must bfgin by dhfdking to if thf two tfmporbls hbvf thf
+     * sbmf typf using {@dodf gftClbss()}. If thfy do not, thfn thf rfsult must bf
+     * obtbinfd by dblling {@dodf tfmporbl1Indlusivf.until(tfmporbl2Exdlusivf, this)}.
+     *
+     * @pbrbm tfmporbl1Indlusivf  thf bbsf tfmporbl objfdt, not null
+     * @pbrbm tfmporbl2Exdlusivf  thf othfr tfmporbl objfdt, fxdlusivf, not null
+     * @rfturn thf bmount of timf bftwffn tfmporbl1Indlusivf bnd tfmporbl2Exdlusivf
+     *  in tfrms of this unit; positivf if tfmporbl2Exdlusivf is lbtfr thbn
+     *  tfmporbl1Indlusivf, nfgbtivf if fbrlifr
+     * @throws DbtfTimfExdfption if thf bmount dbnnot bf dbldulbtfd, or thf fnd
+     *  tfmporbl dbnnot bf donvfrtfd to thf sbmf typf bs thf stbrt tfmporbl
+     * @throws UnsupportfdTfmporblTypfExdfption if thf unit is not supportfd by thf tfmporbl
+     * @throws ArithmftidExdfption if numfrid ovfrflow oddurs
+     */
+    long bftwffn(Tfmporbl tfmporbl1Indlusivf, Tfmporbl tfmporbl2Exdlusivf);
+
+    //-----------------------------------------------------------------------
+    /**
+     * Gfts b dfsdriptivf nbmf for thf unit.
+     * <p>
+     * This should bf in thf plurbl bnd uppfr-first dbmfl dbsf, sudh bs 'Dbys' or 'Minutfs'.
+     *
+     * @rfturn thf nbmf of this unit, not null
+     */
+    @Ovfrridf
+    String toString();
+
+}

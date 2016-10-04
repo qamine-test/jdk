@@ -1,0 +1,1215 @@
+/*
+ * Copyright (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bfbns.Trbnsifnt;
+
+/**
+ * A <dodf>Rfdtbnglf</dodf> spfdififs bn brfb in b doordinbtf spbdf thbt is
+ * fndlosfd by thf <dodf>Rfdtbnglf</dodf> objfdt's uppfr-lfft point
+ * {@dodf (x,y)}
+ * in thf doordinbtf spbdf, its width, bnd its hfight.
+ * <p>
+ * A <dodf>Rfdtbnglf</dodf> objfdt's <dodf>width</dodf> bnd
+ * <dodf>hfight</dodf> brf <dodf>publid</dodf> fiflds. Thf donstrudtors
+ * thbt drfbtf b <dodf>Rfdtbnglf</dodf>, bnd thf mfthods thbt dbn modify
+ * onf, do not prfvfnt sftting b nfgbtivf vbluf for width or hfight.
+ * <p>
+ * <b nbmf="Empty">
+ * A {@dodf Rfdtbnglf} whosf width or hfight is fxbdtly zfro hbs lodbtion
+ * blong thosf bxfs with zfro dimfnsion, but is othfrwisf donsidfrfd fmpty.</b>
+ * Thf {@link #isEmpty} mfthod will rfturn truf for sudh b {@dodf Rfdtbnglf}.
+ * Mfthods whidh tfst if bn fmpty {@dodf Rfdtbnglf} dontbins or intfrsfdts
+ * b point or rfdtbnglf will blwbys rfturn fblsf if fithfr dimfnsion is zfro.
+ * Mfthods whidh dombinf sudh b {@dodf Rfdtbnglf} with b point or rfdtbnglf
+ * will indludf thf lodbtion of thf {@dodf Rfdtbnglf} on thbt bxis in thf
+ * rfsult bs if thf {@link #bdd(Point)} mfthod wfrf bfing dbllfd.
+ * <p>
+ * <b nbmf="NonExistbnt">
+ * A {@dodf Rfdtbnglf} whosf width or hfight is nfgbtivf hbs nfithfr
+ * lodbtion nor dimfnsion blong thosf bxfs with nfgbtivf dimfnsions.
+ * Sudh b {@dodf Rfdtbnglf} is trfbtfd bs non-fxistbnt blong thosf bxfs.
+ * Sudh b {@dodf Rfdtbnglf} is blso fmpty with rfspfdt to dontbinmfnt
+ * dbldulbtions bnd mfthods whidh tfst if it dontbins or intfrsfdts b
+ * point or rfdtbnglf will blwbys rfturn fblsf.
+ * Mfthods whidh dombinf sudh b {@dodf Rfdtbnglf} with b point or rfdtbnglf
+ * will ignorf thf {@dodf Rfdtbnglf} fntirfly in gfnfrbting thf rfsult.
+ * If two {@dodf Rfdtbnglf} objfdts brf dombinfd bnd fbdh hbs b nfgbtivf
+ * dimfnsion, thf rfsult will hbvf bt lfbst onf nfgbtivf dimfnsion.
+ * </b>
+ * <p>
+ * Mfthods whidh bfffdt only thf lodbtion of b {@dodf Rfdtbnglf} will
+ * opfrbtf on its lodbtion rfgbrdlfss of whfthfr or not it hbs b nfgbtivf
+ * or zfro dimfnsion blong fithfr bxis.
+ * <p>
+ * Notf thbt b {@dodf Rfdtbnglf} donstrudtfd with thf dffbult no-brgumfnt
+ * donstrudtor will hbvf dimfnsions of {@dodf 0x0} bnd thfrfforf bf fmpty.
+ * Thbt {@dodf Rfdtbnglf} will still hbvf b lodbtion of {@dodf (0,0)} bnd
+ * will dontributf thbt lodbtion to thf union bnd bdd opfrbtions.
+ * Codf bttfmpting to bddumulbtf thf bounds of b sft of points should
+ * thfrfforf initiblly donstrudt thf {@dodf Rfdtbnglf} with b spfdifidblly
+ * nfgbtivf width bnd hfight or it should usf thf first point in thf sft
+ * to donstrudt thf {@dodf Rfdtbnglf}.
+ * For fxbmplf:
+ * <prf>{@dodf
+ *     Rfdtbnglf bounds = nfw Rfdtbnglf(0, 0, -1, -1);
+ *     for (int i = 0; i < points.lfngth; i++) {
+ *         bounds.bdd(points[i]);
+ *     }
+ * }</prf>
+ * or if wf know thbt thf points brrby dontbins bt lfbst onf point:
+ * <prf>{@dodf
+ *     Rfdtbnglf bounds = nfw Rfdtbnglf(points[0]);
+ *     for (int i = 1; i < points.lfngth; i++) {
+ *         bounds.bdd(points[i]);
+ *     }
+ * }</prf>
+ * <p>
+ * This dlbss usfs 32-bit intfgfrs to storf its lodbtion bnd dimfnsions.
+ * Frfqufntly opfrbtions mby produdf b rfsult thbt fxdffds thf rbngf of
+ * b 32-bit intfgfr.
+ * Thf mfthods will dbldulbtf thfir rfsults in b wby thbt bvoids bny
+ * 32-bit ovfrflow for intfrmfdibtf rfsults bnd thfn dhoosf thf bfst
+ * rfprfsfntbtion to storf thf finbl rfsults bbdk into thf 32-bit fiflds
+ * whidh hold thf lodbtion bnd dimfnsions.
+ * Thf lodbtion of thf rfsult will bf storfd into thf {@link #x} bnd
+ * {@link #y} fiflds by dlipping thf truf rfsult to thf nfbrfst 32-bit vbluf.
+ * Thf vblufs storfd into thf {@link #width} bnd {@link #hfight} dimfnsion
+ * fiflds will bf dhosfn bs thf 32-bit vblufs thbt fndompbss thf lbrgfst
+ * pbrt of thf truf rfsult bs possiblf.
+ * Gfnfrblly this mfbns thbt thf dimfnsion will bf dlippfd indfpfndfntly
+ * to thf rbngf of 32-bit intfgfrs fxdfpt thbt if thf lodbtion hbd to bf
+ * movfd to storf it into its pbir of 32-bit fiflds thfn thf dimfnsions
+ * will bf bdjustfd rflbtivf to thf "bfst rfprfsfntbtion" of thf lodbtion.
+ * If thf truf rfsult hbd b nfgbtivf dimfnsion bnd wbs thfrfforf
+ * non-fxistbnt blong onf or both bxfs, thf storfd dimfnsions will bf
+ * nfgbtivf numbfrs in thosf bxfs.
+ * If thf truf rfsult hbd b lodbtion thbt dould bf rfprfsfntfd within
+ * thf rbngf of 32-bit intfgfrs, but zfro dimfnsion blong onf or both
+ * bxfs, thfn thf storfd dimfnsions will bf zfro in thosf bxfs.
+ *
+ * @buthor      Sbmi Shbio
+ * @sindf 1.0
+ */
+publid dlbss Rfdtbnglf fxtfnds Rfdtbnglf2D
+    implfmfnts Shbpf, jbvb.io.Sfriblizbblf
+{
+
+    /**
+     * Thf X doordinbtf of thf uppfr-lfft dornfr of thf <dodf>Rfdtbnglf</dodf>.
+     *
+     * @sfribl
+     * @sff #sftLodbtion(int, int)
+     * @sff #gftLodbtion()
+     * @sindf 1.0
+     */
+    publid int x;
+
+    /**
+     * Thf Y doordinbtf of thf uppfr-lfft dornfr of thf <dodf>Rfdtbnglf</dodf>.
+     *
+     * @sfribl
+     * @sff #sftLodbtion(int, int)
+     * @sff #gftLodbtion()
+     * @sindf 1.0
+     */
+    publid int y;
+
+    /**
+     * Thf width of thf <dodf>Rfdtbnglf</dodf>.
+     * @sfribl
+     * @sff #sftSizf(int, int)
+     * @sff #gftSizf()
+     * @sindf 1.0
+     */
+    publid int width;
+
+    /**
+     * Thf hfight of thf <dodf>Rfdtbnglf</dodf>.
+     *
+     * @sfribl
+     * @sff #sftSizf(int, int)
+     * @sff #gftSizf()
+     * @sindf 1.0
+     */
+    publid int hfight;
+
+    /*
+     * JDK 1.1 sfriblVfrsionUID
+     */
+     privbtf stbtid finbl long sfriblVfrsionUID = -4345857070255674764L;
+
+    /**
+     * Initiblizf JNI fifld bnd mfthod IDs
+     */
+    privbtf stbtid nbtivf void initIDs();
+
+    stbtid {
+        /* fnsurf thbt thf nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbphidsEnvironmfnt.isHfbdlfss()) {
+            initIDs();
+        }
+    }
+
+    /**
+     * Construdts b nfw <dodf>Rfdtbnglf</dodf> whosf uppfr-lfft dornfr
+     * is bt (0,&nbsp;0) in thf doordinbtf spbdf, bnd whosf width bnd
+     * hfight brf both zfro.
+     */
+    publid Rfdtbnglf() {
+        this(0, 0, 0, 0);
+    }
+
+    /**
+     * Construdts b nfw <dodf>Rfdtbnglf</dodf>, initiblizfd to mbtdh
+     * thf vblufs of thf spfdififd <dodf>Rfdtbnglf</dodf>.
+     * @pbrbm r  thf <dodf>Rfdtbnglf</dodf> from whidh to dopy initibl vblufs
+     *           to b nfwly donstrudtfd <dodf>Rfdtbnglf</dodf>
+     * @sindf 1.1
+     */
+    publid Rfdtbnglf(Rfdtbnglf r) {
+        this(r.x, r.y, r.width, r.hfight);
+    }
+
+    /**
+     * Construdts b nfw <dodf>Rfdtbnglf</dodf> whosf uppfr-lfft dornfr is
+     * spfdififd bs
+     * {@dodf (x,y)} bnd whosf width bnd hfight
+     * brf spfdififd by thf brgumfnts of thf sbmf nbmf.
+     * @pbrbm     x thf spfdififd X doordinbtf
+     * @pbrbm     y thf spfdififd Y doordinbtf
+     * @pbrbm     width    thf width of thf <dodf>Rfdtbnglf</dodf>
+     * @pbrbm     hfight   thf hfight of thf <dodf>Rfdtbnglf</dodf>
+     * @sindf 1.0
+     */
+    publid Rfdtbnglf(int x, int y, int width, int hfight) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.hfight = hfight;
+    }
+
+    /**
+     * Construdts b nfw <dodf>Rfdtbnglf</dodf> whosf uppfr-lfft dornfr
+     * is bt (0,&nbsp;0) in thf doordinbtf spbdf, bnd whosf width bnd
+     * hfight brf spfdififd by thf brgumfnts of thf sbmf nbmf.
+     * @pbrbm width thf width of thf <dodf>Rfdtbnglf</dodf>
+     * @pbrbm hfight thf hfight of thf <dodf>Rfdtbnglf</dodf>
+     */
+    publid Rfdtbnglf(int width, int hfight) {
+        this(0, 0, width, hfight);
+    }
+
+    /**
+     * Construdts b nfw <dodf>Rfdtbnglf</dodf> whosf uppfr-lfft dornfr is
+     * spfdififd by thf {@link Point} brgumfnt, bnd
+     * whosf width bnd hfight brf spfdififd by thf
+     * {@link Dimfnsion} brgumfnt.
+     * @pbrbm p b <dodf>Point</dodf> thbt is thf uppfr-lfft dornfr of
+     * thf <dodf>Rfdtbnglf</dodf>
+     * @pbrbm d b <dodf>Dimfnsion</dodf>, rfprfsfnting thf
+     * width bnd hfight of thf <dodf>Rfdtbnglf</dodf>
+     */
+    publid Rfdtbnglf(Point p, Dimfnsion d) {
+        this(p.x, p.y, d.width, d.hfight);
+    }
+
+    /**
+     * Construdts b nfw <dodf>Rfdtbnglf</dodf> whosf uppfr-lfft dornfr is thf
+     * spfdififd <dodf>Point</dodf>, bnd whosf width bnd hfight brf both zfro.
+     * @pbrbm p b <dodf>Point</dodf> thbt is thf top lfft dornfr
+     * of thf <dodf>Rfdtbnglf</dodf>
+     */
+    publid Rfdtbnglf(Point p) {
+        this(p.x, p.y, 0, 0);
+    }
+
+    /**
+     * Construdts b nfw <dodf>Rfdtbnglf</dodf> whosf top lfft dornfr is
+     * (0,&nbsp;0) bnd whosf width bnd hfight brf spfdififd
+     * by thf <dodf>Dimfnsion</dodf> brgumfnt.
+     * @pbrbm d b <dodf>Dimfnsion</dodf>, spfdifying width bnd hfight
+     */
+    publid Rfdtbnglf(Dimfnsion d) {
+        this(0, 0, d.width, d.hfight);
+    }
+
+    /**
+     * Rfturns thf X doordinbtf of thf bounding <dodf>Rfdtbnglf</dodf> in
+     * <dodf>doublf</dodf> prfdision.
+     * @rfturn thf X doordinbtf of thf bounding <dodf>Rfdtbnglf</dodf>.
+     */
+    publid doublf gftX() {
+        rfturn x;
+    }
+
+    /**
+     * Rfturns thf Y doordinbtf of thf bounding <dodf>Rfdtbnglf</dodf> in
+     * <dodf>doublf</dodf> prfdision.
+     * @rfturn thf Y doordinbtf of thf bounding <dodf>Rfdtbnglf</dodf>.
+     */
+    publid doublf gftY() {
+        rfturn y;
+    }
+
+    /**
+     * Rfturns thf width of thf bounding <dodf>Rfdtbnglf</dodf> in
+     * <dodf>doublf</dodf> prfdision.
+     * @rfturn thf width of thf bounding <dodf>Rfdtbnglf</dodf>.
+     */
+    publid doublf gftWidth() {
+        rfturn width;
+    }
+
+    /**
+     * Rfturns thf hfight of thf bounding <dodf>Rfdtbnglf</dodf> in
+     * <dodf>doublf</dodf> prfdision.
+     * @rfturn thf hfight of thf bounding <dodf>Rfdtbnglf</dodf>.
+     */
+    publid doublf gftHfight() {
+        rfturn hfight;
+    }
+
+    /**
+     * Gfts thf bounding <dodf>Rfdtbnglf</dodf> of this <dodf>Rfdtbnglf</dodf>.
+     * <p>
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>gftBounds</dodf> mfthod of
+     * {@link Componfnt}.
+     * @rfturn    b nfw <dodf>Rfdtbnglf</dodf>, fqubl to thf
+     * bounding <dodf>Rfdtbnglf</dodf> for this <dodf>Rfdtbnglf</dodf>.
+     * @sff       jbvb.bwt.Componfnt#gftBounds
+     * @sff       #sftBounds(Rfdtbnglf)
+     * @sff       #sftBounds(int, int, int, int)
+     * @sindf     1.1
+     */
+    @Trbnsifnt
+    publid Rfdtbnglf gftBounds() {
+        rfturn nfw Rfdtbnglf(x, y, width, hfight);
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid Rfdtbnglf2D gftBounds2D() {
+        rfturn nfw Rfdtbnglf(x, y, width, hfight);
+    }
+
+    /**
+     * Sfts thf bounding <dodf>Rfdtbnglf</dodf> of this <dodf>Rfdtbnglf</dodf>
+     * to mbtdh thf spfdififd <dodf>Rfdtbnglf</dodf>.
+     * <p>
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>sftBounds</dodf> mfthod of <dodf>Componfnt</dodf>.
+     * @pbrbm r thf spfdififd <dodf>Rfdtbnglf</dodf>
+     * @sff       #gftBounds
+     * @sff       jbvb.bwt.Componfnt#sftBounds(jbvb.bwt.Rfdtbnglf)
+     * @sindf     1.1
+     */
+    publid void sftBounds(Rfdtbnglf r) {
+        sftBounds(r.x, r.y, r.width, r.hfight);
+    }
+
+    /**
+     * Sfts thf bounding <dodf>Rfdtbnglf</dodf> of this
+     * <dodf>Rfdtbnglf</dodf> to thf spfdififd
+     * <dodf>x</dodf>, <dodf>y</dodf>, <dodf>width</dodf>,
+     * bnd <dodf>hfight</dodf>.
+     * <p>
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>sftBounds</dodf> mfthod of <dodf>Componfnt</dodf>.
+     * @pbrbm x thf nfw X doordinbtf for thf uppfr-lfft
+     *                    dornfr of this <dodf>Rfdtbnglf</dodf>
+     * @pbrbm y thf nfw Y doordinbtf for thf uppfr-lfft
+     *                    dornfr of this <dodf>Rfdtbnglf</dodf>
+     * @pbrbm width thf nfw width for this <dodf>Rfdtbnglf</dodf>
+     * @pbrbm hfight thf nfw hfight for this <dodf>Rfdtbnglf</dodf>
+     * @sff       #gftBounds
+     * @sff       jbvb.bwt.Componfnt#sftBounds(int, int, int, int)
+     * @sindf     1.1
+     */
+    publid void sftBounds(int x, int y, int width, int hfight) {
+        rfshbpf(x, y, width, hfight);
+    }
+
+    /**
+     * Sfts thf bounds of this {@dodf Rfdtbnglf} to thf intfgfr bounds
+     * whidh fndompbss thf spfdififd {@dodf x}, {@dodf y}, {@dodf width},
+     * bnd {@dodf hfight}.
+     * If thf pbrbmftfrs spfdify b {@dodf Rfdtbnglf} thbt fxdffds thf
+     * mbximum rbngf of intfgfrs, thf rfsult will bf thf bfst
+     * rfprfsfntbtion of thf spfdififd {@dodf Rfdtbnglf} intfrsfdtfd
+     * with thf mbximum intfgfr bounds.
+     * @pbrbm x thf X doordinbtf of thf uppfr-lfft dornfr of
+     *                  thf spfdififd rfdtbnglf
+     * @pbrbm y thf Y doordinbtf of thf uppfr-lfft dornfr of
+     *                  thf spfdififd rfdtbnglf
+     * @pbrbm width thf width of thf spfdififd rfdtbnglf
+     * @pbrbm hfight thf nfw hfight of thf spfdififd rfdtbnglf
+     */
+    publid void sftRfdt(doublf x, doublf y, doublf width, doublf hfight) {
+        int nfwx, nfwy, nfww, nfwh;
+
+        if (x > 2.0 * Intfgfr.MAX_VALUE) {
+            // Too fbr in positivf X dirfdtion to rfprfsfnt...
+            // Wf dbnnot fvfn rfbdh thf lfft sidf of thf spfdififd
+            // rfdtbnglf fvfn with both x & width sft to MAX_VALUE.
+            // Thf intfrsfdtion with thf "mbximbl intfgfr rfdtbnglf"
+            // is non-fxistbnt so wf should usf b width < 0.
+            // REMIND: Should wf try to dftfrminf b morf "mfbningful"
+            // bdjustfd vbluf for nfww thbn just "-1"?
+            nfwx = Intfgfr.MAX_VALUE;
+            nfww = -1;
+        } flsf {
+            nfwx = dlip(x, fblsf);
+            if (width >= 0) width += x-nfwx;
+            nfww = dlip(width, width >= 0);
+        }
+
+        if (y > 2.0 * Intfgfr.MAX_VALUE) {
+            // Too fbr in positivf Y dirfdtion to rfprfsfnt...
+            nfwy = Intfgfr.MAX_VALUE;
+            nfwh = -1;
+        } flsf {
+            nfwy = dlip(y, fblsf);
+            if (hfight >= 0) hfight += y-nfwy;
+            nfwh = dlip(hfight, hfight >= 0);
+        }
+
+        rfshbpf(nfwx, nfwy, nfww, nfwh);
+    }
+    // Rfturn bfst intfgfr rfprfsfntbtion for v, dlippfd to intfgfr
+    // rbngf bnd floor-fd or dfiling-fd, dfpfnding on thf boolfbn.
+    privbtf stbtid int dlip(doublf v, boolfbn dodfil) {
+        if (v <= Intfgfr.MIN_VALUE) {
+            rfturn Intfgfr.MIN_VALUE;
+        }
+        if (v >= Intfgfr.MAX_VALUE) {
+            rfturn Intfgfr.MAX_VALUE;
+        }
+        rfturn (int) (dodfil ? Mbth.dfil(v) : Mbth.floor(v));
+    }
+
+    /**
+     * Sfts thf bounding <dodf>Rfdtbnglf</dodf> of this
+     * <dodf>Rfdtbnglf</dodf> to thf spfdififd
+     * <dodf>x</dodf>, <dodf>y</dodf>, <dodf>width</dodf>,
+     * bnd <dodf>hfight</dodf>.
+     *
+     * @pbrbm x thf nfw X doordinbtf for thf uppfr-lfft
+     *                    dornfr of this <dodf>Rfdtbnglf</dodf>
+     * @pbrbm y thf nfw Y doordinbtf for thf uppfr-lfft
+     *                    dornfr of this <dodf>Rfdtbnglf</dodf>
+     * @pbrbm width thf nfw width for this <dodf>Rfdtbnglf</dodf>
+     * @pbrbm hfight thf nfw hfight for this <dodf>Rfdtbnglf</dodf>
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftBounds(int, int, int, int)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid void rfshbpf(int x, int y, int width, int hfight) {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.hfight = hfight;
+    }
+
+    /**
+     * Rfturns thf lodbtion of this <dodf>Rfdtbnglf</dodf>.
+     * <p>
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>gftLodbtion</dodf> mfthod of <dodf>Componfnt</dodf>.
+     * @rfturn thf <dodf>Point</dodf> thbt is thf uppfr-lfft dornfr of
+     *                  this <dodf>Rfdtbnglf</dodf>.
+     * @sff       jbvb.bwt.Componfnt#gftLodbtion
+     * @sff       #sftLodbtion(Point)
+     * @sff       #sftLodbtion(int, int)
+     * @sindf     1.1
+     */
+    publid Point gftLodbtion() {
+        rfturn nfw Point(x, y);
+    }
+
+    /**
+     * Movfs this <dodf>Rfdtbnglf</dodf> to thf spfdififd lodbtion.
+     * <p>
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>sftLodbtion</dodf> mfthod of <dodf>Componfnt</dodf>.
+     * @pbrbm p thf <dodf>Point</dodf> spfdifying thf nfw lodbtion
+     *                for this <dodf>Rfdtbnglf</dodf>
+     * @sff       jbvb.bwt.Componfnt#sftLodbtion(jbvb.bwt.Point)
+     * @sff       #gftLodbtion
+     * @sindf     1.1
+     */
+    publid void sftLodbtion(Point p) {
+        sftLodbtion(p.x, p.y);
+    }
+
+    /**
+     * Movfs this <dodf>Rfdtbnglf</dodf> to thf spfdififd lodbtion.
+     * <p>
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>sftLodbtion</dodf> mfthod of <dodf>Componfnt</dodf>.
+     * @pbrbm x thf X doordinbtf of thf nfw lodbtion
+     * @pbrbm y thf Y doordinbtf of thf nfw lodbtion
+     * @sff       #gftLodbtion
+     * @sff       jbvb.bwt.Componfnt#sftLodbtion(int, int)
+     * @sindf     1.1
+     */
+    publid void sftLodbtion(int x, int y) {
+        movf(x, y);
+    }
+
+    /**
+     * Movfs this <dodf>Rfdtbnglf</dodf> to thf spfdififd lodbtion.
+     *
+     * @pbrbm x thf X doordinbtf of thf nfw lodbtion
+     * @pbrbm y thf Y doordinbtf of thf nfw lodbtion
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftLodbtion(int, int)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid void movf(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * Trbnslbtfs this <dodf>Rfdtbnglf</dodf> thf indidbtfd distbndf,
+     * to thf right blong thf X doordinbtf bxis, bnd
+     * downwbrd blong thf Y doordinbtf bxis.
+     * @pbrbm dx thf distbndf to movf this <dodf>Rfdtbnglf</dodf>
+     *                 blong thf X bxis
+     * @pbrbm dy thf distbndf to movf this <dodf>Rfdtbnglf</dodf>
+     *                 blong thf Y bxis
+     * @sff       jbvb.bwt.Rfdtbnglf#sftLodbtion(int, int)
+     * @sff       jbvb.bwt.Rfdtbnglf#sftLodbtion(jbvb.bwt.Point)
+     */
+    publid void trbnslbtf(int dx, int dy) {
+        int oldv = this.x;
+        int nfwv = oldv + dx;
+        if (dx < 0) {
+            // moving lfftwbrd
+            if (nfwv > oldv) {
+                // nfgbtivf ovfrflow
+                // Only bdjust width if it wbs vblid (>= 0).
+                if (width >= 0) {
+                    // Thf right fdgf is now dondfptublly bt
+                    // nfwv+width, but wf mby movf nfwv to prfvfnt
+                    // ovfrflow.  But wf wbnt thf right fdgf to
+                    // rfmbin bt its nfw lodbtion in spitf of thf
+                    // dlipping.  Think of thf following bdjustmfnt
+                    // dondfptublly thf sbmf bs:
+                    // width += nfwv; nfwv = MIN_VALUE; width -= nfwv;
+                    width += nfwv - Intfgfr.MIN_VALUE;
+                    // width mby go nfgbtivf if thf right fdgf wfnt pbst
+                    // MIN_VALUE, but it dbnnot ovfrflow sindf it dbnnot
+                    // hbvf movfd morf thbn MIN_VALUE bnd bny non-nfgbtivf
+                    // numbfr + MIN_VALUE dofs not ovfrflow.
+                }
+                nfwv = Intfgfr.MIN_VALUE;
+            }
+        } flsf {
+            // moving rightwbrd (or stbying still)
+            if (nfwv < oldv) {
+                // positivf ovfrflow
+                if (width >= 0) {
+                    // Condfptublly thf sbmf bs:
+                    // width += nfwv; nfwv = MAX_VALUE; width -= nfwv;
+                    width += nfwv - Intfgfr.MAX_VALUE;
+                    // With lbrgf widths bnd lbrgf displbdfmfnts
+                    // wf mby ovfrflow so wf nffd to dhfdk it.
+                    if (width < 0) width = Intfgfr.MAX_VALUE;
+                }
+                nfwv = Intfgfr.MAX_VALUE;
+            }
+        }
+        this.x = nfwv;
+
+        oldv = this.y;
+        nfwv = oldv + dy;
+        if (dy < 0) {
+            // moving upwbrd
+            if (nfwv > oldv) {
+                // nfgbtivf ovfrflow
+                if (hfight >= 0) {
+                    hfight += nfwv - Intfgfr.MIN_VALUE;
+                    // Sff bbovf dommfnt bbout no ovfrflow in this dbsf
+                }
+                nfwv = Intfgfr.MIN_VALUE;
+            }
+        } flsf {
+            // moving downwbrd (or stbying still)
+            if (nfwv < oldv) {
+                // positivf ovfrflow
+                if (hfight >= 0) {
+                    hfight += nfwv - Intfgfr.MAX_VALUE;
+                    if (hfight < 0) hfight = Intfgfr.MAX_VALUE;
+                }
+                nfwv = Intfgfr.MAX_VALUE;
+            }
+        }
+        this.y = nfwv;
+    }
+
+    /**
+     * Gfts thf sizf of this <dodf>Rfdtbnglf</dodf>, rfprfsfntfd by
+     * thf rfturnfd <dodf>Dimfnsion</dodf>.
+     * <p>
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>gftSizf</dodf> mfthod of <dodf>Componfnt</dodf>.
+     * @rfturn b <dodf>Dimfnsion</dodf>, rfprfsfnting thf sizf of
+     *            this <dodf>Rfdtbnglf</dodf>.
+     * @sff       jbvb.bwt.Componfnt#gftSizf
+     * @sff       #sftSizf(Dimfnsion)
+     * @sff       #sftSizf(int, int)
+     * @sindf     1.1
+     */
+    publid Dimfnsion gftSizf() {
+        rfturn nfw Dimfnsion(width, hfight);
+    }
+
+    /**
+     * Sfts thf sizf of this <dodf>Rfdtbnglf</dodf> to mbtdh thf
+     * spfdififd <dodf>Dimfnsion</dodf>.
+     * <p>
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>sftSizf</dodf> mfthod of <dodf>Componfnt</dodf>.
+     * @pbrbm d thf nfw sizf for thf <dodf>Dimfnsion</dodf> objfdt
+     * @sff       jbvb.bwt.Componfnt#sftSizf(jbvb.bwt.Dimfnsion)
+     * @sff       #gftSizf
+     * @sindf     1.1
+     */
+    publid void sftSizf(Dimfnsion d) {
+        sftSizf(d.width, d.hfight);
+    }
+
+    /**
+     * Sfts thf sizf of this <dodf>Rfdtbnglf</dodf> to thf spfdififd
+     * width bnd hfight.
+     * <p>
+     * This mfthod is indludfd for domplftfnfss, to pbrbllfl thf
+     * <dodf>sftSizf</dodf> mfthod of <dodf>Componfnt</dodf>.
+     * @pbrbm width thf nfw width for this <dodf>Rfdtbnglf</dodf>
+     * @pbrbm hfight thf nfw hfight for this <dodf>Rfdtbnglf</dodf>
+     * @sff       jbvb.bwt.Componfnt#sftSizf(int, int)
+     * @sff       #gftSizf
+     * @sindf     1.1
+     */
+    publid void sftSizf(int width, int hfight) {
+        rfsizf(width, hfight);
+    }
+
+    /**
+     * Sfts thf sizf of this <dodf>Rfdtbnglf</dodf> to thf spfdififd
+     * width bnd hfight.
+     *
+     * @pbrbm width thf nfw width for this <dodf>Rfdtbnglf</dodf>
+     * @pbrbm hfight thf nfw hfight for this <dodf>Rfdtbnglf</dodf>
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>sftSizf(int, int)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid void rfsizf(int width, int hfight) {
+        this.width = width;
+        this.hfight = hfight;
+    }
+
+    /**
+     * Chfdks whfthfr or not this <dodf>Rfdtbnglf</dodf> dontbins thf
+     * spfdififd <dodf>Point</dodf>.
+     * @pbrbm p thf <dodf>Point</dodf> to tfst
+     * @rfturn    <dodf>truf</dodf> if thf spfdififd <dodf>Point</dodf>
+     *            is insidf this <dodf>Rfdtbnglf</dodf>;
+     *            <dodf>fblsf</dodf> othfrwisf.
+     * @sindf     1.1
+     */
+    publid boolfbn dontbins(Point p) {
+        rfturn dontbins(p.x, p.y);
+    }
+
+    /**
+     * Chfdks whfthfr or not this <dodf>Rfdtbnglf</dodf> dontbins thf
+     * point bt thf spfdififd lodbtion {@dodf (x,y)}.
+     *
+     * @pbrbm  x thf spfdififd X doordinbtf
+     * @pbrbm  y thf spfdififd Y doordinbtf
+     * @rfturn    <dodf>truf</dodf> if thf point
+     *            {@dodf (x,y)} is insidf this
+     *            <dodf>Rfdtbnglf</dodf>;
+     *            <dodf>fblsf</dodf> othfrwisf.
+     * @sindf     1.1
+     */
+    publid boolfbn dontbins(int x, int y) {
+        rfturn insidf(x, y);
+    }
+
+    /**
+     * Chfdks whfthfr or not this <dodf>Rfdtbnglf</dodf> fntirfly dontbins
+     * thf spfdififd <dodf>Rfdtbnglf</dodf>.
+     *
+     * @pbrbm     r   thf spfdififd <dodf>Rfdtbnglf</dodf>
+     * @rfturn    <dodf>truf</dodf> if thf <dodf>Rfdtbnglf</dodf>
+     *            is dontbinfd fntirfly insidf this <dodf>Rfdtbnglf</dodf>;
+     *            <dodf>fblsf</dodf> othfrwisf
+     * @sindf     1.2
+     */
+    publid boolfbn dontbins(Rfdtbnglf r) {
+        rfturn dontbins(r.x, r.y, r.width, r.hfight);
+    }
+
+    /**
+     * Chfdks whfthfr this <dodf>Rfdtbnglf</dodf> fntirfly dontbins
+     * thf <dodf>Rfdtbnglf</dodf>
+     * bt thf spfdififd lodbtion {@dodf (X,Y)} with thf
+     * spfdififd dimfnsions {@dodf (W,H)}.
+     * @pbrbm     X thf spfdififd X doordinbtf
+     * @pbrbm     Y thf spfdififd Y doordinbtf
+     * @pbrbm     W   thf width of thf <dodf>Rfdtbnglf</dodf>
+     * @pbrbm     H   thf hfight of thf <dodf>Rfdtbnglf</dodf>
+     * @rfturn    <dodf>truf</dodf> if thf <dodf>Rfdtbnglf</dodf> spfdififd by
+     *            {@dodf (X, Y, W, H)}
+     *            is fntirfly fndlosfd insidf this <dodf>Rfdtbnglf</dodf>;
+     *            <dodf>fblsf</dodf> othfrwisf.
+     * @sindf     1.1
+     */
+    publid boolfbn dontbins(int X, int Y, int W, int H) {
+        int w = this.width;
+        int h = this.hfight;
+        if ((w | h | W | H) < 0) {
+            // At lfbst onf of thf dimfnsions is nfgbtivf...
+            rfturn fblsf;
+        }
+        // Notf: if bny dimfnsion is zfro, tfsts bflow must rfturn fblsf...
+        int x = this.x;
+        int y = this.y;
+        if (X < x || Y < y) {
+            rfturn fblsf;
+        }
+        w += x;
+        W += X;
+        if (W <= X) {
+            // X+W ovfrflowfd or W wbs zfro, rfturn fblsf if...
+            // fithfr originbl w or W wbs zfro or
+            // x+w did not ovfrflow or
+            // thf ovfrflowfd x+w is smbllfr thbn thf ovfrflowfd X+W
+            if (w >= x || W > w) rfturn fblsf;
+        } flsf {
+            // X+W did not ovfrflow bnd W wbs not zfro, rfturn fblsf if...
+            // originbl w wbs zfro or
+            // x+w did not ovfrflow bnd x+w is smbllfr thbn X+W
+            if (w >= x && W > w) rfturn fblsf;
+        }
+        h += y;
+        H += Y;
+        if (H <= Y) {
+            if (h >= y || H > h) rfturn fblsf;
+        } flsf {
+            if (h >= y && H > h) rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Chfdks whfthfr or not this <dodf>Rfdtbnglf</dodf> dontbins thf
+     * point bt thf spfdififd lodbtion {@dodf (X,Y)}.
+     *
+     * @pbrbm  X thf spfdififd X doordinbtf
+     * @pbrbm  Y thf spfdififd Y doordinbtf
+     * @rfturn    <dodf>truf</dodf> if thf point
+     *            {@dodf (X,Y)} is insidf this
+     *            <dodf>Rfdtbnglf</dodf>;
+     *            <dodf>fblsf</dodf> othfrwisf.
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>dontbins(int, int)</dodf>.
+     */
+    @Dfprfdbtfd
+    publid boolfbn insidf(int X, int Y) {
+        int w = this.width;
+        int h = this.hfight;
+        if ((w | h) < 0) {
+            // At lfbst onf of thf dimfnsions is nfgbtivf...
+            rfturn fblsf;
+        }
+        // Notf: if fithfr dimfnsion is zfro, tfsts bflow must rfturn fblsf...
+        int x = this.x;
+        int y = this.y;
+        if (X < x || Y < y) {
+            rfturn fblsf;
+        }
+        w += x;
+        h += y;
+        //    ovfrflow || intfrsfdt
+        rfturn ((w < x || w > X) &&
+                (h < y || h > Y));
+    }
+
+    /**
+     * Dftfrminfs whfthfr or not this <dodf>Rfdtbnglf</dodf> bnd thf spfdififd
+     * <dodf>Rfdtbnglf</dodf> intfrsfdt. Two rfdtbnglfs intfrsfdt if
+     * thfir intfrsfdtion is nonfmpty.
+     *
+     * @pbrbm r thf spfdififd <dodf>Rfdtbnglf</dodf>
+     * @rfturn    <dodf>truf</dodf> if thf spfdififd <dodf>Rfdtbnglf</dodf>
+     *            bnd this <dodf>Rfdtbnglf</dodf> intfrsfdt;
+     *            <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn intfrsfdts(Rfdtbnglf r) {
+        int tw = this.width;
+        int th = this.hfight;
+        int rw = r.width;
+        int rh = r.hfight;
+        if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
+            rfturn fblsf;
+        }
+        int tx = this.x;
+        int ty = this.y;
+        int rx = r.x;
+        int ry = r.y;
+        rw += rx;
+        rh += ry;
+        tw += tx;
+        th += ty;
+        //      ovfrflow || intfrsfdt
+        rfturn ((rw < rx || rw > tx) &&
+                (rh < ry || rh > ty) &&
+                (tw < tx || tw > rx) &&
+                (th < ty || th > ry));
+    }
+
+    /**
+     * Computfs thf intfrsfdtion of this <dodf>Rfdtbnglf</dodf> with thf
+     * spfdififd <dodf>Rfdtbnglf</dodf>. Rfturns b nfw <dodf>Rfdtbnglf</dodf>
+     * thbt rfprfsfnts thf intfrsfdtion of thf two rfdtbnglfs.
+     * If thf two rfdtbnglfs do not intfrsfdt, thf rfsult will bf
+     * bn fmpty rfdtbnglf.
+     *
+     * @pbrbm     r   thf spfdififd <dodf>Rfdtbnglf</dodf>
+     * @rfturn    thf lbrgfst <dodf>Rfdtbnglf</dodf> dontbinfd in both thf
+     *            spfdififd <dodf>Rfdtbnglf</dodf> bnd in
+     *            this <dodf>Rfdtbnglf</dodf>; or if thf rfdtbnglfs
+     *            do not intfrsfdt, bn fmpty rfdtbnglf.
+     */
+    publid Rfdtbnglf intfrsfdtion(Rfdtbnglf r) {
+        int tx1 = this.x;
+        int ty1 = this.y;
+        int rx1 = r.x;
+        int ry1 = r.y;
+        long tx2 = tx1; tx2 += this.width;
+        long ty2 = ty1; ty2 += this.hfight;
+        long rx2 = rx1; rx2 += r.width;
+        long ry2 = ry1; ry2 += r.hfight;
+        if (tx1 < rx1) tx1 = rx1;
+        if (ty1 < ry1) ty1 = ry1;
+        if (tx2 > rx2) tx2 = rx2;
+        if (ty2 > ry2) ty2 = ry2;
+        tx2 -= tx1;
+        ty2 -= ty1;
+        // tx2,ty2 will nfvfr ovfrflow (thfy will nfvfr bf
+        // lbrgfr thbn thf smbllfst of thf two sourdf w,h)
+        // thfy might undfrflow, though...
+        if (tx2 < Intfgfr.MIN_VALUE) tx2 = Intfgfr.MIN_VALUE;
+        if (ty2 < Intfgfr.MIN_VALUE) ty2 = Intfgfr.MIN_VALUE;
+        rfturn nfw Rfdtbnglf(tx1, ty1, (int) tx2, (int) ty2);
+    }
+
+    /**
+     * Computfs thf union of this <dodf>Rfdtbnglf</dodf> with thf
+     * spfdififd <dodf>Rfdtbnglf</dodf>. Rfturns b nfw
+     * <dodf>Rfdtbnglf</dodf> thbt
+     * rfprfsfnts thf union of thf two rfdtbnglfs.
+     * <p>
+     * If fithfr {@dodf Rfdtbnglf} hbs bny dimfnsion lfss thbn zfro
+     * thf rulfs for <b hrff=#NonExistbnt>non-fxistbnt</b> rfdtbnglfs
+     * bpply.
+     * If only onf hbs b dimfnsion lfss thbn zfro, thfn thf rfsult
+     * will bf b dopy of thf othfr {@dodf Rfdtbnglf}.
+     * If both hbvf dimfnsion lfss thbn zfro, thfn thf rfsult will
+     * hbvf bt lfbst onf dimfnsion lfss thbn zfro.
+     * <p>
+     * If thf rfsulting {@dodf Rfdtbnglf} would hbvf b dimfnsion
+     * too lbrgf to bf fxprfssfd bs bn {@dodf int}, thf rfsult
+     * will hbvf b dimfnsion of {@dodf Intfgfr.MAX_VALUE} blong
+     * thbt dimfnsion.
+     * @pbrbm r thf spfdififd <dodf>Rfdtbnglf</dodf>
+     * @rfturn    thf smbllfst <dodf>Rfdtbnglf</dodf> dontbining both
+     *            thf spfdififd <dodf>Rfdtbnglf</dodf> bnd this
+     *            <dodf>Rfdtbnglf</dodf>.
+     */
+    publid Rfdtbnglf union(Rfdtbnglf r) {
+        long tx2 = this.width;
+        long ty2 = this.hfight;
+        if ((tx2 | ty2) < 0) {
+            // This rfdtbnglf hbs nfgbtivf dimfnsions...
+            // If r hbs non-nfgbtivf dimfnsions thfn it is thf bnswfr.
+            // If r is non-fxistbnt (hbs b nfgbtivf dimfnsion), thfn both
+            // brf non-fxistbnt bnd wf dbn rfturn bny non-fxistbnt rfdtbnglf
+            // bs bn bnswfr.  Thus, rfturning r mffts thbt dritfrion.
+            // Eithfr wby, r is our bnswfr.
+            rfturn nfw Rfdtbnglf(r);
+        }
+        long rx2 = r.width;
+        long ry2 = r.hfight;
+        if ((rx2 | ry2) < 0) {
+            rfturn nfw Rfdtbnglf(this);
+        }
+        int tx1 = this.x;
+        int ty1 = this.y;
+        tx2 += tx1;
+        ty2 += ty1;
+        int rx1 = r.x;
+        int ry1 = r.y;
+        rx2 += rx1;
+        ry2 += ry1;
+        if (tx1 > rx1) tx1 = rx1;
+        if (ty1 > ry1) ty1 = ry1;
+        if (tx2 < rx2) tx2 = rx2;
+        if (ty2 < ry2) ty2 = ry2;
+        tx2 -= tx1;
+        ty2 -= ty1;
+        // tx2,ty2 will nfvfr undfrflow sindf both originbl rfdtbnglfs
+        // wfrf blrfbdy provfn to bf non-fmpty
+        // thfy might ovfrflow, though...
+        if (tx2 > Intfgfr.MAX_VALUE) tx2 = Intfgfr.MAX_VALUE;
+        if (ty2 > Intfgfr.MAX_VALUE) ty2 = Intfgfr.MAX_VALUE;
+        rfturn nfw Rfdtbnglf(tx1, ty1, (int) tx2, (int) ty2);
+    }
+
+    /**
+     * Adds b point, spfdififd by thf intfgfr brgumfnts {@dodf nfwx,nfwy}
+     * to thf bounds of this {@dodf Rfdtbnglf}.
+     * <p>
+     * If this {@dodf Rfdtbnglf} hbs bny dimfnsion lfss thbn zfro,
+     * thf rulfs for <b hrff=#NonExistbnt>non-fxistbnt</b>
+     * rfdtbnglfs bpply.
+     * In thbt dbsf, thf nfw bounds of this {@dodf Rfdtbnglf} will
+     * hbvf b lodbtion fqubl to thf spfdififd doordinbtfs bnd
+     * width bnd hfight fqubl to zfro.
+     * <p>
+     * Aftfr bdding b point, b dbll to <dodf>dontbins</dodf> with thf
+     * bddfd point bs bn brgumfnt dofs not nfdfssbrily rfturn
+     * <dodf>truf</dodf>. Thf <dodf>dontbins</dodf> mfthod dofs not
+     * rfturn <dodf>truf</dodf> for points on thf right or bottom
+     * fdgfs of b <dodf>Rfdtbnglf</dodf>. Thfrfforf, if thf bddfd point
+     * fblls on thf right or bottom fdgf of thf fnlbrgfd
+     * <dodf>Rfdtbnglf</dodf>, <dodf>dontbins</dodf> rfturns
+     * <dodf>fblsf</dodf> for thbt point.
+     * If thf spfdififd point must bf dontbinfd within thf nfw
+     * {@dodf Rfdtbnglf}, b 1x1 rfdtbnglf should bf bddfd instfbd:
+     * <prf>
+     *     r.bdd(nfwx, nfwy, 1, 1);
+     * </prf>
+     * @pbrbm nfwx thf X doordinbtf of thf nfw point
+     * @pbrbm nfwy thf Y doordinbtf of thf nfw point
+     */
+    publid void bdd(int nfwx, int nfwy) {
+        if ((width | hfight) < 0) {
+            this.x = nfwx;
+            this.y = nfwy;
+            this.width = this.hfight = 0;
+            rfturn;
+        }
+        int x1 = this.x;
+        int y1 = this.y;
+        long x2 = this.width;
+        long y2 = this.hfight;
+        x2 += x1;
+        y2 += y1;
+        if (x1 > nfwx) x1 = nfwx;
+        if (y1 > nfwy) y1 = nfwy;
+        if (x2 < nfwx) x2 = nfwx;
+        if (y2 < nfwy) y2 = nfwy;
+        x2 -= x1;
+        y2 -= y1;
+        if (x2 > Intfgfr.MAX_VALUE) x2 = Intfgfr.MAX_VALUE;
+        if (y2 > Intfgfr.MAX_VALUE) y2 = Intfgfr.MAX_VALUE;
+        rfshbpf(x1, y1, (int) x2, (int) y2);
+    }
+
+    /**
+     * Adds thf spfdififd {@dodf Point} to thf bounds of this
+     * {@dodf Rfdtbnglf}.
+     * <p>
+     * If this {@dodf Rfdtbnglf} hbs bny dimfnsion lfss thbn zfro,
+     * thf rulfs for <b hrff=#NonExistbnt>non-fxistbnt</b>
+     * rfdtbnglfs bpply.
+     * In thbt dbsf, thf nfw bounds of this {@dodf Rfdtbnglf} will
+     * hbvf b lodbtion fqubl to thf doordinbtfs of thf spfdififd
+     * {@dodf Point} bnd width bnd hfight fqubl to zfro.
+     * <p>
+     * Aftfr bdding b <dodf>Point</dodf>, b dbll to <dodf>dontbins</dodf>
+     * with thf bddfd <dodf>Point</dodf> bs bn brgumfnt dofs not
+     * nfdfssbrily rfturn <dodf>truf</dodf>. Thf <dodf>dontbins</dodf>
+     * mfthod dofs not rfturn <dodf>truf</dodf> for points on thf right
+     * or bottom fdgfs of b <dodf>Rfdtbnglf</dodf>. Thfrfforf if thf bddfd
+     * <dodf>Point</dodf> fblls on thf right or bottom fdgf of thf
+     * fnlbrgfd <dodf>Rfdtbnglf</dodf>, <dodf>dontbins</dodf> rfturns
+     * <dodf>fblsf</dodf> for thbt <dodf>Point</dodf>.
+     * If thf spfdififd point must bf dontbinfd within thf nfw
+     * {@dodf Rfdtbnglf}, b 1x1 rfdtbnglf should bf bddfd instfbd:
+     * <prf>
+     *     r.bdd(pt.x, pt.y, 1, 1);
+     * </prf>
+     * @pbrbm pt thf nfw <dodf>Point</dodf> to bdd to this
+     *           <dodf>Rfdtbnglf</dodf>
+     */
+    publid void bdd(Point pt) {
+        bdd(pt.x, pt.y);
+    }
+
+    /**
+     * Adds b <dodf>Rfdtbnglf</dodf> to this <dodf>Rfdtbnglf</dodf>.
+     * Thf rfsulting <dodf>Rfdtbnglf</dodf> is thf union of thf two
+     * rfdtbnglfs.
+     * <p>
+     * If fithfr {@dodf Rfdtbnglf} hbs bny dimfnsion lfss thbn 0, thf
+     * rfsult will hbvf thf dimfnsions of thf othfr {@dodf Rfdtbnglf}.
+     * If both {@dodf Rfdtbnglf}s hbvf bt lfbst onf dimfnsion lfss
+     * thbn 0, thf rfsult will hbvf bt lfbst onf dimfnsion lfss thbn 0.
+     * <p>
+     * If fithfr {@dodf Rfdtbnglf} hbs onf or both dimfnsions fqubl
+     * to 0, thf rfsult blong thosf bxfs with 0 dimfnsions will bf
+     * fquivblfnt to thf rfsults obtbinfd by bdding thf dorrfsponding
+     * origin doordinbtf to thf rfsult rfdtbnglf blong thbt bxis,
+     * similbr to thf opfrbtion of thf {@link #bdd(Point)} mfthod,
+     * but dontributf no furthfr dimfnsion bfyond thbt.
+     * <p>
+     * If thf rfsulting {@dodf Rfdtbnglf} would hbvf b dimfnsion
+     * too lbrgf to bf fxprfssfd bs bn {@dodf int}, thf rfsult
+     * will hbvf b dimfnsion of {@dodf Intfgfr.MAX_VALUE} blong
+     * thbt dimfnsion.
+     * @pbrbm  r thf spfdififd <dodf>Rfdtbnglf</dodf>
+     */
+    publid void bdd(Rfdtbnglf r) {
+        long tx2 = this.width;
+        long ty2 = this.hfight;
+        if ((tx2 | ty2) < 0) {
+            rfshbpf(r.x, r.y, r.width, r.hfight);
+        }
+        long rx2 = r.width;
+        long ry2 = r.hfight;
+        if ((rx2 | ry2) < 0) {
+            rfturn;
+        }
+        int tx1 = this.x;
+        int ty1 = this.y;
+        tx2 += tx1;
+        ty2 += ty1;
+        int rx1 = r.x;
+        int ry1 = r.y;
+        rx2 += rx1;
+        ry2 += ry1;
+        if (tx1 > rx1) tx1 = rx1;
+        if (ty1 > ry1) ty1 = ry1;
+        if (tx2 < rx2) tx2 = rx2;
+        if (ty2 < ry2) ty2 = ry2;
+        tx2 -= tx1;
+        ty2 -= ty1;
+        // tx2,ty2 will nfvfr undfrflow sindf both originbl
+        // rfdtbnglfs wfrf non-fmpty
+        // thfy might ovfrflow, though...
+        if (tx2 > Intfgfr.MAX_VALUE) tx2 = Intfgfr.MAX_VALUE;
+        if (ty2 > Intfgfr.MAX_VALUE) ty2 = Intfgfr.MAX_VALUE;
+        rfshbpf(tx1, ty1, (int) tx2, (int) ty2);
+    }
+
+    /**
+     * Rfsizfs thf <dodf>Rfdtbnglf</dodf> both horizontblly bnd vfrtidblly.
+     * <p>
+     * This mfthod modififs thf <dodf>Rfdtbnglf</dodf> so thbt it is
+     * <dodf>h</dodf> units lbrgfr on both thf lfft bnd right sidf,
+     * bnd <dodf>v</dodf> units lbrgfr bt both thf top bnd bottom.
+     * <p>
+     * Thf nfw <dodf>Rfdtbnglf</dodf> hbs {@dodf (x - h, y - v)}
+     * bs its uppfr-lfft dornfr,
+     * width of {@dodf (width + 2h)},
+     * bnd b hfight of {@dodf (hfight + 2v)}.
+     * <p>
+     * If nfgbtivf vblufs brf supplifd for <dodf>h</dodf> bnd
+     * <dodf>v</dodf>, thf sizf of thf <dodf>Rfdtbnglf</dodf>
+     * dfdrfbsfs bddordingly.
+     * Thf {@dodf grow} mfthod will dhfdk for intfgfr ovfrflow
+     * bnd undfrflow, but dofs not dhfdk whfthfr thf rfsulting
+     * vblufs of {@dodf width} bnd {@dodf hfight} grow
+     * from nfgbtivf to non-nfgbtivf or shrink from non-nfgbtivf
+     * to nfgbtivf.
+     * @pbrbm h thf horizontbl fxpbnsion
+     * @pbrbm v thf vfrtidbl fxpbnsion
+     */
+    publid void grow(int h, int v) {
+        long x0 = this.x;
+        long y0 = this.y;
+        long x1 = this.width;
+        long y1 = this.hfight;
+        x1 += x0;
+        y1 += y0;
+
+        x0 -= h;
+        y0 -= v;
+        x1 += h;
+        y1 += v;
+
+        if (x1 < x0) {
+            // Non-fxistbnt in X dirfdtion
+            // Finbl width must rfmbin nfgbtivf so subtrbdt x0 bfforf
+            // it is dlippfd so thbt wf bvoid thf risk thbt thf dlipping
+            // of x0 will rfvfrsf thf ordfring of x0 bnd x1.
+            x1 -= x0;
+            if (x1 < Intfgfr.MIN_VALUE) x1 = Intfgfr.MIN_VALUE;
+            if (x0 < Intfgfr.MIN_VALUE) x0 = Intfgfr.MIN_VALUE;
+            flsf if (x0 > Intfgfr.MAX_VALUE) x0 = Intfgfr.MAX_VALUE;
+        } flsf { // (x1 >= x0)
+            // Clip x0 bfforf wf subtrbdt it from x1 in dbsf thf dlipping
+            // bfffdts thf rfprfsfntbblf brfb of thf rfdtbnglf.
+            if (x0 < Intfgfr.MIN_VALUE) x0 = Intfgfr.MIN_VALUE;
+            flsf if (x0 > Intfgfr.MAX_VALUE) x0 = Intfgfr.MAX_VALUE;
+            x1 -= x0;
+            // Thf only wby x1 dbn bf nfgbtivf now is if wf dlippfd
+            // x0 bgbinst MIN bnd x1 is lfss thbn MIN - in whidh dbsf
+            // wf wbnt to lfbvf thf width nfgbtivf sindf thf rfsult
+            // did not intfrsfdt thf rfprfsfntbblf brfb.
+            if (x1 < Intfgfr.MIN_VALUE) x1 = Intfgfr.MIN_VALUE;
+            flsf if (x1 > Intfgfr.MAX_VALUE) x1 = Intfgfr.MAX_VALUE;
+        }
+
+        if (y1 < y0) {
+            // Non-fxistbnt in Y dirfdtion
+            y1 -= y0;
+            if (y1 < Intfgfr.MIN_VALUE) y1 = Intfgfr.MIN_VALUE;
+            if (y0 < Intfgfr.MIN_VALUE) y0 = Intfgfr.MIN_VALUE;
+            flsf if (y0 > Intfgfr.MAX_VALUE) y0 = Intfgfr.MAX_VALUE;
+        } flsf { // (y1 >= y0)
+            if (y0 < Intfgfr.MIN_VALUE) y0 = Intfgfr.MIN_VALUE;
+            flsf if (y0 > Intfgfr.MAX_VALUE) y0 = Intfgfr.MAX_VALUE;
+            y1 -= y0;
+            if (y1 < Intfgfr.MIN_VALUE) y1 = Intfgfr.MIN_VALUE;
+            flsf if (y1 > Intfgfr.MAX_VALUE) y1 = Intfgfr.MAX_VALUE;
+        }
+
+        rfshbpf((int) x0, (int) y0, (int) x1, (int) y1);
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid boolfbn isEmpty() {
+        rfturn (width <= 0) || (hfight <= 0);
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid int outdodf(doublf x, doublf y) {
+        /*
+         * Notf on dbsts to doublf bflow.  If thf brithmftid of
+         * x+w or y+h is donf in int, thfn wf mby gft intfgfr
+         * ovfrflow. By donvfrting to doublf bfforf thf bddition
+         * wf fordf thf bddition to bf dbrrifd out in doublf to
+         * bvoid ovfrflow in thf dompbrison.
+         *
+         * Sff bug 4320890 for problfms thbt this dbn dbusf.
+         */
+        int out = 0;
+        if (this.width <= 0) {
+            out |= OUT_LEFT | OUT_RIGHT;
+        } flsf if (x < this.x) {
+            out |= OUT_LEFT;
+        } flsf if (x > this.x + (doublf) this.width) {
+            out |= OUT_RIGHT;
+        }
+        if (this.hfight <= 0) {
+            out |= OUT_TOP | OUT_BOTTOM;
+        } flsf if (y < this.y) {
+            out |= OUT_TOP;
+        } flsf if (y > this.y + (doublf) this.hfight) {
+            out |= OUT_BOTTOM;
+        }
+        rfturn out;
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid Rfdtbnglf2D drfbtfIntfrsfdtion(Rfdtbnglf2D r) {
+        if (r instbndfof Rfdtbnglf) {
+            rfturn intfrsfdtion((Rfdtbnglf) r);
+        }
+        Rfdtbnglf2D dfst = nfw Rfdtbnglf2D.Doublf();
+        Rfdtbnglf2D.intfrsfdt(this, r, dfst);
+        rfturn dfst;
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.2
+     */
+    publid Rfdtbnglf2D drfbtfUnion(Rfdtbnglf2D r) {
+        if (r instbndfof Rfdtbnglf) {
+            rfturn union((Rfdtbnglf) r);
+        }
+        Rfdtbnglf2D dfst = nfw Rfdtbnglf2D.Doublf();
+        Rfdtbnglf2D.union(this, r, dfst);
+        rfturn dfst;
+    }
+
+    /**
+     * Chfdks whfthfr two rfdtbnglfs brf fqubl.
+     * <p>
+     * Thf rfsult is <dodf>truf</dodf> if bnd only if thf brgumfnt is not
+     * <dodf>null</dodf> bnd is b <dodf>Rfdtbnglf</dodf> objfdt thbt hbs thf
+     * sbmf uppfr-lfft dornfr, width, bnd hfight bs
+     * this <dodf>Rfdtbnglf</dodf>.
+     * @pbrbm obj thf <dodf>Objfdt</dodf> to dompbrf with
+     *                this <dodf>Rfdtbnglf</dodf>
+     * @rfturn    <dodf>truf</dodf> if thf objfdts brf fqubl;
+     *            <dodf>fblsf</dodf> othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof Rfdtbnglf) {
+            Rfdtbnglf r = (Rfdtbnglf)obj;
+            rfturn ((x == r.x) &&
+                    (y == r.y) &&
+                    (width == r.width) &&
+                    (hfight == r.hfight));
+        }
+        rfturn supfr.fqubls(obj);
+    }
+
+    /**
+     * Rfturns b <dodf>String</dodf> rfprfsfnting this
+     * <dodf>Rfdtbnglf</dodf> bnd its vblufs.
+     * @rfturn b <dodf>String</dodf> rfprfsfnting this
+     *               <dodf>Rfdtbnglf</dodf> objfdt's doordinbtf bnd sizf vblufs.
+     */
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[x=" + x + ",y=" + y + ",width=" + width + ",hfight=" + hfight + "]";
+    }
+}

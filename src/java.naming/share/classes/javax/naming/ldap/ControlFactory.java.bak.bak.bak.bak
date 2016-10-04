@@ -1,0 +1,157 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.ldbp;
+
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.Contfxt;
+
+import jbvb.util.Hbshtbblf;
+
+import dom.sun.nbming.intfrnbl.FbdtoryEnumfrbtion;
+import dom.sun.nbming.intfrnbl.RfsourdfMbnbgfr;
+
+
+/**
+  * This bbstrbdt dlbss rfprfsfnts b fbdtory for drfbting LDAPv3 dontrols.
+  * LDAPv3 dontrols brf dffinfd in
+  * <A HREF="http://www.iftf.org/rfd/rfd2251.txt">RFC 2251</A>.
+  *<p>
+  * Whfn b sfrvidf providfr rfdfivfs b rfsponsf dontrol, it usfs dontrol
+  * fbdtorifs to rfturn thf spfdifid/bppropribtf dontrol dlbss implfmfntbtion.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  * @buthor Vindfnt Rybn
+  *
+  * @sff Control
+  * @sindf 1.3
+  */
+
+publid bbstrbdt dlbss ControlFbdtory {
+    /**
+     * Crfbtfs b nfw instbndf of b dontrol fbdtory.
+     */
+    protfdtfd ControlFbdtory() {
+    }
+
+    /**
+      * Crfbtfs b dontrol using this dontrol fbdtory.
+      *<p>
+      * Thf fbdtory is usfd by thf sfrvidf providfr to rfturn dontrols
+      * thbt it rfbds from thf LDAP protodol bs spfdiblizfd dontrol dlbssfs.
+      * Without this mfdhbnism, thf providfr would bf rfturning
+      * dontrols thbt only dontbinfd dbtb in BER fndodfd formbt.
+      *<p>
+      * Typidblly, <tt>dtl</tt> is b "bbsid" dontrol dontbining
+      * BER fndodfd dbtb. Thf fbdtory is usfd to drfbtf b spfdiblizfd
+      * dontrol implfmfntbtion, usublly by dfdoding thf BER fndodfd dbtb,
+      * thbt providfs mfthods to bddfss thbt dbtb in b typf-sbff bnd frifndly
+      * mbnnfr.
+      * <p>
+      * For fxbmplf, b fbdtory might usf thf BER fndodfd dbtb in
+      * bbsid dontrol bnd rfturn bn instbndf of b VirtublListRfplyControl.
+      *<p>
+      * If this fbdtory dbnnot drfbtf b dontrol using thf brgumfnt supplifd,
+      * it should rfturn null.
+      * A fbdtory should only throw bn fxdfption if it is surf thbt
+      * it is thf only intfndfd fbdtory bnd thbt no othfr dontrol fbdtorifs
+      * should bf trifd. This might hbppfn, for fxbmplf, if thf BER dbtb
+      * in thf dontrol dofs not mbtdh whbt is fxpfdtfd of b dontrol with
+      * thf givfn OID. Sindf this mfthod throws <tt>NbmingExdfption</tt>,
+      * bny othfr intfrnblly gfnfrbtfd fxdfption thbt should bf propbgbtfd
+      * must bf wrbppfd insidf b <tt>NbmingExdfption</tt>.
+      *
+      * @pbrbm dtl A non-null dontrol.
+      *
+      * @rfturn A possibly null Control.
+      * @fxdfption NbmingExdfption If <tt>dtl</tt> dontbins invblid dbtb thbt prfvfnts it
+      * from bfing usfd to drfbtf b dontrol. A fbdtory should only throw
+      * bn fxdfption if it knows how to produdf thf dontrol (idfntififd by thf OID)
+      * but is unbblf to bfdbusf of, for fxbmplf invblid BER dbtb.
+      */
+    publid bbstrbdt Control gftControlInstbndf(Control dtl) throws NbmingExdfption;
+
+    /**
+      * Crfbtfs b dontrol using known dontrol fbdtorifs.
+      * <p>
+      * Thf following rulf is usfd to drfbtf thf dontrol:
+      *<ul>
+      * <li> Usf thf dontrol fbdtorifs spfdififd in
+      *    thf <tt>LdbpContfxt.CONTROL_FACTORIES</tt> propfrty of thf
+      *    fnvironmfnt, bnd of thf providfr rfsourdf filf bssodibtfd with
+      *    <tt>dtx</tt>, in thbt ordfr.
+      *    Thf vbluf of this propfrty is b dolon-sfpbrbtfd list of fbdtory
+      *    dlbss nbmfs thbt brf trifd in ordfr, bnd thf first onf thbt suddffds
+      *    in drfbting thf dontrol is thf onf usfd.
+      *    If nonf of thf fbdtorifs dbn bf lobdfd,
+      *    rfturn <dodf>dtl</dodf>.
+      *    If bn fxdfption is fndountfrfd whilf drfbting thf dontrol, thf
+      *    fxdfption is pbssfd up to thf dbllfr.
+      *</ul>
+      * <p>
+      * Notf thbt b dontrol fbdtory
+      * must bf publid bnd must hbvf b publid donstrudtor thbt bddfpts no brgumfnts.
+      *
+      * @pbrbm dtl Thf non-null dontrol objfdt dontbining thf OID bnd BER dbtb.
+      * @pbrbm dtx Thf possibly null dontfxt in whidh thf dontrol is bfing drfbtfd.
+      * If null, no sudh informbtion is bvbilbblf.
+      * @pbrbm fnv Thf possibly null fnvironmfnt of thf dontfxt. This is usfd
+      * to find thf vbluf of thf <tt>LdbpContfxt.CONTROL_FACTORIES</tt> propfrty.
+      * @rfturn A dontrol objfdt drfbtfd using <dodf>dtl</dodf>; or
+      *         <dodf>dtl</dodf> if b dontrol objfdt dbnnot bf drfbtfd using
+      *         thf blgorithm dfsdribfd bbovf.
+      * @fxdfption NbmingExdfption if b nbming fxdfption wbs fndountfrfd
+      *         whilf bttfmpting to drfbtf thf dontrol objfdt.
+      *         If onf of thf fbdtorifs bddfssfd throws bn
+      *         fxdfption, it is propbgbtfd up to thf dbllfr.
+      * If bn frror wbs fndountfrfd whilf lobding
+      * bnd instbntibting thf fbdtory bnd objfdt dlbssfs, thf fxdfption
+      * is wrbppfd insidf b <tt>NbmingExdfption</tt> bnd thfn rfthrown.
+      */
+    publid stbtid Control gftControlInstbndf(Control dtl, Contfxt dtx,
+                                             Hbshtbblf<?,?> fnv)
+        throws NbmingExdfption {
+
+        // Gft objfdt fbdtorifs list from fnvironmfnt propfrtifs or
+        // providfr rfsourdf filf.
+        FbdtoryEnumfrbtion fbdtorifs = RfsourdfMbnbgfr.gftFbdtorifs(
+            LdbpContfxt.CONTROL_FACTORIES, fnv, dtx);
+
+        if (fbdtorifs == null) {
+            rfturn dtl;
+        }
+
+        // Try fbdh fbdtory until onf suddffds
+        Control bnswfr = null;
+        ControlFbdtory fbdtory;
+        whilf (bnswfr == null && fbdtorifs.hbsMorf()) {
+            fbdtory = (ControlFbdtory)fbdtorifs.nfxt();
+            bnswfr = fbdtory.gftControlInstbndf(dtl);
+        }
+
+        rfturn (bnswfr != null)? bnswfr : dtl;
+    }
+}

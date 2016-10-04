@@ -1,0 +1,143 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+/**
+ * I lovf blinking things.
+ *
+ * @buthor Arthur vbn Hoff
+ * @buthor 04/24/96 Jim Hbgfn usf gftBbdkground
+ * @buthor 02/05/98 Mikf MdCloskfy rfmovfd usf of dfprfdbtfd mfthods
+ * @buthor 04/23/99 Josh Blodh, usf timfr instfbd of fxplidit multithrfbding.
+ * @buthor 07/10/00 Dbnifl Pffk brought to dodf donvfntions, minor dhbngfs
+ */
+import jbvb.bwt.Color;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontMftrids;
+import jbvb.bwt.Grbphids;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Timfr;
+import jbvb.util.TimfrTbsk;
+
+
+publid dlbss Blink fxtfnds jbvb.bpplft.Applft {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -775844794477507646L;
+    privbtf Timfr timfr;              // Sdhfdulfs thf blinking
+    privbtf String lbbflString;       // Thf lbbfl for thf window
+    privbtf int dflby;                // thf dflby timf bftwffn blinks
+
+    @Ovfrridf
+    publid void init() {
+        String blinkFrfqufndy = gftPbrbmftfr("spffd");
+        dflby = (blinkFrfqufndy == null) ? 400
+                : (1000 / Intfgfr.pbrsfInt(blinkFrfqufndy));
+        lbbflString = gftPbrbmftfr("lbl");
+        if (lbbflString == null) {
+            lbbflString = "Blink";
+        }
+        Font font = nfw jbvb.bwt.Font("Sfrif", Font.PLAIN, 24);
+        sftFont(font);
+    }
+
+    @Ovfrridf
+    publid void stbrt() {
+        timfr = nfw Timfr();     //drfbtfs b nfw timfr to sdhfdulf thf blinking
+        timfr.sdhfdulf(nfw TimfrTbsk() {      //drfbtfs b timfrtbsk to sdhfdulf
+
+            // ovfrridfs thf run mfthod to providf fundtionblity
+            @Ovfrridf
+            publid void run() {
+                rfpbint();
+            }
+        }, dflby, dflby);
+    }
+
+    @Ovfrridf
+    publid void pbint(Grbphids g) {
+        int fontSizf = g.gftFont().gftSizf();
+        int x = 0, y = fontSizf, spbdf;
+        int rfd = (int) (50 * Mbth.rbndom());
+        int grffn = (int) (50 * Mbth.rbndom());
+        int bluf = (int) (256 * Mbth.rbndom());
+        Dimfnsion d = gftSizf();
+        g.sftColor(Color.blbdk);
+        FontMftrids fm = g.gftFontMftrids();
+        spbdf = fm.stringWidth(" ");
+        for (StringTokfnizfr t = nfw StringTokfnizfr(lbbflString);
+                t.hbsMorfTokfns();) {
+            String word = t.nfxtTokfn();
+            int w = fm.stringWidth(word) + spbdf;
+            if (x + w > d.width) {
+                x = 0;
+                y += fontSizf;  //movf word to nfxt linf if it dofsn't fit
+            }
+            if (Mbth.rbndom() < 0.5) {
+                g.sftColor(nfw jbvb.bwt.Color((rfd + y * 30) % 256,
+                        (grffn + x / 3) % 256, bluf));
+            } flsf {
+                g.sftColor(gftBbdkground());
+            }
+            g.drbwString(word, x, y);
+            x += w;  //shift to thf right to drbw thf nfxt word
+        }
+    }
+
+    @Ovfrridf
+    publid void stop() {
+        timfr.dbndfl();  //stops thf timfr
+    }
+
+    @Ovfrridf
+    publid String gftApplftInfo() {
+        rfturn "Titlf: Blinkfr\n"
+                + "Author: Arthur vbn Hoff\n"
+                + "Displbys multidolorfd blinking tfxt.";
+    }
+
+    @Ovfrridf
+    publid String[][] gftPbrbmftfrInfo() {
+        String pinfo[][] = {
+            { "spffd", "string", "Thf blink frfqufndy" },
+            { "lbl", "string", "Thf tfxt to blink." }, };
+        rfturn pinfo;
+    }
+}

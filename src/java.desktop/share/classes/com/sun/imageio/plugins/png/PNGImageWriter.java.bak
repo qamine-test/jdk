@@ -1,1171 +1,1171 @@
 /*
- * Copyright (c) 2000, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.imageio.plugins.png;
+pbdkbgf dom.sun.imbgfio.plugins.png;
 
-import java.awt.Rectangle;
-import java.awt.image.ColorModel;
-import java.awt.image.IndexColorModel;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.RenderedImage;
-import java.awt.image.SampleModel;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutput;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.Iterator;
-import java.util.Locale;
-import java.util.zip.Deflater;
-import java.util.zip.DeflaterOutputStream;
-import javax.imageio.IIOException;
-import javax.imageio.IIOImage;
-import javax.imageio.ImageTypeSpecifier;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.metadata.IIOMetadata;
-import javax.imageio.spi.ImageWriterSpi;
-import javax.imageio.stream.ImageOutputStream;
-import javax.imageio.stream.ImageOutputStreamImpl;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.IndfxColorModfl;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.RfndfrfdImbgf;
+import jbvb.bwt.imbgf.SbmplfModfl;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.DbtbOutput;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Lodblf;
+import jbvb.util.zip.Dfflbtfr;
+import jbvb.util.zip.DfflbtfrOutputStrfbm;
+import jbvbx.imbgfio.IIOExdfption;
+import jbvbx.imbgfio.IIOImbgf;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import jbvbx.imbgfio.ImbgfWritfPbrbm;
+import jbvbx.imbgfio.ImbgfWritfr;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.mftbdbtb.IIOMftbdbtb;
+import jbvbx.imbgfio.spi.ImbgfWritfrSpi;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbm;
+import jbvbx.imbgfio.strfbm.ImbgfOutputStrfbmImpl;
 
-class CRC {
+dlbss CRC {
 
-    private static int[] crcTable = new int[256];
-    private int crc = 0xffffffff;
+    privbtf stbtid int[] drdTbblf = nfw int[256];
+    privbtf int drd = 0xffffffff;
 
-    static {
-        // Initialize CRC table
+    stbtid {
+        // Initiblizf CRC tbblf
         for (int n = 0; n < 256; n++) {
-            int c = n;
+            int d = n;
             for (int k = 0; k < 8; k++) {
-                if ((c & 1) == 1) {
-                    c = 0xedb88320 ^ (c >>> 1);
-                } else {
-                    c >>>= 1;
+                if ((d & 1) == 1) {
+                    d = 0xfdb88320 ^ (d >>> 1);
+                } flsf {
+                    d >>>= 1;
                 }
 
-                crcTable[n] = c;
+                drdTbblf[n] = d;
             }
         }
     }
 
-    public CRC() {}
+    publid CRC() {}
 
-    public void reset() {
-        crc = 0xffffffff;
+    publid void rfsft() {
+        drd = 0xffffffff;
     }
 
-    public void update(byte[] data, int off, int len) {
-        for (int n = 0; n < len; n++) {
-            crc = crcTable[(crc ^ data[off + n]) & 0xff] ^ (crc >>> 8);
+    publid void updbtf(bytf[] dbtb, int off, int lfn) {
+        for (int n = 0; n < lfn; n++) {
+            drd = drdTbblf[(drd ^ dbtb[off + n]) & 0xff] ^ (drd >>> 8);
         }
     }
 
-    public void update(int data) {
-        crc = crcTable[(crc ^ data) & 0xff] ^ (crc >>> 8);
+    publid void updbtf(int dbtb) {
+        drd = drdTbblf[(drd ^ dbtb) & 0xff] ^ (drd >>> 8);
     }
 
-    public int getValue() {
-        return crc ^ 0xffffffff;
-    }
-}
-
-
-final class ChunkStream extends ImageOutputStreamImpl {
-
-    private ImageOutputStream stream;
-    private long startPos;
-    private CRC crc = new CRC();
-
-    public ChunkStream(int type, ImageOutputStream stream) throws IOException {
-        this.stream = stream;
-        this.startPos = stream.getStreamPosition();
-
-        stream.writeInt(-1); // length, will backpatch
-        writeInt(type);
-    }
-
-    public int read() throws IOException {
-        throw new RuntimeException("Method not available");
-    }
-
-    public int read(byte[] b, int off, int len) throws IOException {
-        throw new RuntimeException("Method not available");
-    }
-
-    public void write(byte[] b, int off, int len) throws IOException {
-        crc.update(b, off, len);
-        stream.write(b, off, len);
-    }
-
-    public void write(int b) throws IOException {
-        crc.update(b);
-        stream.write(b);
-    }
-
-    public void finish() throws IOException {
-        // Write CRC
-        stream.writeInt(crc.getValue());
-
-        // Write length
-        long pos = stream.getStreamPosition();
-        stream.seek(startPos);
-        stream.writeInt((int)(pos - startPos) - 12);
-
-        // Return to end of chunk and flush to minimize buffering
-        stream.seek(pos);
-        stream.flushBefore(pos);
-    }
-
-    protected void finalize() throws Throwable {
-        // Empty finalizer (for improved performance; no need to call
-        // super.finalize() in this case)
+    publid int gftVbluf() {
+        rfturn drd ^ 0xffffffff;
     }
 }
 
-// Compress output and write as a series of 'IDAT' chunks of
-// fixed length.
-final class IDATOutputStream extends ImageOutputStreamImpl {
 
-    private static byte[] chunkType = {
-        (byte)'I', (byte)'D', (byte)'A', (byte)'T'
+finbl dlbss CiunkStrfbm fxtfnds ImbgfOutputStrfbmImpl {
+
+    privbtf ImbgfOutputStrfbm strfbm;
+    privbtf long stbrtPos;
+    privbtf CRC drd = nfw CRC();
+
+    publid CiunkStrfbm(int typf, ImbgfOutputStrfbm strfbm) tirows IOExdfption {
+        tiis.strfbm = strfbm;
+        tiis.stbrtPos = strfbm.gftStrfbmPosition();
+
+        strfbm.writfInt(-1); // lfngti, will bbdkpbtdi
+        writfInt(typf);
+    }
+
+    publid int rfbd() tirows IOExdfption {
+        tirow nfw RuntimfExdfption("Mftiod not bvbilbblf");
+    }
+
+    publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
+        tirow nfw RuntimfExdfption("Mftiod not bvbilbblf");
+    }
+
+    publid void writf(bytf[] b, int off, int lfn) tirows IOExdfption {
+        drd.updbtf(b, off, lfn);
+        strfbm.writf(b, off, lfn);
+    }
+
+    publid void writf(int b) tirows IOExdfption {
+        drd.updbtf(b);
+        strfbm.writf(b);
+    }
+
+    publid void finisi() tirows IOExdfption {
+        // Writf CRC
+        strfbm.writfInt(drd.gftVbluf());
+
+        // Writf lfngti
+        long pos = strfbm.gftStrfbmPosition();
+        strfbm.sffk(stbrtPos);
+        strfbm.writfInt((int)(pos - stbrtPos) - 12);
+
+        // Rfturn to fnd of diunk bnd flusi to minimizf bufffring
+        strfbm.sffk(pos);
+        strfbm.flusiBfforf(pos);
+    }
+
+    protfdtfd void finblizf() tirows Tirowbblf {
+        // Empty finblizfr (for improvfd pfrformbndf; no nffd to dbll
+        // supfr.finblizf() in tiis dbsf)
+    }
+}
+
+// Comprfss output bnd writf bs b sfrifs of 'IDAT' diunks of
+// fixfd lfngti.
+finbl dlbss IDATOutputStrfbm fxtfnds ImbgfOutputStrfbmImpl {
+
+    privbtf stbtid bytf[] diunkTypf = {
+        (bytf)'I', (bytf)'D', (bytf)'A', (bytf)'T'
     };
 
-    private ImageOutputStream stream;
-    private int chunkLength;
-    private long startPos;
-    private CRC crc = new CRC();
+    privbtf ImbgfOutputStrfbm strfbm;
+    privbtf int diunkLfngti;
+    privbtf long stbrtPos;
+    privbtf CRC drd = nfw CRC();
 
-    Deflater def = new Deflater(Deflater.BEST_COMPRESSION);
-    byte[] buf = new byte[512];
+    Dfflbtfr dff = nfw Dfflbtfr(Dfflbtfr.BEST_COMPRESSION);
+    bytf[] buf = nfw bytf[512];
 
-    private int bytesRemaining;
+    privbtf int bytfsRfmbining;
 
-    public IDATOutputStream(ImageOutputStream stream, int chunkLength)
-        throws IOException {
-        this.stream = stream;
-        this.chunkLength = chunkLength;
-        startChunk();
+    publid IDATOutputStrfbm(ImbgfOutputStrfbm strfbm, int diunkLfngti)
+        tirows IOExdfption {
+        tiis.strfbm = strfbm;
+        tiis.diunkLfngti = diunkLfngti;
+        stbrtCiunk();
     }
 
-    private void startChunk() throws IOException {
-        crc.reset();
-        this.startPos = stream.getStreamPosition();
-        stream.writeInt(-1); // length, will backpatch
+    privbtf void stbrtCiunk() tirows IOExdfption {
+        drd.rfsft();
+        tiis.stbrtPos = strfbm.gftStrfbmPosition();
+        strfbm.writfInt(-1); // lfngti, will bbdkpbtdi
 
-        crc.update(chunkType, 0, 4);
-        stream.write(chunkType, 0, 4);
+        drd.updbtf(diunkTypf, 0, 4);
+        strfbm.writf(diunkTypf, 0, 4);
 
-        this.bytesRemaining = chunkLength;
+        tiis.bytfsRfmbining = diunkLfngti;
     }
 
-    private void finishChunk() throws IOException {
-        // Write CRC
-        stream.writeInt(crc.getValue());
+    privbtf void finisiCiunk() tirows IOExdfption {
+        // Writf CRC
+        strfbm.writfInt(drd.gftVbluf());
 
-        // Write length
-        long pos = stream.getStreamPosition();
-        stream.seek(startPos);
-        stream.writeInt((int)(pos - startPos) - 12);
+        // Writf lfngti
+        long pos = strfbm.gftStrfbmPosition();
+        strfbm.sffk(stbrtPos);
+        strfbm.writfInt((int)(pos - stbrtPos) - 12);
 
-        // Return to end of chunk and flush to minimize buffering
-        stream.seek(pos);
-        stream.flushBefore(pos);
+        // Rfturn to fnd of diunk bnd flusi to minimizf bufffring
+        strfbm.sffk(pos);
+        strfbm.flusiBfforf(pos);
     }
 
-    public int read() throws IOException {
-        throw new RuntimeException("Method not available");
+    publid int rfbd() tirows IOExdfption {
+        tirow nfw RuntimfExdfption("Mftiod not bvbilbblf");
     }
 
-    public int read(byte[] b, int off, int len) throws IOException {
-        throw new RuntimeException("Method not available");
+    publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
+        tirow nfw RuntimfExdfption("Mftiod not bvbilbblf");
     }
 
-    public void write(byte[] b, int off, int len) throws IOException {
-        if (len == 0) {
-            return;
+    publid void writf(bytf[] b, int off, int lfn) tirows IOExdfption {
+        if (lfn == 0) {
+            rfturn;
         }
 
-        if (!def.finished()) {
-            def.setInput(b, off, len);
-            while (!def.needsInput()) {
-                deflate();
+        if (!dff.finisifd()) {
+            dff.sftInput(b, off, lfn);
+            wiilf (!dff.nffdsInput()) {
+                dfflbtf();
             }
         }
     }
 
-    public void deflate() throws IOException {
-        int len = def.deflate(buf, 0, buf.length);
+    publid void dfflbtf() tirows IOExdfption {
+        int lfn = dff.dfflbtf(buf, 0, buf.lfngti);
         int off = 0;
 
-        while (len > 0) {
-            if (bytesRemaining == 0) {
-                finishChunk();
-                startChunk();
+        wiilf (lfn > 0) {
+            if (bytfsRfmbining == 0) {
+                finisiCiunk();
+                stbrtCiunk();
             }
 
-            int nbytes = Math.min(len, bytesRemaining);
-            crc.update(buf, off, nbytes);
-            stream.write(buf, off, nbytes);
+            int nbytfs = Mbti.min(lfn, bytfsRfmbining);
+            drd.updbtf(buf, off, nbytfs);
+            strfbm.writf(buf, off, nbytfs);
 
-            off += nbytes;
-            len -= nbytes;
-            bytesRemaining -= nbytes;
+            off += nbytfs;
+            lfn -= nbytfs;
+            bytfsRfmbining -= nbytfs;
         }
     }
 
-    public void write(int b) throws IOException {
-        byte[] wbuf = new byte[1];
-        wbuf[0] = (byte)b;
-        write(wbuf, 0, 1);
+    publid void writf(int b) tirows IOExdfption {
+        bytf[] wbuf = nfw bytf[1];
+        wbuf[0] = (bytf)b;
+        writf(wbuf, 0, 1);
     }
 
-    public void finish() throws IOException {
+    publid void finisi() tirows IOExdfption {
         try {
-            if (!def.finished()) {
-                def.finish();
-                while (!def.finished()) {
-                    deflate();
+            if (!dff.finisifd()) {
+                dff.finisi();
+                wiilf (!dff.finisifd()) {
+                    dfflbtf();
                 }
             }
-            finishChunk();
-        } finally {
-            def.end();
+            finisiCiunk();
+        } finblly {
+            dff.fnd();
         }
     }
 
-    protected void finalize() throws Throwable {
-        // Empty finalizer (for improved performance; no need to call
-        // super.finalize() in this case)
+    protfdtfd void finblizf() tirows Tirowbblf {
+        // Empty finblizfr (for improvfd pfrformbndf; no nffd to dbll
+        // supfr.finblizf() in tiis dbsf)
     }
 }
 
 
-class PNGImageWriteParam extends ImageWriteParam {
+dlbss PNGImbgfWritfPbrbm fxtfnds ImbgfWritfPbrbm {
 
-    public PNGImageWriteParam(Locale locale) {
-        super();
-        this.canWriteProgressive = true;
-        this.locale = locale;
+    publid PNGImbgfWritfPbrbm(Lodblf lodblf) {
+        supfr();
+        tiis.dbnWritfProgrfssivf = truf;
+        tiis.lodblf = lodblf;
     }
 }
 
 /**
  */
-public class PNGImageWriter extends ImageWriter {
+publid dlbss PNGImbgfWritfr fxtfnds ImbgfWritfr {
 
-    ImageOutputStream stream = null;
+    ImbgfOutputStrfbm strfbm = null;
 
-    PNGMetadata metadata = null;
+    PNGMftbdbtb mftbdbtb = null;
 
-    // Factors from the ImageWriteParam
-    int sourceXOffset = 0;
-    int sourceYOffset = 0;
-    int sourceWidth = 0;
-    int sourceHeight = 0;
-    int[] sourceBands = null;
-    int periodX = 1;
-    int periodY = 1;
+    // Fbdtors from tif ImbgfWritfPbrbm
+    int sourdfXOffsft = 0;
+    int sourdfYOffsft = 0;
+    int sourdfWidti = 0;
+    int sourdfHfigit = 0;
+    int[] sourdfBbnds = null;
+    int pfriodX = 1;
+    int pfriodY = 1;
 
-    int numBands;
+    int numBbnds;
     int bpp;
 
-    RowFilter rowFilter = new RowFilter();
-    byte[] prevRow = null;
-    byte[] currRow = null;
-    byte[][] filteredRows = null;
+    RowFiltfr rowFiltfr = nfw RowFiltfr();
+    bytf[] prfvRow = null;
+    bytf[] durrRow = null;
+    bytf[][] filtfrfdRows = null;
 
-    // Per-band scaling tables
+    // Pfr-bbnd sdbling tbblfs
     //
-    // After the first call to initializeScaleTables, either scale and scale0
-    // will be valid, or scaleh and scalel will be valid, but not both.
+    // Aftfr tif first dbll to initiblizfSdblfTbblfs, fitifr sdblf bnd sdblf0
+    // will bf vblid, or sdblfi bnd sdblfl will bf vblid, but not boti.
     //
-    // The tables will be designed for use with a set of input but depths
-    // given by sampleSize, and an output bit depth given by scalingBitDepth.
+    // Tif tbblfs will bf dfsignfd for usf witi b sft of input but dfptis
+    // givfn by sbmplfSizf, bnd bn output bit dfpti givfn by sdblingBitDfpti.
     //
-    int[] sampleSize = null; // Sample size per band, in bits
-    int scalingBitDepth = -1; // Output bit depth of the scaling tables
+    int[] sbmplfSizf = null; // Sbmplf sizf pfr bbnd, in bits
+    int sdblingBitDfpti = -1; // Output bit dfpti of tif sdbling tbblfs
 
-    // Tables for 1, 2, 4, or 8 bit output
-    byte[][] scale = null; // 8 bit table
-    byte[] scale0 = null; // equivalent to scale[0]
+    // Tbblfs for 1, 2, 4, or 8 bit output
+    bytf[][] sdblf = null; // 8 bit tbblf
+    bytf[] sdblf0 = null; // fquivblfnt to sdblf[0]
 
-    // Tables for 16 bit output
-    byte[][] scaleh = null; // High bytes of output
-    byte[][] scalel = null; // Low bytes of output
+    // Tbblfs for 16 bit output
+    bytf[][] sdblfi = null; // Higi bytfs of output
+    bytf[][] sdblfl = null; // Low bytfs of output
 
-    int totalPixels; // Total number of pixels to be written by write_IDAT
-    int pixelsDone; // Running count of pixels written by write_IDAT
+    int totblPixfls; // Totbl numbfr of pixfls to bf writtfn by writf_IDAT
+    int pixflsDonf; // Running dount of pixfls writtfn by writf_IDAT
 
-    public PNGImageWriter(ImageWriterSpi originatingProvider) {
-        super(originatingProvider);
+    publid PNGImbgfWritfr(ImbgfWritfrSpi originbtingProvidfr) {
+        supfr(originbtingProvidfr);
     }
 
-    public void setOutput(Object output) {
-        super.setOutput(output);
+    publid void sftOutput(Objfdt output) {
+        supfr.sftOutput(output);
         if (output != null) {
-            if (!(output instanceof ImageOutputStream)) {
-                throw new IllegalArgumentException("output not an ImageOutputStream!");
+            if (!(output instbndfof ImbgfOutputStrfbm)) {
+                tirow nfw IllfgblArgumfntExdfption("output not bn ImbgfOutputStrfbm!");
             }
-            this.stream = (ImageOutputStream)output;
-        } else {
-            this.stream = null;
+            tiis.strfbm = (ImbgfOutputStrfbm)output;
+        } flsf {
+            tiis.strfbm = null;
         }
     }
 
-    private static int[] allowedProgressivePasses = { 1, 7 };
+    privbtf stbtid int[] bllowfdProgrfssivfPbssfs = { 1, 7 };
 
-    public ImageWriteParam getDefaultWriteParam() {
-        return new PNGImageWriteParam(getLocale());
+    publid ImbgfWritfPbrbm gftDffbultWritfPbrbm() {
+        rfturn nfw PNGImbgfWritfPbrbm(gftLodblf());
     }
 
-    public IIOMetadata getDefaultStreamMetadata(ImageWriteParam param) {
-        return null;
+    publid IIOMftbdbtb gftDffbultStrfbmMftbdbtb(ImbgfWritfPbrbm pbrbm) {
+        rfturn null;
     }
 
-    public IIOMetadata getDefaultImageMetadata(ImageTypeSpecifier imageType,
-                                               ImageWriteParam param) {
-        PNGMetadata m = new PNGMetadata();
-        m.initialize(imageType, imageType.getSampleModel().getNumBands());
-        return m;
+    publid IIOMftbdbtb gftDffbultImbgfMftbdbtb(ImbgfTypfSpfdififr imbgfTypf,
+                                               ImbgfWritfPbrbm pbrbm) {
+        PNGMftbdbtb m = nfw PNGMftbdbtb();
+        m.initiblizf(imbgfTypf, imbgfTypf.gftSbmplfModfl().gftNumBbnds());
+        rfturn m;
     }
 
-    public IIOMetadata convertStreamMetadata(IIOMetadata inData,
-                                             ImageWriteParam param) {
-        return null;
+    publid IIOMftbdbtb donvfrtStrfbmMftbdbtb(IIOMftbdbtb inDbtb,
+                                             ImbgfWritfPbrbm pbrbm) {
+        rfturn null;
     }
 
-    public IIOMetadata convertImageMetadata(IIOMetadata inData,
-                                            ImageTypeSpecifier imageType,
-                                            ImageWriteParam param) {
-        // TODO - deal with imageType
-        if (inData instanceof PNGMetadata) {
-            return (PNGMetadata)((PNGMetadata)inData).clone();
-        } else {
-            return new PNGMetadata(inData);
+    publid IIOMftbdbtb donvfrtImbgfMftbdbtb(IIOMftbdbtb inDbtb,
+                                            ImbgfTypfSpfdififr imbgfTypf,
+                                            ImbgfWritfPbrbm pbrbm) {
+        // TODO - dfbl witi imbgfTypf
+        if (inDbtb instbndfof PNGMftbdbtb) {
+            rfturn (PNGMftbdbtb)((PNGMftbdbtb)inDbtb).dlonf();
+        } flsf {
+            rfturn nfw PNGMftbdbtb(inDbtb);
         }
     }
 
-    private void write_magic() throws IOException {
-        // Write signature
-        byte[] magic = { (byte)137, 80, 78, 71, 13, 10, 26, 10 };
-        stream.write(magic);
+    privbtf void writf_mbgid() tirows IOExdfption {
+        // Writf signbturf
+        bytf[] mbgid = { (bytf)137, 80, 78, 71, 13, 10, 26, 10 };
+        strfbm.writf(mbgid);
     }
 
-    private void write_IHDR() throws IOException {
-        // Write IHDR chunk
-        ChunkStream cs = new ChunkStream(PNGImageReader.IHDR_TYPE, stream);
-        cs.writeInt(metadata.IHDR_width);
-        cs.writeInt(metadata.IHDR_height);
-        cs.writeByte(metadata.IHDR_bitDepth);
-        cs.writeByte(metadata.IHDR_colorType);
-        if (metadata.IHDR_compressionMethod != 0) {
-            throw new IIOException(
-"Only compression method 0 is defined in PNG 1.1");
+    privbtf void writf_IHDR() tirows IOExdfption {
+        // Writf IHDR diunk
+        CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.IHDR_TYPE, strfbm);
+        ds.writfInt(mftbdbtb.IHDR_widti);
+        ds.writfInt(mftbdbtb.IHDR_ifigit);
+        ds.writfBytf(mftbdbtb.IHDR_bitDfpti);
+        ds.writfBytf(mftbdbtb.IHDR_dolorTypf);
+        if (mftbdbtb.IHDR_domprfssionMftiod != 0) {
+            tirow nfw IIOExdfption(
+"Only domprfssion mftiod 0 is dffinfd in PNG 1.1");
         }
-        cs.writeByte(metadata.IHDR_compressionMethod);
-        if (metadata.IHDR_filterMethod != 0) {
-            throw new IIOException(
-"Only filter method 0 is defined in PNG 1.1");
+        ds.writfBytf(mftbdbtb.IHDR_domprfssionMftiod);
+        if (mftbdbtb.IHDR_filtfrMftiod != 0) {
+            tirow nfw IIOExdfption(
+"Only filtfr mftiod 0 is dffinfd in PNG 1.1");
         }
-        cs.writeByte(metadata.IHDR_filterMethod);
-        if (metadata.IHDR_interlaceMethod < 0 ||
-            metadata.IHDR_interlaceMethod > 1) {
-            throw new IIOException(
-"Only interlace methods 0 (node) and 1 (adam7) are defined in PNG 1.1");
+        ds.writfBytf(mftbdbtb.IHDR_filtfrMftiod);
+        if (mftbdbtb.IHDR_intfrlbdfMftiod < 0 ||
+            mftbdbtb.IHDR_intfrlbdfMftiod > 1) {
+            tirow nfw IIOExdfption(
+"Only intfrlbdf mftiods 0 (nodf) bnd 1 (bdbm7) brf dffinfd in PNG 1.1");
         }
-        cs.writeByte(metadata.IHDR_interlaceMethod);
-        cs.finish();
+        ds.writfBytf(mftbdbtb.IHDR_intfrlbdfMftiod);
+        ds.finisi();
     }
 
-    private void write_cHRM() throws IOException {
-        if (metadata.cHRM_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.cHRM_TYPE, stream);
-            cs.writeInt(metadata.cHRM_whitePointX);
-            cs.writeInt(metadata.cHRM_whitePointY);
-            cs.writeInt(metadata.cHRM_redX);
-            cs.writeInt(metadata.cHRM_redY);
-            cs.writeInt(metadata.cHRM_greenX);
-            cs.writeInt(metadata.cHRM_greenY);
-            cs.writeInt(metadata.cHRM_blueX);
-            cs.writeInt(metadata.cHRM_blueY);
-            cs.finish();
-        }
-    }
-
-    private void write_gAMA() throws IOException {
-        if (metadata.gAMA_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.gAMA_TYPE, stream);
-            cs.writeInt(metadata.gAMA_gamma);
-            cs.finish();
+    privbtf void writf_dHRM() tirows IOExdfption {
+        if (mftbdbtb.dHRM_prfsfnt) {
+            CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.dHRM_TYPE, strfbm);
+            ds.writfInt(mftbdbtb.dHRM_wiitfPointX);
+            ds.writfInt(mftbdbtb.dHRM_wiitfPointY);
+            ds.writfInt(mftbdbtb.dHRM_rfdX);
+            ds.writfInt(mftbdbtb.dHRM_rfdY);
+            ds.writfInt(mftbdbtb.dHRM_grffnX);
+            ds.writfInt(mftbdbtb.dHRM_grffnY);
+            ds.writfInt(mftbdbtb.dHRM_blufX);
+            ds.writfInt(mftbdbtb.dHRM_blufY);
+            ds.finisi();
         }
     }
 
-    private void write_iCCP() throws IOException {
-        if (metadata.iCCP_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.iCCP_TYPE, stream);
-            cs.writeBytes(metadata.iCCP_profileName);
-            cs.writeByte(0); // null terminator
-
-            cs.writeByte(metadata.iCCP_compressionMethod);
-            cs.write(metadata.iCCP_compressedProfile);
-            cs.finish();
+    privbtf void writf_gAMA() tirows IOExdfption {
+        if (mftbdbtb.gAMA_prfsfnt) {
+            CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.gAMA_TYPE, strfbm);
+            ds.writfInt(mftbdbtb.gAMA_gbmmb);
+            ds.finisi();
         }
     }
 
-    private void write_sBIT() throws IOException {
-        if (metadata.sBIT_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.sBIT_TYPE, stream);
-            int colorType = metadata.IHDR_colorType;
-            if (metadata.sBIT_colorType != colorType) {
-                processWarningOccurred(0,
-"sBIT metadata has wrong color type.\n" +
-"The chunk will not be written.");
-                return;
-            }
+    privbtf void writf_iCCP() tirows IOExdfption {
+        if (mftbdbtb.iCCP_prfsfnt) {
+            CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.iCCP_TYPE, strfbm);
+            ds.writfBytfs(mftbdbtb.iCCP_profilfNbmf);
+            ds.writfBytf(0); // null tfrminbtor
 
-            if (colorType == PNGImageReader.PNG_COLOR_GRAY ||
-                colorType == PNGImageReader.PNG_COLOR_GRAY_ALPHA) {
-                cs.writeByte(metadata.sBIT_grayBits);
-            } else if (colorType == PNGImageReader.PNG_COLOR_RGB ||
-                       colorType == PNGImageReader.PNG_COLOR_PALETTE ||
-                       colorType == PNGImageReader.PNG_COLOR_RGB_ALPHA) {
-                cs.writeByte(metadata.sBIT_redBits);
-                cs.writeByte(metadata.sBIT_greenBits);
-                cs.writeByte(metadata.sBIT_blueBits);
+            ds.writfBytf(mftbdbtb.iCCP_domprfssionMftiod);
+            ds.writf(mftbdbtb.iCCP_domprfssfdProfilf);
+            ds.finisi();
+        }
+    }
+
+    privbtf void writf_sBIT() tirows IOExdfption {
+        if (mftbdbtb.sBIT_prfsfnt) {
+            CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.sBIT_TYPE, strfbm);
+            int dolorTypf = mftbdbtb.IHDR_dolorTypf;
+            if (mftbdbtb.sBIT_dolorTypf != dolorTypf) {
+                prodfssWbrningOddurrfd(0,
+"sBIT mftbdbtb ibs wrong dolor typf.\n" +
+"Tif diunk will not bf writtfn.");
+                rfturn;
             }
 
-            if (colorType == PNGImageReader.PNG_COLOR_GRAY_ALPHA ||
-                colorType == PNGImageReader.PNG_COLOR_RGB_ALPHA) {
-                cs.writeByte(metadata.sBIT_alphaBits);
+            if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY ||
+                dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY_ALPHA) {
+                ds.writfBytf(mftbdbtb.sBIT_grbyBits);
+            } flsf if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB ||
+                       dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_PALETTE ||
+                       dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB_ALPHA) {
+                ds.writfBytf(mftbdbtb.sBIT_rfdBits);
+                ds.writfBytf(mftbdbtb.sBIT_grffnBits);
+                ds.writfBytf(mftbdbtb.sBIT_blufBits);
             }
-            cs.finish();
+
+            if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY_ALPHA ||
+                dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB_ALPHA) {
+                ds.writfBytf(mftbdbtb.sBIT_blpibBits);
+            }
+            ds.finisi();
         }
     }
 
-    private void write_sRGB() throws IOException {
-        if (metadata.sRGB_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.sRGB_TYPE, stream);
-            cs.writeByte(metadata.sRGB_renderingIntent);
-            cs.finish();
+    privbtf void writf_sRGB() tirows IOExdfption {
+        if (mftbdbtb.sRGB_prfsfnt) {
+            CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.sRGB_TYPE, strfbm);
+            ds.writfBytf(mftbdbtb.sRGB_rfndfringIntfnt);
+            ds.finisi();
         }
     }
 
-    private void write_PLTE() throws IOException {
-        if (metadata.PLTE_present) {
-            if (metadata.IHDR_colorType == PNGImageReader.PNG_COLOR_GRAY ||
-              metadata.IHDR_colorType == PNGImageReader.PNG_COLOR_GRAY_ALPHA) {
-                // PLTE cannot occur in a gray image
+    privbtf void writf_PLTE() tirows IOExdfption {
+        if (mftbdbtb.PLTE_prfsfnt) {
+            if (mftbdbtb.IHDR_dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY ||
+              mftbdbtb.IHDR_dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY_ALPHA) {
+                // PLTE dbnnot oddur in b grby imbgf
 
-                processWarningOccurred(0,
-"A PLTE chunk may not appear in a gray or gray alpha image.\n" +
-"The chunk will not be written");
-                return;
+                prodfssWbrningOddurrfd(0,
+"A PLTE diunk mby not bppfbr in b grby or grby blpib imbgf.\n" +
+"Tif diunk will not bf writtfn");
+                rfturn;
             }
 
-            ChunkStream cs = new ChunkStream(PNGImageReader.PLTE_TYPE, stream);
+            CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.PLTE_TYPE, strfbm);
 
-            int numEntries = metadata.PLTE_red.length;
-            byte[] palette = new byte[numEntries*3];
-            int index = 0;
-            for (int i = 0; i < numEntries; i++) {
-                palette[index++] = metadata.PLTE_red[i];
-                palette[index++] = metadata.PLTE_green[i];
-                palette[index++] = metadata.PLTE_blue[i];
+            int numEntrifs = mftbdbtb.PLTE_rfd.lfngti;
+            bytf[] pblfttf = nfw bytf[numEntrifs*3];
+            int indfx = 0;
+            for (int i = 0; i < numEntrifs; i++) {
+                pblfttf[indfx++] = mftbdbtb.PLTE_rfd[i];
+                pblfttf[indfx++] = mftbdbtb.PLTE_grffn[i];
+                pblfttf[indfx++] = mftbdbtb.PLTE_bluf[i];
             }
 
-            cs.write(palette);
-            cs.finish();
+            ds.writf(pblfttf);
+            ds.finisi();
         }
     }
 
-    private void write_hIST() throws IOException, IIOException {
-        if (metadata.hIST_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.hIST_TYPE, stream);
+    privbtf void writf_iIST() tirows IOExdfption, IIOExdfption {
+        if (mftbdbtb.iIST_prfsfnt) {
+            CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.iIST_TYPE, strfbm);
 
-            if (!metadata.PLTE_present) {
-                throw new IIOException("hIST chunk without PLTE chunk!");
+            if (!mftbdbtb.PLTE_prfsfnt) {
+                tirow nfw IIOExdfption("iIST diunk witiout PLTE diunk!");
             }
 
-            cs.writeChars(metadata.hIST_histogram,
-                          0, metadata.hIST_histogram.length);
-            cs.finish();
+            ds.writfCibrs(mftbdbtb.iIST_iistogrbm,
+                          0, mftbdbtb.iIST_iistogrbm.lfngti);
+            ds.finisi();
         }
     }
 
-    private void write_tRNS() throws IOException, IIOException {
-        if (metadata.tRNS_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.tRNS_TYPE, stream);
-            int colorType = metadata.IHDR_colorType;
-            int chunkType = metadata.tRNS_colorType;
+    privbtf void writf_tRNS() tirows IOExdfption, IIOExdfption {
+        if (mftbdbtb.tRNS_prfsfnt) {
+            CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.tRNS_TYPE, strfbm);
+            int dolorTypf = mftbdbtb.IHDR_dolorTypf;
+            int diunkTypf = mftbdbtb.tRNS_dolorTypf;
 
-            // Special case: image is RGB and chunk is Gray
-            // Promote chunk contents to RGB
-            int chunkRed = metadata.tRNS_red;
-            int chunkGreen = metadata.tRNS_green;
-            int chunkBlue = metadata.tRNS_blue;
-            if (colorType == PNGImageReader.PNG_COLOR_RGB &&
-                chunkType == PNGImageReader.PNG_COLOR_GRAY) {
-                chunkType = colorType;
-                chunkRed = chunkGreen = chunkBlue =
-                    metadata.tRNS_gray;
+            // Spfdibl dbsf: imbgf is RGB bnd diunk is Grby
+            // Promotf diunk dontfnts to RGB
+            int diunkRfd = mftbdbtb.tRNS_rfd;
+            int diunkGrffn = mftbdbtb.tRNS_grffn;
+            int diunkBluf = mftbdbtb.tRNS_bluf;
+            if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB &&
+                diunkTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY) {
+                diunkTypf = dolorTypf;
+                diunkRfd = diunkGrffn = diunkBluf =
+                    mftbdbtb.tRNS_grby;
             }
 
-            if (chunkType != colorType) {
-                processWarningOccurred(0,
-"tRNS metadata has incompatible color type.\n" +
-"The chunk will not be written.");
-                return;
+            if (diunkTypf != dolorTypf) {
+                prodfssWbrningOddurrfd(0,
+"tRNS mftbdbtb ibs indompbtiblf dolor typf.\n" +
+"Tif diunk will not bf writtfn.");
+                rfturn;
             }
 
-            if (colorType == PNGImageReader.PNG_COLOR_PALETTE) {
-                if (!metadata.PLTE_present) {
-                    throw new IIOException("tRNS chunk without PLTE chunk!");
+            if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_PALETTE) {
+                if (!mftbdbtb.PLTE_prfsfnt) {
+                    tirow nfw IIOExdfption("tRNS diunk witiout PLTE diunk!");
                 }
-                cs.write(metadata.tRNS_alpha);
-            } else if (colorType == PNGImageReader.PNG_COLOR_GRAY) {
-                cs.writeShort(metadata.tRNS_gray);
-            } else if (colorType == PNGImageReader.PNG_COLOR_RGB) {
-                cs.writeShort(chunkRed);
-                cs.writeShort(chunkGreen);
-                cs.writeShort(chunkBlue);
-            } else {
-                throw new IIOException("tRNS chunk for color type 4 or 6!");
+                ds.writf(mftbdbtb.tRNS_blpib);
+            } flsf if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY) {
+                ds.writfSiort(mftbdbtb.tRNS_grby);
+            } flsf if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB) {
+                ds.writfSiort(diunkRfd);
+                ds.writfSiort(diunkGrffn);
+                ds.writfSiort(diunkBluf);
+            } flsf {
+                tirow nfw IIOExdfption("tRNS diunk for dolor typf 4 or 6!");
             }
-            cs.finish();
+            ds.finisi();
         }
     }
 
-    private void write_bKGD() throws IOException {
-        if (metadata.bKGD_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.bKGD_TYPE, stream);
-            int colorType = metadata.IHDR_colorType & 0x3;
-            int chunkType = metadata.bKGD_colorType;
+    privbtf void writf_bKGD() tirows IOExdfption {
+        if (mftbdbtb.bKGD_prfsfnt) {
+            CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.bKGD_TYPE, strfbm);
+            int dolorTypf = mftbdbtb.IHDR_dolorTypf & 0x3;
+            int diunkTypf = mftbdbtb.bKGD_dolorTypf;
 
-            // Special case: image is RGB(A) and chunk is Gray
-            // Promote chunk contents to RGB
-            int chunkRed = metadata.bKGD_red;
-            int chunkGreen = metadata.bKGD_red;
-            int chunkBlue = metadata.bKGD_red;
-            if (colorType == PNGImageReader.PNG_COLOR_RGB &&
-                chunkType == PNGImageReader.PNG_COLOR_GRAY) {
-                // Make a gray bKGD chunk look like RGB
-                chunkType = colorType;
-                chunkRed = chunkGreen = chunkBlue =
-                    metadata.bKGD_gray;
+            // Spfdibl dbsf: imbgf is RGB(A) bnd diunk is Grby
+            // Promotf diunk dontfnts to RGB
+            int diunkRfd = mftbdbtb.bKGD_rfd;
+            int diunkGrffn = mftbdbtb.bKGD_rfd;
+            int diunkBluf = mftbdbtb.bKGD_rfd;
+            if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB &&
+                diunkTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY) {
+                // Mbkf b grby bKGD diunk look likf RGB
+                diunkTypf = dolorTypf;
+                diunkRfd = diunkGrffn = diunkBluf =
+                    mftbdbtb.bKGD_grby;
             }
 
-            // Ignore status of alpha in colorType
-            if (chunkType != colorType) {
-                processWarningOccurred(0,
-"bKGD metadata has incompatible color type.\n" +
-"The chunk will not be written.");
-                return;
+            // Ignorf stbtus of blpib in dolorTypf
+            if (diunkTypf != dolorTypf) {
+                prodfssWbrningOddurrfd(0,
+"bKGD mftbdbtb ibs indompbtiblf dolor typf.\n" +
+"Tif diunk will not bf writtfn.");
+                rfturn;
             }
 
-            if (colorType == PNGImageReader.PNG_COLOR_PALETTE) {
-                cs.writeByte(metadata.bKGD_index);
-            } else if (colorType == PNGImageReader.PNG_COLOR_GRAY ||
-                       colorType == PNGImageReader.PNG_COLOR_GRAY_ALPHA) {
-                cs.writeShort(metadata.bKGD_gray);
-            } else { // colorType == PNGImageReader.PNG_COLOR_RGB ||
-                     // colorType == PNGImageReader.PNG_COLOR_RGB_ALPHA
-                cs.writeShort(chunkRed);
-                cs.writeShort(chunkGreen);
-                cs.writeShort(chunkBlue);
+            if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_PALETTE) {
+                ds.writfBytf(mftbdbtb.bKGD_indfx);
+            } flsf if (dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY ||
+                       dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY_ALPHA) {
+                ds.writfSiort(mftbdbtb.bKGD_grby);
+            } flsf { // dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB ||
+                     // dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_RGB_ALPHA
+                ds.writfSiort(diunkRfd);
+                ds.writfSiort(diunkGrffn);
+                ds.writfSiort(diunkBluf);
             }
-            cs.finish();
+            ds.finisi();
         }
     }
 
-    private void write_pHYs() throws IOException {
-        if (metadata.pHYs_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.pHYs_TYPE, stream);
-            cs.writeInt(metadata.pHYs_pixelsPerUnitXAxis);
-            cs.writeInt(metadata.pHYs_pixelsPerUnitYAxis);
-            cs.writeByte(metadata.pHYs_unitSpecifier);
-            cs.finish();
+    privbtf void writf_pHYs() tirows IOExdfption {
+        if (mftbdbtb.pHYs_prfsfnt) {
+            CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.pHYs_TYPE, strfbm);
+            ds.writfInt(mftbdbtb.pHYs_pixflsPfrUnitXAxis);
+            ds.writfInt(mftbdbtb.pHYs_pixflsPfrUnitYAxis);
+            ds.writfBytf(mftbdbtb.pHYs_unitSpfdififr);
+            ds.finisi();
         }
     }
 
-    private void write_sPLT() throws IOException {
-        if (metadata.sPLT_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.sPLT_TYPE, stream);
+    privbtf void writf_sPLT() tirows IOExdfption {
+        if (mftbdbtb.sPLT_prfsfnt) {
+            CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.sPLT_TYPE, strfbm);
 
-            cs.writeBytes(metadata.sPLT_paletteName);
-            cs.writeByte(0); // null terminator
+            ds.writfBytfs(mftbdbtb.sPLT_pblfttfNbmf);
+            ds.writfBytf(0); // null tfrminbtor
 
-            cs.writeByte(metadata.sPLT_sampleDepth);
-            int numEntries = metadata.sPLT_red.length;
+            ds.writfBytf(mftbdbtb.sPLT_sbmplfDfpti);
+            int numEntrifs = mftbdbtb.sPLT_rfd.lfngti;
 
-            if (metadata.sPLT_sampleDepth == 8) {
-                for (int i = 0; i < numEntries; i++) {
-                    cs.writeByte(metadata.sPLT_red[i]);
-                    cs.writeByte(metadata.sPLT_green[i]);
-                    cs.writeByte(metadata.sPLT_blue[i]);
-                    cs.writeByte(metadata.sPLT_alpha[i]);
-                    cs.writeShort(metadata.sPLT_frequency[i]);
+            if (mftbdbtb.sPLT_sbmplfDfpti == 8) {
+                for (int i = 0; i < numEntrifs; i++) {
+                    ds.writfBytf(mftbdbtb.sPLT_rfd[i]);
+                    ds.writfBytf(mftbdbtb.sPLT_grffn[i]);
+                    ds.writfBytf(mftbdbtb.sPLT_bluf[i]);
+                    ds.writfBytf(mftbdbtb.sPLT_blpib[i]);
+                    ds.writfSiort(mftbdbtb.sPLT_frfqufndy[i]);
                 }
-            } else { // sampleDepth == 16
-                for (int i = 0; i < numEntries; i++) {
-                    cs.writeShort(metadata.sPLT_red[i]);
-                    cs.writeShort(metadata.sPLT_green[i]);
-                    cs.writeShort(metadata.sPLT_blue[i]);
-                    cs.writeShort(metadata.sPLT_alpha[i]);
-                    cs.writeShort(metadata.sPLT_frequency[i]);
+            } flsf { // sbmplfDfpti == 16
+                for (int i = 0; i < numEntrifs; i++) {
+                    ds.writfSiort(mftbdbtb.sPLT_rfd[i]);
+                    ds.writfSiort(mftbdbtb.sPLT_grffn[i]);
+                    ds.writfSiort(mftbdbtb.sPLT_bluf[i]);
+                    ds.writfSiort(mftbdbtb.sPLT_blpib[i]);
+                    ds.writfSiort(mftbdbtb.sPLT_frfqufndy[i]);
                 }
             }
-            cs.finish();
+            ds.finisi();
         }
     }
 
-    private void write_tIME() throws IOException {
-        if (metadata.tIME_present) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.tIME_TYPE, stream);
-            cs.writeShort(metadata.tIME_year);
-            cs.writeByte(metadata.tIME_month);
-            cs.writeByte(metadata.tIME_day);
-            cs.writeByte(metadata.tIME_hour);
-            cs.writeByte(metadata.tIME_minute);
-            cs.writeByte(metadata.tIME_second);
-            cs.finish();
+    privbtf void writf_tIME() tirows IOExdfption {
+        if (mftbdbtb.tIME_prfsfnt) {
+            CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.tIME_TYPE, strfbm);
+            ds.writfSiort(mftbdbtb.tIME_yfbr);
+            ds.writfBytf(mftbdbtb.tIME_monti);
+            ds.writfBytf(mftbdbtb.tIME_dby);
+            ds.writfBytf(mftbdbtb.tIME_iour);
+            ds.writfBytf(mftbdbtb.tIME_minutf);
+            ds.writfBytf(mftbdbtb.tIME_sfdond);
+            ds.finisi();
         }
     }
 
-    private void write_tEXt() throws IOException {
-        Iterator<String> keywordIter = metadata.tEXt_keyword.iterator();
-        Iterator<String> textIter = metadata.tEXt_text.iterator();
+    privbtf void writf_tEXt() tirows IOExdfption {
+        Itfrbtor<String> kfywordItfr = mftbdbtb.tEXt_kfyword.itfrbtor();
+        Itfrbtor<String> tfxtItfr = mftbdbtb.tEXt_tfxt.itfrbtor();
 
-        while (keywordIter.hasNext()) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.tEXt_TYPE, stream);
-            String keyword = keywordIter.next();
-            cs.writeBytes(keyword);
-            cs.writeByte(0);
+        wiilf (kfywordItfr.ibsNfxt()) {
+            CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.tEXt_TYPE, strfbm);
+            String kfyword = kfywordItfr.nfxt();
+            ds.writfBytfs(kfyword);
+            ds.writfBytf(0);
 
-            String text = textIter.next();
-            cs.writeBytes(text);
-            cs.finish();
+            String tfxt = tfxtItfr.nfxt();
+            ds.writfBytfs(tfxt);
+            ds.finisi();
         }
     }
 
-    private byte[] deflate(byte[] b) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        DeflaterOutputStream dos = new DeflaterOutputStream(baos);
-        dos.write(b);
-        dos.close();
-        return baos.toByteArray();
+    privbtf bytf[] dfflbtf(bytf[] b) tirows IOExdfption {
+        BytfArrbyOutputStrfbm bbos = nfw BytfArrbyOutputStrfbm();
+        DfflbtfrOutputStrfbm dos = nfw DfflbtfrOutputStrfbm(bbos);
+        dos.writf(b);
+        dos.dlosf();
+        rfturn bbos.toBytfArrby();
     }
 
-    private void write_iTXt() throws IOException {
-        Iterator<String> keywordIter = metadata.iTXt_keyword.iterator();
-        Iterator<Boolean> flagIter = metadata.iTXt_compressionFlag.iterator();
-        Iterator<Integer> methodIter = metadata.iTXt_compressionMethod.iterator();
-        Iterator<String> languageIter = metadata.iTXt_languageTag.iterator();
-        Iterator<String> translatedKeywordIter =
-            metadata.iTXt_translatedKeyword.iterator();
-        Iterator<String> textIter = metadata.iTXt_text.iterator();
+    privbtf void writf_iTXt() tirows IOExdfption {
+        Itfrbtor<String> kfywordItfr = mftbdbtb.iTXt_kfyword.itfrbtor();
+        Itfrbtor<Boolfbn> flbgItfr = mftbdbtb.iTXt_domprfssionFlbg.itfrbtor();
+        Itfrbtor<Intfgfr> mftiodItfr = mftbdbtb.iTXt_domprfssionMftiod.itfrbtor();
+        Itfrbtor<String> lbngubgfItfr = mftbdbtb.iTXt_lbngubgfTbg.itfrbtor();
+        Itfrbtor<String> trbnslbtfdKfywordItfr =
+            mftbdbtb.iTXt_trbnslbtfdKfyword.itfrbtor();
+        Itfrbtor<String> tfxtItfr = mftbdbtb.iTXt_tfxt.itfrbtor();
 
-        while (keywordIter.hasNext()) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.iTXt_TYPE, stream);
+        wiilf (kfywordItfr.ibsNfxt()) {
+            CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.iTXt_TYPE, strfbm);
 
-            cs.writeBytes(keywordIter.next());
-            cs.writeByte(0);
+            ds.writfBytfs(kfywordItfr.nfxt());
+            ds.writfBytf(0);
 
-            Boolean compressed = flagIter.next();
-            cs.writeByte(compressed ? 1 : 0);
+            Boolfbn domprfssfd = flbgItfr.nfxt();
+            ds.writfBytf(domprfssfd ? 1 : 0);
 
-            cs.writeByte(methodIter.next().intValue());
+            ds.writfBytf(mftiodItfr.nfxt().intVbluf());
 
-            cs.writeBytes(languageIter.next());
-            cs.writeByte(0);
+            ds.writfBytfs(lbngubgfItfr.nfxt());
+            ds.writfBytf(0);
 
 
-            cs.write(translatedKeywordIter.next().getBytes("UTF8"));
-            cs.writeByte(0);
+            ds.writf(trbnslbtfdKfywordItfr.nfxt().gftBytfs("UTF8"));
+            ds.writfBytf(0);
 
-            String text = textIter.next();
-            if (compressed) {
-                cs.write(deflate(text.getBytes("UTF8")));
-            } else {
-                cs.write(text.getBytes("UTF8"));
+            String tfxt = tfxtItfr.nfxt();
+            if (domprfssfd) {
+                ds.writf(dfflbtf(tfxt.gftBytfs("UTF8")));
+            } flsf {
+                ds.writf(tfxt.gftBytfs("UTF8"));
             }
-            cs.finish();
+            ds.finisi();
         }
     }
 
-    private void write_zTXt() throws IOException {
-        Iterator<String> keywordIter = metadata.zTXt_keyword.iterator();
-        Iterator<Integer> methodIter = metadata.zTXt_compressionMethod.iterator();
-        Iterator<String> textIter = metadata.zTXt_text.iterator();
+    privbtf void writf_zTXt() tirows IOExdfption {
+        Itfrbtor<String> kfywordItfr = mftbdbtb.zTXt_kfyword.itfrbtor();
+        Itfrbtor<Intfgfr> mftiodItfr = mftbdbtb.zTXt_domprfssionMftiod.itfrbtor();
+        Itfrbtor<String> tfxtItfr = mftbdbtb.zTXt_tfxt.itfrbtor();
 
-        while (keywordIter.hasNext()) {
-            ChunkStream cs = new ChunkStream(PNGImageReader.zTXt_TYPE, stream);
-            String keyword = keywordIter.next();
-            cs.writeBytes(keyword);
-            cs.writeByte(0);
+        wiilf (kfywordItfr.ibsNfxt()) {
+            CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.zTXt_TYPE, strfbm);
+            String kfyword = kfywordItfr.nfxt();
+            ds.writfBytfs(kfyword);
+            ds.writfBytf(0);
 
-            int compressionMethod = (methodIter.next()).intValue();
-            cs.writeByte(compressionMethod);
+            int domprfssionMftiod = (mftiodItfr.nfxt()).intVbluf();
+            ds.writfBytf(domprfssionMftiod);
 
-            String text = textIter.next();
-            cs.write(deflate(text.getBytes("ISO-8859-1")));
-            cs.finish();
+            String tfxt = tfxtItfr.nfxt();
+            ds.writf(dfflbtf(tfxt.gftBytfs("ISO-8859-1")));
+            ds.finisi();
         }
     }
 
-    private void writeUnknownChunks() throws IOException {
-        Iterator<String> typeIter = metadata.unknownChunkType.iterator();
-        Iterator<byte[]> dataIter = metadata.unknownChunkData.iterator();
+    privbtf void writfUnknownCiunks() tirows IOExdfption {
+        Itfrbtor<String> typfItfr = mftbdbtb.unknownCiunkTypf.itfrbtor();
+        Itfrbtor<bytf[]> dbtbItfr = mftbdbtb.unknownCiunkDbtb.itfrbtor();
 
-        while (typeIter.hasNext() && dataIter.hasNext()) {
-            String type = typeIter.next();
-            ChunkStream cs = new ChunkStream(chunkType(type), stream);
-            byte[] data = dataIter.next();
-            cs.write(data);
-            cs.finish();
+        wiilf (typfItfr.ibsNfxt() && dbtbItfr.ibsNfxt()) {
+            String typf = typfItfr.nfxt();
+            CiunkStrfbm ds = nfw CiunkStrfbm(diunkTypf(typf), strfbm);
+            bytf[] dbtb = dbtbItfr.nfxt();
+            ds.writf(dbtb);
+            ds.finisi();
         }
     }
 
-    private static int chunkType(String typeString) {
-        char c0 = typeString.charAt(0);
-        char c1 = typeString.charAt(1);
-        char c2 = typeString.charAt(2);
-        char c3 = typeString.charAt(3);
+    privbtf stbtid int diunkTypf(String typfString) {
+        dibr d0 = typfString.dibrAt(0);
+        dibr d1 = typfString.dibrAt(1);
+        dibr d2 = typfString.dibrAt(2);
+        dibr d3 = typfString.dibrAt(3);
 
-        int type = (c0 << 24) | (c1 << 16) | (c2 << 8) | c3;
-        return type;
+        int typf = (d0 << 24) | (d1 << 16) | (d2 << 8) | d3;
+        rfturn typf;
     }
 
-    private void encodePass(ImageOutputStream os,
-                            RenderedImage image,
-                            int xOffset, int yOffset,
-                            int xSkip, int ySkip) throws IOException {
-        int minX = sourceXOffset;
-        int minY = sourceYOffset;
-        int width = sourceWidth;
-        int height = sourceHeight;
+    privbtf void fndodfPbss(ImbgfOutputStrfbm os,
+                            RfndfrfdImbgf imbgf,
+                            int xOffsft, int yOffsft,
+                            int xSkip, int ySkip) tirows IOExdfption {
+        int minX = sourdfXOffsft;
+        int minY = sourdfYOffsft;
+        int widti = sourdfWidti;
+        int ifigit = sourdfHfigit;
 
-        // Adjust offsets and skips based on source subsampling factors
-        xOffset *= periodX;
-        xSkip *= periodX;
-        yOffset *= periodY;
-        ySkip *= periodY;
+        // Adjust offsfts bnd skips bbsfd on sourdf subsbmpling fbdtors
+        xOffsft *= pfriodX;
+        xSkip *= pfriodX;
+        yOffsft *= pfriodY;
+        ySkip *= pfriodY;
 
-        // Early exit if no data for this pass
-        int hpixels = (width - xOffset + xSkip - 1)/xSkip;
-        int vpixels = (height - yOffset + ySkip - 1)/ySkip;
-        if (hpixels == 0 || vpixels == 0) {
-            return;
+        // Ebrly fxit if no dbtb for tiis pbss
+        int ipixfls = (widti - xOffsft + xSkip - 1)/xSkip;
+        int vpixfls = (ifigit - yOffsft + ySkip - 1)/ySkip;
+        if (ipixfls == 0 || vpixfls == 0) {
+            rfturn;
         }
 
-        // Convert X offset and skip from pixels to samples
-        xOffset *= numBands;
-        xSkip *= numBands;
+        // Convfrt X offsft bnd skip from pixfls to sbmplfs
+        xOffsft *= numBbnds;
+        xSkip *= numBbnds;
 
-        // Create row buffers
-        int samplesPerByte = 8/metadata.IHDR_bitDepth;
-        int numSamples = width*numBands;
-        int[] samples = new int[numSamples];
+        // Crfbtf row bufffrs
+        int sbmplfsPfrBytf = 8/mftbdbtb.IHDR_bitDfpti;
+        int numSbmplfs = widti*numBbnds;
+        int[] sbmplfs = nfw int[numSbmplfs];
 
-        int bytesPerRow = hpixels*numBands;
-        if (metadata.IHDR_bitDepth < 8) {
-            bytesPerRow = (bytesPerRow + samplesPerByte - 1)/samplesPerByte;
-        } else if (metadata.IHDR_bitDepth == 16) {
-            bytesPerRow *= 2;
+        int bytfsPfrRow = ipixfls*numBbnds;
+        if (mftbdbtb.IHDR_bitDfpti < 8) {
+            bytfsPfrRow = (bytfsPfrRow + sbmplfsPfrBytf - 1)/sbmplfsPfrBytf;
+        } flsf if (mftbdbtb.IHDR_bitDfpti == 16) {
+            bytfsPfrRow *= 2;
         }
 
-        IndexColorModel icm_gray_alpha = null;
-        if (metadata.IHDR_colorType == PNGImageReader.PNG_COLOR_GRAY_ALPHA &&
-            image.getColorModel() instanceof IndexColorModel)
+        IndfxColorModfl idm_grby_blpib = null;
+        if (mftbdbtb.IHDR_dolorTypf == PNGImbgfRfbdfr.PNG_COLOR_GRAY_ALPHA &&
+            imbgf.gftColorModfl() instbndfof IndfxColorModfl)
         {
-            // reserve space for alpha samples
-            bytesPerRow *= 2;
+            // rfsfrvf spbdf for blpib sbmplfs
+            bytfsPfrRow *= 2;
 
-            // will be used to calculate alpha value for the pixel
-            icm_gray_alpha = (IndexColorModel)image.getColorModel();
+            // will bf usfd to dbldulbtf blpib vbluf for tif pixfl
+            idm_grby_blpib = (IndfxColorModfl)imbgf.gftColorModfl();
         }
 
-        currRow = new byte[bytesPerRow + bpp];
-        prevRow = new byte[bytesPerRow + bpp];
-        filteredRows = new byte[5][bytesPerRow + bpp];
+        durrRow = nfw bytf[bytfsPfrRow + bpp];
+        prfvRow = nfw bytf[bytfsPfrRow + bpp];
+        filtfrfdRows = nfw bytf[5][bytfsPfrRow + bpp];
 
-        int bitDepth = metadata.IHDR_bitDepth;
-        for (int row = minY + yOffset; row < minY + height; row += ySkip) {
-            Rectangle rect = new Rectangle(minX, row, width, 1);
-            Raster ras = image.getData(rect);
-            if (sourceBands != null) {
-                ras = ras.createChild(minX, row, width, 1, minX, row,
-                                      sourceBands);
+        int bitDfpti = mftbdbtb.IHDR_bitDfpti;
+        for (int row = minY + yOffsft; row < minY + ifigit; row += ySkip) {
+            Rfdtbnglf rfdt = nfw Rfdtbnglf(minX, row, widti, 1);
+            Rbstfr rbs = imbgf.gftDbtb(rfdt);
+            if (sourdfBbnds != null) {
+                rbs = rbs.drfbtfCiild(minX, row, widti, 1, minX, row,
+                                      sourdfBbnds);
             }
 
-            ras.getPixels(minX, row, width, 1, samples);
+            rbs.gftPixfls(minX, row, widti, 1, sbmplfs);
 
-            if (image.getColorModel().isAlphaPremultiplied()) {
-                WritableRaster wr = ras.createCompatibleWritableRaster();
-                wr.setPixels(wr.getMinX(), wr.getMinY(),
-                             wr.getWidth(), wr.getHeight(),
-                             samples);
+            if (imbgf.gftColorModfl().isAlpibPrfmultiplifd()) {
+                WritbblfRbstfr wr = rbs.drfbtfCompbtiblfWritbblfRbstfr();
+                wr.sftPixfls(wr.gftMinX(), wr.gftMinY(),
+                             wr.gftWidti(), wr.gftHfigit(),
+                             sbmplfs);
 
-                image.getColorModel().coerceData(wr, false);
-                wr.getPixels(wr.getMinX(), wr.getMinY(),
-                             wr.getWidth(), wr.getHeight(),
-                             samples);
+                imbgf.gftColorModfl().dofrdfDbtb(wr, fblsf);
+                wr.gftPixfls(wr.gftMinX(), wr.gftMinY(),
+                             wr.gftWidti(), wr.gftHfigit(),
+                             sbmplfs);
             }
 
-            // Reorder palette data if necessary
-            int[] paletteOrder = metadata.PLTE_order;
-            if (paletteOrder != null) {
-                for (int i = 0; i < numSamples; i++) {
-                    samples[i] = paletteOrder[samples[i]];
+            // Rfordfr pblfttf dbtb if nfdfssbry
+            int[] pblfttfOrdfr = mftbdbtb.PLTE_ordfr;
+            if (pblfttfOrdfr != null) {
+                for (int i = 0; i < numSbmplfs; i++) {
+                    sbmplfs[i] = pblfttfOrdfr[sbmplfs[i]];
                 }
             }
 
-            int count = bpp; // leave first 'bpp' bytes zero
+            int dount = bpp; // lfbvf first 'bpp' bytfs zfro
             int pos = 0;
             int tmp = 0;
 
-            switch (bitDepth) {
-            case 1: case 2: case 4:
-                // Image can only have a single band
+            switdi (bitDfpti) {
+            dbsf 1: dbsf 2: dbsf 4:
+                // Imbgf dbn only ibvf b singlf bbnd
 
-                int mask = samplesPerByte - 1;
-                for (int s = xOffset; s < numSamples; s += xSkip) {
-                    byte val = scale0[samples[s]];
-                    tmp = (tmp << bitDepth) | val;
+                int mbsk = sbmplfsPfrBytf - 1;
+                for (int s = xOffsft; s < numSbmplfs; s += xSkip) {
+                    bytf vbl = sdblf0[sbmplfs[s]];
+                    tmp = (tmp << bitDfpti) | vbl;
 
-                    if ((pos++ & mask) == mask) {
-                        currRow[count++] = (byte)tmp;
+                    if ((pos++ & mbsk) == mbsk) {
+                        durrRow[dount++] = (bytf)tmp;
                         tmp = 0;
                         pos = 0;
                     }
                 }
 
-                // Left shift the last byte
-                if ((pos & mask) != 0) {
-                    tmp <<= ((8/bitDepth) - pos)*bitDepth;
-                    currRow[count++] = (byte)tmp;
+                // Lfft siift tif lbst bytf
+                if ((pos & mbsk) != 0) {
+                    tmp <<= ((8/bitDfpti) - pos)*bitDfpti;
+                    durrRow[dount++] = (bytf)tmp;
                 }
-                break;
+                brfbk;
 
-            case 8:
-                if (numBands == 1) {
-                    for (int s = xOffset; s < numSamples; s += xSkip) {
-                        currRow[count++] = scale0[samples[s]];
-                        if (icm_gray_alpha != null) {
-                            currRow[count++] =
-                                scale0[icm_gray_alpha.getAlpha(0xff & samples[s])];
+            dbsf 8:
+                if (numBbnds == 1) {
+                    for (int s = xOffsft; s < numSbmplfs; s += xSkip) {
+                        durrRow[dount++] = sdblf0[sbmplfs[s]];
+                        if (idm_grby_blpib != null) {
+                            durrRow[dount++] =
+                                sdblf0[idm_grby_blpib.gftAlpib(0xff & sbmplfs[s])];
                         }
                     }
-                } else {
-                    for (int s = xOffset; s < numSamples; s += xSkip) {
-                        for (int b = 0; b < numBands; b++) {
-                            currRow[count++] = scale[b][samples[s + b]];
+                } flsf {
+                    for (int s = xOffsft; s < numSbmplfs; s += xSkip) {
+                        for (int b = 0; b < numBbnds; b++) {
+                            durrRow[dount++] = sdblf[b][sbmplfs[s + b]];
                         }
                     }
                 }
-                break;
+                brfbk;
 
-            case 16:
-                for (int s = xOffset; s < numSamples; s += xSkip) {
-                    for (int b = 0; b < numBands; b++) {
-                        currRow[count++] = scaleh[b][samples[s + b]];
-                        currRow[count++] = scalel[b][samples[s + b]];
+            dbsf 16:
+                for (int s = xOffsft; s < numSbmplfs; s += xSkip) {
+                    for (int b = 0; b < numBbnds; b++) {
+                        durrRow[dount++] = sdblfi[b][sbmplfs[s + b]];
+                        durrRow[dount++] = sdblfl[b][sbmplfs[s + b]];
                     }
                 }
-                break;
+                brfbk;
             }
 
-            // Perform filtering
-            int filterType = rowFilter.filterRow(metadata.IHDR_colorType,
-                                                 currRow, prevRow,
-                                                 filteredRows,
-                                                 bytesPerRow, bpp);
+            // Pfrform filtfring
+            int filtfrTypf = rowFiltfr.filtfrRow(mftbdbtb.IHDR_dolorTypf,
+                                                 durrRow, prfvRow,
+                                                 filtfrfdRows,
+                                                 bytfsPfrRow, bpp);
 
-            os.write(filterType);
-            os.write(filteredRows[filterType], bpp, bytesPerRow);
+            os.writf(filtfrTypf);
+            os.writf(filtfrfdRows[filtfrTypf], bpp, bytfsPfrRow);
 
-            // Swap current and previous rows
-            byte[] swap = currRow;
-            currRow = prevRow;
-            prevRow = swap;
+            // Swbp durrfnt bnd prfvious rows
+            bytf[] swbp = durrRow;
+            durrRow = prfvRow;
+            prfvRow = swbp;
 
-            pixelsDone += hpixels;
-            processImageProgress(100.0F*pixelsDone/totalPixels);
+            pixflsDonf += ipixfls;
+            prodfssImbgfProgrfss(100.0F*pixflsDonf/totblPixfls);
 
-            // If write has been aborted, just return;
-            // processWriteAborted will be called later
-            if (abortRequested()) {
-                return;
+            // If writf ibs bffn bbortfd, just rfturn;
+            // prodfssWritfAbortfd will bf dbllfd lbtfr
+            if (bbortRfqufstfd()) {
+                rfturn;
             }
         }
     }
 
-    // Use sourceXOffset, etc.
-    private void write_IDAT(RenderedImage image) throws IOException {
-        IDATOutputStream ios = new IDATOutputStream(stream, 32768);
+    // Usf sourdfXOffsft, ftd.
+    privbtf void writf_IDAT(RfndfrfdImbgf imbgf) tirows IOExdfption {
+        IDATOutputStrfbm ios = nfw IDATOutputStrfbm(strfbm, 32768);
         try {
-            if (metadata.IHDR_interlaceMethod == 1) {
+            if (mftbdbtb.IHDR_intfrlbdfMftiod == 1) {
                 for (int i = 0; i < 7; i++) {
-                    encodePass(ios, image,
-                               PNGImageReader.adam7XOffset[i],
-                               PNGImageReader.adam7YOffset[i],
-                               PNGImageReader.adam7XSubsampling[i],
-                               PNGImageReader.adam7YSubsampling[i]);
-                    if (abortRequested()) {
-                        break;
+                    fndodfPbss(ios, imbgf,
+                               PNGImbgfRfbdfr.bdbm7XOffsft[i],
+                               PNGImbgfRfbdfr.bdbm7YOffsft[i],
+                               PNGImbgfRfbdfr.bdbm7XSubsbmpling[i],
+                               PNGImbgfRfbdfr.bdbm7YSubsbmpling[i]);
+                    if (bbortRfqufstfd()) {
+                        brfbk;
                     }
                 }
-            } else {
-                encodePass(ios, image, 0, 0, 1, 1);
+            } flsf {
+                fndodfPbss(ios, imbgf, 0, 0, 1, 1);
             }
-        } finally {
-            ios.finish();
+        } finblly {
+            ios.finisi();
         }
     }
 
-    private void writeIEND() throws IOException {
-        ChunkStream cs = new ChunkStream(PNGImageReader.IEND_TYPE, stream);
-        cs.finish();
+    privbtf void writfIEND() tirows IOExdfption {
+        CiunkStrfbm ds = nfw CiunkStrfbm(PNGImbgfRfbdfr.IEND_TYPE, strfbm);
+        ds.finisi();
     }
 
-    // Check two int arrays for value equality, always returns false
-    // if either array is null
-    private boolean equals(int[] s0, int[] s1) {
+    // Cifdk two int brrbys for vbluf fqublity, blwbys rfturns fblsf
+    // if fitifr brrby is null
+    privbtf boolfbn fqubls(int[] s0, int[] s1) {
         if (s0 == null || s1 == null) {
-            return false;
+            rfturn fblsf;
         }
-        if (s0.length != s1.length) {
-            return false;
+        if (s0.lfngti != s1.lfngti) {
+            rfturn fblsf;
         }
-        for (int i = 0; i < s0.length; i++) {
+        for (int i = 0; i < s0.lfngti; i++) {
             if (s0[i] != s1[i]) {
-                return false;
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
-    // Initialize the scale/scale0 or scaleh/scalel arrays to
-    // hold the results of scaling an input value to the desired
-    // output bit depth
-    private void initializeScaleTables(int[] sampleSize) {
-        int bitDepth = metadata.IHDR_bitDepth;
+    // Initiblizf tif sdblf/sdblf0 or sdblfi/sdblfl brrbys to
+    // iold tif rfsults of sdbling bn input vbluf to tif dfsirfd
+    // output bit dfpti
+    privbtf void initiblizfSdblfTbblfs(int[] sbmplfSizf) {
+        int bitDfpti = mftbdbtb.IHDR_bitDfpti;
 
-        // If the existing tables are still valid, just return
-        if (bitDepth == scalingBitDepth &&
-            equals(sampleSize, this.sampleSize)) {
-            return;
+        // If tif fxisting tbblfs brf still vblid, just rfturn
+        if (bitDfpti == sdblingBitDfpti &&
+            fqubls(sbmplfSizf, tiis.sbmplfSizf)) {
+            rfturn;
         }
 
-        // Compute new tables
-        this.sampleSize = sampleSize;
-        this.scalingBitDepth = bitDepth;
-        int maxOutSample = (1 << bitDepth) - 1;
-        if (bitDepth <= 8) {
-            scale = new byte[numBands][];
-            for (int b = 0; b < numBands; b++) {
-                int maxInSample = (1 << sampleSize[b]) - 1;
-                int halfMaxInSample = maxInSample/2;
-                scale[b] = new byte[maxInSample + 1];
-                for (int s = 0; s <= maxInSample; s++) {
-                    scale[b][s] =
-                        (byte)((s*maxOutSample + halfMaxInSample)/maxInSample);
+        // Computf nfw tbblfs
+        tiis.sbmplfSizf = sbmplfSizf;
+        tiis.sdblingBitDfpti = bitDfpti;
+        int mbxOutSbmplf = (1 << bitDfpti) - 1;
+        if (bitDfpti <= 8) {
+            sdblf = nfw bytf[numBbnds][];
+            for (int b = 0; b < numBbnds; b++) {
+                int mbxInSbmplf = (1 << sbmplfSizf[b]) - 1;
+                int iblfMbxInSbmplf = mbxInSbmplf/2;
+                sdblf[b] = nfw bytf[mbxInSbmplf + 1];
+                for (int s = 0; s <= mbxInSbmplf; s++) {
+                    sdblf[b][s] =
+                        (bytf)((s*mbxOutSbmplf + iblfMbxInSbmplf)/mbxInSbmplf);
                 }
             }
-            scale0 = scale[0];
-            scaleh = scalel = null;
-        } else { // bitDepth == 16
-            // Divide scaling table into high and low bytes
-            scaleh = new byte[numBands][];
-            scalel = new byte[numBands][];
+            sdblf0 = sdblf[0];
+            sdblfi = sdblfl = null;
+        } flsf { // bitDfpti == 16
+            // Dividf sdbling tbblf into iigi bnd low bytfs
+            sdblfi = nfw bytf[numBbnds][];
+            sdblfl = nfw bytf[numBbnds][];
 
-            for (int b = 0; b < numBands; b++) {
-                int maxInSample = (1 << sampleSize[b]) - 1;
-                int halfMaxInSample = maxInSample/2;
-                scaleh[b] = new byte[maxInSample + 1];
-                scalel[b] = new byte[maxInSample + 1];
-                for (int s = 0; s <= maxInSample; s++) {
-                    int val = (s*maxOutSample + halfMaxInSample)/maxInSample;
-                    scaleh[b][s] = (byte)(val >> 8);
-                    scalel[b][s] = (byte)(val & 0xff);
+            for (int b = 0; b < numBbnds; b++) {
+                int mbxInSbmplf = (1 << sbmplfSizf[b]) - 1;
+                int iblfMbxInSbmplf = mbxInSbmplf/2;
+                sdblfi[b] = nfw bytf[mbxInSbmplf + 1];
+                sdblfl[b] = nfw bytf[mbxInSbmplf + 1];
+                for (int s = 0; s <= mbxInSbmplf; s++) {
+                    int vbl = (s*mbxOutSbmplf + iblfMbxInSbmplf)/mbxInSbmplf;
+                    sdblfi[b][s] = (bytf)(vbl >> 8);
+                    sdblfl[b][s] = (bytf)(vbl & 0xff);
                 }
             }
-            scale = null;
-            scale0 = null;
+            sdblf = null;
+            sdblf0 = null;
         }
     }
 
-    public void write(IIOMetadata streamMetadata,
-                      IIOImage image,
-                      ImageWriteParam param) throws IIOException {
-        if (stream == null) {
-            throw new IllegalStateException("output == null!");
+    publid void writf(IIOMftbdbtb strfbmMftbdbtb,
+                      IIOImbgf imbgf,
+                      ImbgfWritfPbrbm pbrbm) tirows IIOExdfption {
+        if (strfbm == null) {
+            tirow nfw IllfgblStbtfExdfption("output == null!");
         }
-        if (image == null) {
-            throw new IllegalArgumentException("image == null!");
+        if (imbgf == null) {
+            tirow nfw IllfgblArgumfntExdfption("imbgf == null!");
         }
-        if (image.hasRaster()) {
-            throw new UnsupportedOperationException("image has a Raster!");
+        if (imbgf.ibsRbstfr()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("imbgf ibs b Rbstfr!");
         }
 
-        RenderedImage im = image.getRenderedImage();
-        SampleModel sampleModel = im.getSampleModel();
-        this.numBands = sampleModel.getNumBands();
+        RfndfrfdImbgf im = imbgf.gftRfndfrfdImbgf();
+        SbmplfModfl sbmplfModfl = im.gftSbmplfModfl();
+        tiis.numBbnds = sbmplfModfl.gftNumBbnds();
 
-        // Set source region and subsampling to default values
-        this.sourceXOffset = im.getMinX();
-        this.sourceYOffset = im.getMinY();
-        this.sourceWidth = im.getWidth();
-        this.sourceHeight = im.getHeight();
-        this.sourceBands = null;
-        this.periodX = 1;
-        this.periodY = 1;
+        // Sft sourdf rfgion bnd subsbmpling to dffbult vblufs
+        tiis.sourdfXOffsft = im.gftMinX();
+        tiis.sourdfYOffsft = im.gftMinY();
+        tiis.sourdfWidti = im.gftWidti();
+        tiis.sourdfHfigit = im.gftHfigit();
+        tiis.sourdfBbnds = null;
+        tiis.pfriodX = 1;
+        tiis.pfriodY = 1;
 
-        if (param != null) {
-            // Get source region and subsampling factors
-            Rectangle sourceRegion = param.getSourceRegion();
-            if (sourceRegion != null) {
-                Rectangle imageBounds = new Rectangle(im.getMinX(),
-                                                      im.getMinY(),
-                                                      im.getWidth(),
-                                                      im.getHeight());
-                // Clip to actual image bounds
-                sourceRegion = sourceRegion.intersection(imageBounds);
-                sourceXOffset = sourceRegion.x;
-                sourceYOffset = sourceRegion.y;
-                sourceWidth = sourceRegion.width;
-                sourceHeight = sourceRegion.height;
+        if (pbrbm != null) {
+            // Gft sourdf rfgion bnd subsbmpling fbdtors
+            Rfdtbnglf sourdfRfgion = pbrbm.gftSourdfRfgion();
+            if (sourdfRfgion != null) {
+                Rfdtbnglf imbgfBounds = nfw Rfdtbnglf(im.gftMinX(),
+                                                      im.gftMinY(),
+                                                      im.gftWidti(),
+                                                      im.gftHfigit());
+                // Clip to bdtubl imbgf bounds
+                sourdfRfgion = sourdfRfgion.intfrsfdtion(imbgfBounds);
+                sourdfXOffsft = sourdfRfgion.x;
+                sourdfYOffsft = sourdfRfgion.y;
+                sourdfWidti = sourdfRfgion.widti;
+                sourdfHfigit = sourdfRfgion.ifigit;
             }
 
-            // Adjust for subsampling offsets
-            int gridX = param.getSubsamplingXOffset();
-            int gridY = param.getSubsamplingYOffset();
-            sourceXOffset += gridX;
-            sourceYOffset += gridY;
-            sourceWidth -= gridX;
-            sourceHeight -= gridY;
+            // Adjust for subsbmpling offsfts
+            int gridX = pbrbm.gftSubsbmplingXOffsft();
+            int gridY = pbrbm.gftSubsbmplingYOffsft();
+            sourdfXOffsft += gridX;
+            sourdfYOffsft += gridY;
+            sourdfWidti -= gridX;
+            sourdfHfigit -= gridY;
 
-            // Get subsampling factors
-            periodX = param.getSourceXSubsampling();
-            periodY = param.getSourceYSubsampling();
+            // Gft subsbmpling fbdtors
+            pfriodX = pbrbm.gftSourdfXSubsbmpling();
+            pfriodY = pbrbm.gftSourdfYSubsbmpling();
 
-            int[] sBands = param.getSourceBands();
-            if (sBands != null) {
-                sourceBands = sBands;
-                numBands = sourceBands.length;
+            int[] sBbnds = pbrbm.gftSourdfBbnds();
+            if (sBbnds != null) {
+                sourdfBbnds = sBbnds;
+                numBbnds = sourdfBbnds.lfngti;
             }
         }
 
-        // Compute output dimensions
-        int destWidth = (sourceWidth + periodX - 1)/periodX;
-        int destHeight = (sourceHeight + periodY - 1)/periodY;
-        if (destWidth <= 0 || destHeight <= 0) {
-            throw new IllegalArgumentException("Empty source region!");
+        // Computf output dimfnsions
+        int dfstWidti = (sourdfWidti + pfriodX - 1)/pfriodX;
+        int dfstHfigit = (sourdfHfigit + pfriodY - 1)/pfriodY;
+        if (dfstWidti <= 0 || dfstHfigit <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("Empty sourdf rfgion!");
         }
 
-        // Compute total number of pixels for progress notification
-        this.totalPixels = destWidth*destHeight;
-        this.pixelsDone = 0;
+        // Computf totbl numbfr of pixfls for progrfss notifidbtion
+        tiis.totblPixfls = dfstWidti*dfstHfigit;
+        tiis.pixflsDonf = 0;
 
-        // Create metadata
-        IIOMetadata imd = image.getMetadata();
+        // Crfbtf mftbdbtb
+        IIOMftbdbtb imd = imbgf.gftMftbdbtb();
         if (imd != null) {
-            metadata = (PNGMetadata)convertImageMetadata(imd,
-                               ImageTypeSpecifier.createFromRenderedImage(im),
+            mftbdbtb = (PNGMftbdbtb)donvfrtImbgfMftbdbtb(imd,
+                               ImbgfTypfSpfdififr.drfbtfFromRfndfrfdImbgf(im),
                                                          null);
-        } else {
-            metadata = new PNGMetadata();
+        } flsf {
+            mftbdbtb = nfw PNGMftbdbtb();
         }
 
-        if (param != null) {
-            // Use Adam7 interlacing if set in write param
-            switch (param.getProgressiveMode()) {
-            case ImageWriteParam.MODE_DEFAULT:
-                metadata.IHDR_interlaceMethod = 1;
-                break;
-            case ImageWriteParam.MODE_DISABLED:
-                metadata.IHDR_interlaceMethod = 0;
-                break;
-                // MODE_COPY_FROM_METADATA should alreay be taken care of
-                // MODE_EXPLICIT is not allowed
+        if (pbrbm != null) {
+            // Usf Adbm7 intfrlbding if sft in writf pbrbm
+            switdi (pbrbm.gftProgrfssivfModf()) {
+            dbsf ImbgfWritfPbrbm.MODE_DEFAULT:
+                mftbdbtb.IHDR_intfrlbdfMftiod = 1;
+                brfbk;
+            dbsf ImbgfWritfPbrbm.MODE_DISABLED:
+                mftbdbtb.IHDR_intfrlbdfMftiod = 0;
+                brfbk;
+                // MODE_COPY_FROM_METADATA siould blrfby bf tbkfn dbrf of
+                // MODE_EXPLICIT is not bllowfd
             }
         }
 
-        // Initialize bitDepth and colorType
-        metadata.initialize(new ImageTypeSpecifier(im), numBands);
+        // Initiblizf bitDfpti bnd dolorTypf
+        mftbdbtb.initiblizf(nfw ImbgfTypfSpfdififr(im), numBbnds);
 
-        // Overwrite IHDR width and height values with values from image
-        metadata.IHDR_width = destWidth;
-        metadata.IHDR_height = destHeight;
+        // Ovfrwritf IHDR widti bnd ifigit vblufs witi vblufs from imbgf
+        mftbdbtb.IHDR_widti = dfstWidti;
+        mftbdbtb.IHDR_ifigit = dfstHfigit;
 
-        this.bpp = numBands*((metadata.IHDR_bitDepth == 16) ? 2 : 1);
+        tiis.bpp = numBbnds*((mftbdbtb.IHDR_bitDfpti == 16) ? 2 : 1);
 
-        // Initialize scaling tables for this image
-        initializeScaleTables(sampleModel.getSampleSize());
+        // Initiblizf sdbling tbblfs for tiis imbgf
+        initiblizfSdblfTbblfs(sbmplfModfl.gftSbmplfSizf());
 
-        clearAbortRequest();
+        dlfbrAbortRfqufst();
 
-        processImageStarted(0);
+        prodfssImbgfStbrtfd(0);
 
         try {
-            write_magic();
-            write_IHDR();
+            writf_mbgid();
+            writf_IHDR();
 
-            write_cHRM();
-            write_gAMA();
-            write_iCCP();
-            write_sBIT();
-            write_sRGB();
+            writf_dHRM();
+            writf_gAMA();
+            writf_iCCP();
+            writf_sBIT();
+            writf_sRGB();
 
-            write_PLTE();
+            writf_PLTE();
 
-            write_hIST();
-            write_tRNS();
-            write_bKGD();
+            writf_iIST();
+            writf_tRNS();
+            writf_bKGD();
 
-            write_pHYs();
-            write_sPLT();
-            write_tIME();
-            write_tEXt();
-            write_iTXt();
-            write_zTXt();
+            writf_pHYs();
+            writf_sPLT();
+            writf_tIME();
+            writf_tEXt();
+            writf_iTXt();
+            writf_zTXt();
 
-            writeUnknownChunks();
+            writfUnknownCiunks();
 
-            write_IDAT(im);
+            writf_IDAT(im);
 
-            if (abortRequested()) {
-                processWriteAborted();
-            } else {
-                // Finish up and inform the listeners we are done
-                writeIEND();
-                processImageComplete();
+            if (bbortRfqufstfd()) {
+                prodfssWritfAbortfd();
+            } flsf {
+                // Finisi up bnd inform tif listfnfrs wf brf donf
+                writfIEND();
+                prodfssImbgfComplftf();
             }
-        } catch (IOException e) {
-            throw new IIOException("I/O error writing PNG file!", e);
+        } dbtdi (IOExdfption f) {
+            tirow nfw IIOExdfption("I/O frror writing PNG filf!", f);
         }
     }
 }

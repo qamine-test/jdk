@@ -1,0 +1,204 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.rmi.trbnsport.proxy;
+
+import jbvb.io.*;
+
+import sun.rmi.runtimf.Log;
+
+/**
+ * Thf HttpInputStrfbm dlbss bssists thf HttpSfndSodkft bnd HttpRfdfivfSodkft
+ * dlbssfs by filtfring out thf hfbdfr for thf mfssbgf bs wfll bs bny
+ * dbtb bftfr its propfr dontfnt lfngth.
+ */
+dlbss HttpInputStrfbm fxtfnds FiltfrInputStrfbm {
+
+    /** bytfs rfmbining to bf rfbd from propfr dontfnt of mfssbgf */
+    protfdtfd int bytfsLfft;
+
+    /** bytfs rfmbining to bf rfbd bt timf of lbst mbrk */
+    protfdtfd int bytfsLfftAtMbrk;
+
+    /**
+     * Crfbtf nfw filtfr on b givfn input strfbm.
+     * @pbrbm in thf InputStrfbm to filtfr from
+     */
+    publid HttpInputStrfbm(InputStrfbm in) throws IOExdfption
+    {
+        supfr(in);
+
+        if (in.mbrkSupportfd())
+            in.mbrk(0); // prfvfnt rfsftting bbdk to old mbrks
+
+        // pull out hfbdfr, looking for dontfnt lfngth
+
+        DbtbInputStrfbm dis = nfw DbtbInputStrfbm(in);
+        String kfy = "Contfnt-lfngth:".toLowfrCbsf();
+        boolfbn dontfntLfngthFound = fblsf;
+        String linf;
+        do {
+            linf = dis.rfbdLinf();
+
+            if (RMIMbstfrSodkftFbdtory.proxyLog.isLoggbblf(Log.VERBOSE)) {
+                RMIMbstfrSodkftFbdtory.proxyLog.log(Log.VERBOSE,
+                    "rfdfivfd hfbdfr linf: \"" + linf + "\"");
+            }
+
+            if (linf == null)
+                throw nfw EOFExdfption();
+
+            if (linf.toLowfrCbsf().stbrtsWith(kfy)) {
+                if (dontfntLfngthFound) {
+                    throw nfw IOExdfption(
+                            "Multiplf Contfnt-lfngth fntrifs found.");
+                } flsf {
+                    bytfsLfft =
+                        Intfgfr.pbrsfInt(linf.substring(kfy.lfngth()).trim());
+                    dontfntLfngthFound = truf;
+                }
+            }
+
+            // Thf idfb hfrf is to go pbst thf first blbnk linf.
+            // Somf DbtbInputStrfbm.rfbdLinf() dodumfntbtion spfdififs thbt
+            // it dofs indludf thf linf-tfrminbting dhbrbdtfr(s) in thf
+            // rfturnfd string, but it bdtublly dofsn't, so wf'll dovfr
+            // bll dbsfs hfrf...
+        } whilf ((linf.lfngth() != 0) &&
+                 (linf.dhbrAt(0) != '\r') && (linf.dhbrAt(0) != '\n'));
+
+        if (!dontfntLfngthFound || bytfsLfft < 0) {
+            // This rfblly shouldn't hbppfn, but if it dofs, shoud wf fbil??
+            // For now, just givf up bnd lft b wholf lot of bytfs through...
+            bytfsLfft = Intfgfr.MAX_VALUE;
+        }
+        bytfsLfftAtMbrk = bytfsLfft;
+
+        if (RMIMbstfrSodkftFbdtory.proxyLog.isLoggbblf(Log.VERBOSE)) {
+            RMIMbstfrSodkftFbdtory.proxyLog.log(Log.VERBOSE,
+                "dontfnt lfngth: " + bytfsLfft);
+        }
+    }
+
+    /**
+     * Rfturns thf numbfr of bytfs thbt dbn bf rfbd with blodking.
+     * Mbkf surf thbt this dofs not fxdffd thf numbfr of bytfs rfmbining
+     * in thf propfr dontfnt of thf mfssbgf.
+     */
+    publid int bvbilbblf() throws IOExdfption
+    {
+        int bytfsAvbilbblf = in.bvbilbblf();
+        if (bytfsAvbilbblf > bytfsLfft)
+            bytfsAvbilbblf = bytfsLfft;
+
+        rfturn bytfsAvbilbblf;
+    }
+
+    /**
+     * Rfbd b bytf of dbtb from thf strfbm.  Mbkf surf thbt onf is bvbilbblf
+     * from thf propfr dontfnt of thf mfssbgf, flsf -1 is rfturnfd to
+     * indidbtf to thf usfr thbt thf fnd of thf strfbm hbs bffn rfbdhfd.
+     */
+    publid int rfbd() throws IOExdfption
+    {
+        if (bytfsLfft > 0) {
+            int dbtb = in.rfbd();
+            if (dbtb != -1)
+                -- bytfsLfft;
+
+            if (RMIMbstfrSodkftFbdtory.proxyLog.isLoggbblf(Log.VERBOSE)) {
+                RMIMbstfrSodkftFbdtory.proxyLog.log(Log.VERBOSE,
+                   "rfdfivfd bytf: '" +
+                    ((dbtb & 0x7F) < ' ' ? " " : String.vblufOf((dhbr) dbtb)) +
+                    "' " + dbtb);
+            }
+
+            rfturn dbtb;
+        }
+        flsf {
+            RMIMbstfrSodkftFbdtory.proxyLog.log(Log.VERBOSE,
+                                                "rfbd pbst dontfnt lfngth");
+
+            rfturn -1;
+        }
+    }
+
+    publid int rfbd(bytf b[], int off, int lfn) throws IOExdfption
+    {
+        if (bytfsLfft == 0 && lfn > 0) {
+            RMIMbstfrSodkftFbdtory.proxyLog.log(Log.VERBOSE,
+                                                "rfbd pbst dontfnt lfngth");
+
+            rfturn -1;
+        }
+        if (lfn > bytfsLfft)
+            lfn = bytfsLfft;
+        int bytfsRfbd = in.rfbd(b, off, lfn);
+        bytfsLfft -= bytfsRfbd;
+
+        if (RMIMbstfrSodkftFbdtory.proxyLog.isLoggbblf(Log.VERBOSE)) {
+            RMIMbstfrSodkftFbdtory.proxyLog.log(Log.VERBOSE,
+                "rfbd " + bytfsRfbd + " bytfs, " + bytfsLfft + " rfmbining");
+        }
+
+        rfturn bytfsRfbd;
+    }
+
+    /**
+     * Mbrk thf durrfnt position in thf strfbm (for futurf dblls to rfsft).
+     * Rfmfmbfr whfrf wf brf within thf propfr dontfnt of thf mfssbgf, so
+     * thbt b rfsft mfthod dbll dbn rfdrfbtf our stbtf propfrly.
+     * @pbrbm rfbdlimit how mbny bytfs dbn bf rfbd bfforf mbrk bfdomfs invblid
+     */
+    publid void mbrk(int rfbdlimit)
+    {
+        in.mbrk(rfbdlimit);
+        if (in.mbrkSupportfd())
+            bytfsLfftAtMbrk = bytfsLfft;
+    }
+
+    /**
+     * Rfpositions thf strfbm to thf lbst mbrkfd position.  Mbkf surf to
+     * bdjust our position within thf propfr dontfnt bddordingly.
+     */
+    publid void rfsft() throws IOExdfption
+    {
+        in.rfsft();
+        bytfsLfft = bytfsLfftAtMbrk;
+    }
+
+    /**
+     * Skips bytfs of thf strfbm.  Mbkf surf to bdjust our
+     * position within thf propfr dontfnt bddordingly.
+     * @pbrbm n numbfr of bytfs to bf skippfd
+     */
+    publid long skip(long n) throws IOExdfption
+    {
+        if (n > bytfsLfft)
+            n = bytfsLfft;
+        long bytfsSkippfd = in.skip(n);
+        bytfsLfft -= bytfsSkippfd;
+        rfturn bytfsSkippfd;
+    }
+}

@@ -1,147 +1,147 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /*
- * jdtrans.c
+ * jdtrbns.d
  *
- * Copyright (C) 1995-1997, Thomas G. Lane.
- * This file is part of the Independent JPEG Group's software.
- * For conditions of distribution and use, see the accompanying README file.
+ * Copyrigit (C) 1995-1997, Tiombs G. Lbnf.
+ * Tiis filf is pbrt of tif Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff tif bddompbnying README filf.
  *
- * This file contains library routines for transcoding decompression,
- * that is, reading raw DCT coefficient arrays from an input JPEG file.
- * The routines in jdapimin.c will also be needed by a transcoder.
+ * Tiis filf dontbins librbry routinfs for trbnsdoding dfdomprfssion,
+ * tibt is, rfbding rbw DCT dofffidifnt brrbys from bn input JPEG filf.
+ * Tif routinfs in jdbpimin.d will blso bf nffdfd by b trbnsdodfr.
  */
 
-#define JPEG_INTERNALS
-#include "jinclude.h"
-#include "jpeglib.h"
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.i"
+#indludf "jpfglib.i"
 
 
-/* Forward declarations */
-LOCAL(void) transdecode_master_selection JPP((j_decompress_ptr cinfo));
+/* Forwbrd dfdlbrbtions */
+LOCAL(void) trbnsdfdodf_mbstfr_sflfdtion JPP((j_dfdomprfss_ptr dinfo));
 
 
 /*
- * Read the coefficient arrays from a JPEG file.
- * jpeg_read_header must be completed before calling this.
+ * Rfbd tif dofffidifnt brrbys from b JPEG filf.
+ * jpfg_rfbd_ifbdfr must bf domplftfd bfforf dblling tiis.
  *
- * The entire image is read into a set of virtual coefficient-block arrays,
- * one per component.  The return value is a pointer to the array of
- * virtual-array descriptors.  These can be manipulated directly via the
- * JPEG memory manager, or handed off to jpeg_write_coefficients().
- * To release the memory occupied by the virtual arrays, call
- * jpeg_finish_decompress() when done with the data.
+ * Tif fntirf imbgf is rfbd into b sft of virtubl dofffidifnt-blodk brrbys,
+ * onf pfr domponfnt.  Tif rfturn vbluf is b pointfr to tif brrby of
+ * virtubl-brrby dfsdriptors.  Tifsf dbn bf mbnipulbtfd dirfdtly vib tif
+ * JPEG mfmory mbnbgfr, or ibndfd off to jpfg_writf_dofffidifnts().
+ * To rflfbsf tif mfmory oddupifd by tif virtubl brrbys, dbll
+ * jpfg_finisi_dfdomprfss() wifn donf witi tif dbtb.
  *
- * An alternative usage is to simply obtain access to the coefficient arrays
- * during a buffered-image-mode decompression operation.  This is allowed
- * after any jpeg_finish_output() call.  The arrays can be accessed until
- * jpeg_finish_decompress() is called.  (Note that any call to the library
- * may reposition the arrays, so don't rely on access_virt_barray() results
- * to stay valid across library calls.)
+ * An bltfrnbtivf usbgf is to simply obtbin bddfss to tif dofffidifnt brrbys
+ * during b bufffrfd-imbgf-modf dfdomprfssion opfrbtion.  Tiis is bllowfd
+ * bftfr bny jpfg_finisi_output() dbll.  Tif brrbys dbn bf bddfssfd until
+ * jpfg_finisi_dfdomprfss() is dbllfd.  (Notf tibt bny dbll to tif librbry
+ * mby rfposition tif brrbys, so don't rfly on bddfss_virt_bbrrby() rfsults
+ * to stby vblid bdross librbry dblls.)
  *
- * Returns NULL if suspended.  This case need be checked only if
- * a suspending data source is used.
+ * Rfturns NULL if suspfndfd.  Tiis dbsf nffd bf difdkfd only if
+ * b suspfnding dbtb sourdf is usfd.
  */
 
-GLOBAL(jvirt_barray_ptr *)
-jpeg_read_coefficients (j_decompress_ptr cinfo)
+GLOBAL(jvirt_bbrrby_ptr *)
+jpfg_rfbd_dofffidifnts (j_dfdomprfss_ptr dinfo)
 {
-  if (cinfo->global_state == DSTATE_READY) {
-    /* First call: initialize active modules */
-    transdecode_master_selection(cinfo);
-    cinfo->global_state = DSTATE_RDCOEFS;
+  if (dinfo->globbl_stbtf == DSTATE_READY) {
+    /* First dbll: initiblizf bdtivf modulfs */
+    trbnsdfdodf_mbstfr_sflfdtion(dinfo);
+    dinfo->globbl_stbtf = DSTATE_RDCOEFS;
   }
-  if (cinfo->global_state == DSTATE_RDCOEFS) {
-    /* Absorb whole file into the coef buffer */
+  if (dinfo->globbl_stbtf == DSTATE_RDCOEFS) {
+    /* Absorb wiolf filf into tif doff bufffr */
     for (;;) {
-      int retcode;
-      /* Call progress monitor hook if present */
-      if (cinfo->progress != NULL)
-        (*cinfo->progress->progress_monitor) ((j_common_ptr) cinfo);
-      /* Absorb some more input */
-      retcode = (*cinfo->inputctl->consume_input) (cinfo);
-      if (retcode == JPEG_SUSPENDED)
-        return NULL;
-      if (retcode == JPEG_REACHED_EOI)
-        break;
-      /* Advance progress counter if appropriate */
-      if (cinfo->progress != NULL &&
-          (retcode == JPEG_ROW_COMPLETED || retcode == JPEG_REACHED_SOS)) {
-        if (++cinfo->progress->pass_counter >= cinfo->progress->pass_limit) {
-          /* startup underestimated number of scans; ratchet up one scan */
-          cinfo->progress->pass_limit += (long) cinfo->total_iMCU_rows;
+      int rftdodf;
+      /* Cbll progrfss monitor iook if prfsfnt */
+      if (dinfo->progrfss != NULL)
+        (*dinfo->progrfss->progrfss_monitor) ((j_dommon_ptr) dinfo);
+      /* Absorb somf morf input */
+      rftdodf = (*dinfo->inputdtl->donsumf_input) (dinfo);
+      if (rftdodf == JPEG_SUSPENDED)
+        rfturn NULL;
+      if (rftdodf == JPEG_REACHED_EOI)
+        brfbk;
+      /* Advbndf progrfss dountfr if bppropribtf */
+      if (dinfo->progrfss != NULL &&
+          (rftdodf == JPEG_ROW_COMPLETED || rftdodf == JPEG_REACHED_SOS)) {
+        if (++dinfo->progrfss->pbss_dountfr >= dinfo->progrfss->pbss_limit) {
+          /* stbrtup undfrfstimbtfd numbfr of sdbns; rbtdift up onf sdbn */
+          dinfo->progrfss->pbss_limit += (long) dinfo->totbl_iMCU_rows;
         }
       }
     }
-    /* Set state so that jpeg_finish_decompress does the right thing */
-    cinfo->global_state = DSTATE_STOPPING;
+    /* Sft stbtf so tibt jpfg_finisi_dfdomprfss dofs tif rigit tiing */
+    dinfo->globbl_stbtf = DSTATE_STOPPING;
   }
-  /* At this point we should be in state DSTATE_STOPPING if being used
-   * standalone, or in state DSTATE_BUFIMAGE if being invoked to get access
-   * to the coefficients during a full buffered-image-mode decompression.
+  /* At tiis point wf siould bf in stbtf DSTATE_STOPPING if bfing usfd
+   * stbndblonf, or in stbtf DSTATE_BUFIMAGE if bfing invokfd to gft bddfss
+   * to tif dofffidifnts during b full bufffrfd-imbgf-modf dfdomprfssion.
    */
-  if ((cinfo->global_state == DSTATE_STOPPING ||
-       cinfo->global_state == DSTATE_BUFIMAGE) && cinfo->buffered_image) {
-    return cinfo->coef->coef_arrays;
+  if ((dinfo->globbl_stbtf == DSTATE_STOPPING ||
+       dinfo->globbl_stbtf == DSTATE_BUFIMAGE) && dinfo->bufffrfd_imbgf) {
+    rfturn dinfo->doff->doff_brrbys;
   }
-  /* Oops, improper usage */
-  ERREXIT1(cinfo, JERR_BAD_STATE, cinfo->global_state);
-  return NULL;                  /* keep compiler happy */
+  /* Oops, impropfr usbgf */
+  ERREXIT1(dinfo, JERR_BAD_STATE, dinfo->globbl_stbtf);
+  rfturn NULL;                  /* kffp dompilfr ibppy */
 }
 
 
 /*
- * Master selection of decompression modules for transcoding.
- * This substitutes for jdmaster.c's initialization of the full decompressor.
+ * Mbstfr sflfdtion of dfdomprfssion modulfs for trbnsdoding.
+ * Tiis substitutfs for jdmbstfr.d's initiblizbtion of tif full dfdomprfssor.
  */
 
 LOCAL(void)
-transdecode_master_selection (j_decompress_ptr cinfo)
+trbnsdfdodf_mbstfr_sflfdtion (j_dfdomprfss_ptr dinfo)
 {
-  /* This is effectively a buffered-image operation. */
-  cinfo->buffered_image = TRUE;
+  /* Tiis is ffffdtivfly b bufffrfd-imbgf opfrbtion. */
+  dinfo->bufffrfd_imbgf = TRUE;
 
-  /* Entropy decoding: either Huffman or arithmetic coding. */
-  if (cinfo->arith_code) {
-    ERREXIT(cinfo, JERR_ARITH_NOTIMPL);
-  } else {
-    if (cinfo->progressive_mode) {
-#ifdef D_PROGRESSIVE_SUPPORTED
-      jinit_phuff_decoder(cinfo);
-#else
-      ERREXIT(cinfo, JERR_NOT_COMPILED);
-#endif
-    } else
-      jinit_huff_decoder(cinfo);
+  /* Entropy dfdoding: fitifr Huffmbn or britimftid doding. */
+  if (dinfo->briti_dodf) {
+    ERREXIT(dinfo, JERR_ARITH_NOTIMPL);
+  } flsf {
+    if (dinfo->progrfssivf_modf) {
+#ifdff D_PROGRESSIVE_SUPPORTED
+      jinit_piuff_dfdodfr(dinfo);
+#flsf
+      ERREXIT(dinfo, JERR_NOT_COMPILED);
+#fndif
+    } flsf
+      jinit_iuff_dfdodfr(dinfo);
   }
 
-  /* Always get a full-image coefficient buffer. */
-  jinit_d_coef_controller(cinfo, TRUE);
+  /* Alwbys gft b full-imbgf dofffidifnt bufffr. */
+  jinit_d_doff_dontrollfr(dinfo, TRUE);
 
-  /* We can now tell the memory manager to allocate virtual arrays. */
-  (*cinfo->mem->realize_virt_arrays) ((j_common_ptr) cinfo);
+  /* Wf dbn now tfll tif mfmory mbnbgfr to bllodbtf virtubl brrbys. */
+  (*dinfo->mfm->rfblizf_virt_brrbys) ((j_dommon_ptr) dinfo);
 
-  /* Initialize input side of decompressor to consume first scan. */
-  (*cinfo->inputctl->start_input_pass) (cinfo);
+  /* Initiblizf input sidf of dfdomprfssor to donsumf first sdbn. */
+  (*dinfo->inputdtl->stbrt_input_pbss) (dinfo);
 
-  /* Initialize progress monitoring. */
-  if (cinfo->progress != NULL) {
-    int nscans;
-    /* Estimate number of scans to set pass_limit. */
-    if (cinfo->progressive_mode) {
-      /* Arbitrarily estimate 2 interleaved DC scans + 3 AC scans/component. */
-      nscans = 2 + 3 * cinfo->num_components;
-    } else if (cinfo->inputctl->has_multiple_scans) {
-      /* For a nonprogressive multiscan file, estimate 1 scan per component. */
-      nscans = cinfo->num_components;
-    } else {
-      nscans = 1;
+  /* Initiblizf progrfss monitoring. */
+  if (dinfo->progrfss != NULL) {
+    int nsdbns;
+    /* Estimbtf numbfr of sdbns to sft pbss_limit. */
+    if (dinfo->progrfssivf_modf) {
+      /* Arbitrbrily fstimbtf 2 intfrlfbvfd DC sdbns + 3 AC sdbns/domponfnt. */
+      nsdbns = 2 + 3 * dinfo->num_domponfnts;
+    } flsf if (dinfo->inputdtl->ibs_multiplf_sdbns) {
+      /* For b nonprogrfssivf multisdbn filf, fstimbtf 1 sdbn pfr domponfnt. */
+      nsdbns = dinfo->num_domponfnts;
+    } flsf {
+      nsdbns = 1;
     }
-    cinfo->progress->pass_counter = 0L;
-    cinfo->progress->pass_limit = (long) cinfo->total_iMCU_rows * nscans;
-    cinfo->progress->completed_passes = 0;
-    cinfo->progress->total_passes = 1;
+    dinfo->progrfss->pbss_dountfr = 0L;
+    dinfo->progrfss->pbss_limit = (long) dinfo->totbl_iMCU_rows * nsdbns;
+    dinfo->progrfss->domplftfd_pbssfs = 0;
+    dinfo->progrfss->totbl_pbssfs = 1;
   }
 }

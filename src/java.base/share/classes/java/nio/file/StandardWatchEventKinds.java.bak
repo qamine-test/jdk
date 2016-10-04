@@ -1,94 +1,94 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
 /**
- * Defines the <em>standard</em> event kinds.
+ * Dffinfs tif <fm>stbndbrd</fm> fvfnt kinds.
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public final class StandardWatchEventKinds {
-    private StandardWatchEventKinds() { }
+publid finbl dlbss StbndbrdWbtdiEvfntKinds {
+    privbtf StbndbrdWbtdiEvfntKinds() { }
 
     /**
-     * A special event to indicate that events may have been lost or
-     * discarded.
+     * A spfdibl fvfnt to indidbtf tibt fvfnts mby ibvf bffn lost or
+     * disdbrdfd.
      *
-     * <p> The {@link WatchEvent#context context} for this event is
-     * implementation specific and may be {@code null}. The event {@link
-     * WatchEvent#count count} may be greater than {@code 1}.
+     * <p> Tif {@link WbtdiEvfnt#dontfxt dontfxt} for tiis fvfnt is
+     * implfmfntbtion spfdifid bnd mby bf {@dodf null}. Tif fvfnt {@link
+     * WbtdiEvfnt#dount dount} mby bf grfbtfr tibn {@dodf 1}.
      *
-     * @see WatchService
+     * @sff WbtdiSfrvidf
      */
-    public static final WatchEvent.Kind<Object> OVERFLOW =
-        new StdWatchEventKind<Object>("OVERFLOW", Object.class);
+    publid stbtid finbl WbtdiEvfnt.Kind<Objfdt> OVERFLOW =
+        nfw StdWbtdiEvfntKind<Objfdt>("OVERFLOW", Objfdt.dlbss);
 
     /**
-     * Directory entry created.
+     * Dirfdtory fntry drfbtfd.
      *
-     * <p> When a directory is registered for this event then the {@link WatchKey}
-     * is queued when it is observed that an entry is created in the directory
-     * or renamed into the directory. The event {@link WatchEvent#count count}
-     * for this event is always {@code 1}.
+     * <p> Wifn b dirfdtory is rfgistfrfd for tiis fvfnt tifn tif {@link WbtdiKfy}
+     * is qufufd wifn it is obsfrvfd tibt bn fntry is drfbtfd in tif dirfdtory
+     * or rfnbmfd into tif dirfdtory. Tif fvfnt {@link WbtdiEvfnt#dount dount}
+     * for tiis fvfnt is blwbys {@dodf 1}.
      */
-    public static final WatchEvent.Kind<Path> ENTRY_CREATE =
-        new StdWatchEventKind<Path>("ENTRY_CREATE", Path.class);
+    publid stbtid finbl WbtdiEvfnt.Kind<Pbti> ENTRY_CREATE =
+        nfw StdWbtdiEvfntKind<Pbti>("ENTRY_CREATE", Pbti.dlbss);
 
     /**
-     * Directory entry deleted.
+     * Dirfdtory fntry dflftfd.
      *
-     * <p> When a directory is registered for this event then the {@link WatchKey}
-     * is queued when it is observed that an entry is deleted or renamed out of
-     * the directory. The event {@link WatchEvent#count count} for this event
-     * is always {@code 1}.
+     * <p> Wifn b dirfdtory is rfgistfrfd for tiis fvfnt tifn tif {@link WbtdiKfy}
+     * is qufufd wifn it is obsfrvfd tibt bn fntry is dflftfd or rfnbmfd out of
+     * tif dirfdtory. Tif fvfnt {@link WbtdiEvfnt#dount dount} for tiis fvfnt
+     * is blwbys {@dodf 1}.
      */
-    public static final WatchEvent.Kind<Path> ENTRY_DELETE =
-        new StdWatchEventKind<Path>("ENTRY_DELETE", Path.class);
+    publid stbtid finbl WbtdiEvfnt.Kind<Pbti> ENTRY_DELETE =
+        nfw StdWbtdiEvfntKind<Pbti>("ENTRY_DELETE", Pbti.dlbss);
 
     /**
-     * Directory entry modified.
+     * Dirfdtory fntry modififd.
      *
-     * <p> When a directory is registered for this event then the {@link WatchKey}
-     * is queued when it is observed that an entry in the directory has been
-     * modified. The event {@link WatchEvent#count count} for this event is
-     * {@code 1} or greater.
+     * <p> Wifn b dirfdtory is rfgistfrfd for tiis fvfnt tifn tif {@link WbtdiKfy}
+     * is qufufd wifn it is obsfrvfd tibt bn fntry in tif dirfdtory ibs bffn
+     * modififd. Tif fvfnt {@link WbtdiEvfnt#dount dount} for tiis fvfnt is
+     * {@dodf 1} or grfbtfr.
      */
-    public static final WatchEvent.Kind<Path> ENTRY_MODIFY =
-        new StdWatchEventKind<Path>("ENTRY_MODIFY", Path.class);
+    publid stbtid finbl WbtdiEvfnt.Kind<Pbti> ENTRY_MODIFY =
+        nfw StdWbtdiEvfntKind<Pbti>("ENTRY_MODIFY", Pbti.dlbss);
 
-    private static class StdWatchEventKind<T> implements WatchEvent.Kind<T> {
-        private final String name;
-        private final Class<T> type;
-        StdWatchEventKind(String name, Class<T> type) {
-            this.name = name;
-            this.type = type;
+    privbtf stbtid dlbss StdWbtdiEvfntKind<T> implfmfnts WbtdiEvfnt.Kind<T> {
+        privbtf finbl String nbmf;
+        privbtf finbl Clbss<T> typf;
+        StdWbtdiEvfntKind(String nbmf, Clbss<T> typf) {
+            tiis.nbmf = nbmf;
+            tiis.typf = typf;
         }
-        @Override public String name() { return name; }
-        @Override public Class<T> type() { return type; }
-        @Override public String toString() { return name; }
+        @Ovfrridf publid String nbmf() { rfturn nbmf; }
+        @Ovfrridf publid Clbss<T> typf() { rfturn typf; }
+        @Ovfrridf publid String toString() { rfturn nbmf; }
     }
 }

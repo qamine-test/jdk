@@ -1,1776 +1,1776 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Hashtable;
-import java.util.Date;
-import java.util.StringTokenizer;
-import java.util.Collections;
-import java.util.Map;
-import java.util.List;
-import java.security.Permission;
-import java.security.AccessController;
-import sun.security.util.SecurityConstants;
-import sun.net.www.MessageHeader;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Dbtf;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Collfdtions;
+import jbvb.util.Mbp;
+import jbvb.util.List;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.AddfssControllfr;
+import sun.sfdurity.util.SfdurityConstbnts;
+import sun.nft.www.MfssbgfHfbdfr;
 
 /**
- * The abstract class {@code URLConnection} is the superclass
- * of all classes that represent a communications link between the
- * application and a URL. Instances of this class can be used both to
- * read from and to write to the resource referenced by the URL. In
- * general, creating a connection to a URL is a multistep process:
+ * Tif bbstrbdt dlbss {@dodf URLConnfdtion} is tif supfrdlbss
+ * of bll dlbssfs tibt rfprfsfnt b dommunidbtions link bftwffn tif
+ * bpplidbtion bnd b URL. Instbndfs of tiis dlbss dbn bf usfd boti to
+ * rfbd from bnd to writf to tif rfsourdf rfffrfndfd by tif URL. In
+ * gfnfrbl, drfbting b donnfdtion to b URL is b multistfp prodfss:
  *
- * <center><table border=2 summary="Describes the process of creating a connection to a URL: openConnection() and connect() over time.">
- * <tr><th>{@code openConnection()}</th>
- *     <th>{@code connect()}</th></tr>
- * <tr><td>Manipulate parameters that affect the connection to the remote
- *         resource.</td>
- *     <td>Interact with the resource; query header fields and
- *         contents.</td></tr>
- * </table>
+ * <dfntfr><tbblf bordfr=2 summbry="Dfsdribfs tif prodfss of drfbting b donnfdtion to b URL: opfnConnfdtion() bnd donnfdt() ovfr timf.">
+ * <tr><ti>{@dodf opfnConnfdtion()}</ti>
+ *     <ti>{@dodf donnfdt()}</ti></tr>
+ * <tr><td>Mbnipulbtf pbrbmftfrs tibt bfffdt tif donnfdtion to tif rfmotf
+ *         rfsourdf.</td>
+ *     <td>Intfrbdt witi tif rfsourdf; qufry ifbdfr fiflds bnd
+ *         dontfnts.</td></tr>
+ * </tbblf>
  * ----------------------------&gt;
- * <br>time</center>
+ * <br>timf</dfntfr>
  *
  * <ol>
- * <li>The connection object is created by invoking the
- *     {@code openConnection} method on a URL.
- * <li>The setup parameters and general request properties are manipulated.
- * <li>The actual connection to the remote object is made, using the
- *    {@code connect} method.
- * <li>The remote object becomes available. The header fields and the contents
- *     of the remote object can be accessed.
+ * <li>Tif donnfdtion objfdt is drfbtfd by invoking tif
+ *     {@dodf opfnConnfdtion} mftiod on b URL.
+ * <li>Tif sftup pbrbmftfrs bnd gfnfrbl rfqufst propfrtifs brf mbnipulbtfd.
+ * <li>Tif bdtubl donnfdtion to tif rfmotf objfdt is mbdf, using tif
+ *    {@dodf donnfdt} mftiod.
+ * <li>Tif rfmotf objfdt bfdomfs bvbilbblf. Tif ifbdfr fiflds bnd tif dontfnts
+ *     of tif rfmotf objfdt dbn bf bddfssfd.
  * </ol>
  * <p>
- * The setup parameters are modified using the following methods:
+ * Tif sftup pbrbmftfrs brf modififd using tif following mftiods:
  * <ul>
- *   <li>{@code setAllowUserInteraction}
- *   <li>{@code setDoInput}
- *   <li>{@code setDoOutput}
- *   <li>{@code setIfModifiedSince}
- *   <li>{@code setUseCaches}
+ *   <li>{@dodf sftAllowUsfrIntfrbdtion}
+ *   <li>{@dodf sftDoInput}
+ *   <li>{@dodf sftDoOutput}
+ *   <li>{@dodf sftIfModififdSindf}
+ *   <li>{@dodf sftUsfCbdifs}
  * </ul>
  * <p>
- * and the general request properties are modified using the method:
+ * bnd tif gfnfrbl rfqufst propfrtifs brf modififd using tif mftiod:
  * <ul>
- *   <li>{@code setRequestProperty}
+ *   <li>{@dodf sftRfqufstPropfrty}
  * </ul>
  * <p>
- * Default values for the {@code AllowUserInteraction} and
- * {@code UseCaches} parameters can be set using the methods
- * {@code setDefaultAllowUserInteraction} and
- * {@code setDefaultUseCaches}.
+ * Dffbult vblufs for tif {@dodf AllowUsfrIntfrbdtion} bnd
+ * {@dodf UsfCbdifs} pbrbmftfrs dbn bf sft using tif mftiods
+ * {@dodf sftDffbultAllowUsfrIntfrbdtion} bnd
+ * {@dodf sftDffbultUsfCbdifs}.
  * <p>
- * Each of the above {@code set} methods has a corresponding
- * {@code get} method to retrieve the value of the parameter or
- * general request property. The specific parameters and general
- * request properties that are applicable are protocol specific.
+ * Ebdi of tif bbovf {@dodf sft} mftiods ibs b dorrfsponding
+ * {@dodf gft} mftiod to rftrifvf tif vbluf of tif pbrbmftfr or
+ * gfnfrbl rfqufst propfrty. Tif spfdifid pbrbmftfrs bnd gfnfrbl
+ * rfqufst propfrtifs tibt brf bpplidbblf brf protodol spfdifid.
  * <p>
- * The following methods are used to access the header fields and
- * the contents after the connection is made to the remote object:
+ * Tif following mftiods brf usfd to bddfss tif ifbdfr fiflds bnd
+ * tif dontfnts bftfr tif donnfdtion is mbdf to tif rfmotf objfdt:
  * <ul>
- *   <li>{@code getContent}
- *   <li>{@code getHeaderField}
- *   <li>{@code getInputStream}
- *   <li>{@code getOutputStream}
+ *   <li>{@dodf gftContfnt}
+ *   <li>{@dodf gftHfbdfrFifld}
+ *   <li>{@dodf gftInputStrfbm}
+ *   <li>{@dodf gftOutputStrfbm}
  * </ul>
  * <p>
- * Certain header fields are accessed frequently. The methods:
+ * Cfrtbin ifbdfr fiflds brf bddfssfd frfqufntly. Tif mftiods:
  * <ul>
- *   <li>{@code getContentEncoding}
- *   <li>{@code getContentLength}
- *   <li>{@code getContentType}
- *   <li>{@code getDate}
- *   <li>{@code getExpiration}
- *   <li>{@code getLastModifed}
+ *   <li>{@dodf gftContfntEndoding}
+ *   <li>{@dodf gftContfntLfngti}
+ *   <li>{@dodf gftContfntTypf}
+ *   <li>{@dodf gftDbtf}
+ *   <li>{@dodf gftExpirbtion}
+ *   <li>{@dodf gftLbstModiffd}
  * </ul>
  * <p>
- * provide convenient access to these fields. The
- * {@code getContentType} method is used by the
- * {@code getContent} method to determine the type of the remote
- * object; subclasses may find it convenient to override the
- * {@code getContentType} method.
+ * providf donvfnifnt bddfss to tifsf fiflds. Tif
+ * {@dodf gftContfntTypf} mftiod is usfd by tif
+ * {@dodf gftContfnt} mftiod to dftfrminf tif typf of tif rfmotf
+ * objfdt; subdlbssfs mby find it donvfnifnt to ovfrridf tif
+ * {@dodf gftContfntTypf} mftiod.
  * <p>
- * In the common case, all of the pre-connection parameters and
- * general request properties can be ignored: the pre-connection
- * parameters and request properties default to sensible values. For
- * most clients of this interface, there are only two interesting
- * methods: {@code getInputStream} and {@code getContent},
- * which are mirrored in the {@code URL} class by convenience methods.
+ * In tif dommon dbsf, bll of tif prf-donnfdtion pbrbmftfrs bnd
+ * gfnfrbl rfqufst propfrtifs dbn bf ignorfd: tif prf-donnfdtion
+ * pbrbmftfrs bnd rfqufst propfrtifs dffbult to sfnsiblf vblufs. For
+ * most dlifnts of tiis intfrfbdf, tifrf brf only two intfrfsting
+ * mftiods: {@dodf gftInputStrfbm} bnd {@dodf gftContfnt},
+ * wiidi brf mirrorfd in tif {@dodf URL} dlbss by donvfnifndf mftiods.
  * <p>
- * More information on the request properties and header fields of
- * an {@code http} connection can be found at:
- * <blockquote><pre>
- * <a href="http://www.ietf.org/rfc/rfc2616.txt">http://www.ietf.org/rfc/rfc2616.txt</a>
- * </pre></blockquote>
+ * Morf informbtion on tif rfqufst propfrtifs bnd ifbdfr fiflds of
+ * bn {@dodf ittp} donnfdtion dbn bf found bt:
+ * <blodkquotf><prf>
+ * <b irff="ittp://www.iftf.org/rfd/rfd2616.txt">ittp://www.iftf.org/rfd/rfd2616.txt</b>
+ * </prf></blodkquotf>
  *
- * Invoking the {@code close()} methods on the {@code InputStream} or {@code OutputStream} of an
- * {@code URLConnection} after a request may free network resources associated with this
- * instance, unless particular protocol specifications specify different behaviours
+ * Invoking tif {@dodf dlosf()} mftiods on tif {@dodf InputStrfbm} or {@dodf OutputStrfbm} of bn
+ * {@dodf URLConnfdtion} bftfr b rfqufst mby frff nftwork rfsourdfs bssodibtfd witi tiis
+ * instbndf, unlfss pbrtidulbr protodol spfdifidbtions spfdify difffrfnt bfibviours
  * for it.
  *
- * @author  James Gosling
- * @see     java.net.URL#openConnection()
- * @see     java.net.URLConnection#connect()
- * @see     java.net.URLConnection#getContent()
- * @see     java.net.URLConnection#getContentEncoding()
- * @see     java.net.URLConnection#getContentLength()
- * @see     java.net.URLConnection#getContentType()
- * @see     java.net.URLConnection#getDate()
- * @see     java.net.URLConnection#getExpiration()
- * @see     java.net.URLConnection#getHeaderField(int)
- * @see     java.net.URLConnection#getHeaderField(java.lang.String)
- * @see     java.net.URLConnection#getInputStream()
- * @see     java.net.URLConnection#getLastModified()
- * @see     java.net.URLConnection#getOutputStream()
- * @see     java.net.URLConnection#setAllowUserInteraction(boolean)
- * @see     java.net.URLConnection#setDefaultUseCaches(boolean)
- * @see     java.net.URLConnection#setDoInput(boolean)
- * @see     java.net.URLConnection#setDoOutput(boolean)
- * @see     java.net.URLConnection#setIfModifiedSince(long)
- * @see     java.net.URLConnection#setRequestProperty(java.lang.String, java.lang.String)
- * @see     java.net.URLConnection#setUseCaches(boolean)
- * @since   1.0
+ * @butior  Jbmfs Gosling
+ * @sff     jbvb.nft.URL#opfnConnfdtion()
+ * @sff     jbvb.nft.URLConnfdtion#donnfdt()
+ * @sff     jbvb.nft.URLConnfdtion#gftContfnt()
+ * @sff     jbvb.nft.URLConnfdtion#gftContfntEndoding()
+ * @sff     jbvb.nft.URLConnfdtion#gftContfntLfngti()
+ * @sff     jbvb.nft.URLConnfdtion#gftContfntTypf()
+ * @sff     jbvb.nft.URLConnfdtion#gftDbtf()
+ * @sff     jbvb.nft.URLConnfdtion#gftExpirbtion()
+ * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifld(int)
+ * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifld(jbvb.lbng.String)
+ * @sff     jbvb.nft.URLConnfdtion#gftInputStrfbm()
+ * @sff     jbvb.nft.URLConnfdtion#gftLbstModififd()
+ * @sff     jbvb.nft.URLConnfdtion#gftOutputStrfbm()
+ * @sff     jbvb.nft.URLConnfdtion#sftAllowUsfrIntfrbdtion(boolfbn)
+ * @sff     jbvb.nft.URLConnfdtion#sftDffbultUsfCbdifs(boolfbn)
+ * @sff     jbvb.nft.URLConnfdtion#sftDoInput(boolfbn)
+ * @sff     jbvb.nft.URLConnfdtion#sftDoOutput(boolfbn)
+ * @sff     jbvb.nft.URLConnfdtion#sftIfModififdSindf(long)
+ * @sff     jbvb.nft.URLConnfdtion#sftRfqufstPropfrty(jbvb.lbng.String, jbvb.lbng.String)
+ * @sff     jbvb.nft.URLConnfdtion#sftUsfCbdifs(boolfbn)
+ * @sindf   1.0
  */
-public abstract class URLConnection {
+publid bbstrbdt dlbss URLConnfdtion {
 
    /**
-     * The URL represents the remote object on the World Wide Web to
-     * which this connection is opened.
+     * Tif URL rfprfsfnts tif rfmotf objfdt on tif World Widf Wfb to
+     * wiidi tiis donnfdtion is opfnfd.
      * <p>
-     * The value of this field can be accessed by the
-     * {@code getURL} method.
+     * Tif vbluf of tiis fifld dbn bf bddfssfd by tif
+     * {@dodf gftURL} mftiod.
      * <p>
-     * The default value of this variable is the value of the URL
-     * argument in the {@code URLConnection} constructor.
+     * Tif dffbult vbluf of tiis vbribblf is tif vbluf of tif URL
+     * brgumfnt in tif {@dodf URLConnfdtion} donstrudtor.
      *
-     * @see     java.net.URLConnection#getURL()
-     * @see     java.net.URLConnection#url
+     * @sff     jbvb.nft.URLConnfdtion#gftURL()
+     * @sff     jbvb.nft.URLConnfdtion#url
      */
-    protected URL url;
+    protfdtfd URL url;
 
    /**
-     * This variable is set by the {@code setDoInput} method. Its
-     * value is returned by the {@code getDoInput} method.
+     * Tiis vbribblf is sft by tif {@dodf sftDoInput} mftiod. Its
+     * vbluf is rfturnfd by tif {@dodf gftDoInput} mftiod.
      * <p>
-     * A URL connection can be used for input and/or output. Setting the
-     * {@code doInput} flag to {@code true} indicates that
-     * the application intends to read data from the URL connection.
+     * A URL donnfdtion dbn bf usfd for input bnd/or output. Sftting tif
+     * {@dodf doInput} flbg to {@dodf truf} indidbtfs tibt
+     * tif bpplidbtion intfnds to rfbd dbtb from tif URL donnfdtion.
      * <p>
-     * The default value of this field is {@code true}.
+     * Tif dffbult vbluf of tiis fifld is {@dodf truf}.
      *
-     * @see     java.net.URLConnection#getDoInput()
-     * @see     java.net.URLConnection#setDoInput(boolean)
+     * @sff     jbvb.nft.URLConnfdtion#gftDoInput()
+     * @sff     jbvb.nft.URLConnfdtion#sftDoInput(boolfbn)
      */
-    protected boolean doInput = true;
+    protfdtfd boolfbn doInput = truf;
 
    /**
-     * This variable is set by the {@code setDoOutput} method. Its
-     * value is returned by the {@code getDoOutput} method.
+     * Tiis vbribblf is sft by tif {@dodf sftDoOutput} mftiod. Its
+     * vbluf is rfturnfd by tif {@dodf gftDoOutput} mftiod.
      * <p>
-     * A URL connection can be used for input and/or output. Setting the
-     * {@code doOutput} flag to {@code true} indicates
-     * that the application intends to write data to the URL connection.
+     * A URL donnfdtion dbn bf usfd for input bnd/or output. Sftting tif
+     * {@dodf doOutput} flbg to {@dodf truf} indidbtfs
+     * tibt tif bpplidbtion intfnds to writf dbtb to tif URL donnfdtion.
      * <p>
-     * The default value of this field is {@code false}.
+     * Tif dffbult vbluf of tiis fifld is {@dodf fblsf}.
      *
-     * @see     java.net.URLConnection#getDoOutput()
-     * @see     java.net.URLConnection#setDoOutput(boolean)
+     * @sff     jbvb.nft.URLConnfdtion#gftDoOutput()
+     * @sff     jbvb.nft.URLConnfdtion#sftDoOutput(boolfbn)
      */
-    protected boolean doOutput = false;
+    protfdtfd boolfbn doOutput = fblsf;
 
-    private static boolean defaultAllowUserInteraction = false;
+    privbtf stbtid boolfbn dffbultAllowUsfrIntfrbdtion = fblsf;
 
    /**
-     * If {@code true}, this {@code URL} is being examined in
-     * a context in which it makes sense to allow user interactions such
-     * as popping up an authentication dialog. If {@code false},
-     * then no user interaction is allowed.
+     * If {@dodf truf}, tiis {@dodf URL} is bfing fxbminfd in
+     * b dontfxt in wiidi it mbkfs sfnsf to bllow usfr intfrbdtions sudi
+     * bs popping up bn butifntidbtion diblog. If {@dodf fblsf},
+     * tifn no usfr intfrbdtion is bllowfd.
      * <p>
-     * The value of this field can be set by the
-     * {@code setAllowUserInteraction} method.
-     * Its value is returned by the
-     * {@code getAllowUserInteraction} method.
-     * Its default value is the value of the argument in the last invocation
-     * of the {@code setDefaultAllowUserInteraction} method.
+     * Tif vbluf of tiis fifld dbn bf sft by tif
+     * {@dodf sftAllowUsfrIntfrbdtion} mftiod.
+     * Its vbluf is rfturnfd by tif
+     * {@dodf gftAllowUsfrIntfrbdtion} mftiod.
+     * Its dffbult vbluf is tif vbluf of tif brgumfnt in tif lbst invodbtion
+     * of tif {@dodf sftDffbultAllowUsfrIntfrbdtion} mftiod.
      *
-     * @see     java.net.URLConnection#getAllowUserInteraction()
-     * @see     java.net.URLConnection#setAllowUserInteraction(boolean)
-     * @see     java.net.URLConnection#setDefaultAllowUserInteraction(boolean)
+     * @sff     jbvb.nft.URLConnfdtion#gftAllowUsfrIntfrbdtion()
+     * @sff     jbvb.nft.URLConnfdtion#sftAllowUsfrIntfrbdtion(boolfbn)
+     * @sff     jbvb.nft.URLConnfdtion#sftDffbultAllowUsfrIntfrbdtion(boolfbn)
      */
-    protected boolean allowUserInteraction = defaultAllowUserInteraction;
+    protfdtfd boolfbn bllowUsfrIntfrbdtion = dffbultAllowUsfrIntfrbdtion;
 
-    private static boolean defaultUseCaches = true;
+    privbtf stbtid boolfbn dffbultUsfCbdifs = truf;
 
    /**
-     * If {@code true}, the protocol is allowed to use caching
-     * whenever it can. If {@code false}, the protocol must always
-     * try to get a fresh copy of the object.
+     * If {@dodf truf}, tif protodol is bllowfd to usf dbdiing
+     * wifnfvfr it dbn. If {@dodf fblsf}, tif protodol must blwbys
+     * try to gft b frfsi dopy of tif objfdt.
      * <p>
-     * This field is set by the {@code setUseCaches} method. Its
-     * value is returned by the {@code getUseCaches} method.
+     * Tiis fifld is sft by tif {@dodf sftUsfCbdifs} mftiod. Its
+     * vbluf is rfturnfd by tif {@dodf gftUsfCbdifs} mftiod.
      * <p>
-     * Its default value is the value given in the last invocation of the
-     * {@code setDefaultUseCaches} method.
+     * Its dffbult vbluf is tif vbluf givfn in tif lbst invodbtion of tif
+     * {@dodf sftDffbultUsfCbdifs} mftiod.
      *
-     * @see     java.net.URLConnection#setUseCaches(boolean)
-     * @see     java.net.URLConnection#getUseCaches()
-     * @see     java.net.URLConnection#setDefaultUseCaches(boolean)
+     * @sff     jbvb.nft.URLConnfdtion#sftUsfCbdifs(boolfbn)
+     * @sff     jbvb.nft.URLConnfdtion#gftUsfCbdifs()
+     * @sff     jbvb.nft.URLConnfdtion#sftDffbultUsfCbdifs(boolfbn)
      */
-    protected boolean useCaches = defaultUseCaches;
+    protfdtfd boolfbn usfCbdifs = dffbultUsfCbdifs;
 
    /**
-     * Some protocols support skipping the fetching of the object unless
-     * the object has been modified more recently than a certain time.
+     * Somf protodols support skipping tif fftdiing of tif objfdt unlfss
+     * tif objfdt ibs bffn modififd morf rfdfntly tibn b dfrtbin timf.
      * <p>
-     * A nonzero value gives a time as the number of milliseconds since
-     * January 1, 1970, GMT. The object is fetched only if it has been
-     * modified more recently than that time.
+     * A nonzfro vbluf givfs b timf bs tif numbfr of millisfdonds sindf
+     * Jbnubry 1, 1970, GMT. Tif objfdt is fftdifd only if it ibs bffn
+     * modififd morf rfdfntly tibn tibt timf.
      * <p>
-     * This variable is set by the {@code setIfModifiedSince}
-     * method. Its value is returned by the
-     * {@code getIfModifiedSince} method.
+     * Tiis vbribblf is sft by tif {@dodf sftIfModififdSindf}
+     * mftiod. Its vbluf is rfturnfd by tif
+     * {@dodf gftIfModififdSindf} mftiod.
      * <p>
-     * The default value of this field is {@code 0}, indicating
-     * that the fetching must always occur.
+     * Tif dffbult vbluf of tiis fifld is {@dodf 0}, indidbting
+     * tibt tif fftdiing must blwbys oddur.
      *
-     * @see     java.net.URLConnection#getIfModifiedSince()
-     * @see     java.net.URLConnection#setIfModifiedSince(long)
+     * @sff     jbvb.nft.URLConnfdtion#gftIfModififdSindf()
+     * @sff     jbvb.nft.URLConnfdtion#sftIfModififdSindf(long)
      */
-    protected long ifModifiedSince = 0;
+    protfdtfd long ifModififdSindf = 0;
 
    /**
-     * If {@code false}, this connection object has not created a
-     * communications link to the specified URL. If {@code true},
-     * the communications link has been established.
+     * If {@dodf fblsf}, tiis donnfdtion objfdt ibs not drfbtfd b
+     * dommunidbtions link to tif spfdififd URL. If {@dodf truf},
+     * tif dommunidbtions link ibs bffn fstbblisifd.
      */
-    protected boolean connected = false;
+    protfdtfd boolfbn donnfdtfd = fblsf;
 
     /**
-     * @since 1.5
+     * @sindf 1.5
      */
-    private int connectTimeout;
-    private int readTimeout;
+    privbtf int donnfdtTimfout;
+    privbtf int rfbdTimfout;
 
     /**
-     * @since 1.6
+     * @sindf 1.6
      */
-    private MessageHeader requests;
+    privbtf MfssbgfHfbdfr rfqufsts;
 
    /**
-    * @since   1.1
+    * @sindf   1.1
     */
-    private static FileNameMap fileNameMap;
+    privbtf stbtid FilfNbmfMbp filfNbmfMbp;
 
     /**
-     * @since 1.2.2
+     * @sindf 1.2.2
      */
-    private static boolean fileNameMapLoaded = false;
+    privbtf stbtid boolfbn filfNbmfMbpLobdfd = fblsf;
 
     /**
-     * Loads filename map (a mimetable) from a data file. It will
-     * first try to load the user-specific table, defined
-     * by &quot;content.types.user.table&quot; property. If that fails,
-     * it tries to load the default built-in table.
+     * Lobds filfnbmf mbp (b mimftbblf) from b dbtb filf. It will
+     * first try to lobd tif usfr-spfdifid tbblf, dffinfd
+     * by &quot;dontfnt.typfs.usfr.tbblf&quot; propfrty. If tibt fbils,
+     * it trifs to lobd tif dffbult built-in tbblf.
      *
-     * @return the FileNameMap
-     * @since 1.2
-     * @see #setFileNameMap(java.net.FileNameMap)
+     * @rfturn tif FilfNbmfMbp
+     * @sindf 1.2
+     * @sff #sftFilfNbmfMbp(jbvb.nft.FilfNbmfMbp)
      */
-    public static synchronized FileNameMap getFileNameMap() {
-        if ((fileNameMap == null) && !fileNameMapLoaded) {
-            fileNameMap = sun.net.www.MimeTable.loadTable();
-            fileNameMapLoaded = true;
+    publid stbtid syndironizfd FilfNbmfMbp gftFilfNbmfMbp() {
+        if ((filfNbmfMbp == null) && !filfNbmfMbpLobdfd) {
+            filfNbmfMbp = sun.nft.www.MimfTbblf.lobdTbblf();
+            filfNbmfMbpLobdfd = truf;
         }
 
-        return new FileNameMap() {
-            private FileNameMap map = fileNameMap;
-            public String getContentTypeFor(String fileName) {
-                return map.getContentTypeFor(fileName);
+        rfturn nfw FilfNbmfMbp() {
+            privbtf FilfNbmfMbp mbp = filfNbmfMbp;
+            publid String gftContfntTypfFor(String filfNbmf) {
+                rfturn mbp.gftContfntTypfFor(filfNbmf);
             }
         };
     }
 
     /**
-     * Sets the FileNameMap.
+     * Sfts tif FilfNbmfMbp.
      * <p>
-     * If there is a security manager, this method first calls
-     * the security manager's {@code checkSetFactory} method
-     * to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, tiis mftiod first dblls
+     * tif sfdurity mbnbgfr's {@dodf difdkSftFbdtory} mftiod
+     * to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param map the FileNameMap to be set
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkSetFactory} method doesn't allow the operation.
-     * @see        SecurityManager#checkSetFactory
-     * @see #getFileNameMap()
-     * @since 1.2
+     * @pbrbm mbp tif FilfNbmfMbp to bf sft
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkSftFbdtory} mftiod dofsn't bllow tif opfrbtion.
+     * @sff        SfdurityMbnbgfr#difdkSftFbdtory
+     * @sff #gftFilfNbmfMbp()
+     * @sindf 1.2
      */
-    public static void setFileNameMap(FileNameMap map) {
-        SecurityManager sm = System.getSecurityManager();
-        if (sm != null) sm.checkSetFactory();
-        fileNameMap = map;
+    publid stbtid void sftFilfNbmfMbp(FilfNbmfMbp mbp) {
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
+        if (sm != null) sm.difdkSftFbdtory();
+        filfNbmfMbp = mbp;
     }
 
     /**
-     * Opens a communications link to the resource referenced by this
-     * URL, if such a connection has not already been established.
+     * Opfns b dommunidbtions link to tif rfsourdf rfffrfndfd by tiis
+     * URL, if sudi b donnfdtion ibs not blrfbdy bffn fstbblisifd.
      * <p>
-     * If the {@code connect} method is called when the connection
-     * has already been opened (indicated by the {@code connected}
-     * field having the value {@code true}), the call is ignored.
+     * If tif {@dodf donnfdt} mftiod is dbllfd wifn tif donnfdtion
+     * ibs blrfbdy bffn opfnfd (indidbtfd by tif {@dodf donnfdtfd}
+     * fifld ibving tif vbluf {@dodf truf}), tif dbll is ignorfd.
      * <p>
-     * URLConnection objects go through two phases: first they are
-     * created, then they are connected.  After being created, and
-     * before being connected, various options can be specified
-     * (e.g., doInput and UseCaches).  After connecting, it is an
-     * error to try to set them.  Operations that depend on being
-     * connected, like getContentLength, will implicitly perform the
-     * connection, if necessary.
+     * URLConnfdtion objfdts go tirougi two pibsfs: first tify brf
+     * drfbtfd, tifn tify brf donnfdtfd.  Aftfr bfing drfbtfd, bnd
+     * bfforf bfing donnfdtfd, vbrious options dbn bf spfdififd
+     * (f.g., doInput bnd UsfCbdifs).  Aftfr donnfdting, it is bn
+     * frror to try to sft tifm.  Opfrbtions tibt dfpfnd on bfing
+     * donnfdtfd, likf gftContfntLfngti, will impliditly pfrform tif
+     * donnfdtion, if nfdfssbry.
      *
-     * @throws SocketTimeoutException if the timeout expires before
-     *               the connection can be established
-     * @exception  IOException  if an I/O error occurs while opening the
-     *               connection.
-     * @see java.net.URLConnection#connected
-     * @see #getConnectTimeout()
-     * @see #setConnectTimeout(int)
+     * @tirows SodkftTimfoutExdfption if tif timfout fxpirfs bfforf
+     *               tif donnfdtion dbn bf fstbblisifd
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wiilf opfning tif
+     *               donnfdtion.
+     * @sff jbvb.nft.URLConnfdtion#donnfdtfd
+     * @sff #gftConnfdtTimfout()
+     * @sff #sftConnfdtTimfout(int)
      */
-    abstract public void connect() throws IOException;
+    bbstrbdt publid void donnfdt() tirows IOExdfption;
 
     /**
-     * Sets a specified timeout value, in milliseconds, to be used
-     * when opening a communications link to the resource referenced
-     * by this URLConnection.  If the timeout expires before the
-     * connection can be established, a
-     * java.net.SocketTimeoutException is raised. A timeout of zero is
-     * interpreted as an infinite timeout.
+     * Sfts b spfdififd timfout vbluf, in millisfdonds, to bf usfd
+     * wifn opfning b dommunidbtions link to tif rfsourdf rfffrfndfd
+     * by tiis URLConnfdtion.  If tif timfout fxpirfs bfforf tif
+     * donnfdtion dbn bf fstbblisifd, b
+     * jbvb.nft.SodkftTimfoutExdfption is rbisfd. A timfout of zfro is
+     * intfrprftfd bs bn infinitf timfout.
 
-     * <p> Some non-standard implementation of this method may ignore
-     * the specified timeout. To see the connect timeout set, please
-     * call getConnectTimeout().
+     * <p> Somf non-stbndbrd implfmfntbtion of tiis mftiod mby ignorf
+     * tif spfdififd timfout. To sff tif donnfdt timfout sft, plfbsf
+     * dbll gftConnfdtTimfout().
      *
-     * @param timeout an {@code int} that specifies the connect
-     *               timeout value in milliseconds
-     * @throws IllegalArgumentException if the timeout parameter is negative
+     * @pbrbm timfout bn {@dodf int} tibt spfdififs tif donnfdt
+     *               timfout vbluf in millisfdonds
+     * @tirows IllfgblArgumfntExdfption if tif timfout pbrbmftfr is nfgbtivf
      *
-     * @see #getConnectTimeout()
-     * @see #connect()
-     * @since 1.5
+     * @sff #gftConnfdtTimfout()
+     * @sff #donnfdt()
+     * @sindf 1.5
      */
-    public void setConnectTimeout(int timeout) {
-        if (timeout < 0) {
-            throw new IllegalArgumentException("timeout can not be negative");
+    publid void sftConnfdtTimfout(int timfout) {
+        if (timfout < 0) {
+            tirow nfw IllfgblArgumfntExdfption("timfout dbn not bf nfgbtivf");
         }
-        connectTimeout = timeout;
+        donnfdtTimfout = timfout;
     }
 
     /**
-     * Returns setting for connect timeout.
+     * Rfturns sftting for donnfdt timfout.
      * <p>
-     * 0 return implies that the option is disabled
-     * (i.e., timeout of infinity).
+     * 0 rfturn implifs tibt tif option is disbblfd
+     * (i.f., timfout of infinity).
      *
-     * @return an {@code int} that indicates the connect timeout
-     *         value in milliseconds
-     * @see #setConnectTimeout(int)
-     * @see #connect()
-     * @since 1.5
+     * @rfturn bn {@dodf int} tibt indidbtfs tif donnfdt timfout
+     *         vbluf in millisfdonds
+     * @sff #sftConnfdtTimfout(int)
+     * @sff #donnfdt()
+     * @sindf 1.5
      */
-    public int getConnectTimeout() {
-        return connectTimeout;
+    publid int gftConnfdtTimfout() {
+        rfturn donnfdtTimfout;
     }
 
     /**
-     * Sets the read timeout to a specified timeout, in
-     * milliseconds. A non-zero value specifies the timeout when
-     * reading from Input stream when a connection is established to a
-     * resource. If the timeout expires before there is data available
-     * for read, a java.net.SocketTimeoutException is raised. A
-     * timeout of zero is interpreted as an infinite timeout.
+     * Sfts tif rfbd timfout to b spfdififd timfout, in
+     * millisfdonds. A non-zfro vbluf spfdififs tif timfout wifn
+     * rfbding from Input strfbm wifn b donnfdtion is fstbblisifd to b
+     * rfsourdf. If tif timfout fxpirfs bfforf tifrf is dbtb bvbilbblf
+     * for rfbd, b jbvb.nft.SodkftTimfoutExdfption is rbisfd. A
+     * timfout of zfro is intfrprftfd bs bn infinitf timfout.
      *
-     *<p> Some non-standard implementation of this method ignores the
-     * specified timeout. To see the read timeout set, please call
-     * getReadTimeout().
+     *<p> Somf non-stbndbrd implfmfntbtion of tiis mftiod ignorfs tif
+     * spfdififd timfout. To sff tif rfbd timfout sft, plfbsf dbll
+     * gftRfbdTimfout().
      *
-     * @param timeout an {@code int} that specifies the timeout
-     * value to be used in milliseconds
-     * @throws IllegalArgumentException if the timeout parameter is negative
+     * @pbrbm timfout bn {@dodf int} tibt spfdififs tif timfout
+     * vbluf to bf usfd in millisfdonds
+     * @tirows IllfgblArgumfntExdfption if tif timfout pbrbmftfr is nfgbtivf
      *
-     * @see #getReadTimeout()
-     * @see InputStream#read()
-     * @since 1.5
+     * @sff #gftRfbdTimfout()
+     * @sff InputStrfbm#rfbd()
+     * @sindf 1.5
      */
-    public void setReadTimeout(int timeout) {
-        if (timeout < 0) {
-            throw new IllegalArgumentException("timeout can not be negative");
+    publid void sftRfbdTimfout(int timfout) {
+        if (timfout < 0) {
+            tirow nfw IllfgblArgumfntExdfption("timfout dbn not bf nfgbtivf");
         }
-        readTimeout = timeout;
+        rfbdTimfout = timfout;
     }
 
     /**
-     * Returns setting for read timeout. 0 return implies that the
-     * option is disabled (i.e., timeout of infinity).
+     * Rfturns sftting for rfbd timfout. 0 rfturn implifs tibt tif
+     * option is disbblfd (i.f., timfout of infinity).
      *
-     * @return an {@code int} that indicates the read timeout
-     *         value in milliseconds
+     * @rfturn bn {@dodf int} tibt indidbtfs tif rfbd timfout
+     *         vbluf in millisfdonds
      *
-     * @see #setReadTimeout(int)
-     * @see InputStream#read()
-     * @since 1.5
+     * @sff #sftRfbdTimfout(int)
+     * @sff InputStrfbm#rfbd()
+     * @sindf 1.5
      */
-    public int getReadTimeout() {
-        return readTimeout;
+    publid int gftRfbdTimfout() {
+        rfturn rfbdTimfout;
     }
 
     /**
-     * Constructs a URL connection to the specified URL. A connection to
-     * the object referenced by the URL is not created.
+     * Construdts b URL donnfdtion to tif spfdififd URL. A donnfdtion to
+     * tif objfdt rfffrfndfd by tif URL is not drfbtfd.
      *
-     * @param   url   the specified URL.
+     * @pbrbm   url   tif spfdififd URL.
      */
-    protected URLConnection(URL url) {
-        this.url = url;
+    protfdtfd URLConnfdtion(URL url) {
+        tiis.url = url;
     }
 
     /**
-     * Returns the value of this {@code URLConnection}'s {@code URL}
-     * field.
+     * Rfturns tif vbluf of tiis {@dodf URLConnfdtion}'s {@dodf URL}
+     * fifld.
      *
-     * @return  the value of this {@code URLConnection}'s {@code URL}
-     *          field.
-     * @see     java.net.URLConnection#url
+     * @rfturn  tif vbluf of tiis {@dodf URLConnfdtion}'s {@dodf URL}
+     *          fifld.
+     * @sff     jbvb.nft.URLConnfdtion#url
      */
-    public URL getURL() {
-        return url;
+    publid URL gftURL() {
+        rfturn url;
     }
 
     /**
-     * Returns the value of the {@code content-length} header field.
+     * Rfturns tif vbluf of tif {@dodf dontfnt-lfngti} ifbdfr fifld.
      * <P>
-     * <B>Note</B>: {@link #getContentLengthLong() getContentLengthLong()}
-     * should be preferred over this method, since it returns a {@code long}
-     * instead and is therefore more portable.</P>
+     * <B>Notf</B>: {@link #gftContfntLfngtiLong() gftContfntLfngtiLong()}
+     * siould bf prfffrrfd ovfr tiis mftiod, sindf it rfturns b {@dodf long}
+     * instfbd bnd is tifrfforf morf portbblf.</P>
      *
-     * @return  the content length of the resource that this connection's URL
-     *          references, {@code -1} if the content length is not known,
-     *          or if the content length is greater than Integer.MAX_VALUE.
+     * @rfturn  tif dontfnt lfngti of tif rfsourdf tibt tiis donnfdtion's URL
+     *          rfffrfndfs, {@dodf -1} if tif dontfnt lfngti is not known,
+     *          or if tif dontfnt lfngti is grfbtfr tibn Intfgfr.MAX_VALUE.
      */
-    public int getContentLength() {
-        long l = getContentLengthLong();
-        if (l > Integer.MAX_VALUE)
-            return -1;
-        return (int) l;
+    publid int gftContfntLfngti() {
+        long l = gftContfntLfngtiLong();
+        if (l > Intfgfr.MAX_VALUE)
+            rfturn -1;
+        rfturn (int) l;
     }
 
     /**
-     * Returns the value of the {@code content-length} header field as a
+     * Rfturns tif vbluf of tif {@dodf dontfnt-lfngti} ifbdfr fifld bs b
      * long.
      *
-     * @return  the content length of the resource that this connection's URL
-     *          references, or {@code -1} if the content length is
+     * @rfturn  tif dontfnt lfngti of tif rfsourdf tibt tiis donnfdtion's URL
+     *          rfffrfndfs, or {@dodf -1} if tif dontfnt lfngti is
      *          not known.
-     * @since 1.7
+     * @sindf 1.7
      */
-    public long getContentLengthLong() {
-        return getHeaderFieldLong("content-length", -1);
+    publid long gftContfntLfngtiLong() {
+        rfturn gftHfbdfrFifldLong("dontfnt-lfngti", -1);
     }
 
     /**
-     * Returns the value of the {@code content-type} header field.
+     * Rfturns tif vbluf of tif {@dodf dontfnt-typf} ifbdfr fifld.
      *
-     * @return  the content type of the resource that the URL references,
-     *          or {@code null} if not known.
-     * @see     java.net.URLConnection#getHeaderField(java.lang.String)
+     * @rfturn  tif dontfnt typf of tif rfsourdf tibt tif URL rfffrfndfs,
+     *          or {@dodf null} if not known.
+     * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifld(jbvb.lbng.String)
      */
-    public String getContentType() {
-        return getHeaderField("content-type");
+    publid String gftContfntTypf() {
+        rfturn gftHfbdfrFifld("dontfnt-typf");
     }
 
     /**
-     * Returns the value of the {@code content-encoding} header field.
+     * Rfturns tif vbluf of tif {@dodf dontfnt-fndoding} ifbdfr fifld.
      *
-     * @return  the content encoding of the resource that the URL references,
-     *          or {@code null} if not known.
-     * @see     java.net.URLConnection#getHeaderField(java.lang.String)
+     * @rfturn  tif dontfnt fndoding of tif rfsourdf tibt tif URL rfffrfndfs,
+     *          or {@dodf null} if not known.
+     * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifld(jbvb.lbng.String)
      */
-    public String getContentEncoding() {
-        return getHeaderField("content-encoding");
+    publid String gftContfntEndoding() {
+        rfturn gftHfbdfrFifld("dontfnt-fndoding");
     }
 
     /**
-     * Returns the value of the {@code expires} header field.
+     * Rfturns tif vbluf of tif {@dodf fxpirfs} ifbdfr fifld.
      *
-     * @return  the expiration date of the resource that this URL references,
-     *          or 0 if not known. The value is the number of milliseconds since
-     *          January 1, 1970 GMT.
-     * @see     java.net.URLConnection#getHeaderField(java.lang.String)
+     * @rfturn  tif fxpirbtion dbtf of tif rfsourdf tibt tiis URL rfffrfndfs,
+     *          or 0 if not known. Tif vbluf is tif numbfr of millisfdonds sindf
+     *          Jbnubry 1, 1970 GMT.
+     * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifld(jbvb.lbng.String)
      */
-    public long getExpiration() {
-        return getHeaderFieldDate("expires", 0);
+    publid long gftExpirbtion() {
+        rfturn gftHfbdfrFifldDbtf("fxpirfs", 0);
     }
 
     /**
-     * Returns the value of the {@code date} header field.
+     * Rfturns tif vbluf of tif {@dodf dbtf} ifbdfr fifld.
      *
-     * @return  the sending date of the resource that the URL references,
-     *          or {@code 0} if not known. The value returned is the
-     *          number of milliseconds since January 1, 1970 GMT.
-     * @see     java.net.URLConnection#getHeaderField(java.lang.String)
+     * @rfturn  tif sfnding dbtf of tif rfsourdf tibt tif URL rfffrfndfs,
+     *          or {@dodf 0} if not known. Tif vbluf rfturnfd is tif
+     *          numbfr of millisfdonds sindf Jbnubry 1, 1970 GMT.
+     * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifld(jbvb.lbng.String)
      */
-    public long getDate() {
-        return getHeaderFieldDate("date", 0);
+    publid long gftDbtf() {
+        rfturn gftHfbdfrFifldDbtf("dbtf", 0);
     }
 
     /**
-     * Returns the value of the {@code last-modified} header field.
-     * The result is the number of milliseconds since January 1, 1970 GMT.
+     * Rfturns tif vbluf of tif {@dodf lbst-modififd} ifbdfr fifld.
+     * Tif rfsult is tif numbfr of millisfdonds sindf Jbnubry 1, 1970 GMT.
      *
-     * @return  the date the resource referenced by this
-     *          {@code URLConnection} was last modified, or 0 if not known.
-     * @see     java.net.URLConnection#getHeaderField(java.lang.String)
+     * @rfturn  tif dbtf tif rfsourdf rfffrfndfd by tiis
+     *          {@dodf URLConnfdtion} wbs lbst modififd, or 0 if not known.
+     * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifld(jbvb.lbng.String)
      */
-    public long getLastModified() {
-        return getHeaderFieldDate("last-modified", 0);
+    publid long gftLbstModififd() {
+        rfturn gftHfbdfrFifldDbtf("lbst-modififd", 0);
     }
 
     /**
-     * Returns the value of the named header field.
+     * Rfturns tif vbluf of tif nbmfd ifbdfr fifld.
      * <p>
-     * If called on a connection that sets the same header multiple times
-     * with possibly different values, only the last value is returned.
+     * If dbllfd on b donnfdtion tibt sfts tif sbmf ifbdfr multiplf timfs
+     * witi possibly difffrfnt vblufs, only tif lbst vbluf is rfturnfd.
      *
      *
-     * @param   name   the name of a header field.
-     * @return  the value of the named header field, or {@code null}
-     *          if there is no such field in the header.
+     * @pbrbm   nbmf   tif nbmf of b ifbdfr fifld.
+     * @rfturn  tif vbluf of tif nbmfd ifbdfr fifld, or {@dodf null}
+     *          if tifrf is no sudi fifld in tif ifbdfr.
      */
-    public String getHeaderField(String name) {
-        return null;
+    publid String gftHfbdfrFifld(String nbmf) {
+        rfturn null;
     }
 
     /**
-     * Returns an unmodifiable Map of the header fields.
-     * The Map keys are Strings that represent the
-     * response-header field names. Each Map value is an
-     * unmodifiable List of Strings that represents
-     * the corresponding field values.
+     * Rfturns bn unmodifibblf Mbp of tif ifbdfr fiflds.
+     * Tif Mbp kfys brf Strings tibt rfprfsfnt tif
+     * rfsponsf-ifbdfr fifld nbmfs. Ebdi Mbp vbluf is bn
+     * unmodifibblf List of Strings tibt rfprfsfnts
+     * tif dorrfsponding fifld vblufs.
      *
-     * @return a Map of header fields
-     * @since 1.4
+     * @rfturn b Mbp of ifbdfr fiflds
+     * @sindf 1.4
      */
-    public Map<String,List<String>> getHeaderFields() {
-        return Collections.emptyMap();
+    publid Mbp<String,List<String>> gftHfbdfrFiflds() {
+        rfturn Collfdtions.fmptyMbp();
     }
 
     /**
-     * Returns the value of the named field parsed as a number.
+     * Rfturns tif vbluf of tif nbmfd fifld pbrsfd bs b numbfr.
      * <p>
-     * This form of {@code getHeaderField} exists because some
-     * connection types (e.g., {@code http-ng}) have pre-parsed
-     * headers. Classes for that connection type can override this method
-     * and short-circuit the parsing.
+     * Tiis form of {@dodf gftHfbdfrFifld} fxists bfdbusf somf
+     * donnfdtion typfs (f.g., {@dodf ittp-ng}) ibvf prf-pbrsfd
+     * ifbdfrs. Clbssfs for tibt donnfdtion typf dbn ovfrridf tiis mftiod
+     * bnd siort-dirduit tif pbrsing.
      *
-     * @param   name      the name of the header field.
-     * @param   Default   the default value.
-     * @return  the value of the named field, parsed as an integer. The
-     *          {@code Default} value is returned if the field is
-     *          missing or malformed.
+     * @pbrbm   nbmf      tif nbmf of tif ifbdfr fifld.
+     * @pbrbm   Dffbult   tif dffbult vbluf.
+     * @rfturn  tif vbluf of tif nbmfd fifld, pbrsfd bs bn intfgfr. Tif
+     *          {@dodf Dffbult} vbluf is rfturnfd if tif fifld is
+     *          missing or mblformfd.
      */
-    public int getHeaderFieldInt(String name, int Default) {
-        String value = getHeaderField(name);
+    publid int gftHfbdfrFifldInt(String nbmf, int Dffbult) {
+        String vbluf = gftHfbdfrFifld(nbmf);
         try {
-            return Integer.parseInt(value);
-        } catch (Exception e) { }
-        return Default;
+            rfturn Intfgfr.pbrsfInt(vbluf);
+        } dbtdi (Exdfption f) { }
+        rfturn Dffbult;
     }
 
     /**
-     * Returns the value of the named field parsed as a number.
+     * Rfturns tif vbluf of tif nbmfd fifld pbrsfd bs b numbfr.
      * <p>
-     * This form of {@code getHeaderField} exists because some
-     * connection types (e.g., {@code http-ng}) have pre-parsed
-     * headers. Classes for that connection type can override this method
-     * and short-circuit the parsing.
+     * Tiis form of {@dodf gftHfbdfrFifld} fxists bfdbusf somf
+     * donnfdtion typfs (f.g., {@dodf ittp-ng}) ibvf prf-pbrsfd
+     * ifbdfrs. Clbssfs for tibt donnfdtion typf dbn ovfrridf tiis mftiod
+     * bnd siort-dirduit tif pbrsing.
      *
-     * @param   name      the name of the header field.
-     * @param   Default   the default value.
-     * @return  the value of the named field, parsed as a long. The
-     *          {@code Default} value is returned if the field is
-     *          missing or malformed.
-     * @since 1.7
+     * @pbrbm   nbmf      tif nbmf of tif ifbdfr fifld.
+     * @pbrbm   Dffbult   tif dffbult vbluf.
+     * @rfturn  tif vbluf of tif nbmfd fifld, pbrsfd bs b long. Tif
+     *          {@dodf Dffbult} vbluf is rfturnfd if tif fifld is
+     *          missing or mblformfd.
+     * @sindf 1.7
      */
-    public long getHeaderFieldLong(String name, long Default) {
-        String value = getHeaderField(name);
+    publid long gftHfbdfrFifldLong(String nbmf, long Dffbult) {
+        String vbluf = gftHfbdfrFifld(nbmf);
         try {
-            return Long.parseLong(value);
-        } catch (Exception e) { }
-        return Default;
+            rfturn Long.pbrsfLong(vbluf);
+        } dbtdi (Exdfption f) { }
+        rfturn Dffbult;
     }
 
     /**
-     * Returns the value of the named field parsed as date.
-     * The result is the number of milliseconds since January 1, 1970 GMT
-     * represented by the named field.
+     * Rfturns tif vbluf of tif nbmfd fifld pbrsfd bs dbtf.
+     * Tif rfsult is tif numbfr of millisfdonds sindf Jbnubry 1, 1970 GMT
+     * rfprfsfntfd by tif nbmfd fifld.
      * <p>
-     * This form of {@code getHeaderField} exists because some
-     * connection types (e.g., {@code http-ng}) have pre-parsed
-     * headers. Classes for that connection type can override this method
-     * and short-circuit the parsing.
+     * Tiis form of {@dodf gftHfbdfrFifld} fxists bfdbusf somf
+     * donnfdtion typfs (f.g., {@dodf ittp-ng}) ibvf prf-pbrsfd
+     * ifbdfrs. Clbssfs for tibt donnfdtion typf dbn ovfrridf tiis mftiod
+     * bnd siort-dirduit tif pbrsing.
      *
-     * @param   name     the name of the header field.
-     * @param   Default   a default value.
-     * @return  the value of the field, parsed as a date. The value of the
-     *          {@code Default} argument is returned if the field is
-     *          missing or malformed.
+     * @pbrbm   nbmf     tif nbmf of tif ifbdfr fifld.
+     * @pbrbm   Dffbult   b dffbult vbluf.
+     * @rfturn  tif vbluf of tif fifld, pbrsfd bs b dbtf. Tif vbluf of tif
+     *          {@dodf Dffbult} brgumfnt is rfturnfd if tif fifld is
+     *          missing or mblformfd.
      */
-    @SuppressWarnings("deprecation")
-    public long getHeaderFieldDate(String name, long Default) {
-        String value = getHeaderField(name);
+    @SupprfssWbrnings("dfprfdbtion")
+    publid long gftHfbdfrFifldDbtf(String nbmf, long Dffbult) {
+        String vbluf = gftHfbdfrFifld(nbmf);
         try {
-            return Date.parse(value);
-        } catch (Exception e) { }
-        return Default;
+            rfturn Dbtf.pbrsf(vbluf);
+        } dbtdi (Exdfption f) { }
+        rfturn Dffbult;
     }
 
     /**
-     * Returns the key for the {@code n}<sup>th</sup> header field.
-     * It returns {@code null} if there are fewer than {@code n+1} fields.
+     * Rfturns tif kfy for tif {@dodf n}<sup>ti</sup> ifbdfr fifld.
+     * It rfturns {@dodf null} if tifrf brf ffwfr tibn {@dodf n+1} fiflds.
      *
-     * @param   n   an index, where {@code n>=0}
-     * @return  the key for the {@code n}<sup>th</sup> header field,
-     *          or {@code null} if there are fewer than {@code n+1}
-     *          fields.
+     * @pbrbm   n   bn indfx, wifrf {@dodf n>=0}
+     * @rfturn  tif kfy for tif {@dodf n}<sup>ti</sup> ifbdfr fifld,
+     *          or {@dodf null} if tifrf brf ffwfr tibn {@dodf n+1}
+     *          fiflds.
      */
-    public String getHeaderFieldKey(int n) {
-        return null;
+    publid String gftHfbdfrFifldKfy(int n) {
+        rfturn null;
     }
 
     /**
-     * Returns the value for the {@code n}<sup>th</sup> header field.
-     * It returns {@code null} if there are fewer than
-     * {@code n+1}fields.
+     * Rfturns tif vbluf for tif {@dodf n}<sup>ti</sup> ifbdfr fifld.
+     * It rfturns {@dodf null} if tifrf brf ffwfr tibn
+     * {@dodf n+1}fiflds.
      * <p>
-     * This method can be used in conjunction with the
-     * {@link #getHeaderFieldKey(int) getHeaderFieldKey} method to iterate through all
-     * the headers in the message.
+     * Tiis mftiod dbn bf usfd in donjundtion witi tif
+     * {@link #gftHfbdfrFifldKfy(int) gftHfbdfrFifldKfy} mftiod to itfrbtf tirougi bll
+     * tif ifbdfrs in tif mfssbgf.
      *
-     * @param   n   an index, where {@code n>=0}
-     * @return  the value of the {@code n}<sup>th</sup> header field
-     *          or {@code null} if there are fewer than {@code n+1} fields
-     * @see     java.net.URLConnection#getHeaderFieldKey(int)
+     * @pbrbm   n   bn indfx, wifrf {@dodf n>=0}
+     * @rfturn  tif vbluf of tif {@dodf n}<sup>ti</sup> ifbdfr fifld
+     *          or {@dodf null} if tifrf brf ffwfr tibn {@dodf n+1} fiflds
+     * @sff     jbvb.nft.URLConnfdtion#gftHfbdfrFifldKfy(int)
      */
-    public String getHeaderField(int n) {
-        return null;
+    publid String gftHfbdfrFifld(int n) {
+        rfturn null;
     }
 
     /**
-     * Retrieves the contents of this URL connection.
+     * Rftrifvfs tif dontfnts of tiis URL donnfdtion.
      * <p>
-     * This method first determines the content type of the object by
-     * calling the {@code getContentType} method. If this is
-     * the first time that the application has seen that specific content
-     * type, a content handler for that content type is created:
+     * Tiis mftiod first dftfrminfs tif dontfnt typf of tif objfdt by
+     * dblling tif {@dodf gftContfntTypf} mftiod. If tiis is
+     * tif first timf tibt tif bpplidbtion ibs sffn tibt spfdifid dontfnt
+     * typf, b dontfnt ibndlfr for tibt dontfnt typf is drfbtfd:
      * <ol>
-     * <li>If the application has set up a content handler factory instance
-     *     using the {@code setContentHandlerFactory} method, the
-     *     {@code createContentHandler} method of that instance is called
-     *     with the content type as an argument; the result is a content
-     *     handler for that content type.
-     * <li>If no content handler factory has yet been set up, or if the
-     *     factory's {@code createContentHandler} method returns
-     *     {@code null}, then this method tries to load a content handler
-     *     class as defined by {@link java.net.ContentHandler ContentHandler}.
-     *     If the class does not exist, or is not a subclass of {@code
-     *     ContentHandler}, then an {@code UnknownServiceException} is thrown.
+     * <li>If tif bpplidbtion ibs sft up b dontfnt ibndlfr fbdtory instbndf
+     *     using tif {@dodf sftContfntHbndlfrFbdtory} mftiod, tif
+     *     {@dodf drfbtfContfntHbndlfr} mftiod of tibt instbndf is dbllfd
+     *     witi tif dontfnt typf bs bn brgumfnt; tif rfsult is b dontfnt
+     *     ibndlfr for tibt dontfnt typf.
+     * <li>If no dontfnt ibndlfr fbdtory ibs yft bffn sft up, or if tif
+     *     fbdtory's {@dodf drfbtfContfntHbndlfr} mftiod rfturns
+     *     {@dodf null}, tifn tiis mftiod trifs to lobd b dontfnt ibndlfr
+     *     dlbss bs dffinfd by {@link jbvb.nft.ContfntHbndlfr ContfntHbndlfr}.
+     *     If tif dlbss dofs not fxist, or is not b subdlbss of {@dodf
+     *     ContfntHbndlfr}, tifn bn {@dodf UnknownSfrvidfExdfption} is tirown.
      * </ol>
      *
-     * @return     the object fetched. The {@code instanceof} operator
-     *               should be used to determine the specific kind of object
-     *               returned.
-     * @exception  IOException              if an I/O error occurs while
-     *               getting the content.
-     * @exception  UnknownServiceException  if the protocol does not support
-     *               the content type.
-     * @see        java.net.ContentHandlerFactory#createContentHandler(java.lang.String)
-     * @see        java.net.URLConnection#getContentType()
-     * @see        java.net.URLConnection#setContentHandlerFactory(java.net.ContentHandlerFactory)
+     * @rfturn     tif objfdt fftdifd. Tif {@dodf instbndfof} opfrbtor
+     *               siould bf usfd to dftfrminf tif spfdifid kind of objfdt
+     *               rfturnfd.
+     * @fxdfption  IOExdfption              if bn I/O frror oddurs wiilf
+     *               gftting tif dontfnt.
+     * @fxdfption  UnknownSfrvidfExdfption  if tif protodol dofs not support
+     *               tif dontfnt typf.
+     * @sff        jbvb.nft.ContfntHbndlfrFbdtory#drfbtfContfntHbndlfr(jbvb.lbng.String)
+     * @sff        jbvb.nft.URLConnfdtion#gftContfntTypf()
+     * @sff        jbvb.nft.URLConnfdtion#sftContfntHbndlfrFbdtory(jbvb.nft.ContfntHbndlfrFbdtory)
      */
-    public Object getContent() throws IOException {
-        // Must call getInputStream before GetHeaderField gets called
-        // so that FileNotFoundException has a chance to be thrown up
-        // from here without being caught.
-        getInputStream();
-        return getContentHandler().getContent(this);
+    publid Objfdt gftContfnt() tirows IOExdfption {
+        // Must dbll gftInputStrfbm bfforf GftHfbdfrFifld gfts dbllfd
+        // so tibt FilfNotFoundExdfption ibs b dibndf to bf tirown up
+        // from ifrf witiout bfing dbugit.
+        gftInputStrfbm();
+        rfturn gftContfntHbndlfr().gftContfnt(tiis);
     }
 
     /**
-     * Retrieves the contents of this URL connection.
+     * Rftrifvfs tif dontfnts of tiis URL donnfdtion.
      *
-     * @param classes the {@code Class} array
-     * indicating the requested types
-     * @return     the object fetched that is the first match of the type
-     *               specified in the classes array. null if none of
-     *               the requested types are supported.
-     *               The {@code instanceof} operator should be used to
-     *               determine the specific kind of object returned.
-     * @exception  IOException              if an I/O error occurs while
-     *               getting the content.
-     * @exception  UnknownServiceException  if the protocol does not support
-     *               the content type.
-     * @see        java.net.URLConnection#getContent()
-     * @see        java.net.ContentHandlerFactory#createContentHandler(java.lang.String)
-     * @see        java.net.URLConnection#getContent(java.lang.Class[])
-     * @see        java.net.URLConnection#setContentHandlerFactory(java.net.ContentHandlerFactory)
-     * @since 1.3
+     * @pbrbm dlbssfs tif {@dodf Clbss} brrby
+     * indidbting tif rfqufstfd typfs
+     * @rfturn     tif objfdt fftdifd tibt is tif first mbtdi of tif typf
+     *               spfdififd in tif dlbssfs brrby. null if nonf of
+     *               tif rfqufstfd typfs brf supportfd.
+     *               Tif {@dodf instbndfof} opfrbtor siould bf usfd to
+     *               dftfrminf tif spfdifid kind of objfdt rfturnfd.
+     * @fxdfption  IOExdfption              if bn I/O frror oddurs wiilf
+     *               gftting tif dontfnt.
+     * @fxdfption  UnknownSfrvidfExdfption  if tif protodol dofs not support
+     *               tif dontfnt typf.
+     * @sff        jbvb.nft.URLConnfdtion#gftContfnt()
+     * @sff        jbvb.nft.ContfntHbndlfrFbdtory#drfbtfContfntHbndlfr(jbvb.lbng.String)
+     * @sff        jbvb.nft.URLConnfdtion#gftContfnt(jbvb.lbng.Clbss[])
+     * @sff        jbvb.nft.URLConnfdtion#sftContfntHbndlfrFbdtory(jbvb.nft.ContfntHbndlfrFbdtory)
+     * @sindf 1.3
      */
-    public Object getContent(Class<?>[] classes) throws IOException {
-        // Must call getInputStream before GetHeaderField gets called
-        // so that FileNotFoundException has a chance to be thrown up
-        // from here without being caught.
-        getInputStream();
-        return getContentHandler().getContent(this, classes);
+    publid Objfdt gftContfnt(Clbss<?>[] dlbssfs) tirows IOExdfption {
+        // Must dbll gftInputStrfbm bfforf GftHfbdfrFifld gfts dbllfd
+        // so tibt FilfNotFoundExdfption ibs b dibndf to bf tirown up
+        // from ifrf witiout bfing dbugit.
+        gftInputStrfbm();
+        rfturn gftContfntHbndlfr().gftContfnt(tiis, dlbssfs);
     }
 
     /**
-     * Returns a permission object representing the permission
-     * necessary to make the connection represented by this
-     * object. This method returns null if no permission is
-     * required to make the connection. By default, this method
-     * returns {@code java.security.AllPermission}. Subclasses
-     * should override this method and return the permission
-     * that best represents the permission required to make a
-     * a connection to the URL. For example, a {@code URLConnection}
-     * representing a {@code file:} URL would return a
-     * {@code java.io.FilePermission} object.
+     * Rfturns b pfrmission objfdt rfprfsfnting tif pfrmission
+     * nfdfssbry to mbkf tif donnfdtion rfprfsfntfd by tiis
+     * objfdt. Tiis mftiod rfturns null if no pfrmission is
+     * rfquirfd to mbkf tif donnfdtion. By dffbult, tiis mftiod
+     * rfturns {@dodf jbvb.sfdurity.AllPfrmission}. Subdlbssfs
+     * siould ovfrridf tiis mftiod bnd rfturn tif pfrmission
+     * tibt bfst rfprfsfnts tif pfrmission rfquirfd to mbkf b
+     * b donnfdtion to tif URL. For fxbmplf, b {@dodf URLConnfdtion}
+     * rfprfsfnting b {@dodf filf:} URL would rfturn b
+     * {@dodf jbvb.io.FilfPfrmission} objfdt.
      *
-     * <p>The permission returned may dependent upon the state of the
-     * connection. For example, the permission before connecting may be
-     * different from that after connecting. For example, an HTTP
-     * sever, say foo.com, may redirect the connection to a different
-     * host, say bar.com. Before connecting the permission returned by
-     * the connection will represent the permission needed to connect
-     * to foo.com, while the permission returned after connecting will
-     * be to bar.com.
+     * <p>Tif pfrmission rfturnfd mby dfpfndfnt upon tif stbtf of tif
+     * donnfdtion. For fxbmplf, tif pfrmission bfforf donnfdting mby bf
+     * difffrfnt from tibt bftfr donnfdting. For fxbmplf, bn HTTP
+     * sfvfr, sby foo.dom, mby rfdirfdt tif donnfdtion to b difffrfnt
+     * iost, sby bbr.dom. Bfforf donnfdting tif pfrmission rfturnfd by
+     * tif donnfdtion will rfprfsfnt tif pfrmission nffdfd to donnfdt
+     * to foo.dom, wiilf tif pfrmission rfturnfd bftfr donnfdting will
+     * bf to bbr.dom.
      *
-     * <p>Permissions are generally used for two purposes: to protect
-     * caches of objects obtained through URLConnections, and to check
-     * the right of a recipient to learn about a particular URL. In
-     * the first case, the permission should be obtained
-     * <em>after</em> the object has been obtained. For example, in an
-     * HTTP connection, this will represent the permission to connect
-     * to the host from which the data was ultimately fetched. In the
-     * second case, the permission should be obtained and tested
-     * <em>before</em> connecting.
+     * <p>Pfrmissions brf gfnfrblly usfd for two purposfs: to protfdt
+     * dbdifs of objfdts obtbinfd tirougi URLConnfdtions, bnd to difdk
+     * tif rigit of b rfdipifnt to lfbrn bbout b pbrtidulbr URL. In
+     * tif first dbsf, tif pfrmission siould bf obtbinfd
+     * <fm>bftfr</fm> tif objfdt ibs bffn obtbinfd. For fxbmplf, in bn
+     * HTTP donnfdtion, tiis will rfprfsfnt tif pfrmission to donnfdt
+     * to tif iost from wiidi tif dbtb wbs ultimbtfly fftdifd. In tif
+     * sfdond dbsf, tif pfrmission siould bf obtbinfd bnd tfstfd
+     * <fm>bfforf</fm> donnfdting.
      *
-     * @return the permission object representing the permission
-     * necessary to make the connection represented by this
-     * URLConnection.
+     * @rfturn tif pfrmission objfdt rfprfsfnting tif pfrmission
+     * nfdfssbry to mbkf tif donnfdtion rfprfsfntfd by tiis
+     * URLConnfdtion.
      *
-     * @exception IOException if the computation of the permission
-     * requires network or file I/O and an exception occurs while
-     * computing it.
+     * @fxdfption IOExdfption if tif domputbtion of tif pfrmission
+     * rfquirfs nftwork or filf I/O bnd bn fxdfption oddurs wiilf
+     * domputing it.
      */
-    public Permission getPermission() throws IOException {
-        return SecurityConstants.ALL_PERMISSION;
+    publid Pfrmission gftPfrmission() tirows IOExdfption {
+        rfturn SfdurityConstbnts.ALL_PERMISSION;
     }
 
     /**
-     * Returns an input stream that reads from this open connection.
+     * Rfturns bn input strfbm tibt rfbds from tiis opfn donnfdtion.
      *
-     * A SocketTimeoutException can be thrown when reading from the
-     * returned input stream if the read timeout expires before data
-     * is available for read.
+     * A SodkftTimfoutExdfption dbn bf tirown wifn rfbding from tif
+     * rfturnfd input strfbm if tif rfbd timfout fxpirfs bfforf dbtb
+     * is bvbilbblf for rfbd.
      *
-     * @return     an input stream that reads from this open connection.
-     * @exception  IOException              if an I/O error occurs while
-     *               creating the input stream.
-     * @exception  UnknownServiceException  if the protocol does not support
+     * @rfturn     bn input strfbm tibt rfbds from tiis opfn donnfdtion.
+     * @fxdfption  IOExdfption              if bn I/O frror oddurs wiilf
+     *               drfbting tif input strfbm.
+     * @fxdfption  UnknownSfrvidfExdfption  if tif protodol dofs not support
      *               input.
-     * @see #setReadTimeout(int)
-     * @see #getReadTimeout()
+     * @sff #sftRfbdTimfout(int)
+     * @sff #gftRfbdTimfout()
      */
-    public InputStream getInputStream() throws IOException {
-        throw new UnknownServiceException("protocol doesn't support input");
+    publid InputStrfbm gftInputStrfbm() tirows IOExdfption {
+        tirow nfw UnknownSfrvidfExdfption("protodol dofsn't support input");
     }
 
     /**
-     * Returns an output stream that writes to this connection.
+     * Rfturns bn output strfbm tibt writfs to tiis donnfdtion.
      *
-     * @return     an output stream that writes to this connection.
-     * @exception  IOException              if an I/O error occurs while
-     *               creating the output stream.
-     * @exception  UnknownServiceException  if the protocol does not support
+     * @rfturn     bn output strfbm tibt writfs to tiis donnfdtion.
+     * @fxdfption  IOExdfption              if bn I/O frror oddurs wiilf
+     *               drfbting tif output strfbm.
+     * @fxdfption  UnknownSfrvidfExdfption  if tif protodol dofs not support
      *               output.
      */
-    public OutputStream getOutputStream() throws IOException {
-        throw new UnknownServiceException("protocol doesn't support output");
+    publid OutputStrfbm gftOutputStrfbm() tirows IOExdfption {
+        tirow nfw UnknownSfrvidfExdfption("protodol dofsn't support output");
     }
 
     /**
-     * Returns a {@code String} representation of this URL connection.
+     * Rfturns b {@dodf String} rfprfsfntbtion of tiis URL donnfdtion.
      *
-     * @return  a string representation of this {@code URLConnection}.
+     * @rfturn  b string rfprfsfntbtion of tiis {@dodf URLConnfdtion}.
      */
-    public String toString() {
-        return this.getClass().getName() + ":" + url;
+    publid String toString() {
+        rfturn tiis.gftClbss().gftNbmf() + ":" + url;
     }
 
     /**
-     * Sets the value of the {@code doInput} field for this
-     * {@code URLConnection} to the specified value.
+     * Sfts tif vbluf of tif {@dodf doInput} fifld for tiis
+     * {@dodf URLConnfdtion} to tif spfdififd vbluf.
      * <p>
-     * A URL connection can be used for input and/or output.  Set the DoInput
-     * flag to true if you intend to use the URL connection for input,
-     * false if not.  The default is true.
+     * A URL donnfdtion dbn bf usfd for input bnd/or output.  Sft tif DoInput
+     * flbg to truf if you intfnd to usf tif URL donnfdtion for input,
+     * fblsf if not.  Tif dffbult is truf.
      *
-     * @param   doinput   the new value.
-     * @throws IllegalStateException if already connected
-     * @see     java.net.URLConnection#doInput
-     * @see #getDoInput()
+     * @pbrbm   doinput   tif nfw vbluf.
+     * @tirows IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sff     jbvb.nft.URLConnfdtion#doInput
+     * @sff #gftDoInput()
      */
-    public void setDoInput(boolean doinput) {
-        if (connected)
-            throw new IllegalStateException("Already connected");
+    publid void sftDoInput(boolfbn doinput) {
+        if (donnfdtfd)
+            tirow nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
         doInput = doinput;
     }
 
     /**
-     * Returns the value of this {@code URLConnection}'s
-     * {@code doInput} flag.
+     * Rfturns tif vbluf of tiis {@dodf URLConnfdtion}'s
+     * {@dodf doInput} flbg.
      *
-     * @return  the value of this {@code URLConnection}'s
-     *          {@code doInput} flag.
-     * @see     #setDoInput(boolean)
+     * @rfturn  tif vbluf of tiis {@dodf URLConnfdtion}'s
+     *          {@dodf doInput} flbg.
+     * @sff     #sftDoInput(boolfbn)
      */
-    public boolean getDoInput() {
-        return doInput;
+    publid boolfbn gftDoInput() {
+        rfturn doInput;
     }
 
     /**
-     * Sets the value of the {@code doOutput} field for this
-     * {@code URLConnection} to the specified value.
+     * Sfts tif vbluf of tif {@dodf doOutput} fifld for tiis
+     * {@dodf URLConnfdtion} to tif spfdififd vbluf.
      * <p>
-     * A URL connection can be used for input and/or output.  Set the DoOutput
-     * flag to true if you intend to use the URL connection for output,
-     * false if not.  The default is false.
+     * A URL donnfdtion dbn bf usfd for input bnd/or output.  Sft tif DoOutput
+     * flbg to truf if you intfnd to usf tif URL donnfdtion for output,
+     * fblsf if not.  Tif dffbult is fblsf.
      *
-     * @param   dooutput   the new value.
-     * @throws IllegalStateException if already connected
-     * @see #getDoOutput()
+     * @pbrbm   dooutput   tif nfw vbluf.
+     * @tirows IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sff #gftDoOutput()
      */
-    public void setDoOutput(boolean dooutput) {
-        if (connected)
-            throw new IllegalStateException("Already connected");
+    publid void sftDoOutput(boolfbn dooutput) {
+        if (donnfdtfd)
+            tirow nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
         doOutput = dooutput;
     }
 
     /**
-     * Returns the value of this {@code URLConnection}'s
-     * {@code doOutput} flag.
+     * Rfturns tif vbluf of tiis {@dodf URLConnfdtion}'s
+     * {@dodf doOutput} flbg.
      *
-     * @return  the value of this {@code URLConnection}'s
-     *          {@code doOutput} flag.
-     * @see     #setDoOutput(boolean)
+     * @rfturn  tif vbluf of tiis {@dodf URLConnfdtion}'s
+     *          {@dodf doOutput} flbg.
+     * @sff     #sftDoOutput(boolfbn)
      */
-    public boolean getDoOutput() {
-        return doOutput;
+    publid boolfbn gftDoOutput() {
+        rfturn doOutput;
     }
 
     /**
-     * Set the value of the {@code allowUserInteraction} field of
-     * this {@code URLConnection}.
+     * Sft tif vbluf of tif {@dodf bllowUsfrIntfrbdtion} fifld of
+     * tiis {@dodf URLConnfdtion}.
      *
-     * @param   allowuserinteraction   the new value.
-     * @throws IllegalStateException if already connected
-     * @see     #getAllowUserInteraction()
+     * @pbrbm   bllowusfrintfrbdtion   tif nfw vbluf.
+     * @tirows IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sff     #gftAllowUsfrIntfrbdtion()
      */
-    public void setAllowUserInteraction(boolean allowuserinteraction) {
-        if (connected)
-            throw new IllegalStateException("Already connected");
-        allowUserInteraction = allowuserinteraction;
+    publid void sftAllowUsfrIntfrbdtion(boolfbn bllowusfrintfrbdtion) {
+        if (donnfdtfd)
+            tirow nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        bllowUsfrIntfrbdtion = bllowusfrintfrbdtion;
     }
 
     /**
-     * Returns the value of the {@code allowUserInteraction} field for
-     * this object.
+     * Rfturns tif vbluf of tif {@dodf bllowUsfrIntfrbdtion} fifld for
+     * tiis objfdt.
      *
-     * @return  the value of the {@code allowUserInteraction} field for
-     *          this object.
-     * @see     #setAllowUserInteraction(boolean)
+     * @rfturn  tif vbluf of tif {@dodf bllowUsfrIntfrbdtion} fifld for
+     *          tiis objfdt.
+     * @sff     #sftAllowUsfrIntfrbdtion(boolfbn)
      */
-    public boolean getAllowUserInteraction() {
-        return allowUserInteraction;
+    publid boolfbn gftAllowUsfrIntfrbdtion() {
+        rfturn bllowUsfrIntfrbdtion;
     }
 
     /**
-     * Sets the default value of the
-     * {@code allowUserInteraction} field for all future
-     * {@code URLConnection} objects to the specified value.
+     * Sfts tif dffbult vbluf of tif
+     * {@dodf bllowUsfrIntfrbdtion} fifld for bll futurf
+     * {@dodf URLConnfdtion} objfdts to tif spfdififd vbluf.
      *
-     * @param   defaultallowuserinteraction   the new value.
-     * @see     #getDefaultAllowUserInteraction()
+     * @pbrbm   dffbultbllowusfrintfrbdtion   tif nfw vbluf.
+     * @sff     #gftDffbultAllowUsfrIntfrbdtion()
      */
-    public static void setDefaultAllowUserInteraction(boolean defaultallowuserinteraction) {
-        defaultAllowUserInteraction = defaultallowuserinteraction;
+    publid stbtid void sftDffbultAllowUsfrIntfrbdtion(boolfbn dffbultbllowusfrintfrbdtion) {
+        dffbultAllowUsfrIntfrbdtion = dffbultbllowusfrintfrbdtion;
     }
 
     /**
-     * Returns the default value of the {@code allowUserInteraction}
-     * field.
+     * Rfturns tif dffbult vbluf of tif {@dodf bllowUsfrIntfrbdtion}
+     * fifld.
      * <p>
-     * Ths default is "sticky", being a part of the static state of all
-     * URLConnections.  This flag applies to the next, and all following
-     * URLConnections that are created.
+     * Tis dffbult is "stidky", bfing b pbrt of tif stbtid stbtf of bll
+     * URLConnfdtions.  Tiis flbg bpplifs to tif nfxt, bnd bll following
+     * URLConnfdtions tibt brf drfbtfd.
      *
-     * @return  the default value of the {@code allowUserInteraction}
-     *          field.
-     * @see     #setDefaultAllowUserInteraction(boolean)
+     * @rfturn  tif dffbult vbluf of tif {@dodf bllowUsfrIntfrbdtion}
+     *          fifld.
+     * @sff     #sftDffbultAllowUsfrIntfrbdtion(boolfbn)
      */
-    public static boolean getDefaultAllowUserInteraction() {
-        return defaultAllowUserInteraction;
+    publid stbtid boolfbn gftDffbultAllowUsfrIntfrbdtion() {
+        rfturn dffbultAllowUsfrIntfrbdtion;
     }
 
     /**
-     * Sets the value of the {@code useCaches} field of this
-     * {@code URLConnection} to the specified value.
+     * Sfts tif vbluf of tif {@dodf usfCbdifs} fifld of tiis
+     * {@dodf URLConnfdtion} to tif spfdififd vbluf.
      * <p>
-     * Some protocols do caching of documents.  Occasionally, it is important
-     * to be able to "tunnel through" and ignore the caches (e.g., the
-     * "reload" button in a browser).  If the UseCaches flag on a connection
-     * is true, the connection is allowed to use whatever caches it can.
-     *  If false, caches are to be ignored.
-     *  The default value comes from DefaultUseCaches, which defaults to
-     * true.
+     * Somf protodols do dbdiing of dodumfnts.  Oddbsionblly, it is importbnt
+     * to bf bblf to "tunnfl tirougi" bnd ignorf tif dbdifs (f.g., tif
+     * "rflobd" button in b browsfr).  If tif UsfCbdifs flbg on b donnfdtion
+     * is truf, tif donnfdtion is bllowfd to usf wibtfvfr dbdifs it dbn.
+     *  If fblsf, dbdifs brf to bf ignorfd.
+     *  Tif dffbult vbluf domfs from DffbultUsfCbdifs, wiidi dffbults to
+     * truf.
      *
-     * @param usecaches a {@code boolean} indicating whether
-     * or not to allow caching
-     * @throws IllegalStateException if already connected
-     * @see #getUseCaches()
+     * @pbrbm usfdbdifs b {@dodf boolfbn} indidbting wiftifr
+     * or not to bllow dbdiing
+     * @tirows IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sff #gftUsfCbdifs()
      */
-    public void setUseCaches(boolean usecaches) {
-        if (connected)
-            throw new IllegalStateException("Already connected");
-        useCaches = usecaches;
+    publid void sftUsfCbdifs(boolfbn usfdbdifs) {
+        if (donnfdtfd)
+            tirow nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        usfCbdifs = usfdbdifs;
     }
 
     /**
-     * Returns the value of this {@code URLConnection}'s
-     * {@code useCaches} field.
+     * Rfturns tif vbluf of tiis {@dodf URLConnfdtion}'s
+     * {@dodf usfCbdifs} fifld.
      *
-     * @return  the value of this {@code URLConnection}'s
-     *          {@code useCaches} field.
-     * @see #setUseCaches(boolean)
+     * @rfturn  tif vbluf of tiis {@dodf URLConnfdtion}'s
+     *          {@dodf usfCbdifs} fifld.
+     * @sff #sftUsfCbdifs(boolfbn)
      */
-    public boolean getUseCaches() {
-        return useCaches;
+    publid boolfbn gftUsfCbdifs() {
+        rfturn usfCbdifs;
     }
 
     /**
-     * Sets the value of the {@code ifModifiedSince} field of
-     * this {@code URLConnection} to the specified value.
+     * Sfts tif vbluf of tif {@dodf ifModififdSindf} fifld of
+     * tiis {@dodf URLConnfdtion} to tif spfdififd vbluf.
      *
-     * @param   ifmodifiedsince   the new value.
-     * @throws IllegalStateException if already connected
-     * @see     #getIfModifiedSince()
+     * @pbrbm   ifmodififdsindf   tif nfw vbluf.
+     * @tirows IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sff     #gftIfModififdSindf()
      */
-    public void setIfModifiedSince(long ifmodifiedsince) {
-        if (connected)
-            throw new IllegalStateException("Already connected");
-        ifModifiedSince = ifmodifiedsince;
+    publid void sftIfModififdSindf(long ifmodififdsindf) {
+        if (donnfdtfd)
+            tirow nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        ifModififdSindf = ifmodififdsindf;
     }
 
     /**
-     * Returns the value of this object's {@code ifModifiedSince} field.
+     * Rfturns tif vbluf of tiis objfdt's {@dodf ifModififdSindf} fifld.
      *
-     * @return  the value of this object's {@code ifModifiedSince} field.
-     * @see #setIfModifiedSince(long)
+     * @rfturn  tif vbluf of tiis objfdt's {@dodf ifModififdSindf} fifld.
+     * @sff #sftIfModififdSindf(long)
      */
-    public long getIfModifiedSince() {
-        return ifModifiedSince;
+    publid long gftIfModififdSindf() {
+        rfturn ifModififdSindf;
     }
 
    /**
-     * Returns the default value of a {@code URLConnection}'s
-     * {@code useCaches} flag.
+     * Rfturns tif dffbult vbluf of b {@dodf URLConnfdtion}'s
+     * {@dodf usfCbdifs} flbg.
      * <p>
-     * Ths default is "sticky", being a part of the static state of all
-     * URLConnections.  This flag applies to the next, and all following
-     * URLConnections that are created.
+     * Tis dffbult is "stidky", bfing b pbrt of tif stbtid stbtf of bll
+     * URLConnfdtions.  Tiis flbg bpplifs to tif nfxt, bnd bll following
+     * URLConnfdtions tibt brf drfbtfd.
      *
-     * @return  the default value of a {@code URLConnection}'s
-     *          {@code useCaches} flag.
-     * @see     #setDefaultUseCaches(boolean)
+     * @rfturn  tif dffbult vbluf of b {@dodf URLConnfdtion}'s
+     *          {@dodf usfCbdifs} flbg.
+     * @sff     #sftDffbultUsfCbdifs(boolfbn)
      */
-    public boolean getDefaultUseCaches() {
-        return defaultUseCaches;
+    publid boolfbn gftDffbultUsfCbdifs() {
+        rfturn dffbultUsfCbdifs;
     }
 
    /**
-     * Sets the default value of the {@code useCaches} field to the
-     * specified value.
+     * Sfts tif dffbult vbluf of tif {@dodf usfCbdifs} fifld to tif
+     * spfdififd vbluf.
      *
-     * @param   defaultusecaches   the new value.
-     * @see     #getDefaultUseCaches()
+     * @pbrbm   dffbultusfdbdifs   tif nfw vbluf.
+     * @sff     #gftDffbultUsfCbdifs()
      */
-    public void setDefaultUseCaches(boolean defaultusecaches) {
-        defaultUseCaches = defaultusecaches;
+    publid void sftDffbultUsfCbdifs(boolfbn dffbultusfdbdifs) {
+        dffbultUsfCbdifs = dffbultusfdbdifs;
     }
 
     /**
-     * Sets the general request property. If a property with the key already
-     * exists, overwrite its value with the new value.
+     * Sfts tif gfnfrbl rfqufst propfrty. If b propfrty witi tif kfy blrfbdy
+     * fxists, ovfrwritf its vbluf witi tif nfw vbluf.
      *
-     * <p> NOTE: HTTP requires all request properties which can
-     * legally have multiple instances with the same key
-     * to use a comma-separated list syntax which enables multiple
-     * properties to be appended into a single property.
+     * <p> NOTE: HTTP rfquirfs bll rfqufst propfrtifs wiidi dbn
+     * lfgblly ibvf multiplf instbndfs witi tif sbmf kfy
+     * to usf b dommb-sfpbrbtfd list syntbx wiidi fnbblfs multiplf
+     * propfrtifs to bf bppfndfd into b singlf propfrty.
      *
-     * @param   key     the keyword by which the request is known
-     *                  (e.g., "{@code Accept}").
-     * @param   value   the value associated with it.
-     * @throws IllegalStateException if already connected
-     * @throws NullPointerException if key is <CODE>null</CODE>
-     * @see #getRequestProperty(java.lang.String)
+     * @pbrbm   kfy     tif kfyword by wiidi tif rfqufst is known
+     *                  (f.g., "{@dodf Addfpt}").
+     * @pbrbm   vbluf   tif vbluf bssodibtfd witi it.
+     * @tirows IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @tirows NullPointfrExdfption if kfy is <CODE>null</CODE>
+     * @sff #gftRfqufstPropfrty(jbvb.lbng.String)
      */
-    public void setRequestProperty(String key, String value) {
-        if (connected)
-            throw new IllegalStateException("Already connected");
-        if (key == null)
-            throw new NullPointerException ("key is null");
+    publid void sftRfqufstPropfrty(String kfy, String vbluf) {
+        if (donnfdtfd)
+            tirow nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        if (kfy == null)
+            tirow nfw NullPointfrExdfption ("kfy is null");
 
-        if (requests == null)
-            requests = new MessageHeader();
+        if (rfqufsts == null)
+            rfqufsts = nfw MfssbgfHfbdfr();
 
-        requests.set(key, value);
+        rfqufsts.sft(kfy, vbluf);
     }
 
     /**
-     * Adds a general request property specified by a
-     * key-value pair.  This method will not overwrite
-     * existing values associated with the same key.
+     * Adds b gfnfrbl rfqufst propfrty spfdififd by b
+     * kfy-vbluf pbir.  Tiis mftiod will not ovfrwritf
+     * fxisting vblufs bssodibtfd witi tif sbmf kfy.
      *
-     * @param   key     the keyword by which the request is known
-     *                  (e.g., "{@code Accept}").
-     * @param   value  the value associated with it.
-     * @throws IllegalStateException if already connected
-     * @throws NullPointerException if key is null
-     * @see #getRequestProperties()
-     * @since 1.4
+     * @pbrbm   kfy     tif kfyword by wiidi tif rfqufst is known
+     *                  (f.g., "{@dodf Addfpt}").
+     * @pbrbm   vbluf  tif vbluf bssodibtfd witi it.
+     * @tirows IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @tirows NullPointfrExdfption if kfy is null
+     * @sff #gftRfqufstPropfrtifs()
+     * @sindf 1.4
      */
-    public void addRequestProperty(String key, String value) {
-        if (connected)
-            throw new IllegalStateException("Already connected");
-        if (key == null)
-            throw new NullPointerException ("key is null");
+    publid void bddRfqufstPropfrty(String kfy, String vbluf) {
+        if (donnfdtfd)
+            tirow nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
+        if (kfy == null)
+            tirow nfw NullPointfrExdfption ("kfy is null");
 
-        if (requests == null)
-            requests = new MessageHeader();
+        if (rfqufsts == null)
+            rfqufsts = nfw MfssbgfHfbdfr();
 
-        requests.add(key, value);
+        rfqufsts.bdd(kfy, vbluf);
     }
 
 
     /**
-     * Returns the value of the named general request property for this
-     * connection.
+     * Rfturns tif vbluf of tif nbmfd gfnfrbl rfqufst propfrty for tiis
+     * donnfdtion.
      *
-     * @param key the keyword by which the request is known (e.g., "Accept").
-     * @return  the value of the named general request property for this
-     *           connection. If key is null, then null is returned.
-     * @throws IllegalStateException if already connected
-     * @see #setRequestProperty(java.lang.String, java.lang.String)
+     * @pbrbm kfy tif kfyword by wiidi tif rfqufst is known (f.g., "Addfpt").
+     * @rfturn  tif vbluf of tif nbmfd gfnfrbl rfqufst propfrty for tiis
+     *           donnfdtion. If kfy is null, tifn null is rfturnfd.
+     * @tirows IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sff #sftRfqufstPropfrty(jbvb.lbng.String, jbvb.lbng.String)
      */
-    public String getRequestProperty(String key) {
-        if (connected)
-            throw new IllegalStateException("Already connected");
+    publid String gftRfqufstPropfrty(String kfy) {
+        if (donnfdtfd)
+            tirow nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
 
-        if (requests == null)
-            return null;
+        if (rfqufsts == null)
+            rfturn null;
 
-        return requests.findValue(key);
+        rfturn rfqufsts.findVbluf(kfy);
     }
 
     /**
-     * Returns an unmodifiable Map of general request
-     * properties for this connection. The Map keys
-     * are Strings that represent the request-header
-     * field names. Each Map value is a unmodifiable List
-     * of Strings that represents the corresponding
-     * field values.
+     * Rfturns bn unmodifibblf Mbp of gfnfrbl rfqufst
+     * propfrtifs for tiis donnfdtion. Tif Mbp kfys
+     * brf Strings tibt rfprfsfnt tif rfqufst-ifbdfr
+     * fifld nbmfs. Ebdi Mbp vbluf is b unmodifibblf List
+     * of Strings tibt rfprfsfnts tif dorrfsponding
+     * fifld vblufs.
      *
-     * @return  a Map of the general request properties for this connection.
-     * @throws IllegalStateException if already connected
-     * @since 1.4
+     * @rfturn  b Mbp of tif gfnfrbl rfqufst propfrtifs for tiis donnfdtion.
+     * @tirows IllfgblStbtfExdfption if blrfbdy donnfdtfd
+     * @sindf 1.4
      */
-    public Map<String,List<String>> getRequestProperties() {
-        if (connected)
-            throw new IllegalStateException("Already connected");
+    publid Mbp<String,List<String>> gftRfqufstPropfrtifs() {
+        if (donnfdtfd)
+            tirow nfw IllfgblStbtfExdfption("Alrfbdy donnfdtfd");
 
-        if (requests == null)
-            return Collections.emptyMap();
+        if (rfqufsts == null)
+            rfturn Collfdtions.fmptyMbp();
 
-        return requests.getHeaders(null);
+        rfturn rfqufsts.gftHfbdfrs(null);
     }
 
     /**
-     * Sets the default value of a general request property. When a
-     * {@code URLConnection} is created, it is initialized with
-     * these properties.
+     * Sfts tif dffbult vbluf of b gfnfrbl rfqufst propfrty. Wifn b
+     * {@dodf URLConnfdtion} is drfbtfd, it is initiblizfd witi
+     * tifsf propfrtifs.
      *
-     * @param   key     the keyword by which the request is known
-     *                  (e.g., "{@code Accept}").
-     * @param   value   the value associated with the key.
+     * @pbrbm   kfy     tif kfyword by wiidi tif rfqufst is known
+     *                  (f.g., "{@dodf Addfpt}").
+     * @pbrbm   vbluf   tif vbluf bssodibtfd witi tif kfy.
      *
-     * @see java.net.URLConnection#setRequestProperty(java.lang.String,java.lang.String)
+     * @sff jbvb.nft.URLConnfdtion#sftRfqufstPropfrty(jbvb.lbng.String,jbvb.lbng.String)
      *
-     * @deprecated The instance specific setRequestProperty method
-     * should be used after an appropriate instance of URLConnection
-     * is obtained. Invoking this method will have no effect.
+     * @dfprfdbtfd Tif instbndf spfdifid sftRfqufstPropfrty mftiod
+     * siould bf usfd bftfr bn bppropribtf instbndf of URLConnfdtion
+     * is obtbinfd. Invoking tiis mftiod will ibvf no ffffdt.
      *
-     * @see #getDefaultRequestProperty(java.lang.String)
+     * @sff #gftDffbultRfqufstPropfrty(jbvb.lbng.String)
      */
-    @Deprecated
-    public static void setDefaultRequestProperty(String key, String value) {
+    @Dfprfdbtfd
+    publid stbtid void sftDffbultRfqufstPropfrty(String kfy, String vbluf) {
     }
 
     /**
-     * Returns the value of the default request property. Default request
-     * properties are set for every connection.
+     * Rfturns tif vbluf of tif dffbult rfqufst propfrty. Dffbult rfqufst
+     * propfrtifs brf sft for fvfry donnfdtion.
      *
-     * @param key the keyword by which the request is known (e.g., "Accept").
-     * @return  the value of the default request property
-     * for the specified key.
+     * @pbrbm kfy tif kfyword by wiidi tif rfqufst is known (f.g., "Addfpt").
+     * @rfturn  tif vbluf of tif dffbult rfqufst propfrty
+     * for tif spfdififd kfy.
      *
-     * @see java.net.URLConnection#getRequestProperty(java.lang.String)
+     * @sff jbvb.nft.URLConnfdtion#gftRfqufstPropfrty(jbvb.lbng.String)
      *
-     * @deprecated The instance specific getRequestProperty method
-     * should be used after an appropriate instance of URLConnection
-     * is obtained.
+     * @dfprfdbtfd Tif instbndf spfdifid gftRfqufstPropfrty mftiod
+     * siould bf usfd bftfr bn bppropribtf instbndf of URLConnfdtion
+     * is obtbinfd.
      *
-     * @see #setDefaultRequestProperty(java.lang.String, java.lang.String)
+     * @sff #sftDffbultRfqufstPropfrty(jbvb.lbng.String, jbvb.lbng.String)
      */
-    @Deprecated
-    public static String getDefaultRequestProperty(String key) {
-        return null;
+    @Dfprfdbtfd
+    publid stbtid String gftDffbultRfqufstPropfrty(String kfy) {
+        rfturn null;
     }
 
     /**
-     * The ContentHandler factory.
+     * Tif ContfntHbndlfr fbdtory.
      */
-    static ContentHandlerFactory factory;
+    stbtid ContfntHbndlfrFbdtory fbdtory;
 
     /**
-     * Sets the {@code ContentHandlerFactory} of an
-     * application. It can be called at most once by an application.
+     * Sfts tif {@dodf ContfntHbndlfrFbdtory} of bn
+     * bpplidbtion. It dbn bf dbllfd bt most ondf by bn bpplidbtion.
      * <p>
-     * The {@code ContentHandlerFactory} instance is used to
-     * construct a content handler from a content type
+     * Tif {@dodf ContfntHbndlfrFbdtory} instbndf is usfd to
+     * donstrudt b dontfnt ibndlfr from b dontfnt typf
      * <p>
-     * If there is a security manager, this method first calls
-     * the security manager's {@code checkSetFactory} method
-     * to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, tiis mftiod first dblls
+     * tif sfdurity mbnbgfr's {@dodf difdkSftFbdtory} mftiod
+     * to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param      fac   the desired factory.
-     * @exception  Error  if the factory has already been defined.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkSetFactory} method doesn't allow the operation.
-     * @see        java.net.ContentHandlerFactory
-     * @see        java.net.URLConnection#getContent()
-     * @see        SecurityManager#checkSetFactory
+     * @pbrbm      fbd   tif dfsirfd fbdtory.
+     * @fxdfption  Error  if tif fbdtory ibs blrfbdy bffn dffinfd.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkSftFbdtory} mftiod dofsn't bllow tif opfrbtion.
+     * @sff        jbvb.nft.ContfntHbndlfrFbdtory
+     * @sff        jbvb.nft.URLConnfdtion#gftContfnt()
+     * @sff        SfdurityMbnbgfr#difdkSftFbdtory
      */
-    public static synchronized void setContentHandlerFactory(ContentHandlerFactory fac) {
-        if (factory != null) {
-            throw new Error("factory already defined");
+    publid stbtid syndironizfd void sftContfntHbndlfrFbdtory(ContfntHbndlfrFbdtory fbd) {
+        if (fbdtory != null) {
+            tirow nfw Error("fbdtory blrfbdy dffinfd");
         }
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkSetFactory();
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkSftFbdtory();
         }
-        factory = fac;
+        fbdtory = fbd;
     }
 
-    private static Hashtable<String, ContentHandler> handlers = new Hashtable<>();
+    privbtf stbtid Hbsitbblf<String, ContfntHbndlfr> ibndlfrs = nfw Hbsitbblf<>();
 
     /**
-     * Gets the Content Handler appropriate for this connection.
+     * Gfts tif Contfnt Hbndlfr bppropribtf for tiis donnfdtion.
      */
-    synchronized ContentHandler getContentHandler()
-        throws UnknownServiceException
+    syndironizfd ContfntHbndlfr gftContfntHbndlfr()
+        tirows UnknownSfrvidfExdfption
     {
-        String contentType = stripOffParameters(getContentType());
-        ContentHandler handler = null;
-        if (contentType == null)
-            throw new UnknownServiceException("no content-type");
+        String dontfntTypf = stripOffPbrbmftfrs(gftContfntTypf());
+        ContfntHbndlfr ibndlfr = null;
+        if (dontfntTypf == null)
+            tirow nfw UnknownSfrvidfExdfption("no dontfnt-typf");
         try {
-            handler = handlers.get(contentType);
-            if (handler != null)
-                return handler;
-        } catch(Exception e) {
+            ibndlfr = ibndlfrs.gft(dontfntTypf);
+            if (ibndlfr != null)
+                rfturn ibndlfr;
+        } dbtdi(Exdfption f) {
         }
 
-        if (factory != null)
-            handler = factory.createContentHandler(contentType);
-        if (handler == null) {
+        if (fbdtory != null)
+            ibndlfr = fbdtory.drfbtfContfntHbndlfr(dontfntTypf);
+        if (ibndlfr == null) {
             try {
-                handler = lookupContentHandlerClassFor(contentType);
-            } catch(Exception e) {
-                e.printStackTrace();
-                handler = UnknownContentHandler.INSTANCE;
+                ibndlfr = lookupContfntHbndlfrClbssFor(dontfntTypf);
+            } dbtdi(Exdfption f) {
+                f.printStbdkTrbdf();
+                ibndlfr = UnknownContfntHbndlfr.INSTANCE;
             }
-            handlers.put(contentType, handler);
+            ibndlfrs.put(dontfntTypf, ibndlfr);
         }
-        return handler;
+        rfturn ibndlfr;
     }
 
     /*
-     * Media types are in the format: type/subtype*(; parameter).
-     * For looking up the content handler, we should ignore those
-     * parameters.
+     * Mfdib typfs brf in tif formbt: typf/subtypf*(; pbrbmftfr).
+     * For looking up tif dontfnt ibndlfr, wf siould ignorf tiosf
+     * pbrbmftfrs.
      */
-    private String stripOffParameters(String contentType)
+    privbtf String stripOffPbrbmftfrs(String dontfntTypf)
     {
-        if (contentType == null)
-            return null;
-        int index = contentType.indexOf(';');
+        if (dontfntTypf == null)
+            rfturn null;
+        int indfx = dontfntTypf.indfxOf(';');
 
-        if (index > 0)
-            return contentType.substring(0, index);
-        else
-            return contentType;
+        if (indfx > 0)
+            rfturn dontfntTypf.substring(0, indfx);
+        flsf
+            rfturn dontfntTypf;
     }
 
-    private static final String contentClassPrefix = "sun.net.www.content";
-    private static final String contentPathProp = "java.content.handler.pkgs";
+    privbtf stbtid finbl String dontfntClbssPrffix = "sun.nft.www.dontfnt";
+    privbtf stbtid finbl String dontfntPbtiProp = "jbvb.dontfnt.ibndlfr.pkgs";
 
     /**
-     * Looks for a content handler in a user-defineable set of places.
-     * By default it looks in sun.net.www.content, but users can define a
-     * vertical-bar delimited set of class prefixes to search through in
-     * addition by defining the java.content.handler.pkgs property.
-     * The class name must be of the form:
-     * <pre>
-     *     {package-prefix}.{major}.{minor}
-     * e.g.
-     *     YoyoDyne.experimental.text.plain
-     * </pre>
+     * Looks for b dontfnt ibndlfr in b usfr-dffinfbblf sft of plbdfs.
+     * By dffbult it looks in sun.nft.www.dontfnt, but usfrs dbn dffinf b
+     * vfrtidbl-bbr dflimitfd sft of dlbss prffixfs to sfbrdi tirougi in
+     * bddition by dffining tif jbvb.dontfnt.ibndlfr.pkgs propfrty.
+     * Tif dlbss nbmf must bf of tif form:
+     * <prf>
+     *     {pbdkbgf-prffix}.{mbjor}.{minor}
+     * f.g.
+     *     YoyoDynf.fxpfrimfntbl.tfxt.plbin
+     * </prf>
      */
-    private ContentHandler lookupContentHandlerClassFor(String contentType)
-        throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-        String contentHandlerClassName = typeToPackageName(contentType);
+    privbtf ContfntHbndlfr lookupContfntHbndlfrClbssFor(String dontfntTypf)
+        tirows InstbntibtionExdfption, IllfgblAddfssExdfption, ClbssNotFoundExdfption {
+        String dontfntHbndlfrClbssNbmf = typfToPbdkbgfNbmf(dontfntTypf);
 
-        String contentHandlerPkgPrefixes =getContentHandlerPkgPrefixes();
+        String dontfntHbndlfrPkgPrffixfs =gftContfntHbndlfrPkgPrffixfs();
 
-        StringTokenizer packagePrefixIter =
-            new StringTokenizer(contentHandlerPkgPrefixes, "|");
+        StringTokfnizfr pbdkbgfPrffixItfr =
+            nfw StringTokfnizfr(dontfntHbndlfrPkgPrffixfs, "|");
 
-        while (packagePrefixIter.hasMoreTokens()) {
-            String packagePrefix = packagePrefixIter.nextToken().trim();
+        wiilf (pbdkbgfPrffixItfr.ibsMorfTokfns()) {
+            String pbdkbgfPrffix = pbdkbgfPrffixItfr.nfxtTokfn().trim();
 
             try {
-                String clsName = packagePrefix + "." + contentHandlerClassName;
-                Class<?> cls = null;
+                String dlsNbmf = pbdkbgfPrffix + "." + dontfntHbndlfrClbssNbmf;
+                Clbss<?> dls = null;
                 try {
-                    cls = Class.forName(clsName);
-                } catch (ClassNotFoundException e) {
-                    ClassLoader cl = ClassLoader.getSystemClassLoader();
-                    if (cl != null) {
-                        cls = cl.loadClass(clsName);
+                    dls = Clbss.forNbmf(dlsNbmf);
+                } dbtdi (ClbssNotFoundExdfption f) {
+                    ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+                    if (dl != null) {
+                        dls = dl.lobdClbss(dlsNbmf);
                     }
                 }
-                if (cls != null) {
-                    ContentHandler handler =
-                        (ContentHandler)cls.newInstance();
-                    return handler;
+                if (dls != null) {
+                    ContfntHbndlfr ibndlfr =
+                        (ContfntHbndlfr)dls.nfwInstbndf();
+                    rfturn ibndlfr;
                 }
-            } catch(Exception e) {
+            } dbtdi(Exdfption f) {
             }
         }
 
-        return UnknownContentHandler.INSTANCE;
+        rfturn UnknownContfntHbndlfr.INSTANCE;
     }
 
     /**
-     * Utility function to map a MIME content type into an equivalent
-     * pair of class name components.  For example: "text/html" would
-     * be returned as "text.html"
+     * Utility fundtion to mbp b MIME dontfnt typf into bn fquivblfnt
+     * pbir of dlbss nbmf domponfnts.  For fxbmplf: "tfxt/itml" would
+     * bf rfturnfd bs "tfxt.itml"
      */
-    private String typeToPackageName(String contentType) {
-        // make sure we canonicalize the class name: all lower case
-        contentType = contentType.toLowerCase();
-        int len = contentType.length();
-        char nm[] = new char[len];
-        contentType.getChars(0, len, nm, 0);
-        for (int i = 0; i < len; i++) {
-            char c = nm[i];
-            if (c == '/') {
+    privbtf String typfToPbdkbgfNbmf(String dontfntTypf) {
+        // mbkf surf wf dbnonidblizf tif dlbss nbmf: bll lowfr dbsf
+        dontfntTypf = dontfntTypf.toLowfrCbsf();
+        int lfn = dontfntTypf.lfngti();
+        dibr nm[] = nfw dibr[lfn];
+        dontfntTypf.gftCibrs(0, lfn, nm, 0);
+        for (int i = 0; i < lfn; i++) {
+            dibr d = nm[i];
+            if (d == '/') {
                 nm[i] = '.';
-            } else if (!('A' <= c && c <= 'Z' ||
-                       'a' <= c && c <= 'z' ||
-                       '0' <= c && c <= '9')) {
+            } flsf if (!('A' <= d && d <= 'Z' ||
+                       'b' <= d && d <= 'z' ||
+                       '0' <= d && d <= '9')) {
                 nm[i] = '_';
             }
         }
-        return new String(nm);
+        rfturn nfw String(nm);
     }
 
 
     /**
-     * Returns a vertical bar separated list of package prefixes for potential
-     * content handlers.  Tries to get the java.content.handler.pkgs property
-     * to use as a set of package prefixes to search.  Whether or not
-     * that property has been defined, the sun.net.www.content is always
-     * the last one on the returned package list.
+     * Rfturns b vfrtidbl bbr sfpbrbtfd list of pbdkbgf prffixfs for potfntibl
+     * dontfnt ibndlfrs.  Trifs to gft tif jbvb.dontfnt.ibndlfr.pkgs propfrty
+     * to usf bs b sft of pbdkbgf prffixfs to sfbrdi.  Wiftifr or not
+     * tibt propfrty ibs bffn dffinfd, tif sun.nft.www.dontfnt is blwbys
+     * tif lbst onf on tif rfturnfd pbdkbgf list.
      */
-    private String getContentHandlerPkgPrefixes() {
-        String packagePrefixList = AccessController.doPrivileged(
-            new sun.security.action.GetPropertyAction(contentPathProp, ""));
+    privbtf String gftContfntHbndlfrPkgPrffixfs() {
+        String pbdkbgfPrffixList = AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(dontfntPbtiProp, ""));
 
-        if (packagePrefixList != "") {
-            packagePrefixList += "|";
+        if (pbdkbgfPrffixList != "") {
+            pbdkbgfPrffixList += "|";
         }
 
-        return packagePrefixList + contentClassPrefix;
+        rfturn pbdkbgfPrffixList + dontfntClbssPrffix;
     }
 
     /**
-     * Tries to determine the content type of an object, based
-     * on the specified "file" component of a URL.
-     * This is a convenience method that can be used by
-     * subclasses that override the {@code getContentType} method.
+     * Trifs to dftfrminf tif dontfnt typf of bn objfdt, bbsfd
+     * on tif spfdififd "filf" domponfnt of b URL.
+     * Tiis is b donvfnifndf mftiod tibt dbn bf usfd by
+     * subdlbssfs tibt ovfrridf tif {@dodf gftContfntTypf} mftiod.
      *
-     * @param   fname   a filename.
-     * @return  a guess as to what the content type of the object is,
-     *          based upon its file name.
-     * @see     java.net.URLConnection#getContentType()
+     * @pbrbm   fnbmf   b filfnbmf.
+     * @rfturn  b gufss bs to wibt tif dontfnt typf of tif objfdt is,
+     *          bbsfd upon its filf nbmf.
+     * @sff     jbvb.nft.URLConnfdtion#gftContfntTypf()
      */
-    public static String guessContentTypeFromName(String fname) {
-        return getFileNameMap().getContentTypeFor(fname);
+    publid stbtid String gufssContfntTypfFromNbmf(String fnbmf) {
+        rfturn gftFilfNbmfMbp().gftContfntTypfFor(fnbmf);
     }
 
     /**
-     * Tries to determine the type of an input stream based on the
-     * characters at the beginning of the input stream. This method can
-     * be used by subclasses that override the
-     * {@code getContentType} method.
+     * Trifs to dftfrminf tif typf of bn input strfbm bbsfd on tif
+     * dibrbdtfrs bt tif bfginning of tif input strfbm. Tiis mftiod dbn
+     * bf usfd by subdlbssfs tibt ovfrridf tif
+     * {@dodf gftContfntTypf} mftiod.
      * <p>
-     * Ideally, this routine would not be needed. But many
-     * {@code http} servers return the incorrect content type; in
-     * addition, there are many nonstandard extensions. Direct inspection
-     * of the bytes to determine the content type is often more accurate
-     * than believing the content type claimed by the {@code http} server.
+     * Idfblly, tiis routinf would not bf nffdfd. But mbny
+     * {@dodf ittp} sfrvfrs rfturn tif indorrfdt dontfnt typf; in
+     * bddition, tifrf brf mbny nonstbndbrd fxtfnsions. Dirfdt inspfdtion
+     * of tif bytfs to dftfrminf tif dontfnt typf is oftfn morf bddurbtf
+     * tibn bflifving tif dontfnt typf dlbimfd by tif {@dodf ittp} sfrvfr.
      *
-     * @param      is   an input stream that supports marks.
-     * @return     a guess at the content type, or {@code null} if none
-     *             can be determined.
-     * @exception  IOException  if an I/O error occurs while reading the
-     *               input stream.
-     * @see        java.io.InputStream#mark(int)
-     * @see        java.io.InputStream#markSupported()
-     * @see        java.net.URLConnection#getContentType()
+     * @pbrbm      is   bn input strfbm tibt supports mbrks.
+     * @rfturn     b gufss bt tif dontfnt typf, or {@dodf null} if nonf
+     *             dbn bf dftfrminfd.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wiilf rfbding tif
+     *               input strfbm.
+     * @sff        jbvb.io.InputStrfbm#mbrk(int)
+     * @sff        jbvb.io.InputStrfbm#mbrkSupportfd()
+     * @sff        jbvb.nft.URLConnfdtion#gftContfntTypf()
      */
-    static public String guessContentTypeFromStream(InputStream is)
-                        throws IOException {
-        // If we can't read ahead safely, just give up on guessing
-        if (!is.markSupported())
-            return null;
+    stbtid publid String gufssContfntTypfFromStrfbm(InputStrfbm is)
+                        tirows IOExdfption {
+        // If wf dbn't rfbd bifbd sbffly, just givf up on gufssing
+        if (!is.mbrkSupportfd())
+            rfturn null;
 
-        is.mark(16);
-        int c1 = is.read();
-        int c2 = is.read();
-        int c3 = is.read();
-        int c4 = is.read();
-        int c5 = is.read();
-        int c6 = is.read();
-        int c7 = is.read();
-        int c8 = is.read();
-        int c9 = is.read();
-        int c10 = is.read();
-        int c11 = is.read();
-        int c12 = is.read();
-        int c13 = is.read();
-        int c14 = is.read();
-        int c15 = is.read();
-        int c16 = is.read();
-        is.reset();
+        is.mbrk(16);
+        int d1 = is.rfbd();
+        int d2 = is.rfbd();
+        int d3 = is.rfbd();
+        int d4 = is.rfbd();
+        int d5 = is.rfbd();
+        int d6 = is.rfbd();
+        int d7 = is.rfbd();
+        int d8 = is.rfbd();
+        int d9 = is.rfbd();
+        int d10 = is.rfbd();
+        int d11 = is.rfbd();
+        int d12 = is.rfbd();
+        int d13 = is.rfbd();
+        int d14 = is.rfbd();
+        int d15 = is.rfbd();
+        int d16 = is.rfbd();
+        is.rfsft();
 
-        if (c1 == 0xCA && c2 == 0xFE && c3 == 0xBA && c4 == 0xBE) {
-            return "application/java-vm";
+        if (d1 == 0xCA && d2 == 0xFE && d3 == 0xBA && d4 == 0xBE) {
+            rfturn "bpplidbtion/jbvb-vm";
         }
 
-        if (c1 == 0xAC && c2 == 0xED) {
-            // next two bytes are version number, currently 0x00 0x05
-            return "application/x-java-serialized-object";
+        if (d1 == 0xAC && d2 == 0xED) {
+            // nfxt two bytfs brf vfrsion numbfr, durrfntly 0x00 0x05
+            rfturn "bpplidbtion/x-jbvb-sfriblizfd-objfdt";
         }
 
-        if (c1 == '<') {
-            if (c2 == '!'
-                || ((c2 == 'h' && (c3 == 't' && c4 == 'm' && c5 == 'l' ||
-                                   c3 == 'e' && c4 == 'a' && c5 == 'd') ||
-                (c2 == 'b' && c3 == 'o' && c4 == 'd' && c5 == 'y'))) ||
-                ((c2 == 'H' && (c3 == 'T' && c4 == 'M' && c5 == 'L' ||
-                                c3 == 'E' && c4 == 'A' && c5 == 'D') ||
-                (c2 == 'B' && c3 == 'O' && c4 == 'D' && c5 == 'Y')))) {
-                return "text/html";
+        if (d1 == '<') {
+            if (d2 == '!'
+                || ((d2 == 'i' && (d3 == 't' && d4 == 'm' && d5 == 'l' ||
+                                   d3 == 'f' && d4 == 'b' && d5 == 'd') ||
+                (d2 == 'b' && d3 == 'o' && d4 == 'd' && d5 == 'y'))) ||
+                ((d2 == 'H' && (d3 == 'T' && d4 == 'M' && d5 == 'L' ||
+                                d3 == 'E' && d4 == 'A' && d5 == 'D') ||
+                (d2 == 'B' && d3 == 'O' && d4 == 'D' && d5 == 'Y')))) {
+                rfturn "tfxt/itml";
             }
 
-            if (c2 == '?' && c3 == 'x' && c4 == 'm' && c5 == 'l' && c6 == ' ') {
-                return "application/xml";
-            }
-        }
-
-        // big and little (identical) endian UTF-8 encodings, with BOM
-        if (c1 == 0xef &&  c2 == 0xbb &&  c3 == 0xbf) {
-            if (c4 == '<' &&  c5 == '?' &&  c6 == 'x') {
-                return "application/xml";
+            if (d2 == '?' && d3 == 'x' && d4 == 'm' && d5 == 'l' && d6 == ' ') {
+                rfturn "bpplidbtion/xml";
             }
         }
 
-        // big and little endian UTF-16 encodings, with byte order mark
-        if (c1 == 0xfe && c2 == 0xff) {
-            if (c3 == 0 && c4 == '<' && c5 == 0 && c6 == '?' &&
-                c7 == 0 && c8 == 'x') {
-                return "application/xml";
+        // big bnd littlf (idfntidbl) fndibn UTF-8 fndodings, witi BOM
+        if (d1 == 0xff &&  d2 == 0xbb &&  d3 == 0xbf) {
+            if (d4 == '<' &&  d5 == '?' &&  d6 == 'x') {
+                rfturn "bpplidbtion/xml";
             }
         }
 
-        if (c1 == 0xff && c2 == 0xfe) {
-            if (c3 == '<' && c4 == 0 && c5 == '?' && c6 == 0 &&
-                c7 == 'x' && c8 == 0) {
-                return "application/xml";
+        // big bnd littlf fndibn UTF-16 fndodings, witi bytf ordfr mbrk
+        if (d1 == 0xff && d2 == 0xff) {
+            if (d3 == 0 && d4 == '<' && d5 == 0 && d6 == '?' &&
+                d7 == 0 && d8 == 'x') {
+                rfturn "bpplidbtion/xml";
             }
         }
 
-        // big and little endian UTF-32 encodings, with BOM
-        if (c1 == 0x00 &&  c2 == 0x00 &&  c3 == 0xfe &&  c4 == 0xff) {
-            if (c5  == 0 && c6  == 0 && c7  == 0 && c8  == '<' &&
-                c9  == 0 && c10 == 0 && c11 == 0 && c12 == '?' &&
-                c13 == 0 && c14 == 0 && c15 == 0 && c16 == 'x') {
-                return "application/xml";
+        if (d1 == 0xff && d2 == 0xff) {
+            if (d3 == '<' && d4 == 0 && d5 == '?' && d6 == 0 &&
+                d7 == 'x' && d8 == 0) {
+                rfturn "bpplidbtion/xml";
             }
         }
 
-        if (c1 == 0xff &&  c2 == 0xfe &&  c3 == 0x00 &&  c4 == 0x00) {
-            if (c5  == '<' && c6  == 0 && c7  == 0 && c8  == 0 &&
-                c9  == '?' && c10 == 0 && c11 == 0 && c12 == 0 &&
-                c13 == 'x' && c14 == 0 && c15 == 0 && c16 == 0) {
-                return "application/xml";
+        // big bnd littlf fndibn UTF-32 fndodings, witi BOM
+        if (d1 == 0x00 &&  d2 == 0x00 &&  d3 == 0xff &&  d4 == 0xff) {
+            if (d5  == 0 && d6  == 0 && d7  == 0 && d8  == '<' &&
+                d9  == 0 && d10 == 0 && d11 == 0 && d12 == '?' &&
+                d13 == 0 && d14 == 0 && d15 == 0 && d16 == 'x') {
+                rfturn "bpplidbtion/xml";
             }
         }
 
-        if (c1 == 'G' && c2 == 'I' && c3 == 'F' && c4 == '8') {
-            return "image/gif";
+        if (d1 == 0xff &&  d2 == 0xff &&  d3 == 0x00 &&  d4 == 0x00) {
+            if (d5  == '<' && d6  == 0 && d7  == 0 && d8  == 0 &&
+                d9  == '?' && d10 == 0 && d11 == 0 && d12 == 0 &&
+                d13 == 'x' && d14 == 0 && d15 == 0 && d16 == 0) {
+                rfturn "bpplidbtion/xml";
+            }
         }
 
-        if (c1 == '#' && c2 == 'd' && c3 == 'e' && c4 == 'f') {
-            return "image/x-bitmap";
+        if (d1 == 'G' && d2 == 'I' && d3 == 'F' && d4 == '8') {
+            rfturn "imbgf/gif";
         }
 
-        if (c1 == '!' && c2 == ' ' && c3 == 'X' && c4 == 'P' &&
-                        c5 == 'M' && c6 == '2') {
-            return "image/x-pixmap";
+        if (d1 == '#' && d2 == 'd' && d3 == 'f' && d4 == 'f') {
+            rfturn "imbgf/x-bitmbp";
         }
 
-        if (c1 == 137 && c2 == 80 && c3 == 78 &&
-                c4 == 71 && c5 == 13 && c6 == 10 &&
-                c7 == 26 && c8 == 10) {
-            return "image/png";
+        if (d1 == '!' && d2 == ' ' && d3 == 'X' && d4 == 'P' &&
+                        d5 == 'M' && d6 == '2') {
+            rfturn "imbgf/x-pixmbp";
         }
 
-        if (c1 == 0xFF && c2 == 0xD8 && c3 == 0xFF) {
-            if (c4 == 0xE0) {
-                return "image/jpeg";
+        if (d1 == 137 && d2 == 80 && d3 == 78 &&
+                d4 == 71 && d5 == 13 && d6 == 10 &&
+                d7 == 26 && d8 == 10) {
+            rfturn "imbgf/png";
+        }
+
+        if (d1 == 0xFF && d2 == 0xD8 && d3 == 0xFF) {
+            if (d4 == 0xE0) {
+                rfturn "imbgf/jpfg";
             }
 
             /**
-             * File format used by digital cameras to store images.
-             * Exif Format can be read by any application supporting
-             * JPEG. Exif Spec can be found at:
-             * http://www.pima.net/standards/it10/PIMA15740/Exif_2-1.PDF
+             * Filf formbt usfd by digitbl dbmfrbs to storf imbgfs.
+             * Exif Formbt dbn bf rfbd by bny bpplidbtion supporting
+             * JPEG. Exif Spfd dbn bf found bt:
+             * ittp://www.pimb.nft/stbndbrds/it10/PIMA15740/Exif_2-1.PDF
              */
-            if ((c4 == 0xE1) &&
-                (c7 == 'E' && c8 == 'x' && c9 == 'i' && c10 =='f' &&
-                 c11 == 0)) {
-                return "image/jpeg";
+            if ((d4 == 0xE1) &&
+                (d7 == 'E' && d8 == 'x' && d9 == 'i' && d10 =='f' &&
+                 d11 == 0)) {
+                rfturn "imbgf/jpfg";
             }
 
-            if (c4 == 0xEE) {
-                return "image/jpg";
-            }
-        }
-
-        if (c1 == 0xD0 && c2 == 0xCF && c3 == 0x11 && c4 == 0xE0 &&
-            c5 == 0xA1 && c6 == 0xB1 && c7 == 0x1A && c8 == 0xE1) {
-
-            /* Above is signature of Microsoft Structured Storage.
-             * Below this, could have tests for various SS entities.
-             * For now, just test for FlashPix.
-             */
-            if (checkfpx(is)) {
-                return "image/vnd.fpx";
+            if (d4 == 0xEE) {
+                rfturn "imbgf/jpg";
             }
         }
 
-        if (c1 == 0x2E && c2 == 0x73 && c3 == 0x6E && c4 == 0x64) {
-            return "audio/basic";  // .au format, big endian
-        }
+        if (d1 == 0xD0 && d2 == 0xCF && d3 == 0x11 && d4 == 0xE0 &&
+            d5 == 0xA1 && d6 == 0xB1 && d7 == 0x1A && d8 == 0xE1) {
 
-        if (c1 == 0x64 && c2 == 0x6E && c3 == 0x73 && c4 == 0x2E) {
-            return "audio/basic";  // .au format, little endian
-        }
-
-        if (c1 == 'R' && c2 == 'I' && c3 == 'F' && c4 == 'F') {
-            /* I don't know if this is official but evidence
-             * suggests that .wav files start with "RIFF" - brown
+            /* Abovf is signbturf of Midrosoft Strudturfd Storbgf.
+             * Bflow tiis, dould ibvf tfsts for vbrious SS fntitifs.
+             * For now, just tfst for FlbsiPix.
              */
-            return "audio/x-wav";
+            if (difdkfpx(is)) {
+                rfturn "imbgf/vnd.fpx";
+            }
         }
-        return null;
+
+        if (d1 == 0x2E && d2 == 0x73 && d3 == 0x6E && d4 == 0x64) {
+            rfturn "budio/bbsid";  // .bu formbt, big fndibn
+        }
+
+        if (d1 == 0x64 && d2 == 0x6E && d3 == 0x73 && d4 == 0x2E) {
+            rfturn "budio/bbsid";  // .bu formbt, littlf fndibn
+        }
+
+        if (d1 == 'R' && d2 == 'I' && d3 == 'F' && d4 == 'F') {
+            /* I don't know if tiis is offidibl but fvidfndf
+             * suggfsts tibt .wbv filfs stbrt witi "RIFF" - brown
+             */
+            rfturn "budio/x-wbv";
+        }
+        rfturn null;
     }
 
     /**
-     * Check for FlashPix image data in InputStream is.  Return true if
-     * the stream has FlashPix data, false otherwise.  Before calling this
-     * method, the stream should have already been checked to be sure it
-     * contains Microsoft Structured Storage data.
+     * Cifdk for FlbsiPix imbgf dbtb in InputStrfbm is.  Rfturn truf if
+     * tif strfbm ibs FlbsiPix dbtb, fblsf otifrwisf.  Bfforf dblling tiis
+     * mftiod, tif strfbm siould ibvf blrfbdy bffn difdkfd to bf surf it
+     * dontbins Midrosoft Strudturfd Storbgf dbtb.
      */
-    static private boolean checkfpx(InputStream is) throws IOException {
+    stbtid privbtf boolfbn difdkfpx(InputStrfbm is) tirows IOExdfption {
 
-        /* Test for FlashPix image data in Microsoft Structured Storage format.
-         * In general, should do this with calls to an SS implementation.
-         * Lacking that, need to dig via offsets to get to the FlashPix
-         * ClassID.  Details:
+        /* Tfst for FlbsiPix imbgf dbtb in Midrosoft Strudturfd Storbgf formbt.
+         * In gfnfrbl, siould do tiis witi dblls to bn SS implfmfntbtion.
+         * Lbdking tibt, nffd to dig vib offsfts to gft to tif FlbsiPix
+         * ClbssID.  Dftbils:
          *
-         * Offset to Fpx ClsID from beginning of stream should be:
+         * Offsft to Fpx ClsID from bfginning of strfbm siould bf:
          *
-         * FpxClsidOffset = rootEntryOffset + clsidOffset
+         * FpxClsidOffsft = rootEntryOffsft + dlsidOffsft
          *
-         * where: clsidOffset = 0x50.
-         *        rootEntryOffset = headerSize + sectorSize*sectDirStart
-         *                          + 128*rootEntryDirectory
+         * wifrf: dlsidOffsft = 0x50.
+         *        rootEntryOffsft = ifbdfrSizf + sfdtorSizf*sfdtDirStbrt
+         *                          + 128*rootEntryDirfdtory
          *
-         *        where:  headerSize = 0x200 (always)
-         *                sectorSize = 2 raised to power of uSectorShift,
-         *                             which is found in the header at
-         *                             offset 0x1E.
-         *                sectDirStart = found in the header at offset 0x30.
-         *                rootEntryDirectory = in general, should search for
-         *                                     directory labelled as root.
-         *                                     We will assume value of 0 (i.e.,
-         *                                     rootEntry is in first directory)
+         *        wifrf:  ifbdfrSizf = 0x200 (blwbys)
+         *                sfdtorSizf = 2 rbisfd to powfr of uSfdtorSiift,
+         *                             wiidi is found in tif ifbdfr bt
+         *                             offsft 0x1E.
+         *                sfdtDirStbrt = found in tif ifbdfr bt offsft 0x30.
+         *                rootEntryDirfdtory = in gfnfrbl, siould sfbrdi for
+         *                                     dirfdtory lbbfllfd bs root.
+         *                                     Wf will bssumf vbluf of 0 (i.f.,
+         *                                     rootEntry is in first dirfdtory)
          */
 
-        // Mark the stream so we can reset it. 0x100 is enough for the first
-        // few reads, but the mark will have to be reset and set again once
-        // the offset to the root directory entry is computed. That offset
-        // can be very large and isn't know until the stream has been read from
-        is.mark(0x100);
+        // Mbrk tif strfbm so wf dbn rfsft it. 0x100 is fnougi for tif first
+        // ffw rfbds, but tif mbrk will ibvf to bf rfsft bnd sft bgbin ondf
+        // tif offsft to tif root dirfdtory fntry is domputfd. Tibt offsft
+        // dbn bf vfry lbrgf bnd isn't know until tif strfbm ibs bffn rfbd from
+        is.mbrk(0x100);
 
-        // Get the byte ordering located at 0x1E. 0xFE is Intel,
-        // 0xFF is other
+        // Gft tif bytf ordfring lodbtfd bt 0x1E. 0xFE is Intfl,
+        // 0xFF is otifr
         long toSkip = (long)0x1C;
         long posn;
 
-        if ((posn = skipForward(is, toSkip)) < toSkip) {
-          is.reset();
-          return false;
+        if ((posn = skipForwbrd(is, toSkip)) < toSkip) {
+          is.rfsft();
+          rfturn fblsf;
         }
 
-        int c[] = new int[16];
-        if (readBytes(c, 2, is) < 0) {
-            is.reset();
-            return false;
+        int d[] = nfw int[16];
+        if (rfbdBytfs(d, 2, is) < 0) {
+            is.rfsft();
+            rfturn fblsf;
         }
 
-        int byteOrder = c[0];
+        int bytfOrdfr = d[0];
 
         posn+=2;
-        int uSectorShift;
-        if (readBytes(c, 2, is) < 0) {
-            is.reset();
-            return false;
+        int uSfdtorSiift;
+        if (rfbdBytfs(d, 2, is) < 0) {
+            is.rfsft();
+            rfturn fblsf;
         }
 
-        if(byteOrder == 0xFE) {
-            uSectorShift = c[0];
-            uSectorShift += c[1] << 8;
+        if(bytfOrdfr == 0xFE) {
+            uSfdtorSiift = d[0];
+            uSfdtorSiift += d[1] << 8;
         }
-        else {
-            uSectorShift = c[0] << 8;
-            uSectorShift += c[1];
+        flsf {
+            uSfdtorSiift = d[0] << 8;
+            uSfdtorSiift += d[1];
         }
 
         posn += 2;
         toSkip = (long)0x30 - posn;
-        long skipped = 0;
-        if ((skipped = skipForward(is, toSkip)) < toSkip) {
-          is.reset();
-          return false;
+        long skippfd = 0;
+        if ((skippfd = skipForwbrd(is, toSkip)) < toSkip) {
+          is.rfsft();
+          rfturn fblsf;
         }
-        posn += skipped;
+        posn += skippfd;
 
-        if (readBytes(c, 4, is) < 0) {
-            is.reset();
-            return false;
+        if (rfbdBytfs(d, 4, is) < 0) {
+            is.rfsft();
+            rfturn fblsf;
         }
 
-        int sectDirStart;
-        if(byteOrder == 0xFE) {
-            sectDirStart = c[0];
-            sectDirStart += c[1] << 8;
-            sectDirStart += c[2] << 16;
-            sectDirStart += c[3] << 24;
-        } else {
-            sectDirStart =  c[0] << 24;
-            sectDirStart += c[1] << 16;
-            sectDirStart += c[2] << 8;
-            sectDirStart += c[3];
+        int sfdtDirStbrt;
+        if(bytfOrdfr == 0xFE) {
+            sfdtDirStbrt = d[0];
+            sfdtDirStbrt += d[1] << 8;
+            sfdtDirStbrt += d[2] << 16;
+            sfdtDirStbrt += d[3] << 24;
+        } flsf {
+            sfdtDirStbrt =  d[0] << 24;
+            sfdtDirStbrt += d[1] << 16;
+            sfdtDirStbrt += d[2] << 8;
+            sfdtDirStbrt += d[3];
         }
         posn += 4;
-        is.reset(); // Reset back to the beginning
+        is.rfsft(); // Rfsft bbdk to tif bfginning
 
-        toSkip = 0x200L + (long)(1<<uSectorShift)*sectDirStart + 0x50L;
+        toSkip = 0x200L + (long)(1<<uSfdtorSiift)*sfdtDirStbrt + 0x50L;
 
-        // Sanity check!
+        // Sbnity difdk!
         if (toSkip < 0) {
-            return false;
+            rfturn fblsf;
         }
 
         /*
-         * How far can we skip? Is there any performance problem here?
-         * This skip can be fairly long, at least 0x4c650 in at least
-         * one case. Have to assume that the skip will fit in an int.
-         * Leave room to read whole root dir
+         * How fbr dbn wf skip? Is tifrf bny pfrformbndf problfm ifrf?
+         * Tiis skip dbn bf fbirly long, bt lfbst 0x4d650 in bt lfbst
+         * onf dbsf. Hbvf to bssumf tibt tif skip will fit in bn int.
+         * Lfbvf room to rfbd wiolf root dir
          */
-        is.mark((int)toSkip+0x30);
+        is.mbrk((int)toSkip+0x30);
 
-        if ((skipForward(is, toSkip)) < toSkip) {
-            is.reset();
-            return false;
+        if ((skipForwbrd(is, toSkip)) < toSkip) {
+            is.rfsft();
+            rfturn fblsf;
         }
 
-        /* should be at beginning of ClassID, which is as follows
-         * (in Intel byte order):
+        /* siould bf bt bfginning of ClbssID, wiidi is bs follows
+         * (in Intfl bytf ordfr):
          *    00 67 61 56 54 C1 CE 11 85 53 00 AA 00 A1 F9 5B
          *
-         * This is stored from Windows as long,short,short,char[8]
-         * so for byte order changes, the order only changes for
-         * the first 8 bytes in the ClassID.
+         * Tiis is storfd from Windows bs long,siort,siort,dibr[8]
+         * so for bytf ordfr dibngfs, tif ordfr only dibngfs for
+         * tif first 8 bytfs in tif ClbssID.
          *
-         * Test against this, ignoring second byte (Intel) since
-         * this could change depending on part of Fpx file we have.
+         * Tfst bgbinst tiis, ignoring sfdond bytf (Intfl) sindf
+         * tiis dould dibngf dfpfnding on pbrt of Fpx filf wf ibvf.
          */
 
-        if (readBytes(c, 16, is) < 0) {
-            is.reset();
-            return false;
+        if (rfbdBytfs(d, 16, is) < 0) {
+            is.rfsft();
+            rfturn fblsf;
         }
 
-        // intel byte order
-        if (byteOrder == 0xFE &&
-            c[0] == 0x00 && c[2] == 0x61 && c[3] == 0x56 &&
-            c[4] == 0x54 && c[5] == 0xC1 && c[6] == 0xCE &&
-            c[7] == 0x11 && c[8] == 0x85 && c[9] == 0x53 &&
-            c[10]== 0x00 && c[11]== 0xAA && c[12]== 0x00 &&
-            c[13]== 0xA1 && c[14]== 0xF9 && c[15]== 0x5B) {
-            is.reset();
-            return true;
+        // intfl bytf ordfr
+        if (bytfOrdfr == 0xFE &&
+            d[0] == 0x00 && d[2] == 0x61 && d[3] == 0x56 &&
+            d[4] == 0x54 && d[5] == 0xC1 && d[6] == 0xCE &&
+            d[7] == 0x11 && d[8] == 0x85 && d[9] == 0x53 &&
+            d[10]== 0x00 && d[11]== 0xAA && d[12]== 0x00 &&
+            d[13]== 0xA1 && d[14]== 0xF9 && d[15]== 0x5B) {
+            is.rfsft();
+            rfturn truf;
         }
 
-        // non-intel byte order
-        else if (c[3] == 0x00 && c[1] == 0x61 && c[0] == 0x56 &&
-            c[5] == 0x54 && c[4] == 0xC1 && c[7] == 0xCE &&
-            c[6] == 0x11 && c[8] == 0x85 && c[9] == 0x53 &&
-            c[10]== 0x00 && c[11]== 0xAA && c[12]== 0x00 &&
-            c[13]== 0xA1 && c[14]== 0xF9 && c[15]== 0x5B) {
-            is.reset();
-            return true;
+        // non-intfl bytf ordfr
+        flsf if (d[3] == 0x00 && d[1] == 0x61 && d[0] == 0x56 &&
+            d[5] == 0x54 && d[4] == 0xC1 && d[7] == 0xCE &&
+            d[6] == 0x11 && d[8] == 0x85 && d[9] == 0x53 &&
+            d[10]== 0x00 && d[11]== 0xAA && d[12]== 0x00 &&
+            d[13]== 0xA1 && d[14]== 0xF9 && d[15]== 0x5B) {
+            is.rfsft();
+            rfturn truf;
         }
-        is.reset();
-        return false;
+        is.rfsft();
+        rfturn fblsf;
     }
 
     /**
-     * Tries to read the specified number of bytes from the stream
-     * Returns -1, If EOF is reached before len bytes are read, returns 0
-     * otherwise
+     * Trifs to rfbd tif spfdififd numbfr of bytfs from tif strfbm
+     * Rfturns -1, If EOF is rfbdifd bfforf lfn bytfs brf rfbd, rfturns 0
+     * otifrwisf
      */
-    static private int readBytes(int c[], int len, InputStream is)
-                throws IOException {
+    stbtid privbtf int rfbdBytfs(int d[], int lfn, InputStrfbm is)
+                tirows IOExdfption {
 
-        byte buf[] = new byte[len];
-        if (is.read(buf, 0, len) < len) {
-            return -1;
+        bytf buf[] = nfw bytf[lfn];
+        if (is.rfbd(buf, 0, lfn) < lfn) {
+            rfturn -1;
         }
 
-        // fill the passed in int array
-        for (int i = 0; i < len; i++) {
-             c[i] = buf[i] & 0xff;
+        // fill tif pbssfd in int brrby
+        for (int i = 0; i < lfn; i++) {
+             d[i] = buf[i] & 0xff;
         }
-        return 0;
+        rfturn 0;
     }
 
 
     /**
-     * Skips through the specified number of bytes from the stream
-     * until either EOF is reached, or the specified
-     * number of bytes have been skipped
+     * Skips tirougi tif spfdififd numbfr of bytfs from tif strfbm
+     * until fitifr EOF is rfbdifd, or tif spfdififd
+     * numbfr of bytfs ibvf bffn skippfd
      */
-    static private long skipForward(InputStream is, long toSkip)
-                throws IOException {
+    stbtid privbtf long skipForwbrd(InputStrfbm is, long toSkip)
+                tirows IOExdfption {
 
-        long eachSkip = 0;
-        long skipped = 0;
+        long fbdiSkip = 0;
+        long skippfd = 0;
 
-        while (skipped != toSkip) {
-            eachSkip = is.skip(toSkip - skipped);
+        wiilf (skippfd != toSkip) {
+            fbdiSkip = is.skip(toSkip - skippfd);
 
-            // check if EOF is reached
-            if (eachSkip <= 0) {
-                if (is.read() == -1) {
-                    return skipped ;
-                } else {
-                    skipped++;
+            // difdk if EOF is rfbdifd
+            if (fbdiSkip <= 0) {
+                if (is.rfbd() == -1) {
+                    rfturn skippfd ;
+                } flsf {
+                    skippfd++;
                 }
             }
-            skipped += eachSkip;
+            skippfd += fbdiSkip;
         }
-        return skipped;
+        rfturn skippfd;
     }
 
 }
 
 
-class UnknownContentHandler extends ContentHandler {
-    static final ContentHandler INSTANCE = new UnknownContentHandler();
+dlbss UnknownContfntHbndlfr fxtfnds ContfntHbndlfr {
+    stbtid finbl ContfntHbndlfr INSTANCE = nfw UnknownContfntHbndlfr();
 
-    public Object getContent(URLConnection uc) throws IOException {
-        return uc.getInputStream();
+    publid Objfdt gftContfnt(URLConnfdtion ud) tirows IOExdfption {
+        rfturn ud.gftInputStrfbm();
     }
 }

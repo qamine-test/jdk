@@ -1,523 +1,523 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.image.*;
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
 
-import sun.awt.IconInfo;
-import sun.awt.image.ToolkitImage;
-import sun.awt.image.ImageRepresentation;
+import sun.bwt.IdonInfo;
+import sun.bwt.imbgf.ToolkitImbgf;
+import sun.bwt.imbgf.ImbgfRfprfsfntbtion;
 
-import sun.util.logging.PlatformLogger;
+import sun.util.logging.PlbtformLoggfr;
 
-public class XIconWindow extends XBaseWindow {
-    private final static PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XIconWindow");
-    XDecoratedPeer parent;
-    Dimension size;
-    long iconPixmap = 0;
-    long iconMask = 0;
-    int iconWidth = 0;
-    int iconHeight = 0;
-    XIconWindow(XDecoratedPeer parent) {
-        super(new XCreateWindowParams(new Object[] {
-            PARENT, parent,
-            DELAYED, Boolean.TRUE}));
+publid dlbss XIdonWindow fxtfnds XBbsfWindow {
+    privbtf finbl stbtid PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XIdonWindow");
+    XDfdorbtfdPffr pbrfnt;
+    Dimfnsion sizf;
+    long idonPixmbp = 0;
+    long idonMbsk = 0;
+    int idonWidti = 0;
+    int idonHfigit = 0;
+    XIdonWindow(XDfdorbtfdPffr pbrfnt) {
+        supfr(nfw XCrfbtfWindowPbrbms(nfw Objfdt[] {
+            PARENT, pbrfnt,
+            DELAYED, Boolfbn.TRUE}));
     }
 
-    void instantPreInit(XCreateWindowParams params) {
-        super.instantPreInit(params);
-        this.parent = (XDecoratedPeer)params.get(PARENT);
+    void instbntPrfInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.instbntPrfInit(pbrbms);
+        tiis.pbrfnt = (XDfdorbtfdPffr)pbrbms.gft(PARENT);
     }
 
     /**
-     * @return array of XIconsSize structures, caller must free this array after use.
+     * @rfturn brrby of XIdonsSizf strudturfs, dbllfr must frff tiis brrby bftfr usf.
      */
-    private XIconSize[] getIconSizes() {
-        XToolkit.awtLock();
+    privbtf XIdonSizf[] gftIdonSizfs() {
+        XToolkit.bwtLodk();
         try {
-            AwtGraphicsConfigData adata = parent.getGraphicsConfigurationData();
-            final long screen = adata.get_awt_visInfo().get_screen();
-            final long display = XToolkit.getDisplay();
+            AwtGrbpiidsConfigDbtb bdbtb = pbrfnt.gftGrbpiidsConfigurbtionDbtb();
+            finbl long sdrffn = bdbtb.gft_bwt_visInfo().gft_sdrffn();
+            finbl long displby = XToolkit.gftDisplby();
 
-            if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                log.finest(adata.toString());
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                log.finfst(bdbtb.toString());
             }
 
-            long status =
-                XlibWrapper.XGetIconSizes(display, XToolkit.getDefaultRootWindow(),
-                                          XlibWrapper.larg1, XlibWrapper.iarg1);
-            if (status == 0) {
-                return null;
+            long stbtus =
+                XlibWrbppfr.XGftIdonSizfs(displby, XToolkit.gftDffbultRootWindow(),
+                                          XlibWrbppfr.lbrg1, XlibWrbppfr.ibrg1);
+            if (stbtus == 0) {
+                rfturn null;
             }
-            int count = Native.getInt(XlibWrapper.iarg1);
-            long sizes_ptr = Native.getLong(XlibWrapper.larg1); // XIconSize*
-            if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                log.finest("count = {1}, sizes_ptr = {0}", Long.valueOf(sizes_ptr), Integer.valueOf(count));
+            int dount = Nbtivf.gftInt(XlibWrbppfr.ibrg1);
+            long sizfs_ptr = Nbtivf.gftLong(XlibWrbppfr.lbrg1); // XIdonSizf*
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                log.finfst("dount = {1}, sizfs_ptr = {0}", Long.vblufOf(sizfs_ptr), Intfgfr.vblufOf(dount));
             }
-            XIconSize[] res = new XIconSize[count];
-            for (int i = 0; i < count; i++, sizes_ptr += XIconSize.getSize()) {
-                res[i] = new XIconSize(sizes_ptr);
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                    log.finest("sizes_ptr[{1}] = {0}", res[i], Integer.valueOf(i));
+            XIdonSizf[] rfs = nfw XIdonSizf[dount];
+            for (int i = 0; i < dount; i++, sizfs_ptr += XIdonSizf.gftSizf()) {
+                rfs[i] = nfw XIdonSizf(sizfs_ptr);
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    log.finfst("sizfs_ptr[{1}] = {0}", rfs[i], Intfgfr.vblufOf(i));
                 }
             }
-            return res;
-        } finally {
-            XToolkit.awtUnlock();
+            rfturn rfs;
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    private Dimension calcIconSize(int widthHint, int heightHint) {
-        if (XWM.getWMID() == XWM.ICE_WM) {
-            // ICE_WM has a bug - it only displays icons of the size
-            // 16x16, while reporting 32x32 in its size list
-            log.finest("Returning ICE_WM icon size: 16x16");
-            return new Dimension(16, 16);
+    privbtf Dimfnsion dbldIdonSizf(int widtiHint, int ifigitHint) {
+        if (XWM.gftWMID() == XWM.ICE_WM) {
+            // ICE_WM ibs b bug - it only displbys idons of tif sizf
+            // 16x16, wiilf rfporting 32x32 in its sizf list
+            log.finfst("Rfturning ICE_WM idon sizf: 16x16");
+            rfturn nfw Dimfnsion(16, 16);
         }
 
-        XIconSize[] sizeList = getIconSizes();
-        if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-            log.finest("Icon sizes: {0}", (Object[]) sizeList);
+        XIdonSizf[] sizfList = gftIdonSizfs();
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            log.finfst("Idon sizfs: {0}", (Objfdt[]) sizfList);
         }
-        if (sizeList == null) {
-            // No icon sizes so we simply fall back to 16x16
-            return new Dimension(16, 16);
+        if (sizfList == null) {
+            // No idon sizfs so wf simply fbll bbdk to 16x16
+            rfturn nfw Dimfnsion(16, 16);
         }
-        boolean found = false;
-        int dist = 0xffffffff, newDist, diff = 0, closestHeight, closestWidth;
-        int saveWidth = 0, saveHeight = 0;
-        for (int i = 0; i < sizeList.length; i++) {
-            if (widthHint >= sizeList[i].get_min_width() &&
-                widthHint <= sizeList[i].get_max_width() &&
-                heightHint >= sizeList[i].get_min_height() &&
-                heightHint <= sizeList[i].get_max_height()) {
-                found = true;
-                if ((((widthHint-sizeList[i].get_min_width())
-                      % sizeList[i].get_width_inc()) == 0) &&
-                    (((heightHint-sizeList[i].get_min_height())
-                      % sizeList[i].get_height_inc()) ==0)) {
-                    /* Found an exact match */
-                    saveWidth = widthHint;
-                    saveHeight = heightHint;
+        boolfbn found = fblsf;
+        int dist = 0xffffffff, nfwDist, diff = 0, dlosfstHfigit, dlosfstWidti;
+        int sbvfWidti = 0, sbvfHfigit = 0;
+        for (int i = 0; i < sizfList.lfngti; i++) {
+            if (widtiHint >= sizfList[i].gft_min_widti() &&
+                widtiHint <= sizfList[i].gft_mbx_widti() &&
+                ifigitHint >= sizfList[i].gft_min_ifigit() &&
+                ifigitHint <= sizfList[i].gft_mbx_ifigit()) {
+                found = truf;
+                if ((((widtiHint-sizfList[i].gft_min_widti())
+                      % sizfList[i].gft_widti_ind()) == 0) &&
+                    (((ifigitHint-sizfList[i].gft_min_ifigit())
+                      % sizfList[i].gft_ifigit_ind()) ==0)) {
+                    /* Found bn fxbdt mbtdi */
+                    sbvfWidti = widtiHint;
+                    sbvfHfigit = ifigitHint;
                     dist = 0;
-                    break;
+                    brfbk;
                 }
-                diff = widthHint - sizeList[i].get_min_width();
+                diff = widtiHint - sizfList[i].gft_min_widti();
                 if (diff == 0) {
-                    closestWidth = widthHint;
-                } else {
-                    diff = diff%sizeList[i].get_width_inc();
-                    closestWidth = widthHint - diff;
+                    dlosfstWidti = widtiHint;
+                } flsf {
+                    diff = diff%sizfList[i].gft_widti_ind();
+                    dlosfstWidti = widtiHint - diff;
                 }
-                diff = heightHint - sizeList[i].get_min_height();
+                diff = ifigitHint - sizfList[i].gft_min_ifigit();
                 if (diff == 0) {
-                    closestHeight = heightHint;
-                } else {
-                    diff = diff%sizeList[i].get_height_inc();
-                    closestHeight = heightHint - diff;
+                    dlosfstHfigit = ifigitHint;
+                } flsf {
+                    diff = diff%sizfList[i].gft_ifigit_ind();
+                    dlosfstHfigit = ifigitHint - diff;
                 }
-                newDist = closestWidth*closestWidth +
-                    closestHeight*closestHeight;
-                if (dist > newDist) {
-                    saveWidth = closestWidth;
-                    saveHeight = closestHeight;
-                    dist = newDist;
+                nfwDist = dlosfstWidti*dlosfstWidti +
+                    dlosfstHfigit*dlosfstHfigit;
+                if (dist > nfwDist) {
+                    sbvfWidti = dlosfstWidti;
+                    sbvfHfigit = dlosfstHfigit;
+                    dist = nfwDist;
                 }
             }
         }
-        if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-            log.finest("found=" + found);
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            log.finfst("found=" + found);
         }
         if (!found) {
-            if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                log.finest("widthHint=" + widthHint + ", heightHint=" + heightHint
-                           + ", saveWidth=" + saveWidth + ", saveHeight=" + saveHeight
-                           + ", max_width=" + sizeList[0].get_max_width()
-                           + ", max_height=" + sizeList[0].get_max_height()
-                           + ", min_width=" + sizeList[0].get_min_width()
-                           + ", min_height=" + sizeList[0].get_min_height());
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                log.finfst("widtiHint=" + widtiHint + ", ifigitHint=" + ifigitHint
+                           + ", sbvfWidti=" + sbvfWidti + ", sbvfHfigit=" + sbvfHfigit
+                           + ", mbx_widti=" + sizfList[0].gft_mbx_widti()
+                           + ", mbx_ifigit=" + sizfList[0].gft_mbx_ifigit()
+                           + ", min_widti=" + sizfList[0].gft_min_widti()
+                           + ", min_ifigit=" + sizfList[0].gft_min_ifigit());
             }
 
-            if (widthHint  > sizeList[0].get_max_width() ||
-                heightHint > sizeList[0].get_max_height())
+            if (widtiHint  > sizfList[0].gft_mbx_widti() ||
+                ifigitHint > sizfList[0].gft_mbx_ifigit())
             {
-                // Icon image too big
-                /* determine which way to scale */
-                int wdiff = widthHint - sizeList[0].get_max_width();
-                int hdiff = heightHint - sizeList[0].get_max_height();
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                    log.finest("wdiff=" + wdiff + ", hdiff=" + hdiff);
+                // Idon imbgf too big
+                /* dftfrminf wiidi wby to sdblf */
+                int wdiff = widtiHint - sizfList[0].gft_mbx_widti();
+                int idiff = ifigitHint - sizfList[0].gft_mbx_ifigit();
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    log.finfst("wdiff=" + wdiff + ", idiff=" + idiff);
                 }
-                if (wdiff >= hdiff) { /* need to scale width more  */
-                    saveWidth = sizeList[0].get_max_width();
-                    saveHeight =
-                        (int)(((double)sizeList[0].get_max_width()/widthHint) * heightHint);
-                } else {
-                    saveWidth =
-                        (int)(((double)sizeList[0].get_max_height()/heightHint) * widthHint);
-                    saveHeight = sizeList[0].get_max_height();
+                if (wdiff >= idiff) { /* nffd to sdblf widti morf  */
+                    sbvfWidti = sizfList[0].gft_mbx_widti();
+                    sbvfHfigit =
+                        (int)(((doublf)sizfList[0].gft_mbx_widti()/widtiHint) * ifigitHint);
+                } flsf {
+                    sbvfWidti =
+                        (int)(((doublf)sizfList[0].gft_mbx_ifigit()/ifigitHint) * widtiHint);
+                    sbvfHfigit = sizfList[0].gft_mbx_ifigit();
                 }
-            } else if (widthHint  < sizeList[0].get_min_width() ||
-                       heightHint < sizeList[0].get_min_height())
+            } flsf if (widtiHint  < sizfList[0].gft_min_widti() ||
+                       ifigitHint < sizfList[0].gft_min_ifigit())
             {
-                // Icon image too small
-                saveWidth = (sizeList[0].get_min_width()+sizeList[0].get_max_width())/2;
-                saveHeight = (sizeList[0].get_min_height()+sizeList[0].get_max_height())/2;
-            } else {
-                // Icon image fits within right size
-                saveWidth = widthHint;
-                saveHeight = widthHint;
+                // Idon imbgf too smbll
+                sbvfWidti = (sizfList[0].gft_min_widti()+sizfList[0].gft_mbx_widti())/2;
+                sbvfHfigit = (sizfList[0].gft_min_ifigit()+sizfList[0].gft_mbx_ifigit())/2;
+            } flsf {
+                // Idon imbgf fits witiin rigit sizf
+                sbvfWidti = widtiHint;
+                sbvfHfigit = widtiHint;
             }
         }
 
-        XToolkit.awtLock();
+        XToolkit.bwtLodk();
         try {
-            XlibWrapper.XFree(sizeList[0].pData);
-        } finally {
-            XToolkit.awtUnlock();
+            XlibWrbppfr.XFrff(sizfList[0].pDbtb);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
 
-        if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-            log.finest("return " + saveWidth + "x" + saveHeight);
+        if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+            log.finfst("rfturn " + sbvfWidti + "x" + sbvfHfigit);
         }
-        return new Dimension(saveWidth, saveHeight);
+        rfturn nfw Dimfnsion(sbvfWidti, sbvfHfigit);
     }
 
     /**
-     * @return preffered icon size calculated from specific icon
+     * @rfturn prffffrfd idon sizf dbldulbtfd from spfdifid idon
      */
-    Dimension getIconSize(int widthHint, int heightHint) {
-        if (size == null) {
-            size = calcIconSize(widthHint, heightHint);
+    Dimfnsion gftIdonSizf(int widtiHint, int ifigitHint) {
+        if (sizf == null) {
+            sizf = dbldIdonSizf(widtiHint, ifigitHint);
         }
-        return size;
+        rfturn sizf;
     }
 
    /**
-    * This function replaces iconPixmap handle with new image
-    * It does not replace window's hints, so it should be
-    * called only from setIconImage()
+    * Tiis fundtion rfplbdfs idonPixmbp ibndlf witi nfw imbgf
+    * It dofs not rfplbdf window's iints, so it siould bf
+    * dbllfd only from sftIdonImbgf()
     */
-   void replaceImage(Image img)
+   void rfplbdfImbgf(Imbgf img)
     {
-        if (parent == null) {
-            return;
+        if (pbrfnt == null) {
+            rfturn;
         }
-        //Prepare image
-        //create new buffered image of desired size
-        //in current window's color model
-        BufferedImage bi = null;
-        if (img != null && iconWidth != 0 && iconHeight != 0) {
-            GraphicsConfiguration defaultGC = parent.getGraphicsConfiguration().getDevice().getDefaultConfiguration();
-            ColorModel model = defaultGC.getColorModel();
-            WritableRaster raster = model.createCompatibleWritableRaster(iconWidth, iconHeight);
-            bi = new BufferedImage(model, raster, model.isAlphaPremultiplied(), null);
-            Graphics g = bi.getGraphics();
+        //Prfpbrf imbgf
+        //drfbtf nfw bufffrfd imbgf of dfsirfd sizf
+        //in durrfnt window's dolor modfl
+        BufffrfdImbgf bi = null;
+        if (img != null && idonWidti != 0 && idonHfigit != 0) {
+            GrbpiidsConfigurbtion dffbultGC = pbrfnt.gftGrbpiidsConfigurbtion().gftDfvidf().gftDffbultConfigurbtion();
+            ColorModfl modfl = dffbultGC.gftColorModfl();
+            WritbblfRbstfr rbstfr = modfl.drfbtfCompbtiblfWritbblfRbstfr(idonWidti, idonHfigit);
+            bi = nfw BufffrfdImbgf(modfl, rbstfr, modfl.isAlpibPrfmultiplifd(), null);
+            Grbpiids g = bi.gftGrbpiids();
             try {
-                //We need to draw image on SystemColors.window
-                //for using as iconWindow's background
-                g.setColor(SystemColor.window);
-                g.fillRect(0, 0, iconWidth, iconHeight);
-                if (g instanceof Graphics2D) {
-                    ((Graphics2D)g).setComposite(AlphaComposite.Src);
+                //Wf nffd to drbw imbgf on SystfmColors.window
+                //for using bs idonWindow's bbdkground
+                g.sftColor(SystfmColor.window);
+                g.fillRfdt(0, 0, idonWidti, idonHfigit);
+                if (g instbndfof Grbpiids2D) {
+                    ((Grbpiids2D)g).sftCompositf(AlpibCompositf.Srd);
                 }
-                g.drawImage(img, 0, 0, iconWidth, iconHeight, null);
-            } finally {
-                g.dispose();
+                g.drbwImbgf(img, 0, 0, idonWidti, idonHfigit, null);
+            } finblly {
+                g.disposf();
             }
         }
-        //create pixmap
-        XToolkit.awtLock();
+        //drfbtf pixmbp
+        XToolkit.bwtLodk();
         try {
-            if (iconPixmap != 0) {
-                XlibWrapper.XFreePixmap(XToolkit.getDisplay(), iconPixmap);
-                iconPixmap = 0;
-                log.finest("Freed previous pixmap");
+            if (idonPixmbp != 0) {
+                XlibWrbppfr.XFrffPixmbp(XToolkit.gftDisplby(), idonPixmbp);
+                idonPixmbp = 0;
+                log.finfst("Frffd prfvious pixmbp");
             }
-            if (bi == null || iconWidth == 0 || iconHeight == 0) {
-                return;  //The iconPixmap is 0 now, we have done everything
+            if (bi == null || idonWidti == 0 || idonHfigit == 0) {
+                rfturn;  //Tif idonPixmbp is 0 now, wf ibvf donf fvfrytiing
             }
-            AwtGraphicsConfigData adata = parent.getGraphicsConfigurationData();
-            awtImageData awtImage = adata.get_awtImage(0);
-            XVisualInfo visInfo = adata.get_awt_visInfo();
-            iconPixmap = XlibWrapper.XCreatePixmap(XToolkit.getDisplay(),
-                                                   XlibWrapper.RootWindow(XToolkit.getDisplay(), visInfo.get_screen()),
-                                                   iconWidth,
-                                                   iconHeight,
-                                                   awtImage.get_Depth()
+            AwtGrbpiidsConfigDbtb bdbtb = pbrfnt.gftGrbpiidsConfigurbtionDbtb();
+            bwtImbgfDbtb bwtImbgf = bdbtb.gft_bwtImbgf(0);
+            XVisublInfo visInfo = bdbtb.gft_bwt_visInfo();
+            idonPixmbp = XlibWrbppfr.XCrfbtfPixmbp(XToolkit.gftDisplby(),
+                                                   XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), visInfo.gft_sdrffn()),
+                                                   idonWidti,
+                                                   idonHfigit,
+                                                   bwtImbgf.gft_Dfpti()
                                                    );
-            if (iconPixmap == 0) {
-                log.finest("Can't create new pixmap for icon");
-                return; //Can't do nothing
+            if (idonPixmbp == 0) {
+                log.finfst("Cbn't drfbtf nfw pixmbp for idon");
+                rfturn; //Cbn't do notiing
             }
-            //Transform image data
-            long bytes = 0;
-            DataBuffer srcBuf = bi.getData().getDataBuffer();
-            if (srcBuf instanceof DataBufferByte) {
-                byte[] buf = ((DataBufferByte)srcBuf).getData();
-                ColorData cdata = adata.get_color_data(0);
-                int num_colors = cdata.get_awt_numICMcolors();
-                for (int i = 0; i < buf.length; i++) {
-                    buf[i] = (buf[i] >= num_colors) ?
-                        0 : cdata.get_awt_icmLUT2Colors(buf[i]);
+            //Trbnsform imbgf dbtb
+            long bytfs = 0;
+            DbtbBufffr srdBuf = bi.gftDbtb().gftDbtbBufffr();
+            if (srdBuf instbndfof DbtbBufffrBytf) {
+                bytf[] buf = ((DbtbBufffrBytf)srdBuf).gftDbtb();
+                ColorDbtb ddbtb = bdbtb.gft_dolor_dbtb(0);
+                int num_dolors = ddbtb.gft_bwt_numICMdolors();
+                for (int i = 0; i < buf.lfngti; i++) {
+                    buf[i] = (buf[i] >= num_dolors) ?
+                        0 : ddbtb.gft_bwt_idmLUT2Colors(buf[i]);
                 }
-                bytes = Native.toData(buf);
-            } else if (srcBuf instanceof DataBufferInt) {
-                bytes = Native.toData(((DataBufferInt)srcBuf).getData());
-            } else if (srcBuf instanceof DataBufferUShort) {
-                bytes = Native.toData(((DataBufferUShort)srcBuf).getData());
-            } else {
-                throw new IllegalArgumentException("Unknown data buffer: " + srcBuf);
+                bytfs = Nbtivf.toDbtb(buf);
+            } flsf if (srdBuf instbndfof DbtbBufffrInt) {
+                bytfs = Nbtivf.toDbtb(((DbtbBufffrInt)srdBuf).gftDbtb());
+            } flsf if (srdBuf instbndfof DbtbBufffrUSiort) {
+                bytfs = Nbtivf.toDbtb(((DbtbBufffrUSiort)srdBuf).gftDbtb());
+            } flsf {
+                tirow nfw IllfgblArgumfntExdfption("Unknown dbtb bufffr: " + srdBuf);
             }
-            int bpp = awtImage.get_wsImageFormat().get_bits_per_pixel();
-            int slp =awtImage.get_wsImageFormat().get_scanline_pad();
-            int bpsl = paddedwidth(iconWidth*bpp, slp) >> 3;
-            if (((bpsl << 3) / bpp) < iconWidth) {
-                log.finest("Image format doesn't fit to icon width");
-                return;
+            int bpp = bwtImbgf.gft_wsImbgfFormbt().gft_bits_pfr_pixfl();
+            int slp =bwtImbgf.gft_wsImbgfFormbt().gft_sdbnlinf_pbd();
+            int bpsl = pbddfdwidti(idonWidti*bpp, slp) >> 3;
+            if (((bpsl << 3) / bpp) < idonWidti) {
+                log.finfst("Imbgf formbt dofsn't fit to idon widti");
+                rfturn;
             }
-            long dst = XlibWrapper.XCreateImage(XToolkit.getDisplay(),
-                                                visInfo.get_visual(),
-                                                awtImage.get_Depth(),
-                                                XConstants.ZPixmap,
+            long dst = XlibWrbppfr.XCrfbtfImbgf(XToolkit.gftDisplby(),
+                                                visInfo.gft_visubl(),
+                                                bwtImbgf.gft_Dfpti(),
+                                                XConstbnts.ZPixmbp,
                                                 0,
-                                                bytes,
-                                                iconWidth,
-                                                iconHeight,
+                                                bytfs,
+                                                idonWidti,
+                                                idonHfigit,
                                                 32,
                                                 bpsl);
             if (dst == 0) {
-                log.finest("Can't create XImage for icon");
-                XlibWrapper.XFreePixmap(XToolkit.getDisplay(), iconPixmap);
-                iconPixmap = 0;
-                return;
-            } else {
-                log.finest("Created XImage for icon");
+                log.finfst("Cbn't drfbtf XImbgf for idon");
+                XlibWrbppfr.XFrffPixmbp(XToolkit.gftDisplby(), idonPixmbp);
+                idonPixmbp = 0;
+                rfturn;
+            } flsf {
+                log.finfst("Crfbtfd XImbgf for idon");
             }
-            long gc = XlibWrapper.XCreateGC(XToolkit.getDisplay(), iconPixmap, 0, 0);
-            if (gc == 0) {
-                log.finest("Can't create GC for pixmap");
-                XlibWrapper.XFreePixmap(XToolkit.getDisplay(), iconPixmap);
-                iconPixmap = 0;
-                return;
-            } else {
-                log.finest("Created GC for pixmap");
+            long gd = XlibWrbppfr.XCrfbtfGC(XToolkit.gftDisplby(), idonPixmbp, 0, 0);
+            if (gd == 0) {
+                log.finfst("Cbn't drfbtf GC for pixmbp");
+                XlibWrbppfr.XFrffPixmbp(XToolkit.gftDisplby(), idonPixmbp);
+                idonPixmbp = 0;
+                rfturn;
+            } flsf {
+                log.finfst("Crfbtfd GC for pixmbp");
             }
             try {
-                XlibWrapper.XPutImage(XToolkit.getDisplay(), iconPixmap, gc,
-                                      dst, 0, 0, 0, 0, iconWidth, iconHeight);
-            } finally {
-                XlibWrapper.XFreeGC(XToolkit.getDisplay(), gc);
+                XlibWrbppfr.XPutImbgf(XToolkit.gftDisplby(), idonPixmbp, gd,
+                                      dst, 0, 0, 0, 0, idonWidti, idonHfigit);
+            } finblly {
+                XlibWrbppfr.XFrffGC(XToolkit.gftDisplby(), gd);
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
    /**
-    * This function replaces iconPixmap handle with new image
-    * It does not replace window's hints, so it should be
-    * called only from setIconImage()
+    * Tiis fundtion rfplbdfs idonPixmbp ibndlf witi nfw imbgf
+    * It dofs not rfplbdf window's iints, so it siould bf
+    * dbllfd only from sftIdonImbgf()
     */
-    void replaceMask(Image img) {
-        if (parent == null) {
-            return;
+    void rfplbdfMbsk(Imbgf img) {
+        if (pbrfnt == null) {
+            rfturn;
         }
-        //Prepare image
-        BufferedImage bi = null;
-        if (img != null && iconWidth != 0 && iconHeight != 0) {
-            bi = new BufferedImage(iconWidth, iconHeight, BufferedImage.TYPE_INT_ARGB);
-            Graphics g = bi.getGraphics();
+        //Prfpbrf imbgf
+        BufffrfdImbgf bi = null;
+        if (img != null && idonWidti != 0 && idonHfigit != 0) {
+            bi = nfw BufffrfdImbgf(idonWidti, idonHfigit, BufffrfdImbgf.TYPE_INT_ARGB);
+            Grbpiids g = bi.gftGrbpiids();
             try {
-                g.drawImage(img, 0, 0, iconWidth, iconHeight, null);
-            } finally {
-                g.dispose();
+                g.drbwImbgf(img, 0, 0, idonWidti, idonHfigit, null);
+            } finblly {
+                g.disposf();
             }
         }
-        //create mask
-        XToolkit.awtLock();
+        //drfbtf mbsk
+        XToolkit.bwtLodk();
         try {
-            if (iconMask != 0) {
-                XlibWrapper.XFreePixmap(XToolkit.getDisplay(), iconMask);
-                iconMask = 0;
-                log.finest("Freed previous mask");
+            if (idonMbsk != 0) {
+                XlibWrbppfr.XFrffPixmbp(XToolkit.gftDisplby(), idonMbsk);
+                idonMbsk = 0;
+                log.finfst("Frffd prfvious mbsk");
             }
-            if (bi == null || iconWidth == 0 || iconHeight == 0) {
-                return;  //The iconMask is 0 now, we have done everything
+            if (bi == null || idonWidti == 0 || idonHfigit == 0) {
+                rfturn;  //Tif idonMbsk is 0 now, wf ibvf donf fvfrytiing
             }
-            AwtGraphicsConfigData adata = parent.getGraphicsConfigurationData();
-            awtImageData awtImage = adata.get_awtImage(0);
-            XVisualInfo visInfo = adata.get_awt_visInfo();
-            ColorModel cm = bi.getColorModel();
-            DataBuffer srcBuf = bi.getRaster().getDataBuffer();
-            int sidx = 0;//index of source element
-            int bpl = (iconWidth + 7) >> 3;//bytes per line
-            byte[] destBuf = new byte[bpl * iconHeight];
-            int didx = 0;//index of destination element
-            for (int i = 0; i < iconHeight; i++) {
-                int dbit = 0;//index of current bit
-                int cv = 0;
-                for (int j = 0; j < iconWidth; j++) {
-                    if (cm.getAlpha(srcBuf.getElem(sidx)) != 0 ) {
-                        cv = cv + (1 << dbit);
+            AwtGrbpiidsConfigDbtb bdbtb = pbrfnt.gftGrbpiidsConfigurbtionDbtb();
+            bwtImbgfDbtb bwtImbgf = bdbtb.gft_bwtImbgf(0);
+            XVisublInfo visInfo = bdbtb.gft_bwt_visInfo();
+            ColorModfl dm = bi.gftColorModfl();
+            DbtbBufffr srdBuf = bi.gftRbstfr().gftDbtbBufffr();
+            int sidx = 0;//indfx of sourdf flfmfnt
+            int bpl = (idonWidti + 7) >> 3;//bytfs pfr linf
+            bytf[] dfstBuf = nfw bytf[bpl * idonHfigit];
+            int didx = 0;//indfx of dfstinbtion flfmfnt
+            for (int i = 0; i < idonHfigit; i++) {
+                int dbit = 0;//indfx of durrfnt bit
+                int dv = 0;
+                for (int j = 0; j < idonWidti; j++) {
+                    if (dm.gftAlpib(srdBuf.gftElfm(sidx)) != 0 ) {
+                        dv = dv + (1 << dbit);
                     }
                     dbit++;
                     if (dbit == 8) {
-                        destBuf[didx] = (byte)cv;
-                        cv = 0;
+                        dfstBuf[didx] = (bytf)dv;
+                        dv = 0;
                         dbit = 0;
                         didx++;
                     }
                     sidx++;
                 }
             }
-            iconMask = XlibWrapper.XCreateBitmapFromData(XToolkit.getDisplay(),
-                XlibWrapper.RootWindow(XToolkit.getDisplay(), visInfo.get_screen()),
-                Native.toData(destBuf),
-                iconWidth, iconHeight);
-        } finally {
-            XToolkit.awtUnlock();
+            idonMbsk = XlibWrbppfr.XCrfbtfBitmbpFromDbtb(XToolkit.gftDisplby(),
+                XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), visInfo.gft_sdrffn()),
+                Nbtivf.toDbtb(dfstBuf),
+                idonWidti, idonHfigit);
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /**
-     * Sets icon image by selecting one of the images from the list.
-     * The selected image is the one having the best matching size.
+     * Sfts idon imbgf by sflfdting onf of tif imbgfs from tif list.
+     * Tif sflfdtfd imbgf is tif onf ibving tif bfst mbtdiing sizf.
      */
-    void setIconImages(java.util.List<IconInfo> icons) {
-        if (icons == null || icons.size() == 0) return;
+    void sftIdonImbgfs(jbvb.util.List<IdonInfo> idons) {
+        if (idons == null || idons.sizf() == 0) rfturn;
 
-        int minDiff = Integer.MAX_VALUE;
-        Image min = null;
-        for (IconInfo iconInfo : icons) {
-            if (iconInfo.isValid()) {
-                Image image = iconInfo.getImage();
-                Dimension dim = calcIconSize(image.getWidth(null), image.getHeight(null));
-                int widthDiff = Math.abs(dim.width - image.getWidth(null));
-                int heightDiff = Math.abs(image.getHeight(null) - dim.height);
+        int minDiff = Intfgfr.MAX_VALUE;
+        Imbgf min = null;
+        for (IdonInfo idonInfo : idons) {
+            if (idonInfo.isVblid()) {
+                Imbgf imbgf = idonInfo.gftImbgf();
+                Dimfnsion dim = dbldIdonSizf(imbgf.gftWidti(null), imbgf.gftHfigit(null));
+                int widtiDiff = Mbti.bbs(dim.widti - imbgf.gftWidti(null));
+                int ifigitDiff = Mbti.bbs(imbgf.gftHfigit(null) - dim.ifigit);
 
-                // "=" below allows to select the best matching icon
-                if (minDiff >= (widthDiff + heightDiff)) {
-                    minDiff = (widthDiff + heightDiff);
-                    min = image;
+                // "=" bflow bllows to sflfdt tif bfst mbtdiing idon
+                if (minDiff >= (widtiDiff + ifigitDiff)) {
+                    minDiff = (widtiDiff + ifigitDiff);
+                    min = imbgf;
                 }
             }
         }
         if (min != null) {
-            if (log.isLoggable(PlatformLogger.Level.FINER)) {
-                log.finer("Icon: {0}x{1}", min.getWidth(null), min.getHeight(null));
+            if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINER)) {
+                log.finfr("Idon: {0}x{1}", min.gftWidti(null), min.gftHfigit(null));
             }
-            setIconImage(min);
+            sftIdonImbgf(min);
         }
     }
 
-    void setIconImage(Image img) {
+    void sftIdonImbgf(Imbgf img) {
         if (img == null) {
-            //if image is null, reset to default image
-            replaceImage(null);
-            replaceMask(null);
-        } else {
-            //get image size
-            int width;
-            int height;
-            if (img instanceof ToolkitImage) {
-                ImageRepresentation ir = ((ToolkitImage)img).getImageRep();
-                ir.reconstruct(ImageObserver.ALLBITS);
-                width = ir.getWidth();
-                height = ir.getHeight();
+            //if imbgf is null, rfsft to dffbult imbgf
+            rfplbdfImbgf(null);
+            rfplbdfMbsk(null);
+        } flsf {
+            //gft imbgf sizf
+            int widti;
+            int ifigit;
+            if (img instbndfof ToolkitImbgf) {
+                ImbgfRfprfsfntbtion ir = ((ToolkitImbgf)img).gftImbgfRfp();
+                ir.rfdonstrudt(ImbgfObsfrvfr.ALLBITS);
+                widti = ir.gftWidti();
+                ifigit = ir.gftHfigit();
             }
-            else {
-                width = img.getWidth(null);
-                height = img.getHeight(null);
+            flsf {
+                widti = img.gftWidti(null);
+                ifigit = img.gftHfigit(null);
             }
-            Dimension iconSize = getIconSize(width, height);
-            if (iconSize != null) {
-                if (log.isLoggable(PlatformLogger.Level.FINEST)) {
-                    log.finest("Icon size: {0}", iconSize);
+            Dimfnsion idonSizf = gftIdonSizf(widti, ifigit);
+            if (idonSizf != null) {
+                if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                    log.finfst("Idon sizf: {0}", idonSizf);
                 }
-                iconWidth = iconSize.width;
-                iconHeight = iconSize.height;
-            } else {
-                log.finest("Error calculating image size");
-                iconWidth = 0;
-                iconHeight = 0;
+                idonWidti = idonSizf.widti;
+                idonHfigit = idonSizf.ifigit;
+            } flsf {
+                log.finfst("Error dbldulbting imbgf sizf");
+                idonWidti = 0;
+                idonHfigit = 0;
             }
-            replaceImage(img);
-            replaceMask(img);
+            rfplbdfImbgf(img);
+            rfplbdfMbsk(img);
         }
-        //create icon window and set XWMHints
-        XToolkit.awtLock();
+        //drfbtf idon window bnd sft XWMHints
+        XToolkit.bwtLodk();
         try {
-            AwtGraphicsConfigData adata = parent.getGraphicsConfigurationData();
-            awtImageData awtImage = adata.get_awtImage(0);
-            XVisualInfo visInfo = adata.get_awt_visInfo();
-            XWMHints hints = parent.getWMHints();
-            window = hints.get_icon_window();
+            AwtGrbpiidsConfigDbtb bdbtb = pbrfnt.gftGrbpiidsConfigurbtionDbtb();
+            bwtImbgfDbtb bwtImbgf = bdbtb.gft_bwtImbgf(0);
+            XVisublInfo visInfo = bdbtb.gft_bwt_visInfo();
+            XWMHints iints = pbrfnt.gftWMHints();
+            window = iints.gft_idon_window();
             if (window == 0) {
-                log.finest("Icon window wasn't set");
-                XCreateWindowParams params = getDelayedParams();
-                params.add(BORDER_PIXEL, Long.valueOf(XToolkit.getAwtDefaultFg()));
-                params.add(BACKGROUND_PIXMAP, iconPixmap);
-                params.add(COLORMAP, adata.get_awt_cmap());
-                params.add(DEPTH, awtImage.get_Depth());
-                params.add(VISUAL_CLASS, XConstants.InputOutput);
-                params.add(VISUAL, visInfo.get_visual());
-                params.add(VALUE_MASK, XConstants.CWBorderPixel | XConstants.CWColormap | XConstants.CWBackPixmap);
-                params.add(PARENT_WINDOW, XlibWrapper.RootWindow(XToolkit.getDisplay(), visInfo.get_screen()));
-                params.add(BOUNDS, new Rectangle(0, 0, iconWidth, iconHeight));
-                params.remove(DELAYED);
-                init(params);
-                if (getWindow() == 0) {
-                    log.finest("Can't create new icon window");
-                } else {
-                    log.finest("Created new icon window");
+                log.finfst("Idon window wbsn't sft");
+                XCrfbtfWindowPbrbms pbrbms = gftDflbyfdPbrbms();
+                pbrbms.bdd(BORDER_PIXEL, Long.vblufOf(XToolkit.gftAwtDffbultFg()));
+                pbrbms.bdd(BACKGROUND_PIXMAP, idonPixmbp);
+                pbrbms.bdd(COLORMAP, bdbtb.gft_bwt_dmbp());
+                pbrbms.bdd(DEPTH, bwtImbgf.gft_Dfpti());
+                pbrbms.bdd(VISUAL_CLASS, XConstbnts.InputOutput);
+                pbrbms.bdd(VISUAL, visInfo.gft_visubl());
+                pbrbms.bdd(VALUE_MASK, XConstbnts.CWBordfrPixfl | XConstbnts.CWColormbp | XConstbnts.CWBbdkPixmbp);
+                pbrbms.bdd(PARENT_WINDOW, XlibWrbppfr.RootWindow(XToolkit.gftDisplby(), visInfo.gft_sdrffn()));
+                pbrbms.bdd(BOUNDS, nfw Rfdtbnglf(0, 0, idonWidti, idonHfigit));
+                pbrbms.rfmovf(DELAYED);
+                init(pbrbms);
+                if (gftWindow() == 0) {
+                    log.finfst("Cbn't drfbtf nfw idon window");
+                } flsf {
+                    log.finfst("Crfbtfd nfw idon window");
                 }
             }
-            if (getWindow() != 0) {
-                XlibWrapper.XSetWindowBackgroundPixmap(XToolkit.getDisplay(), getWindow(), iconPixmap);
-                XlibWrapper.XClearWindow(XToolkit.getDisplay(), getWindow());
+            if (gftWindow() != 0) {
+                XlibWrbppfr.XSftWindowBbdkgroundPixmbp(XToolkit.gftDisplby(), gftWindow(), idonPixmbp);
+                XlibWrbppfr.XClfbrWindow(XToolkit.gftDisplby(), gftWindow());
             }
-            // Provide both pixmap and window, WM or Taskbar will use the one they find more appropriate
-            long newFlags = hints.get_flags() | XUtilConstants.IconPixmapHint | XUtilConstants.IconMaskHint;
-            if (getWindow()  != 0) {
-                newFlags |= XUtilConstants.IconWindowHint;
+            // Providf boti pixmbp bnd window, WM or Tbskbbr will usf tif onf tify find morf bppropribtf
+            long nfwFlbgs = iints.gft_flbgs() | XUtilConstbnts.IdonPixmbpHint | XUtilConstbnts.IdonMbskHint;
+            if (gftWindow()  != 0) {
+                nfwFlbgs |= XUtilConstbnts.IdonWindowHint;
             }
-            hints.set_flags(newFlags);
-            hints.set_icon_pixmap(iconPixmap);
-            hints.set_icon_mask(iconMask);
-            hints.set_icon_window(getWindow());
-            XlibWrapper.XSetWMHints(XToolkit.getDisplay(), parent.getShell(), hints.pData);
-            log.finest("Set icon window hint");
-        } finally {
-            XToolkit.awtUnlock();
+            iints.sft_flbgs(nfwFlbgs);
+            iints.sft_idon_pixmbp(idonPixmbp);
+            iints.sft_idon_mbsk(idonMbsk);
+            iints.sft_idon_window(gftWindow());
+            XlibWrbppfr.XSftWMHints(XToolkit.gftDisplby(), pbrfnt.gftSifll(), iints.pDbtb);
+            log.finfst("Sft idon window iint");
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    static int paddedwidth(int number, int boundary)
+    stbtid int pbddfdwidti(int numbfr, int boundbry)
     {
-        return (((number) + ((boundary) - 1)) & (~((boundary) - 1)));
+        rfturn (((numbfr) + ((boundbry) - 1)) & (~((boundbry) - 1)));
     }
 }

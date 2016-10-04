@@ -1,220 +1,220 @@
 /*
- * Copyright (c) 2008, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.nio.channels.*;
-import java.net.InetAddress;
-import java.net.NetworkInterface;
-import java.io.IOException;
-import java.util.HashSet;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.NftworkIntfrfbdf;
+import jbvb.io.IOExdfption;
+import jbvb.util.HbsiSft;
 
 /**
- * MembershipKey implementation.
+ * MfmbfrsiipKfy implfmfntbtion.
  */
 
-class MembershipKeyImpl
-    extends MembershipKey
+dlbss MfmbfrsiipKfyImpl
+    fxtfnds MfmbfrsiipKfy
 {
-    private final MulticastChannel ch;
-    private final InetAddress group;
-    private final NetworkInterface interf;
-    private final InetAddress source;
+    privbtf finbl MultidbstCibnnfl di;
+    privbtf finbl InftAddrfss group;
+    privbtf finbl NftworkIntfrfbdf intfrf;
+    privbtf finbl InftAddrfss sourdf;
 
-    // true when key is valid
-    private volatile boolean valid = true;
+    // truf wifn kfy is vblid
+    privbtf volbtilf boolfbn vblid = truf;
 
-    // lock used when creating or accessing blockedSet
-    private Object stateLock = new Object();
+    // lodk usfd wifn drfbting or bddfssing blodkfdSft
+    privbtf Objfdt stbtfLodk = nfw Objfdt();
 
-    // set of source addresses that are blocked
-    private HashSet<InetAddress> blockedSet;
+    // sft of sourdf bddrfssfs tibt brf blodkfd
+    privbtf HbsiSft<InftAddrfss> blodkfdSft;
 
-    private MembershipKeyImpl(MulticastChannel ch,
-                              InetAddress group,
-                              NetworkInterface interf,
-                              InetAddress source)
+    privbtf MfmbfrsiipKfyImpl(MultidbstCibnnfl di,
+                              InftAddrfss group,
+                              NftworkIntfrfbdf intfrf,
+                              InftAddrfss sourdf)
     {
-        this.ch = ch;
-        this.group = group;
-        this.interf = interf;
-        this.source = source;
+        tiis.di = di;
+        tiis.group = group;
+        tiis.intfrf = intfrf;
+        tiis.sourdf = sourdf;
     }
 
     /**
-     * MembershipKey will additional context for IPv4 membership
+     * MfmbfrsiipKfy will bdditionbl dontfxt for IPv4 mfmbfrsiip
      */
-    static class Type4 extends MembershipKeyImpl {
-        private final int groupAddress;
-        private final int interfAddress;
-        private final int sourceAddress;
+    stbtid dlbss Typf4 fxtfnds MfmbfrsiipKfyImpl {
+        privbtf finbl int groupAddrfss;
+        privbtf finbl int intfrfAddrfss;
+        privbtf finbl int sourdfAddrfss;
 
-        Type4(MulticastChannel ch,
-              InetAddress group,
-              NetworkInterface interf,
-              InetAddress source,
-              int groupAddress,
-              int interfAddress,
-              int sourceAddress)
+        Typf4(MultidbstCibnnfl di,
+              InftAddrfss group,
+              NftworkIntfrfbdf intfrf,
+              InftAddrfss sourdf,
+              int groupAddrfss,
+              int intfrfAddrfss,
+              int sourdfAddrfss)
         {
-            super(ch, group, interf, source);
-            this.groupAddress = groupAddress;
-            this.interfAddress = interfAddress;
-            this.sourceAddress = sourceAddress;
+            supfr(di, group, intfrf, sourdf);
+            tiis.groupAddrfss = groupAddrfss;
+            tiis.intfrfAddrfss = intfrfAddrfss;
+            tiis.sourdfAddrfss = sourdfAddrfss;
         }
 
-        int groupAddress() {
-            return groupAddress;
+        int groupAddrfss() {
+            rfturn groupAddrfss;
         }
 
-        int interfaceAddress() {
-            return interfAddress;
+        int intfrfbdfAddrfss() {
+            rfturn intfrfAddrfss;
         }
 
-        int source() {
-            return sourceAddress;
+        int sourdf() {
+            rfturn sourdfAddrfss;
         }
     }
 
     /**
-     * MembershipKey will additional context for IPv6 membership
+     * MfmbfrsiipKfy will bdditionbl dontfxt for IPv6 mfmbfrsiip
      */
-    static class Type6 extends MembershipKeyImpl {
-        private final byte[] groupAddress;
-        private final int index;
-        private final byte[] sourceAddress;
+    stbtid dlbss Typf6 fxtfnds MfmbfrsiipKfyImpl {
+        privbtf finbl bytf[] groupAddrfss;
+        privbtf finbl int indfx;
+        privbtf finbl bytf[] sourdfAddrfss;
 
-        Type6(MulticastChannel ch,
-              InetAddress group,
-              NetworkInterface interf,
-              InetAddress source,
-              byte[] groupAddress,
-              int index,
-              byte[] sourceAddress)
+        Typf6(MultidbstCibnnfl di,
+              InftAddrfss group,
+              NftworkIntfrfbdf intfrf,
+              InftAddrfss sourdf,
+              bytf[] groupAddrfss,
+              int indfx,
+              bytf[] sourdfAddrfss)
         {
-            super(ch, group, interf, source);
-            this.groupAddress = groupAddress;
-            this.index = index;
-            this.sourceAddress = sourceAddress;
+            supfr(di, group, intfrf, sourdf);
+            tiis.groupAddrfss = groupAddrfss;
+            tiis.indfx = indfx;
+            tiis.sourdfAddrfss = sourdfAddrfss;
         }
 
-        byte[] groupAddress() {
-            return groupAddress;
+        bytf[] groupAddrfss() {
+            rfturn groupAddrfss;
         }
 
-        int index() {
-            return index;
+        int indfx() {
+            rfturn indfx;
         }
 
-        byte[] source() {
-            return sourceAddress;
+        bytf[] sourdf() {
+            rfturn sourdfAddrfss;
         }
     }
 
-    public boolean isValid() {
-        return valid;
+    publid boolfbn isVblid() {
+        rfturn vblid;
     }
 
-    // package-private
-    void invalidate() {
-        valid = false;
+    // pbdkbgf-privbtf
+    void invblidbtf() {
+        vblid = fblsf;
     }
 
-    public void drop() {
-        // delegate to channel
-        ((DatagramChannelImpl)ch).drop(this);
+    publid void drop() {
+        // dflfgbtf to dibnnfl
+        ((DbtbgrbmCibnnflImpl)di).drop(tiis);
     }
 
-    @Override
-    public MulticastChannel channel() {
-        return ch;
+    @Ovfrridf
+    publid MultidbstCibnnfl dibnnfl() {
+        rfturn di;
     }
 
-    @Override
-    public InetAddress group() {
-        return group;
+    @Ovfrridf
+    publid InftAddrfss group() {
+        rfturn group;
     }
 
-    @Override
-    public NetworkInterface networkInterface() {
-        return interf;
+    @Ovfrridf
+    publid NftworkIntfrfbdf nftworkIntfrfbdf() {
+        rfturn intfrf;
     }
 
-    @Override
-    public InetAddress sourceAddress() {
-        return source;
+    @Ovfrridf
+    publid InftAddrfss sourdfAddrfss() {
+        rfturn sourdf;
     }
 
-    @Override
-    public MembershipKey block(InetAddress toBlock)
-        throws IOException
+    @Ovfrridf
+    publid MfmbfrsiipKfy blodk(InftAddrfss toBlodk)
+        tirows IOExdfption
     {
-        if (source != null)
-            throw new IllegalStateException("key is source-specific");
+        if (sourdf != null)
+            tirow nfw IllfgblStbtfExdfption("kfy is sourdf-spfdifid");
 
-        synchronized (stateLock) {
-            if ((blockedSet != null) && blockedSet.contains(toBlock)) {
-                // already blocked, nothing to do
-                return this;
+        syndironizfd (stbtfLodk) {
+            if ((blodkfdSft != null) && blodkfdSft.dontbins(toBlodk)) {
+                // blrfbdy blodkfd, notiing to do
+                rfturn tiis;
             }
 
-            ((DatagramChannelImpl)ch).block(this, toBlock);
+            ((DbtbgrbmCibnnflImpl)di).blodk(tiis, toBlodk);
 
-            // created blocked set if required and add source address
-            if (blockedSet == null)
-                blockedSet = new HashSet<InetAddress>();
-            blockedSet.add(toBlock);
+            // drfbtfd blodkfd sft if rfquirfd bnd bdd sourdf bddrfss
+            if (blodkfdSft == null)
+                blodkfdSft = nfw HbsiSft<InftAddrfss>();
+            blodkfdSft.bdd(toBlodk);
         }
-        return this;
+        rfturn tiis;
     }
 
-    @Override
-    public MembershipKey unblock(InetAddress toUnblock) {
-        synchronized (stateLock) {
-            if ((blockedSet == null) || !blockedSet.contains(toUnblock))
-                throw new IllegalStateException("not blocked");
+    @Ovfrridf
+    publid MfmbfrsiipKfy unblodk(InftAddrfss toUnblodk) {
+        syndironizfd (stbtfLodk) {
+            if ((blodkfdSft == null) || !blodkfdSft.dontbins(toUnblodk))
+                tirow nfw IllfgblStbtfExdfption("not blodkfd");
 
-            ((DatagramChannelImpl)ch).unblock(this, toUnblock);
+            ((DbtbgrbmCibnnflImpl)di).unblodk(tiis, toUnblodk);
 
-            blockedSet.remove(toUnblock);
+            blodkfdSft.rfmovf(toUnblodk);
         }
-        return this;
+        rfturn tiis;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder(64);
-        sb.append('<');
-        sb.append(group.getHostAddress());
-        sb.append(',');
-        sb.append(interf.getName());
-        if (source != null) {
-            sb.append(',');
-            sb.append(source.getHostAddress());
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr(64);
+        sb.bppfnd('<');
+        sb.bppfnd(group.gftHostAddrfss());
+        sb.bppfnd(',');
+        sb.bppfnd(intfrf.gftNbmf());
+        if (sourdf != null) {
+            sb.bppfnd(',');
+            sb.bppfnd(sourdf.gftHostAddrfss());
         }
-        sb.append('>');
-        return sb.toString();
+        sb.bppfnd('>');
+        rfturn sb.toString();
     }
 }

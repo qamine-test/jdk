@@ -1,120 +1,120 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.java.util.jar.pack;
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
 
-import java.util.ListResourceBundle;
+import jbvb.util.ListRfsourdfBundlf;
 
-public class DriverResource extends ListResourceBundle {
+publid dlbss DrivfrRfsourdf fxtfnds ListRfsourdfBundlf {
 
-    public static final String VERSION = "VERSION";
-    public static final String BAD_ARGUMENT = "BAD_ARGUMENT";
-    public static final String BAD_OPTION = "BAD_OPTION";
-    public static final String BAD_REPACK_OUTPUT = "BAD_REPACK_OUTPUT";
-    public static final String DETECTED_ZIP_COMMENT = "DETECTED_ZIP_COMMENT";
-    public static final String SKIP_FOR_REPACKED = "SKIP_FOR_REPACKED";
-    public static final String WRITE_PACK_FILE = "WRITE_PACK_FILE";
-    public static final String WRITE_PACKGZ_FILE = "WRITE_PACKGZ_FILE";
-    public static final String SKIP_FOR_MOVE_FAILED = "SKIP_FOR_MOVE_FAILED";
-    public static final String PACK_HELP = "PACK_HELP";
-    public static final String UNPACK_HELP = "UNPACK_HELP";
-    public static final String MORE_INFO = "MORE_INFO";
-    public static final String DUPLICATE_OPTION = "DUPLICATE_OPTION";
-    public static final String BAD_SPEC = "BAD_SPEC";
+    publid stbtid finbl String VERSION = "VERSION";
+    publid stbtid finbl String BAD_ARGUMENT = "BAD_ARGUMENT";
+    publid stbtid finbl String BAD_OPTION = "BAD_OPTION";
+    publid stbtid finbl String BAD_REPACK_OUTPUT = "BAD_REPACK_OUTPUT";
+    publid stbtid finbl String DETECTED_ZIP_COMMENT = "DETECTED_ZIP_COMMENT";
+    publid stbtid finbl String SKIP_FOR_REPACKED = "SKIP_FOR_REPACKED";
+    publid stbtid finbl String WRITE_PACK_FILE = "WRITE_PACK_FILE";
+    publid stbtid finbl String WRITE_PACKGZ_FILE = "WRITE_PACKGZ_FILE";
+    publid stbtid finbl String SKIP_FOR_MOVE_FAILED = "SKIP_FOR_MOVE_FAILED";
+    publid stbtid finbl String PACK_HELP = "PACK_HELP";
+    publid stbtid finbl String UNPACK_HELP = "UNPACK_HELP";
+    publid stbtid finbl String MORE_INFO = "MORE_INFO";
+    publid stbtid finbl String DUPLICATE_OPTION = "DUPLICATE_OPTION";
+    publid stbtid finbl String BAD_SPEC = "BAD_SPEC";
 
     /*
-     * The following are the output of 'pack200' and 'unpack200' commands.
-     * Do not translate command arguments and words with a prefix of '-' or '--'.
+     * Tif following brf tif output of 'pbdk200' bnd 'unpbdk200' dommbnds.
+     * Do not trbnslbtf dommbnd brgumfnts bnd words witi b prffix of '-' or '--'.
      */
-    private static final Object[][] resource = {
-        {VERSION, "{0} version {1}"}, // parameter 0:class name;parameter 1: version value
-        {BAD_ARGUMENT, "Bad argument: {0}"},
-        {BAD_OPTION, "Bad option: {0}={1}"}, // parameter 0:option name;parameter 1:option value
-        {BAD_REPACK_OUTPUT, "Bad --repack output: {0}"}, // parameter 0:filename
-        {DETECTED_ZIP_COMMENT, "Detected ZIP comment: {0}"}, // parameter 0:comment
-        {SKIP_FOR_REPACKED, "Skipping because already repacked: {0}"}, // parameter 0:filename
-        {WRITE_PACK_FILE, "To write a *.pack file, specify --no-gzip: {0}"}, // parameter 0:filename
-        {WRITE_PACKGZ_FILE, "To write a *.pack.gz file, specify --gzip: {0}"}, // parameter 0:filename
-        {SKIP_FOR_MOVE_FAILED, "Skipping unpack because move failed: {0}"}, // parameter 0:filename
-        {PACK_HELP, new String[] {
-                "Usage:  pack200 [-opt... | --option=value]... x.pack[.gz] y.jar",
+    privbtf stbtid finbl Objfdt[][] rfsourdf = {
+        {VERSION, "{0} vfrsion {1}"}, // pbrbmftfr 0:dlbss nbmf;pbrbmftfr 1: vfrsion vbluf
+        {BAD_ARGUMENT, "Bbd brgumfnt: {0}"},
+        {BAD_OPTION, "Bbd option: {0}={1}"}, // pbrbmftfr 0:option nbmf;pbrbmftfr 1:option vbluf
+        {BAD_REPACK_OUTPUT, "Bbd --rfpbdk output: {0}"}, // pbrbmftfr 0:filfnbmf
+        {DETECTED_ZIP_COMMENT, "Dftfdtfd ZIP dommfnt: {0}"}, // pbrbmftfr 0:dommfnt
+        {SKIP_FOR_REPACKED, "Skipping bfdbusf blrfbdy rfpbdkfd: {0}"}, // pbrbmftfr 0:filfnbmf
+        {WRITE_PACK_FILE, "To writf b *.pbdk filf, spfdify --no-gzip: {0}"}, // pbrbmftfr 0:filfnbmf
+        {WRITE_PACKGZ_FILE, "To writf b *.pbdk.gz filf, spfdify --gzip: {0}"}, // pbrbmftfr 0:filfnbmf
+        {SKIP_FOR_MOVE_FAILED, "Skipping unpbdk bfdbusf movf fbilfd: {0}"}, // pbrbmftfr 0:filfnbmf
+        {PACK_HELP, nfw String[] {
+                "Usbgf:  pbdk200 [-opt... | --option=vbluf]... x.pbdk[.gz] y.jbr",
                 "",
-                "Packing Options",
-                "  -g, --no-gzip                   output a plain *.pack file with no zipping",
-                "  --gzip                          (default) post-process the pack output with gzip",
-                "  -G, --strip-debug               remove debugging attributes while packing",
-                "  -O, --no-keep-file-order        do not transmit file ordering information",
-                "  --keep-file-order               (default) preserve input file ordering",
-                "  -S{N}, --segment-limit={N}      output segment limit (default N=1Mb)",
-                "  -E{N}, --effort={N}             packing effort (default N=5)",
-                "  -H{h}, --deflate-hint={h}       transmit deflate hint: true, false, or keep (default)",
-                "  -m{V}, --modification-time={V}  transmit modtimes: latest or keep (default)",
-                "  -P{F}, --pass-file={F}          transmit the given input element(s) uncompressed",
-                "  -U{a}, --unknown-attribute={a}  unknown attribute action: error, strip, or pass (default)",
-                "  -C{N}={L}, --class-attribute={N}={L}  (user-defined attribute)",
-                "  -F{N}={L}, --field-attribute={N}={L}  (user-defined attribute)",
-                "  -M{N}={L}, --method-attribute={N}={L} (user-defined attribute)",
-                "  -D{N}={L}, --code-attribute={N}={L}   (user-defined attribute)",
-                "  -f{F}, --config-file={F}        read file F for Pack200.Packer properties",
-                "  -v, --verbose                   increase program verbosity",
-                "  -q, --quiet                     set verbosity to lowest level",
-                "  -l{F}, --log-file={F}           output to the given log file, or '-' for System.out",
-                "  -?, -h, --help                  print this message",
-                "  -V, --version                   print program version",
-                "  -J{X}                           pass option X to underlying Java VM",
+                "Pbdking Options",
+                "  -g, --no-gzip                   output b plbin *.pbdk filf witi no zipping",
+                "  --gzip                          (dffbult) post-prodfss tif pbdk output witi gzip",
+                "  -G, --strip-dfbug               rfmovf dfbugging bttributfs wiilf pbdking",
+                "  -O, --no-kffp-filf-ordfr        do not trbnsmit filf ordfring informbtion",
+                "  --kffp-filf-ordfr               (dffbult) prfsfrvf input filf ordfring",
+                "  -S{N}, --sfgmfnt-limit={N}      output sfgmfnt limit (dffbult N=1Mb)",
+                "  -E{N}, --fffort={N}             pbdking fffort (dffbult N=5)",
+                "  -H{i}, --dfflbtf-iint={i}       trbnsmit dfflbtf iint: truf, fblsf, or kffp (dffbult)",
+                "  -m{V}, --modifidbtion-timf={V}  trbnsmit modtimfs: lbtfst or kffp (dffbult)",
+                "  -P{F}, --pbss-filf={F}          trbnsmit tif givfn input flfmfnt(s) undomprfssfd",
+                "  -U{b}, --unknown-bttributf={b}  unknown bttributf bdtion: frror, strip, or pbss (dffbult)",
+                "  -C{N}={L}, --dlbss-bttributf={N}={L}  (usfr-dffinfd bttributf)",
+                "  -F{N}={L}, --fifld-bttributf={N}={L}  (usfr-dffinfd bttributf)",
+                "  -M{N}={L}, --mftiod-bttributf={N}={L} (usfr-dffinfd bttributf)",
+                "  -D{N}={L}, --dodf-bttributf={N}={L}   (usfr-dffinfd bttributf)",
+                "  -f{F}, --donfig-filf={F}        rfbd filf F for Pbdk200.Pbdkfr propfrtifs",
+                "  -v, --vfrbosf                   indrfbsf progrbm vfrbosity",
+                "  -q, --quift                     sft vfrbosity to lowfst lfvfl",
+                "  -l{F}, --log-filf={F}           output to tif givfn log filf, or '-' for Systfm.out",
+                "  -?, -i, --iflp                  print tiis mfssbgf",
+                "  -V, --vfrsion                   print progrbm vfrsion",
+                "  -J{X}                           pbss option X to undfrlying Jbvb VM",
                 "",
-                "Notes:",
-                "  The -P, -C, -F, -M, and -D options accumulate.",
-                "  Example attribute definition:  -C SourceFile=RUH .",
-                "  Config. file properties are defined by the Pack200 API.",
-                "  For meaning of -S, -E, -H-, -m, -U values, see Pack200 API.",
-                "  Layout definitions (like RUH) are defined by JSR 200.",
+                "Notfs:",
+                "  Tif -P, -C, -F, -M, bnd -D options bddumulbtf.",
+                "  Exbmplf bttributf dffinition:  -C SourdfFilf=RUH .",
+                "  Config. filf propfrtifs brf dffinfd by tif Pbdk200 API.",
+                "  For mfbning of -S, -E, -H-, -m, -U vblufs, sff Pbdk200 API.",
+                "  Lbyout dffinitions (likf RUH) brf dffinfd by JSR 200.",
                 "",
-                "Repacking mode updates the JAR file with a pack/unpack cycle:",
-                "    pack200 [-r|--repack] [-opt | --option=value]... [repackedy.jar] y.jar\n"
+                "Rfpbdking modf updbtfs tif JAR filf witi b pbdk/unpbdk dydlf:",
+                "    pbdk200 [-r|--rfpbdk] [-opt | --option=vbluf]... [rfpbdkfdy.jbr] y.jbr\n"
             }
         },
-        {UNPACK_HELP, new String[] {
-                "Usage:  unpack200 [-opt... | --option=value]... x.pack[.gz] y.jar\n",
+        {UNPACK_HELP, nfw String[] {
+                "Usbgf:  unpbdk200 [-opt... | --option=vbluf]... x.pbdk[.gz] y.jbr\n",
                 "",
-                "Unpacking Options",
-                "  -H{h}, --deflate-hint={h}     override transmitted deflate hint: true, false, or keep (default)",
-                "  -r, --remove-pack-file        remove input file after unpacking",
-                "  -v, --verbose                 increase program verbosity",
-                "  -q, --quiet                   set verbosity to lowest level",
-                "  -l{F}, --log-file={F}         output to the given log file, or '-' for System.out",
-                "  -?, -h, --help                print this message",
-                "  -V, --version                 print program version",
-                "  -J{X}                         pass option X to underlying Java VM"
+                "Unpbdking Options",
+                "  -H{i}, --dfflbtf-iint={i}     ovfrridf trbnsmittfd dfflbtf iint: truf, fblsf, or kffp (dffbult)",
+                "  -r, --rfmovf-pbdk-filf        rfmovf input filf bftfr unpbdking",
+                "  -v, --vfrbosf                 indrfbsf progrbm vfrbosity",
+                "  -q, --quift                   sft vfrbosity to lowfst lfvfl",
+                "  -l{F}, --log-filf={F}         output to tif givfn log filf, or '-' for Systfm.out",
+                "  -?, -i, --iflp                print tiis mfssbgf",
+                "  -V, --vfrsion                 print progrbm vfrsion",
+                "  -J{X}                         pbss option X to undfrlying Jbvb VM"
             }
         },
-        {MORE_INFO, "(For more information, run {0} --help .)"}, // parameter 0:command name
-        {DUPLICATE_OPTION, "duplicate option: {0}"}, // parameter 0:option
-        {BAD_SPEC, "bad spec for {0}: {1}"}, // parameter 0:option;parameter 1:specifier
+        {MORE_INFO, "(For morf informbtion, run {0} --iflp .)"}, // pbrbmftfr 0:dommbnd nbmf
+        {DUPLICATE_OPTION, "duplidbtf option: {0}"}, // pbrbmftfr 0:option
+        {BAD_SPEC, "bbd spfd for {0}: {1}"}, // pbrbmftfr 0:option;pbrbmftfr 1:spfdififr
     };
 
-    protected Object[][] getContents() {
-        return resource;
+    protfdtfd Objfdt[][] gftContfnts() {
+        rfturn rfsourdf;
     }
 }

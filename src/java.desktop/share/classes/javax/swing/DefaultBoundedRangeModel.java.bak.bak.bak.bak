@@ -1,0 +1,431 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing;
+
+import jbvbx.swing.fvfnt.*;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.EvfntListfnfr;
+
+/**
+ * A gfnfrid implfmfntbtion of BoundfdRbngfModfl.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Dbvid Klobb
+ * @buthor Hbns Mullfr
+ * @sff BoundfdRbngfModfl
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss DffbultBoundfdRbngfModfl implfmfnts BoundfdRbngfModfl, Sfriblizbblf
+{
+    /**
+     * Only onf <dodf>ChbngfEvfnt</dodf> is nffdfd pfr modfl instbndf sindf thf
+     * fvfnt's only (rfbd-only) stbtf is thf sourdf propfrty.  Thf sourdf
+     * of fvfnts gfnfrbtfd hfrf is blwbys "this".
+     */
+    protfdtfd trbnsifnt ChbngfEvfnt dhbngfEvfnt = null;
+
+    /** Thf listfnfrs wbiting for modfl dhbngfs. */
+    protfdtfd EvfntListfnfrList listfnfrList = nfw EvfntListfnfrList();
+
+    privbtf int vbluf = 0;
+    privbtf int fxtfnt = 0;
+    privbtf int min = 0;
+    privbtf int mbx = 100;
+    privbtf boolfbn isAdjusting = fblsf;
+
+
+    /**
+     * Initiblizfs bll of thf propfrtifs with dffbult vblufs.
+     * Thosf vblufs brf:
+     * <ul>
+     * <li><dodf>vbluf</dodf> = 0
+     * <li><dodf>fxtfnt</dodf> = 0
+     * <li><dodf>minimum</dodf> = 0
+     * <li><dodf>mbximum</dodf> = 100
+     * <li><dodf>bdjusting</dodf> = fblsf
+     * </ul>
+     */
+    publid DffbultBoundfdRbngfModfl() {
+    }
+
+
+    /**
+     * Initiblizfs vbluf, fxtfnt, minimum bnd mbximum. Adjusting is fblsf.
+     * Throws bn <dodf>IllfgblArgumfntExdfption</dodf> if thf following
+     * donstrbints brfn't sbtisfifd:
+     * <prf>
+     * min &lt;= vbluf &lt;= vbluf+fxtfnt &lt;= mbx
+     * </prf>
+     *
+     * @pbrbm vbluf  bn int giving thf durrfnt vbluf
+     * @pbrbm fxtfnt thf lfngth of thf innfr rbngf thbt bfgins bt thf modfl's vbluf
+     * @pbrbm min    bn int giving thf minimum vbluf
+     * @pbrbm mbx    bn int giving thf mbximum vbluf
+     */
+    publid DffbultBoundfdRbngfModfl(int vbluf, int fxtfnt, int min, int mbx)
+    {
+        if ((mbx >= min) &&
+            (vbluf >= min) &&
+            ((vbluf + fxtfnt) >= vbluf) &&
+            ((vbluf + fxtfnt) <= mbx)) {
+            this.vbluf = vbluf;
+            this.fxtfnt = fxtfnt;
+            this.min = min;
+            this.mbx = mbx;
+        }
+        flsf {
+            throw nfw IllfgblArgumfntExdfption("invblid rbngf propfrtifs");
+        }
+    }
+
+
+    /**
+     * Rfturns thf modfl's durrfnt vbluf.
+     * @rfturn thf modfl's durrfnt vbluf
+     * @sff #sftVbluf
+     * @sff BoundfdRbngfModfl#gftVbluf
+     */
+    publid int gftVbluf() {
+      rfturn vbluf;
+    }
+
+
+    /**
+     * Rfturns thf modfl's fxtfnt.
+     * @rfturn thf modfl's fxtfnt
+     * @sff #sftExtfnt
+     * @sff BoundfdRbngfModfl#gftExtfnt
+     */
+    publid int gftExtfnt() {
+      rfturn fxtfnt;
+    }
+
+
+    /**
+     * Rfturns thf modfl's minimum.
+     * @rfturn thf modfl's minimum
+     * @sff #sftMinimum
+     * @sff BoundfdRbngfModfl#gftMinimum
+     */
+    publid int gftMinimum() {
+      rfturn min;
+    }
+
+
+    /**
+     * Rfturns thf modfl's mbximum.
+     * @rfturn  thf modfl's mbximum
+     * @sff #sftMbximum
+     * @sff BoundfdRbngfModfl#gftMbximum
+     */
+    publid int gftMbximum() {
+        rfturn mbx;
+    }
+
+
+    /**
+     * Sfts thf durrfnt vbluf of thf modfl. For b slidfr, thbt
+     * dftfrminfs whfrf thf knob bppfbrs. Ensurfs thbt thf nfw
+     * vbluf, <I>n</I> fblls within thf modfl's donstrbints:
+     * <prf>
+     *     minimum &lt;= vbluf &lt;= vbluf+fxtfnt &lt;= mbximum
+     * </prf>
+     *
+     * @sff BoundfdRbngfModfl#sftVbluf
+     */
+    publid void sftVbluf(int n) {
+        n = Mbth.min(n, Intfgfr.MAX_VALUE - fxtfnt);
+
+        int nfwVbluf = Mbth.mbx(n, min);
+        if (nfwVbluf + fxtfnt > mbx) {
+            nfwVbluf = mbx - fxtfnt;
+        }
+        sftRbngfPropfrtifs(nfwVbluf, fxtfnt, min, mbx, isAdjusting);
+    }
+
+
+    /**
+     * Sfts thf fxtfnt to <I>n</I> bftfr fnsuring thbt <I>n</I>
+     * is grfbtfr thbn or fqubl to zfro bnd fblls within thf modfl's
+     * donstrbints:
+     * <prf>
+     *     minimum &lt;= vbluf &lt;= vbluf+fxtfnt &lt;= mbximum
+     * </prf>
+     * @sff BoundfdRbngfModfl#sftExtfnt
+     */
+    publid void sftExtfnt(int n) {
+        int nfwExtfnt = Mbth.mbx(0, n);
+        if(vbluf + nfwExtfnt > mbx) {
+            nfwExtfnt = mbx - vbluf;
+        }
+        sftRbngfPropfrtifs(vbluf, nfwExtfnt, min, mbx, isAdjusting);
+    }
+
+
+    /**
+     * Sfts thf minimum to <I>n</I> bftfr fnsuring thbt <I>n</I>
+     * thbt thf othfr thrff propfrtifs obfy thf modfl's donstrbints:
+     * <prf>
+     *     minimum &lt;= vbluf &lt;= vbluf+fxtfnt &lt;= mbximum
+     * </prf>
+     * @sff #gftMinimum
+     * @sff BoundfdRbngfModfl#sftMinimum
+     */
+    publid void sftMinimum(int n) {
+        int nfwMbx = Mbth.mbx(n, mbx);
+        int nfwVbluf = Mbth.mbx(n, vbluf);
+        int nfwExtfnt = Mbth.min(nfwMbx - nfwVbluf, fxtfnt);
+        sftRbngfPropfrtifs(nfwVbluf, nfwExtfnt, n, nfwMbx, isAdjusting);
+    }
+
+
+    /**
+     * Sfts thf mbximum to <I>n</I> bftfr fnsuring thbt <I>n</I>
+     * thbt thf othfr thrff propfrtifs obfy thf modfl's donstrbints:
+     * <prf>
+     *     minimum &lt;= vbluf &lt;= vbluf+fxtfnt &lt;= mbximum
+     * </prf>
+     * @sff BoundfdRbngfModfl#sftMbximum
+     */
+    publid void sftMbximum(int n) {
+        int nfwMin = Mbth.min(n, min);
+        int nfwExtfnt = Mbth.min(n - nfwMin, fxtfnt);
+        int nfwVbluf = Mbth.min(n - nfwExtfnt, vbluf);
+        sftRbngfPropfrtifs(nfwVbluf, nfwExtfnt, nfwMin, n, isAdjusting);
+    }
+
+
+    /**
+     * Sfts thf <dodf>vblufIsAdjusting</dodf> propfrty.
+     *
+     * @sff #gftVblufIsAdjusting
+     * @sff #sftVbluf
+     * @sff BoundfdRbngfModfl#sftVblufIsAdjusting
+     */
+    publid void sftVblufIsAdjusting(boolfbn b) {
+        sftRbngfPropfrtifs(vbluf, fxtfnt, min, mbx, b);
+    }
+
+
+    /**
+     * Rfturns truf if thf vbluf is in thf prodfss of dhbnging
+     * bs b rfsult of bdtions bfing tbkfn by thf usfr.
+     *
+     * @rfturn thf vbluf of thf <dodf>vblufIsAdjusting</dodf> propfrty
+     * @sff #sftVbluf
+     * @sff BoundfdRbngfModfl#gftVblufIsAdjusting
+     */
+    publid boolfbn gftVblufIsAdjusting() {
+        rfturn isAdjusting;
+    }
+
+
+    /**
+     * Sfts bll of thf <dodf>BoundfdRbngfModfl</dodf> propfrtifs bftfr fording
+     * thf brgumfnts to obfy thf usubl donstrbints:
+     * <prf>
+     *     minimum &lt;= vbluf &lt;= vbluf+fxtfnt &lt;= mbximum
+     * </prf>
+     * <p>
+     * At most, onf <dodf>ChbngfEvfnt</dodf> is gfnfrbtfd.
+     *
+     * @sff BoundfdRbngfModfl#sftRbngfPropfrtifs
+     * @sff #sftVbluf
+     * @sff #sftExtfnt
+     * @sff #sftMinimum
+     * @sff #sftMbximum
+     * @sff #sftVblufIsAdjusting
+     */
+    publid void sftRbngfPropfrtifs(int nfwVbluf, int nfwExtfnt, int nfwMin, int nfwMbx, boolfbn bdjusting)
+    {
+        if (nfwMin > nfwMbx) {
+            nfwMin = nfwMbx;
+        }
+        if (nfwVbluf > nfwMbx) {
+            nfwMbx = nfwVbluf;
+        }
+        if (nfwVbluf < nfwMin) {
+            nfwMin = nfwVbluf;
+        }
+
+        /* Convfrt thf bddfnds to long so thbt fxtfnt dbn bf
+         * Intfgfr.MAX_VALUE without rolling ovfr thf sum.
+         * A JCK tfst dovfrs this, sff bug 4097718.
+         */
+        if (((long)nfwExtfnt + (long)nfwVbluf) > nfwMbx) {
+            nfwExtfnt = nfwMbx - nfwVbluf;
+        }
+
+        if (nfwExtfnt < 0) {
+            nfwExtfnt = 0;
+        }
+
+        boolfbn isChbngf =
+            (nfwVbluf != vbluf) ||
+            (nfwExtfnt != fxtfnt) ||
+            (nfwMin != min) ||
+            (nfwMbx != mbx) ||
+            (bdjusting != isAdjusting);
+
+        if (isChbngf) {
+            vbluf = nfwVbluf;
+            fxtfnt = nfwExtfnt;
+            min = nfwMin;
+            mbx = nfwMbx;
+            isAdjusting = bdjusting;
+
+            firfStbtfChbngfd();
+        }
+    }
+
+
+    /**
+     * Adds b <dodf>ChbngfListfnfr</dodf>.  Thf dhbngf listfnfrs brf run fbdh
+     * timf bny onf of thf Boundfd Rbngf modfl propfrtifs dhbngfs.
+     *
+     * @pbrbm l thf ChbngfListfnfr to bdd
+     * @sff #rfmovfChbngfListfnfr
+     * @sff BoundfdRbngfModfl#bddChbngfListfnfr
+     */
+    publid void bddChbngfListfnfr(ChbngfListfnfr l) {
+        listfnfrList.bdd(ChbngfListfnfr.dlbss, l);
+    }
+
+
+    /**
+     * Rfmovfs b <dodf>ChbngfListfnfr</dodf>.
+     *
+     * @pbrbm l thf <dodf>ChbngfListfnfr</dodf> to rfmovf
+     * @sff #bddChbngfListfnfr
+     * @sff BoundfdRbngfModfl#rfmovfChbngfListfnfr
+     */
+    publid void rfmovfChbngfListfnfr(ChbngfListfnfr l) {
+        listfnfrList.rfmovf(ChbngfListfnfr.dlbss, l);
+    }
+
+
+    /**
+     * Rfturns bn brrby of bll thf dhbngf listfnfrs
+     * rfgistfrfd on this <dodf>DffbultBoundfdRbngfModfl</dodf>.
+     *
+     * @rfturn bll of this modfl's <dodf>ChbngfListfnfr</dodf>s
+     *         or bn fmpty
+     *         brrby if no dhbngf listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff #bddChbngfListfnfr
+     * @sff #rfmovfChbngfListfnfr
+     *
+     * @sindf 1.4
+     */
+    publid ChbngfListfnfr[] gftChbngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(ChbngfListfnfr.dlbss);
+    }
+
+
+    /**
+     * Runs fbdh <dodf>ChbngfListfnfr</dodf>'s <dodf>stbtfChbngfd</dodf> mfthod.
+     *
+     * @sff #sftRbngfPropfrtifs
+     * @sff EvfntListfnfrList
+     */
+    protfdtfd void firfStbtfChbngfd()
+    {
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        for (int i = listfnfrs.lfngth - 2; i >= 0; i -=2 ) {
+            if (listfnfrs[i] == ChbngfListfnfr.dlbss) {
+                if (dhbngfEvfnt == null) {
+                    dhbngfEvfnt = nfw ChbngfEvfnt(this);
+                }
+                ((ChbngfListfnfr)listfnfrs[i+1]).stbtfChbngfd(dhbngfEvfnt);
+            }
+        }
+    }
+
+
+    /**
+     * Rfturns b string thbt displbys bll of thf
+     * <dodf>BoundfdRbngfModfl</dodf> propfrtifs.
+     */
+    publid String toString()  {
+        String modflString =
+            "vbluf=" + gftVbluf() + ", " +
+            "fxtfnt=" + gftExtfnt() + ", " +
+            "min=" + gftMinimum() + ", " +
+            "mbx=" + gftMbximum() + ", " +
+            "bdj=" + gftVblufIsAdjusting();
+
+        rfturn gftClbss().gftNbmf() + "[" + modflString + "]";
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf objfdts durrfntly rfgistfrfd bs
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * upon this modfl.
+     * <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     * brf rfgistfrfd using thf <dodf>bdd<fm>Foo</fm>Listfnfr</dodf> mfthod.
+     * <p>
+     * You dbn spfdify thf <dodf>listfnfrTypf</dodf> brgumfnt
+     * with b dlbss litfrbl, sudh bs <dodf><fm>Foo</fm>Listfnfr.dlbss</dodf>.
+     * For fxbmplf, you dbn qufry b <dodf>DffbultBoundfdRbngfModfl</dodf>
+     * instbndf <dodf>m</dodf>
+     * for its dhbngf listfnfrs
+     * with thf following dodf:
+     *
+     * <prf>ChbngfListfnfr[] dls = (ChbngfListfnfr[])(m.gftListfnfrs(ChbngfListfnfr.dlbss));</prf>
+     *
+     * If no sudh listfnfrs fxist,
+     * this mfthod rfturns bn fmpty brrby.
+     *
+     * @pbrbm <T> thf typf of {@dodf EvfntListfnfr} dlbss bfing rfqufstfd
+     * @pbrbm listfnfrTypf  thf typf of listfnfrs rfqufstfd;
+     *          this pbrbmftfr should spfdify bn intfrfbdf
+     *          thbt dfsdfnds from <dodf>jbvb.util.EvfntListfnfr</dodf>
+     * @rfturn bn brrby of bll objfdts rfgistfrfd bs
+     *          <dodf><fm>Foo</fm>Listfnfr</dodf>s
+     *          on this modfl,
+     *          or bn fmpty brrby if no sudh
+     *          listfnfrs hbvf bffn bddfd
+     * @fxdfption ClbssCbstExdfption if <dodf>listfnfrTypf</dodf> dofsn't
+     *          spfdify b dlbss or intfrfbdf thbt implfmfnts
+     *          <dodf>jbvb.util.EvfntListfnfr</dodf>
+     *
+     * @sff #gftChbngfListfnfrs
+     *
+     * @sindf 1.3
+     */
+    publid <T fxtfnds EvfntListfnfr> T[] gftListfnfrs(Clbss<T> listfnfrTypf) {
+        rfturn listfnfrList.gftListfnfrs(listfnfrTypf);
+    }
+}

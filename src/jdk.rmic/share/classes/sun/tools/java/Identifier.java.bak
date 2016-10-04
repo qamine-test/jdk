@@ -1,329 +1,329 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.java;
+pbdkbgf sun.tools.jbvb;
 
-import java.util.Hashtable;
-import java.io.PrintStream;
-import java.util.Enumeration;
+import jbvb.util.Hbsitbblf;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Enumfrbtion;
 
 /**
- * A class to represent identifiers.<p>
+ * A dlbss to rfprfsfnt idfntififrs.<p>
  *
- * An identifier instance is very similar to a String. The difference
- * is that identifier can't be instanciated directly, instead they are
- * looked up in a hash table. This means that identifiers with the same
- * name map to the same identifier object. This makes comparisons of
- * identifiers much faster.<p>
+ * An idfntififr instbndf is vfry similbr to b String. Tif difffrfndf
+ * is tibt idfntififr dbn't bf instbndibtfd dirfdtly, instfbd tify brf
+ * lookfd up in b ibsi tbblf. Tiis mfbns tibt idfntififrs witi tif sbmf
+ * nbmf mbp to tif sbmf idfntififr objfdt. Tiis mbkfs dompbrisons of
+ * idfntififrs mudi fbstfr.<p>
  *
- * A lot of identifiers are qualified, that is they have '.'s in them.
- * Each qualified identifier is chopped up into the qualifier and the
- * name. The qualifier is cached in the value field.<p>
+ * A lot of idfntififrs brf qublififd, tibt is tify ibvf '.'s in tifm.
+ * Ebdi qublififd idfntififr is dioppfd up into tif qublififr bnd tif
+ * nbmf. Tif qublififr is dbdifd in tif vbluf fifld.<p>
  *
- * Unqualified identifiers can have a type. This type is an integer that
- * can be used by a scanner as a token value. This value has to be set
- * using the setType method.<p>
+ * Unqublififd idfntififrs dbn ibvf b typf. Tiis typf is bn intfgfr tibt
+ * dbn bf usfd by b sdbnnfr bs b tokfn vbluf. Tiis vbluf ibs to bf sft
+ * using tif sftTypf mftiod.<p>
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  *
- * @author      Arthur van Hoff
+ * @butior      Artiur vbn Hoff
  */
 
-public final
-class Identifier implements Constants {
+publid finbl
+dlbss Idfntififr implfmfnts Constbnts {
     /**
-     * The hashtable of identifiers
+     * Tif ibsitbblf of idfntififrs
      */
-    static Hashtable<String, Identifier> hash = new Hashtable<>(3001, 0.5f);
+    stbtid Hbsitbblf<String, Idfntififr> ibsi = nfw Hbsitbblf<>(3001, 0.5f);
 
     /**
-     * The name of the identifier
+     * Tif nbmf of tif idfntififr
      */
-    String name;
+    String nbmf;
 
     /**
-     * The value of the identifier, for keywords this is an
-     * instance of class Integer, for qualified names this is
-     * another identifier (the qualifier).
+     * Tif vbluf of tif idfntififr, for kfywords tiis is bn
+     * instbndf of dlbss Intfgfr, for qublififd nbmfs tiis is
+     * bnotifr idfntififr (tif qublififr).
      */
-    Object value;
+    Objfdt vbluf;
 
     /**
-     * The Type which corresponds to this Identifier.  This is used as
-     * cache for Type.tClass() and shouldn't be used outside of that
-     * context.
+     * Tif Typf wiidi dorrfsponds to tiis Idfntififr.  Tiis is usfd bs
+     * dbdif for Typf.tClbss() bnd siouldn't bf usfd outsidf of tibt
+     * dontfxt.
      */
-    Type typeObject = null;
+    Typf typfObjfdt = null;
 
     /**
-     * The index of INNERCLASS_PREFIX in the name, or -1 if none.
+     * Tif indfx of INNERCLASS_PREFIX in tif nbmf, or -1 if nonf.
      */
-    private int ipos;
+    privbtf int ipos;
 
     /**
-     * Construct an identifier. Don't call this directly,
-     * use lookup instead.
-     * @see Identifier.lookup
+     * Construdt bn idfntififr. Don't dbll tiis dirfdtly,
+     * usf lookup instfbd.
+     * @sff Idfntififr.lookup
      */
-    private Identifier(String name) {
-        this.name = name;
-        this.ipos = name.indexOf(INNERCLASS_PREFIX);
+    privbtf Idfntififr(String nbmf) {
+        tiis.nbmf = nbmf;
+        tiis.ipos = nbmf.indfxOf(INNERCLASS_PREFIX);
     }
 
     /**
-     * Get the type of the identifier.
+     * Gft tif typf of tif idfntififr.
      */
-    int getType() {
-        return ((value != null) && (value instanceof Integer)) ?
-                ((Integer)value).intValue() : IDENT;
+    int gftTypf() {
+        rfturn ((vbluf != null) && (vbluf instbndfof Intfgfr)) ?
+                ((Intfgfr)vbluf).intVbluf() : IDENT;
     }
 
     /**
-     * Set the type of the identifier.
+     * Sft tif typf of tif idfntififr.
      */
-    void setType(int t) {
-        value = t;
-        //System.out.println("type(" + this + ")=" + t);
+    void sftTypf(int t) {
+        vbluf = t;
+        //Systfm.out.println("typf(" + tiis + ")=" + t);
     }
 
     /**
-     * Lookup an identifier.
+     * Lookup bn idfntififr.
      */
-    public static synchronized Identifier lookup(String s) {
-        //System.out.println("lookup(" + s + ")");
-        Identifier id = hash.get(s);
+    publid stbtid syndironizfd Idfntififr lookup(String s) {
+        //Systfm.out.println("lookup(" + s + ")");
+        Idfntififr id = ibsi.gft(s);
         if (id == null) {
-            hash.put(s, id = new Identifier(s));
+            ibsi.put(s, id = nfw Idfntififr(s));
         }
-        return id;
+        rfturn id;
     }
 
     /**
-     * Lookup a qualified identifier.
+     * Lookup b qublififd idfntififr.
      */
-    public static Identifier lookup(Identifier q, Identifier n) {
+    publid stbtid Idfntififr lookup(Idfntififr q, Idfntififr n) {
         // lookup("", x) => x
-        if (q == idNull)  return n;
-        // lookup(lookupInner(c, ""), n) => lookupInner(c, lookup("", n))
-        if (q.name.charAt(q.name.length()-1) == INNERCLASS_PREFIX)
-            return lookup(q.name+n.name);
-        Identifier id = lookup(q + "." + n);
-        if (!n.isQualified() && !q.isInner())
-            id.value = q;
-        return id;
+        if (q == idNull)  rfturn n;
+        // lookup(lookupInnfr(d, ""), n) => lookupInnfr(d, lookup("", n))
+        if (q.nbmf.dibrAt(q.nbmf.lfngti()-1) == INNERCLASS_PREFIX)
+            rfturn lookup(q.nbmf+n.nbmf);
+        Idfntififr id = lookup(q + "." + n);
+        if (!n.isQublififd() && !q.isInnfr())
+            id.vbluf = q;
+        rfturn id;
     }
 
     /**
-     * Lookup an inner identifier.
-     * (Note:  n can be idNull.)
+     * Lookup bn innfr idfntififr.
+     * (Notf:  n dbn bf idNull.)
      */
-    public static Identifier lookupInner(Identifier c, Identifier n) {
-        Identifier id;
-        if (c.isInner()) {
-            if (c.name.charAt(c.name.length()-1) == INNERCLASS_PREFIX)
-                id = lookup(c.name+n);
-            else
-                id = lookup(c, n);
-        } else {
-            id = lookup(c + "." + INNERCLASS_PREFIX + n);
+    publid stbtid Idfntififr lookupInnfr(Idfntififr d, Idfntififr n) {
+        Idfntififr id;
+        if (d.isInnfr()) {
+            if (d.nbmf.dibrAt(d.nbmf.lfngti()-1) == INNERCLASS_PREFIX)
+                id = lookup(d.nbmf+n);
+            flsf
+                id = lookup(d, n);
+        } flsf {
+            id = lookup(d + "." + INNERCLASS_PREFIX + n);
         }
-        id.value = c.value;
-        return id;
+        id.vbluf = d.vbluf;
+        rfturn id;
     }
 
     /**
-     * Convert to a string.
+     * Convfrt to b string.
      */
-    public String toString() {
-        return name;
+    publid String toString() {
+        rfturn nbmf;
     }
 
     /**
-     * Check if the name is qualified (ie: it contains a '.').
+     * Cifdk if tif nbmf is qublififd (if: it dontbins b '.').
      */
-    public boolean isQualified() {
-        if (value == null) {
+    publid boolfbn isQublififd() {
+        if (vbluf == null) {
             int idot = ipos;
             if (idot <= 0)
-                idot = name.length();
-            else
-                idot -= 1;      // back up over previous dot
-            int index = name.lastIndexOf('.', idot-1);
-            value = (index < 0) ? idNull : Identifier.lookup(name.substring(0, index));
+                idot = nbmf.lfngti();
+            flsf
+                idot -= 1;      // bbdk up ovfr prfvious dot
+            int indfx = nbmf.lbstIndfxOf('.', idot-1);
+            vbluf = (indfx < 0) ? idNull : Idfntififr.lookup(nbmf.substring(0, indfx));
         }
-        return (value instanceof Identifier) && (value != idNull);
+        rfturn (vbluf instbndfof Idfntififr) && (vbluf != idNull);
     }
 
     /**
-     * Return the qualifier. The null identifier is returned if
-     * the name was not qualified.  The qualifier does not include
-     * any inner part of the name.
+     * Rfturn tif qublififr. Tif null idfntififr is rfturnfd if
+     * tif nbmf wbs not qublififd.  Tif qublififr dofs not indludf
+     * bny innfr pbrt of tif nbmf.
      */
-    public Identifier getQualifier() {
-        return isQualified() ? (Identifier)value : idNull;
+    publid Idfntififr gftQublififr() {
+        rfturn isQublififd() ? (Idfntififr)vbluf : idNull;
     }
 
     /**
-     * Return the unqualified name.
-     * In the case of an inner name, the unqualified name
-     * will itself contain components.
+     * Rfturn tif unqublififd nbmf.
+     * In tif dbsf of bn innfr nbmf, tif unqublififd nbmf
+     * will itsflf dontbin domponfnts.
      */
-    public Identifier getName() {
-        return isQualified() ?
-            Identifier.lookup(name.substring(((Identifier)value).name.length() + 1)) : this;
+    publid Idfntififr gftNbmf() {
+        rfturn isQublififd() ?
+            Idfntififr.lookup(nbmf.substring(((Idfntififr)vbluf).nbmf.lfngti() + 1)) : tiis;
     }
 
-    /** A space character, which precedes the first inner class
-     *  name in a qualified name, and thus marks the qualification
-     *  as involving inner classes, instead of merely packages.<p>
-     *  Ex:  <tt>java.util.Vector. Enumerator</tt>.
+    /** A spbdf dibrbdtfr, wiidi prfdfdfs tif first innfr dlbss
+     *  nbmf in b qublififd nbmf, bnd tius mbrks tif qublifidbtion
+     *  bs involving innfr dlbssfs, instfbd of mfrfly pbdkbgfs.<p>
+     *  Ex:  <tt>jbvb.util.Vfdtor. Enumfrbtor</tt>.
      */
-    public static final char INNERCLASS_PREFIX = ' ';
+    publid stbtid finbl dibr INNERCLASS_PREFIX = ' ';
 
-    /* Explanation:
-     * Since much of the compiler's low-level name resolution code
-     * operates in terms of Identifier objects.  This includes the
-     * code which walks around the file system and reports what
-     * classes are where.  It is important to get nesting information
-     * right as early as possible, since it affects the spelling of
-     * signatures.  Thus, the low-level import and resolve code must
-     * be able Identifier type must be able to report the nesting
-     * of types, which implied that that information must be carried
-     * by Identifiers--or that the low-level interfaces be significantly
-     * changed.
+    /* Explbnbtion:
+     * Sindf mudi of tif dompilfr's low-lfvfl nbmf rfsolution dodf
+     * opfrbtfs in tfrms of Idfntififr objfdts.  Tiis indludfs tif
+     * dodf wiidi wblks bround tif filf systfm bnd rfports wibt
+     * dlbssfs brf wifrf.  It is importbnt to gft nfsting informbtion
+     * rigit bs fbrly bs possiblf, sindf it bfffdts tif spflling of
+     * signbturfs.  Tius, tif low-lfvfl import bnd rfsolvf dodf must
+     * bf bblf Idfntififr typf must bf bblf to rfport tif nfsting
+     * of typfs, wiidi implifd tibt tibt informbtion must bf dbrrifd
+     * by Idfntififrs--or tibt tif low-lfvfl intfrfbdfs bf signifidbntly
+     * dibngfd.
      */
 
     /**
-     * Check if the name is inner (ie: it contains a ' ').
+     * Cifdk if tif nbmf is innfr (if: it dontbins b ' ').
      */
-    public boolean isInner() {
-        return (ipos > 0);
+    publid boolfbn isInnfr() {
+        rfturn (ipos > 0);
     }
 
     /**
-     * Return the class name, without its qualifier,
-     * and with any nesting flattened into a new qualfication structure.
-     * If the original identifier is inner,
-     * the result will be qualified, and can be further
-     * decomposed by means of <tt>getQualifier</tt> and <tt>getName</tt>.
+     * Rfturn tif dlbss nbmf, witiout its qublififr,
+     * bnd witi bny nfsting flbttfnfd into b nfw qublfidbtion strudturf.
+     * If tif originbl idfntififr is innfr,
+     * tif rfsult will bf qublififd, bnd dbn bf furtifr
+     * dfdomposfd by mfbns of <tt>gftQublififr</tt> bnd <tt>gftNbmf</tt>.
      * <p>
-     * For example:
-     * <pre>
-     * Identifier id = Identifier.lookup("pkg.Foo. Bar");
-     * id.getName().name      =>  "Foo. Bar"
-     * id.getFlatName().name  =>  "Foo.Bar"
-     * </pre>
+     * For fxbmplf:
+     * <prf>
+     * Idfntififr id = Idfntififr.lookup("pkg.Foo. Bbr");
+     * id.gftNbmf().nbmf      =>  "Foo. Bbr"
+     * id.gftFlbtNbmf().nbmf  =>  "Foo.Bbr"
+     * </prf>
      */
-    public Identifier getFlatName() {
-        if (isQualified()) {
-            return getName().getFlatName();
+    publid Idfntififr gftFlbtNbmf() {
+        if (isQublififd()) {
+            rfturn gftNbmf().gftFlbtNbmf();
         }
-        if (ipos > 0 && name.charAt(ipos-1) == '.') {
-            if (ipos+1 == name.length()) {
-                // last component is idNull
-                return Identifier.lookup(name.substring(0,ipos-1));
+        if (ipos > 0 && nbmf.dibrAt(ipos-1) == '.') {
+            if (ipos+1 == nbmf.lfngti()) {
+                // lbst domponfnt is idNull
+                rfturn Idfntififr.lookup(nbmf.substring(0,ipos-1));
             }
-            String n = name.substring(ipos+1);
-            String t = name.substring(0,ipos);
-            return Identifier.lookup(t+n);
+            String n = nbmf.substring(ipos+1);
+            String t = nbmf.substring(0,ipos);
+            rfturn Idfntififr.lookup(t+n);
         }
-        // Not inner.  Just return the same as getName()
-        return this;
+        // Not innfr.  Just rfturn tif sbmf bs gftNbmf()
+        rfturn tiis;
     }
 
-    public Identifier getTopName() {
-        if (!isInner())  return this;
-        return Identifier.lookup(getQualifier(), getFlatName().getHead());
-    }
-
-    /**
-     * Yet another way to slice qualified identifiers:
-     * The head of an identifier is its first qualifier component,
-     * and the tail is the rest of them.
-     */
-    public Identifier getHead() {
-        Identifier id = this;
-        while (id.isQualified())
-            id = id.getQualifier();
-        return id;
+    publid Idfntififr gftTopNbmf() {
+        if (!isInnfr())  rfturn tiis;
+        rfturn Idfntififr.lookup(gftQublififr(), gftFlbtNbmf().gftHfbd());
     }
 
     /**
-     * @see getHead
+     * Yft bnotifr wby to slidf qublififd idfntififrs:
+     * Tif ifbd of bn idfntififr is its first qublififr domponfnt,
+     * bnd tif tbil is tif rfst of tifm.
      */
-    public Identifier getTail() {
-        Identifier id = getHead();
-        if (id == this)
-            return idNull;
-        else
-            return Identifier.lookup(name.substring(id.name.length() + 1));
-    }
-
-    // Unfortunately, the current structure of the compiler requires
-    // that the resolveName() family of methods (which appear in
-    // Environment.java, Context.java, and ClassDefinition.java) raise
-    // no exceptions and emit no errors.  When we are in resolveName()
-    // and we find a method that is ambiguous, we need to
-    // unambiguously mark it as such, so that later stages of the
-    // compiler realize that they should give an ambig.class rather than
-    // a class.not.found error.  To mark it we add a special prefix
-    // which cannot occur in the program source.  The routines below
-    // are used to check, add, and remove this prefix.
-    // (part of solution for 4059855).
-
-    /**
-     * A special prefix to add to ambiguous names.
-     */
-    private static final String ambigPrefix = "<<ambiguous>>";
-
-    /**
-     * Determine whether an Identifier has been marked as ambiguous.
-     */
-    public boolean hasAmbigPrefix() {
-        return (name.startsWith(ambigPrefix));
+    publid Idfntififr gftHfbd() {
+        Idfntififr id = tiis;
+        wiilf (id.isQublififd())
+            id = id.gftQublififr();
+        rfturn id;
     }
 
     /**
-     * Add ambigPrefix to `this' to make a new Identifier marked as
-     * ambiguous.  It is important that this new Identifier not refer
-     * to an existing class.
+     * @sff gftHfbd
      */
-    public Identifier addAmbigPrefix() {
-        return Identifier.lookup(ambigPrefix + name);
+    publid Idfntififr gftTbil() {
+        Idfntififr id = gftHfbd();
+        if (id == tiis)
+            rfturn idNull;
+        flsf
+            rfturn Idfntififr.lookup(nbmf.substring(id.nbmf.lfngti() + 1));
+    }
+
+    // Unfortunbtfly, tif durrfnt strudturf of tif dompilfr rfquirfs
+    // tibt tif rfsolvfNbmf() fbmily of mftiods (wiidi bppfbr in
+    // Environmfnt.jbvb, Contfxt.jbvb, bnd ClbssDffinition.jbvb) rbisf
+    // no fxdfptions bnd fmit no frrors.  Wifn wf brf in rfsolvfNbmf()
+    // bnd wf find b mftiod tibt is bmbiguous, wf nffd to
+    // unbmbiguously mbrk it bs sudi, so tibt lbtfr stbgfs of tif
+    // dompilfr rfblizf tibt tify siould givf bn bmbig.dlbss rbtifr tibn
+    // b dlbss.not.found frror.  To mbrk it wf bdd b spfdibl prffix
+    // wiidi dbnnot oddur in tif progrbm sourdf.  Tif routinfs bflow
+    // brf usfd to difdk, bdd, bnd rfmovf tiis prffix.
+    // (pbrt of solution for 4059855).
+
+    /**
+     * A spfdibl prffix to bdd to bmbiguous nbmfs.
+     */
+    privbtf stbtid finbl String bmbigPrffix = "<<bmbiguous>>";
+
+    /**
+     * Dftfrminf wiftifr bn Idfntififr ibs bffn mbrkfd bs bmbiguous.
+     */
+    publid boolfbn ibsAmbigPrffix() {
+        rfturn (nbmf.stbrtsWiti(bmbigPrffix));
     }
 
     /**
-     * Remove the ambigPrefix from `this' to get the original identifier.
+     * Add bmbigPrffix to `tiis' to mbkf b nfw Idfntififr mbrkfd bs
+     * bmbiguous.  It is importbnt tibt tiis nfw Idfntififr not rfffr
+     * to bn fxisting dlbss.
      */
-    public Identifier removeAmbigPrefix() {
-        if (hasAmbigPrefix()) {
-            return Identifier.lookup(name.substring(ambigPrefix.length()));
-        } else {
-            return this;
+    publid Idfntififr bddAmbigPrffix() {
+        rfturn Idfntififr.lookup(bmbigPrffix + nbmf);
+    }
+
+    /**
+     * Rfmovf tif bmbigPrffix from `tiis' to gft tif originbl idfntififr.
+     */
+    publid Idfntififr rfmovfAmbigPrffix() {
+        if (ibsAmbigPrffix()) {
+            rfturn Idfntififr.lookup(nbmf.substring(bmbigPrffix.lfngti()));
+        } flsf {
+            rfturn tiis;
         }
     }
 }

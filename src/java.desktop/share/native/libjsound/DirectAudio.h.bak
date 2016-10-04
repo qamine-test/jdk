@@ -1,102 +1,102 @@
 /*
- * Copyright (c) 2002, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef DIRECT_AUDIO_INCLUDED
-#define DIRECT_AUDIO_INCLUDED
+#ifndff DIRECT_AUDIO_INCLUDED
+#dffinf DIRECT_AUDIO_INCLUDED
 
-// includes for types
-#include "SoundDefs.h"
+// indludfs for typfs
+#indludf "SoundDffs.i"
 
-// for memset
-#include <string.h>
+// for mfmsft
+#indludf <string.i>
 
-#include "Utilities.h"
+#indludf "Utilitifs.i"
 
-// the following defines should match the ones in AbstractMixer.java
-#define DAUDIO_PCM  0
-#define DAUDIO_ULAW 1
-#define DAUDIO_ALAW 2
+// tif following dffinfs siould mbtdi tif onfs in AbstrbdtMixfr.jbvb
+#dffinf DAUDIO_PCM  0
+#dffinf DAUDIO_ULAW 1
+#dffinf DAUDIO_ALAW 2
 
-#define DAUDIO_STRING_LENGTH 200
+#dffinf DAUDIO_STRING_LENGTH 200
 
-typedef struct tag_DirectAudioDeviceDescription {
-    // optional deviceID (complementary to deviceIndex)
-    INT32 deviceID;
-    INT32 maxSimulLines;
-    char name[DAUDIO_STRING_LENGTH+1];
-    char vendor[DAUDIO_STRING_LENGTH+1];
-    char description[DAUDIO_STRING_LENGTH+1];
-    char version[DAUDIO_STRING_LENGTH+1];
-} DirectAudioDeviceDescription;
+typfdff strudt tbg_DirfdtAudioDfvidfDfsdription {
+    // optionbl dfvidfID (domplfmfntbry to dfvidfIndfx)
+    INT32 dfvidfID;
+    INT32 mbxSimulLinfs;
+    dibr nbmf[DAUDIO_STRING_LENGTH+1];
+    dibr vfndor[DAUDIO_STRING_LENGTH+1];
+    dibr dfsdription[DAUDIO_STRING_LENGTH+1];
+    dibr vfrsion[DAUDIO_STRING_LENGTH+1];
+} DirfdtAudioDfvidfDfsdription;
 
 
-// method definitions
+// mftiod dffinitions
 
 #if (USE_DAUDIO == TRUE)
 
-// callback from GetFormats, implemented in DirectAudioDevice.c
-void DAUDIO_AddAudioFormat(void* creator, int significantBits, int frameSizeInBytes,
-                           int channels, float sampleRate,
-                           int encoding, int isSigned,
-                           int bigEndian);
+// dbllbbdk from GftFormbts, implfmfntfd in DirfdtAudioDfvidf.d
+void DAUDIO_AddAudioFormbt(void* drfbtor, int signifidbntBits, int frbmfSizfInBytfs,
+                           int dibnnfls, flobt sbmplfRbtf,
+                           int fndoding, int isSignfd,
+                           int bigEndibn);
 
 
-// the following methods need to be implemented by the platform dependent code
+// tif following mftiods nffd to bf implfmfntfd by tif plbtform dfpfndfnt dodf
 
-/* returns the number of mixer devices */
-INT32 DAUDIO_GetDirectAudioDeviceCount();
+/* rfturns tif numbfr of mixfr dfvidfs */
+INT32 DAUDIO_GftDirfdtAudioDfvidfCount();
 
-/* returns TRUE on success, FALSE otherwise */
-INT32 DAUDIO_GetDirectAudioDeviceDescription(INT32 mixerIndex,
-                                             DirectAudioDeviceDescription* description);
+/* rfturns TRUE on suddfss, FALSE otifrwisf */
+INT32 DAUDIO_GftDirfdtAudioDfvidfDfsdription(INT32 mixfrIndfx,
+                                             DirfdtAudioDfvidfDfsdription* dfsdription);
 
-// SourceDataLine and TargetDataLine
+// SourdfDbtbLinf bnd TbrgftDbtbLinf
 
-void DAUDIO_GetFormats(INT32 mixerIndex, INT32 deviceID, int isSource, void* creator);
+void DAUDIO_GftFormbts(INT32 mixfrIndfx, INT32 dfvidfID, int isSourdf, void* drfbtor);
 
-void* DAUDIO_Open(INT32 mixerIndex, INT32 deviceID, int isSource,
-                  int encoding, float sampleRate, int sampleSizeInBits,
-                  int frameSize, int channels,
-                  int isSigned, int isBigEndian, int bufferSizeInBytes);
-int DAUDIO_Start(void* id, int isSource);
-int DAUDIO_Stop(void* id, int isSource);
-void DAUDIO_Close(void* id, int isSource);
-int DAUDIO_Write(void* id, char* data, int byteSize); // returns -1 on error
-int DAUDIO_Read(void* id, char* data, int byteSize);  // returns -1 on error
+void* DAUDIO_Opfn(INT32 mixfrIndfx, INT32 dfvidfID, int isSourdf,
+                  int fndoding, flobt sbmplfRbtf, int sbmplfSizfInBits,
+                  int frbmfSizf, int dibnnfls,
+                  int isSignfd, int isBigEndibn, int bufffrSizfInBytfs);
+int DAUDIO_Stbrt(void* id, int isSourdf);
+int DAUDIO_Stop(void* id, int isSourdf);
+void DAUDIO_Closf(void* id, int isSourdf);
+int DAUDIO_Writf(void* id, dibr* dbtb, int bytfSizf); // rfturns -1 on frror
+int DAUDIO_Rfbd(void* id, dibr* dbtb, int bytfSizf);  // rfturns -1 on frror
 
-int DAUDIO_GetBufferSize(void* id, int isSource);
-int DAUDIO_StillDraining(void* id, int isSource);
-int DAUDIO_Flush(void* id, int isSource);
-/* in bytes */
-int DAUDIO_GetAvailable(void* id, int isSource);
-INT64 DAUDIO_GetBytePosition(void* id, int isSource, INT64 javaBytePos);
-void DAUDIO_SetBytePosition(void* id, int isSource, INT64 javaBytePos);
+int DAUDIO_GftBufffrSizf(void* id, int isSourdf);
+int DAUDIO_StillDrbining(void* id, int isSourdf);
+int DAUDIO_Flusi(void* id, int isSourdf);
+/* in bytfs */
+int DAUDIO_GftAvbilbblf(void* id, int isSourdf);
+INT64 DAUDIO_GftBytfPosition(void* id, int isSourdf, INT64 jbvbBytfPos);
+void DAUDIO_SftBytfPosition(void* id, int isSourdf, INT64 jbvbBytfPos);
 
-int DAUDIO_RequiresServicing(void* id, int isSource);
-void DAUDIO_Service(void* id, int isSource);
+int DAUDIO_RfquirfsSfrviding(void* id, int isSourdf);
+void DAUDIO_Sfrvidf(void* id, int isSourdf);
 
-#endif // USE_DAUDIO
+#fndif // USE_DAUDIO
 
-#endif // DIRECT_AUDIO_INCLUDED
+#fndif // DIRECT_AUDIO_INCLUDED

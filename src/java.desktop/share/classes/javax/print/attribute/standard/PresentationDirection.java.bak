@@ -1,136 +1,136 @@
 /*
- * Copyright (c) 2001, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.PrintJobAttribute;
-import javax.print.attribute.PrintRequestAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.PrintJobAttributf;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
 
 /**
- * Class PresentationDirection is a printing attribute class, an enumeration,
- * that is used in conjunction with the {@link  NumberUp NumberUp} attribute to
- * indicate the layout of multiple print-stream pages to impose upon a
- * single side of an instance of a selected medium.
- * This is useful to mirror the text layout conventions of different scripts.
- * For example, English is "toright-tobottom", Hebrew is "toleft-tobottom"
- *  and Japanese is usually "tobottom-toleft".
+ * Clbss PrfsfntbtionDirfdtion is b printing bttributf dlbss, bn fnumfrbtion,
+ * tibt is usfd in donjundtion witi tif {@link  NumbfrUp NumbfrUp} bttributf to
+ * indidbtf tif lbyout of multiplf print-strfbm pbgfs to imposf upon b
+ * singlf sidf of bn instbndf of b sflfdtfd mfdium.
+ * Tiis is usfful to mirror tif tfxt lbyout donvfntions of difffrfnt sdripts.
+ * For fxbmplf, Englisi is "torigit-tobottom", Hfbrfw is "tolfft-tobottom"
+ *  bnd Jbpbnfsf is usublly "tobottom-tolfft".
  * <P>
- * <B>IPP Compatibility:</B>  This attribute is not an IPP 1.1
- * attribute; it is an attribute in the Production Printing Extension
- * (<a href="ftp://ftp.pwg.org/pub/pwg/standards/pwg5100.3.pdf">PDF</a>)
- * of IPP 1.1.  The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
+ * <B>IPP Compbtibility:</B>  Tiis bttributf is not bn IPP 1.1
+ * bttributf; it is bn bttributf in tif Produdtion Printing Extfnsion
+ * (<b irff="ftp://ftp.pwg.org/pub/pwg/stbndbrds/pwg5100.3.pdf">PDF</b>)
+ * of IPP 1.1.  Tif dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> is tif IPP bttributf nbmf.  Tif fnumfrbtion's
+ * intfgfr vbluf is tif IPP fnum vbluf.  Tif <dodf>toString()</dodf> mftiod
+ * rfturns tif IPP string rfprfsfntbtion of tif bttributf vbluf.
  *
- * @author  Phil Race.
+ * @butior  Piil Rbdf.
  */
-public final class PresentationDirection extends EnumSyntax
-       implements PrintJobAttribute, PrintRequestAttribute  {
+publid finbl dlbss PrfsfntbtionDirfdtion fxtfnds EnumSyntbx
+       implfmfnts PrintJobAttributf, PrintRfqufstAttributf  {
 
-    private static final long serialVersionUID = 8294728067230931780L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 8294728067230931780L;
 
     /**
-     * Pages are laid out in columns starting at the top left,
-     * proceeding towards the bottom {@literal &} right.
+     * Pbgfs brf lbid out in dolumns stbrting bt tif top lfft,
+     * prodffding towbrds tif bottom {@litfrbl &} rigit.
      */
-    public static final PresentationDirection TOBOTTOM_TORIGHT =
-        new PresentationDirection(0);
+    publid stbtid finbl PrfsfntbtionDirfdtion TOBOTTOM_TORIGHT =
+        nfw PrfsfntbtionDirfdtion(0);
 
     /**
-     * Pages are laid out in columns starting at the top right,
-     * proceeding towards the bottom {@literal &} left.
+     * Pbgfs brf lbid out in dolumns stbrting bt tif top rigit,
+     * prodffding towbrds tif bottom {@litfrbl &} lfft.
      */
-    public static final PresentationDirection TOBOTTOM_TOLEFT =
-        new PresentationDirection(1);
+    publid stbtid finbl PrfsfntbtionDirfdtion TOBOTTOM_TOLEFT =
+        nfw PrfsfntbtionDirfdtion(1);
 
     /**
-     * Pages are laid out in columns starting at the bottom left,
-     * proceeding towards the top {@literal &} right.
+     * Pbgfs brf lbid out in dolumns stbrting bt tif bottom lfft,
+     * prodffding towbrds tif top {@litfrbl &} rigit.
      */
-    public static final PresentationDirection TOTOP_TORIGHT =
-        new PresentationDirection(2);
+    publid stbtid finbl PrfsfntbtionDirfdtion TOTOP_TORIGHT =
+        nfw PrfsfntbtionDirfdtion(2);
 
     /**
-     * Pages are laid out in columns starting at the bottom right,
-     * proceeding towards the top {@literal &} left.
+     * Pbgfs brf lbid out in dolumns stbrting bt tif bottom rigit,
+     * prodffding towbrds tif top {@litfrbl &} lfft.
      */
-    public static final PresentationDirection TOTOP_TOLEFT =
-        new PresentationDirection(3);
+    publid stbtid finbl PrfsfntbtionDirfdtion TOTOP_TOLEFT =
+        nfw PrfsfntbtionDirfdtion(3);
 
     /**
-     * Pages are laid out in rows starting at the top left,
-     * proceeding towards the right {@literal &} bottom.
+     * Pbgfs brf lbid out in rows stbrting bt tif top lfft,
+     * prodffding towbrds tif rigit {@litfrbl &} bottom.
      */
-    public static final PresentationDirection TORIGHT_TOBOTTOM =
-        new PresentationDirection(4);
+    publid stbtid finbl PrfsfntbtionDirfdtion TORIGHT_TOBOTTOM =
+        nfw PrfsfntbtionDirfdtion(4);
 
     /**
-     * Pages are laid out in rows starting at the bottom left,
-     * proceeding towards the right {@literal &} top.
+     * Pbgfs brf lbid out in rows stbrting bt tif bottom lfft,
+     * prodffding towbrds tif rigit {@litfrbl &} top.
      */
-    public static final PresentationDirection TORIGHT_TOTOP =
-        new PresentationDirection(5);
+    publid stbtid finbl PrfsfntbtionDirfdtion TORIGHT_TOTOP =
+        nfw PrfsfntbtionDirfdtion(5);
 
     /**
-     * Pages are laid out in rows starting at the top right,
-     * proceeding towards the left {@literal &} bottom.
+     * Pbgfs brf lbid out in rows stbrting bt tif top rigit,
+     * prodffding towbrds tif lfft {@litfrbl &} bottom.
      */
-    public static final PresentationDirection TOLEFT_TOBOTTOM =
-        new PresentationDirection(6);
+    publid stbtid finbl PrfsfntbtionDirfdtion TOLEFT_TOBOTTOM =
+        nfw PrfsfntbtionDirfdtion(6);
 
     /**
-     * Pages are laid out in rows starting at the bottom right,
-     * proceeding towards the left {@literal &} top.
+     * Pbgfs brf lbid out in rows stbrting bt tif bottom rigit,
+     * prodffding towbrds tif lfft {@litfrbl &} top.
      */
-    public static final PresentationDirection TOLEFT_TOTOP =
-        new PresentationDirection(7);
+    publid stbtid finbl PrfsfntbtionDirfdtion TOLEFT_TOTOP =
+        nfw PrfsfntbtionDirfdtion(7);
 
     /**
-     * Construct a new presentation direction enumeration value with the given
-     * integer value.
+     * Construdt b nfw prfsfntbtion dirfdtion fnumfrbtion vbluf witi tif givfn
+     * intfgfr vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      */
-    private PresentationDirection(int value) {
-        super (value);
+    privbtf PrfsfntbtionDirfdtion(int vbluf) {
+        supfr (vbluf);
     }
 
-    private static final String[] myStringTable = {
-        "tobottom-toright",
-        "tobottom-toleft",
-        "totop-toright",
-        "totop-toleft",
-        "toright-tobottom",
-        "toright-totop",
-        "toleft-tobottom",
-        "toleft-totop",
+    privbtf stbtid finbl String[] myStringTbblf = {
+        "tobottom-torigit",
+        "tobottom-tolfft",
+        "totop-torigit",
+        "totop-tolfft",
+        "torigit-tobottom",
+        "torigit-totop",
+        "tolfft-tobottom",
+        "tolfft-totop",
     };
 
-    private static final PresentationDirection[] myEnumValueTable = {
+    privbtf stbtid finbl PrfsfntbtionDirfdtion[] myEnumVblufTbblf = {
         TOBOTTOM_TORIGHT,
         TOBOTTOM_TOLEFT,
         TOTOP_TORIGHT,
@@ -142,44 +142,44 @@ public final class PresentationDirection extends EnumSyntax
     };
 
     /**
-     * Returns the string table for class PresentationDirection.
+     * Rfturns tif string tbblf for dlbss PrfsfntbtionDirfdtion.
      */
-    protected String[] getStringTable() {
-        return myStringTable;
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf;
     }
 
     /**
-     * Returns the enumeration value table for class PresentationDirection.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss PrfsfntbtionDirfdtion.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return myEnumValueTable;
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn myEnumVblufTbblf;
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class PresentationDirection
-     * the category is class PresentationDirection itself.
+     * For dlbss PrfsfntbtionDirfdtion
+     * tif dbtfgory is dlbss PrfsfntbtionDirfdtion itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return PresentationDirection.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn PrfsfntbtionDirfdtion.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class PresentationDirection
-     * the category name is <CODE>"presentation-direction"</CODE>.
+     * For dlbss PrfsfntbtionDirfdtion
+     * tif dbtfgory nbmf is <CODE>"prfsfntbtion-dirfdtion"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "presentation-direction";
+    publid finbl String gftNbmf() {
+        rfturn "prfsfntbtion-dirfdtion";
     }
 
 }

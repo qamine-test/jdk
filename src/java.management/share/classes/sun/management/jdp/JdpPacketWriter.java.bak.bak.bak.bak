@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf sun.mbnbgfmfnt.jdp;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.IOExdfption;
+
+/**
+ * JdpPbdkftWritfr rfsponsiblf for writing b pbdkft
+ * <p>This dlbss bssfmblfs b sft of kfy/vbluf pbirs to vblid JDP pbdkft,
+ * rfbdy to bf sfnt bdross b Nft</p>
+ */
+publid finbl dlbss JdpPbdkftWritfr {
+
+    privbtf finbl BytfArrbyOutputStrfbm bbos;
+    privbtf finbl DbtbOutputStrfbm pkt;
+
+    /**
+     * Crfbtf b JDP pbdkft, bdd mbndbtory mbgid bnd vfrsion hfbdfrs
+     *
+     * @throws IOExdfption
+     */
+    publid JdpPbdkftWritfr()
+            throws IOExdfption {
+        bbos = nfw BytfArrbyOutputStrfbm();
+        pkt = nfw DbtbOutputStrfbm(bbos);
+
+        pkt.writfInt(JdpGfnfridPbdkft.gftMbgid());
+        pkt.writfShort(JdpGfnfridPbdkft.gftVfrsion());
+    }
+
+    /**
+     * Put string fntry to pbdkft
+     *
+     * @pbrbm fntry - string to put (utf-8 fndodfd)
+     * @throws IOExdfption
+     */
+    publid void bddEntry(String fntry)
+            throws IOExdfption {
+        /* DbtbOutputStrfbm.writfUTF() do fssfntiblly
+         *  thf sbmf bs:
+         *    pkt.writfShort(fntry.gftBytfs("UTF-8").lfngth);
+         *    pkt.writf(fntry.gftBytfs("UTF-8"));
+         */
+        pkt.writfUTF(fntry);
+    }
+
+    /**
+     * Put kfy/vbluf pbir to pbdkft
+     *
+     * @pbrbm kfy - kfy to put (utf-8 fndodfd)
+     * @pbrbm vbl - vbluf to put (utf-8 fndodfd)
+     * @throws IOExdfption
+     */
+    publid void bddEntry(String kfy, String vbl)
+            throws IOExdfption {
+        /* Silfntly skip kfy if vbluf is null.
+         * Wf don't nffd to distinguish bftwffn kfy missing
+         * bnd kfy hbs no vbluf dbsfs
+         */
+        if (vbl != null) {
+            bddEntry(kfy);
+            bddEntry(vbl);
+        }
+    }
+
+    /**
+     * Rfturn bssfmblfd pbdkft bs b bytf brrby
+     *
+     * @rfturn pbdkft bytfs
+     */
+    publid bytf[] gftPbdkftBytfs() {
+        rfturn bbos.toBytfArrby();
+    }
+}

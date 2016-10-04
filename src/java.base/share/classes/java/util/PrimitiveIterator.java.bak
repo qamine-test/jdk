@@ -1,301 +1,301 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.util.function.Consumer;
-import java.util.function.DoubleConsumer;
-import java.util.function.IntConsumer;
-import java.util.function.LongConsumer;
+import jbvb.util.fundtion.Consumfr;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.fundtion.IntConsumfr;
+import jbvb.util.fundtion.LongConsumfr;
 
 /**
- * A base type for primitive specializations of {@code Iterator}.  Specialized
- * subtypes are provided for {@link OfInt int}, {@link OfLong long}, and
- * {@link OfDouble double} values.
+ * A bbsf typf for primitivf spfdiblizbtions of {@dodf Itfrbtor}.  Spfdiblizfd
+ * subtypfs brf providfd for {@link OfInt int}, {@link OfLong long}, bnd
+ * {@link OfDoublf doublf} vblufs.
  *
- * <p>The specialized subtype default implementations of {@link Iterator#next}
- * and {@link Iterator#forEachRemaining(java.util.function.Consumer)} box
- * primitive values to instances of their corresponding wrapper class.  Such
- * boxing may offset any advantages gained when using the primitive
- * specializations.  To avoid boxing, the corresponding primitive-based methods
- * should be used.  For example, {@link PrimitiveIterator.OfInt#nextInt()} and
- * {@link PrimitiveIterator.OfInt#forEachRemaining(java.util.function.IntConsumer)}
- * should be used in preference to {@link PrimitiveIterator.OfInt#next()} and
- * {@link PrimitiveIterator.OfInt#forEachRemaining(java.util.function.Consumer)}.
+ * <p>Tif spfdiblizfd subtypf dffbult implfmfntbtions of {@link Itfrbtor#nfxt}
+ * bnd {@link Itfrbtor#forEbdiRfmbining(jbvb.util.fundtion.Consumfr)} box
+ * primitivf vblufs to instbndfs of tifir dorrfsponding wrbppfr dlbss.  Sudi
+ * boxing mby offsft bny bdvbntbgfs gbinfd wifn using tif primitivf
+ * spfdiblizbtions.  To bvoid boxing, tif dorrfsponding primitivf-bbsfd mftiods
+ * siould bf usfd.  For fxbmplf, {@link PrimitivfItfrbtor.OfInt#nfxtInt()} bnd
+ * {@link PrimitivfItfrbtor.OfInt#forEbdiRfmbining(jbvb.util.fundtion.IntConsumfr)}
+ * siould bf usfd in prfffrfndf to {@link PrimitivfItfrbtor.OfInt#nfxt()} bnd
+ * {@link PrimitivfItfrbtor.OfInt#forEbdiRfmbining(jbvb.util.fundtion.Consumfr)}.
  *
- * <p>Iteration of primitive values using boxing-based methods
- * {@link Iterator#next next()} and
- * {@link Iterator#forEachRemaining(java.util.function.Consumer) forEachRemaining()},
- * does not affect the order in which the values, transformed to boxed values,
- * are encountered.
+ * <p>Itfrbtion of primitivf vblufs using boxing-bbsfd mftiods
+ * {@link Itfrbtor#nfxt nfxt()} bnd
+ * {@link Itfrbtor#forEbdiRfmbining(jbvb.util.fundtion.Consumfr) forEbdiRfmbining()},
+ * dofs not bfffdt tif ordfr in wiidi tif vblufs, trbnsformfd to boxfd vblufs,
+ * brf fndountfrfd.
  *
- * @implNote
- * If the boolean system property {@code org.openjdk.java.util.stream.tripwire}
- * is set to {@code true} then diagnostic warnings are reported if boxing of
- * primitive values occur when operating on primitive subtype specializations.
+ * @implNotf
+ * If tif boolfbn systfm propfrty {@dodf org.opfnjdk.jbvb.util.strfbm.tripwirf}
+ * is sft to {@dodf truf} tifn dibgnostid wbrnings brf rfportfd if boxing of
+ * primitivf vblufs oddur wifn opfrbting on primitivf subtypf spfdiblizbtions.
  *
- * @param <T> the type of elements returned by this PrimitiveIterator.  The
- *        type must be a wrapper type for a primitive type, such as
- *        {@code Integer} for the primitive {@code int} type.
- * @param <T_CONS> the type of primitive consumer.  The type must be a
- *        primitive specialization of {@link java.util.function.Consumer} for
- *        {@code T}, such as {@link java.util.function.IntConsumer} for
- *        {@code Integer}.
+ * @pbrbm <T> tif typf of flfmfnts rfturnfd by tiis PrimitivfItfrbtor.  Tif
+ *        typf must bf b wrbppfr typf for b primitivf typf, sudi bs
+ *        {@dodf Intfgfr} for tif primitivf {@dodf int} typf.
+ * @pbrbm <T_CONS> tif typf of primitivf donsumfr.  Tif typf must bf b
+ *        primitivf spfdiblizbtion of {@link jbvb.util.fundtion.Consumfr} for
+ *        {@dodf T}, sudi bs {@link jbvb.util.fundtion.IntConsumfr} for
+ *        {@dodf Intfgfr}.
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public interface PrimitiveIterator<T, T_CONS> extends Iterator<T> {
+publid intfrfbdf PrimitivfItfrbtor<T, T_CONS> fxtfnds Itfrbtor<T> {
 
     /**
-     * Performs the given action for each remaining element, in the order
-     * elements occur when iterating, until all elements have been processed
-     * or the action throws an exception.  Errors or runtime exceptions
-     * thrown by the action are relayed to the caller.
+     * Pfrforms tif givfn bdtion for fbdi rfmbining flfmfnt, in tif ordfr
+     * flfmfnts oddur wifn itfrbting, until bll flfmfnts ibvf bffn prodfssfd
+     * or tif bdtion tirows bn fxdfption.  Errors or runtimf fxdfptions
+     * tirown by tif bdtion brf rflbyfd to tif dbllfr.
      *
-     * @param action The action to be performed for each element
-     * @throws NullPointerException if the specified action is null
+     * @pbrbm bdtion Tif bdtion to bf pfrformfd for fbdi flfmfnt
+     * @tirows NullPointfrExdfption if tif spfdififd bdtion is null
      */
-    @SuppressWarnings("overloads")
-    void forEachRemaining(T_CONS action);
+    @SupprfssWbrnings("ovfrlobds")
+    void forEbdiRfmbining(T_CONS bdtion);
 
     /**
-     * An Iterator specialized for {@code int} values.
-     * @since 1.8
+     * An Itfrbtor spfdiblizfd for {@dodf int} vblufs.
+     * @sindf 1.8
      */
-    public static interface OfInt extends PrimitiveIterator<Integer, IntConsumer> {
+    publid stbtid intfrfbdf OfInt fxtfnds PrimitivfItfrbtor<Intfgfr, IntConsumfr> {
 
         /**
-         * Returns the next {@code int} element in the iteration.
+         * Rfturns tif nfxt {@dodf int} flfmfnt in tif itfrbtion.
          *
-         * @return the next {@code int} element in the iteration
-         * @throws NoSuchElementException if the iteration has no more elements
+         * @rfturn tif nfxt {@dodf int} flfmfnt in tif itfrbtion
+         * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no morf flfmfnts
          */
-        int nextInt();
+        int nfxtInt();
 
         /**
-         * Performs the given action for each remaining element until all elements
-         * have been processed or the action throws an exception.  Actions are
-         * performed in the order of iteration, if that order is specified.
-         * Exceptions thrown by the action are relayed to the caller.
+         * Pfrforms tif givfn bdtion for fbdi rfmbining flfmfnt until bll flfmfnts
+         * ibvf bffn prodfssfd or tif bdtion tirows bn fxdfption.  Adtions brf
+         * pfrformfd in tif ordfr of itfrbtion, if tibt ordfr is spfdififd.
+         * Exdfptions tirown by tif bdtion brf rflbyfd to tif dbllfr.
          *
-         * @implSpec
-         * <p>The default implementation behaves as if:
-         * <pre>{@code
-         *     while (hasNext())
-         *         action.accept(nextInt());
-         * }</pre>
+         * @implSpfd
+         * <p>Tif dffbult implfmfntbtion bfibvfs bs if:
+         * <prf>{@dodf
+         *     wiilf (ibsNfxt())
+         *         bdtion.bddfpt(nfxtInt());
+         * }</prf>
          *
-         * @param action The action to be performed for each element
-         * @throws NullPointerException if the specified action is null
+         * @pbrbm bdtion Tif bdtion to bf pfrformfd for fbdi flfmfnt
+         * @tirows NullPointfrExdfption if tif spfdififd bdtion is null
          */
-        default void forEachRemaining(IntConsumer action) {
-            Objects.requireNonNull(action);
-            while (hasNext())
-                action.accept(nextInt());
+        dffbult void forEbdiRfmbining(IntConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+            wiilf (ibsNfxt())
+                bdtion.bddfpt(nfxtInt());
         }
 
         /**
-         * {@inheritDoc}
-         * @implSpec
-         * The default implementation boxes the result of calling
-         * {@link #nextInt()}, and returns that boxed result.
+         * {@inifritDod}
+         * @implSpfd
+         * Tif dffbult implfmfntbtion boxfs tif rfsult of dblling
+         * {@link #nfxtInt()}, bnd rfturns tibt boxfd rfsult.
          */
-        @Override
-        default Integer next() {
-            if (Tripwire.ENABLED)
-                Tripwire.trip(getClass(), "{0} calling PrimitiveIterator.OfInt.nextInt()");
-            return nextInt();
+        @Ovfrridf
+        dffbult Intfgfr nfxt() {
+            if (Tripwirf.ENABLED)
+                Tripwirf.trip(gftClbss(), "{0} dblling PrimitivfItfrbtor.OfInt.nfxtInt()");
+            rfturn nfxtInt();
         }
 
         /**
-         * {@inheritDoc}
-         * @implSpec
-         * If the action is an instance of {@code IntConsumer} then it is cast
-         * to {@code IntConsumer} and passed to {@link #forEachRemaining};
-         * otherwise the action is adapted to an instance of
-         * {@code IntConsumer}, by boxing the argument of {@code IntConsumer},
-         * and then passed to {@link #forEachRemaining}.
+         * {@inifritDod}
+         * @implSpfd
+         * If tif bdtion is bn instbndf of {@dodf IntConsumfr} tifn it is dbst
+         * to {@dodf IntConsumfr} bnd pbssfd to {@link #forEbdiRfmbining};
+         * otifrwisf tif bdtion is bdbptfd to bn instbndf of
+         * {@dodf IntConsumfr}, by boxing tif brgumfnt of {@dodf IntConsumfr},
+         * bnd tifn pbssfd to {@link #forEbdiRfmbining}.
          */
-        @Override
-        default void forEachRemaining(Consumer<? super Integer> action) {
-            if (action instanceof IntConsumer) {
-                forEachRemaining((IntConsumer) action);
+        @Ovfrridf
+        dffbult void forEbdiRfmbining(Consumfr<? supfr Intfgfr> bdtion) {
+            if (bdtion instbndfof IntConsumfr) {
+                forEbdiRfmbining((IntConsumfr) bdtion);
             }
-            else {
-                // The method reference action::accept is never null
-                Objects.requireNonNull(action);
-                if (Tripwire.ENABLED)
-                    Tripwire.trip(getClass(), "{0} calling PrimitiveIterator.OfInt.forEachRemainingInt(action::accept)");
-                forEachRemaining((IntConsumer) action::accept);
+            flsf {
+                // Tif mftiod rfffrfndf bdtion::bddfpt is nfvfr null
+                Objfdts.rfquirfNonNull(bdtion);
+                if (Tripwirf.ENABLED)
+                    Tripwirf.trip(gftClbss(), "{0} dblling PrimitivfItfrbtor.OfInt.forEbdiRfmbiningInt(bdtion::bddfpt)");
+                forEbdiRfmbining((IntConsumfr) bdtion::bddfpt);
             }
         }
 
     }
 
     /**
-     * An Iterator specialized for {@code long} values.
-     * @since 1.8
+     * An Itfrbtor spfdiblizfd for {@dodf long} vblufs.
+     * @sindf 1.8
      */
-    public static interface OfLong extends PrimitiveIterator<Long, LongConsumer> {
+    publid stbtid intfrfbdf OfLong fxtfnds PrimitivfItfrbtor<Long, LongConsumfr> {
 
         /**
-         * Returns the next {@code long} element in the iteration.
+         * Rfturns tif nfxt {@dodf long} flfmfnt in tif itfrbtion.
          *
-         * @return the next {@code long} element in the iteration
-         * @throws NoSuchElementException if the iteration has no more elements
+         * @rfturn tif nfxt {@dodf long} flfmfnt in tif itfrbtion
+         * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no morf flfmfnts
          */
-        long nextLong();
+        long nfxtLong();
 
         /**
-         * Performs the given action for each remaining element until all elements
-         * have been processed or the action throws an exception.  Actions are
-         * performed in the order of iteration, if that order is specified.
-         * Exceptions thrown by the action are relayed to the caller.
+         * Pfrforms tif givfn bdtion for fbdi rfmbining flfmfnt until bll flfmfnts
+         * ibvf bffn prodfssfd or tif bdtion tirows bn fxdfption.  Adtions brf
+         * pfrformfd in tif ordfr of itfrbtion, if tibt ordfr is spfdififd.
+         * Exdfptions tirown by tif bdtion brf rflbyfd to tif dbllfr.
          *
-         * @implSpec
-         * <p>The default implementation behaves as if:
-         * <pre>{@code
-         *     while (hasNext())
-         *         action.accept(nextLong());
-         * }</pre>
+         * @implSpfd
+         * <p>Tif dffbult implfmfntbtion bfibvfs bs if:
+         * <prf>{@dodf
+         *     wiilf (ibsNfxt())
+         *         bdtion.bddfpt(nfxtLong());
+         * }</prf>
          *
-         * @param action The action to be performed for each element
-         * @throws NullPointerException if the specified action is null
+         * @pbrbm bdtion Tif bdtion to bf pfrformfd for fbdi flfmfnt
+         * @tirows NullPointfrExdfption if tif spfdififd bdtion is null
          */
-        default void forEachRemaining(LongConsumer action) {
-            Objects.requireNonNull(action);
-            while (hasNext())
-                action.accept(nextLong());
+        dffbult void forEbdiRfmbining(LongConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+            wiilf (ibsNfxt())
+                bdtion.bddfpt(nfxtLong());
         }
 
         /**
-         * {@inheritDoc}
-         * @implSpec
-         * The default implementation boxes the result of calling
-         * {@link #nextLong()}, and returns that boxed result.
+         * {@inifritDod}
+         * @implSpfd
+         * Tif dffbult implfmfntbtion boxfs tif rfsult of dblling
+         * {@link #nfxtLong()}, bnd rfturns tibt boxfd rfsult.
          */
-        @Override
-        default Long next() {
-            if (Tripwire.ENABLED)
-                Tripwire.trip(getClass(), "{0} calling PrimitiveIterator.OfLong.nextLong()");
-            return nextLong();
+        @Ovfrridf
+        dffbult Long nfxt() {
+            if (Tripwirf.ENABLED)
+                Tripwirf.trip(gftClbss(), "{0} dblling PrimitivfItfrbtor.OfLong.nfxtLong()");
+            rfturn nfxtLong();
         }
 
         /**
-         * {@inheritDoc}
-         * @implSpec
-         * If the action is an instance of {@code LongConsumer} then it is cast
-         * to {@code LongConsumer} and passed to {@link #forEachRemaining};
-         * otherwise the action is adapted to an instance of
-         * {@code LongConsumer}, by boxing the argument of {@code LongConsumer},
-         * and then passed to {@link #forEachRemaining}.
+         * {@inifritDod}
+         * @implSpfd
+         * If tif bdtion is bn instbndf of {@dodf LongConsumfr} tifn it is dbst
+         * to {@dodf LongConsumfr} bnd pbssfd to {@link #forEbdiRfmbining};
+         * otifrwisf tif bdtion is bdbptfd to bn instbndf of
+         * {@dodf LongConsumfr}, by boxing tif brgumfnt of {@dodf LongConsumfr},
+         * bnd tifn pbssfd to {@link #forEbdiRfmbining}.
          */
-        @Override
-        default void forEachRemaining(Consumer<? super Long> action) {
-            if (action instanceof LongConsumer) {
-                forEachRemaining((LongConsumer) action);
+        @Ovfrridf
+        dffbult void forEbdiRfmbining(Consumfr<? supfr Long> bdtion) {
+            if (bdtion instbndfof LongConsumfr) {
+                forEbdiRfmbining((LongConsumfr) bdtion);
             }
-            else {
-                // The method reference action::accept is never null
-                Objects.requireNonNull(action);
-                if (Tripwire.ENABLED)
-                    Tripwire.trip(getClass(), "{0} calling PrimitiveIterator.OfLong.forEachRemainingLong(action::accept)");
-                forEachRemaining((LongConsumer) action::accept);
+            flsf {
+                // Tif mftiod rfffrfndf bdtion::bddfpt is nfvfr null
+                Objfdts.rfquirfNonNull(bdtion);
+                if (Tripwirf.ENABLED)
+                    Tripwirf.trip(gftClbss(), "{0} dblling PrimitivfItfrbtor.OfLong.forEbdiRfmbiningLong(bdtion::bddfpt)");
+                forEbdiRfmbining((LongConsumfr) bdtion::bddfpt);
             }
         }
     }
 
     /**
-     * An Iterator specialized for {@code double} values.
-     * @since 1.8
+     * An Itfrbtor spfdiblizfd for {@dodf doublf} vblufs.
+     * @sindf 1.8
      */
-    public static interface OfDouble extends PrimitiveIterator<Double, DoubleConsumer> {
+    publid stbtid intfrfbdf OfDoublf fxtfnds PrimitivfItfrbtor<Doublf, DoublfConsumfr> {
 
         /**
-         * Returns the next {@code double} element in the iteration.
+         * Rfturns tif nfxt {@dodf doublf} flfmfnt in tif itfrbtion.
          *
-         * @return the next {@code double} element in the iteration
-         * @throws NoSuchElementException if the iteration has no more elements
+         * @rfturn tif nfxt {@dodf doublf} flfmfnt in tif itfrbtion
+         * @tirows NoSudiElfmfntExdfption if tif itfrbtion ibs no morf flfmfnts
          */
-        double nextDouble();
+        doublf nfxtDoublf();
 
         /**
-         * Performs the given action for each remaining element until all elements
-         * have been processed or the action throws an exception.  Actions are
-         * performed in the order of iteration, if that order is specified.
-         * Exceptions thrown by the action are relayed to the caller.
+         * Pfrforms tif givfn bdtion for fbdi rfmbining flfmfnt until bll flfmfnts
+         * ibvf bffn prodfssfd or tif bdtion tirows bn fxdfption.  Adtions brf
+         * pfrformfd in tif ordfr of itfrbtion, if tibt ordfr is spfdififd.
+         * Exdfptions tirown by tif bdtion brf rflbyfd to tif dbllfr.
          *
-         * @implSpec
-         * <p>The default implementation behaves as if:
-         * <pre>{@code
-         *     while (hasNext())
-         *         action.accept(nextDouble());
-         * }</pre>
+         * @implSpfd
+         * <p>Tif dffbult implfmfntbtion bfibvfs bs if:
+         * <prf>{@dodf
+         *     wiilf (ibsNfxt())
+         *         bdtion.bddfpt(nfxtDoublf());
+         * }</prf>
          *
-         * @param action The action to be performed for each element
-         * @throws NullPointerException if the specified action is null
+         * @pbrbm bdtion Tif bdtion to bf pfrformfd for fbdi flfmfnt
+         * @tirows NullPointfrExdfption if tif spfdififd bdtion is null
          */
-        default void forEachRemaining(DoubleConsumer action) {
-            Objects.requireNonNull(action);
-            while (hasNext())
-                action.accept(nextDouble());
+        dffbult void forEbdiRfmbining(DoublfConsumfr bdtion) {
+            Objfdts.rfquirfNonNull(bdtion);
+            wiilf (ibsNfxt())
+                bdtion.bddfpt(nfxtDoublf());
         }
 
         /**
-         * {@inheritDoc}
-         * @implSpec
-         * The default implementation boxes the result of calling
-         * {@link #nextDouble()}, and returns that boxed result.
+         * {@inifritDod}
+         * @implSpfd
+         * Tif dffbult implfmfntbtion boxfs tif rfsult of dblling
+         * {@link #nfxtDoublf()}, bnd rfturns tibt boxfd rfsult.
          */
-        @Override
-        default Double next() {
-            if (Tripwire.ENABLED)
-                Tripwire.trip(getClass(), "{0} calling PrimitiveIterator.OfDouble.nextLong()");
-            return nextDouble();
+        @Ovfrridf
+        dffbult Doublf nfxt() {
+            if (Tripwirf.ENABLED)
+                Tripwirf.trip(gftClbss(), "{0} dblling PrimitivfItfrbtor.OfDoublf.nfxtLong()");
+            rfturn nfxtDoublf();
         }
 
         /**
-         * {@inheritDoc}
-         * @implSpec
-         * If the action is an instance of {@code DoubleConsumer} then it is
-         * cast to {@code DoubleConsumer} and passed to
-         * {@link #forEachRemaining}; otherwise the action is adapted to
-         * an instance of {@code DoubleConsumer}, by boxing the argument of
-         * {@code DoubleConsumer}, and then passed to
-         * {@link #forEachRemaining}.
+         * {@inifritDod}
+         * @implSpfd
+         * If tif bdtion is bn instbndf of {@dodf DoublfConsumfr} tifn it is
+         * dbst to {@dodf DoublfConsumfr} bnd pbssfd to
+         * {@link #forEbdiRfmbining}; otifrwisf tif bdtion is bdbptfd to
+         * bn instbndf of {@dodf DoublfConsumfr}, by boxing tif brgumfnt of
+         * {@dodf DoublfConsumfr}, bnd tifn pbssfd to
+         * {@link #forEbdiRfmbining}.
          */
-        @Override
-        default void forEachRemaining(Consumer<? super Double> action) {
-            if (action instanceof DoubleConsumer) {
-                forEachRemaining((DoubleConsumer) action);
+        @Ovfrridf
+        dffbult void forEbdiRfmbining(Consumfr<? supfr Doublf> bdtion) {
+            if (bdtion instbndfof DoublfConsumfr) {
+                forEbdiRfmbining((DoublfConsumfr) bdtion);
             }
-            else {
-                // The method reference action::accept is never null
-                Objects.requireNonNull(action);
-                if (Tripwire.ENABLED)
-                    Tripwire.trip(getClass(), "{0} calling PrimitiveIterator.OfDouble.forEachRemainingDouble(action::accept)");
-                forEachRemaining((DoubleConsumer) action::accept);
+            flsf {
+                // Tif mftiod rfffrfndf bdtion::bddfpt is nfvfr null
+                Objfdts.rfquirfNonNull(bdtion);
+                if (Tripwirf.ENABLED)
+                    Tripwirf.trip(gftClbss(), "{0} dblling PrimitivfItfrbtor.OfDoublf.forEbdiRfmbiningDoublf(bdtion::bddfpt)");
+                forEbdiRfmbining((DoublfConsumfr) bdtion::bddfpt);
             }
         }
     }

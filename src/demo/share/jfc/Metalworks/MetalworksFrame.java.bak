@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,329 +30,329 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.io.InputStream;
-import javax.swing.ButtonGroup;
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComponent;
-import javax.swing.JDesktopPane;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.UIManager;
-import javax.swing.plaf.metal.DefaultMetalTheme;
-import javax.swing.plaf.metal.MetalTheme;
-import javax.swing.plaf.metal.OceanTheme;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Toolkit;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.bwt.fvfnt.AdtionListfnfr;
+import jbvb.bwt.fvfnt.WindowAdbptfr;
+import jbvb.bwt.fvfnt.WindowEvfnt;
+import jbvb.io.InputStrfbm;
+import jbvbx.swing.ButtonGroup;
+import jbvbx.swing.JCifdkBoxMfnuItfm;
+import jbvbx.swing.JComponfnt;
+import jbvbx.swing.JDfsktopPbnf;
+import jbvbx.swing.JFilfCioosfr;
+import jbvbx.swing.JFrbmf;
+import jbvbx.swing.JIntfrnblFrbmf;
+import jbvbx.swing.JMfnu;
+import jbvbx.swing.JMfnuBbr;
+import jbvbx.swing.JMfnuItfm;
+import jbvbx.swing.JOptionPbnf;
+import jbvbx.swing.JRbdioButtonMfnuItfm;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.plbf.mftbl.DffbultMftblTifmf;
+import jbvbx.swing.plbf.mftbl.MftblTifmf;
+import jbvbx.swing.plbf.mftbl.OdfbnTifmf;
 
 
 /**
- * This is the main container frame for the Metalworks demo app
+ * Tiis is tif mbin dontbinfr frbmf for tif Mftblworks dfmo bpp
  *
- * @author Steve Wilson
- * @author Alexander Kouznetsov
+ * @butior Stfvf Wilson
+ * @butior Alfxbndfr Kouznftsov
  */
-@SuppressWarnings("serial")
-public final class MetalworksFrame extends JFrame {
+@SupprfssWbrnings("sfribl")
+publid finbl dlbss MftblworksFrbmf fxtfnds JFrbmf {
 
-    JMenuBar menuBar;
-    JDesktopPane desktop;
-    JInternalFrame toolPalette;
-    JCheckBoxMenuItem showToolPaletteMenuItem;
-    static final Integer DOCLAYER = 5;
-    static final Integer TOOLLAYER = 6;
-    static final Integer HELPLAYER = 7;
-    static final String ABOUTMSG = "Metalworks \n \nAn application written to "
-            + "show off the Java Look & Feel. \n \nWritten by the JavaSoft "
-            + "Look & Feel Team \n  Michael Albers\n  Tom Santos\n  "
-            + "Jeff Shapiro\n  Steve Wilson";
+    JMfnuBbr mfnuBbr;
+    JDfsktopPbnf dfsktop;
+    JIntfrnblFrbmf toolPblfttf;
+    JCifdkBoxMfnuItfm siowToolPblfttfMfnuItfm;
+    stbtid finbl Intfgfr DOCLAYER = 5;
+    stbtid finbl Intfgfr TOOLLAYER = 6;
+    stbtid finbl Intfgfr HELPLAYER = 7;
+    stbtid finbl String ABOUTMSG = "Mftblworks \n \nAn bpplidbtion writtfn to "
+            + "siow off tif Jbvb Look & Fffl. \n \nWrittfn by tif JbvbSoft "
+            + "Look & Fffl Tfbm \n  Midibfl Albfrs\n  Tom Sbntos\n  "
+            + "Jfff Sibpiro\n  Stfvf Wilson";
 
-    public MetalworksFrame() {
-        super("Metalworks");
-        final int inset = 50;
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds(inset, inset, screenSize.width - inset * 2, screenSize.height - inset
+    publid MftblworksFrbmf() {
+        supfr("Mftblworks");
+        finbl int insft = 50;
+        Dimfnsion sdrffnSizf = Toolkit.gftDffbultToolkit().gftSdrffnSizf();
+        sftBounds(insft, insft, sdrffnSizf.widti - insft * 2, sdrffnSizf.ifigit - insft
                 * 2);
-        buildContent();
-        buildMenus();
-        this.addWindowListener(new WindowAdapter() {
+        buildContfnt();
+        buildMfnus();
+        tiis.bddWindowListfnfr(nfw WindowAdbptfr() {
 
-            @Override
-            public void windowClosing(WindowEvent e) {
+            @Ovfrridf
+            publid void windowClosing(WindowEvfnt f) {
                 quit();
             }
         });
-        UIManager.addPropertyChangeListener(new UISwitchListener(
-                (JComponent) getRootPane()));
+        UIMbnbgfr.bddPropfrtyCibngfListfnfr(nfw UISwitdiListfnfr(
+                (JComponfnt) gftRootPbnf()));
     }
 
-    protected void buildMenus() {
-        menuBar = new JMenuBar();
-        menuBar.setOpaque(true);
-        JMenu file = buildFileMenu();
-        JMenu edit = buildEditMenu();
-        JMenu views = buildViewsMenu();
-        JMenu speed = buildSpeedMenu();
-        JMenu help = buildHelpMenu();
+    protfdtfd void buildMfnus() {
+        mfnuBbr = nfw JMfnuBbr();
+        mfnuBbr.sftOpbquf(truf);
+        JMfnu filf = buildFilfMfnu();
+        JMfnu fdit = buildEditMfnu();
+        JMfnu vifws = buildVifwsMfnu();
+        JMfnu spffd = buildSpffdMfnu();
+        JMfnu iflp = buildHflpMfnu();
 
-        // load a theme from a text file
-        MetalTheme myTheme = null;
+        // lobd b tifmf from b tfxt filf
+        MftblTifmf myTifmf = null;
         try {
-            InputStream istream = getClass().getResourceAsStream(
-                    "/resources/MyTheme.theme");
-            myTheme = new PropertiesMetalTheme(istream);
-        } catch (NullPointerException e) {
-            System.out.println(e);
+            InputStrfbm istrfbm = gftClbss().gftRfsourdfAsStrfbm(
+                    "/rfsourdfs/MyTifmf.tifmf");
+            myTifmf = nfw PropfrtifsMftblTifmf(istrfbm);
+        } dbtdi (NullPointfrExdfption f) {
+            Systfm.out.println(f);
         }
 
-        // build an array of themes
-        MetalTheme[] themes = { new OceanTheme(),
-            new DefaultMetalTheme(),
-            new GreenMetalTheme(),
-            new AquaMetalTheme(),
-            new KhakiMetalTheme(),
-            new DemoMetalTheme(),
-            new ContrastMetalTheme(),
-            new BigContrastMetalTheme(),
-            myTheme };
+        // build bn brrby of tifmfs
+        MftblTifmf[] tifmfs = { nfw OdfbnTifmf(),
+            nfw DffbultMftblTifmf(),
+            nfw GrffnMftblTifmf(),
+            nfw AqubMftblTifmf(),
+            nfw KibkiMftblTifmf(),
+            nfw DfmoMftblTifmf(),
+            nfw ContrbstMftblTifmf(),
+            nfw BigContrbstMftblTifmf(),
+            myTifmf };
 
-        // put the themes in a menu
-        JMenu themeMenu = new MetalThemeMenu("Theme", themes);
+        // put tif tifmfs in b mfnu
+        JMfnu tifmfMfnu = nfw MftblTifmfMfnu("Tifmf", tifmfs);
 
-        menuBar.add(file);
-        menuBar.add(edit);
-        menuBar.add(views);
-        menuBar.add(themeMenu);
-        menuBar.add(speed);
-        menuBar.add(help);
-        setJMenuBar(menuBar);
+        mfnuBbr.bdd(filf);
+        mfnuBbr.bdd(fdit);
+        mfnuBbr.bdd(vifws);
+        mfnuBbr.bdd(tifmfMfnu);
+        mfnuBbr.bdd(spffd);
+        mfnuBbr.bdd(iflp);
+        sftJMfnuBbr(mfnuBbr);
     }
 
-    protected JMenu buildFileMenu() {
-        JMenu file = new JMenu("File");
-        JMenuItem newWin = new JMenuItem("New");
-        JMenuItem open = new JMenuItem("Open");
-        JMenuItem quit = new JMenuItem("Quit");
+    protfdtfd JMfnu buildFilfMfnu() {
+        JMfnu filf = nfw JMfnu("Filf");
+        JMfnuItfm nfwWin = nfw JMfnuItfm("Nfw");
+        JMfnuItfm opfn = nfw JMfnuItfm("Opfn");
+        JMfnuItfm quit = nfw JMfnuItfm("Quit");
 
-        newWin.addActionListener(new ActionListener() {
+        nfwWin.bddAdtionListfnfr(nfw AdtionListfnfr() {
 
-            public void actionPerformed(ActionEvent e) {
-                newDocument();
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                nfwDodumfnt();
             }
         });
 
-        open.addActionListener(new ActionListener() {
+        opfn.bddAdtionListfnfr(nfw AdtionListfnfr() {
 
-            public void actionPerformed(ActionEvent e) {
-                openDocument();
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                opfnDodumfnt();
             }
         });
 
-        quit.addActionListener(new ActionListener() {
+        quit.bddAdtionListfnfr(nfw AdtionListfnfr() {
 
-            public void actionPerformed(ActionEvent e) {
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
                 quit();
             }
         });
 
-        file.add(newWin);
-        file.add(open);
-        file.addSeparator();
-        file.add(quit);
-        return file;
+        filf.bdd(nfwWin);
+        filf.bdd(opfn);
+        filf.bddSfpbrbtor();
+        filf.bdd(quit);
+        rfturn filf;
     }
 
-    protected JMenu buildEditMenu() {
-        JMenu edit = new JMenu("Edit");
-        JMenuItem undo = new JMenuItem("Undo");
-        JMenuItem copy = new JMenuItem("Copy");
-        JMenuItem cut = new JMenuItem("Cut");
-        JMenuItem paste = new JMenuItem("Paste");
-        JMenuItem prefs = new JMenuItem("Preferences...");
+    protfdtfd JMfnu buildEditMfnu() {
+        JMfnu fdit = nfw JMfnu("Edit");
+        JMfnuItfm undo = nfw JMfnuItfm("Undo");
+        JMfnuItfm dopy = nfw JMfnuItfm("Copy");
+        JMfnuItfm dut = nfw JMfnuItfm("Cut");
+        JMfnuItfm pbstf = nfw JMfnuItfm("Pbstf");
+        JMfnuItfm prffs = nfw JMfnuItfm("Prfffrfndfs...");
 
-        undo.setEnabled(false);
-        copy.setEnabled(false);
-        cut.setEnabled(false);
-        paste.setEnabled(false);
+        undo.sftEnbblfd(fblsf);
+        dopy.sftEnbblfd(fblsf);
+        dut.sftEnbblfd(fblsf);
+        pbstf.sftEnbblfd(fblsf);
 
-        prefs.addActionListener(new ActionListener() {
+        prffs.bddAdtionListfnfr(nfw AdtionListfnfr() {
 
-            public void actionPerformed(ActionEvent e) {
-                openPrefsWindow();
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                opfnPrffsWindow();
             }
         });
 
-        edit.add(undo);
-        edit.addSeparator();
-        edit.add(cut);
-        edit.add(copy);
-        edit.add(paste);
-        edit.addSeparator();
-        edit.add(prefs);
-        return edit;
+        fdit.bdd(undo);
+        fdit.bddSfpbrbtor();
+        fdit.bdd(dut);
+        fdit.bdd(dopy);
+        fdit.bdd(pbstf);
+        fdit.bddSfpbrbtor();
+        fdit.bdd(prffs);
+        rfturn fdit;
     }
 
-    protected JMenu buildViewsMenu() {
-        JMenu views = new JMenu("Views");
+    protfdtfd JMfnu buildVifwsMfnu() {
+        JMfnu vifws = nfw JMfnu("Vifws");
 
-        JMenuItem inBox = new JMenuItem("Open In-Box");
-        JMenuItem outBox = new JMenuItem("Open Out-Box");
-        outBox.setEnabled(false);
+        JMfnuItfm inBox = nfw JMfnuItfm("Opfn In-Box");
+        JMfnuItfm outBox = nfw JMfnuItfm("Opfn Out-Box");
+        outBox.sftEnbblfd(fblsf);
 
-        inBox.addActionListener(new ActionListener() {
+        inBox.bddAdtionListfnfr(nfw AdtionListfnfr() {
 
-            public void actionPerformed(ActionEvent e) {
-                openInBox();
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                opfnInBox();
             }
         });
 
-        views.add(inBox);
-        views.add(outBox);
-        return views;
+        vifws.bdd(inBox);
+        vifws.bdd(outBox);
+        rfturn vifws;
     }
 
-    protected JMenu buildSpeedMenu() {
-        JMenu speed = new JMenu("Drag");
+    protfdtfd JMfnu buildSpffdMfnu() {
+        JMfnu spffd = nfw JMfnu("Drbg");
 
-        JRadioButtonMenuItem live = new JRadioButtonMenuItem("Live");
-        JRadioButtonMenuItem outline = new JRadioButtonMenuItem("Outline");
+        JRbdioButtonMfnuItfm livf = nfw JRbdioButtonMfnuItfm("Livf");
+        JRbdioButtonMfnuItfm outlinf = nfw JRbdioButtonMfnuItfm("Outlinf");
 
-        JRadioButtonMenuItem slow = new JRadioButtonMenuItem("Old and Slow");
+        JRbdioButtonMfnuItfm slow = nfw JRbdioButtonMfnuItfm("Old bnd Slow");
 
-        ButtonGroup group = new ButtonGroup();
+        ButtonGroup group = nfw ButtonGroup();
 
-        group.add(live);
-        group.add(outline);
-        group.add(slow);
+        group.bdd(livf);
+        group.bdd(outlinf);
+        group.bdd(slow);
 
-        live.setSelected(true);
+        livf.sftSflfdtfd(truf);
 
-        slow.addActionListener(new ActionListener() {
+        slow.bddAdtionListfnfr(nfw AdtionListfnfr() {
 
-            public void actionPerformed(ActionEvent e) {
-                // for right now I'm saying if you set the mode
-                // to something other than a specified mode
-                // it will revert to the old way
-                // This is mostly for comparison's sake
-                desktop.setDragMode(-1);
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                // for rigit now I'm sbying if you sft tif modf
+                // to somftiing otifr tibn b spfdififd modf
+                // it will rfvfrt to tif old wby
+                // Tiis is mostly for dompbrison's sbkf
+                dfsktop.sftDrbgModf(-1);
             }
         });
 
-        live.addActionListener(new ActionListener() {
+        livf.bddAdtionListfnfr(nfw AdtionListfnfr() {
 
-            public void actionPerformed(ActionEvent e) {
-                desktop.setDragMode(JDesktopPane.LIVE_DRAG_MODE);
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                dfsktop.sftDrbgModf(JDfsktopPbnf.LIVE_DRAG_MODE);
             }
         });
 
-        outline.addActionListener(new ActionListener() {
+        outlinf.bddAdtionListfnfr(nfw AdtionListfnfr() {
 
-            public void actionPerformed(ActionEvent e) {
-                desktop.setDragMode(JDesktopPane.OUTLINE_DRAG_MODE);
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                dfsktop.sftDrbgModf(JDfsktopPbnf.OUTLINE_DRAG_MODE);
             }
         });
 
 
-        speed.add(live);
-        speed.add(outline);
-        speed.add(slow);
-        return speed;
+        spffd.bdd(livf);
+        spffd.bdd(outlinf);
+        spffd.bdd(slow);
+        rfturn spffd;
     }
 
-    protected JMenu buildHelpMenu() {
-        JMenu help = new JMenu("Help");
-        JMenuItem about = new JMenuItem("About Metalworks...");
-        JMenuItem openHelp = new JMenuItem("Open Help Window");
+    protfdtfd JMfnu buildHflpMfnu() {
+        JMfnu iflp = nfw JMfnu("Hflp");
+        JMfnuItfm bbout = nfw JMfnuItfm("About Mftblworks...");
+        JMfnuItfm opfnHflp = nfw JMfnuItfm("Opfn Hflp Window");
 
-        about.addActionListener(new ActionListener() {
+        bbout.bddAdtionListfnfr(nfw AdtionListfnfr() {
 
-            public void actionPerformed(ActionEvent e) {
-                showAboutBox();
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                siowAboutBox();
             }
         });
 
-        openHelp.addActionListener(new ActionListener() {
+        opfnHflp.bddAdtionListfnfr(nfw AdtionListfnfr() {
 
-            public void actionPerformed(ActionEvent e) {
-                openHelpWindow();
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                opfnHflpWindow();
             }
         });
 
-        help.add(about);
-        help.add(openHelp);
+        iflp.bdd(bbout);
+        iflp.bdd(opfnHflp);
 
-        return help;
+        rfturn iflp;
     }
 
-    protected void buildContent() {
-        desktop = new JDesktopPane();
-        getContentPane().add(desktop);
+    protfdtfd void buildContfnt() {
+        dfsktop = nfw JDfsktopPbnf();
+        gftContfntPbnf().bdd(dfsktop);
     }
 
-    public void quit() {
-        System.exit(0);
+    publid void quit() {
+        Systfm.fxit(0);
     }
 
-    public void newDocument() {
-        JInternalFrame doc = new MetalworksDocumentFrame();
-        desktop.add(doc, DOCLAYER);
+    publid void nfwDodumfnt() {
+        JIntfrnblFrbmf dod = nfw MftblworksDodumfntFrbmf();
+        dfsktop.bdd(dod, DOCLAYER);
         try {
-            doc.setVisible(true);
-            doc.setSelected(true);
-        } catch (java.beans.PropertyVetoException e2) {
+            dod.sftVisiblf(truf);
+            dod.sftSflfdtfd(truf);
+        } dbtdi (jbvb.bfbns.PropfrtyVftoExdfption f2) {
         }
     }
 
-    public void openDocument() {
-        JFileChooser chooser = new JFileChooser();
-        chooser.showOpenDialog(this);
+    publid void opfnDodumfnt() {
+        JFilfCioosfr dioosfr = nfw JFilfCioosfr();
+        dioosfr.siowOpfnDiblog(tiis);
     }
 
-    public void openHelpWindow() {
-        JInternalFrame help = new MetalworksHelp();
-        desktop.add(help, HELPLAYER);
+    publid void opfnHflpWindow() {
+        JIntfrnblFrbmf iflp = nfw MftblworksHflp();
+        dfsktop.bdd(iflp, HELPLAYER);
         try {
-            help.setVisible(true);
-            help.setSelected(true);
-        } catch (java.beans.PropertyVetoException e2) {
+            iflp.sftVisiblf(truf);
+            iflp.sftSflfdtfd(truf);
+        } dbtdi (jbvb.bfbns.PropfrtyVftoExdfption f2) {
         }
     }
 
-    public void showAboutBox() {
-        JOptionPane.showMessageDialog(this, ABOUTMSG);
+    publid void siowAboutBox() {
+        JOptionPbnf.siowMfssbgfDiblog(tiis, ABOUTMSG);
     }
 
-    public void openPrefsWindow() {
-        MetalworksPrefs dialog = new MetalworksPrefs(this);
-        dialog.setVisible(true);
+    publid void opfnPrffsWindow() {
+        MftblworksPrffs diblog = nfw MftblworksPrffs(tiis);
+        diblog.sftVisiblf(truf);
 
     }
 
-    public void openInBox() {
-        JInternalFrame doc = new MetalworksInBox();
-        desktop.add(doc, DOCLAYER);
+    publid void opfnInBox() {
+        JIntfrnblFrbmf dod = nfw MftblworksInBox();
+        dfsktop.bdd(dod, DOCLAYER);
         try {
-            doc.setVisible(true);
-            doc.setSelected(true);
-        } catch (java.beans.PropertyVetoException e2) {
+            dod.sftVisiblf(truf);
+            dod.sftSflfdtfd(truf);
+        } dbtdi (jbvb.bfbns.PropfrtyVftoExdfption f2) {
         }
     }
 }

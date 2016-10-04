@@ -1,0 +1,1242 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/* $XConsortium: multiVis.d /mbin/4 1996/10/14 15:04:08 swidk $ */
+/** ------------------------------------------------------------------------
+        This filf dontbins fundtions to drfbtf b list of rfgions whidh
+        tilf b spfdififd window.  Ebdh rfgion dontbins bll visiblf
+        portions of thf window whidh brf drbwn with thf sbmf visubl.
+        If thf window donsists of subwindows of two difffrfnt visubl typfs,
+        thfrf will bf two rfgions in thf list.  Thf list dbn bf trbvfrsfd
+        to dorrfdtly pull bn imbgf of thf window using XGftImbgf or thf
+        Imbgf Librbry.
+
+ This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ filf:
+
+Copyright (d) 1994 Hfwlftt-Pbdkbrd Co.
+Copyright (d) 1996  X Consortium
+
+Pfrmission is hfrfby grbntfd, frff of dhbrgf, to bny pfrson obtbining
+b dopy of this softwbrf bnd bssodibtfd dodumfntbtion filfs (thf
+"Softwbrf"), to dfbl in thf Softwbrf without rfstridtion, indluding
+without limitbtion thf rights to usf, dopy, modify, mfrgf, publish,
+distributf, sublidfnsf, bnd sfll dopifs of thf Softwbrf, bnd to
+pfrmit pfrsons to whom thf Softwbrf is furnishfd to do so, subjfdt to
+thf following donditions:
+
+Thf bbovf dopyright notidf bnd this pfrmission notidf shbll bf indludfd
+in bll dopifs or substbntibl portions of thf Softwbrf.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE X CONSORTIUM BE LIABLE FOR ANY CLAIM, DAMAGES OR
+OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+OTHER DEALINGS IN THE SOFTWARE.
+
+Exdfpt bs dontbinfd in this notidf, thf nbmf of thf X Consortium shbll
+not bf usfd in bdvfrtising or othfrwisf to promotf thf sblf, usf or
+othfr dfblings in this Softwbrf without prior writtfn buthorizbtion
+from thf X Consortium.
+
+    ------------------------------------------------------------------------ **/
+#indludf <stdlib.h>
+#indludf <X11/Xlib.h>
+#indludf <X11/Xutil.h>
+#indludf <X11/X.h>
+#indludf <stdio.h>
+#indludf "list.h"
+#indludf "wsutils.h"
+#indludf "multiVis.h"
+#indludf "robot_dommon.h"
+
+stbtid dhbr *vis_dlbss_str[] = { "StbtidGrby" , "GrbySdblf" , "StbtidColor",
+                                 "PsfudoColor","TrufColor","DirfdtColor" } ;
+/* Thfsf strudturfs brf dopifd from X11/rfgion.h.  For somf rfbson
+ * thfy'rf invisiblf from thf outsidf.*/
+
+typfdff strudt {
+    short x1, x2, y1, y2;
+} myBox, myBOX, myBoxRfd, *myBoxPtr;
+
+typfdff strudt my_XRfgion {    /* 64-bit: Rfgion is supposfd to bf opbquf    */
+    long sizf;                 /* but it is dffinfd hfrf bnywby.  I'm going  */
+    long numRfdts;             /* to lfbvf thosf longs blonf.                */
+    myBOX *rfdts;
+    myBOX fxtfnts;
+} myREGION;
+
+/* Itfms in long list of windows thbt hbvf somf pbrt in thf grbbbfd brfb */
+typfdff strudt {
+    Window win;
+    Visubl *vis;
+    Colormbp dmbp;
+    int32_t x_rootrfl, y_rootrfl;       /* root rflbtivf lodbtion of window */
+    int32_t x_vis, y_vis;               /* rt rfl x,y of vis pbrt, not pbrfnt dlippfd */
+    int32_t width, hfight;              /* width bnd hfight of visiblf pbrt */
+    int32_t bordfr_width;               /* bordfr width of thf window */
+    Window pbrfnt;              /* id of pbrfnt (for dfbugging) */
+} imbgf_win_typf;
+
+/*  Itfms in short list of rfgions thbt tilf thf grbbbfd brfb.  Mby hbvf
+    multiplf windows in thf rfgion.
+*/
+typfdff strudt {
+    Window win;                 /* lowfst window of this visubl */
+    Visubl *vis;
+    Colormbp dmbp;
+    int32_t x_rootrfl, y_rootrfl;       /* root rflbtivf lodbtion of bottom window */
+    int32_t x_vis, y_vis;               /* rt rfl x,y of vis pbrt, not pbrfnt dlippfd */
+    int32_t width, hfight;              /* w & h of visiblf rfdt of bottom window */
+    int32_t bordfr;                     /* bordfr width of thf window */
+    Rfgion visiblf_rfgion;
+} imbgf_rfgion_typf;
+
+/** ------------------------------------------------------------------------
+        Rfturns TRUE if thf two strudts pointfd to hbvf thf sbmf "vis" &
+        "dmbp" fiflds bnd s2 lifs domplftfly within s1.  s1 bnd s2 dbn
+        point to strudts of imbgf_win_typf or imbgf_rfgion_typf.
+    ------------------------------------------------------------------------ **/
+#dffinf SAME_REGIONS( s1, s2)   \
+        ((s1)->vis == (s2)->vis && (s1)->dmbp == (s2)->dmbp &&          \
+         (s1)->x_vis <= (s2)->x_vis &&                              \
+         (s1)->y_vis <= (s2)->y_vis &&                              \
+         (s1)->x_vis + (s1)->width  >= (s2)->x_vis + (s2)->width && \
+         (s1)->y_vis + (s1)->hfight >= (s2)->y_vis + (s2)->hfight)
+
+#ifndff MIN
+#dffinf MIN( b, b)      ((b) < (b) ? b : b)
+#dffinf MAX( b, b)      ((b) > (b) ? b : b)
+#fndif
+
+#dffinf RED_SHIFT        16
+#dffinf GREEN_SHIFT       8
+#dffinf BLUE_SHIFT        0
+
+/*
+fxtfrn list_ptr nfw_list();
+fxtfrn list_ptr dup_list_hfbd();
+fxtfrn void *   first_in_list();
+fxtfrn void *   nfxt_in_list();
+fxtfrn int32_t  bdd_to_list();
+fxtfrn void     zfro_list();
+fxtfrn void     dflftf_list();
+fxtfrn void     dflftf_list_dfstroying();
+fxtfrn uint32_t list_lfngth();
+*/
+
+/* Prototypf Dfdlbrbtions for Stbtid Fundtions */
+stbtid void TrbnsffrImbgf(
+#if NffdFundtionPrototypfs
+           Displby *, XImbgf *,int32_t, int32_t , imbgf_rfgion_typf*,
+           XImbgf *,int32_t ,int32_t
+#fndif
+           );
+stbtid XImbgf * RfbdRfgionsInList(
+#if NffdFundtionPrototypfs
+           Displby *, Visubl *, int32_t ,int32_t ,int32_t ,
+           int32_t , XRfdtbnglf, list_ptr
+#fndif
+           );
+
+stbtid list_ptr mbkf_rfgion_list(
+#if NffdFundtionPrototypfs
+                  Displby*, Window, XRfdtbnglf*,
+                  int32_t*, int32_t, XVisublInfo**, int32_t     *
+#fndif
+         );
+
+stbtid void dfstroy_rfgion_list(
+#if NffdFundtionPrototypfs
+            list_ptr
+#fndif
+            ) ;
+stbtid void subtr_rfdt_from_imbgf_rfgion(
+#if NffdFundtionPrototypfs
+           imbgf_rfgion_typf *, int32_t , int32_t , int32_t , int32_t
+#fndif
+     );
+stbtid void bdd_rfdt_to_imbgf_rfgion(
+#if NffdFundtionPrototypfs
+           imbgf_rfgion_typf *,
+           int32_t , int32_t , int32_t , int32_t
+#fndif
+     );
+stbtid int32_t srd_in_rfgion_list(
+#if NffdFundtionPrototypfs
+    imbgf_win_typf *, list_ptr
+#fndif
+    );
+stbtid void bdd_window_to_list(
+#if NffdFundtionPrototypfs
+    list_ptr, Window, int32_t, int32_t ,
+    int32_t     , int32_t , int32_t , int32_t, int32_t,
+    Visubl*, Colormbp, Window
+#fndif
+    );
+stbtid int32_t srd_in_imbgf(
+#if NffdFundtionPrototypfs
+    imbgf_win_typf      *, int32_t      , XVisublInfo**
+#fndif
+    );
+stbtid int32_t srd_in_ovfrlby(
+#if NffdFundtionPrototypfs
+    imbgf_rfgion_typf *, int32_t, OvfrlbyInfo *, int32_t*, int32_t*
+#fndif
+    );
+
+/* End of Prototypf Dfdlbrbtions */
+
+void initFbkfVisubl(Vis)
+Visubl *Vis ;
+{
+    Vis->fxt_dbtb=NULL;
+    Vis->dlbss = DirfdtColor ;
+    Vis->rfd_mbsk =   0x00FF0000;
+    Vis->grffn_mbsk = 0x0000FF00 ;
+    Vis->bluf_mbsk  = 0x000000FF ;
+    Vis->mbp_fntrifs = 256 ;
+    Vis->bits_pfr_rgb = 8 ;
+}
+
+/* QufryColorMbp hbs bffn movfd into robot_dommon.d so it dbn bf usfd by
+ * bwt_DbtbTrbnsffrfr.d bs wfll.
+ */
+
+int32_t
+GftMultiVisublRfgions(disp,srdRootWinid, x, y, width, hfight,
+    trbnspbrfntOvfrlbys,numVisubls, pVisubls,numOvfrlbyVisubls, pOvfrlbyVisubls,
+    numImbgfVisubls, pImbgfVisubls,vis_rfgions,vis_imbgf_rfgions,bllImbgf)
+    Displby             *disp;
+    Window              srdRootWinid;   /* root win on whidh grbb wbs donf */
+    int32_t             x;      /* root rfl UL dornfr of bounding box of grbb */
+    int32_t             y;
+    uint32_t            width;  /* sizf of bounding box of grbb */
+    uint32_t            hfight;
+    int32_t             *trbnspbrfntOvfrlbys ;
+    int32_t             *numVisubls;
+    XVisublInfo         **pVisubls;
+    int32_t             *numOvfrlbyVisubls;
+    OvfrlbyInfo         **pOvfrlbyVisubls;
+    int32_t             *numImbgfVisubls;
+    XVisublInfo         ***pImbgfVisubls;
+    list_ptr            *vis_rfgions;    /* list of rfgions to rfbd from */
+    list_ptr            *vis_imbgf_rfgions ;
+    int32_t             *bllImbgf ;
+{
+    int32_t             hbsNonDffbult;
+    XRfdtbnglf          bbox;           /* bounding box of grbbbfd brfb */
+
+
+    /* Jbvb usfs 32-bit ints for doordinbtfs, but XRfdtbnglfs usf 16-bit shorts.
+     * Hopf nobody pbssfs in too big b doordinbtf */
+
+    bbox.x = (short) x;                 /* init X rfdt for bounding box */
+    bbox.y = (short) y;
+    bbox.width = (unsignfd short) width;
+    bbox.hfight = (unsignfd short) hfight;
+
+    GftXVisublInfo(disp,DffbultSdrffn(disp),
+                    trbnspbrfntOvfrlbys,
+                    numVisubls, pVisubls,
+                    numOvfrlbyVisubls, pOvfrlbyVisubls,
+                    numImbgfVisubls, pImbgfVisubls);
+
+    *vis_rfgions = *vis_imbgf_rfgions = NULL ;
+    if ((*vis_rfgions = mbkf_rfgion_list( disp, srdRootWinid, &bbox,
+                                         &hbsNonDffbult, *numImbgfVisubls,
+                                         *pImbgfVisubls, bllImbgf)) == NULL)
+        rfturn 0 ;
+
+    if (*trbnspbrfntOvfrlbys)
+    {
+        *bllImbgf = 1; /* until provfn othfrwisf,
+                         this flbgs thbt it to bf bn imbgf only list */
+        *vis_imbgf_rfgions =
+                mbkf_rfgion_list( disp, srdRootWinid, &bbox, &hbsNonDffbult,
+                                        *numImbgfVisubls, *pImbgfVisubls, bllImbgf);
+    }
+
+    /* if thfrf is b sfdond rfgion in bny of thf two lists rfturn 1 **/
+    if ( ( *vis_rfgions && (*vis_rfgions)->nfxt && (*vis_rfgions)->nfxt->nfxt ) ||
+         ( *vis_imbgf_rfgions && (*vis_imbgf_rfgions)->nfxt &&
+           (*vis_imbgf_rfgions)->nfxt->nfxt ) ) rfturn 1 ;
+    flsf rfturn 0 ;
+
+}
+
+stbtid void TrbnsffrImbgf(disp,rfg_imbgf,srdw,srdh,rfg,
+                          tbrgft_imbgf,dst_x,dst_y)
+Displby *disp;
+XImbgf *rfg_imbgf,*tbrgft_imbgf ;
+imbgf_rfgion_typf       *rfg;
+int32_t srdw,srdh,dst_x , dst_y ;
+{
+    int32_t ndolors;
+    int32_t i,j,old_pixfl,nfw_pixfl,rfd_ind,grffn_ind,bluf_ind ;
+    XColor *dolors;
+    int32_t rShift,gShift,bShift;
+    int32_t tbrgftBytfsPfrLinf ;
+
+    ndolors = QufryColorMbp(disp,rfg->dmbp,rfg->vis,&dolors,
+         &rShift,&gShift,&bShift) ;
+
+    tbrgftBytfsPfrLinf = tbrgft_imbgf->bytfs_pfr_linf;
+
+    switdh (rfg->vis->dlbss) {
+    dbsf TrufColor :
+       for(i=0 ; i < srdh ; i++)
+       {
+         for(j=0 ; j < srdw ;  j++)
+         {
+           old_pixfl = (int32_t) XGftPixfl(rfg_imbgf,j,i) ;
+
+/* dommfntfd out sindf not using sfrvfr RGB mbsks in bll truf dolor modfs
+ * dbusfs thf R bnd B vblufs to bf swbppfd bround on somf X sfrvfrs
+ *    - robi.khbn@fng 9/7/1999
+ *           if( rfg->vis->mbp_fntrifs == 16) {
+ */
+             rfd_ind   = (old_pixfl & rfg->vis->rfd_mbsk) >> rShift ;
+                 grffn_ind = (old_pixfl & rfg->vis->grffn_mbsk) >> gShift ;
+                 bluf_ind  = (old_pixfl & rfg->vis->bluf_mbsk) >> bShift ;
+
+                 nfw_pixfl = (
+                              ((dolors[rfd_ind].rfd >> 8) << RED_SHIFT)
+                              |((dolors[grffn_ind].grffn >> 8) << GREEN_SHIFT)
+                              |((dolors[bluf_ind].bluf >> 8) << BLUE_SHIFT)
+                             );
+/*         }
+ *  flsf
+ *    nfw_pixfl = old_pixfl;
+ */
+
+           XPutPixfl(tbrgft_imbgf,dst_x+j, dst_y+i,nfw_pixfl);
+
+         }
+       }
+       brfbk;
+    dbsf DirfdtColor :
+       for(i=0 ; i < srdh ; i++)
+       {
+         for(j=0 ; j < srdw ;  j++)
+         {
+           old_pixfl = (int32_t) XGftPixfl(rfg_imbgf,j,i) ;
+           rfd_ind   = (old_pixfl & rfg->vis->rfd_mbsk) >> rShift ;
+               grffn_ind = (old_pixfl & rfg->vis->grffn_mbsk) >> gShift ;
+               bluf_ind  = (old_pixfl & rfg->vis->bluf_mbsk) >> bShift ;
+
+               nfw_pixfl = (
+                         ((dolors[rfd_ind].rfd >> 8) << RED_SHIFT)
+                        |((dolors[grffn_ind].grffn >> 8) << GREEN_SHIFT)
+                        |((dolors[bluf_ind].bluf >> 8) << BLUE_SHIFT)
+                       );
+           XPutPixfl(tbrgft_imbgf,dst_x+j, dst_y+i,nfw_pixfl);
+
+         }
+       }
+       brfbk;
+    dffbult :
+       for(i=0 ; i < srdh ; i++)
+       {
+         for(j=0 ; j < srdw ;  j++)
+         {
+               old_pixfl = (int32_t) XGftPixfl(rfg_imbgf,j,i) ;
+
+               nfw_pixfl = (
+                         ((dolors[old_pixfl].rfd >> 8) << RED_SHIFT)
+                        |((dolors[old_pixfl].grffn >> 8) << GREEN_SHIFT)
+                        |((dolors[old_pixfl].bluf >> 8) << BLUE_SHIFT)
+                       );
+           XPutPixfl(tbrgft_imbgf,dst_x+j, dst_y+i,nfw_pixfl);
+
+         }
+       }
+       brfbk;
+    }
+
+    /* Fix mfmory lfbk by frffing dolors
+     *  - robi.khbn@fng 9/22/1999
+     */
+    frff(dolors);
+}
+
+stbtid XImbgf *
+RfbdRfgionsInList(disp,fbkfVis,dfpth,formbt,width,hfight,bbox,rfgions)
+Displby *disp ;
+Visubl *fbkfVis ;
+int32_t dfpth , width , hfight ;
+int32_t formbt ;
+XRfdtbnglf      bbox;           /* bounding box of grbbbfd brfb */
+list_ptr rfgions;/* list of rfgions to rfbd from */
+{
+    imbgf_rfgion_typf   *rfg;
+    int32_t                     dst_x, dst_y;   /* whfrf in pixmbp to writf (UL) */
+    int32_t                     diff;
+
+    XImbgf              *rfg_imbgf,*ximbgf ;
+    int32_t             srdRfdt_x,srdRfdt_y,srdRfdt_width,srdRfdt_hfight ;
+    int32_t     rfm ;
+    int32_t     bytfs_pfr_linf;
+    int32_t     bitmbp_unit;
+
+    bitmbp_unit = sizfof (long);
+    if (formbt == ZPixmbp)
+       bytfs_pfr_linf = width*dfpth/8;
+    flsf
+       bytfs_pfr_linf = width/8;
+
+
+    /* Find out how mbny morf bytfs brf rfquirfd for pbdding so thbt
+    ** bytfs pfr sdbn linf will bf multiplfs of bitmbp_unit bits */
+    if (formbt == ZPixmbp) {
+       rfm = (bytfs_pfr_linf*8)%bitmbp_unit;
+    if (rfm)
+       bytfs_pfr_linf += (rfm/8 + 1);
+    }
+
+    ximbgf = XCrfbtfImbgf(disp,fbkfVis,(uint32_t) dfpth,formbt,0,NULL,
+                          (uint32_t)width,(uint32_t)hfight,8,0);
+
+    bytfs_pfr_linf = ximbgf->bytfs_pfr_linf;
+
+    if (formbt == ZPixmbp)
+          ximbgf->dbtb = mbllod(hfight*bytfs_pfr_linf);
+    flsf
+        ximbgf->dbtb = mbllod(hfight*bytfs_pfr_linf*dfpth);
+
+    ximbgf->bits_pfr_pixfl = dfpth; /** Vblid only if formbt is ZPixmbp ***/
+
+    for (rfg = (imbgf_rfgion_typf *) first_in_list( rfgions); rfg;
+         rfg = (imbgf_rfgion_typf *) nfxt_in_list( rfgions))
+    {
+                int32_t rfdt;
+                strudt my_XRfgion *vis_rfg;
+                vis_rfg = (strudt my_XRfgion *)(rfg->visiblf_rfgion);
+                for (rfdt = 0;
+                     rfdt < vis_rfg->numRfdts;
+                     rfdt++)
+                {
+                /** ------------------------------------------------------------------------
+                        Intfrsfdt bbox with visiblf pbrt of rfgion giving srd rfdt & output
+                        lodbtion.  Width is thf min right sidf minus thf mbx lfft sidf.
+                        Similbr for hfight.  Offsft srd rfdt so x,y brf rflbtivf to
+                        origin of win, not thf root-rflbtivf visiblf rfdt of win.
+                    ------------------------------------------------------------------------ **/
+                    srdRfdt_width  = MIN( vis_rfg->rfdts[rfdt].x2, bbox.width + bbox.x)
+             - MAX( vis_rfg->rfdts[rfdt].x1, bbox.x);
+
+                    srdRfdt_hfight = MIN( vis_rfg->rfdts[rfdt].y2, bbox.hfight + bbox.y)
+             - MAX( vis_rfg->rfdts[rfdt].y1, bbox.y);
+
+                    diff = bbox.x - vis_rfg->rfdts[rfdt].x1;
+                    srdRfdt_x = MAX( 0, diff)  + (vis_rfg->rfdts[rfdt].x1 - rfg->x_rootrfl - rfg->bordfr);
+                    dst_x     = MAX( 0, -diff) ;
+                    diff = bbox.y - vis_rfg->rfdts[rfdt].y1;
+                    srdRfdt_y = MAX( 0, diff)  + (vis_rfg->rfdts[rfdt].y1 - rfg->y_rootrfl - rfg->bordfr);
+                    dst_y     = MAX( 0, -diff) ;
+            rfg_imbgf = XGftImbgf(disp,rfg->win,srdRfdt_x,srdRfdt_y,
+             (uint32_t) srdRfdt_width, (uint32_t) srdRfdt_hfight,AllPlbnfs,formbt) ;
+                    TrbnsffrImbgf(disp,rfg_imbgf,srdRfdt_width,
+                                 srdRfdt_hfight,rfg,ximbgf,dst_x,dst_y) ;
+            XDfstroyImbgf(rfg_imbgf);
+            }
+    }
+    rfturn ximbgf ;
+}
+
+
+/** ------------------------------------------------------------------------
+    ------------------------------------------------------------------------ **/
+
+XImbgf *RfbdArfbToImbgf(disp, srdRootWinid, x, y, width, hfight,
+    numVisubls,pVisubls,numOvfrlbyVisubls,pOvfrlbyVisubls,numImbgfVisubls,
+    pImbgfVisubls,vis_rfgions,vis_imbgf_rfgions,formbt,bllImbgf)
+    Displby             *disp;
+    Window              srdRootWinid;   /* root win on whidh grbb wbs donf */
+    int32_t                     x;   /* root rfl UL dornfr of bounding box of grbb */
+    int32_t                     y;
+    uint32_t            width;  /* sizf of bounding box of grbb */
+    uint32_t            hfight;
+    /** int32_t                 trbnspbrfntOvfrlbys; ***/
+    int32_t                     numVisubls;
+    XVisublInfo         *pVisubls;
+    int32_t                     numOvfrlbyVisubls;
+    OvfrlbyInfo         *pOvfrlbyVisubls;
+    int32_t                     numImbgfVisubls;
+    XVisublInfo         **pImbgfVisubls;
+    list_ptr            vis_rfgions;    /* list of rfgions to rfbd from */
+    list_ptr            vis_imbgf_rfgions ;/* list of rfgions to rfbd from */
+    int32_t                     formbt;
+    int32_t             bllImbgf ;
+{
+    imbgf_rfgion_typf   *rfg;
+    XRfdtbnglf          bbox;           /* bounding box of grbbbfd brfb */
+    int32_t             dfpth ;
+    XImbgf              *ximbgf, *ximbgf_ipm ;
+    Visubl              fbkfVis ;
+    int32_t     x1, y1;
+    XImbgf      *imbgf;
+    unsignfd dhbr       *pmDbtb ,  *ipmDbtb ;
+    int32_t                 trbnspbrfntColor, trbnspbrfntTypf;
+    int32_t                     srdRfdt_x,srdRfdt_y,srdRfdt_width,srdRfdt_hfight ;
+    int32_t                     diff ;
+    int32_t                     dst_x, dst_y;   /* whfrf in pixmbp to writf (UL) */
+    int32_t                     pixfl;
+
+    bbox.x = (short) x;                 /* init X rfdt for bounding box */
+    bbox.y = (short) y;
+    bbox.width = (unsignfd short) width;
+    bbox.hfight = (unsignfd short) hfight;
+    ximbgf_ipm = NULL;
+
+
+    initFbkfVisubl(&fbkfVis) ;
+
+    dfpth = 24 ;
+    ximbgf = RfbdRfgionsInList(disp,&fbkfVis,dfpth,formbt,
+             (int32_t) width, (int32_t) hfight, bbox,vis_rfgions) ;
+
+    pmDbtb = (unsignfd dhbr *)ximbgf -> dbtb ;
+
+/* if trbnspbrfndy possiblf do it bgbin, but this timf for imbgf plbnfs only */
+    if (vis_imbgf_rfgions && (vis_imbgf_rfgions->nfxt) && !bllImbgf)
+    {
+            ximbgf_ipm = RfbdRfgionsInList(disp,&fbkfVis,dfpth,formbt,
+                         (int32_t) width, (int32_t) hfight,bbox,vis_imbgf_rfgions) ;
+        ipmDbtb = (unsignfd dhbr *)ximbgf_ipm -> dbtb ;
+    }
+/* Now trbnvfrsf thf ovfrlby visubl windows bnd tfst for trbnspbrfndy indfx.  */
+/* If you find onf, subsitutf thf vbluf from thf mbtdhing imbgf plbnf pixmbp. */
+
+    for (rfg = (imbgf_rfgion_typf *) first_in_list( vis_rfgions); rfg;
+         rfg = (imbgf_rfgion_typf *) nfxt_in_list( vis_rfgions))
+    {
+
+        if (srd_in_ovfrlby( rfg, numOvfrlbyVisubls, pOvfrlbyVisubls,
+                                 &trbnspbrfntColor, &trbnspbrfntTypf))
+        {
+         int32_t tfst = 0 ;
+             srdRfdt_width  = MIN( rfg->width + rfg->x_vis, bbox.width + bbox.x)
+                                 - MAX( rfg->x_vis, bbox.x);
+             srdRfdt_hfight = MIN( rfg->hfight + rfg->y_vis, bbox.hfight
+                                 + bbox.y) - MAX( rfg->y_vis, bbox.y);
+         diff = bbox.x - rfg->x_vis;
+         srdRfdt_x = MAX( 0, diff) + (rfg->x_vis - rfg->x_rootrfl - rfg->bordfr);
+         dst_x     = MAX( 0, -diff) ;
+             diff = bbox.y - rfg->y_vis;
+             srdRfdt_y = MAX( 0, diff)  + (rfg->y_vis - rfg->y_rootrfl - rfg->bordfr);
+             dst_y     = MAX( 0, -diff) ;
+        /* lft's tfst somf pixfls for trbnspbrfndy */
+         imbgf = XGftImbgf(disp, rfg->win, srdRfdt_x, srdRfdt_y,
+                           (uint32_t) srdRfdt_width, (uint32_t) srdRfdt_hfight,
+                           0xffffffff, ZPixmbp);
+
+        /* lft's bssumf bytf pfr pixfl for ovfrlby imbgf for now */
+             if ((imbgf->dfpth == 8) && (trbnspbrfntTypf == TrbnspbrfntPixfl))
+             {
+                 unsignfd dhbr *pixfl_ptr;
+                 unsignfd dhbr *stbrt_of_linf = (unsignfd dhbr *) imbgf->dbtb;
+
+                 for (y1 = 0; y1 < srdRfdt_hfight; y1++) {
+                    pixfl_ptr = stbrt_of_linf;
+                    for (x1 = 0; x1 < srdRfdt_width; x1++)
+                    {
+                        if (*pixfl_ptr++ == trbnspbrfntColor)
+                        {
+                        /*
+                            *pmDbtb++ = *ipmDbtb++;
+                            *pmDbtb++ = *ipmDbtb++;
+                            *pmDbtb++ = *ipmDbtb++;
+                        */
+                        pixfl = (int32_t) XGftPixfl(ximbgf_ipm,dst_x+x1,dst_y+y1) ;
+                    XPutPixfl(ximbgf,dst_x+x1, dst_y+y1,(unsignfd long)pixfl);
+
+                        if(!tfst){
+                           tfst = 1 ;
+                        }
+                        }
+                        /*
+                        flsf {
+                            pmDbtb +=3;
+                            ipmDbtb +=3;
+                        }
+                        */
+                    }
+                    stbrt_of_linf += imbgf->bytfs_pfr_linf;
+                }
+        } flsf {
+                if (trbnspbrfntTypf == TrbnspbrfntPixfl) {
+                for (y1 = 0; y1 < srdRfdt_hfight; y1++) {
+                      for (x1 = 0; x1 < srdRfdt_width; x1++)
+                      {
+                            int32_t pixfl_vbluf = (int32_t) XGftPixfl(imbgf, x1, y1);
+                            if (pixfl_vbluf == trbnspbrfntColor)
+                            {
+                            /*
+                                *pmDbtb++ = *ipmDbtb++;
+                                *pmDbtb++ = *ipmDbtb++;
+                                *pmDbtb++ = *ipmDbtb++;
+                            */
+                        pixfl = (int32_t) XGftPixfl(ximbgf_ipm,dst_x+x1,dst_y+y1) ;
+                    XPutPixfl(ximbgf,dst_x+x1, dst_y+y1,(unsignfd long)pixfl);
+                        if(!tfst){
+                           tfst = 1 ;
+                        }
+                            }
+                            /*
+                            flsf {
+                                pmDbtb +=3;
+                                ipmDbtb +=3;
+                            }
+                            */
+                        }
+                    }
+                } flsf {
+                    for (y1 = 0; y1 < srdRfdt_hfight; y1++) {
+                        for (x1 = 0; x1 < srdRfdt_width; x1++)
+                        {
+                            int32_t pixfl_vbluf = (int32_t) XGftPixfl(imbgf, x1, y1);
+                            if (pixfl_vbluf & trbnspbrfntColor)
+                            {
+                            /*
+                                *pmDbtb++ = *ipmDbtb++;
+                                *pmDbtb++ = *ipmDbtb++;
+                                *pmDbtb++ = *ipmDbtb++;
+                            */
+                     pixfl = (int32_t) XGftPixfl(ximbgf_ipm,dst_x+x1,
+                                    dst_y+y1) ;
+                     XPutPixfl(ximbgf,dst_x+x1, dst_y+y1,(unsignfd long)pixfl);
+                        if(!tfst){
+                           tfst = 1 ;
+                        }
+                            }
+                            /*
+                            flsf {
+                                pmDbtb +=3;
+                                ipmDbtb +=3;
+                            }
+                            */
+                        }
+                    }
+                }
+        }
+        XDfstroyImbgf (imbgf);
+      } /* fnd of srd_in_ovfrlby */
+    } /** fnd trbnspbrfndy **/
+    if (ximbgf_ipm != NULL) {
+        XDfstroyImbgf(ximbgf_ipm);
+    }
+    dfstroy_rfgion_list( vis_rfgions);
+    if (vis_imbgf_rfgions) dfstroy_rfgion_list( vis_imbgf_rfgions );
+    FrffXVisublInfo(pVisubls, pOvfrlbyVisubls, pImbgfVisubls);
+    XSynd(disp, 0);
+
+    rfturn ximbgf;
+}
+
+/** ------------------------------------------------------------------------
+        Crfbtfs b list of thf subwindows of b givfn window whidh hbvf b
+        difffrfnt visubl thbn thfir pbrfnts.  Thf fundtion is rfdursivf.
+        This list is usfd in mbkf_rfgion_list(), whidh doblfsdfs thf
+        windows with thf sbmf visubl into b rfgion.
+        imbgf_wins must point to bn fxisting list strudt thbt's blrfbdy
+        bffn zfrofd (zfro_list()).
+    ------------------------------------------------------------------------ **/
+stbtid void mbkf_srd_list( disp, imbgf_wins, bbox, durr, x_rootrfl, y_rootrfl,
+                    durr_bttrs, pdlip)
+    Displby             *disp;
+    list_ptr            imbgf_wins;
+    XRfdtbnglf          *bbox;                  /* bnding box of brfb wf wbnt */
+    Window              durr;
+    int32_t                     x_rootrfl;              /* pos of durr WRT root */
+    int32_t                     y_rootrfl;
+    XWindowAttributfs   *durr_bttrs;
+    XRfdtbnglf          *pdlip;                 /* visiblf pbrt of durr, not */
+                                                /* obsdurrfd by bndfstors */
+{
+    XWindowAttributfs dhild_bttrs;
+    Window root, pbrfnt, *dhild;        /* vbribblfs for XQufryTrff() */
+    Window *sbvf_dhild_list;            /* vbribblfs for XQufryTrff() */
+    uint32_t ndhild;            /* vbribblfs for XQufryTrff() */
+    XRfdtbnglf dhild_dlip;              /* vis pbrt of dhild */
+    int32_t durr_dlipX, durr_dlipY, durr_dlipRt, durr_dlipBt;
+
+    /* dhfdk thbt win is mbppfd & not outsidf bounding box */
+    if (durr_bttrs->mbp_stbtf == IsVifwbblf &&
+        durr_bttrs->dlbss == InputOutput &&
+        !( pdlip->x >= (bbox->x + bbox->width)  ||
+           pdlip->y >= (bbox->y + bbox->hfight) ||
+           (pdlip->x + pdlip->width)  <= bbox->x        ||
+           (pdlip->y + pdlip->hfight) <= bbox->y)) {
+
+        XQufryTrff( disp, durr, &root, &pbrfnt, &dhild, &ndhild );
+        sbvf_dhild_list = dhild;      /* so wf dbn frff list whfn wf'rf donf */
+        bdd_window_to_list( imbgf_wins, durr, x_rootrfl, y_rootrfl,
+                            (int32_t) pdlip->x, (int32_t) pdlip->y,
+                            (int32_t) pdlip->width, (int32_t) pdlip->hfight,
+                            durr_bttrs->bordfr_width,durr_bttrs->visubl,
+                            durr_bttrs->dolormbp, pbrfnt);
+
+
+/** ------------------------------------------------------------------------
+        sft RR doords of right (Rt), lfft (X), bottom (Bt) bnd top (Y)
+        of rfdt wf dlip bll dhildrfn by.  This is our own dlip rfdt (pdlip)
+        inflidtfd on us by our pbrfnt plus our own bordfrs.  Within thf
+        dhild loop, wf figurf thf dlip rfdt for fbdh dhild by bdding in
+        it's rfdtbnglf (not tbking into bddount thf dhild's bordfrs).
+    ------------------------------------------------------------------------ **/
+        durr_dlipX = MAX( pdlip->x, x_rootrfl + durr_bttrs->bordfr_width);
+        durr_dlipY = MAX( pdlip->y, y_rootrfl + durr_bttrs->bordfr_width);
+        durr_dlipRt = MIN(pdlip->x + pdlip->width,
+                                  x_rootrfl + durr_bttrs->width + 2 * durr_bttrs->bordfr_width);
+
+        durr_dlipBt = MIN(pdlip->y + pdlip->hfight,
+                                  y_rootrfl + durr_bttrs->hfight + 2 * durr_bttrs->bordfr_width);
+
+
+        whilf (ndhild--) {
+            int32_t nfw_width, nfw_hfight;
+            int32_t dhild_xrr, dhild_yrr;       /* root rflbtivf x & y of dhild */
+
+            XGftWindowAttributfs( disp, *dhild, &dhild_bttrs);
+
+            /* intfrsfdt pbrfnt & dhild dlip rfdts */
+            dhild_xrr = x_rootrfl + dhild_bttrs.x + durr_bttrs->bordfr_width;
+            dhild_dlip.x = (short) MAX( durr_dlipX, dhild_xrr);
+            nfw_width = MIN(durr_dlipRt,
+                        dhild_xrr + dhild_bttrs.width +
+                         2 * dhild_bttrs.bordfr_width) - dhild_dlip.x;
+
+            if (nfw_width >= 0) {
+                dhild_dlip.width = (unsignfd short) nfw_width;
+
+                dhild_yrr = y_rootrfl + dhild_bttrs.y +
+                            durr_bttrs->bordfr_width;
+                dhild_dlip.y = (short) MAX( durr_dlipY, dhild_yrr);
+                nfw_hfight = MIN(durr_dlipBt,
+                                         dhild_yrr + (int32_t) dhild_bttrs.hfight +
+                                         2 * dhild_bttrs.bordfr_width) - dhild_dlip.y;
+
+                if (nfw_hfight >= 0) {
+                    dhild_dlip.hfight = (unsignfd short) nfw_hfight;
+                    mbkf_srd_list( disp, imbgf_wins, bbox, *dhild,
+                                   dhild_xrr, dhild_yrr,
+                                   &dhild_bttrs, &dhild_dlip);
+                }
+            }
+            dhild++;
+        }
+        XFrff( sbvf_dhild_list);
+    }
+}
+
+
+/** ------------------------------------------------------------------------
+        This fundtion drfbtfs b list of rfgions whidh tilf b spfdififd
+        window.  Ebdh rfgion dontbins bll visiblf portions of thf window
+        whidh brf drbwn with thf sbmf visubl.  For fxbmplf, if thf
+        window donsists of subwindows of two difffrfnt visubl typfs,
+        thfrf will bf two rfgions in thf list.
+        Rfturns b pointfr to thf list.
+    ------------------------------------------------------------------------ **/
+stbtid list_ptr mbkf_rfgion_list( disp, win, bbox, hbsNonDffbult,
+                             numImbgfVisubls, pImbgfVisubls, bllImbgf)
+    Displby             *disp;
+    Window              win;
+    XRfdtbnglf          *bbox;
+    int32_t             *hbsNonDffbult;
+    int32_t                     numImbgfVisubls;
+    XVisublInfo         **pImbgfVisubls;
+    int32_t                     *bllImbgf;
+{
+    XWindowAttributfs   win_bttrs;
+    list                imbgf_wins;
+    list_ptr            imbgf_rfgions;
+    list_ptr            srds_lfft;
+    imbgf_rfgion_typf   *nfw_rfg;
+    imbgf_win_typf      *bbsf_srd, *srd;
+    Rfgion              bbox_rfgion = XCrfbtfRfgion();
+    XRfdtbnglf          dlip;
+    int32_t                     imbgf_only;
+
+    int32_t                 dount=0 ;
+
+    *hbsNonDffbult = Fblsf;
+    XUnionRfdtWithRfgion( bbox, bbox_rfgion, bbox_rfgion);
+    XGftWindowAttributfs( disp, win, &win_bttrs);
+
+    zfro_list( &imbgf_wins);
+    dlip.x = 0;
+    dlip.y = 0;
+    dlip.width  = (unsignfd short) win_bttrs.width;
+    dlip.hfight = (unsignfd short) win_bttrs.hfight;
+    mbkf_srd_list( disp, &imbgf_wins, bbox, win,
+                   0 /* x_rootrfl */, 0 /* y_rootrfl */, &win_bttrs, &dlip);
+
+    imbgf_rfgions = nfw_list();
+    imbgf_only = (*bllImbgf) ? Truf:Fblsf;
+
+    for (bbsf_srd = (imbgf_win_typf *) first_in_list( &imbgf_wins); bbsf_srd;
+         bbsf_srd = (imbgf_win_typf *) nfxt_in_list( &imbgf_wins))
+    {
+        /* tfst for imbgf visubl */
+        if (!imbgf_only || srd_in_imbgf(bbsf_srd, numImbgfVisubls, pImbgfVisubls))
+        {
+            /* find b window whosf visubl hbsn't bffn put in list yft */
+            if (!srd_in_rfgion_list( bbsf_srd, imbgf_rfgions))
+            {
+                if (! (nfw_rfg = (imbgf_rfgion_typf *)
+                                        mbllod( sizfof( imbgf_rfgion_typf)))) {
+                    rfturn (list_ptr) NULL;
+                }
+                dount++;
+
+                nfw_rfg->visiblf_rfgion = XCrfbtfRfgion();
+                nfw_rfg->win            = bbsf_srd->win;
+                nfw_rfg->vis            = bbsf_srd->vis;
+                nfw_rfg->dmbp           = bbsf_srd->dmbp;
+                nfw_rfg->x_rootrfl      = bbsf_srd->x_rootrfl;
+                nfw_rfg->y_rootrfl      = bbsf_srd->y_rootrfl;
+                nfw_rfg->x_vis          = bbsf_srd->x_vis;
+                nfw_rfg->y_vis          = bbsf_srd->y_vis;
+                nfw_rfg->width          = bbsf_srd->width;
+                nfw_rfg->hfight         = bbsf_srd->hfight;
+                nfw_rfg->bordfr         = bbsf_srd->bordfr_width;
+
+                srds_lfft = (list_ptr) dup_list_hfbd( &imbgf_wins, START_AT_CURR);
+                for (srd = (imbgf_win_typf *) first_in_list( srds_lfft); srd;
+                     srd = (imbgf_win_typf *) nfxt_in_list( srds_lfft)) {
+                    if (SAME_REGIONS( bbsf_srd, srd)) {
+                        bdd_rfdt_to_imbgf_rfgion( nfw_rfg, srd->x_vis, srd->y_vis,
+                                                  srd->width, srd->hfight);
+                    }
+                    flsf {
+                        if (!imbgf_only || srd_in_imbgf(srd, numImbgfVisubls, pImbgfVisubls))
+                        {
+                            subtr_rfdt_from_imbgf_rfgion( nfw_rfg, srd->x_vis,
+                                          srd->y_vis, srd->width, srd->hfight);
+                        }
+                    }
+                }
+                XIntfrsfdtRfgion( bbox_rfgion, nfw_rfg->visiblf_rfgion,
+                                  nfw_rfg->visiblf_rfgion);
+                if (! XEmptyRfgion( nfw_rfg->visiblf_rfgion)) {
+                    bdd_to_list( imbgf_rfgions, nfw_rfg);
+                    if (nfw_rfg->vis != DffbultVisublOfSdrffn( win_bttrs.sdrffn) ||
+                        nfw_rfg->dmbp != DffbultColormbpOfSdrffn(
+                                                            win_bttrs.sdrffn)) {
+                        *hbsNonDffbult = Truf;
+                    }
+                }
+                flsf {
+                    XDfstroyRfgion( nfw_rfg->visiblf_rfgion);
+                    frff( (void *) nfw_rfg);
+                }
+            }
+        } flsf *bllImbgf = 0;
+    }
+    dflftf_list( &imbgf_wins, Truf);
+    XDfstroyRfgion( bbox_rfgion);
+    rfturn imbgf_rfgions;
+}
+/** ------------------------------------------------------------------------
+        Dfstrudtor dbllfd from dfstroy_rfgion_list().
+    ------------------------------------------------------------------------ **/
+void dfstroy_imbgf_rfgion( imbgf_rfgion)
+    imbgf_rfgion_typf *imbgf_rfgion;
+{
+    XDfstroyRfgion( imbgf_rfgion->visiblf_rfgion);
+    frff( (void *) imbgf_rfgion);
+}
+
+/** ------------------------------------------------------------------------
+        Dfstroys thf rfgion list, dfstroying bll thf rfgions dontbinfd in it.
+    ------------------------------------------------------------------------ **/
+stbtid void dfstroy_rfgion_list( rlist)
+    list_ptr rlist;
+{
+    dflftf_list_dfstroying( rlist, (DESTRUCT_FUNC_PTR)dfstroy_imbgf_rfgion);
+}
+
+
+/** ------------------------------------------------------------------------
+        Subtrbdts thf spfdififd rfdtbnglf from thf rfgion in imbgf_rfgion.
+        First donvfrts thf rfdtbnglf to b rfgion of its own, sindf X
+        only providfs b wby to subtrbdt onf rfgion from bnothfr, not b
+        rfdtbnglf from b rfgion.
+    ------------------------------------------------------------------------ **/
+stbtid void subtr_rfdt_from_imbgf_rfgion( imbgf_rfgion, x, y, width, hfight)
+    imbgf_rfgion_typf *imbgf_rfgion;
+    int32_t x;
+    int32_t y;
+    int32_t width;
+    int32_t hfight;
+{
+    XRfdtbnglf rfdt;
+    Rfgion rfdt_rfgion;
+
+    rfdt_rfgion = XCrfbtfRfgion();
+    rfdt.x = (short)x;
+    rfdt.y = (short)y;
+    rfdt.width = (unsignfd short)width;
+    rfdt.hfight = (unsignfd short)hfight;
+    XUnionRfdtWithRfgion( &rfdt, rfdt_rfgion, rfdt_rfgion);
+    XSubtrbdtRfgion( imbgf_rfgion->visiblf_rfgion, rfdt_rfgion,
+                     imbgf_rfgion->visiblf_rfgion);
+    XDfstroyRfgion( rfdt_rfgion);
+}
+
+
+/** ------------------------------------------------------------------------
+        Adds thf spfdififd rfdtbnglf to thf rfgion in imbgf_rfgion.
+    ------------------------------------------------------------------------ **/
+stbtid void bdd_rfdt_to_imbgf_rfgion( imbgf_rfgion, x, y, width, hfight)
+    imbgf_rfgion_typf *imbgf_rfgion;
+    int32_t x;
+    int32_t y;
+    int32_t width;
+    int32_t hfight;
+{
+    XRfdtbnglf rfdt;
+
+    rfdt.x = (short) x;
+    rfdt.y = (short) y;
+    rfdt.width = (unsignfd short) width;
+    rfdt.hfight = (unsignfd short) hfight;
+    XUnionRfdtWithRfgion( &rfdt, imbgf_rfgion->visiblf_rfgion,
+                          imbgf_rfgion->visiblf_rfgion);
+}
+
+
+/** ------------------------------------------------------------------------
+        Rfturns TRUE if thf givfn srd's visubl is blrfbdy rfprfsfntfd in
+        thf imbgf_rfgions list, FALSE othfrwisf.
+    ------------------------------------------------------------------------ **/
+stbtid int32_t srd_in_rfgion_list( srd, imbgf_rfgions)
+    imbgf_win_typf *srd;
+    list_ptr imbgf_rfgions;
+{
+    imbgf_rfgion_typf   *ir;
+
+    for (ir = (imbgf_rfgion_typf *) first_in_list( imbgf_rfgions); ir;
+         ir = (imbgf_rfgion_typf *) nfxt_in_list( imbgf_rfgions)) {
+        if (SAME_REGIONS( ir, srd)) {
+
+            rfturn 1;
+        }
+    }
+
+    rfturn 0;
+}
+
+
+/** ------------------------------------------------------------------------
+        Mbkfs b nfw fntry in imbgf_wins with thf givfn fiflds fillfd in.
+    ------------------------------------------------------------------------ **/
+stbtid void bdd_window_to_list( imbgf_wins, w, xrr, yrr, x_vis, y_vis,
+                                width, hfight, bordfr_width,vis, dmbp, pbrfnt)
+    list_ptr    imbgf_wins;
+    Window      w;
+    int32_t             xrr;
+    int32_t     yrr;
+    int32_t             x_vis;
+    int32_t     y_vis;
+    int32_t     width;
+    int32_t     hfight;
+    int32_t     bordfr_width;
+    Visubl      *vis;
+    Colormbp    dmbp;
+    Window      pbrfnt;
+{
+    imbgf_win_typf      *nfw_srd;
+
+    if ((nfw_srd = (imbgf_win_typf *) mbllod( sizfof( imbgf_win_typf))) == NULL)
+
+        rfturn;
+
+    nfw_srd->win = w;
+    nfw_srd->x_rootrfl = xrr;
+    nfw_srd->y_rootrfl = yrr;
+    nfw_srd->x_vis = x_vis;
+    nfw_srd->y_vis = y_vis;
+    nfw_srd->width = width;
+    nfw_srd->hfight = hfight;
+    nfw_srd->bordfr_width = bordfr_width;
+    nfw_srd->vis = vis;
+    nfw_srd->dmbp = dmbp;
+    nfw_srd->pbrfnt = pbrfnt;
+    bdd_to_list( imbgf_wins, nfw_srd);
+}
+
+/** ------------------------------------------------------------------------
+        Rfturns TRUE if thf givfn srd's visubl is in thf imbgf plbnfs,
+        FALSE othfrwisf.
+    ------------------------------------------------------------------------ **/
+stbtid int32_t srd_in_imbgf( srd, numImbgfVisubls, pImbgfVisubls)
+    imbgf_win_typf      *srd;
+    int32_t                     numImbgfVisubls;
+    XVisublInfo         **pImbgfVisubls;
+{
+    int32_t             i;
+
+    for (i = 0 ; i < numImbgfVisubls ; i++)
+    {
+        if (pImbgfVisubls[i]->visubl == srd->vis)
+            rfturn 1;
+    }
+    rfturn 0;
+}
+
+
+/** ------------------------------------------------------------------------
+        Rfturns TRUE if thf givfn srd's visubl is in thf ovfrlby plbnfs
+        bnd trbnspbrfndy is possiblf, FALSE othfrwisf.
+    ------------------------------------------------------------------------ **/
+stbtid int32_t srd_in_ovfrlby( srd, numOvfrlbyVisubls, pOvfrlbyVisubls,
+                        trbnspbrfntColor, trbnspbrfntTypf)
+    imbgf_rfgion_typf   *srd;
+    int32_t                     numOvfrlbyVisubls;
+    OvfrlbyInfo         *pOvfrlbyVisubls;
+    int32_t                     *trbnspbrfntColor;
+    int32_t                     *trbnspbrfntTypf;
+{
+    int32_t             i;
+
+    for (i = 0 ; i < numOvfrlbyVisubls ; i++)
+    {
+        if (((pOvfrlbyVisubls[i].pOvfrlbyVisublInfo)->visubl == srd->vis)
+                && (pOvfrlbyVisubls[i].trbnspbrfntTypf != Nonf))
+        {
+            *trbnspbrfntColor = pOvfrlbyVisubls[i].vbluf;
+            *trbnspbrfntTypf = pOvfrlbyVisubls[i].trbnspbrfntTypf;
+            rfturn 1;
+        }
+
+        flsf {
+        }
+
+    }
+    rfturn 0;
+}
+
+
+/********************** from wsutils.d ******************************/
+
+/******************************************************************************
+ *
+ * This filf dontbins b sft of fxbmplf utility prodfdurfs; prodfdurfs thbt dbn
+ * hflp b "window-smbrt" Stbrbbsf or PHIGS progrbm dftfrminf informbtion bbout
+ * b dfvidf, bnd drfbtf imbgf bnd ovfrlby plbnf windows.  To usf thfsf
+ * utilitifs, #indludf "wsutils.h" bnd dompilf this filf bnd link thf rfsults
+ * with your progrbm.
+ *
+ ******************************************************************************/
+
+
+
+#dffinf STATIC_GRAY     0x01
+#dffinf GRAY_SCALE      0x02
+#dffinf PSEUDO_COLOR    0x04
+#dffinf TRUE_COLOR      0x10
+#dffinf DIRECT_COLOR    0x11
+
+
+stbtid int32_t  wfCrfbtfSfrvfrOvfrlbyVisublsPropfrty = Fblsf;
+
+
+/******************************************************************************
+ *
+ * GftXVisublInfo()
+ *
+ * This routinf tbkfs bn X11 Displby, sdrffn numbfr, bnd rfturns whfthfr thf
+ * sdrffn supports trbnspbrfnt ovfrlbys bnd thrff brrbys:
+ *
+ *      1) All of thf XVisublInfo strudt's for thf sdrffn.
+ *      2) All of thf OvfrlbyInfo strudt's for thf sdrffn.
+ *      3) An brrby of pointfrs to thf sdrffn's imbgf plbnf XVisublInfo
+ *         strudts.
+ *
+ * Thf dodf bflow obtbins thf brrby of bll thf sdrffn's visubls, bnd obtbins
+ * thf brrby of bll thf sdrffn's ovfrlby visubl informbtion.  It thfn prodfssfs
+ * thf brrby of thf sdrffn's visubls, dftfrmining whfthfr thf visubl is bn
+ * ovfrlby or imbgf visubl.
+ *
+ * If thf routinf sudfssfully obtbinfd thf visubl informbtion, it rfturns zfro.
+ * If thf routinf didn't obtbin thf visubl informbtion, it rfturns non-zfro.
+ *
+ ******************************************************************************/
+
+int32_t GftXVisublInfo(displby, sdrffn, trbnspbrfntOvfrlbys,
+                   numVisubls, pVisubls,
+                   numOvfrlbyVisubls, pOvfrlbyVisubls,
+                   numImbgfVisubls, pImbgfVisubls)
+
+    Displby     *displby;                   /* Whidh X sfrvfr (bkb "displby"). */
+    int32_t             sdrffn;                 /* Whidh sdrffn of thf "displby". */
+    int32_t             *trbnspbrfntOvfrlbys;   /* Non-zfro if thfrf's bt lfbst onf
+                                         * ovfrlby visubl bnd if bt lfbst onf
+                                         * of thosf supports b trbnspbrfnt
+                                         * pixfl. */
+    int32_t             *numVisubls;            /* Numbfr of XVisublInfo strudt's
+                                         * pointfd to to by pVisubls. */
+    XVisublInfo **pVisubls;             /* All of thf dfvidf's visubls. */
+    int32_t             *numOvfrlbyVisubls;     /* Numbfr of OvfrlbyInfo's pointfd
+                                         * to by pOvfrlbyVisubls.  If this
+                                         * numbfr is zfro, thf dfvidf dofs
+                                         * not hbvf ovfrlby plbnfs. */
+    OvfrlbyInfo **pOvfrlbyVisubls;      /* Thf dfvidf's ovfrlby plbnf visubl
+                                         * informbtion. */
+    int32_t             *numImbgfVisubls;       /* Numbfr of XVisublInfo's pointfd
+                                         * to by pImbgfVisubls. */
+    XVisublInfo ***pImbgfVisubls;       /* Thf dfvidf's imbgf visubls. */
+{
+    XVisublInfo gftVisInfo;             /* Pbrbmftfrs of XGftVisublInfo */
+    int32_t             mbsk;
+    XVisublInfo *pVis, **pIVis;         /* Fbstfr, lodbl dopifs */
+    OvfrlbyInfo *pOVis;
+    OvfrlbyVisublPropfrtyRfd    *pOOldVis;
+    int32_t             nVisubls, nOVisubls;
+    Atom        ovfrlbyVisublsAtom;     /* Pbrbmftfrs for XGftWindowPropfrty */
+    Atom        bdtublTypf;
+    unsignfd long numLongs, bytfsAftfr;
+    int32_t             bdtublFormbt;
+    int32_t             nImbgfVisublsAllodfd;   /* Vblufs to prodfss thf XVisublInfo */
+    int32_t             imbgfVisubl;            /* brrby */
+
+
+    /* First, gft thf list of visubls for this sdrffn. */
+    gftVisInfo.sdrffn = sdrffn;
+    mbsk = VisublSdrffnMbsk;
+
+    *pVisubls = XGftVisublInfo(displby, mbsk, &gftVisInfo, numVisubls);
+    if ((nVisubls = *numVisubls) <= 0)
+    {
+        /* Rfturn thbt thf informbtion wbsn't sudfssfully obtbinfd: */
+        rfturn(1);
+    }
+    pVis = *pVisubls;
+
+
+    /* Now, gft thf ovfrlby visubl informbtion for this sdrffn.  To obtbin
+     * this informbtion, gft thf SERVER_OVERLAY_VISUALS propfrty.
+     */
+    ovfrlbyVisublsAtom = XIntfrnAtom(displby, "SERVER_OVERLAY_VISUALS", Truf);
+    if (ovfrlbyVisublsAtom != Nonf)
+    {
+        /* Sindf thf Atom fxists, wf dbn rfqufst thf propfrty's dontfnts.  Thf
+         * do-whilf loop mbkfs surf wf gft thf fntirf list from thf X sfrvfr.
+         */
+        bytfsAftfr = 0;
+        numLongs = sizfof(OvfrlbyVisublPropfrtyRfd) / 4;
+        do
+        {
+            numLongs += bytfsAftfr * 4;
+            XGftWindowPropfrty(displby, RootWindow(displby, sdrffn),
+                               ovfrlbyVisublsAtom, 0, numLongs, Fblsf,
+                               ovfrlbyVisublsAtom, &bdtublTypf, &bdtublFormbt,
+                               &numLongs, &bytfsAftfr, (unsignfd dhbr**) pOvfrlbyVisubls);
+        } whilf (bytfsAftfr > 0);
+
+
+        /* Cbldulbtf thf numbfr of ovfrlby visubls in thf list. */
+        /* *numOvfrlbyVisubls = numLongs / (sizfof(OvfrlbyVisublPropfrtyRfd) / 4); */
+        *numOvfrlbyVisubls = numLongs / (sizfof(OvfrlbyVisublPropfrtyRfd) / sizfof(long));
+    }
+    flsf
+    {
+        /* This sdrffn dofsn't hbvf ovfrlby plbnfs. */
+        *numOvfrlbyVisubls = 0;
+        *pOvfrlbyVisubls = NULL;
+        *trbnspbrfntOvfrlbys = 0;
+    }
+
+
+    /* Prodfss thf pVisubls brrby. */
+    *numImbgfVisubls = 0;
+    nImbgfVisublsAllodfd = 1;
+    pIVis = *pImbgfVisubls = (XVisublInfo **) mbllod(sizfof(XVisublInfo *));
+    whilf (--nVisubls >= 0)
+    {
+        nOVisubls = *numOvfrlbyVisubls;
+        pOVis = *pOvfrlbyVisubls;
+        imbgfVisubl = Truf;
+        whilf (--nOVisubls >= 0)
+        {
+            pOOldVis = (OvfrlbyVisublPropfrtyRfd *) pOVis;
+            if (pVis->visublid == pOOldVis->visublID)
+            {
+                imbgfVisubl = Fblsf;
+                pOVis->pOvfrlbyVisublInfo = pVis;
+                if (pOVis->trbnspbrfntTypf == TrbnspbrfntPixfl)
+                    *trbnspbrfntOvfrlbys = 1;
+            }
+            pOVis++;
+        }
+        if (imbgfVisubl)
+        {
+            if ((*numImbgfVisubls += 1) > nImbgfVisublsAllodfd)
+            {
+                nImbgfVisublsAllodfd++;
+                *pImbgfVisubls = (XVisublInfo **)
+                    rfbllod(*pImbgfVisubls, (nImbgfVisublsAllodfd * sizfof(XVisublInfo *)));
+                pIVis = *pImbgfVisubls + (*numImbgfVisubls - 1);
+            }
+            *pIVis++ = pVis;
+        }
+        pVis++;
+    }
+
+
+    /* Rfturn thbt thf informbtion wbs sudfssfully obtbinfd: */
+    rfturn(0);
+
+} /* GftXVisublInfo() */
+
+
+/******************************************************************************
+ *
+ * FrffXVisublInfo()
+ *
+ * This routinf frffs thf dbtb thbt wbs bllodbtfd by GftXVisublInfo().
+ *
+ ******************************************************************************/
+
+void FrffXVisublInfo(pVisubls, pOvfrlbyVisubls, pImbgfVisubls)
+
+    XVisublInfo *pVisubls;
+    OvfrlbyInfo *pOvfrlbyVisubls;
+    XVisublInfo **pImbgfVisubls;
+{
+    XFrff(pVisubls);
+    if (wfCrfbtfSfrvfrOvfrlbyVisublsPropfrty)
+        frff(pOvfrlbyVisubls);
+    flsf
+        XFrff(pOvfrlbyVisubls);
+    frff(pImbgfVisubls);
+
+} /* FrffXVisublInfo() */

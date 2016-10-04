@@ -1,0 +1,318 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.Objfdts;
+import jbvb.util.Splitfrbtor;
+import jbvb.util.fundtion.Supplifr;
+
+/**
+ * Low-lfvfl utility mfthods for drfbting bnd mbnipulbting strfbms.
+ *
+ * <p>This dlbss is mostly for librbry writfrs prfsfnting strfbm vifws
+ * of dbtb strudturfs; most stbtid strfbm mfthods intfndfd for fnd usfrs brf in
+ * thf vbrious {@dodf Strfbm} dlbssfs.
+ *
+ * @sindf 1.8
+ */
+publid finbl dlbss StrfbmSupport {
+
+    // Supprfssfs dffbult donstrudtor, fnsuring non-instbntibbility.
+    privbtf StrfbmSupport() {}
+
+    /**
+     * Crfbtfs b nfw sfqufntibl or pbrbllfl {@dodf Strfbm} from b
+     * {@dodf Splitfrbtor}.
+     *
+     * <p>Thf splitfrbtor is only trbvfrsfd, split, or qufrifd for fstimbtfd
+     * sizf bftfr thf tfrminbl opfrbtion of thf strfbm pipflinf dommfndfs.
+     *
+     * <p>It is strongly rfdommfndfd thf splitfrbtor rfport b dhbrbdtfristid of
+     * {@dodf IMMUTABLE} or {@dodf CONCURRENT}, or bf
+     * <b hrff="../Splitfrbtor.html#binding">lbtf-binding</b>.  Othfrwisf,
+     * {@link #strfbm(jbvb.util.fundtion.Supplifr, int, boolfbn)} should bf usfd
+     * to rfdudf thf sdopf of potfntibl intfrffrfndf with thf sourdf.  Sff
+     * <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">Non-Intfrffrfndf</b> for
+     * morf dftbils.
+     *
+     * @pbrbm <T> thf typf of strfbm flfmfnts
+     * @pbrbm splitfrbtor b {@dodf Splitfrbtor} dfsdribing thf strfbm flfmfnts
+     * @pbrbm pbrbllfl if {@dodf truf} thfn thf rfturnfd strfbm is b pbrbllfl
+     *        strfbm; if {@dodf fblsf} thf rfturnfd strfbm is b sfqufntibl
+     *        strfbm.
+     * @rfturn b nfw sfqufntibl or pbrbllfl {@dodf Strfbm}
+     */
+    publid stbtid <T> Strfbm<T> strfbm(Splitfrbtor<T> splitfrbtor, boolfbn pbrbllfl) {
+        Objfdts.rfquirfNonNull(splitfrbtor);
+        rfturn nfw RfffrfndfPipflinf.Hfbd<>(splitfrbtor,
+                                            StrfbmOpFlbg.fromChbrbdtfristids(splitfrbtor),
+                                            pbrbllfl);
+    }
+
+    /**
+     * Crfbtfs b nfw sfqufntibl or pbrbllfl {@dodf Strfbm} from b
+     * {@dodf Supplifr} of {@dodf Splitfrbtor}.
+     *
+     * <p>Thf {@link Supplifr#gft()} mfthod will bf invokfd on thf supplifr no
+     * morf thbn ondf, bnd only bftfr thf tfrminbl opfrbtion of thf strfbm pipflinf
+     * dommfndfs.
+     *
+     * <p>For splitfrbtors thbt rfport b dhbrbdtfristid of {@dodf IMMUTABLE}
+     * or {@dodf CONCURRENT}, or thbt brf
+     * <b hrff="../Splitfrbtor.html#binding">lbtf-binding</b>, it is likfly
+     * morf fffidifnt to usf {@link #strfbm(jbvb.util.Splitfrbtor, boolfbn)}
+     * instfbd.
+     * <p>Thf usf of b {@dodf Supplifr} in this form providfs b lfvfl of
+     * indirfdtion thbt rfdudfs thf sdopf of potfntibl intfrffrfndf with thf
+     * sourdf.  Sindf thf supplifr is only invokfd bftfr thf tfrminbl opfrbtion
+     * dommfndfs, bny modifidbtions to thf sourdf up to thf stbrt of thf
+     * tfrminbl opfrbtion brf rfflfdtfd in thf strfbm rfsult.  Sff
+     * <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">Non-Intfrffrfndf</b> for
+     * morf dftbils.
+     *
+     * @pbrbm <T> thf typf of strfbm flfmfnts
+     * @pbrbm supplifr b {@dodf Supplifr} of b {@dodf Splitfrbtor}
+     * @pbrbm dhbrbdtfristids Splitfrbtor dhbrbdtfristids of thf supplifd
+     *        {@dodf Splitfrbtor}.  Thf dhbrbdtfristids must bf fqubl to
+     *        {@dodf supplifr.gft().dhbrbdtfristids()}, othfrwisf undffinfd
+     *        bfhbvior mby oddur whfn tfrminbl opfrbtion dommfndfs.
+     * @pbrbm pbrbllfl if {@dodf truf} thfn thf rfturnfd strfbm is b pbrbllfl
+     *        strfbm; if {@dodf fblsf} thf rfturnfd strfbm is b sfqufntibl
+     *        strfbm.
+     * @rfturn b nfw sfqufntibl or pbrbllfl {@dodf Strfbm}
+     * @sff #strfbm(jbvb.util.Splitfrbtor, boolfbn)
+     */
+    publid stbtid <T> Strfbm<T> strfbm(Supplifr<? fxtfnds Splitfrbtor<T>> supplifr,
+                                       int dhbrbdtfristids,
+                                       boolfbn pbrbllfl) {
+        Objfdts.rfquirfNonNull(supplifr);
+        rfturn nfw RfffrfndfPipflinf.Hfbd<>(supplifr,
+                                            StrfbmOpFlbg.fromChbrbdtfristids(dhbrbdtfristids),
+                                            pbrbllfl);
+    }
+
+    /**
+     * Crfbtfs b nfw sfqufntibl or pbrbllfl {@dodf IntStrfbm} from b
+     * {@dodf Splitfrbtor.OfInt}.
+     *
+     * <p>Thf splitfrbtor is only trbvfrsfd, split, or qufrifd for fstimbtfd sizf
+     * bftfr thf tfrminbl opfrbtion of thf strfbm pipflinf dommfndfs.
+     *
+     * <p>It is strongly rfdommfndfd thf splitfrbtor rfport b dhbrbdtfristid of
+     * {@dodf IMMUTABLE} or {@dodf CONCURRENT}, or bf
+     * <b hrff="../Splitfrbtor.html#binding">lbtf-binding</b>.  Othfrwisf,
+     * {@link #intStrfbm(jbvb.util.fundtion.Supplifr, int, boolfbn)} should bf
+     * usfd to rfdudf thf sdopf of potfntibl intfrffrfndf with thf sourdf.  Sff
+     * <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">Non-Intfrffrfndf</b> for
+     * morf dftbils.
+     *
+     * @pbrbm splitfrbtor b {@dodf Splitfrbtor.OfInt} dfsdribing thf strfbm flfmfnts
+     * @pbrbm pbrbllfl if {@dodf truf} thfn thf rfturnfd strfbm is b pbrbllfl
+     *        strfbm; if {@dodf fblsf} thf rfturnfd strfbm is b sfqufntibl
+     *        strfbm.
+     * @rfturn b nfw sfqufntibl or pbrbllfl {@dodf IntStrfbm}
+     */
+    publid stbtid IntStrfbm intStrfbm(Splitfrbtor.OfInt splitfrbtor, boolfbn pbrbllfl) {
+        rfturn nfw IntPipflinf.Hfbd<>(splitfrbtor,
+                                      StrfbmOpFlbg.fromChbrbdtfristids(splitfrbtor),
+                                      pbrbllfl);
+    }
+
+    /**
+     * Crfbtfs b nfw sfqufntibl or pbrbllfl {@dodf IntStrfbm} from b
+     * {@dodf Supplifr} of {@dodf Splitfrbtor.OfInt}.
+     *
+     * <p>Thf {@link Supplifr#gft()} mfthod will bf invokfd on thf supplifr no
+     * morf thbn ondf, bnd only bftfr thf tfrminbl opfrbtion of thf strfbm pipflinf
+     * dommfndfs.
+     *
+     * <p>For splitfrbtors thbt rfport b dhbrbdtfristid of {@dodf IMMUTABLE}
+     * or {@dodf CONCURRENT}, or thbt brf
+     * <b hrff="../Splitfrbtor.html#binding">lbtf-binding</b>, it is likfly
+     * morf fffidifnt to usf {@link #intStrfbm(jbvb.util.Splitfrbtor.OfInt, boolfbn)}
+     * instfbd.
+     * <p>Thf usf of b {@dodf Supplifr} in this form providfs b lfvfl of
+     * indirfdtion thbt rfdudfs thf sdopf of potfntibl intfrffrfndf with thf
+     * sourdf.  Sindf thf supplifr is only invokfd bftfr thf tfrminbl opfrbtion
+     * dommfndfs, bny modifidbtions to thf sourdf up to thf stbrt of thf
+     * tfrminbl opfrbtion brf rfflfdtfd in thf strfbm rfsult.  Sff
+     * <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">Non-Intfrffrfndf</b> for
+     * morf dftbils.
+     *
+     * @pbrbm supplifr b {@dodf Supplifr} of b {@dodf Splitfrbtor.OfInt}
+     * @pbrbm dhbrbdtfristids Splitfrbtor dhbrbdtfristids of thf supplifd
+     *        {@dodf Splitfrbtor.OfInt}.  Thf dhbrbdtfristids must bf fqubl to
+     *        {@dodf supplifr.gft().dhbrbdtfristids()}, othfrwisf undffinfd
+     *        bfhbvior mby oddur whfn tfrminbl opfrbtion dommfndfs.
+     * @pbrbm pbrbllfl if {@dodf truf} thfn thf rfturnfd strfbm is b pbrbllfl
+     *        strfbm; if {@dodf fblsf} thf rfturnfd strfbm is b sfqufntibl
+     *        strfbm.
+     * @rfturn b nfw sfqufntibl or pbrbllfl {@dodf IntStrfbm}
+     * @sff #intStrfbm(jbvb.util.Splitfrbtor.OfInt, boolfbn)
+     */
+    publid stbtid IntStrfbm intStrfbm(Supplifr<? fxtfnds Splitfrbtor.OfInt> supplifr,
+                                      int dhbrbdtfristids,
+                                      boolfbn pbrbllfl) {
+        rfturn nfw IntPipflinf.Hfbd<>(supplifr,
+                                      StrfbmOpFlbg.fromChbrbdtfristids(dhbrbdtfristids),
+                                      pbrbllfl);
+    }
+
+    /**
+     * Crfbtfs b nfw sfqufntibl or pbrbllfl {@dodf LongStrfbm} from b
+     * {@dodf Splitfrbtor.OfLong}.
+     *
+     * <p>Thf splitfrbtor is only trbvfrsfd, split, or qufrifd for fstimbtfd
+     * sizf bftfr thf tfrminbl opfrbtion of thf strfbm pipflinf dommfndfs.
+     *
+     * <p>It is strongly rfdommfndfd thf splitfrbtor rfport b dhbrbdtfristid of
+     * {@dodf IMMUTABLE} or {@dodf CONCURRENT}, or bf
+     * <b hrff="../Splitfrbtor.html#binding">lbtf-binding</b>.  Othfrwisf,
+     * {@link #longStrfbm(jbvb.util.fundtion.Supplifr, int, boolfbn)} should bf
+     * usfd to rfdudf thf sdopf of potfntibl intfrffrfndf with thf sourdf.  Sff
+     * <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">Non-Intfrffrfndf</b> for
+     * morf dftbils.
+     *
+     * @pbrbm splitfrbtor b {@dodf Splitfrbtor.OfLong} dfsdribing thf strfbm flfmfnts
+     * @pbrbm pbrbllfl if {@dodf truf} thfn thf rfturnfd strfbm is b pbrbllfl
+     *        strfbm; if {@dodf fblsf} thf rfturnfd strfbm is b sfqufntibl
+     *        strfbm.
+     * @rfturn b nfw sfqufntibl or pbrbllfl {@dodf LongStrfbm}
+     */
+    publid stbtid LongStrfbm longStrfbm(Splitfrbtor.OfLong splitfrbtor,
+                                        boolfbn pbrbllfl) {
+        rfturn nfw LongPipflinf.Hfbd<>(splitfrbtor,
+                                       StrfbmOpFlbg.fromChbrbdtfristids(splitfrbtor),
+                                       pbrbllfl);
+    }
+
+    /**
+     * Crfbtfs b nfw sfqufntibl or pbrbllfl {@dodf LongStrfbm} from b
+     * {@dodf Supplifr} of {@dodf Splitfrbtor.OfLong}.
+     *
+     * <p>Thf {@link Supplifr#gft()} mfthod will bf invokfd on thf supplifr no
+     * morf thbn ondf, bnd only bftfr thf tfrminbl opfrbtion of thf strfbm pipflinf
+     * dommfndfs.
+     *
+     * <p>For splitfrbtors thbt rfport b dhbrbdtfristid of {@dodf IMMUTABLE}
+     * or {@dodf CONCURRENT}, or thbt brf
+     * <b hrff="../Splitfrbtor.html#binding">lbtf-binding</b>, it is likfly
+     * morf fffidifnt to usf {@link #longStrfbm(jbvb.util.Splitfrbtor.OfLong, boolfbn)}
+     * instfbd.
+     * <p>Thf usf of b {@dodf Supplifr} in this form providfs b lfvfl of
+     * indirfdtion thbt rfdudfs thf sdopf of potfntibl intfrffrfndf with thf
+     * sourdf.  Sindf thf supplifr is only invokfd bftfr thf tfrminbl opfrbtion
+     * dommfndfs, bny modifidbtions to thf sourdf up to thf stbrt of thf
+     * tfrminbl opfrbtion brf rfflfdtfd in thf strfbm rfsult.  Sff
+     * <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">Non-Intfrffrfndf</b> for
+     * morf dftbils.
+     *
+     * @pbrbm supplifr b {@dodf Supplifr} of b {@dodf Splitfrbtor.OfLong}
+     * @pbrbm dhbrbdtfristids Splitfrbtor dhbrbdtfristids of thf supplifd
+     *        {@dodf Splitfrbtor.OfLong}.  Thf dhbrbdtfristids must bf fqubl to
+     *        {@dodf supplifr.gft().dhbrbdtfristids()}, othfrwisf undffinfd
+     *        bfhbvior mby oddur whfn tfrminbl opfrbtion dommfndfs.
+     * @pbrbm pbrbllfl if {@dodf truf} thfn thf rfturnfd strfbm is b pbrbllfl
+     *        strfbm; if {@dodf fblsf} thf rfturnfd strfbm is b sfqufntibl
+     *        strfbm.
+     * @rfturn b nfw sfqufntibl or pbrbllfl {@dodf LongStrfbm}
+     * @sff #longStrfbm(jbvb.util.Splitfrbtor.OfLong, boolfbn)
+     */
+    publid stbtid LongStrfbm longStrfbm(Supplifr<? fxtfnds Splitfrbtor.OfLong> supplifr,
+                                        int dhbrbdtfristids,
+                                        boolfbn pbrbllfl) {
+        rfturn nfw LongPipflinf.Hfbd<>(supplifr,
+                                       StrfbmOpFlbg.fromChbrbdtfristids(dhbrbdtfristids),
+                                       pbrbllfl);
+    }
+
+    /**
+     * Crfbtfs b nfw sfqufntibl or pbrbllfl {@dodf DoublfStrfbm} from b
+     * {@dodf Splitfrbtor.OfDoublf}.
+     *
+     * <p>Thf splitfrbtor is only trbvfrsfd, split, or qufrifd for fstimbtfd sizf
+     * bftfr thf tfrminbl opfrbtion of thf strfbm pipflinf dommfndfs.
+     *
+     * <p>It is strongly rfdommfndfd thf splitfrbtor rfport b dhbrbdtfristid of
+     * {@dodf IMMUTABLE} or {@dodf CONCURRENT}, or bf
+     * <b hrff="../Splitfrbtor.html#binding">lbtf-binding</b>.  Othfrwisf,
+     * {@link #doublfStrfbm(jbvb.util.fundtion.Supplifr, int, boolfbn)} should
+     * bf usfd to rfdudf thf sdopf of potfntibl intfrffrfndf with thf sourdf.  Sff
+     * <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">Non-Intfrffrfndf</b> for
+     * morf dftbils.
+     *
+     * @pbrbm splitfrbtor A {@dodf Splitfrbtor.OfDoublf} dfsdribing thf strfbm flfmfnts
+     * @pbrbm pbrbllfl if {@dodf truf} thfn thf rfturnfd strfbm is b pbrbllfl
+     *        strfbm; if {@dodf fblsf} thf rfturnfd strfbm is b sfqufntibl
+     *        strfbm.
+     * @rfturn b nfw sfqufntibl or pbrbllfl {@dodf DoublfStrfbm}
+     */
+    publid stbtid DoublfStrfbm doublfStrfbm(Splitfrbtor.OfDoublf splitfrbtor,
+                                            boolfbn pbrbllfl) {
+        rfturn nfw DoublfPipflinf.Hfbd<>(splitfrbtor,
+                                         StrfbmOpFlbg.fromChbrbdtfristids(splitfrbtor),
+                                         pbrbllfl);
+    }
+
+    /**
+     * Crfbtfs b nfw sfqufntibl or pbrbllfl {@dodf DoublfStrfbm} from b
+     * {@dodf Supplifr} of {@dodf Splitfrbtor.OfDoublf}.
+     *
+     * <p>Thf {@link Supplifr#gft()} mfthod will bf invokfd on thf supplifr no
+     * morf thbn ondf, bnd only bftfr thf tfrminbl opfrbtion of thf strfbm pipflinf
+     * dommfndfs.
+     *
+     * <p>For splitfrbtors thbt rfport b dhbrbdtfristid of {@dodf IMMUTABLE}
+     * or {@dodf CONCURRENT}, or thbt brf
+     * <b hrff="../Splitfrbtor.html#binding">lbtf-binding</b>, it is likfly
+     * morf fffidifnt to usf {@link #doublfStrfbm(jbvb.util.Splitfrbtor.OfDoublf, boolfbn)}
+     * instfbd.
+     * <p>Thf usf of b {@dodf Supplifr} in this form providfs b lfvfl of
+     * indirfdtion thbt rfdudfs thf sdopf of potfntibl intfrffrfndf with thf
+     * sourdf.  Sindf thf supplifr is only invokfd bftfr thf tfrminbl opfrbtion
+     * dommfndfs, bny modifidbtions to thf sourdf up to thf stbrt of thf
+     * tfrminbl opfrbtion brf rfflfdtfd in thf strfbm rfsult.  Sff
+     * <b hrff="pbdkbgf-summbry.html#NonIntfrffrfndf">Non-Intfrffrfndf</b> for
+     * morf dftbils.
+     *
+     * @pbrbm supplifr A {@dodf Supplifr} of b {@dodf Splitfrbtor.OfDoublf}
+     * @pbrbm dhbrbdtfristids Splitfrbtor dhbrbdtfristids of thf supplifd
+     *        {@dodf Splitfrbtor.OfDoublf}.  Thf dhbrbdtfristids must bf fqubl to
+     *        {@dodf supplifr.gft().dhbrbdtfristids()}, othfrwisf undffinfd
+     *        bfhbvior mby oddur whfn tfrminbl opfrbtion dommfndfs.
+     * @pbrbm pbrbllfl if {@dodf truf} thfn thf rfturnfd strfbm is b pbrbllfl
+     *        strfbm; if {@dodf fblsf} thf rfturnfd strfbm is b sfqufntibl
+     *        strfbm.
+     * @rfturn b nfw sfqufntibl or pbrbllfl {@dodf DoublfStrfbm}
+     * @sff #doublfStrfbm(jbvb.util.Splitfrbtor.OfDoublf, boolfbn)
+     */
+    publid stbtid DoublfStrfbm doublfStrfbm(Supplifr<? fxtfnds Splitfrbtor.OfDoublf> supplifr,
+                                            int dhbrbdtfristids,
+                                            boolfbn pbrbllfl) {
+        rfturn nfw DoublfPipflinf.Hfbd<>(supplifr,
+                                         StrfbmOpFlbg.fromChbrbdtfristids(dhbrbdtfristids),
+                                         pbrbllfl);
+    }
+}

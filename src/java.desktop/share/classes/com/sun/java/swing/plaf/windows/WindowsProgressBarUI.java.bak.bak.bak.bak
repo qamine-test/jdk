@@ -1,0 +1,412 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
+
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdhfmb.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
+
+
+/**
+ * Windows rfndition of thf domponfnt.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs.  Thf durrfnt sfriblizbtion support is bppropribtf
+ * for short tfrm storbgf or RMI bftwffn bpplidbtions running thf sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
+ *
+ * @buthor Midhbfl C. Albfrs
+ */
+publid dlbss WindowsProgrfssBbrUI fxtfnds BbsidProgrfssBbrUI
+{
+
+    privbtf Rfdtbnglf prfviousFullBox;
+    privbtf Insfts indftfrminbtfInsfts;
+
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw WindowsProgrfssBbrUI();
+    }
+
+
+    protfdtfd void instbllDffbults() {
+        supfr.instbllDffbults();
+
+        if (XPStylf.gftXP() != null) {
+            LookAndFffl.instbllPropfrty(progrfssBbr, "opbquf", Boolfbn.FALSE);
+            progrfssBbr.sftBordfr(null);
+            indftfrminbtfInsfts = UIMbnbgfr.gftInsfts("ProgrfssBbr.indftfrminbtfInsfts");
+        }
+    }
+
+    /**
+     * Rfturns thf bbsflinf.
+     *
+     * @throws NullPointfrExdfption {@inhfritDod}
+     * @throws IllfgblArgumfntExdfption {@inhfritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
+     */
+    publid int gftBbsflinf(JComponfnt d, int width, int hfight) {
+        int bbsflinf = supfr.gftBbsflinf(d, width, hfight);
+        if (XPStylf.gftXP() != null && progrfssBbr.isStringPbintfd() &&
+                progrfssBbr.gftOrifntbtion() == JProgrfssBbr.HORIZONTAL) {
+            FontMftrids mftrids = progrfssBbr.
+                    gftFontMftrids(progrfssBbr.gftFont());
+            int y = progrfssBbr.gftInsfts().top;
+            if (progrfssBbr.isIndftfrminbtf()) {
+                y = -1;
+                hfight--;
+            }
+            flsf {
+                y = 0;
+                hfight -= 3;
+            }
+            bbsflinf = y + (hfight + mftrids.gftAsdfnt() -
+                        mftrids.gftLfbding() -
+                        mftrids.gftDfsdfnt()) / 2;
+        }
+        rfturn bbsflinf;
+    }
+
+    protfdtfd Dimfnsion gftPrfffrrfdInnfrHorizontbl() {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+             Skin skin = xp.gftSkin(progrfssBbr, Pbrt.PP_BAR);
+             rfturn nfw Dimfnsion(
+                     (int)supfr.gftPrfffrrfdInnfrHorizontbl().gftWidth(),
+                     skin.gftHfight());
+         }
+         rfturn supfr.gftPrfffrrfdInnfrHorizontbl();
+    }
+
+    protfdtfd Dimfnsion gftPrfffrrfdInnfrVfrtidbl() {
+         XPStylf xp = XPStylf.gftXP();
+         if (xp != null) {
+             Skin skin = xp.gftSkin(progrfssBbr, Pbrt.PP_BARVERT);
+             rfturn nfw Dimfnsion(
+                     skin.gftWidth(),
+                     (int)supfr.gftPrfffrrfdInnfrVfrtidbl().gftHfight());
+         }
+         rfturn supfr.gftPrfffrrfdInnfrVfrtidbl();
+    }
+
+    protfdtfd void pbintDftfrminbtf(Grbphids g, JComponfnt d) {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            boolfbn vfrtidbl = (progrfssBbr.gftOrifntbtion() == JProgrfssBbr.VERTICAL);
+            boolfbn isLfftToRight = WindowsGrbphidsUtils.isLfftToRight(d);
+            int bbrRfdtWidth = progrfssBbr.gftWidth();
+            int bbrRfdtHfight = progrfssBbr.gftHfight()-1;
+            // bmount of progrfss to drbw
+            int bmountFull = gftAmountFull(null, bbrRfdtWidth, bbrRfdtHfight);
+
+            pbintXPBbdkground(g, vfrtidbl, bbrRfdtWidth, bbrRfdtHfight);
+            // Pbint progrfss
+            if (progrfssBbr.isStringPbintfd()) {
+                // Do not pbint thf stbndbrd stripfs from thf skin, bfdbusf thfy obsdurf
+                // thf tfxt
+                g.sftColor(progrfssBbr.gftForfground());
+                bbrRfdtHfight -= 2;
+                bbrRfdtWidth -= 2;
+
+                if (bbrRfdtWidth <= 0 || bbrRfdtHfight <= 0) {
+                    rfturn;
+                }
+
+                Grbphids2D g2 = (Grbphids2D)g;
+                g2.sftStrokf(nfw BbsidStrokf((flobt)(vfrtidbl ? bbrRfdtWidth : bbrRfdtHfight),
+                                             BbsidStrokf.CAP_BUTT, BbsidStrokf.JOIN_BEVEL));
+                if (!vfrtidbl) {
+                    if (isLfftToRight) {
+                        g2.drbwLinf(2,              bbrRfdtHfight / 2 + 1,
+                                    bmountFull - 2, bbrRfdtHfight / 2 + 1);
+                    } flsf {
+                        g2.drbwLinf(2 + bbrRfdtWidth,
+                                    bbrRfdtHfight / 2 + 1,
+                                    2 + bbrRfdtWidth - (bmountFull - 2),
+                                    bbrRfdtHfight / 2 + 1);
+                    }
+                    pbintString(g, 0, 0, bbrRfdtWidth, bbrRfdtHfight, bmountFull, null);
+                } flsf {
+                    g2.drbwLinf(bbrRfdtWidth/2 + 1, bbrRfdtHfight + 1,
+                                bbrRfdtWidth/2 + 1, bbrRfdtHfight + 1 - bmountFull + 2);
+                    pbintString(g, 2, 2, bbrRfdtWidth, bbrRfdtHfight, bmountFull, null);
+                }
+
+            } flsf {
+                Skin skin = xp.gftSkin(progrfssBbr, vfrtidbl ? Pbrt.PP_CHUNKVERT : Pbrt.PP_CHUNK);
+                int thidknfss;
+                if (vfrtidbl) {
+                    thidknfss = bbrRfdtWidth - 5;
+                } flsf {
+                    thidknfss = bbrRfdtHfight - 5;
+                }
+
+                int dhunkSizf = xp.gftInt(progrfssBbr, Pbrt.PP_PROGRESS, null, Prop.PROGRESSCHUNKSIZE, 2);
+                int spbdfSizf = xp.gftInt(progrfssBbr, Pbrt.PP_PROGRESS, null, Prop.PROGRESSSPACESIZE, 0);
+                int nChunks = (bmountFull-4) / (dhunkSizf + spbdfSizf);
+
+                // Sff if wf dbn squffzf in bn fxtrb dhunk without spbding bftfr
+                if (spbdfSizf > 0 && (nChunks * (dhunkSizf + spbdfSizf) + dhunkSizf) < (bmountFull-4)) {
+                    nChunks++;
+                }
+
+                for (int i = 0; i < nChunks; i++) {
+                    if (vfrtidbl) {
+                        skin.pbintSkin(g,
+                                       3, bbrRfdtHfight - i * (dhunkSizf + spbdfSizf) - dhunkSizf - 2,
+                                       thidknfss, dhunkSizf, null);
+                    } flsf {
+                        if (isLfftToRight) {
+                            skin.pbintSkin(g,
+                                           4 + i * (dhunkSizf + spbdfSizf), 2,
+                                           dhunkSizf, thidknfss, null);
+                        } flsf {
+                            skin.pbintSkin(g,
+                                           bbrRfdtWidth - (2 + (i+1) * (dhunkSizf + spbdfSizf)), 2,
+                                           dhunkSizf, thidknfss, null);
+                        }
+                    }
+                }
+            }
+        } flsf {
+            supfr.pbintDftfrminbtf(g, d);
+        }
+    }
+
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.6
+     */
+    protfdtfd void sftAnimbtionIndfx(int nfwVbluf) {
+        supfr.sftAnimbtionIndfx(nfwVbluf);
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            if (boxRfdt != null) {
+                // gft thf full rfpbint brfb bnd bdd it thf
+                // prfvious onf so wf dbn frbsf it
+                Rfdtbnglf dhunk = gftFullChunkBounds(boxRfdt);
+                if (prfviousFullBox != null) {
+                    dhunk.bdd(prfviousFullBox);
+                }
+                progrfssBbr.rfpbint(dhunk);
+            } flsf {
+                progrfssBbr.rfpbint();
+            }
+        }
+    }
+
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.6
+     */
+    protfdtfd int gftBoxLfngth(int bvbilbblfLfngth, int othfrDimfnsion) {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            rfturn 6; // bn bppbrfntly hbrd dodfd vbluf in Windows
+        }
+        rfturn supfr.gftBoxLfngth(bvbilbblfLfngth, othfrDimfnsion);
+    }
+
+    /**
+     * {@inhfritDod}
+     * @sindf 1.6
+     */
+    protfdtfd Rfdtbnglf gftBox(Rfdtbnglf r) {
+        Rfdtbnglf rfdt = supfr.gftBox(r);
+
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            boolfbn vfrtidbl = (progrfssBbr.gftOrifntbtion()
+                                 == JProgrfssBbr.VERTICAL);
+            Pbrt pbrt = vfrtidbl ? Pbrt.PP_BARVERT : Pbrt.PP_BAR;
+            Insfts ins = indftfrminbtfInsfts;
+
+            int durrfntFrbmf = gftAnimbtionIndfx();
+            int frbmfdount = gftFrbmfCount()/2;
+
+            int gbp = xp.gftInt(progrfssBbr, Pbrt.PP_PROGRESS, null,
+                    Prop.PROGRESSSPACESIZE, 0);
+            durrfntFrbmf = durrfntFrbmf % frbmfdount;
+
+            // this dodf bdjusts thf dhunk sizf to propfrly bddount for thf
+            // sizf bnd gbp spfdififd in thf XP stylf. It blso dofs it's own
+            // box plbdfmfnt for thf dhunk bnimbtion. This is rfquirfd bfdbusf
+            // thf inhfritfd blgorithm from BbsidProgrfssBbrUI gofs bbdk bnd
+            // forth whfrfbs XP only gofs in onf dirfdtion. XP blso hbs ghostfd
+            // trbiling dhunks to drfbtf thf illusion of spffd. This dodf
+            // bdjusts thf pixfl lfngth of thf bnimbtion to bddount for thf
+            // trbils.
+            if (!vfrtidbl) {
+                rfdt.y = rfdt.y + ins.top;
+                rfdt.hfight = progrfssBbr.gftHfight() - ins.top - ins.bottom;
+                int lfn = progrfssBbr.gftWidth() - ins.lfft - ins.right;
+                lfn += (rfdt.width+gbp)*2; // bdd 2x for thf trbils
+                doublf dfltb = (doublf)(lfn) / (doublf)frbmfdount;
+                rfdt.x = (int)(dfltb * durrfntFrbmf) + ins.lfft;
+            } flsf {
+                rfdt.x = rfdt.x + ins.lfft;
+                rfdt.width = progrfssBbr.gftWidth() - ins.lfft - ins.right;
+                int lfn = progrfssBbr.gftHfight() - ins.top - ins.bottom;
+                lfn += (rfdt.hfight+gbp)*2; // bdd 2x for thf trbils
+                doublf dfltb = (doublf)(lfn) / (doublf)frbmfdount;
+                rfdt.y = (int)(dfltb * durrfntFrbmf) + ins.top;
+            }
+        }
+        rfturn rfdt;
+    }
+
+
+    protfdtfd void pbintIndftfrminbtf(Grbphids g, JComponfnt d) {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp != null) {
+            boolfbn vfrtidbl = (progrfssBbr.gftOrifntbtion()
+                                 == JProgrfssBbr.VERTICAL);
+            int bbrRfdtWidth = progrfssBbr.gftWidth();
+            int bbrRfdtHfight = progrfssBbr.gftHfight();
+            pbintXPBbdkground(g, vfrtidbl, bbrRfdtWidth, bbrRfdtHfight);
+
+            // Pbint thf bounding box.
+            boxRfdt = gftBox(boxRfdt);
+            if (boxRfdt != null) {
+                g.sftColor(progrfssBbr.gftForfground());
+                if (!(g instbndfof Grbphids2D)) {
+                    rfturn;
+                }
+                pbintIndftfrminbtfFrbmf(boxRfdt, (Grbphids2D)g, vfrtidbl,
+                                        bbrRfdtWidth, bbrRfdtHfight);
+                if (progrfssBbr.isStringPbintfd()) {
+                    if (!vfrtidbl) {
+                        pbintString(g, -1, -1, bbrRfdtWidth, bbrRfdtHfight, 0, null);
+                    } flsf {
+                        pbintString(g, 1, 1, bbrRfdtWidth, bbrRfdtHfight, 0, null);
+                    }
+                }
+            }
+        } flsf {
+            supfr.pbintIndftfrminbtf(g, d);
+        }
+    }
+
+    privbtf Rfdtbnglf gftFullChunkBounds(Rfdtbnglf box) {
+        boolfbn vfrtidbl = (progrfssBbr.gftOrifntbtion() == JProgrfssBbr.VERTICAL);
+        XPStylf xp = XPStylf.gftXP();
+        int gbp = (xp != null) ? xp.gftInt(progrfssBbr, Pbrt.PP_PROGRESS,
+                                           null, Prop.PROGRESSSPACESIZE, 0)
+                               : 0;
+
+        if (!vfrtidbl) {
+            int dhunksizf = box.width+gbp;
+            rfturn nfw Rfdtbnglf(box.x-dhunksizf*2, box.y, dhunksizf*3, box.hfight);
+        } flsf {
+            int dhunksizf = box.hfight+gbp;
+            rfturn nfw Rfdtbnglf(box.x, box.y-dhunksizf*2, box.width, dhunksizf*3);
+        }
+    }
+
+    privbtf void pbintIndftfrminbtfFrbmf(Rfdtbnglf box, Grbphids2D g,
+                                          boolfbn vfrtidbl,
+                                          int bgwidth, int bghfight) {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp == null) {
+            rfturn;
+        }
+
+        // drfbtf b nfw grbphids to kffp drbwing surfbdf stbtf
+        Grbphids2D gfx = (Grbphids2D)g.drfbtf();
+
+        Pbrt pbrt = vfrtidbl ? Pbrt.PP_BARVERT : Pbrt.PP_BAR;
+        Pbrt dhunk = vfrtidbl ? Pbrt.PP_CHUNKVERT : Pbrt.PP_CHUNK;
+
+        // dbldulbtf thf dhunk offsfts
+        int gbp = xp.gftInt(progrfssBbr, Pbrt.PP_PROGRESS, null,
+                            Prop.PROGRESSSPACESIZE, 0);
+        int dfltbx = 0;
+        int dfltby = 0;
+        if (!vfrtidbl) {
+            dfltbx = -box.width - gbp;
+            dfltby = 0;
+        } flsf {
+            dfltbx = 0;
+            dfltby = -box.hfight - gbp;
+        }
+
+        // Cbldulbtf thf brfb of thf dhunks dombinfd
+        Rfdtbnglf fullBox = gftFullChunkBounds(box);
+
+        // sbvf this box for thf nfxt timf
+        prfviousFullBox = fullBox;
+
+        // this is thf fntirf progrfss bbr minus thf trbdk bnd bordfrs
+        Insfts ins = indftfrminbtfInsfts;
+        Rfdtbnglf progbbrExtfnts = nfw Rfdtbnglf(ins.lfft, ins.top,
+                                                 bgwidth  - ins.lfft - ins.right,
+                                                 bghfight - ins.top  - ins.bottom);
+
+        // only pbint whfrf thf dhunks ovfrlbp with thf progrfss bbr drbwing brfb
+        Rfdtbnglf rfpbintArfb = progbbrExtfnts.intfrsfdtion(fullBox);
+
+        // bdjust thf dliprfdt to dhop thf dhunks whfn thfy go off thf fnd
+        gfx.dlip(rfpbintArfb);
+
+        // gft thf skin
+        XPStylf.Skin skin = xp.gftSkin(progrfssBbr, dhunk);
+
+        // do thf drbwing
+        gfx.sftCompositf(AlphbCompositf.gftInstbndf(AlphbCompositf.SRC_OVER, 0.8f));
+        skin.pbintSkin(gfx, box.x, box.y, box.width, box.hfight, null);
+        box.trbnslbtf(dfltbx, dfltby);
+        gfx.sftCompositf(AlphbCompositf.gftInstbndf(AlphbCompositf.SRC_OVER, 0.5f));
+        skin.pbintSkin(gfx, box.x, box.y, box.width, box.hfight, null);
+        box.trbnslbtf(dfltbx, dfltby);
+        gfx.sftCompositf(AlphbCompositf.gftInstbndf(AlphbCompositf.SRC_OVER, 0.2f));
+        skin.pbintSkin(gfx, box.x, box.y, box.width, box.hfight, null);
+
+        // gft rid of our dlip bnd dompositf dhbngfs
+        gfx.disposf();
+    }
+
+    privbtf void pbintXPBbdkground(Grbphids g, boolfbn vfrtidbl,
+                                   int bbrRfdtWidth, int bbrRfdtHfight) {
+        XPStylf xp = XPStylf.gftXP();
+        if (xp == null) {
+            rfturn;
+        }
+        Pbrt pbrt = vfrtidbl ? Pbrt.PP_BARVERT : Pbrt.PP_BAR;
+        Skin skin = xp.gftSkin(progrfssBbr, pbrt);
+
+        // Pbint bbdkground
+        skin.pbintSkin(g, 0, 0, bbrRfdtWidth, bbrRfdtHfight, null);
+    }
+}

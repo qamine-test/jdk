@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,337 +30,337 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation, and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion, bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.function.*;
-import java.util.regex.Pattern;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.IOExdfption;
+import jbvb.nio.filf.Filfs;
+import jbvb.nio.filf.Pbtis;
+import jbvb.util.*;
+import jbvb.util.fundtion.*;
+import jbvb.util.rfgfx.Pbttfrn;
+import jbvb.util.strfbm.Collfdtor;
+import jbvb.util.strfbm.Collfdtors;
 
-import static java.lang.Double.parseDouble;
-import static java.util.stream.Collectors.*;
+import stbtid jbvb.lbng.Doublf.pbrsfDoublf;
+import stbtid jbvb.util.strfbm.Collfdtors.*;
 
 /**
- * CSVProcessor is a tool for processing CSV files. There are several
- * command-line options. Consult the {@link #printUsageAndExit} method for
- * instructions and command line parameters. This sample shows examples of the
- * following features:
+ * CSVProdfssor is b tool for prodfssing CSV filfs. Tifrf brf sfvfrbl
+ * dommbnd-linf options. Consult tif {@link #printUsbgfAndExit} mftiod for
+ * instrudtions bnd dommbnd linf pbrbmftfrs. Tiis sbmplf siows fxbmplfs of tif
+ * following ffbturfs:
  * <ul>
- * <li>Lambda and bulk operations. Working with streams: map(...), filter(...),
- * sorted(...) methods. The collect(...) method with different collectors:
- * Collectors.maxBy(...), Collectors.minBy(...), Collectors.toList(),
- * Collectors.toCollection(...), Collectors.groupingBy(...),
- * Collectors.toDoubleSummaryStatistics(...), and a custom Collector.</li>
- * <li>Static method reference for printing values.</li>
- * <li>Try-with-resources feature for closing files.</li>
- * <li>Switch by String feature.</li>
- * <li>Other new APIs: Pattern.asPredicate(), BinaryOperator
- * BufferedReader.lines(), Collection.forEach(...), Comparator.comparing(...),
- * Comparator.reversed(), Arrays.stream(...).</li>
+ * <li>Lbmbdb bnd bulk opfrbtions. Working witi strfbms: mbp(...), filtfr(...),
+ * sortfd(...) mftiods. Tif dollfdt(...) mftiod witi difffrfnt dollfdtors:
+ * Collfdtors.mbxBy(...), Collfdtors.minBy(...), Collfdtors.toList(),
+ * Collfdtors.toCollfdtion(...), Collfdtors.groupingBy(...),
+ * Collfdtors.toDoublfSummbryStbtistids(...), bnd b dustom Collfdtor.</li>
+ * <li>Stbtid mftiod rfffrfndf for printing vblufs.</li>
+ * <li>Try-witi-rfsourdfs ffbturf for dlosing filfs.</li>
+ * <li>Switdi by String ffbturf.</li>
+ * <li>Otifr nfw APIs: Pbttfrn.bsPrfdidbtf(), BinbryOpfrbtor
+ * BufffrfdRfbdfr.linfs(), Collfdtion.forEbdi(...), Compbrbtor.dompbring(...),
+ * Compbrbtor.rfvfrsfd(), Arrbys.strfbm(...).</li>
  * </ul>
  *
  */
-public class CSVProcessor {
+publid dlbss CSVProdfssor {
 
-    //Number of characters that may be read
-    private static final int READ_AHEAD_LIMIT = 100_000_000;
+    //Numbfr of dibrbdtfrs tibt mby bf rfbd
+    privbtf stbtid finbl int READ_AHEAD_LIMIT = 100_000_000;
 
     /**
-     * The main method for the CSVProcessor program. Run the program with an
-     * empty argument list to see possible arguments.
+     * Tif mbin mftiod for tif CSVProdfssor progrbm. Run tif progrbm witi bn
+     * fmpty brgumfnt list to sff possiblf brgumfnts.
      *
-     * @param args the argument list for CSVProcessor.
+     * @pbrbm brgs tif brgumfnt list for CSVProdfssor.
      */
-    public static void main(String[] args) {
-        if (args.length < 2) {
-            printUsageAndExit();
+    publid stbtid void mbin(String[] brgs) {
+        if (brgs.lfngti < 2) {
+            printUsbgfAndExit();
         }
-        try (BufferedReader br = new BufferedReader(
-                Files.newBufferedReader(Paths.get(args[args.length - 1])))) {
-            //Assume that the first line contains column names.
-            List<String> header = Arrays.stream(br.readLine().split(","))
-                    .map(String::trim).collect(toList());
-            //Calculate an index of the column in question.
-            int column = getColumnNumber(header, args[1]);
-            switch (args[0]) {
-                case "sort":
-                    verifyArgumentNumber(args, 4);
-                    //Define the sort order.
-                    boolean isAsc;
-                    switch (args[2].toUpperCase()) {
-                        case "ASC":
-                            isAsc = true;
-                            break;
-                        case "DESC":
-                            isAsc = false;
-                            break;
-                        default:
-                            printUsageAndExit("Illegal argument" + args[2]);
-                            return;//Should not be reached.
+        try (BufffrfdRfbdfr br = nfw BufffrfdRfbdfr(
+                Filfs.nfwBufffrfdRfbdfr(Pbtis.gft(brgs[brgs.lfngti - 1])))) {
+            //Assumf tibt tif first linf dontbins dolumn nbmfs.
+            List<String> ifbdfr = Arrbys.strfbm(br.rfbdLinf().split(","))
+                    .mbp(String::trim).dollfdt(toList());
+            //Cbldulbtf bn indfx of tif dolumn in qufstion.
+            int dolumn = gftColumnNumbfr(ifbdfr, brgs[1]);
+            switdi (brgs[0]) {
+                dbsf "sort":
+                    vfrifyArgumfntNumbfr(brgs, 4);
+                    //Dffinf tif sort ordfr.
+                    boolfbn isAsd;
+                    switdi (brgs[2].toUppfrCbsf()) {
+                        dbsf "ASC":
+                            isAsd = truf;
+                            brfbk;
+                        dbsf "DESC":
+                            isAsd = fblsf;
+                            brfbk;
+                        dffbult:
+                            printUsbgfAndExit("Illfgbl brgumfnt" + brgs[2]);
+                            rfturn;//Siould not bf rfbdifd.
                     }
                     /*
-                     * Create a comparator that compares lines by comparing
-                     * values in the specified column.
+                     * Crfbtf b dompbrbtor tibt dompbrfs linfs by dompbring
+                     * vblufs in tif spfdififd dolumn.
                      */
-                    Comparator<String> cmp
-                            = Comparator.comparing(str -> getCell(str, column),
+                    Compbrbtor<String> dmp
+                            = Compbrbtor.dompbring(str -> gftCfll(str, dolumn),
                                     String.CASE_INSENSITIVE_ORDER);
                     /*
-                     * sorted(...) is used to sort records.
-                     * forEach(...) is used to output sorted records.
+                     * sortfd(...) is usfd to sort rfdords.
+                     * forEbdi(...) is usfd to output sortfd rfdords.
                      */
-                    br.lines().sorted(isAsc ? cmp : cmp.reversed())
-                            .forEach(System.out::println);
-                    break;
-                case "search":
-                    verifyArgumentNumber(args, 4);
+                    br.linfs().sortfd(isAsd ? dmp : dmp.rfvfrsfd())
+                            .forEbdi(Systfm.out::println);
+                    brfbk;
+                dbsf "sfbrdi":
+                    vfrifyArgumfntNumbfr(brgs, 4);
                     /*
-                     * Records are filtered by a regex.
-                     * forEach(...) is used to output filtered records.
+                     * Rfdords brf filtfrfd by b rfgfx.
+                     * forEbdi(...) is usfd to output filtfrfd rfdords.
                      */
-                    Predicate<String> pattern
-                            = Pattern.compile(args[2]).asPredicate();
-                    br.lines().filter(str -> pattern.test(getCell(str, column)))
-                            .forEach(System.out::println);
-                    break;
-                case "groupby":
-                    verifyArgumentNumber(args, 3);
+                    Prfdidbtf<String> pbttfrn
+                            = Pbttfrn.dompilf(brgs[2]).bsPrfdidbtf();
+                    br.linfs().filtfr(str -> pbttfrn.tfst(gftCfll(str, dolumn)))
+                            .forEbdi(Systfm.out::println);
+                    brfbk;
+                dbsf "groupby":
+                    vfrifyArgumfntNumbfr(brgs, 3);
                     /*
-                     * Group lines by values in the column with collect(...), and
-                     * print with forEach(...) for every distinct value within
-                     * the column.
+                     * Group linfs by vblufs in tif dolumn witi dollfdt(...), bnd
+                     * print witi forEbdi(...) for fvfry distindt vbluf witiin
+                     * tif dolumn.
                      */
-                    br.lines().collect(
-                            Collectors.groupingBy(str -> getCell(str, column),
-                                    toCollection(TreeSet::new)))
-                            .forEach((str, set) -> {
-                                System.out.println(str + ":");
-                                set.forEach(System.out::println);
+                    br.linfs().dollfdt(
+                            Collfdtors.groupingBy(str -> gftCfll(str, dolumn),
+                                    toCollfdtion(TrffSft::nfw)))
+                            .forEbdi((str, sft) -> {
+                                Systfm.out.println(str + ":");
+                                sft.forEbdi(Systfm.out::println);
                             });
-                    break;
-                case "stat":
-                    verifyArgumentNumber(args, 3);
+                    brfbk;
+                dbsf "stbt":
+                    vfrifyArgumfntNumbfr(brgs, 3);
 
                     /*
-                     * BufferedReader will be read several times.
-                     * Mark this point to return here after each pass.
-                     * BufferedReader will be read right after the headers line
-                     * because it is already read.
+                     * BufffrfdRfbdfr will bf rfbd sfvfrbl timfs.
+                     * Mbrk tiis point to rfturn ifrf bftfr fbdi pbss.
+                     * BufffrfdRfbdfr will bf rfbd rigit bftfr tif ifbdfrs linf
+                     * bfdbusf it is blrfbdy rfbd.
                      */
-                    br.mark(READ_AHEAD_LIMIT);
+                    br.mbrk(READ_AHEAD_LIMIT);
 
                     /*
-                     * Statistics can be collected by a custom collector in one
-                     * pass. One pass is preferable.
+                     * Stbtistids dbn bf dollfdtfd by b dustom dollfdtor in onf
+                     * pbss. Onf pbss is prfffrbblf.
                      */
-                    System.out.println(
-                            br.lines().collect(new Statistics(column)));
+                    Systfm.out.println(
+                            br.linfs().dollfdt(nfw Stbtistids(dolumn)));
 
                     /*
-                     * Alternatively, statistics can be collected
-                     * by a built-in API in several passes.
-                     * This method demonstrates how separate operations can be
-                     * implemented using a built-in API.
+                     * Altfrnbtivfly, stbtistids dbn bf dollfdtfd
+                     * by b built-in API in sfvfrbl pbssfs.
+                     * Tiis mftiod dfmonstrbtfs iow sfpbrbtf opfrbtions dbn bf
+                     * implfmfntfd using b built-in API.
                      */
-                    br.reset();
-                    statInSeveralPasses(br, column);
-                    break;
-                default:
-                    printUsageAndExit("Illegal argument" + args[0]);
+                    br.rfsft();
+                    stbtInSfvfrblPbssfs(br, dolumn);
+                    brfbk;
+                dffbult:
+                    printUsbgfAndExit("Illfgbl brgumfnt" + brgs[0]);
             }
-        } catch (IOException e) {
-            printUsageAndExit(e.toString());
+        } dbtdi (IOExdfption f) {
+            printUsbgfAndExit(f.toString());
         }
     }
 
-    private static void statInSeveralPasses(BufferedReader br, int column)
-            throws IOException {
-        System.out.println("#-----Statistics in several passes-------#");
-        //Create a comparator to compare records by the column.
-        Comparator<String> comparator
-                = Comparator.comparing(
-                        (String str) -> parseDouble(getCell(str, column)));
-        //Find max record by using Collectors.maxBy(...)
-        System.out.println(
-                "Max: " + br.lines().collect(maxBy(comparator)).get());
-        br.reset();
-        //Find min record by using Collectors.minBy(...)
-        System.out.println(
-                "Min: " + br.lines().collect(minBy(comparator)).get());
-        br.reset();
-        //Compute the average value and sum with
-        //Collectors.toDoubleSummaryStatistics(...)
-        DoubleSummaryStatistics doubleSummaryStatistics
-                = br.lines().collect(summarizingDouble(
-                    str -> parseDouble(getCell(str, column))));
-        System.out.println("Average: " + doubleSummaryStatistics.getAverage());
-        System.out.println("Sum: " + doubleSummaryStatistics.getSum());
+    privbtf stbtid void stbtInSfvfrblPbssfs(BufffrfdRfbdfr br, int dolumn)
+            tirows IOExdfption {
+        Systfm.out.println("#-----Stbtistids in sfvfrbl pbssfs-------#");
+        //Crfbtf b dompbrbtor to dompbrf rfdords by tif dolumn.
+        Compbrbtor<String> dompbrbtor
+                = Compbrbtor.dompbring(
+                        (String str) -> pbrsfDoublf(gftCfll(str, dolumn)));
+        //Find mbx rfdord by using Collfdtors.mbxBy(...)
+        Systfm.out.println(
+                "Mbx: " + br.linfs().dollfdt(mbxBy(dompbrbtor)).gft());
+        br.rfsft();
+        //Find min rfdord by using Collfdtors.minBy(...)
+        Systfm.out.println(
+                "Min: " + br.linfs().dollfdt(minBy(dompbrbtor)).gft());
+        br.rfsft();
+        //Computf tif bvfrbgf vbluf bnd sum witi
+        //Collfdtors.toDoublfSummbryStbtistids(...)
+        DoublfSummbryStbtistids doublfSummbryStbtistids
+                = br.linfs().dollfdt(summbrizingDoublf(
+                    str -> pbrsfDoublf(gftCfll(str, dolumn))));
+        Systfm.out.println("Avfrbgf: " + doublfSummbryStbtistids.gftAvfrbgf());
+        Systfm.out.println("Sum: " + doublfSummbryStbtistids.gftSum());
     }
 
-    private static void verifyArgumentNumber(String[] args, int n) {
-        if (args.length != n) {
-            printUsageAndExit("Expected " + n + " arguments but was "
-                    + args.length);
+    privbtf stbtid void vfrifyArgumfntNumbfr(String[] brgs, int n) {
+        if (brgs.lfngti != n) {
+            printUsbgfAndExit("Expfdtfd " + n + " brgumfnts but wbs "
+                    + brgs.lfngti);
         }
     }
 
-    private static int getColumnNumber(List<String> header, String name) {
-        int column = header.indexOf(name);
-        if (column == -1) {
-            printUsageAndExit("There is no column with name " + name);
+    privbtf stbtid int gftColumnNumbfr(List<String> ifbdfr, String nbmf) {
+        int dolumn = ifbdfr.indfxOf(nbmf);
+        if (dolumn == -1) {
+            printUsbgfAndExit("Tifrf is no dolumn witi nbmf " + nbmf);
         }
-        return column;
+        rfturn dolumn;
     }
 
-    private static String getCell(String record, int column) {
-        return record.split(",")[column].trim();
+    privbtf stbtid String gftCfll(String rfdord, int dolumn) {
+        rfturn rfdord.split(",")[dolumn].trim();
     }
 
-    private static void printUsageAndExit(String... str) {
-        System.out.println("Usages:");
+    privbtf stbtid void printUsbgfAndExit(String... str) {
+        Systfm.out.println("Usbgfs:");
 
-        System.out.println("CSVProcessor sort COLUMN_NAME ASC|DESC FILE");
-        System.out.println("Sort lines by column COLUMN_NAME in CSV FILE\n");
+        Systfm.out.println("CSVProdfssor sort COLUMN_NAME ASC|DESC FILE");
+        Systfm.out.println("Sort linfs by dolumn COLUMN_NAME in CSV FILE\n");
 
-        System.out.println("CSVProcessor search COLUMN_NAME REGEX FILE");
-        System.out.println("Search for REGEX in column COLUMN_NAME in CSV FILE\n");
+        Systfm.out.println("CSVProdfssor sfbrdi COLUMN_NAME REGEX FILE");
+        Systfm.out.println("Sfbrdi for REGEX in dolumn COLUMN_NAME in CSV FILE\n");
 
-        System.out.println("CSVProcessor groupby COLUMN_NAME FILE");
-        System.out.println("Split lines into different groups according to column "
-                + "COLUMN_NAME value\n");
+        Systfm.out.println("CSVProdfssor groupby COLUMN_NAME FILE");
+        Systfm.out.println("Split linfs into difffrfnt groups bddording to dolumn "
+                + "COLUMN_NAME vbluf\n");
 
-        System.out.println("CSVProcessor stat COLUMN_NAME FILE");
-        System.out.println("Compute max/min/average/sum  statistics by column "
+        Systfm.out.println("CSVProdfssor stbt COLUMN_NAME FILE");
+        Systfm.out.println("Computf mbx/min/bvfrbgf/sum  stbtistids by dolumn "
                 + "COLUMN_NAME\n");
 
-        Arrays.asList(str).forEach(System.err::println);
-        System.exit(1);
+        Arrbys.bsList(str).forEbdi(Systfm.frr::println);
+        Systfm.fxit(1);
     }
 
     /*
-     * This is a custom implementation of the Collector interface.
-     * Statistics are objects gather max,min,sum,average statistics.
+     * Tiis is b dustom implfmfntbtion of tif Collfdtor intfrfbdf.
+     * Stbtistids brf objfdts gbtifr mbx,min,sum,bvfrbgf stbtistids.
      */
-    private static class Statistics
-            implements Collector<String, Statistics, Statistics> {
+    privbtf stbtid dlbss Stbtistids
+            implfmfnts Collfdtor<String, Stbtistids, Stbtistids> {
 
 
         /*
-         * This implementation does not need to be thread safe because
-         * the parallel implementation of
-         * {@link java.util.stream.Stream#collect Stream.collect()}
-         * provides the necessary partitioning and isolation for safe parallel
-         * execution.
+         * Tiis implfmfntbtion dofs not nffd to bf tirfbd sbff bfdbusf
+         * tif pbrbllfl implfmfntbtion of
+         * {@link jbvb.util.strfbm.Strfbm#dollfdt Strfbm.dollfdt()}
+         * providfs tif nfdfssbry pbrtitioning bnd isolbtion for sbff pbrbllfl
+         * fxfdution.
          */
-        private String maxRecord;
-        private String minRecord;
+        privbtf String mbxRfdord;
+        privbtf String minRfdord;
 
-        private double sum;
-        private int lineCount;
-        private final BinaryOperator<String> maxOperator;
-        private final BinaryOperator<String> minOperator;
-        private final int column;
+        privbtf doublf sum;
+        privbtf int linfCount;
+        privbtf finbl BinbryOpfrbtor<String> mbxOpfrbtor;
+        privbtf finbl BinbryOpfrbtor<String> minOpfrbtor;
+        privbtf finbl int dolumn;
 
-        public Statistics(int column) {
-            this.column = column;
-            Comparator<String> cmp = Comparator.comparing(
-                    (String str) -> parseDouble(getCell(str, column)));
-            maxOperator = BinaryOperator.maxBy(cmp);
-            minOperator = BinaryOperator.minBy(cmp);
+        publid Stbtistids(int dolumn) {
+            tiis.dolumn = dolumn;
+            Compbrbtor<String> dmp = Compbrbtor.dompbring(
+                    (String str) -> pbrsfDoublf(gftCfll(str, dolumn)));
+            mbxOpfrbtor = BinbryOpfrbtor.mbxBy(dmp);
+            minOpfrbtor = BinbryOpfrbtor.minBy(dmp);
         }
 
         /*
-         * Process line.
+         * Prodfss linf.
          */
-        public Statistics accept(String line) {
-            maxRecord = maxRecord == null
-                    ? line : maxOperator.apply(maxRecord, line);
-            minRecord = minRecord == null
-                    ? line : minOperator.apply(minRecord, line);
+        publid Stbtistids bddfpt(String linf) {
+            mbxRfdord = mbxRfdord == null
+                    ? linf : mbxOpfrbtor.bpply(mbxRfdord, linf);
+            minRfdord = minRfdord == null
+                    ? linf : minOpfrbtor.bpply(minRfdord, linf);
 
-            sum += parseDouble(getCell(line, column));
-            lineCount++;
-            return this;
+            sum += pbrsfDoublf(gftCfll(linf, dolumn));
+            linfCount++;
+            rfturn tiis;
         }
 
 
         /*
-         * Merge two Statistics.
+         * Mfrgf two Stbtistids.
          */
-        public Statistics combine(Statistics stat) {
-            maxRecord = maxOperator.apply(maxRecord, stat.getMaxRecord());
-            minRecord = minOperator.apply(minRecord, stat.getMinRecord());
-            sum += stat.getSum();
-            lineCount += stat.getLineCount();
-            return this;
+        publid Stbtistids dombinf(Stbtistids stbt) {
+            mbxRfdord = mbxOpfrbtor.bpply(mbxRfdord, stbt.gftMbxRfdord());
+            minRfdord = minOpfrbtor.bpply(minRfdord, stbt.gftMinRfdord());
+            sum += stbt.gftSum();
+            linfCount += stbt.gftLinfCount();
+            rfturn tiis;
         }
 
-        @Override
-        public String toString() {
-            StringBuilder sb = new StringBuilder();
-            sb.append("#------Statistics------#\n");
-            sb.append("Max: ").append(getMaxRecord()).append("\n");
-            sb.append("Min: ").append(getMinRecord()).append("\n");
-            sb.append("Sum = ").append(getSum()).append("\n");
-            sb.append("Average = ").append(average()).append("\n");
-            sb.append("#------Statistics------#\n");
-            return sb.toString();
+        @Ovfrridf
+        publid String toString() {
+            StringBuildfr sb = nfw StringBuildfr();
+            sb.bppfnd("#------Stbtistids------#\n");
+            sb.bppfnd("Mbx: ").bppfnd(gftMbxRfdord()).bppfnd("\n");
+            sb.bppfnd("Min: ").bppfnd(gftMinRfdord()).bppfnd("\n");
+            sb.bppfnd("Sum = ").bppfnd(gftSum()).bppfnd("\n");
+            sb.bppfnd("Avfrbgf = ").bppfnd(bvfrbgf()).bppfnd("\n");
+            sb.bppfnd("#------Stbtistids------#\n");
+            rfturn sb.toString();
         }
 
-        @Override
-        public Supplier<Statistics> supplier() {
-            return () -> new Statistics(column);
+        @Ovfrridf
+        publid Supplifr<Stbtistids> supplifr() {
+            rfturn () -> nfw Stbtistids(dolumn);
         }
 
-        @Override
-        public BiConsumer<Statistics, String> accumulator() {
-            return Statistics::accept;
+        @Ovfrridf
+        publid BiConsumfr<Stbtistids, String> bddumulbtor() {
+            rfturn Stbtistids::bddfpt;
         }
 
-        @Override
-        public BinaryOperator<Statistics> combiner() {
-            return Statistics::combine;
+        @Ovfrridf
+        publid BinbryOpfrbtor<Stbtistids> dombinfr() {
+            rfturn Stbtistids::dombinf;
 
         }
 
-        @Override
-        public Function<Statistics, Statistics> finisher() {
-            return stat -> stat;
+        @Ovfrridf
+        publid Fundtion<Stbtistids, Stbtistids> finisifr() {
+            rfturn stbt -> stbt;
         }
 
-        @Override
-        public Set<Characteristics> characteristics() {
-            return EnumSet.of(Characteristics.IDENTITY_FINISH);
+        @Ovfrridf
+        publid Sft<Cibrbdtfristids> dibrbdtfristids() {
+            rfturn EnumSft.of(Cibrbdtfristids.IDENTITY_FINISH);
         }
 
-        private String getMaxRecord() {
-            return maxRecord;
+        privbtf String gftMbxRfdord() {
+            rfturn mbxRfdord;
         }
 
-        private String getMinRecord() {
-            return minRecord;
+        privbtf String gftMinRfdord() {
+            rfturn minRfdord;
         }
 
-        private double getSum() {
-            return sum;
+        privbtf doublf gftSum() {
+            rfturn sum;
         }
 
-        private double average() {
-            return sum / lineCount;
+        privbtf doublf bvfrbgf() {
+            rfturn sum / linfCount;
         }
 
-        private int getLineCount() {
-            return lineCount;
+        privbtf int gftLinfCount() {
+            rfturn linfCount;
         }
 
     }

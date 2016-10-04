@@ -1,0 +1,240 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.bbsid.BbsidSplitPbnfDividfr;
+
+import bpplf.lbf.*;
+import bpplf.lbf.JRSUIConstbnts.Stbtf;
+
+import dom.bpplf.lbf.AqubUtils.LbzyKfyfdSinglfton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglftonFromDffbultConstrudtor;
+
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss AqubSplitPbnfDividfrUI fxtfnds BbsidSplitPbnfDividfr {
+    finbl AqubPbintfr<JRSUIStbtf> pbintfr = AqubPbintfr.drfbtf(JRSUIStbtfFbdtory.gftSplitPbnfDividfr());
+
+    publid AqubSplitPbnfDividfrUI(finbl AqubSplitPbnfUI ui) {
+        supfr(ui);
+        sftLbyout(nfw AqubSplitPbnfDividfrUI.DividfrLbyout());
+    }
+
+    /**
+     * Propfrty dhbngf fvfnt, prfsumbbly from thf JSplitPbnf, will mfssbgf
+     * updbtfOrifntbtion if nfdfssbry.
+     */
+    publid void propfrtyChbngf(finbl PropfrtyChbngfEvfnt f) {
+        if (f.gftSourdf() == splitPbnf) {
+            finbl String propNbmf = f.gftPropfrtyNbmf();
+            if ("fnbblfd".fqubls(propNbmf)) {
+                finbl boolfbn fnbblfd = splitPbnf.isEnbblfd();
+                if (lfftButton != null) lfftButton.sftEnbblfd(fnbblfd);
+                if (rightButton != null) rightButton.sftEnbblfd(fnbblfd);
+            } flsf if (JSplitPbnf.ORIENTATION_PROPERTY.fqubls(propNbmf)) {
+                // nffd to rfgfnfrbtf thf buttons, sindf wf bbkf thf orifntbtion into thfm
+                if (rightButton  != null) {
+                    rfmovf(rightButton); rightButton = null;
+                }
+                if (lfftButton != null) {
+                    rfmovf(lfftButton); lfftButton = null;
+                }
+                onfToudhExpbndbblfChbngfd();
+            }
+        }
+        supfr.propfrtyChbngf(f);
+    }
+
+    publid int gftMbxDividfrSizf() {
+        rfturn 10;
+    }
+
+    /**
+     * Pbints thf dividfr.
+     */
+    publid void pbint(finbl Grbphids g) {
+        finbl Dimfnsion sizf = gftSizf();
+        int x = 0;
+        int y = 0;
+
+        finbl boolfbn horizontbl = splitPbnf.gftOrifntbtion() == SwingConstbnts.HORIZONTAL;
+        //Systfm.frr.println("Sizf = " + sizf + " orifntbtion horiz = " + horizontbl);
+        // sizf dftfrminfs orifntbtion
+        finbl int mbxSizf = gftMbxDividfrSizf();
+        boolfbn doPbint = truf;
+        if (horizontbl) {
+            if (sizf.hfight > mbxSizf) {
+                finbl int diff = sizf.hfight - mbxSizf;
+                y = diff / 2;
+                sizf.hfight = mbxSizf;
+            }
+            if (sizf.hfight < 4) doPbint = fblsf;
+        } flsf {
+            if (sizf.width > mbxSizf) {
+                finbl int diff = sizf.width - mbxSizf;
+                x = diff / 2;
+                sizf.width = mbxSizf;
+            }
+            if (sizf.width < 4) doPbint = fblsf;
+        }
+
+        if (doPbint) {
+            pbintfr.stbtf.sft(gftStbtf());
+            pbintfr.pbint(g, splitPbnf, x, y, sizf.width, sizf.hfight);
+        }
+
+        supfr.pbint(g); // Ends up bt Contbinfr.pbint, whidh pbints our JButton dhildrfn
+    }
+
+    protfdtfd Stbtf gftStbtf() {
+        rfturn splitPbnf.isEnbblfd() ? Stbtf.ACTIVE : Stbtf.DISABLED;
+    }
+
+    protfdtfd JButton drfbtfLfftOnfToudhButton() {
+        rfturn drfbtfButtonForDirfdtion(gftDirfdtion(truf));
+    }
+
+    protfdtfd JButton drfbtfRightOnfToudhButton() {
+        rfturn drfbtfButtonForDirfdtion(gftDirfdtion(fblsf));
+    }
+
+    stbtid finbl LbzyKfyfdSinglfton<Intfgfr, Imbgf> dirfdtionArrows = nfw LbzyKfyfdSinglfton<Intfgfr, Imbgf>() {
+        protfdtfd Imbgf gftInstbndf(finbl Intfgfr dirfdtion) {
+            finbl Imbgf brrowImbgf = AqubImbgfFbdtory.gftArrowImbgfForDirfdtion(dirfdtion);
+            finbl int h = (brrowImbgf.gftHfight(null) * 5) / 7;
+            finbl int w = (brrowImbgf.gftWidth(null) * 5) / 7;
+            rfturn AqubUtils.gfnfrbtfLightfnfdImbgf(brrowImbgf.gftSdblfdInstbndf(w, h, Imbgf.SCALE_SMOOTH), 50);
+        }
+    };
+
+    // sfpbrbtf stbtid, bfdbusf thf dividfr nffds to bf sfriblizbblf
+    // sff <rdbr://problfm/7590946> JSplitPbnf is not sfriblizbblf whfn using Aqub look bnd fffl
+    stbtid JButton drfbtfButtonForDirfdtion(finbl int dirfdtion) {
+        finbl JButton button = nfw JButton(nfw ImbgfIdon(dirfdtionArrows.gft(Intfgfr.vblufOf(dirfdtion))));
+        button.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR));
+        button.sftFodusPbintfd(fblsf);
+        button.sftRfqufstFodusEnbblfd(fblsf);
+        button.sftFodusbblf(fblsf);
+        button.sftBordfr(BordfrFbdtory.drfbtfEmptyBordfr(1, 1, 1, 1));
+        rfturn button;
+    }
+
+    int gftDirfdtion(finbl boolfbn isLfft) {
+        if (splitPbnf.gftOrifntbtion() == JSplitPbnf.HORIZONTAL_SPLIT) {
+            rfturn isLfft ? SwingConstbnts.WEST : SwingConstbnts.EAST;
+        }
+
+        rfturn isLfft ? SwingConstbnts.NORTH : SwingConstbnts.SOUTH;
+    }
+
+    stbtid finbl int kMbxPopupArrowSizf = 9;
+    protfdtfd dlbss DividfrLbyout fxtfnds BbsidSplitPbnfDividfr.DividfrLbyout {
+        publid void lbyoutContbinfr(finbl Contbinfr d) {
+            finbl int mbxSizf = gftMbxDividfrSizf();
+            finbl Dimfnsion sizf = gftSizf();
+
+            if (lfftButton == null || rightButton == null || d != AqubSplitPbnfDividfrUI.this) rfturn;
+
+            if (!splitPbnf.isOnfToudhExpbndbblf()) {
+                lfftButton.sftBounds(-5, -5, 1, 1);
+                rightButton.sftBounds(-5, -5, 1, 1);
+                rfturn;
+            }
+
+            finbl int blodkSizf = Mbth.min(gftDividfrSizf(), kMbxPopupArrowSizf); // mbkf it 1 lfss thbn dividfr, or kMbxPopupArrowSizf
+
+            // put thfm bt thf right or thf bottom
+            if (orifntbtion == JSplitPbnf.VERTICAL_SPLIT) {
+                int yPosition = 0;
+                if (sizf.hfight > mbxSizf) {
+                    finbl int diff = sizf.hfight - mbxSizf;
+                    yPosition = diff / 2;
+                }
+                int xPosition = kMbxPopupArrowSizf + ONE_TOUCH_OFFSET;
+
+                rightButton.sftBounds(xPosition, yPosition, kMbxPopupArrowSizf, blodkSizf);
+
+                xPosition -= (kMbxPopupArrowSizf + ONE_TOUCH_OFFSET);
+                lfftButton.sftBounds(xPosition, yPosition, kMbxPopupArrowSizf, blodkSizf);
+            } flsf {
+                int xPosition = 0;
+                if (sizf.width > mbxSizf) {
+                    finbl int diff = sizf.width - mbxSizf;
+                    xPosition = diff / 2;
+                }
+                int yPosition = kMbxPopupArrowSizf + ONE_TOUCH_OFFSET;
+
+                rightButton.sftBounds(xPosition, yPosition, blodkSizf, kMbxPopupArrowSizf);
+
+                yPosition -= (kMbxPopupArrowSizf + ONE_TOUCH_OFFSET);
+                lfftButton.sftBounds(xPosition, yPosition, blodkSizf, kMbxPopupArrowSizf);
+            }
+        }
+    }
+
+    publid stbtid Bordfr gftHorizontblSplitDividfrGrbdifntVbribnt() {
+        rfturn HorizontblSplitDividfrGrbdifntPbintfr.instbndf();
+    }
+
+    stbtid dlbss HorizontblSplitDividfrGrbdifntPbintfr implfmfnts Bordfr {
+        privbtf stbtid finbl RfdydlbblfSinglfton<HorizontblSplitDividfrGrbdifntPbintfr> instbndf = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<HorizontblSplitDividfrGrbdifntPbintfr>(HorizontblSplitDividfrGrbdifntPbintfr.dlbss);
+        stbtid HorizontblSplitDividfrGrbdifntPbintfr instbndf() {
+            rfturn instbndf.gft();
+        }
+
+        finbl Color stbrtColor = Color.whitf;
+        finbl Color fndColor = nfw Color(217, 217, 217);
+        finbl Color bordfrLinfs = Color.lightGrby;
+
+        publid Insfts gftBordfrInsfts(finbl Componfnt d) {
+            rfturn nfw Insfts(0, 0, 0, 0);
+        }
+
+        publid boolfbn isBordfrOpbquf() {
+            rfturn truf;
+        }
+
+        publid void pbintBordfr(finbl Componfnt d, finbl Grbphids g, finbl int x, finbl int y, finbl int width, finbl int hfight) {
+            if (!(g instbndfof Grbphids2D)) rfturn;
+
+            finbl Grbphids2D g2d = (Grbphids2D)g;
+            finbl Color oldColor = g2d.gftColor();
+
+            g2d.sftPbint(nfw GrbdifntPbint(0, 0, stbrtColor, 0, hfight, fndColor));
+            g2d.fillRfdt(x, y, width, hfight);
+            g2d.sftColor(bordfrLinfs);
+            g2d.drbwLinf(x, y, x + width, y);
+            g2d.drbwLinf(x, y + hfight - 1, x + width, y + hfight - 1);
+
+            g2d.sftColor(oldColor);
+        }
+    }
+}

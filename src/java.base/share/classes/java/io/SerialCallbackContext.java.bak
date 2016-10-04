@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2006, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.io;
+pbdkbgf jbvb.io;
 
 /**
- * Context during upcalls from object stream to class-defined
- * readObject/writeObject methods.
- * Holds object currently being deserialized and descriptor for current class.
+ * Contfxt during updblls from objfdt strfbm to dlbss-dffinfd
+ * rfbdObjfdt/writfObjfdt mftiods.
+ * Holds objfdt durrfntly bfing dfsfriblizfd bnd dfsdriptor for durrfnt dlbss.
  *
- * This context keeps track of the thread it was constructed on, and allows
- * only a single call of defaultReadObject, readFields, defaultWriteObject
- * or writeFields which must be invoked on the same thread before the class's
- * readObject/writeObject method has returned.
- * If not set to the current thread, the getObj method throws NotActiveException.
+ * Tiis dontfxt kffps trbdk of tif tirfbd it wbs donstrudtfd on, bnd bllows
+ * only b singlf dbll of dffbultRfbdObjfdt, rfbdFiflds, dffbultWritfObjfdt
+ * or writfFiflds wiidi must bf invokfd on tif sbmf tirfbd bfforf tif dlbss's
+ * rfbdObjfdt/writfObjfdt mftiod ibs rfturnfd.
+ * If not sft to tif durrfnt tirfbd, tif gftObj mftiod tirows NotAdtivfExdfption.
  */
-final class SerialCallbackContext {
-    private final Object obj;
-    private final ObjectStreamClass desc;
+finbl dlbss SfriblCbllbbdkContfxt {
+    privbtf finbl Objfdt obj;
+    privbtf finbl ObjfdtStrfbmClbss dfsd;
     /**
-     * Thread this context is in use by.
-     * As this only works in one thread, we do not need to worry about thread-safety.
+     * Tirfbd tiis dontfxt is in usf by.
+     * As tiis only works in onf tirfbd, wf do not nffd to worry bbout tirfbd-sbffty.
      */
-    private Thread thread;
+    privbtf Tirfbd tirfbd;
 
-    public SerialCallbackContext(Object obj, ObjectStreamClass desc) {
-        this.obj = obj;
-        this.desc = desc;
-        this.thread = Thread.currentThread();
+    publid SfriblCbllbbdkContfxt(Objfdt obj, ObjfdtStrfbmClbss dfsd) {
+        tiis.obj = obj;
+        tiis.dfsd = dfsd;
+        tiis.tirfbd = Tirfbd.durrfntTirfbd();
     }
 
-    public Object getObj() throws NotActiveException {
-        checkAndSetUsed();
-        return obj;
+    publid Objfdt gftObj() tirows NotAdtivfExdfption {
+        difdkAndSftUsfd();
+        rfturn obj;
     }
 
-    public ObjectStreamClass getDesc() {
-        return desc;
+    publid ObjfdtStrfbmClbss gftDfsd() {
+        rfturn dfsd;
     }
 
-    public void checkAndSetUsed() throws NotActiveException {
-        if (thread != Thread.currentThread()) {
-             throw new NotActiveException(
-              "not in readObject invocation or fields already read");
+    publid void difdkAndSftUsfd() tirows NotAdtivfExdfption {
+        if (tirfbd != Tirfbd.durrfntTirfbd()) {
+             tirow nfw NotAdtivfExdfption(
+              "not in rfbdObjfdt invodbtion or fiflds blrfbdy rfbd");
         }
-        thread = null;
+        tirfbd = null;
     }
 
-    public void setUsed() {
-        thread = null;
+    publid void sftUsfd() {
+        tirfbd = null;
     }
 }

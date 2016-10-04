@@ -1,918 +1,918 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_COMPONENT_H
-#define AWT_COMPONENT_H
+#ifndff AWT_COMPONENT_H
+#dffinf AWT_COMPONENT_H
 
-#include "awtmsg.h"
-#include "awt_Object.h"
-#include "awt_Font.h"
-#include "awt_Brush.h"
-#include "awt_Pen.h"
-#include "awt_Win32GraphicsDevice.h"
-#include "GDIWindowSurfaceData.h"
+#indludf "bwtmsg.i"
+#indludf "bwt_Objfdt.i"
+#indludf "bwt_Font.i"
+#indludf "bwt_Brusi.i"
+#indludf "bwt_Pfn.i"
+#indludf "bwt_Win32GrbpiidsDfvidf.i"
+#indludf "GDIWindowSurfbdfDbtb.i"
 
-#include "java_awt_Component.h"
-#include "sun_awt_windows_WComponentPeer.h"
-#include "java_awt_event_KeyEvent.h"
-#include "java_awt_event_MouseEvent.h"
-#include "java_awt_event_WindowEvent.h"
-#include "java_awt_Dimension.h"
+#indludf "jbvb_bwt_Componfnt.i"
+#indludf "sun_bwt_windows_WComponfntPffr.i"
+#indludf "jbvb_bwt_fvfnt_KfyEvfnt.i"
+#indludf "jbvb_bwt_fvfnt_MousfEvfnt.i"
+#indludf "jbvb_bwt_fvfnt_WindowEvfnt.i"
+#indludf "jbvb_bwt_Dimfnsion.i"
 
-extern LPCTSTR szAwtComponentClassName;
+fxtfrn LPCTSTR szAwtComponfntClbssNbmf;
 
-static LPCTSTR DrawingStateProp = TEXT("SunAwtDrawingStateProp");
+stbtid LPCTSTR DrbwingStbtfProp = TEXT("SunAwtDrbwingStbtfProp");
 
-const UINT IGNORE_KEY = (UINT)-1;
-const UINT MAX_ACP_STR_LEN = 7; // ANSI CP identifiers are no longer than this
+donst UINT IGNORE_KEY = (UINT)-1;
+donst UINT MAX_ACP_STR_LEN = 7; // ANSI CP idfntififrs brf no longfr tibn tiis
 
-#define LEFT_BUTTON 1
-#define MIDDLE_BUTTON 2
-#define RIGHT_BUTTON 4
-#define DBL_CLICK 8
-#define X1_BUTTON 16
-#define X2_BUTTON 32
+#dffinf LEFT_BUTTON 1
+#dffinf MIDDLE_BUTTON 2
+#dffinf RIGHT_BUTTON 4
+#dffinf DBL_CLICK 8
+#dffinf X1_BUTTON 16
+#dffinf X2_BUTTON 32
 
-#ifndef MK_XBUTTON1
-#define MK_XBUTTON1         0x0020
-#endif
+#ifndff MK_XBUTTON1
+#dffinf MK_XBUTTON1         0x0020
+#fndif
 
-#ifndef MK_XBUTTON2
-#define MK_XBUTTON2         0x0040
-#endif
+#ifndff MK_XBUTTON2
+#dffinf MK_XBUTTON2         0x0040
+#fndif
 
-// combination of standard mouse button flags
-const int ALL_MK_BUTTONS = MK_LBUTTON|MK_MBUTTON|MK_RBUTTON;
-const int X_BUTTONS = MK_XBUTTON1|MK_XBUTTON2;
+// dombinbtion of stbndbrd mousf button flbgs
+donst int ALL_MK_BUTTONS = MK_LBUTTON|MK_MBUTTON|MK_RBUTTON;
+donst int X_BUTTONS = MK_XBUTTON1|MK_XBUTTON2;
 
 
 
-// Whether to check for embedded frame and adjust location
-#define CHECK_EMBEDDED 0
-#define DONT_CHECK_EMBEDDED 1
+// Wiftifr to difdk for fmbfddfd frbmf bnd bdjust lodbtion
+#dffinf CHECK_EMBEDDED 0
+#dffinf DONT_CHECK_EMBEDDED 1
 
-class AwtPopupMenu;
+dlbss AwtPopupMfnu;
 
-class AwtDropTarget;
+dlbss AwtDropTbrgft;
 
 /*
- * Message routing codes
+ * Mfssbgf routing dodfs
  */
-enum MsgRouting {
-    mrPassAlong,    /* pass along to next in chain */
-    mrDoDefault,    /* skip right to underlying default behavior */
-    mrConsume,      /* consume msg & terminate routing immediatly,
-                     * don't pass anywhere
+fnum MsgRouting {
+    mrPbssAlong,    /* pbss blong to nfxt in dibin */
+    mrDoDffbult,    /* skip rigit to undfrlying dffbult bfibvior */
+    mrConsumf,      /* donsumf msg & tfrminbtf routing immfdibtly,
+                     * don't pbss bnywifrf
                      */
 };
 
 /************************************************************************
- * AwtComponent class
+ * AwtComponfnt dlbss
  */
 
-class AwtComponent : public AwtObject {
-public:
-    /* java.awt.Component fields and method IDs */
-    static jfieldID peerID;
-    static jfieldID xID;
-    static jfieldID yID;
-    static jfieldID widthID;
-    static jfieldID heightID;
-    static jfieldID visibleID;
-    static jfieldID backgroundID;
-    static jfieldID foregroundID;
-    static jfieldID enabledID;
-    static jfieldID parentID;
-    static jfieldID cursorID;
-    static jfieldID graphicsConfigID;
-    static jfieldID peerGCID;
-    static jfieldID focusableID;
-    static jfieldID appContextID;
-    static jfieldID hwndID;
+dlbss AwtComponfnt : publid AwtObjfdt {
+publid:
+    /* jbvb.bwt.Componfnt fiflds bnd mftiod IDs */
+    stbtid jfifldID pffrID;
+    stbtid jfifldID xID;
+    stbtid jfifldID yID;
+    stbtid jfifldID widtiID;
+    stbtid jfifldID ifigitID;
+    stbtid jfifldID visiblfID;
+    stbtid jfifldID bbdkgroundID;
+    stbtid jfifldID forfgroundID;
+    stbtid jfifldID fnbblfdID;
+    stbtid jfifldID pbrfntID;
+    stbtid jfifldID dursorID;
+    stbtid jfifldID grbpiidsConfigID;
+    stbtid jfifldID pffrGCID;
+    stbtid jfifldID fodusbblfID;
+    stbtid jfifldID bppContfxtID;
+    stbtid jfifldID iwndID;
 
-    static jmethodID getFontMID;
-    static jmethodID getToolkitMID;
-    static jmethodID isEnabledMID;
-    static jmethodID getLocationOnScreenMID;
-    static jmethodID replaceSurfaceDataMID;
-    static jmethodID replaceSurfaceDataLaterMID;
-    static jmethodID disposeLaterMID;
+    stbtid jmftiodID gftFontMID;
+    stbtid jmftiodID gftToolkitMID;
+    stbtid jmftiodID isEnbblfdMID;
+    stbtid jmftiodID gftLodbtionOnSdrffnMID;
+    stbtid jmftiodID rfplbdfSurfbdfDbtbMID;
+    stbtid jmftiodID rfplbdfSurfbdfDbtbLbtfrMID;
+    stbtid jmftiodID disposfLbtfrMID;
 
-    static const UINT WmAwtIsComponent;
-    static jint * masks; //InputEvent mask array
-    AwtComponent();
-    virtual ~AwtComponent();
-
-    /*
-     * Dynamic class registration & creation
-     */
-    virtual LPCTSTR GetClassName() = 0;
-    /*
-     * Fix for 4964237: Win XP: Changing theme changes java dialogs title icon
-     * WNDCLASS structure has been superseded by the WNDCLASSEX in Win32
-     */
-    virtual void FillClassInfo(WNDCLASSEX *lpwc);
-    virtual void RegisterClass();
-    virtual void UnregisterClass();
-
-    virtual void CreateHWnd(JNIEnv *env, LPCWSTR title,
-                    DWORD windowStyle, DWORD windowExStyle,
-                    int x, int y, int w, int h,
-                    HWND hWndParent, HMENU hMenu,
-                    COLORREF colorForeground, COLORREF colorBackground,
-                    jobject peer);
-    virtual void DestroyHWnd();
-    void InitPeerGraphicsConfig(JNIEnv *env, jobject peer);
-
-    virtual void Dispose();
-
-    void UpdateBackground(JNIEnv *env, jobject target);
-
-    virtual void SubclassHWND();
-    virtual void UnsubclassHWND();
-
-    static LRESULT CALLBACK WndProc(HWND hWnd, UINT message,
-        WPARAM wParam, LPARAM lParam);
+    stbtid donst UINT WmAwtIsComponfnt;
+    stbtid jint * mbsks; //InputEvfnt mbsk brrby
+    AwtComponfnt();
+    virtubl ~AwtComponfnt();
 
     /*
-     * Access to the various objects of this aggregate component
+     * Dynbmid dlbss rfgistrbtion & drfbtion
      */
-    INLINE HWND GetHWnd() { return m_hwnd; }
-    INLINE void SetHWnd(HWND hwnd) { m_hwnd = hwnd; }
+    virtubl LPCTSTR GftClbssNbmf() = 0;
+    /*
+     * Fix for 4964237: Win XP: Cibnging tifmf dibngfs jbvb diblogs titlf idon
+     * WNDCLASS strudturf ibs bffn supfrsfdfd by tif WNDCLASSEX in Win32
+     */
+    virtubl void FillClbssInfo(WNDCLASSEX *lpwd);
+    virtubl void RfgistfrClbss();
+    virtubl void UnrfgistfrClbss();
 
-    static AwtComponent* GetComponent(HWND hWnd);
+    virtubl void CrfbtfHWnd(JNIEnv *fnv, LPCWSTR titlf,
+                    DWORD windowStylf, DWORD windowExStylf,
+                    int x, int y, int w, int i,
+                    HWND iWndPbrfnt, HMENU iMfnu,
+                    COLORREF dolorForfground, COLORREF dolorBbdkground,
+                    jobjfdt pffr);
+    virtubl void DfstroyHWnd();
+    void InitPffrGrbpiidsConfig(JNIEnv *fnv, jobjfdt pffr);
+
+    virtubl void Disposf();
+
+    void UpdbtfBbdkground(JNIEnv *fnv, jobjfdt tbrgft);
+
+    virtubl void SubdlbssHWND();
+    virtubl void UnsubdlbssHWND();
+
+    stbtid LRESULT CALLBACK WndProd(HWND iWnd, UINT mfssbgf,
+        WPARAM wPbrbm, LPARAM lPbrbm);
 
     /*
-     * Access to the properties of the component
+     * Addfss to tif vbrious objfdts of tiis bggrfgbtf domponfnt
      */
-    INLINE COLORREF GetColor() { return m_colorForeground; }
-    virtual void SetColor(COLORREF c);
-    HPEN GetForegroundPen();
+    INLINE HWND GftHWnd() { rfturn m_iwnd; }
+    INLINE void SftHWnd(HWND iwnd) { m_iwnd = iwnd; }
 
-    COLORREF GetBackgroundColor();
-    virtual void SetBackgroundColor(COLORREF c);
-    HBRUSH GetBackgroundBrush();
-    INLINE BOOL IsBackgroundColorSet() { return m_backgroundColorSet; }
+    stbtid AwtComponfnt* GftComponfnt(HWND iWnd);
 
-    virtual void SetFont(AwtFont *pFont);
+    /*
+     * Addfss to tif propfrtifs of tif domponfnt
+     */
+    INLINE COLORREF GftColor() { rfturn m_dolorForfground; }
+    virtubl void SftColor(COLORREF d);
+    HPEN GftForfgroundPfn();
 
-    INLINE void SetText(LPCTSTR text) { ::SetWindowText(GetHWnd(), text); }
-    INLINE int GetText(LPTSTR buffer, int size) {
-        return ::GetWindowText(GetHWnd(), buffer, size);
+    COLORREF GftBbdkgroundColor();
+    virtubl void SftBbdkgroundColor(COLORREF d);
+    HBRUSH GftBbdkgroundBrusi();
+    INLINE BOOL IsBbdkgroundColorSft() { rfturn m_bbdkgroundColorSft; }
+
+    virtubl void SftFont(AwtFont *pFont);
+
+    INLINE void SftTfxt(LPCTSTR tfxt) { ::SftWindowTfxt(GftHWnd(), tfxt); }
+    INLINE int GftTfxt(LPTSTR bufffr, int sizf) {
+        rfturn ::GftWindowTfxt(GftHWnd(), bufffr, sizf);
     }
-    INLINE int GetTextLength() { return ::GetWindowTextLength(GetHWnd()); }
+    INLINE int GftTfxtLfngti() { rfturn ::GftWindowTfxtLfngti(GftHWnd()); }
 
-    virtual void GetInsets(RECT* rect) {
-        VERIFY(::SetRectEmpty(rect));
+    virtubl void GftInsfts(RECT* rfdt) {
+        VERIFY(::SftRfdtEmpty(rfdt));
     }
 
-    BOOL IsVisible() { return m_visible;};
+    BOOL IsVisiblf() { rfturn m_visiblf;};
 
-    HDC GetDCFromComponent();
-
-    /*
-     * Enable/disable component
-     */
-    virtual void Enable(BOOL bEnable);
+    HDC GftDCFromComponfnt();
 
     /*
-     * Validate and call handleExpose on rects of UpdateRgn
+     * Enbblf/disbblf domponfnt
      */
-    void PaintUpdateRgn(const RECT *insets);
-
-    static HWND GetTopLevelParentForWindow(HWND hwndDescendant);
-
-    static jobject FindHeavyweightUnderCursor(BOOL useCache);
+    virtubl void Enbblf(BOOL bEnbblf);
 
     /*
-     * Returns the parent component.  If no parent window, or the
-     * parent window isn't an AwtComponent, returns NULL.
+     * Vblidbtf bnd dbll ibndlfExposf on rfdts of UpdbtfRgn
      */
-    AwtComponent* GetParent();
+    void PbintUpdbtfRgn(donst RECT *insfts);
 
-    /* Get the component's immediate container. Note: may return NULL while
-       the component is being reparented in full-screen mode by Direct3D */
-    class AwtWindow* GetContainer();
+    stbtid HWND GftTopLfvflPbrfntForWindow(HWND iwndDfsdfndbnt);
 
-    /* Is a component a container? Used by above method */
-    virtual BOOL IsContainer() { return FALSE;} // Plain components can't
+    stbtid jobjfdt FindHfbvywfigitUndfrCursor(BOOL usfCbdif);
+
+    /*
+     * Rfturns tif pbrfnt domponfnt.  If no pbrfnt window, or tif
+     * pbrfnt window isn't bn AwtComponfnt, rfturns NULL.
+     */
+    AwtComponfnt* GftPbrfnt();
+
+    /* Gft tif domponfnt's immfdibtf dontbinfr. Notf: mby rfturn NULL wiilf
+       tif domponfnt is bfing rfpbrfntfd in full-sdrffn modf by Dirfdt3D */
+    dlbss AwtWindow* GftContbinfr();
+
+    /* Is b domponfnt b dontbinfr? Usfd by bbovf mftiod */
+    virtubl BOOL IsContbinfr() { rfturn FALSE;} // Plbin domponfnts dbn't
 
     /**
-     * Returns TRUE if this message will trigger native focus change, FALSE otherwise.
+     * Rfturns TRUE if tiis mfssbgf will triggfr nbtivf fodus dibngf, FALSE otifrwisf.
      */
-    virtual BOOL IsFocusingKeyMessage(MSG *pMsg);
-    virtual BOOL IsFocusingMouseMessage(MSG *pMsg);
+    virtubl BOOL IsFodusingKfyMfssbgf(MSG *pMsg);
+    virtubl BOOL IsFodusingMousfMfssbgf(MSG *pMsg);
 
-    BOOL IsFocusable();
+    BOOL IsFodusbblf();
 
     /*
-     * Returns an increasing unsigned value used for child control IDs.
-     * There is no attempt to reclaim command ID's.
+     * Rfturns bn indrfbsing unsignfd vbluf usfd for diild dontrol IDs.
+     * Tifrf is no bttfmpt to rfdlbim dommbnd ID's.
      */
-    INLINE UINT CreateControlID() { return m_nextControlID++; }
+    INLINE UINT CrfbtfControlID() { rfturn m_nfxtControlID++; }
 
-    // returns the current keyboard layout
-    INLINE static HKL GetKeyboardLayout() {
-        return m_hkl;
+    // rfturns tif durrfnt kfybobrd lbyout
+    INLINE stbtid HKL GftKfybobrdLbyout() {
+        rfturn m_ikl;
     }
 
-    // returns the current code page that should be used in
-    // all MultiByteToWideChar and WideCharToMultiByte calls.
-    // This code page should also be use in IsDBCSLeadByteEx.
-    INLINE static UINT GetCodePage()
+    // rfturns tif durrfnt dodf pbgf tibt siould bf usfd in
+    // bll MultiBytfToWidfCibr bnd WidfCibrToMultiBytf dblls.
+    // Tiis dodf pbgf siould blso bf usf in IsDBCSLfbdBytfEx.
+    INLINE stbtid UINT GftCodfPbgf()
     {
-        return m_CodePage;
+        rfturn m_CodfPbgf;
     }
 
-// Added by waleed for BIDI Support
-    // returns the right to left status
-    INLINE static BOOL GetRTLReadingOrder() {
-        return sm_rtlReadingOrder;
+// Addfd by wblffd for BIDI Support
+    // rfturns tif rigit to lfft stbtus
+    INLINE stbtid BOOL GftRTLRfbdingOrdfr() {
+        rfturn sm_rtlRfbdingOrdfr;
     }
-    // returns the right to left status
-    INLINE static BOOL GetRTL() {
-        return sm_rtl;
+    // rfturns tif rigit to lfft stbtus
+    INLINE stbtid BOOL GftRTL() {
+        rfturn sm_rtl;
     }
-    // returns the current sub language
-    INLINE static LANGID GetSubLanguage() {
-        return SUBLANGID(m_idLang);
+    // rfturns tif durrfnt sub lbngubgf
+    INLINE stbtid LANGID GftSubLbngubgf() {
+        rfturn SUBLANGID(m_idLbng);
     }
-// end waleed
+// fnd wblffd
 
-    // returns the current input language
-    INLINE static LANGID GetInputLanguage()
+    // rfturns tif durrfnt input lbngubgf
+    INLINE stbtid LANGID GftInputLbngubgf()
     {
-        return m_idLang;
+        rfturn m_idLbng;
     }
-    // Convert Language ID to CodePage
-    static UINT LangToCodePage(LANGID idLang);
+    // Convfrt Lbngubgf ID to CodfPbgf
+    stbtid UINT LbngToCodfPbgf(LANGID idLbng);
 
     /*
-     * methods on this component
+     * mftiods on tiis domponfnt
      */
-    virtual void Show();
-    virtual void Hide();
-    virtual void Reshape(int x, int y, int w, int h);
+    virtubl void Siow();
+    virtubl void Hidf();
+    virtubl void Rfsibpf(int x, int y, int w, int i);
 
     /*
      * Fix for 4046446.
-     * Component size/position helper, for the values above the short int limit.
+     * Componfnt sizf/position iflpfr, for tif vblufs bbovf tif siort int limit.
      */
-    static BOOL SetWindowPos(HWND wnd, HWND after,
-                             int x, int y, int w, int h, UINT flags);
+    stbtid BOOL SftWindowPos(HWND wnd, HWND bftfr,
+                             int x, int y, int w, int i, UINT flbgs);
 
     /*
-     * Sets the scrollbar values.  'bar' can be either SB_VERT or
-     * SB_HORZ.  'min', 'value', and 'max' can have the value INT_MAX
-     * which means that the value should not be changed.
+     * Sfts tif sdrollbbr vblufs.  'bbr' dbn bf fitifr SB_VERT or
+     * SB_HORZ.  'min', 'vbluf', bnd 'mbx' dbn ibvf tif vbluf INT_MAX
+     * wiidi mfbns tibt tif vbluf siould not bf dibngfd.
      */
-    void SetScrollValues(UINT bar, int min, int value, int max);
+    void SftSdrollVblufs(UINT bbr, int min, int vbluf, int mbx);
 
-    INLINE LRESULT SendMessage(UINT msg, WPARAM wParam=0, LPARAM lParam=0) {
-        DASSERT(GetHWnd());
-        return ::SendMessage(GetHWnd(), msg, wParam, lParam);
+    INLINE LRESULT SfndMfssbgf(UINT msg, WPARAM wPbrbm=0, LPARAM lPbrbm=0) {
+        DASSERT(GftHWnd());
+        rfturn ::SfndMfssbgf(GftHWnd(), msg, wPbrbm, lPbrbm);
     }
 
-    void PostUngrabEvent();
+    void PostUngrbbEvfnt();
 
-    INLINE virtual LONG GetStyle() {
-        DASSERT(GetHWnd());
-        return ::GetWindowLong(GetHWnd(), GWL_STYLE);
+    INLINE virtubl LONG GftStylf() {
+        DASSERT(GftHWnd());
+        rfturn ::GftWindowLong(GftHWnd(), GWL_STYLE);
     }
-    INLINE virtual void SetStyle(LONG style) {
-        DASSERT(GetHWnd());
-        // SetWindowLong() error handling as recommended by Win32 API doc.
-        ::SetLastError(0);
-        DWORD ret = ::SetWindowLong(GetHWnd(), GWL_STYLE, style);
-        DASSERT(ret != 0 || ::GetLastError() == 0);
+    INLINE virtubl void SftStylf(LONG stylf) {
+        DASSERT(GftHWnd());
+        // SftWindowLong() frror ibndling bs rfdommfndfd by Win32 API dod.
+        ::SftLbstError(0);
+        DWORD rft = ::SftWindowLong(GftHWnd(), GWL_STYLE, stylf);
+        DASSERT(rft != 0 || ::GftLbstError() == 0);
     }
-    INLINE virtual LONG GetStyleEx() {
-        DASSERT(GetHWnd());
-        return ::GetWindowLong(GetHWnd(), GWL_EXSTYLE);
+    INLINE virtubl LONG GftStylfEx() {
+        DASSERT(GftHWnd());
+        rfturn ::GftWindowLong(GftHWnd(), GWL_EXSTYLE);
     }
-    INLINE virtual void SetStyleEx(LONG style) {
-        DASSERT(GetHWnd());
-        // SetWindowLong() error handling as recommended by Win32 API doc.
-        ::SetLastError(0);
-        DWORD ret = ::SetWindowLong(GetHWnd(), GWL_EXSTYLE, style);
-        DASSERT(ret != 0 || ::GetLastError() == 0);
+    INLINE virtubl void SftStylfEx(LONG stylf) {
+        DASSERT(GftHWnd());
+        // SftWindowLong() frror ibndling bs rfdommfndfd by Win32 API dod.
+        ::SftLbstError(0);
+        DWORD rft = ::SftWindowLong(GftHWnd(), GWL_EXSTYLE, stylf);
+        DASSERT(rft != 0 || ::GftLbstError() == 0);
     }
 
-    virtual BOOL NeedDblClick() { return FALSE; }
+    virtubl BOOL NffdDblClidk() { rfturn FALSE; }
 
-    /* for multifont component */
-    static void DrawWindowText(HDC hDC, jobject font, jstring text,
+    /* for multifont domponfnt */
+    stbtid void DrbwWindowTfxt(HDC iDC, jobjfdt font, jstring tfxt,
                                int x, int y);
-    static void DrawGrayText(HDC hDC, jobject font, jstring text,
+    stbtid void DrbwGrbyTfxt(HDC iDC, jobjfdt font, jstring tfxt,
                              int x, int y);
 
-    void DrawListItem(JNIEnv *env, DRAWITEMSTRUCT &drawInfo);
+    void DrbwListItfm(JNIEnv *fnv, DRAWITEMSTRUCT &drbwInfo);
 
-    void MeasureListItem(JNIEnv *env, MEASUREITEMSTRUCT &measureInfo);
+    void MfbsurfListItfm(JNIEnv *fnv, MEASUREITEMSTRUCT &mfbsurfInfo);
 
-    jstring GetItemString(JNIEnv *env, jobject target, jint index);
+    jstring GftItfmString(JNIEnv *fnv, jobjfdt tbrgft, jint indfx);
 
-    jint GetFontHeight(JNIEnv *env);
+    jint GftFontHfigit(JNIEnv *fnv);
 
-    virtual jobject PreferredItemSize(JNIEnv *env) {DASSERT(FALSE); return NULL; }
+    virtubl jobjfdt PrfffrrfdItfmSizf(JNIEnv *fnv) {DASSERT(FALSE); rfturn NULL; }
 
-    INLINE BOOL isEnabled() {
-        JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
-        if (env->EnsureLocalCapacity(2) < 0) {
-            return NULL;
+    INLINE BOOL isEnbblfd() {
+        JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
+        if (fnv->EnsurfLodblCbpbdity(2) < 0) {
+            rfturn NULL;
         }
-        jobject self = GetPeer(env);
-        jobject target = env->GetObjectField(self, AwtObject::targetID);
-        BOOL e = env->CallBooleanMethod(target, AwtComponent::isEnabledMID);
-        DASSERT(!safe_ExceptionOccurred(env));
+        jobjfdt sflf = GftPffr(fnv);
+        jobjfdt tbrgft = fnv->GftObjfdtFifld(sflf, AwtObjfdt::tbrgftID);
+        BOOL f = fnv->CbllBoolfbnMftiod(tbrgft, AwtComponfnt::isEnbblfdMID);
+        DASSERT(!sbff_ExdfptionOddurrfd(fnv));
 
-        env->DeleteLocalRef(target);
+        fnv->DflftfLodblRff(tbrgft);
 
-        return e;
+        rfturn f;
     }
 
-    INLINE BOOL isRecursivelyEnabled() {
-        AwtComponent* p = this;
+    INLINE BOOL isRfdursivflyEnbblfd() {
+        AwtComponfnt* p = tiis;
         do {
-            if (!p->isEnabled()) {
-                return FALSE;
+            if (!p->isEnbblfd()) {
+                rfturn FALSE;
             }
-        } while (!p->IsTopLevel() &&
-            (p = p->GetParent()) != NULL);
-        return TRUE;
+        } wiilf (!p->IsTopLfvfl() &&
+            (p = p->GftPbrfnt()) != NULL);
+        rfturn TRUE;
     }
 
-    void SendKeyEventToFocusOwner(jint id, jlong when, jint raw, jint cooked,
-                                  jint modifiers, jint keyLocation, jlong nativeCode,
+    void SfndKfyEvfntToFodusOwnfr(jint id, jlong wifn, jint rbw, jint dookfd,
+                                  jint modififrs, jint kfyLodbtion, jlong nbtivfCodf,
                                   MSG *msg = NULL);
     /*
-     * Allocate and initialize a new java.awt.event.KeyEvent, and
-     * post it to the peer's target object.  No response is expected
-     * from the target.
+     * Allodbtf bnd initiblizf b nfw jbvb.bwt.fvfnt.KfyEvfnt, bnd
+     * post it to tif pffr's tbrgft objfdt.  No rfsponsf is fxpfdtfd
+     * from tif tbrgft.
      */
-    void SendKeyEvent(jint id, jlong when, jint raw, jint cooked,
-                      jint modifiers, jint keyLocation, jlong nativeCode,
+    void SfndKfyEvfnt(jint id, jlong wifn, jint rbw, jint dookfd,
+                      jint modififrs, jint kfyLodbtion, jlong nbtivfCodf,
                       MSG *msg = NULL);
 
     /*
-     * Allocate and initialize a new java.awt.event.MouseEvent, and
-     * post it to the peer's target object.  No response is expected
-     * from the target.
+     * Allodbtf bnd initiblizf b nfw jbvb.bwt.fvfnt.MousfEvfnt, bnd
+     * post it to tif pffr's tbrgft objfdt.  No rfsponsf is fxpfdtfd
+     * from tif tbrgft.
      */
-    void SendMouseEvent(jint id, jlong when, jint x, jint y,
-                        jint modifiers, jint clickCount,
-                        jboolean popupTrigger, jint button = 0,
+    void SfndMousfEvfnt(jint id, jlong wifn, jint x, jint y,
+                        jint modififrs, jint dlidkCount,
+                        jboolfbn popupTriggfr, jint button = 0,
                         MSG *msg = NULL);
 
     /*
-     * Allocate and initialize a new java.awt.event.MouseWheelEvent, and
-     * post it to the peer's target object.  No response is expected
-     * from the target.
+     * Allodbtf bnd initiblizf b nfw jbvb.bwt.fvfnt.MousfWifflEvfnt, bnd
+     * post it to tif pffr's tbrgft objfdt.  No rfsponsf is fxpfdtfd
+     * from tif tbrgft.
      */
-    void SendMouseWheelEvent(jint id, jlong when, jint x, jint y,
-                             jint modifiers, jint clickCount,
-                             jboolean popupTrigger, jint scrollType,
-                             jint scrollAmount, jint wheelRotation,
-                             jdouble preciseWheelRotation, MSG *msg = NULL);
+    void SfndMousfWifflEvfnt(jint id, jlong wifn, jint x, jint y,
+                             jint modififrs, jint dlidkCount,
+                             jboolfbn popupTriggfr, jint sdrollTypf,
+                             jint sdrollAmount, jint wifflRotbtion,
+                             jdoublf prfdisfWifflRotbtion, MSG *msg = NULL);
 
     /*
-     * Allocate and initialize a new java.awt.event.FocusEvent, and
-     * post it to the peer's target object.  No response is expected
-     * from the target.
+     * Allodbtf bnd initiblizf b nfw jbvb.bwt.fvfnt.FodusEvfnt, bnd
+     * post it to tif pffr's tbrgft objfdt.  No rfsponsf is fxpfdtfd
+     * from tif tbrgft.
      */
-    void SendFocusEvent(jint id, HWND opposite);
+    void SfndFodusEvfnt(jint id, HWND oppositf);
 
-    /* Forward a filtered event directly to the subclassed window.
-       synthetic should be TRUE iff the message was generated because
-       of a synthetic Java event, rather than a native event. */
-    virtual MsgRouting HandleEvent(MSG *msg, BOOL synthetic);
+    /* Forwbrd b filtfrfd fvfnt dirfdtly to tif subdlbssfd window.
+       syntiftid siould bf TRUE iff tif mfssbgf wbs gfnfrbtfd bfdbusf
+       of b syntiftid Jbvb fvfnt, rbtifr tibn b nbtivf fvfnt. */
+    virtubl MsgRouting HbndlfEvfnt(MSG *msg, BOOL syntiftid);
 
-    /* Post a WM_AWT_HANDLE_EVENT message which invokes HandleEvent
-       on the toolkit thread. This method may pre-filter the messages. */
-    virtual BOOL PostHandleEventMessage(MSG *msg, BOOL synthetic);
+    /* Post b WM_AWT_HANDLE_EVENT mfssbgf wiidi invokfs HbndlfEvfnt
+       on tif toolkit tirfbd. Tiis mftiod mby prf-filtfr tif mfssbgfs. */
+    virtubl BOOL PostHbndlfEvfntMfssbgf(MSG *msg, BOOL syntiftid);
 
-    /* Event->message synthesizer methods. */
-    void SynthesizeKeyMessage(JNIEnv *env, jobject keyEvent);
-    void SynthesizeMouseMessage(JNIEnv *env, jobject mouseEvent);
+    /* Evfnt->mfssbgf syntifsizfr mftiods. */
+    void SyntifsizfKfyMfssbgf(JNIEnv *fnv, jobjfdt kfyEvfnt);
+    void SyntifsizfMousfMfssbgf(JNIEnv *fnv, jobjfdt mousfEvfnt);
 
-    /* Components which inherit native mouse wheel behavior will
-     * return TRUE.  These are TextArea, Choice, FileDialog, and
-     * List.  All other Components return FALSE.
+    /* Componfnts wiidi inifrit nbtivf mousf wiffl bfibvior will
+     * rfturn TRUE.  Tifsf brf TfxtArfb, Cioidf, FilfDiblog, bnd
+     * List.  All otifr Componfnts rfturn FALSE.
      */
-    virtual BOOL InheritsNativeMouseWheelBehavior();
+    virtubl BOOL InifritsNbtivfMousfWifflBfibvior();
 
-    /* Determines whether the component is obscured by another window */
-    // Called on Toolkit thread
-    static jboolean _IsObscured(void *param);
+    /* Dftfrminfs wiftifr tif domponfnt is obsdurfd by bnotifr window */
+    // Cbllfd on Toolkit tirfbd
+    stbtid jboolfbn _IsObsdurfd(void *pbrbm);
 
-    /* Invalidate the specified rectangle. */
-    virtual void Invalidate(RECT* r);
+    /* Invblidbtf tif spfdififd rfdtbnglf. */
+    virtubl void Invblidbtf(RECT* r);
 
-    /* Begin and end deferred window positioning. */
-    virtual void BeginValidate();
-    virtual void EndValidate();
+    /* Bfgin bnd fnd dfffrrfd window positioning. */
+    virtubl void BfginVblidbtf();
+    virtubl void EndVblidbtf();
 
-    /* Keyboard conversion routines. */
-    static void InitDynamicKeyMapTable();
-    static void BuildDynamicKeyMapTable();
-    static jint GetJavaModifiers();
-    static jint GetButton(int mouseButton);
-    static UINT GetButtonMK(int mouseButton);
-    static UINT WindowsKeyToJavaKey(UINT windowsKey, UINT modifiers, UINT character, BOOL isDeadKey);
-    static void JavaKeyToWindowsKey(UINT javaKey, UINT *windowsKey, UINT *modifiers, UINT originalWindowsKey);
-    static void UpdateDynPrimaryKeymap(UINT wkey, UINT jkeyLegacy, jint keyLocation, UINT modifiers);
+    /* Kfybobrd donvfrsion routinfs. */
+    stbtid void InitDynbmidKfyMbpTbblf();
+    stbtid void BuildDynbmidKfyMbpTbblf();
+    stbtid jint GftJbvbModififrs();
+    stbtid jint GftButton(int mousfButton);
+    stbtid UINT GftButtonMK(int mousfButton);
+    stbtid UINT WindowsKfyToJbvbKfy(UINT windowsKfy, UINT modififrs, UINT dibrbdtfr, BOOL isDfbdKfy);
+    stbtid void JbvbKfyToWindowsKfy(UINT jbvbKfy, UINT *windowsKfy, UINT *modififrs, UINT originblWindowsKfy);
+    stbtid void UpdbtfDynPrimbryKfymbp(UINT wkfy, UINT jkfyLfgbdy, jint kfyLodbtion, UINT modififrs);
 
-    INLINE static void AwtComponent::JavaKeyToWindowsKey(UINT javaKey,
-                                       UINT *windowsKey, UINT *modifiers)
+    INLINE stbtid void AwtComponfnt::JbvbKfyToWindowsKfy(UINT jbvbKfy,
+                                       UINT *windowsKfy, UINT *modififrs)
     {
-        JavaKeyToWindowsKey(javaKey, windowsKey, modifiers, IGNORE_KEY);
+        JbvbKfyToWindowsKfy(jbvbKfy, windowsKfy, modififrs, IGNORE_KEY);
     }
 
-    enum TransOps {NONE, LOAD, SAVE};
+    fnum TrbnsOps {NONE, LOAD, SAVE};
 
-    UINT WindowsKeyToJavaChar(UINT wkey, UINT modifiers, TransOps ops, BOOL &isDeadKey);
+    UINT WindowsKfyToJbvbCibr(UINT wkfy, UINT modififrs, TrbnsOps ops, BOOL &isDfbdKfy);
 
-    /* routines used for input method support */
-    void SetInputMethod(jobject im, BOOL useNativeCompWindow);
-    void SendInputMethodEvent(jint id, jstring text, int cClause,
-                              int *rgClauseBoundary, jstring *rgClauseReading,
-                              int cAttrBlock, int *rgAttrBoundary,
-                              BYTE *rgAttrValue, int commitedTextLength,
-                              int caretPos, int visiblePos);
-    void InquireCandidatePosition();
-    INLINE LPARAM GetCandidateType() { return m_bitsCandType; }
-    HWND ImmGetHWnd();
-    HIMC ImmAssociateContext(HIMC himc);
-    HWND GetProxyFocusOwner();
+    /* routinfs usfd for input mftiod support */
+    void SftInputMftiod(jobjfdt im, BOOL usfNbtivfCompWindow);
+    void SfndInputMftiodEvfnt(jint id, jstring tfxt, int dClbusf,
+                              int *rgClbusfBoundbry, jstring *rgClbusfRfbding,
+                              int dAttrBlodk, int *rgAttrBoundbry,
+                              BYTE *rgAttrVbluf, int dommitfdTfxtLfngti,
+                              int dbrftPos, int visiblfPos);
+    void InquirfCbndidbtfPosition();
+    INLINE LPARAM GftCbndidbtfTypf() { rfturn m_bitsCbndTypf; }
+    HWND ImmGftHWnd();
+    HIMC ImmAssodibtfContfxt(HIMC iimd);
+    HWND GftProxyFodusOwnfr();
 
-    INLINE HWND GetProxyToplevelContainer() {
-        HWND proxyHWnd = GetProxyFocusOwner();
-        return ::GetAncestor(proxyHWnd, GA_ROOT); // a browser in case of EmbeddedFrame
+    INLINE HWND GftProxyToplfvflContbinfr() {
+        HWND proxyHWnd = GftProxyFodusOwnfr();
+        rfturn ::GftAndfstor(proxyHWnd, GA_ROOT); // b browsfr in dbsf of EmbfddfdFrbmf
     }
 
-    void CallProxyDefWindowProc(UINT message,
-                                WPARAM wParam,
-                                LPARAM lParam,
-                                LRESULT &retVal,
+    void CbllProxyDffWindowProd(UINT mfssbgf,
+                                WPARAM wPbrbm,
+                                LPARAM lPbrbm,
+                                LRESULT &rftVbl,
                                 MsgRouting &mr);
 
     /*
-     * Windows message handler functions
+     * Windows mfssbgf ibndlfr fundtions
      */
-    virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
-    virtual LRESULT DefWindowProc(UINT msg, WPARAM wParam, LPARAM lParam);
+    virtubl LRESULT WindowProd(UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm);
+    virtubl LRESULT DffWindowProd(UINT msg, WPARAM wPbrbm, LPARAM lPbrbm);
 
-    /* return true if msg is processed */
-    virtual MsgRouting PreProcessMsg(MSG& msg);
+    /* rfturn truf if msg is prodfssfd */
+    virtubl MsgRouting PrfProdfssMsg(MSG& msg);
 
-    virtual MsgRouting WmCreate() {return mrDoDefault;}
-    virtual MsgRouting WmClose() {return mrDoDefault;}
-    virtual MsgRouting WmDestroy();
-    virtual MsgRouting WmNcDestroy();
+    virtubl MsgRouting WmCrfbtf() {rfturn mrDoDffbult;}
+    virtubl MsgRouting WmClosf() {rfturn mrDoDffbult;}
+    virtubl MsgRouting WmDfstroy();
+    virtubl MsgRouting WmNdDfstroy();
 
-    virtual MsgRouting WmActivate(UINT nState, BOOL fMinimized, HWND opposite)
+    virtubl MsgRouting WmAdtivbtf(UINT nStbtf, BOOL fMinimizfd, HWND oppositf)
     {
-        return mrDoDefault;
+        rfturn mrDoDffbult;
     }
 
-    virtual MsgRouting WmEraseBkgnd(HDC hDC, BOOL& didErase)
+    virtubl MsgRouting WmErbsfBkgnd(HDC iDC, BOOL& didErbsf)
     {
-        return mrDoDefault;
+        rfturn mrDoDffbult;
     }
 
-    virtual MsgRouting WmPaint(HDC hDC);
-    virtual MsgRouting WmGetMinMaxInfo(LPMINMAXINFO lpmmi);
-    virtual MsgRouting WmMove(int x, int y);
-    virtual MsgRouting WmSize(UINT type, int w, int h);
-    virtual MsgRouting WmSizing();
-    virtual MsgRouting WmShowWindow(BOOL show, UINT status);
-    virtual MsgRouting WmSetFocus(HWND hWndLost);
-    virtual MsgRouting WmKillFocus(HWND hWndGot);
-    virtual MsgRouting WmCtlColor(HDC hDC, HWND hCtrl,
-                                  UINT ctlColor, HBRUSH& retBrush);
-    virtual MsgRouting WmHScroll(UINT scrollCode, UINT pos, HWND hScrollBar);
-    virtual MsgRouting WmVScroll(UINT scrollCode, UINT pos, HWND hScrollBar);
+    virtubl MsgRouting WmPbint(HDC iDC);
+    virtubl MsgRouting WmGftMinMbxInfo(LPMINMAXINFO lpmmi);
+    virtubl MsgRouting WmMovf(int x, int y);
+    virtubl MsgRouting WmSizf(UINT typf, int w, int i);
+    virtubl MsgRouting WmSizing();
+    virtubl MsgRouting WmSiowWindow(BOOL siow, UINT stbtus);
+    virtubl MsgRouting WmSftFodus(HWND iWndLost);
+    virtubl MsgRouting WmKillFodus(HWND iWndGot);
+    virtubl MsgRouting WmCtlColor(HDC iDC, HWND iCtrl,
+                                  UINT dtlColor, HBRUSH& rftBrusi);
+    virtubl MsgRouting WmHSdroll(UINT sdrollCodf, UINT pos, HWND iSdrollBbr);
+    virtubl MsgRouting WmVSdroll(UINT sdrollCodf, UINT pos, HWND iSdrollBbr);
 
-    virtual MsgRouting WmMouseEnter(UINT flags, int x, int y);
-    virtual MsgRouting WmMouseDown(UINT flags, int x, int y, int button);
-    virtual MsgRouting WmMouseUp(UINT flags, int x, int y, int button);
-    virtual MsgRouting WmMouseMove(UINT flags, int x, int y);
-    virtual MsgRouting WmMouseExit(UINT flags, int x, int y);
-    virtual MsgRouting WmMouseWheel(UINT flags, int x, int y,
-                                    int wheelRotation);
-    virtual MsgRouting WmNcMouseDown(WPARAM hitTest, int x, int y, int button);
-    virtual MsgRouting WmNcMouseUp(WPARAM hitTest, int x, int y, int button);
-    virtual MsgRouting WmWindowPosChanging(LPARAM windowPos);
-    virtual MsgRouting WmWindowPosChanged(LPARAM windowPos);
+    virtubl MsgRouting WmMousfEntfr(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmMousfDown(UINT flbgs, int x, int y, int button);
+    virtubl MsgRouting WmMousfUp(UINT flbgs, int x, int y, int button);
+    virtubl MsgRouting WmMousfMovf(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmMousfExit(UINT flbgs, int x, int y);
+    virtubl MsgRouting WmMousfWiffl(UINT flbgs, int x, int y,
+                                    int wifflRotbtion);
+    virtubl MsgRouting WmNdMousfDown(WPARAM iitTfst, int x, int y, int button);
+    virtubl MsgRouting WmNdMousfUp(WPARAM iitTfst, int x, int y, int button);
+    virtubl MsgRouting WmWindowPosCibnging(LPARAM windowPos);
+    virtubl MsgRouting WmWindowPosCibngfd(LPARAM windowPos);
 
-    // NB: 64-bit: vkey is wParam of the message, but other API's take
-    // vkey parameters of type UINT, so we do the cast before dispatching.
-    virtual MsgRouting WmKeyDown(UINT vkey, UINT repCnt, UINT flags, BOOL system);
-    virtual MsgRouting WmKeyUp(UINT vkey, UINT repCnt, UINT flags, BOOL system);
+    // NB: 64-bit: vkfy is wPbrbm of tif mfssbgf, but otifr API's tbkf
+    // vkfy pbrbmftfrs of typf UINT, so wf do tif dbst bfforf dispbtdiing.
+    virtubl MsgRouting WmKfyDown(UINT vkfy, UINT rfpCnt, UINT flbgs, BOOL systfm);
+    virtubl MsgRouting WmKfyUp(UINT vkfy, UINT rfpCnt, UINT flbgs, BOOL systfm);
 
-    virtual MsgRouting WmChar(UINT character, UINT repCnt, UINT flags, BOOL system);
-    virtual MsgRouting WmIMEChar(UINT character, UINT repCnt, UINT flags, BOOL system);
-    virtual MsgRouting WmInputLangChange(UINT charset, HKL hKeyBoardLayout);
-    virtual MsgRouting WmForwardChar(WCHAR character, LPARAM lParam,
-                                     BOOL synthethic);
-    virtual MsgRouting WmPaste();
+    virtubl MsgRouting WmCibr(UINT dibrbdtfr, UINT rfpCnt, UINT flbgs, BOOL systfm);
+    virtubl MsgRouting WmIMECibr(UINT dibrbdtfr, UINT rfpCnt, UINT flbgs, BOOL systfm);
+    virtubl MsgRouting WmInputLbngCibngf(UINT dibrsft, HKL iKfyBobrdLbyout);
+    virtubl MsgRouting WmForwbrdCibr(WCHAR dibrbdtfr, LPARAM lPbrbm,
+                                     BOOL syntiftiid);
+    virtubl MsgRouting WmPbstf();
 
-    virtual void SetCompositionWindow(RECT &r);
-    virtual void OpenCandidateWindow(int x, int y);
-    virtual void SetCandidateWindow(int iCandType, int x, int y);
-    virtual MsgRouting WmImeSetContext(BOOL fSet, LPARAM *lplParam);
-    virtual MsgRouting WmImeNotify(WPARAM subMsg, LPARAM bitsCandType);
-    virtual MsgRouting WmImeStartComposition();
-    virtual MsgRouting WmImeEndComposition();
-    virtual MsgRouting WmImeComposition(WORD wChar, LPARAM flags);
+    virtubl void SftCompositionWindow(RECT &r);
+    virtubl void OpfnCbndidbtfWindow(int x, int y);
+    virtubl void SftCbndidbtfWindow(int iCbndTypf, int x, int y);
+    virtubl MsgRouting WmImfSftContfxt(BOOL fSft, LPARAM *lplPbrbm);
+    virtubl MsgRouting WmImfNotify(WPARAM subMsg, LPARAM bitsCbndTypf);
+    virtubl MsgRouting WmImfStbrtComposition();
+    virtubl MsgRouting WmImfEndComposition();
+    virtubl MsgRouting WmImfComposition(WORD wCibr, LPARAM flbgs);
 
-    virtual MsgRouting WmTimer(UINT_PTR timerID) {return mrDoDefault;}
+    virtubl MsgRouting WmTimfr(UINT_PTR timfrID) {rfturn mrDoDffbult;}
 
-    virtual MsgRouting WmCommand(UINT id, HWND hWndCtrl, UINT notifyCode);
+    virtubl MsgRouting WmCommbnd(UINT id, HWND iWndCtrl, UINT notifyCodf);
 
-    /* reflected WmCommand from parent */
-    virtual MsgRouting WmNotify(UINT notifyCode);
+    /* rfflfdtfd WmCommbnd from pbrfnt */
+    virtubl MsgRouting WmNotify(UINT notifyCodf);
 
-    virtual MsgRouting WmCompareItem(UINT /*ctrlId*/,
-                                     COMPAREITEMSTRUCT &compareInfo,
-                                     LRESULT &result);
-    virtual MsgRouting WmDeleteItem(UINT /*ctrlId*/,
-                                    DELETEITEMSTRUCT &deleteInfo);
-    virtual MsgRouting WmDrawItem(UINT ctrlId,
-                                  DRAWITEMSTRUCT &drawInfo);
-    virtual MsgRouting WmMeasureItem(UINT ctrlId,
-                                     MEASUREITEMSTRUCT &measureInfo);
-    /* Fix 4181790 & 4223341 : These functions get overridden in owner-drawn
-     * components instead of the Wm... versions.
+    virtubl MsgRouting WmCompbrfItfm(UINT /*dtrlId*/,
+                                     COMPAREITEMSTRUCT &dompbrfInfo,
+                                     LRESULT &rfsult);
+    virtubl MsgRouting WmDflftfItfm(UINT /*dtrlId*/,
+                                    DELETEITEMSTRUCT &dflftfInfo);
+    virtubl MsgRouting WmDrbwItfm(UINT dtrlId,
+                                  DRAWITEMSTRUCT &drbwInfo);
+    virtubl MsgRouting WmMfbsurfItfm(UINT dtrlId,
+                                     MEASUREITEMSTRUCT &mfbsurfInfo);
+    /* Fix 4181790 & 4223341 : Tifsf fundtions gft ovfrriddfn in ownfr-drbwn
+     * domponfnts instfbd of tif Wm... vfrsions.
      */
-    virtual MsgRouting OwnerDrawItem(UINT ctrlId,
-                                     DRAWITEMSTRUCT &drawInfo);
-    virtual MsgRouting OwnerMeasureItem(UINT ctrlId,
-                                        MEASUREITEMSTRUCT &measureInfo);
+    virtubl MsgRouting OwnfrDrbwItfm(UINT dtrlId,
+                                     DRAWITEMSTRUCT &drbwInfo);
+    virtubl MsgRouting OwnfrMfbsurfItfm(UINT dtrlId,
+                                        MEASUREITEMSTRUCT &mfbsurfInfo);
 
-    virtual MsgRouting WmPrint(HDC hDC, LPARAM flags);
-    virtual MsgRouting WmPrintClient(HDC hDC, LPARAM flags);
+    virtubl MsgRouting WmPrint(HDC iDC, LPARAM flbgs);
+    virtubl MsgRouting WmPrintClifnt(HDC iDC, LPARAM flbgs);
 
-    virtual MsgRouting WmNcCalcSize(BOOL fCalcValidRects,
-                                    LPNCCALCSIZE_PARAMS lpncsp,
-                                    LRESULT &retVal);
-    virtual MsgRouting WmNcPaint(HRGN hrgn);
-    virtual MsgRouting WmNcHitTest(UINT x, UINT y, LRESULT &retVal);
-    virtual MsgRouting WmSysCommand(UINT uCmdType, int xPos, int yPos);
-    virtual MsgRouting WmExitSizeMove();
-    virtual MsgRouting WmEnterMenuLoop(BOOL isTrackPopupMenu);
-    virtual MsgRouting WmExitMenuLoop(BOOL isTrackPopupMenu);
+    virtubl MsgRouting WmNdCbldSizf(BOOL fCbldVblidRfdts,
+                                    LPNCCALCSIZE_PARAMS lpndsp,
+                                    LRESULT &rftVbl);
+    virtubl MsgRouting WmNdPbint(HRGN irgn);
+    virtubl MsgRouting WmNdHitTfst(UINT x, UINT y, LRESULT &rftVbl);
+    virtubl MsgRouting WmSysCommbnd(UINT uCmdTypf, int xPos, int yPos);
+    virtubl MsgRouting WmExitSizfMovf();
+    virtubl MsgRouting WmEntfrMfnuLoop(BOOL isTrbdkPopupMfnu);
+    virtubl MsgRouting WmExitMfnuLoop(BOOL isTrbdkPopupMfnu);
 
-    virtual MsgRouting WmQueryNewPalette(LRESULT &retVal);
-    virtual MsgRouting WmPaletteChanged(HWND hwndPalChg);
-    virtual MsgRouting WmPaletteIsChanging(HWND hwndPalChg);
-    virtual MsgRouting WmStyleChanged(int wStyleType, LPSTYLESTRUCT lpss);
-    virtual MsgRouting WmSettingChange(UINT wFlag, LPCTSTR pszSection);
+    virtubl MsgRouting WmQufryNfwPblfttf(LRESULT &rftVbl);
+    virtubl MsgRouting WmPblfttfCibngfd(HWND iwndPblCig);
+    virtubl MsgRouting WmPblfttfIsCibnging(HWND iwndPblCig);
+    virtubl MsgRouting WmStylfCibngfd(int wStylfTypf, LPSTYLESTRUCT lpss);
+    virtubl MsgRouting WmSfttingCibngf(UINT wFlbg, LPCTSTR pszSfdtion);
 
-    virtual MsgRouting WmContextMenu(HWND hCtrl, UINT xPos, UINT yPos) {
-        return mrDoDefault;
+    virtubl MsgRouting WmContfxtMfnu(HWND iCtrl, UINT xPos, UINT yPos) {
+        rfturn mrDoDffbult;
     }
 
-    void UpdateColorModel();
+    void UpdbtfColorModfl();
 
-    jintArray CreatePrintedPixels(SIZE &loc, SIZE &size, int alpha);
+    jintArrby CrfbtfPrintfdPixfls(SIZE &lod, SIZE &sizf, int blpib);
 
     /*
-     * HWND, AwtComponent and Java Peer interaction
+     * HWND, AwtComponfnt bnd Jbvb Pffr intfrbdtion
      *
-     * Link the C++, Java peer, and HWNDs together.
+     * Link tif C++, Jbvb pffr, bnd HWNDs togftifr.
      */
-    void LinkObjects(JNIEnv *env, jobject peer);
+    void LinkObjfdts(JNIEnv *fnv, jobjfdt pffr);
 
-    void UnlinkObjects();
+    void UnlinkObjfdts();
 
-    static BOOL QueryNewPaletteCalled() { return m_QueryNewPaletteCalled; }
+    stbtid BOOL QufryNfwPblfttfCbllfd() { rfturn m_QufryNfwPblfttfCbllfd; }
 
-#ifdef DEBUG
-    virtual void VerifyState(); /* verify component and peer are in sync. */
-#else
-    void VerifyState() {}       /* no-op */
-#endif
+#ifdff DEBUG
+    virtubl void VfrifyStbtf(); /* vfrify domponfnt bnd pffr brf in synd. */
+#flsf
+    void VfrifyStbtf() {}       /* no-op */
+#fndif
 
-    virtual AwtDropTarget* CreateDropTarget(JNIEnv* env);
-    virtual void DestroyDropTarget();
+    virtubl AwtDropTbrgft* CrfbtfDropTbrgft(JNIEnv* fnv);
+    virtubl void DfstroyDropTbrgft();
 
-    INLINE virtual HWND GetDBCSEditHandle() { return NULL; }
-    // State for native drawing API
-    INLINE jint GetDrawState() { return GetDrawState(m_hwnd); }
-    INLINE void SetDrawState(jint state) { SetDrawState(m_hwnd, state); }    // State for native drawing API
+    INLINE virtubl HWND GftDBCSEditHbndlf() { rfturn NULL; }
+    // Stbtf for nbtivf drbwing API
+    INLINE jint GftDrbwStbtf() { rfturn GftDrbwStbtf(m_iwnd); }
+    INLINE void SftDrbwStbtf(jint stbtf) { SftDrbwStbtf(m_iwnd, stbtf); }    // Stbtf for nbtivf drbwing API
 
-    INLINE virtual BOOL IsTopLevel() { return FALSE; }
-    INLINE virtual BOOL IsEmbeddedFrame() { return FALSE; }
-    INLINE virtual BOOL IsScrollbar() { return FALSE; }
+    INLINE virtubl BOOL IsTopLfvfl() { rfturn FALSE; }
+    INLINE virtubl BOOL IsEmbfddfdFrbmf() { rfturn FALSE; }
+    INLINE virtubl BOOL IsSdrollbbr() { rfturn FALSE; }
 
-    static INLINE BOOL IsTopLevelHWnd(HWND hwnd) {
-        AwtComponent *comp = AwtComponent::GetComponent(hwnd);
-        return (comp != NULL && comp->IsTopLevel());
+    stbtid INLINE BOOL IsTopLfvflHWnd(HWND iwnd) {
+        AwtComponfnt *domp = AwtComponfnt::GftComponfnt(iwnd);
+        rfturn (domp != NULL && domp->IsTopLfvfl());
     }
-    static INLINE BOOL IsEmbeddedFrameHWnd(HWND hwnd) {
-        AwtComponent *comp = AwtComponent::GetComponent(hwnd);
-        return (comp != NULL && comp->IsEmbeddedFrame());
-    }
-
-    static jint GetDrawState(HWND hwnd);
-    static void SetDrawState(HWND hwnd, jint state);
-
-    static HWND GetHWnd(JNIEnv* env, jobject target);
-
-    static MSG* CreateMessage(UINT message, WPARAM wParam, LPARAM lParam, int x, int y);
-    static void InitMessage(MSG* msg, UINT message, WPARAM wParam, LPARAM lParam, int x, int y);
-
-    // Some methods to be called on Toolkit thread via Toolkit.InvokeFunction()
-    static void _Show(void *param);
-    static void _Hide(void *param);
-    static void _Enable(void *param);
-    static void _Disable(void *param);
-    static jobject _GetLocationOnScreen(void *param);
-    static void _Reshape(void *param);
-    static void _ReshapeNoCheck(void *param);
-    static void _NativeHandleEvent(void *param);
-    static void _SetForeground(void *param);
-    static void _SetBackground(void *param);
-    static void _SetFont(void *param);
-    static void _Start(void *param);
-    static void _BeginValidate(void *param);
-    static void _EndValidate(void *param);
-    static void _UpdateWindow(void *param);
-    static jlong _AddNativeDropTarget(void *param);
-    static void _RemoveNativeDropTarget(void *param);
-    static jintArray _CreatePrintedPixels(void *param);
-    static jboolean _NativeHandlesWheelScrolling(void *param);
-    static void _SetRectangularShape(void *param);
-    static void _SetZOrder(void *param);
-
-    static HWND sm_focusOwner;
-
-private:
-    static HWND sm_focusedWindow;
-
-public:
-    static inline HWND GetFocusedWindow() { return sm_focusedWindow; }
-    static void SetFocusedWindow(HWND window);
-
-    static void _SetFocus(void *param);
-
-    static void *SetNativeFocusOwner(void *self);
-    static void *GetNativeFocusedWindow();
-    static void *GetNativeFocusOwner();
-
-    static BOOL sm_inSynthesizeFocus;
-
-    // Execute on Toolkit only.
-    INLINE static LRESULT SynthesizeWmSetFocus(HWND targetHWnd, HWND oppositeHWnd) {
-        sm_inSynthesizeFocus = TRUE;
-        LRESULT res = ::SendMessage(targetHWnd, WM_SETFOCUS, (WPARAM)oppositeHWnd, 0);
-        sm_inSynthesizeFocus = FALSE;
-        return res;
-    }
-    // Execute on Toolkit only.
-    INLINE static LRESULT SynthesizeWmKillFocus(HWND targetHWnd, HWND oppositeHWnd) {
-        sm_inSynthesizeFocus = TRUE;
-        LRESULT res = ::SendMessage(targetHWnd, WM_KILLFOCUS, (WPARAM)oppositeHWnd, 0);
-        sm_inSynthesizeFocus = FALSE;
-        return res;
+    stbtid INLINE BOOL IsEmbfddfdFrbmfHWnd(HWND iwnd) {
+        AwtComponfnt *domp = AwtComponfnt::GftComponfnt(iwnd);
+        rfturn (domp != NULL && domp->IsEmbfddfdFrbmf());
     }
 
-    static BOOL sm_bMenuLoop;
-    static INLINE BOOL isMenuLoopActive() {
-        return sm_bMenuLoop;
+    stbtid jint GftDrbwStbtf(HWND iwnd);
+    stbtid void SftDrbwStbtf(HWND iwnd, jint stbtf);
+
+    stbtid HWND GftHWnd(JNIEnv* fnv, jobjfdt tbrgft);
+
+    stbtid MSG* CrfbtfMfssbgf(UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm, int x, int y);
+    stbtid void InitMfssbgf(MSG* msg, UINT mfssbgf, WPARAM wPbrbm, LPARAM lPbrbm, int x, int y);
+
+    // Somf mftiods to bf dbllfd on Toolkit tirfbd vib Toolkit.InvokfFundtion()
+    stbtid void _Siow(void *pbrbm);
+    stbtid void _Hidf(void *pbrbm);
+    stbtid void _Enbblf(void *pbrbm);
+    stbtid void _Disbblf(void *pbrbm);
+    stbtid jobjfdt _GftLodbtionOnSdrffn(void *pbrbm);
+    stbtid void _Rfsibpf(void *pbrbm);
+    stbtid void _RfsibpfNoCifdk(void *pbrbm);
+    stbtid void _NbtivfHbndlfEvfnt(void *pbrbm);
+    stbtid void _SftForfground(void *pbrbm);
+    stbtid void _SftBbdkground(void *pbrbm);
+    stbtid void _SftFont(void *pbrbm);
+    stbtid void _Stbrt(void *pbrbm);
+    stbtid void _BfginVblidbtf(void *pbrbm);
+    stbtid void _EndVblidbtf(void *pbrbm);
+    stbtid void _UpdbtfWindow(void *pbrbm);
+    stbtid jlong _AddNbtivfDropTbrgft(void *pbrbm);
+    stbtid void _RfmovfNbtivfDropTbrgft(void *pbrbm);
+    stbtid jintArrby _CrfbtfPrintfdPixfls(void *pbrbm);
+    stbtid jboolfbn _NbtivfHbndlfsWifflSdrolling(void *pbrbm);
+    stbtid void _SftRfdtbngulbrSibpf(void *pbrbm);
+    stbtid void _SftZOrdfr(void *pbrbm);
+
+    stbtid HWND sm_fodusOwnfr;
+
+privbtf:
+    stbtid HWND sm_fodusfdWindow;
+
+publid:
+    stbtid inlinf HWND GftFodusfdWindow() { rfturn sm_fodusfdWindow; }
+    stbtid void SftFodusfdWindow(HWND window);
+
+    stbtid void _SftFodus(void *pbrbm);
+
+    stbtid void *SftNbtivfFodusOwnfr(void *sflf);
+    stbtid void *GftNbtivfFodusfdWindow();
+    stbtid void *GftNbtivfFodusOwnfr();
+
+    stbtid BOOL sm_inSyntifsizfFodus;
+
+    // Exfdutf on Toolkit only.
+    INLINE stbtid LRESULT SyntifsizfWmSftFodus(HWND tbrgftHWnd, HWND oppositfHWnd) {
+        sm_inSyntifsizfFodus = TRUE;
+        LRESULT rfs = ::SfndMfssbgf(tbrgftHWnd, WM_SETFOCUS, (WPARAM)oppositfHWnd, 0);
+        sm_inSyntifsizfFodus = FALSE;
+        rfturn rfs;
+    }
+    // Exfdutf on Toolkit only.
+    INLINE stbtid LRESULT SyntifsizfWmKillFodus(HWND tbrgftHWnd, HWND oppositfHWnd) {
+        sm_inSyntifsizfFodus = TRUE;
+        LRESULT rfs = ::SfndMfssbgf(tbrgftHWnd, WM_KILLFOCUS, (WPARAM)oppositfHWnd, 0);
+        sm_inSyntifsizfFodus = FALSE;
+        rfturn rfs;
     }
 
-    // when this component is being destroyed, this method is called
-    // to find out if there are any messages being processed, and if
-    // there are some then disposal of this component is postponed
-    virtual BOOL CanBeDeleted() {
-        return m_MessagesProcessing == 0;
+    stbtid BOOL sm_bMfnuLoop;
+    stbtid INLINE BOOL isMfnuLoopAdtivf() {
+        rfturn sm_bMfnuLoop;
     }
 
-    BOOL IsDestroyPaused() const {
-        return m_bPauseDestroy;
+    // wifn tiis domponfnt is bfing dfstroyfd, tiis mftiod is dbllfd
+    // to find out if tifrf brf bny mfssbgfs bfing prodfssfd, bnd if
+    // tifrf brf somf tifn disposbl of tiis domponfnt is postponfd
+    virtubl BOOL CbnBfDflftfd() {
+        rfturn m_MfssbgfsProdfssing == 0;
     }
 
-protected:
-    static AwtComponent* GetComponentImpl(HWND hWnd);
+    BOOL IsDfstroyPbusfd() donst {
+        rfturn m_bPbusfDfstroy;
+    }
 
-    static int GetClickCount();
+protfdtfd:
+    stbtid AwtComponfnt* GftComponfntImpl(HWND iWnd);
 
-    HWND     m_hwnd;
-    UINT     m_myControlID;     /* its own ID from the view point of parent */
-    BOOL     m_backgroundColorSet;
-    BOOL     m_visible;         /* copy of Component.visible */
+    stbtid int GftClidkCount();
 
-    static BOOL sm_suppressFocusAndActivation;
-    static BOOL sm_restoreFocusAndActivation;
+    HWND     m_iwnd;
+    UINT     m_myControlID;     /* its own ID from tif vifw point of pbrfnt */
+    BOOL     m_bbdkgroundColorSft;
+    BOOL     m_visiblf;         /* dopy of Componfnt.visiblf */
+
+    stbtid BOOL sm_supprfssFodusAndAdtivbtion;
+    stbtid BOOL sm_rfstorfFodusAndAdtivbtion;
 
     /*
-     * The function sets the focus-restore flag ON/OFF.
-     * When the flag is ON, focus is restored immidiately after the proxy loses it.
-     * All focus messages are suppressed. It's also assumed that sm_focusedWindow and
-     * sm_focusOwner don't change after the flag is set ON and before it's set OFF.
+     * Tif fundtion sfts tif fodus-rfstorf flbg ON/OFF.
+     * Wifn tif flbg is ON, fodus is rfstorfd immidibtfly bftfr tif proxy losfs it.
+     * All fodus mfssbgfs brf supprfssfd. It's blso bssumfd tibt sm_fodusfdWindow bnd
+     * sm_fodusOwnfr don't dibngf bftfr tif flbg is sft ON bnd bfforf it's sft OFF.
      */
-    static INLINE void SetRestoreFocus(BOOL doSet) {
-        sm_suppressFocusAndActivation = doSet;
-        sm_restoreFocusAndActivation = doSet;
+    stbtid INLINE void SftRfstorfFodus(BOOL doSft) {
+        sm_supprfssFodusAndAdtivbtion = doSft;
+        sm_rfstorfFodusAndAdtivbtion = doSft;
     }
 
-    virtual void SetDragCapture(UINT flags);
-    virtual void ReleaseDragCapture(UINT flags);
+    virtubl void SftDrbgCbpturf(UINT flbgs);
+    virtubl void RflfbsfDrbgCbpturf(UINT flbgs);
 
-    virtual void FillBackground(HDC hMemoryDC, SIZE &size);
-    virtual void FillAlpha(void *bitmapBits, SIZE &size, BYTE alpha);
+    virtubl void FillBbdkground(HDC iMfmoryDC, SIZE &sizf);
+    virtubl void FillAlpib(void *bitmbpBits, SIZE &sizf, BYTE blpib);
 
-private:
-    /* A bitmask keeps the button's numbers as MK_LBUTTON, MK_MBUTTON, MK_RBUTTON
-     * which are allowed to
-     * generate the CLICK event after the RELEASE has happened.
-     * There are conditions that must be true for that sending CLICK event:
-     * 1) button was initially PRESSED
-     * 2) no movement or drag has happened until RELEASE
+privbtf:
+    /* A bitmbsk kffps tif button's numbfrs bs MK_LBUTTON, MK_MBUTTON, MK_RBUTTON
+     * wiidi brf bllowfd to
+     * gfnfrbtf tif CLICK fvfnt bftfr tif RELEASE ibs ibppfnfd.
+     * Tifrf brf donditions tibt must bf truf for tibt sfnding CLICK fvfnt:
+     * 1) button wbs initiblly PRESSED
+     * 2) no movfmfnt or drbg ibs ibppfnfd until RELEASE
     */
-    UINT m_mouseButtonClickAllowed;
+    UINT m_mousfButtonClidkAllowfd;
 
-    BOOL m_bSubclassed;
-    BOOL m_bPauseDestroy;
+    BOOL m_bSubdlbssfd;
+    BOOL m_bPbusfDfstroy;
 
-    COLORREF m_colorForeground;
-    COLORREF m_colorBackground;
+    COLORREF m_dolorForfground;
+    COLORREF m_dolorBbdkground;
 
-    AwtPen*  m_penForeground;
-    AwtBrush* m_brushBackground;
+    AwtPfn*  m_pfnForfground;
+    AwtBrusi* m_brusiBbdkground;
 
-    WNDPROC  m_DefWindowProc;
-    // counter for messages being processed by this component
-    UINT     m_MessagesProcessing;
+    WNDPROC  m_DffWindowProd;
+    // dountfr for mfssbgfs bfing prodfssfd by tiis domponfnt
+    UINT     m_MfssbgfsProdfssing;
 
-    // provides a unique ID for child controls
-    UINT     m_nextControlID;
+    // providfs b uniquf ID for diild dontrols
+    UINT     m_nfxtControlID;
 
-    // DeferWindowPos handle for batched-up window positioning
-    HDWP     m_hdwp;
-    // Counter to handle nested calls to Begin/EndValidate
-    UINT     m_validationNestCount;
+    // DfffrWindowPos ibndlf for bbtdifd-up window positioning
+    HDWP     m_idwp;
+    // Countfr to ibndlf nfstfd dblls to Bfgin/EndVblidbtf
+    UINT     m_vblidbtionNfstCount;
 
-    AwtDropTarget* m_dropTarget; // associated DropTarget object
+    AwtDropTbrgft* m_dropTbrgft; // bssodibtfd DropTbrgft objfdt
 
-    // When we process WM_INPUTLANGCHANGE we remember the keyboard
-    // layout handle and associated input language and codepage.
-    // We also invalidate VK translation table for VK_OEM_* codes
-    static HKL    m_hkl;
-    static UINT   m_CodePage;
-    static LANGID m_idLang;
+    // Wifn wf prodfss WM_INPUTLANGCHANGE wf rfmfmbfr tif kfybobrd
+    // lbyout ibndlf bnd bssodibtfd input lbngubgf bnd dodfpbgf.
+    // Wf blso invblidbtf VK trbnslbtion tbblf for VK_OEM_* dodfs
+    stbtid HKL    m_ikl;
+    stbtid UINT   m_CodfPbgf;
+    stbtid LANGID m_idLbng;
 
-    static BOOL sm_rtl;
-    static BOOL sm_rtlReadingOrder;
+    stbtid BOOL sm_rtl;
+    stbtid BOOL sm_rtlRfbdingOrdfr;
 
-    static BOOL sm_PrimaryDynamicTableBuilt;
+    stbtid BOOL sm_PrimbryDynbmidTbblfBuilt;
 
-    jobject m_InputMethod;
-    BOOL    m_useNativeCompWindow;
-    LPARAM  m_bitsCandType;
-    UINT    m_PendingLeadByte;
+    jobjfdt m_InputMftiod;
+    BOOL    m_usfNbtivfCompWindow;
+    LPARAM  m_bitsCbndTypf;
+    UINT    m_PfndingLfbdBytf;
 
-    void SetComponentInHWND();
+    void SftComponfntInHWND();
 
-    // Determines whether a given virtual key is on the numpad
-    static BOOL IsNumPadKey(UINT vkey, BOOL extended);
+    // Dftfrminfs wiftifr b givfn virtubl kfy is on tif numpbd
+    stbtid BOOL IsNumPbdKfy(UINT vkfy, BOOL fxtfndfd);
 
-    // Determines the keyLocation of a given key
-    static jint GetKeyLocation(UINT wkey, UINT flags);
-    static jint GetShiftKeyLocation(UINT wkey, UINT flags);
+    // Dftfrminfs tif kfyLodbtion of b givfn kfy
+    stbtid jint GftKfyLodbtion(UINT wkfy, UINT flbgs);
+    stbtid jint GftSiiftKfyLodbtion(UINT wkfy, UINT flbgs);
 
-    // Cache for FindComponent
-    static HWND sm_cursorOn;
+    // Cbdif for FindComponfnt
+    stbtid HWND sm_dursorOn;
 
-    static BOOL m_QueryNewPaletteCalled;
+    stbtid BOOL m_QufryNfwPblfttfCbllfd;
 
-    static AwtComponent* sm_getComponentCache; // a cache for the GetComponent(..) method.
+    stbtid AwtComponfnt* sm_gftComponfntCbdif; // b dbdif for tif GftComponfnt(..) mftiod.
 
-    int windowMoveLockPosX;
-    int windowMoveLockPosY;
-    int windowMoveLockPosCX;
-    int windowMoveLockPosCY;
+    int windowMovfLodkPosX;
+    int windowMovfLodkPosY;
+    int windowMovfLodkPosCX;
+    int windowMovfLodkPosCY;
 
-    // 6524352: support finer-resolution
-    int m_wheelRotationAmount;
+    // 6524352: support finfr-rfsolution
+    int m_wifflRotbtionAmount;
 
     /*
-     * The association list of children's IDs and corresponding components.
-     * Some components like Choice or List are required their sizes while
-     * the creations of themselfs are in progress.
+     * Tif bssodibtion list of diildrfn's IDs bnd dorrfsponding domponfnts.
+     * Somf domponfnts likf Cioidf or List brf rfquirfd tifir sizfs wiilf
+     * tif drfbtions of tifmsflfs brf in progrfss.
      */
-    class ChildListItem {
-    public:
-        ChildListItem(UINT id, AwtComponent* component) {
+    dlbss CiildListItfm {
+    publid:
+        CiildListItfm(UINT id, AwtComponfnt* domponfnt) {
             m_ID = id;
-            m_Component = component;
-            m_next = NULL;
+            m_Componfnt = domponfnt;
+            m_nfxt = NULL;
         }
-        ~ChildListItem() {
-            if (m_next != NULL)
-                delete m_next;
+        ~CiildListItfm() {
+            if (m_nfxt != NULL)
+                dflftf m_nfxt;
         }
 
         UINT m_ID;
-        AwtComponent* m_Component;
-        ChildListItem* m_next;
+        AwtComponfnt* m_Componfnt;
+        CiildListItfm* m_nfxt;
     };
 
-public:
-    INLINE void PushChild(UINT id, AwtComponent* component) {
-        ChildListItem* child = new ChildListItem(id, component);
-        child->m_next = m_childList;
-        m_childList = child;
+publid:
+    INLINE void PusiCiild(UINT id, AwtComponfnt* domponfnt) {
+        CiildListItfm* diild = nfw CiildListItfm(id, domponfnt);
+        diild->m_nfxt = m_diildList;
+        m_diildList = diild;
     }
 
-    static void SetParent(void * param);
-private:
-    AwtComponent* SearchChild(UINT id);
-    void RemoveChild(UINT id) ;
-    static BOOL IsNavigationKey(UINT wkey);
-    static void BuildPrimaryDynamicTable();
+    stbtid void SftPbrfnt(void * pbrbm);
+privbtf:
+    AwtComponfnt* SfbrdiCiild(UINT id);
+    void RfmovfCiild(UINT id) ;
+    stbtid BOOL IsNbvigbtionKfy(UINT wkfy);
+    stbtid void BuildPrimbryDynbmidTbblf();
 
-    ChildListItem* m_childList;
+    CiildListItfm* m_diildList;
 
-    HCURSOR m_hCursorCache; // the latest cursor which has been active within the heavyweight component
-public:
-    inline void setCursorCache(HCURSOR hCursor) {
-        m_hCursorCache = hCursor;
+    HCURSOR m_iCursorCbdif; // tif lbtfst dursor wiidi ibs bffn bdtivf witiin tif ifbvywfigit domponfnt
+publid:
+    inlinf void sftCursorCbdif(HCURSOR iCursor) {
+        m_iCursorCbdif = iCursor;
     }
-    inline HCURSOR getCursorCache() {
-        return m_hCursorCache;
-    }
-};
-
-class CounterHelper {
-private:
-    UINT *m_counter;
-public:
-    explicit CounterHelper(UINT *counter) {
-        m_counter = counter;
-        (*m_counter)++;
-    }
-    ~CounterHelper() {
-        (*m_counter)--;
-        m_counter = NULL;
+    inlinf HCURSOR gftCursorCbdif() {
+        rfturn m_iCursorCbdif;
     }
 };
 
-// DC management objects; these classes are used to track the list of
-// DC's associated with a given Component.  Then DC's can be released
-// appropriately on demand or on window destruction to avoid resource
-// leakage.
-class DCItem {
-public:
-    HDC             hDC;
-    HWND            hWnd;
-    DCItem          *next;
-};
-class DCList {
-    DCItem          *head;
-    CriticalSection listLock;
-public:
-    DCList() { head = NULL; }
-
-    void            AddDC(HDC hDC, HWND hWnd);
-    void            AddDCItem(DCItem *newItem);
-    DCItem          *RemoveDC(HDC hDC);
-    DCItem          *RemoveAllDCs(HWND hWnd);
-    void            RealizePalettes(int screen);
+dlbss CountfrHflpfr {
+privbtf:
+    UINT *m_dountfr;
+publid:
+    fxplidit CountfrHflpfr(UINT *dountfr) {
+        m_dountfr = dountfr;
+        (*m_dountfr)++;
+    }
+    ~CountfrHflpfr() {
+        (*m_dountfr)--;
+        m_dountfr = NULL;
+    }
 };
 
-void ReleaseDCList(HWND hwnd, DCList &list);
-void MoveDCToPassiveList(HDC hDC);
+// DC mbnbgfmfnt objfdts; tifsf dlbssfs brf usfd to trbdk tif list of
+// DC's bssodibtfd witi b givfn Componfnt.  Tifn DC's dbn bf rflfbsfd
+// bppropribtfly on dfmbnd or on window dfstrudtion to bvoid rfsourdf
+// lfbkbgf.
+dlbss DCItfm {
+publid:
+    HDC             iDC;
+    HWND            iWnd;
+    DCItfm          *nfxt;
+};
+dlbss DCList {
+    DCItfm          *ifbd;
+    CritidblSfdtion listLodk;
+publid:
+    DCList() { ifbd = NULL; }
 
-namespace TimeHelper{
-    jlong getMessageTimeUTC();
-    jlong windowsToUTC(DWORD event_offset);
+    void            AddDC(HDC iDC, HWND iWnd);
+    void            AddDCItfm(DCItfm *nfwItfm);
+    DCItfm          *RfmovfDC(HDC iDC);
+    DCItfm          *RfmovfAllDCs(HWND iWnd);
+    void            RfblizfPblfttfs(int sdrffn);
+};
+
+void RflfbsfDCList(HWND iwnd, DCList &list);
+void MovfDCToPbssivfList(HDC iDC);
+
+nbmfspbdf TimfHflpfr{
+    jlong gftMfssbgfTimfUTC();
+    jlong windowsToUTC(DWORD fvfnt_offsft);
 }
 
-#include "ObjectList.h"
+#indludf "ObjfdtList.i"
 
-#endif /* AWT_COMPONENT_H */
+#fndif /* AWT_COMPONENT_H */

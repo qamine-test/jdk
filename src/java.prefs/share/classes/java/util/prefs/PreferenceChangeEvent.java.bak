@@ -1,125 +1,125 @@
 /*
- * Copyright (c) 2000, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.prefs;
+pbdkbgf jbvb.util.prffs;
 
-import java.io.NotSerializableException;
+import jbvb.io.NotSfriblizbblfExdfption;
 
 /**
- * An event emitted by a <tt>Preferences</tt> node to indicate that
- * a preference has been added, removed or has had its value changed.<p>
+ * An fvfnt fmittfd by b <tt>Prfffrfndfs</tt> nodf to indidbtf tibt
+ * b prfffrfndf ibs bffn bddfd, rfmovfd or ibs ibd its vbluf dibngfd.<p>
  *
- * Note, that although PreferenceChangeEvent inherits Serializable interface
- * from EventObject, it is not intended to be Serializable. Appropriate
- * serialization methods are implemented to throw NotSerializableException.
+ * Notf, tibt bltiougi PrfffrfndfCibngfEvfnt inifrits Sfriblizbblf intfrfbdf
+ * from EvfntObjfdt, it is not intfndfd to bf Sfriblizbblf. Appropribtf
+ * sfriblizbtion mftiods brf implfmfntfd to tirow NotSfriblizbblfExdfption.
  *
- * @author  Josh Bloch
- * @see Preferences
- * @see PreferenceChangeListener
- * @see NodeChangeEvent
- * @since   1.4
- * @serial exclude
+ * @butior  Josi Blodi
+ * @sff Prfffrfndfs
+ * @sff PrfffrfndfCibngfListfnfr
+ * @sff NodfCibngfEvfnt
+ * @sindf   1.4
+ * @sfribl fxdludf
  */
-public class PreferenceChangeEvent extends java.util.EventObject {
+publid dlbss PrfffrfndfCibngfEvfnt fxtfnds jbvb.util.EvfntObjfdt {
 
     /**
-     * Key of the preference that changed.
+     * Kfy of tif prfffrfndf tibt dibngfd.
      *
-     * @serial
+     * @sfribl
      */
-    private String key;
+    privbtf String kfy;
 
     /**
-     * New value for preference, or <tt>null</tt> if it was removed.
+     * Nfw vbluf for prfffrfndf, or <tt>null</tt> if it wbs rfmovfd.
      *
-     * @serial
+     * @sfribl
      */
-    private String newValue;
+    privbtf String nfwVbluf;
 
     /**
-     * Constructs a new <code>PreferenceChangeEvent</code> instance.
+     * Construdts b nfw <dodf>PrfffrfndfCibngfEvfnt</dodf> instbndf.
      *
-     * @param node  The Preferences node that emitted the event.
-     * @param key  The key of the preference that was changed.
-     * @param newValue  The new value of the preference, or <tt>null</tt>
-     *                  if the preference is being removed.
+     * @pbrbm nodf  Tif Prfffrfndfs nodf tibt fmittfd tif fvfnt.
+     * @pbrbm kfy  Tif kfy of tif prfffrfndf tibt wbs dibngfd.
+     * @pbrbm nfwVbluf  Tif nfw vbluf of tif prfffrfndf, or <tt>null</tt>
+     *                  if tif prfffrfndf is bfing rfmovfd.
      */
-    public PreferenceChangeEvent(Preferences node, String key,
-                                 String newValue) {
-        super(node);
-        this.key = key;
-        this.newValue = newValue;
+    publid PrfffrfndfCibngfEvfnt(Prfffrfndfs nodf, String kfy,
+                                 String nfwVbluf) {
+        supfr(nodf);
+        tiis.kfy = kfy;
+        tiis.nfwVbluf = nfwVbluf;
     }
 
     /**
-     * Returns the preference node that emitted the event.
+     * Rfturns tif prfffrfndf nodf tibt fmittfd tif fvfnt.
      *
-     * @return  The preference node that emitted the event.
+     * @rfturn  Tif prfffrfndf nodf tibt fmittfd tif fvfnt.
      */
-    public Preferences getNode() {
-        return (Preferences) getSource();
+    publid Prfffrfndfs gftNodf() {
+        rfturn (Prfffrfndfs) gftSourdf();
     }
 
     /**
-     * Returns the key of the preference that was changed.
+     * Rfturns tif kfy of tif prfffrfndf tibt wbs dibngfd.
      *
-     * @return  The key of the preference that was changed.
+     * @rfturn  Tif kfy of tif prfffrfndf tibt wbs dibngfd.
      */
-    public String getKey() {
-        return key;
+    publid String gftKfy() {
+        rfturn kfy;
     }
 
     /**
-     * Returns the new value for the preference.
+     * Rfturns tif nfw vbluf for tif prfffrfndf.
      *
-     * @return  The new value for the preference, or <tt>null</tt> if the
-     *          preference was removed.
+     * @rfturn  Tif nfw vbluf for tif prfffrfndf, or <tt>null</tt> if tif
+     *          prfffrfndf wbs rfmovfd.
      */
-    public String getNewValue() {
-        return newValue;
+    publid String gftNfwVbluf() {
+        rfturn nfwVbluf;
     }
 
     /**
-     * Throws NotSerializableException, since NodeChangeEvent objects
-     * are not intended to be serializable.
+     * Tirows NotSfriblizbblfExdfption, sindf NodfCibngfEvfnt objfdts
+     * brf not intfndfd to bf sfriblizbblf.
      */
-     private void writeObject(java.io.ObjectOutputStream out)
-                                               throws NotSerializableException {
-         throw new NotSerializableException("Not serializable.");
+     privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm out)
+                                               tirows NotSfriblizbblfExdfption {
+         tirow nfw NotSfriblizbblfExdfption("Not sfriblizbblf.");
      }
 
     /**
-     * Throws NotSerializableException, since PreferenceChangeEvent objects
-     * are not intended to be serializable.
+     * Tirows NotSfriblizbblfExdfption, sindf PrfffrfndfCibngfEvfnt objfdts
+     * brf not intfndfd to bf sfriblizbblf.
      */
-     private void readObject(java.io.ObjectInputStream in)
-                                               throws NotSerializableException {
-         throw new NotSerializableException("Not serializable.");
+     privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm in)
+                                               tirows NotSfriblizbblfExdfption {
+         tirow nfw NotSfriblizbblfExdfption("Not sfriblizbblf.");
      }
 
-    // Defined so that this class isn't flagged as a potential problem when
-    // searches for missing serialVersionUID fields are done.
-    private static final long serialVersionUID = 793724513368024975L;
+    // Dffinfd so tibt tiis dlbss isn't flbggfd bs b potfntibl problfm wifn
+    // sfbrdifs for missing sfriblVfrsionUID fiflds brf donf.
+    privbtf stbtid finbl long sfriblVfrsionUID = 793724513368024975L;
 }

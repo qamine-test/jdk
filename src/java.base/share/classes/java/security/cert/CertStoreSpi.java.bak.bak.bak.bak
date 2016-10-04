@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.sfdurity.InvblidAlgorithmPbrbmftfrExdfption;
+import jbvb.util.Collfdtion;
+
+/**
+ * Thf <i>Sfrvidf Providfr Intfrfbdf</i> (<b>SPI</b>)
+ * for thf {@link CfrtStorf CfrtStorf} dlbss. All {@dodf CfrtStorf}
+ * implfmfntbtions must indludf b dlbss (thf SPI dlbss) thbt fxtfnds
+ * this dlbss ({@dodf CfrtStorfSpi}), providfs b donstrudtor with
+ * b singlf brgumfnt of typf {@dodf CfrtStorfPbrbmftfrs}, bnd implfmfnts
+ * bll of its mfthods. In gfnfrbl, instbndfs of this dlbss should only bf
+ * bddfssfd through thf {@dodf CfrtStorf} dlbss.
+ * For dftbils, sff thf Jbvb Cryptogrbphy Ardhitfdturf.
+ * <p>
+ * <b>Condurrfnt Addfss</b>
+ * <p>
+ * Thf publid mfthods of bll {@dodf CfrtStorfSpi} objfdts must bf
+ * thrfbd-sbff. Thbt is, multiplf thrfbds mby dondurrfntly invokf thfsf
+ * mfthods on b singlf {@dodf CfrtStorfSpi} objfdt (or morf thbn onf)
+ * with no ill ffffdts. This bllows b {@dodf CfrtPbthBuildfr} to sfbrdh
+ * for b CRL whilf simultbnfously sfbrdhing for furthfr dfrtifidbtfs, for
+ * instbndf.
+ * <p>
+ * Simplf {@dodf CfrtStorfSpi} implfmfntbtions will probbbly fnsurf
+ * thrfbd sbffty by bdding b {@dodf syndhronizfd} kfyword to thfir
+ * {@dodf fnginfGftCfrtifidbtfs} bnd {@dodf fnginfGftCRLs} mfthods.
+ * Morf sophistidbtfd onfs mby bllow truly dondurrfnt bddfss.
+ *
+ * @sindf       1.4
+ * @buthor      Stfvf Hbnnb
+ */
+publid bbstrbdt dlbss CfrtStorfSpi {
+
+    /**
+     * Thf solf donstrudtor.
+     *
+     * @pbrbm pbrbms thf initiblizbtion pbrbmftfrs (mby bf {@dodf null})
+     * @throws InvblidAlgorithmPbrbmftfrExdfption if thf initiblizbtion
+     * pbrbmftfrs brf inbppropribtf for this {@dodf CfrtStorfSpi}
+     */
+    publid CfrtStorfSpi(CfrtStorfPbrbmftfrs pbrbms)
+    throws InvblidAlgorithmPbrbmftfrExdfption { }
+
+    /**
+     * Rfturns b {@dodf Collfdtion} of {@dodf Cfrtifidbtf}s thbt
+     * mbtdh thf spfdififd sflfdtor. If no {@dodf Cfrtifidbtf}s
+     * mbtdh thf sflfdtor, bn fmpty {@dodf Collfdtion} will bf rfturnfd.
+     * <p>
+     * For somf {@dodf CfrtStorf} typfs, thf rfsulting
+     * {@dodf Collfdtion} mby not dontbin <b>bll</b> of thf
+     * {@dodf Cfrtifidbtf}s thbt mbtdh thf sflfdtor. For instbndf,
+     * bn LDAP {@dodf CfrtStorf} mby not sfbrdh bll fntrifs in thf
+     * dirfdtory. Instfbd, it mby just sfbrdh fntrifs thbt brf likfly to
+     * dontbin thf {@dodf Cfrtifidbtf}s it is looking for.
+     * <p>
+     * Somf {@dodf CfrtStorf} implfmfntbtions (fspfdiblly LDAP
+     * {@dodf CfrtStorf}s) mby throw b {@dodf CfrtStorfExdfption}
+     * unlfss b non-null {@dodf CfrtSflfdtor} is providfd thbt indludfs
+     * spfdifid dritfrib thbt dbn bf usfd to find thf dfrtifidbtfs. Issufr
+     * bnd/or subjfdt nbmfs brf fspfdiblly usfful dritfrib.
+     *
+     * @pbrbm sflfdtor A {@dodf CfrtSflfdtor} usfd to sflfdt whidh
+     *  {@dodf Cfrtifidbtf}s should bf rfturnfd. Spfdify {@dodf null}
+     *  to rfturn bll {@dodf Cfrtifidbtf}s (if supportfd).
+     * @rfturn A {@dodf Collfdtion} of {@dodf Cfrtifidbtf}s thbt
+     *         mbtdh thf spfdififd sflfdtor (nfvfr {@dodf null})
+     * @throws CfrtStorfExdfption if bn fxdfption oddurs
+     */
+    publid bbstrbdt Collfdtion<? fxtfnds Cfrtifidbtf> fnginfGftCfrtifidbtfs
+            (CfrtSflfdtor sflfdtor) throws CfrtStorfExdfption;
+
+    /**
+     * Rfturns b {@dodf Collfdtion} of {@dodf CRL}s thbt
+     * mbtdh thf spfdififd sflfdtor. If no {@dodf CRL}s
+     * mbtdh thf sflfdtor, bn fmpty {@dodf Collfdtion} will bf rfturnfd.
+     * <p>
+     * For somf {@dodf CfrtStorf} typfs, thf rfsulting
+     * {@dodf Collfdtion} mby not dontbin <b>bll</b> of thf
+     * {@dodf CRL}s thbt mbtdh thf sflfdtor. For instbndf,
+     * bn LDAP {@dodf CfrtStorf} mby not sfbrdh bll fntrifs in thf
+     * dirfdtory. Instfbd, it mby just sfbrdh fntrifs thbt brf likfly to
+     * dontbin thf {@dodf CRL}s it is looking for.
+     * <p>
+     * Somf {@dodf CfrtStorf} implfmfntbtions (fspfdiblly LDAP
+     * {@dodf CfrtStorf}s) mby throw b {@dodf CfrtStorfExdfption}
+     * unlfss b non-null {@dodf CRLSflfdtor} is providfd thbt indludfs
+     * spfdifid dritfrib thbt dbn bf usfd to find thf CRLs. Issufr nbmfs
+     * bnd/or thf dfrtifidbtf to bf dhfdkfd brf fspfdiblly usfful.
+     *
+     * @pbrbm sflfdtor A {@dodf CRLSflfdtor} usfd to sflfdt whidh
+     *  {@dodf CRL}s should bf rfturnfd. Spfdify {@dodf null}
+     *  to rfturn bll {@dodf CRL}s (if supportfd).
+     * @rfturn A {@dodf Collfdtion} of {@dodf CRL}s thbt
+     *         mbtdh thf spfdififd sflfdtor (nfvfr {@dodf null})
+     * @throws CfrtStorfExdfption if bn fxdfption oddurs
+     */
+    publid bbstrbdt Collfdtion<? fxtfnds CRL> fnginfGftCRLs
+            (CRLSflfdtor sflfdtor) throws CfrtStorfExdfption;
+}

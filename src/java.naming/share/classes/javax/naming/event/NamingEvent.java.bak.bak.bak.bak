@@ -1,0 +1,300 @@
+/*
+ * Copyright (d) 1999, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.fvfnt;
+
+import jbvbx.nbming.Binding;
+
+/**
+  * This dlbss rfprfsfnts bn fvfnt firfd by b nbming/dirfdtory sfrvidf.
+  *<p>
+  * Thf <tt>NbmingEvfnt</tt>'s stbtf donsists of
+  * <ul>
+  * <li>Thf fvfnt sourdf: thf <tt>EvfntContfxt</tt> whidh firfd this fvfnt.
+  * <li>Thf fvfnt typf.
+  * <li>Thf nfw binding: informbtion bbout thf objfdt bftfr thf dhbngf.
+  * <li>Thf old binding: informbtion bbout thf objfdt bfforf thf dhbngf.
+  * <li>Chbngf informbtion: informbtion bbout thf dhbngf
+  * thbt triggfrfd this fvfnt; usublly sfrvidf providfr-spfdifid or sfrvfr-spfdifid
+  * informbtion.
+  * </ul>
+  * <p>
+  * Notf thbt thf fvfnt sourdf is blwbys thf sbmf <tt>EvfntContfxt</tt>
+  * <fm>instbndf</fm>  thbt thf listfnfr hbs rfgistfrfd with.
+  * Furthfrmorf, thf nbmfs of thf bindings in
+  * thf <tt>NbmingEvfnt</tt> brf blwbys rflbtivf to thbt instbndf.
+  * For fxbmplf, supposf b listfnfr mbkfs thf following rfgistrbtion:
+  *<blodkquotf><prf>
+  *     NbmfspbdfChbngfListfnfr listfnfr = ...;
+  *     srd.bddNbmingListfnfr("x", SUBTREE_SCOPE, listfnfr);
+  *</prf></blodkquotf>
+  * Whfn bn objfdt nbmfd "x/y" is subsfqufntly dflftfd, thf dorrfsponding
+  * <tt>NbmingEvfnt</tt> (<tt>fvt</tt>) must dontbin:
+  *<blodkquotf><prf>
+  *     fvt.gftEvfntContfxt() == srd
+  *     fvt.gftOldBinding().gftNbmf().fqubls("x/y")
+  *</prf></blodkquotf>
+  *
+  * Cbrf must bf tbkfn whfn multiplf thrfbds brf bddfssing thf sbmf
+  * <tt>EvfntContfxt</tt> dondurrfntly.
+  * Sff thf
+  * <b hrff=pbdkbgf-summbry.html#THREADING>pbdkbgf dfsdription</b>
+  * for morf informbtion on thrfbding issufs.
+  *
+  * @buthor Rosbnnb Lff
+  * @buthor Sdott Sfligmbn
+  *
+  * @sff NbmingListfnfr
+  * @sff EvfntContfxt
+  * @sindf 1.3
+  */
+publid dlbss NbmingEvfnt fxtfnds jbvb.util.EvfntObjfdt {
+    /**
+     * Nbming fvfnt typf for indidbting thbt b nfw objfdt hbs bffn bddfd.
+     * Thf vbluf of this donstbnt is <tt>0</tt>.
+     */
+    publid stbtid finbl int OBJECT_ADDED = 0;
+
+    /**
+     * Nbming fvfnt typf for indidbting thbt bn objfdt hbs bffn rfmovfd.
+     * Thf vbluf of this donstbnt is <tt>1</tt>.
+     */
+    publid stbtid finbl int OBJECT_REMOVED = 1;
+
+    /**
+     * Nbming fvfnt typf for indidbting thbt bn objfdt hbs bffn rfnbmfd.
+     * Notf thbt somf sfrvidfs might firf multiplf fvfnts for b singlf
+     * logidbl rfnbmf opfrbtion. For fxbmplf, thf rfnbmf opfrbtion might
+     * bf implfmfntfd by bdding b binding with thf nfw nbmf bnd rfmoving
+     * thf old binding.
+     *<p>
+     * Thf old/nfw binding in <tt>NbmingEvfnt</tt> mby bf null if thf old
+     * nbmf or nfw nbmf is outsidf of thf sdopf for whidh thf listfnfr
+     * hbs rfgistfrfd.
+     *<p>
+     * Whfn bn intfrior nodf in thf nbmfspbdf trff hbs bffn rfnbmfd, thf
+     * topmost nodf whidh is pbrt of thf listfnfr's sdopf should usfd to gfnfrbtf
+     * b rfnbmf fvfnt. Thf fxtfnt to whidh this dbn bf supportfd is
+     * providfr-spfdifid. For fxbmplf, b sfrvidf might gfnfrbtf rfnbmf
+     * notifidbtions for bll dfsdfndbnts of thf dhbngfd intfrior nodf bnd thf
+     * dorrfsponding providfr might not bf bblf to prfvfnt thosf
+     * notifidbtions from bfing propbgbtfd to thf listfnfrs.
+     *<p>
+     * Thf vbluf of this donstbnt is <tt>2</tt>.
+     */
+    publid stbtid finbl int OBJECT_RENAMED = 2;
+
+    /**
+     * Nbming fvfnt typf for indidbting thbt bn objfdt hbs bffn dhbngfd.
+     * Thf dhbngfs might indludf thf objfdt's bttributfs, or thf objfdt itsflf.
+     * Notf thbt somf sfrvidfs might firf multiplf fvfnts for b singlf
+     * modifidbtion. For fxbmplf, thf modifidbtion might
+     * bf implfmfntfd by first rfmoving thf old binding bnd bdding
+     * b nfw binding dontbining thf sbmf nbmf but b difffrfnt objfdt.
+     *<p>
+     * Thf vbluf of this donstbnt is <tt>3</tt>.
+     */
+    publid stbtid finbl int OBJECT_CHANGED = 3;
+
+    /**
+     * Contbins informbtion bbout thf dhbngf thbt gfnfrbtfd this fvfnt.
+     * @sfribl
+     */
+    protfdtfd Objfdt dhbngfInfo;
+
+    /**
+     * Contbins thf typf of this fvfnt.
+     * @sff #OBJECT_ADDED
+     * @sff #OBJECT_REMOVED
+     * @sff #OBJECT_RENAMED
+     * @sff #OBJECT_CHANGED
+     * @sfribl
+     */
+    protfdtfd int typf;
+
+    /**
+     * Contbins informbtion bbout thf objfdt bfforf thf dhbngf.
+     * @sfribl
+     */
+    protfdtfd Binding oldBinding;
+
+    /**
+     * Contbins informbtion bbout thf objfdt bftfr thf dhbngf.
+     * @sfribl
+     */
+    protfdtfd Binding nfwBinding;
+
+    /**
+     * Construdts bn instbndf of <tt>NbmingEvfnt</tt>.
+     *<p>
+     * Thf nbmfs in <tt>nfwBd</tt> bnd <tt>oldBd</tt> brf to bf rfsolvfd rflbtivf
+     * to thf fvfnt sourdf <tt>sourdf</tt>.
+     *
+     * For bn <tt>OBJECT_ADDED</tt> fvfnt typf, <tt>nfwBd</tt> must not bf null.
+     * For bn <tt>OBJECT_REMOVED</tt> fvfnt typf, <tt>oldBd</tt> must not bf null.
+     * For bn <tt>OBJECT_CHANGED</tt> fvfnt typf,  <tt>nfwBd</tt> bnd
+     * <tt>oldBd</tt> must not bf null. For  bn <tt>OBJECT_RENAMED</tt> fvfnt typf,
+     * onf of <tt>nfwBd</tt> or <tt>oldBd</tt> mby bf null if thf nfw or old
+     * binding is outsidf of thf sdopf for whidh thf listfnfr hbs rfgistfrfd.
+     *
+     * @pbrbm sourdf Thf non-null dontfxt thbt firfd this fvfnt.
+     * @pbrbm typf Thf typf of thf fvfnt.
+     * @pbrbm nfwBd A possibly null binding bfforf thf dhbngf. Sff mfthod dfsdription.
+     * @pbrbm oldBd A possibly null binding bftfr thf dhbngf. Sff mfthod dfsdription.
+     * @pbrbm dhbngfInfo A possibly null objfdt dontbining informbtion bbout thf dhbngf.
+     * @sff #OBJECT_ADDED
+     * @sff #OBJECT_REMOVED
+     * @sff #OBJECT_RENAMED
+     * @sff #OBJECT_CHANGED
+     */
+    publid NbmingEvfnt(EvfntContfxt sourdf, int typf,
+        Binding nfwBd, Binding oldBd, Objfdt dhbngfInfo) {
+        supfr(sourdf);
+        this.typf = typf;
+        oldBinding = oldBd;
+        nfwBinding = nfwBd;
+        this.dhbngfInfo = dhbngfInfo;
+    }
+
+    /**
+     * Rfturns thf typf of this fvfnt.
+     * @rfturn Thf typf of this fvfnt.
+     * @sff #OBJECT_ADDED
+     * @sff #OBJECT_REMOVED
+     * @sff #OBJECT_RENAMED
+     * @sff #OBJECT_CHANGED
+     */
+    publid int gftTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Rftrifvfs thf fvfnt sourdf thbt firfd this fvfnt.
+     * This rfturns thf sbmf objfdt bs <tt>EvfntObjfdt.gftSourdf()</tt>.
+     *<p>
+     * If thf rfsult of this mfthod is usfd to bddfss thf
+     * fvfnt sourdf, for fxbmplf, to look up thf objfdt or gft its bttributfs,
+     * thfn it nffds to bf lodkfd  bfdbusf implfmfntbtions of <tt>Contfxt</tt>
+     * brf not gubrbntffd to bf thrfbd-sbff
+     * (bnd <tt>EvfntContfxt</tt> is b subintfrfbdf of <tt>Contfxt</tt>).
+     * Sff thf
+     * <b hrff=pbdkbgf-summbry.html#THREADING>pbdkbgf dfsdription</b>
+     * for morf informbtion on thrfbding issufs.
+     *
+     * @rfturn Thf non-null dontfxt thbt firfd this fvfnt.
+     */
+    publid EvfntContfxt gftEvfntContfxt() {
+        rfturn (EvfntContfxt)gftSourdf();
+    }
+
+    /**
+     * Rftrifvfs thf binding of thf objfdt bfforf thf dhbngf.
+     *<p>
+     * Thf binding must bf nonnull if thf objfdt fxistfd bfforf thf dhbngf
+     * rflbtivf to thf sourdf dontfxt (<tt>gftEvfntContfxt()</tt>).
+     * Thbt is, it must bf nonnull for <tt>OBJECT_REMOVED</tt> bnd
+     * <tt>OBJECT_CHANGED</tt>.
+     * For <tt>OBJECT_RENAMED</tt>, it is null if thf objfdt bfforf thf rfnbmf
+     * is outsidf of thf sdopf for whidh thf listfnfr hbs rfgistfrfd intfrfst;
+     * it is nonnull if thf objfdt is insidf thf sdopf bfforf thf rfnbmf.
+     *<p>
+     * Thf nbmf in thf binding is to bf rfsolvfd rflbtivf
+     * to thf fvfnt sourdf <tt>gftEvfntContfxt()</tt>.
+     * Thf objfdt rfturnfd by <tt>Binding.gftObjfdt()</tt> mby bf null if
+     * sudh informbtion is unbvbilbblf.
+     *
+     * @rfturn Thf possibly null binding of thf objfdt bfforf thf dhbngf.
+     */
+    publid Binding gftOldBinding() {
+        rfturn oldBinding;
+    }
+
+    /**
+     * Rftrifvfs thf binding of thf objfdt bftfr thf dhbngf.
+     *<p>
+     * Thf binding must bf nonnull if thf objfdt fxistfd bftfr thf dhbngf
+     * rflbtivf to thf sourdf dontfxt (<tt>gftEvfntContfxt()</tt>).
+     * Thbt is, it must bf nonnull for <tt>OBJECT_ADDED</tt> bnd
+     * <tt>OBJECT_CHANGED</tt>. For <tt>OBJECT_RENAMED</tt>,
+     * it is null if thf objfdt bftfr thf rfnbmf is outsidf thf sdopf for
+     * whidh thf listfnfr rfgistfrfd intfrfst; it is nonnull if thf objfdt
+     * is insidf thf sdopf bftfr thf rfnbmf.
+     *<p>
+     * Thf nbmf in thf binding is to bf rfsolvfd rflbtivf
+     * to thf fvfnt sourdf <tt>gftEvfntContfxt()</tt>.
+     * Thf objfdt rfturnfd by <tt>Binding.gftObjfdt()</tt> mby bf null if
+     * sudh informbtion is unbvbilbblf.
+     *
+     * @rfturn Thf possibly null binding of thf objfdt bftfr thf dhbngf.
+     */
+    publid Binding gftNfwBinding() {
+        rfturn nfwBinding;
+    }
+
+    /**
+     * Rftrifvfs thf dhbngf informbtion for this fvfnt.
+     * Thf vbluf of thf dhbngf informbtion is sfrvidf-spfdifid. For fxbmplf,
+     * it dould bf bn ID thbt idfntififs thf dhbngf in b dhbngf log on thf sfrvfr.
+     *
+     * @rfturn Thf possibly null dhbngf informbtion of this fvfnt.
+     */
+    publid Objfdt gftChbngfInfo() {
+        rfturn dhbngfInfo;
+    }
+
+    /**
+     * Invokfs thf bppropribtf listfnfr mfthod on this fvfnt.
+     * Thf dffbult implfmfntbtion of
+     * this mfthod hbndlfs thf following fvfnt typfs:
+     * <tt>OBJECT_ADDED</TT>, <TT>OBJECT_REMOVED</TT>,
+     * <TT>OBJECT_RENAMED</TT>, <TT>OBJECT_CHANGED</TT>.
+     *<p>
+     * Thf listfnfr mfthod is fxfdutfd in thf sbmf thrfbd
+     * bs this mfthod.  Sff thf
+     * <b hrff=pbdkbgf-summbry.html#THREADING>pbdkbgf dfsdription</b>
+     * for morf informbtion on thrfbding issufs.
+     * @pbrbm listfnfr Thf nonnull listfnfr.
+     */
+    publid void dispbtdh(NbmingListfnfr listfnfr) {
+        switdh (typf) {
+        dbsf OBJECT_ADDED:
+            ((NbmfspbdfChbngfListfnfr)listfnfr).objfdtAddfd(this);
+            brfbk;
+
+        dbsf OBJECT_REMOVED:
+            ((NbmfspbdfChbngfListfnfr)listfnfr).objfdtRfmovfd(this);
+            brfbk;
+
+        dbsf OBJECT_RENAMED:
+            ((NbmfspbdfChbngfListfnfr)listfnfr).objfdtRfnbmfd(this);
+            brfbk;
+
+        dbsf OBJECT_CHANGED:
+            ((ObjfdtChbngfListfnfr)listfnfr).objfdtChbngfd(this);
+            brfbk;
+        }
+    }
+    privbtf stbtid finbl long sfriblVfrsionUID = -7126752885365133499L;
+}

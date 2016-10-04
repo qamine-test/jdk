@@ -1,0 +1,843 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - All Rights Rfsfrvfd
+ *
+ *   Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd
+ * bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry of IBM. Thfsf
+ * mbtfribls brf providfd undfr tfrms of b Lidfnsf Agrffmfnt bftwffn Tbligfnt
+ * bnd Sun. This tfdhnology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ *   Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.tfxt;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr;
+import jbvb.util.Arrbys;
+import jbvb.util.Lodblf;
+import jbvb.util.Objfdts;
+import jbvb.util.RfsourdfBundlf;
+import jbvb.util.TimfZonf;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.LodblfSfrvidfProvidfrPool;
+import sun.util.lodblf.providfr.RfsourdfBundlfBbsfdAdbptfr;
+import sun.util.lodblf.providfr.TimfZonfNbmfUtility;
+
+/**
+ * <dodf>DbtfFormbtSymbols</dodf> is b publid dlbss for fndbpsulbting
+ * lodblizbblf dbtf-timf formbtting dbtb, sudh bs thf nbmfs of thf
+ * months, thf nbmfs of thf dbys of thf wffk, bnd thf timf zonf dbtb.
+ * <dodf>SimplfDbtfFormbt</dodf> usfs
+ * <dodf>DbtfFormbtSymbols</dodf> to fndbpsulbtf this informbtion.
+ *
+ * <p>
+ * Typidblly you shouldn't usf <dodf>DbtfFormbtSymbols</dodf> dirfdtly.
+ * Rbthfr, you brf fndourbgfd to drfbtf b dbtf-timf formbttfr with thf
+ * <dodf>DbtfFormbt</dodf> dlbss's fbdtory mfthods: <dodf>gftTimfInstbndf</dodf>,
+ * <dodf>gftDbtfInstbndf</dodf>, or <dodf>gftDbtfTimfInstbndf</dodf>.
+ * Thfsf mfthods butombtidblly drfbtf b <dodf>DbtfFormbtSymbols</dodf> for
+ * thf formbttfr so thbt you don't hbvf to. Aftfr thf
+ * formbttfr is drfbtfd, you mby modify its formbt pbttfrn using thf
+ * <dodf>sftPbttfrn</dodf> mfthod. For morf informbtion bbout
+ * drfbting formbttfrs using <dodf>DbtfFormbt</dodf>'s fbdtory mfthods,
+ * sff {@link DbtfFormbt}.
+ *
+ * <p>
+ * If you dfdidf to drfbtf b dbtf-timf formbttfr with b spfdifid
+ * formbt pbttfrn for b spfdifid lodblf, you dbn do so with:
+ * <blodkquotf>
+ * <prf>
+ * nfw SimplfDbtfFormbt(bPbttfrn, DbtfFormbtSymbols.gftInstbndf(bLodblf)).
+ * </prf>
+ * </blodkquotf>
+ *
+ * <p>
+ * <dodf>DbtfFormbtSymbols</dodf> objfdts brf dlonfbblf. Whfn you obtbin
+ * b <dodf>DbtfFormbtSymbols</dodf> objfdt, fffl frff to modify thf
+ * dbtf-timf formbtting dbtb. For instbndf, you dbn rfplbdf thf lodblizfd
+ * dbtf-timf formbt pbttfrn dhbrbdtfrs with thf onfs thbt you fffl fbsy
+ * to rfmfmbfr. Or you dbn dhbngf thf rfprfsfntbtivf ditifs
+ * to your fbvoritf onfs.
+ *
+ * <p>
+ * Nfw <dodf>DbtfFormbtSymbols</dodf> subdlbssfs mby bf bddfd to support
+ * <dodf>SimplfDbtfFormbt</dodf> for dbtf-timf formbtting for bdditionbl lodblfs.
+
+ * @sff          DbtfFormbt
+ * @sff          SimplfDbtfFormbt
+ * @sff          jbvb.util.SimplfTimfZonf
+ * @buthor       Chfn-Lifh Hubng
+ */
+publid dlbss DbtfFormbtSymbols implfmfnts Sfriblizbblf, Clonfbblf {
+
+    /**
+     * Construdt b DbtfFormbtSymbols objfdt by lobding formbt dbtb from
+     * rfsourdfs for thf dffbult {@link jbvb.util.Lodblf.Cbtfgory#FORMAT FORMAT}
+     * lodblf. This donstrudtor dbn only
+     * donstrudt instbndfs for thf lodblfs supportfd by thf Jbvb
+     * runtimf fnvironmfnt, not for thosf supportfd by instbllfd
+     * {@link jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr DbtfFormbtSymbolsProvidfr}
+     * implfmfntbtions. For full lodblf dovfrbgf, usf thf
+     * {@link #gftInstbndf(Lodblf) gftInstbndf} mfthod.
+     * <p>This is fquivblfnt to dblling
+     * {@link #DbtfFormbtSymbols(Lodblf)
+     *     DbtfFormbtSymbols(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff #gftInstbndf()
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @fxdfption  jbvb.util.MissingRfsourdfExdfption
+     *             if thf rfsourdfs for thf dffbult lodblf dbnnot bf
+     *             found or dbnnot bf lobdfd.
+     */
+    publid DbtfFormbtSymbols()
+    {
+        initiblizfDbtb(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+    }
+
+    /**
+     * Construdt b DbtfFormbtSymbols objfdt by lobding formbt dbtb from
+     * rfsourdfs for thf givfn lodblf. This donstrudtor dbn only
+     * donstrudt instbndfs for thf lodblfs supportfd by thf Jbvb
+     * runtimf fnvironmfnt, not for thosf supportfd by instbllfd
+     * {@link jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr DbtfFormbtSymbolsProvidfr}
+     * implfmfntbtions. For full lodblf dovfrbgf, usf thf
+     * {@link #gftInstbndf(Lodblf) gftInstbndf} mfthod.
+     *
+     * @pbrbm lodblf thf dfsirfd lodblf
+     * @sff #gftInstbndf(Lodblf)
+     * @fxdfption  jbvb.util.MissingRfsourdfExdfption
+     *             if thf rfsourdfs for thf spfdififd lodblf dbnnot bf
+     *             found or dbnnot bf lobdfd.
+     */
+    publid DbtfFormbtSymbols(Lodblf lodblf)
+    {
+        initiblizfDbtb(lodblf);
+    }
+
+    /**
+     * Erb strings. For fxbmplf: "AD" bnd "BC".  An brrby of 2 strings,
+     * indfxfd by <dodf>Cblfndbr.BC</dodf> bnd <dodf>Cblfndbr.AD</dodf>.
+     * @sfribl
+     */
+    String frbs[] = null;
+
+    /**
+     * Month strings. For fxbmplf: "Jbnubry", "Ffbrubry", ftd.  An brrby
+     * of 13 strings (somf dblfndbrs hbvf 13 months), indfxfd by
+     * <dodf>Cblfndbr.JANUARY</dodf>, <dodf>Cblfndbr.FEBRUARY</dodf>, ftd.
+     * @sfribl
+     */
+    String months[] = null;
+
+    /**
+     * Short month strings. For fxbmplf: "Jbn", "Ffb", ftd.  An brrby of
+     * 13 strings (somf dblfndbrs hbvf 13 months), indfxfd by
+     * <dodf>Cblfndbr.JANUARY</dodf>, <dodf>Cblfndbr.FEBRUARY</dodf>, ftd.
+
+     * @sfribl
+     */
+    String shortMonths[] = null;
+
+    /**
+     * Wffkdby strings. For fxbmplf: "Sundby", "Mondby", ftd.  An brrby
+     * of 8 strings, indfxfd by <dodf>Cblfndbr.SUNDAY</dodf>,
+     * <dodf>Cblfndbr.MONDAY</dodf>, ftd.
+     * Thf flfmfnt <dodf>wffkdbys[0]</dodf> is ignorfd.
+     * @sfribl
+     */
+    String wffkdbys[] = null;
+
+    /**
+     * Short wffkdby strings. For fxbmplf: "Sun", "Mon", ftd.  An brrby
+     * of 8 strings, indfxfd by <dodf>Cblfndbr.SUNDAY</dodf>,
+     * <dodf>Cblfndbr.MONDAY</dodf>, ftd.
+     * Thf flfmfnt <dodf>shortWffkdbys[0]</dodf> is ignorfd.
+     * @sfribl
+     */
+    String shortWffkdbys[] = null;
+
+    /**
+     * AM bnd PM strings. For fxbmplf: "AM" bnd "PM".  An brrby of
+     * 2 strings, indfxfd by <dodf>Cblfndbr.AM</dodf> bnd
+     * <dodf>Cblfndbr.PM</dodf>.
+     * @sfribl
+     */
+    String bmpms[] = null;
+
+    /**
+     * Lodblizfd nbmfs of timf zonfs in this lodblf.  This is b
+     * two-dimfnsionbl brrby of strings of sizf <fm>n</fm> by <fm>m</fm>,
+     * whfrf <fm>m</fm> is bt lfbst 5.  Ebdh of thf <fm>n</fm> rows is bn
+     * fntry dontbining thf lodblizfd nbmfs for b singlf <dodf>TimfZonf</dodf>.
+     * Ebdh sudh row dontbins (with <dodf>i</dodf> rbnging from
+     * 0..<fm>n</fm>-1):
+     * <ul>
+     * <li><dodf>zonfStrings[i][0]</dodf> - timf zonf ID</li>
+     * <li><dodf>zonfStrings[i][1]</dodf> - long nbmf of zonf in stbndbrd
+     * timf</li>
+     * <li><dodf>zonfStrings[i][2]</dodf> - short nbmf of zonf in
+     * stbndbrd timf</li>
+     * <li><dodf>zonfStrings[i][3]</dodf> - long nbmf of zonf in dbylight
+     * sbving timf</li>
+     * <li><dodf>zonfStrings[i][4]</dodf> - short nbmf of zonf in dbylight
+     * sbving timf</li>
+     * </ul>
+     * Thf zonf ID is <fm>not</fm> lodblizfd; it's onf of thf vblid IDs of
+     * thf {@link jbvb.util.TimfZonf TimfZonf} dlbss thbt brf not
+     * <b hrff="../jbvb/util/TimfZonf.html#CustomID">dustom IDs</b>.
+     * All othfr fntrifs brf lodblizfd nbmfs.
+     * @sff jbvb.util.TimfZonf
+     * @sfribl
+     */
+    String zonfStrings[][] = null;
+
+    /**
+     * Indidbtfs thbt zonfStrings is sft fxtfrnblly with sftZonfStrings() mfthod.
+     */
+    trbnsifnt boolfbn isZonfStringsSft = fblsf;
+
+    /**
+     * Unlodblizfd dbtf-timf pbttfrn dhbrbdtfrs. For fxbmplf: 'y', 'd', ftd.
+     * All lodblfs usf thf sbmf thfsf unlodblizfd pbttfrn dhbrbdtfrs.
+     */
+    stbtid finbl String  pbttfrnChbrs = "GyMdkHmsSEDFwWbhKzZYuXL";
+
+    stbtid finbl int PATTERN_ERA                  =  0; // G
+    stbtid finbl int PATTERN_YEAR                 =  1; // y
+    stbtid finbl int PATTERN_MONTH                =  2; // M
+    stbtid finbl int PATTERN_DAY_OF_MONTH         =  3; // d
+    stbtid finbl int PATTERN_HOUR_OF_DAY1         =  4; // k
+    stbtid finbl int PATTERN_HOUR_OF_DAY0         =  5; // H
+    stbtid finbl int PATTERN_MINUTE               =  6; // m
+    stbtid finbl int PATTERN_SECOND               =  7; // s
+    stbtid finbl int PATTERN_MILLISECOND          =  8; // S
+    stbtid finbl int PATTERN_DAY_OF_WEEK          =  9; // E
+    stbtid finbl int PATTERN_DAY_OF_YEAR          = 10; // D
+    stbtid finbl int PATTERN_DAY_OF_WEEK_IN_MONTH = 11; // F
+    stbtid finbl int PATTERN_WEEK_OF_YEAR         = 12; // w
+    stbtid finbl int PATTERN_WEEK_OF_MONTH        = 13; // W
+    stbtid finbl int PATTERN_AM_PM                = 14; // b
+    stbtid finbl int PATTERN_HOUR1                = 15; // h
+    stbtid finbl int PATTERN_HOUR0                = 16; // K
+    stbtid finbl int PATTERN_ZONE_NAME            = 17; // z
+    stbtid finbl int PATTERN_ZONE_VALUE           = 18; // Z
+    stbtid finbl int PATTERN_WEEK_YEAR            = 19; // Y
+    stbtid finbl int PATTERN_ISO_DAY_OF_WEEK      = 20; // u
+    stbtid finbl int PATTERN_ISO_ZONE             = 21; // X
+    stbtid finbl int PATTERN_MONTH_STANDALONE     = 22; // L
+
+    /**
+     * Lodblizfd dbtf-timf pbttfrn dhbrbdtfrs. For fxbmplf, b lodblf mby
+     * wish to usf 'u' rbthfr thbn 'y' to rfprfsfnt yfbrs in its dbtf formbt
+     * pbttfrn strings.
+     * This string must bf fxbdtly 18 dhbrbdtfrs long, with thf indfx of
+     * thf dhbrbdtfrs dfsdribfd by <dodf>DbtfFormbt.ERA_FIELD</dodf>,
+     * <dodf>DbtfFormbt.YEAR_FIELD</dodf>, ftd.  Thus, if thf string wfrf
+     * "Xz...", thfn lodblizfd pbttfrns would usf 'X' for frb bnd 'z' for yfbr.
+     * @sfribl
+     */
+    String  lodblPbttfrnChbrs = null;
+
+    /**
+     * Thf lodblf whidh is usfd for initiblizing this DbtfFormbtSymbols objfdt.
+     *
+     * @sindf 1.6
+     * @sfribl
+     */
+    Lodblf lodblf = null;
+
+    /* usf sfriblVfrsionUID from JDK 1.1.4 for intfropfrbbility */
+    stbtid finbl long sfriblVfrsionUID = -5987973545549424702L;
+
+    /**
+     * Rfturns bn brrby of bll lodblfs for whidh thf
+     * <dodf>gftInstbndf</dodf> mfthods of this dlbss dbn rfturn
+     * lodblizfd instbndfs.
+     * Thf rfturnfd brrby rfprfsfnts thf union of lodblfs supportfd by thf
+     * Jbvb runtimf bnd by instbllfd
+     * {@link jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr DbtfFormbtSymbolsProvidfr}
+     * implfmfntbtions.  It must dontbin bt lfbst b <dodf>Lodblf</dodf>
+     * instbndf fqubl to {@link jbvb.util.Lodblf#US Lodblf.US}.
+     *
+     * @rfturn An brrby of lodblfs for whidh lodblizfd
+     *         <dodf>DbtfFormbtSymbols</dodf> instbndfs brf bvbilbblf.
+     * @sindf 1.6
+     */
+    publid stbtid Lodblf[] gftAvbilbblfLodblfs() {
+        LodblfSfrvidfProvidfrPool pool=
+            LodblfSfrvidfProvidfrPool.gftPool(DbtfFormbtSymbolsProvidfr.dlbss);
+        rfturn pool.gftAvbilbblfLodblfs();
+    }
+
+    /**
+     * Gfts thf <dodf>DbtfFormbtSymbols</dodf> instbndf for thf dffbult
+     * lodblf.  This mfthod providfs bddfss to <dodf>DbtfFormbtSymbols</dodf>
+     * instbndfs for lodblfs supportfd by thf Jbvb runtimf itsflf bs wfll
+     * bs for thosf supportfd by instbllfd
+     * {@link jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr DbtfFormbtSymbolsProvidfr}
+     * implfmfntbtions.
+     * <p>This is fquivblfnt to dblling {@link #gftInstbndf(Lodblf)
+     *     gftInstbndf(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT))}.
+     * @sff jbvb.util.Lodblf#gftDffbult(jbvb.util.Lodblf.Cbtfgory)
+     * @sff jbvb.util.Lodblf.Cbtfgory#FORMAT
+     * @rfturn b <dodf>DbtfFormbtSymbols</dodf> instbndf.
+     * @sindf 1.6
+     */
+    publid stbtid finbl DbtfFormbtSymbols gftInstbndf() {
+        rfturn gftInstbndf(Lodblf.gftDffbult(Lodblf.Cbtfgory.FORMAT));
+    }
+
+    /**
+     * Gfts thf <dodf>DbtfFormbtSymbols</dodf> instbndf for thf spfdififd
+     * lodblf.  This mfthod providfs bddfss to <dodf>DbtfFormbtSymbols</dodf>
+     * instbndfs for lodblfs supportfd by thf Jbvb runtimf itsflf bs wfll
+     * bs for thosf supportfd by instbllfd
+     * {@link jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr DbtfFormbtSymbolsProvidfr}
+     * implfmfntbtions.
+     * @pbrbm lodblf thf givfn lodblf.
+     * @rfturn b <dodf>DbtfFormbtSymbols</dodf> instbndf.
+     * @fxdfption NullPointfrExdfption if <dodf>lodblf</dodf> is null
+     * @sindf 1.6
+     */
+    publid stbtid finbl DbtfFormbtSymbols gftInstbndf(Lodblf lodblf) {
+        DbtfFormbtSymbols dfs = gftProvidfrInstbndf(lodblf);
+        if (dfs != null) {
+            rfturn dfs;
+        }
+        throw nfw RuntimfExdfption("DbtfFormbtSymbols instbndf drfbtion fbilfd.");
+    }
+
+    /**
+     * Rfturns b DbtfFormbtSymbols providfd by b providfr or found in
+     * thf dbdhf. Notf thbt this mfthod rfturns b dbdhfd instbndf,
+     * not its dlonf. Thfrfforf, thf instbndf should nfvfr bf givfn to
+     * bn bpplidbtion.
+     */
+    stbtid finbl DbtfFormbtSymbols gftInstbndfRff(Lodblf lodblf) {
+        DbtfFormbtSymbols dfs = gftProvidfrInstbndf(lodblf);
+        if (dfs != null) {
+            rfturn dfs;
+        }
+        throw nfw RuntimfExdfption("DbtfFormbtSymbols instbndf drfbtion fbilfd.");
+    }
+
+    privbtf stbtid DbtfFormbtSymbols gftProvidfrInstbndf(Lodblf lodblf) {
+        LodblfProvidfrAdbptfr bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(DbtfFormbtSymbolsProvidfr.dlbss, lodblf);
+        DbtfFormbtSymbolsProvidfr providfr = bdbptfr.gftDbtfFormbtSymbolsProvidfr();
+        DbtfFormbtSymbols dfsyms = providfr.gftInstbndf(lodblf);
+        if (dfsyms == null) {
+            providfr = LodblfProvidfrAdbptfr.forJRE().gftDbtfFormbtSymbolsProvidfr();
+            dfsyms = providfr.gftInstbndf(lodblf);
+        }
+        rfturn dfsyms;
+    }
+
+    /**
+     * Gfts frb strings. For fxbmplf: "AD" bnd "BC".
+     * @rfturn thf frb strings.
+     */
+    publid String[] gftErbs() {
+        rfturn Arrbys.dopyOf(frbs, frbs.lfngth);
+    }
+
+    /**
+     * Sfts frb strings. For fxbmplf: "AD" bnd "BC".
+     * @pbrbm nfwErbs thf nfw frb strings.
+     */
+    publid void sftErbs(String[] nfwErbs) {
+        frbs = Arrbys.dopyOf(nfwErbs, nfwErbs.lfngth);
+        dbdhfdHbshCodf = 0;
+    }
+
+    /**
+     * Gfts month strings. For fxbmplf: "Jbnubry", "Ffbrubry", ftd.
+     *
+     * <p>If thf lbngubgf rfquirfs difffrfnt forms for formbtting bnd
+     * stbnd-blonf usbgfs, this mfthod rfturns month nbmfs in thf
+     * formbtting form. For fxbmplf, thf prfffrrfd month nbmf for
+     * Jbnubry in thf Czfdh lbngubgf is <fm>lfdnb</fm> in thf
+     * formbtting form, whilf it is <fm>lfdfn</fm> in thf stbnd-blonf
+     * form. This mfthod rfturns {@dodf "lfdnb"} in this dbsf. Rfffr
+     * to thf <b hrff="http://unidodf.org/rfports/tr35/#Cblfndbr_Elfmfnts">
+     * Cblfndbr Elfmfnts in thf Unidodf Lodblf Dbtb Mbrkup Lbngubgf
+     * (LDML) spfdifidbtion</b> for morf dftbils.
+     *
+     * @rfturn thf month strings.
+     */
+    publid String[] gftMonths() {
+        rfturn Arrbys.dopyOf(months, months.lfngth);
+    }
+
+    /**
+     * Sfts month strings. For fxbmplf: "Jbnubry", "Ffbrubry", ftd.
+     * @pbrbm nfwMonths thf nfw month strings.
+     */
+    publid void sftMonths(String[] nfwMonths) {
+        months = Arrbys.dopyOf(nfwMonths, nfwMonths.lfngth);
+        dbdhfdHbshCodf = 0;
+    }
+
+    /**
+     * Gfts short month strings. For fxbmplf: "Jbn", "Ffb", ftd.
+     *
+     * <p>If thf lbngubgf rfquirfs difffrfnt forms for formbtting bnd
+     * stbnd-blonf usbgfs, This mfthod rfturns short month nbmfs in
+     * thf formbtting form. For fxbmplf, thf prfffrrfd bbbrfvibtion
+     * for Jbnubry in thf Cbtblbn lbngubgf is <fm>df gfn.</fm> in thf
+     * formbtting form, whilf it is <fm>gfn.</fm> in thf stbnd-blonf
+     * form. This mfthod rfturns {@dodf "df gfn."} in this dbsf. Rfffr
+     * to thf <b hrff="http://unidodf.org/rfports/tr35/#Cblfndbr_Elfmfnts">
+     * Cblfndbr Elfmfnts in thf Unidodf Lodblf Dbtb Mbrkup Lbngubgf
+     * (LDML) spfdifidbtion</b> for morf dftbils.
+     *
+     * @rfturn thf short month strings.
+     */
+    publid String[] gftShortMonths() {
+        rfturn Arrbys.dopyOf(shortMonths, shortMonths.lfngth);
+    }
+
+    /**
+     * Sfts short month strings. For fxbmplf: "Jbn", "Ffb", ftd.
+     * @pbrbm nfwShortMonths thf nfw short month strings.
+     */
+    publid void sftShortMonths(String[] nfwShortMonths) {
+        shortMonths = Arrbys.dopyOf(nfwShortMonths, nfwShortMonths.lfngth);
+        dbdhfdHbshCodf = 0;
+    }
+
+    /**
+     * Gfts wffkdby strings. For fxbmplf: "Sundby", "Mondby", ftd.
+     * @rfturn thf wffkdby strings. Usf <dodf>Cblfndbr.SUNDAY</dodf>,
+     * <dodf>Cblfndbr.MONDAY</dodf>, ftd. to indfx thf rfsult brrby.
+     */
+    publid String[] gftWffkdbys() {
+        rfturn Arrbys.dopyOf(wffkdbys, wffkdbys.lfngth);
+    }
+
+    /**
+     * Sfts wffkdby strings. For fxbmplf: "Sundby", "Mondby", ftd.
+     * @pbrbm nfwWffkdbys thf nfw wffkdby strings. Thf brrby should
+     * bf indfxfd by <dodf>Cblfndbr.SUNDAY</dodf>,
+     * <dodf>Cblfndbr.MONDAY</dodf>, ftd.
+     */
+    publid void sftWffkdbys(String[] nfwWffkdbys) {
+        wffkdbys = Arrbys.dopyOf(nfwWffkdbys, nfwWffkdbys.lfngth);
+        dbdhfdHbshCodf = 0;
+    }
+
+    /**
+     * Gfts short wffkdby strings. For fxbmplf: "Sun", "Mon", ftd.
+     * @rfturn thf short wffkdby strings. Usf <dodf>Cblfndbr.SUNDAY</dodf>,
+     * <dodf>Cblfndbr.MONDAY</dodf>, ftd. to indfx thf rfsult brrby.
+     */
+    publid String[] gftShortWffkdbys() {
+        rfturn Arrbys.dopyOf(shortWffkdbys, shortWffkdbys.lfngth);
+    }
+
+    /**
+     * Sfts short wffkdby strings. For fxbmplf: "Sun", "Mon", ftd.
+     * @pbrbm nfwShortWffkdbys thf nfw short wffkdby strings. Thf brrby should
+     * bf indfxfd by <dodf>Cblfndbr.SUNDAY</dodf>,
+     * <dodf>Cblfndbr.MONDAY</dodf>, ftd.
+     */
+    publid void sftShortWffkdbys(String[] nfwShortWffkdbys) {
+        shortWffkdbys = Arrbys.dopyOf(nfwShortWffkdbys, nfwShortWffkdbys.lfngth);
+        dbdhfdHbshCodf = 0;
+    }
+
+    /**
+     * Gfts bmpm strings. For fxbmplf: "AM" bnd "PM".
+     * @rfturn thf bmpm strings.
+     */
+    publid String[] gftAmPmStrings() {
+        rfturn Arrbys.dopyOf(bmpms, bmpms.lfngth);
+    }
+
+    /**
+     * Sfts bmpm strings. For fxbmplf: "AM" bnd "PM".
+     * @pbrbm nfwAmpms thf nfw bmpm strings.
+     */
+    publid void sftAmPmStrings(String[] nfwAmpms) {
+        bmpms = Arrbys.dopyOf(nfwAmpms, nfwAmpms.lfngth);
+        dbdhfdHbshCodf = 0;
+    }
+
+    /**
+     * Gfts timf zonf strings.  Usf of this mfthod is disdourbgfd; usf
+     * {@link jbvb.util.TimfZonf#gftDisplbyNbmf() TimfZonf.gftDisplbyNbmf()}
+     * instfbd.
+     * <p>
+     * Thf vbluf rfturnfd is b
+     * two-dimfnsionbl brrby of strings of sizf <fm>n</fm> by <fm>m</fm>,
+     * whfrf <fm>m</fm> is bt lfbst 5.  Ebdh of thf <fm>n</fm> rows is bn
+     * fntry dontbining thf lodblizfd nbmfs for b singlf <dodf>TimfZonf</dodf>.
+     * Ebdh sudh row dontbins (with <dodf>i</dodf> rbnging from
+     * 0..<fm>n</fm>-1):
+     * <ul>
+     * <li><dodf>zonfStrings[i][0]</dodf> - timf zonf ID</li>
+     * <li><dodf>zonfStrings[i][1]</dodf> - long nbmf of zonf in stbndbrd
+     * timf</li>
+     * <li><dodf>zonfStrings[i][2]</dodf> - short nbmf of zonf in
+     * stbndbrd timf</li>
+     * <li><dodf>zonfStrings[i][3]</dodf> - long nbmf of zonf in dbylight
+     * sbving timf</li>
+     * <li><dodf>zonfStrings[i][4]</dodf> - short nbmf of zonf in dbylight
+     * sbving timf</li>
+     * </ul>
+     * Thf zonf ID is <fm>not</fm> lodblizfd; it's onf of thf vblid IDs of
+     * thf {@link jbvb.util.TimfZonf TimfZonf} dlbss thbt brf not
+     * <b hrff="../util/TimfZonf.html#CustomID">dustom IDs</b>.
+     * All othfr fntrifs brf lodblizfd nbmfs.  If b zonf dofs not implfmfnt
+     * dbylight sbving timf, thf dbylight sbving timf nbmfs should not bf usfd.
+     * <p>
+     * If {@link #sftZonfStrings(String[][]) sftZonfStrings} hbs bffn dbllfd
+     * on this <dodf>DbtfFormbtSymbols</dodf> instbndf, thfn thf strings
+     * providfd by thbt dbll brf rfturnfd. Othfrwisf, thf rfturnfd brrby
+     * dontbins nbmfs providfd by thf Jbvb runtimf bnd by instbllfd
+     * {@link jbvb.util.spi.TimfZonfNbmfProvidfr TimfZonfNbmfProvidfr}
+     * implfmfntbtions.
+     *
+     * @rfturn thf timf zonf strings.
+     * @sff #sftZonfStrings(String[][])
+     */
+    publid String[][] gftZonfStrings() {
+        rfturn gftZonfStringsImpl(truf);
+    }
+
+    /**
+     * Sfts timf zonf strings.  Thf brgumfnt must bf b
+     * two-dimfnsionbl brrby of strings of sizf <fm>n</fm> by <fm>m</fm>,
+     * whfrf <fm>m</fm> is bt lfbst 5.  Ebdh of thf <fm>n</fm> rows is bn
+     * fntry dontbining thf lodblizfd nbmfs for b singlf <dodf>TimfZonf</dodf>.
+     * Ebdh sudh row dontbins (with <dodf>i</dodf> rbnging from
+     * 0..<fm>n</fm>-1):
+     * <ul>
+     * <li><dodf>zonfStrings[i][0]</dodf> - timf zonf ID</li>
+     * <li><dodf>zonfStrings[i][1]</dodf> - long nbmf of zonf in stbndbrd
+     * timf</li>
+     * <li><dodf>zonfStrings[i][2]</dodf> - short nbmf of zonf in
+     * stbndbrd timf</li>
+     * <li><dodf>zonfStrings[i][3]</dodf> - long nbmf of zonf in dbylight
+     * sbving timf</li>
+     * <li><dodf>zonfStrings[i][4]</dodf> - short nbmf of zonf in dbylight
+     * sbving timf</li>
+     * </ul>
+     * Thf zonf ID is <fm>not</fm> lodblizfd; it's onf of thf vblid IDs of
+     * thf {@link jbvb.util.TimfZonf TimfZonf} dlbss thbt brf not
+     * <b hrff="../util/TimfZonf.html#CustomID">dustom IDs</b>.
+     * All othfr fntrifs brf lodblizfd nbmfs.
+     *
+     * @pbrbm nfwZonfStrings thf nfw timf zonf strings.
+     * @fxdfption IllfgblArgumfntExdfption if thf lfngth of bny row in
+     *    <dodf>nfwZonfStrings</dodf> is lfss thbn 5
+     * @fxdfption NullPointfrExdfption if <dodf>nfwZonfStrings</dodf> is null
+     * @sff #gftZonfStrings()
+     */
+    publid void sftZonfStrings(String[][] nfwZonfStrings) {
+        String[][] bCopy = nfw String[nfwZonfStrings.lfngth][];
+        for (int i = 0; i < nfwZonfStrings.lfngth; ++i) {
+            int lfn = nfwZonfStrings[i].lfngth;
+            if (lfn < 5) {
+                throw nfw IllfgblArgumfntExdfption();
+            }
+            bCopy[i] = Arrbys.dopyOf(nfwZonfStrings[i], lfn);
+        }
+        zonfStrings = bCopy;
+        isZonfStringsSft = truf;
+        dbdhfdHbshCodf = 0;
+    }
+
+    /**
+     * Gfts lodblizfd dbtf-timf pbttfrn dhbrbdtfrs. For fxbmplf: 'u', 't', ftd.
+     * @rfturn thf lodblizfd dbtf-timf pbttfrn dhbrbdtfrs.
+     */
+    publid String gftLodblPbttfrnChbrs() {
+        rfturn lodblPbttfrnChbrs;
+    }
+
+    /**
+     * Sfts lodblizfd dbtf-timf pbttfrn dhbrbdtfrs. For fxbmplf: 'u', 't', ftd.
+     * @pbrbm nfwLodblPbttfrnChbrs thf nfw lodblizfd dbtf-timf
+     * pbttfrn dhbrbdtfrs.
+     */
+    publid void sftLodblPbttfrnChbrs(String nfwLodblPbttfrnChbrs) {
+        // Cbll toString() to throw bn NPE in dbsf thf brgumfnt is null
+        lodblPbttfrnChbrs = nfwLodblPbttfrnChbrs.toString();
+        dbdhfdHbshCodf = 0;
+    }
+
+    /**
+     * Ovfrridfs Clonfbblf
+     */
+    publid Objfdt dlonf()
+    {
+        try
+        {
+            DbtfFormbtSymbols othfr = (DbtfFormbtSymbols)supfr.dlonf();
+            dopyMfmbfrs(this, othfr);
+            rfturn othfr;
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            throw nfw IntfrnblError(f);
+        }
+    }
+
+    /**
+     * Ovfrridf hbshCodf.
+     * Gfnfrbtfs b hbsh dodf for thf DbtfFormbtSymbols objfdt.
+     */
+    @Ovfrridf
+    publid int hbshCodf() {
+        int hbshCodf = dbdhfdHbshCodf;
+        if (hbshCodf == 0) {
+            hbshCodf = 5;
+            hbshCodf = 11 * hbshCodf + Arrbys.hbshCodf(frbs);
+            hbshCodf = 11 * hbshCodf + Arrbys.hbshCodf(months);
+            hbshCodf = 11 * hbshCodf + Arrbys.hbshCodf(shortMonths);
+            hbshCodf = 11 * hbshCodf + Arrbys.hbshCodf(wffkdbys);
+            hbshCodf = 11 * hbshCodf + Arrbys.hbshCodf(shortWffkdbys);
+            hbshCodf = 11 * hbshCodf + Arrbys.hbshCodf(bmpms);
+            hbshCodf = 11 * hbshCodf + Arrbys.dffpHbshCodf(gftZonfStringsWrbppfr());
+            hbshCodf = 11 * hbshCodf + Objfdts.hbshCodf(lodblPbttfrnChbrs);
+            dbdhfdHbshCodf = hbshCodf;
+        }
+
+        rfturn hbshCodf;
+    }
+
+    /**
+     * Ovfrridf fqubls
+     */
+    publid boolfbn fqubls(Objfdt obj)
+    {
+        if (this == obj) rfturn truf;
+        if (obj == null || gftClbss() != obj.gftClbss()) rfturn fblsf;
+        DbtfFormbtSymbols thbt = (DbtfFormbtSymbols) obj;
+        rfturn (Arrbys.fqubls(frbs, thbt.frbs)
+                && Arrbys.fqubls(months, thbt.months)
+                && Arrbys.fqubls(shortMonths, thbt.shortMonths)
+                && Arrbys.fqubls(wffkdbys, thbt.wffkdbys)
+                && Arrbys.fqubls(shortWffkdbys, thbt.shortWffkdbys)
+                && Arrbys.fqubls(bmpms, thbt.bmpms)
+                && Arrbys.dffpEqubls(gftZonfStringsWrbppfr(), thbt.gftZonfStringsWrbppfr())
+                && ((lodblPbttfrnChbrs != null
+                  && lodblPbttfrnChbrs.fqubls(thbt.lodblPbttfrnChbrs))
+                 || (lodblPbttfrnChbrs == null
+                  && thbt.lodblPbttfrnChbrs == null)));
+    }
+
+    // =======================privbtfs===============================
+
+    /**
+     * Usfful donstbnt for dffining timf zonf offsfts.
+     */
+    stbtid finbl int millisPfrHour = 60*60*1000;
+
+    /**
+     * Cbdhf to hold DbtfFormbtSymbols instbndfs pfr Lodblf.
+     */
+    privbtf stbtid finbl CondurrfntMbp<Lodblf, SoftRfffrfndf<DbtfFormbtSymbols>> dbdhfdInstbndfs
+        = nfw CondurrfntHbshMbp<>(3);
+
+    privbtf trbnsifnt int lbstZonfIndfx = 0;
+
+    /**
+     * Cbdhfd hbsh dodf
+     */
+    trbnsifnt volbtilf int dbdhfdHbshCodf = 0;
+
+    privbtf void initiblizfDbtb(Lodblf dfsirfdLodblf) {
+        lodblf = dfsirfdLodblf;
+
+        // Copy vblufs of b dbdhfd instbndf if bny.
+        SoftRfffrfndf<DbtfFormbtSymbols> rff = dbdhfdInstbndfs.gft(lodblf);
+        DbtfFormbtSymbols dfs;
+        if (rff != null && (dfs = rff.gft()) != null) {
+            dopyMfmbfrs(dfs, this);
+            rfturn;
+        }
+
+        // Initiblizf thf fiflds from thf RfsourdfBundlf for lodblf.
+        LodblfProvidfrAdbptfr bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(DbtfFormbtSymbolsProvidfr.dlbss, lodblf);
+        // Avoid bny potfntibl rfdursions
+        if (!(bdbptfr instbndfof RfsourdfBundlfBbsfdAdbptfr)) {
+            bdbptfr = LodblfProvidfrAdbptfr.gftRfsourdfBundlfBbsfd();
+        }
+        RfsourdfBundlf rfsourdf = ((RfsourdfBundlfBbsfdAdbptfr)bdbptfr).gftLodblfDbtb().gftDbtfFormbtDbtb(lodblf);
+
+        // JRE bnd CLDR usf difffrfnt kfys
+        // JRE: Erbs, short.Erbs bnd nbrrow.Erbs
+        // CLDR: long.Erbs, Erbs bnd nbrrow.Erbs
+        if (rfsourdf.dontbinsKfy("Erbs")) {
+            frbs = rfsourdf.gftStringArrby("Erbs");
+        } flsf if (rfsourdf.dontbinsKfy("long.Erbs")) {
+            frbs = rfsourdf.gftStringArrby("long.Erbs");
+        } flsf if (rfsourdf.dontbinsKfy("short.Erbs")) {
+            frbs = rfsourdf.gftStringArrby("short.Erbs");
+        }
+        months = rfsourdf.gftStringArrby("MonthNbmfs");
+        shortMonths = rfsourdf.gftStringArrby("MonthAbbrfvibtions");
+        bmpms = rfsourdf.gftStringArrby("AmPmMbrkfrs");
+        lodblPbttfrnChbrs = rfsourdf.gftString("DbtfTimfPbttfrnChbrs");
+
+        // Dby of wffk nbmfs brf storfd in b 1-bbsfd brrby.
+        wffkdbys = toOnfBbsfdArrby(rfsourdf.gftStringArrby("DbyNbmfs"));
+        shortWffkdbys = toOnfBbsfdArrby(rfsourdf.gftStringArrby("DbyAbbrfvibtions"));
+
+        // Put b dlonf in thf dbdhf
+        rff = nfw SoftRfffrfndf<>((DbtfFormbtSymbols)this.dlonf());
+        SoftRfffrfndf<DbtfFormbtSymbols> x = dbdhfdInstbndfs.putIfAbsfnt(lodblf, rff);
+        if (x != null) {
+            DbtfFormbtSymbols y = x.gft();
+            if (y == null) {
+                // Rfplbdf thf fmpty SoftRfffrfndf with rff.
+                dbdhfdInstbndfs.put(lodblf, rff);
+            }
+        }
+    }
+
+    privbtf stbtid String[] toOnfBbsfdArrby(String[] srd) {
+        int lfn = srd.lfngth;
+        String[] dst = nfw String[lfn + 1];
+        dst[0] = "";
+        for (int i = 0; i < lfn; i++) {
+            dst[i + 1] = srd[i];
+        }
+        rfturn dst;
+    }
+
+    /**
+     * Pbdkbgf privbtf: usfd by SimplfDbtfFormbt
+     * Gfts thf indfx for thf givfn timf zonf ID to obtbin thf timf zonf
+     * strings for formbtting. Thf timf zonf ID is just for progrbmmbtid
+     * lookup. NOT LOCALIZED!!!
+     * @pbrbm ID thf givfn timf zonf ID.
+     * @rfturn thf indfx of thf givfn timf zonf ID.  Rfturns -1 if
+     * thf givfn timf zonf ID dbn't bf lodbtfd in thf DbtfFormbtSymbols objfdt.
+     * @sff jbvb.util.SimplfTimfZonf
+     */
+    finbl int gftZonfIndfx(String ID) {
+        String[][] zonfStrings = gftZonfStringsWrbppfr();
+
+        /*
+         * gftZonfIndfx hbs bffn rf-writtfn for pfrformbndf rfbsons. instfbd of
+         * trbvfrsing thf zonfStrings brrby fvfry timf, wf dbdhf thf lbst usfd zonf
+         * indfx
+         */
+        if (lbstZonfIndfx < zonfStrings.lfngth && ID.fqubls(zonfStrings[lbstZonfIndfx][0])) {
+            rfturn lbstZonfIndfx;
+        }
+
+        /* slow pbth, sfbrdh fntirf list */
+        for (int indfx = 0; indfx < zonfStrings.lfngth; indfx++) {
+            if (ID.fqubls(zonfStrings[indfx][0])) {
+                lbstZonfIndfx = indfx;
+                rfturn indfx;
+            }
+        }
+
+        rfturn -1;
+    }
+
+    /**
+     * Wrbppfr mfthod to thf gftZonfStrings(), whidh is dbllfd from insidf
+     * thf jbvb.tfxt pbdkbgf bnd not to mutbtf thf rfturnfd brrbys, so thbt
+     * it dofs not nffd to drfbtf b dfffnsivf dopy.
+     */
+    finbl String[][] gftZonfStringsWrbppfr() {
+        if (isSubdlbssObjfdt()) {
+            rfturn gftZonfStrings();
+        } flsf {
+            rfturn gftZonfStringsImpl(fblsf);
+        }
+    }
+
+    privbtf String[][] gftZonfStringsImpl(boolfbn nffdsCopy) {
+        if (zonfStrings == null) {
+            zonfStrings = TimfZonfNbmfUtility.gftZonfStrings(lodblf);
+        }
+
+        if (!nffdsCopy) {
+            rfturn zonfStrings;
+        }
+
+        int lfn = zonfStrings.lfngth;
+        String[][] bCopy = nfw String[lfn][];
+        for (int i = 0; i < lfn; i++) {
+            bCopy[i] = Arrbys.dopyOf(zonfStrings[i], zonfStrings[i].lfngth);
+        }
+        rfturn bCopy;
+    }
+
+    privbtf boolfbn isSubdlbssObjfdt() {
+        rfturn !gftClbss().gftNbmf().fqubls("jbvb.tfxt.DbtfFormbtSymbols");
+    }
+
+    /**
+     * Clonfs bll thf dbtb mfmbfrs from thf sourdf DbtfFormbtSymbols to
+     * thf tbrgft DbtfFormbtSymbols. This is only for subdlbssfs.
+     * @pbrbm srd thf sourdf DbtfFormbtSymbols.
+     * @pbrbm dst thf tbrgft DbtfFormbtSymbols.
+     */
+    privbtf void dopyMfmbfrs(DbtfFormbtSymbols srd, DbtfFormbtSymbols dst)
+    {
+        dst.frbs = Arrbys.dopyOf(srd.frbs, srd.frbs.lfngth);
+        dst.months = Arrbys.dopyOf(srd.months, srd.months.lfngth);
+        dst.shortMonths = Arrbys.dopyOf(srd.shortMonths, srd.shortMonths.lfngth);
+        dst.wffkdbys = Arrbys.dopyOf(srd.wffkdbys, srd.wffkdbys.lfngth);
+        dst.shortWffkdbys = Arrbys.dopyOf(srd.shortWffkdbys, srd.shortWffkdbys.lfngth);
+        dst.bmpms = Arrbys.dopyOf(srd.bmpms, srd.bmpms.lfngth);
+        if (srd.zonfStrings != null) {
+            dst.zonfStrings = srd.gftZonfStringsImpl(truf);
+        } flsf {
+            dst.zonfStrings = null;
+        }
+        dst.lodblPbttfrnChbrs = srd.lodblPbttfrnChbrs;
+        dst.dbdhfdHbshCodf = 0;
+    }
+
+    /**
+     * Writf out thf dffbult sfriblizbblf dbtb, bftfr fnsuring thf
+     * <dodf>zonfStrings</dodf> fifld is initiblizfd in ordfr to mbkf
+     * surf thf bbdkwbrd dompbtibility.
+     *
+     * @sindf 1.6
+     */
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm strfbm) throws IOExdfption {
+        if (zonfStrings == null) {
+            zonfStrings = TimfZonfNbmfUtility.gftZonfStrings(lodblf);
+        }
+        strfbm.dffbultWritfObjfdt();
+    }
+}

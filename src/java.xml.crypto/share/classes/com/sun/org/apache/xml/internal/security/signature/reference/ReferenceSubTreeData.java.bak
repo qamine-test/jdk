@@ -1,179 +1,179 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
  * $Id$
  */
-package com.sun.org.apache.xml.internal.security.signature.reference;
+pbdkbgf dom.sun.org.bpbdif.xml.intfrnbl.sfdurity.signbturf.rfffrfndf;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.NoSuchElementException;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
+import jbvb.util.ArrbyList;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.ListItfrbtor;
+import jbvb.util.NoSudiElfmfntExdfption;
+import org.w3d.dom.NbmfdNodfMbp;
+import org.w3d.dom.Nodf;
 
 /**
- * A representation of a <code>ReferenceNodeSetData</code> type containing a node-set.
- * This is a subtype of NodeSetData that represents a dereferenced
- * same-document URI as the root of a subdocument. The main reason is
- * for efficiency and performance, as some transforms can operate
- * directly on the subdocument and there is no need to convert it
- * first to an XPath node-set.
+ * A rfprfsfntbtion of b <dodf>RfffrfndfNodfSftDbtb</dodf> typf dontbining b nodf-sft.
+ * Tiis is b subtypf of NodfSftDbtb tibt rfprfsfnts b dfrfffrfndfd
+ * sbmf-dodumfnt URI bs tif root of b subdodumfnt. Tif mbin rfbson is
+ * for fffidifndy bnd pfrformbndf, bs somf trbnsforms dbn opfrbtf
+ * dirfdtly on tif subdodumfnt bnd tifrf is no nffd to donvfrt it
+ * first to bn XPbti nodf-sft.
  */
-public class ReferenceSubTreeData implements ReferenceNodeSetData {
+publid dlbss RfffrfndfSubTrffDbtb implfmfnts RfffrfndfNodfSftDbtb {
 
-    private boolean excludeComments;
-    private Node root;
+    privbtf boolfbn fxdludfCommfnts;
+    privbtf Nodf root;
 
-    public ReferenceSubTreeData(Node root, boolean excludeComments) {
-        this.root = root;
-        this.excludeComments = excludeComments;
+    publid RfffrfndfSubTrffDbtb(Nodf root, boolfbn fxdludfCommfnts) {
+        tiis.root = root;
+        tiis.fxdludfCommfnts = fxdludfCommfnts;
     }
 
-    public Iterator<Node> iterator() {
-        return new DelayedNodeIterator(root, excludeComments);
+    publid Itfrbtor<Nodf> itfrbtor() {
+        rfturn nfw DflbyfdNodfItfrbtor(root, fxdludfCommfnts);
     }
 
-    public Node getRoot() {
-        return root;
+    publid Nodf gftRoot() {
+        rfturn root;
     }
 
-    public boolean excludeComments() {
-        return excludeComments;
+    publid boolfbn fxdludfCommfnts() {
+        rfturn fxdludfCommfnts;
     }
 
     /**
-     * This is an Iterator that contains a backing node-set that is
-     * not populated until the caller first attempts to advance the iterator.
+     * Tiis is bn Itfrbtor tibt dontbins b bbdking nodf-sft tibt is
+     * not populbtfd until tif dbllfr first bttfmpts to bdvbndf tif itfrbtor.
      */
-    static class DelayedNodeIterator implements Iterator<Node> {
-        private Node root;
-        private List<Node> nodeSet;
-        private ListIterator<Node> li;
-        private boolean withComments;
+    stbtid dlbss DflbyfdNodfItfrbtor implfmfnts Itfrbtor<Nodf> {
+        privbtf Nodf root;
+        privbtf List<Nodf> nodfSft;
+        privbtf ListItfrbtor<Nodf> li;
+        privbtf boolfbn witiCommfnts;
 
-        DelayedNodeIterator(Node root, boolean excludeComments) {
-            this.root = root;
-            this.withComments = !excludeComments;
+        DflbyfdNodfItfrbtor(Nodf root, boolfbn fxdludfCommfnts) {
+            tiis.root = root;
+            tiis.witiCommfnts = !fxdludfCommfnts;
         }
 
-        public boolean hasNext() {
-            if (nodeSet == null) {
-                nodeSet = dereferenceSameDocumentURI(root);
-                li = nodeSet.listIterator();
+        publid boolfbn ibsNfxt() {
+            if (nodfSft == null) {
+                nodfSft = dfrfffrfndfSbmfDodumfntURI(root);
+                li = nodfSft.listItfrbtor();
             }
-            return li.hasNext();
+            rfturn li.ibsNfxt();
         }
 
-        public Node next() {
-            if (nodeSet == null) {
-                nodeSet = dereferenceSameDocumentURI(root);
-                li = nodeSet.listIterator();
+        publid Nodf nfxt() {
+            if (nodfSft == null) {
+                nodfSft = dfrfffrfndfSbmfDodumfntURI(root);
+                li = nodfSft.listItfrbtor();
             }
-            if (li.hasNext()) {
-                return li.next();
-            } else {
-                throw new NoSuchElementException();
+            if (li.ibsNfxt()) {
+                rfturn li.nfxt();
+            } flsf {
+                tirow nfw NoSudiElfmfntExdfption();
             }
         }
 
-        public void remove() {
-            throw new UnsupportedOperationException();
+        publid void rfmovf() {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
 
         /**
-         * Dereferences a same-document URI fragment.
+         * Dfrfffrfndfs b sbmf-dodumfnt URI frbgmfnt.
          *
-         * @param node the node (document or element) referenced by the
-         *        URI fragment. If null, returns an empty set.
-         * @return a set of nodes (minus any comment nodes)
+         * @pbrbm nodf tif nodf (dodumfnt or flfmfnt) rfffrfndfd by tif
+         *        URI frbgmfnt. If null, rfturns bn fmpty sft.
+         * @rfturn b sft of nodfs (minus bny dommfnt nodfs)
          */
-        private List<Node> dereferenceSameDocumentURI(Node node) {
-            List<Node> nodeSet = new ArrayList<Node>();
-            if (node != null) {
-                nodeSetMinusCommentNodes(node, nodeSet, null);
+        privbtf List<Nodf> dfrfffrfndfSbmfDodumfntURI(Nodf nodf) {
+            List<Nodf> nodfSft = nfw ArrbyList<Nodf>();
+            if (nodf != null) {
+                nodfSftMinusCommfntNodfs(nodf, nodfSft, null);
             }
-            return nodeSet;
+            rfturn nodfSft;
         }
 
         /**
-         * Recursively traverses the subtree, and returns an XPath-equivalent
-         * node-set of all nodes traversed, excluding any comment nodes,
-         * if specified.
+         * Rfdursivfly trbvfrsfs tif subtrff, bnd rfturns bn XPbti-fquivblfnt
+         * nodf-sft of bll nodfs trbvfrsfd, fxdluding bny dommfnt nodfs,
+         * if spfdififd.
          *
-         * @param node the node to traverse
-         * @param nodeSet the set of nodes traversed so far
-         * @param the previous sibling node
+         * @pbrbm nodf tif nodf to trbvfrsf
+         * @pbrbm nodfSft tif sft of nodfs trbvfrsfd so fbr
+         * @pbrbm tif prfvious sibling nodf
          */
-        @SuppressWarnings("fallthrough")
-        private void nodeSetMinusCommentNodes(Node node, List<Node> nodeSet,
-                                              Node prevSibling)
+        @SupprfssWbrnings("fblltirougi")
+        privbtf void nodfSftMinusCommfntNodfs(Nodf nodf, List<Nodf> nodfSft,
+                                              Nodf prfvSibling)
         {
-            switch (node.getNodeType()) {
-                case Node.ELEMENT_NODE :
-                    nodeSet.add(node);
-                    NamedNodeMap attrs = node.getAttributes();
-                    if (attrs != null) {
-                        for (int i = 0, len = attrs.getLength(); i < len; i++) {
-                            nodeSet.add(attrs.item(i));
+            switdi (nodf.gftNodfTypf()) {
+                dbsf Nodf.ELEMENT_NODE :
+                    nodfSft.bdd(nodf);
+                    NbmfdNodfMbp bttrs = nodf.gftAttributfs();
+                    if (bttrs != null) {
+                        for (int i = 0, lfn = bttrs.gftLfngti(); i < lfn; i++) {
+                            nodfSft.bdd(bttrs.itfm(i));
                         }
                     }
-                    Node pSibling = null;
-                    for (Node child = node.getFirstChild(); child != null;
-                        child = child.getNextSibling()) {
-                        nodeSetMinusCommentNodes(child, nodeSet, pSibling);
-                        pSibling = child;
+                    Nodf pSibling = null;
+                    for (Nodf diild = nodf.gftFirstCiild(); diild != null;
+                        diild = diild.gftNfxtSibling()) {
+                        nodfSftMinusCommfntNodfs(diild, nodfSft, pSibling);
+                        pSibling = diild;
                     }
-                    break;
-                case Node.DOCUMENT_NODE :
+                    brfbk;
+                dbsf Nodf.DOCUMENT_NODE :
                     pSibling = null;
-                    for (Node child = node.getFirstChild(); child != null;
-                        child = child.getNextSibling()) {
-                        nodeSetMinusCommentNodes(child, nodeSet, pSibling);
-                        pSibling = child;
+                    for (Nodf diild = nodf.gftFirstCiild(); diild != null;
+                        diild = diild.gftNfxtSibling()) {
+                        nodfSftMinusCommfntNodfs(diild, nodfSft, pSibling);
+                        pSibling = diild;
                     }
-                    break;
-                case Node.TEXT_NODE :
-                case Node.CDATA_SECTION_NODE:
-                    // emulate XPath which only returns the first node in
-                    // contiguous text/cdata nodes
-                    if (prevSibling != null &&
-                        (prevSibling.getNodeType() == Node.TEXT_NODE ||
-                         prevSibling.getNodeType() == Node.CDATA_SECTION_NODE)) {
-                        return;
+                    brfbk;
+                dbsf Nodf.TEXT_NODE :
+                dbsf Nodf.CDATA_SECTION_NODE:
+                    // fmulbtf XPbti wiidi only rfturns tif first nodf in
+                    // dontiguous tfxt/ddbtb nodfs
+                    if (prfvSibling != null &&
+                        (prfvSibling.gftNodfTypf() == Nodf.TEXT_NODE ||
+                         prfvSibling.gftNodfTypf() == Nodf.CDATA_SECTION_NODE)) {
+                        rfturn;
                     }
-                    nodeSet.add(node);
-                    break;
-                case Node.PROCESSING_INSTRUCTION_NODE :
-                    nodeSet.add(node);
-                    break;
-                case Node.COMMENT_NODE:
-                    if (withComments) {
-                        nodeSet.add(node);
+                    nodfSft.bdd(nodf);
+                    brfbk;
+                dbsf Nodf.PROCESSING_INSTRUCTION_NODE :
+                    nodfSft.bdd(nodf);
+                    brfbk;
+                dbsf Nodf.COMMENT_NODE:
+                    if (witiCommfnts) {
+                        nodfSft.bdd(nodf);
                     }
             }
         }

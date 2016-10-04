@@ -1,35 +1,35 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 
-/* Copyright  (c) 2002 Graz University of Technology. All rights reserved.
+/* Copyrigit  (d) 2002 Grbz Univfrsity of Tfdinology. All rigits rfsfrvfd.
  *
- * Redistribution and use in  source and binary forms, with or without
- * modification, are permitted  provided that the following conditions are met:
+ * Rfdistribution bnd usf in  sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd  providfd tibt tif following donditions brf mft:
  *
- * 1. Redistributions of  source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
+ * 1. Rfdistributions of  sourdf dodf must rftbin tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr.
  *
- * 2. Redistributions in  binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
+ * 2. Rfdistributions in  binbry form must rfprodudf tif bbovf dopyrigit notidf,
+ *    tiis list of donditions bnd tif following disdlbimfr in tif dodumfntbtion
+ *    bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- * 3. The end-user documentation included with the redistribution, if any, must
- *    include the following acknowledgment:
+ * 3. Tif fnd-usfr dodumfntbtion indludfd witi tif rfdistribution, if bny, must
+ *    indludf tif following bdknowlfdgmfnt:
  *
- *    "This product includes software developed by IAIK of Graz University of
- *     Technology."
+ *    "Tiis produdt indludfs softwbrf dfvflopfd by IAIK of Grbz Univfrsity of
+ *     Tfdinology."
  *
- *    Alternately, this acknowledgment may appear in the software itself, if
- *    and wherever such third-party acknowledgments normally appear.
+ *    Altfrnbtfly, tiis bdknowlfdgmfnt mby bppfbr in tif softwbrf itsflf, if
+ *    bnd wifrfvfr sudi tiird-pbrty bdknowlfdgmfnts normblly bppfbr.
  *
- * 4. The names "Graz University of Technology" and "IAIK of Graz University of
- *    Technology" must not be used to endorse or promote products derived from
- *    this software without prior written permission.
+ * 4. Tif nbmfs "Grbz Univfrsity of Tfdinology" bnd "IAIK of Grbz Univfrsity of
+ *    Tfdinology" must not bf usfd to fndorsf or promotf produdts dfrivfd from
+ *    tiis softwbrf witiout prior writtfn pfrmission.
  *
- * 5. Products derived from this software may not be called
- *    "IAIK PKCS Wrapper", nor may "IAIK" appear in their name, without prior
- *    written permission of Graz University of Technology.
+ * 5. Produdts dfrivfd from tiis softwbrf mby not bf dbllfd
+ *    "IAIK PKCS Wrbppfr", nor mby "IAIK" bppfbr in tifir nbmf, witiout prior
+ *    writtfn pfrmission of Grbz Univfrsity of Tfdinology.
  *
  *  THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED
  *  WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
@@ -45,385 +45,385 @@
  *  POSSIBILITY  OF SUCH DAMAGE.
  */
 
-#include "pkcs11wrapper.h"
+#indludf "pkds11wrbppfr.i"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <assert.h>
+#indludf <stdio.i>
+#indludf <stdlib.i>
+#indludf <string.i>
+#indludf <bssfrt.i>
 
-#include "sun_security_pkcs11_wrapper_PKCS11.h"
+#indludf "sun_sfdurity_pkds11_wrbppfr_PKCS11.i"
 
-#ifdef P11_ENABLE_C_CREATEOBJECT
+#ifdff P11_ENABLE_C_CREATEOBJECT
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_CreateObject
- * Signature: (J[Lsun/security/pkcs11/wrapper/CK_ATTRIBUTE;)J
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jobjectArray jTemplate      CK_ATTRIBUTE_PTR pTemplate
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_CrfbtfObjfdt
+ * Signbturf: (J[Lsun/sfdurity/pkds11/wrbppfr/CK_ATTRIBUTE;)J
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jobjfdtArrby jTfmplbtf      CK_ATTRIBUTE_PTR pTfmplbtf
  *                                      CK_ULONG ulCount
- * @return  jlong jObjectHandle         CK_OBJECT_HANDLE_PTR phObject
+ * @rfturn  jlong jObjfdtHbndlf         CK_OBJECT_HANDLE_PTR piObjfdt
  */
-JNIEXPORT jlong JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1CreateObject
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jobjectArray jTemplate)
+JNIEXPORT jlong JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1CrfbtfObjfdt
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jobjfdtArrby jTfmplbtf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_OBJECT_HANDLE ckObjectHandle;
-    CK_ATTRIBUTE_PTR ckpAttributes = NULL_PTR;
-    CK_ULONG ckAttributesLength;
-    jlong jObjectHandle = 0L;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_OBJECT_HANDLE dkObjfdtHbndlf;
+    CK_ATTRIBUTE_PTR dkpAttributfs = NULL_PTR;
+    CK_ULONG dkAttributfsLfngti;
+    jlong jObjfdtHbndlf = 0L;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0L; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0L; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jAttributeArrayToCKAttributeArray(env, jTemplate, &ckpAttributes, &ckAttributesLength);
-    if ((*env)->ExceptionCheck(env)) { return 0L; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jAttributfArrbyToCKAttributfArrby(fnv, jTfmplbtf, &dkpAttributfs, &dkAttributfsLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn 0L; }
 
-    rv = (*ckpFunctions->C_CreateObject)(ckSessionHandle, ckpAttributes, ckAttributesLength, &ckObjectHandle);
+    rv = (*dkpFundtions->C_CrfbtfObjfdt)(dkSfssionHbndlf, dkpAttributfs, dkAttributfsLfngti, &dkObjfdtHbndlf);
 
-    jObjectHandle = ckULongToJLong(ckObjectHandle);
-    freeCKAttributeArray(ckpAttributes, ckAttributesLength);
+    jObjfdtHbndlf = dkULongToJLong(dkObjfdtHbndlf);
+    frffCKAttributfArrby(dkpAttributfs, dkAttributfsLfngti);
 
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return 0L ; }
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn 0L ; }
 
-    return jObjectHandle ;
+    rfturn jObjfdtHbndlf ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_COPYOBJECT
+#ifdff P11_ENABLE_C_COPYOBJECT
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_CopyObject
- * Signature: (JJ[Lsun/security/pkcs11/wrapper/CK_ATTRIBUTE;)J
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jlong jObjectHandle         CK_OBJECT_HANDLE hObject
- * @param   jobjectArray jTemplate      CK_ATTRIBUTE_PTR pTemplate
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_CopyObjfdt
+ * Signbturf: (JJ[Lsun/sfdurity/pkds11/wrbppfr/CK_ATTRIBUTE;)J
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jlong jObjfdtHbndlf         CK_OBJECT_HANDLE iObjfdt
+ * @pbrbm   jobjfdtArrby jTfmplbtf      CK_ATTRIBUTE_PTR pTfmplbtf
  *                                      CK_ULONG ulCount
- * @return  jlong jNewObjectHandle      CK_OBJECT_HANDLE_PTR phNewObject
+ * @rfturn  jlong jNfwObjfdtHbndlf      CK_OBJECT_HANDLE_PTR piNfwObjfdt
  */
-JNIEXPORT jlong JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1CopyObject
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jlong jObjectHandle, jobjectArray jTemplate)
+JNIEXPORT jlong JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1CopyObjfdt
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jlong jObjfdtHbndlf, jobjfdtArrby jTfmplbtf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_OBJECT_HANDLE ckObjectHandle;
-    CK_OBJECT_HANDLE ckNewObjectHandle;
-    CK_ATTRIBUTE_PTR ckpAttributes = NULL_PTR;
-    CK_ULONG ckAttributesLength;
-    jlong jNewObjectHandle = 0L;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_OBJECT_HANDLE dkObjfdtHbndlf;
+    CK_OBJECT_HANDLE dkNfwObjfdtHbndlf;
+    CK_ATTRIBUTE_PTR dkpAttributfs = NULL_PTR;
+    CK_ULONG dkAttributfsLfngti;
+    jlong jNfwObjfdtHbndlf = 0L;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0L; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0L; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    ckObjectHandle = jLongToCKULong(jObjectHandle);
-    jAttributeArrayToCKAttributeArray(env, jTemplate, &ckpAttributes, &ckAttributesLength);
-    if ((*env)->ExceptionCheck(env)) { return 0L; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    dkObjfdtHbndlf = jLongToCKULong(jObjfdtHbndlf);
+    jAttributfArrbyToCKAttributfArrby(fnv, jTfmplbtf, &dkpAttributfs, &dkAttributfsLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn 0L; }
 
-    rv = (*ckpFunctions->C_CopyObject)(ckSessionHandle, ckObjectHandle, ckpAttributes, ckAttributesLength, &ckNewObjectHandle);
+    rv = (*dkpFundtions->C_CopyObjfdt)(dkSfssionHbndlf, dkObjfdtHbndlf, dkpAttributfs, dkAttributfsLfngti, &dkNfwObjfdtHbndlf);
 
-    jNewObjectHandle = ckULongToJLong(ckNewObjectHandle);
-    freeCKAttributeArray(ckpAttributes, ckAttributesLength);
+    jNfwObjfdtHbndlf = dkULongToJLong(dkNfwObjfdtHbndlf);
+    frffCKAttributfArrby(dkpAttributfs, dkAttributfsLfngti);
 
-    if(ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return 0L ; }
+    if(dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn 0L ; }
 
-    return jNewObjectHandle ;
+    rfturn jNfwObjfdtHbndlf ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_DESTROYOBJECT
+#ifdff P11_ENABLE_C_DESTROYOBJECT
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_DestroyObject
- * Signature: (JJ)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jlong jObjectHandle         CK_OBJECT_HANDLE hObject
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_DfstroyObjfdt
+ * Signbturf: (JJ)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jlong jObjfdtHbndlf         CK_OBJECT_HANDLE iObjfdt
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1DestroyObject
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jlong jObjectHandle)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1DfstroyObjfdt
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jlong jObjfdtHbndlf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_OBJECT_HANDLE ckObjectHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_OBJECT_HANDLE dkObjfdtHbndlf;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    ckObjectHandle = jLongToCKULong(jObjectHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    dkObjfdtHbndlf = jLongToCKULong(jObjfdtHbndlf);
 
-    rv = (*ckpFunctions->C_DestroyObject)(ckSessionHandle, ckObjectHandle);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    rv = (*dkpFundtions->C_DfstroyObjfdt)(dkSfssionHbndlf, dkObjfdtHbndlf);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_GETOBJECTSIZE
+#ifdff P11_ENABLE_C_GETOBJECTSIZE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_GetObjectSize
- * Signature: (JJ)J
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jlong jObjectHandle         CK_OBJECT_HANDLE hObject
- * @return  jlong jObjectSize           CK_ULONG_PTR pulSize
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_GftObjfdtSizf
+ * Signbturf: (JJ)J
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jlong jObjfdtHbndlf         CK_OBJECT_HANDLE iObjfdt
+ * @rfturn  jlong jObjfdtSizf           CK_ULONG_PTR pulSizf
  */
-JNIEXPORT jlong JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1GetObjectSize
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jlong jObjectHandle)
+JNIEXPORT jlong JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GftObjfdtSizf
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jlong jObjfdtHbndlf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_OBJECT_HANDLE ckObjectHandle;
-    CK_ULONG ckObjectSize;
-    jlong jObjectSize = 0L;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_OBJECT_HANDLE dkObjfdtHbndlf;
+    CK_ULONG dkObjfdtSizf;
+    jlong jObjfdtSizf = 0L;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return 0L; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn 0L; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    ckObjectHandle = jLongToCKULong(jObjectHandle);
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    dkObjfdtHbndlf = jLongToCKULong(jObjfdtHbndlf);
 
-    rv = (*ckpFunctions->C_GetObjectSize)(ckSessionHandle, ckObjectHandle, &ckObjectSize);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return 0L ; }
+    rv = (*dkpFundtions->C_GftObjfdtSizf)(dkSfssionHbndlf, dkObjfdtHbndlf, &dkObjfdtSizf);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn 0L ; }
 
-    jObjectSize = ckULongToJLong(ckObjectSize);
+    jObjfdtSizf = dkULongToJLong(dkObjfdtSizf);
 
-    return jObjectSize ;
+    rfturn jObjfdtSizf ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_GETATTRIBUTEVALUE
+#ifdff P11_ENABLE_C_GETATTRIBUTEVALUE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_GetAttributeValue
- * Signature: (JJ[Lsun/security/pkcs11/wrapper/CK_ATTRIBUTE;)[Lsun/security/pkcs11/wrapper/CK_ATTRIBUTE;
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jlong jObjectHandle         CK_OBJECT_HANDLE hObject
- * @param   jobjectArray jTemplate      CK_ATTRIBUTE_PTR pTemplate
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_GftAttributfVbluf
+ * Signbturf: (JJ[Lsun/sfdurity/pkds11/wrbppfr/CK_ATTRIBUTE;)[Lsun/sfdurity/pkds11/wrbppfr/CK_ATTRIBUTE;
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jlong jObjfdtHbndlf         CK_OBJECT_HANDLE iObjfdt
+ * @pbrbm   jobjfdtArrby jTfmplbtf      CK_ATTRIBUTE_PTR pTfmplbtf
  *                                      CK_ULONG ulCount
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1GetAttributeValue
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jlong jObjectHandle, jobjectArray jTemplate)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1GftAttributfVbluf
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jlong jObjfdtHbndlf, jobjfdtArrby jTfmplbtf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_OBJECT_HANDLE ckObjectHandle;
-    CK_ATTRIBUTE_PTR ckpAttributes = NULL_PTR;
-    CK_ULONG ckAttributesLength;
-    CK_ULONG ckBufferLength;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_OBJECT_HANDLE dkObjfdtHbndlf;
+    CK_ATTRIBUTE_PTR dkpAttributfs = NULL_PTR;
+    CK_ULONG dkAttributfsLfngti;
+    CK_ULONG dkBufffrLfngti;
     CK_ULONG i;
-    jobject jAttribute;
+    jobjfdt jAttributf;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    TRACE0("DEBUG: C_GetAttributeValue");
-    TRACE1(", hSession=%u", jSessionHandle);
-    TRACE1(", hObject=%u", jObjectHandle);
-    TRACE1(", pTemplate=%p", jTemplate);
+    TRACE0("DEBUG: C_GftAttributfVbluf");
+    TRACE1(", iSfssion=%u", jSfssionHbndlf);
+    TRACE1(", iObjfdt=%u", jObjfdtHbndlf);
+    TRACE1(", pTfmplbtf=%p", jTfmplbtf);
     TRACE0(" ... ");
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    ckObjectHandle = jLongToCKULong(jObjectHandle);
-    TRACE1("jAttributeArrayToCKAttributeArray now with jTemplate = %d", jTemplate);
-    jAttributeArrayToCKAttributeArray(env, jTemplate, &ckpAttributes, &ckAttributesLength);
-    if ((*env)->ExceptionCheck(env)) { return; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    dkObjfdtHbndlf = jLongToCKULong(jObjfdtHbndlf);
+    TRACE1("jAttributfArrbyToCKAttributfArrby now witi jTfmplbtf = %d", jTfmplbtf);
+    jAttributfArrbyToCKAttributfArrby(fnv, jTfmplbtf, &dkpAttributfs, &dkAttributfsLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn; }
 
-    TRACE2("DEBUG: jAttributeArrayToCKAttributeArray finished with ckpAttribute = %d, Length = %d\n", ckpAttributes, ckAttributesLength);
+    TRACE2("DEBUG: jAttributfArrbyToCKAttributfArrby finisifd witi dkpAttributf = %d, Lfngti = %d\n", dkpAttributfs, dkAttributfsLfngti);
 
-    /* first set all pValue to NULL, to get the needed buffer length */
-    for(i = 0; i < ckAttributesLength; i++) {
-        if (ckpAttributes[i].pValue != NULL_PTR) {
-            free(ckpAttributes[i].pValue);
-            ckpAttributes[i].pValue = NULL_PTR;
+    /* first sft bll pVbluf to NULL, to gft tif nffdfd bufffr lfngti */
+    for(i = 0; i < dkAttributfsLfngti; i++) {
+        if (dkpAttributfs[i].pVbluf != NULL_PTR) {
+            frff(dkpAttributfs[i].pVbluf);
+            dkpAttributfs[i].pVbluf = NULL_PTR;
         }
     }
 
-    rv = (*ckpFunctions->C_GetAttributeValue)(ckSessionHandle, ckObjectHandle, ckpAttributes, ckAttributesLength);
-    if (ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) {
-        free(ckpAttributes);
-        return ;
+    rv = (*dkpFundtions->C_GftAttributfVbluf)(dkSfssionHbndlf, dkObjfdtHbndlf, dkpAttributfs, dkAttributfsLfngti);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) {
+        frff(dkpAttributfs);
+        rfturn ;
     }
 
-    /* now, the ulValueLength field of each attribute should hold the exact buffer length needed
-     * allocate the needed buffers accordingly
+    /* now, tif ulVblufLfngti fifld of fbdi bttributf siould iold tif fxbdt bufffr lfngti nffdfd
+     * bllodbtf tif nffdfd bufffrs bddordingly
      */
-    for (i = 0; i < ckAttributesLength; i++) {
-        ckBufferLength = sizeof(CK_BYTE) * ckpAttributes[i].ulValueLen;
-        ckpAttributes[i].pValue = (void *) malloc(ckBufferLength);
-        if (ckpAttributes[i].pValue == NULL) {
-            freeCKAttributeArray(ckpAttributes, i);
-            throwOutOfMemoryError(env, 0);
-            return;
+    for (i = 0; i < dkAttributfsLfngti; i++) {
+        dkBufffrLfngti = sizfof(CK_BYTE) * dkpAttributfs[i].ulVblufLfn;
+        dkpAttributfs[i].pVbluf = (void *) mbllod(dkBufffrLfngti);
+        if (dkpAttributfs[i].pVbluf == NULL) {
+            frffCKAttributfArrby(dkpAttributfs, i);
+            tirowOutOfMfmoryError(fnv, 0);
+            rfturn;
         }
-        ckpAttributes[i].ulValueLen = ckBufferLength;
+        dkpAttributfs[i].ulVblufLfn = dkBufffrLfngti;
     }
 
-    /* now get the attributes with all values */
-    rv = (*ckpFunctions->C_GetAttributeValue)(ckSessionHandle, ckObjectHandle, ckpAttributes, ckAttributesLength);
+    /* now gft tif bttributfs witi bll vblufs */
+    rv = (*dkpFundtions->C_GftAttributfVbluf)(dkSfssionHbndlf, dkObjfdtHbndlf, dkpAttributfs, dkAttributfsLfngti);
 
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        /* copy back the values to the Java attributes */
-        for (i = 0; i < ckAttributesLength; i++) {
-            jAttribute = ckAttributePtrToJAttribute(env, &(ckpAttributes[i]));
-            if (jAttribute == NULL) {
-                freeCKAttributeArray(ckpAttributes, ckAttributesLength);
-                return;
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        /* dopy bbdk tif vblufs to tif Jbvb bttributfs */
+        for (i = 0; i < dkAttributfsLfngti; i++) {
+            jAttributf = dkAttributfPtrToJAttributf(fnv, &(dkpAttributfs[i]));
+            if (jAttributf == NULL) {
+                frffCKAttributfArrby(dkpAttributfs, dkAttributfsLfngti);
+                rfturn;
             }
-            (*env)->SetObjectArrayElement(env, jTemplate, i, jAttribute);
-            if ((*env)->ExceptionCheck(env)) {
-                freeCKAttributeArray(ckpAttributes, ckAttributesLength);
-                return;
+            (*fnv)->SftObjfdtArrbyElfmfnt(fnv, jTfmplbtf, i, jAttributf);
+            if ((*fnv)->ExdfptionCifdk(fnv)) {
+                frffCKAttributfArrby(dkpAttributfs, dkAttributfsLfngti);
+                rfturn;
             }
         }
     }
-    freeCKAttributeArray(ckpAttributes, ckAttributesLength);
+    frffCKAttributfArrby(dkpAttributfs, dkAttributfsLfngti);
     TRACE0("FINISHED\n");
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_SETATTRIBUTEVALUE
+#ifdff P11_ENABLE_C_SETATTRIBUTEVALUE
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_SetAttributeValue
- * Signature: (JJ[Lsun/security/pkcs11/wrapper/CK_ATTRIBUTE;)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jlong jObjectHandle         CK_OBJECT_HANDLE hObject
- * @param   jobjectArray jTemplate      CK_ATTRIBUTE_PTR pTemplate
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_SftAttributfVbluf
+ * Signbturf: (JJ[Lsun/sfdurity/pkds11/wrbppfr/CK_ATTRIBUTE;)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jlong jObjfdtHbndlf         CK_OBJECT_HANDLE iObjfdt
+ * @pbrbm   jobjfdtArrby jTfmplbtf      CK_ATTRIBUTE_PTR pTfmplbtf
  *                                      CK_ULONG ulCount
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1SetAttributeValue
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jlong jObjectHandle, jobjectArray jTemplate)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1SftAttributfVbluf
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jlong jObjfdtHbndlf, jobjfdtArrby jTfmplbtf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_OBJECT_HANDLE ckObjectHandle;
-    CK_ATTRIBUTE_PTR ckpAttributes = NULL_PTR;
-    CK_ULONG ckAttributesLength;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_OBJECT_HANDLE dkObjfdtHbndlf;
+    CK_ATTRIBUTE_PTR dkpAttributfs = NULL_PTR;
+    CK_ULONG dkAttributfsLfngti;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    ckObjectHandle = jLongToCKULong(jObjectHandle);
-    jAttributeArrayToCKAttributeArray(env, jTemplate, &ckpAttributes, &ckAttributesLength);
-    if ((*env)->ExceptionCheck(env)) { return; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    dkObjfdtHbndlf = jLongToCKULong(jObjfdtHbndlf);
+    jAttributfArrbyToCKAttributfArrby(fnv, jTfmplbtf, &dkpAttributfs, &dkAttributfsLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn; }
 
-    rv = (*ckpFunctions->C_SetAttributeValue)(ckSessionHandle, ckObjectHandle, ckpAttributes, ckAttributesLength);
+    rv = (*dkpFundtions->C_SftAttributfVbluf)(dkSfssionHbndlf, dkObjfdtHbndlf, dkpAttributfs, dkAttributfsLfngti);
 
-    freeCKAttributeArray(ckpAttributes, ckAttributesLength);
+    frffCKAttributfArrby(dkpAttributfs, dkAttributfsLfngti);
 
-    if(ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if(dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_FINDOBJECTSINIT
+#ifdff P11_ENABLE_C_FINDOBJECTSINIT
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_FindObjectsInit
- * Signature: (J[Lsun/security/pkcs11/wrapper/CK_ATTRIBUTE;)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
- * @param   jobjectArray jTemplate      CK_ATTRIBUTE_PTR pTemplate
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_FindObjfdtsInit
+ * Signbturf: (J[Lsun/sfdurity/pkds11/wrbppfr/CK_ATTRIBUTE;)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jobjfdtArrby jTfmplbtf      CK_ATTRIBUTE_PTR pTfmplbtf
  *                                      CK_ULONG ulCount
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1FindObjectsInit
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jobjectArray jTemplate)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1FindObjfdtsInit
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jobjfdtArrby jTfmplbtf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_ATTRIBUTE_PTR ckpAttributes = NULL_PTR;
-    CK_ULONG ckAttributesLength;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_ATTRIBUTE_PTR dkpAttributfs = NULL_PTR;
+    CK_ULONG dkAttributfsLfngti;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    TRACE0("DEBUG: C_FindObjectsInit");
-    TRACE1(", hSession=%u", jSessionHandle);
-    TRACE1(", pTemplate=%p", jTemplate);
+    TRACE0("DEBUG: C_FindObjfdtsInit");
+    TRACE1(", iSfssion=%u", jSfssionHbndlf);
+    TRACE1(", pTfmplbtf=%p", jTfmplbtf);
     TRACE0(" ... ");
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    jAttributeArrayToCKAttributeArray(env, jTemplate, &ckpAttributes, &ckAttributesLength);
-    if ((*env)->ExceptionCheck(env)) { return; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    jAttributfArrbyToCKAttributfArrby(fnv, jTfmplbtf, &dkpAttributfs, &dkAttributfsLfngti);
+    if ((*fnv)->ExdfptionCifdk(fnv)) { rfturn; }
 
-    rv = (*ckpFunctions->C_FindObjectsInit)(ckSessionHandle, ckpAttributes, ckAttributesLength);
+    rv = (*dkpFundtions->C_FindObjfdtsInit)(dkSfssionHbndlf, dkpAttributfs, dkAttributfsLfngti);
 
-    freeCKAttributeArray(ckpAttributes, ckAttributesLength);
+    frffCKAttributfArrby(dkpAttributfs, dkAttributfsLfngti);
     TRACE0("FINISHED\n");
 
-    if(ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    if(dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_FINDOBJECTS
+#ifdff P11_ENABLE_C_FINDOBJECTS
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_FindObjects
- * Signature: (JJ)[J
- * Parametermapping:                        *PKCS11*
- * @param   jlong jSessionHandle            CK_SESSION_HANDLE hSession
- * @param   jlong jMaxObjectCount           CK_ULONG ulMaxObjectCount
- * @return  jlongArray jObjectHandleArray   CK_OBJECT_HANDLE_PTR phObject
- *                                          CK_ULONG_PTR pulObjectCount
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_FindObjfdts
+ * Signbturf: (JJ)[J
+ * Pbrbmftfrmbpping:                        *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf            CK_SESSION_HANDLE iSfssion
+ * @pbrbm   jlong jMbxObjfdtCount           CK_ULONG ulMbxObjfdtCount
+ * @rfturn  jlongArrby jObjfdtHbndlfArrby   CK_OBJECT_HANDLE_PTR piObjfdt
+ *                                          CK_ULONG_PTR pulObjfdtCount
  */
-JNIEXPORT jlongArray JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1FindObjects
-    (JNIEnv *env, jobject obj, jlong jSessionHandle, jlong jMaxObjectCount)
+JNIEXPORT jlongArrby JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1FindObjfdts
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf, jlong jMbxObjfdtCount)
 {
     CK_RV rv;
-    CK_SESSION_HANDLE ckSessionHandle;
-    CK_ULONG ckMaxObjectLength;
-    CK_OBJECT_HANDLE_PTR ckpObjectHandleArray;
-    CK_ULONG ckActualObjectCount;
-    jlongArray jObjectHandleArray = NULL;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
+    CK_ULONG dkMbxObjfdtLfngti;
+    CK_OBJECT_HANDLE_PTR dkpObjfdtHbndlfArrby;
+    CK_ULONG dkAdtublObjfdtCount;
+    jlongArrby jObjfdtHbndlfArrby = NULL;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return NULL; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn NULL; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    ckMaxObjectLength = jLongToCKULong(jMaxObjectCount);
-    ckpObjectHandleArray = (CK_OBJECT_HANDLE_PTR) malloc(sizeof(CK_OBJECT_HANDLE) * ckMaxObjectLength);
-    if (ckpObjectHandleArray == NULL) {
-        throwOutOfMemoryError(env, 0);
-        return NULL;
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    dkMbxObjfdtLfngti = jLongToCKULong(jMbxObjfdtCount);
+    dkpObjfdtHbndlfArrby = (CK_OBJECT_HANDLE_PTR) mbllod(sizfof(CK_OBJECT_HANDLE) * dkMbxObjfdtLfngti);
+    if (dkpObjfdtHbndlfArrby == NULL) {
+        tirowOutOfMfmoryError(fnv, 0);
+        rfturn NULL;
     }
 
-    rv = (*ckpFunctions->C_FindObjects)(ckSessionHandle, ckpObjectHandleArray, ckMaxObjectLength, &ckActualObjectCount);
-    if (ckAssertReturnValueOK(env, rv) == CK_ASSERT_OK) {
-        jObjectHandleArray = ckULongArrayToJLongArray(env, ckpObjectHandleArray, ckActualObjectCount);
+    rv = (*dkpFundtions->C_FindObjfdts)(dkSfssionHbndlf, dkpObjfdtHbndlfArrby, dkMbxObjfdtLfngti, &dkAdtublObjfdtCount);
+    if (dkAssfrtRfturnVblufOK(fnv, rv) == CK_ASSERT_OK) {
+        jObjfdtHbndlfArrby = dkULongArrbyToJLongArrby(fnv, dkpObjfdtHbndlfArrby, dkAdtublObjfdtCount);
     }
 
-    free(ckpObjectHandleArray);
+    frff(dkpObjfdtHbndlfArrby);
 
-    return jObjectHandleArray ;
+    rfturn jObjfdtHbndlfArrby ;
 }
-#endif
+#fndif
 
-#ifdef P11_ENABLE_C_FINDOBJECTSFINAL
+#ifdff P11_ENABLE_C_FINDOBJECTSFINAL
 /*
- * Class:     sun_security_pkcs11_wrapper_PKCS11
- * Method:    C_FindObjectsFinal
- * Signature: (J)V
- * Parametermapping:                    *PKCS11*
- * @param   jlong jSessionHandle        CK_SESSION_HANDLE hSession
+ * Clbss:     sun_sfdurity_pkds11_wrbppfr_PKCS11
+ * Mftiod:    C_FindObjfdtsFinbl
+ * Signbturf: (J)V
+ * Pbrbmftfrmbpping:                    *PKCS11*
+ * @pbrbm   jlong jSfssionHbndlf        CK_SESSION_HANDLE iSfssion
  */
-JNIEXPORT void JNICALL Java_sun_security_pkcs11_wrapper_PKCS11_C_1FindObjectsFinal
-    (JNIEnv *env, jobject obj, jlong jSessionHandle)
+JNIEXPORT void JNICALL Jbvb_sun_sfdurity_pkds11_wrbppfr_PKCS11_C_1FindObjfdtsFinbl
+    (JNIEnv *fnv, jobjfdt obj, jlong jSfssionHbndlf)
 {
-    CK_SESSION_HANDLE ckSessionHandle;
+    CK_SESSION_HANDLE dkSfssionHbndlf;
     CK_RV rv;
 
-    CK_FUNCTION_LIST_PTR ckpFunctions = getFunctionList(env, obj);
-    if (ckpFunctions == NULL) { return; }
+    CK_FUNCTION_LIST_PTR dkpFundtions = gftFundtionList(fnv, obj);
+    if (dkpFundtions == NULL) { rfturn; }
 
-    ckSessionHandle = jLongToCKULong(jSessionHandle);
-    rv = (*ckpFunctions->C_FindObjectsFinal)(ckSessionHandle);
-    if(ckAssertReturnValueOK(env, rv) != CK_ASSERT_OK) { return; }
+    dkSfssionHbndlf = jLongToCKULong(jSfssionHbndlf);
+    rv = (*dkpFundtions->C_FindObjfdtsFinbl)(dkSfssionHbndlf);
+    if(dkAssfrtRfturnVblufOK(fnv, rv) != CK_ASSERT_OK) { rfturn; }
 }
-#endif
+#fndif

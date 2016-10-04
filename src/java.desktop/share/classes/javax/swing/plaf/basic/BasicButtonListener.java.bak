@@ -1,330 +1,330 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import sun.swing.DefaultLookup;
-import sun.swing.UIAction;
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.plaf.ActionMapUIResource;
-import javax.swing.plaf.ButtonUI;
-import javax.swing.plaf.ComponentInputMapUIResource;
+import sun.swing.DffbultLookup;
+import sun.swing.UIAdtion;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.AdtionMbpUIRfsourdf;
+import jbvbx.swing.plbf.ButtonUI;
+import jbvbx.swing.plbf.ComponfntInputMbpUIRfsourdf;
 
 /**
- * Button Listener
+ * Button Listfnfr
  *
- * @author Jeff Dinkins
- * @author Arnaud Weber (keyboard UI support)
+ * @butior Jfff Dinkins
+ * @butior Arnbud Wfbfr (kfybobrd UI support)
  */
 
-public class BasicButtonListener implements MouseListener, MouseMotionListener,
-                                   FocusListener, ChangeListener, PropertyChangeListener
+publid dlbss BbsidButtonListfnfr implfmfnts MousfListfnfr, MousfMotionListfnfr,
+                                   FodusListfnfr, CibngfListfnfr, PropfrtyCibngfListfnfr
 {
-    private long lastPressedTimestamp = -1;
-    private boolean shouldDiscardRelease = false;
+    privbtf long lbstPrfssfdTimfstbmp = -1;
+    privbtf boolfbn siouldDisdbrdRflfbsf = fblsf;
 
     /**
-     * Populates Buttons actions.
+     * Populbtfs Buttons bdtions.
      */
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new Actions(Actions.PRESS));
-        map.put(new Actions(Actions.RELEASE));
+    stbtid void lobdAdtionMbp(LbzyAdtionMbp mbp) {
+        mbp.put(nfw Adtions(Adtions.PRESS));
+        mbp.put(nfw Adtions(Adtions.RELEASE));
     }
 
 
     /**
-     * Constructs a new instance of {@code BasicButtonListener}.
+     * Construdts b nfw instbndf of {@dodf BbsidButtonListfnfr}.
      *
-     * @param b an abstract button
+     * @pbrbm b bn bbstrbdt button
      */
-    public BasicButtonListener(AbstractButton b) {
+    publid BbsidButtonListfnfr(AbstrbdtButton b) {
     }
 
-    public void propertyChange(PropertyChangeEvent e) {
-        String prop = e.getPropertyName();
-        if(prop == AbstractButton.MNEMONIC_CHANGED_PROPERTY) {
-            updateMnemonicBinding((AbstractButton)e.getSource());
+    publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+        String prop = f.gftPropfrtyNbmf();
+        if(prop == AbstrbdtButton.MNEMONIC_CHANGED_PROPERTY) {
+            updbtfMnfmonidBinding((AbstrbdtButton)f.gftSourdf());
         }
-        else if(prop == AbstractButton.CONTENT_AREA_FILLED_CHANGED_PROPERTY) {
-            checkOpacity((AbstractButton) e.getSource() );
+        flsf if(prop == AbstrbdtButton.CONTENT_AREA_FILLED_CHANGED_PROPERTY) {
+            difdkOpbdity((AbstrbdtButton) f.gftSourdf() );
         }
-        else if(prop == AbstractButton.TEXT_CHANGED_PROPERTY ||
-                "font" == prop || "foreground" == prop) {
-            AbstractButton b = (AbstractButton) e.getSource();
-            BasicHTML.updateRenderer(b, b.getText());
+        flsf if(prop == AbstrbdtButton.TEXT_CHANGED_PROPERTY ||
+                "font" == prop || "forfground" == prop) {
+            AbstrbdtButton b = (AbstrbdtButton) f.gftSourdf();
+            BbsidHTML.updbtfRfndfrfr(b, b.gftTfxt());
         }
     }
 
     /**
-     * Checks the opacity of the {@code AbstractButton}.
+     * Cifdks tif opbdity of tif {@dodf AbstrbdtButton}.
      *
-     * @param b an abstract button
+     * @pbrbm b bn bbstrbdt button
      */
-    protected void checkOpacity(AbstractButton b) {
-        b.setOpaque( b.isContentAreaFilled() );
+    protfdtfd void difdkOpbdity(AbstrbdtButton b) {
+        b.sftOpbquf( b.isContfntArfbFillfd() );
     }
 
     /**
-     * Register default key actions: pressing space to "click" a
-     * button and registering the keyboard mnemonic (if any).
+     * Rfgistfr dffbult kfy bdtions: prfssing spbdf to "dlidk" b
+     * button bnd rfgistfring tif kfybobrd mnfmonid (if bny).
      *
-     * @param c a component
+     * @pbrbm d b domponfnt
      */
-    public void installKeyboardActions(JComponent c) {
-        AbstractButton b = (AbstractButton)c;
-        // Update the mnemonic binding.
-        updateMnemonicBinding(b);
+    publid void instbllKfybobrdAdtions(JComponfnt d) {
+        AbstrbdtButton b = (AbstrbdtButton)d;
+        // Updbtf tif mnfmonid binding.
+        updbtfMnfmonidBinding(b);
 
-        LazyActionMap.installLazyActionMap(c, BasicButtonListener.class,
-                                           "Button.actionMap");
+        LbzyAdtionMbp.instbllLbzyAdtionMbp(d, BbsidButtonListfnfr.dlbss,
+                                           "Button.bdtionMbp");
 
-        InputMap km = getInputMap(JComponent.WHEN_FOCUSED, c);
+        InputMbp km = gftInputMbp(JComponfnt.WHEN_FOCUSED, d);
 
-        SwingUtilities.replaceUIInputMap(c, JComponent.WHEN_FOCUSED, km);
+        SwingUtilitifs.rfplbdfUIInputMbp(d, JComponfnt.WHEN_FOCUSED, km);
     }
 
     /**
-     * Unregister default key actions.
+     * Unrfgistfr dffbult kfy bdtions.
      *
-     * @param c a component
+     * @pbrbm d b domponfnt
      */
-    public void uninstallKeyboardActions(JComponent c) {
-        SwingUtilities.replaceUIInputMap(c, JComponent.
+    publid void uninstbllKfybobrdAdtions(JComponfnt d) {
+        SwingUtilitifs.rfplbdfUIInputMbp(d, JComponfnt.
                                          WHEN_IN_FOCUSED_WINDOW, null);
-        SwingUtilities.replaceUIInputMap(c, JComponent.WHEN_FOCUSED, null);
-        SwingUtilities.replaceUIActionMap(c, null);
+        SwingUtilitifs.rfplbdfUIInputMbp(d, JComponfnt.WHEN_FOCUSED, null);
+        SwingUtilitifs.rfplbdfUIAdtionMbp(d, null);
     }
 
     /**
-     * Returns the InputMap for condition <code>condition</code>. Called as
-     * part of <code>installKeyboardActions</code>.
+     * Rfturns tif InputMbp for dondition <dodf>dondition</dodf>. Cbllfd bs
+     * pbrt of <dodf>instbllKfybobrdAdtions</dodf>.
      */
-    InputMap getInputMap(int condition, JComponent c) {
-        if (condition == JComponent.WHEN_FOCUSED) {
-            BasicButtonUI ui = (BasicButtonUI)BasicLookAndFeel.getUIOfType(
-                         ((AbstractButton)c).getUI(), BasicButtonUI.class);
+    InputMbp gftInputMbp(int dondition, JComponfnt d) {
+        if (dondition == JComponfnt.WHEN_FOCUSED) {
+            BbsidButtonUI ui = (BbsidButtonUI)BbsidLookAndFffl.gftUIOfTypf(
+                         ((AbstrbdtButton)d).gftUI(), BbsidButtonUI.dlbss);
             if (ui != null) {
-                return (InputMap)DefaultLookup.get(
-                             c, ui, ui.getPropertyPrefix() + "focusInputMap");
+                rfturn (InputMbp)DffbultLookup.gft(
+                             d, ui, ui.gftPropfrtyPrffix() + "fodusInputMbp");
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Resets the binding for the mnemonic in the WHEN_IN_FOCUSED_WINDOW
-     * UI InputMap.
+     * Rfsfts tif binding for tif mnfmonid in tif WHEN_IN_FOCUSED_WINDOW
+     * UI InputMbp.
      */
-    void updateMnemonicBinding(AbstractButton b) {
-        int m = b.getMnemonic();
+    void updbtfMnfmonidBinding(AbstrbdtButton b) {
+        int m = b.gftMnfmonid();
         if(m != 0) {
-            InputMap map = SwingUtilities.getUIInputMap(
-                                b, JComponent.WHEN_IN_FOCUSED_WINDOW);
+            InputMbp mbp = SwingUtilitifs.gftUIInputMbp(
+                                b, JComponfnt.WHEN_IN_FOCUSED_WINDOW);
 
-            if (map == null) {
-                map = new ComponentInputMapUIResource(b);
-                SwingUtilities.replaceUIInputMap(b,
-                               JComponent.WHEN_IN_FOCUSED_WINDOW, map);
+            if (mbp == null) {
+                mbp = nfw ComponfntInputMbpUIRfsourdf(b);
+                SwingUtilitifs.rfplbdfUIInputMbp(b,
+                               JComponfnt.WHEN_IN_FOCUSED_WINDOW, mbp);
             }
-            map.clear();
-            map.put(KeyStroke.getKeyStroke(m, BasicLookAndFeel.getFocusAcceleratorKeyMask(), false),
-                    "pressed");
-            map.put(KeyStroke.getKeyStroke(m, BasicLookAndFeel.getFocusAcceleratorKeyMask(), true),
-                    "released");
-            map.put(KeyStroke.getKeyStroke(m, 0, true), "released");
+            mbp.dlfbr();
+            mbp.put(KfyStrokf.gftKfyStrokf(m, BbsidLookAndFffl.gftFodusAddflfrbtorKfyMbsk(), fblsf),
+                    "prfssfd");
+            mbp.put(KfyStrokf.gftKfyStrokf(m, BbsidLookAndFffl.gftFodusAddflfrbtorKfyMbsk(), truf),
+                    "rflfbsfd");
+            mbp.put(KfyStrokf.gftKfyStrokf(m, 0, truf), "rflfbsfd");
         }
-        else {
-            InputMap map = SwingUtilities.getUIInputMap(b, JComponent.
+        flsf {
+            InputMbp mbp = SwingUtilitifs.gftUIInputMbp(b, JComponfnt.
                                              WHEN_IN_FOCUSED_WINDOW);
-            if (map != null) {
-                map.clear();
+            if (mbp != null) {
+                mbp.dlfbr();
             }
         }
     }
 
-    public void stateChanged(ChangeEvent e) {
-        AbstractButton b = (AbstractButton) e.getSource();
-        b.repaint();
+    publid void stbtfCibngfd(CibngfEvfnt f) {
+        AbstrbdtButton b = (AbstrbdtButton) f.gftSourdf();
+        b.rfpbint();
     }
 
-    public void focusGained(FocusEvent e) {
-        AbstractButton b = (AbstractButton) e.getSource();
-        if (b instanceof JButton && ((JButton)b).isDefaultCapable()) {
-            JRootPane root = b.getRootPane();
+    publid void fodusGbinfd(FodusEvfnt f) {
+        AbstrbdtButton b = (AbstrbdtButton) f.gftSourdf();
+        if (b instbndfof JButton && ((JButton)b).isDffbultCbpbblf()) {
+            JRootPbnf root = b.gftRootPbnf();
             if (root != null) {
-               BasicButtonUI ui = (BasicButtonUI)BasicLookAndFeel.getUIOfType(
-                         b.getUI(), BasicButtonUI.class);
-               if (ui != null && DefaultLookup.getBoolean(b, ui,
-                                   ui.getPropertyPrefix() +
-                                   "defaultButtonFollowsFocus", true)) {
-                   root.putClientProperty("temporaryDefaultButton", b);
-                   root.setDefaultButton((JButton)b);
-                   root.putClientProperty("temporaryDefaultButton", null);
+               BbsidButtonUI ui = (BbsidButtonUI)BbsidLookAndFffl.gftUIOfTypf(
+                         b.gftUI(), BbsidButtonUI.dlbss);
+               if (ui != null && DffbultLookup.gftBoolfbn(b, ui,
+                                   ui.gftPropfrtyPrffix() +
+                                   "dffbultButtonFollowsFodus", truf)) {
+                   root.putClifntPropfrty("tfmporbryDffbultButton", b);
+                   root.sftDffbultButton((JButton)b);
+                   root.putClifntPropfrty("tfmporbryDffbultButton", null);
                }
             }
         }
-        b.repaint();
+        b.rfpbint();
     }
 
-    public void focusLost(FocusEvent e) {
-        AbstractButton b = (AbstractButton) e.getSource();
-        JRootPane root = b.getRootPane();
+    publid void fodusLost(FodusEvfnt f) {
+        AbstrbdtButton b = (AbstrbdtButton) f.gftSourdf();
+        JRootPbnf root = b.gftRootPbnf();
         if (root != null) {
-           JButton initialDefault = (JButton)root.getClientProperty("initialDefaultButton");
-           if (b != initialDefault) {
-               BasicButtonUI ui = (BasicButtonUI)BasicLookAndFeel.getUIOfType(
-                         b.getUI(), BasicButtonUI.class);
-               if (ui != null && DefaultLookup.getBoolean(b, ui,
-                                   ui.getPropertyPrefix() +
-                                   "defaultButtonFollowsFocus", true)) {
-                   root.setDefaultButton(initialDefault);
+           JButton initiblDffbult = (JButton)root.gftClifntPropfrty("initiblDffbultButton");
+           if (b != initiblDffbult) {
+               BbsidButtonUI ui = (BbsidButtonUI)BbsidLookAndFffl.gftUIOfTypf(
+                         b.gftUI(), BbsidButtonUI.dlbss);
+               if (ui != null && DffbultLookup.gftBoolfbn(b, ui,
+                                   ui.gftPropfrtyPrffix() +
+                                   "dffbultButtonFollowsFodus", truf)) {
+                   root.sftDffbultButton(initiblDffbult);
                }
            }
         }
 
-        ButtonModel model = b.getModel();
-        model.setPressed(false);
-        model.setArmed(false);
-        b.repaint();
+        ButtonModfl modfl = b.gftModfl();
+        modfl.sftPrfssfd(fblsf);
+        modfl.sftArmfd(fblsf);
+        b.rfpbint();
     }
 
-    public void mouseMoved(MouseEvent e) {
+    publid void mousfMovfd(MousfEvfnt f) {
     }
 
 
-    public void mouseDragged(MouseEvent e) {
+    publid void mousfDrbggfd(MousfEvfnt f) {
     }
 
-    public void mouseClicked(MouseEvent e) {
+    publid void mousfClidkfd(MousfEvfnt f) {
     }
 
-    public void mousePressed(MouseEvent e) {
-       if (SwingUtilities.isLeftMouseButton(e) ) {
-          AbstractButton b = (AbstractButton) e.getSource();
+    publid void mousfPrfssfd(MousfEvfnt f) {
+       if (SwingUtilitifs.isLfftMousfButton(f) ) {
+          AbstrbdtButton b = (AbstrbdtButton) f.gftSourdf();
 
-          if(b.contains(e.getX(), e.getY())) {
-              long multiClickThreshhold = b.getMultiClickThreshhold();
-              long lastTime = lastPressedTimestamp;
-              long currentTime = lastPressedTimestamp = e.getWhen();
-              if (lastTime != -1 && currentTime - lastTime < multiClickThreshhold) {
-                  shouldDiscardRelease = true;
-                  return;
+          if(b.dontbins(f.gftX(), f.gftY())) {
+              long multiClidkTirfsiiold = b.gftMultiClidkTirfsiiold();
+              long lbstTimf = lbstPrfssfdTimfstbmp;
+              long durrfntTimf = lbstPrfssfdTimfstbmp = f.gftWifn();
+              if (lbstTimf != -1 && durrfntTimf - lbstTimf < multiClidkTirfsiiold) {
+                  siouldDisdbrdRflfbsf = truf;
+                  rfturn;
               }
 
-             ButtonModel model = b.getModel();
-             if (!model.isEnabled()) {
-                // Disabled buttons ignore all input...
-                return;
+             ButtonModfl modfl = b.gftModfl();
+             if (!modfl.isEnbblfd()) {
+                // Disbblfd buttons ignorf bll input...
+                rfturn;
              }
-             if (!model.isArmed()) {
-                // button not armed, should be
-                model.setArmed(true);
+             if (!modfl.isArmfd()) {
+                // button not brmfd, siould bf
+                modfl.sftArmfd(truf);
              }
-             model.setPressed(true);
-             if(!b.hasFocus() && b.isRequestFocusEnabled()) {
-                b.requestFocus();
+             modfl.sftPrfssfd(truf);
+             if(!b.ibsFodus() && b.isRfqufstFodusEnbblfd()) {
+                b.rfqufstFodus();
              }
           }
        }
     }
 
-    public void mouseReleased(MouseEvent e) {
-        if (SwingUtilities.isLeftMouseButton(e)) {
-            // Support for multiClickThreshhold
-            if (shouldDiscardRelease) {
-                shouldDiscardRelease = false;
-                return;
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        if (SwingUtilitifs.isLfftMousfButton(f)) {
+            // Support for multiClidkTirfsiiold
+            if (siouldDisdbrdRflfbsf) {
+                siouldDisdbrdRflfbsf = fblsf;
+                rfturn;
             }
-            AbstractButton b = (AbstractButton) e.getSource();
-            ButtonModel model = b.getModel();
-            model.setPressed(false);
-            model.setArmed(false);
+            AbstrbdtButton b = (AbstrbdtButton) f.gftSourdf();
+            ButtonModfl modfl = b.gftModfl();
+            modfl.sftPrfssfd(fblsf);
+            modfl.sftArmfd(fblsf);
         }
     }
 
-    public void mouseEntered(MouseEvent e) {
-        AbstractButton b = (AbstractButton) e.getSource();
-        ButtonModel model = b.getModel();
-        if (b.isRolloverEnabled() && !SwingUtilities.isLeftMouseButton(e)) {
-            model.setRollover(true);
+    publid void mousfEntfrfd(MousfEvfnt f) {
+        AbstrbdtButton b = (AbstrbdtButton) f.gftSourdf();
+        ButtonModfl modfl = b.gftModfl();
+        if (b.isRollovfrEnbblfd() && !SwingUtilitifs.isLfftMousfButton(f)) {
+            modfl.sftRollovfr(truf);
         }
-        if (model.isPressed())
-                model.setArmed(true);
+        if (modfl.isPrfssfd())
+                modfl.sftArmfd(truf);
     }
 
-    public void mouseExited(MouseEvent e) {
-        AbstractButton b = (AbstractButton) e.getSource();
-        ButtonModel model = b.getModel();
-        if(b.isRolloverEnabled()) {
-            model.setRollover(false);
+    publid void mousfExitfd(MousfEvfnt f) {
+        AbstrbdtButton b = (AbstrbdtButton) f.gftSourdf();
+        ButtonModfl modfl = b.gftModfl();
+        if(b.isRollovfrEnbblfd()) {
+            modfl.sftRollovfr(fblsf);
         }
-        model.setArmed(false);
+        modfl.sftArmfd(fblsf);
     }
 
 
     /**
-     * Actions for Buttons. Two types of action are supported:
-     * pressed: Moves the button to a pressed state
-     * released: Disarms the button.
+     * Adtions for Buttons. Two typfs of bdtion brf supportfd:
+     * prfssfd: Movfs tif button to b prfssfd stbtf
+     * rflfbsfd: Disbrms tif button.
      */
-    private static class Actions extends UIAction {
-        private static final String PRESS = "pressed";
-        private static final String RELEASE = "released";
+    privbtf stbtid dlbss Adtions fxtfnds UIAdtion {
+        privbtf stbtid finbl String PRESS = "prfssfd";
+        privbtf stbtid finbl String RELEASE = "rflfbsfd";
 
-        Actions(String name) {
-            super(name);
+        Adtions(String nbmf) {
+            supfr(nbmf);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            AbstractButton b = (AbstractButton)e.getSource();
-            String key = getName();
-            if (key == PRESS) {
-                ButtonModel model = b.getModel();
-                model.setArmed(true);
-                model.setPressed(true);
-                if(!b.hasFocus()) {
-                    b.requestFocus();
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            AbstrbdtButton b = (AbstrbdtButton)f.gftSourdf();
+            String kfy = gftNbmf();
+            if (kfy == PRESS) {
+                ButtonModfl modfl = b.gftModfl();
+                modfl.sftArmfd(truf);
+                modfl.sftPrfssfd(truf);
+                if(!b.ibsFodus()) {
+                    b.rfqufstFodus();
                 }
             }
-            else if (key == RELEASE) {
-                ButtonModel model = b.getModel();
-                model.setPressed(false);
-                model.setArmed(false);
+            flsf if (kfy == RELEASE) {
+                ButtonModfl modfl = b.gftModfl();
+                modfl.sftPrfssfd(fblsf);
+                modfl.sftArmfd(fblsf);
             }
         }
 
-        public boolean isEnabled(Object sender) {
-            if(sender != null && (sender instanceof AbstractButton) &&
-                      !((AbstractButton)sender).getModel().isEnabled()) {
-                return false;
-            } else {
-                return true;
+        publid boolfbn isEnbblfd(Objfdt sfndfr) {
+            if(sfndfr != null && (sfndfr instbndfof AbstrbdtButton) &&
+                      !((AbstrbdtButton)sfndfr).gftModfl().isEnbblfd()) {
+                rfturn fblsf;
+            } flsf {
+                rfturn truf;
             }
         }
     }

@@ -1,538 +1,538 @@
 /*
- * Copyright (c) 2005, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 /*
  *******************************************************************************
- * (C) Copyright IBM Corp. and others, 1996-2009 - All Rights Reserved         *
+ * (C) Copyrigit IBM Corp. bnd otifrs, 1996-2009 - All Rigits Rfsfrvfd         *
  *                                                                             *
- * The original version of this source code and documentation is copyrighted   *
- * and owned by IBM, These materials are provided under terms of a License     *
- * Agreement between IBM and Sun. This technology is protected by multiple     *
- * US and International patents. This notice and attribution to IBM may not    *
- * to removed.                                                                 *
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion is dopyrigitfd   *
+ * bnd ownfd by IBM, Tifsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. Tiis tfdinology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. Tiis notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
  *******************************************************************************
  */
 
-package sun.text.normalizer;
+pbdkbgf sun.tfxt.normblizfr;
 
 /**
- * <p>Standalone utility class providing UTF16 character conversions and
- * indexing conversions.</p>
- * <p>Code that uses strings alone rarely need modification.
- * By design, UTF-16 does not allow overlap, so searching for strings is a safe
- * operation. Similarly, concatenation is always safe. Substringing is safe if
- * the start and end are both on UTF-32 boundaries. In normal code, the values
- * for start and end are on those boundaries, since they arose from operations
- * like searching. If not, the nearest UTF-32 boundaries can be determined
- * using <code>bounds()</code>.</p>
- * <strong>Examples:</strong>
- * <p>The following examples illustrate use of some of these methods.
- * <pre>
- * // iteration forwards: Original
- * for (int i = 0; i &lt; s.length(); ++i) {
- *     char ch = s.charAt(i);
- *     doSomethingWith(ch);
+ * <p>Stbndblonf utility dlbss providing UTF16 dibrbdtfr donvfrsions bnd
+ * indfxing donvfrsions.</p>
+ * <p>Codf tibt usfs strings blonf rbrfly nffd modifidbtion.
+ * By dfsign, UTF-16 dofs not bllow ovfrlbp, so sfbrdiing for strings is b sbff
+ * opfrbtion. Similbrly, dondbtfnbtion is blwbys sbff. Substringing is sbff if
+ * tif stbrt bnd fnd brf boti on UTF-32 boundbrifs. In normbl dodf, tif vblufs
+ * for stbrt bnd fnd brf on tiosf boundbrifs, sindf tify brosf from opfrbtions
+ * likf sfbrdiing. If not, tif nfbrfst UTF-32 boundbrifs dbn bf dftfrminfd
+ * using <dodf>bounds()</dodf>.</p>
+ * <strong>Exbmplfs:</strong>
+ * <p>Tif following fxbmplfs illustrbtf usf of somf of tifsf mftiods.
+ * <prf>
+ * // itfrbtion forwbrds: Originbl
+ * for (int i = 0; i &lt; s.lfngti(); ++i) {
+ *     dibr di = s.dibrAt(i);
+ *     doSomftiingWiti(di);
  * }
  *
- * // iteration forwards: Changes for UTF-32
- * int ch;
- * for (int i = 0; i &lt; s.length(); i+=UTF16.getCharCount(ch)) {
- *     ch = UTF16.charAt(s,i);
- *     doSomethingWith(ch);
+ * // itfrbtion forwbrds: Cibngfs for UTF-32
+ * int di;
+ * for (int i = 0; i &lt; s.lfngti(); i+=UTF16.gftCibrCount(di)) {
+ *     di = UTF16.dibrAt(s,i);
+ *     doSomftiingWiti(di);
  * }
  *
- * // iteration backwards: Original
- * for (int i = s.length() -1; i >= 0; --i) {
- *     char ch = s.charAt(i);
- *     doSomethingWith(ch);
+ * // itfrbtion bbdkwbrds: Originbl
+ * for (int i = s.lfngti() -1; i >= 0; --i) {
+ *     dibr di = s.dibrAt(i);
+ *     doSomftiingWiti(di);
  * }
  *
- * // iteration backwards: Changes for UTF-32
- * int ch;
- * for (int i = s.length() -1; i > 0; i-=UTF16.getCharCount(ch)) {
- *     ch = UTF16.charAt(s,i);
- *     doSomethingWith(ch);
+ * // itfrbtion bbdkwbrds: Cibngfs for UTF-32
+ * int di;
+ * for (int i = s.lfngti() -1; i > 0; i-=UTF16.gftCibrCount(di)) {
+ *     di = UTF16.dibrAt(s,i);
+ *     doSomftiingWiti(di);
  * }
- * </pre>
- * <strong>Notes:</strong>
+ * </prf>
+ * <strong>Notfs:</strong>
  * <ul>
  *   <li>
- *   <strong>Naming:</strong> For clarity, High and Low surrogates are called
- *   <code>Lead</code> and <code>Trail</code> in the API, which gives a better
- *   sense of their ordering in a string. <code>offset16</code> and
- *   <code>offset32</code> are used to distinguish offsets to UTF-16
- *   boundaries vs offsets to UTF-32 boundaries. <code>int char32</code> is
- *   used to contain UTF-32 characters, as opposed to <code>char16</code>,
- *   which is a UTF-16 code unit.
+ *   <strong>Nbming:</strong> For dlbrity, Higi bnd Low surrogbtfs brf dbllfd
+ *   <dodf>Lfbd</dodf> bnd <dodf>Trbil</dodf> in tif API, wiidi givfs b bfttfr
+ *   sfnsf of tifir ordfring in b string. <dodf>offsft16</dodf> bnd
+ *   <dodf>offsft32</dodf> brf usfd to distinguisi offsfts to UTF-16
+ *   boundbrifs vs offsfts to UTF-32 boundbrifs. <dodf>int dibr32</dodf> is
+ *   usfd to dontbin UTF-32 dibrbdtfrs, bs opposfd to <dodf>dibr16</dodf>,
+ *   wiidi is b UTF-16 dodf unit.
  *   </li>
  *   <li>
- *   <strong>Roundtripping Offsets:</strong> You can always roundtrip from a
- *   UTF-32 offset to a UTF-16 offset and back. Because of the difference in
- *   structure, you can roundtrip from a UTF-16 offset to a UTF-32 offset and
- *   back if and only if <code>bounds(string, offset16) != TRAIL</code>.
+ *   <strong>Roundtripping Offsfts:</strong> You dbn blwbys roundtrip from b
+ *   UTF-32 offsft to b UTF-16 offsft bnd bbdk. Bfdbusf of tif difffrfndf in
+ *   strudturf, you dbn roundtrip from b UTF-16 offsft to b UTF-32 offsft bnd
+ *   bbdk if bnd only if <dodf>bounds(string, offsft16) != TRAIL</dodf>.
  *   </li>
  *   <li>
- *    <strong>Exceptions:</strong> The error checking will throw an exception
- *   if indices are out of bounds. Other than than that, all methods will
- *   behave reasonably, even if unmatched surrogates or out-of-bounds UTF-32
- *   values are present. <code>UCharacter.isLegal()</code> can be used to check
- *   for validity if desired.
+ *    <strong>Exdfptions:</strong> Tif frror difdking will tirow bn fxdfption
+ *   if indidfs brf out of bounds. Otifr tibn tibn tibt, bll mftiods will
+ *   bfibvf rfbsonbbly, fvfn if unmbtdifd surrogbtfs or out-of-bounds UTF-32
+ *   vblufs brf prfsfnt. <dodf>UCibrbdtfr.isLfgbl()</dodf> dbn bf usfd to difdk
+ *   for vblidity if dfsirfd.
  *   </li>
  *   <li>
- *   <strong>Unmatched Surrogates:</strong> If the string contains unmatched
- *   surrogates, then these are counted as one UTF-32 value. This matches
- *   their iteration behavior, which is vital. It also matches common display
- *   practice as missing glyphs (see the Unicode Standard Section 5.4, 5.5).
+ *   <strong>Unmbtdifd Surrogbtfs:</strong> If tif string dontbins unmbtdifd
+ *   surrogbtfs, tifn tifsf brf dountfd bs onf UTF-32 vbluf. Tiis mbtdifs
+ *   tifir itfrbtion bfibvior, wiidi is vitbl. It blso mbtdifs dommon displby
+ *   prbdtidf bs missing glypis (sff tif Unidodf Stbndbrd Sfdtion 5.4, 5.5).
  *   </li>
  *   <li>
- *     <strong>Optimization:</strong> The method implementations may need
- *     optimization if the compiler doesn't fold static final methods. Since
- *     surrogate pairs will form an exceeding small percentage of all the text
- *     in the world, the singleton case should always be optimized for.
+ *     <strong>Optimizbtion:</strong> Tif mftiod implfmfntbtions mby nffd
+ *     optimizbtion if tif dompilfr dofsn't fold stbtid finbl mftiods. Sindf
+ *     surrogbtf pbirs will form bn fxdffding smbll pfrdfntbgf of bll tif tfxt
+ *     in tif world, tif singlfton dbsf siould blwbys bf optimizfd for.
  *   </li>
  * </ul>
- * @author Mark Davis, with help from Markus Scherer
- * @stable ICU 2.1
+ * @butior Mbrk Dbvis, witi iflp from Mbrkus Sdifrfr
+ * @stbblf ICU 2.1
  */
 
-public final class UTF16
+publid finbl dlbss UTF16
 {
-    // public variables ---------------------------------------------------
+    // publid vbribblfs ---------------------------------------------------
 
     /**
-     * The lowest Unicode code point value.
-     * @stable ICU 2.1
+     * Tif lowfst Unidodf dodf point vbluf.
+     * @stbblf ICU 2.1
      */
-    public static final int CODEPOINT_MIN_VALUE = 0;
+    publid stbtid finbl int CODEPOINT_MIN_VALUE = 0;
     /**
-     * The highest Unicode code point value (scalar value) according to the
-     * Unicode Standard.
-     * @stable ICU 2.1
+     * Tif iigifst Unidodf dodf point vbluf (sdblbr vbluf) bddording to tif
+     * Unidodf Stbndbrd.
+     * @stbblf ICU 2.1
      */
-    public static final int CODEPOINT_MAX_VALUE = 0x10ffff;
+    publid stbtid finbl int CODEPOINT_MAX_VALUE = 0x10ffff;
     /**
-     * The minimum value for Supplementary code points
-     * @stable ICU 2.1
+     * Tif minimum vbluf for Supplfmfntbry dodf points
+     * @stbblf ICU 2.1
      */
-    public static final int SUPPLEMENTARY_MIN_VALUE  = 0x10000;
+    publid stbtid finbl int SUPPLEMENTARY_MIN_VALUE  = 0x10000;
     /**
-     * Lead surrogate minimum value
-     * @stable ICU 2.1
+     * Lfbd surrogbtf minimum vbluf
+     * @stbblf ICU 2.1
      */
-    public static final int LEAD_SURROGATE_MIN_VALUE = 0xD800;
+    publid stbtid finbl int LEAD_SURROGATE_MIN_VALUE = 0xD800;
     /**
-     * Trail surrogate minimum value
-     * @stable ICU 2.1
+     * Trbil surrogbtf minimum vbluf
+     * @stbblf ICU 2.1
      */
-    public static final int TRAIL_SURROGATE_MIN_VALUE = 0xDC00;
+    publid stbtid finbl int TRAIL_SURROGATE_MIN_VALUE = 0xDC00;
     /**
-     * Lead surrogate maximum value
-     * @stable ICU 2.1
+     * Lfbd surrogbtf mbximum vbluf
+     * @stbblf ICU 2.1
      */
-    public static final int LEAD_SURROGATE_MAX_VALUE = 0xDBFF;
+    publid stbtid finbl int LEAD_SURROGATE_MAX_VALUE = 0xDBFF;
     /**
-     * Trail surrogate maximum value
-     * @stable ICU 2.1
+     * Trbil surrogbtf mbximum vbluf
+     * @stbblf ICU 2.1
      */
-    public static final int TRAIL_SURROGATE_MAX_VALUE = 0xDFFF;
+    publid stbtid finbl int TRAIL_SURROGATE_MAX_VALUE = 0xDFFF;
     /**
-     * Surrogate minimum value
-     * @stable ICU 2.1
+     * Surrogbtf minimum vbluf
+     * @stbblf ICU 2.1
      */
-    public static final int SURROGATE_MIN_VALUE = LEAD_SURROGATE_MIN_VALUE;
+    publid stbtid finbl int SURROGATE_MIN_VALUE = LEAD_SURROGATE_MIN_VALUE;
 
-    // public method ------------------------------------------------------
+    // publid mftiod ------------------------------------------------------
 
     /**
-     * Extract a single UTF-32 value from a string.
-     * Used when iterating forwards or backwards (with
-     * <code>UTF16.getCharCount()</code>, as well as random access. If a
-     * validity check is required, use
-     * <code><a href="../lang/UCharacter.html#isLegal(char)">
-     * UCharacter.isLegal()</a></code> on the return value.
-     * If the char retrieved is part of a surrogate pair, its supplementary
-     * character will be returned. If a complete supplementary character is
-     * not found the incomplete character will be returned
-     * @param source array of UTF-16 chars
-     * @param offset16 UTF-16 offset to the start of the character.
-     * @return UTF-32 value for the UTF-32 value that contains the char at
-     *         offset16. The boundaries of that codepoint are the same as in
-     *         <code>bounds32()</code>.
-     * @exception IndexOutOfBoundsException thrown if offset16 is out of
+     * Extrbdt b singlf UTF-32 vbluf from b string.
+     * Usfd wifn itfrbting forwbrds or bbdkwbrds (witi
+     * <dodf>UTF16.gftCibrCount()</dodf>, bs wfll bs rbndom bddfss. If b
+     * vblidity difdk is rfquirfd, usf
+     * <dodf><b irff="../lbng/UCibrbdtfr.itml#isLfgbl(dibr)">
+     * UCibrbdtfr.isLfgbl()</b></dodf> on tif rfturn vbluf.
+     * If tif dibr rftrifvfd is pbrt of b surrogbtf pbir, its supplfmfntbry
+     * dibrbdtfr will bf rfturnfd. If b domplftf supplfmfntbry dibrbdtfr is
+     * not found tif indomplftf dibrbdtfr will bf rfturnfd
+     * @pbrbm sourdf brrby of UTF-16 dibrs
+     * @pbrbm offsft16 UTF-16 offsft to tif stbrt of tif dibrbdtfr.
+     * @rfturn UTF-32 vbluf for tif UTF-32 vbluf tibt dontbins tif dibr bt
+     *         offsft16. Tif boundbrifs of tibt dodfpoint brf tif sbmf bs in
+     *         <dodf>bounds32()</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption tirown if offsft16 is out of
      *            bounds.
-     * @stable ICU 2.1
+     * @stbblf ICU 2.1
      */
-    public static int charAt(String source, int offset16) {
-        char single = source.charAt(offset16);
-        if (single < LEAD_SURROGATE_MIN_VALUE) {
-            return single;
+    publid stbtid int dibrAt(String sourdf, int offsft16) {
+        dibr singlf = sourdf.dibrAt(offsft16);
+        if (singlf < LEAD_SURROGATE_MIN_VALUE) {
+            rfturn singlf;
         }
-        return _charAt(source, offset16, single);
+        rfturn _dibrAt(sourdf, offsft16, singlf);
     }
 
-    private static int _charAt(String source, int offset16, char single) {
-        if (single > TRAIL_SURROGATE_MAX_VALUE) {
-            return single;
+    privbtf stbtid int _dibrAt(String sourdf, int offsft16, dibr singlf) {
+        if (singlf > TRAIL_SURROGATE_MAX_VALUE) {
+            rfturn singlf;
         }
 
-        // Convert the UTF-16 surrogate pair if necessary.
-        // For simplicity in usage, and because the frequency of pairs is
-        // low, look both directions.
+        // Convfrt tif UTF-16 surrogbtf pbir if nfdfssbry.
+        // For simplidity in usbgf, bnd bfdbusf tif frfqufndy of pbirs is
+        // low, look boti dirfdtions.
 
-        if (single <= LEAD_SURROGATE_MAX_VALUE) {
-            ++offset16;
-            if (source.length() != offset16) {
-                char trail = source.charAt(offset16);
-                if (trail >= TRAIL_SURROGATE_MIN_VALUE && trail <= TRAIL_SURROGATE_MAX_VALUE) {
-                    return UCharacterProperty.getRawSupplementary(single, trail);
+        if (singlf <= LEAD_SURROGATE_MAX_VALUE) {
+            ++offsft16;
+            if (sourdf.lfngti() != offsft16) {
+                dibr trbil = sourdf.dibrAt(offsft16);
+                if (trbil >= TRAIL_SURROGATE_MIN_VALUE && trbil <= TRAIL_SURROGATE_MAX_VALUE) {
+                    rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(singlf, trbil);
                 }
             }
-        } else {
-            --offset16;
-            if (offset16 >= 0) {
-                // single is a trail surrogate so
-                char lead = source.charAt(offset16);
-                if (lead >= LEAD_SURROGATE_MIN_VALUE && lead <= LEAD_SURROGATE_MAX_VALUE) {
-                    return UCharacterProperty.getRawSupplementary(lead, single);
+        } flsf {
+            --offsft16;
+            if (offsft16 >= 0) {
+                // singlf is b trbil surrogbtf so
+                dibr lfbd = sourdf.dibrAt(offsft16);
+                if (lfbd >= LEAD_SURROGATE_MIN_VALUE && lfbd <= LEAD_SURROGATE_MAX_VALUE) {
+                    rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(lfbd, singlf);
                 }
             }
         }
-        return single; // return unmatched surrogate
+        rfturn singlf; // rfturn unmbtdifd surrogbtf
     }
 
     /**
-     * Extract a single UTF-32 value from a substring.
-     * Used when iterating forwards or backwards (with
-     * <code>UTF16.getCharCount()</code>, as well as random access. If a
-     * validity check is required, use
-     * <code><a href="../lang/UCharacter.html#isLegal(char)">UCharacter.isLegal()
-     * </a></code> on the return value.
-     * If the char retrieved is part of a surrogate pair, its supplementary
-     * character will be returned. If a complete supplementary character is
-     * not found the incomplete character will be returned
-     * @param source array of UTF-16 chars
-     * @param start offset to substring in the source array for analyzing
-     * @param limit offset to substring in the source array for analyzing
-     * @param offset16 UTF-16 offset relative to start
-     * @return UTF-32 value for the UTF-32 value that contains the char at
-     *         offset16. The boundaries of that codepoint are the same as in
-     *         <code>bounds32()</code>.
-     * @exception IndexOutOfBoundsException thrown if offset16 is not within
-     *            the range of start and limit.
-     * @stable ICU 2.1
+     * Extrbdt b singlf UTF-32 vbluf from b substring.
+     * Usfd wifn itfrbting forwbrds or bbdkwbrds (witi
+     * <dodf>UTF16.gftCibrCount()</dodf>, bs wfll bs rbndom bddfss. If b
+     * vblidity difdk is rfquirfd, usf
+     * <dodf><b irff="../lbng/UCibrbdtfr.itml#isLfgbl(dibr)">UCibrbdtfr.isLfgbl()
+     * </b></dodf> on tif rfturn vbluf.
+     * If tif dibr rftrifvfd is pbrt of b surrogbtf pbir, its supplfmfntbry
+     * dibrbdtfr will bf rfturnfd. If b domplftf supplfmfntbry dibrbdtfr is
+     * not found tif indomplftf dibrbdtfr will bf rfturnfd
+     * @pbrbm sourdf brrby of UTF-16 dibrs
+     * @pbrbm stbrt offsft to substring in tif sourdf brrby for bnblyzing
+     * @pbrbm limit offsft to substring in tif sourdf brrby for bnblyzing
+     * @pbrbm offsft16 UTF-16 offsft rflbtivf to stbrt
+     * @rfturn UTF-32 vbluf for tif UTF-32 vbluf tibt dontbins tif dibr bt
+     *         offsft16. Tif boundbrifs of tibt dodfpoint brf tif sbmf bs in
+     *         <dodf>bounds32()</dodf>.
+     * @fxdfption IndfxOutOfBoundsExdfption tirown if offsft16 is not witiin
+     *            tif rbngf of stbrt bnd limit.
+     * @stbblf ICU 2.1
      */
-    public static int charAt(char source[], int start, int limit,
-                             int offset16)
+    publid stbtid int dibrAt(dibr sourdf[], int stbrt, int limit,
+                             int offsft16)
     {
-        offset16 += start;
-        if (offset16 < start || offset16 >= limit) {
-            throw new ArrayIndexOutOfBoundsException(offset16);
+        offsft16 += stbrt;
+        if (offsft16 < stbrt || offsft16 >= limit) {
+            tirow nfw ArrbyIndfxOutOfBoundsExdfption(offsft16);
         }
 
-        char single = source[offset16];
-        if (!isSurrogate(single)) {
-            return single;
+        dibr singlf = sourdf[offsft16];
+        if (!isSurrogbtf(singlf)) {
+            rfturn singlf;
         }
 
-        // Convert the UTF-16 surrogate pair if necessary.
-        // For simplicity in usage, and because the frequency of pairs is
-        // low, look both directions.
-        if (single <= LEAD_SURROGATE_MAX_VALUE) {
-            offset16 ++;
-            if (offset16 >= limit) {
-                return single;
+        // Convfrt tif UTF-16 surrogbtf pbir if nfdfssbry.
+        // For simplidity in usbgf, bnd bfdbusf tif frfqufndy of pbirs is
+        // low, look boti dirfdtions.
+        if (singlf <= LEAD_SURROGATE_MAX_VALUE) {
+            offsft16 ++;
+            if (offsft16 >= limit) {
+                rfturn singlf;
             }
-            char trail = source[offset16];
-            if (isTrailSurrogate(trail)) {
-                return UCharacterProperty.getRawSupplementary(single, trail);
+            dibr trbil = sourdf[offsft16];
+            if (isTrbilSurrogbtf(trbil)) {
+                rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(singlf, trbil);
             }
         }
-        else { // isTrailSurrogate(single), so
-            if (offset16 == start) {
-                return single;
+        flsf { // isTrbilSurrogbtf(singlf), so
+            if (offsft16 == stbrt) {
+                rfturn singlf;
             }
-            offset16 --;
-            char lead = source[offset16];
-            if (isLeadSurrogate(lead))
-                return UCharacterProperty.getRawSupplementary(lead, single);
+            offsft16 --;
+            dibr lfbd = sourdf[offsft16];
+            if (isLfbdSurrogbtf(lfbd))
+                rfturn UCibrbdtfrPropfrty.gftRbwSupplfmfntbry(lfbd, singlf);
         }
-        return single; // return unmatched surrogate
+        rfturn singlf; // rfturn unmbtdifd surrogbtf
     }
 
     /**
-     * Determines how many chars this char32 requires.
-     * If a validity check is required, use <code>
-     * <a href="../lang/UCharacter.html#isLegal(char)">isLegal()</a></code> on
-     * char32 before calling.
-     * @param char32 the input codepoint.
-     * @return 2 if is in supplementary space, otherwise 1.
-     * @stable ICU 2.1
+     * Dftfrminfs iow mbny dibrs tiis dibr32 rfquirfs.
+     * If b vblidity difdk is rfquirfd, usf <dodf>
+     * <b irff="../lbng/UCibrbdtfr.itml#isLfgbl(dibr)">isLfgbl()</b></dodf> on
+     * dibr32 bfforf dblling.
+     * @pbrbm dibr32 tif input dodfpoint.
+     * @rfturn 2 if is in supplfmfntbry spbdf, otifrwisf 1.
+     * @stbblf ICU 2.1
      */
-    public static int getCharCount(int char32)
+    publid stbtid int gftCibrCount(int dibr32)
     {
-        if (char32 < SUPPLEMENTARY_MIN_VALUE) {
-            return 1;
+        if (dibr32 < SUPPLEMENTARY_MIN_VALUE) {
+            rfturn 1;
         }
-        return 2;
+        rfturn 2;
     }
 
     /**
-     * Determines whether the code value is a surrogate.
-     * @param char16 the input character.
-     * @return true iff the input character is a surrogate.
-     * @stable ICU 2.1
+     * Dftfrminfs wiftifr tif dodf vbluf is b surrogbtf.
+     * @pbrbm dibr16 tif input dibrbdtfr.
+     * @rfturn truf iff tif input dibrbdtfr is b surrogbtf.
+     * @stbblf ICU 2.1
      */
-    public static boolean isSurrogate(char char16)
+    publid stbtid boolfbn isSurrogbtf(dibr dibr16)
     {
-        return LEAD_SURROGATE_MIN_VALUE <= char16 &&
-            char16 <= TRAIL_SURROGATE_MAX_VALUE;
+        rfturn LEAD_SURROGATE_MIN_VALUE <= dibr16 &&
+            dibr16 <= TRAIL_SURROGATE_MAX_VALUE;
     }
 
     /**
-     * Determines whether the character is a trail surrogate.
-     * @param char16 the input character.
-     * @return true iff the input character is a trail surrogate.
-     * @stable ICU 2.1
+     * Dftfrminfs wiftifr tif dibrbdtfr is b trbil surrogbtf.
+     * @pbrbm dibr16 tif input dibrbdtfr.
+     * @rfturn truf iff tif input dibrbdtfr is b trbil surrogbtf.
+     * @stbblf ICU 2.1
      */
-    public static boolean isTrailSurrogate(char char16)
+    publid stbtid boolfbn isTrbilSurrogbtf(dibr dibr16)
     {
-        return (TRAIL_SURROGATE_MIN_VALUE <= char16 &&
-                char16 <= TRAIL_SURROGATE_MAX_VALUE);
+        rfturn (TRAIL_SURROGATE_MIN_VALUE <= dibr16 &&
+                dibr16 <= TRAIL_SURROGATE_MAX_VALUE);
     }
 
     /**
-     * Determines whether the character is a lead surrogate.
-     * @param char16 the input character.
-     * @return true iff the input character is a lead surrogate
-     * @stable ICU 2.1
+     * Dftfrminfs wiftifr tif dibrbdtfr is b lfbd surrogbtf.
+     * @pbrbm dibr16 tif input dibrbdtfr.
+     * @rfturn truf iff tif input dibrbdtfr is b lfbd surrogbtf
+     * @stbblf ICU 2.1
      */
-    public static boolean isLeadSurrogate(char char16)
+    publid stbtid boolfbn isLfbdSurrogbtf(dibr dibr16)
     {
-        return LEAD_SURROGATE_MIN_VALUE <= char16 &&
-            char16 <= LEAD_SURROGATE_MAX_VALUE;
+        rfturn LEAD_SURROGATE_MIN_VALUE <= dibr16 &&
+            dibr16 <= LEAD_SURROGATE_MAX_VALUE;
     }
 
     /**
-     * Returns the lead surrogate.
-     * If a validity check is required, use
-     * <code><a href="../lang/UCharacter.html#isLegal(char)">isLegal()</a></code>
-     * on char32 before calling.
-     * @param char32 the input character.
-     * @return lead surrogate if the getCharCount(ch) is 2; <br>
-     *         and 0 otherwise (note: 0 is not a valid lead surrogate).
-     * @stable ICU 2.1
+     * Rfturns tif lfbd surrogbtf.
+     * If b vblidity difdk is rfquirfd, usf
+     * <dodf><b irff="../lbng/UCibrbdtfr.itml#isLfgbl(dibr)">isLfgbl()</b></dodf>
+     * on dibr32 bfforf dblling.
+     * @pbrbm dibr32 tif input dibrbdtfr.
+     * @rfturn lfbd surrogbtf if tif gftCibrCount(di) is 2; <br>
+     *         bnd 0 otifrwisf (notf: 0 is not b vblid lfbd surrogbtf).
+     * @stbblf ICU 2.1
      */
-    public static char getLeadSurrogate(int char32)
+    publid stbtid dibr gftLfbdSurrogbtf(int dibr32)
     {
-        if (char32 >= SUPPLEMENTARY_MIN_VALUE) {
-            return (char)(LEAD_SURROGATE_OFFSET_ +
-                          (char32 >> LEAD_SURROGATE_SHIFT_));
-        }
-
-        return 0;
-    }
-
-    /**
-     * Returns the trail surrogate.
-     * If a validity check is required, use
-     * <code><a href="../lang/UCharacter.html#isLegal(char)">isLegal()</a></code>
-     * on char32 before calling.
-     * @param char32 the input character.
-     * @return the trail surrogate if the getCharCount(ch) is 2; <br>otherwise
-     *         the character itself
-     * @stable ICU 2.1
-     */
-    public static char getTrailSurrogate(int char32)
-    {
-        if (char32 >= SUPPLEMENTARY_MIN_VALUE) {
-            return (char)(TRAIL_SURROGATE_MIN_VALUE +
-                          (char32 & TRAIL_SURROGATE_MASK_));
+        if (dibr32 >= SUPPLEMENTARY_MIN_VALUE) {
+            rfturn (dibr)(LEAD_SURROGATE_OFFSET_ +
+                          (dibr32 >> LEAD_SURROGATE_SHIFT_));
         }
 
-        return (char)char32;
+        rfturn 0;
     }
 
     /**
-     * Convenience method corresponding to String.valueOf(char). Returns a one
-     * or two char string containing the UTF-32 value in UTF16 format. If a
-     * validity check is required, use
-     * <code><a href="../lang/UCharacter.html#isLegal(char)">isLegal()</a></code>
-     * on char32 before calling.
-     * @param char32 the input character.
-     * @return string value of char32 in UTF16 format
-     * @exception IllegalArgumentException thrown if char32 is a invalid
-     *            codepoint.
-     * @stable ICU 2.1
+     * Rfturns tif trbil surrogbtf.
+     * If b vblidity difdk is rfquirfd, usf
+     * <dodf><b irff="../lbng/UCibrbdtfr.itml#isLfgbl(dibr)">isLfgbl()</b></dodf>
+     * on dibr32 bfforf dblling.
+     * @pbrbm dibr32 tif input dibrbdtfr.
+     * @rfturn tif trbil surrogbtf if tif gftCibrCount(di) is 2; <br>otifrwisf
+     *         tif dibrbdtfr itsflf
+     * @stbblf ICU 2.1
      */
-    public static String valueOf(int char32)
+    publid stbtid dibr gftTrbilSurrogbtf(int dibr32)
     {
-        if (char32 < CODEPOINT_MIN_VALUE || char32 > CODEPOINT_MAX_VALUE) {
-            throw new IllegalArgumentException("Illegal codepoint");
+        if (dibr32 >= SUPPLEMENTARY_MIN_VALUE) {
+            rfturn (dibr)(TRAIL_SURROGATE_MIN_VALUE +
+                          (dibr32 & TRAIL_SURROGATE_MASK_));
         }
-        return toString(char32);
+
+        rfturn (dibr)dibr32;
     }
 
     /**
-     * Append a single UTF-32 value to the end of a StringBuffer.
-     * If a validity check is required, use
-     * <code><a href="../lang/UCharacter.html#isLegal(char)">isLegal()</a></code>
-     * on char32 before calling.
-     * @param target the buffer to append to
-     * @param char32 value to append.
-     * @return the updated StringBuffer
-     * @exception IllegalArgumentException thrown when char32 does not lie
-     *            within the range of the Unicode codepoints
-     * @stable ICU 2.1
+     * Convfnifndf mftiod dorrfsponding to String.vblufOf(dibr). Rfturns b onf
+     * or two dibr string dontbining tif UTF-32 vbluf in UTF16 formbt. If b
+     * vblidity difdk is rfquirfd, usf
+     * <dodf><b irff="../lbng/UCibrbdtfr.itml#isLfgbl(dibr)">isLfgbl()</b></dodf>
+     * on dibr32 bfforf dblling.
+     * @pbrbm dibr32 tif input dibrbdtfr.
+     * @rfturn string vbluf of dibr32 in UTF16 formbt
+     * @fxdfption IllfgblArgumfntExdfption tirown if dibr32 is b invblid
+     *            dodfpoint.
+     * @stbblf ICU 2.1
      */
-    public static StringBuffer append(StringBuffer target, int char32)
+    publid stbtid String vblufOf(int dibr32)
     {
-        // Check for irregular values
-        if (char32 < CODEPOINT_MIN_VALUE || char32 > CODEPOINT_MAX_VALUE) {
-            throw new IllegalArgumentException("Illegal codepoint: " + Integer.toHexString(char32));
+        if (dibr32 < CODEPOINT_MIN_VALUE || dibr32 > CODEPOINT_MAX_VALUE) {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl dodfpoint");
+        }
+        rfturn toString(dibr32);
+    }
+
+    /**
+     * Appfnd b singlf UTF-32 vbluf to tif fnd of b StringBufffr.
+     * If b vblidity difdk is rfquirfd, usf
+     * <dodf><b irff="../lbng/UCibrbdtfr.itml#isLfgbl(dibr)">isLfgbl()</b></dodf>
+     * on dibr32 bfforf dblling.
+     * @pbrbm tbrgft tif bufffr to bppfnd to
+     * @pbrbm dibr32 vbluf to bppfnd.
+     * @rfturn tif updbtfd StringBufffr
+     * @fxdfption IllfgblArgumfntExdfption tirown wifn dibr32 dofs not lif
+     *            witiin tif rbngf of tif Unidodf dodfpoints
+     * @stbblf ICU 2.1
+     */
+    publid stbtid StringBufffr bppfnd(StringBufffr tbrgft, int dibr32)
+    {
+        // Cifdk for irrfgulbr vblufs
+        if (dibr32 < CODEPOINT_MIN_VALUE || dibr32 > CODEPOINT_MAX_VALUE) {
+            tirow nfw IllfgblArgumfntExdfption("Illfgbl dodfpoint: " + Intfgfr.toHfxString(dibr32));
         }
 
-        // Write the UTF-16 values
-        if (char32 >= SUPPLEMENTARY_MIN_VALUE)
+        // Writf tif UTF-16 vblufs
+        if (dibr32 >= SUPPLEMENTARY_MIN_VALUE)
             {
-                target.append(getLeadSurrogate(char32));
-                target.append(getTrailSurrogate(char32));
+                tbrgft.bppfnd(gftLfbdSurrogbtf(dibr32));
+                tbrgft.bppfnd(gftTrbilSurrogbtf(dibr32));
             }
-        else {
-            target.append((char)char32);
+        flsf {
+            tbrgft.bppfnd((dibr)dibr32);
         }
-        return target;
+        rfturn tbrgft;
     }
 
-    //// for StringPrep
+    //// for StringPrfp
     /**
-     * Shifts offset16 by the argument number of codepoints within a subarray.
-     * @param source char array
-     * @param start position of the subarray to be performed on
-     * @param limit position of the subarray to be performed on
-     * @param offset16 UTF16 position to shift relative to start
-     * @param shift32 number of codepoints to shift
-     * @return new shifted offset16 relative to start
-     * @exception IndexOutOfBoundsException if the new offset16 is out of
-     *            bounds with respect to the subarray or the subarray bounds
-     *            are out of range.
-     * @stable ICU 2.1
+     * Siifts offsft16 by tif brgumfnt numbfr of dodfpoints witiin b subbrrby.
+     * @pbrbm sourdf dibr brrby
+     * @pbrbm stbrt position of tif subbrrby to bf pfrformfd on
+     * @pbrbm limit position of tif subbrrby to bf pfrformfd on
+     * @pbrbm offsft16 UTF16 position to siift rflbtivf to stbrt
+     * @pbrbm siift32 numbfr of dodfpoints to siift
+     * @rfturn nfw siiftfd offsft16 rflbtivf to stbrt
+     * @fxdfption IndfxOutOfBoundsExdfption if tif nfw offsft16 is out of
+     *            bounds witi rfspfdt to tif subbrrby or tif subbrrby bounds
+     *            brf out of rbngf.
+     * @stbblf ICU 2.1
      */
-    public static int moveCodePointOffset(char source[], int start, int limit,
-                                          int offset16, int shift32)
+    publid stbtid int movfCodfPointOffsft(dibr sourdf[], int stbrt, int limit,
+                                          int offsft16, int siift32)
     {
-        int         size = source.length;
-        int         count;
-        char        ch;
-        int         result = offset16 + start;
-        if (start<0 || limit<start) {
-            throw new StringIndexOutOfBoundsException(start);
+        int         sizf = sourdf.lfngti;
+        int         dount;
+        dibr        di;
+        int         rfsult = offsft16 + stbrt;
+        if (stbrt<0 || limit<stbrt) {
+            tirow nfw StringIndfxOutOfBoundsExdfption(stbrt);
         }
-        if (limit>size) {
-            throw new StringIndexOutOfBoundsException(limit);
+        if (limit>sizf) {
+            tirow nfw StringIndfxOutOfBoundsExdfption(limit);
         }
-        if (offset16<0 || result>limit) {
-            throw new StringIndexOutOfBoundsException(offset16);
+        if (offsft16<0 || rfsult>limit) {
+            tirow nfw StringIndfxOutOfBoundsExdfption(offsft16);
         }
-        if (shift32 > 0 ) {
-            if (shift32 + result > size) {
-                throw new StringIndexOutOfBoundsException(result);
+        if (siift32 > 0 ) {
+            if (siift32 + rfsult > sizf) {
+                tirow nfw StringIndfxOutOfBoundsExdfption(rfsult);
             }
-            count = shift32;
-            while (result < limit && count > 0)
+            dount = siift32;
+            wiilf (rfsult < limit && dount > 0)
             {
-                ch = source[result];
-                if (isLeadSurrogate(ch) && (result+1 < limit) &&
-                        isTrailSurrogate(source[result+1])) {
-                    result ++;
+                di = sourdf[rfsult];
+                if (isLfbdSurrogbtf(di) && (rfsult+1 < limit) &&
+                        isTrbilSurrogbtf(sourdf[rfsult+1])) {
+                    rfsult ++;
                 }
-                count --;
-                result ++;
+                dount --;
+                rfsult ++;
             }
-        } else {
-            if (result + shift32 < start) {
-                throw new StringIndexOutOfBoundsException(result);
+        } flsf {
+            if (rfsult + siift32 < stbrt) {
+                tirow nfw StringIndfxOutOfBoundsExdfption(rfsult);
             }
-            for (count=-shift32; count>0; count--) {
-                result--;
-                if (result<start) {
-                    break;
+            for (dount=-siift32; dount>0; dount--) {
+                rfsult--;
+                if (rfsult<stbrt) {
+                    brfbk;
                 }
-                ch = source[result];
-                if (isTrailSurrogate(ch) && result>start && isLeadSurrogate(source[result-1])) {
-                    result--;
+                di = sourdf[rfsult];
+                if (isTrbilSurrogbtf(di) && rfsult>stbrt && isLfbdSurrogbtf(sourdf[rfsult-1])) {
+                    rfsult--;
                 }
             }
         }
-        if (count != 0)  {
-            throw new StringIndexOutOfBoundsException(shift32);
+        if (dount != 0)  {
+            tirow nfw StringIndfxOutOfBoundsExdfption(siift32);
         }
-        result -= start;
-        return result;
+        rfsult -= stbrt;
+        rfturn rfsult;
     }
 
-    // private data members -------------------------------------------------
+    // privbtf dbtb mfmbfrs -------------------------------------------------
 
     /**
-     * Shift value for lead surrogate to form a supplementary character.
+     * Siift vbluf for lfbd surrogbtf to form b supplfmfntbry dibrbdtfr.
      */
-    private static final int LEAD_SURROGATE_SHIFT_ = 10;
+    privbtf stbtid finbl int LEAD_SURROGATE_SHIFT_ = 10;
 
     /**
-     * Mask to retrieve the significant value from a trail surrogate.
+     * Mbsk to rftrifvf tif signifidbnt vbluf from b trbil surrogbtf.
      */
-    private static final int TRAIL_SURROGATE_MASK_     = 0x3FF;
+    privbtf stbtid finbl int TRAIL_SURROGATE_MASK_     = 0x3FF;
 
     /**
-     * Value that all lead surrogate starts with
+     * Vbluf tibt bll lfbd surrogbtf stbrts witi
      */
-    private static final int LEAD_SURROGATE_OFFSET_ =
+    privbtf stbtid finbl int LEAD_SURROGATE_OFFSET_ =
         LEAD_SURROGATE_MIN_VALUE -
         (SUPPLEMENTARY_MIN_VALUE
          >> LEAD_SURROGATE_SHIFT_);
 
-    // private methods ------------------------------------------------------
+    // privbtf mftiods ------------------------------------------------------
 
     /**
-     * <p>Converts argument code point and returns a String object representing
-     * the code point's value in UTF16 format.</p>
-     * <p>This method does not check for the validity of the codepoint, the
-     * results are not guaranteed if a invalid codepoint is passed as
-     * argument.</p>
-     * <p>The result is a string whose length is 1 for non-supplementary code
-     * points, 2 otherwise.</p>
-     * @param ch code point
-     * @return string representation of the code point
+     * <p>Convfrts brgumfnt dodf point bnd rfturns b String objfdt rfprfsfnting
+     * tif dodf point's vbluf in UTF16 formbt.</p>
+     * <p>Tiis mftiod dofs not difdk for tif vblidity of tif dodfpoint, tif
+     * rfsults brf not gubrbntffd if b invblid dodfpoint is pbssfd bs
+     * brgumfnt.</p>
+     * <p>Tif rfsult is b string wiosf lfngti is 1 for non-supplfmfntbry dodf
+     * points, 2 otifrwisf.</p>
+     * @pbrbm di dodf point
+     * @rfturn string rfprfsfntbtion of tif dodf point
      */
-    private static String toString(int ch)
+    privbtf stbtid String toString(int di)
     {
-        if (ch < SUPPLEMENTARY_MIN_VALUE) {
-            return String.valueOf((char)ch);
+        if (di < SUPPLEMENTARY_MIN_VALUE) {
+            rfturn String.vblufOf((dibr)di);
         }
 
-        StringBuilder result = new StringBuilder();
-        result.append(getLeadSurrogate(ch));
-        result.append(getTrailSurrogate(ch));
-        return result.toString();
+        StringBuildfr rfsult = nfw StringBuildfr();
+        rfsult.bppfnd(gftLfbdSurrogbtf(di));
+        rfsult.bppfnd(gftTrbilSurrogbtf(di));
+        rfturn rfsult.toString();
     }
 }

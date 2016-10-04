@@ -1,194 +1,194 @@
 /*
- * Copyright (c) 2005, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.plaf.nimbus;
+pbdkbgf jbvbx.swing.plbf.nimbus;
 
-import javax.swing.UIManager;
-import java.awt.Color;
-import java.beans.PropertyChangeSupport;
-import java.beans.PropertyChangeListener;
+import jbvbx.swing.UIMbnbgfr;
+import jbvb.bwt.Color;
+import jbvb.bfbns.PropfrtyCibngfSupport;
+import jbvb.bfbns.PropfrtyCibngfListfnfr;
 
 /**
- * DerivedColor - A color implementation that is derived from a UIManager
- * defaults table color and a set of offsets. It can be rederived at any point
- * by calling rederiveColor(). For example when its parent color changes and it
- * value will update to reflect the new derived color. Property change events
- * are fired for the "rgb" property when the derived color changes.
+ * DfrivfdColor - A dolor implfmfntbtion tibt is dfrivfd from b UIMbnbgfr
+ * dffbults tbblf dolor bnd b sft of offsfts. It dbn bf rfdfrivfd bt bny point
+ * by dblling rfdfrivfColor(). For fxbmplf wifn its pbrfnt dolor dibngfs bnd it
+ * vbluf will updbtf to rfflfdt tif nfw dfrivfd dolor. Propfrty dibngf fvfnts
+ * brf firfd for tif "rgb" propfrty wifn tif dfrivfd dolor dibngfs.
  *
- * @author Jasper Potts
+ * @butior Jbspfr Potts
  */
-@SuppressWarnings("serial") // Same-version serialization only
-class DerivedColor extends Color {
-    private final String uiDefaultParentName;
-    private final float hOffset, sOffset, bOffset;
-    private final int aOffset;
-    private int argbValue;
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+dlbss DfrivfdColor fxtfnds Color {
+    privbtf finbl String uiDffbultPbrfntNbmf;
+    privbtf finbl flobt iOffsft, sOffsft, bOffsft;
+    privbtf finbl int bOffsft;
+    privbtf int brgbVbluf;
 
-    DerivedColor(String uiDefaultParentName, float hOffset, float sOffset, float bOffset, int aOffset) {
-        super(0);
-        this.uiDefaultParentName = uiDefaultParentName;
-        this.hOffset = hOffset;
-        this.sOffset = sOffset;
-        this.bOffset = bOffset;
-        this.aOffset = aOffset;
+    DfrivfdColor(String uiDffbultPbrfntNbmf, flobt iOffsft, flobt sOffsft, flobt bOffsft, int bOffsft) {
+        supfr(0);
+        tiis.uiDffbultPbrfntNbmf = uiDffbultPbrfntNbmf;
+        tiis.iOffsft = iOffsft;
+        tiis.sOffsft = sOffsft;
+        tiis.bOffsft = bOffsft;
+        tiis.bOffsft = bOffsft;
     }
 
-    public String getUiDefaultParentName() {
-        return uiDefaultParentName;
+    publid String gftUiDffbultPbrfntNbmf() {
+        rfturn uiDffbultPbrfntNbmf;
     }
 
-    public float getHueOffset() {
-        return hOffset;
+    publid flobt gftHufOffsft() {
+        rfturn iOffsft;
     }
 
-    public float getSaturationOffset() {
-        return sOffset;
+    publid flobt gftSbturbtionOffsft() {
+        rfturn sOffsft;
     }
 
-    public float getBrightnessOffset() {
-        return bOffset;
+    publid flobt gftBrigitnfssOffsft() {
+        rfturn bOffsft;
     }
 
-    public int getAlphaOffset() {
-        return aOffset;
+    publid int gftAlpibOffsft() {
+        rfturn bOffsft;
     }
 
     /**
-     * Recalculate the derived color from the UIManager parent color and offsets
+     * Rfdbldulbtf tif dfrivfd dolor from tif UIMbnbgfr pbrfnt dolor bnd offsfts
      */
-    public void rederiveColor() {
-        Color src = UIManager.getColor(uiDefaultParentName);
-        if (src != null) {
-            float[] tmp = Color.RGBtoHSB(src.getRed(), src.getGreen(), src.getBlue(), null);
-            // apply offsets
-            tmp[0] = clamp(tmp[0] + hOffset);
-            tmp[1] = clamp(tmp[1] + sOffset);
-            tmp[2] = clamp(tmp[2] + bOffset);
-            int alpha = clamp(src.getAlpha() + aOffset);
-            argbValue = (Color.HSBtoRGB(tmp[0], tmp[1], tmp[2]) & 0xFFFFFF) | (alpha << 24);
-        } else {
-            float[] tmp = new float[3];
-            tmp[0] = clamp(hOffset);
-            tmp[1] = clamp(sOffset);
-            tmp[2] = clamp(bOffset);
-            int alpha = clamp(aOffset);
-            argbValue = (Color.HSBtoRGB(tmp[0], tmp[1], tmp[2]) & 0xFFFFFF) | (alpha << 24);
+    publid void rfdfrivfColor() {
+        Color srd = UIMbnbgfr.gftColor(uiDffbultPbrfntNbmf);
+        if (srd != null) {
+            flobt[] tmp = Color.RGBtoHSB(srd.gftRfd(), srd.gftGrffn(), srd.gftBluf(), null);
+            // bpply offsfts
+            tmp[0] = dlbmp(tmp[0] + iOffsft);
+            tmp[1] = dlbmp(tmp[1] + sOffsft);
+            tmp[2] = dlbmp(tmp[2] + bOffsft);
+            int blpib = dlbmp(srd.gftAlpib() + bOffsft);
+            brgbVbluf = (Color.HSBtoRGB(tmp[0], tmp[1], tmp[2]) & 0xFFFFFF) | (blpib << 24);
+        } flsf {
+            flobt[] tmp = nfw flobt[3];
+            tmp[0] = dlbmp(iOffsft);
+            tmp[1] = dlbmp(sOffsft);
+            tmp[2] = dlbmp(bOffsft);
+            int blpib = dlbmp(bOffsft);
+            brgbVbluf = (Color.HSBtoRGB(tmp[0], tmp[1], tmp[2]) & 0xFFFFFF) | (blpib << 24);
         }
     }
 
     /**
-     * Returns the RGB value representing the color in the default sRGB {@link java.awt.image.ColorModel}. (Bits 24-31
-     * are alpha, 16-23 are red, 8-15 are green, 0-7 are blue).
+     * Rfturns tif RGB vbluf rfprfsfnting tif dolor in tif dffbult sRGB {@link jbvb.bwt.imbgf.ColorModfl}. (Bits 24-31
+     * brf blpib, 16-23 brf rfd, 8-15 brf grffn, 0-7 brf bluf).
      *
-     * @return the RGB value of the color in the default sRGB <code>ColorModel</code>.
-     * @see java.awt.image.ColorModel#getRGBdefault
-     * @see #getRed
-     * @see #getGreen
-     * @see #getBlue
-     * @since 1.0
+     * @rfturn tif RGB vbluf of tif dolor in tif dffbult sRGB <dodf>ColorModfl</dodf>.
+     * @sff jbvb.bwt.imbgf.ColorModfl#gftRGBdffbult
+     * @sff #gftRfd
+     * @sff #gftGrffn
+     * @sff #gftBluf
+     * @sindf 1.0
      */
-    @Override public int getRGB() {
-        return argbValue;
+    @Ovfrridf publid int gftRGB() {
+        rfturn brgbVbluf;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof DerivedColor)) return false;
-        DerivedColor that = (DerivedColor) o;
-        if (aOffset != that.aOffset) return false;
-        if (Float.compare(that.bOffset, bOffset) != 0) return false;
-        if (Float.compare(that.hOffset, hOffset) != 0) return false;
-        if (Float.compare(that.sOffset, sOffset) != 0) return false;
-        if (!uiDefaultParentName.equals(that.uiDefaultParentName)) return false;
-        return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (tiis == o) rfturn truf;
+        if (!(o instbndfof DfrivfdColor)) rfturn fblsf;
+        DfrivfdColor tibt = (DfrivfdColor) o;
+        if (bOffsft != tibt.bOffsft) rfturn fblsf;
+        if (Flobt.dompbrf(tibt.bOffsft, bOffsft) != 0) rfturn fblsf;
+        if (Flobt.dompbrf(tibt.iOffsft, iOffsft) != 0) rfturn fblsf;
+        if (Flobt.dompbrf(tibt.sOffsft, sOffsft) != 0) rfturn fblsf;
+        if (!uiDffbultPbrfntNbmf.fqubls(tibt.uiDffbultPbrfntNbmf)) rfturn fblsf;
+        rfturn truf;
     }
 
-    @Override
-    public int hashCode() {
-        int result = uiDefaultParentName.hashCode();
-        result = 31 * result + hOffset != +0.0f ?
-                Float.floatToIntBits(hOffset) : 0;
-        result = 31 * result + sOffset != +0.0f ?
-                Float.floatToIntBits(sOffset) : 0;
-        result = 31 * result + bOffset != +0.0f ?
-                Float.floatToIntBits(bOffset) : 0;
-        result = 31 * result + aOffset;
-        return result;
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int rfsult = uiDffbultPbrfntNbmf.ibsiCodf();
+        rfsult = 31 * rfsult + iOffsft != +0.0f ?
+                Flobt.flobtToIntBits(iOffsft) : 0;
+        rfsult = 31 * rfsult + sOffsft != +0.0f ?
+                Flobt.flobtToIntBits(sOffsft) : 0;
+        rfsult = 31 * rfsult + bOffsft != +0.0f ?
+                Flobt.flobtToIntBits(bOffsft) : 0;
+        rfsult = 31 * rfsult + bOffsft;
+        rfturn rfsult;
     }
 
-    private float clamp(float value) {
-        if (value < 0) {
-            value = 0;
-        } else if (value > 1) {
-            value = 1;
+    privbtf flobt dlbmp(flobt vbluf) {
+        if (vbluf < 0) {
+            vbluf = 0;
+        } flsf if (vbluf > 1) {
+            vbluf = 1;
         }
-        return value;
+        rfturn vbluf;
     }
 
-    private int clamp(int value) {
-        if (value < 0) {
-            value = 0;
-        } else if (value > 255) {
-            value = 255;
+    privbtf int dlbmp(int vbluf) {
+        if (vbluf < 0) {
+            vbluf = 0;
+        } flsf if (vbluf > 255) {
+            vbluf = 255;
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Returns a string representation of this <code>Color</code>. This method
-     * is intended to be used only for debugging purposes. The content and
-     * format of the returned string might vary between implementations. The
-     * returned string might be empty but cannot be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>Color</dodf>. Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs. Tif dontfnt bnd
+     * formbt of tif rfturnfd string migit vbry bftwffn implfmfntbtions. Tif
+     * rfturnfd string migit bf fmpty but dbnnot bf <dodf>null</dodf>.
      *
-     * @return a String representation of this <code>Color</code>.
+     * @rfturn b String rfprfsfntbtion of tiis <dodf>Color</dodf>.
      */
-    @Override
-    public String toString() {
-        Color src = UIManager.getColor(uiDefaultParentName);
-        String s = "DerivedColor(color=" + getRed() + "," + getGreen() + "," + getBlue() +
-                " parent=" + uiDefaultParentName +
-                " offsets=" + getHueOffset() + "," + getSaturationOffset() + ","
-                + getBrightnessOffset() + "," + getAlphaOffset();
-        return src == null ? s : s + " pColor=" + src.getRed() + "," + src.getGreen() + "," + src.getBlue();
+    @Ovfrridf
+    publid String toString() {
+        Color srd = UIMbnbgfr.gftColor(uiDffbultPbrfntNbmf);
+        String s = "DfrivfdColor(dolor=" + gftRfd() + "," + gftGrffn() + "," + gftBluf() +
+                " pbrfnt=" + uiDffbultPbrfntNbmf +
+                " offsfts=" + gftHufOffsft() + "," + gftSbturbtionOffsft() + ","
+                + gftBrigitnfssOffsft() + "," + gftAlpibOffsft();
+        rfturn srd == null ? s : s + " pColor=" + srd.gftRfd() + "," + srd.gftGrffn() + "," + srd.gftBluf();
     }
 
-    @SuppressWarnings("serial") // Same-version serialization only
-    static class UIResource extends DerivedColor implements javax.swing.plaf.UIResource {
-        UIResource(String uiDefaultParentName, float hOffset, float sOffset,
-                   float bOffset, int aOffset) {
-            super(uiDefaultParentName, hOffset, sOffset, bOffset, aOffset);
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    stbtid dlbss UIRfsourdf fxtfnds DfrivfdColor implfmfnts jbvbx.swing.plbf.UIRfsourdf {
+        UIRfsourdf(String uiDffbultPbrfntNbmf, flobt iOffsft, flobt sOffsft,
+                   flobt bOffsft, int bOffsft) {
+            supfr(uiDffbultPbrfntNbmf, iOffsft, sOffsft, bOffsft, bOffsft);
         }
 
-        @Override
-        public boolean equals(Object o) {
-            return (o instanceof UIResource) && super.equals(o);
+        @Ovfrridf
+        publid boolfbn fqubls(Objfdt o) {
+            rfturn (o instbndfof UIRfsourdf) && supfr.fqubls(o);
         }
 
-        @Override
-        public int hashCode() {
-            return super.hashCode() + 7;
+        @Ovfrridf
+        publid int ibsiCodf() {
+            rfturn supfr.ibsiCodf() + 7;
         }
     }
 }

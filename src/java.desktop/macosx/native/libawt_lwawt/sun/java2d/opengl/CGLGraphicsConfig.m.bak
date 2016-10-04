@@ -1,450 +1,450 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import <stdlib.h>
-#import <string.h>
-#import <ApplicationServices/ApplicationServices.h>
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
+#import <stdlib.i>
+#import <string.i>
+#import <ApplidbtionSfrvidfs/ApplidbtionSfrvidfs.i>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
 
-#import "sun_java2d_opengl_CGLGraphicsConfig.h"
+#import "sun_jbvb2d_opfngl_CGLGrbpiidsConfig.i"
 
-#import "jni.h"
-#import "jni_util.h"
-#import "CGLGraphicsConfig.h"
-#import "CGLSurfaceData.h"
-#import "LWCToolkit.h"
-#import "ThreadUtilities.h"
+#import "jni.i"
+#import "jni_util.i"
+#import "CGLGrbpiidsConfig.i"
+#import "CGLSurfbdfDbtb.i"
+#import "LWCToolkit.i"
+#import "TirfbdUtilitifs.i"
 
-#pragma mark -
-#pragma mark "--- Mac OS X specific methods for GL pipeline ---"
+#prbgmb mbrk -
+#prbgmb mbrk "--- Mbd OS X spfdifid mftiods for GL pipflinf ---"
 
 /**
- * Disposes all memory and resources associated with the given
- * CGLGraphicsConfigInfo (including its native OGLContext data).
+ * Disposfs bll mfmory bnd rfsourdfs bssodibtfd witi tif givfn
+ * CGLGrbpiidsConfigInfo (indluding its nbtivf OGLContfxt dbtb).
  */
 void
-OGLGC_DestroyOGLGraphicsConfig(jlong pConfigInfo)
+OGLGC_DfstroyOGLGrbpiidsConfig(jlong pConfigInfo)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "OGLGC_DestroyOGLGraphicsConfig");
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLGC_DfstroyOGLGrbpiidsConfig");
 
-    CGLGraphicsConfigInfo *cglinfo =
-        (CGLGraphicsConfigInfo *)jlong_to_ptr(pConfigInfo);
-    if (cglinfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR,
-                      "OGLGC_DestroyOGLGraphicsConfig: info is null");
-        return;
+    CGLGrbpiidsConfigInfo *dglinfo =
+        (CGLGrbpiidsConfigInfo *)jlong_to_ptr(pConfigInfo);
+    if (dglinfo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLGC_DfstroyOGLGrbpiidsConfig: info is null");
+        rfturn;
     }
 
-    OGLContext *oglc = (OGLContext*)cglinfo->context;
-    if (oglc != NULL) {
-        OGLContext_DestroyContextResources(oglc);
+    OGLContfxt *ogld = (OGLContfxt*)dglinfo->dontfxt;
+    if (ogld != NULL) {
+        OGLContfxt_DfstroyContfxtRfsourdfs(ogld);
 
-        CGLCtxInfo *ctxinfo = (CGLCtxInfo *)oglc->ctxInfo;
-        if (ctxinfo != NULL) {
-            NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];        
-            [NSOpenGLContext clearCurrentContext];
-            [ctxinfo->context clearDrawable];
-            [ctxinfo->context release];
-            if (ctxinfo->scratchSurface != 0) {
-                [ctxinfo->scratchSurface release];
+        CGLCtxInfo *dtxinfo = (CGLCtxInfo *)ogld->dtxInfo;
+        if (dtxinfo != NULL) {
+            NSAutorflfbsfPool * pool = [[NSAutorflfbsfPool bllod] init];        
+            [NSOpfnGLContfxt dlfbrCurrfntContfxt];
+            [dtxinfo->dontfxt dlfbrDrbwbblf];
+            [dtxinfo->dontfxt rflfbsf];
+            if (dtxinfo->sdrbtdiSurfbdf != 0) {
+                [dtxinfo->sdrbtdiSurfbdf rflfbsf];
             }
-            [pool drain];
-            free(ctxinfo);
+            [pool drbin];
+            frff(dtxinfo);
         }
     }
 
-    free(cglinfo);
+    frff(dglinfo);
 }
 
-#pragma mark -
-#pragma mark "--- CGLGraphicsConfig methods ---"
+#prbgmb mbrk -
+#prbgmb mbrk "--- CGLGrbpiidsConfig mftiods ---"
 
-#ifdef REMOTELAYER
-mach_port_t JRSRemotePort;
-int remoteSocketFD = -1;
+#ifdff REMOTELAYER
+mbdi_port_t JRSRfmotfPort;
+int rfmotfSodkftFD = -1;
 
-static void *JRSRemoteThreadFn(void *data) {
-    NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
+stbtid void *JRSRfmotfTirfbdFn(void *dbtb) {
+    NSAutorflfbsfPool * pool = [[NSAutorflfbsfPool bllod] init];
 
-    // Negotiate a unix domain socket to communicate the
-    // out of band data: to read the mach port server name, and
-    // subsequently write out the layer ID.
-    static char* sock_path = "/tmp/JRSRemoteDemoSocket";
-    struct sockaddr_un address;
-    int  socket_fd, nbytes;
+    // Nfgotibtf b unix dombin sodkft to dommunidbtf tif
+    // out of bbnd dbtb: to rfbd tif mbdi port sfrvfr nbmf, bnd
+    // subsfqufntly writf out tif lbyfr ID.
+    stbtid dibr* sodk_pbti = "/tmp/JRSRfmotfDfmoSodkft";
+    strudt sodkbddr_un bddrfss;
+    int  sodkft_fd, nbytfs;
     int BUFLEN = 256;
-    char buffer[BUFLEN];
+    dibr bufffr[BUFLEN];
 
-    remoteSocketFD = socket(PF_LOCAL, SOCK_STREAM, 0);
-    if (remoteSocketFD < 0) {
-        NSLog(@"socket() failed");
-        return NULL;
+    rfmotfSodkftFD = sodkft(PF_LOCAL, SOCK_STREAM, 0);
+    if (rfmotfSodkftFD < 0) {
+        NSLog(@"sodkft() fbilfd");
+        rfturn NULL;
     }
-    memset(&address, 0, sizeof(struct sockaddr_un));
-    address.sun_family = AF_UNIX;
-    memcpy(address.sun_path, sock_path, strlen(sock_path)+1);
-    int tries=0, status=-1;
-    while (status !=0 && tries<600) {
-        status = connect(remoteSocketFD, (struct sockaddr *) &address,
-                         sizeof(struct sockaddr_un));
-        if (status != 0) {
-            tries++;
-            NSLog(@"connection attempt %d failed.", tries);
-            usleep(5000000);
+    mfmsft(&bddrfss, 0, sizfof(strudt sodkbddr_un));
+    bddrfss.sun_fbmily = AF_UNIX;
+    mfmdpy(bddrfss.sun_pbti, sodk_pbti, strlfn(sodk_pbti)+1);
+    int trifs=0, stbtus=-1;
+    wiilf (stbtus !=0 && trifs<600) {
+        stbtus = donnfdt(rfmotfSodkftFD, (strudt sodkbddr *) &bddrfss,
+                         sizfof(strudt sodkbddr_un));
+        if (stbtus != 0) {
+            trifs++;
+            NSLog(@"donnfdtion bttfmpt %d fbilfd.", trifs);
+            uslffp(5000000);
         }
     }
-    if (status != 0) {
-        NSLog(@"failed to connect");
-        return NULL;
+    if (stbtus != 0) {
+        NSLog(@"fbilfd to donnfdt");
+        rfturn NULL;
     }
-    nbytes = read(remoteSocketFD, buffer, BUFLEN);
-    NSString* serverString = [[NSString alloc] initWithUTF8String:buffer];
-    CFRetain(serverString);
-    NSLog(@"Read server name %@", serverString);
-    JRSRemotePort = [JRSRenderServer recieveRenderServer:serverString];
-    NSLog(@"Read server port %d", JRSRemotePort);
+    nbytfs = rfbd(rfmotfSodkftFD, bufffr, BUFLEN);
+    NSString* sfrvfrString = [[NSString bllod] initWitiUTF8String:bufffr];
+    CFRftbin(sfrvfrString);
+    NSLog(@"Rfbd sfrvfr nbmf %@", sfrvfrString);
+    JRSRfmotfPort = [JRSRfndfrSfrvfr rfdifvfRfndfrSfrvfr:sfrvfrString];
+    NSLog(@"Rfbd sfrvfr port %d", JRSRfmotfPort);
 
-    [pool drain];
-    return NULL;
+    [pool drbin];
+    rfturn NULL;
 }
 
-void sendLayerID(int layerID) {
-    if (JRSRemotePort == 0 || remoteSocketFD < 0) {
-        NSLog(@"No connection to send ID");
-        return;
+void sfndLbyfrID(int lbyfrID) {
+    if (JRSRfmotfPort == 0 || rfmotfSodkftFD < 0) {
+        NSLog(@"No donnfdtion to sfnd ID");
+        rfturn;
     }
     int BUFLEN = 256;
-    char buffer[BUFLEN];
-    snprintf(buffer, BUFLEN, "%d", layerID);
-    write(remoteSocketFD, buffer, BUFLEN);
+    dibr bufffr[BUFLEN];
+    snprintf(bufffr, BUFLEN, "%d", lbyfrID);
+    writf(rfmotfSodkftFD, bufffr, BUFLEN);
 }
-#endif  /* REMOTELAYER */
+#fndif  /* REMOTELAYER */
 
 /**
- * This is a globally shared context used when creating textures.  When any
- * new contexts are created, they specify this context as the "share list"
- * context, which means any texture objects created when this shared context
- * is current will be available to any other context in any other thread.
+ * Tiis is b globblly sibrfd dontfxt usfd wifn drfbting tfxturfs.  Wifn bny
+ * nfw dontfxts brf drfbtfd, tify spfdify tiis dontfxt bs tif "sibrf list"
+ * dontfxt, wiidi mfbns bny tfxturf objfdts drfbtfd wifn tiis sibrfd dontfxt
+ * is durrfnt will bf bvbilbblf to bny otifr dontfxt in bny otifr tirfbd.
  */
-NSOpenGLContext *sharedContext = NULL;
-NSOpenGLPixelFormat *sharedPixelFormat = NULL;
+NSOpfnGLContfxt *sibrfdContfxt = NULL;
+NSOpfnGLPixflFormbt *sibrfdPixflFormbt = NULL;
 
 /**
- * Attempts to initialize CGL and the core OpenGL library.
+ * Attfmpts to initiblizf CGL bnd tif dorf OpfnGL librbry.
  */
-JNIEXPORT jboolean JNICALL
-Java_sun_java2d_opengl_CGLGraphicsConfig_initCGL
-    (JNIEnv *env, jclass cglgc)
+JNIEXPORT jboolfbn JNICALL
+Jbvb_sun_jbvb2d_opfngl_CGLGrbpiidsConfig_initCGL
+    (JNIEnv *fnv, jdlbss dglgd)
 {
-    J2dRlsTraceLn(J2D_TRACE_INFO, "CGLGraphicsConfig_initCGL");
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "CGLGrbpiidsConfig_initCGL");
 
-    if (!OGLFuncs_OpenLibrary()) {
-        return JNI_FALSE;
+    if (!OGLFunds_OpfnLibrbry()) {
+        rfturn JNI_FALSE;
     }
 
-    if (!OGLFuncs_InitPlatformFuncs() ||
-        !OGLFuncs_InitBaseFuncs() ||
-        !OGLFuncs_InitExtFuncs())
+    if (!OGLFunds_InitPlbtformFunds() ||
+        !OGLFunds_InitBbsfFunds() ||
+        !OGLFunds_InitExtFunds())
     {
-        OGLFuncs_CloseLibrary();
-        return JNI_FALSE;
+        OGLFunds_ClosfLibrbry();
+        rfturn JNI_FALSE;
     }
-#ifdef REMOTELAYER
-    pthread_t jrsRemoteThread;
-    pthread_create(&jrsRemoteThread, NULL, JRSRemoteThreadFn, NULL);
-#endif
-    return JNI_TRUE;
+#ifdff REMOTELAYER
+    ptirfbd_t jrsRfmotfTirfbd;
+    ptirfbd_drfbtf(&jrsRfmotfTirfbd, NULL, JRSRfmotfTirfbdFn, NULL);
+#fndif
+    rfturn JNI_TRUE;
 }
 
 
 /**
- * Determines whether the CGL pipeline can be used for a given GraphicsConfig
- * provided its screen number and visual ID.  If the minimum requirements are
- * met, the native CGLGraphicsConfigInfo structure is initialized for this
- * GraphicsConfig with the necessary information (pixel format, etc.)
- * and a pointer to this structure is returned as a jlong.  If
- * initialization fails at any point, zero is returned, indicating that CGL
- * cannot be used for this GraphicsConfig (we should fallback on an existing
- * 2D pipeline).
+ * Dftfrminfs wiftifr tif CGL pipflinf dbn bf usfd for b givfn GrbpiidsConfig
+ * providfd its sdrffn numbfr bnd visubl ID.  If tif minimum rfquirfmfnts brf
+ * mft, tif nbtivf CGLGrbpiidsConfigInfo strudturf is initiblizfd for tiis
+ * GrbpiidsConfig witi tif nfdfssbry informbtion (pixfl formbt, ftd.)
+ * bnd b pointfr to tiis strudturf is rfturnfd bs b jlong.  If
+ * initiblizbtion fbils bt bny point, zfro is rfturnfd, indidbting tibt CGL
+ * dbnnot bf usfd for tiis GrbpiidsConfig (wf siould fbllbbdk on bn fxisting
+ * 2D pipflinf).
  */
 JNIEXPORT jlong JNICALL
-Java_sun_java2d_opengl_CGLGraphicsConfig_getCGLConfigInfo
-    (JNIEnv *env, jclass cglgc,
-     jint displayID, jint pixfmt, jint swapInterval)
+Jbvb_sun_jbvb2d_opfngl_CGLGrbpiidsConfig_gftCGLConfigInfo
+    (JNIEnv *fnv, jdlbss dglgd,
+     jint displbyID, jint pixfmt, jint swbpIntfrvbl)
 {
-  jlong ret = 0L;
-  JNF_COCOA_ENTER(env);
-  NSMutableArray * retArray = [NSMutableArray arrayWithCapacity:3];
-  [retArray addObject: [NSNumber numberWithInt: (int)displayID]];
-  [retArray addObject: [NSNumber numberWithInt: (int)pixfmt]];
-  [retArray addObject: [NSNumber numberWithInt: (int)swapInterval]];
-  if ([NSThread isMainThread]) {
-      [GraphicsConfigUtil _getCGLConfigInfo: retArray];
-  } else {
-      [GraphicsConfigUtil performSelectorOnMainThread: @selector(_getCGLConfigInfo:) withObject: retArray waitUntilDone: YES];
+  jlong rft = 0L;
+  JNF_COCOA_ENTER(fnv);
+  NSMutbblfArrby * rftArrby = [NSMutbblfArrby brrbyWitiCbpbdity:3];
+  [rftArrby bddObjfdt: [NSNumbfr numbfrWitiInt: (int)displbyID]];
+  [rftArrby bddObjfdt: [NSNumbfr numbfrWitiInt: (int)pixfmt]];
+  [rftArrby bddObjfdt: [NSNumbfr numbfrWitiInt: (int)swbpIntfrvbl]];
+  if ([NSTirfbd isMbinTirfbd]) {
+      [GrbpiidsConfigUtil _gftCGLConfigInfo: rftArrby];
+  } flsf {
+      [GrbpiidsConfigUtil pfrformSflfdtorOnMbinTirfbd: @sflfdtor(_gftCGLConfigInfo:) witiObjfdt: rftArrby wbitUntilDonf: YES];
   }
-  NSNumber * num = (NSNumber *)[retArray objectAtIndex: 0];
-  ret = (jlong)[num longValue];
-  JNF_COCOA_EXIT(env);
-  return ret;
+  NSNumbfr * num = (NSNumbfr *)[rftArrby objfdtAtIndfx: 0];
+  rft = (jlong)[num longVbluf];
+  JNF_COCOA_EXIT(fnv);
+  rfturn rft;
 }
 
 
 
-@implementation GraphicsConfigUtil
-+ (void) _getCGLConfigInfo: (NSMutableArray *)argValue {
+@implfmfntbtion GrbpiidsConfigUtil
++ (void) _gftCGLConfigInfo: (NSMutbblfArrby *)brgVbluf {
     AWT_ASSERT_APPKIT_THREAD;
 
-    jint displayID = (jint)[(NSNumber *)[argValue objectAtIndex: 0] intValue];
-    jint pixfmt = (jint)[(NSNumber *)[argValue objectAtIndex: 1] intValue];
-    jint swapInterval = (jint)[(NSNumber *)[argValue objectAtIndex: 2] intValue];
-    JNIEnv *env = [ThreadUtilities getJNIEnvUncached];
-    [argValue removeAllObjects];
+    jint displbyID = (jint)[(NSNumbfr *)[brgVbluf objfdtAtIndfx: 0] intVbluf];
+    jint pixfmt = (jint)[(NSNumbfr *)[brgVbluf objfdtAtIndfx: 1] intVbluf];
+    jint swbpIntfrvbl = (jint)[(NSNumbfr *)[brgVbluf objfdtAtIndfx: 2] intVbluf];
+    JNIEnv *fnv = [TirfbdUtilitifs gftJNIEnvUndbdifd];
+    [brgVbluf rfmovfAllObjfdts];
 
-    J2dRlsTraceLn(J2D_TRACE_INFO, "CGLGraphicsConfig_getCGLConfigInfo");
+    J2dRlsTrbdfLn(J2D_TRACE_INFO, "CGLGrbpiidsConfig_gftCGLConfigInfo");
 
-    NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+    NSAutorflfbsfPool* pool = [[NSAutorflfbsfPool bllod] init];
 
-    CGOpenGLDisplayMask glMask = (CGOpenGLDisplayMask)pixfmt;
-    if (sharedContext == NULL) {
-        if (glMask == 0) {
-            glMask = CGDisplayIDToOpenGLDisplayMask(displayID);
+    CGOpfnGLDisplbyMbsk glMbsk = (CGOpfnGLDisplbyMbsk)pixfmt;
+    if (sibrfdContfxt == NULL) {
+        if (glMbsk == 0) {
+            glMbsk = CGDisplbyIDToOpfnGLDisplbyMbsk(displbyID);
         }
 
-        NSOpenGLPixelFormatAttribute attrs[] = {
-            NSOpenGLPFAClosestPolicy,
-            NSOpenGLPFAWindow,
-            NSOpenGLPFAPixelBuffer,
-            NSOpenGLPFADoubleBuffer,
-            NSOpenGLPFAColorSize, 32,
-            NSOpenGLPFAAlphaSize, 8,
-            NSOpenGLPFADepthSize, 16,
-            NSOpenGLPFAScreenMask, glMask,
+        NSOpfnGLPixflFormbtAttributf bttrs[] = {
+            NSOpfnGLPFAClosfstPolidy,
+            NSOpfnGLPFAWindow,
+            NSOpfnGLPFAPixflBufffr,
+            NSOpfnGLPFADoublfBufffr,
+            NSOpfnGLPFAColorSizf, 32,
+            NSOpfnGLPFAAlpibSizf, 8,
+            NSOpfnGLPFADfptiSizf, 16,
+            NSOpfnGLPFASdrffnMbsk, glMbsk,
             0
         };
 
-        sharedPixelFormat =
-            [[NSOpenGLPixelFormat alloc] initWithAttributes:attrs];
-        if (sharedPixelFormat == nil) {
-            J2dRlsTraceLn(J2D_TRACE_ERROR, "CGLGraphicsConfig_getCGLConfigInfo: shared NSOpenGLPixelFormat is NULL");
-            [argValue addObject: [NSNumber numberWithLong: 0L]];
-            return;
+        sibrfdPixflFormbt =
+            [[NSOpfnGLPixflFormbt bllod] initWitiAttributfs:bttrs];
+        if (sibrfdPixflFormbt == nil) {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR, "CGLGrbpiidsConfig_gftCGLConfigInfo: sibrfd NSOpfnGLPixflFormbt is NULL");
+            [brgVbluf bddObjfdt: [NSNumbfr numbfrWitiLong: 0L]];
+            rfturn;
         }
 
-        sharedContext =
-            [[NSOpenGLContext alloc]
-                initWithFormat:sharedPixelFormat
-                shareContext: NULL];
-        if (sharedContext == nil) {
-            J2dRlsTraceLn(J2D_TRACE_ERROR, "CGLGraphicsConfig_getCGLConfigInfo: shared NSOpenGLContext is NULL");
-            [argValue addObject: [NSNumber numberWithLong: 0L]];
-            return;
+        sibrfdContfxt =
+            [[NSOpfnGLContfxt bllod]
+                initWitiFormbt:sibrfdPixflFormbt
+                sibrfContfxt: NULL];
+        if (sibrfdContfxt == nil) {
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR, "CGLGrbpiidsConfig_gftCGLConfigInfo: sibrfd NSOpfnGLContfxt is NULL");
+            [brgVbluf bddObjfdt: [NSNumbfr numbfrWitiLong: 0L]];
+            rfturn;
         }
     }
 
 #if USE_NSVIEW_FOR_SCRATCH
-    NSRect contentRect = NSMakeRect(0, 0, 64, 64);
+    NSRfdt dontfntRfdt = NSMbkfRfdt(0, 0, 64, 64);
     NSWindow *window =
-        [[NSWindow alloc]
-            initWithContentRect: contentRect
-            styleMask: NSBorderlessWindowMask
-            backing: NSBackingStoreBuffered
-            defer: false];
+        [[NSWindow bllod]
+            initWitiContfntRfdt: dontfntRfdt
+            stylfMbsk: NSBordfrlfssWindowMbsk
+            bbdking: NSBbdkingStorfBufffrfd
+            dfffr: fblsf];
     if (window == nil) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "CGLGraphicsConfig_getCGLConfigInfo: NSWindow is NULL");
-        [argValue addObject: [NSNumber numberWithLong: 0L]];
-        return;
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR, "CGLGrbpiidsConfig_gftCGLConfigInfo: NSWindow is NULL");
+        [brgVbluf bddObjfdt: [NSNumbfr numbfrWitiLong: 0L]];
+        rfturn;
     }
 
-    NSView *scratchSurface =
-        [[NSView alloc]
-            initWithFrame: contentRect];
-    if (scratchSurface == nil) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "CGLGraphicsConfig_getCGLConfigInfo: NSView is NULL");
-        [argValue addObject: [NSNumber numberWithLong: 0L]];
-        return;
+    NSVifw *sdrbtdiSurfbdf =
+        [[NSVifw bllod]
+            initWitiFrbmf: dontfntRfdt];
+    if (sdrbtdiSurfbdf == nil) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR, "CGLGrbpiidsConfig_gftCGLConfigInfo: NSVifw is NULL");
+        [brgVbluf bddObjfdt: [NSNumbfr numbfrWitiLong: 0L]];
+        rfturn;
     }
-    [window setContentView: scratchSurface];
-#else
-    NSOpenGLPixelBuffer *scratchSurface =
-        [[NSOpenGLPixelBuffer alloc]
-            initWithTextureTarget:GL_TEXTURE_2D
-            textureInternalFormat:GL_RGB
-            textureMaxMipMapLevel:0
-            pixelsWide:64
-            pixelsHigh:64];
-#endif
+    [window sftContfntVifw: sdrbtdiSurfbdf];
+#flsf
+    NSOpfnGLPixflBufffr *sdrbtdiSurfbdf =
+        [[NSOpfnGLPixflBufffr bllod]
+            initWitiTfxturfTbrgft:GL_TEXTURE_2D
+            tfxturfIntfrnblFormbt:GL_RGB
+            tfxturfMbxMipMbpLfvfl:0
+            pixflsWidf:64
+            pixflsHigi:64];
+#fndif
 
-    NSOpenGLContext *context =
-        [[NSOpenGLContext alloc]
-            initWithFormat: sharedPixelFormat
-            shareContext: sharedContext];
-    if (context == nil) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "CGLGraphicsConfig_getCGLConfigInfo: NSOpenGLContext is NULL");
-        [argValue addObject: [NSNumber numberWithLong: 0L]];
-        return;
+    NSOpfnGLContfxt *dontfxt =
+        [[NSOpfnGLContfxt bllod]
+            initWitiFormbt: sibrfdPixflFormbt
+            sibrfContfxt: sibrfdContfxt];
+    if (dontfxt == nil) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR, "CGLGrbpiidsConfig_gftCGLConfigInfo: NSOpfnGLContfxt is NULL");
+        [brgVbluf bddObjfdt: [NSNumbfr numbfrWitiLong: 0L]];
+        rfturn;
     }
 
-    GLint contextVirtualScreen = [context currentVirtualScreen];
+    GLint dontfxtVirtublSdrffn = [dontfxt durrfntVirtublSdrffn];
 #if USE_NSVIEW_FOR_SCRATCH
-    [context setView: scratchSurface];
-#else
-    [context
-        setPixelBuffer: scratchSurface
-        cubeMapFace:0
-        mipMapLevel:0
-        currentVirtualScreen: contextVirtualScreen];
-#endif
-    [context makeCurrentContext];
+    [dontfxt sftVifw: sdrbtdiSurfbdf];
+#flsf
+    [dontfxt
+        sftPixflBufffr: sdrbtdiSurfbdf
+        dubfMbpFbdf:0
+        mipMbpLfvfl:0
+        durrfntVirtublSdrffn: dontfxtVirtublSdrffn];
+#fndif
+    [dontfxt mbkfCurrfntContfxt];
 
-    // get version and extension strings
-    const unsigned char *versionstr = j2d_glGetString(GL_VERSION);
-    if (!OGLContext_IsVersionSupported(versionstr)) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "CGLGraphicsConfig_getCGLConfigInfo: OpenGL 1.2 is required");
-        [NSOpenGLContext clearCurrentContext];
-        [argValue addObject: [NSNumber numberWithLong: 0L]];
-        return;
+    // gft vfrsion bnd fxtfnsion strings
+    donst unsignfd dibr *vfrsionstr = j2d_glGftString(GL_VERSION);
+    if (!OGLContfxt_IsVfrsionSupportfd(vfrsionstr)) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR, "CGLGrbpiidsConfig_gftCGLConfigInfo: OpfnGL 1.2 is rfquirfd");
+        [NSOpfnGLContfxt dlfbrCurrfntContfxt];
+        [brgVbluf bddObjfdt: [NSNumbfr numbfrWitiLong: 0L]];
+        rfturn;
     }
-    J2dRlsTraceLn1(J2D_TRACE_INFO, "CGLGraphicsConfig_getCGLConfigInfo: OpenGL version=%s", versionstr);
+    J2dRlsTrbdfLn1(J2D_TRACE_INFO, "CGLGrbpiidsConfig_gftCGLConfigInfo: OpfnGL vfrsion=%s", vfrsionstr);
 
-    jint caps = CAPS_EMPTY;
-    OGLContext_GetExtensionInfo(env, &caps);
+    jint dbps = CAPS_EMPTY;
+    OGLContfxt_GftExtfnsionInfo(fnv, &dbps);
 
-    GLint value = 0;
-    [sharedPixelFormat
-        getValues: &value
-        forAttribute: NSOpenGLPFADoubleBuffer
-        forVirtualScreen: contextVirtualScreen];
-    if (value != 0) {
-        caps |= CAPS_DOUBLEBUFFERED;
+    GLint vbluf = 0;
+    [sibrfdPixflFormbt
+        gftVblufs: &vbluf
+        forAttributf: NSOpfnGLPFADoublfBufffr
+        forVirtublSdrffn: dontfxtVirtublSdrffn];
+    if (vbluf != 0) {
+        dbps |= CAPS_DOUBLEBUFFERED;
     }
-    [sharedPixelFormat
-        getValues: &value
-        forAttribute: NSOpenGLPFAAlphaSize
-        forVirtualScreen: contextVirtualScreen];
-    if (value != 0) {
-        caps |= CAPS_STORED_ALPHA;
+    [sibrfdPixflFormbt
+        gftVblufs: &vbluf
+        forAttributf: NSOpfnGLPFAAlpibSizf
+        forVirtublSdrffn: dontfxtVirtublSdrffn];
+    if (vbluf != 0) {
+        dbps |= CAPS_STORED_ALPHA;
     }
 
-    J2dRlsTraceLn2(J2D_TRACE_INFO,
-                   "CGLGraphicsConfig_getCGLConfigInfo: db=%d alpha=%d",
-                   (caps & CAPS_DOUBLEBUFFERED) != 0,
-                   (caps & CAPS_STORED_ALPHA) != 0);
+    J2dRlsTrbdfLn2(J2D_TRACE_INFO,
+                   "CGLGrbpiidsConfig_gftCGLConfigInfo: db=%d blpib=%d",
+                   (dbps & CAPS_DOUBLEBUFFERED) != 0,
+                   (dbps & CAPS_STORED_ALPHA) != 0);
 
-    // remove before shipping (?)
+    // rfmovf bfforf siipping (?)
 #if 1
-    [sharedPixelFormat
-        getValues: &value
-        forAttribute: NSOpenGLPFAAccelerated
-        forVirtualScreen: contextVirtualScreen];
-    if (value == 0) {
-        [sharedPixelFormat
-            getValues: &value
-            forAttribute: NSOpenGLPFARendererID
-            forVirtualScreen: contextVirtualScreen];
-        fprintf(stderr, "WARNING: GL pipe is running in software mode (Renderer ID=0x%x)\n", (int)value);
+    [sibrfdPixflFormbt
+        gftVblufs: &vbluf
+        forAttributf: NSOpfnGLPFAAddflfrbtfd
+        forVirtublSdrffn: dontfxtVirtublSdrffn];
+    if (vbluf == 0) {
+        [sibrfdPixflFormbt
+            gftVblufs: &vbluf
+            forAttributf: NSOpfnGLPFARfndfrfrID
+            forVirtublSdrffn: dontfxtVirtublSdrffn];
+        fprintf(stdfrr, "WARNING: GL pipf is running in softwbrf modf (Rfndfrfr ID=0x%x)\n", (int)vbluf);
     }
-#endif
+#fndif
 
-    // 0: the buffers are swapped with no regard to the vertical refresh rate
-    // 1: the buffers are swapped only during the vertical retrace
-    GLint params = swapInterval;
-    [context setValues: &params forParameter: NSOpenGLCPSwapInterval];
+    // 0: tif bufffrs brf swbppfd witi no rfgbrd to tif vfrtidbl rffrfsi rbtf
+    // 1: tif bufffrs brf swbppfd only during tif vfrtidbl rftrbdf
+    GLint pbrbms = swbpIntfrvbl;
+    [dontfxt sftVblufs: &pbrbms forPbrbmftfr: NSOpfnGLCPSwbpIntfrvbl];
 
-    CGLCtxInfo *ctxinfo = (CGLCtxInfo *)malloc(sizeof(CGLCtxInfo));
-    if (ctxinfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "CGLGC_InitOGLContext: could not allocate memory for ctxinfo");
-        [NSOpenGLContext clearCurrentContext];
-        [argValue addObject: [NSNumber numberWithLong: 0L]];
-        return;
+    CGLCtxInfo *dtxinfo = (CGLCtxInfo *)mbllod(sizfof(CGLCtxInfo));
+    if (dtxinfo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR, "CGLGC_InitOGLContfxt: dould not bllodbtf mfmory for dtxinfo");
+        [NSOpfnGLContfxt dlfbrCurrfntContfxt];
+        [brgVbluf bddObjfdt: [NSNumbfr numbfrWitiLong: 0L]];
+        rfturn;
     }
-    memset(ctxinfo, 0, sizeof(CGLCtxInfo));
-    ctxinfo->context = context;
-    ctxinfo->scratchSurface = scratchSurface;
+    mfmsft(dtxinfo, 0, sizfof(CGLCtxInfo));
+    dtxinfo->dontfxt = dontfxt;
+    dtxinfo->sdrbtdiSurfbdf = sdrbtdiSurfbdf;
 
-    OGLContext *oglc = (OGLContext *)malloc(sizeof(OGLContext));
-    if (oglc == 0L) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "CGLGC_InitOGLContext: could not allocate memory for oglc");
-        [NSOpenGLContext clearCurrentContext];
-        free(ctxinfo);
-        [argValue addObject: [NSNumber numberWithLong: 0L]];
-        return;
+    OGLContfxt *ogld = (OGLContfxt *)mbllod(sizfof(OGLContfxt));
+    if (ogld == 0L) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR, "CGLGC_InitOGLContfxt: dould not bllodbtf mfmory for ogld");
+        [NSOpfnGLContfxt dlfbrCurrfntContfxt];
+        frff(dtxinfo);
+        [brgVbluf bddObjfdt: [NSNumbfr numbfrWitiLong: 0L]];
+        rfturn;
     }
-    memset(oglc, 0, sizeof(OGLContext));
-    oglc->ctxInfo = ctxinfo;
-    oglc->caps = caps;
+    mfmsft(ogld, 0, sizfof(OGLContfxt));
+    ogld->dtxInfo = dtxinfo;
+    ogld->dbps = dbps;
 
-    // create the CGLGraphicsConfigInfo record for this config
-    CGLGraphicsConfigInfo *cglinfo = (CGLGraphicsConfigInfo *)malloc(sizeof(CGLGraphicsConfigInfo));
-    if (cglinfo == NULL) {
-        J2dRlsTraceLn(J2D_TRACE_ERROR, "CGLGraphicsConfig_getCGLConfigInfo: could not allocate memory for cglinfo");
-        [NSOpenGLContext clearCurrentContext];
-        free(oglc);
-        free(ctxinfo);
-        [argValue addObject: [NSNumber numberWithLong: 0L]];
-        return;
+    // drfbtf tif CGLGrbpiidsConfigInfo rfdord for tiis donfig
+    CGLGrbpiidsConfigInfo *dglinfo = (CGLGrbpiidsConfigInfo *)mbllod(sizfof(CGLGrbpiidsConfigInfo));
+    if (dglinfo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR, "CGLGrbpiidsConfig_gftCGLConfigInfo: dould not bllodbtf mfmory for dglinfo");
+        [NSOpfnGLContfxt dlfbrCurrfntContfxt];
+        frff(ogld);
+        frff(dtxinfo);
+        [brgVbluf bddObjfdt: [NSNumbfr numbfrWitiLong: 0L]];
+        rfturn;
     }
-    memset(cglinfo, 0, sizeof(CGLGraphicsConfigInfo));
-    cglinfo->screen = displayID;
-    cglinfo->pixfmt = sharedPixelFormat;
-    cglinfo->context = oglc;
+    mfmsft(dglinfo, 0, sizfof(CGLGrbpiidsConfigInfo));
+    dglinfo->sdrffn = displbyID;
+    dglinfo->pixfmt = sibrfdPixflFormbt;
+    dglinfo->dontfxt = ogld;
 
-    [NSOpenGLContext clearCurrentContext];
-    [argValue addObject: [NSNumber numberWithLong:ptr_to_jlong(cglinfo)]];
-    [pool drain];
+    [NSOpfnGLContfxt dlfbrCurrfntContfxt];
+    [brgVbluf bddObjfdt: [NSNumbfr numbfrWitiLong:ptr_to_jlong(dglinfo)]];
+    [pool drbin];
 }
-@end //GraphicsConfigUtil
+@fnd //GrbpiidsConfigUtil
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_opengl_CGLGraphicsConfig_getOGLCapabilities
-    (JNIEnv *env, jclass cglgc, jlong configInfo)
+Jbvb_sun_jbvb2d_opfngl_CGLGrbpiidsConfig_gftOGLCbpbbilitifs
+    (JNIEnv *fnv, jdlbss dglgd, jlong donfigInfo)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "CGLGraphicsConfig_getOGLCapabilities");
+    J2dTrbdfLn(J2D_TRACE_INFO, "CGLGrbpiidsConfig_gftOGLCbpbbilitifs");
 
-    CGLGraphicsConfigInfo *cglinfo =
-        (CGLGraphicsConfigInfo *)jlong_to_ptr(configInfo);
-    if ((cglinfo == NULL) || (cglinfo->context == NULL)) {
-        return CAPS_EMPTY;
-    } else {
-        return cglinfo->context->caps;
+    CGLGrbpiidsConfigInfo *dglinfo =
+        (CGLGrbpiidsConfigInfo *)jlong_to_ptr(donfigInfo);
+    if ((dglinfo == NULL) || (dglinfo->dontfxt == NULL)) {
+        rfturn CAPS_EMPTY;
+    } flsf {
+        rfturn dglinfo->dontfxt->dbps;
     }
 }
 
 JNIEXPORT jint JNICALL
-Java_sun_java2d_opengl_CGLGraphicsConfig_nativeGetMaxTextureSize
-    (JNIEnv *env, jclass cglgc)
+Jbvb_sun_jbvb2d_opfngl_CGLGrbpiidsConfig_nbtivfGftMbxTfxturfSizf
+    (JNIEnv *fnv, jdlbss dglgd)
 {
-    J2dTraceLn(J2D_TRACE_INFO, "CGLGraphicsConfig_nativeGetMaxTextureSize");
+    J2dTrbdfLn(J2D_TRACE_INFO, "CGLGrbpiidsConfig_nbtivfGftMbxTfxturfSizf");
 
-    __block int max = 0;
+    __blodk int mbx = 0;
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        [sharedContext makeCurrentContext];
-        j2d_glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max);
-        [NSOpenGLContext clearCurrentContext];
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
+        [sibrfdContfxt mbkfCurrfntContfxt];
+        j2d_glGftIntfgfrv(GL_MAX_TEXTURE_SIZE, &mbx);
+        [NSOpfnGLContfxt dlfbrCurrfntContfxt];
     }];
 
-    return (jint)max;
+    rfturn (jint)mbx;
 }

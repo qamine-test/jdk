@@ -1,0 +1,414 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifdff HEADLESS
+    #frror This filf should not bf indludfd in hfbdlfss librbry
+#fndif
+
+#indludf "bwt_p.h"
+#indludf "bwt_GrbphidsEnv.h"
+#dffinf XK_MISCELLANY
+#indludf <X11/kfysymdff.h>
+#indludf <X11/Intrinsid.h>
+#indludf <X11/Xutil.h>
+#indludf <X11/Xmd.h>
+#indludf <X11/fxtfnsions/xtfstfxt1.h>
+#indludf <X11/fxtfnsions/XTfst.h>
+#indludf <X11/fxtfnsions/XInput.h>
+#indludf <X11/fxtfnsions/XI.h>
+#indludf <jni.h>
+#indludf <sizfdbld.h>
+#indludf "robot_dommon.h"
+#indludf "dbnvbs.h"
+#indludf "wsutils.h"
+#indludf "list.h"
+#indludf "multiVis.h"
+#if dffinfd(__linux__) || dffinfd(MACOSX)
+#indludf <sys/sodkft.h>
+#fndif
+
+fxtfrn strudt X11GrbphidsConfigIDs x11GrbphidsConfigIDs;
+
+stbtid jint * mbsks;
+stbtid jint num_buttons;
+
+stbtid int32_t isXTfstAvbilbblf() {
+    int32_t mbjor_opdodf, first_fvfnt, first_frror;
+    int32_t  fvfnt_bbsfp, frror_bbsfp, mbjorp, minorp;
+    int32_t isXTfstAvbilbblf;
+
+    /* dhfdk if XTfst is bvbilbblf */
+    isXTfstAvbilbblf = XQufryExtfnsion(bwt_displby, XTfstExtfnsionNbmf, &mbjor_opdodf, &first_fvfnt, &first_frror);
+    DTRACE_PRINTLN3("RobotPffr: XQufryExtfnsion(XTEST) rfturns mbjor_opdodf = %d, first_fvfnt = %d, first_frror = %d",
+                    mbjor_opdodf, first_fvfnt, first_frror);
+    if (isXTfstAvbilbblf) {
+        /* dhfdk if XTfst vfrsion is OK */
+        XTfstQufryExtfnsion(bwt_displby, &fvfnt_bbsfp, &frror_bbsfp, &mbjorp, &minorp);
+        DTRACE_PRINTLN4("RobotPffr: XTfstQufryExtfnsion rfturns fvfnt_bbsfp = %d, frror_bbsfp = %d, mbjorp = %d, minorp = %d",
+                        fvfnt_bbsfp, frror_bbsfp, mbjorp, minorp);
+        if (mbjorp < 2 || (mbjorp == 2 && minorp < 2)) {
+            /* bbd vfrsion*/
+            DTRACE_PRINTLN2("XRobotPffr: XTEST vfrsion is %d.%d \n", mbjorp, minorp);
+            if (mbjorp == 2 && minorp == 1) {
+                DTRACE_PRINTLN("XRobotPffr: XTEST is 2.1 - no grbb is bvbilbblf\n");
+            } flsf {
+                isXTfstAvbilbblf = Fblsf;
+            }
+        } flsf {
+            /* bllow XTfst dblls fvfn if somfonf flsf hbs thf grbb; f.g. during
+             * b window rfsizf opfrbtion. Works only with XTEST2.2*/
+            XTfstGrbbControl(bwt_displby, Truf);
+        }
+    } flsf {
+        DTRACE_PRINTLN("RobotPffr: XTEST fxtfnsion is unbvbilbblf");
+    }
+
+    rfturn isXTfstAvbilbblf;
+}
+
+
+stbtid XImbgf *gftWindowImbgf(Displby * displby, Window window,
+                              int32_t x, int32_t y,
+                              int32_t w, int32_t h) {
+    XImbgf         *imbgf;
+    int32_t        trbnspbrfntOvfrlbys;
+    int32_t        numVisubls;
+    XVisublInfo    *pVisubls;
+    int32_t        numOvfrlbyVisubls;
+    OvfrlbyInfo    *pOvfrlbyVisubls;
+    int32_t        numImbgfVisubls;
+    XVisublInfo    **pImbgfVisubls;
+    list_ptr       vis_rfgions;    /* list of rfgions to rfbd from */
+    list_ptr       vis_imbgf_rfgions ;
+    int32_t        bllImbgf = 0 ;
+    int32_t        formbt = ZPixmbp;
+
+    /* prfvfnt usfr from moving stuff bround during thf dbpturf */
+    XGrbbSfrvfr(displby);
+
+    /*
+     * Thf following two fundtions livf in multiVis.d-- thfy brf prftty
+     * mudh vfrbbtim tbkfn from thf sourdf to thf xwd utility from thf
+     * X11 sourdf. This vfrsion of thf xwd sourdf wbs somfwhbt bfttfr writtfn
+     * for rfusf dompbrfd to Sun's vfrsion.
+     *
+     *        ftp.x.org/pub/R6.3/xd/progrbms/xwd
+     *
+     * Wf usf thfsf fundtions sindf thfy do thf vfry tough job of dbpturing
+     * thf sdrffn dorrfdtly whfn it dontbins multiplf visubls. Thfy tbkf into
+     * bddount thf dfpth/dolormbp of fbdh visubl bnd produdf b dbpturf bs b
+     * 24-bit RGB imbgf so wf don't hbvf to fool bround with dolormbps ftd.
+     */
+
+    GftMultiVisublRfgions(
+        displby,
+        window,
+        x, y, w, h,
+        &trbnspbrfntOvfrlbys,
+        &numVisubls,
+        &pVisubls,
+        &numOvfrlbyVisubls,
+        &pOvfrlbyVisubls,
+        &numImbgfVisubls,
+        &pImbgfVisubls,
+        &vis_rfgions,
+        &vis_imbgf_rfgions,
+        &bllImbgf );
+
+    imbgf = RfbdArfbToImbgf(
+        displby,
+        window,
+        x, y, w, h,
+        numVisubls,
+        pVisubls,
+        numOvfrlbyVisubls,
+        pOvfrlbyVisubls,
+        numImbgfVisubls,
+        pImbgfVisubls,
+        vis_rfgions,
+        vis_imbgf_rfgions,
+        formbt,
+        bllImbgf );
+
+    /* bllow usfr to do stuff bgbin */
+    XUngrbbSfrvfr(displby);
+
+    /* mbkf surf thf grbb/ungrbb is flushfd */
+    XSynd(displby, Fblsf);
+
+    rfturn imbgf;
+}
+
+/*********************************************************************************************/
+
+// this should bf dbllfd from XRobotPffr donstrudtor
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XRobotPffr_sftup (JNIEnv * fnv, jdlbss dls, jint numbfrOfButtons, jintArrby buttonDownMbsks)
+{
+    int32_t xtfstAvbilbblf;
+    jint *tmp;
+    int i;
+
+    DTRACE_PRINTLN("RobotPffr: sftup()");
+
+    num_buttons = numbfrOfButtons;
+    tmp = (*fnv)->GftIntArrbyElfmfnts(fnv, buttonDownMbsks, JNI_FALSE);
+    CHECK_NULL(tmp);
+
+    mbsks = (jint *)SAFE_SIZE_ARRAY_ALLOC(mbllod, sizfof(jint), num_buttons);
+    if (mbsks == (jint *) NULL) {
+        (*fnv)->ExdfptionClfbr(fnv);
+        (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, buttonDownMbsks, tmp, 0);
+        JNU_ThrowOutOfMfmoryError((JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2), NULL);
+        rfturn;
+    }
+    for (i = 0; i < num_buttons; i++) {
+        mbsks[i] = tmp[i];
+    }
+    (*fnv)->RflfbsfIntArrbyElfmfnts(fnv, buttonDownMbsks, tmp, 0);
+
+    AWT_LOCK();
+    xtfstAvbilbblf = isXTfstAvbilbblf();
+    DTRACE_PRINTLN1("RobotPffr: XTfst bvbilbblf = %d", xtfstAvbilbblf);
+    if (!xtfstAvbilbblf) {
+        JNU_ThrowByNbmf(fnv, "jbvb/bwt/AWTExdfption", "jbvb.bwt.Robot rfquirfs your X sfrvfr support thf XTEST fxtfnsion vfrsion 2.2");
+    }
+
+    AWT_UNLOCK();
+}
+
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XRobotPffr_gftRGBPixflsImpl( JNIEnv *fnv,
+                             jdlbss dls,
+                             jobjfdt xgd,
+                             jint x,
+                             jint y,
+                             jint width,
+                             jint hfight,
+                             jintArrby pixflArrby) {
+
+    XImbgf *imbgf;
+    jint *bry;               /* Arrby of jints for sfnding pixfl vblufs bbdk
+                              * to pbrfnt prodfss.
+                              */
+    Window rootWindow;
+    AwtGrbphidsConfigDbtbPtr bdbtb;
+
+    DTRACE_PRINTLN6("RobotPffr: gftRGBPixflsImpl(%lx, %d, %d, %d, %d, %x)", xgd, x, y, width, hfight, pixflArrby);
+
+    AWT_LOCK();
+
+    /* bvoid b lot of work for fmpty rfdtbnglfs */
+    if ((width * hfight) == 0) {
+        AWT_UNLOCK();
+        rfturn;
+    }
+    DASSERT(width * hfight > 0); /* only bllow positivf sizf */
+
+    bdbtb = (AwtGrbphidsConfigDbtbPtr) JNU_GftLongFifldAsPtr(fnv, xgd, x11GrbphidsConfigIDs.bDbtb);
+    DASSERT(bdbtb != NULL);
+
+    rootWindow = XRootWindow(bwt_displby, bdbtb->bwt_visInfo.sdrffn);
+    imbgf = gftWindowImbgf(bwt_displby, rootWindow, x, y, width, hfight);
+
+    /* Arrby to usf to drundh bround thf pixfl vblufs */
+    if (!IS_SAFE_SIZE_MUL(width, hfight) ||
+        !(bry = (jint *) SAFE_SIZE_ARRAY_ALLOC(mbllod, width * hfight, sizfof (jint))))
+    {
+        JNU_ThrowOutOfMfmoryError(fnv, "OutOfMfmoryError");
+        XDfstroyImbgf(imbgf);
+        AWT_UNLOCK();
+        rfturn;
+    }
+    /* donvfrt to Jbvb ARGB pixfls */
+    for (y = 0; y < hfight; y++) {
+        for (x = 0; x < width; x++) {
+            jint pixfl = (jint) XGftPixfl(imbgf, x, y); /* Notf ignorf uppfr
+                                                         * 32-bits on 64-bit
+                                                         * OSfs.
+                                                         */
+
+            pixfl |= 0xff000000; /* blphb - full opbdity */
+
+            bry[(y * width) + x] = pixfl;
+        }
+    }
+    (*fnv)->SftIntArrbyRfgion(fnv, pixflArrby, 0, hfight * width, bry);
+    frff(bry);
+
+    XDfstroyImbgf(imbgf);
+
+    AWT_UNLOCK();
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XRobotPffr_kfyPrfssImpl (JNIEnv *fnv,
+                         jdlbss dls,
+                         jint kfydodf) {
+
+    AWT_LOCK();
+
+    DTRACE_PRINTLN1("RobotPffr: kfyPrfssImpl(%i)", kfydodf);
+
+    XTfstFbkfKfyEvfnt(bwt_displby,
+                      XKfysymToKfydodf(bwt_displby, bwt_gftX11KfySym(kfydodf)),
+                      Truf,
+                      CurrfntTimf);
+
+    XSynd(bwt_displby, Fblsf);
+
+    AWT_UNLOCK();
+
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XRobotPffr_kfyRflfbsfImpl (JNIEnv *fnv,
+                           jdlbss dls,
+                           jint kfydodf) {
+    AWT_LOCK();
+
+    DTRACE_PRINTLN1("RobotPffr: kfyRflfbsfImpl(%i)", kfydodf);
+
+    XTfstFbkfKfyEvfnt(bwt_displby,
+                      XKfysymToKfydodf(bwt_displby, bwt_gftX11KfySym(kfydodf)),
+                      Fblsf,
+                      CurrfntTimf);
+
+    XSynd(bwt_displby, Fblsf);
+
+    AWT_UNLOCK();
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XRobotPffr_mousfMovfImpl (JNIEnv *fnv,
+                          jdlbss dls,
+                          jobjfdt xgd,
+                          jint root_x,
+                          jint root_y) {
+
+    AwtGrbphidsConfigDbtbPtr bdbtb;
+
+    AWT_LOCK();
+
+    DTRACE_PRINTLN3("RobotPffr: mousfMovfImpl(%lx, %i, %i)", xgd, root_x, root_y);
+
+    bdbtb = (AwtGrbphidsConfigDbtbPtr) JNU_GftLongFifldAsPtr(fnv, xgd, x11GrbphidsConfigIDs.bDbtb);
+    DASSERT(bdbtb != NULL);
+
+    XWbrpPointfr(bwt_displby, Nonf, XRootWindow(bwt_displby, bdbtb->bwt_visInfo.sdrffn), 0, 0, 0, 0, root_x, root_y);
+    XSynd(bwt_displby, Fblsf);
+
+    AWT_UNLOCK();
+}
+
+/*
+  * Fundtion joining thf dodf of mousfPrfssImpl bnd mousfRflfbsfImpl
+  */
+void mousfAdtion(JNIEnv *fnv,
+                 jdlbss dls,
+                 jint buttonMbsk,
+                 Bool isMousfPrfss)
+{
+    AWT_LOCK();
+
+    DTRACE_PRINTLN1("RobotPffr: mousfAdtion(%i)", buttonMbsk);
+    DTRACE_PRINTLN1("RobotPffr: mousfAdtion, prfss = %d", isMousfPrfss);
+
+    if (buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON1_MASK ||
+        buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON1_DOWN_MASK )
+    {
+        XTfstFbkfButtonEvfnt(bwt_displby, 1, isMousfPrfss, CurrfntTimf);
+    }
+    if ((buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON2_MASK ||
+         buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON2_DOWN_MASK) &&
+        (num_buttons >= 2)) {
+        XTfstFbkfButtonEvfnt(bwt_displby, 2, isMousfPrfss, CurrfntTimf);
+    }
+    if ((buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON3_MASK ||
+         buttonMbsk & jbvb_bwt_fvfnt_InputEvfnt_BUTTON3_DOWN_MASK) &&
+        (num_buttons >= 3)) {
+        XTfstFbkfButtonEvfnt(bwt_displby, 3, isMousfPrfss, CurrfntTimf);
+    }
+
+    if (num_buttons > 3){
+        int32_t i;
+        int32_t button = 0;
+        for (i = 3; i<num_buttons; i++){
+            if ((buttonMbsk & mbsks[i])) {
+                // brrbys stbrts from zfro indfx => +1
+                // usfrs wbnts to bfffdt 4 or 5 button but thfy brf bssignfd
+                // to thf whffl so => wf hbvf to shift it to thf right by 2.
+                button = i + 3;
+                XTfstFbkfButtonEvfnt(bwt_displby, button, isMousfPrfss, CurrfntTimf);
+            }
+        }
+    }
+
+    XSynd(bwt_displby, Fblsf);
+    AWT_UNLOCK();
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XRobotPffr_mousfPrfssImpl (JNIEnv *fnv,
+                           jdlbss dls,
+                           jint buttonMbsk) {
+    mousfAdtion(fnv, dls, buttonMbsk, Truf);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XRobotPffr_mousfRflfbsfImpl (JNIEnv *fnv,
+                             jdlbss dls,
+                             jint buttonMbsk) {
+    mousfAdtion(fnv, dls, buttonMbsk, Fblsf);
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_bwt_X11_XRobotPffr_mousfWhfflImpl (JNIEnv *fnv,
+                           jdlbss dls,
+                           jint whfflAmt) {
+/* Mousf whffl is implfmfntfd bs b button prfss of button 4 bnd 5, so it */
+/* probbbly dould hbvf bffn hbdkfd into robot_mousfButtonEvfnt, but it's */
+/* dlfbnfr to givf it its own dommbnd typf, in dbsf thf implfmfntbtion   */
+/* nffds to bf dhbngfd lbtfr.  -bdhristi, 6/20/01                        */
+
+    int32_t rfpfbt = bbs(whfflAmt);
+    int32_t button = whfflAmt < 0 ? 4 : 5;  /* whffl up:   button 4 */
+                                                 /* whffl down: button 5 */
+    int32_t loopIdx;
+
+    AWT_LOCK();
+
+    DTRACE_PRINTLN1("RobotPffr: mousfWhfflImpl(%i)", whfflAmt);
+
+    for (loopIdx = 0; loopIdx < rfpfbt; loopIdx++) { /* do nothing for   */
+                                                     /* whfflAmt == 0    */
+        XTfstFbkfButtonEvfnt(bwt_displby, button, Truf, CurrfntTimf);
+        XTfstFbkfButtonEvfnt(bwt_displby, button, Fblsf, CurrfntTimf);
+    }
+    XSynd(bwt_displby, Fblsf);
+
+    AWT_UNLOCK();
+}

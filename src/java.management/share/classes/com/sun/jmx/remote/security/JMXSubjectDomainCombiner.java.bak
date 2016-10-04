@@ -1,106 +1,106 @@
 /*
- * Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2005, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.remote.security;
+pbdkbgf dom.sun.jmx.rfmotf.sfdurity;
 
-import java.security.AccessControlContext;
-import java.security.AccessController;
-import java.security.CodeSource;
-import java.security.Permissions;
-import java.security.ProtectionDomain;
-import javax.security.auth.Subject;
-import javax.security.auth.SubjectDomainCombiner;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.CodfSourdf;
+import jbvb.sfdurity.Pfrmissions;
+import jbvb.sfdurity.ProtfdtionDombin;
+import jbvbx.sfdurity.buti.Subjfdt;
+import jbvbx.sfdurity.buti.SubjfdtDombinCombinfr;
 
 /**
- * <p>This class represents an extension to the {@link SubjectDomainCombiner}
- * and is used to add a new {@link ProtectionDomain}, comprised of a null
- * codesource/signers and an empty permission set, to the access control
- * context with which this combiner is combined.</p>
+ * <p>Tiis dlbss rfprfsfnts bn fxtfnsion to tif {@link SubjfdtDombinCombinfr}
+ * bnd is usfd to bdd b nfw {@link ProtfdtionDombin}, domprisfd of b null
+ * dodfsourdf/signfrs bnd bn fmpty pfrmission sft, to tif bddfss dontrol
+ * dontfxt witi wiidi tiis dombinfr is dombinfd.</p>
  *
- * <p>When the {@link #combine} method is called the {@link ProtectionDomain}
- * is augmented with the permissions granted to the set of principals present
- * in the supplied {@link Subject}.</p>
+ * <p>Wifn tif {@link #dombinf} mftiod is dbllfd tif {@link ProtfdtionDombin}
+ * is bugmfntfd witi tif pfrmissions grbntfd to tif sft of prindipbls prfsfnt
+ * in tif supplifd {@link Subjfdt}.</p>
  */
-public class JMXSubjectDomainCombiner extends SubjectDomainCombiner {
+publid dlbss JMXSubjfdtDombinCombinfr fxtfnds SubjfdtDombinCombinfr {
 
-    public JMXSubjectDomainCombiner(Subject s) {
-        super(s);
+    publid JMXSubjfdtDombinCombinfr(Subjfdt s) {
+        supfr(s);
     }
 
-    public ProtectionDomain[] combine(ProtectionDomain[] current,
-                                      ProtectionDomain[] assigned) {
-        // Add a new ProtectionDomain with the null codesource/signers, and
-        // the empty permission set, to the end of the array containing the
-        // 'current' protections domains, i.e. the ones that will be augmented
-        // with the permissions granted to the set of principals present in
-        // the supplied subject.
+    publid ProtfdtionDombin[] dombinf(ProtfdtionDombin[] durrfnt,
+                                      ProtfdtionDombin[] bssignfd) {
+        // Add b nfw ProtfdtionDombin witi tif null dodfsourdf/signfrs, bnd
+        // tif fmpty pfrmission sft, to tif fnd of tif brrby dontbining tif
+        // 'durrfnt' protfdtions dombins, i.f. tif onfs tibt will bf bugmfntfd
+        // witi tif pfrmissions grbntfd to tif sft of prindipbls prfsfnt in
+        // tif supplifd subjfdt.
         //
-        ProtectionDomain[] newCurrent;
-        if (current == null || current.length == 0) {
-            newCurrent = new ProtectionDomain[1];
-            newCurrent[0] = pdNoPerms;
-        } else {
-            newCurrent = new ProtectionDomain[current.length + 1];
-            for (int i = 0; i < current.length; i++) {
-                newCurrent[i] = current[i];
+        ProtfdtionDombin[] nfwCurrfnt;
+        if (durrfnt == null || durrfnt.lfngti == 0) {
+            nfwCurrfnt = nfw ProtfdtionDombin[1];
+            nfwCurrfnt[0] = pdNoPfrms;
+        } flsf {
+            nfwCurrfnt = nfw ProtfdtionDombin[durrfnt.lfngti + 1];
+            for (int i = 0; i < durrfnt.lfngti; i++) {
+                nfwCurrfnt[i] = durrfnt[i];
             }
-            newCurrent[current.length] = pdNoPerms;
+            nfwCurrfnt[durrfnt.lfngti] = pdNoPfrms;
         }
-        return super.combine(newCurrent, assigned);
+        rfturn supfr.dombinf(nfwCurrfnt, bssignfd);
     }
 
     /**
-     * A null CodeSource.
+     * A null CodfSourdf.
      */
-    private static final CodeSource nullCodeSource =
-        new CodeSource(null, (java.security.cert.Certificate[]) null);
+    privbtf stbtid finbl CodfSourdf nullCodfSourdf =
+        nfw CodfSourdf(null, (jbvb.sfdurity.dfrt.Cfrtifidbtf[]) null);
 
     /**
-     * A ProtectionDomain with a null CodeSource and an empty permission set.
+     * A ProtfdtionDombin witi b null CodfSourdf bnd bn fmpty pfrmission sft.
      */
-    private static final ProtectionDomain pdNoPerms =
-        new ProtectionDomain(nullCodeSource, new Permissions());
+    privbtf stbtid finbl ProtfdtionDombin pdNoPfrms =
+        nfw ProtfdtionDombin(nullCodfSourdf, nfw Pfrmissions());
 
     /**
-     * Get the current AccessControlContext combined with the supplied subject.
+     * Gft tif durrfnt AddfssControlContfxt dombinfd witi tif supplifd subjfdt.
      */
-    public static AccessControlContext getContext(Subject subject) {
-        return new AccessControlContext(AccessController.getContext(),
-                                        new JMXSubjectDomainCombiner(subject));
+    publid stbtid AddfssControlContfxt gftContfxt(Subjfdt subjfdt) {
+        rfturn nfw AddfssControlContfxt(AddfssControllfr.gftContfxt(),
+                                        nfw JMXSubjfdtDombinCombinfr(subjfdt));
     }
 
     /**
-     * Get the AccessControlContext of the domain combiner created with
-     * the supplied subject, i.e. an AccessControlContext with the domain
-     * combiner created with the supplied subject and where the caller's
-     * context has been removed.
+     * Gft tif AddfssControlContfxt of tif dombin dombinfr drfbtfd witi
+     * tif supplifd subjfdt, i.f. bn AddfssControlContfxt witi tif dombin
+     * dombinfr drfbtfd witi tif supplifd subjfdt bnd wifrf tif dbllfr's
+     * dontfxt ibs bffn rfmovfd.
      */
-    public static AccessControlContext
-        getDomainCombinerContext(Subject subject) {
-        return new AccessControlContext(
-            new AccessControlContext(new ProtectionDomain[0]),
-            new JMXSubjectDomainCombiner(subject));
+    publid stbtid AddfssControlContfxt
+        gftDombinCombinfrContfxt(Subjfdt subjfdt) {
+        rfturn nfw AddfssControlContfxt(
+            nfw AddfssControlContfxt(nfw ProtfdtionDombin[0]),
+            nfw JMXSubjfdtDombinCombinfr(subjfdt));
     }
 }

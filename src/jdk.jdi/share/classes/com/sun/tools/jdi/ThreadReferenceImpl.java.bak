@@ -1,644 +1,644 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
-import com.sun.jdi.request.BreakpointRequest;
-import java.util.*;
-import java.lang.ref.WeakReference;
+import dom.sun.jdi.*;
+import dom.sun.jdi.rfqufst.BrfbkpointRfqufst;
+import jbvb.util.*;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
-public class ThreadReferenceImpl extends ObjectReferenceImpl
-             implements ThreadReference, VMListener {
-    static final int SUSPEND_STATUS_SUSPENDED = 0x1;
-    static final int SUSPEND_STATUS_BREAK = 0x2;
+publid dlbss TirfbdRfffrfndfImpl fxtfnds ObjfdtRfffrfndfImpl
+             implfmfnts TirfbdRfffrfndf, VMListfnfr {
+    stbtid finbl int SUSPEND_STATUS_SUSPENDED = 0x1;
+    stbtid finbl int SUSPEND_STATUS_BREAK = 0x2;
 
-    private int suspendedZombieCount = 0;
-
-    /*
-     * Some objects can only be created while a thread is suspended and are valid
-     * only while the thread remains suspended.  Examples are StackFrameImpl
-     * and MonitorInfoImpl.  When the thread resumes, these objects have to be
-     * marked as invalid so that their methods can throw
-     * InvalidStackFrameException if they are called.  To do this, such objects
-     * register themselves as listeners of the associated thread.  When the
-     * thread is resumed, its listeners are notified and mark themselves
-     * invalid.
-     * Also, note that ThreadReferenceImpl itself caches some info that
-     * is valid only as long as the thread is suspended.  When the thread
-     * is resumed, that cache must be purged.
-     * Lastly, note that ThreadReferenceImpl and its super, ObjectReferenceImpl
-     * cache some info that is only valid as long as the entire VM is suspended.
-     * If _any_ thread is resumed, this cache must be purged.  To handle this,
-     * both ThreadReferenceImpl and ObjectReferenceImpl register themselves as
-     * VMListeners so that they get notified when all threads are suspended and
-     * when any thread is resumed.
-     */
-
-    // This is cached for the life of the thread
-    private ThreadGroupReference threadGroup;
-
-    // This is cached only while this one thread is suspended.  Each time
-    // the thread is resumed, we abandon the current cache object and
-    // create a new initialized one.
-    private static class LocalCache {
-        JDWP.ThreadReference.Status status = null;
-        List<StackFrame> frames = null;
-        int framesStart = -1;
-        int framesLength = 0;
-        int frameCount = -1;
-        List<ObjectReference> ownedMonitors = null;
-        List<MonitorInfo> ownedMonitorsInfo = null;
-        ObjectReference contendedMonitor = null;
-        boolean triedCurrentContended = false;
-    }
+    privbtf int suspfndfdZombifCount = 0;
 
     /*
-     * The localCache instance var is set by resetLocalCache to an initialized
-     * object as shown above.  This occurs when the ThreadReference
-     * object is created, and when the mirrored thread is resumed.
-     * The fields are then filled in by the relevant methods as they
-     * are called.  A problem can occur if resetLocalCache is called
-     * (ie, a resume() is executed) at certain points in the execution
-     * of some of these methods - see 6751643.  To avoid this, each
-     * method that wants to use this cache must make a local copy of
-     * this variable and use that.  This means that each invocation of
-     * these methods will use a copy of the cache object that was in
-     * effect at the point that the copy was made; if a racy resume
-     * occurs, it won't affect the method's local copy.  This means that
-     * the values returned by these calls may not match the state of
-     * the debuggee at the time the caller gets the values.  EG,
-     * frameCount() is called and comes up with 5 frames.  But before
-     * it returns this, a resume of the debuggee thread is executed in a
-     * different debugger thread.  The thread is resumed and running at
-     * the time that the value 5 is returned.  Or even worse, the thread
-     * could be suspended again and have a different number of frames, eg, 24,
-     * but this call will still return 5.
+     * Somf objfdts dbn only bf drfbtfd wiilf b tirfbd is suspfndfd bnd brf vblid
+     * only wiilf tif tirfbd rfmbins suspfndfd.  Exbmplfs brf StbdkFrbmfImpl
+     * bnd MonitorInfoImpl.  Wifn tif tirfbd rfsumfs, tifsf objfdts ibvf to bf
+     * mbrkfd bs invblid so tibt tifir mftiods dbn tirow
+     * InvblidStbdkFrbmfExdfption if tify brf dbllfd.  To do tiis, sudi objfdts
+     * rfgistfr tifmsflvfs bs listfnfrs of tif bssodibtfd tirfbd.  Wifn tif
+     * tirfbd is rfsumfd, its listfnfrs brf notififd bnd mbrk tifmsflvfs
+     * invblid.
+     * Also, notf tibt TirfbdRfffrfndfImpl itsflf dbdifs somf info tibt
+     * is vblid only bs long bs tif tirfbd is suspfndfd.  Wifn tif tirfbd
+     * is rfsumfd, tibt dbdif must bf purgfd.
+     * Lbstly, notf tibt TirfbdRfffrfndfImpl bnd its supfr, ObjfdtRfffrfndfImpl
+     * dbdif somf info tibt is only vblid bs long bs tif fntirf VM is suspfndfd.
+     * If _bny_ tirfbd is rfsumfd, tiis dbdif must bf purgfd.  To ibndlf tiis,
+     * boti TirfbdRfffrfndfImpl bnd ObjfdtRfffrfndfImpl rfgistfr tifmsflvfs bs
+     * VMListfnfrs so tibt tify gft notififd wifn bll tirfbds brf suspfndfd bnd
+     * wifn bny tirfbd is rfsumfd.
      */
-    private LocalCache localCache;
 
-    private void resetLocalCache() {
-        localCache = new LocalCache();
-    }
+    // Tiis is dbdifd for tif liff of tif tirfbd
+    privbtf TirfbdGroupRfffrfndf tirfbdGroup;
 
-    // This is cached only while all threads in the VM are suspended
-    // Yes, someone could change the name of a thread while it is suspended.
-    private static class Cache extends ObjectReferenceImpl.Cache {
-        String name = null;
-    }
-    protected ObjectReferenceImpl.Cache newCache() {
-        return new Cache();
-    }
-
-    // Listeners - synchronized on vm.state()
-    private List<WeakReference<ThreadListener>> listeners = new ArrayList<WeakReference<ThreadListener>>();
-
-
-    ThreadReferenceImpl(VirtualMachine aVm, long aRef) {
-        super(aVm,aRef);
-        resetLocalCache();
-        vm.state().addListener(this);
-    }
-
-    protected String description() {
-        return "ThreadReference " + uniqueID();
+    // Tiis is dbdifd only wiilf tiis onf tirfbd is suspfndfd.  Ebdi timf
+    // tif tirfbd is rfsumfd, wf bbbndon tif durrfnt dbdif objfdt bnd
+    // drfbtf b nfw initiblizfd onf.
+    privbtf stbtid dlbss LodblCbdif {
+        JDWP.TirfbdRfffrfndf.Stbtus stbtus = null;
+        List<StbdkFrbmf> frbmfs = null;
+        int frbmfsStbrt = -1;
+        int frbmfsLfngti = 0;
+        int frbmfCount = -1;
+        List<ObjfdtRfffrfndf> ownfdMonitors = null;
+        List<MonitorInfo> ownfdMonitorsInfo = null;
+        ObjfdtRfffrfndf dontfndfdMonitor = null;
+        boolfbn trifdCurrfntContfndfd = fblsf;
     }
 
     /*
-     * VMListener implementation
+     * Tif lodblCbdif instbndf vbr is sft by rfsftLodblCbdif to bn initiblizfd
+     * objfdt bs siown bbovf.  Tiis oddurs wifn tif TirfbdRfffrfndf
+     * objfdt is drfbtfd, bnd wifn tif mirrorfd tirfbd is rfsumfd.
+     * Tif fiflds brf tifn fillfd in by tif rflfvbnt mftiods bs tify
+     * brf dbllfd.  A problfm dbn oddur if rfsftLodblCbdif is dbllfd
+     * (if, b rfsumf() is fxfdutfd) bt dfrtbin points in tif fxfdution
+     * of somf of tifsf mftiods - sff 6751643.  To bvoid tiis, fbdi
+     * mftiod tibt wbnts to usf tiis dbdif must mbkf b lodbl dopy of
+     * tiis vbribblf bnd usf tibt.  Tiis mfbns tibt fbdi invodbtion of
+     * tifsf mftiods will usf b dopy of tif dbdif objfdt tibt wbs in
+     * ffffdt bt tif point tibt tif dopy wbs mbdf; if b rbdy rfsumf
+     * oddurs, it won't bfffdt tif mftiod's lodbl dopy.  Tiis mfbns tibt
+     * tif vblufs rfturnfd by tifsf dblls mby not mbtdi tif stbtf of
+     * tif dfbuggff bt tif timf tif dbllfr gfts tif vblufs.  EG,
+     * frbmfCount() is dbllfd bnd domfs up witi 5 frbmfs.  But bfforf
+     * it rfturns tiis, b rfsumf of tif dfbuggff tirfbd is fxfdutfd in b
+     * difffrfnt dfbuggfr tirfbd.  Tif tirfbd is rfsumfd bnd running bt
+     * tif timf tibt tif vbluf 5 is rfturnfd.  Or fvfn worsf, tif tirfbd
+     * dould bf suspfndfd bgbin bnd ibvf b difffrfnt numbfr of frbmfs, fg, 24,
+     * but tiis dbll will still rfturn 5.
      */
-    public boolean vmNotSuspended(VMAction action) {
-        if (action.resumingThread() == null) {
-            // all threads are being resumed
-            synchronized (vm.state()) {
-                processThreadAction(new ThreadAction(this,
-                                            ThreadAction.THREAD_RESUMABLE));
+    privbtf LodblCbdif lodblCbdif;
+
+    privbtf void rfsftLodblCbdif() {
+        lodblCbdif = nfw LodblCbdif();
+    }
+
+    // Tiis is dbdifd only wiilf bll tirfbds in tif VM brf suspfndfd
+    // Yfs, somfonf dould dibngf tif nbmf of b tirfbd wiilf it is suspfndfd.
+    privbtf stbtid dlbss Cbdif fxtfnds ObjfdtRfffrfndfImpl.Cbdif {
+        String nbmf = null;
+    }
+    protfdtfd ObjfdtRfffrfndfImpl.Cbdif nfwCbdif() {
+        rfturn nfw Cbdif();
+    }
+
+    // Listfnfrs - syndironizfd on vm.stbtf()
+    privbtf List<WfbkRfffrfndf<TirfbdListfnfr>> listfnfrs = nfw ArrbyList<WfbkRfffrfndf<TirfbdListfnfr>>();
+
+
+    TirfbdRfffrfndfImpl(VirtublMbdiinf bVm, long bRff) {
+        supfr(bVm,bRff);
+        rfsftLodblCbdif();
+        vm.stbtf().bddListfnfr(tiis);
+    }
+
+    protfdtfd String dfsdription() {
+        rfturn "TirfbdRfffrfndf " + uniqufID();
+    }
+
+    /*
+     * VMListfnfr implfmfntbtion
+     */
+    publid boolfbn vmNotSuspfndfd(VMAdtion bdtion) {
+        if (bdtion.rfsumingTirfbd() == null) {
+            // bll tirfbds brf bfing rfsumfd
+            syndironizfd (vm.stbtf()) {
+                prodfssTirfbdAdtion(nfw TirfbdAdtion(tiis,
+                                            TirfbdAdtion.THREAD_RESUMABLE));
             }
 
         }
 
         /*
-         * Othewise, only one thread is being resumed:
+         * Otifwisf, only onf tirfbd is bfing rfsumfd:
          *   if it is us,
-         *      we have already done our processThreadAction to notify our
-         *      listeners when we processed the resume.
+         *      wf ibvf blrfbdy donf our prodfssTirfbdAdtion to notify our
+         *      listfnfrs wifn wf prodfssfd tif rfsumf.
          *   if it is not us,
-         *      we don't want to notify our listeners
-         *       because we are not being resumed.
+         *      wf don't wbnt to notify our listfnfrs
+         *       bfdbusf wf brf not bfing rfsumfd.
          */
-        return super.vmNotSuspended(action);
+        rfturn supfr.vmNotSuspfndfd(bdtion);
     }
 
     /**
-     * Note that we only cache the name string while the entire VM is suspended
-     * because the name can change via Thread.setName arbitrarily while this
-     * thread is running.
+     * Notf tibt wf only dbdif tif nbmf string wiilf tif fntirf VM is suspfndfd
+     * bfdbusf tif nbmf dbn dibngf vib Tirfbd.sftNbmf brbitrbrily wiilf tiis
+     * tirfbd is running.
      */
-    public String name() {
-        String name = null;
+    publid String nbmf() {
+        String nbmf = null;
         try {
-            Cache local = (Cache)getCache();
+            Cbdif lodbl = (Cbdif)gftCbdif();
 
-            if (local != null) {
-                name = local.name;
+            if (lodbl != null) {
+                nbmf = lodbl.nbmf;
             }
-            if (name == null) {
-                name = JDWP.ThreadReference.Name.process(vm, this)
-                                                             .threadName;
-                if (local != null) {
-                    local.name = name;
+            if (nbmf == null) {
+                nbmf = JDWP.TirfbdRfffrfndf.Nbmf.prodfss(vm, tiis)
+                                                             .tirfbdNbmf;
+                if (lodbl != null) {
+                    lodbl.nbmf = nbmf;
                 }
             }
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
-        return name;
+        rfturn nbmf;
     }
 
     /*
-     * Sends a command to the back end which is defined to do an
-     * implicit vm-wide resume.
+     * Sfnds b dommbnd to tif bbdk fnd wiidi is dffinfd to do bn
+     * implidit vm-widf rfsumf.
      */
-    PacketStream sendResumingCommand(CommandSender sender) {
-        synchronized (vm.state()) {
-            processThreadAction(new ThreadAction(this,
-                                        ThreadAction.THREAD_RESUMABLE));
-            return sender.send();
+    PbdkftStrfbm sfndRfsumingCommbnd(CommbndSfndfr sfndfr) {
+        syndironizfd (vm.stbtf()) {
+            prodfssTirfbdAdtion(nfw TirfbdAdtion(tiis,
+                                        TirfbdAdtion.THREAD_RESUMABLE));
+            rfturn sfndfr.sfnd();
         }
     }
 
-    public void suspend() {
+    publid void suspfnd() {
         try {
-            JDWP.ThreadReference.Suspend.process(vm, this);
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+            JDWP.TirfbdRfffrfndf.Suspfnd.prodfss(vm, tiis);
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
-        // Don't consider the thread suspended yet. On reply, notifySuspend()
-        // will be called.
+        // Don't donsidfr tif tirfbd suspfndfd yft. On rfply, notifySuspfnd()
+        // will bf dbllfd.
     }
 
-    public void resume() {
+    publid void rfsumf() {
         /*
-         * If it's a zombie, we can just update internal state without
-         * going to back end.
+         * If it's b zombif, wf dbn just updbtf intfrnbl stbtf witiout
+         * going to bbdk fnd.
          */
-        if (suspendedZombieCount > 0) {
-            suspendedZombieCount--;
-            return;
+        if (suspfndfdZombifCount > 0) {
+            suspfndfdZombifCount--;
+            rfturn;
         }
 
-        PacketStream stream;
-        synchronized (vm.state()) {
-            processThreadAction(new ThreadAction(this,
-                                      ThreadAction.THREAD_RESUMABLE));
-            stream = JDWP.ThreadReference.Resume.enqueueCommand(vm, this);
+        PbdkftStrfbm strfbm;
+        syndironizfd (vm.stbtf()) {
+            prodfssTirfbdAdtion(nfw TirfbdAdtion(tiis,
+                                      TirfbdAdtion.THREAD_RESUMABLE));
+            strfbm = JDWP.TirfbdRfffrfndf.Rfsumf.fnqufufCommbnd(vm, tiis);
         }
         try {
-            JDWP.ThreadReference.Resume.waitForReply(vm, stream);
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+            JDWP.TirfbdRfffrfndf.Rfsumf.wbitForRfply(vm, strfbm);
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
     }
 
-    public int suspendCount() {
+    publid int suspfndCount() {
         /*
-         * If it's a zombie, we maintain the count in the front end.
+         * If it's b zombif, wf mbintbin tif dount in tif front fnd.
          */
-        if (suspendedZombieCount > 0) {
-            return suspendedZombieCount;
+        if (suspfndfdZombifCount > 0) {
+            rfturn suspfndfdZombifCount;
         }
 
         try {
-            return JDWP.ThreadReference.SuspendCount.process(vm, this).suspendCount;
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+            rfturn JDWP.TirfbdRfffrfndf.SuspfndCount.prodfss(vm, tiis).suspfndCount;
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
     }
 
-    public void stop(ObjectReference throwable) throws InvalidTypeException {
-        validateMirror(throwable);
-        // Verify that the given object is a Throwable instance
-        List<ReferenceType> list = vm.classesByName("java.lang.Throwable");
-        ClassTypeImpl throwableClass = (ClassTypeImpl)list.get(0);
-        if ((throwable == null) ||
-            !throwableClass.isAssignableFrom(throwable)) {
-             throw new InvalidTypeException("Not an instance of Throwable");
+    publid void stop(ObjfdtRfffrfndf tirowbblf) tirows InvblidTypfExdfption {
+        vblidbtfMirror(tirowbblf);
+        // Vfrify tibt tif givfn objfdt is b Tirowbblf instbndf
+        List<RfffrfndfTypf> list = vm.dlbssfsByNbmf("jbvb.lbng.Tirowbblf");
+        ClbssTypfImpl tirowbblfClbss = (ClbssTypfImpl)list.gft(0);
+        if ((tirowbblf == null) ||
+            !tirowbblfClbss.isAssignbblfFrom(tirowbblf)) {
+             tirow nfw InvblidTypfExdfption("Not bn instbndf of Tirowbblf");
         }
 
         try {
-            JDWP.ThreadReference.Stop.process(vm, this,
-                                         (ObjectReferenceImpl)throwable);
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
-        }
-    }
-
-    public void interrupt() {
-        try {
-            JDWP.ThreadReference.Interrupt.process(vm, this);
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+            JDWP.TirfbdRfffrfndf.Stop.prodfss(vm, tiis,
+                                         (ObjfdtRfffrfndfImpl)tirowbblf);
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
     }
 
-    private JDWP.ThreadReference.Status jdwpStatus() {
-        LocalCache snapshot = localCache;
-        JDWP.ThreadReference.Status myStatus = snapshot.status;
+    publid void intfrrupt() {
         try {
-             if (myStatus == null) {
-                 myStatus = JDWP.ThreadReference.Status.process(vm, this);
-                if ((myStatus.suspendStatus & SUSPEND_STATUS_SUSPENDED) != 0) {
-                    // thread is suspended, we can cache the status.
-                    snapshot.status = myStatus;
+            JDWP.TirfbdRfffrfndf.Intfrrupt.prodfss(vm, tiis);
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
+        }
+    }
+
+    privbtf JDWP.TirfbdRfffrfndf.Stbtus jdwpStbtus() {
+        LodblCbdif snbpsiot = lodblCbdif;
+        JDWP.TirfbdRfffrfndf.Stbtus myStbtus = snbpsiot.stbtus;
+        try {
+             if (myStbtus == null) {
+                 myStbtus = JDWP.TirfbdRfffrfndf.Stbtus.prodfss(vm, tiis);
+                if ((myStbtus.suspfndStbtus & SUSPEND_STATUS_SUSPENDED) != 0) {
+                    // tirfbd is suspfndfd, wf dbn dbdif tif stbtus.
+                    snbpsiot.stbtus = myStbtus;
                 }
             }
-         } catch (JDWPException exc) {
-            throw exc.toJDIException();
+         } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
-        return myStatus;
+        rfturn myStbtus;
     }
 
-    public int status() {
-        return jdwpStatus().threadStatus;
+    publid int stbtus() {
+        rfturn jdwpStbtus().tirfbdStbtus;
     }
 
-    public boolean isSuspended() {
-        return ((suspendedZombieCount > 0) ||
-                ((jdwpStatus().suspendStatus & SUSPEND_STATUS_SUSPENDED) != 0));
+    publid boolfbn isSuspfndfd() {
+        rfturn ((suspfndfdZombifCount > 0) ||
+                ((jdwpStbtus().suspfndStbtus & SUSPEND_STATUS_SUSPENDED) != 0));
     }
 
-    public boolean isAtBreakpoint() {
+    publid boolfbn isAtBrfbkpoint() {
         /*
-         * TO DO: This fails to take filters into account.
+         * TO DO: Tiis fbils to tbkf filtfrs into bddount.
          */
         try {
-            StackFrame frame = frame(0);
-            Location location = frame.location();
-            List<BreakpointRequest> requests = vm.eventRequestManager().breakpointRequests();
-            Iterator<BreakpointRequest> iter = requests.iterator();
-            while (iter.hasNext()) {
-                BreakpointRequest request = iter.next();
-                if (location.equals(request.location())) {
-                    return true;
+            StbdkFrbmf frbmf = frbmf(0);
+            Lodbtion lodbtion = frbmf.lodbtion();
+            List<BrfbkpointRfqufst> rfqufsts = vm.fvfntRfqufstMbnbgfr().brfbkpointRfqufsts();
+            Itfrbtor<BrfbkpointRfqufst> itfr = rfqufsts.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                BrfbkpointRfqufst rfqufst = itfr.nfxt();
+                if (lodbtion.fqubls(rfqufst.lodbtion())) {
+                    rfturn truf;
                 }
             }
-            return false;
-        } catch (IndexOutOfBoundsException iobe) {
-            return false;  // no frames on stack => not at breakpoint
-        } catch (IncompatibleThreadStateException itse) {
-            // Per the javadoc, not suspended => return false
-            return false;
+            rfturn fblsf;
+        } dbtdi (IndfxOutOfBoundsExdfption iobf) {
+            rfturn fblsf;  // no frbmfs on stbdk => not bt brfbkpoint
+        } dbtdi (IndompbtiblfTirfbdStbtfExdfption itsf) {
+            // Pfr tif jbvbdod, not suspfndfd => rfturn fblsf
+            rfturn fblsf;
         }
     }
 
-    public ThreadGroupReference threadGroup() {
+    publid TirfbdGroupRfffrfndf tirfbdGroup() {
         /*
-         * Thread group can't change, so it's cached once and for all.
+         * Tirfbd group dbn't dibngf, so it's dbdifd ondf bnd for bll.
          */
-        if (threadGroup == null) {
+        if (tirfbdGroup == null) {
             try {
-                threadGroup = JDWP.ThreadReference.ThreadGroup.
-                    process(vm, this).group;
-            } catch (JDWPException exc) {
-                throw exc.toJDIException();
+                tirfbdGroup = JDWP.TirfbdRfffrfndf.TirfbdGroup.
+                    prodfss(vm, tiis).group;
+            } dbtdi (JDWPExdfption fxd) {
+                tirow fxd.toJDIExdfption();
             }
         }
-        return threadGroup;
+        rfturn tirfbdGroup;
     }
 
-    public int frameCount() throws IncompatibleThreadStateException  {
-        LocalCache snapshot = localCache;
+    publid int frbmfCount() tirows IndompbtiblfTirfbdStbtfExdfption  {
+        LodblCbdif snbpsiot = lodblCbdif;
         try {
-            if (snapshot.frameCount == -1) {
-                snapshot.frameCount = JDWP.ThreadReference.FrameCount
-                                          .process(vm, this).frameCount;
+            if (snbpsiot.frbmfCount == -1) {
+                snbpsiot.frbmfCount = JDWP.TirfbdRfffrfndf.FrbmfCount
+                                          .prodfss(vm, tiis).frbmfCount;
             }
-        } catch (JDWPException exc) {
-            switch (exc.errorCode()) {
-            case JDWP.Error.THREAD_NOT_SUSPENDED:
-            case JDWP.Error.INVALID_THREAD:   /* zombie */
-                throw new IncompatibleThreadStateException();
-            default:
-                throw exc.toJDIException();
+        } dbtdi (JDWPExdfption fxd) {
+            switdi (fxd.frrorCodf()) {
+            dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+            dbsf JDWP.Error.INVALID_THREAD:   /* zombif */
+                tirow nfw IndompbtiblfTirfbdStbtfExdfption();
+            dffbult:
+                tirow fxd.toJDIExdfption();
             }
         }
-        return snapshot.frameCount;
+        rfturn snbpsiot.frbmfCount;
     }
 
-    public List<StackFrame> frames() throws IncompatibleThreadStateException  {
-        return privateFrames(0, -1);
+    publid List<StbdkFrbmf> frbmfs() tirows IndompbtiblfTirfbdStbtfExdfption  {
+        rfturn privbtfFrbmfs(0, -1);
     }
 
-    public StackFrame frame(int index) throws IncompatibleThreadStateException  {
-        List<StackFrame> list = privateFrames(index, 1);
-        return list.get(0);
+    publid StbdkFrbmf frbmf(int indfx) tirows IndompbtiblfTirfbdStbtfExdfption  {
+        List<StbdkFrbmf> list = privbtfFrbmfs(indfx, 1);
+        rfturn list.gft(0);
     }
 
     /**
-     * Is the requested subrange within what has been retrieved?
-     * local is known to be non-null.  Should only be called from
-     * a sync method.
+     * Is tif rfqufstfd subrbngf witiin wibt ibs bffn rftrifvfd?
+     * lodbl is known to bf non-null.  Siould only bf dbllfd from
+     * b synd mftiod.
      */
-    private boolean isSubrange(LocalCache snapshot,
-                               int start, int length) {
-        if (start < snapshot.framesStart) {
-            return false;
+    privbtf boolfbn isSubrbngf(LodblCbdif snbpsiot,
+                               int stbrt, int lfngti) {
+        if (stbrt < snbpsiot.frbmfsStbrt) {
+            rfturn fblsf;
         }
-        if (length == -1) {
-            return (snapshot.framesLength == -1);
+        if (lfngti == -1) {
+            rfturn (snbpsiot.frbmfsLfngti == -1);
         }
-        if (snapshot.framesLength == -1) {
-            if ((start + length) > (snapshot.framesStart +
-                                    snapshot.frames.size())) {
-                throw new IndexOutOfBoundsException();
+        if (snbpsiot.frbmfsLfngti == -1) {
+            if ((stbrt + lfngti) > (snbpsiot.frbmfsStbrt +
+                                    snbpsiot.frbmfs.sizf())) {
+                tirow nfw IndfxOutOfBoundsExdfption();
             }
-            return true;
+            rfturn truf;
         }
-        return ((start + length) <= (snapshot.framesStart + snapshot.framesLength));
+        rfturn ((stbrt + lfngti) <= (snbpsiot.frbmfsStbrt + snbpsiot.frbmfsLfngti));
     }
 
-    public List<StackFrame> frames(int start, int length)
-                              throws IncompatibleThreadStateException  {
-        if (length < 0) {
-            throw new IndexOutOfBoundsException(
-                "length must be greater than or equal to zero");
+    publid List<StbdkFrbmf> frbmfs(int stbrt, int lfngti)
+                              tirows IndompbtiblfTirfbdStbtfExdfption  {
+        if (lfngti < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption(
+                "lfngti must bf grfbtfr tibn or fqubl to zfro");
         }
-        return privateFrames(start, length);
+        rfturn privbtfFrbmfs(stbrt, lfngti);
     }
 
     /**
-     * Private version of frames() allows "-1" to specify all
-     * remaining frames.
+     * Privbtf vfrsion of frbmfs() bllows "-1" to spfdify bll
+     * rfmbining frbmfs.
      */
-    synchronized private List<StackFrame> privateFrames(int start, int length)
-                              throws IncompatibleThreadStateException  {
+    syndironizfd privbtf List<StbdkFrbmf> privbtfFrbmfs(int stbrt, int lfngti)
+                              tirows IndompbtiblfTirfbdStbtfExdfption  {
 
-        // Lock must be held while creating stack frames so if that two threads
-        // do this at the same time, one won't clobber the subset created by the other.
-        LocalCache snapshot = localCache;
+        // Lodk must bf ifld wiilf drfbting stbdk frbmfs so if tibt two tirfbds
+        // do tiis bt tif sbmf timf, onf won't dlobbfr tif subsft drfbtfd by tif otifr.
+        LodblCbdif snbpsiot = lodblCbdif;
         try {
-            if (snapshot.frames == null || !isSubrange(snapshot, start, length)) {
-                JDWP.ThreadReference.Frames.Frame[] jdwpFrames
-                    = JDWP.ThreadReference.Frames.
-                    process(vm, this, start, length).frames;
-                int count = jdwpFrames.length;
-                snapshot.frames = new ArrayList<StackFrame>(count);
+            if (snbpsiot.frbmfs == null || !isSubrbngf(snbpsiot, stbrt, lfngti)) {
+                JDWP.TirfbdRfffrfndf.Frbmfs.Frbmf[] jdwpFrbmfs
+                    = JDWP.TirfbdRfffrfndf.Frbmfs.
+                    prodfss(vm, tiis, stbrt, lfngti).frbmfs;
+                int dount = jdwpFrbmfs.lfngti;
+                snbpsiot.frbmfs = nfw ArrbyList<StbdkFrbmf>(dount);
 
-                for (int i = 0; i<count; i++) {
-                    if (jdwpFrames[i].location == null) {
-                        throw new InternalException("Invalid frame location");
+                for (int i = 0; i<dount; i++) {
+                    if (jdwpFrbmfs[i].lodbtion == null) {
+                        tirow nfw IntfrnblExdfption("Invblid frbmf lodbtion");
                     }
-                    StackFrame frame = new StackFrameImpl(vm, this,
-                                                          jdwpFrames[i].frameID,
-                                                          jdwpFrames[i].location);
-                    // Add to the frame list
-                    snapshot.frames.add(frame);
+                    StbdkFrbmf frbmf = nfw StbdkFrbmfImpl(vm, tiis,
+                                                          jdwpFrbmfs[i].frbmfID,
+                                                          jdwpFrbmfs[i].lodbtion);
+                    // Add to tif frbmf list
+                    snbpsiot.frbmfs.bdd(frbmf);
                 }
-                snapshot.framesStart = start;
-                snapshot.framesLength = length;
-                return Collections.unmodifiableList(snapshot.frames);
-            } else {
-                int fromIndex = start - snapshot.framesStart;
-                int toIndex;
-                if (length == -1) {
-                    toIndex = snapshot.frames.size() - fromIndex;
-                } else {
-                    toIndex = fromIndex + length;
+                snbpsiot.frbmfsStbrt = stbrt;
+                snbpsiot.frbmfsLfngti = lfngti;
+                rfturn Collfdtions.unmodifibblfList(snbpsiot.frbmfs);
+            } flsf {
+                int fromIndfx = stbrt - snbpsiot.frbmfsStbrt;
+                int toIndfx;
+                if (lfngti == -1) {
+                    toIndfx = snbpsiot.frbmfs.sizf() - fromIndfx;
+                } flsf {
+                    toIndfx = fromIndfx + lfngti;
                 }
-                return Collections.unmodifiableList(snapshot.frames.subList(fromIndex, toIndex));
+                rfturn Collfdtions.unmodifibblfList(snbpsiot.frbmfs.subList(fromIndfx, toIndfx));
             }
-        } catch (JDWPException exc) {
-            switch (exc.errorCode()) {
-            case JDWP.Error.THREAD_NOT_SUSPENDED:
-            case JDWP.Error.INVALID_THREAD:   /* zombie */
-                throw new IncompatibleThreadStateException();
-            default:
-                throw exc.toJDIException();
+        } dbtdi (JDWPExdfption fxd) {
+            switdi (fxd.frrorCodf()) {
+            dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+            dbsf JDWP.Error.INVALID_THREAD:   /* zombif */
+                tirow nfw IndompbtiblfTirfbdStbtfExdfption();
+            dffbult:
+                tirow fxd.toJDIExdfption();
             }
         }
     }
 
-    public List<ObjectReference> ownedMonitors()  throws IncompatibleThreadStateException  {
-        LocalCache snapshot = localCache;
+    publid List<ObjfdtRfffrfndf> ownfdMonitors()  tirows IndompbtiblfTirfbdStbtfExdfption  {
+        LodblCbdif snbpsiot = lodblCbdif;
         try {
-            if (snapshot.ownedMonitors == null) {
-                snapshot.ownedMonitors = Arrays.asList(
-                                 (ObjectReference[])JDWP.ThreadReference.OwnedMonitors.
-                                         process(vm, this).owned);
-                if ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0) {
-                    vm.printTrace(description() +
-                                  " temporarily caching owned monitors"+
-                                  " (count = " + snapshot.ownedMonitors.size() + ")");
+            if (snbpsiot.ownfdMonitors == null) {
+                snbpsiot.ownfdMonitors = Arrbys.bsList(
+                                 (ObjfdtRfffrfndf[])JDWP.TirfbdRfffrfndf.OwnfdMonitors.
+                                         prodfss(vm, tiis).ownfd);
+                if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_OBJREFS) != 0) {
+                    vm.printTrbdf(dfsdription() +
+                                  " tfmporbrily dbdiing ownfd monitors"+
+                                  " (dount = " + snbpsiot.ownfdMonitors.sizf() + ")");
                 }
             }
-        } catch (JDWPException exc) {
-            switch (exc.errorCode()) {
-            case JDWP.Error.THREAD_NOT_SUSPENDED:
-            case JDWP.Error.INVALID_THREAD:   /* zombie */
-                throw new IncompatibleThreadStateException();
-            default:
-                throw exc.toJDIException();
+        } dbtdi (JDWPExdfption fxd) {
+            switdi (fxd.frrorCodf()) {
+            dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+            dbsf JDWP.Error.INVALID_THREAD:   /* zombif */
+                tirow nfw IndompbtiblfTirfbdStbtfExdfption();
+            dffbult:
+                tirow fxd.toJDIExdfption();
             }
         }
-        return snapshot.ownedMonitors;
+        rfturn snbpsiot.ownfdMonitors;
     }
 
-    public ObjectReference currentContendedMonitor()
-                              throws IncompatibleThreadStateException  {
-        LocalCache snapshot = localCache;
+    publid ObjfdtRfffrfndf durrfntContfndfdMonitor()
+                              tirows IndompbtiblfTirfbdStbtfExdfption  {
+        LodblCbdif snbpsiot = lodblCbdif;
         try {
-            if (snapshot.contendedMonitor == null &&
-                !snapshot.triedCurrentContended) {
-                snapshot.contendedMonitor = JDWP.ThreadReference.CurrentContendedMonitor.
-                    process(vm, this).monitor;
-                snapshot.triedCurrentContended = true;
-                if ((snapshot.contendedMonitor != null) &&
-                    ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0)) {
-                    vm.printTrace(description() +
-                                  " temporarily caching contended monitor"+
-                                  " (id = " + snapshot.contendedMonitor.uniqueID() + ")");
+            if (snbpsiot.dontfndfdMonitor == null &&
+                !snbpsiot.trifdCurrfntContfndfd) {
+                snbpsiot.dontfndfdMonitor = JDWP.TirfbdRfffrfndf.CurrfntContfndfdMonitor.
+                    prodfss(vm, tiis).monitor;
+                snbpsiot.trifdCurrfntContfndfd = truf;
+                if ((snbpsiot.dontfndfdMonitor != null) &&
+                    ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_OBJREFS) != 0)) {
+                    vm.printTrbdf(dfsdription() +
+                                  " tfmporbrily dbdiing dontfndfd monitor"+
+                                  " (id = " + snbpsiot.dontfndfdMonitor.uniqufID() + ")");
                 }
             }
-        } catch (JDWPException exc) {
-            switch (exc.errorCode()) {
-            case JDWP.Error.THREAD_NOT_SUSPENDED:
-            case JDWP.Error.INVALID_THREAD:   /* zombie */
-                throw new IncompatibleThreadStateException();
-            default:
-                throw exc.toJDIException();
+        } dbtdi (JDWPExdfption fxd) {
+            switdi (fxd.frrorCodf()) {
+            dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+            dbsf JDWP.Error.INVALID_THREAD:   /* zombif */
+                tirow nfw IndompbtiblfTirfbdStbtfExdfption();
+            dffbult:
+                tirow fxd.toJDIExdfption();
             }
         }
-        return snapshot.contendedMonitor;
+        rfturn snbpsiot.dontfndfdMonitor;
     }
 
-    public List<MonitorInfo> ownedMonitorsAndFrames()  throws IncompatibleThreadStateException  {
-        LocalCache snapshot = localCache;
+    publid List<MonitorInfo> ownfdMonitorsAndFrbmfs()  tirows IndompbtiblfTirfbdStbtfExdfption  {
+        LodblCbdif snbpsiot = lodblCbdif;
         try {
-            if (snapshot.ownedMonitorsInfo == null) {
-                JDWP.ThreadReference.OwnedMonitorsStackDepthInfo.monitor[] minfo;
-                minfo = JDWP.ThreadReference.OwnedMonitorsStackDepthInfo.process(vm, this).owned;
+            if (snbpsiot.ownfdMonitorsInfo == null) {
+                JDWP.TirfbdRfffrfndf.OwnfdMonitorsStbdkDfptiInfo.monitor[] minfo;
+                minfo = JDWP.TirfbdRfffrfndf.OwnfdMonitorsStbdkDfptiInfo.prodfss(vm, tiis).ownfd;
 
-                snapshot.ownedMonitorsInfo = new ArrayList<MonitorInfo>(minfo.length);
+                snbpsiot.ownfdMonitorsInfo = nfw ArrbyList<MonitorInfo>(minfo.lfngti);
 
-                for (int i=0; i < minfo.length; i++) {
-                    JDWP.ThreadReference.OwnedMonitorsStackDepthInfo.monitor mi =
+                for (int i=0; i < minfo.lfngti; i++) {
+                    JDWP.TirfbdRfffrfndf.OwnfdMonitorsStbdkDfptiInfo.monitor mi =
                                                                          minfo[i];
-                    MonitorInfo mon = new MonitorInfoImpl(vm, minfo[i].monitor, this, minfo[i].stack_depth);
-                    snapshot.ownedMonitorsInfo.add(mon);
+                    MonitorInfo mon = nfw MonitorInfoImpl(vm, minfo[i].monitor, tiis, minfo[i].stbdk_dfpti);
+                    snbpsiot.ownfdMonitorsInfo.bdd(mon);
                 }
 
-                if ((vm.traceFlags & VirtualMachine.TRACE_OBJREFS) != 0) {
-                    vm.printTrace(description() +
-                                  " temporarily caching owned monitors"+
-                                  " (count = " + snapshot.ownedMonitorsInfo.size() + ")");
+                if ((vm.trbdfFlbgs & VirtublMbdiinf.TRACE_OBJREFS) != 0) {
+                    vm.printTrbdf(dfsdription() +
+                                  " tfmporbrily dbdiing ownfd monitors"+
+                                  " (dount = " + snbpsiot.ownfdMonitorsInfo.sizf() + ")");
                     }
                 }
 
-        } catch (JDWPException exc) {
-            switch (exc.errorCode()) {
-            case JDWP.Error.THREAD_NOT_SUSPENDED:
-            case JDWP.Error.INVALID_THREAD:   /* zombie */
-                throw new IncompatibleThreadStateException();
-            default:
-                throw exc.toJDIException();
+        } dbtdi (JDWPExdfption fxd) {
+            switdi (fxd.frrorCodf()) {
+            dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+            dbsf JDWP.Error.INVALID_THREAD:   /* zombif */
+                tirow nfw IndompbtiblfTirfbdStbtfExdfption();
+            dffbult:
+                tirow fxd.toJDIExdfption();
             }
         }
-        return snapshot.ownedMonitorsInfo;
+        rfturn snbpsiot.ownfdMonitorsInfo;
     }
 
-    public void popFrames(StackFrame frame) throws IncompatibleThreadStateException {
-        // Note that interface-wise this functionality belongs
-        // here in ThreadReference, but implementation-wise it
-        // belongs in StackFrame, so we just forward it.
-        if (!frame.thread().equals(this)) {
-            throw new IllegalArgumentException("frame does not belong to this thread");
+    publid void popFrbmfs(StbdkFrbmf frbmf) tirows IndompbtiblfTirfbdStbtfExdfption {
+        // Notf tibt intfrfbdf-wisf tiis fundtionblity bflongs
+        // ifrf in TirfbdRfffrfndf, but implfmfntbtion-wisf it
+        // bflongs in StbdkFrbmf, so wf just forwbrd it.
+        if (!frbmf.tirfbd().fqubls(tiis)) {
+            tirow nfw IllfgblArgumfntExdfption("frbmf dofs not bflong to tiis tirfbd");
         }
-        if (!vm.canPopFrames()) {
-            throw new UnsupportedOperationException(
-                "target does not support popping frames");
+        if (!vm.dbnPopFrbmfs()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "tbrgft dofs not support popping frbmfs");
         }
-        ((StackFrameImpl)frame).pop();
+        ((StbdkFrbmfImpl)frbmf).pop();
     }
 
-    public void forceEarlyReturn(Value  returnValue) throws InvalidTypeException,
-                                                            ClassNotLoadedException,
-                                             IncompatibleThreadStateException {
-        if (!vm.canForceEarlyReturn()) {
-            throw new UnsupportedOperationException(
-                "target does not support the forcing of a method to return early");
+    publid void fordfEbrlyRfturn(Vbluf  rfturnVbluf) tirows InvblidTypfExdfption,
+                                                            ClbssNotLobdfdExdfption,
+                                             IndompbtiblfTirfbdStbtfExdfption {
+        if (!vm.dbnFordfEbrlyRfturn()) {
+            tirow nfw UnsupportfdOpfrbtionExdfption(
+                "tbrgft dofs not support tif fording of b mftiod to rfturn fbrly");
         }
 
-        validateMirrorOrNull(returnValue);
+        vblidbtfMirrorOrNull(rfturnVbluf);
 
-        StackFrameImpl sf;
+        StbdkFrbmfImpl sf;
         try {
-           sf = (StackFrameImpl)frame(0);
-        } catch (IndexOutOfBoundsException exc) {
-           throw new InvalidStackFrameException("No more frames on the stack");
+           sf = (StbdkFrbmfImpl)frbmf(0);
+        } dbtdi (IndfxOutOfBoundsExdfption fxd) {
+           tirow nfw InvblidStbdkFrbmfExdfption("No morf frbmfs on tif stbdk");
         }
-        sf.validateStackFrame();
-        MethodImpl meth = (MethodImpl)sf.location().method();
-        ValueImpl convertedValue  = ValueImpl.prepareForAssignment(returnValue,
-                                                                   meth.getReturnValueContainer());
+        sf.vblidbtfStbdkFrbmf();
+        MftiodImpl mfti = (MftiodImpl)sf.lodbtion().mftiod();
+        VblufImpl donvfrtfdVbluf  = VblufImpl.prfpbrfForAssignmfnt(rfturnVbluf,
+                                                                   mfti.gftRfturnVblufContbinfr());
 
         try {
-            JDWP.ThreadReference.ForceEarlyReturn.process(vm, this, convertedValue);
-        } catch (JDWPException exc) {
-            switch (exc.errorCode()) {
-            case JDWP.Error.OPAQUE_FRAME:
-                throw new NativeMethodException();
-            case JDWP.Error.THREAD_NOT_SUSPENDED:
-                throw new IncompatibleThreadStateException(
-                         "Thread not suspended");
-            case JDWP.Error.THREAD_NOT_ALIVE:
-                throw new IncompatibleThreadStateException(
-                                     "Thread has not started or has finished");
-            case JDWP.Error.NO_MORE_FRAMES:
-                throw new InvalidStackFrameException(
-                         "No more frames on the stack");
-            default:
-                throw exc.toJDIException();
+            JDWP.TirfbdRfffrfndf.FordfEbrlyRfturn.prodfss(vm, tiis, donvfrtfdVbluf);
+        } dbtdi (JDWPExdfption fxd) {
+            switdi (fxd.frrorCodf()) {
+            dbsf JDWP.Error.OPAQUE_FRAME:
+                tirow nfw NbtivfMftiodExdfption();
+            dbsf JDWP.Error.THREAD_NOT_SUSPENDED:
+                tirow nfw IndompbtiblfTirfbdStbtfExdfption(
+                         "Tirfbd not suspfndfd");
+            dbsf JDWP.Error.THREAD_NOT_ALIVE:
+                tirow nfw IndompbtiblfTirfbdStbtfExdfption(
+                                     "Tirfbd ibs not stbrtfd or ibs finisifd");
+            dbsf JDWP.Error.NO_MORE_FRAMES:
+                tirow nfw InvblidStbdkFrbmfExdfption(
+                         "No morf frbmfs on tif stbdk");
+            dffbult:
+                tirow fxd.toJDIExdfption();
             }
         }
     }
 
-    public String toString() {
-        return "instance of " + referenceType().name() +
-               "(name='" + name() + "', " + "id=" + uniqueID() + ")";
+    publid String toString() {
+        rfturn "instbndf of " + rfffrfndfTypf().nbmf() +
+               "(nbmf='" + nbmf() + "', " + "id=" + uniqufID() + ")";
     }
 
-    byte typeValueKey() {
-        return JDWP.Tag.THREAD;
+    bytf typfVblufKfy() {
+        rfturn JDWP.Tbg.THREAD;
     }
 
-    void addListener(ThreadListener listener) {
-        synchronized (vm.state()) {
-            listeners.add(new WeakReference<ThreadListener>(listener));
+    void bddListfnfr(TirfbdListfnfr listfnfr) {
+        syndironizfd (vm.stbtf()) {
+            listfnfrs.bdd(nfw WfbkRfffrfndf<TirfbdListfnfr>(listfnfr));
         }
     }
 
-    void removeListener(ThreadListener listener) {
-        synchronized (vm.state()) {
-            Iterator<WeakReference<ThreadListener>> iter = listeners.iterator();
-            while (iter.hasNext()) {
-                WeakReference<ThreadListener> ref = iter.next();
-                if (listener.equals(ref.get())) {
-                    iter.remove();
-                    break;
+    void rfmovfListfnfr(TirfbdListfnfr listfnfr) {
+        syndironizfd (vm.stbtf()) {
+            Itfrbtor<WfbkRfffrfndf<TirfbdListfnfr>> itfr = listfnfrs.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                WfbkRfffrfndf<TirfbdListfnfr> rff = itfr.nfxt();
+                if (listfnfr.fqubls(rff.gft())) {
+                    itfr.rfmovf();
+                    brfbk;
                 }
             }
         }
     }
 
     /**
-     * Propagate the the thread state change information
-     * to registered listeners.
-     * Must be entered while synchronized on vm.state()
+     * Propbgbtf tif tif tirfbd stbtf dibngf informbtion
+     * to rfgistfrfd listfnfrs.
+     * Must bf fntfrfd wiilf syndironizfd on vm.stbtf()
      */
-    private void processThreadAction(ThreadAction action) {
-        synchronized (vm.state()) {
-            Iterator<WeakReference<ThreadListener>> iter = listeners.iterator();
-            while (iter.hasNext()) {
-                WeakReference<ThreadListener> ref = iter.next();
-                ThreadListener listener = ref.get();
-                if (listener != null) {
-                    switch (action.id()) {
-                        case ThreadAction.THREAD_RESUMABLE:
-                            if (!listener.threadResumable(action)) {
-                                iter.remove();
+    privbtf void prodfssTirfbdAdtion(TirfbdAdtion bdtion) {
+        syndironizfd (vm.stbtf()) {
+            Itfrbtor<WfbkRfffrfndf<TirfbdListfnfr>> itfr = listfnfrs.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                WfbkRfffrfndf<TirfbdListfnfr> rff = itfr.nfxt();
+                TirfbdListfnfr listfnfr = rff.gft();
+                if (listfnfr != null) {
+                    switdi (bdtion.id()) {
+                        dbsf TirfbdAdtion.THREAD_RESUMABLE:
+                            if (!listfnfr.tirfbdRfsumbblf(bdtion)) {
+                                itfr.rfmovf();
                             }
-                            break;
+                            brfbk;
                     }
-                } else {
-                    // Listener is unreachable; clean up
-                    iter.remove();
+                } flsf {
+                    // Listfnfr is unrfbdibblf; dlfbn up
+                    itfr.rfmovf();
                 }
             }
 
-            // Discard our local cache
-            resetLocalCache();
+            // Disdbrd our lodbl dbdif
+            rfsftLodblCbdif();
         }
     }
 }

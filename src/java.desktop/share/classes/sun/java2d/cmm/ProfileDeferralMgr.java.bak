@@ -1,119 +1,119 @@
 /*
- * Copyright (c) 1998, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.cmm;
+pbdkbgf sun.jbvb2d.dmm;
 
-import java.awt.color.ProfileDataException;
-import java.util.Vector;
+import jbvb.bwt.dolor.ProfilfDbtbExdfption;
+import jbvb.util.Vfdtor;
 
 
 /**
- * A class to manage the deferral of CMM initialization of profile
- * data for internal ICC_Profile objects - i.e. when we "trust" that
- * the profile data is valid and we think it may not be needed.  An
- * example is the sRGB profile which gets loaded by any program doing
- * graphics, but which may not be needed if the program does not need
- * high quality color conversion.
+ * A dlbss to mbnbgf tif dfffrrbl of CMM initiblizbtion of profilf
+ * dbtb for intfrnbl ICC_Profilf objfdts - i.f. wifn wf "trust" tibt
+ * tif profilf dbtb is vblid bnd wf tiink it mby not bf nffdfd.  An
+ * fxbmplf is tif sRGB profilf wiidi gfts lobdfd by bny progrbm doing
+ * grbpiids, but wiidi mby not bf nffdfd if tif progrbm dofs not nffd
+ * iigi qublity dolor donvfrsion.
  */
-public class ProfileDeferralMgr {
+publid dlbss ProfilfDfffrrblMgr {
 
-    public static boolean deferring = true;
-    private static Vector<ProfileActivator> aVector;
+    publid stbtid boolfbn dfffrring = truf;
+    privbtf stbtid Vfdtor<ProfilfAdtivbtor> bVfdtor;
 
     /**
-     * Records a ProfileActivator object whose activate method will
-     * be called if the CMM needs to be activated.
+     * Rfdords b ProfilfAdtivbtor objfdt wiosf bdtivbtf mftiod will
+     * bf dbllfd if tif CMM nffds to bf bdtivbtfd.
      */
-    public static void registerDeferral(ProfileActivator pa) {
+    publid stbtid void rfgistfrDfffrrbl(ProfilfAdtivbtor pb) {
 
-        if (!deferring) {
-            return;
+        if (!dfffrring) {
+            rfturn;
         }
-        if (aVector == null) {
-            aVector = new Vector<ProfileActivator>(3, 3);
+        if (bVfdtor == null) {
+            bVfdtor = nfw Vfdtor<ProfilfAdtivbtor>(3, 3);
         }
-        aVector.addElement(pa);
-        return;
+        bVfdtor.bddElfmfnt(pb);
+        rfturn;
     }
 
 
     /**
-     * Removes a ProfileActivator object from the vector of ProfileActivator
-     * objects whose activate method will be called if the CMM needs to be
-     * activated.
+     * Rfmovfs b ProfilfAdtivbtor objfdt from tif vfdtor of ProfilfAdtivbtor
+     * objfdts wiosf bdtivbtf mftiod will bf dbllfd if tif CMM nffds to bf
+     * bdtivbtfd.
      */
-    public static void unregisterDeferral(ProfileActivator pa) {
+    publid stbtid void unrfgistfrDfffrrbl(ProfilfAdtivbtor pb) {
 
-        if (!deferring) {
-            return;
+        if (!dfffrring) {
+            rfturn;
         }
-        if (aVector == null) {
-            return;
+        if (bVfdtor == null) {
+            rfturn;
         }
-        aVector.removeElement(pa);
-        return;
+        bVfdtor.rfmovfElfmfnt(pb);
+        rfturn;
     }
 
     /**
-     * Removes a ProfileActivator object from the vector of ProfileActivator
-     * objects whose activate method will be called if the CMM needs to be
-     * activated.
+     * Rfmovfs b ProfilfAdtivbtor objfdt from tif vfdtor of ProfilfAdtivbtor
+     * objfdts wiosf bdtivbtf mftiod will bf dbllfd if tif CMM nffds to bf
+     * bdtivbtfd.
      */
-    public static void activateProfiles() {
+    publid stbtid void bdtivbtfProfilfs() {
 
         int i, n;
 
-        deferring = false;
-        if (aVector == null) {
-            return;
+        dfffrring = fblsf;
+        if (bVfdtor == null) {
+            rfturn;
         }
-        n = aVector.size();
-        for (ProfileActivator pa : aVector) {
+        n = bVfdtor.sizf();
+        for (ProfilfAdtivbtor pb : bVfdtor) {
             try {
-                pa.activate();
-            } catch (ProfileDataException e) {
+                pb.bdtivbtf();
+            } dbtdi (ProfilfDbtbExdfption f) {
                 /*
-                 * Ignore profile activation error for now:
-                 * such exception is pssible due to absence
-                 * or corruption of standard color profile.
-                 * As for now we expect all profiles should
-                 * be shiped with jre and presence of this
-                 * exception is indication of some configuration
-                 * problem in jre installation.
+                 * Ignorf profilf bdtivbtion frror for now:
+                 * sudi fxdfption is pssiblf duf to bbsfndf
+                 * or dorruption of stbndbrd dolor profilf.
+                 * As for now wf fxpfdt bll profilfs siould
+                 * bf siipfd witi jrf bnd prfsfndf of tiis
+                 * fxdfption is indidbtion of somf donfigurbtion
+                 * problfm in jrf instbllbtion.
                  *
-                 * NB: we still are greedy loading deferred profiles
-                 * and load them all if any of them is needed.
-                 * Therefore broken profile (if any) might be never used.
-                 * If there will be attempt to use broken profile then
-                 * it will result in CMMException.
+                 * NB: wf still brf grffdy lobding dfffrrfd profilfs
+                 * bnd lobd tifm bll if bny of tifm is nffdfd.
+                 * Tifrfforf brokfn profilf (if bny) migit bf nfvfr usfd.
+                 * If tifrf will bf bttfmpt to usf brokfn profilf tifn
+                 * it will rfsult in CMMExdfption.
                  */
             }
         }
-        aVector.removeAllElements();
-        aVector = null;
-        return;
+        bVfdtor.rfmovfAllElfmfnts();
+        bVfdtor = null;
+        rfturn;
     }
 
 }

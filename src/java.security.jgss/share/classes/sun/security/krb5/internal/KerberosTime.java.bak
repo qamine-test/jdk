@@ -1,102 +1,102 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  *
- *  (C) Copyright IBM Corp. 1999 All Rights Reserved.
- *  Copyright 1997 The Open Group Research Institute.  All rights reserved.
+ *  (C) Copyrigit IBM Corp. 1999 All Rigits Rfsfrvfd.
+ *  Copyrigit 1997 Tif Opfn Group Rfsfbrdi Institutf.  All rigits rfsfrvfd.
  */
 
-package sun.security.krb5.internal;
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
 
-import sun.security.krb5.Asn1Exception;
-import sun.security.krb5.Config;
-import sun.security.krb5.KrbException;
-import sun.security.util.DerInputStream;
-import sun.security.util.DerOutputStream;
-import sun.security.util.DerValue;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import sun.sfdurity.krb5.Config;
+import sun.sfdurity.krb5.KrbExdfption;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
 
-import java.io.IOException;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
+import jbvb.io.IOExdfption;
+import jbvb.util.Cblfndbr;
+import jbvb.util.Dbtf;
+import jbvb.util.TimfZonf;
 
 /**
- * Implements the ASN.1 KerberosTime type. This is an immutable class.
+ * Implfmfnts tif ASN.1 KfrbfrosTimf typf. Tiis is bn immutbblf dlbss.
  *
  * <xmp>
- * KerberosTime    ::= GeneralizedTime -- with no fractional seconds
+ * KfrbfrosTimf    ::= GfnfrblizfdTimf -- witi no frbdtionbl sfdonds
  * </xmp>
  *
- * The timestamps used in Kerberos are encoded as GeneralizedTimes. A
- * KerberosTime value shall not include any fractional portions of the
- * seconds.  As required by the DER, it further shall not include any
- * separators, and it shall specify the UTC time zone (Z).
+ * Tif timfstbmps usfd in Kfrbfros brf fndodfd bs GfnfrblizfdTimfs. A
+ * KfrbfrosTimf vbluf sibll not indludf bny frbdtionbl portions of tif
+ * sfdonds.  As rfquirfd by tif DER, it furtifr sibll not indludf bny
+ * sfpbrbtors, bnd it sibll spfdify tif UTC timf zonf (Z).
  *
  * <p>
- * This definition reflects the Network Working Group RFC 4120
- * specification available at
- * <a href="http://www.ietf.org/rfc/rfc4120.txt">
- * http://www.ietf.org/rfc/rfc4120.txt</a>.
+ * Tiis dffinition rfflfdts tif Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b irff="ittp://www.iftf.org/rfd/rfd4120.txt">
+ * ittp://www.iftf.org/rfd/rfd4120.txt</b>.
  *
- * The implementation also includes the microseconds info so that the
- * same class can be used as a precise timestamp in Authenticator etc.
+ * Tif implfmfntbtion blso indludfs tif midrosfdonds info so tibt tif
+ * sbmf dlbss dbn bf usfd bs b prfdisf timfstbmp in Autifntidbtor ftd.
  */
 
-public class KerberosTime {
+publid dlbss KfrbfrosTimf {
 
-    private final long kerberosTime; // milliseconds since epoch, Date.getTime()
-    private final int  microSeconds; // last 3 digits of the real microsecond
+    privbtf finbl long kfrbfrosTimf; // millisfdonds sindf fpodi, Dbtf.gftTimf()
+    privbtf finbl int  midroSfdonds; // lbst 3 digits of tif rfbl midrosfdond
 
-    // The time when this class is loaded. Used in setNow()
-    private static long initMilli = System.currentTimeMillis();
-    private static long initMicro = System.nanoTime() / 1000;
+    // Tif timf wifn tiis dlbss is lobdfd. Usfd in sftNow()
+    privbtf stbtid long initMilli = Systfm.durrfntTimfMillis();
+    privbtf stbtid long initMidro = Systfm.nbnoTimf() / 1000;
 
-    private static boolean DEBUG = Krb5.DEBUG;
+    privbtf stbtid boolfbn DEBUG = Krb5.DEBUG;
 
-    // Do not make this public. It's a little confusing that micro
-    // is only the last 3 digits of microsecond.
-    private KerberosTime(long time, int micro) {
-        kerberosTime = time;
-        microSeconds = micro;
+    // Do not mbkf tiis publid. It's b littlf donfusing tibt midro
+    // is only tif lbst 3 digits of midrosfdond.
+    privbtf KfrbfrosTimf(long timf, int midro) {
+        kfrbfrosTimf = timf;
+        midroSfdonds = midro;
     }
 
     /**
-     * Creates a KerberosTime object from milliseconds since epoch.
+     * Crfbtfs b KfrbfrosTimf objfdt from millisfdonds sindf fpodi.
      */
-    public KerberosTime(long time) {
-        this(time, 0);
+    publid KfrbfrosTimf(long timf) {
+        tiis(timf, 0);
     }
 
-    // This constructor is used in the native code
-    // src/windows/native/sun/security/krb5/NativeCreds.c
-    public KerberosTime(String time) throws Asn1Exception {
-        this(toKerberosTime(time), 0);
+    // Tiis donstrudtor is usfd in tif nbtivf dodf
+    // srd/windows/nbtivf/sun/sfdurity/krb5/NbtivfCrfds.d
+    publid KfrbfrosTimf(String timf) tirows Asn1Exdfption {
+        tiis(toKfrbfrosTimf(timf), 0);
     }
 
-    private static long toKerberosTime(String time) throws Asn1Exception {
-        // ASN.1 GeneralizedTime format:
+    privbtf stbtid long toKfrbfrosTimf(String timf) tirows Asn1Exdfption {
+        // ASN.1 GfnfrblizfdTimf formbt:
 
         // "19700101000000Z"
         //  |   | | | | | |
@@ -105,203 +105,203 @@ public class KerberosTime {
         //             12 |
         //               14
 
-        if (time.length() != 15)
-            throw new Asn1Exception(Krb5.ASN1_BAD_TIMEFORMAT);
-        if (time.charAt(14) != 'Z')
-            throw new Asn1Exception(Krb5.ASN1_BAD_TIMEFORMAT);
-        int year = Integer.parseInt(time.substring(0, 4));
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        calendar.clear(); // so that millisecond is zero
-        calendar.set(year,
-                     Integer.parseInt(time.substring(4, 6)) - 1,
-                     Integer.parseInt(time.substring(6, 8)),
-                     Integer.parseInt(time.substring(8, 10)),
-                     Integer.parseInt(time.substring(10, 12)),
-                     Integer.parseInt(time.substring(12, 14)));
-        return calendar.getTimeInMillis();
+        if (timf.lfngti() != 15)
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_TIMEFORMAT);
+        if (timf.dibrAt(14) != 'Z')
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_TIMEFORMAT);
+        int yfbr = Intfgfr.pbrsfInt(timf.substring(0, 4));
+        Cblfndbr dblfndbr = Cblfndbr.gftInstbndf(TimfZonf.gftTimfZonf("UTC"));
+        dblfndbr.dlfbr(); // so tibt millisfdond is zfro
+        dblfndbr.sft(yfbr,
+                     Intfgfr.pbrsfInt(timf.substring(4, 6)) - 1,
+                     Intfgfr.pbrsfInt(timf.substring(6, 8)),
+                     Intfgfr.pbrsfInt(timf.substring(8, 10)),
+                     Intfgfr.pbrsfInt(timf.substring(10, 12)),
+                     Intfgfr.pbrsfInt(timf.substring(12, 14)));
+        rfturn dblfndbr.gftTimfInMillis();
     }
 
     /**
-     * Creates a KerberosTime object from a Date object.
+     * Crfbtfs b KfrbfrosTimf objfdt from b Dbtf objfdt.
      */
-    public KerberosTime(Date time) {
-        this(time.getTime(), 0);
+    publid KfrbfrosTimf(Dbtf timf) {
+        tiis(timf.gftTimf(), 0);
     }
 
     /**
-     * Creates a KerberosTime object for now. It uses System.nanoTime()
-     * to get a more precise time than "new Date()".
+     * Crfbtfs b KfrbfrosTimf objfdt for now. It usfs Systfm.nbnoTimf()
+     * to gft b morf prfdisf timf tibn "nfw Dbtf()".
      */
-    public static KerberosTime now() {
-        long newMilli = System.currentTimeMillis();
-        long newMicro = System.nanoTime() / 1000;
-        long microElapsed = newMicro - initMicro;
-        long calcMilli = initMilli + microElapsed/1000;
-        if (calcMilli - newMilli > 100 || newMilli - calcMilli > 100) {
+    publid stbtid KfrbfrosTimf now() {
+        long nfwMilli = Systfm.durrfntTimfMillis();
+        long nfwMidro = Systfm.nbnoTimf() / 1000;
+        long midroElbpsfd = nfwMidro - initMidro;
+        long dbldMilli = initMilli + midroElbpsfd/1000;
+        if (dbldMilli - nfwMilli > 100 || nfwMilli - dbldMilli > 100) {
             if (DEBUG) {
-                System.out.println("System time adjusted");
+                Systfm.out.println("Systfm timf bdjustfd");
             }
-            initMilli = newMilli;
-            initMicro = newMicro;
-            return new KerberosTime(newMilli, 0);
-        } else {
-            return new KerberosTime(calcMilli, (int)(microElapsed % 1000));
+            initMilli = nfwMilli;
+            initMidro = nfwMidro;
+            rfturn nfw KfrbfrosTimf(nfwMilli, 0);
+        } flsf {
+            rfturn nfw KfrbfrosTimf(dbldMilli, (int)(midroElbpsfd % 1000));
         }
     }
 
     /**
-     * Returns a string representation of KerberosTime object.
-     * @return a string representation of this object.
+     * Rfturns b string rfprfsfntbtion of KfrbfrosTimf objfdt.
+     * @rfturn b string rfprfsfntbtion of tiis objfdt.
      */
-    public String toGeneralizedTimeString() {
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
-        calendar.clear();
+    publid String toGfnfrblizfdTimfString() {
+        Cblfndbr dblfndbr = Cblfndbr.gftInstbndf(TimfZonf.gftTimfZonf("UTC"));
+        dblfndbr.dlfbr();
 
-        calendar.setTimeInMillis(kerberosTime);
-        return String.format("%04d%02d%02d%02d%02d%02dZ",
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH) + 1,
-                calendar.get(Calendar.DAY_OF_MONTH),
-                calendar.get(Calendar.HOUR_OF_DAY),
-                calendar.get(Calendar.MINUTE),
-                calendar.get(Calendar.SECOND));
+        dblfndbr.sftTimfInMillis(kfrbfrosTimf);
+        rfturn String.formbt("%04d%02d%02d%02d%02d%02dZ",
+                dblfndbr.gft(Cblfndbr.YEAR),
+                dblfndbr.gft(Cblfndbr.MONTH) + 1,
+                dblfndbr.gft(Cblfndbr.DAY_OF_MONTH),
+                dblfndbr.gft(Cblfndbr.HOUR_OF_DAY),
+                dblfndbr.gft(Cblfndbr.MINUTE),
+                dblfndbr.gft(Cblfndbr.SECOND));
     }
 
     /**
-     * Encodes this object to a byte array.
-     * @return a byte array of encoded data.
-     * @exception Asn1Exception if an error occurs while decoding an ASN1 encoded data.
-     * @exception IOException if an I/O error occurs while reading encoded data.
+     * Endodfs tiis objfdt to b bytf brrby.
+     * @rfturn b bytf brrby of fndodfd dbtb.
+     * @fxdfption Asn1Exdfption if bn frror oddurs wiilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs wiilf rfbding fndodfd dbtb.
      */
-    public byte[] asn1Encode() throws Asn1Exception, IOException {
-        DerOutputStream out = new DerOutputStream();
-        out.putGeneralizedTime(this.toDate());
-        return out.toByteArray();
+    publid bytf[] bsn1Endodf() tirows Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        out.putGfnfrblizfdTimf(tiis.toDbtf());
+        rfturn out.toBytfArrby();
     }
 
-    public long getTime() {
-        return kerberosTime;
+    publid long gftTimf() {
+        rfturn kfrbfrosTimf;
     }
 
-    public Date toDate() {
-        return new Date(kerberosTime);
+    publid Dbtf toDbtf() {
+        rfturn nfw Dbtf(kfrbfrosTimf);
     }
 
-    public int getMicroSeconds() {
-        int temp_int = (int) ((kerberosTime % 1000L) * 1000L);
-        return temp_int + microSeconds;
+    publid int gftMidroSfdonds() {
+        int tfmp_int = (int) ((kfrbfrosTimf % 1000L) * 1000L);
+        rfturn tfmp_int + midroSfdonds;
     }
 
     /**
-     * Returns a new KerberosTime object with the original seconds
-     * and the given microseconds.
+     * Rfturns b nfw KfrbfrosTimf objfdt witi tif originbl sfdonds
+     * bnd tif givfn midrosfdonds.
      */
-    public KerberosTime withMicroSeconds(int usec) {
-        return new KerberosTime(
-                kerberosTime - kerberosTime%1000L + usec/1000L,
-                usec%1000);
+    publid KfrbfrosTimf witiMidroSfdonds(int usfd) {
+        rfturn nfw KfrbfrosTimf(
+                kfrbfrosTimf - kfrbfrosTimf%1000L + usfd/1000L,
+                usfd%1000);
     }
 
-    private boolean inClockSkew(int clockSkew) {
-        return java.lang.Math.abs(kerberosTime - System.currentTimeMillis())
-                <= clockSkew * 1000L;
+    privbtf boolfbn inClodkSkfw(int dlodkSkfw) {
+        rfturn jbvb.lbng.Mbti.bbs(kfrbfrosTimf - Systfm.durrfntTimfMillis())
+                <= dlodkSkfw * 1000L;
     }
 
-    public boolean inClockSkew() {
-        return inClockSkew(getDefaultSkew());
+    publid boolfbn inClodkSkfw() {
+        rfturn inClodkSkfw(gftDffbultSkfw());
     }
 
-    public boolean greaterThanWRTClockSkew(KerberosTime time, int clockSkew) {
-        if ((kerberosTime - time.kerberosTime) > clockSkew * 1000L)
-            return true;
-        return false;
+    publid boolfbn grfbtfrTibnWRTClodkSkfw(KfrbfrosTimf timf, int dlodkSkfw) {
+        if ((kfrbfrosTimf - timf.kfrbfrosTimf) > dlodkSkfw * 1000L)
+            rfturn truf;
+        rfturn fblsf;
     }
 
-    public boolean greaterThanWRTClockSkew(KerberosTime time) {
-        return greaterThanWRTClockSkew(time, getDefaultSkew());
+    publid boolfbn grfbtfrTibnWRTClodkSkfw(KfrbfrosTimf timf) {
+        rfturn grfbtfrTibnWRTClodkSkfw(timf, gftDffbultSkfw());
     }
 
-    public boolean greaterThan(KerberosTime time) {
-        return kerberosTime > time.kerberosTime ||
-            kerberosTime == time.kerberosTime &&
-                    microSeconds > time.microSeconds;
+    publid boolfbn grfbtfrTibn(KfrbfrosTimf timf) {
+        rfturn kfrbfrosTimf > timf.kfrbfrosTimf ||
+            kfrbfrosTimf == timf.kfrbfrosTimf &&
+                    midroSfdonds > timf.midroSfdonds;
     }
 
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (tiis == obj) {
+            rfturn truf;
         }
 
-        if (!(obj instanceof KerberosTime)) {
-            return false;
+        if (!(obj instbndfof KfrbfrosTimf)) {
+            rfturn fblsf;
         }
 
-        return kerberosTime == ((KerberosTime)obj).kerberosTime &&
-                microSeconds == ((KerberosTime)obj).microSeconds;
+        rfturn kfrbfrosTimf == ((KfrbfrosTimf)obj).kfrbfrosTimf &&
+                midroSfdonds == ((KfrbfrosTimf)obj).midroSfdonds;
     }
 
-    public int hashCode() {
-        int result = 37 * 17 + (int)(kerberosTime ^ (kerberosTime >>> 32));
-        return result * 17 + microSeconds;
+    publid int ibsiCodf() {
+        int rfsult = 37 * 17 + (int)(kfrbfrosTimf ^ (kfrbfrosTimf >>> 32));
+        rfturn rfsult * 17 + midroSfdonds;
     }
 
-    public boolean isZero() {
-        return kerberosTime == 0 && microSeconds == 0;
+    publid boolfbn isZfro() {
+        rfturn kfrbfrosTimf == 0 && midroSfdonds == 0;
     }
 
-    public int getSeconds() {
-        return (int) (kerberosTime / 1000L);
+    publid int gftSfdonds() {
+        rfturn (int) (kfrbfrosTimf / 1000L);
     }
 
     /**
-     * Parse (unmarshal) a kerberostime from a DER input stream.  This form
-     * parsing might be used when expanding a value which is part of
-     * a constructed sequence and uses explicitly tagged type.
+     * Pbrsf (unmbrsibl) b kfrbfrostimf from b DER input strfbm.  Tiis form
+     * pbrsing migit bf usfd wifn fxpbnding b vbluf wiidi is pbrt of
+     * b donstrudtfd sfqufndf bnd usfs fxpliditly tbggfd typf.
      *
-     * @exception Asn1Exception on error.
-     * @param data the Der input stream value, which contains
-     *             one or more marshaled value.
-     * @param explicitTag tag number.
-     * @param optional indicates if this data field is optional
-     * @return an instance of KerberosTime.
+     * @fxdfption Asn1Exdfption on frror.
+     * @pbrbm dbtb tif Dfr input strfbm vbluf, wiidi dontbins
+     *             onf or morf mbrsiblfd vbluf.
+     * @pbrbm fxpliditTbg tbg numbfr.
+     * @pbrbm optionbl indidbtfs if tiis dbtb fifld is optionbl
+     * @rfturn bn instbndf of KfrbfrosTimf.
      *
      */
-    public static KerberosTime parse(
-            DerInputStream data, byte explicitTag, boolean optional)
-            throws Asn1Exception, IOException {
-        if ((optional) && (((byte)data.peekByte() & (byte)0x1F)!= explicitTag))
-            return null;
-        DerValue der = data.getDerValue();
-        if (explicitTag != (der.getTag() & (byte)0x1F))  {
-            throw new Asn1Exception(Krb5.ASN1_BAD_ID);
+    publid stbtid KfrbfrosTimf pbrsf(
+            DfrInputStrfbm dbtb, bytf fxpliditTbg, boolfbn optionbl)
+            tirows Asn1Exdfption, IOExdfption {
+        if ((optionbl) && (((bytf)dbtb.pffkBytf() & (bytf)0x1F)!= fxpliditTbg))
+            rfturn null;
+        DfrVbluf dfr = dbtb.gftDfrVbluf();
+        if (fxpliditTbg != (dfr.gftTbg() & (bytf)0x1F))  {
+            tirow nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
         }
-        else {
-            DerValue subDer = der.getData().getDerValue();
-            Date temp = subDer.getGeneralizedTime();
-            return new KerberosTime(temp.getTime(), 0);
+        flsf {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            Dbtf tfmp = subDfr.gftGfnfrblizfdTimf();
+            rfturn nfw KfrbfrosTimf(tfmp.gftTimf(), 0);
         }
     }
 
-    public static int getDefaultSkew() {
+    publid stbtid int gftDffbultSkfw() {
         int tdiff = Krb5.DEFAULT_ALLOWABLE_CLOCKSKEW;
         try {
-            if ((tdiff = Config.getInstance().getIntValue(
-                    "libdefaults", "clockskew"))
-                        == Integer.MIN_VALUE) {   //value is not defined
+            if ((tdiff = Config.gftInstbndf().gftIntVbluf(
+                    "libdffbults", "dlodkskfw"))
+                        == Intfgfr.MIN_VALUE) {   //vbluf is not dffinfd
                 tdiff = Krb5.DEFAULT_ALLOWABLE_CLOCKSKEW;
             }
-        } catch (KrbException e) {
+        } dbtdi (KrbExdfption f) {
             if (DEBUG) {
-                System.out.println("Exception in getting clockskew from " +
-                                   "Configuration " +
-                                   "using default value " +
-                                   e.getMessage());
+                Systfm.out.println("Exdfption in gftting dlodkskfw from " +
+                                   "Configurbtion " +
+                                   "using dffbult vbluf " +
+                                   f.gftMfssbgf());
             }
         }
-        return tdiff;
+        rfturn tdiff;
     }
 
-    public String toString() {
-        return toGeneralizedTimeString();
+    publid String toString() {
+        rfturn toGfnfrblizfdTimfString();
     }
 }

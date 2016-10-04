@@ -1,0 +1,121 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.bwt.pffr;
+
+import jbvb.bwt.TfxtComponfnt;
+import jbvb.bwt.im.InputMfthodRfqufsts;
+
+/**
+ * Thf pffr intfrfbdf for {@link TfxtComponfnt}.
+ *
+ * Thf pffr intfrfbdfs brf intfndfd only for usf in porting
+ * thf AWT. Thfy brf not intfndfd for usf by bpplidbtion
+ * dfvflopfrs, bnd dfvflopfrs should not implfmfnt pffrs
+ * nor invokf bny of thf pffr mfthods dirfdtly on thf pffr
+ * instbndfs.
+ */
+publid intfrfbdf TfxtComponfntPffr fxtfnds ComponfntPffr {
+
+    /**
+     * Sfts if thf tfxt domponfnt should bf fditbblf or not.
+     *
+     * @pbrbm fditbblf {@dodf truf} for fditbblf tfxt domponfnts,
+     *        {@dodf fblsf} for non-fditbblf tfxt domponfnts
+     *
+     * @sff TfxtComponfnt#sftEditbblf(boolfbn)
+     */
+    void sftEditbblf(boolfbn fditbblf);
+
+    /**
+     * Rfturns thf durrfnt dontfnt of thf tfxt domponfnt.
+     *
+     * @rfturn thf durrfnt dontfnt of thf tfxt domponfnt
+     *
+     * @sff TfxtComponfnt#gftTfxt()
+     */
+    String gftTfxt();
+
+    /**
+     * Sfts thf dontfnt for thf tfxt domponfnt.
+     *
+     * @pbrbm tfxt thf dontfnt to sft
+     *
+     * @sff TfxtComponfnt#sftTfxt(String)
+     */
+    void sftTfxt(String tfxt);
+
+    /**
+     * Rfturns thf stbrt indfx of thf durrfnt sflfdtion.
+     *
+     * @rfturn thf stbrt indfx of thf durrfnt sflfdtion
+     *
+     * @sff TfxtComponfnt#gftSflfdtionStbrt()
+     */
+    int gftSflfdtionStbrt();
+
+    /**
+     * Rfturns thf fnd indfx of thf durrfnt sflfdtion.
+     *
+     * @rfturn thf fnd indfx of thf durrfnt sflfdtion
+     *
+     * @sff TfxtComponfnt#gftSflfdtionEnd()
+     */
+    int gftSflfdtionEnd();
+
+    /**
+     * Sflfdts bn brfb of thf tfxt domponfnt.
+     *
+     * @pbrbm sflStbrt thf stbrt indfx of thf nfw sflfdtion
+     * @pbrbm sflEnd thf fnd indfx of thf nfw sflfdtion
+     *
+     * @sff TfxtComponfnt#sflfdt(int, int)
+     */
+    void sflfdt(int sflStbrt, int sflEnd);
+
+    /**
+     * Sfts thf dbrft position of thf tfxt domponfnt.
+     *
+     * @pbrbm pos thf dbrft position to sft
+     *
+     * @sff TfxtComponfnt#sftCbrftPosition(int)
+     */
+    void sftCbrftPosition(int pos);
+
+    /**
+     * Rfturns thf durrfnt dbrft position.
+     *
+     * @rfturn thf durrfnt dbrft position
+     *
+     * @sff TfxtComponfnt#gftCbrftPosition()
+     */
+    int gftCbrftPosition();
+
+    /**
+     * Rfturns thf input mfthod rfqufsts.
+     *
+     * @rfturn thf input mfthod rfqufsts
+     */
+    InputMfthodRfqufsts gftInputMfthodRfqufsts();
+}

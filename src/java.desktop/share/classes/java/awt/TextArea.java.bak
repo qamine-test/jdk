@@ -1,741 +1,741 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.peer.TextAreaPeer;
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
-import java.util.HashSet;
-import java.util.Set;
-import javax.accessibility.*;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.bwt.pffr.TfxtArfbPffr;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.util.HbsiSft;
+import jbvb.util.Sft;
+import jbvbx.bddfssibility.*;
 
 /**
- * A <code>TextArea</code> object is a multi-line region
- * that displays text. It can be set to allow editing or
- * to be read-only.
+ * A <dodf>TfxtArfb</dodf> objfdt is b multi-linf rfgion
+ * tibt displbys tfxt. It dbn bf sft to bllow fditing or
+ * to bf rfbd-only.
  * <p>
- * The following image shows the appearance of a text area:
+ * Tif following imbgf siows tif bppfbrbndf of b tfxt brfb:
  * <p>
- * <img src="doc-files/TextArea-1.gif" alt="A TextArea showing the word 'Hello!'"
- * style="float:center; margin: 7px 10px;">
+ * <img srd="dod-filfs/TfxtArfb-1.gif" blt="A TfxtArfb siowing tif word 'Hfllo!'"
+ * stylf="flobt:dfntfr; mbrgin: 7px 10px;">
  * <p>
- * This text area could be created by the following line of code:
+ * Tiis tfxt brfb dould bf drfbtfd by tif following linf of dodf:
  *
- * <hr><blockquote><pre>
- * new TextArea("Hello", 5, 40);
- * </pre></blockquote><hr>
+ * <ir><blodkquotf><prf>
+ * nfw TfxtArfb("Hfllo", 5, 40);
+ * </prf></blodkquotf><ir>
  *
- * @author      Sami Shaio
- * @since       1.0
+ * @butior      Sbmi Sibio
+ * @sindf       1.0
  */
-public class TextArea extends TextComponent {
+publid dlbss TfxtArfb fxtfnds TfxtComponfnt {
 
     /**
-     * The number of rows in the <code>TextArea</code>.
-     * This parameter will determine the text area's height.
-     * Guaranteed to be non-negative.
+     * Tif numbfr of rows in tif <dodf>TfxtArfb</dodf>.
+     * Tiis pbrbmftfr will dftfrminf tif tfxt brfb's ifigit.
+     * Gubrbntffd to bf non-nfgbtivf.
      *
-     * @serial
-     * @see #getRows()
-     * @see #setRows(int)
+     * @sfribl
+     * @sff #gftRows()
+     * @sff #sftRows(int)
      */
     int rows;
 
     /**
-     * The number of columns in the <code>TextArea</code>.
-     * A column is an approximate average character
-     * width that is platform-dependent.
-     * This parameter will determine the text area's width.
-     * Guaranteed to be non-negative.
+     * Tif numbfr of dolumns in tif <dodf>TfxtArfb</dodf>.
+     * A dolumn is bn bpproximbtf bvfrbgf dibrbdtfr
+     * widti tibt is plbtform-dfpfndfnt.
+     * Tiis pbrbmftfr will dftfrminf tif tfxt brfb's widti.
+     * Gubrbntffd to bf non-nfgbtivf.
      *
-     * @serial
-     * @see  #setColumns(int)
-     * @see  #getColumns()
+     * @sfribl
+     * @sff  #sftColumns(int)
+     * @sff  #gftColumns()
      */
-    int columns;
+    int dolumns;
 
-    private static final String base = "text";
-    private static int nameCounter = 0;
+    privbtf stbtid finbl String bbsf = "tfxt";
+    privbtf stbtid int nbmfCountfr = 0;
 
     /**
-     * Create and display both vertical and horizontal scrollbars.
-     * @since 1.1
+     * Crfbtf bnd displby boti vfrtidbl bnd iorizontbl sdrollbbrs.
+     * @sindf 1.1
      */
-    public static final int SCROLLBARS_BOTH = 0;
+    publid stbtid finbl int SCROLLBARS_BOTH = 0;
 
     /**
-     * Create and display vertical scrollbar only.
-     * @since 1.1
+     * Crfbtf bnd displby vfrtidbl sdrollbbr only.
+     * @sindf 1.1
      */
-    public static final int SCROLLBARS_VERTICAL_ONLY = 1;
+    publid stbtid finbl int SCROLLBARS_VERTICAL_ONLY = 1;
 
     /**
-     * Create and display horizontal scrollbar only.
-     * @since 1.1
+     * Crfbtf bnd displby iorizontbl sdrollbbr only.
+     * @sindf 1.1
      */
-    public static final int SCROLLBARS_HORIZONTAL_ONLY = 2;
+    publid stbtid finbl int SCROLLBARS_HORIZONTAL_ONLY = 2;
 
     /**
-     * Do not create or display any scrollbars for the text area.
-     * @since 1.1
+     * Do not drfbtf or displby bny sdrollbbrs for tif tfxt brfb.
+     * @sindf 1.1
      */
-    public static final int SCROLLBARS_NONE = 3;
+    publid stbtid finbl int SCROLLBARS_NONE = 3;
 
     /**
-     * Determines which scrollbars are created for the
-     * text area. It can be one of four values :
-     * <code>SCROLLBARS_BOTH</code> = both scrollbars.<BR>
-     * <code>SCROLLBARS_HORIZONTAL_ONLY</code> = Horizontal bar only.<BR>
-     * <code>SCROLLBARS_VERTICAL_ONLY</code> = Vertical bar only.<BR>
-     * <code>SCROLLBARS_NONE</code> = No scrollbars.<BR>
+     * Dftfrminfs wiidi sdrollbbrs brf drfbtfd for tif
+     * tfxt brfb. It dbn bf onf of four vblufs :
+     * <dodf>SCROLLBARS_BOTH</dodf> = boti sdrollbbrs.<BR>
+     * <dodf>SCROLLBARS_HORIZONTAL_ONLY</dodf> = Horizontbl bbr only.<BR>
+     * <dodf>SCROLLBARS_VERTICAL_ONLY</dodf> = Vfrtidbl bbr only.<BR>
+     * <dodf>SCROLLBARS_NONE</dodf> = No sdrollbbrs.<BR>
      *
-     * @serial
-     * @see #getScrollbarVisibility()
+     * @sfribl
+     * @sff #gftSdrollbbrVisibility()
      */
-    private int scrollbarVisibility;
+    privbtf int sdrollbbrVisibility;
 
     /**
-     * Cache the Sets of forward and backward traversal keys so we need not
-     * look them up each time.
+     * Cbdif tif Sfts of forwbrd bnd bbdkwbrd trbvfrsbl kfys so wf nffd not
+     * look tifm up fbdi timf.
      */
-    private static Set<AWTKeyStroke> forwardTraversalKeys, backwardTraversalKeys;
+    privbtf stbtid Sft<AWTKfyStrokf> forwbrdTrbvfrsblKfys, bbdkwbrdTrbvfrsblKfys;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-     private static final long serialVersionUID = 3692302836626095722L;
+     privbtf stbtid finbl long sfriblVfrsionUID = 3692302836626095722L;
 
     /**
-     * Initialize JNI field and method ids
+     * Initiblizf JNI fifld bnd mftiod ids
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
-        forwardTraversalKeys = KeyboardFocusManager.initFocusTraversalKeysSet(
-            "ctrl TAB",
-            new HashSet<AWTKeyStroke>());
-        backwardTraversalKeys = KeyboardFocusManager.initFocusTraversalKeysSet(
-            "ctrl shift TAB",
-            new HashSet<AWTKeyStroke>());
+        forwbrdTrbvfrsblKfys = KfybobrdFodusMbnbgfr.initFodusTrbvfrsblKfysSft(
+            "dtrl TAB",
+            nfw HbsiSft<AWTKfyStrokf>());
+        bbdkwbrdTrbvfrsblKfys = KfybobrdFodusMbnbgfr.initFodusTrbvfrsblKfysSft(
+            "dtrl siift TAB",
+            nfw HbsiSft<AWTKfyStrokf>());
     }
 
     /**
-     * Constructs a new text area with the empty string as text.
-     * This text area is created with scrollbar visibility equal to
-     * {@link #SCROLLBARS_BOTH}, so both vertical and horizontal
-     * scrollbars will be visible for this text area.
-     * @exception HeadlessException if
-     *    <code>GraphicsEnvironment.isHeadless</code> returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless()
+     * Construdts b nfw tfxt brfb witi tif fmpty string bs tfxt.
+     * Tiis tfxt brfb is drfbtfd witi sdrollbbr visibility fqubl to
+     * {@link #SCROLLBARS_BOTH}, so boti vfrtidbl bnd iorizontbl
+     * sdrollbbrs will bf visiblf for tiis tfxt brfb.
+     * @fxdfption HfbdlfssExdfption if
+     *    <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf> rfturns truf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss()
      */
-    public TextArea() throws HeadlessException {
-        this("", 0, 0, SCROLLBARS_BOTH);
+    publid TfxtArfb() tirows HfbdlfssExdfption {
+        tiis("", 0, 0, SCROLLBARS_BOTH);
     }
 
     /**
-     * Constructs a new text area with the specified text.
-     * This text area is created with scrollbar visibility equal to
-     * {@link #SCROLLBARS_BOTH}, so both vertical and horizontal
-     * scrollbars will be visible for this text area.
-     * @param      text       the text to be displayed; if
-     *             <code>text</code> is <code>null</code>, the empty
-     *             string <code>""</code> will be displayed
-     * @exception HeadlessException if
-     *        <code>GraphicsEnvironment.isHeadless</code> returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless()
+     * Construdts b nfw tfxt brfb witi tif spfdififd tfxt.
+     * Tiis tfxt brfb is drfbtfd witi sdrollbbr visibility fqubl to
+     * {@link #SCROLLBARS_BOTH}, so boti vfrtidbl bnd iorizontbl
+     * sdrollbbrs will bf visiblf for tiis tfxt brfb.
+     * @pbrbm      tfxt       tif tfxt to bf displbyfd; if
+     *             <dodf>tfxt</dodf> is <dodf>null</dodf>, tif fmpty
+     *             string <dodf>""</dodf> will bf displbyfd
+     * @fxdfption HfbdlfssExdfption if
+     *        <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf> rfturns truf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss()
      */
-    public TextArea(String text) throws HeadlessException {
-        this(text, 0, 0, SCROLLBARS_BOTH);
+    publid TfxtArfb(String tfxt) tirows HfbdlfssExdfption {
+        tiis(tfxt, 0, 0, SCROLLBARS_BOTH);
     }
 
     /**
-     * Constructs a new text area with the specified number of
-     * rows and columns and the empty string as text.
-     * A column is an approximate average character
-     * width that is platform-dependent.  The text area is created with
-     * scrollbar visibility equal to {@link #SCROLLBARS_BOTH}, so both
-     * vertical and horizontal scrollbars will be visible for this
-     * text area.
-     * @param rows the number of rows
-     * @param columns the number of columns
-     * @exception HeadlessException if
-     *     <code>GraphicsEnvironment.isHeadless</code> returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless()
+     * Construdts b nfw tfxt brfb witi tif spfdififd numbfr of
+     * rows bnd dolumns bnd tif fmpty string bs tfxt.
+     * A dolumn is bn bpproximbtf bvfrbgf dibrbdtfr
+     * widti tibt is plbtform-dfpfndfnt.  Tif tfxt brfb is drfbtfd witi
+     * sdrollbbr visibility fqubl to {@link #SCROLLBARS_BOTH}, so boti
+     * vfrtidbl bnd iorizontbl sdrollbbrs will bf visiblf for tiis
+     * tfxt brfb.
+     * @pbrbm rows tif numbfr of rows
+     * @pbrbm dolumns tif numbfr of dolumns
+     * @fxdfption HfbdlfssExdfption if
+     *     <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf> rfturns truf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss()
      */
-    public TextArea(int rows, int columns) throws HeadlessException {
-        this("", rows, columns, SCROLLBARS_BOTH);
+    publid TfxtArfb(int rows, int dolumns) tirows HfbdlfssExdfption {
+        tiis("", rows, dolumns, SCROLLBARS_BOTH);
     }
 
     /**
-     * Constructs a new text area with the specified text,
-     * and with the specified number of rows and columns.
-     * A column is an approximate average character
-     * width that is platform-dependent.  The text area is created with
-     * scrollbar visibility equal to {@link #SCROLLBARS_BOTH}, so both
-     * vertical and horizontal scrollbars will be visible for this
-     * text area.
-     * @param      text       the text to be displayed; if
-     *             <code>text</code> is <code>null</code>, the empty
-     *             string <code>""</code> will be displayed
-     * @param     rows      the number of rows
-     * @param     columns   the number of columns
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless()
+     * Construdts b nfw tfxt brfb witi tif spfdififd tfxt,
+     * bnd witi tif spfdififd numbfr of rows bnd dolumns.
+     * A dolumn is bn bpproximbtf bvfrbgf dibrbdtfr
+     * widti tibt is plbtform-dfpfndfnt.  Tif tfxt brfb is drfbtfd witi
+     * sdrollbbr visibility fqubl to {@link #SCROLLBARS_BOTH}, so boti
+     * vfrtidbl bnd iorizontbl sdrollbbrs will bf visiblf for tiis
+     * tfxt brfb.
+     * @pbrbm      tfxt       tif tfxt to bf displbyfd; if
+     *             <dodf>tfxt</dodf> is <dodf>null</dodf>, tif fmpty
+     *             string <dodf>""</dodf> will bf displbyfd
+     * @pbrbm     rows      tif numbfr of rows
+     * @pbrbm     dolumns   tif numbfr of dolumns
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf> rfturns truf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss()
      */
-    public TextArea(String text, int rows, int columns)
-        throws HeadlessException {
-        this(text, rows, columns, SCROLLBARS_BOTH);
+    publid TfxtArfb(String tfxt, int rows, int dolumns)
+        tirows HfbdlfssExdfption {
+        tiis(tfxt, rows, dolumns, SCROLLBARS_BOTH);
     }
 
     /**
-     * Constructs a new text area with the specified text,
-     * and with the rows, columns, and scroll bar visibility
-     * as specified.  All <code>TextArea</code> constructors defer to
-     * this one.
+     * Construdts b nfw tfxt brfb witi tif spfdififd tfxt,
+     * bnd witi tif rows, dolumns, bnd sdroll bbr visibility
+     * bs spfdififd.  All <dodf>TfxtArfb</dodf> donstrudtors dfffr to
+     * tiis onf.
      * <p>
-     * The <code>TextArea</code> class defines several constants
-     * that can be supplied as values for the
-     * <code>scrollbars</code> argument:
+     * Tif <dodf>TfxtArfb</dodf> dlbss dffinfs sfvfrbl donstbnts
+     * tibt dbn bf supplifd bs vblufs for tif
+     * <dodf>sdrollbbrs</dodf> brgumfnt:
      * <ul>
-     * <li><code>SCROLLBARS_BOTH</code>,
-     * <li><code>SCROLLBARS_VERTICAL_ONLY</code>,
-     * <li><code>SCROLLBARS_HORIZONTAL_ONLY</code>,
-     * <li><code>SCROLLBARS_NONE</code>.
+     * <li><dodf>SCROLLBARS_BOTH</dodf>,
+     * <li><dodf>SCROLLBARS_VERTICAL_ONLY</dodf>,
+     * <li><dodf>SCROLLBARS_HORIZONTAL_ONLY</dodf>,
+     * <li><dodf>SCROLLBARS_NONE</dodf>.
      * </ul>
-     * Any other value for the
-     * <code>scrollbars</code> argument is invalid and will result in
-     * this text area being created with scrollbar visibility equal to
-     * the default value of {@link #SCROLLBARS_BOTH}.
-     * @param      text       the text to be displayed; if
-     *             <code>text</code> is <code>null</code>, the empty
-     *             string <code>""</code> will be displayed
-     * @param      rows       the number of rows; if
-     *             <code>rows</code> is less than <code>0</code>,
-     *             <code>rows</code> is set to <code>0</code>
-     * @param      columns    the number of columns; if
-     *             <code>columns</code> is less than <code>0</code>,
-     *             <code>columns</code> is set to <code>0</code>
-     * @param      scrollbars  a constant that determines what
-     *             scrollbars are created to view the text area
-     * @since      1.1
-     * @exception HeadlessException if
-     *    <code>GraphicsEnvironment.isHeadless</code> returns true
-     * @see java.awt.GraphicsEnvironment#isHeadless()
+     * Any otifr vbluf for tif
+     * <dodf>sdrollbbrs</dodf> brgumfnt is invblid bnd will rfsult in
+     * tiis tfxt brfb bfing drfbtfd witi sdrollbbr visibility fqubl to
+     * tif dffbult vbluf of {@link #SCROLLBARS_BOTH}.
+     * @pbrbm      tfxt       tif tfxt to bf displbyfd; if
+     *             <dodf>tfxt</dodf> is <dodf>null</dodf>, tif fmpty
+     *             string <dodf>""</dodf> will bf displbyfd
+     * @pbrbm      rows       tif numbfr of rows; if
+     *             <dodf>rows</dodf> is lfss tibn <dodf>0</dodf>,
+     *             <dodf>rows</dodf> is sft to <dodf>0</dodf>
+     * @pbrbm      dolumns    tif numbfr of dolumns; if
+     *             <dodf>dolumns</dodf> is lfss tibn <dodf>0</dodf>,
+     *             <dodf>dolumns</dodf> is sft to <dodf>0</dodf>
+     * @pbrbm      sdrollbbrs  b donstbnt tibt dftfrminfs wibt
+     *             sdrollbbrs brf drfbtfd to vifw tif tfxt brfb
+     * @sindf      1.1
+     * @fxdfption HfbdlfssExdfption if
+     *    <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf> rfturns truf
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss()
      */
-    public TextArea(String text, int rows, int columns, int scrollbars)
-        throws HeadlessException {
-        super(text);
+    publid TfxtArfb(String tfxt, int rows, int dolumns, int sdrollbbrs)
+        tirows HfbdlfssExdfption {
+        supfr(tfxt);
 
-        this.rows = (rows >= 0) ? rows : 0;
-        this.columns = (columns >= 0) ? columns : 0;
+        tiis.rows = (rows >= 0) ? rows : 0;
+        tiis.dolumns = (dolumns >= 0) ? dolumns : 0;
 
-        if (scrollbars >= SCROLLBARS_BOTH && scrollbars <= SCROLLBARS_NONE) {
-            this.scrollbarVisibility = scrollbars;
-        } else {
-            this.scrollbarVisibility = SCROLLBARS_BOTH;
+        if (sdrollbbrs >= SCROLLBARS_BOTH && sdrollbbrs <= SCROLLBARS_NONE) {
+            tiis.sdrollbbrVisibility = sdrollbbrs;
+        } flsf {
+            tiis.sdrollbbrVisibility = SCROLLBARS_BOTH;
         }
 
-        setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-                              forwardTraversalKeys);
-        setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
-                              backwardTraversalKeys);
+        sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.FORWARD_TRAVERSAL_KEYS,
+                              forwbrdTrbvfrsblKfys);
+        sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.BACKWARD_TRAVERSAL_KEYS,
+                              bbdkwbrdTrbvfrsblKfys);
     }
 
     /**
-     * Construct a name for this component.  Called by <code>getName</code>
-     * when the name is <code>null</code>.
+     * Construdt b nbmf for tiis domponfnt.  Cbllfd by <dodf>gftNbmf</dodf>
+     * wifn tif nbmf is <dodf>null</dodf>.
      */
-    String constructComponentName() {
-        synchronized (TextArea.class) {
-            return base + nameCounter++;
-        }
-    }
-
-    /**
-     * Creates the <code>TextArea</code>'s peer.  The peer allows us to modify
-     * the appearance of the <code>TextArea</code> without changing any of its
-     * functionality.
-     */
-    public void addNotify() {
-        synchronized (getTreeLock()) {
-            if (peer == null)
-                peer = getToolkit().createTextArea(this);
-            super.addNotify();
+    String donstrudtComponfntNbmf() {
+        syndironizfd (TfxtArfb.dlbss) {
+            rfturn bbsf + nbmfCountfr++;
         }
     }
 
     /**
-     * Inserts the specified text at the specified position
-     * in this text area.
-     * <p>Note that passing <code>null</code> or inconsistent
-     * parameters is invalid and will result in unspecified
-     * behavior.
-     *
-     * @param      str the non-<code>null</code> text to insert
-     * @param      pos the position at which to insert
-     * @see        java.awt.TextComponent#setText
-     * @see        java.awt.TextArea#replaceRange
-     * @see        java.awt.TextArea#append
-     * @since      1.1
+     * Crfbtfs tif <dodf>TfxtArfb</dodf>'s pffr.  Tif pffr bllows us to modify
+     * tif bppfbrbndf of tif <dodf>TfxtArfb</dodf> witiout dibnging bny of its
+     * fundtionblity.
      */
-    public void insert(String str, int pos) {
-        insertText(str, pos);
-    }
-
-    /**
-     * Inserts the specified text at the specified position
-     * in this text area.
-     *
-     * @param  str the non-{@code null} text to insert
-     * @param  pos the position at which to insert
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>insert(String, int)</code>.
-     */
-    @Deprecated
-    public synchronized void insertText(String str, int pos) {
-        TextAreaPeer peer = (TextAreaPeer)this.peer;
-        if (peer != null) {
-            peer.insert(str, pos);
-        } else {
-            text = text.substring(0, pos) + str + text.substring(pos);
+    publid void bddNotify() {
+        syndironizfd (gftTrffLodk()) {
+            if (pffr == null)
+                pffr = gftToolkit().drfbtfTfxtArfb(tiis);
+            supfr.bddNotify();
         }
     }
 
     /**
-     * Appends the given text to the text area's current text.
-     * <p>Note that passing <code>null</code> or inconsistent
-     * parameters is invalid and will result in unspecified
-     * behavior.
+     * Insfrts tif spfdififd tfxt bt tif spfdififd position
+     * in tiis tfxt brfb.
+     * <p>Notf tibt pbssing <dodf>null</dodf> or indonsistfnt
+     * pbrbmftfrs is invblid bnd will rfsult in unspfdififd
+     * bfibvior.
      *
-     * @param     str the non-<code>null</code> text to append
-     * @see       java.awt.TextArea#insert
-     * @since     1.1
+     * @pbrbm      str tif non-<dodf>null</dodf> tfxt to insfrt
+     * @pbrbm      pos tif position bt wiidi to insfrt
+     * @sff        jbvb.bwt.TfxtComponfnt#sftTfxt
+     * @sff        jbvb.bwt.TfxtArfb#rfplbdfRbngf
+     * @sff        jbvb.bwt.TfxtArfb#bppfnd
+     * @sindf      1.1
      */
-    public void append(String str) {
-        appendText(str);
+    publid void insfrt(String str, int pos) {
+        insfrtTfxt(str, pos);
     }
 
     /**
-     * Appends the given text to the text area's current text.
+     * Insfrts tif spfdififd tfxt bt tif spfdififd position
+     * in tiis tfxt brfb.
      *
-     * @param  str the text to append
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>append(String)</code>.
+     * @pbrbm  str tif non-{@dodf null} tfxt to insfrt
+     * @pbrbm  pos tif position bt wiidi to insfrt
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>insfrt(String, int)</dodf>.
      */
-    @Deprecated
-    public synchronized void appendText(String str) {
-        if (peer != null) {
-            insertText(str, getText().length());
-        } else {
-            text = text + str;
+    @Dfprfdbtfd
+    publid syndironizfd void insfrtTfxt(String str, int pos) {
+        TfxtArfbPffr pffr = (TfxtArfbPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.insfrt(str, pos);
+        } flsf {
+            tfxt = tfxt.substring(0, pos) + str + tfxt.substring(pos);
         }
     }
 
     /**
-     * Replaces text between the indicated start and end positions
-     * with the specified replacement text.  The text at the end
-     * position will not be replaced.  The text at the start
-     * position will be replaced (unless the start position is the
-     * same as the end position).
-     * The text position is zero-based.  The inserted substring may be
-     * of a different length than the text it replaces.
-     * <p>Note that passing <code>null</code> or inconsistent
-     * parameters is invalid and will result in unspecified
-     * behavior.
+     * Appfnds tif givfn tfxt to tif tfxt brfb's durrfnt tfxt.
+     * <p>Notf tibt pbssing <dodf>null</dodf> or indonsistfnt
+     * pbrbmftfrs is invblid bnd will rfsult in unspfdififd
+     * bfibvior.
      *
-     * @param     str      the non-<code>null</code> text to use as
-     *                     the replacement
-     * @param     start    the start position
-     * @param     end      the end position
-     * @see       java.awt.TextArea#insert
-     * @since     1.1
+     * @pbrbm     str tif non-<dodf>null</dodf> tfxt to bppfnd
+     * @sff       jbvb.bwt.TfxtArfb#insfrt
+     * @sindf     1.1
      */
-    public void replaceRange(String str, int start, int end) {
-        replaceText(str, start, end);
+    publid void bppfnd(String str) {
+        bppfndTfxt(str);
     }
 
     /**
-     * Replaces a range of characters between
-     * the indicated start and end positions
-     * with the specified replacement text (the text at the end
-     * position will not be replaced).
+     * Appfnds tif givfn tfxt to tif tfxt brfb's durrfnt tfxt.
      *
-     * @param  str the non-{@code null} text to use as
-     *         the replacement
-     * @param  start the start position
-     * @param  end the end position
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>replaceRange(String, int, int)</code>.
+     * @pbrbm  str tif tfxt to bppfnd
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>bppfnd(String)</dodf>.
      */
-    @Deprecated
-    public synchronized void replaceText(String str, int start, int end) {
-        TextAreaPeer peer = (TextAreaPeer)this.peer;
-        if (peer != null) {
-            peer.replaceRange(str, start, end);
-        } else {
-            text = text.substring(0, start) + str + text.substring(end);
+    @Dfprfdbtfd
+    publid syndironizfd void bppfndTfxt(String str) {
+        if (pffr != null) {
+            insfrtTfxt(str, gftTfxt().lfngti());
+        } flsf {
+            tfxt = tfxt + str;
         }
     }
 
     /**
-     * Returns the number of rows in the text area.
-     * @return    the number of rows in the text area
-     * @see       #setRows(int)
-     * @see       #getColumns()
-     * @since     1.0
+     * Rfplbdfs tfxt bftwffn tif indidbtfd stbrt bnd fnd positions
+     * witi tif spfdififd rfplbdfmfnt tfxt.  Tif tfxt bt tif fnd
+     * position will not bf rfplbdfd.  Tif tfxt bt tif stbrt
+     * position will bf rfplbdfd (unlfss tif stbrt position is tif
+     * sbmf bs tif fnd position).
+     * Tif tfxt position is zfro-bbsfd.  Tif insfrtfd substring mby bf
+     * of b difffrfnt lfngti tibn tif tfxt it rfplbdfs.
+     * <p>Notf tibt pbssing <dodf>null</dodf> or indonsistfnt
+     * pbrbmftfrs is invblid bnd will rfsult in unspfdififd
+     * bfibvior.
+     *
+     * @pbrbm     str      tif non-<dodf>null</dodf> tfxt to usf bs
+     *                     tif rfplbdfmfnt
+     * @pbrbm     stbrt    tif stbrt position
+     * @pbrbm     fnd      tif fnd position
+     * @sff       jbvb.bwt.TfxtArfb#insfrt
+     * @sindf     1.1
      */
-    public int getRows() {
-        return rows;
+    publid void rfplbdfRbngf(String str, int stbrt, int fnd) {
+        rfplbdfTfxt(str, stbrt, fnd);
     }
 
     /**
-     * Sets the number of rows for this text area.
-     * @param       rows   the number of rows
-     * @see         #getRows()
-     * @see         #setColumns(int)
-     * @exception   IllegalArgumentException   if the value
-     *                 supplied for <code>rows</code>
-     *                 is less than <code>0</code>
-     * @since       1.1
+     * Rfplbdfs b rbngf of dibrbdtfrs bftwffn
+     * tif indidbtfd stbrt bnd fnd positions
+     * witi tif spfdififd rfplbdfmfnt tfxt (tif tfxt bt tif fnd
+     * position will not bf rfplbdfd).
+     *
+     * @pbrbm  str tif non-{@dodf null} tfxt to usf bs
+     *         tif rfplbdfmfnt
+     * @pbrbm  stbrt tif stbrt position
+     * @pbrbm  fnd tif fnd position
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>rfplbdfRbngf(String, int, int)</dodf>.
      */
-    public void setRows(int rows) {
-        int oldVal = this.rows;
+    @Dfprfdbtfd
+    publid syndironizfd void rfplbdfTfxt(String str, int stbrt, int fnd) {
+        TfxtArfbPffr pffr = (TfxtArfbPffr)tiis.pffr;
+        if (pffr != null) {
+            pffr.rfplbdfRbngf(str, stbrt, fnd);
+        } flsf {
+            tfxt = tfxt.substring(0, stbrt) + str + tfxt.substring(fnd);
+        }
+    }
+
+    /**
+     * Rfturns tif numbfr of rows in tif tfxt brfb.
+     * @rfturn    tif numbfr of rows in tif tfxt brfb
+     * @sff       #sftRows(int)
+     * @sff       #gftColumns()
+     * @sindf     1.0
+     */
+    publid int gftRows() {
+        rfturn rows;
+    }
+
+    /**
+     * Sfts tif numbfr of rows for tiis tfxt brfb.
+     * @pbrbm       rows   tif numbfr of rows
+     * @sff         #gftRows()
+     * @sff         #sftColumns(int)
+     * @fxdfption   IllfgblArgumfntExdfption   if tif vbluf
+     *                 supplifd for <dodf>rows</dodf>
+     *                 is lfss tibn <dodf>0</dodf>
+     * @sindf       1.1
+     */
+    publid void sftRows(int rows) {
+        int oldVbl = tiis.rows;
         if (rows < 0) {
-            throw new IllegalArgumentException("rows less than zero.");
+            tirow nfw IllfgblArgumfntExdfption("rows lfss tibn zfro.");
         }
-        if (rows != oldVal) {
-            this.rows = rows;
-            invalidate();
+        if (rows != oldVbl) {
+            tiis.rows = rows;
+            invblidbtf();
         }
     }
 
     /**
-     * Returns the number of columns in this text area.
-     * @return    the number of columns in the text area
-     * @see       #setColumns(int)
-     * @see       #getRows()
+     * Rfturns tif numbfr of dolumns in tiis tfxt brfb.
+     * @rfturn    tif numbfr of dolumns in tif tfxt brfb
+     * @sff       #sftColumns(int)
+     * @sff       #gftRows()
      */
-    public int getColumns() {
-        return columns;
+    publid int gftColumns() {
+        rfturn dolumns;
     }
 
     /**
-     * Sets the number of columns for this text area.
-     * @param       columns   the number of columns
-     * @see         #getColumns()
-     * @see         #setRows(int)
-     * @exception   IllegalArgumentException   if the value
-     *                 supplied for <code>columns</code>
-     *                 is less than <code>0</code>
-     * @since       1.1
+     * Sfts tif numbfr of dolumns for tiis tfxt brfb.
+     * @pbrbm       dolumns   tif numbfr of dolumns
+     * @sff         #gftColumns()
+     * @sff         #sftRows(int)
+     * @fxdfption   IllfgblArgumfntExdfption   if tif vbluf
+     *                 supplifd for <dodf>dolumns</dodf>
+     *                 is lfss tibn <dodf>0</dodf>
+     * @sindf       1.1
      */
-    public void setColumns(int columns) {
-        int oldVal = this.columns;
-        if (columns < 0) {
-            throw new IllegalArgumentException("columns less than zero.");
+    publid void sftColumns(int dolumns) {
+        int oldVbl = tiis.dolumns;
+        if (dolumns < 0) {
+            tirow nfw IllfgblArgumfntExdfption("dolumns lfss tibn zfro.");
         }
-        if (columns != oldVal) {
-            this.columns = columns;
-            invalidate();
+        if (dolumns != oldVbl) {
+            tiis.dolumns = dolumns;
+            invblidbtf();
         }
     }
 
     /**
-     * Returns an enumerated value that indicates which scroll bars
-     * the text area uses.
+     * Rfturns bn fnumfrbtfd vbluf tibt indidbtfs wiidi sdroll bbrs
+     * tif tfxt brfb usfs.
      * <p>
-     * The <code>TextArea</code> class defines four integer constants
-     * that are used to specify which scroll bars are available.
-     * <code>TextArea</code> has one constructor that gives the
-     * application discretion over scroll bars.
+     * Tif <dodf>TfxtArfb</dodf> dlbss dffinfs four intfgfr donstbnts
+     * tibt brf usfd to spfdify wiidi sdroll bbrs brf bvbilbblf.
+     * <dodf>TfxtArfb</dodf> ibs onf donstrudtor tibt givfs tif
+     * bpplidbtion disdrftion ovfr sdroll bbrs.
      *
-     * @return     an integer that indicates which scroll bars are used
-     * @see        java.awt.TextArea#SCROLLBARS_BOTH
-     * @see        java.awt.TextArea#SCROLLBARS_VERTICAL_ONLY
-     * @see        java.awt.TextArea#SCROLLBARS_HORIZONTAL_ONLY
-     * @see        java.awt.TextArea#SCROLLBARS_NONE
-     * @see        java.awt.TextArea#TextArea(java.lang.String, int, int, int)
-     * @since      1.1
+     * @rfturn     bn intfgfr tibt indidbtfs wiidi sdroll bbrs brf usfd
+     * @sff        jbvb.bwt.TfxtArfb#SCROLLBARS_BOTH
+     * @sff        jbvb.bwt.TfxtArfb#SCROLLBARS_VERTICAL_ONLY
+     * @sff        jbvb.bwt.TfxtArfb#SCROLLBARS_HORIZONTAL_ONLY
+     * @sff        jbvb.bwt.TfxtArfb#SCROLLBARS_NONE
+     * @sff        jbvb.bwt.TfxtArfb#TfxtArfb(jbvb.lbng.String, int, int, int)
+     * @sindf      1.1
      */
-    public int getScrollbarVisibility() {
-        return scrollbarVisibility;
+    publid int gftSdrollbbrVisibility() {
+        rfturn sdrollbbrVisibility;
     }
 
 
     /**
-     * Determines the preferred size of a text area with the specified
-     * number of rows and columns.
-     * @param     rows   the number of rows
-     * @param     columns   the number of columns
-     * @return    the preferred dimensions required to display
-     *                       the text area with the specified
-     *                       number of rows and columns
-     * @see       java.awt.Component#getPreferredSize
-     * @since     1.1
+     * Dftfrminfs tif prfffrrfd sizf of b tfxt brfb witi tif spfdififd
+     * numbfr of rows bnd dolumns.
+     * @pbrbm     rows   tif numbfr of rows
+     * @pbrbm     dolumns   tif numbfr of dolumns
+     * @rfturn    tif prfffrrfd dimfnsions rfquirfd to displby
+     *                       tif tfxt brfb witi tif spfdififd
+     *                       numbfr of rows bnd dolumns
+     * @sff       jbvb.bwt.Componfnt#gftPrfffrrfdSizf
+     * @sindf     1.1
      */
-    public Dimension getPreferredSize(int rows, int columns) {
-        return preferredSize(rows, columns);
+    publid Dimfnsion gftPrfffrrfdSizf(int rows, int dolumns) {
+        rfturn prfffrrfdSizf(rows, dolumns);
     }
 
     /**
-     * Determines the preferred size of the text area with the specified
-     * number of rows and columns.
+     * Dftfrminfs tif prfffrrfd sizf of tif tfxt brfb witi tif spfdififd
+     * numbfr of rows bnd dolumns.
      *
-     * @param  rows the number of rows
-     * @param  columns the number of columns
-     * @return the preferred dimensions needed for the text area
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getPreferredSize(int, int)</code>.
+     * @pbrbm  rows tif numbfr of rows
+     * @pbrbm  dolumns tif numbfr of dolumns
+     * @rfturn tif prfffrrfd dimfnsions nffdfd for tif tfxt brfb
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftPrfffrrfdSizf(int, int)</dodf>.
      */
-    @Deprecated
-    public Dimension preferredSize(int rows, int columns) {
-        synchronized (getTreeLock()) {
-            TextAreaPeer peer = (TextAreaPeer)this.peer;
-            return (peer != null) ?
-                       peer.getPreferredSize(rows, columns) :
-                       super.preferredSize();
+    @Dfprfdbtfd
+    publid Dimfnsion prfffrrfdSizf(int rows, int dolumns) {
+        syndironizfd (gftTrffLodk()) {
+            TfxtArfbPffr pffr = (TfxtArfbPffr)tiis.pffr;
+            rfturn (pffr != null) ?
+                       pffr.gftPrfffrrfdSizf(rows, dolumns) :
+                       supfr.prfffrrfdSizf();
         }
     }
 
     /**
-     * Determines the preferred size of this text area.
-     * @return    the preferred dimensions needed for this text area
-     * @see       java.awt.Component#getPreferredSize
-     * @since     1.1
+     * Dftfrminfs tif prfffrrfd sizf of tiis tfxt brfb.
+     * @rfturn    tif prfffrrfd dimfnsions nffdfd for tiis tfxt brfb
+     * @sff       jbvb.bwt.Componfnt#gftPrfffrrfdSizf
+     * @sindf     1.1
      */
-    public Dimension getPreferredSize() {
-        return preferredSize();
+    publid Dimfnsion gftPrfffrrfdSizf() {
+        rfturn prfffrrfdSizf();
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getPreferredSize()</code>.
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftPrfffrrfdSizf()</dodf>.
      */
-    @Deprecated
-    public Dimension preferredSize() {
-        synchronized (getTreeLock()) {
-            return ((rows > 0) && (columns > 0)) ?
-                        preferredSize(rows, columns) :
-                        super.preferredSize();
+    @Dfprfdbtfd
+    publid Dimfnsion prfffrrfdSizf() {
+        syndironizfd (gftTrffLodk()) {
+            rfturn ((rows > 0) && (dolumns > 0)) ?
+                        prfffrrfdSizf(rows, dolumns) :
+                        supfr.prfffrrfdSizf();
         }
     }
 
     /**
-     * Determines the minimum size of a text area with the specified
-     * number of rows and columns.
-     * @param     rows   the number of rows
-     * @param     columns   the number of columns
-     * @return    the minimum dimensions required to display
-     *                       the text area with the specified
-     *                       number of rows and columns
-     * @see       java.awt.Component#getMinimumSize
-     * @since     1.1
+     * Dftfrminfs tif minimum sizf of b tfxt brfb witi tif spfdififd
+     * numbfr of rows bnd dolumns.
+     * @pbrbm     rows   tif numbfr of rows
+     * @pbrbm     dolumns   tif numbfr of dolumns
+     * @rfturn    tif minimum dimfnsions rfquirfd to displby
+     *                       tif tfxt brfb witi tif spfdififd
+     *                       numbfr of rows bnd dolumns
+     * @sff       jbvb.bwt.Componfnt#gftMinimumSizf
+     * @sindf     1.1
      */
-    public Dimension getMinimumSize(int rows, int columns) {
-        return minimumSize(rows, columns);
+    publid Dimfnsion gftMinimumSizf(int rows, int dolumns) {
+        rfturn minimumSizf(rows, dolumns);
     }
 
     /**
-     * Determines the minimum size of the text area with the specified
-     * number of rows and columns.
+     * Dftfrminfs tif minimum sizf of tif tfxt brfb witi tif spfdififd
+     * numbfr of rows bnd dolumns.
      *
-     * @param  rows the number of rows
-     * @param  columns the number of columns
-     * @return the minimum size for the text area
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getMinimumSize(int, int)</code>.
+     * @pbrbm  rows tif numbfr of rows
+     * @pbrbm  dolumns tif numbfr of dolumns
+     * @rfturn tif minimum sizf for tif tfxt brfb
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftMinimumSizf(int, int)</dodf>.
      */
-    @Deprecated
-    public Dimension minimumSize(int rows, int columns) {
-        synchronized (getTreeLock()) {
-            TextAreaPeer peer = (TextAreaPeer)this.peer;
-            return (peer != null) ?
-                       peer.getMinimumSize(rows, columns) :
-                       super.minimumSize();
+    @Dfprfdbtfd
+    publid Dimfnsion minimumSizf(int rows, int dolumns) {
+        syndironizfd (gftTrffLodk()) {
+            TfxtArfbPffr pffr = (TfxtArfbPffr)tiis.pffr;
+            rfturn (pffr != null) ?
+                       pffr.gftMinimumSizf(rows, dolumns) :
+                       supfr.minimumSizf();
         }
     }
 
     /**
-     * Determines the minimum size of this text area.
-     * @return    the preferred dimensions needed for this text area
-     * @see       java.awt.Component#getPreferredSize
-     * @since     1.1
+     * Dftfrminfs tif minimum sizf of tiis tfxt brfb.
+     * @rfturn    tif prfffrrfd dimfnsions nffdfd for tiis tfxt brfb
+     * @sff       jbvb.bwt.Componfnt#gftPrfffrrfdSizf
+     * @sindf     1.1
      */
-    public Dimension getMinimumSize() {
-        return minimumSize();
+    publid Dimfnsion gftMinimumSizf() {
+        rfturn minimumSizf();
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * replaced by <code>getMinimumSize()</code>.
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * rfplbdfd by <dodf>gftMinimumSizf()</dodf>.
      */
-    @Deprecated
-    public Dimension minimumSize() {
-        synchronized (getTreeLock()) {
-            return ((rows > 0) && (columns > 0)) ?
-                        minimumSize(rows, columns) :
-                        super.minimumSize();
+    @Dfprfdbtfd
+    publid Dimfnsion minimumSizf() {
+        syndironizfd (gftTrffLodk()) {
+            rfturn ((rows > 0) && (dolumns > 0)) ?
+                        minimumSizf(rows, dolumns) :
+                        supfr.minimumSizf();
         }
     }
 
     /**
-     * Returns a string representing the state of this <code>TextArea</code>.
-     * This method is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not be
-     * <code>null</code>.
+     * Rfturns b string rfprfsfnting tif stbtf of tiis <dodf>TfxtArfb</dodf>.
+     * Tiis mftiod is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not bf
+     * <dodf>null</dodf>.
      *
-     * @return      the parameter string of this text area
+     * @rfturn      tif pbrbmftfr string of tiis tfxt brfb
      */
-    protected String paramString() {
+    protfdtfd String pbrbmString() {
         String sbVisStr;
-        switch (scrollbarVisibility) {
-            case SCROLLBARS_BOTH:
-                sbVisStr = "both";
-                break;
-            case SCROLLBARS_VERTICAL_ONLY:
-                sbVisStr = "vertical-only";
-                break;
-            case SCROLLBARS_HORIZONTAL_ONLY:
-                sbVisStr = "horizontal-only";
-                break;
-            case SCROLLBARS_NONE:
-                sbVisStr = "none";
-                break;
-            default:
-                sbVisStr = "invalid display policy";
+        switdi (sdrollbbrVisibility) {
+            dbsf SCROLLBARS_BOTH:
+                sbVisStr = "boti";
+                brfbk;
+            dbsf SCROLLBARS_VERTICAL_ONLY:
+                sbVisStr = "vfrtidbl-only";
+                brfbk;
+            dbsf SCROLLBARS_HORIZONTAL_ONLY:
+                sbVisStr = "iorizontbl-only";
+                brfbk;
+            dbsf SCROLLBARS_NONE:
+                sbVisStr = "nonf";
+                brfbk;
+            dffbult:
+                sbVisStr = "invblid displby polidy";
         }
 
-        return super.paramString() + ",rows=" + rows +
-            ",columns=" + columns +
-          ",scrollbarVisibility=" + sbVisStr;
+        rfturn supfr.pbrbmString() + ",rows=" + rows +
+            ",dolumns=" + dolumns +
+          ",sdrollbbrVisibility=" + sbVisStr;
     }
 
 
     /*
-     * Serialization support.
+     * Sfriblizbtion support.
      */
     /**
-     * The textArea Serialized Data Version.
+     * Tif tfxtArfb Sfriblizfd Dbtb Vfrsion.
      *
-     * @serial
+     * @sfribl
      */
-    private int textAreaSerializedDataVersion = 2;
+    privbtf int tfxtArfbSfriblizfdDbtbVfrsion = 2;
 
     /**
-     * Read the ObjectInputStream.
-     * @exception HeadlessException if
-     * <code>GraphicsEnvironment.isHeadless()</code> returns
-     * <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * Rfbd tif ObjfdtInputStrfbm.
+     * @fxdfption HfbdlfssExdfption if
+     * <dodf>GrbpiidsEnvironmfnt.isHfbdlfss()</dodf> rfturns
+     * <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    private void readObject(ObjectInputStream s)
-      throws ClassNotFoundException, IOException, HeadlessException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+      tirows ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
     {
-        // HeadlessException will be thrown by TextComponent's readObject
-        s.defaultReadObject();
+        // HfbdlfssExdfption will bf tirown by TfxtComponfnt's rfbdObjfdt
+        s.dffbultRfbdObjfdt();
 
-        // Make sure the state we just read in for columns, rows,
-        // and scrollbarVisibility has legal values
-        if (columns < 0) {
-            columns = 0;
+        // Mbkf surf tif stbtf wf just rfbd in for dolumns, rows,
+        // bnd sdrollbbrVisibility ibs lfgbl vblufs
+        if (dolumns < 0) {
+            dolumns = 0;
         }
         if (rows < 0) {
             rows = 0;
         }
 
-        if ((scrollbarVisibility < SCROLLBARS_BOTH) ||
-            (scrollbarVisibility > SCROLLBARS_NONE)) {
-            this.scrollbarVisibility = SCROLLBARS_BOTH;
+        if ((sdrollbbrVisibility < SCROLLBARS_BOTH) ||
+            (sdrollbbrVisibility > SCROLLBARS_NONE)) {
+            tiis.sdrollbbrVisibility = SCROLLBARS_BOTH;
         }
 
-        if (textAreaSerializedDataVersion < 2) {
-            setFocusTraversalKeys(KeyboardFocusManager.FORWARD_TRAVERSAL_KEYS,
-                                  forwardTraversalKeys);
-            setFocusTraversalKeys(KeyboardFocusManager.BACKWARD_TRAVERSAL_KEYS,
-                                  backwardTraversalKeys);
+        if (tfxtArfbSfriblizfdDbtbVfrsion < 2) {
+            sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.FORWARD_TRAVERSAL_KEYS,
+                                  forwbrdTrbvfrsblKfys);
+            sftFodusTrbvfrsblKfys(KfybobrdFodusMbnbgfr.BACKWARD_TRAVERSAL_KEYS,
+                                  bbdkwbrdTrbvfrsblKfys);
         }
     }
 
 
 /////////////////
-// Accessibility support
+// Addfssibility support
 ////////////////
 
 
     /**
-     * Returns the <code>AccessibleContext</code> associated with
-     * this <code>TextArea</code>. For text areas, the
-     * <code>AccessibleContext</code> takes the form of an
-     * <code>AccessibleAWTTextArea</code>.
-     * A new <code>AccessibleAWTTextArea</code> instance is created if necessary.
+     * Rfturns tif <dodf>AddfssiblfContfxt</dodf> bssodibtfd witi
+     * tiis <dodf>TfxtArfb</dodf>. For tfxt brfbs, tif
+     * <dodf>AddfssiblfContfxt</dodf> tbkfs tif form of bn
+     * <dodf>AddfssiblfAWTTfxtArfb</dodf>.
+     * A nfw <dodf>AddfssiblfAWTTfxtArfb</dodf> instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an <code>AccessibleAWTTextArea</code> that serves as the
-     *         <code>AccessibleContext</code> of this <code>TextArea</code>
-     * @since 1.3
+     * @rfturn bn <dodf>AddfssiblfAWTTfxtArfb</dodf> tibt sfrvfs bs tif
+     *         <dodf>AddfssiblfContfxt</dodf> of tiis <dodf>TfxtArfb</dodf>
+     * @sindf 1.3
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleAWTTextArea();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfAWTTfxtArfb();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * This class implements accessibility support for the
-     * <code>TextArea</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to text area user-interface elements.
-     * @since 1.3
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>TfxtArfb</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to tfxt brfb usfr-intfrfbdf flfmfnts.
+     * @sindf 1.3
      */
-    protected class AccessibleAWTTextArea extends AccessibleAWTTextComponent
+    protfdtfd dlbss AddfssiblfAWTTfxtArfb fxtfnds AddfssiblfAWTTfxtComponfnt
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = 3472827823632144419L;
+        privbtf stbtid finbl long sfriblVfrsionUID = 3472827823632144419L;
 
         /**
-         * Gets the state set of this object.
+         * Gfts tif stbtf sft of tiis objfdt.
          *
-         * @return an instance of AccessibleStateSet describing the states
-         * of the object
-         * @see AccessibleStateSet
+         * @rfturn bn instbndf of AddfssiblfStbtfSft dfsdribing tif stbtfs
+         * of tif objfdt
+         * @sff AddfssiblfStbtfSft
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            states.add(AccessibleState.MULTI_LINE);
-            return states;
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            stbtfs.bdd(AddfssiblfStbtf.MULTI_LINE);
+            rfturn stbtfs;
         }
     }
 

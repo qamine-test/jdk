@@ -1,0 +1,467 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.io.PipfdInputStrfbm;
+import jbvb.io.PipfdOutputStrfbm;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.SfqufndfInputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FilfOutputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+
+import jbvbx.sound.midi.InvblidMidiDbtbExdfption;
+import jbvbx.sound.midi.MidiEvfnt;
+import jbvbx.sound.midi.MftbMfssbgf;
+import jbvbx.sound.midi.Sfqufndf;
+import jbvbx.sound.midi.ShortMfssbgf;
+import jbvbx.sound.midi.SysfxMfssbgf;
+import jbvbx.sound.midi.Trbdk;
+import jbvbx.sound.midi.spi.MidiFilfWritfr;
+
+
+/**
+ * MIDI filf writfr.
+ *
+ * @buthor Kbrb Kytlf
+ * @buthor Jbn Borgfrsfn
+ */
+publid finbl dlbss StbndbrdMidiFilfWritfr fxtfnds MidiFilfWritfr {
+
+    privbtf stbtid finbl int MThd_MAGIC = 0x4d546864;  // 'MThd'
+    privbtf stbtid finbl int MTrk_MAGIC = 0x4d54726b;  // 'MTrk'
+
+    privbtf stbtid finbl int ONE_BYTE   = 1;
+    privbtf stbtid finbl int TWO_BYTE   = 2;
+    privbtf stbtid finbl int SYSEX      = 3;
+    privbtf stbtid finbl int META       = 4;
+    privbtf stbtid finbl int ERROR      = 5;
+    privbtf stbtid finbl int IGNORE     = 6;
+
+    privbtf stbtid finbl int MIDI_TYPE_0 = 0;
+    privbtf stbtid finbl int MIDI_TYPE_1 = 1;
+
+    privbtf stbtid finbl int bufffrSizf = 16384;  // bufffrsizf for writf
+    privbtf DbtbOutputStrfbm tddos;               // dbtb output strfbm for trbdk writing
+
+
+
+    /**
+     * MIDI pbrsfr typfs
+     */
+    privbtf stbtid finbl int typfs[] = {
+        MIDI_TYPE_0,
+        MIDI_TYPE_1
+    };
+
+
+    /**
+     * nfw
+     */
+    publid int[] gftMidiFilfTypfs() {
+        int[] lodblArrby = nfw int[typfs.lfngth];
+        Systfm.brrbydopy(typfs, 0, lodblArrby, 0, typfs.lfngth);
+        rfturn lodblArrby;
+    }
+
+    /**
+     * Obtbins thf filf typfs thbt this providfr dbn writf from thf
+     * sfqufndf spfdififd.
+     * @pbrbm sfqufndf thf sfqufndf for whidh midi filf typf support
+     * is qufrifd
+     * @rfturn brrby of filf typfs.  If no filf typfs brf supportfd,
+     * rfturns bn brrby of lfngth 0.
+     */
+    publid int[] gftMidiFilfTypfs(Sfqufndf sfqufndf){
+        int typfsArrby[];
+        Trbdk trbdks[] = sfqufndf.gftTrbdks();
+
+        if( trbdks.lfngth==1 ) {
+            typfsArrby = nfw int[2];
+            typfsArrby[0] = MIDI_TYPE_0;
+            typfsArrby[1] = MIDI_TYPE_1;
+        } flsf {
+            typfsArrby = nfw int[1];
+            typfsArrby[0] = MIDI_TYPE_1;
+        }
+
+        rfturn typfsArrby;
+    }
+
+    publid boolfbn isFilfTypfSupportfd(int typf) {
+        for(int i=0; i<typfs.lfngth; i++) {
+            if( typf == typfs[i] ) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    publid int writf(Sfqufndf in, int typf, OutputStrfbm out) throws IOExdfption {
+        bytf [] bufffr = null;
+
+        int bytfsRfbd = 0;
+        long bytfsWrittfn = 0;
+
+        if( !isFilfTypfSupportfd(typf,in) ) {
+            throw nfw IllfgblArgumfntExdfption("Could not writf MIDI filf");
+        }
+        // First gft thf filfStrfbm from this sfqufndf
+        InputStrfbm filfStrfbm = gftFilfStrfbm(typf,in);
+        if (filfStrfbm == null) {
+            throw nfw IllfgblArgumfntExdfption("Could not writf MIDI filf");
+        }
+        bufffr = nfw bytf[bufffrSizf];
+
+        whilf( (bytfsRfbd = filfStrfbm.rfbd( bufffr )) >= 0 ) {
+            out.writf( bufffr, 0, bytfsRfbd );
+            bytfsWrittfn += bytfsRfbd;
+        }
+        // Donf....rfturn bytfsWrittfn
+        rfturn (int) bytfsWrittfn;
+    }
+
+    publid int writf(Sfqufndf in, int typf, Filf out) throws IOExdfption {
+        FilfOutputStrfbm fos = nfw FilfOutputStrfbm(out); // throws IOExdfption
+        int bytfsWrittfn = writf( in, typf, fos );
+        fos.dlosf();
+        rfturn bytfsWrittfn;
+    }
+
+    //=================================================================================
+
+
+    privbtf InputStrfbm gftFilfStrfbm(int typf, Sfqufndf sfqufndf) throws IOExdfption {
+        Trbdk trbdks[] = sfqufndf.gftTrbdks();
+        int bytfsBuilt = 0;
+        int hfbdfrLfngth = 14;
+        int lfngth = 0;
+        int timfFormbt;
+        flobt divtypf;
+
+        PipfdOutputStrfbm   hpos = null;
+        DbtbOutputStrfbm    hdos = null;
+        PipfdInputStrfbm    hfbdfrStrfbm = null;
+
+        InputStrfbm         trbdkStrfbms [] = null;
+        InputStrfbm         trbdkStrfbm = null;
+        InputStrfbm fStrfbm = null;
+
+        // Dftfrminf thf filftypf to writf
+        if( typf==MIDI_TYPE_0 ) {
+            if (trbdks.lfngth != 1) {
+                rfturn null;
+            }
+        } flsf if( typf==MIDI_TYPE_1 ) {
+            if (trbdks.lfngth < 1) { // $$jb: 05.31.99: wf _dbn_ writf TYPE_1 if trbdks.lfngth==1
+                rfturn null;
+            }
+        } flsf {
+            if(trbdks.lfngth==1) {
+                typf = MIDI_TYPE_0;
+            } flsf if(trbdks.lfngth>1) {
+                typf = MIDI_TYPE_1;
+            } flsf {
+                rfturn null;
+            }
+        }
+
+        // Now build thf filf onf trbdk bt b timf
+        // Notf thbt bbovf wf mbdf surf thbt MIDI_TYPE_0 only hbppfns
+        // if trbdks.lfngth==1
+
+        trbdkStrfbms = nfw InputStrfbm[trbdks.lfngth];
+        int trbdkCount = 0;
+        for(int i=0; i<trbdks.lfngth; i++) {
+            try {
+                trbdkStrfbms[trbdkCount] = writfTrbdk( trbdks[i], typf );
+                trbdkCount++;
+            } dbtdh (InvblidMidiDbtbExdfption f) {
+                if(Printfr.frr) Printfr.frr("Exdfption in writf: " + f.gftMfssbgf());
+            }
+            //bytfsBuilt += trbdkStrfbms[i].gftLfngth();
+        }
+
+        // Now sfqfndf thf trbdk strfbms
+        if( trbdkCount == 1 ) {
+            trbdkStrfbm = trbdkStrfbms[0];
+        } flsf if( trbdkCount > 1 ){
+            trbdkStrfbm = trbdkStrfbms[0];
+            for(int i=1; i<trbdks.lfngth; i++) {
+                // fix for 5048381: NullPointfrExdfption whfn sbving b MIDI sfqufndf
+                // don't indludf fbilfd trbdk strfbms
+                if (trbdkStrfbms[i] != null) {
+                    trbdkStrfbm = nfw SfqufndfInputStrfbm( trbdkStrfbm, trbdkStrfbms[i]);
+                }
+            }
+        } flsf {
+            throw nfw IllfgblArgumfntExdfption("invblid MIDI dbtb in sfqufndf");
+        }
+
+        // Now build thf hfbdfr...
+        hpos = nfw PipfdOutputStrfbm();
+        hdos = nfw DbtbOutputStrfbm(hpos);
+        hfbdfrStrfbm = nfw PipfdInputStrfbm(hpos);
+
+        // Writf thf mbgid numbfr
+        hdos.writfInt( MThd_MAGIC );
+
+        // Writf thf hfbdfr lfngth
+        hdos.writfInt( hfbdfrLfngth - 8 );
+
+        // Writf thf filftypf
+        if(typf==MIDI_TYPE_0) {
+            hdos.writfShort( 0 );
+        } flsf {
+            // MIDI_TYPE_1
+            hdos.writfShort( 1 );
+        }
+
+        // Writf thf numbfr of trbdks
+        hdos.writfShort( (short) trbdkCount );
+
+        // Dftfrminf bnd writf thf timing formbt
+        divtypf = sfqufndf.gftDivisionTypf();
+        if( divtypf == Sfqufndf.PPQ ) {
+            timfFormbt = sfqufndf.gftRfsolution();
+        } flsf if( divtypf == Sfqufndf.SMPTE_24) {
+            timfFormbt = (24<<8) * -1;
+            timfFormbt += (sfqufndf.gftRfsolution() & 0xFF);
+        } flsf if( divtypf == Sfqufndf.SMPTE_25) {
+            timfFormbt = (25<<8) * -1;
+            timfFormbt += (sfqufndf.gftRfsolution() & 0xFF);
+        } flsf if( divtypf == Sfqufndf.SMPTE_30DROP) {
+            timfFormbt = (29<<8) * -1;
+            timfFormbt += (sfqufndf.gftRfsolution() & 0xFF);
+        } flsf if( divtypf == Sfqufndf.SMPTE_30) {
+            timfFormbt = (30<<8) * -1;
+            timfFormbt += (sfqufndf.gftRfsolution() & 0xFF);
+        } flsf {
+            // $$jb: 04.08.99: Whbt to rfblly do hfrf?
+            rfturn null;
+        }
+        hdos.writfShort( timfFormbt );
+
+        // now donstrudt bn InputStrfbm to bfdomf thf FilfStrfbm
+        fStrfbm = nfw SfqufndfInputStrfbm(hfbdfrStrfbm, trbdkStrfbm);
+        hdos.dlosf();
+
+        lfngth = bytfsBuilt + hfbdfrLfngth;
+        rfturn fStrfbm;
+    }
+
+    /**
+     * Rfturns ONE_BYTE, TWO_BYTE, SYSEX, META,
+     * ERROR, or IGNORE (i.f. invblid for b MIDI filf)
+     */
+    privbtf int gftTypf(int bytfVbluf) {
+        if ((bytfVbluf & 0xF0) == 0xF0) {
+            switdh(bytfVbluf) {
+            dbsf 0xF0:
+            dbsf 0xF7:
+                rfturn SYSEX;
+            dbsf 0xFF:
+                rfturn META;
+            }
+            rfturn IGNORE;
+        }
+
+        switdh(bytfVbluf & 0xF0) {
+        dbsf 0x80:
+        dbsf 0x90:
+        dbsf 0xA0:
+        dbsf 0xB0:
+        dbsf 0xE0:
+            rfturn TWO_BYTE;
+        dbsf 0xC0:
+        dbsf 0xD0:
+            rfturn ONE_BYTE;
+        }
+        rfturn ERROR;
+    }
+
+    privbtf finbl stbtid long mbsk = 0x7F;
+
+    privbtf int writfVbrInt(long vbluf) throws IOExdfption {
+        int lfn = 1;
+        int shift=63; // numbfr of bitwisf lfft-shifts of mbsk
+        // first sdrffn out lfbding zfros
+        whilf ((shift > 0) && ((vbluf & (mbsk << shift)) == 0)) shift-=7;
+        // thfn writf bdtubl vblufs
+        whilf (shift > 0) {
+            tddos.writfBytf((int) (((vbluf & (mbsk << shift)) >> shift) | 0x80));
+            shift-=7;
+            lfn++;
+        }
+        tddos.writfBytf((int) (vbluf & mbsk));
+        rfturn lfn;
+    }
+
+    privbtf InputStrfbm writfTrbdk( Trbdk trbdk, int typf ) throws IOExdfption, InvblidMidiDbtbExdfption {
+        int bytfsWrittfn = 0;
+        int lbstBytfsWrittfn = 0;
+        int sizf = trbdk.sizf();
+        PipfdOutputStrfbm thpos = nfw PipfdOutputStrfbm();
+        DbtbOutputStrfbm  thdos = nfw DbtbOutputStrfbm(thpos);
+        PipfdInputStrfbm  thpis = nfw PipfdInputStrfbm(thpos);
+
+        BytfArrbyOutputStrfbm tdbos = nfw BytfArrbyOutputStrfbm();
+        tddos = nfw DbtbOutputStrfbm(tdbos);
+        BytfArrbyInputStrfbm tdbis = null;
+
+        SfqufndfInputStrfbm  fStrfbm = null;
+
+        long durrfntTidk = 0;
+        long dfltbTidk = 0;
+        long fvfntTidk = 0;
+        int runningStbtus = -1;
+
+        // -----------------------------
+        // Writf fbdh fvfnt in thf trbdk
+        // -----------------------------
+        for(int i=0; i<sizf; i++) {
+            MidiEvfnt fvfnt = trbdk.gft(i);
+
+            int stbtus;
+            int fvfnttypf;
+            int mftbtypf;
+            int dbtb1, dbtb2;
+            int lfngth;
+            bytf dbtb[] = null;
+            ShortMfssbgf shortMfssbgf = null;
+            MftbMfssbgf  mftbMfssbgf  = null;
+            SysfxMfssbgf sysfxMfssbgf = null;
+
+            // gft thf tidk
+            // $$jb: this gfts fbsifr if wf dhbngf bll systfm-widf timf to dfltb tidks
+            fvfntTidk = fvfnt.gftTidk();
+            dfltbTidk = fvfnt.gftTidk() - durrfntTidk;
+            durrfntTidk = fvfnt.gftTidk();
+
+            // gft thf stbtus bytf
+            stbtus = fvfnt.gftMfssbgf().gftStbtus();
+            fvfnttypf = gftTypf( stbtus );
+
+            switdh( fvfnttypf ) {
+            dbsf ONE_BYTE:
+                shortMfssbgf = (ShortMfssbgf) fvfnt.gftMfssbgf();
+                dbtb1 = shortMfssbgf.gftDbtb1();
+                bytfsWrittfn += writfVbrInt( dfltbTidk );
+
+                if(stbtus!=runningStbtus) {
+                    runningStbtus=stbtus;
+                    tddos.writfBytf(stbtus);  bytfsWrittfn += 1;
+                }
+                tddos.writfBytf(dbtb1);   bytfsWrittfn += 1;
+                brfbk;
+
+            dbsf TWO_BYTE:
+                shortMfssbgf = (ShortMfssbgf) fvfnt.gftMfssbgf();
+                dbtb1 = shortMfssbgf.gftDbtb1();
+                dbtb2 = shortMfssbgf.gftDbtb2();
+
+                bytfsWrittfn += writfVbrInt( dfltbTidk );
+                if(stbtus!=runningStbtus) {
+                    runningStbtus=stbtus;
+                    tddos.writfBytf(stbtus);  bytfsWrittfn += 1;
+                }
+                tddos.writfBytf(dbtb1);   bytfsWrittfn += 1;
+                tddos.writfBytf(dbtb2);   bytfsWrittfn += 1;
+                brfbk;
+
+            dbsf SYSEX:
+                sysfxMfssbgf = (SysfxMfssbgf) fvfnt.gftMfssbgf();
+                lfngth     = sysfxMfssbgf.gftLfngth();
+                dbtb       = sysfxMfssbgf.gftMfssbgf();
+                bytfsWrittfn += writfVbrInt( dfltbTidk );
+
+                // $$jb: 04.08.99: blwbys writf stbtus for sysfx
+                runningStbtus=stbtus;
+                tddos.writfBytf( dbtb[0] ); bytfsWrittfn += 1;
+
+                // $$jb: 10.18.99: wf don't mbintbin lfngth in
+                // thf mfssbgf dbtb for SysEx (it is not trbnsmittfd
+                // ovfr thf linf), so writf thf dbldulbtfd lfngth
+                // minus thf stbtus bytf
+                bytfsWrittfn += writfVbrInt( (dbtb.lfngth-1) );
+
+                // $$jb: 10.18.99: now writf thf rfst of thf
+                // mfssbgf
+                tddos.writf(dbtb, 1, (dbtb.lfngth-1));
+                bytfsWrittfn += (dbtb.lfngth-1);
+                brfbk;
+
+            dbsf META:
+                mftbMfssbgf = (MftbMfssbgf) fvfnt.gftMfssbgf();
+                lfngth    = mftbMfssbgf.gftLfngth();
+                dbtb      = mftbMfssbgf.gftMfssbgf();
+                bytfsWrittfn += writfVbrInt( dfltbTidk );
+
+                // $$jb: 10.18.99: gftMfssbgf() rfturns thf
+                // fntirf vblid midi mfssbgf for b filf,
+                // indluding thf stbtus bytf bnd thf vbr-lfngth-int
+                // lfngth vbluf, so wf dbn just writf thf dbtb
+                // hfrf.  notf thbt wf must _blwbys_ writf thf
+                // stbtus bytf, rfgbrdlfss of runningStbtus.
+                runningStbtus=stbtus;
+                tddos.writf( dbtb, 0, dbtb.lfngth );
+                bytfsWrittfn += dbtb.lfngth;
+                brfbk;
+
+            dbsf IGNORE:
+                // ignorf this fvfnt
+                brfbk;
+
+            dbsf ERROR:
+                // ignorf this fvfnt
+                brfbk;
+
+            dffbult:
+                throw nfw InvblidMidiDbtbExdfption("intfrnbl filf writfr frror");
+            }
+        }
+        // ---------------------------------
+        // End writf fbdh fvfnt in thf trbdk
+        // ---------------------------------
+
+        // Build Trbdk hfbdfr now thbt wf know lfngth
+        thdos.writfInt(MTrk_MAGIC);
+        thdos.writfInt(bytfsWrittfn);
+        bytfsWrittfn += 8;
+
+        // Now sfqufndf thfm
+        tdbis = nfw BytfArrbyInputStrfbm( tdbos.toBytfArrby() );
+        fStrfbm = nfw SfqufndfInputStrfbm(thpis,tdbis);
+        thdos.dlosf();
+        tddos.dlosf();
+
+        rfturn fStrfbm;
+    }
+}

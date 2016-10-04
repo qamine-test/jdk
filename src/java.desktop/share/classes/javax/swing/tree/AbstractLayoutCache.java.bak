@@ -1,538 +1,538 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.tree;
+pbdkbgf jbvbx.swing.trff;
 
-import javax.swing.event.TreeModelEvent;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.util.Enumeration;
+import jbvbx.swing.fvfnt.TrffModflEvfnt;
+import jbvb.bwt.Dimfnsion;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.util.Enumfrbtion;
 
 /**
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public abstract class AbstractLayoutCache implements RowMapper {
-    /** Object responsible for getting the size of a node. */
-    protected NodeDimensions     nodeDimensions;
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid bbstrbdt dlbss AbstrbdtLbyoutCbdif implfmfnts RowMbppfr {
+    /** Objfdt rfsponsiblf for gftting tif sizf of b nodf. */
+    protfdtfd NodfDimfnsions     nodfDimfnsions;
 
-    /** Model providing information. */
-    protected TreeModel          treeModel;
+    /** Modfl providing informbtion. */
+    protfdtfd TrffModfl          trffModfl;
 
-    /** Selection model. */
-    protected TreeSelectionModel treeSelectionModel;
+    /** Sflfdtion modfl. */
+    protfdtfd TrffSflfdtionModfl trffSflfdtionModfl;
 
     /**
-     * True if the root node is displayed, false if its children are
-     * the highest visible nodes.
+     * Truf if tif root nodf is displbyfd, fblsf if its diildrfn brf
+     * tif iigifst visiblf nodfs.
      */
-    protected boolean            rootVisible;
+    protfdtfd boolfbn            rootVisiblf;
 
     /**
-      * Height to use for each row.  If this is &lt;= 0 the renderer will be
-      * used to determine the height for each row.
+      * Hfigit to usf for fbdi row.  If tiis is &lt;= 0 tif rfndfrfr will bf
+      * usfd to dftfrminf tif ifigit for fbdi row.
       */
-    protected int                rowHeight;
+    protfdtfd int                rowHfigit;
 
 
     /**
-     * Sets the renderer that is responsible for drawing nodes in the tree
-     * and which is therefore responsible for calculating the dimensions of
-     * individual nodes.
+     * Sfts tif rfndfrfr tibt is rfsponsiblf for drbwing nodfs in tif trff
+     * bnd wiidi is tifrfforf rfsponsiblf for dbldulbting tif dimfnsions of
+     * individubl nodfs.
      *
-     * @param nd a <code>NodeDimensions</code> object
+     * @pbrbm nd b <dodf>NodfDimfnsions</dodf> objfdt
      */
-    public void setNodeDimensions(NodeDimensions nd) {
-        this.nodeDimensions = nd;
+    publid void sftNodfDimfnsions(NodfDimfnsions nd) {
+        tiis.nodfDimfnsions = nd;
     }
 
     /**
-     * Returns the object that renders nodes in the tree, and which is
-     * responsible for calculating the dimensions of individual nodes.
+     * Rfturns tif objfdt tibt rfndfrs nodfs in tif trff, bnd wiidi is
+     * rfsponsiblf for dbldulbting tif dimfnsions of individubl nodfs.
      *
-     * @return the <code>NodeDimensions</code> object
+     * @rfturn tif <dodf>NodfDimfnsions</dodf> objfdt
      */
-    public NodeDimensions getNodeDimensions() {
-        return nodeDimensions;
+    publid NodfDimfnsions gftNodfDimfnsions() {
+        rfturn nodfDimfnsions;
     }
 
     /**
-     * Sets the <code>TreeModel</code> that will provide the data.
+     * Sfts tif <dodf>TrffModfl</dodf> tibt will providf tif dbtb.
      *
-     * @param newModel the <code>TreeModel</code> that is to
-     *          provide the data
+     * @pbrbm nfwModfl tif <dodf>TrffModfl</dodf> tibt is to
+     *          providf tif dbtb
      */
-    public void setModel(TreeModel newModel) {
-        treeModel = newModel;
+    publid void sftModfl(TrffModfl nfwModfl) {
+        trffModfl = nfwModfl;
     }
 
     /**
-     * Returns the <code>TreeModel</code> that is providing the data.
+     * Rfturns tif <dodf>TrffModfl</dodf> tibt is providing tif dbtb.
      *
-     * @return the <code>TreeModel</code> that is providing the data
+     * @rfturn tif <dodf>TrffModfl</dodf> tibt is providing tif dbtb
      */
-    public TreeModel getModel() {
-        return treeModel;
+    publid TrffModfl gftModfl() {
+        rfturn trffModfl;
     }
 
     /**
-     * Determines whether or not the root node from
-     * the <code>TreeModel</code> is visible.
+     * Dftfrminfs wiftifr or not tif root nodf from
+     * tif <dodf>TrffModfl</dodf> is visiblf.
      *
-     * @param rootVisible true if the root node of the tree is to be displayed
-     * @see #rootVisible
-     * @beaninfo
-     *        bound: true
-     *  description: Whether or not the root node
-     *               from the TreeModel is visible.
+     * @pbrbm rootVisiblf truf if tif root nodf of tif trff is to bf displbyfd
+     * @sff #rootVisiblf
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Wiftifr or not tif root nodf
+     *               from tif TrffModfl is visiblf.
      */
-    public void setRootVisible(boolean rootVisible) {
-        this.rootVisible = rootVisible;
+    publid void sftRootVisiblf(boolfbn rootVisiblf) {
+        tiis.rootVisiblf = rootVisiblf;
     }
 
     /**
-     * Returns true if the root node of the tree is displayed.
+     * Rfturns truf if tif root nodf of tif trff is displbyfd.
      *
-     * @return true if the root node of the tree is displayed
-     * @see #rootVisible
+     * @rfturn truf if tif root nodf of tif trff is displbyfd
+     * @sff #rootVisiblf
      */
-    public boolean isRootVisible() {
-        return rootVisible;
+    publid boolfbn isRootVisiblf() {
+        rfturn rootVisiblf;
     }
 
     /**
-     * Sets the height of each cell.  If the specified value
-     * is less than or equal to zero the current cell renderer is
-     * queried for each row's height.
+     * Sfts tif ifigit of fbdi dfll.  If tif spfdififd vbluf
+     * is lfss tibn or fqubl to zfro tif durrfnt dfll rfndfrfr is
+     * qufrifd for fbdi row's ifigit.
      *
-     * @param rowHeight the height of each cell, in pixels
-     * @beaninfo
-     *        bound: true
-     *  description: The height of each cell.
+     * @pbrbm rowHfigit tif ifigit of fbdi dfll, in pixfls
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Tif ifigit of fbdi dfll.
      */
-    public void setRowHeight(int rowHeight) {
-        this.rowHeight = rowHeight;
+    publid void sftRowHfigit(int rowHfigit) {
+        tiis.rowHfigit = rowHfigit;
     }
 
     /**
-     * Returns the height of each row.  If the returned value is less than
-     * or equal to 0 the height for each row is determined by the
-     * renderer.
+     * Rfturns tif ifigit of fbdi row.  If tif rfturnfd vbluf is lfss tibn
+     * or fqubl to 0 tif ifigit for fbdi row is dftfrminfd by tif
+     * rfndfrfr.
      *
-     * @return the height of each row
+     * @rfturn tif ifigit of fbdi row
      */
-    public int getRowHeight() {
-        return rowHeight;
+    publid int gftRowHfigit() {
+        rfturn rowHfigit;
     }
 
     /**
-     * Sets the <code>TreeSelectionModel</code> used to manage the
-     * selection to new LSM.
+     * Sfts tif <dodf>TrffSflfdtionModfl</dodf> usfd to mbnbgf tif
+     * sflfdtion to nfw LSM.
      *
-     * @param newLSM  the new <code>TreeSelectionModel</code>
+     * @pbrbm nfwLSM  tif nfw <dodf>TrffSflfdtionModfl</dodf>
      */
-    public void setSelectionModel(TreeSelectionModel newLSM) {
-        if(treeSelectionModel != null)
-            treeSelectionModel.setRowMapper(null);
-        treeSelectionModel = newLSM;
-        if(treeSelectionModel != null)
-            treeSelectionModel.setRowMapper(this);
+    publid void sftSflfdtionModfl(TrffSflfdtionModfl nfwLSM) {
+        if(trffSflfdtionModfl != null)
+            trffSflfdtionModfl.sftRowMbppfr(null);
+        trffSflfdtionModfl = nfwLSM;
+        if(trffSflfdtionModfl != null)
+            trffSflfdtionModfl.sftRowMbppfr(tiis);
     }
 
     /**
-     * Returns the model used to maintain the selection.
+     * Rfturns tif modfl usfd to mbintbin tif sflfdtion.
      *
-     * @return the <code>treeSelectionModel</code>
+     * @rfturn tif <dodf>trffSflfdtionModfl</dodf>
      */
-    public TreeSelectionModel getSelectionModel() {
-        return treeSelectionModel;
+    publid TrffSflfdtionModfl gftSflfdtionModfl() {
+        rfturn trffSflfdtionModfl;
     }
 
     /**
-     * Returns the preferred height.
+     * Rfturns tif prfffrrfd ifigit.
      *
-     * @return the preferred height
+     * @rfturn tif prfffrrfd ifigit
      */
-    public int getPreferredHeight() {
-        // Get the height
-        int           rowCount = getRowCount();
+    publid int gftPrfffrrfdHfigit() {
+        // Gft tif ifigit
+        int           rowCount = gftRowCount();
 
         if(rowCount > 0) {
-            Rectangle     bounds = getBounds(getPathForRow(rowCount - 1),
+            Rfdtbnglf     bounds = gftBounds(gftPbtiForRow(rowCount - 1),
                                              null);
 
             if(bounds != null)
-                return bounds.y + bounds.height;
+                rfturn bounds.y + bounds.ifigit;
         }
-        return 0;
+        rfturn 0;
     }
 
     /**
-     * Returns the preferred width for the passed in region.
-     * The region is defined by the path closest to
-     * <code>(bounds.x, bounds.y)</code> and
-     * ends at <code>bounds.height + bounds.y</code>.
-     * If <code>bounds</code> is <code>null</code>,
-     * the preferred width for all the nodes
-     * will be returned (and this may be a VERY expensive
-     * computation).
+     * Rfturns tif prfffrrfd widti for tif pbssfd in rfgion.
+     * Tif rfgion is dffinfd by tif pbti dlosfst to
+     * <dodf>(bounds.x, bounds.y)</dodf> bnd
+     * fnds bt <dodf>bounds.ifigit + bounds.y</dodf>.
+     * If <dodf>bounds</dodf> is <dodf>null</dodf>,
+     * tif prfffrrfd widti for bll tif nodfs
+     * will bf rfturnfd (bnd tiis mby bf b VERY fxpfnsivf
+     * domputbtion).
      *
-     * @param bounds the region being queried
-     * @return the preferred width for the passed in region
+     * @pbrbm bounds tif rfgion bfing qufrifd
+     * @rfturn tif prfffrrfd widti for tif pbssfd in rfgion
      */
-    public int getPreferredWidth(Rectangle bounds) {
-        int           rowCount = getRowCount();
+    publid int gftPrfffrrfdWidti(Rfdtbnglf bounds) {
+        int           rowCount = gftRowCount();
 
         if(rowCount > 0) {
-            // Get the width
-            TreePath      firstPath;
-            int           endY;
+            // Gft tif widti
+            TrffPbti      firstPbti;
+            int           fndY;
 
             if(bounds == null) {
-                firstPath = getPathForRow(0);
-                endY = Integer.MAX_VALUE;
+                firstPbti = gftPbtiForRow(0);
+                fndY = Intfgfr.MAX_VALUE;
             }
-            else {
-                firstPath = getPathClosestTo(bounds.x, bounds.y);
-                endY = bounds.height + bounds.y;
+            flsf {
+                firstPbti = gftPbtiClosfstTo(bounds.x, bounds.y);
+                fndY = bounds.ifigit + bounds.y;
             }
 
-            Enumeration<TreePath> paths = getVisiblePathsFrom(firstPath);
+            Enumfrbtion<TrffPbti> pbtis = gftVisiblfPbtisFrom(firstPbti);
 
-            if(paths != null && paths.hasMoreElements()) {
-                Rectangle   pBounds = getBounds(paths.nextElement(),
+            if(pbtis != null && pbtis.ibsMorfElfmfnts()) {
+                Rfdtbnglf   pBounds = gftBounds(pbtis.nfxtElfmfnt(),
                                                 null);
-                int         width;
+                int         widti;
 
                 if(pBounds != null) {
-                    width = pBounds.x + pBounds.width;
-                    if (pBounds.y >= endY) {
-                        return width;
+                    widti = pBounds.x + pBounds.widti;
+                    if (pBounds.y >= fndY) {
+                        rfturn widti;
                     }
                 }
-                else
-                    width = 0;
-                while (pBounds != null && paths.hasMoreElements()) {
-                    pBounds = getBounds(paths.nextElement(),
+                flsf
+                    widti = 0;
+                wiilf (pBounds != null && pbtis.ibsMorfElfmfnts()) {
+                    pBounds = gftBounds(pbtis.nfxtElfmfnt(),
                                         pBounds);
-                    if (pBounds != null && pBounds.y < endY) {
-                        width = Math.max(width, pBounds.x + pBounds.width);
+                    if (pBounds != null && pBounds.y < fndY) {
+                        widti = Mbti.mbx(widti, pBounds.x + pBounds.widti);
                     }
-                    else {
+                    flsf {
                         pBounds = null;
                     }
                 }
-                return width;
+                rfturn widti;
             }
         }
-        return 0;
+        rfturn 0;
     }
 
     //
-    // Abstract methods that must be implemented to be concrete.
+    // Abstrbdt mftiods tibt must bf implfmfntfd to bf dondrftf.
     //
 
     /**
-      * Returns true if the value identified by row is currently expanded.
+      * Rfturns truf if tif vbluf idfntififd by row is durrfntly fxpbndfd.
       *
-      * @param path TreePath to check
-      * @return whether TreePath is expanded
+      * @pbrbm pbti TrffPbti to difdk
+      * @rfturn wiftifr TrffPbti is fxpbndfd
       */
-    public abstract boolean isExpanded(TreePath path);
+    publid bbstrbdt boolfbn isExpbndfd(TrffPbti pbti);
 
     /**
-     * Returns a rectangle giving the bounds needed to draw path.
+     * Rfturns b rfdtbnglf giving tif bounds nffdfd to drbw pbti.
      *
-     * @param path     a <code>TreePath</code> specifying a node
-     * @param placeIn  a <code>Rectangle</code> object giving the
-     *          available space
-     * @return a <code>Rectangle</code> object specifying the space to be used
+     * @pbrbm pbti     b <dodf>TrffPbti</dodf> spfdifying b nodf
+     * @pbrbm plbdfIn  b <dodf>Rfdtbnglf</dodf> objfdt giving tif
+     *          bvbilbblf spbdf
+     * @rfturn b <dodf>Rfdtbnglf</dodf> objfdt spfdifying tif spbdf to bf usfd
      */
-    public abstract Rectangle getBounds(TreePath path, Rectangle placeIn);
+    publid bbstrbdt Rfdtbnglf gftBounds(TrffPbti pbti, Rfdtbnglf plbdfIn);
 
     /**
-      * Returns the path for passed in row.  If row is not visible
-      * <code>null</code> is returned.
+      * Rfturns tif pbti for pbssfd in row.  If row is not visiblf
+      * <dodf>null</dodf> is rfturnfd.
       *
-      * @param row  the row being queried
-      * @return the <code>TreePath</code> for the given row
+      * @pbrbm row  tif row bfing qufrifd
+      * @rfturn tif <dodf>TrffPbti</dodf> for tif givfn row
       */
-    public abstract TreePath getPathForRow(int row);
+    publid bbstrbdt TrffPbti gftPbtiForRow(int row);
 
     /**
-      * Returns the row that the last item identified in path is visible
-      * at.  Will return -1 if any of the elements in path are not
-      * currently visible.
+      * Rfturns tif row tibt tif lbst itfm idfntififd in pbti is visiblf
+      * bt.  Will rfturn -1 if bny of tif flfmfnts in pbti brf not
+      * durrfntly visiblf.
       *
-      * @param path the <code>TreePath</code> being queried
-      * @return the row where the last item in path is visible or -1
-      *         if any elements in path aren't currently visible
+      * @pbrbm pbti tif <dodf>TrffPbti</dodf> bfing qufrifd
+      * @rfturn tif row wifrf tif lbst itfm in pbti is visiblf or -1
+      *         if bny flfmfnts in pbti brfn't durrfntly visiblf
       */
-    public abstract int getRowForPath(TreePath path);
+    publid bbstrbdt int gftRowForPbti(TrffPbti pbti);
 
     /**
-      * Returns the path to the node that is closest to x,y.  If
-      * there is nothing currently visible this will return <code>null</code>,
-      * otherwise it'll always return a valid path.
-      * If you need to test if the
-      * returned object is exactly at x, y you should get the bounds for
-      * the returned path and test x, y against that.
+      * Rfturns tif pbti to tif nodf tibt is dlosfst to x,y.  If
+      * tifrf is notiing durrfntly visiblf tiis will rfturn <dodf>null</dodf>,
+      * otifrwisf it'll blwbys rfturn b vblid pbti.
+      * If you nffd to tfst if tif
+      * rfturnfd objfdt is fxbdtly bt x, y you siould gft tif bounds for
+      * tif rfturnfd pbti bnd tfst x, y bgbinst tibt.
       *
-      * @param x the horizontal component of the desired location
-      * @param y the vertical component of the desired location
-      * @return the <code>TreePath</code> closest to the specified point
+      * @pbrbm x tif iorizontbl domponfnt of tif dfsirfd lodbtion
+      * @pbrbm y tif vfrtidbl domponfnt of tif dfsirfd lodbtion
+      * @rfturn tif <dodf>TrffPbti</dodf> dlosfst to tif spfdififd point
       */
-    public abstract TreePath getPathClosestTo(int x, int y);
+    publid bbstrbdt TrffPbti gftPbtiClosfstTo(int x, int y);
 
     /**
-     * Returns an <code>Enumerator</code> that increments over the visible
-     * paths starting at the passed in location. The ordering of the
-     * enumeration is based on how the paths are displayed.
-     * The first element of the returned enumeration will be path,
-     * unless it isn't visible,
-     * in which case <code>null</code> will be returned.
+     * Rfturns bn <dodf>Enumfrbtor</dodf> tibt indrfmfnts ovfr tif visiblf
+     * pbtis stbrting bt tif pbssfd in lodbtion. Tif ordfring of tif
+     * fnumfrbtion is bbsfd on iow tif pbtis brf displbyfd.
+     * Tif first flfmfnt of tif rfturnfd fnumfrbtion will bf pbti,
+     * unlfss it isn't visiblf,
+     * in wiidi dbsf <dodf>null</dodf> will bf rfturnfd.
      *
-     * @param path the starting location for the enumeration
-     * @return the <code>Enumerator</code> starting at the desired location
+     * @pbrbm pbti tif stbrting lodbtion for tif fnumfrbtion
+     * @rfturn tif <dodf>Enumfrbtor</dodf> stbrting bt tif dfsirfd lodbtion
      */
-    public abstract Enumeration<TreePath> getVisiblePathsFrom(TreePath path);
+    publid bbstrbdt Enumfrbtion<TrffPbti> gftVisiblfPbtisFrom(TrffPbti pbti);
 
     /**
-     * Returns the number of visible children for row.
+     * Rfturns tif numbfr of visiblf diildrfn for row.
      *
-     * @param path  the path being queried
-     * @return the number of visible children for the specified path
+     * @pbrbm pbti  tif pbti bfing qufrifd
+     * @rfturn tif numbfr of visiblf diildrfn for tif spfdififd pbti
      */
-    public abstract int getVisibleChildCount(TreePath path);
+    publid bbstrbdt int gftVisiblfCiildCount(TrffPbti pbti);
 
     /**
-     * Marks the path <code>path</code> expanded state to
-     * <code>isExpanded</code>.
+     * Mbrks tif pbti <dodf>pbti</dodf> fxpbndfd stbtf to
+     * <dodf>isExpbndfd</dodf>.
      *
-     * @param path  the path being expanded or collapsed
-     * @param isExpanded true if the path should be expanded, false otherwise
+     * @pbrbm pbti  tif pbti bfing fxpbndfd or dollbpsfd
+     * @pbrbm isExpbndfd truf if tif pbti siould bf fxpbndfd, fblsf otifrwisf
      */
-    public abstract void setExpandedState(TreePath path, boolean isExpanded);
+    publid bbstrbdt void sftExpbndfdStbtf(TrffPbti pbti, boolfbn isExpbndfd);
 
     /**
-     * Returns true if the path is expanded, and visible.
+     * Rfturns truf if tif pbti is fxpbndfd, bnd visiblf.
      *
-     * @param path  the path being queried
-     * @return true if the path is expanded and visible, false otherwise
+     * @pbrbm pbti  tif pbti bfing qufrifd
+     * @rfturn truf if tif pbti is fxpbndfd bnd visiblf, fblsf otifrwisf
      */
-    public abstract boolean getExpandedState(TreePath path);
+    publid bbstrbdt boolfbn gftExpbndfdStbtf(TrffPbti pbti);
 
     /**
-     * Number of rows being displayed.
+     * Numbfr of rows bfing displbyfd.
      *
-     * @return the number of rows being displayed
+     * @rfturn tif numbfr of rows bfing displbyfd
      */
-    public abstract int getRowCount();
+    publid bbstrbdt int gftRowCount();
 
     /**
-     * Informs the <code>TreeState</code> that it needs to recalculate
-     * all the sizes it is referencing.
+     * Informs tif <dodf>TrffStbtf</dodf> tibt it nffds to rfdbldulbtf
+     * bll tif sizfs it is rfffrfnding.
      */
-    public abstract void invalidateSizes();
+    publid bbstrbdt void invblidbtfSizfs();
 
     /**
-     * Instructs the <code>LayoutCache</code> that the bounds for
-     * <code>path</code> are invalid, and need to be updated.
+     * Instrudts tif <dodf>LbyoutCbdif</dodf> tibt tif bounds for
+     * <dodf>pbti</dodf> brf invblid, bnd nffd to bf updbtfd.
      *
-     * @param path the path being updated
+     * @pbrbm pbti tif pbti bfing updbtfd
      */
-    public abstract void invalidatePathBounds(TreePath path);
+    publid bbstrbdt void invblidbtfPbtiBounds(TrffPbti pbti);
 
     //
-    // TreeModelListener methods
-    // AbstractTreeState does not directly become a TreeModelListener on
-    // the model, it is up to some other object to forward these methods.
+    // TrffModflListfnfr mftiods
+    // AbstrbdtTrffStbtf dofs not dirfdtly bfdomf b TrffModflListfnfr on
+    // tif modfl, it is up to somf otifr objfdt to forwbrd tifsf mftiods.
     //
 
     /**
      * <p>
-     * Invoked after a node (or a set of siblings) has changed in some
-     * way. The node(s) have not changed locations in the tree or
-     * altered their children arrays, but other attributes have
-     * changed and may affect presentation. Example: the name of a
-     * file has changed, but it is in the same location in the file
-     * system.</p>
+     * Invokfd bftfr b nodf (or b sft of siblings) ibs dibngfd in somf
+     * wby. Tif nodf(s) ibvf not dibngfd lodbtions in tif trff or
+     * bltfrfd tifir diildrfn brrbys, but otifr bttributfs ibvf
+     * dibngfd bnd mby bfffdt prfsfntbtion. Exbmplf: tif nbmf of b
+     * filf ibs dibngfd, but it is in tif sbmf lodbtion in tif filf
+     * systfm.</p>
      *
-     * <p>e.path() returns the path the parent of the changed node(s).</p>
+     * <p>f.pbti() rfturns tif pbti tif pbrfnt of tif dibngfd nodf(s).</p>
      *
-     * <p>e.childIndices() returns the index(es) of the changed node(s).</p>
+     * <p>f.diildIndidfs() rfturns tif indfx(fs) of tif dibngfd nodf(s).</p>
      *
-     * @param e  the <code>TreeModelEvent</code>
+     * @pbrbm f  tif <dodf>TrffModflEvfnt</dodf>
      */
-    public abstract void treeNodesChanged(TreeModelEvent e);
+    publid bbstrbdt void trffNodfsCibngfd(TrffModflEvfnt f);
 
     /**
-     * <p>Invoked after nodes have been inserted into the tree.</p>
+     * <p>Invokfd bftfr nodfs ibvf bffn insfrtfd into tif trff.</p>
      *
-     * <p>e.path() returns the parent of the new nodes</p>
-     * <p>e.childIndices() returns the indices of the new nodes in
-     * ascending order.</p>
+     * <p>f.pbti() rfturns tif pbrfnt of tif nfw nodfs</p>
+     * <p>f.diildIndidfs() rfturns tif indidfs of tif nfw nodfs in
+     * bsdfnding ordfr.</p>
      *
-     * @param e the <code>TreeModelEvent</code>
+     * @pbrbm f tif <dodf>TrffModflEvfnt</dodf>
      */
-    public abstract void treeNodesInserted(TreeModelEvent e);
+    publid bbstrbdt void trffNodfsInsfrtfd(TrffModflEvfnt f);
 
     /**
-     * <p>Invoked after nodes have been removed from the tree.  Note that
-     * if a subtree is removed from the tree, this method may only be
-     * invoked once for the root of the removed subtree, not once for
-     * each individual set of siblings removed.</p>
+     * <p>Invokfd bftfr nodfs ibvf bffn rfmovfd from tif trff.  Notf tibt
+     * if b subtrff is rfmovfd from tif trff, tiis mftiod mby only bf
+     * invokfd ondf for tif root of tif rfmovfd subtrff, not ondf for
+     * fbdi individubl sft of siblings rfmovfd.</p>
      *
-     * <p>e.path() returns the former parent of the deleted nodes.</p>
+     * <p>f.pbti() rfturns tif formfr pbrfnt of tif dflftfd nodfs.</p>
      *
-     * <p>e.childIndices() returns the indices the nodes had before they were deleted in ascending order.</p>
+     * <p>f.diildIndidfs() rfturns tif indidfs tif nodfs ibd bfforf tify wfrf dflftfd in bsdfnding ordfr.</p>
      *
-     * @param e the <code>TreeModelEvent</code>
+     * @pbrbm f tif <dodf>TrffModflEvfnt</dodf>
      */
-    public abstract void treeNodesRemoved(TreeModelEvent e);
+    publid bbstrbdt void trffNodfsRfmovfd(TrffModflEvfnt f);
 
     /**
-     * <p>Invoked after the tree has drastically changed structure from a
-     * given node down.  If the path returned by <code>e.getPath()</code>
-     * is of length one and the first element does not identify the
-     * current root node the first element should become the new root
-     * of the tree.</p>
+     * <p>Invokfd bftfr tif trff ibs drbstidblly dibngfd strudturf from b
+     * givfn nodf down.  If tif pbti rfturnfd by <dodf>f.gftPbti()</dodf>
+     * is of lfngti onf bnd tif first flfmfnt dofs not idfntify tif
+     * durrfnt root nodf tif first flfmfnt siould bfdomf tif nfw root
+     * of tif trff.</p>
      *
-     * <p>e.path() holds the path to the node.</p>
-     * <p>e.childIndices() returns null.</p>
+     * <p>f.pbti() iolds tif pbti to tif nodf.</p>
+     * <p>f.diildIndidfs() rfturns null.</p>
      *
-     * @param e the <code>TreeModelEvent</code>
+     * @pbrbm f tif <dodf>TrffModflEvfnt</dodf>
      */
-    public abstract void treeStructureChanged(TreeModelEvent e);
+    publid bbstrbdt void trffStrudturfCibngfd(TrffModflEvfnt f);
 
     //
-    // RowMapper
+    // RowMbppfr
     //
 
     /**
-     * Returns the rows that the <code>TreePath</code> instances in
-     * <code>path</code> are being displayed at.
-     * This method should return an array of the same length as that passed
-     * in, and if one of the <code>TreePaths</code>
-     * in <code>path</code> is not valid its entry in the array should
-     * be set to -1.
+     * Rfturns tif rows tibt tif <dodf>TrffPbti</dodf> instbndfs in
+     * <dodf>pbti</dodf> brf bfing displbyfd bt.
+     * Tiis mftiod siould rfturn bn brrby of tif sbmf lfngti bs tibt pbssfd
+     * in, bnd if onf of tif <dodf>TrffPbtis</dodf>
+     * in <dodf>pbti</dodf> is not vblid its fntry in tif brrby siould
+     * bf sft to -1.
      *
-     * @param paths the array of <code>TreePath</code>s being queried
-     * @return an array of the same length that is passed in containing
-     *          the rows that each corresponding where each
-     *          <code>TreePath</code> is displayed; if <code>paths</code>
-     *          is <code>null</code>, <code>null</code> is returned
+     * @pbrbm pbtis tif brrby of <dodf>TrffPbti</dodf>s bfing qufrifd
+     * @rfturn bn brrby of tif sbmf lfngti tibt is pbssfd in dontbining
+     *          tif rows tibt fbdi dorrfsponding wifrf fbdi
+     *          <dodf>TrffPbti</dodf> is displbyfd; if <dodf>pbtis</dodf>
+     *          is <dodf>null</dodf>, <dodf>null</dodf> is rfturnfd
      */
-    public int[] getRowsForPaths(TreePath[] paths) {
-        if(paths == null)
-            return null;
+    publid int[] gftRowsForPbtis(TrffPbti[] pbtis) {
+        if(pbtis == null)
+            rfturn null;
 
-        int               numPaths = paths.length;
-        int[]             rows = new int[numPaths];
+        int               numPbtis = pbtis.lfngti;
+        int[]             rows = nfw int[numPbtis];
 
-        for(int counter = 0; counter < numPaths; counter++)
-            rows[counter] = getRowForPath(paths[counter]);
-        return rows;
+        for(int dountfr = 0; dountfr < numPbtis; dountfr++)
+            rows[dountfr] = gftRowForPbti(pbtis[dountfr]);
+        rfturn rows;
     }
 
     //
-    // Local methods that subclassers may wish to use that are primarly
-    // convenience methods.
+    // Lodbl mftiods tibt subdlbssfrs mby wisi to usf tibt brf primbrly
+    // donvfnifndf mftiods.
     //
 
     /**
-     * Returns, by reference in <code>placeIn</code>,
-     * the size needed to represent <code>value</code>.
-     * If <code>inPlace</code> is <code>null</code>, a newly created
-     * <code>Rectangle</code> should be returned, otherwise the value
-     * should be placed in <code>inPlace</code> and returned. This will
-     * return <code>null</code> if there is no renderer.
+     * Rfturns, by rfffrfndf in <dodf>plbdfIn</dodf>,
+     * tif sizf nffdfd to rfprfsfnt <dodf>vbluf</dodf>.
+     * If <dodf>inPlbdf</dodf> is <dodf>null</dodf>, b nfwly drfbtfd
+     * <dodf>Rfdtbnglf</dodf> siould bf rfturnfd, otifrwisf tif vbluf
+     * siould bf plbdfd in <dodf>inPlbdf</dodf> bnd rfturnfd. Tiis will
+     * rfturn <dodf>null</dodf> if tifrf is no rfndfrfr.
      *
-     * @param value the <code>value</code> to be represented
-     * @param row  row being queried
-     * @param depth the depth of the row
-     * @param expanded true if row is expanded, false otherwise
-     * @param placeIn  a <code>Rectangle</code> containing the size needed
-     *          to represent <code>value</code>
-     * @return a <code>Rectangle</code> containing the node dimensions,
-     *          or <code>null</code> if node has no dimension
+     * @pbrbm vbluf tif <dodf>vbluf</dodf> to bf rfprfsfntfd
+     * @pbrbm row  row bfing qufrifd
+     * @pbrbm dfpti tif dfpti of tif row
+     * @pbrbm fxpbndfd truf if row is fxpbndfd, fblsf otifrwisf
+     * @pbrbm plbdfIn  b <dodf>Rfdtbnglf</dodf> dontbining tif sizf nffdfd
+     *          to rfprfsfnt <dodf>vbluf</dodf>
+     * @rfturn b <dodf>Rfdtbnglf</dodf> dontbining tif nodf dimfnsions,
+     *          or <dodf>null</dodf> if nodf ibs no dimfnsion
      */
-    protected Rectangle getNodeDimensions(Object value, int row, int depth,
-                                          boolean expanded,
-                                          Rectangle placeIn) {
-        NodeDimensions            nd = getNodeDimensions();
+    protfdtfd Rfdtbnglf gftNodfDimfnsions(Objfdt vbluf, int row, int dfpti,
+                                          boolfbn fxpbndfd,
+                                          Rfdtbnglf plbdfIn) {
+        NodfDimfnsions            nd = gftNodfDimfnsions();
 
         if(nd != null) {
-            return nd.getNodeDimensions(value, row, depth, expanded, placeIn);
+            rfturn nd.gftNodfDimfnsions(vbluf, row, dfpti, fxpbndfd, plbdfIn);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-      * Returns true if the height of each row is a fixed size.
+      * Rfturns truf if tif ifigit of fbdi row is b fixfd sizf.
       *
-      * @return whether the height of each row is a fixed size
+      * @rfturn wiftifr tif ifigit of fbdi row is b fixfd sizf
       */
-    protected boolean isFixedRowHeight() {
-        return (rowHeight > 0);
+    protfdtfd boolfbn isFixfdRowHfigit() {
+        rfturn (rowHfigit > 0);
     }
 
 
     /**
-     * Used by <code>AbstractLayoutCache</code> to determine the size
-     * and x origin of a particular node.
+     * Usfd by <dodf>AbstrbdtLbyoutCbdif</dodf> to dftfrminf tif sizf
+     * bnd x origin of b pbrtidulbr nodf.
      */
-    static public abstract class NodeDimensions {
+    stbtid publid bbstrbdt dlbss NodfDimfnsions {
         /**
-         * Returns, by reference in bounds, the size and x origin to
-         * place value at. The calling method is responsible for determining
-         * the Y location. If bounds is <code>null</code>, a newly created
-         * <code>Rectangle</code> should be returned,
-         * otherwise the value should be placed in bounds and returned.
+         * Rfturns, by rfffrfndf in bounds, tif sizf bnd x origin to
+         * plbdf vbluf bt. Tif dblling mftiod is rfsponsiblf for dftfrmining
+         * tif Y lodbtion. If bounds is <dodf>null</dodf>, b nfwly drfbtfd
+         * <dodf>Rfdtbnglf</dodf> siould bf rfturnfd,
+         * otifrwisf tif vbluf siould bf plbdfd in bounds bnd rfturnfd.
          *
-         * @param value the <code>value</code> to be represented
-         * @param row row being queried
-         * @param depth the depth of the row
-         * @param expanded true if row is expanded, false otherwise
-         * @param bounds  a <code>Rectangle</code> containing the size needed
-         *              to represent <code>value</code>
-         * @return a <code>Rectangle</code> containing the node dimensions,
-         *              or <code>null</code> if node has no dimension
+         * @pbrbm vbluf tif <dodf>vbluf</dodf> to bf rfprfsfntfd
+         * @pbrbm row row bfing qufrifd
+         * @pbrbm dfpti tif dfpti of tif row
+         * @pbrbm fxpbndfd truf if row is fxpbndfd, fblsf otifrwisf
+         * @pbrbm bounds  b <dodf>Rfdtbnglf</dodf> dontbining tif sizf nffdfd
+         *              to rfprfsfnt <dodf>vbluf</dodf>
+         * @rfturn b <dodf>Rfdtbnglf</dodf> dontbining tif nodf dimfnsions,
+         *              or <dodf>null</dodf> if nodf ibs no dimfnsion
          */
-        public abstract Rectangle getNodeDimensions(Object value, int row,
-                                                    int depth,
-                                                    boolean expanded,
-                                                    Rectangle bounds);
+        publid bbstrbdt Rfdtbnglf gftNodfDimfnsions(Objfdt vbluf, int row,
+                                                    int dfpti,
+                                                    boolfbn fxpbndfd,
+                                                    Rfdtbnglf bounds);
     }
 }

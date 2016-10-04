@@ -1,61 +1,61 @@
 /*
- * Copyright (c) 1999, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.event;
+pbdkbgf jbvb.bwt.fvfnt;
 
 /**
- * An abstract adapter class for receiving ancestor moved and resized events.
- * The methods in this class are empty. This class exists as a
- * convenience for creating listener objects.
+ * An bbstrbdt bdbptfr dlbss for rfdfiving bndfstor movfd bnd rfsizfd fvfnts.
+ * Tif mftiods in tiis dlbss brf fmpty. Tiis dlbss fxists bs b
+ * donvfnifndf for drfbting listfnfr objfdts.
  * <p>
- * Extend this class and override the method for the event of interest. (If
- * you implement the <code>HierarchyBoundsListener</code> interface, you have
- * to define both methods in it. This abstract class defines null methods for
- * them both, so you only have to define the method for the event you care
- * about.)
+ * Extfnd tiis dlbss bnd ovfrridf tif mftiod for tif fvfnt of intfrfst. (If
+ * you implfmfnt tif <dodf>HifrbrdiyBoundsListfnfr</dodf> intfrfbdf, you ibvf
+ * to dffinf boti mftiods in it. Tiis bbstrbdt dlbss dffinfs null mftiods for
+ * tifm boti, so you only ibvf to dffinf tif mftiod for tif fvfnt you dbrf
+ * bbout.)
  * <p>
- * Create a listener object using your class and then register it with a
- * Component using the Component's <code>addHierarchyBoundsListener</code>
- * method. When the hierarchy to which the Component belongs changes by
- * resize or movement of an ancestor, the relevant method in the listener
- * object is invoked, and the <code>HierarchyEvent</code> is passed to it.
+ * Crfbtf b listfnfr objfdt using your dlbss bnd tifn rfgistfr it witi b
+ * Componfnt using tif Componfnt's <dodf>bddHifrbrdiyBoundsListfnfr</dodf>
+ * mftiod. Wifn tif iifrbrdiy to wiidi tif Componfnt bflongs dibngfs by
+ * rfsizf or movfmfnt of bn bndfstor, tif rflfvbnt mftiod in tif listfnfr
+ * objfdt is invokfd, bnd tif <dodf>HifrbrdiyEvfnt</dodf> is pbssfd to it.
  *
- * @author      David Mendenhall
- * @see         HierarchyBoundsListener
- * @see         HierarchyEvent
- * @since       1.3
+ * @butior      Dbvid Mfndfnibll
+ * @sff         HifrbrdiyBoundsListfnfr
+ * @sff         HifrbrdiyEvfnt
+ * @sindf       1.3
  */
-public abstract class HierarchyBoundsAdapter implements HierarchyBoundsListener
+publid bbstrbdt dlbss HifrbrdiyBoundsAdbptfr implfmfnts HifrbrdiyBoundsListfnfr
 {
     /**
-     * Called when an ancestor of the source is moved.
+     * Cbllfd wifn bn bndfstor of tif sourdf is movfd.
      */
-    public void ancestorMoved(HierarchyEvent e) {}
+    publid void bndfstorMovfd(HifrbrdiyEvfnt f) {}
 
     /**
-     * Called when an ancestor of the source is resized.
+     * Cbllfd wifn bn bndfstor of tif sourdf is rfsizfd.
      */
-    public void ancestorResized(HierarchyEvent e) {}
+    publid void bndfstorRfsizfd(HifrbrdiyEvfnt f) {}
 }

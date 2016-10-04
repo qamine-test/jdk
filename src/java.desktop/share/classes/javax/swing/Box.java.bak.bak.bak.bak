@@ -1,0 +1,442 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.util.Lodblf;
+import jbvb.io.Sfriblizbblf;
+import jbvbx.bddfssibility.*;
+
+/**
+ * A lightwfight dontbinfr
+ * thbt usfs b BoxLbyout objfdt bs its lbyout mbnbgfr.
+ * Box providfs sfvfrbl dlbss mfthods
+ * thbt brf usfful for dontbinfrs using BoxLbyout --
+ * fvfn non-Box dontbinfrs.
+ *
+ * <p>
+ * Thf <dodf>Box</dodf> dlbss dbn drfbtf sfvfrbl kinds
+ * of invisiblf domponfnts
+ * thbt bfffdt lbyout:
+ * gluf, struts, bnd rigid brfbs.
+ * If bll thf domponfnts your <dodf>Box</dodf> dontbins
+ * hbvf b fixfd sizf,
+ * you might wbnt to usf b gluf domponfnt
+ * (rfturnfd by <dodf>drfbtfGluf</dodf>)
+ * to dontrol thf domponfnts' positions.
+ * If you nffd b fixfd bmount of spbdf bftwffn two domponfnts,
+ * try using b strut
+ * (<dodf>drfbtfHorizontblStrut</dodf> or <dodf>drfbtfVfrtidblStrut</dodf>).
+ * If you nffd bn invisiblf domponfnt
+ * thbt blwbys tbkfs up thf sbmf bmount of spbdf,
+ * gft it by invoking <dodf>drfbtfRigidArfb</dodf>.
+ * <p>
+ * If you brf implfmfnting b <dodf>BoxLbyout</dodf> you
+ * dbn find furthfr informbtion bnd fxbmplfs in
+ * <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/lbyout/box.html">How to Usf BoxLbyout</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl.</fm>
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff BoxLbyout
+ *
+ * @buthor  Timothy Prinzing
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss Box fxtfnds JComponfnt implfmfnts Addfssiblf {
+
+    /**
+     * Crfbtfs b <dodf>Box</dodf> thbt displbys its domponfnts
+     * blong thf thf spfdififd bxis.
+     *
+     * @pbrbm bxis  dbn bf {@link BoxLbyout#X_AXIS},
+     *              {@link BoxLbyout#Y_AXIS},
+     *              {@link BoxLbyout#LINE_AXIS} or
+     *              {@link BoxLbyout#PAGE_AXIS}.
+     * @throws AWTError if thf <dodf>bxis</dodf> is invblid
+     * @sff #drfbtfHorizontblBox
+     * @sff #drfbtfVfrtidblBox
+     */
+    publid Box(int bxis) {
+        supfr();
+        supfr.sftLbyout(nfw BoxLbyout(this, bxis));
+    }
+
+    /**
+     * Crfbtfs b <dodf>Box</dodf> thbt displbys its domponfnts
+     * from lfft to right. If you wbnt b <dodf>Box</dodf> thbt
+     * rfspfdts thf domponfnt orifntbtion you should drfbtf thf
+     * <dodf>Box</dodf> using thf donstrudtor bnd pbss in
+     * <dodf>BoxLbyout.LINE_AXIS</dodf>, fg:
+     * <prf>
+     *   Box linfBox = nfw Box(BoxLbyout.LINE_AXIS);
+     * </prf>
+     *
+     * @rfturn thf box
+     */
+    publid stbtid Box drfbtfHorizontblBox() {
+        rfturn nfw Box(BoxLbyout.X_AXIS);
+    }
+
+    /**
+     * Crfbtfs b <dodf>Box</dodf> thbt displbys its domponfnts
+     * from top to bottom. If you wbnt b <dodf>Box</dodf> thbt
+     * rfspfdts thf domponfnt orifntbtion you should drfbtf thf
+     * <dodf>Box</dodf> using thf donstrudtor bnd pbss in
+     * <dodf>BoxLbyout.PAGE_AXIS</dodf>, fg:
+     * <prf>
+     *   Box linfBox = nfw Box(BoxLbyout.PAGE_AXIS);
+     * </prf>
+     *
+     * @rfturn thf box
+     */
+    publid stbtid Box drfbtfVfrtidblBox() {
+        rfturn nfw Box(BoxLbyout.Y_AXIS);
+    }
+
+    /**
+     * Crfbtfs bn invisiblf domponfnt thbt's blwbys thf spfdififd sizf.
+     * <!-- WHEN WOULD YOU USE THIS AS OPPOSED TO A STRUT? -->
+     *
+     * @pbrbm d thf dimfnsions of thf invisiblf domponfnt
+     * @rfturn thf domponfnt
+     * @sff #drfbtfGluf
+     * @sff #drfbtfHorizontblStrut
+     * @sff #drfbtfVfrtidblStrut
+     */
+    publid stbtid Componfnt drfbtfRigidArfb(Dimfnsion d) {
+        rfturn nfw Fillfr(d, d, d);
+    }
+
+    /**
+     * Crfbtfs bn invisiblf, fixfd-width domponfnt.
+     * In b horizontbl box,
+     * you typidblly usf this mfthod
+     * to fordf b dfrtbin bmount of spbdf bftwffn two domponfnts.
+     * In b vfrtidbl box,
+     * you might usf this mfthod
+     * to fordf thf box to bf bt lfbst thf spfdififd width.
+     * Thf invisiblf domponfnt hbs no hfight
+     * unlfss fxdfss spbdf is bvbilbblf,
+     * in whidh dbsf it tbkfs its shbrf of bvbilbblf spbdf,
+     * just likf bny othfr domponfnt thbt hbs no mbximum hfight.
+     *
+     * @pbrbm width thf width of thf invisiblf domponfnt, in pixfls &gt;= 0
+     * @rfturn thf domponfnt
+     * @sff #drfbtfVfrtidblStrut
+     * @sff #drfbtfGluf
+     * @sff #drfbtfRigidArfb
+     */
+    publid stbtid Componfnt drfbtfHorizontblStrut(int width) {
+        rfturn nfw Fillfr(nfw Dimfnsion(width,0), nfw Dimfnsion(width,0),
+                          nfw Dimfnsion(width, Short.MAX_VALUE));
+    }
+
+    /**
+     * Crfbtfs bn invisiblf, fixfd-hfight domponfnt.
+     * In b vfrtidbl box,
+     * you typidblly usf this mfthod
+     * to fordf b dfrtbin bmount of spbdf bftwffn two domponfnts.
+     * In b horizontbl box,
+     * you might usf this mfthod
+     * to fordf thf box to bf bt lfbst thf spfdififd hfight.
+     * Thf invisiblf domponfnt hbs no width
+     * unlfss fxdfss spbdf is bvbilbblf,
+     * in whidh dbsf it tbkfs its shbrf of bvbilbblf spbdf,
+     * just likf bny othfr domponfnt thbt hbs no mbximum width.
+     *
+     * @pbrbm hfight thf hfight of thf invisiblf domponfnt, in pixfls &gt;= 0
+     * @rfturn thf domponfnt
+     * @sff #drfbtfHorizontblStrut
+     * @sff #drfbtfGluf
+     * @sff #drfbtfRigidArfb
+     */
+    publid stbtid Componfnt drfbtfVfrtidblStrut(int hfight) {
+        rfturn nfw Fillfr(nfw Dimfnsion(0,hfight), nfw Dimfnsion(0,hfight),
+                          nfw Dimfnsion(Short.MAX_VALUE, hfight));
+    }
+
+    /**
+     * Crfbtfs bn invisiblf "gluf" domponfnt
+     * thbt dbn bf usfful in b Box
+     * whosf visiblf domponfnts hbvf b mbximum width
+     * (for b horizontbl box)
+     * or hfight (for b vfrtidbl box).
+     * You dbn think of thf gluf domponfnt
+     * bs bfing b goofy substbndf
+     * thbt fxpbnds bs mudh bs nfdfssbry
+     * to fill thf spbdf bftwffn its nfighboring domponfnts.
+     *
+     * <p>
+     *
+     * For fxbmplf, supposf you hbvf
+     * b horizontbl box thbt dontbins two fixfd-sizf domponfnts.
+     * If thf box gfts fxtrb spbdf,
+     * thf fixfd-sizf domponfnts won't bfdomf lbrgfr,
+    * so whfrf dofs thf fxtrb spbdf go?
+     * Without gluf,
+     * thf fxtrb spbdf gofs to thf right of thf sfdond domponfnt.
+     * If you put gluf bftwffn thf fixfd-sizf domponfnts,
+     * thfn thf fxtrb spbdf gofs thfrf.
+     * If you put gluf bfforf thf first fixfd-sizf domponfnt,
+     * thf fxtrb spbdf gofs thfrf,
+     * bnd thf fixfd-sizf domponfnts brf shovfd bgbinst thf right
+     * fdgf of thf box.
+     * If you put gluf bfforf thf first fixfd-sizf domponfnt
+     * bnd bftfr thf sfdond fixfd-sizf domponfnt,
+     * thf fixfd-sizf domponfnts brf dfntfrfd in thf box.
+     *
+     * <p>
+     *
+     * To usf gluf,
+     * dbll <dodf>Box.drfbtfGluf</dodf>
+     * bnd bdd thf rfturnfd domponfnt to b dontbinfr.
+     * Thf gluf domponfnt hbs no minimum or prfffrrfd sizf,
+     * so it tbkfs no spbdf unlfss fxdfss spbdf is bvbilbblf.
+     * If fxdfss spbdf is bvbilbblf,
+     * thfn thf gluf domponfnt tbkfs its shbrf of bvbilbblf
+     * horizontbl or vfrtidbl spbdf,
+     * just likf bny othfr domponfnt thbt hbs no mbximum width or hfight.
+     *
+     * @rfturn thf domponfnt
+     */
+    publid stbtid Componfnt drfbtfGluf() {
+        rfturn nfw Fillfr(nfw Dimfnsion(0,0), nfw Dimfnsion(0,0),
+                          nfw Dimfnsion(Short.MAX_VALUE, Short.MAX_VALUE));
+    }
+
+    /**
+     * Crfbtfs b horizontbl gluf domponfnt.
+     *
+     * @rfturn thf domponfnt
+     */
+    publid stbtid Componfnt drfbtfHorizontblGluf() {
+        rfturn nfw Fillfr(nfw Dimfnsion(0,0), nfw Dimfnsion(0,0),
+                          nfw Dimfnsion(Short.MAX_VALUE, 0));
+    }
+
+    /**
+     * Crfbtfs b vfrtidbl gluf domponfnt.
+     *
+     * @rfturn thf domponfnt
+     */
+    publid stbtid Componfnt drfbtfVfrtidblGluf() {
+        rfturn nfw Fillfr(nfw Dimfnsion(0,0), nfw Dimfnsion(0,0),
+                          nfw Dimfnsion(0, Short.MAX_VALUE));
+    }
+
+    /**
+     * Throws bn AWTError, sindf b Box dbn usf only b BoxLbyout.
+     *
+     * @pbrbm l thf lbyout mbnbgfr to usf
+     */
+    publid void sftLbyout(LbyoutMbnbgfr l) {
+        throw nfw AWTError("Illfgbl rfqufst");
+    }
+
+    /**
+     * Pbints this <dodf>Box</dodf>.  If this <dodf>Box</dodf> hbs b UI this
+     * mfthod invokfs supfr's implfmfntbtion, othfrwisf if this
+     * <dodf>Box</dodf> is opbquf thf <dodf>Grbphids</dodf> is fillfd
+     * using thf bbdkground.
+     *
+     * @pbrbm g thf <dodf>Grbphids</dodf> to pbint to
+     * @throws NullPointfrExdfption if <dodf>g</dodf> is null
+     * @sindf 1.6
+     */
+    protfdtfd void pbintComponfnt(Grbphids g) {
+        if (ui != null) {
+            // On thf off dhbndf somf onf drfbtfd b UI, honor it
+            supfr.pbintComponfnt(g);
+        } flsf if (isOpbquf()) {
+            g.sftColor(gftBbdkground());
+            g.fillRfdt(0, 0, gftWidth(), gftHfight());
+        }
+    }
+
+
+    /**
+     * An implfmfntbtion of b lightwfight domponfnt thbt pbrtidipbtfs in
+     * lbyout but hbs no vifw.
+     * <p>
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+     * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+     * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+     * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+     */
+    @SupprfssWbrnings("sfribl")
+    publid stbtid dlbss Fillfr fxtfnds JComponfnt implfmfnts Addfssiblf {
+
+        /**
+         * Construdtor to drfbtf shbpf with thf givfn sizf rbngfs.
+         *
+         * @pbrbm min   Minimum sizf
+         * @pbrbm prff  Prfffrrfd sizf
+         * @pbrbm mbx   Mbximum sizf
+         */
+        @ConstrudtorPropfrtifs({"minimumSizf", "prfffrrfdSizf", "mbximumSizf"})
+        publid Fillfr(Dimfnsion min, Dimfnsion prff, Dimfnsion mbx) {
+            sftMinimumSizf(min);
+            sftPrfffrrfdSizf(prff);
+            sftMbximumSizf(mbx);
+        }
+
+        /**
+         * Chbngf thf sizf rfqufsts for this shbpf.  An invblidbtf() is
+         * propbgbtfd upwbrd bs b rfsult so thbt lbyout will fvfntublly
+         * hbppfn with using thf nfw sizfs.
+         *
+         * @pbrbm min   Vbluf to rfturn for gftMinimumSizf
+         * @pbrbm prff  Vbluf to rfturn for gftPrfffrrfdSizf
+         * @pbrbm mbx   Vbluf to rfturn for gftMbximumSizf
+         */
+        publid void dhbngfShbpf(Dimfnsion min, Dimfnsion prff, Dimfnsion mbx) {
+            sftMinimumSizf(min);
+            sftPrfffrrfdSizf(prff);
+            sftMbximumSizf(mbx);
+            rfvblidbtf();
+        }
+
+        // ---- Componfnt mfthods ------------------------------------------
+
+        /**
+         * Pbints this <dodf>Fillfr</dodf>.  If this
+         * <dodf>Fillfr</dodf> hbs b UI this mfthod invokfs supfr's
+         * implfmfntbtion, othfrwisf if this <dodf>Fillfr</dodf> is
+         * opbquf thf <dodf>Grbphids</dodf> is fillfd using thf
+         * bbdkground.
+         *
+         * @pbrbm g thf <dodf>Grbphids</dodf> to pbint to
+         * @throws NullPointfrExdfption if <dodf>g</dodf> is null
+         * @sindf 1.6
+         */
+        protfdtfd void pbintComponfnt(Grbphids g) {
+            if (ui != null) {
+                // On thf off dhbndf somf onf drfbtfd b UI, honor it
+                supfr.pbintComponfnt(g);
+            } flsf if (isOpbquf()) {
+                g.sftColor(gftBbdkground());
+                g.fillRfdt(0, 0, gftWidth(), gftHfight());
+            }
+        }
+
+/////////////////
+// Addfssibility support for Box$Fillfr
+////////////////
+
+        /**
+         * Gfts thf AddfssiblfContfxt bssodibtfd with this Box.Fillfr.
+         * For box fillfrs, thf AddfssiblfContfxt tbkfs thf form of bn
+         * AddfssiblfBoxFillfr.
+         * A nfw AddfssiblfAWTBoxFillfr instbndf is drfbtfd if nfdfssbry.
+         *
+         * @rfturn bn AddfssiblfBoxFillfr thbt sfrvfs bs thf
+         *         AddfssiblfContfxt of this Box.Fillfr.
+         */
+        publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+            if (bddfssiblfContfxt == null) {
+                bddfssiblfContfxt = nfw AddfssiblfBoxFillfr();
+            }
+            rfturn bddfssiblfContfxt;
+        }
+
+        /**
+         * This dlbss implfmfnts bddfssibility support for thf
+         * <dodf>Box.Fillfr</dodf> dlbss.
+         */
+        @SupprfssWbrnings("sfribl")
+        protfdtfd dlbss AddfssiblfBoxFillfr fxtfnds AddfssiblfAWTComponfnt {
+            // AddfssiblfContfxt mfthods
+            //
+            /**
+             * Gfts thf rolf of this objfdt.
+             *
+             * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of
+             *   thf objfdt (AddfssiblfRolf.FILLER)
+             * @sff AddfssiblfRolf
+             */
+            publid AddfssiblfRolf gftAddfssiblfRolf() {
+                rfturn AddfssiblfRolf.FILLER;
+            }
+        }
+    }
+
+/////////////////
+// Addfssibility support for Box
+////////////////
+
+    /**
+     * Gfts thf AddfssiblfContfxt bssodibtfd with this Box.
+     * For boxfs, thf AddfssiblfContfxt tbkfs thf form of bn
+     * AddfssiblfBox.
+     * A nfw AddfssiblfAWTBox instbndf is drfbtfd if nfdfssbry.
+     *
+     * @rfturn bn AddfssiblfBox thbt sfrvfs bs thf
+     *         AddfssiblfContfxt of this Box
+     */
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfBox();
+        }
+        rfturn bddfssiblfContfxt;
+    }
+
+    /**
+     * This dlbss implfmfnts bddfssibility support for thf
+     * <dodf>Box</dodf> dlbss.
+     */
+    @SupprfssWbrnings("sfribl")
+    protfdtfd dlbss AddfssiblfBox fxtfnds AddfssiblfAWTContbinfr {
+        // AddfssiblfContfxt mfthods
+        //
+        /**
+         * Gfts thf rolf of this objfdt.
+         *
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing thf rolf of thf
+         *   objfdt (AddfssiblfRolf.FILLER)
+         * @sff AddfssiblfRolf
+         */
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.FILLER;
+        }
+    } // innfr dlbss AddfssiblfBox
+}

@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.*;
+import sun.util.logging.PlbtformLoggfr;
 
-// FIXME: tab traversal should be disabled when mouse is captured (4816336)
+// FIXME: tbb trbvfrsbl siould bf disbblfd wifn mousf is dbpturfd (4816336)
 
-// FIXME: key and mouse events should not be delivered to listeners when the Choice is unfurled.  Must override handleNativeKey/MouseEvent (4816336)
+// FIXME: kfy bnd mousf fvfnts siould not bf dflivfrfd to listfnfrs wifn tif Cioidf is unfurlfd.  Must ovfrridf ibndlfNbtivfKfy/MousfEvfnt (4816336)
 
-// FIXME: test programmatic add/remove/clear/etc
+// FIXME: tfst progrbmmbtid bdd/rfmovf/dlfbr/ftd
 
-// FIXME: account for unfurling at the edge of the screen
-// Note: can't set x,y on layout(), 'cause moving the top-level to the
-// edge of the screen won't call layout().  Just do it on paint, I guess
+// FIXME: bddount for unfurling bt tif fdgf of tif sdrffn
+// Notf: dbn't sft x,y on lbyout(), 'dbusf moving tif top-lfvfl to tif
+// fdgf of tif sdrffn won't dbll lbyout().  Just do it on pbint, I gufss
 
-// TODO: make painting more efficient (i.e. when down arrow is pressed, only two items should need to be repainted.
+// TODO: mbkf pbinting morf fffidifnt (i.f. wifn down brrow is prfssfd, only two itfms siould nffd to bf rfpbintfd.
 
-public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelStateListener {
-    private static final PlatformLogger log = PlatformLogger.getLogger("sun.awt.X11.XChoicePeer");
+publid dlbss XCioidfPffr fxtfnds XComponfntPffr implfmfnts CioidfPffr, ToplfvflStbtfListfnfr {
+    privbtf stbtid finbl PlbtformLoggfr log = PlbtformLoggfr.gftLoggfr("sun.bwt.X11.XCioidfPffr");
 
-    private static final int MAX_UNFURLED_ITEMS = 10;  // Maximum number of
-    // items to be displayed
-    // at a time in an
-    // unfurled Choice
-    // Description of these constants in ListHelper
-    public final static int TEXT_SPACE = 1;
-    public final static int BORDER_WIDTH = 1;
-    public final static int ITEM_MARGIN = 1;
-    public final static int SCROLLBAR_WIDTH = 15;
+    privbtf stbtid finbl int MAX_UNFURLED_ITEMS = 10;  // Mbximum numbfr of
+    // itfms to bf displbyfd
+    // bt b timf in bn
+    // unfurlfd Cioidf
+    // Dfsdription of tifsf donstbnts in ListHflpfr
+    publid finbl stbtid int TEXT_SPACE = 1;
+    publid finbl stbtid int BORDER_WIDTH = 1;
+    publid finbl stbtid int ITEM_MARGIN = 1;
+    publid finbl stbtid int SCROLLBAR_WIDTH = 15;
 
 
     // SHARE THESE!
-    private static final Insets focusInsets = new Insets(0,0,0,0);
+    privbtf stbtid finbl Insfts fodusInsfts = nfw Insfts(0,0,0,0);
 
 
-    static final int WIDGET_OFFSET = 18;
+    stbtid finbl int WIDGET_OFFSET = 18;
 
-    // Stolen from Tiny
-    static final int            TEXT_XPAD = 8;
-    static final int            TEXT_YPAD = 6;
+    // Stolfn from Tiny
+    stbtid finbl int            TEXT_XPAD = 8;
+    stbtid finbl int            TEXT_YPAD = 6;
 
-    // FIXME: Motif uses a different focus color for the item within
-    // the unfurled Choice list and for when the Choice itself is focused and
-    // popped up.
-    static final Color focusColor = Color.black;
+    // FIXME: Motif usfs b difffrfnt fodus dolor for tif itfm witiin
+    // tif unfurlfd Cioidf list bnd for wifn tif Cioidf itsflf is fodusfd bnd
+    // poppfd up.
+    stbtid finbl Color fodusColor = Color.blbdk;
 
-    // TODO: there is a time value that the mouse is held down.  If short
-    // enough,  the Choice stays popped down.  If long enough, Choice
-    // is furled when the mouse is released
+    // TODO: tifrf is b timf vbluf tibt tif mousf is ifld down.  If siort
+    // fnougi,  tif Cioidf stbys poppfd down.  If long fnougi, Cioidf
+    // is furlfd wifn tif mousf is rflfbsfd
 
-    private boolean unfurled = false;        // Choice list is popped down
+    privbtf boolfbn unfurlfd = fblsf;        // Cioidf list is poppfd down
 
-    private boolean dragging = false;        // Mouse was pressed and is being
-                                             // dragged over the (unfurled)
-                                             // Choice
+    privbtf boolfbn drbgging = fblsf;        // Mousf wbs prfssfd bnd is bfing
+                                             // drbggfd ovfr tif (unfurlfd)
+                                             // Cioidf
 
-    private boolean mouseInSB = false;       // Mouse is interacting with the
-                                             // scrollbar
+    privbtf boolfbn mousfInSB = fblsf;       // Mousf is intfrbdting witi tif
+                                             // sdrollbbr
 
-    private boolean firstPress = false;      // mouse was pressed on
-                                             // furled Choice so we
-                                             // not need to furl the
-                                             // Choice when MOUSE_RELEASED occurred
+    privbtf boolfbn firstPrfss = fblsf;      // mousf wbs prfssfd on
+                                             // furlfd Cioidf so wf
+                                             // not nffd to furl tif
+                                             // Cioidf wifn MOUSE_RELEASED oddurrfd
 
-    // 6425067. Mouse was pressed on furled choice and dropdown list appeared over Choice itself
-    // and then there were no mouse movements until MOUSE_RELEASE.
-    // This scenario leads to ItemStateChanged as the choice logic uses
-    // MouseReleased event to send ItemStateChanged. To prevent it we should
-    // use a combination of firstPress and wasDragged variables.
-    // The only difference in dragging and wasDragged is: last one will not
-    // set to false on mouse ungrab. It become false after MouseRelased() finishes.
-    private boolean wasDragged = false;
-    private ListHelper helper;
-    private UnfurledChoice unfurledChoice;
+    // 6425067. Mousf wbs prfssfd on furlfd dioidf bnd dropdown list bppfbrfd ovfr Cioidf itsflf
+    // bnd tifn tifrf wfrf no mousf movfmfnts until MOUSE_RELEASE.
+    // Tiis sdfnbrio lfbds to ItfmStbtfCibngfd bs tif dioidf logid usfs
+    // MousfRflfbsfd fvfnt to sfnd ItfmStbtfCibngfd. To prfvfnt it wf siould
+    // usf b dombinbtion of firstPrfss bnd wbsDrbggfd vbribblfs.
+    // Tif only difffrfndf in drbgging bnd wbsDrbggfd is: lbst onf will not
+    // sft to fblsf on mousf ungrbb. It bfdomf fblsf bftfr MousfRflbsfd() finisifs.
+    privbtf boolfbn wbsDrbggfd = fblsf;
+    privbtf ListHflpfr iflpfr;
+    privbtf UnfurlfdCioidf unfurlfdCioidf;
 
-    // TODO: Choice remembers where it was scrolled to when unfurled - it's not
-    // always to the currently selected item.
+    // TODO: Cioidf rfmfmbfrs wifrf it wbs sdrollfd to wifn unfurlfd - it's not
+    // blwbys to tif durrfntly sflfdtfd itfm.
 
-    // Indicates whether or not to paint selected item in the choice.
-    // Default is to paint
-    private boolean drawSelectedItem = true;
+    // Indidbtfs wiftifr or not to pbint sflfdtfd itfm in tif dioidf.
+    // Dffbult is to pbint
+    privbtf boolfbn drbwSflfdtfdItfm = truf;
 
-    // If set, indicates components under which choice popup should be showed.
-    // The choice's popup width and location should be adjust to appear
-    // under both choice and alignUnder component.
-    private Component alignUnder;
+    // If sft, indidbtfs domponfnts undfr wiidi dioidf popup siould bf siowfd.
+    // Tif dioidf's popup widti bnd lodbtion siould bf bdjust to bppfbr
+    // undfr boti dioidf bnd blignUndfr domponfnt.
+    privbtf Componfnt blignUndfr;
 
-    // If cursor is outside of an unfurled Choice when the mouse is
-    // released, Choice item should NOT be updated.  Remember the proper index.
-    private int dragStartIdx = -1;
+    // If dursor is outsidf of bn unfurlfd Cioidf wifn tif mousf is
+    // rflfbsfd, Cioidf itfm siould NOT bf updbtfd.  Rfmfmbfr tif propfr indfx.
+    privbtf int drbgStbrtIdx = -1;
 
-    // Holds the listener (XFileDialogPeer) which the processing events from the choice
-    // See 6240074 for more information
-    private XChoicePeerListener choiceListener;
+    // Holds tif listfnfr (XFilfDiblogPffr) wiidi tif prodfssing fvfnts from tif dioidf
+    // Sff 6240074 for morf informbtion
+    privbtf XCioidfPffrListfnfr dioidfListfnfr;
 
-    XChoicePeer(Choice target) {
-        super(target);
+    XCioidfPffr(Cioidf tbrgft) {
+        supfr(tbrgft);
     }
 
-    void preInit(XCreateWindowParams params) {
-        super.preInit(params);
-        Choice target = (Choice)this.target;
-        int numItems = target.getItemCount();
-        unfurledChoice = new UnfurledChoice(target);
-        getToplevelXWindow().addToplevelStateListener(this);
-        helper = new ListHelper(unfurledChoice,
-                                getGUIcolors(),
-                                numItems,
-                                false,
-                                true,
-                                false,
-                                target.getFont(),
+    void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.prfInit(pbrbms);
+        Cioidf tbrgft = (Cioidf)tiis.tbrgft;
+        int numItfms = tbrgft.gftItfmCount();
+        unfurlfdCioidf = nfw UnfurlfdCioidf(tbrgft);
+        gftToplfvflXWindow().bddToplfvflStbtfListfnfr(tiis);
+        iflpfr = nfw ListHflpfr(unfurlfdCioidf,
+                                gftGUIdolors(),
+                                numItfms,
+                                fblsf,
+                                truf,
+                                fblsf,
+                                tbrgft.gftFont(),
                                 MAX_UNFURLED_ITEMS,
                                 TEXT_SPACE,
                                 ITEM_MARGIN,
@@ -144,971 +144,971 @@ public class XChoicePeer extends XComponentPeer implements ChoicePeer, ToplevelS
                                 SCROLLBAR_WIDTH);
     }
 
-    void postInit(XCreateWindowParams params) {
-        super.postInit(params);
-        Choice target = (Choice)this.target;
-        int numItems = target.getItemCount();
+    void postInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.postInit(pbrbms);
+        Cioidf tbrgft = (Cioidf)tiis.tbrgft;
+        int numItfms = tbrgft.gftItfmCount();
 
-        // Add all items
-        for (int i = 0; i < numItems; i++) {
-            helper.add(target.getItem(i));
+        // Add bll itfms
+        for (int i = 0; i < numItfms; i++) {
+            iflpfr.bdd(tbrgft.gftItfm(i));
         }
-        if (!helper.isEmpty()) {
-            helper.select(target.getSelectedIndex());
-            helper.setFocusedIndex(target.getSelectedIndex());
+        if (!iflpfr.isEmpty()) {
+            iflpfr.sflfdt(tbrgft.gftSflfdtfdIndfx());
+            iflpfr.sftFodusfdIndfx(tbrgft.gftSflfdtfdIndfx());
         }
-        helper.updateColors(getGUIcolors());
-        updateMotifColors(getPeerBackground());
+        iflpfr.updbtfColors(gftGUIdolors());
+        updbtfMotifColors(gftPffrBbdkground());
     }
 
-    public boolean isFocusable() { return true; }
+    publid boolfbn isFodusbblf() { rfturn truf; }
 
-    // 6399679. check if super.setBounds() actually changes the size of the
-    // component and then compare current Choice size with a new one. If
-    // they differs then hide dropdown menu
-    public void setBounds(int x, int y, int width, int height, int op) {
-        int oldX = this.x;
-        int oldY = this.y;
-        int oldWidth = this.width;
-        int oldHeight = this.height;
-        super.setBounds(x, y, width, height, op);
-        if (unfurled && (oldX != this.x || oldY != this.y || oldWidth != this.width || oldHeight != this.height) ) {
-            hidePopdownMenu();
+    // 6399679. difdk if supfr.sftBounds() bdtublly dibngfs tif sizf of tif
+    // domponfnt bnd tifn dompbrf durrfnt Cioidf sizf witi b nfw onf. If
+    // tify difffrs tifn iidf dropdown mfnu
+    publid void sftBounds(int x, int y, int widti, int ifigit, int op) {
+        int oldX = tiis.x;
+        int oldY = tiis.y;
+        int oldWidti = tiis.widti;
+        int oldHfigit = tiis.ifigit;
+        supfr.sftBounds(x, y, widti, ifigit, op);
+        if (unfurlfd && (oldX != tiis.x || oldY != tiis.y || oldWidti != tiis.widti || oldHfigit != tiis.ifigit) ) {
+            iidfPopdownMfnu();
         }
     }
 
-    public void focusGained(FocusEvent e) {
-        // TODO: only need to paint the focus bit
-        super.focusGained(e);
-        repaint();
+    publid void fodusGbinfd(FodusEvfnt f) {
+        // TODO: only nffd to pbint tif fodus bit
+        supfr.fodusGbinfd(f);
+        rfpbint();
     }
 
     /*
-     * Fix for 6246503 : Disabling a choice after selection locks keyboard, mouse and makes the system unusable, Xtoolkit
-     * if setEnabled(false) invoked we should close opened choice in
-     * order to prevent keyboard/mouse lock.
+     * Fix for 6246503 : Disbbling b dioidf bftfr sflfdtion lodks kfybobrd, mousf bnd mbkfs tif systfm unusbblf, Xtoolkit
+     * if sftEnbblfd(fblsf) invokfd wf siould dlosf opfnfd dioidf in
+     * ordfr to prfvfnt kfybobrd/mousf lodk.
      */
-    public void setEnabled(boolean value) {
-        super.setEnabled(value);
-        helper.updateColors(getGUIcolors());
-        if (!value && unfurled){
-            hidePopdownMenu();
+    publid void sftEnbblfd(boolfbn vbluf) {
+        supfr.sftEnbblfd(vbluf);
+        iflpfr.updbtfColors(gftGUIdolors());
+        if (!vbluf && unfurlfd){
+            iidfPopdownMfnu();
         }
     }
 
-    public void focusLost(FocusEvent e) {
-        // TODO: only need to paint the focus bit?
-        super.focusLost(e);
-        repaint();
+    publid void fodusLost(FodusEvfnt f) {
+        // TODO: only nffd to pbint tif fodus bit?
+        supfr.fodusLost(f);
+        rfpbint();
     }
 
-    void ungrabInputImpl() {
-        if (unfurled) {
-            unfurled = false;
-            dragging = false;
-            mouseInSB = false;
-            unfurledChoice.setVisible(false);
+    void ungrbbInputImpl() {
+        if (unfurlfd) {
+            unfurlfd = fblsf;
+            drbgging = fblsf;
+            mousfInSB = fblsf;
+            unfurlfdCioidf.sftVisiblf(fblsf);
         }
 
-        super.ungrabInputImpl();
+        supfr.ungrbbInputImpl();
     }
 
-    void handleJavaKeyEvent(KeyEvent e) {
-        if (e.getID() == KeyEvent.KEY_PRESSED) {
-            keyPressed(e);
+    void ibndlfJbvbKfyEvfnt(KfyEvfnt f) {
+        if (f.gftID() == KfyEvfnt.KEY_PRESSED) {
+            kfyPrfssfd(f);
         }
     }
 
-    public void keyPressed(KeyEvent e) {
-        switch(e.getKeyCode()) {
-            // UP & DOWN are same if furled or unfurled
-          case KeyEvent.VK_DOWN:
-          case KeyEvent.VK_KP_DOWN: {
-              if (helper.getItemCount() > 1) {
-                  helper.down();
-                  int newIdx = helper.getSelectedIndex();
+    publid void kfyPrfssfd(KfyEvfnt f) {
+        switdi(f.gftKfyCodf()) {
+            // UP & DOWN brf sbmf if furlfd or unfurlfd
+          dbsf KfyEvfnt.VK_DOWN:
+          dbsf KfyEvfnt.VK_KP_DOWN: {
+              if (iflpfr.gftItfmCount() > 1) {
+                  iflpfr.down();
+                  int nfwIdx = iflpfr.gftSflfdtfdIndfx();
 
-                  ((Choice)target).select(newIdx);
-                  postEvent(new ItemEvent((Choice)target,
-                                          ItemEvent.ITEM_STATE_CHANGED,
-                                          ((Choice)target).getItem(newIdx),
-                                          ItemEvent.SELECTED));
-                  repaint();
+                  ((Cioidf)tbrgft).sflfdt(nfwIdx);
+                  postEvfnt(nfw ItfmEvfnt((Cioidf)tbrgft,
+                                          ItfmEvfnt.ITEM_STATE_CHANGED,
+                                          ((Cioidf)tbrgft).gftItfm(nfwIdx),
+                                          ItfmEvfnt.SELECTED));
+                  rfpbint();
               }
-              break;
+              brfbk;
           }
-          case KeyEvent.VK_UP:
-          case KeyEvent.VK_KP_UP: {
-              if (helper.getItemCount() > 1) {
-                  helper.up();
-                  int newIdx = helper.getSelectedIndex();
+          dbsf KfyEvfnt.VK_UP:
+          dbsf KfyEvfnt.VK_KP_UP: {
+              if (iflpfr.gftItfmCount() > 1) {
+                  iflpfr.up();
+                  int nfwIdx = iflpfr.gftSflfdtfdIndfx();
 
-                  ((Choice)target).select(newIdx);
-                  postEvent(new ItemEvent((Choice)target,
-                                          ItemEvent.ITEM_STATE_CHANGED,
-                                          ((Choice)target).getItem(newIdx),
-                                          ItemEvent.SELECTED));
-                  repaint();
+                  ((Cioidf)tbrgft).sflfdt(nfwIdx);
+                  postEvfnt(nfw ItfmEvfnt((Cioidf)tbrgft,
+                                          ItfmEvfnt.ITEM_STATE_CHANGED,
+                                          ((Cioidf)tbrgft).gftItfm(nfwIdx),
+                                          ItfmEvfnt.SELECTED));
+                  rfpbint();
               }
-              break;
+              brfbk;
           }
-          case KeyEvent.VK_PAGE_DOWN:
-              if (unfurled && !dragging) {
-                  int oldIdx = helper.getSelectedIndex();
-                  helper.pageDown();
-                  int newIdx = helper.getSelectedIndex();
-                  if (oldIdx != newIdx) {
-                      ((Choice)target).select(newIdx);
-                      postEvent(new ItemEvent((Choice)target,
-                                              ItemEvent.ITEM_STATE_CHANGED,
-                                              ((Choice)target).getItem(newIdx),
-                                              ItemEvent.SELECTED));
-                      repaint();
+          dbsf KfyEvfnt.VK_PAGE_DOWN:
+              if (unfurlfd && !drbgging) {
+                  int oldIdx = iflpfr.gftSflfdtfdIndfx();
+                  iflpfr.pbgfDown();
+                  int nfwIdx = iflpfr.gftSflfdtfdIndfx();
+                  if (oldIdx != nfwIdx) {
+                      ((Cioidf)tbrgft).sflfdt(nfwIdx);
+                      postEvfnt(nfw ItfmEvfnt((Cioidf)tbrgft,
+                                              ItfmEvfnt.ITEM_STATE_CHANGED,
+                                              ((Cioidf)tbrgft).gftItfm(nfwIdx),
+                                              ItfmEvfnt.SELECTED));
+                      rfpbint();
                   }
               }
-              break;
-          case KeyEvent.VK_PAGE_UP:
-              if (unfurled && !dragging) {
-                  int oldIdx = helper.getSelectedIndex();
-                  helper.pageUp();
-                  int newIdx = helper.getSelectedIndex();
-                  if (oldIdx != newIdx) {
-                      ((Choice)target).select(newIdx);
-                      postEvent(new ItemEvent((Choice)target,
-                                              ItemEvent.ITEM_STATE_CHANGED,
-                                              ((Choice)target).getItem(newIdx),
-                                              ItemEvent.SELECTED));
-                      repaint();
+              brfbk;
+          dbsf KfyEvfnt.VK_PAGE_UP:
+              if (unfurlfd && !drbgging) {
+                  int oldIdx = iflpfr.gftSflfdtfdIndfx();
+                  iflpfr.pbgfUp();
+                  int nfwIdx = iflpfr.gftSflfdtfdIndfx();
+                  if (oldIdx != nfwIdx) {
+                      ((Cioidf)tbrgft).sflfdt(nfwIdx);
+                      postEvfnt(nfw ItfmEvfnt((Cioidf)tbrgft,
+                                              ItfmEvfnt.ITEM_STATE_CHANGED,
+                                              ((Cioidf)tbrgft).gftItfm(nfwIdx),
+                                              ItfmEvfnt.SELECTED));
+                      rfpbint();
                   }
               }
-              break;
-          case KeyEvent.VK_ESCAPE:
-          case KeyEvent.VK_ENTER:
-              if (unfurled) {
-                  if (dragging){
-                      if (e.getKeyCode() == KeyEvent.VK_ESCAPE){
-                          //This also happens on
-                          // - MouseButton2,3, etc. press
-                          // - ENTER press
-                          helper.select(dragStartIdx);
-                      } else { //KeyEvent.VK_ENTER:
-                          int newIdx = helper.getSelectedIndex();
-                          ((Choice)target).select(newIdx);
-                          postEvent(new ItemEvent((Choice)target,
-                                                  ItemEvent.ITEM_STATE_CHANGED,
-                                                  ((Choice)target).getItem(newIdx),
-                                                  ItemEvent.SELECTED));
+              brfbk;
+          dbsf KfyEvfnt.VK_ESCAPE:
+          dbsf KfyEvfnt.VK_ENTER:
+              if (unfurlfd) {
+                  if (drbgging){
+                      if (f.gftKfyCodf() == KfyEvfnt.VK_ESCAPE){
+                          //Tiis blso ibppfns on
+                          // - MousfButton2,3, ftd. prfss
+                          // - ENTER prfss
+                          iflpfr.sflfdt(drbgStbrtIdx);
+                      } flsf { //KfyEvfnt.VK_ENTER:
+                          int nfwIdx = iflpfr.gftSflfdtfdIndfx();
+                          ((Cioidf)tbrgft).sflfdt(nfwIdx);
+                          postEvfnt(nfw ItfmEvfnt((Cioidf)tbrgft,
+                                                  ItfmEvfnt.ITEM_STATE_CHANGED,
+                                                  ((Cioidf)tbrgft).gftItfm(nfwIdx),
+                                                  ItfmEvfnt.SELECTED));
                       }
                   }
-                  hidePopdownMenu();
-                  dragging = false;
-                  wasDragged = false;
-                  mouseInSB = false;
+                  iidfPopdownMfnu();
+                  drbgging = fblsf;
+                  wbsDrbggfd = fblsf;
+                  mousfInSB = fblsf;
 
-                  // See 6240074 for more information
-                  if (choiceListener != null){
-                      choiceListener.unfurledChoiceClosing();
+                  // Sff 6240074 for morf informbtion
+                  if (dioidfListfnfr != null){
+                      dioidfListfnfr.unfurlfdCioidfClosing();
                   }
               }
-              break;
-          default:
-              if (unfurled) {
-                  Toolkit.getDefaultToolkit().beep();
+              brfbk;
+          dffbult:
+              if (unfurlfd) {
+                  Toolkit.gftDffbultToolkit().bffp();
               }
-              break;
+              brfbk;
         }
     }
 
-    public boolean handlesWheelScrolling() { return true; }
+    publid boolfbn ibndlfsWifflSdrolling() { rfturn truf; }
 
-    void handleJavaMouseWheelEvent(MouseWheelEvent e) {
-        if (unfurled && helper.isVSBVisible()) {
-            if (ListHelper.doWheelScroll(helper.getVSB(), null, e)) {
-                repaint();
+    void ibndlfJbvbMousfWifflEvfnt(MousfWifflEvfnt f) {
+        if (unfurlfd && iflpfr.isVSBVisiblf()) {
+            if (ListHflpfr.doWifflSdroll(iflpfr.gftVSB(), null, f)) {
+                rfpbint();
             }
         }
     }
 
-    void handleJavaMouseEvent(MouseEvent e) {
-        super.handleJavaMouseEvent(e);
-        int i = e.getID();
-        switch (i) {
-          case MouseEvent.MOUSE_PRESSED:
-              mousePressed(e);
-              break;
-          case MouseEvent.MOUSE_RELEASED:
-              mouseReleased(e);
-              break;
-          case MouseEvent.MOUSE_DRAGGED:
-              mouseDragged(e);
-              break;
+    void ibndlfJbvbMousfEvfnt(MousfEvfnt f) {
+        supfr.ibndlfJbvbMousfEvfnt(f);
+        int i = f.gftID();
+        switdi (i) {
+          dbsf MousfEvfnt.MOUSE_PRESSED:
+              mousfPrfssfd(f);
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_RELEASED:
+              mousfRflfbsfd(f);
+              brfbk;
+          dbsf MousfEvfnt.MOUSE_DRAGGED:
+              mousfDrbggfd(f);
+              brfbk;
         }
     }
 
-    public void mousePressed(MouseEvent e) {
+    publid void mousfPrfssfd(MousfEvfnt f) {
         /*
-         * fix for 5003166: a Choice on XAWT shouldn't react to any
-         * mouse button presses except left. This involves presses on
-         * Choice but not on opened part of choice.
+         * fix for 5003166: b Cioidf on XAWT siouldn't rfbdt to bny
+         * mousf button prfssfs fxdfpt lfft. Tiis involvfs prfssfs on
+         * Cioidf but not on opfnfd pbrt of dioidf.
          */
-        if (e.getButton() == MouseEvent.BUTTON1){
-            dragStartIdx = helper.getSelectedIndex();
-            if (unfurled) {
-                //fix 6259328: PIT: Choice scrolls when dragging the parent frame while drop-down is active, XToolkit
-                if (! (isMouseEventInChoice(e) ||
-                       unfurledChoice.isMouseEventInside(e)))
+        if (f.gftButton() == MousfEvfnt.BUTTON1){
+            drbgStbrtIdx = iflpfr.gftSflfdtfdIndfx();
+            if (unfurlfd) {
+                //fix 6259328: PIT: Cioidf sdrolls wifn drbgging tif pbrfnt frbmf wiilf drop-down is bdtivf, XToolkit
+                if (! (isMousfEvfntInCioidf(f) ||
+                       unfurlfdCioidf.isMousfEvfntInsidf(f)))
                 {
-                    hidePopdownMenu();
+                    iidfPopdownMfnu();
                 }
-                // Press on unfurled Choice.  Highlight the item under the cursor,
-                // but don't send item event or set the text on the button yet
-                unfurledChoice.trackMouse(e);
+                // Prfss on unfurlfd Cioidf.  Higiligit tif itfm undfr tif dursor,
+                // but don't sfnd itfm fvfnt or sft tif tfxt on tif button yft
+                unfurlfdCioidf.trbdkMousf(f);
             }
-            else {
-                // Choice is up - unfurl it
-                grabInput();
-                unfurledChoice.toFront();
-                firstPress = true;
-                wasDragged = false;
-                unfurled = true;
+            flsf {
+                // Cioidf is up - unfurl it
+                grbbInput();
+                unfurlfdCioidf.toFront();
+                firstPrfss = truf;
+                wbsDrbggfd = fblsf;
+                unfurlfd = truf;
             }
         }
     }
 
     /*
-     * helper method for mouseReleased routine
+     * iflpfr mftiod for mousfRflfbsfd routinf
      */
-    void hidePopdownMenu(){
-        ungrabInput();
-        unfurledChoice.setVisible(false);
-        unfurled = false;
+    void iidfPopdownMfnu(){
+        ungrbbInput();
+        unfurlfdCioidf.sftVisiblf(fblsf);
+        unfurlfd = fblsf;
     }
 
-    public void mouseReleased(MouseEvent e) {
-        if (unfurled) {
-            if (mouseInSB) {
-                unfurledChoice.trackMouse(e);
+    publid void mousfRflfbsfd(MousfEvfnt f) {
+        if (unfurlfd) {
+            if (mousfInSB) {
+                unfurlfdCioidf.trbdkMousf(f);
             }
-            else {
-                // We pressed and dragged onto the Choice, or, this is the
-                // second release after clicking to make the Choice "stick"
-                // unfurled.
-                // This release should ungrab/furl, and set the new item if
-                // release was over the unfurled Choice.
+            flsf {
+                // Wf prfssfd bnd drbggfd onto tif Cioidf, or, tiis is tif
+                // sfdond rflfbsf bftfr dlidking to mbkf tif Cioidf "stidk"
+                // unfurlfd.
+                // Tiis rflfbsf siould ungrbb/furl, bnd sft tif nfw itfm if
+                // rflfbsf wbs ovfr tif unfurlfd Cioidf.
 
-                // Fix for 6239944 : Choice shouldn't close its
-                // pop-down menu if user presses Mouse on Choice's Scrollbar
-                // some additional cases like releasing mouse outside
-                // of Choice are considered too
-                boolean isMouseEventInside = unfurledChoice.isMouseEventInside( e );
-                boolean isMouseInListArea = unfurledChoice.isMouseInListArea( e );
+                // Fix for 6239944 : Cioidf siouldn't dlosf its
+                // pop-down mfnu if usfr prfssfs Mousf on Cioidf's Sdrollbbr
+                // somf bdditionbl dbsfs likf rflfbsing mousf outsidf
+                // of Cioidf brf donsidfrfd too
+                boolfbn isMousfEvfntInsidf = unfurlfdCioidf.isMousfEvfntInsidf( f );
+                boolfbn isMousfInListArfb = unfurlfdCioidf.isMousfInListArfb( f );
 
-                // Fixed 6318746: REG: File Selection is failing
-                // We shouldn't restore the selected item
-                // if the mouse was dragged outside the drop-down choice area
-                if (!helper.isEmpty() && !isMouseInListArea && dragging) {
-                    // Set the selected item back how it was.
-                    ((Choice)target).select(dragStartIdx);
+                // Fixfd 6318746: REG: Filf Sflfdtion is fbiling
+                // Wf siouldn't rfstorf tif sflfdtfd itfm
+                // if tif mousf wbs drbggfd outsidf tif drop-down dioidf brfb
+                if (!iflpfr.isEmpty() && !isMousfInListArfb && drbgging) {
+                    // Sft tif sflfdtfd itfm bbdk iow it wbs.
+                    ((Cioidf)tbrgft).sflfdt(drbgStbrtIdx);
                 }
 
-                // Choice must be closed if user releases mouse on
-                // pop-down menu on the second click
-                if ( !firstPress && isMouseInListArea) {
-                    hidePopdownMenu();
+                // Cioidf must bf dlosfd if usfr rflfbsfs mousf on
+                // pop-down mfnu on tif sfdond dlidk
+                if ( !firstPrfss && isMousfInListArfb) {
+                    iidfPopdownMfnu();
                 }
-                // Choice must be closed if user releases mouse
-                // outside of Choice's pop-down menu  on the second click
-                if ( !firstPress && !isMouseEventInside) {
-                    hidePopdownMenu();
+                // Cioidf must bf dlosfd if usfr rflfbsfs mousf
+                // outsidf of Cioidf's pop-down mfnu  on tif sfdond dlidk
+                if ( !firstPrfss && !isMousfEvfntInsidf) {
+                    iidfPopdownMfnu();
                 }
-                //if user drags Mouse on pop-down menu, Scrollbar or
-                // outside the Choice
-                if ( firstPress && dragging) {
-                    hidePopdownMenu();
+                //if usfr drbgs Mousf on pop-down mfnu, Sdrollbbr or
+                // outsidf tif Cioidf
+                if ( firstPrfss && drbgging) {
+                    iidfPopdownMfnu();
                 }
-                /* this could happen when user has opened a Choice and
-                 * released mouse button. Then he drags mouse on the
-                 * Scrollbar and releases mouse again.
+                /* tiis dould ibppfn wifn usfr ibs opfnfd b Cioidf bnd
+                 * rflfbsfd mousf button. Tifn if drbgs mousf on tif
+                 * Sdrollbbr bnd rflfbsfs mousf bgbin.
                  */
-                if ( !firstPress && !isMouseInListArea &&
-                     isMouseEventInside && dragging)
+                if ( !firstPrfss && !isMousfInListArfb &&
+                     isMousfEvfntInsidf && drbgging)
                 {
-                    hidePopdownMenu();
+                    iidfPopdownMfnu();
                 }
 
-                if (!helper.isEmpty()) {
-                    // Only update the Choice if the mouse button is released
-                    // over the list of items.
-                    if (unfurledChoice.isMouseInListArea(e)) {
-                        int newIdx = helper.getSelectedIndex();
-                        if (newIdx >= 0) {
-                            // Update the selected item in the target now that
-                            // the mouse selection is complete.
-                            if (newIdx != dragStartIdx) {
-                                ((Choice)target).select(newIdx);
-                                // NOTE: We get a repaint when Choice.select()
-                                // calls our peer.select().
+                if (!iflpfr.isEmpty()) {
+                    // Only updbtf tif Cioidf if tif mousf button is rflfbsfd
+                    // ovfr tif list of itfms.
+                    if (unfurlfdCioidf.isMousfInListArfb(f)) {
+                        int nfwIdx = iflpfr.gftSflfdtfdIndfx();
+                        if (nfwIdx >= 0) {
+                            // Updbtf tif sflfdtfd itfm in tif tbrgft now tibt
+                            // tif mousf sflfdtion is domplftf.
+                            if (nfwIdx != drbgStbrtIdx) {
+                                ((Cioidf)tbrgft).sflfdt(nfwIdx);
+                                // NOTE: Wf gft b rfpbint wifn Cioidf.sflfdt()
+                                // dblls our pffr.sflfdt().
                             }
-                            if (wasDragged && e.getButton() != MouseEvent.BUTTON1){
-                                ((Choice)target).select(dragStartIdx);
+                            if (wbsDrbggfd && f.gftButton() != MousfEvfnt.BUTTON1){
+                                ((Cioidf)tbrgft).sflfdt(drbgStbrtIdx);
                             }
 
-                            /*fix for 6239941 : Choice triggers ItemEvent when selecting an item with right mouse button, Xtoolkit
-                            * We should generate ItemEvent if only
-                            * LeftMouseButton used */
-                            if (e.getButton() == MouseEvent.BUTTON1 &&
-                                (!firstPress || wasDragged ))
+                            /*fix for 6239941 : Cioidf triggfrs ItfmEvfnt wifn sflfdting bn itfm witi rigit mousf button, Xtoolkit
+                            * Wf siould gfnfrbtf ItfmEvfnt if only
+                            * LfftMousfButton usfd */
+                            if (f.gftButton() == MousfEvfnt.BUTTON1 &&
+                                (!firstPrfss || wbsDrbggfd ))
                             {
-                                postEvent(new ItemEvent((Choice)target,
-                                                        ItemEvent.ITEM_STATE_CHANGED,
-                                                        ((Choice)target).getItem(newIdx),
-                                                        ItemEvent.SELECTED));
+                                postEvfnt(nfw ItfmEvfnt((Cioidf)tbrgft,
+                                                        ItfmEvfnt.ITEM_STATE_CHANGED,
+                                                        ((Cioidf)tbrgft).gftItfm(nfwIdx),
+                                                        ItfmEvfnt.SELECTED));
                             }
 
-                            // see 6240074 for more information
-                            if (choiceListener != null) {
-                                choiceListener.unfurledChoiceClosing();
+                            // sff 6240074 for morf informbtion
+                            if (dioidfListfnfr != null) {
+                                dioidfListfnfr.unfurlfdCioidfClosing();
                             }
                         }
                     }
                 }
-                // See 6243382 for more information
-                unfurledChoice.trackMouse(e);
+                // Sff 6243382 for morf informbtion
+                unfurlfdCioidf.trbdkMousf(f);
             }
         }
 
-        dragging = false;
-        wasDragged = false;
-        firstPress = false;
-        dragStartIdx = -1;
+        drbgging = fblsf;
+        wbsDrbggfd = fblsf;
+        firstPrfss = fblsf;
+        drbgStbrtIdx = -1;
     }
 
-    public void mouseDragged(MouseEvent e) {
+    publid void mousfDrbggfd(MousfEvfnt f) {
         /*
-         * fix for 5003166. On Motif user are unable to drag
-         * mouse inside opened Choice if he drags the mouse with
-         * different from LEFT mouse button ( e.g. RIGHT or MIDDLE).
-         * This fix make impossible to drag mouse inside opened choice
-         * with other mouse buttons rather then LEFT one.
+         * fix for 5003166. On Motif usfr brf unbblf to drbg
+         * mousf insidf opfnfd Cioidf if if drbgs tif mousf witi
+         * difffrfnt from LEFT mousf button ( f.g. RIGHT or MIDDLE).
+         * Tiis fix mbkf impossiblf to drbg mousf insidf opfnfd dioidf
+         * witi otifr mousf buttons rbtifr tifn LEFT onf.
          */
-        if ( e.getModifiers() == MouseEvent.BUTTON1_MASK ){
-            dragging = true;
-            wasDragged = true;
-            unfurledChoice.trackMouse(e);
+        if ( f.gftModififrs() == MousfEvfnt.BUTTON1_MASK ){
+            drbgging = truf;
+            wbsDrbggfd = truf;
+            unfurlfdCioidf.trbdkMousf(f);
         }
     }
 
-    // Stolen from TinyChoicePeer
-    public Dimension getMinimumSize() {
-        // TODO: move this impl into ListHelper?
-        FontMetrics fm = getFontMetrics(target.getFont());
-        Choice c = (Choice)target;
+    // Stolfn from TinyCioidfPffr
+    publid Dimfnsion gftMinimumSizf() {
+        // TODO: movf tiis impl into ListHflpfr?
+        FontMftrids fm = gftFontMftrids(tbrgft.gftFont());
+        Cioidf d = (Cioidf)tbrgft;
         int w = 0;
-        for (int i = c.countItems() ; i-- > 0 ;) {
-            w = Math.max(fm.stringWidth(c.getItem(i)), w);
+        for (int i = d.dountItfms() ; i-- > 0 ;) {
+            w = Mbti.mbx(fm.stringWidti(d.gftItfm(i)), w);
         }
-        return new Dimension(w + TEXT_XPAD + WIDGET_OFFSET,
-                             fm.getMaxAscent() + fm.getMaxDescent() + TEXT_YPAD);
+        rfturn nfw Dimfnsion(w + TEXT_XPAD + WIDGET_OFFSET,
+                             fm.gftMbxAsdfnt() + fm.gftMbxDfsdfnt() + TEXT_YPAD);
     }
 
     /*
-     * Layout the...
+     * Lbyout tif...
      */
-    public void layout() {
+    publid void lbyout() {
         /*
-          Dimension size = target.getSize();
-          Font f = target.getFont();
-          FontMetrics fm = target.getFontMetrics(f);
-          String text = ((Choice)target).getLabel();
+          Dimfnsion sizf = tbrgft.gftSizf();
+          Font f = tbrgft.gftFont();
+          FontMftrids fm = tbrgft.gftFontMftrids(f);
+          String tfxt = ((Cioidf)tbrgft).gftLbbfl();
 
-          textRect.height = fm.getHeight();
+          tfxtRfdt.ifigit = fm.gftHfigit();
 
-          checkBoxSize = getChoiceSize(fm);
+          difdkBoxSizf = gftCioidfSizf(fm);
 
-          // Note - Motif appears to use an left inset that is slightly
-          // scaled to the checkbox/font size.
-          cbX = borderInsets.left + checkBoxInsetFromText;
-          cbY = size.height / 2 - checkBoxSize / 2;
-          int minTextX = borderInsets.left + 2 * checkBoxInsetFromText + checkBoxSize;
-          // FIXME: will need to account for alignment?
-          // FIXME: call layout() on alignment changes
-          //textRect.width = fm.stringWidth(text);
-          textRect.width = fm.stringWidth(text == null ? "" : text);
-          textRect.x = Math.max(minTextX, size.width / 2 - textRect.width / 2);
-          textRect.y = size.height / 2 - textRect.height / 2 + borderInsets.top;
+          // Notf - Motif bppfbrs to usf bn lfft insft tibt is sligitly
+          // sdblfd to tif difdkbox/font sizf.
+          dbX = bordfrInsfts.lfft + difdkBoxInsftFromTfxt;
+          dbY = sizf.ifigit / 2 - difdkBoxSizf / 2;
+          int minTfxtX = bordfrInsfts.lfft + 2 * difdkBoxInsftFromTfxt + difdkBoxSizf;
+          // FIXME: will nffd to bddount for blignmfnt?
+          // FIXME: dbll lbyout() on blignmfnt dibngfs
+          //tfxtRfdt.widti = fm.stringWidti(tfxt);
+          tfxtRfdt.widti = fm.stringWidti(tfxt == null ? "" : tfxt);
+          tfxtRfdt.x = Mbti.mbx(minTfxtX, sizf.widti / 2 - tfxtRfdt.widti / 2);
+          tfxtRfdt.y = sizf.ifigit / 2 - tfxtRfdt.ifigit / 2 + bordfrInsfts.top;
 
-          focusRect.x = focusInsets.left;
-          focusRect.y = focusInsets.top;
-          focusRect.width = size.width-(focusInsets.left+focusInsets.right)-1;
-          focusRect.height = size.height-(focusInsets.top+focusInsets.bottom)-1;
+          fodusRfdt.x = fodusInsfts.lfft;
+          fodusRfdt.y = fodusInsfts.top;
+          fodusRfdt.widti = sizf.widti-(fodusInsfts.lfft+fodusInsfts.rigit)-1;
+          fodusRfdt.ifigit = sizf.ifigit-(fodusInsfts.top+fodusInsfts.bottom)-1;
 
-          myCheckMark = AffineTransform.getScaleInstance((double)target.getFont().getSize() / MASTER_SIZE, (double)target.getFont().getSize() / MASTER_SIZE).createTransformedShape(MASTER_CHECKMARK);
+          myCifdkMbrk = AffinfTrbnsform.gftSdblfInstbndf((doublf)tbrgft.gftFont().gftSizf() / MASTER_SIZE, (doublf)tbrgft.gftFont().gftSizf() / MASTER_SIZE).drfbtfTrbnsformfdSibpf(MASTER_CHECKMARK);
         */
 
     }
 
     /**
-     * Paint the choice
+     * Pbint tif dioidf
      */
-    @Override
-    void paintPeer(final Graphics g) {
-        flush();
-        Dimension size = getPeerSize();
-        // TODO: when mouse is down over button, widget should be drawn depressed
-        g.setColor(getPeerBackground());
-        g.fillRect(0, 0, width, height);
+    @Ovfrridf
+    void pbintPffr(finbl Grbpiids g) {
+        flusi();
+        Dimfnsion sizf = gftPffrSizf();
+        // TODO: wifn mousf is down ovfr button, widgft siould bf drbwn dfprfssfd
+        g.sftColor(gftPffrBbdkground());
+        g.fillRfdt(0, 0, widti, ifigit);
 
-        drawMotif3DRect(g, 1, 1, width-2, height-2, false);
-        drawMotif3DRect(g, width - WIDGET_OFFSET, (height / 2) - 3, 12, 6, false);
+        drbwMotif3DRfdt(g, 1, 1, widti-2, ifigit-2, fblsf);
+        drbwMotif3DRfdt(g, widti - WIDGET_OFFSET, (ifigit / 2) - 3, 12, 6, fblsf);
 
-        if (!helper.isEmpty() && helper.getSelectedIndex() != -1) {
-            g.setFont(getPeerFont());
-            FontMetrics fm = g.getFontMetrics();
-            String lbl = helper.getItem(helper.getSelectedIndex());
-            if (lbl != null && drawSelectedItem) {
-                g.setClip(1, 1, width - WIDGET_OFFSET - 2, height);
-                if (isEnabled()) {
-                    g.setColor(getPeerForeground());
-                    g.drawString(lbl, 5, (height + fm.getMaxAscent()-fm.getMaxDescent())/2);
+        if (!iflpfr.isEmpty() && iflpfr.gftSflfdtfdIndfx() != -1) {
+            g.sftFont(gftPffrFont());
+            FontMftrids fm = g.gftFontMftrids();
+            String lbl = iflpfr.gftItfm(iflpfr.gftSflfdtfdIndfx());
+            if (lbl != null && drbwSflfdtfdItfm) {
+                g.sftClip(1, 1, widti - WIDGET_OFFSET - 2, ifigit);
+                if (isEnbblfd()) {
+                    g.sftColor(gftPffrForfground());
+                    g.drbwString(lbl, 5, (ifigit + fm.gftMbxAsdfnt()-fm.gftMbxDfsdfnt())/2);
                 }
-                else {
-                    g.setColor(getPeerBackground().brighter());
-                    g.drawString(lbl, 5, (height + fm.getMaxAscent()-fm.getMaxDescent())/2);
-                    g.setColor(getPeerBackground().darker());
-                    g.drawString(lbl, 4, ((height + fm.getMaxAscent()-fm.getMaxDescent())/2)-1);
+                flsf {
+                    g.sftColor(gftPffrBbdkground().brigitfr());
+                    g.drbwString(lbl, 5, (ifigit + fm.gftMbxAsdfnt()-fm.gftMbxDfsdfnt())/2);
+                    g.sftColor(gftPffrBbdkground().dbrkfr());
+                    g.drbwString(lbl, 4, ((ifigit + fm.gftMbxAsdfnt()-fm.gftMbxDfsdfnt())/2)-1);
                 }
-                g.setClip(0, 0, width, height);
+                g.sftClip(0, 0, widti, ifigit);
             }
         }
-        if (hasFocus()) {
-            paintFocus(g,focusInsets.left,focusInsets.top,size.width-(focusInsets.left+focusInsets.right)-1,size.height-(focusInsets.top+focusInsets.bottom)-1);
+        if (ibsFodus()) {
+            pbintFodus(g,fodusInsfts.lfft,fodusInsfts.top,sizf.widti-(fodusInsfts.lfft+fodusInsfts.rigit)-1,sizf.ifigit-(fodusInsfts.top+fodusInsfts.bottom)-1);
         }
-        if (unfurled) {
-            unfurledChoice.repaint();
+        if (unfurlfd) {
+            unfurlfdCioidf.rfpbint();
         }
-        flush();
+        flusi();
     }
 
-    protected void paintFocus(Graphics g,
-                              int x, int y, int w, int h) {
-        g.setColor(focusColor);
-        g.drawRect(x,y,w,h);
+    protfdtfd void pbintFodus(Grbpiids g,
+                              int x, int y, int w, int i) {
+        g.sftColor(fodusColor);
+        g.drbwRfdt(x,y,w,i);
     }
 
 
 
     /*
-     * ChoicePeer methods stolen from TinyChoicePeer
+     * CioidfPffr mftiods stolfn from TinyCioidfPffr
      */
 
-    public void select(int index) {
-        helper.select(index);
-        helper.setFocusedIndex(index);
-        repaint();
+    publid void sflfdt(int indfx) {
+        iflpfr.sflfdt(indfx);
+        iflpfr.sftFodusfdIndfx(indfx);
+        rfpbint();
     }
 
-    public void add(String item, int index) {
-        helper.add(item, index);
-        repaint();
+    publid void bdd(String itfm, int indfx) {
+        iflpfr.bdd(itfm, indfx);
+        rfpbint();
     }
 
-    public void remove(int index) {
-        boolean selected = (index == helper.getSelectedIndex());
-        boolean visibled = (index >= helper.firstDisplayedIndex() && index <= helper.lastDisplayedIndex());
-        helper.remove(index);
-        if (selected) {
-            if (helper.isEmpty()) {
-                helper.select(-1);
+    publid void rfmovf(int indfx) {
+        boolfbn sflfdtfd = (indfx == iflpfr.gftSflfdtfdIndfx());
+        boolfbn visiblfd = (indfx >= iflpfr.firstDisplbyfdIndfx() && indfx <= iflpfr.lbstDisplbyfdIndfx());
+        iflpfr.rfmovf(indfx);
+        if (sflfdtfd) {
+            if (iflpfr.isEmpty()) {
+                iflpfr.sflfdt(-1);
             }
-            else {
-                helper.select(0);
+            flsf {
+                iflpfr.sflfdt(0);
             }
         }
         /*
          * Fix for 6248016
-         * After removing the item of the choice we need to reshape unfurled choice
-         * in order to keep actual bounds of the choice
+         * Aftfr rfmoving tif itfm of tif dioidf wf nffd to rfsibpf unfurlfd dioidf
+         * in ordfr to kffp bdtubl bounds of tif dioidf
          */
 
         /*
-         * condition added only for performance
+         * dondition bddfd only for pfrformbndf
          */
-        if (!unfurled) {
-            // Fix 6292186: PIT: Choice is not refreshed properly when the last item gets removed, XToolkit
-            // We should take into account that there is no 'select' invoking (hence 'repaint')
-            // if the choice is empty (see Choice.java method removeNoInvalidate())
-            // The condition isn't 'visibled' since it would be cause of the twice repainting
-            if (helper.isEmpty()) {
-                repaint();
+        if (!unfurlfd) {
+            // Fix 6292186: PIT: Cioidf is not rffrfsifd propfrly wifn tif lbst itfm gfts rfmovfd, XToolkit
+            // Wf siould tbkf into bddount tibt tifrf is no 'sflfdt' invoking (ifndf 'rfpbint')
+            // if tif dioidf is fmpty (sff Cioidf.jbvb mftiod rfmovfNoInvblidbtf())
+            // Tif dondition isn't 'visiblfd' sindf it would bf dbusf of tif twidf rfpbinting
+            if (iflpfr.isEmpty()) {
+                rfpbint();
             }
-            return;
+            rfturn;
         }
 
         /*
-         * condition added only for performance
-         * the count of the visible items changed
+         * dondition bddfd only for pfrformbndf
+         * tif dount of tif visiblf itfms dibngfd
          */
-        if (visibled){
-            Rectangle r = unfurledChoice.placeOnScreen();
-            unfurledChoice.reshape(r.x, r.y, r.width, r.height);
-            return;
+        if (visiblfd){
+            Rfdtbnglf r = unfurlfdCioidf.plbdfOnSdrffn();
+            unfurlfdCioidf.rfsibpf(r.x, r.y, r.widti, r.ifigit);
+            rfturn;
         }
 
         /*
-         * condition added only for performance
-         * the structure of visible items changed
-         * if removable item is non visible and non selected then there is no repaint
+         * dondition bddfd only for pfrformbndf
+         * tif strudturf of visiblf itfms dibngfd
+         * if rfmovbblf itfm is non visiblf bnd non sflfdtfd tifn tifrf is no rfpbint
          */
-        if (visibled || selected){
-            repaint();
+        if (visiblfd || sflfdtfd){
+            rfpbint();
         }
     }
 
-    public void removeAll() {
-        helper.removeAll();
-        helper.select(-1);
+    publid void rfmovfAll() {
+        iflpfr.rfmovfAll();
+        iflpfr.sflfdt(-1);
         /*
          * Fix for 6248016
-         * After removing the item of the choice we need to reshape unfurled choice
-         * in order to keep actual bounds of the choice
+         * Aftfr rfmoving tif itfm of tif dioidf wf nffd to rfsibpf unfurlfd dioidf
+         * in ordfr to kffp bdtubl bounds of tif dioidf
          */
-        Rectangle r = unfurledChoice.placeOnScreen();
-        unfurledChoice.reshape(r.x, r.y, r.width, r.height);
-        repaint();
+        Rfdtbnglf r = unfurlfdCioidf.plbdfOnSdrffn();
+        unfurlfdCioidf.rfsibpf(r.x, r.y, r.widti, r.ifigit);
+        rfpbint();
     }
 
     /**
-     * DEPRECATED: Replaced by add(String, int).
+     * DEPRECATED: Rfplbdfd by bdd(String, int).
      */
-    public void addItem(String item, int index) {
-        add(item, index);
+    publid void bddItfm(String itfm, int indfx) {
+        bdd(itfm, indfx);
     }
 
-    public void setFont(Font font) {
-        super.setFont(font);
-        helper.setFont(this.font);
+    publid void sftFont(Font font) {
+        supfr.sftFont(font);
+        iflpfr.sftFont(tiis.font);
     }
 
-    public void setForeground(Color c) {
-        super.setForeground(c);
-        helper.updateColors(getGUIcolors());
+    publid void sftForfground(Color d) {
+        supfr.sftForfground(d);
+        iflpfr.updbtfColors(gftGUIdolors());
     }
 
-    public void setBackground(Color c) {
-        super.setBackground(c);
-        unfurledChoice.setBackground(c);
-        helper.updateColors(getGUIcolors());
-        updateMotifColors(c);
+    publid void sftBbdkground(Color d) {
+        supfr.sftBbdkground(d);
+        unfurlfdCioidf.sftBbdkground(d);
+        iflpfr.updbtfColors(gftGUIdolors());
+        updbtfMotifColors(d);
     }
 
-    public void setDrawSelectedItem(boolean value) {
-        drawSelectedItem = value;
+    publid void sftDrbwSflfdtfdItfm(boolfbn vbluf) {
+        drbwSflfdtfdItfm = vbluf;
     }
 
-    public void setAlignUnder(Component comp) {
-        alignUnder = comp;
+    publid void sftAlignUndfr(Componfnt domp) {
+        blignUndfr = domp;
     }
 
-    // see 6240074 for more information
-    public void addXChoicePeerListener(XChoicePeerListener l){
-        choiceListener = l;
+    // sff 6240074 for morf informbtion
+    publid void bddXCioidfPffrListfnfr(XCioidfPffrListfnfr l){
+        dioidfListfnfr = l;
     }
 
-    // see 6240074 for more information
-    public void removeXChoicePeerListener(){
-        choiceListener = null;
+    // sff 6240074 for morf informbtion
+    publid void rfmovfXCioidfPffrListfnfr(){
+        dioidfListfnfr = null;
     }
 
-    public boolean isUnfurled(){
-        return unfurled;
+    publid boolfbn isUnfurlfd(){
+        rfturn unfurlfd;
     }
 
-    /* fix for 6261352. We should detect if current parent Window (containing a Choice) become iconified and hide pop-down menu with grab release.
-     * In this case we should hide pop-down menu.
+    /* fix for 6261352. Wf siould dftfdt if durrfnt pbrfnt Window (dontbining b Cioidf) bfdomf idonififd bnd iidf pop-down mfnu witi grbb rflfbsf.
+     * In tiis dbsf wf siould iidf pop-down mfnu.
      */
-    //calls from XWindowPeer. Could accept X-styled state events
-    public void stateChangedICCCM(int oldState, int newState) {
-        if (unfurled && oldState != newState){
-                hidePopdownMenu();
+    //dblls from XWindowPffr. Could bddfpt X-stylfd stbtf fvfnts
+    publid void stbtfCibngfdICCCM(int oldStbtf, int nfwStbtf) {
+        if (unfurlfd && oldStbtf != nfwStbtf){
+                iidfPopdownMfnu();
         }
     }
 
-    //calls from XFramePeer. Could accept Frame's states.
-    public void stateChangedJava(int oldState, int newState) {
-        if (unfurled && oldState != newState){
-            hidePopdownMenu();
+    //dblls from XFrbmfPffr. Could bddfpt Frbmf's stbtfs.
+    publid void stbtfCibngfdJbvb(int oldStbtf, int nfwStbtf) {
+        if (unfurlfd && oldStbtf != nfwStbtf){
+            iidfPopdownMfnu();
         }
     }
 
     /**************************************************************************/
-    /* Common functionality between List & Choice
+    /* Common fundtionblity bftwffn List & Cioidf
        /**************************************************************************/
 
     /**
-     * Inner class for the unfurled Choice list
-     * Much, much more docs
+     * Innfr dlbss for tif unfurlfd Cioidf list
+     * Mudi, mudi morf dods
      */
-    class UnfurledChoice extends XWindow /*implements XScrollbarClient*/ {
+    dlbss UnfurlfdCioidf fxtfnds XWindow /*implfmfnts XSdrollbbrClifnt*/ {
 
-        // First try - use Choice as the target
+        // First try - usf Cioidf bs tif tbrgft
 
-        public UnfurledChoice(Component target) {
-            super(target);
+        publid UnfurlfdCioidf(Componfnt tbrgft) {
+            supfr(tbrgft);
         }
 
-        // Override so we can do our own create()
-        public void preInit(XCreateWindowParams params) {
-            // A parent of this window is the target, at this point: wrong.
-            // Remove parent window; in the following preInit() call we'll calculate as a default
-            // a correct root window which is the proper parent for override redirect.
-            params.delete(PARENT_WINDOW);
-            super.preInit(params);
-            // Reset bounds(we'll set them later), set overrideRedirect
-            params.remove(BOUNDS);
-            params.add(OVERRIDE_REDIRECT, Boolean.TRUE);
+        // Ovfrridf so wf dbn do our own drfbtf()
+        publid void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+            // A pbrfnt of tiis window is tif tbrgft, bt tiis point: wrong.
+            // Rfmovf pbrfnt window; in tif following prfInit() dbll wf'll dbldulbtf bs b dffbult
+            // b dorrfdt root window wiidi is tif propfr pbrfnt for ovfrridf rfdirfdt.
+            pbrbms.dflftf(PARENT_WINDOW);
+            supfr.prfInit(pbrbms);
+            // Rfsft bounds(wf'll sft tifm lbtfr), sft ovfrridfRfdirfdt
+            pbrbms.rfmovf(BOUNDS);
+            pbrbms.bdd(OVERRIDE_REDIRECT, Boolfbn.TRUE);
         }
 
-        // Generally, bounds should be:
-        //  x = target.x
-        //  y = target.y + target.height
-        //  w = Max(target.width, getLongestItemWidth) + possible vertScrollbar
-        //  h = Min(MAX_UNFURLED_ITEMS, target.getItemCount()) * itemHeight
-        Rectangle placeOnScreen() {
-            int numItemsDisplayed;
-            // Motif paints an empty Choice the same size as a single item
-            if (helper.isEmpty()) {
-                numItemsDisplayed = 1;
+        // Gfnfrblly, bounds siould bf:
+        //  x = tbrgft.x
+        //  y = tbrgft.y + tbrgft.ifigit
+        //  w = Mbx(tbrgft.widti, gftLongfstItfmWidti) + possiblf vfrtSdrollbbr
+        //  i = Min(MAX_UNFURLED_ITEMS, tbrgft.gftItfmCount()) * itfmHfigit
+        Rfdtbnglf plbdfOnSdrffn() {
+            int numItfmsDisplbyfd;
+            // Motif pbints bn fmpty Cioidf tif sbmf sizf bs b singlf itfm
+            if (iflpfr.isEmpty()) {
+                numItfmsDisplbyfd = 1;
             }
-            else {
-                int numItems = helper.getItemCount();
-                numItemsDisplayed = Math.min(MAX_UNFURLED_ITEMS, numItems);
+            flsf {
+                int numItfms = iflpfr.gftItfmCount();
+                numItfmsDisplbyfd = Mbti.min(MAX_UNFURLED_ITEMS, numItfms);
             }
-            Point global = XChoicePeer.this.toGlobal(0,0);
-            Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+            Point globbl = XCioidfPffr.tiis.toGlobbl(0,0);
+            Dimfnsion sdrffn = Toolkit.gftDffbultToolkit().gftSdrffnSizf();
 
-            if (alignUnder != null) {
-                Rectangle choiceRec = XChoicePeer.this.getBounds();
-                choiceRec.setLocation(0, 0);
-                choiceRec = XChoicePeer.this.toGlobal(choiceRec);
-                Rectangle alignUnderRec = new Rectangle(alignUnder.getLocationOnScreen(), alignUnder.getSize()); // TODO: Security?
-                Rectangle result = choiceRec.union(alignUnderRec);
-                // we've got the left and width, calculate top and height
-                width = result.width;
-                x = result.x;
-                y = result.y + result.height;
-                height = 2*BORDER_WIDTH +
-                    numItemsDisplayed*(helper.getItemHeight()+2*ITEM_MARGIN);
-            } else {
-                x = global.x;
-                y = global.y + XChoicePeer.this.height;
-                width = Math.max(XChoicePeer.this.width,
-                                 helper.getMaxItemWidth() + 2 * (BORDER_WIDTH + ITEM_MARGIN + TEXT_SPACE) + (helper.isVSBVisible() ? SCROLLBAR_WIDTH : 0));
-                height = 2*BORDER_WIDTH +
-                    numItemsDisplayed*(helper.getItemHeight()+2*ITEM_MARGIN);
+            if (blignUndfr != null) {
+                Rfdtbnglf dioidfRfd = XCioidfPffr.tiis.gftBounds();
+                dioidfRfd.sftLodbtion(0, 0);
+                dioidfRfd = XCioidfPffr.tiis.toGlobbl(dioidfRfd);
+                Rfdtbnglf blignUndfrRfd = nfw Rfdtbnglf(blignUndfr.gftLodbtionOnSdrffn(), blignUndfr.gftSizf()); // TODO: Sfdurity?
+                Rfdtbnglf rfsult = dioidfRfd.union(blignUndfrRfd);
+                // wf'vf got tif lfft bnd widti, dbldulbtf top bnd ifigit
+                widti = rfsult.widti;
+                x = rfsult.x;
+                y = rfsult.y + rfsult.ifigit;
+                ifigit = 2*BORDER_WIDTH +
+                    numItfmsDisplbyfd*(iflpfr.gftItfmHfigit()+2*ITEM_MARGIN);
+            } flsf {
+                x = globbl.x;
+                y = globbl.y + XCioidfPffr.tiis.ifigit;
+                widti = Mbti.mbx(XCioidfPffr.tiis.widti,
+                                 iflpfr.gftMbxItfmWidti() + 2 * (BORDER_WIDTH + ITEM_MARGIN + TEXT_SPACE) + (iflpfr.isVSBVisiblf() ? SCROLLBAR_WIDTH : 0));
+                ifigit = 2*BORDER_WIDTH +
+                    numItfmsDisplbyfd*(iflpfr.gftItfmHfigit()+2*ITEM_MARGIN);
             }
-            // Don't run off the edge of the screen
+            // Don't run off tif fdgf of tif sdrffn
             if (x < 0) {
                 x = 0;
             }
-            else if (x + width > screen.width) {
-                x = screen.width - width;
+            flsf if (x + widti > sdrffn.widti) {
+                x = sdrffn.widti - widti;
             }
 
-            if (y + height > screen.height) {
-                y = global.y - height;
+            if (y + ifigit > sdrffn.ifigit) {
+                y = globbl.y - ifigit;
             }
             if (y < 0) {
                 y = 0;
             }
-            return new Rectangle(x, y, width, height);
+            rfturn nfw Rfdtbnglf(x, y, widti, ifigit);
         }
 
-        public void toFront() {
-            // see 6240074 for more information
-            if (choiceListener != null)
-                choiceListener.unfurledChoiceOpening(helper);
+        publid void toFront() {
+            // sff 6240074 for morf informbtion
+            if (dioidfListfnfr != null)
+                dioidfListfnfr.unfurlfdCioidfOpfning(iflpfr);
 
-            Rectangle r = placeOnScreen();
-            reshape(r.x, r.y, r.width, r.height);
-            super.toFront();
-            setVisible(true);
+            Rfdtbnglf r = plbdfOnSdrffn();
+            rfsibpf(r.x, r.y, r.widti, r.ifigit);
+            supfr.toFront();
+            sftVisiblf(truf);
         }
 
         /*
-         * Track a MouseEvent (either a drag or a press) and paint a new
-         * selected item, if necessary.
+         * Trbdk b MousfEvfnt (fitifr b drbg or b prfss) bnd pbint b nfw
+         * sflfdtfd itfm, if nfdfssbry.
          */
-        // FIXME: first unfurl after move is not at edge of the screen  onto second monitor doesn't
-        // track mouse correctly.  Problem is w/ UnfurledChoice coords
-        public void trackMouse(MouseEvent e) {
-            // Event coords are relative to the button, so translate a bit
-            Point local = toLocalCoords(e);
+        // FIXME: first unfurl bftfr movf is not bt fdgf of tif sdrffn  onto sfdond monitor dofsn't
+        // trbdk mousf dorrfdtly.  Problfm is w/ UnfurlfdCioidf doords
+        publid void trbdkMousf(MousfEvfnt f) {
+            // Evfnt doords brf rflbtivf to tif button, so trbnslbtf b bit
+            Point lodbl = toLodblCoords(f);
 
-            // If x,y is over unfurled Choice,
-            // highlight item under cursor
+            // If x,y is ovfr unfurlfd Cioidf,
+            // iigiligit itfm undfr dursor
 
-            switch (e.getID()) {
-              case MouseEvent.MOUSE_PRESSED:
-                  // FIXME: If the Choice is unfurled and the mouse is pressed
-                  // outside of the Choice, the mouse should ungrab on the
-                  // the press, not the release
-                  if (helper.isInVertSB(getBounds(), local.x, local.y)) {
-                      mouseInSB = true;
-                      helper.handleVSBEvent(e, getBounds(), local.x, local.y);
+            switdi (f.gftID()) {
+              dbsf MousfEvfnt.MOUSE_PRESSED:
+                  // FIXME: If tif Cioidf is unfurlfd bnd tif mousf is prfssfd
+                  // outsidf of tif Cioidf, tif mousf siould ungrbb on tif
+                  // tif prfss, not tif rflfbsf
+                  if (iflpfr.isInVfrtSB(gftBounds(), lodbl.x, lodbl.y)) {
+                      mousfInSB = truf;
+                      iflpfr.ibndlfVSBEvfnt(f, gftBounds(), lodbl.x, lodbl.y);
                   }
-                  else {
-                      trackSelection(local.x, local.y);
+                  flsf {
+                      trbdkSflfdtion(lodbl.x, lodbl.y);
                   }
-                  break;
-              case MouseEvent.MOUSE_RELEASED:
-                  if (mouseInSB) {
-                      mouseInSB = false;
-                      helper.handleVSBEvent(e, getBounds(), local.x, local.y);
-                  }else{
-                      // See 6243382 for more information
-                      helper.trackMouseReleasedScroll();
+                  brfbk;
+              dbsf MousfEvfnt.MOUSE_RELEASED:
+                  if (mousfInSB) {
+                      mousfInSB = fblsf;
+                      iflpfr.ibndlfVSBEvfnt(f, gftBounds(), lodbl.x, lodbl.y);
+                  }flsf{
+                      // Sff 6243382 for morf informbtion
+                      iflpfr.trbdkMousfRflfbsfdSdroll();
                   }
                   /*
-                    else {
-                    trackSelection(local.x, local.y);
+                    flsf {
+                    trbdkSflfdtion(lodbl.x, lodbl.y);
                     }
                   */
-                  break;
-              case MouseEvent.MOUSE_DRAGGED:
-                  if (mouseInSB) {
-                      helper.handleVSBEvent(e, getBounds(), local.x, local.y);
+                  brfbk;
+              dbsf MousfEvfnt.MOUSE_DRAGGED:
+                  if (mousfInSB) {
+                      iflpfr.ibndlfVSBEvfnt(f, gftBounds(), lodbl.x, lodbl.y);
                   }
-                  else {
-                      // See 6243382 for more information
-                      helper.trackMouseDraggedScroll(local.x, local.y, width, height);
-                      trackSelection(local.x, local.y);
+                  flsf {
+                      // Sff 6243382 for morf informbtion
+                      iflpfr.trbdkMousfDrbggfdSdroll(lodbl.x, lodbl.y, widti, ifigit);
+                      trbdkSflfdtion(lodbl.x, lodbl.y);
                   }
-                  break;
+                  brfbk;
             }
         }
 
-        private void trackSelection(int transX, int transY) {
-            if (!helper.isEmpty()) {
-                if (transX > 0 && transX < width &&
-                    transY > 0 && transY < height) {
-                    int newIdx = helper.y2index(transY);
-                    if (log.isLoggable(PlatformLogger.Level.FINE)) {
-                        log.fine("transX=" + transX + ", transY=" + transY
-                                 + ",width=" + width + ", height=" + height
-                                 + ", newIdx=" + newIdx + " on " + target);
+        privbtf void trbdkSflfdtion(int trbnsX, int trbnsY) {
+            if (!iflpfr.isEmpty()) {
+                if (trbnsX > 0 && trbnsX < widti &&
+                    trbnsY > 0 && trbnsY < ifigit) {
+                    int nfwIdx = iflpfr.y2indfx(trbnsY);
+                    if (log.isLoggbblf(PlbtformLoggfr.Lfvfl.FINE)) {
+                        log.finf("trbnsX=" + trbnsX + ", trbnsY=" + trbnsY
+                                 + ",widti=" + widti + ", ifigit=" + ifigit
+                                 + ", nfwIdx=" + nfwIdx + " on " + tbrgft);
                     }
-                    if ((newIdx >=0) && (newIdx < helper.getItemCount())
-                        && (newIdx != helper.getSelectedIndex()))
+                    if ((nfwIdx >=0) && (nfwIdx < iflpfr.gftItfmCount())
+                        && (nfwIdx != iflpfr.gftSflfdtfdIndfx()))
                     {
-                        helper.select(newIdx);
-                        unfurledChoice.repaint();
+                        iflpfr.sflfdt(nfwIdx);
+                        unfurlfdCioidf.rfpbint();
                     }
                 }
             }
-            // FIXME: If dragged off top or bottom, scroll if there's a vsb
-            // (ICK - we'll need a timer or our own event or something)
+            // FIXME: If drbggfd off top or bottom, sdroll if tifrf's b vsb
+            // (ICK - wf'll nffd b timfr or our own fvfnt or somftiing)
         }
 
         /*
-         * fillRect with current Background color on the whole dropdown list.
+         * fillRfdt witi durrfnt Bbdkground dolor on tif wiolf dropdown list.
          */
-        public void paintBackground() {
-            final Graphics g = getGraphics();
+        publid void pbintBbdkground() {
+            finbl Grbpiids g = gftGrbpiids();
             if (g != null) {
                 try {
-                    g.setColor(getPeerBackground());
-                    g.fillRect(0, 0, width, height);
-                } finally {
-                    g.dispose();
+                    g.sftColor(gftPffrBbdkground());
+                    g.fillRfdt(0, 0, widti, ifigit);
+                } finblly {
+                    g.disposf();
                 }
             }
         }
         /*
-         * 6405689. In some cases we should erase background to eliminate painting
-         * artefacts.
+         * 6405689. In somf dbsfs wf siould frbsf bbdkground to fliminbtf pbinting
+         * brtffbdts.
          */
-        @Override
-        public void repaint() {
-            if (!isVisible()) {
-                return;
+        @Ovfrridf
+        publid void rfpbint() {
+            if (!isVisiblf()) {
+                rfturn;
             }
-            if (helper.checkVsbVisibilityChangedAndReset()){
-                paintBackground();
+            if (iflpfr.difdkVsbVisibilityCibngfdAndRfsft()){
+                pbintBbdkground();
             }
-            super.repaint();
+            supfr.rfpbint();
         }
-        @Override
-        public void paintPeer(Graphics g) {
-            //System.out.println("UC.paint()");
-            Choice choice = (Choice)target;
-            Color colors[] = XChoicePeer.this.getGUIcolors();
-            draw3DRect(g, getSystemColors(), 0, 0, width - 1, height - 1, true);
-            draw3DRect(g, getSystemColors(), 1, 1, width - 3, height - 3, true);
+        @Ovfrridf
+        publid void pbintPffr(Grbpiids g) {
+            //Systfm.out.println("UC.pbint()");
+            Cioidf dioidf = (Cioidf)tbrgft;
+            Color dolors[] = XCioidfPffr.tiis.gftGUIdolors();
+            drbw3DRfdt(g, gftSystfmColors(), 0, 0, widti - 1, ifigit - 1, truf);
+            drbw3DRfdt(g, gftSystfmColors(), 1, 1, widti - 3, ifigit - 3, truf);
 
-            helper.paintAllItems(g,
-                                 colors,
-                                 getBounds());
+            iflpfr.pbintAllItfms(g,
+                                 dolors,
+                                 gftBounds());
         }
 
-        public void setVisible(boolean vis) {
-            xSetVisible(vis);
+        publid void sftVisiblf(boolfbn vis) {
+            xSftVisiblf(vis);
 
-            if (!vis && alignUnder != null) {
-                alignUnder.requestFocusInWindow();
+            if (!vis && blignUndfr != null) {
+                blignUndfr.rfqufstFodusInWindow();
             }
         }
 
         /**
-         * Return a MouseEvent's Point in coordinates relative to the
-         * UnfurledChoice.
+         * Rfturn b MousfEvfnt's Point in doordinbtfs rflbtivf to tif
+         * UnfurlfdCioidf.
          */
-        private Point toLocalCoords(MouseEvent e) {
-            // Event coords are relative to the button, so translate a bit
-            Point global = e.getLocationOnScreen();
+        privbtf Point toLodblCoords(MousfEvfnt f) {
+            // Evfnt doords brf rflbtivf to tif button, so trbnslbtf b bit
+            Point globbl = f.gftLodbtionOnSdrffn();
 
-            global.x -= x;
-            global.y -= y;
-            return global;
+            globbl.x -= x;
+            globbl.y -= y;
+            rfturn globbl;
         }
 
-        /* Returns true if the MouseEvent coords (which are based on the Choice)
-         * are inside of the UnfurledChoice.
+        /* Rfturns truf if tif MousfEvfnt doords (wiidi brf bbsfd on tif Cioidf)
+         * brf insidf of tif UnfurlfdCioidf.
          */
-        private boolean isMouseEventInside(MouseEvent e) {
-            Point local = toLocalCoords(e);
-            if (local.x > 0 && local.x < width &&
-                local.y > 0 && local.y < height) {
-                return true;
+        privbtf boolfbn isMousfEvfntInsidf(MousfEvfnt f) {
+            Point lodbl = toLodblCoords(f);
+            if (lodbl.x > 0 && lodbl.x < widti &&
+                lodbl.y > 0 && lodbl.y < ifigit) {
+                rfturn truf;
             }
-            return false;
+            rfturn fblsf;
         }
 
         /**
-         * Tests if the mouse cursor is in the Unfurled Choice, yet not
-         * in the vertical scrollbar
+         * Tfsts if tif mousf dursor is in tif Unfurlfd Cioidf, yft not
+         * in tif vfrtidbl sdrollbbr
          */
-        private boolean isMouseInListArea(MouseEvent e) {
-            if (isMouseEventInside(e)) {
-                Point local = toLocalCoords(e);
-                Rectangle bounds = getBounds();
-                if (!helper.isInVertSB(bounds, local.x, local.y)) {
-                    return true;
+        privbtf boolfbn isMousfInListArfb(MousfEvfnt f) {
+            if (isMousfEvfntInsidf(f)) {
+                Point lodbl = toLodblCoords(f);
+                Rfdtbnglf bounds = gftBounds();
+                if (!iflpfr.isInVfrtSB(bounds, lodbl.x, lodbl.y)) {
+                    rfturn truf;
                 }
             }
-            return false;
+            rfturn fblsf;
         }
 
         /*
-         * Overridden from XWindow() because we don't want to send
-         * ComponentEvents
+         * Ovfrriddfn from XWindow() bfdbusf wf don't wbnt to sfnd
+         * ComponfntEvfnts
          */
-        public void handleConfigureNotifyEvent(XEvent xev) {}
-        public void handleMapNotifyEvent(XEvent xev) {}
-        public void handleUnmapNotifyEvent(XEvent xev) {}
-    } //UnfurledChoice
+        publid void ibndlfConfigurfNotifyEvfnt(XEvfnt xfv) {}
+        publid void ibndlfMbpNotifyEvfnt(XEvfnt xfv) {}
+        publid void ibndlfUnmbpNotifyEvfnt(XEvfnt xfv) {}
+    } //UnfurlfdCioidf
 
-    public void dispose() {
-        if (unfurledChoice != null) {
-            unfurledChoice.destroy();
+    publid void disposf() {
+        if (unfurlfdCioidf != null) {
+            unfurlfdCioidf.dfstroy();
         }
-        super.dispose();
+        supfr.disposf();
     }
 
     /*
-     * fix for 6239938 : Choice drop-down does not disappear when it loses
-     * focus, on XToolkit
-     * We are able to handle all _Key_ events received by Choice when
-     * it is in opened state without sending it to EventQueue.
-     * If Choice is in closed state we should behave like before: send
-     * all events to EventQueue.
-     * To be compatible with Motif we should handle all KeyEvents in
-     * Choice if it is opened. KeyEvents should be sent into Java if Choice is not opened.
+     * fix for 6239938 : Cioidf drop-down dofs not disbppfbr wifn it losfs
+     * fodus, on XToolkit
+     * Wf brf bblf to ibndlf bll _Kfy_ fvfnts rfdfivfd by Cioidf wifn
+     * it is in opfnfd stbtf witiout sfnding it to EvfntQufuf.
+     * If Cioidf is in dlosfd stbtf wf siould bfibvf likf bfforf: sfnd
+     * bll fvfnts to EvfntQufuf.
+     * To bf dompbtiblf witi Motif wf siould ibndlf bll KfyEvfnts in
+     * Cioidf if it is opfnfd. KfyEvfnts siould bf sfnt into Jbvb if Cioidf is not opfnfd.
      */
-    boolean prePostEvent(final AWTEvent e) {
-        if (unfurled){
-            // fix for 6253211: PIT: MouseWheel events not triggered for Choice drop down in XAWT
-            if (e instanceof MouseWheelEvent){
-                return super.prePostEvent(e);
+    boolfbn prfPostEvfnt(finbl AWTEvfnt f) {
+        if (unfurlfd){
+            // fix for 6253211: PIT: MousfWiffl fvfnts not triggfrfd for Cioidf drop down in XAWT
+            if (f instbndfof MousfWifflEvfnt){
+                rfturn supfr.prfPostEvfnt(f);
             }
-            //fix 6252982: PIT: Keyboard FocusTraversal not working when choice's drop-down is visible, on XToolkit
-            if (e instanceof KeyEvent){
-                // notify XWindow that this event had been already handled and no need to post it again
-                InvocationEvent ev = new InvocationEvent(target, new Runnable() {
-                    public void run() {
-                        if(target.isFocusable() &&
-                                getParentTopLevel().isFocusableWindow() )
+            //fix 6252982: PIT: Kfybobrd FodusTrbvfrsbl not working wifn dioidf's drop-down is visiblf, on XToolkit
+            if (f instbndfof KfyEvfnt){
+                // notify XWindow tibt tiis fvfnt ibd bffn blrfbdy ibndlfd bnd no nffd to post it bgbin
+                InvodbtionEvfnt fv = nfw InvodbtionEvfnt(tbrgft, nfw Runnbblf() {
+                    publid void run() {
+                        if(tbrgft.isFodusbblf() &&
+                                gftPbrfntTopLfvfl().isFodusbblfWindow() )
                         {
-                            handleJavaKeyEvent((KeyEvent)e);
+                            ibndlfJbvbKfyEvfnt((KfyEvfnt)f);
                         }
                     }
                 });
-                postEvent(ev);
+                postEvfnt(fv);
 
-                return true;
-            } else {
-                if (e instanceof MouseEvent){
-                    // Fix for 6240046 : REG:Choice's Drop-down does not disappear when clicking somewhere, after popup menu is disposed
-                    // if user presses Right Mouse Button on opened (unfurled)
-                    // Choice then we mustn't open a popup menu. We could filter
-                    // Mouse Events and handle them in XChoicePeer if Choice
-                    // currently in opened state.
-                    MouseEvent me = (MouseEvent)e;
-                    int eventId = e.getID();
-                    // fix 6251983: PIT: MouseDragged events not triggered
-                    // fix 6251988: PIT: Choice consumes MouseReleased, MouseClicked events when clicking it with left button,
-                    if ((unfurledChoice.isMouseEventInside(me) ||
-                         (!firstPress && eventId == MouseEvent.MOUSE_DRAGGED)))
+                rfturn truf;
+            } flsf {
+                if (f instbndfof MousfEvfnt){
+                    // Fix for 6240046 : REG:Cioidf's Drop-down dofs not disbppfbr wifn dlidking somfwifrf, bftfr popup mfnu is disposfd
+                    // if usfr prfssfs Rigit Mousf Button on opfnfd (unfurlfd)
+                    // Cioidf tifn wf mustn't opfn b popup mfnu. Wf dould filtfr
+                    // Mousf Evfnts bnd ibndlf tifm in XCioidfPffr if Cioidf
+                    // durrfntly in opfnfd stbtf.
+                    MousfEvfnt mf = (MousfEvfnt)f;
+                    int fvfntId = f.gftID();
+                    // fix 6251983: PIT: MousfDrbggfd fvfnts not triggfrfd
+                    // fix 6251988: PIT: Cioidf donsumfs MousfRflfbsfd, MousfClidkfd fvfnts wifn dlidking it witi lfft button,
+                    if ((unfurlfdCioidf.isMousfEvfntInsidf(mf) ||
+                         (!firstPrfss && fvfntId == MousfEvfnt.MOUSE_DRAGGED)))
                     {
-                        return handleMouseEventByChoice(me);
+                        rfturn ibndlfMousfEvfntByCioidf(mf);
                     }
-                    // MouseMoved events should be fired in Choice's comp if it's not opened
-                    // Shouldn't generate Moved Events. CR : 6251995
-                    if (eventId == MouseEvent.MOUSE_MOVED){
-                        return handleMouseEventByChoice(me);
+                    // MousfMovfd fvfnts siould bf firfd in Cioidf's domp if it's not opfnfd
+                    // Siouldn't gfnfrbtf Movfd Evfnts. CR : 6251995
+                    if (fvfntId == MousfEvfnt.MOUSE_MOVED){
+                        rfturn ibndlfMousfEvfntByCioidf(mf);
                     }
-                    //fix for 6272965: PIT: Choice triggers MousePressed when pressing mouse outside comp while drop-down is active, XTkt
-                    if (  !firstPress && !( isMouseEventInChoice(me) ||
-                             unfurledChoice.isMouseEventInside(me)) &&
-                             ( eventId == MouseEvent.MOUSE_PRESSED ||
-                               eventId == MouseEvent.MOUSE_RELEASED ||
-                               eventId == MouseEvent.MOUSE_CLICKED )
+                    //fix for 6272965: PIT: Cioidf triggfrs MousfPrfssfd wifn prfssing mousf outsidf domp wiilf drop-down is bdtivf, XTkt
+                    if (  !firstPrfss && !( isMousfEvfntInCioidf(mf) ||
+                             unfurlfdCioidf.isMousfEvfntInsidf(mf)) &&
+                             ( fvfntId == MousfEvfnt.MOUSE_PRESSED ||
+                               fvfntId == MousfEvfnt.MOUSE_RELEASED ||
+                               fvfntId == MousfEvfnt.MOUSE_CLICKED )
                           )
                     {
-                        return handleMouseEventByChoice(me);
+                        rfturn ibndlfMousfEvfntByCioidf(mf);
                     }
                 }
-            }//else KeyEvent
-        }//if unfurled
-        return super.prePostEvent(e);
+            }//flsf KfyEvfnt
+        }//if unfurlfd
+        rfturn supfr.prfPostEvfnt(f);
     }
 
-    //convenient method
-    //do not generate this kind of Events
-    public boolean handleMouseEventByChoice(final MouseEvent me){
-        InvocationEvent ev = new InvocationEvent(target, new Runnable() {
-            public void run() {
-                handleJavaMouseEvent(me);
+    //donvfnifnt mftiod
+    //do not gfnfrbtf tiis kind of Evfnts
+    publid boolfbn ibndlfMousfEvfntByCioidf(finbl MousfEvfnt mf){
+        InvodbtionEvfnt fv = nfw InvodbtionEvfnt(tbrgft, nfw Runnbblf() {
+            publid void run() {
+                ibndlfJbvbMousfEvfnt(mf);
             }
         });
-        postEvent(ev);
+        postEvfnt(fv);
 
-        return true;
+        rfturn truf;
     }
 
-    /* Returns true if the MouseEvent coords
-     * are inside of the Choice itself (it doesnt's depends on
-     * if this choice opened or not).
+    /* Rfturns truf if tif MousfEvfnt doords
+     * brf insidf of tif Cioidf itsflf (it dofsnt's dfpfnds on
+     * if tiis dioidf opfnfd or not).
      */
-    private boolean isMouseEventInChoice(MouseEvent e) {
-        int x = e.getX();
-        int y = e.getY();
-        Rectangle choiceRect = getBounds();
+    privbtf boolfbn isMousfEvfntInCioidf(MousfEvfnt f) {
+        int x = f.gftX();
+        int y = f.gftY();
+        Rfdtbnglf dioidfRfdt = gftBounds();
 
-        if (x < 0 || x > choiceRect.width ||
-            y < 0 || y > choiceRect.height)
+        if (x < 0 || x > dioidfRfdt.widti ||
+            y < 0 || y > dioidfRfdt.ifigit)
         {
-            return false;
+            rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 }

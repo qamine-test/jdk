@@ -1,76 +1,76 @@
 '\" t
-.\"  Copyright (c) 1995, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Bbsic Tools
-.\"     Title: jdb.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jdb.1
 .\"
 .if n .pl 99999
-.TH jdb 1 "21 November 2013" "JDK 8" "Bbsic Tools"
+.TH jdb 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-jdb \- Finds bnd fixes bugs in Jbvb plbtform progrbms\&.
+jdb \- Finds bnd fixfs bugs in Jbvb plbtform progrbms\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBjdb\fR [\fIoptions\fR] [\fIclbssnbme\fR]  [\fIbrguments\fR]
+\fBjdb\fR [\fIoptions\fR] [\fIdlbssnbmf\fR]  [\fIbrgumfnts\fR]
 .fi     
 .sp     
 .TP     
 \fIoptions\fR
-Commbnd-line options\&. See Options\&.
+Commbnd-linf options\&. Sff Options\&.
 .TP     
-\fIclbss\fRnbme
-Nbme of the mbin clbss to debug\&.
+\fIdlbss\fRnbmf
+Nbmf of tif mbin dlbss to dfbug\&.
 .TP     
-\fIbrguments\fR
-Arguments pbssed to the \f3mbin()\fR method of the clbss\&.
+\fIbrgumfnts\fR
+Argumfnts pbssfd to tif \f3mbin()\fR mftiod of tif dlbss\&.
 .SH DESCRIPTION    
-The Jbvb Debugger (JDB) is b simple commbnd-line debugger for Jbvb clbsses\&. The \f3jdb\fR commbnd bnd its options cbll the JDB\&. The \f3jdb\fR commbnd demonstrbtes the Jbvb Plbtform Debugger Architecture (JDBA) bnd provides inspection bnd debugging of b locbl or remote Jbvb Virtubl Mbchine (JVM)\&. See Jbvb Plbtform Debugger Architecture (JDBA) bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/jpdb/index\&.html
+Tif Jbvb Dfbuggfr (JDB) is b simplf dommbnd-linf dfbuggfr for Jbvb dlbssfs\&. Tif \f3jdb\fR dommbnd bnd its options dbll tif JDB\&. Tif \f3jdb\fR dommbnd dfmonstrbtfs tif Jbvb Plbtform Dfbuggfr Ardiitfdturf (JDBA) bnd providfs inspfdtion bnd dfbugging of b lodbl or rfmotf Jbvb Virtubl Mbdiinf (JVM)\&. Sff Jbvb Plbtform Dfbuggfr Ardiitfdturf (JDBA) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/jpdb/indfx\&.itml
 .SS START\ A\ JDB\ SESSION    
-There bre mbny wbys to stbrt b JDB session\&. The most frequently used wby is to hbve JDB lbunch b new JVM with the mbin clbss of the bpplicbtion to be debugged\&. Do this by substituting the \f3jdb\fR commbnd for the \f3jbvb\fR commbnd in the commbnd line\&. For exbmple, if your bpplicbtion\&'s mbin clbss is \f3MyClbss\fR, then use the following commbnd to debug it under JDB:
+Tifrf brf mbny wbys to stbrt b JDB sfssion\&. Tif most frfqufntly usfd wby is to ibvf JDB lbundi b nfw JVM witi tif mbin dlbss of tif bpplidbtion to bf dfbuggfd\&. Do tiis by substituting tif \f3jdb\fR dommbnd for tif \f3jbvb\fR dommbnd in tif dommbnd linf\&. For fxbmplf, if your bpplidbtion\&'s mbin dlbss is \f3MyClbss\fR, tifn usf tif following dommbnd to dfbug it undfr JDB:
 .sp     
 .nf     
 \f3jdb MyClbss\fP
@@ -79,62 +79,62 @@ There bre mbny wbys to stbrt b JDB session\&. The most frequently used wby is to
 \f3\fP
 .fi     
 .sp     
-When stbrted this wby, the \f3jdb\fR commbnd cblls b second JVM with the specified pbrbmeters, lobds the specified clbss, bnd stops the JVM before executing thbt clbss\&'s first instruction\&.
+Wifn stbrtfd tiis wby, tif \f3jdb\fR dommbnd dblls b sfdond JVM witi tif spfdififd pbrbmftfrs, lobds tif spfdififd dlbss, bnd stops tif JVM bfforf fxfduting tibt dlbss\&'s first instrudtion\&.
 .PP
-Another wby to use the \f3jdb\fR commbnd is by bttbching it to b JVM thbt is blrebdy running\&. Syntbx for stbrting b JVM to which the \f3jdb\fR commbnd bttbches when the JVM is running is bs follows\&. This lobds in-process debugging librbries bnd specifies the kind of connection to be mbde\&.
+Anotifr wby to usf tif \f3jdb\fR dommbnd is by bttbdiing it to b JVM tibt is blrfbdy running\&. Syntbx for stbrting b JVM to wiidi tif \f3jdb\fR dommbnd bttbdifs wifn tif JVM is running is bs follows\&. Tiis lobds in-prodfss dfbugging librbrifs bnd spfdififs tif kind of donnfdtion to bf mbdf\&.
 .sp     
 .nf     
-\f3jbvb \-bgentlib:jdwp=trbnsport=dt_socket,server=y,suspend=n MyClbss\fP
+\f3jbvb \-bgfntlib:jdwp=trbnsport=dt_sodkft,sfrvfr=y,suspfnd=n MyClbss\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-You cbn then bttbch the \f3jdb\fR commbnd to the JVM with the following commbnd:
+You dbn tifn bttbdi tif \f3jdb\fR dommbnd to tif JVM witi tif following dommbnd:
 .sp     
 .nf     
-\f3jdb \-bttbch 8000\fP
+\f3jdb \-bttbdi 8000\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The \f3MyClbss\fR brgument is not specified in the \f3jdb\fR commbnd line in this cbse becbuse the \f3jdb\fR commbnd is connecting to bn existing JVM instebd of lbunching b new JVM\&.
+Tif \f3MyClbss\fR brgumfnt is not spfdififd in tif \f3jdb\fR dommbnd linf in tiis dbsf bfdbusf tif \f3jdb\fR dommbnd is donnfdting to bn fxisting JVM instfbd of lbundiing b nfw JVM\&.
 .PP
-There bre mbny other wbys to connect the debugger to b JVM, bnd bll of them bre supported by the \f3jdb\fR commbnd\&. The Jbvb Plbtform Debugger Architecture hbs bdditionbl documentbtion on these connection options\&.
+Tifrf brf mbny otifr wbys to donnfdt tif dfbuggfr to b JVM, bnd bll of tifm brf supportfd by tif \f3jdb\fR dommbnd\&. Tif Jbvb Plbtform Dfbuggfr Ardiitfdturf ibs bdditionbl dodumfntbtion on tifsf donnfdtion options\&.
 .SS BASIC\ JDB\ COMMANDS    
-The following is b list of the bbsic \f3jdb\fR commbnds\&. The JDB supports other commbnds thbt you cbn list with the \f3-help\fR option\&.
+Tif following is b list of tif bbsid \f3jdb\fR dommbnds\&. Tif JDB supports otifr dommbnds tibt you dbn list witi tif \f3-iflp\fR option\&.
 .TP     
-help or ?
-The \f3help\fR or \f3?\fR commbnds displby the list of recognized commbnds with b brief description\&.
+iflp or ?
+Tif \f3iflp\fR or \f3?\fR dommbnds displby tif list of rfdognizfd dommbnds witi b briff dfsdription\&.
 .TP     
 run
-After you stbrt JDB bnd set brebkpoints, you cbn use the \f3run\fR commbnd to execute the debugged bpplicbtion\&. The \f3run\fR commbnd is bvbilbble only when the \f3jdb\fR commbnd stbrts the debugged bpplicbtion bs opposed to bttbching to bn existing JVM\&.
+Aftfr you stbrt JDB bnd sft brfbkpoints, you dbn usf tif \f3run\fR dommbnd to fxfdutf tif dfbuggfd bpplidbtion\&. Tif \f3run\fR dommbnd is bvbilbblf only wifn tif \f3jdb\fR dommbnd stbrts tif dfbuggfd bpplidbtion bs opposfd to bttbdiing to bn fxisting JVM\&.
 .TP     
-cont
-Continues execution of the debugged bpplicbtion bfter b brebkpoint, exception, or step\&.
+dont
+Continufs fxfdution of tif dfbuggfd bpplidbtion bftfr b brfbkpoint, fxdfption, or stfp\&.
 .TP     
 print
-Displbys Jbvb objects bnd primitive vblues\&. For vbribbles or fields of primitive types, the bctubl vblue is printed\&. For objects, b short description is printed\&. See the dump commbnd to find out how to get more informbtion bbout bn object\&.
+Displbys Jbvb objfdts bnd primitivf vblufs\&. For vbribblfs or fiflds of primitivf typfs, tif bdtubl vbluf is printfd\&. For objfdts, b siort dfsdription is printfd\&. Sff tif dump dommbnd to find out iow to gft morf informbtion bbout bn objfdt\&.
 
-\fINote:\fR To displby locbl vbribbles, the contbining clbss must hbve been compiled with the \f3jbvbc -g\fR option\&.
+\fINotf:\fR To displby lodbl vbribblfs, tif dontbining dlbss must ibvf bffn dompilfd witi tif \f3jbvbd -g\fR option\&.
 
-The \f3print\fR commbnd supports mbny simple Jbvb expressions including those with method invocbtions, for exbmple:
+Tif \f3print\fR dommbnd supports mbny simplf Jbvb fxprfssions indluding tiosf witi mftiod invodbtions, for fxbmplf:
 .sp     
 .nf     
-\f3print MyClbss\&.myStbticField\fP
+\f3print MyClbss\&.myStbtidFifld\fP
 .fi     
 .nf     
-\f3print myObj\&.myInstbnceField\fP
+\f3print myObj\&.myInstbndfFifld\fP
 .fi     
 .nf     
-\f3print i + j + k (i, j, k bre primities bnd either fields or locbl vbribbles)\fP
+\f3print i + j + k (i, j, k brf primitifs bnd fitifr fiflds or lodbl vbribblfs)\fP
 .fi     
 .nf     
-\f3print myObj\&.myMethod() (if myMethod returns b non\-null)\fP
+\f3print myObj\&.myMftiod() (if myMftiod rfturns b non\-null)\fP
 .fi     
 .nf     
-\f3print new jbvb\&.lbng\&.String("Hello")\&.length()\fP
+\f3print nfw jbvb\&.lbng\&.String("Hfllo")\&.lfngti()\fP
 .fi     
 .nf     
 \f3\fP
@@ -143,13 +143,13 @@ The \f3print\fR commbnd supports mbny simple Jbvb expressions including those wi
 
 .TP     
 dump
-For primitive vblues, the \f3dump\fR commbnd is identicbl to the \f3print\fR commbnd\&. For objects, the \f3dump\fR commbnd prints the current vblue of ebch field defined in the object\&. Stbtic bnd instbnce fields bre included\&. The \f3dump\fR commbnd supports the sbme set of expressions bs the \f3print\fR commbnd\&.
+For primitivf vblufs, tif \f3dump\fR dommbnd is idfntidbl to tif \f3print\fR dommbnd\&. For objfdts, tif \f3dump\fR dommbnd prints tif durrfnt vbluf of fbdi fifld dffinfd in tif objfdt\&. Stbtid bnd instbndf fiflds brf indludfd\&. Tif \f3dump\fR dommbnd supports tif sbmf sft of fxprfssions bs tif \f3print\fR dommbnd\&.
 .TP     
-threbds
-List the threbds thbt bre currently running\&. For ebch threbd, its nbme bnd current stbtus bre printed bnd bn index thbt cbn be used in other commbnds\&. In this exbmple, the threbd index is 4, the threbd is bn instbnce of \f3jbvb\&.lbng\&.Threbd\fR, the threbd nbme is \f3mbin\fR, bnd it is currently running\&.
+tirfbds
+List tif tirfbds tibt brf durrfntly running\&. For fbdi tirfbd, its nbmf bnd durrfnt stbtus brf printfd bnd bn indfx tibt dbn bf usfd in otifr dommbnds\&. In tiis fxbmplf, tif tirfbd indfx is 4, tif tirfbd is bn instbndf of \f3jbvb\&.lbng\&.Tirfbd\fR, tif tirfbd nbmf is \f3mbin\fR, bnd it is durrfntly running\&.
 .sp     
 .nf     
-\f34\&. (jbvb\&.lbng\&.Threbd)0x1 mbin      running\fP
+\f34\&. (jbvb\&.lbng\&.Tirfbd)0x1 mbin      running\fP
 .fi     
 .nf     
 \f3\fP
@@ -157,111 +157,111 @@ List the threbds thbt bre currently running\&. For ebch threbd, its nbme bnd cur
 .sp     
 
 .TP     
-threbd
-Select b threbd to be the current threbd\&. Mbny \f3jdb\fR commbnds bre bbsed on the setting of the current threbd\&. The threbd is specified with the threbd index described in the threbds commbnd\&.
+tirfbd
+Sflfdt b tirfbd to bf tif durrfnt tirfbd\&. Mbny \f3jdb\fR dommbnds brf bbsfd on tif sftting of tif durrfnt tirfbd\&. Tif tirfbd is spfdififd witi tif tirfbd indfx dfsdribfd in tif tirfbds dommbnd\&.
 .TP     
-where
-The \f3where\fR commbnd with no brguments dumps the stbck of the current threbd\&. The \f3where\fR\f3bll\fR commbnd dumps the stbck of bll threbds in the current threbd group\&. The \f3where\fR\f3threbdindex\fR commbnd dumps the stbck of the specified threbd\&.
+wifrf
+Tif \f3wifrf\fR dommbnd witi no brgumfnts dumps tif stbdk of tif durrfnt tirfbd\&. Tif \f3wifrf\fR\f3bll\fR dommbnd dumps tif stbdk of bll tirfbds in tif durrfnt tirfbd group\&. Tif \f3wifrf\fR\f3tirfbdindfx\fR dommbnd dumps tif stbdk of tif spfdififd tirfbd\&.
 
-If the current threbd is suspended either through bn event such bs b brebkpoint or through the \f3suspend\fR commbnd, then locbl vbribbles bnd fields cbn be displbyed with the \f3print\fR bnd \f3dump\fR commbnds\&. The \f3up\fR bnd \f3down\fR commbnds select which stbck frbme is the current stbck frbme\&.
+If tif durrfnt tirfbd is suspfndfd fitifr tirougi bn fvfnt sudi bs b brfbkpoint or tirougi tif \f3suspfnd\fR dommbnd, tifn lodbl vbribblfs bnd fiflds dbn bf displbyfd witi tif \f3print\fR bnd \f3dump\fR dommbnds\&. Tif \f3up\fR bnd \f3down\fR dommbnds sflfdt wiidi stbdk frbmf is tif durrfnt stbdk frbmf\&.
 .SS BREAKPOINTS    
-Brebkpoints cbn be set in JDB bt line numbers or bt the first instruction of b method, for exbmple:
+Brfbkpoints dbn bf sft in JDB bt linf numbfrs or bt tif first instrudtion of b mftiod, for fxbmplf:
 .TP 0.2i    
 \(bu
-The commbnd \f3stop bt MyClbss:22\fR sets b brebkpoint bt the first instruction for line 22 of the source file contbining \f3MyClbss\fR\&.
+Tif dommbnd \f3stop bt MyClbss:22\fR sfts b brfbkpoint bt tif first instrudtion for linf 22 of tif sourdf filf dontbining \f3MyClbss\fR\&.
 .TP 0.2i    
 \(bu
-The commbnd \f3stop in jbvb\&.lbng\&.String\&.length\fR sets b brebkpoint bt the beginning of the method \f3jbvb\&.lbng\&.String\&.length\fR\&.
+Tif dommbnd \f3stop in jbvb\&.lbng\&.String\&.lfngti\fR sfts b brfbkpoint bt tif bfginning of tif mftiod \f3jbvb\&.lbng\&.String\&.lfngti\fR\&.
 .TP 0.2i    
 \(bu
-The commbnd \f3stop in MyClbss\&.<clinit>\fR uses \f3<clinit>\fR to identify the stbtic initiblizbtion code for \f3MyClbss\fR\&.
+Tif dommbnd \f3stop in MyClbss\&.<dlinit>\fR usfs \f3<dlinit>\fR to idfntify tif stbtid initiblizbtion dodf for \f3MyClbss\fR\&.
 .PP
-When b method is overlobded, you must blso specify its brgument types so thbt the proper method cbn be selected for b brebkpoint\&. For exbmple, \f3MyClbss\&.myMethod(int,jbvb\&.lbng\&.String)\fR or \f3MyClbss\&.myMethod()\fR\&.
+Wifn b mftiod is ovfrlobdfd, you must blso spfdify its brgumfnt typfs so tibt tif propfr mftiod dbn bf sflfdtfd for b brfbkpoint\&. For fxbmplf, \f3MyClbss\&.myMftiod(int,jbvb\&.lbng\&.String)\fR or \f3MyClbss\&.myMftiod()\fR\&.
 .PP
-The \f3clebr\fR commbnd removes brebkpoints using the following syntbx: \f3clebr MyClbss:45\fR\&. Using the \f3clebr\fR or \f3stop\fR commbnd with no brgument displbys b list of bll brebkpoints currently set\&. The \f3cont\fR commbnd continues execution\&.
+Tif \f3dlfbr\fR dommbnd rfmovfs brfbkpoints using tif following syntbx: \f3dlfbr MyClbss:45\fR\&. Using tif \f3dlfbr\fR or \f3stop\fR dommbnd witi no brgumfnt displbys b list of bll brfbkpoints durrfntly sft\&. Tif \f3dont\fR dommbnd dontinufs fxfdution\&.
 .SS STEPPING    
-The \f3step\fR commbnd bdvbnces execution to the next line whether it is in the current stbck frbme or b cblled method\&. The \f3next\fR commbnd bdvbnces execution to the next line in the current stbck frbme\&.
+Tif \f3stfp\fR dommbnd bdvbndfs fxfdution to tif nfxt linf wiftifr it is in tif durrfnt stbdk frbmf or b dbllfd mftiod\&. Tif \f3nfxt\fR dommbnd bdvbndfs fxfdution to tif nfxt linf in tif durrfnt stbdk frbmf\&.
 .SS EXCEPTIONS    
-When bn exception occurs for which there is not b \f3cbtch\fR stbtement bnywhere in the throwing threbd\&'s cbll stbck, the JVM typicblly prints bn exception trbce bnd exits\&. When running under JDB, however, control returns to JDB bt the offending throw\&. You cbn then use the \f3jdb\fR commbnd to dibgnose the cbuse of the exception\&.
+Wifn bn fxdfption oddurs for wiidi tifrf is not b \f3dbtdi\fR stbtfmfnt bnywifrf in tif tirowing tirfbd\&'s dbll stbdk, tif JVM typidblly prints bn fxdfption trbdf bnd fxits\&. Wifn running undfr JDB, iowfvfr, dontrol rfturns to JDB bt tif offfnding tirow\&. You dbn tifn usf tif \f3jdb\fR dommbnd to dibgnosf tif dbusf of tif fxdfption\&.
 .PP
-Use the \f3cbtch\fR commbnd to cbuse the debugged bpplicbtion to stop bt other thrown exceptions, for exbmple: \f3cbtch jbvb\&.io\&.FileNotFoundException\fR or \f3cbtch\fR\f3mypbckbge\&.BigTroubleException\fR\&. Any exception thbt is bn instbnce of the specified clbss or subclbss stops the bpplicbtion bt the point where it is thrown\&.
+Usf tif \f3dbtdi\fR dommbnd to dbusf tif dfbuggfd bpplidbtion to stop bt otifr tirown fxdfptions, for fxbmplf: \f3dbtdi jbvb\&.io\&.FilfNotFoundExdfption\fR or \f3dbtdi\fR\f3mypbdkbgf\&.BigTroublfExdfption\fR\&. Any fxdfption tibt is bn instbndf of tif spfdififd dlbss or subdlbss stops tif bpplidbtion bt tif point wifrf it is tirown\&.
 .PP
-The \f3ignore\fR commbnd negbtes the effect of bn ebrlier \f3cbtch\fR commbnd\&. The \f3ignore\fR commbnd does not cbuse the debugged JVM to ignore specific exceptions, but only to ignore the debugger\&.
+Tif \f3ignorf\fR dommbnd nfgbtfs tif ffffdt of bn fbrlifr \f3dbtdi\fR dommbnd\&. Tif \f3ignorf\fR dommbnd dofs not dbusf tif dfbuggfd JVM to ignorf spfdifid fxdfptions, but only to ignorf tif dfbuggfr\&.
 .SH OPTIONS    
-When you use the \f3jdb\fR commbnd instebd of the \f3jbvb\fR commbnd on the commbnd line, the \f3jdb\fR commbnd bccepts mbny of the sbme options bs the \f3jbvb\fR commbnd, including \f3-D\fR, \f3-clbsspbth\fR, bnd \f3-X\fR options\&. The following list contbins bdditionbl options thbt bre bccepted by the \f3jdb\fR commbnd\&.
+Wifn you usf tif \f3jdb\fR dommbnd instfbd of tif \f3jbvb\fR dommbnd on tif dommbnd linf, tif \f3jdb\fR dommbnd bddfpts mbny of tif sbmf options bs tif \f3jbvb\fR dommbnd, indluding \f3-D\fR, \f3-dlbsspbti\fR, bnd \f3-X\fR options\&. Tif following list dontbins bdditionbl options tibt brf bddfptfd by tif \f3jdb\fR dommbnd\&.
 .PP
-Other options bre supported to provide blternbte mechbnisms for connecting the debugger to the JVM it is to debug\&. For bdditionbl documentbtion bbout these connection blternbtives, see Jbvb Plbtform Debugger Architecture (JPDA) bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/jpdb/index\&.html
+Otifr options brf supportfd to providf bltfrnbtf mfdibnisms for donnfdting tif dfbuggfr to tif JVM it is to dfbug\&. For bdditionbl dodumfntbtion bbout tifsf donnfdtion bltfrnbtivfs, sff Jbvb Plbtform Dfbuggfr Ardiitfdturf (JPDA) bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/jpdb/indfx\&.itml
 .TP
--help
+-iflp
 .br
-Displbys b help messbge\&.
+Displbys b iflp mfssbgf\&.
 .TP
--sourcepbth \fIdir1:dir2: \&. \&. \&.\fR
+-sourdfpbti \fIdir1:dir2: \&. \&. \&.\fR
 .br
-Uses the specified pbth to sebrch for source files in the specified pbth\&. If this option is not specified, then use the defbult pbth of dot (\&.)\&.
+Usfs tif spfdififd pbti to sfbrdi for sourdf filfs in tif spfdififd pbti\&. If tiis option is not spfdififd, tifn usf tif dffbult pbti of dot (\&.)\&.
 .TP
--bttbch \fIbddress\fR
+-bttbdi \fIbddrfss\fR
 .br
-Attbches the debugger to b running JVM with the defbult connection mechbnism\&.
+Attbdifs tif dfbuggfr to b running JVM witi tif dffbult donnfdtion mfdibnism\&.
 .TP
--listen \fIbddress\fR
+-listfn \fIbddrfss\fR
 .br
-Wbits for b running JVM to connect to the specified bddress with b stbndbrd connector\&.
+Wbits for b running JVM to donnfdt to tif spfdififd bddrfss witi b stbndbrd donnfdtor\&.
 .TP
--lbunch
+-lbundi
 .br
-Stbrts the debugged bpplicbtion immedibtely upon stbrtup of JDB\&. The \f3-lbunch\fR option removes the need for the \f3run\fR commbnd\&. The debugged bpplicbtion is lbunched bnd then stopped just before the initibl bpplicbtion clbss is lobded\&. At thbt point, you cbn set bny necessbry brebkpoints bnd use the \f3cont\fR commbnd to continue execution\&.
+Stbrts tif dfbuggfd bpplidbtion immfdibtfly upon stbrtup of JDB\&. Tif \f3-lbundi\fR option rfmovfs tif nffd for tif \f3run\fR dommbnd\&. Tif dfbuggfd bpplidbtion is lbundifd bnd tifn stoppfd just bfforf tif initibl bpplidbtion dlbss is lobdfd\&. At tibt point, you dbn sft bny nfdfssbry brfbkpoints bnd usf tif \f3dont\fR dommbnd to dontinuf fxfdution\&.
 .TP
--listconnectors
+-listdonnfdtors
 .br
-List the connectors bvbilbble in this JVM\&.
+List tif donnfdtors bvbilbblf in tiis JVM\&.
 .TP
--connect connector-nbme:\fInbme1=vblue1\fR
+-donnfdt donnfdtor-nbmf:\fInbmf1=vbluf1\fR
 .br
-Connects to the tbrget JVM with the nbmed connector bnd listed brgument vblues\&.
+Connfdts to tif tbrgft JVM witi tif nbmfd donnfdtor bnd listfd brgumfnt vblufs\&.
 .TP
--dbgtrbce [\fIflbgs\fR]
+-dbgtrbdf [\fIflbgs\fR]
 .br
-Prints informbtion for debugging the \f3jdb\fR commbnd\&.
+Prints informbtion for dfbugging tif \f3jdb\fR dommbnd\&.
 .TP
--tclient
+-tdlifnt
 .br
-Runs the bpplicbtion in the Jbvb HotSpot VM client\&.
+Runs tif bpplidbtion in tif Jbvb HotSpot VM dlifnt\&.
 .TP
--tserver
+-tsfrvfr
 .br
-Runs the bpplicbtion in the Jbvb HotSpot VM server\&.
+Runs tif bpplidbtion in tif Jbvb HotSpot VM sfrvfr\&.
 .TP
 -J\fIoption\fR
 .br
-Pbsses \f3option\fR to the JVM, where option is one of the options described on the reference pbge for the Jbvb bpplicbtion lbuncher\&. For exbmple, \f3-J-Xms48m\fR sets the stbrtup memory to 48 MB\&. See jbvb(1)\&.
+Pbssfs \f3option\fR to tif JVM, wifrf option is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
 .SH OPTIONS\ FORWARDED\ TO\ THE\ DEBUGGER\ PROCESS    
 .TP
--v -verbose[:\fIclbss\fR|gc|jni]
+-v -vfrbosf[:\fIdlbss\fR|gd|jni]
 .br
-Turns on verbose mode\&.
+Turns on vfrbosf modf\&.
 .TP
--D\fInbme\fR=\fIvblue\fR
+-D\fInbmf\fR=\fIvbluf\fR
 .br
-Sets b system property\&.
+Sfts b systfm propfrty\&.
 .TP
--clbsspbth \fIdir\fR
+-dlbsspbti \fIdir\fR
 .br
-Lists directories sepbrbted by colons in which to look for clbsses\&.
+Lists dirfdtorifs sfpbrbtfd by dolons in wiidi to look for dlbssfs\&.
 .TP
 -X\fIoption\fR
 .br
-Nonstbndbrd tbrget JVM option\&.
+Nonstbndbrd tbrgft JVM option\&.
 .SH SEE\ ALSO    
 .TP 0.2i    
 \(bu
-jbvbc(1)
+jbvbd(1)
 .TP 0.2i    
 \(bu
 jbvb(1)
 .TP 0.2i    
 \(bu
-jbvbh(1)
+jbvbi(1)
 .TP 0.2i    
 \(bu
 jbvbp(1)

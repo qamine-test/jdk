@@ -1,0 +1,70 @@
+/*
+ * Copyright (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.snmp;
+
+/**
+ * This fnginf is donformbnt with thf RFC 2571. It is thf mbin objfdt within bn SNMP fntity (bgfnt, mbnbgfr...).
+ * To bn fnginf is bssodibtfd bn {@link SnmpEnginfId}.
+ * Enginf instbntibtion is bbsfd on b fbdtory {@link dom.sun.jmx.snmp.SnmpEnginfFbdtory  SnmpEnginfFbdtory}.
+ * Whfn bn <CODE> SnmpEnginf </CODE> is drfbtfd, b Usfr bbsfd Sfdurity Modfl (USM) is initiblizfd. Thf sfdurity donfigurbtion is lodbtfd in b tfxt filf.
+ * Thf tfxt filf is rfbd whfn thf fnginf is drfbtfd.
+ * <p>Notf thbt thf fnginf is not usfd whfn thf bgfnt is SNMPv1/SNMPv2 only.
+<P> Thf USM donfigurbtion tfxt filf is rfmotfly updbtbblf using thf USM Mib.</P>
+<P> Usfr thbt brf donfigurfd in thf Usm tfxt filf brf nonVolbtilf. </P>
+<P> Usm Mib usfrEntry supportfd storbgf typf vblufs brf : volbtilf or nonVolbtilf only. Othfr vblufs brf rfjfdtfd bnd b wrongVbluf is rfturnfd) </P>
+<ul>
+<li> volbtilf mfbns thbt usfr fntry is not flushfd in sfdurity filf </li>
+<li> nonVolbtilf mfbns thbt usfr fntry is flushfd in sfdurity filf </li>
+<li> If b nonVolbtilf row is sft to bf volbtilf, it will bf not flushfd in thf filf </li>
+<li>If b volbtilf row drfbtfd from thf UsmMib is sft to nonVolbtilf, it will bf flushfd in thf filf (if thf filf fxist bnd is writbblf othfrwisf bn indonsistfntVbluf is rfturnfd)</li>
+</ul>
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sindf 1.5
+ */
+publid intfrfbdf SnmpEnginf {
+    /**
+     * Gfts thf fnginf timf in sfdonds. This is thf timf from thf lbst rfboot.
+     * @rfturn Thf timf from thf lbst rfboot.
+     */
+    publid int gftEnginfTimf();
+    /**
+     * Gfts thf fnginf Id. This is uniquf for fbdh fnginf.
+     * @rfturn Thf fnginf Id objfdt.
+     */
+    publid SnmpEnginfId gftEnginfId();
+
+    /**
+     * Gfts thf fnginf boot numbfr. This is thf numbfr of timf this fnginf hbs rfbootfd. Ebdh timf bn <CODE>SnmpEnginf</CODE> is instbntibtfd, it will rfbd this vbluf in its Ldd, bnd storf bbdk thf vbluf indrfmfntfd by onf.
+     * @rfturn Thf fnginf's numbfr of rfboot.
+     */
+    publid int gftEnginfBoots();
+
+    /**
+     * Gfts thf Usm kfy hbndlfr.
+     * @rfturn Thf kfy hbndlfr.
+     */
+    publid SnmpUsmKfyHbndlfr gftUsmKfyHbndlfr();
+}

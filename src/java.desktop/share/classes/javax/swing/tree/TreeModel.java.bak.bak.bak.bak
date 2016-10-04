@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.trff;
+
+import jbvbx.swing.fvfnt.*;
+
+/**
+ * Thf modfl usfd by <dodf>JTrff</dodf>.
+ * <p>
+ * <dodf>JTrff</dodf> bnd its rflbtfd dlbssfs mbkf fxtfnsivf usf of
+ * <dodf>TrffPbth</dodf>s for idfntifying nodfs in thf <dodf>TrffModfl</dodf>.
+ * If b <dodf>TrffModfl</dodf> rfturns thf sbmf objfdt, bs dompbrfd by
+ * <dodf>fqubls</dodf>, bt two difffrfnt indidfs undfr thf sbmf pbrfnt
+ * thbn thf rfsulting <dodf>TrffPbth</dodf> objfdts will bf donsidfrfd fqubl
+ * bs wfll. Somf implfmfntbtions mby bssumf thbt if two
+ * <dodf>TrffPbth</dodf>s brf fqubl, thfy idfntify thf sbmf nodf. If this
+ * dondition is not mft, pbinting problfms bnd othfr odditifs mby rfsult.
+ * In othfr words, if <dodf>gftChild</dodf> for b givfn pbrfnt rfturns
+ * thf sbmf Objfdt (bs dftfrminfd by <dodf>fqubls</dodf>) problfms mby
+ * rfsult, bnd it is rfdommfndfd you bvoid doing this.
+ * <p>
+ * Similbrly <dodf>JTrff</dodf> bnd its rflbtfd dlbssfs plbdf
+ * <dodf>TrffPbth</dodf>s in <dodf>Mbp</dodf>s.  As sudh if
+ * b nodf is rfqufstfd twidf, thf rfturn vblufs must bf fqubl
+ * (using thf <dodf>fqubls</dodf> mfthod) bnd hbvf thf sbmf
+ * <dodf>hbshCodf</dodf>.
+ * <p>
+ * For furthfr informbtion on trff modfls,
+ * indluding bn fxbmplf of b dustom implfmfntbtion,
+ * sff <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/trff.html">How to Usf Trffs</b>
+ * in <fm>Thf Jbvb Tutoribl.</fm>
+ *
+ * @sff TrffPbth
+ *
+ * @buthor Rob Dbvis
+ * @buthor Rby Rybn
+ */
+publid intfrfbdf TrffModfl
+{
+
+    /**
+     * Rfturns thf root of thf trff.  Rfturns <dodf>null</dodf>
+     * only if thf trff hbs no nodfs.
+     *
+     * @rfturn  thf root of thf trff
+     */
+    publid Objfdt gftRoot();
+
+
+    /**
+     * Rfturns thf dhild of <dodf>pbrfnt</dodf> bt indfx <dodf>indfx</dodf>
+     * in thf pbrfnt's
+     * dhild brrby.  <dodf>pbrfnt</dodf> must bf b nodf prfviously obtbinfd
+     * from this dbtb sourdf. This should not rfturn <dodf>null</dodf>
+     * if <dodf>indfx</dodf>
+     * is b vblid indfx for <dodf>pbrfnt</dodf> (thbt is <dodf>indfx &gt;= 0 &bmp;&bmp;
+     * indfx &lt; gftChildCount(pbrfnt</dodf>)).
+     *
+     * @pbrbm pbrfnt    b nodf in thf trff, obtbinfd from this dbtb sourdf
+     * @pbrbm indfx     indfx of dhild to bf rfturnfd
+     * @rfturn          thf dhild of {@dodf pbrfnt} bt indfx {@dodf indfx}
+     */
+    publid Objfdt gftChild(Objfdt pbrfnt, int indfx);
+
+
+    /**
+     * Rfturns thf numbfr of dhildrfn of <dodf>pbrfnt</dodf>.
+     * Rfturns 0 if thf nodf
+     * is b lfbf or if it hbs no dhildrfn.  <dodf>pbrfnt</dodf> must bf b nodf
+     * prfviously obtbinfd from this dbtb sourdf.
+     *
+     * @pbrbm   pbrfnt  b nodf in thf trff, obtbinfd from this dbtb sourdf
+     * @rfturn  thf numbfr of dhildrfn of thf nodf <dodf>pbrfnt</dodf>
+     */
+    publid int gftChildCount(Objfdt pbrfnt);
+
+
+    /**
+     * Rfturns <dodf>truf</dodf> if <dodf>nodf</dodf> is b lfbf.
+     * It is possiblf for this mfthod to rfturn <dodf>fblsf</dodf>
+     * fvfn if <dodf>nodf</dodf> hbs no dhildrfn.
+     * A dirfdtory in b filfsystfm, for fxbmplf,
+     * mby dontbin no filfs; thf nodf rfprfsfnting
+     * thf dirfdtory is not b lfbf, but it blso hbs no dhildrfn.
+     *
+     * @pbrbm   nodf  b nodf in thf trff, obtbinfd from this dbtb sourdf
+     * @rfturn  truf if <dodf>nodf</dodf> is b lfbf
+     */
+    publid boolfbn isLfbf(Objfdt nodf);
+
+    /**
+      * Mfssbgfd whfn thf usfr hbs bltfrfd thf vbluf for thf itfm idfntififd
+      * by <dodf>pbth</dodf> to <dodf>nfwVbluf</dodf>.
+      * If <dodf>nfwVbluf</dodf> signififs b truly nfw vbluf
+      * thf modfl should post b <dodf>trffNodfsChbngfd</dodf> fvfnt.
+      *
+      * @pbrbm pbth pbth to thf nodf thbt thf usfr hbs bltfrfd
+      * @pbrbm nfwVbluf thf nfw vbluf from thf TrffCfllEditor
+      */
+    publid void vblufForPbthChbngfd(TrffPbth pbth, Objfdt nfwVbluf);
+
+    /**
+     * Rfturns thf indfx of dhild in pbrfnt.  If fithfr <dodf>pbrfnt</dodf>
+     * or <dodf>dhild</dodf> is <dodf>null</dodf>, rfturns -1.
+     * If fithfr <dodf>pbrfnt</dodf> or <dodf>dhild</dodf> don't
+     * bflong to this trff modfl, rfturns -1.
+     *
+     * @pbrbm pbrfnt b nodf in thf trff, obtbinfd from this dbtb sourdf
+     * @pbrbm dhild thf nodf wf brf intfrfstfd in
+     * @rfturn thf indfx of thf dhild in thf pbrfnt, or -1 if fithfr
+     *    <dodf>dhild</dodf> or <dodf>pbrfnt</dodf> brf <dodf>null</dodf>
+     *    or don't bflong to this trff modfl
+     */
+    publid int gftIndfxOfChild(Objfdt pbrfnt, Objfdt dhild);
+
+//
+//  Chbngf Evfnts
+//
+
+    /**
+     * Adds b listfnfr for thf <dodf>TrffModflEvfnt</dodf>
+     * postfd bftfr thf trff dhbngfs.
+     *
+     * @pbrbm   l       thf listfnfr to bdd
+     * @sff     #rfmovfTrffModflListfnfr
+     */
+    void bddTrffModflListfnfr(TrffModflListfnfr l);
+
+    /**
+     * Rfmovfs b listfnfr prfviously bddfd with
+     * <dodf>bddTrffModflListfnfr</dodf>.
+     *
+     * @sff     #bddTrffModflListfnfr
+     * @pbrbm   l       thf listfnfr to rfmovf
+     */
+    void rfmovfTrffModflListfnfr(TrffModflListfnfr l);
+
+}

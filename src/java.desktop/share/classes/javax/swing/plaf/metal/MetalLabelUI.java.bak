@@ -1,93 +1,93 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.metal;
+pbdkbgf jbvbx.swing.plbf.mftbl;
 
-import sun.swing.SwingUtilities2;
-import sun.awt.AppContext;
+import sun.swing.SwingUtilitifs2;
+import sun.bwt.AppContfxt;
 
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.plbf.bbsid.*;
 
 
-import java.awt.*;
+import jbvb.bwt.*;
 
 
 /**
- * A Windows L&amp;F implementation of LabelUI.  This implementation
- * is completely static, i.e. there's only one UIView implementation
- * that's shared by all JLabel objects.
+ * A Windows L&bmp;F implfmfntbtion of LbbflUI.  Tiis implfmfntbtion
+ * is domplftfly stbtid, i.f. tifrf's only onf UIVifw implfmfntbtion
+ * tibt's sibrfd by bll JLbbfl objfdts.
  *
- * @author Hans Muller
+ * @butior Hbns Mullfr
  */
 
-public class MetalLabelUI extends BasicLabelUI
+publid dlbss MftblLbbflUI fxtfnds BbsidLbbflUI
 {
    /**
-    * The default <code>MetalLabelUI</code> instance. This field might
-    * not be used. To change the default instance use a subclass which
-    * overrides the <code>createUI</code> method, and place that class
-    * name in defaults table under the key "LabelUI".
+    * Tif dffbult <dodf>MftblLbbflUI</dodf> instbndf. Tiis fifld migit
+    * not bf usfd. To dibngf tif dffbult instbndf usf b subdlbss wiidi
+    * ovfrridfs tif <dodf>drfbtfUI</dodf> mftiod, bnd plbdf tibt dlbss
+    * nbmf in dffbults tbblf undfr tif kfy "LbbflUI".
     */
-    protected static MetalLabelUI metalLabelUI = new MetalLabelUI();
+    protfdtfd stbtid MftblLbbflUI mftblLbbflUI = nfw MftblLbbflUI();
 
-    private static final Object METAL_LABEL_UI_KEY = new Object();
+    privbtf stbtid finbl Objfdt METAL_LABEL_UI_KEY = nfw Objfdt();
 
     /**
-     * Returns an instance of {@code MetalLabelUI}.
+     * Rfturns bn instbndf of {@dodf MftblLbbflUI}.
      *
-     * @param c a component
-     * @return an instance of {@code MetalLabelUI}
+     * @pbrbm d b domponfnt
+     * @rfturn bn instbndf of {@dodf MftblLbbflUI}
      */
-    public static ComponentUI createUI(JComponent c) {
-        if (System.getSecurityManager() != null) {
-            AppContext appContext = AppContext.getAppContext();
-            MetalLabelUI safeMetalLabelUI =
-                    (MetalLabelUI) appContext.get(METAL_LABEL_UI_KEY);
-            if (safeMetalLabelUI == null) {
-                safeMetalLabelUI = new MetalLabelUI();
-                appContext.put(METAL_LABEL_UI_KEY, safeMetalLabelUI);
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        if (Systfm.gftSfdurityMbnbgfr() != null) {
+            AppContfxt bppContfxt = AppContfxt.gftAppContfxt();
+            MftblLbbflUI sbffMftblLbbflUI =
+                    (MftblLbbflUI) bppContfxt.gft(METAL_LABEL_UI_KEY);
+            if (sbffMftblLbbflUI == null) {
+                sbffMftblLbbflUI = nfw MftblLbbflUI();
+                bppContfxt.put(METAL_LABEL_UI_KEY, sbffMftblLbbflUI);
             }
-            return safeMetalLabelUI;
+            rfturn sbffMftblLbbflUI;
         }
-        return metalLabelUI;
+        rfturn mftblLbbflUI;
     }
 
     /**
-     * Just paint the text gray (Label.disabledForeground) rather than
-     * in the labels foreground color.
+     * Just pbint tif tfxt grby (Lbbfl.disbblfdForfground) rbtifr tibn
+     * in tif lbbfls forfground dolor.
      *
-     * @see #paint
-     * @see #paintEnabledText
+     * @sff #pbint
+     * @sff #pbintEnbblfdTfxt
      */
-    protected void paintDisabledText(JLabel l, Graphics g, String s, int textX, int textY)
+    protfdtfd void pbintDisbblfdTfxt(JLbbfl l, Grbpiids g, String s, int tfxtX, int tfxtY)
     {
-        int mnemIndex = l.getDisplayedMnemonicIndex();
-        g.setColor(UIManager.getColor("Label.disabledForeground"));
-        SwingUtilities2.drawStringUnderlineCharAt(l, g, s, mnemIndex,
-                                                   textX, textY);
+        int mnfmIndfx = l.gftDisplbyfdMnfmonidIndfx();
+        g.sftColor(UIMbnbgfr.gftColor("Lbbfl.disbblfdForfground"));
+        SwingUtilitifs2.drbwStringUndfrlinfCibrAt(l, g, s, mnfmIndfx,
+                                                   tfxtX, tfxtY);
     }
 }

@@ -1,65 +1,65 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1999 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1999 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+ * is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+ * subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
 /*
  * COPYRIGHT AND PERMISSION NOTICE
  *
- * Copyright (C) 1991-2012 Unicode, Inc. All rights reserved. Distributed under
- * the Terms of Use in http://www.unicode.org/copyright.html.
+ * Copyrigit (C) 1991-2012 Unidodf, Ind. All rigits rfsfrvfd. Distributfd undfr
+ * tif Tfrms of Usf in ittp://www.unidodf.org/dopyrigit.itml.
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of the Unicode data files and any associated documentation (the "Data
- * Files") or Unicode software and any associated documentation (the
- * "Software") to deal in the Data Files or Software without restriction,
- * including without limitation the rights to use, copy, modify, merge,
- * publish, distribute, and/or sell copies of the Data Files or Software, and
- * to permit persons to whom the Data Files or Software are furnished to do so,
- * provided that (a) the above copyright notice(s) and this permission notice
- * appear with all copies of the Data Files or Software, (b) both the above
- * copyright notice(s) and this permission notice appear in associated
- * documentation, and (c) there is clear notice in each modified Data File or
- * in the Software as well as in the documentation associated with the Data
- * File(s) or Software that the data or software has been modified.
+ * Pfrmission is ifrfby grbntfd, frff of dibrgf, to bny pfrson obtbining b dopy
+ * of tif Unidodf dbtb filfs bnd bny bssodibtfd dodumfntbtion (tif "Dbtb
+ * Filfs") or Unidodf softwbrf bnd bny bssodibtfd dodumfntbtion (tif
+ * "Softwbrf") to dfbl in tif Dbtb Filfs or Softwbrf witiout rfstridtion,
+ * indluding witiout limitbtion tif rigits to usf, dopy, modify, mfrgf,
+ * publisi, distributf, bnd/or sfll dopifs of tif Dbtb Filfs or Softwbrf, bnd
+ * to pfrmit pfrsons to wiom tif Dbtb Filfs or Softwbrf brf furnisifd to do so,
+ * providfd tibt (b) tif bbovf dopyrigit notidf(s) bnd tiis pfrmission notidf
+ * bppfbr witi bll dopifs of tif Dbtb Filfs or Softwbrf, (b) boti tif bbovf
+ * dopyrigit notidf(s) bnd tiis pfrmission notidf bppfbr in bssodibtfd
+ * dodumfntbtion, bnd (d) tifrf is dlfbr notidf in fbdi modififd Dbtb Filf or
+ * in tif Softwbrf bs wfll bs in tif dodumfntbtion bssodibtfd witi tif Dbtb
+ * Filf(s) or Softwbrf tibt tif dbtb or softwbrf ibs bffn modififd.
  *
  * THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
  * KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
@@ -71,36 +71,36 @@
  * TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
  * OF THE DATA FILES OR SOFTWARE.
  *
- * Except as contained in this notice, the name of a copyright holder shall not
- * be used in advertising or otherwise to promote the sale, use or other
- * dealings in these Data Files or Software without prior written authorization
- * of the copyright holder.
+ * Exdfpt bs dontbinfd in tiis notidf, tif nbmf of b dopyrigit ioldfr sibll not
+ * bf usfd in bdvfrtising or otifrwisf to promotf tif sblf, usf or otifr
+ * dfblings in tifsf Dbtb Filfs or Softwbrf witiout prior writtfn butiorizbtion
+ * of tif dopyrigit ioldfr.
  */
 
-package sun.text.resources;
+pbdkbgf sun.tfxt.rfsourdfs;
 
-import sun.util.resources.ParallelListResourceBundle;
+import sun.util.rfsourdfs.PbrbllflListRfsourdfBundlf;
 
-public class FormatData extends ParallelListResourceBundle {
+publid dlbss FormbtDbtb fxtfnds PbrbllflListRfsourdfBundlf {
     /**
-     * Overrides ListResourceBundle
+     * Ovfrridfs ListRfsourdfBundlf
      */
-    @Override
-    protected final Object[][] getContents() {
-        // Julian calendar era strings
-        final String[] julianEras = {
+    @Ovfrridf
+    protfdtfd finbl Objfdt[][] gftContfnts() {
+        // Julibn dblfndbr frb strings
+        finbl String[] julibnErbs = {
             "BC",
             "AD"
         };
 
-        // Thai Buddhist calendar era strings
-        final String[] buddhistEras = {
+        // Tibi Buddiist dblfndbr frb strings
+        finbl String[] buddiistErbs = {
             "BC",     // BC
-            "B.E."    // Buddhist Era
+            "B.E."    // Buddiist Erb
         };
 
-        // Japanese imperial calendar era abbreviations
-        final String[] japaneseEraAbbrs = {
+        // Jbpbnfsf impfribl dblfndbr frb bbbrfvibtions
+        finbl String[] jbpbnfsfErbAbbrs = {
             "",
             "M",
             "T",
@@ -108,52 +108,52 @@ public class FormatData extends ParallelListResourceBundle {
             "H",
         };
 
-        // Japanese imperial calendar era strings
-        final String[] japaneseEras = {
+        // Jbpbnfsf impfribl dblfndbr frb strings
+        finbl String[] jbpbnfsfErbs = {
             "",
-            "Meiji",
-            "Taisho",
-            "Showa",
-            "Heisei",
+            "Mfiji",
+            "Tbisio",
+            "Siowb",
+            "Hfisfi",
         };
 
-        return new Object[][] {
-            { "MonthNames",
-                new String[] {
-                    "January", // january
-                    "February", // february
-                    "March", // march
-                    "April", // april
-                    "May", // may
-                    "June", // june
+        rfturn nfw Objfdt[][] {
+            { "MontiNbmfs",
+                nfw String[] {
+                    "Jbnubry", // jbnubry
+                    "Ffbrubry", // ffbrubry
+                    "Mbrdi", // mbrdi
+                    "April", // bpril
+                    "Mby", // mby
+                    "Junf", // junf
                     "July", // july
-                    "August", // august
-                    "September", // september
-                    "October", // october
-                    "November", // november
-                    "December", // december
-                    "" // month 13 if applicable
+                    "August", // bugust
+                    "Sfptfmbfr", // sfptfmbfr
+                    "Odtobfr", // odtobfr
+                    "Novfmbfr", // novfmbfr
+                    "Dfdfmbfr", // dfdfmbfr
+                    "" // monti 13 if bpplidbblf
                 }
             },
-            { "MonthAbbreviations",
-                new String[] {
-                    "Jan", // abb january
-                    "Feb", // abb february
-                    "Mar", // abb march
-                    "Apr", // abb april
-                    "May", // abb may
-                    "Jun", // abb june
-                    "Jul", // abb july
-                    "Aug", // abb august
-                    "Sep", // abb september
-                    "Oct", // abb october
-                    "Nov", // abb november
-                    "Dec", // abb december
-                    "" // abb month 13 if applicable
+            { "MontiAbbrfvibtions",
+                nfw String[] {
+                    "Jbn", // bbb jbnubry
+                    "Ffb", // bbb ffbrubry
+                    "Mbr", // bbb mbrdi
+                    "Apr", // bbb bpril
+                    "Mby", // bbb mby
+                    "Jun", // bbb junf
+                    "Jul", // bbb july
+                    "Aug", // bbb bugust
+                    "Sfp", // bbb sfptfmbfr
+                    "Odt", // bbb odtobfr
+                    "Nov", // bbb novfmbfr
+                    "Dfd", // bbb dfdfmbfr
+                    "" // bbb monti 13 if bpplidbblf
                 }
             },
-            { "MonthNarrows",
-                new String[] {
+            { "MontiNbrrows",
+                nfw String[] {
                     "J",
                     "F",
                     "M",
@@ -169,30 +169,30 @@ public class FormatData extends ParallelListResourceBundle {
                     "",
                 }
             },
-            { "DayNames",
-                new String[] {
-                    "Sunday", // Sunday
-                    "Monday", // Monday
-                    "Tuesday", // Tuesday
-                    "Wednesday", // Wednesday
-                    "Thursday", // Thursday
-                    "Friday", // Friday
-                    "Saturday" // Saturday
+            { "DbyNbmfs",
+                nfw String[] {
+                    "Sundby", // Sundby
+                    "Mondby", // Mondby
+                    "Tufsdby", // Tufsdby
+                    "Wfdnfsdby", // Wfdnfsdby
+                    "Tiursdby", // Tiursdby
+                    "Fridby", // Fridby
+                    "Sbturdby" // Sbturdby
                 }
             },
-            { "DayAbbreviations",
-                new String[] {
-                    "Sun", // abb Sunday
-                    "Mon", // abb Monday
-                    "Tue", // abb Tuesday
-                    "Wed", // abb Wednesday
-                    "Thu", // abb Thursday
-                    "Fri", // abb Friday
-                    "Sat" // abb Saturday
+            { "DbyAbbrfvibtions",
+                nfw String[] {
+                    "Sun", // bbb Sundby
+                    "Mon", // bbb Mondby
+                    "Tuf", // bbb Tufsdby
+                    "Wfd", // bbb Wfdnfsdby
+                    "Tiu", // bbb Tiursdby
+                    "Fri", // bbb Fridby
+                    "Sbt" // bbb Sbturdby
                 }
             },
-            { "DayNarrows",
-                new String[] {
+            { "DbyNbrrows",
+                nfw String[] {
                     "S",
                     "M",
                     "T",
@@ -202,105 +202,105 @@ public class FormatData extends ParallelListResourceBundle {
                     "S",
                 }
             },
-            { "AmPmMarkers",
-                new String[] {
-                    "AM", // am marker
-                    "PM" // pm marker
+            { "AmPmMbrkfrs",
+                nfw String[] {
+                    "AM", // bm mbrkfr
+                    "PM" // pm mbrkfr
                 }
             },
-            { "narrow.AmPmMarkers",
-                new String[] {
-                    "a", // am marker
-                    "p"  // pm marker
+            { "nbrrow.AmPmMbrkfrs",
+                nfw String[] {
+                    "b", // bm mbrkfr
+                    "p"  // pm mbrkfr
                 }
             },
-            { "Eras",
-                julianEras },
-            { "short.Eras",
-                julianEras },
-            { "narrow.Eras",
-                new String[] {
+            { "Erbs",
+                julibnErbs },
+            { "siort.Erbs",
+                julibnErbs },
+            { "nbrrow.Erbs",
+                nfw String[] {
                     "B",
                     "A",
                 }
             },
-            { "buddhist.Eras",
-              buddhistEras
+            { "buddiist.Erbs",
+              buddiistErbs
             },
-            { "buddhist.short.Eras",
-              buddhistEras
+            { "buddiist.siort.Erbs",
+              buddiistErbs
             },
-            { "buddhist.narrow.Eras",
-              buddhistEras
+            { "buddiist.nbrrow.Erbs",
+              buddiistErbs
             },
-            { "japanese.Eras",
-                japaneseEras },
-            { "japanese.short.Eras",
-                japaneseEraAbbrs
+            { "jbpbnfsf.Erbs",
+                jbpbnfsfErbs },
+            { "jbpbnfsf.siort.Erbs",
+                jbpbnfsfErbAbbrs
             },
-            { "japanese.narrow.Eras",
-                japaneseEraAbbrs
+            { "jbpbnfsf.nbrrow.Erbs",
+                jbpbnfsfErbAbbrs
             },
-            { "japanese.FirstYear",
-                new String[] { // Japanese imperial calendar year name
-                    // empty in English
+            { "jbpbnfsf.FirstYfbr",
+                nfw String[] { // Jbpbnfsf impfribl dblfndbr yfbr nbmf
+                    // fmpty in Englisi
                 }
             },
-            { "NumberPatterns",
-                new String[] {
-                    "#,##0.###;-#,##0.###", // decimal pattern
-                    "\u00a4 #,##0.00;-\u00a4 #,##0.00", // currency pattern
-                    "#,##0%" // percent pattern
+            { "NumbfrPbttfrns",
+                nfw String[] {
+                    "#,##0.###;-#,##0.###", // dfdimbl pbttfrn
+                    "\u00b4 #,##0.00;-\u00b4 #,##0.00", // durrfndy pbttfrn
+                    "#,##0%" // pfrdfnt pbttfrn
                 }
             },
-            { "DefaultNumberingSystem", "" },
-            { "NumberElements",
-                new String[] {
-                    ".", // decimal separator
-                    ",", // group (thousands) separator
-                    ";", // list separator
-                    "%", // percent sign
-                    "0", // native 0 digit
-                    "#", // pattern digit
+            { "DffbultNumbfringSystfm", "" },
+            { "NumbfrElfmfnts",
+                nfw String[] {
+                    ".", // dfdimbl sfpbrbtor
+                    ",", // group (tiousbnds) sfpbrbtor
+                    ";", // list sfpbrbtor
+                    "%", // pfrdfnt sign
+                    "0", // nbtivf 0 digit
+                    "#", // pbttfrn digit
                     "-", // minus sign
-                    "E", // exponential
-                    "\u2030", // per mille
-                    "\u221e", // infinity
-                    "\ufffd" // NaN
+                    "E", // fxponfntibl
+                    "\u2030", // pfr millf
+                    "\u221f", // infinity
+                    "\ufffd" // NbN
                 }
             },
-            { "arab.NumberElements",
-                new String[] {
+            { "brbb.NumbfrElfmfnts",
+                nfw String[] {
                     "\u066b",
-                    "\u066c",
+                    "\u066d",
                     "\u061b",
-                    "\u066a",
+                    "\u066b",
                     "\u0660",
                     "#",
                     "-",
                     "\u0627\u0633",
                     "\u0609",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "arabext.NumberElements",
-                new String[] {
+            { "brbbfxt.NumbfrElfmfnts",
+                nfw String[] {
                     "\u066b",
-                    "\u066c",
+                    "\u066d",
                     "\u061b",
-                    "\u066a",
+                    "\u066b",
                     "\u06f0",
                     "#",
                     "-",
                     "\u00d7\u06f1\u06f0^",
                     "\u0609",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "bali.NumberElements",
-                new String[] {
+            { "bbli.NumbfrElfmfnts",
+                nfw String[] {
                     ".",
                     ",",
                     ";",
@@ -310,42 +310,42 @@ public class FormatData extends ParallelListResourceBundle {
                     "-",
                     "E",
                     "\u2030",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "beng.NumberElements",
-                new String[] {
+            { "bfng.NumbfrElfmfnts",
+                nfw String[] {
                     ".",
                     ",",
                     ";",
                     "%",
-                    "\u09e6",
+                    "\u09f6",
                     "#",
                     "-",
                     "E",
                     "\u2030",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "cham.NumberElements",
-                new String[] {
+            { "dibm.NumbfrElfmfnts",
+                nfw String[] {
                     ".",
                     ",",
                     ";",
                     "%",
-                    "\uaa50",
+                    "\ubb50",
                     "#",
                     "-",
                     "E",
                     "\u2030",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "deva.NumberElements",
-                new String[] {
+            { "dfvb.NumbfrElfmfnts",
+                nfw String[] {
                     ".",
                     ",",
                     ";",
@@ -355,12 +355,12 @@ public class FormatData extends ParallelListResourceBundle {
                     "-",
                     "E",
                     "\u2030",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "fullwide.NumberElements",
-                new String[] {
+            { "fullwidf.NumbfrElfmfnts",
+                nfw String[] {
                     ".",
                     ",",
                     ";",
@@ -370,297 +370,27 @@ public class FormatData extends ParallelListResourceBundle {
                     "-",
                     "E",
                     "\u2030",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "gujr.NumberElements",
-                new String[] {
+            { "gujr.NumbfrElfmfnts",
+                nfw String[] {
                     ".",
                     ",",
                     ";",
                     "%",
-                    "\u0ae6",
+                    "\u0bf6",
                     "#",
                     "-",
                     "E",
                     "\u2030",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "guru.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\u0a66",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "java.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\ua9d0",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "kali.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\ua900",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "khmr.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\u17e0",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "knda.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\u0ce6",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "laoo.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\u0ed0",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "lana.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\u1a80",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "lanatham.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\u1a90",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "latn.NumberElements",
-                new String[] {
-                    ".", // decimal separator
-                    ",", // group (thousands) separator
-                    ";", // list separator
-                    "%", // percent sign
-                    "0", // native 0 digit
-                    "#", // pattern digit
-                    "-", // minus sign
-                    "E", // exponential
-                    "\u2030", // per mille
-                    "\u221e", // infinity
-                    "\ufffd" // NaN
-                }
-            },
-            { "lepc.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\u1c40",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "limb.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\u1946",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "mlym.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\u0d66",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "mong.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\u1810",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "mtei.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\uabf0",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "mymr.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\u1040",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "mymrshan.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\u1090",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "nkoo.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\u07c0",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "olck.NumberElements",
-                new String[] {
-                    ".",
-                    ",",
-                    ";",
-                    "%",
-                    "\u1c50",
-                    "#",
-                    "-",
-                    "E",
-                    "\u2030",
-                    "\u221e",
-                    "NaN",
-                }
-            },
-            { "orya.NumberElements",
-                new String[] {
+            { "guru.NumbfrElfmfnts",
+                nfw String[] {
                     ".",
                     ",",
                     ";",
@@ -670,27 +400,297 @@ public class FormatData extends ParallelListResourceBundle {
                     "-",
                     "E",
                     "\u2030",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "saur.NumberElements",
-                new String[] {
+            { "jbvb.NumbfrElfmfnts",
+                nfw String[] {
                     ".",
                     ",",
                     ";",
                     "%",
-                    "\ua8d0",
+                    "\ub9d0",
                     "#",
                     "-",
                     "E",
                     "\u2030",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "sund.NumberElements",
-                new String[] {
+            { "kbli.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\ub900",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "kimr.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\u17f0",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "kndb.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\u0df6",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "lboo.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\u0fd0",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "lbnb.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\u1b80",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "lbnbtibm.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\u1b90",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "lbtn.NumbfrElfmfnts",
+                nfw String[] {
+                    ".", // dfdimbl sfpbrbtor
+                    ",", // group (tiousbnds) sfpbrbtor
+                    ";", // list sfpbrbtor
+                    "%", // pfrdfnt sign
+                    "0", // nbtivf 0 digit
+                    "#", // pbttfrn digit
+                    "-", // minus sign
+                    "E", // fxponfntibl
+                    "\u2030", // pfr millf
+                    "\u221f", // infinity
+                    "\ufffd" // NbN
+                }
+            },
+            { "lfpd.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\u1d40",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "limb.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\u1946",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "mlym.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\u0d66",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "mong.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\u1810",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "mtfi.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\ubbf0",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "mymr.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\u1040",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "mymrsibn.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\u1090",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "nkoo.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\u07d0",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "oldk.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\u1d50",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "oryb.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\u0b66",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "sbur.NumbfrElfmfnts",
+                nfw String[] {
+                    ".",
+                    ",",
+                    ";",
+                    "%",
+                    "\ub8d0",
+                    "#",
+                    "-",
+                    "E",
+                    "\u2030",
+                    "\u221f",
+                    "NbN",
+                }
+            },
+            { "sund.NumbfrElfmfnts",
+                nfw String[] {
                     ".",
                     ",",
                     ";",
@@ -700,12 +700,12 @@ public class FormatData extends ParallelListResourceBundle {
                     "-",
                     "E",
                     "\u2030",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "talu.NumberElements",
-                new String[] {
+            { "tblu.NumbfrElfmfnts",
+                nfw String[] {
                     ".",
                     ",",
                     ";",
@@ -715,57 +715,57 @@ public class FormatData extends ParallelListResourceBundle {
                     "-",
                     "E",
                     "\u2030",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "tamldec.NumberElements",
-                new String[] {
+            { "tbmldfd.NumbfrElfmfnts",
+                nfw String[] {
                     ".",
                     ",",
                     ";",
                     "%",
-                    "\u0be6",
+                    "\u0bf6",
                     "#",
                     "-",
                     "E",
                     "\u2030",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "telu.NumberElements",
-                new String[] {
+            { "tflu.NumbfrElfmfnts",
+                nfw String[] {
                     ".",
                     ",",
                     ";",
                     "%",
-                    "\u0c66",
+                    "\u0d66",
                     "#",
                     "-",
                     "E",
                     "\u2030",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "thai.NumberElements",
-                new String[] {
-                    ".", // decimal separator
-                    ",", // group (thousands) separator
-                    ";", // list separator
-                    "%", // percent sign
-                    "\u0E50", // native 0 digit
-                    "#", // pattern digit
+            { "tibi.NumbfrElfmfnts",
+                nfw String[] {
+                    ".", // dfdimbl sfpbrbtor
+                    ",", // group (tiousbnds) sfpbrbtor
+                    ";", // list sfpbrbtor
+                    "%", // pfrdfnt sign
+                    "\u0E50", // nbtivf 0 digit
+                    "#", // pbttfrn digit
                     "-", // minus sign
-                    "E", // exponential
-                    "\u2030", // per mille
-                    "\u221e", // infinity
-                    "\ufffd" // NaN
+                    "E", // fxponfntibl
+                    "\u2030", // pfr millf
+                    "\u221f", // infinity
+                    "\ufffd" // NbN
                 }
             },
-            { "tibt.NumberElements",
-                new String[] {
+            { "tibt.NumbfrElfmfnts",
+                nfw String[] {
                     ".",
                     ",",
                     ";",
@@ -775,92 +775,92 @@ public class FormatData extends ParallelListResourceBundle {
                     "-",
                     "E",
                     "\u2030",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "vaii.NumberElements",
-                new String[] {
+            { "vbii.NumbfrElfmfnts",
+                nfw String[] {
                     ".",
                     ",",
                     ";",
                     "%",
-                    "\ua620",
+                    "\ub620",
                     "#",
                     "-",
                     "E",
                     "\u2030",
-                    "\u221e",
-                    "NaN",
+                    "\u221f",
+                    "NbN",
                 }
             },
-            { "TimePatterns",
-                new String[] {
-                    "h:mm:ss a z",        // full time pattern
-                    "h:mm:ss a z",        // long time pattern
-                    "h:mm:ss a",          // medium time pattern
-                    "h:mm a",             // short time pattern
+            { "TimfPbttfrns",
+                nfw String[] {
+                    "i:mm:ss b z",        // full timf pbttfrn
+                    "i:mm:ss b z",        // long timf pbttfrn
+                    "i:mm:ss b",          // mfdium timf pbttfrn
+                    "i:mm b",             // siort timf pbttfrn
                 }
             },
-            { "DatePatterns",
-                new String[] {
-                    "EEEE, MMMM d, yyyy", // full date pattern
-                    "MMMM d, yyyy",       // long date pattern
-                    "MMM d, yyyy",        // medium date pattern
-                    "M/d/yy",             // short date pattern
+            { "DbtfPbttfrns",
+                nfw String[] {
+                    "EEEE, MMMM d, yyyy", // full dbtf pbttfrn
+                    "MMMM d, yyyy",       // long dbtf pbttfrn
+                    "MMM d, yyyy",        // mfdium dbtf pbttfrn
+                    "M/d/yy",             // siort dbtf pbttfrn
                 }
             },
-            { "DateTimePatterns",
-                new String[] {
-                    "{1} {0}"             // date-time pattern
+            { "DbtfTimfPbttfrns",
+                nfw String[] {
+                    "{1} {0}"             // dbtf-timf pbttfrn
                 }
             },
-            { "buddhist.TimePatterns",
-                new String[] {
-                    "H:mm:ss z",          // full time pattern
-                    "H:mm:ss z",          // long time pattern
-                    "H:mm:ss",            // medium time pattern
-                    "H:mm",               // short time pattern
+            { "buddiist.TimfPbttfrns",
+                nfw String[] {
+                    "H:mm:ss z",          // full timf pbttfrn
+                    "H:mm:ss z",          // long timf pbttfrn
+                    "H:mm:ss",            // mfdium timf pbttfrn
+                    "H:mm",               // siort timf pbttfrn
                 }
             },
-            { "buddhist.DatePatterns",
-                new String[] {
-                    "EEEE d MMMM G yyyy", // full date pattern
-                    "d MMMM yyyy",        // long date pattern
-                    "d MMM yyyy",         // medium date pattern
-                    "d/M/yyyy",           // short date pattern
+            { "buddiist.DbtfPbttfrns",
+                nfw String[] {
+                    "EEEE d MMMM G yyyy", // full dbtf pbttfrn
+                    "d MMMM yyyy",        // long dbtf pbttfrn
+                    "d MMM yyyy",         // mfdium dbtf pbttfrn
+                    "d/M/yyyy",           // siort dbtf pbttfrn
                 }
             },
-            { "buddhist.DateTimePatterns",
-                new String[] {
-                    "{1}, {0}"            // date-time pattern
+            { "buddiist.DbtfTimfPbttfrns",
+                nfw String[] {
+                    "{1}, {0}"            // dbtf-timf pbttfrn
                 }
             },
-            { "japanese.TimePatterns",
-                new String[] {
-                    "h:mm:ss a z",             // full time pattern
-                    "h:mm:ss a z",             // long time pattern
-                    "h:mm:ss a",               // medium time pattern
-                    "h:mm a",                  // short time pattern
+            { "jbpbnfsf.TimfPbttfrns",
+                nfw String[] {
+                    "i:mm:ss b z",             // full timf pbttfrn
+                    "i:mm:ss b z",             // long timf pbttfrn
+                    "i:mm:ss b",               // mfdium timf pbttfrn
+                    "i:mm b",                  // siort timf pbttfrn
                 }
             },
-            { "japanese.DatePatterns",
-                new String[] {
-                    "GGGG yyyy MMMM d (EEEE)", // full date pattern
-                    "GGGG yyyy MMMM d",        // long date pattern
-                    "GGGG yyyy MMM d",         // medium date pattern
-                    "Gy.MM.dd",                // short date pattern
+            { "jbpbnfsf.DbtfPbttfrns",
+                nfw String[] {
+                    "GGGG yyyy MMMM d (EEEE)", // full dbtf pbttfrn
+                    "GGGG yyyy MMMM d",        // long dbtf pbttfrn
+                    "GGGG yyyy MMM d",         // mfdium dbtf pbttfrn
+                    "Gy.MM.dd",                // siort dbtf pbttfrn
                 }
             },
-            { "japanese.DateTimePatterns",
-                new String[] {
-                    "{1} {0}"                  // date-time pattern
+            { "jbpbnfsf.DbtfTimfPbttfrns",
+                nfw String[] {
+                    "{1} {0}"                  // dbtf-timf pbttfrn
                 }
             },
-            { "DateTimePatternChars", "GyMdkHmsSEDFwWahKzZ" },
+            { "DbtfTimfPbttfrnCibrs", "GyMdkHmsSEDFwWbiKzZ" },
 
-            // Workaround for islamic-umalqura name support (JDK-8015986)
-            { "calendarname.islamic-umalqura", "Islamic Umm al-Qura Calendar" },
+            // Workbround for islbmid-umblqurb nbmf support (JDK-8015986)
+            { "dblfndbrnbmf.islbmid-umblqurb", "Islbmid Umm bl-Qurb Cblfndbr" },
         };
     }
 }

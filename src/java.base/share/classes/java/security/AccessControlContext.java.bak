@@ -1,940 +1,940 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.security;
+pbdkbgf jbvb.sfdurity;
 
-import java.util.ArrayList;
-import java.util.List;
-import sun.security.util.Debug;
-import sun.security.util.SecurityConstants;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.SfdurityConstbnts;
 
 
 /**
- * An AccessControlContext is used to make system resource access decisions
- * based on the context it encapsulates.
+ * An AddfssControlContfxt is usfd to mbkf systfm rfsourdf bddfss dfdisions
+ * bbsfd on tif dontfxt it fndbpsulbtfs.
  *
- * <p>More specifically, it encapsulates a context and
- * has a single method, {@code checkPermission},
- * that is equivalent to the {@code checkPermission} method
- * in the AccessController class, with one difference: The AccessControlContext
- * {@code checkPermission} method makes access decisions based on the
- * context it encapsulates,
- * rather than that of the current execution thread.
+ * <p>Morf spfdifidblly, it fndbpsulbtfs b dontfxt bnd
+ * ibs b singlf mftiod, {@dodf difdkPfrmission},
+ * tibt is fquivblfnt to tif {@dodf difdkPfrmission} mftiod
+ * in tif AddfssControllfr dlbss, witi onf difffrfndf: Tif AddfssControlContfxt
+ * {@dodf difdkPfrmission} mftiod mbkfs bddfss dfdisions bbsfd on tif
+ * dontfxt it fndbpsulbtfs,
+ * rbtifr tibn tibt of tif durrfnt fxfdution tirfbd.
  *
- * <p>Thus, the purpose of AccessControlContext is for those situations where
- * a security check that should be made within a given context
- * actually needs to be done from within a
- * <i>different</i> context (for example, from within a worker thread).
+ * <p>Tius, tif purposf of AddfssControlContfxt is for tiosf situbtions wifrf
+ * b sfdurity difdk tibt siould bf mbdf witiin b givfn dontfxt
+ * bdtublly nffds to bf donf from witiin b
+ * <i>difffrfnt</i> dontfxt (for fxbmplf, from witiin b workfr tirfbd).
  *
- * <p> An AccessControlContext is created by calling the
- * {@code AccessController.getContext} method.
- * The {@code getContext} method takes a "snapshot"
- * of the current calling context, and places
- * it in an AccessControlContext object, which it returns. A sample call is
- * the following:
+ * <p> An AddfssControlContfxt is drfbtfd by dblling tif
+ * {@dodf AddfssControllfr.gftContfxt} mftiod.
+ * Tif {@dodf gftContfxt} mftiod tbkfs b "snbpsiot"
+ * of tif durrfnt dblling dontfxt, bnd plbdfs
+ * it in bn AddfssControlContfxt objfdt, wiidi it rfturns. A sbmplf dbll is
+ * tif following:
  *
- * <pre>
- *   AccessControlContext acc = AccessController.getContext()
- * </pre>
+ * <prf>
+ *   AddfssControlContfxt bdd = AddfssControllfr.gftContfxt()
+ * </prf>
  *
  * <p>
- * Code within a different context can subsequently call the
- * {@code checkPermission} method on the
- * previously-saved AccessControlContext object. A sample call is the
+ * Codf witiin b difffrfnt dontfxt dbn subsfqufntly dbll tif
+ * {@dodf difdkPfrmission} mftiod on tif
+ * prfviously-sbvfd AddfssControlContfxt objfdt. A sbmplf dbll is tif
  * following:
  *
- * <pre>
- *   acc.checkPermission(permission)
- * </pre>
+ * <prf>
+ *   bdd.difdkPfrmission(pfrmission)
+ * </prf>
  *
- * @see AccessController
+ * @sff AddfssControllfr
  *
- * @author Roland Schemers
+ * @butior Rolbnd Sdifmfrs
  */
 
-public final class AccessControlContext {
+publid finbl dlbss AddfssControlContfxt {
 
-    private ProtectionDomain context[];
-    // isPrivileged and isAuthorized are referenced by the VM - do not remove
-    // or change their names
-    private boolean isPrivileged;
-    private boolean isAuthorized = false;
+    privbtf ProtfdtionDombin dontfxt[];
+    // isPrivilfgfd bnd isAutiorizfd brf rfffrfndfd by tif VM - do not rfmovf
+    // or dibngf tifir nbmfs
+    privbtf boolfbn isPrivilfgfd;
+    privbtf boolfbn isAutiorizfd = fblsf;
 
-    // Note: This field is directly used by the virtual machine
-    // native codes. Don't touch it.
-    private AccessControlContext privilegedContext;
+    // Notf: Tiis fifld is dirfdtly usfd by tif virtubl mbdiinf
+    // nbtivf dodfs. Don't toudi it.
+    privbtf AddfssControlContfxt privilfgfdContfxt;
 
-    private DomainCombiner combiner = null;
+    privbtf DombinCombinfr dombinfr = null;
 
-    // limited privilege scope
-    private Permission permissions[];
-    private AccessControlContext parent;
-    private boolean isWrapped;
+    // limitfd privilfgf sdopf
+    privbtf Pfrmission pfrmissions[];
+    privbtf AddfssControlContfxt pbrfnt;
+    privbtf boolfbn isWrbppfd;
 
-    // is constrained by limited privilege scope?
-    private boolean isLimited;
-    private ProtectionDomain limitedContext[];
+    // is donstrbinfd by limitfd privilfgf sdopf?
+    privbtf boolfbn isLimitfd;
+    privbtf ProtfdtionDombin limitfdContfxt[];
 
-    private static boolean debugInit = false;
-    private static Debug debug = null;
+    privbtf stbtid boolfbn dfbugInit = fblsf;
+    privbtf stbtid Dfbug dfbug = null;
 
-    static Debug getDebug()
+    stbtid Dfbug gftDfbug()
     {
-        if (debugInit)
-            return debug;
-        else {
-            if (Policy.isSet()) {
-                debug = Debug.getInstance("access");
-                debugInit = true;
+        if (dfbugInit)
+            rfturn dfbug;
+        flsf {
+            if (Polidy.isSft()) {
+                dfbug = Dfbug.gftInstbndf("bddfss");
+                dfbugInit = truf;
             }
-            return debug;
+            rfturn dfbug;
         }
     }
 
     /**
-     * Create an AccessControlContext with the given array of ProtectionDomains.
-     * Context must not be null. Duplicate domains will be removed from the
-     * context.
+     * Crfbtf bn AddfssControlContfxt witi tif givfn brrby of ProtfdtionDombins.
+     * Contfxt must not bf null. Duplidbtf dombins will bf rfmovfd from tif
+     * dontfxt.
      *
-     * @param context the ProtectionDomains associated with this context.
-     * The non-duplicate domains are copied from the array. Subsequent
-     * changes to the array will not affect this AccessControlContext.
-     * @throws NullPointerException if {@code context} is {@code null}
+     * @pbrbm dontfxt tif ProtfdtionDombins bssodibtfd witi tiis dontfxt.
+     * Tif non-duplidbtf dombins brf dopifd from tif brrby. Subsfqufnt
+     * dibngfs to tif brrby will not bfffdt tiis AddfssControlContfxt.
+     * @tirows NullPointfrExdfption if {@dodf dontfxt} is {@dodf null}
      */
-    public AccessControlContext(ProtectionDomain context[])
+    publid AddfssControlContfxt(ProtfdtionDombin dontfxt[])
     {
-        if (context.length == 0) {
-            this.context = null;
-        } else if (context.length == 1) {
-            if (context[0] != null) {
-                this.context = context.clone();
-            } else {
-                this.context = null;
+        if (dontfxt.lfngti == 0) {
+            tiis.dontfxt = null;
+        } flsf if (dontfxt.lfngti == 1) {
+            if (dontfxt[0] != null) {
+                tiis.dontfxt = dontfxt.dlonf();
+            } flsf {
+                tiis.dontfxt = null;
             }
-        } else {
-            List<ProtectionDomain> v = new ArrayList<>(context.length);
-            for (int i =0; i< context.length; i++) {
-                if ((context[i] != null) &&  (!v.contains(context[i])))
-                    v.add(context[i]);
+        } flsf {
+            List<ProtfdtionDombin> v = nfw ArrbyList<>(dontfxt.lfngti);
+            for (int i =0; i< dontfxt.lfngti; i++) {
+                if ((dontfxt[i] != null) &&  (!v.dontbins(dontfxt[i])))
+                    v.bdd(dontfxt[i]);
             }
             if (!v.isEmpty()) {
-                this.context = new ProtectionDomain[v.size()];
-                this.context = v.toArray(this.context);
+                tiis.dontfxt = nfw ProtfdtionDombin[v.sizf()];
+                tiis.dontfxt = v.toArrby(tiis.dontfxt);
             }
         }
     }
 
     /**
-     * Create a new {@code AccessControlContext} with the given
-     * {@code AccessControlContext} and {@code DomainCombiner}.
-     * This constructor associates the provided
-     * {@code DomainCombiner} with the provided
-     * {@code AccessControlContext}.
+     * Crfbtf b nfw {@dodf AddfssControlContfxt} witi tif givfn
+     * {@dodf AddfssControlContfxt} bnd {@dodf DombinCombinfr}.
+     * Tiis donstrudtor bssodibtfs tif providfd
+     * {@dodf DombinCombinfr} witi tif providfd
+     * {@dodf AddfssControlContfxt}.
      *
      * <p>
      *
-     * @param acc the {@code AccessControlContext} associated
-     *          with the provided {@code DomainCombiner}.
+     * @pbrbm bdd tif {@dodf AddfssControlContfxt} bssodibtfd
+     *          witi tif providfd {@dodf DombinCombinfr}.
      *
-     * @param combiner the {@code DomainCombiner} to be associated
-     *          with the provided {@code AccessControlContext}.
+     * @pbrbm dombinfr tif {@dodf DombinCombinfr} to bf bssodibtfd
+     *          witi tif providfd {@dodf AddfssControlContfxt}.
      *
-     * @exception NullPointerException if the provided
-     *          {@code context} is {@code null}.
+     * @fxdfption NullPointfrExdfption if tif providfd
+     *          {@dodf dontfxt} is {@dodf null}.
      *
-     * @exception SecurityException if a security manager is installed and the
-     *          caller does not have the "createAccessControlContext"
-     *          {@link SecurityPermission}
-     * @since 1.3
+     * @fxdfption SfdurityExdfption if b sfdurity mbnbgfr is instbllfd bnd tif
+     *          dbllfr dofs not ibvf tif "drfbtfAddfssControlContfxt"
+     *          {@link SfdurityPfrmission}
+     * @sindf 1.3
      */
-    public AccessControlContext(AccessControlContext acc,
-                                DomainCombiner combiner) {
+    publid AddfssControlContfxt(AddfssControlContfxt bdd,
+                                DombinCombinfr dombinfr) {
 
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(SecurityConstants.CREATE_ACC_PERMISSION);
-            this.isAuthorized = true;
+            sm.difdkPfrmission(SfdurityConstbnts.CREATE_ACC_PERMISSION);
+            tiis.isAutiorizfd = truf;
         }
 
-        this.context = acc.context;
+        tiis.dontfxt = bdd.dontfxt;
 
-        // we do not need to run the combine method on the
-        // provided ACC.  it was already "combined" when the
-        // context was originally retrieved.
+        // wf do not nffd to run tif dombinf mftiod on tif
+        // providfd ACC.  it wbs blrfbdy "dombinfd" wifn tif
+        // dontfxt wbs originblly rftrifvfd.
         //
-        // at this point in time, we simply throw away the old
-        // combiner and use the newly provided one.
-        this.combiner = combiner;
+        // bt tiis point in timf, wf simply tirow bwby tif old
+        // dombinfr bnd usf tif nfwly providfd onf.
+        tiis.dombinfr = dombinfr;
     }
 
     /**
-     * package private for AccessController
+     * pbdkbgf privbtf for AddfssControllfr
      *
-     * This "argument wrapper" context will be passed as the actual context
-     * parameter on an internal doPrivileged() call used in the implementation.
+     * Tiis "brgumfnt wrbppfr" dontfxt will bf pbssfd bs tif bdtubl dontfxt
+     * pbrbmftfr on bn intfrnbl doPrivilfgfd() dbll usfd in tif implfmfntbtion.
      */
-    AccessControlContext(ProtectionDomain caller, DomainCombiner combiner,
-        AccessControlContext parent, AccessControlContext context,
-        Permission[] perms)
+    AddfssControlContfxt(ProtfdtionDombin dbllfr, DombinCombinfr dombinfr,
+        AddfssControlContfxt pbrfnt, AddfssControlContfxt dontfxt,
+        Pfrmission[] pfrms)
     {
         /*
-         * Combine the domains from the doPrivileged() context into our
-         * wrapper context, if necessary.
+         * Combinf tif dombins from tif doPrivilfgfd() dontfxt into our
+         * wrbppfr dontfxt, if nfdfssbry.
          */
-        ProtectionDomain[] callerPDs = null;
-        if (caller != null) {
-             callerPDs = new ProtectionDomain[] { caller };
+        ProtfdtionDombin[] dbllfrPDs = null;
+        if (dbllfr != null) {
+             dbllfrPDs = nfw ProtfdtionDombin[] { dbllfr };
         }
-        if (context != null) {
-            if (combiner != null) {
-                this.context = combiner.combine(callerPDs, context.context);
-            } else {
-                this.context = combine(callerPDs, context.context);
+        if (dontfxt != null) {
+            if (dombinfr != null) {
+                tiis.dontfxt = dombinfr.dombinf(dbllfrPDs, dontfxt.dontfxt);
+            } flsf {
+                tiis.dontfxt = dombinf(dbllfrPDs, dontfxt.dontfxt);
             }
-        } else {
+        } flsf {
             /*
-             * Call combiner even if there is seemingly nothing to combine.
+             * Cbll dombinfr fvfn if tifrf is sffmingly notiing to dombinf.
              */
-            if (combiner != null) {
-                this.context = combiner.combine(callerPDs, null);
-            } else {
-                this.context = combine(callerPDs, null);
+            if (dombinfr != null) {
+                tiis.dontfxt = dombinfr.dombinf(dbllfrPDs, null);
+            } flsf {
+                tiis.dontfxt = dombinf(dbllfrPDs, null);
             }
         }
-        this.combiner = combiner;
+        tiis.dombinfr = dombinfr;
 
-        Permission[] tmp = null;
-        if (perms != null) {
-            tmp = new Permission[perms.length];
-            for (int i=0; i < perms.length; i++) {
-                if (perms[i] == null) {
-                    throw new NullPointerException("permission can't be null");
+        Pfrmission[] tmp = null;
+        if (pfrms != null) {
+            tmp = nfw Pfrmission[pfrms.lfngti];
+            for (int i=0; i < pfrms.lfngti; i++) {
+                if (pfrms[i] == null) {
+                    tirow nfw NullPointfrExdfption("pfrmission dbn't bf null");
                 }
 
                 /*
-                 * An AllPermission argument is equivalent to calling
-                 * doPrivileged() without any limit permissions.
+                 * An AllPfrmission brgumfnt is fquivblfnt to dblling
+                 * doPrivilfgfd() witiout bny limit pfrmissions.
                  */
-                if (perms[i].getClass() == AllPermission.class) {
-                    parent = null;
+                if (pfrms[i].gftClbss() == AllPfrmission.dlbss) {
+                    pbrfnt = null;
                 }
-                tmp[i] = perms[i];
+                tmp[i] = pfrms[i];
             }
         }
 
         /*
-         * For a doPrivileged() with limited privilege scope, initialize
-         * the relevant fields.
+         * For b doPrivilfgfd() witi limitfd privilfgf sdopf, initiblizf
+         * tif rflfvbnt fiflds.
          *
-         * The limitedContext field contains the union of all domains which
-         * are enclosed by this limited privilege scope. In other words,
-         * it contains all of the domains which could potentially be checked
-         * if none of the limiting permissions implied a requested permission.
+         * Tif limitfdContfxt fifld dontbins tif union of bll dombins wiidi
+         * brf fndlosfd by tiis limitfd privilfgf sdopf. In otifr words,
+         * it dontbins bll of tif dombins wiidi dould potfntiblly bf difdkfd
+         * if nonf of tif limiting pfrmissions implifd b rfqufstfd pfrmission.
          */
-        if (parent != null) {
-            this.limitedContext = combine(parent.context, parent.limitedContext);
-            this.isLimited = true;
-            this.isWrapped = true;
-            this.permissions = tmp;
-            this.parent = parent;
-            this.privilegedContext = context; // used in checkPermission2()
+        if (pbrfnt != null) {
+            tiis.limitfdContfxt = dombinf(pbrfnt.dontfxt, pbrfnt.limitfdContfxt);
+            tiis.isLimitfd = truf;
+            tiis.isWrbppfd = truf;
+            tiis.pfrmissions = tmp;
+            tiis.pbrfnt = pbrfnt;
+            tiis.privilfgfdContfxt = dontfxt; // usfd in difdkPfrmission2()
         }
-        this.isAuthorized = true;
+        tiis.isAutiorizfd = truf;
     }
 
 
     /**
-     * package private constructor for AccessController.getContext()
+     * pbdkbgf privbtf donstrudtor for AddfssControllfr.gftContfxt()
      */
 
-    AccessControlContext(ProtectionDomain context[],
-                         boolean isPrivileged)
+    AddfssControlContfxt(ProtfdtionDombin dontfxt[],
+                         boolfbn isPrivilfgfd)
     {
-        this.context = context;
-        this.isPrivileged = isPrivileged;
-        this.isAuthorized = true;
+        tiis.dontfxt = dontfxt;
+        tiis.isPrivilfgfd = isPrivilfgfd;
+        tiis.isAutiorizfd = truf;
     }
 
     /**
-     * Constructor for JavaSecurityAccess.doIntersectionPrivilege()
+     * Construdtor for JbvbSfdurityAddfss.doIntfrsfdtionPrivilfgf()
      */
-    AccessControlContext(ProtectionDomain[] context,
-                         AccessControlContext privilegedContext)
+    AddfssControlContfxt(ProtfdtionDombin[] dontfxt,
+                         AddfssControlContfxt privilfgfdContfxt)
     {
-        this.context = context;
-        this.privilegedContext = privilegedContext;
-        this.isPrivileged = true;
+        tiis.dontfxt = dontfxt;
+        tiis.privilfgfdContfxt = privilfgfdContfxt;
+        tiis.isPrivilfgfd = truf;
     }
 
     /**
-     * Returns this context's context.
+     * Rfturns tiis dontfxt's dontfxt.
      */
-    ProtectionDomain[] getContext() {
-        return context;
+    ProtfdtionDombin[] gftContfxt() {
+        rfturn dontfxt;
     }
 
     /**
-     * Returns true if this context is privileged.
+     * Rfturns truf if tiis dontfxt is privilfgfd.
      */
-    boolean isPrivileged()
+    boolfbn isPrivilfgfd()
     {
-        return isPrivileged;
+        rfturn isPrivilfgfd;
     }
 
     /**
-     * get the assigned combiner from the privileged or inherited context
+     * gft tif bssignfd dombinfr from tif privilfgfd or inifritfd dontfxt
      */
-    DomainCombiner getAssignedCombiner() {
-        AccessControlContext acc;
-        if (isPrivileged) {
-            acc = privilegedContext;
-        } else {
-            acc = AccessController.getInheritedAccessControlContext();
+    DombinCombinfr gftAssignfdCombinfr() {
+        AddfssControlContfxt bdd;
+        if (isPrivilfgfd) {
+            bdd = privilfgfdContfxt;
+        } flsf {
+            bdd = AddfssControllfr.gftInifritfdAddfssControlContfxt();
         }
-        if (acc != null) {
-            return acc.combiner;
+        if (bdd != null) {
+            rfturn bdd.dombinfr;
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Get the {@code DomainCombiner} associated with this
-     * {@code AccessControlContext}.
+     * Gft tif {@dodf DombinCombinfr} bssodibtfd witi tiis
+     * {@dodf AddfssControlContfxt}.
      *
      * <p>
      *
-     * @return the {@code DomainCombiner} associated with this
-     *          {@code AccessControlContext}, or {@code null}
-     *          if there is none.
+     * @rfturn tif {@dodf DombinCombinfr} bssodibtfd witi tiis
+     *          {@dodf AddfssControlContfxt}, or {@dodf null}
+     *          if tifrf is nonf.
      *
-     * @exception SecurityException if a security manager is installed and
-     *          the caller does not have the "getDomainCombiner"
-     *          {@link SecurityPermission}
-     * @since 1.3
+     * @fxdfption SfdurityExdfption if b sfdurity mbnbgfr is instbllfd bnd
+     *          tif dbllfr dofs not ibvf tif "gftDombinCombinfr"
+     *          {@link SfdurityPfrmission}
+     * @sindf 1.3
      */
-    public DomainCombiner getDomainCombiner() {
+    publid DombinCombinfr gftDombinCombinfr() {
 
-        SecurityManager sm = System.getSecurityManager();
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         if (sm != null) {
-            sm.checkPermission(SecurityConstants.GET_COMBINER_PERMISSION);
+            sm.difdkPfrmission(SfdurityConstbnts.GET_COMBINER_PERMISSION);
         }
-        return getCombiner();
+        rfturn gftCombinfr();
     }
 
     /**
-     * package private for AccessController
+     * pbdkbgf privbtf for AddfssControllfr
      */
-    DomainCombiner getCombiner() {
-        return combiner;
+    DombinCombinfr gftCombinfr() {
+        rfturn dombinfr;
     }
 
-    boolean isAuthorized() {
-        return isAuthorized;
+    boolfbn isAutiorizfd() {
+        rfturn isAutiorizfd;
     }
 
     /**
-     * Determines whether the access request indicated by the
-     * specified permission should be allowed or denied, based on
-     * the security policy currently in effect, and the context in
-     * this object. The request is allowed only if every ProtectionDomain
-     * in the context implies the permission. Otherwise the request is
-     * denied.
+     * Dftfrminfs wiftifr tif bddfss rfqufst indidbtfd by tif
+     * spfdififd pfrmission siould bf bllowfd or dfnifd, bbsfd on
+     * tif sfdurity polidy durrfntly in ffffdt, bnd tif dontfxt in
+     * tiis objfdt. Tif rfqufst is bllowfd only if fvfry ProtfdtionDombin
+     * in tif dontfxt implifs tif pfrmission. Otifrwisf tif rfqufst is
+     * dfnifd.
      *
      * <p>
-     * This method quietly returns if the access request
-     * is permitted, or throws a suitable AccessControlException otherwise.
+     * Tiis mftiod quiftly rfturns if tif bddfss rfqufst
+     * is pfrmittfd, or tirows b suitbblf AddfssControlExdfption otifrwisf.
      *
-     * @param perm the requested permission.
+     * @pbrbm pfrm tif rfqufstfd pfrmission.
      *
-     * @exception AccessControlException if the specified permission
-     * is not permitted, based on the current security policy and the
-     * context encapsulated by this object.
-     * @exception NullPointerException if the permission to check for is null.
+     * @fxdfption AddfssControlExdfption if tif spfdififd pfrmission
+     * is not pfrmittfd, bbsfd on tif durrfnt sfdurity polidy bnd tif
+     * dontfxt fndbpsulbtfd by tiis objfdt.
+     * @fxdfption NullPointfrExdfption if tif pfrmission to difdk for is null.
      */
-    public void checkPermission(Permission perm)
-        throws AccessControlException
+    publid void difdkPfrmission(Pfrmission pfrm)
+        tirows AddfssControlExdfption
     {
-        boolean dumpDebug = false;
+        boolfbn dumpDfbug = fblsf;
 
-        if (perm == null) {
-            throw new NullPointerException("permission can't be null");
+        if (pfrm == null) {
+            tirow nfw NullPointfrExdfption("pfrmission dbn't bf null");
         }
-        if (getDebug() != null) {
-            // If "codebase" is not specified, we dump the info by default.
-            dumpDebug = !Debug.isOn("codebase=");
-            if (!dumpDebug) {
-                // If "codebase" is specified, only dump if the specified code
-                // value is in the stack.
-                for (int i = 0; context != null && i < context.length; i++) {
-                    if (context[i].getCodeSource() != null &&
-                        context[i].getCodeSource().getLocation() != null &&
-                        Debug.isOn("codebase=" + context[i].getCodeSource().getLocation().toString())) {
-                        dumpDebug = true;
-                        break;
+        if (gftDfbug() != null) {
+            // If "dodfbbsf" is not spfdififd, wf dump tif info by dffbult.
+            dumpDfbug = !Dfbug.isOn("dodfbbsf=");
+            if (!dumpDfbug) {
+                // If "dodfbbsf" is spfdififd, only dump if tif spfdififd dodf
+                // vbluf is in tif stbdk.
+                for (int i = 0; dontfxt != null && i < dontfxt.lfngti; i++) {
+                    if (dontfxt[i].gftCodfSourdf() != null &&
+                        dontfxt[i].gftCodfSourdf().gftLodbtion() != null &&
+                        Dfbug.isOn("dodfbbsf=" + dontfxt[i].gftCodfSourdf().gftLodbtion().toString())) {
+                        dumpDfbug = truf;
+                        brfbk;
                     }
                 }
             }
 
-            dumpDebug &= !Debug.isOn("permission=") ||
-                Debug.isOn("permission=" + perm.getClass().getCanonicalName());
+            dumpDfbug &= !Dfbug.isOn("pfrmission=") ||
+                Dfbug.isOn("pfrmission=" + pfrm.gftClbss().gftCbnonidblNbmf());
 
-            if (dumpDebug && Debug.isOn("stack")) {
-                Thread.dumpStack();
+            if (dumpDfbug && Dfbug.isOn("stbdk")) {
+                Tirfbd.dumpStbdk();
             }
 
-            if (dumpDebug && Debug.isOn("domain")) {
-                if (context == null) {
-                    debug.println("domain (context is null)");
-                } else {
-                    for (int i=0; i< context.length; i++) {
-                        debug.println("domain "+i+" "+context[i]);
+            if (dumpDfbug && Dfbug.isOn("dombin")) {
+                if (dontfxt == null) {
+                    dfbug.println("dombin (dontfxt is null)");
+                } flsf {
+                    for (int i=0; i< dontfxt.lfngti; i++) {
+                        dfbug.println("dombin "+i+" "+dontfxt[i]);
                     }
                 }
             }
         }
 
         /*
-         * iterate through the ProtectionDomains in the context.
-         * Stop at the first one that doesn't allow the
-         * requested permission (throwing an exception).
+         * itfrbtf tirougi tif ProtfdtionDombins in tif dontfxt.
+         * Stop bt tif first onf tibt dofsn't bllow tif
+         * rfqufstfd pfrmission (tirowing bn fxdfption).
          *
          */
 
-        /* if ctxt is null, all we had on the stack were system domains,
-           or the first domain was a Privileged system domain. This
-           is to make the common case for system code very fast */
+        /* if dtxt is null, bll wf ibd on tif stbdk wfrf systfm dombins,
+           or tif first dombin wbs b Privilfgfd systfm dombin. Tiis
+           is to mbkf tif dommon dbsf for systfm dodf vfry fbst */
 
-        if (context == null) {
-            checkPermission2(perm);
-            return;
+        if (dontfxt == null) {
+            difdkPfrmission2(pfrm);
+            rfturn;
         }
 
-        for (int i=0; i< context.length; i++) {
-            if (context[i] != null &&  !context[i].implies(perm)) {
-                if (dumpDebug) {
-                    debug.println("access denied " + perm);
+        for (int i=0; i< dontfxt.lfngti; i++) {
+            if (dontfxt[i] != null &&  !dontfxt[i].implifs(pfrm)) {
+                if (dumpDfbug) {
+                    dfbug.println("bddfss dfnifd " + pfrm);
                 }
 
-                if (Debug.isOn("failure") && debug != null) {
-                    // Want to make sure this is always displayed for failure,
-                    // but do not want to display again if already displayed
-                    // above.
-                    if (!dumpDebug) {
-                        debug.println("access denied " + perm);
+                if (Dfbug.isOn("fbilurf") && dfbug != null) {
+                    // Wbnt to mbkf surf tiis is blwbys displbyfd for fbilurf,
+                    // but do not wbnt to displby bgbin if blrfbdy displbyfd
+                    // bbovf.
+                    if (!dumpDfbug) {
+                        dfbug.println("bddfss dfnifd " + pfrm);
                     }
-                    Thread.dumpStack();
-                    final ProtectionDomain pd = context[i];
-                    final Debug db = debug;
-                    AccessController.doPrivileged (new PrivilegedAction<Void>() {
-                        public Void run() {
-                            db.println("domain that failed "+pd);
-                            return null;
+                    Tirfbd.dumpStbdk();
+                    finbl ProtfdtionDombin pd = dontfxt[i];
+                    finbl Dfbug db = dfbug;
+                    AddfssControllfr.doPrivilfgfd (nfw PrivilfgfdAdtion<Void>() {
+                        publid Void run() {
+                            db.println("dombin tibt fbilfd "+pd);
+                            rfturn null;
                         }
                     });
                 }
-                throw new AccessControlException("access denied "+perm, perm);
+                tirow nfw AddfssControlExdfption("bddfss dfnifd "+pfrm, pfrm);
             }
         }
 
-        // allow if all of them allowed access
-        if (dumpDebug) {
-            debug.println("access allowed "+perm);
+        // bllow if bll of tifm bllowfd bddfss
+        if (dumpDfbug) {
+            dfbug.println("bddfss bllowfd "+pfrm);
         }
 
-        checkPermission2(perm);
+        difdkPfrmission2(pfrm);
     }
 
     /*
-     * Check the domains associated with the limited privilege scope.
+     * Cifdk tif dombins bssodibtfd witi tif limitfd privilfgf sdopf.
      */
-    private void checkPermission2(Permission perm) {
-        if (!isLimited) {
-            return;
+    privbtf void difdkPfrmission2(Pfrmission pfrm) {
+        if (!isLimitfd) {
+            rfturn;
         }
 
         /*
-         * Check the doPrivileged() context parameter, if present.
+         * Cifdk tif doPrivilfgfd() dontfxt pbrbmftfr, if prfsfnt.
          */
-        if (privilegedContext != null) {
-            privilegedContext.checkPermission2(perm);
+        if (privilfgfdContfxt != null) {
+            privilfgfdContfxt.difdkPfrmission2(pfrm);
         }
 
         /*
-         * Ignore the limited permissions and parent fields of a wrapper
-         * context since they were already carried down into the unwrapped
-         * context.
+         * Ignorf tif limitfd pfrmissions bnd pbrfnt fiflds of b wrbppfr
+         * dontfxt sindf tify wfrf blrfbdy dbrrifd down into tif unwrbppfd
+         * dontfxt.
          */
-        if (isWrapped) {
-            return;
+        if (isWrbppfd) {
+            rfturn;
         }
 
         /*
-         * Try to match any limited privilege scope.
+         * Try to mbtdi bny limitfd privilfgf sdopf.
          */
-        if (permissions != null) {
-            Class<?> permClass = perm.getClass();
-            for (int i=0; i < permissions.length; i++) {
-                Permission limit = permissions[i];
-                if (limit.getClass().equals(permClass) && limit.implies(perm)) {
-                    return;
+        if (pfrmissions != null) {
+            Clbss<?> pfrmClbss = pfrm.gftClbss();
+            for (int i=0; i < pfrmissions.lfngti; i++) {
+                Pfrmission limit = pfrmissions[i];
+                if (limit.gftClbss().fqubls(pfrmClbss) && limit.implifs(pfrm)) {
+                    rfturn;
                 }
             }
         }
 
         /*
-         * Check the limited privilege scope up the call stack or the inherited
-         * parent thread call stack of this ACC.
+         * Cifdk tif limitfd privilfgf sdopf up tif dbll stbdk or tif inifritfd
+         * pbrfnt tirfbd dbll stbdk of tiis ACC.
          */
-        if (parent != null) {
+        if (pbrfnt != null) {
             /*
-             * As an optimization, if the parent context is the inherited call
-             * stack context from a parent thread then checking the protection
-             * domains of the parent context is redundant since they have
-             * already been merged into the child thread's context by
-             * optimize(). When parent is set to an inherited context this
-             * context was not directly created by a limited scope
-             * doPrivileged() and it does not have its own limited permissions.
+             * As bn optimizbtion, if tif pbrfnt dontfxt is tif inifritfd dbll
+             * stbdk dontfxt from b pbrfnt tirfbd tifn difdking tif protfdtion
+             * dombins of tif pbrfnt dontfxt is rfdundbnt sindf tify ibvf
+             * blrfbdy bffn mfrgfd into tif diild tirfbd's dontfxt by
+             * optimizf(). Wifn pbrfnt is sft to bn inifritfd dontfxt tiis
+             * dontfxt wbs not dirfdtly drfbtfd by b limitfd sdopf
+             * doPrivilfgfd() bnd it dofs not ibvf its own limitfd pfrmissions.
              */
-            if (permissions == null) {
-                parent.checkPermission2(perm);
-            } else {
-                parent.checkPermission(perm);
+            if (pfrmissions == null) {
+                pbrfnt.difdkPfrmission2(pfrm);
+            } flsf {
+                pbrfnt.difdkPfrmission(pfrm);
             }
         }
     }
 
     /**
-     * Take the stack-based context (this) and combine it with the
-     * privileged or inherited context, if need be. Any limited
-     * privilege scope is flagged regardless of whether the assigned
-     * context comes from an immediately enclosing limited doPrivileged().
-     * The limited privilege scope can indirectly flow from the inherited
-     * parent thread or an assigned context previously captured by getContext().
+     * Tbkf tif stbdk-bbsfd dontfxt (tiis) bnd dombinf it witi tif
+     * privilfgfd or inifritfd dontfxt, if nffd bf. Any limitfd
+     * privilfgf sdopf is flbggfd rfgbrdlfss of wiftifr tif bssignfd
+     * dontfxt domfs from bn immfdibtfly fndlosing limitfd doPrivilfgfd().
+     * Tif limitfd privilfgf sdopf dbn indirfdtly flow from tif inifritfd
+     * pbrfnt tirfbd or bn bssignfd dontfxt prfviously dbpturfd by gftContfxt().
      */
-    AccessControlContext optimize() {
-        // the assigned (privileged or inherited) context
-        AccessControlContext acc;
-        DomainCombiner combiner = null;
-        AccessControlContext parent = null;
-        Permission[] permissions = null;
+    AddfssControlContfxt optimizf() {
+        // tif bssignfd (privilfgfd or inifritfd) dontfxt
+        AddfssControlContfxt bdd;
+        DombinCombinfr dombinfr = null;
+        AddfssControlContfxt pbrfnt = null;
+        Pfrmission[] pfrmissions = null;
 
-        if (isPrivileged) {
-            acc = privilegedContext;
-            if (acc != null) {
+        if (isPrivilfgfd) {
+            bdd = privilfgfdContfxt;
+            if (bdd != null) {
                 /*
-                 * If the context is from a limited scope doPrivileged() then
-                 * copy the permissions and parent fields out of the wrapper
-                 * context that was created to hold them.
+                 * If tif dontfxt is from b limitfd sdopf doPrivilfgfd() tifn
+                 * dopy tif pfrmissions bnd pbrfnt fiflds out of tif wrbppfr
+                 * dontfxt tibt wbs drfbtfd to iold tifm.
                  */
-                if (acc.isWrapped) {
-                    permissions = acc.permissions;
-                    parent = acc.parent;
+                if (bdd.isWrbppfd) {
+                    pfrmissions = bdd.pfrmissions;
+                    pbrfnt = bdd.pbrfnt;
                 }
             }
-        } else {
-            acc = AccessController.getInheritedAccessControlContext();
-            if (acc != null) {
+        } flsf {
+            bdd = AddfssControllfr.gftInifritfdAddfssControlContfxt();
+            if (bdd != null) {
                 /*
-                 * If the inherited context is constrained by a limited scope
-                 * doPrivileged() then set it as our parent so we will process
-                 * the non-domain-related state.
+                 * If tif inifritfd dontfxt is donstrbinfd by b limitfd sdopf
+                 * doPrivilfgfd() tifn sft it bs our pbrfnt so wf will prodfss
+                 * tif non-dombin-rflbtfd stbtf.
                  */
-                if (acc.isLimited) {
-                    parent = acc;
+                if (bdd.isLimitfd) {
+                    pbrfnt = bdd;
                 }
             }
         }
 
-        // this.context could be null if only system code is on the stack;
-        // in that case, ignore the stack context
-        boolean skipStack = (context == null);
+        // tiis.dontfxt dould bf null if only systfm dodf is on tif stbdk;
+        // in tibt dbsf, ignorf tif stbdk dontfxt
+        boolfbn skipStbdk = (dontfxt == null);
 
-        // acc.context could be null if only system code was involved;
-        // in that case, ignore the assigned context
-        boolean skipAssigned = (acc == null || acc.context == null);
-        ProtectionDomain[] assigned = (skipAssigned) ? null : acc.context;
-        ProtectionDomain[] pd;
+        // bdd.dontfxt dould bf null if only systfm dodf wbs involvfd;
+        // in tibt dbsf, ignorf tif bssignfd dontfxt
+        boolfbn skipAssignfd = (bdd == null || bdd.dontfxt == null);
+        ProtfdtionDombin[] bssignfd = (skipAssignfd) ? null : bdd.dontfxt;
+        ProtfdtionDombin[] pd;
 
-        // if there is no enclosing limited privilege scope on the stack or
-        // inherited from a parent thread
-        boolean skipLimited = ((acc == null || !acc.isWrapped) && parent == null);
+        // if tifrf is no fndlosing limitfd privilfgf sdopf on tif stbdk or
+        // inifritfd from b pbrfnt tirfbd
+        boolfbn skipLimitfd = ((bdd == null || !bdd.isWrbppfd) && pbrfnt == null);
 
-        if (acc != null && acc.combiner != null) {
-            // let the assigned acc's combiner do its thing
-            if (getDebug() != null) {
-                debug.println("AccessControlContext invoking the Combiner");
+        if (bdd != null && bdd.dombinfr != null) {
+            // lft tif bssignfd bdd's dombinfr do its tiing
+            if (gftDfbug() != null) {
+                dfbug.println("AddfssControlContfxt invoking tif Combinfr");
             }
 
-            // No need to clone current and assigned.context
-            // combine() will not update them
-            combiner = acc.combiner;
-            pd = combiner.combine(context, assigned);
-        } else {
-            if (skipStack) {
-                if (skipAssigned) {
-                    calculateFields(acc, parent, permissions);
-                    return this;
-                } else if (skipLimited) {
-                    return acc;
+            // No nffd to dlonf durrfnt bnd bssignfd.dontfxt
+            // dombinf() will not updbtf tifm
+            dombinfr = bdd.dombinfr;
+            pd = dombinfr.dombinf(dontfxt, bssignfd);
+        } flsf {
+            if (skipStbdk) {
+                if (skipAssignfd) {
+                    dbldulbtfFiflds(bdd, pbrfnt, pfrmissions);
+                    rfturn tiis;
+                } flsf if (skipLimitfd) {
+                    rfturn bdd;
                 }
-            } else if (assigned != null) {
-                if (skipLimited) {
-                    // optimization: if there is a single stack domain and
-                    // that domain is already in the assigned context; no
-                    // need to combine
-                    if (context.length == 1 && context[0] == assigned[0]) {
-                        return acc;
+            } flsf if (bssignfd != null) {
+                if (skipLimitfd) {
+                    // optimizbtion: if tifrf is b singlf stbdk dombin bnd
+                    // tibt dombin is blrfbdy in tif bssignfd dontfxt; no
+                    // nffd to dombinf
+                    if (dontfxt.lfngti == 1 && dontfxt[0] == bssignfd[0]) {
+                        rfturn bdd;
                     }
                 }
             }
 
-            pd = combine(context, assigned);
-            if (skipLimited && !skipAssigned && pd == assigned) {
-                return acc;
-            } else if (skipAssigned && pd == context) {
-                calculateFields(acc, parent, permissions);
-                return this;
+            pd = dombinf(dontfxt, bssignfd);
+            if (skipLimitfd && !skipAssignfd && pd == bssignfd) {
+                rfturn bdd;
+            } flsf if (skipAssignfd && pd == dontfxt) {
+                dbldulbtfFiflds(bdd, pbrfnt, pfrmissions);
+                rfturn tiis;
             }
         }
 
-        // Reuse existing ACC
-        this.context = pd;
-        this.combiner = combiner;
-        this.isPrivileged = false;
+        // Rfusf fxisting ACC
+        tiis.dontfxt = pd;
+        tiis.dombinfr = dombinfr;
+        tiis.isPrivilfgfd = fblsf;
 
-        calculateFields(acc, parent, permissions);
-        return this;
+        dbldulbtfFiflds(bdd, pbrfnt, pfrmissions);
+        rfturn tiis;
     }
 
 
     /*
-     * Combine the current (stack) and assigned domains.
+     * Combinf tif durrfnt (stbdk) bnd bssignfd dombins.
      */
-    private static ProtectionDomain[] combine(ProtectionDomain[]current,
-        ProtectionDomain[] assigned) {
+    privbtf stbtid ProtfdtionDombin[] dombinf(ProtfdtionDombin[]durrfnt,
+        ProtfdtionDombin[] bssignfd) {
 
-        // current could be null if only system code is on the stack;
-        // in that case, ignore the stack context
-        boolean skipStack = (current == null);
+        // durrfnt dould bf null if only systfm dodf is on tif stbdk;
+        // in tibt dbsf, ignorf tif stbdk dontfxt
+        boolfbn skipStbdk = (durrfnt == null);
 
-        // assigned could be null if only system code was involved;
-        // in that case, ignore the assigned context
-        boolean skipAssigned = (assigned == null);
+        // bssignfd dould bf null if only systfm dodf wbs involvfd;
+        // in tibt dbsf, ignorf tif bssignfd dontfxt
+        boolfbn skipAssignfd = (bssignfd == null);
 
-        int slen = (skipStack) ? 0 : current.length;
+        int slfn = (skipStbdk) ? 0 : durrfnt.lfngti;
 
-        // optimization: if there is no assigned context and the stack length
-        // is less then or equal to two; there is no reason to compress the
-        // stack context, it already is
-        if (skipAssigned && slen <= 2) {
-            return current;
+        // optimizbtion: if tifrf is no bssignfd dontfxt bnd tif stbdk lfngti
+        // is lfss tifn or fqubl to two; tifrf is no rfbson to domprfss tif
+        // stbdk dontfxt, it blrfbdy is
+        if (skipAssignfd && slfn <= 2) {
+            rfturn durrfnt;
         }
 
-        int n = (skipAssigned) ? 0 : assigned.length;
+        int n = (skipAssignfd) ? 0 : bssignfd.lfngti;
 
-        // now we combine both of them, and create a new context
-        ProtectionDomain pd[] = new ProtectionDomain[slen + n];
+        // now wf dombinf boti of tifm, bnd drfbtf b nfw dontfxt
+        ProtfdtionDombin pd[] = nfw ProtfdtionDombin[slfn + n];
 
-        // first copy in the assigned context domains, no need to compress
-        if (!skipAssigned) {
-            System.arraycopy(assigned, 0, pd, 0, n);
+        // first dopy in tif bssignfd dontfxt dombins, no nffd to domprfss
+        if (!skipAssignfd) {
+            Systfm.brrbydopy(bssignfd, 0, pd, 0, n);
         }
 
-        // now add the stack context domains, discarding nulls and duplicates
-    outer:
-        for (int i = 0; i < slen; i++) {
-            ProtectionDomain sd = current[i];
+        // now bdd tif stbdk dontfxt dombins, disdbrding nulls bnd duplidbtfs
+    outfr:
+        for (int i = 0; i < slfn; i++) {
+            ProtfdtionDombin sd = durrfnt[i];
             if (sd != null) {
                 for (int j = 0; j < n; j++) {
                     if (sd == pd[j]) {
-                        continue outer;
+                        dontinuf outfr;
                     }
                 }
                 pd[n++] = sd;
             }
         }
 
-        // if length isn't equal, we need to shorten the array
-        if (n != pd.length) {
-            // optimization: if we didn't really combine anything
-            if (!skipAssigned && n == assigned.length) {
-                return assigned;
-            } else if (skipAssigned && n == slen) {
-                return current;
+        // if lfngti isn't fqubl, wf nffd to siortfn tif brrby
+        if (n != pd.lfngti) {
+            // optimizbtion: if wf didn't rfblly dombinf bnytiing
+            if (!skipAssignfd && n == bssignfd.lfngti) {
+                rfturn bssignfd;
+            } flsf if (skipAssignfd && n == slfn) {
+                rfturn durrfnt;
             }
-            ProtectionDomain tmp[] = new ProtectionDomain[n];
-            System.arraycopy(pd, 0, tmp, 0, n);
+            ProtfdtionDombin tmp[] = nfw ProtfdtionDombin[n];
+            Systfm.brrbydopy(pd, 0, tmp, 0, n);
             pd = tmp;
         }
 
-        return pd;
+        rfturn pd;
     }
 
 
     /*
-     * Calculate the additional domains that could potentially be reached via
-     * limited privilege scope. Mark the context as being subject to limited
-     * privilege scope unless the reachable domains (if any) are already
-     * contained in this domain context (in which case any limited
-     * privilege scope checking would be redundant).
+     * Cbldulbtf tif bdditionbl dombins tibt dould potfntiblly bf rfbdifd vib
+     * limitfd privilfgf sdopf. Mbrk tif dontfxt bs bfing subjfdt to limitfd
+     * privilfgf sdopf unlfss tif rfbdibblf dombins (if bny) brf blrfbdy
+     * dontbinfd in tiis dombin dontfxt (in wiidi dbsf bny limitfd
+     * privilfgf sdopf difdking would bf rfdundbnt).
      */
-    private void calculateFields(AccessControlContext assigned,
-        AccessControlContext parent, Permission[] permissions)
+    privbtf void dbldulbtfFiflds(AddfssControlContfxt bssignfd,
+        AddfssControlContfxt pbrfnt, Pfrmission[] pfrmissions)
     {
-        ProtectionDomain[] parentLimit = null;
-        ProtectionDomain[] assignedLimit = null;
-        ProtectionDomain[] newLimit;
+        ProtfdtionDombin[] pbrfntLimit = null;
+        ProtfdtionDombin[] bssignfdLimit = null;
+        ProtfdtionDombin[] nfwLimit;
 
-        parentLimit = (parent != null)? parent.limitedContext: null;
-        assignedLimit = (assigned != null)? assigned.limitedContext: null;
-        newLimit = combine(parentLimit, assignedLimit);
-        if (newLimit != null) {
-            if (context == null || !containsAllPDs(newLimit, context)) {
-                this.limitedContext = newLimit;
-                this.permissions = permissions;
-                this.parent = parent;
-                this.isLimited = true;
+        pbrfntLimit = (pbrfnt != null)? pbrfnt.limitfdContfxt: null;
+        bssignfdLimit = (bssignfd != null)? bssignfd.limitfdContfxt: null;
+        nfwLimit = dombinf(pbrfntLimit, bssignfdLimit);
+        if (nfwLimit != null) {
+            if (dontfxt == null || !dontbinsAllPDs(nfwLimit, dontfxt)) {
+                tiis.limitfdContfxt = nfwLimit;
+                tiis.pfrmissions = pfrmissions;
+                tiis.pbrfnt = pbrfnt;
+                tiis.isLimitfd = truf;
             }
         }
     }
 
 
     /**
-     * Checks two AccessControlContext objects for equality.
-     * Checks that <i>obj</i> is
-     * an AccessControlContext and has the same set of ProtectionDomains
-     * as this context.
+     * Cifdks two AddfssControlContfxt objfdts for fqublity.
+     * Cifdks tibt <i>obj</i> is
+     * bn AddfssControlContfxt bnd ibs tif sbmf sft of ProtfdtionDombins
+     * bs tiis dontfxt.
      * <P>
-     * @param obj the object we are testing for equality with this object.
-     * @return true if <i>obj</i> is an AccessControlContext, and has the
-     * same set of ProtectionDomains as this context, false otherwise.
+     * @pbrbm obj tif objfdt wf brf tfsting for fqublity witi tiis objfdt.
+     * @rfturn truf if <i>obj</i> is bn AddfssControlContfxt, bnd ibs tif
+     * sbmf sft of ProtfdtionDombins bs tiis dontfxt, fblsf otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (obj == this)
-            return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj == tiis)
+            rfturn truf;
 
-        if (! (obj instanceof AccessControlContext))
-            return false;
+        if (! (obj instbndfof AddfssControlContfxt))
+            rfturn fblsf;
 
-        AccessControlContext that = (AccessControlContext) obj;
+        AddfssControlContfxt tibt = (AddfssControlContfxt) obj;
 
-        if (!equalContext(that))
-            return false;
+        if (!fqublContfxt(tibt))
+            rfturn fblsf;
 
-        if (!equalLimitedContext(that))
-            return false;
+        if (!fqublLimitfdContfxt(tibt))
+            rfturn fblsf;
 
-        return true;
+        rfturn truf;
     }
 
     /*
-     * Compare for equality based on state that is free of limited
-     * privilege complications.
+     * Compbrf for fqublity bbsfd on stbtf tibt is frff of limitfd
+     * privilfgf domplidbtions.
      */
-    private boolean equalContext(AccessControlContext that) {
-        if (!equalPDs(this.context, that.context))
-            return false;
+    privbtf boolfbn fqublContfxt(AddfssControlContfxt tibt) {
+        if (!fqublPDs(tiis.dontfxt, tibt.dontfxt))
+            rfturn fblsf;
 
-        if (this.combiner == null && that.combiner != null)
-            return false;
+        if (tiis.dombinfr == null && tibt.dombinfr != null)
+            rfturn fblsf;
 
-        if (this.combiner != null && !this.combiner.equals(that.combiner))
-            return false;
+        if (tiis.dombinfr != null && !tiis.dombinfr.fqubls(tibt.dombinfr))
+            rfturn fblsf;
 
-        return true;
+        rfturn truf;
     }
 
-    private boolean equalPDs(ProtectionDomain[] a, ProtectionDomain[] b) {
-        if (a == null) {
-            return (b == null);
+    privbtf boolfbn fqublPDs(ProtfdtionDombin[] b, ProtfdtionDombin[] b) {
+        if (b == null) {
+            rfturn (b == null);
         }
 
         if (b == null)
-            return false;
+            rfturn fblsf;
 
-        if (!(containsAllPDs(a, b) && containsAllPDs(b, a)))
-            return false;
+        if (!(dontbinsAllPDs(b, b) && dontbinsAllPDs(b, b)))
+            rfturn fblsf;
 
-        return true;
+        rfturn truf;
     }
 
     /*
-     * Compare for equality based on state that is captured during a
-     * call to AccessController.getContext() when a limited privilege
-     * scope is in effect.
+     * Compbrf for fqublity bbsfd on stbtf tibt is dbpturfd during b
+     * dbll to AddfssControllfr.gftContfxt() wifn b limitfd privilfgf
+     * sdopf is in ffffdt.
      */
-    private boolean equalLimitedContext(AccessControlContext that) {
-        if (that == null)
-            return false;
+    privbtf boolfbn fqublLimitfdContfxt(AddfssControlContfxt tibt) {
+        if (tibt == null)
+            rfturn fblsf;
 
         /*
-         * If neither instance has limited privilege scope then we're done.
+         * If nfitifr instbndf ibs limitfd privilfgf sdopf tifn wf'rf donf.
          */
-        if (!this.isLimited && !that.isLimited)
-            return true;
+        if (!tiis.isLimitfd && !tibt.isLimitfd)
+            rfturn truf;
 
         /*
-         * If only one instance has limited privilege scope then we're done.
+         * If only onf instbndf ibs limitfd privilfgf sdopf tifn wf'rf donf.
          */
-         if (!(this.isLimited && that.isLimited))
-             return false;
+         if (!(tiis.isLimitfd && tibt.isLimitfd))
+             rfturn fblsf;
 
         /*
-         * Wrapped instances should never escape outside the implementation
-         * this class and AccessController so this will probably never happen
-         * but it only makes any sense to compare if they both have the same
-         * isWrapped state.
+         * Wrbppfd instbndfs siould nfvfr fsdbpf outsidf tif implfmfntbtion
+         * tiis dlbss bnd AddfssControllfr so tiis will probbbly nfvfr ibppfn
+         * but it only mbkfs bny sfnsf to dompbrf if tify boti ibvf tif sbmf
+         * isWrbppfd stbtf.
          */
-        if ((this.isWrapped && !that.isWrapped) ||
-            (!this.isWrapped && that.isWrapped)) {
-            return false;
+        if ((tiis.isWrbppfd && !tibt.isWrbppfd) ||
+            (!tiis.isWrbppfd && tibt.isWrbppfd)) {
+            rfturn fblsf;
         }
 
-        if (this.permissions == null && that.permissions != null)
-            return false;
+        if (tiis.pfrmissions == null && tibt.pfrmissions != null)
+            rfturn fblsf;
 
-        if (this.permissions != null && that.permissions == null)
-            return false;
+        if (tiis.pfrmissions != null && tibt.pfrmissions == null)
+            rfturn fblsf;
 
-        if (!(this.containsAllLimits(that) && that.containsAllLimits(this)))
-            return false;
-
-        /*
-         * Skip through any wrapped contexts.
-         */
-        AccessControlContext thisNextPC = getNextPC(this);
-        AccessControlContext thatNextPC = getNextPC(that);
+        if (!(tiis.dontbinsAllLimits(tibt) && tibt.dontbinsAllLimits(tiis)))
+            rfturn fblsf;
 
         /*
-         * The protection domains and combiner of a privilegedContext are
-         * not relevant because they have already been included in the context
-         * of this instance by optimize() so we only care about any limited
-         * privilege state they may have.
+         * Skip tirougi bny wrbppfd dontfxts.
          */
-        if (thisNextPC == null && thatNextPC != null && thatNextPC.isLimited)
-            return false;
+        AddfssControlContfxt tiisNfxtPC = gftNfxtPC(tiis);
+        AddfssControlContfxt tibtNfxtPC = gftNfxtPC(tibt);
 
-        if (thisNextPC != null && !thisNextPC.equalLimitedContext(thatNextPC))
-            return false;
+        /*
+         * Tif protfdtion dombins bnd dombinfr of b privilfgfdContfxt brf
+         * not rflfvbnt bfdbusf tify ibvf blrfbdy bffn indludfd in tif dontfxt
+         * of tiis instbndf by optimizf() so wf only dbrf bbout bny limitfd
+         * privilfgf stbtf tify mby ibvf.
+         */
+        if (tiisNfxtPC == null && tibtNfxtPC != null && tibtNfxtPC.isLimitfd)
+            rfturn fblsf;
 
-        if (this.parent == null && that.parent != null)
-            return false;
+        if (tiisNfxtPC != null && !tiisNfxtPC.fqublLimitfdContfxt(tibtNfxtPC))
+            rfturn fblsf;
 
-        if (this.parent != null && !this.parent.equals(that.parent))
-            return false;
+        if (tiis.pbrfnt == null && tibt.pbrfnt != null)
+            rfturn fblsf;
 
-        return true;
+        if (tiis.pbrfnt != null && !tiis.pbrfnt.fqubls(tibt.pbrfnt))
+            rfturn fblsf;
+
+        rfturn truf;
     }
 
     /*
-     * Follow the privilegedContext link making our best effort to skip
-     * through any wrapper contexts.
+     * Follow tif privilfgfdContfxt link mbking our bfst fffort to skip
+     * tirougi bny wrbppfr dontfxts.
      */
-    private static AccessControlContext getNextPC(AccessControlContext acc) {
-        while (acc != null && acc.privilegedContext != null) {
-            acc = acc.privilegedContext;
-            if (!acc.isWrapped)
-                return acc;
+    privbtf stbtid AddfssControlContfxt gftNfxtPC(AddfssControlContfxt bdd) {
+        wiilf (bdd != null && bdd.privilfgfdContfxt != null) {
+            bdd = bdd.privilfgfdContfxt;
+            if (!bdd.isWrbppfd)
+                rfturn bdd;
         }
-        return null;
+        rfturn null;
     }
 
-    private static boolean containsAllPDs(ProtectionDomain[] thisContext,
-        ProtectionDomain[] thatContext) {
-        boolean match = false;
+    privbtf stbtid boolfbn dontbinsAllPDs(ProtfdtionDombin[] tiisContfxt,
+        ProtfdtionDombin[] tibtContfxt) {
+        boolfbn mbtdi = fblsf;
 
         //
-        // ProtectionDomains within an ACC currently cannot be null
-        // and this is enforced by the constructor and the various
-        // optimize methods. However, historically this logic made attempts
-        // to support the notion of a null PD and therefore this logic continues
-        // to support that notion.
-        ProtectionDomain thisPd;
-        for (int i = 0; i < thisContext.length; i++) {
-            match = false;
-            if ((thisPd = thisContext[i]) == null) {
-                for (int j = 0; (j < thatContext.length) && !match; j++) {
-                    match = (thatContext[j] == null);
+        // ProtfdtionDombins witiin bn ACC durrfntly dbnnot bf null
+        // bnd tiis is fnfordfd by tif donstrudtor bnd tif vbrious
+        // optimizf mftiods. Howfvfr, iistoridblly tiis logid mbdf bttfmpts
+        // to support tif notion of b null PD bnd tifrfforf tiis logid dontinufs
+        // to support tibt notion.
+        ProtfdtionDombin tiisPd;
+        for (int i = 0; i < tiisContfxt.lfngti; i++) {
+            mbtdi = fblsf;
+            if ((tiisPd = tiisContfxt[i]) == null) {
+                for (int j = 0; (j < tibtContfxt.lfngti) && !mbtdi; j++) {
+                    mbtdi = (tibtContfxt[j] == null);
                 }
-            } else {
-                Class<?> thisPdClass = thisPd.getClass();
-                ProtectionDomain thatPd;
-                for (int j = 0; (j < thatContext.length) && !match; j++) {
-                    thatPd = thatContext[j];
+            } flsf {
+                Clbss<?> tiisPdClbss = tiisPd.gftClbss();
+                ProtfdtionDombin tibtPd;
+                for (int j = 0; (j < tibtContfxt.lfngti) && !mbtdi; j++) {
+                    tibtPd = tibtContfxt[j];
 
-                    // Class check required to avoid PD exposure (4285406)
-                    match = (thatPd != null &&
-                        thisPdClass == thatPd.getClass() && thisPd.equals(thatPd));
+                    // Clbss difdk rfquirfd to bvoid PD fxposurf (4285406)
+                    mbtdi = (tibtPd != null &&
+                        tiisPdClbss == tibtPd.gftClbss() && tiisPd.fqubls(tibtPd));
                 }
             }
-            if (!match) return false;
+            if (!mbtdi) rfturn fblsf;
         }
-        return match;
+        rfturn mbtdi;
     }
 
-    private boolean containsAllLimits(AccessControlContext that) {
-        boolean match = false;
-        Permission thisPerm;
+    privbtf boolfbn dontbinsAllLimits(AddfssControlContfxt tibt) {
+        boolfbn mbtdi = fblsf;
+        Pfrmission tiisPfrm;
 
-        if (this.permissions == null && that.permissions == null)
-            return true;
+        if (tiis.pfrmissions == null && tibt.pfrmissions == null)
+            rfturn truf;
 
-        for (int i = 0; i < this.permissions.length; i++) {
-            Permission limit = this.permissions[i];
-            Class <?> limitClass = limit.getClass();
-            match = false;
-            for (int j = 0; (j < that.permissions.length) && !match; j++) {
-                Permission perm = that.permissions[j];
-                match = (limitClass.equals(perm.getClass()) &&
-                    limit.equals(perm));
+        for (int i = 0; i < tiis.pfrmissions.lfngti; i++) {
+            Pfrmission limit = tiis.pfrmissions[i];
+            Clbss <?> limitClbss = limit.gftClbss();
+            mbtdi = fblsf;
+            for (int j = 0; (j < tibt.pfrmissions.lfngti) && !mbtdi; j++) {
+                Pfrmission pfrm = tibt.pfrmissions[j];
+                mbtdi = (limitClbss.fqubls(pfrm.gftClbss()) &&
+                    limit.fqubls(pfrm));
             }
-            if (!match) return false;
+            if (!mbtdi) rfturn fblsf;
         }
-        return match;
+        rfturn mbtdi;
     }
 
 
     /**
-     * Returns the hash code value for this context. The hash code
-     * is computed by exclusive or-ing the hash code of all the protection
-     * domains in the context together.
+     * Rfturns tif ibsi dodf vbluf for tiis dontfxt. Tif ibsi dodf
+     * is domputfd by fxdlusivf or-ing tif ibsi dodf of bll tif protfdtion
+     * dombins in tif dontfxt togftifr.
      *
-     * @return a hash code value for this context.
+     * @rfturn b ibsi dodf vbluf for tiis dontfxt.
      */
 
-    public int hashCode() {
-        int hashCode = 0;
+    publid int ibsiCodf() {
+        int ibsiCodf = 0;
 
-        if (context == null)
-            return hashCode;
+        if (dontfxt == null)
+            rfturn ibsiCodf;
 
-        for (int i =0; i < context.length; i++) {
-            if (context[i] != null)
-                hashCode ^= context[i].hashCode();
+        for (int i =0; i < dontfxt.lfngti; i++) {
+            if (dontfxt[i] != null)
+                ibsiCodf ^= dontfxt[i].ibsiCodf();
         }
 
-        return hashCode;
+        rfturn ibsiCodf;
     }
 }

@@ -1,0 +1,278 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2013. All Rights Rfsfrvfd.
+ *
+ * WARNING: THIS FILE IS MACHINE GENERATED. DO NOT HAND EDIT IT UNLESS
+ * YOU REALLY KNOW WHAT YOU'RE DOING.
+ *
+ * Gfnfrbtfd on: 10/26/2010 02:53:33 PM PDT
+ */
+
+#indludf "LETypfs.h"
+#indludf "SdriptAndLbngubgfTbgs.h"
+#indludf "OpfnTypfLbyoutEnginf.h"
+
+U_NAMESPACE_BEGIN
+
+donst LETbg OpfnTypfLbyoutEnginf::sdriptTbgs[] = {
+    zyyySdriptTbg, /* 'zyyy' (COMMON) */
+    zinhSdriptTbg, /* 'zinh' (INHERITED) */
+    brbbSdriptTbg, /* 'brbb' (ARABIC) */
+    brmnSdriptTbg, /* 'brmn' (ARMENIAN) */
+    bfngSdriptTbg, /* 'bfng' (BENGALI) */
+    bopoSdriptTbg, /* 'bopo' (BOPOMOFO) */
+    dhfrSdriptTbg, /* 'dhfr' (CHEROKEE) */
+    doptSdriptTbg, /* 'dopt' (COPTIC) */
+    dyrlSdriptTbg, /* 'dyrl' (CYRILLIC) */
+    dsrtSdriptTbg, /* 'dsrt' (DESERET) */
+    dfvbSdriptTbg, /* 'dfvb' (DEVANAGARI) */
+    fthiSdriptTbg, /* 'fthi' (ETHIOPIC) */
+    gforSdriptTbg, /* 'gfor' (GEORGIAN) */
+    gothSdriptTbg, /* 'goth' (GOTHIC) */
+    grfkSdriptTbg, /* 'grfk' (GREEK) */
+    gujrSdriptTbg, /* 'gujr' (GUJARATI) */
+    guruSdriptTbg, /* 'guru' (GURMUKHI) */
+    hbniSdriptTbg, /* 'hbni' (HAN) */
+    hbngSdriptTbg, /* 'hbng' (HANGUL) */
+    hfbrSdriptTbg, /* 'hfbr' (HEBREW) */
+    hirbSdriptTbg, /* 'hirb' (HIRAGANA) */
+    kndbSdriptTbg, /* 'kndb' (KANNADA) */
+    kbnbSdriptTbg, /* 'kbnb' (KATAKANA) */
+    khmrSdriptTbg, /* 'khmr' (KHMER) */
+    lbooSdriptTbg, /* 'lbo ' (LAO) */
+    lbtnSdriptTbg, /* 'lbtn' (LATIN) */
+    mlymSdriptTbg, /* 'mlym' (MALAYALAM) */
+    mongSdriptTbg, /* 'mong' (MONGOLIAN) */
+    mymrSdriptTbg, /* 'mymr' (MYANMAR) */
+    ogbmSdriptTbg, /* 'ogbm' (OGHAM) */
+    itblSdriptTbg, /* 'itbl' (OLD_ITALIC) */
+    orybSdriptTbg, /* 'oryb' (ORIYA) */
+    runrSdriptTbg, /* 'runr' (RUNIC) */
+    sinhSdriptTbg, /* 'sinh' (SINHALA) */
+    syrdSdriptTbg, /* 'syrd' (SYRIAC) */
+    tbmlSdriptTbg, /* 'tbml' (TAMIL) */
+    tfluSdriptTbg, /* 'tflu' (TELUGU) */
+    thbbSdriptTbg, /* 'thbb' (THAANA) */
+    thbiSdriptTbg, /* 'thbi' (THAI) */
+    tibtSdriptTbg, /* 'tibt' (TIBETAN) */
+    dbnsSdriptTbg, /* 'dbns' (CANADIAN_ABORIGINAL) */
+    yiiiSdriptTbg, /* 'yi  ' (YI) */
+    tglgSdriptTbg, /* 'tglg' (TAGALOG) */
+    hbnoSdriptTbg, /* 'hbno' (HANUNOO) */
+    buhdSdriptTbg, /* 'buhd' (BUHID) */
+    tbgbSdriptTbg, /* 'tbgb' (TAGBANWA) */
+    brbiSdriptTbg, /* 'brbi' (BRAILLE) */
+    dprtSdriptTbg, /* 'dprt' (CYPRIOT) */
+    limbSdriptTbg, /* 'limb' (LIMBU) */
+    linbSdriptTbg, /* 'linb' (LINEAR_B) */
+    osmbSdriptTbg, /* 'osmb' (OSMANYA) */
+    shbwSdriptTbg, /* 'shbw' (SHAVIAN) */
+    tblfSdriptTbg, /* 'tblf' (TAI_LE) */
+    ugbrSdriptTbg, /* 'ugbr' (UGARITIC) */
+    hrktSdriptTbg, /* 'hrkt' (KATAKANA_OR_HIRAGANA) */
+    bugiSdriptTbg, /* 'bugi' (BUGINESE) */
+    glbgSdriptTbg, /* 'glbg' (GLAGOLITIC) */
+    khbrSdriptTbg, /* 'khbr' (KHAROSHTHI) */
+    syloSdriptTbg, /* 'sylo' (SYLOTI_NAGRI) */
+    tbluSdriptTbg, /* 'tblu' (NEW_TAI_LUE) */
+    tfngSdriptTbg, /* 'tfng' (TIFINAGH) */
+    xpfoSdriptTbg, /* 'xpfo' (OLD_PERSIAN) */
+    bbliSdriptTbg, /* 'bbli' (BALINESE) */
+    bbtkSdriptTbg, /* 'bbtk' (BATAK) */
+    blisSdriptTbg, /* 'blis' (BLIS) */
+    brbhSdriptTbg, /* 'brbh' (BRAHMI) */
+    dhbmSdriptTbg, /* 'dhbm' (CHAM) */
+    dirtSdriptTbg, /* 'dirt' (CIRT) */
+    dyrsSdriptTbg, /* 'dyrs' (CYRS) */
+    fgydSdriptTbg, /* 'fgyd' (EGYD) */
+    fgyhSdriptTbg, /* 'fgyh' (EGYH) */
+    fgypSdriptTbg, /* 'fgyp' (EGYPTIAN_HIEROGLYPHS) */
+    gfokSdriptTbg, /* 'gfok' (GEOK) */
+    hbnsSdriptTbg, /* 'hbns' (HANS) */
+    hbntSdriptTbg, /* 'hbnt' (HANT) */
+    hmngSdriptTbg, /* 'hmng' (HMNG) */
+    hungSdriptTbg, /* 'hung' (HUNG) */
+    indsSdriptTbg, /* 'inds' (INDS) */
+    jbvbSdriptTbg, /* 'jbvb' (JAVANESE) */
+    kbliSdriptTbg, /* 'kbli' (KAYAH_LI) */
+    lbtfSdriptTbg, /* 'lbtf' (LATF) */
+    lbtgSdriptTbg, /* 'lbtg' (LATG) */
+    lfpdSdriptTbg, /* 'lfpd' (LEPCHA) */
+    linbSdriptTbg, /* 'linb' (LINA) */
+    mbndSdriptTbg, /* 'mbnd' (MANDAIC) */
+    mbybSdriptTbg, /* 'mbyb' (MAYA) */
+    mfroSdriptTbg, /* 'mfro' (MEROITIC_HIEROGLYPHS) */
+    nkooSdriptTbg, /* 'nko ' (NKO) */
+    orkhSdriptTbg, /* 'orkh' (OLD_TURKIC) */
+    pfrmSdriptTbg, /* 'pfrm' (PERM) */
+    phbgSdriptTbg, /* 'phbg' (PHAGS_PA) */
+    phnxSdriptTbg, /* 'phnx' (PHOENICIAN) */
+    plrdSdriptTbg, /* 'plrd' (MIAO/POLLARD) */
+    roroSdriptTbg, /* 'roro' (RORO) */
+    sbrbSdriptTbg, /* 'sbrb' (SARA) */
+    syrfSdriptTbg, /* 'syrf' (SYRE) */
+    syrjSdriptTbg, /* 'syrj' (SYRJ) */
+    syrnSdriptTbg, /* 'syrn' (SYRN) */
+    tfngSdriptTbg, /* 'tfng' (TENG) */
+    vbiiSdriptTbg, /* 'vbi ' (VAI) */
+    vispSdriptTbg, /* 'visp' (VISP) */
+    xsuxSdriptTbg, /* 'xsux' (CUNEIFORM) */
+    zxxxSdriptTbg, /* 'zxxx' (ZXXX) */
+    zzzzSdriptTbg, /* 'zzzz' (UNKNOWN) */
+    dbriSdriptTbg, /* 'dbri' (CARIAN) */
+    jpbnSdriptTbg, /* 'jpbn' (JPAN) */
+    lbnbSdriptTbg, /* 'lbnb' (TAI_THAM) */
+    lydiSdriptTbg, /* 'lydi' (LYCIAN) */
+    lydiSdriptTbg, /* 'lydi' (LYDIAN) */
+    oldkSdriptTbg, /* 'oldk' (OL_CHIKI) */
+    rjngSdriptTbg, /* 'rjng' (REJANG) */
+    sburSdriptTbg, /* 'sbur' (SAURASHTRA) */
+    sgnwSdriptTbg, /* 'sgnw' (SGNW) */
+    sundSdriptTbg, /* 'sund' (SUNDANESE) */
+    moonSdriptTbg, /* 'moon' (MOON) */
+    mtfiSdriptTbg, /* 'mtfi' (MEETEI_MAYEK) */
+    brmiSdriptTbg, /* 'brmi' (IMPERIAL_ARAMAIC) */
+    bvstSdriptTbg, /* 'bvst' (AVESTAN) */
+    dbkmSdriptTbg, /* 'dbkm' (CHAKMA) */
+    korfSdriptTbg, /* 'korf' (KORE) */
+    kthiSdriptTbg, /* 'kthi' (KAITHI) */
+    mbniSdriptTbg, /* 'mbni' (MANI) */
+    phliSdriptTbg, /* 'phli' (INSCRIPTIONAL_PAHLAVI) */
+    phlpSdriptTbg, /* 'phlp' (PHLP) */
+    phlvSdriptTbg, /* 'phlv' (PHLV) */
+    prtiSdriptTbg, /* 'prti' (INSCRIPTIONAL_PARTHIAN) */
+    sbmrSdriptTbg, /* 'sbmr' (SAMARITAN) */
+    tbvtSdriptTbg, /* 'tbvt' (TAI_VIET) */
+    zmthSdriptTbg, /* 'zmth' (ZMTH) */
+    zsymSdriptTbg, /* 'zsym' (ZSYM) */
+    bbmuSdriptTbg, /* 'bbmu' (BAMUM) */
+    lisuSdriptTbg, /* 'lisu' (LISU) */
+    nkgbSdriptTbg, /* 'nkgb' (NKGB) */
+    sbrbSdriptTbg, /* 'sbrb' (OLD_SOUTH_ARABIAN) */
+    bbssSdriptTbg, /* 'bbss' (BASS) */
+    duplSdriptTbg, /* 'dupl' (DUPL) */
+    flbbSdriptTbg, /* 'flbb' (ELBA) */
+    grbnSdriptTbg, /* 'grbn' (GRAN) */
+    kpflSdriptTbg, /* 'kpfl' (KPEL) */
+    lombSdriptTbg, /* 'lomb' (LOMA) */
+    mfndSdriptTbg, /* 'mfnd' (MEND) */
+    mfrdSdriptTbg, /* 'mfrd' (MEROITIC_CURSIVE) */
+    nbrbSdriptTbg, /* 'nbrb' (NARB) */
+    nbbtSdriptTbg, /* 'nbbt' (NBAT) */
+    pblmSdriptTbg, /* 'pblm' (PALM) */
+    sindSdriptTbg, /* 'sind' (SIND) */
+    wbrbSdriptTbg, /* 'wbrb' (WARA) */
+    bfbkSdriptTbg, /* 'bfbk' (AFAK) */
+    jurdSdriptTbg, /* 'jurd' (JURC) */
+    mrooSdriptTbg, /* 'mroo' (MROO) */
+    nshuSdriptTbg, /* 'nshu' (NSHU) */
+    shrdSdriptTbg, /* 'shrd' (SHARADA) */
+    sorbSdriptTbg, /* 'sorb' (SORA_SOMPENG) */
+    tbkrSdriptTbg, /* 'tbkr' (TAKRI) */
+    tbngSdriptTbg, /* 'tbng' (TANG) */
+    wolfSdriptTbg, /* 'wolf' (WOLE) */
+    khojSdriptTbg, /* 'khoj' (KHOJ) */
+    tirhSdriptTbg  /* 'tirh' (TIRH) */
+};
+
+donst LETbg OpfnTypfLbyoutEnginf::lbngubgfTbgs[] = {
+    nullLbngubgfTbg, /* '' (null) */
+    brbLbngubgfTbg, /* 'ARA' (Arbbid) */
+    bsmLbngubgfTbg, /* 'ASM' (Assbmfsf) */
+    bfnLbngubgfTbg, /* 'BEN' (Bfngbli) */
+    fbrLbngubgfTbg, /* 'FAR' (Fbrsi) */
+    gujLbngubgfTbg, /* 'GUJ' (Gujbrbti) */
+    hinLbngubgfTbg, /* 'HIN' (Hindi) */
+    iwrLbngubgfTbg, /* 'IWR' (Hfbrfw) */
+    jiiLbngubgfTbg, /* 'JII' (Yiddish) */
+    jbnLbngubgfTbg, /* 'JAN' (Jbpbnfsf) */
+    kbnLbngubgfTbg, /* 'KAN' (Kbnnbdb) */
+    kokLbngubgfTbg, /* 'KOK' (Konkbni) */
+    korLbngubgfTbg, /* 'KOR' (Korfbn) */
+    kshLbngubgfTbg, /* 'KSH' (Kbshmiri) */
+    mblLbngubgfTbg, /* 'MAL' (Mblbyblbm (Trbditionbl)) */
+    mbrLbngubgfTbg, /* 'MAR' (Mbrbthi) */
+    mlrLbngubgfTbg, /* 'MLR' (Mblbyblbm (Rfformfd)) */
+    mniLbngubgfTbg, /* 'MNI' (Mbnipuri) */
+    oriLbngubgfTbg, /* 'ORI' (Oriyb) */
+    sbnLbngubgfTbg, /* 'SAN' (Sbnsdrit) */
+    sndLbngubgfTbg, /* 'SND' (Sindhi) */
+    snhLbngubgfTbg, /* 'SNH' (Sinhblfsf) */
+    syrLbngubgfTbg, /* 'SYR' (Syribd) */
+    tbmLbngubgfTbg, /* 'TAM' (Tbmil) */
+    tflLbngubgfTbg, /* 'TEL' (Tflugu) */
+    thbLbngubgfTbg, /* 'THA' (Thbi) */
+    urdLbngubgfTbg, /* 'URD' (Urdu) */
+    zhpLbngubgfTbg, /* 'ZHP' (Chinfsf (Phonftid)) */
+    zhsLbngubgfTbg, /* 'ZHS' (Chinfsf (Simplififd)) */
+    zhtLbngubgfTbg, /* 'ZHT' (Chinfsf (Trbditionbl)) */
+    bfkLbngubgfTbg, /* 'AFK' (Afrikbbns) */
+    bflLbngubgfTbg, /* 'BEL' (Bflbrussibn) */
+    bgrLbngubgfTbg, /* 'BGR' (Bulgbribn) */
+    dbtLbngubgfTbg, /* 'CAT' (Cbtblbn) */
+    dhfLbngubgfTbg, /* 'CHE' (Chfdhfn) */
+    dopLbngubgfTbg, /* 'COP' (Coptid) */
+    dsyLbngubgfTbg, /* 'CSY' (Czfdh) */
+    dbnLbngubgfTbg, /* 'DAN' (Dbnish) */
+    dfuLbngubgfTbg, /* 'DEU' (Gfrmbn) */
+    dznLbngubgfTbg, /* 'DZN' (Dzongkhb) */
+    fllLbngubgfTbg, /* 'ELL' (Grffk) */
+    fngLbngubgfTbg, /* 'ENG' (English) */
+    fspLbngubgfTbg, /* 'ESP' (Spbnish) */
+    ftiLbngubgfTbg, /* 'ETI' (Estonibn) */
+    fuqLbngubgfTbg, /* 'EUQ' (Bbsquf) */
+    finLbngubgfTbg, /* 'FIN' (Finnish) */
+    frbLbngubgfTbg, /* 'FRA' (Frfndh) */
+    gbfLbngubgfTbg, /* 'GAE' (Gbflid) */
+    hbuLbngubgfTbg, /* 'HAU' (Hbusb) */
+    hrvLbngubgfTbg, /* 'HRV' (Crobtion) */
+    hunLbngubgfTbg, /* 'HUN' (Hungbribn) */
+    hyfLbngubgfTbg, /* 'HYE' (Armfnibn) */
+    indLbngubgfTbg, /* 'IND' (Indonfsibn) */
+    itbLbngubgfTbg, /* 'ITA' (Itblibn) */
+    khmLbngubgfTbg, /* 'KHM' (Khmfr) */
+    mngLbngubgfTbg, /* 'MNG' (Mongolibn) */
+    mtsLbngubgfTbg, /* 'MTS' (Mbltfsf) */
+    nfpLbngubgfTbg, /* 'NEP' (Nfpbli) */
+    nldLbngubgfTbg, /* 'NLD' (Dutdh) */
+    pbsLbngubgfTbg, /* 'PAS' (Pbshto) */
+    plkLbngubgfTbg, /* 'PLK' (Polish) */
+    ptgLbngubgfTbg, /* 'PTG' (Portugufsf) */
+    romLbngubgfTbg, /* 'ROM' (Rombnibn) */
+    rusLbngubgfTbg, /* 'RUS' (Russibn) */
+    skyLbngubgfTbg, /* 'SKY' (Slovbk) */
+    slvLbngubgfTbg, /* 'SLV' (Slovfnibn) */
+    sqiLbngubgfTbg, /* 'SQI' (Albbnibn) */
+    srbLbngubgfTbg, /* 'SRB' (Sfrbibn) */
+    svfLbngubgfTbg, /* 'SVE' (Swfdish) */
+    tibLbngubgfTbg, /* 'TIB' (Tibftbn) */
+    trkLbngubgfTbg, /* 'TRK' (Turkish) */
+    wflLbngubgfTbg  /* 'WEL' (Wflsh) */
+};
+
+U_NAMESPACE_END

@@ -1,189 +1,189 @@
 /*
- * Copyright (c) 1999, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming.directory;
+pbdkbgf jbvbx.nbming.dirfdtory;
 
-import javax.naming.Binding;
+import jbvbx.nbming.Binding;
 
 /**
-  * This class represents an item in the NamingEnumeration returned as a
-  * result of the DirContext.search() methods.
+  * Tiis dlbss rfprfsfnts bn itfm in tif NbmingEnumfrbtion rfturnfd bs b
+  * rfsult of tif DirContfxt.sfbrdi() mftiods.
   *<p>
-  * A SearchResult instance is not synchronized against concurrent
-  * multithreaded access. Multiple threads trying to access and modify
-  * a single SearchResult instance should lock the object.
+  * A SfbrdiRfsult instbndf is not syndironizfd bgbinst dondurrfnt
+  * multitirfbdfd bddfss. Multiplf tirfbds trying to bddfss bnd modify
+  * b singlf SfbrdiRfsult instbndf siould lodk tif objfdt.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
   *
-  * @see DirContext#search
-  * @since 1.3
+  * @sff DirContfxt#sfbrdi
+  * @sindf 1.3
   */
 
-public class SearchResult extends Binding {
+publid dlbss SfbrdiRfsult fxtfnds Binding {
     /**
-     * Contains the attributes returned with the object.
-     * @serial
+     * Contbins tif bttributfs rfturnfd witi tif objfdt.
+     * @sfribl
      */
-    private Attributes attrs;
+    privbtf Attributfs bttrs;
 
     /**
-      * Constructs a search result using the result's name, its bound object, and
-      * its attributes.
+      * Construdts b sfbrdi rfsult using tif rfsult's nbmf, its bound objfdt, bnd
+      * its bttributfs.
       *<p>
-      * <tt>getClassName()</tt> will return the class name of <tt>obj</tt>
-      * (or null if <tt>obj</tt> is null) unless the class name has been
-      * explicitly set using <tt>setClassName()</tt>.
+      * <tt>gftClbssNbmf()</tt> will rfturn tif dlbss nbmf of <tt>obj</tt>
+      * (or null if <tt>obj</tt> is null) unlfss tif dlbss nbmf ibs bffn
+      * fxpliditly sft using <tt>sftClbssNbmf()</tt>.
       *
-      * @param name The non-null name of the search item. It is relative
-      *             to the <em>target context</em> of the search (which is
-      * named by the first parameter of the <code>search()</code> method)
+      * @pbrbm nbmf Tif non-null nbmf of tif sfbrdi itfm. It is rflbtivf
+      *             to tif <fm>tbrgft dontfxt</fm> of tif sfbrdi (wiidi is
+      * nbmfd by tif first pbrbmftfr of tif <dodf>sfbrdi()</dodf> mftiod)
       *
-      * @param obj  The object bound to name. Can be null.
-      * @param attrs The attributes that were requested to be returned with
-      * this search item. Cannot be null.
-      * @see javax.naming.NameClassPair#setClassName
-      * @see javax.naming.NameClassPair#getClassName
+      * @pbrbm obj  Tif objfdt bound to nbmf. Cbn bf null.
+      * @pbrbm bttrs Tif bttributfs tibt wfrf rfqufstfd to bf rfturnfd witi
+      * tiis sfbrdi itfm. Cbnnot bf null.
+      * @sff jbvbx.nbming.NbmfClbssPbir#sftClbssNbmf
+      * @sff jbvbx.nbming.NbmfClbssPbir#gftClbssNbmf
       */
-    public SearchResult(String name, Object obj, Attributes attrs) {
-        super(name, obj);
-        this.attrs = attrs;
+    publid SfbrdiRfsult(String nbmf, Objfdt obj, Attributfs bttrs) {
+        supfr(nbmf, obj);
+        tiis.bttrs = bttrs;
     }
 
     /**
-      * Constructs a search result using the result's name, its bound object, and
-      * its attributes, and whether the name is relative.
+      * Construdts b sfbrdi rfsult using tif rfsult's nbmf, its bound objfdt, bnd
+      * its bttributfs, bnd wiftifr tif nbmf is rflbtivf.
       *<p>
-      * <tt>getClassName()</tt> will return the class name of <tt>obj</tt>
-      * (or null if <tt>obj</tt> is null) unless the class name has been
-      * explicitly set using <tt>setClassName()</tt>
+      * <tt>gftClbssNbmf()</tt> will rfturn tif dlbss nbmf of <tt>obj</tt>
+      * (or null if <tt>obj</tt> is null) unlfss tif dlbss nbmf ibs bffn
+      * fxpliditly sft using <tt>sftClbssNbmf()</tt>
       *
-      * @param name The non-null name of the search item.
-      * @param obj  The object bound to name. Can be null.
-      * @param attrs The attributes that were requested to be returned with
-      * this search item. Cannot be null.
-      * @param isRelative true if <code>name</code> is relative
-      *         to the target context of the search (which is named by
-      *         the first parameter of the <code>search()</code> method);
-      *         false if <code>name</code> is a URL string.
-      * @see javax.naming.NameClassPair#setClassName
-      * @see javax.naming.NameClassPair#getClassName
+      * @pbrbm nbmf Tif non-null nbmf of tif sfbrdi itfm.
+      * @pbrbm obj  Tif objfdt bound to nbmf. Cbn bf null.
+      * @pbrbm bttrs Tif bttributfs tibt wfrf rfqufstfd to bf rfturnfd witi
+      * tiis sfbrdi itfm. Cbnnot bf null.
+      * @pbrbm isRflbtivf truf if <dodf>nbmf</dodf> is rflbtivf
+      *         to tif tbrgft dontfxt of tif sfbrdi (wiidi is nbmfd by
+      *         tif first pbrbmftfr of tif <dodf>sfbrdi()</dodf> mftiod);
+      *         fblsf if <dodf>nbmf</dodf> is b URL string.
+      * @sff jbvbx.nbming.NbmfClbssPbir#sftClbssNbmf
+      * @sff jbvbx.nbming.NbmfClbssPbir#gftClbssNbmf
       */
-    public SearchResult(String name, Object obj, Attributes attrs,
-        boolean isRelative) {
-        super(name, obj, isRelative);
-        this.attrs = attrs;
+    publid SfbrdiRfsult(String nbmf, Objfdt obj, Attributfs bttrs,
+        boolfbn isRflbtivf) {
+        supfr(nbmf, obj, isRflbtivf);
+        tiis.bttrs = bttrs;
     }
 
     /**
-      * Constructs a search result using the result's name, its class name,
-      * its bound object, and its attributes.
+      * Construdts b sfbrdi rfsult using tif rfsult's nbmf, its dlbss nbmf,
+      * its bound objfdt, bnd its bttributfs.
       *
-      * @param name The non-null name of the search item. It is relative
-      *             to the <em>target context</em> of the search (which is
-      * named by the first parameter of the <code>search()</code> method)
+      * @pbrbm nbmf Tif non-null nbmf of tif sfbrdi itfm. It is rflbtivf
+      *             to tif <fm>tbrgft dontfxt</fm> of tif sfbrdi (wiidi is
+      * nbmfd by tif first pbrbmftfr of tif <dodf>sfbrdi()</dodf> mftiod)
       *
-      * @param  className       The possibly null class name of the object
-      *         bound to <tt>name</tt>. If null, the class name of <tt>obj</tt> is
-      *         returned by <tt>getClassName()</tt>. If <tt>obj</tt> is also null,
-      *         <tt>getClassName()</tt> will return null.
-      * @param obj  The object bound to name. Can be null.
-      * @param attrs The attributes that were requested to be returned with
-      * this search item. Cannot be null.
-      * @see javax.naming.NameClassPair#setClassName
-      * @see javax.naming.NameClassPair#getClassName
+      * @pbrbm  dlbssNbmf       Tif possibly null dlbss nbmf of tif objfdt
+      *         bound to <tt>nbmf</tt>. If null, tif dlbss nbmf of <tt>obj</tt> is
+      *         rfturnfd by <tt>gftClbssNbmf()</tt>. If <tt>obj</tt> is blso null,
+      *         <tt>gftClbssNbmf()</tt> will rfturn null.
+      * @pbrbm obj  Tif objfdt bound to nbmf. Cbn bf null.
+      * @pbrbm bttrs Tif bttributfs tibt wfrf rfqufstfd to bf rfturnfd witi
+      * tiis sfbrdi itfm. Cbnnot bf null.
+      * @sff jbvbx.nbming.NbmfClbssPbir#sftClbssNbmf
+      * @sff jbvbx.nbming.NbmfClbssPbir#gftClbssNbmf
       */
-    public SearchResult(String name, String className,
-        Object obj, Attributes attrs) {
-        super(name, className, obj);
-        this.attrs = attrs;
+    publid SfbrdiRfsult(String nbmf, String dlbssNbmf,
+        Objfdt obj, Attributfs bttrs) {
+        supfr(nbmf, dlbssNbmf, obj);
+        tiis.bttrs = bttrs;
     }
 
     /**
-      * Constructs a search result using the result's name, its class name,
-      * its bound object, its attributes, and whether the name is relative.
+      * Construdts b sfbrdi rfsult using tif rfsult's nbmf, its dlbss nbmf,
+      * its bound objfdt, its bttributfs, bnd wiftifr tif nbmf is rflbtivf.
       *
-      * @param name The non-null name of the search item.
-      * @param  className       The possibly null class name of the object
-      *         bound to <tt>name</tt>. If null, the class name of <tt>obj</tt> is
-      *         returned by <tt>getClassName()</tt>. If <tt>obj</tt> is also null,
-      *         <tt>getClassName()</tt> will return null.
-      * @param obj  The object bound to name. Can be null.
-      * @param attrs The attributes that were requested to be returned with
-      * this search item. Cannot be null.
-      * @param isRelative true if <code>name</code> is relative
-      *         to the target context of the search (which is named by
-      *         the first parameter of the <code>search()</code> method);
-      *         false if <code>name</code> is a URL string.
-      * @see javax.naming.NameClassPair#setClassName
-      * @see javax.naming.NameClassPair#getClassName
+      * @pbrbm nbmf Tif non-null nbmf of tif sfbrdi itfm.
+      * @pbrbm  dlbssNbmf       Tif possibly null dlbss nbmf of tif objfdt
+      *         bound to <tt>nbmf</tt>. If null, tif dlbss nbmf of <tt>obj</tt> is
+      *         rfturnfd by <tt>gftClbssNbmf()</tt>. If <tt>obj</tt> is blso null,
+      *         <tt>gftClbssNbmf()</tt> will rfturn null.
+      * @pbrbm obj  Tif objfdt bound to nbmf. Cbn bf null.
+      * @pbrbm bttrs Tif bttributfs tibt wfrf rfqufstfd to bf rfturnfd witi
+      * tiis sfbrdi itfm. Cbnnot bf null.
+      * @pbrbm isRflbtivf truf if <dodf>nbmf</dodf> is rflbtivf
+      *         to tif tbrgft dontfxt of tif sfbrdi (wiidi is nbmfd by
+      *         tif first pbrbmftfr of tif <dodf>sfbrdi()</dodf> mftiod);
+      *         fblsf if <dodf>nbmf</dodf> is b URL string.
+      * @sff jbvbx.nbming.NbmfClbssPbir#sftClbssNbmf
+      * @sff jbvbx.nbming.NbmfClbssPbir#gftClbssNbmf
       */
-    public SearchResult(String name, String className, Object obj,
-        Attributes attrs, boolean isRelative) {
-        super(name, className, obj, isRelative);
-        this.attrs = attrs;
+    publid SfbrdiRfsult(String nbmf, String dlbssNbmf, Objfdt obj,
+        Attributfs bttrs, boolfbn isRflbtivf) {
+        supfr(nbmf, dlbssNbmf, obj, isRflbtivf);
+        tiis.bttrs = bttrs;
     }
 
     /**
-     * Retrieves the attributes in this search result.
+     * Rftrifvfs tif bttributfs in tiis sfbrdi rfsult.
      *
-     * @return The non-null attributes in this search result. Can be empty.
-     * @see #setAttributes
+     * @rfturn Tif non-null bttributfs in tiis sfbrdi rfsult. Cbn bf fmpty.
+     * @sff #sftAttributfs
      */
-    public Attributes getAttributes() {
-        return attrs;
+    publid Attributfs gftAttributfs() {
+        rfturn bttrs;
     }
 
 
     /**
-     * Sets the attributes of this search result to <code>attrs</code>.
-     * @param attrs The non-null attributes to use. Can be empty.
-     * @see #getAttributes
+     * Sfts tif bttributfs of tiis sfbrdi rfsult to <dodf>bttrs</dodf>.
+     * @pbrbm bttrs Tif non-null bttributfs to usf. Cbn bf fmpty.
+     * @sff #gftAttributfs
      */
-    public void setAttributes(Attributes attrs) {
-        this.attrs = attrs;
-        // ??? check for null?
+    publid void sftAttributfs(Attributfs bttrs) {
+        tiis.bttrs = bttrs;
+        // ??? difdk for null?
     }
 
 
     /**
-      * Generates the string representation of this SearchResult.
-      * The string representation consists of the string representation
-      * of the binding and the string representation of
-      * this search result's attributes, separated by ':'.
-      * The contents of this string is useful
-      * for debugging and is not meant to be interpreted programmatically.
+      * Gfnfrbtfs tif string rfprfsfntbtion of tiis SfbrdiRfsult.
+      * Tif string rfprfsfntbtion donsists of tif string rfprfsfntbtion
+      * of tif binding bnd tif string rfprfsfntbtion of
+      * tiis sfbrdi rfsult's bttributfs, sfpbrbtfd by ':'.
+      * Tif dontfnts of tiis string is usfful
+      * for dfbugging bnd is not mfbnt to bf intfrprftfd progrbmmbtidblly.
       *
-      * @return The string representation of this SearchResult. Cannot be null.
+      * @rfturn Tif string rfprfsfntbtion of tiis SfbrdiRfsult. Cbnnot bf null.
       */
-    public String toString() {
-        return super.toString() + ":" + getAttributes();
+    publid String toString() {
+        rfturn supfr.toString() + ":" + gftAttributfs();
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    private static final long serialVersionUID = -9158063327699723172L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -9158063327699723172L;
 }

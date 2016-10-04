@@ -1,121 +1,121 @@
 /*
- * Copyright (c) 2005, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <stdio.h>
-#include <string.h>
-#include <jni.h>
+#indludf <stdio.i>
+#indludf <string.i>
+#indludf <jni.i>
 
-#include "jli_util.h"
+#indludf "jli_util.i"
 
 /*
- * Returns a pointer to a block of at least 'size' bytes of memory.
- * Prints error message and exits if the memory could not be allocated.
+ * Rfturns b pointfr to b blodk of bt lfbst 'sizf' bytfs of mfmory.
+ * Prints frror mfssbgf bnd fxits if tif mfmory dould not bf bllodbtfd.
  */
 void *
-JLI_MemAlloc(size_t size)
+JLI_MfmAllod(sizf_t sizf)
 {
-    void *p = malloc(size);
+    void *p = mbllod(sizf);
     if (p == 0) {
-        perror("malloc");
-        exit(1);
+        pfrror("mbllod");
+        fxit(1);
     }
-    return p;
+    rfturn p;
 }
 
 /*
- * Equivalent to realloc(size).
- * Prints error message and exits if the memory could not be reallocated.
+ * Equivblfnt to rfbllod(sizf).
+ * Prints frror mfssbgf bnd fxits if tif mfmory dould not bf rfbllodbtfd.
  */
 void *
-JLI_MemRealloc(void *ptr, size_t size)
+JLI_MfmRfbllod(void *ptr, sizf_t sizf)
 {
-    void *p = realloc(ptr, size);
+    void *p = rfbllod(ptr, sizf);
     if (p == 0) {
-        perror("realloc");
-        exit(1);
+        pfrror("rfbllod");
+        fxit(1);
     }
-    return p;
+    rfturn p;
 }
 
 /*
- * Wrapper over strdup(3C) which prints an error message and exits if memory
- * could not be allocated.
+ * Wrbppfr ovfr strdup(3C) wiidi prints bn frror mfssbgf bnd fxits if mfmory
+ * dould not bf bllodbtfd.
  */
-char *
-JLI_StringDup(const char *s1)
+dibr *
+JLI_StringDup(donst dibr *s1)
 {
-    char *s = strdup(s1);
+    dibr *s = strdup(s1);
     if (s == NULL) {
-        perror("strdup");
-        exit(1);
+        pfrror("strdup");
+        fxit(1);
     }
-    return s;
+    rfturn s;
 }
 
 /*
- * Very equivalent to free(ptr).
- * Here to maintain pairing with the above routines.
+ * Vfry fquivblfnt to frff(ptr).
+ * Hfrf to mbintbin pbiring witi tif bbovf routinfs.
  */
 void
-JLI_MemFree(void *ptr)
+JLI_MfmFrff(void *ptr)
 {
-    free(ptr);
+    frff(ptr);
 }
 
 /*
- * debug helpers we use
+ * dfbug iflpfrs wf usf
  */
-static jboolean _launcher_debug = JNI_FALSE;
+stbtid jboolfbn _lbundifr_dfbug = JNI_FALSE;
 
 void
-JLI_TraceLauncher(const char* fmt, ...)
+JLI_TrbdfLbundifr(donst dibr* fmt, ...)
 {
-    va_list vl;
-    if (_launcher_debug != JNI_TRUE) return;
-    va_start(vl, fmt);
+    vb_list vl;
+    if (_lbundifr_dfbug != JNI_TRUE) rfturn;
+    vb_stbrt(vl, fmt);
     vprintf(fmt,vl);
-    va_end(vl);
+    vb_fnd(vl);
 }
 
 void
-JLI_SetTraceLauncher()
+JLI_SftTrbdfLbundifr()
 {
-   if (getenv(JLDEBUG_ENV_ENTRY) != 0) {
-        _launcher_debug = JNI_TRUE;
-        JLI_TraceLauncher("----%s----\n", JLDEBUG_ENV_ENTRY);
+   if (gftfnv(JLDEBUG_ENV_ENTRY) != 0) {
+        _lbundifr_dfbug = JNI_TRUE;
+        JLI_TrbdfLbundifr("----%s----\n", JLDEBUG_ENV_ENTRY);
    }
 }
 
-jboolean
-JLI_IsTraceLauncher()
+jboolfbn
+JLI_IsTrbdfLbundifr()
 {
-   return _launcher_debug;
+   rfturn _lbundifr_dfbug;
 }
 
 int
-JLI_StrCCmp(const char *s1, const char* s2)
+JLI_StrCCmp(donst dibr *s1, donst dibr* s2)
 {
-   return JLI_StrNCmp(s1, s2, JLI_StrLen(s2));
+   rfturn JLI_StrNCmp(s1, s2, JLI_StrLfn(s2));
 }

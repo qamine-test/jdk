@@ -1,0 +1,2553 @@
+'\" t
+.\" Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\" Titlf: jbvb
+.\" Lbngubgf: English
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: 基本ツール
+.\" Softwbrf: JDK 8
+.\" Ardh: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "jbvb" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+jbvb \- Jbvbアプリケーションを起動します。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIjbvb\fR [\fIoptions\fR] \fIdlbssnbmf\fR [\fIbrgs\fR]
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIjbvb\fR [\fIoptions\fR] \fI\-jbr\fR \fIfilfnbmf\fR [\fIbrgs\fR]
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIoptions\fR
+.RS 4
+空白で区切られたコマンドライン・オプション。オプションを参照してください。
+.RE
+.PP
+\fIdlbssnbmf\fR
+.RS 4
+起動するクラスの名前。
+.RE
+.PP
+\fIfilfnbmf\fR
+.RS 4
+呼び出されるJbvbアーカイブ(JAR)ファイルの名前。\fI\-jbr\fRオプションと一緒にのみ使用します。
+.RE
+.PP
+\fIbrgs\fR
+.RS 4
+空白で区切られた\fImbin()\fRメソッドに渡される引数。
+.RE
+.SH "説明"
+.PP
+\fIjbvb\fRコマンドはJbvbアプリケーションを開始します。Jbvb Runtimf Environmfnt (JRE)を起動した後、指定したクラスをロードし、そのクラスの\fImbin()\fRメソッドを呼び出すことにより、これを行います。このメソッドは、\fIpublid\fRおよび\fIstbtid\fRとして宣言する必要があります。また、値は返せません。さらに、\fIString\fR配列をパラメータとして指定できる必要があります。メソッド宣言は次の形式を含みます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+publid stbtid void mbin(String[] brgs)
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIjbvb\fRコマンドを使用して、\fImbin()\fRメソッドがあるか\fIjbvbfx\&.bpplidbtion\&.Applidbtion\fRを拡張するクラスをロードすることで、JbvbFXアプリケーションを起動できます。後者の場合、起動ツールは\fIApplidbtion\fRクラスのインスタンスを構成し、その\fIinit()\fRメソッドをコールし、\fIstbrt(jbvbfx\&.stbgf\&.Stbgf)\fRメソッドをコールします。
+.PP
+デフォルトでは、\fIjbvb\fRコマンドのオプションではない最初の引数は、呼び出されるクラスの完全修飾名です。\fI\-jbr\fRオプションを指定した場合、その引数は、アプリケーションのクラス・ファイルとリソース・ファイルを含むJARファイルの名前になります。起動クラスは、ソース・コードの\fIMbin\-Clbss\fRマニフェスト・ヘッダーによって指定される必要があります。
+.PP
+JREは、ブートストラップ・クラス・パス、インストール済拡張機能およびユーザーのクラス・パスの3箇所から、起動クラス(およびアプリケーションで使用されている他のクラス)を検索します。
+.PP
+クラス・ファイル名またはJARファイル名の後の引数は、\fImbin()\fRメソッドに渡されます。
+.SH "オプション"
+.PP
+\fIjbvb\fRコマンドは、次のカテゴリに分類できる広範なオプションをサポートしています。
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+標準オプション
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+非標準オプション
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+高度なランタイム・オプション
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+高度なJITコンパイラ・オプション
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+高度なサービスアビリティ・オプション
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+高度なガベージ・コレクション・オプション
+.RE
+.PP
+標準のオプションは、Jbvb Virtubl Mbdhinf (JVM)のすべての実装でサポートすることが保証されます。これらは、JREのバージョンの確認、クラス・パスの設定、冗長な出力の有効化などの一般的なアクションに使用されます。
+.PP
+標準以外のオプションは、Jbvb HotSpot仮想マシンに固有の汎用オプションであるため、すべてのJVM実装でサポートされることは保証されず、変更される可能性があります。これらのオプションは\fI\-X\fRで開始します。
+.PP
+拡張オプションは、不用意に使用しないことをお薦めします。これらは、特定のシステム要件を持つことが多く、システム構成パラメータへの特権アクセスが必要な場合があるJbvb HotSpot仮想マシン操作の特定の領域を調整するために使用される開発者オプションです。これらは、すべてのJVM実装でサポートされることは保証されず、変更される可能性があります。拡張オプションは\fI\-XX\fRで始まります。
+.PP
+最新リリースで非推奨または削除されるオプションを追跡するために、ドキュメントの最後に非推奨で削除されたオプションという名前のセクションがあります。
+.PP
+ブール・オプションは、デフォルトで無効になっている機能を有効にしたり、デフォルトで有効になっている機能を無効にするために使用されます。このようなオプションは、パラメータを必要としません。ブール値\fI\-XX\fRオプションは、プラス記号(\fI\-XX:+\fR\fIOptionNbmf\fR)を使用して有効にし、マイナス記号(\fI\-XX:\-\fR\fIOptionNbmf\fR)を使用して無効にします。
+.PP
+引数が必要なオプションの場合、引数は、オプション名を空白、コロン(:)または等号(=)で区切ったものになるか、あるいは引数がオプションの後に直接続く場合もあります(正確な構文は各オプションによって異なります)。サイズをバイト単位で指定するよう求められている場合、接尾辞を使用しないか、あるいはキロバイト(KB)には接尾辞\fIk\fRまたは\fIK\fR、メガバイト(MB)には接尾辞\fIm\fRまたは\fIM\fR、ギガバイト(GB)には接尾辞\fIg\fRまたは\fIG\fRを使用します。たとえば、サイズを8GBに設定するには、\fI8g\fR、\fI8192m\fR、\fI8388608k\fRまたは\fI8589934592\fRのいずれかを引数として指定できます。パーセントの指定が必要な場合は、0から1の数値を使用します(たとえば、25%の場合は\fI0\&.25\fRを指定します)。
+.SS "標準オプション"
+.PP
+これらは、JVMのすべての実装でサポートされる最も一般的に使用されるオプションです。
+.PP
+\-bgfntlib:\fIlibnbmf\fR[=\fIoptions\fR]
+.RS 4
+指定したネイティブ・エージェント・ライブラリをロードします。ライブラリ名の後に、ライブラリに固有のオプションのカンマ区切りリストを使用できます。
+.sp
+オプション\fI\-bgfntlib:foo\fRを指定した場合、JVMは、\fILD_LIBRARY_PATH\fRシステム変数(OS Xでは、この変数は\fIDYLD_LIBRARY_PATH\fRになります)で指定された場所に\fIlibfoo\&.so\fRという名前のライブラリをロードしようとします。
+.sp
+次の例では、スタックの深さ3で、20ミリ秒ごとにヒープ・プロファイリング・ツール(HPROF)ライブラリをロードして、サンプルのCPU情報を取得する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-bgfntlib:hprof=dpu=sbmplfs,intfrvbl=20,dfpth=3
+.fi
+.if n \{\
+.RE
+.\}
+次の例では、メイン・クラスのロード前にJVMを一時停止して、Jbvbデバッグ・ワイヤ・プロトコル(JDWP)ライブラリをロードして、ポート8000でのソケット接続用にリスニングする方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-bgfntlib:jdwp=trbnsport=dt_sodkft,sfrvfr=y,bddrfss=8000
+.fi
+.if n \{\
+.RE
+.\}
+ネイティブ・エージェント・ライブラリの詳細は、次を参照してください。
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/lbng/instrumfnt/pbdkbgf\-summbry\&.htmlにある\fIjbvb\&.lbng\&.instrumfnt\fRパッケージの説明
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/plbtform/jvmti/jvmti\&.html#stbrtingにあるJVMツール・インタフェース・ガイドのエージェントのコマンドライン・オプションに関する項
+.RE
+.RE
+.PP
+\-bgfntpbth:\fIpbthnbmf\fR[=\fIoptions\fR]
+.RS 4
+絶対パス名で指定されたネイティブ・エージェント・ライブラリをロードします。このオプションは\fI\-bgfntlib\fRと同等ですが、ライブラリのフル・パスおよびファイル名を使用します。
+.RE
+.PP
+\-dlifnt
+.RS 4
+Jbvb HotSpot Clifnt VMを選択します。64ビット・バージョンのJbvb SE Dfvflopmfnt Kit (JDK)では、現在、このオプションは無視され、かわりにSfrvfr JVMが使用されます。
+.sp
+デフォルトのJVM選択は、http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/vm/sfrvfr\-dlbss\&.htmlにある
+サーバークラス・マシンの検出を参照してください。
+.RE
+.PP
+\-D\fIpropfrty\fR=\fIvbluf\fR
+.RS 4
+システム・プロパティの値を設定します。\fIpropfrty\fR変数は、プロパティの名前を表す、空白のない文字列です。\fIvbluf\fR変数は、プロパティの値を表す文字列です。\fIvbluf\fRが空白を含む文字列の場合、それを引用符で囲みます(例:
+\fI\-Dfoo="foo bbr"\fR)。
+.RE
+.PP
+\-d32
+.RS 4
+アプリケーションを32ビット環境で実行します。32ビット環境がインストールされていないかサポートされていない場合は、エラーが報告されます。デフォルトでは、64ビット・システムが使用されている場合を除き、アプリケーションは32ビット環境で実行されます。
+.RE
+.PP
+\-d64
+.RS 4
+アプリケーションを64ビット環境で実行します。64ビット環境がインストールされていないかサポートされていない場合は、エラーが報告されます。デフォルトでは、64ビット・システムが使用されている場合を除き、アプリケーションは32ビット環境で実行されます。
+.sp
+現在のところ、Jbvb HotSpot Sfrvfr VMのみが64ビットの操作をサポートしているため、\fI\-d64\fR使用時には\fI\-sfrvfr\fRオプションが暗黙的に使用されます。\fI\-d64\fR使用時には、\fI\-dlifnt\fRオプションは無視されます。この仕様は、将来のリリースでは変更になる可能性があります。
+.RE
+.PP
+\-disbblfbssfrtions[:[\fIpbdkbgfnbmf\fR]\&.\&.\&.|:\fIdlbssnbmf\fR], \-db[:[\fIpbdkbgfnbmf\fR]\&.\&.\&.|:\fIdlbssnbmf\fR]
+.RS 4
+アサーションを無効にします。デフォルトでは、アサーションはすべてのパッケージおよびクラスで無効になっています。
+.sp
+引数なしの\fI\-disbblfbssfrtions\fR
+(\fI\-db\fR)を指定すると、すべてのパッケージおよびクラスでアサーションが無効になります。\fI\&.\&.\&.\fRで終わる\fIpbdkbgfnbmf\fR引数を指定すると、指定したパッケージとそのサブパッケージ内でアサーションが無効になります。引数として\fI\&.\&.\&.\fRのみを指定すると、現在の作業ディレクトリにある名前のないパッケージ内でアサーションが無効になります。\fIdlbssnbmf\fR引数を指定すると、切替えによって、指定したクラス内でアサーションが無効になります。
+.sp
+\fI\-disbblfbssfrtions\fR
+(\fI\-db\fR)オプションは、すべてのクラス・ローダーおよびシステム・クラスに適用されます(システム・クラスにはクラス・ローダーはありません)。このルールには1つ例外があります。オプションの引数が指定されていない場合は、システム・クラスに適用されません。これにより、システム・クラスを除くすべてのクラスでアサーションを簡単に無効にすることができます。\fI\-disbblfsystfmbssfrtions\fRオプションを使用すると、すべてのシステム・クラスでアサーションを無効にすることができます。
+.sp
+特定のパッケージやクラスでアサーションを明示的に有効にするには、\fI\-fnbblfbssfrtions\fR
+(\fI\-fb\fR)オプションを使用します。両方のオプションを同時に使用できます。たとえば、パッケージ\fIdom\&.wombbt\&.fruitbbt\fR
+(およびそのサブパッケージ)ではアサーションを有効にして、クラス\fIdom\&.wombbt\&.fruitbbt\&.Bridkbbt\fRではアサーションを無効にして、\fIMyClbss\fRアプリケーションを実行するには、次のコマンドを使用します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvb \-fb:dom\&.wombbt\&.fruitbbt\&.\&.\&. \-db:dom\&.wombbt\&.fruitbbt\&.Bridkbbt MyClbss
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-disbblfsystfmbssfrtions, \-dsb
+.RS 4
+すべてのシステム・クラス内でアサーションを無効にします。
+.RE
+.PP
+\-fnbblfbssfrtions[:[\fIpbdkbgfnbmf\fR]\&.\&.\&.|:\fIdlbssnbmf\fR], \-fb[:[\fIpbdkbgfnbmf\fR]\&.\&.\&.|:\fIdlbssnbmf\fR]
+.RS 4
+アサーションを有効にします。デフォルトでは、アサーションはすべてのパッケージおよびクラスで無効になっています。
+.sp
+引数なしの\fI\-fnbblfbssfrtions\fR
+(\fI\-fb\fR)を指定すると、すべてのパッケージおよびクラスでアサーションが有効になります。\fI\&.\&.\&.\fRで終わる\fIpbdkbgfnbmf\fR引数を指定すると、指定したパッケージとそのサブパッケージ内でアサーションが有効になります。引数として\fI\&.\&.\&.\fRのみを指定すると、現在の作業ディレクトリにある名前のないパッケージ内でアサーションが有効になります。\fIdlbssnbmf\fR引数を指定すると、切替えによって、指定したクラス内でアサーションが有効になります。
+.sp
+\fI\-fnbblfbssfrtions\fR
+(\fI\-fb\fR)オプションは、すべてのクラス・ローダーおよびシステム・クラスに適用されます(システム・クラスにはクラス・ローダーはありません)。このルールには1つ例外があります。オプションの引数が指定されていない場合は、システム・クラスに適用されません。これにより、システム・クラスを除くすべてのクラスでアサーションを簡単に有効にすることができます。\fI\-fnbblfsystfmbssfrtions\fRオプションは、すべてのシステム・クラスでアサーションを有効にする別のスイッチを提供します。
+.sp
+特定のパッケージやクラスでアサーションを明示的に無効にするには、\fI\-disbblfbssfrtions\fR
+(\fI\-db\fR)オプションを使用します。単一コマンドにこれらのスイッチのインスタンスを複数指定した場合は、指定したスイッチが順番に処理されてからクラスがロードされます。たとえば、パッケージ\fIdom\&.wombbt\&.fruitbbt\fR
+(およびそのサブパッケージ)でのみアサーションを有効にして、クラス\fIdom\&.wombbt\&.fruitbbt\&.Bridkbbt\fRではアサーションを無効にして、\fIMyClbss\fRアプリケーションを実行するには、次のコマンドを使用します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvb \-fb:dom\&.wombbt\&.fruitbbt\&.\&.\&. \-db:dom\&.wombbt\&.fruitbbt\&.Bridkbbt MyClbss
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-fnbblfsystfmbssfrtions, \-fsb
+.RS 4
+すべてのシステム・クラス内でアサーションを有効にします。
+.RE
+.PP
+\-hflp, \-?
+.RS 4
+実際にJVMを実行せずに、\fIjbvb\fRコマンドの使用状況情報を表示します。
+.RE
+.PP
+\-jbr \fIfilfnbmf\fR
+.RS 4
+JARファイルにカプセル化されたプログラムを実行します。\fIfilfnbmf\fR引数は、使用するアプリケーションの開始点として機能する\fIpublid stbtid void mbin(String[] brgs)\fRメソッドを定義する、\fIMbin\-Clbss:\fR\fIdlbssnbmf\fRという形式の1行を含むマニフェストを持つJARファイルの名前です。
+.sp
+\fI\-jbr\fRオプションを使用すると、指定したJARファイルがすべてのユーザー・クラスのソースになり、クラス・パスの他の設定は無視されます。
+.sp
+JARファイルの詳細は、次のリソースを参照してください。
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbr(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/jbr/indfx\&.htmlにあるJbvbアーカイブ(JAR)ファイルのガイド
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+http://dods\&.orbdlf\&.dom/jbvbsf/tutoribl/dfploymfnt/jbr/indfx\&.htmlにある
+「レッスン: JARファイルのプログラムのパッケージ化」
+.RE
+.RE
+.PP
+\-jbvbbgfnt:\fIjbrpbth\fR[=\fIoptions\fR]
+.RS 4
+指定したJbvbプログラミング言語エージェントをロードします。Jbvbアプリケーションのインストゥルメントの詳細は、http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/bpi/jbvb/lbng/instrumfnt/pbdkbgf\-summbry\&.htmlにあるJbvb APIドキュメントの\fIjbvb\&.lbng\&.instrumfnt\fRパッケージの説明を参照してください。
+.RE
+.PP
+\-jrf\-rfstridt\-sfbrdh
+.RS 4
+ユーザー・プライベートなJREをバージョン検索に含めます。
+.RE
+.PP
+\-no\-jrf\-rfstridt\-sfbrdh
+.RS 4
+ユーザー・プライベートなJREをバージョン検索から除外します。
+.RE
+.PP
+\-sfrvfr
+.RS 4
+Jbvb HotSpot Sfrvfr VMを選択します。64ビット・バージョンのJDKでは、Sfrvfr VMのみをサポートしているため、その場合、このオプションは暗黙的です。
+.sp
+デフォルトのJVM選択は、http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/vm/sfrvfr\-dlbss\&.htmlにある
+サーバークラス・マシンの検出を参照してください。
+.RE
+.PP
+\-showvfrsion
+.RS 4
+バージョン情報を表示し、アプリケーションの実行を続行します。このオプションは\fI\-vfrsion\fRオプションと同等ですが、\-vfrsionはバージョン情報の表示後にJVMに終了を指示する点が異なります。
+.RE
+.PP
+\-splbsh:\fIimgnbmf\fR
+.RS 4
+\fIimgnbmf\fRで指定されたイメージを含むスプラッシュ画面を表示します。たとえば、アプリケーションの起動時に\fIimbgfs\fRディレクトリの\fIsplbsh\&.gif\fRファイルを表示するには、次のオプションを使用します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-splbsh:imbgfs/splbsh\&.gif
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-vfrbosf:dlbss
+.RS 4
+ロードされた各クラスに関する情報を表示します。
+.RE
+.PP
+\-vfrbosf:gd
+.RS 4
+各ガベージ・コレクション(GC)イベントに関する情報を表示します。
+.RE
+.PP
+\-vfrbosf:jni
+.RS 4
+ネイティブ・メソッドの使用およびその他のJbvb Nbtivf Intfrfbdf (JNI)アクティビティに関する情報を表示します。
+.RE
+.PP
+\-vfrsion
+.RS 4
+バージョン情報を表示してから終了します。このオプションは\fI\-showvfrsion\fRオプションと同等ですが、\-showvfrsionはバージョン情報の表示後にJVMに終了を指示しない点が異なります。
+.RE
+.PP
+\-vfrsion:\fIrflfbsf\fR
+.RS 4
+アプリケーションの実行に使用するリリース・バージョンを指定します。コールされた\fIjbvb\fRコマンドのバージョンがこの指定内容を満たさず、かつ適切な実装がシステム上で見つかった場合には、その適切な実装が使用されます。
+.sp
+\fIrflfbsf\fR引数は、正確なバージョン文字列、または空白で区切られたバージョン文字列とバージョン範囲のリストを指定します。\fIバージョン文字列\fRは、次の形式で、開発者のバージョン番号を指定します:
+\fI1\&.\fR\fIx\fR\fI\&.0_\fR\fIu\fR
+(\fIx\fRはメジャー・バージョン番号、\fIu\fRは更新バージョン番号です)。\fIバージョン範囲\fRは、このバージョン以降を指定するにはバージョン文字列の後にプラス記号(\fI+\fR)を続けたもの、または一致する接頭辞を含む任意のバージョン文字列を指定するには一部のバージョン文字列の後にアスタリスク(\fI*\fR)を続けたもので構成されます。論理\fIOR\fRの組合せには空白、2つのバージョンの文字列/範囲の論理\fIAND\fRの組合せにはアンパサンド(\fI&\fR)を使用して、バージョン文字列とバージョン範囲を組み合せることができます。たとえば、クラスまたはJARファイルの実行にJRE 6u13 (1\&.6\&.0_13)または6u10 (1\&.6\&.0_10)以降の任意のJRE 6のいずれかを必要とする場合、次を指定します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-vfrsion:"1\&.6\&.0_13 1\&.6* & 1\&.6\&.0_10+"
+.fi
+.if n \{\
+.RE
+.\}
+引用符が必要なのは、\fIrflfbsf\fRパラメータに空白がある場合のみです。
+.sp
+JARファイルの場合は、バージョン要件をコマンドラインに指定するよりも、JARファイルのマニフェスト内に指定することが推奨されています。
+.RE
+.SS "非標準オプション"
+.PP
+これらのオプションは、Jbvb HotSpot仮想マシンに固有の汎用オプションです。
+.PP
+\-X
+.RS 4
+使用可能なすべての\fI\-X\fRオプションのヘルプを表示します。
+.RE
+.PP
+\-Xbbtdh
+.RS 4
+バックグラウンド・コンパイルを無効にします。デフォルトでは、JVMでは、バックグラウンド・コンパイルが終了するまで、メソッドをバックグラウンド・タスクとしてコンパイルし、インタプリタ・モードでメソッドを実行します。\fI\-Xbbtdh\fRフラグを指定すると、バックグラウンド・コンパイルが無効になり、すべてのメソッドのコンパイルが完了するまでフォアグラウンド・タスクとして処理されます。
+.sp
+このオプションは\fI\-XX:\-BbdkgroundCompilbtion\fRと同等です。
+.RE
+.PP
+\-Xbootdlbsspbth:\fIpbth\fR
+.RS 4
+ブート・クラス・ファイルを検索するディレクトリ、JARファイルおよびZIPアーカイブの、コロン(:)で区切られたリストを指定します。これらは、JDKに含まれるブート・クラス・ファイルのかわりに使用されます。
+.sp
+JREバイナリ・コード・ライセンスに違反するため、\fIrt\&.jbr\fRでクラスをオーバーライドする目的で、このオプションを使用するアプリケーションをデプロイしないでください。
+.RE
+.PP
+\-Xbootdlbsspbth/b:\fIpbth\fR
+.RS 4
+デフォルトのブートストラップ・クラス・パスの最後に追加するディレクトリ、JARファイルおよびZIPアーカイブの、コロン(:)で区切られたリストを指定します。
+.sp
+JREバイナリ・コード・ライセンスに違反するため、\fIrt\&.jbr\fRでクラスをオーバーライドする目的で、このオプションを使用するアプリケーションをデプロイしないでください。
+.RE
+.PP
+\-Xbootdlbsspbth/p:\fIpbth\fR
+.RS 4
+デフォルトのブートストラップ・クラス・パスの先頭に追加するディレクトリ、JARファイルおよびZIPアーカイブの、コロン(:)で区切られたリストを指定します。
+.sp
+JREバイナリ・コード・ライセンスに違反するため、\fIrt\&.jbr\fRでクラスをオーバーライドする目的で、このオプションを使用するアプリケーションをデプロイしないでください。
+.RE
+.PP
+\-Xboundthrfbds
+.RS 4
+ユーザー・レベルのスレッドをカーネル・スレッドにバインドします。
+.RE
+.PP
+\-Xdhfdk:jni
+.RS 4
+Jbvb Nbtivf Intfrfbdf (JNI)機能に対して追加チェックを行います。具体的には、これは、JNIリクエストを処理する前に、JNI関数に渡されるパラメータと実行環境のデータを検証します。無効なデータが見つかった場合は、ネイティブ・コードに問題があることを示しているため、JVMはリカバリ不能なエラーを発生して終了します。このオプションを使用すると、パフォーマンス低下が予想されます。
+.RE
+.PP
+\-Xdomp
+.RS 4
+最初の呼出しでJbvbコードおよびコンパイル・メソッドの解釈を無効にします。デフォルトでは、JITコンパイラは、10,000の解釈されたメソッド呼出しを実行して、効率的なコンパイルのための情報を収集します。効率を犠牲にしてコンパイルのパフォーマンスを向上させるには、\fI\-Xdomp\fRフラグを使用して、解釈されたメソッド呼出しを無効にします。
+.sp
+\fI\-XX:CompilfThrfshold\fRオプションを使用して、コンパイルの前に、解釈されたメソッド呼出しの数を変更することもできます。
+.RE
+.PP
+\-Xdfbug
+.RS 4
+何も行いません。下位互換性のために用意されています。
+.RE
+.PP
+\-Xdibg
+.RS 4
+追加の診断メッセージを表示します。
+.RE
+.PP
+\-Xfuturf
+.RS 4
+クラス・ファイル形式の仕様への準拠を強化する、厳密なクラス・ファイル形式のチェックが有効になります。将来のリリースでは、より厳密なチェックがデフォルトになるため、新しいコードを開発するときには、開発者はこのフラグを使用することをお薦めします。
+.RE
+.PP
+\-Xindgd
+.RS 4
+増分GCを有効にします。
+.RE
+.PP
+\-Xint
+.RS 4
+インタプリタ専用モードでアプリケーションを実行します。ネイティブ・コードへのコンパイルは無効になり、すべてのバイトコードがインタプリタによって実行されます。ジャスト・イン・タイム(JIT)コンパイラが提供するパフォーマンス上の利点は、このモードでは実現されません。
+.RE
+.PP
+\-Xintfrnblvfrsion
+.RS 4
+\fI\-vfrsion\fRオプションより詳細なJVMバージョン情報を表示してから終了します。
+.RE
+.PP
+\-Xloggd:\fIfilfnbmf\fR
+.RS 4
+詳細なGCイベント情報をロギング用にリダイレクトするファイルを設定します。このファイルに書き込まれる情報は、記録された各イベントの前に行われる最初のGCイベント以降に経過した時間を指定した\fI\-vfrbosf:gd\fRの出力と類似しています。\fI\-Xloggd\fRオプションは\fI\-vfrbosf:gd\fRをオーバーライドします(これらの両方が同じ\fIjbvb\fRコマンドで指定された場合)。
+.sp
+例:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-Xloggd:gbrbbgf\-dollfdtion\&.log
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-Xmbxjitdodfsizf=\fIsizf\fR
+.RS 4
+JITコンパイルされたコードの最大コード・キャッシュ・サイズ(バイト単位)を指定します。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。デフォルトでは、この値は48MBに設定されています。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-Xmbxjitdodfsizf=48m
+.fi
+.if n \{\
+.RE
+.\}
+このオプションは\fI\-XX:RfsfrvfdCodfCbdhfSizf\fRと同等です。
+.RE
+.PP
+\-Xmixfd
+.RS 4
+ネイティブ・コードにコンパイルされたホット・メソッドを除き、インタプリタによってすべてのバイトコードを実行します。
+.RE
+.PP
+\-Xmn\fIsizf\fR
+.RS 4
+若い世代(ナーサリ)のヒープの初期サイズおよび最大サイズ(バイト単位)を設定します。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。
+.sp
+ヒープの若い世代リージョンは新しいオブジェクトに使用されます。GCは、他のリージョンよりこのリージョンで、より頻繁に実行されます。若い世代のサイズが小さすぎる場合、多数のマイナー・ガベージ・コレクションが実行されます。サイズが大きすぎる場合、フル・ガベージ・コレクションのみが実行されますが、完了までに時間がかかることがあります。若い世代のサイズは、全体のヒープ・サイズの半分から4分の1の間にしておくことをお薦めします。
+.sp
+次の例では、若い世代の初期サイズおよび最大サイズを様々な単位を使用して256MBに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-Xmn256m
+\-Xmn262144k
+\-Xmn268435456
+.fi
+.if n \{\
+.RE
+.\}
+若い世代のヒープの初期サイズと最大サイズの両方を設定する\fI\-Xmn\fRオプションのかわりに、初期サイズの設定には\fI\-XX:NfwSizf\fRを、最大サイズの設定には\fI\-XX:MbxNfwSizf\fRを使用できます。
+.RE
+.PP
+\-Xms\fIsizf\fR
+.RS 4
+ヒープの初期サイズ(バイト単位)を設定します。指定する値は、1MBより大きい1024の倍数にする必要があります。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。
+.sp
+次の例では、割り当てられたメモリーのサイズを様々な単位を使用して6MBに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-Xms6291456
+\-Xms6144k
+\-Xms6m
+.fi
+.if n \{\
+.RE
+.\}
+このオプションを設定しない場合、初期サイズは、古い世代と若い世代に割り当てられたサイズの合計として設定されます。若い世代のヒープの初期サイズは、\fI\-Xmn\fRオプションまたは\fI\-XX:NfwSizf\fRオプションを使用して設定できます。
+.RE
+.PP
+\-Xmx\fIsizf\fR
+.RS 4
+メモリー割当てプールの最大サイズ(バイト単位)を指定します。指定する値は、2MBより大きい1024の倍数にする必要があります。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。デフォルト値は、実行時にシステム構成に基づいて選択されます。サーバー・デプロイメントでは、\fI\-Xms\fRおよび\fI\-Xmx\fRは通常同じ値に設定されます。詳細は、http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/vm/gd\-frgonomids\&.htmlにあるガベージ・コレクタ・エルゴノミックを参照してください。
+.sp
+次の例では、割り当てられたメモリーの許可される最大サイズを様々な単位を使用して80MBに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-Xmx83886080
+\-Xmx81920k
+\-Xmx80m
+.fi
+.if n \{\
+.RE
+.\}
+\fI\-Xmx\fRオプションは\fI\-XX:MbxHfbpSizf\fRと同等です。
+.RE
+.PP
+\-Xnodlbssgd
+.RS 4
+クラスのガベージ・コレクション(GC)を無効にします。これにより、GC時間を節約でき、アプリケーション実行中の中断が短縮されます。
+.sp
+起動時に\fI\-Xnodlbssgd\fRを指定すると、アプリケーション内のクラス・オブジェクトは、GCの間はそのまま残り、常にライブであるとみなされます。これにより、より多くのメモリーが永久に占有されることになり、注意して使用しないと、メモリー不足の例外がスローされます。
+.RE
+.PP
+\-Xprof
+.RS 4
+実行中のプログラムのプロファイルを生成し、プロファイル・データを標準出力に送信します。このオプションは、プログラム開発用のユーティリティとして提供されています。本番稼働システムでの使用を目的としたものではありません。
+.RE
+.PP
+\-Xrs
+.RS 4
+JVMによるオペレーティング・システム・シグナルの使用を減らします。
+.sp
+シャットダウン・フックは、JVMが突然終了した場合でも、シャットダウン時にユーザー・クリーンアップ・コード(データベース接続のクローズなど)を実行することによって、Jbvbアプリケーションのシャットダウンを順番に有効にします。
+.sp
+JVMは、予期しない終了のシャットダウン・フックを実装するためにシグナルをキャッチします。JVMは、\fISIGHUP\fR、\fISIGINT\fRおよび\fISIGTERM\fRを使用して、シャットダウン・フックの実行を開始します。
+.sp
+JVMは、デバッグの目的でスレッド・スタックをダンプするという機能を実現するために、同様のメカニズムを使用します。JVMは、スレッド・ダンプを実行するために\fISIGQUIT\fRを使用します。
+.sp
+JVMを埋め込んでいるアプリケーションは、\fISIGINT\fRや\fISIGTERM\fRなどのシグナルを頻繁にトラップする必要があり、その結果、JVMのシグナル・ハンドラと衝突する可能性があります。\fI\-Xrs\fRオプションは、この問題に対処するために使用できます。\fI\-Xrs\fRが使用されている場合、\fISIGINT\fR、\fISIGTERM\fR、\fISIGHUP\fRおよび\fISIGQUIT\fRのシグナル・マスクはJVMによって変更されず、これらのシグナルのシグナル・ハンドラはインストールされません。
+.sp
+\fI\-Xrs\fRを指定すると、次の2つの結果が生じます:
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fISIGQUIT\fRによるスレッド・ダンプは使用できません。
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+シャットダウン・フック処理の実行は、JVMが終了しようとしている時点で\fISystfm\&.fxit()\fRを呼び出すなどして、ユーザー・コード側で行う必要があります。
+.RE
+.RE
+.PP
+\-Xshbrf:\fImodf\fR
+.RS 4
+クラス・データ共有モードを設定します。このオプションで使用可能な\fImodf\fR引数は次のとおりです。
+.PP
+buto
+.RS 4
+可能な場合、共有クラスのデータを使用します。これは、Jbvb HotSpot 32\-Bit Clifnt VMの場合のデフォルト値です。
+.RE
+.PP
+on
+.RS 4
+クラス・データ共有の使用が必要です。クラス・データ共有を使用できない場合、エラー・メッセージを出力して終了します。
+.RE
+.PP
+off
+.RS 4
+共有クラス・データを使用しません。これは、Jbvb HotSpot 32\-Bit Sfrvfr VM、Jbvb HotSpot 64\-Bit Clifnt VMおよびJbvb HotSpot 64\-Bit Sfrvfr VMの場合のデフォルト値です。
+.RE
+.PP
+dump
+.RS 4
+クラス・データ共有アーカイブを手動で生成します。
+.RE
+.RE
+.PP
+\-XshowSfttings:\fIdbtfgory\fR
+.RS 4
+設定を表示して続行します。このオプションで使用可能な\fIdbtfgory\fR引数は次のとおりです。
+.PP
+bll
+.RS 4
+設定のすべてのカテゴリを表示します。これがデフォルト値です。
+.RE
+.PP
+lodblf
+.RS 4
+ロケールに関連する設定を表示します。
+.RE
+.PP
+propfrtifs
+.RS 4
+システム・プロパティに関連する設定を表示します。
+.RE
+.PP
+vm
+.RS 4
+JVMの設定を表示します。
+.RE
+.RE
+.PP
+\-Xss\fIsizf\fR
+.RS 4
+スレッドのスタック・サイズ(バイト単位)を設定します。KBを示す場合は文字\fIk\fRまたは\fIK\fR、MBを示す場合は文字\fIm\fRまたは\fIM\fR、GBを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。デフォルト値はプラットフォームによって異なります。
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Linux/ARM (32ビット): 320KB
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Linux/i386 (32ビット): 320KB
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Linux/x64 (64ビット): 1024KB
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+OS X (64ビット): 1024KB
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Orbdlf Solbris/i386 (32ビット): 320KB
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Orbdlf Solbris/x64 (64ビット): 1024KB
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Windows: 仮想メモリーによって異なります。
+.RE
+.sp
+次の例では、スレッド・スタック・サイズを異なる単位で1024KBに設定します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-Xss1m
+\-Xss1024k
+\-Xss1048576
+.fi
+.if n \{\
+.RE
+.\}
+このオプションは\fI\-XX:ThrfbdStbdkSizf\fRと同等です。
+.RE
+.PP
+\-Xusfbltsigs
+.RS 4
+JVM内部シグナルの\fISIGUSR1\fRおよび\fISIGUSR2\fRのかわりに、代替シグナルを使用します。このオプションは\fI\-XX:+UsfAltSigs\fRと同等です。
+.RE
+.PP
+\-Xvfrify:\fImodf\fR
+.RS 4
+バイトコード・ベリファイアのモードを設定します。バイトコードの検証は一部の問題のトラブルシューティングに役立ちますが、実行中のアプリケーションへのオーバーヘッドを増大させます。このオプションで使用可能な\fImodf\fR引数は次のとおりです。
+.PP
+nonf
+.RS 4
+バイトコードを検証しません。これにより、起動時間が短縮され、Jbvbによって提供される保護も軽減されます。
+.RE
+.PP
+rfmotf
+.RS 4
+ネットワークを介してリモートでロードされるクラスのみを検証します。これは、\fI\-Xvfrify\fRオプションを指定しない場合のデフォルトの動作です。
+.RE
+.PP
+bll
+.RS 4
+すべてのクラスを検証します。
+.RE
+.RE
+.SS "高度なランタイム・オプション"
+.PP
+これらのオプションは、Jbvb HotSpot VMの実行時の動作を制御します。
+.PP
+\-XX:+DisbblfAttbdhMfdhbnism
+.RS 4
+JVMにツールをアタッチするメカニズムを無効にするオプションを有効にします。デフォルトでは、このオプションは無効になっており、これは、アタッチ・メカニズムを有効にすると、\fIjdmd\fR、\fIjstbdk\fR、\fIjmbp\fR、\fIjinfo\fRなどのツールを使用できることを意味します。
+.RE
+.PP
+\-XX:ErrorFilf=\fIfilfnbmf\fR
+.RS 4
+リカバリ不能なエラーが発生した場合にエラー・データが書き込まれるパスおよびファイル名を指定します。デフォルトでは、このファイルは、現在の作業ディレクトリに作成され、名前は\fIhs_frr_pid\fR\fIpid\fR\fI\&.log\fR
+(\fIpid\fRはエラーの原因となったプロセスの識別子)になります。次の例では、デフォルトのログ・ファイルを設定する方法を示します(プロセスの識別子は\fI%p\fRとして指定されます)。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:ErrorFilf=\&./hs_frr_pid%p\&.log
+.fi
+.if n \{\
+.RE
+.\}
+次の例では、エラー・ログを\fI/vbr/log/jbvb/jbvb_frror\&.log\fRに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:ErrorFilf=/vbr/log/jbvb/jbvb_frror\&.log
+.fi
+.if n \{\
+.RE
+.\}
+(領域不足、権限の問題または別の問題により)指定したディレクトリにファイルを作成できない場合、ファイルはオペレーティング・システムの一時ディレクトリに作成されます。一時ディレクトリは\fI/tmp\fRです。
+.RE
+.PP
+\-XX:LbrgfPbgfSizfInBytfs=\fIsizf\fR
+.RS 4
+Jbvbヒープに使用される大きいページの最大サイズ(バイト単位)を設定します。\fIsizf\fR引数は、2の累乗(2、4、8、16、\&.\&.\&.)である必要があります。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。デフォルトでは、サイズは0に設定され、これは、JVMでは大きいページのサイズが自動的に選択されていることを意味します。
+.sp
+次の例では、大きいページのサイズを4メガバイト(MB)に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:LbrgfPbgfSizfInBytfs=4m
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:MbxDirfdtMfmorySizf=\fIsizf\fR
+.RS 4
+新規I/O (\fIjbvb\&.nio\fRパッケージ)の直接バッファ割当ての最大合計サイズ(バイト単位)を設定します。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。デフォルトでは、サイズは0に設定され、これは、JVMではNIOの直接バッファ割当てのサイズが自動的に選択されていることを意味します。
+.sp
+次の例では、NIOサイズを異なる単位で1024KBに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:MbxDirfdtMfmorySizf=1m
+\-XX:MbxDirfdtMfmorySizf=1024k
+\-XX:MbxDirfdtMfmorySizf=1048576
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:NbtivfMfmoryTrbdking=\fImodf\fR
+.RS 4
+JVMのネイティブ・メモリー使用状況のトラッキングのモードを指定します。このオプションで使用可能な\fImodf\fR引数は次のとおりです。
+.PP
+off
+.RS 4
+JVMのネイティブ・メモリー使用状況を追跡しません。これは、\fI\-XX:NbtivfMfmoryTrbdking\fRオプションを指定しない場合のデフォルトの動作です。
+.RE
+.PP
+summbry
+.RS 4
+JVMサブシステム(Jbvbヒープ、クラス、コード、スレッドなど)によるメモリー使用状況のみ追跡します。
+.RE
+.PP
+dftbil
+.RS 4
+JVMサブシステムによるメモリー使用状況のトラッキングに加えて、個々の\fICbllSitf\fR
+(個々の仮想メモリー・リージョンおよびそのコミット済リージョン)によるメモリー使用状況を追跡します。
+.RE
+.RE
+.PP
+\-XX:OnError=\fIstring\fR
+.RS 4
+リカバリ不能なエラーが発生したときに実行する、カスタム・コマンドまたは一連のセミコロン区切りのコマンドを設定します。文字列に空白が含まれている場合は、引用符で囲む必要があります。
+.sp
+次の例では、\fI\-XX:OnError\fRオプションを使用してコア・イメージを作成するために\fIgdorf\fRコマンドを実行する方法、およびリカバリ不能なエラーの場合にデバッガを起動してプロセスに接続する方法を示します(\fI%p\fRは現在のプロセスを指定します)。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:OnError="gdorf %p;dbx \- %p"
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:OnOutOfMfmoryError=\fIstring\fR
+.RS 4
+\fIOutOfMfmoryError\fR例外が最初にスローされたときに実行する、カスタム・コマンドまたは一連のセミコロン区切りのコマンドを設定します。文字列に空白が含まれている場合は、引用符で囲む必要があります。コマンド文字列の例は、\fI\-XX:OnError\fRオプションの説明を参照してください。
+.RE
+.PP
+\-XX:+PrintCommbndLinfFlbgs
+.RS 4
+コマンドラインに表示された、人間工学的に選択したJVMフラグの印刷を有効にします。これは、ヒープ領域サイズや選択されたガベージ・コレクタなど、JVMによって設定されたエルゴノミック値を確認する場合に役立ちます。デフォルトでは、このオプションは無効であり、フラグは印刷されません。
+.RE
+.PP
+\-XX:+PrintNMTStbtistids
+.RS 4
+ネイティブ・メモリーのトラッキングが有効な場合に、JVMの終了時に収集されたネイティブ・メモリーのトラッキング・データの印刷を有効にします(\fI\-XX:NbtivfMfmoryTrbdking\fRを参照してください)。デフォルトでは、このオプションは無効であり、ネイティブ・メモリーのトラッキング・データは印刷されません。
+.RE
+.PP
+\-XX:+ShowMfssbgfBoxOnError
+.RS 4
+JVMでリカバリ不能なエラーが発生した場合、ダイアログ・ボックスの表示を有効にします。これにより、JVMにデバッガを接続してエラーの原因を調査できるように、JVMを終了しないようにして、プロセスをアクティブなままにします。デフォルトでは、このオプションは無効です。
+.RE
+.PP
+\-XX:ThrfbdStbdkSizf=\fIsizf\fR
+.RS 4
+スレッドのスタック・サイズ(バイト単位)を設定します。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。デフォルト値はプラットフォームによって異なります。
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Linux/ARM (32ビット): 320KB
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Linux/i386 (32ビット): 320KB
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Linux/x64 (64ビット): 1024KB
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+OS X (64ビット): 1024KB
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Orbdlf Solbris/i386 (32ビット): 320KB
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Orbdlf Solbris/x64 (64ビット): 1024KB
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Windows: 仮想メモリーによって異なります。
+.RE
+.sp
+次の例では、スレッド・スタック・サイズを異なる単位で1024KBに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:ThrfbdStbdkSizf=1m
+\-XX:ThrfbdStbdkSizf=1024k
+\-XX:ThrfbdStbdkSizf=1048576
+.fi
+.if n \{\
+.RE
+.\}
+このオプションは\fI\-Xss\fRと同等です。
+.RE
+.PP
+\-XX:+TrbdfClbssLobding
+.RS 4
+クラスがロードされるときのクラスのトレースを有効にします。デフォルトでは、このオプションは無効であり、クラスはトレースされません。
+.RE
+.PP
+\-XX:+TrbdfClbssLobdingPrfordfr
+.RS 4
+クラスが参照される順序で、ロードされたすべてのクラスのトレースを有効にします。デフォルトでは、このオプションは無効であり、クラスはトレースされません。
+.RE
+.PP
+\-XX:+TrbdfClbssRfsolution
+.RS 4
+定数プールの解決のトレースを有効にします。デフォルトでは、このオプションは無効であり、定数プールの解決はトレースされません。
+.RE
+.PP
+\-XX:+TrbdfClbssUnlobding
+.RS 4
+クラスがアンロードされるときのクラスのトレースを有効にします。デフォルトでは、このオプションは無効であり、クラスはトレースされません。
+.RE
+.PP
+\-XX:+TrbdfLobdfrConstrbints
+.RS 4
+ローダー制約の記録のトレースを有効にします。デフォルトでは、このオプションは無効であり、ローダー制約の記録は追跡されません。
+.RE
+.PP
+\-XX:+UsfAltSigs
+.RS 4
+JVM内部シグナルの\fISIGUSR1\fRおよび\fISIGUSR2\fRのかわりに、代替シグナルの使用を有効にします。デフォルトでは、このオプションは無効であり、代替シグナルは使用されません。このオプションは\fI\-Xusfbltsigs\fRと同等です。
+.RE
+.PP
+\-XX:+UsfBibsfdLodking
+.RS 4
+バイアス・ロックの使用を有効にします。かなりの量の非競合の同期化がある一部のアプリケーションは、このフラグを有効にすると大幅な高速化が実現しますが、特定のパターンのロックがあるアプリケーションは、速度が低下することがあります。バイアス・ロックの方法の詳細は、http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/tuning\-139912\&.html#sfdtion4\&.2\&.5にあるJbvbチューニングのホワイト・ペーパーの例を参照してください。
+.sp
+デフォルトでは、このオプションは無効であり、バイアス・ロックは使用されません。
+.RE
+.PP
+\-XX:+UsfComprfssfdOops
+.RS 4
+圧縮されたポインタの使用を有効にします。このオプションを有効にすると、オブジェクト参照は、64ビットのポインタではなく32ビットのオフセットとして表され、これにより、32GBより小さいJbvbヒープ・サイズのアプリケーションの実行時に、通常、パフォーマンスが向上します。このオプションは、64ビットのJVMでのみ機能します。
+.sp
+デフォルトでは、このオプションは無効であり、圧縮ポインタは使用されません。
+.RE
+.PP
+\-XX:+UsfLbrgfPbgfs
+.RS 4
+大きいページのメモリーの使用を有効にします。このオプションはデフォルトで有効になっています。大きいページのメモリーの使用を無効にするには、\fI\-XX:\-UsfLbrgfPbgfs\fRを指定します。
+.sp
+詳細は、http://www\&.orbdlf\&.dom/tfdhnftwork/jbvb/jbvbsf/tfdh/lbrgfmfmory\-jsp\-137182\&.htmlにある大きいメモリー・ページ用のJbvbサポートを参照してください。
+.RE
+.PP
+\-XX:+UsfMfmbbr
+.RS 4
+スレッドの状態の遷移でメンバーの発行を有効にします。このオプションは、有効になっているPowfr PCおよびARMサーバーを除くすべてのプラットフォーム上で、デフォルトでは無効になっています。Powfr PCとARMのスレッド状態遷移に対するメンバーの発行を無効にするには、\fI\-XX:\-UsfMfmbbr\fRを指定します。
+.RE
+.PP
+\-XX:+UsfPfrfDbtb
+.RS 4
+\fIpfrfdbtb\fR機能を有効にします。このオプションはデフォルトで有効になっており、JVMのモニタリングおよびパフォーマンス・テストが可能になります。これを無効にすると、\fIhspfrfdbtb_usfrid\fRディレクトリの作成を抑制します。\fIpfrfdbtb\fR機能を無効にするには、\fI\-XX:\-UsfPfrfDbtb\fRを指定します。
+.RE
+.PP
+\-XX:+AllowUsfrSignblHbndlfrs
+.RS 4
+アプリケーションによるシグナル・ハンドラのインストールを有効にします。デフォルトでは、このオプションは無効であり、アプリケーションはシグナル・ハンドラをインストールすることは許可されていません。
+.RE
+.SS "高度なJITコンパイラ・オプション"
+.PP
+これらのオプションは、Jbvb HotSpot VMで実行される動的なjust\-in\-timf (JIT)コンパイラを制御します。
+.PP
+\-XX:+AggrfssivfOpts
+.RS 4
+積極的なパフォーマンス最適化機能の使用を有効にします。これは今後のリリースでデフォルトになる予定です。デフォルトでは、このオプションは無効であり、試験的なパフォーマンス機能は使用されません。
+.RE
+.PP
+\-XX:AllodbtfInstbndfPrffftdhLinfs=\fIlinfs\fR
+.RS 4
+インスタンス割当てポインタの前にプリフェッチする行数を設定します。デフォルトでは、プリフェッチする行数は1に設定されています。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:AllodbtfInstbndfPrffftdhLinfs=1
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:AllodbtfPrffftdhInstr=\fIinstrudtion\fR
+.RS 4
+割当てポインタの前にプリフェッチするプリフェッチ命令を設定します。使用可能な値は0から3までです。値の背後にある実際の命令は、プラットフォームによって異なります。デフォルトでは、プリフェッチ命令は0に設定されています。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:AllodbtfPrffftdhInstr=0
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:AllodbtfPrffftdhStfpSizf=\fIsizf\fR
+.RS 4
+順次プリフェッチ命令のステップ・サイズ(バイト単位)を設定します。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。デフォルトでは、ステップ・サイズは16バイトに設定されています。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:AllodbtfPrffftdhStfpSizf=16
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:+BbdkgroundCompilbtion
+.RS 4
+バックグラウンド・コンパイルを有効にします。このオプションはデフォルトで有効になっています。バックグラウンド・コンパイルを無効にするには、\fI\-XX:\-BbdkgroundCompilbtion\fRを指定します(これは\fI\-Xbbtdh\fRを指定するのと同等です)。
+.RE
+.PP
+\-XX:CICompilfrCount=\fIthrfbds\fR
+.RS 4
+コンパイルに使用するコンパイラ・スレッドの数を設定します。デフォルトでは、スレッド数は、サーバーJVMの場合は2、クライアントJVMの場合は1に設定されており、層コンパイルが使用されている場合、コア数に合せて増減します。次の例では、スレッドの数を2に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CICompilfrCount=2
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:CodfCbdhfMinimumFrffSpbdf=\fIsizf\fR
+.RS 4
+コンパイルに必要な最小空き領域(バイト単位)を設定します。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。最小空き領域より少ない領域しか残っていない場合、コンパイルは停止します。デフォルトでは、このオプションは500KBに設定されています。次の例では、最小空き領域を1024MBに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CodfCbdhfMinimumFrffSpbdf=1024m
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:CompilfCommbnd=\fIdommbnd\fR,\fImfthod\fR[,\fIoption\fR]
+.RS 4
+メソッドで実行するコマンドを指定します。たとえば、コンパイル元から\fIString\fRクラスの\fIindfxOf()\fRメソッドを実行するには、次を使用します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CompilfCommbnd=fxdludf,jbvb/lbng/String\&.indfxOf
+.fi
+.if n \{\
+.RE
+.\}
+スラッシュ(\fI/\fR)で区切られたすべてのパッケージおよびサブパッケージを含む、完全クラス名を指定します。切取りと貼付けの操作を容易にするために、\fI\-XX:+PrintCompilbtion\fRオプションおよび\fI\-XX:+LogCompilbtion\fRオプションによって生成されるメソッド名の形式を使用することもできます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CompilfCommbnd=fxdludf,jbvb\&.lbng\&.String::indfxOf
+.fi
+.if n \{\
+.RE
+.\}
+署名なしでメソッドを指定すると、コマンドは指定した名前を持つすべてのメソッドに適用されます。ただし、クラス・ファイル形式でメソッドの署名を指定することもできます。たとえば、コンパイル元から\fIString\fRクラスの\fIindfxOf(String)\fRメソッドのみ除外するには、次を使用します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CompilfCommbnd=fxdludf,jbvb/lbng/String\&.indfxOf(Ljbvb/lbng/String;)I
+.fi
+.if n \{\
+.RE
+.\}
+また、クラス名およびメソッド名にワイルドカードとしてアスタリスク(*)を使用できます。たとえば、コンパイル元からすべてのクラスのすべての\fIindfxOf()\fRメソッドを除外するには、次を使用します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CompilfCommbnd=fxdludf,*\&.indfxOf
+.fi
+.if n \{\
+.RE
+.\}
+カンマとピリオドは空白の別名で、これにより、シェルを介してコンパイラ・コマンドを渡すことが容易になります。引数を引用符で囲むことで、空白をセパレータとして使用して\fI\-XX:CompilfCommbnd\fRに引数を渡すことができます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CompilfCommbnd="fxdludf jbvb/lbng/String indfxOf"
+.fi
+.if n \{\
+.RE
+.\}
+\fI\-XX:CompilfCommbnd\fRオプションを使用してコマンドラインで渡されたコマンドを解析した後に、JITコンパイラは\fI\&.hotspot_dompilfr\fRファイルからコマンドを読み取ります。このファイルにコマンドを追加するか、または\fI\-XX:CompilfCommbndFilf\fRオプションを使用して別のファイルを指定することができます。
+.sp
+複数のコマンドを追加するには、\fI\-XX:CompilfCommbnd\fRオプションを複数回指定するか、または改行セパレータ(\fI\fn\fR)を使用して各引数を区切ります。次のコマンドを使用できます。
+.PP
+brfbk
+.RS 4
+指定したメソッドのコンパイルの最初に停止するために、JVMのデバッグ時のブレークポイントを設定します。
+.RE
+.PP
+dompilfonly
+.RS 4
+指定したメソッドを除いたすべてのメソッドを、コンパイルから除外します。別の方法として、\fI\-XX:CompilfOnly\fRオプションを使用して複数のメソッドを指定できます。
+.RE
+.PP
+dontinlinf
+.RS 4
+指定したメソッドをインライン化しないようにします。
+.RE
+.PP
+fxdludf
+.RS 4
+指定したメソッドをコンパイルから除外します。
+.RE
+.PP
+hflp
+.RS 4
+\fI\-XX:CompilfCommbnd\fRオプションのヘルプ・メッセージを印刷します。
+.RE
+.PP
+inlinf
+.RS 4
+指定したメソッドをインライン化しようとします。
+.RE
+.PP
+log
+.RS 4
+指定したメソッドを除くすべてのメソッドに対して、(\fI\-XX:+LogCompilbtion\fRオプションを使用して)コンパイル・ロギングを除外します。デフォルトでは、コンパイルされたすべてのメソッドにロギングが実行されます。
+.RE
+.PP
+option
+.RS 4
+このコマンドは、最後の引数(\fIoption\fR)のかわりに、指定したメソッドにJITコンパイル・オプションを渡すために使用できます。コンパイル・オプションは、メソッド名の後の末尾に設定されます。たとえば、\fIStringBufffr\fRクラスの\fIbppfnd()\fRメソッドに対して\fIBlodkLbyoutByFrfqufndy\fRオプションを有効にするには、次を使用します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CompilfCommbnd=option,jbvb/lbng/StringBufffr\&.bppfnd,BlodkLbyoutByFrfqufndy
+.fi
+.if n \{\
+.RE
+.\}
+カンマまたは空白で区切って、複数のコンパイル・オプションを指定できます。
+.RE
+.PP
+print
+.RS 4
+指定したメソッドのコンパイル後に生成されたアセンブラ・コードを出力します。
+.RE
+.PP
+quift
+.RS 4
+コンパイル・コマンドを出力しません。デフォルトでは、\fI\-XX:CompilfCommbnd\fRオプションを使用して指定したコマンドが出力されます。たとえば、\fIString\fRクラスの\fIindfxOf()\fRメソッドのコンパイルから除外する場合、次が標準出力に出力されます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+CompilfrOrbdlf: fxdludf jbvb/lbng/String\&.indfxOf
+.fi
+.if n \{\
+.RE
+.\}
+他の\fI\-XX:CompilfCommbnd\fRオプションの前に\fI\-XX:CompilfCommbnd=quift\fRオプションを指定することによって、これを抑制できます。
+.RE
+.RE
+.PP
+\-XX:CompilfCommbndFilf=\fIfilfnbmf\fR
+.RS 4
+JITコンパイラ・コマンドの読取り元のファイルを設定します。デフォルトでは、JITコンパイラによって実行されるコマンドを格納するために、\fI\&.hotspot_dompilfr\fRファイルが使用されます。
+.sp
+コマンド・ファイルの各行は、コマンドが使用されるコマンド、クラス名およびメソッド名を表します。たとえば、次の行は、\fIString\fRクラスの\fItoString()\fRメソッドに対してアセンブリ・コードを出力します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+print jbvb/lbng/String toString
+.fi
+.if n \{\
+.RE
+.\}
+メソッドで実行するJITコンパイラのコマンドの指定の詳細は、\fI\-XX:CompilfCommbnd\fRオプションを参照してください。
+.RE
+.PP
+\-XX:CompilfOnly=\fImfthods\fR
+.RS 4
+コンパイルを制限する(カンマで区切られた)メソッドのリストを設定します。指定したメソッドのみがコンパイルされます。完全クラス名(パッケージおよびサブパッケージを含む)で各メソッドを指定します。たとえば、\fIString\fRクラスの\fIlfngth()\fRメソッドおよび\fIList\fRクラスの\fIsizf()\fRメソッドのみをコンパイルするには、次を使用します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CompilfOnly=jbvb/lbng/String\&.lfngth,jbvb/util/List\&.sizf
+.fi
+.if n \{\
+.RE
+.\}
+スラッシュ(\fI/\fR)で区切られたすべてのパッケージおよびサブパッケージを含む、完全クラス名を指定します。切取りと貼付けの操作を容易にするために、\fI\-XX:+PrintCompilbtion\fRオプションおよび\fI\-XX:+LogCompilbtion\fRオプションによって生成されるメソッド名の形式を使用することもできます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CompilfOnly=jbvb\&.lbng\&.String::lfngth,jbvb\&.util\&.List::sizf
+.fi
+.if n \{\
+.RE
+.\}
+ワイルドカードはサポートされていませんが、クラス名またはパッケージ名だけを指定してクラスまたはパッケージのすべてのメソッドをコンパイルすることも、メソッドだけを指定して任意のクラスのこの名前を持つメソッドをコンパイルすることもできます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CompilfOnly=jbvb/lbng/String
+\-XX:CompilfOnly=jbvb/lbng
+\-XX:CompilfOnly=\&.lfngth
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:CompilfThrfshold=\fIinvodbtions\fR
+.RS 4
+コンパイル前に解釈されたメソッド呼出しの数を設定します。デフォルトでは、サーバーJVMでは、JITコンパイラは、10,000の解釈されたメソッド呼出しを実行して、効率的なコンパイルのための情報を収集します。クライアントJVMの場合、デフォルト設定は1,500呼出しです。次の例では、解釈されたメソッド呼出しの数を5,000に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CompilfThrfshold=5000
+.fi
+.if n \{\
+.RE
+.\}
+\fI\-Xdomp\fRオプションを指定して、コンパイルの前に、Jbvbメソッドの解釈を完全に無効にすることができます。
+.RE
+.PP
+\-XX:+DoEsdbpfAnblysis
+.RS 4
+エスケープ分析の使用を有効にします。このオプションはデフォルトで有効になっています。エスケープ分析の使用を無効にするには、\fI\-XX:\-DoEsdbpfAnblysis\fRを指定します。
+.RE
+.PP
+\-XX:+FbilOvfrToOldVfrififr
+.RS 4
+新しいタイプ・チェッカが失敗した場合の、古いベリファイアへの自動フェイルオーバーを有効にします。デフォルトでは、このオプションは無効になっており、最近のバイトコード・バージョンを使用したクラスには、これは無視されます(つまり、無効として処理されます)。古いバージョンのバイトコードを使用したクラスには、これを有効化できます。
+.RE
+.PP
+\-XX:InitiblCodfCbdhfSizf=\fIsizf\fR
+.RS 4
+初期コード・キャッシュ・サイズ(バイト単位)を設定します。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。デフォルト値は500KBに設定されています。次の例では、初期コード・キャッシュ・サイズを32KBに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:InitiblCodfCbdhfSizf=32k
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:+Inlinf
+.RS 4
+メソッドのインライン化を有効にします。このオプションは、パフォーマンスを向上させるためにデフォルトで有効になっています。メソッドのインライン化を無効にするには、\fI\-XX:\-Inlinf\fRを指定します。
+.RE
+.PP
+\-XX:InlinfSmbllCodf=\fIsizf\fR
+.RS 4
+インライン化が必要なコンパイルされたメソッドの最大コード・サイズ(バイト単位)を設定します。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。指定したサイズより小さいサイズのコンパイルされたメソッドのみが、インライン化されます。デフォルトでは、最大コード・サイズは1000バイトに設定されています。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:InlinfSmbllCodf=1000
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:+LogCompilbtion
+.RS 4
+現在の作業ディレクトリにある\fIhotspot\&.log\fRという名前のファイルへのコンパイル・アクティビティのロギングを有効にします。\fI\-XX:LogFilf\fRオプションを使用して、異なるログ・ファイル・パスと名前を指定できます。
+.sp
+デフォルトでは、このオプションは無効であり、コンパイル・アクティビティは記録されません。\fI\-XX:+LogCompilbtion\fRオプションは、診断JVMオプションのロックを解除する\fI\-XX:UnlodkDibgnostidVMOptions\fRオプションとともに使用する必要があります。
+.sp
+\fI\-XX:+PrintCompilbtion\fRオプションを使用して、メソッドをコンパイルするたびに、コンソールに出力されたメッセージを含む詳細な診断出力を有効化できます。
+.RE
+.PP
+\-XX:MbxInlinfSizf=\fIsizf\fR
+.RS 4
+インライン化するメソッドの最大バイトコード・サイズ(バイト単位)を設定します。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。デフォルトでは、最大バイトコード・サイズは35バイトに設定されています。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:MbxInlinfSizf=35
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:MbxNodfLimit=\fInodfs\fR
+.RS 4
+単一のメソッドのコンパイル時に使用されるノードの最大数を設定します。デフォルトでは、ノードの最大数は65,000に設定されています。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:MbxNodfLimit=65000
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:MbxTriviblSizf=\fIsizf\fR
+.RS 4
+インライン化する単純メソッドの最大バイトコード・サイズ(バイト単位)を設定します。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。デフォルトでは、単純メソッドの最大バイトコード・サイズは6バイトに設定されています。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:MbxTriviblSizf=6
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:+OptimizfStringCondbt
+.RS 4
+\fIString\fR連結操作の最適化を有効にします。このオプションはデフォルトで有効になっています。\fIString\fR連結操作の最適化を無効にするには、\fI\-XX:\-OptimizfStringCondbt\fRを指定します。
+.RE
+.PP
+\-XX:+PrintAssfmbly
+.RS 4
+外部の\fIdisbssfmblfr\&.so\fRライブラリを使用して、バイトコード化されたネイティブのメソッドのアセンブリ・コードの出力を有効にします。これにより、生成されたコードを表示することができ、パフォーマンスの問題の診断に役立ちます。
+.sp
+デフォルトでは、このオプションは無効であり、アセンブリ・コードは印刷されません。\fI\-XX:+PrintAssfmbly\fRオプションは、診断JVMオプションのロックを解除する\fI\-XX:UnlodkDibgnostidVMOptions\fRオプションとともに使用する必要があります。
+.RE
+.PP
+\-XX:+PrintCompilbtion
+.RS 4
+メソッドをコンパイルするたびに、コンソールにメッセージを出力することによって、JVMからの詳細な診断出力を有効にします。これにより、実際にコンパイルされるメソッドを確認できます。デフォルトでは、このオプションは無効であり、診断出力は印刷されません。
+.sp
+\fI\-XX:+LogCompilbtion\fRオプションを使用して、コンパイル・アクティビティをファイルに記録することもできます。
+.RE
+.PP
+\-XX:+PrintInlining
+.RS 4
+インライン化の決定内容の出力を有効にします。これにより、インライン化されるメソッドを確認できます。
+.sp
+デフォルトでは、このオプションは無効であり、インライン化情報は出力されません。\fI\-XX:+PrintInlining\fRオプションは、診断JVMオプションのロックを解除する\fI\-XX:+UnlodkDibgnostidVMOptions\fRオプションとともに使用する必要があります。
+.RE
+.PP
+\-XX:+RflbxAddfssControlChfdk
+.RS 4
+ベリファイア内のアクセス制御チェックの量を減らします。デフォルトでは、このオプションは無効になっており、最近のバイトコード・バージョンを使用したクラスには、これは無視されます(つまり、無効として処理されます)。古いバージョンのバイトコードを使用したクラスには、これを有効化できます。
+.RE
+.PP
+\-XX:RfsfrvfdCodfCbdhfSizf=\fIsizf\fR
+.RS 4
+JITコンパイルされたコードの最大コード・キャッシュ・サイズ(バイト単位)を設定します。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。このオプションは\fI\-Xmbxjitdodfsizf\fRと同等です。
+.RE
+.PP
+\-XX:+TifrfdCompilbtion
+.RS 4
+層コンパイルの使用を有効にします。デフォルトでは、このオプションは無効であり、層コンパイルは使用されません。
+.RE
+.PP
+\-XX:+UsfCodfCbdhfFlushing
+.RS 4
+コンパイラをシャットダウンする前に、コード・キャッシュのフラッシュを有効にします。このオプションはデフォルトで有効になっています。コンパイラをシャットダウンする前にコード・キャッシュのフラッシュを無効にするには\fI\-XX:\-UsfCodfCbdhfFlushing\fRを指定します。
+.RE
+.PP
+\-XX:+UsfCondCbrdMbrk
+.RS 4
+カード表の更新前に、カードがすでにマークされているかどうかのチェックを有効にします。このオプションは、デフォルトでは無効になっており、複数のソケットを持つマシン上でのみ使用する必要があります。これにより、同時操作にかなり依存しているJbvbアプリケーションのパフォーマンスが向上します。
+.RE
+.PP
+\-XX:+UsfSupfrWord
+.RS 4
+スカラー演算のスーパーワード演算への変換を有効にします。このオプションはデフォルトで有効になっています。スカラー演算のスーパーワード演算への変換を無効にするには、\fI\-XX:\-UsfSupfrWord\fRを指定します。
+.RE
+.SS "高度なサービスアビリティ・オプション"
+.PP
+これらのオプションは、システム情報を収集し、詳細なデバッグを実行する機能を提供します。
+.PP
+\-XX:+ExtfndfdDTrbdfProbfs
+.RS 4
+パフォーマンスに影響を与える追加の\fIdtrbdf\fRツール・プローブを有効にします。デフォルトでは、このオプションは無効になっており、\fIdtrbdf\fRは標準プローブのみを実行します。
+.RE
+.PP
+\-XX:+HfbpDumpOnOutOfMfmory
+.RS 4
+\fIjbvb\&.lbng\&.OutOfMfmoryError\fR例外がスローされた場合に、ヒープ・プロファイラ(HPROF)を使用して、現在のディレクトリ内のファイルへのJbvbヒープのダンプを有効にします。\fI\-XX:HfbpDumpPbth\fRオプションを使用して、ヒープ・ダンプ・ファイルのパスおよび名前を明示的に設定できます。デフォルトでは、このオプションは無効であり、\fIOutOfMfmoryError\fR例外がスローされた場合にヒープはダンプされません。
+.RE
+.PP
+\-XX:HfbpDumpPbth=\fIpbth\fR
+.RS 4
+\fI\-XX:+HfbpDumpOnOutOfMfmoryError\fRオプションが設定されている場合、ヒープ・プロファイラ(HPROF)が提供するヒープ・ダンプを書き込むパスおよびファイル名を設定します。デフォルトでは、このファイルは、現在の作業ディレクトリに作成され、名前は\fIjbvb_pid\fR\fIpid\fR\fI\&.hprof\fR
+(\fIpid\fRはエラーの原因となったプロセスの識別子)になります。次の例では、デフォルトのファイルを明示的に設定する方法を示します(\fI%p\fRは現在のプロセスの識別子を表します)。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:HfbpDumpPbth=\&./jbvb_pid%p\&.hprof
+.fi
+.if n \{\
+.RE
+.\}
+次の例では、ヒープ・ダンプ・ファイルを\fI/vbr/log/jbvb/jbvb_hfbpdump\&.hprof\fRに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:HfbpDumpPbth=/vbr/log/jbvb/jbvb_hfbpdump\&.hprof
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:LogFilf=\fIpbth\fR
+.RS 4
+ログ・データが書き込まれるパスおよびファイル名を設定します。デフォルトでは、ファイルは現在の作業ディレクトリに作成され、名前は\fIhotspot\&.log\fRです。
+.sp
+次の例では、ログ・ファイルを\fI/vbr/log/jbvb/hotspot\&.log\fRに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:LogFilf=/vbr/log/jbvb/hotspot\&.log
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:+PrintClbssHistogrbm
+.RS 4
+\fI[Control]+[C]\fRイベント(\fISIGTERM\fR)後にクラス・インスタンスのヒストグラムの印刷を有効にします。デフォルトでは、このオプションは無効です。
+.sp
+このオプションを設定すると、\fIjmbp \-histo\fRコマンド、または\fIjdmd \fR\fIpid\fR\fI GC\&.dlbss_histogrbm\fRコマンド(\fIpid\fRは現在のJbvbプロセスの識別子)を実行する場合と同じになります。
+.RE
+.PP
+\-XX:+PrintCondurrfntLodks
+.RS 4
+.sp
+\fI[Control]+[C]\fRイベント(\fISIGTERM\fR)後に\fIjbvb\&.util\&.dondurrfnt\fRロックの印刷を有効にします。デフォルトでは、このオプションは無効です。
+.sp
+このオプションを設定すると、\fIjstbdk \-l\fRコマンド、または\fIjdmd \fR\fIpid\fR\fI Thrfbd\&.print \-l\fRコマンド(\fIpid\fRは現在のJbvbプロセスの識別子)を実行する場合と同じになります。
+.RE
+.PP
+\-XX:+UnlodkDibgnostidVMOptions
+.RS 4
+JVMの診断を目的としたオプションをアンロックします。デフォルトでは、このオプションは無効であり、診断オプションは使用できません。
+.RE
+.SS "高度なガベージ・コレクション・オプション"
+.PP
+これらのオプションは、ガベージ・コレクション(GC)がJbvb HotSpot VMによってどのように実行されるかを制御します。
+.PP
+\-XX:+AggrfssivfHfbp
+.RS 4
+Jbvbヒープの最適化を有効にします。これにより、コンピュータの構成(RAMおよびCPU)に基づいて、様々なパラメータが、メモリー割当てが集中した長時間実行ジョブに最適になるように設定されます。デフォルトでは、このオプションは無効であり、ヒープは最適化されません。
+.RE
+.PP
+\-XX:AllodbtfPrffftdhDistbndf=\fIsizf\fR
+.RS 4
+オブジェクト割当てのプリフェッチ距離のサイズ(バイト単位)を設定します。新規オブジェクトの値で書き込もうとするメモリーは、最後に割り当てられたオブジェクトのアドレスから、この距離までプリフェッチされます。各Jbvbスレッドには独自の割当てポイントがあります。
+.sp
+負の値は、プリフェッチ距離はプラットフォームに基づいて選択されることを示します。正の値は、プリフェッチするバイト数です。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。デフォルト値は\-1に設定されています。
+.sp
+次の例では、プリフェッチ距離を1024バイトに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:AllodbtfPrffftdhDistbndf=1024
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:AllodbtfPrffftdhLinfs=\fIlinfs\fR
+.RS 4
+コンパイルされたコードで生成されるプリフェッチ命令を使用して、最後のオブジェクト割当て後にロードするキャッシュ行数を設定します。最後に割り当てられたオブジェクトがインスタンスの場合は、デフォルト値は1になり、配列の場合は3になります。
+.sp
+次の例では、ロードされるキャッシュ行数を5に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:AllodbtfPrffftdhLinfs=5
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:AllodbtfPrffftdhStylf=\fIstylf\fR
+.RS 4
+プリフェッチ命令に生成されるコード・スタイルを設定します。\fIstylf\fR引数は、0から3までの整数です。
+.PP
+0
+.RS 4
+プリフェッチ命令を生成しません。
+.RE
+.PP
+1
+.RS 4
+各割当ての後で、プリフェッチ命令を実行します。これはデフォルトのパラメータです。
+.RE
+.PP
+2
+.RS 4
+スレッド・ローカルな割当てブロック(TLAB)ウォーターマーク・ポインタを使用して、プリフェッチ命令を実行するタイミングを決定します。
+.RE
+.PP
+3
+.RS 4
+割当てプリフェッチ用のSPARCでBIS命令を使用します。
+.RE
+.RE
+.PP
+\-XX:+AlwbysPrfToudh
+.RS 4
+JVMの初期化中にJbvbヒープ上のすべてのページのタッチを有効にします。これにより、\fImbin()\fRメソッドの入力前に、すべてのページがメモリーに取得されます。このオプションは、物理メモリーにマップされたすべての仮想メモリーを含む長時間実行のシステムをシミュレートするテストで使用できます。デフォルトでは、このオプションは無効になっており、JVMヒープ領域がいっぱいになると、すべてのページがコミットされます。
+.RE
+.PP
+\-XX:+CMSClbssUnlobdingEnbblfd
+.RS 4
+並行マークスイープ(CMS)ガベージ・コレクタを使用する場合に、アンロードするクラスを有効にします。このオプションはデフォルトで有効になっています。CMSガベージ・コレクタのクラス・アンロードを無効にするには、\fI\-XX:\-CMSClbssUnlobdingEnbblfd\fRを指定します。
+.RE
+.PP
+\-XX:CMSExpAvgFbdtor=\fIpfrdfnt\fR
+.RS 4
+並行コレクション統計の指数平均を計算する際に、現在のサンプルを重み付けするために使用される時間の割合(0から100まで)を設定します。デフォルトでは、指数平均係数は25%に設定されています。次の例では、係数を15%に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CMSExpAvgFbdtor=15
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:CMSIndrfmfntblDutyCydlf=\fIpfrdfnt\fR
+.RS 4
+並行コレクタの実行が許可されているマイナー・コレクション間の時間の割合(0から100まで)を設定します。\fI\-XX:+CMSIndrfmfntblPbding\fRが有効な場合、デューティ・サイクルが自動的に設定され、このオプションは初期値のみを設定します。
+.sp
+デフォルトでは、デューティ・サイクルは10%に設定されています。次の例では、デューティ・サイクルを20%に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CMSIndrfmfntblDutyCydlf=20
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:CMSIndrfmfntblDutyCydlfMin=\fIpfrdfnt\fR
+.RS 4
+\fI\-XX:+CMSIndrfmfntblPbding\fRが有効な場合にデューティ・サイクルの下限であるマイナー・コレクション間の時間の割合(0から100まで)を設定します。デフォルトでは、デューティ・サイクルの下限は0%に設定されています。次の例では、下限を10%に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CMSIndrfmfntblDutyCydlfMin=10
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:+CMSIndrfmfntblModf
+.RS 4
+CMSコレクタの増分モードを有効にします。このオプションはデフォルトで無効になっており、2つ以下のGCスレッドを持つ構成にのみ有効にする必要があります。\fICMSIndrfmfntbl\fRで始まるすべてのオプションは、このオプションが有効な場合のみ、適用されます。
+.RE
+.PP
+\-XX:CMSIndrfmfntblOffsft=\fIpfrdfnt\fR
+.RS 4
+増分モードのデューティ・サイクルをマイナー・コレクション間で期間内に右に移動する時間の割合(0から100まで)を設定します。デフォルトでは、オフセットは0%に設定されています。次の例では、デューティ・サイクルのオフセットを25%に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CMSIndrfmfntblOffsft=25
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:+CMSIndrfmfntblPbding
+.RS 4
+JVMの実行中に収集された統計に基づいて、増分モードのデューティ・サイクルの自動調整を有効にします。このオプションはデフォルトで有効になっています。増分モード・デューティ・サイクルの自動調整を無効にするには、\fI\-XX:\-CMSIndrfmfntblPbding\fRを指定します。
+.RE
+.PP
+\-XX:CMSIndrfmfntblSbfftyFbdtor=\fIpfrdfnt\fR
+.RS 4
+デューティ・サイクルを計算する際に、保守を追加するために使用される時間の割合(0から100まで)を設定します。デフォルトでは、安全係数は10%に設定されています。次の例では、安全係数を5%に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CMSIndrfmfntblSbfftyFbdtor=5
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:CMSInitibtingOddupbndyFrbdtion=\fIpfrdfnt\fR
+.RS 4
+CMS収集サイクルを開始する古い世代の占有率(0から100まで)を設定します。デフォルト値は\-1に設定されています。負の値(デフォルトを含む)は、\fI\-XX:CMSTriggfrRbtio\fRが開始占有率の値を定義するために使用されることを意味します。
+.sp
+次の例では、占有率を20%に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CMSInitibtingOddupbndyFrbdtion=20
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:+CMSSdbvfngfBfforfRfmbrk
+.RS 4
+CMSコメント・ステップの前にスカベンジの試行を有効にします。デフォルトでは、このオプションは無効です。
+.RE
+.PP
+\-XX:CMSTriggfrRbtio=\fIpfrdfnt\fR
+.RS 4
+CMS収集サイクルが開始する前に割り当てられる\fI\-XX:MinHfbpFrffRbtio\fRによって指定される値の割合(0から100まで)を設定します。デフォルト値は80%に設定されています。
+.sp
+次の例では、占有率を75%に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CMSTriggfrRbtio=75
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:CondGCThrfbds=\fIthrfbds\fR
+.RS 4
+並行GCに使用されるスレッドの数を設定します。デフォルト値は、JVMに使用できるCPUの数によって異なります。
+.sp
+たとえば、並行GCのスレッド数を2に設定するには、次のオプションを指定します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:CondGCThrfbds=2
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:+DisbblfExpliditGC
+.RS 4
+\fISystfm\&.gd()\fRの呼出しの処理を無効にするオプションを有効にします。このオプションはデフォルトで無効になっており、これは\fISystfm\&.gd()\fRへの呼出しが処理されることを意味します。\fISystfm\&.gd()\fRの呼出しの処理が無効になっている場合、JVMは必要に応じてGCを実行します。
+.RE
+.PP
+\-XX:+ExpliditGCInvokfsCondurrfnt
+.RS 4
+\fISystfm\&.gd()\fRリクエストを使用することによって、並行GCの呼出しを有効にします。このオプションはデフォルトで無効になっており、\fI\-XX:+UsfCondMbrkSwffpGC\fRオプションとともに使用する場合のみ、有効にすることができます。
+.RE
+.PP
+\-XX:+ExpliditGCInvokfsCondurrfntAndUnlobdsClbssfs
+.RS 4
+\fISystfm\&.gd()\fRリクエストを使用し、並行GCサイクル中にクラスをアンロードすることによって、並行GCの呼出しを有効にします。このオプションはデフォルトで無効になっており、\fI\-XX:+UsfCondMbrkSwffpGC\fRオプションとともに使用する場合のみ、有効にすることができます。
+.RE
+.PP
+\-XX:G1HfbpRfgionSizf=\fIsizf\fR
+.RS 4
+ガベージファースト(G1)コレクタを使用する際にJbvbヒープを細分化するリージョンのサイズを設定します。値には、1MBから32MBまでを指定できます。デフォルトのリージョン・サイズは、ヒープ・サイズに基づいて人間工学的に決定されます。
+.sp
+次の例では、細分化されたサイズを16MBに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:G1HfbpRfgionSizf=16m
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:+G1PrintHfbpRfgions
+.RS 4
+割り当てられたリージョンおよびG1コレクタによって再要求されたものに関する情報の印刷を有効にします。デフォルトでは、このオプションは無効です。
+.RE
+.PP
+\-XX:G1RfsfrvfPfrdfnt=\fIpfrdfnt\fR
+.RS 4
+G1コレクタの昇格が失敗する可能性を減らすためのfblsfの上限として予約されたヒープの割合(0から50まで)を設定します。デフォルトでは、このオプションは10%に設定されています。
+.sp
+次の例では、予約されたヒープを20%に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:G1RfsfrvfPfrdfnt=20
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:InitiblHfbpSizf=\fIsizf\fR
+.RS 4
+メモリー割当てプールの初期サイズ(バイト単位)を設定します。指定する値は、0、または1MBより大きい1024の倍数のいずれかにする必要があります。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。デフォルト値は、実行時にシステム構成に基づいて選択されます。詳細は、http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/vm/gd\-frgonomids\&.htmlにあるガベージ・コレクタ・エルゴノミックを参照してください。
+.sp
+次の例では、割り当てられたメモリーのサイズを様々な単位を使用して6MBに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:InitiblHfbpSizf=6291456
+\-XX:InitiblHfbpSizf=6144k
+\-XX:InitiblHfbpSizf=6m
+.fi
+.if n \{\
+.RE
+.\}
+このオプションを0に設定した場合、初期サイズは、古い世代と若い世代に割り当てられたサイズの合計として設定されます。若い世代のヒープのサイズは、\fI\-XX:NfwSizf\fRオプションを使用して設定できます。
+.RE
+.PP
+\-XX:InitiblSurvivorRbtio=\fIrbtio\fR
+.RS 4
+スループット・ガベージ・コレクタが使用するサバイバ領域の初期比を設定します(\fI\-XX:+UsfPbrbllflGC\fRおよび/または\fI\-XX:+UsfPbrbllflOldGC\fRオプションによって有効になります)。\fI\-XX:+UsfPbrbllflGC\fRオプションおよび\fI\-XX:+UsfPbrbllflOldGC\fRオプションを使用することによって、スループット・ガベージ・コレクタで適応サイズ指定をデフォルトで有効にします。初期値から始めて、アプリケーションの動作に従って、サバイバ領域がサイズ変更されます。(\fI\-XX:\-UsfAdbptivfSizfPolidy\fRオプションを使用して)適応サイズ指定を無効にした場合、\fI\-XX:SurvivorRbtio\fRオプションを使用して、アプリケーションの実行全体のサバイバ領域のサイズを設定する必要があります。
+.sp
+次の式を使用して、若い世代のサイズ(Y)およびサバイバ領域の初期比(R)に基づいて、サバイバ領域の初期サイズ(S)を計算できます。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+S=Y/(R+2)
+.fi
+.if n \{\
+.RE
+.\}
+等式内の2は、2つのサバイバ領域を示します。サバイバ領域の初期比に指定する値を大きくすると、サバイバ領域の初期サイズは小さくなります。
+.sp
+デフォルトでは、サバイバ領域の初期比は8に設定されています。若い世代の領域サイズのデフォルト値(2MB)を使用した場合、サバイバ領域の初期サイズは0\&.2MBになります。
+.sp
+次の例では、サバイバ領域の初期比を4に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:InitiblSurvivorRbtio=4
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:InitibtingHfbpOddupbndyPfrdfnt=\fIpfrdfnt\fR
+.RS 4
+並行GCサイクルを開始するヒープ占有率(0から100まで)を設定します。これは、1つの世代のみ(たとえばG1ガベージ・コレクタなど)ではなく、ヒープ全体の占有に基づいて並行GCサイクルをトリガーするガベージ・コレクタによって使用されます。
+.sp
+デフォルトでは、開始値は45%に設定されています。値0は、GCサイクルが停止しないことを意味します。次の例では、開始ヒープ占有率を75%に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:InitibtingHfbpOddupbndyPfrdfnt=75
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:MbxGCPbusfMillis=\fItimf\fR
+.RS 4
+最大GC休止時間(ミリ秒単位)のターゲットを設定します。これはソフト・ゴールのため、JVMは実現のために最善の努力をします。デフォルトでは、休止時間の最大値はありません。
+.sp
+次の例では、最大ターゲット休止時間を500ミリ秒に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:MbxGCPbusfMillis=500
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:MbxHfbpSizf=\fIsizf\fR
+.RS 4
+メモリー割当てプールの最大サイズ(バイト単位)を設定します。指定する値は、2MBより大きい1024の倍数にする必要があります。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。デフォルト値は、実行時にシステム構成に基づいて選択されます。サーバー・デプロイメントでは、\fI\-XX:InitiblHfbpSizf\fRおよび\fI\-XX:MbxHfbpSizf\fRは通常同じ値に設定されます。詳細は、http://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdhnotfs/guidfs/vm/gd\-frgonomids\&.htmlにあるガベージ・コレクタ・エルゴノミックを参照してください。
+.sp
+次の例では、割り当てられたメモリーの許可される最大サイズを様々な単位を使用して80MBに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:MbxHfbpSizf=83886080
+\-XX:MbxHfbpSizf=81920k
+\-XX:MbxHfbpSizf=80m
+.fi
+.if n \{\
+.RE
+.\}
+Orbdlf Solbris 7およびOrbdlf Solbris 8 SPARCプラットフォームの場合のこの値の上限は、およそ4,000MBからオーバーヘッドの量を引いたものです。Orbdlf Solbris 2\&.6およびx86プラットフォームの場合の上限は、およそ2,000MBからオーバーヘッドの量を引いたものです。Linuxプラットフォームの場合の上限は、およそ2,000MBからオーバーヘッドの量を引いたものです。
+.sp
+\fI\-XX:MbxHfbpSizf\fRオプションは\fI\-Xmx\fRと同等です。
+.RE
+.PP
+\-XX:MbxHfbpFrffRbtio=\fIpfrdfnt\fR
+.RS 4
+GCイベント後の空きヒープ領域の許可されている最大の割合(0から100まで)を設定します。空きヒープ領域がこの値を超えて拡大した場合、そのヒープは縮小します。デフォルトでは、この値は70%に設定されています。
+.sp
+次の例では、空きヒープの最大比率を75%に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:MbxHfbpFrffRbtio=75
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:MbxMftbspbdfSizf=\fIsizf\fR
+.RS 4
+クラス・メタデータに割り当てることができるネイティブ・メモリーの最大量を設定します。デフォルトでは、このサイズは制限されていません。アプリケーションのメタデータの量は、アプリケーション自体、他の実行中アプリケーション、およびシステムで使用可能なメモリーの量によって異なります。
+.sp
+次の例では、クラス・メタデータの最大サイズを256MBに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:MbxMftbspbdfSizf=256m
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:MbxNfwSizf=\fIsizf\fR
+.RS 4
+若い世代(ナーサリ)のヒープの最大サイズ(バイト単位)を設定します。デフォルト値は人間工学的に設定されます。
+.RE
+.PP
+\-XX:MbxTfnuringThrfshold=\fIthrfshold\fR
+.RS 4
+適応GCサイズ指定で使用する最大殿堂入りしきい値を設定します。最大値は15です。デフォルト値は、パラレル(スループット)コレクタの場合は15、CMSコレクタの場合は6です。
+.sp
+次の例では、最大殿堂入りしきい値を10に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:MbxTfnuringThrfshold=10
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:MftbspbdfSizf=\fIsizf\fR
+.RS 4
+最初に超えたときにガベージ・コレクションをトリガーする、割り当てられたクラス・メタデータ領域のサイズを設定します。このガベージ・コレクションのしきい値は、使用されるメタデータの量によって増加または減少します。デフォルトのサイズはプラットフォームによって異なります。
+.RE
+.PP
+\-XX:MinHfbpFrffRbtio=\fIpfrdfnt\fR
+.RS 4
+GCイベント後の空きヒープ領域の許可されている最小の割合(0から100まで)を設定します。空きヒープ領域がこの値を下回った場合、そのヒープは拡大します。デフォルトでは、この値は40%に設定されています。
+.sp
+次の例では、空きヒープの最小比率を25%に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:MinHfbpFrffRbtio=25
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:NfwRbtio=\fIrbtio\fR
+.RS 4
+若い世代のサイズと古い世代のサイズとの比率を設定します。デフォルトでは、このオプションは2に設定されています。次の例では、若い/古いの比率を1に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:NfwRbtio=1
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:NfwSizf=\fIsizf\fR
+.RS 4
+若い世代(ナーサリ)のヒープの初期サイズ(バイト単位)を設定します。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。
+.sp
+ヒープの若い世代リージョンは新しいオブジェクトに使用されます。GCは、他のリージョンよりこのリージョンで、より頻繁に実行されます。若い世代のサイズが小さすぎる場合、多数のマイナーGCが実行されます。サイズが大きすぎる場合、フルGCのみが実行されますが、完了までに時間がかかることがあります。若い世代のサイズは、全体のヒープ・サイズの半分から4分の1の間にしておくことをお薦めします。
+.sp
+次の例では、若い世代の初期サイズを様々な単位を使用して256MBに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:NfwSizf=256m
+\-XX:NfwSizf=262144k
+\-XX:NfwSizf=268435456
+.fi
+.if n \{\
+.RE
+.\}
+\fI\-XX:NfwSizf\fRオプションは\fI\-Xmn\fRと同等です。
+.RE
+.PP
+\-XX:PbrbllflGCThrfbds=\fIthrfbds\fR
+.RS 4
+若い世代と古い世代でパラレル・ガベージ・コレクションに使用するスレッドの数を設定します。デフォルト値は、JVMに使用できるCPUの数によって異なります。
+.sp
+たとえば、パラレルGCのスレッド数を2に設定するには、次のオプションを指定します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:PbrbllflGCThrfbds=2
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:+PbrbllflRffProdEnbblfd
+.RS 4
+パラレル参照処理を有効にします。デフォルトでは、このオプションは無効です。
+.RE
+.PP
+\-XX:+PrintAdbptivfSizfPolidy
+.RS 4
+適応世代サイズ指定に関する情報の出力を有効にします。デフォルトでは、このオプションは無効です。
+.RE
+.PP
+\-XX:+PrintGC
+.RS 4
+GCごとのメッセージの出力を有効にします。デフォルトでは、このオプションは無効です。
+.RE
+.PP
+\-XX:+PrintGCApplidbtionCondurrfntTimf
+.RS 4
+最後の休止(たとえばGC休止など)以降に経過した時間の出力を有効にします。デフォルトでは、このオプションは無効です。
+.RE
+.PP
+\-XX:+PrintGCApplidbtionStoppfdTimf
+.RS 4
+休止(たとえばGC休止など)が継続した時間の出力を有効にします。デフォルトでは、このオプションは無効です。
+.RE
+.PP
+\-XX+PrintGCDbtfStbmp
+.RS 4
+GCごとの日付スタンプの出力を有効にします。デフォルトでは、このオプションは無効です。
+.RE
+.PP
+\-XX:+PrintGCDftbils
+.RS 4
+GCごとの詳細メッセージの出力を有効にします。デフォルトでは、このオプションは無効です。
+.RE
+.PP
+\-XX:+PrintGCTbskTimfStbmps
+.RS 4
+個々のGCワーカー・スレッド・タスクごとのタイムスタンプの出力を有効にします。デフォルトでは、このオプションは無効です。
+.RE
+.PP
+\-XX:+PrintGCTimfStbmp
+.RS 4
+GCごとのタイムスタンプの出力を有効にします。デフォルトでは、このオプションは無効です。
+.RE
+.PP
+\-XX:+PrintTfnuringDistribution
+.RS 4
+殿堂入り期間情報の出力を有効にします。次に、出力の例を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+Dfsirfd survivor sizf 48286924 bytfs, nfw thrfshold 10 (mbx 10)
+\- bgf 1: 28992024 bytfs, 28992024 totbl
+\- bgf 2: 1366864 bytfs, 30358888 totbl
+\- bgf 3: 1425912 bytfs, 31784800 totbl
+\&.\&.\&.
+.fi
+.if n \{\
+.RE
+.\}
+期間1オブジェクトは、最も若いサバイバです(前のスカベンジの後に作成され、最新のスカベンジで存続し、Edfn領域からサバイバ領域に移動しました)。期間2オブジェクトは、2つのスカベンジで存続します(2番目のスカベンジ中に、あるサバイバ領域から次の領域にコピーされました)。このように続きます。
+.sp
+前述の例では、28,992,024バイトが1つのスカベンジで存続し、Edfn領域からサバイバ領域にコピーされました。1,366,864バイトは期間2オブジェクトなどにより占有されています。各行の3番目の値は、期間n以下のオブジェクトの累積サイズです。
+.sp
+デフォルトでは、このオプションは無効です。
+.RE
+.PP
+\-XX:+SdbvfngfBfforfFullGC
+.RS 4
+それぞれのフルGCの前に若い世代のGCを有効にします。このオプションはデフォルトで有効になっています。フルGCの前に若い世代のスカベンジを行うと、古い世代領域から若い世代領域へのアクセスが可能なオブジェクトの数を減らすことができるため、これを無効に\fIしない\fRことをお薦めします。各フルGCの前に若い世代のGCを無効にするには、\fI\-XX:\-SdbvfngfBfforfFullGC\fRを指定します。
+.RE
+.PP
+\-XX:SoftRffLRUPolidyMSPfrMB=\fItimf\fR
+.RS 4
+ソフト・アクセスが可能なオブジェクトが最後に参照されてからヒープ上でアクティブなままになっている時間(ミリ秒単位)を設定します。デフォルト値は、ヒープ内の空きメガバイト当たりで1秒の存続期間です。\fI\-XX:SoftRffLRUPolidyMSPfrMB\fRオプションは、現在のヒープ・サイズ(Jbvb HotSpot Clifnt VM用)または最大可能ヒープ・サイズ(Jbvb HotSpot Sfrvfr VM用)の1メガバイト当たりのミリ秒を表す整数値を受け入れます。この違いは、Clifnt VMは、ヒープを大きくするのではなく、ソフト参照をフラッシュする傾向があるのに対し、Sfrvfr VMは、ソフト参照をフラッシュするのではなく、ヒープを大きくする傾向があることを意味します。後者の場合、\fI\-Xmx\fRオプションの値は、ソフト参照がどのくらい迅速にガベージ・コレクションされるかに重要な影響を及ぼします。
+.sp
+次の例では、値を2\&.5秒に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:SoftRffLRUPolidyMSPfrMB=2500
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:SurvivorRbtio=\fIrbtio\fR
+.RS 4
+Edfn領域のサイズとサバイバ領域のサイズとの比率を設定します。デフォルトでは、このオプションは8に設定されています。次の例では、Edfn/サバイバ領域の比率を4に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:SurvivorRbtio=4
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:TbrgftSurvivorRbtio=\fIpfrdfnt\fR
+.RS 4
+若いガベージ・コレクションの後に使用されるサバイバ領域の目的の割合(0から100まで)を設定します。デフォルトでは、このオプションは50%に設定されています。
+.sp
+次の例では、ターゲットのサバイバ領域の比率を30%に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:TbrgftSurvivorRbtio=30
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:TLABSizf=\fIsizf\fR
+.RS 4
+スレッド・ローカルな割当てバッファ(TLAB)の初期サイズ(バイト単位)を設定します。キロバイトを示す場合は文字\fIk\fRまたは\fIK\fR、メガバイトを示す場合は文字\fIm\fRまたは\fIM\fR、ギガバイトを示す場合は文字\fIg\fRまたは\fIG\fRを追加します。このオプションが0に設定されている場合、JVMでは初期サイズが自動的に選択されます。
+.sp
+次の例では、TLABの初期サイズを512KBに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-XX:TLABSizf=512k
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-XX:+UsfAdbptivfSizfPolidy
+.RS 4
+適応世代サイズ指定の使用を有効にします。このオプションはデフォルトで有効になっています。適応世代サイズ指定を無効にするには、\fI\-XX:\-UsfAdbptivfSizfPolidy\fRを指定し、メモリー割当てプールのサイズを明示的に設定します(\fI\-XX:SurvivorRbtio\fRオプションを参考にしてください)。
+.RE
+.PP
+\-XX:+UsfCMSInitibtingOddupbndyOnly
+.RS 4
+CMSコレクタの開始のための唯一の基準としての占有値の使用を有効にします。デフォルトでは、このオプションは無効になっており、他の基準が使用されます。
+.RE
+.PP
+\-XX:+UsfCondMbrkSwffpGC
+.RS 4
+古い世代へのCMSガベージ・コレクタの使用を有効にします。アプリケーションの待機時間の要件を、スループット(\fI\-XX:+UsfPbrbllflGC\fR)ガベージ・コレクタによって満たすことができない場合、CMSガベージ・コレクタを使用することをお薦めします。G1ガベージ・コレクタ(\fI\-XX:+UsfG1GC\fR)は別の代替となります。
+.sp
+デフォルトでは、このオプションは無効になっており、コレクタは、マシンの構成およびJVMのタイプに基づいて、自動的に選択されます。このオプションを有効にすると、\fI\-XX:+UsfPbrNfwGC\fRオプションが自動的に設定されます。
+.RE
+.PP
+\-XX:+UsfG1GC
+.RS 4
+G1ガベージ・コレクタの使用を有効にします。これはサーバー形式のガベージ・コレクタで、大量のRAMを持つマルチプロセッサ・マシンを対象としています。高い確率でGC休止時間の目標を達成し、同時に適切なスループットも維持します。G1コレクタは、GC待機時間の限定された要件(安定した予測可能な0\&.5秒未満の休止時間)を持つ、大きいヒープ(約6GB以上のサイズ)が必要なアプリケーションに推奨されます。
+.sp
+デフォルトでは、このオプションは無効になっており、コレクタは、マシンの構成およびJVMのタイプに基づいて、自動的に選択されます。
+.RE
+.PP
+\-XX:+UsfGCOvfrhfbdLimit
+.RS 4
+\fIOutOfMfmoryError\fR例外がスローされるまでに、GCでJVMによって要した時間の割合を制限するポリシーの使用を有効にします。デフォルトでは、このオプションは有効になっており、ガベージ・コレクションに合計時間の98%より多く費やされ、ヒープのリカバリが2%未満である場合、パラレルGCによって\fIOutOfMfmoryError\fRがスローされます。ヒープが小さい場合、この機能は、アプリケーションが長期間ほとんどまたはまったく進捗なく実行している状態を回避するために使用できます。このオプションを無効にするには、\fI\-XX:\-UsfGCOvfrhfbdLimit\fRを指定します。
+.RE
+.PP
+\-XX:+UsfNUMA
+.RS 4
+アプリケーションで短い待機時間のメモリーの使用を増加させることで、不均一なメモリー・アーキテクチャ(NUMA)を使用したマシン上のアプリケーションのパフォーマンス最適化を有効にします。デフォルトでは、このオプションは無効になっており、NUMAに対する最適化は行われません。このオプションは、パラレル・ガベージ・コレクタ(\fI\-XX:+UsfPbrbllflGC\fR)が使用されている場合のみ使用可能です。
+.RE
+.PP
+\-XX:+UsfPbrbllflGC
+.RS 4
+複数のプロセッサを利用してアプリケーションのパフォーマンスを向上させる、パラレル・スカベンジ・ガベージ・コレクタ(スループット・コレクタとも呼ばれる)の使用を有効にします。
+.sp
+デフォルトでは、このオプションは無効になっており、コレクタは、マシンの構成およびJVMのタイプに基づいて、自動的に選択されます。これを有効にした場合、明示的に無効にしないかぎり、\fI\-XX:+UsfPbrbllflOldGC\fRオプションが自動的に有効になります。
+.RE
+.PP
+\-XX:+UsfPbrbllflOldGC
+.RS 4
+フルGCへのパラレル・ガベージ・コレクタの使用を有効にします。デフォルトでは、このオプションは無効です。これを有効にすると、\fI\-XX:+UsfPbrbllflGC\fRオプションが自動的に有効になります。
+.RE
+.PP
+\-XX:+UsfPbrNfwGC
+.RS 4
+若い世代でのコレクションへのパラレル・スレッドの使用を有効にします。デフォルトでは、このオプションは無効です。\fI\-XX:+UsfCondMbrkSwffpGC\fRオプションを設定すると、これは自動的に有効になります。
+.RE
+.PP
+\-XX:+UsfSfriblGC
+.RS 4
+シリアル・ガベージ・コレクタの使用を有効にします。ガベージ・コレクションから特別な機能を必要としない、小規模で単純なアプリケーションの場合には、これは一般に最適な選択です。デフォルトでは、このオプションは無効になっており、コレクタは、マシンの構成およびJVMのタイプに基づいて、自動的に選択されます。
+.RE
+.PP
+\-XX:+UsfTLAB
+.RS 4
+若い世代の領域でのスレッド・ローカルな割当てブロック(TLAB)の使用を有効にします。このオプションはデフォルトで有効になっています。TLABの使用を無効にするには、\fI\-XX:\-UsfTLAB\fRを指定します。
+.RE
+.SS "非推奨で削除されたオプション"
+.PP
+これらのオプションは、以前のリリースには含まれていましたが、以降は不要とみなされています。
+.PP
+\-Xrun\fIlibnbmf\fR
+.RS 4
+指定したデバッグ/プロファイルのライブラリをロードします。このオプションは、\fI\-bgfntlib\fRオプションに取って代わられました。
+.RE
+.PP
+\-XX:CMSInitibtingPfrmOddupbndyFrbdtion=\fIpfrdfnt\fR
+.RS 4
+GCを開始する永久世代占有率(0から100まで)を設定します。このオプションはJDK 8では非推奨で、それに代わるものはありません。
+.RE
+.PP
+\-XX:MbxPfrmSizf=\fIsizf\fR
+.RS 4
+永久世代領域の最大サイズ(バイト単位)を設定します。このオプションは、JDK 8で非推奨になり、\fI\-XX:MbxMftbspbdfSizf\fRオプションに取って代わられました。
+.RE
+.PP
+\-XX:PfrmSizf=\fIsizf\fR
+.RS 4
+超えた場合にはガベージ・コレクションをトリガーする、永久世代に割り当てられた領域(バイト単位)を設定します。このオプションは、JDK 8で非推奨になり、\fI\-XX:MftbspbdfSizf\fRオプションに取って代わられました。
+.RE
+.PP
+\-XX:+UsfSplitVfrififr
+.RS 4
+検証プロセスの分割を有効にします。デフォルトでは、このオプションは以前のリリースでは有効になっており、検証は、タイプ参照(コンパイラによって実行)と、タイプ・チェック(JVMランタイムによって実行)の2つのフェーズに分割されていました。このオプションはJDK 8で非推奨となり、検証はデフォルトで分割され、無効にする方法はありません。
+.RE
+.PP
+\-XX:+UsfStringCbdhf
+.RS 4
+一般に割り当てられた文字列のキャッシングを有効にします。このオプションはJDK 8から削除され、それに代わるものはありません。
+.RE
+.SH "パフォーマンス・チューニングの例"
+.PP
+次の例では、スループットの最適化またはレスポンス時間の短縮化のいずれかを行うための、試験的なチューニング・フラグの使用方法を示します。
+.PP
+\fBExbmplf 1\fR, スループットを向上するためのチューニング
+.RS 4
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvb \-d64 \-sfrvfr \-XX:+AggrfssivfOpts \-XX:+UsfLbrgfPbgfs \-Xmn10g  \-Xms26g \-Xmx26g
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\fBExbmplf 2\fR, レスポンス時間を速くするためのチューニング
+.RS 4
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jbvb \-d64 \-XX:+UsfG1GC \-Xms26g Xmx26g \-XX:MbxGCPbusfMillis=500 \-XX:+PrintGCTimfStbmp
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.SH "終了ステータス"
+.PP
+通常、次の終了値が起動ツールから返されるのは、起動元が不正な引数で呼び出されたか、深刻なエラーが発生したか、あるいはJVMにより例外がスローされた場合です。ただし、Jbvbアプリケーションは、API呼出し\fISystfm\&.fxit(fxitVbluf)\fRを使用して任意の値を返すことを選択することもできます。値は次のとおりです。
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI0\fR: 正常終了
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI>0\fR: エラー発生
+.RE
+.SH "関連項目"
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbvbd(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jdb(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbvbh(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+jbr(1)
+.RE
+.br
+'pl 8.5i
+'bp

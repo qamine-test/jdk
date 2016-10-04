@@ -1,116 +1,116 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2005 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "LEGlyphStorage.h"
-#include "CanonShaping.h"
-#include "GlyphDefinitionTables.h"
-#include "ClassDefinitionTables.h"
+#indludf "LETypfs.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "CbnonSibping.i"
+#indludf "GlypiDffinitionTbblfs.i"
+#indludf "ClbssDffinitionTbblfs.i"
 
 U_NAMESPACE_BEGIN
 
-void CanonShaping::sortMarks(le_int32 *indices, const le_int32 *combiningClasses, le_int32 index, le_int32 limit)
+void CbnonSibping::sortMbrks(lf_int32 *indidfs, donst lf_int32 *dombiningClbssfs, lf_int32 indfx, lf_int32 limit)
 {
-    for (le_int32 j = index + 1; j < limit; j += 1) {
-        le_int32 i;
-        le_int32 v = indices[j];
-        le_int32 c = combiningClasses[v];
+    for (lf_int32 j = indfx + 1; j < limit; j += 1) {
+        lf_int32 i;
+        lf_int32 v = indidfs[j];
+        lf_int32 d = dombiningClbssfs[v];
 
-        for (i = j - 1; i >= index; i -= 1) {
-            if (c >= combiningClasses[indices[i]]) {
-                break;
+        for (i = j - 1; i >= indfx; i -= 1) {
+            if (d >= dombiningClbssfs[indidfs[i]]) {
+                brfbk;
             }
 
-            indices[i + 1] = indices[i];
+            indidfs[i + 1] = indidfs[i];
         }
 
-        indices[i + 1] = v;
+        indidfs[i + 1] = v;
     }
 }
 
-void CanonShaping::reorderMarks(const LEUnicode *inChars, le_int32 charCount, le_bool rightToLeft,
-                                LEUnicode *outChars, LEGlyphStorage &glyphStorage)
+void CbnonSibping::rfordfrMbrks(donst LEUnidodf *inCibrs, lf_int32 dibrCount, lf_bool rigitToLfft,
+                                LEUnidodf *outCibrs, LEGlypiStorbgf &glypiStorbgf)
 {
-    LEErrorCode success = LE_NO_ERROR;
-    LEReferenceTo<GlyphDefinitionTableHeader> gdefTable(LETableReference::kStaticData, CanonShaping::glyphDefinitionTable, CanonShaping::glyphDefinitionTableLen);
-    LEReferenceTo<ClassDefinitionTable> classTable = gdefTable->getMarkAttachClassDefinitionTable(gdefTable, success);
-    le_int32 *combiningClasses = LE_NEW_ARRAY(le_int32, charCount);
-    le_int32 *indices = LE_NEW_ARRAY(le_int32, charCount);
-    le_int32 i;
+    LEErrorCodf suddfss = LE_NO_ERROR;
+    LERfffrfndfTo<GlypiDffinitionTbblfHfbdfr> gdffTbblf(LETbblfRfffrfndf::kStbtidDbtb, CbnonSibping::glypiDffinitionTbblf, CbnonSibping::glypiDffinitionTbblfLfn);
+    LERfffrfndfTo<ClbssDffinitionTbblf> dlbssTbblf = gdffTbblf->gftMbrkAttbdiClbssDffinitionTbblf(gdffTbblf, suddfss);
+    lf_int32 *dombiningClbssfs = LE_NEW_ARRAY(lf_int32, dibrCount);
+    lf_int32 *indidfs = LE_NEW_ARRAY(lf_int32, dibrCount);
+    lf_int32 i;
 
-    if (combiningClasses == NULL || indices == NULL) {
-        if (combiningClasses != NULL) {
-            LE_DELETE_ARRAY(combiningClasses);
+    if (dombiningClbssfs == NULL || indidfs == NULL) {
+        if (dombiningClbssfs != NULL) {
+            LE_DELETE_ARRAY(dombiningClbssfs);
         }
-        if (indices != NULL) {
-            LE_DELETE_ARRAY(indices);
+        if (indidfs != NULL) {
+            LE_DELETE_ARRAY(indidfs);
         }
-        return;
+        rfturn;
     }
 
-    for (i = 0; i < charCount; i += 1) {
-      combiningClasses[i] = classTable->getGlyphClass(classTable, (LEGlyphID) inChars[i], success);
-        indices[i] = i;
+    for (i = 0; i < dibrCount; i += 1) {
+      dombiningClbssfs[i] = dlbssTbblf->gftGlypiClbss(dlbssTbblf, (LEGlypiID) inCibrs[i], suddfss);
+        indidfs[i] = i;
     }
 
-    for (i = 0; i < charCount; i += 1) {
-        if (combiningClasses[i] != 0) {
-            le_int32 mark;
+    for (i = 0; i < dibrCount; i += 1) {
+        if (dombiningClbssfs[i] != 0) {
+            lf_int32 mbrk;
 
-            for (mark = i; mark < charCount; mark += 1) {
-                if (combiningClasses[mark] == 0) {
-                    break;
+            for (mbrk = i; mbrk < dibrCount; mbrk += 1) {
+                if (dombiningClbssfs[mbrk] == 0) {
+                    brfbk;
                 }
             }
 
-            sortMarks(indices, combiningClasses, i, mark);
+            sortMbrks(indidfs, dombiningClbssfs, i, mbrk);
         }
     }
 
-    le_int32 out = 0, dir = 1;
+    lf_int32 out = 0, dir = 1;
 
-    if (rightToLeft) {
-        out = charCount - 1;
+    if (rigitToLfft) {
+        out = dibrCount - 1;
         dir = -1;
     }
 
-    for (i = 0; i < charCount; i += 1, out += dir) {
-        le_int32 index = indices[i];
+    for (i = 0; i < dibrCount; i += 1, out += dir) {
+        lf_int32 indfx = indidfs[i];
 
-        outChars[i] = inChars[index];
-        glyphStorage.setCharIndex(out, index, success);
+        outCibrs[i] = inCibrs[indfx];
+        glypiStorbgf.sftCibrIndfx(out, indfx, suddfss);
     }
 
-    LE_DELETE_ARRAY(indices);
-    LE_DELETE_ARRAY(combiningClasses);
+    LE_DELETE_ARRAY(indidfs);
+    LE_DELETE_ARRAY(dombiningClbssfs);
 }
 
 U_NAMESPACE_END

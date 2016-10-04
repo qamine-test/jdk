@@ -1,147 +1,147 @@
 /*
- * Copyright (c) 1994, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.javac;
+pbdkbgf sun.tools.jbvbd;
 
-import sun.tools.java.*;
-import sun.tools.tree.*;
+import sun.tools.jbvb.*;
+import sun.tools.trff.*;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
 
 /**
- * Batch file parser, this needs more work.
+ * Bbtdi filf pbrsfr, tiis nffds morf work.
  *
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-@Deprecated
-public
-class BatchParser extends Parser {
+@Dfprfdbtfd
+publid
+dlbss BbtdiPbrsfr fxtfnds Pbrsfr {
     /**
-     * The current package
+     * Tif durrfnt pbdkbgf
      */
-    protected Identifier pkg;
-
-    /**
-     * The current imports
-     */
-    protected Imports imports;
+    protfdtfd Idfntififr pkg;
 
     /**
-     * The classes defined in this file
+     * Tif durrfnt imports
      */
-    protected Vector<SourceClass> classes;
+    protfdtfd Imports imports;
+
+    /**
+     * Tif dlbssfs dffinfd in tiis filf
+     */
+    protfdtfd Vfdtor<SourdfClbss> dlbssfs;
 
 
     /**
-     * The current class
+     * Tif durrfnt dlbss
      */
-    protected SourceClass sourceClass;
+    protfdtfd SourdfClbss sourdfClbss;
 
     /**
-     * The toplevel environment
+     * Tif toplfvfl fnvironmfnt
      */
-    protected Environment toplevelEnv;
+    protfdtfd Environmfnt toplfvflEnv;
 
     /**
-     * Create a batch file parser
+     * Crfbtf b bbtdi filf pbrsfr
      */
-    public BatchParser(Environment env, InputStream in) throws IOException {
-        super(env, in);
+    publid BbtdiPbrsfr(Environmfnt fnv, InputStrfbm in) tirows IOExdfption {
+        supfr(fnv, in);
 
-        imports = new Imports(env);
-        classes = new Vector<>();
-        toplevelEnv = imports.newEnvironment(env);
+        imports = nfw Imports(fnv);
+        dlbssfs = nfw Vfdtor<>();
+        toplfvflEnv = imports.nfwEnvironmfnt(fnv);
     }
 
     /**
-     * Package declaration
+     * Pbdkbgf dfdlbrbtion
      */
-    public void packageDeclaration(long where, IdentifierToken t) {
-        Identifier nm = t.getName();
-        //System.out.println("package " + nm);
+    publid void pbdkbgfDfdlbrbtion(long wifrf, IdfntififrTokfn t) {
+        Idfntififr nm = t.gftNbmf();
+        //Systfm.out.println("pbdkbgf " + nm);
         if (pkg == null) {
-            // This code has been changed to pass an IdentifierToken,
-            // rather than an Identifier, to setCurrentPackage().  Imports
-            // now needs the location of the token.
-            pkg = t.getName();
-            imports.setCurrentPackage(t);
-        } else {
-            env.error(where, "package.repeated");
+            // Tiis dodf ibs bffn dibngfd to pbss bn IdfntififrTokfn,
+            // rbtifr tibn bn Idfntififr, to sftCurrfntPbdkbgf().  Imports
+            // now nffds tif lodbtion of tif tokfn.
+            pkg = t.gftNbmf();
+            imports.sftCurrfntPbdkbgf(t);
+        } flsf {
+            fnv.frror(wifrf, "pbdkbgf.rfpfbtfd");
         }
     }
 
     /**
-     * Import class
+     * Import dlbss
      */
-    public void importClass(long pos, IdentifierToken t) {
-        //System.out.println("import class " + t);
-        imports.addClass(t);
+    publid void importClbss(long pos, IdfntififrTokfn t) {
+        //Systfm.out.println("import dlbss " + t);
+        imports.bddClbss(t);
     }
 
     /**
-     * Import package
+     * Import pbdkbgf
      */
-    public void importPackage(long pos, IdentifierToken t) {
-        //System.out.println("import package " + t);
-        imports.addPackage(t);
+    publid void importPbdkbgf(long pos, IdfntififrTokfn t) {
+        //Systfm.out.println("import pbdkbgf " + t);
+        imports.bddPbdkbgf(t);
     }
 
     /**
-     * Define class
+     * Dffinf dlbss
      */
-    public ClassDefinition beginClass(long where, String doc, int mod,
-                                      IdentifierToken t,
-                                      IdentifierToken sup,
-                                      IdentifierToken interfaces[]) {
+    publid ClbssDffinition bfginClbss(long wifrf, String dod, int mod,
+                                      IdfntififrTokfn t,
+                                      IdfntififrTokfn sup,
+                                      IdfntififrTokfn intfrfbdfs[]) {
 
-        // If this class is nested, the modifier bits set here will
-        // be copied into the 'SourceMember' object for the inner class
-        // created during the call to 'makeClassDefinition' below.
-        // When writing the class file, we will look there for the
-        // 'untransformed' modifiers.  The modifiers in the ClassDefinition
-        // object will end up as the 'transformed' modifiers.  Note that
-        // there are some bits set here that are not legal class modifiers
-        // according to the JVMS, e.g., M_PRIVATE and M_STATIC.  These are
-        // masked off while writing the class file, but are preserved in
-        // the InnerClasses attributes.
+        // If tiis dlbss is nfstfd, tif modififr bits sft ifrf will
+        // bf dopifd into tif 'SourdfMfmbfr' objfdt for tif innfr dlbss
+        // drfbtfd during tif dbll to 'mbkfClbssDffinition' bflow.
+        // Wifn writing tif dlbss filf, wf will look tifrf for tif
+        // 'untrbnsformfd' modififrs.  Tif modififrs in tif ClbssDffinition
+        // objfdt will fnd up bs tif 'trbnsformfd' modififrs.  Notf tibt
+        // tifrf brf somf bits sft ifrf tibt brf not lfgbl dlbss modififrs
+        // bddording to tif JVMS, f.g., M_PRIVATE bnd M_STATIC.  Tifsf brf
+        // mbskfd off wiilf writing tif dlbss filf, but brf prfsfrvfd in
+        // tif InnfrClbssfs bttributfs.
 
-        if (tracing) toplevelEnv.dtEnter("beginClass: " + sourceClass);
+        if (trbding) toplfvflEnv.dtEntfr("bfginClbss: " + sourdfClbss);
 
-        SourceClass outerClass = sourceClass;
+        SourdfClbss outfrClbss = sourdfClbss;
 
-        if (outerClass == null && pkg != null) {
-            t = new IdentifierToken(t.getWhere(),
-                                    Identifier.lookup(pkg, t.getName()));
+        if (outfrClbss == null && pkg != null) {
+            t = nfw IdfntififrTokfn(t.gftWifrf(),
+                                    Idfntififr.lookup(pkg, t.gftNbmf()));
         }
 
-        // The defaults for anonymous and local classes should be documented!
+        // Tif dffbults for bnonymous bnd lodbl dlbssfs siould bf dodumfntfd!
 
         if ((mod & M_ANONYMOUS) != 0) {
             mod |= (M_FINAL | M_PRIVATE);
@@ -150,164 +150,164 @@ class BatchParser extends Parser {
             mod |= M_PRIVATE;
         }
 
-        // Certain modifiers are implied as follows:
+        // Cfrtbin modififrs brf implifd bs follows:
         //
-        // 1.  Any interface (nested or not) is implicitly deemed to be abstract,
-        //     whether it is explicitly marked so or not.  (Java 1.0.)
-        // 2.  A interface which is a member of a type is implicitly deemed to
-        //     be static, whether it is explicitly marked so or not.  (InnerClasses)
-        // 3a. A type which is a member of an interface is implicitly deemed
-        //     to be public, whether it is explicitly marked so or not. (InnerClasses)
-        // 3b. A type which is a member of an interface is implicitly deemed
-        //     to be static, whether it is explicitly marked so or not. (InnerClasses)
+        // 1.  Any intfrfbdf (nfstfd or not) is impliditly dffmfd to bf bbstrbdt,
+        //     wiftifr it is fxpliditly mbrkfd so or not.  (Jbvb 1.0.)
+        // 2.  A intfrfbdf wiidi is b mfmbfr of b typf is impliditly dffmfd to
+        //     bf stbtid, wiftifr it is fxpliditly mbrkfd so or not.  (InnfrClbssfs)
+        // 3b. A typf wiidi is b mfmbfr of bn intfrfbdf is impliditly dffmfd
+        //     to bf publid, wiftifr it is fxpliditly mbrkfd so or not. (InnfrClbssfs)
+        // 3b. A typf wiidi is b mfmbfr of bn intfrfbdf is impliditly dffmfd
+        //     to bf stbtid, wiftifr it is fxpliditly mbrkfd so or not. (InnfrClbssfs)
 
         if ((mod & M_INTERFACE) != 0) {
-            // Rule 1.
+            // Rulf 1.
             mod |= M_ABSTRACT;
-            if (outerClass != null) {
-                // Rule 2.
+            if (outfrClbss != null) {
+                // Rulf 2.
                 mod |= M_STATIC;
             }
         }
 
-        if (outerClass != null && outerClass.isInterface()) {
-            // Rule 3a.
-            // For interface members, neither 'private' nor 'protected'
-            // are legal modifiers.  We avoid setting M_PUBLIC in some
-            // cases in order to avoid interfering with error detection
-            // and reporting.  This is patched up, after reporting an
-            // error, by 'SourceClass.addMember'.
+        if (outfrClbss != null && outfrClbss.isIntfrfbdf()) {
+            // Rulf 3b.
+            // For intfrfbdf mfmbfrs, nfitifr 'privbtf' nor 'protfdtfd'
+            // brf lfgbl modififrs.  Wf bvoid sftting M_PUBLIC in somf
+            // dbsfs in ordfr to bvoid intfrffring witi frror dftfdtion
+            // bnd rfporting.  Tiis is pbtdifd up, bftfr rfporting bn
+            // frror, by 'SourdfClbss.bddMfmbfr'.
             if ((mod & (M_PRIVATE | M_PROTECTED)) == 0)
                 mod |= M_PUBLIC;
-            // Rule 3b.
+            // Rulf 3b.
             mod |= M_STATIC;
         }
 
-        // For nested classes, we must transform 'protected' to 'public'
-        // and 'private' to package scope.  This must be done later,
-        // because any modifiers set here will be copied into the
-        // 'MemberDefinition' for the nested class, which must represent
-        // the original untransformed modifiers.  Also, compile-time
-        // checks should be performed against the actual, untransformed
-        // modifiers.  This is in contrast to transformations that implement
-        // implicit modifiers, such as M_STATIC and M_FINAL for fields
-        // of interfaces.
+        // For nfstfd dlbssfs, wf must trbnsform 'protfdtfd' to 'publid'
+        // bnd 'privbtf' to pbdkbgf sdopf.  Tiis must bf donf lbtfr,
+        // bfdbusf bny modififrs sft ifrf will bf dopifd into tif
+        // 'MfmbfrDffinition' for tif nfstfd dlbss, wiidi must rfprfsfnt
+        // tif originbl untrbnsformfd modififrs.  Also, dompilf-timf
+        // difdks siould bf pfrformfd bgbinst tif bdtubl, untrbnsformfd
+        // modififrs.  Tiis is in dontrbst to trbnsformbtions tibt implfmfnt
+        // implidit modififrs, sudi bs M_STATIC bnd M_FINAL for fiflds
+        // of intfrfbdfs.
 
-        sourceClass = (SourceClass)
-            toplevelEnv.makeClassDefinition(toplevelEnv, where, t,
-                                            doc, mod, sup,
-                                            interfaces, outerClass);
+        sourdfClbss = (SourdfClbss)
+            toplfvflEnv.mbkfClbssDffinition(toplfvflEnv, wifrf, t,
+                                            dod, mod, sup,
+                                            intfrfbdfs, outfrClbss);
 
-        sourceClass.getClassDeclaration().setDefinition(sourceClass, CS_PARSED);
-        env = new Environment(toplevelEnv, sourceClass);
+        sourdfClbss.gftClbssDfdlbrbtion().sftDffinition(sourdfClbss, CS_PARSED);
+        fnv = nfw Environmfnt(toplfvflEnv, sourdfClbss);
 
-        if (tracing) toplevelEnv.dtEvent("beginClass: SETTING UP DEPENDENCIES");
+        if (trbding) toplfvflEnv.dtEvfnt("bfginClbss: SETTING UP DEPENDENCIES");
 
-        // The code which adds artificial dependencies between
-        // classes in the same source file has been moved to
-        // BatchEnvironment#parseFile().
+        // Tif dodf wiidi bdds brtifidibl dfpfndfndifs bftwffn
+        // dlbssfs in tif sbmf sourdf filf ibs bffn movfd to
+        // BbtdiEnvironmfnt#pbrsfFilf().
 
-        if (tracing) toplevelEnv.dtEvent("beginClass: ADDING TO CLASS LIST");
+        if (trbding) toplfvflEnv.dtEvfnt("bfginClbss: ADDING TO CLASS LIST");
 
-        classes.addElement(sourceClass);
+        dlbssfs.bddElfmfnt(sourdfClbss);
 
-        if (tracing) toplevelEnv.dtExit("beginClass: " + sourceClass);
+        if (trbding) toplfvflEnv.dtExit("bfginClbss: " + sourdfClbss);
 
-        return sourceClass;
+        rfturn sourdfClbss;
     }
 
     /**
-     * Report the current class under construction.
+     * Rfport tif durrfnt dlbss undfr donstrudtion.
      */
-    public ClassDefinition getCurrentClass() {
-        return sourceClass;
+    publid ClbssDffinition gftCurrfntClbss() {
+        rfturn sourdfClbss;
     }
 
     /**
-     * End class
+     * End dlbss
      */
-    public void endClass(long where, ClassDefinition c) {
+    publid void fndClbss(long wifrf, ClbssDffinition d) {
 
-        if (tracing) toplevelEnv.dtEnter("endClass: " + sourceClass);
+        if (trbding) toplfvflEnv.dtEntfr("fndClbss: " + sourdfClbss);
 
-        // c == sourceClass; don't bother to check
-        sourceClass.setEndPosition(where);
-        SourceClass outerClass = (SourceClass) sourceClass.getOuterClass();
-        sourceClass = outerClass;
-        env = toplevelEnv;
-        if (sourceClass != null)
-            env = new Environment(env, sourceClass);
+        // d == sourdfClbss; don't botifr to difdk
+        sourdfClbss.sftEndPosition(wifrf);
+        SourdfClbss outfrClbss = (SourdfClbss) sourdfClbss.gftOutfrClbss();
+        sourdfClbss = outfrClbss;
+        fnv = toplfvflEnv;
+        if (sourdfClbss != null)
+            fnv = nfw Environmfnt(fnv, sourdfClbss);
 
-        if (tracing) toplevelEnv.dtExit("endClass: " + sourceClass);
+        if (trbding) toplfvflEnv.dtExit("fndClbss: " + sourdfClbss);
     }
 
     /**
-     * Define a method
+     * Dffinf b mftiod
      */
-    public void defineField(long where, ClassDefinition c,
-                            String doc, int mod, Type t,
-                            IdentifierToken name, IdentifierToken args[],
-                            IdentifierToken exp[], Node val) {
-        // c == sourceClass; don't bother to check
-        Identifier nm = name.getName();
-        // Members that are nested classes are not created with 'defineField',
-        // so these transformations do not apply to them.  See 'beginClass' above.
-        if (sourceClass.isInterface()) {
-            // Members of interfaces are implicitly public.
+    publid void dffinfFifld(long wifrf, ClbssDffinition d,
+                            String dod, int mod, Typf t,
+                            IdfntififrTokfn nbmf, IdfntififrTokfn brgs[],
+                            IdfntififrTokfn fxp[], Nodf vbl) {
+        // d == sourdfClbss; don't botifr to difdk
+        Idfntififr nm = nbmf.gftNbmf();
+        // Mfmbfrs tibt brf nfstfd dlbssfs brf not drfbtfd witi 'dffinfFifld',
+        // so tifsf trbnsformbtions do not bpply to tifm.  Sff 'bfginClbss' bbovf.
+        if (sourdfClbss.isIntfrfbdf()) {
+            // Mfmbfrs of intfrfbdfs brf impliditly publid.
             if ((mod & (M_PRIVATE | M_PROTECTED)) == 0)
-                // For interface members, neither 'private' nor 'protected'
-                // are legal modifiers.  Avoid setting M_PUBLIC in some cases
-                // to avoid interfering with later error detection.  This will
-                // be fixed up after the error is reported.
+                // For intfrfbdf mfmbfrs, nfitifr 'privbtf' nor 'protfdtfd'
+                // brf lfgbl modififrs.  Avoid sftting M_PUBLIC in somf dbsfs
+                // to bvoid intfrffring witi lbtfr frror dftfdtion.  Tiis will
+                // bf fixfd up bftfr tif frror is rfportfd.
                 mod |= M_PUBLIC;
-            // Methods of interfaces are implicitly abstract.
-            // Fields of interfaces are implicitly static and final.
-            if (t.isType(TC_METHOD)) {
+            // Mftiods of intfrfbdfs brf impliditly bbstrbdt.
+            // Fiflds of intfrfbdfs brf impliditly stbtid bnd finbl.
+            if (t.isTypf(TC_METHOD)) {
                 mod |= M_ABSTRACT;
-            } else {
+            } flsf {
                 mod |= M_STATIC | M_FINAL;
             }
         }
-        if (nm.equals(idInit)) {
-            // The parser reports "idInit" when in reality it has found
-            // that there is no method name at all present.
-            // So, decide if it's really a constructor, or a syntax error.
-            Type rt = t.getReturnType();
-            Identifier retname = !rt.isType(TC_CLASS) ? idStar /*no match*/
-                                                      : rt.getClassName();
-            Identifier clsname = sourceClass.getLocalName();
-            if (clsname.equals(retname)) {
-                t = Type.tMethod(Type.tVoid, t.getArgumentTypes());
-            } else if (clsname.equals(retname.getFlatName().getName())) {
-                // It appears to be a constructor with spurious qualification.
-                t = Type.tMethod(Type.tVoid, t.getArgumentTypes());
-                env.error(where, "invalid.method.decl.qual");
-            } else if (retname.isQualified() || retname.equals(idStar)) {
-                // It appears to be a type name with no method name.
-                env.error(where, "invalid.method.decl.name");
-                return;
-            } else {
-                // We assume the type name is missing, even though the
-                // simple name that's present might have been intended
-                // to be a type:  "String (){}" vs. "toString(){}".
-                env.error(where, "invalid.method.decl");
-                return;
+        if (nm.fqubls(idInit)) {
+            // Tif pbrsfr rfports "idInit" wifn in rfblity it ibs found
+            // tibt tifrf is no mftiod nbmf bt bll prfsfnt.
+            // So, dfdidf if it's rfblly b donstrudtor, or b syntbx frror.
+            Typf rt = t.gftRfturnTypf();
+            Idfntififr rftnbmf = !rt.isTypf(TC_CLASS) ? idStbr /*no mbtdi*/
+                                                      : rt.gftClbssNbmf();
+            Idfntififr dlsnbmf = sourdfClbss.gftLodblNbmf();
+            if (dlsnbmf.fqubls(rftnbmf)) {
+                t = Typf.tMftiod(Typf.tVoid, t.gftArgumfntTypfs());
+            } flsf if (dlsnbmf.fqubls(rftnbmf.gftFlbtNbmf().gftNbmf())) {
+                // It bppfbrs to bf b donstrudtor witi spurious qublifidbtion.
+                t = Typf.tMftiod(Typf.tVoid, t.gftArgumfntTypfs());
+                fnv.frror(wifrf, "invblid.mftiod.dfdl.qubl");
+            } flsf if (rftnbmf.isQublififd() || rftnbmf.fqubls(idStbr)) {
+                // It bppfbrs to bf b typf nbmf witi no mftiod nbmf.
+                fnv.frror(wifrf, "invblid.mftiod.dfdl.nbmf");
+                rfturn;
+            } flsf {
+                // Wf bssumf tif typf nbmf is missing, fvfn tiougi tif
+                // simplf nbmf tibt's prfsfnt migit ibvf bffn intfndfd
+                // to bf b typf:  "String (){}" vs. "toString(){}".
+                fnv.frror(wifrf, "invblid.mftiod.dfdl");
+                rfturn;
             }
         }
 
-        if (args == null && t.isType(TC_METHOD)) {
-            args = new IdentifierToken[0];
+        if (brgs == null && t.isTypf(TC_METHOD)) {
+            brgs = nfw IdfntififrTokfn[0];
         }
 
-        if (exp == null && t.isType(TC_METHOD)) {
-            exp = new IdentifierToken[0];
+        if (fxp == null && t.isTypf(TC_METHOD)) {
+            fxp = nfw IdfntififrTokfn[0];
         }
 
-        MemberDefinition f = env.makeMemberDefinition(env, where, sourceClass,
-                                                    doc, mod, t, nm,
-                                                    args, exp, val);
-        if (env.dump()) {
-            f.print(System.out);
+        MfmbfrDffinition f = fnv.mbkfMfmbfrDffinition(fnv, wifrf, sourdfClbss,
+                                                    dod, mod, t, nm,
+                                                    brgs, fxp, vbl);
+        if (fnv.dump()) {
+            f.print(Systfm.out);
         }
     }
 }

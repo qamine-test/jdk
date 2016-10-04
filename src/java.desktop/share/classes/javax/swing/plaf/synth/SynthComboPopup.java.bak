@@ -1,91 +1,91 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.synth;
+pbdkbgf jbvbx.swing.plbf.synti;
 
-import javax.swing.*;
-import javax.swing.plaf.ComboBoxUI;
-import javax.swing.plaf.basic.BasicComboPopup;
-import java.awt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.ComboBoxUI;
+import jbvbx.swing.plbf.bbsid.BbsidComboPopup;
+import jbvb.bwt.*;
 
 
 /**
- * Synth's ComboPopup.
+ * Synti's ComboPopup.
  *
- * @author Scott Violet
+ * @butior Sdott Violft
  */
-@SuppressWarnings("serial") // Superclass is not serializable across versions
-class SynthComboPopup extends BasicComboPopup {
-    public SynthComboPopup( JComboBox<Object> combo ) {
-        super(combo);
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+dlbss SyntiComboPopup fxtfnds BbsidComboPopup {
+    publid SyntiComboPopup( JComboBox<Objfdt> dombo ) {
+        supfr(dombo);
     }
 
     /**
-     * Configures the list which is used to hold the combo box items in the
-     * popup. This method is called when the UI class
-     * is created.
+     * Configurfs tif list wiidi is usfd to iold tif dombo box itfms in tif
+     * popup. Tiis mftiod is dbllfd wifn tif UI dlbss
+     * is drfbtfd.
      *
-     * @see #createList
+     * @sff #drfbtfList
      */
-    @Override
-    protected void configureList() {
-        list.setFont( comboBox.getFont() );
-        list.setCellRenderer( comboBox.getRenderer() );
-        list.setFocusable( false );
-        list.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
-        int selectedIndex = comboBox.getSelectedIndex();
-        if ( selectedIndex == -1 ) {
-            list.clearSelection();
+    @Ovfrridf
+    protfdtfd void donfigurfList() {
+        list.sftFont( domboBox.gftFont() );
+        list.sftCfllRfndfrfr( domboBox.gftRfndfrfr() );
+        list.sftFodusbblf( fblsf );
+        list.sftSflfdtionModf( ListSflfdtionModfl.SINGLE_SELECTION );
+        int sflfdtfdIndfx = domboBox.gftSflfdtfdIndfx();
+        if ( sflfdtfdIndfx == -1 ) {
+            list.dlfbrSflfdtion();
         }
-        else {
-            list.setSelectedIndex( selectedIndex );
-            list.ensureIndexIsVisible( selectedIndex );
+        flsf {
+            list.sftSflfdtfdIndfx( sflfdtfdIndfx );
+            list.fnsurfIndfxIsVisiblf( sflfdtfdIndfx );
         }
-        installListListeners();
+        instbllListListfnfrs();
     }
 
     /**
-     * @inheritDoc
+     * @inifritDod
      *
-     * Overridden to take into account any popup insets specified in
-     * SynthComboBoxUI
+     * Ovfrriddfn to tbkf into bddount bny popup insfts spfdififd in
+     * SyntiComboBoxUI
      */
-    @Override
-    protected Rectangle computePopupBounds(int px, int py, int pw, int ph) {
-        ComboBoxUI ui = comboBox.getUI();
-        if (ui instanceof SynthComboBoxUI) {
-            SynthComboBoxUI sui = (SynthComboBoxUI) ui;
-            if (sui.popupInsets != null) {
-                Insets i = sui.popupInsets;
-                return super.computePopupBounds(
-                        px + i.left,
+    @Ovfrridf
+    protfdtfd Rfdtbnglf domputfPopupBounds(int px, int py, int pw, int pi) {
+        ComboBoxUI ui = domboBox.gftUI();
+        if (ui instbndfof SyntiComboBoxUI) {
+            SyntiComboBoxUI sui = (SyntiComboBoxUI) ui;
+            if (sui.popupInsfts != null) {
+                Insfts i = sui.popupInsfts;
+                rfturn supfr.domputfPopupBounds(
+                        px + i.lfft,
                         py + i.top,
-                        pw - i.left - i.right,
-                        ph - i.top - i.bottom);
+                        pw - i.lfft - i.rigit,
+                        pi - i.top - i.bottom);
             }
         }
-        return super.computePopupBounds(px, py, pw, ph);
+        rfturn supfr.domputfPopupBounds(px, py, pw, pi);
     }
 }

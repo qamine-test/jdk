@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sdript;
+
+import jbvb.util.Mbp;
+
+/**
+ * Extfndfd by dlbssfs thbt storf rfsults of dompilbtions.  Stbtf
+ * might bf storfd in thf form of Jbvb dlbssfs, Jbvb dlbss filfs or sdripting
+ * lbngubgf opdodfs.  Thf sdript mby bf fxfdutfd rfpfbtfdly
+ * without rfpbrsing.
+ * <br><br>
+ * Ebdh <dodf>CompilfdSdript</dodf> is bssodibtfd with b <dodf>SdriptEnginf</dodf> -- A dbll to bn  <dodf>fvbl</dodf>
+ * mfthod of thf <dodf>CompilfdSdript</dodf> dbusfs thf fxfdution of thf sdript by thf
+ * <dodf>SdriptEnginf</dodf>.  Chbngfs in thf stbtf of thf <dodf>SdriptEnginf</dodf> dbusfd by fxfdution
+ * of thf <dodf>CompilfdSdript</dodf>  mby visiblf during subsfqufnt fxfdutions of sdripts by thf fnginf.
+ *
+ * @buthor Mikf Grogbn
+ * @sindf 1.6
+ */
+publid bbstrbdt dlbss CompilfdSdript {
+
+    /**
+     * Exfdutfs thf progrbm storfd in this <dodf>CompilfdSdript</dodf> objfdt.
+     *
+     * @pbrbm dontfxt A <dodf>SdriptContfxt</dodf> thbt is usfd in thf sbmf wby bs
+     * thf <dodf>SdriptContfxt</dodf> pbssfd to thf <dodf>fvbl</dodf> mfthods of
+     * <dodf>SdriptEnginf</dodf>.
+     *
+     * @rfturn Thf vbluf rfturnfd by thf sdript fxfdution, if bny.  Should rfturn <dodf>null</dodf>
+     * if no vbluf is rfturnfd by thf sdript fxfdution.
+     *
+     * @throws SdriptExdfption if bn frror oddurs.
+     * @throws NullPointfrExdfption if dontfxt is null.
+     */
+
+    publid bbstrbdt Objfdt fvbl(SdriptContfxt dontfxt) throws SdriptExdfption;
+
+    /**
+     * Exfdutfs thf progrbm storfd in thf <dodf>CompilfdSdript</dodf> objfdt using
+     * thf supplifd <dodf>Bindings</dodf> of bttributfs bs thf <dodf>ENGINE_SCOPE</dodf> of thf
+     * bssodibtfd <dodf>SdriptEnginf</dodf> during sdript fxfdution.  If bindings is null,
+     * thfn thf ffffdt of dblling this mfthod is sbmf bs thbt of fvbl(gftEnginf().gftContfxt()).
+     * <p>.
+     * Thf <dodf>GLOBAL_SCOPE</dodf> <dodf>Bindings</dodf>, <dodf>Rfbdfr</dodf> bnd <dodf>Writfr</dodf>
+     * bssodibtfd with thf dffbult <dodf>SdriptContfxt</dodf> of thf bssodibtfd <dodf>SdriptEnginf</dodf> brf usfd.
+     *
+     * @pbrbm bindings Thf bindings of bttributfs usfd for thf <dodf>ENGINE_SCOPE</dodf>.
+     *
+     * @rfturn Thf rfturn vbluf from thf sdript fxfdution
+     *
+     * @throws SdriptExdfption if bn frror oddurs.
+     */
+    publid Objfdt fvbl(Bindings bindings) throws SdriptExdfption {
+
+        SdriptContfxt dtxt = gftEnginf().gftContfxt();
+
+        if (bindings != null) {
+            SimplfSdriptContfxt tfmpdtxt = nfw SimplfSdriptContfxt();
+            tfmpdtxt.sftBindings(bindings, SdriptContfxt.ENGINE_SCOPE);
+            tfmpdtxt.sftBindings(dtxt.gftBindings(SdriptContfxt.GLOBAL_SCOPE),
+                    SdriptContfxt.GLOBAL_SCOPE);
+            tfmpdtxt.sftWritfr(dtxt.gftWritfr());
+            tfmpdtxt.sftRfbdfr(dtxt.gftRfbdfr());
+            tfmpdtxt.sftErrorWritfr(dtxt.gftErrorWritfr());
+            dtxt = tfmpdtxt;
+        }
+
+        rfturn fvbl(dtxt);
+    }
+
+
+    /**
+     * Exfdutfs thf progrbm storfd in thf <dodf>CompilfdSdript</dodf> objfdt.  Thf
+     * dffbult <dodf>SdriptContfxt</dodf> of thf bssodibtfd <dodf>SdriptEnginf</dodf> is usfd.
+     * Thf ffffdt of dblling this mfthod is sbmf bs thbt of fvbl(gftEnginf().gftContfxt()).
+     *
+     * @rfturn Thf rfturn vbluf from thf sdript fxfdution
+     *
+     * @throws SdriptExdfption if bn frror oddurs.
+     */
+    publid Objfdt fvbl() throws SdriptExdfption {
+        rfturn fvbl(gftEnginf().gftContfxt());
+    }
+
+    /**
+     * Rfturns thf <dodf>SdriptEnginf</dodf> whosf <dodf>dompilf</dodf> mfthod drfbtfd this <dodf>CompilfdSdript</dodf>.
+     * Thf <dodf>CompilfdSdript</dodf> will fxfdutf in this fnginf.
+     *
+     * @rfturn Thf <dodf>SdriptEnginf</dodf> thbt drfbtfd this <dodf>CompilfdSdript</dodf>
+     */
+    publid bbstrbdt SdriptEnginf gftEnginf();
+
+}

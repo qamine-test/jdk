@@ -1,0 +1,348 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.bwt.dolor.ICC_Profilf;
+import jbvb.bwt.gfom.Rfdtbnglf2D;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.RfndfringHints;
+import jbvb.bwt.gfom.Point2D;
+import jbvb.lbng.bnnotbtion.Nbtivf;
+import sun.bwt.imbgf.ImbgingLib;
+
+/**
+ * This dlbss implfmfnts b donvolution from thf sourdf
+ * to thf dfstinbtion.
+ * Convolution using b donvolution kfrnfl is b spbtibl opfrbtion thbt
+ * domputfs thf output pixfl from bn input pixfl by multiplying thf kfrnfl
+ * with thf surround of thf input pixfl.
+ * This bllows thf output pixfl to bf bfffdtfd by thf immfdibtf nfighborhood
+ * in b wby thbt dbn bf mbthfmbtidblly spfdififd with b kfrnfl.
+ *<p>
+ * This dlbss opfrbtfs with BufffrfdImbgf dbtb in whidh dolor domponfnts brf
+ * prfmultiplifd with thf blphb domponfnt.  If thf Sourdf BufffrfdImbgf hbs
+ * bn blphb domponfnt, bnd thf dolor domponfnts brf not prfmultiplifd with
+ * thf blphb domponfnt, thfn thf dbtb brf prfmultiplifd bfforf bfing
+ * donvolvfd.  If thf Dfstinbtion hbs dolor domponfnts whidh brf not
+ * prfmultiplifd, thfn blphb is dividfd out bfforf storing into thf
+ * Dfstinbtion (if blphb is 0, thf dolor domponfnts brf sft to 0).  If thf
+ * Dfstinbtion hbs no blphb domponfnt, thfn thf rfsulting blphb is disdbrdfd
+ * bftfr first dividing it out of thf dolor domponfnts.
+ * <p>
+ * Rbstfrs brf trfbtfd bs hbving no blphb dhbnnfl.  If thf bbovf trfbtmfnt
+ * of thf blphb dhbnnfl in BufffrfdImbgfs is not dfsirfd, it mby bf bvoidfd
+ * by gftting thf Rbstfr of b sourdf BufffrfdImbgf bnd using thf filtfr mfthod
+ * of this dlbss whidh works with Rbstfrs.
+ * <p>
+ * If b RfndfringHints objfdt is spfdififd in thf donstrudtor, thf
+ * dolor rfndfring hint bnd thf dithfring hint mby bf usfd whfn dolor
+ * donvfrsion is rfquirfd.
+ *<p>
+ * Notf thbt thf Sourdf bnd thf Dfstinbtion mby not bf thf sbmf objfdt.
+ * @sff Kfrnfl
+ * @sff jbvb.bwt.RfndfringHints#KEY_COLOR_RENDERING
+ * @sff jbvb.bwt.RfndfringHints#KEY_DITHERING
+ */
+publid dlbss ConvolvfOp implfmfnts BufffrfdImbgfOp, RbstfrOp {
+    Kfrnfl kfrnfl;
+    int fdgfHint;
+    RfndfringHints hints;
+    /**
+     * Edgf dondition donstbnts.
+     */
+
+    /**
+     * Pixfls bt thf fdgf of thf dfstinbtion imbgf brf sft to zfro.  This
+     * is thf dffbult.
+     */
+
+    @Nbtivf publid stbtid finbl int EDGE_ZERO_FILL = 0;
+
+    /**
+     * Pixfls bt thf fdgf of thf sourdf imbgf brf dopifd to
+     * thf dorrfsponding pixfls in thf dfstinbtion without modifidbtion.
+     */
+    @Nbtivf publid stbtid finbl int EDGE_NO_OP     = 1;
+
+    /**
+     * Construdts b ConvolvfOp givfn b Kfrnfl, bn fdgf dondition, bnd b
+     * RfndfringHints objfdt (whidh mby bf null).
+     * @pbrbm kfrnfl thf spfdififd <dodf>Kfrnfl</dodf>
+     * @pbrbm fdgfCondition thf spfdififd fdgf dondition
+     * @pbrbm hints thf spfdififd <dodf>RfndfringHints</dodf> objfdt
+     * @sff Kfrnfl
+     * @sff #EDGE_NO_OP
+     * @sff #EDGE_ZERO_FILL
+     * @sff jbvb.bwt.RfndfringHints
+     */
+    publid ConvolvfOp(Kfrnfl kfrnfl, int fdgfCondition, RfndfringHints hints) {
+        this.kfrnfl   = kfrnfl;
+        this.fdgfHint = fdgfCondition;
+        this.hints    = hints;
+    }
+
+    /**
+     * Construdts b ConvolvfOp givfn b Kfrnfl.  Thf fdgf dondition
+     * will bf EDGE_ZERO_FILL.
+     * @pbrbm kfrnfl thf spfdififd <dodf>Kfrnfl</dodf>
+     * @sff Kfrnfl
+     * @sff #EDGE_ZERO_FILL
+     */
+    publid ConvolvfOp(Kfrnfl kfrnfl) {
+        this.kfrnfl   = kfrnfl;
+        this.fdgfHint = EDGE_ZERO_FILL;
+    }
+
+    /**
+     * Rfturns thf fdgf dondition.
+     * @rfturn thf fdgf dondition of this <dodf>ConvolvfOp</dodf>.
+     * @sff #EDGE_NO_OP
+     * @sff #EDGE_ZERO_FILL
+     */
+    publid int gftEdgfCondition() {
+        rfturn fdgfHint;
+    }
+
+    /**
+     * Rfturns thf Kfrnfl.
+     * @rfturn thf <dodf>Kfrnfl</dodf> of this <dodf>ConvolvfOp</dodf>.
+     */
+    publid finbl Kfrnfl gftKfrnfl() {
+        rfturn (Kfrnfl) kfrnfl.dlonf();
+    }
+
+    /**
+     * Pfrforms b donvolution on BufffrfdImbgfs.  Ebdh domponfnt of thf
+     * sourdf imbgf will bf donvolvfd (indluding thf blphb domponfnt, if
+     * prfsfnt).
+     * If thf dolor modfl in thf sourdf imbgf is not thf sbmf bs thbt
+     * in thf dfstinbtion imbgf, thf pixfls will bf donvfrtfd
+     * in thf dfstinbtion.  If thf dfstinbtion imbgf is null,
+     * b BufffrfdImbgf will bf drfbtfd with thf sourdf ColorModfl.
+     * Thf IllfgblArgumfntExdfption mby bf thrown if thf sourdf is thf
+     * sbmf bs thf dfstinbtion.
+     * @pbrbm srd thf sourdf <dodf>BufffrfdImbgf</dodf> to filtfr
+     * @pbrbm dst thf dfstinbtion <dodf>BufffrfdImbgf</dodf> for thf
+     *        filtfrfd <dodf>srd</dodf>
+     * @rfturn thf filtfrfd <dodf>BufffrfdImbgf</dodf>
+     * @throws NullPointfrExdfption if <dodf>srd</dodf> is <dodf>null</dodf>
+     * @throws IllfgblArgumfntExdfption if <dodf>srd</dodf> fqubls
+     *         <dodf>dst</dodf>
+     * @throws ImbgingOpExdfption if <dodf>srd</dodf> dbnnot bf filtfrfd
+     */
+    publid finbl BufffrfdImbgf filtfr (BufffrfdImbgf srd, BufffrfdImbgf dst) {
+        if (srd == null) {
+            throw nfw NullPointfrExdfption("srd imbgf is null");
+        }
+        if (srd == dst) {
+            throw nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf thf "+
+                                               "sbmf bs thf dst imbgf");
+        }
+
+        boolfbn nffdToConvfrt = fblsf;
+        ColorModfl srdCM = srd.gftColorModfl();
+        ColorModfl dstCM;
+        BufffrfdImbgf origDst = dst;
+
+        // Cbn't donvolvf bn IndfxColorModfl.  Nffd to fxpbnd it
+        if (srdCM instbndfof IndfxColorModfl) {
+            IndfxColorModfl idm = (IndfxColorModfl) srdCM;
+            srd = idm.donvfrtToIntDisdrftf(srd.gftRbstfr(), fblsf);
+            srdCM = srd.gftColorModfl();
+        }
+
+        if (dst == null) {
+            dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+            dstCM = srdCM;
+            origDst = dst;
+        }
+        flsf {
+            dstCM = dst.gftColorModfl();
+            if (srdCM.gftColorSpbdf().gftTypf() !=
+                dstCM.gftColorSpbdf().gftTypf())
+            {
+                nffdToConvfrt = truf;
+                dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+                dstCM = dst.gftColorModfl();
+            }
+            flsf if (dstCM instbndfof IndfxColorModfl) {
+                dst = drfbtfCompbtiblfDfstImbgf(srd, null);
+                dstCM = dst.gftColorModfl();
+            }
+        }
+
+        if (ImbgingLib.filtfr(this, srd, dst) == null) {
+            throw nfw ImbgingOpExdfption ("Unbblf to donvolvf srd imbgf");
+        }
+
+        if (nffdToConvfrt) {
+            ColorConvfrtOp ddop = nfw ColorConvfrtOp(hints);
+            ddop.filtfr(dst, origDst);
+        }
+        flsf if (origDst != dst) {
+            jbvb.bwt.Grbphids2D g = origDst.drfbtfGrbphids();
+            try {
+                g.drbwImbgf(dst, 0, 0, null);
+            } finblly {
+                g.disposf();
+            }
+        }
+
+        rfturn origDst;
+    }
+
+    /**
+     * Pfrforms b donvolution on Rbstfrs.  Ebdh bbnd of thf sourdf Rbstfr
+     * will bf donvolvfd.
+     * Thf sourdf bnd dfstinbtion must hbvf thf sbmf numbfr of bbnds.
+     * If thf dfstinbtion Rbstfr is null, b nfw Rbstfr will bf drfbtfd.
+     * Thf IllfgblArgumfntExdfption mby bf thrown if thf sourdf is
+     * thf sbmf bs thf dfstinbtion.
+     * @pbrbm srd thf sourdf <dodf>Rbstfr</dodf> to filtfr
+     * @pbrbm dst thf dfstinbtion <dodf>WritbblfRbstfr</dodf> for thf
+     *        filtfrfd <dodf>srd</dodf>
+     * @rfturn thf filtfrfd <dodf>WritbblfRbstfr</dodf>
+     * @throws NullPointfrExdfption if <dodf>srd</dodf> is <dodf>null</dodf>
+     * @throws ImbgingOpExdfption if <dodf>srd</dodf> bnd <dodf>dst</dodf>
+     *         do not hbvf thf sbmf numbfr of bbnds
+     * @throws ImbgingOpExdfption if <dodf>srd</dodf> dbnnot bf filtfrfd
+     * @throws IllfgblArgumfntExdfption if <dodf>srd</dodf> fqubls
+     *         <dodf>dst</dodf>
+     */
+    publid finbl WritbblfRbstfr filtfr (Rbstfr srd, WritbblfRbstfr dst) {
+        if (dst == null) {
+            dst = drfbtfCompbtiblfDfstRbstfr(srd);
+        }
+        flsf if (srd == dst) {
+            throw nfw IllfgblArgumfntExdfption("srd imbgf dbnnot bf thf "+
+                                               "sbmf bs thf dst imbgf");
+        }
+        flsf if (srd.gftNumBbnds() != dst.gftNumBbnds()) {
+            throw nfw ImbgingOpExdfption("Difffrfnt numbfr of bbnds in srd "+
+                                         " bnd dst Rbstfrs");
+        }
+
+        if (ImbgingLib.filtfr(this, srd, dst) == null) {
+            throw nfw ImbgingOpExdfption ("Unbblf to donvolvf srd imbgf");
+        }
+
+        rfturn dst;
+    }
+
+    /**
+     * Crfbtfs b zfrofd dfstinbtion imbgf with thf dorrfdt sizf bnd numbfr
+     * of bbnds.  If dfstCM is null, bn bppropribtf ColorModfl will bf usfd.
+     * @pbrbm srd       Sourdf imbgf for thf filtfr opfrbtion.
+     * @pbrbm dfstCM    ColorModfl of thf dfstinbtion.  Cbn bf null.
+     * @rfturn b dfstinbtion <dodf>BufffrfdImbgf</dodf> with thf dorrfdt
+     *         sizf bnd numbfr of bbnds.
+     */
+    publid BufffrfdImbgf drfbtfCompbtiblfDfstImbgf(BufffrfdImbgf srd,
+                                                   ColorModfl dfstCM) {
+        BufffrfdImbgf imbgf;
+
+        int w = srd.gftWidth();
+        int h = srd.gftHfight();
+
+        WritbblfRbstfr wr = null;
+
+        if (dfstCM == null) {
+            dfstCM = srd.gftColorModfl();
+            // Not mudh support for ICM
+            if (dfstCM instbndfof IndfxColorModfl) {
+                dfstCM = ColorModfl.gftRGBdffbult();
+            } flsf {
+                /* Crfbtf dfstinbtion imbgf bs similbr to thf sourdf
+                 *  bs it possiblf...
+                 */
+                wr = srd.gftDbtb().drfbtfCompbtiblfWritbblfRbstfr(w, h);
+            }
+        }
+
+        if (wr == null) {
+            /* This is thf dbsf whfn dfstinbtion dolor modfl
+             * wbs fxpliditly spfdififd (bnd it mby bf not dompbtiblf
+             * with sourdf rbstfr strudturf) or sourdf is indfxfd imbgf.
+             * Wf should usf dfstinbtion dolor modfl to drfbtf dompbtiblf
+             * dfstinbtion rbstfr hfrf.
+             */
+            wr = dfstCM.drfbtfCompbtiblfWritbblfRbstfr(w, h);
+        }
+
+        imbgf = nfw BufffrfdImbgf (dfstCM, wr,
+                                   dfstCM.isAlphbPrfmultiplifd(), null);
+
+        rfturn imbgf;
+    }
+
+    /**
+     * Crfbtfs b zfrofd dfstinbtion Rbstfr with thf dorrfdt sizf bnd numbfr
+     * of bbnds, givfn this sourdf.
+     */
+    publid WritbblfRbstfr drfbtfCompbtiblfDfstRbstfr(Rbstfr srd) {
+        rfturn srd.drfbtfCompbtiblfWritbblfRbstfr();
+    }
+
+    /**
+     * Rfturns thf bounding box of thf filtfrfd dfstinbtion imbgf.  Sindf
+     * this is not b gfomftrid opfrbtion, thf bounding box dofs not
+     * dhbngf.
+     */
+    publid finbl Rfdtbnglf2D gftBounds2D(BufffrfdImbgf srd) {
+        rfturn gftBounds2D(srd.gftRbstfr());
+    }
+
+    /**
+     * Rfturns thf bounding box of thf filtfrfd dfstinbtion Rbstfr.  Sindf
+     * this is not b gfomftrid opfrbtion, thf bounding box dofs not
+     * dhbngf.
+     */
+    publid finbl Rfdtbnglf2D gftBounds2D(Rbstfr srd) {
+        rfturn srd.gftBounds();
+    }
+
+    /**
+     * Rfturns thf lodbtion of thf dfstinbtion point givfn b
+     * point in thf sourdf.  If dstPt is non-null, it will
+     * bf usfd to hold thf rfturn vbluf.  Sindf this is not b gfomftrid
+     * opfrbtion, thf srdPt will fqubl thf dstPt.
+     */
+    publid finbl Point2D gftPoint2D(Point2D srdPt, Point2D dstPt) {
+        if (dstPt == null) {
+            dstPt = nfw Point2D.Flobt();
+        }
+        dstPt.sftLodbtion(srdPt.gftX(), srdPt.gftY());
+
+        rfturn dstPt;
+    }
+
+    /**
+     * Rfturns thf rfndfring hints for this op.
+     */
+    publid finbl RfndfringHints gftRfndfringHints() {
+        rfturn hints;
+    }
+}

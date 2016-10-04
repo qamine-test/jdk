@@ -1,378 +1,378 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.naming.directory;
+pbdkbgf jbvbx.nbming.dirfdtory;
 
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.util.Locale;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Lodblf;
 
-import javax.naming.NamingException;
-import javax.naming.NamingEnumeration;
+import jbvbx.nbming.NbmingExdfption;
+import jbvbx.nbming.NbmingEnumfrbtion;
 
 /**
-  * This class provides a basic implementation
-  * of the Attributes interface.
+  * Tiis dlbss providfs b bbsid implfmfntbtion
+  * of tif Attributfs intfrfbdf.
   *<p>
-  * BasicAttributes is either case-sensitive or case-insensitive (case-ignore).
-  * This property is determined at the time the BasicAttributes constructor
-  * is called.
-  * In a case-insensitive BasicAttributes, the case of its attribute identifiers
-  * is ignored when searching for an attribute, or adding attributes.
-  * In a case-sensitive BasicAttributes, the case is significant.
+  * BbsidAttributfs is fitifr dbsf-sfnsitivf or dbsf-insfnsitivf (dbsf-ignorf).
+  * Tiis propfrty is dftfrminfd bt tif timf tif BbsidAttributfs donstrudtor
+  * is dbllfd.
+  * In b dbsf-insfnsitivf BbsidAttributfs, tif dbsf of its bttributf idfntififrs
+  * is ignorfd wifn sfbrdiing for bn bttributf, or bdding bttributfs.
+  * In b dbsf-sfnsitivf BbsidAttributfs, tif dbsf is signifidbnt.
   *<p>
-  * When the BasicAttributes class needs to create an Attribute, it
-  * uses BasicAttribute. There is no other dependency on BasicAttribute.
+  * Wifn tif BbsidAttributfs dlbss nffds to drfbtf bn Attributf, it
+  * usfs BbsidAttributf. Tifrf is no otifr dfpfndfndy on BbsidAttributf.
   *<p>
-  * Note that updates to BasicAttributes (such as adding or removing an attribute)
-  * does not affect the corresponding representation in the directory.
-  * Updates to the directory can only be effected
-  * using operations in the DirContext interface.
+  * Notf tibt updbtfs to BbsidAttributfs (sudi bs bdding or rfmoving bn bttributf)
+  * dofs not bfffdt tif dorrfsponding rfprfsfntbtion in tif dirfdtory.
+  * Updbtfs to tif dirfdtory dbn only bf ffffdtfd
+  * using opfrbtions in tif DirContfxt intfrfbdf.
   *<p>
-  * A BasicAttributes instance is not synchronized against concurrent
-  * multithreaded access. Multiple threads trying to access and modify
-  * a single BasicAttributes instance should lock the object.
+  * A BbsidAttributfs instbndf is not syndironizfd bgbinst dondurrfnt
+  * multitirfbdfd bddfss. Multiplf tirfbds trying to bddfss bnd modify
+  * b singlf BbsidAttributfs instbndf siould lodk tif objfdt.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
   *
-  * @see DirContext#getAttributes
-  * @see DirContext#modifyAttributes
-  * @see DirContext#bind
-  * @see DirContext#rebind
-  * @see DirContext#createSubcontext
-  * @see DirContext#search
-  * @since 1.3
+  * @sff DirContfxt#gftAttributfs
+  * @sff DirContfxt#modifyAttributfs
+  * @sff DirContfxt#bind
+  * @sff DirContfxt#rfbind
+  * @sff DirContfxt#drfbtfSubdontfxt
+  * @sff DirContfxt#sfbrdi
+  * @sindf 1.3
   */
 
-public class BasicAttributes implements Attributes {
+publid dlbss BbsidAttributfs implfmfnts Attributfs {
     /**
-     * Indicates whether case of attribute ids is ignored.
-     * @serial
+     * Indidbtfs wiftifr dbsf of bttributf ids is ignorfd.
+     * @sfribl
      */
-    private boolean ignoreCase = false;
+    privbtf boolfbn ignorfCbsf = fblsf;
 
-    // The 'key' in attrs is stored in the 'right case'.
-    // If ignoreCase is true, key is aways lowercase.
-    // If ignoreCase is false, key is stored as supplied by put().
-    // %%% Not declared "private" due to bug 4064984.
-    transient Hashtable<String,Attribute> attrs = new Hashtable<>(11);
+    // Tif 'kfy' in bttrs is storfd in tif 'rigit dbsf'.
+    // If ignorfCbsf is truf, kfy is bwbys lowfrdbsf.
+    // If ignorfCbsf is fblsf, kfy is storfd bs supplifd by put().
+    // %%% Not dfdlbrfd "privbtf" duf to bug 4064984.
+    trbnsifnt Hbsitbblf<String,Attributf> bttrs = nfw Hbsitbblf<>(11);
 
     /**
-      * Constructs a new instance of Attributes.
-      * The character case of attribute identifiers
-      * is significant when subsequently retrieving or adding attributes.
+      * Construdts b nfw instbndf of Attributfs.
+      * Tif dibrbdtfr dbsf of bttributf idfntififrs
+      * is signifidbnt wifn subsfqufntly rftrifving or bdding bttributfs.
       */
-    public BasicAttributes() {
+    publid BbsidAttributfs() {
     }
 
     /**
-      * Constructs a new instance of Attributes.
-      * If <code>ignoreCase</code> is true, the character case of attribute
-      * identifiers is ignored; otherwise the case is significant.
-      * @param ignoreCase true means this attribute set will ignore
-      *                   the case of its attribute identifiers
-      *                   when retrieving or adding attributes;
-      *                   false means case is respected.
+      * Construdts b nfw instbndf of Attributfs.
+      * If <dodf>ignorfCbsf</dodf> is truf, tif dibrbdtfr dbsf of bttributf
+      * idfntififrs is ignorfd; otifrwisf tif dbsf is signifidbnt.
+      * @pbrbm ignorfCbsf truf mfbns tiis bttributf sft will ignorf
+      *                   tif dbsf of its bttributf idfntififrs
+      *                   wifn rftrifving or bdding bttributfs;
+      *                   fblsf mfbns dbsf is rfspfdtfd.
       */
-    public BasicAttributes(boolean ignoreCase) {
-        this.ignoreCase = ignoreCase;
+    publid BbsidAttributfs(boolfbn ignorfCbsf) {
+        tiis.ignorfCbsf = ignorfCbsf;
     }
 
     /**
-      * Constructs a new instance of Attributes with one attribute.
-      * The attribute specified by attrID and val are added to the newly
-      * created attribute.
-      * The character case of attribute identifiers
-      * is significant when subsequently retrieving or adding attributes.
-      * @param attrID   non-null The id of the attribute to add.
-      * @param val The value of the attribute to add. If null, a null
-      *        value is added to the attribute.
+      * Construdts b nfw instbndf of Attributfs witi onf bttributf.
+      * Tif bttributf spfdififd by bttrID bnd vbl brf bddfd to tif nfwly
+      * drfbtfd bttributf.
+      * Tif dibrbdtfr dbsf of bttributf idfntififrs
+      * is signifidbnt wifn subsfqufntly rftrifving or bdding bttributfs.
+      * @pbrbm bttrID   non-null Tif id of tif bttributf to bdd.
+      * @pbrbm vbl Tif vbluf of tif bttributf to bdd. If null, b null
+      *        vbluf is bddfd to tif bttributf.
       */
-    public BasicAttributes(String attrID, Object val) {
-        this();
-        this.put(new BasicAttribute(attrID, val));
+    publid BbsidAttributfs(String bttrID, Objfdt vbl) {
+        tiis();
+        tiis.put(nfw BbsidAttributf(bttrID, vbl));
     }
 
     /**
-      * Constructs a new instance of Attributes with one attribute.
-      * The attribute specified by attrID and val are added to the newly
-      * created attribute.
-      * If <code>ignoreCase</code> is true, the character case of attribute
-      * identifiers is ignored; otherwise the case is significant.
-      * @param attrID   non-null The id of the attribute to add.
-      *           If this attribute set ignores the character
-      *           case of its attribute ids, the case of attrID
-      *           is ignored.
-      * @param val The value of the attribute to add. If null, a null
-      *        value is added to the attribute.
-      * @param ignoreCase true means this attribute set will ignore
-      *                   the case of its attribute identifiers
-      *                   when retrieving or adding attributes;
-      *                   false means case is respected.
+      * Construdts b nfw instbndf of Attributfs witi onf bttributf.
+      * Tif bttributf spfdififd by bttrID bnd vbl brf bddfd to tif nfwly
+      * drfbtfd bttributf.
+      * If <dodf>ignorfCbsf</dodf> is truf, tif dibrbdtfr dbsf of bttributf
+      * idfntififrs is ignorfd; otifrwisf tif dbsf is signifidbnt.
+      * @pbrbm bttrID   non-null Tif id of tif bttributf to bdd.
+      *           If tiis bttributf sft ignorfs tif dibrbdtfr
+      *           dbsf of its bttributf ids, tif dbsf of bttrID
+      *           is ignorfd.
+      * @pbrbm vbl Tif vbluf of tif bttributf to bdd. If null, b null
+      *        vbluf is bddfd to tif bttributf.
+      * @pbrbm ignorfCbsf truf mfbns tiis bttributf sft will ignorf
+      *                   tif dbsf of its bttributf idfntififrs
+      *                   wifn rftrifving or bdding bttributfs;
+      *                   fblsf mfbns dbsf is rfspfdtfd.
       */
-    public BasicAttributes(String attrID, Object val, boolean ignoreCase) {
-        this(ignoreCase);
-        this.put(new BasicAttribute(attrID, val));
+    publid BbsidAttributfs(String bttrID, Objfdt vbl, boolfbn ignorfCbsf) {
+        tiis(ignorfCbsf);
+        tiis.put(nfw BbsidAttributf(bttrID, vbl));
     }
 
-    @SuppressWarnings("unchecked")
-    public Object clone() {
-        BasicAttributes attrset;
+    @SupprfssWbrnings("undifdkfd")
+    publid Objfdt dlonf() {
+        BbsidAttributfs bttrsft;
         try {
-            attrset = (BasicAttributes)super.clone();
-        } catch (CloneNotSupportedException e) {
-            attrset = new BasicAttributes(ignoreCase);
+            bttrsft = (BbsidAttributfs)supfr.dlonf();
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            bttrsft = nfw BbsidAttributfs(ignorfCbsf);
         }
-        attrset.attrs = (Hashtable<String,Attribute>)attrs.clone();
-        return attrset;
+        bttrsft.bttrs = (Hbsitbblf<String,Attributf>)bttrs.dlonf();
+        rfturn bttrsft;
     }
 
-    public boolean isCaseIgnored() {
-        return ignoreCase;
+    publid boolfbn isCbsfIgnorfd() {
+        rfturn ignorfCbsf;
     }
 
-    public int size() {
-        return attrs.size();
+    publid int sizf() {
+        rfturn bttrs.sizf();
     }
 
-    public Attribute get(String attrID) {
-        Attribute attr = attrs.get(
-                ignoreCase ? attrID.toLowerCase(Locale.ENGLISH) : attrID);
-        return (attr);
+    publid Attributf gft(String bttrID) {
+        Attributf bttr = bttrs.gft(
+                ignorfCbsf ? bttrID.toLowfrCbsf(Lodblf.ENGLISH) : bttrID);
+        rfturn (bttr);
     }
 
-    public NamingEnumeration<Attribute> getAll() {
-        return new AttrEnumImpl();
+    publid NbmingEnumfrbtion<Attributf> gftAll() {
+        rfturn nfw AttrEnumImpl();
     }
 
-    public NamingEnumeration<String> getIDs() {
-        return new IDEnumImpl();
+    publid NbmingEnumfrbtion<String> gftIDs() {
+        rfturn nfw IDEnumImpl();
     }
 
-    public Attribute put(String attrID, Object val) {
-        return this.put(new BasicAttribute(attrID, val));
+    publid Attributf put(String bttrID, Objfdt vbl) {
+        rfturn tiis.put(nfw BbsidAttributf(bttrID, vbl));
     }
 
-    public Attribute put(Attribute attr) {
-        String id = attr.getID();
-        if (ignoreCase) {
-            id = id.toLowerCase(Locale.ENGLISH);
+    publid Attributf put(Attributf bttr) {
+        String id = bttr.gftID();
+        if (ignorfCbsf) {
+            id = id.toLowfrCbsf(Lodblf.ENGLISH);
         }
-        return attrs.put(id, attr);
+        rfturn bttrs.put(id, bttr);
     }
 
-    public Attribute remove(String attrID) {
-        String id = (ignoreCase ? attrID.toLowerCase(Locale.ENGLISH) : attrID);
-        return attrs.remove(id);
+    publid Attributf rfmovf(String bttrID) {
+        String id = (ignorfCbsf ? bttrID.toLowfrCbsf(Lodblf.ENGLISH) : bttrID);
+        rfturn bttrs.rfmovf(id);
     }
 
     /**
-     * Generates the string representation of this attribute set.
-     * The string consists of each attribute identifier and the contents
-     * of each attribute. The contents of this string is useful
-     * for debugging and is not meant to be interpreted programmatically.
+     * Gfnfrbtfs tif string rfprfsfntbtion of tiis bttributf sft.
+     * Tif string donsists of fbdi bttributf idfntififr bnd tif dontfnts
+     * of fbdi bttributf. Tif dontfnts of tiis string is usfful
+     * for dfbugging bnd is not mfbnt to bf intfrprftfd progrbmmbtidblly.
      *
-     * @return A non-null string listing the contents of this attribute set.
+     * @rfturn A non-null string listing tif dontfnts of tiis bttributf sft.
      */
-    public String toString() {
-        if (attrs.size() == 0) {
-            return("No attributes");
-        } else {
-            return attrs.toString();
+    publid String toString() {
+        if (bttrs.sizf() == 0) {
+            rfturn("No bttributfs");
+        } flsf {
+            rfturn bttrs.toString();
         }
     }
 
     /**
-     * Determines whether this <tt>BasicAttributes</tt> is equal to another
-     * <tt>Attributes</tt>
-     * Two <tt>Attributes</tt> are equal if they are both instances of
-     * <tt>Attributes</tt>,
-     * treat the case of attribute IDs the same way, and contain the
-     * same attributes. Each <tt>Attribute</tt> in this <tt>BasicAttributes</tt>
-     * is checked for equality using <tt>Object.equals()</tt>, which may have
-     * be overridden by implementations of <tt>Attribute</tt>).
-     * If a subclass overrides <tt>equals()</tt>,
-     * it should override <tt>hashCode()</tt>
-     * as well so that two <tt>Attributes</tt> instances that are equal
-     * have the same hash code.
-     * @param obj the possibly null object to compare against.
+     * Dftfrminfs wiftifr tiis <tt>BbsidAttributfs</tt> is fqubl to bnotifr
+     * <tt>Attributfs</tt>
+     * Two <tt>Attributfs</tt> brf fqubl if tify brf boti instbndfs of
+     * <tt>Attributfs</tt>,
+     * trfbt tif dbsf of bttributf IDs tif sbmf wby, bnd dontbin tif
+     * sbmf bttributfs. Ebdi <tt>Attributf</tt> in tiis <tt>BbsidAttributfs</tt>
+     * is difdkfd for fqublity using <tt>Objfdt.fqubls()</tt>, wiidi mby ibvf
+     * bf ovfrriddfn by implfmfntbtions of <tt>Attributf</tt>).
+     * If b subdlbss ovfrridfs <tt>fqubls()</tt>,
+     * it siould ovfrridf <tt>ibsiCodf()</tt>
+     * bs wfll so tibt two <tt>Attributfs</tt> instbndfs tibt brf fqubl
+     * ibvf tif sbmf ibsi dodf.
+     * @pbrbm obj tif possibly null objfdt to dompbrf bgbinst.
      *
-     * @return true If obj is equal to this BasicAttributes.
-     * @see #hashCode
+     * @rfturn truf If obj is fqubl to tiis BbsidAttributfs.
+     * @sff #ibsiCodf
      */
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof Attributes)) {
-            Attributes target = (Attributes)obj;
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof Attributfs)) {
+            Attributfs tbrgft = (Attributfs)obj;
 
-            // Check case first
-            if (ignoreCase != target.isCaseIgnored()) {
-                return false;
+            // Cifdk dbsf first
+            if (ignorfCbsf != tbrgft.isCbsfIgnorfd()) {
+                rfturn fblsf;
             }
 
-            if (size() == target.size()) {
-                Attribute their, mine;
+            if (sizf() == tbrgft.sizf()) {
+                Attributf tifir, minf;
                 try {
-                    NamingEnumeration<?> theirs = target.getAll();
-                    while (theirs.hasMore()) {
-                        their = (Attribute)theirs.next();
-                        mine = get(their.getID());
-                        if (!their.equals(mine)) {
-                            return false;
+                    NbmingEnumfrbtion<?> tifirs = tbrgft.gftAll();
+                    wiilf (tifirs.ibsMorf()) {
+                        tifir = (Attributf)tifirs.nfxt();
+                        minf = gft(tifir.gftID());
+                        if (!tifir.fqubls(minf)) {
+                            rfturn fblsf;
                         }
                     }
-                } catch (NamingException e) {
-                    return false;
+                } dbtdi (NbmingExdfption f) {
+                    rfturn fblsf;
                 }
-                return true;
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Calculates the hash code of this BasicAttributes.
+     * Cbldulbtfs tif ibsi dodf of tiis BbsidAttributfs.
      *<p>
-     * The hash code is computed by adding the hash code of
-     * the attributes of this object. If this BasicAttributes
-     * ignores case of its attribute IDs, one is added to the hash code.
-     * If a subclass overrides <tt>hashCode()</tt>,
-     * it should override <tt>equals()</tt>
-     * as well so that two <tt>Attributes</tt> instances that are equal
-     * have the same hash code.
+     * Tif ibsi dodf is domputfd by bdding tif ibsi dodf of
+     * tif bttributfs of tiis objfdt. If tiis BbsidAttributfs
+     * ignorfs dbsf of its bttributf IDs, onf is bddfd to tif ibsi dodf.
+     * If b subdlbss ovfrridfs <tt>ibsiCodf()</tt>,
+     * it siould ovfrridf <tt>fqubls()</tt>
+     * bs wfll so tibt two <tt>Attributfs</tt> instbndfs tibt brf fqubl
+     * ibvf tif sbmf ibsi dodf.
      *
-     * @return an int representing the hash code of this BasicAttributes instance.
-     * @see #equals
+     * @rfturn bn int rfprfsfnting tif ibsi dodf of tiis BbsidAttributfs instbndf.
+     * @sff #fqubls
      */
-    public int hashCode() {
-        int hash = (ignoreCase ? 1 : 0);
+    publid int ibsiCodf() {
+        int ibsi = (ignorfCbsf ? 1 : 0);
         try {
-            NamingEnumeration<?> all = getAll();
-            while (all.hasMore()) {
-                hash += all.next().hashCode();
+            NbmingEnumfrbtion<?> bll = gftAll();
+            wiilf (bll.ibsMorf()) {
+                ibsi += bll.nfxt().ibsiCodf();
             }
-        } catch (NamingException e) {}
-        return hash;
+        } dbtdi (NbmingExdfption f) {}
+        rfturn ibsi;
     }
 
     /**
-     * Overridden to avoid exposing implementation details.
-     * @serialData Default field (ignoreCase flag -- a boolean), followed by
-     * the number of attributes in the set
-     * (an int), and then the individual Attribute objects.
+     * Ovfrriddfn to bvoid fxposing implfmfntbtion dftbils.
+     * @sfriblDbtb Dffbult fifld (ignorfCbsf flbg -- b boolfbn), followfd by
+     * tif numbfr of bttributfs in tif sft
+     * (bn int), bnd tifn tif individubl Attributf objfdts.
      */
-    private void writeObject(java.io.ObjectOutputStream s)
-            throws java.io.IOException {
-        s.defaultWriteObject(); // write out the ignoreCase flag
-        s.writeInt(attrs.size());
-        Enumeration<Attribute> attrEnum = attrs.elements();
-        while (attrEnum.hasMoreElements()) {
-            s.writeObject(attrEnum.nextElement());
+    privbtf void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+            tirows jbvb.io.IOExdfption {
+        s.dffbultWritfObjfdt(); // writf out tif ignorfCbsf flbg
+        s.writfInt(bttrs.sizf());
+        Enumfrbtion<Attributf> bttrEnum = bttrs.flfmfnts();
+        wiilf (bttrEnum.ibsMorfElfmfnts()) {
+            s.writfObjfdt(bttrEnum.nfxtElfmfnt());
         }
     }
 
     /**
-     * Overridden to avoid exposing implementation details.
+     * Ovfrriddfn to bvoid fxposing implfmfntbtion dftbils.
      */
-    private void readObject(java.io.ObjectInputStream s)
-            throws java.io.IOException, ClassNotFoundException {
-        s.defaultReadObject();  // read in the ignoreCase flag
-        int n = s.readInt();    // number of attributes
-        attrs = (n >= 1)
-            ? new Hashtable<String,Attribute>(n * 2)
-            : new Hashtable<String,Attribute>(2); // can't have initial size of 0 (grrr...)
-        while (--n >= 0) {
-            put((Attribute)s.readObject());
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+            tirows jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();  // rfbd in tif ignorfCbsf flbg
+        int n = s.rfbdInt();    // numbfr of bttributfs
+        bttrs = (n >= 1)
+            ? nfw Hbsitbblf<String,Attributf>(n * 2)
+            : nfw Hbsitbblf<String,Attributf>(2); // dbn't ibvf initibl sizf of 0 (grrr...)
+        wiilf (--n >= 0) {
+            put((Attributf)s.rfbdObjfdt());
         }
     }
 
 
-class AttrEnumImpl implements NamingEnumeration<Attribute> {
+dlbss AttrEnumImpl implfmfnts NbmingEnumfrbtion<Attributf> {
 
-    Enumeration<Attribute> elements;
+    Enumfrbtion<Attributf> flfmfnts;
 
-    public AttrEnumImpl() {
-        this.elements = attrs.elements();
+    publid AttrEnumImpl() {
+        tiis.flfmfnts = bttrs.flfmfnts();
     }
 
-    public boolean hasMoreElements() {
-        return elements.hasMoreElements();
+    publid boolfbn ibsMorfElfmfnts() {
+        rfturn flfmfnts.ibsMorfElfmfnts();
     }
 
-    public Attribute nextElement() {
-        return elements.nextElement();
+    publid Attributf nfxtElfmfnt() {
+        rfturn flfmfnts.nfxtElfmfnt();
     }
 
-    public boolean hasMore() throws NamingException {
-        return hasMoreElements();
+    publid boolfbn ibsMorf() tirows NbmingExdfption {
+        rfturn ibsMorfElfmfnts();
     }
 
-    public Attribute next() throws NamingException {
-        return nextElement();
+    publid Attributf nfxt() tirows NbmingExdfption {
+        rfturn nfxtElfmfnt();
     }
 
-    public void close() throws NamingException {
-        elements = null;
+    publid void dlosf() tirows NbmingExdfption {
+        flfmfnts = null;
     }
 }
 
-class IDEnumImpl implements NamingEnumeration<String> {
+dlbss IDEnumImpl implfmfnts NbmingEnumfrbtion<String> {
 
-    Enumeration<Attribute> elements;
+    Enumfrbtion<Attributf> flfmfnts;
 
-    public IDEnumImpl() {
-        // Walking through the elements, rather than the keys, gives
-        // us attribute IDs that have not been converted to lowercase.
-        this.elements = attrs.elements();
+    publid IDEnumImpl() {
+        // Wblking tirougi tif flfmfnts, rbtifr tibn tif kfys, givfs
+        // us bttributf IDs tibt ibvf not bffn donvfrtfd to lowfrdbsf.
+        tiis.flfmfnts = bttrs.flfmfnts();
     }
 
-    public boolean hasMoreElements() {
-        return elements.hasMoreElements();
+    publid boolfbn ibsMorfElfmfnts() {
+        rfturn flfmfnts.ibsMorfElfmfnts();
     }
 
-    public String nextElement() {
-        Attribute attr = elements.nextElement();
-        return attr.getID();
+    publid String nfxtElfmfnt() {
+        Attributf bttr = flfmfnts.nfxtElfmfnt();
+        rfturn bttr.gftID();
     }
 
-    public boolean hasMore() throws NamingException {
-        return hasMoreElements();
+    publid boolfbn ibsMorf() tirows NbmingExdfption {
+        rfturn ibsMorfElfmfnts();
     }
 
-    public String next() throws NamingException {
-        return nextElement();
+    publid String nfxt() tirows NbmingExdfption {
+        rfturn nfxtElfmfnt();
     }
 
-    public void close() throws NamingException {
-        elements = null;
+    publid void dlosf() tirows NbmingExdfption {
+        flfmfnts = null;
     }
 }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability.
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility.
      */
-    private static final long serialVersionUID = 4980164073184639448L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 4980164073184639448L;
 }

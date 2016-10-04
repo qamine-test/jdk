@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
-import com.sun.jmx.snmp.SnmpDefinitions;
+import dom.sun.jmx.snmp.SnmpDffinitions;
 
 /**
- * This class is the base class of all parameters that are used when making SNMP requests to an <CODE>SnmpPeer</CODE>.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @since 1.5
+ * Tiis dlbss is tif bbsf dlbss of bll pbrbmftfrs tibt brf usfd wifn mbking SNMP rfqufsts to bn <CODE>SnmpPffr</CODE>.
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sindf 1.5
  */
-public abstract class SnmpParams implements SnmpDefinitions {
-    private int protocolVersion = snmpVersionOne;
-    SnmpParams(int version) {
-        protocolVersion = version;
+publid bbstrbdt dlbss SnmpPbrbms implfmfnts SnmpDffinitions {
+    privbtf int protodolVfrsion = snmpVfrsionOnf;
+    SnmpPbrbms(int vfrsion) {
+        protodolVfrsion = vfrsion;
     }
 
-    SnmpParams() {}
+    SnmpPbrbms() {}
     /**
-     * Checks whether parameters are in place for an SNMP <CODE>set</CODE> operation.
-     * @return <CODE>true</CODE> if parameters are in place, <CODE>false</CODE> otherwise.
+     * Cifdks wiftifr pbrbmftfrs brf in plbdf for bn SNMP <CODE>sft</CODE> opfrbtion.
+     * @rfturn <CODE>truf</CODE> if pbrbmftfrs brf in plbdf, <CODE>fblsf</CODE> otifrwisf.
      */
-    public abstract boolean allowSnmpSets();
+    publid bbstrbdt boolfbn bllowSnmpSfts();
     /**
-     * Returns the version of the protocol to use.
-     * The returned value is:
+     * Rfturns tif vfrsion of tif protodol to usf.
+     * Tif rfturnfd vbluf is:
      * <UL>
-     * <LI>{@link com.sun.jmx.snmp.SnmpDefinitions#snmpVersionOne snmpVersionOne} if the protocol is SNMPv1
-     * <LI>{@link com.sun.jmx.snmp.SnmpDefinitions#snmpVersionTwo snmpVersionTwo} if the protocol is SNMPv2
-     * <LI>{@link com.sun.jmx.snmp.SnmpDefinitions#snmpVersionThree snmpVersionThree} if the protocol is SNMPv3
+     * <LI>{@link dom.sun.jmx.snmp.SnmpDffinitions#snmpVfrsionOnf snmpVfrsionOnf} if tif protodol is SNMPv1
+     * <LI>{@link dom.sun.jmx.snmp.SnmpDffinitions#snmpVfrsionTwo snmpVfrsionTwo} if tif protodol is SNMPv2
+     * <LI>{@link dom.sun.jmx.snmp.SnmpDffinitions#snmpVfrsionTirff snmpVfrsionTirff} if tif protodol is SNMPv3
      * </UL>
-     * @return The version of the protocol to use.
+     * @rfturn Tif vfrsion of tif protodol to usf.
      */
-    public int getProtocolVersion() {
-        return protocolVersion ;
+    publid int gftProtodolVfrsion() {
+        rfturn protodolVfrsion ;
     }
 
     /**
-     * Sets the version of the protocol to be used.
-     * The version should be identified using the definitions
-     * contained in
-     * {@link com.sun.jmx.snmp.SnmpDefinitions SnmpDefinitions}.
-     * <BR>For instance if you wish to use SNMPv2, you can call the method as follows:
+     * Sfts tif vfrsion of tif protodol to bf usfd.
+     * Tif vfrsion siould bf idfntififd using tif dffinitions
+     * dontbinfd in
+     * {@link dom.sun.jmx.snmp.SnmpDffinitions SnmpDffinitions}.
+     * <BR>For instbndf if you wisi to usf SNMPv2, you dbn dbll tif mftiod bs follows:
      * <BLOCKQUOTE><PRE>
-     * setProtocolVersion(SnmpDefinitions.snmpVersionTwo);
+     * sftProtodolVfrsion(SnmpDffinitions.snmpVfrsionTwo);
      * </PRE></BLOCKQUOTE>
-     * @param protocolversion The version of the protocol to be used.
+     * @pbrbm protodolvfrsion Tif vfrsion of tif protodol to bf usfd.
      */
 
-    public void setProtocolVersion(int protocolversion) {
-        this.protocolVersion = protocolversion ;
+    publid void sftProtodolVfrsion(int protodolvfrsion) {
+        tiis.protodolVfrsion = protodolvfrsion ;
     }
 }

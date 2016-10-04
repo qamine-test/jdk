@@ -1,268 +1,268 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent.atomic;
-import java.io.Serializable;
+pbdkbgf jbvb.util.dondurrfnt.btomid;
+import jbvb.io.Sfriblizbblf;
 
 /**
- * One or more variables that together maintain an initially zero
- * {@code long} sum.  When updates (method {@link #add}) are contended
- * across threads, the set of variables may grow dynamically to reduce
- * contention. Method {@link #sum} (or, equivalently, {@link
- * #longValue}) returns the current total combined across the
- * variables maintaining the sum.
+ * Onf or morf vbribblfs tibt togftifr mbintbin bn initiblly zfro
+ * {@dodf long} sum.  Wifn updbtfs (mftiod {@link #bdd}) brf dontfndfd
+ * bdross tirfbds, tif sft of vbribblfs mby grow dynbmidblly to rfdudf
+ * dontfntion. Mftiod {@link #sum} (or, fquivblfntly, {@link
+ * #longVbluf}) rfturns tif durrfnt totbl dombinfd bdross tif
+ * vbribblfs mbintbining tif sum.
  *
- * <p>This class is usually preferable to {@link AtomicLong} when
- * multiple threads update a common sum that is used for purposes such
- * as collecting statistics, not for fine-grained synchronization
- * control.  Under low update contention, the two classes have similar
- * characteristics. But under high contention, expected throughput of
- * this class is significantly higher, at the expense of higher space
- * consumption.
+ * <p>Tiis dlbss is usublly prfffrbblf to {@link AtomidLong} wifn
+ * multiplf tirfbds updbtf b dommon sum tibt is usfd for purposfs sudi
+ * bs dollfdting stbtistids, not for finf-grbinfd syndironizbtion
+ * dontrol.  Undfr low updbtf dontfntion, tif two dlbssfs ibvf similbr
+ * dibrbdtfristids. But undfr iigi dontfntion, fxpfdtfd tirougiput of
+ * tiis dlbss is signifidbntly iigifr, bt tif fxpfnsf of iigifr spbdf
+ * donsumption.
  *
- * <p>LongAdders can be used with a {@link
- * java.util.concurrent.ConcurrentHashMap} to maintain a scalable
- * frequency map (a form of histogram or multiset). For example, to
- * add a count to a {@code ConcurrentHashMap<String,LongAdder> freqs},
- * initializing if not already present, you can use {@code
- * freqs.computeIfAbsent(key, k -> new LongAdder()).increment();}
+ * <p>LongAddfrs dbn bf usfd witi b {@link
+ * jbvb.util.dondurrfnt.CondurrfntHbsiMbp} to mbintbin b sdblbblf
+ * frfqufndy mbp (b form of iistogrbm or multisft). For fxbmplf, to
+ * bdd b dount to b {@dodf CondurrfntHbsiMbp<String,LongAddfr> frfqs},
+ * initiblizing if not blrfbdy prfsfnt, you dbn usf {@dodf
+ * frfqs.domputfIfAbsfnt(kfy, k -> nfw LongAddfr()).indrfmfnt();}
  *
- * <p>This class extends {@link Number}, but does <em>not</em> define
- * methods such as {@code equals}, {@code hashCode} and {@code
- * compareTo} because instances are expected to be mutated, and so are
- * not useful as collection keys.
+ * <p>Tiis dlbss fxtfnds {@link Numbfr}, but dofs <fm>not</fm> dffinf
+ * mftiods sudi bs {@dodf fqubls}, {@dodf ibsiCodf} bnd {@dodf
+ * dompbrfTo} bfdbusf instbndfs brf fxpfdtfd to bf mutbtfd, bnd so brf
+ * not usfful bs dollfdtion kfys.
  *
- * @since 1.8
- * @author Doug Lea
+ * @sindf 1.8
+ * @butior Doug Lfb
  */
-public class LongAdder extends Striped64 implements Serializable {
-    private static final long serialVersionUID = 7249069246863182397L;
+publid dlbss LongAddfr fxtfnds Stripfd64 implfmfnts Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 7249069246863182397L;
 
     /**
-     * Creates a new adder with initial sum of zero.
+     * Crfbtfs b nfw bddfr witi initibl sum of zfro.
      */
-    public LongAdder() {
+    publid LongAddfr() {
     }
 
     /**
-     * Adds the given value.
+     * Adds tif givfn vbluf.
      *
-     * @param x the value to add
+     * @pbrbm x tif vbluf to bdd
      */
-    public void add(long x) {
-        Cell[] as; long b, v; int m; Cell a;
-        if ((as = cells) != null || !casBase(b = base, b + x)) {
-            boolean uncontended = true;
-            if (as == null || (m = as.length - 1) < 0 ||
-                (a = as[getProbe() & m]) == null ||
-                !(uncontended = a.cas(v = a.value, v + x)))
-                longAccumulate(x, null, uncontended);
+    publid void bdd(long x) {
+        Cfll[] bs; long b, v; int m; Cfll b;
+        if ((bs = dflls) != null || !dbsBbsf(b = bbsf, b + x)) {
+            boolfbn undontfndfd = truf;
+            if (bs == null || (m = bs.lfngti - 1) < 0 ||
+                (b = bs[gftProbf() & m]) == null ||
+                !(undontfndfd = b.dbs(v = b.vbluf, v + x)))
+                longAddumulbtf(x, null, undontfndfd);
         }
     }
 
     /**
-     * Equivalent to {@code add(1)}.
+     * Equivblfnt to {@dodf bdd(1)}.
      */
-    public void increment() {
-        add(1L);
+    publid void indrfmfnt() {
+        bdd(1L);
     }
 
     /**
-     * Equivalent to {@code add(-1)}.
+     * Equivblfnt to {@dodf bdd(-1)}.
      */
-    public void decrement() {
-        add(-1L);
+    publid void dfdrfmfnt() {
+        bdd(-1L);
     }
 
     /**
-     * Returns the current sum.  The returned value is <em>NOT</em> an
-     * atomic snapshot; invocation in the absence of concurrent
-     * updates returns an accurate result, but concurrent updates that
-     * occur while the sum is being calculated might not be
-     * incorporated.
+     * Rfturns tif durrfnt sum.  Tif rfturnfd vbluf is <fm>NOT</fm> bn
+     * btomid snbpsiot; invodbtion in tif bbsfndf of dondurrfnt
+     * updbtfs rfturns bn bddurbtf rfsult, but dondurrfnt updbtfs tibt
+     * oddur wiilf tif sum is bfing dbldulbtfd migit not bf
+     * indorporbtfd.
      *
-     * @return the sum
+     * @rfturn tif sum
      */
-    public long sum() {
-        Cell[] as = cells; Cell a;
-        long sum = base;
-        if (as != null) {
-            for (int i = 0; i < as.length; ++i) {
-                if ((a = as[i]) != null)
-                    sum += a.value;
+    publid long sum() {
+        Cfll[] bs = dflls; Cfll b;
+        long sum = bbsf;
+        if (bs != null) {
+            for (int i = 0; i < bs.lfngti; ++i) {
+                if ((b = bs[i]) != null)
+                    sum += b.vbluf;
             }
         }
-        return sum;
+        rfturn sum;
     }
 
     /**
-     * Resets variables maintaining the sum to zero.  This method may
-     * be a useful alternative to creating a new adder, but is only
-     * effective if there are no concurrent updates.  Because this
-     * method is intrinsically racy, it should only be used when it is
-     * known that no threads are concurrently updating.
+     * Rfsfts vbribblfs mbintbining tif sum to zfro.  Tiis mftiod mby
+     * bf b usfful bltfrnbtivf to drfbting b nfw bddfr, but is only
+     * ffffdtivf if tifrf brf no dondurrfnt updbtfs.  Bfdbusf tiis
+     * mftiod is intrinsidblly rbdy, it siould only bf usfd wifn it is
+     * known tibt no tirfbds brf dondurrfntly updbting.
      */
-    public void reset() {
-        Cell[] as = cells; Cell a;
-        base = 0L;
-        if (as != null) {
-            for (int i = 0; i < as.length; ++i) {
-                if ((a = as[i]) != null)
-                    a.value = 0L;
+    publid void rfsft() {
+        Cfll[] bs = dflls; Cfll b;
+        bbsf = 0L;
+        if (bs != null) {
+            for (int i = 0; i < bs.lfngti; ++i) {
+                if ((b = bs[i]) != null)
+                    b.vbluf = 0L;
             }
         }
     }
 
     /**
-     * Equivalent in effect to {@link #sum} followed by {@link
-     * #reset}. This method may apply for example during quiescent
-     * points between multithreaded computations.  If there are
-     * updates concurrent with this method, the returned value is
-     * <em>not</em> guaranteed to be the final value occurring before
-     * the reset.
+     * Equivblfnt in ffffdt to {@link #sum} followfd by {@link
+     * #rfsft}. Tiis mftiod mby bpply for fxbmplf during quifsdfnt
+     * points bftwffn multitirfbdfd domputbtions.  If tifrf brf
+     * updbtfs dondurrfnt witi tiis mftiod, tif rfturnfd vbluf is
+     * <fm>not</fm> gubrbntffd to bf tif finbl vbluf oddurring bfforf
+     * tif rfsft.
      *
-     * @return the sum
+     * @rfturn tif sum
      */
-    public long sumThenReset() {
-        Cell[] as = cells; Cell a;
-        long sum = base;
-        base = 0L;
-        if (as != null) {
-            for (int i = 0; i < as.length; ++i) {
-                if ((a = as[i]) != null) {
-                    sum += a.value;
-                    a.value = 0L;
+    publid long sumTifnRfsft() {
+        Cfll[] bs = dflls; Cfll b;
+        long sum = bbsf;
+        bbsf = 0L;
+        if (bs != null) {
+            for (int i = 0; i < bs.lfngti; ++i) {
+                if ((b = bs[i]) != null) {
+                    sum += b.vbluf;
+                    b.vbluf = 0L;
                 }
             }
         }
-        return sum;
+        rfturn sum;
     }
 
     /**
-     * Returns the String representation of the {@link #sum}.
-     * @return the String representation of the {@link #sum}
+     * Rfturns tif String rfprfsfntbtion of tif {@link #sum}.
+     * @rfturn tif String rfprfsfntbtion of tif {@link #sum}
      */
-    public String toString() {
-        return Long.toString(sum());
+    publid String toString() {
+        rfturn Long.toString(sum());
     }
 
     /**
-     * Equivalent to {@link #sum}.
+     * Equivblfnt to {@link #sum}.
      *
-     * @return the sum
+     * @rfturn tif sum
      */
-    public long longValue() {
-        return sum();
+    publid long longVbluf() {
+        rfturn sum();
     }
 
     /**
-     * Returns the {@link #sum} as an {@code int} after a narrowing
-     * primitive conversion.
+     * Rfturns tif {@link #sum} bs bn {@dodf int} bftfr b nbrrowing
+     * primitivf donvfrsion.
      */
-    public int intValue() {
-        return (int)sum();
+    publid int intVbluf() {
+        rfturn (int)sum();
     }
 
     /**
-     * Returns the {@link #sum} as a {@code float}
-     * after a widening primitive conversion.
+     * Rfturns tif {@link #sum} bs b {@dodf flobt}
+     * bftfr b widfning primitivf donvfrsion.
      */
-    public float floatValue() {
-        return (float)sum();
+    publid flobt flobtVbluf() {
+        rfturn (flobt)sum();
     }
 
     /**
-     * Returns the {@link #sum} as a {@code double} after a widening
-     * primitive conversion.
+     * Rfturns tif {@link #sum} bs b {@dodf doublf} bftfr b widfning
+     * primitivf donvfrsion.
      */
-    public double doubleValue() {
-        return (double)sum();
+    publid doublf doublfVbluf() {
+        rfturn (doublf)sum();
     }
 
     /**
-     * Serialization proxy, used to avoid reference to the non-public
-     * Striped64 superclass in serialized forms.
-     * @serial include
+     * Sfriblizbtion proxy, usfd to bvoid rfffrfndf to tif non-publid
+     * Stripfd64 supfrdlbss in sfriblizfd forms.
+     * @sfribl indludf
      */
-    private static class SerializationProxy implements Serializable {
-        private static final long serialVersionUID = 7249069246863182397L;
+    privbtf stbtid dlbss SfriblizbtionProxy implfmfnts Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 7249069246863182397L;
 
         /**
-         * The current value returned by sum().
-         * @serial
+         * Tif durrfnt vbluf rfturnfd by sum().
+         * @sfribl
          */
-        private final long value;
+        privbtf finbl long vbluf;
 
-        SerializationProxy(LongAdder a) {
-            value = a.sum();
+        SfriblizbtionProxy(LongAddfr b) {
+            vbluf = b.sum();
         }
 
         /**
-         * Return a {@code LongAdder} object with initial state
-         * held by this proxy.
+         * Rfturn b {@dodf LongAddfr} objfdt witi initibl stbtf
+         * ifld by tiis proxy.
          *
-         * @return a {@code LongAdder} object with initial state
-         * held by this proxy.
+         * @rfturn b {@dodf LongAddfr} objfdt witi initibl stbtf
+         * ifld by tiis proxy.
          */
-        private Object readResolve() {
-            LongAdder a = new LongAdder();
-            a.base = value;
-            return a;
+        privbtf Objfdt rfbdRfsolvf() {
+            LongAddfr b = nfw LongAddfr();
+            b.bbsf = vbluf;
+            rfturn b;
         }
     }
 
     /**
-     * Returns a
-     * <a href="../../../../serialized-form.html#java.util.concurrent.atomic.LongAdder.SerializationProxy">
-     * SerializationProxy</a>
-     * representing the state of this instance.
+     * Rfturns b
+     * <b irff="../../../../sfriblizfd-form.itml#jbvb.util.dondurrfnt.btomid.LongAddfr.SfriblizbtionProxy">
+     * SfriblizbtionProxy</b>
+     * rfprfsfnting tif stbtf of tiis instbndf.
      *
-     * @return a {@link SerializationProxy}
-     * representing the state of this instance
+     * @rfturn b {@link SfriblizbtionProxy}
+     * rfprfsfnting tif stbtf of tiis instbndf
      */
-    private Object writeReplace() {
-        return new SerializationProxy(this);
+    privbtf Objfdt writfRfplbdf() {
+        rfturn nfw SfriblizbtionProxy(tiis);
     }
 
     /**
-     * @param s the stream
-     * @throws java.io.InvalidObjectException always
+     * @pbrbm s tif strfbm
+     * @tirows jbvb.io.InvblidObjfdtExdfption blwbys
      */
-    private void readObject(java.io.ObjectInputStream s)
-        throws java.io.InvalidObjectException {
-        throw new java.io.InvalidObjectException("Proxy required");
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        tirows jbvb.io.InvblidObjfdtExdfption {
+        tirow nfw jbvb.io.InvblidObjfdtExdfption("Proxy rfquirfd");
     }
 
 }

@@ -1,151 +1,151 @@
 /*
- * Copyright (c) 1995, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.applet;
+pbdkbgf sun.bpplft;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ByteArrayInputStream;
-import java.net.URL;
-import java.net.URLConnection;
-import java.applet.AudioClip;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.nft.URL;
+import jbvb.nft.URLConnfdtion;
+import jbvb.bpplft.AudioClip;
 
-import com.sun.media.sound.JavaSoundAudioClip;
+import dom.sun.mfdib.sound.JbvbSoundAudioClip;
 
 
 /**
- * Applet audio clip;
+ * Applft budio dlip;
  *
- * @author Arthur van Hoff, Kara Kytle
+ * @butior Artiur vbn Hoff, Kbrb Kytlf
  */
 
-public class AppletAudioClip implements AudioClip {
+publid dlbss ApplftAudioClip implfmfnts AudioClip {
 
-    // url that this AudioClip is based on
-    private URL url = null;
+    // url tibt tiis AudioClip is bbsfd on
+    privbtf URL url = null;
 
-    // the audio clip implementation
-    private AudioClip audioClip = null;
+    // tif budio dlip implfmfntbtion
+    privbtf AudioClip budioClip = null;
 
-    boolean DEBUG = false /*true*/;
+    boolfbn DEBUG = fblsf /*truf*/;
 
     /**
-     * Constructs an AppletAudioClip from an URL.
+     * Construdts bn ApplftAudioClip from bn URL.
      */
-    public AppletAudioClip(URL url) {
+    publid ApplftAudioClip(URL url) {
 
-        // store the url
-        this.url = url;
+        // storf tif url
+        tiis.url = url;
 
         try {
-            // create a stream from the url, and use it
-            // in the clip.
-            InputStream in = url.openStream();
-            createAppletAudioClip(in);
+            // drfbtf b strfbm from tif url, bnd usf it
+            // in tif dlip.
+            InputStrfbm in = url.opfnStrfbm();
+            drfbtfApplftAudioClip(in);
 
-        } catch (IOException e) {
-                /* just quell it */
+        } dbtdi (IOExdfption f) {
+                /* just qufll it */
             if (DEBUG) {
-                System.err.println("IOException creating AppletAudioClip" + e);
+                Systfm.frr.println("IOExdfption drfbting ApplftAudioClip" + f);
             }
         }
     }
 
     /**
-     * Constructs an AppletAudioClip from a URLConnection.
+     * Construdts bn ApplftAudioClip from b URLConnfdtion.
      */
-    public AppletAudioClip(URLConnection uc) {
+    publid ApplftAudioClip(URLConnfdtion ud) {
 
         try {
-            // create a stream from the url, and use it
-            // in the clip.
-            createAppletAudioClip(uc.getInputStream());
+            // drfbtf b strfbm from tif url, bnd usf it
+            // in tif dlip.
+            drfbtfApplftAudioClip(ud.gftInputStrfbm());
 
-        } catch (IOException e) {
-                /* just quell it */
+        } dbtdi (IOExdfption f) {
+                /* just qufll it */
             if (DEBUG) {
-                System.err.println("IOException creating AppletAudioClip" + e);
+                Systfm.frr.println("IOExdfption drfbting ApplftAudioClip" + f);
             }
         }
     }
 
 
     /**
-     * For constructing directly from Jar entries, or any other
-     * raw Audio data. Note that the data provided must include the format
-     * header.
+     * For donstrudting dirfdtly from Jbr fntrifs, or bny otifr
+     * rbw Audio dbtb. Notf tibt tif dbtb providfd must indludf tif formbt
+     * ifbdfr.
      */
-    public AppletAudioClip(byte [] data) {
+    publid ApplftAudioClip(bytf [] dbtb) {
 
         try {
 
-            // construct a stream from the byte array
-            InputStream in = new ByteArrayInputStream(data);
+            // donstrudt b strfbm from tif bytf brrby
+            InputStrfbm in = nfw BytfArrbyInputStrfbm(dbtb);
 
-            createAppletAudioClip(in);
+            drfbtfApplftAudioClip(in);
 
-        } catch (IOException e) {
-                /* just quell it */
+        } dbtdi (IOExdfption f) {
+                /* just qufll it */
             if (DEBUG) {
-                System.err.println("IOException creating AppletAudioClip " + e);
+                Systfm.frr.println("IOExdfption drfbting ApplftAudioClip " + f);
             }
         }
     }
 
 
     /*
-     * Does the real work of creating an AppletAudioClip from an InputStream.
-     * This function is used by both constructors.
+     * Dofs tif rfbl work of drfbting bn ApplftAudioClip from bn InputStrfbm.
+     * Tiis fundtion is usfd by boti donstrudtors.
      */
-    void createAppletAudioClip(InputStream in) throws IOException {
+    void drfbtfApplftAudioClip(InputStrfbm in) tirows IOExdfption {
 
         try {
-            audioClip = new JavaSoundAudioClip(in);
-        } catch (Exception e3) {
-            // no matter what happened, we throw an IOException to avoid changing the interfaces....
-            throw new IOException("Failed to construct the AudioClip: " + e3);
+            budioClip = nfw JbvbSoundAudioClip(in);
+        } dbtdi (Exdfption f3) {
+            // no mbttfr wibt ibppfnfd, wf tirow bn IOExdfption to bvoid dibnging tif intfrfbdfs....
+            tirow nfw IOExdfption("Fbilfd to donstrudt tif AudioClip: " + f3);
         }
     }
 
 
-    public synchronized void play() {
+    publid syndironizfd void plby() {
 
-                if (audioClip != null)
-                        audioClip.play();
+                if (budioClip != null)
+                        budioClip.plby();
     }
 
 
-    public synchronized void loop() {
+    publid syndironizfd void loop() {
 
-                if (audioClip != null)
-                        audioClip.loop();
+                if (budioClip != null)
+                        budioClip.loop();
     }
 
-    public synchronized void stop() {
+    publid syndironizfd void stop() {
 
-                if (audioClip != null)
-                        audioClip.stop();
+                if (budioClip != null)
+                        budioClip.stop();
     }
 }

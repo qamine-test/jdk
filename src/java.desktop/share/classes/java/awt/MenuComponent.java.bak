@@ -1,1072 +1,1072 @@
 /*
- * Copyright (c) 1995, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.peer.MenuComponentPeer;
-import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import sun.awt.AppContext;
-import sun.awt.AWTAccessor;
-import javax.accessibility.*;
+import jbvb.bwt.pffr.MfnuComponfntPffr;
+import jbvb.bwt.fvfnt.AdtionEvfnt;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import sun.bwt.AppContfxt;
+import sun.bwt.AWTAddfssor;
+import jbvbx.bddfssibility.*;
 
-import java.security.AccessControlContext;
-import java.security.AccessController;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.AddfssControllfr;
 
 /**
- * The abstract class <code>MenuComponent</code> is the superclass
- * of all menu-related components. In this respect, the class
- * <code>MenuComponent</code> is analogous to the abstract superclass
- * <code>Component</code> for AWT components.
+ * Tif bbstrbdt dlbss <dodf>MfnuComponfnt</dodf> is tif supfrdlbss
+ * of bll mfnu-rflbtfd domponfnts. In tiis rfspfdt, tif dlbss
+ * <dodf>MfnuComponfnt</dodf> is bnblogous to tif bbstrbdt supfrdlbss
+ * <dodf>Componfnt</dodf> for AWT domponfnts.
  * <p>
- * Menu components receive and process AWT events, just as components do,
- * through the method <code>processEvent</code>.
+ * Mfnu domponfnts rfdfivf bnd prodfss AWT fvfnts, just bs domponfnts do,
+ * tirougi tif mftiod <dodf>prodfssEvfnt</dodf>.
  *
- * @author      Arthur van Hoff
- * @since       1.0
+ * @butior      Artiur vbn Hoff
+ * @sindf       1.0
  */
-public abstract class MenuComponent implements java.io.Serializable {
+publid bbstrbdt dlbss MfnuComponfnt implfmfnts jbvb.io.Sfriblizbblf {
 
-    static {
-        /* ensure that the necessary native libraries are loaded */
-        Toolkit.loadLibraries();
-        if (!GraphicsEnvironment.isHeadless()) {
+    stbtid {
+        /* fnsurf tibt tif nfdfssbry nbtivf librbrifs brf lobdfd */
+        Toolkit.lobdLibrbrifs();
+        if (!GrbpiidsEnvironmfnt.isHfbdlfss()) {
             initIDs();
         }
     }
 
-    transient MenuComponentPeer peer;
-    transient MenuContainer parent;
+    trbnsifnt MfnuComponfntPffr pffr;
+    trbnsifnt MfnuContbinfr pbrfnt;
 
     /**
-     * The <code>AppContext</code> of the <code>MenuComponent</code>.
-     * This is set in the constructor and never changes.
+     * Tif <dodf>AppContfxt</dodf> of tif <dodf>MfnuComponfnt</dodf>.
+     * Tiis is sft in tif donstrudtor bnd nfvfr dibngfs.
      */
-    transient AppContext appContext;
+    trbnsifnt AppContfxt bppContfxt;
 
     /**
-     * The menu component's font. This value can be
-     * <code>null</code> at which point a default will be used.
-     * This defaults to <code>null</code>.
+     * Tif mfnu domponfnt's font. Tiis vbluf dbn bf
+     * <dodf>null</dodf> bt wiidi point b dffbult will bf usfd.
+     * Tiis dffbults to <dodf>null</dodf>.
      *
-     * @serial
-     * @see #setFont(Font)
-     * @see #getFont()
+     * @sfribl
+     * @sff #sftFont(Font)
+     * @sff #gftFont()
      */
     Font font;
 
     /**
-     * The menu component's name, which defaults to <code>null</code>.
-     * @serial
-     * @see #getName()
-     * @see #setName(String)
+     * Tif mfnu domponfnt's nbmf, wiidi dffbults to <dodf>null</dodf>.
+     * @sfribl
+     * @sff #gftNbmf()
+     * @sff #sftNbmf(String)
      */
-    private String name;
+    privbtf String nbmf;
 
     /**
-     * A variable to indicate whether a name is explicitly set.
-     * If <code>true</code> the name will be set explicitly.
-     * This defaults to <code>false</code>.
-     * @serial
-     * @see #setName(String)
+     * A vbribblf to indidbtf wiftifr b nbmf is fxpliditly sft.
+     * If <dodf>truf</dodf> tif nbmf will bf sft fxpliditly.
+     * Tiis dffbults to <dodf>fblsf</dodf>.
+     * @sfribl
+     * @sff #sftNbmf(String)
      */
-    private boolean nameExplicitlySet = false;
+    privbtf boolfbn nbmfExpliditlySft = fblsf;
 
     /**
-     * Defaults to <code>false</code>.
-     * @serial
-     * @see #dispatchEvent(AWTEvent)
+     * Dffbults to <dodf>fblsf</dodf>.
+     * @sfribl
+     * @sff #dispbtdiEvfnt(AWTEvfnt)
      */
-    boolean newEventsOnly = false;
+    boolfbn nfwEvfntsOnly = fblsf;
 
     /*
-     * The menu's AccessControlContext.
+     * Tif mfnu's AddfssControlContfxt.
      */
-    private transient volatile AccessControlContext acc =
-            AccessController.getContext();
+    privbtf trbnsifnt volbtilf AddfssControlContfxt bdd =
+            AddfssControllfr.gftContfxt();
 
     /*
-     * Returns the acc this menu component was constructed with.
+     * Rfturns tif bdd tiis mfnu domponfnt wbs donstrudtfd witi.
      */
-    final AccessControlContext getAccessControlContext() {
-        if (acc == null) {
-            throw new SecurityException(
-                    "MenuComponent is missing AccessControlContext");
+    finbl AddfssControlContfxt gftAddfssControlContfxt() {
+        if (bdd == null) {
+            tirow nfw SfdurityExdfption(
+                    "MfnuComponfnt is missing AddfssControlContfxt");
         }
-        return acc;
+        rfturn bdd;
     }
 
     /*
-     * Internal constants for serialization.
+     * Intfrnbl donstbnts for sfriblizbtion.
      */
-    final static String actionListenerK = Component.actionListenerK;
-    final static String itemListenerK = Component.itemListenerK;
+    finbl stbtid String bdtionListfnfrK = Componfnt.bdtionListfnfrK;
+    finbl stbtid String itfmListfnfrK = Componfnt.itfmListfnfrK;
 
     /*
-     * JDK 1.1 serialVersionUID
+     * JDK 1.1 sfriblVfrsionUID
      */
-    private static final long serialVersionUID = -4536902356223894379L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -4536902356223894379L;
 
-    static {
-        AWTAccessor.setMenuComponentAccessor(
-            new AWTAccessor.MenuComponentAccessor() {
-                @Override
-                public AppContext getAppContext(MenuComponent menuComp) {
-                    return menuComp.appContext;
+    stbtid {
+        AWTAddfssor.sftMfnuComponfntAddfssor(
+            nfw AWTAddfssor.MfnuComponfntAddfssor() {
+                @Ovfrridf
+                publid AppContfxt gftAppContfxt(MfnuComponfnt mfnuComp) {
+                    rfturn mfnuComp.bppContfxt;
                 }
-                @Override
-                public void setAppContext(MenuComponent menuComp,
-                                          AppContext appContext) {
-                    menuComp.appContext = appContext;
+                @Ovfrridf
+                publid void sftAppContfxt(MfnuComponfnt mfnuComp,
+                                          AppContfxt bppContfxt) {
+                    mfnuComp.bppContfxt = bppContfxt;
                 }
-                @Override
-                public MenuContainer getParent(MenuComponent menuComp) {
-                    return menuComp.parent;
+                @Ovfrridf
+                publid MfnuContbinfr gftPbrfnt(MfnuComponfnt mfnuComp) {
+                    rfturn mfnuComp.pbrfnt;
                 }
-                @Override
-                public void setParent(MenuComponent menuComp, MenuContainer menuContainer) {
-                    menuComp.parent = menuContainer;
+                @Ovfrridf
+                publid void sftPbrfnt(MfnuComponfnt mfnuComp, MfnuContbinfr mfnuContbinfr) {
+                    mfnuComp.pbrfnt = mfnuContbinfr;
                 }
-                @Override
-                public Font getFont_NoClientCode(MenuComponent menuComp) {
-                    return menuComp.getFont_NoClientCode();
+                @Ovfrridf
+                publid Font gftFont_NoClifntCodf(MfnuComponfnt mfnuComp) {
+                    rfturn mfnuComp.gftFont_NoClifntCodf();
                 }
             });
     }
 
     /**
-     * Creates a <code>MenuComponent</code>.
-     * @exception HeadlessException if
-     *    <code>GraphicsEnvironment.isHeadless</code>
-     *    returns <code>true</code>
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * Crfbtfs b <dodf>MfnuComponfnt</dodf>.
+     * @fxdfption HfbdlfssExdfption if
+     *    <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf>
+     *    rfturns <dodf>truf</dodf>
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    public MenuComponent() throws HeadlessException {
-        GraphicsEnvironment.checkHeadless();
-        appContext = AppContext.getAppContext();
+    publid MfnuComponfnt() tirows HfbdlfssExdfption {
+        GrbpiidsEnvironmfnt.difdkHfbdlfss();
+        bppContfxt = AppContfxt.gftAppContfxt();
     }
 
     /**
-     * Constructs a name for this <code>MenuComponent</code>.
-     * Called by <code>getName</code> when the name is <code>null</code>.
-     * @return a name for this <code>MenuComponent</code>
+     * Construdts b nbmf for tiis <dodf>MfnuComponfnt</dodf>.
+     * Cbllfd by <dodf>gftNbmf</dodf> wifn tif nbmf is <dodf>null</dodf>.
+     * @rfturn b nbmf for tiis <dodf>MfnuComponfnt</dodf>
      */
-    String constructComponentName() {
-        return null; // For strict compliance with prior platform versions, a MenuComponent
-                     // that doesn't set its name should return null from
-                     // getName()
+    String donstrudtComponfntNbmf() {
+        rfturn null; // For stridt domplibndf witi prior plbtform vfrsions, b MfnuComponfnt
+                     // tibt dofsn't sft its nbmf siould rfturn null from
+                     // gftNbmf()
     }
 
     /**
-     * Gets the name of the menu component.
-     * @return        the name of the menu component
-     * @see           java.awt.MenuComponent#setName(java.lang.String)
-     * @since         1.1
+     * Gfts tif nbmf of tif mfnu domponfnt.
+     * @rfturn        tif nbmf of tif mfnu domponfnt
+     * @sff           jbvb.bwt.MfnuComponfnt#sftNbmf(jbvb.lbng.String)
+     * @sindf         1.1
      */
-    public String getName() {
-        if (name == null && !nameExplicitlySet) {
-            synchronized(this) {
-                if (name == null && !nameExplicitlySet)
-                    name = constructComponentName();
+    publid String gftNbmf() {
+        if (nbmf == null && !nbmfExpliditlySft) {
+            syndironizfd(tiis) {
+                if (nbmf == null && !nbmfExpliditlySft)
+                    nbmf = donstrudtComponfntNbmf();
             }
         }
-        return name;
+        rfturn nbmf;
     }
 
     /**
-     * Sets the name of the component to the specified string.
-     * @param         name    the name of the menu component
-     * @see           java.awt.MenuComponent#getName
-     * @since         1.1
+     * Sfts tif nbmf of tif domponfnt to tif spfdififd string.
+     * @pbrbm         nbmf    tif nbmf of tif mfnu domponfnt
+     * @sff           jbvb.bwt.MfnuComponfnt#gftNbmf
+     * @sindf         1.1
      */
-    public void setName(String name) {
-        synchronized(this) {
-            this.name = name;
-            nameExplicitlySet = true;
+    publid void sftNbmf(String nbmf) {
+        syndironizfd(tiis) {
+            tiis.nbmf = nbmf;
+            nbmfExpliditlySft = truf;
         }
     }
 
     /**
-     * Returns the parent container for this menu component.
-     * @return    the menu component containing this menu component,
-     *                 or <code>null</code> if this menu component
-     *                 is the outermost component, the menu bar itself
+     * Rfturns tif pbrfnt dontbinfr for tiis mfnu domponfnt.
+     * @rfturn    tif mfnu domponfnt dontbining tiis mfnu domponfnt,
+     *                 or <dodf>null</dodf> if tiis mfnu domponfnt
+     *                 is tif outfrmost domponfnt, tif mfnu bbr itsflf
      */
-    public MenuContainer getParent() {
-        return getParent_NoClientCode();
+    publid MfnuContbinfr gftPbrfnt() {
+        rfturn gftPbrfnt_NoClifntCodf();
     }
-    // NOTE: This method may be called by privileged threads.
-    //       This functionality is implemented in a package-private method
-    //       to insure that it cannot be overridden by client subclasses.
+    // NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
+    //       Tiis fundtionblity is implfmfntfd in b pbdkbgf-privbtf mftiod
+    //       to insurf tibt it dbnnot bf ovfrriddfn by dlifnt subdlbssfs.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    final MenuContainer getParent_NoClientCode() {
-        return parent;
+    finbl MfnuContbinfr gftPbrfnt_NoClifntCodf() {
+        rfturn pbrfnt;
     }
 
     /**
-     * @deprecated As of JDK version 1.1,
-     * programs should not directly manipulate peers.
-     * @return the peer for this component
+     * @dfprfdbtfd As of JDK vfrsion 1.1,
+     * progrbms siould not dirfdtly mbnipulbtf pffrs.
+     * @rfturn tif pffr for tiis domponfnt
      */
-    @Deprecated
-    public MenuComponentPeer getPeer() {
-        return peer;
+    @Dfprfdbtfd
+    publid MfnuComponfntPffr gftPffr() {
+        rfturn pffr;
     }
 
     /**
-     * Gets the font used for this menu component.
-     * @return   the font used in this menu component, if there is one;
-     *                  <code>null</code> otherwise
-     * @see     java.awt.MenuComponent#setFont
+     * Gfts tif font usfd for tiis mfnu domponfnt.
+     * @rfturn   tif font usfd in tiis mfnu domponfnt, if tifrf is onf;
+     *                  <dodf>null</dodf> otifrwisf
+     * @sff     jbvb.bwt.MfnuComponfnt#sftFont
      */
-    public Font getFont() {
-        Font font = this.font;
+    publid Font gftFont() {
+        Font font = tiis.font;
         if (font != null) {
-            return font;
+            rfturn font;
         }
-        MenuContainer parent = this.parent;
-        if (parent != null) {
-            return parent.getFont();
+        MfnuContbinfr pbrfnt = tiis.pbrfnt;
+        if (pbrfnt != null) {
+            rfturn pbrfnt.gftFont();
         }
-        return null;
+        rfturn null;
     }
 
-    // NOTE: This method may be called by privileged threads.
-    //       This functionality is implemented in a package-private method
-    //       to insure that it cannot be overridden by client subclasses.
+    // NOTE: Tiis mftiod mby bf dbllfd by privilfgfd tirfbds.
+    //       Tiis fundtionblity is implfmfntfd in b pbdkbgf-privbtf mftiod
+    //       to insurf tibt it dbnnot bf ovfrriddfn by dlifnt subdlbssfs.
     //       DO NOT INVOKE CLIENT CODE ON THIS THREAD!
-    final Font getFont_NoClientCode() {
-        Font font = this.font;
+    finbl Font gftFont_NoClifntCodf() {
+        Font font = tiis.font;
         if (font != null) {
-            return font;
+            rfturn font;
         }
 
-        // The MenuContainer interface does not have getFont_NoClientCode()
-        // and it cannot, because it must be package-private. Because of
-        // this, we must manually cast classes that implement
-        // MenuContainer.
-        Object parent = this.parent;
-        if (parent != null) {
-            if (parent instanceof Component) {
-                font = ((Component)parent).getFont_NoClientCode();
-            } else if (parent instanceof MenuComponent) {
-                font = ((MenuComponent)parent).getFont_NoClientCode();
+        // Tif MfnuContbinfr intfrfbdf dofs not ibvf gftFont_NoClifntCodf()
+        // bnd it dbnnot, bfdbusf it must bf pbdkbgf-privbtf. Bfdbusf of
+        // tiis, wf must mbnublly dbst dlbssfs tibt implfmfnt
+        // MfnuContbinfr.
+        Objfdt pbrfnt = tiis.pbrfnt;
+        if (pbrfnt != null) {
+            if (pbrfnt instbndfof Componfnt) {
+                font = ((Componfnt)pbrfnt).gftFont_NoClifntCodf();
+            } flsf if (pbrfnt instbndfof MfnuComponfnt) {
+                font = ((MfnuComponfnt)pbrfnt).gftFont_NoClifntCodf();
             }
         }
-        return font;
-    } // getFont_NoClientCode()
+        rfturn font;
+    } // gftFont_NoClifntCodf()
 
 
     /**
-     * Sets the font to be used for this menu component to the specified
-     * font. This font is also used by all subcomponents of this menu
-     * component, unless those subcomponents specify a different font.
+     * Sfts tif font to bf usfd for tiis mfnu domponfnt to tif spfdififd
+     * font. Tiis font is blso usfd by bll subdomponfnts of tiis mfnu
+     * domponfnt, unlfss tiosf subdomponfnts spfdify b difffrfnt font.
      * <p>
-     * Some platforms may not support setting of all font attributes
-     * of a menu component; in such cases, calling <code>setFont</code>
-     * will have no effect on the unsupported font attributes of this
-     * menu component.  Unless subcomponents of this menu component
-     * specify a different font, this font will be used by those
-     * subcomponents if supported by the underlying platform.
+     * Somf plbtforms mby not support sftting of bll font bttributfs
+     * of b mfnu domponfnt; in sudi dbsfs, dblling <dodf>sftFont</dodf>
+     * will ibvf no ffffdt on tif unsupportfd font bttributfs of tiis
+     * mfnu domponfnt.  Unlfss subdomponfnts of tiis mfnu domponfnt
+     * spfdify b difffrfnt font, tiis font will bf usfd by tiosf
+     * subdomponfnts if supportfd by tif undfrlying plbtform.
      *
-     * @param     f   the font to be set
-     * @see       #getFont
-     * @see       Font#getAttributes
-     * @see       java.awt.font.TextAttribute
+     * @pbrbm     f   tif font to bf sft
+     * @sff       #gftFont
+     * @sff       Font#gftAttributfs
+     * @sff       jbvb.bwt.font.TfxtAttributf
      */
-    public void setFont(Font f) {
+    publid void sftFont(Font f) {
         font = f;
-        //Fixed 6312943: NullPointerException in method MenuComponent.setFont(Font)
-        MenuComponentPeer peer = this.peer;
-        if (peer != null) {
-            peer.setFont(f);
+        //Fixfd 6312943: NullPointfrExdfption in mftiod MfnuComponfnt.sftFont(Font)
+        MfnuComponfntPffr pffr = tiis.pffr;
+        if (pffr != null) {
+            pffr.sftFont(f);
         }
     }
 
     /**
-     * Removes the menu component's peer.  The peer allows us to modify the
-     * appearance of the menu component without changing the functionality of
-     * the menu component.
+     * Rfmovfs tif mfnu domponfnt's pffr.  Tif pffr bllows us to modify tif
+     * bppfbrbndf of tif mfnu domponfnt witiout dibnging tif fundtionblity of
+     * tif mfnu domponfnt.
      */
-    public void removeNotify() {
-        synchronized (getTreeLock()) {
-            MenuComponentPeer p = this.peer;
+    publid void rfmovfNotify() {
+        syndironizfd (gftTrffLodk()) {
+            MfnuComponfntPffr p = tiis.pffr;
             if (p != null) {
-                Toolkit.getEventQueue().removeSourceEvents(this, true);
-                this.peer = null;
-                p.dispose();
+                Toolkit.gftEvfntQufuf().rfmovfSourdfEvfnts(tiis, truf);
+                tiis.pffr = null;
+                p.disposf();
             }
         }
     }
 
     /**
-     * Posts the specified event to the menu.
-     * This method is part of the Java&nbsp;1.0 event system
-     * and it is maintained only for backwards compatibility.
-     * Its use is discouraged, and it may not be supported
-     * in the future.
-     * @param evt the event which is to take place
-     * @deprecated As of JDK version 1.1, replaced by {@link
-     * #dispatchEvent(AWTEvent) dispatchEvent}.
+     * Posts tif spfdififd fvfnt to tif mfnu.
+     * Tiis mftiod is pbrt of tif Jbvb&nbsp;1.0 fvfnt systfm
+     * bnd it is mbintbinfd only for bbdkwbrds dompbtibility.
+     * Its usf is disdourbgfd, bnd it mby not bf supportfd
+     * in tif futurf.
+     * @pbrbm fvt tif fvfnt wiidi is to tbkf plbdf
+     * @dfprfdbtfd As of JDK vfrsion 1.1, rfplbdfd by {@link
+     * #dispbtdiEvfnt(AWTEvfnt) dispbtdiEvfnt}.
      */
-    @Deprecated
-    public boolean postEvent(Event evt) {
-        MenuContainer parent = this.parent;
-        if (parent != null) {
-            parent.postEvent(evt);
+    @Dfprfdbtfd
+    publid boolfbn postEvfnt(Evfnt fvt) {
+        MfnuContbinfr pbrfnt = tiis.pbrfnt;
+        if (pbrfnt != null) {
+            pbrfnt.postEvfnt(fvt);
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Delivers an event to this component or one of its sub components.
-     * @param e the event
+     * Dflivfrs bn fvfnt to tiis domponfnt or onf of its sub domponfnts.
+     * @pbrbm f tif fvfnt
      */
-    public final void dispatchEvent(AWTEvent e) {
-        dispatchEventImpl(e);
+    publid finbl void dispbtdiEvfnt(AWTEvfnt f) {
+        dispbtdiEvfntImpl(f);
     }
 
-    void dispatchEventImpl(AWTEvent e) {
-        EventQueue.setCurrentEventAndMostRecentTime(e);
+    void dispbtdiEvfntImpl(AWTEvfnt f) {
+        EvfntQufuf.sftCurrfntEvfntAndMostRfdfntTimf(f);
 
-        Toolkit.getDefaultToolkit().notifyAWTEventListeners(e);
+        Toolkit.gftDffbultToolkit().notifyAWTEvfntListfnfrs(f);
 
-        if (newEventsOnly ||
-            (parent != null && parent instanceof MenuComponent &&
-             ((MenuComponent)parent).newEventsOnly)) {
-            if (eventEnabled(e)) {
-                processEvent(e);
-            } else if (e instanceof ActionEvent && parent != null) {
-                e.setSource(parent);
-                ((MenuComponent)parent).dispatchEvent(e);
+        if (nfwEvfntsOnly ||
+            (pbrfnt != null && pbrfnt instbndfof MfnuComponfnt &&
+             ((MfnuComponfnt)pbrfnt).nfwEvfntsOnly)) {
+            if (fvfntEnbblfd(f)) {
+                prodfssEvfnt(f);
+            } flsf if (f instbndfof AdtionEvfnt && pbrfnt != null) {
+                f.sftSourdf(pbrfnt);
+                ((MfnuComponfnt)pbrfnt).dispbtdiEvfnt(f);
             }
 
-        } else { // backward compatibility
-            Event olde = e.convertToOld();
-            if (olde != null) {
-                postEvent(olde);
+        } flsf { // bbdkwbrd dompbtibility
+            Evfnt oldf = f.donvfrtToOld();
+            if (oldf != null) {
+                postEvfnt(oldf);
             }
         }
     }
 
-    // REMIND: remove when filtering is done at lower level
-    boolean eventEnabled(AWTEvent e) {
-        return false;
+    // REMIND: rfmovf wifn filtfring is donf bt lowfr lfvfl
+    boolfbn fvfntEnbblfd(AWTEvfnt f) {
+        rfturn fblsf;
     }
     /**
-     * Processes events occurring on this menu component.
-     * <p>Note that if the event parameter is <code>null</code>
-     * the behavior is unspecified and may result in an
-     * exception.
+     * Prodfssfs fvfnts oddurring on tiis mfnu domponfnt.
+     * <p>Notf tibt if tif fvfnt pbrbmftfr is <dodf>null</dodf>
+     * tif bfibvior is unspfdififd bnd mby rfsult in bn
+     * fxdfption.
      *
-     * @param e the event
-     * @since 1.1
+     * @pbrbm f tif fvfnt
+     * @sindf 1.1
      */
-    protected void processEvent(AWTEvent e) {
+    protfdtfd void prodfssEvfnt(AWTEvfnt f) {
     }
 
     /**
-     * Returns a string representing the state of this
-     * <code>MenuComponent</code>. This method is intended to be used
-     * only for debugging purposes, and the content and format of the
-     * returned string may vary between implementations. The returned
-     * string may be empty but may not be <code>null</code>.
+     * Rfturns b string rfprfsfnting tif stbtf of tiis
+     * <dodf>MfnuComponfnt</dodf>. Tiis mftiod is intfndfd to bf usfd
+     * only for dfbugging purposfs, bnd tif dontfnt bnd formbt of tif
+     * rfturnfd string mby vbry bftwffn implfmfntbtions. Tif rfturnfd
+     * string mby bf fmpty but mby not bf <dodf>null</dodf>.
      *
-     * @return     the parameter string of this menu component
+     * @rfturn     tif pbrbmftfr string of tiis mfnu domponfnt
      */
-    protected String paramString() {
-        String thisName = getName();
-        return (thisName != null? thisName : "");
+    protfdtfd String pbrbmString() {
+        String tiisNbmf = gftNbmf();
+        rfturn (tiisNbmf != null? tiisNbmf : "");
     }
 
     /**
-     * Returns a representation of this menu component as a string.
-     * @return  a string representation of this menu component
+     * Rfturns b rfprfsfntbtion of tiis mfnu domponfnt bs b string.
+     * @rfturn  b string rfprfsfntbtion of tiis mfnu domponfnt
      */
-    public String toString() {
-        return getClass().getName() + "[" + paramString() + "]";
+    publid String toString() {
+        rfturn gftClbss().gftNbmf() + "[" + pbrbmString() + "]";
     }
 
     /**
-     * Gets this component's locking object (the object that owns the thread
-     * synchronization monitor) for AWT component-tree and layout
-     * operations.
-     * @return this component's locking object
+     * Gfts tiis domponfnt's lodking objfdt (tif objfdt tibt owns tif tirfbd
+     * syndironizbtion monitor) for AWT domponfnt-trff bnd lbyout
+     * opfrbtions.
+     * @rfturn tiis domponfnt's lodking objfdt
      */
-    protected final Object getTreeLock() {
-        return Component.LOCK;
+    protfdtfd finbl Objfdt gftTrffLodk() {
+        rfturn Componfnt.LOCK;
     }
 
     /**
-     * Reads the menu component from an object input stream.
+     * Rfbds tif mfnu domponfnt from bn objfdt input strfbm.
      *
-     * @param s the <code>ObjectInputStream</code> to read
-     * @exception HeadlessException if
-     *   <code>GraphicsEnvironment.isHeadless</code> returns
-     *   <code>true</code>
-     * @serial
-     * @see java.awt.GraphicsEnvironment#isHeadless
+     * @pbrbm s tif <dodf>ObjfdtInputStrfbm</dodf> to rfbd
+     * @fxdfption HfbdlfssExdfption if
+     *   <dodf>GrbpiidsEnvironmfnt.isHfbdlfss</dodf> rfturns
+     *   <dodf>truf</dodf>
+     * @sfribl
+     * @sff jbvb.bwt.GrbpiidsEnvironmfnt#isHfbdlfss
      */
-    private void readObject(ObjectInputStream s)
-        throws ClassNotFoundException, IOException, HeadlessException
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        tirows ClbssNotFoundExdfption, IOExdfption, HfbdlfssExdfption
     {
-        GraphicsEnvironment.checkHeadless();
+        GrbpiidsEnvironmfnt.difdkHfbdlfss();
 
-        acc = AccessController.getContext();
+        bdd = AddfssControllfr.gftContfxt();
 
-        s.defaultReadObject();
+        s.dffbultRfbdObjfdt();
 
-        appContext = AppContext.getAppContext();
+        bppContfxt = AppContfxt.gftAppContfxt();
     }
 
     /**
-     * Initialize JNI field and method IDs.
+     * Initiblizf JNI fifld bnd mftiod IDs.
      */
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
 
     /*
-     * --- Accessibility Support ---
+     * --- Addfssibility Support ---
      *
-     *  MenuComponent will contain all of the methods in interface Accessible,
-     *  though it won't actually implement the interface - that will be up
-     *  to the individual objects which extend MenuComponent.
+     *  MfnuComponfnt will dontbin bll of tif mftiods in intfrfbdf Addfssiblf,
+     *  tiougi it won't bdtublly implfmfnt tif intfrfbdf - tibt will bf up
+     *  to tif individubl objfdts wiidi fxtfnd MfnuComponfnt.
      */
 
-    AccessibleContext accessibleContext = null;
+    AddfssiblfContfxt bddfssiblfContfxt = null;
 
     /**
-     * Gets the <code>AccessibleContext</code> associated with
-     * this <code>MenuComponent</code>.
+     * Gfts tif <dodf>AddfssiblfContfxt</dodf> bssodibtfd witi
+     * tiis <dodf>MfnuComponfnt</dodf>.
      *
-     * The method implemented by this base class returns <code>null</code>.
-     * Classes that extend <code>MenuComponent</code>
-     * should implement this method to return the
-     * <code>AccessibleContext</code> associated with the subclass.
+     * Tif mftiod implfmfntfd by tiis bbsf dlbss rfturns <dodf>null</dodf>.
+     * Clbssfs tibt fxtfnd <dodf>MfnuComponfnt</dodf>
+     * siould implfmfnt tiis mftiod to rfturn tif
+     * <dodf>AddfssiblfContfxt</dodf> bssodibtfd witi tif subdlbss.
      *
-     * @return the <code>AccessibleContext</code> of this
-     *     <code>MenuComponent</code>
-     * @since 1.3
+     * @rfturn tif <dodf>AddfssiblfContfxt</dodf> of tiis
+     *     <dodf>MfnuComponfnt</dodf>
+     * @sindf 1.3
      */
-    public AccessibleContext getAccessibleContext() {
-        return accessibleContext;
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * Inner class of <code>MenuComponent</code> used to provide
-     * default support for accessibility.  This class is not meant
-     * to be used directly by application developers, but is instead
-     * meant only to be subclassed by menu component developers.
+     * Innfr dlbss of <dodf>MfnuComponfnt</dodf> usfd to providf
+     * dffbult support for bddfssibility.  Tiis dlbss is not mfbnt
+     * to bf usfd dirfdtly by bpplidbtion dfvflopfrs, but is instfbd
+     * mfbnt only to bf subdlbssfd by mfnu domponfnt dfvflopfrs.
      * <p>
-     * The class used to obtain the accessible role for this object.
-     * @since 1.3
+     * Tif dlbss usfd to obtbin tif bddfssiblf rolf for tiis objfdt.
+     * @sindf 1.3
      */
-    protected abstract class AccessibleAWTMenuComponent
-        extends AccessibleContext
-        implements java.io.Serializable, AccessibleComponent,
-                   AccessibleSelection
+    protfdtfd bbstrbdt dlbss AddfssiblfAWTMfnuComponfnt
+        fxtfnds AddfssiblfContfxt
+        implfmfnts jbvb.io.Sfriblizbblf, AddfssiblfComponfnt,
+                   AddfssiblfSflfdtion
     {
         /*
-         * JDK 1.3 serialVersionUID
+         * JDK 1.3 sfriblVfrsionUID
          */
-        private static final long serialVersionUID = -4269533416223798698L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -4269533416223798698L;
 
         /**
-         * Although the class is abstract, this should be called by
-         * all sub-classes.
+         * Altiougi tif dlbss is bbstrbdt, tiis siould bf dbllfd by
+         * bll sub-dlbssfs.
          */
-        protected AccessibleAWTMenuComponent() {
+        protfdtfd AddfssiblfAWTMfnuComponfnt() {
         }
 
-        // AccessibleContext methods
+        // AddfssiblfContfxt mftiods
         //
 
         /**
-         * Gets the <code>AccessibleSelection</code> associated with this
-         * object which allows its <code>Accessible</code> children to be selected.
+         * Gfts tif <dodf>AddfssiblfSflfdtion</dodf> bssodibtfd witi tiis
+         * objfdt wiidi bllows its <dodf>Addfssiblf</dodf> diildrfn to bf sflfdtfd.
          *
-         * @return <code>AccessibleSelection</code> if supported by object;
-         *      else return <code>null</code>
-         * @see AccessibleSelection
+         * @rfturn <dodf>AddfssiblfSflfdtion</dodf> if supportfd by objfdt;
+         *      flsf rfturn <dodf>null</dodf>
+         * @sff AddfssiblfSflfdtion
          */
-        public AccessibleSelection getAccessibleSelection() {
-            return this;
+        publid AddfssiblfSflfdtion gftAddfssiblfSflfdtion() {
+            rfturn tiis;
         }
 
         /**
-         * Gets the accessible name of this object.  This should almost never
-         * return <code>java.awt.MenuComponent.getName</code>, as that
-         * generally isn't a localized name, and doesn't have meaning for the
-         * user.  If the object is fundamentally a text object (e.g. a menu item), the
-         * accessible name should be the text of the object (e.g. "save").
-         * If the object has a tooltip, the tooltip text may also be an
-         * appropriate String to return.
+         * Gfts tif bddfssiblf nbmf of tiis objfdt.  Tiis siould blmost nfvfr
+         * rfturn <dodf>jbvb.bwt.MfnuComponfnt.gftNbmf</dodf>, bs tibt
+         * gfnfrblly isn't b lodblizfd nbmf, bnd dofsn't ibvf mfbning for tif
+         * usfr.  If tif objfdt is fundbmfntblly b tfxt objfdt (f.g. b mfnu itfm), tif
+         * bddfssiblf nbmf siould bf tif tfxt of tif objfdt (f.g. "sbvf").
+         * If tif objfdt ibs b tooltip, tif tooltip tfxt mby blso bf bn
+         * bppropribtf String to rfturn.
          *
-         * @return the localized name of the object -- can be <code>null</code>
-         *         if this object does not have a name
-         * @see AccessibleContext#setAccessibleName
+         * @rfturn tif lodblizfd nbmf of tif objfdt -- dbn bf <dodf>null</dodf>
+         *         if tiis objfdt dofs not ibvf b nbmf
+         * @sff AddfssiblfContfxt#sftAddfssiblfNbmf
          */
-        public String getAccessibleName() {
-            return accessibleName;
+        publid String gftAddfssiblfNbmf() {
+            rfturn bddfssiblfNbmf;
         }
 
         /**
-         * Gets the accessible description of this object.  This should be
-         * a concise, localized description of what this object is - what
-         * is its meaning to the user.  If the object has a tooltip, the
-         * tooltip text may be an appropriate string to return, assuming
-         * it contains a concise description of the object (instead of just
-         * the name of the object - e.g. a "Save" icon on a toolbar that
-         * had "save" as the tooltip text shouldn't return the tooltip
-         * text as the description, but something like "Saves the current
-         * text document" instead).
+         * Gfts tif bddfssiblf dfsdription of tiis objfdt.  Tiis siould bf
+         * b dondisf, lodblizfd dfsdription of wibt tiis objfdt is - wibt
+         * is its mfbning to tif usfr.  If tif objfdt ibs b tooltip, tif
+         * tooltip tfxt mby bf bn bppropribtf string to rfturn, bssuming
+         * it dontbins b dondisf dfsdription of tif objfdt (instfbd of just
+         * tif nbmf of tif objfdt - f.g. b "Sbvf" idon on b toolbbr tibt
+         * ibd "sbvf" bs tif tooltip tfxt siouldn't rfturn tif tooltip
+         * tfxt bs tif dfsdription, but somftiing likf "Sbvfs tif durrfnt
+         * tfxt dodumfnt" instfbd).
          *
-         * @return the localized description of the object -- can be
-         *     <code>null</code> if this object does not have a description
-         * @see AccessibleContext#setAccessibleDescription
+         * @rfturn tif lodblizfd dfsdription of tif objfdt -- dbn bf
+         *     <dodf>null</dodf> if tiis objfdt dofs not ibvf b dfsdription
+         * @sff AddfssiblfContfxt#sftAddfssiblfDfsdription
          */
-        public String getAccessibleDescription() {
-            return accessibleDescription;
+        publid String gftAddfssiblfDfsdription() {
+            rfturn bddfssiblfDfsdription;
         }
 
         /**
-         * Gets the role of this object.
+         * Gfts tif rolf of tiis objfdt.
          *
-         * @return an instance of <code>AccessibleRole</code>
-         *     describing the role of the object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of <dodf>AddfssiblfRolf</dodf>
+         *     dfsdribing tif rolf of tif objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.AWT_COMPONENT; // Non-specific -- overridden in subclasses
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.AWT_COMPONENT; // Non-spfdifid -- ovfrriddfn in subdlbssfs
         }
 
         /**
-         * Gets the state of this object.
+         * Gfts tif stbtf of tiis objfdt.
          *
-         * @return an instance of <code>AccessibleStateSet</code>
-         *     containing the current state set of the object
-         * @see AccessibleState
+         * @rfturn bn instbndf of <dodf>AddfssiblfStbtfSft</dodf>
+         *     dontbining tif durrfnt stbtf sft of tif objfdt
+         * @sff AddfssiblfStbtf
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            return MenuComponent.this.getAccessibleStateSet();
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            rfturn MfnuComponfnt.tiis.gftAddfssiblfStbtfSft();
         }
 
         /**
-         * Gets the <code>Accessible</code> parent of this object.
-         * If the parent of this object implements <code>Accessible</code>,
-         * this method should simply return <code>getParent</code>.
+         * Gfts tif <dodf>Addfssiblf</dodf> pbrfnt of tiis objfdt.
+         * If tif pbrfnt of tiis objfdt implfmfnts <dodf>Addfssiblf</dodf>,
+         * tiis mftiod siould simply rfturn <dodf>gftPbrfnt</dodf>.
          *
-         * @return the <code>Accessible</code> parent of this object -- can
-         *    be <code>null</code> if this object does not have an
-         *    <code>Accessible</code> parent
+         * @rfturn tif <dodf>Addfssiblf</dodf> pbrfnt of tiis objfdt -- dbn
+         *    bf <dodf>null</dodf> if tiis objfdt dofs not ibvf bn
+         *    <dodf>Addfssiblf</dodf> pbrfnt
          */
-        public Accessible getAccessibleParent() {
-            if (accessibleParent != null) {
-                return accessibleParent;
-            } else {
-                MenuContainer parent = MenuComponent.this.getParent();
-                if (parent instanceof Accessible) {
-                    return (Accessible) parent;
+        publid Addfssiblf gftAddfssiblfPbrfnt() {
+            if (bddfssiblfPbrfnt != null) {
+                rfturn bddfssiblfPbrfnt;
+            } flsf {
+                MfnuContbinfr pbrfnt = MfnuComponfnt.tiis.gftPbrfnt();
+                if (pbrfnt instbndfof Addfssiblf) {
+                    rfturn (Addfssiblf) pbrfnt;
                 }
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Gets the index of this object in its accessible parent.
+         * Gfts tif indfx of tiis objfdt in its bddfssiblf pbrfnt.
          *
-         * @return the index of this object in its parent; -1 if this
-         *     object does not have an accessible parent
-         * @see #getAccessibleParent
+         * @rfturn tif indfx of tiis objfdt in its pbrfnt; -1 if tiis
+         *     objfdt dofs not ibvf bn bddfssiblf pbrfnt
+         * @sff #gftAddfssiblfPbrfnt
          */
-        public int getAccessibleIndexInParent() {
-            return MenuComponent.this.getAccessibleIndexInParent();
+        publid int gftAddfssiblfIndfxInPbrfnt() {
+            rfturn MfnuComponfnt.tiis.gftAddfssiblfIndfxInPbrfnt();
         }
 
         /**
-         * Returns the number of accessible children in the object.  If all
-         * of the children of this object implement <code>Accessible</code>,
-         * then this method should return the number of children of this object.
+         * Rfturns tif numbfr of bddfssiblf diildrfn in tif objfdt.  If bll
+         * of tif diildrfn of tiis objfdt implfmfnt <dodf>Addfssiblf</dodf>,
+         * tifn tiis mftiod siould rfturn tif numbfr of diildrfn of tiis objfdt.
          *
-         * @return the number of accessible children in the object
+         * @rfturn tif numbfr of bddfssiblf diildrfn in tif objfdt
          */
-        public int getAccessibleChildrenCount() {
-            return 0; // MenuComponents don't have children
+        publid int gftAddfssiblfCiildrfnCount() {
+            rfturn 0; // MfnuComponfnts don't ibvf diildrfn
         }
 
         /**
-         * Returns the nth <code>Accessible</code> child of the object.
+         * Rfturns tif nti <dodf>Addfssiblf</dodf> diild of tif objfdt.
          *
-         * @param i zero-based index of child
-         * @return the nth Accessible child of the object
+         * @pbrbm i zfro-bbsfd indfx of diild
+         * @rfturn tif nti Addfssiblf diild of tif objfdt
          */
-        public Accessible getAccessibleChild(int i) {
-            return null; // MenuComponents don't have children
+        publid Addfssiblf gftAddfssiblfCiild(int i) {
+            rfturn null; // MfnuComponfnts don't ibvf diildrfn
         }
 
         /**
-         * Returns the locale of this object.
+         * Rfturns tif lodblf of tiis objfdt.
          *
-         * @return the locale of this object
+         * @rfturn tif lodblf of tiis objfdt
          */
-        public java.util.Locale getLocale() {
-            MenuContainer parent = MenuComponent.this.getParent();
-            if (parent instanceof Component)
-                return ((Component)parent).getLocale();
-            else
-                return java.util.Locale.getDefault();
+        publid jbvb.util.Lodblf gftLodblf() {
+            MfnuContbinfr pbrfnt = MfnuComponfnt.tiis.gftPbrfnt();
+            if (pbrfnt instbndfof Componfnt)
+                rfturn ((Componfnt)pbrfnt).gftLodblf();
+            flsf
+                rfturn jbvb.util.Lodblf.gftDffbult();
         }
 
         /**
-         * Gets the <code>AccessibleComponent</code> associated with
-         * this object if one exists.  Otherwise return <code>null</code>.
+         * Gfts tif <dodf>AddfssiblfComponfnt</dodf> bssodibtfd witi
+         * tiis objfdt if onf fxists.  Otifrwisf rfturn <dodf>null</dodf>.
          *
-         * @return the component
+         * @rfturn tif domponfnt
          */
-        public AccessibleComponent getAccessibleComponent() {
-            return this;
+        publid AddfssiblfComponfnt gftAddfssiblfComponfnt() {
+            rfturn tiis;
         }
 
 
-        // AccessibleComponent methods
+        // AddfssiblfComponfnt mftiods
         //
         /**
-         * Gets the background color of this object.
+         * Gfts tif bbdkground dolor of tiis objfdt.
          *
-         * @return the background color, if supported, of the object;
-         *     otherwise, <code>null</code>
+         * @rfturn tif bbdkground dolor, if supportfd, of tif objfdt;
+         *     otifrwisf, <dodf>null</dodf>
          */
-        public Color getBackground() {
-            return null; // Not supported for MenuComponents
+        publid Color gftBbdkground() {
+            rfturn null; // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Sets the background color of this object.
-         * (For transparency, see <code>isOpaque</code>.)
+         * Sfts tif bbdkground dolor of tiis objfdt.
+         * (For trbnspbrfndy, sff <dodf>isOpbquf</dodf>.)
          *
-         * @param c the new <code>Color</code> for the background
-         * @see Component#isOpaque
+         * @pbrbm d tif nfw <dodf>Color</dodf> for tif bbdkground
+         * @sff Componfnt#isOpbquf
          */
-        public void setBackground(Color c) {
-            // Not supported for MenuComponents
+        publid void sftBbdkground(Color d) {
+            // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Gets the foreground color of this object.
+         * Gfts tif forfground dolor of tiis objfdt.
          *
-         * @return the foreground color, if supported, of the object;
-         *     otherwise, <code>null</code>
+         * @rfturn tif forfground dolor, if supportfd, of tif objfdt;
+         *     otifrwisf, <dodf>null</dodf>
          */
-        public Color getForeground() {
-            return null; // Not supported for MenuComponents
+        publid Color gftForfground() {
+            rfturn null; // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Sets the foreground color of this object.
+         * Sfts tif forfground dolor of tiis objfdt.
          *
-         * @param c the new <code>Color</code> for the foreground
+         * @pbrbm d tif nfw <dodf>Color</dodf> for tif forfground
          */
-        public void setForeground(Color c) {
-            // Not supported for MenuComponents
+        publid void sftForfground(Color d) {
+            // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Gets the <code>Cursor</code> of this object.
+         * Gfts tif <dodf>Cursor</dodf> of tiis objfdt.
          *
-         * @return the <code>Cursor</code>, if supported, of the object;
-         *     otherwise, <code>null</code>
+         * @rfturn tif <dodf>Cursor</dodf>, if supportfd, of tif objfdt;
+         *     otifrwisf, <dodf>null</dodf>
          */
-        public Cursor getCursor() {
-            return null; // Not supported for MenuComponents
+        publid Cursor gftCursor() {
+            rfturn null; // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Sets the <code>Cursor</code> of this object.
+         * Sfts tif <dodf>Cursor</dodf> of tiis objfdt.
          * <p>
-         * The method may have no visual effect if the Java platform
-         * implementation and/or the native system do not support
-         * changing the mouse cursor shape.
-         * @param cursor the new <code>Cursor</code> for the object
+         * Tif mftiod mby ibvf no visubl ffffdt if tif Jbvb plbtform
+         * implfmfntbtion bnd/or tif nbtivf systfm do not support
+         * dibnging tif mousf dursor sibpf.
+         * @pbrbm dursor tif nfw <dodf>Cursor</dodf> for tif objfdt
          */
-        public void setCursor(Cursor cursor) {
-            // Not supported for MenuComponents
+        publid void sftCursor(Cursor dursor) {
+            // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Gets the <code>Font</code> of this object.
+         * Gfts tif <dodf>Font</dodf> of tiis objfdt.
          *
-         * @return the <code>Font</code>,if supported, for the object;
-         *     otherwise, <code>null</code>
+         * @rfturn tif <dodf>Font</dodf>,if supportfd, for tif objfdt;
+         *     otifrwisf, <dodf>null</dodf>
          */
-        public Font getFont() {
-            return MenuComponent.this.getFont();
+        publid Font gftFont() {
+            rfturn MfnuComponfnt.tiis.gftFont();
         }
 
         /**
-         * Sets the <code>Font</code> of this object.
+         * Sfts tif <dodf>Font</dodf> of tiis objfdt.
          *
-         * @param f the new <code>Font</code> for the object
+         * @pbrbm f tif nfw <dodf>Font</dodf> for tif objfdt
          */
-        public void setFont(Font f) {
-            MenuComponent.this.setFont(f);
+        publid void sftFont(Font f) {
+            MfnuComponfnt.tiis.sftFont(f);
         }
 
         /**
-         * Gets the <code>FontMetrics</code> of this object.
+         * Gfts tif <dodf>FontMftrids</dodf> of tiis objfdt.
          *
-         * @param f the <code>Font</code>
-         * @return the FontMetrics, if supported, the object;
-         *              otherwise, <code>null</code>
-         * @see #getFont
+         * @pbrbm f tif <dodf>Font</dodf>
+         * @rfturn tif FontMftrids, if supportfd, tif objfdt;
+         *              otifrwisf, <dodf>null</dodf>
+         * @sff #gftFont
          */
-        public FontMetrics getFontMetrics(Font f) {
-            return null; // Not supported for MenuComponents
+        publid FontMftrids gftFontMftrids(Font f) {
+            rfturn null; // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Determines if the object is enabled.
+         * Dftfrminfs if tif objfdt is fnbblfd.
          *
-         * @return true if object is enabled; otherwise, false
+         * @rfturn truf if objfdt is fnbblfd; otifrwisf, fblsf
          */
-        public boolean isEnabled() {
-            return true; // Not supported for MenuComponents
+        publid boolfbn isEnbblfd() {
+            rfturn truf; // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Sets the enabled state of the object.
+         * Sfts tif fnbblfd stbtf of tif objfdt.
          *
-         * @param b if true, enables this object; otherwise, disables it
+         * @pbrbm b if truf, fnbblfs tiis objfdt; otifrwisf, disbblfs it
          */
-        public void setEnabled(boolean b) {
-            // Not supported for MenuComponents
+        publid void sftEnbblfd(boolfbn b) {
+            // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Determines if the object is visible.  Note: this means that the
-         * object intends to be visible; however, it may not in fact be
-         * showing on the screen because one of the objects that this object
-         * is contained by is not visible.  To determine if an object is
-         * showing on the screen, use <code>isShowing</code>.
+         * Dftfrminfs if tif objfdt is visiblf.  Notf: tiis mfbns tibt tif
+         * objfdt intfnds to bf visiblf; iowfvfr, it mby not in fbdt bf
+         * siowing on tif sdrffn bfdbusf onf of tif objfdts tibt tiis objfdt
+         * is dontbinfd by is not visiblf.  To dftfrminf if bn objfdt is
+         * siowing on tif sdrffn, usf <dodf>isSiowing</dodf>.
          *
-         * @return true if object is visible; otherwise, false
+         * @rfturn truf if objfdt is visiblf; otifrwisf, fblsf
          */
-        public boolean isVisible() {
-            return true; // Not supported for MenuComponents
+        publid boolfbn isVisiblf() {
+            rfturn truf; // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Sets the visible state of the object.
+         * Sfts tif visiblf stbtf of tif objfdt.
          *
-         * @param b if true, shows this object; otherwise, hides it
+         * @pbrbm b if truf, siows tiis objfdt; otifrwisf, iidfs it
          */
-        public void setVisible(boolean b) {
-            // Not supported for MenuComponents
+        publid void sftVisiblf(boolfbn b) {
+            // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Determines if the object is showing.  This is determined by checking
-         * the visibility of the object and ancestors of the object.  Note:
-         * this will return true even if the object is obscured by another
-         * (for example, it happens to be underneath a menu that was pulled
+         * Dftfrminfs if tif objfdt is siowing.  Tiis is dftfrminfd by difdking
+         * tif visibility of tif objfdt bnd bndfstors of tif objfdt.  Notf:
+         * tiis will rfturn truf fvfn if tif objfdt is obsdurfd by bnotifr
+         * (for fxbmplf, it ibppfns to bf undfrnfbti b mfnu tibt wbs pullfd
          * down).
          *
-         * @return true if object is showing; otherwise, false
+         * @rfturn truf if objfdt is siowing; otifrwisf, fblsf
          */
-        public boolean isShowing() {
-            return true; // Not supported for MenuComponents
+        publid boolfbn isSiowing() {
+            rfturn truf; // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Checks whether the specified point is within this object's bounds,
-         * where the point's x and y coordinates are defined to be relative to
-         * the coordinate system of the object.
+         * Cifdks wiftifr tif spfdififd point is witiin tiis objfdt's bounds,
+         * wifrf tif point's x bnd y doordinbtfs brf dffinfd to bf rflbtivf to
+         * tif doordinbtf systfm of tif objfdt.
          *
-         * @param p the <code>Point</code> relative to the coordinate
-         *     system of the object
-         * @return true if object contains <code>Point</code>; otherwise false
+         * @pbrbm p tif <dodf>Point</dodf> rflbtivf to tif doordinbtf
+         *     systfm of tif objfdt
+         * @rfturn truf if objfdt dontbins <dodf>Point</dodf>; otifrwisf fblsf
          */
-        public boolean contains(Point p) {
-            return false; // Not supported for MenuComponents
+        publid boolfbn dontbins(Point p) {
+            rfturn fblsf; // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Returns the location of the object on the screen.
+         * Rfturns tif lodbtion of tif objfdt on tif sdrffn.
          *
-         * @return location of object on screen -- can be <code>null</code>
-         *     if this object is not on the screen
+         * @rfturn lodbtion of objfdt on sdrffn -- dbn bf <dodf>null</dodf>
+         *     if tiis objfdt is not on tif sdrffn
          */
-        public Point getLocationOnScreen() {
-            return null; // Not supported for MenuComponents
+        publid Point gftLodbtionOnSdrffn() {
+            rfturn null; // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Gets the location of the object relative to the parent in the form
-         * of a point specifying the object's top-left corner in the screen's
-         * coordinate space.
+         * Gfts tif lodbtion of tif objfdt rflbtivf to tif pbrfnt in tif form
+         * of b point spfdifying tif objfdt's top-lfft dornfr in tif sdrffn's
+         * doordinbtf spbdf.
          *
-         * @return an instance of <code>Point</code> representing the
-         *    top-left corner of the object's bounds in the coordinate
-         *    space of the screen; <code>null</code> if
-         *    this object or its parent are not on the screen
+         * @rfturn bn instbndf of <dodf>Point</dodf> rfprfsfnting tif
+         *    top-lfft dornfr of tif objfdt's bounds in tif doordinbtf
+         *    spbdf of tif sdrffn; <dodf>null</dodf> if
+         *    tiis objfdt or its pbrfnt brf not on tif sdrffn
          */
-        public Point getLocation() {
-            return null; // Not supported for MenuComponents
+        publid Point gftLodbtion() {
+            rfturn null; // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Sets the location of the object relative to the parent.
+         * Sfts tif lodbtion of tif objfdt rflbtivf to tif pbrfnt.
          */
-        public void setLocation(Point p) {
-            // Not supported for MenuComponents
+        publid void sftLodbtion(Point p) {
+            // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Gets the bounds of this object in the form of a
-         * <code>Rectangle</code> object.
-         * The bounds specify this object's width, height, and location
-         * relative to its parent.
+         * Gfts tif bounds of tiis objfdt in tif form of b
+         * <dodf>Rfdtbnglf</dodf> objfdt.
+         * Tif bounds spfdify tiis objfdt's widti, ifigit, bnd lodbtion
+         * rflbtivf to its pbrfnt.
          *
-         * @return a rectangle indicating this component's bounds;
-         *     <code>null</code> if this object is not on the screen
+         * @rfturn b rfdtbnglf indidbting tiis domponfnt's bounds;
+         *     <dodf>null</dodf> if tiis objfdt is not on tif sdrffn
          */
-        public Rectangle getBounds() {
-            return null; // Not supported for MenuComponents
+        publid Rfdtbnglf gftBounds() {
+            rfturn null; // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Sets the bounds of this object in the form of a
-         * <code>Rectangle</code> object.
-         * The bounds specify this object's width, height, and location
-         * relative to its parent.
+         * Sfts tif bounds of tiis objfdt in tif form of b
+         * <dodf>Rfdtbnglf</dodf> objfdt.
+         * Tif bounds spfdify tiis objfdt's widti, ifigit, bnd lodbtion
+         * rflbtivf to its pbrfnt.
          *
-         * @param r a rectangle indicating this component's bounds
+         * @pbrbm r b rfdtbnglf indidbting tiis domponfnt's bounds
          */
-        public void setBounds(Rectangle r) {
-            // Not supported for MenuComponents
+        publid void sftBounds(Rfdtbnglf r) {
+            // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Returns the size of this object in the form of a
-         * <code>Dimension</code> object. The height field of
-         * the <code>Dimension</code> object contains this object's
-         * height, and the width field of the <code>Dimension</code>
-         * object contains this object's width.
+         * Rfturns tif sizf of tiis objfdt in tif form of b
+         * <dodf>Dimfnsion</dodf> objfdt. Tif ifigit fifld of
+         * tif <dodf>Dimfnsion</dodf> objfdt dontbins tiis objfdt's
+         * ifigit, bnd tif widti fifld of tif <dodf>Dimfnsion</dodf>
+         * objfdt dontbins tiis objfdt's widti.
          *
-         * @return a <code>Dimension</code> object that indicates the
-         *         size of this component; <code>null</code>
-         *         if this object is not on the screen
+         * @rfturn b <dodf>Dimfnsion</dodf> objfdt tibt indidbtfs tif
+         *         sizf of tiis domponfnt; <dodf>null</dodf>
+         *         if tiis objfdt is not on tif sdrffn
          */
-        public Dimension getSize() {
-            return null; // Not supported for MenuComponents
+        publid Dimfnsion gftSizf() {
+            rfturn null; // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Resizes this object.
+         * Rfsizfs tiis objfdt.
          *
-         * @param d - the <code>Dimension</code> specifying the
-         *    new size of the object
+         * @pbrbm d - tif <dodf>Dimfnsion</dodf> spfdifying tif
+         *    nfw sizf of tif objfdt
          */
-        public void setSize(Dimension d) {
-            // Not supported for MenuComponents
+        publid void sftSizf(Dimfnsion d) {
+            // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Returns the <code>Accessible</code> child, if one exists,
-         * contained at the local coordinate <code>Point</code>.
-         * If there is no <code>Accessible</code> child, <code>null</code>
-         * is returned.
+         * Rfturns tif <dodf>Addfssiblf</dodf> diild, if onf fxists,
+         * dontbinfd bt tif lodbl doordinbtf <dodf>Point</dodf>.
+         * If tifrf is no <dodf>Addfssiblf</dodf> diild, <dodf>null</dodf>
+         * is rfturnfd.
          *
-         * @param p the point defining the top-left corner of the
-         *    <code>Accessible</code>, given in the coordinate space
-         *    of the object's parent
-         * @return the <code>Accessible</code>, if it exists,
-         *    at the specified location; else <code>null</code>
+         * @pbrbm p tif point dffining tif top-lfft dornfr of tif
+         *    <dodf>Addfssiblf</dodf>, givfn in tif doordinbtf spbdf
+         *    of tif objfdt's pbrfnt
+         * @rfturn tif <dodf>Addfssiblf</dodf>, if it fxists,
+         *    bt tif spfdififd lodbtion; flsf <dodf>null</dodf>
          */
-        public Accessible getAccessibleAt(Point p) {
-            return null; // MenuComponents don't have children
+        publid Addfssiblf gftAddfssiblfAt(Point p) {
+            rfturn null; // MfnuComponfnts don't ibvf diildrfn
         }
 
         /**
-         * Returns whether this object can accept focus or not.
+         * Rfturns wiftifr tiis objfdt dbn bddfpt fodus or not.
          *
-         * @return true if object can accept focus; otherwise false
+         * @rfturn truf if objfdt dbn bddfpt fodus; otifrwisf fblsf
          */
-        public boolean isFocusTraversable() {
-            return true; // Not supported for MenuComponents
+        publid boolfbn isFodusTrbvfrsbblf() {
+            rfturn truf; // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Requests focus for this object.
+         * Rfqufsts fodus for tiis objfdt.
          */
-        public void requestFocus() {
-            // Not supported for MenuComponents
+        publid void rfqufstFodus() {
+            // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Adds the specified focus listener to receive focus events from this
-         * component.
+         * Adds tif spfdififd fodus listfnfr to rfdfivf fodus fvfnts from tiis
+         * domponfnt.
          *
-         * @param l the focus listener
+         * @pbrbm l tif fodus listfnfr
          */
-        public void addFocusListener(java.awt.event.FocusListener l) {
-            // Not supported for MenuComponents
+        publid void bddFodusListfnfr(jbvb.bwt.fvfnt.FodusListfnfr l) {
+            // Not supportfd for MfnuComponfnts
         }
 
         /**
-         * Removes the specified focus listener so it no longer receives focus
-         * events from this component.
+         * Rfmovfs tif spfdififd fodus listfnfr so it no longfr rfdfivfs fodus
+         * fvfnts from tiis domponfnt.
          *
-         * @param l the focus listener
+         * @pbrbm l tif fodus listfnfr
          */
-        public void removeFocusListener(java.awt.event.FocusListener l) {
-            // Not supported for MenuComponents
+        publid void rfmovfFodusListfnfr(jbvb.bwt.fvfnt.FodusListfnfr l) {
+            // Not supportfd for MfnuComponfnts
         }
 
-        // AccessibleSelection methods
+        // AddfssiblfSflfdtion mftiods
         //
 
         /**
-         * Returns the number of <code>Accessible</code> children currently selected.
-         * If no children are selected, the return value will be 0.
+         * Rfturns tif numbfr of <dodf>Addfssiblf</dodf> diildrfn durrfntly sflfdtfd.
+         * If no diildrfn brf sflfdtfd, tif rfturn vbluf will bf 0.
          *
-         * @return the number of items currently selected
+         * @rfturn tif numbfr of itfms durrfntly sflfdtfd
          */
-         public int getAccessibleSelectionCount() {
-             return 0;  //  To be fully implemented in a future release
+         publid int gftAddfssiblfSflfdtionCount() {
+             rfturn 0;  //  To bf fully implfmfntfd in b futurf rflfbsf
          }
 
         /**
-         * Returns an <code>Accessible</code> representing the specified
-         * selected child in the object.  If there isn't a selection, or there are
-         * fewer children selected than the integer passed in, the return
-         * value will be <code>null</code>.
-         * <p>Note that the index represents the i-th selected child, which
-         * is different from the i-th child.
+         * Rfturns bn <dodf>Addfssiblf</dodf> rfprfsfnting tif spfdififd
+         * sflfdtfd diild in tif objfdt.  If tifrf isn't b sflfdtion, or tifrf brf
+         * ffwfr diildrfn sflfdtfd tibn tif intfgfr pbssfd in, tif rfturn
+         * vbluf will bf <dodf>null</dodf>.
+         * <p>Notf tibt tif indfx rfprfsfnts tif i-ti sflfdtfd diild, wiidi
+         * is difffrfnt from tif i-ti diild.
          *
-         * @param i the zero-based index of selected children
-         * @return the i-th selected child
-         * @see #getAccessibleSelectionCount
+         * @pbrbm i tif zfro-bbsfd indfx of sflfdtfd diildrfn
+         * @rfturn tif i-ti sflfdtfd diild
+         * @sff #gftAddfssiblfSflfdtionCount
          */
-         public Accessible getAccessibleSelection(int i) {
-             return null;  //  To be fully implemented in a future release
+         publid Addfssiblf gftAddfssiblfSflfdtion(int i) {
+             rfturn null;  //  To bf fully implfmfntfd in b futurf rflfbsf
          }
 
         /**
-         * Determines if the current child of this object is selected.
+         * Dftfrminfs if tif durrfnt diild of tiis objfdt is sflfdtfd.
          *
-         * @return true if the current child of this object is selected;
-         *    else false
-         * @param i the zero-based index of the child in this
-         *      <code>Accessible</code> object
-         * @see AccessibleContext#getAccessibleChild
+         * @rfturn truf if tif durrfnt diild of tiis objfdt is sflfdtfd;
+         *    flsf fblsf
+         * @pbrbm i tif zfro-bbsfd indfx of tif diild in tiis
+         *      <dodf>Addfssiblf</dodf> objfdt
+         * @sff AddfssiblfContfxt#gftAddfssiblfCiild
          */
-         public boolean isAccessibleChildSelected(int i) {
-             return false;  //  To be fully implemented in a future release
+         publid boolfbn isAddfssiblfCiildSflfdtfd(int i) {
+             rfturn fblsf;  //  To bf fully implfmfntfd in b futurf rflfbsf
          }
 
         /**
-         * Adds the specified <code>Accessible</code> child of the object
-         * to the object's selection.  If the object supports multiple selections,
-         * the specified child is added to any existing selection, otherwise
-         * it replaces any existing selection in the object.  If the
-         * specified child is already selected, this method has no effect.
+         * Adds tif spfdififd <dodf>Addfssiblf</dodf> diild of tif objfdt
+         * to tif objfdt's sflfdtion.  If tif objfdt supports multiplf sflfdtions,
+         * tif spfdififd diild is bddfd to bny fxisting sflfdtion, otifrwisf
+         * it rfplbdfs bny fxisting sflfdtion in tif objfdt.  If tif
+         * spfdififd diild is blrfbdy sflfdtfd, tiis mftiod ibs no ffffdt.
          *
-         * @param i the zero-based index of the child
-         * @see AccessibleContext#getAccessibleChild
+         * @pbrbm i tif zfro-bbsfd indfx of tif diild
+         * @sff AddfssiblfContfxt#gftAddfssiblfCiild
          */
-         public void addAccessibleSelection(int i) {
-               //  To be fully implemented in a future release
+         publid void bddAddfssiblfSflfdtion(int i) {
+               //  To bf fully implfmfntfd in b futurf rflfbsf
          }
 
         /**
-         * Removes the specified child of the object from the object's
-         * selection.  If the specified item isn't currently selected, this
-         * method has no effect.
+         * Rfmovfs tif spfdififd diild of tif objfdt from tif objfdt's
+         * sflfdtion.  If tif spfdififd itfm isn't durrfntly sflfdtfd, tiis
+         * mftiod ibs no ffffdt.
          *
-         * @param i the zero-based index of the child
-         * @see AccessibleContext#getAccessibleChild
+         * @pbrbm i tif zfro-bbsfd indfx of tif diild
+         * @sff AddfssiblfContfxt#gftAddfssiblfCiild
          */
-         public void removeAccessibleSelection(int i) {
-               //  To be fully implemented in a future release
+         publid void rfmovfAddfssiblfSflfdtion(int i) {
+               //  To bf fully implfmfntfd in b futurf rflfbsf
          }
 
         /**
-         * Clears the selection in the object, so that no children in the
-         * object are selected.
+         * Clfbrs tif sflfdtion in tif objfdt, so tibt no diildrfn in tif
+         * objfdt brf sflfdtfd.
          */
-         public void clearAccessibleSelection() {
-               //  To be fully implemented in a future release
+         publid void dlfbrAddfssiblfSflfdtion() {
+               //  To bf fully implfmfntfd in b futurf rflfbsf
          }
 
         /**
-         * Causes every child of the object to be selected
-         * if the object supports multiple selections.
+         * Cbusfs fvfry diild of tif objfdt to bf sflfdtfd
+         * if tif objfdt supports multiplf sflfdtions.
          */
-         public void selectAllAccessibleSelection() {
-               //  To be fully implemented in a future release
+         publid void sflfdtAllAddfssiblfSflfdtion() {
+               //  To bf fully implfmfntfd in b futurf rflfbsf
          }
 
-    } // inner class AccessibleAWTComponent
+    } // innfr dlbss AddfssiblfAWTComponfnt
 
     /**
-     * Gets the index of this object in its accessible parent.
+     * Gfts tif indfx of tiis objfdt in its bddfssiblf pbrfnt.
      *
-     * @return -1 if this object does not have an accessible parent;
-     *      otherwise, the index of the child in its accessible parent.
+     * @rfturn -1 if tiis objfdt dofs not ibvf bn bddfssiblf pbrfnt;
+     *      otifrwisf, tif indfx of tif diild in its bddfssiblf pbrfnt.
      */
-    int getAccessibleIndexInParent() {
-        MenuContainer localParent = parent;
-        if (!(localParent instanceof MenuComponent)) {
-            // MenuComponents only have accessible index when inside MenuComponents
-            return -1;
+    int gftAddfssiblfIndfxInPbrfnt() {
+        MfnuContbinfr lodblPbrfnt = pbrfnt;
+        if (!(lodblPbrfnt instbndfof MfnuComponfnt)) {
+            // MfnuComponfnts only ibvf bddfssiblf indfx wifn insidf MfnuComponfnts
+            rfturn -1;
         }
-        MenuComponent localParentMenu = (MenuComponent)localParent;
-        return localParentMenu.getAccessibleChildIndex(this);
+        MfnuComponfnt lodblPbrfntMfnu = (MfnuComponfnt)lodblPbrfnt;
+        rfturn lodblPbrfntMfnu.gftAddfssiblfCiildIndfx(tiis);
     }
 
     /**
-     * Gets the index of the child within this MenuComponent.
+     * Gfts tif indfx of tif diild witiin tiis MfnuComponfnt.
      *
-     * @param child MenuComponent whose index we are interested in.
-     * @return -1 if this object doesn't contain the child,
-     *      otherwise, index of the child.
+     * @pbrbm diild MfnuComponfnt wiosf indfx wf brf intfrfstfd in.
+     * @rfturn -1 if tiis objfdt dofsn't dontbin tif diild,
+     *      otifrwisf, indfx of tif diild.
      */
-    int getAccessibleChildIndex(MenuComponent child) {
-        return -1; // Overridden in subclasses.
+    int gftAddfssiblfCiildIndfx(MfnuComponfnt diild) {
+        rfturn -1; // Ovfrriddfn in subdlbssfs.
     }
 
     /**
-     * Gets the state of this object.
+     * Gfts tif stbtf of tiis objfdt.
      *
-     * @return an instance of <code>AccessibleStateSet</code>
-     *     containing the current state set of the object
-     * @see AccessibleState
+     * @rfturn bn instbndf of <dodf>AddfssiblfStbtfSft</dodf>
+     *     dontbining tif durrfnt stbtf sft of tif objfdt
+     * @sff AddfssiblfStbtf
      */
-    AccessibleStateSet getAccessibleStateSet() {
-        AccessibleStateSet states = new AccessibleStateSet();
-        return states;
+    AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+        AddfssiblfStbtfSft stbtfs = nfw AddfssiblfStbtfSft();
+        rfturn stbtfs;
     }
 
 }

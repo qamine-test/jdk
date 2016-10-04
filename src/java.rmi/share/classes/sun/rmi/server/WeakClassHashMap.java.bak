@@ -1,87 +1,87 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.server;
+pbdkbgf sun.rmi.sfrvfr;
 
-import java.lang.ref.Reference;
-import java.lang.ref.SoftReference;
-import java.util.Map;
-import java.util.WeakHashMap;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
 
 /**
- * Abstract class that maps Class objects to lazily-computed values of
- * type V.  A concrete subclass must implement the computeValue method
- * to determine how the values are computed.
+ * Abstrbdt dlbss tibt mbps Clbss objfdts to lbzily-domputfd vblufs of
+ * typf V.  A dondrftf subdlbss must implfmfnt tif domputfVbluf mftiod
+ * to dftfrminf iow tif vblufs brf domputfd.
  *
- * The keys are only weakly reachable through this map, so this map
- * does not prevent a class (along with its class loader, etc.) from
- * being garbage collected if it is not otherwise strongly reachable.
- * The values are only softly reachable through this map, so that the
- * computed values generally persist while not otherwise strongly
- * reachable, but their storage may be reclaimed if necessary.  Also,
- * note that if a key is strongly reachable from a value, then the key
- * is effectively softly reachable through this map, which may delay
- * garbage collection of classes (see 4429536).
+ * Tif kfys brf only wfbkly rfbdibblf tirougi tiis mbp, so tiis mbp
+ * dofs not prfvfnt b dlbss (blong witi its dlbss lobdfr, ftd.) from
+ * bfing gbrbbgf dollfdtfd if it is not otifrwisf strongly rfbdibblf.
+ * Tif vblufs brf only softly rfbdibblf tirougi tiis mbp, so tibt tif
+ * domputfd vblufs gfnfrblly pfrsist wiilf not otifrwisf strongly
+ * rfbdibblf, but tifir storbgf mby bf rfdlbimfd if nfdfssbry.  Also,
+ * notf tibt if b kfy is strongly rfbdibblf from b vbluf, tifn tif kfy
+ * is ffffdtivfly softly rfbdibblf tirougi tiis mbp, wiidi mby dflby
+ * gbrbbgf dollfdtion of dlbssfs (sff 4429536).
  **/
-public abstract class WeakClassHashMap<V> {
+publid bbstrbdt dlbss WfbkClbssHbsiMbp<V> {
 
-    private Map<Class<?>,ValueCell<V>> internalMap = new WeakHashMap<>();
+    privbtf Mbp<Clbss<?>,VblufCfll<V>> intfrnblMbp = nfw WfbkHbsiMbp<>();
 
-    protected WeakClassHashMap() { }
+    protfdtfd WfbkClbssHbsiMbp() { }
 
-    public V get(Class<?> remoteClass) {
+    publid V gft(Clbss<?> rfmotfClbss) {
         /*
-         * Use a mutable cell (a one-element list) to hold the soft
-         * reference to a value, to allow the lazy value computation
-         * to be synchronized with entry-level granularity instead of
-         * by locking the whole table.
+         * Usf b mutbblf dfll (b onf-flfmfnt list) to iold tif soft
+         * rfffrfndf to b vbluf, to bllow tif lbzy vbluf domputbtion
+         * to bf syndironizfd witi fntry-lfvfl grbnulbrity instfbd of
+         * by lodking tif wiolf tbblf.
          */
-        ValueCell<V> valueCell;
-        synchronized (internalMap) {
-            valueCell = internalMap.get(remoteClass);
-            if (valueCell == null) {
-                valueCell = new ValueCell<V>();
-                internalMap.put(remoteClass, valueCell);
+        VblufCfll<V> vblufCfll;
+        syndironizfd (intfrnblMbp) {
+            vblufCfll = intfrnblMbp.gft(rfmotfClbss);
+            if (vblufCfll == null) {
+                vblufCfll = nfw VblufCfll<V>();
+                intfrnblMbp.put(rfmotfClbss, vblufCfll);
             }
         }
-        synchronized (valueCell) {
-            V value = null;
-            if (valueCell.ref != null) {
-                value = valueCell.ref.get();
+        syndironizfd (vblufCfll) {
+            V vbluf = null;
+            if (vblufCfll.rff != null) {
+                vbluf = vblufCfll.rff.gft();
             }
-            if (value == null) {
-                value = computeValue(remoteClass);
-                valueCell.ref = new SoftReference<V>(value);
+            if (vbluf == null) {
+                vbluf = domputfVbluf(rfmotfClbss);
+                vblufCfll.rff = nfw SoftRfffrfndf<V>(vbluf);
             }
-            return value;
+            rfturn vbluf;
         }
     }
 
-    protected abstract V computeValue(Class<?> remoteClass);
+    protfdtfd bbstrbdt V domputfVbluf(Clbss<?> rfmotfClbss);
 
-    private static class ValueCell<T> {
-        Reference<T> ref = null;
-        ValueCell() { }
+    privbtf stbtid dlbss VblufCfll<T> {
+        Rfffrfndf<T> rff = null;
+        VblufCfll() { }
     }
 }

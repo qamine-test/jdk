@@ -1,412 +1,412 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import javax.swing.plaf.basic.*;
-import javax.swing.plaf.*;
-import javax.swing.*;
-import java.awt.*;
+import jbvbx.swing.plbf.bbsid.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
 
-import static com.sun.java.swing.plaf.windows.TMSchema.*;
-import static com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import stbtid dom.sun.jbvb.swing.plbf.windows.TMSdifmb.*;
+import stbtid dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
 
 
 /**
- * Windows rendition of the component.
+ * Windows rfndition of tif domponfnt.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  *
- * @author Michael C. Albers
+ * @butior Midibfl C. Albfrs
  */
-public class WindowsProgressBarUI extends BasicProgressBarUI
+publid dlbss WindowsProgrfssBbrUI fxtfnds BbsidProgrfssBbrUI
 {
 
-    private Rectangle previousFullBox;
-    private Insets indeterminateInsets;
+    privbtf Rfdtbnglf prfviousFullBox;
+    privbtf Insfts indftfrminbtfInsfts;
 
-    public static ComponentUI createUI(JComponent x) {
-        return new WindowsProgressBarUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt x) {
+        rfturn nfw WindowsProgrfssBbrUI();
     }
 
 
-    protected void installDefaults() {
-        super.installDefaults();
+    protfdtfd void instbllDffbults() {
+        supfr.instbllDffbults();
 
-        if (XPStyle.getXP() != null) {
-            LookAndFeel.installProperty(progressBar, "opaque", Boolean.FALSE);
-            progressBar.setBorder(null);
-            indeterminateInsets = UIManager.getInsets("ProgressBar.indeterminateInsets");
+        if (XPStylf.gftXP() != null) {
+            LookAndFffl.instbllPropfrty(progrfssBbr, "opbquf", Boolfbn.FALSE);
+            progrfssBbr.sftBordfr(null);
+            indftfrminbtfInsfts = UIMbnbgfr.gftInsfts("ProgrfssBbr.indftfrminbtfInsfts");
         }
     }
 
     /**
-     * Returns the baseline.
+     * Rfturns tif bbsflinf.
      *
-     * @throws NullPointerException {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
-     * @see javax.swing.JComponent#getBaseline(int, int)
-     * @since 1.6
+     * @tirows NullPointfrExdfption {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
+     * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+     * @sindf 1.6
      */
-    public int getBaseline(JComponent c, int width, int height) {
-        int baseline = super.getBaseline(c, width, height);
-        if (XPStyle.getXP() != null && progressBar.isStringPainted() &&
-                progressBar.getOrientation() == JProgressBar.HORIZONTAL) {
-            FontMetrics metrics = progressBar.
-                    getFontMetrics(progressBar.getFont());
-            int y = progressBar.getInsets().top;
-            if (progressBar.isIndeterminate()) {
+    publid int gftBbsflinf(JComponfnt d, int widti, int ifigit) {
+        int bbsflinf = supfr.gftBbsflinf(d, widti, ifigit);
+        if (XPStylf.gftXP() != null && progrfssBbr.isStringPbintfd() &&
+                progrfssBbr.gftOrifntbtion() == JProgrfssBbr.HORIZONTAL) {
+            FontMftrids mftrids = progrfssBbr.
+                    gftFontMftrids(progrfssBbr.gftFont());
+            int y = progrfssBbr.gftInsfts().top;
+            if (progrfssBbr.isIndftfrminbtf()) {
                 y = -1;
-                height--;
+                ifigit--;
             }
-            else {
+            flsf {
                 y = 0;
-                height -= 3;
+                ifigit -= 3;
             }
-            baseline = y + (height + metrics.getAscent() -
-                        metrics.getLeading() -
-                        metrics.getDescent()) / 2;
+            bbsflinf = y + (ifigit + mftrids.gftAsdfnt() -
+                        mftrids.gftLfbding() -
+                        mftrids.gftDfsdfnt()) / 2;
         }
-        return baseline;
+        rfturn bbsflinf;
     }
 
-    protected Dimension getPreferredInnerHorizontal() {
-        XPStyle xp = XPStyle.getXP();
+    protfdtfd Dimfnsion gftPrfffrrfdInnfrHorizontbl() {
+        XPStylf xp = XPStylf.gftXP();
         if (xp != null) {
-             Skin skin = xp.getSkin(progressBar, Part.PP_BAR);
-             return new Dimension(
-                     (int)super.getPreferredInnerHorizontal().getWidth(),
-                     skin.getHeight());
+             Skin skin = xp.gftSkin(progrfssBbr, Pbrt.PP_BAR);
+             rfturn nfw Dimfnsion(
+                     (int)supfr.gftPrfffrrfdInnfrHorizontbl().gftWidti(),
+                     skin.gftHfigit());
          }
-         return super.getPreferredInnerHorizontal();
+         rfturn supfr.gftPrfffrrfdInnfrHorizontbl();
     }
 
-    protected Dimension getPreferredInnerVertical() {
-         XPStyle xp = XPStyle.getXP();
+    protfdtfd Dimfnsion gftPrfffrrfdInnfrVfrtidbl() {
+         XPStylf xp = XPStylf.gftXP();
          if (xp != null) {
-             Skin skin = xp.getSkin(progressBar, Part.PP_BARVERT);
-             return new Dimension(
-                     skin.getWidth(),
-                     (int)super.getPreferredInnerVertical().getHeight());
+             Skin skin = xp.gftSkin(progrfssBbr, Pbrt.PP_BARVERT);
+             rfturn nfw Dimfnsion(
+                     skin.gftWidti(),
+                     (int)supfr.gftPrfffrrfdInnfrVfrtidbl().gftHfigit());
          }
-         return super.getPreferredInnerVertical();
+         rfturn supfr.gftPrfffrrfdInnfrVfrtidbl();
     }
 
-    protected void paintDeterminate(Graphics g, JComponent c) {
-        XPStyle xp = XPStyle.getXP();
+    protfdtfd void pbintDftfrminbtf(Grbpiids g, JComponfnt d) {
+        XPStylf xp = XPStylf.gftXP();
         if (xp != null) {
-            boolean vertical = (progressBar.getOrientation() == JProgressBar.VERTICAL);
-            boolean isLeftToRight = WindowsGraphicsUtils.isLeftToRight(c);
-            int barRectWidth = progressBar.getWidth();
-            int barRectHeight = progressBar.getHeight()-1;
-            // amount of progress to draw
-            int amountFull = getAmountFull(null, barRectWidth, barRectHeight);
+            boolfbn vfrtidbl = (progrfssBbr.gftOrifntbtion() == JProgrfssBbr.VERTICAL);
+            boolfbn isLfftToRigit = WindowsGrbpiidsUtils.isLfftToRigit(d);
+            int bbrRfdtWidti = progrfssBbr.gftWidti();
+            int bbrRfdtHfigit = progrfssBbr.gftHfigit()-1;
+            // bmount of progrfss to drbw
+            int bmountFull = gftAmountFull(null, bbrRfdtWidti, bbrRfdtHfigit);
 
-            paintXPBackground(g, vertical, barRectWidth, barRectHeight);
-            // Paint progress
-            if (progressBar.isStringPainted()) {
-                // Do not paint the standard stripes from the skin, because they obscure
-                // the text
-                g.setColor(progressBar.getForeground());
-                barRectHeight -= 2;
-                barRectWidth -= 2;
+            pbintXPBbdkground(g, vfrtidbl, bbrRfdtWidti, bbrRfdtHfigit);
+            // Pbint progrfss
+            if (progrfssBbr.isStringPbintfd()) {
+                // Do not pbint tif stbndbrd stripfs from tif skin, bfdbusf tify obsdurf
+                // tif tfxt
+                g.sftColor(progrfssBbr.gftForfground());
+                bbrRfdtHfigit -= 2;
+                bbrRfdtWidti -= 2;
 
-                if (barRectWidth <= 0 || barRectHeight <= 0) {
-                    return;
+                if (bbrRfdtWidti <= 0 || bbrRfdtHfigit <= 0) {
+                    rfturn;
                 }
 
-                Graphics2D g2 = (Graphics2D)g;
-                g2.setStroke(new BasicStroke((float)(vertical ? barRectWidth : barRectHeight),
-                                             BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL));
-                if (!vertical) {
-                    if (isLeftToRight) {
-                        g2.drawLine(2,              barRectHeight / 2 + 1,
-                                    amountFull - 2, barRectHeight / 2 + 1);
-                    } else {
-                        g2.drawLine(2 + barRectWidth,
-                                    barRectHeight / 2 + 1,
-                                    2 + barRectWidth - (amountFull - 2),
-                                    barRectHeight / 2 + 1);
+                Grbpiids2D g2 = (Grbpiids2D)g;
+                g2.sftStrokf(nfw BbsidStrokf((flobt)(vfrtidbl ? bbrRfdtWidti : bbrRfdtHfigit),
+                                             BbsidStrokf.CAP_BUTT, BbsidStrokf.JOIN_BEVEL));
+                if (!vfrtidbl) {
+                    if (isLfftToRigit) {
+                        g2.drbwLinf(2,              bbrRfdtHfigit / 2 + 1,
+                                    bmountFull - 2, bbrRfdtHfigit / 2 + 1);
+                    } flsf {
+                        g2.drbwLinf(2 + bbrRfdtWidti,
+                                    bbrRfdtHfigit / 2 + 1,
+                                    2 + bbrRfdtWidti - (bmountFull - 2),
+                                    bbrRfdtHfigit / 2 + 1);
                     }
-                    paintString(g, 0, 0, barRectWidth, barRectHeight, amountFull, null);
-                } else {
-                    g2.drawLine(barRectWidth/2 + 1, barRectHeight + 1,
-                                barRectWidth/2 + 1, barRectHeight + 1 - amountFull + 2);
-                    paintString(g, 2, 2, barRectWidth, barRectHeight, amountFull, null);
+                    pbintString(g, 0, 0, bbrRfdtWidti, bbrRfdtHfigit, bmountFull, null);
+                } flsf {
+                    g2.drbwLinf(bbrRfdtWidti/2 + 1, bbrRfdtHfigit + 1,
+                                bbrRfdtWidti/2 + 1, bbrRfdtHfigit + 1 - bmountFull + 2);
+                    pbintString(g, 2, 2, bbrRfdtWidti, bbrRfdtHfigit, bmountFull, null);
                 }
 
-            } else {
-                Skin skin = xp.getSkin(progressBar, vertical ? Part.PP_CHUNKVERT : Part.PP_CHUNK);
-                int thickness;
-                if (vertical) {
-                    thickness = barRectWidth - 5;
-                } else {
-                    thickness = barRectHeight - 5;
+            } flsf {
+                Skin skin = xp.gftSkin(progrfssBbr, vfrtidbl ? Pbrt.PP_CHUNKVERT : Pbrt.PP_CHUNK);
+                int tiidknfss;
+                if (vfrtidbl) {
+                    tiidknfss = bbrRfdtWidti - 5;
+                } flsf {
+                    tiidknfss = bbrRfdtHfigit - 5;
                 }
 
-                int chunkSize = xp.getInt(progressBar, Part.PP_PROGRESS, null, Prop.PROGRESSCHUNKSIZE, 2);
-                int spaceSize = xp.getInt(progressBar, Part.PP_PROGRESS, null, Prop.PROGRESSSPACESIZE, 0);
-                int nChunks = (amountFull-4) / (chunkSize + spaceSize);
+                int diunkSizf = xp.gftInt(progrfssBbr, Pbrt.PP_PROGRESS, null, Prop.PROGRESSCHUNKSIZE, 2);
+                int spbdfSizf = xp.gftInt(progrfssBbr, Pbrt.PP_PROGRESS, null, Prop.PROGRESSSPACESIZE, 0);
+                int nCiunks = (bmountFull-4) / (diunkSizf + spbdfSizf);
 
-                // See if we can squeeze in an extra chunk without spacing after
-                if (spaceSize > 0 && (nChunks * (chunkSize + spaceSize) + chunkSize) < (amountFull-4)) {
-                    nChunks++;
+                // Sff if wf dbn squffzf in bn fxtrb diunk witiout spbding bftfr
+                if (spbdfSizf > 0 && (nCiunks * (diunkSizf + spbdfSizf) + diunkSizf) < (bmountFull-4)) {
+                    nCiunks++;
                 }
 
-                for (int i = 0; i < nChunks; i++) {
-                    if (vertical) {
-                        skin.paintSkin(g,
-                                       3, barRectHeight - i * (chunkSize + spaceSize) - chunkSize - 2,
-                                       thickness, chunkSize, null);
-                    } else {
-                        if (isLeftToRight) {
-                            skin.paintSkin(g,
-                                           4 + i * (chunkSize + spaceSize), 2,
-                                           chunkSize, thickness, null);
-                        } else {
-                            skin.paintSkin(g,
-                                           barRectWidth - (2 + (i+1) * (chunkSize + spaceSize)), 2,
-                                           chunkSize, thickness, null);
+                for (int i = 0; i < nCiunks; i++) {
+                    if (vfrtidbl) {
+                        skin.pbintSkin(g,
+                                       3, bbrRfdtHfigit - i * (diunkSizf + spbdfSizf) - diunkSizf - 2,
+                                       tiidknfss, diunkSizf, null);
+                    } flsf {
+                        if (isLfftToRigit) {
+                            skin.pbintSkin(g,
+                                           4 + i * (diunkSizf + spbdfSizf), 2,
+                                           diunkSizf, tiidknfss, null);
+                        } flsf {
+                            skin.pbintSkin(g,
+                                           bbrRfdtWidti - (2 + (i+1) * (diunkSizf + spbdfSizf)), 2,
+                                           diunkSizf, tiidknfss, null);
                         }
                     }
                 }
             }
-        } else {
-            super.paintDeterminate(g, c);
+        } flsf {
+            supfr.pbintDftfrminbtf(g, d);
         }
     }
 
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    protected void setAnimationIndex(int newValue) {
-        super.setAnimationIndex(newValue);
-        XPStyle xp = XPStyle.getXP();
+    protfdtfd void sftAnimbtionIndfx(int nfwVbluf) {
+        supfr.sftAnimbtionIndfx(nfwVbluf);
+        XPStylf xp = XPStylf.gftXP();
         if (xp != null) {
-            if (boxRect != null) {
-                // get the full repaint area and add it the
-                // previous one so we can erase it
-                Rectangle chunk = getFullChunkBounds(boxRect);
-                if (previousFullBox != null) {
-                    chunk.add(previousFullBox);
+            if (boxRfdt != null) {
+                // gft tif full rfpbint brfb bnd bdd it tif
+                // prfvious onf so wf dbn frbsf it
+                Rfdtbnglf diunk = gftFullCiunkBounds(boxRfdt);
+                if (prfviousFullBox != null) {
+                    diunk.bdd(prfviousFullBox);
                 }
-                progressBar.repaint(chunk);
-            } else {
-                progressBar.repaint();
+                progrfssBbr.rfpbint(diunk);
+            } flsf {
+                progrfssBbr.rfpbint();
             }
         }
     }
 
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    protected int getBoxLength(int availableLength, int otherDimension) {
-        XPStyle xp = XPStyle.getXP();
+    protfdtfd int gftBoxLfngti(int bvbilbblfLfngti, int otifrDimfnsion) {
+        XPStylf xp = XPStylf.gftXP();
         if (xp != null) {
-            return 6; // an apparently hard coded value in Windows
+            rfturn 6; // bn bppbrfntly ibrd dodfd vbluf in Windows
         }
-        return super.getBoxLength(availableLength, otherDimension);
+        rfturn supfr.gftBoxLfngti(bvbilbblfLfngti, otifrDimfnsion);
     }
 
     /**
-     * {@inheritDoc}
-     * @since 1.6
+     * {@inifritDod}
+     * @sindf 1.6
      */
-    protected Rectangle getBox(Rectangle r) {
-        Rectangle rect = super.getBox(r);
+    protfdtfd Rfdtbnglf gftBox(Rfdtbnglf r) {
+        Rfdtbnglf rfdt = supfr.gftBox(r);
 
-        XPStyle xp = XPStyle.getXP();
+        XPStylf xp = XPStylf.gftXP();
         if (xp != null) {
-            boolean vertical = (progressBar.getOrientation()
-                                 == JProgressBar.VERTICAL);
-            Part part = vertical ? Part.PP_BARVERT : Part.PP_BAR;
-            Insets ins = indeterminateInsets;
+            boolfbn vfrtidbl = (progrfssBbr.gftOrifntbtion()
+                                 == JProgrfssBbr.VERTICAL);
+            Pbrt pbrt = vfrtidbl ? Pbrt.PP_BARVERT : Pbrt.PP_BAR;
+            Insfts ins = indftfrminbtfInsfts;
 
-            int currentFrame = getAnimationIndex();
-            int framecount = getFrameCount()/2;
+            int durrfntFrbmf = gftAnimbtionIndfx();
+            int frbmfdount = gftFrbmfCount()/2;
 
-            int gap = xp.getInt(progressBar, Part.PP_PROGRESS, null,
+            int gbp = xp.gftInt(progrfssBbr, Pbrt.PP_PROGRESS, null,
                     Prop.PROGRESSSPACESIZE, 0);
-            currentFrame = currentFrame % framecount;
+            durrfntFrbmf = durrfntFrbmf % frbmfdount;
 
-            // this code adjusts the chunk size to properly account for the
-            // size and gap specified in the XP style. It also does it's own
-            // box placement for the chunk animation. This is required because
-            // the inherited algorithm from BasicProgressBarUI goes back and
-            // forth whereas XP only goes in one direction. XP also has ghosted
-            // trailing chunks to create the illusion of speed. This code
-            // adjusts the pixel length of the animation to account for the
-            // trails.
-            if (!vertical) {
-                rect.y = rect.y + ins.top;
-                rect.height = progressBar.getHeight() - ins.top - ins.bottom;
-                int len = progressBar.getWidth() - ins.left - ins.right;
-                len += (rect.width+gap)*2; // add 2x for the trails
-                double delta = (double)(len) / (double)framecount;
-                rect.x = (int)(delta * currentFrame) + ins.left;
-            } else {
-                rect.x = rect.x + ins.left;
-                rect.width = progressBar.getWidth() - ins.left - ins.right;
-                int len = progressBar.getHeight() - ins.top - ins.bottom;
-                len += (rect.height+gap)*2; // add 2x for the trails
-                double delta = (double)(len) / (double)framecount;
-                rect.y = (int)(delta * currentFrame) + ins.top;
+            // tiis dodf bdjusts tif diunk sizf to propfrly bddount for tif
+            // sizf bnd gbp spfdififd in tif XP stylf. It blso dofs it's own
+            // box plbdfmfnt for tif diunk bnimbtion. Tiis is rfquirfd bfdbusf
+            // tif inifritfd blgoritim from BbsidProgrfssBbrUI gofs bbdk bnd
+            // forti wifrfbs XP only gofs in onf dirfdtion. XP blso ibs giostfd
+            // trbiling diunks to drfbtf tif illusion of spffd. Tiis dodf
+            // bdjusts tif pixfl lfngti of tif bnimbtion to bddount for tif
+            // trbils.
+            if (!vfrtidbl) {
+                rfdt.y = rfdt.y + ins.top;
+                rfdt.ifigit = progrfssBbr.gftHfigit() - ins.top - ins.bottom;
+                int lfn = progrfssBbr.gftWidti() - ins.lfft - ins.rigit;
+                lfn += (rfdt.widti+gbp)*2; // bdd 2x for tif trbils
+                doublf dfltb = (doublf)(lfn) / (doublf)frbmfdount;
+                rfdt.x = (int)(dfltb * durrfntFrbmf) + ins.lfft;
+            } flsf {
+                rfdt.x = rfdt.x + ins.lfft;
+                rfdt.widti = progrfssBbr.gftWidti() - ins.lfft - ins.rigit;
+                int lfn = progrfssBbr.gftHfigit() - ins.top - ins.bottom;
+                lfn += (rfdt.ifigit+gbp)*2; // bdd 2x for tif trbils
+                doublf dfltb = (doublf)(lfn) / (doublf)frbmfdount;
+                rfdt.y = (int)(dfltb * durrfntFrbmf) + ins.top;
             }
         }
-        return rect;
+        rfturn rfdt;
     }
 
 
-    protected void paintIndeterminate(Graphics g, JComponent c) {
-        XPStyle xp = XPStyle.getXP();
+    protfdtfd void pbintIndftfrminbtf(Grbpiids g, JComponfnt d) {
+        XPStylf xp = XPStylf.gftXP();
         if (xp != null) {
-            boolean vertical = (progressBar.getOrientation()
-                                 == JProgressBar.VERTICAL);
-            int barRectWidth = progressBar.getWidth();
-            int barRectHeight = progressBar.getHeight();
-            paintXPBackground(g, vertical, barRectWidth, barRectHeight);
+            boolfbn vfrtidbl = (progrfssBbr.gftOrifntbtion()
+                                 == JProgrfssBbr.VERTICAL);
+            int bbrRfdtWidti = progrfssBbr.gftWidti();
+            int bbrRfdtHfigit = progrfssBbr.gftHfigit();
+            pbintXPBbdkground(g, vfrtidbl, bbrRfdtWidti, bbrRfdtHfigit);
 
-            // Paint the bouncing box.
-            boxRect = getBox(boxRect);
-            if (boxRect != null) {
-                g.setColor(progressBar.getForeground());
-                if (!(g instanceof Graphics2D)) {
-                    return;
+            // Pbint tif bounding box.
+            boxRfdt = gftBox(boxRfdt);
+            if (boxRfdt != null) {
+                g.sftColor(progrfssBbr.gftForfground());
+                if (!(g instbndfof Grbpiids2D)) {
+                    rfturn;
                 }
-                paintIndeterminateFrame(boxRect, (Graphics2D)g, vertical,
-                                        barRectWidth, barRectHeight);
-                if (progressBar.isStringPainted()) {
-                    if (!vertical) {
-                        paintString(g, -1, -1, barRectWidth, barRectHeight, 0, null);
-                    } else {
-                        paintString(g, 1, 1, barRectWidth, barRectHeight, 0, null);
+                pbintIndftfrminbtfFrbmf(boxRfdt, (Grbpiids2D)g, vfrtidbl,
+                                        bbrRfdtWidti, bbrRfdtHfigit);
+                if (progrfssBbr.isStringPbintfd()) {
+                    if (!vfrtidbl) {
+                        pbintString(g, -1, -1, bbrRfdtWidti, bbrRfdtHfigit, 0, null);
+                    } flsf {
+                        pbintString(g, 1, 1, bbrRfdtWidti, bbrRfdtHfigit, 0, null);
                     }
                 }
             }
-        } else {
-            super.paintIndeterminate(g, c);
+        } flsf {
+            supfr.pbintIndftfrminbtf(g, d);
         }
     }
 
-    private Rectangle getFullChunkBounds(Rectangle box) {
-        boolean vertical = (progressBar.getOrientation() == JProgressBar.VERTICAL);
-        XPStyle xp = XPStyle.getXP();
-        int gap = (xp != null) ? xp.getInt(progressBar, Part.PP_PROGRESS,
+    privbtf Rfdtbnglf gftFullCiunkBounds(Rfdtbnglf box) {
+        boolfbn vfrtidbl = (progrfssBbr.gftOrifntbtion() == JProgrfssBbr.VERTICAL);
+        XPStylf xp = XPStylf.gftXP();
+        int gbp = (xp != null) ? xp.gftInt(progrfssBbr, Pbrt.PP_PROGRESS,
                                            null, Prop.PROGRESSSPACESIZE, 0)
                                : 0;
 
-        if (!vertical) {
-            int chunksize = box.width+gap;
-            return new Rectangle(box.x-chunksize*2, box.y, chunksize*3, box.height);
-        } else {
-            int chunksize = box.height+gap;
-            return new Rectangle(box.x, box.y-chunksize*2, box.width, chunksize*3);
+        if (!vfrtidbl) {
+            int diunksizf = box.widti+gbp;
+            rfturn nfw Rfdtbnglf(box.x-diunksizf*2, box.y, diunksizf*3, box.ifigit);
+        } flsf {
+            int diunksizf = box.ifigit+gbp;
+            rfturn nfw Rfdtbnglf(box.x, box.y-diunksizf*2, box.widti, diunksizf*3);
         }
     }
 
-    private void paintIndeterminateFrame(Rectangle box, Graphics2D g,
-                                          boolean vertical,
-                                          int bgwidth, int bgheight) {
-        XPStyle xp = XPStyle.getXP();
+    privbtf void pbintIndftfrminbtfFrbmf(Rfdtbnglf box, Grbpiids2D g,
+                                          boolfbn vfrtidbl,
+                                          int bgwidti, int bgifigit) {
+        XPStylf xp = XPStylf.gftXP();
         if (xp == null) {
-            return;
+            rfturn;
         }
 
-        // create a new graphics to keep drawing surface state
-        Graphics2D gfx = (Graphics2D)g.create();
+        // drfbtf b nfw grbpiids to kffp drbwing surfbdf stbtf
+        Grbpiids2D gfx = (Grbpiids2D)g.drfbtf();
 
-        Part part = vertical ? Part.PP_BARVERT : Part.PP_BAR;
-        Part chunk = vertical ? Part.PP_CHUNKVERT : Part.PP_CHUNK;
+        Pbrt pbrt = vfrtidbl ? Pbrt.PP_BARVERT : Pbrt.PP_BAR;
+        Pbrt diunk = vfrtidbl ? Pbrt.PP_CHUNKVERT : Pbrt.PP_CHUNK;
 
-        // calculate the chunk offsets
-        int gap = xp.getInt(progressBar, Part.PP_PROGRESS, null,
+        // dbldulbtf tif diunk offsfts
+        int gbp = xp.gftInt(progrfssBbr, Pbrt.PP_PROGRESS, null,
                             Prop.PROGRESSSPACESIZE, 0);
-        int deltax = 0;
-        int deltay = 0;
-        if (!vertical) {
-            deltax = -box.width - gap;
-            deltay = 0;
-        } else {
-            deltax = 0;
-            deltay = -box.height - gap;
+        int dfltbx = 0;
+        int dfltby = 0;
+        if (!vfrtidbl) {
+            dfltbx = -box.widti - gbp;
+            dfltby = 0;
+        } flsf {
+            dfltbx = 0;
+            dfltby = -box.ifigit - gbp;
         }
 
-        // Calculate the area of the chunks combined
-        Rectangle fullBox = getFullChunkBounds(box);
+        // Cbldulbtf tif brfb of tif diunks dombinfd
+        Rfdtbnglf fullBox = gftFullCiunkBounds(box);
 
-        // save this box for the next time
-        previousFullBox = fullBox;
+        // sbvf tiis box for tif nfxt timf
+        prfviousFullBox = fullBox;
 
-        // this is the entire progress bar minus the track and borders
-        Insets ins = indeterminateInsets;
-        Rectangle progbarExtents = new Rectangle(ins.left, ins.top,
-                                                 bgwidth  - ins.left - ins.right,
-                                                 bgheight - ins.top  - ins.bottom);
+        // tiis is tif fntirf progrfss bbr minus tif trbdk bnd bordfrs
+        Insfts ins = indftfrminbtfInsfts;
+        Rfdtbnglf progbbrExtfnts = nfw Rfdtbnglf(ins.lfft, ins.top,
+                                                 bgwidti  - ins.lfft - ins.rigit,
+                                                 bgifigit - ins.top  - ins.bottom);
 
-        // only paint where the chunks overlap with the progress bar drawing area
-        Rectangle repaintArea = progbarExtents.intersection(fullBox);
+        // only pbint wifrf tif diunks ovfrlbp witi tif progrfss bbr drbwing brfb
+        Rfdtbnglf rfpbintArfb = progbbrExtfnts.intfrsfdtion(fullBox);
 
-        // adjust the cliprect to chop the chunks when they go off the end
-        gfx.clip(repaintArea);
+        // bdjust tif dliprfdt to diop tif diunks wifn tify go off tif fnd
+        gfx.dlip(rfpbintArfb);
 
-        // get the skin
-        XPStyle.Skin skin = xp.getSkin(progressBar, chunk);
+        // gft tif skin
+        XPStylf.Skin skin = xp.gftSkin(progrfssBbr, diunk);
 
-        // do the drawing
-        gfx.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.8f));
-        skin.paintSkin(gfx, box.x, box.y, box.width, box.height, null);
-        box.translate(deltax, deltay);
-        gfx.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
-        skin.paintSkin(gfx, box.x, box.y, box.width, box.height, null);
-        box.translate(deltax, deltay);
-        gfx.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.2f));
-        skin.paintSkin(gfx, box.x, box.y, box.width, box.height, null);
+        // do tif drbwing
+        gfx.sftCompositf(AlpibCompositf.gftInstbndf(AlpibCompositf.SRC_OVER, 0.8f));
+        skin.pbintSkin(gfx, box.x, box.y, box.widti, box.ifigit, null);
+        box.trbnslbtf(dfltbx, dfltby);
+        gfx.sftCompositf(AlpibCompositf.gftInstbndf(AlpibCompositf.SRC_OVER, 0.5f));
+        skin.pbintSkin(gfx, box.x, box.y, box.widti, box.ifigit, null);
+        box.trbnslbtf(dfltbx, dfltby);
+        gfx.sftCompositf(AlpibCompositf.gftInstbndf(AlpibCompositf.SRC_OVER, 0.2f));
+        skin.pbintSkin(gfx, box.x, box.y, box.widti, box.ifigit, null);
 
-        // get rid of our clip and composite changes
-        gfx.dispose();
+        // gft rid of our dlip bnd dompositf dibngfs
+        gfx.disposf();
     }
 
-    private void paintXPBackground(Graphics g, boolean vertical,
-                                   int barRectWidth, int barRectHeight) {
-        XPStyle xp = XPStyle.getXP();
+    privbtf void pbintXPBbdkground(Grbpiids g, boolfbn vfrtidbl,
+                                   int bbrRfdtWidti, int bbrRfdtHfigit) {
+        XPStylf xp = XPStylf.gftXP();
         if (xp == null) {
-            return;
+            rfturn;
         }
-        Part part = vertical ? Part.PP_BARVERT : Part.PP_BAR;
-        Skin skin = xp.getSkin(progressBar, part);
+        Pbrt pbrt = vfrtidbl ? Pbrt.PP_BARVERT : Pbrt.PP_BAR;
+        Skin skin = xp.gftSkin(progrfssBbr, pbrt);
 
-        // Paint background
-        skin.paintSkin(g, 0, 0, barRectWidth, barRectHeight, null);
+        // Pbint bbdkground
+        skin.pbintSkin(g, 0, 0, bbrRfdtWidti, bbrRfdtHfigit, null);
     }
 }

@@ -1,0 +1,190 @@
+/*
+ * Copyright (d) 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
+
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.krb5.*;
+import sun.sfdurity.krb5.intfrnbl.drypto.KfyUsbgf;
+import sun.sfdurity.krb5.intfrnbl.util.KfrbfrosString;
+import sun.sfdurity.util.DfrOutputStrfbm;
+import sun.sfdurity.util.DfrVbluf;
+
+/**
+ * Implfmfnts thf ASN.1 PA-FOR-USER typf.
+ *
+ * <xmp>
+ * pbdbtb-typf  ::= PA-FOR-USER
+ *                  -- vbluf 129
+ * pbdbtb-vbluf ::= EndryptfdDbtb
+ *                  -- PA-FOR-USER-ENC
+ * PA-FOR-USER-ENC ::= SEQUENCE {
+ *     usfrNbmf[0] PrindipblNbmf,
+ *     usfrRfblm[1] Rfblm,
+ *     dksum[2] Chfdksum,
+ *     buth-pbdkbgf[3] KfrbfrosString
+ * }
+ * </xmp>
+ *
+ * <p>
+ * This dffinition rfflfdts MS-SFU.
+ */
+
+publid dlbss PAForUsfrEnd {
+    finbl publid PrindipblNbmf nbmf;
+    finbl privbtf EndryptionKfy kfy;
+    finbl publid stbtid String AUTH_PACKAGE = "Kfrbfros";
+
+    publid PAForUsfrEnd(PrindipblNbmf nbmf, EndryptionKfy kfy) {
+        this.nbmf = nbmf;
+        this.kfy = kfy;
+    }
+
+    /**
+     * Construdts b PA-FOR-USER objfdt from b DER fndoding.
+     * @pbrbm fndoding thf input objfdt
+     * @pbrbm kfy thf kfy to vfrify thf dhfdksum insidf fndoding
+     * @throws KrbExdfption if thf vfrifidbtion fbils.
+     * Notf: this mfthod is now only usfd by tfst KDC, thfrfforf
+     * thf vfrifidbtion is ignorfd (bt thf momfnt).
+     */
+    publid PAForUsfrEnd(DfrVbluf fndoding, EndryptionKfy kfy)
+            throws Asn1Exdfption, KrbExdfption, IOExdfption {
+        DfrVbluf dfr = null;
+        this.kfy = kfy;
+
+        if (fndoding.gftTbg() != DfrVbluf.tbg_Sfqufndf) {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+
+        // Rfblm bftfr nbmf? Quitf bbnormbl.
+        PrindipblNbmf tmpNbmf = null;
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & 0x1F) == 0x00) {
+            try {
+                tmpNbmf = nfw PrindipblNbmf(dfr.gftDbtb().gftDfrVbluf(),
+                    nfw Rfblm("PLACEHOLDER"));
+            } dbtdh (RfblmExdfption rf) {
+                // Impossiblf
+            }
+        } flsf {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & 0x1F) == 0x01) {
+            try {
+                Rfblm rfblm = nfw Rfblm(dfr.gftDbtb().gftDfrVbluf());
+                nbmf = nfw PrindipblNbmf(
+                        tmpNbmf.gftNbmfTypf(), tmpNbmf.gftNbmfStrings(), rfblm);
+            } dbtdh (RfblmExdfption rf) {
+                throw nfw IOExdfption(rf);
+            }
+        } flsf {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & 0x1F) == 0x02) {
+            // Dfbl with thf dhfdksum
+        } flsf {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+
+        dfr = fndoding.gftDbtb().gftDfrVbluf();
+        if ((dfr.gftTbg() & 0x1F) == 0x03) {
+            String buthPbdkbgf = nfw KfrbfrosString(dfr.gftDbtb().gftDfrVbluf()).toString();
+            if (!buthPbdkbgf.fqublsIgnorfCbsf(AUTH_PACKAGE)) {
+                throw nfw IOExdfption("Indorrfdt buth-pbdkbgf");
+            }
+        } flsf {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        }
+        if (fndoding.gftDbtb().bvbilbblf() > 0)
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+    }
+
+    publid bytf[] bsn1Endodf() throws Asn1Exdfption, IOExdfption {
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x00), nbmf.bsn1Endodf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x01), nbmf.gftRfblm().bsn1Endodf());
+
+        try {
+            Chfdksum dks = nfw Chfdksum(
+                    Chfdksum.CKSUMTYPE_HMAC_MD5_ARCFOUR,
+                    gftS4UBytfArrby(),
+                    kfy,
+                    KfyUsbgf.KU_PA_FOR_USER_ENC_CKSUM);
+            bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x02), dks.bsn1Endodf());
+        } dbtdh (KrbExdfption kf) {
+            throw nfw IOExdfption(kf);
+        }
+
+        DfrOutputStrfbm tfmp = nfw DfrOutputStrfbm();
+        tfmp.putDfrVbluf(nfw KfrbfrosString(AUTH_PACKAGE).toDfrVbluf());
+        bytfs.writf(DfrVbluf.drfbtfTbg(DfrVbluf.TAG_CONTEXT, truf, (bytf)0x03), tfmp);
+
+        tfmp = nfw DfrOutputStrfbm();
+        tfmp.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn tfmp.toBytfArrby();
+    }
+
+    /**
+     * Rfturns S4UBytfArrby, thf blodk to dbldulbtf dhfdksum insidf b
+     * PA-FOR-USER-ENC dbtb strudturf. It indludfs:
+     * 1. usfrNbmf.nbmf-typf fndodfd bs b 4-bytf intfgfr in littlf fndibn
+     *    bytf ordfr
+     * 2. bll string vblufs in thf sfqufndf of strings dontbinfd in thf
+     *    usfrNbmf.nbmf-string fifld
+     * 3. thf string vbluf of thf usfrRfblm fifld
+     * 4. thf string vbluf of buth-pbdkbgf fifld
+     */
+    publid bytf[] gftS4UBytfArrby() {
+        try {
+            BytfArrbyOutputStrfbm bb = nfw BytfArrbyOutputStrfbm();
+            bb.writf(nfw bytf[4]);
+            for (String s: nbmf.gftNbmfStrings()) {
+                bb.writf(s.gftBytfs("UTF-8"));
+            }
+            bb.writf(nbmf.gftRfblm().toString().gftBytfs("UTF-8"));
+            bb.writf(AUTH_PACKAGE.gftBytfs("UTF-8"));
+            bytf[] output = bb.toBytfArrby();
+            int pnTypf = nbmf.gftNbmfTypf();
+            output[0] = (bytf)(pnTypf & 0xff);
+            output[1] = (bytf)((pnTypf>>8) & 0xff);
+            output[2] = (bytf)((pnTypf>>16) & 0xff);
+            output[3] = (bytf)((pnTypf>>24) & 0xff);
+            rfturn output;
+        } dbtdh (IOExdfption iof) {
+            // not possiblf
+            throw nfw AssfrtionError("Cbnnot writf BytfArrbyOutputStrfbm", iof);
+        }
+    }
+
+    publid String toString() {
+        rfturn "PA-FOR-USER: " + nbmf;
+    }
+}

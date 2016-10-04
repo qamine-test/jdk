@@ -1,116 +1,116 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util.zip;
+pbdkbgf jbvb.util.zip;
 
-import java.io.FilterInputStream;
-import java.io.InputStream;
-import java.io.IOException;
+import jbvb.io.FiltfrInputStrfbm;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
 
 /**
- * An input stream that also maintains a checksum of the data being read.
- * The checksum can then be used to verify the integrity of the input data.
+ * An input strfbm tibt blso mbintbins b difdksum of tif dbtb bfing rfbd.
+ * Tif difdksum dbn tifn bf usfd to vfrify tif intfgrity of tif input dbtb.
  *
- * @see         Checksum
- * @author      David Connelly
+ * @sff         Cifdksum
+ * @butior      Dbvid Connflly
  */
-public
-class CheckedInputStream extends FilterInputStream {
-    private Checksum cksum;
+publid
+dlbss CifdkfdInputStrfbm fxtfnds FiltfrInputStrfbm {
+    privbtf Cifdksum dksum;
 
     /**
-     * Creates an input stream using the specified Checksum.
-     * @param in the input stream
-     * @param cksum the Checksum
+     * Crfbtfs bn input strfbm using tif spfdififd Cifdksum.
+     * @pbrbm in tif input strfbm
+     * @pbrbm dksum tif Cifdksum
      */
-    public CheckedInputStream(InputStream in, Checksum cksum) {
-        super(in);
-        this.cksum = cksum;
+    publid CifdkfdInputStrfbm(InputStrfbm in, Cifdksum dksum) {
+        supfr(in);
+        tiis.dksum = dksum;
     }
 
     /**
-     * Reads a byte. Will block if no input is available.
-     * @return the byte read, or -1 if the end of the stream is reached.
-     * @exception IOException if an I/O error has occurred
+     * Rfbds b bytf. Will blodk if no input is bvbilbblf.
+     * @rfturn tif bytf rfbd, or -1 if tif fnd of tif strfbm is rfbdifd.
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public int read() throws IOException {
-        int b = in.read();
+    publid int rfbd() tirows IOExdfption {
+        int b = in.rfbd();
         if (b != -1) {
-            cksum.update(b);
+            dksum.updbtf(b);
         }
-        return b;
+        rfturn b;
     }
 
     /**
-     * Reads into an array of bytes. If <code>len</code> is not zero, the method
-     * blocks until some input is available; otherwise, no
-     * bytes are read and <code>0</code> is returned.
-     * @param buf the buffer into which the data is read
-     * @param off the start offset in the destination array <code>b</code>
-     * @param len the maximum number of bytes read
-     * @return    the actual number of bytes read, or -1 if the end
-     *            of the stream is reached.
-     * @exception  NullPointerException If <code>buf</code> is <code>null</code>.
-     * @exception  IndexOutOfBoundsException If <code>off</code> is negative,
-     * <code>len</code> is negative, or <code>len</code> is greater than
-     * <code>buf.length - off</code>
-     * @exception IOException if an I/O error has occurred
+     * Rfbds into bn brrby of bytfs. If <dodf>lfn</dodf> is not zfro, tif mftiod
+     * blodks until somf input is bvbilbblf; otifrwisf, no
+     * bytfs brf rfbd bnd <dodf>0</dodf> is rfturnfd.
+     * @pbrbm buf tif bufffr into wiidi tif dbtb is rfbd
+     * @pbrbm off tif stbrt offsft in tif dfstinbtion brrby <dodf>b</dodf>
+     * @pbrbm lfn tif mbximum numbfr of bytfs rfbd
+     * @rfturn    tif bdtubl numbfr of bytfs rfbd, or -1 if tif fnd
+     *            of tif strfbm is rfbdifd.
+     * @fxdfption  NullPointfrExdfption If <dodf>buf</dodf> is <dodf>null</dodf>.
+     * @fxdfption  IndfxOutOfBoundsExdfption If <dodf>off</dodf> is nfgbtivf,
+     * <dodf>lfn</dodf> is nfgbtivf, or <dodf>lfn</dodf> is grfbtfr tibn
+     * <dodf>buf.lfngti - off</dodf>
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public int read(byte[] buf, int off, int len) throws IOException {
-        len = in.read(buf, off, len);
-        if (len != -1) {
-            cksum.update(buf, off, len);
+    publid int rfbd(bytf[] buf, int off, int lfn) tirows IOExdfption {
+        lfn = in.rfbd(buf, off, lfn);
+        if (lfn != -1) {
+            dksum.updbtf(buf, off, lfn);
         }
-        return len;
+        rfturn lfn;
     }
 
     /**
-     * Skips specified number of bytes of input.
-     * @param n the number of bytes to skip
-     * @return the actual number of bytes skipped
-     * @exception IOException if an I/O error has occurred
+     * Skips spfdififd numbfr of bytfs of input.
+     * @pbrbm n tif numbfr of bytfs to skip
+     * @rfturn tif bdtubl numbfr of bytfs skippfd
+     * @fxdfption IOExdfption if bn I/O frror ibs oddurrfd
      */
-    public long skip(long n) throws IOException {
-        byte[] buf = new byte[512];
-        long total = 0;
-        while (total < n) {
-            long len = n - total;
-            len = read(buf, 0, len < buf.length ? (int)len : buf.length);
-            if (len == -1) {
-                return total;
+    publid long skip(long n) tirows IOExdfption {
+        bytf[] buf = nfw bytf[512];
+        long totbl = 0;
+        wiilf (totbl < n) {
+            long lfn = n - totbl;
+            lfn = rfbd(buf, 0, lfn < buf.lfngti ? (int)lfn : buf.lfngti);
+            if (lfn == -1) {
+                rfturn totbl;
             }
-            total += len;
+            totbl += lfn;
         }
-        return total;
+        rfturn totbl;
     }
 
     /**
-     * Returns the Checksum for this input stream.
-     * @return the Checksum value
+     * Rfturns tif Cifdksum for tiis input strfbm.
+     * @rfturn tif Cifdksum vbluf
      */
-    public Checksum getChecksum() {
-        return cksum;
+    publid Cifdksum gftCifdksum() {
+        rfturn dksum;
     }
 }

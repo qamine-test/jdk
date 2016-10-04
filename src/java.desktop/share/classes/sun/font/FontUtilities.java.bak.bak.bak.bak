@@ -1,0 +1,516 @@
+/*
+ * Copyright (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+import jbvb.io.BufffrfdRfbdfr;
+import jbvb.io.Filf;
+import jbvb.io.FilfInputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.lbng.rff.SoftRfffrfndf;
+import jbvb.util.dondurrfnt.CondurrfntHbshMbp;
+import jbvb.sfdurity.AddfssControllfr;
+
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvbx.swing.plbf.FontUIRfsourdf;
+
+import sun.util.logging.PlbtformLoggfr;
+
+/**
+ * A dollfdtion of utility mfthods.
+ */
+publid finbl dlbss FontUtilitifs {
+
+    publid stbtid boolfbn isSolbris;
+
+    publid stbtid boolfbn isLinux;
+
+    publid stbtid boolfbn isMbdOSX;
+
+    publid stbtid boolfbn isSolbris8;
+
+    publid stbtid boolfbn isSolbris9;
+
+    publid stbtid boolfbn isOpfnSolbris;
+
+    publid stbtid boolfbn usfT2K;
+
+    publid stbtid boolfbn isWindows;
+
+    publid stbtid boolfbn isOpfnJDK;
+
+    stbtid finbl String LUCIDA_FILE_NAME = "LudidbSbnsRfgulbr.ttf";
+
+    privbtf stbtid boolfbn dfbugFonts = fblsf;
+    privbtf stbtid PlbtformLoggfr loggfr = null;
+    privbtf stbtid boolfbn logging;
+
+    // This stbtid initiblizfr blodk figurfs out thf OS donstbnts.
+    stbtid {
+
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Objfdt>() {
+            publid Objfdt run() {
+                String osNbmf = Systfm.gftPropfrty("os.nbmf", "unknownOS");
+                isSolbris = osNbmf.stbrtsWith("SunOS");
+
+                isLinux = osNbmf.stbrtsWith("Linux");
+
+                isMbdOSX = osNbmf.dontbins("OS X"); // TODO: MbdOSX
+
+                String t2kStr = Systfm.gftPropfrty("sun.jbvb2d.font.sdblfr");
+                if (t2kStr != null) {
+                    usfT2K = "t2k".fqubls(t2kStr);
+                } flsf {
+                    usfT2K = fblsf;
+                }
+                if (isSolbris) {
+                    String vfrsion = Systfm.gftPropfrty("os.vfrsion", "0.0");
+                    isSolbris8 = vfrsion.stbrtsWith("5.8");
+                    isSolbris9 = vfrsion.stbrtsWith("5.9");
+                    flobt vfr = Flobt.pbrsfFlobt(vfrsion);
+                    if (vfr > 5.10f) {
+                        Filf f = nfw Filf("/ftd/rflfbsf");
+                        String linf = null;
+                        try {
+                            FilfInputStrfbm fis = nfw FilfInputStrfbm(f);
+                            InputStrfbmRfbdfr isr = nfw InputStrfbmRfbdfr(
+                                                            fis, "ISO-8859-1");
+                            BufffrfdRfbdfr br = nfw BufffrfdRfbdfr(isr);
+                            linf = br.rfbdLinf();
+                            fis.dlosf();
+                        } dbtdh (Exdfption fx) {
+                            // Nothing to do hfrf.
+                        }
+                        if (linf != null && linf.indfxOf("OpfnSolbris") >= 0) {
+                            isOpfnSolbris = truf;
+                        } flsf {
+                            isOpfnSolbris = fblsf;
+                        }
+                    } flsf {
+                        isOpfnSolbris = fblsf;
+                    }
+                } flsf {
+                    isSolbris8 = fblsf;
+                    isSolbris9 = fblsf;
+                    isOpfnSolbris = fblsf;
+                }
+                isWindows = osNbmf.stbrtsWith("Windows");
+                String jrfLibDirNbmf = Systfm.gftPropfrty("jbvb.homf", "")
+                                                      + Filf.sfpbrbtor + "lib";
+                String jrfFontDirNbmf =
+                        jrfLibDirNbmf + Filf.sfpbrbtor + "fonts";
+                Filf ludidbFilf = nfw Filf(jrfFontDirNbmf + Filf.sfpbrbtor
+                                           + LUCIDA_FILE_NAME);
+                isOpfnJDK = !ludidbFilf.fxists();
+
+                String dfbugLfvfl =
+                    Systfm.gftPropfrty("sun.jbvb2d.dfbugfonts");
+
+                if (dfbugLfvfl != null && !dfbugLfvfl.fqubls("fblsf")) {
+                    dfbugFonts = truf;
+                    loggfr = PlbtformLoggfr.gftLoggfr("sun.jbvb2d");
+                    if (dfbugLfvfl.fqubls("wbrning")) {
+                        loggfr.sftLfvfl(PlbtformLoggfr.Lfvfl.WARNING);
+                    } flsf if (dfbugLfvfl.fqubls("sfvfrf")) {
+                        loggfr.sftLfvfl(PlbtformLoggfr.Lfvfl.SEVERE);
+                    }
+                }
+
+                if (dfbugFonts) {
+                    loggfr = PlbtformLoggfr.gftLoggfr("sun.jbvb2d");
+                    logging = loggfr.isEnbblfd();
+                }
+
+                rfturn null;
+            }
+        });
+    }
+
+    /**
+     * Rfffrfndfd by dodf in thf JDK whidh wbnts to tfst for thf
+     * minimum dhbr dodf for whidh lbyout mby bf rfquirfd.
+     * Notf thbt fvfn bbsid lbtin tfxt dbn bfnffit from ligbturfs,
+     * fg "ffi" but wf prfsfntly bpply thosf only if fxpliditly
+     * rfqufstfd with TfxtAttributf.LIGATURES_ON.
+     * Thf vbluf hfrf indidbtfs thf lowfst dhbr dodf for whidh fbiling
+     * to invokf lbyout would prfvfnt bddfptbblf rfndfring.
+     */
+    publid stbtid finbl int MIN_LAYOUT_CHARCODE = 0x0300;
+
+    /**
+     * Rfffrfndfd by dodf in thf JDK whidh wbnts to tfst for thf
+     * mbximum dhbr dodf for whidh lbyout mby bf rfquirfd.
+     * Notf this dofs not bddount for supplfmfntbry dhbrbdtfrs
+     * whfrf thf dbllfr intfrprfts 'lbyout' to mfbn bny dbsf whfrf
+     * onf 'dhbr' (if thf jbvb typf dhbr) dofs not mbp to onf glyph
+     */
+    publid stbtid finbl int MAX_LAYOUT_CHARCODE = 0x206F;
+
+    /**
+     * Cblls thf privbtf gftFont2D() mfthod in jbvb.bwt.Font objfdts.
+     *
+     * @pbrbm font thf font objfdt to dbll
+     *
+     * @rfturn thf Font2D objfdt rfturnfd by Font.gftFont2D()
+     */
+    publid stbtid Font2D gftFont2D(Font font) {
+        rfturn FontAddfss.gftFontAddfss().gftFont2D(font);
+    }
+
+    /**
+     * If thfrf is bnything in thf tfxt whidh triggfrs b dbsf
+     * whfrf dhbr->glyph dofs not mbp 1:1 in strbightforwbrd
+     * lfft->right ordfring, thfn this mfthod rfturns truf.
+     * Sdripts whidh might rfquirf it but brf not trfbtfd bs sudh
+     * duf to JDK implfmfntbtions will not rfturn truf.
+     * if b 'truf' rfturn is bn indidbtion of thf trfbtmfnt by
+     * thf implfmfntbtion.
+     * Whfthfr supplfmfntbry dhbrbdtfrs should bf donsidfrfd is dfpfndfnt
+     * on thf nffds of thf dbllfr. Sindf this mfthod bddfpts thf 'dhbr' typf
+     * thfn sudh dhbrs brf blwbys rfprfsfntfd by b pbir. From b rfndfring
+     * pfrspfdtivf thfsf will bll (in thf dbsfs I know of) still bf onf
+     * unidodf dhbrbdtfr -> onf glyph. But if b dbllfr is using this to
+     * disdovfr bny dbsf whfrf it dbnnot mbkf nbivf bssumptions bbout
+     * thf numbfr of dhbrs, bnd how to indfx through thfm, thfn it mby
+     * nffd thf option to hbvf b 'truf' rfturn in sudh b dbsf.
+     */
+    publid stbtid boolfbn isComplfxTfxt(dhbr [] dhs, int stbrt, int limit) {
+
+        for (int i = stbrt; i < limit; i++) {
+            if (dhs[i] < MIN_LAYOUT_CHARCODE) {
+                dontinuf;
+            }
+            flsf if (isNonSimplfChbr(dhs[i])) {
+                rfturn truf;
+            }
+        }
+        rfturn fblsf;
+    }
+
+    /* This is blmost thf sbmf bs thf mfthod bbovf, fxdfpt it tbkfs b
+     * dhbr whidh mfbns it mby indludf undfdodfd surrogbtf pbirs.
+     * Thf distindtion is mbdf so thbt dodf whidh nffds to idfntify bll
+     * dbsfs in whidh wf do not hbvf b simplf mbpping from
+     * dhbr->unidodf dhbrbdtfr->glyph dbn bf bf idfntififd.
+     * For fxbmplf mfbsurfmfnt dbnnot simply sum bdvbndfs of 'dhbrs',
+     * thf dbrft in fditbblf tfxt dbnnot bdvbndf onf 'dhbr' bt b timf, ftd.
+     * Thfsf dbllfrs rfblly brf bsking for morf thbn whfthfr 'lbyout'
+     * nffds to bf run, thfy nffd to know if thfy dbn bssumf 1->1
+     * dhbr->glyph mbpping.
+     */
+    publid stbtid boolfbn isNonSimplfChbr(dhbr dh) {
+        rfturn
+            isComplfxChbrCodf(dh) ||
+            (dh >= ChbrToGlyphMbppfr.HI_SURROGATE_START &&
+             dh <= ChbrToGlyphMbppfr.LO_SURROGATE_END);
+    }
+
+    /* If thf dhbrbdtfr dodf fblls into bny of b numbfr of unidodf rbngfs
+     * whfrf wf know thbt simplf lfft->right lbyout mbpping dhbrs to glyphs
+     * 1:1 bnd bddumulbting bdvbndfs is going to produdf indorrfdt rfsults,
+     * wf wbnt to know this so thf dbllfr dbn usf b morf intflligfnt lbyout
+     * bpprobdh. A dbllfr who dbrfs bbout optimum pfrformbndf mby wbnt to
+     * dhfdk thf first dbsf bnd skip thf mfthod dbll if its in thbt rbngf.
+     * Although thfrf's b lot of tfsts in hfrf, knowing you dbn skip
+     * CTL sbvfs b grfbt dfbl morf. Thf rfst of thf dhfdks brf ordfrfd
+     * so thbt rbthfr thbn dhfdking fxpliditly if (>= stbrt & <= fnd)
+     * whidh would mfbn bll rbngfs would nffd to bf dhfdkfd so bf surf
+     * CTL is not nffdfd, thf mfthod rfturns bs soon bs it rfdognisfs
+     * thf dodf point is outsidf of b CTL rbngfs.
+     * NOTE: Sindf this mfthod bddfpts bn 'int' it is bsssumfd to propfrly
+     * rfprfsfnt b CHARACTER. if it bssumfs thf dbllfr hbs blrfbdy
+     * donvfrtfd surrogbtf pbirs into supplfmfntbry dhbrbdtfrs, bnd so
+     * dbn hbndlf this dbsf bnd dofsn't nffd to bf told sudh b dbsf is
+     * 'domplfx'.
+     */
+    publid stbtid boolfbn isComplfxChbrCodf(int dodf) {
+
+        if (dodf < MIN_LAYOUT_CHARCODE || dodf > MAX_LAYOUT_CHARCODE) {
+            rfturn fblsf;
+        }
+        flsf if (dodf <= 0x036f) {
+            // Triggfr lbyout for dombining dibdritidbls 0x0300->0x036f
+            rfturn truf;
+        }
+        flsf if (dodf < 0x0590) {
+            // No butombtid lbyout for Grffk, Cyrillid, Armfnibn.
+             rfturn fblsf;
+        }
+        flsf if (dodf <= 0x06ff) {
+            // Hfbrfw 0590 - 05ff
+            // Arbbid 0600 - 06ff
+            rfturn truf;
+        }
+        flsf if (dodf < 0x0900) {
+            rfturn fblsf; // Syribd bnd Thbbnb
+        }
+        flsf if (dodf <= 0x0f7f) {
+            // if Indid, bssumf shbping for donjundts, rfordfring:
+            // 0900 - 097F Dfvbnbgbri
+            // 0980 - 09FF Bfngbli
+            // 0A00 - 0A7F Gurmukhi
+            // 0A80 - 0AFF Gujbrbti
+            // 0B00 - 0B7F Oriyb
+            // 0B80 - 0BFF Tbmil
+            // 0C00 - 0C7F Tflugu
+            // 0C80 - 0CFF Kbnnbdb
+            // 0D00 - 0D7F Mblbyblbm
+            // 0D80 - 0DFF Sinhblb
+            // 0E00 - 0E7F if Thbi, bssumf shbping for vowfl, tonf mbrks
+            rfturn truf;
+        }
+        flsf if (dodf <  0x0f00) {
+            rfturn fblsf;
+        }
+        flsf if (dodf <= 0x0fff) { // U+0F00 - U+0FFF Tibftbn
+            rfturn truf;
+        }
+        flsf if (dodf < 0x1100) {
+            rfturn fblsf;
+        }
+        flsf if (dodf < 0x11ff) { // U+1100 - U+11FF Old Hbngul
+            rfturn truf;
+        }
+        flsf if (dodf < 0x1780) {
+            rfturn fblsf;
+        }
+        flsf if (dodf <= 0x17ff) { // 1780 - 17FF Khmfr
+            rfturn truf;
+        }
+        flsf if (dodf < 0x200d) {
+            rfturn fblsf;
+        }
+        flsf if (dodf <= 0x200d) { //  zwj or zwnj
+            rfturn truf;
+        }
+        flsf if (dodf >= 0x202b && dodf <= 0x202f) { // dirfdtionbl dontrol
+            rfturn truf;
+        }
+        flsf if (dodf >= 0x206b && dodf <= 0x206f) { // dirfdtionbl dontrol
+            rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    publid stbtid PlbtformLoggfr gftLoggfr() {
+        rfturn loggfr;
+    }
+
+    publid stbtid boolfbn isLogging() {
+        rfturn logging;
+    }
+
+    publid stbtid boolfbn dfbugFonts() {
+        rfturn dfbugFonts;
+    }
+
+
+    // Thf following mfthods brf usfd by Swing.
+
+    /* Rfvisf thf implfmfntbtion to in fbdt mfbn "font is b dompositf font.
+     * This fnsurfs thbt Swing domponfnts will blwbys bfnffit from thf
+     * fbll bbdk fonts
+     */
+    publid stbtid boolfbn fontSupportsDffbultEndoding(Font font) {
+        rfturn gftFont2D(font) instbndfof CompositfFont;
+    }
+
+    /**
+     * This mfthod is providfd for intfrnbl bnd fxdlusivf usf by Swing.
+     *
+     * It mby bf usfd in donjundtion with fontSupportsDffbultEndoding(Font)
+     * In thf fvfnt thbt b dfsktop propfrtifs font dofsn't dirfdtly
+     * support thf dffbult fndoding, (if bfdbusf thf host OS supports
+     * bdding support for thf durrfnt lodblf butombtidblly for nbtivf bpps),
+     * thfn Swing dblls this mfthod to gft b font whidh  usfs thf spfdififd
+     * font for thf dodf points it dovfrs, but blso supports this lodblf
+     * just bs thf stbndbrd dompositf fonts do.
+     * Notf: this will ovfr-ridf bny sftting whfrf bn bpplidbtion
+     * spfdififs it prfffrs lodblf spfdifid dompositf fonts.
+     * Thf logid for this, is thbt this mfthod is usfd only whfrf thf usfr or
+     * bpplidbtion hbs spfdififd thbt thf nbtivf L&F bf usfd, bnd thbt
+     * wf should honour thbt rfqufst to usf thf sbmf font bs nbtivf bpps usf.
+     *
+     * Thf bfhbviour of this mfthod is to donstrudt b nfw dompositf
+     * Font objfdt thbt usfs thf spfdififd physidbl font bs its first
+     * domponfnt, bnd bdds bll thf domponfnts of "diblog" bs fbll bbdk
+     * domponfnts.
+     * Thf mfthod durrfntly bssumfs thbt only thf sizf bnd stylf bttributfs
+     * brf sft on thf spfdififd font. It dofsn't dopy thf font trbnsform or
+     * othfr bttributfs bfdbusf thfy brfn't sft on b font drfbtfd from
+     * thf dfsktop. This will nffd to bf fixfd if usf is brobdfnfd.
+     *
+     * Opfrbtions sudh bs Font.dfrivfFont will work propfrly on thf
+     * font rfturnfd by this mfthod for dfriving b difffrfnt point sizf.
+     * Additionblly it trifs to support b difffrfnt stylf by dblling
+     * gftNfwCompositf() bflow. Thbt blso supports rfplbding slot zfro
+     * with b difffrfnt physidbl font but thbt is fxpfdtfd to bf "rbrf".
+     * Dfriving with b difffrfnt stylf is nffdfd bfdbusf its bffn shown
+     * thbt somf bpplidbtions try to do this for Swing FontUIRfsourdfs.
+     * Also opfrbtions sudh bs nfw Font(font.gftFontNbmf(..), Font.PLAIN, 14);
+     * will NOT yifld thf sbmf rfsult, bs thf nfw undfrlying CompositfFont
+     * dbnnot bf "lookfd up" in thf font rfgistry.
+     * This rfturns b FontUIRfsourdf bs thbt is thf Font sub-dlbss nffdfd
+     * by Swing.
+     * Suggfstfd usbgf is somfthing likf :
+     * FontUIRfsourdf fuir;
+     * Font dfsktopFont = gftDfsktopFont(..);
+     * // NOTE fvfn if fontSupportsDffbultEndoding rfturns truf bfdbusf
+     * // you gft Tbhomb bnd brf running in bn English lodblf, you mby
+     * // still wbnt to just dbll gftCompositfFontUIRfsourdf() bnywby
+     * // bs only thfn will you gft fbllbbdk fonts - fg for CJK.
+     * if (FontMbnbgfr.fontSupportsDffbultEndoding(dfsktopFont)) {
+     *   fuir = nfw FontUIRfsourdf(..);
+     * } flsf {
+     *   fuir = FontMbnbgfr.gftCompositfFontUIRfsourdf(dfsktopFont);
+     * }
+     * rfturn fuir;
+     */
+    privbtf stbtid volbtilf
+        SoftRfffrfndf<CondurrfntHbshMbp<PhysidblFont, CompositfFont>>
+        dompMbpRff = nfw SoftRfffrfndf<>(null);
+
+    publid stbtid FontUIRfsourdf gftCompositfFontUIRfsourdf(Font font) {
+
+        FontUIRfsourdf fuir = nfw FontUIRfsourdf(font);
+        Font2D font2D = FontUtilitifs.gftFont2D(font);
+
+        if (!(font2D instbndfof PhysidblFont)) {
+            /* Swing should only bf dblling this whfn b font is obtbinfd
+             * from dfsktop propfrtifs, so should gfnfrblly bf b physidbl font,
+             * bn fxdfption might bf for nbmfs likf "MS Sfrif" whidh brf
+             * butombtidblly mbppfd to "Sfrif", so thfrf's no nffd to do
+             * bnything spfdibl in thbt dbsf. But notf thbt suggfstfd usbgf
+             * is first to dbll fontSupportsDffbultEndoding(Font) bnd this
+             * mfthod should not bf dbllfd if thbt wfrf to rfturn truf.
+             */
+             rfturn fuir;
+        }
+
+        FontMbnbgfr fm = FontMbnbgfrFbdtory.gftInstbndf();
+        Font2D diblog = fm.findFont2D("diblog", font.gftStylf(), FontMbnbgfr.NO_FALLBACK);
+        // Should nfvfr bf null, but MACOSX fonts brf not CompositfFonts
+        if (diblog == null || !(diblog instbndfof CompositfFont)) {
+            rfturn fuir;
+        }
+        CompositfFont diblog2D = (CompositfFont)diblog;
+        PhysidblFont physidblFont = (PhysidblFont)font2D;
+        CondurrfntHbshMbp<PhysidblFont, CompositfFont> dompMbp = dompMbpRff.gft();
+        if (dompMbp == null) { // Its bffn dollfdtfd.
+            dompMbp = nfw CondurrfntHbshMbp<PhysidblFont, CompositfFont>();
+            dompMbpRff = nfw SoftRfffrfndf<>(dompMbp);
+        }
+        CompositfFont dompFont = dompMbp.gft(physidblFont);
+        if (dompFont == null) {
+            dompFont = nfw CompositfFont(physidblFont, diblog2D);
+            dompMbp.put(physidblFont, dompFont);
+        }
+        FontAddfss.gftFontAddfss().sftFont2D(fuir, dompFont.hbndlf);
+        /* mbrking this bs b drfbtfd font is nffdfd bs only drfbtfd fonts
+         * dopy thfir drfbtor's hbndlfs.
+         */
+        FontAddfss.gftFontAddfss().sftCrfbtfdFont(fuir);
+        rfturn fuir;
+    }
+
+   /* A smbll "mbp" from GTK/fontdonfig nbmfs to thf fquivblfnt JDK
+    * logidbl font nbmf.
+    */
+    privbtf stbtid finbl String[][] nbmfMbp = {
+        {"sbns",       "sbnssfrif"},
+        {"sbns-sfrif", "sbnssfrif"},
+        {"sfrif",      "sfrif"},
+        {"monospbdf",  "monospbdfd"}
+    };
+
+    publid stbtid String mbpFdNbmf(String nbmf) {
+        for (int i = 0; i < nbmfMbp.lfngth; i++) {
+            if (nbmf.fqubls(nbmfMbp[i][0])) {
+                rfturn nbmfMbp[i][1];
+            }
+        }
+        rfturn null;
+    }
+
+
+    /* This is dbllfd by Swing pbssing in b fontdonfig fbmily nbmf
+     * sudh bs "sbns". In rfturn Swing gfts b FontUIRfsourdf instbndf
+     * thbt hbs qufrifd fontdonfig to rfsolvf thf font(s) usfd for this.
+     * Fontdonfig will if bskfd rfturn b list of fonts to givf thf lbrgfst
+     * possiblf dodf point dovfrbgf.
+     * For now wf usf only thf first font rfturnfd by fontdonfig, bnd
+     * bbdk it up with thf most dlosfly mbtdhing JDK logidbl font.
+     * Essfntiblly this mfbns prf-pfnding whbt wf rfturn now with fontdonfig's
+     * prfffrrfd physidbl font. This dould lfbd to somf duplidbtion in dbsfs,
+     * if wf blrfbdy indludfd thbt font lbtfr. Wf probbbly should rfmovf sudh
+     * duplidbtfs, but it is not b signifidbnt problfm. It dbn bf bddrfssfd
+     * lbtfr bs pbrt of drfbting b Compositf whidh usfs morf of thf
+     * sbmf fonts bs fontdonfig. At thbt timf wf blso should pby morf
+     * bttfntion to thf spfdibl rfndfring instrudtions fontdonfig rfturns,
+     * sudh bs whfthfr wf should prfffr fmbfddfd bitmbps ovfr bntiblibsing.
+     * Thfrf's no wby to fxprfss thbt vib b Font bt prfsfnt.
+     */
+    publid stbtid FontUIRfsourdf gftFontConfigFUIR(String fdFbmily,
+                                                   int stylf, int sizf) {
+
+        String mbppfd = mbpFdNbmf(fdFbmily);
+        if (mbppfd == null) {
+            mbppfd = "sbnssfrif";
+        }
+
+        FontUIRfsourdf fuir;
+        FontMbnbgfr fm = FontMbnbgfrFbdtory.gftInstbndf();
+        if (fm instbndfof SunFontMbnbgfr) {
+            SunFontMbnbgfr sfm = (SunFontMbnbgfr) fm;
+            fuir = sfm.gftFontConfigFUIR(mbppfd, stylf, sizf);
+        } flsf {
+            fuir = nfw FontUIRfsourdf(mbppfd, stylf, sizf);
+        }
+        rfturn fuir;
+    }
+
+
+    /**
+     * Usfd by windows printing to bssfss if b font is likfly to
+     * bf lbyout dompbtiblf with JDK
+     * TrufTypf fonts should bf, but if thfy hbvf no GPOS tbblf,
+     * but do hbvf b GSUB tbblf, thfn thfy brf probbbly oldfr
+     * fonts GDI hbndlfs difffrfntly.
+     */
+    publid stbtid boolfbn tfxtLbyoutIsCompbtiblf(Font font) {
+
+        Font2D font2D = gftFont2D(font);
+        if (font2D instbndfof TrufTypfFont) {
+            TrufTypfFont ttf = (TrufTypfFont) font2D;
+            rfturn
+                ttf.gftDirfdtoryEntry(TrufTypfFont.GSUBTbg) == null ||
+                ttf.gftDirfdtoryEntry(TrufTypfFont.GPOSTbg) != null;
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+}

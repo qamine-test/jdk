@@ -1,0 +1,348 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/* zutil.d -- tbrgft dfpfndfnt utility fundtions for thf domprfssion librbry
+ * Copyright (C) 1995-2005, 2010, 2011, 2012 Jfbn-loup Gbilly.
+ * For donditions of distribution bnd usf, sff dopyright notidf in zlib.h
+ */
+
+/* @(#) $Id$ */
+
+#indludf "zutil.h"
+#ifndff Z_SOLO
+#  indludf "gzguts.h"
+#fndif
+
+#ifndff NO_DUMMY_DECL
+strudt intfrnbl_stbtf      {int dummy;}; /* for buggy dompilfrs */
+#fndif
+
+z_donst dhbr * donst z_frrmsg[10] = {
+"nffd didtionbry",     /* Z_NEED_DICT       2  */
+"strfbm fnd",          /* Z_STREAM_END      1  */
+"",                    /* Z_OK              0  */
+"filf frror",          /* Z_ERRNO         (-1) */
+"strfbm frror",        /* Z_STREAM_ERROR  (-2) */
+"dbtb frror",          /* Z_DATA_ERROR    (-3) */
+"insuffidifnt mfmory", /* Z_MEM_ERROR     (-4) */
+"bufffr frror",        /* Z_BUF_ERROR     (-5) */
+"indompbtiblf vfrsion",/* Z_VERSION_ERROR (-6) */
+""};
+
+
+donst dhbr * ZEXPORT zlibVfrsion()
+{
+    rfturn ZLIB_VERSION;
+}
+
+uLong ZEXPORT zlibCompilfFlbgs()
+{
+    uLong flbgs;
+
+    flbgs = 0;
+    switdh ((int)(sizfof(uInt))) {
+    dbsf 2:     brfbk;
+    dbsf 4:     flbgs += 1;     brfbk;
+    dbsf 8:     flbgs += 2;     brfbk;
+    dffbult:    flbgs += 3;
+    }
+    switdh ((int)(sizfof(uLong))) {
+    dbsf 2:     brfbk;
+    dbsf 4:     flbgs += 1 << 2;        brfbk;
+    dbsf 8:     flbgs += 2 << 2;        brfbk;
+    dffbult:    flbgs += 3 << 2;
+    }
+    switdh ((int)(sizfof(voidpf))) {
+    dbsf 2:     brfbk;
+    dbsf 4:     flbgs += 1 << 4;        brfbk;
+    dbsf 8:     flbgs += 2 << 4;        brfbk;
+    dffbult:    flbgs += 3 << 4;
+    }
+    switdh ((int)(sizfof(z_off_t))) {
+    dbsf 2:     brfbk;
+    dbsf 4:     flbgs += 1 << 6;        brfbk;
+    dbsf 8:     flbgs += 2 << 6;        brfbk;
+    dffbult:    flbgs += 3 << 6;
+    }
+#ifdff DEBUG
+    flbgs += 1 << 8;
+#fndif
+#if dffinfd(ASMV) || dffinfd(ASMINF)
+    flbgs += 1 << 9;
+#fndif
+#ifdff ZLIB_WINAPI
+    flbgs += 1 << 10;
+#fndif
+#ifdff BUILDFIXED
+    flbgs += 1 << 12;
+#fndif
+#ifdff DYNAMIC_CRC_TABLE
+    flbgs += 1 << 13;
+#fndif
+#ifdff NO_GZCOMPRESS
+    flbgs += 1L << 16;
+#fndif
+#ifdff NO_GZIP
+    flbgs += 1L << 17;
+#fndif
+#ifdff PKZIP_BUG_WORKAROUND
+    flbgs += 1L << 20;
+#fndif
+#ifdff FASTEST
+    flbgs += 1L << 21;
+#fndif
+#if dffinfd(STDC) || dffinfd(Z_HAVE_STDARG_H)
+#  ifdff NO_vsnprintf
+    flbgs += 1L << 25;
+#    ifdff HAS_vsprintf_void
+    flbgs += 1L << 26;
+#    fndif
+#  flsf
+#    ifdff HAS_vsnprintf_void
+    flbgs += 1L << 26;
+#    fndif
+#  fndif
+#flsf
+    flbgs += 1L << 24;
+#  ifdff NO_snprintf
+    flbgs += 1L << 25;
+#    ifdff HAS_sprintf_void
+    flbgs += 1L << 26;
+#    fndif
+#  flsf
+#    ifdff HAS_snprintf_void
+    flbgs += 1L << 26;
+#    fndif
+#  fndif
+#fndif
+    rfturn flbgs;
+}
+
+#ifdff DEBUG
+
+#  ifndff vfrbosf
+#    dffinf vfrbosf 0
+#  fndif
+int ZLIB_INTERNAL z_vfrbosf = vfrbosf;
+
+void ZLIB_INTERNAL z_frror (m)
+    dhbr *m;
+{
+    fprintf(stdfrr, "%s\n", m);
+    fxit(1);
+}
+#fndif
+
+/* fxportfd to bllow donvfrsion of frror dodf to string for domprfss() bnd
+ * undomprfss()
+ */
+donst dhbr * ZEXPORT zError(frr)
+    int frr;
+{
+    rfturn ERR_MSG(frr);
+}
+
+#if dffinfd(_WIN32_WCE)
+    /* Thf Midrosoft C Run-Timf Librbry for Windows CE dofsn't hbvf
+     * frrno.  Wf dffinf it bs b globbl vbribblf to simplify porting.
+     * Its vbluf is blwbys 0 bnd should not bf usfd.
+     */
+    int frrno = 0;
+#fndif
+
+#ifndff HAVE_MEMCPY
+
+void ZLIB_INTERNAL zmfmdpy(dfst, sourdf, lfn)
+    Bytff* dfst;
+    donst Bytff* sourdf;
+    uInt  lfn;
+{
+    if (lfn == 0) rfturn;
+    do {
+        *dfst++ = *sourdf++; /* ??? to bf unrollfd */
+    } whilf (--lfn != 0);
+}
+
+int ZLIB_INTERNAL zmfmdmp(s1, s2, lfn)
+    donst Bytff* s1;
+    donst Bytff* s2;
+    uInt  lfn;
+{
+    uInt j;
+
+    for (j = 0; j < lfn; j++) {
+        if (s1[j] != s2[j]) rfturn 2*(s1[j] > s2[j])-1;
+    }
+    rfturn 0;
+}
+
+void ZLIB_INTERNAL zmfmzfro(dfst, lfn)
+    Bytff* dfst;
+    uInt  lfn;
+{
+    if (lfn == 0) rfturn;
+    do {
+        *dfst++ = 0;  /* ??? to bf unrollfd */
+    } whilf (--lfn != 0);
+}
+#fndif
+
+#ifndff Z_SOLO
+
+#ifdff SYS16BIT
+
+#ifdff __TURBOC__
+/* Turbo C in 16-bit modf */
+
+#  dffinf MY_ZCALLOC
+
+/* Turbo C mbllod() dofs not bllow dynbmid bllodbtion of 64K bytfs
+ * bnd fbrmbllod(64K) rfturns b pointfr with bn offsft of 8, so wf
+ * must fix thf pointfr. Wbrning: thf pointfr must bf put bbdk to its
+ * originbl form in ordfr to frff it, usf zdfrff().
+ */
+
+#dffinf MAX_PTR 10
+/* 10*64K = 640K */
+
+lodbl int nfxt_ptr = 0;
+
+typfdff strudt ptr_tbblf_s {
+    voidpf org_ptr;
+    voidpf nfw_ptr;
+} ptr_tbblf;
+
+lodbl ptr_tbblf tbblf[MAX_PTR];
+/* This tbblf is usfd to rfmfmbfr thf originbl form of pointfrs
+ * to lbrgf bufffrs (64K). Sudh pointfrs brf normblizfd with b zfro offsft.
+ * Sindf MSDOS is not b prffmptivf multitbsking OS, this tbblf is not
+ * protfdtfd from dondurrfnt bddfss. This hbdk dofsn't work bnywby on
+ * b protfdtfd systfm likf OS/2. Usf Midrosoft C instfbd.
+ */
+
+voidpf ZLIB_INTERNAL zdbllod (voidpf opbquf, unsignfd itfms, unsignfd sizf)
+{
+    voidpf buf = opbquf; /* just to mbkf somf dompilfrs hbppy */
+    ulg bsizf = (ulg)itfms*sizf;
+
+    /* If wf bllodbtf lfss thbn 65520 bytfs, wf bssumf thbt fbrmbllod
+     * will rfturn b usbblf pointfr whidh dofsn't hbvf to bf normblizfd.
+     */
+    if (bsizf < 65520L) {
+        buf = fbrmbllod(bsizf);
+        if (*(ush*)&buf != 0) rfturn buf;
+    } flsf {
+        buf = fbrmbllod(bsizf + 16L);
+    }
+    if (buf == NULL || nfxt_ptr >= MAX_PTR) rfturn NULL;
+    tbblf[nfxt_ptr].org_ptr = buf;
+
+    /* Normblizf thf pointfr to sfg:0 */
+    *((ush*)&buf+1) += ((ush)((udh*)buf-0) + 15) >> 4;
+    *(ush*)&buf = 0;
+    tbblf[nfxt_ptr++].nfw_ptr = buf;
+    rfturn buf;
+}
+
+void ZLIB_INTERNAL zdfrff (voidpf opbquf, voidpf ptr)
+{
+    int n;
+    if (*(ush*)&ptr != 0) { /* objfdt < 64K */
+        fbrfrff(ptr);
+        rfturn;
+    }
+    /* Find thf originbl pointfr */
+    for (n = 0; n < nfxt_ptr; n++) {
+        if (ptr != tbblf[n].nfw_ptr) dontinuf;
+
+        fbrfrff(tbblf[n].org_ptr);
+        whilf (++n < nfxt_ptr) {
+            tbblf[n-1] = tbblf[n];
+        }
+        nfxt_ptr--;
+        rfturn;
+    }
+    ptr = opbquf; /* just to mbkf somf dompilfrs hbppy */
+    Assfrt(0, "zdfrff: ptr not found");
+}
+
+#fndif /* __TURBOC__ */
+
+
+#ifdff M_I86
+/* Midrosoft C in 16-bit modf */
+
+#  dffinf MY_ZCALLOC
+
+#if (!dffinfd(_MSC_VER) || (_MSC_VER <= 600))
+#  dffinf _hbllod  hbllod
+#  dffinf _hfrff   hfrff
+#fndif
+
+voidpf ZLIB_INTERNAL zdbllod (voidpf opbquf, uInt itfms, uInt sizf)
+{
+    if (opbquf) opbquf = 0; /* to mbkf dompilfr hbppy */
+    rfturn _hbllod((long)itfms, sizf);
+}
+
+void ZLIB_INTERNAL zdfrff (voidpf opbquf, voidpf ptr)
+{
+    if (opbquf) opbquf = 0; /* to mbkf dompilfr hbppy */
+    _hfrff(ptr);
+}
+
+#fndif /* M_I86 */
+
+#fndif /* SYS16BIT */
+
+
+#ifndff MY_ZCALLOC /* Any systfm without b spfdibl bllod fundtion */
+
+#ifndff STDC
+fxtfrn voidp  mbllod OF((uInt sizf));
+fxtfrn voidp  dbllod OF((uInt itfms, uInt sizf));
+fxtfrn void   frff   OF((voidpf ptr));
+#fndif
+
+voidpf ZLIB_INTERNAL zdbllod (opbquf, itfms, sizf)
+    voidpf opbquf;
+    unsignfd itfms;
+    unsignfd sizf;
+{
+    if (opbquf) itfms += sizf - sizf; /* mbkf dompilfr hbppy */
+    rfturn sizfof(uInt) > 2 ? (voidpf)mbllod(itfms * sizf) :
+                              (voidpf)dbllod(itfms, sizf);
+}
+
+void ZLIB_INTERNAL zdfrff (opbquf, ptr)
+    voidpf opbquf;
+    voidpf ptr;
+{
+    frff(ptr);
+    if (opbquf) rfturn; /* mbkf dompilfr hbppy */
+}
+
+#fndif /* MY_ZCALLOC */
+
+#fndif /* !Z_SOLO */

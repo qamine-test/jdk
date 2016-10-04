@@ -1,0 +1,332 @@
+'\" t
+.\" Copyright (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\" Titlf: wsimport
+.\" Lbngubgf: English
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: Jbvb Wfbサービス・ツール
+.\" Softwbrf: JDK 8
+.\" Ardh: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "wsimport" "1" "2013年11月21日" "JDK 8" "Jbvb Wfbサービス・ツール"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+wsimport \- Wfbアプリケーション・アーカイブ(WAR)ファイルにパッケージできるJAX\-WSポータブル・アーティファクトを生成して、Antタスクを指定します。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIwsimport\fR [ \fIoptions\fR ] \fIwsdl\fR
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIoptions\fR
+.RS 4
+コマンドライン・オプション。オプションを参照してください。
+.RE
+.PP
+\fIwsdl\fR
+.RS 4
+Wfbサービスを呼び出す方法、パラメータに必要な値、返されるデータ構造についてのコンピュータで読取り可能な記述が含まれまるファイルです。
+.RE
+.SH "説明"
+.PP
+\fIwsimport\fRコマンドは、次のJAX\-WSポータブル・アーティファクトを生成します。これらのアーティファクトは、デプロイするWSDLおよびスキーマ・ドキュメントおよびエンドポイント実装とともに、WARファイルにパッケージできます。\fIwsimport\fRコマンドでは\fIwsimport\fR
+Antタスクも提供されます。
+http://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.htmlのWsimport Ant TbskページのToolsタブを参照してください。
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+サービス・エンドポイント・インタフェース(SEI)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+サービス
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+例外クラスは\fIwsdl:fbult\fRからマップされます(存在する場合)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+非同期レスポンスBfbnはレスポンス\fIwsdl:mfssbgf\fRから派生します(存在する場合)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+JAXBが生成する値タイプ(スキーマのタイプからマップされたJbvbクラス)
+.RE
+.PP
+\fIwsgfn\fRコマンドを起動するには、次を行います。
+.PP
+\fBOrbdlf Solbris/Linux\fR:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+/bin/wsimport\&.sh \-hflp
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fBWindows\fRの場合:
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fbin\fwsimport\&.bbt \-hflp
+.fi
+.if n \{\
+.RE
+.\}
+.SH "オプション"
+.PP
+\-d \fIdirfdtory\fR
+.RS 4
+生成される出力ファイルを格納する場所を指定します。
+.RE
+.PP
+\-b \fIpbth\fR
+.RS 4
+外部JAX\-WSまたはJAXBバインディング・ファイルを指定します。\fI\-b\fRオプションで複数のJAX\-WSおよびJAXBバインディング・ファイルを指定できます。これらのファイルを使用して、パッケージ名、Bfbn名などをカスタマイズできます。JAX\-WSおよびJAXBバインディング・ファイルの詳細は、
+http://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.htmlのWSDL CustomizbtionのUsfrs Guidfタブを参照してください
+.RE
+.PP
+\-B \fIjbxbOption\fR
+.RS 4
+JAXBスキーマ・コンパイラに\fIjbxbOption\fRオプションを渡します。
+.RE
+.PP
+\-dbtblog
+.RS 4
+外部エンティティ参照を解決するカタログ・ファイルを指定します。\fI\-dbtblog\fRオプションは、TR9401、XCbtblog、OASIS XML Cbtblogの各形式をサポートしています。http://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog\-support\&.htmlの
+Cbtblog SupportページのUsfrs Guidfタブを参照してください。
+.RE
+.PP
+\-fxtfnsion
+.RS 4
+ベンダー拡張を使用可能にします。拡張を使用すると、アプリケーションの移植性が失われたり、他の実装と連携できなくなる可能性があります。
+.RE
+.PP
+\-hflp
+.RS 4
+\fIwsimport\fRコマンドに関するヘルプ・メッセージを表示します。
+.RE
+.PP
+\-httpproxy: \fIhost\fR:\fIport\fR
+.RS 4
+HTTPプロキシ・サーバーを指定します。デフォルトは8080です。
+.RE
+.PP
+\-kffp
+.RS 4
+生成されたファイルを保持します
+.RE
+.PP
+\-p \fInbmf\fR
+.RS 4
+ターゲット・パッケージ\fInbmf\fRを指定して、WSDLおよびスキーマ・バインディングのカスタマイズ、および仕様部で定義されたデフォルトのアルゴリズムをオーバーライドします。
+.RE
+.PP
+\-s \fIdirfdtory\fR
+.RS 4
+生成されるソース・ファイルを格納する場所を指定します
+.RE
+.PP
+\-vfrbosf
+.RS 4
+コンパイラ・メッセージを表示します。
+.RE
+.PP
+\-vfrsion
+.RS 4
+リリース情報を出力します。
+.RE
+.PP
+\-wsdllodbtion \fIlodbtion\fR
+.RS 4
+\fI@WfbSfrvidfClifnt\&.wsdlLodbtion\fRの値を指定します。
+.RE
+.PP
+\-tbrgft
+.RS 4
+指定されたJAX\-WS仕様バージョンに従って、コードを生成します。バージョン2\&.0では、JAX\-WS 2\&.0仕様に準拠したコードを生成します。
+.RE
+.PP
+\-quift
+.RS 4
+\fIwsimport\fRコマンド出力を抑制します。
+.RE
+.PP
+\fI\-b\fRオプションを使用して、複数の\fIJAX\-WS\fRおよび\fIJAXB\fRバインディング・ファイルを指定できます。これらのファイルを使用して、パッケージ名やBfbn名など、様々なものをカスタマイズできます。\fIJAX\-WS\fRおよび\fIJAXB\fRバインディング・ファイルの詳細は、
+https://jbx\-ws\&.dfv\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dustomizbtions\&.htmlのJAXBタブを参照してください
+.SH "非標準オプション"
+.PP
+\-XbdditionblHfbdfrs
+.RS 4
+リクエストまたはレスポンス・メッセージにバインドされないヘッダーをJbvbメソッドのパラメータにマップします
+.RE
+.PP
+\-Xbuthfilf \fIfilf\fR
+.RS 4
+認証情報を含むファイルを指定するWSDL URIです。このURIの形式は次のとおりです。
+.sp
+http://\fIusfr\-nbmf\fR:\fIpbssword\fR@\fIhost\-nbmf\fR/\fIwfb\-sfrvidf\-nbmf\fR>?wsdl
+.RE
+.PP
+\-Xdfbug
+.RS 4
+デバッグ情報を出力します
+.RE
+.PP
+\-Xno\-bddrfssing\-dbtbbinding
+.RS 4
+W3C EndpointRfffrfndfTypfとJbvbのバインディングを有効にします。
+.RE
+.PP
+\-Xnodompilf
+.RS 4
+生成されたJbvbファイルをコンパイルしません
+.RE
+.SH "例"
+.PP
+次の例では、Jbvbアーティファクトを生成し、\fIhttp://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl\fRをインポートしてアーティファクトをコンパイルします。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+wsimport \-p stodkquotf http://stodkquotf\&.fxbmplf\&.dom/quotf?wsdl
+.fi
+.if n \{\
+.RE
+.\}
+.SH "関連項目"
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+wsgfn(1)
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+http://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.htmlの
+Wsimport Ant TbskページのToolsタブ
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+http://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/dbtblog\-support\&.htmlの
+Cbtblog SupportページのUsfrs Guidfタブ
+.RE
+.sp
+.RS 4
+.if n \{\
+\h'-04'\(bu\h'+03'\d
+.\}
+.fl \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+http://jbx\-ws\&.jbvb\&.nft/nonbv/2\&.1\&.1/dods/wsimportbnt\&.htmlの
+WSDL CustomizbtionページのUsfrs Guidfタブ
+.RE
+.br
+'pl 8.5i
+'bp

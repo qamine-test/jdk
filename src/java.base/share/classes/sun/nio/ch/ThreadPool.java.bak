@@ -1,180 +1,180 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.util.concurrent.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import sun.security.action.GetPropertyAction;
-import sun.security.action.GetIntegerAction;
+import jbvb.util.dondurrfnt.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
+import sun.sfdurity.bdtion.GftIntfgfrAdtion;
 
 /**
- * Encapsulates a thread pool associated with a channel group.
+ * Endbpsulbtfs b tirfbd pool bssodibtfd witi b dibnnfl group.
  */
 
-public class ThreadPool {
-    private static final String DEFAULT_THREAD_POOL_THREAD_FACTORY =
-        "java.nio.channels.DefaultThreadPool.threadFactory";
-    private static final String DEFAULT_THREAD_POOL_INITIAL_SIZE =
-        "java.nio.channels.DefaultThreadPool.initialSize";
+publid dlbss TirfbdPool {
+    privbtf stbtid finbl String DEFAULT_THREAD_POOL_THREAD_FACTORY =
+        "jbvb.nio.dibnnfls.DffbultTirfbdPool.tirfbdFbdtory";
+    privbtf stbtid finbl String DEFAULT_THREAD_POOL_INITIAL_SIZE =
+        "jbvb.nio.dibnnfls.DffbultTirfbdPool.initiblSizf";
 
-    private final ExecutorService executor;
+    privbtf finbl ExfdutorSfrvidf fxfdutor;
 
-    // indicates if thread pool is fixed size
-    private final boolean isFixed;
+    // indidbtfs if tirfbd pool is fixfd sizf
+    privbtf finbl boolfbn isFixfd;
 
-    // indicates the pool size (for a fixed thread pool configuratin this is
-    // the maximum pool size; for other thread pools it is the initial size)
-    private final int poolSize;
+    // indidbtfs tif pool sizf (for b fixfd tirfbd pool donfigurbtin tiis is
+    // tif mbximum pool sizf; for otifr tirfbd pools it is tif initibl sizf)
+    privbtf finbl int poolSizf;
 
-    private ThreadPool(ExecutorService executor,
-                       boolean isFixed,
-                       int poolSize)
+    privbtf TirfbdPool(ExfdutorSfrvidf fxfdutor,
+                       boolfbn isFixfd,
+                       int poolSizf)
     {
-        this.executor = executor;
-        this.isFixed = isFixed;
-        this.poolSize = poolSize;
+        tiis.fxfdutor = fxfdutor;
+        tiis.isFixfd = isFixfd;
+        tiis.poolSizf = poolSizf;
     }
 
-    ExecutorService executor() {
-        return executor;
+    ExfdutorSfrvidf fxfdutor() {
+        rfturn fxfdutor;
     }
 
-    boolean isFixedThreadPool() {
-        return isFixed;
+    boolfbn isFixfdTirfbdPool() {
+        rfturn isFixfd;
     }
 
-    int poolSize() {
-        return poolSize;
+    int poolSizf() {
+        rfturn poolSizf;
     }
 
-    static ThreadFactory defaultThreadFactory() {
-        if (System.getSecurityManager() == null) {
-            return (Runnable r) -> {
-                Thread t = new Thread(r);
-                t.setDaemon(true);
-                return t;
+    stbtid TirfbdFbdtory dffbultTirfbdFbdtory() {
+        if (Systfm.gftSfdurityMbnbgfr() == null) {
+            rfturn (Runnbblf r) -> {
+                Tirfbd t = nfw Tirfbd(r);
+                t.sftDbfmon(truf);
+                rfturn t;
             };
-        } else {
-            return (Runnable r) -> {
-                PrivilegedAction<Thread> action = () -> {
-                    Thread t = new sun.misc.InnocuousThread(r);
-                    t.setDaemon(true);
-                    return t;
+        } flsf {
+            rfturn (Runnbblf r) -> {
+                PrivilfgfdAdtion<Tirfbd> bdtion = () -> {
+                    Tirfbd t = nfw sun.misd.InnoduousTirfbd(r);
+                    t.sftDbfmon(truf);
+                    rfturn t;
                };
-               return AccessController.doPrivileged(action);
+               rfturn AddfssControllfr.doPrivilfgfd(bdtion);
            };
         }
     }
 
-    private static class DefaultThreadPoolHolder {
-        final static ThreadPool defaultThreadPool = createDefault();
+    privbtf stbtid dlbss DffbultTirfbdPoolHoldfr {
+        finbl stbtid TirfbdPool dffbultTirfbdPool = drfbtfDffbult();
     }
 
-    // return the default (system-wide) thread pool
-    static ThreadPool getDefault() {
-        return DefaultThreadPoolHolder.defaultThreadPool;
+    // rfturn tif dffbult (systfm-widf) tirfbd pool
+    stbtid TirfbdPool gftDffbult() {
+        rfturn DffbultTirfbdPoolHoldfr.dffbultTirfbdPool;
     }
 
-    // create thread using default settings (configured by system properties)
-    static ThreadPool createDefault() {
-        // default the number of fixed threads to the hardware core count
-        int initialSize = getDefaultThreadPoolInitialSize();
-        if (initialSize < 0)
-            initialSize = Runtime.getRuntime().availableProcessors();
-        // default to thread factory that creates daemon threads
-        ThreadFactory threadFactory = getDefaultThreadPoolThreadFactory();
-        if (threadFactory == null)
-            threadFactory = defaultThreadFactory();
-        // create thread pool
-        ExecutorService executor = Executors.newCachedThreadPool(threadFactory);
-        return new ThreadPool(executor, false, initialSize);
+    // drfbtf tirfbd using dffbult sfttings (donfigurfd by systfm propfrtifs)
+    stbtid TirfbdPool drfbtfDffbult() {
+        // dffbult tif numbfr of fixfd tirfbds to tif ibrdwbrf dorf dount
+        int initiblSizf = gftDffbultTirfbdPoolInitiblSizf();
+        if (initiblSizf < 0)
+            initiblSizf = Runtimf.gftRuntimf().bvbilbblfProdfssors();
+        // dffbult to tirfbd fbdtory tibt drfbtfs dbfmon tirfbds
+        TirfbdFbdtory tirfbdFbdtory = gftDffbultTirfbdPoolTirfbdFbdtory();
+        if (tirfbdFbdtory == null)
+            tirfbdFbdtory = dffbultTirfbdFbdtory();
+        // drfbtf tirfbd pool
+        ExfdutorSfrvidf fxfdutor = Exfdutors.nfwCbdifdTirfbdPool(tirfbdFbdtory);
+        rfturn nfw TirfbdPool(fxfdutor, fblsf, initiblSizf);
     }
 
-    // create using given parameters
-    static ThreadPool create(int nThreads, ThreadFactory factory) {
-        if (nThreads <= 0)
-            throw new IllegalArgumentException("'nThreads' must be > 0");
-        ExecutorService executor = Executors.newFixedThreadPool(nThreads, factory);
-        return new ThreadPool(executor, true, nThreads);
+    // drfbtf using givfn pbrbmftfrs
+    stbtid TirfbdPool drfbtf(int nTirfbds, TirfbdFbdtory fbdtory) {
+        if (nTirfbds <= 0)
+            tirow nfw IllfgblArgumfntExdfption("'nTirfbds' must bf > 0");
+        ExfdutorSfrvidf fxfdutor = Exfdutors.nfwFixfdTirfbdPool(nTirfbds, fbdtory);
+        rfturn nfw TirfbdPool(fxfdutor, truf, nTirfbds);
     }
 
-    // wrap a user-supplied executor
-    public static ThreadPool wrap(ExecutorService executor, int initialSize) {
-        if (executor == null)
-            throw new NullPointerException("'executor' is null");
-        // attempt to check if cached thread pool
-        if (executor instanceof ThreadPoolExecutor) {
-            int max = ((ThreadPoolExecutor)executor).getMaximumPoolSize();
-            if (max == Integer.MAX_VALUE) {
-                if (initialSize < 0) {
-                    initialSize = Runtime.getRuntime().availableProcessors();
-                } else {
-                   // not a cached thread pool so ignore initial size
-                    initialSize = 0;
+    // wrbp b usfr-supplifd fxfdutor
+    publid stbtid TirfbdPool wrbp(ExfdutorSfrvidf fxfdutor, int initiblSizf) {
+        if (fxfdutor == null)
+            tirow nfw NullPointfrExdfption("'fxfdutor' is null");
+        // bttfmpt to difdk if dbdifd tirfbd pool
+        if (fxfdutor instbndfof TirfbdPoolExfdutor) {
+            int mbx = ((TirfbdPoolExfdutor)fxfdutor).gftMbximumPoolSizf();
+            if (mbx == Intfgfr.MAX_VALUE) {
+                if (initiblSizf < 0) {
+                    initiblSizf = Runtimf.gftRuntimf().bvbilbblfProdfssors();
+                } flsf {
+                   // not b dbdifd tirfbd pool so ignorf initibl sizf
+                    initiblSizf = 0;
                 }
             }
-        } else {
-            // some other type of thread pool
-            if (initialSize < 0)
-                initialSize = 0;
+        } flsf {
+            // somf otifr typf of tirfbd pool
+            if (initiblSizf < 0)
+                initiblSizf = 0;
         }
-        return new ThreadPool(executor, false, initialSize);
+        rfturn nfw TirfbdPool(fxfdutor, fblsf, initiblSizf);
     }
 
-    private static int getDefaultThreadPoolInitialSize() {
-        String propValue = AccessController.doPrivileged(new
-            GetPropertyAction(DEFAULT_THREAD_POOL_INITIAL_SIZE));
-        if (propValue != null) {
+    privbtf stbtid int gftDffbultTirfbdPoolInitiblSizf() {
+        String propVbluf = AddfssControllfr.doPrivilfgfd(nfw
+            GftPropfrtyAdtion(DEFAULT_THREAD_POOL_INITIAL_SIZE));
+        if (propVbluf != null) {
             try {
-                return Integer.parseInt(propValue);
-            } catch (NumberFormatException x) {
-                throw new Error("Value of property '" + DEFAULT_THREAD_POOL_INITIAL_SIZE +
-                    "' is invalid: " + x);
+                rfturn Intfgfr.pbrsfInt(propVbluf);
+            } dbtdi (NumbfrFormbtExdfption x) {
+                tirow nfw Error("Vbluf of propfrty '" + DEFAULT_THREAD_POOL_INITIAL_SIZE +
+                    "' is invblid: " + x);
             }
         }
-        return -1;
+        rfturn -1;
     }
 
-    private static ThreadFactory getDefaultThreadPoolThreadFactory() {
-        String propValue = AccessController.doPrivileged(new
-            GetPropertyAction(DEFAULT_THREAD_POOL_THREAD_FACTORY));
-        if (propValue != null) {
+    privbtf stbtid TirfbdFbdtory gftDffbultTirfbdPoolTirfbdFbdtory() {
+        String propVbluf = AddfssControllfr.doPrivilfgfd(nfw
+            GftPropfrtyAdtion(DEFAULT_THREAD_POOL_THREAD_FACTORY));
+        if (propVbluf != null) {
             try {
-                Class<?> c = Class
-                    .forName(propValue, true, ClassLoader.getSystemClassLoader());
-                return ((ThreadFactory)c.newInstance());
-            } catch (ClassNotFoundException x) {
-                throw new Error(x);
-            } catch (InstantiationException x) {
-                throw new Error(x);
-            } catch (IllegalAccessException x) {
-                throw new Error(x);
+                Clbss<?> d = Clbss
+                    .forNbmf(propVbluf, truf, ClbssLobdfr.gftSystfmClbssLobdfr());
+                rfturn ((TirfbdFbdtory)d.nfwInstbndf());
+            } dbtdi (ClbssNotFoundExdfption x) {
+                tirow nfw Error(x);
+            } dbtdi (InstbntibtionExdfption x) {
+                tirow nfw Error(x);
+            } dbtdi (IllfgblAddfssExdfption x) {
+                tirow nfw Error(x);
             }
         }
-        return null;
+        rfturn null;
     }
 }

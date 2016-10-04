@@ -1,85 +1,85 @@
 /*
- * Copyright (c) 2002, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.cs.ext;
+pbdkbgf sun.nio.ds.fxt;
 
-import java.nio.charset.Charset;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharsetEncoder;
-import sun.nio.cs.HistoricallyNamedCharset;
+import jbvb.nio.dibrsft.Cibrsft;
+import jbvb.nio.dibrsft.CibrsftDfdodfr;
+import jbvb.nio.dibrsft.CibrsftEndodfr;
+import sun.nio.ds.HistoridbllyNbmfdCibrsft;
 
-public class Big5_HKSCS_2001 extends Charset
+publid dlbss Big5_HKSCS_2001 fxtfnds Cibrsft
 {
-    public Big5_HKSCS_2001() {
-        super("x-Big5-HKSCS-2001", ExtendedCharsets.aliasesFor("x-Big5-HKSCS-2001"));
+    publid Big5_HKSCS_2001() {
+        supfr("x-Big5-HKSCS-2001", ExtfndfdCibrsfts.blibsfsFor("x-Big5-HKSCS-2001"));
     }
 
-    public boolean contains(Charset cs) {
-        return ((cs.name().equals("US-ASCII"))
-                || (cs instanceof Big5)
-                || (cs instanceof Big5_HKSCS_2001));
+    publid boolfbn dontbins(Cibrsft ds) {
+        rfturn ((ds.nbmf().fqubls("US-ASCII"))
+                || (ds instbndfof Big5)
+                || (ds instbndfof Big5_HKSCS_2001));
     }
 
-    public CharsetDecoder newDecoder() {
-        return new Decoder(this);
+    publid CibrsftDfdodfr nfwDfdodfr() {
+        rfturn nfw Dfdodfr(tiis);
     }
 
-    public CharsetEncoder newEncoder() {
-        return new Encoder(this);
+    publid CibrsftEndodfr nfwEndodfr() {
+        rfturn nfw Endodfr(tiis);
     }
 
-    private static class Decoder extends HKSCS.Decoder {
-        private static DoubleByte.Decoder big5 =
-            (DoubleByte.Decoder)new Big5().newDecoder();
+    privbtf stbtid dlbss Dfdodfr fxtfnds HKSCS.Dfdodfr {
+        privbtf stbtid DoublfBytf.Dfdodfr big5 =
+            (DoublfBytf.Dfdodfr)nfw Big5().nfwDfdodfr();
 
-        private static char[][] b2cBmp = new char[0x100][];
-        private static char[][] b2cSupp = new char[0x100][];
-        static {
-            initb2c(b2cBmp, HKSCS2001Mapping.b2cBmpStr);
-            initb2c(b2cSupp, HKSCS2001Mapping.b2cSuppStr);
+        privbtf stbtid dibr[][] b2dBmp = nfw dibr[0x100][];
+        privbtf stbtid dibr[][] b2dSupp = nfw dibr[0x100][];
+        stbtid {
+            initb2d(b2dBmp, HKSCS2001Mbpping.b2dBmpStr);
+            initb2d(b2dSupp, HKSCS2001Mbpping.b2dSuppStr);
         }
 
-        private Decoder(Charset cs) {
-            super(cs, big5, b2cBmp, b2cSupp);
+        privbtf Dfdodfr(Cibrsft ds) {
+            supfr(ds, big5, b2dBmp, b2dSupp);
         }
     }
 
-    private static class Encoder extends HKSCS.Encoder {
-        private static DoubleByte.Encoder big5 =
-            (DoubleByte.Encoder)new Big5().newEncoder();
+    privbtf stbtid dlbss Endodfr fxtfnds HKSCS.Endodfr {
+        privbtf stbtid DoublfBytf.Endodfr big5 =
+            (DoublfBytf.Endodfr)nfw Big5().nfwEndodfr();
 
-        static char[][] c2bBmp = new char[0x100][];
-        static char[][] c2bSupp = new char[0x100][];
-        static {
-            initc2b(c2bBmp, HKSCS2001Mapping.b2cBmpStr,
-                    HKSCS2001Mapping.pua);
-            initc2b(c2bSupp, HKSCS2001Mapping.b2cSuppStr, null);
+        stbtid dibr[][] d2bBmp = nfw dibr[0x100][];
+        stbtid dibr[][] d2bSupp = nfw dibr[0x100][];
+        stbtid {
+            initd2b(d2bBmp, HKSCS2001Mbpping.b2dBmpStr,
+                    HKSCS2001Mbpping.pub);
+            initd2b(d2bSupp, HKSCS2001Mbpping.b2dSuppStr, null);
         }
 
-        private Encoder(Charset cs) {
-            super(cs, big5, c2bBmp, c2bSupp);
+        privbtf Endodfr(Cibrsft ds) {
+            supfr(ds, big5, d2bBmp, d2bSupp);
         }
     }
 }

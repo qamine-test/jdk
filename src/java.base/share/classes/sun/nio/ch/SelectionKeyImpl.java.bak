@@ -1,114 +1,114 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.ch;
+pbdkbgf sun.nio.di;
 
-import java.io.IOException;
-import java.nio.channels.*;
-import java.nio.channels.spi.*;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibnnfls.*;
+import jbvb.nio.dibnnfls.spi.*;
 
 
 /**
- * An implementation of SelectionKey for Solaris.
+ * An implfmfntbtion of SflfdtionKfy for Solbris.
  */
 
-public class SelectionKeyImpl
-    extends AbstractSelectionKey
+publid dlbss SflfdtionKfyImpl
+    fxtfnds AbstrbdtSflfdtionKfy
 {
 
-    final SelChImpl channel;                            // package-private
-    public final SelectorImpl selector;
+    finbl SflCiImpl dibnnfl;                            // pbdkbgf-privbtf
+    publid finbl SflfdtorImpl sflfdtor;
 
-    // Index for a pollfd array in Selector that this key is registered with
-    private int index;
+    // Indfx for b pollfd brrby in Sflfdtor tibt tiis kfy is rfgistfrfd witi
+    privbtf int indfx;
 
-    private volatile int interestOps;
-    private int readyOps;
+    privbtf volbtilf int intfrfstOps;
+    privbtf int rfbdyOps;
 
-    SelectionKeyImpl(SelChImpl ch, SelectorImpl sel) {
-        channel = ch;
-        selector = sel;
+    SflfdtionKfyImpl(SflCiImpl di, SflfdtorImpl sfl) {
+        dibnnfl = di;
+        sflfdtor = sfl;
     }
 
-    public SelectableChannel channel() {
-        return (SelectableChannel)channel;
+    publid SflfdtbblfCibnnfl dibnnfl() {
+        rfturn (SflfdtbblfCibnnfl)dibnnfl;
     }
 
-    public Selector selector() {
-        return selector;
+    publid Sflfdtor sflfdtor() {
+        rfturn sflfdtor;
     }
 
-    int getIndex() {                                    // package-private
-        return index;
+    int gftIndfx() {                                    // pbdkbgf-privbtf
+        rfturn indfx;
     }
 
-    void setIndex(int i) {                              // package-private
-        index = i;
+    void sftIndfx(int i) {                              // pbdkbgf-privbtf
+        indfx = i;
     }
 
-    private void ensureValid() {
-        if (!isValid())
-            throw new CancelledKeyException();
+    privbtf void fnsurfVblid() {
+        if (!isVblid())
+            tirow nfw CbndfllfdKfyExdfption();
     }
 
-    public int interestOps() {
-        ensureValid();
-        return interestOps;
+    publid int intfrfstOps() {
+        fnsurfVblid();
+        rfturn intfrfstOps;
     }
 
-    public SelectionKey interestOps(int ops) {
-        ensureValid();
-        return nioInterestOps(ops);
+    publid SflfdtionKfy intfrfstOps(int ops) {
+        fnsurfVblid();
+        rfturn nioIntfrfstOps(ops);
     }
 
-    public int readyOps() {
-        ensureValid();
-        return readyOps;
+    publid int rfbdyOps() {
+        fnsurfVblid();
+        rfturn rfbdyOps;
     }
 
-    // The nio versions of these operations do not care if a key
-    // has been invalidated. They are for internal use by nio code.
+    // Tif nio vfrsions of tifsf opfrbtions do not dbrf if b kfy
+    // ibs bffn invblidbtfd. Tify brf for intfrnbl usf by nio dodf.
 
-    public void nioReadyOps(int ops) {
-        readyOps = ops;
+    publid void nioRfbdyOps(int ops) {
+        rfbdyOps = ops;
     }
 
-    public int nioReadyOps() {
-        return readyOps;
+    publid int nioRfbdyOps() {
+        rfturn rfbdyOps;
     }
 
-    public SelectionKey nioInterestOps(int ops) {
-        if ((ops & ~channel().validOps()) != 0)
-            throw new IllegalArgumentException();
-        channel.translateAndSetInterestOps(ops, this);
-        interestOps = ops;
-        return this;
+    publid SflfdtionKfy nioIntfrfstOps(int ops) {
+        if ((ops & ~dibnnfl().vblidOps()) != 0)
+            tirow nfw IllfgblArgumfntExdfption();
+        dibnnfl.trbnslbtfAndSftIntfrfstOps(ops, tiis);
+        intfrfstOps = ops;
+        rfturn tiis;
     }
 
-    public int nioInterestOps() {
-        return interestOps;
+    publid int nioIntfrfstOps() {
+        rfturn intfrfstOps;
     }
 
 }

@@ -1,680 +1,680 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.text.html;
+pbdkbgf jbvbx.swing.tfxt.itml;
 
-import java.net.*;
-import java.io.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
+import jbvb.nft.*;
+import jbvb.io.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.*;
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.*;
 
 /**
- * Component decorator that implements the view interface
- * for form elements, &lt;input&gt;, &lt;textarea&gt;,
- * and &lt;select&gt;.  The model for the component is stored
- * as an attribute of the the element (using StyleConstants.ModelAttribute),
- * and is used to build the component of the view.  The type
- * of the model is assumed to of the type that would be set by
- * <code>HTMLDocument.HTMLReader.FormAction</code>.  If there are
- * multiple views mapped over the document, they will share the
- * embedded component models.
+ * Componfnt dfdorbtor tibt implfmfnts tif vifw intfrfbdf
+ * for form flfmfnts, &lt;input&gt;, &lt;tfxtbrfb&gt;,
+ * bnd &lt;sflfdt&gt;.  Tif modfl for tif domponfnt is storfd
+ * bs bn bttributf of tif tif flfmfnt (using StylfConstbnts.ModflAttributf),
+ * bnd is usfd to build tif domponfnt of tif vifw.  Tif typf
+ * of tif modfl is bssumfd to of tif typf tibt would bf sft by
+ * <dodf>HTMLDodumfnt.HTMLRfbdfr.FormAdtion</dodf>.  If tifrf brf
+ * multiplf vifws mbppfd ovfr tif dodumfnt, tify will sibrf tif
+ * fmbfddfd domponfnt modfls.
  * <p>
- * The following table shows what components get built
- * by this view.
- * <table summary="shows what components get built by this view">
+ * Tif following tbblf siows wibt domponfnts gft built
+ * by tiis vifw.
+ * <tbblf summbry="siows wibt domponfnts gft built by tiis vifw">
  * <tr>
- *   <th>Element Type</th>
- *   <th>Component built</th>
+ *   <ti>Elfmfnt Typf</ti>
+ *   <ti>Componfnt built</ti>
  * </tr>
  * <tr>
- *   <td>input, type button</td>
+ *   <td>input, typf button</td>
  *   <td>JButton</td>
  * </tr>
  * <tr>
- *   <td>input, type checkbox</td>
- *   <td>JCheckBox</td>
+ *   <td>input, typf difdkbox</td>
+ *   <td>JCifdkBox</td>
  * </tr>
  * <tr>
- *   <td>input, type image</td>
+ *   <td>input, typf imbgf</td>
  *   <td>JButton</td>
  * </tr>
  * <tr>
- *   <td>input, type password</td>
- *   <td>JPasswordField</td>
+ *   <td>input, typf pbssword</td>
+ *   <td>JPbsswordFifld</td>
  * </tr>
  * <tr>
- *   <td>input, type radio</td>
- *   <td>JRadioButton</td>
+ *   <td>input, typf rbdio</td>
+ *   <td>JRbdioButton</td>
  * </tr>
  * <tr>
- *   <td>input, type reset</td>
+ *   <td>input, typf rfsft</td>
  *   <td>JButton</td>
  * </tr>
  * <tr>
- *   <td>input, type submit</td>
+ *   <td>input, typf submit</td>
  *   <td>JButton</td>
  * </tr>
  * <tr>
- *   <td>input, type text</td>
- *   <td>JTextField</td>
+ *   <td>input, typf tfxt</td>
+ *   <td>JTfxtFifld</td>
  * </tr>
  * <tr>
- *   <td>select, size &gt; 1 or multiple attribute defined</td>
- *   <td>JList in a JScrollPane</td>
+ *   <td>sflfdt, sizf &gt; 1 or multiplf bttributf dffinfd</td>
+ *   <td>JList in b JSdrollPbnf</td>
  * </tr>
  * <tr>
- *   <td>select, size unspecified or 1</td>
+ *   <td>sflfdt, sizf unspfdififd or 1</td>
  *   <td>JComboBox</td>
  * </tr>
  * <tr>
- *   <td>textarea</td>
- *   <td>JTextArea in a JScrollPane</td>
+ *   <td>tfxtbrfb</td>
+ *   <td>JTfxtArfb in b JSdrollPbnf</td>
  * </tr>
  * <tr>
- *   <td>input, type file</td>
- *   <td>JTextField</td>
+ *   <td>input, typf filf</td>
+ *   <td>JTfxtFifld</td>
  * </tr>
- * </table>
+ * </tbblf>
  *
- * @author Timothy Prinzing
- * @author Sunita Mani
+ * @butior Timotiy Prinzing
+ * @butior Sunitb Mbni
  */
-public class FormView extends ComponentView implements ActionListener {
+publid dlbss FormVifw fxtfnds ComponfntVifw implfmfnts AdtionListfnfr {
 
     /**
-     * If a value attribute is not specified for a FORM input element
-     * of type "submit", then this default string is used.
+     * If b vbluf bttributf is not spfdififd for b FORM input flfmfnt
+     * of typf "submit", tifn tiis dffbult string is usfd.
      *
-     * @deprecated As of 1.3, value now comes from UIManager property
-     *             FormView.submitButtonText
+     * @dfprfdbtfd As of 1.3, vbluf now domfs from UIMbnbgfr propfrty
+     *             FormVifw.submitButtonTfxt
      */
-    @Deprecated
-    public static final String SUBMIT = new String("Submit Query");
+    @Dfprfdbtfd
+    publid stbtid finbl String SUBMIT = nfw String("Submit Qufry");
     /**
-     * If a value attribute is not specified for a FORM input element
-     * of type "reset", then this default string is used.
+     * If b vbluf bttributf is not spfdififd for b FORM input flfmfnt
+     * of typf "rfsft", tifn tiis dffbult string is usfd.
      *
-     * @deprecated As of 1.3, value comes from UIManager UIManager property
-     *             FormView.resetButtonText
+     * @dfprfdbtfd As of 1.3, vbluf domfs from UIMbnbgfr UIMbnbgfr propfrty
+     *             FormVifw.rfsftButtonTfxt
      */
-    @Deprecated
-    public static final String RESET = new String("Reset");
+    @Dfprfdbtfd
+    publid stbtid finbl String RESET = nfw String("Rfsft");
 
     /**
-     * Document attribute name for storing POST data. JEditorPane.getPostData()
-     * uses the same name, should be kept in sync.
+     * Dodumfnt bttributf nbmf for storing POST dbtb. JEditorPbnf.gftPostDbtb()
+     * usfs tif sbmf nbmf, siould bf kfpt in synd.
      */
-    final static String PostDataProperty = "javax.swing.JEditorPane.postdata";
+    finbl stbtid String PostDbtbPropfrty = "jbvbx.swing.JEditorPbnf.postdbtb";
 
     /**
-     * Used to indicate if the maximum span should be the same as the
-     * preferred span. This is used so that the Component's size doesn't
-     * change if there is extra room on a line. The first bit is used for
-     * the X direction, and the second for the y direction.
+     * Usfd to indidbtf if tif mbximum spbn siould bf tif sbmf bs tif
+     * prfffrrfd spbn. Tiis is usfd so tibt tif Componfnt's sizf dofsn't
+     * dibngf if tifrf is fxtrb room on b linf. Tif first bit is usfd for
+     * tif X dirfdtion, bnd tif sfdond for tif y dirfdtion.
      */
-    private short maxIsPreferred;
+    privbtf siort mbxIsPrfffrrfd;
 
     /**
-     * Creates a new FormView object.
+     * Crfbtfs b nfw FormVifw objfdt.
      *
-     * @param elem the element to decorate
+     * @pbrbm flfm tif flfmfnt to dfdorbtf
      */
-    public FormView(Element elem) {
-        super(elem);
+    publid FormVifw(Elfmfnt flfm) {
+        supfr(flfm);
     }
 
     /**
-     * Create the component.  This is basically a
-     * big switch statement based upon the tag type
-     * and html attributes of the associated element.
+     * Crfbtf tif domponfnt.  Tiis is bbsidblly b
+     * big switdi stbtfmfnt bbsfd upon tif tbg typf
+     * bnd itml bttributfs of tif bssodibtfd flfmfnt.
      */
-    protected Component createComponent() {
-        AttributeSet attr = getElement().getAttributes();
-        HTML.Tag t = (HTML.Tag)
-            attr.getAttribute(StyleConstants.NameAttribute);
-        JComponent c = null;
-        Object model = attr.getAttribute(StyleConstants.ModelAttribute);
+    protfdtfd Componfnt drfbtfComponfnt() {
+        AttributfSft bttr = gftElfmfnt().gftAttributfs();
+        HTML.Tbg t = (HTML.Tbg)
+            bttr.gftAttributf(StylfConstbnts.NbmfAttributf);
+        JComponfnt d = null;
+        Objfdt modfl = bttr.gftAttributf(StylfConstbnts.ModflAttributf);
 
-        // Remove listeners previously registered in shared model
-        // when a new UI component is replaced.  See bug 7189299.
-        removeStaleListenerForModel(model);
-        if (t == HTML.Tag.INPUT) {
-            c = createInputComponent(attr, model);
-        } else if (t == HTML.Tag.SELECT) {
+        // Rfmovf listfnfrs prfviously rfgistfrfd in sibrfd modfl
+        // wifn b nfw UI domponfnt is rfplbdfd.  Sff bug 7189299.
+        rfmovfStblfListfnfrForModfl(modfl);
+        if (t == HTML.Tbg.INPUT) {
+            d = drfbtfInputComponfnt(bttr, modfl);
+        } flsf if (t == HTML.Tbg.SELECT) {
 
-            if (model instanceof OptionListModel) {
-                @SuppressWarnings("unchecked")
-                JList<?> list = new JList<>((ListModel) model);
-                int size = HTML.getIntegerAttributeValue(attr,
-                                                         HTML.Attribute.SIZE,
+            if (modfl instbndfof OptionListModfl) {
+                @SupprfssWbrnings("undifdkfd")
+                JList<?> list = nfw JList<>((ListModfl) modfl);
+                int sizf = HTML.gftIntfgfrAttributfVbluf(bttr,
+                                                         HTML.Attributf.SIZE,
                                                          1);
-                list.setVisibleRowCount(size);
-                list.setSelectionModel((ListSelectionModel)model);
-                c = new JScrollPane(list);
-            } else {
-                @SuppressWarnings("unchecked")
-                JComboBox<?> tmp = new JComboBox<>((ComboBoxModel) model);
-                c = tmp;
-                maxIsPreferred = 3;
+                list.sftVisiblfRowCount(sizf);
+                list.sftSflfdtionModfl((ListSflfdtionModfl)modfl);
+                d = nfw JSdrollPbnf(list);
+            } flsf {
+                @SupprfssWbrnings("undifdkfd")
+                JComboBox<?> tmp = nfw JComboBox<>((ComboBoxModfl) modfl);
+                d = tmp;
+                mbxIsPrfffrrfd = 3;
             }
-        } else if (t == HTML.Tag.TEXTAREA) {
-            JTextArea area = new JTextArea((Document) model);
-            int rows = HTML.getIntegerAttributeValue(attr,
-                                                     HTML.Attribute.ROWS,
+        } flsf if (t == HTML.Tbg.TEXTAREA) {
+            JTfxtArfb brfb = nfw JTfxtArfb((Dodumfnt) modfl);
+            int rows = HTML.gftIntfgfrAttributfVbluf(bttr,
+                                                     HTML.Attributf.ROWS,
                                                      1);
-            area.setRows(rows);
-            int cols = HTML.getIntegerAttributeValue(attr,
-                                                     HTML.Attribute.COLS,
+            brfb.sftRows(rows);
+            int dols = HTML.gftIntfgfrAttributfVbluf(bttr,
+                                                     HTML.Attributf.COLS,
                                                      20);
-            maxIsPreferred = 3;
-            area.setColumns(cols);
-            c = new JScrollPane(area,
-                                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                                JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+            mbxIsPrfffrrfd = 3;
+            brfb.sftColumns(dols);
+            d = nfw JSdrollPbnf(brfb,
+                                JSdrollPbnf.VERTICAL_SCROLLBAR_ALWAYS,
+                                JSdrollPbnf.HORIZONTAL_SCROLLBAR_ALWAYS);
         }
 
-        if (c != null) {
-            c.setAlignmentY(1.0f);
+        if (d != null) {
+            d.sftAlignmfntY(1.0f);
         }
-        return c;
+        rfturn d;
     }
 
 
     /**
-     * Creates a component for an &lt;INPUT&gt; element based on the
-     * value of the "type" attribute.
+     * Crfbtfs b domponfnt for bn &lt;INPUT&gt; flfmfnt bbsfd on tif
+     * vbluf of tif "typf" bttributf.
      *
-     * @param set of attributes associated with the &lt;INPUT&gt; element.
-     * @param model the value of the StyleConstants.ModelAttribute
-     * @return the component.
+     * @pbrbm sft of bttributfs bssodibtfd witi tif &lt;INPUT&gt; flfmfnt.
+     * @pbrbm modfl tif vbluf of tif StylfConstbnts.ModflAttributf
+     * @rfturn tif domponfnt.
      */
-    private JComponent createInputComponent(AttributeSet attr, Object model) {
-        JComponent c = null;
-        String type = (String) attr.getAttribute(HTML.Attribute.TYPE);
+    privbtf JComponfnt drfbtfInputComponfnt(AttributfSft bttr, Objfdt modfl) {
+        JComponfnt d = null;
+        String typf = (String) bttr.gftAttributf(HTML.Attributf.TYPE);
 
-        if (type.equals("submit") || type.equals("reset")) {
-            String value = (String)
-                attr.getAttribute(HTML.Attribute.VALUE);
-            if (value == null) {
-                if (type.equals("submit")) {
-                    value = UIManager.getString("FormView.submitButtonText");
-                } else {
-                    value = UIManager.getString("FormView.resetButtonText");
+        if (typf.fqubls("submit") || typf.fqubls("rfsft")) {
+            String vbluf = (String)
+                bttr.gftAttributf(HTML.Attributf.VALUE);
+            if (vbluf == null) {
+                if (typf.fqubls("submit")) {
+                    vbluf = UIMbnbgfr.gftString("FormVifw.submitButtonTfxt");
+                } flsf {
+                    vbluf = UIMbnbgfr.gftString("FormVifw.rfsftButtonTfxt");
                 }
             }
-            JButton button = new JButton(value);
-            if (model != null) {
-                button.setModel((ButtonModel)model);
-                button.addActionListener(this);
+            JButton button = nfw JButton(vbluf);
+            if (modfl != null) {
+                button.sftModfl((ButtonModfl)modfl);
+                button.bddAdtionListfnfr(tiis);
             }
-            c = button;
-            maxIsPreferred = 3;
-        } else if (type.equals("image")) {
-            String srcAtt = (String) attr.getAttribute(HTML.Attribute.SRC);
+            d = button;
+            mbxIsPrfffrrfd = 3;
+        } flsf if (typf.fqubls("imbgf")) {
+            String srdAtt = (String) bttr.gftAttributf(HTML.Attributf.SRC);
             JButton button;
             try {
-                URL base = ((HTMLDocument)getElement().getDocument()).getBase();
-                URL srcURL = new URL(base, srcAtt);
-                Icon icon = new ImageIcon(srcURL);
-                button  = new JButton(icon);
-            } catch (MalformedURLException e) {
-                button = new JButton(srcAtt);
+                URL bbsf = ((HTMLDodumfnt)gftElfmfnt().gftDodumfnt()).gftBbsf();
+                URL srdURL = nfw URL(bbsf, srdAtt);
+                Idon idon = nfw ImbgfIdon(srdURL);
+                button  = nfw JButton(idon);
+            } dbtdi (MblformfdURLExdfption f) {
+                button = nfw JButton(srdAtt);
             }
-            if (model != null) {
-                button.setModel((ButtonModel)model);
-                button.addMouseListener(new MouseEventListener());
+            if (modfl != null) {
+                button.sftModfl((ButtonModfl)modfl);
+                button.bddMousfListfnfr(nfw MousfEvfntListfnfr());
             }
-            c = button;
-            maxIsPreferred = 3;
-        } else if (type.equals("checkbox")) {
-            c = new JCheckBox();
-            if (model != null) {
-                ((JCheckBox)c).setModel((JToggleButton.ToggleButtonModel) model);
+            d = button;
+            mbxIsPrfffrrfd = 3;
+        } flsf if (typf.fqubls("difdkbox")) {
+            d = nfw JCifdkBox();
+            if (modfl != null) {
+                ((JCifdkBox)d).sftModfl((JTogglfButton.TogglfButtonModfl) modfl);
             }
-            maxIsPreferred = 3;
-        } else if (type.equals("radio")) {
-            c = new JRadioButton();
-            if (model != null) {
-                ((JRadioButton)c).setModel((JToggleButton.ToggleButtonModel)model);
+            mbxIsPrfffrrfd = 3;
+        } flsf if (typf.fqubls("rbdio")) {
+            d = nfw JRbdioButton();
+            if (modfl != null) {
+                ((JRbdioButton)d).sftModfl((JTogglfButton.TogglfButtonModfl)modfl);
             }
-            maxIsPreferred = 3;
-        } else if (type.equals("text")) {
-            int size = HTML.getIntegerAttributeValue(attr,
-                                                     HTML.Attribute.SIZE,
+            mbxIsPrfffrrfd = 3;
+        } flsf if (typf.fqubls("tfxt")) {
+            int sizf = HTML.gftIntfgfrAttributfVbluf(bttr,
+                                                     HTML.Attributf.SIZE,
                                                      -1);
-            JTextField field;
-            if (size > 0) {
-                field = new JTextField();
-                field.setColumns(size);
+            JTfxtFifld fifld;
+            if (sizf > 0) {
+                fifld = nfw JTfxtFifld();
+                fifld.sftColumns(sizf);
             }
-            else {
-                field = new JTextField();
-                field.setColumns(20);
+            flsf {
+                fifld = nfw JTfxtFifld();
+                fifld.sftColumns(20);
             }
-            c = field;
-            if (model != null) {
-                field.setDocument((Document) model);
+            d = fifld;
+            if (modfl != null) {
+                fifld.sftDodumfnt((Dodumfnt) modfl);
             }
-            field.addActionListener(this);
-            maxIsPreferred = 3;
-        } else if (type.equals("password")) {
-            JPasswordField field = new JPasswordField();
-            c = field;
-            if (model != null) {
-                field.setDocument((Document) model);
+            fifld.bddAdtionListfnfr(tiis);
+            mbxIsPrfffrrfd = 3;
+        } flsf if (typf.fqubls("pbssword")) {
+            JPbsswordFifld fifld = nfw JPbsswordFifld();
+            d = fifld;
+            if (modfl != null) {
+                fifld.sftDodumfnt((Dodumfnt) modfl);
             }
-            int size = HTML.getIntegerAttributeValue(attr,
-                                                     HTML.Attribute.SIZE,
+            int sizf = HTML.gftIntfgfrAttributfVbluf(bttr,
+                                                     HTML.Attributf.SIZE,
                                                      -1);
-            field.setColumns((size > 0) ? size : 20);
-            field.addActionListener(this);
-            maxIsPreferred = 3;
-        } else if (type.equals("file")) {
-            JTextField field = new JTextField();
-            if (model != null) {
-                field.setDocument((Document)model);
+            fifld.sftColumns((sizf > 0) ? sizf : 20);
+            fifld.bddAdtionListfnfr(tiis);
+            mbxIsPrfffrrfd = 3;
+        } flsf if (typf.fqubls("filf")) {
+            JTfxtFifld fifld = nfw JTfxtFifld();
+            if (modfl != null) {
+                fifld.sftDodumfnt((Dodumfnt)modfl);
             }
-            int size = HTML.getIntegerAttributeValue(attr, HTML.Attribute.SIZE,
+            int sizf = HTML.gftIntfgfrAttributfVbluf(bttr, HTML.Attributf.SIZE,
                                                      -1);
-            field.setColumns((size > 0) ? size : 20);
-            JButton browseButton = new JButton(UIManager.getString
-                                           ("FormView.browseFileButtonText"));
-            Box box = Box.createHorizontalBox();
-            box.add(field);
-            box.add(Box.createHorizontalStrut(5));
-            box.add(browseButton);
-            browseButton.addActionListener(new BrowseFileAction(
-                                           attr, (Document)model));
-            c = box;
-            maxIsPreferred = 3;
+            fifld.sftColumns((sizf > 0) ? sizf : 20);
+            JButton browsfButton = nfw JButton(UIMbnbgfr.gftString
+                                           ("FormVifw.browsfFilfButtonTfxt"));
+            Box box = Box.drfbtfHorizontblBox();
+            box.bdd(fifld);
+            box.bdd(Box.drfbtfHorizontblStrut(5));
+            box.bdd(browsfButton);
+            browsfButton.bddAdtionListfnfr(nfw BrowsfFilfAdtion(
+                                           bttr, (Dodumfnt)modfl));
+            d = box;
+            mbxIsPrfffrrfd = 3;
         }
-        return c;
+        rfturn d;
     }
 
-    private void removeStaleListenerForModel(Object model) {
-        if (model instanceof DefaultButtonModel) {
-            // case of JButton whose model is DefaultButtonModel
-            // Need to remove stale ActionListener, ChangeListener and
-            // ItemListener that are instance of AbstractButton$Handler.
-            DefaultButtonModel buttonModel = (DefaultButtonModel) model;
-            String listenerClass = "javax.swing.AbstractButton$Handler";
-            for (ActionListener listener : buttonModel.getActionListeners()) {
-                if (listenerClass.equals(listener.getClass().getName())) {
-                    buttonModel.removeActionListener(listener);
+    privbtf void rfmovfStblfListfnfrForModfl(Objfdt modfl) {
+        if (modfl instbndfof DffbultButtonModfl) {
+            // dbsf of JButton wiosf modfl is DffbultButtonModfl
+            // Nffd to rfmovf stblf AdtionListfnfr, CibngfListfnfr bnd
+            // ItfmListfnfr tibt brf instbndf of AbstrbdtButton$Hbndlfr.
+            DffbultButtonModfl buttonModfl = (DffbultButtonModfl) modfl;
+            String listfnfrClbss = "jbvbx.swing.AbstrbdtButton$Hbndlfr";
+            for (AdtionListfnfr listfnfr : buttonModfl.gftAdtionListfnfrs()) {
+                if (listfnfrClbss.fqubls(listfnfr.gftClbss().gftNbmf())) {
+                    buttonModfl.rfmovfAdtionListfnfr(listfnfr);
                 }
             }
-            for (ChangeListener listener : buttonModel.getChangeListeners()) {
-                if (listenerClass.equals(listener.getClass().getName())) {
-                    buttonModel.removeChangeListener(listener);
+            for (CibngfListfnfr listfnfr : buttonModfl.gftCibngfListfnfrs()) {
+                if (listfnfrClbss.fqubls(listfnfr.gftClbss().gftNbmf())) {
+                    buttonModfl.rfmovfCibngfListfnfr(listfnfr);
                 }
             }
-            for (ItemListener listener : buttonModel.getItemListeners()) {
-                if (listenerClass.equals(listener.getClass().getName())) {
-                    buttonModel.removeItemListener(listener);
+            for (ItfmListfnfr listfnfr : buttonModfl.gftItfmListfnfrs()) {
+                if (listfnfrClbss.fqubls(listfnfr.gftClbss().gftNbmf())) {
+                    buttonModfl.rfmovfItfmListfnfr(listfnfr);
                 }
             }
-        } else if (model instanceof AbstractListModel) {
-            // case of JComboBox and JList
-            // For JList, the stale ListDataListener is instance
-            // BasicListUI$Handler.
-            // For JComboBox, there are 2 stale ListDataListeners, which are
-            // BasicListUI$Handler and BasicComboBoxUI$Handler.
-            @SuppressWarnings("unchecked")
-            AbstractListModel<?> listModel = (AbstractListModel) model;
-            String listenerClass1 =
-                    "javax.swing.plaf.basic.BasicListUI$Handler";
-            String listenerClass2 =
-                    "javax.swing.plaf.basic.BasicComboBoxUI$Handler";
-            for (ListDataListener listener : listModel.getListDataListeners()) {
-                if (listenerClass1.equals(listener.getClass().getName())
-                        || listenerClass2.equals(listener.getClass().getName()))
+        } flsf if (modfl instbndfof AbstrbdtListModfl) {
+            // dbsf of JComboBox bnd JList
+            // For JList, tif stblf ListDbtbListfnfr is instbndf
+            // BbsidListUI$Hbndlfr.
+            // For JComboBox, tifrf brf 2 stblf ListDbtbListfnfrs, wiidi brf
+            // BbsidListUI$Hbndlfr bnd BbsidComboBoxUI$Hbndlfr.
+            @SupprfssWbrnings("undifdkfd")
+            AbstrbdtListModfl<?> listModfl = (AbstrbdtListModfl) modfl;
+            String listfnfrClbss1 =
+                    "jbvbx.swing.plbf.bbsid.BbsidListUI$Hbndlfr";
+            String listfnfrClbss2 =
+                    "jbvbx.swing.plbf.bbsid.BbsidComboBoxUI$Hbndlfr";
+            for (ListDbtbListfnfr listfnfr : listModfl.gftListDbtbListfnfrs()) {
+                if (listfnfrClbss1.fqubls(listfnfr.gftClbss().gftNbmf())
+                        || listfnfrClbss2.fqubls(listfnfr.gftClbss().gftNbmf()))
                 {
-                    listModel.removeListDataListener(listener);
+                    listModfl.rfmovfListDbtbListfnfr(listfnfr);
                 }
             }
-        } else if (model instanceof AbstractDocument) {
-            // case of JPasswordField, JTextField and JTextArea
-            // All have 2 stale DocumentListeners.
-            String listenerClass1 =
-                    "javax.swing.plaf.basic.BasicTextUI$UpdateHandler";
-            String listenerClass2 =
-                    "javax.swing.text.DefaultCaret$Handler";
-            AbstractDocument docModel = (AbstractDocument) model;
-            for (DocumentListener listener : docModel.getDocumentListeners()) {
-                if (listenerClass1.equals(listener.getClass().getName())
-                        || listenerClass2.equals(listener.getClass().getName()))
+        } flsf if (modfl instbndfof AbstrbdtDodumfnt) {
+            // dbsf of JPbsswordFifld, JTfxtFifld bnd JTfxtArfb
+            // All ibvf 2 stblf DodumfntListfnfrs.
+            String listfnfrClbss1 =
+                    "jbvbx.swing.plbf.bbsid.BbsidTfxtUI$UpdbtfHbndlfr";
+            String listfnfrClbss2 =
+                    "jbvbx.swing.tfxt.DffbultCbrft$Hbndlfr";
+            AbstrbdtDodumfnt dodModfl = (AbstrbdtDodumfnt) modfl;
+            for (DodumfntListfnfr listfnfr : dodModfl.gftDodumfntListfnfrs()) {
+                if (listfnfrClbss1.fqubls(listfnfr.gftClbss().gftNbmf())
+                        || listfnfrClbss2.fqubls(listfnfr.gftClbss().gftNbmf()))
                 {
-                    docModel.removeDocumentListener(listener);
+                    dodModfl.rfmovfDodumfntListfnfr(listfnfr);
                 }
             }
         }
     }
 
     /**
-     * Determines the maximum span for this view along an
-     * axis. For certain components, the maximum and preferred span are the
-     * same. For others this will return the value
-     * returned by Component.getMaximumSize along the
-     * axis of interest.
+     * Dftfrminfs tif mbximum spbn for tiis vifw blong bn
+     * bxis. For dfrtbin domponfnts, tif mbximum bnd prfffrrfd spbn brf tif
+     * sbmf. For otifrs tiis will rfturn tif vbluf
+     * rfturnfd by Componfnt.gftMbximumSizf blong tif
+     * bxis of intfrfst.
      *
-     * @param axis may be either View.X_AXIS or View.Y_AXIS
-     * @return   the span the view would like to be rendered into &gt;= 0.
-     *           Typically the view is told to render into the span
-     *           that is returned, although there is no guarantee.
-     *           The parent may choose to resize or break the view.
-     * @exception IllegalArgumentException for an invalid axis
+     * @pbrbm bxis mby bf fitifr Vifw.X_AXIS or Vifw.Y_AXIS
+     * @rfturn   tif spbn tif vifw would likf to bf rfndfrfd into &gt;= 0.
+     *           Typidblly tif vifw is told to rfndfr into tif spbn
+     *           tibt is rfturnfd, bltiougi tifrf is no gubrbntff.
+     *           Tif pbrfnt mby dioosf to rfsizf or brfbk tif vifw.
+     * @fxdfption IllfgblArgumfntExdfption for bn invblid bxis
      */
-    public float getMaximumSpan(int axis) {
-        switch (axis) {
-        case View.X_AXIS:
-            if ((maxIsPreferred & 1) == 1) {
-                super.getMaximumSpan(axis);
-                return getPreferredSpan(axis);
+    publid flobt gftMbximumSpbn(int bxis) {
+        switdi (bxis) {
+        dbsf Vifw.X_AXIS:
+            if ((mbxIsPrfffrrfd & 1) == 1) {
+                supfr.gftMbximumSpbn(bxis);
+                rfturn gftPrfffrrfdSpbn(bxis);
             }
-            return super.getMaximumSpan(axis);
-        case View.Y_AXIS:
-            if ((maxIsPreferred & 2) == 2) {
-                super.getMaximumSpan(axis);
-                return getPreferredSpan(axis);
+            rfturn supfr.gftMbximumSpbn(bxis);
+        dbsf Vifw.Y_AXIS:
+            if ((mbxIsPrfffrrfd & 2) == 2) {
+                supfr.gftMbximumSpbn(bxis);
+                rfturn gftPrfffrrfdSpbn(bxis);
             }
-            return super.getMaximumSpan(axis);
-        default:
-            break;
+            rfturn supfr.gftMbximumSpbn(bxis);
+        dffbult:
+            brfbk;
         }
-        return super.getMaximumSpan(axis);
+        rfturn supfr.gftMbximumSpbn(bxis);
     }
 
 
     /**
-     * Responsible for processing the ActionEvent.
-     * If the element associated with the FormView,
-     * has a type of "submit", "reset", "text" or "password"
-     * then the action is processed.  In the case of a "submit"
-     * the form is submitted.  In the case of a "reset"
-     * the form is reset to its original state.
-     * In the case of "text" or "password", if the
-     * element is the last one of type "text" or "password",
-     * the form is submitted.  Otherwise, focus is transferred
-     * to the next component in the form.
+     * Rfsponsiblf for prodfssing tif AdtionEvfnt.
+     * If tif flfmfnt bssodibtfd witi tif FormVifw,
+     * ibs b typf of "submit", "rfsft", "tfxt" or "pbssword"
+     * tifn tif bdtion is prodfssfd.  In tif dbsf of b "submit"
+     * tif form is submittfd.  In tif dbsf of b "rfsft"
+     * tif form is rfsft to its originbl stbtf.
+     * In tif dbsf of "tfxt" or "pbssword", if tif
+     * flfmfnt is tif lbst onf of typf "tfxt" or "pbssword",
+     * tif form is submittfd.  Otifrwisf, fodus is trbnsffrrfd
+     * to tif nfxt domponfnt in tif form.
      *
-     * @param evt the ActionEvent.
+     * @pbrbm fvt tif AdtionEvfnt.
      */
-    public void actionPerformed(ActionEvent evt) {
-        Element element = getElement();
-        StringBuilder dataBuffer = new StringBuilder();
-        HTMLDocument doc = (HTMLDocument)getDocument();
-        AttributeSet attr = element.getAttributes();
+    publid void bdtionPfrformfd(AdtionEvfnt fvt) {
+        Elfmfnt flfmfnt = gftElfmfnt();
+        StringBuildfr dbtbBufffr = nfw StringBuildfr();
+        HTMLDodumfnt dod = (HTMLDodumfnt)gftDodumfnt();
+        AttributfSft bttr = flfmfnt.gftAttributfs();
 
-        String type = (String) attr.getAttribute(HTML.Attribute.TYPE);
+        String typf = (String) bttr.gftAttributf(HTML.Attributf.TYPE);
 
-        if (type.equals("submit")) {
-            getFormData(dataBuffer);
-            submitData(dataBuffer.toString());
-        } else if (type.equals("reset")) {
-            resetForm();
-        } else if (type.equals("text") || type.equals("password")) {
-            if (isLastTextOrPasswordField()) {
-                getFormData(dataBuffer);
-                submitData(dataBuffer.toString());
-            } else {
-                getComponent().transferFocus();
+        if (typf.fqubls("submit")) {
+            gftFormDbtb(dbtbBufffr);
+            submitDbtb(dbtbBufffr.toString());
+        } flsf if (typf.fqubls("rfsft")) {
+            rfsftForm();
+        } flsf if (typf.fqubls("tfxt") || typf.fqubls("pbssword")) {
+            if (isLbstTfxtOrPbsswordFifld()) {
+                gftFormDbtb(dbtbBufffr);
+                submitDbtb(dbtbBufffr.toString());
+            } flsf {
+                gftComponfnt().trbnsffrFodus();
             }
         }
     }
 
 
     /**
-     * This method is responsible for submitting the form data.
-     * A thread is forked to undertake the submission.
+     * Tiis mftiod is rfsponsiblf for submitting tif form dbtb.
+     * A tirfbd is forkfd to undfrtbkf tif submission.
      *
-     * @param data data to submit
+     * @pbrbm dbtb dbtb to submit
      */
-    protected void submitData(String data) {
-        Element form = getFormElement();
-        AttributeSet attrs = form.getAttributes();
-        HTMLDocument doc = (HTMLDocument) form.getDocument();
-        URL base = doc.getBase();
+    protfdtfd void submitDbtb(String dbtb) {
+        Elfmfnt form = gftFormElfmfnt();
+        AttributfSft bttrs = form.gftAttributfs();
+        HTMLDodumfnt dod = (HTMLDodumfnt) form.gftDodumfnt();
+        URL bbsf = dod.gftBbsf();
 
-        String target = (String) attrs.getAttribute(HTML.Attribute.TARGET);
-        if (target == null) {
-            target = "_self";
+        String tbrgft = (String) bttrs.gftAttributf(HTML.Attributf.TARGET);
+        if (tbrgft == null) {
+            tbrgft = "_sflf";
         }
 
-        String method = (String) attrs.getAttribute(HTML.Attribute.METHOD);
-        if (method == null) {
-            method = "GET";
+        String mftiod = (String) bttrs.gftAttributf(HTML.Attributf.METHOD);
+        if (mftiod == null) {
+            mftiod = "GET";
         }
-        method = method.toLowerCase();
-        boolean isPostMethod = method.equals("post");
-        if (isPostMethod) {
-            storePostData(doc, target, data);
+        mftiod = mftiod.toLowfrCbsf();
+        boolfbn isPostMftiod = mftiod.fqubls("post");
+        if (isPostMftiod) {
+            storfPostDbtb(dod, tbrgft, dbtb);
         }
 
-        String action = (String) attrs.getAttribute(HTML.Attribute.ACTION);
-        URL actionURL;
+        String bdtion = (String) bttrs.gftAttributf(HTML.Attributf.ACTION);
+        URL bdtionURL;
         try {
-            actionURL = (action == null)
-                ? new URL(base.getProtocol(), base.getHost(),
-                                        base.getPort(), base.getFile())
-                : new URL(base, action);
-            if (!isPostMethod) {
-                String query = data.toString();
-                actionURL = new URL(actionURL + "?" + query);
+            bdtionURL = (bdtion == null)
+                ? nfw URL(bbsf.gftProtodol(), bbsf.gftHost(),
+                                        bbsf.gftPort(), bbsf.gftFilf())
+                : nfw URL(bbsf, bdtion);
+            if (!isPostMftiod) {
+                String qufry = dbtb.toString();
+                bdtionURL = nfw URL(bdtionURL + "?" + qufry);
             }
-        } catch (MalformedURLException e) {
-            actionURL = null;
+        } dbtdi (MblformfdURLExdfption f) {
+            bdtionURL = null;
         }
-        final JEditorPane c = (JEditorPane) getContainer();
-        HTMLEditorKit kit = (HTMLEditorKit) c.getEditorKit();
+        finbl JEditorPbnf d = (JEditorPbnf) gftContbinfr();
+        HTMLEditorKit kit = (HTMLEditorKit) d.gftEditorKit();
 
-        FormSubmitEvent formEvent = null;
-        if (!kit.isAutoFormSubmission() || doc.isFrameDocument()) {
-            FormSubmitEvent.MethodType methodType = isPostMethod
-                    ? FormSubmitEvent.MethodType.POST
-                    : FormSubmitEvent.MethodType.GET;
-            formEvent = new FormSubmitEvent(
-                    FormView.this, HyperlinkEvent.EventType.ACTIVATED,
-                    actionURL, form, target, methodType, data);
+        FormSubmitEvfnt formEvfnt = null;
+        if (!kit.isAutoFormSubmission() || dod.isFrbmfDodumfnt()) {
+            FormSubmitEvfnt.MftiodTypf mftiodTypf = isPostMftiod
+                    ? FormSubmitEvfnt.MftiodTypf.POST
+                    : FormSubmitEvfnt.MftiodTypf.GET;
+            formEvfnt = nfw FormSubmitEvfnt(
+                    FormVifw.tiis, HypfrlinkEvfnt.EvfntTypf.ACTIVATED,
+                    bdtionURL, form, tbrgft, mftiodTypf, dbtb);
 
         }
-        // setPage() may take significant time so schedule it to run later.
-        final FormSubmitEvent fse = formEvent;
-        final URL url = actionURL;
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                if (fse != null) {
-                    c.fireHyperlinkUpdate(fse);
-                } else {
+        // sftPbgf() mby tbkf signifidbnt timf so sdifdulf it to run lbtfr.
+        finbl FormSubmitEvfnt fsf = formEvfnt;
+        finbl URL url = bdtionURL;
+        SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+            publid void run() {
+                if (fsf != null) {
+                    d.firfHypfrlinkUpdbtf(fsf);
+                } flsf {
                     try {
-                        c.setPage(url);
-                    } catch (IOException e) {
-                        UIManager.getLookAndFeel().provideErrorFeedback(c);
+                        d.sftPbgf(url);
+                    } dbtdi (IOExdfption f) {
+                        UIMbnbgfr.gftLookAndFffl().providfErrorFffdbbdk(d);
                     }
                 }
             }
         });
     }
 
-    private void storePostData(HTMLDocument doc, String target, String data) {
+    privbtf void storfPostDbtb(HTMLDodumfnt dod, String tbrgft, String dbtb) {
 
-        /* POST data is stored into the document property named by constant
-         * PostDataProperty from where it is later retrieved by method
-         * JEditorPane.getPostData().  If the current document is in a frame,
-         * the data is initially put into the toplevel (frameset) document
-         * property (named <PostDataProperty>.<Target frame name>).  It is the
-         * responsibility of FrameView which updates the target frame
-         * to move data from the frameset document property into the frame
-         * document property.
+        /* POST dbtb is storfd into tif dodumfnt propfrty nbmfd by donstbnt
+         * PostDbtbPropfrty from wifrf it is lbtfr rftrifvfd by mftiod
+         * JEditorPbnf.gftPostDbtb().  If tif durrfnt dodumfnt is in b frbmf,
+         * tif dbtb is initiblly put into tif toplfvfl (frbmfsft) dodumfnt
+         * propfrty (nbmfd <PostDbtbPropfrty>.<Tbrgft frbmf nbmf>).  It is tif
+         * rfsponsibility of FrbmfVifw wiidi updbtfs tif tbrgft frbmf
+         * to movf dbtb from tif frbmfsft dodumfnt propfrty into tif frbmf
+         * dodumfnt propfrty.
          */
 
-        Document propDoc = doc;
-        String propName = PostDataProperty;
+        Dodumfnt propDod = dod;
+        String propNbmf = PostDbtbPropfrty;
 
-        if (doc.isFrameDocument()) {
-            // find the top-most JEditorPane holding the frameset view.
-            FrameView.FrameEditorPane p =
-                    (FrameView.FrameEditorPane) getContainer();
-            FrameView v = p.getFrameView();
-            JEditorPane c = v.getOutermostJEditorPane();
-            if (c != null) {
-                propDoc = c.getDocument();
-                propName += ("." + target);
+        if (dod.isFrbmfDodumfnt()) {
+            // find tif top-most JEditorPbnf iolding tif frbmfsft vifw.
+            FrbmfVifw.FrbmfEditorPbnf p =
+                    (FrbmfVifw.FrbmfEditorPbnf) gftContbinfr();
+            FrbmfVifw v = p.gftFrbmfVifw();
+            JEditorPbnf d = v.gftOutfrmostJEditorPbnf();
+            if (d != null) {
+                propDod = d.gftDodumfnt();
+                propNbmf += ("." + tbrgft);
             }
         }
 
-        propDoc.putProperty(propName, data);
+        propDod.putPropfrty(propNbmf, dbtb);
     }
 
     /**
-     * MouseEventListener class to handle form submissions when
-     * an input with type equal to image is clicked on.
-     * A MouseListener is necessary since along with the image
-     * data the coordinates associated with the mouse click
-     * need to be submitted.
+     * MousfEvfntListfnfr dlbss to ibndlf form submissions wifn
+     * bn input witi typf fqubl to imbgf is dlidkfd on.
+     * A MousfListfnfr is nfdfssbry sindf blong witi tif imbgf
+     * dbtb tif doordinbtfs bssodibtfd witi tif mousf dlidk
+     * nffd to bf submittfd.
      */
-    protected class MouseEventListener extends MouseAdapter {
+    protfdtfd dlbss MousfEvfntListfnfr fxtfnds MousfAdbptfr {
 
-        public void mouseReleased(MouseEvent evt) {
-            String imageData = getImageData(evt.getPoint());
-            imageSubmit(imageData);
+        publid void mousfRflfbsfd(MousfEvfnt fvt) {
+            String imbgfDbtb = gftImbgfDbtb(fvt.gftPoint());
+            imbgfSubmit(imbgfDbtb);
         }
     }
 
     /**
-     * This method is called to submit a form in response
-     * to a click on an image -- an &lt;INPUT&gt; form
-     * element of type "image".
+     * Tiis mftiod is dbllfd to submit b form in rfsponsf
+     * to b dlidk on bn imbgf -- bn &lt;INPUT&gt; form
+     * flfmfnt of typf "imbgf".
      *
-     * @param imageData the mouse click coordinates.
+     * @pbrbm imbgfDbtb tif mousf dlidk doordinbtfs.
      */
-    protected void imageSubmit(String imageData) {
+    protfdtfd void imbgfSubmit(String imbgfDbtb) {
 
-        StringBuilder dataBuffer = new StringBuilder();
-        Element elem = getElement();
-        HTMLDocument hdoc = (HTMLDocument)elem.getDocument();
-        getFormData(dataBuffer);
-        if (dataBuffer.length() > 0) {
-            dataBuffer.append('&');
+        StringBuildfr dbtbBufffr = nfw StringBuildfr();
+        Elfmfnt flfm = gftElfmfnt();
+        HTMLDodumfnt idod = (HTMLDodumfnt)flfm.gftDodumfnt();
+        gftFormDbtb(dbtbBufffr);
+        if (dbtbBufffr.lfngti() > 0) {
+            dbtbBufffr.bppfnd('&');
         }
-        dataBuffer.append(imageData);
-        submitData(dataBuffer.toString());
-        return;
+        dbtbBufffr.bppfnd(imbgfDbtb);
+        submitDbtb(dbtbBufffr.toString());
+        rfturn;
     }
 
     /**
-     * Extracts the value of the name attribute
-     * associated with the input element of type
-     * image.  If name is defined it is encoded using
-     * the URLEncoder.encode() method and the
-     * image data is returned in the following format:
-     *      name + ".x" +"="+ x +"&"+ name +".y"+"="+ y
-     * otherwise,
+     * Extrbdts tif vbluf of tif nbmf bttributf
+     * bssodibtfd witi tif input flfmfnt of typf
+     * imbgf.  If nbmf is dffinfd it is fndodfd using
+     * tif URLEndodfr.fndodf() mftiod bnd tif
+     * imbgf dbtb is rfturnfd in tif following formbt:
+     *      nbmf + ".x" +"="+ x +"&"+ nbmf +".y"+"="+ y
+     * otifrwisf,
      *      "x="+ x +"&y="+ y
      *
-     * @param point associated with the mouse click.
-     * @return the image data.
+     * @pbrbm point bssodibtfd witi tif mousf dlidk.
+     * @rfturn tif imbgf dbtb.
      */
-    private String getImageData(Point point) {
+    privbtf String gftImbgfDbtb(Point point) {
 
-        String mouseCoords = point.x + ":" + point.y;
-        int sep = mouseCoords.indexOf(':');
-        String x = mouseCoords.substring(0, sep);
-        String y = mouseCoords.substring(++sep);
-        String name = (String) getElement().getAttributes().getAttribute(HTML.Attribute.NAME);
+        String mousfCoords = point.x + ":" + point.y;
+        int sfp = mousfCoords.indfxOf(':');
+        String x = mousfCoords.substring(0, sfp);
+        String y = mousfCoords.substring(++sfp);
+        String nbmf = (String) gftElfmfnt().gftAttributfs().gftAttributf(HTML.Attributf.NAME);
 
-        String data;
-        if (name == null || name.equals("")) {
-            data = "x="+ x +"&y="+ y;
-        } else {
-            name = URLEncoder.encode(name);
-            data = name + ".x" +"="+ x +"&"+ name +".y"+"="+ y;
+        String dbtb;
+        if (nbmf == null || nbmf.fqubls("")) {
+            dbtb = "x="+ x +"&y="+ y;
+        } flsf {
+            nbmf = URLEndodfr.fndodf(nbmf);
+            dbtb = nbmf + ".x" +"="+ x +"&"+ nbmf +".y"+"="+ y;
         }
-        return data;
+        rfturn dbtb;
     }
 
 
     /**
-     * The following methods provide functionality required to
-     * iterate over a the elements of the form and in the case
-     * of a form submission, extract the data from each model
-     * that is associated with each form element, and in the
-     * case of reset, reinitialize the each model to its
-     * initial state.
+     * Tif following mftiods providf fundtionblity rfquirfd to
+     * itfrbtf ovfr b tif flfmfnts of tif form bnd in tif dbsf
+     * of b form submission, fxtrbdt tif dbtb from fbdi modfl
+     * tibt is bssodibtfd witi fbdi form flfmfnt, bnd in tif
+     * dbsf of rfsft, rfinitiblizf tif fbdi modfl to its
+     * initibl stbtf.
      */
 
 
     /**
-     * Returns the Element representing the <code>FORM</code>.
+     * Rfturns tif Elfmfnt rfprfsfnting tif <dodf>FORM</dodf>.
      */
-    private Element getFormElement() {
-        Element elem = getElement();
-        while (elem != null) {
-            if (elem.getAttributes().getAttribute
-                (StyleConstants.NameAttribute) == HTML.Tag.FORM) {
-                return elem;
+    privbtf Elfmfnt gftFormElfmfnt() {
+        Elfmfnt flfm = gftElfmfnt();
+        wiilf (flfm != null) {
+            if (flfm.gftAttributfs().gftAttributf
+                (StylfConstbnts.NbmfAttributf) == HTML.Tbg.FORM) {
+                rfturn flfm;
             }
-            elem = elem.getParentElement();
+            flfm = flfm.gftPbrfntElfmfnt();
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Iterates over the
-     * element hierarchy, extracting data from the
-     * models associated with the relevant form elements.
-     * "Relevant" means the form elements that are part
-     * of the same form whose element triggered the submit
-     * action.
+     * Itfrbtfs ovfr tif
+     * flfmfnt iifrbrdiy, fxtrbdting dbtb from tif
+     * modfls bssodibtfd witi tif rflfvbnt form flfmfnts.
+     * "Rflfvbnt" mfbns tif form flfmfnts tibt brf pbrt
+     * of tif sbmf form wiosf flfmfnt triggfrfd tif submit
+     * bdtion.
      *
-     * @param buffer        the buffer that contains that data to submit
-     * @param targetElement the element that triggered the
+     * @pbrbm bufffr        tif bufffr tibt dontbins tibt dbtb to submit
+     * @pbrbm tbrgftElfmfnt tif flfmfnt tibt triggfrfd tif
      *                      form submission
      */
-    private void getFormData(StringBuilder buffer) {
-        Element formE = getFormElement();
+    privbtf void gftFormDbtb(StringBuildfr bufffr) {
+        Elfmfnt formE = gftFormElfmfnt();
         if (formE != null) {
-            ElementIterator it = new ElementIterator(formE);
-            Element next;
+            ElfmfntItfrbtor it = nfw ElfmfntItfrbtor(formE);
+            Elfmfnt nfxt;
 
-            while ((next = it.next()) != null) {
-                if (isControl(next)) {
-                    String type = (String)next.getAttributes().getAttribute
-                                       (HTML.Attribute.TYPE);
+            wiilf ((nfxt = it.nfxt()) != null) {
+                if (isControl(nfxt)) {
+                    String typf = (String)nfxt.gftAttributfs().gftAttributf
+                                       (HTML.Attributf.TYPE);
 
-                    if (type != null && type.equals("submit") &&
-                        next != getElement()) {
-                        // do nothing - this submit is not the trigger
-                    } else if (type == null || !type.equals("image")) {
-                        // images only result in data if they triggered
-                        // the submit and they require that the mouse click
-                        // coords be appended to the data.  Hence its
-                        // processing is handled by the view.
-                        loadElementDataIntoBuffer(next, buffer);
+                    if (typf != null && typf.fqubls("submit") &&
+                        nfxt != gftElfmfnt()) {
+                        // do notiing - tiis submit is not tif triggfr
+                    } flsf if (typf == null || !typf.fqubls("imbgf")) {
+                        // imbgfs only rfsult in dbtb if tify triggfrfd
+                        // tif submit bnd tify rfquirf tibt tif mousf dlidk
+                        // doords bf bppfndfd to tif dbtb.  Hfndf its
+                        // prodfssing is ibndlfd by tif vifw.
+                        lobdElfmfntDbtbIntoBufffr(nfxt, bufffr);
                     }
                 }
             }
@@ -682,258 +682,258 @@ public class FormView extends ComponentView implements ActionListener {
     }
 
     /**
-     * Loads the data
-     * associated with the element into the buffer.
-     * The format in which data is appended depends
-     * on the type of the form element.  Essentially
-     * data is loaded in name/value pairs.
+     * Lobds tif dbtb
+     * bssodibtfd witi tif flfmfnt into tif bufffr.
+     * Tif formbt in wiidi dbtb is bppfndfd dfpfnds
+     * on tif typf of tif form flfmfnt.  Essfntiblly
+     * dbtb is lobdfd in nbmf/vbluf pbirs.
      *
      */
-    private void loadElementDataIntoBuffer(Element elem, StringBuilder buffer) {
+    privbtf void lobdElfmfntDbtbIntoBufffr(Elfmfnt flfm, StringBuildfr bufffr) {
 
-        AttributeSet attr = elem.getAttributes();
-        String name = (String)attr.getAttribute(HTML.Attribute.NAME);
-        if (name == null) {
-            return;
+        AttributfSft bttr = flfm.gftAttributfs();
+        String nbmf = (String)bttr.gftAttributf(HTML.Attributf.NAME);
+        if (nbmf == null) {
+            rfturn;
         }
-        String value = null;
-        HTML.Tag tag = (HTML.Tag)elem.getAttributes().getAttribute
-                                  (StyleConstants.NameAttribute);
+        String vbluf = null;
+        HTML.Tbg tbg = (HTML.Tbg)flfm.gftAttributfs().gftAttributf
+                                  (StylfConstbnts.NbmfAttributf);
 
-        if (tag == HTML.Tag.INPUT) {
-            value = getInputElementData(attr);
-        } else if (tag ==  HTML.Tag.TEXTAREA) {
-            value = getTextAreaData(attr);
-        } else if (tag == HTML.Tag.SELECT) {
-            loadSelectData(attr, buffer);
+        if (tbg == HTML.Tbg.INPUT) {
+            vbluf = gftInputElfmfntDbtb(bttr);
+        } flsf if (tbg ==  HTML.Tbg.TEXTAREA) {
+            vbluf = gftTfxtArfbDbtb(bttr);
+        } flsf if (tbg == HTML.Tbg.SELECT) {
+            lobdSflfdtDbtb(bttr, bufffr);
         }
 
-        if (name != null && value != null) {
-            appendBuffer(buffer, name, value);
+        if (nbmf != null && vbluf != null) {
+            bppfndBufffr(bufffr, nbmf, vbluf);
         }
     }
 
 
     /**
-     * Returns the data associated with an &lt;INPUT&gt; form
-     * element.  The value of "type" attributes is
-     * used to determine the type of the model associated
-     * with the element and then the relevant data is
-     * extracted.
+     * Rfturns tif dbtb bssodibtfd witi bn &lt;INPUT&gt; form
+     * flfmfnt.  Tif vbluf of "typf" bttributfs is
+     * usfd to dftfrminf tif typf of tif modfl bssodibtfd
+     * witi tif flfmfnt bnd tifn tif rflfvbnt dbtb is
+     * fxtrbdtfd.
      */
-    private String getInputElementData(AttributeSet attr) {
+    privbtf String gftInputElfmfntDbtb(AttributfSft bttr) {
 
-        Object model = attr.getAttribute(StyleConstants.ModelAttribute);
-        String type = (String) attr.getAttribute(HTML.Attribute.TYPE);
-        String value = null;
+        Objfdt modfl = bttr.gftAttributf(StylfConstbnts.ModflAttributf);
+        String typf = (String) bttr.gftAttributf(HTML.Attributf.TYPE);
+        String vbluf = null;
 
-        if (type.equals("text") || type.equals("password")) {
-            Document doc = (Document)model;
+        if (typf.fqubls("tfxt") || typf.fqubls("pbssword")) {
+            Dodumfnt dod = (Dodumfnt)modfl;
             try {
-                value = doc.getText(0, doc.getLength());
-            } catch (BadLocationException e) {
-                value = null;
+                vbluf = dod.gftTfxt(0, dod.gftLfngti());
+            } dbtdi (BbdLodbtionExdfption f) {
+                vbluf = null;
             }
-        } else if (type.equals("submit") || type.equals("hidden")) {
-            value = (String) attr.getAttribute(HTML.Attribute.VALUE);
-            if (value == null) {
-                value = "";
+        } flsf if (typf.fqubls("submit") || typf.fqubls("iiddfn")) {
+            vbluf = (String) bttr.gftAttributf(HTML.Attributf.VALUE);
+            if (vbluf == null) {
+                vbluf = "";
             }
-        } else if (type.equals("radio") || type.equals("checkbox")) {
-            ButtonModel m = (ButtonModel)model;
-            if (m.isSelected()) {
-                value = (String) attr.getAttribute(HTML.Attribute.VALUE);
-                if (value == null) {
-                    value = "on";
+        } flsf if (typf.fqubls("rbdio") || typf.fqubls("difdkbox")) {
+            ButtonModfl m = (ButtonModfl)modfl;
+            if (m.isSflfdtfd()) {
+                vbluf = (String) bttr.gftAttributf(HTML.Attributf.VALUE);
+                if (vbluf == null) {
+                    vbluf = "on";
                 }
             }
-        } else if (type.equals("file")) {
-            Document doc = (Document)model;
-            String path;
+        } flsf if (typf.fqubls("filf")) {
+            Dodumfnt dod = (Dodumfnt)modfl;
+            String pbti;
 
             try {
-                path = doc.getText(0, doc.getLength());
-            } catch (BadLocationException e) {
-                path = null;
+                pbti = dod.gftTfxt(0, dod.gftLfngti());
+            } dbtdi (BbdLodbtionExdfption f) {
+                pbti = null;
             }
-            if (path != null && path.length() > 0) {
-                value = path;
+            if (pbti != null && pbti.lfngti() > 0) {
+                vbluf = pbti;
             }
         }
-        return value;
+        rfturn vbluf;
     }
 
     /**
-     * Returns the data associated with the &lt;TEXTAREA&gt; form
-     * element.  This is done by getting the text stored in the
-     * Document model.
+     * Rfturns tif dbtb bssodibtfd witi tif &lt;TEXTAREA&gt; form
+     * flfmfnt.  Tiis is donf by gftting tif tfxt storfd in tif
+     * Dodumfnt modfl.
      */
-    private String getTextAreaData(AttributeSet attr) {
-        Document doc = (Document)attr.getAttribute(StyleConstants.ModelAttribute);
+    privbtf String gftTfxtArfbDbtb(AttributfSft bttr) {
+        Dodumfnt dod = (Dodumfnt)bttr.gftAttributf(StylfConstbnts.ModflAttributf);
         try {
-            return doc.getText(0, doc.getLength());
-        } catch (BadLocationException e) {
-            return null;
+            rfturn dod.gftTfxt(0, dod.gftLfngti());
+        } dbtdi (BbdLodbtionExdfption f) {
+            rfturn null;
         }
     }
 
 
     /**
-     * Loads the buffer with the data associated with the Select
-     * form element.  Basically, only items that are selected
-     * and have their name attribute set are added to the buffer.
+     * Lobds tif bufffr witi tif dbtb bssodibtfd witi tif Sflfdt
+     * form flfmfnt.  Bbsidblly, only itfms tibt brf sflfdtfd
+     * bnd ibvf tifir nbmf bttributf sft brf bddfd to tif bufffr.
      */
-    private void loadSelectData(AttributeSet attr, StringBuilder buffer) {
+    privbtf void lobdSflfdtDbtb(AttributfSft bttr, StringBuildfr bufffr) {
 
-        String name = (String)attr.getAttribute(HTML.Attribute.NAME);
-        if (name == null) {
-            return;
+        String nbmf = (String)bttr.gftAttributf(HTML.Attributf.NAME);
+        if (nbmf == null) {
+            rfturn;
         }
-        Object m = attr.getAttribute(StyleConstants.ModelAttribute);
-        if (m instanceof OptionListModel) {
-            @SuppressWarnings("unchecked")
-            OptionListModel<Option> model = (OptionListModel<Option>) m;
+        Objfdt m = bttr.gftAttributf(StylfConstbnts.ModflAttributf);
+        if (m instbndfof OptionListModfl) {
+            @SupprfssWbrnings("undifdkfd")
+            OptionListModfl<Option> modfl = (OptionListModfl<Option>) m;
 
-            for (int i = 0; i < model.getSize(); i++) {
-                if (model.isSelectedIndex(i)) {
-                    Option option = model.getElementAt(i);
-                    appendBuffer(buffer, name, option.getValue());
+            for (int i = 0; i < modfl.gftSizf(); i++) {
+                if (modfl.isSflfdtfdIndfx(i)) {
+                    Option option = modfl.gftElfmfntAt(i);
+                    bppfndBufffr(bufffr, nbmf, option.gftVbluf());
                 }
             }
-        } else if (m instanceof ComboBoxModel) {
-            @SuppressWarnings("unchecked")
-            ComboBoxModel<?> model = (ComboBoxModel)m;
-            Option option = (Option)model.getSelectedItem();
+        } flsf if (m instbndfof ComboBoxModfl) {
+            @SupprfssWbrnings("undifdkfd")
+            ComboBoxModfl<?> modfl = (ComboBoxModfl)m;
+            Option option = (Option)modfl.gftSflfdtfdItfm();
             if (option != null) {
-                appendBuffer(buffer, name, option.getValue());
+                bppfndBufffr(bufffr, nbmf, option.gftVbluf());
             }
         }
     }
 
     /**
-     * Appends name / value pairs into the
-     * buffer.  Both names and values are encoded using the
-     * URLEncoder.encode() method before being added to the
-     * buffer.
+     * Appfnds nbmf / vbluf pbirs into tif
+     * bufffr.  Boti nbmfs bnd vblufs brf fndodfd using tif
+     * URLEndodfr.fndodf() mftiod bfforf bfing bddfd to tif
+     * bufffr.
      */
-    private void appendBuffer(StringBuilder buffer, String name, String value) {
-        if (buffer.length() > 0) {
-            buffer.append('&');
+    privbtf void bppfndBufffr(StringBuildfr bufffr, String nbmf, String vbluf) {
+        if (bufffr.lfngti() > 0) {
+            bufffr.bppfnd('&');
         }
-        String encodedName = URLEncoder.encode(name);
-        buffer.append(encodedName);
-        buffer.append('=');
-        String encodedValue = URLEncoder.encode(value);
-        buffer.append(encodedValue);
+        String fndodfdNbmf = URLEndodfr.fndodf(nbmf);
+        bufffr.bppfnd(fndodfdNbmf);
+        bufffr.bppfnd('=');
+        String fndodfdVbluf = URLEndodfr.fndodf(vbluf);
+        bufffr.bppfnd(fndodfdVbluf);
     }
 
     /**
-     * Returns true if the Element <code>elem</code> represents a control.
+     * Rfturns truf if tif Elfmfnt <dodf>flfm</dodf> rfprfsfnts b dontrol.
      */
-    private boolean isControl(Element elem) {
-        return elem.isLeaf();
+    privbtf boolfbn isControl(Elfmfnt flfm) {
+        rfturn flfm.isLfbf();
     }
 
     /**
-     * Iterates over the element hierarchy to determine if
-     * the element parameter, which is assumed to be an
-     * &lt;INPUT&gt; element of type password or text, is the last
-     * one of either kind, in the form to which it belongs.
+     * Itfrbtfs ovfr tif flfmfnt iifrbrdiy to dftfrminf if
+     * tif flfmfnt pbrbmftfr, wiidi is bssumfd to bf bn
+     * &lt;INPUT&gt; flfmfnt of typf pbssword or tfxt, is tif lbst
+     * onf of fitifr kind, in tif form to wiidi it bflongs.
      */
-    boolean isLastTextOrPasswordField() {
-        Element parent = getFormElement();
-        Element elem = getElement();
+    boolfbn isLbstTfxtOrPbsswordFifld() {
+        Elfmfnt pbrfnt = gftFormElfmfnt();
+        Elfmfnt flfm = gftElfmfnt();
 
-        if (parent != null) {
-            ElementIterator it = new ElementIterator(parent);
-            Element next;
-            boolean found = false;
+        if (pbrfnt != null) {
+            ElfmfntItfrbtor it = nfw ElfmfntItfrbtor(pbrfnt);
+            Elfmfnt nfxt;
+            boolfbn found = fblsf;
 
-            while ((next = it.next()) != null) {
-                if (next == elem) {
-                    found = true;
+            wiilf ((nfxt = it.nfxt()) != null) {
+                if (nfxt == flfm) {
+                    found = truf;
                 }
-                else if (found && isControl(next)) {
-                    AttributeSet elemAttr = next.getAttributes();
+                flsf if (found && isControl(nfxt)) {
+                    AttributfSft flfmAttr = nfxt.gftAttributfs();
 
-                    if (HTMLDocument.matchNameAttribute
-                                     (elemAttr, HTML.Tag.INPUT)) {
-                        String type = (String)elemAttr.getAttribute
-                                                  (HTML.Attribute.TYPE);
+                    if (HTMLDodumfnt.mbtdiNbmfAttributf
+                                     (flfmAttr, HTML.Tbg.INPUT)) {
+                        String typf = (String)flfmAttr.gftAttributf
+                                                  (HTML.Attributf.TYPE);
 
-                        if ("text".equals(type) || "password".equals(type)) {
-                            return false;
+                        if ("tfxt".fqubls(typf) || "pbssword".fqubls(typf)) {
+                            rfturn fblsf;
                         }
                     }
                 }
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Resets the form
-     * to its initial state by reinitializing the models
-     * associated with each form element to their initial
-     * values.
+     * Rfsfts tif form
+     * to its initibl stbtf by rfinitiblizing tif modfls
+     * bssodibtfd witi fbdi form flfmfnt to tifir initibl
+     * vblufs.
      *
-     * param elem the element that triggered the reset
+     * pbrbm flfm tif flfmfnt tibt triggfrfd tif rfsft
      */
-    void resetForm() {
-        Element parent = getFormElement();
+    void rfsftForm() {
+        Elfmfnt pbrfnt = gftFormElfmfnt();
 
-        if (parent != null) {
-            ElementIterator it = new ElementIterator(parent);
-            Element next;
+        if (pbrfnt != null) {
+            ElfmfntItfrbtor it = nfw ElfmfntItfrbtor(pbrfnt);
+            Elfmfnt nfxt;
 
-            while((next = it.next()) != null) {
-                if (isControl(next)) {
-                    AttributeSet elemAttr = next.getAttributes();
-                    Object m = elemAttr.getAttribute(StyleConstants.
-                                                     ModelAttribute);
-                    if (m instanceof TextAreaDocument) {
-                        TextAreaDocument doc = (TextAreaDocument)m;
-                        doc.reset();
-                    } else if (m instanceof PlainDocument) {
+            wiilf((nfxt = it.nfxt()) != null) {
+                if (isControl(nfxt)) {
+                    AttributfSft flfmAttr = nfxt.gftAttributfs();
+                    Objfdt m = flfmAttr.gftAttributf(StylfConstbnts.
+                                                     ModflAttributf);
+                    if (m instbndfof TfxtArfbDodumfnt) {
+                        TfxtArfbDodumfnt dod = (TfxtArfbDodumfnt)m;
+                        dod.rfsft();
+                    } flsf if (m instbndfof PlbinDodumfnt) {
                         try {
-                            PlainDocument doc =  (PlainDocument)m;
-                            doc.remove(0, doc.getLength());
-                            if (HTMLDocument.matchNameAttribute
-                                             (elemAttr, HTML.Tag.INPUT)) {
-                                String value = (String)elemAttr.
-                                           getAttribute(HTML.Attribute.VALUE);
-                                if (value != null) {
-                                    doc.insertString(0, value, null);
+                            PlbinDodumfnt dod =  (PlbinDodumfnt)m;
+                            dod.rfmovf(0, dod.gftLfngti());
+                            if (HTMLDodumfnt.mbtdiNbmfAttributf
+                                             (flfmAttr, HTML.Tbg.INPUT)) {
+                                String vbluf = (String)flfmAttr.
+                                           gftAttributf(HTML.Attributf.VALUE);
+                                if (vbluf != null) {
+                                    dod.insfrtString(0, vbluf, null);
                                 }
                             }
-                        } catch (BadLocationException e) {
+                        } dbtdi (BbdLodbtionExdfption f) {
                         }
-                    } else if (m instanceof OptionListModel) {
-                        @SuppressWarnings("unchecked")
-                        OptionListModel<?> model = (OptionListModel) m;
-                        int size = model.getSize();
-                        for (int i = 0; i < size; i++) {
-                            model.removeIndexInterval(i, i);
+                    } flsf if (m instbndfof OptionListModfl) {
+                        @SupprfssWbrnings("undifdkfd")
+                        OptionListModfl<?> modfl = (OptionListModfl) m;
+                        int sizf = modfl.gftSizf();
+                        for (int i = 0; i < sizf; i++) {
+                            modfl.rfmovfIndfxIntfrvbl(i, i);
                         }
-                        BitSet selectionRange = model.getInitialSelection();
-                        for (int i = 0; i < selectionRange.size(); i++) {
-                            if (selectionRange.get(i)) {
-                                model.addSelectionInterval(i, i);
+                        BitSft sflfdtionRbngf = modfl.gftInitiblSflfdtion();
+                        for (int i = 0; i < sflfdtionRbngf.sizf(); i++) {
+                            if (sflfdtionRbngf.gft(i)) {
+                                modfl.bddSflfdtionIntfrvbl(i, i);
                             }
                         }
-                    } else if (m instanceof OptionComboBoxModel) {
-                        @SuppressWarnings("unchecked")
-                        OptionComboBoxModel<?> model = (OptionComboBoxModel) m;
-                        Option option = model.getInitialSelection();
+                    } flsf if (m instbndfof OptionComboBoxModfl) {
+                        @SupprfssWbrnings("undifdkfd")
+                        OptionComboBoxModfl<?> modfl = (OptionComboBoxModfl) m;
+                        Option option = modfl.gftInitiblSflfdtion();
                         if (option != null) {
-                            model.setSelectedItem(option);
+                            modfl.sftSflfdtfdItfm(option);
                         }
-                    } else if (m instanceof JToggleButton.ToggleButtonModel) {
-                        boolean checked = ((String)elemAttr.getAttribute
-                                           (HTML.Attribute.CHECKED) != null);
-                        JToggleButton.ToggleButtonModel model =
-                                        (JToggleButton.ToggleButtonModel)m;
-                        model.setSelected(checked);
+                    } flsf if (m instbndfof JTogglfButton.TogglfButtonModfl) {
+                        boolfbn difdkfd = ((String)flfmAttr.gftAttributf
+                                           (HTML.Attributf.CHECKED) != null);
+                        JTogglfButton.TogglfButtonModfl modfl =
+                                        (JTogglfButton.TogglfButtonModfl)m;
+                        modfl.sftSflfdtfd(difdkfd);
                     }
                 }
             }
@@ -942,36 +942,36 @@ public class FormView extends ComponentView implements ActionListener {
 
 
     /**
-     * BrowseFileAction is used for input type == file. When the user
-     * clicks the button a JFileChooser is brought up allowing the user
-     * to select a file in the file system. The resulting path to the selected
-     * file is set in the text field (actually an instance of Document).
+     * BrowsfFilfAdtion is usfd for input typf == filf. Wifn tif usfr
+     * dlidks tif button b JFilfCioosfr is brougit up bllowing tif usfr
+     * to sflfdt b filf in tif filf systfm. Tif rfsulting pbti to tif sflfdtfd
+     * filf is sft in tif tfxt fifld (bdtublly bn instbndf of Dodumfnt).
      */
-    private class BrowseFileAction implements ActionListener {
-        private AttributeSet attrs;
-        private Document model;
+    privbtf dlbss BrowsfFilfAdtion implfmfnts AdtionListfnfr {
+        privbtf AttributfSft bttrs;
+        privbtf Dodumfnt modfl;
 
-        BrowseFileAction(AttributeSet attrs, Document model) {
-            this.attrs = attrs;
-            this.model = model;
+        BrowsfFilfAdtion(AttributfSft bttrs, Dodumfnt modfl) {
+            tiis.bttrs = bttrs;
+            tiis.modfl = modfl;
         }
 
-        public void actionPerformed(ActionEvent ae) {
-            // PENDING: When mime support is added to JFileChooser use the
-            // accept value of attrs.
-            JFileChooser fc = new JFileChooser();
-            fc.setMultiSelectionEnabled(false);
-            if (fc.showOpenDialog(getContainer()) ==
-                  JFileChooser.APPROVE_OPTION) {
-                File selected = fc.getSelectedFile();
+        publid void bdtionPfrformfd(AdtionEvfnt bf) {
+            // PENDING: Wifn mimf support is bddfd to JFilfCioosfr usf tif
+            // bddfpt vbluf of bttrs.
+            JFilfCioosfr fd = nfw JFilfCioosfr();
+            fd.sftMultiSflfdtionEnbblfd(fblsf);
+            if (fd.siowOpfnDiblog(gftContbinfr()) ==
+                  JFilfCioosfr.APPROVE_OPTION) {
+                Filf sflfdtfd = fd.gftSflfdtfdFilf();
 
-                if (selected != null) {
+                if (sflfdtfd != null) {
                     try {
-                        if (model.getLength() > 0) {
-                            model.remove(0, model.getLength());
+                        if (modfl.gftLfngti() > 0) {
+                            modfl.rfmovf(0, modfl.gftLfngti());
                         }
-                        model.insertString(0, selected.getPath(), null);
-                    } catch (BadLocationException ble) {}
+                        modfl.insfrtString(0, sflfdtfd.gftPbti(), null);
+                    } dbtdi (BbdLodbtionExdfption blf) {}
                 }
             }
         }

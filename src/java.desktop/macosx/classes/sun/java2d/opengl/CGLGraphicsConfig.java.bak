@@ -1,444 +1,444 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.opengl;
+pbdkbgf sun.jbvb2d.opfngl;
 
-import java.awt.AWTException;
-import java.awt.BufferCapabilities;
-import java.awt.Component;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.ImageCapabilities;
-import java.awt.Rectangle;
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.image.BufferedImage;
-import java.awt.image.ColorModel;
-import java.awt.image.DataBuffer;
-import java.awt.image.DirectColorModel;
-import java.awt.image.VolatileImage;
-import java.awt.image.WritableRaster;
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.BufffrCbpbbilitifs;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Imbgf;
+import jbvb.bwt.ImbgfCbpbbilitifs;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DirfdtColorModfl;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
 
-import sun.awt.CGraphicsConfig;
-import sun.awt.CGraphicsDevice;
-import sun.awt.image.OffScreenImage;
-import sun.awt.image.SunVolatileImage;
-import sun.java2d.Disposer;
-import sun.java2d.DisposerRecord;
-import sun.java2d.Surface;
-import sun.java2d.SurfaceData;
-import sun.java2d.opengl.OGLContext.OGLContextCaps;
-import sun.java2d.pipe.hw.AccelSurface;
-import sun.java2d.pipe.hw.AccelTypedVolatileImage;
-import sun.java2d.pipe.hw.ContextCapabilities;
-import static sun.java2d.opengl.OGLSurfaceData.*;
-import static sun.java2d.opengl.OGLContext.OGLContextCaps.*;
-import sun.java2d.pipe.hw.AccelDeviceEventListener;
-import sun.java2d.pipe.hw.AccelDeviceEventNotifier;
+import sun.bwt.CGrbpiidsConfig;
+import sun.bwt.CGrbpiidsDfvidf;
+import sun.bwt.imbgf.OffSdrffnImbgf;
+import sun.bwt.imbgf.SunVolbtilfImbgf;
+import sun.jbvb2d.Disposfr;
+import sun.jbvb2d.DisposfrRfdord;
+import sun.jbvb2d.Surfbdf;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.opfngl.OGLContfxt.OGLContfxtCbps;
+import sun.jbvb2d.pipf.iw.AddflSurfbdf;
+import sun.jbvb2d.pipf.iw.AddflTypfdVolbtilfImbgf;
+import sun.jbvb2d.pipf.iw.ContfxtCbpbbilitifs;
+import stbtid sun.jbvb2d.opfngl.OGLSurfbdfDbtb.*;
+import stbtid sun.jbvb2d.opfngl.OGLContfxt.OGLContfxtCbps.*;
+import sun.jbvb2d.pipf.iw.AddflDfvidfEvfntListfnfr;
+import sun.jbvb2d.pipf.iw.AddflDfvidfEvfntNotififr;
 
-import sun.lwawt.LWComponentPeer;
-import sun.lwawt.macosx.CPlatformView;
+import sun.lwbwt.LWComponfntPffr;
+import sun.lwbwt.mbdosx.CPlbtformVifw;
 
-public final class CGLGraphicsConfig extends CGraphicsConfig
-    implements OGLGraphicsConfig
+publid finbl dlbss CGLGrbpiidsConfig fxtfnds CGrbpiidsConfig
+    implfmfnts OGLGrbpiidsConfig
 {
-    //private static final int kOpenGLSwapInterval =
-    // RuntimeOptions.getCurrentOptions().OpenGLSwapInterval;
-    private static final int kOpenGLSwapInterval = 0; // TODO
-    private static boolean cglAvailable;
-    private static ImageCapabilities imageCaps = new CGLImageCaps();
+    //privbtf stbtid finbl int kOpfnGLSwbpIntfrvbl =
+    // RuntimfOptions.gftCurrfntOptions().OpfnGLSwbpIntfrvbl;
+    privbtf stbtid finbl int kOpfnGLSwbpIntfrvbl = 0; // TODO
+    privbtf stbtid boolfbn dglAvbilbblf;
+    privbtf stbtid ImbgfCbpbbilitifs imbgfCbps = nfw CGLImbgfCbps();
 
-    private int pixfmt;
-    private BufferCapabilities bufferCaps;
-    private long pConfigInfo;
-    private ContextCapabilities oglCaps;
-    private OGLContext context;
-    private final Object disposerReferent = new Object();
-    private final int maxTextureSize;
+    privbtf int pixfmt;
+    privbtf BufffrCbpbbilitifs bufffrCbps;
+    privbtf long pConfigInfo;
+    privbtf ContfxtCbpbbilitifs oglCbps;
+    privbtf OGLContfxt dontfxt;
+    privbtf finbl Objfdt disposfrRfffrfnt = nfw Objfdt();
+    privbtf finbl int mbxTfxturfSizf;
 
-    private static native boolean initCGL();
-    private static native long getCGLConfigInfo(int displayID, int visualnum,
-                                                int swapInterval);
-    private static native int getOGLCapabilities(long configInfo);
+    privbtf stbtid nbtivf boolfbn initCGL();
+    privbtf stbtid nbtivf long gftCGLConfigInfo(int displbyID, int visublnum,
+                                                int swbpIntfrvbl);
+    privbtf stbtid nbtivf int gftOGLCbpbbilitifs(long donfigInfo);
 
     /**
-     * Returns GL_MAX_TEXTURE_SIZE from the shared opengl context. Must be
-     * called under OGLRQ lock, because this method change current context.
+     * Rfturns GL_MAX_TEXTURE_SIZE from tif sibrfd opfngl dontfxt. Must bf
+     * dbllfd undfr OGLRQ lodk, bfdbusf tiis mftiod dibngf durrfnt dontfxt.
      *
-     * @return GL_MAX_TEXTURE_SIZE
+     * @rfturn GL_MAX_TEXTURE_SIZE
      */
-    private static native int nativeGetMaxTextureSize();
+    privbtf stbtid nbtivf int nbtivfGftMbxTfxturfSizf();
 
-    static {
-        cglAvailable = initCGL();
+    stbtid {
+        dglAvbilbblf = initCGL();
     }
 
-    private CGLGraphicsConfig(CGraphicsDevice device, int pixfmt,
-                              long configInfo, int maxTextureSize,
-                              ContextCapabilities oglCaps) {
-        super(device);
+    privbtf CGLGrbpiidsConfig(CGrbpiidsDfvidf dfvidf, int pixfmt,
+                              long donfigInfo, int mbxTfxturfSizf,
+                              ContfxtCbpbbilitifs oglCbps) {
+        supfr(dfvidf);
 
-        this.pixfmt = pixfmt;
-        this.pConfigInfo = configInfo;
-        this.oglCaps = oglCaps;
-        this.maxTextureSize = maxTextureSize;
-        context = new OGLContext(OGLRenderQueue.getInstance(), this);
+        tiis.pixfmt = pixfmt;
+        tiis.pConfigInfo = donfigInfo;
+        tiis.oglCbps = oglCbps;
+        tiis.mbxTfxturfSizf = mbxTfxturfSizf;
+        dontfxt = nfw OGLContfxt(OGLRfndfrQufuf.gftInstbndf(), tiis);
 
-        // add a record to the Disposer so that we destroy the native
-        // CGLGraphicsConfigInfo data when this object goes away
-        Disposer.addRecord(disposerReferent,
-                           new CGLGCDisposerRecord(pConfigInfo));
+        // bdd b rfdord to tif Disposfr so tibt wf dfstroy tif nbtivf
+        // CGLGrbpiidsConfigInfo dbtb wifn tiis objfdt gofs bwby
+        Disposfr.bddRfdord(disposfrRfffrfnt,
+                           nfw CGLGCDisposfrRfdord(pConfigInfo));
     }
 
-    @Override
-    public Object getProxyKey() {
-        return this;
+    @Ovfrridf
+    publid Objfdt gftProxyKfy() {
+        rfturn tiis;
     }
 
-    @Override
-    public SurfaceData createManagedSurface(int w, int h, int transparency) {
-        return CGLSurfaceData.createData(this, w, h,
-                                         getColorModel(transparency),
+    @Ovfrridf
+    publid SurfbdfDbtb drfbtfMbnbgfdSurfbdf(int w, int i, int trbnspbrfndy) {
+        rfturn CGLSurfbdfDbtb.drfbtfDbtb(tiis, w, i,
+                                         gftColorModfl(trbnspbrfndy),
                                          null,
-                                         OGLSurfaceData.TEXTURE);
+                                         OGLSurfbdfDbtb.TEXTURE);
     }
 
-    public static CGLGraphicsConfig getConfig(CGraphicsDevice device,
+    publid stbtid CGLGrbpiidsConfig gftConfig(CGrbpiidsDfvidf dfvidf,
                                               int pixfmt)
     {
-        if (!cglAvailable) {
-            return null;
+        if (!dglAvbilbblf) {
+            rfturn null;
         }
 
-        long cfginfo = 0;
-        int textureSize = 0;
-        final String ids[] = new String[1];
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
-        rq.lock();
+        long dfginfo = 0;
+        int tfxturfSizf = 0;
+        finbl String ids[] = nfw String[1];
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.lodk();
         try {
-            // getCGLConfigInfo() creates and destroys temporary
-            // surfaces/contexts, so we should first invalidate the current
-            // Java-level context and flush the queue...
-            OGLContext.invalidateCurrentContext();
+            // gftCGLConfigInfo() drfbtfs bnd dfstroys tfmporbry
+            // surfbdfs/dontfxts, so wf siould first invblidbtf tif durrfnt
+            // Jbvb-lfvfl dontfxt bnd flusi tif qufuf...
+            OGLContfxt.invblidbtfCurrfntContfxt();
 
-            cfginfo = getCGLConfigInfo(device.getCGDisplayID(), pixfmt,
-                                       kOpenGLSwapInterval);
-            if (cfginfo != 0L) {
-                textureSize = nativeGetMaxTextureSize();
-                // 7160609: GL still fails to create a square texture of this
-                // size. Half should be safe enough.
-                // Explicitly not support a texture more than 2^14, see 8010999.
-                textureSize = textureSize <= 16384 ? textureSize / 2 : 8192;
-                OGLContext.setScratchSurface(cfginfo);
-                rq.flushAndInvokeNow(() -> {
-                    ids[0] = OGLContext.getOGLIdString();
+            dfginfo = gftCGLConfigInfo(dfvidf.gftCGDisplbyID(), pixfmt,
+                                       kOpfnGLSwbpIntfrvbl);
+            if (dfginfo != 0L) {
+                tfxturfSizf = nbtivfGftMbxTfxturfSizf();
+                // 7160609: GL still fbils to drfbtf b squbrf tfxturf of tiis
+                // sizf. Hblf siould bf sbff fnougi.
+                // Expliditly not support b tfxturf morf tibn 2^14, sff 8010999.
+                tfxturfSizf = tfxturfSizf <= 16384 ? tfxturfSizf / 2 : 8192;
+                OGLContfxt.sftSdrbtdiSurfbdf(dfginfo);
+                rq.flusiAndInvokfNow(() -> {
+                    ids[0] = OGLContfxt.gftOGLIdString();
                 });
             }
-        } finally {
-            rq.unlock();
+        } finblly {
+            rq.unlodk();
         }
-        if (cfginfo == 0) {
-            return null;
+        if (dfginfo == 0) {
+            rfturn null;
         }
 
-        int oglCaps = getOGLCapabilities(cfginfo);
-        ContextCapabilities caps = new OGLContextCaps(oglCaps, ids[0]);
-        return new CGLGraphicsConfig(device, pixfmt, cfginfo, textureSize, caps);
+        int oglCbps = gftOGLCbpbbilitifs(dfginfo);
+        ContfxtCbpbbilitifs dbps = nfw OGLContfxtCbps(oglCbps, ids[0]);
+        rfturn nfw CGLGrbpiidsConfig(dfvidf, pixfmt, dfginfo, tfxturfSizf, dbps);
     }
 
-    public static boolean isCGLAvailable() {
-        return cglAvailable;
+    publid stbtid boolfbn isCGLAvbilbblf() {
+        rfturn dglAvbilbblf;
     }
 
     /**
-     * Returns true if the provided capability bit is present for this config.
-     * See OGLContext.java for a list of supported capabilities.
+     * Rfturns truf if tif providfd dbpbbility bit is prfsfnt for tiis donfig.
+     * Sff OGLContfxt.jbvb for b list of supportfd dbpbbilitifs.
      */
-    @Override
-    public boolean isCapPresent(int cap) {
-        return ((oglCaps.getCaps() & cap) != 0);
+    @Ovfrridf
+    publid boolfbn isCbpPrfsfnt(int dbp) {
+        rfturn ((oglCbps.gftCbps() & dbp) != 0);
     }
 
-    @Override
-    public long getNativeConfigInfo() {
-        return pConfigInfo;
+    @Ovfrridf
+    publid long gftNbtivfConfigInfo() {
+        rfturn pConfigInfo;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @see sun.java2d.pipe.hw.BufferedContextProvider#getContext
+     * @sff sun.jbvb2d.pipf.iw.BufffrfdContfxtProvidfr#gftContfxt
      */
-    @Override
-    public OGLContext getContext() {
-        return context;
+    @Ovfrridf
+    publid OGLContfxt gftContfxt() {
+        rfturn dontfxt;
     }
 
-    @Override
-    public BufferedImage createCompatibleImage(int width, int height) {
-        ColorModel model = new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
-        WritableRaster
-            raster = model.createCompatibleWritableRaster(width, height);
-        return new BufferedImage(model, raster, model.isAlphaPremultiplied(),
+    @Ovfrridf
+    publid BufffrfdImbgf drfbtfCompbtiblfImbgf(int widti, int ifigit) {
+        ColorModfl modfl = nfw DirfdtColorModfl(24, 0xff0000, 0xff00, 0xff);
+        WritbblfRbstfr
+            rbstfr = modfl.drfbtfCompbtiblfWritbblfRbstfr(widti, ifigit);
+        rfturn nfw BufffrfdImbgf(modfl, rbstfr, modfl.isAlpibPrfmultiplifd(),
                                  null);
     }
 
-    @Override
-    public ColorModel getColorModel(int transparency) {
-        switch (transparency) {
-        case Transparency.OPAQUE:
-            // REMIND: once the ColorModel spec is changed, this should be
-            //         an opaque premultiplied DCM...
-            return new DirectColorModel(24, 0xff0000, 0xff00, 0xff);
-        case Transparency.BITMASK:
-            return new DirectColorModel(25, 0xff0000, 0xff00, 0xff, 0x1000000);
-        case Transparency.TRANSLUCENT:
-            ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_sRGB);
-            return new DirectColorModel(cs, 32,
+    @Ovfrridf
+    publid ColorModfl gftColorModfl(int trbnspbrfndy) {
+        switdi (trbnspbrfndy) {
+        dbsf Trbnspbrfndy.OPAQUE:
+            // REMIND: ondf tif ColorModfl spfd is dibngfd, tiis siould bf
+            //         bn opbquf prfmultiplifd DCM...
+            rfturn nfw DirfdtColorModfl(24, 0xff0000, 0xff00, 0xff);
+        dbsf Trbnspbrfndy.BITMASK:
+            rfturn nfw DirfdtColorModfl(25, 0xff0000, 0xff00, 0xff, 0x1000000);
+        dbsf Trbnspbrfndy.TRANSLUCENT:
+            ColorSpbdf ds = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
+            rfturn nfw DirfdtColorModfl(ds, 32,
                                         0xff0000, 0xff00, 0xff, 0xff000000,
-                                        true, DataBuffer.TYPE_INT);
-        default:
-            return null;
+                                        truf, DbtbBufffr.TYPE_INT);
+        dffbult:
+            rfturn null;
         }
     }
 
-    public boolean isDoubleBuffered() {
-        return isCapPresent(CAPS_DOUBLEBUFFERED);
+    publid boolfbn isDoublfBufffrfd() {
+        rfturn isCbpPrfsfnt(CAPS_DOUBLEBUFFERED);
     }
 
-    private static class CGLGCDisposerRecord implements DisposerRecord {
-        private long pCfgInfo;
-        public CGLGCDisposerRecord(long pCfgInfo) {
-            this.pCfgInfo = pCfgInfo;
+    privbtf stbtid dlbss CGLGCDisposfrRfdord implfmfnts DisposfrRfdord {
+        privbtf long pCfgInfo;
+        publid CGLGCDisposfrRfdord(long pCfgInfo) {
+            tiis.pCfgInfo = pCfgInfo;
         }
-        public void dispose() {
+        publid void disposf() {
             if (pCfgInfo != 0) {
-                OGLRenderQueue.disposeGraphicsConfig(pCfgInfo);
+                OGLRfndfrQufuf.disposfGrbpiidsConfig(pCfgInfo);
                 pCfgInfo = 0;
             }
         }
     }
 
-    // TODO: CGraphicsConfig doesn't implement displayChanged() yet
-    //@Override
-    public synchronized void displayChanged() {
-        //super.displayChanged();
+    // TODO: CGrbpiidsConfig dofsn't implfmfnt displbyCibngfd() yft
+    //@Ovfrridf
+    publid syndironizfd void displbyCibngfd() {
+        //supfr.displbyCibngfd();
 
-        // the context could hold a reference to a CGLSurfaceData, which in
-        // turn has a reference back to this CGLGraphicsConfig, so in order
-        // for this instance to be disposed we need to break the connection
-        OGLRenderQueue rq = OGLRenderQueue.getInstance();
-        rq.lock();
+        // tif dontfxt dould iold b rfffrfndf to b CGLSurfbdfDbtb, wiidi in
+        // turn ibs b rfffrfndf bbdk to tiis CGLGrbpiidsConfig, so in ordfr
+        // for tiis instbndf to bf disposfd wf nffd to brfbk tif donnfdtion
+        OGLRfndfrQufuf rq = OGLRfndfrQufuf.gftInstbndf();
+        rq.lodk();
         try {
-            OGLContext.invalidateCurrentContext();
-        } finally {
-            rq.unlock();
+            OGLContfxt.invblidbtfCurrfntContfxt();
+        } finblly {
+            rq.unlodk();
         }
     }
 
-    @Override
-    public String toString() {
-        int displayID = getDevice().getCGDisplayID();
-        return ("CGLGraphicsConfig[dev="+displayID+",pixfmt="+pixfmt+"]");
+    @Ovfrridf
+    publid String toString() {
+        int displbyID = gftDfvidf().gftCGDisplbyID();
+        rfturn ("CGLGrbpiidsConfig[dfv="+displbyID+",pixfmt="+pixfmt+"]");
     }
 
-    @Override
-    public SurfaceData createSurfaceData(CPlatformView pView) {
-        return CGLSurfaceData.createData(pView);
+    @Ovfrridf
+    publid SurfbdfDbtb drfbtfSurfbdfDbtb(CPlbtformVifw pVifw) {
+        rfturn CGLSurfbdfDbtb.drfbtfDbtb(pVifw);
     }
 
-    @Override
-    public SurfaceData createSurfaceData(CGLLayer layer) {
-        return CGLSurfaceData.createData(layer);
+    @Ovfrridf
+    publid SurfbdfDbtb drfbtfSurfbdfDbtb(CGLLbyfr lbyfr) {
+        rfturn CGLSurfbdfDbtb.drfbtfDbtb(lbyfr);
     }
 
-    @Override
-    public Image createAcceleratedImage(Component target,
-                                        int width, int height)
+    @Ovfrridf
+    publid Imbgf drfbtfAddflfrbtfdImbgf(Componfnt tbrgft,
+                                        int widti, int ifigit)
     {
-        ColorModel model = getColorModel(Transparency.OPAQUE);
-        WritableRaster wr = model.createCompatibleWritableRaster(width, height);
-        return new OffScreenImage(target, model, wr,
-                                  model.isAlphaPremultiplied());
+        ColorModfl modfl = gftColorModfl(Trbnspbrfndy.OPAQUE);
+        WritbblfRbstfr wr = modfl.drfbtfCompbtiblfWritbblfRbstfr(widti, ifigit);
+        rfturn nfw OffSdrffnImbgf(tbrgft, modfl, wr,
+                                  modfl.isAlpibPrfmultiplifd());
     }
 
-    @Override
-    public void assertOperationSupported(final int numBuffers,
-                                         final BufferCapabilities caps)
-            throws AWTException {
-        // Assume this method is never called with numBuffers != 2, as 0 is
-        // unsupported, and 1 corresponds to a SingleBufferStrategy which
-        // doesn't depend on the peer. Screen is considered as a separate
-        // "buffer".
-        if (numBuffers != 2) {
-            throw new AWTException("Only double buffering is supported");
+    @Ovfrridf
+    publid void bssfrtOpfrbtionSupportfd(finbl int numBufffrs,
+                                         finbl BufffrCbpbbilitifs dbps)
+            tirows AWTExdfption {
+        // Assumf tiis mftiod is nfvfr dbllfd witi numBufffrs != 2, bs 0 is
+        // unsupportfd, bnd 1 dorrfsponds to b SinglfBufffrStrbtfgy wiidi
+        // dofsn't dfpfnd on tif pffr. Sdrffn is donsidfrfd bs b sfpbrbtf
+        // "bufffr".
+        if (numBufffrs != 2) {
+            tirow nfw AWTExdfption("Only doublf bufffring is supportfd");
         }
-        final BufferCapabilities configCaps = getBufferCapabilities();
-        if (!configCaps.isPageFlipping()) {
-            throw new AWTException("Page flipping is not supported");
+        finbl BufffrCbpbbilitifs donfigCbps = gftBufffrCbpbbilitifs();
+        if (!donfigCbps.isPbgfFlipping()) {
+            tirow nfw AWTExdfption("Pbgf flipping is not supportfd");
         }
-        if (caps.getFlipContents() == BufferCapabilities.FlipContents.PRIOR) {
-            throw new AWTException("FlipContents.PRIOR is not supported");
-        }
-    }
-
-    @Override
-    public Image createBackBuffer(final LWComponentPeer<?, ?> peer) {
-        final Rectangle r = peer.getBounds();
-        // It is possible for the component to have size 0x0, adjust it to
-        // be at least 1x1 to avoid IAE
-        final int w = Math.max(1, r.width);
-        final int h = Math.max(1, r.height);
-        final int transparency = peer.isTranslucent() ? Transparency.TRANSLUCENT
-                                                      : Transparency.OPAQUE;
-        return new SunVolatileImage(this, w, h, transparency, null);
-    }
-
-    @Override
-    public void destroyBackBuffer(final Image backBuffer) {
-        if (backBuffer != null) {
-            backBuffer.flush();
+        if (dbps.gftFlipContfnts() == BufffrCbpbbilitifs.FlipContfnts.PRIOR) {
+            tirow nfw AWTExdfption("FlipContfnts.PRIOR is not supportfd");
         }
     }
 
-    @Override
-    public void flip(final LWComponentPeer<?, ?> peer, final Image backBuffer,
-                     final int x1, final int y1, final int x2, final int y2,
-                     final BufferCapabilities.FlipContents flipAction) {
-        final Graphics g = peer.getGraphics();
+    @Ovfrridf
+    publid Imbgf drfbtfBbdkBufffr(finbl LWComponfntPffr<?, ?> pffr) {
+        finbl Rfdtbnglf r = pffr.gftBounds();
+        // It is possiblf for tif domponfnt to ibvf sizf 0x0, bdjust it to
+        // bf bt lfbst 1x1 to bvoid IAE
+        finbl int w = Mbti.mbx(1, r.widti);
+        finbl int i = Mbti.mbx(1, r.ifigit);
+        finbl int trbnspbrfndy = pffr.isTrbnsludfnt() ? Trbnspbrfndy.TRANSLUCENT
+                                                      : Trbnspbrfndy.OPAQUE;
+        rfturn nfw SunVolbtilfImbgf(tiis, w, i, trbnspbrfndy, null);
+    }
+
+    @Ovfrridf
+    publid void dfstroyBbdkBufffr(finbl Imbgf bbdkBufffr) {
+        if (bbdkBufffr != null) {
+            bbdkBufffr.flusi();
+        }
+    }
+
+    @Ovfrridf
+    publid void flip(finbl LWComponfntPffr<?, ?> pffr, finbl Imbgf bbdkBufffr,
+                     finbl int x1, finbl int y1, finbl int x2, finbl int y2,
+                     finbl BufffrCbpbbilitifs.FlipContfnts flipAdtion) {
+        finbl Grbpiids g = pffr.gftGrbpiids();
         try {
-            g.drawImage(backBuffer, x1, y1, x2, y2, x1, y1, x2, y2, null);
-        } finally {
-            g.dispose();
+            g.drbwImbgf(bbdkBufffr, x1, y1, x2, y2, x1, y1, x2, y2, null);
+        } finblly {
+            g.disposf();
         }
-        if (flipAction == BufferCapabilities.FlipContents.BACKGROUND) {
-            final Graphics2D bg = (Graphics2D) backBuffer.getGraphics();
+        if (flipAdtion == BufffrCbpbbilitifs.FlipContfnts.BACKGROUND) {
+            finbl Grbpiids2D bg = (Grbpiids2D) bbdkBufffr.gftGrbpiids();
             try {
-                bg.setBackground(peer.getBackground());
-                bg.clearRect(0, 0, backBuffer.getWidth(null),
-                             backBuffer.getHeight(null));
-            } finally {
-                bg.dispose();
+                bg.sftBbdkground(pffr.gftBbdkground());
+                bg.dlfbrRfdt(0, 0, bbdkBufffr.gftWidti(null),
+                             bbdkBufffr.gftHfigit(null));
+            } finblly {
+                bg.disposf();
             }
         }
     }
 
-    private static class CGLBufferCaps extends BufferCapabilities {
-        public CGLBufferCaps(boolean dblBuf) {
-            super(imageCaps, imageCaps,
-                  dblBuf ? FlipContents.UNDEFINED : null);
+    privbtf stbtid dlbss CGLBufffrCbps fxtfnds BufffrCbpbbilitifs {
+        publid CGLBufffrCbps(boolfbn dblBuf) {
+            supfr(imbgfCbps, imbgfCbps,
+                  dblBuf ? FlipContfnts.UNDEFINED : null);
         }
     }
 
-    @Override
-    public BufferCapabilities getBufferCapabilities() {
-        if (bufferCaps == null) {
-            bufferCaps = new CGLBufferCaps(isDoubleBuffered());
+    @Ovfrridf
+    publid BufffrCbpbbilitifs gftBufffrCbpbbilitifs() {
+        if (bufffrCbps == null) {
+            bufffrCbps = nfw CGLBufffrCbps(isDoublfBufffrfd());
         }
-        return bufferCaps;
+        rfturn bufffrCbps;
     }
 
-    private static class CGLImageCaps extends ImageCapabilities {
-        private CGLImageCaps() {
-            super(true);
+    privbtf stbtid dlbss CGLImbgfCbps fxtfnds ImbgfCbpbbilitifs {
+        privbtf CGLImbgfCbps() {
+            supfr(truf);
         }
-        public boolean isTrueVolatile() {
-            return true;
+        publid boolfbn isTrufVolbtilf() {
+            rfturn truf;
         }
     }
 
-    @Override
-    public ImageCapabilities getImageCapabilities() {
-        return imageCaps;
+    @Ovfrridf
+    publid ImbgfCbpbbilitifs gftImbgfCbpbbilitifs() {
+        rfturn imbgfCbps;
     }
 
-    @Override
-    public VolatileImage createCompatibleVolatileImage(int width, int height,
-                                                       int transparency,
-                                                       int type) {
-        if (type == FLIP_BACKBUFFER || type == WINDOW || type == UNDEFINED ||
-            transparency == Transparency.BITMASK)
+    @Ovfrridf
+    publid VolbtilfImbgf drfbtfCompbtiblfVolbtilfImbgf(int widti, int ifigit,
+                                                       int trbnspbrfndy,
+                                                       int typf) {
+        if (typf == FLIP_BACKBUFFER || typf == WINDOW || typf == UNDEFINED ||
+            trbnspbrfndy == Trbnspbrfndy.BITMASK)
         {
-            return null;
+            rfturn null;
         }
 
-        if (type == FBOBJECT) {
-            if (!isCapPresent(CAPS_EXT_FBOBJECT)) {
-                return null;
+        if (typf == FBOBJECT) {
+            if (!isCbpPrfsfnt(CAPS_EXT_FBOBJECT)) {
+                rfturn null;
             }
-        } else if (type == PBUFFER) {
-            boolean isOpaque = transparency == Transparency.OPAQUE;
-            if (!isOpaque && !isCapPresent(CAPS_STORED_ALPHA)) {
-                return null;
+        } flsf if (typf == PBUFFER) {
+            boolfbn isOpbquf = trbnspbrfndy == Trbnspbrfndy.OPAQUE;
+            if (!isOpbquf && !isCbpPrfsfnt(CAPS_STORED_ALPHA)) {
+                rfturn null;
             }
         }
 
-        SunVolatileImage vi = new AccelTypedVolatileImage(this, width, height,
-                                                          transparency, type);
-        Surface sd = vi.getDestSurface();
-        if (!(sd instanceof AccelSurface) ||
-            ((AccelSurface)sd).getType() != type)
+        SunVolbtilfImbgf vi = nfw AddflTypfdVolbtilfImbgf(tiis, widti, ifigit,
+                                                          trbnspbrfndy, typf);
+        Surfbdf sd = vi.gftDfstSurfbdf();
+        if (!(sd instbndfof AddflSurfbdf) ||
+            ((AddflSurfbdf)sd).gftTypf() != typf)
         {
-            vi.flush();
+            vi.flusi();
             vi = null;
         }
 
-        return vi;
+        rfturn vi;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @see sun.java2d.pipe.hw.AccelGraphicsConfig#getContextCapabilities
+     * @sff sun.jbvb2d.pipf.iw.AddflGrbpiidsConfig#gftContfxtCbpbbilitifs
      */
-    @Override
-    public ContextCapabilities getContextCapabilities() {
-        return oglCaps;
+    @Ovfrridf
+    publid ContfxtCbpbbilitifs gftContfxtCbpbbilitifs() {
+        rfturn oglCbps;
     }
 
-    @Override
-    public void addDeviceEventListener(AccelDeviceEventListener l) {
-        int displayID = getDevice().getCGDisplayID();
-        AccelDeviceEventNotifier.addListener(l, displayID);
+    @Ovfrridf
+    publid void bddDfvidfEvfntListfnfr(AddflDfvidfEvfntListfnfr l) {
+        int displbyID = gftDfvidf().gftCGDisplbyID();
+        AddflDfvidfEvfntNotififr.bddListfnfr(l, displbyID);
     }
 
-    @Override
-    public void removeDeviceEventListener(AccelDeviceEventListener l) {
-        AccelDeviceEventNotifier.removeListener(l);
+    @Ovfrridf
+    publid void rfmovfDfvidfEvfntListfnfr(AddflDfvidfEvfntListfnfr l) {
+        AddflDfvidfEvfntNotififr.rfmovfListfnfr(l);
     }
 
-    @Override
-    public int getMaxTextureWidth() {
-        return Math.max(maxTextureSize / getDevice().getScaleFactor(),
-                        getBounds().width);
+    @Ovfrridf
+    publid int gftMbxTfxturfWidti() {
+        rfturn Mbti.mbx(mbxTfxturfSizf / gftDfvidf().gftSdblfFbdtor(),
+                        gftBounds().widti);
     }
 
-    @Override
-    public int getMaxTextureHeight() {
-        return Math.max(maxTextureSize / getDevice().getScaleFactor(),
-                        getBounds().height);
+    @Ovfrridf
+    publid int gftMbxTfxturfHfigit() {
+        rfturn Mbti.mbx(mbxTfxturfSizf / gftDfvidf().gftSdblfFbdtor(),
+                        gftBounds().ifigit);
     }
 }

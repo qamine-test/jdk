@@ -1,0 +1,133 @@
+/*
+ * Copyright (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.bddfssibility;
+
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvbx.swing.tfxt.*;
+
+/**
+ * <P>Thf AddfssiblfEditbblfTfxt intfrfbdf should bf implfmfntfd by bll
+ * dlbssfs thbt prfsfnt fditbblf tfxtubl informbtion on thf displby.
+ * Along with thf AddfssiblfTfxt intfrfbdf, this intfrfbdf providfs
+ * thf stbndbrd mfdhbnism for bn bssistivf tfdhnology to bddfss
+ * thbt tfxt vib its dontfnt, bttributfs, bnd spbtibl lodbtion.
+ * Applidbtions dbn dftfrminf if bn objfdt supports thf AddfssiblfEditbblfTfxt
+ * intfrfbdf by first obtbining its AddfssiblfContfxt (sff {@link Addfssiblf})
+ * bnd thfn dblling thf {@link AddfssiblfContfxt#gftAddfssiblfEditbblfTfxt}
+ * mfthod of AddfssiblfContfxt.  If thf rfturn vbluf is not null, thf objfdt
+ * supports this intfrfbdf.
+ *
+ * @sff Addfssiblf
+ * @sff Addfssiblf#gftAddfssiblfContfxt
+ * @sff AddfssiblfContfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfTfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfEditbblfTfxt
+ *
+ * @buthor      Lynn Monsbnto
+ * @sindf 1.4
+ */
+
+publid intfrfbdf AddfssiblfEditbblfTfxt fxtfnds AddfssiblfTfxt {
+
+    /**
+     * Sfts thf tfxt dontfnts to thf spfdififd string.
+     *
+     * @pbrbm s thf string to sft thf tfxt dontfnts
+     */
+    publid void sftTfxtContfnts(String s);
+
+    /**
+     * Insfrts thf spfdififd string bt thf givfn indfx/
+     *
+     * @pbrbm indfx thf indfx in thf tfxt whfrf thf string will
+     * bf insfrtfd
+     * @pbrbm s thf string to insfrt in thf tfxt
+     */
+    publid void insfrtTfxtAtIndfx(int indfx, String s);
+
+    /**
+     * Rfturns thf tfxt string bftwffn two indidfs.
+     *
+     * @pbrbm stbrtIndfx thf stbrting indfx in thf tfxt
+     * @pbrbm fndIndfx thf fnding indfx in thf tfxt
+     * @rfturn thf tfxt string bftwffn thf indidfs
+     */
+    publid String gftTfxtRbngf(int stbrtIndfx, int fndIndfx);
+
+    /**
+     * Dflftfs thf tfxt bftwffn two indidfs
+     *
+     * @pbrbm stbrtIndfx thf stbrting indfx in thf tfxt
+     * @pbrbm fndIndfx thf fnding indfx in thf tfxt
+     */
+    publid void dflftf(int stbrtIndfx, int fndIndfx);
+
+    /**
+     * Cuts thf tfxt bftwffn two indidfs into thf systfm dlipbobrd.
+     *
+     * @pbrbm stbrtIndfx thf stbrting indfx in thf tfxt
+     * @pbrbm fndIndfx thf fnding indfx in thf tfxt
+     */
+    publid void dut(int stbrtIndfx, int fndIndfx);
+
+    /**
+     * Pbstfs thf tfxt from thf systfm dlipbobrd into thf tfxt
+     * stbrting bt thf spfdififd indfx.
+     *
+     * @pbrbm stbrtIndfx thf stbrting indfx in thf tfxt
+     */
+    publid void pbstf(int stbrtIndfx);
+
+    /**
+     * Rfplbdfs thf tfxt bftwffn two indidfs with thf spfdififd
+     * string.
+     *
+     * @pbrbm stbrtIndfx thf stbrting indfx in thf tfxt
+     * @pbrbm fndIndfx thf fnding indfx in thf tfxt
+     * @pbrbm s thf string to rfplbdf thf tfxt bftwffn two indidfs
+     */
+    publid void rfplbdfTfxt(int stbrtIndfx, int fndIndfx, String s);
+
+    /**
+     * Sflfdts thf tfxt bftwffn two indidfs.
+     *
+     * @pbrbm stbrtIndfx thf stbrting indfx in thf tfxt
+     * @pbrbm fndIndfx thf fnding indfx in thf tfxt
+     */
+    publid void sflfdtTfxt(int stbrtIndfx, int fndIndfx);
+
+    /**
+     * Sfts bttributfs for thf tfxt bftwffn two indidfs.
+     *
+     * @pbrbm stbrtIndfx thf stbrting indfx in thf tfxt
+     * @pbrbm fndIndfx thf fnding indfx in thf tfxt
+     * @pbrbm bs thf bttributf sft
+     * @sff AttributfSft
+     */
+    publid void sftAttributfs(int stbrtIndfx, int fndIndfx, AttributfSft bs);
+
+}

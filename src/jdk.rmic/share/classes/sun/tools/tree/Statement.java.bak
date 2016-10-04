@@ -1,342 +1,342 @@
 /*
- * Copyright (c) 1994, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.tree;
+pbdkbgf sun.tools.trff;
 
-import sun.tools.java.*;
-import sun.tools.asm.Assembler;
-import sun.tools.asm.Label;
-import java.io.PrintStream;
-import java.util.Hashtable;
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.Lbbfl;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbsitbblf;
 
 /**
- * WARNING: The contents of this source file are not part of any
- * supported API.  Code that depends on them does so at its own risk:
- * they are subject to change or removal without notice.
+ * WARNING: Tif dontfnts of tiis sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf tibt dfpfnds on tifm dofs so bt its own risk:
+ * tify brf subjfdt to dibngf or rfmovbl witiout notidf.
  */
-public
-class Statement extends Node {
-    public static final Vset DEAD_END = Vset.DEAD_END;
-    Identifier labels[] = null;
+publid
+dlbss Stbtfmfnt fxtfnds Nodf {
+    publid stbtid finbl Vsft DEAD_END = Vsft.DEAD_END;
+    Idfntififr lbbfls[] = null;
 
     /**
-     * Constructor
+     * Construdtor
      */
-    Statement(int op, long where) {
-        super(op, where);
+    Stbtfmfnt(int op, long wifrf) {
+        supfr(op, wifrf);
     }
 
     /**
-     * An empty statement.  Its costInline is infinite.
+     * An fmpty stbtfmfnt.  Its dostInlinf is infinitf.
      */
-    public static final Statement empty = new Statement(STAT, 0);
+    publid stbtid finbl Stbtfmfnt fmpty = nfw Stbtfmfnt(STAT, 0);
 
     /**
-     * The largest possible interesting inline cost value.
+     * Tif lbrgfst possiblf intfrfsting inlinf dost vbluf.
      */
-    public static final int MAXINLINECOST =
-                      Integer.getInteger("javac.maxinlinecost",
-                                         30).intValue();
+    publid stbtid finbl int MAXINLINECOST =
+                      Intfgfr.gftIntfgfr("jbvbd.mbxinlinfdost",
+                                         30).intVbluf();
 
     /**
-     * Insert a bit of code at the front of a statement.
-     * Side-effect s2, if it is a CompoundStatement.
+     * Insfrt b bit of dodf bt tif front of b stbtfmfnt.
+     * Sidf-ffffdt s2, if it is b CompoundStbtfmfnt.
      */
-    public static Statement insertStatement(Statement s1, Statement s2) {
+    publid stbtid Stbtfmfnt insfrtStbtfmfnt(Stbtfmfnt s1, Stbtfmfnt s2) {
         if (s2 == null) {
             s2 = s1;
-        } else if (s2 instanceof CompoundStatement) {
-            // Do not add another level of block nesting.
-            ((CompoundStatement)s2).insertStatement(s1);
-        } else {
-            Statement body[] = { s1, s2 };
-            s2 = new CompoundStatement(s1.getWhere(), body);
+        } flsf if (s2 instbndfof CompoundStbtfmfnt) {
+            // Do not bdd bnotifr lfvfl of blodk nfsting.
+            ((CompoundStbtfmfnt)s2).insfrtStbtfmfnt(s1);
+        } flsf {
+            Stbtfmfnt body[] = { s1, s2 };
+            s2 = nfw CompoundStbtfmfnt(s1.gftWifrf(), body);
         }
-        return s2;
+        rfturn s2;
     }
 
     /**
-     * Set the label of a statement
+     * Sft tif lbbfl of b stbtfmfnt
      */
-    public void setLabel(Environment env, Expression e) {
-        if (e.op == IDENT) {
-            if (labels == null) {
-                labels = new Identifier[1];
-            } else {
-                // this should almost never happen.  Multiple labels on
-                // the same statement.  But handle it gracefully.
-                Identifier newLabels[] = new Identifier[labels.length + 1];
-                System.arraycopy(labels, 0, newLabels, 1, labels.length);
-                labels = newLabels;
+    publid void sftLbbfl(Environmfnt fnv, Exprfssion f) {
+        if (f.op == IDENT) {
+            if (lbbfls == null) {
+                lbbfls = nfw Idfntififr[1];
+            } flsf {
+                // tiis siould blmost nfvfr ibppfn.  Multiplf lbbfls on
+                // tif sbmf stbtfmfnt.  But ibndlf it grbdffully.
+                Idfntififr nfwLbbfls[] = nfw Idfntififr[lbbfls.lfngti + 1];
+                Systfm.brrbydopy(lbbfls, 0, nfwLbbfls, 1, lbbfls.lfngti);
+                lbbfls = nfwLbbfls;
             }
-            labels[0] = ((IdentifierExpression)e).id;
-        } else {
-            env.error(e.where, "invalid.label");
+            lbbfls[0] = ((IdfntififrExprfssion)f).id;
+        } flsf {
+            fnv.frror(f.wifrf, "invblid.lbbfl");
         }
     }
 
     /**
-     * Check a statement
+     * Cifdk b stbtfmfnt
      */
-    public Vset checkMethod(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        // Set up ctx.getReturnContext() for the sake of ReturnStatement.check().
-        CheckContext mctx = new CheckContext(ctx, new Statement(METHOD, 0));
-        ctx = mctx;
+    publid Vsft difdkMftiod(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        // Sft up dtx.gftRfturnContfxt() for tif sbkf of RfturnStbtfmfnt.difdk().
+        CifdkContfxt mdtx = nfw CifdkContfxt(dtx, nfw Stbtfmfnt(METHOD, 0));
+        dtx = mdtx;
 
-        vset = check(env, ctx, vset, exp);
+        vsft = difdk(fnv, dtx, vsft, fxp);
 
-        // Check for return
-        if (!ctx.field.getType().getReturnType().isType(TC_VOID)) {
-            // In general, we suppress further error messages due to
-            // unreachable statements after reporting the first error
-            // along a flow path (using 'clearDeadEnd').   Here, we
-            // report an error anyway, because the end of the method
-            // should be unreachable despite the earlier error.  The
-            // difference in treatment is due to the fact that, in this
-            // case, the error is reachability, not unreachability.
-            // NOTE: In addition to this subtle difference in the quality
-            // of the error diagnostics, this treatment is essential to
-            // preserve the correctness of using 'clearDeadEnd' to implement
-            // the special-case reachability rules for if-then and if-then-else.
-            if (!vset.isDeadEnd()) {
-                env.error(ctx.field.getWhere(), "return.required.at.end", ctx.field);
+        // Cifdk for rfturn
+        if (!dtx.fifld.gftTypf().gftRfturnTypf().isTypf(TC_VOID)) {
+            // In gfnfrbl, wf supprfss furtifr frror mfssbgfs duf to
+            // unrfbdibblf stbtfmfnts bftfr rfporting tif first frror
+            // blong b flow pbti (using 'dlfbrDfbdEnd').   Hfrf, wf
+            // rfport bn frror bnywby, bfdbusf tif fnd of tif mftiod
+            // siould bf unrfbdibblf dfspitf tif fbrlifr frror.  Tif
+            // difffrfndf in trfbtmfnt is duf to tif fbdt tibt, in tiis
+            // dbsf, tif frror is rfbdibbility, not unrfbdibbility.
+            // NOTE: In bddition to tiis subtlf difffrfndf in tif qublity
+            // of tif frror dibgnostids, tiis trfbtmfnt is fssfntibl to
+            // prfsfrvf tif dorrfdtnfss of using 'dlfbrDfbdEnd' to implfmfnt
+            // tif spfdibl-dbsf rfbdibbility rulfs for if-tifn bnd if-tifn-flsf.
+            if (!vsft.isDfbdEnd()) {
+                fnv.frror(dtx.fifld.gftWifrf(), "rfturn.rfquirfd.bt.fnd", dtx.fifld);
             }
         }
 
-        // Simulate a return at the end.
-        vset = vset.join(mctx.vsBreak);
+        // Simulbtf b rfturn bt tif fnd.
+        vsft = vsft.join(mdtx.vsBrfbk);
 
-        return vset;
+        rfturn vsft;
     }
-    Vset checkDeclaration(Environment env, Context ctx, Vset vset, int mod, Type t, Hashtable<Object, Object> exp) {
-        throw new CompilerError("checkDeclaration");
+    Vsft difdkDfdlbrbtion(Environmfnt fnv, Contfxt dtx, Vsft vsft, int mod, Typf t, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        tirow nfw CompilfrError("difdkDfdlbrbtion");
     }
 
     /**
-     * Make sure the labels on this statement do not duplicate the
-     * labels on any enclosing statement.  Provided as a convenience
-     * for subclasses.
+     * Mbkf surf tif lbbfls on tiis stbtfmfnt do not duplidbtf tif
+     * lbbfls on bny fndlosing stbtfmfnt.  Providfd bs b donvfnifndf
+     * for subdlbssfs.
      */
-    protected void checkLabel(Environment env, Context ctx) {
-        if (labels != null) {
-            loop: for (int i = 0; i < labels.length; i++) {
-                // Make sure there is not a double label on this statement.
-                for (int j = i+1; j < labels.length; j++) {
-                    if (labels[i] == labels[j]) {
-                        env.error(where, "nested.duplicate.label", labels[i]);
-                        continue loop;
+    protfdtfd void difdkLbbfl(Environmfnt fnv, Contfxt dtx) {
+        if (lbbfls != null) {
+            loop: for (int i = 0; i < lbbfls.lfngti; i++) {
+                // Mbkf surf tifrf is not b doublf lbbfl on tiis stbtfmfnt.
+                for (int j = i+1; j < lbbfls.lfngti; j++) {
+                    if (lbbfls[i] == lbbfls[j]) {
+                        fnv.frror(wifrf, "nfstfd.duplidbtf.lbbfl", lbbfls[i]);
+                        dontinuf loop;
                     }
                 }
 
-                // Make sure no enclosing statement has the same label.
-                CheckContext destCtx =
-                    (CheckContext) ctx.getLabelContext(labels[i]);
+                // Mbkf surf no fndlosing stbtfmfnt ibs tif sbmf lbbfl.
+                CifdkContfxt dfstCtx =
+                    (CifdkContfxt) dtx.gftLbbflContfxt(lbbfls[i]);
 
-                if (destCtx != null) {
-                    // Check to make sure the label is in not uplevel.
-                    if (destCtx.frameNumber == ctx.frameNumber) {
-                        env.error(where, "nested.duplicate.label", labels[i]);
+                if (dfstCtx != null) {
+                    // Cifdk to mbkf surf tif lbbfl is in not uplfvfl.
+                    if (dfstCtx.frbmfNumbfr == dtx.frbmfNumbfr) {
+                        fnv.frror(wifrf, "nfstfd.duplidbtf.lbbfl", lbbfls[i]);
                     }
                 }
-            } // end loop
+            } // fnd loop
         }
     }
 
-    Vset check(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        throw new CompilerError("check");
+    Vsft difdk(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        tirow nfw CompilfrError("difdk");
     }
 
-    /** This is called in contexts where declarations are valid. */
-    Vset checkBlockStatement(Environment env, Context ctx, Vset vset, Hashtable<Object, Object> exp) {
-        return check(env, ctx, vset, exp);
+    /** Tiis is dbllfd in dontfxts wifrf dfdlbrbtions brf vblid. */
+    Vsft difdkBlodkStbtfmfnt(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbsitbblf<Objfdt, Objfdt> fxp) {
+        rfturn difdk(fnv, dtx, vsft, fxp);
     }
 
-    Vset reach(Environment env, Vset vset) {
-        if (vset.isDeadEnd()) {
-            env.error(where, "stat.not.reached");
-            vset = vset.clearDeadEnd();
+    Vsft rfbdi(Environmfnt fnv, Vsft vsft) {
+        if (vsft.isDfbdEnd()) {
+            fnv.frror(wifrf, "stbt.not.rfbdifd");
+            vsft = vsft.dlfbrDfbdEnd();
         }
-        return vset;
+        rfturn vsft;
     }
 
     /**
-     * Inline
+     * Inlinf
      */
-    public Statement inline(Environment env, Context ctx) {
-        return this;
+    publid Stbtfmfnt inlinf(Environmfnt fnv, Contfxt dtx) {
+        rfturn tiis;
     }
 
     /**
-     * Eliminate this statement, which is only possible if it has no label.
+     * Eliminbtf tiis stbtfmfnt, wiidi is only possiblf if it ibs no lbbfl.
      */
-    public Statement eliminate(Environment env, Statement s) {
-        if ((s != null) && (labels != null)) {
-            Statement args[] = {s};
-            s = new CompoundStatement(where, args);
-            s.labels = labels;
+    publid Stbtfmfnt fliminbtf(Environmfnt fnv, Stbtfmfnt s) {
+        if ((s != null) && (lbbfls != null)) {
+            Stbtfmfnt brgs[] = {s};
+            s = nfw CompoundStbtfmfnt(wifrf, brgs);
+            s.lbbfls = lbbfls;
         }
-        return s;
+        rfturn s;
     }
 
 
     /**
-     * Code
+     * Codf
      */
-    public void code(Environment env, Context ctx, Assembler asm) {
-        throw new CompilerError("code");
+    publid void dodf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        tirow nfw CompilfrError("dodf");
     }
 
     /**
-     * Generate the code to call all finally's for a break, continue, or
-     * return statement.  We must call "jsr" on all the cleanup code between
-     * the current context "ctx", and the destination context "stopctx".
-     * If 'save' isn't null, there is also a value on the top of the stack
+     * Gfnfrbtf tif dodf to dbll bll finblly's for b brfbk, dontinuf, or
+     * rfturn stbtfmfnt.  Wf must dbll "jsr" on bll tif dlfbnup dodf bftwffn
+     * tif durrfnt dontfxt "dtx", bnd tif dfstinbtion dontfxt "stopdtx".
+     * If 'sbvf' isn't null, tifrf is blso b vbluf on tif top of tif stbdk
      */
-    void codeFinally(Environment env, Context ctx, Assembler asm,
-                        Context stopctx, Type save) {
-        Integer num = null;
-        boolean haveCleanup = false; // there is a finally or synchronize;
-        boolean haveNonLocalFinally = false; // some finally doesn't return;
+    void dodfFinblly(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm,
+                        Contfxt stopdtx, Typf sbvf) {
+        Intfgfr num = null;
+        boolfbn ibvfClfbnup = fblsf; // tifrf is b finblly or syndironizf;
+        boolfbn ibvfNonLodblFinblly = fblsf; // somf finblly dofsn't rfturn;
 
-        for (Context c = ctx; (c != null) && (c != stopctx); c = c.prev) {
-            if (c.node == null)
-                continue;
-            if (c.node.op == SYNCHRONIZED) {
-                haveCleanup = true;
-            } else if (c.node.op == FINALLY
-                          && ((CodeContext)c).contLabel != null) {
-                // c.contLabel == null indicates we're in the "finally" part
-                haveCleanup = true;
-                FinallyStatement st = ((FinallyStatement)(c.node));
-                if (!st.finallyCanFinish) {
-                    haveNonLocalFinally = true;
-                    // after hitting a non-local finally, no need generating
-                    // further code, because it won't get executed.
-                    break;
+        for (Contfxt d = dtx; (d != null) && (d != stopdtx); d = d.prfv) {
+            if (d.nodf == null)
+                dontinuf;
+            if (d.nodf.op == SYNCHRONIZED) {
+                ibvfClfbnup = truf;
+            } flsf if (d.nodf.op == FINALLY
+                          && ((CodfContfxt)d).dontLbbfl != null) {
+                // d.dontLbbfl == null indidbtfs wf'rf in tif "finblly" pbrt
+                ibvfClfbnup = truf;
+                FinbllyStbtfmfnt st = ((FinbllyStbtfmfnt)(d.nodf));
+                if (!st.finbllyCbnFinisi) {
+                    ibvfNonLodblFinblly = truf;
+                    // bftfr iitting b non-lodbl finblly, no nffd gfnfrbting
+                    // furtifr dodf, bfdbusf it won't gft fxfdutfd.
+                    brfbk;
                 }
             }
         }
-        if (!haveCleanup) {
-            // there is no cleanup that needs to be done.  Just quit.
-            return;
+        if (!ibvfClfbnup) {
+            // tifrf is no dlfbnup tibt nffds to bf donf.  Just quit.
+            rfturn;
         }
-        if (save != null) {
-            // This statement has a return value on the stack.
-            ClassDefinition def = ctx.field.getClassDefinition();
-            if (!haveNonLocalFinally) {
-                // Save the return value in the register which should have
-                // been reserved.
-                LocalMember lf = ctx.getLocalField(idFinallyReturnValue);
-                num = lf.number;
-                asm.add(where, opc_istore + save.getTypeCodeOffset(), num);
-            } else {
-                // Pop the return value.
-                switch(ctx.field.getType().getReturnType().getTypeCode()) {
-                    case TC_VOID:
-                        break;
-                    case TC_DOUBLE: case TC_LONG:
-                        asm.add(where, opc_pop2); break;
-                    default:
-                        asm.add(where, opc_pop); break;
+        if (sbvf != null) {
+            // Tiis stbtfmfnt ibs b rfturn vbluf on tif stbdk.
+            ClbssDffinition dff = dtx.fifld.gftClbssDffinition();
+            if (!ibvfNonLodblFinblly) {
+                // Sbvf tif rfturn vbluf in tif rfgistfr wiidi siould ibvf
+                // bffn rfsfrvfd.
+                LodblMfmbfr lf = dtx.gftLodblFifld(idFinbllyRfturnVbluf);
+                num = lf.numbfr;
+                bsm.bdd(wifrf, opd_istorf + sbvf.gftTypfCodfOffsft(), num);
+            } flsf {
+                // Pop tif rfturn vbluf.
+                switdi(dtx.fifld.gftTypf().gftRfturnTypf().gftTypfCodf()) {
+                    dbsf TC_VOID:
+                        brfbk;
+                    dbsf TC_DOUBLE: dbsf TC_LONG:
+                        bsm.bdd(wifrf, opd_pop2); brfbk;
+                    dffbult:
+                        bsm.bdd(wifrf, opd_pop); brfbk;
                 }
             }
         }
-        // Call each of the cleanup functions, as necessary.
-        for (Context c = ctx ; (c != null)  && (c != stopctx) ; c = c.prev) {
-            if (c.node == null)
-                continue;
-            if (c.node.op == SYNCHRONIZED) {
-                asm.add(where, opc_jsr, ((CodeContext)c).contLabel);
-            } else if (c.node.op == FINALLY
-                          && ((CodeContext)c).contLabel != null) {
-                FinallyStatement st = ((FinallyStatement)(c.node));
-                Label label = ((CodeContext)c).contLabel;
-                if (st.finallyCanFinish) {
-                    asm.add(where, opc_jsr, label);
-                } else {
-                    // the code never returns, so we're done.
-                    asm.add(where, opc_goto, label);
-                    break;
+        // Cbll fbdi of tif dlfbnup fundtions, bs nfdfssbry.
+        for (Contfxt d = dtx ; (d != null)  && (d != stopdtx) ; d = d.prfv) {
+            if (d.nodf == null)
+                dontinuf;
+            if (d.nodf.op == SYNCHRONIZED) {
+                bsm.bdd(wifrf, opd_jsr, ((CodfContfxt)d).dontLbbfl);
+            } flsf if (d.nodf.op == FINALLY
+                          && ((CodfContfxt)d).dontLbbfl != null) {
+                FinbllyStbtfmfnt st = ((FinbllyStbtfmfnt)(d.nodf));
+                Lbbfl lbbfl = ((CodfContfxt)d).dontLbbfl;
+                if (st.finbllyCbnFinisi) {
+                    bsm.bdd(wifrf, opd_jsr, lbbfl);
+                } flsf {
+                    // tif dodf nfvfr rfturns, so wf'rf donf.
+                    bsm.bdd(wifrf, opd_goto, lbbfl);
+                    brfbk;
                 }
             }
         }
-        // Move the return value from the register back to the stack.
+        // Movf tif rfturn vbluf from tif rfgistfr bbdk to tif stbdk.
         if (num != null) {
-            asm.add(where, opc_iload + save.getTypeCodeOffset(), num);
+            bsm.bdd(wifrf, opd_ilobd + sbvf.gftTypfCodfOffsft(), num);
         }
     }
 
     /*
-     * Return true if the statement has the given label
+     * Rfturn truf if tif stbtfmfnt ibs tif givfn lbbfl
      */
-    public boolean hasLabel (Identifier lbl) {
-        Identifier labels[] = this.labels;
-        if (labels != null) {
-            for (int i = labels.length; --i >= 0; ) {
-                if (labels[i].equals(lbl)) {
-                    return true;
+    publid boolfbn ibsLbbfl (Idfntififr lbl) {
+        Idfntififr lbbfls[] = tiis.lbbfls;
+        if (lbbfls != null) {
+            for (int i = lbbfls.lfngti; --i >= 0; ) {
+                if (lbbfls[i].fqubls(lbl)) {
+                    rfturn truf;
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Check if the first thing is a constructor invocation
+     * Cifdk if tif first tiing is b donstrudtor invodbtion
      */
-    public Expression firstConstructor() {
-        return null;
+    publid Exprfssion firstConstrudtor() {
+        rfturn null;
     }
 
     /**
-     * Create a copy of the statement for method inlining
+     * Crfbtf b dopy of tif stbtfmfnt for mftiod inlining
      */
-    public Statement copyInline(Context ctx, boolean valNeeded) {
-        return (Statement)clone();
+    publid Stbtfmfnt dopyInlinf(Contfxt dtx, boolfbn vblNffdfd) {
+        rfturn (Stbtfmfnt)dlonf();
     }
 
-    public int costInline(int thresh, Environment env, Context ctx) {
-        return thresh;
+    publid int dostInlinf(int tirfsi, Environmfnt fnv, Contfxt dtx) {
+        rfturn tirfsi;
     }
 
 
     /**
      * Print
      */
-    void printIndent(PrintStream out, int indent) {
-        for (int i = 0 ; i < indent ; i++) {
+    void printIndfnt(PrintStrfbm out, int indfnt) {
+        for (int i = 0 ; i < indfnt ; i++) {
             out.print("    ");
         }
     }
-    public void print(PrintStream out, int indent) {
-        if (labels != null) {
-            for (int i = labels.length; --i >= 0; )
-                out.print(labels[i] + ": ");
+    publid void print(PrintStrfbm out, int indfnt) {
+        if (lbbfls != null) {
+            for (int i = lbbfls.lfngti; --i >= 0; )
+                out.print(lbbfls[i] + ": ");
         }
     }
-    public void print(PrintStream out) {
+    publid void print(PrintStrfbm out) {
         print(out, 0);
     }
 }

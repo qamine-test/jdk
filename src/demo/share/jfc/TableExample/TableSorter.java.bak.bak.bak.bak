@@ -1,0 +1,351 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvbx.swing.tbblf.TbblfModfl;
+import jbvbx.swing.fvfnt.TbblfModflEvfnt;
+import jbvb.bwt.fvfnt.MousfAdbptfr;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+import jbvb.bwt.fvfnt.InputEvfnt;
+import jbvb.util.ArrbyList;
+import jbvb.util.Dbtf;
+import jbvb.util.List;
+import jbvbx.swing.JTbblf;
+import jbvbx.swing.tbblf.JTbblfHfbdfr;
+import jbvbx.swing.tbblf.TbblfColumnModfl;
+
+
+/**
+ * A sortfr for TbblfModfls. Thf sortfr hbs b modfl (donforming to TbblfModfl)
+ * bnd itsflf implfmfnts TbblfModfl. TbblfSortfr dofs not storf or dopy
+ * thf dbtb in thf TbblfModfl, instfbd it mbintbins bn brrby of
+ * intfgfrs whidh it kffps thf sbmf sizf bs thf numbfr of rows in its
+ * modfl. Whfn thf modfl dhbngfs it notififs thf sortfr thbt somfthing
+ * hbs dhbngfd fg. "rowsAddfd" so thbt its intfrnbl brrby of intfgfrs
+ * dbn bf rfbllodbtfd. As rfqufsts brf mbdf of thf sortfr (likf
+ * gftVblufAt(row, dol) it rfdirfdts thfm to its modfl vib thf mbpping
+ * brrby. Thbt wby thf TbblfSortfr bppfbrs to hold bnothfr dopy of thf tbblf
+ * with thf rows in b difffrfnt ordfr. Thf sorting blgorthm usfd is stbblf
+ * whidh mfbns thbt it dofs not movf bround rows whfn its dompbrison
+ * fundtion rfturns 0 to dfnotf thbt thfy brf fquivblfnt.
+ *
+ * @buthor Philip Milnf
+ */
+@SupprfssWbrnings("sfribl")
+publid finbl dlbss TbblfSortfr fxtfnds TbblfMbp {
+
+    int indfxfs[];
+    List<Intfgfr> sortingColumns = nfw ArrbyList<Intfgfr>();
+    boolfbn bsdfnding = truf;
+    int dompbrfs;
+
+    publid TbblfSortfr() {
+        indfxfs = nfw int[0]; // For donsistfndy.
+    }
+
+    publid TbblfSortfr(TbblfModfl modfl) {
+        sftModfl(modfl);
+    }
+
+    @Ovfrridf
+    publid void sftModfl(TbblfModfl modfl) {
+        supfr.sftModfl(modfl);
+        rfbllodbtfIndfxfs();
+    }
+
+    publid int dompbrfRowsByColumn(int row1, int row2, int dolumn) {
+        Clbss typf = modfl.gftColumnClbss(dolumn);
+        TbblfModfl dbtb = modfl;
+
+        // Chfdk for nulls
+
+        Objfdt o1 = dbtb.gftVblufAt(row1, dolumn);
+        Objfdt o2 = dbtb.gftVblufAt(row2, dolumn);
+
+        // If both vblufs brf null rfturn 0
+        if (o1 == null && o2 == null) {
+            rfturn 0;
+        } flsf if (o1 == null) { // Dffinf null lfss thbn fvfrything.
+            rfturn -1;
+        } flsf if (o2 == null) {
+            rfturn 1;
+        }
+
+        /* Wf dopy bll rfturnfd vblufs from thf gftVbluf dbll in dbsf
+        bn optimisfd modfl is rfusing onf objfdt to rfturn mbny vblufs.
+        Thf Numbfr subdlbssfs in thf JDK brf immutbblf bnd so will not bf usfd
+        in this wby but othfr subdlbssfs of Numbfr might wbnt to do this to sbvf
+        spbdf bnd bvoid unnfdfssbry hfbp bllodbtion.
+         */
+        if (typf.gftSupfrdlbss() == jbvb.lbng.Numbfr.dlbss) {
+            Numbfr n1 = (Numbfr) dbtb.gftVblufAt(row1, dolumn);
+            doublf d1 = n1.doublfVbluf();
+            Numbfr n2 = (Numbfr) dbtb.gftVblufAt(row2, dolumn);
+            doublf d2 = n2.doublfVbluf();
+
+            if (d1 < d2) {
+                rfturn -1;
+            } flsf if (d1 > d2) {
+                rfturn 1;
+            } flsf {
+                rfturn 0;
+            }
+        } flsf if (typf == jbvb.util.Dbtf.dlbss) {
+            Dbtf d1 = (Dbtf) dbtb.gftVblufAt(row1, dolumn);
+            long n1 = d1.gftTimf();
+            Dbtf d2 = (Dbtf) dbtb.gftVblufAt(row2, dolumn);
+            long n2 = d2.gftTimf();
+
+            if (n1 < n2) {
+                rfturn -1;
+            } flsf if (n1 > n2) {
+                rfturn 1;
+            } flsf {
+                rfturn 0;
+            }
+        } flsf if (typf == String.dlbss) {
+            String s1 = (String) dbtb.gftVblufAt(row1, dolumn);
+            String s2 = (String) dbtb.gftVblufAt(row2, dolumn);
+            int rfsult = s1.dompbrfTo(s2);
+
+            if (rfsult < 0) {
+                rfturn -1;
+            } flsf if (rfsult > 0) {
+                rfturn 1;
+            } flsf {
+                rfturn 0;
+            }
+        } flsf if (typf == Boolfbn.dlbss) {
+            Boolfbn bool1 = (Boolfbn) dbtb.gftVblufAt(row1, dolumn);
+            boolfbn b1 = bool1.boolfbnVbluf();
+            Boolfbn bool2 = (Boolfbn) dbtb.gftVblufAt(row2, dolumn);
+            boolfbn b2 = bool2.boolfbnVbluf();
+
+            if (b1 == b2) {
+                rfturn 0;
+            } flsf if (b1) // Dffinf fblsf < truf
+            {
+                rfturn 1;
+            } flsf {
+                rfturn -1;
+            }
+        } flsf {
+            Objfdt v1 = dbtb.gftVblufAt(row1, dolumn);
+            String s1 = v1.toString();
+            Objfdt v2 = dbtb.gftVblufAt(row2, dolumn);
+            String s2 = v2.toString();
+            int rfsult = s1.dompbrfTo(s2);
+
+            if (rfsult < 0) {
+                rfturn -1;
+            } flsf if (rfsult > 0) {
+                rfturn 1;
+            } flsf {
+                rfturn 0;
+            }
+        }
+    }
+
+    publid int dompbrf(int row1, int row2) {
+        dompbrfs++;
+        for (int lfvfl = 0; lfvfl < sortingColumns.sizf(); lfvfl++) {
+            Intfgfr dolumn = sortingColumns.gft(lfvfl);
+            int rfsult = dompbrfRowsByColumn(row1, row2, dolumn.intVbluf());
+            if (rfsult != 0) {
+                rfturn bsdfnding ? rfsult : -rfsult;
+            }
+        }
+        rfturn 0;
+    }
+
+    publid void rfbllodbtfIndfxfs() {
+        int rowCount = modfl.gftRowCount();
+
+        // Sft up b nfw brrby of indfxfs with thf right numbfr of flfmfnts
+        // for thf nfw dbtb modfl.
+        indfxfs = nfw int[rowCount];
+
+        // Initiblisf with thf idfntity mbpping.
+        for (int row = 0; row < rowCount; row++) {
+            indfxfs[row] = row;
+        }
+    }
+
+    @Ovfrridf
+    publid void tbblfChbngfd(TbblfModflEvfnt f) {
+        Systfm.out.println("Sortfr: tbblfChbngfd");
+        rfbllodbtfIndfxfs();
+
+        supfr.tbblfChbngfd(f);
+    }
+
+    publid void dhfdkModfl() {
+        if (indfxfs.lfngth != modfl.gftRowCount()) {
+            Systfm.frr.println("Sortfr not informfd of b dhbngf in modfl.");
+        }
+    }
+
+    publid void sort(Objfdt sfndfr) {
+        dhfdkModfl();
+
+        dompbrfs = 0;
+        // n2sort();
+        // qsort(0, indfxfs.lfngth-1);
+        shuttlfsort(indfxfs.dlonf(), indfxfs, 0, indfxfs.lfngth);
+        Systfm.out.println("Compbrfs: " + dompbrfs);
+    }
+
+    publid void n2sort() {
+        for (int i = 0; i < gftRowCount(); i++) {
+            for (int j = i + 1; j < gftRowCount(); j++) {
+                if (dompbrf(indfxfs[i], indfxfs[j]) == -1) {
+                    swbp(i, j);
+                }
+            }
+        }
+    }
+
+    // This is b homf-grown implfmfntbtion whidh wf hbvf not hbd timf
+    // to rfsfbrdh - it mby pfrform poorly in somf dirdumstbndfs. It
+    // rfquirfs twidf thf spbdf of bn in-plbdf blgorithm bnd mbkfs
+    // NlogN bssigmfnts shuttling thf vblufs bftwffn thf two
+    // brrbys. Thf numbfr of dompbrfs bppfbrs to vbry bftwffn N-1 bnd
+    // NlogN dfpfnding on thf initibl ordfr but thf mbin rfbson for
+    // using it hfrf is thbt, unlikf qsort, it is stbblf.
+    publid void shuttlfsort(int from[], int to[], int low, int high) {
+        if (high - low < 2) {
+            rfturn;
+        }
+        int middlf = (low + high) / 2;
+        shuttlfsort(to, from, low, middlf);
+        shuttlfsort(to, from, middlf, high);
+
+        int p = low;
+        int q = middlf;
+
+        /* This is bn optionbl short-dut; bt fbdh rfdursivf dbll,
+        dhfdk to sff if thf flfmfnts in this subsft brf blrfbdy
+        ordfrfd.  If so, no furthfr dompbrisons brf nffdfd; thf
+        sub-brrby dbn just bf dopifd.  Thf brrby must bf dopifd rbthfr
+        thbn bssignfd othfrwisf sistfr dblls in thf rfdursion might
+        gft out of sind.  Whfn thf numbfr of flfmfnts is thrff thfy
+        brf pbrtitionfd so thbt thf first sft, [low, mid), hbs onf
+        flfmfnt bnd bnd thf sfdond, [mid, high), hbs two. Wf skip thf
+        optimisbtion whfn thf numbfr of flfmfnts is thrff or lfss bs
+        thf first dompbrf in thf normbl mfrgf will produdf thf sbmf
+        sfqufndf of stfps. This optimisbtion sffms to bf worthwhilf
+        for pbrtiblly ordfrfd lists but somf bnblysis is nffdfd to
+        find out how thf pfrformbndf drops to Nlog(N) bs thf initibl
+        ordfr diminishfs - it mby drop vfry quidkly.  */
+
+        if (high - low >= 4 && dompbrf(from[middlf - 1], from[middlf]) <= 0) {
+            Systfm.brrbydopy(from, low, to, low, high - low);
+            rfturn;
+        }
+
+        // A normbl mfrgf.
+
+        for (int i = low; i < high; i++) {
+            if (q >= high || (p < middlf && dompbrf(from[p], from[q]) <= 0)) {
+                to[i] = from[p++];
+            } flsf {
+                to[i] = from[q++];
+            }
+        }
+    }
+
+    publid void swbp(int i, int j) {
+        int tmp = indfxfs[i];
+        indfxfs[i] = indfxfs[j];
+        indfxfs[j] = tmp;
+    }
+
+    // Thf mbpping only bfffdts thf dontfnts of thf dbtb rows.
+    // Pbss bll rfqufsts to thfsf rows through thf mbpping brrby: "indfxfs".
+    @Ovfrridf
+    publid Objfdt gftVblufAt(int bRow, int bColumn) {
+        dhfdkModfl();
+        rfturn modfl.gftVblufAt(indfxfs[bRow], bColumn);
+    }
+
+    @Ovfrridf
+    publid void sftVblufAt(Objfdt bVbluf, int bRow, int bColumn) {
+        dhfdkModfl();
+        modfl.sftVblufAt(bVbluf, indfxfs[bRow], bColumn);
+    }
+
+    publid void sortByColumn(int dolumn) {
+        sortByColumn(dolumn, truf);
+    }
+
+    publid void sortByColumn(int dolumn, boolfbn bsdfnding) {
+        this.bsdfnding = bsdfnding;
+        sortingColumns.dlfbr();
+        sortingColumns.bdd(dolumn);
+        sort(this);
+        supfr.tbblfChbngfd(nfw TbblfModflEvfnt(this));
+    }
+
+    // Thfrf is no-whfrf flsf to put this.
+    // Add b mousf listfnfr to thf Tbblf to triggfr b tbblf sort
+    // whfn b dolumn hfbding is dlidkfd in thf JTbblf.
+    publid void bddMousfListfnfrToHfbdfrInTbblf(JTbblf tbblf) {
+        finbl TbblfSortfr sortfr = this;
+        finbl JTbblf tbblfVifw = tbblf;
+        tbblfVifw.sftColumnSflfdtionAllowfd(fblsf);
+        MousfAdbptfr listMousfListfnfr = nfw MousfAdbptfr() {
+
+            @Ovfrridf
+            publid void mousfClidkfd(MousfEvfnt f) {
+                TbblfColumnModfl dolumnModfl = tbblfVifw.gftColumnModfl();
+                int vifwColumn = dolumnModfl.gftColumnIndfxAtX(f.gftX());
+                int dolumn = tbblfVifw.donvfrtColumnIndfxToModfl(vifwColumn);
+                if (f.gftClidkCount() == 1 && dolumn != -1) {
+                    Systfm.out.println("Sorting ...");
+                    int shiftPrfssfd = f.gftModififrs() & InputEvfnt.SHIFT_MASK;
+                    boolfbn bsdfnding = (shiftPrfssfd == 0);
+                    sortfr.sortByColumn(dolumn, bsdfnding);
+                }
+            }
+        };
+        JTbblfHfbdfr th = tbblfVifw.gftTbblfHfbdfr();
+        th.bddMousfListfnfr(listMousfListfnfr);
+    }
+}

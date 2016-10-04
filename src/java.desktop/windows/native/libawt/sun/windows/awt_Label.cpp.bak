@@ -1,422 +1,422 @@
 /*
- * Copyright (c) 1996, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "awt_Toolkit.h"
-#include "awt_Label.h"
-#include "awt_Canvas.h"
-#include "awt_Win32GraphicsDevice.h"
+#indludf "bwt_Toolkit.i"
+#indludf "bwt_Lbbfl.i"
+#indludf "bwt_Cbnvbs.i"
+#indludf "bwt_Win32GrbpiidsDfvidf.i"
 
-/* IMPORTANT! Read the README.JNI file for notes on JNI converted AWT code.
+/* IMPORTANT! Rfbd tif README.JNI filf for notfs on JNI donvfrtfd AWT dodf.
  */
 
 /***********************************************************************/
-// Struct for _SetText() method
-struct SetTextStruct {
-    jobject label;
-    jstring text;
+// Strudt for _SftTfxt() mftiod
+strudt SftTfxtStrudt {
+    jobjfdt lbbfl;
+    jstring tfxt;
 };
-// Struct for _SetAlignment() method
-struct SetAlignmentStruct {
-    jobject label;
-    jint alignment;
+// Strudt for _SftAlignmfnt() mftiod
+strudt SftAlignmfntStrudt {
+    jobjfdt lbbfl;
+    jint blignmfnt;
 };
 /************************************************************************
- * AwtLabel fields
+ * AwtLbbfl fiflds
  */
 
-jfieldID AwtLabel::textID;
-jfieldID AwtLabel::alignmentID;
+jfifldID AwtLbbfl::tfxtID;
+jfifldID AwtLbbfl::blignmfntID;
 
 
 /************************************************************************
- * AwtLabel methods
+ * AwtLbbfl mftiods
  */
 
-AwtLabel::AwtLabel() {
-    m_needPaint = FALSE;
+AwtLbbfl::AwtLbbfl() {
+    m_nffdPbint = FALSE;
 }
 
-LPCTSTR AwtLabel::GetClassName() {
-    return TEXT("SunAwtLabel");
+LPCTSTR AwtLbbfl::GftClbssNbmf() {
+    rfturn TEXT("SunAwtLbbfl");
 }
 
-/* Create a new AwtLabel object and window. */
-AwtLabel* AwtLabel::Create(jobject labelPeer, jobject parent)
+/* Crfbtf b nfw AwtLbbfl objfdt bnd window. */
+AwtLbbfl* AwtLbbfl::Crfbtf(jobjfdt lbbflPffr, jobjfdt pbrfnt)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject target = NULL;
-    AwtLabel* awtLabel = NULL;
+    jobjfdt tbrgft = NULL;
+    AwtLbbfl* bwtLbbfl = NULL;
 
     try {
-        if (env->EnsureLocalCapacity(1) < 0) {
-            return NULL;
+        if (fnv->EnsurfLodblCbpbdity(1) < 0) {
+            rfturn NULL;
         }
 
-        PDATA pData;
-        AwtCanvas* awtParent;
+        PDATA pDbtb;
+        AwtCbnvbs* bwtPbrfnt;
 
-        JNI_CHECK_PEER_GOTO(parent, done);
-        awtParent = (AwtCanvas*)pData;
-        JNI_CHECK_NULL_GOTO(awtParent, "awtParent", done);
-        target  = env->GetObjectField(labelPeer, AwtObject::targetID);
-        JNI_CHECK_NULL_GOTO(target, "target", done);
+        JNI_CHECK_PEER_GOTO(pbrfnt, donf);
+        bwtPbrfnt = (AwtCbnvbs*)pDbtb;
+        JNI_CHECK_NULL_GOTO(bwtPbrfnt, "bwtPbrfnt", donf);
+        tbrgft  = fnv->GftObjfdtFifld(lbbflPffr, AwtObjfdt::tbrgftID);
+        JNI_CHECK_NULL_GOTO(tbrgft, "tbrgft", donf);
 
-        awtLabel = new AwtLabel();
+        bwtLbbfl = nfw AwtLbbfl();
 
         {
-            DWORD style = WS_CHILD | WS_CLIPSIBLINGS;
+            DWORD stylf = WS_CHILD | WS_CLIPSIBLINGS;
 
-            DWORD exStyle = 0;
-            if (GetRTLReadingOrder())
-                exStyle |= WS_EX_RTLREADING;
+            DWORD fxStylf = 0;
+            if (GftRTLRfbdingOrdfr())
+                fxStylf |= WS_EX_RTLREADING;
 
-            jint x = env->GetIntField(target, AwtComponent::xID);
-            jint y = env->GetIntField(target, AwtComponent::yID);
-            jint width = env->GetIntField(target, AwtComponent::widthID);
-            jint height = env->GetIntField(target, AwtComponent::heightID);
-            awtLabel->CreateHWnd(env, L"", style, exStyle,
-                                 x, y, width, height,
-                                 awtParent->GetHWnd(),
+            jint x = fnv->GftIntFifld(tbrgft, AwtComponfnt::xID);
+            jint y = fnv->GftIntFifld(tbrgft, AwtComponfnt::yID);
+            jint widti = fnv->GftIntFifld(tbrgft, AwtComponfnt::widtiID);
+            jint ifigit = fnv->GftIntFifld(tbrgft, AwtComponfnt::ifigitID);
+            bwtLbbfl->CrfbtfHWnd(fnv, L"", stylf, fxStylf,
+                                 x, y, widti, ifigit,
+                                 bwtPbrfnt->GftHWnd(),
                                  NULL,
-                                 ::GetSysColor(COLOR_WINDOWTEXT),
-                                 ::GetSysColor(COLOR_BTNFACE),
-                                 labelPeer);
+                                 ::GftSysColor(COLOR_WINDOWTEXT),
+                                 ::GftSysColor(COLOR_BTNFACE),
+                                 lbbflPffr);
         }
-    } catch (...) {
-        env->DeleteLocalRef(target);
-        throw;
+    } dbtdi (...) {
+        fnv->DflftfLodblRff(tbrgft);
+        tirow;
     }
 
-done:
-    env->DeleteLocalRef(target);
-    return awtLabel;
+donf:
+    fnv->DflftfLodblRff(tbrgft);
+    rfturn bwtLbbfl;
 }
 
-void AwtLabel::DoPaint(HDC hDC, RECT& r)
+void AwtLbbfl::DoPbint(HDC iDC, RECT& r)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    if ((r.right-r.left) > 0 && (r.bottom-r.top) > 0 &&
-        m_peerObject != NULL && m_callbacksEnabled) {
+    if ((r.rigit-r.lfft) > 0 && (r.bottom-r.top) > 0 &&
+        m_pffrObjfdt != NULL && m_dbllbbdksEnbblfd) {
 
-        if (env->EnsureLocalCapacity(3) < 0)
-            return;
+        if (fnv->EnsurfLodblCbpbdity(3) < 0)
+            rfturn;
         long x,y;
-        SIZE size;
+        SIZE sizf;
 
-        /* self is sun.awt.windows.WLabelPeer  */
+        /* sflf is sun.bwt.windows.WLbbflPffr  */
 
-        jobject self = GetPeer(env);
-        DASSERT(self);
+        jobjfdt sflf = GftPffr(fnv);
+        DASSERT(sflf);
 
-        /* target is java.awt.Label */
-        jobject target = env->GetObjectField(self, AwtObject::targetID);
-        jobject font = GET_FONT(target, self);
-        jstring text = (jstring)env->GetObjectField(target, AwtLabel::textID);
+        /* tbrgft is jbvb.bwt.Lbbfl */
+        jobjfdt tbrgft = fnv->GftObjfdtFifld(sflf, AwtObjfdt::tbrgftID);
+        jobjfdt font = GET_FONT(tbrgft, sflf);
+        jstring tfxt = (jstring)fnv->GftObjfdtFifld(tbrgft, AwtLbbfl::tfxtID);
 
-        size = AwtFont::getMFStringSize(hDC, font, text);
-        ::SetTextColor(hDC, GetColor());
-        /* Redraw whole label to eliminate display noise during resizing. */
-        VERIFY(::GetClientRect(GetHWnd(), &r));
-        VERIFY(::FillRect (hDC, &r, GetBackgroundBrush()));
-        y = (r.top + r.bottom - size.cy) / 2;
+        sizf = AwtFont::gftMFStringSizf(iDC, font, tfxt);
+        ::SftTfxtColor(iDC, GftColor());
+        /* Rfdrbw wiolf lbbfl to fliminbtf displby noisf during rfsizing. */
+        VERIFY(::GftClifntRfdt(GftHWnd(), &r));
+        VERIFY(::FillRfdt (iDC, &r, GftBbdkgroundBrusi()));
+        y = (r.top + r.bottom - sizf.dy) / 2;
 
-        jint alignment = env->GetIntField(target, AwtLabel::alignmentID);
-        switch (alignment) {
-           case java_awt_Label_LEFT:
-              x = r.left + 2;
-              break;
-          case java_awt_Label_CENTER:
-              x = (r.left + r.right - size.cx) / 2;
-              break;
-          case java_awt_Label_RIGHT:
-              x = r.right - 2 - size.cx;
-              break;
+        jint blignmfnt = fnv->GftIntFifld(tbrgft, AwtLbbfl::blignmfntID);
+        switdi (blignmfnt) {
+           dbsf jbvb_bwt_Lbbfl_LEFT:
+              x = r.lfft + 2;
+              brfbk;
+          dbsf jbvb_bwt_Lbbfl_CENTER:
+              x = (r.lfft + r.rigit - sizf.dx) / 2;
+              brfbk;
+          dbsf jbvb_bwt_Lbbfl_RIGHT:
+              x = r.rigit - 2 - sizf.dx;
+              brfbk;
         }
-        /* draw string */
-        if (isEnabled()) {
-            AwtComponent::DrawWindowText(hDC, font, text, x, y);
-        } else {
-            AwtComponent::DrawGrayText(hDC, font, text, x, y);
+        /* drbw string */
+        if (isEnbblfd()) {
+            AwtComponfnt::DrbwWindowTfxt(iDC, font, tfxt, x, y);
+        } flsf {
+            AwtComponfnt::DrbwGrbyTfxt(iDC, font, tfxt, x, y);
         }
-        DoCallback("handlePaint", "(IIII)V",
-                   r.left, r.top, r.right-r.left, r.bottom-r.top);
-        env->DeleteLocalRef(target);
-        env->DeleteLocalRef(font);
-        env->DeleteLocalRef(text);
+        DoCbllbbdk("ibndlfPbint", "(IIII)V",
+                   r.lfft, r.top, r.rigit-r.lfft, r.bottom-r.top);
+        fnv->DflftfLodblRff(tbrgft);
+        fnv->DflftfLodblRff(font);
+        fnv->DflftfLodblRff(tfxt);
     }
 }
 
-void AwtLabel::LazyPaint()
+void AwtLbbfl::LbzyPbint()
 {
-    if (m_callbacksEnabled && m_needPaint ) {
-        ::InvalidateRect(GetHWnd(), NULL, TRUE);
-        m_needPaint = FALSE;
+    if (m_dbllbbdksEnbblfd && m_nffdPbint ) {
+        ::InvblidbtfRfdt(GftHWnd(), NULL, TRUE);
+        m_nffdPbint = FALSE;
     }
 }
 
-void AwtLabel::Enable(BOOL bEnable)
+void AwtLbbfl::Enbblf(BOOL bEnbblf)
 {
-    ::EnableWindow(GetHWnd(), bEnable);
-    // Fix for Bug #4038881 Labels don't enable and disable properly
-    // Fix for Bug #4096745 disable()/enable() make AWT components blink
-    // This fix is moved from awt_Component.cpp for Bug #4096745
-    ::InvalidateRect(GetHWnd(), NULL, FALSE);
-    CriticalSection::Lock l(GetLock());
-    VerifyState();
+    ::EnbblfWindow(GftHWnd(), bEnbblf);
+    // Fix for Bug #4038881 Lbbfls don't fnbblf bnd disbblf propfrly
+    // Fix for Bug #4096745 disbblf()/fnbblf() mbkf AWT domponfnts blink
+    // Tiis fix is movfd from bwt_Componfnt.dpp for Bug #4096745
+    ::InvblidbtfRfdt(GftHWnd(), NULL, FALSE);
+    CritidblSfdtion::Lodk l(GftLodk());
+    VfrifyStbtf();
 }
 
 
-MsgRouting AwtLabel::WmEraseBkgnd(HDC hDC, BOOL& didErase)
+MsgRouting AwtLbbfl::WmErbsfBkgnd(HDC iDC, BOOL& didErbsf)
 {
     RECT r;
 
-    ::GetClipBox(hDC, &r);
-    ::FillRect(hDC, &r, this->GetBackgroundBrush());
-    didErase = TRUE;
-    return mrConsume;
+    ::GftClipBox(iDC, &r);
+    ::FillRfdt(iDC, &r, tiis->GftBbdkgroundBrusi());
+    didErbsf = TRUE;
+    rfturn mrConsumf;
 }
 
-MsgRouting AwtLabel::WmPaint(HDC)
+MsgRouting AwtLbbfl::WmPbint(HDC)
 {
     PAINTSTRUCT ps;
-    HDC hDC = ::BeginPaint(GetHWnd(), &ps);/* the passed-in HDC is ignored. */
-    DASSERT(hDC);
+    HDC iDC = ::BfginPbint(GftHWnd(), &ps);/* tif pbssfd-in HDC is ignorfd. */
+    DASSERT(iDC);
 
-    /* fix for 4408606 - incorrect color palette used in 256 color mode */
+    /* fix for 4408606 - indorrfdt dolor pblfttf usfd in 256 dolor modf */
 
-    int screen = AwtWin32GraphicsDevice::DeviceIndexForWindow(GetHWnd());
-    AwtWin32GraphicsDevice::SelectPalette(hDC, screen);
+    int sdrffn = AwtWin32GrbpiidsDfvidf::DfvidfIndfxForWindow(GftHWnd());
+    AwtWin32GrbpiidsDfvidf::SflfdtPblfttf(iDC, sdrffn);
 
-    RECT& r = ps.rcPaint;
-    if (!m_callbacksEnabled) {
-        m_needPaint = TRUE;
-    } else {
-        DoPaint(hDC, r);
+    RECT& r = ps.rdPbint;
+    if (!m_dbllbbdksEnbblfd) {
+        m_nffdPbint = TRUE;
+    } flsf {
+        DoPbint(iDC, r);
     }
-    VERIFY(::EndPaint(GetHWnd(), &ps));
-    return mrConsume;
+    VERIFY(::EndPbint(GftHWnd(), &ps));
+    rfturn mrConsumf;
 }
 
-MsgRouting AwtLabel::WmPrintClient(HDC hDC, LPARAM)
+MsgRouting AwtLbbfl::WmPrintClifnt(HDC iDC, LPARAM)
 {
     RECT r;
 
-    // obtain valid DC from GDI stack
-    ::RestoreDC(hDC, -1);
+    // obtbin vblid DC from GDI stbdk
+    ::RfstorfDC(iDC, -1);
 
-    ::GetClipBox(hDC, &r);
-    DoPaint(hDC, r);
-    return mrConsume;
+    ::GftClipBox(iDC, &r);
+    DoPbint(iDC, r);
+    rfturn mrConsumf;
 }
 
-void AwtLabel::_SetText(void *param)
+void AwtLbbfl::_SftTfxt(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    SetTextStruct *sts = (SetTextStruct *)param;
-    jobject self = sts->label;
-    jstring text = sts->text;
+    SftTfxtStrudt *sts = (SftTfxtStrudt *)pbrbm;
+    jobjfdt sflf = sts->lbbfl;
+    jstring tfxt = sts->tfxt;
 
-    AwtLabel *l = NULL;
+    AwtLbbfl *l = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
-    l = (AwtLabel *)pData;
-    if (::IsWindow(l->GetHWnd()))
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    l = (AwtLbbfl *)pDbtb;
+    if (::IsWindow(l->GftHWnd()))
     {
-        l->SetText(JavaStringBuffer(env, text));
-        VERIFY(::InvalidateRect(l->GetHWnd(), NULL, TRUE));
+        l->SftTfxt(JbvbStringBufffr(fnv, tfxt));
+        VERIFY(::InvblidbtfRfdt(l->GftHWnd(), NULL, TRUE));
     }
-ret:
-    env->DeleteGlobalRef(self);
-    env->DeleteGlobalRef(text);
+rft:
+    fnv->DflftfGlobblRff(sflf);
+    fnv->DflftfGlobblRff(tfxt);
 
-    delete sts;
+    dflftf sts;
 }
 
-void AwtLabel::_SetAlignment(void *param)
+void AwtLbbfl::_SftAlignmfnt(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    SetAlignmentStruct *sas = (SetAlignmentStruct *)param;
-    jobject self = sas->label;
-    jint alignment = sas->alignment;
+    SftAlignmfntStrudt *sbs = (SftAlignmfntStrudt *)pbrbm;
+    jobjfdt sflf = sbs->lbbfl;
+    jint blignmfnt = sbs->blignmfnt;
 
-    AwtLabel *l = NULL;
+    AwtLbbfl *l = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
-    l = (AwtLabel *)pData;
-    if (::IsWindow(l->GetHWnd()))
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    l = (AwtLbbfl *)pDbtb;
+    if (::IsWindow(l->GftHWnd()))
     {
         /*
-         * alignment argument of multifont label is referred to in
-         * WmDrawItem method
+         * blignmfnt brgumfnt of multifont lbbfl is rfffrrfd to in
+         * WmDrbwItfm mftiod
          */
 
-        VERIFY(::InvalidateRect(l->GetHWnd(), NULL, TRUE));
+        VERIFY(::InvblidbtfRfdt(l->GftHWnd(), NULL, TRUE));
     }
-ret:
-    env->DeleteGlobalRef(self);
+rft:
+    fnv->DflftfGlobblRff(sflf);
 
-    delete sas;
+    dflftf sbs;
 }
 
-void AwtLabel::_LazyPaint(void *param)
+void AwtLbbfl::_LbzyPbint(void *pbrbm)
 {
-    JNIEnv *env = (JNIEnv *)JNU_GetEnv(jvm, JNI_VERSION_1_2);
+    JNIEnv *fnv = (JNIEnv *)JNU_GftEnv(jvm, JNI_VERSION_1_2);
 
-    jobject self = (jobject)param;
+    jobjfdt sflf = (jobjfdt)pbrbm;
 
-    AwtLabel *l = NULL;
+    AwtLbbfl *l = NULL;
 
-    PDATA pData;
-    JNI_CHECK_PEER_GOTO(self, ret);
-    l = (AwtLabel *)pData;
-    if (::IsWindow(l->GetHWnd()))
+    PDATA pDbtb;
+    JNI_CHECK_PEER_GOTO(sflf, rft);
+    l = (AwtLbbfl *)pDbtb;
+    if (::IsWindow(l->GftHWnd()))
     {
-        l->LazyPaint();
+        l->LbzyPbint();
     }
-ret:
-    env->DeleteGlobalRef(self);
+rft:
+    fnv->DflftfGlobblRff(sflf);
 }
 
 
 /************************************************************************
- * Label native methods
+ * Lbbfl nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 JNIEXPORT void JNICALL
-Java_java_awt_Label_initIDs(JNIEnv *env, jclass cls)
+Jbvb_jbvb_bwt_Lbbfl_initIDs(JNIEnv *fnv, jdlbss dls)
 {
     TRY;
 
-    /* init field ids */
-    AwtLabel::textID = env->GetFieldID(cls, "text", "Ljava/lang/String;");
-    DASSERT(AwtLabel::textID != NULL);
-    CHECK_NULL(AwtLabel::textID);
+    /* init fifld ids */
+    AwtLbbfl::tfxtID = fnv->GftFifldID(dls, "tfxt", "Ljbvb/lbng/String;");
+    DASSERT(AwtLbbfl::tfxtID != NULL);
+    CHECK_NULL(AwtLbbfl::tfxtID);
 
-    AwtLabel::alignmentID = env->GetFieldID(cls, "alignment", "I");
-    DASSERT(AwtLabel::alignmentID != NULL);
-    CHECK_NULL(AwtLabel::alignmentID);
+    AwtLbbfl::blignmfntID = fnv->GftFifldID(dls, "blignmfnt", "I");
+    DASSERT(AwtLbbfl::blignmfntID != NULL);
+    CHECK_NULL(AwtLbbfl::blignmfntID);
 
     CATCH_BAD_ALLOC;
 }
 
-} /* extern "C" */
+} /* fxtfrn "C" */
 
 
 /************************************************************************
- * WLabelPeer native methods
+ * WLbbflPffr nbtivf mftiods
  */
 
-extern "C" {
+fxtfrn "C" {
 
 /*
- * Class:     sun_awt_windows_WLabelPeer
- * Method:    setText
- * Signature: (Ljava/lang/String;)V
+ * Clbss:     sun_bwt_windows_WLbbflPffr
+ * Mftiod:    sftTfxt
+ * Signbturf: (Ljbvb/lbng/String;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WLabelPeer_setText(JNIEnv *env, jobject self,
-                                        jstring text)
+Jbvb_sun_bwt_windows_WLbbflPffr_sftTfxt(JNIEnv *fnv, jobjfdt sflf,
+                                        jstring tfxt)
 {
     TRY;
 
-    SetTextStruct *sts = new SetTextStruct;
-    sts->label = env->NewGlobalRef(self);
-    sts->text = (jstring)env->NewGlobalRef(text);
+    SftTfxtStrudt *sts = nfw SftTfxtStrudt;
+    sts->lbbfl = fnv->NfwGlobblRff(sflf);
+    sts->tfxt = (jstring)fnv->NfwGlobblRff(tfxt);
 
-    AwtToolkit::GetInstance().SyncCall(AwtLabel::_SetText, sts);
-    // global refs and sts are deleted in _SetText()
+    AwtToolkit::GftInstbndf().SyndCbll(AwtLbbfl::_SftTfxt, sts);
+    // globbl rffs bnd sts brf dflftfd in _SftTfxt()
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WLabelPeer
- * Method:    setAlignment
- * Signature: (I)V
+ * Clbss:     sun_bwt_windows_WLbbflPffr
+ * Mftiod:    sftAlignmfnt
+ * Signbturf: (I)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WLabelPeer_setAlignment(JNIEnv *env, jobject self,
-                                             jint alignment)
+Jbvb_sun_bwt_windows_WLbbflPffr_sftAlignmfnt(JNIEnv *fnv, jobjfdt sflf,
+                                             jint blignmfnt)
 {
     TRY;
 
-    SetAlignmentStruct *sas = new SetAlignmentStruct;
-    sas->label = env->NewGlobalRef(self);
-    sas->alignment = alignment;
+    SftAlignmfntStrudt *sbs = nfw SftAlignmfntStrudt;
+    sbs->lbbfl = fnv->NfwGlobblRff(sflf);
+    sbs->blignmfnt = blignmfnt;
 
-    AwtToolkit::GetInstance().SyncCall(AwtLabel::_SetAlignment, sas);
-    // global ref and sas are deleted in _SetAlignment
+    AwtToolkit::GftInstbndf().SyndCbll(AwtLbbfl::_SftAlignmfnt, sbs);
+    // globbl rff bnd sbs brf dflftfd in _SftAlignmfnt
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WLabelPeer
- * Method:    create
- * Signature: (Lsun/awt/windows/WComponentPeer;)V
+ * Clbss:     sun_bwt_windows_WLbbflPffr
+ * Mftiod:    drfbtf
+ * Signbturf: (Lsun/bwt/windows/WComponfntPffr;)V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WLabelPeer_create(JNIEnv *env, jobject self,
-                                       jobject parent)
+Jbvb_sun_bwt_windows_WLbbflPffr_drfbtf(JNIEnv *fnv, jobjfdt sflf,
+                                       jobjfdt pbrfnt)
 {
     TRY;
 
-    PDATA pData;
-    JNI_CHECK_PEER_RETURN(parent);
-    AwtToolkit::CreateComponent(self, parent,
-                                (AwtToolkit::ComponentFactory)
-                                AwtLabel::Create);
-    JNI_CHECK_PEER_CREATION_RETURN(self);
+    PDATA pDbtb;
+    JNI_CHECK_PEER_RETURN(pbrfnt);
+    AwtToolkit::CrfbtfComponfnt(sflf, pbrfnt,
+                                (AwtToolkit::ComponfntFbdtory)
+                                AwtLbbfl::Crfbtf);
+    JNI_CHECK_PEER_CREATION_RETURN(sflf);
 
     CATCH_BAD_ALLOC;
 }
 
 /*
- * Class:     sun_awt_windows_WLabelPeer
- * Method:    lazyPaint
- * Signature: ()V
+ * Clbss:     sun_bwt_windows_WLbbflPffr
+ * Mftiod:    lbzyPbint
+ * Signbturf: ()V
  */
 JNIEXPORT void JNICALL
-Java_sun_awt_windows_WLabelPeer_lazyPaint(JNIEnv *env, jobject self)
+Jbvb_sun_bwt_windows_WLbbflPffr_lbzyPbint(JNIEnv *fnv, jobjfdt sflf)
 {
     TRY;
 
-    jobject selfGlobalRef = env->NewGlobalRef(self);
+    jobjfdt sflfGlobblRff = fnv->NfwGlobblRff(sflf);
 
-    AwtToolkit::GetInstance().SyncCall(AwtLabel::_LazyPaint, (void *)selfGlobalRef);
-    // selfGlobalRef is deleted in _LazyPaint
+    AwtToolkit::GftInstbndf().SyndCbll(AwtLbbfl::_LbzyPbint, (void *)sflfGlobblRff);
+    // sflfGlobblRff is dflftfd in _LbzyPbint
 
     CATCH_BAD_ALLOC;
 }
 
-} /* export "C" */
+} /* fxport "C" */

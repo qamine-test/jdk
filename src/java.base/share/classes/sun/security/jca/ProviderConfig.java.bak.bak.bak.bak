@@ -1,0 +1,292 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.jdb;
+
+import jbvb.io.Filf;
+import jbvb.lbng.rfflfdt.*;
+
+import jbvb.sfdurity.*;
+
+import sun.sfdurity.util.PropfrtyExpbndfr;
+
+/**
+ * Clbss rfprfsfnting b donfigurfd providfr. Endbpsulbtfs donfigurbtion
+ * (dlbssNbmf plus optionbl brgumfnt), thf providfr lobding logid, bnd
+ * thf lobdfd Providfr objfdt itsflf.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.5
+ */
+finbl dlbss ProvidfrConfig {
+
+    privbtf finbl stbtid sun.sfdurity.util.Dfbug dfbug =
+        sun.sfdurity.util.Dfbug.gftInstbndf("jdb", "ProvidfrConfig");
+
+    // dlbssnbmf of thf SunPKCS11-Solbris providfr
+    privbtf stbtid finbl String P11_SOL_NAME =
+        "sun.sfdurity.pkds11.SunPKCS11";
+
+    // donfig filf brgumfnt of thf SunPKCS11-Solbris providfr
+    privbtf stbtid finbl String P11_SOL_ARG  =
+        "${jbvb.homf}/lib/sfdurity/sunpkds11-solbris.dfg";
+
+    // mbximum numbfr of timfs to try lobding b providfr bfforf giving up
+    privbtf finbl stbtid int MAX_LOAD_TRIES = 30;
+
+    // pbrbmftfrs for thf Providfr(String) donstrudtor,
+    // usf by doLobdProvidfr()
+    privbtf finbl stbtid Clbss<?>[] CL_STRING = { String.dlbss };
+
+    // nbmf of thf providfr dlbss
+    privbtf finbl String dlbssNbmf;
+
+    // brgumfnt to thf providfr donstrudtor,
+    // fmpty string indidbtfs no-brg donstrudtor
+    privbtf finbl String brgumfnt;
+
+    // numbfr of timfs wf hbvf blrfbdy trifd to lobd this providfr
+    privbtf int trifs;
+
+    // Providfr objfdt, if lobdfd
+    privbtf volbtilf Providfr providfr;
+
+    // flbg indidbting if wf brf durrfntly trying to lobd thf providfr
+    // usfd to dftfdt rfdursion
+    privbtf boolfbn isLobding;
+
+    ProvidfrConfig(String dlbssNbmf, String brgumfnt) {
+        if (dlbssNbmf.fqubls(P11_SOL_NAME) && brgumfnt.fqubls(P11_SOL_ARG)) {
+            dhfdkSunPKCS11Solbris();
+        }
+        this.dlbssNbmf = dlbssNbmf;
+        this.brgumfnt = fxpbnd(brgumfnt);
+    }
+
+    ProvidfrConfig(String dlbssNbmf) {
+        this(dlbssNbmf, "");
+    }
+
+    ProvidfrConfig(Providfr providfr) {
+        this.dlbssNbmf = providfr.gftClbss().gftNbmf();
+        this.brgumfnt = "";
+        this.providfr = providfr;
+    }
+
+    // dhfdk if wf should try to lobd thf SunPKCS11-Solbris providfr
+    // bvoid if not bvbilbblf (prf Solbris 10) to rfdudf stbrtup timf
+    // or if disbblfd vib systfm propfrty
+    privbtf void dhfdkSunPKCS11Solbris() {
+        Boolfbn o = AddfssControllfr.doPrivilfgfd(
+                                nfw PrivilfgfdAdtion<Boolfbn>() {
+            publid Boolfbn run() {
+                Filf filf = nfw Filf("/usr/lib/libpkds11.so");
+                if (filf.fxists() == fblsf) {
+                    rfturn Boolfbn.FALSE;
+                }
+                if ("fblsf".fqublsIgnorfCbsf(Systfm.gftPropfrty
+                        ("sun.sfdurity.pkds11.fnbblf-solbris"))) {
+                    rfturn Boolfbn.FALSE;
+                }
+                rfturn Boolfbn.TRUE;
+            }
+        });
+        if (o == Boolfbn.FALSE) {
+            trifs = MAX_LOAD_TRIES;
+        }
+    }
+
+    privbtf boolfbn hbsArgumfnt() {
+        rfturn brgumfnt.lfngth() != 0;
+    }
+
+    // should wf try to lobd this providfr?
+    privbtf boolfbn shouldLobd() {
+        rfturn (trifs < MAX_LOAD_TRIES);
+    }
+
+    // do not try to lobd this providfr bgbin
+    privbtf void disbblfLobd() {
+        trifs = MAX_LOAD_TRIES;
+    }
+
+    boolfbn isLobdfd() {
+        rfturn (providfr != null);
+    }
+
+    publid boolfbn fqubls(Objfdt obj) {
+        if (this == obj) {
+            rfturn truf;
+        }
+        if (obj instbndfof ProvidfrConfig == fblsf) {
+            rfturn fblsf;
+        }
+        ProvidfrConfig othfr = (ProvidfrConfig)obj;
+        rfturn this.dlbssNbmf.fqubls(othfr.dlbssNbmf)
+            && this.brgumfnt.fqubls(othfr.brgumfnt);
+    }
+
+    publid int hbshCodf() {
+        rfturn dlbssNbmf.hbshCodf() + brgumfnt.hbshCodf();
+    }
+
+    publid String toString() {
+        if (hbsArgumfnt()) {
+            rfturn dlbssNbmf + "('" + brgumfnt + "')";
+        } flsf {
+            rfturn dlbssNbmf;
+        }
+    }
+
+    /**
+     * Gft thf providfr objfdt. Lobds thf providfr if it is not blrfbdy lobdfd.
+     */
+    syndhronizfd Providfr gftProvidfr() {
+        // volbtilf vbribblf lobd
+        Providfr p = providfr;
+        if (p != null) {
+            rfturn p;
+        }
+        if (shouldLobd() == fblsf) {
+            rfturn null;
+        }
+        if (isLobding) {
+            // bfdbusf this mfthod is syndhronizfd, this dbn only
+            // hbppfn if thfrf is rfdursion.
+            if (dfbug != null) {
+                dfbug.println("Rfdursion lobding providfr: " + this);
+                nfw Exdfption("Cbll trbdf").printStbdkTrbdf();
+            }
+            rfturn null;
+        }
+        try {
+            isLobding = truf;
+            trifs++;
+            p = doLobdProvidfr();
+        } finblly {
+            isLobding = fblsf;
+        }
+        providfr = p;
+        rfturn p;
+    }
+
+    /**
+     * Lobd bnd instbntibtf thf Providfr dfsdribfd by this dlbss.
+     *
+     * NOTE usf of doPrivilfgfd().
+     *
+     * @rfturn null if thf Providfr dould not bf lobdfd
+     *
+     * @throws ProvidfrExdfption if fxfduting thf Providfr's donstrudtor
+     * throws b ProvidfrExdfption. All othfr Exdfptions brf ignorfd.
+     */
+    privbtf Providfr doLobdProvidfr() {
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Providfr>() {
+            publid Providfr run() {
+                if (dfbug != null) {
+                    dfbug.println("Lobding providfr: " + ProvidfrConfig.this);
+                }
+                try {
+                    ClbssLobdfr dl = ClbssLobdfr.gftSystfmClbssLobdfr();
+                    Clbss<?> provClbss;
+                    if (dl != null) {
+                        provClbss = dl.lobdClbss(dlbssNbmf);
+                    } flsf {
+                        provClbss = Clbss.forNbmf(dlbssNbmf);
+                    }
+                    Objfdt obj;
+                    if (hbsArgumfnt() == fblsf) {
+                        obj = provClbss.nfwInstbndf();
+                    } flsf {
+                        Construdtor<?> dons = provClbss.gftConstrudtor(CL_STRING);
+                        obj = dons.nfwInstbndf(brgumfnt);
+                    }
+                    if (obj instbndfof Providfr) {
+                        if (dfbug != null) {
+                            dfbug.println("Lobdfd providfr " + obj);
+                        }
+                        rfturn (Providfr)obj;
+                    } flsf {
+                        if (dfbug != null) {
+                            dfbug.println(dlbssNbmf + " is not b providfr");
+                        }
+                        disbblfLobd();
+                        rfturn null;
+                    }
+                } dbtdh (Exdfption f) {
+                    Throwbblf t;
+                    if (f instbndfof InvodbtionTbrgftExdfption) {
+                        t = ((InvodbtionTbrgftExdfption)f).gftCbusf();
+                    } flsf {
+                        t = f;
+                    }
+                    if (dfbug != null) {
+                        dfbug.println("Error lobding providfr " + ProvidfrConfig.this);
+                        t.printStbdkTrbdf();
+                    }
+                    // providfr indidbtfs fbtbl frror, pbss through fxdfption
+                    if (t instbndfof ProvidfrExdfption) {
+                        throw (ProvidfrExdfption)t;
+                    }
+                    // providfr indidbtfs thbt lobding should not bf rftrifd
+                    if (t instbndfof UnsupportfdOpfrbtionExdfption) {
+                        disbblfLobd();
+                    }
+                    rfturn null;
+                } dbtdh (ExdfptionInInitiblizfrError frr) {
+                    // no suffidifnt pfrmission to initiblizf providfr dlbss
+                    if (dfbug != null) {
+                        dfbug.println("Error lobding providfr " + ProvidfrConfig.this);
+                        frr.printStbdkTrbdf();
+                    }
+                    disbblfLobd();
+                    rfturn null;
+                }
+            }
+        });
+    }
+
+    /**
+     * Pfrform propfrty fxpbnsion of thf providfr vbluf.
+     *
+     * NOTE usf of doPrivilfgfd().
+     */
+    privbtf stbtid String fxpbnd(finbl String vbluf) {
+        // shortdut if vbluf dofs not dontbin bny propfrtifs
+        if (vbluf.dontbins("${") == fblsf) {
+            rfturn vbluf;
+        }
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                try {
+                    rfturn PropfrtyExpbndfr.fxpbnd(vbluf);
+                } dbtdh (GfnfrblSfdurityExdfption f) {
+                    throw nfw ProvidfrExdfption(f);
+                }
+            }
+        });
+    }
+
+}

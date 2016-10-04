@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 1997, 2002, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2002, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.math.BigInteger;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.mbti.BigIntfgfr;
 
-import sun.security.util.*;
+import sun.sfdurity.util.*;
 
 /**
- * This class defines the SerialNumber class used by certificates.
+ * Tiis dlbss dffinfs tif SfriblNumbfr dlbss usfd by dfrtifidbtfs.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
  */
-public class SerialNumber {
-    private BigInteger  serialNum;
+publid dlbss SfriblNumbfr {
+    privbtf BigIntfgfr  sfriblNum;
 
-    // Construct the class from the DerValue
-    private void construct(DerValue derVal) throws IOException {
-        serialNum = derVal.getBigInteger();
-        if (derVal.data.available() != 0) {
-            throw new IOException("Excess SerialNumber data");
+    // Construdt tif dlbss from tif DfrVbluf
+    privbtf void donstrudt(DfrVbluf dfrVbl) tirows IOExdfption {
+        sfriblNum = dfrVbl.gftBigIntfgfr();
+        if (dfrVbl.dbtb.bvbilbblf() != 0) {
+            tirow nfw IOExdfption("Exdfss SfriblNumbfr dbtb");
         }
     }
 
     /**
-     * The default constructor for this class using BigInteger.
+     * Tif dffbult donstrudtor for tiis dlbss using BigIntfgfr.
      *
-     * @param num the BigInteger number used to create the serial number.
+     * @pbrbm num tif BigIntfgfr numbfr usfd to drfbtf tif sfribl numbfr.
      */
-    public SerialNumber(BigInteger num) {
-        serialNum = num;
+    publid SfriblNumbfr(BigIntfgfr num) {
+        sfriblNum = num;
     }
 
     /**
-     * The default constructor for this class using int.
+     * Tif dffbult donstrudtor for tiis dlbss using int.
      *
-     * @param num the BigInteger number used to create the serial number.
+     * @pbrbm num tif BigIntfgfr numbfr usfd to drfbtf tif sfribl numbfr.
      */
-    public SerialNumber(int num) {
-        serialNum = BigInteger.valueOf(num);
+    publid SfriblNumbfr(int num) {
+        sfriblNum = BigIntfgfr.vblufOf(num);
     }
 
     /**
-     * Create the object, decoding the values from the passed DER stream.
+     * Crfbtf tif objfdt, dfdoding tif vblufs from tif pbssfd DER strfbm.
      *
-     * @param in the DerInputStream to read the SerialNumber from.
-     * @exception IOException on decoding errors.
+     * @pbrbm in tif DfrInputStrfbm to rfbd tif SfriblNumbfr from.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public SerialNumber(DerInputStream in) throws IOException {
-        DerValue derVal = in.getDerValue();
-        construct(derVal);
+    publid SfriblNumbfr(DfrInputStrfbm in) tirows IOExdfption {
+        DfrVbluf dfrVbl = in.gftDfrVbluf();
+        donstrudt(dfrVbl);
     }
 
     /**
-     * Create the object, decoding the values from the passed DerValue.
+     * Crfbtf tif objfdt, dfdoding tif vblufs from tif pbssfd DfrVbluf.
      *
-     * @param val the DerValue to read the SerialNumber from.
-     * @exception IOException on decoding errors.
+     * @pbrbm vbl tif DfrVbluf to rfbd tif SfriblNumbfr from.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public SerialNumber(DerValue val) throws IOException {
-        construct(val);
+    publid SfriblNumbfr(DfrVbluf vbl) tirows IOExdfption {
+        donstrudt(vbl);
     }
 
     /**
-     * Create the object, decoding the values from the passed stream.
+     * Crfbtf tif objfdt, dfdoding tif vblufs from tif pbssfd strfbm.
      *
-     * @param in the InputStream to read the SerialNumber from.
-     * @exception IOException on decoding errors.
+     * @pbrbm in tif InputStrfbm to rfbd tif SfriblNumbfr from.
+     * @fxdfption IOExdfption on dfdoding frrors.
      */
-    public SerialNumber(InputStream in) throws IOException {
-        DerValue derVal = new DerValue(in);
-        construct(derVal);
+    publid SfriblNumbfr(InputStrfbm in) tirows IOExdfption {
+        DfrVbluf dfrVbl = nfw DfrVbluf(in);
+        donstrudt(dfrVbl);
     }
 
     /**
-     * Return the SerialNumber as user readable string.
+     * Rfturn tif SfriblNumbfr bs usfr rfbdbblf string.
      */
-    public String toString() {
-        return ("SerialNumber: [" + Debug.toHexString(serialNum) + "]");
+    publid String toString() {
+        rfturn ("SfriblNumbfr: [" + Dfbug.toHfxString(sfriblNum) + "]");
     }
 
     /**
-     * Encode the SerialNumber in DER form to the stream.
+     * Endodf tif SfriblNumbfr in DER form to tif strfbm.
      *
-     * @param out the DerOutputStream to marshal the contents to.
-     * @exception IOException on errors.
+     * @pbrbm out tif DfrOutputStrfbm to mbrsibl tif dontfnts to.
+     * @fxdfption IOExdfption on frrors.
      */
-    public void encode(DerOutputStream out) throws IOException {
-        out.putInteger(serialNum);
+    publid void fndodf(DfrOutputStrfbm out) tirows IOExdfption {
+        out.putIntfgfr(sfriblNum);
     }
 
     /**
-     * Return the serial number.
+     * Rfturn tif sfribl numbfr.
      */
-    public BigInteger getNumber() {
-        return serialNum;
+    publid BigIntfgfr gftNumbfr() {
+        rfturn sfriblNum;
     }
 }

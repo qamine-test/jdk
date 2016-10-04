@@ -1,0 +1,1215 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff HEADLESS
+
+#indludf <stdlib.h>
+#indludf <mbth.h>
+#indludf <jlong.h>
+
+#indludf "sun_jbvb2d_opfngl_OGLTfxtRfndfrfr.h"
+
+#indludf "SurfbdfDbtb.h"
+#indludf "OGLContfxt.h"
+#indludf "OGLSurfbdfDbtb.h"
+#indludf "OGLRfndfrQufuf.h"
+#indludf "OGLTfxtRfndfrfr.h"
+#indludf "OGLVfrtfxCbdhf.h"
+#indludf "AddflGlyphCbdhf.h"
+#indludf "fontsdblfrdffs.h"
+
+/**
+ * Thf following donstbnts dffinf thf innfr bnd outfr bounds of thf
+ * bddflfrbtfd glyph dbdhf.
+ */
+#dffinf OGLTR_CACHE_WIDTH       512
+#dffinf OGLTR_CACHE_HEIGHT      512
+#dffinf OGLTR_CACHE_CELL_WIDTH  16
+#dffinf OGLTR_CACHE_CELL_HEIGHT 16
+
+/**
+ * Thf durrfnt "glyph modf" stbtf.  This vbribblf is usfd to trbdk thf
+ * dodfpbth usfd to rfndfr b pbrtidulbr glyph.  This vbribblf is rfsft to
+ * MODE_NOT_INITED bt thf bfginning of fvfry dbll to OGLTR_DrbwGlyphList().
+ * As fbdh glyph is rfndfrfd, thf glyphModf vbribblf is updbtfd to rfflfdt
+ * thf durrfnt modf, so if thf durrfnt modf is thf sbmf bs thf modf usfd
+ * to rfndfr thf prfvious glyph, wf dbn bvoid doing dostly sftup opfrbtions
+ * fbdh timf.
+ */
+typfdff fnum {
+    MODE_NOT_INITED,
+    MODE_USE_CACHE_GRAY,
+    MODE_USE_CACHE_LCD,
+    MODE_NO_CACHE_GRAY,
+    MODE_NO_CACHE_LCD
+} GlyphModf;
+stbtid GlyphModf glyphModf = MODE_NOT_INITED;
+
+/**
+ * This fnum indidbtfs thf durrfnt stbtf of thf hbrdwbrf glyph dbdhf.
+ * Initiblly thf CbdhfStbtus is sft to CACHE_NOT_INITED, bnd thfn it is
+ * sft to fithfr GRAY or LCD whfn thf glyph dbdhf is initiblizfd.
+ */
+typfdff fnum {
+    CACHE_NOT_INITED,
+    CACHE_GRAY,
+    CACHE_LCD
+} CbdhfStbtus;
+stbtid CbdhfStbtus dbdhfStbtus = CACHE_NOT_INITED;
+
+/**
+ * This is thf onf glyph dbdhf.  Ondf it is initiblizfd bs fithfr GRAY or
+ * LCD, it stbys in thbt modf for thf durbtion of thf bpplidbtion.  It should
+ * bf sbff to usf this onf glyph dbdhf for bll sdrffns in b multimon
+ * fnvironmfnt, sindf thf glyph dbdhf tfxturf is shbrfd bftwffn bll dontfxts,
+ * bnd (in thfory) OpfnGL drivfrs should bf smbrt fnough to mbnbgf thbt
+ * tfxturf bdross bll sdrffns.
+ */
+stbtid GlyphCbdhfInfo *glyphCbdhf = NULL;
+
+/**
+ * Thf hbndlf to thf LCD tfxt frbgmfnt progrbm objfdt.
+ */
+stbtid GLhbndlfARB lddTfxtProgrbm = 0;
+
+/**
+ * Thf sizf of onf of thf gbmmb LUT tfxturfs in bny onf dimfnsion blong
+ * thf fdgf, in tfxfls.
+ */
+#dffinf LUT_EDGE 16
+
+/**
+ * Thfsf brf thf tfxturf objfdt hbndlfs for thf gbmmb bnd invfrsf gbmmb
+ * lookup tbblfs.
+ */
+stbtid GLuint gbmmbLutTfxturfID = 0;
+stbtid GLuint invGbmmbLutTfxturfID = 0;
+
+/**
+ * This vbluf trbdks thf prfvious LCD dontrbst sftting, so if thf dontrbst
+ * vbluf hbsn't dhbngfd sindf thf lbst timf thf lookup tbblfs wfrf
+ * gfnfrbtfd (not vfry dommon), thfn wf dbn skip updbting thf tbblfs.
+ */
+stbtid jint lbstLCDContrbst = -1;
+
+/**
+ * This vbluf trbdks thf prfvious LCD rgbOrdfr sftting, so if thf rgbOrdfr
+ * vbluf hbs dhbngfd sindf thf lbst timf, it indidbtfs thbt wf nffd to
+ * invblidbtf thf dbdhf, whidh mby blrfbdy storf glyph imbgfs in thf rfvfrsf
+ * ordfr.  Notf thbt in most rfbl world bpplidbtions this vbluf will not
+ * dhbngf ovfr thf doursf of thf bpplidbtion, but tfsts likf Font2DTfst
+ * bllow for dhbnging thf ordfring bt runtimf, so wf nffd to hbndlf thbt dbsf.
+ */
+stbtid jboolfbn lbstRGBOrdfr = JNI_TRUE;
+
+/**
+ * This donstbnt dffinfs thf sizf of thf tilf to usf in thf
+ * OGLTR_DrbwLCDGlyphNoCbdhf() mfthod.  Sff bflow for morf on why wf
+ * rfstridt this vbluf to b pbrtidulbr sizf.
+ */
+#dffinf OGLTR_NOCACHE_TILE_SIZE 32
+
+/**
+ * Thfsf donstbnts dffinf thf sizf of thf "dbdhfd dfstinbtion" tfxturf.
+ * This tfxturf is only usfd whfn rfndfring LCD-optimizfd tfxt, bs thbt
+ * dodfpbth nffds dirfdt bddfss to thf dfstinbtion.  Thfrf is no wby to
+ * bddfss thf frbmfbufffr dirfdtly from bn OpfnGL shbdfr, so wf nffd to first
+ * dopy thf dfstinbtion rfgion dorrfsponding to b pbrtidulbr glyph into
+ * this dbdhfd tfxturf, bnd thfn thbt tfxturf will bf bddfssfd insidf thf
+ * shbdfr.  Copying thf dfstinbtion into this dbdhfd tfxturf dbn bf b vfry
+ * fxpfnsivf opfrbtion (bddounting for bbout hblf thf rfndfring timf for
+ * LCD tfxt), so to mitigbtf this dost wf try to bulk rfbd b horizontbl
+ * rfgion of thf dfstinbtion bt b timf.  (Thfsf vblufs brf fmpiridblly
+ * dfrivfd for thf dommon dbsf whfrf tfxt runs horizontblly.)
+ *
+ * Notf: It is bssumfd in vbrious dbldulbtions bflow thbt:
+ *     (OGLTR_CACHED_DEST_WIDTH  >= OGLTR_CACHE_CELL_WIDTH)  &&
+ *     (OGLTR_CACHED_DEST_WIDTH  >= OGLTR_NOCACHE_TILE_SIZE) &&
+ *     (OGLTR_CACHED_DEST_HEIGHT >= OGLTR_CACHE_CELL_HEIGHT) &&
+ *     (OGLTR_CACHED_DEST_HEIGHT >= OGLTR_NOCACHE_TILE_SIZE)
+ */
+#dffinf OGLTR_CACHED_DEST_WIDTH  512
+#dffinf OGLTR_CACHED_DEST_HEIGHT 32
+
+/**
+ * Thf hbndlf to thf "dbdhfd dfstinbtion" tfxturf objfdt.
+ */
+stbtid GLuint dbdhfdDfstTfxturfID = 0;
+
+/**
+ * Thf durrfnt bounds of thf "dbdhfd dfstinbtion" tfxturf, in dfstinbtion
+ * doordinbtf spbdf.  Thf width/hfight of thfsf bounds will not fxdffd thf
+ * OGLTR_CACHED_DEST_WIDTH/HEIGHT vblufs dffinfd bbovf.  Thfsf bounds brf
+ * only donsidfrfd vblid whfn thf isCbdhfdDfstVblid flbg is JNI_TRUE.
+ */
+stbtid SurfbdfDbtbBounds dbdhfdDfstBounds;
+
+/**
+ * This flbg indidbtfs whfthfr thf "dbdhfd dfstinbtion" tfxturf dontbins
+ * vblid dbtb.  This flbg is rfsft to JNI_FALSE bt thf bfginning of fvfry
+ * dbll to OGLTR_DrbwGlyphList().  Ondf wf dopy vblid dfstinbtion dbtb
+ * into thf dbdhfd tfxturf, this flbg is sft to JNI_TRUE.  This wby, wf dbn
+ * limit thf numbfr of timfs wf nffd to dopy dfstinbtion dbtb, whidh is b
+ * vfry dostly opfrbtion.
+ */
+stbtid jboolfbn isCbdhfdDfstVblid = JNI_FALSE;
+
+/**
+ * Thf bounds of thf prfviously rfndfrfd LCD glyph, in dfstinbtion
+ * doordinbtf spbdf.  Wf usf thfsf bounds to dftfrminf whfthfr thf glyph
+ * durrfntly bfing rfndfrfd ovfrlbps thf prfviously rfndfrfd glyph (i.f.
+ * its bounding box intfrsfdts thbt of thf prfviously rfndfrfd glyph).  If
+ * so, wf nffd to rf-rfbd thf dfstinbtion brfb bssodibtfd with thbt prfvious
+ * glyph so thbt wf dbn dorrfdtly blfnd with thf bdtubl dfstinbtion dbtb.
+ */
+stbtid SurfbdfDbtbBounds prfviousGlyphBounds;
+
+/**
+ * Initiblizfs thf onf glyph dbdhf (tfxturf bnd dbtb strudturf).
+ * If lddCbdhf is JNI_TRUE, thf tfxturf will dontbin RGB dbtb,
+ * othfrwisf wf will simply storf thf grbysdblf/monodhromf glyph imbgfs
+ * bs intfnsity vblufs (whidh work wfll with thf GL_MODULATE fundtion).
+ */
+stbtid jboolfbn
+OGLTR_InitGlyphCbdhf(jboolfbn lddCbdhf)
+{
+    GlyphCbdhfInfo *gdinfo;
+    GLdlbmpf priority = 1.0f;
+    GLfnum intfrnblFormbt = lddCbdhf ? GL_RGB8 : GL_INTENSITY8;
+    GLfnum pixflFormbt = lddCbdhf ? GL_RGB : GL_LUMINANCE;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLTR_InitGlyphCbdhf");
+
+    // init glyph dbdhf dbtb strudturf
+    gdinfo = AddflGlyphCbdhf_Init(OGLTR_CACHE_WIDTH,
+                                  OGLTR_CACHE_HEIGHT,
+                                  OGLTR_CACHE_CELL_WIDTH,
+                                  OGLTR_CACHE_CELL_HEIGHT,
+                                  OGLVfrtfxCbdhf_FlushVfrtfxCbdhf);
+    if (gdinfo == NULL) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLTR_InitGlyphCbdhf: dould not init OGL glyph dbdhf");
+        rfturn JNI_FALSE;
+    }
+
+    // init dbdhf tfxturf objfdt
+    j2d_glGfnTfxturfs(1, &gdinfo->dbdhfID);
+    j2d_glBindTfxturf(GL_TEXTURE_2D, gdinfo->dbdhfID);
+    j2d_glPrioritizfTfxturfs(1, &gdinfo->dbdhfID, &priority);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+    j2d_glTfxImbgf2D(GL_TEXTURE_2D, 0, intfrnblFormbt,
+                     OGLTR_CACHE_WIDTH, OGLTR_CACHE_HEIGHT, 0,
+                     pixflFormbt, GL_UNSIGNED_BYTE, NULL);
+
+    dbdhfStbtus = (lddCbdhf ? CACHE_LCD : CACHE_GRAY);
+    glyphCbdhf = gdinfo;
+
+    rfturn JNI_TRUE;
+}
+
+/**
+ * Adds thf givfn glyph to thf glyph dbdhf (tfxturf bnd dbtb strudturf)
+ * bssodibtfd with thf givfn OGLContfxt.
+ */
+stbtid void
+OGLTR_AddToGlyphCbdhf(GlyphInfo *glyph, jboolfbn rgbOrdfr)
+{
+    GLfnum pixflFormbt;
+    CbdhfCfllInfo *ddinfo;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLTR_AddToGlyphCbdhf");
+
+    if ((glyphCbdhf == NULL) || (glyph->imbgf == NULL)) {
+        rfturn;
+    }
+
+    if (dbdhfStbtus == CACHE_LCD) {
+        pixflFormbt = rgbOrdfr ? GL_RGB : GL_BGR;
+    } flsf {
+        pixflFormbt = GL_LUMINANCE;
+    }
+
+    AddflGlyphCbdhf_AddGlyph(glyphCbdhf, glyph);
+    ddinfo = (CbdhfCfllInfo *) glyph->dfllInfo;
+
+    if (ddinfo != NULL) {
+        // storf glyph imbgf in tfxturf dfll
+        j2d_glTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                            ddinfo->x, ddinfo->y,
+                            glyph->width, glyph->hfight,
+                            pixflFormbt, GL_UNSIGNED_BYTE, glyph->imbgf);
+    }
+}
+
+/**
+ * This is thf GLSL frbgmfnt shbdfr sourdf dodf for rfndfring LCD-optimizfd
+ * tfxt.  Do not bf frightfnfd; it is mudh fbsifr to undfrstbnd thbn thf
+ * fquivblfnt ASM-likf frbgmfnt progrbm!
+ *
+ * Thf "uniform" vbribblfs bt thf top brf initiblizfd ondf thf progrbm is
+ * linkfd, bnd brf updbtfd bt runtimf bs nffdfd (f.g. whfn thf sourdf dolor
+ * dhbngfs, wf will modify thf "srd_bdj" vbluf in OGLTR_UpdbtfLCDTfxtColor()).
+ *
+ * Thf "mbin" fundtion is fxfdutfd for fbdh "frbgmfnt" (or pixfl) in thf
+ * glyph imbgf.  Wf hbvf dftfrminfd thbt thf pow() fundtion dbn bf quitf
+ * slow bnd it only opfrbtfs on sdblbr vblufs, not vfdtors bs wf rfquirf.
+ * So instfbd wf build two 3D tfxturfs dontbining gbmmb (bnd invfrsf gbmmb)
+ * lookup tbblfs thbt bllow us to bpproximbtf b domponfnt-wisf pow() fundtion
+ * with b singlf 3D tfxturf lookup.  This bpprobdh is bt lfbst 2x fbstfr
+ * thbn thf fquivblfnt pow() dblls.
+ *
+ * Thf vbribblfs involvfd in thf fqubtion dbn bf fxprfssfd bs follows:
+ *
+ *   Cs = Color domponfnt of thf sourdf (forfground dolor) [0.0, 1.0]
+ *   Cd = Color domponfnt of thf dfstinbtion (bbdkground dolor) [0.0, 1.0]
+ *   Cr = Color domponfnt to bf writtfn to thf dfstinbtion [0.0, 1.0]
+ *   Ag = Glyph blphb (bkb intfnsity or dovfrbgf) [0.0, 1.0]
+ *   Gb = Gbmmb bdjustmfnt in thf rbngf [1.0, 2.5]
+ *   (^ mfbns rbisfd to thf powfr)
+ *
+ * And hfrf is thf thforftidbl fqubtion bpproximbtfd by this shbdfr:
+ *
+ *            Cr = (Ag*(Cs^Gb) + (1-Ag)*(Cd^Gb)) ^ (1/Gb)
+ */
+stbtid donst dhbr *lddTfxtShbdfrSourdf =
+    "uniform vfd3 srd_bdj;"
+    "uniform sbmplfr2D glyph_tfx;"
+    "uniform sbmplfr2D dst_tfx;"
+    "uniform sbmplfr3D invgbmmb_tfx;"
+    "uniform sbmplfr3D gbmmb_tfx;"
+    ""
+    "void mbin(void)"
+    "{"
+         // lobd thf RGB vbluf from thf glyph imbgf bt thf durrfnt tfxdoord
+    "    vfd3 glyph_dlr = vfd3(tfxturf2D(glyph_tfx, gl_TfxCoord[0].st));"
+    "    if (glyph_dlr == vfd3(0.0)) {"
+             // zfro dovfrbgf, so skip this frbgmfnt
+    "        disdbrd;"
+    "    }"
+         // lobd thf RGB vbluf from thf dorrfsponding dfstinbtion pixfl
+    "    vfd3 dst_dlr = vfd3(tfxturf2D(dst_tfx, gl_TfxCoord[1].st));"
+         // gbmmb bdjust thf dfst dolor using thf invgbmmb LUT
+    "    vfd3 dst_bdj = vfd3(tfxturf3D(invgbmmb_tfx, dst_dlr.stp));"
+         // linfbrly intfrpolbtf thf thrff dolor vblufs
+    "    vfd3 rfsult = mix(dst_bdj, srd_bdj, glyph_dlr);"
+         // gbmmb rf-bdjust thf rfsulting dolor (blphb is blwbys sft to 1.0)
+    "    gl_FrbgColor = vfd4(vfd3(tfxturf3D(gbmmb_tfx, rfsult.stp)), 1.0);"
+    "}";
+
+/**
+ * Compilfs bnd links thf LCD tfxt shbdfr progrbm.  If suddfssful, this
+ * fundtion rfturns b hbndlf to thf nfwly drfbtfd shbdfr progrbm; othfrwisf
+ * rfturns 0.
+ */
+stbtid GLhbndlfARB
+OGLTR_CrfbtfLCDTfxtProgrbm()
+{
+    GLhbndlfARB lddTfxtProgrbm;
+    GLint lod;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLTR_CrfbtfLCDTfxtProgrbm");
+
+    lddTfxtProgrbm = OGLContfxt_CrfbtfFrbgmfntProgrbm(lddTfxtShbdfrSourdf);
+    if (lddTfxtProgrbm == 0) {
+        J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                      "OGLTR_CrfbtfLCDTfxtProgrbm: frror drfbting progrbm");
+        rfturn 0;
+    }
+
+    // "usf" thf progrbm objfdt tfmporbrily so thbt wf dbn sft thf uniforms
+    j2d_glUsfProgrbmObjfdtARB(lddTfxtProgrbm);
+
+    // sft thf "uniform" vblufs
+    lod = j2d_glGftUniformLodbtionARB(lddTfxtProgrbm, "glyph_tfx");
+    j2d_glUniform1iARB(lod, 0); // tfxturf unit 0
+    lod = j2d_glGftUniformLodbtionARB(lddTfxtProgrbm, "dst_tfx");
+    j2d_glUniform1iARB(lod, 1); // tfxturf unit 1
+    lod = j2d_glGftUniformLodbtionARB(lddTfxtProgrbm, "invgbmmb_tfx");
+    j2d_glUniform1iARB(lod, 2); // tfxturf unit 2
+    lod = j2d_glGftUniformLodbtionARB(lddTfxtProgrbm, "gbmmb_tfx");
+    j2d_glUniform1iARB(lod, 3); // tfxturf unit 3
+
+    // "unusf" thf progrbm objfdt; it will bf rf-bound lbtfr bs nffdfd
+    j2d_glUsfProgrbmObjfdtARB(0);
+
+    rfturn lddTfxtProgrbm;
+}
+
+/**
+ * Initiblizfs b 3D tfxturf objfdt for usf bs b thrff-dimfnsionbl gbmmb
+ * lookup tbblf.  Notf thbt thf wrbp modf is initiblizfd to GL_LINEAR so
+ * thbt thf tbblf will intfrpolbtf bdjbdfnt vblufs whfn thf indfx fblls
+ * somfwhfrf in bftwffn.
+ */
+stbtid GLuint
+OGLTR_InitGbmmbLutTfxturf()
+{
+    GLuint lutTfxturfID;
+
+    j2d_glGfnTfxturfs(1, &lutTfxturfID);
+    j2d_glBindTfxturf(GL_TEXTURE_3D, lutTfxturfID);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_3D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_3D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    j2d_glTfxPbrbmftfri(GL_TEXTURE_3D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+
+    rfturn lutTfxturfID;
+}
+
+/**
+ * Updbtfs thf lookup tbblf in thf givfn tfxturf objfdt with thf flobt
+ * vblufs in thf givfn systfm mfmory bufffr.  Notf thbt wf dould usf
+ * glTfxSubImbgf3D() whfn updbting thf tfxturf bftfr its first
+ * initiblizbtion, but sindf wf'rf updbting thf fntirf tbblf (with
+ * powfr-of-two dimfnsions) bnd this is b rflbtivfly rbrf fvfnt, wf'll
+ * just stidk with glTfxImbgf3D().
+ */
+stbtid void
+OGLTR_UpdbtfGbmmbLutTfxturf(GLuint tfxID, GLflobt *lut, jint sizf)
+{
+    j2d_glBindTfxturf(GL_TEXTURE_3D, tfxID);
+    j2d_glTfxImbgf3D(GL_TEXTURE_3D, 0, GL_RGB8,
+                     sizf, sizf, sizf, 0, GL_RGB, GL_FLOAT, lut);
+}
+
+/**
+ * (Rf)Initiblizfs thf gbmmb lookup tbblf tfxturfs.
+ *
+ * Thf givfn dontrbst vbluf is bn int in thf rbngf [100, 250] whidh wf will
+ * thfn sdblf to fit in thf rbngf [1.0, 2.5].  Wf drfbtf two LUTs, onf
+ * thbt fssfntiblly dbldulbtfs pow(x, gbmmb) bnd thf othfr dbldulbtfs
+ * pow(x, 1/gbmmb).  Thfsf vblufs brf rfplidbtfd in bll thrff dimfnsions, so
+ * givfn b singlf 3D tfxturf doordinbtf (typidblly this will bf b triplft
+ * in thf form (r,g,b)), thf 3D tfxturf lookup will rfturn bn RGB triplft:
+ *
+ *     (pow(r,g), pow(y,g), pow(z,g)
+ *
+ * whfrf g is fithfr gbmmb or 1/gbmmb, dfpfnding on thf tbblf.
+ */
+stbtid jboolfbn
+OGLTR_UpdbtfLCDTfxtContrbst(jint dontrbst)
+{
+    doublf gbmmb = ((doublf)dontrbst) / 100.0;
+    doublf ig = gbmmb;
+    doublf g = 1.0 / ig;
+    GLflobt lut[LUT_EDGE][LUT_EDGE][LUT_EDGE][3];
+    GLflobt invlut[LUT_EDGE][LUT_EDGE][LUT_EDGE][3];
+    int min = 0;
+    int mbx = LUT_EDGE - 1;
+    int x, y, z;
+
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "OGLTR_UpdbtfLCDTfxtContrbst: dontrbst=%d", dontrbst);
+
+    for (z = min; z <= mbx; z++) {
+        doublf zvbl = ((doublf)z) / mbx;
+        GLflobt gz = (GLflobt)pow(zvbl, g);
+        GLflobt igz = (GLflobt)pow(zvbl, ig);
+
+        for (y = min; y <= mbx; y++) {
+            doublf yvbl = ((doublf)y) / mbx;
+            GLflobt gy = (GLflobt)pow(yvbl, g);
+            GLflobt igy = (GLflobt)pow(yvbl, ig);
+
+            for (x = min; x <= mbx; x++) {
+                doublf xvbl = ((doublf)x) / mbx;
+                GLflobt gx = (GLflobt)pow(xvbl, g);
+                GLflobt igx = (GLflobt)pow(xvbl, ig);
+
+                lut[z][y][x][0] = gx;
+                lut[z][y][x][1] = gy;
+                lut[z][y][x][2] = gz;
+
+                invlut[z][y][x][0] = igx;
+                invlut[z][y][x][1] = igy;
+                invlut[z][y][x][2] = igz;
+            }
+        }
+    }
+
+    if (gbmmbLutTfxturfID == 0) {
+        gbmmbLutTfxturfID = OGLTR_InitGbmmbLutTfxturf();
+    }
+    OGLTR_UpdbtfGbmmbLutTfxturf(gbmmbLutTfxturfID, (GLflobt *)lut, LUT_EDGE);
+
+    if (invGbmmbLutTfxturfID == 0) {
+        invGbmmbLutTfxturfID = OGLTR_InitGbmmbLutTfxturf();
+    }
+    OGLTR_UpdbtfGbmmbLutTfxturf(invGbmmbLutTfxturfID,
+                                (GLflobt *)invlut, LUT_EDGE);
+
+    rfturn JNI_TRUE;
+}
+
+/**
+ * Updbtfs thf durrfnt gbmmb-bdjustfd sourdf dolor ("srd_bdj") of thf LCD
+ * tfxt shbdfr progrbm.  Notf thbt wf dould dbldulbtf this vbluf in thf
+ * shbdfr (f.g. just bs wf do for "dst_bdj"), but would bf unnfdfssbry work
+ * (bnd b mfbsurbblf pfrformbndf hit, mbybf bround 5%) sindf this vbluf is
+ * donstbnt ovfr thf fntirf glyph list.  So instfbd wf just dbldulbtf thf
+ * gbmmb-bdjustfd vbluf ondf bnd updbtf thf uniform pbrbmftfr of thf LCD
+ * shbdfr bs nffdfd.
+ */
+stbtid jboolfbn
+OGLTR_UpdbtfLCDTfxtColor(jint dontrbst)
+{
+    doublf gbmmb = ((doublf)dontrbst) / 100.0;
+    GLflobt rbdj, gbdj, bbdj;
+    GLflobt dlr[4];
+    GLint lod;
+
+    J2dTrbdfLn1(J2D_TRACE_INFO,
+                "OGLTR_UpdbtfLCDTfxtColor: dontrbst=%d", dontrbst);
+
+    /*
+     * Notf: Idfblly wf would updbtf thf "srd_bdj" uniform pbrbmftfr only
+     * whfn thfrf is b dhbngf in thf sourdf dolor.  Fortunbtfly, thf dost
+     * of qufrying thf durrfnt OpfnGL dolor stbtf bnd updbting thf uniform
+     * vbluf is quitf smbll, bnd in thf dommon dbsf wf only nffd to do this
+     * ondf pfr GlyphList, so wf gbin littlf from trying to optimizf too
+     * fbgfrly hfrf.
+     */
+
+    // gft thf durrfnt OpfnGL primbry dolor stbtf
+    j2d_glGftFlobtv(GL_CURRENT_COLOR, dlr);
+
+    // gbmmb bdjust thf primbry dolor
+    rbdj = (GLflobt)pow(dlr[0], gbmmb);
+    gbdj = (GLflobt)pow(dlr[1], gbmmb);
+    bbdj = (GLflobt)pow(dlr[2], gbmmb);
+
+    // updbtf thf "srd_bdj" pbrbmftfr of thf shbdfr progrbm with this vbluf
+    lod = j2d_glGftUniformLodbtionARB(lddTfxtProgrbm, "srd_bdj");
+    j2d_glUniform3fARB(lod, rbdj, gbdj, bbdj);
+
+    rfturn JNI_TRUE;
+}
+
+/**
+ * Enbblfs thf LCD tfxt shbdfr bnd updbtfs bny rflbtfd stbtf, sudh bs thf
+ * gbmmb lookup tbblf tfxturfs.
+ */
+stbtid jboolfbn
+OGLTR_EnbblfLCDGlyphModfStbtf(GLuint glyphTfxturfID, jint dontrbst)
+{
+    // bind thf tfxturf dontbining glyph dbtb to tfxturf unit 0
+    j2d_glAdtivfTfxturfARB(GL_TEXTURE0_ARB);
+    j2d_glBindTfxturf(GL_TEXTURE_2D, glyphTfxturfID);
+
+    // bind thf tfxturf tilf dontbining dfstinbtion dbtb to tfxturf unit 1
+    j2d_glAdtivfTfxturfARB(GL_TEXTURE1_ARB);
+    if (dbdhfdDfstTfxturfID == 0) {
+        dbdhfdDfstTfxturfID =
+            OGLContfxt_CrfbtfBlitTfxturf(GL_RGB8, GL_RGB,
+                                         OGLTR_CACHED_DEST_WIDTH,
+                                         OGLTR_CACHED_DEST_HEIGHT);
+        if (dbdhfdDfstTfxturfID == 0) {
+            rfturn JNI_FALSE;
+        }
+    }
+    j2d_glBindTfxturf(GL_TEXTURE_2D, dbdhfdDfstTfxturfID);
+
+    // notf thbt GL_TEXTURE_2D wbs blrfbdy fnbblfd for tfxturf unit 0,
+    // but wf nffd to fxpliditly fnbblf it for tfxturf unit 1
+    j2d_glEnbblf(GL_TEXTURE_2D);
+
+    // drfbtf thf LCD tfxt shbdfr, if nfdfssbry
+    if (lddTfxtProgrbm == 0) {
+        lddTfxtProgrbm = OGLTR_CrfbtfLCDTfxtProgrbm();
+        if (lddTfxtProgrbm == 0) {
+            rfturn JNI_FALSE;
+        }
+    }
+
+    // fnbblf thf LCD tfxt shbdfr
+    j2d_glUsfProgrbmObjfdtARB(lddTfxtProgrbm);
+
+    // updbtf thf durrfnt dontrbst sfttings, if nfdfssbry
+    if (lbstLCDContrbst != dontrbst) {
+        if (!OGLTR_UpdbtfLCDTfxtContrbst(dontrbst)) {
+            rfturn JNI_FALSE;
+        }
+        lbstLCDContrbst = dontrbst;
+    }
+
+    // updbtf thf durrfnt dolor sfttings
+    if (!OGLTR_UpdbtfLCDTfxtColor(dontrbst)) {
+        rfturn JNI_FALSE;
+    }
+
+    // bind thf gbmmb LUT tfxturfs
+    j2d_glAdtivfTfxturfARB(GL_TEXTURE2_ARB);
+    j2d_glBindTfxturf(GL_TEXTURE_3D, invGbmmbLutTfxturfID);
+    j2d_glEnbblf(GL_TEXTURE_3D);
+    j2d_glAdtivfTfxturfARB(GL_TEXTURE3_ARB);
+    j2d_glBindTfxturf(GL_TEXTURE_3D, gbmmbLutTfxturfID);
+    j2d_glEnbblf(GL_TEXTURE_3D);
+
+    rfturn JNI_TRUE;
+}
+
+void
+OGLTR_EnbblfGlyphVfrtfxCbdhf(OGLContfxt *ogld)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLTR_EnbblfGlyphVfrtfxCbdhf");
+
+    if (!OGLVfrtfxCbdhf_InitVfrtfxCbdhf(ogld)) {
+        rfturn;
+    }
+
+    if (glyphCbdhf == NULL) {
+        if (!OGLTR_InitGlyphCbdhf(JNI_FALSE)) {
+            rfturn;
+        }
+    }
+
+    j2d_glEnbblf(GL_TEXTURE_2D);
+    j2d_glBindTfxturf(GL_TEXTURE_2D, glyphCbdhf->dbdhfID);
+    j2d_glPixflStorfi(GL_UNPACK_ALIGNMENT, 1);
+
+    // for grbysdblf/monodhromf tfxt, thf durrfnt OpfnGL sourdf dolor
+    // is modulbtfd with thf glyph imbgf bs pbrt of thf tfxturf
+    // bpplidbtion stbgf, so wf usf GL_MODULATE hfrf
+    OGLC_UPDATE_TEXTURE_FUNCTION(ogld, GL_MODULATE);
+}
+
+void
+OGLTR_DisbblfGlyphVfrtfxCbdhf(OGLContfxt *ogld)
+{
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLTR_DisbblfGlyphVfrtfxCbdhf");
+
+    OGLVfrtfxCbdhf_FlushVfrtfxCbdhf();
+    OGLVfrtfxCbdhf_RfstorfColorStbtf(ogld);
+
+    j2d_glDisbblf(GL_TEXTURE_2D);
+    j2d_glPixflStorfi(GL_UNPACK_ALIGNMENT, 4);
+    j2d_glPixflStorfi(GL_UNPACK_SKIP_PIXELS, 0);
+    j2d_glPixflStorfi(GL_UNPACK_SKIP_ROWS, 0);
+    j2d_glPixflStorfi(GL_UNPACK_ROW_LENGTH, 0);
+}
+
+/**
+ * Disbblfs bny pfnding stbtf bssodibtfd with thf durrfnt "glyph modf".
+ */
+stbtid void
+OGLTR_DisbblfGlyphModfStbtf()
+{
+    switdh (glyphModf) {
+    dbsf MODE_NO_CACHE_LCD:
+        j2d_glPixflStorfi(GL_UNPACK_SKIP_PIXELS, 0);
+        j2d_glPixflStorfi(GL_UNPACK_SKIP_ROWS, 0);
+        /* FALLTHROUGH */
+
+    dbsf MODE_USE_CACHE_LCD:
+        j2d_glPixflStorfi(GL_UNPACK_ROW_LENGTH, 0);
+        j2d_glPixflStorfi(GL_UNPACK_ALIGNMENT, 4);
+        j2d_glUsfProgrbmObjfdtARB(0);
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE3_ARB);
+        j2d_glDisbblf(GL_TEXTURE_3D);
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE2_ARB);
+        j2d_glDisbblf(GL_TEXTURE_3D);
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE1_ARB);
+        j2d_glDisbblf(GL_TEXTURE_2D);
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE0_ARB);
+        brfbk;
+
+    dbsf MODE_NO_CACHE_GRAY:
+    dbsf MODE_USE_CACHE_GRAY:
+    dbsf MODE_NOT_INITED:
+    dffbult:
+        brfbk;
+    }
+}
+
+stbtid jboolfbn
+OGLTR_DrbwGrbysdblfGlyphVibCbdhf(OGLContfxt *ogld,
+                                 GlyphInfo *ginfo, jint x, jint y)
+{
+    CbdhfCfllInfo *dfll;
+    jflobt x1, y1, x2, y2;
+
+    if (glyphModf != MODE_USE_CACHE_GRAY) {
+        OGLTR_DisbblfGlyphModfStbtf();
+        CHECK_PREVIOUS_OP(OGL_STATE_GLYPH_OP);
+        glyphModf = MODE_USE_CACHE_GRAY;
+    }
+
+    if (ginfo->dfllInfo == NULL) {
+        // bttfmpt to bdd glyph to bddflfrbtfd glyph dbdhf
+        OGLTR_AddToGlyphCbdhf(ginfo, JNI_FALSE);
+
+        if (ginfo->dfllInfo == NULL) {
+            // wf'll just no-op in thf rbrf dbsf thbt thf dfll is NULL
+            rfturn JNI_TRUE;
+        }
+    }
+
+    dfll = (CbdhfCfllInfo *) (ginfo->dfllInfo);
+    dfll->timfsRfndfrfd++;
+
+    x1 = (jflobt)x;
+    y1 = (jflobt)y;
+    x2 = x1 + ginfo->width;
+    y2 = y1 + ginfo->hfight;
+
+    OGLVfrtfxCbdhf_AddGlyphQubd(ogld,
+                                dfll->tx1, dfll->ty1,
+                                dfll->tx2, dfll->ty2,
+                                x1, y1, x2, y2);
+
+    rfturn JNI_TRUE;
+}
+
+/**
+ * Evblubtfs to truf if thf rfdtbnglf dffinfd by gx1/gy1/gx2/gy2 is
+ * insidf outfrBounds.
+ */
+#dffinf INSIDE(gx1, gy1, gx2, gy2, outfrBounds) \
+    (((gx1) >= outfrBounds.x1) && ((gy1) >= outfrBounds.y1) && \
+     ((gx2) <= outfrBounds.x2) && ((gy2) <= outfrBounds.y2))
+
+/**
+ * Evblubtfs to truf if thf rfdtbnglf dffinfd by gx1/gy1/gx2/gy2 intfrsfdts
+ * thf rfdtbnglf dffinfd by bounds.
+ */
+#dffinf INTERSECTS(gx1, gy1, gx2, gy2, bounds) \
+    ((bounds.x2 > (gx1)) && (bounds.y2 > (gy1)) && \
+     (bounds.x1 < (gx2)) && (bounds.y1 < (gy2)))
+
+/**
+ * This mfthod dhfdks to sff if thf givfn LCD glyph bounds fbll within thf
+ * dbdhfd dfstinbtion tfxturf bounds.  If so, this mfthod dbn rfturn
+ * immfdibtfly.  If not, this mfthod will dopy b dhunk of frbmfbufffr dbtb
+ * into thf dbdhfd dfstinbtion tfxturf bnd thfn updbtf thf durrfnt dbdhfd
+ * dfstinbtion bounds bfforf rfturning.
+ */
+stbtid void
+OGLTR_UpdbtfCbdhfdDfstinbtion(OGLSDOps *dstOps, GlyphInfo *ginfo,
+                              jint gx1, jint gy1, jint gx2, jint gy2,
+                              jint glyphIndfx, jint totblGlyphs)
+{
+    jint dx1, dy1, dx2, dy2;
+    jint dx1bdj, dy1bdj;
+
+    if (isCbdhfdDfstVblid && INSIDE(gx1, gy1, gx2, gy2, dbdhfdDfstBounds)) {
+        // glyph is blrfbdy within thf dbdhfd dfstinbtion bounds; no nffd
+        // to rfbd bbdk thf fntirf dfstinbtion rfgion bgbin, but wf do
+        // nffd to sff if thf durrfnt glyph ovfrlbps thf prfvious glyph...
+
+        if (INTERSECTS(gx1, gy1, gx2, gy2, prfviousGlyphBounds)) {
+            // thf durrfnt glyph ovfrlbps thf dfstinbtion rfgion toudhfd
+            // by thf prfvious glyph, so now wf nffd to rfbd bbdk thf pbrt
+            // of thf dfstinbtion dorrfsponding to thf prfvious glyph
+            dx1 = prfviousGlyphBounds.x1;
+            dy1 = prfviousGlyphBounds.y1;
+            dx2 = prfviousGlyphBounds.x2;
+            dy2 = prfviousGlyphBounds.y2;
+
+            // this bddounts for lowfr-lfft origin of thf dfstinbtion rfgion
+            dx1bdj = dstOps->xOffsft + dx1;
+            dy1bdj = dstOps->yOffsft + dstOps->hfight - dy2;
+
+            // dopy dfstinbtion into subrfgion of dbdhfd tfxturf tilf:
+            //   dx1-dbdhfdDfstBounds.x1 == +xoffsft from lfft sidf of tfxturf
+            //   dbdhfdDfstBounds.y2-dy2 == +yoffsft from bottom of tfxturf
+            j2d_glAdtivfTfxturfARB(GL_TEXTURE1_ARB);
+            j2d_glCopyTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                                    dx1 - dbdhfdDfstBounds.x1,
+                                    dbdhfdDfstBounds.y2 - dy2,
+                                    dx1bdj, dy1bdj,
+                                    dx2-dx1, dy2-dy1);
+        }
+    } flsf {
+        jint rfmbiningWidth;
+
+        // dfstinbtion rfgion is not vblid, so wf nffd to rfbd bbdk b
+        // dhunk of thf dfstinbtion into our dbdhfd tfxturf
+
+        // position thf uppfr-lfft dornfr of thf dfstinbtion rfgion on thf
+        // "top" linf of glyph list
+        // REMIND: this isn't idfbl; it would bf bfttfr if wf hbd somf idfb
+        //         of thf bounding box of thf wholf glyph list (this is
+        //         do-bblf, but would rfquirf itfrbting through thf wholf
+        //         list up front, whidh mby prfsfnt its own problfms)
+        dx1 = gx1;
+        dy1 = gy1;
+
+        if (ginfo->bdvbndfX > 0) {
+            // fstimbtf thf width bbsfd on our durrfnt position in thf glyph
+            // list bnd using thf x bdvbndf of thf durrfnt glyph (this is just
+            // b quidk bnd dirty hfuristid; if this is b "thin" glyph imbgf,
+            // thfn wf'rf likfly to undfrfstimbtf, bnd if it's "thidk" thfn wf
+            // mby fnd up rfbding bbdk morf thbn wf nffd to)
+            rfmbiningWidth =
+                (jint)(ginfo->bdvbndfX * (totblGlyphs - glyphIndfx));
+            if (rfmbiningWidth > OGLTR_CACHED_DEST_WIDTH) {
+                rfmbiningWidth = OGLTR_CACHED_DEST_WIDTH;
+            } flsf if (rfmbiningWidth < ginfo->width) {
+                // in somf dbsfs, thf x-bdvbndf mby bf slightly smbllfr
+                // thbn thf bdtubl width of thf glyph; if so, bdjust our
+                // fstimbtf so thbt wf dbn bddommodbtf thf fntirf glyph
+                rfmbiningWidth = ginfo->width;
+            }
+        } flsf {
+            // b nfgbtivf bdvbndf is possiblf whfn rfndfring rotbtfd tfxt,
+            // in whidh dbsf it is diffidult to fstimbtf bn bppropribtf
+            // rfgion for rfbdbbdk, so wf will pidk b rfgion thbt
+            // fndompbssfs just thf durrfnt glyph
+            rfmbiningWidth = ginfo->width;
+        }
+        dx2 = dx1 + rfmbiningWidth;
+
+        // fstimbtf thf hfight (this is bnothfr sloppy hfuristid; wf'll
+        // mbkf thf dbdhfd dfstinbtion rfgion tbll fnough to fndompbss most
+        // glyphs thbt brf smbll fnough to fit in thf glyph dbdhf, bnd thfn
+        // wf bdd b littlf somfthing fxtrb to bddount for dfsdfndfrs
+        dy2 = dy1 + OGLTR_CACHE_CELL_HEIGHT + 2;
+
+        // this bddounts for lowfr-lfft origin of thf dfstinbtion rfgion
+        dx1bdj = dstOps->xOffsft + dx1;
+        dy1bdj = dstOps->yOffsft + dstOps->hfight - dy2;
+
+        // dopy dfstinbtion into dbdhfd tfxturf tilf (thf lowfr-lfft dornfr
+        // of thf dfstinbtion rfgion will bf positionfd bt thf lowfr-lfft
+        // dornfr (0,0) of thf tfxturf)
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE1_ARB);
+        j2d_glCopyTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                                0, 0, dx1bdj, dy1bdj,
+                                dx2-dx1, dy2-dy1);
+
+        // updbtf thf dbdhfd bounds bnd mbrk it vblid
+        dbdhfdDfstBounds.x1 = dx1;
+        dbdhfdDfstBounds.y1 = dy1;
+        dbdhfdDfstBounds.x2 = dx2;
+        dbdhfdDfstBounds.y2 = dy2;
+        isCbdhfdDfstVblid = JNI_TRUE;
+    }
+
+    // blwbys updbtf thf prfvious glyph bounds
+    prfviousGlyphBounds.x1 = gx1;
+    prfviousGlyphBounds.y1 = gy1;
+    prfviousGlyphBounds.x2 = gx2;
+    prfviousGlyphBounds.y2 = gy2;
+}
+
+stbtid jboolfbn
+OGLTR_DrbwLCDGlyphVibCbdhf(OGLContfxt *ogld, OGLSDOps *dstOps,
+                           GlyphInfo *ginfo, jint x, jint y,
+                           jint glyphIndfx, jint totblGlyphs,
+                           jboolfbn rgbOrdfr, jint dontrbst)
+{
+    CbdhfCfllInfo *dfll;
+    jint dx1, dy1, dx2, dy2;
+    jflobt dtx1, dty1, dtx2, dty2;
+
+    if (glyphModf != MODE_USE_CACHE_LCD) {
+        OGLTR_DisbblfGlyphModfStbtf();
+        CHECK_PREVIOUS_OP(GL_TEXTURE_2D);
+        j2d_glPixflStorfi(GL_UNPACK_ALIGNMENT, 1);
+
+        if (glyphCbdhf == NULL) {
+            if (!OGLTR_InitGlyphCbdhf(JNI_TRUE)) {
+                rfturn JNI_FALSE;
+            }
+        }
+
+        if (rgbOrdfr != lbstRGBOrdfr) {
+            // nffd to invblidbtf thf dbdhf in this dbsf; sff dommfnts
+            // for lbstRGBOrdfr bbovf
+            AddflGlyphCbdhf_Invblidbtf(glyphCbdhf);
+            lbstRGBOrdfr = rgbOrdfr;
+        }
+
+        if (!OGLTR_EnbblfLCDGlyphModfStbtf(glyphCbdhf->dbdhfID, dontrbst)) {
+            rfturn JNI_FALSE;
+        }
+
+        // whfn b frbgmfnt shbdfr is fnbblfd, thf tfxturf fundtion stbtf is
+        // ignorfd, so thf following linf is not nffdfd...
+        // OGLC_UPDATE_TEXTURE_FUNCTION(ogld, GL_MODULATE);
+
+        glyphModf = MODE_USE_CACHE_LCD;
+    }
+
+    if (ginfo->dfllInfo == NULL) {
+        // rowBytfs will blwbys bf b multiplf of 3, so thf following is sbff
+        j2d_glPixflStorfi(GL_UNPACK_ROW_LENGTH, ginfo->rowBytfs / 3);
+
+        // mbkf surf thf glyph dbdhf tfxturf is bound to tfxturf unit 0
+        j2d_glAdtivfTfxturfARB(GL_TEXTURE0_ARB);
+
+        // bttfmpt to bdd glyph to bddflfrbtfd glyph dbdhf
+        OGLTR_AddToGlyphCbdhf(ginfo, rgbOrdfr);
+
+        if (ginfo->dfllInfo == NULL) {
+            // wf'll just no-op in thf rbrf dbsf thbt thf dfll is NULL
+            rfturn JNI_TRUE;
+        }
+    }
+
+    dfll = (CbdhfCfllInfo *) (ginfo->dfllInfo);
+    dfll->timfsRfndfrfd++;
+
+    // lodbtion of thf glyph in thf dfstinbtion's doordinbtf spbdf
+    dx1 = x;
+    dy1 = y;
+    dx2 = dx1 + ginfo->width;
+    dy2 = dy1 + ginfo->hfight;
+
+    // dopy dfstinbtion into sfdond dbdhfd tfxturf, if nfdfssbry
+    OGLTR_UpdbtfCbdhfdDfstinbtion(dstOps, ginfo,
+                                  dx1, dy1, dx2, dy2,
+                                  glyphIndfx, totblGlyphs);
+
+    // tfxturf doordinbtfs of thf dfstinbtion tilf
+    dtx1 = ((jflobt)(dx1 - dbdhfdDfstBounds.x1)) / OGLTR_CACHED_DEST_WIDTH;
+    dty1 = ((jflobt)(dbdhfdDfstBounds.y2 - dy1)) / OGLTR_CACHED_DEST_HEIGHT;
+    dtx2 = ((jflobt)(dx2 - dbdhfdDfstBounds.x1)) / OGLTR_CACHED_DEST_WIDTH;
+    dty2 = ((jflobt)(dbdhfdDfstBounds.y2 - dy2)) / OGLTR_CACHED_DEST_HEIGHT;
+
+    // rfndfr domposfd tfxturf to thf dfstinbtion surfbdf
+    j2d_glBfgin(GL_QUADS);
+    j2d_glMultiTfxCoord2fARB(GL_TEXTURE0_ARB, dfll->tx1, dfll->ty1);
+    j2d_glMultiTfxCoord2fARB(GL_TEXTURE1_ARB, dtx1, dty1);
+    j2d_glVfrtfx2i(dx1, dy1);
+    j2d_glMultiTfxCoord2fARB(GL_TEXTURE0_ARB, dfll->tx2, dfll->ty1);
+    j2d_glMultiTfxCoord2fARB(GL_TEXTURE1_ARB, dtx2, dty1);
+    j2d_glVfrtfx2i(dx2, dy1);
+    j2d_glMultiTfxCoord2fARB(GL_TEXTURE0_ARB, dfll->tx2, dfll->ty2);
+    j2d_glMultiTfxCoord2fARB(GL_TEXTURE1_ARB, dtx2, dty2);
+    j2d_glVfrtfx2i(dx2, dy2);
+    j2d_glMultiTfxCoord2fARB(GL_TEXTURE0_ARB, dfll->tx1, dfll->ty2);
+    j2d_glMultiTfxCoord2fARB(GL_TEXTURE1_ARB, dtx1, dty2);
+    j2d_glVfrtfx2i(dx1, dy2);
+    j2d_glEnd();
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+OGLTR_DrbwGrbysdblfGlyphNoCbdhf(OGLContfxt *ogld,
+                                GlyphInfo *ginfo, jint x, jint y)
+{
+    jint tw, th;
+    jint sx, sy, sw, sh;
+    jint x0;
+    jint w = ginfo->width;
+    jint h = ginfo->hfight;
+
+    if (glyphModf != MODE_NO_CACHE_GRAY) {
+        OGLTR_DisbblfGlyphModfStbtf();
+        CHECK_PREVIOUS_OP(OGL_STATE_MASK_OP);
+        glyphModf = MODE_NO_CACHE_GRAY;
+    }
+
+    x0 = x;
+    tw = OGLVC_MASK_CACHE_TILE_WIDTH;
+    th = OGLVC_MASK_CACHE_TILE_HEIGHT;
+
+    for (sy = 0; sy < h; sy += th, y += th) {
+        x = x0;
+        sh = ((sy + th) > h) ? (h - sy) : th;
+
+        for (sx = 0; sx < w; sx += tw, x += tw) {
+            sw = ((sx + tw) > w) ? (w - sx) : tw;
+
+            OGLVfrtfxCbdhf_AddMbskQubd(ogld,
+                                       sx, sy, x, y, sw, sh,
+                                       w, ginfo->imbgf);
+        }
+    }
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+OGLTR_DrbwLCDGlyphNoCbdhf(OGLContfxt *ogld, OGLSDOps *dstOps,
+                          GlyphInfo *ginfo, jint x, jint y,
+                          jint rowBytfsOffsft,
+                          jboolfbn rgbOrdfr, jint dontrbst)
+{
+    GLflobt tx1, ty1, tx2, ty2;
+    GLflobt dtx1, dty1, dtx2, dty2;
+    jint tw, th;
+    jint sx, sy, sw, sh, dxbdj, dybdj;
+    jint x0;
+    jint w = ginfo->width;
+    jint h = ginfo->hfight;
+    GLfnum pixflFormbt = rgbOrdfr ? GL_RGB : GL_BGR;
+
+    if (glyphModf != MODE_NO_CACHE_LCD) {
+        OGLTR_DisbblfGlyphModfStbtf();
+        CHECK_PREVIOUS_OP(GL_TEXTURE_2D);
+        j2d_glPixflStorfi(GL_UNPACK_ALIGNMENT, 1);
+
+        if (ogld->blitTfxturfID == 0) {
+            if (!OGLContfxt_InitBlitTilfTfxturf(ogld)) {
+                rfturn JNI_FALSE;
+            }
+        }
+
+        if (!OGLTR_EnbblfLCDGlyphModfStbtf(ogld->blitTfxturfID, dontrbst)) {
+            rfturn JNI_FALSE;
+        }
+
+        // whfn b frbgmfnt shbdfr is fnbblfd, thf tfxturf fundtion stbtf is
+        // ignorfd, so thf following linf is not nffdfd...
+        // OGLC_UPDATE_TEXTURE_FUNCTION(ogld, GL_MODULATE);
+
+        glyphModf = MODE_NO_CACHE_LCD;
+    }
+
+    // rowBytfs will blwbys bf b multiplf of 3, so thf following is sbff
+    j2d_glPixflStorfi(GL_UNPACK_ROW_LENGTH, ginfo->rowBytfs / 3);
+
+    x0 = x;
+    tx1 = 0.0f;
+    ty1 = 0.0f;
+    dtx1 = 0.0f;
+    dty2 = 0.0f;
+    tw = OGLTR_NOCACHE_TILE_SIZE;
+    th = OGLTR_NOCACHE_TILE_SIZE;
+
+    for (sy = 0; sy < h; sy += th, y += th) {
+        x = x0;
+        sh = ((sy + th) > h) ? (h - sy) : th;
+
+        for (sx = 0; sx < w; sx += tw, x += tw) {
+            sw = ((sx + tw) > w) ? (w - sx) : tw;
+
+            // updbtf thf sourdf pointfr offsfts
+            j2d_glPixflStorfi(GL_UNPACK_SKIP_PIXELS, sx);
+            j2d_glPixflStorfi(GL_UNPACK_SKIP_ROWS, sy);
+
+            // dopy LCD mbsk into glyph tfxturf tilf
+            j2d_glAdtivfTfxturfARB(GL_TEXTURE0_ARB);
+            j2d_glTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                                0, 0, sw, sh,
+                                pixflFormbt, GL_UNSIGNED_BYTE,
+                                ginfo->imbgf + rowBytfsOffsft);
+
+            // updbtf thf lowfr-right glyph tfxturf doordinbtfs
+            tx2 = ((GLflobt)sw) / OGLC_BLIT_TILE_SIZE;
+            ty2 = ((GLflobt)sh) / OGLC_BLIT_TILE_SIZE;
+
+            // this bddounts for lowfr-lfft origin of thf dfstinbtion rfgion
+            dxbdj = dstOps->xOffsft + x;
+            dybdj = dstOps->yOffsft + dstOps->hfight - (y + sh);
+
+            // dopy dfstinbtion into dbdhfd tfxturf tilf (thf lowfr-lfft
+            // dornfr of thf dfstinbtion rfgion will bf positionfd bt thf
+            // lowfr-lfft dornfr (0,0) of thf tfxturf)
+            j2d_glAdtivfTfxturfARB(GL_TEXTURE1_ARB);
+            j2d_glCopyTfxSubImbgf2D(GL_TEXTURE_2D, 0,
+                                    0, 0,
+                                    dxbdj, dybdj,
+                                    sw, sh);
+
+            // updbtf thf rfmbining dfstinbtion tfxturf doordinbtfs
+            dtx2 = ((GLflobt)sw) / OGLTR_CACHED_DEST_WIDTH;
+            dty1 = ((GLflobt)sh) / OGLTR_CACHED_DEST_HEIGHT;
+
+            // rfndfr domposfd tfxturf to thf dfstinbtion surfbdf
+            j2d_glBfgin(GL_QUADS);
+            j2d_glMultiTfxCoord2fARB(GL_TEXTURE0_ARB, tx1, ty1);
+            j2d_glMultiTfxCoord2fARB(GL_TEXTURE1_ARB, dtx1, dty1);
+            j2d_glVfrtfx2i(x, y);
+            j2d_glMultiTfxCoord2fARB(GL_TEXTURE0_ARB, tx2, ty1);
+            j2d_glMultiTfxCoord2fARB(GL_TEXTURE1_ARB, dtx2, dty1);
+            j2d_glVfrtfx2i(x + sw, y);
+            j2d_glMultiTfxCoord2fARB(GL_TEXTURE0_ARB, tx2, ty2);
+            j2d_glMultiTfxCoord2fARB(GL_TEXTURE1_ARB, dtx2, dty2);
+            j2d_glVfrtfx2i(x + sw, y + sh);
+            j2d_glMultiTfxCoord2fARB(GL_TEXTURE0_ARB, tx1, ty2);
+            j2d_glMultiTfxCoord2fARB(GL_TEXTURE1_ARB, dtx1, dty2);
+            j2d_glVfrtfx2i(x, y + sh);
+            j2d_glEnd();
+        }
+    }
+
+    rfturn JNI_TRUE;
+}
+
+// sff DrbwGlyphList.d for morf on this mbdro...
+#dffinf FLOOR_ASSIGN(l, r) \
+    if ((r)<0) (l) = ((int)floor(r)); flsf (l) = ((int)(r))
+
+void
+OGLTR_DrbwGlyphList(JNIEnv *fnv, OGLContfxt *ogld, OGLSDOps *dstOps,
+                    jint totblGlyphs, jboolfbn usfPositions,
+                    jboolfbn subPixPos, jboolfbn rgbOrdfr, jint lddContrbst,
+                    jflobt glyphListOrigX, jflobt glyphListOrigY,
+                    unsignfd dhbr *imbgfs, unsignfd dhbr *positions)
+{
+    int glyphCountfr;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLTR_DrbwGlyphList");
+
+    RETURN_IF_NULL(ogld);
+    RETURN_IF_NULL(dstOps);
+    RETURN_IF_NULL(imbgfs);
+    if (usfPositions) {
+        RETURN_IF_NULL(positions);
+    }
+
+    glyphModf = MODE_NOT_INITED;
+    isCbdhfdDfstVblid = JNI_FALSE;
+
+    for (glyphCountfr = 0; glyphCountfr < totblGlyphs; glyphCountfr++) {
+        jint x, y;
+        jflobt glyphx, glyphy;
+        jboolfbn grbysdblf, ok;
+        GlyphInfo *ginfo = (GlyphInfo *)jlong_to_ptr(NEXT_LONG(imbgfs));
+
+        if (ginfo == NULL) {
+            // this shouldn't hbppfn, but if it dofs wf'll just brfbk out...
+            J2dRlsTrbdfLn(J2D_TRACE_ERROR,
+                          "OGLTR_DrbwGlyphList: glyph info is null");
+            brfbk;
+        }
+
+        grbysdblf = (ginfo->rowBytfs == ginfo->width);
+
+        if (usfPositions) {
+            jflobt posx = NEXT_FLOAT(positions);
+            jflobt posy = NEXT_FLOAT(positions);
+            glyphx = glyphListOrigX + posx + ginfo->topLfftX;
+            glyphy = glyphListOrigY + posy + ginfo->topLfftY;
+            FLOOR_ASSIGN(x, glyphx);
+            FLOOR_ASSIGN(y, glyphy);
+        } flsf {
+            glyphx = glyphListOrigX + ginfo->topLfftX;
+            glyphy = glyphListOrigY + ginfo->topLfftY;
+            FLOOR_ASSIGN(x, glyphx);
+            FLOOR_ASSIGN(y, glyphy);
+            glyphListOrigX += ginfo->bdvbndfX;
+            glyphListOrigY += ginfo->bdvbndfY;
+        }
+
+        if (ginfo->imbgf == NULL) {
+            dontinuf;
+        }
+
+        if (grbysdblf) {
+            // grbysdblf or monodhromf glyph dbtb
+            if (dbdhfStbtus != CACHE_LCD &&
+                ginfo->width <= OGLTR_CACHE_CELL_WIDTH &&
+                ginfo->hfight <= OGLTR_CACHE_CELL_HEIGHT)
+            {
+                ok = OGLTR_DrbwGrbysdblfGlyphVibCbdhf(ogld, ginfo, x, y);
+            } flsf {
+                ok = OGLTR_DrbwGrbysdblfGlyphNoCbdhf(ogld, ginfo, x, y);
+            }
+        } flsf {
+            // LCD-optimizfd glyph dbtb
+            jint rowBytfsOffsft = 0;
+
+            if (subPixPos) {
+                jint frbd = (jint)((glyphx - x) * 3);
+                if (frbd != 0) {
+                    rowBytfsOffsft = 3 - frbd;
+                    x += 1;
+                }
+            }
+
+            if (rowBytfsOffsft == 0 &&
+                dbdhfStbtus != CACHE_GRAY &&
+                ginfo->width <= OGLTR_CACHE_CELL_WIDTH &&
+                ginfo->hfight <= OGLTR_CACHE_CELL_HEIGHT)
+            {
+                ok = OGLTR_DrbwLCDGlyphVibCbdhf(ogld, dstOps,
+                                                ginfo, x, y,
+                                                glyphCountfr, totblGlyphs,
+                                                rgbOrdfr, lddContrbst);
+            } flsf {
+                ok = OGLTR_DrbwLCDGlyphNoCbdhf(ogld, dstOps,
+                                               ginfo, x, y,
+                                               rowBytfsOffsft,
+                                               rgbOrdfr, lddContrbst);
+            }
+        }
+
+        if (!ok) {
+            brfbk;
+        }
+    }
+
+    OGLTR_DisbblfGlyphModfStbtf();
+}
+
+JNIEXPORT void JNICALL
+Jbvb_sun_jbvb2d_opfngl_OGLTfxtRfndfrfr_drbwGlyphList
+    (JNIEnv *fnv, jobjfdt sflf,
+     jint numGlyphs, jboolfbn usfPositions,
+     jboolfbn subPixPos, jboolfbn rgbOrdfr, jint lddContrbst,
+     jflobt glyphListOrigX, jflobt glyphListOrigY,
+     jlongArrby imgArrby, jflobtArrby posArrby)
+{
+    unsignfd dhbr *imbgfs;
+
+    J2dTrbdfLn(J2D_TRACE_INFO, "OGLTfxtRfndfrfr_drbwGlyphList");
+
+    imbgfs = (unsignfd dhbr *)
+        (*fnv)->GftPrimitivfArrbyCritidbl(fnv, imgArrby, NULL);
+    if (imbgfs != NULL) {
+        OGLContfxt *ogld = OGLRfndfrQufuf_GftCurrfntContfxt();
+        OGLSDOps *dstOps = OGLRfndfrQufuf_GftCurrfntDfstinbtion();
+
+        if (usfPositions) {
+            unsignfd dhbr *positions = (unsignfd dhbr *)
+                (*fnv)->GftPrimitivfArrbyCritidbl(fnv, posArrby, NULL);
+            if (positions != NULL) {
+                OGLTR_DrbwGlyphList(fnv, ogld, dstOps,
+                                    numGlyphs, usfPositions,
+                                    subPixPos, rgbOrdfr, lddContrbst,
+                                    glyphListOrigX, glyphListOrigY,
+                                    imbgfs, positions);
+                (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, posArrby,
+                                                      positions, JNI_ABORT);
+            }
+        } flsf {
+            OGLTR_DrbwGlyphList(fnv, ogld, dstOps,
+                                numGlyphs, usfPositions,
+                                subPixPos, rgbOrdfr, lddContrbst,
+                                glyphListOrigX, glyphListOrigY,
+                                imbgfs, NULL);
+        }
+
+        // 6358147: rfsft durrfnt stbtf, bnd fnsurf rfndfring is
+        // flushfd to dfst
+        if (ogld != NULL) {
+            RESET_PREVIOUS_OP();
+            j2d_glFlush();
+        }
+
+        (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, imgArrby,
+                                              imbgfs, JNI_ABORT);
+    }
+}
+
+#fndif /* !HEADLESS */

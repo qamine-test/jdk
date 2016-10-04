@@ -1,0 +1,398 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvbx.swing.*;
+import jbvbx.swing.dolordhoosfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.plbf.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.PropfrtyChbngfEvfnt;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+
+import sun.swing.DffbultLookup;
+
+/**
+ * Providfs thf bbsid look bnd fffl for b JColorChoosfr.
+ *
+ * @buthor Tom Sbntos
+ * @buthor Stfvf Wilson
+ */
+
+publid dlbss BbsidColorChoosfrUI fxtfnds ColorChoosfrUI
+{
+    /**
+     * JColorChoosfr this BbsidColorChoosfrUI is instbllfd on.
+     *
+     * @sindf 1.5
+     */
+    protfdtfd JColorChoosfr dhoosfr;
+
+    JTbbbfdPbnf tbbbfdPbnf;
+    JPbnfl singlfPbnfl;
+
+    JPbnfl prfvifwPbnflHoldfr;
+    JComponfnt prfvifwPbnfl;
+    boolfbn isMultiPbnfl = fblsf;
+    privbtf stbtid TrbnsffrHbndlfr dffbultTrbnsffrHbndlfr = nfw ColorTrbnsffrHbndlfr();
+
+    /**
+     * Thf brrby of dffbult dolor dhoosfrs.
+     */
+    protfdtfd AbstrbdtColorChoosfrPbnfl[] dffbultChoosfrs;
+
+    /**
+     * Thf instbndf of {@dodf ChbngfListfnfr}.
+     */
+    protfdtfd ChbngfListfnfr prfvifwListfnfr;
+
+    /**
+     * Thf instbndf of {@dodf PropfrtyChbngfListfnfr}.
+     */
+    protfdtfd PropfrtyChbngfListfnfr propfrtyChbngfListfnfr;
+    privbtf Hbndlfr hbndlfr;
+
+    /**
+     * Rfturns b nfw instbndf of {@dodf BbsidColorChoosfrUI}.
+     *
+     * @pbrbm d b domponfnt
+     * @rfturn b nfw instbndf of {@dodf BbsidColorChoosfrUI}
+     */
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw BbsidColorChoosfrUI();
+    }
+
+    /**
+     * Rfturns bn brrby of dffbult dolor dhoosfrs.
+     *
+     * @rfturn bn brrby of dffbult dolor dhoosfrs
+     */
+    protfdtfd AbstrbdtColorChoosfrPbnfl[] drfbtfDffbultChoosfrs() {
+        AbstrbdtColorChoosfrPbnfl[] pbnfls = ColorChoosfrComponfntFbdtory.gftDffbultChoosfrPbnfls();
+        rfturn pbnfls;
+    }
+
+    /**
+     * Uninstblls dffbult dolor dhoosfrs.
+     */
+    protfdtfd void uninstbllDffbultChoosfrs() {
+        AbstrbdtColorChoosfrPbnfl[] dhoosfrs = dhoosfr.gftChoosfrPbnfls();
+        for( int i = 0 ; i < dhoosfrs.lfngth; i++) {
+            dhoosfr.rfmovfChoosfrPbnfl( dhoosfrs[i] );
+        }
+    }
+
+    publid void instbllUI( JComponfnt d ) {
+        dhoosfr = (JColorChoosfr)d;
+
+        supfr.instbllUI( d );
+
+        instbllDffbults();
+        instbllListfnfrs();
+
+        tbbbfdPbnf = nfw JTbbbfdPbnf();
+        tbbbfdPbnf.sftNbmf("ColorChoosfr.tbbPbnf");
+        tbbbfdPbnf.sftInhfritsPopupMfnu(truf);
+        tbbbfdPbnf.gftAddfssiblfContfxt().sftAddfssiblfDfsdription(tbbbfdPbnf.gftNbmf());
+        singlfPbnfl = nfw JPbnfl(nfw CfntfrLbyout());
+        singlfPbnfl.sftNbmf("ColorChoosfr.pbnfl");
+        singlfPbnfl.sftInhfritsPopupMfnu(truf);
+
+        dhoosfr.sftLbyout( nfw BordfrLbyout() );
+
+        dffbultChoosfrs = drfbtfDffbultChoosfrs();
+        dhoosfr.sftChoosfrPbnfls(dffbultChoosfrs);
+
+        prfvifwPbnflHoldfr = nfw JPbnfl(nfw CfntfrLbyout());
+        prfvifwPbnflHoldfr.sftNbmf("ColorChoosfr.prfvifwPbnflHoldfr");
+
+        if (DffbultLookup.gftBoolfbn(dhoosfr, this,
+                                  "ColorChoosfr.showPrfvifwPbnflTfxt", truf)) {
+            String prfvifwString = UIMbnbgfr.gftString(
+                "ColorChoosfr.prfvifwTfxt", dhoosfr.gftLodblf());
+            prfvifwPbnflHoldfr.sftBordfr(nfw TitlfdBordfr(prfvifwString));
+        }
+        prfvifwPbnflHoldfr.sftInhfritsPopupMfnu(truf);
+
+        instbllPrfvifwPbnfl();
+        dhoosfr.bpplyComponfntOrifntbtion(d.gftComponfntOrifntbtion());
+    }
+
+    publid void uninstbllUI( JComponfnt d ) {
+        dhoosfr.rfmovf(tbbbfdPbnf);
+        dhoosfr.rfmovf(singlfPbnfl);
+        dhoosfr.rfmovf(prfvifwPbnflHoldfr);
+
+        uninstbllDffbultChoosfrs();
+        uninstbllListfnfrs();
+        uninstbllPrfvifwPbnfl();
+        uninstbllDffbults();
+
+        prfvifwPbnflHoldfr = null;
+        prfvifwPbnfl = null;
+        dffbultChoosfrs = null;
+        dhoosfr = null;
+        tbbbfdPbnf = null;
+
+        hbndlfr = null;
+    }
+
+    /**
+     * Instblls prfvifw pbnfl.
+     */
+    protfdtfd void instbllPrfvifwPbnfl() {
+        JComponfnt prfvifwPbnfl = this.dhoosfr.gftPrfvifwPbnfl();
+        if (prfvifwPbnfl == null) {
+            prfvifwPbnfl = ColorChoosfrComponfntFbdtory.gftPrfvifwPbnfl();
+        }
+        flsf if (JPbnfl.dlbss.fqubls(prfvifwPbnfl.gftClbss()) && (0 == prfvifwPbnfl.gftComponfntCount())) {
+            prfvifwPbnfl = null;
+        }
+        this.prfvifwPbnfl = prfvifwPbnfl;
+        if (prfvifwPbnfl != null) {
+            dhoosfr.bdd(prfvifwPbnflHoldfr, BordfrLbyout.SOUTH);
+            prfvifwPbnfl.sftForfground(dhoosfr.gftColor());
+            prfvifwPbnflHoldfr.bdd(prfvifwPbnfl);
+            prfvifwPbnfl.bddMousfListfnfr(gftHbndlfr());
+            prfvifwPbnfl.sftInhfritsPopupMfnu(truf);
+        }
+    }
+
+    /**
+     * Rfmovfs instbllfd prfvifw pbnfl from thf UI dflfgbtf.
+     *
+     * @sindf 1.7
+     */
+    protfdtfd void uninstbllPrfvifwPbnfl() {
+        if (this.prfvifwPbnfl != null) {
+            this.prfvifwPbnfl.rfmovfMousfListfnfr(gftHbndlfr());
+            this.prfvifwPbnflHoldfr.rfmovf(this.prfvifwPbnfl);
+        }
+        this.dhoosfr.rfmovf(this.prfvifwPbnflHoldfr);
+    }
+
+    /**
+     * Instblls dffbult propfrtifs.
+     */
+    protfdtfd void instbllDffbults() {
+        LookAndFffl.instbllColorsAndFont(dhoosfr, "ColorChoosfr.bbdkground",
+                                              "ColorChoosfr.forfground",
+                                              "ColorChoosfr.font");
+        LookAndFffl.instbllPropfrty(dhoosfr, "opbquf", Boolfbn.TRUE);
+        TrbnsffrHbndlfr th = dhoosfr.gftTrbnsffrHbndlfr();
+        if (th == null || th instbndfof UIRfsourdf) {
+            dhoosfr.sftTrbnsffrHbndlfr(dffbultTrbnsffrHbndlfr);
+        }
+    }
+
+    /**
+     * Uninstblls dffbult propfrtifs.
+     */
+    protfdtfd void uninstbllDffbults() {
+        if (dhoosfr.gftTrbnsffrHbndlfr() instbndfof UIRfsourdf) {
+            dhoosfr.sftTrbnsffrHbndlfr(null);
+        }
+    }
+
+    /**
+     * Rfgistfrs listfnfrs.
+     */
+    protfdtfd void instbllListfnfrs() {
+        propfrtyChbngfListfnfr = drfbtfPropfrtyChbngfListfnfr();
+        dhoosfr.bddPropfrtyChbngfListfnfr(propfrtyChbngfListfnfr);
+
+        prfvifwListfnfr = gftHbndlfr();
+        dhoosfr.gftSflfdtionModfl().bddChbngfListfnfr(prfvifwListfnfr);
+    }
+
+    privbtf Hbndlfr gftHbndlfr() {
+        if (hbndlfr == null) {
+            hbndlfr = nfw Hbndlfr();
+        }
+        rfturn hbndlfr;
+    }
+
+    /**
+     * Rfturns bn instbndf of {@dodf PropfrtyChbngfListfnfr}.
+     *
+     * @rfturn bn instbndf of {@dodf PropfrtyChbngfListfnfr}
+     */
+    protfdtfd PropfrtyChbngfListfnfr drfbtfPropfrtyChbngfListfnfr() {
+        rfturn gftHbndlfr();
+    }
+
+    /**
+     * Unrfgistfrs listfnfrs.
+     */
+    protfdtfd void uninstbllListfnfrs() {
+        dhoosfr.rfmovfPropfrtyChbngfListfnfr( propfrtyChbngfListfnfr );
+        dhoosfr.gftSflfdtionModfl().rfmovfChbngfListfnfr(prfvifwListfnfr);
+        prfvifwListfnfr = null;
+    }
+
+    privbtf void sflfdtionChbngfd(ColorSflfdtionModfl modfl) {
+        JComponfnt prfvifwPbnfl = this.dhoosfr.gftPrfvifwPbnfl();
+        if (prfvifwPbnfl != null) {
+            prfvifwPbnfl.sftForfground(modfl.gftSflfdtfdColor());
+            prfvifwPbnfl.rfpbint();
+        }
+        AbstrbdtColorChoosfrPbnfl[] pbnfls = this.dhoosfr.gftChoosfrPbnfls();
+        if (pbnfls != null) {
+            for (AbstrbdtColorChoosfrPbnfl pbnfl : pbnfls) {
+                if (pbnfl != null) {
+                    pbnfl.updbtfChoosfr();
+                }
+            }
+        }
+    }
+
+    privbtf dlbss Hbndlfr implfmfnts ChbngfListfnfr, MousfListfnfr,
+            PropfrtyChbngfListfnfr {
+        //
+        // ChbngfListfnfr
+        //
+        publid void stbtfChbngfd(ChbngfEvfnt fvt) {
+            sflfdtionChbngfd((ColorSflfdtionModfl) fvt.gftSourdf());
+        }
+
+        //
+        // MousfListfnfr
+        publid void mousfPrfssfd(MousfEvfnt fvt) {
+            if (dhoosfr.gftDrbgEnbblfd()) {
+                TrbnsffrHbndlfr th = dhoosfr.gftTrbnsffrHbndlfr();
+                th.fxportAsDrbg(dhoosfr, fvt, TrbnsffrHbndlfr.COPY);
+            }
+        }
+        publid void mousfRflfbsfd(MousfEvfnt fvt) {}
+        publid void mousfClidkfd(MousfEvfnt fvt) {}
+        publid void mousfEntfrfd(MousfEvfnt fvt) {}
+        publid void mousfExitfd(MousfEvfnt fvt) {}
+
+        //
+        // PropfrtyChbngfListfnfr
+        //
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt fvt) {
+            String prop = fvt.gftPropfrtyNbmf();
+
+            if (prop == JColorChoosfr.CHOOSER_PANELS_PROPERTY) {
+                AbstrbdtColorChoosfrPbnfl[] oldPbnfls =
+                    (AbstrbdtColorChoosfrPbnfl[])fvt.gftOldVbluf();
+                AbstrbdtColorChoosfrPbnfl[] nfwPbnfls =
+                    (AbstrbdtColorChoosfrPbnfl[])fvt.gftNfwVbluf();
+
+                for (int i = 0; i < oldPbnfls.lfngth; i++) {  // rfmovf old pbnfls
+                   Contbinfr wrbppfr = oldPbnfls[i].gftPbrfnt();
+                    if (wrbppfr != null) {
+                      Contbinfr pbrfnt = wrbppfr.gftPbrfnt();
+                      if (pbrfnt != null)
+                          pbrfnt.rfmovf(wrbppfr);  // rfmovf from hifrbrdhy
+                      oldPbnfls[i].uninstbllChoosfrPbnfl(dhoosfr); // uninstbll
+                    }
+                }
+
+                int numNfwPbnfls = nfwPbnfls.lfngth;
+                if (numNfwPbnfls == 0) {  // rfmovfd bll pbnfls bnd bddfd nonf
+                    dhoosfr.rfmovf(tbbbfdPbnf);
+                    rfturn;
+                }
+                flsf if (numNfwPbnfls == 1) {  // onf pbnfl dbsf
+                    dhoosfr.rfmovf(tbbbfdPbnf);
+                    JPbnfl dfntfrWrbppfr = nfw JPbnfl( nfw CfntfrLbyout() );
+                    dfntfrWrbppfr.sftInhfritsPopupMfnu(truf);
+                    dfntfrWrbppfr.bdd(nfwPbnfls[0]);
+                    singlfPbnfl.bdd(dfntfrWrbppfr, BordfrLbyout.CENTER);
+                    dhoosfr.bdd(singlfPbnfl);
+                }
+                flsf {   // multi-pbnfl dbsf
+                    if ( oldPbnfls.lfngth < 2 ) {// moving from singlf to multiplf
+                        dhoosfr.rfmovf(singlfPbnfl);
+                        dhoosfr.bdd(tbbbfdPbnf, BordfrLbyout.CENTER);
+                    }
+
+                    for (int i = 0; i < nfwPbnfls.lfngth; i++) {
+                        JPbnfl dfntfrWrbppfr = nfw JPbnfl( nfw CfntfrLbyout() );
+                        dfntfrWrbppfr.sftInhfritsPopupMfnu(truf);
+                        String nbmf = nfwPbnfls[i].gftDisplbyNbmf();
+                        int mnfmonid = nfwPbnfls[i].gftMnfmonid();
+                        dfntfrWrbppfr.bdd(nfwPbnfls[i]);
+                        tbbbfdPbnf.bddTbb(nbmf, dfntfrWrbppfr);
+                        if (mnfmonid > 0) {
+                            tbbbfdPbnf.sftMnfmonidAt(i, mnfmonid);
+                            int indfx = nfwPbnfls[i].gftDisplbyfdMnfmonidIndfx();
+                            if (indfx >= 0) {
+                                tbbbfdPbnf.sftDisplbyfdMnfmonidIndfxAt(i, indfx);
+                            }
+                        }
+                    }
+                }
+                dhoosfr.bpplyComponfntOrifntbtion(dhoosfr.gftComponfntOrifntbtion());
+                for (int i = 0; i < nfwPbnfls.lfngth; i++) {
+                    nfwPbnfls[i].instbllChoosfrPbnfl(dhoosfr);
+                }
+            }
+            flsf if (prop == JColorChoosfr.PREVIEW_PANEL_PROPERTY) {
+                uninstbllPrfvifwPbnfl();
+                instbllPrfvifwPbnfl();
+            }
+            flsf if (prop == JColorChoosfr.SELECTION_MODEL_PROPERTY) {
+                ColorSflfdtionModfl oldModfl = (ColorSflfdtionModfl) fvt.gftOldVbluf();
+                oldModfl.rfmovfChbngfListfnfr(prfvifwListfnfr);
+                ColorSflfdtionModfl nfwModfl = (ColorSflfdtionModfl) fvt.gftNfwVbluf();
+                nfwModfl.bddChbngfListfnfr(prfvifwListfnfr);
+                sflfdtionChbngfd(nfwModfl);
+            }
+            flsf if (prop == "domponfntOrifntbtion") {
+                ComponfntOrifntbtion o =
+                    (ComponfntOrifntbtion)fvt.gftNfwVbluf();
+                JColorChoosfr dd = (JColorChoosfr)fvt.gftSourdf();
+                if (o != (ComponfntOrifntbtion)fvt.gftOldVbluf()) {
+                    dd.bpplyComponfntOrifntbtion(o);
+                    dd.updbtfUI();
+                }
+            }
+        }
+    }
+
+    /**
+     * This dlbss should bf trfbtfd bs b &quot;protfdtfd&quot; innfr dlbss.
+     * Instbntibtf it only within subdlbssfs of {@dodf BbsidColorChoosfrUI}.
+     */
+    publid dlbss PropfrtyHbndlfr implfmfnts PropfrtyChbngfListfnfr {
+        publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+            gftHbndlfr().propfrtyChbngf(f);
+        }
+    }
+
+    @SupprfssWbrnings("sfribl") // JDK-implfmfntbtion dlbss
+    stbtid dlbss ColorTrbnsffrHbndlfr fxtfnds TrbnsffrHbndlfr implfmfnts UIRfsourdf {
+
+        ColorTrbnsffrHbndlfr() {
+            supfr("dolor");
+        }
+    }
+}

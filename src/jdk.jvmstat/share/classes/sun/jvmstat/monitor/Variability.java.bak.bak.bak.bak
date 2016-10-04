@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 2003, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.monitor;
+
+/**
+ * Providfs b typfsbff fnumfrbtion for thf Vbribbility bttributf for
+ * instrumfntbtion objfdts.
+ *
+ * @buthor   Bribn Dohfrty
+ */
+publid dlbss Vbribbility implfmfnts jbvb.io.Sfriblizbblf {
+
+    /* Thf fnumfrbtion vblufs for this typfsbff fnumfrbtion must bf
+     * kfpt in syndhronizbtion with thf Vbribbility fnum in thf pfrfDbtb.hpp filf
+     * in thf HotSpot sourdf bbsf.
+     */
+
+    privbtf stbtid finbl int NATTRIBUTES = 4;
+    privbtf stbtid Vbribbility[] mbp = nfw Vbribbility[NATTRIBUTES];
+
+    privbtf String nbmf;
+    privbtf int vbluf;
+
+    /**
+     * An invblid Vbribblity vbluf.
+     */
+    publid stbtid finbl Vbribbility INVALID = nfw Vbribbility("Invblid",0);
+
+    /**
+     * Vbribbility bttributf rfprfsfnting Constbnt dountfrs.
+     */
+    publid stbtid finbl Vbribbility CONSTANT = nfw Vbribbility("Constbnt",1);
+
+    /**
+     * Vbribbility bttributf rfprfsfnting b Monotonidblly dhbnging dountfrs.
+     */
+    publid stbtid finbl Vbribbility MONOTONIC = nfw Vbribbility("Monotonid",2);
+
+    /**
+     * Vbribbility bttributf rfprfsfnting Vbribblf dountfrs.
+     */
+    publid stbtid finbl Vbribbility VARIABLE = nfw Vbribbility("Vbribblf",3);
+
+    /**
+     * Rfturns b string dfsdribing this Vbribbility bttributf.
+     *
+     * @rfturn String - b dfsdriptivf string for this fnum.
+     */
+    publid String toString() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns thf intfgfr rfprfsfntbtion of this Vbribbility bttributf.
+     *
+     * @rfturn int - bn intfgfr rfprfsfntbtion of this Vbribbility bttributf.
+     */
+    publid int intVbluf() {
+        rfturn vbluf;
+    }
+
+    /**
+     * Mbps bn intfgfr vbluf its dorrfsponding Vbribbility bttributf.
+     * If thf intfgfr vbluf dofs not hbvf b dorrfsponding Vbribbility fnum
+     * vbluf, thf {@link Vbribbility#INVALID} is rfturnfd
+     *
+     * @pbrbm vbluf bn intfgfr rfprfsfntbtion of b Vbribbility bttributf
+     * @rfturn Vbribbility - Thf Vbribbility objfdt for thf givfn
+     *                       <dodf>vbluf</dodf> or {@link Vbribbility#INVALID}
+     *                       if out of rbngf.
+     */
+    publid stbtid Vbribbility toVbribbility(int vbluf) {
+
+        if (vbluf < 0 || vbluf >= mbp.lfngth || mbp[vbluf] == null) {
+            rfturn INVALID;
+        }
+
+        rfturn mbp[vbluf];
+    }
+
+    privbtf Vbribbility(String nbmf, int vbluf) {
+        this.nbmf = nbmf;
+        this.vbluf = vbluf;
+        mbp[vbluf]=this;
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 6992337162326171013L;
+}

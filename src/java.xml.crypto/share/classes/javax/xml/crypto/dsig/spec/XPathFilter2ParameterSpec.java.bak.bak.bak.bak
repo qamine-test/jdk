@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: XPbthFiltfr2PbrbmftfrSpfd.jbvb,v 1.7 2005/05/13 18:45:42 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dsig.spfd;
+
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.List;
+import jbvbx.xml.drypto.dsig.Trbnsform;
+
+/**
+ * Pbrbmftfrs for thf W3C Rfdommfndbtion
+ * <b hrff="http://www.w3.org/TR/xmldsig-filtfr2/">
+ * XPbth Filtfr 2.0 Trbnsform Algorithm</b>.
+ * Thf pbrbmftfrs indludf b list of onf or morf {@link XPbthTypf} objfdts.
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ * @sff Trbnsform
+ * @sff XPbthFiltfrPbrbmftfrSpfd
+ */
+publid finbl dlbss XPbthFiltfr2PbrbmftfrSpfd implfmfnts TrbnsformPbrbmftfrSpfd {
+
+    privbtf finbl List<XPbthTypf> xPbthList;
+
+    /**
+     * Crfbtfs bn <dodf>XPbthFiltfr2PbrbmftfrSpfd</dodf>.
+     *
+     * @pbrbm xPbthList b list of onf or morf {@link XPbthTypf} objfdts. Thf
+     *    list is dfffnsivfly dopifd to protfdt bgbinst subsfqufnt modifidbtion.
+     * @throws ClbssCbstExdfption if <dodf>xPbthList</dodf> dontbins bny
+     *    fntrifs thbt brf not of typf {@link XPbthTypf}
+     * @throws IllfgblArgumfntExdfption if <dodf>xPbthList</dodf> is fmpty
+     * @throws NullPointfrExdfption if <dodf>xPbthList</dodf> is
+     *    <dodf>null</dodf>
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid XPbthFiltfr2PbrbmftfrSpfd(List xPbthList) {
+        if (xPbthList == null) {
+            throw nfw NullPointfrExdfption("xPbthList dbnnot bf null");
+        }
+        List<?> xPbthListCopy = nfw ArrbyList<>((List<?>)xPbthList);
+        if (xPbthListCopy.isEmpty()) {
+            throw nfw IllfgblArgumfntExdfption("xPbthList dbnnot bf fmpty");
+        }
+        int sizf = xPbthListCopy.sizf();
+        for (int i = 0; i < sizf; i++) {
+            if (!(xPbthListCopy.gft(i) instbndfof XPbthTypf)) {
+                throw nfw ClbssCbstExdfption
+                    ("xPbthList["+i+"] is not b vblid typf");
+            }
+        }
+
+        @SupprfssWbrnings("undhfdkfd")
+        List<XPbthTypf> tfmp = (List<XPbthTypf>)xPbthListCopy;
+
+        this.xPbthList = Collfdtions.unmodifibblfList(tfmp);
+    }
+
+    /**
+     * Rfturns b list of onf or morf {@link XPbthTypf} objfdts.
+     * <p>
+     * This implfmfntbtion rfturns bn {@link Collfdtions#unmodifibblfList
+     * unmodifibblf list}.
+     *
+     * @rfturn b <dodf>List</dodf> of <dodf>XPbthTypf</dodf> objfdts
+     *    (nfvfr <dodf>null</dodf> or fmpty)
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid List gftXPbthList() {
+        rfturn xPbthList;
+    }
+}

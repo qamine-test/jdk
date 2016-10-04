@@ -1,395 +1,395 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
 
-import java.util.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.applet.*;
-import java.beans.*;
-import javax.swing.event.*;
-import sun.awt.EmbeddedFrame;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bpplft.*;
+import jbvb.bfbns.*;
+import jbvbx.swing.fvfnt.*;
+import sun.bwt.EmbfddfdFrbmf;
 
 /**
-  * The KeyboardManager class is used to help dispatch keyboard actions for the
-  * WHEN_IN_FOCUSED_WINDOW style actions.  Actions with other conditions are handled
-  * directly in JComponent.
+  * Tif KfybobrdMbnbgfr dlbss is usfd to iflp dispbtdi kfybobrd bdtions for tif
+  * WHEN_IN_FOCUSED_WINDOW stylf bdtions.  Adtions witi otifr donditions brf ibndlfd
+  * dirfdtly in JComponfnt.
   *
-  * Here's a description of the symantics of how keyboard dispatching should work
-  * atleast as I understand it.
+  * Hfrf's b dfsdription of tif symbntids of iow kfybobrd dispbtdiing siould work
+  * btlfbst bs I undfrstbnd it.
   *
-  * KeyEvents are dispatched to the focused component.  The focus manager gets first
-  * crack at processing this event.  If the focus manager doesn't want it, then
-  * the JComponent calls super.processKeyEvent() this allows listeners a chance
-  * to process the event.
+  * KfyEvfnts brf dispbtdifd to tif fodusfd domponfnt.  Tif fodus mbnbgfr gfts first
+  * drbdk bt prodfssing tiis fvfnt.  If tif fodus mbnbgfr dofsn't wbnt it, tifn
+  * tif JComponfnt dblls supfr.prodfssKfyEvfnt() tiis bllows listfnfrs b dibndf
+  * to prodfss tif fvfnt.
   *
-  * If none of the listeners "consumes" the event then the keybindings get a shot.
-  * This is where things start to get interesting.  First, KeyStokes defined with the
-  * WHEN_FOCUSED condition get a chance.  If none of these want the event, then the component
-  * walks though it's parents looked for actions of type WHEN_ANCESTOR_OF_FOCUSED_COMPONENT.
+  * If nonf of tif listfnfrs "donsumfs" tif fvfnt tifn tif kfybindings gft b siot.
+  * Tiis is wifrf tiings stbrt to gft intfrfsting.  First, KfyStokfs dffinfd witi tif
+  * WHEN_FOCUSED dondition gft b dibndf.  If nonf of tifsf wbnt tif fvfnt, tifn tif domponfnt
+  * wblks tiougi it's pbrfnts lookfd for bdtions of typf WHEN_ANCESTOR_OF_FOCUSED_COMPONENT.
   *
-  * If no one has taken it yet, then it winds up here.  We then look for components registered
-  * for WHEN_IN_FOCUSED_WINDOW events and fire to them.  Note that if none of those are found
-  * then we pass the event to the menubars and let them have a crack at it.  They're handled differently.
+  * If no onf ibs tbkfn it yft, tifn it winds up ifrf.  Wf tifn look for domponfnts rfgistfrfd
+  * for WHEN_IN_FOCUSED_WINDOW fvfnts bnd firf to tifm.  Notf tibt if nonf of tiosf brf found
+  * tifn wf pbss tif fvfnt to tif mfnubbrs bnd lft tifm ibvf b drbdk bt it.  Tify'rf ibndlfd difffrfntly.
   *
-  * Lastly, we check if we're looking at an internal frame.  If we are and no one wanted the event
-  * then we move up to the InternalFrame's creator and see if anyone wants the event (and so on and so on).
+  * Lbstly, wf difdk if wf'rf looking bt bn intfrnbl frbmf.  If wf brf bnd no onf wbntfd tif fvfnt
+  * tifn wf movf up to tif IntfrnblFrbmf's drfbtor bnd sff if bnyonf wbnts tif fvfnt (bnd so on bnd so on).
   *
   *
-  * @see InputMap
+  * @sff InputMbp
   */
-class KeyboardManager {
+dlbss KfybobrdMbnbgfr {
 
-    static KeyboardManager currentManager = new KeyboardManager();
-
-    /**
-      * maps top-level containers to a sub-hashtable full of keystrokes
-      */
-    Hashtable<Container, Hashtable<Object, Object>> containerMap = new Hashtable<>();
+    stbtid KfybobrdMbnbgfr durrfntMbnbgfr = nfw KfybobrdMbnbgfr();
 
     /**
-      * Maps component/keystroke pairs to a topLevel container
-      * This is mainly used for fast unregister operations
+      * mbps top-lfvfl dontbinfrs to b sub-ibsitbblf full of kfystrokfs
       */
-    Hashtable<ComponentKeyStrokePair, Container> componentKeyStrokeMap = new Hashtable<>();
+    Hbsitbblf<Contbinfr, Hbsitbblf<Objfdt, Objfdt>> dontbinfrMbp = nfw Hbsitbblf<>();
 
-    public static KeyboardManager getCurrentManager() {
-        return currentManager;
+    /**
+      * Mbps domponfnt/kfystrokf pbirs to b topLfvfl dontbinfr
+      * Tiis is mbinly usfd for fbst unrfgistfr opfrbtions
+      */
+    Hbsitbblf<ComponfntKfyStrokfPbir, Contbinfr> domponfntKfyStrokfMbp = nfw Hbsitbblf<>();
+
+    publid stbtid KfybobrdMbnbgfr gftCurrfntMbnbgfr() {
+        rfturn durrfntMbnbgfr;
     }
 
-    public static void setCurrentManager(KeyboardManager km) {
-        currentManager = km;
+    publid stbtid void sftCurrfntMbnbgfr(KfybobrdMbnbgfr km) {
+        durrfntMbnbgfr = km;
     }
 
     /**
-      * register keystrokes here which are for the WHEN_IN_FOCUSED_WINDOW
-      * case.
-      * Other types of keystrokes will be handled by walking the hierarchy
-      * That simplifies some potentially hairy stuff.
+      * rfgistfr kfystrokfs ifrf wiidi brf for tif WHEN_IN_FOCUSED_WINDOW
+      * dbsf.
+      * Otifr typfs of kfystrokfs will bf ibndlfd by wblking tif iifrbrdiy
+      * Tibt simplififs somf potfntiblly ibiry stuff.
       */
-     public void registerKeyStroke(KeyStroke k, JComponent c) {
-         Container topContainer = getTopAncestor(c);
-         if (topContainer == null) {
-             return;
+     publid void rfgistfrKfyStrokf(KfyStrokf k, JComponfnt d) {
+         Contbinfr topContbinfr = gftTopAndfstor(d);
+         if (topContbinfr == null) {
+             rfturn;
          }
-         Hashtable<Object, Object> keyMap = containerMap.get(topContainer);
+         Hbsitbblf<Objfdt, Objfdt> kfyMbp = dontbinfrMbp.gft(topContbinfr);
 
-         if (keyMap ==  null) {  // lazy evaluate one
-             keyMap = registerNewTopContainer(topContainer);
+         if (kfyMbp ==  null) {  // lbzy fvblubtf onf
+             kfyMbp = rfgistfrNfwTopContbinfr(topContbinfr);
          }
 
-         Object tmp = keyMap.get(k);
+         Objfdt tmp = kfyMbp.gft(k);
          if (tmp == null) {
-             keyMap.put(k,c);
-         } else if (tmp instanceof Vector) {  // if there's a Vector there then add to it.
-             @SuppressWarnings("unchecked")
-             Vector<Object> v = (Vector)tmp;
-             if (!v.contains(c)) {  // only add if this keystroke isn't registered for this component
-                 v.addElement(c);
+             kfyMbp.put(k,d);
+         } flsf if (tmp instbndfof Vfdtor) {  // if tifrf's b Vfdtor tifrf tifn bdd to it.
+             @SupprfssWbrnings("undifdkfd")
+             Vfdtor<Objfdt> v = (Vfdtor)tmp;
+             if (!v.dontbins(d)) {  // only bdd if tiis kfystrokf isn't rfgistfrfd for tiis domponfnt
+                 v.bddElfmfnt(d);
              }
-         } else if (tmp instanceof JComponent) {
-           // if a JComponent is there then remove it and replace it with a vector
-           // Then add the old compoennt and the new compoent to the vector
-           // then insert the vector in the table
-           if (tmp != c) {  // this means this is already registered for this component, no need to dup
-               Vector<JComponent> v = new Vector<>();
-               v.addElement((JComponent) tmp);
-               v.addElement(c);
-               keyMap.put(k, v);
+         } flsf if (tmp instbndfof JComponfnt) {
+           // if b JComponfnt is tifrf tifn rfmovf it bnd rfplbdf it witi b vfdtor
+           // Tifn bdd tif old dompofnnt bnd tif nfw dompofnt to tif vfdtor
+           // tifn insfrt tif vfdtor in tif tbblf
+           if (tmp != d) {  // tiis mfbns tiis is blrfbdy rfgistfrfd for tiis domponfnt, no nffd to dup
+               Vfdtor<JComponfnt> v = nfw Vfdtor<>();
+               v.bddElfmfnt((JComponfnt) tmp);
+               v.bddElfmfnt(d);
+               kfyMbp.put(k, v);
            }
-         } else {
-             System.out.println("Unexpected condition in registerKeyStroke");
-             Thread.dumpStack();
+         } flsf {
+             Systfm.out.println("Unfxpfdtfd dondition in rfgistfrKfyStrokf");
+             Tirfbd.dumpStbdk();
          }
 
-         componentKeyStrokeMap.put(new ComponentKeyStrokePair(c,k), topContainer);
+         domponfntKfyStrokfMbp.put(nfw ComponfntKfyStrokfPbir(d,k), topContbinfr);
 
-         // Check for EmbeddedFrame case, they know how to process accelerators even
-         // when focus is not in Java
-         if (topContainer instanceof EmbeddedFrame) {
-             ((EmbeddedFrame)topContainer).registerAccelerator(k);
+         // Cifdk for EmbfddfdFrbmf dbsf, tify know iow to prodfss bddflfrbtors fvfn
+         // wifn fodus is not in Jbvb
+         if (topContbinfr instbndfof EmbfddfdFrbmf) {
+             ((EmbfddfdFrbmf)topContbinfr).rfgistfrAddflfrbtor(k);
          }
      }
 
      /**
-       * Find the top focusable Window, Applet, or InternalFrame
+       * Find tif top fodusbblf Window, Applft, or IntfrnblFrbmf
        */
-     private static Container getTopAncestor(JComponent c) {
-        for(Container p = c.getParent(); p != null; p = p.getParent()) {
-            if (p instanceof Window && ((Window)p).isFocusableWindow() ||
-                p instanceof Applet || p instanceof JInternalFrame) {
+     privbtf stbtid Contbinfr gftTopAndfstor(JComponfnt d) {
+        for(Contbinfr p = d.gftPbrfnt(); p != null; p = p.gftPbrfnt()) {
+            if (p instbndfof Window && ((Window)p).isFodusbblfWindow() ||
+                p instbndfof Applft || p instbndfof JIntfrnblFrbmf) {
 
-                return p;
+                rfturn p;
             }
         }
-        return null;
+        rfturn null;
      }
 
-     public void unregisterKeyStroke(KeyStroke ks, JComponent c) {
+     publid void unrfgistfrKfyStrokf(KfyStrokf ks, JComponfnt d) {
 
-       // component may have already been removed from the hierarchy, we
-       // need to look up the container using the componentKeyStrokeMap.
+       // domponfnt mby ibvf blrfbdy bffn rfmovfd from tif iifrbrdiy, wf
+       // nffd to look up tif dontbinfr using tif domponfntKfyStrokfMbp.
 
-         ComponentKeyStrokePair ckp = new ComponentKeyStrokePair(c,ks);
+         ComponfntKfyStrokfPbir dkp = nfw ComponfntKfyStrokfPbir(d,ks);
 
-         Container topContainer = componentKeyStrokeMap.get(ckp);
+         Contbinfr topContbinfr = domponfntKfyStrokfMbp.gft(dkp);
 
-         if (topContainer == null) {  // never heard of this pairing, so bail
-             return;
+         if (topContbinfr == null) {  // nfvfr ifbrd of tiis pbiring, so bbil
+             rfturn;
          }
 
-         Hashtable<Object, Object> keyMap = containerMap.get(topContainer);
-         if  (keyMap == null) { // this should never happen, but I'm being safe
-             Thread.dumpStack();
-             return;
+         Hbsitbblf<Objfdt, Objfdt> kfyMbp = dontbinfrMbp.gft(topContbinfr);
+         if  (kfyMbp == null) { // tiis siould nfvfr ibppfn, but I'm bfing sbff
+             Tirfbd.dumpStbdk();
+             rfturn;
          }
 
-         Object tmp = keyMap.get(ks);
-         if (tmp == null) {  // this should never happen, but I'm being safe
-             Thread.dumpStack();
-             return;
+         Objfdt tmp = kfyMbp.gft(ks);
+         if (tmp == null) {  // tiis siould nfvfr ibppfn, but I'm bfing sbff
+             Tirfbd.dumpStbdk();
+             rfturn;
          }
 
-         if (tmp instanceof JComponent && tmp == c) {
-             keyMap.remove(ks);  // remove the KeyStroke from the Map
-             //System.out.println("removed a stroke" + ks);
-         } else if (tmp instanceof Vector ) {  // this means there is more than one component reg for this key
-             Vector<?> v = (Vector)tmp;
-             v.removeElement(c);
+         if (tmp instbndfof JComponfnt && tmp == d) {
+             kfyMbp.rfmovf(ks);  // rfmovf tif KfyStrokf from tif Mbp
+             //Systfm.out.println("rfmovfd b strokf" + ks);
+         } flsf if (tmp instbndfof Vfdtor ) {  // tiis mfbns tifrf is morf tibn onf domponfnt rfg for tiis kfy
+             Vfdtor<?> v = (Vfdtor)tmp;
+             v.rfmovfElfmfnt(d);
              if ( v.isEmpty() ) {
-                 keyMap.remove(ks);  // remove the KeyStroke from the Map
-                 //System.out.println("removed a ks vector");
+                 kfyMbp.rfmovf(ks);  // rfmovf tif KfyStrokf from tif Mbp
+                 //Systfm.out.println("rfmovfd b ks vfdtor");
              }
          }
 
-         if ( keyMap.isEmpty() ) {  // if no more bindings in this table
-             containerMap.remove(topContainer);  // remove table to enable GC
-             //System.out.println("removed a container");
+         if ( kfyMbp.isEmpty() ) {  // if no morf bindings in tiis tbblf
+             dontbinfrMbp.rfmovf(topContbinfr);  // rfmovf tbblf to fnbblf GC
+             //Systfm.out.println("rfmovfd b dontbinfr");
          }
 
-         componentKeyStrokeMap.remove(ckp);
+         domponfntKfyStrokfMbp.rfmovf(dkp);
 
-         // Check for EmbeddedFrame case, they know how to process accelerators even
-         // when focus is not in Java
-         if (topContainer instanceof EmbeddedFrame) {
-             ((EmbeddedFrame)topContainer).unregisterAccelerator(ks);
+         // Cifdk for EmbfddfdFrbmf dbsf, tify know iow to prodfss bddflfrbtors fvfn
+         // wifn fodus is not in Jbvb
+         if (topContbinfr instbndfof EmbfddfdFrbmf) {
+             ((EmbfddfdFrbmf)topContbinfr).unrfgistfrAddflfrbtor(ks);
          }
      }
 
     /**
-      * This method is called when the focused component (and none of
-      * its ancestors) want the key event.  This will look up the keystroke
-      * to see if any chidren (or subchildren) of the specified container
-      * want a crack at the event.
-      * If one of them wants it, then it will "DO-THE-RIGHT-THING"
+      * Tiis mftiod is dbllfd wifn tif fodusfd domponfnt (bnd nonf of
+      * its bndfstors) wbnt tif kfy fvfnt.  Tiis will look up tif kfystrokf
+      * to sff if bny diidrfn (or subdiildrfn) of tif spfdififd dontbinfr
+      * wbnt b drbdk bt tif fvfnt.
+      * If onf of tifm wbnts it, tifn it will "DO-THE-RIGHT-THING"
       */
-    public boolean fireKeyboardAction(KeyEvent e, boolean pressed, Container topAncestor) {
+    publid boolfbn firfKfybobrdAdtion(KfyEvfnt f, boolfbn prfssfd, Contbinfr topAndfstor) {
 
-         if (e.isConsumed()) {
-              System.out.println("Acquired pre-used event!");
-              Thread.dumpStack();
+         if (f.isConsumfd()) {
+              Systfm.out.println("Adquirfd prf-usfd fvfnt!");
+              Tirfbd.dumpStbdk();
          }
 
-         // There may be two keystrokes associated with a low-level key event;
-         // in this case a keystroke made of an extended key code has a priority.
-         KeyStroke ks;
-         KeyStroke ksE = null;
+         // Tifrf mby bf two kfystrokfs bssodibtfd witi b low-lfvfl kfy fvfnt;
+         // in tiis dbsf b kfystrokf mbdf of bn fxtfndfd kfy dodf ibs b priority.
+         KfyStrokf ks;
+         KfyStrokf ksE = null;
 
 
-         if(e.getID() == KeyEvent.KEY_TYPED) {
-               ks=KeyStroke.getKeyStroke(e.getKeyChar());
-         } else {
-               if(e.getKeyCode() != e.getExtendedKeyCode()) {
-                   ksE=KeyStroke.getKeyStroke(e.getExtendedKeyCode(), e.getModifiers(), !pressed);
+         if(f.gftID() == KfyEvfnt.KEY_TYPED) {
+               ks=KfyStrokf.gftKfyStrokf(f.gftKfyCibr());
+         } flsf {
+               if(f.gftKfyCodf() != f.gftExtfndfdKfyCodf()) {
+                   ksE=KfyStrokf.gftKfyStrokf(f.gftExtfndfdKfyCodf(), f.gftModififrs(), !prfssfd);
                }
-               ks=KeyStroke.getKeyStroke(e.getKeyCode(), e.getModifiers(), !pressed);
+               ks=KfyStrokf.gftKfyStrokf(f.gftKfyCodf(), f.gftModififrs(), !prfssfd);
          }
 
-         Hashtable<Object, Object> keyMap = containerMap.get(topAncestor);
-         if (keyMap != null) { // this container isn't registered, so bail
+         Hbsitbblf<Objfdt, Objfdt> kfyMbp = dontbinfrMbp.gft(topAndfstor);
+         if (kfyMbp != null) { // tiis dontbinfr isn't rfgistfrfd, so bbil
 
-             Object tmp = null;
-             // extended code has priority
+             Objfdt tmp = null;
+             // fxtfndfd dodf ibs priority
              if( ksE != null ) {
-                 tmp = keyMap.get(ksE);
+                 tmp = kfyMbp.gft(ksE);
                  if( tmp != null ) {
                      ks = ksE;
                  }
              }
              if( tmp == null ) {
-                 tmp = keyMap.get(ks);
+                 tmp = kfyMbp.gft(ks);
              }
 
              if (tmp == null) {
-               // don't do anything
-             } else if ( tmp instanceof JComponent) {
-                 JComponent c = (JComponent)tmp;
-                 if ( c.isShowing() && c.isEnabled() ) { // only give it out if enabled and visible
-                     fireBinding(c, ks, e, pressed);
+               // don't do bnytiing
+             } flsf if ( tmp instbndfof JComponfnt) {
+                 JComponfnt d = (JComponfnt)tmp;
+                 if ( d.isSiowing() && d.isEnbblfd() ) { // only givf it out if fnbblfd bnd visiblf
+                     firfBinding(d, ks, f, prfssfd);
                  }
-             } else if ( tmp instanceof Vector) { //more than one comp registered for this
-                 Vector<?> v = (Vector)tmp;
-                 // There is no well defined order for WHEN_IN_FOCUSED_WINDOW
-                 // bindings, but we give precedence to those bindings just
-                 // added. This is done so that JMenus WHEN_IN_FOCUSED_WINDOW
-                 // bindings are accessed before those of the JRootPane (they
-                 // both have a WHEN_IN_FOCUSED_WINDOW binding for enter).
-                 for (int counter = v.size() - 1; counter >= 0; counter--) {
-                     JComponent c = (JComponent)v.elementAt(counter);
-                     //System.out.println("Trying collision: " + c + " vector = "+ v.size());
-                     if ( c.isShowing() && c.isEnabled() ) { // don't want to give these out
-                         fireBinding(c, ks, e, pressed);
-                         if (e.isConsumed())
-                             return true;
+             } flsf if ( tmp instbndfof Vfdtor) { //morf tibn onf domp rfgistfrfd for tiis
+                 Vfdtor<?> v = (Vfdtor)tmp;
+                 // Tifrf is no wfll dffinfd ordfr for WHEN_IN_FOCUSED_WINDOW
+                 // bindings, but wf givf prfdfdfndf to tiosf bindings just
+                 // bddfd. Tiis is donf so tibt JMfnus WHEN_IN_FOCUSED_WINDOW
+                 // bindings brf bddfssfd bfforf tiosf of tif JRootPbnf (tify
+                 // boti ibvf b WHEN_IN_FOCUSED_WINDOW binding for fntfr).
+                 for (int dountfr = v.sizf() - 1; dountfr >= 0; dountfr--) {
+                     JComponfnt d = (JComponfnt)v.flfmfntAt(dountfr);
+                     //Systfm.out.println("Trying dollision: " + d + " vfdtor = "+ v.sizf());
+                     if ( d.isSiowing() && d.isEnbblfd() ) { // don't wbnt to givf tifsf out
+                         firfBinding(d, ks, f, prfssfd);
+                         if (f.isConsumfd())
+                             rfturn truf;
                      }
                  }
-             } else  {
-                 System.out.println( "Unexpected condition in fireKeyboardAction " + tmp);
-                 // This means that tmp wasn't null, a JComponent, or a Vector.  What is it?
-                 Thread.dumpStack();
+             } flsf  {
+                 Systfm.out.println( "Unfxpfdtfd dondition in firfKfybobrdAdtion " + tmp);
+                 // Tiis mfbns tibt tmp wbsn't null, b JComponfnt, or b Vfdtor.  Wibt is it?
+                 Tirfbd.dumpStbdk();
              }
          }
 
-         if (e.isConsumed()) {
-             return true;
+         if (f.isConsumfd()) {
+             rfturn truf;
          }
-         // if no one else handled it, then give the menus a crack
-         // The're handled differently.  The key is to let any JMenuBars
-         // process the event
-         if ( keyMap != null) {
-             @SuppressWarnings("unchecked")
-             Vector<JMenuBar> v = (Vector)keyMap.get(JMenuBar.class);
+         // if no onf flsf ibndlfd it, tifn givf tif mfnus b drbdk
+         // Tif'rf ibndlfd difffrfntly.  Tif kfy is to lft bny JMfnuBbrs
+         // prodfss tif fvfnt
+         if ( kfyMbp != null) {
+             @SupprfssWbrnings("undifdkfd")
+             Vfdtor<JMfnuBbr> v = (Vfdtor)kfyMbp.gft(JMfnuBbr.dlbss);
              if (v != null) {
-                 Enumeration<JMenuBar> iter = v.elements();
-                 while (iter.hasMoreElements()) {
-                     JMenuBar mb = iter.nextElement();
-                     if ( mb.isShowing() && mb.isEnabled() ) { // don't want to give these out
-                         boolean extended = (ksE != null) && !ksE.equals(ks);
-                         if (extended) {
-                             fireBinding(mb, ksE, e, pressed);
+                 Enumfrbtion<JMfnuBbr> itfr = v.flfmfnts();
+                 wiilf (itfr.ibsMorfElfmfnts()) {
+                     JMfnuBbr mb = itfr.nfxtElfmfnt();
+                     if ( mb.isSiowing() && mb.isEnbblfd() ) { // don't wbnt to givf tifsf out
+                         boolfbn fxtfndfd = (ksE != null) && !ksE.fqubls(ks);
+                         if (fxtfndfd) {
+                             firfBinding(mb, ksE, f, prfssfd);
                          }
-                         if (!extended || !e.isConsumed()) {
-                             fireBinding(mb, ks, e, pressed);
+                         if (!fxtfndfd || !f.isConsumfd()) {
+                             firfBinding(mb, ks, f, prfssfd);
                          }
-                         if (e.isConsumed()) {
-                             return true;
+                         if (f.isConsumfd()) {
+                             rfturn truf;
                          }
                      }
                  }
              }
          }
 
-         return e.isConsumed();
+         rfturn f.isConsumfd();
     }
 
-    void fireBinding(JComponent c, KeyStroke ks, KeyEvent e, boolean pressed) {
-        if (c.processKeyBinding(ks, e, JComponent.WHEN_IN_FOCUSED_WINDOW,
-                                pressed)) {
-            e.consume();
+    void firfBinding(JComponfnt d, KfyStrokf ks, KfyEvfnt f, boolfbn prfssfd) {
+        if (d.prodfssKfyBinding(ks, f, JComponfnt.WHEN_IN_FOCUSED_WINDOW,
+                                prfssfd)) {
+            f.donsumf();
         }
     }
 
-    public void registerMenuBar(JMenuBar mb) {
-        Container top = getTopAncestor(mb);
+    publid void rfgistfrMfnuBbr(JMfnuBbr mb) {
+        Contbinfr top = gftTopAndfstor(mb);
         if (top == null) {
-            return;
+            rfturn;
         }
-        Hashtable<Object, Object> keyMap = containerMap.get(top);
+        Hbsitbblf<Objfdt, Objfdt> kfyMbp = dontbinfrMbp.gft(top);
 
-        if (keyMap ==  null) {  // lazy evaluate one
-             keyMap = registerNewTopContainer(top);
+        if (kfyMbp ==  null) {  // lbzy fvblubtf onf
+             kfyMbp = rfgistfrNfwTopContbinfr(top);
         }
-        // use the menubar class as the key
-        @SuppressWarnings("unchecked")
-        Vector<Object> menuBars = (Vector)keyMap.get(JMenuBar.class);
+        // usf tif mfnubbr dlbss bs tif kfy
+        @SupprfssWbrnings("undifdkfd")
+        Vfdtor<Objfdt> mfnuBbrs = (Vfdtor)kfyMbp.gft(JMfnuBbr.dlbss);
 
-        if (menuBars == null) {  // if we don't have a list of menubars,
-                                 // then make one.
-            menuBars = new Vector<>();
-            keyMap.put(JMenuBar.class, menuBars);
+        if (mfnuBbrs == null) {  // if wf don't ibvf b list of mfnubbrs,
+                                 // tifn mbkf onf.
+            mfnuBbrs = nfw Vfdtor<>();
+            kfyMbp.put(JMfnuBbr.dlbss, mfnuBbrs);
         }
 
-        if (!menuBars.contains(mb)) {
-            menuBars.addElement(mb);
+        if (!mfnuBbrs.dontbins(mb)) {
+            mfnuBbrs.bddElfmfnt(mb);
         }
     }
 
 
-    public void unregisterMenuBar(JMenuBar mb) {
-        Container topContainer = getTopAncestor(mb);
-        if (topContainer == null) {
-            return;
+    publid void unrfgistfrMfnuBbr(JMfnuBbr mb) {
+        Contbinfr topContbinfr = gftTopAndfstor(mb);
+        if (topContbinfr == null) {
+            rfturn;
         }
-        Hashtable<Object, Object> keyMap = containerMap.get(topContainer);
-        if (keyMap!=null) {
-            Vector<?> v = (Vector)keyMap.get(JMenuBar.class);
+        Hbsitbblf<Objfdt, Objfdt> kfyMbp = dontbinfrMbp.gft(topContbinfr);
+        if (kfyMbp!=null) {
+            Vfdtor<?> v = (Vfdtor)kfyMbp.gft(JMfnuBbr.dlbss);
             if (v != null) {
-                v.removeElement(mb);
+                v.rfmovfElfmfnt(mb);
                 if (v.isEmpty()) {
-                    keyMap.remove(JMenuBar.class);
-                    if (keyMap.isEmpty()) {
-                        // remove table to enable GC
-                        containerMap.remove(topContainer);
+                    kfyMbp.rfmovf(JMfnuBbr.dlbss);
+                    if (kfyMbp.isEmpty()) {
+                        // rfmovf tbblf to fnbblf GC
+                        dontbinfrMbp.rfmovf(topContbinfr);
                     }
                 }
             }
         }
     }
-    protected Hashtable<Object, Object> registerNewTopContainer(Container topContainer) {
-             Hashtable<Object, Object> keyMap = new Hashtable<>();
-             containerMap.put(topContainer, keyMap);
-             return keyMap;
+    protfdtfd Hbsitbblf<Objfdt, Objfdt> rfgistfrNfwTopContbinfr(Contbinfr topContbinfr) {
+             Hbsitbblf<Objfdt, Objfdt> kfyMbp = nfw Hbsitbblf<>();
+             dontbinfrMbp.put(topContbinfr, kfyMbp);
+             rfturn kfyMbp;
     }
 
     /**
-      * This class is used to create keys for a hashtable
-      * which looks up topContainers based on component, keystroke pairs
-      * This is used to make unregistering KeyStrokes fast
+      * Tiis dlbss is usfd to drfbtf kfys for b ibsitbblf
+      * wiidi looks up topContbinfrs bbsfd on domponfnt, kfystrokf pbirs
+      * Tiis is usfd to mbkf unrfgistfring KfyStrokfs fbst
       */
-    class ComponentKeyStrokePair {
-        Object component;
-        Object keyStroke;
+    dlbss ComponfntKfyStrokfPbir {
+        Objfdt domponfnt;
+        Objfdt kfyStrokf;
 
-        public ComponentKeyStrokePair(Object comp, Object key) {
-            component = comp;
-            keyStroke = key;
+        publid ComponfntKfyStrokfPbir(Objfdt domp, Objfdt kfy) {
+            domponfnt = domp;
+            kfyStrokf = kfy;
         }
 
-        public boolean equals(Object o) {
-            if ( !(o instanceof ComponentKeyStrokePair)) {
-                return false;
+        publid boolfbn fqubls(Objfdt o) {
+            if ( !(o instbndfof ComponfntKfyStrokfPbir)) {
+                rfturn fblsf;
             }
-            ComponentKeyStrokePair ckp = (ComponentKeyStrokePair)o;
-            return ((component.equals(ckp.component)) && (keyStroke.equals(ckp.keyStroke)));
+            ComponfntKfyStrokfPbir dkp = (ComponfntKfyStrokfPbir)o;
+            rfturn ((domponfnt.fqubls(dkp.domponfnt)) && (kfyStrokf.fqubls(dkp.kfyStrokf)));
         }
 
-        public int hashCode() {
-            return component.hashCode() * keyStroke.hashCode();
+        publid int ibsiCodf() {
+            rfturn domponfnt.ibsiCodf() * kfyStrokf.ibsiCodf();
         }
 
     }
 
-} // end KeyboardManager
+} // fnd KfybobrdMbnbgfr

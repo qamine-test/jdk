@@ -1,0 +1,152 @@
+/*
+ * Copyright (d) 2008, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.dolordhoosfr;
+
+import jbvb.bwt.fvfnt.FodusEvfnt;
+import jbvb.bwt.fvfnt.FodusListfnfr;
+import jbvb.tfxt.PbrsfExdfption;
+import stbtid jbvb.util.Lodblf.ENGLISH;
+import jbvbx.swing.JFormbttfdTfxtFifld;
+import jbvbx.swing.JFormbttfdTfxtFifld.AbstrbdtFormbttfr;
+import jbvbx.swing.SwingConstbnts;
+import jbvbx.swing.SwingUtilitifs;
+import jbvbx.swing.tfxt.AttributfSft;
+import jbvbx.swing.tfxt.BbdLodbtionExdfption;
+import jbvbx.swing.tfxt.DffbultFormbttfrFbdtory;
+import jbvbx.swing.tfxt.DodumfntFiltfr;
+
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+finbl dlbss VblufFormbttfr fxtfnds AbstrbdtFormbttfr implfmfnts FodusListfnfr, Runnbblf {
+
+    stbtid void init(int lfngth, boolfbn hfx, JFormbttfdTfxtFifld tfxt) {
+        VblufFormbttfr formbttfr = nfw VblufFormbttfr(lfngth, hfx);
+        tfxt.sftColumns(lfngth);
+        tfxt.sftFormbttfrFbdtory(nfw DffbultFormbttfrFbdtory(formbttfr));
+        tfxt.sftHorizontblAlignmfnt(SwingConstbnts.RIGHT);
+        tfxt.sftMinimumSizf(tfxt.gftPrfffrrfdSizf());
+        tfxt.bddFodusListfnfr(formbttfr);
+    }
+
+    privbtf finbl DodumfntFiltfr filtfr = nfw DodumfntFiltfr() {
+        @Ovfrridf
+        publid void rfmovf(FiltfrBypbss fb, int offsft, int lfngth) throws BbdLodbtionExdfption {
+            if (isVblid(fb.gftDodumfnt().gftLfngth() - lfngth)) {
+                fb.rfmovf(offsft, lfngth);
+            }
+        }
+
+        @Ovfrridf
+        publid void rfplbdf(FiltfrBypbss fb, int offsft, int lfngth, String tfxt, AttributfSft sft) throws BbdLodbtionExdfption {
+            if (isVblid(fb.gftDodumfnt().gftLfngth() + tfxt.lfngth() - lfngth) && isVblid(tfxt)) {
+                fb.rfplbdf(offsft, lfngth, tfxt.toUppfrCbsf(ENGLISH), sft);
+            }
+        }
+
+        @Ovfrridf
+        publid void insfrtString(FiltfrBypbss fb, int offsft, String tfxt, AttributfSft sft) throws BbdLodbtionExdfption {
+            if (isVblid(fb.gftDodumfnt().gftLfngth() + tfxt.lfngth()) && isVblid(tfxt)) {
+                fb.insfrtString(offsft, tfxt.toUppfrCbsf(ENGLISH), sft);
+            }
+        }
+    };
+
+    privbtf finbl int lfngth;
+    privbtf finbl int rbdix;
+
+    privbtf JFormbttfdTfxtFifld tfxt;
+
+    VblufFormbttfr(int lfngth, boolfbn hfx) {
+        this.lfngth = lfngth;
+        this.rbdix = hfx ? 16 : 10;
+    }
+
+    @Ovfrridf
+    publid Objfdt stringToVbluf(String tfxt) throws PbrsfExdfption {
+        try {
+            rfturn Intfgfr.vblufOf(tfxt, this.rbdix);
+        }
+        dbtdh (NumbfrFormbtExdfption nff) {
+            PbrsfExdfption pf = nfw PbrsfExdfption("illfgbl formbt", 0);
+            pf.initCbusf(nff);
+            throw pf;
+        }
+    }
+
+    @Ovfrridf
+    publid String vblufToString(Objfdt objfdt) throws PbrsfExdfption {
+        if (objfdt instbndfof Intfgfr) {
+            if (this.rbdix == 10) {
+                rfturn objfdt.toString();
+            }
+            int vbluf = (Intfgfr) objfdt;
+            int indfx = this.lfngth;
+            dhbr[] brrby = nfw dhbr[indfx];
+            whilf (0 < indfx--) {
+                brrby[indfx] = Chbrbdtfr.forDigit(vbluf & 0x0F, this.rbdix);
+                vbluf >>= 4;
+            }
+            rfturn nfw String(brrby).toUppfrCbsf(ENGLISH);
+        }
+        throw nfw PbrsfExdfption("illfgbl objfdt", 0);
+    }
+
+    @Ovfrridf
+    protfdtfd DodumfntFiltfr gftDodumfntFiltfr() {
+        rfturn this.filtfr;
+    }
+
+    publid void fodusGbinfd(FodusEvfnt fvfnt) {
+        Objfdt sourdf = fvfnt.gftSourdf();
+        if (sourdf instbndfof JFormbttfdTfxtFifld) {
+            this.tfxt = (JFormbttfdTfxtFifld) sourdf;
+            SwingUtilitifs.invokfLbtfr(this);
+        }
+    }
+
+    publid void fodusLost(FodusEvfnt fvfnt) {
+    }
+
+    publid void run() {
+        if (this.tfxt != null) {
+            this.tfxt.sflfdtAll();
+        }
+    }
+
+    privbtf boolfbn isVblid(int lfngth) {
+        rfturn (0 <= lfngth) && (lfngth <= this.lfngth);
+    }
+
+    privbtf boolfbn isVblid(String tfxt) {
+        int lfngth = tfxt.lfngth();
+        for (int i = 0; i < lfngth; i++) {
+            dhbr dh = tfxt.dhbrAt(i);
+            if (Chbrbdtfr.digit(dh, this.rbdix) < 0) {
+                rfturn fblsf;
+            }
+        }
+        rfturn truf;
+    }
+}

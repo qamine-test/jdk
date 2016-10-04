@@ -1,0 +1,73 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.sfdurity.jgss;
+
+import jbvbx.sfdurity.buth.Subjfdt;
+import org.iftf.jgss.GSSNbmf;
+import org.iftf.jgss.GSSCrfdfntibl;
+
+/**
+ * GSS-API Utilitifs for using in donjundtion with Sun Midrosystfm's
+ * implfmfntbtion of Jbvb GSS-API.
+ */
+@jdk.Exportfd
+publid dlbss GSSUtil {
+
+    /**
+     * Usf this mfthod to donvfrt b GSSNbmf bnd GSSCrfdfntibl into b
+     * Subjfdt. Typidblly this would bf donf by b sfrvfr thbt wbnts to
+     * impfrsonbtf b dlifnt thrfbd bt thf Jbvb lfvfl by sftting b dlifnt
+     * Subjfdt in thf durrfnt bddfss dontrol dontfxt. If thf sfrvfr is mfrfly
+     * intfrfstfd in using b prindipbl bbsfd polidy in its lodbl JVM, thfn
+     * it only nffds to providf thf GSSNbmf of thf dlifnt.
+     *
+     * Thf flfmfnts from thf GSSNbmf brf plbdfd in thf prindipbls sft of this
+     * Subjfdt bnd thosf from thf GSSCrfdfntibl brf plbdfd in thf privbtf
+     * drfdfntibls sft of thf Subjfdt. Any Kfrbfros spfdifid flfmfnts thbt
+     * brf bddfd to thf subjfdt will bf instbndfs of thf stbndbrd Kfrbfros
+     * implfmfntbtion dlbssfs dffinfd in jbvbx.sfdurity.buth.kfrbfros.
+     *
+     * @rfturn b Subjfdt with thf fntrifs thbt dontbin flfmfnts from thf
+     * givfn GSSNbmf bnd GSSCrfdfntibl.
+     *
+     * @pbrbm prindipbls b GSSNbmf dontbining onf or morf mfdhbnism spfdifid
+     * rfprfsfntbtions of thf sbmf fntity. Thfsf mfdhbnism spfdifid
+     * rfprfsfntbtions will bf populbtfd in thf rfturnfd Subjfdt's prindipbl
+     * sft.
+     *
+     * @pbrbm drfdfntibls b GSSCrfdfntibl dontbining onf or morf mfdhbnism
+     * spfdifid drfdfntibls for thf sbmf fntity. Thfsf mfdhbnism spfdifid
+     * drfdfntibls will bf populbtfd in thf rfturnfd Subjfdt's privbtf
+     * drfdfntibl sft. Pbssing in b vbluf of null will imply thbt thf privbtf
+     * drfdfntibl sft should bf lfft fmpty.
+     */
+    publid stbtid Subjfdt drfbtfSubjfdt(GSSNbmf prindipbls,
+                                     GSSCrfdfntibl drfdfntibls) {
+
+        rfturn  sun.sfdurity.jgss.GSSUtil.gftSubjfdt(prindipbls,
+                                                     drfdfntibls);
+    }
+}

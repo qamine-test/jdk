@@ -1,76 +1,76 @@
 /*
- * Copyright (c) 1999, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
 
 /**
- * A <code>Transmitter</code> sends <code>{@link MidiEvent}</code> objects to one or more
- * <code>{@link Receiver Receivers}</code>. Common MIDI transmitters include sequencers
- * and MIDI input ports.
+ * A <dodf>Trbnsmittfr</dodf> sfnds <dodf>{@link MidiEvfnt}</dodf> objfdts to onf or morf
+ * <dodf>{@link Rfdfivfr Rfdfivfrs}</dodf>. Common MIDI trbnsmittfrs indludf sfqufndfrs
+ * bnd MIDI input ports.
  *
- * @see Receiver
+ * @sff Rfdfivfr
  *
- * @author Kara Kytle
+ * @butior Kbrb Kytlf
  */
-public interface Transmitter extends AutoCloseable {
+publid intfrfbdf Trbnsmittfr fxtfnds AutoClosfbblf {
 
 
     /**
-     * Sets the receiver to which this transmitter will deliver MIDI messages.
-     * If a receiver is currently set, it is replaced with this one.
-     * @param receiver the desired receiver.
+     * Sfts tif rfdfivfr to wiidi tiis trbnsmittfr will dflivfr MIDI mfssbgfs.
+     * If b rfdfivfr is durrfntly sft, it is rfplbdfd witi tiis onf.
+     * @pbrbm rfdfivfr tif dfsirfd rfdfivfr.
      */
-    public void setReceiver(Receiver receiver);
+    publid void sftRfdfivfr(Rfdfivfr rfdfivfr);
 
 
     /**
-     * Obtains the current receiver to which this transmitter will deliver MIDI messages.
-     * @return the current receiver.  If no receiver is currently set,
-     * returns <code>null</code>
+     * Obtbins tif durrfnt rfdfivfr to wiidi tiis trbnsmittfr will dflivfr MIDI mfssbgfs.
+     * @rfturn tif durrfnt rfdfivfr.  If no rfdfivfr is durrfntly sft,
+     * rfturns <dodf>null</dodf>
      */
-    public Receiver getReceiver();
+    publid Rfdfivfr gftRfdfivfr();
 
 
     /**
-     * Indicates that the application has finished using the transmitter, and
-     * that limited resources it requires may be released or made available.
+     * Indidbtfs tibt tif bpplidbtion ibs finisifd using tif trbnsmittfr, bnd
+     * tibt limitfd rfsourdfs it rfquirfs mby bf rflfbsfd or mbdf bvbilbblf.
      *
-     * <p>If the creation of this <code>Transmitter</code> resulted in
-     * implicitly opening the underlying device, the device is
-     * implicitly closed by this method. This is true unless the device is
-     * kept open by other <code>Receiver</code> or <code>Transmitter</code>
-     * instances that opened the device implicitly, and unless the device
-     * has been opened explicitly. If the device this
-     * <code>Transmitter</code> is retrieved from is closed explicitly
-     * by calling {@link MidiDevice#close MidiDevice.close}, the
-     * <code>Transmitter</code> is closed, too.  For a detailed
-     * description of open/close behaviour see the class description
-     * of {@link javax.sound.midi.MidiDevice MidiDevice}.
+     * <p>If tif drfbtion of tiis <dodf>Trbnsmittfr</dodf> rfsultfd in
+     * impliditly opfning tif undfrlying dfvidf, tif dfvidf is
+     * impliditly dlosfd by tiis mftiod. Tiis is truf unlfss tif dfvidf is
+     * kfpt opfn by otifr <dodf>Rfdfivfr</dodf> or <dodf>Trbnsmittfr</dodf>
+     * instbndfs tibt opfnfd tif dfvidf impliditly, bnd unlfss tif dfvidf
+     * ibs bffn opfnfd fxpliditly. If tif dfvidf tiis
+     * <dodf>Trbnsmittfr</dodf> is rftrifvfd from is dlosfd fxpliditly
+     * by dblling {@link MidiDfvidf#dlosf MidiDfvidf.dlosf}, tif
+     * <dodf>Trbnsmittfr</dodf> is dlosfd, too.  For b dftbilfd
+     * dfsdription of opfn/dlosf bfibviour sff tif dlbss dfsdription
+     * of {@link jbvbx.sound.midi.MidiDfvidf MidiDfvidf}.
      *
-     * @see javax.sound.midi.MidiSystem#getTransmitter
+     * @sff jbvbx.sound.midi.MidiSystfm#gftTrbnsmittfr
      */
-    public void close();
+    publid void dlosf();
 }

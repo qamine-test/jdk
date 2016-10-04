@@ -1,370 +1,370 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
-import java.util.List;
-import java.util.Collection;
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.List;
+import jbvb.util.Collfdtion;
 
 /**
- * An {@link Executor} that provides methods to manage termination and
- * methods that can produce a {@link Future} for tracking progress of
- * one or more asynchronous tasks.
+ * An {@link Exfdutor} tibt providfs mftiods to mbnbgf tfrminbtion bnd
+ * mftiods tibt dbn produdf b {@link Futurf} for trbdking progrfss of
+ * onf or morf bsyndironous tbsks.
  *
- * <p>An {@code ExecutorService} can be shut down, which will cause
- * it to reject new tasks.  Two different methods are provided for
- * shutting down an {@code ExecutorService}. The {@link #shutdown}
- * method will allow previously submitted tasks to execute before
- * terminating, while the {@link #shutdownNow} method prevents waiting
- * tasks from starting and attempts to stop currently executing tasks.
- * Upon termination, an executor has no tasks actively executing, no
- * tasks awaiting execution, and no new tasks can be submitted.  An
- * unused {@code ExecutorService} should be shut down to allow
- * reclamation of its resources.
+ * <p>An {@dodf ExfdutorSfrvidf} dbn bf siut down, wiidi will dbusf
+ * it to rfjfdt nfw tbsks.  Two difffrfnt mftiods brf providfd for
+ * siutting down bn {@dodf ExfdutorSfrvidf}. Tif {@link #siutdown}
+ * mftiod will bllow prfviously submittfd tbsks to fxfdutf bfforf
+ * tfrminbting, wiilf tif {@link #siutdownNow} mftiod prfvfnts wbiting
+ * tbsks from stbrting bnd bttfmpts to stop durrfntly fxfduting tbsks.
+ * Upon tfrminbtion, bn fxfdutor ibs no tbsks bdtivfly fxfduting, no
+ * tbsks bwbiting fxfdution, bnd no nfw tbsks dbn bf submittfd.  An
+ * unusfd {@dodf ExfdutorSfrvidf} siould bf siut down to bllow
+ * rfdlbmbtion of its rfsourdfs.
  *
- * <p>Method {@code submit} extends base method {@link
- * Executor#execute(Runnable)} by creating and returning a {@link Future}
- * that can be used to cancel execution and/or wait for completion.
- * Methods {@code invokeAny} and {@code invokeAll} perform the most
- * commonly useful forms of bulk execution, executing a collection of
- * tasks and then waiting for at least one, or all, to
- * complete. (Class {@link ExecutorCompletionService} can be used to
- * write customized variants of these methods.)
+ * <p>Mftiod {@dodf submit} fxtfnds bbsf mftiod {@link
+ * Exfdutor#fxfdutf(Runnbblf)} by drfbting bnd rfturning b {@link Futurf}
+ * tibt dbn bf usfd to dbndfl fxfdution bnd/or wbit for domplftion.
+ * Mftiods {@dodf invokfAny} bnd {@dodf invokfAll} pfrform tif most
+ * dommonly usfful forms of bulk fxfdution, fxfduting b dollfdtion of
+ * tbsks bnd tifn wbiting for bt lfbst onf, or bll, to
+ * domplftf. (Clbss {@link ExfdutorComplftionSfrvidf} dbn bf usfd to
+ * writf dustomizfd vbribnts of tifsf mftiods.)
  *
- * <p>The {@link Executors} class provides factory methods for the
- * executor services provided in this package.
+ * <p>Tif {@link Exfdutors} dlbss providfs fbdtory mftiods for tif
+ * fxfdutor sfrvidfs providfd in tiis pbdkbgf.
  *
- * <h3>Usage Examples</h3>
+ * <i3>Usbgf Exbmplfs</i3>
  *
- * Here is a sketch of a network service in which threads in a thread
- * pool service incoming requests. It uses the preconfigured {@link
- * Executors#newFixedThreadPool} factory method:
+ * Hfrf is b skftdi of b nftwork sfrvidf in wiidi tirfbds in b tirfbd
+ * pool sfrvidf indoming rfqufsts. It usfs tif prfdonfigurfd {@link
+ * Exfdutors#nfwFixfdTirfbdPool} fbdtory mftiod:
  *
- *  <pre> {@code
- * class NetworkService implements Runnable {
- *   private final ServerSocket serverSocket;
- *   private final ExecutorService pool;
+ *  <prf> {@dodf
+ * dlbss NftworkSfrvidf implfmfnts Runnbblf {
+ *   privbtf finbl SfrvfrSodkft sfrvfrSodkft;
+ *   privbtf finbl ExfdutorSfrvidf pool;
  *
- *   public NetworkService(int port, int poolSize)
- *       throws IOException {
- *     serverSocket = new ServerSocket(port);
- *     pool = Executors.newFixedThreadPool(poolSize);
+ *   publid NftworkSfrvidf(int port, int poolSizf)
+ *       tirows IOExdfption {
+ *     sfrvfrSodkft = nfw SfrvfrSodkft(port);
+ *     pool = Exfdutors.nfwFixfdTirfbdPool(poolSizf);
  *   }
  *
- *   public void run() { // run the service
+ *   publid void run() { // run tif sfrvidf
  *     try {
  *       for (;;) {
- *         pool.execute(new Handler(serverSocket.accept()));
+ *         pool.fxfdutf(nfw Hbndlfr(sfrvfrSodkft.bddfpt()));
  *       }
- *     } catch (IOException ex) {
- *       pool.shutdown();
+ *     } dbtdi (IOExdfption fx) {
+ *       pool.siutdown();
  *     }
  *   }
  * }
  *
- * class Handler implements Runnable {
- *   private final Socket socket;
- *   Handler(Socket socket) { this.socket = socket; }
- *   public void run() {
- *     // read and service request on socket
+ * dlbss Hbndlfr implfmfnts Runnbblf {
+ *   privbtf finbl Sodkft sodkft;
+ *   Hbndlfr(Sodkft sodkft) { tiis.sodkft = sodkft; }
+ *   publid void run() {
+ *     // rfbd bnd sfrvidf rfqufst on sodkft
  *   }
- * }}</pre>
+ * }}</prf>
  *
- * The following method shuts down an {@code ExecutorService} in two phases,
- * first by calling {@code shutdown} to reject incoming tasks, and then
- * calling {@code shutdownNow}, if necessary, to cancel any lingering tasks:
+ * Tif following mftiod siuts down bn {@dodf ExfdutorSfrvidf} in two pibsfs,
+ * first by dblling {@dodf siutdown} to rfjfdt indoming tbsks, bnd tifn
+ * dblling {@dodf siutdownNow}, if nfdfssbry, to dbndfl bny lingfring tbsks:
  *
- *  <pre> {@code
- * void shutdownAndAwaitTermination(ExecutorService pool) {
- *   pool.shutdown(); // Disable new tasks from being submitted
+ *  <prf> {@dodf
+ * void siutdownAndAwbitTfrminbtion(ExfdutorSfrvidf pool) {
+ *   pool.siutdown(); // Disbblf nfw tbsks from bfing submittfd
  *   try {
- *     // Wait a while for existing tasks to terminate
- *     if (!pool.awaitTermination(60, TimeUnit.SECONDS)) {
- *       pool.shutdownNow(); // Cancel currently executing tasks
- *       // Wait a while for tasks to respond to being cancelled
- *       if (!pool.awaitTermination(60, TimeUnit.SECONDS))
- *           System.err.println("Pool did not terminate");
+ *     // Wbit b wiilf for fxisting tbsks to tfrminbtf
+ *     if (!pool.bwbitTfrminbtion(60, TimfUnit.SECONDS)) {
+ *       pool.siutdownNow(); // Cbndfl durrfntly fxfduting tbsks
+ *       // Wbit b wiilf for tbsks to rfspond to bfing dbndfllfd
+ *       if (!pool.bwbitTfrminbtion(60, TimfUnit.SECONDS))
+ *           Systfm.frr.println("Pool did not tfrminbtf");
  *     }
- *   } catch (InterruptedException ie) {
- *     // (Re-)Cancel if current thread also interrupted
- *     pool.shutdownNow();
- *     // Preserve interrupt status
- *     Thread.currentThread().interrupt();
+ *   } dbtdi (IntfrruptfdExdfption if) {
+ *     // (Rf-)Cbndfl if durrfnt tirfbd blso intfrruptfd
+ *     pool.siutdownNow();
+ *     // Prfsfrvf intfrrupt stbtus
+ *     Tirfbd.durrfntTirfbd().intfrrupt();
  *   }
- * }}</pre>
+ * }}</prf>
  *
- * <p>Memory consistency effects: Actions in a thread prior to the
- * submission of a {@code Runnable} or {@code Callable} task to an
- * {@code ExecutorService}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * any actions taken by that task, which in turn <i>happen-before</i> the
- * result is retrieved via {@code Future.get()}.
+ * <p>Mfmory donsistfndy ffffdts: Adtions in b tirfbd prior to tif
+ * submission of b {@dodf Runnbblf} or {@dodf Cbllbblf} tbsk to bn
+ * {@dodf ExfdutorSfrvidf}
+ * <b irff="pbdkbgf-summbry.itml#MfmoryVisibility"><i>ibppfn-bfforf</i></b>
+ * bny bdtions tbkfn by tibt tbsk, wiidi in turn <i>ibppfn-bfforf</i> tif
+ * rfsult is rftrifvfd vib {@dodf Futurf.gft()}.
  *
- * @since 1.5
- * @author Doug Lea
+ * @sindf 1.5
+ * @butior Doug Lfb
  */
-public interface ExecutorService extends Executor {
+publid intfrfbdf ExfdutorSfrvidf fxtfnds Exfdutor {
 
     /**
-     * Initiates an orderly shutdown in which previously submitted
-     * tasks are executed, but no new tasks will be accepted.
-     * Invocation has no additional effect if already shut down.
+     * Initibtfs bn ordfrly siutdown in wiidi prfviously submittfd
+     * tbsks brf fxfdutfd, but no nfw tbsks will bf bddfptfd.
+     * Invodbtion ibs no bdditionbl ffffdt if blrfbdy siut down.
      *
-     * <p>This method does not wait for previously submitted tasks to
-     * complete execution.  Use {@link #awaitTermination awaitTermination}
-     * to do that.
+     * <p>Tiis mftiod dofs not wbit for prfviously submittfd tbsks to
+     * domplftf fxfdution.  Usf {@link #bwbitTfrminbtion bwbitTfrminbtion}
+     * to do tibt.
      *
-     * @throws SecurityException if a security manager exists and
-     *         shutting down this ExecutorService may manipulate
-     *         threads that the caller is not permitted to modify
-     *         because it does not hold {@link
-     *         java.lang.RuntimePermission}{@code ("modifyThread")},
-     *         or the security manager's {@code checkAccess} method
-     *         denies access.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd
+     *         siutting down tiis ExfdutorSfrvidf mby mbnipulbtf
+     *         tirfbds tibt tif dbllfr is not pfrmittfd to modify
+     *         bfdbusf it dofs not iold {@link
+     *         jbvb.lbng.RuntimfPfrmission}{@dodf ("modifyTirfbd")},
+     *         or tif sfdurity mbnbgfr's {@dodf difdkAddfss} mftiod
+     *         dfnifs bddfss.
      */
-    void shutdown();
+    void siutdown();
 
     /**
-     * Attempts to stop all actively executing tasks, halts the
-     * processing of waiting tasks, and returns a list of the tasks
-     * that were awaiting execution.
+     * Attfmpts to stop bll bdtivfly fxfduting tbsks, iblts tif
+     * prodfssing of wbiting tbsks, bnd rfturns b list of tif tbsks
+     * tibt wfrf bwbiting fxfdution.
      *
-     * <p>This method does not wait for actively executing tasks to
-     * terminate.  Use {@link #awaitTermination awaitTermination} to
-     * do that.
+     * <p>Tiis mftiod dofs not wbit for bdtivfly fxfduting tbsks to
+     * tfrminbtf.  Usf {@link #bwbitTfrminbtion bwbitTfrminbtion} to
+     * do tibt.
      *
-     * <p>There are no guarantees beyond best-effort attempts to stop
-     * processing actively executing tasks.  For example, typical
-     * implementations will cancel via {@link Thread#interrupt}, so any
-     * task that fails to respond to interrupts may never terminate.
+     * <p>Tifrf brf no gubrbntffs bfyond bfst-fffort bttfmpts to stop
+     * prodfssing bdtivfly fxfduting tbsks.  For fxbmplf, typidbl
+     * implfmfntbtions will dbndfl vib {@link Tirfbd#intfrrupt}, so bny
+     * tbsk tibt fbils to rfspond to intfrrupts mby nfvfr tfrminbtf.
      *
-     * @return list of tasks that never commenced execution
-     * @throws SecurityException if a security manager exists and
-     *         shutting down this ExecutorService may manipulate
-     *         threads that the caller is not permitted to modify
-     *         because it does not hold {@link
-     *         java.lang.RuntimePermission}{@code ("modifyThread")},
-     *         or the security manager's {@code checkAccess} method
-     *         denies access.
+     * @rfturn list of tbsks tibt nfvfr dommfndfd fxfdution
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr fxists bnd
+     *         siutting down tiis ExfdutorSfrvidf mby mbnipulbtf
+     *         tirfbds tibt tif dbllfr is not pfrmittfd to modify
+     *         bfdbusf it dofs not iold {@link
+     *         jbvb.lbng.RuntimfPfrmission}{@dodf ("modifyTirfbd")},
+     *         or tif sfdurity mbnbgfr's {@dodf difdkAddfss} mftiod
+     *         dfnifs bddfss.
      */
-    List<Runnable> shutdownNow();
+    List<Runnbblf> siutdownNow();
 
     /**
-     * Returns {@code true} if this executor has been shut down.
+     * Rfturns {@dodf truf} if tiis fxfdutor ibs bffn siut down.
      *
-     * @return {@code true} if this executor has been shut down
+     * @rfturn {@dodf truf} if tiis fxfdutor ibs bffn siut down
      */
-    boolean isShutdown();
+    boolfbn isSiutdown();
 
     /**
-     * Returns {@code true} if all tasks have completed following shut down.
-     * Note that {@code isTerminated} is never {@code true} unless
-     * either {@code shutdown} or {@code shutdownNow} was called first.
+     * Rfturns {@dodf truf} if bll tbsks ibvf domplftfd following siut down.
+     * Notf tibt {@dodf isTfrminbtfd} is nfvfr {@dodf truf} unlfss
+     * fitifr {@dodf siutdown} or {@dodf siutdownNow} wbs dbllfd first.
      *
-     * @return {@code true} if all tasks have completed following shut down
+     * @rfturn {@dodf truf} if bll tbsks ibvf domplftfd following siut down
      */
-    boolean isTerminated();
+    boolfbn isTfrminbtfd();
 
     /**
-     * Blocks until all tasks have completed execution after a shutdown
-     * request, or the timeout occurs, or the current thread is
-     * interrupted, whichever happens first.
+     * Blodks until bll tbsks ibvf domplftfd fxfdution bftfr b siutdown
+     * rfqufst, or tif timfout oddurs, or tif durrfnt tirfbd is
+     * intfrruptfd, wiidifvfr ibppfns first.
      *
-     * @param timeout the maximum time to wait
-     * @param unit the time unit of the timeout argument
-     * @return {@code true} if this executor terminated and
-     *         {@code false} if the timeout elapsed before termination
-     * @throws InterruptedException if interrupted while waiting
+     * @pbrbm timfout tif mbximum timf to wbit
+     * @pbrbm unit tif timf unit of tif timfout brgumfnt
+     * @rfturn {@dodf truf} if tiis fxfdutor tfrminbtfd bnd
+     *         {@dodf fblsf} if tif timfout flbpsfd bfforf tfrminbtion
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
      */
-    boolean awaitTermination(long timeout, TimeUnit unit)
-        throws InterruptedException;
+    boolfbn bwbitTfrminbtion(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption;
 
     /**
-     * Submits a value-returning task for execution and returns a
-     * Future representing the pending results of the task. The
-     * Future's {@code get} method will return the task's result upon
-     * successful completion.
+     * Submits b vbluf-rfturning tbsk for fxfdution bnd rfturns b
+     * Futurf rfprfsfnting tif pfnding rfsults of tif tbsk. Tif
+     * Futurf's {@dodf gft} mftiod will rfturn tif tbsk's rfsult upon
+     * suddfssful domplftion.
      *
      * <p>
-     * If you would like to immediately block waiting
-     * for a task, you can use constructions of the form
-     * {@code result = exec.submit(aCallable).get();}
+     * If you would likf to immfdibtfly blodk wbiting
+     * for b tbsk, you dbn usf donstrudtions of tif form
+     * {@dodf rfsult = fxfd.submit(bCbllbblf).gft();}
      *
-     * <p>Note: The {@link Executors} class includes a set of methods
-     * that can convert some other common closure-like objects,
-     * for example, {@link java.security.PrivilegedAction} to
-     * {@link Callable} form so they can be submitted.
+     * <p>Notf: Tif {@link Exfdutors} dlbss indludfs b sft of mftiods
+     * tibt dbn donvfrt somf otifr dommon dlosurf-likf objfdts,
+     * for fxbmplf, {@link jbvb.sfdurity.PrivilfgfdAdtion} to
+     * {@link Cbllbblf} form so tify dbn bf submittfd.
      *
-     * @param task the task to submit
-     * @param <T> the type of the task's result
-     * @return a Future representing pending completion of the task
-     * @throws RejectedExecutionException if the task cannot be
-     *         scheduled for execution
-     * @throws NullPointerException if the task is null
+     * @pbrbm tbsk tif tbsk to submit
+     * @pbrbm <T> tif typf of tif tbsk's rfsult
+     * @rfturn b Futurf rfprfsfnting pfnding domplftion of tif tbsk
+     * @tirows RfjfdtfdExfdutionExdfption if tif tbsk dbnnot bf
+     *         sdifdulfd for fxfdution
+     * @tirows NullPointfrExdfption if tif tbsk is null
      */
-    <T> Future<T> submit(Callable<T> task);
+    <T> Futurf<T> submit(Cbllbblf<T> tbsk);
 
     /**
-     * Submits a Runnable task for execution and returns a Future
-     * representing that task. The Future's {@code get} method will
-     * return the given result upon successful completion.
+     * Submits b Runnbblf tbsk for fxfdution bnd rfturns b Futurf
+     * rfprfsfnting tibt tbsk. Tif Futurf's {@dodf gft} mftiod will
+     * rfturn tif givfn rfsult upon suddfssful domplftion.
      *
-     * @param task the task to submit
-     * @param result the result to return
-     * @param <T> the type of the result
-     * @return a Future representing pending completion of the task
-     * @throws RejectedExecutionException if the task cannot be
-     *         scheduled for execution
-     * @throws NullPointerException if the task is null
+     * @pbrbm tbsk tif tbsk to submit
+     * @pbrbm rfsult tif rfsult to rfturn
+     * @pbrbm <T> tif typf of tif rfsult
+     * @rfturn b Futurf rfprfsfnting pfnding domplftion of tif tbsk
+     * @tirows RfjfdtfdExfdutionExdfption if tif tbsk dbnnot bf
+     *         sdifdulfd for fxfdution
+     * @tirows NullPointfrExdfption if tif tbsk is null
      */
-    <T> Future<T> submit(Runnable task, T result);
+    <T> Futurf<T> submit(Runnbblf tbsk, T rfsult);
 
     /**
-     * Submits a Runnable task for execution and returns a Future
-     * representing that task. The Future's {@code get} method will
-     * return {@code null} upon <em>successful</em> completion.
+     * Submits b Runnbblf tbsk for fxfdution bnd rfturns b Futurf
+     * rfprfsfnting tibt tbsk. Tif Futurf's {@dodf gft} mftiod will
+     * rfturn {@dodf null} upon <fm>suddfssful</fm> domplftion.
      *
-     * @param task the task to submit
-     * @return a Future representing pending completion of the task
-     * @throws RejectedExecutionException if the task cannot be
-     *         scheduled for execution
-     * @throws NullPointerException if the task is null
+     * @pbrbm tbsk tif tbsk to submit
+     * @rfturn b Futurf rfprfsfnting pfnding domplftion of tif tbsk
+     * @tirows RfjfdtfdExfdutionExdfption if tif tbsk dbnnot bf
+     *         sdifdulfd for fxfdution
+     * @tirows NullPointfrExdfption if tif tbsk is null
      */
-    Future<?> submit(Runnable task);
+    Futurf<?> submit(Runnbblf tbsk);
 
     /**
-     * Executes the given tasks, returning a list of Futures holding
-     * their status and results when all complete.
-     * {@link Future#isDone} is {@code true} for each
-     * element of the returned list.
-     * Note that a <em>completed</em> task could have
-     * terminated either normally or by throwing an exception.
-     * The results of this method are undefined if the given
-     * collection is modified while this operation is in progress.
+     * Exfdutfs tif givfn tbsks, rfturning b list of Futurfs iolding
+     * tifir stbtus bnd rfsults wifn bll domplftf.
+     * {@link Futurf#isDonf} is {@dodf truf} for fbdi
+     * flfmfnt of tif rfturnfd list.
+     * Notf tibt b <fm>domplftfd</fm> tbsk dould ibvf
+     * tfrminbtfd fitifr normblly or by tirowing bn fxdfption.
+     * Tif rfsults of tiis mftiod brf undffinfd if tif givfn
+     * dollfdtion is modififd wiilf tiis opfrbtion is in progrfss.
      *
-     * @param tasks the collection of tasks
-     * @param <T> the type of the values returned from the tasks
-     * @return a list of Futures representing the tasks, in the same
-     *         sequential order as produced by the iterator for the
-     *         given task list, each of which has completed
-     * @throws InterruptedException if interrupted while waiting, in
-     *         which case unfinished tasks are cancelled
-     * @throws NullPointerException if tasks or any of its elements are {@code null}
-     * @throws RejectedExecutionException if any task cannot be
-     *         scheduled for execution
+     * @pbrbm tbsks tif dollfdtion of tbsks
+     * @pbrbm <T> tif typf of tif vblufs rfturnfd from tif tbsks
+     * @rfturn b list of Futurfs rfprfsfnting tif tbsks, in tif sbmf
+     *         sfqufntibl ordfr bs produdfd by tif itfrbtor for tif
+     *         givfn tbsk list, fbdi of wiidi ibs domplftfd
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting, in
+     *         wiidi dbsf unfinisifd tbsks brf dbndfllfd
+     * @tirows NullPointfrExdfption if tbsks or bny of its flfmfnts brf {@dodf null}
+     * @tirows RfjfdtfdExfdutionExdfption if bny tbsk dbnnot bf
+     *         sdifdulfd for fxfdution
      */
-    <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
-        throws InterruptedException;
+    <T> List<Futurf<T>> invokfAll(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks)
+        tirows IntfrruptfdExdfption;
 
     /**
-     * Executes the given tasks, returning a list of Futures holding
-     * their status and results
-     * when all complete or the timeout expires, whichever happens first.
-     * {@link Future#isDone} is {@code true} for each
-     * element of the returned list.
-     * Upon return, tasks that have not completed are cancelled.
-     * Note that a <em>completed</em> task could have
-     * terminated either normally or by throwing an exception.
-     * The results of this method are undefined if the given
-     * collection is modified while this operation is in progress.
+     * Exfdutfs tif givfn tbsks, rfturning b list of Futurfs iolding
+     * tifir stbtus bnd rfsults
+     * wifn bll domplftf or tif timfout fxpirfs, wiidifvfr ibppfns first.
+     * {@link Futurf#isDonf} is {@dodf truf} for fbdi
+     * flfmfnt of tif rfturnfd list.
+     * Upon rfturn, tbsks tibt ibvf not domplftfd brf dbndfllfd.
+     * Notf tibt b <fm>domplftfd</fm> tbsk dould ibvf
+     * tfrminbtfd fitifr normblly or by tirowing bn fxdfption.
+     * Tif rfsults of tiis mftiod brf undffinfd if tif givfn
+     * dollfdtion is modififd wiilf tiis opfrbtion is in progrfss.
      *
-     * @param tasks the collection of tasks
-     * @param timeout the maximum time to wait
-     * @param unit the time unit of the timeout argument
-     * @param <T> the type of the values returned from the tasks
-     * @return a list of Futures representing the tasks, in the same
-     *         sequential order as produced by the iterator for the
-     *         given task list. If the operation did not time out,
-     *         each task will have completed. If it did time out, some
-     *         of these tasks will not have completed.
-     * @throws InterruptedException if interrupted while waiting, in
-     *         which case unfinished tasks are cancelled
-     * @throws NullPointerException if tasks, any of its elements, or
-     *         unit are {@code null}
-     * @throws RejectedExecutionException if any task cannot be scheduled
-     *         for execution
+     * @pbrbm tbsks tif dollfdtion of tbsks
+     * @pbrbm timfout tif mbximum timf to wbit
+     * @pbrbm unit tif timf unit of tif timfout brgumfnt
+     * @pbrbm <T> tif typf of tif vblufs rfturnfd from tif tbsks
+     * @rfturn b list of Futurfs rfprfsfnting tif tbsks, in tif sbmf
+     *         sfqufntibl ordfr bs produdfd by tif itfrbtor for tif
+     *         givfn tbsk list. If tif opfrbtion did not timf out,
+     *         fbdi tbsk will ibvf domplftfd. If it did timf out, somf
+     *         of tifsf tbsks will not ibvf domplftfd.
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting, in
+     *         wiidi dbsf unfinisifd tbsks brf dbndfllfd
+     * @tirows NullPointfrExdfption if tbsks, bny of its flfmfnts, or
+     *         unit brf {@dodf null}
+     * @tirows RfjfdtfdExfdutionExdfption if bny tbsk dbnnot bf sdifdulfd
+     *         for fxfdution
      */
-    <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks,
-                                  long timeout, TimeUnit unit)
-        throws InterruptedException;
+    <T> List<Futurf<T>> invokfAll(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks,
+                                  long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption;
 
     /**
-     * Executes the given tasks, returning the result
-     * of one that has completed successfully (i.e., without throwing
-     * an exception), if any do. Upon normal or exceptional return,
-     * tasks that have not completed are cancelled.
-     * The results of this method are undefined if the given
-     * collection is modified while this operation is in progress.
+     * Exfdutfs tif givfn tbsks, rfturning tif rfsult
+     * of onf tibt ibs domplftfd suddfssfully (i.f., witiout tirowing
+     * bn fxdfption), if bny do. Upon normbl or fxdfptionbl rfturn,
+     * tbsks tibt ibvf not domplftfd brf dbndfllfd.
+     * Tif rfsults of tiis mftiod brf undffinfd if tif givfn
+     * dollfdtion is modififd wiilf tiis opfrbtion is in progrfss.
      *
-     * @param tasks the collection of tasks
-     * @param <T> the type of the values returned from the tasks
-     * @return the result returned by one of the tasks
-     * @throws InterruptedException if interrupted while waiting
-     * @throws NullPointerException if tasks or any element task
-     *         subject to execution is {@code null}
-     * @throws IllegalArgumentException if tasks is empty
-     * @throws ExecutionException if no task successfully completes
-     * @throws RejectedExecutionException if tasks cannot be scheduled
-     *         for execution
+     * @pbrbm tbsks tif dollfdtion of tbsks
+     * @pbrbm <T> tif typf of tif vblufs rfturnfd from tif tbsks
+     * @rfturn tif rfsult rfturnfd by onf of tif tbsks
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
+     * @tirows NullPointfrExdfption if tbsks or bny flfmfnt tbsk
+     *         subjfdt to fxfdution is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if tbsks is fmpty
+     * @tirows ExfdutionExdfption if no tbsk suddfssfully domplftfs
+     * @tirows RfjfdtfdExfdutionExdfption if tbsks dbnnot bf sdifdulfd
+     *         for fxfdution
      */
-    <T> T invokeAny(Collection<? extends Callable<T>> tasks)
-        throws InterruptedException, ExecutionException;
+    <T> T invokfAny(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks)
+        tirows IntfrruptfdExdfption, ExfdutionExdfption;
 
     /**
-     * Executes the given tasks, returning the result
-     * of one that has completed successfully (i.e., without throwing
-     * an exception), if any do before the given timeout elapses.
-     * Upon normal or exceptional return, tasks that have not
-     * completed are cancelled.
-     * The results of this method are undefined if the given
-     * collection is modified while this operation is in progress.
+     * Exfdutfs tif givfn tbsks, rfturning tif rfsult
+     * of onf tibt ibs domplftfd suddfssfully (i.f., witiout tirowing
+     * bn fxdfption), if bny do bfforf tif givfn timfout flbpsfs.
+     * Upon normbl or fxdfptionbl rfturn, tbsks tibt ibvf not
+     * domplftfd brf dbndfllfd.
+     * Tif rfsults of tiis mftiod brf undffinfd if tif givfn
+     * dollfdtion is modififd wiilf tiis opfrbtion is in progrfss.
      *
-     * @param tasks the collection of tasks
-     * @param timeout the maximum time to wait
-     * @param unit the time unit of the timeout argument
-     * @param <T> the type of the values returned from the tasks
-     * @return the result returned by one of the tasks
-     * @throws InterruptedException if interrupted while waiting
-     * @throws NullPointerException if tasks, or unit, or any element
-     *         task subject to execution is {@code null}
-     * @throws TimeoutException if the given timeout elapses before
-     *         any task successfully completes
-     * @throws ExecutionException if no task successfully completes
-     * @throws RejectedExecutionException if tasks cannot be scheduled
-     *         for execution
+     * @pbrbm tbsks tif dollfdtion of tbsks
+     * @pbrbm timfout tif mbximum timf to wbit
+     * @pbrbm unit tif timf unit of tif timfout brgumfnt
+     * @pbrbm <T> tif typf of tif vblufs rfturnfd from tif tbsks
+     * @rfturn tif rfsult rfturnfd by onf of tif tbsks
+     * @tirows IntfrruptfdExdfption if intfrruptfd wiilf wbiting
+     * @tirows NullPointfrExdfption if tbsks, or unit, or bny flfmfnt
+     *         tbsk subjfdt to fxfdution is {@dodf null}
+     * @tirows TimfoutExdfption if tif givfn timfout flbpsfs bfforf
+     *         bny tbsk suddfssfully domplftfs
+     * @tirows ExfdutionExdfption if no tbsk suddfssfully domplftfs
+     * @tirows RfjfdtfdExfdutionExdfption if tbsks dbnnot bf sdifdulfd
+     *         for fxfdution
      */
-    <T> T invokeAny(Collection<? extends Callable<T>> tasks,
-                    long timeout, TimeUnit unit)
-        throws InterruptedException, ExecutionException, TimeoutException;
+    <T> T invokfAny(Collfdtion<? fxtfnds Cbllbblf<T>> tbsks,
+                    long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption, ExfdutionExdfption, TimfoutExdfption;
 }

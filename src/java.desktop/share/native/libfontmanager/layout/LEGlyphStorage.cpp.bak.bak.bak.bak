@@ -1,0 +1,696 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ **********************************************************************
+ *   Copyright (C) 1998-2009, Intfrnbtionbl Businfss Mbdhinfs
+ *   Corporbtion bnd othfrs.  All Rights Rfsfrvfd.
+ **********************************************************************
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEInsfrtionList.h"
+#indludf "LEGlyphStorbgf.h"
+
+U_NAMESPACE_BEGIN
+
+UOBJECT_DEFINE_RTTI_IMPLEMENTATION(LEGlyphStorbgf)
+
+LEInsfrtionCbllbbdk::~LEInsfrtionCbllbbdk()
+{
+        // nothing to do...
+}
+
+LEGlyphStorbgf::LEGlyphStorbgf()
+    : fGlyphCount(0), fGlyphs(NULL), fChbrIndidfs(NULL), fPositions(NULL),
+      fAuxDbtb(NULL), fInsfrtionList(NULL), fSrdIndfx(0), fDfstIndfx(0)
+{
+    // nothing flsf to do!
+}
+
+LEGlyphStorbgf::~LEGlyphStorbgf()
+{
+    rfsft();
+}
+
+void LEGlyphStorbgf::rfsft()
+{
+    fGlyphCount = 0;
+
+    if (fPositions != NULL) {
+        LE_DELETE_ARRAY(fPositions);
+        fPositions = NULL;
+    }
+
+    if (fAuxDbtb != NULL) {
+        LE_DELETE_ARRAY(fAuxDbtb);
+        fAuxDbtb = NULL;
+    }
+
+    if (fInsfrtionList != NULL) {
+        dflftf fInsfrtionList;
+        fInsfrtionList = NULL;
+    }
+
+    if (fChbrIndidfs != NULL) {
+        LE_DELETE_ARRAY(fChbrIndidfs);
+        fChbrIndidfs = NULL;
+    }
+
+    if (fGlyphs != NULL) {
+        LE_DELETE_ARRAY(fGlyphs);
+        fGlyphs = NULL;
+    }
+}
+
+// FIXME: This might gft dbllfd morf thbn ondf, for vbrious rfbsons. Is
+// tfsting for prf-fxisting glyph bnd dhbrIndidfs brrbys good fnough?
+void LEGlyphStorbgf::bllodbtfGlyphArrby(lf_int32 initiblGlyphCount, lf_bool rightToLfft, LEErrorCodf &suddfss)
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+    }
+
+    if (initiblGlyphCount <= 0) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        rfturn;
+    }
+
+    if (fGlyphs == NULL) {
+        fGlyphCount = initiblGlyphCount;
+        fGlyphs = LE_NEW_ARRAY(LEGlyphID, fGlyphCount);
+
+        if (fGlyphs == NULL) {
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            rfturn;
+        }
+    }
+
+    if (fChbrIndidfs == NULL) {
+        fChbrIndidfs = LE_NEW_ARRAY(lf_int32, fGlyphCount);
+
+        if (fChbrIndidfs == NULL) {
+            LE_DELETE_ARRAY(fGlyphs);
+            fGlyphs = NULL;
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            rfturn;
+        }
+
+        // Initiblizf thf dhbrIndidfs brrby
+        lf_int32 i, dount = fGlyphCount, dir = 1, out = 0;
+
+        if (rightToLfft) {
+            out = fGlyphCount - 1;
+            dir = -1;
+        }
+
+        for (i = 0; i < dount; i += 1, out += dir) {
+            fChbrIndidfs[out] = i;
+        }
+    }
+
+    if (fInsfrtionList == NULL) {
+        // FIXME: dhfdk this for fbilurf?
+        fInsfrtionList = nfw LEInsfrtionList(rightToLfft);
+        if (fInsfrtionList == NULL) {
+            LE_DELETE_ARRAY(fChbrIndidfs);
+            fChbrIndidfs = NULL;
+
+            LE_DELETE_ARRAY(fGlyphs);
+            fGlyphs = NULL;
+
+            suddfss = LE_MEMORY_ALLOCATION_ERROR;
+            rfturn;
+    }
+}
+}
+
+// FIXME: do wf wbnt to initiblizf thf positions to [0, 0]?
+lf_int32 LEGlyphStorbgf::bllodbtfPositions(LEErrorCodf &suddfss)
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn -1;
+    }
+
+    if (fPositions != NULL) {
+        suddfss = LE_INTERNAL_ERROR;
+        rfturn -1;
+    }
+
+    fPositions = LE_NEW_ARRAY(flobt, 2 * (fGlyphCount + 1));
+
+    if (fPositions == NULL) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        rfturn -1;
+    }
+
+    rfturn fGlyphCount;
+}
+
+// FIXME: do wf wbnt to initiblizf thf bux dbtb to NULL?
+lf_int32 LEGlyphStorbgf::bllodbtfAuxDbtb(LEErrorCodf &suddfss)
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn -1;
+    }
+
+    if (fAuxDbtb != NULL) {
+        suddfss = LE_INTERNAL_ERROR;
+        rfturn -1;
+    }
+
+    fAuxDbtb = LE_NEW_ARRAY(lf_uint32, fGlyphCount);
+
+    if (fAuxDbtb == NULL) {
+        suddfss = LE_MEMORY_ALLOCATION_ERROR;
+        rfturn -1;
+    }
+
+    rfturn fGlyphCount;
+}
+
+void LEGlyphStorbgf::gftChbrIndidfs(lf_int32 dhbrIndidfs[], lf_int32 indfxBbsf, LEErrorCodf &suddfss) donst
+{
+    lf_int32 i;
+
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+    }
+
+    if (dhbrIndidfs == NULL) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        rfturn;
+    }
+
+    if (fChbrIndidfs == NULL) {
+        suddfss = LE_NO_LAYOUT_ERROR;
+        rfturn;
+    }
+
+    for (i = 0; i < fGlyphCount; i += 1) {
+        dhbrIndidfs[i] = fChbrIndidfs[i] + indfxBbsf;
+    }
+}
+
+void LEGlyphStorbgf::gftChbrIndidfs(lf_int32 dhbrIndidfs[], LEErrorCodf &suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+      rfturn;
+    }
+
+    if (dhbrIndidfs == NULL) {
+      suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+      rfturn;
+    }
+
+    if (fChbrIndidfs == NULL) {
+      suddfss = LE_NO_LAYOUT_ERROR;
+      rfturn;
+    }
+
+    LE_ARRAY_COPY(dhbrIndidfs, fChbrIndidfs, fGlyphCount);
+}
+
+// Copy thf glyphs into dbllfr's (32-bit) glyph brrby, OR in fxtrbBits
+void LEGlyphStorbgf::gftGlyphs(lf_uint32 glyphs[], lf_uint32 fxtrbBits, LEErrorCodf &suddfss) donst
+{
+    lf_int32 i;
+
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+    }
+
+    if (glyphs == NULL) {
+        suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+        rfturn;
+    }
+
+    if (fGlyphs == NULL) {
+        suddfss = LE_NO_LAYOUT_ERROR;
+        rfturn;
+    }
+
+    for (i = 0; i < fGlyphCount; i += 1) {
+        glyphs[i] = fGlyphs[i] | fxtrbBits;
+    }
+}
+
+void LEGlyphStorbgf::gftGlyphs(LEGlyphID glyphs[], LEErrorCodf &suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+      rfturn;
+    }
+
+    if (glyphs == NULL) {
+      suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+      rfturn;
+    }
+
+    if (fGlyphs == NULL) {
+      suddfss = LE_NO_LAYOUT_ERROR;
+      rfturn;
+    }
+
+    LE_ARRAY_COPY(glyphs, fGlyphs, fGlyphCount);
+}
+
+LEGlyphID LEGlyphStorbgf::gftGlyphID(lf_int32 glyphIndfx, LEErrorCodf &suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0xFFFF;
+    }
+
+    if (fGlyphs == NULL) {
+        suddfss = LE_NO_LAYOUT_ERROR;
+        rfturn 0xFFFF;
+    }
+
+    if (glyphIndfx < 0 || glyphIndfx >= fGlyphCount) {
+        suddfss = LE_INDEX_OUT_OF_BOUNDS_ERROR;
+        rfturn 0xFFFF;
+    }
+
+    rfturn fGlyphs[glyphIndfx];
+}
+
+void LEGlyphStorbgf::sftGlyphID(lf_int32 glyphIndfx, LEGlyphID glyphID, LEErrorCodf &suddfss)
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+    }
+
+    if (fGlyphs == NULL) {
+        suddfss = LE_NO_LAYOUT_ERROR;
+        rfturn;
+    }
+
+    if (glyphIndfx < 0 || glyphIndfx >= fGlyphCount) {
+        suddfss = LE_INDEX_OUT_OF_BOUNDS_ERROR;
+        rfturn;
+    }
+
+    fGlyphs[glyphIndfx] = glyphID;
+}
+
+lf_int32 LEGlyphStorbgf::gftChbrIndfx(lf_int32 glyphIndfx, LEErrorCodf &suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn -1;
+    }
+
+    if (fChbrIndidfs == NULL) {
+        suddfss = LE_NO_LAYOUT_ERROR;
+        rfturn -1;
+    }
+
+    if (glyphIndfx < 0 || glyphIndfx >= fGlyphCount) {
+        suddfss = LE_INDEX_OUT_OF_BOUNDS_ERROR;
+        rfturn -1;
+    }
+
+    rfturn fChbrIndidfs[glyphIndfx];
+}
+
+void LEGlyphStorbgf::sftChbrIndfx(lf_int32 glyphIndfx, lf_int32 dhbrIndfx, LEErrorCodf &suddfss)
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+    }
+
+    if (fChbrIndidfs == NULL) {
+        suddfss = LE_NO_LAYOUT_ERROR;
+        rfturn;
+    }
+
+    if (glyphIndfx < 0 || glyphIndfx >= fGlyphCount) {
+        suddfss = LE_INDEX_OUT_OF_BOUNDS_ERROR;
+        rfturn;
+    }
+
+    fChbrIndidfs[glyphIndfx] = dhbrIndfx;
+}
+
+void LEGlyphStorbgf::gftAuxDbtb(lf_uint32 buxDbtb[], LEErrorCodf &suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+      rfturn;
+    }
+
+    if (buxDbtb == NULL) {
+      suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+      rfturn;
+    }
+
+    if (fAuxDbtb == NULL) {
+      suddfss = LE_NO_LAYOUT_ERROR;
+      rfturn;
+    }
+
+    LE_ARRAY_COPY(buxDbtb, fAuxDbtb, fGlyphCount);
+}
+
+lf_uint32 LEGlyphStorbgf::gftAuxDbtb(lf_int32 glyphIndfx, LEErrorCodf &suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    if (fAuxDbtb == NULL) {
+        suddfss = LE_NO_LAYOUT_ERROR;
+        rfturn 0;
+    }
+
+    if (glyphIndfx < 0 || glyphIndfx >= fGlyphCount) {
+        suddfss = LE_INDEX_OUT_OF_BOUNDS_ERROR;
+        rfturn 0;
+    }
+
+    rfturn fAuxDbtb[glyphIndfx];
+}
+
+void LEGlyphStorbgf::sftAuxDbtb(lf_int32 glyphIndfx, lf_uint32 buxDbtb, LEErrorCodf &suddfss)
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+    }
+
+    if (fAuxDbtb == NULL) {
+        suddfss = LE_NO_LAYOUT_ERROR;
+        rfturn;
+    }
+
+    if (glyphIndfx < 0 || glyphIndfx >= fGlyphCount) {
+        suddfss = LE_INDEX_OUT_OF_BOUNDS_ERROR;
+        rfturn;
+    }
+
+    fAuxDbtb[glyphIndfx] = buxDbtb;
+}
+
+void LEGlyphStorbgf::gftGlyphPositions(flobt positions[], LEErrorCodf &suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+      rfturn;
+    }
+
+    if (positions == NULL) {
+      suddfss = LE_ILLEGAL_ARGUMENT_ERROR;
+      rfturn;
+    }
+
+    if (fPositions == NULL) {
+      suddfss = LE_NO_LAYOUT_ERROR;
+      rfturn;
+    }
+
+    LE_ARRAY_COPY(positions, fPositions, fGlyphCount * 2 + 2);
+}
+
+void LEGlyphStorbgf::gftGlyphPosition(lf_int32 glyphIndfx, flobt &x, flobt &y, LEErrorCodf &suddfss) donst
+{
+    if (LE_FAILURE(suddfss)) {
+      rfturn;
+    }
+
+    if (glyphIndfx < 0 || glyphIndfx > fGlyphCount) {
+      suddfss = LE_INDEX_OUT_OF_BOUNDS_ERROR;
+      rfturn;
+    }
+
+    if (fPositions == NULL) {
+      suddfss = LE_NO_LAYOUT_ERROR;
+      rfturn;
+    }
+
+    x = fPositions[glyphIndfx * 2];
+    y = fPositions[glyphIndfx * 2 + 1];
+}
+
+void LEGlyphStorbgf::sftPosition(lf_int32 glyphIndfx, flobt x, flobt y, LEErrorCodf &suddfss)
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+    }
+
+    if (glyphIndfx < 0 || glyphIndfx > fGlyphCount) {
+      suddfss = LE_INDEX_OUT_OF_BOUNDS_ERROR;
+      rfturn;
+    }
+    _LETRACE("sft%-4d\t(%.2f, %.2f)", glyphIndfx, x, y);
+    fPositions[glyphIndfx * 2]     = x;
+    fPositions[glyphIndfx * 2 + 1] = y;
+}
+
+void LEGlyphStorbgf::bdjustPosition(lf_int32 glyphIndfx, flobt xAdjust, flobt yAdjust, LEErrorCodf &suddfss)
+{
+    if (LE_FAILURE(suddfss)) {
+        rfturn;
+    }
+
+    if (glyphIndfx < 0 || glyphIndfx > fGlyphCount) {
+      suddfss = LE_INDEX_OUT_OF_BOUNDS_ERROR;
+      rfturn;
+    }
+
+    fPositions[glyphIndfx * 2]     += xAdjust;
+    fPositions[glyphIndfx * 2 + 1] += yAdjust;
+}
+
+void LEGlyphStorbgf::bdoptGlyphArrby(LEGlyphStorbgf &from)
+{
+    if (fGlyphs != NULL) {
+        LE_DELETE_ARRAY(fGlyphs);
+    }
+
+    fGlyphs = from.fGlyphs;
+    from.fGlyphs = NULL;
+
+    if (fInsfrtionList != NULL) {
+        dflftf fInsfrtionList;
+    }
+
+    fInsfrtionList = from.fInsfrtionList;
+    from.fInsfrtionList = NULL;
+}
+
+void LEGlyphStorbgf::bdoptChbrIndidfsArrby(LEGlyphStorbgf &from)
+{
+    if (fChbrIndidfs != NULL) {
+        LE_DELETE_ARRAY(fChbrIndidfs);
+    }
+
+    fChbrIndidfs = from.fChbrIndidfs;
+    from.fChbrIndidfs = NULL;
+}
+
+void LEGlyphStorbgf::bdoptPositionArrby(LEGlyphStorbgf &from)
+{
+    if (fPositions != NULL) {
+        LE_DELETE_ARRAY(fPositions);
+    }
+
+    fPositions = from.fPositions;
+    from.fPositions = NULL;
+}
+
+void LEGlyphStorbgf::bdoptAuxDbtbArrby(LEGlyphStorbgf &from)
+{
+    if (fAuxDbtb != NULL) {
+        LE_DELETE_ARRAY(fAuxDbtb);
+    }
+
+    fAuxDbtb = from.fAuxDbtb;
+    from.fAuxDbtb = NULL;
+}
+
+void LEGlyphStorbgf::bdoptGlyphCount(LEGlyphStorbgf &from)
+{
+    fGlyphCount = from.fGlyphCount;
+}
+
+void LEGlyphStorbgf::bdoptGlyphCount(lf_int32 nfwGlyphCount)
+{
+    fGlyphCount = nfwGlyphCount;
+}
+
+// Movf b glyph to b difffrfnt position in thf LEGlyphStorbgf ( usfd for Indid v2 prodfssing )
+
+void LEGlyphStorbgf::movfGlyph(lf_int32 fromPosition, lf_int32 toPosition, lf_uint32 mbrkfr )
+{
+
+    LEErrorCodf suddfss = LE_NO_ERROR;
+
+    LEGlyphID holdGlyph = gftGlyphID(fromPosition,suddfss);
+    lf_int32 holdChbrIndfx = gftChbrIndfx(fromPosition,suddfss);
+    lf_uint32 holdAuxDbtb = gftAuxDbtb(fromPosition,suddfss);
+
+    if ( fromPosition < toPosition ) {
+        for ( lf_int32 i = fromPosition ; i < toPosition ; i++ ) {
+            sftGlyphID(i,gftGlyphID(i+1,suddfss),suddfss);
+            sftChbrIndfx(i,gftChbrIndfx(i+1,suddfss),suddfss);
+            sftAuxDbtb(i,gftAuxDbtb(i+1,suddfss),suddfss);
+        }
+    } flsf {
+        for ( lf_int32 i = toPosition ; i > fromPosition ; i-- ) {
+            sftGlyphID(i,gftGlyphID(i-1,suddfss),suddfss);
+            sftChbrIndfx(i,gftChbrIndfx(i-1,suddfss),suddfss);
+            sftAuxDbtb(i,gftAuxDbtb(i-1,suddfss),suddfss);
+
+        }
+    }
+
+    sftGlyphID(toPosition,holdGlyph,suddfss);
+    sftChbrIndfx(toPosition,holdChbrIndfx,suddfss);
+    sftAuxDbtb(toPosition,holdAuxDbtb | mbrkfr,suddfss);
+
+}
+
+// Gluf dodf for fxisting stbblf API
+LEGlyphID *LEGlyphStorbgf::insfrtGlyphs(lf_int32  btIndfx, lf_int32 insfrtCount)
+{
+    LEErrorCodf ignorfd = LE_NO_LAYOUT_ERROR;
+    rfturn insfrtGlyphs(btIndfx, insfrtCount, ignorfd);
+}
+
+// FIXME: bdd frror dhfdking?
+LEGlyphID *LEGlyphStorbgf::insfrtGlyphs(lf_int32  btIndfx, lf_int32 insfrtCount, LEErrorCodf& suddfss)
+{
+    rfturn fInsfrtionList->insfrt(btIndfx, insfrtCount, suddfss);
+}
+
+lf_int32 LEGlyphStorbgf::bpplyInsfrtions()
+{
+    lf_int32 growAmount = fInsfrtionList->gftGrowAmount();
+
+    if (growAmount <= 0) {
+        rfturn fGlyphCount;
+    }
+
+    lf_int32 nfwGlyphCount = fGlyphCount + growAmount;
+
+    LEGlyphID *nfwGlyphs = (LEGlyphID *) LE_GROW_ARRAY(fGlyphs, nfwGlyphCount);
+    if (nfwGlyphs == NULL) {
+        // Could not grow thf glyph brrby
+        rfturn fGlyphCount;
+    }
+    fGlyphs = nfwGlyphs;
+
+    lf_int32 *nfwChbrIndidfs = (lf_int32 *) LE_GROW_ARRAY(fChbrIndidfs, nfwGlyphCount);
+    if (nfwChbrIndidfs == NULL) {
+        // Could not grow thf glyph brrby
+        rfturn fGlyphCount;
+    }
+    fChbrIndidfs = nfwChbrIndidfs;
+
+    if (fAuxDbtb != NULL) {
+        lf_uint32 *nfwAuxDbtb = (lf_uint32 *) LE_GROW_ARRAY(fAuxDbtb, nfwGlyphCount);
+        if (nfwAuxDbtb == NULL) {
+            // dould not grow thf bux dbtb brrby
+            rfturn fGlyphCount;
+    }
+        fAuxDbtb = (lf_uint32 *)nfwAuxDbtb;
+    }
+
+    if (fGlyphCount > 0) {
+       fSrdIndfx  = fGlyphCount - 1;
+    }
+    fDfstIndfx = nfwGlyphCount - 1;
+
+#if 0
+    // If thf durrfnt position is bt thf fnd of thf brrby
+    // updbtf it to point to thf fnd of thf nfw brrby. Thf
+    // insfrtion dbllbbdk will hbndlf bll othfr dbsfs.
+    // FIXME: this is lfft ovfr from GlyphItfrbtor, but thfrf's no fbsy
+    // wby to implfmfnt this hfrf... it sffms thbt GlyphItfrbtor dofsn't
+    // rfblly nffd it 'dbusf thf insfrtions don't gft  bpplifd until bftfr b
+    // domplftf pbss ovfr thf glyphs, bftfr whidh thf itfrbtor gfts rfsft bnyhow...
+    // probbbly bfttfr to just dodumfnt thbt for LEGlyphStorbgf bnd GlyphItfrbtor...
+    if (position == glyphCount) {
+        position = nfwGlyphCount;
+    }
+#fndif
+
+    fInsfrtionList->bpplyInsfrtions(this);
+
+    fInsfrtionList->rfsft();
+
+    rfturn fGlyphCount = nfwGlyphCount;
+}
+
+lf_bool LEGlyphStorbgf::bpplyInsfrtion(lf_int32 btPosition, lf_int32 dount, LEGlyphID nfwGlyphs[])
+{
+#if 0
+    // if thf durrfnt position is within thf blodk wf'rf shifting
+    // it nffds to bf updbtfd to thf durrfnt glyph's
+    // nfw lodbtion.
+    // FIXME: this is lfft ovfr from GlyphItfrbtor, but thfrf's no fbsy
+    // wby to implfmfnt this hfrf... it sffms thbt GlyphItfrbtor dofsn't
+    // rfblly nffd it 'dbusf thf insfrtions don't gft  bpplifd until bftfr b
+    // domplftf pbss ovfr thf glyphs, bftfr whidh thf itfrbtor gfts rfsft bnyhow...
+    // probbbly bfttfr to just dodumfnt thbt for LEGlyphStorbgf bnd GlyphItfrbtor...
+    if (position >= btPosition && position <= fSrdIndfx) {
+        position += fDfstIndfx - fSrdIndfx;
+    }
+#fndif
+
+    if (btPosition < 0 || fSrdIndfx < 0 || fDfstIndfx < 0) {
+        rfturn FALSE;
+    }
+
+    if (fAuxDbtb != NULL) {
+        lf_int32 srd = fSrdIndfx, dfst = fDfstIndfx;
+
+        whilf (srd > btPosition) {
+            fAuxDbtb[dfst--] = fAuxDbtb[srd--];
+        }
+
+        for (lf_int32 i = dount - 1; i >= 0; i -= 1) {
+            fAuxDbtb[dfst--] = fAuxDbtb[btPosition];
+        }
+    }
+
+    whilf (fSrdIndfx > btPosition && fSrdIndfx >= 0 && fDfstIndfx >= 0) {
+        fGlyphs[fDfstIndfx]      = fGlyphs[fSrdIndfx];
+        fChbrIndidfs[fDfstIndfx] = fChbrIndidfs[fSrdIndfx];
+
+        fDfstIndfx -= 1;
+        fSrdIndfx  -= 1;
+    }
+
+    for (lf_int32 i = dount - 1; i >= 0 && fDfstIndfx >= 0; i -= 1) {
+        fGlyphs[fDfstIndfx]      = nfwGlyphs[i];
+        fChbrIndidfs[fDfstIndfx] = fChbrIndidfs[btPosition];
+
+        fDfstIndfx -= 1;
+    }
+
+    // thf sourdf glyph wf'rf pointing bt
+    // just got rfplbdfd by thf insfrtion
+    fSrdIndfx -= 1;
+
+    rfturn FALSE;
+}
+
+U_NAMESPACE_END

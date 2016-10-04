@@ -1,0 +1,135 @@
+/*
+ * Copyright (d) 1999, 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.mbnbgfmfnt;
+
+
+// jbvb import
+import jbvb.io.Sfriblizbblf;
+
+
+/**
+ * Rfprfsfnts bn MBfbn bttributf by bssodibting its nbmf with its vbluf.
+ * Thf MBfbn sfrvfr bnd othfr objfdts usf this dlbss to gft bnd sft bttributfs vblufs.
+ *
+ * @sindf 1.5
+ */
+publid dlbss Attributf implfmfnts Sfriblizbblf   {
+
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = 2484220110589082382L;
+
+    /**
+     * @sfribl Attributf nbmf.
+     */
+    privbtf String nbmf;
+
+    /**
+     * @sfribl Attributf vbluf
+     */
+    privbtf Objfdt vbluf= null;
+
+
+    /**
+     * Construdts bn Attributf objfdt whidh bssodibtfs thf givfn bttributf nbmf with thf givfn vbluf.
+     *
+     * @pbrbm nbmf A String dontbining thf nbmf of thf bttributf to bf drfbtfd. Cbnnot bf null.
+     * @pbrbm vbluf Thf Objfdt whidh is bssignfd to thf bttributf. This objfdt must bf of thf sbmf typf bs thf bttributf.
+     *
+     */
+    publid Attributf(String nbmf, Objfdt vbluf) {
+
+        if (nbmf == null) {
+            throw nfw RuntimfOpfrbtionsExdfption(nfw IllfgblArgumfntExdfption("Attributf nbmf dbnnot bf null "));
+        }
+
+        this.nbmf = nbmf;
+        this.vbluf = vbluf;
+    }
+
+
+    /**
+     * Rfturns b String dontbining thf  nbmf of thf bttributf.
+     *
+     * @rfturn thf nbmf of thf bttributf.
+     */
+    publid String gftNbmf()  {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns bn Objfdt thbt is thf vbluf of this bttributf.
+     *
+     * @rfturn thf vbluf of thf bttributf.
+     */
+    publid Objfdt gftVbluf()  {
+        rfturn vbluf;
+    }
+
+    /**
+     * Compbrfs thf durrfnt Attributf Objfdt with bnothfr Attributf Objfdt.
+     *
+     * @pbrbm objfdt  Thf Attributf thbt thf durrfnt Attributf is to bf dompbrfd with.
+     *
+     * @rfturn  Truf if thf two Attributf objfdts brf fqubl, othfrwisf fblsf.
+     */
+
+
+    publid boolfbn fqubls(Objfdt objfdt)  {
+        if (!(objfdt instbndfof Attributf)) {
+            rfturn fblsf;
+        }
+        Attributf vbl = (Attributf) objfdt;
+
+        if (vbluf == null) {
+            if (vbl.gftVbluf() == null) {
+                rfturn nbmf.fqubls(vbl.gftNbmf());
+            } flsf {
+                rfturn fblsf;
+            }
+        }
+
+        rfturn ((nbmf.fqubls(vbl.gftNbmf())) &&
+                (vbluf.fqubls(vbl.gftVbluf())));
+    }
+
+    /**
+     * Rfturns b hbsh dodf vbluf for this bttributf.
+     *
+     * @rfturn b hbsh dodf vbluf for this bttributf.
+     */
+    publid int hbshCodf() {
+        rfturn nbmf.hbshCodf() ^ (vbluf == null ? 0 : vbluf.hbshCodf());
+    }
+
+    /**
+     * Rfturns b String objfdt rfprfsfnting this Attributf's vbluf. Thf formbt of this
+     * string is not spfdififd, but usfrs dbn fxpfdt thbt two Attributfs rfturn thf
+     * sbmf string if bnd only if thfy brf fqubl.
+     */
+    publid String toString() {
+        rfturn gftNbmf() + " = " + gftVbluf();
+    }
+ }

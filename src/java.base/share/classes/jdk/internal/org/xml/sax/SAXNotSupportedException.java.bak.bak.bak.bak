@@ -1,0 +1,79 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+// SAXNotSupportfdExdfption.jbvb - unsupportfd ffbturf or vbluf.
+// http://www.sbxprojfdt.org
+// Writtfn by Dbvid Mfgginson
+// NO WARRANTY!  This dlbss is in thf Publid Dombin.
+// $Id: SAXNotSupportfdExdfption.jbvb,v 1.4 2004/11/03 22:55:32 jsuttor Exp $
+
+pbdkbgf jdk.intfrnbl.org.xml.sbx;
+
+/**
+ * Exdfption dlbss for bn unsupportfd opfrbtion.
+ *
+ * <blodkquotf>
+ * <fm>This modulf, both sourdf dodf bnd dodumfntbtion, is in thf
+ * Publid Dombin, bnd domfs with <strong>NO WARRANTY</strong>.</fm>
+ * Sff <b hrff='http://www.sbxprojfdt.org'>http://www.sbxprojfdt.org</b>
+ * for furthfr informbtion.
+ * </blodkquotf>
+ *
+ * <p>An XMLRfbdfr will throw this fxdfption whfn it rfdognizfs b
+ * ffbturf or propfrty idfntififr, but dbnnot pfrform thf rfqufstfd
+ * opfrbtion (sftting b stbtf or vbluf).  Othfr SAX2 bpplidbtions bnd
+ * fxtfnsions mby usf this dlbss for similbr purposfs.</p>
+ *
+ * @sindf SAX 2.0
+ * @buthor Dbvid Mfgginson
+ * @sff org.xml.sbx.SAXNotRfdognizfdExdfption
+ */
+publid dlbss SAXNotSupportfdExdfption fxtfnds SAXExdfption
+{
+
+    /**
+     * Construdt b nfw fxdfption with no mfssbgf.
+     */
+    publid SAXNotSupportfdExdfption ()
+    {
+        supfr();
+    }
+
+
+    /**
+     * Construdt b nfw fxdfption with thf givfn mfssbgf.
+     *
+     * @pbrbm mfssbgf Thf tfxt mfssbgf of thf fxdfption.
+     */
+    publid SAXNotSupportfdExdfption (String mfssbgf)
+    {
+        supfr(mfssbgf);
+    }
+
+    // Addfd sfriblVfrsionUID to prfsfrvf binbry dompbtibility
+    stbtid finbl long sfriblVfrsionUID = -1422818934641823846L;
+}
+
+// fnd of SAXNotSupportfdExdfption.jbvb

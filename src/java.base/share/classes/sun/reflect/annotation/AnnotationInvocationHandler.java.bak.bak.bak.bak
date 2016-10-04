@@ -1,0 +1,364 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.rfflfdt.bnnotbtion;
+
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.lbng.rfflfdt.*;
+import jbvb.io.Sfriblizbblf;
+import jbvb.util.*;
+import jbvb.lbng.bnnotbtion.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+
+/**
+ * InvodbtionHbndlfr for dynbmid proxy implfmfntbtion of Annotbtion.
+ *
+ * @buthor  Josh Blodh
+ * @sindf   1.5
+ */
+dlbss AnnotbtionInvodbtionHbndlfr implfmfnts InvodbtionHbndlfr, Sfriblizbblf {
+    privbtf stbtid finbl long sfriblVfrsionUID = 6182022883658399397L;
+    privbtf finbl Clbss<? fxtfnds Annotbtion> typf;
+    privbtf finbl Mbp<String, Objfdt> mfmbfrVblufs;
+
+    AnnotbtionInvodbtionHbndlfr(Clbss<? fxtfnds Annotbtion> typf, Mbp<String, Objfdt> mfmbfrVblufs) {
+        this.typf = typf;
+        this.mfmbfrVblufs = mfmbfrVblufs;
+    }
+
+    publid Objfdt invokf(Objfdt proxy, Mfthod mfthod, Objfdt[] brgs) {
+        String mfmbfr = mfthod.gftNbmf();
+        Clbss<?>[] pbrbmTypfs = mfthod.gftPbrbmftfrTypfs();
+
+        // Hbndlf Objfdt bnd Annotbtion mfthods
+        if (mfmbfr.fqubls("fqubls") && pbrbmTypfs.lfngth == 1 &&
+            pbrbmTypfs[0] == Objfdt.dlbss)
+            rfturn fqublsImpl(brgs[0]);
+        bssfrt pbrbmTypfs.lfngth == 0;
+        if (mfmbfr.fqubls("toString"))
+            rfturn toStringImpl();
+        if (mfmbfr.fqubls("hbshCodf"))
+            rfturn hbshCodfImpl();
+        if (mfmbfr.fqubls("bnnotbtionTypf"))
+            rfturn typf;
+
+        // Hbndlf bnnotbtion mfmbfr bddfssors
+        Objfdt rfsult = mfmbfrVblufs.gft(mfmbfr);
+
+        if (rfsult == null)
+            throw nfw IndomplftfAnnotbtionExdfption(typf, mfmbfr);
+
+        if (rfsult instbndfof ExdfptionProxy)
+            throw ((ExdfptionProxy) rfsult).gfnfrbtfExdfption();
+
+        if (rfsult.gftClbss().isArrby() && Arrby.gftLfngth(rfsult) != 0)
+            rfsult = dlonfArrby(rfsult);
+
+        rfturn rfsult;
+    }
+
+    /**
+     * This mfthod, whidh dlonfs its brrby brgumfnt, would not bf nfdfssbry
+     * if Clonfbblf hbd b publid dlonf mfthod.
+     */
+    privbtf Objfdt dlonfArrby(Objfdt brrby) {
+        Clbss<?> typf = brrby.gftClbss();
+
+        if (typf == bytf[].dlbss) {
+            bytf[] bytfArrby = (bytf[])brrby;
+            rfturn bytfArrby.dlonf();
+        }
+        if (typf == dhbr[].dlbss) {
+            dhbr[] dhbrArrby = (dhbr[])brrby;
+            rfturn dhbrArrby.dlonf();
+        }
+        if (typf == doublf[].dlbss) {
+            doublf[] doublfArrby = (doublf[])brrby;
+            rfturn doublfArrby.dlonf();
+        }
+        if (typf == flobt[].dlbss) {
+            flobt[] flobtArrby = (flobt[])brrby;
+            rfturn flobtArrby.dlonf();
+        }
+        if (typf == int[].dlbss) {
+            int[] intArrby = (int[])brrby;
+            rfturn intArrby.dlonf();
+        }
+        if (typf == long[].dlbss) {
+            long[] longArrby = (long[])brrby;
+            rfturn longArrby.dlonf();
+        }
+        if (typf == short[].dlbss) {
+            short[] shortArrby = (short[])brrby;
+            rfturn shortArrby.dlonf();
+        }
+        if (typf == boolfbn[].dlbss) {
+            boolfbn[] boolfbnArrby = (boolfbn[])brrby;
+            rfturn boolfbnArrby.dlonf();
+        }
+
+        Objfdt[] objfdtArrby = (Objfdt[])brrby;
+        rfturn objfdtArrby.dlonf();
+    }
+
+
+    /**
+     * Implfmfntbtion of dynbmidProxy.toString()
+     */
+    privbtf String toStringImpl() {
+        StringBufffr rfsult = nfw StringBufffr(128);
+        rfsult.bppfnd('@');
+        rfsult.bppfnd(typf.gftNbmf());
+        rfsult.bppfnd('(');
+        boolfbn firstMfmbfr = truf;
+        for (Mbp.Entry<String, Objfdt> f : mfmbfrVblufs.fntrySft()) {
+            if (firstMfmbfr)
+                firstMfmbfr = fblsf;
+            flsf
+                rfsult.bppfnd(", ");
+
+            rfsult.bppfnd(f.gftKfy());
+            rfsult.bppfnd('=');
+            rfsult.bppfnd(mfmbfrVblufToString(f.gftVbluf()));
+        }
+        rfsult.bppfnd(')');
+        rfturn rfsult.toString();
+    }
+
+    /**
+     * Trbnslbtfs b mfmbfr vbluf (in "dynbmid proxy rfturn form") into b string
+     */
+    privbtf stbtid String mfmbfrVblufToString(Objfdt vbluf) {
+        Clbss<?> typf = vbluf.gftClbss();
+        if (!typf.isArrby())    // primitivf, string, dlbss, fnum donst,
+                                // or bnnotbtion
+            rfturn vbluf.toString();
+
+        if (typf == bytf[].dlbss)
+            rfturn Arrbys.toString((bytf[]) vbluf);
+        if (typf == dhbr[].dlbss)
+            rfturn Arrbys.toString((dhbr[]) vbluf);
+        if (typf == doublf[].dlbss)
+            rfturn Arrbys.toString((doublf[]) vbluf);
+        if (typf == flobt[].dlbss)
+            rfturn Arrbys.toString((flobt[]) vbluf);
+        if (typf == int[].dlbss)
+            rfturn Arrbys.toString((int[]) vbluf);
+        if (typf == long[].dlbss)
+            rfturn Arrbys.toString((long[]) vbluf);
+        if (typf == short[].dlbss)
+            rfturn Arrbys.toString((short[]) vbluf);
+        if (typf == boolfbn[].dlbss)
+            rfturn Arrbys.toString((boolfbn[]) vbluf);
+        rfturn Arrbys.toString((Objfdt[]) vbluf);
+    }
+
+    /**
+     * Implfmfntbtion of dynbmidProxy.fqubls(Objfdt o)
+     */
+    privbtf Boolfbn fqublsImpl(Objfdt o) {
+        if (o == this)
+            rfturn truf;
+
+        if (!typf.isInstbndf(o))
+            rfturn fblsf;
+        for (Mfthod mfmbfrMfthod : gftMfmbfrMfthods()) {
+            String mfmbfr = mfmbfrMfthod.gftNbmf();
+            Objfdt ourVbluf = mfmbfrVblufs.gft(mfmbfr);
+            Objfdt hisVbluf = null;
+            AnnotbtionInvodbtionHbndlfr hisHbndlfr = bsOnfOfUs(o);
+            if (hisHbndlfr != null) {
+                hisVbluf = hisHbndlfr.mfmbfrVblufs.gft(mfmbfr);
+            } flsf {
+                try {
+                    hisVbluf = mfmbfrMfthod.invokf(o);
+                } dbtdh (InvodbtionTbrgftExdfption f) {
+                    rfturn fblsf;
+                } dbtdh (IllfgblAddfssExdfption f) {
+                    throw nfw AssfrtionError(f);
+                }
+            }
+            if (!mfmbfrVblufEqubls(ourVbluf, hisVbluf))
+                rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns bn objfdt's invodbtion hbndlfr if thbt objfdt is b dynbmid
+     * proxy with b hbndlfr of typf AnnotbtionInvodbtionHbndlfr.
+     * Rfturns null othfrwisf.
+     */
+    privbtf AnnotbtionInvodbtionHbndlfr bsOnfOfUs(Objfdt o) {
+        if (Proxy.isProxyClbss(o.gftClbss())) {
+            InvodbtionHbndlfr hbndlfr = Proxy.gftInvodbtionHbndlfr(o);
+            if (hbndlfr instbndfof AnnotbtionInvodbtionHbndlfr)
+                rfturn (AnnotbtionInvodbtionHbndlfr) hbndlfr;
+        }
+        rfturn null;
+    }
+
+    /**
+     * Rfturns truf iff thf two mfmbfr vblufs in "dynbmid proxy rfturn form"
+     * brf fqubl using thf bppropribtf fqublity fundtion dfpfnding on thf
+     * mfmbfr typf.  Thf two vblufs will bf of thf sbmf typf unlfss onf of
+     * thf dontbining bnnotbtions is ill-formfd.  If onf of thf dontbining
+     * bnnotbtions is ill-formfd, this mfthod will rfturn fblsf unlfss thf
+     * two mfmbfrs brf idfntidbl objfdt rfffrfndfs.
+     */
+    privbtf stbtid boolfbn mfmbfrVblufEqubls(Objfdt v1, Objfdt v2) {
+        Clbss<?> typf = v1.gftClbss();
+
+        // Chfdk for primitivf, string, dlbss, fnum donst, bnnotbtion,
+        // or ExdfptionProxy
+        if (!typf.isArrby())
+            rfturn v1.fqubls(v2);
+
+        // Chfdk for brrby of string, dlbss, fnum donst, bnnotbtion,
+        // or ExdfptionProxy
+        if (v1 instbndfof Objfdt[] && v2 instbndfof Objfdt[])
+            rfturn Arrbys.fqubls((Objfdt[]) v1, (Objfdt[]) v2);
+
+        // Chfdk for ill formfd bnnotbtion(s)
+        if (v2.gftClbss() != typf)
+            rfturn fblsf;
+
+        // Dfbl with brrby of primitivfs
+        if (typf == bytf[].dlbss)
+            rfturn Arrbys.fqubls((bytf[]) v1, (bytf[]) v2);
+        if (typf == dhbr[].dlbss)
+            rfturn Arrbys.fqubls((dhbr[]) v1, (dhbr[]) v2);
+        if (typf == doublf[].dlbss)
+            rfturn Arrbys.fqubls((doublf[]) v1, (doublf[]) v2);
+        if (typf == flobt[].dlbss)
+            rfturn Arrbys.fqubls((flobt[]) v1, (flobt[]) v2);
+        if (typf == int[].dlbss)
+            rfturn Arrbys.fqubls((int[]) v1, (int[]) v2);
+        if (typf == long[].dlbss)
+            rfturn Arrbys.fqubls((long[]) v1, (long[]) v2);
+        if (typf == short[].dlbss)
+            rfturn Arrbys.fqubls((short[]) v1, (short[]) v2);
+        bssfrt typf == boolfbn[].dlbss;
+        rfturn Arrbys.fqubls((boolfbn[]) v1, (boolfbn[]) v2);
+    }
+
+    /**
+     * Rfturns thf mfmbfr mfthods for our bnnotbtion typf.  Thfsf brf
+     * obtbinfd lbzily bnd dbdhfd, bs thfy'rf fxpfnsivf to obtbin
+     * bnd wf only nffd thfm if our fqubls mfthod is invokfd (whidh should
+     * bf rbrf).
+     */
+    privbtf Mfthod[] gftMfmbfrMfthods() {
+        if (mfmbfrMfthods == null) {
+            mfmbfrMfthods = AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdAdtion<Mfthod[]>() {
+                    publid Mfthod[] run() {
+                        finbl Mfthod[] mm = typf.gftDfdlbrfdMfthods();
+                        AddfssiblfObjfdt.sftAddfssiblf(mm, truf);
+                        rfturn mm;
+                    }
+                });
+        }
+        rfturn mfmbfrMfthods;
+    }
+    privbtf trbnsifnt volbtilf Mfthod[] mfmbfrMfthods = null;
+
+    /**
+     * Implfmfntbtion of dynbmidProxy.hbshCodf()
+     */
+    privbtf int hbshCodfImpl() {
+        int rfsult = 0;
+        for (Mbp.Entry<String, Objfdt> f : mfmbfrVblufs.fntrySft()) {
+            rfsult += (127 * f.gftKfy().hbshCodf()) ^
+                mfmbfrVblufHbshCodf(f.gftVbluf());
+        }
+        rfturn rfsult;
+    }
+
+    /**
+     * Computfs hbshCodf of b mfmbfr vbluf (in "dynbmid proxy rfturn form")
+     */
+    privbtf stbtid int mfmbfrVblufHbshCodf(Objfdt vbluf) {
+        Clbss<?> typf = vbluf.gftClbss();
+        if (!typf.isArrby())    // primitivf, string, dlbss, fnum donst,
+                                // or bnnotbtion
+            rfturn vbluf.hbshCodf();
+
+        if (typf == bytf[].dlbss)
+            rfturn Arrbys.hbshCodf((bytf[]) vbluf);
+        if (typf == dhbr[].dlbss)
+            rfturn Arrbys.hbshCodf((dhbr[]) vbluf);
+        if (typf == doublf[].dlbss)
+            rfturn Arrbys.hbshCodf((doublf[]) vbluf);
+        if (typf == flobt[].dlbss)
+            rfturn Arrbys.hbshCodf((flobt[]) vbluf);
+        if (typf == int[].dlbss)
+            rfturn Arrbys.hbshCodf((int[]) vbluf);
+        if (typf == long[].dlbss)
+            rfturn Arrbys.hbshCodf((long[]) vbluf);
+        if (typf == short[].dlbss)
+            rfturn Arrbys.hbshCodf((short[]) vbluf);
+        if (typf == boolfbn[].dlbss)
+            rfturn Arrbys.hbshCodf((boolfbn[]) vbluf);
+        rfturn Arrbys.hbshCodf((Objfdt[]) vbluf);
+    }
+
+    privbtf void rfbdObjfdt(jbvb.io.ObjfdtInputStrfbm s)
+        throws jbvb.io.IOExdfption, ClbssNotFoundExdfption {
+        s.dffbultRfbdObjfdt();
+
+
+        // Chfdk to mbkf surf thbt typfs hbvf not fvolvfd indompbtibly
+
+        AnnotbtionTypf bnnotbtionTypf = null;
+        try {
+            bnnotbtionTypf = AnnotbtionTypf.gftInstbndf(typf);
+        } dbtdh(IllfgblArgumfntExdfption f) {
+            // Clbss is no longfr bn bnnotbtion typf; timf to pundh out
+            throw nfw jbvb.io.InvblidObjfdtExdfption("Non-bnnotbtion typf in bnnotbtion sfribl strfbm");
+        }
+
+        Mbp<String, Clbss<?>> mfmbfrTypfs = bnnotbtionTypf.mfmbfrTypfs();
+
+
+        // If thfrf brf bnnotbtion mfmbfrs without vblufs, thbt
+        // situbtion is hbndlfd by thf invokf mfthod.
+        for (Mbp.Entry<String, Objfdt> mfmbfrVbluf : mfmbfrVblufs.fntrySft()) {
+            String nbmf = mfmbfrVbluf.gftKfy();
+            Clbss<?> mfmbfrTypf = mfmbfrTypfs.gft(nbmf);
+            if (mfmbfrTypf != null) {  // i.f. mfmbfr still fxists
+                Objfdt vbluf = mfmbfrVbluf.gftVbluf();
+                if (!(mfmbfrTypf.isInstbndf(vbluf) ||
+                      vbluf instbndfof ExdfptionProxy)) {
+                    mfmbfrVbluf.sftVbluf(
+                        nfw AnnotbtionTypfMismbtdhExdfptionProxy(
+                            vbluf.gftClbss() + "[" + vbluf + "]").sftMfmbfr(
+                                bnnotbtionTypf.mfmbfrs().gft(nbmf)));
+                }
+            }
+        }
+    }
+}

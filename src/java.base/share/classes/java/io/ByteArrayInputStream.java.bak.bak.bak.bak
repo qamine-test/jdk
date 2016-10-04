@@ -1,0 +1,282 @@
+/*
+ * Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.io;
+
+/**
+ * A <dodf>BytfArrbyInputStrfbm</dodf> dontbins
+ * bn intfrnbl bufffr thbt dontbins bytfs thbt
+ * mby bf rfbd from thf strfbm. An intfrnbl
+ * dountfr kffps trbdk of thf nfxt bytf to
+ * bf supplifd by thf <dodf>rfbd</dodf> mfthod.
+ * <p>
+ * Closing b <tt>BytfArrbyInputStrfbm</tt> hbs no ffffdt. Thf mfthods in
+ * this dlbss dbn bf dbllfd bftfr thf strfbm hbs bffn dlosfd without
+ * gfnfrbting bn <tt>IOExdfption</tt>.
+ *
+ * @buthor  Arthur vbn Hoff
+ * @sff     jbvb.io.StringBufffrInputStrfbm
+ * @sindf   1.0
+ */
+publid
+dlbss BytfArrbyInputStrfbm fxtfnds InputStrfbm {
+
+    /**
+     * An brrby of bytfs thbt wbs providfd
+     * by thf drfbtor of thf strfbm. Elfmfnts <dodf>buf[0]</dodf>
+     * through <dodf>buf[dount-1]</dodf> brf thf
+     * only bytfs thbt dbn fvfr bf rfbd from thf
+     * strfbm;  flfmfnt <dodf>buf[pos]</dodf> is
+     * thf nfxt bytf to bf rfbd.
+     */
+    protfdtfd bytf buf[];
+
+    /**
+     * Thf indfx of thf nfxt dhbrbdtfr to rfbd from thf input strfbm bufffr.
+     * This vbluf should blwbys bf nonnfgbtivf
+     * bnd not lbrgfr thbn thf vbluf of <dodf>dount</dodf>.
+     * Thf nfxt bytf to bf rfbd from thf input strfbm bufffr
+     * will bf <dodf>buf[pos]</dodf>.
+     */
+    protfdtfd int pos;
+
+    /**
+     * Thf durrfntly mbrkfd position in thf strfbm.
+     * BytfArrbyInputStrfbm objfdts brf mbrkfd bt position zfro by
+     * dffbult whfn donstrudtfd.  Thfy mby bf mbrkfd bt bnothfr
+     * position within thf bufffr by thf <dodf>mbrk()</dodf> mfthod.
+     * Thf durrfnt bufffr position is sft to this point by thf
+     * <dodf>rfsft()</dodf> mfthod.
+     * <p>
+     * If no mbrk hbs bffn sft, thfn thf vbluf of mbrk is thf offsft
+     * pbssfd to thf donstrudtor (or 0 if thf offsft wbs not supplifd).
+     *
+     * @sindf   1.1
+     */
+    protfdtfd int mbrk = 0;
+
+    /**
+     * Thf indfx onf grfbtfr thbn thf lbst vblid dhbrbdtfr in thf input
+     * strfbm bufffr.
+     * This vbluf should blwbys bf nonnfgbtivf
+     * bnd not lbrgfr thbn thf lfngth of <dodf>buf</dodf>.
+     * It  is onf grfbtfr thbn thf position of
+     * thf lbst bytf within <dodf>buf</dodf> thbt
+     * dbn fvfr bf rfbd  from thf input strfbm bufffr.
+     */
+    protfdtfd int dount;
+
+    /**
+     * Crfbtfs b <dodf>BytfArrbyInputStrfbm</dodf>
+     * so thbt it  usfs <dodf>buf</dodf> bs its
+     * bufffr brrby.
+     * Thf bufffr brrby is not dopifd.
+     * Thf initibl vbluf of <dodf>pos</dodf>
+     * is <dodf>0</dodf> bnd thf initibl vbluf
+     * of  <dodf>dount</dodf> is thf lfngth of
+     * <dodf>buf</dodf>.
+     *
+     * @pbrbm   buf   thf input bufffr.
+     */
+    publid BytfArrbyInputStrfbm(bytf buf[]) {
+        this.buf = buf;
+        this.pos = 0;
+        this.dount = buf.lfngth;
+    }
+
+    /**
+     * Crfbtfs <dodf>BytfArrbyInputStrfbm</dodf>
+     * thbt usfs <dodf>buf</dodf> bs its
+     * bufffr brrby. Thf initibl vbluf of <dodf>pos</dodf>
+     * is <dodf>offsft</dodf> bnd thf initibl vbluf
+     * of <dodf>dount</dodf> is thf minimum of <dodf>offsft+lfngth</dodf>
+     * bnd <dodf>buf.lfngth</dodf>.
+     * Thf bufffr brrby is not dopifd. Thf bufffr's mbrk is
+     * sft to thf spfdififd offsft.
+     *
+     * @pbrbm   buf      thf input bufffr.
+     * @pbrbm   offsft   thf offsft in thf bufffr of thf first bytf to rfbd.
+     * @pbrbm   lfngth   thf mbximum numbfr of bytfs to rfbd from thf bufffr.
+     */
+    publid BytfArrbyInputStrfbm(bytf buf[], int offsft, int lfngth) {
+        this.buf = buf;
+        this.pos = offsft;
+        this.dount = Mbth.min(offsft + lfngth, buf.lfngth);
+        this.mbrk = offsft;
+    }
+
+    /**
+     * Rfbds thf nfxt bytf of dbtb from this input strfbm. Thf vbluf
+     * bytf is rfturnfd bs bn <dodf>int</dodf> in thf rbngf
+     * <dodf>0</dodf> to <dodf>255</dodf>. If no bytf is bvbilbblf
+     * bfdbusf thf fnd of thf strfbm hbs bffn rfbdhfd, thf vbluf
+     * <dodf>-1</dodf> is rfturnfd.
+     * <p>
+     * This <dodf>rfbd</dodf> mfthod
+     * dbnnot blodk.
+     *
+     * @rfturn  thf nfxt bytf of dbtb, or <dodf>-1</dodf> if thf fnd of thf
+     *          strfbm hbs bffn rfbdhfd.
+     */
+    publid syndhronizfd int rfbd() {
+        rfturn (pos < dount) ? (buf[pos++] & 0xff) : -1;
+    }
+
+    /**
+     * Rfbds up to <dodf>lfn</dodf> bytfs of dbtb into bn brrby of bytfs
+     * from this input strfbm.
+     * If <dodf>pos</dodf> fqubls <dodf>dount</dodf>,
+     * thfn <dodf>-1</dodf> is rfturnfd to indidbtf
+     * fnd of filf. Othfrwisf, thf  numbfr <dodf>k</dodf>
+     * of bytfs rfbd is fqubl to thf smbllfr of
+     * <dodf>lfn</dodf> bnd <dodf>dount-pos</dodf>.
+     * If <dodf>k</dodf> is positivf, thfn bytfs
+     * <dodf>buf[pos]</dodf> through <dodf>buf[pos+k-1]</dodf>
+     * brf dopifd into <dodf>b[off]</dodf>  through
+     * <dodf>b[off+k-1]</dodf> in thf mbnnfr pfrformfd
+     * by <dodf>Systfm.brrbydopy</dodf>. Thf
+     * vbluf <dodf>k</dodf> is bddfd into <dodf>pos</dodf>
+     * bnd <dodf>k</dodf> is rfturnfd.
+     * <p>
+     * This <dodf>rfbd</dodf> mfthod dbnnot blodk.
+     *
+     * @pbrbm   b     thf bufffr into whidh thf dbtb is rfbd.
+     * @pbrbm   off   thf stbrt offsft in thf dfstinbtion brrby <dodf>b</dodf>
+     * @pbrbm   lfn   thf mbximum numbfr of bytfs rfbd.
+     * @rfturn  thf totbl numbfr of bytfs rfbd into thf bufffr, or
+     *          <dodf>-1</dodf> if thfrf is no morf dbtb bfdbusf thf fnd of
+     *          thf strfbm hbs bffn rfbdhfd.
+     * @fxdfption  NullPointfrExdfption If <dodf>b</dodf> is <dodf>null</dodf>.
+     * @fxdfption  IndfxOutOfBoundsExdfption If <dodf>off</dodf> is nfgbtivf,
+     * <dodf>lfn</dodf> is nfgbtivf, or <dodf>lfn</dodf> is grfbtfr thbn
+     * <dodf>b.lfngth - off</dodf>
+     */
+    publid syndhronizfd int rfbd(bytf b[], int off, int lfn) {
+        if (b == null) {
+            throw nfw NullPointfrExdfption();
+        } flsf if (off < 0 || lfn < 0 || lfn > b.lfngth - off) {
+            throw nfw IndfxOutOfBoundsExdfption();
+        }
+
+        if (pos >= dount) {
+            rfturn -1;
+        }
+
+        int bvbil = dount - pos;
+        if (lfn > bvbil) {
+            lfn = bvbil;
+        }
+        if (lfn <= 0) {
+            rfturn 0;
+        }
+        Systfm.brrbydopy(buf, pos, b, off, lfn);
+        pos += lfn;
+        rfturn lfn;
+    }
+
+    /**
+     * Skips <dodf>n</dodf> bytfs of input from this input strfbm. Ffwfr
+     * bytfs might bf skippfd if thf fnd of thf input strfbm is rfbdhfd.
+     * Thf bdtubl numbfr <dodf>k</dodf>
+     * of bytfs to bf skippfd is fqubl to thf smbllfr
+     * of <dodf>n</dodf> bnd  <dodf>dount-pos</dodf>.
+     * Thf vbluf <dodf>k</dodf> is bddfd into <dodf>pos</dodf>
+     * bnd <dodf>k</dodf> is rfturnfd.
+     *
+     * @pbrbm   n   thf numbfr of bytfs to bf skippfd.
+     * @rfturn  thf bdtubl numbfr of bytfs skippfd.
+     */
+    publid syndhronizfd long skip(long n) {
+        long k = dount - pos;
+        if (n < k) {
+            k = n < 0 ? 0 : n;
+        }
+
+        pos += k;
+        rfturn k;
+    }
+
+    /**
+     * Rfturns thf numbfr of rfmbining bytfs thbt dbn bf rfbd (or skippfd ovfr)
+     * from this input strfbm.
+     * <p>
+     * Thf vbluf rfturnfd is <dodf>dount&nbsp;- pos</dodf>,
+     * whidh is thf numbfr of bytfs rfmbining to bf rfbd from thf input bufffr.
+     *
+     * @rfturn  thf numbfr of rfmbining bytfs thbt dbn bf rfbd (or skippfd
+     *          ovfr) from this input strfbm without blodking.
+     */
+    publid syndhronizfd int bvbilbblf() {
+        rfturn dount - pos;
+    }
+
+    /**
+     * Tfsts if this <dodf>InputStrfbm</dodf> supports mbrk/rfsft. Thf
+     * <dodf>mbrkSupportfd</dodf> mfthod of <dodf>BytfArrbyInputStrfbm</dodf>
+     * blwbys rfturns <dodf>truf</dodf>.
+     *
+     * @sindf   1.1
+     */
+    publid boolfbn mbrkSupportfd() {
+        rfturn truf;
+    }
+
+    /**
+     * Sft thf durrfnt mbrkfd position in thf strfbm.
+     * BytfArrbyInputStrfbm objfdts brf mbrkfd bt position zfro by
+     * dffbult whfn donstrudtfd.  Thfy mby bf mbrkfd bt bnothfr
+     * position within thf bufffr by this mfthod.
+     * <p>
+     * If no mbrk hbs bffn sft, thfn thf vbluf of thf mbrk is thf
+     * offsft pbssfd to thf donstrudtor (or 0 if thf offsft wbs not
+     * supplifd).
+     *
+     * <p> Notf: Thf <dodf>rfbdAhfbdLimit</dodf> for this dlbss
+     *  hbs no mfbning.
+     *
+     * @sindf   1.1
+     */
+    publid void mbrk(int rfbdAhfbdLimit) {
+        mbrk = pos;
+    }
+
+    /**
+     * Rfsfts thf bufffr to thf mbrkfd position.  Thf mbrkfd position
+     * is 0 unlfss bnothfr position wbs mbrkfd or bn offsft wbs spfdififd
+     * in thf donstrudtor.
+     */
+    publid syndhronizfd void rfsft() {
+        pos = mbrk;
+    }
+
+    /**
+     * Closing b <tt>BytfArrbyInputStrfbm</tt> hbs no ffffdt. Thf mfthods in
+     * this dlbss dbn bf dbllfd bftfr thf strfbm hbs bffn dlosfd without
+     * gfnfrbting bn <tt>IOExdfption</tt>.
+     */
+    publid void dlosf() throws IOExdfption {
+    }
+
+}

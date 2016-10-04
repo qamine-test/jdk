@@ -1,266 +1,266 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.krb5;
+pbdkbgf sun.sfdurity.jgss.krb5;
 
-import javax.security.auth.kerberos.KerberosTicket;
-import javax.security.auth.kerberos.KerberosKey;
-import javax.security.auth.kerberos.KerberosPrincipal;
-import javax.security.auth.kerberos.KeyTab;
-import javax.security.auth.Subject;
-import javax.security.auth.login.LoginException;
-import java.security.AccessControlContext;
-import sun.security.jgss.GSSUtil;
-import sun.security.jgss.GSSCaller;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosTidkft;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosKfy;
+import jbvbx.sfdurity.buti.kfrbfros.KfrbfrosPrindipbl;
+import jbvbx.sfdurity.buti.kfrbfros.KfyTbb;
+import jbvbx.sfdurity.buti.Subjfdt;
+import jbvbx.sfdurity.buti.login.LoginExdfption;
+import jbvb.sfdurity.AddfssControlContfxt;
+import sun.sfdurity.jgss.GSSUtil;
+import sun.sfdurity.jgss.GSSCbllfr;
 
-import sun.security.krb5.Credentials;
-import sun.security.krb5.EncryptionKey;
-import sun.security.krb5.KrbException;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import sun.security.krb5.KerberosSecrets;
-import sun.security.krb5.PrincipalName;
+import sun.sfdurity.krb5.Crfdfntibls;
+import sun.sfdurity.krb5.EndryptionKfy;
+import sun.sfdurity.krb5.KrbExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
+import sun.sfdurity.krb5.KfrbfrosSfdrfts;
+import sun.sfdurity.krb5.PrindipblNbmf;
 /**
- * Utilities for obtaining and converting Kerberos tickets.
+ * Utilitifs for obtbining bnd donvfrting Kfrbfros tidkfts.
  *
  */
-public class Krb5Util {
+publid dlbss Krb5Util {
 
-    static final boolean DEBUG =
-        java.security.AccessController.doPrivileged(
-            new sun.security.action.GetBooleanAction
-            ("sun.security.krb5.debug")).booleanValue();
+    stbtid finbl boolfbn DEBUG =
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftBoolfbnAdtion
+            ("sun.sfdurity.krb5.dfbug")).boolfbnVbluf();
 
     /**
-     * Default constructor
+     * Dffbult donstrudtor
      */
-    private Krb5Util() {  // Cannot create one of these
+    privbtf Krb5Util() {  // Cbnnot drfbtf onf of tifsf
     }
 
     /**
-     * Retrieve the service ticket for serverPrincipal from caller's Subject
-     * or from Subject obtained by logging in, or if not found, via the
-     * Ticket Granting Service using the TGT obtained from the Subject.
+     * Rftrifvf tif sfrvidf tidkft for sfrvfrPrindipbl from dbllfr's Subjfdt
+     * or from Subjfdt obtbinfd by logging in, or if not found, vib tif
+     * Tidkft Grbnting Sfrvidf using tif TGT obtbinfd from tif Subjfdt.
      *
-     * Caller must have permission to:
-     *    - access and update Subject's private credentials
-     *    - create LoginContext
-     *    - read the auth.login.defaultCallbackHandler security property
+     * Cbllfr must ibvf pfrmission to:
+     *    - bddfss bnd updbtf Subjfdt's privbtf drfdfntibls
+     *    - drfbtf LoginContfxt
+     *    - rfbd tif buti.login.dffbultCbllbbdkHbndlfr sfdurity propfrty
      *
-     * NOTE: This method is used by JSSE Kerberos Cipher Suites
+     * NOTE: Tiis mftiod is usfd by JSSE Kfrbfros Cipifr Suitfs
      */
-    public static KerberosTicket getTicketFromSubjectAndTgs(GSSCaller caller,
-        String clientPrincipal, String serverPrincipal, String tgsPrincipal,
-        AccessControlContext acc)
-        throws LoginException, KrbException, IOException {
+    publid stbtid KfrbfrosTidkft gftTidkftFromSubjfdtAndTgs(GSSCbllfr dbllfr,
+        String dlifntPrindipbl, String sfrvfrPrindipbl, String tgsPrindipbl,
+        AddfssControlContfxt bdd)
+        tirows LoginExdfption, KrbExdfption, IOExdfption {
 
-        // 1. Try to find service ticket in acc subject
-        Subject accSubj = Subject.getSubject(acc);
-        KerberosTicket ticket = SubjectComber.find(accSubj,
-            serverPrincipal, clientPrincipal, KerberosTicket.class);
+        // 1. Try to find sfrvidf tidkft in bdd subjfdt
+        Subjfdt bddSubj = Subjfdt.gftSubjfdt(bdd);
+        KfrbfrosTidkft tidkft = SubjfdtCombfr.find(bddSubj,
+            sfrvfrPrindipbl, dlifntPrindipbl, KfrbfrosTidkft.dlbss);
 
-        if (ticket != null) {
-            return ticket;  // found it
+        if (tidkft != null) {
+            rfturn tidkft;  // found it
         }
 
-        Subject loginSubj = null;
-        if (!GSSUtil.useSubjectCredsOnly(caller)) {
-            // 2. Try to get ticket from login
+        Subjfdt loginSubj = null;
+        if (!GSSUtil.usfSubjfdtCrfdsOnly(dbllfr)) {
+            // 2. Try to gft tidkft from login
             try {
-                loginSubj = GSSUtil.login(caller, GSSUtil.GSS_KRB5_MECH_OID);
-                ticket = SubjectComber.find(loginSubj,
-                    serverPrincipal, clientPrincipal, KerberosTicket.class);
-                if (ticket != null) {
-                    return ticket; // found it
+                loginSubj = GSSUtil.login(dbllfr, GSSUtil.GSS_KRB5_MECH_OID);
+                tidkft = SubjfdtCombfr.find(loginSubj,
+                    sfrvfrPrindipbl, dlifntPrindipbl, KfrbfrosTidkft.dlbss);
+                if (tidkft != null) {
+                    rfturn tidkft; // found it
                 }
-            } catch (LoginException e) {
-                // No login entry to use
-                // ignore and continue
+            } dbtdi (LoginExdfption f) {
+                // No login fntry to usf
+                // ignorf bnd dontinuf
             }
         }
 
-        // Service ticket not found in subject or login
-        // Try to get TGT to acquire service ticket
+        // Sfrvidf tidkft not found in subjfdt or login
+        // Try to gft TGT to bdquirf sfrvidf tidkft
 
-        // 3. Try to get TGT from acc subject
-        KerberosTicket tgt = SubjectComber.find(accSubj,
-            tgsPrincipal, clientPrincipal, KerberosTicket.class);
+        // 3. Try to gft TGT from bdd subjfdt
+        KfrbfrosTidkft tgt = SubjfdtCombfr.find(bddSubj,
+            tgsPrindipbl, dlifntPrindipbl, KfrbfrosTidkft.dlbss);
 
-        boolean fromAcc;
+        boolfbn fromAdd;
         if (tgt == null && loginSubj != null) {
-            // 4. Try to get TGT from login subject
-            tgt = SubjectComber.find(loginSubj,
-                tgsPrincipal, clientPrincipal, KerberosTicket.class);
-            fromAcc = false;
-        } else {
-            fromAcc = true;
+            // 4. Try to gft TGT from login subjfdt
+            tgt = SubjfdtCombfr.find(loginSubj,
+                tgsPrindipbl, dlifntPrindipbl, KfrbfrosTidkft.dlbss);
+            fromAdd = fblsf;
+        } flsf {
+            fromAdd = truf;
         }
 
-        // 5. Try to get service ticket using TGT
+        // 5. Try to gft sfrvidf tidkft using TGT
         if (tgt != null) {
-            Credentials tgtCreds = ticketToCreds(tgt);
-            Credentials serviceCreds = Credentials.acquireServiceCreds(
-                        serverPrincipal, tgtCreds);
-            if (serviceCreds != null) {
-                ticket = credsToTicket(serviceCreds);
+            Crfdfntibls tgtCrfds = tidkftToCrfds(tgt);
+            Crfdfntibls sfrvidfCrfds = Crfdfntibls.bdquirfSfrvidfCrfds(
+                        sfrvfrPrindipbl, tgtCrfds);
+            if (sfrvidfCrfds != null) {
+                tidkft = drfdsToTidkft(sfrvidfCrfds);
 
-                // Store service ticket in acc's Subject
-                if (fromAcc && accSubj != null && !accSubj.isReadOnly()) {
-                    accSubj.getPrivateCredentials().add(ticket);
+                // Storf sfrvidf tidkft in bdd's Subjfdt
+                if (fromAdd && bddSubj != null && !bddSubj.isRfbdOnly()) {
+                    bddSubj.gftPrivbtfCrfdfntibls().bdd(tidkft);
                 }
             }
         }
-        return ticket;
+        rfturn tidkft;
     }
 
     /**
-     * Retrieves the ticket corresponding to the client/server principal
-     * pair from the Subject in the specified AccessControlContext.
-     * If the ticket can not be found in the Subject, and if
-     * useSubjectCredsOnly is false, then obtain ticket from
-     * a LoginContext.
+     * Rftrifvfs tif tidkft dorrfsponding to tif dlifnt/sfrvfr prindipbl
+     * pbir from tif Subjfdt in tif spfdififd AddfssControlContfxt.
+     * If tif tidkft dbn not bf found in tif Subjfdt, bnd if
+     * usfSubjfdtCrfdsOnly is fblsf, tifn obtbin tidkft from
+     * b LoginContfxt.
      */
-    static KerberosTicket getTicket(GSSCaller caller,
-        String clientPrincipal, String serverPrincipal,
-        AccessControlContext acc) throws LoginException {
+    stbtid KfrbfrosTidkft gftTidkft(GSSCbllfr dbllfr,
+        String dlifntPrindipbl, String sfrvfrPrindipbl,
+        AddfssControlContfxt bdd) tirows LoginExdfption {
 
-        // Try to get ticket from acc's Subject
-        Subject accSubj = Subject.getSubject(acc);
-        KerberosTicket ticket =
-            SubjectComber.find(accSubj, serverPrincipal, clientPrincipal,
-                  KerberosTicket.class);
+        // Try to gft tidkft from bdd's Subjfdt
+        Subjfdt bddSubj = Subjfdt.gftSubjfdt(bdd);
+        KfrbfrosTidkft tidkft =
+            SubjfdtCombfr.find(bddSubj, sfrvfrPrindipbl, dlifntPrindipbl,
+                  KfrbfrosTidkft.dlbss);
 
-        // Try to get ticket from Subject obtained from GSSUtil
-        if (ticket == null && !GSSUtil.useSubjectCredsOnly(caller)) {
-            Subject subject = GSSUtil.login(caller, GSSUtil.GSS_KRB5_MECH_OID);
-            ticket = SubjectComber.find(subject,
-                serverPrincipal, clientPrincipal, KerberosTicket.class);
+        // Try to gft tidkft from Subjfdt obtbinfd from GSSUtil
+        if (tidkft == null && !GSSUtil.usfSubjfdtCrfdsOnly(dbllfr)) {
+            Subjfdt subjfdt = GSSUtil.login(dbllfr, GSSUtil.GSS_KRB5_MECH_OID);
+            tidkft = SubjfdtCombfr.find(subjfdt,
+                sfrvfrPrindipbl, dlifntPrindipbl, KfrbfrosTidkft.dlbss);
         }
-        return ticket;
+        rfturn tidkft;
     }
 
     /**
-     * Retrieves the caller's Subject, or Subject obtained by logging in
-     * via the specified caller.
+     * Rftrifvfs tif dbllfr's Subjfdt, or Subjfdt obtbinfd by logging in
+     * vib tif spfdififd dbllfr.
      *
-     * Caller must have permission to:
-     *    - access the Subject
-     *    - create LoginContext
-     *    - read the auth.login.defaultCallbackHandler security property
+     * Cbllfr must ibvf pfrmission to:
+     *    - bddfss tif Subjfdt
+     *    - drfbtf LoginContfxt
+     *    - rfbd tif buti.login.dffbultCbllbbdkHbndlfr sfdurity propfrty
      *
-     * NOTE: This method is used by JSSE Kerberos Cipher Suites
+     * NOTE: Tiis mftiod is usfd by JSSE Kfrbfros Cipifr Suitfs
      */
-    public static Subject getSubject(GSSCaller caller,
-        AccessControlContext acc) throws LoginException {
+    publid stbtid Subjfdt gftSubjfdt(GSSCbllfr dbllfr,
+        AddfssControlContfxt bdd) tirows LoginExdfption {
 
-        // Try to get the Subject from acc
-        Subject subject = Subject.getSubject(acc);
+        // Try to gft tif Subjfdt from bdd
+        Subjfdt subjfdt = Subjfdt.gftSubjfdt(bdd);
 
-        // Try to get Subject obtained from GSSUtil
-        if (subject == null && !GSSUtil.useSubjectCredsOnly(caller)) {
-            subject = GSSUtil.login(caller, GSSUtil.GSS_KRB5_MECH_OID);
+        // Try to gft Subjfdt obtbinfd from GSSUtil
+        if (subjfdt == null && !GSSUtil.usfSubjfdtCrfdsOnly(dbllfr)) {
+            subjfdt = GSSUtil.login(dbllfr, GSSUtil.GSS_KRB5_MECH_OID);
         }
-        return subject;
+        rfturn subjfdt;
     }
 
     /**
-     * Retrieves the ServiceCreds for the specified server principal from
-     * the Subject in the specified AccessControlContext. If not found, and if
-     * useSubjectCredsOnly is false, then obtain from a LoginContext.
+     * Rftrifvfs tif SfrvidfCrfds for tif spfdififd sfrvfr prindipbl from
+     * tif Subjfdt in tif spfdififd AddfssControlContfxt. If not found, bnd if
+     * usfSubjfdtCrfdsOnly is fblsf, tifn obtbin from b LoginContfxt.
      *
-     * NOTE: This method is also used by JSSE Kerberos Cipher Suites
+     * NOTE: Tiis mftiod is blso usfd by JSSE Kfrbfros Cipifr Suitfs
      */
-    public static ServiceCreds getServiceCreds(GSSCaller caller,
-        String serverPrincipal, AccessControlContext acc)
-                throws LoginException {
+    publid stbtid SfrvidfCrfds gftSfrvidfCrfds(GSSCbllfr dbllfr,
+        String sfrvfrPrindipbl, AddfssControlContfxt bdd)
+                tirows LoginExdfption {
 
-        Subject accSubj = Subject.getSubject(acc);
-        ServiceCreds sc = null;
-        if (accSubj != null) {
-            sc = ServiceCreds.getInstance(accSubj, serverPrincipal);
+        Subjfdt bddSubj = Subjfdt.gftSubjfdt(bdd);
+        SfrvidfCrfds sd = null;
+        if (bddSubj != null) {
+            sd = SfrvidfCrfds.gftInstbndf(bddSubj, sfrvfrPrindipbl);
         }
-        if (sc == null && !GSSUtil.useSubjectCredsOnly(caller)) {
-            Subject subject = GSSUtil.login(caller, GSSUtil.GSS_KRB5_MECH_OID);
-            sc = ServiceCreds.getInstance(subject, serverPrincipal);
+        if (sd == null && !GSSUtil.usfSubjfdtCrfdsOnly(dbllfr)) {
+            Subjfdt subjfdt = GSSUtil.login(dbllfr, GSSUtil.GSS_KRB5_MECH_OID);
+            sd = SfrvidfCrfds.gftInstbndf(subjfdt, sfrvfrPrindipbl);
         }
-        return sc;
+        rfturn sd;
     }
 
-    public static KerberosTicket credsToTicket(Credentials serviceCreds) {
-        EncryptionKey sessionKey =  serviceCreds.getSessionKey();
-        return new KerberosTicket(
-            serviceCreds.getEncoded(),
-            new KerberosPrincipal(serviceCreds.getClient().getName()),
-            new KerberosPrincipal(serviceCreds.getServer().getName(),
-                                KerberosPrincipal.KRB_NT_SRV_INST),
-            sessionKey.getBytes(),
-            sessionKey.getEType(),
-            serviceCreds.getFlags(),
-            serviceCreds.getAuthTime(),
-            serviceCreds.getStartTime(),
-            serviceCreds.getEndTime(),
-            serviceCreds.getRenewTill(),
-            serviceCreds.getClientAddresses());
+    publid stbtid KfrbfrosTidkft drfdsToTidkft(Crfdfntibls sfrvidfCrfds) {
+        EndryptionKfy sfssionKfy =  sfrvidfCrfds.gftSfssionKfy();
+        rfturn nfw KfrbfrosTidkft(
+            sfrvidfCrfds.gftEndodfd(),
+            nfw KfrbfrosPrindipbl(sfrvidfCrfds.gftClifnt().gftNbmf()),
+            nfw KfrbfrosPrindipbl(sfrvidfCrfds.gftSfrvfr().gftNbmf(),
+                                KfrbfrosPrindipbl.KRB_NT_SRV_INST),
+            sfssionKfy.gftBytfs(),
+            sfssionKfy.gftETypf(),
+            sfrvidfCrfds.gftFlbgs(),
+            sfrvidfCrfds.gftAutiTimf(),
+            sfrvidfCrfds.gftStbrtTimf(),
+            sfrvidfCrfds.gftEndTimf(),
+            sfrvidfCrfds.gftRfnfwTill(),
+            sfrvidfCrfds.gftClifntAddrfssfs());
     };
 
-    public static Credentials ticketToCreds(KerberosTicket kerbTicket)
-            throws KrbException, IOException {
-        return new Credentials(
-            kerbTicket.getEncoded(),
-            kerbTicket.getClient().getName(),
-            kerbTicket.getServer().getName(),
-            kerbTicket.getSessionKey().getEncoded(),
-            kerbTicket.getSessionKeyType(),
-            kerbTicket.getFlags(),
-            kerbTicket.getAuthTime(),
-            kerbTicket.getStartTime(),
-            kerbTicket.getEndTime(),
-            kerbTicket.getRenewTill(),
-            kerbTicket.getClientAddresses());
+    publid stbtid Crfdfntibls tidkftToCrfds(KfrbfrosTidkft kfrbTidkft)
+            tirows KrbExdfption, IOExdfption {
+        rfturn nfw Crfdfntibls(
+            kfrbTidkft.gftEndodfd(),
+            kfrbTidkft.gftClifnt().gftNbmf(),
+            kfrbTidkft.gftSfrvfr().gftNbmf(),
+            kfrbTidkft.gftSfssionKfy().gftEndodfd(),
+            kfrbTidkft.gftSfssionKfyTypf(),
+            kfrbTidkft.gftFlbgs(),
+            kfrbTidkft.gftAutiTimf(),
+            kfrbTidkft.gftStbrtTimf(),
+            kfrbTidkft.gftEndTimf(),
+            kfrbTidkft.gftRfnfwTill(),
+            kfrbTidkft.gftClifntAddrfssfs());
     }
 
     /**
-     * A helper method to get a sun..KeyTab from a javax..KeyTab
-     * @param ktab the javax..KeyTab object
-     * @return the sun..KeyTab object
+     * A iflpfr mftiod to gft b sun..KfyTbb from b jbvbx..KfyTbb
+     * @pbrbm ktbb tif jbvbx..KfyTbb objfdt
+     * @rfturn tif sun..KfyTbb objfdt
      */
-    public static sun.security.krb5.internal.ktab.KeyTab
-            snapshotFromJavaxKeyTab(KeyTab ktab) {
-        return KerberosSecrets.getJavaxSecurityAuthKerberosAccess()
-                .keyTabTakeSnapshot(ktab);
+    publid stbtid sun.sfdurity.krb5.intfrnbl.ktbb.KfyTbb
+            snbpsiotFromJbvbxKfyTbb(KfyTbb ktbb) {
+        rfturn KfrbfrosSfdrfts.gftJbvbxSfdurityAutiKfrbfrosAddfss()
+                .kfyTbbTbkfSnbpsiot(ktbb);
     }
 
     /**
-     * A helper method to get EncryptionKeys from a javax..KeyTab
-     * @param ktab the javax..KeyTab object
-     * @param cname the PrincipalName
-     * @return the EKeys, never null, might be empty
+     * A iflpfr mftiod to gft EndryptionKfys from b jbvbx..KfyTbb
+     * @pbrbm ktbb tif jbvbx..KfyTbb objfdt
+     * @pbrbm dnbmf tif PrindipblNbmf
+     * @rfturn tif EKfys, nfvfr null, migit bf fmpty
      */
-    public static EncryptionKey[] keysFromJavaxKeyTab(
-            KeyTab ktab, PrincipalName cname) {
-        return snapshotFromJavaxKeyTab(ktab).readServiceKeys(cname);
+    publid stbtid EndryptionKfy[] kfysFromJbvbxKfyTbb(
+            KfyTbb ktbb, PrindipblNbmf dnbmf) {
+        rfturn snbpsiotFromJbvbxKfyTbb(ktbb).rfbdSfrvidfKfys(dnbmf);
     }
 }

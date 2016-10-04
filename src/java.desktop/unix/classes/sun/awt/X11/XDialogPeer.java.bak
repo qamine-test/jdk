@@ -1,158 +1,158 @@
 /*
- * Copyright (c) 2002, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
-import java.util.*;
-import java.awt.*;
-import java.awt.peer.*;
-import java.awt.event.*;
-import sun.awt.AWTAccessor;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvb.bwt.pffr.*;
+import jbvb.bwt.fvfnt.*;
+import sun.bwt.AWTAddfssor;
 
-import sun.awt.*;
+import sun.bwt.*;
 
-class XDialogPeer extends XDecoratedPeer implements DialogPeer {
+dlbss XDiblogPffr fxtfnds XDfdorbtfdPffr implfmfnts DiblogPffr {
 
-    private Boolean undecorated;
+    privbtf Boolfbn undfdorbtfd;
 
-    XDialogPeer(Dialog target) {
-        super(target);
+    XDiblogPffr(Diblog tbrgft) {
+        supfr(tbrgft);
     }
 
-    public void preInit(XCreateWindowParams params) {
-        super.preInit(params);
+    publid void prfInit(XCrfbtfWindowPbrbms pbrbms) {
+        supfr.prfInit(pbrbms);
 
-        Dialog target = (Dialog)(this.target);
-        undecorated = Boolean.valueOf(target.isUndecorated());
-        winAttr.nativeDecor = !target.isUndecorated();
-        if (winAttr.nativeDecor) {
-            winAttr.decorations = XWindowAttributesData.AWT_DECOR_ALL;
-        } else {
-            winAttr.decorations = XWindowAttributesData.AWT_DECOR_NONE;
+        Diblog tbrgft = (Diblog)(tiis.tbrgft);
+        undfdorbtfd = Boolfbn.vblufOf(tbrgft.isUndfdorbtfd());
+        winAttr.nbtivfDfdor = !tbrgft.isUndfdorbtfd();
+        if (winAttr.nbtivfDfdor) {
+            winAttr.dfdorbtions = XWindowAttributfsDbtb.AWT_DECOR_ALL;
+        } flsf {
+            winAttr.dfdorbtions = XWindowAttributfsDbtb.AWT_DECOR_NONE;
         }
-        winAttr.functions = MWMConstants.MWM_FUNC_ALL;
-        winAttr.isResizable =  true; //target.isResizable();
-        winAttr.initialResizability =  target.isResizable();
-        winAttr.title = target.getTitle();
-        winAttr.initialState = XWindowAttributesData.NORMAL;
+        winAttr.fundtions = MWMConstbnts.MWM_FUNC_ALL;
+        winAttr.isRfsizbblf =  truf; //tbrgft.isRfsizbblf();
+        winAttr.initiblRfsizbbility =  tbrgft.isRfsizbblf();
+        winAttr.titlf = tbrgft.gftTitlf();
+        winAttr.initiblStbtf = XWindowAttributfsDbtb.NORMAL;
     }
 
-    public void setVisible(boolean vis) {
-        XToolkit.awtLock();
+    publid void sftVisiblf(boolfbn vis) {
+        XToolkit.bwtLodk();
         try {
-            Dialog target = (Dialog)this.target;
+            Diblog tbrgft = (Diblog)tiis.tbrgft;
             if (vis) {
-                if (target.getModalityType() != Dialog.ModalityType.MODELESS) {
-                    if (!isModalBlocked()) {
-                        XBaseWindow.ungrabInput();
+                if (tbrgft.gftModblityTypf() != Diblog.ModblityTypf.MODELESS) {
+                    if (!isModblBlodkfd()) {
+                        XBbsfWindow.ungrbbInput();
                     }
                 }
-            } else {
-                restoreTransientFor(this);
-                prevTransientFor = null;
-                nextTransientFor = null;
+            } flsf {
+                rfstorfTrbnsifntFor(tiis);
+                prfvTrbnsifntFor = null;
+                nfxtTrbnsifntFor = null;
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
 
-        super.setVisible(vis);
+        supfr.sftVisiblf(vis);
     }
 
-    @Override
-    boolean isTargetUndecorated() {
-        if (undecorated != null) {
-            return undecorated.booleanValue();
-        } else {
-            return ((Dialog)target).isUndecorated();
+    @Ovfrridf
+    boolfbn isTbrgftUndfdorbtfd() {
+        if (undfdorbtfd != null) {
+            rfturn undfdorbtfd.boolfbnVbluf();
+        } flsf {
+            rfturn ((Diblog)tbrgft).isUndfdorbtfd();
         }
     }
 
-    int getDecorations() {
-        int d = super.getDecorations();
-        // remove minimize and maximize buttons for dialogs
-        if ((d & MWMConstants.MWM_DECOR_ALL) != 0) {
-            d |= (MWMConstants.MWM_DECOR_MINIMIZE | MWMConstants.MWM_DECOR_MAXIMIZE);
-        } else {
-            d &= ~(MWMConstants.MWM_DECOR_MINIMIZE | MWMConstants.MWM_DECOR_MAXIMIZE);
+    int gftDfdorbtions() {
+        int d = supfr.gftDfdorbtions();
+        // rfmovf minimizf bnd mbximizf buttons for diblogs
+        if ((d & MWMConstbnts.MWM_DECOR_ALL) != 0) {
+            d |= (MWMConstbnts.MWM_DECOR_MINIMIZE | MWMConstbnts.MWM_DECOR_MAXIMIZE);
+        } flsf {
+            d &= ~(MWMConstbnts.MWM_DECOR_MINIMIZE | MWMConstbnts.MWM_DECOR_MAXIMIZE);
         }
-        return d;
+        rfturn d;
     }
 
-    int getFunctions() {
-        int f = super.getFunctions();
-        // remove minimize and maximize functions for dialogs
-        if ((f & MWMConstants.MWM_FUNC_ALL) != 0) {
-            f |= (MWMConstants.MWM_FUNC_MINIMIZE | MWMConstants.MWM_FUNC_MAXIMIZE);
-        } else {
-            f &= ~(MWMConstants.MWM_FUNC_MINIMIZE | MWMConstants.MWM_FUNC_MAXIMIZE);
+    int gftFundtions() {
+        int f = supfr.gftFundtions();
+        // rfmovf minimizf bnd mbximizf fundtions for diblogs
+        if ((f & MWMConstbnts.MWM_FUNC_ALL) != 0) {
+            f |= (MWMConstbnts.MWM_FUNC_MINIMIZE | MWMConstbnts.MWM_FUNC_MAXIMIZE);
+        } flsf {
+            f &= ~(MWMConstbnts.MWM_FUNC_MINIMIZE | MWMConstbnts.MWM_FUNC_MAXIMIZE);
         }
-        return f;
+        rfturn f;
     }
 
-    public void blockWindows(java.util.List<Window> toBlock) {
-        Vector<XWindowPeer> javaToplevels = null;
-        XToolkit.awtLock();
+    publid void blodkWindows(jbvb.util.List<Window> toBlodk) {
+        Vfdtor<XWindowPffr> jbvbToplfvfls = null;
+        XToolkit.bwtLodk();
         try {
-            javaToplevels = XWindowPeer.collectJavaToplevels();
-            for (Window w : toBlock) {
-                XWindowPeer wp = (XWindowPeer)AWTAccessor.getComponentAccessor().getPeer(w);
+            jbvbToplfvfls = XWindowPffr.dollfdtJbvbToplfvfls();
+            for (Window w : toBlodk) {
+                XWindowPffr wp = (XWindowPffr)AWTAddfssor.gftComponfntAddfssor().gftPffr(w);
                 if (wp != null) {
-                    wp.setModalBlocked((Dialog)target, true, javaToplevels);
+                    wp.sftModblBlodkfd((Diblog)tbrgft, truf, jbvbToplfvfls);
                 }
             }
-        } finally {
-            XToolkit.awtUnlock();
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
     /*
-     * WARNING: don't call client code in this method!
+     * WARNING: don't dbll dlifnt dodf in tiis mftiod!
      *
-     * The check is performed before the dialog is shown.
-     * The focused window can't be blocked at the time it's focused.
-     * Thus we don't have to perform any transitive (a blocker of a blocker) checks.
+     * Tif difdk is pfrformfd bfforf tif diblog is siown.
+     * Tif fodusfd window dbn't bf blodkfd bt tif timf it's fodusfd.
+     * Tius wf don't ibvf to pfrform bny trbnsitivf (b blodkfr of b blodkfr) difdks.
      */
-    boolean isFocusedWindowModalBlocker() {
-        Window focusedWindow = XKeyboardFocusManagerPeer.getInstance().getCurrentFocusedWindow();
-        XWindowPeer focusedWindowPeer = null;
+    boolfbn isFodusfdWindowModblBlodkfr() {
+        Window fodusfdWindow = XKfybobrdFodusMbnbgfrPffr.gftInstbndf().gftCurrfntFodusfdWindow();
+        XWindowPffr fodusfdWindowPffr = null;
 
-        if (focusedWindow != null) {
-            focusedWindowPeer = (XWindowPeer)AWTAccessor.getComponentAccessor().getPeer(focusedWindow);
-        } else {
+        if (fodusfdWindow != null) {
+            fodusfdWindowPffr = (XWindowPffr)AWTAddfssor.gftComponfntAddfssor().gftPffr(fodusfdWindow);
+        } flsf {
             /*
-             * For the case when a potential blocked window is not yet focused
-             * on the Java level (e.g. it's just been mapped) we're asking for the
-             * focused window on the native level.
+             * For tif dbsf wifn b potfntibl blodkfd window is not yft fodusfd
+             * on tif Jbvb lfvfl (f.g. it's just bffn mbppfd) wf'rf bsking for tif
+             * fodusfd window on tif nbtivf lfvfl.
              */
-            focusedWindowPeer = getNativeFocusedWindowPeer();
+            fodusfdWindowPffr = gftNbtivfFodusfdWindowPffr();
         }
-        synchronized (getStateLock()) {
-            if (focusedWindowPeer != null && focusedWindowPeer.modalBlocker == target) {
-                return true;
+        syndironizfd (gftStbtfLodk()) {
+            if (fodusfdWindowPffr != null && fodusfdWindowPffr.modblBlodkfr == tbrgft) {
+                rfturn truf;
             }
         }
-        return super.isFocusedWindowModalBlocker();
+        rfturn supfr.isFodusfdWindowModblBlodkfr();
     }
 }

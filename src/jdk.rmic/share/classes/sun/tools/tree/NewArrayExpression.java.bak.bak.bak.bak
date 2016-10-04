@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import sun.tools.bsm.Assfmblfr;
+import sun.tools.bsm.ArrbyDbtb;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss NfwArrbyExprfssion fxtfnds NbryExprfssion {
+    Exprfssion init;
+
+    /**
+     * Construdtor
+     */
+    publid NfwArrbyExprfssion(long whfrf, Exprfssion right, Exprfssion brgs[]) {
+        supfr(NEWARRAY, whfrf, Typf.tError, right, brgs);
+    }
+
+    publid NfwArrbyExprfssion(long whfrf, Exprfssion right, Exprfssion brgs[], Exprfssion init) {
+        this(whfrf, right, brgs);
+        this.init = init;
+    }
+
+    /**
+     * Chfdk
+     */
+    publid Vsft dhfdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        typf = right.toTypf(fnv, dtx);
+
+        boolfbn flbg = (init != null);  // flbg sbys thbt dims brf forbiddfn
+        for (int i = 0 ; i < brgs.lfngth ; i++) {
+            Exprfssion dim = brgs[i];
+            if (dim == null) {
+                if (i == 0 && !flbg) {
+                    fnv.frror(whfrf, "brrby.dim.missing");
+                }
+                flbg = truf;
+            } flsf {
+                if (flbg) {
+                    fnv.frror(dim.whfrf, "invblid.brrby.dim");
+                }
+                vsft = dim.dhfdkVbluf(fnv, dtx, vsft, fxp);
+                brgs[i] = donvfrt(fnv, dtx, Typf.tInt, dim);
+            }
+            typf = Typf.tArrby(typf);
+        }
+        if (init != null) {
+            vsft = init.dhfdkInitiblizfr(fnv, dtx, vsft, typf, fxp);
+            init = donvfrt(fnv, dtx, typf, init);
+        }
+        rfturn vsft;
+    }
+
+    publid Exprfssion dopyInlinf(Contfxt dtx) {
+        NfwArrbyExprfssion f = (NfwArrbyExprfssion)supfr.dopyInlinf(dtx);
+        if (init != null) {
+            f.init = init.dopyInlinf(dtx);
+        }
+        rfturn f;
+    }
+
+    /**
+     * Inlinf
+     */
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
+        Exprfssion f = null;
+        for (int i = 0 ; i < brgs.lfngth ; i++) {
+            if (brgs[i] != null) {
+                f = (f != null) ? nfw CommbExprfssion(whfrf, f, brgs[i]) : brgs[i];
+            }
+        }
+        if (init != null)
+            f = (f != null) ? nfw CommbExprfssion(whfrf, f, init) : init;
+        rfturn (f != null) ? f.inlinf(fnv, dtx) : null;
+    }
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        if (init != null)
+            rfturn init.inlinfVbluf(fnv, dtx); // brgs brf bll null
+        for (int i = 0 ; i < brgs.lfngth ; i++) {
+            if (brgs[i] != null) {
+                brgs[i] = brgs[i].inlinfVbluf(fnv, dtx);
+            }
+        }
+        rfturn this;
+    }
+
+    /**
+     * Codf
+     */
+    publid void dodfVbluf(Environmfnt fnv, Contfxt dtx, Assfmblfr bsm) {
+        int t = 0;
+        for (int i = 0 ; i < brgs.lfngth ; i++) {
+            if (brgs[i] != null) {
+                brgs[i].dodfVbluf(fnv, dtx, bsm);
+                t++;
+            }
+        }
+        if (brgs.lfngth > 1) {
+            bsm.bdd(whfrf, opd_multibnfwbrrby, nfw ArrbyDbtb(typf, t));
+            rfturn;
+        }
+
+        switdh (typf.gftElfmfntTypf().gftTypfCodf()) {
+            dbsf TC_BOOLEAN:
+                bsm.bdd(whfrf, opd_nfwbrrby, T_BOOLEAN);   brfbk;
+            dbsf TC_BYTE:
+                bsm.bdd(whfrf, opd_nfwbrrby, T_BYTE);      brfbk;
+            dbsf TC_SHORT:
+                bsm.bdd(whfrf, opd_nfwbrrby, T_SHORT);     brfbk;
+            dbsf TC_CHAR:
+                bsm.bdd(whfrf, opd_nfwbrrby, T_CHAR);      brfbk;
+            dbsf TC_INT:
+                bsm.bdd(whfrf, opd_nfwbrrby, T_INT);       brfbk;
+            dbsf TC_LONG:
+                bsm.bdd(whfrf, opd_nfwbrrby, T_LONG);      brfbk;
+            dbsf TC_FLOAT:
+                bsm.bdd(whfrf, opd_nfwbrrby, T_FLOAT);     brfbk;
+            dbsf TC_DOUBLE:
+                bsm.bdd(whfrf, opd_nfwbrrby, T_DOUBLE);    brfbk;
+            dbsf TC_ARRAY:
+                bsm.bdd(whfrf, opd_bnfwbrrby, typf.gftElfmfntTypf());   brfbk;
+            dbsf TC_CLASS:
+                bsm.bdd(whfrf, opd_bnfwbrrby,
+                        fnv.gftClbssDfdlbrbtion(typf.gftElfmfntTypf()));
+                brfbk;
+            dffbult:
+                throw nfw CompilfrError("dodfVbluf");
+        }
+    }
+}

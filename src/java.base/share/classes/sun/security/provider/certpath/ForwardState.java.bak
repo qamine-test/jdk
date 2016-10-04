@@ -1,259 +1,259 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.io.IOException;
-import java.security.cert.CertificateException;
-import java.security.cert.CertPathValidatorException;
-import java.security.cert.PKIXCertPathChecker;
-import java.security.cert.X509Certificate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.ListIterator;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.CfrtPbtiVblidbtorExdfption;
+import jbvb.sfdurity.dfrt.PKIXCfrtPbtiCifdkfr;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
+import jbvb.util.ArrbyList;
+import jbvb.util.HbsiSft;
+import jbvb.util.List;
+import jbvb.util.ListItfrbtor;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
-import sun.security.util.Debug;
-import sun.security.x509.SubjectAlternativeNameExtension;
-import sun.security.x509.GeneralNames;
-import sun.security.x509.GeneralName;
-import sun.security.x509.GeneralNameInterface;
-import sun.security.x509.X500Name;
-import sun.security.x509.X509CertImpl;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.x509.SubjfdtAltfrnbtivfNbmfExtfnsion;
+import sun.sfdurity.x509.GfnfrblNbmfs;
+import sun.sfdurity.x509.GfnfrblNbmf;
+import sun.sfdurity.x509.GfnfrblNbmfIntfrfbdf;
+import sun.sfdurity.x509.X500Nbmf;
+import sun.sfdurity.x509.X509CfrtImpl;
 
 /**
- * A specification of a forward PKIX validation state
- * which is initialized by each build and updated each time a
- * certificate is added to the current path.
- * @since       1.4
- * @author      Yassir Elley
+ * A spfdifidbtion of b forwbrd PKIX vblidbtion stbtf
+ * wiidi is initiblizfd by fbdi build bnd updbtfd fbdi timf b
+ * dfrtifidbtf is bddfd to tif durrfnt pbti.
+ * @sindf       1.4
+ * @butior      Ybssir Ellfy
  */
-class ForwardState implements State {
+dlbss ForwbrdStbtf implfmfnts Stbtf {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
 
-    /* The issuer DN of the last cert in the path */
-    X500Principal issuerDN;
+    /* Tif issufr DN of tif lbst dfrt in tif pbti */
+    X500Prindipbl issufrDN;
 
-    /* The last cert in the path */
-    X509CertImpl cert;
+    /* Tif lbst dfrt in tif pbti */
+    X509CfrtImpl dfrt;
 
-    /* The set of subjectDNs and subjectAltNames of all certs in the path */
-    HashSet<GeneralNameInterface> subjectNamesTraversed;
+    /* Tif sft of subjfdtDNs bnd subjfdtAltNbmfs of bll dfrts in tif pbti */
+    HbsiSft<GfnfrblNbmfIntfrfbdf> subjfdtNbmfsTrbvfrsfd;
 
     /*
-     * The number of intermediate CA certs which have been traversed so
-     * far in the path
+     * Tif numbfr of intfrmfdibtf CA dfrts wiidi ibvf bffn trbvfrsfd so
+     * fbr in tif pbti
      */
-    int traversedCACerts;
+    int trbvfrsfdCACfrts;
 
-    /* Flag indicating if state is initial (path is just starting) */
-    private boolean init = true;
+    /* Flbg indidbting if stbtf is initibl (pbti is just stbrting) */
+    privbtf boolfbn init = truf;
 
 
-    /* the untrusted certificates checker */
-    UntrustedChecker untrustedChecker;
+    /* tif untrustfd dfrtifidbtfs difdkfr */
+    UntrustfdCifdkfr untrustfdCifdkfr;
 
-    /* The list of user-defined checkers that support forward checking */
-    ArrayList<PKIXCertPathChecker> forwardCheckers;
+    /* Tif list of usfr-dffinfd difdkfrs tibt support forwbrd difdking */
+    ArrbyList<PKIXCfrtPbtiCifdkfr> forwbrdCifdkfrs;
 
-    /* Flag indicating if key needing to inherit key parameters has been
-     * encountered.
+    /* Flbg indidbting if kfy nffding to inifrit kfy pbrbmftfrs ibs bffn
+     * fndountfrfd.
      */
-    boolean keyParamsNeededFlag = false;
+    boolfbn kfyPbrbmsNffdfdFlbg = fblsf;
 
     /**
-     * Returns a boolean flag indicating if the state is initial
-     * (just starting)
+     * Rfturns b boolfbn flbg indidbting if tif stbtf is initibl
+     * (just stbrting)
      *
-     * @return boolean flag indicating if the state is initial (just starting)
+     * @rfturn boolfbn flbg indidbting if tif stbtf is initibl (just stbrting)
      */
-    @Override
-    public boolean isInitial() {
-        return init;
+    @Ovfrridf
+    publid boolfbn isInitibl() {
+        rfturn init;
     }
 
     /**
-     * Return boolean flag indicating whether a public key that needs to inherit
-     * key parameters has been encountered.
+     * Rfturn boolfbn flbg indidbting wiftifr b publid kfy tibt nffds to inifrit
+     * kfy pbrbmftfrs ibs bffn fndountfrfd.
      *
-     * @return boolean true if key needing to inherit parameters has been
-     * encountered; false otherwise.
+     * @rfturn boolfbn truf if kfy nffding to inifrit pbrbmftfrs ibs bffn
+     * fndountfrfd; fblsf otifrwisf.
      */
-    @Override
-    public boolean keyParamsNeeded() {
-        return keyParamsNeededFlag;
+    @Ovfrridf
+    publid boolfbn kfyPbrbmsNffdfd() {
+        rfturn kfyPbrbmsNffdfdFlbg;
     }
 
     /**
-     * Display state for debugging purposes
+     * Displby stbtf for dfbugging purposfs
      */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("State [");
-        sb.append("\n  issuerDN of last cert: ").append(issuerDN);
-        sb.append("\n  traversedCACerts: ").append(traversedCACerts);
-        sb.append("\n  init: ").append(String.valueOf(init));
-        sb.append("\n  keyParamsNeeded: ").append
-                 (String.valueOf(keyParamsNeededFlag));
-        sb.append("\n  subjectNamesTraversed: \n").append
-                 (subjectNamesTraversed);
-        sb.append("]\n");
-        return sb.toString();
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("Stbtf [");
+        sb.bppfnd("\n  issufrDN of lbst dfrt: ").bppfnd(issufrDN);
+        sb.bppfnd("\n  trbvfrsfdCACfrts: ").bppfnd(trbvfrsfdCACfrts);
+        sb.bppfnd("\n  init: ").bppfnd(String.vblufOf(init));
+        sb.bppfnd("\n  kfyPbrbmsNffdfd: ").bppfnd
+                 (String.vblufOf(kfyPbrbmsNffdfdFlbg));
+        sb.bppfnd("\n  subjfdtNbmfsTrbvfrsfd: \n").bppfnd
+                 (subjfdtNbmfsTrbvfrsfd);
+        sb.bppfnd("]\n");
+        rfturn sb.toString();
     }
 
     /**
-     * Initialize the state.
+     * Initiblizf tif stbtf.
      *
-     * @param certPathCheckers the list of user-defined PKIXCertPathCheckers
+     * @pbrbm dfrtPbtiCifdkfrs tif list of usfr-dffinfd PKIXCfrtPbtiCifdkfrs
      */
-    public void initState(List<PKIXCertPathChecker> certPathCheckers)
-        throws CertPathValidatorException
+    publid void initStbtf(List<PKIXCfrtPbtiCifdkfr> dfrtPbtiCifdkfrs)
+        tirows CfrtPbtiVblidbtorExdfption
     {
-        subjectNamesTraversed = new HashSet<GeneralNameInterface>();
-        traversedCACerts = 0;
+        subjfdtNbmfsTrbvfrsfd = nfw HbsiSft<GfnfrblNbmfIntfrfbdf>();
+        trbvfrsfdCACfrts = 0;
 
         /*
-         * Populate forwardCheckers with every user-defined checker
-         * that supports forward checking and initialize the forwardCheckers
+         * Populbtf forwbrdCifdkfrs witi fvfry usfr-dffinfd difdkfr
+         * tibt supports forwbrd difdking bnd initiblizf tif forwbrdCifdkfrs
          */
-        forwardCheckers = new ArrayList<PKIXCertPathChecker>();
-        for (PKIXCertPathChecker checker : certPathCheckers) {
-            if (checker.isForwardCheckingSupported()) {
-                checker.init(true);
-                forwardCheckers.add(checker);
+        forwbrdCifdkfrs = nfw ArrbyList<PKIXCfrtPbtiCifdkfr>();
+        for (PKIXCfrtPbtiCifdkfr difdkfr : dfrtPbtiCifdkfrs) {
+            if (difdkfr.isForwbrdCifdkingSupportfd()) {
+                difdkfr.init(truf);
+                forwbrdCifdkfrs.bdd(difdkfr);
             }
         }
 
-        init = true;
+        init = truf;
     }
 
     /**
-     * Update the state with the next certificate added to the path.
+     * Updbtf tif stbtf witi tif nfxt dfrtifidbtf bddfd to tif pbti.
      *
-     * @param cert the certificate which is used to update the state
+     * @pbrbm dfrt tif dfrtifidbtf wiidi is usfd to updbtf tif stbtf
      */
-    @Override
-    public void updateState(X509Certificate cert)
-        throws CertificateException, IOException, CertPathValidatorException {
+    @Ovfrridf
+    publid void updbtfStbtf(X509Cfrtifidbtf dfrt)
+        tirows CfrtifidbtfExdfption, IOExdfption, CfrtPbtiVblidbtorExdfption {
 
-        if (cert == null)
-            return;
+        if (dfrt == null)
+            rfturn;
 
-        X509CertImpl icert = X509CertImpl.toImpl(cert);
+        X509CfrtImpl idfrt = X509CfrtImpl.toImpl(dfrt);
 
-        /* see if certificate key has null parameters */
-        if (PKIX.isDSAPublicKeyWithoutParams(icert.getPublicKey())) {
-            keyParamsNeededFlag = true;
+        /* sff if dfrtifidbtf kfy ibs null pbrbmftfrs */
+        if (PKIX.isDSAPublidKfyWitioutPbrbms(idfrt.gftPublidKfy())) {
+            kfyPbrbmsNffdfdFlbg = truf;
         }
 
-        /* update certificate */
-        this.cert = icert;
+        /* updbtf dfrtifidbtf */
+        tiis.dfrt = idfrt;
 
-        /* update issuer DN */
-        issuerDN = cert.getIssuerX500Principal();
+        /* updbtf issufr DN */
+        issufrDN = dfrt.gftIssufrX500Prindipbl();
 
-        if (!X509CertImpl.isSelfIssued(cert)) {
+        if (!X509CfrtImpl.isSflfIssufd(dfrt)) {
 
             /*
-             * update traversedCACerts only if this is a non-self-issued
-             * intermediate CA cert
+             * updbtf trbvfrsfdCACfrts only if tiis is b non-sflf-issufd
+             * intfrmfdibtf CA dfrt
              */
-            if (!init && cert.getBasicConstraints() != -1) {
-                traversedCACerts++;
+            if (!init && dfrt.gftBbsidConstrbints() != -1) {
+                trbvfrsfdCACfrts++;
             }
         }
 
-        /* update subjectNamesTraversed only if this is the EE cert or if
-           this cert is not self-issued */
-        if (init || !X509CertImpl.isSelfIssued(cert)){
-            X500Principal subjName = cert.getSubjectX500Principal();
-            subjectNamesTraversed.add(X500Name.asX500Name(subjName));
+        /* updbtf subjfdtNbmfsTrbvfrsfd only if tiis is tif EE dfrt or if
+           tiis dfrt is not sflf-issufd */
+        if (init || !X509CfrtImpl.isSflfIssufd(dfrt)){
+            X500Prindipbl subjNbmf = dfrt.gftSubjfdtX500Prindipbl();
+            subjfdtNbmfsTrbvfrsfd.bdd(X500Nbmf.bsX500Nbmf(subjNbmf));
 
             try {
-                SubjectAlternativeNameExtension subjAltNameExt
-                    = icert.getSubjectAlternativeNameExtension();
-                if (subjAltNameExt != null) {
-                    GeneralNames gNames = subjAltNameExt.get(
-                            SubjectAlternativeNameExtension.SUBJECT_NAME);
-                    for (GeneralName gName : gNames.names()) {
-                        subjectNamesTraversed.add(gName.getName());
+                SubjfdtAltfrnbtivfNbmfExtfnsion subjAltNbmfExt
+                    = idfrt.gftSubjfdtAltfrnbtivfNbmfExtfnsion();
+                if (subjAltNbmfExt != null) {
+                    GfnfrblNbmfs gNbmfs = subjAltNbmfExt.gft(
+                            SubjfdtAltfrnbtivfNbmfExtfnsion.SUBJECT_NAME);
+                    for (GfnfrblNbmf gNbmf : gNbmfs.nbmfs()) {
+                        subjfdtNbmfsTrbvfrsfd.bdd(gNbmf.gftNbmf());
                     }
                 }
-            } catch (IOException e) {
-                if (debug != null) {
-                    debug.println("ForwardState.updateState() unexpected "
-                        + "exception");
-                    e.printStackTrace();
+            } dbtdi (IOExdfption f) {
+                if (dfbug != null) {
+                    dfbug.println("ForwbrdStbtf.updbtfStbtf() unfxpfdtfd "
+                        + "fxdfption");
+                    f.printStbdkTrbdf();
                 }
-                throw new CertPathValidatorException(e);
+                tirow nfw CfrtPbtiVblidbtorExdfption(f);
             }
         }
 
-        init = false;
+        init = fblsf;
     }
 
     /*
-     * Clone current state. The state is cloned as each cert is
-     * added to the path. This is necessary if backtracking occurs,
-     * and a prior state needs to be restored.
+     * Clonf durrfnt stbtf. Tif stbtf is dlonfd bs fbdi dfrt is
+     * bddfd to tif pbti. Tiis is nfdfssbry if bbdktrbdking oddurs,
+     * bnd b prior stbtf nffds to bf rfstorfd.
      *
-     * Note that this is a SMART clone. Not all fields are fully copied,
-     * because some of them will
-     * not have their contents modified by subsequent calls to updateState.
+     * Notf tibt tiis is b SMART dlonf. Not bll fiflds brf fully dopifd,
+     * bfdbusf somf of tifm will
+     * not ibvf tifir dontfnts modififd by subsfqufnt dblls to updbtfStbtf.
      */
-    @Override
-    @SuppressWarnings("unchecked") // Safe casts assuming clone() works correctly
-    public Object clone() {
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd") // Sbff dbsts bssuming dlonf() works dorrfdtly
+    publid Objfdt dlonf() {
         try {
-            ForwardState clonedState = (ForwardState) super.clone();
+            ForwbrdStbtf dlonfdStbtf = (ForwbrdStbtf) supfr.dlonf();
 
-            /* clone checkers, if cloneable */
-            clonedState.forwardCheckers = (ArrayList<PKIXCertPathChecker>)
-                                                forwardCheckers.clone();
-            ListIterator<PKIXCertPathChecker> li =
-                                clonedState.forwardCheckers.listIterator();
-            while (li.hasNext()) {
-                PKIXCertPathChecker checker = li.next();
-                if (checker instanceof Cloneable) {
-                    li.set((PKIXCertPathChecker)checker.clone());
+            /* dlonf difdkfrs, if dlonfbblf */
+            dlonfdStbtf.forwbrdCifdkfrs = (ArrbyList<PKIXCfrtPbtiCifdkfr>)
+                                                forwbrdCifdkfrs.dlonf();
+            ListItfrbtor<PKIXCfrtPbtiCifdkfr> li =
+                                dlonfdStbtf.forwbrdCifdkfrs.listItfrbtor();
+            wiilf (li.ibsNfxt()) {
+                PKIXCfrtPbtiCifdkfr difdkfr = li.nfxt();
+                if (difdkfr instbndfof Clonfbblf) {
+                    li.sft((PKIXCfrtPbtiCifdkfr)difdkfr.dlonf());
                 }
             }
 
             /*
-             * Shallow copy traversed names. There is no need to
-             * deep copy contents, since the elements of the Set
-             * are never modified by subsequent calls to updateState().
+             * Sibllow dopy trbvfrsfd nbmfs. Tifrf is no nffd to
+             * dffp dopy dontfnts, sindf tif flfmfnts of tif Sft
+             * brf nfvfr modififd by subsfqufnt dblls to updbtfStbtf().
              */
-            clonedState.subjectNamesTraversed
-                = (HashSet<GeneralNameInterface>)subjectNamesTraversed.clone();
-            return clonedState;
-        } catch (CloneNotSupportedException e) {
-            throw new InternalError(e.toString(), e);
+            dlonfdStbtf.subjfdtNbmfsTrbvfrsfd
+                = (HbsiSft<GfnfrblNbmfIntfrfbdf>)subjfdtNbmfsTrbvfrsfd.dlonf();
+            rfturn dlonfdStbtf;
+        } dbtdi (ClonfNotSupportfdExdfption f) {
+            tirow nfw IntfrnblError(f.toString(), f);
         }
     }
 }

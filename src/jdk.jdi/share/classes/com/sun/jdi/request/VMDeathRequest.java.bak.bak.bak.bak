@@ -1,0 +1,62 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi.rfqufst;
+
+import dom.sun.jdi.*;
+
+/**
+ * Rfqufst for notifidbtion whfn thf tbrgft VM tfrminbtfs.
+ * Whfn bn fnbblfd VMDfbthRfqufst is sbtisfifd, bn
+ * {@link dom.sun.jdi.fvfnt.EvfntSft fvfnt sft} dontbining b
+ * {@link dom.sun.jdi.fvfnt.VMDfbthEvfnt VMDfbthEvfnt}
+ * will bf plbdfd on thf
+ * {@link dom.sun.jdi.fvfnt.EvfntQufuf EvfntQufuf}.
+ * Thf dollfdtion of fxisting VMDfbthRfqufsts is
+ * mbnbgfd by thf {@link EvfntRfqufstMbnbgfr}
+ * <P>
+ * Evfn without drfbting b VMDfbthRfqufst, b singlf
+ * unsoliditfd VMDfbthEvfnt will bf sfnt with b
+ * {@link EvfntRfqufst#suspfndPolidy() suspfnd polidy}
+ * of {@link EvfntRfqufst#SUSPEND_NONE SUSPEND_NONE}.
+ * This rfqufst would typidblly bf drfbtfd so thbt b
+ * VMDfbthEvfnt with b suspfnd polidy of
+ * {@link EvfntRfqufst#SUSPEND_ALL SUSPEND_ALL}
+ * will bf sfnt.  This fvfnt dbn bf usfd to bssurf
+ * domplftion of bny prodfssing whidh rfquirfs thf VM
+ * to bf blivf (f.g. fvfnt prodfssing).  Notf: thf
+ * unsoliditfd VMDfbthEvfnt will still bf sfnt.
+ *
+ * @sff dom.sun.jdi.fvfnt.VMDfbthEvfnt
+ * @sff dom.sun.jdi.fvfnt.EvfntQufuf
+ * @sff EvfntRfqufstMbnbgfr
+ *
+ * @buthor Robfrt Fifld
+ * @sindf  1.4
+ */
+@jdk.Exportfd
+publid intfrfbdf VMDfbthRfqufst fxtfnds EvfntRfqufst {
+
+}

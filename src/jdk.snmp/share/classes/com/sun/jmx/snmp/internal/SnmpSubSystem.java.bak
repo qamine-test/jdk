@@ -1,73 +1,73 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.jmx.snmp.internal;
+pbdkbgf dom.sun.jmx.snmp.intfrnbl;
 
-import com.sun.jmx.snmp.SnmpEngine;
-import com.sun.jmx.snmp.SnmpUnknownModelException;
-import java.util.Hashtable;
+import dom.sun.jmx.snmp.SnmpEnginf;
+import dom.sun.jmx.snmp.SnmpUnknownModflExdfption;
+import jbvb.util.Hbsitbblf;
 /**
- * SNMP sub system interface. To allow engine framework integration, a sub system must implement this interface. A sub system is a model manager. Every model is identified by an ID. A sub system can retrieve a previously registered model using this ID.
- * <P> Every sub system is associated to its SNMP engine.
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
+ * SNMP sub systfm intfrfbdf. To bllow fnginf frbmfwork intfgrbtion, b sub systfm must implfmfnt tiis intfrfbdf. A sub systfm is b modfl mbnbgfr. Evfry modfl is idfntififd by bn ID. A sub systfm dbn rftrifvf b prfviously rfgistfrfd modfl using tiis ID.
+ * <P> Evfry sub systfm is bssodibtfd to its SNMP fnginf.
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
  */
-public interface SnmpSubSystem {
+publid intfrfbdf SnmpSubSystfm {
     /**
-     * Returns the associated engine.
-     * @return The engine.
+     * Rfturns tif bssodibtfd fnginf.
+     * @rfturn Tif fnginf.
      */
-    public SnmpEngine getEngine();
+    publid SnmpEnginf gftEnginf();
 
     /**
-     * Adds a model to this sub system.
-     * @param id The model ID.
-     * @param model The model to add.
+     * Adds b modfl to tiis sub systfm.
+     * @pbrbm id Tif modfl ID.
+     * @pbrbm modfl Tif modfl to bdd.
      */
-    public void addModel(int id, SnmpModel model);
+    publid void bddModfl(int id, SnmpModfl modfl);
 
     /**
-     * Removes a model from this sub system.
-     * @param id The model ID to remove.
-     * @return The removed model.
+     * Rfmovfs b modfl from tiis sub systfm.
+     * @pbrbm id Tif modfl ID to rfmovf.
+     * @rfturn Tif rfmovfd modfl.
      */
-    public SnmpModel removeModel(int id) throws SnmpUnknownModelException;
+    publid SnmpModfl rfmovfModfl(int id) tirows SnmpUnknownModflExdfption;
 
     /**
-     * Gets a model from this sub system.
-     * @param id The model ID to get.
-     * @return The model.
+     * Gfts b modfl from tiis sub systfm.
+     * @pbrbm id Tif modfl ID to gft.
+     * @rfturn Tif modfl.
      */
-    public SnmpModel getModel(int id) throws SnmpUnknownModelException;
+    publid SnmpModfl gftModfl(int id) tirows SnmpUnknownModflExdfption;
 
     /**
-     * Returns the set of model Ids that have been registered within the sub system.
+     * Rfturns tif sft of modfl Ids tibt ibvf bffn rfgistfrfd witiin tif sub systfm.
      */
-    public int[] getModelIds();
+    publid int[] gftModflIds();
 
     /**
-     * Returns the set of model names that have been registered within the sub system.
+     * Rfturns tif sft of modfl nbmfs tibt ibvf bffn rfgistfrfd witiin tif sub systfm.
      */
-    public String[] getModelNames();
+    publid String[] gftModflNbmfs();
 }

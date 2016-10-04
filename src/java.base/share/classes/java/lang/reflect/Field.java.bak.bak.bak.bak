@@ -1,0 +1,1167 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.rfflfdt;
+
+import sun.rfflfdt.CbllfrSfnsitivf;
+import sun.rfflfdt.FifldAddfssor;
+import sun.rfflfdt.Rfflfdtion;
+import sun.rfflfdt.gfnfrids.rfpository.FifldRfpository;
+import sun.rfflfdt.gfnfrids.fbdtory.CorfRfflfdtionFbdtory;
+import sun.rfflfdt.gfnfrids.fbdtory.GfnfridsFbdtory;
+import sun.rfflfdt.gfnfrids.sdopf.ClbssSdopf;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.util.Mbp;
+import jbvb.util.Objfdts;
+import sun.rfflfdt.bnnotbtion.AnnotbtionPbrsfr;
+import sun.rfflfdt.bnnotbtion.AnnotbtionSupport;
+import sun.rfflfdt.bnnotbtion.TypfAnnotbtion;
+import sun.rfflfdt.bnnotbtion.TypfAnnotbtionPbrsfr;
+
+/**
+ * A {@dodf Fifld} providfs informbtion bbout, bnd dynbmid bddfss to, b
+ * singlf fifld of b dlbss or bn intfrfbdf.  Thf rfflfdtfd fifld mby
+ * bf b dlbss (stbtid) fifld or bn instbndf fifld.
+ *
+ * <p>A {@dodf Fifld} pfrmits widfning donvfrsions to oddur during b gft or
+ * sft bddfss opfrbtion, but throws bn {@dodf IllfgblArgumfntExdfption} if b
+ * nbrrowing donvfrsion would oddur.
+ *
+ * @sff Mfmbfr
+ * @sff jbvb.lbng.Clbss
+ * @sff jbvb.lbng.Clbss#gftFiflds()
+ * @sff jbvb.lbng.Clbss#gftFifld(String)
+ * @sff jbvb.lbng.Clbss#gftDfdlbrfdFiflds()
+ * @sff jbvb.lbng.Clbss#gftDfdlbrfdFifld(String)
+ *
+ * @buthor Kfnnfth Russfll
+ * @buthor Nbkul Sbrbiyb
+ */
+publid finbl
+dlbss Fifld fxtfnds AddfssiblfObjfdt implfmfnts Mfmbfr {
+
+    privbtf Clbss<?>            dlbzz;
+    privbtf int                 slot;
+    // This is gubrbntffd to bf intfrnfd by thf VM in thf 1.4
+    // rfflfdtion implfmfntbtion
+    privbtf String              nbmf;
+    privbtf Clbss<?>            typf;
+    privbtf int                 modififrs;
+    // Gfnfrids bnd bnnotbtions support
+    privbtf trbnsifnt String    signbturf;
+    // gfnfrid info rfpository; lbzily initiblizfd
+    privbtf trbnsifnt FifldRfpository gfnfridInfo;
+    privbtf bytf[]              bnnotbtions;
+    // Cbdhfd fifld bddfssor drfbtfd without ovfrridf
+    privbtf FifldAddfssor fifldAddfssor;
+    // Cbdhfd fifld bddfssor drfbtfd with ovfrridf
+    privbtf FifldAddfssor ovfrridfFifldAddfssor;
+    // For shbring of FifldAddfssors. This brbndhing strudturf is
+    // durrfntly only two lfvfls dffp (i.f., onf root Fifld bnd
+    // potfntiblly mbny Fifld objfdts pointing to it.)
+    privbtf Fifld               root;
+
+    // Gfnfrids infrbstrudturf
+
+    privbtf String gftGfnfridSignbturf() {rfturn signbturf;}
+
+    // Addfssor for fbdtory
+    privbtf GfnfridsFbdtory gftFbdtory() {
+        Clbss<?> d = gftDfdlbringClbss();
+        // drfbtf sdopf bnd fbdtory
+        rfturn CorfRfflfdtionFbdtory.mbkf(d, ClbssSdopf.mbkf(d));
+    }
+
+    // Addfssor for gfnfrid info rfpository
+    privbtf FifldRfpository gftGfnfridInfo() {
+        // lbzily initiblizf rfpository if nfdfssbry
+        if (gfnfridInfo == null) {
+            // drfbtf bnd dbdhf gfnfrid info rfpository
+            gfnfridInfo = FifldRfpository.mbkf(gftGfnfridSignbturf(),
+                                               gftFbdtory());
+        }
+        rfturn gfnfridInfo; //rfturn dbdhfd rfpository
+    }
+
+
+    /**
+     * Pbdkbgf-privbtf donstrudtor usfd by RfflfdtAddfss to fnbblf
+     * instbntibtion of thfsf objfdts in Jbvb dodf from thf jbvb.lbng
+     * pbdkbgf vib sun.rfflfdt.LbngRfflfdtAddfss.
+     */
+    Fifld(Clbss<?> dfdlbringClbss,
+          String nbmf,
+          Clbss<?> typf,
+          int modififrs,
+          int slot,
+          String signbturf,
+          bytf[] bnnotbtions)
+    {
+        this.dlbzz = dfdlbringClbss;
+        this.nbmf = nbmf;
+        this.typf = typf;
+        this.modififrs = modififrs;
+        this.slot = slot;
+        this.signbturf = signbturf;
+        this.bnnotbtions = bnnotbtions;
+    }
+
+    /**
+     * Pbdkbgf-privbtf routinf (fxposfd to jbvb.lbng.Clbss vib
+     * RfflfdtAddfss) whidh rfturns b dopy of this Fifld. Thf dopy's
+     * "root" fifld points to this Fifld.
+     */
+    Fifld dopy() {
+        // This routinf fnbblfs shbring of FifldAddfssor objfdts
+        // bmong Fifld objfdts whidh rfffr to thf sbmf undfrlying
+        // mfthod in thf VM. (All of this dontortion is only nfdfssbry
+        // bfdbusf of thf "bddfssibility" bit in AddfssiblfObjfdt,
+        // whidh impliditly rfquirfs thbt nfw jbvb.lbng.rfflfdt
+        // objfdts bf fbbridbtfd for fbdh rfflfdtivf dbll on Clbss
+        // objfdts.)
+        Fifld rfs = nfw Fifld(dlbzz, nbmf, typf, modififrs, slot, signbturf, bnnotbtions);
+        rfs.root = this;
+        // Might bs wfll fbgfrly propbgbtf this if blrfbdy prfsfnt
+        rfs.fifldAddfssor = fifldAddfssor;
+        rfs.ovfrridfFifldAddfssor = ovfrridfFifldAddfssor;
+
+        rfturn rfs;
+    }
+
+    /**
+     * Rfturns thf {@dodf Clbss} objfdt rfprfsfnting thf dlbss or intfrfbdf
+     * thbt dfdlbrfs thf fifld rfprfsfntfd by this {@dodf Fifld} objfdt.
+     */
+    publid Clbss<?> gftDfdlbringClbss() {
+        rfturn dlbzz;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf fifld rfprfsfntfd by this {@dodf Fifld} objfdt.
+     */
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    /**
+     * Rfturns thf Jbvb lbngubgf modififrs for thf fifld rfprfsfntfd
+     * by this {@dodf Fifld} objfdt, bs bn intfgfr. Thf {@dodf Modififr} dlbss should
+     * bf usfd to dfdodf thf modififrs.
+     *
+     * @sff Modififr
+     */
+    publid int gftModififrs() {
+        rfturn modififrs;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if this fifld rfprfsfnts bn flfmfnt of
+     * bn fnumfrbtfd typf; rfturns {@dodf fblsf} othfrwisf.
+     *
+     * @rfturn {@dodf truf} if bnd only if this fifld rfprfsfnts bn flfmfnt of
+     * bn fnumfrbtfd typf.
+     * @sindf 1.5
+     */
+    publid boolfbn isEnumConstbnt() {
+        rfturn (gftModififrs() & Modififr.ENUM) != 0;
+    }
+
+    /**
+     * Rfturns {@dodf truf} if this fifld is b synthftid
+     * fifld; rfturns {@dodf fblsf} othfrwisf.
+     *
+     * @rfturn truf if bnd only if this fifld is b synthftid
+     * fifld bs dffinfd by thf Jbvb Lbngubgf Spfdifidbtion.
+     * @sindf 1.5
+     */
+    publid boolfbn isSynthftid() {
+        rfturn Modififr.isSynthftid(gftModififrs());
+    }
+
+    /**
+     * Rfturns b {@dodf Clbss} objfdt thbt idfntififs thf
+     * dfdlbrfd typf for thf fifld rfprfsfntfd by this
+     * {@dodf Fifld} objfdt.
+     *
+     * @rfturn b {@dodf Clbss} objfdt idfntifying thf dfdlbrfd
+     * typf of thf fifld rfprfsfntfd by this objfdt
+     */
+    publid Clbss<?> gftTypf() {
+        rfturn typf;
+    }
+
+    /**
+     * Rfturns b {@dodf Typf} objfdt thbt rfprfsfnts thf dfdlbrfd typf for
+     * thf fifld rfprfsfntfd by this {@dodf Fifld} objfdt.
+     *
+     * <p>If thf {@dodf Typf} is b pbrbmftfrizfd typf, thf
+     * {@dodf Typf} objfdt rfturnfd must bddurbtfly rfflfdt thf
+     * bdtubl typf pbrbmftfrs usfd in thf sourdf dodf.
+     *
+     * <p>If thf typf of thf undfrlying fifld is b typf vbribblf or b
+     * pbrbmftfrizfd typf, it is drfbtfd. Othfrwisf, it is rfsolvfd.
+     *
+     * @rfturn b {@dodf Typf} objfdt thbt rfprfsfnts thf dfdlbrfd typf for
+     *     thf fifld rfprfsfntfd by this {@dodf Fifld} objfdt
+     * @throws GfnfridSignbturfFormbtError if thf gfnfrid fifld
+     *     signbturf dofs not donform to thf formbt spfdififd in
+     *     <ditf>Thf Jbvb&trbdf; Virtubl Mbdhinf Spfdifidbtion</ditf>
+     * @throws TypfNotPrfsfntExdfption if thf gfnfrid typf
+     *     signbturf of thf undfrlying fifld rfffrs to b non-fxistfnt
+     *     typf dfdlbrbtion
+     * @throws MblformfdPbrbmftfrizfdTypfExdfption if thf gfnfrid
+     *     signbturf of thf undfrlying fifld rfffrs to b pbrbmftfrizfd typf
+     *     thbt dbnnot bf instbntibtfd for bny rfbson
+     * @sindf 1.5
+     */
+    publid Typf gftGfnfridTypf() {
+        if (gftGfnfridSignbturf() != null)
+            rfturn gftGfnfridInfo().gftGfnfridTypf();
+        flsf
+            rfturn gftTypf();
+    }
+
+
+    /**
+     * Compbrfs this {@dodf Fifld} bgbinst thf spfdififd objfdt.  Rfturns
+     * truf if thf objfdts brf thf sbmf.  Two {@dodf Fifld} objfdts brf thf sbmf if
+     * thfy wfrf dfdlbrfd by thf sbmf dlbss bnd hbvf thf sbmf nbmf
+     * bnd typf.
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj != null && obj instbndfof Fifld) {
+            Fifld othfr = (Fifld)obj;
+            rfturn (gftDfdlbringClbss() == othfr.gftDfdlbringClbss())
+                && (gftNbmf() == othfr.gftNbmf())
+                && (gftTypf() == othfr.gftTypf());
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns b hbshdodf for this {@dodf Fifld}.  This is domputfd bs thf
+     * fxdlusivf-or of thf hbshdodfs for thf undfrlying fifld's
+     * dfdlbring dlbss nbmf bnd its nbmf.
+     */
+    publid int hbshCodf() {
+        rfturn gftDfdlbringClbss().gftNbmf().hbshCodf() ^ gftNbmf().hbshCodf();
+    }
+
+    /**
+     * Rfturns b string dfsdribing this {@dodf Fifld}.  Thf formbt is
+     * thf bddfss modififrs for thf fifld, if bny, followfd
+     * by thf fifld typf, followfd by b spbdf, followfd by
+     * thf fully-qublififd nbmf of thf dlbss dfdlbring thf fifld,
+     * followfd by b pfriod, followfd by thf nbmf of thf fifld.
+     * For fxbmplf:
+     * <prf>
+     *    publid stbtid finbl int jbvb.lbng.Thrfbd.MIN_PRIORITY
+     *    privbtf int jbvb.io.FilfDfsdriptor.fd
+     * </prf>
+     *
+     * <p>Thf modififrs brf plbdfd in dbnonidbl ordfr bs spfdififd by
+     * "Thf Jbvb Lbngubgf Spfdifidbtion".  This is {@dodf publid},
+     * {@dodf protfdtfd} or {@dodf privbtf} first, bnd thfn othfr
+     * modififrs in thf following ordfr: {@dodf stbtid}, {@dodf finbl},
+     * {@dodf trbnsifnt}, {@dodf volbtilf}.
+     *
+     * @rfturn b string dfsdribing this {@dodf Fifld}
+     * @jls 8.3.1 Fifld Modififrs
+     */
+    publid String toString() {
+        int mod = gftModififrs();
+        rfturn (((mod == 0) ? "" : (Modififr.toString(mod) + " "))
+            + gftTypf().gftTypfNbmf() + " "
+            + gftDfdlbringClbss().gftTypfNbmf() + "."
+            + gftNbmf());
+    }
+
+    /**
+     * Rfturns b string dfsdribing this {@dodf Fifld}, indluding
+     * its gfnfrid typf.  Thf formbt is thf bddfss modififrs for thf
+     * fifld, if bny, followfd by thf gfnfrid fifld typf, followfd by
+     * b spbdf, followfd by thf fully-qublififd nbmf of thf dlbss
+     * dfdlbring thf fifld, followfd by b pfriod, followfd by thf nbmf
+     * of thf fifld.
+     *
+     * <p>Thf modififrs brf plbdfd in dbnonidbl ordfr bs spfdififd by
+     * "Thf Jbvb Lbngubgf Spfdifidbtion".  This is {@dodf publid},
+     * {@dodf protfdtfd} or {@dodf privbtf} first, bnd thfn othfr
+     * modififrs in thf following ordfr: {@dodf stbtid}, {@dodf finbl},
+     * {@dodf trbnsifnt}, {@dodf volbtilf}.
+     *
+     * @rfturn b string dfsdribing this {@dodf Fifld}, indluding
+     * its gfnfrid typf
+     *
+     * @sindf 1.5
+     * @jls 8.3.1 Fifld Modififrs
+     */
+    publid String toGfnfridString() {
+        int mod = gftModififrs();
+        Typf fifldTypf = gftGfnfridTypf();
+        rfturn (((mod == 0) ? "" : (Modififr.toString(mod) + " "))
+            + fifldTypf.gftTypfNbmf() + " "
+            + gftDfdlbringClbss().gftTypfNbmf() + "."
+            + gftNbmf());
+    }
+
+    /**
+     * Rfturns thf vbluf of thf fifld rfprfsfntfd by this {@dodf Fifld}, on
+     * thf spfdififd objfdt. Thf vbluf is butombtidblly wrbppfd in bn
+     * objfdt if it hbs b primitivf typf.
+     *
+     * <p>Thf undfrlying fifld's vbluf is obtbinfd bs follows:
+     *
+     * <p>If thf undfrlying fifld is b stbtid fifld, thf {@dodf obj} brgumfnt
+     * is ignorfd; it mby bf null.
+     *
+     * <p>Othfrwisf, thf undfrlying fifld is bn instbndf fifld.  If thf
+     * spfdififd {@dodf obj} brgumfnt is null, thf mfthod throws b
+     * {@dodf NullPointfrExdfption}. If thf spfdififd objfdt is not bn
+     * instbndf of thf dlbss or intfrfbdf dfdlbring thf undfrlying
+     * fifld, thf mfthod throws bn {@dodf IllfgblArgumfntExdfption}.
+     *
+     * <p>If this {@dodf Fifld} objfdt is fnfording Jbvb lbngubgf bddfss dontrol, bnd
+     * thf undfrlying fifld is inbddfssiblf, thf mfthod throws bn
+     * {@dodf IllfgblAddfssExdfption}.
+     * If thf undfrlying fifld is stbtid, thf dlbss thbt dfdlbrfd thf
+     * fifld is initiblizfd if it hbs not blrfbdy bffn initiblizfd.
+     *
+     * <p>Othfrwisf, thf vbluf is rftrifvfd from thf undfrlying instbndf
+     * or stbtid fifld.  If thf fifld hbs b primitivf typf, thf vbluf
+     * is wrbppfd in bn objfdt bfforf bfing rfturnfd, othfrwisf it is
+     * rfturnfd bs is.
+     *
+     * <p>If thf fifld is hiddfn in thf typf of {@dodf obj},
+     * thf fifld's vbluf is obtbinfd bddording to thf prfdfding rulfs.
+     *
+     * @pbrbm obj objfdt from whidh thf rfprfsfntfd fifld's vbluf is
+     * to bf fxtrbdtfd
+     * @rfturn thf vbluf of thf rfprfsfntfd fifld in objfdt
+     * {@dodf obj}; primitivf vblufs brf wrbppfd in bn bppropribtf
+     * objfdt bfforf bfing rfturnfd
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not bn
+     *              instbndf of thf dlbss or intfrfbdf dfdlbring thf undfrlying
+     *              fifld (or b subdlbss or implfmfntor thfrfof).
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     */
+    @CbllfrSfnsitivf
+    publid Objfdt gft(Objfdt obj)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        rfturn gftFifldAddfssor(obj).gft(obj);
+    }
+
+    /**
+     * Gfts thf vbluf of b stbtid or instbndf {@dodf boolfbn} fifld.
+     *
+     * @pbrbm obj thf objfdt to fxtrbdt thf {@dodf boolfbn} vbluf
+     * from
+     * @rfturn thf vbluf of thf {@dodf boolfbn} fifld
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not
+     *              bn instbndf of thf dlbss or intfrfbdf dfdlbring thf
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              thfrfof), or if thf fifld vbluf dbnnot bf
+     *              donvfrtfd to thf typf {@dodf boolfbn} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff       Fifld#gft
+     */
+    @CbllfrSfnsitivf
+    publid boolfbn gftBoolfbn(Objfdt obj)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        rfturn gftFifldAddfssor(obj).gftBoolfbn(obj);
+    }
+
+    /**
+     * Gfts thf vbluf of b stbtid or instbndf {@dodf bytf} fifld.
+     *
+     * @pbrbm obj thf objfdt to fxtrbdt thf {@dodf bytf} vbluf
+     * from
+     * @rfturn thf vbluf of thf {@dodf bytf} fifld
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not
+     *              bn instbndf of thf dlbss or intfrfbdf dfdlbring thf
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              thfrfof), or if thf fifld vbluf dbnnot bf
+     *              donvfrtfd to thf typf {@dodf bytf} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff       Fifld#gft
+     */
+    @CbllfrSfnsitivf
+    publid bytf gftBytf(Objfdt obj)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        rfturn gftFifldAddfssor(obj).gftBytf(obj);
+    }
+
+    /**
+     * Gfts thf vbluf of b stbtid or instbndf fifld of typf
+     * {@dodf dhbr} or of bnothfr primitivf typf donvfrtiblf to
+     * typf {@dodf dhbr} vib b widfning donvfrsion.
+     *
+     * @pbrbm obj thf objfdt to fxtrbdt thf {@dodf dhbr} vbluf
+     * from
+     * @rfturn thf vbluf of thf fifld donvfrtfd to typf {@dodf dhbr}
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not
+     *              bn instbndf of thf dlbss or intfrfbdf dfdlbring thf
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              thfrfof), or if thf fifld vbluf dbnnot bf
+     *              donvfrtfd to thf typf {@dodf dhbr} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff Fifld#gft
+     */
+    @CbllfrSfnsitivf
+    publid dhbr gftChbr(Objfdt obj)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        rfturn gftFifldAddfssor(obj).gftChbr(obj);
+    }
+
+    /**
+     * Gfts thf vbluf of b stbtid or instbndf fifld of typf
+     * {@dodf short} or of bnothfr primitivf typf donvfrtiblf to
+     * typf {@dodf short} vib b widfning donvfrsion.
+     *
+     * @pbrbm obj thf objfdt to fxtrbdt thf {@dodf short} vbluf
+     * from
+     * @rfturn thf vbluf of thf fifld donvfrtfd to typf {@dodf short}
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not
+     *              bn instbndf of thf dlbss or intfrfbdf dfdlbring thf
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              thfrfof), or if thf fifld vbluf dbnnot bf
+     *              donvfrtfd to thf typf {@dodf short} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff       Fifld#gft
+     */
+    @CbllfrSfnsitivf
+    publid short gftShort(Objfdt obj)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        rfturn gftFifldAddfssor(obj).gftShort(obj);
+    }
+
+    /**
+     * Gfts thf vbluf of b stbtid or instbndf fifld of typf
+     * {@dodf int} or of bnothfr primitivf typf donvfrtiblf to
+     * typf {@dodf int} vib b widfning donvfrsion.
+     *
+     * @pbrbm obj thf objfdt to fxtrbdt thf {@dodf int} vbluf
+     * from
+     * @rfturn thf vbluf of thf fifld donvfrtfd to typf {@dodf int}
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not
+     *              bn instbndf of thf dlbss or intfrfbdf dfdlbring thf
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              thfrfof), or if thf fifld vbluf dbnnot bf
+     *              donvfrtfd to thf typf {@dodf int} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff       Fifld#gft
+     */
+    @CbllfrSfnsitivf
+    publid int gftInt(Objfdt obj)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        rfturn gftFifldAddfssor(obj).gftInt(obj);
+    }
+
+    /**
+     * Gfts thf vbluf of b stbtid or instbndf fifld of typf
+     * {@dodf long} or of bnothfr primitivf typf donvfrtiblf to
+     * typf {@dodf long} vib b widfning donvfrsion.
+     *
+     * @pbrbm obj thf objfdt to fxtrbdt thf {@dodf long} vbluf
+     * from
+     * @rfturn thf vbluf of thf fifld donvfrtfd to typf {@dodf long}
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not
+     *              bn instbndf of thf dlbss or intfrfbdf dfdlbring thf
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              thfrfof), or if thf fifld vbluf dbnnot bf
+     *              donvfrtfd to thf typf {@dodf long} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff       Fifld#gft
+     */
+    @CbllfrSfnsitivf
+    publid long gftLong(Objfdt obj)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        rfturn gftFifldAddfssor(obj).gftLong(obj);
+    }
+
+    /**
+     * Gfts thf vbluf of b stbtid or instbndf fifld of typf
+     * {@dodf flobt} or of bnothfr primitivf typf donvfrtiblf to
+     * typf {@dodf flobt} vib b widfning donvfrsion.
+     *
+     * @pbrbm obj thf objfdt to fxtrbdt thf {@dodf flobt} vbluf
+     * from
+     * @rfturn thf vbluf of thf fifld donvfrtfd to typf {@dodf flobt}
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not
+     *              bn instbndf of thf dlbss or intfrfbdf dfdlbring thf
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              thfrfof), or if thf fifld vbluf dbnnot bf
+     *              donvfrtfd to thf typf {@dodf flobt} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff Fifld#gft
+     */
+    @CbllfrSfnsitivf
+    publid flobt gftFlobt(Objfdt obj)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        rfturn gftFifldAddfssor(obj).gftFlobt(obj);
+    }
+
+    /**
+     * Gfts thf vbluf of b stbtid or instbndf fifld of typf
+     * {@dodf doublf} or of bnothfr primitivf typf donvfrtiblf to
+     * typf {@dodf doublf} vib b widfning donvfrsion.
+     *
+     * @pbrbm obj thf objfdt to fxtrbdt thf {@dodf doublf} vbluf
+     * from
+     * @rfturn thf vbluf of thf fifld donvfrtfd to typf {@dodf doublf}
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is inbddfssiblf.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not
+     *              bn instbndf of thf dlbss or intfrfbdf dfdlbring thf
+     *              undfrlying fifld (or b subdlbss or implfmfntor
+     *              thfrfof), or if thf fifld vbluf dbnnot bf
+     *              donvfrtfd to thf typf {@dodf doublf} by b
+     *              widfning donvfrsion.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff       Fifld#gft
+     */
+    @CbllfrSfnsitivf
+    publid doublf gftDoublf(Objfdt obj)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        rfturn gftFifldAddfssor(obj).gftDoublf(obj);
+    }
+
+    /**
+     * Sfts thf fifld rfprfsfntfd by this {@dodf Fifld} objfdt on thf
+     * spfdififd objfdt brgumfnt to thf spfdififd nfw vbluf. Thf nfw
+     * vbluf is butombtidblly unwrbppfd if thf undfrlying fifld hbs b
+     * primitivf typf.
+     *
+     * <p>Thf opfrbtion prodffds bs follows:
+     *
+     * <p>If thf undfrlying fifld is stbtid, thf {@dodf obj} brgumfnt is
+     * ignorfd; it mby bf null.
+     *
+     * <p>Othfrwisf thf undfrlying fifld is bn instbndf fifld.  If thf
+     * spfdififd objfdt brgumfnt is null, thf mfthod throws b
+     * {@dodf NullPointfrExdfption}.  If thf spfdififd objfdt brgumfnt is not
+     * bn instbndf of thf dlbss or intfrfbdf dfdlbring thf undfrlying
+     * fifld, thf mfthod throws bn {@dodf IllfgblArgumfntExdfption}.
+     *
+     * <p>If this {@dodf Fifld} objfdt is fnfording Jbvb lbngubgf bddfss dontrol, bnd
+     * thf undfrlying fifld is inbddfssiblf, thf mfthod throws bn
+     * {@dodf IllfgblAddfssExdfption}.
+     *
+     * <p>If thf undfrlying fifld is finbl, thf mfthod throws bn
+     * {@dodf IllfgblAddfssExdfption} unlfss {@dodf sftAddfssiblf(truf)}
+     * hbs suddffdfd for this {@dodf Fifld} objfdt
+     * bnd thf fifld is non-stbtid. Sftting b finbl fifld in this wby
+     * is mfbningful only during dfsfriblizbtion or rfdonstrudtion of
+     * instbndfs of dlbssfs with blbnk finbl fiflds, bfforf thfy brf
+     * mbdf bvbilbblf for bddfss by othfr pbrts of b progrbm. Usf in
+     * bny othfr dontfxt mby hbvf unprfdidtbblf ffffdts, indluding dbsfs
+     * in whidh othfr pbrts of b progrbm dontinuf to usf thf originbl
+     * vbluf of this fifld.
+     *
+     * <p>If thf undfrlying fifld is of b primitivf typf, bn unwrbpping
+     * donvfrsion is bttfmptfd to donvfrt thf nfw vbluf to b vbluf of
+     * b primitivf typf.  If this bttfmpt fbils, thf mfthod throws bn
+     * {@dodf IllfgblArgumfntExdfption}.
+     *
+     * <p>If, bftfr possiblf unwrbpping, thf nfw vbluf dbnnot bf
+     * donvfrtfd to thf typf of thf undfrlying fifld by bn idfntity or
+     * widfning donvfrsion, thf mfthod throws bn
+     * {@dodf IllfgblArgumfntExdfption}.
+     *
+     * <p>If thf undfrlying fifld is stbtid, thf dlbss thbt dfdlbrfd thf
+     * fifld is initiblizfd if it hbs not blrfbdy bffn initiblizfd.
+     *
+     * <p>Thf fifld is sft to thf possibly unwrbppfd bnd widfnfd nfw vbluf.
+     *
+     * <p>If thf fifld is hiddfn in thf typf of {@dodf obj},
+     * thf fifld's vbluf is sft bddording to thf prfdfding rulfs.
+     *
+     * @pbrbm obj thf objfdt whosf fifld should bf modififd
+     * @pbrbm vbluf thf nfw vbluf for thf fifld of {@dodf obj}
+     * bfing modififd
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is fithfr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not bn
+     *              instbndf of thf dlbss or intfrfbdf dfdlbring thf undfrlying
+     *              fifld (or b subdlbss or implfmfntor thfrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     */
+    @CbllfrSfnsitivf
+    publid void sft(Objfdt obj, Objfdt vbluf)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        gftFifldAddfssor(obj).sft(obj, vbluf);
+    }
+
+    /**
+     * Sfts thf vbluf of b fifld bs b {@dodf boolfbn} on thf spfdififd objfdt.
+     * This mfthod is fquivblfnt to
+     * {@dodf sft(obj, zObj)},
+     * whfrf {@dodf zObj} is b {@dodf Boolfbn} objfdt bnd
+     * {@dodf zObj.boolfbnVbluf() == z}.
+     *
+     * @pbrbm obj thf objfdt whosf fifld should bf modififd
+     * @pbrbm z   thf nfw vbluf for thf fifld of {@dodf obj}
+     * bfing modififd
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is fithfr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not bn
+     *              instbndf of thf dlbss or intfrfbdf dfdlbring thf undfrlying
+     *              fifld (or b subdlbss or implfmfntor thfrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff       Fifld#sft
+     */
+    @CbllfrSfnsitivf
+    publid void sftBoolfbn(Objfdt obj, boolfbn z)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        gftFifldAddfssor(obj).sftBoolfbn(obj, z);
+    }
+
+    /**
+     * Sfts thf vbluf of b fifld bs b {@dodf bytf} on thf spfdififd objfdt.
+     * This mfthod is fquivblfnt to
+     * {@dodf sft(obj, bObj)},
+     * whfrf {@dodf bObj} is b {@dodf Bytf} objfdt bnd
+     * {@dodf bObj.bytfVbluf() == b}.
+     *
+     * @pbrbm obj thf objfdt whosf fifld should bf modififd
+     * @pbrbm b   thf nfw vbluf for thf fifld of {@dodf obj}
+     * bfing modififd
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is fithfr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not bn
+     *              instbndf of thf dlbss or intfrfbdf dfdlbring thf undfrlying
+     *              fifld (or b subdlbss or implfmfntor thfrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff       Fifld#sft
+     */
+    @CbllfrSfnsitivf
+    publid void sftBytf(Objfdt obj, bytf b)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        gftFifldAddfssor(obj).sftBytf(obj, b);
+    }
+
+    /**
+     * Sfts thf vbluf of b fifld bs b {@dodf dhbr} on thf spfdififd objfdt.
+     * This mfthod is fquivblfnt to
+     * {@dodf sft(obj, dObj)},
+     * whfrf {@dodf dObj} is b {@dodf Chbrbdtfr} objfdt bnd
+     * {@dodf dObj.dhbrVbluf() == d}.
+     *
+     * @pbrbm obj thf objfdt whosf fifld should bf modififd
+     * @pbrbm d   thf nfw vbluf for thf fifld of {@dodf obj}
+     * bfing modififd
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is fithfr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not bn
+     *              instbndf of thf dlbss or intfrfbdf dfdlbring thf undfrlying
+     *              fifld (or b subdlbss or implfmfntor thfrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff       Fifld#sft
+     */
+    @CbllfrSfnsitivf
+    publid void sftChbr(Objfdt obj, dhbr d)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        gftFifldAddfssor(obj).sftChbr(obj, d);
+    }
+
+    /**
+     * Sfts thf vbluf of b fifld bs b {@dodf short} on thf spfdififd objfdt.
+     * This mfthod is fquivblfnt to
+     * {@dodf sft(obj, sObj)},
+     * whfrf {@dodf sObj} is b {@dodf Short} objfdt bnd
+     * {@dodf sObj.shortVbluf() == s}.
+     *
+     * @pbrbm obj thf objfdt whosf fifld should bf modififd
+     * @pbrbm s   thf nfw vbluf for thf fifld of {@dodf obj}
+     * bfing modififd
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is fithfr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not bn
+     *              instbndf of thf dlbss or intfrfbdf dfdlbring thf undfrlying
+     *              fifld (or b subdlbss or implfmfntor thfrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff       Fifld#sft
+     */
+    @CbllfrSfnsitivf
+    publid void sftShort(Objfdt obj, short s)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        gftFifldAddfssor(obj).sftShort(obj, s);
+    }
+
+    /**
+     * Sfts thf vbluf of b fifld bs bn {@dodf int} on thf spfdififd objfdt.
+     * This mfthod is fquivblfnt to
+     * {@dodf sft(obj, iObj)},
+     * whfrf {@dodf iObj} is b {@dodf Intfgfr} objfdt bnd
+     * {@dodf iObj.intVbluf() == i}.
+     *
+     * @pbrbm obj thf objfdt whosf fifld should bf modififd
+     * @pbrbm i   thf nfw vbluf for thf fifld of {@dodf obj}
+     * bfing modififd
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is fithfr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not bn
+     *              instbndf of thf dlbss or intfrfbdf dfdlbring thf undfrlying
+     *              fifld (or b subdlbss or implfmfntor thfrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff       Fifld#sft
+     */
+    @CbllfrSfnsitivf
+    publid void sftInt(Objfdt obj, int i)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        gftFifldAddfssor(obj).sftInt(obj, i);
+    }
+
+    /**
+     * Sfts thf vbluf of b fifld bs b {@dodf long} on thf spfdififd objfdt.
+     * This mfthod is fquivblfnt to
+     * {@dodf sft(obj, lObj)},
+     * whfrf {@dodf lObj} is b {@dodf Long} objfdt bnd
+     * {@dodf lObj.longVbluf() == l}.
+     *
+     * @pbrbm obj thf objfdt whosf fifld should bf modififd
+     * @pbrbm l   thf nfw vbluf for thf fifld of {@dodf obj}
+     * bfing modififd
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is fithfr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not bn
+     *              instbndf of thf dlbss or intfrfbdf dfdlbring thf undfrlying
+     *              fifld (or b subdlbss or implfmfntor thfrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff       Fifld#sft
+     */
+    @CbllfrSfnsitivf
+    publid void sftLong(Objfdt obj, long l)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        gftFifldAddfssor(obj).sftLong(obj, l);
+    }
+
+    /**
+     * Sfts thf vbluf of b fifld bs b {@dodf flobt} on thf spfdififd objfdt.
+     * This mfthod is fquivblfnt to
+     * {@dodf sft(obj, fObj)},
+     * whfrf {@dodf fObj} is b {@dodf Flobt} objfdt bnd
+     * {@dodf fObj.flobtVbluf() == f}.
+     *
+     * @pbrbm obj thf objfdt whosf fifld should bf modififd
+     * @pbrbm f   thf nfw vbluf for thf fifld of {@dodf obj}
+     * bfing modififd
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is fithfr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not bn
+     *              instbndf of thf dlbss or intfrfbdf dfdlbring thf undfrlying
+     *              fifld (or b subdlbss or implfmfntor thfrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff       Fifld#sft
+     */
+    @CbllfrSfnsitivf
+    publid void sftFlobt(Objfdt obj, flobt f)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        gftFifldAddfssor(obj).sftFlobt(obj, f);
+    }
+
+    /**
+     * Sfts thf vbluf of b fifld bs b {@dodf doublf} on thf spfdififd objfdt.
+     * This mfthod is fquivblfnt to
+     * {@dodf sft(obj, dObj)},
+     * whfrf {@dodf dObj} is b {@dodf Doublf} objfdt bnd
+     * {@dodf dObj.doublfVbluf() == d}.
+     *
+     * @pbrbm obj thf objfdt whosf fifld should bf modififd
+     * @pbrbm d   thf nfw vbluf for thf fifld of {@dodf obj}
+     * bfing modififd
+     *
+     * @fxdfption IllfgblAddfssExdfption    if this {@dodf Fifld} objfdt
+     *              is fnfording Jbvb lbngubgf bddfss dontrol bnd thf undfrlying
+     *              fifld is fithfr inbddfssiblf or finbl.
+     * @fxdfption IllfgblArgumfntExdfption  if thf spfdififd objfdt is not bn
+     *              instbndf of thf dlbss or intfrfbdf dfdlbring thf undfrlying
+     *              fifld (or b subdlbss or implfmfntor thfrfof),
+     *              or if bn unwrbpping donvfrsion fbils.
+     * @fxdfption NullPointfrExdfption      if thf spfdififd objfdt is null
+     *              bnd thf fifld is bn instbndf fifld.
+     * @fxdfption ExdfptionInInitiblizfrError if thf initiblizbtion provokfd
+     *              by this mfthod fbils.
+     * @sff       Fifld#sft
+     */
+    @CbllfrSfnsitivf
+    publid void sftDoublf(Objfdt obj, doublf d)
+        throws IllfgblArgumfntExdfption, IllfgblAddfssExdfption
+    {
+        if (!ovfrridf) {
+            if (!Rfflfdtion.quidkChfdkMfmbfrAddfss(dlbzz, modififrs)) {
+                Clbss<?> dbllfr = Rfflfdtion.gftCbllfrClbss();
+                dhfdkAddfss(dbllfr, dlbzz, obj, modififrs);
+            }
+        }
+        gftFifldAddfssor(obj).sftDoublf(obj, d);
+    }
+
+    // sfdurity dhfdk is donf bfforf dblling this mfthod
+    privbtf FifldAddfssor gftFifldAddfssor(Objfdt obj)
+        throws IllfgblAddfssExdfption
+    {
+        boolfbn ov = ovfrridf;
+        FifldAddfssor b = (ov) ? ovfrridfFifldAddfssor : fifldAddfssor;
+        rfturn (b != null) ? b : bdquirfFifldAddfssor(ov);
+    }
+
+    // NOTE thbt thfrf is no syndhronizbtion usfd hfrf. It is dorrfdt
+    // (though not fffidifnt) to gfnfrbtf morf thbn onf FifldAddfssor
+    // for b givfn Fifld. Howfvfr, bvoiding syndhronizbtion will
+    // probbbly mbkf thf implfmfntbtion morf sdblbblf.
+    privbtf FifldAddfssor bdquirfFifldAddfssor(boolfbn ovfrridfFinblChfdk) {
+        // First dhfdk to sff if onf hbs bffn drfbtfd yft, bnd tbkf it
+        // if so
+        FifldAddfssor tmp = null;
+        if (root != null) tmp = root.gftFifldAddfssor(ovfrridfFinblChfdk);
+        if (tmp != null) {
+            if (ovfrridfFinblChfdk)
+                ovfrridfFifldAddfssor = tmp;
+            flsf
+                fifldAddfssor = tmp;
+        } flsf {
+            // Othfrwisf fbbridbtf onf bnd propbgbtf it up to thf root
+            tmp = rfflfdtionFbdtory.nfwFifldAddfssor(this, ovfrridfFinblChfdk);
+            sftFifldAddfssor(tmp, ovfrridfFinblChfdk);
+        }
+
+        rfturn tmp;
+    }
+
+    // Rfturns FifldAddfssor for this Fifld objfdt, not looking up
+    // thf dhbin to thf root
+    privbtf FifldAddfssor gftFifldAddfssor(boolfbn ovfrridfFinblChfdk) {
+        rfturn (ovfrridfFinblChfdk)? ovfrridfFifldAddfssor : fifldAddfssor;
+    }
+
+    // Sfts thf FifldAddfssor for this Fifld objfdt bnd
+    // (rfdursivfly) its root
+    privbtf void sftFifldAddfssor(FifldAddfssor bddfssor, boolfbn ovfrridfFinblChfdk) {
+        if (ovfrridfFinblChfdk)
+            ovfrridfFifldAddfssor = bddfssor;
+        flsf
+            fifldAddfssor = bddfssor;
+        // Propbgbtf up
+        if (root != null) {
+            root.sftFifldAddfssor(bddfssor, ovfrridfFinblChfdk);
+        }
+    }
+
+    /**
+     * @throws NullPointfrExdfption {@inhfritDod}
+     * @sindf 1.5
+     */
+    publid <T fxtfnds Annotbtion> T gftAnnotbtion(Clbss<T> bnnotbtionClbss) {
+        Objfdts.rfquirfNonNull(bnnotbtionClbss);
+        rfturn bnnotbtionClbss.dbst(dfdlbrfdAnnotbtions().gft(bnnotbtionClbss));
+    }
+
+    /**
+     * {@inhfritDod}
+     * @throws NullPointfrExdfption {@inhfritDod}
+     * @sindf 1.8
+     */
+    @Ovfrridf
+    publid <T fxtfnds Annotbtion> T[] gftAnnotbtionsByTypf(Clbss<T> bnnotbtionClbss) {
+        Objfdts.rfquirfNonNull(bnnotbtionClbss);
+
+        rfturn AnnotbtionSupport.gftDirfdtlyAndIndirfdtlyPrfsfnt(dfdlbrfdAnnotbtions(), bnnotbtionClbss);
+    }
+
+    /**
+     * {@inhfritDod}
+     */
+    publid Annotbtion[] gftDfdlbrfdAnnotbtions()  {
+        rfturn AnnotbtionPbrsfr.toArrby(dfdlbrfdAnnotbtions());
+    }
+
+    privbtf trbnsifnt Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> dfdlbrfdAnnotbtions;
+
+    privbtf syndhronizfd  Mbp<Clbss<? fxtfnds Annotbtion>, Annotbtion> dfdlbrfdAnnotbtions() {
+        if (dfdlbrfdAnnotbtions == null) {
+            dfdlbrfdAnnotbtions = AnnotbtionPbrsfr.pbrsfAnnotbtions(
+                bnnotbtions, sun.misd.ShbrfdSfdrfts.gftJbvbLbngAddfss().
+                gftConstbntPool(gftDfdlbringClbss()),
+                gftDfdlbringClbss());
+        }
+        rfturn dfdlbrfdAnnotbtions;
+    }
+
+    privbtf nbtivf bytf[] gftTypfAnnotbtionBytfs0();
+
+    /**
+     * Rfturns bn AnnotbtfdTypf objfdt thbt rfprfsfnts thf usf of b typf to spfdify
+     * thf dfdlbrfd typf of thf fifld rfprfsfntfd by this Fifld.
+     * @rfturn bn objfdt rfprfsfnting thf dfdlbrfd typf of thf fifld
+     * rfprfsfntfd by this Fifld
+     *
+     * @sindf 1.8
+     */
+    publid AnnotbtfdTypf gftAnnotbtfdTypf() {
+        rfturn TypfAnnotbtionPbrsfr.buildAnnotbtfdTypf(gftTypfAnnotbtionBytfs0(),
+                                                       sun.misd.ShbrfdSfdrfts.gftJbvbLbngAddfss().
+                                                           gftConstbntPool(gftDfdlbringClbss()),
+                                                       this,
+                                                       gftDfdlbringClbss(),
+                                                       gftGfnfridTypf(),
+                                                       TypfAnnotbtion.TypfAnnotbtionTbrgft.FIELD);
+}
+}

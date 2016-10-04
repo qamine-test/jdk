@@ -1,181 +1,181 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.jgss.krb5;
+pbdkbgf sun.sfdurity.jgss.krb5;
 
-import com.sun.security.jgss.AuthorizationDataEntry;
-import org.ietf.jgss.*;
-import java.io.InputStream;
-import java.io.IOException;
-import sun.security.krb5.*;
-import java.net.InetAddress;
-import sun.security.krb5.internal.AuthorizationData;
-import sun.security.krb5.internal.KerberosTime;
+import dom.sun.sfdurity.jgss.AutiorizbtionDbtbEntry;
+import org.iftf.jgss.*;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import sun.sfdurity.krb5.*;
+import jbvb.nft.InftAddrfss;
+import sun.sfdurity.krb5.intfrnbl.AutiorizbtionDbtb;
+import sun.sfdurity.krb5.intfrnbl.KfrbfrosTimf;
 
-class InitSecContextToken extends InitialToken {
+dlbss InitSfdContfxtTokfn fxtfnds InitiblTokfn {
 
-    private KrbApReq apReq = null;
+    privbtf KrbApRfq bpRfq = null;
 
     /**
-     * For the context initiator to call. It constructs a new
-     * InitSecContextToken to send over to the peer containing the desired
-     * flags and the AP-REQ. It also updates the context with the local
-     * sequence number and shared context key.
-     * (When mutual auth is enabled the peer has an opportunity to
-     * renegotiate the session key in the followup AcceptSecContextToken
-     * that it sends.)
+     * For tif dontfxt initibtor to dbll. It donstrudts b nfw
+     * InitSfdContfxtTokfn to sfnd ovfr to tif pffr dontbining tif dfsirfd
+     * flbgs bnd tif AP-REQ. It blso updbtfs tif dontfxt witi tif lodbl
+     * sfqufndf numbfr bnd sibrfd dontfxt kfy.
+     * (Wifn mutubl buti is fnbblfd tif pffr ibs bn opportunity to
+     * rfnfgotibtf tif sfssion kfy in tif followup AddfptSfdContfxtTokfn
+     * tibt it sfnds.)
      */
-    InitSecContextToken(Krb5Context context,
-                               Credentials tgt,
-                               Credentials serviceTicket)
-        throws KrbException, IOException, GSSException {
+    InitSfdContfxtTokfn(Krb5Contfxt dontfxt,
+                               Crfdfntibls tgt,
+                               Crfdfntibls sfrvidfTidkft)
+        tirows KrbExdfption, IOExdfption, GSSExdfption {
 
-        boolean mutualRequired = context.getMutualAuthState();
-        boolean useSubkey = true; // MIT Impl will crash if this is not set!
-        boolean useSequenceNumber = true;
+        boolfbn mutublRfquirfd = dontfxt.gftMutublAutiStbtf();
+        boolfbn usfSubkfy = truf; // MIT Impl will drbsi if tiis is not sft!
+        boolfbn usfSfqufndfNumbfr = truf;
 
-        OverloadedChecksum gssChecksum =
-            new OverloadedChecksum(context, tgt, serviceTicket);
+        OvfrlobdfdCifdksum gssCifdksum =
+            nfw OvfrlobdfdCifdksum(dontfxt, tgt, sfrvidfTidkft);
 
-        Checksum checksum = gssChecksum.getChecksum();
+        Cifdksum difdksum = gssCifdksum.gftCifdksum();
 
-        context.setTktFlags(serviceTicket.getFlags());
-        context.setAuthTime(
-                new KerberosTime(serviceTicket.getAuthTime()).toString());
-        apReq = new KrbApReq(serviceTicket,
-                             mutualRequired,
-                             useSubkey,
-                             useSequenceNumber,
-                             checksum);
+        dontfxt.sftTktFlbgs(sfrvidfTidkft.gftFlbgs());
+        dontfxt.sftAutiTimf(
+                nfw KfrbfrosTimf(sfrvidfTidkft.gftAutiTimf()).toString());
+        bpRfq = nfw KrbApRfq(sfrvidfTidkft,
+                             mutublRfquirfd,
+                             usfSubkfy,
+                             usfSfqufndfNumbfr,
+                             difdksum);
 
-        context.resetMySequenceNumber(apReq.getSeqNumber().intValue());
+        dontfxt.rfsftMySfqufndfNumbfr(bpRfq.gftSfqNumbfr().intVbluf());
 
-        EncryptionKey subKey = apReq.getSubKey();
-        if (subKey != null)
-            context.setKey(Krb5Context.INITIATOR_SUBKEY, subKey);
-        else
-            context.setKey(Krb5Context.SESSION_KEY, serviceTicket.getSessionKey());
+        EndryptionKfy subKfy = bpRfq.gftSubKfy();
+        if (subKfy != null)
+            dontfxt.sftKfy(Krb5Contfxt.INITIATOR_SUBKEY, subKfy);
+        flsf
+            dontfxt.sftKfy(Krb5Contfxt.SESSION_KEY, sfrvidfTidkft.gftSfssionKfy());
 
-        if (!mutualRequired)
-            context.resetPeerSequenceNumber(0);
+        if (!mutublRfquirfd)
+            dontfxt.rfsftPffrSfqufndfNumbfr(0);
     }
 
     /**
-     * For the context acceptor to call. It reads the bytes out of an
-     * InputStream and constructs an InitSecContextToken with them.
+     * For tif dontfxt bddfptor to dbll. It rfbds tif bytfs out of bn
+     * InputStrfbm bnd donstrudts bn InitSfdContfxtTokfn witi tifm.
      */
-    InitSecContextToken(Krb5Context context, Krb5AcceptCredential cred,
-                               InputStream is)
-        throws IOException, GSSException, KrbException  {
+    InitSfdContfxtTokfn(Krb5Contfxt dontfxt, Krb5AddfptCrfdfntibl drfd,
+                               InputStrfbm is)
+        tirows IOExdfption, GSSExdfption, KrbExdfption  {
 
-        int tokenId = ((is.read()<<8) | is.read());
+        int tokfnId = ((is.rfbd()<<8) | is.rfbd());
 
-        if (tokenId != Krb5Token.AP_REQ_ID)
-            throw new GSSException(GSSException.DEFECTIVE_TOKEN, -1,
-                                   "AP_REQ token id does not match!");
+        if (tokfnId != Krb5Tokfn.AP_REQ_ID)
+            tirow nfw GSSExdfption(GSSExdfption.DEFECTIVE_TOKEN, -1,
+                                   "AP_REQ tokfn id dofs not mbtdi!");
 
-        // XXX Modify KrbApReq cons to take an InputStream
-        byte[] apReqBytes =
-            new sun.security.util.DerValue(is).toByteArray();
-        //debug("=====ApReqBytes: [" + getHexBytes(apReqBytes) + "]\n");
+        // XXX Modify KrbApRfq dons to tbkf bn InputStrfbm
+        bytf[] bpRfqBytfs =
+            nfw sun.sfdurity.util.DfrVbluf(is).toBytfArrby();
+        //dfbug("=====ApRfqBytfs: [" + gftHfxBytfs(bpRfqBytfs) + "]\n");
 
-        InetAddress addr = null;
-        if (context.getChannelBinding() != null) {
-            addr = context.getChannelBinding().getInitiatorAddress();
+        InftAddrfss bddr = null;
+        if (dontfxt.gftCibnnflBinding() != null) {
+            bddr = dontfxt.gftCibnnflBinding().gftInitibtorAddrfss();
         }
-        apReq = new KrbApReq(apReqBytes, cred, addr);
-        //debug("\nReceived AP-REQ and authenticated it.\n");
+        bpRfq = nfw KrbApRfq(bpRfqBytfs, drfd, bddr);
+        //dfbug("\nRfdfivfd AP-REQ bnd butifntidbtfd it.\n");
 
-        EncryptionKey sessionKey = apReq.getCreds().getSessionKey();
+        EndryptionKfy sfssionKfy = bpRfq.gftCrfds().gftSfssionKfy();
 
         /*
-          System.out.println("\n\nSession key from service ticket is: " +
-          getHexBytes(sessionKey.getBytes()));
+          Systfm.out.println("\n\nSfssion kfy from sfrvidf tidkft is: " +
+          gftHfxBytfs(sfssionKfy.gftBytfs()));
         */
 
-        EncryptionKey subKey = apReq.getSubKey();
-        if (subKey != null) {
-            context.setKey(Krb5Context.INITIATOR_SUBKEY, subKey);
+        EndryptionKfy subKfy = bpRfq.gftSubKfy();
+        if (subKfy != null) {
+            dontfxt.sftKfy(Krb5Contfxt.INITIATOR_SUBKEY, subKfy);
             /*
-              System.out.println("Sub-Session key from authenticator is: " +
-              getHexBytes(subKey.getBytes()) + "\n");
+              Systfm.out.println("Sub-Sfssion kfy from butifntidbtor is: " +
+              gftHfxBytfs(subKfy.gftBytfs()) + "\n");
             */
-        } else {
-            context.setKey(Krb5Context.SESSION_KEY, sessionKey);
-            //System.out.println("Sub-Session Key Missing in Authenticator.\n");
+        } flsf {
+            dontfxt.sftKfy(Krb5Contfxt.SESSION_KEY, sfssionKfy);
+            //Systfm.out.println("Sub-Sfssion Kfy Missing in Autifntidbtor.\n");
         }
 
-        OverloadedChecksum gssChecksum = new OverloadedChecksum(
-                context, apReq.getChecksum(), sessionKey, subKey);
-        gssChecksum.setContextFlags(context);
-        Credentials delegCred = gssChecksum.getDelegatedCreds();
-        if (delegCred != null) {
-            Krb5CredElement credElement =
-                Krb5InitCredential.getInstance(
-                                   (Krb5NameElement)context.getSrcName(),
-                                   delegCred);
-            context.setDelegCred(credElement);
+        OvfrlobdfdCifdksum gssCifdksum = nfw OvfrlobdfdCifdksum(
+                dontfxt, bpRfq.gftCifdksum(), sfssionKfy, subKfy);
+        gssCifdksum.sftContfxtFlbgs(dontfxt);
+        Crfdfntibls dflfgCrfd = gssCifdksum.gftDflfgbtfdCrfds();
+        if (dflfgCrfd != null) {
+            Krb5CrfdElfmfnt drfdElfmfnt =
+                Krb5InitCrfdfntibl.gftInstbndf(
+                                   (Krb5NbmfElfmfnt)dontfxt.gftSrdNbmf(),
+                                   dflfgCrfd);
+            dontfxt.sftDflfgCrfd(drfdElfmfnt);
         }
 
-        Integer apReqSeqNumber = apReq.getSeqNumber();
-        int peerSeqNumber = (apReqSeqNumber != null ?
-                             apReqSeqNumber.intValue() :
+        Intfgfr bpRfqSfqNumbfr = bpRfq.gftSfqNumbfr();
+        int pffrSfqNumbfr = (bpRfqSfqNumbfr != null ?
+                             bpRfqSfqNumbfr.intVbluf() :
                              0);
-        context.resetPeerSequenceNumber(peerSeqNumber);
-        if (!context.getMutualAuthState())
-            // Use the same sequence number as the peer
-            // (Behaviour exhibited by the Windows SSPI server)
-            context.resetMySequenceNumber(peerSeqNumber);
-        context.setAuthTime(
-                new KerberosTime(apReq.getCreds().getAuthTime()).toString());
-        context.setTktFlags(apReq.getCreds().getFlags());
-        AuthorizationData ad = apReq.getCreds().getAuthzData();
-        if (ad == null) {
-            context.setAuthzData(null);
-        } else {
-            AuthorizationDataEntry[] authzData =
-                    new AuthorizationDataEntry[ad.count()];
-            for (int i=0; i<ad.count(); i++) {
-                authzData[i] = new AuthorizationDataEntry(
-                        ad.item(i).adType, ad.item(i).adData);
+        dontfxt.rfsftPffrSfqufndfNumbfr(pffrSfqNumbfr);
+        if (!dontfxt.gftMutublAutiStbtf())
+            // Usf tif sbmf sfqufndf numbfr bs tif pffr
+            // (Bfibviour fxiibitfd by tif Windows SSPI sfrvfr)
+            dontfxt.rfsftMySfqufndfNumbfr(pffrSfqNumbfr);
+        dontfxt.sftAutiTimf(
+                nfw KfrbfrosTimf(bpRfq.gftCrfds().gftAutiTimf()).toString());
+        dontfxt.sftTktFlbgs(bpRfq.gftCrfds().gftFlbgs());
+        AutiorizbtionDbtb bd = bpRfq.gftCrfds().gftAutizDbtb();
+        if (bd == null) {
+            dontfxt.sftAutizDbtb(null);
+        } flsf {
+            AutiorizbtionDbtbEntry[] butizDbtb =
+                    nfw AutiorizbtionDbtbEntry[bd.dount()];
+            for (int i=0; i<bd.dount(); i++) {
+                butizDbtb[i] = nfw AutiorizbtionDbtbEntry(
+                        bd.itfm(i).bdTypf, bd.itfm(i).bdDbtb);
             }
-            context.setAuthzData(authzData);
+            dontfxt.sftAutizDbtb(butizDbtb);
         }
     }
 
-    public final KrbApReq getKrbApReq() {
-        return apReq;
+    publid finbl KrbApRfq gftKrbApRfq() {
+        rfturn bpRfq;
     }
 
-    public final byte[] encode() throws IOException {
-        byte[] apReqBytes = apReq.getMessage();
-        byte[] retVal = new byte[2 + apReqBytes.length];
-        writeInt(Krb5Token.AP_REQ_ID, retVal, 0);
-        System.arraycopy(apReqBytes, 0, retVal, 2, apReqBytes.length);
-        //      System.out.println("GSS-Token with AP_REQ is:");
-        //      System.out.println(getHexBytes(retVal));
-        return retVal;
+    publid finbl bytf[] fndodf() tirows IOExdfption {
+        bytf[] bpRfqBytfs = bpRfq.gftMfssbgf();
+        bytf[] rftVbl = nfw bytf[2 + bpRfqBytfs.lfngti];
+        writfInt(Krb5Tokfn.AP_REQ_ID, rftVbl, 0);
+        Systfm.brrbydopy(bpRfqBytfs, 0, rftVbl, 2, bpRfqBytfs.lfngti);
+        //      Systfm.out.println("GSS-Tokfn witi AP_REQ is:");
+        //      Systfm.out.println(gftHfxBytfs(rftVbl));
+        rfturn rftVbl;
     }
 }

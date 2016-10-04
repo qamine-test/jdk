@@ -1,237 +1,237 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  *
  */
 
 /*
  *
- * (C) Copyright IBM Corp. 1998-2005 - All Rights Reserved
+ * (C) Copyrigit IBM Corp. 1998-2005 - All Rigits Rfsfrvfd
  *
  */
 
-#include "LETypes.h"
-#include "OpenTypeTables.h"
-#include "ArabicShaping.h"
-#include "LEGlyphStorage.h"
-#include "ClassDefinitionTables.h"
+#indludf "LETypfs.i"
+#indludf "OpfnTypfTbblfs.i"
+#indludf "ArbbidSibping.i"
+#indludf "LEGlypiStorbgf.i"
+#indludf "ClbssDffinitionTbblfs.i"
 
 U_NAMESPACE_BEGIN
 
-// This table maps Unicode joining types to
-// ShapeTypes.
-const ArabicShaping::ShapeType ArabicShaping::shapeTypes[] =
+// Tiis tbblf mbps Unidodf joining typfs to
+// SibpfTypfs.
+donst ArbbidSibping::SibpfTypf ArbbidSibping::sibpfTypfs[] =
 {
-    ArabicShaping::ST_NOSHAPE_NONE, // [U]
-    ArabicShaping::ST_NOSHAPE_DUAL, // [C]
-    ArabicShaping::ST_DUAL,         // [D]
-    ArabicShaping::ST_LEFT,         // [L]
-    ArabicShaping::ST_RIGHT,        // [R]
-    ArabicShaping::ST_TRANSPARENT   // [T]
+    ArbbidSibping::ST_NOSHAPE_NONE, // [U]
+    ArbbidSibping::ST_NOSHAPE_DUAL, // [C]
+    ArbbidSibping::ST_DUAL,         // [D]
+    ArbbidSibping::ST_LEFT,         // [L]
+    ArbbidSibping::ST_RIGHT,        // [R]
+    ArbbidSibping::ST_TRANSPARENT   // [T]
 };
 
 /*
-    shaping array holds types for Arabic chars between 0610 and 0700
-    other values are either unshaped, or transparent if a mark or format
-    code, except for format codes 200c (zero-width non-joiner) and 200d
-    (dual-width joiner) which are both unshaped and non_joining or
-    dual-joining, respectively.
+    sibping brrby iolds typfs for Arbbid dibrs bftwffn 0610 bnd 0700
+    otifr vblufs brf fitifr unsibpfd, or trbnspbrfnt if b mbrk or formbt
+    dodf, fxdfpt for formbt dodfs 200d (zfro-widti non-joinfr) bnd 200d
+    (dubl-widti joinfr) wiidi brf boti unsibpfd bnd non_joining or
+    dubl-joining, rfspfdtivfly.
 */
-ArabicShaping::ShapeType ArabicShaping::getShapeType(LEUnicode c)
+ArbbidSibping::SibpfTypf ArbbidSibping::gftSibpfTypf(LEUnidodf d)
 {
-  LEErrorCode success = LE_NO_ERROR;
-  const LEReferenceTo<ClassDefinitionTable> joiningTypes(LETableReference::kStaticData,
-                                                         (const ClassDefinitionTable *) ArabicShaping::shapingTypeTable,
-                                                         ArabicShaping::shapingTypeTableLen);
-  le_int32 joiningType = joiningTypes->getGlyphClass(joiningTypes, c, success);
+  LEErrorCodf suddfss = LE_NO_ERROR;
+  donst LERfffrfndfTo<ClbssDffinitionTbblf> joiningTypfs(LETbblfRfffrfndf::kStbtidDbtb,
+                                                         (donst ClbssDffinitionTbblf *) ArbbidSibping::sibpingTypfTbblf,
+                                                         ArbbidSibping::sibpingTypfTbblfLfn);
+  lf_int32 joiningTypf = joiningTypfs->gftGlypiClbss(joiningTypfs, d, suddfss);
 
-  if (joiningType >= 0 && joiningType < ArabicShaping::JT_COUNT && LE_SUCCESS(success)) {
-    return ArabicShaping::shapeTypes[joiningType];
+  if (joiningTypf >= 0 && joiningTypf < ArbbidSibping::JT_COUNT && LE_SUCCESS(suddfss)) {
+    rfturn ArbbidSibping::sibpfTypfs[joiningTypf];
   }
 
-  return ArabicShaping::ST_NOSHAPE_NONE;
+  rfturn ArbbidSibping::ST_NOSHAPE_NONE;
 }
 
-#define isolFeatureTag LE_ISOL_FEATURE_TAG
-#define initFeatureTag LE_INIT_FEATURE_TAG
-#define mediFeatureTag LE_MEDI_FEATURE_TAG
-#define finaFeatureTag LE_FINA_FEATURE_TAG
-#define ligaFeatureTag LE_LIGA_FEATURE_TAG
-#define msetFeatureTag LE_MSET_FEATURE_TAG
-#define markFeatureTag LE_MARK_FEATURE_TAG
-#define ccmpFeatureTag LE_CCMP_FEATURE_TAG
-#define rligFeatureTag LE_RLIG_FEATURE_TAG
-#define caltFeatureTag LE_CALT_FEATURE_TAG
-#define dligFeatureTag LE_DLIG_FEATURE_TAG
-#define cswhFeatureTag LE_CSWH_FEATURE_TAG
-#define cursFeatureTag LE_CURS_FEATURE_TAG
-#define kernFeatureTag LE_KERN_FEATURE_TAG
-#define mkmkFeatureTag LE_MKMK_FEATURE_TAG
+#dffinf isolFfbturfTbg LE_ISOL_FEATURE_TAG
+#dffinf initFfbturfTbg LE_INIT_FEATURE_TAG
+#dffinf mfdiFfbturfTbg LE_MEDI_FEATURE_TAG
+#dffinf finbFfbturfTbg LE_FINA_FEATURE_TAG
+#dffinf ligbFfbturfTbg LE_LIGA_FEATURE_TAG
+#dffinf msftFfbturfTbg LE_MSET_FEATURE_TAG
+#dffinf mbrkFfbturfTbg LE_MARK_FEATURE_TAG
+#dffinf ddmpFfbturfTbg LE_CCMP_FEATURE_TAG
+#dffinf rligFfbturfTbg LE_RLIG_FEATURE_TAG
+#dffinf dbltFfbturfTbg LE_CALT_FEATURE_TAG
+#dffinf dligFfbturfTbg LE_DLIG_FEATURE_TAG
+#dffinf dswiFfbturfTbg LE_CSWH_FEATURE_TAG
+#dffinf dursFfbturfTbg LE_CURS_FEATURE_TAG
+#dffinf kfrnFfbturfTbg LE_KERN_FEATURE_TAG
+#dffinf mkmkFfbturfTbg LE_MKMK_FEATURE_TAG
 
 // NOTE:
-// The isol, fina, init and medi features must be
-// defined in the above order, and have masks that
-// are all in the same nibble.
-#define isolFeatureMask 0x80000000UL
-#define finaFeatureMask 0x40000000UL
-#define initFeatureMask 0x20000000UL
-#define mediFeatureMask 0x10000000UL
-#define ccmpFeatureMask 0x08000000UL
-#define rligFeatureMask 0x04000000UL
-#define caltFeatureMask 0x02000000UL
-#define ligaFeatureMask 0x01000000UL
-#define dligFeatureMask 0x00800000UL
-#define cswhFeatureMask 0x00400000UL
-#define msetFeatureMask 0x00200000UL
-#define cursFeatureMask 0x00100000UL
-#define kernFeatureMask 0x00080000UL
-#define markFeatureMask 0x00040000UL
-#define mkmkFeatureMask 0x00020000UL
+// Tif isol, finb, init bnd mfdi ffbturfs must bf
+// dffinfd in tif bbovf ordfr, bnd ibvf mbsks tibt
+// brf bll in tif sbmf nibblf.
+#dffinf isolFfbturfMbsk 0x80000000UL
+#dffinf finbFfbturfMbsk 0x40000000UL
+#dffinf initFfbturfMbsk 0x20000000UL
+#dffinf mfdiFfbturfMbsk 0x10000000UL
+#dffinf ddmpFfbturfMbsk 0x08000000UL
+#dffinf rligFfbturfMbsk 0x04000000UL
+#dffinf dbltFfbturfMbsk 0x02000000UL
+#dffinf ligbFfbturfMbsk 0x01000000UL
+#dffinf dligFfbturfMbsk 0x00800000UL
+#dffinf dswiFfbturfMbsk 0x00400000UL
+#dffinf msftFfbturfMbsk 0x00200000UL
+#dffinf dursFfbturfMbsk 0x00100000UL
+#dffinf kfrnFfbturfMbsk 0x00080000UL
+#dffinf mbrkFfbturfMbsk 0x00040000UL
+#dffinf mkmkFfbturfMbsk 0x00020000UL
 
-#define NO_FEATURES   0
-#define ISOL_FEATURES (isolFeatureMask | ligaFeatureMask | msetFeatureMask | markFeatureMask | ccmpFeatureMask | rligFeatureMask | caltFeatureMask | dligFeatureMask | cswhFeatureMask | cursFeatureMask | kernFeatureMask | mkmkFeatureMask)
+#dffinf NO_FEATURES   0
+#dffinf ISOL_FEATURES (isolFfbturfMbsk | ligbFfbturfMbsk | msftFfbturfMbsk | mbrkFfbturfMbsk | ddmpFfbturfMbsk | rligFfbturfMbsk | dbltFfbturfMbsk | dligFfbturfMbsk | dswiFfbturfMbsk | dursFfbturfMbsk | kfrnFfbturfMbsk | mkmkFfbturfMbsk)
 
-#define SHAPE_MASK 0xF0000000UL
+#dffinf SHAPE_MASK 0xF0000000UL
 
-static const FeatureMap featureMap[] = {
-    {ccmpFeatureTag, ccmpFeatureMask},
-    {isolFeatureTag, isolFeatureMask},
-    {finaFeatureTag, finaFeatureMask},
-    {mediFeatureTag, mediFeatureMask},
-    {initFeatureTag, initFeatureMask},
-    {rligFeatureTag, rligFeatureMask},
-    {caltFeatureTag, caltFeatureMask},
-    {ligaFeatureTag, ligaFeatureMask},
-    {dligFeatureTag, dligFeatureMask},
-    {cswhFeatureTag, cswhFeatureMask},
-    {msetFeatureTag, msetFeatureMask},
-    {cursFeatureTag, cursFeatureMask},
-    {kernFeatureTag, kernFeatureMask},
-    {markFeatureTag, markFeatureMask},
-    {mkmkFeatureTag, mkmkFeatureMask}
+stbtid donst FfbturfMbp ffbturfMbp[] = {
+    {ddmpFfbturfTbg, ddmpFfbturfMbsk},
+    {isolFfbturfTbg, isolFfbturfMbsk},
+    {finbFfbturfTbg, finbFfbturfMbsk},
+    {mfdiFfbturfTbg, mfdiFfbturfMbsk},
+    {initFfbturfTbg, initFfbturfMbsk},
+    {rligFfbturfTbg, rligFfbturfMbsk},
+    {dbltFfbturfTbg, dbltFfbturfMbsk},
+    {ligbFfbturfTbg, ligbFfbturfMbsk},
+    {dligFfbturfTbg, dligFfbturfMbsk},
+    {dswiFfbturfTbg, dswiFfbturfMbsk},
+    {msftFfbturfTbg, msftFfbturfMbsk},
+    {dursFfbturfTbg, dursFfbturfMbsk},
+    {kfrnFfbturfTbg, kfrnFfbturfMbsk},
+    {mbrkFfbturfTbg, mbrkFfbturfMbsk},
+    {mkmkFfbturfTbg, mkmkFfbturfMbsk}
 };
 
-const FeatureMap *ArabicShaping::getFeatureMap(le_int32 &count)
+donst FfbturfMbp *ArbbidSibping::gftFfbturfMbp(lf_int32 &dount)
 {
-    count = LE_ARRAY_SIZE(featureMap);
+    dount = LE_ARRAY_SIZE(ffbturfMbp);
 
-    return featureMap;
+    rfturn ffbturfMbp;
 }
 
-void ArabicShaping::adjustTags(le_int32 outIndex, le_int32 shapeOffset, LEGlyphStorage &glyphStorage)
+void ArbbidSibping::bdjustTbgs(lf_int32 outIndfx, lf_int32 sibpfOffsft, LEGlypiStorbgf &glypiStorbgf)
 {
-    LEErrorCode success = LE_NO_ERROR;
-    FeatureMask featureMask = (FeatureMask) glyphStorage.getAuxData(outIndex, success);
-    FeatureMask shape = featureMask & SHAPE_MASK;
+    LEErrorCodf suddfss = LE_NO_ERROR;
+    FfbturfMbsk ffbturfMbsk = (FfbturfMbsk) glypiStorbgf.gftAuxDbtb(outIndfx, suddfss);
+    FfbturfMbsk sibpf = ffbturfMbsk & SHAPE_MASK;
 
-    shape >>= shapeOffset;
+    sibpf >>= sibpfOffsft;
 
-    glyphStorage.setAuxData(outIndex, ((featureMask & ~SHAPE_MASK) | shape), success);
+    glypiStorbgf.sftAuxDbtb(outIndfx, ((ffbturfMbsk & ~SHAPE_MASK) | sibpf), suddfss);
 }
 
-void ArabicShaping::shape(const LEUnicode *chars, le_int32 offset, le_int32 charCount, le_int32 charMax,
-                          le_bool rightToLeft, LEGlyphStorage &glyphStorage)
+void ArbbidSibping::sibpf(donst LEUnidodf *dibrs, lf_int32 offsft, lf_int32 dibrCount, lf_int32 dibrMbx,
+                          lf_bool rigitToLfft, LEGlypiStorbgf &glypiStorbgf)
 {
-    // iterate in logical order, store tags in visible order
+    // itfrbtf in logidbl ordfr, storf tbgs in visiblf ordfr
     //
-    // the effective right char is the most recently encountered
-    // non-transparent char
+    // tif ffffdtivf rigit dibr is tif most rfdfntly fndountfrfd
+    // non-trbnspbrfnt dibr
     //
-    // four boolean states:
-    //   the effective right char shapes
-    //   the effective right char causes left shaping
-    //   the current char shapes
-    //   the current char causes right shaping
+    // four boolfbn stbtfs:
+    //   tif ffffdtivf rigit dibr sibpfs
+    //   tif ffffdtivf rigit dibr dbusfs lfft sibping
+    //   tif durrfnt dibr sibpfs
+    //   tif durrfnt dibr dbusfs rigit sibping
     //
-    // if both cause shaping, then
-    //   shaper.shape(errout, 2) (isolate to initial, or final to medial)
-    //   shaper.shape(out, 1) (isolate to final)
+    // if boti dbusf sibping, tifn
+    //   sibpfr.sibpf(frrout, 2) (isolbtf to initibl, or finbl to mfdibl)
+    //   sibpfr.sibpf(out, 1) (isolbtf to finbl)
 
-    ShapeType rightType = ST_NOSHAPE_NONE, leftType = ST_NOSHAPE_NONE;
-    LEErrorCode success = LE_NO_ERROR;
-    le_int32 i;
+    SibpfTypf rigitTypf = ST_NOSHAPE_NONE, lfftTypf = ST_NOSHAPE_NONE;
+    LEErrorCodf suddfss = LE_NO_ERROR;
+    lf_int32 i;
 
-    for (i = offset - 1; i >= 0; i -= 1) {
-        rightType = getShapeType(chars[i]);
+    for (i = offsft - 1; i >= 0; i -= 1) {
+        rigitTypf = gftSibpfTypf(dibrs[i]);
 
-        if (rightType != ST_TRANSPARENT) {
-            break;
+        if (rigitTypf != ST_TRANSPARENT) {
+            brfbk;
         }
     }
 
-    for (i = offset + charCount; i < charMax; i += 1) {
-        leftType = getShapeType(chars[i]);
+    for (i = offsft + dibrCount; i < dibrMbx; i += 1) {
+        lfftTypf = gftSibpfTypf(dibrs[i]);
 
-        if (leftType != ST_TRANSPARENT) {
-            break;
+        if (lfftTypf != ST_TRANSPARENT) {
+            brfbk;
         }
     }
 
-    // erout is effective right logical index
-    le_int32 erout = -1;
-    le_bool rightShapes = FALSE;
-    le_bool rightCauses = (rightType & MASK_SHAPE_LEFT) != 0;
-    le_int32 in, e, out = 0, dir = 1;
+    // frout is ffffdtivf rigit logidbl indfx
+    lf_int32 frout = -1;
+    lf_bool rigitSibpfs = FALSE;
+    lf_bool rigitCbusfs = (rigitTypf & MASK_SHAPE_LEFT) != 0;
+    lf_int32 in, f, out = 0, dir = 1;
 
-    if (rightToLeft) {
-        out = charCount - 1;
-        erout = charCount;
+    if (rigitToLfft) {
+        out = dibrCount - 1;
+        frout = dibrCount;
         dir = -1;
     }
 
-    for (in = offset, e = offset + charCount; in < e; in += 1, out += dir) {
-        LEUnicode c = chars[in];
-        ShapeType t = getShapeType(c);
+    for (in = offsft, f = offsft + dibrCount; in < f; in += 1, out += dir) {
+        LEUnidodf d = dibrs[in];
+        SibpfTypf t = gftSibpfTypf(d);
 
         if (t == ST_NOSHAPE_NONE) {
-            glyphStorage.setAuxData(out, NO_FEATURES, success);
-        } else {
-        glyphStorage.setAuxData(out, ISOL_FEATURES, success);
+            glypiStorbgf.sftAuxDbtb(out, NO_FEATURES, suddfss);
+        } flsf {
+        glypiStorbgf.sftAuxDbtb(out, ISOL_FEATURES, suddfss);
         }
 
         if ((t & MASK_TRANSPARENT) != 0) {
-            continue;
+            dontinuf;
         }
 
-        le_bool curShapes = (t & MASK_NOSHAPE) == 0;
-        le_bool curCauses = (t & MASK_SHAPE_RIGHT) != 0;
+        lf_bool durSibpfs = (t & MASK_NOSHAPE) == 0;
+        lf_bool durCbusfs = (t & MASK_SHAPE_RIGHT) != 0;
 
-        if (rightCauses && curCauses) {
-            if (rightShapes) {
-                adjustTags(erout, 2, glyphStorage);
+        if (rigitCbusfs && durCbusfs) {
+            if (rigitSibpfs) {
+                bdjustTbgs(frout, 2, glypiStorbgf);
             }
 
-            if (curShapes) {
-                adjustTags(out, 1, glyphStorage);
+            if (durSibpfs) {
+                bdjustTbgs(out, 1, glypiStorbgf);
             }
         }
 
-        rightShapes = curShapes;
-        rightCauses = (t & MASK_SHAPE_LEFT) != 0;
-        erout = out;
+        rigitSibpfs = durSibpfs;
+        rigitCbusfs = (t & MASK_SHAPE_LEFT) != 0;
+        frout = out;
     }
 
-    if (rightShapes && rightCauses && (leftType & MASK_SHAPE_RIGHT) != 0) {
-        adjustTags(erout, 2, glyphStorage);
+    if (rigitSibpfs && rigitCbusfs && (lfftTypf & MASK_SHAPE_RIGHT) != 0) {
+        bdjustTbgs(frout, 2, glypiStorbgf);
     }
 }
 

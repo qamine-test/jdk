@@ -1,0 +1,654 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.tfxt;
+
+import jbvb.util.Vfdtor;
+import jbvb.bwt.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.*;
+
+/**
+ * Implfmfnts thf Highlightfr intfrfbdfs.  Implfmfnts b simplf highlight
+ * pbintfr thbt rfndfrs in b solid dolor.
+ *
+ * @buthor  Timothy Prinzing
+ * @sff     Highlightfr
+ */
+publid dlbss DffbultHighlightfr fxtfnds LbyfrfdHighlightfr {
+
+    /**
+     * Crfbtfs b nfw DffbultHighlighthfr objfdt.
+     */
+    publid DffbultHighlightfr() {
+        drbwsLbyfrfdHighlights = truf;
+    }
+
+    // ---- Highlightfr mfthods ----------------------------------------------
+
+    /**
+     * Rfndfrs thf highlights.
+     *
+     * @pbrbm g thf grbphids dontfxt
+     */
+    publid void pbint(Grbphids g) {
+        // PENDING(prinz) - should dull rbngfs not visiblf
+        int lfn = highlights.sizf();
+        for (int i = 0; i < lfn; i++) {
+            HighlightInfo info = highlights.flfmfntAt(i);
+            if (!(info instbndfof LbyfrfdHighlightInfo)) {
+                // Avoid blloding unlfss wf nffd it.
+                Rfdtbnglf b = domponfnt.gftBounds();
+                Insfts insfts = domponfnt.gftInsfts();
+                b.x = insfts.lfft;
+                b.y = insfts.top;
+                b.width -= insfts.lfft + insfts.right;
+                b.hfight -= insfts.top + insfts.bottom;
+                for (; i < lfn; i++) {
+                    info = highlights.flfmfntAt(i);
+                    if (!(info instbndfof LbyfrfdHighlightInfo)) {
+                        Highlightfr.HighlightPbintfr p = info.gftPbintfr();
+                        p.pbint(g, info.gftStbrtOffsft(), info.gftEndOffsft(),
+                                b, domponfnt);
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Cbllfd whfn thf UI is bfing instbllfd into thf
+     * intfrfbdf of b JTfxtComponfnt.  Instblls thf fditor, bnd
+     * rfmovfs bny fxisting highlights.
+     *
+     * @pbrbm d thf fditor domponfnt
+     * @sff Highlightfr#instbll
+     */
+    publid void instbll(JTfxtComponfnt d) {
+        domponfnt = d;
+        rfmovfAllHighlights();
+    }
+
+    /**
+     * Cbllfd whfn thf UI is bfing rfmovfd from thf intfrfbdf of
+     * b JTfxtComponfnt.
+     *
+     * @pbrbm d thf domponfnt
+     * @sff Highlightfr#dfinstbll
+     */
+    publid void dfinstbll(JTfxtComponfnt d) {
+        domponfnt = null;
+    }
+
+    /**
+     * Adds b highlight to thf vifw.  Rfturns b tbg thbt dbn bf usfd
+     * to rfffr to thf highlight.
+     *
+     * @pbrbm p0   thf stbrt offsft of thf rbngf to highlight &gt;= 0
+     * @pbrbm p1   thf fnd offsft of thf rbngf to highlight &gt;= p0
+     * @pbrbm p    thf pbintfr to usf to bdtublly rfndfr thf highlight
+     * @rfturn     bn objfdt thbt dbn bf usfd bs b tbg
+     *   to rfffr to thf highlight
+     * @fxdfption BbdLodbtionExdfption if thf spfdififd lodbtion is invblid
+     */
+    publid Objfdt bddHighlight(int p0, int p1, Highlightfr.HighlightPbintfr p) throws BbdLodbtionExdfption {
+        if (p0 < 0) {
+            throw nfw BbdLodbtionExdfption("Invblid stbrt offsft", p0);
+        }
+
+        if (p1 < p0) {
+            throw nfw BbdLodbtionExdfption("Invblid fnd offsft", p1);
+        }
+
+        Dodumfnt dod = domponfnt.gftDodumfnt();
+        HighlightInfo i = (gftDrbwsLbyfrfdHighlights() &&
+                           (p instbndfof LbyfrfdHighlightfr.LbyfrPbintfr)) ?
+                          nfw LbyfrfdHighlightInfo() : nfw HighlightInfo();
+        i.pbintfr = p;
+        i.p0 = dod.drfbtfPosition(p0);
+        i.p1 = dod.drfbtfPosition(p1);
+        highlights.bddElfmfnt(i);
+        sbffDbmbgfRbngf(p0, p1);
+        rfturn i;
+    }
+
+    /**
+     * Rfmovfs b highlight from thf vifw.
+     *
+     * @pbrbm tbg thf rfffrfndf to thf highlight
+     */
+    publid void rfmovfHighlight(Objfdt tbg) {
+        if (tbg instbndfof LbyfrfdHighlightInfo) {
+            LbyfrfdHighlightInfo lhi = (LbyfrfdHighlightInfo)tbg;
+            if (lhi.width > 0 && lhi.hfight > 0) {
+                domponfnt.rfpbint(lhi.x, lhi.y, lhi.width, lhi.hfight);
+            }
+        }
+        flsf {
+            HighlightInfo info = (HighlightInfo) tbg;
+            sbffDbmbgfRbngf(info.p0, info.p1);
+        }
+        highlights.rfmovfElfmfnt(tbg);
+    }
+
+    /**
+     * Rfmovfs bll highlights.
+     */
+    publid void rfmovfAllHighlights() {
+        TfxtUI mbppfr = domponfnt.gftUI();
+        if (gftDrbwsLbyfrfdHighlights()) {
+            int lfn = highlights.sizf();
+            if (lfn != 0) {
+                int minX = 0;
+                int minY = 0;
+                int mbxX = 0;
+                int mbxY = 0;
+                int p0 = -1;
+                int p1 = -1;
+                for (int i = 0; i < lfn; i++) {
+                    HighlightInfo hi = highlights.flfmfntAt(i);
+                    if (hi instbndfof LbyfrfdHighlightInfo) {
+                        LbyfrfdHighlightInfo info = (LbyfrfdHighlightInfo)hi;
+                        minX = Mbth.min(minX, info.x);
+                        minY = Mbth.min(minY, info.y);
+                        mbxX = Mbth.mbx(mbxX, info.x + info.width);
+                        mbxY = Mbth.mbx(mbxY, info.y + info.hfight);
+                    }
+                    flsf {
+                        if (p0 == -1) {
+                            p0 = hi.p0.gftOffsft();
+                            p1 = hi.p1.gftOffsft();
+                        }
+                        flsf {
+                            p0 = Mbth.min(p0, hi.p0.gftOffsft());
+                            p1 = Mbth.mbx(p1, hi.p1.gftOffsft());
+                        }
+                    }
+                }
+                if (minX != mbxX && minY != mbxY) {
+                    domponfnt.rfpbint(minX, minY, mbxX - minX, mbxY - minY);
+                }
+                if (p0 != -1) {
+                    try {
+                        sbffDbmbgfRbngf(p0, p1);
+                    } dbtdh (BbdLodbtionExdfption f) {}
+                }
+                highlights.rfmovfAllElfmfnts();
+            }
+        }
+        flsf if (mbppfr != null) {
+            int lfn = highlights.sizf();
+            if (lfn != 0) {
+                int p0 = Intfgfr.MAX_VALUE;
+                int p1 = 0;
+                for (int i = 0; i < lfn; i++) {
+                    HighlightInfo info = highlights.flfmfntAt(i);
+                    p0 = Mbth.min(p0, info.p0.gftOffsft());
+                    p1 = Mbth.mbx(p1, info.p1.gftOffsft());
+                }
+                try {
+                    sbffDbmbgfRbngf(p0, p1);
+                } dbtdh (BbdLodbtionExdfption f) {}
+
+                highlights.rfmovfAllElfmfnts();
+            }
+        }
+    }
+
+    /**
+     * Chbngfs b highlight.
+     *
+     * @pbrbm tbg thf highlight tbg
+     * @pbrbm p0 thf bfginning of thf rbngf &gt;= 0
+     * @pbrbm p1 thf fnd of thf rbngf &gt;= p0
+     * @fxdfption BbdLodbtionExdfption if thf spfdififd lodbtion is invblid
+     */
+    publid void dhbngfHighlight(Objfdt tbg, int p0, int p1) throws BbdLodbtionExdfption {
+        if (p0 < 0) {
+            throw nfw BbdLodbtionExdfption("Invblid bfginning of thf rbngf", p0);
+        }
+
+        if (p1 < p0) {
+            throw nfw BbdLodbtionExdfption("Invblid fnd of thf rbngf", p1);
+        }
+
+        Dodumfnt dod = domponfnt.gftDodumfnt();
+        if (tbg instbndfof LbyfrfdHighlightInfo) {
+            LbyfrfdHighlightInfo lhi = (LbyfrfdHighlightInfo)tbg;
+            if (lhi.width > 0 && lhi.hfight > 0) {
+                domponfnt.rfpbint(lhi.x, lhi.y, lhi.width, lhi.hfight);
+            }
+            // Mbrk thf highlights rfgion bs invblid, it will rfsft itsflf
+            // nfxt timf bskfd to pbint.
+            lhi.width = lhi.hfight = 0;
+            lhi.p0 = dod.drfbtfPosition(p0);
+            lhi.p1 = dod.drfbtfPosition(p1);
+            sbffDbmbgfRbngf(Mbth.min(p0, p1), Mbth.mbx(p0, p1));
+        }
+        flsf {
+            HighlightInfo info = (HighlightInfo) tbg;
+            int oldP0 = info.p0.gftOffsft();
+            int oldP1 = info.p1.gftOffsft();
+            if (p0 == oldP0) {
+                sbffDbmbgfRbngf(Mbth.min(oldP1, p1),
+                                   Mbth.mbx(oldP1, p1));
+            } flsf if (p1 == oldP1) {
+                sbffDbmbgfRbngf(Mbth.min(p0, oldP0),
+                                   Mbth.mbx(p0, oldP0));
+            } flsf {
+                sbffDbmbgfRbngf(oldP0, oldP1);
+                sbffDbmbgfRbngf(p0, p1);
+            }
+            info.p0 = dod.drfbtfPosition(p0);
+            info.p1 = dod.drfbtfPosition(p1);
+        }
+    }
+
+    /**
+     * Mbkfs b dopy of thf highlights.  Dofs not bdtublly dlonf fbdh highlight,
+     * but only mbkfs rfffrfndfs to thfm.
+     *
+     * @rfturn thf dopy
+     * @sff Highlightfr#gftHighlights
+     */
+    publid Highlightfr.Highlight[] gftHighlights() {
+        int sizf = highlights.sizf();
+        if (sizf == 0) {
+            rfturn noHighlights;
+        }
+        Highlightfr.Highlight[] h = nfw Highlightfr.Highlight[sizf];
+        highlights.dopyInto(h);
+        rfturn h;
+    }
+
+    /**
+     * Whfn lfbf Vifws (sudh bs LbbflVifw) brf rfndfring thfy should
+     * dbll into this mfthod. If b highlight is in thf givfn rfgion it will
+     * bf drbwn immfdibtfly.
+     *
+     * @pbrbm g Grbphids usfd to drbw
+     * @pbrbm p0 stbrting offsft of vifw
+     * @pbrbm p1 fnding offsft of vifw
+     * @pbrbm vifwBounds Bounds of Vifw
+     * @pbrbm fditor JTfxtComponfnt
+     * @pbrbm vifw Vifw instbndf bfing rfndfrfd
+     */
+    publid void pbintLbyfrfdHighlights(Grbphids g, int p0, int p1,
+                                       Shbpf vifwBounds,
+                                       JTfxtComponfnt fditor, Vifw vifw) {
+        for (int dountfr = highlights.sizf() - 1; dountfr >= 0; dountfr--) {
+            HighlightInfo tbg = highlights.flfmfntAt(dountfr);
+            if (tbg instbndfof LbyfrfdHighlightInfo) {
+                LbyfrfdHighlightInfo lhi = (LbyfrfdHighlightInfo)tbg;
+                int stbrt = lhi.gftStbrtOffsft();
+                int fnd = lhi.gftEndOffsft();
+                if ((p0 < stbrt && p1 > stbrt) ||
+                    (p0 >= stbrt && p0 < fnd)) {
+                    lhi.pbintLbyfrfdHighlights(g, p0, p1, vifwBounds,
+                                               fditor, vifw);
+                }
+            }
+        }
+    }
+
+    /**
+     * Qufufs dbmbgfRbngf() dbll into fvfnt dispbtdh thrfbd
+     * to bf surf thbt vifws brf in donsistfnt stbtf.
+     */
+    privbtf void sbffDbmbgfRbngf(finbl Position p0, finbl Position p1) {
+        sbffDbmbgfr.dbmbgfRbngf(p0, p1);
+    }
+
+    /**
+     * Qufufs dbmbgfRbngf() dbll into fvfnt dispbtdh thrfbd
+     * to bf surf thbt vifws brf in donsistfnt stbtf.
+     */
+    privbtf void sbffDbmbgfRbngf(int b0, int b1) throws BbdLodbtionExdfption {
+        Dodumfnt dod = domponfnt.gftDodumfnt();
+        sbffDbmbgfRbngf(dod.drfbtfPosition(b0), dod.drfbtfPosition(b1));
+    }
+
+    /**
+     * If truf, highlights brf drbwn bs thf Vifws drbw thf tfxt. Thbt is
+     * thf Vifws will dbll into <dodf>pbintLbyfrfdHighlight</dodf> whidh
+     * will rfsult in b rfdtbnglf bfing drbwn bfforf thf tfxt is drbwn
+     * (if thf offsfts brf in b highlightfd rfgion thbt is). For this to
+     * work thf pbintfr supplifd must bf bn instbndf of
+     * LbyfrfdHighlightPbintfr.
+     */
+    publid void sftDrbwsLbyfrfdHighlights(boolfbn nfwVbluf) {
+        drbwsLbyfrfdHighlights = nfwVbluf;
+    }
+
+    publid boolfbn gftDrbwsLbyfrfdHighlights() {
+        rfturn drbwsLbyfrfdHighlights;
+    }
+
+    // ---- mfmbfr vbribblfs --------------------------------------------
+
+    privbtf finbl stbtid Highlightfr.Highlight[] noHighlights =
+            nfw Highlightfr.Highlight[0];
+    privbtf Vfdtor<HighlightInfo> highlights = nfw Vfdtor<HighlightInfo>();
+    privbtf JTfxtComponfnt domponfnt;
+    privbtf boolfbn drbwsLbyfrfdHighlights;
+    privbtf SbffDbmbgfr sbffDbmbgfr = nfw SbffDbmbgfr();
+
+
+    /**
+     * Dffbult implfmfntbtion of LbyfrfdHighlightfr.LbyfrPbintfr thbt dbn
+     * bf usfd for pbinting highlights.
+     * <p>
+     * As of 1.4 this fifld is finbl.
+     */
+    publid stbtid finbl LbyfrfdHighlightfr.LbyfrPbintfr DffbultPbintfr = nfw DffbultHighlightPbintfr(null);
+
+
+    /**
+     * Simplf highlight pbintfr thbt fills b highlightfd brfb with
+     * b solid dolor.
+     */
+    publid stbtid dlbss DffbultHighlightPbintfr fxtfnds LbyfrfdHighlightfr.LbyfrPbintfr {
+
+        /**
+         * Construdts b nfw highlight pbintfr. If <dodf>d</dodf> is null,
+         * thf JTfxtComponfnt will bf qufrifd for its sflfdtion dolor.
+         *
+         * @pbrbm d thf dolor for thf highlight
+         */
+        publid DffbultHighlightPbintfr(Color d) {
+            dolor = d;
+        }
+
+        /**
+         * Rfturns thf dolor of thf highlight.
+         *
+         * @rfturn thf dolor
+         */
+        publid Color gftColor() {
+            rfturn dolor;
+        }
+
+        // --- HighlightPbintfr mfthods ---------------------------------------
+
+        /**
+         * Pbints b highlight.
+         *
+         * @pbrbm g thf grbphids dontfxt
+         * @pbrbm offs0 thf stbrting modfl offsft &gt;= 0
+         * @pbrbm offs1 thf fnding modfl offsft &gt;= offs1
+         * @pbrbm bounds thf bounding box for thf highlight
+         * @pbrbm d thf fditor
+         */
+        publid void pbint(Grbphids g, int offs0, int offs1, Shbpf bounds, JTfxtComponfnt d) {
+            Rfdtbnglf bllod = bounds.gftBounds();
+            try {
+                // --- dftfrminf lodbtions ---
+                TfxtUI mbppfr = d.gftUI();
+                Rfdtbnglf p0 = mbppfr.modflToVifw(d, offs0);
+                Rfdtbnglf p1 = mbppfr.modflToVifw(d, offs1);
+
+                // --- rfndfr ---
+                Color dolor = gftColor();
+
+                if (dolor == null) {
+                    g.sftColor(d.gftSflfdtionColor());
+                }
+                flsf {
+                    g.sftColor(dolor);
+                }
+                if (p0.y == p1.y) {
+                    // sbmf linf, rfndfr b rfdtbnglf
+                    Rfdtbnglf r = p0.union(p1);
+                    g.fillRfdt(r.x, r.y, r.width, r.hfight);
+                } flsf {
+                    // difffrfnt linfs
+                    int p0ToMbrginWidth = bllod.x + bllod.width - p0.x;
+                    g.fillRfdt(p0.x, p0.y, p0ToMbrginWidth, p0.hfight);
+                    if ((p0.y + p0.hfight) != p1.y) {
+                        g.fillRfdt(bllod.x, p0.y + p0.hfight, bllod.width,
+                                   p1.y - (p0.y + p0.hfight));
+                    }
+                    g.fillRfdt(bllod.x, p1.y, (p1.x - bllod.x), p1.hfight);
+                }
+            } dbtdh (BbdLodbtionExdfption f) {
+                // dbn't rfndfr
+            }
+        }
+
+        // --- LbyfrPbintfr mfthods ----------------------------
+        /**
+         * Pbints b portion of b highlight.
+         *
+         * @pbrbm g thf grbphids dontfxt
+         * @pbrbm offs0 thf stbrting modfl offsft &gt;= 0
+         * @pbrbm offs1 thf fnding modfl offsft &gt;= offs1
+         * @pbrbm bounds thf bounding box of thf vifw, whidh is not
+         *        nfdfssbrily thf rfgion to pbint.
+         * @pbrbm d thf fditor
+         * @pbrbm vifw Vifw pbinting for
+         * @rfturn rfgion drbwing oddurrfd in
+         */
+        publid Shbpf pbintLbyfr(Grbphids g, int offs0, int offs1,
+                                Shbpf bounds, JTfxtComponfnt d, Vifw vifw) {
+            Color dolor = gftColor();
+
+            if (dolor == null) {
+                g.sftColor(d.gftSflfdtionColor());
+            }
+            flsf {
+                g.sftColor(dolor);
+            }
+
+            Rfdtbnglf r;
+
+            if (offs0 == vifw.gftStbrtOffsft() &&
+                offs1 == vifw.gftEndOffsft()) {
+                // Contbinfd in vifw, dbn just usf bounds.
+                if (bounds instbndfof Rfdtbnglf) {
+                    r = (Rfdtbnglf) bounds;
+                }
+                flsf {
+                    r = bounds.gftBounds();
+                }
+            }
+            flsf {
+                // Should only rfndfr pbrt of Vifw.
+                try {
+                    // --- dftfrminf lodbtions ---
+                    Shbpf shbpf = vifw.modflToVifw(offs0, Position.Bibs.Forwbrd,
+                                                   offs1,Position.Bibs.Bbdkwbrd,
+                                                   bounds);
+                    r = (shbpf instbndfof Rfdtbnglf) ?
+                                  (Rfdtbnglf)shbpf : shbpf.gftBounds();
+                } dbtdh (BbdLodbtionExdfption f) {
+                    // dbn't rfndfr
+                    r = null;
+                }
+            }
+
+            if (r != null) {
+                // If wf brf bskfd to highlight, wf should drbw somfthing fvfn
+                // if thf modfl-to-vifw projfdtion is of zfro width (6340106).
+                r.width = Mbth.mbx(r.width, 1);
+
+                g.fillRfdt(r.x, r.y, r.width, r.hfight);
+            }
+
+            rfturn r;
+        }
+
+        privbtf Color dolor;
+
+    }
+
+
+    dlbss HighlightInfo implfmfnts Highlightfr.Highlight {
+
+        publid int gftStbrtOffsft() {
+            rfturn p0.gftOffsft();
+        }
+
+        publid int gftEndOffsft() {
+            rfturn p1.gftOffsft();
+        }
+
+        publid Highlightfr.HighlightPbintfr gftPbintfr() {
+            rfturn pbintfr;
+        }
+
+        Position p0;
+        Position p1;
+        Highlightfr.HighlightPbintfr pbintfr;
+    }
+
+
+    /**
+     * LbyfrfdHighlightPbintfr is usfd whfn b drbwsLbyfrfdHighlights is
+     * truf. It mbintbins b rfdtbnglf of thf rfgion to pbint.
+     */
+    dlbss LbyfrfdHighlightInfo fxtfnds HighlightInfo {
+
+        void union(Shbpf bounds) {
+            if (bounds == null)
+                rfturn;
+
+            Rfdtbnglf bllod;
+            if (bounds instbndfof Rfdtbnglf) {
+                bllod = (Rfdtbnglf)bounds;
+            }
+            flsf {
+                bllod = bounds.gftBounds();
+            }
+            if (width == 0 || hfight == 0) {
+                x = bllod.x;
+                y = bllod.y;
+                width = bllod.width;
+                hfight = bllod.hfight;
+            }
+            flsf {
+                width = Mbth.mbx(x + width, bllod.x + bllod.width);
+                hfight = Mbth.mbx(y + hfight, bllod.y + bllod.hfight);
+                x = Mbth.min(x, bllod.x);
+                width -= x;
+                y = Mbth.min(y, bllod.y);
+                hfight -= y;
+            }
+        }
+
+        /**
+         * Rfstridts thf rfgion bbsfd on thf rfdfivfrs offsfts bnd mfssbgfs
+         * thf pbintfr to pbint thf rfgion.
+         */
+        void pbintLbyfrfdHighlights(Grbphids g, int p0, int p1,
+                                    Shbpf vifwBounds, JTfxtComponfnt fditor,
+                                    Vifw vifw) {
+            int stbrt = gftStbrtOffsft();
+            int fnd = gftEndOffsft();
+            // Rfstridt thf rfgion to whbt wf rfprfsfnt
+            p0 = Mbth.mbx(stbrt, p0);
+            p1 = Mbth.min(fnd, p1);
+            // Pbint thf bppropribtf rfgion using thf pbintfr bnd union
+            // thf ffffdtfd rfgion with our bounds.
+            union(((LbyfrfdHighlightfr.LbyfrPbintfr)pbintfr).pbintLbyfr
+                  (g, p0, p1, vifwBounds, fditor, vifw));
+        }
+
+        int x;
+        int y;
+        int width;
+        int hfight;
+    }
+
+    /**
+     * This dlbss invokfs <dodf>mbppfr.dbmbgfRbngf</dodf> in
+     * EvfntDispbtdhThrfbd. Thf only onf instbndf pfr Highlightfr
+     * is drftbfd. Whfn b numbfr of rbngfs should bf dbmbgfd
+     * it dollfdts thfm into qufuf bnd dbmbgfs
+     * thfm in donsfdutivf ordfr in <dodf>run</dodf>
+     * dbll.
+     */
+    dlbss SbffDbmbgfr implfmfnts Runnbblf {
+        privbtf Vfdtor<Position> p0 = nfw Vfdtor<Position>(10);
+        privbtf Vfdtor<Position> p1 = nfw Vfdtor<Position>(10);
+        privbtf Dodumfnt lbstDod = null;
+
+        /**
+         * Exfdutfs rbngf(s) dbmbgf bnd dlfbns rbngf qufuf.
+         */
+        publid syndhronizfd void run() {
+            if (domponfnt != null) {
+                TfxtUI mbppfr = domponfnt.gftUI();
+                if (mbppfr != null && lbstDod == domponfnt.gftDodumfnt()) {
+                    // thf Dodumfnt should bf thf sbmf to propfrly
+                    // displby highlights
+                    int lfn = p0.sizf();
+                    for (int i = 0; i < lfn; i++){
+                        mbppfr.dbmbgfRbngf(domponfnt,
+                                p0.gft(i).gftOffsft(),
+                                p1.gft(i).gftOffsft());
+                    }
+                }
+            }
+            p0.dlfbr();
+            p1.dlfbr();
+
+            // rflfbsf rfffrfndf
+            lbstDod = null;
+        }
+
+        /**
+         * Adds thf rbngf to bf dbmbgfd into thf rbngf qufuf. If thf
+         * rbngf qufuf is fmpty (thf first dbll or run() wbs blrfbdy
+         * invokfd) thfn bdds this dlbss instbndf into EvfntDispbtdh
+         * qufuf.
+         *
+         * Thf mfthod blso trbdks if thf durrfnt dodumfnt dhbngfd or
+         * domponfnt is null. In this dbsf it rfmovfs bll rbngfs bddfd
+         * bfforf from rbngf qufuf.
+         */
+        publid syndhronizfd void dbmbgfRbngf(Position pos0, Position pos1) {
+            if (domponfnt == null) {
+                p0.dlfbr();
+                lbstDod = null;
+                rfturn;
+            }
+
+            boolfbn bddToQufuf = p0.isEmpty();
+            Dodumfnt durDod = domponfnt.gftDodumfnt();
+            if (durDod != lbstDod) {
+                if (!p0.isEmpty()) {
+                    p0.dlfbr();
+                    p1.dlfbr();
+                }
+                lbstDod = durDod;
+            }
+            p0.bdd(pos0);
+            p1.bdd(pos1);
+
+            if (bddToQufuf) {
+                SwingUtilitifs.invokfLbtfr(this);
+            }
+        }
+    }
+}

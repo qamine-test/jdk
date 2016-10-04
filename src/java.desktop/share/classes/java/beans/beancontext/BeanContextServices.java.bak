@@ -1,160 +1,160 @@
 /*
- * Copyright (c) 1998, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.beans.beancontext;
+pbdkbgf jbvb.bfbns.bfbndontfxt;
 
-import java.util.Iterator;
+import jbvb.util.Itfrbtor;
 
-import java.util.TooManyListenersException;
+import jbvb.util.TooMbnyListfnfrsExdfption;
 
-import java.beans.beancontext.BeanContext;
+import jbvb.bfbns.bfbndontfxt.BfbnContfxt;
 
-import java.beans.beancontext.BeanContextServiceProvider;
+import jbvb.bfbns.bfbndontfxt.BfbnContfxtSfrvidfProvidfr;
 
-import java.beans.beancontext.BeanContextServicesListener;
+import jbvb.bfbns.bfbndontfxt.BfbnContfxtSfrvidfsListfnfr;
 
 
 /**
  * <p>
- * The BeanContextServices interface provides a mechanism for a BeanContext
- * to expose generic "services" to the BeanContextChild objects within.
+ * Tif BfbnContfxtSfrvidfs intfrfbdf providfs b mfdibnism for b BfbnContfxt
+ * to fxposf gfnfrid "sfrvidfs" to tif BfbnContfxtCiild objfdts witiin.
  * </p>
  */
-public interface BeanContextServices extends BeanContext, BeanContextServicesListener {
+publid intfrfbdf BfbnContfxtSfrvidfs fxtfnds BfbnContfxt, BfbnContfxtSfrvidfsListfnfr {
 
     /**
-     * Adds a service to this BeanContext.
-     * <code>BeanContextServiceProvider</code>s call this method
-     * to register a particular service with this context.
-     * If the service has not previously been added, the
-     * <code>BeanContextServices</code> associates
-     * the service with the <code>BeanContextServiceProvider</code> and
-     * fires a <code>BeanContextServiceAvailableEvent</code> to all
-     * currently registered <code>BeanContextServicesListeners</code>.
-     * The method then returns <code>true</code>, indicating that
-     * the addition of the service was successful.
-     * If the given service has already been added, this method
-     * simply returns <code>false</code>.
-     * @param serviceClass     the service to add
-     * @param serviceProvider  the <code>BeanContextServiceProvider</code>
-     * associated with the service
-     * @return true if the service was successful added, false otherwise
+     * Adds b sfrvidf to tiis BfbnContfxt.
+     * <dodf>BfbnContfxtSfrvidfProvidfr</dodf>s dbll tiis mftiod
+     * to rfgistfr b pbrtidulbr sfrvidf witi tiis dontfxt.
+     * If tif sfrvidf ibs not prfviously bffn bddfd, tif
+     * <dodf>BfbnContfxtSfrvidfs</dodf> bssodibtfs
+     * tif sfrvidf witi tif <dodf>BfbnContfxtSfrvidfProvidfr</dodf> bnd
+     * firfs b <dodf>BfbnContfxtSfrvidfAvbilbblfEvfnt</dodf> to bll
+     * durrfntly rfgistfrfd <dodf>BfbnContfxtSfrvidfsListfnfrs</dodf>.
+     * Tif mftiod tifn rfturns <dodf>truf</dodf>, indidbting tibt
+     * tif bddition of tif sfrvidf wbs suddfssful.
+     * If tif givfn sfrvidf ibs blrfbdy bffn bddfd, tiis mftiod
+     * simply rfturns <dodf>fblsf</dodf>.
+     * @pbrbm sfrvidfClbss     tif sfrvidf to bdd
+     * @pbrbm sfrvidfProvidfr  tif <dodf>BfbnContfxtSfrvidfProvidfr</dodf>
+     * bssodibtfd witi tif sfrvidf
+     * @rfturn truf if tif sfrvidf wbs suddfssful bddfd, fblsf otifrwisf
      */
-    boolean addService(Class<?> serviceClass, BeanContextServiceProvider serviceProvider);
+    boolfbn bddSfrvidf(Clbss<?> sfrvidfClbss, BfbnContfxtSfrvidfProvidfr sfrvidfProvidfr);
 
     /**
-     * BeanContextServiceProviders wishing to remove
-     * a currently registered service from this context
-     * may do so via invocation of this method. Upon revocation of
-     * the service, the <code>BeanContextServices</code> fires a
-     * <code>BeanContextServiceRevokedEvent</code> to its
-     * list of currently registered
-     * <code>BeanContextServiceRevokedListeners</code> and
-     * <code>BeanContextServicesListeners</code>.
-     * @param serviceClass the service to revoke from this BeanContextServices
-     * @param serviceProvider the BeanContextServiceProvider associated with
-     * this particular service that is being revoked
-     * @param revokeCurrentServicesNow a value of <code>true</code>
-     * indicates an exceptional circumstance where the
-     * <code>BeanContextServiceProvider</code> or
-     * <code>BeanContextServices</code> wishes to immediately
-     * terminate service to all currently outstanding references
-     * to the specified service.
+     * BfbnContfxtSfrvidfProvidfrs wisiing to rfmovf
+     * b durrfntly rfgistfrfd sfrvidf from tiis dontfxt
+     * mby do so vib invodbtion of tiis mftiod. Upon rfvodbtion of
+     * tif sfrvidf, tif <dodf>BfbnContfxtSfrvidfs</dodf> firfs b
+     * <dodf>BfbnContfxtSfrvidfRfvokfdEvfnt</dodf> to its
+     * list of durrfntly rfgistfrfd
+     * <dodf>BfbnContfxtSfrvidfRfvokfdListfnfrs</dodf> bnd
+     * <dodf>BfbnContfxtSfrvidfsListfnfrs</dodf>.
+     * @pbrbm sfrvidfClbss tif sfrvidf to rfvokf from tiis BfbnContfxtSfrvidfs
+     * @pbrbm sfrvidfProvidfr tif BfbnContfxtSfrvidfProvidfr bssodibtfd witi
+     * tiis pbrtidulbr sfrvidf tibt is bfing rfvokfd
+     * @pbrbm rfvokfCurrfntSfrvidfsNow b vbluf of <dodf>truf</dodf>
+     * indidbtfs bn fxdfptionbl dirdumstbndf wifrf tif
+     * <dodf>BfbnContfxtSfrvidfProvidfr</dodf> or
+     * <dodf>BfbnContfxtSfrvidfs</dodf> wisifs to immfdibtfly
+     * tfrminbtf sfrvidf to bll durrfntly outstbnding rfffrfndfs
+     * to tif spfdififd sfrvidf.
      */
-    void revokeService(Class<?> serviceClass, BeanContextServiceProvider serviceProvider, boolean revokeCurrentServicesNow);
+    void rfvokfSfrvidf(Clbss<?> sfrvidfClbss, BfbnContfxtSfrvidfProvidfr sfrvidfProvidfr, boolfbn rfvokfCurrfntSfrvidfsNow);
 
     /**
-     * Reports whether or not a given service is
-     * currently available from this context.
-     * @param serviceClass the service in question
-     * @return true if the service is available
+     * Rfports wiftifr or not b givfn sfrvidf is
+     * durrfntly bvbilbblf from tiis dontfxt.
+     * @pbrbm sfrvidfClbss tif sfrvidf in qufstion
+     * @rfturn truf if tif sfrvidf is bvbilbblf
      */
-    boolean hasService(Class<?> serviceClass);
+    boolfbn ibsSfrvidf(Clbss<?> sfrvidfClbss);
 
     /**
-     * A <code>BeanContextChild</code>, or any arbitrary object
-     * associated with a <code>BeanContextChild</code>, may obtain
-     * a reference to a currently registered service from its
-     * nesting <code>BeanContextServices</code>
-     * via invocation of this method. When invoked, this method
-     * gets the service by calling the getService() method on the
-     * underlying <code>BeanContextServiceProvider</code>.
-     * @param child the <code>BeanContextChild</code>
-     * associated with this request
-     * @param requestor the object requesting the service
-     * @param serviceClass class of the requested service
-     * @param serviceSelector the service dependent parameter
-     * @param bcsrl the
-     * <code>BeanContextServiceRevokedListener</code> to notify
-     * if the service should later become revoked
-     * @throws TooManyListenersException if there are too many listeners
-     * @return a reference to this context's named
-     * Service as requested or <code>null</code>
+     * A <dodf>BfbnContfxtCiild</dodf>, or bny brbitrbry objfdt
+     * bssodibtfd witi b <dodf>BfbnContfxtCiild</dodf>, mby obtbin
+     * b rfffrfndf to b durrfntly rfgistfrfd sfrvidf from its
+     * nfsting <dodf>BfbnContfxtSfrvidfs</dodf>
+     * vib invodbtion of tiis mftiod. Wifn invokfd, tiis mftiod
+     * gfts tif sfrvidf by dblling tif gftSfrvidf() mftiod on tif
+     * undfrlying <dodf>BfbnContfxtSfrvidfProvidfr</dodf>.
+     * @pbrbm diild tif <dodf>BfbnContfxtCiild</dodf>
+     * bssodibtfd witi tiis rfqufst
+     * @pbrbm rfqufstor tif objfdt rfqufsting tif sfrvidf
+     * @pbrbm sfrvidfClbss dlbss of tif rfqufstfd sfrvidf
+     * @pbrbm sfrvidfSflfdtor tif sfrvidf dfpfndfnt pbrbmftfr
+     * @pbrbm bdsrl tif
+     * <dodf>BfbnContfxtSfrvidfRfvokfdListfnfr</dodf> to notify
+     * if tif sfrvidf siould lbtfr bfdomf rfvokfd
+     * @tirows TooMbnyListfnfrsExdfption if tifrf brf too mbny listfnfrs
+     * @rfturn b rfffrfndf to tiis dontfxt's nbmfd
+     * Sfrvidf bs rfqufstfd or <dodf>null</dodf>
      */
-    Object getService(BeanContextChild child, Object requestor, Class<?> serviceClass, Object serviceSelector, BeanContextServiceRevokedListener bcsrl) throws TooManyListenersException;
+    Objfdt gftSfrvidf(BfbnContfxtCiild diild, Objfdt rfqufstor, Clbss<?> sfrvidfClbss, Objfdt sfrvidfSflfdtor, BfbnContfxtSfrvidfRfvokfdListfnfr bdsrl) tirows TooMbnyListfnfrsExdfption;
 
     /**
-     * Releases a <code>BeanContextChild</code>'s
-     * (or any arbitrary object associated with a BeanContextChild)
-     * reference to the specified service by calling releaseService()
-     * on the underlying <code>BeanContextServiceProvider</code>.
-     * @param child the <code>BeanContextChild</code>
-     * @param requestor the requestor
-     * @param service the service
+     * Rflfbsfs b <dodf>BfbnContfxtCiild</dodf>'s
+     * (or bny brbitrbry objfdt bssodibtfd witi b BfbnContfxtCiild)
+     * rfffrfndf to tif spfdififd sfrvidf by dblling rflfbsfSfrvidf()
+     * on tif undfrlying <dodf>BfbnContfxtSfrvidfProvidfr</dodf>.
+     * @pbrbm diild tif <dodf>BfbnContfxtCiild</dodf>
+     * @pbrbm rfqufstor tif rfqufstor
+     * @pbrbm sfrvidf tif sfrvidf
      */
-    void releaseService(BeanContextChild child, Object requestor, Object service);
+    void rflfbsfSfrvidf(BfbnContfxtCiild diild, Objfdt rfqufstor, Objfdt sfrvidf);
 
     /**
-     * Gets the currently available services for this context.
-     * @return an <code>Iterator</code> consisting of the
-     * currently available services
+     * Gfts tif durrfntly bvbilbblf sfrvidfs for tiis dontfxt.
+     * @rfturn bn <dodf>Itfrbtor</dodf> donsisting of tif
+     * durrfntly bvbilbblf sfrvidfs
      */
-    Iterator<?> getCurrentServiceClasses();
+    Itfrbtor<?> gftCurrfntSfrvidfClbssfs();
 
     /**
-     * Gets the list of service dependent service parameters
-     * (Service Selectors) for the specified service, by
-     * calling getCurrentServiceSelectors() on the
-     * underlying BeanContextServiceProvider.
-     * @param serviceClass the specified service
-     * @return the currently available service selectors
-     * for the named serviceClass
+     * Gfts tif list of sfrvidf dfpfndfnt sfrvidf pbrbmftfrs
+     * (Sfrvidf Sflfdtors) for tif spfdififd sfrvidf, by
+     * dblling gftCurrfntSfrvidfSflfdtors() on tif
+     * undfrlying BfbnContfxtSfrvidfProvidfr.
+     * @pbrbm sfrvidfClbss tif spfdififd sfrvidf
+     * @rfturn tif durrfntly bvbilbblf sfrvidf sflfdtors
+     * for tif nbmfd sfrvidfClbss
      */
-    Iterator<?> getCurrentServiceSelectors(Class<?> serviceClass);
+    Itfrbtor<?> gftCurrfntSfrvidfSflfdtors(Clbss<?> sfrvidfClbss);
 
     /**
-     * Adds a <code>BeanContextServicesListener</code> to this BeanContext
-     * @param bcsl the <code>BeanContextServicesListener</code> to add
+     * Adds b <dodf>BfbnContfxtSfrvidfsListfnfr</dodf> to tiis BfbnContfxt
+     * @pbrbm bdsl tif <dodf>BfbnContfxtSfrvidfsListfnfr</dodf> to bdd
      */
-    void addBeanContextServicesListener(BeanContextServicesListener bcsl);
+    void bddBfbnContfxtSfrvidfsListfnfr(BfbnContfxtSfrvidfsListfnfr bdsl);
 
     /**
-     * Removes a <code>BeanContextServicesListener</code>
-     * from this <code>BeanContext</code>
-     * @param bcsl the <code>BeanContextServicesListener</code>
-     * to remove from this context
+     * Rfmovfs b <dodf>BfbnContfxtSfrvidfsListfnfr</dodf>
+     * from tiis <dodf>BfbnContfxt</dodf>
+     * @pbrbm bdsl tif <dodf>BfbnContfxtSfrvidfsListfnfr</dodf>
+     * to rfmovf from tiis dontfxt
      */
-    void removeBeanContextServicesListener(BeanContextServicesListener bcsl);
+    void rfmovfBfbnContfxtSfrvidfsListfnfr(BfbnContfxtSfrvidfsListfnfr bdsl);
 }

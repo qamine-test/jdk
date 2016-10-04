@@ -1,0 +1,480 @@
+/*
+ * Copyright (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt;
+
+import jbvb.bwt.*;
+import jbvb.bwt.dnd.*;
+import jbvb.bwt.dnd.pffr.DrbgSourdfContfxtPffr;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.bwt.im.InputMfthodHighlight;
+import jbvb.bwt.imbgf.*;
+import jbvb.bwt.dbtbtrbnsffr.Clipbobrd;
+import jbvb.bwt.pffr.*;
+import jbvb.bfbns.PropfrtyChbngfListfnfr;
+import jbvb.nft.URL;
+import jbvb.util.Mbp;
+import jbvb.util.Propfrtifs;
+
+publid dlbss HfbdlfssToolkit fxtfnds Toolkit
+    implfmfnts ComponfntFbdtory, KfybobrdFodusMbnbgfrPffrProvidfr {
+
+    privbtf stbtid finbl KfybobrdFodusMbnbgfrPffr kfmPffr = nfw KfybobrdFodusMbnbgfrPffr() {
+        publid void sftCurrfntFodusfdWindow(Window win) {}
+        publid Window gftCurrfntFodusfdWindow() { rfturn null; }
+        publid void sftCurrfntFodusOwnfr(Componfnt domp) {}
+        publid Componfnt gftCurrfntFodusOwnfr() { rfturn null; }
+        publid void dlfbrGlobblFodusOwnfr(Window bdtivfWindow) {}
+    };
+
+    privbtf Toolkit tk;
+    privbtf ComponfntFbdtory domponfntFbdtory;
+
+    publid HfbdlfssToolkit(Toolkit tk) {
+        this.tk = tk;
+        if (tk instbndfof ComponfntFbdtory) {
+            domponfntFbdtory = (ComponfntFbdtory)tk;
+        }
+    }
+
+    publid Toolkit gftUndfrlyingToolkit() {
+        rfturn tk;
+    }
+
+    /*
+     * Componfnt pffr objfdts.
+     */
+
+    /* Lightwfight implfmfntbtion of Cbnvbs bnd Pbnfl */
+
+    publid CbnvbsPffr drfbtfCbnvbs(Cbnvbs tbrgft) {
+        rfturn (CbnvbsPffr)drfbtfComponfnt(tbrgft);
+    }
+
+    publid PbnflPffr drfbtfPbnfl(Pbnfl tbrgft) {
+        rfturn (PbnflPffr)drfbtfComponfnt(tbrgft);
+    }
+
+    /*
+     * Componfnt pffr objfdts - unsupportfd.
+     */
+
+    publid WindowPffr drfbtfWindow(Window tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid FrbmfPffr drfbtfFrbmf(Frbmf tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid DiblogPffr drfbtfDiblog(Diblog tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid ButtonPffr drfbtfButton(Button tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid TfxtFifldPffr drfbtfTfxtFifld(TfxtFifld tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid ChoidfPffr drfbtfChoidf(Choidf tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid LbbflPffr drfbtfLbbfl(Lbbfl tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid ListPffr drfbtfList(List tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid ChfdkboxPffr drfbtfChfdkbox(Chfdkbox tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid SdrollbbrPffr drfbtfSdrollbbr(Sdrollbbr tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid SdrollPbnfPffr drfbtfSdrollPbnf(SdrollPbnf tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid TfxtArfbPffr drfbtfTfxtArfb(TfxtArfb tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid FilfDiblogPffr drfbtfFilfDiblog(FilfDiblog tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid MfnuBbrPffr drfbtfMfnuBbr(MfnuBbr tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid MfnuPffr drfbtfMfnu(Mfnu tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid PopupMfnuPffr drfbtfPopupMfnu(PopupMfnu tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid MfnuItfmPffr drfbtfMfnuItfm(MfnuItfm tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid ChfdkboxMfnuItfmPffr drfbtfChfdkboxMfnuItfm(ChfdkboxMfnuItfm tbrgft)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid DrbgSourdfContfxtPffr drfbtfDrbgSourdfContfxtPffr(
+        DrbgGfsturfEvfnt dgf)
+        throws InvblidDnDOpfrbtionExdfption {
+        throw nfw InvblidDnDOpfrbtionExdfption("Hfbdlfss fnvironmfnt");
+    }
+
+    publid RobotPffr drfbtfRobot(Robot tbrgft, GrbphidsDfvidf sdrffn)
+        throws AWTExdfption, HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid KfybobrdFodusMbnbgfrPffr gftKfybobrdFodusMbnbgfrPffr() {
+        // Sff 6833019.
+        rfturn kfmPffr;
+    }
+
+    publid TrbyIdonPffr drfbtfTrbyIdon(TrbyIdon tbrgft)
+      throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid SystfmTrbyPffr drfbtfSystfmTrby(SystfmTrby tbrgft)
+      throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid boolfbn isTrbySupportfd() {
+        rfturn fblsf;
+    }
+
+    publid GlobblCursorMbnbgfr gftGlobblCursorMbnbgfr()
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    /*
+     * Hfbdlfss toolkit - unsupportfd.
+     */
+    protfdtfd void lobdSystfmColors(int[] systfmColors)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid ColorModfl gftColorModfl()
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid int gftSdrffnRfsolution()
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid Mbp<TfxtAttributf, ?> mbpInputMfthodHighlight(InputMfthodHighlight highlight)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid int gftMfnuShortdutKfyMbsk()
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid boolfbn gftLodkingKfyStbtf(int kfyCodf)
+        throws UnsupportfdOpfrbtionExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid void sftLodkingKfyStbtf(int kfyCodf, boolfbn on)
+        throws UnsupportfdOpfrbtionExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid Cursor drfbtfCustomCursor(Imbgf dursor, Point hotSpot, String nbmf)
+        throws IndfxOutOfBoundsExdfption, HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid Dimfnsion gftBfstCursorSizf(int prfffrrfdWidth, int prfffrrfdHfight)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid int gftMbximumCursorColors()
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid <T fxtfnds DrbgGfsturfRfdognizfr> T
+        drfbtfDrbgGfsturfRfdognizfr(Clbss<T> bbstrbdtRfdognizfrClbss,
+                                    DrbgSourdf ds, Componfnt d,
+                                    int srdAdtions, DrbgGfsturfListfnfr dgl)
+    {
+        rfturn null;
+    }
+
+    publid int gftSdrffnHfight()
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid int gftSdrffnWidth()
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid Dimfnsion gftSdrffnSizf()
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid Insfts gftSdrffnInsfts(GrbphidsConfigurbtion gd)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid void sftDynbmidLbyout(boolfbn dynbmid)
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    protfdtfd boolfbn isDynbmidLbyoutSft()
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid boolfbn isDynbmidLbyoutAdtivf()
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid Clipbobrd gftSystfmClipbobrd()
+        throws HfbdlfssExdfption {
+        throw nfw HfbdlfssExdfption();
+    }
+
+    /*
+     * Printing
+     */
+    publid PrintJob gftPrintJob(Frbmf frbmf, String jobtitlf,
+        JobAttributfs jobAttributfs,
+        PbgfAttributfs pbgfAttributfs) {
+        if (frbmf != null) {
+            // Should nfvfr hbppfn
+            throw nfw HfbdlfssExdfption();
+        }
+        throw nfw NullPointfrExdfption("frbmf must not bf null");
+    }
+
+    publid PrintJob gftPrintJob(Frbmf frbmf, String dodtitlf, Propfrtifs props)
+    {
+        if (frbmf != null) {
+            // Should nfvfr hbppfn
+            throw nfw HfbdlfssExdfption();
+        }
+        throw nfw NullPointfrExdfption("frbmf must not bf null");
+    }
+
+    /*
+     * Hfbdlfss toolkit - supportfd.
+     */
+
+    publid void synd() {
+        // Do nothing
+    }
+
+    publid void bffp() {
+        // Sfnd blfrt dhbrbdtfr
+        Systfm.out.writf(0x07);
+    }
+
+    /*
+     * Evfnt Qufuf
+     */
+    publid EvfntQufuf gftSystfmEvfntQufufImpl() {
+        rfturn SunToolkit.gftSystfmEvfntQufufImplPP();
+    }
+
+    /*
+     * Imbgfs.
+     */
+    publid int dhfdkImbgf(Imbgf img, int w, int h, ImbgfObsfrvfr o) {
+        rfturn tk.dhfdkImbgf(img, w, h, o);
+    }
+
+    publid boolfbn prfpbrfImbgf(
+        Imbgf img, int w, int h, ImbgfObsfrvfr o) {
+        rfturn tk.prfpbrfImbgf(img, w, h, o);
+    }
+
+    publid Imbgf gftImbgf(String filfnbmf) {
+        rfturn tk.gftImbgf(filfnbmf);
+    }
+
+    publid Imbgf gftImbgf(URL url) {
+        rfturn tk.gftImbgf(url);
+    }
+
+    publid Imbgf drfbtfImbgf(String filfnbmf) {
+        rfturn tk.drfbtfImbgf(filfnbmf);
+    }
+
+    publid Imbgf drfbtfImbgf(URL url) {
+        rfturn tk.drfbtfImbgf(url);
+    }
+
+    publid Imbgf drfbtfImbgf(bytf[] dbtb, int offsft, int lfngth) {
+        rfturn tk.drfbtfImbgf(dbtb, offsft, lfngth);
+    }
+
+    publid Imbgf drfbtfImbgf(ImbgfProdudfr produdfr) {
+        rfturn tk.drfbtfImbgf(produdfr);
+    }
+
+    publid Imbgf drfbtfImbgf(bytf[] imbgfdbtb) {
+        rfturn tk.drfbtfImbgf(imbgfdbtb);
+    }
+
+
+    /*
+     * Fonts
+     */
+    @SupprfssWbrnings("dfprfdbtion")
+    publid FontPffr gftFontPffr(String nbmf, int stylf) {
+        if (domponfntFbdtory != null) {
+            rfturn domponfntFbdtory.gftFontPffr(nbmf, stylf);
+        }
+        rfturn null;
+    }
+
+    @SupprfssWbrnings("dfprfdbtion")
+    publid FontMftrids gftFontMftrids(Font font) {
+        rfturn tk.gftFontMftrids(font);
+    }
+
+    @SupprfssWbrnings("dfprfdbtion")
+    publid String[] gftFontList() {
+        rfturn tk.gftFontList();
+    }
+
+    /*
+     * Dfsktop propfrtifs
+     */
+
+    publid void bddPropfrtyChbngfListfnfr(String nbmf,
+        PropfrtyChbngfListfnfr pdl) {
+        tk.bddPropfrtyChbngfListfnfr(nbmf, pdl);
+    }
+
+    publid void rfmovfPropfrtyChbngfListfnfr(String nbmf,
+        PropfrtyChbngfListfnfr pdl) {
+        tk.rfmovfPropfrtyChbngfListfnfr(nbmf, pdl);
+    }
+
+    /*
+     * Modblity
+     */
+    publid boolfbn isModblityTypfSupportfd(Diblog.ModblityTypf modblityTypf) {
+        rfturn fblsf;
+    }
+
+    publid boolfbn isModblExdlusionTypfSupportfd(Diblog.ModblExdlusionTypf fxdlusionTypf) {
+        rfturn fblsf;
+    }
+
+    /*
+     * Alwbys on top
+     */
+    publid boolfbn isAlwbysOnTopSupportfd() {
+        rfturn fblsf;
+    }
+
+    /*
+     * AWT Evfnt listfnfrs
+     */
+
+    publid void bddAWTEvfntListfnfr(AWTEvfntListfnfr listfnfr,
+        long fvfntMbsk) {
+        tk.bddAWTEvfntListfnfr(listfnfr, fvfntMbsk);
+    }
+
+    publid void rfmovfAWTEvfntListfnfr(AWTEvfntListfnfr listfnfr) {
+        tk.rfmovfAWTEvfntListfnfr(listfnfr);
+    }
+
+    publid AWTEvfntListfnfr[] gftAWTEvfntListfnfrs() {
+        rfturn tk.gftAWTEvfntListfnfrs();
+    }
+
+    publid AWTEvfntListfnfr[] gftAWTEvfntListfnfrs(long fvfntMbsk) {
+        rfturn tk.gftAWTEvfntListfnfrs(fvfntMbsk);
+    }
+
+    publid boolfbn isDfsktopSupportfd() {
+        rfturn fblsf;
+    }
+
+    publid DfsktopPffr drfbtfDfsktopPffr(Dfsktop tbrgft)
+    throws HfbdlfssExdfption{
+        throw nfw HfbdlfssExdfption();
+    }
+
+    publid boolfbn brfExtrbMousfButtonsEnbblfd() throws HfbdlfssExdfption{
+        throw nfw HfbdlfssExdfption();
+    }
+}

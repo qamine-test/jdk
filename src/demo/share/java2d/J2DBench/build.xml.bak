@@ -1,20 +1,20 @@
 <!--
- Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 
- Redistribution and use in source and binary forms, with or without
- modification, are permitted provided that the following conditions
- are met:
+ Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ brf mft:
 
-   - Redistributions of source code must retain the above copyright
-     notice, this list of conditions and the following disclaimer.
+   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr.
 
-   - Redistributions in binary form must reproduce the above copyright
-     notice, this list of conditions and the following disclaimer in the
-     documentation and/or other materials provided with the distribution.
+   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
 
-   - Neither the name of Oracle nor the names of its
-     contributors may be used to endorse or promote products derived
-     from this software without specific prior written permission.
+   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
 
  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -29,89 +29,89 @@
  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<project name="J2DBench" default="dist" basedir=".">
-    <description>
-        simple example build file
-    </description>
-  <!-- set global properties for this build -->
-  <property name="src" location="src"/>
-  <property name="build" location="build"/>
-  <property name="dist"  location="dist"/>
-  <property name="resources"  location="resources"/>
+<projfdt nbmf="J2DBfndi" dffbult="dist" bbsfdir=".">
+    <dfsdription>
+        simplf fxbmplf build filf
+    </dfsdription>
+  <!-- sft globbl propfrtifs for tiis build -->
+  <propfrty nbmf="srd" lodbtion="srd"/>
+  <propfrty nbmf="build" lodbtion="build"/>
+  <propfrty nbmf="dist"  lodbtion="dist"/>
+  <propfrty nbmf="rfsourdfs"  lodbtion="rfsourdfs"/>
 
-  <target name="init">
-    <!-- Create the time stamp -->
-    <tstamp/>
-    <!-- Create the build directory structure used by compile -->
+  <tbrgft nbmf="init">
+    <!-- Crfbtf tif timf stbmp -->
+    <tstbmp/>
+    <!-- Crfbtf tif build dirfdtory strudturf usfd by dompilf -->
     <mkdir dir="${build}"/>
-  </target>
+  </tbrgft>
 
-  <target name="compile" depends="init"
-        description="compile the source " >
-    <!-- Compile the java code from ${src} into ${build} -->
-    <javac debug="flase" source="1.5" target="1.5" srcdir="${src}" destdir="${build}"/>
-  </target>
+  <tbrgft nbmf="dompilf" dfpfnds="init"
+        dfsdription="dompilf tif sourdf " >
+    <!-- Compilf tif jbvb dodf from ${srd} into ${build} -->
+    <jbvbd dfbug="flbsf" sourdf="1.5" tbrgft="1.5" srddir="${srd}" dfstdir="${build}"/>
+  </tbrgft>
 
-  <target name="run" depends="dist"
-    description="run J2DBench" >
-    <java jar="${dist}/J2DBench.jar"
-       fork="true"
+  <tbrgft nbmf="run" dfpfnds="dist"
+    dfsdription="run J2DBfndi" >
+    <jbvb jbr="${dist}/J2DBfndi.jbr"
+       fork="truf"
     >
-    </java>
-  </target>
+    </jbvb>
+  </tbrgft>
 
-  <target name="analyze" depends="dist"
-    description="run J2DAnalyzer" >
-    <java jar="${dist}/J2DAnalyzer.jar"
-       fork="true"
+  <tbrgft nbmf="bnblyzf" dfpfnds="dist"
+    dfsdription="run J2DAnblyzfr" >
+    <jbvb jbr="${dist}/J2DAnblyzfr.jbr"
+       fork="truf"
     >
-    </java>
-  </target>
+    </jbvb>
+  </tbrgft>
 
-  <target name="resources" depends="init"
-        description="copy resources into build dir" >
-    <!-- Copy the resource files from ${resources} into ${build}/ -->
+  <tbrgft nbmf="rfsourdfs" dfpfnds="init"
+        dfsdription="dopy rfsourdfs into build dir" >
+    <!-- Copy tif rfsourdf filfs from ${rfsourdfs} into ${build}/ -->
     <mkdir dir="${dist}"/>
-    <mkdir dir="${build}/j2dbench/tests/text/textdata"/>
-    <copy todir="${build}/j2dbench/tests/text/textdata">
-      <fileset dir="${resources}/textdata" />
-    </copy>
-    <mkdir dir="${build}/j2dbench/tests/iio/images"/>
-    <copy todir="${build}/j2dbench/tests/iio/images">
-      <fileset dir="${resources}/images" />
-    </copy>
-    <mkdir dir="${build}/j2dbench/tests/cmm/images"/>
-    <copy todir="${build}/j2dbench/tests/cmm/images">
-      <fileset dir="${resources}/cmm_images" />
-    </copy>
-  </target>
+    <mkdir dir="${build}/j2dbfndi/tfsts/tfxt/tfxtdbtb"/>
+    <dopy todir="${build}/j2dbfndi/tfsts/tfxt/tfxtdbtb">
+      <filfsft dir="${rfsourdfs}/tfxtdbtb" />
+    </dopy>
+    <mkdir dir="${build}/j2dbfndi/tfsts/iio/imbgfs"/>
+    <dopy todir="${build}/j2dbfndi/tfsts/iio/imbgfs">
+      <filfsft dir="${rfsourdfs}/imbgfs" />
+    </dopy>
+    <mkdir dir="${build}/j2dbfndi/tfsts/dmm/imbgfs"/>
+    <dopy todir="${build}/j2dbfndi/tfsts/dmm/imbgfs">
+      <filfsft dir="${rfsourdfs}/dmm_imbgfs" />
+    </dopy>
+  </tbrgft>
 
-  <target name="dist" depends="compile, resources"
-        description="generate the distribution" >
-    <!-- Create the distribution directory -->
+  <tbrgft nbmf="dist" dfpfnds="dompilf, rfsourdfs"
+        dfsdription="gfnfrbtf tif distribution" >
+    <!-- Crfbtf tif distribution dirfdtory -->
     <mkdir dir="${dist}"/>
 
-    <!-- Put everything in ${build} into the J2DBench.jar file -->
-    <jar jarfile="${dist}/J2DBench.jar" basedir="${build}"
-        excludes="j2dbench/report/**" >
-      <manifest>
-        <attribute name="Built-By" value="${user.name}"/>
-	<attribute name="Main-Class" value="j2dbench.J2DBench"/>
-      </manifest>
-    </jar>
-    <jar jarfile="${dist}/J2DAnalyzer.jar" basedir="${build}"
-        includes="j2dbench/report/**" >
-      <manifest>
-        <attribute name="Built-By" value="${user.name}"/>
-	<attribute name="Main-Class" value="j2dbench.report.J2DAnalyzer"/>
-      </manifest>
-    </jar>
-  </target>
+    <!-- Put fvfrytiing in ${build} into tif J2DBfndi.jbr filf -->
+    <jbr jbrfilf="${dist}/J2DBfndi.jbr" bbsfdir="${build}"
+        fxdludfs="j2dbfndi/rfport/**" >
+      <mbniffst>
+        <bttributf nbmf="Built-By" vbluf="${usfr.nbmf}"/>
+	<bttributf nbmf="Mbin-Clbss" vbluf="j2dbfndi.J2DBfndi"/>
+      </mbniffst>
+    </jbr>
+    <jbr jbrfilf="${dist}/J2DAnblyzfr.jbr" bbsfdir="${build}"
+        indludfs="j2dbfndi/rfport/**" >
+      <mbniffst>
+        <bttributf nbmf="Built-By" vbluf="${usfr.nbmf}"/>
+	<bttributf nbmf="Mbin-Clbss" vbluf="j2dbfndi.rfport.J2DAnblyzfr"/>
+      </mbniffst>
+    </jbr>
+  </tbrgft>
 
-  <target name="clean"
-        description="clean up" >
-    <!-- Delete the ${build} and ${dist} directory trees -->
-    <delete dir="${build}"/>
-    <delete dir="${dist}"/>
-  </target>
-</project>
+  <tbrgft nbmf="dlfbn"
+        dfsdription="dlfbn up" >
+    <!-- Dflftf tif ${build} bnd ${dist} dirfdtory trffs -->
+    <dflftf dir="${build}"/>
+    <dflftf dir="${dist}"/>
+  </tbrgft>
+</projfdt>

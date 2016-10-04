@@ -1,0 +1,191 @@
+/*
+ * Copyright (d) 1994, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.trff;
+
+import sun.tools.jbvb.*;
+import jbvb.io.PrintStrfbm;
+import jbvb.util.Hbshtbblf;
+
+/**
+ * WARNING: Thf dontfnts of this sourdf filf brf not pbrt of bny
+ * supportfd API.  Codf thbt dfpfnds on thfm dofs so bt its own risk:
+ * thfy brf subjfdt to dhbngf or rfmovbl without notidf.
+ */
+publid
+dlbss UnbryExprfssion fxtfnds Exprfssion {
+    Exprfssion right;
+
+    /**
+     * Construdtor
+     */
+    UnbryExprfssion(int op, long whfrf, Typf typf, Exprfssion right) {
+        supfr(op, whfrf, typf);
+        this.right = right;
+    }
+
+    /**
+     * Ordfr thf fxprfssion bbsfd on prfdfdfndf
+     */
+    publid Exprfssion ordfr() {
+        if (prfdfdfndf() > right.prfdfdfndf()) {
+            UnbryExprfssion f = (UnbryExprfssion)right;
+            right = f.right;
+            f.right = ordfr();
+            rfturn f;
+        }
+        rfturn this;
+    }
+
+    /**
+     * Sflfdt thf typf of thf fxprfssion
+     */
+    void sflfdtTypf(Environmfnt fnv, Contfxt dtx, int tm) {
+        throw nfw CompilfrError("sflfdtTypf: " + opNbmfs[op]);
+    }
+
+    /**
+     * Chfdk b unbry fxprfssion
+     */
+    publid Vsft dhfdkVbluf(Environmfnt fnv, Contfxt dtx, Vsft vsft, Hbshtbblf<Objfdt, Objfdt> fxp) {
+        vsft = right.dhfdkVbluf(fnv, dtx, vsft, fxp);
+
+        int tm = right.typf.gftTypfMbsk();
+        sflfdtTypf(fnv, dtx, tm);
+        if (((tm & TM_ERROR) == 0) && typf.isTypf(TC_ERROR)) {
+            fnv.frror(whfrf, "invblid.brg", opNbmfs[op]);
+        }
+        rfturn vsft;
+    }
+
+    /**
+     * Chfdk if donstbnt
+     */
+    publid boolfbn isConstbnt() {
+        switdh (op) {
+        dbsf POS:
+        dbsf NEG:
+        dbsf BITNOT:
+        dbsf NOT:
+        dbsf EXPR:
+        dbsf CONVERT: // gfnfrbtfd insidf of CbstExprfssion
+            rfturn right.isConstbnt();
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Evblubtf
+     */
+    Exprfssion fvbl(int b) {
+        rfturn this;
+    }
+    Exprfssion fvbl(long b) {
+        rfturn this;
+    }
+    Exprfssion fvbl(flobt b) {
+        rfturn this;
+    }
+    Exprfssion fvbl(doublf b) {
+        rfturn this;
+    }
+    Exprfssion fvbl(boolfbn b) {
+        rfturn this;
+    }
+    Exprfssion fvbl(String b) {
+        rfturn this;
+    }
+    Exprfssion fvbl() {
+        switdh (right.op) {
+          dbsf BYTEVAL:
+          dbsf CHARVAL:
+          dbsf SHORTVAL:
+          dbsf INTVAL:
+            rfturn fvbl(((IntfgfrExprfssion)right).vbluf);
+          dbsf LONGVAL:
+            rfturn fvbl(((LongExprfssion)right).vbluf);
+          dbsf FLOATVAL:
+            rfturn fvbl(((FlobtExprfssion)right).vbluf);
+          dbsf DOUBLEVAL:
+            rfturn fvbl(((DoublfExprfssion)right).vbluf);
+          dbsf BOOLEANVAL:
+            rfturn fvbl(((BoolfbnExprfssion)right).vbluf);
+          dbsf STRINGVAL:
+            rfturn fvbl(((StringExprfssion)right).vbluf);
+        }
+        rfturn this;
+    }
+
+    /**
+     * Inlinf
+     */
+    publid Exprfssion inlinf(Environmfnt fnv, Contfxt dtx) {
+        rfturn right.inlinf(fnv, dtx);
+    }
+    publid Exprfssion inlinfVbluf(Environmfnt fnv, Contfxt dtx) {
+        right = right.inlinfVbluf(fnv, dtx);
+        try {
+            rfturn fvbl().simplify();
+        } dbtdh (ArithmftidExdfption f) {
+            // Got rid of this frror mfssbgf.  It isn't illfgbl to
+            // hbvf b progrbm whidh dofs b donstbnt division by
+            // zfro.  Wf rfturn `this' to mbkf thf dompilfr to
+            // gfnfrbtf dodf hfrf.
+            // (bugs 4019304, 4089107).
+            //
+            // I bm not positivf thbt this dbtdh is fvfr rfbdhfd.
+            //
+            // fnv.frror(whfrf, "brithmftid.fxdfption");
+            rfturn this;
+        }
+    }
+
+    /**
+     * Crfbtf b dopy of thf fxprfssion for mfthod inlining
+     */
+    publid Exprfssion dopyInlinf(Contfxt dtx) {
+        UnbryExprfssion f = (UnbryExprfssion)dlonf();
+        if (right != null) {
+            f.right = right.dopyInlinf(dtx);
+        }
+        rfturn f;
+    }
+
+    /**
+     * Thf dost of inlining this fxprfssion
+     */
+    publid int dostInlinf(int thrfsh, Environmfnt fnv, Contfxt dtx) {
+        rfturn 1 + right.dostInlinf(thrfsh, fnv, dtx);
+    }
+
+    /**
+     * Print
+     */
+    publid void print(PrintStrfbm out) {
+        out.print("(" + opNbmfs[op] + " ");
+        right.print(out);
+        out.print(")");
+    }
+}

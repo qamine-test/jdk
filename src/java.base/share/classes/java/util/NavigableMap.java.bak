@@ -1,424 +1,424 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea and Josh Bloch with assistance from members of JCP
- * JSR-166 Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb bnd Josi Blodi witi bssistbndf from mfmbfrs of JCP
+ * JSR-166 Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util;
+pbdkbgf jbvb.util;
 
 /**
- * A {@link SortedMap} extended with navigation methods returning the
- * closest matches for given search targets. Methods
- * {@code lowerEntry}, {@code floorEntry}, {@code ceilingEntry},
- * and {@code higherEntry} return {@code Map.Entry} objects
- * associated with keys respectively less than, less than or equal,
- * greater than or equal, and greater than a given key, returning
- * {@code null} if there is no such key.  Similarly, methods
- * {@code lowerKey}, {@code floorKey}, {@code ceilingKey}, and
- * {@code higherKey} return only the associated keys. All of these
- * methods are designed for locating, not traversing entries.
+ * A {@link SortfdMbp} fxtfndfd witi nbvigbtion mftiods rfturning tif
+ * dlosfst mbtdifs for givfn sfbrdi tbrgfts. Mftiods
+ * {@dodf lowfrEntry}, {@dodf floorEntry}, {@dodf dfilingEntry},
+ * bnd {@dodf iigifrEntry} rfturn {@dodf Mbp.Entry} objfdts
+ * bssodibtfd witi kfys rfspfdtivfly lfss tibn, lfss tibn or fqubl,
+ * grfbtfr tibn or fqubl, bnd grfbtfr tibn b givfn kfy, rfturning
+ * {@dodf null} if tifrf is no sudi kfy.  Similbrly, mftiods
+ * {@dodf lowfrKfy}, {@dodf floorKfy}, {@dodf dfilingKfy}, bnd
+ * {@dodf iigifrKfy} rfturn only tif bssodibtfd kfys. All of tifsf
+ * mftiods brf dfsignfd for lodbting, not trbvfrsing fntrifs.
  *
- * <p>A {@code NavigableMap} may be accessed and traversed in either
- * ascending or descending key order.  The {@code descendingMap}
- * method returns a view of the map with the senses of all relational
- * and directional methods inverted. The performance of ascending
- * operations and views is likely to be faster than that of descending
- * ones.  Methods {@code subMap}, {@code headMap},
- * and {@code tailMap} differ from the like-named {@code
- * SortedMap} methods in accepting additional arguments describing
- * whether lower and upper bounds are inclusive versus exclusive.
- * Submaps of any {@code NavigableMap} must implement the {@code
- * NavigableMap} interface.
+ * <p>A {@dodf NbvigbblfMbp} mby bf bddfssfd bnd trbvfrsfd in fitifr
+ * bsdfnding or dfsdfnding kfy ordfr.  Tif {@dodf dfsdfndingMbp}
+ * mftiod rfturns b vifw of tif mbp witi tif sfnsfs of bll rflbtionbl
+ * bnd dirfdtionbl mftiods invfrtfd. Tif pfrformbndf of bsdfnding
+ * opfrbtions bnd vifws is likfly to bf fbstfr tibn tibt of dfsdfnding
+ * onfs.  Mftiods {@dodf subMbp}, {@dodf ifbdMbp},
+ * bnd {@dodf tbilMbp} difffr from tif likf-nbmfd {@dodf
+ * SortfdMbp} mftiods in bddfpting bdditionbl brgumfnts dfsdribing
+ * wiftifr lowfr bnd uppfr bounds brf indlusivf vfrsus fxdlusivf.
+ * Submbps of bny {@dodf NbvigbblfMbp} must implfmfnt tif {@dodf
+ * NbvigbblfMbp} intfrfbdf.
  *
- * <p>This interface additionally defines methods {@code firstEntry},
- * {@code pollFirstEntry}, {@code lastEntry}, and
- * {@code pollLastEntry} that return and/or remove the least and
- * greatest mappings, if any exist, else returning {@code null}.
+ * <p>Tiis intfrfbdf bdditionblly dffinfs mftiods {@dodf firstEntry},
+ * {@dodf pollFirstEntry}, {@dodf lbstEntry}, bnd
+ * {@dodf pollLbstEntry} tibt rfturn bnd/or rfmovf tif lfbst bnd
+ * grfbtfst mbppings, if bny fxist, flsf rfturning {@dodf null}.
  *
- * <p>Implementations of entry-returning methods are expected to
- * return {@code Map.Entry} pairs representing snapshots of mappings
- * at the time they were produced, and thus generally do <em>not</em>
- * support the optional {@code Entry.setValue} method. Note however
- * that it is possible to change mappings in the associated map using
- * method {@code put}.
+ * <p>Implfmfntbtions of fntry-rfturning mftiods brf fxpfdtfd to
+ * rfturn {@dodf Mbp.Entry} pbirs rfprfsfnting snbpsiots of mbppings
+ * bt tif timf tify wfrf produdfd, bnd tius gfnfrblly do <fm>not</fm>
+ * support tif optionbl {@dodf Entry.sftVbluf} mftiod. Notf iowfvfr
+ * tibt it is possiblf to dibngf mbppings in tif bssodibtfd mbp using
+ * mftiod {@dodf put}.
  *
- * <p>Methods
- * {@link #subMap(Object, Object) subMap(K, K)},
- * {@link #headMap(Object) headMap(K)}, and
- * {@link #tailMap(Object) tailMap(K)}
- * are specified to return {@code SortedMap} to allow existing
- * implementations of {@code SortedMap} to be compatibly retrofitted to
- * implement {@code NavigableMap}, but extensions and implementations
- * of this interface are encouraged to override these methods to return
- * {@code NavigableMap}.  Similarly,
- * {@link #keySet()} can be overriden to return {@code NavigableSet}.
+ * <p>Mftiods
+ * {@link #subMbp(Objfdt, Objfdt) subMbp(K, K)},
+ * {@link #ifbdMbp(Objfdt) ifbdMbp(K)}, bnd
+ * {@link #tbilMbp(Objfdt) tbilMbp(K)}
+ * brf spfdififd to rfturn {@dodf SortfdMbp} to bllow fxisting
+ * implfmfntbtions of {@dodf SortfdMbp} to bf dompbtibly rftrofittfd to
+ * implfmfnt {@dodf NbvigbblfMbp}, but fxtfnsions bnd implfmfntbtions
+ * of tiis intfrfbdf brf fndourbgfd to ovfrridf tifsf mftiods to rfturn
+ * {@dodf NbvigbblfMbp}.  Similbrly,
+ * {@link #kfySft()} dbn bf ovfrridfn to rfturn {@dodf NbvigbblfSft}.
  *
- * <p>This interface is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis intfrfbdf is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @author Doug Lea
- * @author Josh Bloch
- * @param <K> the type of keys maintained by this map
- * @param <V> the type of mapped values
- * @since 1.6
+ * @butior Doug Lfb
+ * @butior Josi Blodi
+ * @pbrbm <K> tif typf of kfys mbintbinfd by tiis mbp
+ * @pbrbm <V> tif typf of mbppfd vblufs
+ * @sindf 1.6
  */
-public interface NavigableMap<K,V> extends SortedMap<K,V> {
+publid intfrfbdf NbvigbblfMbp<K,V> fxtfnds SortfdMbp<K,V> {
     /**
-     * Returns a key-value mapping associated with the greatest key
-     * strictly less than the given key, or {@code null} if there is
-     * no such key.
+     * Rfturns b kfy-vbluf mbpping bssodibtfd witi tif grfbtfst kfy
+     * stridtly lfss tibn tif givfn kfy, or {@dodf null} if tifrf is
+     * no sudi kfy.
      *
-     * @param key the key
-     * @return an entry with the greatest key less than {@code key},
-     *         or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
-     * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     * @pbrbm kfy tif kfy
+     * @rfturn bn fntry witi tif grfbtfst kfy lfss tibn {@dodf kfy},
+     *         or {@dodf null} if tifrf is no sudi kfy
+     * @tirows ClbssCbstExdfption if tif spfdififd kfy dbnnot bf dompbrfd
+     *         witi tif kfys durrfntly in tif mbp
+     * @tirows NullPointfrExdfption if tif spfdififd kfy is null
+     *         bnd tiis mbp dofs not pfrmit null kfys
      */
-    Map.Entry<K,V> lowerEntry(K key);
+    Mbp.Entry<K,V> lowfrEntry(K kfy);
 
     /**
-     * Returns the greatest key strictly less than the given key, or
-     * {@code null} if there is no such key.
+     * Rfturns tif grfbtfst kfy stridtly lfss tibn tif givfn kfy, or
+     * {@dodf null} if tifrf is no sudi kfy.
      *
-     * @param key the key
-     * @return the greatest key less than {@code key},
-     *         or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
-     * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     * @pbrbm kfy tif kfy
+     * @rfturn tif grfbtfst kfy lfss tibn {@dodf kfy},
+     *         or {@dodf null} if tifrf is no sudi kfy
+     * @tirows ClbssCbstExdfption if tif spfdififd kfy dbnnot bf dompbrfd
+     *         witi tif kfys durrfntly in tif mbp
+     * @tirows NullPointfrExdfption if tif spfdififd kfy is null
+     *         bnd tiis mbp dofs not pfrmit null kfys
      */
-    K lowerKey(K key);
+    K lowfrKfy(K kfy);
 
     /**
-     * Returns a key-value mapping associated with the greatest key
-     * less than or equal to the given key, or {@code null} if there
-     * is no such key.
+     * Rfturns b kfy-vbluf mbpping bssodibtfd witi tif grfbtfst kfy
+     * lfss tibn or fqubl to tif givfn kfy, or {@dodf null} if tifrf
+     * is no sudi kfy.
      *
-     * @param key the key
-     * @return an entry with the greatest key less than or equal to
-     *         {@code key}, or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
-     * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     * @pbrbm kfy tif kfy
+     * @rfturn bn fntry witi tif grfbtfst kfy lfss tibn or fqubl to
+     *         {@dodf kfy}, or {@dodf null} if tifrf is no sudi kfy
+     * @tirows ClbssCbstExdfption if tif spfdififd kfy dbnnot bf dompbrfd
+     *         witi tif kfys durrfntly in tif mbp
+     * @tirows NullPointfrExdfption if tif spfdififd kfy is null
+     *         bnd tiis mbp dofs not pfrmit null kfys
      */
-    Map.Entry<K,V> floorEntry(K key);
+    Mbp.Entry<K,V> floorEntry(K kfy);
 
     /**
-     * Returns the greatest key less than or equal to the given key,
-     * or {@code null} if there is no such key.
+     * Rfturns tif grfbtfst kfy lfss tibn or fqubl to tif givfn kfy,
+     * or {@dodf null} if tifrf is no sudi kfy.
      *
-     * @param key the key
-     * @return the greatest key less than or equal to {@code key},
-     *         or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
-     * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     * @pbrbm kfy tif kfy
+     * @rfturn tif grfbtfst kfy lfss tibn or fqubl to {@dodf kfy},
+     *         or {@dodf null} if tifrf is no sudi kfy
+     * @tirows ClbssCbstExdfption if tif spfdififd kfy dbnnot bf dompbrfd
+     *         witi tif kfys durrfntly in tif mbp
+     * @tirows NullPointfrExdfption if tif spfdififd kfy is null
+     *         bnd tiis mbp dofs not pfrmit null kfys
      */
-    K floorKey(K key);
+    K floorKfy(K kfy);
 
     /**
-     * Returns a key-value mapping associated with the least key
-     * greater than or equal to the given key, or {@code null} if
-     * there is no such key.
+     * Rfturns b kfy-vbluf mbpping bssodibtfd witi tif lfbst kfy
+     * grfbtfr tibn or fqubl to tif givfn kfy, or {@dodf null} if
+     * tifrf is no sudi kfy.
      *
-     * @param key the key
-     * @return an entry with the least key greater than or equal to
-     *         {@code key}, or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
-     * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     * @pbrbm kfy tif kfy
+     * @rfturn bn fntry witi tif lfbst kfy grfbtfr tibn or fqubl to
+     *         {@dodf kfy}, or {@dodf null} if tifrf is no sudi kfy
+     * @tirows ClbssCbstExdfption if tif spfdififd kfy dbnnot bf dompbrfd
+     *         witi tif kfys durrfntly in tif mbp
+     * @tirows NullPointfrExdfption if tif spfdififd kfy is null
+     *         bnd tiis mbp dofs not pfrmit null kfys
      */
-    Map.Entry<K,V> ceilingEntry(K key);
+    Mbp.Entry<K,V> dfilingEntry(K kfy);
 
     /**
-     * Returns the least key greater than or equal to the given key,
-     * or {@code null} if there is no such key.
+     * Rfturns tif lfbst kfy grfbtfr tibn or fqubl to tif givfn kfy,
+     * or {@dodf null} if tifrf is no sudi kfy.
      *
-     * @param key the key
-     * @return the least key greater than or equal to {@code key},
-     *         or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
-     * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     * @pbrbm kfy tif kfy
+     * @rfturn tif lfbst kfy grfbtfr tibn or fqubl to {@dodf kfy},
+     *         or {@dodf null} if tifrf is no sudi kfy
+     * @tirows ClbssCbstExdfption if tif spfdififd kfy dbnnot bf dompbrfd
+     *         witi tif kfys durrfntly in tif mbp
+     * @tirows NullPointfrExdfption if tif spfdififd kfy is null
+     *         bnd tiis mbp dofs not pfrmit null kfys
      */
-    K ceilingKey(K key);
+    K dfilingKfy(K kfy);
 
     /**
-     * Returns a key-value mapping associated with the least key
-     * strictly greater than the given key, or {@code null} if there
-     * is no such key.
+     * Rfturns b kfy-vbluf mbpping bssodibtfd witi tif lfbst kfy
+     * stridtly grfbtfr tibn tif givfn kfy, or {@dodf null} if tifrf
+     * is no sudi kfy.
      *
-     * @param key the key
-     * @return an entry with the least key greater than {@code key},
-     *         or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
-     * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     * @pbrbm kfy tif kfy
+     * @rfturn bn fntry witi tif lfbst kfy grfbtfr tibn {@dodf kfy},
+     *         or {@dodf null} if tifrf is no sudi kfy
+     * @tirows ClbssCbstExdfption if tif spfdififd kfy dbnnot bf dompbrfd
+     *         witi tif kfys durrfntly in tif mbp
+     * @tirows NullPointfrExdfption if tif spfdififd kfy is null
+     *         bnd tiis mbp dofs not pfrmit null kfys
      */
-    Map.Entry<K,V> higherEntry(K key);
+    Mbp.Entry<K,V> iigifrEntry(K kfy);
 
     /**
-     * Returns the least key strictly greater than the given key, or
-     * {@code null} if there is no such key.
+     * Rfturns tif lfbst kfy stridtly grfbtfr tibn tif givfn kfy, or
+     * {@dodf null} if tifrf is no sudi kfy.
      *
-     * @param key the key
-     * @return the least key greater than {@code key},
-     *         or {@code null} if there is no such key
-     * @throws ClassCastException if the specified key cannot be compared
-     *         with the keys currently in the map
-     * @throws NullPointerException if the specified key is null
-     *         and this map does not permit null keys
+     * @pbrbm kfy tif kfy
+     * @rfturn tif lfbst kfy grfbtfr tibn {@dodf kfy},
+     *         or {@dodf null} if tifrf is no sudi kfy
+     * @tirows ClbssCbstExdfption if tif spfdififd kfy dbnnot bf dompbrfd
+     *         witi tif kfys durrfntly in tif mbp
+     * @tirows NullPointfrExdfption if tif spfdififd kfy is null
+     *         bnd tiis mbp dofs not pfrmit null kfys
      */
-    K higherKey(K key);
+    K iigifrKfy(K kfy);
 
     /**
-     * Returns a key-value mapping associated with the least
-     * key in this map, or {@code null} if the map is empty.
+     * Rfturns b kfy-vbluf mbpping bssodibtfd witi tif lfbst
+     * kfy in tiis mbp, or {@dodf null} if tif mbp is fmpty.
      *
-     * @return an entry with the least key,
-     *         or {@code null} if this map is empty
+     * @rfturn bn fntry witi tif lfbst kfy,
+     *         or {@dodf null} if tiis mbp is fmpty
      */
-    Map.Entry<K,V> firstEntry();
+    Mbp.Entry<K,V> firstEntry();
 
     /**
-     * Returns a key-value mapping associated with the greatest
-     * key in this map, or {@code null} if the map is empty.
+     * Rfturns b kfy-vbluf mbpping bssodibtfd witi tif grfbtfst
+     * kfy in tiis mbp, or {@dodf null} if tif mbp is fmpty.
      *
-     * @return an entry with the greatest key,
-     *         or {@code null} if this map is empty
+     * @rfturn bn fntry witi tif grfbtfst kfy,
+     *         or {@dodf null} if tiis mbp is fmpty
      */
-    Map.Entry<K,V> lastEntry();
+    Mbp.Entry<K,V> lbstEntry();
 
     /**
-     * Removes and returns a key-value mapping associated with
-     * the least key in this map, or {@code null} if the map is empty.
+     * Rfmovfs bnd rfturns b kfy-vbluf mbpping bssodibtfd witi
+     * tif lfbst kfy in tiis mbp, or {@dodf null} if tif mbp is fmpty.
      *
-     * @return the removed first entry of this map,
-     *         or {@code null} if this map is empty
+     * @rfturn tif rfmovfd first fntry of tiis mbp,
+     *         or {@dodf null} if tiis mbp is fmpty
      */
-    Map.Entry<K,V> pollFirstEntry();
+    Mbp.Entry<K,V> pollFirstEntry();
 
     /**
-     * Removes and returns a key-value mapping associated with
-     * the greatest key in this map, or {@code null} if the map is empty.
+     * Rfmovfs bnd rfturns b kfy-vbluf mbpping bssodibtfd witi
+     * tif grfbtfst kfy in tiis mbp, or {@dodf null} if tif mbp is fmpty.
      *
-     * @return the removed last entry of this map,
-     *         or {@code null} if this map is empty
+     * @rfturn tif rfmovfd lbst fntry of tiis mbp,
+     *         or {@dodf null} if tiis mbp is fmpty
      */
-    Map.Entry<K,V> pollLastEntry();
+    Mbp.Entry<K,V> pollLbstEntry();
 
     /**
-     * Returns a reverse order view of the mappings contained in this map.
-     * The descending map is backed by this map, so changes to the map are
-     * reflected in the descending map, and vice-versa.  If either map is
-     * modified while an iteration over a collection view of either map
-     * is in progress (except through the iterator's own {@code remove}
-     * operation), the results of the iteration are undefined.
+     * Rfturns b rfvfrsf ordfr vifw of tif mbppings dontbinfd in tiis mbp.
+     * Tif dfsdfnding mbp is bbdkfd by tiis mbp, so dibngfs to tif mbp brf
+     * rfflfdtfd in tif dfsdfnding mbp, bnd vidf-vfrsb.  If fitifr mbp is
+     * modififd wiilf bn itfrbtion ovfr b dollfdtion vifw of fitifr mbp
+     * is in progrfss (fxdfpt tirougi tif itfrbtor's own {@dodf rfmovf}
+     * opfrbtion), tif rfsults of tif itfrbtion brf undffinfd.
      *
-     * <p>The returned map has an ordering equivalent to
-     * <tt>{@link Collections#reverseOrder(Comparator) Collections.reverseOrder}(comparator())</tt>.
-     * The expression {@code m.descendingMap().descendingMap()} returns a
-     * view of {@code m} essentially equivalent to {@code m}.
+     * <p>Tif rfturnfd mbp ibs bn ordfring fquivblfnt to
+     * <tt>{@link Collfdtions#rfvfrsfOrdfr(Compbrbtor) Collfdtions.rfvfrsfOrdfr}(dompbrbtor())</tt>.
+     * Tif fxprfssion {@dodf m.dfsdfndingMbp().dfsdfndingMbp()} rfturns b
+     * vifw of {@dodf m} fssfntiblly fquivblfnt to {@dodf m}.
      *
-     * @return a reverse order view of this map
+     * @rfturn b rfvfrsf ordfr vifw of tiis mbp
      */
-    NavigableMap<K,V> descendingMap();
+    NbvigbblfMbp<K,V> dfsdfndingMbp();
 
     /**
-     * Returns a {@link NavigableSet} view of the keys contained in this map.
-     * The set's iterator returns the keys in ascending order.
-     * The set is backed by the map, so changes to the map are reflected in
-     * the set, and vice-versa.  If the map is modified while an iteration
-     * over the set is in progress (except through the iterator's own {@code
-     * remove} operation), the results of the iteration are undefined.  The
-     * set supports element removal, which removes the corresponding mapping
-     * from the map, via the {@code Iterator.remove}, {@code Set.remove},
-     * {@code removeAll}, {@code retainAll}, and {@code clear} operations.
-     * It does not support the {@code add} or {@code addAll} operations.
+     * Rfturns b {@link NbvigbblfSft} vifw of tif kfys dontbinfd in tiis mbp.
+     * Tif sft's itfrbtor rfturns tif kfys in bsdfnding ordfr.
+     * Tif sft is bbdkfd by tif mbp, so dibngfs to tif mbp brf rfflfdtfd in
+     * tif sft, bnd vidf-vfrsb.  If tif mbp is modififd wiilf bn itfrbtion
+     * ovfr tif sft is in progrfss (fxdfpt tirougi tif itfrbtor's own {@dodf
+     * rfmovf} opfrbtion), tif rfsults of tif itfrbtion brf undffinfd.  Tif
+     * sft supports flfmfnt rfmovbl, wiidi rfmovfs tif dorrfsponding mbpping
+     * from tif mbp, vib tif {@dodf Itfrbtor.rfmovf}, {@dodf Sft.rfmovf},
+     * {@dodf rfmovfAll}, {@dodf rftbinAll}, bnd {@dodf dlfbr} opfrbtions.
+     * It dofs not support tif {@dodf bdd} or {@dodf bddAll} opfrbtions.
      *
-     * @return a navigable set view of the keys in this map
+     * @rfturn b nbvigbblf sft vifw of tif kfys in tiis mbp
      */
-    NavigableSet<K> navigableKeySet();
+    NbvigbblfSft<K> nbvigbblfKfySft();
 
     /**
-     * Returns a reverse order {@link NavigableSet} view of the keys contained in this map.
-     * The set's iterator returns the keys in descending order.
-     * The set is backed by the map, so changes to the map are reflected in
-     * the set, and vice-versa.  If the map is modified while an iteration
-     * over the set is in progress (except through the iterator's own {@code
-     * remove} operation), the results of the iteration are undefined.  The
-     * set supports element removal, which removes the corresponding mapping
-     * from the map, via the {@code Iterator.remove}, {@code Set.remove},
-     * {@code removeAll}, {@code retainAll}, and {@code clear} operations.
-     * It does not support the {@code add} or {@code addAll} operations.
+     * Rfturns b rfvfrsf ordfr {@link NbvigbblfSft} vifw of tif kfys dontbinfd in tiis mbp.
+     * Tif sft's itfrbtor rfturns tif kfys in dfsdfnding ordfr.
+     * Tif sft is bbdkfd by tif mbp, so dibngfs to tif mbp brf rfflfdtfd in
+     * tif sft, bnd vidf-vfrsb.  If tif mbp is modififd wiilf bn itfrbtion
+     * ovfr tif sft is in progrfss (fxdfpt tirougi tif itfrbtor's own {@dodf
+     * rfmovf} opfrbtion), tif rfsults of tif itfrbtion brf undffinfd.  Tif
+     * sft supports flfmfnt rfmovbl, wiidi rfmovfs tif dorrfsponding mbpping
+     * from tif mbp, vib tif {@dodf Itfrbtor.rfmovf}, {@dodf Sft.rfmovf},
+     * {@dodf rfmovfAll}, {@dodf rftbinAll}, bnd {@dodf dlfbr} opfrbtions.
+     * It dofs not support tif {@dodf bdd} or {@dodf bddAll} opfrbtions.
      *
-     * @return a reverse order navigable set view of the keys in this map
+     * @rfturn b rfvfrsf ordfr nbvigbblf sft vifw of tif kfys in tiis mbp
      */
-    NavigableSet<K> descendingKeySet();
+    NbvigbblfSft<K> dfsdfndingKfySft();
 
     /**
-     * Returns a view of the portion of this map whose keys range from
-     * {@code fromKey} to {@code toKey}.  If {@code fromKey} and
-     * {@code toKey} are equal, the returned map is empty unless
-     * {@code fromInclusive} and {@code toInclusive} are both true.  The
-     * returned map is backed by this map, so changes in the returned map are
-     * reflected in this map, and vice-versa.  The returned map supports all
-     * optional map operations that this map supports.
+     * Rfturns b vifw of tif portion of tiis mbp wiosf kfys rbngf from
+     * {@dodf fromKfy} to {@dodf toKfy}.  If {@dodf fromKfy} bnd
+     * {@dodf toKfy} brf fqubl, tif rfturnfd mbp is fmpty unlfss
+     * {@dodf fromIndlusivf} bnd {@dodf toIndlusivf} brf boti truf.  Tif
+     * rfturnfd mbp is bbdkfd by tiis mbp, so dibngfs in tif rfturnfd mbp brf
+     * rfflfdtfd in tiis mbp, bnd vidf-vfrsb.  Tif rfturnfd mbp supports bll
+     * optionbl mbp opfrbtions tibt tiis mbp supports.
      *
-     * <p>The returned map will throw an {@code IllegalArgumentException}
-     * on an attempt to insert a key outside of its range, or to construct a
-     * submap either of whose endpoints lie outside its range.
+     * <p>Tif rfturnfd mbp will tirow bn {@dodf IllfgblArgumfntExdfption}
+     * on bn bttfmpt to insfrt b kfy outsidf of its rbngf, or to donstrudt b
+     * submbp fitifr of wiosf fndpoints lif outsidf its rbngf.
      *
-     * @param fromKey low endpoint of the keys in the returned map
-     * @param fromInclusive {@code true} if the low endpoint
-     *        is to be included in the returned view
-     * @param toKey high endpoint of the keys in the returned map
-     * @param toInclusive {@code true} if the high endpoint
-     *        is to be included in the returned view
-     * @return a view of the portion of this map whose keys range from
-     *         {@code fromKey} to {@code toKey}
-     * @throws ClassCastException if {@code fromKey} and {@code toKey}
-     *         cannot be compared to one another using this map's comparator
-     *         (or, if the map has no comparator, using natural ordering).
-     *         Implementations may, but are not required to, throw this
-     *         exception if {@code fromKey} or {@code toKey}
-     *         cannot be compared to keys currently in the map.
-     * @throws NullPointerException if {@code fromKey} or {@code toKey}
-     *         is null and this map does not permit null keys
-     * @throws IllegalArgumentException if {@code fromKey} is greater than
-     *         {@code toKey}; or if this map itself has a restricted
-     *         range, and {@code fromKey} or {@code toKey} lies
-     *         outside the bounds of the range
+     * @pbrbm fromKfy low fndpoint of tif kfys in tif rfturnfd mbp
+     * @pbrbm fromIndlusivf {@dodf truf} if tif low fndpoint
+     *        is to bf indludfd in tif rfturnfd vifw
+     * @pbrbm toKfy iigi fndpoint of tif kfys in tif rfturnfd mbp
+     * @pbrbm toIndlusivf {@dodf truf} if tif iigi fndpoint
+     *        is to bf indludfd in tif rfturnfd vifw
+     * @rfturn b vifw of tif portion of tiis mbp wiosf kfys rbngf from
+     *         {@dodf fromKfy} to {@dodf toKfy}
+     * @tirows ClbssCbstExdfption if {@dodf fromKfy} bnd {@dodf toKfy}
+     *         dbnnot bf dompbrfd to onf bnotifr using tiis mbp's dompbrbtor
+     *         (or, if tif mbp ibs no dompbrbtor, using nbturbl ordfring).
+     *         Implfmfntbtions mby, but brf not rfquirfd to, tirow tiis
+     *         fxdfption if {@dodf fromKfy} or {@dodf toKfy}
+     *         dbnnot bf dompbrfd to kfys durrfntly in tif mbp.
+     * @tirows NullPointfrExdfption if {@dodf fromKfy} or {@dodf toKfy}
+     *         is null bnd tiis mbp dofs not pfrmit null kfys
+     * @tirows IllfgblArgumfntExdfption if {@dodf fromKfy} is grfbtfr tibn
+     *         {@dodf toKfy}; or if tiis mbp itsflf ibs b rfstridtfd
+     *         rbngf, bnd {@dodf fromKfy} or {@dodf toKfy} lifs
+     *         outsidf tif bounds of tif rbngf
      */
-    NavigableMap<K,V> subMap(K fromKey, boolean fromInclusive,
-                             K toKey,   boolean toInclusive);
+    NbvigbblfMbp<K,V> subMbp(K fromKfy, boolfbn fromIndlusivf,
+                             K toKfy,   boolfbn toIndlusivf);
 
     /**
-     * Returns a view of the portion of this map whose keys are less than (or
-     * equal to, if {@code inclusive} is true) {@code toKey}.  The returned
-     * map is backed by this map, so changes in the returned map are reflected
-     * in this map, and vice-versa.  The returned map supports all optional
-     * map operations that this map supports.
+     * Rfturns b vifw of tif portion of tiis mbp wiosf kfys brf lfss tibn (or
+     * fqubl to, if {@dodf indlusivf} is truf) {@dodf toKfy}.  Tif rfturnfd
+     * mbp is bbdkfd by tiis mbp, so dibngfs in tif rfturnfd mbp brf rfflfdtfd
+     * in tiis mbp, bnd vidf-vfrsb.  Tif rfturnfd mbp supports bll optionbl
+     * mbp opfrbtions tibt tiis mbp supports.
      *
-     * <p>The returned map will throw an {@code IllegalArgumentException}
-     * on an attempt to insert a key outside its range.
+     * <p>Tif rfturnfd mbp will tirow bn {@dodf IllfgblArgumfntExdfption}
+     * on bn bttfmpt to insfrt b kfy outsidf its rbngf.
      *
-     * @param toKey high endpoint of the keys in the returned map
-     * @param inclusive {@code true} if the high endpoint
-     *        is to be included in the returned view
-     * @return a view of the portion of this map whose keys are less than
-     *         (or equal to, if {@code inclusive} is true) {@code toKey}
-     * @throws ClassCastException if {@code toKey} is not compatible
-     *         with this map's comparator (or, if the map has no comparator,
-     *         if {@code toKey} does not implement {@link Comparable}).
-     *         Implementations may, but are not required to, throw this
-     *         exception if {@code toKey} cannot be compared to keys
-     *         currently in the map.
-     * @throws NullPointerException if {@code toKey} is null
-     *         and this map does not permit null keys
-     * @throws IllegalArgumentException if this map itself has a
-     *         restricted range, and {@code toKey} lies outside the
-     *         bounds of the range
+     * @pbrbm toKfy iigi fndpoint of tif kfys in tif rfturnfd mbp
+     * @pbrbm indlusivf {@dodf truf} if tif iigi fndpoint
+     *        is to bf indludfd in tif rfturnfd vifw
+     * @rfturn b vifw of tif portion of tiis mbp wiosf kfys brf lfss tibn
+     *         (or fqubl to, if {@dodf indlusivf} is truf) {@dodf toKfy}
+     * @tirows ClbssCbstExdfption if {@dodf toKfy} is not dompbtiblf
+     *         witi tiis mbp's dompbrbtor (or, if tif mbp ibs no dompbrbtor,
+     *         if {@dodf toKfy} dofs not implfmfnt {@link Compbrbblf}).
+     *         Implfmfntbtions mby, but brf not rfquirfd to, tirow tiis
+     *         fxdfption if {@dodf toKfy} dbnnot bf dompbrfd to kfys
+     *         durrfntly in tif mbp.
+     * @tirows NullPointfrExdfption if {@dodf toKfy} is null
+     *         bnd tiis mbp dofs not pfrmit null kfys
+     * @tirows IllfgblArgumfntExdfption if tiis mbp itsflf ibs b
+     *         rfstridtfd rbngf, bnd {@dodf toKfy} lifs outsidf tif
+     *         bounds of tif rbngf
      */
-    NavigableMap<K,V> headMap(K toKey, boolean inclusive);
+    NbvigbblfMbp<K,V> ifbdMbp(K toKfy, boolfbn indlusivf);
 
     /**
-     * Returns a view of the portion of this map whose keys are greater than (or
-     * equal to, if {@code inclusive} is true) {@code fromKey}.  The returned
-     * map is backed by this map, so changes in the returned map are reflected
-     * in this map, and vice-versa.  The returned map supports all optional
-     * map operations that this map supports.
+     * Rfturns b vifw of tif portion of tiis mbp wiosf kfys brf grfbtfr tibn (or
+     * fqubl to, if {@dodf indlusivf} is truf) {@dodf fromKfy}.  Tif rfturnfd
+     * mbp is bbdkfd by tiis mbp, so dibngfs in tif rfturnfd mbp brf rfflfdtfd
+     * in tiis mbp, bnd vidf-vfrsb.  Tif rfturnfd mbp supports bll optionbl
+     * mbp opfrbtions tibt tiis mbp supports.
      *
-     * <p>The returned map will throw an {@code IllegalArgumentException}
-     * on an attempt to insert a key outside its range.
+     * <p>Tif rfturnfd mbp will tirow bn {@dodf IllfgblArgumfntExdfption}
+     * on bn bttfmpt to insfrt b kfy outsidf its rbngf.
      *
-     * @param fromKey low endpoint of the keys in the returned map
-     * @param inclusive {@code true} if the low endpoint
-     *        is to be included in the returned view
-     * @return a view of the portion of this map whose keys are greater than
-     *         (or equal to, if {@code inclusive} is true) {@code fromKey}
-     * @throws ClassCastException if {@code fromKey} is not compatible
-     *         with this map's comparator (or, if the map has no comparator,
-     *         if {@code fromKey} does not implement {@link Comparable}).
-     *         Implementations may, but are not required to, throw this
-     *         exception if {@code fromKey} cannot be compared to keys
-     *         currently in the map.
-     * @throws NullPointerException if {@code fromKey} is null
-     *         and this map does not permit null keys
-     * @throws IllegalArgumentException if this map itself has a
-     *         restricted range, and {@code fromKey} lies outside the
-     *         bounds of the range
+     * @pbrbm fromKfy low fndpoint of tif kfys in tif rfturnfd mbp
+     * @pbrbm indlusivf {@dodf truf} if tif low fndpoint
+     *        is to bf indludfd in tif rfturnfd vifw
+     * @rfturn b vifw of tif portion of tiis mbp wiosf kfys brf grfbtfr tibn
+     *         (or fqubl to, if {@dodf indlusivf} is truf) {@dodf fromKfy}
+     * @tirows ClbssCbstExdfption if {@dodf fromKfy} is not dompbtiblf
+     *         witi tiis mbp's dompbrbtor (or, if tif mbp ibs no dompbrbtor,
+     *         if {@dodf fromKfy} dofs not implfmfnt {@link Compbrbblf}).
+     *         Implfmfntbtions mby, but brf not rfquirfd to, tirow tiis
+     *         fxdfption if {@dodf fromKfy} dbnnot bf dompbrfd to kfys
+     *         durrfntly in tif mbp.
+     * @tirows NullPointfrExdfption if {@dodf fromKfy} is null
+     *         bnd tiis mbp dofs not pfrmit null kfys
+     * @tirows IllfgblArgumfntExdfption if tiis mbp itsflf ibs b
+     *         rfstridtfd rbngf, bnd {@dodf fromKfy} lifs outsidf tif
+     *         bounds of tif rbngf
      */
-    NavigableMap<K,V> tailMap(K fromKey, boolean inclusive);
+    NbvigbblfMbp<K,V> tbilMbp(K fromKfy, boolfbn indlusivf);
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * <p>Equivalent to {@code subMap(fromKey, true, toKey, false)}.
+     * <p>Equivblfnt to {@dodf subMbp(fromKfy, truf, toKfy, fblsf)}.
      *
-     * @throws ClassCastException       {@inheritDoc}
-     * @throws NullPointerException     {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows ClbssCbstExdfption       {@inifritDod}
+     * @tirows NullPointfrExdfption     {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    SortedMap<K,V> subMap(K fromKey, K toKey);
+    SortfdMbp<K,V> subMbp(K fromKfy, K toKfy);
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * <p>Equivalent to {@code headMap(toKey, false)}.
+     * <p>Equivblfnt to {@dodf ifbdMbp(toKfy, fblsf)}.
      *
-     * @throws ClassCastException       {@inheritDoc}
-     * @throws NullPointerException     {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows ClbssCbstExdfption       {@inifritDod}
+     * @tirows NullPointfrExdfption     {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    SortedMap<K,V> headMap(K toKey);
+    SortfdMbp<K,V> ifbdMbp(K toKfy);
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * <p>Equivalent to {@code tailMap(fromKey, true)}.
+     * <p>Equivblfnt to {@dodf tbilMbp(fromKfy, truf)}.
      *
-     * @throws ClassCastException       {@inheritDoc}
-     * @throws NullPointerException     {@inheritDoc}
-     * @throws IllegalArgumentException {@inheritDoc}
+     * @tirows ClbssCbstExdfption       {@inifritDod}
+     * @tirows NullPointfrExdfption     {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption {@inifritDod}
      */
-    SortedMap<K,V> tailMap(K fromKey);
+    SortfdMbp<K,V> tbilMbp(K fromKfy);
 }

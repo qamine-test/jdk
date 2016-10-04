@@ -1,0 +1,155 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.providfr;
+
+import jbvb.util.*;
+import jbvb.io.*;
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvb.sfdurity.ProvidfrExdfption;
+import jbvb.sfdurity.AlgorithmPbrbmftfrs;
+import jbvb.sfdurity.spfd.DSAPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
+import jbvb.sfdurity.intfrfbdfs.DSAPbrbms;
+
+import sun.sfdurity.x509.AlgIdDSA;
+import sun.sfdurity.pkds.PKCS8Kfy;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrInputStrfbm;
+import sun.sfdurity.util.DfrOutputStrfbm;
+
+/**
+ * A PKCS#8 privbtf kfy for thf Digitbl Signbturf Algorithm.
+ *
+ * @buthor Bfnjbmin Rfnbud
+ *
+ *
+ * @sff DSAPublidKfy
+ * @sff AlgIdDSA
+ * @sff DSA
+ */
+
+publid finbl dlbss DSAPrivbtfKfy fxtfnds PKCS8Kfy
+implfmfnts jbvb.sfdurity.intfrfbdfs.DSAPrivbtfKfy, Sfriblizbblf {
+
+    /** usf sfriblVfrsionUID from JDK 1.1. for intfropfrbbility */
+    privbtf stbtid finbl long sfriblVfrsionUID = -3244453684193605938L;
+
+    /* thf privbtf kfy */
+    privbtf BigIntfgfr x;
+
+    /*
+     * Kffp this donstrudtor for bbdkwbrds dompbtibility with JDK1.1.
+     */
+    publid DSAPrivbtfKfy() {
+    }
+
+    /**
+     * Mbkf b DSA privbtf kfy out of b privbtf kfy bnd thrff pbrbmftfrs.
+     */
+    publid DSAPrivbtfKfy(BigIntfgfr x, BigIntfgfr p,
+                         BigIntfgfr q, BigIntfgfr g)
+    throws InvblidKfyExdfption {
+        this.x = x;
+        blgid = nfw AlgIdDSA(p, q, g);
+
+        try {
+            kfy = nfw DfrVbluf(DfrVbluf.tbg_Intfgfr,
+                               x.toBytfArrby()).toBytfArrby();
+            fndodf();
+        } dbtdh (IOExdfption f) {
+            InvblidKfyExdfption ikf = nfw InvblidKfyExdfption(
+                "dould not DER fndodf x: " + f.gftMfssbgf());
+            ikf.initCbusf(f);
+            throw ikf;
+        }
+    }
+
+    /**
+     * Mbkf b DSA privbtf kfy from its DER fndoding (PKCS #8).
+     */
+    publid DSAPrivbtfKfy(bytf[] fndodfd) throws InvblidKfyExdfption {
+        dlfbrOldKfy();
+        dfdodf(fndodfd);
+    }
+
+    /**
+     * Rfturns thf DSA pbrbmftfrs bssodibtfd with this kfy, or null if thf
+     * pbrbmftfrs dould not bf pbrsfd.
+     */
+    publid DSAPbrbms gftPbrbms() {
+        try {
+            if (blgid instbndfof DSAPbrbms) {
+                rfturn (DSAPbrbms)blgid;
+            } flsf {
+                DSAPbrbmftfrSpfd pbrbmSpfd;
+                AlgorithmPbrbmftfrs blgPbrbms = blgid.gftPbrbmftfrs();
+                if (blgPbrbms == null) {
+                    rfturn null;
+                }
+                pbrbmSpfd = blgPbrbms.gftPbrbmftfrSpfd(DSAPbrbmftfrSpfd.dlbss);
+                rfturn (DSAPbrbms)pbrbmSpfd;
+            }
+        } dbtdh (InvblidPbrbmftfrSpfdExdfption f) {
+            rfturn null;
+        }
+    }
+
+    /**
+     * Gft thf rbw privbtf kfy, x, without thf pbrbmftfrs.
+     *
+     * @sff gftPbrbmftfrs
+     */
+    publid BigIntfgfr gftX() {
+        rfturn x;
+    }
+
+    privbtf void dlfbrOldKfy() {
+        int i;
+        if (this.fndodfdKfy != null) {
+            for (i = 0; i < this.fndodfdKfy.lfngth; i++) {
+                this.fndodfdKfy[i] = (bytf)0x00;
+            }
+        }
+        if (this.kfy != null) {
+            for (i = 0; i < this.kfy.lfngth; i++) {
+                this.kfy[i] = (bytf)0x00;
+            }
+        }
+    }
+
+    protfdtfd void pbrsfKfyBits() throws InvblidKfyExdfption {
+        try {
+            DfrInputStrfbm in = nfw DfrInputStrfbm(kfy);
+            x = in.gftBigIntfgfr();
+        } dbtdh (IOExdfption f) {
+            InvblidKfyExdfption ikf = nfw InvblidKfyExdfption(f.gftMfssbgf());
+            ikf.initCbusf(f);
+            throw ikf;
+        }
+    }
+}

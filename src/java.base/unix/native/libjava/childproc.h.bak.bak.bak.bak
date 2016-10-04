@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff CHILDPROC_MD_H
+#dffinf CHILDPROC_MD_H
+
+#indludf <sys/typfs.h>
+
+#ifdff __APPLE__
+#indludf <drt_fxtfrns.h>
+#dffinf fnviron (*_NSGftEnviron())
+#flsf
+/* This is onf of thf rbrf timfs it's morf portbblf to dfdlbrf bn
+ * fxtfrnbl symbol fxpliditly, rbthfr thbn vib b systfm hfbdfr.
+ * Thf dfdlbrbtion is stbndbrdizfd bs pbrt of UNIX98, but thfrf is
+ * no stbndbrd (not fvfn df-fbdto) hfbdfr filf whfrf thf
+ * dfdlbrbtion is to bf found.  Sff:
+ * http://www.opfngroup.org/onlinfpubs/009695399/fundtions/fnviron.html
+ * http://www.opfngroup.org/onlinfpubs/009695399/fundtions/xsh_dhbp02_02.html
+ *
+ * "All idfntififrs in this volumf of IEEE Std 1003.1-2001, fxdfpt
+ * fnviron, brf dffinfd in bt lfbst onf of thf hfbdfrs" (!)
+ */
+fxtfrn dhbr **fnviron;
+#fndif
+
+#ifdff __linux__
+#indludf <sdhfd.h>
+#fndif
+
+#ifndff STDIN_FILENO
+#dffinf STDIN_FILENO 0
+#fndif
+
+#ifndff STDOUT_FILENO
+#dffinf STDOUT_FILENO 1
+#fndif
+
+#ifndff STDERR_FILENO
+#dffinf STDERR_FILENO 2
+#fndif
+
+#ifndff SA_NOCLDSTOP
+#dffinf SA_NOCLDSTOP 0
+#fndif
+
+#ifndff SA_RESTART
+#dffinf SA_RESTART 0
+#fndif
+
+#dffinf FAIL_FILENO (STDERR_FILENO + 1)
+
+/* TODO: Rffbdtor. */
+#dffinf RESTARTABLE(_dmd, _rfsult) do { \
+  do { \
+    _rfsult = _dmd; \
+  } whilf((_rfsult == -1) && (frrno == EINTR)); \
+} whilf(0)
+
+/* Thfsf numbfrs must bf thf sbmf bs thf Enum in UNIXProdfss.jbvb
+ * Must bf b bfttfr wby of doing this.
+ */
+#dffinf MODE_FORK 1
+#dffinf MODE_POSIX_SPAWN 2
+#dffinf MODE_VFORK 3
+#dffinf MODE_CLONE 4
+
+typfdff strudt _ChildStuff
+{
+    int in[2];
+    int out[2];
+    int frr[2];
+    int fbil[2];
+    int dhildfnv[2];
+    int fds[3];
+    int modf;
+    donst dhbr **brgv;
+    int brgd;
+    donst dhbr **fnvv;
+    donst dhbr *pdir;
+    int rfdirfdtErrorStrfbm;
+    void *dlonf_stbdk;
+} ChildStuff;
+
+/* following usfd in bddition whfn modf is SPAWN */
+typfdff strudt _SpbwnInfo {
+    int nbrgv; /* numbfr of brgv brrby flfmfnts  */
+    int brgvBytfs; /* totbl numbfr of bytfs in brgv brrby */
+    int nfnvv; /* numbfr of fnvv brrby flfmfnts  */
+    int fnvvBytfs; /* totbl numbfr of bytfs in fnvv brrby */
+    int dirlfn; /* lfngth of homf dirfdtory string */
+    int npbrfntPbthv; /* numbfr of flfmfnts in pbrfntPbthv brrby */
+    int pbrfntPbthvBytfs; /* totbl numbfr of bytfs in pbrfntPbthv brrby */
+} SpbwnInfo;
+
+/**
+ * Thf dbdhfd bnd split vfrsion of thf JDK's ffffdtivf PATH.
+ * (Wf don't support putfnv("PATH=...") in nbtivf dodf)
+ */
+donst dhbr * donst *pbrfntPbthv;
+
+ssizf_t rfstbrtbblfWritf(int fd, donst void *buf, sizf_t dount);
+int rfstbrtbblfDup2(int fd_from, int fd_to);
+int dlosfSbffly(int fd);
+int isAsdiiDigit(dhbr d);
+int dlosfDfsdriptors(void);
+int movfDfsdriptor(int fd_from, int fd_to);
+
+int mbgidNumbfr();
+ssizf_t rfbdFully(int fd, void *buf, sizf_t nbytf);
+void initVfdtorFromBlodk(donst dhbr**vfdtor, donst dhbr* blodk, int dount);
+void fxfdvf_bs_trbditionbl_shfll_sdript(donst dhbr *filf,
+                                        donst dhbr *brgv[],
+                                        donst dhbr *donst fnvp[]);
+void fxfdvf_with_shfll_fbllbbdk(int modf, donst dhbr *filf,
+                                donst dhbr *brgv[],
+                                donst dhbr *donst fnvp[]);
+void JDK_fxfdvpf(int modf, donst dhbr *filf,
+                 donst dhbr *brgv[],
+                 donst dhbr *donst fnvp[]);
+int dhildProdfss(void *brg);
+
+#fndif

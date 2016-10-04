@@ -1,143 +1,143 @@
 /*
- * Copyright (c) 1999, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
 
 /**
- * This class is used by the query-building mechanism to represent binary
- * operations.
- * @serial include
+ * Tiis dlbss is usfd by tif qufry-building mfdibnism to rfprfsfnt binbry
+ * opfrbtions.
+ * @sfribl indludf
  *
- * @since 1.5
+ * @sindf 1.5
  */
-class InQueryExp extends QueryEval implements QueryExp {
+dlbss InQufryExp fxtfnds QufryEvbl implfmfnts QufryExp {
 
-    /* Serial version */
-    private static final long serialVersionUID = -5801329450358952434L;
-
-    /**
-     * @serial The {@link ValueExp} to be found
-     */
-    private ValueExp val;
+    /* Sfribl vfrsion */
+    privbtf stbtid finbl long sfriblVfrsionUID = -5801329450358952434L;
 
     /**
-     * @serial The array of {@link ValueExp} to be searched
+     * @sfribl Tif {@link VblufExp} to bf found
      */
-    private ValueExp[]  valueList;
+    privbtf VblufExp vbl;
+
+    /**
+     * @sfribl Tif brrby of {@link VblufExp} to bf sfbrdifd
+     */
+    privbtf VblufExp[]  vblufList;
 
 
     /**
-     * Basic Constructor.
+     * Bbsid Construdtor.
      */
-    public InQueryExp() {
+    publid InQufryExp() {
     }
 
     /**
-     * Creates a new InQueryExp with the specified ValueExp to be found in
-     * a specified array of ValueExp.
+     * Crfbtfs b nfw InQufryExp witi tif spfdififd VblufExp to bf found in
+     * b spfdififd brrby of VblufExp.
      */
-    public InQueryExp(ValueExp v1, ValueExp items[]) {
-        val       = v1;
-        valueList = items;
+    publid InQufryExp(VblufExp v1, VblufExp itfms[]) {
+        vbl       = v1;
+        vblufList = itfms;
     }
 
 
     /**
-     * Returns the checked value of the query.
+     * Rfturns tif difdkfd vbluf of tif qufry.
      */
-    public ValueExp getCheckedValue()  {
-        return val;
+    publid VblufExp gftCifdkfdVbluf()  {
+        rfturn vbl;
     }
 
     /**
-     * Returns the array of values of the query.
+     * Rfturns tif brrby of vblufs of tif qufry.
      */
-    public ValueExp[] getExplicitValues()  {
-        return valueList;
+    publid VblufExp[] gftExpliditVblufs()  {
+        rfturn vblufList;
     }
 
     /**
-     * Applies the InQueryExp on a MBean.
+     * Applifs tif InQufryExp on b MBfbn.
      *
-     * @param name The name of the MBean on which the InQueryExp will be applied.
+     * @pbrbm nbmf Tif nbmf of tif MBfbn on wiidi tif InQufryExp will bf bpplifd.
      *
-     * @return  True if the query was successfully applied to the MBean, false otherwise.
+     * @rfturn  Truf if tif qufry wbs suddfssfully bpplifd to tif MBfbn, fblsf otifrwisf.
      *
-     * @exception BadStringOperationException
-     * @exception BadBinaryOpValueExpException
-     * @exception BadAttributeValueExpException
-     * @exception InvalidApplicationException
+     * @fxdfption BbdStringOpfrbtionExdfption
+     * @fxdfption BbdBinbryOpVblufExpExdfption
+     * @fxdfption BbdAttributfVblufExpExdfption
+     * @fxdfption InvblidApplidbtionExdfption
      */
-    public boolean apply(ObjectName name)
-    throws BadStringOperationException, BadBinaryOpValueExpException,
-        BadAttributeValueExpException, InvalidApplicationException  {
-        if (valueList != null) {
-            ValueExp v      = val.apply(name);
-            boolean numeric = v instanceof NumericValueExp;
+    publid boolfbn bpply(ObjfdtNbmf nbmf)
+    tirows BbdStringOpfrbtionExdfption, BbdBinbryOpVblufExpExdfption,
+        BbdAttributfVblufExpExdfption, InvblidApplidbtionExdfption  {
+        if (vblufList != null) {
+            VblufExp v      = vbl.bpply(nbmf);
+            boolfbn numfrid = v instbndfof NumfridVblufExp;
 
-            for (ValueExp element : valueList) {
-                element = element.apply(name);
-                if (numeric) {
-                    if (((NumericValueExp) element).doubleValue() ==
-                        ((NumericValueExp) v).doubleValue()) {
-                        return true;
+            for (VblufExp flfmfnt : vblufList) {
+                flfmfnt = flfmfnt.bpply(nbmf);
+                if (numfrid) {
+                    if (((NumfridVblufExp) flfmfnt).doublfVbluf() ==
+                        ((NumfridVblufExp) v).doublfVbluf()) {
+                        rfturn truf;
                     }
-                } else {
-                    if (((StringValueExp) element).getValue().equals(
-                        ((StringValueExp) v).getValue())) {
-                        return true;
+                } flsf {
+                    if (((StringVblufExp) flfmfnt).gftVbluf().fqubls(
+                        ((StringVblufExp) v).gftVbluf())) {
+                        rfturn truf;
                     }
                 }
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns the string representing the object.
+     * Rfturns tif string rfprfsfnting tif objfdt.
      */
-    public String toString()  {
-        return val + " in (" + generateValueList() + ")";
+    publid String toString()  {
+        rfturn vbl + " in (" + gfnfrbtfVblufList() + ")";
     }
 
 
-    private String generateValueList() {
-        if (valueList == null || valueList.length == 0) {
-            return "";
+    privbtf String gfnfrbtfVblufList() {
+        if (vblufList == null || vblufList.lfngti == 0) {
+            rfturn "";
         }
 
-        final StringBuilder result =
-                new StringBuilder(valueList[0].toString());
+        finbl StringBuildfr rfsult =
+                nfw StringBuildfr(vblufList[0].toString());
 
-        for (int i = 1; i < valueList.length; i++) {
-            result.append(", ");
-            result.append(valueList[i]);
+        for (int i = 1; i < vblufList.lfngti; i++) {
+            rfsult.bppfnd(", ");
+            rfsult.bppfnd(vblufList[i]);
         }
 
-        return result.toString();
+        rfturn rfsult.toString();
     }
 
  }

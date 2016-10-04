@@ -1,159 +1,159 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.mscapi;
+pbdkbgf sun.sfdurity.msdbpi;
 
-import sun.security.util.Length;
+import sun.sfdurity.util.Lfngti;
 
 /**
- * The handle for an RSA or DSA key using the Microsoft Crypto API.
+ * Tif ibndlf for bn RSA or DSA kfy using tif Midrosoft Crypto API.
  *
- * @see DSAPrivateKey
- * @see RSAPrivateKey
- * @see RSAPublicKey
+ * @sff DSAPrivbtfKfy
+ * @sff RSAPrivbtfKfy
+ * @sff RSAPublidKfy
  *
- * @since 1.6
- * @author  Stanley Man-Kit Ho
+ * @sindf 1.6
+ * @butior  Stbnlfy Mbn-Kit Ho
  */
-abstract class Key implements java.security.Key, Length
+bbstrbdt dlbss Kfy implfmfnts jbvb.sfdurity.Kfy, Lfngti
 {
-    private static final long serialVersionUID = -1088859394025049194L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -1088859394025049194L;
 
-    // Native handle
-    protected long hCryptProv = 0;
-    protected long hCryptKey = 0;
+    // Nbtivf ibndlf
+    protfdtfd long iCryptProv = 0;
+    protfdtfd long iCryptKfy = 0;
 
-    // Key length
-    protected int keyLength = 0;
+    // Kfy lfngti
+    protfdtfd int kfyLfngti = 0;
 
     /**
-     * Construct a Key object.
+     * Construdt b Kfy objfdt.
      */
-    protected Key(long hCryptProv, long hCryptKey, int keyLength)
+    protfdtfd Kfy(long iCryptProv, long iCryptKfy, int kfyLfngti)
     {
-        this.hCryptProv = hCryptProv;
-        this.hCryptKey = hCryptKey;
-        this.keyLength = keyLength;
+        tiis.iCryptProv = iCryptProv;
+        tiis.iCryptKfy = iCryptKfy;
+        tiis.kfyLfngti = kfyLfngti;
     }
 
     /**
-     * Finalization method
+     * Finblizbtion mftiod
      */
-    protected void finalize() throws Throwable
+    protfdtfd void finblizf() tirows Tirowbblf
     {
         try {
-            synchronized(this)
+            syndironizfd(tiis)
             {
-                cleanUp(hCryptProv, hCryptKey);
-                hCryptProv = 0;
-                hCryptKey = 0;
+                dlfbnUp(iCryptProv, iCryptKfy);
+                iCryptProv = 0;
+                iCryptKfy = 0;
             }
 
-        } finally {
-            super.finalize();
+        } finblly {
+            supfr.finblizf();
         }
     }
 
     /**
-     * Native method to cleanup the key handle.
+     * Nbtivf mftiod to dlfbnup tif kfy ibndlf.
      */
-    private native static void cleanUp(long hCryptProv, long hCryptKey);
+    privbtf nbtivf stbtid void dlfbnUp(long iCryptProv, long iCryptKfy);
 
     /**
-     * Return bit length of the key.
+     * Rfturn bit lfngti of tif kfy.
      */
-    @Override
-    public int length()
+    @Ovfrridf
+    publid int lfngti()
     {
-        return keyLength;
+        rfturn kfyLfngti;
     }
 
 
     /**
-     * Return native HCRYPTKEY handle.
+     * Rfturn nbtivf HCRYPTKEY ibndlf.
      */
-    public long getHCryptKey()
+    publid long gftHCryptKfy()
     {
-        return hCryptKey;
+        rfturn iCryptKfy;
     }
 
     /**
-     * Return native HCRYPTPROV handle.
+     * Rfturn nbtivf HCRYPTPROV ibndlf.
      */
-    public long getHCryptProvider()
+    publid long gftHCryptProvidfr()
     {
-        return hCryptProv;
+        rfturn iCryptProv;
     }
 
     /**
-     * Returns the standard algorithm name for this key. For
-     * example, "DSA" would indicate that this key is a DSA key.
-     * See Appendix A in the <a href=
-     * "../../../guide/security/CryptoSpec.html#AppA">
-     * Java Cryptography Architecture API Specification &amp; Reference </a>
-     * for information about standard algorithm names.
+     * Rfturns tif stbndbrd blgoritim nbmf for tiis kfy. For
+     * fxbmplf, "DSA" would indidbtf tibt tiis kfy is b DSA kfy.
+     * Sff Appfndix A in tif <b irff=
+     * "../../../guidf/sfdurity/CryptoSpfd.itml#AppA">
+     * Jbvb Cryptogrbpiy Ardiitfdturf API Spfdifidbtion &bmp; Rfffrfndf </b>
+     * for informbtion bbout stbndbrd blgoritim nbmfs.
      *
-     * @return the name of the algorithm associated with this key.
+     * @rfturn tif nbmf of tif blgoritim bssodibtfd witi tiis kfy.
      */
-    public abstract String getAlgorithm();
+    publid bbstrbdt String gftAlgoritim();
 
     /**
-     * Returns the name of the primary encoding format of this key,
-     * or null if this key does not support encoding.
-     * The primary encoding format is
-     * named in terms of the appropriate ASN.1 data format, if an
-     * ASN.1 specification for this key exists.
-     * For example, the name of the ASN.1 data format for public
-     * keys is <I>SubjectPublicKeyInfo</I>, as
-     * defined by the X.509 standard; in this case, the returned format is
-     * <code>"X.509"</code>. Similarly,
-     * the name of the ASN.1 data format for private keys is
-     * <I>PrivateKeyInfo</I>,
-     * as defined by the PKCS #8 standard; in this case, the returned format is
-     * <code>"PKCS#8"</code>.
+     * Rfturns tif nbmf of tif primbry fndoding formbt of tiis kfy,
+     * or null if tiis kfy dofs not support fndoding.
+     * Tif primbry fndoding formbt is
+     * nbmfd in tfrms of tif bppropribtf ASN.1 dbtb formbt, if bn
+     * ASN.1 spfdifidbtion for tiis kfy fxists.
+     * For fxbmplf, tif nbmf of tif ASN.1 dbtb formbt for publid
+     * kfys is <I>SubjfdtPublidKfyInfo</I>, bs
+     * dffinfd by tif X.509 stbndbrd; in tiis dbsf, tif rfturnfd formbt is
+     * <dodf>"X.509"</dodf>. Similbrly,
+     * tif nbmf of tif ASN.1 dbtb formbt for privbtf kfys is
+     * <I>PrivbtfKfyInfo</I>,
+     * bs dffinfd by tif PKCS #8 stbndbrd; in tiis dbsf, tif rfturnfd formbt is
+     * <dodf>"PKCS#8"</dodf>.
      *
-     * @return the primary encoding format of the key.
+     * @rfturn tif primbry fndoding formbt of tif kfy.
      */
-    public String getFormat()
+    publid String gftFormbt()
     {
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the key in its primary encoding format, or null
-     * if this key does not support encoding.
+     * Rfturns tif kfy in its primbry fndoding formbt, or null
+     * if tiis kfy dofs not support fndoding.
      *
-     * @return the encoded key, or null if the key does not support
-     * encoding.
+     * @rfturn tif fndodfd kfy, or null if tif kfy dofs not support
+     * fndoding.
      */
-    public byte[] getEncoded()
+    publid bytf[] gftEndodfd()
     {
-        return null;
+        rfturn null;
     }
 
-    protected native static String getContainerName(long hCryptProv);
+    protfdtfd nbtivf stbtid String gftContbinfrNbmf(long iCryptProv);
 
-    protected native static String getKeyType(long hCryptKey);
+    protfdtfd nbtivf stbtid String gftKfyTypf(long iCryptKfy);
 }

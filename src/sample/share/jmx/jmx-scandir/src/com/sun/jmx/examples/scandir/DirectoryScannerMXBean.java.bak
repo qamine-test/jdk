@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2006, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2006, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,136 +30,136 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.jmx.examples.scandir;
+pbdkbgf dom.sun.jmx.fxbmplfs.sdbndir;
 
-import com.sun.jmx.examples.scandir.ScanManagerMXBean.ScanState;
-import com.sun.jmx.examples.scandir.config.DirectoryScannerConfig;
-import java.io.IOException;
-import javax.management.InstanceNotFoundException;
+import dom.sun.jmx.fxbmplfs.sdbndir.SdbnMbnbgfrMXBfbn.SdbnStbtf;
+import dom.sun.jmx.fxbmplfs.sdbndir.donfig.DirfdtorySdbnnfrConfig;
+import jbvb.io.IOExdfption;
+import jbvbx.mbnbgfmfnt.InstbndfNotFoundExdfption;
 
 /**
- * A <code>DirectoryScannerMXBean</code> is an MBean that
- * scans a file system starting at a given root directory,
- * and then looks for files that match a given criteria.
+ * A <dodf>DirfdtorySdbnnfrMXBfbn</dodf> is bn MBfbn tibt
+ * sdbns b filf systfm stbrting bt b givfn root dirfdtory,
+ * bnd tifn looks for filfs tibt mbtdi b givfn dritfrib.
  * <p>
- * When such a file is found, the <code>DirectoryScannerMXBean</code> takes
- * the actions for which it was configured: see {@link #scan scan()}.
+ * Wifn sudi b filf is found, tif <dodf>DirfdtorySdbnnfrMXBfbn</dodf> tbkfs
+ * tif bdtions for wiidi it wbs donfigurfd: sff {@link #sdbn sdbn()}.
  * <p>
- * <code>DirectoryScannerMXBeans</code> are created, initialized, and
- * registered by the {@link ScanManagerMXBean}.
- * The {@link ScanManagerMXBean} will also schedule and run them in
- * background by calling their {@link #scan} method.
+ * <dodf>DirfdtorySdbnnfrMXBfbns</dodf> brf drfbtfd, initiblizfd, bnd
+ * rfgistfrfd by tif {@link SdbnMbnbgfrMXBfbn}.
+ * Tif {@link SdbnMbnbgfrMXBfbn} will blso sdifdulf bnd run tifm in
+ * bbdkground by dblling tifir {@link #sdbn} mftiod.
  * </p>
- * @author Sun Microsystems, 2006 - All rights reserved.
+ * @butior Sun Midrosystfms, 2006 - All rigits rfsfrvfd.
  */
-public interface DirectoryScannerMXBean {
+publid intfrfbdf DirfdtorySdbnnfrMXBfbn {
     /**
-     * Get The {@link DirectoryScanner} state.
-     * @return the current state of the <code>DirectoryScanner</code>.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * Gft Tif {@link DirfdtorySdbnnfr} stbtf.
+     * @rfturn tif durrfnt stbtf of tif <dodf>DirfdtorySdbnnfr</dodf>.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public ScanState getState()
-        throws IOException, InstanceNotFoundException;
+    publid SdbnStbtf gftStbtf()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
     /**
-     * Stops the current scan if {@link ScanState#RUNNING running}.
-     * After this method completes the state of the application will
-     * be {@link ScanState#STOPPED STOPPED}.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * Stops tif durrfnt sdbn if {@link SdbnStbtf#RUNNING running}.
+     * Aftfr tiis mftiod domplftfs tif stbtf of tif bpplidbtion will
+     * bf {@link SdbnStbtf#STOPPED STOPPED}.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public void stop()
-        throws IOException, InstanceNotFoundException;
+    publid void stop()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
     /**
-     * Scans the file system starting at the specified {@link #getRootDirectory
-     * root directory}.
-     * <p>If a file that matches this <code>DirectoryScannerMXBean</code>
-     * {@link #getConfiguration} criteria is found,
-     * the <code>DirectoryScannerMXBean</code> takes the {@link
-     * DirectoryScannerConfig#getActions() actions} for which
-     * it was {@link #getConfiguration configured}: emit a notification,
-     * <i>and or</i> log a {@link
-     * com.sun.jmx.examples.scandir.config.ResultRecord} for this file,
-     * <i>and or</i> delete that file.
+     * Sdbns tif filf systfm stbrting bt tif spfdififd {@link #gftRootDirfdtory
+     * root dirfdtory}.
+     * <p>If b filf tibt mbtdifs tiis <dodf>DirfdtorySdbnnfrMXBfbn</dodf>
+     * {@link #gftConfigurbtion} dritfrib is found,
+     * tif <dodf>DirfdtorySdbnnfrMXBfbn</dodf> tbkfs tif {@link
+     * DirfdtorySdbnnfrConfig#gftAdtions() bdtions} for wiidi
+     * it wbs {@link #gftConfigurbtion donfigurfd}: fmit b notifidbtion,
+     * <i>bnd or</i> log b {@link
+     * dom.sun.jmx.fxbmplfs.sdbndir.donfig.RfsultRfdord} for tiis filf,
+     * <i>bnd or</i> dflftf tibt filf.
      * </p>
      * <p>
-     * The code that would actually delete the file is commented out - so that
-     * nothing valuable is lost if this example is run by mistake on the wrong
-     * set of directories.
+     * Tif dodf tibt would bdtublly dflftf tif filf is dommfntfd out - so tibt
+     * notiing vblubblf is lost if tiis fxbmplf is run by mistbkf on tif wrong
+     * sft of dirfdtorifs.
      * </p>
-     * <p>This method returns only when the directory scan is completed, or
-     *    if it was {@link #stop stopped} by another thread.
+     * <p>Tiis mftiod rfturns only wifn tif dirfdtory sdbn is domplftfd, or
+     *    if it wbs {@link #stop stoppfd} by bnotifr tirfbd.
      * </p>
-     * @throws IllegalStateException if already {@link ScanState#RUNNING}
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @tirows IllfgblStbtfExdfption if blrfbdy {@link SdbnStbtf#RUNNING}
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public void scan()
-        throws IOException, InstanceNotFoundException;
+    publid void sdbn()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
     /**
-     * Gets the root directory at which this <code>DirectoryScannerMXBean</code>
-     * will start scanning the file system.
+     * Gfts tif root dirfdtory bt wiidi tiis <dodf>DirfdtorySdbnnfrMXBfbn</dodf>
+     * will stbrt sdbnning tif filf systfm.
      * <p>
-     * This is a shortcut to {@link #getConfiguration
-     * getConfiguration()}.{@link
-     * DirectoryScannerConfig#getRootDirectory
-     * getRootDirectory()}.
+     * Tiis is b siortdut to {@link #gftConfigurbtion
+     * gftConfigurbtion()}.{@link
+     * DirfdtorySdbnnfrConfig#gftRootDirfdtory
+     * gftRootDirfdtory()}.
      * </p>
-     * @return This <code>DirectoryScannerMXBean</code> root directory.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @rfturn Tiis <dodf>DirfdtorySdbnnfrMXBfbn</dodf> root dirfdtory.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public String getRootDirectory()
-        throws IOException, InstanceNotFoundException;
+    publid String gftRootDirfdtory()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
     /**
-     * The configuration data from which this {@link DirectoryScanner} was
-     * created.
+     * Tif donfigurbtion dbtb from wiidi tiis {@link DirfdtorySdbnnfr} wbs
+     * drfbtfd.
      * <p>
-     * You cannot change this configuration here. You can however
-     * {@link ScanDirConfigMXBean#setConfiguration modify} the
-     * {@link ScanDirConfigMXBean} configuration, and ask the
-     * {@link ScanManagerMXBean} to {@link ScanManagerMXBean#applyConfiguration
-     * apply} it. This will get all <code>DirectoryScannerMXBean</code>
-     * replaced by new MBeans created from the modified configuration.
+     * You dbnnot dibngf tiis donfigurbtion ifrf. You dbn iowfvfr
+     * {@link SdbnDirConfigMXBfbn#sftConfigurbtion modify} tif
+     * {@link SdbnDirConfigMXBfbn} donfigurbtion, bnd bsk tif
+     * {@link SdbnMbnbgfrMXBfbn} to {@link SdbnMbnbgfrMXBfbn#bpplyConfigurbtion
+     * bpply} it. Tiis will gft bll <dodf>DirfdtorySdbnnfrMXBfbn</dodf>
+     * rfplbdfd by nfw MBfbns drfbtfd from tif modififd donfigurbtion.
      * </p>
      *
-     * @return This <code>DirectoryScannerMXBean</code> configuration data.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * @rfturn Tiis <dodf>DirfdtorySdbnnfrMXBfbn</dodf> donfigurbtion dbtb.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public DirectoryScannerConfig getConfiguration()
-        throws IOException, InstanceNotFoundException;
+    publid DirfdtorySdbnnfrConfig gftConfigurbtion()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 
     /**
-     * A short string describing what's happening in current/latest scan.
-     * @return a short info string.
-     * @throws IOException A connection problem occurred when accessing
-     *                     the underlying resource.
-     * @throws InstanceNotFoundException The underlying MBean is not
-     *         registered in the MBeanServer.
+     * A siort string dfsdribing wibt's ibppfning in durrfnt/lbtfst sdbn.
+     * @rfturn b siort info string.
+     * @tirows IOExdfption A donnfdtion problfm oddurrfd wifn bddfssing
+     *                     tif undfrlying rfsourdf.
+     * @tirows InstbndfNotFoundExdfption Tif undfrlying MBfbn is not
+     *         rfgistfrfd in tif MBfbnSfrvfr.
      **/
-    public String getCurrentScanInfo()
-        throws IOException, InstanceNotFoundException;
+    publid String gftCurrfntSdbnInfo()
+        tirows IOExdfption, InstbndfNotFoundExdfption;
 }

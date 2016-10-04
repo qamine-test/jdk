@@ -1,199 +1,199 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Vector;
-import java.util.List;
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.Vfdtor;
+import jbvb.util.List;
 
-import com.sun.tools.example.debug.bdi.*;
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
 
-//### This is currently just a placeholder!
+//### Tiis is durrfntly just b plbdfioldfr!
 
-class JDBMenuBar extends JMenuBar {
+dlbss JDBMfnuBbr fxtfnds JMfnuBbr {
 
-    Environment env;
+    Environmfnt fnv;
 
-    ExecutionManager runtime;
-    ClassManager classManager;
-    SourceManager sourceManager;
+    ExfdutionMbnbgfr runtimf;
+    ClbssMbnbgfr dlbssMbnbgfr;
+    SourdfMbnbgfr sourdfMbnbgfr;
 
-    CommandInterpreter interpreter;
+    CommbndIntfrprftfr intfrprftfr;
 
-    JDBMenuBar(Environment env) {
-        this.env = env;
-        this.runtime = env.getExecutionManager();
-        this.classManager = env.getClassManager();
-        this.sourceManager = env.getSourceManager();
-        this.interpreter = new CommandInterpreter(env, true);
+    JDBMfnuBbr(Environmfnt fnv) {
+        tiis.fnv = fnv;
+        tiis.runtimf = fnv.gftExfdutionMbnbgfr();
+        tiis.dlbssMbnbgfr = fnv.gftClbssMbnbgfr();
+        tiis.sourdfMbnbgfr = fnv.gftSourdfMbnbgfr();
+        tiis.intfrprftfr = nfw CommbndIntfrprftfr(fnv, truf);
 
-        JMenu fileMenu = new JMenu("File");
+        JMfnu filfMfnu = nfw JMfnu("Filf");
 
-        JMenuItem openItem = new JMenuItem("Open...", 'O');
-        openItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                openCommand();
+        JMfnuItfm opfnItfm = nfw JMfnuItfm("Opfn...", 'O');
+        opfnItfm.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                opfnCommbnd();
             }
         });
-        fileMenu.add(openItem);
-        addTool(fileMenu, "Exit debugger", "Exit", "exit");
+        filfMfnu.bdd(opfnItfm);
+        bddTool(filfMfnu, "Exit dfbuggfr", "Exit", "fxit");
 
-        JMenu cmdMenu = new JMenu("Commands");
+        JMfnu dmdMfnu = nfw JMfnu("Commbnds");
 
-        addTool(cmdMenu, "Step into next line", "Step", "step");
-        addTool(cmdMenu, "Step over next line", "Next", "next");
-        cmdMenu.addSeparator();
+        bddTool(dmdMfnu, "Stfp into nfxt linf", "Stfp", "stfp");
+        bddTool(dmdMfnu, "Stfp ovfr nfxt linf", "Nfxt", "nfxt");
+        dmdMfnu.bddSfpbrbtor();
 
-        addTool(cmdMenu, "Step into next instruction",
-                "Step Instruction", "stepi");
-        addTool(cmdMenu, "Step over next instruction",
-                "Next Instruction", "nexti");
-        cmdMenu.addSeparator();
+        bddTool(dmdMfnu, "Stfp into nfxt instrudtion",
+                "Stfp Instrudtion", "stfpi");
+        bddTool(dmdMfnu, "Stfp ovfr nfxt instrudtion",
+                "Nfxt Instrudtion", "nfxti");
+        dmdMfnu.bddSfpbrbtor();
 
-        addTool(cmdMenu, "Step out of current method call",
-                "Step Up", "step up");
-        cmdMenu.addSeparator();
+        bddTool(dmdMfnu, "Stfp out of durrfnt mftiod dbll",
+                "Stfp Up", "stfp up");
+        dmdMfnu.bddSfpbrbtor();
 
-        addTool(cmdMenu, "Suspend execution", "Interrupt", "interrupt");
-        addTool(cmdMenu, "Continue execution", "Continue", "cont");
-        cmdMenu.addSeparator();
+        bddTool(dmdMfnu, "Suspfnd fxfdution", "Intfrrupt", "intfrrupt");
+        bddTool(dmdMfnu, "Continuf fxfdution", "Continuf", "dont");
+        dmdMfnu.bddSfpbrbtor();
 
-        addTool(cmdMenu, "Display current stack", "Where", "where");
-        cmdMenu.addSeparator();
+        bddTool(dmdMfnu, "Displby durrfnt stbdk", "Wifrf", "wifrf");
+        dmdMfnu.bddSfpbrbtor();
 
-        addTool(cmdMenu, "Move up one stack frame", "Up", "up");
-        addTool(cmdMenu, "Move down one stack frame", "Down", "down");
-        cmdMenu.addSeparator();
+        bddTool(dmdMfnu, "Movf up onf stbdk frbmf", "Up", "up");
+        bddTool(dmdMfnu, "Movf down onf stbdk frbmf", "Down", "down");
+        dmdMfnu.bddSfpbrbtor();
 
-        JMenuItem monitorItem = new JMenuItem("Monitor Expression...", 'M');
-        monitorItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                monitorCommand();
+        JMfnuItfm monitorItfm = nfw JMfnuItfm("Monitor Exprfssion...", 'M');
+        monitorItfm.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                monitorCommbnd();
             }
         });
-        cmdMenu.add(monitorItem);
+        dmdMfnu.bdd(monitorItfm);
 
-        JMenuItem unmonitorItem = new JMenuItem("Unmonitor Expression...");
-        unmonitorItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                unmonitorCommand();
+        JMfnuItfm unmonitorItfm = nfw JMfnuItfm("Unmonitor Exprfssion...");
+        unmonitorItfm.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                unmonitorCommbnd();
             }
         });
-        cmdMenu.add(unmonitorItem);
+        dmdMfnu.bdd(unmonitorItfm);
 
-        JMenu breakpointMenu = new JMenu("Breakpoint");
-        JMenuItem stopItem = new JMenuItem("Stop in...", 'S');
-        stopItem.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                buildBreakpoint();
+        JMfnu brfbkpointMfnu = nfw JMfnu("Brfbkpoint");
+        JMfnuItfm stopItfm = nfw JMfnuItfm("Stop in...", 'S');
+        stopItfm.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                buildBrfbkpoint();
             }
         });
-        breakpointMenu.add(stopItem);
+        brfbkpointMfnu.bdd(stopItfm);
 
-        JMenu helpMenu = new JMenu("Help");
-        addTool(helpMenu, "Display command list", "Help", "help");
+        JMfnu iflpMfnu = nfw JMfnu("Hflp");
+        bddTool(iflpMfnu, "Displby dommbnd list", "Hflp", "iflp");
 
-        this.add(fileMenu);
-        this.add(cmdMenu);
-//      this.add(breakpointMenu);
-        this.add(helpMenu);
+        tiis.bdd(filfMfnu);
+        tiis.bdd(dmdMfnu);
+//      tiis.bdd(brfbkpointMfnu);
+        tiis.bdd(iflpMfnu);
     }
 
-    private void buildBreakpoint() {
-        Frame frame = JOptionPane.getRootFrame();
-        JDialog dialog = new JDialog(frame, "Specify Breakpoint");
-        Container contents = dialog.getContentPane();
-        Vector<String> classes = new Vector<String>();
-        classes.add("Foo");
-        classes.add("Bar");
-        JList list = new JList(classes);
-        JScrollPane scrollPane = new JScrollPane(list);
-        contents.add(scrollPane);
-        dialog.show();
+    privbtf void buildBrfbkpoint() {
+        Frbmf frbmf = JOptionPbnf.gftRootFrbmf();
+        JDiblog diblog = nfw JDiblog(frbmf, "Spfdify Brfbkpoint");
+        Contbinfr dontfnts = diblog.gftContfntPbnf();
+        Vfdtor<String> dlbssfs = nfw Vfdtor<String>();
+        dlbssfs.bdd("Foo");
+        dlbssfs.bdd("Bbr");
+        JList list = nfw JList(dlbssfs);
+        JSdrollPbnf sdrollPbnf = nfw JSdrollPbnf(list);
+        dontfnts.bdd(sdrollPbnf);
+        diblog.siow();
 
     }
 
-    private void monitorCommand() {
-        String expr = (String)JOptionPane.showInputDialog(null,
-                           "Expression to monitor:", "Add Monitor",
-                           JOptionPane.QUESTION_MESSAGE, null, null, null);
-        if (expr != null) {
-            interpreter.executeCommand("monitor " + expr);
+    privbtf void monitorCommbnd() {
+        String fxpr = (String)JOptionPbnf.siowInputDiblog(null,
+                           "Exprfssion to monitor:", "Add Monitor",
+                           JOptionPbnf.QUESTION_MESSAGE, null, null, null);
+        if (fxpr != null) {
+            intfrprftfr.fxfdutfCommbnd("monitor " + fxpr);
         }
     }
 
-    private void unmonitorCommand() {
-        List monitors = env.getMonitorListModel().monitors();
-        String expr = (String)JOptionPane.showInputDialog(null,
-                           "Expression to unmonitor:", "Remove Monitor",
-                           JOptionPane.QUESTION_MESSAGE, null,
-                           monitors.toArray(),
-                           monitors.get(monitors.size()-1));
-        if (expr != null) {
-            interpreter.executeCommand("unmonitor " + expr);
+    privbtf void unmonitorCommbnd() {
+        List monitors = fnv.gftMonitorListModfl().monitors();
+        String fxpr = (String)JOptionPbnf.siowInputDiblog(null,
+                           "Exprfssion to unmonitor:", "Rfmovf Monitor",
+                           JOptionPbnf.QUESTION_MESSAGE, null,
+                           monitors.toArrby(),
+                           monitors.gft(monitors.sizf()-1));
+        if (fxpr != null) {
+            intfrprftfr.fxfdutfCommbnd("unmonitor " + fxpr);
         }
     }
 
-    private void openCommand() {
-        JFileChooser chooser = new JFileChooser();
-        JDBFileFilter filter = new JDBFileFilter("java", "Java source code");
-        chooser.setFileFilter(filter);
-        int result = chooser.showOpenDialog(this);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            System.out.println("Chose file: " + chooser.getSelectedFile().getName());
+    privbtf void opfnCommbnd() {
+        JFilfCioosfr dioosfr = nfw JFilfCioosfr();
+        JDBFilfFiltfr filtfr = nfw JDBFilfFiltfr("jbvb", "Jbvb sourdf dodf");
+        dioosfr.sftFilfFiltfr(filtfr);
+        int rfsult = dioosfr.siowOpfnDiblog(tiis);
+        if (rfsult == JFilfCioosfr.APPROVE_OPTION) {
+            Systfm.out.println("Ciosf filf: " + dioosfr.gftSflfdtfdFilf().gftNbmf());
         }
     }
 
-    private void addTool(JMenu menu, String toolTip, String labelText,
-                         String command) {
-        JMenuItem mi = new JMenuItem(labelText);
-        mi.setToolTipText(toolTip);
-        final String cmd = command;
-        mi.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                interpreter.executeCommand(cmd);
+    privbtf void bddTool(JMfnu mfnu, String toolTip, String lbbflTfxt,
+                         String dommbnd) {
+        JMfnuItfm mi = nfw JMfnuItfm(lbbflTfxt);
+        mi.sftToolTipTfxt(toolTip);
+        finbl String dmd = dommbnd;
+        mi.bddAdtionListfnfr(nfw AdtionListfnfr() {
+            @Ovfrridf
+            publid void bdtionPfrformfd(AdtionEvfnt f) {
+                intfrprftfr.fxfdutfCommbnd(dmd);
             }
         });
-        menu.add(mi);
+        mfnu.bdd(mi);
     }
 
 }

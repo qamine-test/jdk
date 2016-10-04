@@ -1,182 +1,182 @@
-<html>
-<head> <title>JVM TI Demonstration Code</title> </head>
+<itml>
+<ifbd> <titlf>JVM TI Dfmonstrbtion Codf</titlf> </ifbd>
 
-<h1>JVM TI Demonstration Code</h1>
-
-<p>
-The 
-Java<sup><font size=-2>TM</font></sup> Virtual Machine Tools Interface (JVM TI)
-is a native tool interface provided in JDK 5.0 and newer.
-Native libraries that use JVM TI and are loaded into the 
-Java Virtual Machine
-via the -agentlib, -agentpath, or -Xrun (deprecated) interfaces, are
-called Agents.
-<p>
-<A HREF="http://java.sun.com/j2se/latest/docs/guide/jvmti">JVM TI</A>
-was designed to work with the
-Java Native Interface 
-(<A HREF="http://java.sun.com/j2se/latest/docs/guide/jni">JNI</A>),
-and eventually displace the 
-Java Virtual Machine Debugging Interface 
-(<A HREF="http://java.sun.com/j2se/1.5.0/docs/guide/jpda/jvmdi-spec.html">JVMDI</A>)
-and the 
-Java Virtual Machine Profiling Interface 
-(<A HREF="http://java.sun.com/j2se/1.5.0/docs/guide/jvmpi/index.html">JVMPI</A>).
+<i1>JVM TI Dfmonstrbtion Codf</i1>
 
 <p>
-We have created a set of demonstration agents that should
-help show many of the features and abilities of the
-interface. This list of demonstration agents will change over time.
-They are provided as educational tools and as starting
-points for Java tool development.
+Tif 
+Jbvb<sup><font sizf=-2>TM</font></sup> Virtubl Mbdiinf Tools Intfrfbdf (JVM TI)
+is b nbtivf tool intfrfbdf providfd in JDK 5.0 bnd nfwfr.
+Nbtivf librbrifs tibt usf JVM TI bnd brf lobdfd into tif 
+Jbvb Virtubl Mbdiinf
+vib tif -bgfntlib, -bgfntpbti, or -Xrun (dfprfdbtfd) intfrfbdfs, brf
+dbllfd Agfnts.
+<p>
+<A HREF="ittp://jbvb.sun.dom/j2sf/lbtfst/dods/guidf/jvmti">JVM TI</A>
+wbs dfsignfd to work witi tif
+Jbvb Nbtivf Intfrfbdf 
+(<A HREF="ittp://jbvb.sun.dom/j2sf/lbtfst/dods/guidf/jni">JNI</A>),
+bnd fvfntublly displbdf tif 
+Jbvb Virtubl Mbdiinf Dfbugging Intfrfbdf 
+(<A HREF="ittp://jbvb.sun.dom/j2sf/1.5.0/dods/guidf/jpdb/jvmdi-spfd.itml">JVMDI</A>)
+bnd tif 
+Jbvb Virtubl Mbdiinf Profiling Intfrfbdf 
+(<A HREF="ittp://jbvb.sun.dom/j2sf/1.5.0/dods/guidf/jvmpi/indfx.itml">JVMPI</A>).
 
 <p>
-These agents are built with every JDK build and some basic testing is performed
-on a regular basis, but no extensive testbases currently
-exist for these agents.
-Every JDK installation should include all the pre-built binaries and sources for
-all these agents, just look in the demo/jvmti directory of your JDK.
-
-
-<h2>Using or Running These Agents</h2>
+Wf ibvf drfbtfd b sft of dfmonstrbtion bgfnts tibt siould
+iflp siow mbny of tif ffbturfs bnd bbilitifs of tif
+intfrfbdf. Tiis list of dfmonstrbtion bgfnts will dibngf ovfr timf.
+Tify brf providfd bs fdudbtionbl tools bnd bs stbrting
+points for Jbvb tool dfvflopmfnt.
 
 <p>
-Using these agents will require the VM to locate the shared library file
-before any actual Java code is run.
-The JDK installation should contain all the agent libraries in 
-the ${JAVA_HOME}/demo/jvmti/<i>agent-name</i>/lib directories.
-The Solaris 64bit version would be contained in the sparcv9 or amd64
-subdirectory.
-If 'java' complains that it can't find the library,
-you may need to add the directory containing the library into the
-LD_LIBRARY_PATH environment variable (Unix), or the PATH environment
-variable (Windows).
-This is system and platform specific.
-If you are using 64bit Solaris (e.g. 'java -d64'), 
-you should use LD_LIBRARY_PATH64.
-Some agents such as hprof (heap/cpu profiler) and jdwp (debugger backend)
-are located inside the primary JDK directories and will always be found
-in those locations.
+Tifsf bgfnts brf built witi fvfry JDK build bnd somf bbsid tfsting is pfrformfd
+on b rfgulbr bbsis, but no fxtfnsivf tfstbbsfs durrfntly
+fxist for tifsf bgfnts.
+Evfry JDK instbllbtion siould indludf bll tif prf-built binbrifs bnd sourdfs for
+bll tifsf bgfnts, just look in tif dfmo/jvmti dirfdtory of your JDK.
+
+
+<i2>Using or Running Tifsf Agfnts</i2>
 
 <p>
-The agents that instrument classfiles 
-(i.e. BCI, usually through the java_crw_demo library) 
-such as hprof, heapTracker, mtrace, and minst, 
-also need to have the Java classes they use available in the bootclasspath.
-The one used by hprof is already in the bootclasspath, and the
-other agents will make attempts at automatically adding their jar file
-(e.g. heapTracker.jar, mtrace.jar, or minst.jar) to the bootclasspath
-with AddToBootstrapClassLoaderSearch from JVM TI at startup
-(see the agent_util code).
-This is done by locating this jar file at 
-${JAVA_HOME}/demo/jvmti/<i>agent-name</i>
-where JAVA_HOME is obtained by calling GetSystemProperty from JVM TI
-with "java.home".
-We recognize that this is not ideal, but felt that as just demonstration
-code it was acceptable.
-Ideally the agent could find out the actual directory it came from and
-locate the jar file relative to that location. 
-Our demonstration agents currently do not do this.
+Using tifsf bgfnts will rfquirf tif VM to lodbtf tif sibrfd librbry filf
+bfforf bny bdtubl Jbvb dodf is run.
+Tif JDK instbllbtion siould dontbin bll tif bgfnt librbrifs in 
+tif ${JAVA_HOME}/dfmo/jvmti/<i>bgfnt-nbmf</i>/lib dirfdtorifs.
+Tif Solbris 64bit vfrsion would bf dontbinfd in tif spbrdv9 or bmd64
+subdirfdtory.
+If 'jbvb' domplbins tibt it dbn't find tif librbry,
+you mby nffd to bdd tif dirfdtory dontbining tif librbry into tif
+LD_LIBRARY_PATH fnvironmfnt vbribblf (Unix), or tif PATH fnvironmfnt
+vbribblf (Windows).
+Tiis is systfm bnd plbtform spfdifid.
+If you brf using 64bit Solbris (f.g. 'jbvb -d64'), 
+you siould usf LD_LIBRARY_PATH64.
+Somf bgfnts sudi bs iprof (ifbp/dpu profilfr) bnd jdwp (dfbuggfr bbdkfnd)
+brf lodbtfd insidf tif primbry JDK dirfdtorifs bnd will blwbys bf found
+in tiosf lodbtions.
 
 <p>
-If you choose to modify or change these agents, the above information
-is important in making everything is found.
-It is recommended that you change the name of the agent when you
-modify it to avoid conflicts with the existing demo agents.
-Or better yet, go to http://jdk.dev.java.net and submit your
-changes to the agent as an RFE to the JDK.
+Tif bgfnts tibt instrumfnt dlbssfilfs 
+(i.f. BCI, usublly tirougi tif jbvb_drw_dfmo librbry) 
+sudi bs iprof, ifbpTrbdkfr, mtrbdf, bnd minst, 
+blso nffd to ibvf tif Jbvb dlbssfs tify usf bvbilbblf in tif bootdlbsspbti.
+Tif onf usfd by iprof is blrfbdy in tif bootdlbsspbti, bnd tif
+otifr bgfnts will mbkf bttfmpts bt butombtidblly bdding tifir jbr filf
+(f.g. ifbpTrbdkfr.jbr, mtrbdf.jbr, or minst.jbr) to tif bootdlbsspbti
+witi AddToBootstrbpClbssLobdfrSfbrdi from JVM TI bt stbrtup
+(sff tif bgfnt_util dodf).
+Tiis is donf by lodbting tiis jbr filf bt 
+${JAVA_HOME}/dfmo/jvmti/<i>bgfnt-nbmf</i>
+wifrf JAVA_HOME is obtbinfd by dblling GftSystfmPropfrty from JVM TI
+witi "jbvb.iomf".
+Wf rfdognizf tibt tiis is not idfbl, but fflt tibt bs just dfmonstrbtion
+dodf it wbs bddfptbblf.
+Idfblly tif bgfnt dould find out tif bdtubl dirfdtory it dbmf from bnd
+lodbtf tif jbr filf rflbtivf to tibt lodbtion. 
+Our dfmonstrbtion bgfnts durrfntly do not do tiis.
+
+<p>
+If you dioosf to modify or dibngf tifsf bgfnts, tif bbovf informbtion
+is importbnt in mbking fvfrytiing is found.
+It is rfdommfndfd tibt you dibngf tif nbmf of tif bgfnt wifn you
+modify it to bvoid donflidts witi tif fxisting dfmo bgfnts.
+Or bfttfr yft, go to ittp://jdk.dfv.jbvb.nft bnd submit your
+dibngfs to tif bgfnt bs bn RFE to tif JDK.
 
 
-<h2> Demonstration Agents Available </h2>
+<i2> Dfmonstrbtion Agfnts Avbilbblf </i2>
 
 <ul>
 
 <li>
-<A HREF="versionCheck">versionCheck</A>
+<A HREF="vfrsionCifdk">vfrsionCifdk</A>
 <br>
-This is a extremely small agent that does nothing but check the
-version string supplied in the jvmti.h file, with the version
-number supplied by the VM at runtime.
+Tiis is b fxtrfmfly smbll bgfnt tibt dofs notiing but difdk tif
+vfrsion string supplifd in tif jvmti.i filf, witi tif vfrsion
+numbfr supplifd by tif VM bt runtimf.
 </li>
 
 <li>
-<A HREF="compiledMethodLoad">compiledMethodLoad</A>
+<A HREF="dompilfdMftiodLobd">dompilfdMftiodLobd</A>
 <br>
-This is a small agent that traces CompiledMethodLoad events along
-with the HotSpot specific compile_info parameter.
+Tiis is b smbll bgfnt tibt trbdfs CompilfdMftiodLobd fvfnts blong
+witi tif HotSpot spfdifid dompilf_info pbrbmftfr.
 </li>
 
 <li>
-<A HREF="mtrace">mtrace</A>
+<A HREF="mtrbdf">mtrbdf</A>
 <br>
-This is a small agent that does method tracing.
-It uses Bytecode Instrumentation (BCI) via the java_crw_demo library.
+Tiis is b smbll bgfnt tibt dofs mftiod trbding.
+It usfs Bytfdodf Instrumfntbtion (BCI) vib tif jbvb_drw_dfmo librbry.
 </li>
 
 <li>
 <A HREF="minst">minst</A>
 <br>
-This is an even smaller agent that does just method entry tracing.
-It also uses Bytecode Instrumentation (BCI) via the java_crw_demo library,
-but the instrumentation code is pure Java (no Java native methods used).
-NOTE: Be sure to check out java.lang.instrument for a way to avoid
-native code agents completely.
+Tiis is bn fvfn smbllfr bgfnt tibt dofs just mftiod fntry trbding.
+It blso usfs Bytfdodf Instrumfntbtion (BCI) vib tif jbvb_drw_dfmo librbry,
+but tif instrumfntbtion dodf is purf Jbvb (no Jbvb nbtivf mftiods usfd).
+NOTE: Bf surf to difdk out jbvb.lbng.instrumfnt for b wby to bvoid
+nbtivf dodf bgfnts domplftfly.
 </li>
 
 <li>
-<A HREF="gctest">gctest</A>
+<A HREF="gdtfst">gdtfst</A>
 <br>
-This is a small agent that does garbage collection counting.
+Tiis is b smbll bgfnt tibt dofs gbrbbgf dollfdtion dounting.
 </li>
 
 <li>
-<A HREF="heapViewer">heapViewer</A>
+<A HREF="ifbpVifwfr">ifbpVifwfr</A>
 <br>
-This is a small agent that does some basic heap inspections.
+Tiis is b smbll bgfnt tibt dofs somf bbsid ifbp inspfdtions.
 </li>
 
 <li>
-<A HREF="heapTracker">heapTracker</A>
+<A HREF="ifbpTrbdkfr">ifbpTrbdkfr</A>
 <br>
-This is a small agent that does BCI to capture object creation
-and track them.
-It uses Bytecode Instrumentation (BCI) via the java_crw_demo library.
+Tiis is b smbll bgfnt tibt dofs BCI to dbpturf objfdt drfbtion
+bnd trbdk tifm.
+It usfs Bytfdodf Instrumfntbtion (BCI) vib tif jbvb_drw_dfmo librbry.
 </li>
 
 <li>
-<A HREF="waiters">waiters</A>
+<A HREF="wbitfrs">wbitfrs</A>
 <br>
-This is a small agent that gets information about threads
-waiting on monitors.
+Tiis is b smbll bgfnt tibt gfts informbtion bbout tirfbds
+wbiting on monitors.
 </li>
 
 <li>
-<A HREF="hprof">hprof</A>
+<A HREF="iprof">iprof</A>
 <br>
-This is a large agent that does heap and cpu profiling.
-This demo agent is actually built into the 
+Tiis is b lbrgf bgfnt tibt dofs ifbp bnd dpu profiling.
+Tiis dfmo bgfnt is bdtublly built into tif 
 
-Java Runtime Environment (JRE).
-It uses Bytecode Instrumentation (BCI) via the java_crw_demo library.
+Jbvb Runtimf Environmfnt (JRE).
+It usfs Bytfdodf Instrumfntbtion (BCI) vib tif jbvb_drw_dfmo librbry.
 <br>
-<b>Note:</b> hprof is NOT a small or simple agent, the other smaller demos
-should be looked at first.
+<b>Notf:</b> iprof is NOT b smbll or simplf bgfnt, tif otifr smbllfr dfmos
+siould bf lookfd bt first.
 </li>
 
 </ul>
 
 
 
-<h2>Agent Support</h2>
+<i2>Agfnt Support</i2>
 
 <ul>
 
 <li>
-<A HREF="java_crw_demo">java_crw_demo</A>
+<A HREF="jbvb_drw_dfmo">jbvb_drw_dfmo</A>
 <br>
-This is a demo C library that does class file to class file
-transformations or BCI (Bytecode Instrumentation).
-It is used by several of the above agents.
+Tiis is b dfmo C librbry tibt dofs dlbss filf to dlbss filf
+trbnsformbtions or BCI (Bytfdodf Instrumfntbtion).
+It is usfd by sfvfrbl of tif bbovf bgfnts.
 </li>
 
 
@@ -184,261 +184,261 @@ It is used by several of the above agents.
 
 
 
-<h2>Native Library Build Hints</h2>
+<i2>Nbtivf Librbry Build Hints</i2>
 
 <p>
-All libraries loaded into java are assumed to be MT-safe (Multi-thread safe).
-This means that multiple threads could be executing the code at the same
-time, and static or global data may need to be placed in critical
-sections. See the Raw Monitor interfaces for more information.
+All librbrifs lobdfd into jbvb brf bssumfd to bf MT-sbff (Multi-tirfbd sbff).
+Tiis mfbns tibt multiplf tirfbds dould bf fxfduting tif dodf bt tif sbmf
+timf, bnd stbtid or globbl dbtb mby nffd to bf plbdfd in dritidbl
+sfdtions. Sff tif Rbw Monitor intfrfbdfs for morf informbtion.
 
 <p>
-All native libraries loaded into the 
-Java Virtual Machine,
-including Agent libraries,
-need to be compiled and built in a compatible way.
-Certain native compilation options or optimizations should be avoided,
-and some are required.
-More information on this options is available in the man pages for
-the various compilers.
+All nbtivf librbrifs lobdfd into tif 
+Jbvb Virtubl Mbdiinf,
+indluding Agfnt librbrifs,
+nffd to bf dompilfd bnd built in b dompbtiblf wby.
+Cfrtbin nbtivf dompilbtion options or optimizbtions siould bf bvoidfd,
+bnd somf brf rfquirfd.
+Morf informbtion on tiis options is bvbilbblf in tif mbn pbgfs for
+tif vbrious dompilfrs.
 
 <p>
-Some native compiler and linker options can create fatal or 
-erroneous behavior when native agent libraries are operating
-inside the Java Virtual Machine.
-It would take too many words to describe all the possible issues with all
-the native compiler options, optimizations, and settings.
-Here are some recommendations on the basic compiler and linker options
-we recommend:
+Somf nbtivf dompilfr bnd linkfr options dbn drfbtf fbtbl or 
+frronfous bfibvior wifn nbtivf bgfnt librbrifs brf opfrbting
+insidf tif Jbvb Virtubl Mbdiinf.
+It would tbkf too mbny words to dfsdribf bll tif possiblf issufs witi bll
+tif nbtivf dompilfr options, optimizbtions, bnd sfttings.
+Hfrf brf somf rfdommfndbtions on tif bbsid dompilfr bnd linkfr options
+wf rfdommfnd:
 
 <ul>
 
-<h3> Solaris </h3>
+<i3> Solbris </i3>
 
 <li>
-On Solaris, using the Sun Studio 11 C compiler,
-the typical compile and link command lines might look something like:
+On Solbris, using tif Sun Studio 11 C dompilfr,
+tif typidbl dompilf bnd link dommbnd linfs migit look somftiing likf:
 <br>
 For 32bit SPARC:
 <br>
-<code><ul>
-cc -xO2 -mt -xregs=no%appl -xmemalign=4s -xarch=v8 -KPIC -c <i>*.c</i>
+<dodf><ul>
+dd -xO2 -mt -xrfgs=no%bppl -xmfmblign=4s -xbrdi=v8 -KPIC -d <i>*.d</i>
 <br>
-cc -mt -xarch=v8 -z defs -ztext -G -o <i>libXXX.so *.o</i> -lc
-</code></ul>
+dd -mt -xbrdi=v8 -z dffs -ztfxt -G -o <i>libXXX.so *.o</i> -ld
+</dodf></ul>
 <br>
 For 64bit SPARC:
 <br>
-<code><ul>
-cc -xO2 -mt -xregs=no%appl -xarch=v9 -KPIC -c <i>*.c</i>
+<dodf><ul>
+dd -xO2 -mt -xrfgs=no%bppl -xbrdi=v9 -KPIC -d <i>*.d</i>
 <br>
-cc -mt -xarch=v9 -z defs -ztext -G -o <i>libXXX.so *.o</i> -lc
-</code></ul>
+dd -mt -xbrdi=v9 -z dffs -ztfxt -G -o <i>libXXX.so *.o</i> -ld
+</dodf></ul>
 <br>
 For X86:
 <br>
-<code><ul>
-cc -xO2 -mt -xregs=no%frameptr -KPIC -c <i>*.c</i>
+<dodf><ul>
+dd -xO2 -mt -xrfgs=no%frbmfptr -KPIC -d <i>*.d</i>
 <br>
-cc -mt -z defs -ztext -G -o <i>libXXX.so *.o</i> -lc
-</code></ul>
+dd -mt -z dffs -ztfxt -G -o <i>libXXX.so *.o</i> -ld
+</dodf></ul>
 <br>
 For AMD64:
 <br>
-<code><ul>
-cc -xO2 -mt -xregs=no%frameptr -xarch=amd64 -KPIC -c <i>*.c</i>
+<dodf><ul>
+dd -xO2 -mt -xrfgs=no%frbmfptr -xbrdi=bmd64 -KPIC -d <i>*.d</i>
 <br>
-cc -mt -xarch=amd64 -z defs -ztext -G -o <i>libXXX.so *.o</i> -lc
-</code></ul>
+dd -mt -xbrdi=bmd64 -z dffs -ztfxt -G -o <i>libXXX.so *.o</i> -ld
+</dodf></ul>
 <br>
 </li>
 
 <li>
-Architecture/File Format: 
-For SPARC 32bit use <code>-xarch=v8</code>, 
-for SPARC 64bit use <code>-xarch=v9</code>, 
+Ardiitfdturf/Filf Formbt: 
+For SPARC 32bit usf <dodf>-xbrdi=v8</dodf>, 
+for SPARC 64bit usf <dodf>-xbrdi=v9</dodf>, 
 for X86 (32-bit) 
 <i>
-leave the option off or use <code>-xarch=generic</code>
+lfbvf tif option off or usf <dodf>-xbrdi=gfnfrid</dodf>
 </i>,
-and for AMD64 (64bit) use <code>-xarch=amd64</code>
-with both C and C++.
+bnd for AMD64 (64bit) usf <dodf>-xbrdi=bmd64</dodf>
+witi boti C bnd C++.
 <br>
-This is to be specific as to the architecture and the file format
-of the .o files (and ultimately of the .so). 
+Tiis is to bf spfdifid bs to tif brdiitfdturf bnd tif filf formbt
+of tif .o filfs (bnd ultimbtfly of tif .so). 
 </li>
 
 <li>
-MT-Safe, Position Independent: Use <code>-KPIC -mt</code> 
-with both C and C++.
+MT-Sbff, Position Indfpfndfnt: Usf <dodf>-KPIC -mt</dodf> 
+witi boti C bnd C++.
 </li>
 
 <li>
-Register usage: For SPARC (both 32bit and 64bit) use 
-<code>-xregs=no%appl</code> and for X86 and AMD64 use <code>-xregs=no%frameptr</code>
-with both C and C++.
+Rfgistfr usbgf: For SPARC (boti 32bit bnd 64bit) usf 
+<dodf>-xrfgs=no%bppl</dodf> bnd for X86 bnd AMD64 usf <dodf>-xrfgs=no%frbmfptr</dodf>
+witi boti C bnd C++.
 </li>
 
 <li>
-Alignment: For SPARC 32bit use -xmemalign=4s and for SPARC 64bit do NOT use <code>-xmemalign=4</code>
-with both C and C++.
+Alignmfnt: For SPARC 32bit usf -xmfmblign=4s bnd for SPARC 64bit do NOT usf <dodf>-xmfmblign=4</dodf>
+witi boti C bnd C++.
 </li>
 
 <li>
-Dependencies: Use <code>ldd -r <i>LibraryName</i></code>.
+Dfpfndfndifs: Usf <dodf>ldd -r <i>LibrbryNbmf</i></dodf>.
 <br>
-After the shared library has been built, the utility
-<code>ldd</code> can be used to verify that all dependent libraries 
-have been satisfied, and all externs can be found.
-If <code>ldd</code> says anything is missing, it is very likely that the JVM will also
-be unable to load this library.
-This usually means that you missed some <code>-l<i>name</i></code>
-options when building the library, or perhaps forgot a <code>-R path</code>
-option that tells the library where to look for libraries at runtime.
+Aftfr tif sibrfd librbry ibs bffn built, tif utility
+<dodf>ldd</dodf> dbn bf usfd to vfrify tibt bll dfpfndfnt librbrifs 
+ibvf bffn sbtisfifd, bnd bll fxtfrns dbn bf found.
+If <dodf>ldd</dodf> sbys bnytiing is missing, it is vfry likfly tibt tif JVM will blso
+bf unbblf to lobd tiis librbry.
+Tiis usublly mfbns tibt you missfd somf <dodf>-l<i>nbmf</i></dodf>
+options wifn building tif librbry, or pfribps forgot b <dodf>-R pbti</dodf>
+option tibt tflls tif librbry wifrf to look for librbrifs bt runtimf.
 </li>
 
-<h3> Linux </h3>
+<i3> Linux </i3>
 
 <li>
-On Linux, using the gcc version 3.2, 
-the typical compile and link command lines might look something like:
+On Linux, using tif gdd vfrsion 3.2, 
+tif typidbl dompilf bnd link dommbnd linfs migit look somftiing likf:
 <br>
 For X86:
 <br>
-<code><ul>
-gcc -O2 -fPIC -pthread -DLINUX -c <i>*.c</i>
+<dodf><ul>
+gdd -O2 -fPIC -ptirfbd -DLINUX -d <i>*.d</i>
 <br>
-gcc -z defs -static-libgcc -shared -o <i>libXXX.so *.o</i> -lc
-</code></ul>
+gdd -z dffs -stbtid-libgdd -sibrfd -o <i>libXXX.so *.o</i> -ld
+</dodf></ul>
 <br>
 For AMD64:
 <br>
-<code><ul>
-gcc -O2 -fPIC -pthread -DLINUX -D_LP64=1 -c <i>*.c</i>
+<dodf><ul>
+gdd -O2 -fPIC -ptirfbd -DLINUX -D_LP64=1 -d <i>*.d</i>
 <br>
-gcc -z defs -static-libgcc -shared -o <i>libXXX.so *.o</i> -lc
-</code></ul>
+gdd -z dffs -stbtid-libgdd -sibrfd -o <i>libXXX.so *.o</i> -ld
+</dodf></ul>
 <br>
 </li>
 
 <li>
-MT-Safe, Position Independent: 
-Use <code>-fPIC -pthread</code>.
+MT-Sbff, Position Indfpfndfnt: 
+Usf <dodf>-fPIC -ptirfbd</dodf>.
 </li>
 
 <li>
-Agent Demo Code: Needs -DLINUX
+Agfnt Dfmo Codf: Nffds -DLINUX
 </li>
 
 <li>
-Register Usage: Use <code>-fno-omit-frame-pointer</code>.
+Rfgistfr Usbgf: Usf <dodf>-fno-omit-frbmf-pointfr</dodf>.
 <br>
-It is important that these libraries have frame pointer register usage, see the above comments on the Solaris 
-<code>-xregs=no%frameptr</code>
+It is importbnt tibt tifsf librbrifs ibvf frbmf pointfr rfgistfr usbgf, sff tif bbovf dommfnts on tif Solbris 
+<dodf>-xrfgs=no%frbmfptr</dodf>
 option.
 </li>
 
 <li>
-Library: Use -static-libgcc.
+Librbry: Usf -stbtid-libgdd.
 <br>
-When building the shared library (-shared option), this option
-allows for maximum portability of the library between different
-flavors of Linux.
-The problem we have seen with Linux is that we cannot depend
-on a compatible shared gcc library existing on all the versions of
-Linux we can run on.
-By doing this static link, the version script becomes more
-important, making sure you don't expose any extern symbols
-you didn't intend to.
+Wifn building tif sibrfd librbry (-sibrfd option), tiis option
+bllows for mbximum portbbility of tif librbry bftwffn difffrfnt
+flbvors of Linux.
+Tif problfm wf ibvf sffn witi Linux is tibt wf dbnnot dfpfnd
+on b dompbtiblf sibrfd gdd librbry fxisting on bll tif vfrsions of
+Linux wf dbn run on.
+By doing tiis stbtid link, tif vfrsion sdript bfdomfs morf
+importbnt, mbking surf you don't fxposf bny fxtfrn symbols
+you didn't intfnd to.
 </li>
 
 <li>
-Dependencies: Use <code>ldd -r <i>LibraryName</i></code>.
+Dfpfndfndifs: Usf <dodf>ldd -r <i>LibrbryNbmf</i></dodf>.
 <br>
-Provides the same checking as Solaris (see above).
+Providfs tif sbmf difdking bs Solbris (sff bbovf).
 </li>
 
-<h3> Windows </h3>
+<i3> Windows </i3>
 
 <li>
-On Windows and using the Microsoft C++ Compiler Visual Studio .NET 2003,
-the typical compile and link command lines might look something like:
+On Windows bnd using tif Midrosoft C++ Compilfr Visubl Studio .NET 2003,
+tif typidbl dompilf bnd link dommbnd linfs migit look somftiing likf:
 <br>
 For X86:
 <br>
-<code><ul>
-cl /O1 /MD /D _STATIC_CPPLIB /c <i>*.c</i>
+<dodf><ul>
+dl /O1 /MD /D _STATIC_CPPLIB /d <i>*.d</i>
 <br>
 link /dll /opt:REF /out:<i>XXX.dll *.obj</i>
-</code></ul>
+</dodf></ul>
 <br>
 For AMD64:
 <br>
-<code><ul>
-cl /O1 /MD /D _STATIC_CPPLIB /c <i>*.c</i>
+<dodf><ul>
+dl /O1 /MD /D _STATIC_CPPLIB /d <i>*.d</i>
 <br>
 link /dll /opt:REF /out:<i>XXX.dll *.obj</i>
-</code></ul>
+</dodf></ul>
 <br>
 </li>
 
 <li>
-Library: Use <code>/opt:REF </code> when building the dll.
+Librbry: Usf <dodf>/opt:REF </dodf> wifn building tif dll.
 </li>
 
 <li>
-MS DLL Runtime: Use the <code>/MD /D _STATIC_CPPLIB</code> option.
+MS DLL Runtimf: Usf tif <dodf>/MD /D _STATIC_CPPLIB</dodf> option.
 <br>
-This causes your dll to become dependent on just MSVCR*.DLL.
-The option /D _STATIC_CPPLIB prevents you from becoming dependent on the
-C++ library MSVCP*.DLL.
-This is what we use in the JDK, but there are probably many combinations
-that you could safely use, unfortunately there are many combinations
-of runtimes that will not work. 
-Check the Microsoft site on proper use of runtimes.
+Tiis dbusfs your dll to bfdomf dfpfndfnt on just MSVCR*.DLL.
+Tif option /D _STATIC_CPPLIB prfvfnts you from bfdoming dfpfndfnt on tif
+C++ librbry MSVCP*.DLL.
+Tiis is wibt wf usf in tif JDK, but tifrf brf probbbly mbny dombinbtions
+tibt you dould sbffly usf, unfortunbtfly tifrf brf mbny dombinbtions
+of runtimfs tibt will not work. 
+Cifdk tif Midrosoft sitf on propfr usf of runtimfs.
 </li>
 
 <li>
-Dependencies: Use VC++ <code>dumpbin /exports</code> and the VC++ "Dependency Walker".
+Dfpfndfndifs: Usf VC++ <dodf>dumpbin /fxports</dodf> bnd tif VC++ "Dfpfndfndy Wblkfr".
 <br>
-Provides dependency information similar to <code>ldd</code>.
+Providfs dfpfndfndy informbtion similbr to <dodf>ldd</dodf>.
 </li>
 
 </ul>
 
 
-<h2>For More Information</h2>
+<i2>For Morf Informbtion</i2>
 
 <p>
-Remember, the complete source to all these agents is contained in the JDK
-installations at demo/jvmti.
+Rfmfmbfr, tif domplftf sourdf to bll tifsf bgfnts is dontbinfd in tif JDK
+instbllbtions bt dfmo/jvmti.
 
 <p>
-For more detailed information on JVM TI, refer to 
-<A HREF="http://java.sun.com/j2se/latest/docs/guide/jvmti">
-http://java.sun.com/j2se/latest/docs/guide/jvmti.</A>
+For morf dftbilfd informbtion on JVM TI, rfffr to 
+<A HREF="ittp://jbvb.sun.dom/j2sf/lbtfst/dods/guidf/jvmti">
+ittp://jbvb.sun.dom/j2sf/lbtfst/dods/guidf/jvmti.</A>
  
 <p>
-More information on using JNI and building native libraries refer to:
-<A HREF="http://java.sun.com/j2se/latest/docs/guide/jni">
-http://java.sun.com/j2se/latest/docs/guide/jni</A>.
+Morf informbtion on using JNI bnd building nbtivf librbrifs rfffr to:
+<A HREF="ittp://jbvb.sun.dom/j2sf/lbtfst/dods/guidf/jni">
+ittp://jbvb.sun.dom/j2sf/lbtfst/dods/guidf/jni</A>.
 
 <p>
-Additional information can also be found by doing a search on "jvmti" at
-<A HREF="http://java.sun.com/j2se">http://java.sun.com/j2se</A>.
-Various technical articles are also available through this website.
-And don't forget the 
-Java Tutorials at 
-<A HREF="http://java.sun.com/docs/books/tutorial">http://java.sun.com/docs/books/tutorial</A>
-for getting a quick start on all the various interfaces.
+Additionbl informbtion dbn blso bf found by doing b sfbrdi on "jvmti" bt
+<A HREF="ittp://jbvb.sun.dom/j2sf">ittp://jbvb.sun.dom/j2sf</A>.
+Vbrious tfdinidbl brtidlfs brf blso bvbilbblf tirougi tiis wfbsitf.
+And don't forgft tif 
+Jbvb Tutoribls bt 
+<A HREF="ittp://jbvb.sun.dom/dods/books/tutoribl">ittp://jbvb.sun.dom/dods/books/tutoribl</A>
+for gftting b quidk stbrt on bll tif vbrious intfrfbdfs.
 
-<h2>Comments and Feedback</h2>
+<i2>Commfnts bnd Fffdbbdk</i2>
 
 <p>
-Comments regarding JVM TI or on any of these demonstrations should be
-sent through 
-<A HREF="http://java.sun.com/mail">http://java.sun.com/mail/</A>
+Commfnts rfgbrding JVM TI or on bny of tifsf dfmonstrbtions siould bf
+sfnt tirougi 
+<A HREF="ittp://jbvb.sun.dom/mbil">ittp://jbvb.sun.dom/mbil/</A>
 
 
 
-</html>
+</itml>

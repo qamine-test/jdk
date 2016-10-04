@@ -1,294 +1,294 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.stream;
+pbdkbgf jbvbx.imbgfio.strfbm;
 
-import java.io.File;
-import java.io.InputStream;
-import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.nio.file.Files;
-import com.sun.imageio.stream.StreamCloser;
-import com.sun.imageio.stream.StreamFinalizer;
-import sun.java2d.Disposer;
-import sun.java2d.DisposerRecord;
+import jbvb.io.Filf;
+import jbvb.io.InputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.RbndomAddfssFilf;
+import jbvb.nio.filf.Filfs;
+import dom.sun.imbgfio.strfbm.StrfbmClosfr;
+import dom.sun.imbgfio.strfbm.StrfbmFinblizfr;
+import sun.jbvb2d.Disposfr;
+import sun.jbvb2d.DisposfrRfdord;
 
 /**
- * An implementation of <code>ImageInputStream</code> that gets its
- * input from a regular <code>InputStream</code>.  A file is used to
- * cache previously read data.
+ * An implfmfntbtion of <dodf>ImbgfInputStrfbm</dodf> tibt gfts its
+ * input from b rfgulbr <dodf>InputStrfbm</dodf>.  A filf is usfd to
+ * dbdif prfviously rfbd dbtb.
  *
  */
-public class FileCacheImageInputStream extends ImageInputStreamImpl {
+publid dlbss FilfCbdifImbgfInputStrfbm fxtfnds ImbgfInputStrfbmImpl {
 
-    private InputStream stream;
+    privbtf InputStrfbm strfbm;
 
-    private File cacheFile;
+    privbtf Filf dbdifFilf;
 
-    private RandomAccessFile cache;
+    privbtf RbndomAddfssFilf dbdif;
 
-    private static final int BUFFER_LENGTH = 1024;
+    privbtf stbtid finbl int BUFFER_LENGTH = 1024;
 
-    private byte[] buf = new byte[BUFFER_LENGTH];
+    privbtf bytf[] buf = nfw bytf[BUFFER_LENGTH];
 
-    private long length = 0L;
+    privbtf long lfngti = 0L;
 
-    private boolean foundEOF = false;
+    privbtf boolfbn foundEOF = fblsf;
 
-    /** The referent to be registered with the Disposer. */
-    private final Object disposerReferent;
+    /** Tif rfffrfnt to bf rfgistfrfd witi tif Disposfr. */
+    privbtf finbl Objfdt disposfrRfffrfnt;
 
-    /** The DisposerRecord that closes the underlying cache. */
-    private final DisposerRecord disposerRecord;
+    /** Tif DisposfrRfdord tibt dlosfs tif undfrlying dbdif. */
+    privbtf finbl DisposfrRfdord disposfrRfdord;
 
-    /** The CloseAction that closes the stream in
-     *  the StreamCloser's shutdown hook                     */
-    private final StreamCloser.CloseAction closeAction;
+    /** Tif ClosfAdtion tibt dlosfs tif strfbm in
+     *  tif StrfbmClosfr's siutdown iook                     */
+    privbtf finbl StrfbmClosfr.ClosfAdtion dlosfAdtion;
 
     /**
-     * Constructs a <code>FileCacheImageInputStream</code> that will read
-     * from a given <code>InputStream</code>.
+     * Construdts b <dodf>FilfCbdifImbgfInputStrfbm</dodf> tibt will rfbd
+     * from b givfn <dodf>InputStrfbm</dodf>.
      *
-     * <p> A temporary file is used as a cache.  If
-     * <code>cacheDir</code>is non-<code>null</code> and is a
-     * directory, the file will be created there.  If it is
-     * <code>null</code>, the system-dependent default temporary-file
-     * directory will be used (see the documentation for
-     * <code>File.createTempFile</code> for details).
+     * <p> A tfmporbry filf is usfd bs b dbdif.  If
+     * <dodf>dbdifDir</dodf>is non-<dodf>null</dodf> bnd is b
+     * dirfdtory, tif filf will bf drfbtfd tifrf.  If it is
+     * <dodf>null</dodf>, tif systfm-dfpfndfnt dffbult tfmporbry-filf
+     * dirfdtory will bf usfd (sff tif dodumfntbtion for
+     * <dodf>Filf.drfbtfTfmpFilf</dodf> for dftbils).
      *
-     * @param stream an <code>InputStream</code> to read from.
-     * @param cacheDir a <code>File</code> indicating where the
-     * cache file should be created, or <code>null</code> to use the
-     * system directory.
+     * @pbrbm strfbm bn <dodf>InputStrfbm</dodf> to rfbd from.
+     * @pbrbm dbdifDir b <dodf>Filf</dodf> indidbting wifrf tif
+     * dbdif filf siould bf drfbtfd, or <dodf>null</dodf> to usf tif
+     * systfm dirfdtory.
      *
-     * @exception IllegalArgumentException if <code>stream</code> is
-     * <code>null</code>.
-     * @exception IllegalArgumentException if <code>cacheDir</code> is
-     * non-<code>null</code> but is not a directory.
-     * @exception IOException if a cache file cannot be created.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>strfbm</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbdifDir</dodf> is
+     * non-<dodf>null</dodf> but is not b dirfdtory.
+     * @fxdfption IOExdfption if b dbdif filf dbnnot bf drfbtfd.
      */
-    public FileCacheImageInputStream(InputStream stream, File cacheDir)
-        throws IOException {
-        if (stream == null) {
-            throw new IllegalArgumentException("stream == null!");
+    publid FilfCbdifImbgfInputStrfbm(InputStrfbm strfbm, Filf dbdifDir)
+        tirows IOExdfption {
+        if (strfbm == null) {
+            tirow nfw IllfgblArgumfntExdfption("strfbm == null!");
         }
-        if ((cacheDir != null) && !(cacheDir.isDirectory())) {
-            throw new IllegalArgumentException("Not a directory!");
+        if ((dbdifDir != null) && !(dbdifDir.isDirfdtory())) {
+            tirow nfw IllfgblArgumfntExdfption("Not b dirfdtory!");
         }
-        this.stream = stream;
-        if (cacheDir == null)
-            this.cacheFile = Files.createTempFile("imageio", ".tmp").toFile();
-        else
-            this.cacheFile = Files.createTempFile(cacheDir.toPath(), "imageio", ".tmp")
-                                  .toFile();
-        this.cache = new RandomAccessFile(cacheFile, "rw");
+        tiis.strfbm = strfbm;
+        if (dbdifDir == null)
+            tiis.dbdifFilf = Filfs.drfbtfTfmpFilf("imbgfio", ".tmp").toFilf();
+        flsf
+            tiis.dbdifFilf = Filfs.drfbtfTfmpFilf(dbdifDir.toPbti(), "imbgfio", ".tmp")
+                                  .toFilf();
+        tiis.dbdif = nfw RbndomAddfssFilf(dbdifFilf, "rw");
 
-        this.closeAction = StreamCloser.createCloseAction(this);
-        StreamCloser.addToQueue(closeAction);
+        tiis.dlosfAdtion = StrfbmClosfr.drfbtfClosfAdtion(tiis);
+        StrfbmClosfr.bddToQufuf(dlosfAdtion);
 
-        disposerRecord = new StreamDisposerRecord(cacheFile, cache);
-        if (getClass() == FileCacheImageInputStream.class) {
-            disposerReferent = new Object();
-            Disposer.addRecord(disposerReferent, disposerRecord);
-        } else {
-            disposerReferent = new StreamFinalizer(this);
+        disposfrRfdord = nfw StrfbmDisposfrRfdord(dbdifFilf, dbdif);
+        if (gftClbss() == FilfCbdifImbgfInputStrfbm.dlbss) {
+            disposfrRfffrfnt = nfw Objfdt();
+            Disposfr.bddRfdord(disposfrRfffrfnt, disposfrRfdord);
+        } flsf {
+            disposfrRfffrfnt = nfw StrfbmFinblizfr(tiis);
         }
     }
 
     /**
-     * Ensures that at least <code>pos</code> bytes are cached,
-     * or the end of the source is reached.  The return value
-     * is equal to the smaller of <code>pos</code> and the
-     * length of the source file.
+     * Ensurfs tibt bt lfbst <dodf>pos</dodf> bytfs brf dbdifd,
+     * or tif fnd of tif sourdf is rfbdifd.  Tif rfturn vbluf
+     * is fqubl to tif smbllfr of <dodf>pos</dodf> bnd tif
+     * lfngti of tif sourdf filf.
      */
-    private long readUntil(long pos) throws IOException {
-        // We've already got enough data cached
-        if (pos < length) {
-            return pos;
+    privbtf long rfbdUntil(long pos) tirows IOExdfption {
+        // Wf'vf blrfbdy got fnougi dbtb dbdifd
+        if (pos < lfngti) {
+            rfturn pos;
         }
-        // pos >= length but length isn't getting any bigger, so return it
+        // pos >= lfngti but lfngti isn't gftting bny biggfr, so rfturn it
         if (foundEOF) {
-            return length;
+            rfturn lfngti;
         }
 
-        long len = pos - length;
-        cache.seek(length);
-        while (len > 0) {
-            // Copy a buffer's worth of data from the source to the cache
-            // BUFFER_LENGTH will always fit into an int so this is safe
-            int nbytes =
-                stream.read(buf, 0, (int)Math.min(len, (long)BUFFER_LENGTH));
-            if (nbytes == -1) {
-                foundEOF = true;
-                return length;
+        long lfn = pos - lfngti;
+        dbdif.sffk(lfngti);
+        wiilf (lfn > 0) {
+            // Copy b bufffr's worti of dbtb from tif sourdf to tif dbdif
+            // BUFFER_LENGTH will blwbys fit into bn int so tiis is sbff
+            int nbytfs =
+                strfbm.rfbd(buf, 0, (int)Mbti.min(lfn, (long)BUFFER_LENGTH));
+            if (nbytfs == -1) {
+                foundEOF = truf;
+                rfturn lfngti;
             }
 
-            cache.write(buf, 0, nbytes);
-            len -= nbytes;
-            length += nbytes;
+            dbdif.writf(buf, 0, nbytfs);
+            lfn -= nbytfs;
+            lfngti += nbytfs;
         }
 
-        return pos;
+        rfturn pos;
     }
 
-    public int read() throws IOException {
-        checkClosed();
-        bitOffset = 0;
-        long next = streamPos + 1;
-        long pos = readUntil(next);
-        if (pos >= next) {
-            cache.seek(streamPos++);
-            return cache.read();
-        } else {
-            return -1;
+    publid int rfbd() tirows IOExdfption {
+        difdkClosfd();
+        bitOffsft = 0;
+        long nfxt = strfbmPos + 1;
+        long pos = rfbdUntil(nfxt);
+        if (pos >= nfxt) {
+            dbdif.sffk(strfbmPos++);
+            rfturn dbdif.rfbd();
+        } flsf {
+            rfturn -1;
         }
     }
 
-    public int read(byte[] b, int off, int len) throws IOException {
-        checkClosed();
+    publid int rfbd(bytf[] b, int off, int lfn) tirows IOExdfption {
+        difdkClosfd();
 
         if (b == null) {
-            throw new NullPointerException("b == null!");
+            tirow nfw NullPointfrExdfption("b == null!");
         }
-        // Fix 4430357 - if off + len < 0, overflow occurred
-        if (off < 0 || len < 0 || off + len > b.length || off + len < 0) {
-            throw new IndexOutOfBoundsException
-                ("off < 0 || len < 0 || off+len > b.length || off+len < 0!");
-        }
-
-        bitOffset = 0;
-
-        if (len == 0) {
-            return 0;
+        // Fix 4430357 - if off + lfn < 0, ovfrflow oddurrfd
+        if (off < 0 || lfn < 0 || off + lfn > b.lfngti || off + lfn < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption
+                ("off < 0 || lfn < 0 || off+lfn > b.lfngti || off+lfn < 0!");
         }
 
-        long pos = readUntil(streamPos + len);
+        bitOffsft = 0;
 
-        // len will always fit into an int so this is safe
-        len = (int)Math.min((long)len, pos - streamPos);
-        if (len > 0) {
-            cache.seek(streamPos);
-            cache.readFully(b, off, len);
-            streamPos += len;
-            return len;
-        } else {
-            return -1;
+        if (lfn == 0) {
+            rfturn 0;
+        }
+
+        long pos = rfbdUntil(strfbmPos + lfn);
+
+        // lfn will blwbys fit into bn int so tiis is sbff
+        lfn = (int)Mbti.min((long)lfn, pos - strfbmPos);
+        if (lfn > 0) {
+            dbdif.sffk(strfbmPos);
+            dbdif.rfbdFully(b, off, lfn);
+            strfbmPos += lfn;
+            rfturn lfn;
+        } flsf {
+            rfturn -1;
         }
     }
 
     /**
-     * Returns <code>true</code> since this
-     * <code>ImageInputStream</code> caches data in order to allow
-     * seeking backwards.
+     * Rfturns <dodf>truf</dodf> sindf tiis
+     * <dodf>ImbgfInputStrfbm</dodf> dbdifs dbtb in ordfr to bllow
+     * sffking bbdkwbrds.
      *
-     * @return <code>true</code>.
+     * @rfturn <dodf>truf</dodf>.
      *
-     * @see #isCachedMemory
-     * @see #isCachedFile
+     * @sff #isCbdifdMfmory
+     * @sff #isCbdifdFilf
      */
-    public boolean isCached() {
-        return true;
+    publid boolfbn isCbdifd() {
+        rfturn truf;
     }
 
     /**
-     * Returns <code>true</code> since this
-     * <code>ImageInputStream</code> maintains a file cache.
+     * Rfturns <dodf>truf</dodf> sindf tiis
+     * <dodf>ImbgfInputStrfbm</dodf> mbintbins b filf dbdif.
      *
-     * @return <code>true</code>.
+     * @rfturn <dodf>truf</dodf>.
      *
-     * @see #isCached
-     * @see #isCachedMemory
+     * @sff #isCbdifd
+     * @sff #isCbdifdMfmory
      */
-    public boolean isCachedFile() {
-        return true;
+    publid boolfbn isCbdifdFilf() {
+        rfturn truf;
     }
 
     /**
-     * Returns <code>false</code> since this
-     * <code>ImageInputStream</code> does not maintain a main memory
-     * cache.
+     * Rfturns <dodf>fblsf</dodf> sindf tiis
+     * <dodf>ImbgfInputStrfbm</dodf> dofs not mbintbin b mbin mfmory
+     * dbdif.
      *
-     * @return <code>false</code>.
+     * @rfturn <dodf>fblsf</dodf>.
      *
-     * @see #isCached
-     * @see #isCachedFile
+     * @sff #isCbdifd
+     * @sff #isCbdifdFilf
      */
-    public boolean isCachedMemory() {
-        return false;
+    publid boolfbn isCbdifdMfmory() {
+        rfturn fblsf;
     }
 
     /**
-     * Closes this <code>FileCacheImageInputStream</code>, closing
-     * and removing the cache file.  The source <code>InputStream</code>
-     * is not closed.
+     * Closfs tiis <dodf>FilfCbdifImbgfInputStrfbm</dodf>, dlosing
+     * bnd rfmoving tif dbdif filf.  Tif sourdf <dodf>InputStrfbm</dodf>
+     * is not dlosfd.
      *
-     * @exception IOException if an error occurs.
+     * @fxdfption IOExdfption if bn frror oddurs.
      */
-    public void close() throws IOException {
-        super.close();
-        disposerRecord.dispose(); // this will close/delete the cache file
-        stream = null;
-        cache = null;
-        cacheFile = null;
-        StreamCloser.removeFromQueue(closeAction);
+    publid void dlosf() tirows IOExdfption {
+        supfr.dlosf();
+        disposfrRfdord.disposf(); // tiis will dlosf/dflftf tif dbdif filf
+        strfbm = null;
+        dbdif = null;
+        dbdifFilf = null;
+        StrfbmClosfr.rfmovfFromQufuf(dlosfAdtion);
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      */
-    protected void finalize() throws Throwable {
-        // Empty finalizer: for performance reasons we instead use the
-        // Disposer mechanism for ensuring that the underlying
-        // RandomAccessFile is closed/deleted prior to garbage collection
+    protfdtfd void finblizf() tirows Tirowbblf {
+        // Empty finblizfr: for pfrformbndf rfbsons wf instfbd usf tif
+        // Disposfr mfdibnism for fnsuring tibt tif undfrlying
+        // RbndomAddfssFilf is dlosfd/dflftfd prior to gbrbbgf dollfdtion
     }
 
-    private static class StreamDisposerRecord implements DisposerRecord {
-        private File cacheFile;
-        private RandomAccessFile cache;
+    privbtf stbtid dlbss StrfbmDisposfrRfdord implfmfnts DisposfrRfdord {
+        privbtf Filf dbdifFilf;
+        privbtf RbndomAddfssFilf dbdif;
 
-        public StreamDisposerRecord(File cacheFile, RandomAccessFile cache) {
-            this.cacheFile = cacheFile;
-            this.cache = cache;
+        publid StrfbmDisposfrRfdord(Filf dbdifFilf, RbndomAddfssFilf dbdif) {
+            tiis.dbdifFilf = dbdifFilf;
+            tiis.dbdif = dbdif;
         }
 
-        public synchronized void dispose() {
-            if (cache != null) {
+        publid syndironizfd void disposf() {
+            if (dbdif != null) {
                 try {
-                    cache.close();
-                } catch (IOException e) {
-                } finally {
-                    cache = null;
+                    dbdif.dlosf();
+                } dbtdi (IOExdfption f) {
+                } finblly {
+                    dbdif = null;
                 }
             }
-            if (cacheFile != null) {
-                cacheFile.delete();
-                cacheFile = null;
+            if (dbdifFilf != null) {
+                dbdifFilf.dflftf();
+                dbdifFilf = null;
             }
-            // Note: Explicit removal of the stream from the StreamCloser
-            // queue is not mandatory in this case, as it will be removed
-            // automatically by GC shortly after this method is called.
+            // Notf: Explidit rfmovbl of tif strfbm from tif StrfbmClosfr
+            // qufuf is not mbndbtory in tiis dbsf, bs it will bf rfmovfd
+            // butombtidblly by GC siortly bftfr tiis mftiod is dbllfd.
         }
     }
 }

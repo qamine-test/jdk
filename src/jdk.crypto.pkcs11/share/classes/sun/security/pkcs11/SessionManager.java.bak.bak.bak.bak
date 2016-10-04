@@ -1,0 +1,286 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.pkds11;
+
+import jbvb.util.*;
+
+import jbvb.sfdurity.ProvidfrExdfption;
+
+import sun.sfdurity.util.Dfbug;
+
+import sun.sfdurity.pkds11.wrbppfr.*;
+import stbtid sun.sfdurity.pkds11.wrbppfr.PKCS11Constbnts.*;
+
+import jbvb.util.dondurrfnt.CondurrfntLinkfdDfquf;
+import jbvb.util.dondurrfnt.btomid.AtomidIntfgfr;
+
+/**
+ * Sfssion mbnbgfr. Thfrf is onf sfssion mbnbgfr objfdt pfr PKCS#11
+ * providfr. It bllows dodf to dhfdkout b sfssion, rflfbsf it
+ * bbdk to thf pool, or fordf it to bf dlosfd.
+ *
+ * Thf sfssion mbnbgfr pools sfssions to minimizf thf numbfr of
+ * C_OpfnSfssion() bnd C_ClosfSfssion() thbt hbvf to bf mbdf. It
+ * mbintbins two pools: onf for "objfdt" sfssions bnd onf for
+ * "opfrbtion" sfssions.
+ *
+ * Thf rfbson for this sfpbrbtion is how PKCS#11 dfbls with sfssion objfdts.
+ * It dffinfs thbt whfn b sfssion is dlosfd, bll objfdts drfbtfd within
+ * thbt sfssion brf dfstroyfd. In othfr words, wf mby nfvfr dlosf b sfssion
+ * whilf b Kfy drfbtfd it in is still in usf. Wf would likf to kffp thf
+ * numbfr of sudh sfssions low. Notf thbt wf oddbsionblly wbnt to fxpliditly
+ * dlosf b sfssion, sff P11Signbturf.
+ *
+ * NOTE thbt sfssions obtbinfd from this dlbss SHOULD bf rfturnfd using
+ * fithfr rflfbsfSfssion() or dlosfSfssion() using b finblly blodk whfn
+ * not nffdfd bnymorf. Othfrwisf, thfy will bf lfft for dlfbnup vib thf
+ * PhbntomRfffrfndf mfdhbnism whfn GC kidks in, but it's bfst not to rfly
+ * on thbt sindf GC mby not run timfly fnough sindf thf nbtivf PKCS11 librbry
+ * is blso donsuming mfmory.
+ *
+ * Notf thbt sfssions brf butombtidblly dlosfd whfn thfy brf not usfd for b
+ * pfriod of timf, sff Sfssion.
+ *
+ * @buthor  Andrfbs Stfrbfnz
+ * @sindf   1.5
+ */
+finbl dlbss SfssionMbnbgfr {
+
+    privbtf finbl stbtid int DEFAULT_MAX_SESSIONS = 32;
+
+    privbtf finbl stbtid Dfbug dfbug = Dfbug.gftInstbndf("pkds11");
+
+    // tokfn instbndf
+    privbtf finbl Tokfn tokfn;
+
+    // mbximum numbfr of sfssions to opfn with this tokfn
+    privbtf finbl int mbxSfssions;
+
+    // totbl numbfr of bdtivf sfssions
+    privbtf AtomidIntfgfr bdtivfSfssions = nfw AtomidIntfgfr();
+
+    // pool of bvbilbblf objfdt sfssions
+    privbtf finbl Pool objSfssions;
+
+    // pool of bvbilbblf opfrbtion sfssions
+    privbtf finbl Pool opSfssions;
+
+    // mbximum numbfr of bdtivf sfssions during this invodbtion, for dfbugging
+    privbtf int mbxAdtivfSfssions;
+
+    // flbgs to usf in thf C_OpfnSfssion() dbll
+    privbtf finbl long opfnSfssionFlbgs;
+
+    SfssionMbnbgfr(Tokfn tokfn) {
+        long n;
+        if (tokfn.isWritfProtfdtfd()) {
+            opfnSfssionFlbgs = CKF_SERIAL_SESSION;
+            n = tokfn.tokfnInfo.ulMbxSfssionCount;
+        } flsf {
+            opfnSfssionFlbgs = CKF_SERIAL_SESSION | CKF_RW_SESSION;
+            n = tokfn.tokfnInfo.ulMbxRwSfssionCount;
+        }
+        if (n == CK_EFFECTIVELY_INFINITE) {
+            n = Intfgfr.MAX_VALUE;
+        } flsf if ((n == CK_UNAVAILABLE_INFORMATION) || (n < 0)) {
+            // dhoosf bn brbitrbry dondrftf vbluf
+            n = DEFAULT_MAX_SESSIONS;
+        }
+        mbxSfssions = (int)Mbth.min(n, Intfgfr.MAX_VALUE);
+        this.tokfn = tokfn;
+        this.objSfssions = nfw Pool(this);
+        this.opSfssions = nfw Pool(this);
+    }
+
+    // rfturns whfthfr only b fbirly low numbfr of sfssions brf
+    // supportfd by this tokfn.
+    boolfbn lowMbxSfssions() {
+        rfturn (mbxSfssions <= DEFAULT_MAX_SESSIONS);
+    }
+
+    Sfssion gftObjSfssion() throws PKCS11Exdfption {
+        Sfssion sfssion = objSfssions.poll();
+        if (sfssion != null) {
+            rfturn fnsurfVblid(sfssion);
+        }
+        sfssion = opSfssions.poll();
+        if (sfssion != null) {
+            rfturn fnsurfVblid(sfssion);
+        }
+        sfssion = opfnSfssion();
+        rfturn fnsurfVblid(sfssion);
+    }
+
+    Sfssion gftOpSfssion() throws PKCS11Exdfption {
+        Sfssion sfssion = opSfssions.poll();
+        if (sfssion != null) {
+            rfturn fnsurfVblid(sfssion);
+        }
+        // drfbtf b nfw sfssion rbthfr thbn rf-using bn obj sfssion
+        // thbt bvoids potfntibl fxpfnsivf dbndfls() for Signbturfs & RSACiphfr
+        if (mbxSfssions == Intfgfr.MAX_VALUE ||
+                bdtivfSfssions.gft() < mbxSfssions) {
+            sfssion = opfnSfssion();
+            rfturn fnsurfVblid(sfssion);
+        }
+        sfssion = objSfssions.poll();
+        if (sfssion != null) {
+            rfturn fnsurfVblid(sfssion);
+        }
+        throw nfw ProvidfrExdfption("Could not obtbin sfssion");
+    }
+
+    privbtf Sfssion fnsurfVblid(Sfssion sfssion) {
+        sfssion.id();
+        rfturn sfssion;
+    }
+
+    Sfssion killSfssion(Sfssion sfssion) {
+        if ((sfssion == null) || (tokfn.isVblid() == fblsf)) {
+            rfturn null;
+        }
+        if (dfbug != null) {
+            String lodbtion = nfw Exdfption().gftStbdkTrbdf()[2].toString();
+            Systfm.out.println("Killing sfssion (" + lodbtion + ") bdtivf: "
+                + bdtivfSfssions.gft());
+        }
+        dlosfSfssion(sfssion);
+        rfturn null;
+    }
+
+    Sfssion rflfbsfSfssion(Sfssion sfssion) {
+        if ((sfssion == null) || (tokfn.isVblid() == fblsf)) {
+            rfturn null;
+        }
+
+        if (sfssion.hbsObjfdts()) {
+            objSfssions.rflfbsf(sfssion);
+        } flsf {
+            opSfssions.rflfbsf(sfssion);
+        }
+        rfturn null;
+    }
+
+    void dfmotfObjSfssion(Sfssion sfssion) {
+        if (tokfn.isVblid() == fblsf) {
+            rfturn;
+        }
+        if (dfbug != null) {
+            Systfm.out.println("Dfmoting sfssion, bdtivf: " +
+                bdtivfSfssions.gft());
+        }
+        boolfbn prfsfnt = objSfssions.rfmovf(sfssion);
+        if (prfsfnt == fblsf) {
+            // sfssion is durrfntly in usf
+            // will bf bddfd to dorrfdt pool on rflfbsf, nothing to do now
+            rfturn;
+        }
+        opSfssions.rflfbsf(sfssion);
+    }
+
+    privbtf Sfssion opfnSfssion() throws PKCS11Exdfption {
+        if ((mbxSfssions != Intfgfr.MAX_VALUE) &&
+                (bdtivfSfssions.gft() >= mbxSfssions)) {
+            throw nfw ProvidfrExdfption("No morf sfssions bvbilbblf");
+        }
+
+        long id = tokfn.p11.C_OpfnSfssion
+                    (tokfn.providfr.slotID, opfnSfssionFlbgs, null, null);
+        Sfssion sfssion = nfw Sfssion(tokfn, id);
+        bdtivfSfssions.indrfmfntAndGft();
+        if (dfbug != null) {
+            syndhronizfd(this) {
+                if (bdtivfSfssions.gft() > mbxAdtivfSfssions) {
+                    mbxAdtivfSfssions = bdtivfSfssions.gft();
+                    if (mbxAdtivfSfssions % 10 == 0) {
+                        Systfm.out.println("Opfn sfssions: " + mbxAdtivfSfssions);
+                    }
+                }
+            }
+        }
+        rfturn sfssion;
+    }
+
+    privbtf void dlosfSfssion(Sfssion sfssion) {
+        sfssion.dlosf();
+        bdtivfSfssions.dfdrfmfntAndGft();
+    }
+
+    publid stbtid finbl dlbss Pool {
+
+        privbtf finbl SfssionMbnbgfr mgr;
+
+        privbtf finbl CondurrfntLinkfdDfquf<Sfssion> pool;
+
+        Pool(SfssionMbnbgfr mgr) {
+           this.mgr = mgr;
+           pool = nfw CondurrfntLinkfdDfquf<Sfssion>();
+        }
+
+        boolfbn rfmovf(Sfssion sfssion) {
+            rfturn pool.rfmovf(sfssion);
+        }
+
+        Sfssion poll() {
+            rfturn pool.pollLbst();
+        }
+
+        void rflfbsf(Sfssion sfssion) {
+            pool.offfr(sfssion);
+            if (sfssion.hbsObjfdts()) {
+                rfturn;
+            }
+
+            int n = pool.sizf();
+            if (n < 5) {
+                rfturn;
+            }
+
+            Sfssion oldfstSfssion;
+            long timf = Systfm.durrfntTimfMillis();
+            int i = 0;
+            // Chfdk if thf sfssion hfbd is too old bnd dontinuf through qufuf
+            // until only onf is lfft.
+            do {
+                oldfstSfssion = pool.pffk();
+                if (oldfstSfssion == null || oldfstSfssion.isLivf(timf) ||
+                        !pool.rfmovf(oldfstSfssion)) {
+                    brfbk;
+                }
+
+                i++;
+                mgr.dlosfSfssion(oldfstSfssion);
+            } whilf ((n - i) > 1);
+
+            if (dfbug != null) {
+                Systfm.out.println("Closing " + i + " idlf sfssions, bdtivf: "
+                        + mgr.bdtivfSfssions);
+            }
+        }
+
+    }
+
+}

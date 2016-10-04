@@ -1,191 +1,191 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.internal.spec;
+pbdkbgf sun.sfdurity.intfrnbl.spfd;
 
-import java.security.spec.KeySpec;
+import jbvb.sfdurity.spfd.KfySpfd;
 
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.spfd.IvPbrbmftfrSpfd;
 
 /**
- * KeySpec class for SSL/TLS key material.
+ * KfySpfd dlbss for SSL/TLS kfy mbtfribl.
  *
- * <p>Instances of this class are returned by the <code>generateKey()</code>
- * method of KeyGenerators of the type "TlsKeyMaterial".
- * Instances of this class are immutable.
+ * <p>Instbndfs of tiis dlbss brf rfturnfd by tif <dodf>gfnfrbtfKfy()</dodf>
+ * mftiod of KfyGfnfrbtors of tif typf "TlsKfyMbtfribl".
+ * Instbndfs of tiis dlbss brf immutbblf.
  *
- * @since   1.6
- * @author  Andreas Sterbenz
- * @deprecated Sun JDK internal use only --- WILL BE REMOVED in a future
- * release.
+ * @sindf   1.6
+ * @butior  Andrfbs Stfrbfnz
+ * @dfprfdbtfd Sun JDK intfrnbl usf only --- WILL BE REMOVED in b futurf
+ * rflfbsf.
  */
-@Deprecated
-public class TlsKeyMaterialSpec implements KeySpec, SecretKey {
+@Dfprfdbtfd
+publid dlbss TlsKfyMbtfriblSpfd implfmfnts KfySpfd, SfdrftKfy {
 
-    static final long serialVersionUID = 812912859129525028L;
+    stbtid finbl long sfriblVfrsionUID = 812912859129525028L;
 
-    private final SecretKey clientMacKey, serverMacKey;
-    private final SecretKey clientCipherKey, serverCipherKey;
-    private final IvParameterSpec clientIv, serverIv;
+    privbtf finbl SfdrftKfy dlifntMbdKfy, sfrvfrMbdKfy;
+    privbtf finbl SfdrftKfy dlifntCipifrKfy, sfrvfrCipifrKfy;
+    privbtf finbl IvPbrbmftfrSpfd dlifntIv, sfrvfrIv;
 
     /**
-     * Constructs a new TlsKeymaterialSpec from the client and server MAC
-     * keys.
-     * This call is equivalent to
-     * <code>new TlsKeymaterialSpec(clientMacKey, serverMacKey,
-     * null, null, null, null)</code>.
+     * Construdts b nfw TlsKfymbtfriblSpfd from tif dlifnt bnd sfrvfr MAC
+     * kfys.
+     * Tiis dbll is fquivblfnt to
+     * <dodf>nfw TlsKfymbtfriblSpfd(dlifntMbdKfy, sfrvfrMbdKfy,
+     * null, null, null, null)</dodf>.
      *
-     * @param clientMacKey the client MAC key (or null)
-     * @param serverMacKey the server MAC key (or null)
+     * @pbrbm dlifntMbdKfy tif dlifnt MAC kfy (or null)
+     * @pbrbm sfrvfrMbdKfy tif sfrvfr MAC kfy (or null)
      */
-    public TlsKeyMaterialSpec(SecretKey clientMacKey, SecretKey serverMacKey) {
-        this(clientMacKey, serverMacKey, null, null, null, null);
+    publid TlsKfyMbtfriblSpfd(SfdrftKfy dlifntMbdKfy, SfdrftKfy sfrvfrMbdKfy) {
+        tiis(dlifntMbdKfy, sfrvfrMbdKfy, null, null, null, null);
     }
 
     /**
-     * Constructs a new TlsKeymaterialSpec from the client and server MAC
-     * keys and client and server cipher keys.
-     * This call is equivalent to
-     * <code>new TlsKeymaterialSpec(clientMacKey, serverMacKey,
-     * clientCipherKey, serverCipherKey, null, null)</code>.
+     * Construdts b nfw TlsKfymbtfriblSpfd from tif dlifnt bnd sfrvfr MAC
+     * kfys bnd dlifnt bnd sfrvfr dipifr kfys.
+     * Tiis dbll is fquivblfnt to
+     * <dodf>nfw TlsKfymbtfriblSpfd(dlifntMbdKfy, sfrvfrMbdKfy,
+     * dlifntCipifrKfy, sfrvfrCipifrKfy, null, null)</dodf>.
      *
-     * @param clientMacKey the client MAC key (or null)
-     * @param serverMacKey the server MAC key (or null)
-     * @param clientCipherKey the client cipher key (or null)
-     * @param serverCipherKey the server cipher key (or null)
+     * @pbrbm dlifntMbdKfy tif dlifnt MAC kfy (or null)
+     * @pbrbm sfrvfrMbdKfy tif sfrvfr MAC kfy (or null)
+     * @pbrbm dlifntCipifrKfy tif dlifnt dipifr kfy (or null)
+     * @pbrbm sfrvfrCipifrKfy tif sfrvfr dipifr kfy (or null)
      */
-    public TlsKeyMaterialSpec(SecretKey clientMacKey, SecretKey serverMacKey,
-            SecretKey clientCipherKey, SecretKey serverCipherKey) {
-        this(clientMacKey, serverMacKey, clientCipherKey, null,
-            serverCipherKey, null);
+    publid TlsKfyMbtfriblSpfd(SfdrftKfy dlifntMbdKfy, SfdrftKfy sfrvfrMbdKfy,
+            SfdrftKfy dlifntCipifrKfy, SfdrftKfy sfrvfrCipifrKfy) {
+        tiis(dlifntMbdKfy, sfrvfrMbdKfy, dlifntCipifrKfy, null,
+            sfrvfrCipifrKfy, null);
     }
 
     /**
-     * Constructs a new TlsKeymaterialSpec from the client and server MAC
-     * keys, client and server cipher keys, and client and server
-     * initialization vectors.
+     * Construdts b nfw TlsKfymbtfriblSpfd from tif dlifnt bnd sfrvfr MAC
+     * kfys, dlifnt bnd sfrvfr dipifr kfys, bnd dlifnt bnd sfrvfr
+     * initiblizbtion vfdtors.
      *
-     * @param clientMacKey the client MAC key (or null)
-     * @param serverMacKey the server MAC key (or null)
-     * @param clientCipherKey the client cipher key (or null)
-     * @param clientIv the client initialization vector (or null)
-     * @param serverCipherKey the server cipher key (or null)
-     * @param serverIv the server initialization vector (or null)
+     * @pbrbm dlifntMbdKfy tif dlifnt MAC kfy (or null)
+     * @pbrbm sfrvfrMbdKfy tif sfrvfr MAC kfy (or null)
+     * @pbrbm dlifntCipifrKfy tif dlifnt dipifr kfy (or null)
+     * @pbrbm dlifntIv tif dlifnt initiblizbtion vfdtor (or null)
+     * @pbrbm sfrvfrCipifrKfy tif sfrvfr dipifr kfy (or null)
+     * @pbrbm sfrvfrIv tif sfrvfr initiblizbtion vfdtor (or null)
      */
-    public TlsKeyMaterialSpec(SecretKey clientMacKey, SecretKey serverMacKey,
-            SecretKey clientCipherKey, IvParameterSpec clientIv,
-            SecretKey serverCipherKey, IvParameterSpec serverIv) {
+    publid TlsKfyMbtfriblSpfd(SfdrftKfy dlifntMbdKfy, SfdrftKfy sfrvfrMbdKfy,
+            SfdrftKfy dlifntCipifrKfy, IvPbrbmftfrSpfd dlifntIv,
+            SfdrftKfy sfrvfrCipifrKfy, IvPbrbmftfrSpfd sfrvfrIv) {
 
-        this.clientMacKey = clientMacKey;
-        this.serverMacKey = serverMacKey;
-        this.clientCipherKey = clientCipherKey;
-        this.serverCipherKey = serverCipherKey;
-        this.clientIv = clientIv;
-        this.serverIv = serverIv;
+        tiis.dlifntMbdKfy = dlifntMbdKfy;
+        tiis.sfrvfrMbdKfy = sfrvfrMbdKfy;
+        tiis.dlifntCipifrKfy = dlifntCipifrKfy;
+        tiis.sfrvfrCipifrKfy = sfrvfrCipifrKfy;
+        tiis.dlifntIv = dlifntIv;
+        tiis.sfrvfrIv = sfrvfrIv;
     }
 
     /**
-     * Returns <code>TlsKeyMaterial</code>.
+     * Rfturns <dodf>TlsKfyMbtfribl</dodf>.
      *
-     * @return <code>TlsKeyMaterial</code>.
+     * @rfturn <dodf>TlsKfyMbtfribl</dodf>.
      */
-    public String getAlgorithm() {
-        return "TlsKeyMaterial";
+    publid String gftAlgoritim() {
+        rfturn "TlsKfyMbtfribl";
     }
 
     /**
-     * Returns <code>null</code> because keys of this type have no encoding.
+     * Rfturns <dodf>null</dodf> bfdbusf kfys of tiis typf ibvf no fndoding.
      *
-     * @return <code>null</code> because keys of this type have no encoding.
+     * @rfturn <dodf>null</dodf> bfdbusf kfys of tiis typf ibvf no fndoding.
      */
-    public String getFormat() {
-        return null;
+    publid String gftFormbt() {
+        rfturn null;
     }
 
     /**
-     * Returns <code>null</code> because keys of this type have no encoding.
+     * Rfturns <dodf>null</dodf> bfdbusf kfys of tiis typf ibvf no fndoding.
      *
-     * @return <code>null</code> because keys of this type have no encoding.
+     * @rfturn <dodf>null</dodf> bfdbusf kfys of tiis typf ibvf no fndoding.
      */
-    public byte[] getEncoded() {
-        return null;
+    publid bytf[] gftEndodfd() {
+        rfturn null;
     }
 
     /**
-     * Returns the client MAC key.
+     * Rfturns tif dlifnt MAC kfy.
      *
-     * @return the client MAC key (or null).
+     * @rfturn tif dlifnt MAC kfy (or null).
      */
-    public SecretKey getClientMacKey() {
-        return clientMacKey;
+    publid SfdrftKfy gftClifntMbdKfy() {
+        rfturn dlifntMbdKfy;
     }
 
     /**
-     * Return the server MAC key.
+     * Rfturn tif sfrvfr MAC kfy.
      *
-     * @return the server MAC key (or null).
+     * @rfturn tif sfrvfr MAC kfy (or null).
      */
-    public SecretKey getServerMacKey() {
-        return serverMacKey;
+    publid SfdrftKfy gftSfrvfrMbdKfy() {
+        rfturn sfrvfrMbdKfy;
     }
 
     /**
-     * Return the client cipher key (or null).
+     * Rfturn tif dlifnt dipifr kfy (or null).
      *
-     * @return the client cipher key (or null).
+     * @rfturn tif dlifnt dipifr kfy (or null).
      */
-    public SecretKey getClientCipherKey() {
-        return clientCipherKey;
+    publid SfdrftKfy gftClifntCipifrKfy() {
+        rfturn dlifntCipifrKfy;
     }
 
     /**
-     * Return the client initialization vector (or null).
+     * Rfturn tif dlifnt initiblizbtion vfdtor (or null).
      *
-     * @return the client initialization vector (or null).
+     * @rfturn tif dlifnt initiblizbtion vfdtor (or null).
      */
-    public IvParameterSpec getClientIv() {
-        return clientIv;
+    publid IvPbrbmftfrSpfd gftClifntIv() {
+        rfturn dlifntIv;
     }
 
     /**
-     * Return the server cipher key (or null).
+     * Rfturn tif sfrvfr dipifr kfy (or null).
      *
-     * @return the server cipher key (or null).
+     * @rfturn tif sfrvfr dipifr kfy (or null).
      */
-    public SecretKey getServerCipherKey() {
-        return serverCipherKey;
+    publid SfdrftKfy gftSfrvfrCipifrKfy() {
+        rfturn sfrvfrCipifrKfy;
     }
 
     /**
-     * Return the server initialization vector (or null).
+     * Rfturn tif sfrvfr initiblizbtion vfdtor (or null).
      *
-     * @return the server initialization vector (or null).
+     * @rfturn tif sfrvfr initiblizbtion vfdtor (or null).
      */
-    public IvParameterSpec getServerIv() {
-        return serverIv;
+    publid IvPbrbmftfrSpfd gftSfrvfrIv() {
+        rfturn sfrvfrIv;
     }
 
 }

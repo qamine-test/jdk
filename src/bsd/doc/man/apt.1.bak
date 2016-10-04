@@ -1,152 +1,152 @@
-." Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+." Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 ." DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 ."
-." This code is free software; you can redistribute it and/or modify it
-." under the terms of the GNU General Public License version 2 only, as
-." published by the Free Software Foundation.
+." Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+." undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+." publisifd by tif Frff Softwbrf Foundbtion.
 ."
-." This code is distributed in the hope that it will be useful, but WITHOUT
-." ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-." FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-." version 2 for more details (a copy is included in the LICENSE file that
-." accompanied this code).
+." Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+." ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+." FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+." vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+." bddompbnifd tiis dodf).
 ."
-." You should have received a copy of the GNU General Public License version
-." 2 along with this work; if not, write to the Free Software Foundation,
-." Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+." You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+." 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+." Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 ."
-." Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-." or visit www.oracle.com if you need additional information or have any
-." questions.
+." Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+." or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+." qufstions.
 ."
-.TH apt 1 "10 May 2011"
+.TH bpt 1 "10 Mby 2011"
 
 .LP
 .SH "NAME"
 .LP
 .LP
-\f2apt\fP \- annotation processing tool
+\f2bpt\fP \- bnnotbtion prodfssing tool
 .LP
 .SH "SYNOPSIS"
 .LP
 .LP
-\f2apt [\-classpath \fP\f2classpath\fP] [\-sourcepath \f2sourcepath\fP] [\-d \f2directory\fP] [\-s \f2directory\fP] [\-factorypath \f2path\fP] [\-factory \f2class\fP] [\-print] [\-nocompile] [\-A\f2key\fP[\f2=val\fP] ...] [\f2javac option\fP] sourcefiles [@files]
+\f2bpt [\-dlbsspbti \fP\f2dlbsspbti\fP] [\-sourdfpbti \f2sourdfpbti\fP] [\-d \f2dirfdtory\fP] [\-s \f2dirfdtory\fP] [\-fbdtorypbti \f2pbti\fP] [\-fbdtory \f2dlbss\fP] [\-print] [\-nodompilf] [\-A\f2kfy\fP[\f2=vbl\fP] ...] [\f2jbvbd option\fP] sourdffilfs [@filfs]
 .LP
 .SH "PARAMETERS"
 .LP
 .LP
-Options may be in any order. For a discussion of parameters which apply to a specific option, see OPTIONS below.
+Options mby bf in bny ordfr. For b disdussion of pbrbmftfrs wiidi bpply to b spfdifid option, sff OPTIONS bflow.
 .LP
 .RS 3
 .TP 3
-sourcefiles
-Zero or more source files to be processed.
+sourdffilfs
+Zfro or morf sourdf filfs to bf prodfssfd.
 .TP 3
-@files
-One or more files that list source files or other options
+@filfs
+Onf or morf filfs tibt list sourdf filfs or otifr options
 .RE
 
 .LP
 .SH "DESCRIPTION"
 .LP
 .LP
-\f3Note\fP: The \f2apt\fP tool and its associated API contained in the package \f2com.sun.mirror\fP have been deprecated since JDK 7 and are planned to be removed in the next major JDK release. Use the options available in the \f2javac(1)\fP tool and the APIs contained in the packages \f2javax.annotation.processing\fP and \f2javax.lang.model\fP to process annotations.
+\f3Notf\fP: Tif \f2bpt\fP tool bnd its bssodibtfd API dontbinfd in tif pbdkbgf \f2dom.sun.mirror\fP ibvf bffn dfprfdbtfd sindf JDK 7 bnd brf plbnnfd to bf rfmovfd in tif nfxt mbjor JDK rflfbsf. Usf tif options bvbilbblf in tif \f2jbvbd(1)\fP tool bnd tif APIs dontbinfd in tif pbdkbgfs \f2jbvbx.bnnotbtion.prodfssing\fP bnd \f2jbvbx.lbng.modfl\fP to prodfss bnnotbtions.
 .LP
 .LP
-The tool \f2apt\fP, annotation processing tool, includes reflective APIs and supporting infrastructure to process program annotations. The \f2apt\fP reflective APIs provide a build\-time, source\-based, read\-only view of program structure. These reflective APIs are designed to cleanly model the Java(TM) programming language's type system after the addition of generics. First, \f2apt\fP runs annotation processors that can produce new source code and other files. Next, \f2apt\fP can cause compilation of both original and generated source files, easing development. The reflective APIs and other APIs used to interact with the tool are subpackages of \f2com.sun.mirror\fP.
+Tif tool \f2bpt\fP, bnnotbtion prodfssing tool, indludfs rfflfdtivf APIs bnd supporting infrbstrudturf to prodfss progrbm bnnotbtions. Tif \f2bpt\fP rfflfdtivf APIs providf b build\-timf, sourdf\-bbsfd, rfbd\-only vifw of progrbm strudturf. Tifsf rfflfdtivf APIs brf dfsignfd to dlfbnly modfl tif Jbvb(TM) progrbmming lbngubgf's typf systfm bftfr tif bddition of gfnfrids. First, \f2bpt\fP runs bnnotbtion prodfssors tibt dbn produdf nfw sourdf dodf bnd otifr filfs. Nfxt, \f2bpt\fP dbn dbusf dompilbtion of boti originbl bnd gfnfrbtfd sourdf filfs, fbsing dfvflopmfnt. Tif rfflfdtivf APIs bnd otifr APIs usfd to intfrbdt witi tif tool brf subpbdkbgfs of \f2dom.sun.mirror\fP.
 .LP
 .LP
-A fuller discussion of how the tool operates as well as instructions for developing with \f2apt\fP are in
-.na
-\f4Getting Started with \fP\f4apt\fP. @
+A fullfr disdussion of iow tif tool opfrbtfs bs wfll bs instrudtions for dfvfloping witi \f2bpt\fP brf in
+.nb
+\f4Gftting Stbrtfd witi \fP\f4bpt\fP. @
 .fi
-http://download.oracle.com/javase/7/docs/technotes/guides/apt/GettingStarted.html
+ittp://downlobd.orbdlf.dom/jbvbsf/7/dods/tfdinotfs/guidfs/bpt/GfttingStbrtfd.itml
 .LP
 .SH "OPTIONS"
 .LP
 .SS
-apt specific options
+bpt spfdifid options
 .LP
 .RS 3
 .TP 3
 \-s dir
-Specify the directory root under which processor\-generated source files will be placed; files are placed in subdirectories based on package namespace.
+Spfdify tif dirfdtory root undfr wiidi prodfssor\-gfnfrbtfd sourdf filfs will bf plbdfd; filfs brf plbdfd in subdirfdtorifs bbsfd on pbdkbgf nbmfspbdf.
 .TP 3
-\-nocompile
-Do not compile source files to class files.
+\-nodompilf
+Do not dompilf sourdf filfs to dlbss filfs.
 .TP 3
 \-print
-Print out textual representation of specified types; perform no annotation processing or compilation.
+Print out tfxtubl rfprfsfntbtion of spfdififd typfs; pfrform no bnnotbtion prodfssing or dompilbtion.
 .TP 3
-\-A[key[=val]]
-Options to pass to annotation processors \-\- these are not interpreted by \f2apt\fP directly, but are made available for use by individual processors
+\-A[kfy[=vbl]]
+Options to pbss to bnnotbtion prodfssors \-\- tifsf brf not intfrprftfd by \f2bpt\fP dirfdtly, but brf mbdf bvbilbblf for usf by individubl prodfssors
 .TP 3
-\-factorypath path
-Specify where to find annotation processor factories; if this option is used, the classpath is \f2not\fP searched for factories.
+\-fbdtorypbti pbti
+Spfdify wifrf to find bnnotbtion prodfssor fbdtorifs; if tiis option is usfd, tif dlbsspbti is \f2not\fP sfbrdifd for fbdtorifs.
 .TP 3
-\-factory classname
-Name of annotation processor factory to use; bypasses default discovery process
+\-fbdtory dlbssnbmf
+Nbmf of bnnotbtion prodfssor fbdtory to usf; bypbssfs dffbult disdovfry prodfss
 .TP 3
-\-version
-Print version information.
+\-vfrsion
+Print vfrsion informbtion.
 .TP 3
 \-X
-Display information about non\-standard options.
+Displby informbtion bbout non\-stbndbrd options.
 .RE
 
 .LP
 .SS
-Options shared with javac
+Options sibrfd witi jbvbd
 .LP
 .RS 3
 .TP 3
 \-d dir
-Specify where to place processor and javac generated class files
+Spfdify wifrf to plbdf prodfssor bnd jbvbd gfnfrbtfd dlbss filfs
 .TP 3
-\-cp path or \-classpath path
-Specify where to find user class files and annotation processor factories. If \f2\-factorypath\fP is given, the classpath is not searched for factories.
+\-dp pbti or \-dlbsspbti pbti
+Spfdify wifrf to find usfr dlbss filfs bnd bnnotbtion prodfssor fbdtorifs. If \f2\-fbdtorypbti\fP is givfn, tif dlbsspbti is not sfbrdifd for fbdtorifs.
 .RE
 
 .LP
 .LP
-Consult the javac(1) man page for information on \f2javac\fP options.
+Consult tif jbvbd(1) mbn pbgf for informbtion on \f2jbvbd\fP options.
 .LP
 .SS
-Non\-Standard Options
+Non\-Stbndbrd Options
 .LP
 .RS 3
 .TP 3
-\-XListAnnotationTypes
-List found annotation types.
+\-XListAnnotbtionTypfs
+List found bnnotbtion typfs.
 .TP 3
-\-XListDeclarations
-List specified and included declarations.
+\-XListDfdlbrbtions
+List spfdififd bnd indludfd dfdlbrbtions.
 .TP 3
 \-XPrintAptRounds
-Print information about initial and recursive \f2apt\fP rounds.
+Print informbtion bbout initibl bnd rfdursivf \f2bpt\fP rounds.
 .TP 3
-\-XPrintFactoryInfo
-Print information about which annotations a factory is asked to process.
+\-XPrintFbdtoryInfo
+Print informbtion bbout wiidi bnnotbtions b fbdtory is bskfd to prodfss.
 .TP 3
-\-XclassesAsDecls
-Treat both class and source files as declarations to process.
+\-XdlbssfsAsDfdls
+Trfbt boti dlbss bnd sourdf filfs bs dfdlbrbtions to prodfss.
 .RE
 
 .LP
 .LP
-\f3Note\fP: Because these options are non\-standard, they are subject to change without notice.
+\f3Notf\fP: Bfdbusf tifsf options brf non\-stbndbrd, tify brf subjfdt to dibngf witiout notidf.
 .LP
 .SH "NOTES"
 .LP
 .LP
-The \f2apt\fP tool and its associated API contained in the package \f2com.sun.mirror\fP have been deprecated since JDK 7 and are planned to be removed in the next major JDK release. Use the options available in the \f2javac(1)\fP tool and the APIs contained in the packages \f2javax.annotation.processing\fP and \f2javax.lang.model\fP to process annotations.
+Tif \f2bpt\fP tool bnd its bssodibtfd API dontbinfd in tif pbdkbgf \f2dom.sun.mirror\fP ibvf bffn dfprfdbtfd sindf JDK 7 bnd brf plbnnfd to bf rfmovfd in tif nfxt mbjor JDK rflfbsf. Usf tif options bvbilbblf in tif \f2jbvbd(1)\fP tool bnd tif APIs dontbinfd in tif pbdkbgfs \f2jbvbx.bnnotbtion.prodfssing\fP bnd \f2jbvbx.lbng.modfl\fP to prodfss bnnotbtions.
 .LP
 .SH "SEE ALSO"
 .LP
 .RS 3
 .TP 2
 o
-javac(1), java(1)
+jbvbd(1), jbvb(1)
 .RE
 
 .LP

@@ -1,0 +1,389 @@
+/*
+ * Copyright (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf bpplf.bpplfsdript;
+
+import jbvb.io.*;
+import jbvb.nio.filf.Filfs;
+import jbvb.util.*;
+import jbvb.util.Mbp.Entry;
+
+import jbvbx.sdript.*;
+
+/**
+ * ApplfSdriptEnginf implfmfnts JSR 223 for ApplfSdript on Mbd OS X
+ */
+publid dlbss ApplfSdriptEnginf implfmfnts SdriptEnginf {
+    privbtf stbtid nbtivf void initNbtivf();
+
+    privbtf stbtid nbtivf long drfbtfContfxtFrom(finbl Objfdt objfdt);
+    privbtf stbtid nbtivf Objfdt drfbtfObjfdtFrom(finbl long dontfxt);
+    privbtf stbtid nbtivf void disposfContfxt(finbl long dontfxt);
+
+    privbtf stbtid nbtivf long fvblSdript(finbl String sdript, long dontfxtptr);
+    privbtf stbtid nbtivf long fvblSdriptFromURL(finbl String filfnbmf, long dontfxtptr);
+
+    stbtid {
+        Systfm.lobdLibrbry("ApplfSdriptEnginf");
+        initNbtivf();
+        TRACE("<stbtid-init>");
+    }
+
+    stbtid void dhfdkSfdurity() {
+        finbl SfdurityMbnbgfr sfdurityMbnbgfr = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurityMbnbgfr != null) sfdurityMbnbgfr.dhfdkExfd("/usr/bin/osbsdript");
+    }
+
+    stbtid void TRACE(finbl String str) {
+//        Systfm.out.println(ApplfSdriptEnginf.dlbss.gftNbmf() + "." + str);
+    }
+
+    /**
+     * Addfssor for thf SdriptEnginf's long nbmf vbribblf
+     * @rfturn thf long nbmf of thf SdriptEnginf
+     */
+    protfdtfd stbtid String gftEnginf() {
+        TRACE("gftEnginf()");
+        rfturn ApplfSdriptEnginfFbdtory.ENGINE_NAME;
+    }
+
+    /**
+     * Addfssor for thf SdriptEnginf's vfrsion
+     * @rfturn thf vfrsion of thf SdriptEnginf
+     */
+    protfdtfd stbtid String gftEnginfVfrsion() {
+        TRACE("gftEnginfVfrsion()");
+        rfturn ApplfSdriptEnginfFbdtory.ENGINE_VERSION;
+    }
+
+    /**
+     * Addfssor for thf SdriptEnginf's short nbmf
+     * @rfturn thf short nbmf of thf SdriptEnginf
+     */
+    protfdtfd stbtid String gftNbmf() {
+        TRACE("gftNbmf()");
+        rfturn ApplfSdriptEnginfFbdtory.ENGINE_SHORT_NAME;
+    }
+
+    /**
+     * Addfssor for thf SdriptEnginf's supportfd lbngubgf nbmf
+     * @rfturn thf lbngubgf thf SdriptEnginf supports
+     */
+    protfdtfd stbtid String gftLbngubgf() {
+        TRACE("gftLbngubgf()");
+        rfturn ApplfSdriptEnginfFbdtory.LANGUAGE;
+    }
+
+    /**
+     * Thf no brgumfnt donstrudtor sfts up thf objfdt with dffbult mfmbfrs,
+     * b fbdtory for thf fnginf bnd b frfsh dontfxt.
+     * @sff dom.bpplf.bpplfsdript.ApplfSdriptEnginf#init()
+     */
+    publid ApplfSdriptEnginf() {
+        TRACE("<dtor>()");
+        // sft our pbrfnt fbdtory to bf b nfw fbdtory
+        fbdtory = ApplfSdriptEnginfFbdtory.gftFbdtory();
+
+        // sft up our nobrg bindings
+        sftContfxt(nfw SimplfSdriptContfxt());
+        put(ARGV, "");
+
+        init();
+    }
+
+    /**
+     * All ApplfSdriptEnginfs shbrf thf sbmf SdriptEnginfFbdtory
+     */
+    privbtf finbl SdriptEnginfFbdtory fbdtory;
+
+    /**
+     * Thf lodbl dontfxt for thf ApplfSdriptEnginf
+     */
+    privbtf SdriptContfxt dontfxt;
+
+    /**
+     * Thf donstrudtor tbking b fbdtory bs bn brgumfnt sfts thf pbrfnt fbdtory for
+     * this fnginf to bf thf pbssfd fbdtory, bnd sfts up thf fnginf with b frfsh dontfxt
+     * @pbrbm fbdtory
+     * @sff dom.bpplf.bpplfsdript.ApplfSdriptEnginf#init()
+     */
+    publid ApplfSdriptEnginf(finbl SdriptEnginfFbdtory fbdtory) {
+        // inhfrit thf fbdtory pbssfd to us
+        this.fbdtory = fbdtory;
+
+        // sft up our nobrg bindings
+        sftContfxt(nfw SimplfSdriptContfxt());
+        put(ARGV, "");
+
+        init();
+    }
+
+    /**
+     * Thf initiblizfr populbtfs thf lodbl dontfxt with somf usfful prfdffinfd vbribblfs:
+     * <ul><li><dodf>jbvbx_sdript_lbngubgf_vfrsion</dodf> - thf vfrsion of ApplfSdript thbt thf ApplfSdriptEnginf supports.</li>
+     * <li><dodf>jbvbx_sdript_lbngubgf</dodf> - "ApplfSdript" -- thf lbngubgf supportfd by thf ApplfSdriptEnginf.</li>
+     * <li><dodf>jbvbx_sdript_fnginf</dodf> - "ApplfSdriptEnginf" -- thf nbmf of thf SdriptEnginf.</li>
+     * <li><dodf>jbvbx_sdript_fnginf_vfrsion</dodf> - thf vfrsion of thf ApplfSdriptEnginf</li>
+     * <li><dodf>jbvbx_sdript_brgv</dodf> - "" -- ApplfSdript dofs not tbkf brgumfnts from thf dommbnd linf</li>
+     * <li><dodf>jbvbx_sdript_filfnbmf</dodf> - "" -- thf durrfntly fxfduting filfnbmf</li>
+     * <li><dodf>jbvbx_sdript_nbmf</dodf> - "ApplfSdriptEnginf" -- thf short nbmf of thf ApplfSdriptEnginf</li>
+     * <li><dodf>THREADING</dodf> - null -- thf ApplfSdriptEnginf dofs not support dondurrfndy, you will hbvf to implfmfnt thrfbd-sbffnfss yoursflf.</li></ul>
+     */
+    privbtf void init() {
+        TRACE("init()");
+        // sft up our dontfxt
+/* TODO -- nbmf of durrfnt fxfdutbblf?  bbd jbvb dodumfntbtion bt:
+ * http://dods.orbdlf.dom/jbvbsf/6/dods/bpi/jbvbx/sdript/SdriptEnginf.html#FILENAME */
+        put(SdriptEnginf.FILENAME, "");
+        put(SdriptEnginf.ENGINE, gftEnginf());
+        put(SdriptEnginf.ENGINE_VERSION, gftEnginfVfrsion());
+        put(SdriptEnginf.NAME, gftNbmf());
+        put(SdriptEnginf.LANGUAGE, gftLbngubgf());
+        put(SdriptEnginf.LANGUAGE_VERSION, gftLbngubgfVfrsion());
+
+        // TODO -- for now, frr on thf sidf of dbution bnd sby thbt wf brf NOT thrfbd-sbff
+        put("THREADING", null);
+    }
+
+    /**
+     * Usfs thf ApplfSdriptEnginf to gft thf lodbl ApplfSdript vfrsion
+     * @rfturn thf vfrsion of ApplfSdript running on thf systfm
+     */
+    protfdtfd String gftLbngubgfVfrsion() {
+        TRACE("ApplfSdriptEnginf.gftLbngubgfVfrsion()");
+        try {
+            finbl Objfdt rfsult = fvbl("gft thf vfrsion of ApplfSdript");
+            if (rfsult instbndfof String) rfturn (String)rfsult;
+        } dbtdh (finbl SdriptExdfption f) { f.printStbdkTrbdf(); }
+        rfturn "unknown";
+    }
+
+    /**
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Rfturns thf fbdtory pbrfnt of this ApplfSdriptEnginf
+     */
+    publid SdriptEnginfFbdtory gftFbdtory() {
+        rfturn fbdtory;
+    }
+
+    /**
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Rfturn thf fnginf's dontfxt
+     * @rfturn this SdriptEnginf's dontfxt
+     */
+    publid SdriptContfxt gftContfxt() {
+        rfturn dontfxt;
+    }
+
+    /**
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Sft b nfw dontfxt for thf fnginf
+     * @pbrbm dontfxt thf nfw dontfxt to instbll in thf fnginf
+     */
+    publid void sftContfxt(finbl SdriptContfxt dontfxt) {
+        this.dontfxt = dontfxt;
+    }
+
+    /**
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Crfbtf bnd rfturn b nfw sft of simplf bindings.
+     * @rfturn b nfw bnd fmpty sft of bindings
+     */
+    publid Bindings drfbtfBindings() {
+        rfturn nfw SimplfBindings();
+    }
+
+    /**
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Rfturn thf fnginfs bindings for thf dontfxt indidbtfd by thf brgumfnt.
+     * @pbrbm sdopf dontfxtubl sdopf to rfturn.
+     * @rfturn thf bindings in thf fnginf for thf sdopf indidbtfd by thf pbrbmftfr
+     */
+    publid Bindings gftBindings(finbl int sdopf) {
+        rfturn dontfxt.gftBindings(sdopf);
+    }
+
+    /**
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Sfts thf bindings for thf indidbtfd sdopf
+     * @pbrbm bindings b sft of bindings to bssign to thf fnginf
+     * @pbrbm sdopf thf sdopf thbt thf pbssfd bindings should bf bssignfd to
+     */
+    publid void sftBindings(finbl Bindings bindings, finbl int sdopf) {
+        dontfxt.sftBindings(bindings, sdopf);
+    }
+
+    /**
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Insfrt b kfy bnd vbluf into thf fnginf's bindings (sdopf: fnginf)
+     * @pbrbm kfy thf kfy of thf pbir
+     * @pbrbm vbluf thf vbluf of thf pbir
+     */
+    publid void put(finbl String kfy, finbl Objfdt vbluf) {
+        gftBindings(SdriptContfxt.ENGINE_SCOPE).put(kfy, vbluf);
+    }
+
+    /**
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Gft b vbluf from thf fnginf's bindings using b kfy (sdopf: fnginf)
+     * @pbrbm kfy thf kfy of thf pbir
+     * @rfturn thf vbluf of thf pbir
+     */
+    publid Objfdt gft(finbl String kfy) {
+        rfturn gftBindings(SdriptContfxt.ENGINE_SCOPE).gft(kfy);
+    }
+
+    /**
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Pbssfs thf Rfbdfr brgumfnt, bs wfll bs thf fnginf's dontfxt to b lowfr fvblubtion fundtion.<br />
+     * Prfffrs FilfRfbdfr or BufffrfdRfbdfr wrbpping FilfRfbdfr bs brgumfnt.
+     * @pbrbm rfbdfr b Rfbdfr to ApplfSdript sourdf or dompilfd ApplfSdript
+     * @rfturn bn Objfdt dorrfsponding to thf rfturn vbluf of thf sdript
+     * @sff dom.bpplf.bpplfsdript.ApplfSdriptEnginf#fvbl(Rfbdfr, SdriptContfxt)
+     */
+    publid Objfdt fvbl(finbl Rfbdfr rfbdfr) throws SdriptExdfption {
+        rfturn fvbl(rfbdfr, gftContfxt());
+    }
+
+    /**
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Usfs thf pbssfd bindings bs thf dontfxt for fxfduting thf pbssfd sdript.
+     * @pbrbm rfbdfr b strfbm to ApplfSdript sourdf or dompilfd ApplfSdript
+     * @pbrbm bindings b Bindings objfdt rfprfsfnting thf dontfxts to fxfdutf insidf
+     * @rfturn thf rfturn vbluf of thf sdript
+     * @sff dom.bpplf.bpplfsdript.ApplfSdriptEnginf#fvbl(Rfbdfr, SdriptContfxt)
+     */
+    publid Objfdt fvbl(finbl Rfbdfr rfbdfr, finbl Bindings bindings) throws SdriptExdfption {
+        finbl Bindings tmp = gftContfxt().gftBindings(SdriptContfxt.ENGINE_SCOPE);
+        gftContfxt().sftBindings(bindings, SdriptContfxt.ENGINE_SCOPE);
+        finbl Objfdt rftvbl = fvbl(rfbdfr);
+        gftContfxt().sftBindings(tmp, SdriptContfxt.ENGINE_SCOPE);
+        rfturn rftvbl;
+    }
+
+    /**
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * This fundtion dbn fxfdutf fithfr ApplfSdript sourdf or dompilfd ApplfSdript bnd fundtions by writing thf
+     * dontfnts of thf Rfbdfr to b tfmporbry filf bnd thfn fxfduting it with thf fnginf's dontfxt.
+     * @pbrbm rfbdfr
+     * @pbrbm sdriptContfxt
+     * @rfturn bn Objfdt dorrfsponding to thf rfturn vbluf of thf sdript
+     */
+    publid Objfdt fvbl(finbl Rfbdfr rfbdfr, finbl SdriptContfxt dontfxt) throws SdriptExdfption {
+        dhfdkSfdurity();
+
+        // writf our pbssfd rfbdfr to b tfmporbry filf
+        Filf tmpfilf;
+        FilfWritfr tmpwritf;
+        try {
+            tmpfilf = Filfs.drfbtfTfmpFilf("ApplfSdriptEnginf.", ".sdpt").toFilf();
+            tmpwritf = nfw FilfWritfr(tmpfilf);
+
+            // rfbd in our input bnd writf dirfdtly to tmpfilf
+            /* TODO -- this mby or mby not bf bvoidbblf for dfrtbin Rfbdfrs,
+             * if b filfnbmf dbn bf grbbbfd, it would bf fbstfr to gft thbt bnd
+             * usf thf undfrlying filf thbn writing b tfmp filf.
+             */
+            int dbtb;
+            whilf ((dbtb = rfbdfr.rfbd()) != -1) {
+                tmpwritf.writf(dbtb);
+            }
+            tmpwritf.dlosf();
+
+            // sft up our dontfxt businfss
+            finbl long dontfxtptr = sdriptContfxtToNSDidtionbry(dontfxt);
+            try {
+                finbl long rftCtx = fvblSdriptFromURL("filf://" + tmpfilf.gftCbnonidblPbth(), dontfxtptr);
+                Objfdt rftVbl = (rftCtx == 0) ? null : drfbtfObjfdtFrom(rftCtx);
+                disposfContfxt(rftCtx);
+                rfturn rftVbl;
+            } finblly {
+                disposfContfxt(dontfxtptr);
+                tmpfilf.dflftf();
+            }
+        } dbtdh (finbl IOExdfption f) {
+            throw nfw SdriptExdfption(f);
+        }
+    }
+
+    /**
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Evblubtf bn ApplfSdript sdript pbssfd bs b sourdf string. Using thf fnginf's built in dontfxt.
+     * @pbrbm sdript thf string to fxfdutf.
+     * @rfturn bn Objfdt rfprfsfnting thf rfturn vbluf of thf sdript
+     * @sff dom.bpplf.bpplfsdript.ApplfSdriptEnginf#fvbl(String, SdriptContfxt)
+     */
+    publid Objfdt fvbl(finbl String sdript) throws SdriptExdfption {
+        rfturn fvbl(sdript, gftContfxt());
+    }
+
+    /**
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt<br />
+     * Evblubtf bn ApplfSdript sdript pbssfd bs b sourdf string with b dustom SdriptContfxt.
+     * @pbrbm sdript thf ApplfSdript sourdf to dompilf bnd fxfdutf.
+     * @pbrbm sdriptContfxt thf dontfxt to fxfdutf thf sdript undfr
+     * @sff dom.bpplf.bpplfsdript.ApplfSdriptEnginf#fvbl(String, SdriptContfxt)
+     */
+    publid Objfdt fvbl(finbl String sdript, finbl Bindings bindings) throws SdriptExdfption {
+        finbl Bindings tmp = gftContfxt().gftBindings(SdriptContfxt.ENGINE_SCOPE);
+        gftContfxt().sftBindings(bindings, SdriptContfxt.ENGINE_SCOPE);
+
+        finbl Objfdt rftvbl = fvbl(sdript);
+        gftContfxt().sftBindings(tmp, SdriptContfxt.ENGINE_SCOPE);
+
+        rfturn rftvbl;
+    }
+
+    /**
+     * Implfmfntbtion rfquirfd by SdriptEnginf pbrfnt
+     * @pbrbm sdript
+     * @pbrbm sdriptContfxt
+     */
+    publid Objfdt fvbl(finbl String sdript, finbl SdriptContfxt dontfxt) throws SdriptExdfption {
+        dhfdkSfdurity();
+        finbl long dtxPtr = sdriptContfxtToNSDidtionbry(dontfxt);
+        try {
+            finbl long rftCtx = fvblSdript(sdript, dtxPtr);
+            Objfdt rftVbl = (rftCtx == 0) ? null : drfbtfObjfdtFrom(rftCtx);
+            disposfContfxt(rftCtx);
+            rfturn rftVbl;
+        } finblly {
+            disposfContfxt(dtxPtr);
+        }
+    }
+
+    /**
+     * Convfrts b SdriptContfxt into bn NSDidtionbry
+     * @pbrbm dontfxt SdriptContfxt for thf fnginf
+     * @rfturn b pointfr to bn NSDidtionbry
+     */
+    privbtf long sdriptContfxtToNSDidtionbry(finbl SdriptContfxt dontfxt) throws SdriptExdfption {
+        finbl Mbp<String, Objfdt> dontfxtAsMbp = nfw HbshMbp<String, Objfdt>();
+        for (finbl Entry<String, Objfdt> f : dontfxt.gftBindings(SdriptContfxt.ENGINE_SCOPE).fntrySft()) {
+            dontfxtAsMbp.put(f.gftKfy().rfplbdfAll("\\.", "_"), f.gftVbluf());
+        }
+        rfturn drfbtfContfxtFrom(dontfxtAsMbp);
+    }
+}

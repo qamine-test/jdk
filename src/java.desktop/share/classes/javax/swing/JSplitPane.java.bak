@@ -1,1256 +1,1256 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
 
 
-import java.beans.ConstructorProperties;
-import javax.swing.plaf.*;
-import javax.accessibility.*;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvbx.swing.plbf.*;
+import jbvbx.bddfssibility.*;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
-import java.io.IOException;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.IOExdfption;
 
 
 
 /**
- * <code>JSplitPane</code> is used to divide two (and only two)
- * <code>Component</code>s. The two <code>Component</code>s
- * are graphically divided based on the look and feel
- * implementation, and the two <code>Component</code>s can then be
- * interactively resized by the user.
- * Information on using <code>JSplitPane</code> is in
- * <a
- href="http://docs.oracle.com/javase/tutorial/uiswing/components/splitpane.html">How to Use Split Panes</a> in
- * <em>The Java Tutorial</em>.
+ * <dodf>JSplitPbnf</dodf> is usfd to dividf two (bnd only two)
+ * <dodf>Componfnt</dodf>s. Tif two <dodf>Componfnt</dodf>s
+ * brf grbpiidblly dividfd bbsfd on tif look bnd fffl
+ * implfmfntbtion, bnd tif two <dodf>Componfnt</dodf>s dbn tifn bf
+ * intfrbdtivfly rfsizfd by tif usfr.
+ * Informbtion on using <dodf>JSplitPbnf</dodf> is in
+ * <b
+ irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/splitpbnf.itml">How to Usf Split Pbnfs</b> in
+ * <fm>Tif Jbvb Tutoribl</fm>.
  * <p>
- * The two <code>Component</code>s in a split pane can be aligned
- * left to right using
- * <code>JSplitPane.HORIZONTAL_SPLIT</code>, or top to bottom using
- * <code>JSplitPane.VERTICAL_SPLIT</code>.
- * The preferred way to change the size of the <code>Component</code>s
- * is to invoke
- * <code>setDividerLocation</code> where <code>location</code> is either
- * the new x or y position, depending on the orientation of the
- * <code>JSplitPane</code>.
+ * Tif two <dodf>Componfnt</dodf>s in b split pbnf dbn bf blignfd
+ * lfft to rigit using
+ * <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf>, or top to bottom using
+ * <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>.
+ * Tif prfffrrfd wby to dibngf tif sizf of tif <dodf>Componfnt</dodf>s
+ * is to invokf
+ * <dodf>sftDividfrLodbtion</dodf> wifrf <dodf>lodbtion</dodf> is fitifr
+ * tif nfw x or y position, dfpfnding on tif orifntbtion of tif
+ * <dodf>JSplitPbnf</dodf>.
  * <p>
- * To resize the <code>Component</code>s to their preferred sizes invoke
- * <code>resetToPreferredSizes</code>.
+ * To rfsizf tif <dodf>Componfnt</dodf>s to tifir prfffrrfd sizfs invokf
+ * <dodf>rfsftToPrfffrrfdSizfs</dodf>.
  * <p>
- * When the user is resizing the <code>Component</code>s the minimum
- * size of the <code>Components</code> is used to determine the
- * maximum/minimum position the <code>Component</code>s
- * can be set to. If the minimum size of the two
- * components is greater than the size of the split pane the divider
- * will not allow you to resize it. To alter the minimum size of a
- * <code>JComponent</code>, see {@link JComponent#setMinimumSize}.
+ * Wifn tif usfr is rfsizing tif <dodf>Componfnt</dodf>s tif minimum
+ * sizf of tif <dodf>Componfnts</dodf> is usfd to dftfrminf tif
+ * mbximum/minimum position tif <dodf>Componfnt</dodf>s
+ * dbn bf sft to. If tif minimum sizf of tif two
+ * domponfnts is grfbtfr tibn tif sizf of tif split pbnf tif dividfr
+ * will not bllow you to rfsizf it. To bltfr tif minimum sizf of b
+ * <dodf>JComponfnt</dodf>, sff {@link JComponfnt#sftMinimumSizf}.
  * <p>
- * When the user resizes the split pane the new space is distributed between
- * the two components based on the <code>resizeWeight</code> property.
- * A value of 0,
- * the default, indicates the right/bottom component gets all the space,
- * where as a value of 1 indicates the left/top component gets all the space.
+ * Wifn tif usfr rfsizfs tif split pbnf tif nfw spbdf is distributfd bftwffn
+ * tif two domponfnts bbsfd on tif <dodf>rfsizfWfigit</dodf> propfrty.
+ * A vbluf of 0,
+ * tif dffbult, indidbtfs tif rigit/bottom domponfnt gfts bll tif spbdf,
+ * wifrf bs b vbluf of 1 indidbtfs tif lfft/top domponfnt gfts bll tif spbdf.
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @see #setDividerLocation
- * @see #resetToPreferredSizes
+ * @sff #sftDividfrLodbtion
+ * @sff #rfsftToPrfffrrfdSizfs
  *
- * @author Scott Violet
- * @since 1.2
+ * @butior Sdott Violft
+ * @sindf 1.2
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JSplitPane extends JComponent implements Accessible
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JSplitPbnf fxtfnds JComponfnt implfmfnts Addfssiblf
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "SplitPaneUI";
+    privbtf stbtid finbl String uiClbssID = "SplitPbnfUI";
 
     /**
-     * Vertical split indicates the <code>Component</code>s are
-     * split along the y axis.  For example the two
-     * <code>Component</code>s will be split one on top of the other.
+     * Vfrtidbl split indidbtfs tif <dodf>Componfnt</dodf>s brf
+     * split blong tif y bxis.  For fxbmplf tif two
+     * <dodf>Componfnt</dodf>s will bf split onf on top of tif otifr.
      */
-    public final static int VERTICAL_SPLIT = 0;
+    publid finbl stbtid int VERTICAL_SPLIT = 0;
 
     /**
-     * Horizontal split indicates the <code>Component</code>s are
-     * split along the x axis.  For example the two
-     * <code>Component</code>s will be split one to the left of the
-     * other.
+     * Horizontbl split indidbtfs tif <dodf>Componfnt</dodf>s brf
+     * split blong tif x bxis.  For fxbmplf tif two
+     * <dodf>Componfnt</dodf>s will bf split onf to tif lfft of tif
+     * otifr.
      */
-    public final static int HORIZONTAL_SPLIT = 1;
+    publid finbl stbtid int HORIZONTAL_SPLIT = 1;
 
     /**
-     * Used to add a <code>Component</code> to the left of the other
-     * <code>Component</code>.
+     * Usfd to bdd b <dodf>Componfnt</dodf> to tif lfft of tif otifr
+     * <dodf>Componfnt</dodf>.
      */
-    public final static String LEFT = "left";
+    publid finbl stbtid String LEFT = "lfft";
 
     /**
-     * Used to add a <code>Component</code> to the right of the other
-     * <code>Component</code>.
+     * Usfd to bdd b <dodf>Componfnt</dodf> to tif rigit of tif otifr
+     * <dodf>Componfnt</dodf>.
      */
-    public final static String RIGHT = "right";
+    publid finbl stbtid String RIGHT = "rigit";
 
     /**
-     * Used to add a <code>Component</code> above the other
-     * <code>Component</code>.
+     * Usfd to bdd b <dodf>Componfnt</dodf> bbovf tif otifr
+     * <dodf>Componfnt</dodf>.
      */
-    public final static String TOP = "top";
+    publid finbl stbtid String TOP = "top";
 
     /**
-     * Used to add a <code>Component</code> below the other
-     * <code>Component</code>.
+     * Usfd to bdd b <dodf>Componfnt</dodf> bflow tif otifr
+     * <dodf>Componfnt</dodf>.
      */
-    public final static String BOTTOM = "bottom";
+    publid finbl stbtid String BOTTOM = "bottom";
 
     /**
-     * Used to add a <code>Component</code> that will represent the divider.
+     * Usfd to bdd b <dodf>Componfnt</dodf> tibt will rfprfsfnt tif dividfr.
      */
-    public final static String DIVIDER = "divider";
+    publid finbl stbtid String DIVIDER = "dividfr";
 
     /**
-     * Bound property name for orientation (horizontal or vertical).
+     * Bound propfrty nbmf for orifntbtion (iorizontbl or vfrtidbl).
      */
-    public final static String ORIENTATION_PROPERTY = "orientation";
+    publid finbl stbtid String ORIENTATION_PROPERTY = "orifntbtion";
 
     /**
-     * Bound property name for continuousLayout.
+     * Bound propfrty nbmf for dontinuousLbyout.
      */
-    public final static String CONTINUOUS_LAYOUT_PROPERTY = "continuousLayout";
+    publid finbl stbtid String CONTINUOUS_LAYOUT_PROPERTY = "dontinuousLbyout";
 
     /**
-     * Bound property name for border.
+     * Bound propfrty nbmf for bordfr.
      */
-    public final static String DIVIDER_SIZE_PROPERTY = "dividerSize";
+    publid finbl stbtid String DIVIDER_SIZE_PROPERTY = "dividfrSizf";
 
     /**
-     * Bound property for oneTouchExpandable.
+     * Bound propfrty for onfToudiExpbndbblf.
      */
-    public final static String ONE_TOUCH_EXPANDABLE_PROPERTY =
-                               "oneTouchExpandable";
+    publid finbl stbtid String ONE_TOUCH_EXPANDABLE_PROPERTY =
+                               "onfToudiExpbndbblf";
 
     /**
-     * Bound property for lastLocation.
+     * Bound propfrty for lbstLodbtion.
      */
-    public final static String LAST_DIVIDER_LOCATION_PROPERTY =
-                               "lastDividerLocation";
+    publid finbl stbtid String LAST_DIVIDER_LOCATION_PROPERTY =
+                               "lbstDividfrLodbtion";
 
     /**
-     * Bound property for the dividerLocation.
-     * @since 1.3
+     * Bound propfrty for tif dividfrLodbtion.
+     * @sindf 1.3
      */
-    public final static String DIVIDER_LOCATION_PROPERTY = "dividerLocation";
+    publid finbl stbtid String DIVIDER_LOCATION_PROPERTY = "dividfrLodbtion";
 
     /**
-     * Bound property for weight.
-     * @since 1.3
+     * Bound propfrty for wfigit.
+     * @sindf 1.3
      */
-    public final static String RESIZE_WEIGHT_PROPERTY = "resizeWeight";
+    publid finbl stbtid String RESIZE_WEIGHT_PROPERTY = "rfsizfWfigit";
 
     /**
-     * How the views are split.
+     * How tif vifws brf split.
      */
-    protected int orientation;
+    protfdtfd int orifntbtion;
 
     /**
-     * Whether or not the views are continuously redisplayed while
-     * resizing.
+     * Wiftifr or not tif vifws brf dontinuously rfdisplbyfd wiilf
+     * rfsizing.
      */
-    protected boolean continuousLayout;
+    protfdtfd boolfbn dontinuousLbyout;
 
     /**
-     * The left or top component.
+     * Tif lfft or top domponfnt.
      */
-    protected Component leftComponent;
+    protfdtfd Componfnt lfftComponfnt;
 
     /**
-     * The right or bottom component.
+     * Tif rigit or bottom domponfnt.
      */
-    protected Component rightComponent;
+    protfdtfd Componfnt rigitComponfnt;
 
     /**
-     * Size of the divider.
+     * Sizf of tif dividfr.
      */
-    protected int dividerSize;
-    private boolean dividerSizeSet = false;
+    protfdtfd int dividfrSizf;
+    privbtf boolfbn dividfrSizfSft = fblsf;
 
     /**
-     * Is a little widget provided to quickly expand/collapse the
-     * split pane?
+     * Is b littlf widgft providfd to quidkly fxpbnd/dollbpsf tif
+     * split pbnf?
      */
-    protected boolean oneTouchExpandable;
-    private boolean oneTouchExpandableSet;
+    protfdtfd boolfbn onfToudiExpbndbblf;
+    privbtf boolfbn onfToudiExpbndbblfSft;
 
     /**
-     * Previous location of the split pane.
+     * Prfvious lodbtion of tif split pbnf.
      */
-    protected int lastDividerLocation;
+    protfdtfd int lbstDividfrLodbtion;
 
     /**
-     * How to distribute extra space.
+     * How to distributf fxtrb spbdf.
      */
-    private double resizeWeight;
+    privbtf doublf rfsizfWfigit;
 
     /**
-     * Location of the divider, at least the value that was set, the UI may
-     * have a different value.
+     * Lodbtion of tif dividfr, bt lfbst tif vbluf tibt wbs sft, tif UI mby
+     * ibvf b difffrfnt vbluf.
      */
-    private int dividerLocation;
+    privbtf int dividfrLodbtion;
 
 
     /**
-     * Creates a new <code>JSplitPane</code> configured to arrange the child
-     * components side-by-side horizontally, using two buttons for the components.
+     * Crfbtfs b nfw <dodf>JSplitPbnf</dodf> donfigurfd to brrbngf tif diild
+     * domponfnts sidf-by-sidf iorizontblly, using two buttons for tif domponfnts.
      */
-    public JSplitPane() {
-        this(JSplitPane.HORIZONTAL_SPLIT,
-                UIManager.getBoolean("SplitPane.continuousLayout"),
-                new JButton(UIManager.getString("SplitPane.leftButtonText")),
-                new JButton(UIManager.getString("SplitPane.rightButtonText")));
+    publid JSplitPbnf() {
+        tiis(JSplitPbnf.HORIZONTAL_SPLIT,
+                UIMbnbgfr.gftBoolfbn("SplitPbnf.dontinuousLbyout"),
+                nfw JButton(UIMbnbgfr.gftString("SplitPbnf.lfftButtonTfxt")),
+                nfw JButton(UIMbnbgfr.gftString("SplitPbnf.rigitButtonTfxt")));
     }
 
 
     /**
-     * Creates a new <code>JSplitPane</code> configured with the
-     * specified orientation.
+     * Crfbtfs b nfw <dodf>JSplitPbnf</dodf> donfigurfd witi tif
+     * spfdififd orifntbtion.
      *
-     * @param newOrientation  <code>JSplitPane.HORIZONTAL_SPLIT</code> or
-     *                        <code>JSplitPane.VERTICAL_SPLIT</code>
-     * @exception IllegalArgumentException if <code>orientation</code>
-     *          is not one of HORIZONTAL_SPLIT or VERTICAL_SPLIT.
+     * @pbrbm nfwOrifntbtion  <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf> or
+     *                        <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>orifntbtion</dodf>
+     *          is not onf of HORIZONTAL_SPLIT or VERTICAL_SPLIT.
      */
-    @ConstructorProperties({"orientation"})
-    public JSplitPane(int newOrientation) {
-        this(newOrientation,
-                UIManager.getBoolean("SplitPane.continuousLayout"));
+    @ConstrudtorPropfrtifs({"orifntbtion"})
+    publid JSplitPbnf(int nfwOrifntbtion) {
+        tiis(nfwOrifntbtion,
+                UIMbnbgfr.gftBoolfbn("SplitPbnf.dontinuousLbyout"));
     }
 
 
     /**
-     * Creates a new <code>JSplitPane</code> with the specified
-     * orientation and redrawing style.
+     * Crfbtfs b nfw <dodf>JSplitPbnf</dodf> witi tif spfdififd
+     * orifntbtion bnd rfdrbwing stylf.
      *
-     * @param newOrientation  <code>JSplitPane.HORIZONTAL_SPLIT</code> or
-     *                        <code>JSplitPane.VERTICAL_SPLIT</code>
-     * @param newContinuousLayout  a boolean, true for the components to
-     *        redraw continuously as the divider changes position, false
-     *        to wait until the divider position stops changing to redraw
-     * @exception IllegalArgumentException if <code>orientation</code>
-     *          is not one of HORIZONTAL_SPLIT or VERTICAL_SPLIT
+     * @pbrbm nfwOrifntbtion  <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf> or
+     *                        <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>
+     * @pbrbm nfwContinuousLbyout  b boolfbn, truf for tif domponfnts to
+     *        rfdrbw dontinuously bs tif dividfr dibngfs position, fblsf
+     *        to wbit until tif dividfr position stops dibnging to rfdrbw
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>orifntbtion</dodf>
+     *          is not onf of HORIZONTAL_SPLIT or VERTICAL_SPLIT
      */
-    public JSplitPane(int newOrientation,
-                      boolean newContinuousLayout) {
-        this(newOrientation, newContinuousLayout, null, null);
+    publid JSplitPbnf(int nfwOrifntbtion,
+                      boolfbn nfwContinuousLbyout) {
+        tiis(nfwOrifntbtion, nfwContinuousLbyout, null, null);
     }
 
 
     /**
-     * Creates a new <code>JSplitPane</code> with the specified
-     * orientation and the specified components.
+     * Crfbtfs b nfw <dodf>JSplitPbnf</dodf> witi tif spfdififd
+     * orifntbtion bnd tif spfdififd domponfnts.
      *
-     * @param newOrientation  <code>JSplitPane.HORIZONTAL_SPLIT</code> or
-     *                        <code>JSplitPane.VERTICAL_SPLIT</code>
-     * @param newLeftComponent the <code>Component</code> that will
-     *          appear on the left
-     *          of a horizontally-split pane, or at the top of a
-     *          vertically-split pane
-     * @param newRightComponent the <code>Component</code> that will
-     *          appear on the right
-     *          of a horizontally-split pane, or at the bottom of a
-     *          vertically-split pane
-     * @exception IllegalArgumentException if <code>orientation</code>
-     *          is not one of: HORIZONTAL_SPLIT or VERTICAL_SPLIT
+     * @pbrbm nfwOrifntbtion  <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf> or
+     *                        <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>
+     * @pbrbm nfwLfftComponfnt tif <dodf>Componfnt</dodf> tibt will
+     *          bppfbr on tif lfft
+     *          of b iorizontblly-split pbnf, or bt tif top of b
+     *          vfrtidblly-split pbnf
+     * @pbrbm nfwRigitComponfnt tif <dodf>Componfnt</dodf> tibt will
+     *          bppfbr on tif rigit
+     *          of b iorizontblly-split pbnf, or bt tif bottom of b
+     *          vfrtidblly-split pbnf
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>orifntbtion</dodf>
+     *          is not onf of: HORIZONTAL_SPLIT or VERTICAL_SPLIT
      */
-    public JSplitPane(int newOrientation,
-                      Component newLeftComponent,
-                      Component newRightComponent){
-        this(newOrientation,
-                UIManager.getBoolean("SplitPane.continuousLayout"),
-                newLeftComponent, newRightComponent);
+    publid JSplitPbnf(int nfwOrifntbtion,
+                      Componfnt nfwLfftComponfnt,
+                      Componfnt nfwRigitComponfnt){
+        tiis(nfwOrifntbtion,
+                UIMbnbgfr.gftBoolfbn("SplitPbnf.dontinuousLbyout"),
+                nfwLfftComponfnt, nfwRigitComponfnt);
     }
 
 
     /**
-     * Creates a new <code>JSplitPane</code> with the specified
-     * orientation and
-     * redrawing style, and with the specified components.
+     * Crfbtfs b nfw <dodf>JSplitPbnf</dodf> witi tif spfdififd
+     * orifntbtion bnd
+     * rfdrbwing stylf, bnd witi tif spfdififd domponfnts.
      *
-     * @param newOrientation  <code>JSplitPane.HORIZONTAL_SPLIT</code> or
-     *                        <code>JSplitPane.VERTICAL_SPLIT</code>
-     * @param newContinuousLayout  a boolean, true for the components to
-     *        redraw continuously as the divider changes position, false
-     *        to wait until the divider position stops changing to redraw
-     * @param newLeftComponent the <code>Component</code> that will
-     *          appear on the left
-     *          of a horizontally-split pane, or at the top of a
-     *          vertically-split pane
-     * @param newRightComponent the <code>Component</code> that will
-     *          appear on the right
-     *          of a horizontally-split pane, or at the bottom of a
-     *          vertically-split pane
-     * @exception IllegalArgumentException if <code>orientation</code>
-     *          is not one of HORIZONTAL_SPLIT or VERTICAL_SPLIT
+     * @pbrbm nfwOrifntbtion  <dodf>JSplitPbnf.HORIZONTAL_SPLIT</dodf> or
+     *                        <dodf>JSplitPbnf.VERTICAL_SPLIT</dodf>
+     * @pbrbm nfwContinuousLbyout  b boolfbn, truf for tif domponfnts to
+     *        rfdrbw dontinuously bs tif dividfr dibngfs position, fblsf
+     *        to wbit until tif dividfr position stops dibnging to rfdrbw
+     * @pbrbm nfwLfftComponfnt tif <dodf>Componfnt</dodf> tibt will
+     *          bppfbr on tif lfft
+     *          of b iorizontblly-split pbnf, or bt tif top of b
+     *          vfrtidblly-split pbnf
+     * @pbrbm nfwRigitComponfnt tif <dodf>Componfnt</dodf> tibt will
+     *          bppfbr on tif rigit
+     *          of b iorizontblly-split pbnf, or bt tif bottom of b
+     *          vfrtidblly-split pbnf
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>orifntbtion</dodf>
+     *          is not onf of HORIZONTAL_SPLIT or VERTICAL_SPLIT
      */
-    public JSplitPane(int newOrientation,
-                      boolean newContinuousLayout,
-                      Component newLeftComponent,
-                      Component newRightComponent){
-        super();
+    publid JSplitPbnf(int nfwOrifntbtion,
+                      boolfbn nfwContinuousLbyout,
+                      Componfnt nfwLfftComponfnt,
+                      Componfnt nfwRigitComponfnt){
+        supfr();
 
-        dividerLocation = -1;
-        setLayout(null);
-        setUIProperty("opaque", Boolean.TRUE);
-        orientation = newOrientation;
-        if (orientation != HORIZONTAL_SPLIT && orientation != VERTICAL_SPLIT)
-            throw new IllegalArgumentException("cannot create JSplitPane, " +
-                                               "orientation must be one of " +
-                                               "JSplitPane.HORIZONTAL_SPLIT " +
-                                               "or JSplitPane.VERTICAL_SPLIT");
-        continuousLayout = newContinuousLayout;
-        if (newLeftComponent != null)
-            setLeftComponent(newLeftComponent);
-        if (newRightComponent != null)
-            setRightComponent(newRightComponent);
-        updateUI();
+        dividfrLodbtion = -1;
+        sftLbyout(null);
+        sftUIPropfrty("opbquf", Boolfbn.TRUE);
+        orifntbtion = nfwOrifntbtion;
+        if (orifntbtion != HORIZONTAL_SPLIT && orifntbtion != VERTICAL_SPLIT)
+            tirow nfw IllfgblArgumfntExdfption("dbnnot drfbtf JSplitPbnf, " +
+                                               "orifntbtion must bf onf of " +
+                                               "JSplitPbnf.HORIZONTAL_SPLIT " +
+                                               "or JSplitPbnf.VERTICAL_SPLIT");
+        dontinuousLbyout = nfwContinuousLbyout;
+        if (nfwLfftComponfnt != null)
+            sftLfftComponfnt(nfwLfftComponfnt);
+        if (nfwRigitComponfnt != null)
+            sftRigitComponfnt(nfwRigitComponfnt);
+        updbtfUI();
 
     }
 
 
     /**
-     * Sets the L&amp;F object that renders this component.
+     * Sfts tif L&bmp;F objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @param ui  the <code>SplitPaneUI</code> L&amp;F object
-     * @see UIDefaults#getUI
-     * @beaninfo
-     *        bound: true
-     *       hidden: true
-     *    attribute: visualUpdate true
-     *  description: The UI object that implements the Component's LookAndFeel.
+     * @pbrbm ui  tif <dodf>SplitPbnfUI</dodf> L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *        bound: truf
+     *       iiddfn: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Tif UI objfdt tibt implfmfnts tif Componfnt's LookAndFffl.
      */
-    public void setUI(SplitPaneUI ui) {
-        if ((SplitPaneUI)this.ui != ui) {
-            super.setUI(ui);
-            revalidate();
+    publid void sftUI(SplitPbnfUI ui) {
+        if ((SplitPbnfUI)tiis.ui != ui) {
+            supfr.sftUI(ui);
+            rfvblidbtf();
         }
     }
 
 
     /**
-     * Returns the <code>SplitPaneUI</code> that is providing the
-     * current look and feel.
+     * Rfturns tif <dodf>SplitPbnfUI</dodf> tibt is providing tif
+     * durrfnt look bnd fffl.
      *
-     * @return the <code>SplitPaneUI</code> object that renders this component
-     * @beaninfo
-     *       expert: true
-     *  description: The L&amp;F object that renders this component.
+     * @rfturn tif <dodf>SplitPbnfUI</dodf> objfdt tibt rfndfrs tiis domponfnt
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Tif L&bmp;F objfdt tibt rfndfrs tiis domponfnt.
      */
-    public SplitPaneUI getUI() {
-        return (SplitPaneUI)ui;
+    publid SplitPbnfUI gftUI() {
+        rfturn (SplitPbnfUI)ui;
     }
 
 
     /**
-     * Notification from the <code>UIManager</code> that the L&amp;F has changed.
-     * Replaces the current UI object with the latest version from the
-     * <code>UIManager</code>.
+     * Notifidbtion from tif <dodf>UIMbnbgfr</dodf> tibt tif L&bmp;F ibs dibngfd.
+     * Rfplbdfs tif durrfnt UI objfdt witi tif lbtfst vfrsion from tif
+     * <dodf>UIMbnbgfr</dodf>.
      *
-     * @see JComponent#updateUI
+     * @sff JComponfnt#updbtfUI
      */
-    public void updateUI() {
-        setUI((SplitPaneUI)UIManager.getUI(this));
-        revalidate();
+    publid void updbtfUI() {
+        sftUI((SplitPbnfUI)UIMbnbgfr.gftUI(tiis));
+        rfvblidbtf();
     }
 
 
     /**
-     * Returns the name of the L&amp;F class that renders this component.
+     * Rfturns tif nbmf of tif L&bmp;F dlbss tibt rfndfrs tiis domponfnt.
      *
-     * @return the string "SplitPaneUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
-     * @beaninfo
-     *       expert: true
-     *  description: A string that specifies the name of the L&amp;F class.
+     * @rfturn tif string "SplitPbnfUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: A string tibt spfdififs tif nbmf of tif L&bmp;F dlbss.
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
 
     /**
-     * Sets the size of the divider.
+     * Sfts tif sizf of tif dividfr.
      *
-     * @param newSize an integer giving the size of the divider in pixels
-     * @beaninfo
-     *        bound: true
-     *  description: The size of the divider.
+     * @pbrbm nfwSizf bn intfgfr giving tif sizf of tif dividfr in pixfls
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Tif sizf of tif dividfr.
      */
-    public void setDividerSize(int newSize) {
-        int           oldSize = dividerSize;
+    publid void sftDividfrSizf(int nfwSizf) {
+        int           oldSizf = dividfrSizf;
 
-        dividerSizeSet = true;
-        if (oldSize != newSize) {
-            dividerSize = newSize;
-            firePropertyChange(DIVIDER_SIZE_PROPERTY, oldSize, newSize);
+        dividfrSizfSft = truf;
+        if (oldSizf != nfwSizf) {
+            dividfrSizf = nfwSizf;
+            firfPropfrtyCibngf(DIVIDER_SIZE_PROPERTY, oldSizf, nfwSizf);
         }
     }
 
 
     /**
-     * Returns the size of the divider.
+     * Rfturns tif sizf of tif dividfr.
      *
-     * @return an integer giving the size of the divider in pixels
+     * @rfturn bn intfgfr giving tif sizf of tif dividfr in pixfls
      */
-    public int getDividerSize() {
-        return dividerSize;
+    publid int gftDividfrSizf() {
+        rfturn dividfrSizf;
     }
 
 
     /**
-     * Sets the component to the left (or above) the divider.
+     * Sfts tif domponfnt to tif lfft (or bbovf) tif dividfr.
      *
-     * @param comp the <code>Component</code> to display in that position
+     * @pbrbm domp tif <dodf>Componfnt</dodf> to displby in tibt position
      */
-    public void setLeftComponent(Component comp) {
-        if (comp == null) {
-            if (leftComponent != null) {
-                remove(leftComponent);
-                leftComponent = null;
+    publid void sftLfftComponfnt(Componfnt domp) {
+        if (domp == null) {
+            if (lfftComponfnt != null) {
+                rfmovf(lfftComponfnt);
+                lfftComponfnt = null;
             }
-        } else {
-            add(comp, JSplitPane.LEFT);
+        } flsf {
+            bdd(domp, JSplitPbnf.LEFT);
         }
     }
 
 
     /**
-     * Returns the component to the left (or above) the divider.
+     * Rfturns tif domponfnt to tif lfft (or bbovf) tif dividfr.
      *
-     * @return the <code>Component</code> displayed in that position
-     * @beaninfo
-     *    preferred: true
-     *  description: The component to the left (or above) the divider.
+     * @rfturn tif <dodf>Componfnt</dodf> displbyfd in tibt position
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *  dfsdription: Tif domponfnt to tif lfft (or bbovf) tif dividfr.
      */
-    public Component getLeftComponent() {
-        return leftComponent;
+    publid Componfnt gftLfftComponfnt() {
+        rfturn lfftComponfnt;
     }
 
 
     /**
-     * Sets the component above, or to the left of the divider.
+     * Sfts tif domponfnt bbovf, or to tif lfft of tif dividfr.
      *
-     * @param comp the <code>Component</code> to display in that position
-     * @beaninfo
-     *  description: The component above, or to the left of the divider.
+     * @pbrbm domp tif <dodf>Componfnt</dodf> to displby in tibt position
+     * @bfbninfo
+     *  dfsdription: Tif domponfnt bbovf, or to tif lfft of tif dividfr.
      */
-    public void setTopComponent(Component comp) {
-        setLeftComponent(comp);
+    publid void sftTopComponfnt(Componfnt domp) {
+        sftLfftComponfnt(domp);
     }
 
 
     /**
-     * Returns the component above, or to the left of the divider.
+     * Rfturns tif domponfnt bbovf, or to tif lfft of tif dividfr.
      *
-     * @return the <code>Component</code> displayed in that position
+     * @rfturn tif <dodf>Componfnt</dodf> displbyfd in tibt position
      */
-    public Component getTopComponent() {
-        return leftComponent;
+    publid Componfnt gftTopComponfnt() {
+        rfturn lfftComponfnt;
     }
 
 
     /**
-     * Sets the component to the right (or below) the divider.
+     * Sfts tif domponfnt to tif rigit (or bflow) tif dividfr.
      *
-     * @param comp the <code>Component</code> to display in that position
-     * @beaninfo
-     *    preferred: true
-     *  description: The component to the right (or below) the divider.
+     * @pbrbm domp tif <dodf>Componfnt</dodf> to displby in tibt position
+     * @bfbninfo
+     *    prfffrrfd: truf
+     *  dfsdription: Tif domponfnt to tif rigit (or bflow) tif dividfr.
      */
-    public void setRightComponent(Component comp) {
-        if (comp == null) {
-            if (rightComponent != null) {
-                remove(rightComponent);
-                rightComponent = null;
+    publid void sftRigitComponfnt(Componfnt domp) {
+        if (domp == null) {
+            if (rigitComponfnt != null) {
+                rfmovf(rigitComponfnt);
+                rigitComponfnt = null;
             }
-        } else {
-            add(comp, JSplitPane.RIGHT);
+        } flsf {
+            bdd(domp, JSplitPbnf.RIGHT);
         }
     }
 
 
     /**
-     * Returns the component to the right (or below) the divider.
+     * Rfturns tif domponfnt to tif rigit (or bflow) tif dividfr.
      *
-     * @return the <code>Component</code> displayed in that position
+     * @rfturn tif <dodf>Componfnt</dodf> displbyfd in tibt position
      */
-    public Component getRightComponent() {
-        return rightComponent;
+    publid Componfnt gftRigitComponfnt() {
+        rfturn rigitComponfnt;
     }
 
 
     /**
-     * Sets the component below, or to the right of the divider.
+     * Sfts tif domponfnt bflow, or to tif rigit of tif dividfr.
      *
-     * @param comp the <code>Component</code> to display in that position
-     * @beaninfo
-     *  description: The component below, or to the right of the divider.
+     * @pbrbm domp tif <dodf>Componfnt</dodf> to displby in tibt position
+     * @bfbninfo
+     *  dfsdription: Tif domponfnt bflow, or to tif rigit of tif dividfr.
      */
-    public void setBottomComponent(Component comp) {
-        setRightComponent(comp);
+    publid void sftBottomComponfnt(Componfnt domp) {
+        sftRigitComponfnt(domp);
     }
 
 
     /**
-     * Returns the component below, or to the right of the divider.
+     * Rfturns tif domponfnt bflow, or to tif rigit of tif dividfr.
      *
-     * @return the <code>Component</code> displayed in that position
+     * @rfturn tif <dodf>Componfnt</dodf> displbyfd in tibt position
      */
-    public Component getBottomComponent() {
-        return rightComponent;
+    publid Componfnt gftBottomComponfnt() {
+        rfturn rigitComponfnt;
     }
 
 
     /**
-     * Sets the value of the <code>oneTouchExpandable</code> property,
-     * which must be <code>true</code> for the
-     * <code>JSplitPane</code> to provide a UI widget
-     * on the divider to quickly expand/collapse the divider.
-     * The default value of this property is <code>false</code>.
-     * Some look and feels might not support one-touch expanding;
-     * they will ignore this property.
+     * Sfts tif vbluf of tif <dodf>onfToudiExpbndbblf</dodf> propfrty,
+     * wiidi must bf <dodf>truf</dodf> for tif
+     * <dodf>JSplitPbnf</dodf> to providf b UI widgft
+     * on tif dividfr to quidkly fxpbnd/dollbpsf tif dividfr.
+     * Tif dffbult vbluf of tiis propfrty is <dodf>fblsf</dodf>.
+     * Somf look bnd fffls migit not support onf-toudi fxpbnding;
+     * tify will ignorf tiis propfrty.
      *
-     * @param newValue <code>true</code> to specify that the split pane should provide a
-     *        collapse/expand widget
-     * @beaninfo
-     *        bound: true
-     *  description: UI widget on the divider to quickly
-     *               expand/collapse the divider.
+     * @pbrbm nfwVbluf <dodf>truf</dodf> to spfdify tibt tif split pbnf siould providf b
+     *        dollbpsf/fxpbnd widgft
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: UI widgft on tif dividfr to quidkly
+     *               fxpbnd/dollbpsf tif dividfr.
      *
-     * @see #isOneTouchExpandable
+     * @sff #isOnfToudiExpbndbblf
      */
-    public void setOneTouchExpandable(boolean newValue) {
-        boolean           oldValue = oneTouchExpandable;
+    publid void sftOnfToudiExpbndbblf(boolfbn nfwVbluf) {
+        boolfbn           oldVbluf = onfToudiExpbndbblf;
 
-        oneTouchExpandable = newValue;
-        oneTouchExpandableSet = true;
-        firePropertyChange(ONE_TOUCH_EXPANDABLE_PROPERTY, oldValue, newValue);
-        repaint();
+        onfToudiExpbndbblf = nfwVbluf;
+        onfToudiExpbndbblfSft = truf;
+        firfPropfrtyCibngf(ONE_TOUCH_EXPANDABLE_PROPERTY, oldVbluf, nfwVbluf);
+        rfpbint();
     }
 
 
     /**
-     * Gets the <code>oneTouchExpandable</code> property.
+     * Gfts tif <dodf>onfToudiExpbndbblf</dodf> propfrty.
      *
-     * @return the value of the <code>oneTouchExpandable</code> property
-     * @see #setOneTouchExpandable
+     * @rfturn tif vbluf of tif <dodf>onfToudiExpbndbblf</dodf> propfrty
+     * @sff #sftOnfToudiExpbndbblf
      */
-    public boolean isOneTouchExpandable() {
-        return oneTouchExpandable;
+    publid boolfbn isOnfToudiExpbndbblf() {
+        rfturn onfToudiExpbndbblf;
     }
 
 
     /**
-     * Sets the last location the divider was at to
-     * <code>newLastLocation</code>.
+     * Sfts tif lbst lodbtion tif dividfr wbs bt to
+     * <dodf>nfwLbstLodbtion</dodf>.
      *
-     * @param newLastLocation an integer specifying the last divider location
-     *        in pixels, from the left (or upper) edge of the pane to the
-     *        left (or upper) edge of the divider
-     * @beaninfo
-     *        bound: true
-     *  description: The last location the divider was at.
+     * @pbrbm nfwLbstLodbtion bn intfgfr spfdifying tif lbst dividfr lodbtion
+     *        in pixfls, from tif lfft (or uppfr) fdgf of tif pbnf to tif
+     *        lfft (or uppfr) fdgf of tif dividfr
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Tif lbst lodbtion tif dividfr wbs bt.
      */
-    public void setLastDividerLocation(int newLastLocation) {
-        int               oldLocation = lastDividerLocation;
+    publid void sftLbstDividfrLodbtion(int nfwLbstLodbtion) {
+        int               oldLodbtion = lbstDividfrLodbtion;
 
-        lastDividerLocation = newLastLocation;
-        firePropertyChange(LAST_DIVIDER_LOCATION_PROPERTY, oldLocation,
-                           newLastLocation);
+        lbstDividfrLodbtion = nfwLbstLodbtion;
+        firfPropfrtyCibngf(LAST_DIVIDER_LOCATION_PROPERTY, oldLodbtion,
+                           nfwLbstLodbtion);
     }
 
 
     /**
-     * Returns the last location the divider was at.
+     * Rfturns tif lbst lodbtion tif dividfr wbs bt.
      *
-     * @return an integer specifying the last divider location as a count
-     *       of pixels from the left (or upper) edge of the pane to the
-     *       left (or upper) edge of the divider
+     * @rfturn bn intfgfr spfdifying tif lbst dividfr lodbtion bs b dount
+     *       of pixfls from tif lfft (or uppfr) fdgf of tif pbnf to tif
+     *       lfft (or uppfr) fdgf of tif dividfr
      */
-    public int getLastDividerLocation() {
-        return lastDividerLocation;
+    publid int gftLbstDividfrLodbtion() {
+        rfturn lbstDividfrLodbtion;
     }
 
 
     /**
-     * Sets the orientation, or how the splitter is divided. The options
-     * are:<ul>
-     * <li>JSplitPane.VERTICAL_SPLIT  (above/below orientation of components)
-     * <li>JSplitPane.HORIZONTAL_SPLIT  (left/right orientation of components)
+     * Sfts tif orifntbtion, or iow tif splittfr is dividfd. Tif options
+     * brf:<ul>
+     * <li>JSplitPbnf.VERTICAL_SPLIT  (bbovf/bflow orifntbtion of domponfnts)
+     * <li>JSplitPbnf.HORIZONTAL_SPLIT  (lfft/rigit orifntbtion of domponfnts)
      * </ul>
      *
-     * @param orientation an integer specifying the orientation
-     * @exception IllegalArgumentException if orientation is not one of:
+     * @pbrbm orifntbtion bn intfgfr spfdifying tif orifntbtion
+     * @fxdfption IllfgblArgumfntExdfption if orifntbtion is not onf of:
      *        HORIZONTAL_SPLIT or VERTICAL_SPLIT.
-     * @beaninfo
-     *        bound: true
-     *  description: The orientation, or how the splitter is divided.
-     *         enum: HORIZONTAL_SPLIT JSplitPane.HORIZONTAL_SPLIT
-     *               VERTICAL_SPLIT   JSplitPane.VERTICAL_SPLIT
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Tif orifntbtion, or iow tif splittfr is dividfd.
+     *         fnum: HORIZONTAL_SPLIT JSplitPbnf.HORIZONTAL_SPLIT
+     *               VERTICAL_SPLIT   JSplitPbnf.VERTICAL_SPLIT
      */
-    public void setOrientation(int orientation) {
-        if ((orientation != VERTICAL_SPLIT) &&
-            (orientation != HORIZONTAL_SPLIT)) {
-           throw new IllegalArgumentException("JSplitPane: orientation must " +
-                                              "be one of " +
-                                              "JSplitPane.VERTICAL_SPLIT or " +
-                                              "JSplitPane.HORIZONTAL_SPLIT");
+    publid void sftOrifntbtion(int orifntbtion) {
+        if ((orifntbtion != VERTICAL_SPLIT) &&
+            (orifntbtion != HORIZONTAL_SPLIT)) {
+           tirow nfw IllfgblArgumfntExdfption("JSplitPbnf: orifntbtion must " +
+                                              "bf onf of " +
+                                              "JSplitPbnf.VERTICAL_SPLIT or " +
+                                              "JSplitPbnf.HORIZONTAL_SPLIT");
         }
 
-        int           oldOrientation = this.orientation;
+        int           oldOrifntbtion = tiis.orifntbtion;
 
-        this.orientation = orientation;
-        firePropertyChange(ORIENTATION_PROPERTY, oldOrientation, orientation);
+        tiis.orifntbtion = orifntbtion;
+        firfPropfrtyCibngf(ORIENTATION_PROPERTY, oldOrifntbtion, orifntbtion);
     }
 
 
     /**
-     * Returns the orientation.
+     * Rfturns tif orifntbtion.
      *
-     * @return an integer giving the orientation
-     * @see #setOrientation
+     * @rfturn bn intfgfr giving tif orifntbtion
+     * @sff #sftOrifntbtion
      */
-    public int getOrientation() {
-        return orientation;
+    publid int gftOrifntbtion() {
+        rfturn orifntbtion;
     }
 
 
     /**
-     * Sets the value of the <code>continuousLayout</code> property,
-     * which must be <code>true</code> for the child components
-     * to be continuously
-     * redisplayed and laid out during user intervention.
-     * The default value of this property is look and feel dependent.
-     * Some look and feels might not support continuous layout;
-     * they will ignore this property.
+     * Sfts tif vbluf of tif <dodf>dontinuousLbyout</dodf> propfrty,
+     * wiidi must bf <dodf>truf</dodf> for tif diild domponfnts
+     * to bf dontinuously
+     * rfdisplbyfd bnd lbid out during usfr intfrvfntion.
+     * Tif dffbult vbluf of tiis propfrty is look bnd fffl dfpfndfnt.
+     * Somf look bnd fffls migit not support dontinuous lbyout;
+     * tify will ignorf tiis propfrty.
      *
-     * @param newContinuousLayout  <code>true</code> if the components
-     *        should continuously be redrawn as the divider changes position
-     * @beaninfo
-     *        bound: true
-     *  description: Whether the child components are
-     *               continuously redisplayed and laid out during
-     *               user intervention.
-     * @see #isContinuousLayout
+     * @pbrbm nfwContinuousLbyout  <dodf>truf</dodf> if tif domponfnts
+     *        siould dontinuously bf rfdrbwn bs tif dividfr dibngfs position
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Wiftifr tif diild domponfnts brf
+     *               dontinuously rfdisplbyfd bnd lbid out during
+     *               usfr intfrvfntion.
+     * @sff #isContinuousLbyout
      */
-    public void setContinuousLayout(boolean newContinuousLayout) {
-        boolean           oldCD = continuousLayout;
+    publid void sftContinuousLbyout(boolfbn nfwContinuousLbyout) {
+        boolfbn           oldCD = dontinuousLbyout;
 
-        continuousLayout = newContinuousLayout;
-        firePropertyChange(CONTINUOUS_LAYOUT_PROPERTY, oldCD,
-                           newContinuousLayout);
+        dontinuousLbyout = nfwContinuousLbyout;
+        firfPropfrtyCibngf(CONTINUOUS_LAYOUT_PROPERTY, oldCD,
+                           nfwContinuousLbyout);
     }
 
 
     /**
-     * Gets the <code>continuousLayout</code> property.
+     * Gfts tif <dodf>dontinuousLbyout</dodf> propfrty.
      *
-     * @return the value of the <code>continuousLayout</code> property
-     * @see #setContinuousLayout
+     * @rfturn tif vbluf of tif <dodf>dontinuousLbyout</dodf> propfrty
+     * @sff #sftContinuousLbyout
      */
-    public boolean isContinuousLayout() {
-        return continuousLayout;
+    publid boolfbn isContinuousLbyout() {
+        rfturn dontinuousLbyout;
     }
 
     /**
-     * Specifies how to distribute extra space when the size of the split pane
-     * changes. A value of 0, the default,
-     * indicates the right/bottom component gets all the extra space (the
-     * left/top component acts fixed), where as a value of 1 specifies the
-     * left/top component gets all the extra space (the right/bottom component
-     * acts fixed). Specifically, the left/top component gets (weight * diff)
-     * extra space and the right/bottom component gets (1 - weight) * diff
-     * extra space.
+     * Spfdififs iow to distributf fxtrb spbdf wifn tif sizf of tif split pbnf
+     * dibngfs. A vbluf of 0, tif dffbult,
+     * indidbtfs tif rigit/bottom domponfnt gfts bll tif fxtrb spbdf (tif
+     * lfft/top domponfnt bdts fixfd), wifrf bs b vbluf of 1 spfdififs tif
+     * lfft/top domponfnt gfts bll tif fxtrb spbdf (tif rigit/bottom domponfnt
+     * bdts fixfd). Spfdifidblly, tif lfft/top domponfnt gfts (wfigit * diff)
+     * fxtrb spbdf bnd tif rigit/bottom domponfnt gfts (1 - wfigit) * diff
+     * fxtrb spbdf.
      *
-     * @param value as described above
-     * @exception IllegalArgumentException if <code>value</code> is &lt; 0 or &gt; 1
-     * @since 1.3
-     * @beaninfo
-     *        bound: true
-     *  description: Specifies how to distribute extra space when the split pane
-     *               resizes.
+     * @pbrbm vbluf bs dfsdribfd bbovf
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>vbluf</dodf> is &lt; 0 or &gt; 1
+     * @sindf 1.3
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Spfdififs iow to distributf fxtrb spbdf wifn tif split pbnf
+     *               rfsizfs.
      */
-    public void setResizeWeight(double value) {
-        if (value < 0 || value > 1) {
-            throw new IllegalArgumentException("JSplitPane weight must be between 0 and 1");
+    publid void sftRfsizfWfigit(doublf vbluf) {
+        if (vbluf < 0 || vbluf > 1) {
+            tirow nfw IllfgblArgumfntExdfption("JSplitPbnf wfigit must bf bftwffn 0 bnd 1");
         }
-        double         oldWeight = resizeWeight;
+        doublf         oldWfigit = rfsizfWfigit;
 
-        resizeWeight = value;
-        firePropertyChange(RESIZE_WEIGHT_PROPERTY, oldWeight, value);
+        rfsizfWfigit = vbluf;
+        firfPropfrtyCibngf(RESIZE_WEIGHT_PROPERTY, oldWfigit, vbluf);
     }
 
     /**
-     * Returns the number that determines how extra space is distributed.
-     * @return how extra space is to be distributed on a resize of the
-     *         split pane
-     * @since 1.3
+     * Rfturns tif numbfr tibt dftfrminfs iow fxtrb spbdf is distributfd.
+     * @rfturn iow fxtrb spbdf is to bf distributfd on b rfsizf of tif
+     *         split pbnf
+     * @sindf 1.3
      */
-    public double getResizeWeight() {
-        return resizeWeight;
+    publid doublf gftRfsizfWfigit() {
+        rfturn rfsizfWfigit;
     }
 
     /**
-     * Lays out the <code>JSplitPane</code> layout based on the preferred size
-     * of the children components. This will likely result in changing
-     * the divider location.
+     * Lbys out tif <dodf>JSplitPbnf</dodf> lbyout bbsfd on tif prfffrrfd sizf
+     * of tif diildrfn domponfnts. Tiis will likfly rfsult in dibnging
+     * tif dividfr lodbtion.
      */
-    public void resetToPreferredSizes() {
-        SplitPaneUI         ui = getUI();
+    publid void rfsftToPrfffrrfdSizfs() {
+        SplitPbnfUI         ui = gftUI();
 
         if (ui != null) {
-            ui.resetToPreferredSizes(this);
+            ui.rfsftToPrfffrrfdSizfs(tiis);
         }
     }
 
 
     /**
-     * Sets the divider location as a percentage of the
-     * <code>JSplitPane</code>'s size.
+     * Sfts tif dividfr lodbtion bs b pfrdfntbgf of tif
+     * <dodf>JSplitPbnf</dodf>'s sizf.
      * <p>
-     * This method is implemented in terms of
-     * <code>setDividerLocation(int)</code>.
-     * This method immediately changes the size of the split pane based on
-     * its current size. If the split pane is not correctly realized and on
-     * screen, this method will have no effect (new divider location will
-     * become (current size * proportionalLocation) which is 0).
+     * Tiis mftiod is implfmfntfd in tfrms of
+     * <dodf>sftDividfrLodbtion(int)</dodf>.
+     * Tiis mftiod immfdibtfly dibngfs tif sizf of tif split pbnf bbsfd on
+     * its durrfnt sizf. If tif split pbnf is not dorrfdtly rfblizfd bnd on
+     * sdrffn, tiis mftiod will ibvf no ffffdt (nfw dividfr lodbtion will
+     * bfdomf (durrfnt sizf * proportionblLodbtion) wiidi is 0).
      *
-     * @param proportionalLocation  a double-precision floating point value
-     *        that specifies a percentage, from zero (top/left) to 1.0
-     *        (bottom/right)
-     * @exception IllegalArgumentException if the specified location is &lt; 0
+     * @pbrbm proportionblLodbtion  b doublf-prfdision flobting point vbluf
+     *        tibt spfdififs b pfrdfntbgf, from zfro (top/lfft) to 1.0
+     *        (bottom/rigit)
+     * @fxdfption IllfgblArgumfntExdfption if tif spfdififd lodbtion is &lt; 0
      *            or &gt; 1.0
-     * @beaninfo
-     *  description: The location of the divider.
+     * @bfbninfo
+     *  dfsdription: Tif lodbtion of tif dividfr.
      */
-    public void setDividerLocation(double proportionalLocation) {
-        if (proportionalLocation < 0.0 ||
-           proportionalLocation > 1.0) {
-            throw new IllegalArgumentException("proportional location must " +
-                                               "be between 0.0 and 1.0.");
+    publid void sftDividfrLodbtion(doublf proportionblLodbtion) {
+        if (proportionblLodbtion < 0.0 ||
+           proportionblLodbtion > 1.0) {
+            tirow nfw IllfgblArgumfntExdfption("proportionbl lodbtion must " +
+                                               "bf bftwffn 0.0 bnd 1.0.");
         }
-        if (getOrientation() == VERTICAL_SPLIT) {
-            setDividerLocation((int)((double)(getHeight() - getDividerSize()) *
-                                     proportionalLocation));
-        } else {
-            setDividerLocation((int)((double)(getWidth() - getDividerSize()) *
-                                     proportionalLocation));
+        if (gftOrifntbtion() == VERTICAL_SPLIT) {
+            sftDividfrLodbtion((int)((doublf)(gftHfigit() - gftDividfrSizf()) *
+                                     proportionblLodbtion));
+        } flsf {
+            sftDividfrLodbtion((int)((doublf)(gftWidti() - gftDividfrSizf()) *
+                                     proportionblLodbtion));
         }
     }
 
 
     /**
-     * Sets the location of the divider. This is passed off to the
-     * look and feel implementation, and then listeners are notified. A value
-     * less than 0 implies the divider should be reset to a value that
-     * attempts to honor the preferred size of the left/top component.
-     * After notifying the listeners, the last divider location is updated,
-     * via <code>setLastDividerLocation</code>.
+     * Sfts tif lodbtion of tif dividfr. Tiis is pbssfd off to tif
+     * look bnd fffl implfmfntbtion, bnd tifn listfnfrs brf notififd. A vbluf
+     * lfss tibn 0 implifs tif dividfr siould bf rfsft to b vbluf tibt
+     * bttfmpts to ionor tif prfffrrfd sizf of tif lfft/top domponfnt.
+     * Aftfr notifying tif listfnfrs, tif lbst dividfr lodbtion is updbtfd,
+     * vib <dodf>sftLbstDividfrLodbtion</dodf>.
      *
-     * @param location an int specifying a UI-specific value (typically a
-     *        pixel count)
-     * @beaninfo
-     *        bound: true
-     *  description: The location of the divider.
+     * @pbrbm lodbtion bn int spfdifying b UI-spfdifid vbluf (typidblly b
+     *        pixfl dount)
+     * @bfbninfo
+     *        bound: truf
+     *  dfsdription: Tif lodbtion of tif dividfr.
      */
-    public void setDividerLocation(int location) {
-        int                 oldValue = dividerLocation;
+    publid void sftDividfrLodbtion(int lodbtion) {
+        int                 oldVbluf = dividfrLodbtion;
 
-        dividerLocation = location;
+        dividfrLodbtion = lodbtion;
 
         // Notify UI.
-        SplitPaneUI         ui = getUI();
+        SplitPbnfUI         ui = gftUI();
 
         if (ui != null) {
-            ui.setDividerLocation(this, location);
+            ui.sftDividfrLodbtion(tiis, lodbtion);
         }
 
-        // Then listeners
-        firePropertyChange(DIVIDER_LOCATION_PROPERTY, oldValue, location);
+        // Tifn listfnfrs
+        firfPropfrtyCibngf(DIVIDER_LOCATION_PROPERTY, oldVbluf, lodbtion);
 
-        // And update the last divider location.
-        setLastDividerLocation(oldValue);
+        // And updbtf tif lbst dividfr lodbtion.
+        sftLbstDividfrLodbtion(oldVbluf);
     }
 
 
     /**
-     * Returns the last value passed to <code>setDividerLocation</code>.
-     * The value returned from this method may differ from the actual
-     * divider location (if <code>setDividerLocation</code> was passed a
-     * value bigger than the current size).
+     * Rfturns tif lbst vbluf pbssfd to <dodf>sftDividfrLodbtion</dodf>.
+     * Tif vbluf rfturnfd from tiis mftiod mby difffr from tif bdtubl
+     * dividfr lodbtion (if <dodf>sftDividfrLodbtion</dodf> wbs pbssfd b
+     * vbluf biggfr tibn tif durrfnt sizf).
      *
-     * @return an integer specifying the location of the divider
+     * @rfturn bn intfgfr spfdifying tif lodbtion of tif dividfr
      */
-    public int getDividerLocation() {
-        return dividerLocation;
+    publid int gftDividfrLodbtion() {
+        rfturn dividfrLodbtion;
     }
 
 
     /**
-     * Returns the minimum location of the divider from the look and feel
-     * implementation.
+     * Rfturns tif minimum lodbtion of tif dividfr from tif look bnd fffl
+     * implfmfntbtion.
      *
-     * @return an integer specifying a UI-specific value for the minimum
-     *          location (typically a pixel count); or -1 if the UI is
-     *          <code>null</code>
-     * @beaninfo
-     *  description: The minimum location of the divider from the L&amp;F.
+     * @rfturn bn intfgfr spfdifying b UI-spfdifid vbluf for tif minimum
+     *          lodbtion (typidblly b pixfl dount); or -1 if tif UI is
+     *          <dodf>null</dodf>
+     * @bfbninfo
+     *  dfsdription: Tif minimum lodbtion of tif dividfr from tif L&bmp;F.
      */
-    public int getMinimumDividerLocation() {
-        SplitPaneUI         ui = getUI();
+    publid int gftMinimumDividfrLodbtion() {
+        SplitPbnfUI         ui = gftUI();
 
         if (ui != null) {
-            return ui.getMinimumDividerLocation(this);
+            rfturn ui.gftMinimumDividfrLodbtion(tiis);
         }
-        return -1;
+        rfturn -1;
     }
 
 
     /**
-     * Returns the maximum location of the divider from the look and feel
-     * implementation.
+     * Rfturns tif mbximum lodbtion of tif dividfr from tif look bnd fffl
+     * implfmfntbtion.
      *
-     * @return an integer specifying a UI-specific value for the maximum
-     *          location (typically a pixel count); or -1 if the  UI is
-     *          <code>null</code>
+     * @rfturn bn intfgfr spfdifying b UI-spfdifid vbluf for tif mbximum
+     *          lodbtion (typidblly b pixfl dount); or -1 if tif  UI is
+     *          <dodf>null</dodf>
      */
-    public int getMaximumDividerLocation() {
-        SplitPaneUI         ui = getUI();
+    publid int gftMbximumDividfrLodbtion() {
+        SplitPbnfUI         ui = gftUI();
 
         if (ui != null) {
-            return ui.getMaximumDividerLocation(this);
+            rfturn ui.gftMbximumDividfrLodbtion(tiis);
         }
-        return -1;
+        rfturn -1;
     }
 
 
     /**
-     * Removes the child component, <code>component</code> from the
-     * pane. Resets the <code>leftComponent</code> or
-     * <code>rightComponent</code> instance variable, as necessary.
+     * Rfmovfs tif diild domponfnt, <dodf>domponfnt</dodf> from tif
+     * pbnf. Rfsfts tif <dodf>lfftComponfnt</dodf> or
+     * <dodf>rigitComponfnt</dodf> instbndf vbribblf, bs nfdfssbry.
      *
-     * @param component the <code>Component</code> to remove
+     * @pbrbm domponfnt tif <dodf>Componfnt</dodf> to rfmovf
      */
-    public void remove(Component component) {
-        if (component == leftComponent) {
-            leftComponent = null;
-        } else if (component == rightComponent) {
-            rightComponent = null;
+    publid void rfmovf(Componfnt domponfnt) {
+        if (domponfnt == lfftComponfnt) {
+            lfftComponfnt = null;
+        } flsf if (domponfnt == rigitComponfnt) {
+            rigitComponfnt = null;
         }
-        super.remove(component);
+        supfr.rfmovf(domponfnt);
 
-        // Update the JSplitPane on the screen
-        revalidate();
-        repaint();
+        // Updbtf tif JSplitPbnf on tif sdrffn
+        rfvblidbtf();
+        rfpbint();
     }
 
 
     /**
-     * Removes the <code>Component</code> at the specified index.
-     * Updates the <code>leftComponent</code> and <code>rightComponent</code>
-     * instance variables as necessary, and then messages super.
+     * Rfmovfs tif <dodf>Componfnt</dodf> bt tif spfdififd indfx.
+     * Updbtfs tif <dodf>lfftComponfnt</dodf> bnd <dodf>rigitComponfnt</dodf>
+     * instbndf vbribblfs bs nfdfssbry, bnd tifn mfssbgfs supfr.
      *
-     * @param index an integer specifying the component to remove, where
-     *        1 specifies the left/top component and 2 specifies the
-     *        bottom/right component
+     * @pbrbm indfx bn intfgfr spfdifying tif domponfnt to rfmovf, wifrf
+     *        1 spfdififs tif lfft/top domponfnt bnd 2 spfdififs tif
+     *        bottom/rigit domponfnt
      */
-    public void remove(int index) {
-        Component    comp = getComponent(index);
+    publid void rfmovf(int indfx) {
+        Componfnt    domp = gftComponfnt(indfx);
 
-        if (comp == leftComponent) {
-            leftComponent = null;
-        } else if (comp == rightComponent) {
-            rightComponent = null;
+        if (domp == lfftComponfnt) {
+            lfftComponfnt = null;
+        } flsf if (domp == rigitComponfnt) {
+            rigitComponfnt = null;
         }
-        super.remove(index);
+        supfr.rfmovf(indfx);
 
-        // Update the JSplitPane on the screen
-        revalidate();
-        repaint();
+        // Updbtf tif JSplitPbnf on tif sdrffn
+        rfvblidbtf();
+        rfpbint();
     }
 
 
     /**
-     * Removes all the child components from the split pane. Resets the
-     * <code>leftComonent</code> and <code>rightComponent</code>
-     * instance variables.
+     * Rfmovfs bll tif diild domponfnts from tif split pbnf. Rfsfts tif
+     * <dodf>lfftComonfnt</dodf> bnd <dodf>rigitComponfnt</dodf>
+     * instbndf vbribblfs.
      */
-    public void removeAll() {
-        leftComponent = rightComponent = null;
-        super.removeAll();
+    publid void rfmovfAll() {
+        lfftComponfnt = rigitComponfnt = null;
+        supfr.rfmovfAll();
 
-        // Update the JSplitPane on the screen
-        revalidate();
-        repaint();
+        // Updbtf tif JSplitPbnf on tif sdrffn
+        rfvblidbtf();
+        rfpbint();
     }
 
 
     /**
-     * Returns true, so that calls to <code>revalidate</code>
-     * on any descendant of this <code>JSplitPane</code>
-     * will cause a request to be queued that
-     * will validate the <code>JSplitPane</code> and all its descendants.
+     * Rfturns truf, so tibt dblls to <dodf>rfvblidbtf</dodf>
+     * on bny dfsdfndbnt of tiis <dodf>JSplitPbnf</dodf>
+     * will dbusf b rfqufst to bf qufufd tibt
+     * will vblidbtf tif <dodf>JSplitPbnf</dodf> bnd bll its dfsdfndbnts.
      *
-     * @return true
-     * @see JComponent#revalidate
-     * @see java.awt.Container#isValidateRoot
+     * @rfturn truf
+     * @sff JComponfnt#rfvblidbtf
+     * @sff jbvb.bwt.Contbinfr#isVblidbtfRoot
      *
-     * @beaninfo
-     *    hidden: true
+     * @bfbninfo
+     *    iiddfn: truf
      */
-    @Override
-    public boolean isValidateRoot() {
-        return true;
+    @Ovfrridf
+    publid boolfbn isVblidbtfRoot() {
+        rfturn truf;
     }
 
 
     /**
-     * Adds the specified component to this split pane.
-     * If <code>constraints</code> identifies the left/top or
-     * right/bottom child component, and a component with that identifier
-     * was previously added, it will be removed and then <code>comp</code>
-     * will be added in its place. If <code>constraints</code> is not
-     * one of the known identifiers the layout manager may throw an
-     * <code>IllegalArgumentException</code>.
+     * Adds tif spfdififd domponfnt to tiis split pbnf.
+     * If <dodf>donstrbints</dodf> idfntififs tif lfft/top or
+     * rigit/bottom diild domponfnt, bnd b domponfnt witi tibt idfntififr
+     * wbs prfviously bddfd, it will bf rfmovfd bnd tifn <dodf>domp</dodf>
+     * will bf bddfd in its plbdf. If <dodf>donstrbints</dodf> is not
+     * onf of tif known idfntififrs tif lbyout mbnbgfr mby tirow bn
+     * <dodf>IllfgblArgumfntExdfption</dodf>.
      * <p>
-     * The possible constraints objects (Strings) are:
+     * Tif possiblf donstrbints objfdts (Strings) brf:
      * <ul>
-     * <li>JSplitPane.TOP
-     * <li>JSplitPane.LEFT
-     * <li>JSplitPane.BOTTOM
-     * <li>JSplitPane.RIGHT
+     * <li>JSplitPbnf.TOP
+     * <li>JSplitPbnf.LEFT
+     * <li>JSplitPbnf.BOTTOM
+     * <li>JSplitPbnf.RIGHT
      * </ul>
-     * If the <code>constraints</code> object is <code>null</code>,
-     * the component is added in the
-     * first available position (left/top if open, else right/bottom).
+     * If tif <dodf>donstrbints</dodf> objfdt is <dodf>null</dodf>,
+     * tif domponfnt is bddfd in tif
+     * first bvbilbblf position (lfft/top if opfn, flsf rigit/bottom).
      *
-     * @param comp        the component to add
-     * @param constraints an <code>Object</code> specifying the
-     *                    layout constraints
-     *                    (position) for this component
-     * @param index       an integer specifying the index in the container's
+     * @pbrbm domp        tif domponfnt to bdd
+     * @pbrbm donstrbints bn <dodf>Objfdt</dodf> spfdifying tif
+     *                    lbyout donstrbints
+     *                    (position) for tiis domponfnt
+     * @pbrbm indfx       bn intfgfr spfdifying tif indfx in tif dontbinfr's
      *                    list.
-     * @exception IllegalArgumentException  if the <code>constraints</code>
-     *          object does not match an existing component
-     * @see java.awt.Container#addImpl(Component, Object, int)
+     * @fxdfption IllfgblArgumfntExdfption  if tif <dodf>donstrbints</dodf>
+     *          objfdt dofs not mbtdi bn fxisting domponfnt
+     * @sff jbvb.bwt.Contbinfr#bddImpl(Componfnt, Objfdt, int)
      */
-    protected void addImpl(Component comp, Object constraints, int index)
+    protfdtfd void bddImpl(Componfnt domp, Objfdt donstrbints, int indfx)
     {
-        Component             toRemove;
+        Componfnt             toRfmovf;
 
-        if (constraints != null && !(constraints instanceof String)) {
-            throw new IllegalArgumentException("cannot add to layout: " +
-                                               "constraint must be a string " +
+        if (donstrbints != null && !(donstrbints instbndfof String)) {
+            tirow nfw IllfgblArgumfntExdfption("dbnnot bdd to lbyout: " +
+                                               "donstrbint must bf b string " +
                                                "(or null)");
         }
 
-        /* If the constraints are null and the left/right component is
-           invalid, add it at the left/right component. */
-        if (constraints == null) {
-            if (getLeftComponent() == null) {
-                constraints = JSplitPane.LEFT;
-            } else if (getRightComponent() == null) {
-                constraints = JSplitPane.RIGHT;
+        /* If tif donstrbints brf null bnd tif lfft/rigit domponfnt is
+           invblid, bdd it bt tif lfft/rigit domponfnt. */
+        if (donstrbints == null) {
+            if (gftLfftComponfnt() == null) {
+                donstrbints = JSplitPbnf.LEFT;
+            } flsf if (gftRigitComponfnt() == null) {
+                donstrbints = JSplitPbnf.RIGHT;
             }
         }
 
-        /* Find the Component that already exists and remove it. */
-        if (constraints != null && (constraints.equals(JSplitPane.LEFT) ||
-                                   constraints.equals(JSplitPane.TOP))) {
-            toRemove = getLeftComponent();
-            if (toRemove != null) {
-                remove(toRemove);
+        /* Find tif Componfnt tibt blrfbdy fxists bnd rfmovf it. */
+        if (donstrbints != null && (donstrbints.fqubls(JSplitPbnf.LEFT) ||
+                                   donstrbints.fqubls(JSplitPbnf.TOP))) {
+            toRfmovf = gftLfftComponfnt();
+            if (toRfmovf != null) {
+                rfmovf(toRfmovf);
             }
-            leftComponent = comp;
-            index = -1;
-        } else if (constraints != null &&
-                   (constraints.equals(JSplitPane.RIGHT) ||
-                    constraints.equals(JSplitPane.BOTTOM))) {
-            toRemove = getRightComponent();
-            if (toRemove != null) {
-                remove(toRemove);
+            lfftComponfnt = domp;
+            indfx = -1;
+        } flsf if (donstrbints != null &&
+                   (donstrbints.fqubls(JSplitPbnf.RIGHT) ||
+                    donstrbints.fqubls(JSplitPbnf.BOTTOM))) {
+            toRfmovf = gftRigitComponfnt();
+            if (toRfmovf != null) {
+                rfmovf(toRfmovf);
             }
-            rightComponent = comp;
-            index = -1;
-        } else if (constraints != null &&
-                constraints.equals(JSplitPane.DIVIDER)) {
-            index = -1;
+            rigitComponfnt = domp;
+            indfx = -1;
+        } flsf if (donstrbints != null &&
+                donstrbints.fqubls(JSplitPbnf.DIVIDER)) {
+            indfx = -1;
         }
-        /* LayoutManager should raise for else condition here. */
+        /* LbyoutMbnbgfr siould rbisf for flsf dondition ifrf. */
 
-        super.addImpl(comp, constraints, index);
+        supfr.bddImpl(domp, donstrbints, indfx);
 
-        // Update the JSplitPane on the screen
-        revalidate();
-        repaint();
+        // Updbtf tif JSplitPbnf on tif sdrffn
+        rfvblidbtf();
+        rfpbint();
     }
 
 
     /**
-     * Subclassed to message the UI with <code>finishedPaintingChildren</code>
-     * after super has been messaged, as well as painting the border.
+     * Subdlbssfd to mfssbgf tif UI witi <dodf>finisifdPbintingCiildrfn</dodf>
+     * bftfr supfr ibs bffn mfssbgfd, bs wfll bs pbinting tif bordfr.
      *
-     * @param g the <code>Graphics</code> context within which to paint
+     * @pbrbm g tif <dodf>Grbpiids</dodf> dontfxt witiin wiidi to pbint
      */
-    protected void paintChildren(Graphics g) {
-        super.paintChildren(g);
+    protfdtfd void pbintCiildrfn(Grbpiids g) {
+        supfr.pbintCiildrfn(g);
 
-        SplitPaneUI        ui = getUI();
+        SplitPbnfUI        ui = gftUI();
 
         if (ui != null) {
-            Graphics           tempG = g.create();
-            ui.finishedPaintingChildren(this, tempG);
-            tempG.dispose();
+            Grbpiids           tfmpG = g.drfbtf();
+            ui.finisifdPbintingCiildrfn(tiis, tfmpG);
+            tfmpG.disposf();
         }
     }
 
 
     /**
-     * See <code>readObject</code> and <code>writeObject</code> in
-     * <code>JComponent</code> for more
-     * information about serialization in Swing.
+     * Sff <dodf>rfbdObjfdt</dodf> bnd <dodf>writfObjfdt</dodf> in
+     * <dodf>JComponfnt</dodf> for morf
+     * informbtion bbout sfriblizbtion in Swing.
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
-    void setUIProperty(String propertyName, Object value) {
-        if (propertyName == "dividerSize") {
-            if (!dividerSizeSet) {
-                setDividerSize(((Number)value).intValue());
-                dividerSizeSet = false;
+    void sftUIPropfrty(String propfrtyNbmf, Objfdt vbluf) {
+        if (propfrtyNbmf == "dividfrSizf") {
+            if (!dividfrSizfSft) {
+                sftDividfrSizf(((Numbfr)vbluf).intVbluf());
+                dividfrSizfSft = fblsf;
             }
-        } else if (propertyName == "oneTouchExpandable") {
-            if (!oneTouchExpandableSet) {
-                setOneTouchExpandable(((Boolean)value).booleanValue());
-                oneTouchExpandableSet = false;
+        } flsf if (propfrtyNbmf == "onfToudiExpbndbblf") {
+            if (!onfToudiExpbndbblfSft) {
+                sftOnfToudiExpbndbblf(((Boolfbn)vbluf).boolfbnVbluf());
+                onfToudiExpbndbblfSft = fblsf;
             }
-        } else {
-            super.setUIProperty(propertyName, value);
+        } flsf {
+            supfr.sftUIPropfrty(propfrtyNbmf, vbluf);
         }
     }
 
 
     /**
-     * Returns a string representation of this <code>JSplitPane</code>.
-     * This method
-     * is intended to be used only for debugging purposes, and the
-     * content and format of the returned string may vary between
-     * implementations. The returned string may be empty but may not
-     * be <code>null</code>.
+     * Rfturns b string rfprfsfntbtion of tiis <dodf>JSplitPbnf</dodf>.
+     * Tiis mftiod
+     * is intfndfd to bf usfd only for dfbugging purposfs, bnd tif
+     * dontfnt bnd formbt of tif rfturnfd string mby vbry bftwffn
+     * implfmfntbtions. Tif rfturnfd string mby bf fmpty but mby not
+     * bf <dodf>null</dodf>.
      *
-     * @return  a string representation of this <code>JSplitPane</code>.
+     * @rfturn  b string rfprfsfntbtion of tiis <dodf>JSplitPbnf</dodf>.
      */
-    protected String paramString() {
-        String orientationString = (orientation == HORIZONTAL_SPLIT ?
+    protfdtfd String pbrbmString() {
+        String orifntbtionString = (orifntbtion == HORIZONTAL_SPLIT ?
                                     "HORIZONTAL_SPLIT" : "VERTICAL_SPLIT");
-        String continuousLayoutString = (continuousLayout ?
-                                         "true" : "false");
-        String oneTouchExpandableString = (oneTouchExpandable ?
-                                           "true" : "false");
+        String dontinuousLbyoutString = (dontinuousLbyout ?
+                                         "truf" : "fblsf");
+        String onfToudiExpbndbblfString = (onfToudiExpbndbblf ?
+                                           "truf" : "fblsf");
 
-        return super.paramString() +
-        ",continuousLayout=" + continuousLayoutString +
-        ",dividerSize=" + dividerSize +
-        ",lastDividerLocation=" + lastDividerLocation +
-        ",oneTouchExpandable=" + oneTouchExpandableString +
-        ",orientation=" + orientationString;
+        rfturn supfr.pbrbmString() +
+        ",dontinuousLbyout=" + dontinuousLbyoutString +
+        ",dividfrSizf=" + dividfrSizf +
+        ",lbstDividfrLodbtion=" + lbstDividfrLodbtion +
+        ",onfToudiExpbndbblf=" + onfToudiExpbndbblfString +
+        ",orifntbtion=" + orifntbtionString;
     }
 
 
 
     ///////////////////////////
-    // Accessibility support //
+    // Addfssibility support //
     ///////////////////////////
 
 
     /**
-     * Gets the AccessibleContext associated with this JSplitPane.
-     * For split panes, the AccessibleContext takes the form of an
-     * AccessibleJSplitPane.
-     * A new AccessibleJSplitPane instance is created if necessary.
+     * Gfts tif AddfssiblfContfxt bssodibtfd witi tiis JSplitPbnf.
+     * For split pbnfs, tif AddfssiblfContfxt tbkfs tif form of bn
+     * AddfssiblfJSplitPbnf.
+     * A nfw AddfssiblfJSplitPbnf instbndf is drfbtfd if nfdfssbry.
      *
-     * @return an AccessibleJSplitPane that serves as the
-     *         AccessibleContext of this JSplitPane
-     * @beaninfo
-     *       expert: true
-     *  description: The AccessibleContext associated with this SplitPane.
+     * @rfturn bn AddfssiblfJSplitPbnf tibt sfrvfs bs tif
+     *         AddfssiblfContfxt of tiis JSplitPbnf
+     * @bfbninfo
+     *       fxpfrt: truf
+     *  dfsdription: Tif AddfssiblfContfxt bssodibtfd witi tiis SplitPbnf.
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJSplitPane();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJSplitPbnf();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
 
     /**
-     * This class implements accessibility support for the
-     * <code>JSplitPane</code> class.  It provides an implementation of the
-     * Java Accessibility API appropriate to split pane user-interface elements.
+     * Tiis dlbss implfmfnts bddfssibility support for tif
+     * <dodf>JSplitPbnf</dodf> dlbss.  It providfs bn implfmfntbtion of tif
+     * Jbvb Addfssibility API bppropribtf to split pbnf usfr-intfrfbdf flfmfnts.
      * <p>
-     * <strong>Warning:</strong>
-     * Serialized objects of this class will not be compatible with
-     * future Swing releases. The current serialization support is
-     * appropriate for short term storage or RMI between applications running
-     * the same version of Swing.  As of 1.4, support for long term storage
-     * of all JavaBeans&trade;
-     * has been added to the <code>java.beans</code> package.
-     * Please see {@link java.beans.XMLEncoder}.
+     * <strong>Wbrning:</strong>
+     * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+     * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+     * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+     * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+     * of bll JbvbBfbns&trbdf;
+     * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+     * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
      */
-    @SuppressWarnings("serial") // Same-version serialization only
-    protected class AccessibleJSplitPane extends AccessibleJComponent
-        implements AccessibleValue {
+    @SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+    protfdtfd dlbss AddfssiblfJSplitPbnf fxtfnds AddfssiblfJComponfnt
+        implfmfnts AddfssiblfVbluf {
         /**
-         * Gets the state set of this object.
+         * Gfts tif stbtf sft of tiis objfdt.
          *
-         * @return an instance of AccessibleState containing the current state
-         * of the object
-         * @see AccessibleState
+         * @rfturn bn instbndf of AddfssiblfStbtf dontbining tif durrfnt stbtf
+         * of tif objfdt
+         * @sff AddfssiblfStbtf
          */
-        public AccessibleStateSet getAccessibleStateSet() {
-            AccessibleStateSet states = super.getAccessibleStateSet();
-            // FIXME: [[[WDW - Should also add BUSY if this implements
-            // Adjustable at some point.  If this happens, we probably
-            // should also add actions.]]]
-            if (getOrientation() == VERTICAL_SPLIT) {
-                states.add(AccessibleState.VERTICAL);
-            } else {
-                states.add(AccessibleState.HORIZONTAL);
+        publid AddfssiblfStbtfSft gftAddfssiblfStbtfSft() {
+            AddfssiblfStbtfSft stbtfs = supfr.gftAddfssiblfStbtfSft();
+            // FIXME: [[[WDW - Siould blso bdd BUSY if tiis implfmfnts
+            // Adjustbblf bt somf point.  If tiis ibppfns, wf probbbly
+            // siould blso bdd bdtions.]]]
+            if (gftOrifntbtion() == VERTICAL_SPLIT) {
+                stbtfs.bdd(AddfssiblfStbtf.VERTICAL);
+            } flsf {
+                stbtfs.bdd(AddfssiblfStbtf.HORIZONTAL);
             }
-            return states;
+            rfturn stbtfs;
         }
 
 
         /**
-         * Get the AccessibleValue associated with this object.  In the
-         * implementation of the Java Accessibility API for this class,
-         * return this object, which is responsible for implementing the
-         * AccessibleValue interface on behalf of itself.
+         * Gft tif AddfssiblfVbluf bssodibtfd witi tiis objfdt.  In tif
+         * implfmfntbtion of tif Jbvb Addfssibility API for tiis dlbss,
+         * rfturn tiis objfdt, wiidi is rfsponsiblf for implfmfnting tif
+         * AddfssiblfVbluf intfrfbdf on bfiblf of itsflf.
          *
-         * @return this object
+         * @rfturn tiis objfdt
          */
-        public AccessibleValue getAccessibleValue() {
-            return this;
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            rfturn tiis;
         }
 
 
         /**
-         * Gets the accessible value of this object.
+         * Gfts tif bddfssiblf vbluf of tiis objfdt.
          *
-         * @return a localized String describing the value of this object
+         * @rfturn b lodblizfd String dfsdribing tif vbluf of tiis objfdt
          */
-        public Number getCurrentAccessibleValue() {
-            return Integer.valueOf(getDividerLocation());
+        publid Numbfr gftCurrfntAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftDividfrLodbtion());
         }
 
 
         /**
-         * Sets the value of this object as a Number.
+         * Sfts tif vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return True if the value was set.
+         * @rfturn Truf if tif vbluf wbs sft.
          */
-        public boolean setCurrentAccessibleValue(Number n) {
+        publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
             // TIGER - 4422535
             if (n == null) {
-                return false;
+                rfturn fblsf;
             }
-            setDividerLocation(n.intValue());
-            return true;
+            sftDividfrLodbtion(n.intVbluf());
+            rfturn truf;
         }
 
 
         /**
-         * Gets the minimum accessible value of this object.
+         * Gfts tif minimum bddfssiblf vbluf of tiis objfdt.
          *
-         * @return The minimum value of this object.
+         * @rfturn Tif minimum vbluf of tiis objfdt.
          */
-        public Number getMinimumAccessibleValue() {
-            return Integer.valueOf(getUI().getMinimumDividerLocation(
-                                                        JSplitPane.this));
+        publid Numbfr gftMinimumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftUI().gftMinimumDividfrLodbtion(
+                                                        JSplitPbnf.tiis));
         }
 
 
         /**
-         * Gets the maximum accessible value of this object.
+         * Gfts tif mbximum bddfssiblf vbluf of tiis objfdt.
          *
-         * @return The maximum value of this object.
+         * @rfturn Tif mbximum vbluf of tiis objfdt.
          */
-        public Number getMaximumAccessibleValue() {
-            return Integer.valueOf(getUI().getMaximumDividerLocation(
-                                                        JSplitPane.this));
+        publid Numbfr gftMbximumAddfssiblfVbluf() {
+            rfturn Intfgfr.vblufOf(gftUI().gftMbximumDividfrLodbtion(
+                                                        JSplitPbnf.tiis));
         }
 
 
         /**
-         * Gets the role of this object.
+         * Gfts tif rolf of tiis objfdt.
          *
-         * @return an instance of AccessibleRole describing the role of
-         * the object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of
+         * tif objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.SPLIT_PANE;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.SPLIT_PANE;
         }
-    } // inner class AccessibleJSplitPane
+    } // innfr dlbss AddfssiblfJSplitPbnf
 }

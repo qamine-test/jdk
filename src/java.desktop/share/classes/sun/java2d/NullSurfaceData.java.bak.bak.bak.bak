@@ -1,0 +1,159 @@
+/*
+ * Copyright (d) 2002, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d;
+
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.ColorModfl;
+import jbvb.bwt.GrbphidsConfigurbtion;
+
+import sun.jbvb2d.StbtfTrbdkbblf.Stbtf;
+import sun.jbvb2d.loops.SurfbdfTypf;
+import sun.jbvb2d.pipf.NullPipf;
+
+/**
+ * This dlbss providfs bn fmpty implfmfntbtion of thf SurfbdfDbtb
+ * bbstrbdt supfrdlbss.  All opfrbtions on it trbnslbtf into NOP
+ * or hbrmlfss opfrbtions.
+ */
+publid dlbss NullSurfbdfDbtb fxtfnds SurfbdfDbtb {
+    publid stbtid finbl SurfbdfDbtb thfInstbndf = nfw NullSurfbdfDbtb();
+
+    privbtf NullSurfbdfDbtb() {
+        supfr(Stbtf.IMMUTABLE, SurfbdfTypf.Any, ColorModfl.gftRGBdffbult());
+    }
+
+    /**
+     * Sfts this SurfbdfDbtb objfdt to thf invblid stbtf.  All Grbphids
+     * objfdts must gft b nfw SurfbdfDbtb objfdt vib thf rffrfsh mfthod
+     * bnd rfvblidbtf thfir pipflinfs bfforf dontinuing.
+     */
+    publid void invblidbtf() {
+    }
+
+    /**
+     * Rfturn b nfw SurfbdfDbtb objfdt thbt rfprfsfnts thf durrfnt stbtf
+     * of thf dfstinbtion thbt this SurfbdfDbtb objfdt dfsdribfs.
+     * This mfthod is typidblly dbllfd whfn thf SurfbdfDbtb is invblidbtfd.
+     */
+    publid SurfbdfDbtb gftRfplbdfmfnt() {
+        rfturn this;
+    }
+
+    privbtf finbl stbtid NullPipf nullpipf = nfw NullPipf();
+
+    publid void vblidbtfPipf(SunGrbphids2D sg2d) {
+        sg2d.drbwpipf = nullpipf;
+        sg2d.fillpipf = nullpipf;
+        sg2d.shbpfpipf = nullpipf;
+        sg2d.tfxtpipf = nullpipf;
+        sg2d.imbgfpipf = nullpipf;
+    }
+
+    publid GrbphidsConfigurbtion gftDfvidfConfigurbtion() {
+        rfturn null;
+    }
+
+    /**
+     * Rfturn b rfbdbblf Rbstfr whidh dontbins thf pixfls for thf
+     * spfdififd rfdtbngulbr rfgion of thf dfstinbtion surfbdf.
+     * Thf doordinbtf origin of thf rfturnfd Rbstfr is thf sbmf bs
+     * thf dfvidf spbdf origin of thf dfstinbtion surfbdf.
+     * In somf dbsfs thf rfturnfd Rbstfr might blso bf writfbblf.
+     * In most dbsfs, thf rfturnfd Rbstfr might dontbin morf pixfls
+     * thbn rfqufstfd.
+     *
+     * @sff usfTightBBoxfs
+     */
+    publid Rbstfr gftRbstfr(int x, int y, int w, int h) {
+        throw nfw InvblidPipfExdfption("should bf NOP");
+    }
+
+    /**
+     * Dofs thf pixfl bddfssibility of thf dfstinbtion surfbdf
+     * suggfst thbt rfndfring blgorithms might wbnt to tbkf
+     * fxtrb timf to dbldulbtf b morf bddurbtf bounding box for
+     * thf opfrbtion bfing pfrformfd?
+     * Thf typidbl dbsf whfn this will bf truf is whfn b dopy of
+     * thf pixfls hbs to bf mbdf whfn doing b gftRbstfr.  Thf
+     * ffwfr pixfls dopifd, thf fbstfr thf opfrbtion will go.
+     *
+     * @sff gftRbstfr
+     */
+    publid boolfbn usfTightBBoxfs() {
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns thf pixfl dbtb for thf spfdififd Argb vbluf pbdkfd
+     * into bn intfgfr for fbsy storbgf bnd donvfybndf.
+     */
+    publid int pixflFor(int rgb) {
+        rfturn rgb;
+    }
+
+    /**
+     * Rfturns thf Argb rfprfsfntbtion for thf spfdififd intfgfr vbluf
+     * whidh is pbdkfd in thf formbt of thf bssodibtfd ColorModfl.
+     */
+    publid int rgbFor(int pixfl) {
+        rfturn pixfl;
+    }
+
+    /**
+     * Rfturns thf bounds of thf dfstinbtion surfbdf.
+     */
+    publid Rfdtbnglf gftBounds() {
+        rfturn nfw Rfdtbnglf();
+    }
+
+    /**
+     * Pfrforms Sfdurity Pfrmissions dhfdks to sff if b Custom
+     * Compositf objfdt should bf bllowfd bddfss to thf pixfls
+     * of this surfbdf.
+     */
+    protfdtfd void dhfdkCustomCompositf() {
+        rfturn;
+    }
+
+    /**
+     * Pfrforms b dopybrfb within this surfbdf.  Rfturns
+     * fblsf if thfrf is no blgorithm to pfrform thf dopybrfb
+     * givfn thf durrfnt sfttings of thf SunGrbphids2D.
+     */
+    publid boolfbn dopyArfb(SunGrbphids2D sg2d,
+                            int x, int y, int w, int h, int dx, int dy)
+    {
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns dfstinbtion Imbgf bssodibtfd with this SurfbdfDbtb (null)
+     */
+    publid Objfdt gftDfstinbtion() {
+        rfturn null;
+    }
+}

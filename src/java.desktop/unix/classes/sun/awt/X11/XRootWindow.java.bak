@@ -1,69 +1,69 @@
 /*
- * Copyright (c) 2003, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.awt.X11;
+pbdkbgf sun.bwt.X11;
 
 /**
- * This class represents AWT application root window functionality.
- * Object of this class is singleton, all window reference it to have
- * common logical ancestor
+ * Tiis dlbss rfprfsfnts AWT bpplidbtion root window fundtionblity.
+ * Objfdt of tiis dlbss is singlfton, bll window rfffrfndf it to ibvf
+ * dommon logidbl bndfstor
  */
-class XRootWindow extends XBaseWindow {
-    private static XRootWindow xawtRootWindow = null;
-    static XRootWindow getInstance() {
-        XToolkit.awtLock();
+dlbss XRootWindow fxtfnds XBbsfWindow {
+    privbtf stbtid XRootWindow xbwtRootWindow = null;
+    stbtid XRootWindow gftInstbndf() {
+        XToolkit.bwtLodk();
         try {
-            if (xawtRootWindow == null) {
-                xawtRootWindow = new XRootWindow();
-                xawtRootWindow.init(xawtRootWindow.getDelayedParams().delete(DELAYED));
+            if (xbwtRootWindow == null) {
+                xbwtRootWindow = nfw XRootWindow();
+                xbwtRootWindow.init(xbwtRootWindow.gftDflbyfdPbrbms().dflftf(DELAYED));
             }
-            return xawtRootWindow;
-        } finally {
-            XToolkit.awtUnlock();
+            rfturn xbwtRootWindow;
+        } finblly {
+            XToolkit.bwtUnlodk();
         }
     }
 
-    private XRootWindow() {
-        super(new XCreateWindowParams(new Object[] { DELAYED, Boolean.TRUE,
-                                                     EVENT_MASK, XConstants.StructureNotifyMask }));
+    privbtf XRootWindow() {
+        supfr(nfw XCrfbtfWindowPbrbms(nfw Objfdt[] { DELAYED, Boolfbn.TRUE,
+                                                     EVENT_MASK, XConstbnts.StrudturfNotifyMbsk }));
     }
 
-    public void postInit(XCreateWindowParams params){
-        super.postInit(params);
-        setWMClass(getWMClass());
+    publid void postInit(XCrfbtfWindowPbrbms pbrbms){
+        supfr.postInit(pbrbms);
+        sftWMClbss(gftWMClbss());
     }
 
-    protected String getWMName() {
-        return XToolkit.getAWTAppClassName();
+    protfdtfd String gftWMNbmf() {
+        rfturn XToolkit.gftAWTAppClbssNbmf();
     }
-    protected String[] getWMClass() {
-        return new String[] {XToolkit.getAWTAppClassName(), XToolkit.getAWTAppClassName()};
+    protfdtfd String[] gftWMClbss() {
+        rfturn nfw String[] {XToolkit.gftAWTAppClbssNbmf(), XToolkit.gftAWTAppClbssNbmf()};
     }
 
-  /* Fix 4976517.  Return awt_root_shell to XToolkit.c */
-    private static long getXRootWindow() {
-        return getXAWTRootWindow().getWindow();
+  /* Fix 4976517.  Rfturn bwt_root_sifll to XToolkit.d */
+    privbtf stbtid long gftXRootWindow() {
+        rfturn gftXAWTRootWindow().gftWindow();
     }
 }

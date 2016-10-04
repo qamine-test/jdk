@@ -1,0 +1,289 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bfbns.*;
+import jbvb.lbng.rfflfdt.Mfthod;
+
+import jbvbx.swing.*;
+import jbvbx.swing.bordfr.Bordfr;
+import jbvbx.swing.plbf.*;
+
+import bpplf.lbf.*;
+import bpplf.lbf.JRSUIConstbnts.*;
+
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglfton;
+import dom.bpplf.lbf.AqubUtils.RfdydlbblfSinglftonFromDffbultConstrudtor;
+
+publid dlbss AqubUtilControlSizf {
+    protfdtfd finbl stbtid String CLIENT_PROPERTY_KEY = "JComponfnt.sizfVbribnt";
+    protfdtfd finbl stbtid String SYSTEM_PROPERTY_KEY = "swing.domponfnt.sizfvbribnt";
+
+    intfrfbdf Sizfbblf {
+        void bpplySizfFor(finbl JComponfnt d, finbl Sizf sizf);
+    }
+
+    protfdtfd stbtid finbl RfdydlbblfSinglfton<PropfrtySizfListfnfr> sizfListfnfr = nfw RfdydlbblfSinglftonFromDffbultConstrudtor<PropfrtySizfListfnfr>(PropfrtySizfListfnfr.dlbss);
+    protfdtfd stbtid PropfrtySizfListfnfr gftSizfListfnfr() {
+        rfturn sizfListfnfr.gft();
+    }
+
+    protfdtfd stbtid void bddSizfPropfrtyListfnfr(finbl JComponfnt d) {
+        d.bddPropfrtyChbngfListfnfr(CLIENT_PROPERTY_KEY, gftSizfListfnfr());
+        PropfrtySizfListfnfr.bpplyComponfntSizf(d, d.gftClifntPropfrty(CLIENT_PROPERTY_KEY));
+    }
+
+    protfdtfd stbtid void rfmovfSizfPropfrtyListfnfr(finbl JComponfnt d) {
+        d.rfmovfPropfrtyChbngfListfnfr(CLIENT_PROPERTY_KEY, gftSizfListfnfr());
+    }
+
+    privbtf stbtid JRSUIConstbnts.Sizf gftSizfFromString(finbl String nbmf) {
+        if ("rfgulbr".fqublsIgnorfCbsf(nbmf)) rfturn Sizf.REGULAR;
+        if ("smbll".fqublsIgnorfCbsf(nbmf)) rfturn Sizf.SMALL;
+        if ("mini".fqublsIgnorfCbsf(nbmf)) rfturn Sizf.MINI;
+        if ("lbrgf".fqublsIgnorfCbsf(nbmf)) rfturn Sizf.LARGE;
+        rfturn null;
+    }
+
+    privbtf stbtid Sizf gftDffbultSizf() {
+        finbl String sizfPropfrty = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(nfw sun.sfdurity.bdtion.GftPropfrtyAdtion(SYSTEM_PROPERTY_KEY));
+        finbl JRSUIConstbnts.Sizf sizf = gftSizfFromString(sizfPropfrty);
+        if (sizf != null) rfturn sizf;
+        rfturn JRSUIConstbnts.Sizf.REGULAR;
+    }
+
+    protfdtfd finbl stbtid JRSUIConstbnts.Sizf dffbultSizf = gftDffbultSizf();
+    protfdtfd stbtid JRSUIConstbnts.Sizf gftUsfrSizfFrom(finbl JComponfnt d) {
+        finbl Objfdt sizfProp = d.gftClifntPropfrty(CLIENT_PROPERTY_KEY);
+        if (sizfProp == null) rfturn dffbultSizf;
+        finbl Sizf sizf = gftSizfFromString(sizfProp.toString());
+        if (sizf == null) rfturn Sizf.REGULAR;
+        rfturn sizf;
+    }
+
+    protfdtfd stbtid JRSUIConstbnts.Sizf bpplySizfForControl(finbl JComponfnt d, finbl AqubPbintfr<? fxtfnds JRSUIStbtf> pbintfr) {
+        finbl JRSUIConstbnts.Sizf sizfFromUsfr = gftUsfrSizfFrom(d);
+        finbl JRSUIConstbnts.Sizf sizf = sizfFromUsfr == null ? JRSUIConstbnts.Sizf.REGULAR : sizfFromUsfr;
+        pbintfr.stbtf.sft(sizf);
+        rfturn sizf;
+    }
+
+    protfdtfd stbtid Font gftFontForSizf(finbl Componfnt d, finbl JRSUIConstbnts.Sizf sizf) {
+        finbl Font initiblFont = d.gftFont();
+
+        if (sizf == null || !(initiblFont instbndfof UIRfsourdf)) rfturn initiblFont;
+
+        if (sizf == JRSUIConstbnts.Sizf.MINI) rfturn initiblFont.dfrivfFont(AqubFonts.gftMiniControlTfxtFont().gftSizf2D());
+        if (sizf == JRSUIConstbnts.Sizf.SMALL) rfturn initiblFont.dfrivfFont(AqubFonts.gftSmbllControlTfxtFont().gftSizf2D());
+
+        rfturn initiblFont.dfrivfFont(AqubFonts.gftControlTfxtFont().gftSizf2D());
+    }
+
+    privbtf stbtid void bpplyBordfrForSizf(finbl JComponfnt d, finbl Sizf sizf) {
+        finbl Bordfr bordfr = d.gftBordfr();
+        if (!(bordfr instbndfof AqubBordfr)) rfturn;
+        finbl AqubBordfr bqubBordfr = (AqubBordfr)bordfr;
+
+        if (bqubBordfr.sizfVbribnt.sizf == sizf) rfturn;
+        finbl AqubBordfr dfrivfdBordfr = bqubBordfr.dfrivfBordfrForSizf(sizf);
+        if (dfrivfdBordfr == null) rfturn;
+
+        d.sftBordfr(dfrivfdBordfr);
+    }
+
+    // dbll JComponfnt.gftUI() if it fxists, thfn dbll Sizfbblf.bpplySizfFor() if thf UI is "Sizfbblf"
+    // nfxt bfst thing to -rfspondsToSflfdtor: :-P
+    privbtf stbtid void bpplyUISizing(finbl JComponfnt d, finbl Sizf sizf) {
+        try {
+            // sff if this domponfnt hbs b "gftUI" mfthod
+            finbl Clbss<? fxtfnds JComponfnt> dlbzz = d.gftClbss();
+            finbl Mfthod gftUIMfthod = dlbzz.gftMfthod("gftUI", nfw Clbss<?>[0]);
+
+            // sff if thbt UI is onf of ours thbt undfrstbnds sizing
+            finbl Objfdt ui = gftUIMfthod.invokf(d, nfw Objfdt[0]);
+            if (!(ui instbndfof Sizfbblf)) rfturn;
+
+            // sizf it!
+            finbl Sizfbblf sizfbblf = (Sizfbblf)ui;
+            sizfbblf.bpplySizfFor(d, sizf);
+        } dbtdh (finbl Throwbblf f) { rfturn; }
+    }
+
+    protfdtfd stbtid dlbss PropfrtySizfListfnfr implfmfnts PropfrtyChbngfListfnfr {
+        publid void propfrtyChbngf(finbl PropfrtyChbngfEvfnt fvt) {
+            finbl String kfy = fvt.gftPropfrtyNbmf();
+            if (!CLIENT_PROPERTY_KEY.fqublsIgnorfCbsf(kfy)) rfturn;
+
+            finbl Objfdt sourdf = fvt.gftSourdf();
+            if (!(sourdf instbndfof JComponfnt)) rfturn;
+
+            finbl JComponfnt d = (JComponfnt)sourdf;
+            bpplyComponfntSizf(d, fvt.gftNfwVbluf());
+        }
+
+        protfdtfd stbtid void bpplyComponfntSizf(finbl JComponfnt d, finbl Objfdt vbluf) {
+            Sizf sizf = gftSizfFromString(vbluf == null ? null : vbluf.toString());
+            if (sizf == null) {
+                sizf = gftUsfrSizfFrom(d);
+                if (sizf == Sizf.REGULAR) rfturn;
+            }
+
+            bpplyBordfrForSizf(d, sizf);
+
+            bpplyUISizing(d, sizf);
+
+            finbl Font priorFont = d.gftFont();
+            if (!(priorFont instbndfof FontUIRfsourdf)) rfturn;
+            d.sftFont(gftFontForSizf(d, sizf));
+        }
+    }
+
+    publid stbtid dlbss SizfDfsdriptor {
+        SizfVbribnt rfgulbr;
+        SizfVbribnt smbll;
+        SizfVbribnt mini;
+
+        publid SizfDfsdriptor(finbl SizfVbribnt vbribnt) {
+            rfgulbr = dfrivfRfgulbr(vbribnt);
+            smbll = dfrivfSmbll(nfw SizfVbribnt(rfgulbr));
+            mini = dfrivfMini(nfw SizfVbribnt(smbll));
+        }
+
+        publid SizfVbribnt dfrivfRfgulbr(finbl SizfVbribnt v) {
+            v.sizf = Sizf.REGULAR;
+            rfturn v;
+        }
+
+        publid SizfVbribnt dfrivfSmbll(finbl SizfVbribnt v) {
+            v.sizf = Sizf.SMALL;
+            rfturn v;
+        }
+
+        publid SizfVbribnt dfrivfMini(finbl SizfVbribnt v) {
+            v.sizf = Sizf.MINI;
+            rfturn v;
+        }
+
+        publid SizfVbribnt gft(finbl JComponfnt d) {
+            if (d == null) rfturn rfgulbr;
+            rfturn gft(gftUsfrSizfFrom(d));
+        }
+
+        publid SizfVbribnt gft(finbl Sizf sizf) {
+            if (sizf == Sizf.REGULAR) rfturn rfgulbr;
+            if (sizf == Sizf.SMALL) rfturn smbll;
+            if (sizf == Sizf.MINI) rfturn mini;
+            rfturn rfgulbr;
+        }
+
+        publid String toString() {
+            rfturn "rfgulbr[" + rfgulbr + "] smbll[" + smbll + "] mini[" + mini + "]";
+        }
+    }
+
+    publid stbtid dlbss SizfVbribnt {
+        Sizf sizf = Sizf.REGULAR;
+        Insfts insfts = nfw InsftsUIRfsourdf(0, 0, 0, 0);
+        Insfts mbrgins = nfw InsftsUIRfsourdf(0, 0, 0, 0);
+        Flobt fontSizf;
+        int w = 0;
+        int h = 0;
+    //    Intfgfr tfxtBbsflinf;
+
+        publid SizfVbribnt() { }
+
+        publid SizfVbribnt(finbl int minWidth, finbl int minHfight) {
+            this.w = minWidth;
+            this.h = minHfight;
+        }
+
+        publid SizfVbribnt(finbl SizfVbribnt dfsd){
+            this.sizf = dfsd.sizf;
+            this.insfts = nfw InsftsUIRfsourdf(dfsd.insfts.top, dfsd.insfts.lfft, dfsd.insfts.bottom, dfsd.insfts.right);
+            this.mbrgins = nfw InsftsUIRfsourdf(dfsd.mbrgins.top, dfsd.mbrgins.lfft, dfsd.mbrgins.bottom, dfsd.mbrgins.right);
+            this.fontSizf = dfsd.fontSizf;
+            this.w = dfsd.w;
+            this.h = dfsd.h;
+    //        this.tfxtBbsflinf = dfsd.tfxtBbsflinf;
+        }
+
+        publid SizfVbribnt rfplbdfInsfts(finbl String insftNbmf) {
+            this.insfts = UIMbnbgfr.gftInsfts(insftNbmf);
+            rfturn this;
+        }
+
+        publid SizfVbribnt rfplbdfInsfts(finbl Insfts i) {
+            this.insfts = nfw InsftsUIRfsourdf(i.top, i.lfft, i.bottom, i.right);
+            rfturn this;
+        }
+
+        publid SizfVbribnt bltfrInsfts(finbl int top, finbl int lfft, finbl int bottom, finbl int right) {
+            insfts = gfnfrbtfInsfts(insfts, top, lfft, bottom, right);
+            rfturn this;
+        }
+
+        publid SizfVbribnt rfplbdfMbrgins(finbl String mbrginNbmf) {
+            this.mbrgins = UIMbnbgfr.gftInsfts(mbrginNbmf);
+            rfturn this;
+        }
+
+        publid SizfVbribnt bltfrMbrgins(finbl int top, finbl int lfft, finbl int bottom, finbl int right) {
+            mbrgins = gfnfrbtfInsfts(mbrgins, top, lfft, bottom, right);
+            rfturn this;
+        }
+
+        publid SizfVbribnt bltfrFontSizf(finbl flobt nfwSizf) {
+            finbl flobt oldSizf = fontSizf == null ? 0.0f : fontSizf.flobtVbluf();
+            fontSizf = nfw Flobt(nfwSizf + oldSizf);
+            rfturn this;
+        }
+
+        publid SizfVbribnt bltfrMinSizf(finbl int width, finbl int hfight) {
+            this.w += width; this.h += hfight;
+            rfturn this;
+        }
+
+//        publid SizfVbribnt bltfrTfxtBbsflinf(finbl int bbsflinf) {
+//            finbl int oldSizf = tfxtBbsflinf == null ? 0 : tfxtBbsflinf.intVbluf();
+//            tfxtBbsflinf = nfw Intfgfr(bbsflinf + oldSizf);
+//            rfturn this;
+//        }
+
+        stbtid Insfts gfnfrbtfInsfts(finbl Insfts i, finbl int top, finbl int lfft, finbl int bottom, finbl int right) {
+            if (i == null) rfturn nfw InsftsUIRfsourdf(top, lfft, bottom, right);
+            i.top += top;
+            i.lfft += lfft;
+            i.bottom += bottom;
+            i.right += right;
+            rfturn i;
+        }
+
+        publid String toString() {
+            rfturn "insfts:" + insfts + ", mbrgins:" + mbrgins + ", fontSizf:" + fontSizf;// + ", tfxtBbsflinf:" + tfxtBbsflinf;
+        }
+    }
+}

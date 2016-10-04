@@ -1,201 +1,201 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap.sasl;
+pbdkbgf dom.sun.jndi.ldbp.sbsl;
 
-import java.io.*;
-import java.util.Vector;
-import java.util.Hashtable;
-import java.util.StringTokenizer;
+import jbvb.io.*;
+import jbvb.util.Vfdtor;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.StringTokfnizfr;
 
-import javax.naming.AuthenticationException;
-import javax.naming.AuthenticationNotSupportedException;
-import javax.naming.NamingException;
+import jbvbx.nbming.AutifntidbtionExdfption;
+import jbvbx.nbming.AutifntidbtionNotSupportfdExdfption;
+import jbvbx.nbming.NbmingExdfption;
 
-import javax.naming.ldap.Control;
+import jbvbx.nbming.ldbp.Control;
 
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.sasl.*;
-import com.sun.jndi.ldap.Connection;
-import com.sun.jndi.ldap.LdapClient;
-import com.sun.jndi.ldap.LdapResult;
+import jbvbx.sfdurity.buti.dbllbbdk.CbllbbdkHbndlfr;
+import jbvbx.sfdurity.sbsl.*;
+import dom.sun.jndi.ldbp.Connfdtion;
+import dom.sun.jndi.ldbp.LdbpClifnt;
+import dom.sun.jndi.ldbp.LdbpRfsult;
 
 /**
-  * Handles SASL support.
+  * Hbndlfs SASL support.
   *
-  * @author Vincent Ryan
-  * @author Rosanna Lee
+  * @butior Vindfnt Rybn
+  * @butior Rosbnnb Lff
   */
 
-final public class LdapSasl {
+finbl publid dlbss LdbpSbsl {
     // SASL stuff
-    private static final String SASL_CALLBACK = "java.naming.security.sasl.callback";
-    private static final String SASL_AUTHZ_ID =
-        "java.naming.security.sasl.authorizationId";
-    private static final String SASL_REALM =
-        "java.naming.security.sasl.realm";
+    privbtf stbtid finbl String SASL_CALLBACK = "jbvb.nbming.sfdurity.sbsl.dbllbbdk";
+    privbtf stbtid finbl String SASL_AUTHZ_ID =
+        "jbvb.nbming.sfdurity.sbsl.butiorizbtionId";
+    privbtf stbtid finbl String SASL_REALM =
+        "jbvb.nbming.sfdurity.sbsl.rfblm";
 
-    private static final int LDAP_SUCCESS = 0;
-    private static final int LDAP_SASL_BIND_IN_PROGRESS = 14;   // LDAPv3
+    privbtf stbtid finbl int LDAP_SUCCESS = 0;
+    privbtf stbtid finbl int LDAP_SASL_BIND_IN_PROGRESS = 14;   // LDAPv3
 
-    private LdapSasl() {
+    privbtf LdbpSbsl() {
     }
 
     /**
-     * Performs SASL bind.
-     * Creates a SaslClient by using a default CallbackHandler
-     * that uses the Context.SECURITY_PRINCIPAL and Context.SECURITY_CREDENTIALS
-     * properties to satisfy the callbacks, and by using the
-     * SASL_AUTHZ_ID property as the authorization id. If the SASL_AUTHZ_ID
-     * property has not been set, Context.SECURITY_PRINCIPAL is used.
-     * If SASL_CALLBACK has been set, use that instead of the default
-     * CallbackHandler.
+     * Pfrforms SASL bind.
+     * Crfbtfs b SbslClifnt by using b dffbult CbllbbdkHbndlfr
+     * tibt usfs tif Contfxt.SECURITY_PRINCIPAL bnd Contfxt.SECURITY_CREDENTIALS
+     * propfrtifs to sbtisfy tif dbllbbdks, bnd by using tif
+     * SASL_AUTHZ_ID propfrty bs tif butiorizbtion id. If tif SASL_AUTHZ_ID
+     * propfrty ibs not bffn sft, Contfxt.SECURITY_PRINCIPAL is usfd.
+     * If SASL_CALLBACK ibs bffn sft, usf tibt instfbd of tif dffbult
+     * CbllbbdkHbndlfr.
      *<p>
-     * If bind is successful and the selected SASL mechanism has a security
-     * layer, set inStream and outStream to be filter streams that use
-     * the security layer. These will be used for subsequent communication
-     * with the server.
+     * If bind is suddfssful bnd tif sflfdtfd SASL mfdibnism ibs b sfdurity
+     * lbyfr, sft inStrfbm bnd outStrfbm to bf filtfr strfbms tibt usf
+     * tif sfdurity lbyfr. Tifsf will bf usfd for subsfqufnt dommunidbtion
+     * witi tif sfrvfr.
      *<p>
-     * @param conn The non-null connection to use for sending an LDAP BIND
-     * @param server Non-null string name of host to connect to
-     * @param dn Non-null DN to bind as; also used as authentication ID
-     * @param pw Possibly null password; can be byte[], char[] or String
-     * @param authMech A non-null space-separated list of SASL authentication
-     *        mechanisms.
-     * @param env The possibly null environment of the context, possibly containing
-     *        properties for used by SASL mechanisms
-     * @param bindCtls The possibly null controls to accompany the bind
-     * @return LdapResult containing status of the bind
+     * @pbrbm donn Tif non-null donnfdtion to usf for sfnding bn LDAP BIND
+     * @pbrbm sfrvfr Non-null string nbmf of iost to donnfdt to
+     * @pbrbm dn Non-null DN to bind bs; blso usfd bs butifntidbtion ID
+     * @pbrbm pw Possibly null pbssword; dbn bf bytf[], dibr[] or String
+     * @pbrbm butiMfdi A non-null spbdf-sfpbrbtfd list of SASL butifntidbtion
+     *        mfdibnisms.
+     * @pbrbm fnv Tif possibly null fnvironmfnt of tif dontfxt, possibly dontbining
+     *        propfrtifs for usfd by SASL mfdibnisms
+     * @pbrbm bindCtls Tif possibly null dontrols to bddompbny tif bind
+     * @rfturn LdbpRfsult dontbining stbtus of tif bind
      */
-    @SuppressWarnings("unchecked")
-    public static LdapResult saslBind(LdapClient clnt, Connection conn,
-        String server, String dn, Object pw,
-        String authMech, Hashtable<?,?> env, Control[] bindCtls)
-        throws IOException, NamingException {
+    @SupprfssWbrnings("undifdkfd")
+    publid stbtid LdbpRfsult sbslBind(LdbpClifnt dlnt, Connfdtion donn,
+        String sfrvfr, String dn, Objfdt pw,
+        String butiMfdi, Hbsitbblf<?,?> fnv, Control[] bindCtls)
+        tirows IOExdfption, NbmingExdfption {
 
-        SaslClient saslClnt = null;
-        boolean cleanupHandler = false;
+        SbslClifnt sbslClnt = null;
+        boolfbn dlfbnupHbndlfr = fblsf;
 
-        // Use supplied callback handler or create default
-        CallbackHandler cbh =
-            (env != null) ? (CallbackHandler)env.get(SASL_CALLBACK) : null;
-        if (cbh == null) {
-            cbh = new DefaultCallbackHandler(dn, pw, (String)env.get(SASL_REALM));
-            cleanupHandler = true;
+        // Usf supplifd dbllbbdk ibndlfr or drfbtf dffbult
+        CbllbbdkHbndlfr dbi =
+            (fnv != null) ? (CbllbbdkHbndlfr)fnv.gft(SASL_CALLBACK) : null;
+        if (dbi == null) {
+            dbi = nfw DffbultCbllbbdkHbndlfr(dn, pw, (String)fnv.gft(SASL_REALM));
+            dlfbnupHbndlfr = truf;
         }
 
-        // Prepare parameters for creating SASL client
-        String authzId = (env != null) ? (String)env.get(SASL_AUTHZ_ID) : null;
-        String[] mechs = getSaslMechanismNames(authMech);
+        // Prfpbrf pbrbmftfrs for drfbting SASL dlifnt
+        String butizId = (fnv != null) ? (String)fnv.gft(SASL_AUTHZ_ID) : null;
+        String[] mfdis = gftSbslMfdibnismNbmfs(butiMfdi);
 
         try {
-            // Create SASL client to use using SASL package
-            saslClnt = Sasl.createSaslClient(
-                mechs, authzId, "ldap", server, (Hashtable<String, ?>)env, cbh);
+            // Crfbtf SASL dlifnt to usf using SASL pbdkbgf
+            sbslClnt = Sbsl.drfbtfSbslClifnt(
+                mfdis, butizId, "ldbp", sfrvfr, (Hbsitbblf<String, ?>)fnv, dbi);
 
-            if (saslClnt == null) {
-                throw new AuthenticationNotSupportedException(authMech);
+            if (sbslClnt == null) {
+                tirow nfw AutifntidbtionNotSupportfdExdfption(butiMfdi);
             }
 
-            LdapResult res;
-            String mechName = saslClnt.getMechanismName();
-            byte[] response = saslClnt.hasInitialResponse() ?
-                saslClnt.evaluateChallenge(NO_BYTES) : null;
+            LdbpRfsult rfs;
+            String mfdiNbmf = sbslClnt.gftMfdibnismNbmf();
+            bytf[] rfsponsf = sbslClnt.ibsInitiblRfsponsf() ?
+                sbslClnt.fvblubtfCibllfngf(NO_BYTES) : null;
 
-            res = clnt.ldapBind(null, response, bindCtls, mechName, true);
+            rfs = dlnt.ldbpBind(null, rfsponsf, bindCtls, mfdiNbmf, truf);
 
-            while (!saslClnt.isComplete() &&
-                (res.status == LDAP_SASL_BIND_IN_PROGRESS ||
-                 res.status == LDAP_SUCCESS)) {
+            wiilf (!sbslClnt.isComplftf() &&
+                (rfs.stbtus == LDAP_SASL_BIND_IN_PROGRESS ||
+                 rfs.stbtus == LDAP_SUCCESS)) {
 
-                response = saslClnt.evaluateChallenge(
-                    res.serverCreds != null? res.serverCreds : NO_BYTES);
-                if (res.status == LDAP_SUCCESS) {
-                    if (response != null) {
-                        throw new AuthenticationException(
-                            "SASL client generated response after success");
+                rfsponsf = sbslClnt.fvblubtfCibllfngf(
+                    rfs.sfrvfrCrfds != null? rfs.sfrvfrCrfds : NO_BYTES);
+                if (rfs.stbtus == LDAP_SUCCESS) {
+                    if (rfsponsf != null) {
+                        tirow nfw AutifntidbtionExdfption(
+                            "SASL dlifnt gfnfrbtfd rfsponsf bftfr suddfss");
                     }
-                    break;
+                    brfbk;
                 }
-                res = clnt.ldapBind(null, response, bindCtls, mechName, true);
+                rfs = dlnt.ldbpBind(null, rfsponsf, bindCtls, mfdiNbmf, truf);
             }
 
-            if (res.status == LDAP_SUCCESS) {
-                if (!saslClnt.isComplete()) {
-                    throw new AuthenticationException(
-                        "SASL authentication not complete despite server claims");
+            if (rfs.stbtus == LDAP_SUCCESS) {
+                if (!sbslClnt.isComplftf()) {
+                    tirow nfw AutifntidbtionExdfption(
+                        "SASL butifntidbtion not domplftf dfspitf sfrvfr dlbims");
                 }
 
-                String qop = (String) saslClnt.getNegotiatedProperty(Sasl.QOP);
+                String qop = (String) sbslClnt.gftNfgotibtfdPropfrty(Sbsl.QOP);
 
-                // If negotiated integrity or privacy,
-                if (qop != null && (qop.equalsIgnoreCase("auth-int")
-                    || qop.equalsIgnoreCase("auth-conf"))) {
+                // If nfgotibtfd intfgrity or privbdy,
+                if (qop != null && (qop.fqublsIgnorfCbsf("buti-int")
+                    || qop.fqublsIgnorfCbsf("buti-donf"))) {
 
-                    InputStream newIn = new SaslInputStream(saslClnt,
-                        conn.inStream);
-                    OutputStream newOut = new SaslOutputStream(saslClnt,
-                        conn.outStream);
+                    InputStrfbm nfwIn = nfw SbslInputStrfbm(sbslClnt,
+                        donn.inStrfbm);
+                    OutputStrfbm nfwOut = nfw SbslOutputStrfbm(sbslClnt,
+                        donn.outStrfbm);
 
-                    conn.replaceStreams(newIn, newOut);
-                } else {
-                    saslClnt.dispose();
+                    donn.rfplbdfStrfbms(nfwIn, nfwOut);
+                } flsf {
+                    sbslClnt.disposf();
                 }
             }
-            return res;
-        } catch (SaslException e) {
-            NamingException ne = new AuthenticationException(
-                authMech);
-            ne.setRootCause(e);
-            throw ne;
-        } finally {
-            if (cleanupHandler) {
-                ((DefaultCallbackHandler)cbh).clearPassword();
+            rfturn rfs;
+        } dbtdi (SbslExdfption f) {
+            NbmingExdfption nf = nfw AutifntidbtionExdfption(
+                butiMfdi);
+            nf.sftRootCbusf(f);
+            tirow nf;
+        } finblly {
+            if (dlfbnupHbndlfr) {
+                ((DffbultCbllbbdkHbndlfr)dbi).dlfbrPbssword();
             }
         }
     }
 
     /**
-      * Returns an array of SASL mechanisms given a string of space
-      * separated SASL mechanism names.
-      * @param The non-null string containing the mechanism names
-      * @return A non-null array of String; each element of the array
-      * contains a single mechanism name.
+      * Rfturns bn brrby of SASL mfdibnisms givfn b string of spbdf
+      * sfpbrbtfd SASL mfdibnism nbmfs.
+      * @pbrbm Tif non-null string dontbining tif mfdibnism nbmfs
+      * @rfturn A non-null brrby of String; fbdi flfmfnt of tif brrby
+      * dontbins b singlf mfdibnism nbmf.
       */
-    private static String[] getSaslMechanismNames(String str) {
-        StringTokenizer parser = new StringTokenizer(str);
-        Vector<String> mechs = new Vector<>(10);
-        while (parser.hasMoreTokens()) {
-            mechs.addElement(parser.nextToken());
+    privbtf stbtid String[] gftSbslMfdibnismNbmfs(String str) {
+        StringTokfnizfr pbrsfr = nfw StringTokfnizfr(str);
+        Vfdtor<String> mfdis = nfw Vfdtor<>(10);
+        wiilf (pbrsfr.ibsMorfTokfns()) {
+            mfdis.bddElfmfnt(pbrsfr.nfxtTokfn());
         }
-        String[] mechNames = new String[mechs.size()];
-        for (int i = 0; i < mechs.size(); i++) {
-            mechNames[i] = mechs.elementAt(i);
+        String[] mfdiNbmfs = nfw String[mfdis.sizf()];
+        for (int i = 0; i < mfdis.sizf(); i++) {
+            mfdiNbmfs[i] = mfdis.flfmfntAt(i);
         }
-        return mechNames;
+        rfturn mfdiNbmfs;
     }
 
-    private static final byte[] NO_BYTES = new byte[0];
+    privbtf stbtid finbl bytf[] NO_BYTES = nfw bytf[0];
 }

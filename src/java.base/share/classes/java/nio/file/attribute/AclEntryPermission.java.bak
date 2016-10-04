@@ -1,130 +1,130 @@
 /*
- * Copyright (c) 2007, 2009, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2009, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file.attribute;
+pbdkbgf jbvb.nio.filf.bttributf;
 
 /**
- * Defines the permissions for use with the permissions component of an ACL
- * {@link AclEntry entry}.
+ * Dffinfs tif pfrmissions for usf witi tif pfrmissions domponfnt of bn ACL
+ * {@link AdlEntry fntry}.
  *
- * @since 1.7
+ * @sindf 1.7
  */
 
-public enum AclEntryPermission {
+publid fnum AdlEntryPfrmission {
 
     /**
-     * Permission to read the data of the file.
+     * Pfrmission to rfbd tif dbtb of tif filf.
      */
     READ_DATA,
 
     /**
-     * Permission to modify the file's data.
+     * Pfrmission to modify tif filf's dbtb.
      */
     WRITE_DATA,
 
     /**
-     * Permission to append data to a file.
+     * Pfrmission to bppfnd dbtb to b filf.
      */
     APPEND_DATA,
 
     /**
-     * Permission to read the named attributes of a file.
+     * Pfrmission to rfbd tif nbmfd bttributfs of b filf.
      *
-     * <p> <a href="http://www.ietf.org/rfc/rfc3530.txt">RFC&nbsp;3530: Network
-     * File System (NFS) version 4 Protocol</a> defines <em>named attributes</em>
-     * as opaque files associated with a file in the file system.
+     * <p> <b irff="ittp://www.iftf.org/rfd/rfd3530.txt">RFC&nbsp;3530: Nftwork
+     * Filf Systfm (NFS) vfrsion 4 Protodol</b> dffinfs <fm>nbmfd bttributfs</fm>
+     * bs opbquf filfs bssodibtfd witi b filf in tif filf systfm.
      */
     READ_NAMED_ATTRS,
 
     /**
-     * Permission to write the named attributes of a file.
+     * Pfrmission to writf tif nbmfd bttributfs of b filf.
      *
-     * <p> <a href="http://www.ietf.org/rfc/rfc3530.txt">RFC&nbsp;3530: Network
-     * File System (NFS) version 4 Protocol</a> defines <em>named attributes</em>
-     * as opaque files associated with a file in the file system.
+     * <p> <b irff="ittp://www.iftf.org/rfd/rfd3530.txt">RFC&nbsp;3530: Nftwork
+     * Filf Systfm (NFS) vfrsion 4 Protodol</b> dffinfs <fm>nbmfd bttributfs</fm>
+     * bs opbquf filfs bssodibtfd witi b filf in tif filf systfm.
      */
     WRITE_NAMED_ATTRS,
 
     /**
-     * Permission to execute a file.
+     * Pfrmission to fxfdutf b filf.
      */
     EXECUTE,
 
     /**
-     * Permission to delete a file or directory within a directory.
+     * Pfrmission to dflftf b filf or dirfdtory witiin b dirfdtory.
      */
     DELETE_CHILD,
 
     /**
-     * The ability to read (non-acl) file attributes.
+     * Tif bbility to rfbd (non-bdl) filf bttributfs.
      */
     READ_ATTRIBUTES,
 
     /**
-     * The ability to write (non-acl) file attributes.
+     * Tif bbility to writf (non-bdl) filf bttributfs.
      */
     WRITE_ATTRIBUTES,
 
     /**
-     * Permission to delete the file.
+     * Pfrmission to dflftf tif filf.
      */
     DELETE,
 
     /**
-     * Permission to read the ACL attribute.
+     * Pfrmission to rfbd tif ACL bttributf.
      */
     READ_ACL,
 
     /**
-     * Permission to write the ACL attribute.
+     * Pfrmission to writf tif ACL bttributf.
      */
     WRITE_ACL,
 
     /**
-     * Permission to change the owner.
+     * Pfrmission to dibngf tif ownfr.
      */
     WRITE_OWNER,
 
     /**
-     * Permission to access file locally at the server with synchronous reads
-     * and writes.
+     * Pfrmission to bddfss filf lodblly bt tif sfrvfr witi syndironous rfbds
+     * bnd writfs.
      */
     SYNCHRONIZE;
 
     /**
-     * Permission to list the entries of a directory (equal to {@link #READ_DATA})
+     * Pfrmission to list tif fntrifs of b dirfdtory (fqubl to {@link #READ_DATA})
      */
-    public static final AclEntryPermission LIST_DIRECTORY = READ_DATA;
+    publid stbtid finbl AdlEntryPfrmission LIST_DIRECTORY = READ_DATA;
 
     /**
-     * Permission to add a new file to a directory (equal to {@link #WRITE_DATA})
+     * Pfrmission to bdd b nfw filf to b dirfdtory (fqubl to {@link #WRITE_DATA})
      */
-    public static final AclEntryPermission ADD_FILE = WRITE_DATA;
+    publid stbtid finbl AdlEntryPfrmission ADD_FILE = WRITE_DATA;
 
     /**
-     * Permission to create a subdirectory to a directory (equal to {@link #APPEND_DATA})
+     * Pfrmission to drfbtf b subdirfdtory to b dirfdtory (fqubl to {@link #APPEND_DATA})
      */
-    public static final AclEntryPermission ADD_SUBDIRECTORY = APPEND_DATA;
+    publid stbtid finbl AdlEntryPfrmission ADD_SUBDIRECTORY = APPEND_DATA;
 }

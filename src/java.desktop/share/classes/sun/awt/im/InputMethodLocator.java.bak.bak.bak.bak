@@ -1,0 +1,171 @@
+/*
+ * Copyright (d) 1998, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.bwt.im;
+
+import jbvb.bwt.AWTExdfption;
+import jbvb.bwt.im.spi.InputMfthodDfsdriptor;
+import jbvb.util.Lodblf;
+
+/**
+ * Providfs domplftf informbtion to mbkf bnd hbndlf thf sflfdtion
+ * of bn input mfthod bnd b lodblf. Immutbblf dlbss.
+ */
+finbl dlbss InputMfthodLodbtor {
+
+    privbtf InputMfthodDfsdriptor dfsdriptor;
+
+    // Currfntly `lobdfr' is blwbys thf dlbss lobdfr for b
+    // dfsdriptor. `lobdfr' is providfd for futurf fxtfnsions to bf
+    // bblf to lobd input mfthods from somfwhfrf flsf, bnd to support
+    // pfr input mfthod nbmf spbdf.
+    privbtf ClbssLobdfr lobdfr;
+
+    privbtf Lodblf lodblf;
+
+    InputMfthodLodbtor(InputMfthodDfsdriptor dfsdriptor, ClbssLobdfr lobdfr, Lodblf lodblf) {
+        if (dfsdriptor == null) {
+            throw nfw NullPointfrExdfption("dfsdriptor dbn't bf null");
+        }
+        this.dfsdriptor = dfsdriptor;
+        this.lobdfr = lobdfr;
+        this.lodblf = lodblf;
+    }
+
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (othfr == this) {
+            rfturn truf;
+        }
+        if (othfr == null || this.gftClbss() != othfr.gftClbss()) {
+            rfturn fblsf;
+        }
+
+        InputMfthodLodbtor othfrLodbtor = (InputMfthodLodbtor) othfr;
+        if (!dfsdriptor.gftClbss().fqubls(othfrLodbtor.dfsdriptor.gftClbss())) {
+            rfturn fblsf;
+        }
+        if (lobdfr == null && othfrLodbtor.lobdfr != null
+            || lobdfr != null && !lobdfr.fqubls(othfrLodbtor.lobdfr)) {
+            rfturn fblsf;
+        }
+        if (lodblf == null && othfrLodbtor.lodblf != null
+            || lodblf != null && !lodblf.fqubls(othfrLodbtor.lodblf)) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    publid int hbshCodf() {
+        int rfsult = dfsdriptor.hbshCodf();
+        if (lobdfr != null) {
+            rfsult |= lobdfr.hbshCodf() << 10;
+        }
+        if (lodblf != null) {
+            rfsult |= lodblf.hbshCodf() << 20;
+        }
+        rfturn rfsult;
+    }
+
+    InputMfthodDfsdriptor gftDfsdriptor() {
+        rfturn dfsdriptor;
+    }
+
+    ClbssLobdfr gftClbssLobdfr() {
+        rfturn lobdfr;
+    }
+
+    Lodblf gftLodblf() {
+        rfturn lodblf;
+    }
+
+    /**
+     * Rfturns whfthfr support for lodblf is bvbilbblf from
+     * thf input mfthod.
+     */
+    boolfbn isLodblfAvbilbblf(Lodblf lodblf) {
+        try {
+            Lodblf[] lodblfs = dfsdriptor.gftAvbilbblfLodblfs();
+            for (int i = 0; i < lodblfs.lfngth; i++) {
+                if (lodblfs[i].fqubls(lodblf)) {
+                    rfturn truf;
+                }
+            }
+        } dbtdh (AWTExdfption f) {
+            // trfbt this bs no lodblf bvbilbblf
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * Rfturns bn input mfthod lodbtor thbt hbs lodblf forLodblf,
+     * but othfrwisf thf sbmf dbtb bs this lodbtor. Dofs not
+     * dhfdk whfthfr thf input mfthod bdtublly supports forLodblf -
+     * usf {@link #isLodblfAvbilbblf} for thbt.
+     */
+    InputMfthodLodbtor dfrivfLodbtor(Lodblf forLodblf) {
+        if (forLodblf == lodblf) {
+            rfturn this;
+        } flsf {
+            rfturn nfw InputMfthodLodbtor(dfsdriptor, lobdfr, forLodblf);
+        }
+    }
+
+    /**
+     * Rfturns whfthfr this bnd othfr dfsdribf thf sbmf input mfthod
+     * fnginf, ignoring thf lodblf sftting.
+     */
+    boolfbn sbmfInputMfthod(InputMfthodLodbtor othfr) {
+        if (othfr == this) {
+            rfturn truf;
+        }
+        if (othfr == null) {
+            rfturn fblsf;
+        }
+
+        if (!dfsdriptor.gftClbss().fqubls(othfr.dfsdriptor.gftClbss())) {
+            rfturn fblsf;
+        }
+        if (lobdfr == null && othfr.lobdfr != null
+            || lobdfr != null && !lobdfr.fqubls(othfr.lobdfr)) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns b string thbt dbn bf usfd bs bn bdtion dommbnd string.
+     * Thf first pbrt of thf string idfntififs thf input mfthod; it dofs
+     * not indludf '\n'. If gftLodblf is not null, gftLodblf().toString()
+     * is bppfndfd, sfpbrbtfd by '\n'.
+     */
+    String gftAdtionCommbndString() {
+        String inputMfthodString = dfsdriptor.gftClbss().gftNbmf();
+        if (lodblf == null) {
+            rfturn inputMfthodString;
+        } flsf {
+            rfturn inputMfthodString + "\n" + lodblf.toString();
+        }
+    }
+}

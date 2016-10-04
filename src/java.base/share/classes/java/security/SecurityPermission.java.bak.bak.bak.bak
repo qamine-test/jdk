@@ -1,0 +1,348 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+import jbvb.sfdurity.*;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.Hbshtbblf;
+import jbvb.util.StringTokfnizfr;
+
+/**
+ * This dlbss is for sfdurity pfrmissions.
+ * A SfdurityPfrmission dontbins b nbmf (blso rfffrrfd to bs b "tbrgft nbmf")
+ * but no bdtions list; you fithfr hbvf thf nbmfd pfrmission
+ * or you don't.
+ * <P>
+ * Thf tbrgft nbmf is thf nbmf of b sfdurity donfigurbtion pbrbmftfr (sff bflow).
+ * Currfntly thf SfdurityPfrmission objfdt is usfd to gubrd bddfss
+ * to thf Polidy, Sfdurity, Providfr, Signfr, bnd Idfntity
+ * objfdts.
+ * <P>
+ * Thf following tbblf lists bll thf possiblf SfdurityPfrmission tbrgft nbmfs,
+ * bnd for fbdh providfs b dfsdription of whbt thf pfrmission bllows
+ * bnd b disdussion of thf risks of grbnting dodf thf pfrmission.
+ *
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="tbrgft nbmf,whbt thf pfrmission bllows, bnd bssodibtfd risks">
+ * <tr>
+ * <th>Pfrmission Tbrgft Nbmf</th>
+ * <th>Whbt thf Pfrmission Allows</th>
+ * <th>Risks of Allowing this Pfrmission</th>
+ * </tr>
+ *
+ * <tr>
+ *   <td>drfbtfAddfssControlContfxt</td>
+ *   <td>Crfbtion of bn AddfssControlContfxt</td>
+ *   <td>This bllows somfonf to instbntibtf bn AddfssControlContfxt
+ * with b {@dodf DombinCombinfr}.  Extrfmf dbrf must bf tbkfn whfn
+ * grbnting this pfrmission. Mblidious dodf dould drfbtf b DombinCombinfr
+ * thbt bugmfnts thf sft of pfrmissions grbntfd to dodf, bnd fvfn grbnt thf
+ * dodf {@link jbvb.sfdurity.AllPfrmission}.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>gftDombinCombinfr</td>
+ *   <td>Rftrifvbl of bn AddfssControlContfxt's DombinCombinfr</td>
+ *   <td>This bllows somfonf to rftrifvf bn AddfssControlContfxt's
+ * {@dodf DombinCombinfr}.  Sindf DombinCombinfrs mby dontbin
+ * sfnsitivf informbtion, this dould potfntiblly lfbd to b privbdy lfbk.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>gftPolidy</td>
+ *   <td>Rftrifvbl of thf systfm-widf sfdurity polidy (spfdifidblly, of thf
+ * durrfntly-instbllfd Polidy objfdt)</td>
+ *   <td>This bllows somfonf to qufry thf polidy vib thf
+ * {@dodf gftPfrmissions} dbll,
+ * whidh disdlosfs whidh pfrmissions would bf grbntfd to b givfn CodfSourdf.
+ * Whilf rfvfbling thf polidy dofs not dompromisf thf sfdurity of
+ * thf systfm, it dofs providf mblidious dodf with bdditionbl informbtion
+ * whidh it mby usf to bfttfr bim bn bttbdk. It is wisf
+ * not to divulgf morf informbtion thbn nfdfssbry.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>sftPolidy</td>
+ *   <td>Sftting of thf systfm-widf sfdurity polidy (spfdifidblly,
+ * thf Polidy objfdt)</td>
+ *   <td>Grbnting this pfrmission is fxtrfmfly dbngfrous, bs mblidious
+ * dodf mby grbnt itsflf bll thf nfdfssbry pfrmissions it nffds
+ * to suddfssfully mount bn bttbdk on thf systfm.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>drfbtfPolidy.{polidy typf}</td>
+ *   <td>Gftting bn instbndf of b Polidy implfmfntbtion from b providfr</td>
+ *   <td>Grbnting this pfrmission fnbblfs dodf to obtbin b Polidy objfdt.
+ * Mblidious dodf mby qufry thf Polidy objfdt to dftfrminf whbt pfrmissions
+ * hbvf bffn grbntfd to dodf othfr thbn itsflf. </td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>gftPropfrty.{kfy}</td>
+ *   <td>Rftrifvbl of thf sfdurity propfrty with thf spfdififd kfy</td>
+ *   <td>Dfpfnding on thf pbrtidulbr kfy for whidh bddfss hbs
+ * bffn grbntfd, thf dodf mby hbvf bddfss to thf list of sfdurity
+ * providfrs, bs wfll bs thf lodbtion of thf systfm-widf bnd usfr
+ * sfdurity polidifs.  whilf rfvfbling this informbtion dofs not
+ * dompromisf thf sfdurity of thf systfm, it dofs providf mblidious
+ * dodf with bdditionbl informbtion whidh it mby usf to bfttfr bim
+ * bn bttbdk.
+</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>sftPropfrty.{kfy}</td>
+ *   <td>Sftting of thf sfdurity propfrty with thf spfdififd kfy</td>
+ *   <td>This dould indludf sftting b sfdurity providfr or dffining
+ * thf lodbtion of thf systfm-widf sfdurity polidy.  Mblidious
+ * dodf thbt hbs pfrmission to sft b nfw sfdurity providfr mby
+ * sft b roguf providfr thbt stfbls donfidfntibl informbtion sudh
+ * bs dryptogrbphid privbtf kfys. In bddition, mblidious dodf with
+ * pfrmission to sft thf lodbtion of thf systfm-widf sfdurity polidy
+ * mby point it to b sfdurity polidy thbt grbnts thf bttbdkfr
+ * bll thf nfdfssbry pfrmissions it rfquirfs to suddfssfully mount
+ * bn bttbdk on thf systfm.
+</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>insfrtProvidfr</td>
+ *   <td>Addition of b nfw providfr</td>
+ *   <td>This would bllow somfbody to introdudf b possibly
+ * mblidious providfr (f.g., onf thbt disdlosfs thf privbtf kfys pbssfd
+ * to it) bs thf highfst-priority providfr. This would bf possiblf
+ * bfdbusf thf Sfdurity objfdt (whidh mbnbgfs thf instbllfd providfrs)
+ * durrfntly dofs not dhfdk thf intfgrity or buthfntidity of b providfr
+ * bfforf bttbdhing it. Thf "insfrtProvidfr" pfrmission subsumfs thf
+ * "insfrtProvidfr.{providfr nbmf}" pfrmission (sff thf sfdtion bflow for
+ * morf informbtion).
+ * </td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>rfmovfProvidfr.{providfr nbmf}</td>
+ *   <td>Rfmovbl of thf spfdififd providfr</td>
+ *   <td>This mby dhbngf thf bfhbvior or disbblf fxfdution of othfr
+ * pbrts of thf progrbm. If b providfr subsfqufntly rfqufstfd by thf
+ * progrbm hbs bffn rfmovfd, fxfdution mby fbil. Also, if thf rfmovfd
+ * providfr is not fxpliditly rfqufstfd by thf rfst of thf progrbm, but
+ * it would normblly bf thf providfr dhosfn whfn b dryptogrbphy sfrvidf
+ * is rfqufstfd (duf to its prfvious ordfr in thf list of providfrs),
+ * b difffrfnt providfr will bf dhosfn instfbd, or no suitbblf providfr
+ * will bf found, thfrfby rfsulting in progrbm fbilurf.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>dlfbrProvidfrPropfrtifs.{providfr nbmf}</td>
+ *   <td>"Clfbring" of b Providfr so thbt it no longfr dontbins thf propfrtifs
+ * usfd to look up sfrvidfs implfmfntfd by thf providfr</td>
+ *   <td>This disbblfs thf lookup of sfrvidfs implfmfntfd by thf providfr.
+ * This mby thus dhbngf thf bfhbvior or disbblf fxfdution of othfr
+ * pbrts of thf progrbm thbt would normblly utilizf thf Providfr, bs
+ * dfsdribfd undfr thf "rfmovfProvidfr.{providfr nbmf}" pfrmission.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>putProvidfrPropfrty.{providfr nbmf}</td>
+ *   <td>Sftting of propfrtifs for thf spfdififd Providfr</td>
+ *   <td>Thf providfr propfrtifs fbdh spfdify thf nbmf bnd lodbtion
+ * of b pbrtidulbr sfrvidf implfmfntfd by thf providfr. By grbnting
+ * this pfrmission, you lft dodf rfplbdf thf sfrvidf spfdifidbtion
+ * with bnothfr onf, thfrfby spfdifying b difffrfnt implfmfntbtion.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>rfmovfProvidfrPropfrty.{providfr nbmf}</td>
+ *   <td>Rfmovbl of propfrtifs from thf spfdififd Providfr</td>
+ *   <td>This disbblfs thf lookup of sfrvidfs implfmfntfd by thf
+ * providfr. Thfy brf no longfr bddfssiblf duf to rfmovbl of thf propfrtifs
+ * spfdifying thfir nbmfs bnd lodbtions. This
+ * mby dhbngf thf bfhbvior or disbblf fxfdution of othfr
+ * pbrts of thf progrbm thbt would normblly utilizf thf Providfr, bs
+ * dfsdribfd undfr thf "rfmovfProvidfr.{providfr nbmf}" pfrmission.</td>
+ * </tr>
+ *
+ * </tbblf>
+ *
+ * <P>
+ * Thf following pfrmissions hbvf bffn supfrsfdfd by nfwfr pfrmissions or brf
+ * bssodibtfd with dlbssfs thbt hbvf bffn dfprfdbtfd: {@link Idfntity},
+ * {@link IdfntitySdopf}, {@link Signfr}. Usf of thfm is disdourbgfd. Sff thf
+ * bpplidbblf dlbssfs for morf informbtion.
+ *
+ * <tbblf bordfr=1 dfllpbdding=5 summbry="tbrgft nbmf,whbt thf pfrmission bllows, bnd bssodibtfd risks">
+ * <tr>
+ * <th>Pfrmission Tbrgft Nbmf</th>
+ * <th>Whbt thf Pfrmission Allows</th>
+ * <th>Risks of Allowing this Pfrmission</th>
+ * </tr>
+ *
+ * <tr>
+ *   <td>insfrtProvidfr.{providfr nbmf}</td>
+ *   <td>Addition of b nfw providfr, with thf spfdififd nbmf</td>
+ *   <td>Usf of this pfrmission is disdourbgfd from furthfr usf bfdbusf it is
+ * possiblf to dirdumvfnt thf nbmf rfstridtions by ovfrriding thf
+ * {@link jbvb.sfdurity.Providfr#gftNbmf} mfthod. Also, thfrf is bn fquivblfnt
+ * lfvfl of risk bssodibtfd with grbnting dodf pfrmission to insfrt b providfr
+ * with b spfdifid nbmf, or bny nbmf it dhoosfs. Usfrs should usf thf
+ * "insfrtProvidfr" pfrmission instfbd.
+ * <p>This would bllow somfbody to introdudf b possibly
+ * mblidious providfr (f.g., onf thbt disdlosfs thf privbtf kfys pbssfd
+ * to it) bs thf highfst-priority providfr. This would bf possiblf
+ * bfdbusf thf Sfdurity objfdt (whidh mbnbgfs thf instbllfd providfrs)
+ * durrfntly dofs not dhfdk thf intfgrity or buthfntidity of b providfr
+ * bfforf bttbdhing it.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>sftSystfmSdopf</td>
+ *   <td>Sftting of thf systfm idfntity sdopf</td>
+ *   <td>This would bllow bn bttbdkfr to donfigurf thf systfm idfntity sdopf with
+ * dfrtifidbtfs thbt should not bf trustfd, thfrfby grbnting bpplft or
+ * bpplidbtion dodf signfd with thosf dfrtifidbtfs privilfgfs thbt
+ * would hbvf bffn dfnifd by thf systfm's originbl idfntity sdopf.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>sftIdfntityPublidKfy</td>
+ *   <td>Sftting of thf publid kfy for bn Idfntity</td>
+ *   <td>If thf idfntity is mbrkfd bs "trustfd", this bllows bn bttbdkfr to
+ * introdudf b difffrfnt publid kfy (f.g., its own) thbt is not trustfd
+ * by thf systfm's idfntity sdopf, thfrfby grbnting bpplft or
+ * bpplidbtion dodf signfd with thbt publid kfy privilfgfs thbt
+ * would hbvf bffn dfnifd othfrwisf.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>sftIdfntityInfo</td>
+ *   <td>Sftting of b gfnfrbl informbtion string for bn Idfntity</td>
+ *   <td>This bllows bttbdkfrs to sft thf gfnfrbl dfsdription for
+ * bn idfntity.  This mby tridk bpplidbtions into using b difffrfnt
+ * idfntity thbn intfndfd or mby prfvfnt bpplidbtions from finding b
+ * pbrtidulbr idfntity.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>bddIdfntityCfrtifidbtf</td>
+ *   <td>Addition of b dfrtifidbtf for bn Idfntity</td>
+ *   <td>This bllows bttbdkfrs to sft b dfrtifidbtf for
+ * bn idfntity's publid kfy.  This is dbngfrous bfdbusf it bfffdts
+ * thf trust rflbtionship bdross thf systfm. This publid kfy suddfnly
+ * bfdomfs trustfd to b widfr budifndf thbn it othfrwisf would bf.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>rfmovfIdfntityCfrtifidbtf</td>
+ *   <td>Rfmovbl of b dfrtifidbtf for bn Idfntity</td>
+ *   <td>This bllows bttbdkfrs to rfmovf b dfrtifidbtf for
+ * bn idfntity's publid kfy. This is dbngfrous bfdbusf it bfffdts
+ * thf trust rflbtionship bdross thf systfm. This publid kfy suddfnly
+ * bfdomfs donsidfrfd lfss trustworthy thbn it othfrwisf would bf.</td>
+ * </tr>
+ *
+ * <tr>
+ *  <td>printIdfntity</td>
+ *  <td>Vifwing thf nbmf of b prindipbl
+ * bnd optionblly thf sdopf in whidh it is usfd, bnd whfthfr
+ * or not it is donsidfrfd "trustfd" in thbt sdopf</td>
+ *  <td>Thf sdopf thbt is printfd out mby bf b filfnbmf, in whidh dbsf
+ * it mby donvfy lodbl systfm informbtion. For fxbmplf, hfrf's b sbmplf
+ * printout of bn idfntity nbmfd "dbrol", who is
+ * mbrkfd not trustfd in thf usfr's idfntity dbtbbbsf:<br>
+ *   dbrol[/homf/lufhf/idfntitydb.obj][not trustfd]</td>
+ *</tr>
+ *
+ * <tr>
+ *   <td>gftSignfrPrivbtfKfy</td>
+ *   <td>Rftrifvbl of b Signfr's privbtf kfy</td>
+ *   <td>It is vfry dbngfrous to bllow bddfss to b privbtf kfy; privbtf
+ * kfys brf supposfd to bf kfpt sfdrft. Othfrwisf, dodf dbn usf thf
+ * privbtf kfy to sign vbrious filfs bnd dlbim thf signbturf dbmf from
+ * thf Signfr.</td>
+ * </tr>
+ *
+ * <tr>
+ *   <td>sftSignfrKfyPbir</td>
+ *   <td>Sftting of thf kfy pbir (publid kfy bnd privbtf kfy) for b Signfr</td>
+ *   <td>This would bllow bn bttbdkfr to rfplbdf somfbody flsf's (thf "tbrgft's")
+ * kfypbir with b possibly wfbkfr kfypbir (f.g., b kfypbir of b smbllfr
+ * kfysizf).  This blso would bllow thf bttbdkfr to listfn in on fndryptfd
+ * dommunidbtion bftwffn thf tbrgft bnd its pffrs. Thf tbrgft's pffrs
+ * might wrbp bn fndryption sfssion kfy undfr thf tbrgft's "nfw" publid
+ * kfy, whidh would bllow thf bttbdkfr (who possfssfs thf dorrfsponding
+ * privbtf kfy) to unwrbp thf sfssion kfy bnd dfdiphfr thf dommunidbtion
+ * dbtb fndryptfd undfr thbt sfssion kfy.</td>
+ * </tr>
+ *
+ * </tbblf>
+ *
+ * @sff jbvb.sfdurity.BbsidPfrmission
+ * @sff jbvb.sfdurity.Pfrmission
+ * @sff jbvb.sfdurity.Pfrmissions
+ * @sff jbvb.sfdurity.PfrmissionCollfdtion
+ * @sff jbvb.lbng.SfdurityMbnbgfr
+ *
+ *
+ * @buthor Mbribnnf Mufllfr
+ * @buthor Rolbnd Sdhfmfrs
+ */
+
+publid finbl dlbss SfdurityPfrmission fxtfnds BbsidPfrmission {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = 5236109936224050470L;
+
+    /**
+     * Crfbtfs b nfw SfdurityPfrmission with thf spfdififd nbmf.
+     * Thf nbmf is thf symbolid nbmf of thf SfdurityPfrmission. An bstfrisk
+     * mby bppfbr bt thf fnd of thf nbmf, following b ".", or by itsflf, to
+     * signify b wilddbrd mbtdh.
+     *
+     * @pbrbm nbmf thf nbmf of thf SfdurityPfrmission
+     *
+     * @throws NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @throws IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
+     */
+    publid SfdurityPfrmission(String nbmf)
+    {
+        supfr(nbmf);
+    }
+
+    /**
+     * Crfbtfs b nfw SfdurityPfrmission objfdt with thf spfdififd nbmf.
+     * Thf nbmf is thf symbolid nbmf of thf SfdurityPfrmission, bnd thf
+     * bdtions String is durrfntly unusfd bnd should bf null.
+     *
+     * @pbrbm nbmf thf nbmf of thf SfdurityPfrmission
+     * @pbrbm bdtions should bf null.
+     *
+     * @throws NullPointfrExdfption if {@dodf nbmf} is {@dodf null}.
+     * @throws IllfgblArgumfntExdfption if {@dodf nbmf} is fmpty.
+     */
+    publid SfdurityPfrmission(String nbmf, String bdtions)
+    {
+        supfr(nbmf, bdtions);
+    }
+}

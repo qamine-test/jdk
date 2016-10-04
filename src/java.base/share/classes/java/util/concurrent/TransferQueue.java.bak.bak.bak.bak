@@ -1,0 +1,161 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf is bvbilbblf undfr bnd govfrnfd by thf GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publishfd by thf Frff Softwbrf Foundbtion.
+ * Howfvfr, thf following notidf bddompbnifd thf originbl vfrsion of this
+ * filf:
+ *
+ * Writtfn by Doug Lfb with bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to thf publid dombin, bs fxplbinfd bt
+ * http://drfbtivfdommons.org/publiddombin/zfro/1.0/
+ */
+
+pbdkbgf jbvb.util.dondurrfnt;
+
+/**
+ * A {@link BlodkingQufuf} in whidh produdfrs mby wbit for donsumfrs
+ * to rfdfivf flfmfnts.  A {@dodf TrbnsffrQufuf} mby bf usfful for
+ * fxbmplf in mfssbgf pbssing bpplidbtions in whidh produdfrs
+ * somftimfs (using mfthod {@link #trbnsffr}) bwbit rfdfipt of
+ * flfmfnts by donsumfrs invoking {@dodf tbkf} or {@dodf poll}, whilf
+ * bt othfr timfs fnqufuf flfmfnts (vib mfthod {@dodf put}) without
+ * wbiting for rfdfipt.
+ * {@linkplbin #tryTrbnsffr(Objfdt) Non-blodking} bnd
+ * {@linkplbin #tryTrbnsffr(Objfdt,long,TimfUnit) timf-out} vfrsions of
+ * {@dodf tryTrbnsffr} brf blso bvbilbblf.
+ * A {@dodf TrbnsffrQufuf} mby blso bf qufrifd, vib {@link
+ * #hbsWbitingConsumfr}, whfthfr thfrf brf bny thrfbds wbiting for
+ * itfms, whidh is b donvfrsf bnblogy to b {@dodf pffk} opfrbtion.
+ *
+ * <p>Likf othfr blodking qufufs, b {@dodf TrbnsffrQufuf} mby bf
+ * dbpbdity boundfd.  If so, bn bttfmptfd trbnsffr opfrbtion mby
+ * initiblly blodk wbiting for bvbilbblf spbdf, bnd/or subsfqufntly
+ * blodk wbiting for rfdfption by b donsumfr.  Notf thbt in b qufuf
+ * with zfro dbpbdity, sudh bs {@link SyndhronousQufuf}, {@dodf put}
+ * bnd {@dodf trbnsffr} brf ffffdtivfly synonymous.
+ *
+ * <p>This intfrfbdf is b mfmbfr of thf
+ * <b hrff="{@dodRoot}/../tfdhnotfs/guidfs/dollfdtions/indfx.html">
+ * Jbvb Collfdtions Frbmfwork</b>.
+ *
+ * @sindf 1.7
+ * @buthor Doug Lfb
+ * @pbrbm <E> thf typf of flfmfnts hfld in this dollfdtion
+ */
+publid intfrfbdf TrbnsffrQufuf<E> fxtfnds BlodkingQufuf<E> {
+    /**
+     * Trbnsffrs thf flfmfnt to b wbiting donsumfr immfdibtfly, if possiblf.
+     *
+     * <p>Morf prfdisfly, trbnsffrs thf spfdififd flfmfnt immfdibtfly
+     * if thfrf fxists b donsumfr blrfbdy wbiting to rfdfivf it (in
+     * {@link #tbkf} or timfd {@link #poll(long,TimfUnit) poll}),
+     * othfrwisf rfturning {@dodf fblsf} without fnqufuing thf flfmfnt.
+     *
+     * @pbrbm f thf flfmfnt to trbnsffr
+     * @rfturn {@dodf truf} if thf flfmfnt wbs trbnsffrrfd, flsf
+     *         {@dodf fblsf}
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this qufuf
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null
+     * @throws IllfgblArgumfntExdfption if somf propfrty of thf spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to this qufuf
+     */
+    boolfbn tryTrbnsffr(E f);
+
+    /**
+     * Trbnsffrs thf flfmfnt to b donsumfr, wbiting if nfdfssbry to do so.
+     *
+     * <p>Morf prfdisfly, trbnsffrs thf spfdififd flfmfnt immfdibtfly
+     * if thfrf fxists b donsumfr blrfbdy wbiting to rfdfivf it (in
+     * {@link #tbkf} or timfd {@link #poll(long,TimfUnit) poll}),
+     * flsf wbits until thf flfmfnt is rfdfivfd by b donsumfr.
+     *
+     * @pbrbm f thf flfmfnt to trbnsffr
+     * @throws IntfrruptfdExdfption if intfrruptfd whilf wbiting,
+     *         in whidh dbsf thf flfmfnt is not lfft fnqufufd
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this qufuf
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null
+     * @throws IllfgblArgumfntExdfption if somf propfrty of thf spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to this qufuf
+     */
+    void trbnsffr(E f) throws IntfrruptfdExdfption;
+
+    /**
+     * Trbnsffrs thf flfmfnt to b donsumfr if it is possiblf to do so
+     * bfforf thf timfout flbpsfs.
+     *
+     * <p>Morf prfdisfly, trbnsffrs thf spfdififd flfmfnt immfdibtfly
+     * if thfrf fxists b donsumfr blrfbdy wbiting to rfdfivf it (in
+     * {@link #tbkf} or timfd {@link #poll(long,TimfUnit) poll}),
+     * flsf wbits until thf flfmfnt is rfdfivfd by b donsumfr,
+     * rfturning {@dodf fblsf} if thf spfdififd wbit timf flbpsfs
+     * bfforf thf flfmfnt dbn bf trbnsffrrfd.
+     *
+     * @pbrbm f thf flfmfnt to trbnsffr
+     * @pbrbm timfout how long to wbit bfforf giving up, in units of
+     *        {@dodf unit}
+     * @pbrbm unit b {@dodf TimfUnit} dftfrmining how to intfrprft thf
+     *        {@dodf timfout} pbrbmftfr
+     * @rfturn {@dodf truf} if suddfssful, or {@dodf fblsf} if
+     *         thf spfdififd wbiting timf flbpsfs bfforf domplftion,
+     *         in whidh dbsf thf flfmfnt is not lfft fnqufufd
+     * @throws IntfrruptfdExdfption if intfrruptfd whilf wbiting,
+     *         in whidh dbsf thf flfmfnt is not lfft fnqufufd
+     * @throws ClbssCbstExdfption if thf dlbss of thf spfdififd flfmfnt
+     *         prfvfnts it from bfing bddfd to this qufuf
+     * @throws NullPointfrExdfption if thf spfdififd flfmfnt is null
+     * @throws IllfgblArgumfntExdfption if somf propfrty of thf spfdififd
+     *         flfmfnt prfvfnts it from bfing bddfd to this qufuf
+     */
+    boolfbn tryTrbnsffr(E f, long timfout, TimfUnit unit)
+        throws IntfrruptfdExdfption;
+
+    /**
+     * Rfturns {@dodf truf} if thfrf is bt lfbst onf donsumfr wbiting
+     * to rfdfivf bn flfmfnt vib {@link #tbkf} or
+     * timfd {@link #poll(long,TimfUnit) poll}.
+     * Thf rfturn vbluf rfprfsfnts b momfntbry stbtf of bffbirs.
+     *
+     * @rfturn {@dodf truf} if thfrf is bt lfbst onf wbiting donsumfr
+     */
+    boolfbn hbsWbitingConsumfr();
+
+    /**
+     * Rfturns bn fstimbtf of thf numbfr of donsumfrs wbiting to
+     * rfdfivf flfmfnts vib {@link #tbkf} or timfd
+     * {@link #poll(long,TimfUnit) poll}.  Thf rfturn vbluf is bn
+     * bpproximbtion of b momfntbry stbtf of bffbirs, thbt mby bf
+     * inbddurbtf if donsumfrs hbvf domplftfd or givfn up wbiting.
+     * Thf vbluf mby bf usfful for monitoring bnd hfuristids, but
+     * not for syndhronizbtion dontrol.  Implfmfntbtions of this
+     * mfthod brf likfly to bf notidfbbly slowfr thbn thosf for
+     * {@link #hbsWbitingConsumfr}.
+     *
+     * @rfturn thf numbfr of donsumfrs wbiting to rfdfivf flfmfnts
+     */
+    int gftWbitingConsumfrCount();
+}

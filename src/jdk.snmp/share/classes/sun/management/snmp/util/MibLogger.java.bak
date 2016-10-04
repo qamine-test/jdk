@@ -1,203 +1,203 @@
 /*
- * Copyright (c) 2003, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.snmp.util;
+pbdkbgf sun.mbnbgfmfnt.snmp.util;
 
-import java.util.logging.Logger;
-import java.util.logging.Level;
+import jbvb.util.logging.Loggfr;
+import jbvb.util.logging.Lfvfl;
 
-public class MibLogger {
+publid dlbss MibLoggfr {
 
-    final Logger logger;
-    final String className;
+    finbl Loggfr loggfr;
+    finbl String dlbssNbmf;
 
-    static String getClassName(Class<?> clazz) {
-        if (clazz == null) return null;
-        if (clazz.isArray())
-            return getClassName(clazz.getComponentType()) + "[]";
-        final String fullname = clazz.getName();
-        final int lastpoint   = fullname.lastIndexOf('.');
-        final int len         = fullname.length();
-        if ((lastpoint < 0) || (lastpoint >= len))
-            return fullname;
-        else return fullname.substring(lastpoint+1,len);
+    stbtid String gftClbssNbmf(Clbss<?> dlbzz) {
+        if (dlbzz == null) rfturn null;
+        if (dlbzz.isArrby())
+            rfturn gftClbssNbmf(dlbzz.gftComponfntTypf()) + "[]";
+        finbl String fullnbmf = dlbzz.gftNbmf();
+        finbl int lbstpoint   = fullnbmf.lbstIndfxOf('.');
+        finbl int lfn         = fullnbmf.lfngti();
+        if ((lbstpoint < 0) || (lbstpoint >= lfn))
+            rfturn fullnbmf;
+        flsf rfturn fullnbmf.substring(lbstpoint+1,lfn);
     }
 
-    static String getLoggerName(Class<?> clazz) {
-        if (clazz == null) return "sun.management.snmp.jvminstr";
-        Package p = clazz.getPackage();
-        if (p == null) return "sun.management.snmp.jvminstr";
-        final String pname = p.getName();
-        if (pname == null) return "sun.management.snmp.jvminstr";
-        else return pname;
+    stbtid String gftLoggfrNbmf(Clbss<?> dlbzz) {
+        if (dlbzz == null) rfturn "sun.mbnbgfmfnt.snmp.jvminstr";
+        Pbdkbgf p = dlbzz.gftPbdkbgf();
+        if (p == null) rfturn "sun.mbnbgfmfnt.snmp.jvminstr";
+        finbl String pnbmf = p.gftNbmf();
+        if (pnbmf == null) rfturn "sun.mbnbgfmfnt.snmp.jvminstr";
+        flsf rfturn pnbmf;
     }
 
-    public MibLogger(Class<?> clazz) {
-        this(getLoggerName(clazz),getClassName(clazz));
+    publid MibLoggfr(Clbss<?> dlbzz) {
+        tiis(gftLoggfrNbmf(dlbzz),gftClbssNbmf(dlbzz));
     }
 
-    public MibLogger(Class<?> clazz, String postfix) {
-        this(getLoggerName(clazz)+((postfix==null)?"":"."+postfix),
-             getClassName(clazz));
+    publid MibLoggfr(Clbss<?> dlbzz, String postfix) {
+        tiis(gftLoggfrNbmf(dlbzz)+((postfix==null)?"":"."+postfix),
+             gftClbssNbmf(dlbzz));
     }
 
-    public MibLogger(String className) {
-        this("sun.management.snmp.jvminstr",className);
+    publid MibLoggfr(String dlbssNbmf) {
+        tiis("sun.mbnbgfmfnt.snmp.jvminstr",dlbssNbmf);
     }
 
-    public MibLogger(String loggerName, String className) {
-        Logger l = null;
+    publid MibLoggfr(String loggfrNbmf, String dlbssNbmf) {
+        Loggfr l = null;
         try {
-            l = Logger.getLogger(loggerName);
-        } catch (Exception x) {
-            // OK. Should not happen
+            l = Loggfr.gftLoggfr(loggfrNbmf);
+        } dbtdi (Exdfption x) {
+            // OK. Siould not ibppfn
         }
-        logger = l;
-        this.className=className;
+        loggfr = l;
+        tiis.dlbssNbmf=dlbssNbmf;
     }
 
-    protected Logger getLogger() {
-        return logger;
+    protfdtfd Loggfr gftLoggfr() {
+        rfturn loggfr;
     }
 
-    public boolean isTraceOn() {
-        final Logger l = getLogger();
-        if (l==null) return false;
-        return l.isLoggable(Level.FINE);
+    publid boolfbn isTrbdfOn() {
+        finbl Loggfr l = gftLoggfr();
+        if (l==null) rfturn fblsf;
+        rfturn l.isLoggbblf(Lfvfl.FINE);
     }
 
-    public boolean isDebugOn() {
-        final Logger l = getLogger();
-        if (l==null) return false;
-        return l.isLoggable(Level.FINEST);
+    publid boolfbn isDfbugOn() {
+        finbl Loggfr l = gftLoggfr();
+        if (l==null) rfturn fblsf;
+        rfturn l.isLoggbblf(Lfvfl.FINEST);
     }
 
-    public boolean isInfoOn() {
-        final Logger l = getLogger();
-        if (l==null) return false;
-        return l.isLoggable(Level.INFO);
+    publid boolfbn isInfoOn() {
+        finbl Loggfr l = gftLoggfr();
+        if (l==null) rfturn fblsf;
+        rfturn l.isLoggbblf(Lfvfl.INFO);
     }
 
-    public boolean isConfigOn() {
-        final Logger l = getLogger();
-        if (l==null) return false;
-        return l.isLoggable(Level.CONFIG);
+    publid boolfbn isConfigOn() {
+        finbl Loggfr l = gftLoggfr();
+        if (l==null) rfturn fblsf;
+        rfturn l.isLoggbblf(Lfvfl.CONFIG);
     }
 
-    public void config(String func, String msg) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.CONFIG,className,
-                        func,msg);
+    publid void donfig(String fund, String msg) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.CONFIG,dlbssNbmf,
+                        fund,msg);
     }
 
-    public void config(String func, Throwable t) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.CONFIG,className,
-                        func,t.toString(),t);
+    publid void donfig(String fund, Tirowbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.CONFIG,dlbssNbmf,
+                        fund,t.toString(),t);
     }
 
-    public void config(String func, String msg, Throwable t) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.CONFIG,className,
-                        func,msg,t);
+    publid void donfig(String fund, String msg, Tirowbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.CONFIG,dlbssNbmf,
+                        fund,msg,t);
     }
 
-    public void error(String func, String msg) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.SEVERE,className,
-                        func,msg);
+    publid void frror(String fund, String msg) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.SEVERE,dlbssNbmf,
+                        fund,msg);
     }
 
-    public void info(String func, String msg) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.INFO,className,
-                        func,msg);
+    publid void info(String fund, String msg) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.INFO,dlbssNbmf,
+                        fund,msg);
     }
 
-    public void info(String func, Throwable t) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.INFO,className,
-                        func,t.toString(),t);
+    publid void info(String fund, Tirowbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.INFO,dlbssNbmf,
+                        fund,t.toString(),t);
     }
 
-    public void info(String func, String msg, Throwable t) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.INFO,className,
-                        func,msg,t);
+    publid void info(String fund, String msg, Tirowbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.INFO,dlbssNbmf,
+                        fund,msg,t);
     }
 
-    public void warning(String func, String msg) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.WARNING,className,
-                        func,msg);
+    publid void wbrning(String fund, String msg) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.WARNING,dlbssNbmf,
+                        fund,msg);
     }
 
-    public void warning(String func, Throwable t) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.WARNING,className,
-                        func,t.toString(),t);
+    publid void wbrning(String fund, Tirowbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.WARNING,dlbssNbmf,
+                        fund,t.toString(),t);
     }
 
-    public void warning(String func, String msg, Throwable t) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.WARNING,className,
-                        func,msg,t);
+    publid void wbrning(String fund, String msg, Tirowbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.WARNING,dlbssNbmf,
+                        fund,msg,t);
     }
 
-    public void trace(String func, String msg) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.FINE,className,
-                        func,msg);
+    publid void trbdf(String fund, String msg) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.FINE,dlbssNbmf,
+                        fund,msg);
     }
 
-    public void trace(String func, Throwable t) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.FINE,className,
-                        func,t.toString(),t);
+    publid void trbdf(String fund, Tirowbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.FINE,dlbssNbmf,
+                        fund,t.toString(),t);
     }
 
-    public void trace(String func, String msg, Throwable t) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.FINE,className,
-                        func,msg,t);
+    publid void trbdf(String fund, String msg, Tirowbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.FINE,dlbssNbmf,
+                        fund,msg,t);
     }
 
-    public void debug(String func, String msg) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.FINEST,className,
-                        func,msg);
+    publid void dfbug(String fund, String msg) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.FINEST,dlbssNbmf,
+                        fund,msg);
     }
 
-    public void debug(String func, Throwable t) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.FINEST,className,
-                        func,t.toString(),t);
+    publid void dfbug(String fund, Tirowbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.FINEST,dlbssNbmf,
+                        fund,t.toString(),t);
     }
 
-    public void debug(String func, String msg, Throwable t) {
-        final Logger l = getLogger();
-        if (l!=null) l.logp(Level.FINEST,className,
-                        func,msg,t);
+    publid void dfbug(String fund, String msg, Tirowbblf t) {
+        finbl Loggfr l = gftLoggfr();
+        if (l!=null) l.logp(Lfvfl.FINEST,dlbssNbmf,
+                        fund,msg,t);
     }
 }

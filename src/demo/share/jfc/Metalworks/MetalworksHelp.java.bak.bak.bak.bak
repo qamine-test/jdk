@@ -1,0 +1,161 @@
+/*
+ * Copyright (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+
+import jbvbx.swing.*;
+import jbvb.bwt.*;
+import jbvb.nft.URL;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.io.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.fvfnt.*;
+
+
+/**
+ * @buthor Stfvf Wilson
+ * @buthor Alfxbndfr Kouznftsov
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss MftblworksHflp fxtfnds JIntfrnblFrbmf {
+
+    publid MftblworksHflp() {
+        supfr("Hflp", truf, truf, truf, truf);
+
+        sftFrbmfIdon((Idon) UIMbnbgfr.gft("Trff.opfnIdon")); // PENDING(stfvf) nffd morf gfnfrbl plbdf to gft this idon
+        sftBounds(200, 25, 400, 400);
+        HtmlPbnf html = nfw HtmlPbnf();
+        sftContfntPbnf(html);
+    }
+}
+
+
+@SupprfssWbrnings("sfribl")
+dlbss HtmlPbnf fxtfnds JSdrollPbnf implfmfnts HypfrlinkListfnfr {
+
+    JEditorPbnf html;
+
+    @SupprfssWbrnings("LfbkingThisInConstrudtor")
+    publid HtmlPbnf() {
+        try {
+            URL url = gftClbss().gftRfsourdf("/rfsourdfs/HflpFilfs/tod.html");
+            html = nfw JEditorPbnf(url);
+            html.sftEditbblf(fblsf);
+            html.bddHypfrlinkListfnfr(this);
+            html.putClifntPropfrty(JEditorPbnf.HONOR_DISPLAY_PROPERTIES,
+                    Boolfbn.TRUE);
+            JVifwport vp = gftVifwport();
+            vp.bdd(html);
+        } dbtdh (MblformfdURLExdfption f) {
+            Systfm.out.println("Mblformfd URL: " + f);
+        } dbtdh (IOExdfption f) {
+            Systfm.out.println("IOExdfption: " + f);
+        }
+    }
+
+    /**
+     * Notifidbtion of b dhbngf rflbtivf to b
+     * hypfrlink.
+     */
+    publid void hypfrlinkUpdbtf(HypfrlinkEvfnt f) {
+        if (f.gftEvfntTypf() == HypfrlinkEvfnt.EvfntTypf.ACTIVATED) {
+            linkAdtivbtfd(f.gftURL());
+        }
+    }
+
+    /**
+     * Follows thf rfffrfndf in bn
+     * link.  Thf givfn url is thf rfqufstfd rfffrfndf.
+     * By dffbult this dblls <b hrff="#sftPbgf">sftPbgf</b>,
+     * bnd if bn fxdfption is thrown thf originbl prfvious
+     * dodumfnt is rfstorfd bnd b bffp soundfd.  If bn
+     * bttfmpt wbs mbdf to follow b link, but it rfprfsfntfd
+     * b mblformfd url, this mfthod will bf dbllfd with b
+     * null brgumfnt.
+     *
+     * @pbrbm u thf URL to follow
+     */
+    protfdtfd void linkAdtivbtfd(URL u) {
+        Cursor d = html.gftCursor();
+        Cursor wbitCursor = Cursor.gftPrfdffinfdCursor(Cursor.WAIT_CURSOR);
+        html.sftCursor(wbitCursor);
+        SwingUtilitifs.invokfLbtfr(nfw PbgfLobdfr(u, d));
+    }
+
+
+    /**
+     * tfmporbry dlbss thbt lobds syndhronously (blthough
+     * lbtfr thbn thf rfqufst so thbt b dursor dhbngf
+     * dbn bf donf).
+     */
+    dlbss PbgfLobdfr implfmfnts Runnbblf {
+
+        PbgfLobdfr(URL u, Cursor d) {
+            url = u;
+            dursor = d;
+        }
+
+        publid void run() {
+            if (url == null) {
+                // rfstorf thf originbl dursor
+                html.sftCursor(dursor);
+
+                // PENDING(prinz) rfmovf this hbdk whfn
+                // butombtid vblidbtion is bdtivbtfd.
+                Contbinfr pbrfnt = html.gftPbrfnt();
+                pbrfnt.rfpbint();
+            } flsf {
+                Dodumfnt dod = html.gftDodumfnt();
+                try {
+                    html.sftPbgf(url);
+                } dbtdh (IOExdfption iof) {
+                    html.sftDodumfnt(dod);
+                    gftToolkit().bffp();
+                } finblly {
+                    // sdhfdulf thf dursor to rfvfrt bftfr
+                    // thf pbint hbs hbppfndfd.
+                    url = null;
+                    SwingUtilitifs.invokfLbtfr(this);
+                }
+            }
+        }
+        URL url;
+        Cursor dursor;
+    }
+}

@@ -1,1273 +1,1273 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.imageio.metadata;
+pbdkbgf jbvbx.imbgfio.mftbdbtb;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
-import javax.imageio.ImageTypeSpecifier;
-import com.sun.imageio.plugins.common.StandardMetadataFormat;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
+import jbvbx.imbgfio.ImbgfTypfSpfdififr;
+import dom.sun.imbgfio.plugins.dommon.StbndbrdMftbdbtbFormbt;
 
 /**
- * A concrete class providing a reusable implementation of the
- * <code>IIOMetadataFormat</code> interface.  In addition, a static
- * instance representing the standard, plug-in neutral
- * <code>javax_imageio_1.0</code> format is provided by the
- * <code>getStandardFormatInstance</code> method.
+ * A dondrftf dlbss providing b rfusbblf implfmfntbtion of tif
+ * <dodf>IIOMftbdbtbFormbt</dodf> intfrfbdf.  In bddition, b stbtid
+ * instbndf rfprfsfnting tif stbndbrd, plug-in nfutrbl
+ * <dodf>jbvbx_imbgfio_1.0</dodf> formbt is providfd by tif
+ * <dodf>gftStbndbrdFormbtInstbndf</dodf> mftiod.
  *
- * <p> In order to supply localized descriptions of elements and
- * attributes, a <code>ResourceBundle</code> with a base name of
- * <code>this.getClass().getName() + "Resources"</code> should be
- * supplied via the usual mechanism used by
- * <code>ResourceBundle.getBundle</code>.  Briefly, the subclasser
- * supplies one or more additional classes according to a naming
- * convention (by default, the fully-qualified name of the subclass
- * extending <code>IIMetadataFormatImpl</code>, plus the string
- * "Resources", plus the country, language, and variant codes
- * separated by underscores).  At run time, calls to
- * <code>getElementDescription</code> or
- * <code>getAttributeDescription</code> will attempt to load such
- * classes dynamically according to the supplied locale, and will use
- * either the element name, or the element name followed by a '/'
- * character followed by the attribute name as a key.  This key will
- * be supplied to the <code>ResourceBundle</code>'s
- * <code>getString</code> method, and the resulting localized
- * description of the node or attribute is returned.
+ * <p> In ordfr to supply lodblizfd dfsdriptions of flfmfnts bnd
+ * bttributfs, b <dodf>RfsourdfBundlf</dodf> witi b bbsf nbmf of
+ * <dodf>tiis.gftClbss().gftNbmf() + "Rfsourdfs"</dodf> siould bf
+ * supplifd vib tif usubl mfdibnism usfd by
+ * <dodf>RfsourdfBundlf.gftBundlf</dodf>.  Briffly, tif subdlbssfr
+ * supplifs onf or morf bdditionbl dlbssfs bddording to b nbming
+ * donvfntion (by dffbult, tif fully-qublififd nbmf of tif subdlbss
+ * fxtfnding <dodf>IIMftbdbtbFormbtImpl</dodf>, plus tif string
+ * "Rfsourdfs", plus tif dountry, lbngubgf, bnd vbribnt dodfs
+ * sfpbrbtfd by undfrsdorfs).  At run timf, dblls to
+ * <dodf>gftElfmfntDfsdription</dodf> or
+ * <dodf>gftAttributfDfsdription</dodf> will bttfmpt to lobd sudi
+ * dlbssfs dynbmidblly bddording to tif supplifd lodblf, bnd will usf
+ * fitifr tif flfmfnt nbmf, or tif flfmfnt nbmf followfd by b '/'
+ * dibrbdtfr followfd by tif bttributf nbmf bs b kfy.  Tiis kfy will
+ * bf supplifd to tif <dodf>RfsourdfBundlf</dodf>'s
+ * <dodf>gftString</dodf> mftiod, bnd tif rfsulting lodblizfd
+ * dfsdription of tif nodf or bttributf is rfturnfd.
  *
- * <p> The subclass may supply a different base name for the resource
- * bundles using the <code>setResourceBaseName</code> method.
+ * <p> Tif subdlbss mby supply b difffrfnt bbsf nbmf for tif rfsourdf
+ * bundlfs using tif <dodf>sftRfsourdfBbsfNbmf</dodf> mftiod.
  *
- * <p> A subclass may choose its own localization mechanism, if so
- * desired, by overriding the supplied implementations of
- * <code>getElementDescription</code> and
- * <code>getAttributeDescription</code>.
+ * <p> A subdlbss mby dioosf its own lodblizbtion mfdibnism, if so
+ * dfsirfd, by ovfrriding tif supplifd implfmfntbtions of
+ * <dodf>gftElfmfntDfsdription</dodf> bnd
+ * <dodf>gftAttributfDfsdription</dodf>.
  *
- * @see ResourceBundle#getBundle(String,Locale)
+ * @sff RfsourdfBundlf#gftBundlf(String,Lodblf)
  *
  */
-public abstract class IIOMetadataFormatImpl implements IIOMetadataFormat {
+publid bbstrbdt dlbss IIOMftbdbtbFormbtImpl implfmfnts IIOMftbdbtbFormbt {
 
     /**
-     * A <code>String</code> constant containing the standard format
-     * name, <code>"javax_imageio_1.0"</code>.
+     * A <dodf>String</dodf> donstbnt dontbining tif stbndbrd formbt
+     * nbmf, <dodf>"jbvbx_imbgfio_1.0"</dodf>.
      */
-    public static final String standardMetadataFormatName =
-        "javax_imageio_1.0";
+    publid stbtid finbl String stbndbrdMftbdbtbFormbtNbmf =
+        "jbvbx_imbgfio_1.0";
 
-    private static IIOMetadataFormat standardFormat = null;
+    privbtf stbtid IIOMftbdbtbFormbt stbndbrdFormbt = null;
 
-    private String resourceBaseName = this.getClass().getName() + "Resources";
+    privbtf String rfsourdfBbsfNbmf = tiis.gftClbss().gftNbmf() + "Rfsourdfs";
 
-    private String rootName;
+    privbtf String rootNbmf;
 
-    // Element name (String) -> Element
-    private HashMap<String, Element> elementMap = new HashMap<>();
+    // Elfmfnt nbmf (String) -> Elfmfnt
+    privbtf HbsiMbp<String, Elfmfnt> flfmfntMbp = nfw HbsiMbp<>();
 
-    class Element {
-        String elementName;
+    dlbss Elfmfnt {
+        String flfmfntNbmf;
 
-        int childPolicy;
-        int minChildren = 0;
-        int maxChildren = 0;
+        int diildPolidy;
+        int minCiildrfn = 0;
+        int mbxCiildrfn = 0;
 
-        // Child names (Strings)
-        List<String> childList = new ArrayList<>();
+        // Ciild nbmfs (Strings)
+        List<String> diildList = nfw ArrbyList<>();
 
-        // Parent names (Strings)
-        List<String> parentList = new ArrayList<>();
+        // Pbrfnt nbmfs (Strings)
+        List<String> pbrfntList = nfw ArrbyList<>();
 
-        // List of attribute names in the order they were added
-        List<String> attrList = new ArrayList<>();
-        // Attr name (String) -> Attribute
-        Map<String, Attribute> attrMap = new HashMap<>();
+        // List of bttributf nbmfs in tif ordfr tify wfrf bddfd
+        List<String> bttrList = nfw ArrbyList<>();
+        // Attr nbmf (String) -> Attributf
+        Mbp<String, Attributf> bttrMbp = nfw HbsiMbp<>();
 
-        ObjectValue<?> objectValue;
+        ObjfdtVbluf<?> objfdtVbluf;
     }
 
-    class Attribute {
-        String attrName;
+    dlbss Attributf {
+        String bttrNbmf;
 
-        int valueType = VALUE_ARBITRARY;
-        int dataType;
-        boolean required;
-        String defaultValue = null;
+        int vblufTypf = VALUE_ARBITRARY;
+        int dbtbTypf;
+        boolfbn rfquirfd;
+        String dffbultVbluf = null;
 
-        // enumeration
-        List<String> enumeratedValues;
+        // fnumfrbtion
+        List<String> fnumfrbtfdVblufs;
 
-        // range
-        String minValue;
-        String maxValue;
+        // rbngf
+        String minVbluf;
+        String mbxVbluf;
 
         // list
-        int listMinLength;
-        int listMaxLength;
+        int listMinLfngti;
+        int listMbxLfngti;
     }
 
-    class ObjectValue<T> {
-        int valueType = VALUE_NONE;
-        // ? extends T So that ObjectValue<Object> can take Class<?>
-        Class<? extends T> classType = null;
-        T defaultValue = null;
+    dlbss ObjfdtVbluf<T> {
+        int vblufTypf = VALUE_NONE;
+        // ? fxtfnds T So tibt ObjfdtVbluf<Objfdt> dbn tbkf Clbss<?>
+        Clbss<? fxtfnds T> dlbssTypf = null;
+        T dffbultVbluf = null;
 
-        // Meaningful only if valueType == VALUE_ENUMERATION
-        List<? extends T> enumeratedValues = null;
+        // Mfbningful only if vblufTypf == VALUE_ENUMERATION
+        List<? fxtfnds T> fnumfrbtfdVblufs = null;
 
-        // Meaningful only if valueType == VALUE_RANGE
-        Comparable<? super T> minValue = null;
-        Comparable<? super T> maxValue = null;
+        // Mfbningful only if vblufTypf == VALUE_RANGE
+        Compbrbblf<? supfr T> minVbluf = null;
+        Compbrbblf<? supfr T> mbxVbluf = null;
 
-        // Meaningful only if valueType == VALUE_LIST
-        int arrayMinLength = 0;
-        int arrayMaxLength = 0;
-    }
-
-    /**
-     * Constructs a blank <code>IIOMetadataFormatImpl</code> instance,
-     * with a given root element name and child policy (other than
-     * <code>CHILD_POLICY_REPEAT</code>).  Additional elements, and
-     * their attributes and <code>Object</code> reference information
-     * may be added using the various <code>add</code> methods.
-     *
-     * @param rootName the name of the root element.
-     * @param childPolicy one of the <code>CHILD_POLICY_*</code> constants,
-     * other than <code>CHILD_POLICY_REPEAT</code>.
-     *
-     * @exception IllegalArgumentException if <code>rootName</code> is
-     * <code>null</code>.
-     * @exception IllegalArgumentException if <code>childPolicy</code> is
-     * not one of the predefined constants.
-     */
-    public IIOMetadataFormatImpl(String rootName,
-                                 int childPolicy) {
-        if (rootName == null) {
-            throw new IllegalArgumentException("rootName == null!");
-        }
-        if (childPolicy < CHILD_POLICY_EMPTY ||
-            childPolicy > CHILD_POLICY_MAX ||
-            childPolicy == CHILD_POLICY_REPEAT) {
-            throw new IllegalArgumentException("Invalid value for childPolicy!");
-        }
-
-        this.rootName = rootName;
-
-        Element root = new Element();
-        root.elementName = rootName;
-        root.childPolicy = childPolicy;
-
-        elementMap.put(rootName, root);
+        // Mfbningful only if vblufTypf == VALUE_LIST
+        int brrbyMinLfngti = 0;
+        int brrbyMbxLfngti = 0;
     }
 
     /**
-     * Constructs a blank <code>IIOMetadataFormatImpl</code> instance,
-     * with a given root element name and a child policy of
-     * <code>CHILD_POLICY_REPEAT</code>.  Additional elements, and
-     * their attributes and <code>Object</code> reference information
-     * may be added using the various <code>add</code> methods.
+     * Construdts b blbnk <dodf>IIOMftbdbtbFormbtImpl</dodf> instbndf,
+     * witi b givfn root flfmfnt nbmf bnd diild polidy (otifr tibn
+     * <dodf>CHILD_POLICY_REPEAT</dodf>).  Additionbl flfmfnts, bnd
+     * tifir bttributfs bnd <dodf>Objfdt</dodf> rfffrfndf informbtion
+     * mby bf bddfd using tif vbrious <dodf>bdd</dodf> mftiods.
      *
-     * @param rootName the name of the root element.
-     * @param minChildren the minimum number of children of the node.
-     * @param maxChildren the maximum number of children of the node.
+     * @pbrbm rootNbmf tif nbmf of tif root flfmfnt.
+     * @pbrbm diildPolidy onf of tif <dodf>CHILD_POLICY_*</dodf> donstbnts,
+     * otifr tibn <dodf>CHILD_POLICY_REPEAT</dodf>.
      *
-     * @exception IllegalArgumentException if <code>rootName</code> is
-     * <code>null</code>.
-     * @exception IllegalArgumentException if <code>minChildren</code>
-     * is negative or larger than <code>maxChildren</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rootNbmf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>diildPolidy</dodf> is
+     * not onf of tif prfdffinfd donstbnts.
      */
-    public IIOMetadataFormatImpl(String rootName,
-                                 int minChildren,
-                                 int maxChildren) {
-        if (rootName == null) {
-            throw new IllegalArgumentException("rootName == null!");
+    publid IIOMftbdbtbFormbtImpl(String rootNbmf,
+                                 int diildPolidy) {
+        if (rootNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("rootNbmf == null!");
         }
-        if (minChildren < 0) {
-            throw new IllegalArgumentException("minChildren < 0!");
-        }
-        if (minChildren > maxChildren) {
-            throw new IllegalArgumentException("minChildren > maxChildren!");
+        if (diildPolidy < CHILD_POLICY_EMPTY ||
+            diildPolidy > CHILD_POLICY_MAX ||
+            diildPolidy == CHILD_POLICY_REPEAT) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf for diildPolidy!");
         }
 
-        Element root = new Element();
-        root.elementName = rootName;
-        root.childPolicy = CHILD_POLICY_REPEAT;
-        root.minChildren = minChildren;
-        root.maxChildren = maxChildren;
+        tiis.rootNbmf = rootNbmf;
 
-        this.rootName = rootName;
-        elementMap.put(rootName, root);
+        Elfmfnt root = nfw Elfmfnt();
+        root.flfmfntNbmf = rootNbmf;
+        root.diildPolidy = diildPolidy;
+
+        flfmfntMbp.put(rootNbmf, root);
     }
 
     /**
-     * Sets a new base name for locating <code>ResourceBundle</code>s
-     * containing descriptions of elements and attributes for this
-     * format.
+     * Construdts b blbnk <dodf>IIOMftbdbtbFormbtImpl</dodf> instbndf,
+     * witi b givfn root flfmfnt nbmf bnd b diild polidy of
+     * <dodf>CHILD_POLICY_REPEAT</dodf>.  Additionbl flfmfnts, bnd
+     * tifir bttributfs bnd <dodf>Objfdt</dodf> rfffrfndf informbtion
+     * mby bf bddfd using tif vbrious <dodf>bdd</dodf> mftiods.
      *
-     * <p> Prior to the first time this method is called, the base
-     * name will be equal to <code>this.getClass().getName() +
-     * "Resources"</code>.
+     * @pbrbm rootNbmf tif nbmf of tif root flfmfnt.
+     * @pbrbm minCiildrfn tif minimum numbfr of diildrfn of tif nodf.
+     * @pbrbm mbxCiildrfn tif mbximum numbfr of diildrfn of tif nodf.
      *
-     * @param resourceBaseName a <code>String</code> containing the new
-     * base name.
-     *
-     * @exception IllegalArgumentException if
-     * <code>resourceBaseName</code> is <code>null</code>.
-     *
-     * @see #getResourceBaseName
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>rootNbmf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>minCiildrfn</dodf>
+     * is nfgbtivf or lbrgfr tibn <dodf>mbxCiildrfn</dodf>.
      */
-    protected void setResourceBaseName(String resourceBaseName) {
-        if (resourceBaseName == null) {
-            throw new IllegalArgumentException("resourceBaseName == null!");
+    publid IIOMftbdbtbFormbtImpl(String rootNbmf,
+                                 int minCiildrfn,
+                                 int mbxCiildrfn) {
+        if (rootNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("rootNbmf == null!");
         }
-        this.resourceBaseName = resourceBaseName;
+        if (minCiildrfn < 0) {
+            tirow nfw IllfgblArgumfntExdfption("minCiildrfn < 0!");
+        }
+        if (minCiildrfn > mbxCiildrfn) {
+            tirow nfw IllfgblArgumfntExdfption("minCiildrfn > mbxCiildrfn!");
+        }
+
+        Elfmfnt root = nfw Elfmfnt();
+        root.flfmfntNbmf = rootNbmf;
+        root.diildPolidy = CHILD_POLICY_REPEAT;
+        root.minCiildrfn = minCiildrfn;
+        root.mbxCiildrfn = mbxCiildrfn;
+
+        tiis.rootNbmf = rootNbmf;
+        flfmfntMbp.put(rootNbmf, root);
     }
 
     /**
-     * Returns the currently set base name for locating
-     * <code>ResourceBundle</code>s.
+     * Sfts b nfw bbsf nbmf for lodbting <dodf>RfsourdfBundlf</dodf>s
+     * dontbining dfsdriptions of flfmfnts bnd bttributfs for tiis
+     * formbt.
      *
-     * @return a <code>String</code> containing the base name.
+     * <p> Prior to tif first timf tiis mftiod is dbllfd, tif bbsf
+     * nbmf will bf fqubl to <dodf>tiis.gftClbss().gftNbmf() +
+     * "Rfsourdfs"</dodf>.
      *
-     * @see #setResourceBaseName
+     * @pbrbm rfsourdfBbsfNbmf b <dodf>String</dodf> dontbining tif nfw
+     * bbsf nbmf.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>rfsourdfBbsfNbmf</dodf> is <dodf>null</dodf>.
+     *
+     * @sff #gftRfsourdfBbsfNbmf
      */
-    protected String getResourceBaseName() {
-        return resourceBaseName;
+    protfdtfd void sftRfsourdfBbsfNbmf(String rfsourdfBbsfNbmf) {
+        if (rfsourdfBbsfNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("rfsourdfBbsfNbmf == null!");
+        }
+        tiis.rfsourdfBbsfNbmf = rfsourdfBbsfNbmf;
     }
 
     /**
-     * Utility method for locating an element.
+     * Rfturns tif durrfntly sft bbsf nbmf for lodbting
+     * <dodf>RfsourdfBundlf</dodf>s.
      *
-     * @param mustAppear if <code>true</code>, throw an
-     * <code>IllegalArgumentException</code> if no such node exists;
-     * if <code>false</code>, just return null.
+     * @rfturn b <dodf>String</dodf> dontbining tif bbsf nbmf.
+     *
+     * @sff #sftRfsourdfBbsfNbmf
      */
-    private Element getElement(String elementName, boolean mustAppear) {
-        if (mustAppear && (elementName == null)) {
-            throw new IllegalArgumentException("element name is null!");
-        }
-        Element element = elementMap.get(elementName);
-        if (mustAppear && (element == null)) {
-            throw new IllegalArgumentException("No such element: " +
-                                               elementName);
-        }
-        return element;
-    }
-
-    private Element getElement(String elementName) {
-        return getElement(elementName, true);
-    }
-
-    // Utility method for locating an attribute
-    private Attribute getAttribute(String elementName, String attrName) {
-        Element element = getElement(elementName);
-        Attribute attr = element.attrMap.get(attrName);
-        if (attr == null) {
-            throw new IllegalArgumentException("No such attribute \"" +
-                                               attrName + "\"!");
-        }
-        return attr;
-    }
-
-    // Setup
-
-    /**
-     * Adds a new element type to this metadata document format with a
-     * child policy other than <code>CHILD_POLICY_REPEAT</code>.
-     *
-     * @param elementName the name of the new element.
-     * @param parentName the name of the element that will be the
-     * parent of the new element.
-     * @param childPolicy one of the <code>CHILD_POLICY_*</code>
-     * constants, other than <code>CHILD_POLICY_REPEAT</code>,
-     * indicating the child policy of the new element.
-     *
-     * @exception IllegalArgumentException if <code>parentName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>childPolicy</code>
-     * is not one of the predefined constants.
-     */
-    protected void addElement(String elementName,
-                              String parentName,
-                              int childPolicy) {
-        Element parent = getElement(parentName);
-        if (childPolicy < CHILD_POLICY_EMPTY ||
-            childPolicy > CHILD_POLICY_MAX ||
-            childPolicy == CHILD_POLICY_REPEAT) {
-            throw new IllegalArgumentException
-                ("Invalid value for childPolicy!");
-        }
-
-        Element element = new Element();
-        element.elementName = elementName;
-        element.childPolicy = childPolicy;
-
-        parent.childList.add(elementName);
-        element.parentList.add(parentName);
-
-        elementMap.put(elementName, element);
+    protfdtfd String gftRfsourdfBbsfNbmf() {
+        rfturn rfsourdfBbsfNbmf;
     }
 
     /**
-     * Adds a new element type to this metadata document format with a
-     * child policy of <code>CHILD_POLICY_REPEAT</code>.
+     * Utility mftiod for lodbting bn flfmfnt.
      *
-     * @param elementName the name of the new element.
-     * @param parentName the name of the element that will be the
-     * parent of the new element.
-     * @param minChildren the minimum number of children of the node.
-     * @param maxChildren the maximum number of children of the node.
-     *
-     * @exception IllegalArgumentException if <code>parentName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>minChildren</code>
-     * is negative or larger than <code>maxChildren</code>.
+     * @pbrbm mustAppfbr if <dodf>truf</dodf>, tirow bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if no sudi nodf fxists;
+     * if <dodf>fblsf</dodf>, just rfturn null.
      */
-    protected void addElement(String elementName,
-                              String parentName,
-                              int minChildren,
-                              int maxChildren) {
-        Element parent = getElement(parentName);
-        if (minChildren < 0) {
-            throw new IllegalArgumentException("minChildren < 0!");
+    privbtf Elfmfnt gftElfmfnt(String flfmfntNbmf, boolfbn mustAppfbr) {
+        if (mustAppfbr && (flfmfntNbmf == null)) {
+            tirow nfw IllfgblArgumfntExdfption("flfmfnt nbmf is null!");
         }
-        if (minChildren > maxChildren) {
-            throw new IllegalArgumentException("minChildren > maxChildren!");
+        Elfmfnt flfmfnt = flfmfntMbp.gft(flfmfntNbmf);
+        if (mustAppfbr && (flfmfnt == null)) {
+            tirow nfw IllfgblArgumfntExdfption("No sudi flfmfnt: " +
+                                               flfmfntNbmf);
+        }
+        rfturn flfmfnt;
+    }
+
+    privbtf Elfmfnt gftElfmfnt(String flfmfntNbmf) {
+        rfturn gftElfmfnt(flfmfntNbmf, truf);
+    }
+
+    // Utility mftiod for lodbting bn bttributf
+    privbtf Attributf gftAttributf(String flfmfntNbmf, String bttrNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        Attributf bttr = flfmfnt.bttrMbp.gft(bttrNbmf);
+        if (bttr == null) {
+            tirow nfw IllfgblArgumfntExdfption("No sudi bttributf \"" +
+                                               bttrNbmf + "\"!");
+        }
+        rfturn bttr;
+    }
+
+    // Sftup
+
+    /**
+     * Adds b nfw flfmfnt typf to tiis mftbdbtb dodumfnt formbt witi b
+     * diild polidy otifr tibn <dodf>CHILD_POLICY_REPEAT</dodf>.
+     *
+     * @pbrbm flfmfntNbmf tif nbmf of tif nfw flfmfnt.
+     * @pbrbm pbrfntNbmf tif nbmf of tif flfmfnt tibt will bf tif
+     * pbrfnt of tif nfw flfmfnt.
+     * @pbrbm diildPolidy onf of tif <dodf>CHILD_POLICY_*</dodf>
+     * donstbnts, otifr tibn <dodf>CHILD_POLICY_REPEAT</dodf>,
+     * indidbting tif diild polidy of tif nfw flfmfnt.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>pbrfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>diildPolidy</dodf>
+     * is not onf of tif prfdffinfd donstbnts.
+     */
+    protfdtfd void bddElfmfnt(String flfmfntNbmf,
+                              String pbrfntNbmf,
+                              int diildPolidy) {
+        Elfmfnt pbrfnt = gftElfmfnt(pbrfntNbmf);
+        if (diildPolidy < CHILD_POLICY_EMPTY ||
+            diildPolidy > CHILD_POLICY_MAX ||
+            diildPolidy == CHILD_POLICY_REPEAT) {
+            tirow nfw IllfgblArgumfntExdfption
+                ("Invblid vbluf for diildPolidy!");
         }
 
-        Element element = new Element();
-        element.elementName = elementName;
-        element.childPolicy = CHILD_POLICY_REPEAT;
-        element.minChildren = minChildren;
-        element.maxChildren = maxChildren;
+        Elfmfnt flfmfnt = nfw Elfmfnt();
+        flfmfnt.flfmfntNbmf = flfmfntNbmf;
+        flfmfnt.diildPolidy = diildPolidy;
 
-        parent.childList.add(elementName);
-        element.parentList.add(parentName);
+        pbrfnt.diildList.bdd(flfmfntNbmf);
+        flfmfnt.pbrfntList.bdd(pbrfntNbmf);
 
-        elementMap.put(elementName, element);
+        flfmfntMbp.put(flfmfntNbmf, flfmfnt);
     }
 
     /**
-     * Adds an existing element to the list of legal children for a
-     * given parent node type.
+     * Adds b nfw flfmfnt typf to tiis mftbdbtb dodumfnt formbt witi b
+     * diild polidy of <dodf>CHILD_POLICY_REPEAT</dodf>.
      *
-     * @param parentName the name of the element that will be the
-     * new parent of the element.
-     * @param elementName the name of the element to be added as a
-     * child.
+     * @pbrbm flfmfntNbmf tif nbmf of tif nfw flfmfnt.
+     * @pbrbm pbrfntNbmf tif nbmf of tif flfmfnt tibt will bf tif
+     * pbrfnt of tif nfw flfmfnt.
+     * @pbrbm minCiildrfn tif minimum numbfr of diildrfn of tif nodf.
+     * @pbrbm mbxCiildrfn tif mbximum numbfr of diildrfn of tif nodf.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>parentName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>pbrfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>minCiildrfn</dodf>
+     * is nfgbtivf or lbrgfr tibn <dodf>mbxCiildrfn</dodf>.
      */
-    protected void addChildElement(String elementName, String parentName) {
-        Element parent = getElement(parentName);
-        Element element = getElement(elementName);
-        parent.childList.add(elementName);
-        element.parentList.add(parentName);
+    protfdtfd void bddElfmfnt(String flfmfntNbmf,
+                              String pbrfntNbmf,
+                              int minCiildrfn,
+                              int mbxCiildrfn) {
+        Elfmfnt pbrfnt = gftElfmfnt(pbrfntNbmf);
+        if (minCiildrfn < 0) {
+            tirow nfw IllfgblArgumfntExdfption("minCiildrfn < 0!");
+        }
+        if (minCiildrfn > mbxCiildrfn) {
+            tirow nfw IllfgblArgumfntExdfption("minCiildrfn > mbxCiildrfn!");
+        }
+
+        Elfmfnt flfmfnt = nfw Elfmfnt();
+        flfmfnt.flfmfntNbmf = flfmfntNbmf;
+        flfmfnt.diildPolidy = CHILD_POLICY_REPEAT;
+        flfmfnt.minCiildrfn = minCiildrfn;
+        flfmfnt.mbxCiildrfn = mbxCiildrfn;
+
+        pbrfnt.diildList.bdd(flfmfntNbmf);
+        flfmfnt.pbrfntList.bdd(pbrfntNbmf);
+
+        flfmfntMbp.put(flfmfntNbmf, flfmfnt);
     }
 
     /**
-     * Removes an element from the format.  If no element with the
-     * given name was present, nothing happens and no exception is
-     * thrown.
+     * Adds bn fxisting flfmfnt to tif list of lfgbl diildrfn for b
+     * givfn pbrfnt nodf typf.
      *
-     * @param elementName the name of the element to be removed.
+     * @pbrbm pbrfntNbmf tif nbmf of tif flfmfnt tibt will bf tif
+     * nfw pbrfnt of tif flfmfnt.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt to bf bddfd bs b
+     * diild.
+     *
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>pbrfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
      */
-    protected void removeElement(String elementName) {
-        Element element = getElement(elementName, false);
-        if (element != null) {
-            Iterator<String> iter = element.parentList.iterator();
-            while (iter.hasNext()) {
-                String parentName = iter.next();
-                Element parent = getElement(parentName, false);
-                if (parent != null) {
-                    parent.childList.remove(elementName);
+    protfdtfd void bddCiildElfmfnt(String flfmfntNbmf, String pbrfntNbmf) {
+        Elfmfnt pbrfnt = gftElfmfnt(pbrfntNbmf);
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        pbrfnt.diildList.bdd(flfmfntNbmf);
+        flfmfnt.pbrfntList.bdd(pbrfntNbmf);
+    }
+
+    /**
+     * Rfmovfs bn flfmfnt from tif formbt.  If no flfmfnt witi tif
+     * givfn nbmf wbs prfsfnt, notiing ibppfns bnd no fxdfption is
+     * tirown.
+     *
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt to bf rfmovfd.
+     */
+    protfdtfd void rfmovfElfmfnt(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf, fblsf);
+        if (flfmfnt != null) {
+            Itfrbtor<String> itfr = flfmfnt.pbrfntList.itfrbtor();
+            wiilf (itfr.ibsNfxt()) {
+                String pbrfntNbmf = itfr.nfxt();
+                Elfmfnt pbrfnt = gftElfmfnt(pbrfntNbmf, fblsf);
+                if (pbrfnt != null) {
+                    pbrfnt.diildList.rfmovf(flfmfntNbmf);
                 }
             }
-            elementMap.remove(elementName);
+            flfmfntMbp.rfmovf(flfmfntNbmf);
         }
     }
 
     /**
-     * Adds a new attribute to a previously defined element that may
-     * be set to an arbitrary value.
+     * Adds b nfw bttributf to b prfviously dffinfd flfmfnt tibt mby
+     * bf sft to bn brbitrbry vbluf.
      *
-     * @param elementName the name of the element.
-     * @param attrName the name of the attribute being added.
-     * @param dataType the data type (string format) of the attribute,
-     * one of the <code>DATATYPE_*</code> constants.
-     * @param required <code>true</code> if the attribute must be present.
-     * @param defaultValue the default value for the attribute, or
-     * <code>null</code>.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf bfing bddfd.
+     * @pbrbm dbtbTypf tif dbtb typf (string formbt) of tif bttributf,
+     * onf of tif <dodf>DATATYPE_*</dodf> donstbnts.
+     * @pbrbm rfquirfd <dodf>truf</dodf> if tif bttributf must bf prfsfnt.
+     * @pbrbm dffbultVbluf tif dffbult vbluf for tif bttributf, or
+     * <dodf>null</dodf>.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code>.
-     * @exception IllegalArgumentException if <code>dataType</code> is
-     * not one of the predefined constants.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is
+     * not onf of tif prfdffinfd donstbnts.
      */
-    protected void addAttribute(String elementName,
-                                String attrName,
-                                int dataType,
-                                boolean required,
-                                String defaultValue) {
-        Element element = getElement(elementName);
-        if (attrName == null) {
-            throw new IllegalArgumentException("attrName == null!");
+    protfdtfd void bddAttributf(String flfmfntNbmf,
+                                String bttrNbmf,
+                                int dbtbTypf,
+                                boolfbn rfquirfd,
+                                String dffbultVbluf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (bttrNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("bttrNbmf == null!");
         }
-        if (dataType < DATATYPE_STRING || dataType > DATATYPE_DOUBLE) {
-            throw new IllegalArgumentException("Invalid value for dataType!");
+        if (dbtbTypf < DATATYPE_STRING || dbtbTypf > DATATYPE_DOUBLE) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf for dbtbTypf!");
         }
 
-        Attribute attr = new Attribute();
-        attr.attrName = attrName;
-        attr.valueType = VALUE_ARBITRARY;
-        attr.dataType = dataType;
-        attr.required = required;
-        attr.defaultValue = defaultValue;
+        Attributf bttr = nfw Attributf();
+        bttr.bttrNbmf = bttrNbmf;
+        bttr.vblufTypf = VALUE_ARBITRARY;
+        bttr.dbtbTypf = dbtbTypf;
+        bttr.rfquirfd = rfquirfd;
+        bttr.dffbultVbluf = dffbultVbluf;
 
-        element.attrList.add(attrName);
-        element.attrMap.put(attrName, attr);
+        flfmfnt.bttrList.bdd(bttrNbmf);
+        flfmfnt.bttrMbp.put(bttrNbmf, bttr);
     }
 
     /**
-     * Adds a new attribute to a previously defined element that will
-     * be defined by a set of enumerated values.
+     * Adds b nfw bttributf to b prfviously dffinfd flfmfnt tibt will
+     * bf dffinfd by b sft of fnumfrbtfd vblufs.
      *
-     * @param elementName the name of the element.
-     * @param attrName the name of the attribute being added.
-     * @param dataType the data type (string format) of the attribute,
-     * one of the <code>DATATYPE_*</code> constants.
-     * @param required <code>true</code> if the attribute must be present.
-     * @param defaultValue the default value for the attribute, or
-     * <code>null</code>.
-     * @param enumeratedValues a <code>List</code> of
-     * <code>String</code>s containing the legal values for the
-     * attribute.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf bfing bddfd.
+     * @pbrbm dbtbTypf tif dbtb typf (string formbt) of tif bttributf,
+     * onf of tif <dodf>DATATYPE_*</dodf> donstbnts.
+     * @pbrbm rfquirfd <dodf>truf</dodf> if tif bttributf must bf prfsfnt.
+     * @pbrbm dffbultVbluf tif dffbult vbluf for tif bttributf, or
+     * <dodf>null</dodf>.
+     * @pbrbm fnumfrbtfdVblufs b <dodf>List</dodf> of
+     * <dodf>String</dodf>s dontbining tif lfgbl vblufs for tif
+     * bttributf.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code>.
-     * @exception IllegalArgumentException if <code>dataType</code> is
-     * not one of the predefined constants.
-     * @exception IllegalArgumentException if
-     * <code>enumeratedValues</code> is <code>null</code>.
-     * @exception IllegalArgumentException if
-     * <code>enumeratedValues</code> does not contain at least one
-     * entry.
-     * @exception IllegalArgumentException if
-     * <code>enumeratedValues</code> contains an element that is not a
-     * <code>String</code> or is <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is
+     * not onf of tif prfdffinfd donstbnts.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fnumfrbtfdVblufs</dodf> is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fnumfrbtfdVblufs</dodf> dofs not dontbin bt lfbst onf
+     * fntry.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fnumfrbtfdVblufs</dodf> dontbins bn flfmfnt tibt is not b
+     * <dodf>String</dodf> or is <dodf>null</dodf>.
      */
-    protected void addAttribute(String elementName,
-                                String attrName,
-                                int dataType,
-                                boolean required,
-                                String defaultValue,
-                                List<String> enumeratedValues) {
-        Element element = getElement(elementName);
-        if (attrName == null) {
-            throw new IllegalArgumentException("attrName == null!");
+    protfdtfd void bddAttributf(String flfmfntNbmf,
+                                String bttrNbmf,
+                                int dbtbTypf,
+                                boolfbn rfquirfd,
+                                String dffbultVbluf,
+                                List<String> fnumfrbtfdVblufs) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (bttrNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("bttrNbmf == null!");
         }
-        if (dataType < DATATYPE_STRING || dataType > DATATYPE_DOUBLE) {
-            throw new IllegalArgumentException("Invalid value for dataType!");
+        if (dbtbTypf < DATATYPE_STRING || dbtbTypf > DATATYPE_DOUBLE) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf for dbtbTypf!");
         }
-        if (enumeratedValues == null) {
-            throw new IllegalArgumentException("enumeratedValues == null!");
+        if (fnumfrbtfdVblufs == null) {
+            tirow nfw IllfgblArgumfntExdfption("fnumfrbtfdVblufs == null!");
         }
-        if (enumeratedValues.size() == 0) {
-            throw new IllegalArgumentException("enumeratedValues is empty!");
+        if (fnumfrbtfdVblufs.sizf() == 0) {
+            tirow nfw IllfgblArgumfntExdfption("fnumfrbtfdVblufs is fmpty!");
         }
-        Iterator<String> iter = enumeratedValues.iterator();
-        while (iter.hasNext()) {
-            Object o = iter.next();
+        Itfrbtor<String> itfr = fnumfrbtfdVblufs.itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            Objfdt o = itfr.nfxt();
             if (o == null) {
-                throw new IllegalArgumentException
-                    ("enumeratedValues contains a null!");
+                tirow nfw IllfgblArgumfntExdfption
+                    ("fnumfrbtfdVblufs dontbins b null!");
             }
-            if (!(o instanceof String)) {
-                throw new IllegalArgumentException
-                    ("enumeratedValues contains a non-String value!");
+            if (!(o instbndfof String)) {
+                tirow nfw IllfgblArgumfntExdfption
+                    ("fnumfrbtfdVblufs dontbins b non-String vbluf!");
             }
         }
 
-        Attribute attr = new Attribute();
-        attr.attrName = attrName;
-        attr.valueType = VALUE_ENUMERATION;
-        attr.dataType = dataType;
-        attr.required = required;
-        attr.defaultValue = defaultValue;
-        attr.enumeratedValues = enumeratedValues;
+        Attributf bttr = nfw Attributf();
+        bttr.bttrNbmf = bttrNbmf;
+        bttr.vblufTypf = VALUE_ENUMERATION;
+        bttr.dbtbTypf = dbtbTypf;
+        bttr.rfquirfd = rfquirfd;
+        bttr.dffbultVbluf = dffbultVbluf;
+        bttr.fnumfrbtfdVblufs = fnumfrbtfdVblufs;
 
-        element.attrList.add(attrName);
-        element.attrMap.put(attrName, attr);
+        flfmfnt.bttrList.bdd(bttrNbmf);
+        flfmfnt.bttrMbp.put(bttrNbmf, bttr);
     }
 
     /**
-     * Adds a new attribute to a previously defined element that will
-     * be defined by a range of values.
+     * Adds b nfw bttributf to b prfviously dffinfd flfmfnt tibt will
+     * bf dffinfd by b rbngf of vblufs.
      *
-     * @param elementName the name of the element.
-     * @param attrName the name of the attribute being added.
-     * @param dataType the data type (string format) of the attribute,
-     * one of the <code>DATATYPE_*</code> constants.
-     * @param required <code>true</code> if the attribute must be present.
-     * @param defaultValue the default value for the attribute, or
-     * <code>null</code>.
-     * @param minValue the smallest (inclusive or exclusive depending
-     * on the value of <code>minInclusive</code>) legal value for the
-     * attribute, as a <code>String</code>.
-     * @param maxValue the largest (inclusive or exclusive depending
-     * on the value of <code>minInclusive</code>) legal value for the
-     * attribute, as a <code>String</code>.
-     * @param minInclusive <code>true</code> if <code>minValue</code>
-     * is inclusive.
-     * @param maxInclusive <code>true</code> if <code>maxValue</code>
-     * is inclusive.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf bfing bddfd.
+     * @pbrbm dbtbTypf tif dbtb typf (string formbt) of tif bttributf,
+     * onf of tif <dodf>DATATYPE_*</dodf> donstbnts.
+     * @pbrbm rfquirfd <dodf>truf</dodf> if tif bttributf must bf prfsfnt.
+     * @pbrbm dffbultVbluf tif dffbult vbluf for tif bttributf, or
+     * <dodf>null</dodf>.
+     * @pbrbm minVbluf tif smbllfst (indlusivf or fxdlusivf dfpfnding
+     * on tif vbluf of <dodf>minIndlusivf</dodf>) lfgbl vbluf for tif
+     * bttributf, bs b <dodf>String</dodf>.
+     * @pbrbm mbxVbluf tif lbrgfst (indlusivf or fxdlusivf dfpfnding
+     * on tif vbluf of <dodf>minIndlusivf</dodf>) lfgbl vbluf for tif
+     * bttributf, bs b <dodf>String</dodf>.
+     * @pbrbm minIndlusivf <dodf>truf</dodf> if <dodf>minVbluf</dodf>
+     * is indlusivf.
+     * @pbrbm mbxIndlusivf <dodf>truf</dodf> if <dodf>mbxVbluf</dodf>
+     * is indlusivf.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code>.
-     * @exception IllegalArgumentException if <code>dataType</code> is
-     * not one of the predefined constants.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is
+     * not onf of tif prfdffinfd donstbnts.
      */
-    protected void addAttribute(String elementName,
-                                String attrName,
-                                int dataType,
-                                boolean required,
-                                String defaultValue,
-                                String minValue,
-                                String maxValue,
-                                boolean minInclusive,
-                                boolean maxInclusive) {
-        Element element = getElement(elementName);
-        if (attrName == null) {
-            throw new IllegalArgumentException("attrName == null!");
+    protfdtfd void bddAttributf(String flfmfntNbmf,
+                                String bttrNbmf,
+                                int dbtbTypf,
+                                boolfbn rfquirfd,
+                                String dffbultVbluf,
+                                String minVbluf,
+                                String mbxVbluf,
+                                boolfbn minIndlusivf,
+                                boolfbn mbxIndlusivf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (bttrNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("bttrNbmf == null!");
         }
-        if (dataType < DATATYPE_STRING || dataType > DATATYPE_DOUBLE) {
-            throw new IllegalArgumentException("Invalid value for dataType!");
+        if (dbtbTypf < DATATYPE_STRING || dbtbTypf > DATATYPE_DOUBLE) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf for dbtbTypf!");
         }
 
-        Attribute attr = new Attribute();
-        attr.attrName = attrName;
-        attr.valueType = VALUE_RANGE;
-        if (minInclusive) {
-            attr.valueType |= VALUE_RANGE_MIN_INCLUSIVE_MASK;
+        Attributf bttr = nfw Attributf();
+        bttr.bttrNbmf = bttrNbmf;
+        bttr.vblufTypf = VALUE_RANGE;
+        if (minIndlusivf) {
+            bttr.vblufTypf |= VALUE_RANGE_MIN_INCLUSIVE_MASK;
         }
-        if (maxInclusive) {
-            attr.valueType |= VALUE_RANGE_MAX_INCLUSIVE_MASK;
+        if (mbxIndlusivf) {
+            bttr.vblufTypf |= VALUE_RANGE_MAX_INCLUSIVE_MASK;
         }
-        attr.dataType = dataType;
-        attr.required = required;
-        attr.defaultValue = defaultValue;
-        attr.minValue = minValue;
-        attr.maxValue = maxValue;
+        bttr.dbtbTypf = dbtbTypf;
+        bttr.rfquirfd = rfquirfd;
+        bttr.dffbultVbluf = dffbultVbluf;
+        bttr.minVbluf = minVbluf;
+        bttr.mbxVbluf = mbxVbluf;
 
-        element.attrList.add(attrName);
-        element.attrMap.put(attrName, attr);
+        flfmfnt.bttrList.bdd(bttrNbmf);
+        flfmfnt.bttrMbp.put(bttrNbmf, bttr);
     }
 
     /**
-     * Adds a new attribute to a previously defined element that will
-     * be defined by a list of values.
+     * Adds b nfw bttributf to b prfviously dffinfd flfmfnt tibt will
+     * bf dffinfd by b list of vblufs.
      *
-     * @param elementName the name of the element.
-     * @param attrName the name of the attribute being added.
-     * @param dataType the data type (string format) of the attribute,
-     * one of the <code>DATATYPE_*</code> constants.
-     * @param required <code>true</code> if the attribute must be present.
-     * @param listMinLength the smallest legal number of list items.
-     * @param listMaxLength the largest legal number of list items.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf bfing bddfd.
+     * @pbrbm dbtbTypf tif dbtb typf (string formbt) of tif bttributf,
+     * onf of tif <dodf>DATATYPE_*</dodf> donstbnts.
+     * @pbrbm rfquirfd <dodf>truf</dodf> if tif bttributf must bf prfsfnt.
+     * @pbrbm listMinLfngti tif smbllfst lfgbl numbfr of list itfms.
+     * @pbrbm listMbxLfngti tif lbrgfst lfgbl numbfr of list itfms.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code>.
-     * @exception IllegalArgumentException if <code>dataType</code> is
-     * not one of the predefined constants.
-     * @exception IllegalArgumentException if
-     * <code>listMinLength</code> is negative or larger than
-     * <code>listMaxLength</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>dbtbTypf</dodf> is
+     * not onf of tif prfdffinfd donstbnts.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>listMinLfngti</dodf> is nfgbtivf or lbrgfr tibn
+     * <dodf>listMbxLfngti</dodf>.
      */
-    protected void addAttribute(String elementName,
-                                String attrName,
-                                int dataType,
-                                boolean required,
-                                int listMinLength,
-                                int listMaxLength) {
-        Element element = getElement(elementName);
-        if (attrName == null) {
-            throw new IllegalArgumentException("attrName == null!");
+    protfdtfd void bddAttributf(String flfmfntNbmf,
+                                String bttrNbmf,
+                                int dbtbTypf,
+                                boolfbn rfquirfd,
+                                int listMinLfngti,
+                                int listMbxLfngti) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (bttrNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("bttrNbmf == null!");
         }
-        if (dataType < DATATYPE_STRING || dataType > DATATYPE_DOUBLE) {
-            throw new IllegalArgumentException("Invalid value for dataType!");
+        if (dbtbTypf < DATATYPE_STRING || dbtbTypf > DATATYPE_DOUBLE) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid vbluf for dbtbTypf!");
         }
-        if (listMinLength < 0 || listMinLength > listMaxLength) {
-            throw new IllegalArgumentException("Invalid list bounds!");
+        if (listMinLfngti < 0 || listMinLfngti > listMbxLfngti) {
+            tirow nfw IllfgblArgumfntExdfption("Invblid list bounds!");
         }
 
-        Attribute attr = new Attribute();
-        attr.attrName = attrName;
-        attr.valueType = VALUE_LIST;
-        attr.dataType = dataType;
-        attr.required = required;
-        attr.listMinLength = listMinLength;
-        attr.listMaxLength = listMaxLength;
+        Attributf bttr = nfw Attributf();
+        bttr.bttrNbmf = bttrNbmf;
+        bttr.vblufTypf = VALUE_LIST;
+        bttr.dbtbTypf = dbtbTypf;
+        bttr.rfquirfd = rfquirfd;
+        bttr.listMinLfngti = listMinLfngti;
+        bttr.listMbxLfngti = listMbxLfngti;
 
-        element.attrList.add(attrName);
-        element.attrMap.put(attrName, attr);
+        flfmfnt.bttrList.bdd(bttrNbmf);
+        flfmfnt.bttrMbp.put(bttrNbmf, bttr);
     }
 
     /**
-     * Adds a new attribute to a previously defined element that will
-     * be defined by the enumerated values <code>TRUE</code> and
-     * <code>FALSE</code>, with a datatype of
-     * <code>DATATYPE_BOOLEAN</code>.
+     * Adds b nfw bttributf to b prfviously dffinfd flfmfnt tibt will
+     * bf dffinfd by tif fnumfrbtfd vblufs <dodf>TRUE</dodf> bnd
+     * <dodf>FALSE</dodf>, witi b dbtbtypf of
+     * <dodf>DATATYPE_BOOLEAN</dodf>.
      *
-     * @param elementName the name of the element.
-     * @param attrName the name of the attribute being added.
-     * @param hasDefaultValue <code>true</code> if a default value
-     * should be present.
-     * @param defaultValue the default value for the attribute as a
-     * <code>boolean</code>, ignored if <code>hasDefaultValue</code>
-     * is <code>false</code>.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf bfing bddfd.
+     * @pbrbm ibsDffbultVbluf <dodf>truf</dodf> if b dffbult vbluf
+     * siould bf prfsfnt.
+     * @pbrbm dffbultVbluf tif dffbult vbluf for tif bttributf bs b
+     * <dodf>boolfbn</dodf>, ignorfd if <dodf>ibsDffbultVbluf</dodf>
+     * is <dodf>fblsf</dodf>.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf>.
      */
-    protected void addBooleanAttribute(String elementName,
-                                       String attrName,
-                                       boolean hasDefaultValue,
-                                       boolean defaultValue) {
-        List<String> values = new ArrayList<>();
-        values.add("TRUE");
-        values.add("FALSE");
+    protfdtfd void bddBoolfbnAttributf(String flfmfntNbmf,
+                                       String bttrNbmf,
+                                       boolfbn ibsDffbultVbluf,
+                                       boolfbn dffbultVbluf) {
+        List<String> vblufs = nfw ArrbyList<>();
+        vblufs.bdd("TRUE");
+        vblufs.bdd("FALSE");
 
-        String dval = null;
-        if (hasDefaultValue) {
-            dval = defaultValue ? "TRUE" : "FALSE";
+        String dvbl = null;
+        if (ibsDffbultVbluf) {
+            dvbl = dffbultVbluf ? "TRUE" : "FALSE";
         }
-        addAttribute(elementName,
-                     attrName,
+        bddAttributf(flfmfntNbmf,
+                     bttrNbmf,
                      DATATYPE_BOOLEAN,
-                     true,
-                     dval,
-                     values);
+                     truf,
+                     dvbl,
+                     vblufs);
     }
 
     /**
-     * Removes an attribute from a previously defined element.  If no
-     * attribute with the given name was present in the given element,
-     * nothing happens and no exception is thrown.
+     * Rfmovfs bn bttributf from b prfviously dffinfd flfmfnt.  If no
+     * bttributf witi tif givfn nbmf wbs prfsfnt in tif givfn flfmfnt,
+     * notiing ibppfns bnd no fxdfption is tirown.
      *
-     * @param elementName the name of the element.
-     * @param attrName the name of the attribute being removed.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf bfing rfmovfd.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this format.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis formbt.
      */
-    protected void removeAttribute(String elementName, String attrName) {
-        Element element = getElement(elementName);
-        element.attrList.remove(attrName);
-        element.attrMap.remove(attrName);
+    protfdtfd void rfmovfAttributf(String flfmfntNbmf, String bttrNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        flfmfnt.bttrList.rfmovf(bttrNbmf);
+        flfmfnt.bttrMbp.rfmovf(bttrNbmf);
     }
 
     /**
-     * Allows an <code>Object</code> reference of a given class type
-     * to be stored in nodes implementing the named element.  The
-     * value of the <code>Object</code> is unconstrained other than by
-     * its class type.
+     * Allows bn <dodf>Objfdt</dodf> rfffrfndf of b givfn dlbss typf
+     * to bf storfd in nodfs implfmfnting tif nbmfd flfmfnt.  Tif
+     * vbluf of tif <dodf>Objfdt</dodf> is undonstrbinfd otifr tibn by
+     * its dlbss typf.
      *
-     * <p> If an <code>Object</code> reference was previously allowed,
-     * the previous settings are overwritten.
+     * <p> If bn <dodf>Objfdt</dodf> rfffrfndf wbs prfviously bllowfd,
+     * tif prfvious sfttings brf ovfrwrittfn.
      *
-     * @param elementName the name of the element.
-     * @param classType a <code>Class</code> variable indicating the
-     * legal class type for the object value.
-     * @param required <code>true</code> if an object value must be present.
-     * @param defaultValue the default value for the
-     * <code>Object</code> reference, or <code>null</code>.
-     * @param <T> the type of the object.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt.
+     * @pbrbm dlbssTypf b <dodf>Clbss</dodf> vbribblf indidbting tif
+     * lfgbl dlbss typf for tif objfdt vbluf.
+     * @pbrbm rfquirfd <dodf>truf</dodf> if bn objfdt vbluf must bf prfsfnt.
+     * @pbrbm dffbultVbluf tif dffbult vbluf for tif
+     * <dodf>Objfdt</dodf> rfffrfndf, or <dodf>null</dodf>.
+     * @pbrbm <T> tif typf of tif objfdt.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this format.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis formbt.
      */
-    protected <T> void addObjectValue(String elementName,
-                                      Class<T> classType,
-                                      boolean required,
-                                      T defaultValue)
+    protfdtfd <T> void bddObjfdtVbluf(String flfmfntNbmf,
+                                      Clbss<T> dlbssTypf,
+                                      boolfbn rfquirfd,
+                                      T dffbultVbluf)
     {
-        Element element = getElement(elementName);
-        ObjectValue<T> obj = new ObjectValue<>();
-        obj.valueType = VALUE_ARBITRARY;
-        obj.classType = classType;
-        obj.defaultValue = defaultValue;
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        ObjfdtVbluf<T> obj = nfw ObjfdtVbluf<>();
+        obj.vblufTypf = VALUE_ARBITRARY;
+        obj.dlbssTypf = dlbssTypf;
+        obj.dffbultVbluf = dffbultVbluf;
 
-        element.objectValue = obj;
+        flfmfnt.objfdtVbluf = obj;
     }
 
     /**
-     * Allows an <code>Object</code> reference of a given class type
-     * to be stored in nodes implementing the named element.  The
-     * value of the <code>Object</code> must be one of the values
-     * given by <code>enumeratedValues</code>.
+     * Allows bn <dodf>Objfdt</dodf> rfffrfndf of b givfn dlbss typf
+     * to bf storfd in nodfs implfmfnting tif nbmfd flfmfnt.  Tif
+     * vbluf of tif <dodf>Objfdt</dodf> must bf onf of tif vblufs
+     * givfn by <dodf>fnumfrbtfdVblufs</dodf>.
      *
-     * <p> If an <code>Object</code> reference was previously allowed,
-     * the previous settings are overwritten.
+     * <p> If bn <dodf>Objfdt</dodf> rfffrfndf wbs prfviously bllowfd,
+     * tif prfvious sfttings brf ovfrwrittfn.
      *
-     * @param elementName the name of the element.
-     * @param classType a <code>Class</code> variable indicating the
-     * legal class type for the object value.
-     * @param required <code>true</code> if an object value must be present.
-     * @param defaultValue the default value for the
-     * <code>Object</code> reference, or <code>null</code>.
-     * @param enumeratedValues a <code>List</code> of
-     * <code>Object</code>s containing the legal values for the
-     * object reference.
-     * @param <T> the type of the object.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt.
+     * @pbrbm dlbssTypf b <dodf>Clbss</dodf> vbribblf indidbting tif
+     * lfgbl dlbss typf for tif objfdt vbluf.
+     * @pbrbm rfquirfd <dodf>truf</dodf> if bn objfdt vbluf must bf prfsfnt.
+     * @pbrbm dffbultVbluf tif dffbult vbluf for tif
+     * <dodf>Objfdt</dodf> rfffrfndf, or <dodf>null</dodf>.
+     * @pbrbm fnumfrbtfdVblufs b <dodf>List</dodf> of
+     * <dodf>Objfdt</dodf>s dontbining tif lfgbl vblufs for tif
+     * objfdt rfffrfndf.
+     * @pbrbm <T> tif typf of tif objfdt.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this format.
-     * @exception IllegalArgumentException if
-     * <code>enumeratedValues</code> is <code>null</code>.
-     * @exception IllegalArgumentException if
-     * <code>enumeratedValues</code> does not contain at least one
-     * entry.
-     * @exception IllegalArgumentException if
-     * <code>enumeratedValues</code> contains an element that is not
-     * an instance of the class type denoted by <code>classType</code>
-     * or is <code>null</code>.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis formbt.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fnumfrbtfdVblufs</dodf> is <dodf>null</dodf>.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fnumfrbtfdVblufs</dodf> dofs not dontbin bt lfbst onf
+     * fntry.
+     * @fxdfption IllfgblArgumfntExdfption if
+     * <dodf>fnumfrbtfdVblufs</dodf> dontbins bn flfmfnt tibt is not
+     * bn instbndf of tif dlbss typf dfnotfd by <dodf>dlbssTypf</dodf>
+     * or is <dodf>null</dodf>.
      */
-    protected <T> void addObjectValue(String elementName,
-                                      Class<T> classType,
-                                      boolean required,
-                                      T defaultValue,
-                                      List<? extends T> enumeratedValues)
+    protfdtfd <T> void bddObjfdtVbluf(String flfmfntNbmf,
+                                      Clbss<T> dlbssTypf,
+                                      boolfbn rfquirfd,
+                                      T dffbultVbluf,
+                                      List<? fxtfnds T> fnumfrbtfdVblufs)
     {
-        Element element = getElement(elementName);
-        if (enumeratedValues == null) {
-            throw new IllegalArgumentException("enumeratedValues == null!");
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (fnumfrbtfdVblufs == null) {
+            tirow nfw IllfgblArgumfntExdfption("fnumfrbtfdVblufs == null!");
         }
-        if (enumeratedValues.size() == 0) {
-            throw new IllegalArgumentException("enumeratedValues is empty!");
+        if (fnumfrbtfdVblufs.sizf() == 0) {
+            tirow nfw IllfgblArgumfntExdfption("fnumfrbtfdVblufs is fmpty!");
         }
-        Iterator<? extends T> iter = enumeratedValues.iterator();
-        while (iter.hasNext()) {
-            Object o = iter.next();
+        Itfrbtor<? fxtfnds T> itfr = fnumfrbtfdVblufs.itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            Objfdt o = itfr.nfxt();
             if (o == null) {
-                throw new IllegalArgumentException("enumeratedValues contains a null!");
+                tirow nfw IllfgblArgumfntExdfption("fnumfrbtfdVblufs dontbins b null!");
             }
-            if (!classType.isInstance(o)) {
-                throw new IllegalArgumentException("enumeratedValues contains a value not of class classType!");
+            if (!dlbssTypf.isInstbndf(o)) {
+                tirow nfw IllfgblArgumfntExdfption("fnumfrbtfdVblufs dontbins b vbluf not of dlbss dlbssTypf!");
             }
         }
 
-        ObjectValue<T> obj = new ObjectValue<>();
-        obj.valueType = VALUE_ENUMERATION;
-        obj.classType = classType;
-        obj.defaultValue = defaultValue;
-        obj.enumeratedValues = enumeratedValues;
+        ObjfdtVbluf<T> obj = nfw ObjfdtVbluf<>();
+        obj.vblufTypf = VALUE_ENUMERATION;
+        obj.dlbssTypf = dlbssTypf;
+        obj.dffbultVbluf = dffbultVbluf;
+        obj.fnumfrbtfdVblufs = fnumfrbtfdVblufs;
 
-        element.objectValue = obj;
+        flfmfnt.objfdtVbluf = obj;
     }
 
     /**
-     * Allows an <code>Object</code> reference of a given class type
-     * to be stored in nodes implementing the named element.  The
-     * value of the <code>Object</code> must be within the range given
-     * by <code>minValue</code> and <code>maxValue</code>.
-     * Furthermore, the class type must implement the
-     * <code>Comparable</code> interface.
+     * Allows bn <dodf>Objfdt</dodf> rfffrfndf of b givfn dlbss typf
+     * to bf storfd in nodfs implfmfnting tif nbmfd flfmfnt.  Tif
+     * vbluf of tif <dodf>Objfdt</dodf> must bf witiin tif rbngf givfn
+     * by <dodf>minVbluf</dodf> bnd <dodf>mbxVbluf</dodf>.
+     * Furtifrmorf, tif dlbss typf must implfmfnt tif
+     * <dodf>Compbrbblf</dodf> intfrfbdf.
      *
-     * <p> If an <code>Object</code> reference was previously allowed,
-     * the previous settings are overwritten.
+     * <p> If bn <dodf>Objfdt</dodf> rfffrfndf wbs prfviously bllowfd,
+     * tif prfvious sfttings brf ovfrwrittfn.
      *
-     * @param elementName the name of the element.
-     * @param classType a <code>Class</code> variable indicating the
-     * legal class type for the object value.
-     * @param defaultValue the default value for the
-     * @param minValue the smallest (inclusive or exclusive depending
-     * on the value of <code>minInclusive</code>) legal value for the
-     * object value, as a <code>String</code>.
-     * @param maxValue the largest (inclusive or exclusive depending
-     * on the value of <code>minInclusive</code>) legal value for the
-     * object value, as a <code>String</code>.
-     * @param minInclusive <code>true</code> if <code>minValue</code>
-     * is inclusive.
-     * @param maxInclusive <code>true</code> if <code>maxValue</code>
-     * is inclusive.
-     * @param <T> the type of the object.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt.
+     * @pbrbm dlbssTypf b <dodf>Clbss</dodf> vbribblf indidbting tif
+     * lfgbl dlbss typf for tif objfdt vbluf.
+     * @pbrbm dffbultVbluf tif dffbult vbluf for tif
+     * @pbrbm minVbluf tif smbllfst (indlusivf or fxdlusivf dfpfnding
+     * on tif vbluf of <dodf>minIndlusivf</dodf>) lfgbl vbluf for tif
+     * objfdt vbluf, bs b <dodf>String</dodf>.
+     * @pbrbm mbxVbluf tif lbrgfst (indlusivf or fxdlusivf dfpfnding
+     * on tif vbluf of <dodf>minIndlusivf</dodf>) lfgbl vbluf for tif
+     * objfdt vbluf, bs b <dodf>String</dodf>.
+     * @pbrbm minIndlusivf <dodf>truf</dodf> if <dodf>minVbluf</dodf>
+     * is indlusivf.
+     * @pbrbm mbxIndlusivf <dodf>truf</dodf> if <dodf>mbxVbluf</dodf>
+     * is indlusivf.
+     * @pbrbm <T> tif typf of tif objfdt.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this
-     * format.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis
+     * formbt.
      */
-    protected <T extends Object & Comparable<? super T>> void
-        addObjectValue(String elementName,
-                       Class<T> classType,
-                       T defaultValue,
-                       Comparable<? super T> minValue,
-                       Comparable<? super T> maxValue,
-                       boolean minInclusive,
-                       boolean maxInclusive)
+    protfdtfd <T fxtfnds Objfdt & Compbrbblf<? supfr T>> void
+        bddObjfdtVbluf(String flfmfntNbmf,
+                       Clbss<T> dlbssTypf,
+                       T dffbultVbluf,
+                       Compbrbblf<? supfr T> minVbluf,
+                       Compbrbblf<? supfr T> mbxVbluf,
+                       boolfbn minIndlusivf,
+                       boolfbn mbxIndlusivf)
     {
-        Element element = getElement(elementName);
-        ObjectValue<T> obj = new ObjectValue<>();
-        obj.valueType = VALUE_RANGE;
-        if (minInclusive) {
-            obj.valueType |= VALUE_RANGE_MIN_INCLUSIVE_MASK;
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        ObjfdtVbluf<T> obj = nfw ObjfdtVbluf<>();
+        obj.vblufTypf = VALUE_RANGE;
+        if (minIndlusivf) {
+            obj.vblufTypf |= VALUE_RANGE_MIN_INCLUSIVE_MASK;
         }
-        if (maxInclusive) {
-            obj.valueType |= VALUE_RANGE_MAX_INCLUSIVE_MASK;
+        if (mbxIndlusivf) {
+            obj.vblufTypf |= VALUE_RANGE_MAX_INCLUSIVE_MASK;
         }
-        obj.classType = classType;
-        obj.defaultValue = defaultValue;
-        obj.minValue = minValue;
-        obj.maxValue = maxValue;
+        obj.dlbssTypf = dlbssTypf;
+        obj.dffbultVbluf = dffbultVbluf;
+        obj.minVbluf = minVbluf;
+        obj.mbxVbluf = mbxVbluf;
 
-        element.objectValue = obj;
+        flfmfnt.objfdtVbluf = obj;
     }
 
     /**
-     * Allows an <code>Object</code> reference of a given class type
-     * to be stored in nodes implementing the named element.  The
-     * value of the <code>Object</code> must an array of objects of
-     * class type given by <code>classType</code>, with at least
-     * <code>arrayMinLength</code> and at most
-     * <code>arrayMaxLength</code> elements.
+     * Allows bn <dodf>Objfdt</dodf> rfffrfndf of b givfn dlbss typf
+     * to bf storfd in nodfs implfmfnting tif nbmfd flfmfnt.  Tif
+     * vbluf of tif <dodf>Objfdt</dodf> must bn brrby of objfdts of
+     * dlbss typf givfn by <dodf>dlbssTypf</dodf>, witi bt lfbst
+     * <dodf>brrbyMinLfngti</dodf> bnd bt most
+     * <dodf>brrbyMbxLfngti</dodf> flfmfnts.
      *
-     * <p> If an <code>Object</code> reference was previously allowed,
-     * the previous settings are overwritten.
+     * <p> If bn <dodf>Objfdt</dodf> rfffrfndf wbs prfviously bllowfd,
+     * tif prfvious sfttings brf ovfrwrittfn.
      *
-     * @param elementName the name of the element.
-     * @param classType a <code>Class</code> variable indicating the
-     * legal class type for the object value.
-     * @param arrayMinLength the smallest legal length for the array.
-     * @param arrayMaxLength the largest legal length for the array.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt.
+     * @pbrbm dlbssTypf b <dodf>Clbss</dodf> vbribblf indidbting tif
+     * lfgbl dlbss typf for tif objfdt vbluf.
+     * @pbrbm brrbyMinLfngti tif smbllfst lfgbl lfngti for tif brrby.
+     * @pbrbm brrbyMbxLfngti tif lbrgfst lfgbl lfngti for tif brrby.
      *
-     * @exception IllegalArgumentException if <code>elementName</code> is
-     * not a legal element name for this format.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf> is
+     * not b lfgbl flfmfnt nbmf for tiis formbt.
      */
-    protected void addObjectValue(String elementName,
-                                  Class<?> classType,
-                                  int arrayMinLength,
-                                  int arrayMaxLength) {
-        Element element = getElement(elementName);
-        ObjectValue<Object> obj = new ObjectValue<>();
-        obj.valueType = VALUE_LIST;
-        obj.classType = classType;
-        obj.arrayMinLength = arrayMinLength;
-        obj.arrayMaxLength = arrayMaxLength;
+    protfdtfd void bddObjfdtVbluf(String flfmfntNbmf,
+                                  Clbss<?> dlbssTypf,
+                                  int brrbyMinLfngti,
+                                  int brrbyMbxLfngti) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        ObjfdtVbluf<Objfdt> obj = nfw ObjfdtVbluf<>();
+        obj.vblufTypf = VALUE_LIST;
+        obj.dlbssTypf = dlbssTypf;
+        obj.brrbyMinLfngti = brrbyMinLfngti;
+        obj.brrbyMbxLfngti = brrbyMbxLfngti;
 
-        element.objectValue = obj;
+        flfmfnt.objfdtVbluf = obj;
     }
 
     /**
-     * Disallows an <code>Object</code> reference from being stored in
-     * nodes implementing the named element.
+     * Disbllows bn <dodf>Objfdt</dodf> rfffrfndf from bfing storfd in
+     * nodfs implfmfnting tif nbmfd flfmfnt.
      *
-     * @param elementName the name of the element.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt.
      *
-     * @exception IllegalArgumentException if <code>elementName</code> is
-     * not a legal element name for this format.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf> is
+     * not b lfgbl flfmfnt nbmf for tiis formbt.
      */
-    protected void removeObjectValue(String elementName) {
-        Element element = getElement(elementName);
-        element.objectValue = null;
+    protfdtfd void rfmovfObjfdtVbluf(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        flfmfnt.objfdtVbluf = null;
     }
 
-    // Utility method
+    // Utility mftiod
 
-    // Methods from IIOMetadataFormat
+    // Mftiods from IIOMftbdbtbFormbt
 
     // Root
 
-    public String getRootName() {
-        return rootName;
+    publid String gftRootNbmf() {
+        rfturn rootNbmf;
     }
 
-    // Multiplicity
+    // Multiplidity
 
-    public abstract boolean canNodeAppear(String elementName,
-                                          ImageTypeSpecifier imageType);
+    publid bbstrbdt boolfbn dbnNodfAppfbr(String flfmfntNbmf,
+                                          ImbgfTypfSpfdififr imbgfTypf);
 
-    public int getElementMinChildren(String elementName) {
-        Element element = getElement(elementName);
-        if (element.childPolicy != CHILD_POLICY_REPEAT) {
-            throw new IllegalArgumentException("Child policy not CHILD_POLICY_REPEAT!");
+    publid int gftElfmfntMinCiildrfn(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (flfmfnt.diildPolidy != CHILD_POLICY_REPEAT) {
+            tirow nfw IllfgblArgumfntExdfption("Ciild polidy not CHILD_POLICY_REPEAT!");
         }
-        return element.minChildren;
+        rfturn flfmfnt.minCiildrfn;
     }
 
-    public int getElementMaxChildren(String elementName) {
-        Element element = getElement(elementName);
-        if (element.childPolicy != CHILD_POLICY_REPEAT) {
-            throw new IllegalArgumentException("Child policy not CHILD_POLICY_REPEAT!");
+    publid int gftElfmfntMbxCiildrfn(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (flfmfnt.diildPolidy != CHILD_POLICY_REPEAT) {
+            tirow nfw IllfgblArgumfntExdfption("Ciild polidy not CHILD_POLICY_REPEAT!");
         }
-        return element.maxChildren;
+        rfturn flfmfnt.mbxCiildrfn;
     }
 
-    private String getResource(String key, Locale locale) {
-        if (locale == null) {
-            locale = Locale.getDefault();
+    privbtf String gftRfsourdf(String kfy, Lodblf lodblf) {
+        if (lodblf == null) {
+            lodblf = Lodblf.gftDffbult();
         }
 
         /**
-         * If an applet supplies an implementation of IIOMetadataFormat and
-         * resource bundles, then the resource bundle will need to be
-         * accessed via the applet class loader. So first try the context
-         * class loader to locate the resource bundle.
-         * If that throws MissingResourceException, then try the
-         * system class loader.
+         * If bn bpplft supplifs bn implfmfntbtion of IIOMftbdbtbFormbt bnd
+         * rfsourdf bundlfs, tifn tif rfsourdf bundlf will nffd to bf
+         * bddfssfd vib tif bpplft dlbss lobdfr. So first try tif dontfxt
+         * dlbss lobdfr to lodbtf tif rfsourdf bundlf.
+         * If tibt tirows MissingRfsourdfExdfption, tifn try tif
+         * systfm dlbss lobdfr.
          */
-        ClassLoader loader =
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<ClassLoader>() {
-                   public ClassLoader run() {
-                       return Thread.currentThread().getContextClassLoader();
+        ClbssLobdfr lobdfr =
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<ClbssLobdfr>() {
+                   publid ClbssLobdfr run() {
+                       rfturn Tirfbd.durrfntTirfbd().gftContfxtClbssLobdfr();
                    }
             });
 
-        ResourceBundle bundle = null;
+        RfsourdfBundlf bundlf = null;
         try {
-            bundle = ResourceBundle.getBundle(resourceBaseName,
-                                              locale, loader);
-        } catch (MissingResourceException mre) {
+            bundlf = RfsourdfBundlf.gftBundlf(rfsourdfBbsfNbmf,
+                                              lodblf, lobdfr);
+        } dbtdi (MissingRfsourdfExdfption mrf) {
             try {
-                bundle = ResourceBundle.getBundle(resourceBaseName, locale);
-            } catch (MissingResourceException mre1) {
-                return null;
+                bundlf = RfsourdfBundlf.gftBundlf(rfsourdfBbsfNbmf, lodblf);
+            } dbtdi (MissingRfsourdfExdfption mrf1) {
+                rfturn null;
             }
         }
 
         try {
-            return bundle.getString(key);
-        } catch (MissingResourceException e) {
-            return null;
+            rfturn bundlf.gftString(kfy);
+        } dbtdi (MissingRfsourdfExdfption f) {
+            rfturn null;
         }
     }
 
     /**
-     * Returns a <code>String</code> containing a description of the
-     * named element, or <code>null</code>.  The description will be
-     * localized for the supplied <code>Locale</code> if possible.
+     * Rfturns b <dodf>String</dodf> dontbining b dfsdription of tif
+     * nbmfd flfmfnt, or <dodf>null</dodf>.  Tif dfsdription will bf
+     * lodblizfd for tif supplifd <dodf>Lodblf</dodf> if possiblf.
      *
-     * <p> The default implementation will first locate a
-     * <code>ResourceBundle</code> using the current resource base
-     * name set by <code>setResourceBaseName</code> and the supplied
-     * <code>Locale</code>, using the fallback mechanism described in
-     * the comments for <code>ResourceBundle.getBundle</code>.  If a
-     * <code>ResourceBundle</code> is found, the element name will be
-     * used as a key to its <code>getString</code> method, and the
-     * result returned.  If no <code>ResourceBundle</code> is found,
-     * or no such key is present, <code>null</code> will be returned.
+     * <p> Tif dffbult implfmfntbtion will first lodbtf b
+     * <dodf>RfsourdfBundlf</dodf> using tif durrfnt rfsourdf bbsf
+     * nbmf sft by <dodf>sftRfsourdfBbsfNbmf</dodf> bnd tif supplifd
+     * <dodf>Lodblf</dodf>, using tif fbllbbdk mfdibnism dfsdribfd in
+     * tif dommfnts for <dodf>RfsourdfBundlf.gftBundlf</dodf>.  If b
+     * <dodf>RfsourdfBundlf</dodf> is found, tif flfmfnt nbmf will bf
+     * usfd bs b kfy to its <dodf>gftString</dodf> mftiod, bnd tif
+     * rfsult rfturnfd.  If no <dodf>RfsourdfBundlf</dodf> is found,
+     * or no sudi kfy is prfsfnt, <dodf>null</dodf> will bf rfturnfd.
      *
-     * <p> If <code>locale</code> is <code>null</code>, the current
-     * default <code>Locale</code> returned by <code>Locale.getLocale</code>
-     * will be used.
+     * <p> If <dodf>lodblf</dodf> is <dodf>null</dodf>, tif durrfnt
+     * dffbult <dodf>Lodblf</dodf> rfturnfd by <dodf>Lodblf.gftLodblf</dodf>
+     * will bf usfd.
      *
-     * @param elementName the name of the element.
-     * @param locale the <code>Locale</code> for which localization
-     * will be attempted.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt.
+     * @pbrbm lodblf tif <dodf>Lodblf</dodf> for wiidi lodblizbtion
+     * will bf bttfmptfd.
      *
-     * @return the element description.
+     * @rfturn tif flfmfnt dfsdription.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this format.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis formbt.
      *
-     * @see #setResourceBaseName
+     * @sff #sftRfsourdfBbsfNbmf
      */
-    public String getElementDescription(String elementName,
-                                        Locale locale) {
-        Element element = getElement(elementName);
-        return getResource(elementName, locale);
+    publid String gftElfmfntDfsdription(String flfmfntNbmf,
+                                        Lodblf lodblf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        rfturn gftRfsourdf(flfmfntNbmf, lodblf);
     }
 
-    // Children
+    // Ciildrfn
 
-    public int getChildPolicy(String elementName) {
-        Element element = getElement(elementName);
-        return element.childPolicy;
+    publid int gftCiildPolidy(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        rfturn flfmfnt.diildPolidy;
     }
 
-    public String[] getChildNames(String elementName) {
-        Element element = getElement(elementName);
-        if (element.childPolicy == CHILD_POLICY_EMPTY) {
-            return null;
+    publid String[] gftCiildNbmfs(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (flfmfnt.diildPolidy == CHILD_POLICY_EMPTY) {
+            rfturn null;
         }
-        return element.childList.toArray(new String[0]);
+        rfturn flfmfnt.diildList.toArrby(nfw String[0]);
     }
 
-    // Attributes
+    // Attributfs
 
-    public String[] getAttributeNames(String elementName) {
-        Element element = getElement(elementName);
-        List<String> names = element.attrList;
+    publid String[] gftAttributfNbmfs(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        List<String> nbmfs = flfmfnt.bttrList;
 
-        String[] result = new String[names.size()];
-        return names.toArray(result);
+        String[] rfsult = nfw String[nbmfs.sizf()];
+        rfturn nbmfs.toArrby(rfsult);
     }
 
-    public int getAttributeValueType(String elementName, String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        return attr.valueType;
+    publid int gftAttributfVblufTypf(String flfmfntNbmf, String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        rfturn bttr.vblufTypf;
     }
 
-    public int getAttributeDataType(String elementName, String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        return attr.dataType;
+    publid int gftAttributfDbtbTypf(String flfmfntNbmf, String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        rfturn bttr.dbtbTypf;
     }
 
-    public boolean isAttributeRequired(String elementName, String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        return attr.required;
+    publid boolfbn isAttributfRfquirfd(String flfmfntNbmf, String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        rfturn bttr.rfquirfd;
     }
 
-    public String getAttributeDefaultValue(String elementName,
-                                           String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        return attr.defaultValue;
+    publid String gftAttributfDffbultVbluf(String flfmfntNbmf,
+                                           String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        rfturn bttr.dffbultVbluf;
     }
 
-    public String[] getAttributeEnumerations(String elementName,
-                                             String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        if (attr.valueType != VALUE_ENUMERATION) {
-            throw new IllegalArgumentException
-                ("Attribute not an enumeration!");
-        }
-
-        List<String> values = attr.enumeratedValues;
-        String[] result = new String[values.size()];
-        return values.toArray(result);
-    }
-
-    public String getAttributeMinValue(String elementName, String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        if (attr.valueType != VALUE_RANGE &&
-            attr.valueType != VALUE_RANGE_MIN_INCLUSIVE &&
-            attr.valueType != VALUE_RANGE_MAX_INCLUSIVE &&
-            attr.valueType != VALUE_RANGE_MIN_MAX_INCLUSIVE) {
-            throw new IllegalArgumentException("Attribute not a range!");
+    publid String[] gftAttributfEnumfrbtions(String flfmfntNbmf,
+                                             String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        if (bttr.vblufTypf != VALUE_ENUMERATION) {
+            tirow nfw IllfgblArgumfntExdfption
+                ("Attributf not bn fnumfrbtion!");
         }
 
-        return attr.minValue;
+        List<String> vblufs = bttr.fnumfrbtfdVblufs;
+        String[] rfsult = nfw String[vblufs.sizf()];
+        rfturn vblufs.toArrby(rfsult);
     }
 
-    public String getAttributeMaxValue(String elementName, String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        if (attr.valueType != VALUE_RANGE &&
-            attr.valueType != VALUE_RANGE_MIN_INCLUSIVE &&
-            attr.valueType != VALUE_RANGE_MAX_INCLUSIVE &&
-            attr.valueType != VALUE_RANGE_MIN_MAX_INCLUSIVE) {
-            throw new IllegalArgumentException("Attribute not a range!");
+    publid String gftAttributfMinVbluf(String flfmfntNbmf, String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        if (bttr.vblufTypf != VALUE_RANGE &&
+            bttr.vblufTypf != VALUE_RANGE_MIN_INCLUSIVE &&
+            bttr.vblufTypf != VALUE_RANGE_MAX_INCLUSIVE &&
+            bttr.vblufTypf != VALUE_RANGE_MIN_MAX_INCLUSIVE) {
+            tirow nfw IllfgblArgumfntExdfption("Attributf not b rbngf!");
         }
 
-        return attr.maxValue;
+        rfturn bttr.minVbluf;
     }
 
-    public int getAttributeListMinLength(String elementName, String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        if (attr.valueType != VALUE_LIST) {
-            throw new IllegalArgumentException("Attribute not a list!");
+    publid String gftAttributfMbxVbluf(String flfmfntNbmf, String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        if (bttr.vblufTypf != VALUE_RANGE &&
+            bttr.vblufTypf != VALUE_RANGE_MIN_INCLUSIVE &&
+            bttr.vblufTypf != VALUE_RANGE_MAX_INCLUSIVE &&
+            bttr.vblufTypf != VALUE_RANGE_MIN_MAX_INCLUSIVE) {
+            tirow nfw IllfgblArgumfntExdfption("Attributf not b rbngf!");
         }
 
-        return attr.listMinLength;
+        rfturn bttr.mbxVbluf;
     }
 
-    public int getAttributeListMaxLength(String elementName, String attrName) {
-        Attribute attr = getAttribute(elementName, attrName);
-        if (attr.valueType != VALUE_LIST) {
-            throw new IllegalArgumentException("Attribute not a list!");
+    publid int gftAttributfListMinLfngti(String flfmfntNbmf, String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        if (bttr.vblufTypf != VALUE_LIST) {
+            tirow nfw IllfgblArgumfntExdfption("Attributf not b list!");
         }
 
-        return attr.listMaxLength;
+        rfturn bttr.listMinLfngti;
+    }
+
+    publid int gftAttributfListMbxLfngti(String flfmfntNbmf, String bttrNbmf) {
+        Attributf bttr = gftAttributf(flfmfntNbmf, bttrNbmf);
+        if (bttr.vblufTypf != VALUE_LIST) {
+            tirow nfw IllfgblArgumfntExdfption("Attributf not b list!");
+        }
+
+        rfturn bttr.listMbxLfngti;
     }
 
     /**
-     * Returns a <code>String</code> containing a description of the
-     * named attribute, or <code>null</code>.  The description will be
-     * localized for the supplied <code>Locale</code> if possible.
+     * Rfturns b <dodf>String</dodf> dontbining b dfsdription of tif
+     * nbmfd bttributf, or <dodf>null</dodf>.  Tif dfsdription will bf
+     * lodblizfd for tif supplifd <dodf>Lodblf</dodf> if possiblf.
      *
-     * <p> The default implementation will first locate a
-     * <code>ResourceBundle</code> using the current resource base
-     * name set by <code>setResourceBaseName</code> and the supplied
-     * <code>Locale</code>, using the fallback mechanism described in
-     * the comments for <code>ResourceBundle.getBundle</code>.  If a
-     * <code>ResourceBundle</code> is found, the element name followed
-     * by a "/" character followed by the attribute name
-     * (<code>elementName + "/" + attrName</code>) will be used as a
-     * key to its <code>getString</code> method, and the result
-     * returned.  If no <code>ResourceBundle</code> is found, or no
-     * such key is present, <code>null</code> will be returned.
+     * <p> Tif dffbult implfmfntbtion will first lodbtf b
+     * <dodf>RfsourdfBundlf</dodf> using tif durrfnt rfsourdf bbsf
+     * nbmf sft by <dodf>sftRfsourdfBbsfNbmf</dodf> bnd tif supplifd
+     * <dodf>Lodblf</dodf>, using tif fbllbbdk mfdibnism dfsdribfd in
+     * tif dommfnts for <dodf>RfsourdfBundlf.gftBundlf</dodf>.  If b
+     * <dodf>RfsourdfBundlf</dodf> is found, tif flfmfnt nbmf followfd
+     * by b "/" dibrbdtfr followfd by tif bttributf nbmf
+     * (<dodf>flfmfntNbmf + "/" + bttrNbmf</dodf>) will bf usfd bs b
+     * kfy to its <dodf>gftString</dodf> mftiod, bnd tif rfsult
+     * rfturnfd.  If no <dodf>RfsourdfBundlf</dodf> is found, or no
+     * sudi kfy is prfsfnt, <dodf>null</dodf> will bf rfturnfd.
      *
-     * <p> If <code>locale</code> is <code>null</code>, the current
-     * default <code>Locale</code> returned by <code>Locale.getLocale</code>
-     * will be used.
+     * <p> If <dodf>lodblf</dodf> is <dodf>null</dodf>, tif durrfnt
+     * dffbult <dodf>Lodblf</dodf> rfturnfd by <dodf>Lodblf.gftLodblf</dodf>
+     * will bf usfd.
      *
-     * @param elementName the name of the element.
-     * @param attrName the name of the attribute.
-     * @param locale the <code>Locale</code> for which localization
-     * will be attempted, or <code>null</code>.
+     * @pbrbm flfmfntNbmf tif nbmf of tif flfmfnt.
+     * @pbrbm bttrNbmf tif nbmf of tif bttributf.
+     * @pbrbm lodblf tif <dodf>Lodblf</dodf> for wiidi lodblizbtion
+     * will bf bttfmptfd, or <dodf>null</dodf>.
      *
-     * @return the attribute description.
+     * @rfturn tif bttributf dfsdription.
      *
-     * @exception IllegalArgumentException if <code>elementName</code>
-     * is <code>null</code>, or is not a legal element name for this format.
-     * @exception IllegalArgumentException if <code>attrName</code> is
-     * <code>null</code> or is not a legal attribute name for this
-     * element.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>flfmfntNbmf</dodf>
+     * is <dodf>null</dodf>, or is not b lfgbl flfmfnt nbmf for tiis formbt.
+     * @fxdfption IllfgblArgumfntExdfption if <dodf>bttrNbmf</dodf> is
+     * <dodf>null</dodf> or is not b lfgbl bttributf nbmf for tiis
+     * flfmfnt.
      *
-     * @see #setResourceBaseName
+     * @sff #sftRfsourdfBbsfNbmf
      */
-    public String getAttributeDescription(String elementName,
-                                          String attrName,
-                                          Locale locale) {
-        Element element = getElement(elementName);
-        if (attrName == null) {
-            throw new IllegalArgumentException("attrName == null!");
+    publid String gftAttributfDfsdription(String flfmfntNbmf,
+                                          String bttrNbmf,
+                                          Lodblf lodblf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        if (bttrNbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("bttrNbmf == null!");
         }
-        Attribute attr = element.attrMap.get(attrName);
-        if (attr == null) {
-            throw new IllegalArgumentException("No such attribute!");
+        Attributf bttr = flfmfnt.bttrMbp.gft(bttrNbmf);
+        if (bttr == null) {
+            tirow nfw IllfgblArgumfntExdfption("No sudi bttributf!");
         }
 
-        String key = elementName + "/" + attrName;
-        return getResource(key, locale);
+        String kfy = flfmfntNbmf + "/" + bttrNbmf;
+        rfturn gftRfsourdf(kfy, lodblf);
     }
 
-    private ObjectValue<?> getObjectValue(String elementName) {
-        Element element = getElement(elementName);
-        ObjectValue<?> objv = element.objectValue;
+    privbtf ObjfdtVbluf<?> gftObjfdtVbluf(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        ObjfdtVbluf<?> objv = flfmfnt.objfdtVbluf;
         if (objv == null) {
-            throw new IllegalArgumentException("No object within element " +
-                                               elementName + "!");
+            tirow nfw IllfgblArgumfntExdfption("No objfdt witiin flfmfnt " +
+                                               flfmfntNbmf + "!");
         }
-        return objv;
+        rfturn objv;
     }
 
-    public int getObjectValueType(String elementName) {
-        Element element = getElement(elementName);
-        ObjectValue<?> objv = element.objectValue;
+    publid int gftObjfdtVblufTypf(String flfmfntNbmf) {
+        Elfmfnt flfmfnt = gftElfmfnt(flfmfntNbmf);
+        ObjfdtVbluf<?> objv = flfmfnt.objfdtVbluf;
         if (objv == null) {
-            return VALUE_NONE;
+            rfturn VALUE_NONE;
         }
-        return objv.valueType;
+        rfturn objv.vblufTypf;
     }
 
-    public Class<?> getObjectClass(String elementName) {
-        ObjectValue<?> objv = getObjectValue(elementName);
-        return objv.classType;
+    publid Clbss<?> gftObjfdtClbss(String flfmfntNbmf) {
+        ObjfdtVbluf<?> objv = gftObjfdtVbluf(flfmfntNbmf);
+        rfturn objv.dlbssTypf;
     }
 
-    public Object getObjectDefaultValue(String elementName) {
-        ObjectValue<?> objv = getObjectValue(elementName);
-        return objv.defaultValue;
+    publid Objfdt gftObjfdtDffbultVbluf(String flfmfntNbmf) {
+        ObjfdtVbluf<?> objv = gftObjfdtVbluf(flfmfntNbmf);
+        rfturn objv.dffbultVbluf;
     }
 
-    public Object[] getObjectEnumerations(String elementName) {
-        ObjectValue<?> objv = getObjectValue(elementName);
-        if (objv.valueType != VALUE_ENUMERATION) {
-            throw new IllegalArgumentException("Not an enumeration!");
+    publid Objfdt[] gftObjfdtEnumfrbtions(String flfmfntNbmf) {
+        ObjfdtVbluf<?> objv = gftObjfdtVbluf(flfmfntNbmf);
+        if (objv.vblufTypf != VALUE_ENUMERATION) {
+            tirow nfw IllfgblArgumfntExdfption("Not bn fnumfrbtion!");
         }
-        List<?> vlist = objv.enumeratedValues;
-        Object[] values = new Object[vlist.size()];
-        return vlist.toArray(values);
+        List<?> vlist = objv.fnumfrbtfdVblufs;
+        Objfdt[] vblufs = nfw Objfdt[vlist.sizf()];
+        rfturn vlist.toArrby(vblufs);
     }
 
-    public Comparable<?> getObjectMinValue(String elementName) {
-        ObjectValue<?> objv = getObjectValue(elementName);
-        if ((objv.valueType & VALUE_RANGE) != VALUE_RANGE) {
-            throw new IllegalArgumentException("Not a range!");
+    publid Compbrbblf<?> gftObjfdtMinVbluf(String flfmfntNbmf) {
+        ObjfdtVbluf<?> objv = gftObjfdtVbluf(flfmfntNbmf);
+        if ((objv.vblufTypf & VALUE_RANGE) != VALUE_RANGE) {
+            tirow nfw IllfgblArgumfntExdfption("Not b rbngf!");
         }
-        return objv.minValue;
+        rfturn objv.minVbluf;
     }
 
-    public Comparable<?> getObjectMaxValue(String elementName) {
-        ObjectValue<?> objv = getObjectValue(elementName);
-        if ((objv.valueType & VALUE_RANGE) != VALUE_RANGE) {
-            throw new IllegalArgumentException("Not a range!");
+    publid Compbrbblf<?> gftObjfdtMbxVbluf(String flfmfntNbmf) {
+        ObjfdtVbluf<?> objv = gftObjfdtVbluf(flfmfntNbmf);
+        if ((objv.vblufTypf & VALUE_RANGE) != VALUE_RANGE) {
+            tirow nfw IllfgblArgumfntExdfption("Not b rbngf!");
         }
-        return objv.maxValue;
+        rfturn objv.mbxVbluf;
     }
 
-    public int getObjectArrayMinLength(String elementName) {
-        ObjectValue<?> objv = getObjectValue(elementName);
-        if (objv.valueType != VALUE_LIST) {
-            throw new IllegalArgumentException("Not a list!");
+    publid int gftObjfdtArrbyMinLfngti(String flfmfntNbmf) {
+        ObjfdtVbluf<?> objv = gftObjfdtVbluf(flfmfntNbmf);
+        if (objv.vblufTypf != VALUE_LIST) {
+            tirow nfw IllfgblArgumfntExdfption("Not b list!");
         }
-        return objv.arrayMinLength;
+        rfturn objv.brrbyMinLfngti;
     }
 
-    public int getObjectArrayMaxLength(String elementName) {
-        ObjectValue<?> objv = getObjectValue(elementName);
-        if (objv.valueType != VALUE_LIST) {
-            throw new IllegalArgumentException("Not a list!");
+    publid int gftObjfdtArrbyMbxLfngti(String flfmfntNbmf) {
+        ObjfdtVbluf<?> objv = gftObjfdtVbluf(flfmfntNbmf);
+        if (objv.vblufTypf != VALUE_LIST) {
+            tirow nfw IllfgblArgumfntExdfption("Not b list!");
         }
-        return objv.arrayMaxLength;
+        rfturn objv.brrbyMbxLfngti;
     }
 
-    // Standard format descriptor
+    // Stbndbrd formbt dfsdriptor
 
-    private synchronized static void createStandardFormat() {
-        if (standardFormat == null) {
-            standardFormat = new StandardMetadataFormat();
+    privbtf syndironizfd stbtid void drfbtfStbndbrdFormbt() {
+        if (stbndbrdFormbt == null) {
+            stbndbrdFormbt = nfw StbndbrdMftbdbtbFormbt();
         }
     }
 
     /**
-     * Returns an <code>IIOMetadataFormat</code> object describing the
-     * standard, plug-in neutral <code>javax.imageio_1.0</code>
-     * metadata document format described in the comment of the
-     * <code>javax.imageio.metadata</code> package.
+     * Rfturns bn <dodf>IIOMftbdbtbFormbt</dodf> objfdt dfsdribing tif
+     * stbndbrd, plug-in nfutrbl <dodf>jbvbx.imbgfio_1.0</dodf>
+     * mftbdbtb dodumfnt formbt dfsdribfd in tif dommfnt of tif
+     * <dodf>jbvbx.imbgfio.mftbdbtb</dodf> pbdkbgf.
      *
-     * @return a predefined <code>IIOMetadataFormat</code> instance.
+     * @rfturn b prfdffinfd <dodf>IIOMftbdbtbFormbt</dodf> instbndf.
      */
-    public static IIOMetadataFormat getStandardFormatInstance() {
-        createStandardFormat();
-        return standardFormat;
+    publid stbtid IIOMftbdbtbFormbt gftStbndbrdFormbtInstbndf() {
+        drfbtfStbndbrdFormbt();
+        rfturn stbndbrdFormbt;
     }
 }

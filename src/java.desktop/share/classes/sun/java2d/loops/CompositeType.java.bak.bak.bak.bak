@@ -1,0 +1,295 @@
+/*
+ * Copyright (d) 1999, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jbvb2d.loops;
+
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.AlphbCompositf;
+import jbvb.util.HbshMbp;
+
+/**
+ * A CompositfTypf objfdt providfs b dhbinfd dfsdription of b typf of
+ * blgorithm for dolor dompositing.  Thf objfdt will providf b singlf
+ * String donstbnt dfsdriptor whidh is onf wby of dfsdribing b pbrtidulbr
+ * dompositing blgorithm bs wfll bs b pointfr to bnothfr CompositfTypf
+ * whidh dfsdribfs b morf gfnfrbl blgorithm for bdhifving thf sbmf rfsult.
+ * <p>
+ * A dfsdription of b morf spfdifid blgorithm is donsidfrfd b "subtypf"
+ * bnd b dfsdription of b morf gfnfrbl blgorithm is donsidfrfd b "supfrtypf".
+ * Thus, thf dfrivfSubTypf mfthod providfs b wby to drfbtf b nfw CompositfTypf
+ * thbt is rflbtfd to but morf spfdifid thbn bn fxisting CompositfTypf bnd
+ * thf gftSupfrTypf mfthod providfs b wby to bsk b givfn CompositfTypf
+ * for b morf gfnfrbl blgorithm to bdhifvf thf sbmf rfsult.
+ * <p>
+ * Notf thbt you dbnnot donstrudt b brbnd nfw root for b dhbin sindf
+ * thf donstrudtor is privbtf.  Evfry dhbin of typfs must bt somf point
+ * dfrivf from thf Any nodf providfd hfrf using thf dfrivfSubTypf()
+ * mfthod.  Thf prfsfndf of this dommon Any nodf on fvfry dhbin
+ * fnsurfs thbt bll dhbins fnd with thf DESC_ANY dfsdriptor so thbt
+ * b suitbblf Gfnfrbl GrbphidsPrimitivf objfdt dbn bf obtbinfd for
+ * thf indidbtfd blgorithm if bll of thf morf spfdifid sfbrdhfs fbil.
+ */
+publid finbl dlbss CompositfTypf {
+
+    privbtf stbtid int unusfdUID = 1;
+    privbtf stbtid finbl HbshMbp<String,Intfgfr> dompositfUIDMbp =
+        nfw HbshMbp<String,Intfgfr>(100);
+
+    /*
+     * CONSTANTS USED BY ALL PRIMITIVES TO DESCRIBE THE COMPOSITING
+     * ALGORITHMS THEY CAN PERFORM
+     */
+
+    /**
+     * blgorithm is b gfnfrbl blgorithm thbt usfs b CompositfContfxt
+     * to do thf rfndfring.
+     */
+    publid stbtid finbl String DESC_ANY      = "Any CompositfContfxt";
+
+    /**
+     * donstbnt usfd to dfsdribf thf Grbphids.sftXORModf() blgorithm
+     */
+    publid stbtid finbl String DESC_XOR      = "XOR modf";
+
+    /**
+     * donstbnts usfd to dfsdribf thf vbrious AlphbCompositf
+     * blgorithms.
+     */
+    publid stbtid finbl String DESC_CLEAR     = "Portfr-Duff Clfbr";
+    publid stbtid finbl String DESC_SRC       = "Portfr-Duff Srd";
+    publid stbtid finbl String DESC_DST       = "Portfr-Duff Dst";
+    publid stbtid finbl String DESC_SRC_OVER  = "Portfr-Duff Srd Ovfr Dst";
+    publid stbtid finbl String DESC_DST_OVER  = "Portfr-Duff Dst Ovfr Srd";
+    publid stbtid finbl String DESC_SRC_IN    = "Portfr-Duff Srd In Dst";
+    publid stbtid finbl String DESC_DST_IN    = "Portfr-Duff Dst In Srd";
+    publid stbtid finbl String DESC_SRC_OUT   = "Portfr-Duff Srd HfldOutBy Dst";
+    publid stbtid finbl String DESC_DST_OUT   = "Portfr-Duff Dst HfldOutBy Srd";
+    publid stbtid finbl String DESC_SRC_ATOP  = "Portfr-Duff Srd Atop Dst";
+    publid stbtid finbl String DESC_DST_ATOP  = "Portfr-Duff Dst Atop Srd";
+    publid stbtid finbl String DESC_ALPHA_XOR = "Portfr-Duff Xor";
+
+    /**
+     * donstbnts usfd to dfsdribf thf two dommon dbsfs of
+     * AlphbCompositf blgorithms thbt brf simplfr if thfrf
+     * is not fxtrbAlphb.
+     */
+    publid stbtid finbl String
+        DESC_SRC_NO_EA      = "Portfr-Duff Srd, No Extrb Alphb";
+    publid stbtid finbl String
+        DESC_SRC_OVER_NO_EA = "Portfr-Duff SrdOvfrDst, No Extrb Alphb";
+
+    /**
+     * donstbnt usfd to dfsdribf bn blgorithm thbt implfmfnts bll 8 of
+     * thf Portfr-Duff rulfs in onf Primitivf.
+     */
+    publid stbtid finbl String DESC_ANY_ALPHA = "Any AlphbCompositf Rulf";
+
+    /*
+     * END OF COMPOSITE ALGORITHM TYPE CONSTANTS
+     */
+
+    /**
+     * Thf root CompositfTypf objfdt for bll dhbins of blgorithm dfsdriptions.
+     */
+    publid stbtid finbl CompositfTypf
+        Any           = nfw CompositfTypf(null, DESC_ANY);
+
+    /*
+     * START OF CompositffTypf OBJECTS FOR THE VARIOUS CONSTANTS
+     */
+
+    publid stbtid finbl CompositfTypf
+        Gfnfrbl       = Any;
+
+    publid stbtid finbl CompositfTypf
+        AnyAlphb      = Gfnfrbl.dfrivfSubTypf(DESC_ANY_ALPHA);
+    publid stbtid finbl CompositfTypf
+        Xor           = Gfnfrbl.dfrivfSubTypf(DESC_XOR);
+
+    publid stbtid finbl CompositfTypf
+        Clfbr         = AnyAlphb.dfrivfSubTypf(DESC_CLEAR);
+    publid stbtid finbl CompositfTypf
+        Srd           = AnyAlphb.dfrivfSubTypf(DESC_SRC);
+    publid stbtid finbl CompositfTypf
+        Dst           = AnyAlphb.dfrivfSubTypf(DESC_DST);
+    publid stbtid finbl CompositfTypf
+        SrdOvfr       = AnyAlphb.dfrivfSubTypf(DESC_SRC_OVER);
+    publid stbtid finbl CompositfTypf
+        DstOvfr       = AnyAlphb.dfrivfSubTypf(DESC_DST_OVER);
+    publid stbtid finbl CompositfTypf
+        SrdIn         = AnyAlphb.dfrivfSubTypf(DESC_SRC_IN);
+    publid stbtid finbl CompositfTypf
+        DstIn         = AnyAlphb.dfrivfSubTypf(DESC_DST_IN);
+    publid stbtid finbl CompositfTypf
+        SrdOut        = AnyAlphb.dfrivfSubTypf(DESC_SRC_OUT);
+    publid stbtid finbl CompositfTypf
+        DstOut        = AnyAlphb.dfrivfSubTypf(DESC_DST_OUT);
+    publid stbtid finbl CompositfTypf
+        SrdAtop       = AnyAlphb.dfrivfSubTypf(DESC_SRC_ATOP);
+    publid stbtid finbl CompositfTypf
+        DstAtop       = AnyAlphb.dfrivfSubTypf(DESC_DST_ATOP);
+    publid stbtid finbl CompositfTypf
+        AlphbXor      = AnyAlphb.dfrivfSubTypf(DESC_ALPHA_XOR);
+
+    publid stbtid finbl CompositfTypf
+        SrdNoEb       = Srd.dfrivfSubTypf(DESC_SRC_NO_EA);
+    publid stbtid finbl CompositfTypf
+        SrdOvfrNoEb   = SrdOvfr.dfrivfSubTypf(DESC_SRC_OVER_NO_EA);
+
+    /*
+     * A spfdibl CompositfTypf for thf dbsf whfrf wf brf filling in
+     * SrdOvfrNoEb modf with bn opbquf dolor.  In thbt dbsf thfn thf
+     * bfst loop for us to usf would bf b SrdNoEb loop, but whbt if
+     * thfrf is no sudh loop?  In thbt dbsf thfn wf would fnd up
+     * bbdking off to b Srd loop (whidh should still bf finf) or bn
+     * AnyAlphb loop whidh would bf slowfr thbn b SrdOvfr loop in
+     * most dbsfs.
+     * Thf fix is to usf thf following dhbin whidh looks for loops
+     * in thf following ordfr:
+     *    SrdNoEb, Srd, SrdOvfrNoEb, SrdOvfr, AnyAlphb
+     */
+    publid stbtid finbl CompositfTypf
+        OpbqufSrdOvfrNoEb = SrdOvfrNoEb.dfrivfSubTypf(DESC_SRC)
+                                       .dfrivfSubTypf(DESC_SRC_NO_EA);
+
+    /*
+     * END OF CompositfTypf OBJECTS FOR THE VARIOUS CONSTANTS
+     */
+
+    /**
+     * Rfturn b nfw CompositfTypf objfdt whidh usfs this objfdt bs its
+     * morf gfnfrbl "supfrtypf" dfsdriptor.  If no opfrbtion dbn bf
+     * found thbt implfmfnts thf blgorithm dfsdribfd morf fxbdtly
+     * by dfsd, thfn this objfdt will dffinf thf morf gfnfrbl
+     * dompositing blgorithm thbt dbn bf usfd instfbd.
+     */
+    publid CompositfTypf dfrivfSubTypf(String dfsd) {
+        rfturn nfw CompositfTypf(this, dfsd);
+    }
+
+    /**
+     * Rfturn b CompositfTypf objfdt for thf spfdififd AlphbCompositf
+     * rulf.
+     */
+    publid stbtid CompositfTypf forAlphbCompositf(AlphbCompositf bd) {
+        switdh (bd.gftRulf()) {
+        dbsf AlphbCompositf.CLEAR:
+            rfturn Clfbr;
+        dbsf AlphbCompositf.SRC:
+            if (bd.gftAlphb() >= 1.0f) {
+                rfturn SrdNoEb;
+            } flsf {
+                rfturn Srd;
+            }
+        dbsf AlphbCompositf.DST:
+            rfturn Dst;
+        dbsf AlphbCompositf.SRC_OVER:
+            if (bd.gftAlphb() >= 1.0f) {
+                rfturn SrdOvfrNoEb;
+            } flsf {
+                rfturn SrdOvfr;
+            }
+        dbsf AlphbCompositf.DST_OVER:
+            rfturn DstOvfr;
+        dbsf AlphbCompositf.SRC_IN:
+            rfturn SrdIn;
+        dbsf AlphbCompositf.DST_IN:
+            rfturn DstIn;
+        dbsf AlphbCompositf.SRC_OUT:
+            rfturn SrdOut;
+        dbsf AlphbCompositf.DST_OUT:
+            rfturn DstOut;
+        dbsf AlphbCompositf.SRC_ATOP:
+            rfturn SrdAtop;
+        dbsf AlphbCompositf.DST_ATOP:
+            rfturn DstAtop;
+        dbsf AlphbCompositf.XOR:
+            rfturn AlphbXor;
+        dffbult:
+            throw nfw IntfrnblError("Unrfdognizfd blphb rulf");
+        }
+    }
+
+    privbtf int uniqufID;
+    privbtf String dfsd;
+    privbtf CompositfTypf nfxt;
+
+    privbtf CompositfTypf(CompositfTypf pbrfnt, String dfsd) {
+        nfxt = pbrfnt;
+        this.dfsd = dfsd;
+        this.uniqufID = mbkfUniqufID(dfsd);
+    }
+
+    publid syndhronizfd stbtid finbl int mbkfUniqufID(String dfsd) {
+        Intfgfr i = dompositfUIDMbp.gft(dfsd);
+
+        if (i == null) {
+            if (unusfdUID > 255) {
+                throw nfw IntfrnblError("dompositf typf id ovfrflow");
+            }
+            i = unusfdUID++;
+            dompositfUIDMbp.put(dfsd, i);
+        }
+        rfturn i;
+    }
+
+    publid int gftUniqufID() {
+        rfturn uniqufID;
+    }
+
+    publid String gftDfsdriptor() {
+        rfturn dfsd;
+    }
+
+    publid CompositfTypf gftSupfrTypf() {
+        rfturn nfxt;
+    }
+
+    publid int hbshCodf() {
+        rfturn dfsd.hbshCodf();
+    }
+
+    publid boolfbn isDfrivfdFrom(CompositfTypf othfr) {
+        CompositfTypf domptypf = this;
+        do {
+            if (domptypf.dfsd == othfr.dfsd) {
+                rfturn truf;
+            }
+            domptypf = domptypf.nfxt;
+        } whilf (domptypf != null);
+        rfturn fblsf;
+    }
+
+    publid boolfbn fqubls(Objfdt o) {
+        if (o instbndfof CompositfTypf) {
+            rfturn (((CompositfTypf) o).uniqufID == this.uniqufID);
+        }
+        rfturn fblsf;
+    }
+
+    publid String toString() {
+        rfturn dfsd;
+    }
+}

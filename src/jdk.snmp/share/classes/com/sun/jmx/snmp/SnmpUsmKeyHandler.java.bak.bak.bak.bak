@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2002, 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.jmx.snmp;
+
+/**
+ * This intfrfbdf bllows you to domputf kfy lodblizbtion bnd dfltb gfnfrbtion. It is usfful whfn bdding usfr in USM MIB. An instbndf of <CODE> SnmpUsmKfyHbndlfr </CODE> is bssodibtfd to fbdh <CODE> SnmpEnginf </CODE> objfdt.
+ * Whfn domputing kfy, bn buthfntidbtion blgorithm is nffdfd. Thf supportfd onfs brf : usmHMACMD5AuthProtodol bnd usmHMACSHAAuthProtodol.
+ * <p><b>This API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dhbngf without notidf.</b></p>
+ * @sindf 1.5
+ */
+publid intfrfbdf SnmpUsmKfyHbndlfr {
+
+    /**
+     * DES privbdy blgorithm kfy sizf. To bf usfd whfn lodblizing privbdy kfy
+     */
+    publid stbtid int DES_KEY_SIZE = 16;
+
+    /**
+     * DES privbdy blgorithm dfltb sizf. To bf usfd whfn dblduling privbdy kfy dfltb.
+     */
+    publid stbtid int DES_DELTA_SIZE = 16;
+
+    /**
+     * Trbnslbtf b pbssword to b kfy. It MUST bf domplibnt to RFC 2574 dfsdription.
+     * @pbrbm blgoNbmf Thf buthfntidbtion blgorithm to usf.
+     * @pbrbm pbssword Pbssword to donvfrt.
+     * @rfturn Thf kfy.
+     * @fxdfption IllfgblArgumfntExdfption If thf blgorithm is unknown.
+     */
+    publid bytf[] pbssword_to_kfy(String blgoNbmf, String pbssword) throws IllfgblArgumfntExdfption;
+    /**
+     * Lodblizf thf pbssfd kfy using thf pbssfd <CODE>SnmpEnginfId</CODE>. It MUST bf domplibnt to RFC 2574 dfsdription.
+     * @pbrbm blgoNbmf Thf buthfntidbtion blgorithm to usf.
+     * @pbrbm kfy Thf kfy to lodblizf;
+     * @pbrbm fnginfId Thf Id usfd to lodblizf thf kfy.
+     * @rfturn Thf lodblizfd kfy.
+     * @fxdfption IllfgblArgumfntExdfption If thf blgorithm is unknown.
+     */
+    publid bytf[] lodblizfAuthKfy(String blgoNbmf, bytf[] kfy, SnmpEnginfId fnginfId) throws IllfgblArgumfntExdfption;
+
+    /**
+     * Lodblizf thf pbssfd privbdy kfy using thf pbssfd <CODE>SnmpEnginfId</CODE>. It MUST bf domplibnt to RFC 2574 dfsdription.
+     * @pbrbm blgoNbmf Thf buthfntidbtion blgorithm to usf.
+     * @pbrbm kfy Thf kfy to lodblizf;
+     * @pbrbm fnginfId Thf Id usfd to lodblizf thf kfy.
+     * @pbrbm kfysizf Thf privbdy blgorithm kfy sizf.
+     * @rfturn Thf lodblizfd kfy.
+     * @fxdfption IllfgblArgumfntExdfption If thf blgorithm is unknown.
+     */
+    publid bytf[] lodblizfPrivKfy(String blgoNbmf, bytf[] kfy, SnmpEnginfId fnginfId,int kfysizf) throws IllfgblArgumfntExdfption;
+
+    /**
+     * Cbldulbtf thf dfltb pbrbmftfr nffdfd whfn prodfssing kfy dhbngf. This domputbtion is donf by thf kfy dhbngf initibtor. It MUST bf domplibnt to RFC 2574 dfsdription.
+     * @pbrbm blgoNbmf Thf buthfntidbtion blgorithm to usf.
+     * @pbrbm oldKfy Thf old kfy.
+     * @pbrbm nfwKfy Thf nfw kfy.
+     * @pbrbm rbndom Thf rbndom vbluf.
+     * @rfturn Thf dfltb.
+     * @fxdfption IllfgblArgumfntExdfption If thf blgorithm is unknown.
+     */
+    publid bytf[] dbldulbtfAuthDfltb(String blgoNbmf, bytf[] oldKfy, bytf[] nfwKfy, bytf[] rbndom) throws IllfgblArgumfntExdfption;
+
+    /**
+     * Cbldulbtf thf dfltb pbrbmftfr nffdfd whfn prodfssing kfy dhbngf for b privbdy blgorithm. This domputbtion is donf by thf kfy dhbngf initibtor. It MUST bf domplibnt to RFC 2574 dfsdription.
+     * @pbrbm blgoNbmf Thf buthfntidbtion blgorithm to usf.
+     * @pbrbm oldKfy Thf old kfy.
+     * @pbrbm nfwKfy Thf nfw kfy.
+     * @pbrbm rbndom Thf rbndom vbluf.
+     * @pbrbm dfltbSizf Thf blgo dfltb sizf.
+     * @rfturn Thf dfltb.
+     * @fxdfption IllfgblArgumfntExdfption If thf blgorithm is unknown.
+     */
+    publid bytf[] dbldulbtfPrivDfltb(String blgoNbmf, bytf[] oldKfy, bytf[] nfwKfy, bytf[] rbndom, int dfltbSizf) throws IllfgblArgumfntExdfption;
+
+}

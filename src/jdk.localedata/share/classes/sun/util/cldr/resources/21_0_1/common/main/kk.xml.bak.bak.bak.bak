@@ -1,0 +1,2090 @@
+<?xml vfrsion="1.0" fndoding="UTF-8" ?>
+<!DOCTYPE ldml SYSTEM "../../dommon/dtd/ldml.dtd">
+<ldml>
+	<idfntity>
+		<vfrsion numbfr="$Rfvision: 6546 $"/>
+		<gfnfrbtion dbtf="$Dbtf: 2012-02-08 03:32:35 +0900 (Wfd, 08 Ffb 2012) $"/>
+		<lbngubgf typf="kk"/>
+	</idfntity>
+	<lodblfDisplbyNbmfs>
+		<lbngubgfs>
+			<lbngubgf typf="bb" drbft="undonfirmfd">Абхаз</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">Африкаан</lbngubgf>
+			<lbngubgf typf="bm" drbft="undonfirmfd">амхар</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">Араб</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">ассам</lbngubgf>
+			<lbngubgf typf="by" drbft="undonfirmfd">Аймара</lbngubgf>
+			<lbngubgf typf="bz" drbft="undonfirmfd">Азербайжан</lbngubgf>
+			<lbngubgf typf="bf" drbft="undonfirmfd">беларус</lbngubgf>
+			<lbngubgf typf="bg" drbft="undonfirmfd">болгар</lbngubgf>
+			<lbngubgf typf="bh" drbft="undonfirmfd">бихари</lbngubgf>
+			<lbngubgf typf="bn" drbft="undonfirmfd">бенгал</lbngubgf>
+			<lbngubgf typf="bo" drbft="undonfirmfd">тибет тілі</lbngubgf>
+			<lbngubgf typf="br" drbft="undonfirmfd">брит</lbngubgf>
+			<lbngubgf typf="bs" drbft="undonfirmfd">босния</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">каталан</lbngubgf>
+			<lbngubgf typf="ds" drbft="undonfirmfd">чех</lbngubgf>
+			<lbngubgf typf="dy" drbft="undonfirmfd">валлий</lbngubgf>
+			<lbngubgf typf="db" drbft="undonfirmfd">дат</lbngubgf>
+			<lbngubgf typf="df">неміс тілі</lbngubgf>
+			<lbngubgf typf="df_AT">австриялық неміс тілі</lbngubgf>
+			<lbngubgf typf="df_CH">швейцариялық ұлы неміс тілі</lbngubgf>
+			<lbngubgf typf="dv" drbft="undonfirmfd">Мальдив</lbngubgf>
+			<lbngubgf typf="dz" drbft="undonfirmfd">дзонг-кэ</lbngubgf>
+			<lbngubgf typf="ffi" drbft="undonfirmfd">эфик</lbngubgf>
+			<lbngubgf typf="fl" drbft="undonfirmfd">грек</lbngubgf>
+			<lbngubgf typf="fn">ағылшын тілі</lbngubgf>
+			<lbngubgf typf="fn_AU">австралиялық ағылшын тілі</lbngubgf>
+			<lbngubgf typf="fn_CA">канадалық ағылшын тілі</lbngubgf>
+			<lbngubgf typf="fn_GB">британиялық ағылшын тілі</lbngubgf>
+			<lbngubgf typf="fn_US">АҚШ ағылшын тілі</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">эсперанто</lbngubgf>
+			<lbngubgf typf="fs">испан тілі</lbngubgf>
+			<lbngubgf typf="fs_419">Латин Америкалық испан тілі</lbngubgf>
+			<lbngubgf typf="fs_ES">ибериялық испан тілі</lbngubgf>
+			<lbngubgf typf="ft" drbft="undonfirmfd">эстон</lbngubgf>
+			<lbngubgf typf="fu" drbft="undonfirmfd">баск</lbngubgf>
+			<lbngubgf typf="fb" drbft="undonfirmfd">парсы</lbngubgf>
+			<lbngubgf typf="fi" drbft="undonfirmfd">фин</lbngubgf>
+			<lbngubgf typf="fil" drbft="undonfirmfd">филиппино</lbngubgf>
+			<lbngubgf typf="fj" drbft="undonfirmfd">Фиджий</lbngubgf>
+			<lbngubgf typf="fo" drbft="undonfirmfd">фарер</lbngubgf>
+			<lbngubgf typf="fr">француз тілі</lbngubgf>
+			<lbngubgf typf="fr_CA">канадалық француз тілі</lbngubgf>
+			<lbngubgf typf="fr_CH">швейцариялық француз тілі</lbngubgf>
+			<lbngubgf typf="fy" drbft="undonfirmfd">Фрис</lbngubgf>
+			<lbngubgf typf="gb" drbft="undonfirmfd">Ирланд тілі</lbngubgf>
+			<lbngubgf typf="gd" drbft="undonfirmfd">Солтүстік Шотландия</lbngubgf>
+			<lbngubgf typf="gl" drbft="undonfirmfd">Гал</lbngubgf>
+			<lbngubgf typf="gn" drbft="undonfirmfd">гуарани</lbngubgf>
+			<lbngubgf typf="gu" drbft="undonfirmfd">гуджарати</lbngubgf>
+			<lbngubgf typf="hb" drbft="undonfirmfd">Хауса</lbngubgf>
+			<lbngubgf typf="hbw" drbft="undonfirmfd">Гавай</lbngubgf>
+			<lbngubgf typf="hf" drbft="undonfirmfd">иврит</lbngubgf>
+			<lbngubgf typf="hi" drbft="undonfirmfd">хинди</lbngubgf>
+			<lbngubgf typf="hr" drbft="undonfirmfd">хорват</lbngubgf>
+			<lbngubgf typf="ht" drbft="undonfirmfd">Гаит</lbngubgf>
+			<lbngubgf typf="hu" drbft="undonfirmfd">мадьяр</lbngubgf>
+			<lbngubgf typf="hy" drbft="undonfirmfd">армян</lbngubgf>
+			<lbngubgf typf="ib" drbft="undonfirmfd">интерлингва</lbngubgf>
+			<lbngubgf typf="id" drbft="undonfirmfd">индонезия</lbngubgf>
+			<lbngubgf typf="if" drbft="undonfirmfd">интерлингве</lbngubgf>
+			<lbngubgf typf="ig" drbft="undonfirmfd">Игбо</lbngubgf>
+			<lbngubgf typf="is" drbft="undonfirmfd">исланд</lbngubgf>
+			<lbngubgf typf="it">итальян тілі</lbngubgf>
+			<lbngubgf typf="jb">жапон тілі</lbngubgf>
+			<lbngubgf typf="jv" drbft="undonfirmfd">ява</lbngubgf>
+			<lbngubgf typf="kb" drbft="undonfirmfd">грузин</lbngubgf>
+			<lbngubgf typf="kk">қазақ тілі</lbngubgf>
+			<lbngubgf typf="km" drbft="undonfirmfd">камбоджия</lbngubgf>
+			<lbngubgf typf="kn" drbft="undonfirmfd">каннада</lbngubgf>
+			<lbngubgf typf="ko" drbft="undonfirmfd">кәріс</lbngubgf>
+			<lbngubgf typf="ks" drbft="undonfirmfd">Кашмир</lbngubgf>
+			<lbngubgf typf="ku" drbft="undonfirmfd">күрд</lbngubgf>
+			<lbngubgf typf="ky" drbft="undonfirmfd">қырғыз</lbngubgf>
+			<lbngubgf typf="lb" drbft="undonfirmfd">латын</lbngubgf>
+			<lbngubgf typf="lb" drbft="undonfirmfd">Люксембург</lbngubgf>
+			<lbngubgf typf="ln" drbft="undonfirmfd">лингала</lbngubgf>
+			<lbngubgf typf="lo" drbft="undonfirmfd">лаос</lbngubgf>
+			<lbngubgf typf="lt" drbft="undonfirmfd">литва</lbngubgf>
+			<lbngubgf typf="lv" drbft="undonfirmfd">латыш</lbngubgf>
+			<lbngubgf typf="mg" drbft="undonfirmfd">малагаси</lbngubgf>
+			<lbngubgf typf="mi" drbft="undonfirmfd">маори</lbngubgf>
+			<lbngubgf typf="mk" drbft="undonfirmfd">македон</lbngubgf>
+			<lbngubgf typf="ml" drbft="undonfirmfd">малайялам</lbngubgf>
+			<lbngubgf typf="mn" drbft="undonfirmfd">моңғол</lbngubgf>
+			<lbngubgf typf="mr" drbft="undonfirmfd">маратхи</lbngubgf>
+			<lbngubgf typf="ms" drbft="undonfirmfd">малай</lbngubgf>
+			<lbngubgf typf="mt" drbft="undonfirmfd">мальта</lbngubgf>
+			<lbngubgf typf="my" drbft="undonfirmfd">Бирман</lbngubgf>
+			<lbngubgf typf="nd" drbft="undonfirmfd">Солтүстік ндебел</lbngubgf>
+			<lbngubgf typf="nf" drbft="undonfirmfd">непал</lbngubgf>
+			<lbngubgf typf="nl" drbft="undonfirmfd">голланд</lbngubgf>
+			<lbngubgf typf="nl_BE" drbft="undonfirmfd">флемиш</lbngubgf>
+			<lbngubgf typf="nn" drbft="undonfirmfd">Норвегиялық нинорск</lbngubgf>
+			<lbngubgf typf="no" drbft="undonfirmfd">норвег</lbngubgf>
+			<lbngubgf typf="nso" drbft="undonfirmfd">Солтүстік сотхо</lbngubgf>
+			<lbngubgf typf="ny" drbft="undonfirmfd">ньянджа</lbngubgf>
+			<lbngubgf typf="od" drbft="undonfirmfd">окситан</lbngubgf>
+			<lbngubgf typf="or" drbft="undonfirmfd">ория</lbngubgf>
+			<lbngubgf typf="os" drbft="undonfirmfd">осетин</lbngubgf>
+			<lbngubgf typf="pb" drbft="undonfirmfd">панджаб</lbngubgf>
+			<lbngubgf typf="pl" drbft="undonfirmfd">поляк</lbngubgf>
+			<lbngubgf typf="ps" drbft="undonfirmfd">пашто</lbngubgf>
+			<lbngubgf typf="pt">португал тілі</lbngubgf>
+			<lbngubgf typf="pt_BR">бразилиялық португал тілі</lbngubgf>
+			<lbngubgf typf="pt_PT">ибериялық португал тілі</lbngubgf>
+			<lbngubgf typf="qu" drbft="undonfirmfd">кечуа</lbngubgf>
+			<lbngubgf typf="rm" drbft="undonfirmfd">ретороман</lbngubgf>
+			<lbngubgf typf="rn" drbft="undonfirmfd">рунди</lbngubgf>
+			<lbngubgf typf="ro" drbft="undonfirmfd">румын</lbngubgf>
+			<lbngubgf typf="ru">орыс тілі</lbngubgf>
+			<lbngubgf typf="rw" drbft="undonfirmfd">киньяруанда</lbngubgf>
+			<lbngubgf typf="sb" drbft="undonfirmfd">санскрит</lbngubgf>
+			<lbngubgf typf="sbh" drbft="undonfirmfd">якут</lbngubgf>
+			<lbngubgf typf="sd" drbft="undonfirmfd">синдхи</lbngubgf>
+			<lbngubgf typf="sf" drbft="undonfirmfd">Солтүстік саам</lbngubgf>
+			<lbngubgf typf="sg" drbft="undonfirmfd">санго</lbngubgf>
+			<lbngubgf typf="sh" drbft="undonfirmfd">сербхорват</lbngubgf>
+			<lbngubgf typf="si" drbft="undonfirmfd">сингал</lbngubgf>
+			<lbngubgf typf="sk" drbft="undonfirmfd">словак</lbngubgf>
+			<lbngubgf typf="sl" drbft="undonfirmfd">словен</lbngubgf>
+			<lbngubgf typf="so" drbft="undonfirmfd">сомали</lbngubgf>
+			<lbngubgf typf="sq" drbft="undonfirmfd">албан</lbngubgf>
+			<lbngubgf typf="sr" drbft="undonfirmfd">серб</lbngubgf>
+			<lbngubgf typf="st" drbft="undonfirmfd">сесото</lbngubgf>
+			<lbngubgf typf="su" drbft="undonfirmfd">судан</lbngubgf>
+			<lbngubgf typf="sv" drbft="undonfirmfd">швед</lbngubgf>
+			<lbngubgf typf="sw" drbft="undonfirmfd">суахили</lbngubgf>
+			<lbngubgf typf="tb" drbft="undonfirmfd">тамил</lbngubgf>
+			<lbngubgf typf="tf" drbft="undonfirmfd">телугу</lbngubgf>
+			<lbngubgf typf="tg" drbft="undonfirmfd">Тәжік</lbngubgf>
+			<lbngubgf typf="th" drbft="undonfirmfd">тай</lbngubgf>
+			<lbngubgf typf="ti" drbft="undonfirmfd">тигринья</lbngubgf>
+			<lbngubgf typf="tk" drbft="undonfirmfd">түркмен</lbngubgf>
+			<lbngubgf typf="tlh" drbft="undonfirmfd">клингон</lbngubgf>
+			<lbngubgf typf="tr" drbft="undonfirmfd">Түрік</lbngubgf>
+			<lbngubgf typf="tw" drbft="undonfirmfd">тви</lbngubgf>
+			<lbngubgf typf="ug" drbft="undonfirmfd">ұйғыр</lbngubgf>
+			<lbngubgf typf="uk" drbft="undonfirmfd">украин</lbngubgf>
+			<lbngubgf typf="und">белгісіз тіл</lbngubgf>
+			<lbngubgf typf="ur" drbft="undonfirmfd">урду</lbngubgf>
+			<lbngubgf typf="uz" drbft="undonfirmfd">өзбек</lbngubgf>
+			<lbngubgf typf="vi" drbft="undonfirmfd">вьетнам</lbngubgf>
+			<lbngubgf typf="xh" drbft="undonfirmfd">хоса</lbngubgf>
+			<lbngubgf typf="yi" drbft="undonfirmfd">идиш</lbngubgf>
+			<lbngubgf typf="yo" drbft="undonfirmfd">Иоруба</lbngubgf>
+			<lbngubgf typf="zh">қытай тілі</lbngubgf>
+			<lbngubgf typf="zh_Hbns">қарапайым қытай тілі</lbngubgf>
+			<lbngubgf typf="zh_Hbnt">дәстүрлік қытай тілі</lbngubgf>
+			<lbngubgf typf="zu" drbft="undonfirmfd">зулус</lbngubgf>
+		</lbngubgfs>
+		<sdripts>
+			<sdript typf="Arbb">араб жазылуы</sdript>
+			<sdript typf="Armn" drbft="undonfirmfd">армян жазуы</sdript>
+			<sdript typf="Bfng" drbft="undonfirmfd">бенгал</sdript>
+			<sdript typf="Cyrl">кириллица</sdript>
+			<sdript typf="Dfvb" drbft="undonfirmfd">Деванагари жазуы</sdript>
+			<sdript typf="Ethi" drbft="undonfirmfd">Эфиопия жазуы</sdript>
+			<sdript typf="Gfor" drbft="undonfirmfd">Грузин жазуы</sdript>
+			<sdript typf="Grfk" drbft="undonfirmfd">Грек жазуы</sdript>
+			<sdript typf="Gujr" drbft="undonfirmfd">Гуджарати жазуы</sdript>
+			<sdript typf="Hbns">қарапайым қытай иероглифы</sdript>
+			<sdript typf="Hbnt">дәстүрлік қытай иероглифы</sdript>
+			<sdript typf="Hfbr" drbft="undonfirmfd">Иврит</sdript>
+			<sdript typf="Jpbn" drbft="undonfirmfd">жапон</sdript>
+			<sdript typf="Kbnb" drbft="undonfirmfd">катакана</sdript>
+			<sdript typf="Khmr" drbft="undonfirmfd">Кхмер</sdript>
+			<sdript typf="Kndb" drbft="undonfirmfd">Каннада</sdript>
+			<sdript typf="Korf" drbft="undonfirmfd">Корей жазуы</sdript>
+			<sdript typf="Lboo" drbft="undonfirmfd">Лаос жазуы</sdript>
+			<sdript typf="Lbtn">латын жазылуы</sdript>
+			<sdript typf="Mlym" drbft="undonfirmfd">Малаял</sdript>
+			<sdript typf="Mymr" drbft="undonfirmfd">Маянмар</sdript>
+			<sdript typf="Oryb" drbft="undonfirmfd">Ория</sdript>
+			<sdript typf="Sinh" drbft="undonfirmfd">Сингаль</sdript>
+			<sdript typf="Tbml" drbft="undonfirmfd">Тамиль</sdript>
+			<sdript typf="Tflu" drbft="undonfirmfd">Телугу</sdript>
+			<sdript typf="Thbb" drbft="undonfirmfd">Таана</sdript>
+			<sdript typf="Thbi" drbft="undonfirmfd">Тай</sdript>
+			<sdript typf="Zsym" drbft="undonfirmfd">Символдар</sdript>
+			<sdript typf="Zxxx">жазылуысыз</sdript>
+			<sdript typf="Zzzz">белгісіз жазылуы</sdript>
+		</sdripts>
+		<tfrritorifs>
+			<tfrritory typf="001">Әлем</tfrritory>
+			<tfrritory typf="002">Африка</tfrritory>
+			<tfrritory typf="003">Солтүстік Америка</tfrritory>
+			<tfrritory typf="005">Оңтүстік Америка</tfrritory>
+			<tfrritory typf="009">Океания</tfrritory>
+			<tfrritory typf="011">Батыс Африка</tfrritory>
+			<tfrritory typf="013">Орталық Америка</tfrritory>
+			<tfrritory typf="014">Шығыс Африка</tfrritory>
+			<tfrritory typf="015">Солтүстік Африка</tfrritory>
+			<tfrritory typf="017">Орталық Африка</tfrritory>
+			<tfrritory typf="018">Оңтүстік Африка</tfrritory>
+			<tfrritory typf="019">Америкалар</tfrritory>
+			<tfrritory typf="021">Солтүстік Америка (АҚШ, Канада, Гренландия және Бермуд аралдары)</tfrritory>
+			<tfrritory typf="029">Кариб</tfrritory>
+			<tfrritory typf="030">Шығыс Азия</tfrritory>
+			<tfrritory typf="034">Оңтүстік Азия</tfrritory>
+			<tfrritory typf="035">Оңтүстік-шығыс Азия</tfrritory>
+			<tfrritory typf="039">Оңтүстік Еуропа</tfrritory>
+			<tfrritory typf="053">Австралия және Жаңа Зеландия</tfrritory>
+			<tfrritory typf="054">Меланезия</tfrritory>
+			<tfrritory typf="057">Микронезия регионы</tfrritory>
+			<tfrritory typf="061">Полинезия</tfrritory>
+			<tfrritory typf="142">Азия</tfrritory>
+			<tfrritory typf="143">Орталық Азия</tfrritory>
+			<tfrritory typf="145">Батыс Азия</tfrritory>
+			<tfrritory typf="150">Еуропа</tfrritory>
+			<tfrritory typf="151">Шығыс Еуропа</tfrritory>
+			<tfrritory typf="154">Солтүстік Еуропа</tfrritory>
+			<tfrritory typf="155">Батыс Еуропа</tfrritory>
+			<tfrritory typf="419">Латын Америкасы</tfrritory>
+			<tfrritory typf="AD">Андорра</tfrritory>
+			<tfrritory typf="AE">Біріккен Араб Эмираттары</tfrritory>
+			<tfrritory typf="AF" drbft="undonfirmfd">Ауғанстан</tfrritory>
+			<tfrritory typf="AL" drbft="undonfirmfd">Албания</tfrritory>
+			<tfrritory typf="AM" drbft="undonfirmfd">Армения</tfrritory>
+			<tfrritory typf="AO" drbft="undonfirmfd">Ангола</tfrritory>
+			<tfrritory typf="AQ" drbft="undonfirmfd">Антарктика</tfrritory>
+			<tfrritory typf="AR" drbft="undonfirmfd">Аргентина</tfrritory>
+			<tfrritory typf="AT">Австрия</tfrritory>
+			<tfrritory typf="AU">Австралия</tfrritory>
+			<tfrritory typf="AW" drbft="undonfirmfd">Аруба</tfrritory>
+			<tfrritory typf="AZ">Әзербайжан</tfrritory>
+			<tfrritory typf="BA" drbft="undonfirmfd">Босния және Герцеговина</tfrritory>
+			<tfrritory typf="BB" drbft="undonfirmfd">Барбадос</tfrritory>
+			<tfrritory typf="BD" drbft="undonfirmfd">Бангладеш</tfrritory>
+			<tfrritory typf="BE">Бельгия</tfrritory>
+			<tfrritory typf="BG">Болгария</tfrritory>
+			<tfrritory typf="BH">Бахрейн</tfrritory>
+			<tfrritory typf="BI">Бурунди</tfrritory>
+			<tfrritory typf="BJ">Бенин</tfrritory>
+			<tfrritory typf="BO">Боливия</tfrritory>
+			<tfrritory typf="BR">Бразилия</tfrritory>
+			<tfrritory typf="BT">Бутан</tfrritory>
+			<tfrritory typf="BW">Ботсвана</tfrritory>
+			<tfrritory typf="BY">Беларусь</tfrritory>
+			<tfrritory typf="BZ">Белиз</tfrritory>
+			<tfrritory typf="CA">Канада</tfrritory>
+			<tfrritory typf="CH">Швейцария</tfrritory>
+			<tfrritory typf="CL">Чили</tfrritory>
+			<tfrritory typf="CM">Камерун</tfrritory>
+			<tfrritory typf="CN">Қытай</tfrritory>
+			<tfrritory typf="CO">Колумбия</tfrritory>
+			<tfrritory typf="DE">Алмания</tfrritory>
+			<tfrritory typf="DK">Дания</tfrritory>
+			<tfrritory typf="ES">Испания</tfrritory>
+			<tfrritory typf="FI">Финляндия</tfrritory>
+			<tfrritory typf="FR">Франция</tfrritory>
+			<tfrritory typf="GB">Ұлыбритания</tfrritory>
+			<tfrritory typf="GR">Грекия</tfrritory>
+			<tfrritory typf="HK">Гонконг (арнайы әкімшілік аймақ)</tfrritory>
+			<tfrritory typf="ID">Индонезия</tfrritory>
+			<tfrritory typf="IE">Ирландия</tfrritory>
+			<tfrritory typf="IN">Индия</tfrritory>
+			<tfrritory typf="IT">Италия</tfrritory>
+			<tfrritory typf="JP">Жапония</tfrritory>
+			<tfrritory typf="KR">Солтүстік Корея</tfrritory>
+			<tfrritory typf="KZ">Қазақстан</tfrritory>
+			<tfrritory typf="MX">Мексика</tfrritory>
+			<tfrritory typf="NL">Голландия</tfrritory>
+			<tfrritory typf="NO">Норвегия</tfrritory>
+			<tfrritory typf="PL">Польша</tfrritory>
+			<tfrritory typf="PT">Португалия</tfrritory>
+			<tfrritory typf="RU">Ресей</tfrritory>
+			<tfrritory typf="SA">Сауд Арабиясы</tfrritory>
+			<tfrritory typf="SE">Швеция</tfrritory>
+			<tfrritory typf="TH">Тайланд</tfrritory>
+			<tfrritory typf="TO" drbft="undonfirmfd">Тонга</tfrritory>
+			<tfrritory typf="TR">Түркия</tfrritory>
+			<tfrritory typf="TW">Тайвань</tfrritory>
+			<tfrritory typf="US">АҚШ</tfrritory>
+			<tfrritory typf="ZA">Оңтүстік Африка республикасы</tfrritory>
+			<tfrritory typf="ZZ">Белгісіз аймақ</tfrritory>
+		</tfrritorifs>
+		<vbribnts>
+			<vbribnt typf="AREVELA" drbft="undonfirmfd">Шығыс-армян</vbribnt>
+			<vbribnt typf="AREVMDA" drbft="undonfirmfd">Батыс-армян</vbribnt>
+			<vbribnt typf="SAAHO" drbft="undonfirmfd">Сахо</vbribnt>
+			<vbribnt typf="WADEGILE" drbft="undonfirmfd">Уейд-Джайлс жүйесі</vbribnt>
+		</vbribnts>
+		<kfys>
+			<kfy typf="dblfndbr" drbft="undonfirmfd">Күнтізбе</kfy>
+			<kfy typf="dollbtion" drbft="undonfirmfd">Салыстыру</kfy>
+			<kfy typf="durrfndy" drbft="undonfirmfd">Валюта</kfy>
+		</kfys>
+		<typfs>
+			<typf typf="dhinfsf" kfy="dblfndbr" drbft="undonfirmfd">Қытай күнтізбесі</typf>
+			<typf typf="grfgoribn" kfy="dblfndbr">Грегориандық күнтізбе</typf>
+			<typf typf="indibn" kfy="dblfndbr" drbft="undonfirmfd">Үндістанның ұлттық күнтізбесі</typf>
+			<typf typf="islbmid" kfy="dblfndbr" drbft="undonfirmfd">Ислам күнтізбесі</typf>
+			<typf typf="islbmid-divil" kfy="dblfndbr" drbft="undonfirmfd">Ислам азаматтық күнтізбесі</typf>
+			<typf typf="jbpbnfsf" kfy="dblfndbr" drbft="undonfirmfd">Жапон күнтізбесі</typf>
+			<typf typf="lbtn" kfy="numbfrs">Батыс сандары</typf>
+			<typf typf="pfrsibn" kfy="dblfndbr" drbft="undonfirmfd">Парсы күнтізбесі</typf>
+			<typf typf="sfbrdh" kfy="dollbtion" drbft="undonfirmfd">іздеу</typf>
+		</typfs>
+		<mfbsurfmfntSystfmNbmfs>
+			<mfbsurfmfntSystfmNbmf typf="mftrid">метрикалық жүйе</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="UK">ҰБ</mfbsurfmfntSystfmNbmf>
+			<mfbsurfmfntSystfmNbmf typf="US">АҚШ</mfbsurfmfntSystfmNbmf>
+		</mfbsurfmfntSystfmNbmfs>
+		<dodfPbttfrns>
+			<dodfPbttfrn typf="lbngubgf">Тіл: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="sdript">Жазылуы: {0}</dodfPbttfrn>
+			<dodfPbttfrn typf="tfrritory">Аймақ: {0}</dodfPbttfrn>
+		</dodfPbttfrns>
+	</lodblfDisplbyNbmfs>
+	<dhbrbdtfrs>
+		<fxfmplbrChbrbdtfrs>[а ә б в г ғ д е ё ж з и й к қ л м н ң о ө п р с т у ұ ү ф х һ ц ч ш щ ъ ы і ь э ю я]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="buxilibry">[]</fxfmplbrChbrbdtfrs>
+		<fxfmplbrChbrbdtfrs typf="indfx">[А Ә Б В Г Ғ Д Е Ё Ж З И Й К Қ Л М Н Ң О Ө П Р С Т У Ұ Ү Ф Х Һ Ц Ч Ш Щ Ъ Ы І Ь Э Ю Я]</fxfmplbrChbrbdtfrs>
+	</dhbrbdtfrs>
+	<dbtfs>
+		<dblfndbrs>
+			<dblfndbr typf="doptid">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="nbrrow">
+							<month typf="1" drbft="undonfirmfd">1</month>
+							<month typf="2" drbft="undonfirmfd">2</month>
+							<month typf="3" drbft="undonfirmfd">3</month>
+							<month typf="4" drbft="undonfirmfd">4</month>
+							<month typf="5" drbft="undonfirmfd">5</month>
+							<month typf="6" drbft="undonfirmfd">6</month>
+							<month typf="7" drbft="undonfirmfd">7</month>
+							<month typf="8" drbft="undonfirmfd">8</month>
+							<month typf="9" drbft="undonfirmfd">9</month>
+							<month typf="10" drbft="undonfirmfd">10</month>
+							<month typf="11" drbft="undonfirmfd">11</month>
+							<month typf="12" drbft="undonfirmfd">12</month>
+							<month typf="13" drbft="undonfirmfd">13</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+			</dblfndbr>
+			<dblfndbr typf="grfgoribn">
+				<months>
+					<monthContfxt typf="formbt">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1">қаң.</month>
+							<month typf="2">ақп.</month>
+							<month typf="3">нау.</month>
+							<month typf="4">сәу.</month>
+							<month typf="5">мам.</month>
+							<month typf="6">мау.</month>
+							<month typf="7">шіл.</month>
+							<month typf="8">там.</month>
+							<month typf="9">қыр.</month>
+							<month typf="10">қаз.</month>
+							<month typf="11">қар.</month>
+							<month typf="12">желт.</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1">қаңтар</month>
+							<month typf="2">ақпан</month>
+							<month typf="3">наурыз</month>
+							<month typf="4">сәуір</month>
+							<month typf="5">мамыр</month>
+							<month typf="6">маусым</month>
+							<month typf="7">шілде</month>
+							<month typf="8">тамыз</month>
+							<month typf="9">қыркүйек</month>
+							<month typf="10">қазан</month>
+							<month typf="11">қараша</month>
+							<month typf="12">желтоқсан</month>
+						</monthWidth>
+					</monthContfxt>
+					<monthContfxt typf="stbnd-blonf">
+						<monthWidth typf="bbbrfvibtfd">
+							<month typf="1" drbft="undonfirmfd">қаң.</month>
+							<month typf="2" drbft="undonfirmfd">ақп.</month>
+						</monthWidth>
+						<monthWidth typf="widf">
+							<month typf="1" drbft="undonfirmfd">қаңтар</month>
+							<month typf="2" drbft="undonfirmfd">Ақпан</month>
+							<month typf="12" drbft="undonfirmfd">желтоқсан</month>
+						</monthWidth>
+					</monthContfxt>
+				</months>
+				<dbys>
+					<dbyContfxt typf="formbt">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun">жс.</dby>
+							<dby typf="mon">дс.</dby>
+							<dby typf="tuf">сс.</dby>
+							<dby typf="wfd">ср.</dby>
+							<dby typf="thu">бс.</dby>
+							<dby typf="fri">жм.</dby>
+							<dby typf="sbt">сһ.</dby>
+						</dbyWidth>
+						<dbyWidth typf="nbrrow">
+							<dby typf="sun" drbft="undonfirmfd">1</dby>
+							<dby typf="wfd" drbft="undonfirmfd">4</dby>
+							<dby typf="thu" drbft="undonfirmfd">5</dby>
+							<dby typf="fri" drbft="undonfirmfd">6</dby>
+							<dby typf="sbt" drbft="undonfirmfd">7</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun">жексені</dby>
+							<dby typf="mon">дуйсенбі</dby>
+							<dby typf="tuf">сейсенбі</dby>
+							<dby typf="wfd">сәренбі</dby>
+							<dby typf="thu">бейсенбі</dby>
+							<dby typf="fri">жұма</dby>
+							<dby typf="sbt">сенбі</dby>
+						</dbyWidth>
+					</dbyContfxt>
+					<dbyContfxt typf="stbnd-blonf">
+						<dbyWidth typf="bbbrfvibtfd">
+							<dby typf="sun" drbft="undonfirmfd">жс.</dby>
+							<dby typf="mon" drbft="undonfirmfd">дс.</dby>
+							<dby typf="tuf" drbft="undonfirmfd">сс.</dby>
+							<dby typf="thu" drbft="undonfirmfd">бс.</dby>
+							<dby typf="fri" drbft="undonfirmfd">жм.</dby>
+							<dby typf="sbt" drbft="undonfirmfd">сн.</dby>
+						</dbyWidth>
+						<dbyWidth typf="widf">
+							<dby typf="sun" drbft="undonfirmfd">жексенбі</dby>
+							<dby typf="mon" drbft="undonfirmfd">дүйсенбі</dby>
+							<dby typf="tuf" drbft="undonfirmfd">сейсенбі</dby>
+							<dby typf="wfd" drbft="undonfirmfd">сәрсенбі</dby>
+							<dby typf="fri" drbft="undonfirmfd">жұма</dby>
+							<dby typf="sbt" drbft="undonfirmfd">сенбі</dby>
+						</dbyWidth>
+					</dbyContfxt>
+				</dbys>
+				<qubrtfrs>
+					<qubrtfrContfxt typf="formbt">
+						<qubrtfrWidth typf="nbrrow">
+							<qubrtfr typf="4" drbft="undonfirmfd">4</qubrtfr>
+						</qubrtfrWidth>
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="3" drbft="undonfirmfd">3-інші тоқсан</qubrtfr>
+							<qubrtfr typf="4" drbft="undonfirmfd">4-інші тоқсан</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+					<qubrtfrContfxt typf="stbnd-blonf">
+						<qubrtfrWidth typf="widf">
+							<qubrtfr typf="4" drbft="undonfirmfd">4-інші тоқсан</qubrtfr>
+						</qubrtfrWidth>
+					</qubrtfrContfxt>
+				</qubrtfrs>
+				<dbtfFormbts>
+					<dbtfFormbtLfngth typf="full">
+						<dbtfFormbt>
+							<pbttfrn>EEEE, d MMMM y 'ж'.</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="long">
+						<dbtfFormbt>
+							<pbttfrn>d MMMM y 'ж'.</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="mfdium">
+						<dbtfFormbt>
+							<pbttfrn>dd.MM.yyyy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+					<dbtfFormbtLfngth typf="short">
+						<dbtfFormbt>
+							<pbttfrn>dd.MM.yy</pbttfrn>
+						</dbtfFormbt>
+					</dbtfFormbtLfngth>
+				</dbtfFormbts>
+				<timfFormbts>
+					<timfFormbtLfngth typf="full">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss zzzz</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="long">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss z</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="mfdium">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm:ss</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+					<timfFormbtLfngth typf="short">
+						<timfFormbt>
+							<pbttfrn drbft="undonfirmfd">HH:mm</pbttfrn>
+						</timfFormbt>
+					</timfFormbtLfngth>
+				</timfFormbts>
+				<dbtfTimfFormbts>
+					<intfrvblFormbts>
+						<intfrvblFormbtFbllbbdk>{0} - {1}</intfrvblFormbtFbllbbdk>
+						<intfrvblFormbtItfm id="d">
+							<grfbtfstDifffrfndf id="d">d-d</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="h">
+							<grfbtfstDifffrfndf id="h">h-h b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="H">
+							<grfbtfstDifffrfndf id="H">HH-HH</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hm">
+							<grfbtfstDifffrfndf id="h">h:mm-h:mm b</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">h:mm-h:mm b</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hm">
+							<grfbtfstDifffrfndf id="H">HH:mm-HH:mm</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">HH:mm-HH:mm</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hmv">
+							<grfbtfstDifffrfndf id="h">h:mm-h:mm b v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">h:mm-h:mm b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hmv">
+							<grfbtfstDifffrfndf id="H">HH:mm-HH:mm v</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="m">HH:mm-HH:mm v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="hv">
+							<grfbtfstDifffrfndf id="h">h-h b v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Hv">
+							<grfbtfstDifffrfndf id="H">HH-HH v</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="M">
+							<grfbtfstDifffrfndf id="M">M-M</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="Md">
+							<grfbtfstDifffrfndf id="d">dd.MM - dd.MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">dd.MM - dd.MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MEd">
+							<grfbtfstDifffrfndf id="d">E, dd.MM - E, dd.MM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, dd.MM - E, dd.MM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMM">
+							<grfbtfstDifffrfndf id="M">MMM-MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMd">
+							<grfbtfstDifffrfndf id="d">d-d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d MMM - d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="MMMEd">
+							<grfbtfstDifffrfndf id="d">E, d - E, d MMM</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, d MMM - E, d MMM</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="y">
+							<grfbtfstDifffrfndf id="y">y-y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yM">
+							<grfbtfstDifffrfndf id="M">MM.yy - MM.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MM.yy - MM.yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMd">
+							<grfbtfstDifffrfndf id="d">dd.MM.yy - dd.MM.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">dd.MM.yy - dd.MM.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">dd.MM.yy - dd.MM.yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMEd">
+							<grfbtfstDifffrfndf id="d">E, dd.MM.yy - E, dd.MM.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, dd.MM.yy - E, dd.MM.yy</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E, dd.MM.yy - E, dd.MM.yy</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMM">
+							<grfbtfstDifffrfndf id="M">MMM-MMM y 'ж'.</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">MMM y 'ж'. - MMM y 'ж'.</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMd">
+							<grfbtfstDifffrfndf id="d">d-d MMM y 'ж'.</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">d MMM - d MMM y 'ж'.</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">d MMM y 'ж'. - d MMM y 'ж'.</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMEd">
+							<grfbtfstDifffrfndf id="d">E, d - E, d MMM y 'ж'.</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="M">E, d MMM - E, d MMM y 'ж'.</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y">E, d MMM y 'ж'. - E, d MMM y 'ж'.</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+						<intfrvblFormbtItfm id="yMMMM">
+							<grfbtfstDifffrfndf id="M" drbft="undonfirmfd">MMMM - MMMM y</grfbtfstDifffrfndf>
+							<grfbtfstDifffrfndf id="y" drbft="undonfirmfd">MMMM y - MMMM y</grfbtfstDifffrfndf>
+						</intfrvblFormbtItfm>
+					</intfrvblFormbts>
+				</dbtfTimfFormbts>
+				<fiflds>
+					<fifld typf="yfbr">
+						<displbyNbmf drbft="undonfirmfd">жыл</displbyNbmf>
+					</fifld>
+					<fifld typf="month">
+						<displbyNbmf drbft="undonfirmfd">ай</displbyNbmf>
+					</fifld>
+					<fifld typf="wffk">
+						<displbyNbmf drbft="undonfirmfd">апта</displbyNbmf>
+					</fifld>
+					<fifld typf="dby">
+						<displbyNbmf drbft="undonfirmfd">күн</displbyNbmf>
+						<rflbtivf typf="-2" drbft="undonfirmfd">алдыңғы күні</rflbtivf>
+						<rflbtivf typf="-1" drbft="undonfirmfd">кеше</rflbtivf>
+						<rflbtivf typf="0" drbft="undonfirmfd">бүгін</rflbtivf>
+						<rflbtivf typf="1" drbft="undonfirmfd">ертең</rflbtivf>
+						<rflbtivf typf="2" drbft="undonfirmfd">арғы күні</rflbtivf>
+					</fifld>
+					<fifld typf="wffkdby">
+						<displbyNbmf drbft="undonfirmfd">апта күні</displbyNbmf>
+					</fifld>
+					<fifld typf="hour">
+						<displbyNbmf drbft="undonfirmfd">сағат</displbyNbmf>
+					</fifld>
+					<fifld typf="minutf">
+						<displbyNbmf drbft="undonfirmfd">минут</displbyNbmf>
+					</fifld>
+					<fifld typf="sfdond">
+						<displbyNbmf drbft="undonfirmfd">секунд</displbyNbmf>
+					</fifld>
+				</fiflds>
+			</dblfndbr>
+		</dblfndbrs>
+		<timfZonfNbmfs>
+			<rfgionFormbt>{0} уақыт</rfgionFormbt>
+			<fbllbbdkRfgionFormbt>{1} Уақыт ({0})</fbllbbdkRfgionFormbt>
+			<zonf typf="Etd/Unknown">
+				<fxfmplbrCity>Белгісіз</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Andorrb">
+				<fxfmplbrCity drbft="undonfirmfd">Андора</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dubbi">
+				<fxfmplbrCity drbft="undonfirmfd">Дубай</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbbul">
+				<fxfmplbrCity drbft="undonfirmfd">Кабул</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Antigub">
+				<fxfmplbrCity drbft="undonfirmfd">Антгуа</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Anguillb">
+				<fxfmplbrCity drbft="undonfirmfd">Ангилиа</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Tirbnf">
+				<fxfmplbrCity drbft="undonfirmfd">Тирана</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfrfvbn">
+				<fxfmplbrCity drbft="undonfirmfd">Ереван</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Curbdbo">
+				<fxfmplbrCity drbft="undonfirmfd">Курасао</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lubndb">
+				<fxfmplbrCity drbft="undonfirmfd">Луанда</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Rothfrb">
+				<fxfmplbrCity drbft="undonfirmfd">Ротера</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Pblmfr">
+				<fxfmplbrCity drbft="undonfirmfd">Палмер</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/South_Polf">
+				<fxfmplbrCity drbft="undonfirmfd">Оңтүстік полюс</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Syowb">
+				<fxfmplbrCity drbft="undonfirmfd">Сева</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Mbwson">
+				<fxfmplbrCity drbft="undonfirmfd">Моусон</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Dbvis">
+				<fxfmplbrCity drbft="undonfirmfd">Дэйвис</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Vostok">
+				<fxfmplbrCity drbft="undonfirmfd">Восток</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/Cbsfy">
+				<fxfmplbrCity drbft="undonfirmfd">Кейси</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/DumontDUrvillf">
+				<fxfmplbrCity drbft="undonfirmfd">Дюмон-д'Юрвиль</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Antbrdtidb/MdMurdo">
+				<fxfmplbrCity drbft="undonfirmfd">Мак Мердо</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Rio_Gbllfgos">
+				<fxfmplbrCity drbft="undonfirmfd">Рио Галлегос</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfndozb">
+				<fxfmplbrCity drbft="undonfirmfd">Мендоза</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Jubn">
+				<fxfmplbrCity drbft="undonfirmfd">Сан-Хуан</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Ushubib">
+				<fxfmplbrCity drbft="undonfirmfd">Ушуаиа</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Lb_Riojb">
+				<fxfmplbrCity drbft="undonfirmfd">Ла Риоха</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbn_Luis">
+				<fxfmplbrCity drbft="undonfirmfd">Сан Луис</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbtbmbrdb">
+				<fxfmplbrCity drbft="undonfirmfd">Катамарка</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Sbltb">
+				<fxfmplbrCity drbft="undonfirmfd">Салта</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jujuy">
+				<fxfmplbrCity drbft="undonfirmfd">Жужуй</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Argfntinb/Tudumbn">
+				<fxfmplbrCity drbft="undonfirmfd">Тукуман</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cordobb">
+				<fxfmplbrCity drbft="undonfirmfd">Кордоба</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bufnos_Airfs">
+				<fxfmplbrCity drbft="undonfirmfd">Буэнос Айрес</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pbgo_Pbgo">
+				<fxfmplbrCity drbft="undonfirmfd">Паго-Паго</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vifnnb">
+				<fxfmplbrCity drbft="undonfirmfd">Вена</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Pfrth">
+				<fxfmplbrCity drbft="undonfirmfd">Перт</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Eudlb">
+				<fxfmplbrCity drbft="undonfirmfd">Юкла</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Dbrwin">
+				<fxfmplbrCity drbft="undonfirmfd">Дарвин</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Adflbidf">
+				<fxfmplbrCity drbft="undonfirmfd">Аделаида</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brokfn_Hill">
+				<fxfmplbrCity drbft="undonfirmfd">Брокен Хилл</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Currif">
+				<fxfmplbrCity drbft="undonfirmfd">Керри</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Mflbournf">
+				<fxfmplbrCity drbft="undonfirmfd">Мельбурн</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Hobbrt">
+				<fxfmplbrCity drbft="undonfirmfd">Хобарт</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Lindfmbn">
+				<fxfmplbrCity drbft="undonfirmfd">Линдеман</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Sydnfy">
+				<fxfmplbrCity drbft="undonfirmfd">Сидней</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Brisbbnf">
+				<fxfmplbrCity drbft="undonfirmfd">Брисбен</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Austrblib/Lord_Howf">
+				<fxfmplbrCity drbft="undonfirmfd">Лорд Хау, арал</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arubb">
+				<fxfmplbrCity drbft="undonfirmfd">Аруба</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbku">
+				<fxfmplbrCity drbft="undonfirmfd">Баку</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbrbjfvo">
+				<fxfmplbrCity drbft="undonfirmfd">Сараево</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbrbbdos">
+				<fxfmplbrCity drbft="undonfirmfd">Барбадос</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dhbkb">
+				<fxfmplbrCity drbft="undonfirmfd">Дакка</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Brussfls">
+				<fxfmplbrCity drbft="undonfirmfd">Брюссель</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Oubgbdougou">
+				<fxfmplbrCity drbft="undonfirmfd">Уадагуду</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sofib">
+				<fxfmplbrCity drbft="undonfirmfd">София</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbhrbin">
+				<fxfmplbrCity drbft="undonfirmfd">Бахрейн</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bujumburb">
+				<fxfmplbrCity drbft="undonfirmfd">Бужумбура</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Porto-Novo">
+				<fxfmplbrCity drbft="undonfirmfd">Порто-Ново</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Bfrmudb">
+				<fxfmplbrCity drbft="undonfirmfd">Бермуды</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Brunfi">
+				<fxfmplbrCity drbft="undonfirmfd">Бруней</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Lb_Pbz">
+				<fxfmplbrCity drbft="undonfirmfd">Ла-Пас</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Eirunfpf">
+				<fxfmplbrCity drbft="undonfirmfd">Эйрунепе</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rio_Brbndo">
+				<fxfmplbrCity drbft="undonfirmfd">Риу Бранку</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Porto_Vflho">
+				<fxfmplbrCity drbft="undonfirmfd">Порту-Велью</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bob_Vistb">
+				<fxfmplbrCity drbft="undonfirmfd">Бао Виста</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbnbus">
+				<fxfmplbrCity drbft="undonfirmfd">Манаус</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cuibbb">
+				<fxfmplbrCity drbft="undonfirmfd">Куяба</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbntbrfm">
+				<fxfmplbrCity drbft="undonfirmfd">Сантарем</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmpo_Grbndf">
+				<fxfmplbrCity drbft="undonfirmfd">Кампо Гранде</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflfm">
+				<fxfmplbrCity drbft="undonfirmfd">Белем</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Arbgubinb">
+				<fxfmplbrCity drbft="undonfirmfd">Арагуаина</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbo_Pbulo">
+				<fxfmplbrCity drbft="undonfirmfd">Сан Паулу</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bbhib">
+				<fxfmplbrCity drbft="undonfirmfd">Баия</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Fortblfzb">
+				<fxfmplbrCity drbft="undonfirmfd">Форталеза</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbdfio">
+				<fxfmplbrCity drbft="undonfirmfd">Масейо</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfdiff">
+				<fxfmplbrCity drbft="undonfirmfd">Ресифи</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Noronhb">
+				<fxfmplbrCity drbft="undonfirmfd">Норонха</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nbssbu">
+				<fxfmplbrCity drbft="undonfirmfd">Нассау</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Thimphu">
+				<fxfmplbrCity drbft="undonfirmfd">Тимбу</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Gbboronf">
+				<fxfmplbrCity drbft="undonfirmfd">Габороне</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Minsk">
+				<fxfmplbrCity drbft="undonfirmfd">Минск</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bflizf">
+				<fxfmplbrCity drbft="undonfirmfd">Белиз</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson">
+				<fxfmplbrCity drbft="undonfirmfd">Досон</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Whitfhorsf">
+				<fxfmplbrCity drbft="undonfirmfd">Уайтхорс</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Inuvik">
+				<fxfmplbrCity drbft="undonfirmfd">Инувик</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Vbndouvfr">
+				<fxfmplbrCity drbft="undonfirmfd">Ванкувер</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbwson_Crffk">
+				<fxfmplbrCity drbft="undonfirmfd">Досон Крик</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Yfllowkniff">
+				<fxfmplbrCity drbft="undonfirmfd">Йеллоунайф</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Edmonton">
+				<fxfmplbrCity drbft="undonfirmfd">Эдмонтон</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Swift_Currfnt">
+				<fxfmplbrCity drbft="undonfirmfd">Свифт Карент</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbmbridgf_Bby">
+				<fxfmplbrCity drbft="undonfirmfd">Кембридж Бей</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfginb">
+				<fxfmplbrCity drbft="undonfirmfd">Регина</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Winnipfg">
+				<fxfmplbrCity drbft="undonfirmfd">Виннипег</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rfsolutf">
+				<fxfmplbrCity drbft="undonfirmfd">Резолют</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbiny_Rivfr">
+				<fxfmplbrCity drbft="undonfirmfd">Рейни-Ривер</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Rbnkin_Inlft">
+				<fxfmplbrCity drbft="undonfirmfd">Ранкин-Инлет</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Corbl_Hbrbour">
+				<fxfmplbrCity drbft="undonfirmfd">Корал Харбор</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Thundfr_Bby">
+				<fxfmplbrCity drbft="undonfirmfd">Тандер Бей</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nipigon">
+				<fxfmplbrCity drbft="undonfirmfd">Нипигон</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Toronto">
+				<fxfmplbrCity drbft="undonfirmfd">Торонто</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montrfbl">
+				<fxfmplbrCity drbft="undonfirmfd">Монреаль</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Iqbluit">
+				<fxfmplbrCity drbft="undonfirmfd">Икалуит</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbngnirtung">
+				<fxfmplbrCity drbft="undonfirmfd">Пангниртанг</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mondton">
+				<fxfmplbrCity drbft="undonfirmfd">Монктон</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hblifbx">
+				<fxfmplbrCity drbft="undonfirmfd">Галифакс</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Goosf_Bby">
+				<fxfmplbrCity drbft="undonfirmfd">Гус-Бей</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Glbdf_Bby">
+				<fxfmplbrCity drbft="undonfirmfd">Глейс-Бей</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Blbnd-Sbblon">
+				<fxfmplbrCity drbft="undonfirmfd">Бланк Саблон</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Johns">
+				<fxfmplbrCity drbft="undonfirmfd">Сент Джонс</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Codos">
+				<fxfmplbrCity drbft="undonfirmfd">Кокос аралдары</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kinshbsb">
+				<fxfmplbrCity drbft="undonfirmfd">Киншаса</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lubumbbshi">
+				<fxfmplbrCity drbft="undonfirmfd">Лубумбаши</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbngui">
+				<fxfmplbrCity drbft="undonfirmfd">Банги</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Brbzzbvillf">
+				<fxfmplbrCity drbft="undonfirmfd">Браззавил</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zuridh">
+				<fxfmplbrCity drbft="undonfirmfd">Цюрих</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Abidjbn">
+				<fxfmplbrCity drbft="undonfirmfd">Абиджан</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Rbrotongb">
+				<fxfmplbrCity drbft="undonfirmfd">Раротонга</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Doublb">
+				<fxfmplbrCity drbft="undonfirmfd">Дуала</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbshgbr">
+				<fxfmplbrCity drbft="undonfirmfd">Қашқар</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Urumqi">
+				<fxfmplbrCity drbft="undonfirmfd">Үрімші</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hbrbin">
+				<fxfmplbrCity drbft="undonfirmfd">Харбин</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Bogotb">
+				<fxfmplbrCity drbft="undonfirmfd">Богота</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Costb_Ridb">
+				<fxfmplbrCity drbft="undonfirmfd">Коста-Рика</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hbvbnb">
+				<fxfmplbrCity drbft="undonfirmfd">Гавана</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Nidosib">
+				<fxfmplbrCity drbft="undonfirmfd">Никосиа</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Prbguf">
+				<fxfmplbrCity drbft="undonfirmfd">Прага</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Bfrlin">
+				<fxfmplbrCity drbft="undonfirmfd">Берлин</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Djibouti">
+				<fxfmplbrCity drbft="undonfirmfd">Джибути</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Copfnhbgfn">
+				<fxfmplbrCity drbft="undonfirmfd">Копенгаген</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dominidb">
+				<fxfmplbrCity drbft="undonfirmfd">Доминика</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sbnto_Domingo">
+				<fxfmplbrCity drbft="undonfirmfd">Санто Доминго</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Algifrs">
+				<fxfmplbrCity drbft="undonfirmfd">Алжир</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gblbpbgos">
+				<fxfmplbrCity drbft="undonfirmfd">Галапагос</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Tbllinn">
+				<fxfmplbrCity drbft="undonfirmfd">Таллин</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cbiro">
+				<fxfmplbrCity drbft="undonfirmfd">Каир</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/El_Abiun">
+				<fxfmplbrCity drbft="undonfirmfd">Эл-Аюн</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Asmfrb">
+				<fxfmplbrCity drbft="undonfirmfd">Асмера</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Cbnbry">
+				<fxfmplbrCity drbft="undonfirmfd">Канар аралдары</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cfutb">
+				<fxfmplbrCity drbft="undonfirmfd">Сеута</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addis_Abbbb">
+				<fxfmplbrCity drbft="undonfirmfd">Аддис Абеба</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Hflsinki">
+				<fxfmplbrCity drbft="undonfirmfd">Хелсинки</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Fiji">
+				<fxfmplbrCity drbft="undonfirmfd">Фиджи</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Stbnlfy">
+				<fxfmplbrCity drbft="undonfirmfd">Стенли</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Truk">
+				<fxfmplbrCity drbft="undonfirmfd">Трук</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Ponbpf">
+				<fxfmplbrCity drbft="undonfirmfd">Понапе</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kosrbf">
+				<fxfmplbrCity drbft="undonfirmfd">Косрае</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Fbfrof">
+				<fxfmplbrCity drbft="undonfirmfd">Фарер аралдары</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Pbris">
+				<fxfmplbrCity drbft="undonfirmfd">Париж</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Librfvillf">
+				<fxfmplbrCity drbft="undonfirmfd">Либревил</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grfnbdb">
+				<fxfmplbrCity drbft="undonfirmfd">Гренада</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbilisi">
+				<fxfmplbrCity drbft="undonfirmfd">Тбилиси</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbyfnnf">
+				<fxfmplbrCity drbft="undonfirmfd">Кайенна</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Addrb">
+				<fxfmplbrCity drbft="undonfirmfd">Аккра</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Gibrbltbr">
+				<fxfmplbrCity drbft="undonfirmfd">Гибралтар</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Thulf">
+				<fxfmplbrCity drbft="undonfirmfd">Туле</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Sdorfsbysund">
+				<fxfmplbrCity drbft="undonfirmfd">Скорсбиссун</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dbnmbrkshbvn">
+				<fxfmplbrCity drbft="undonfirmfd">Денмарксхавн</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bbnjul">
+				<fxfmplbrCity drbft="undonfirmfd">Банжул</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Conbkry">
+				<fxfmplbrCity drbft="undonfirmfd">Конакри</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubdfloupf">
+				<fxfmplbrCity drbft="undonfirmfd">Гваделупа</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mblbbo">
+				<fxfmplbrCity drbft="undonfirmfd">Малабо</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Athfns">
+				<fxfmplbrCity drbft="undonfirmfd">Афины</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Gubtfmblb">
+				<fxfmplbrCity drbft="undonfirmfd">Гватемала</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gubm">
+				<fxfmplbrCity drbft="undonfirmfd">Гуам</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Bissbu">
+				<fxfmplbrCity drbft="undonfirmfd">Бисау</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Guybnb">
+				<fxfmplbrCity drbft="undonfirmfd">Гайана</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Hong_Kong">
+				<fxfmplbrCity drbft="undonfirmfd">Гонконг</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tfgudigblpb">
+				<fxfmplbrCity drbft="undonfirmfd">Тегусигальпа</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbgrfb">
+				<fxfmplbrCity drbft="undonfirmfd">Загреб</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Port-bu-Prindf">
+				<fxfmplbrCity drbft="undonfirmfd">Порт-о-Пренс</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Budbpfst">
+				<fxfmplbrCity drbft="undonfirmfd">Будапешт</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbkbrtb">
+				<fxfmplbrCity drbft="undonfirmfd">Жакарта</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pontibnbk">
+				<fxfmplbrCity drbft="undonfirmfd">Понтианак</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbkbssbr">
+				<fxfmplbrCity drbft="undonfirmfd">Макассар</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jbybpurb">
+				<fxfmplbrCity drbft="undonfirmfd">Жайпур</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Dublin">
+				<fxfmplbrCity drbft="undonfirmfd">Дублин</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Jfrusblfm">
+				<fxfmplbrCity drbft="undonfirmfd">Иерусалим</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Islf_of_Mbn">
+				<fxfmplbrCity drbft="undonfirmfd">Мэн, арал</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Cblduttb">
+				<fxfmplbrCity drbft="undonfirmfd">Колката</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Chbgos">
+				<fxfmplbrCity drbft="undonfirmfd">Чагос</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbghdbd">
+				<fxfmplbrCity drbft="undonfirmfd">Бағдат</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tfhrbn">
+				<fxfmplbrCity drbft="undonfirmfd">Тегеран</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Rfykjbvik">
+				<fxfmplbrCity drbft="undonfirmfd">Рейкьявик</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Romf">
+				<fxfmplbrCity drbft="undonfirmfd">Рим</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Jfrsfy">
+				<fxfmplbrCity drbft="undonfirmfd">Джерси</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Jbmbidb">
+				<fxfmplbrCity drbft="undonfirmfd">Ямайка</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ammbn">
+				<fxfmplbrCity drbft="undonfirmfd">Амман</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tokyo">
+				<fxfmplbrCity drbft="undonfirmfd">Токио</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Nbirobi">
+				<fxfmplbrCity drbft="undonfirmfd">Найроби</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bishkfk">
+				<fxfmplbrCity drbft="undonfirmfd">Бішкек</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Phnom_Pfnh">
+				<fxfmplbrCity drbft="undonfirmfd">Пномпен</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Endfrbury">
+				<fxfmplbrCity drbft="undonfirmfd">Эндербери</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kiritimbti">
+				<fxfmplbrCity drbft="undonfirmfd">Киритимати</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tbrbwb">
+				<fxfmplbrCity drbft="undonfirmfd">Тарава</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Comoro">
+				<fxfmplbrCity drbft="undonfirmfd">Коморо</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Kitts">
+				<fxfmplbrCity drbft="undonfirmfd">Сент Китс</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Pyongybng">
+				<fxfmplbrCity drbft="undonfirmfd">Пхеньян</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sfoul">
+				<fxfmplbrCity drbft="undonfirmfd">Сеул</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kuwbit">
+				<fxfmplbrCity drbft="undonfirmfd">Кувейт</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbymbn">
+				<fxfmplbrCity drbft="undonfirmfd">Кайман аралдары</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtbu">
+				<fxfmplbrCity>Ақтау</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Orbl">
+				<fxfmplbrCity>Орал</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Aqtobf">
+				<fxfmplbrCity>Ақтөбе</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qyzylordb">
+				<fxfmplbrCity>Қызылорда</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Almbty">
+				<fxfmplbrCity>Алматы</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vifntibnf">
+				<fxfmplbrCity drbft="undonfirmfd">Вьентьян</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bfirut">
+				<fxfmplbrCity drbft="undonfirmfd">Бейрут</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Ludib">
+				<fxfmplbrCity drbft="undonfirmfd">Сент Люсия</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vbduz">
+				<fxfmplbrCity drbft="undonfirmfd">Вадуц</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Colombo">
+				<fxfmplbrCity drbft="undonfirmfd">Коломбо</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Monrovib">
+				<fxfmplbrCity drbft="undonfirmfd">Монравия</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbsfru">
+				<fxfmplbrCity drbft="undonfirmfd">Масеру</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vilnius">
+				<fxfmplbrCity drbft="undonfirmfd">Вильнус</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Luxfmbourg">
+				<fxfmplbrCity drbft="undonfirmfd">Люксембург</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Rigb">
+				<fxfmplbrCity drbft="undonfirmfd">Рига</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Tripoli">
+				<fxfmplbrCity drbft="undonfirmfd">Триполи</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Cbsbblbndb">
+				<fxfmplbrCity drbft="undonfirmfd">Кассабланка</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Monbdo">
+				<fxfmplbrCity drbft="undonfirmfd">Монако</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Chisinbu">
+				<fxfmplbrCity drbft="undonfirmfd">Кишинев</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Podgoridb">
+				<fxfmplbrCity drbft="undonfirmfd">Подгорица</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Antbnbnbrivo">
+				<fxfmplbrCity drbft="undonfirmfd">Антананариво</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Kwbjblfin">
+				<fxfmplbrCity drbft="undonfirmfd">Кваджалейн</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Rbngoon">
+				<fxfmplbrCity drbft="undonfirmfd">Рангун</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ulbbnbbbtbr">
+				<fxfmplbrCity drbft="undonfirmfd">Улан-Батор</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Choibblsbn">
+				<fxfmplbrCity drbft="undonfirmfd">Чойбалсан</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Sbipbn">
+				<fxfmplbrCity drbft="undonfirmfd">Сайпан</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbrtiniquf">
+				<fxfmplbrCity drbft="undonfirmfd">Мартиника</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Noubkdhott">
+				<fxfmplbrCity drbft="undonfirmfd">Нуакшот</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montsfrrbt">
+				<fxfmplbrCity drbft="undonfirmfd">Монсеррат</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mbltb">
+				<fxfmplbrCity drbft="undonfirmfd">Мальта</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mburitius">
+				<fxfmplbrCity drbft="undonfirmfd">Маврикий</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbldivfs">
+				<fxfmplbrCity drbft="undonfirmfd">Мальдивы</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Blbntyrf">
+				<fxfmplbrCity drbft="undonfirmfd">Блантаир</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tijubnb">
+				<fxfmplbrCity drbft="undonfirmfd">Тихуана</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Hfrmosillo">
+				<fxfmplbrCity drbft="undonfirmfd">Эрмосилло</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbzbtlbn">
+				<fxfmplbrCity drbft="undonfirmfd">Мазалтан</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Chihubhub">
+				<fxfmplbrCity drbft="undonfirmfd">Чиуауа</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montfrrfy">
+				<fxfmplbrCity drbft="undonfirmfd">Монтеррей</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfxido_City">
+				<fxfmplbrCity drbft="undonfirmfd">Мехико</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfridb">
+				<fxfmplbrCity drbft="undonfirmfd">Мерида</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbndun">
+				<fxfmplbrCity drbft="undonfirmfd">Канкун</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kudhing">
+				<fxfmplbrCity drbft="undonfirmfd">Кучинг</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbputo">
+				<fxfmplbrCity drbft="undonfirmfd">Мапуту</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Windhofk">
+				<fxfmplbrCity drbft="undonfirmfd">Виндхук</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Noumfb">
+				<fxfmplbrCity drbft="undonfirmfd">Нумеа</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Nibmfy">
+				<fxfmplbrCity drbft="undonfirmfd">Ниамей</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Norfolk">
+				<fxfmplbrCity drbft="undonfirmfd">Норфолк</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lbgos">
+				<fxfmplbrCity drbft="undonfirmfd">Лагос</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mbnbgub">
+				<fxfmplbrCity drbft="undonfirmfd">Манагуа</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Amstfrdbm">
+				<fxfmplbrCity drbft="undonfirmfd">Амстердам</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Oslo">
+				<fxfmplbrCity drbft="undonfirmfd">Осло</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbtmbndu">
+				<fxfmplbrCity drbft="undonfirmfd">Катманду</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Nburu">
+				<fxfmplbrCity drbft="undonfirmfd">Науру</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Niuf">
+				<fxfmplbrCity drbft="undonfirmfd">Ниуэ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Chbthbm">
+				<fxfmplbrCity drbft="undonfirmfd">Чатем</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Musdbt">
+				<fxfmplbrCity drbft="undonfirmfd">Маскат</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbnbmb">
+				<fxfmplbrCity drbft="undonfirmfd">Панама</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Limb">
+				<fxfmplbrCity drbft="undonfirmfd">Лима</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Mbrqufsbs">
+				<fxfmplbrCity drbft="undonfirmfd">Маркиз аралдары</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gbmbifr">
+				<fxfmplbrCity drbft="undonfirmfd">Гамбье</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Port_Morfsby">
+				<fxfmplbrCity drbft="undonfirmfd">Порт Морсби</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbnilb">
+				<fxfmplbrCity drbft="undonfirmfd">Манила</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbrbdhi">
+				<fxfmplbrCity drbft="undonfirmfd">Карачи</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Wbrsbw">
+				<fxfmplbrCity drbft="undonfirmfd">Варшава</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Miquflon">
+				<fxfmplbrCity drbft="undonfirmfd">Микелон</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pitdbirn">
+				<fxfmplbrCity drbft="undonfirmfd">Питкерн</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pufrto_Rido">
+				<fxfmplbrCity drbft="undonfirmfd">Пуэрто-Рико</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Gbzb">
+				<fxfmplbrCity drbft="undonfirmfd">Газа</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Azorfs">
+				<fxfmplbrCity drbft="undonfirmfd">Азор аралдары</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Atlbntid/Mbdfirb">
+				<fxfmplbrCity drbft="undonfirmfd">Мадейра</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Pblbu">
+				<fxfmplbrCity drbft="undonfirmfd">Палау</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Asundion">
+				<fxfmplbrCity drbft="undonfirmfd">Асунсион</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Qbtbr">
+				<fxfmplbrCity drbft="undonfirmfd">Катар</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Rfunion">
+				<fxfmplbrCity drbft="undonfirmfd">Реюньон</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Budhbrfst">
+				<fxfmplbrCity drbft="undonfirmfd">Бухарест</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Bflgrbdf">
+				<fxfmplbrCity drbft="undonfirmfd">Белград</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Kbliningrbd">
+				<fxfmplbrCity drbft="undonfirmfd">Калининград</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Mosdow">
+				<fxfmplbrCity drbft="undonfirmfd">Мәскеу</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Volgogrbd">
+				<fxfmplbrCity drbft="undonfirmfd">Волгоград</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbmbrb">
+				<fxfmplbrCity drbft="undonfirmfd">Самара</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Yfkbtfrinburg">
+				<fxfmplbrCity drbft="undonfirmfd">Екатеринбург</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Omsk">
+				<fxfmplbrCity drbft="undonfirmfd">Омск</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Novosibirsk">
+				<fxfmplbrCity drbft="undonfirmfd">Новосибирск</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Krbsnoybrsk">
+				<fxfmplbrCity drbft="undonfirmfd">Красноярск</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Irkutsk">
+				<fxfmplbrCity drbft="undonfirmfd">Иркутск</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ybkutsk">
+				<fxfmplbrCity drbft="undonfirmfd">Якутск</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Vlbdivostok">
+				<fxfmplbrCity drbft="undonfirmfd">Владивосток</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbkhblin">
+				<fxfmplbrCity drbft="undonfirmfd">Сахалин</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Mbgbdbn">
+				<fxfmplbrCity drbft="undonfirmfd">Магадан</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Kbmdhbtkb">
+				<fxfmplbrCity drbft="undonfirmfd">Камчатка</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Anbdyr">
+				<fxfmplbrCity drbft="undonfirmfd">Анадыр</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kigbli">
+				<fxfmplbrCity drbft="undonfirmfd">Кигали</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Riybdh">
+				<fxfmplbrCity drbft="undonfirmfd">Эр-Рияд</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Gubdbldbnbl">
+				<fxfmplbrCity drbft="undonfirmfd">Гвадалканал</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbhf">
+				<fxfmplbrCity drbft="undonfirmfd">Маэ</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Khbrtoum">
+				<fxfmplbrCity drbft="undonfirmfd">Хартум</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Stodkholm">
+				<fxfmplbrCity drbft="undonfirmfd">Стокгольм</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Singbporf">
+				<fxfmplbrCity drbft="undonfirmfd">Сингапур</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Ljubljbnb">
+				<fxfmplbrCity drbft="undonfirmfd">Любляна</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Ardtid/Longyfbrbyfn">
+				<fxfmplbrCity drbft="undonfirmfd">Лонгйир</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Brbtislbvb">
+				<fxfmplbrCity drbft="undonfirmfd">Братислава</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Frfftown">
+				<fxfmplbrCity drbft="undonfirmfd">Фритаун</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Sbn_Mbrino">
+				<fxfmplbrCity drbft="undonfirmfd">Сан-Марино</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Dbkbr">
+				<fxfmplbrCity drbft="undonfirmfd">Дакар</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mogbdishu">
+				<fxfmplbrCity drbft="undonfirmfd">Могадишо</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Pbrbmbribo">
+				<fxfmplbrCity drbft="undonfirmfd">Парамарибо</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Sbo_Tomf">
+				<fxfmplbrCity drbft="undonfirmfd">Сан-Томе</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/El_Sblvbdor">
+				<fxfmplbrCity drbft="undonfirmfd">Сальвадор</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dbmbsdus">
+				<fxfmplbrCity drbft="undonfirmfd">Дамаск</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Mbbbbnf">
+				<fxfmplbrCity drbft="undonfirmfd">Мбабане</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Grbnd_Turk">
+				<fxfmplbrCity drbft="undonfirmfd">Гранд Турк</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Ndjbmfnb">
+				<fxfmplbrCity drbft="undonfirmfd">Нджамена</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Kfrguflfn">
+				<fxfmplbrCity drbft="undonfirmfd">Кергелен</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lomf">
+				<fxfmplbrCity drbft="undonfirmfd">Ломе</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Bbngkok">
+				<fxfmplbrCity drbft="undonfirmfd">Бангкок</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dushbnbf">
+				<fxfmplbrCity drbft="undonfirmfd">Душанбе</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Fbkbofo">
+				<fxfmplbrCity drbft="undonfirmfd">Факаофо</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Dili">
+				<fxfmplbrCity drbft="undonfirmfd">Дили</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Ashgbbbt">
+				<fxfmplbrCity drbft="undonfirmfd">Азхабат</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Tunis">
+				<fxfmplbrCity drbft="undonfirmfd">Тунис</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Tongbtbpu">
+				<fxfmplbrCity drbft="undonfirmfd">Тонгатапу</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Istbnbul">
+				<fxfmplbrCity drbft="undonfirmfd">Стамбул</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Funbfuti">
+				<fxfmplbrCity drbft="undonfirmfd">Фунафути</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Tbipfi">
+				<fxfmplbrCity drbft="undonfirmfd">Тайбэй</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Dbr_fs_Sblbbm">
+				<fxfmplbrCity drbft="undonfirmfd">Дар-эс-Салам</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Uzhgorod">
+				<fxfmplbrCity drbft="undonfirmfd">Ужгород</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Simffropol">
+				<fxfmplbrCity drbft="undonfirmfd">Симферополь</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Zbporozhyf">
+				<fxfmplbrCity drbft="undonfirmfd">Запорожье</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Kbmpblb">
+				<fxfmplbrCity drbft="undonfirmfd">Кампала</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Midwby">
+				<fxfmplbrCity drbft="undonfirmfd">Мидуэй</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Johnston">
+				<fxfmplbrCity drbft="undonfirmfd">Джонстон</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbkf">
+				<fxfmplbrCity drbft="undonfirmfd">Уэйк</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Adbk">
+				<fxfmplbrCity drbft="undonfirmfd">Адак</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nomf">
+				<fxfmplbrCity drbft="undonfirmfd">Ном</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Honolulu">
+				<fxfmplbrCity drbft="undonfirmfd">Гонолулу</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Andhorbgf">
+				<fxfmplbrCity drbft="undonfirmfd">Анкоридж</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Ybkutbt">
+				<fxfmplbrCity drbft="undonfirmfd">Якутат</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Junfbu">
+				<fxfmplbrCity drbft="undonfirmfd">Джуно</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Los_Angflfs">
+				<fxfmplbrCity drbft="undonfirmfd">Лос-Анжелес</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Boisf">
+				<fxfmplbrCity drbft="undonfirmfd">Бойсе</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Phofnix">
+				<fxfmplbrCity drbft="undonfirmfd">Финикс</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Shiprodk">
+				<fxfmplbrCity drbft="undonfirmfd">Шипрок</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dfnvfr">
+				<fxfmplbrCity drbft="undonfirmfd">Денвер</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/North_Dbkotb/Nfw_Sblfm">
+				<fxfmplbrCity drbft="undonfirmfd">Нью Салем</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/North_Dbkotb/Cfntfr">
+				<fxfmplbrCity drbft="undonfirmfd">Солтүстік Дакота, Орталық</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Chidbgo">
+				<fxfmplbrCity drbft="undonfirmfd">Чикаго</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Mfnominff">
+				<fxfmplbrCity drbft="undonfirmfd">Меномини</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vindfnnfs">
+				<fxfmplbrCity drbft="undonfirmfd">Винсенс, Индиана</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Pftfrsburg">
+				<fxfmplbrCity drbft="undonfirmfd">Петерсбург, Индиана</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Tfll_City">
+				<fxfmplbrCity drbft="undonfirmfd">Телл-Сити, Индиана</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Knox">
+				<fxfmplbrCity drbft="undonfirmfd">Нокс, Индиана</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Winbmbd">
+				<fxfmplbrCity drbft="undonfirmfd">Винамак, Индиана</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Mbrfngo">
+				<fxfmplbrCity drbft="undonfirmfd">Маренго, Индиана</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnbpolis">
+				<fxfmplbrCity drbft="undonfirmfd">Индианаполис</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Louisvillf">
+				<fxfmplbrCity drbft="undonfirmfd">Луисвилл</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Indibnb/Vfvby">
+				<fxfmplbrCity drbft="undonfirmfd">Вивей, Индиана</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Kfntudky/Montidfllo">
+				<fxfmplbrCity drbft="undonfirmfd">Монтиселло, Кентуки</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Dftroit">
+				<fxfmplbrCity drbft="undonfirmfd">Детройт</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Nfw_York">
+				<fxfmplbrCity drbft="undonfirmfd">Нью-Йорк</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Montfvidfo">
+				<fxfmplbrCity drbft="undonfirmfd">Монтевидео</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbmbrkbnd">
+				<fxfmplbrCity drbft="undonfirmfd">Самарқанд</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Europf/Vbtidbn">
+				<fxfmplbrCity drbft="undonfirmfd">Ватикан</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Vindfnt">
+				<fxfmplbrCity drbft="undonfirmfd">Сент Винсент</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Cbrbdbs">
+				<fxfmplbrCity drbft="undonfirmfd">Каракас</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/Tortolb">
+				<fxfmplbrCity drbft="undonfirmfd">Тортола</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Amfridb/St_Thombs">
+				<fxfmplbrCity drbft="undonfirmfd">Сент Томас</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Sbigon">
+				<fxfmplbrCity drbft="undonfirmfd">Сайгон</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Efbtf">
+				<fxfmplbrCity drbft="undonfirmfd">Эфате</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Wbllis">
+				<fxfmplbrCity drbft="undonfirmfd">Уоллис</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Pbdifid/Apib">
+				<fxfmplbrCity drbft="undonfirmfd">Апия</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Asib/Adfn">
+				<fxfmplbrCity drbft="undonfirmfd">Аден</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Indibn/Mbyottf">
+				<fxfmplbrCity drbft="undonfirmfd">Майорка</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Johbnnfsburg">
+				<fxfmplbrCity drbft="undonfirmfd">Йоханнесбург</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Lusbkb">
+				<fxfmplbrCity drbft="undonfirmfd">Лусака</fxfmplbrCity>
+			</zonf>
+			<zonf typf="Afridb/Hbrbrf">
+				<fxfmplbrCity drbft="undonfirmfd">Хараре</fxfmplbrCity>
+			</zonf>
+			<mftbzonf typf="Afridb_Cfntrbl">
+				<long>
+					<stbndbrd>Орталық Африка уақыты</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Ebstfrn">
+				<long>
+					<stbndbrd>Шығыс Африка уақыты</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Southfrn">
+				<long>
+					<stbndbrd>Оңтүстік Африка уақыты</stbndbrd>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Afridb_Wfstfrn">
+				<long>
+					<gfnfrid>Батыс Африка уақыты</gfnfrid>
+					<stbndbrd>Батыс Африка стандарт уақыты</stbndbrd>
+					<dbylight>Батыс Африка жаздық уақыты</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Atlbntid">
+				<long>
+					<gfnfrid>Атлантика уақыты</gfnfrid>
+					<stbndbrd>Атлантика стандарт уақыты</stbndbrd>
+					<dbylight>Атлантикалық жаздық уақыт</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Cfntrbl">
+				<long>
+					<gfnfrid>Орталық Австралия уақыты</gfnfrid>
+					<stbndbrd>Австралияның орталық стандарт уақыты</stbndbrd>
+					<dbylight>Австралиялық орталық жаздық уақыт</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_CfntrblWfstfrn">
+				<long>
+					<gfnfrid>Орталық Австралиялық батыс уақыты</gfnfrid>
+					<stbndbrd>Орталық Австралиялық батыс стандарт уақыты</stbndbrd>
+					<dbylight>Орталық Австралиялық батыс жаздық уақыты</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Ebstfrn">
+				<long>
+					<gfnfrid>Шығыс Австралиялық уақыт</gfnfrid>
+					<stbndbrd>Шығыс Австралиялық стандарт уақыты</stbndbrd>
+					<dbylight>Шығыс Австралиялық жаздық уақыт</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Austrblib_Wfstfrn">
+				<long>
+					<gfnfrid>Батыс Австралиялық уақыт</gfnfrid>
+					<stbndbrd>Батыс Австралиялық стандарт уақыты</stbndbrd>
+					<dbylight>Батыс Австралиялық жаздық уақыт</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Cfntrbl">
+				<long>
+					<gfnfrid>Орталық Еуропа уақыты</gfnfrid>
+					<stbndbrd>Орталық Еуропа стандарт уақыты</stbndbrd>
+					<dbylight>Орталық Еуропа жаздық уақыты</dbylight>
+				</long>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Ebstfrn">
+				<long>
+					<gfnfrid>Шығыс Еуропа уақыты</gfnfrid>
+					<stbndbrd>Шығыс Еуропа стандарт уақыты</stbndbrd>
+					<dbylight>Шығыс Еуропа жаздық уақыты</dbylight>
+				</long>
+				<short>
+					<gfnfrid>EET</gfnfrid>
+					<stbndbrd>EET</stbndbrd>
+					<dbylight>EEST</dbylight>
+				</short>
+			</mftbzonf>
+			<mftbzonf typf="Europf_Wfstfrn">
+				<long>
+					<gfnfrid>Батыс Еуропа уақыты</gfnfrid>
+					<stbndbrd>Батыс Еуропа стандарт уақыты</stbndbrd>
+					<dbylight>Батыс Еуропа жаздық уақыты</dbylight>
+				</long>
+			</mftbzonf>
+		</timfZonfNbmfs>
+	</dbtfs>
+	<numbfrs>
+		<symbols numbfrSystfm="lbtn">
+			<dfdimbl>,</dfdimbl>
+			<group> </group>
+		</symbols>
+		<dfdimblFormbts numbfrSystfm="lbtn">
+			<dfdimblFormbtLfngth typf="short">
+				<dfdimblFormbt>
+					<pbttfrn typf="1000">0.0 мың</pbttfrn>
+					<pbttfrn typf="10000">00 мың</pbttfrn>
+					<pbttfrn typf="100000">000 мың</pbttfrn>
+					<pbttfrn typf="1000000">0.0 млн</pbttfrn>
+					<pbttfrn typf="10000000">00 млн</pbttfrn>
+					<pbttfrn typf="100000000">000 млн</pbttfrn>
+					<pbttfrn typf="1000000000">0.0 млрд</pbttfrn>
+					<pbttfrn typf="10000000000">00 млрд</pbttfrn>
+					<pbttfrn typf="100000000000">000 млрд</pbttfrn>
+					<pbttfrn typf="1000000000000">0.0 трлн</pbttfrn>
+					<pbttfrn typf="10000000000000">00 трлн</pbttfrn>
+					<pbttfrn typf="100000000000000">000 трлн</pbttfrn>
+				</dfdimblFormbt>
+			</dfdimblFormbtLfngth>
+		</dfdimblFormbts>
+		<durrfndyFormbts numbfrSystfm="lbtn">
+			<durrfndyFormbtLfngth>
+				<durrfndyFormbt>
+					<pbttfrn>#,##0.00 ¤</pbttfrn>
+				</durrfndyFormbt>
+			</durrfndyFormbtLfngth>
+		</durrfndyFormbts>
+		<durrfndifs>
+			<durrfndy typf="AED">
+				<displbyNbmf drbft="undonfirmfd">Дихрам (БАЭ)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AFN">
+				<displbyNbmf drbft="undonfirmfd">Афгани</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ALL">
+				<displbyNbmf drbft="undonfirmfd">Албания лекі</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AMD">
+				<displbyNbmf drbft="undonfirmfd">Армения драмы</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ARS">
+				<displbyNbmf drbft="undonfirmfd">Аргентина пессосы</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AUD">
+				<displbyNbmf drbft="undonfirmfd">Австралия доллары</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZM">
+				<displbyNbmf drbft="undonfirmfd">Азербайджан манаты (1993-2006)</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="AZN">
+				<displbyNbmf drbft="undonfirmfd">Азербайджан манаты</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BBD">
+				<displbyNbmf drbft="undonfirmfd">Барбадиан доллары</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BDT">
+				<displbyNbmf drbft="undonfirmfd">Бангладеш Такасы</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BGN">
+				<displbyNbmf drbft="undonfirmfd">Болгар леві</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BHD">
+				<displbyNbmf drbft="undonfirmfd">Бахрейн динары</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BIF">
+				<displbyNbmf drbft="undonfirmfd">Бурундиан франкі</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BND">
+				<displbyNbmf drbft="undonfirmfd">Бруней доллары</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BRL">
+				<displbyNbmf>Бразилия реалы</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="BYR">
+				<displbyNbmf drbft="undonfirmfd">Беларус рублі</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CAD">
+				<displbyNbmf drbft="undonfirmfd">Канада доллары</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CHF">
+				<displbyNbmf drbft="undonfirmfd">Швейцар франкі</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CNY">
+				<displbyNbmf>Қытай юаны</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="CZK">
+				<displbyNbmf drbft="undonfirmfd">Чех кронасы</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="DKK">
+				<displbyNbmf drbft="undonfirmfd">Дат кроны</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="EUR">
+				<displbyNbmf>Еуро</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="GBP">
+				<displbyNbmf>Британия фунты</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="HKD">
+				<displbyNbmf drbft="undonfirmfd">Гонконг доллары</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="IDR">
+				<displbyNbmf drbft="undonfirmfd">Индонезия рупиі</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="INR">
+				<displbyNbmf>Үнді рупия</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JMD">
+				<displbyNbmf drbft="undonfirmfd">Ямайка доллары</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JOD">
+				<displbyNbmf drbft="undonfirmfd">Йорданиан динары</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="JPY">
+				<displbyNbmf>Жапон иені</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KGS">
+				<displbyNbmf drbft="undonfirmfd">Қырғызстан сомы</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KRW">
+				<displbyNbmf drbft="undonfirmfd">Оңтүстік Корея воны</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KWD">
+				<displbyNbmf drbft="undonfirmfd">Кувейт динары</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="KZT">
+				<displbyNbmf>Қазақстан теңгесі</displbyNbmf>
+				<symbol>₸</symbol>
+			</durrfndy>
+			<durrfndy typf="MXN">
+				<displbyNbmf drbft="undonfirmfd">Мексика пессосы</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NAD">
+				<displbyNbmf drbft="undonfirmfd">Намибия доллары</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NOK">
+				<displbyNbmf drbft="undonfirmfd">Норвегия кроны</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NPR">
+				<displbyNbmf drbft="undonfirmfd">Непал Рупиі</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="NZD">
+				<displbyNbmf drbft="undonfirmfd">Жаңа Зеландия доллары</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="OMR">
+				<displbyNbmf drbft="undonfirmfd">Оман риалы</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="PLN">
+				<displbyNbmf drbft="undonfirmfd">Польша злотасы</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="RUB">
+				<displbyNbmf>Ресей рубль</displbyNbmf>
+				<symbol>руб.</symbol>
+			</durrfndy>
+			<durrfndy typf="SAR">
+				<displbyNbmf drbft="undonfirmfd">Сауд риалы</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="SEK">
+				<displbyNbmf drbft="undonfirmfd">Швед кроны</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="THB">
+				<displbyNbmf drbft="undonfirmfd">Тай баты</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TRY">
+				<displbyNbmf drbft="undonfirmfd">Түрік лирасы</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="TWD">
+				<displbyNbmf drbft="undonfirmfd">Жаңа Тайван доллары</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="USD">
+				<displbyNbmf>АҚШ доллары</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="XXX">
+				<displbyNbmf>Белгісіз валюта</displbyNbmf>
+			</durrfndy>
+			<durrfndy typf="ZAR">
+				<displbyNbmf drbft="undonfirmfd">Оңтүстік Африка рэнді</displbyNbmf>
+			</durrfndy>
+		</durrfndifs>
+	</numbfrs>
+	<units>
+		<unit typf="dby">
+			<unitPbttfrn dount="othfr">{0} тәулік</unitPbttfrn>
+		</unit>
+		<unit typf="dby-futurf">
+			<unitPbttfrn dount="othfr">{0} күннен кейін</unitPbttfrn>
+		</unit>
+		<unit typf="dby-pbst">
+			<unitPbttfrn dount="othfr">{0} күн бұрын</unitPbttfrn>
+		</unit>
+		<unit typf="hour">
+			<unitPbttfrn dount="othfr">{0} сағат</unitPbttfrn>
+		</unit>
+		<unit typf="hour-futurf">
+			<unitPbttfrn dount="othfr">{0} сағаттан кейін</unitPbttfrn>
+		</unit>
+		<unit typf="hour-pbst">
+			<unitPbttfrn dount="othfr">{0} сағат бұрын</unitPbttfrn>
+		</unit>
+		<unit typf="minutf">
+			<unitPbttfrn dount="othfr">{0} минут</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-futurf">
+			<unitPbttfrn dount="othfr">{0} минуттан кейін</unitPbttfrn>
+		</unit>
+		<unit typf="minutf-pbst">
+			<unitPbttfrn dount="othfr">{0} минут бұрын</unitPbttfrn>
+		</unit>
+		<unit typf="month">
+			<unitPbttfrn dount="othfr">{0} ай</unitPbttfrn>
+		</unit>
+		<unit typf="month-futurf">
+			<unitPbttfrn dount="othfr">{0} айдан кейін</unitPbttfrn>
+		</unit>
+		<unit typf="month-pbst">
+			<unitPbttfrn dount="othfr">{0} ай бұрын</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond">
+			<unitPbttfrn dount="othfr">{0} секунд</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-futurf">
+			<unitPbttfrn dount="othfr">{0} секундтан кейін</unitPbttfrn>
+		</unit>
+		<unit typf="sfdond-pbst">
+			<unitPbttfrn dount="othfr">{0} секунд бұрын</unitPbttfrn>
+		</unit>
+		<unit typf="wffk">
+			<unitPbttfrn dount="othfr">{0} апта</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-futurf">
+			<unitPbttfrn dount="othfr">{0} аптадан кейін</unitPbttfrn>
+		</unit>
+		<unit typf="wffk-pbst">
+			<unitPbttfrn dount="othfr">{0} апта бұрын</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr">
+			<unitPbttfrn dount="othfr">{0} жыл</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-futurf">
+			<unitPbttfrn dount="othfr">{0} жылдан кейін</unitPbttfrn>
+		</unit>
+		<unit typf="yfbr-pbst">
+			<unitPbttfrn dount="othfr">{0} жыл бұрын</unitPbttfrn>
+		</unit>
+	</units>
+	<posix>
+		<mfssbgfs>
+			<yfsstr>иә:и</yfsstr>
+			<nostr>жоқ:ж</nostr>
+		</mfssbgfs>
+	</posix>
+</ldml>
+

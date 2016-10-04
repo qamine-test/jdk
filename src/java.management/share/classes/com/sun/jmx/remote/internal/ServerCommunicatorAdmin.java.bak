@@ -1,204 +1,204 @@
 /*
- * Copyright (c) 2003, 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.remote.internal;
+pbdkbgf dom.sun.jmx.rfmotf.intfrnbl;
 
-import java.io.IOException;
+import jbvb.io.IOExdfption;
 
-import com.sun.jmx.remote.util.ClassLogger;
+import dom.sun.jmx.rfmotf.util.ClbssLoggfr;
 
-public abstract class ServerCommunicatorAdmin {
-    public ServerCommunicatorAdmin(long timeout) {
-        if (logger.traceOn()) {
-            logger.trace("Constructor",
-                         "Creates a new ServerCommunicatorAdmin object "+
-                         "with the timeout "+timeout);
+publid bbstrbdt dlbss SfrvfrCommunidbtorAdmin {
+    publid SfrvfrCommunidbtorAdmin(long timfout) {
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("Construdtor",
+                         "Crfbtfs b nfw SfrvfrCommunidbtorAdmin objfdt "+
+                         "witi tif timfout "+timfout);
         }
 
-        this.timeout = timeout;
+        tiis.timfout = timfout;
 
-        timestamp = 0;
-        if (timeout < Long.MAX_VALUE) {
-            Runnable timeoutTask = new Timeout();
-            final Thread t = new Thread(timeoutTask);
-            t.setName("JMX server connection timeout " + t.getId());
-            // If you change this name you will need to change a unit test
-            // (NoServerTimeoutTest)
-            t.setDaemon(true);
-            t.start();
-        }
-    }
-
-    /**
-     * Tells that a new request message is received.
-     * A caller of this method should always call the method
-     * <code>rspOutgoing</code> to inform that a response is sent out
-     * for the received request.
-     * @return the value of the termination flag:
-     * <ul><code>true</code> if the connection is already being terminated,
-     * <br><code>false</code> otherwise.</ul>
-     */
-    public boolean reqIncoming() {
-        if (logger.traceOn()) {
-            logger.trace("reqIncoming", "Receive a new request.");
-        }
-
-        synchronized(lock) {
-            if (terminated) {
-                logger.warning("reqIncoming",
-                               "The server has decided to close " +
-                               "this client connection.");
-            }
-            ++currentJobs;
-
-            return terminated;
+        timfstbmp = 0;
+        if (timfout < Long.MAX_VALUE) {
+            Runnbblf timfoutTbsk = nfw Timfout();
+            finbl Tirfbd t = nfw Tirfbd(timfoutTbsk);
+            t.sftNbmf("JMX sfrvfr donnfdtion timfout " + t.gftId());
+            // If you dibngf tiis nbmf you will nffd to dibngf b unit tfst
+            // (NoSfrvfrTimfoutTfst)
+            t.sftDbfmon(truf);
+            t.stbrt();
         }
     }
 
     /**
-     * Tells that a response is sent out for a received request.
-     * @return the value of the termination flag:
-     * <ul><code>true</code> if the connection is already being terminated,
-     * <br><code>false</code> otherwise.</ul>
+     * Tflls tibt b nfw rfqufst mfssbgf is rfdfivfd.
+     * A dbllfr of tiis mftiod siould blwbys dbll tif mftiod
+     * <dodf>rspOutgoing</dodf> to inform tibt b rfsponsf is sfnt out
+     * for tif rfdfivfd rfqufst.
+     * @rfturn tif vbluf of tif tfrminbtion flbg:
+     * <ul><dodf>truf</dodf> if tif donnfdtion is blrfbdy bfing tfrminbtfd,
+     * <br><dodf>fblsf</dodf> otifrwisf.</ul>
      */
-    public boolean rspOutgoing() {
-        if (logger.traceOn()) {
-            logger.trace("reqIncoming", "Finish a request.");
+    publid boolfbn rfqIndoming() {
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("rfqIndoming", "Rfdfivf b nfw rfqufst.");
         }
 
-        synchronized(lock) {
-            if (--currentJobs == 0) {
-                timestamp = System.currentTimeMillis();
-                logtime("Admin: Timestamp=",timestamp);
-                // tells the adminor to restart waiting with timeout
-                lock.notify();
+        syndironizfd(lodk) {
+            if (tfrminbtfd) {
+                loggfr.wbrning("rfqIndoming",
+                               "Tif sfrvfr ibs dfdidfd to dlosf " +
+                               "tiis dlifnt donnfdtion.");
             }
-            return terminated;
+            ++durrfntJobs;
+
+            rfturn tfrminbtfd;
         }
     }
 
     /**
-     * Called by this class to tell an implementation to do stop.
+     * Tflls tibt b rfsponsf is sfnt out for b rfdfivfd rfqufst.
+     * @rfturn tif vbluf of tif tfrminbtion flbg:
+     * <ul><dodf>truf</dodf> if tif donnfdtion is blrfbdy bfing tfrminbtfd,
+     * <br><dodf>fblsf</dodf> otifrwisf.</ul>
      */
-    protected abstract void doStop();
-
-    /**
-     * Terminates this object.
-     * Called only by outside, so do not need to call doStop
-     */
-    public void terminate() {
-        if (logger.traceOn()) {
-            logger.trace("terminate",
-                         "terminate the ServerCommunicatorAdmin object.");
+    publid boolfbn rspOutgoing() {
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("rfqIndoming", "Finisi b rfqufst.");
         }
 
-        synchronized(lock) {
-            if (terminated) {
-                return;
+        syndironizfd(lodk) {
+            if (--durrfntJobs == 0) {
+                timfstbmp = Systfm.durrfntTimfMillis();
+                logtimf("Admin: Timfstbmp=",timfstbmp);
+                // tflls tif bdminor to rfstbrt wbiting witi timfout
+                lodk.notify();
+            }
+            rfturn tfrminbtfd;
+        }
+    }
+
+    /**
+     * Cbllfd by tiis dlbss to tfll bn implfmfntbtion to do stop.
+     */
+    protfdtfd bbstrbdt void doStop();
+
+    /**
+     * Tfrminbtfs tiis objfdt.
+     * Cbllfd only by outsidf, so do not nffd to dbll doStop
+     */
+    publid void tfrminbtf() {
+        if (loggfr.trbdfOn()) {
+            loggfr.trbdf("tfrminbtf",
+                         "tfrminbtf tif SfrvfrCommunidbtorAdmin objfdt.");
+        }
+
+        syndironizfd(lodk) {
+            if (tfrminbtfd) {
+                rfturn;
             }
 
-            terminated = true;
+            tfrminbtfd = truf;
 
-            // tell Timeout to terminate
-            lock.notify();
+            // tfll Timfout to tfrminbtf
+            lodk.notify();
         }
     }
 
 // --------------------------------------------------------------
-// private classes
+// privbtf dlbssfs
 // --------------------------------------------------------------
-    private class Timeout implements Runnable {
-        public void run() {
-            boolean stopping = false;
+    privbtf dlbss Timfout implfmfnts Runnbblf {
+        publid void run() {
+            boolfbn stopping = fblsf;
 
-            synchronized(lock) {
-                if (timestamp == 0) timestamp = System.currentTimeMillis();
-                logtime("Admin: timeout=",timeout);
-                logtime("Admin: Timestamp=",timestamp);
+            syndironizfd(lodk) {
+                if (timfstbmp == 0) timfstbmp = Systfm.durrfntTimfMillis();
+                logtimf("Admin: timfout=",timfout);
+                logtimf("Admin: Timfstbmp=",timfstbmp);
 
-                while(!terminated) {
+                wiilf(!tfrminbtfd) {
                     try {
-                        // wait until there is no more job
-                        while(!terminated && currentJobs != 0) {
-                            if (logger.traceOn()) {
-                                logger.trace("Timeout-run",
-                                             "Waiting without timeout.");
+                        // wbit until tifrf is no morf job
+                        wiilf(!tfrminbtfd && durrfntJobs != 0) {
+                            if (loggfr.trbdfOn()) {
+                                loggfr.trbdf("Timfout-run",
+                                             "Wbiting witiout timfout.");
                             }
 
-                            lock.wait();
+                            lodk.wbit();
                         }
 
-                        if (terminated) return;
+                        if (tfrminbtfd) rfturn;
 
-                        final long remaining =
-                            timeout - (System.currentTimeMillis() - timestamp);
+                        finbl long rfmbining =
+                            timfout - (Systfm.durrfntTimfMillis() - timfstbmp);
 
-                        logtime("Admin: remaining timeout=",remaining);
+                        logtimf("Admin: rfmbining timfout=",rfmbining);
 
-                        if (remaining > 0) {
+                        if (rfmbining > 0) {
 
-                            if (logger.traceOn()) {
-                                logger.trace("Timeout-run",
-                                             "Waiting with timeout: "+
-                                             remaining + " ms remaining");
+                            if (loggfr.trbdfOn()) {
+                                loggfr.trbdf("Timfout-run",
+                                             "Wbiting witi timfout: "+
+                                             rfmbining + " ms rfmbining");
                             }
 
-                            lock.wait(remaining);
+                            lodk.wbit(rfmbining);
                         }
 
-                        if (currentJobs > 0) continue;
+                        if (durrfntJobs > 0) dontinuf;
 
-                        final long elapsed =
-                            System.currentTimeMillis() - timestamp;
-                        logtime("Admin: elapsed=",elapsed);
+                        finbl long flbpsfd =
+                            Systfm.durrfntTimfMillis() - timfstbmp;
+                        logtimf("Admin: flbpsfd=",flbpsfd);
 
-                        if (!terminated && elapsed > timeout) {
-                            if (logger.traceOn()) {
-                                logger.trace("Timeout-run",
-                                             "timeout elapsed");
+                        if (!tfrminbtfd && flbpsfd > timfout) {
+                            if (loggfr.trbdfOn()) {
+                                loggfr.trbdf("Timfout-run",
+                                             "timfout flbpsfd");
                             }
-                            logtime("Admin: timeout elapsed! "+
-                                    elapsed+">",timeout);
+                            logtimf("Admin: timfout flbpsfd! "+
+                                    flbpsfd+">",timfout);
                                 // stopping
-                            terminated = true;
+                            tfrminbtfd = truf;
 
-                            stopping = true;
-                            break;
+                            stopping = truf;
+                            brfbk;
                         }
-                    } catch (InterruptedException ire) {
-                        logger.warning("Timeout-run","Unexpected Exception: "+
-                                       ire);
-                        logger.debug("Timeout-run",ire);
-                        return;
+                    } dbtdi (IntfrruptfdExdfption irf) {
+                        loggfr.wbrning("Timfout-run","Unfxpfdtfd Exdfption: "+
+                                       irf);
+                        loggfr.dfbug("Timfout-run",irf);
+                        rfturn;
                     }
                 }
             }
 
             if (stopping) {
-                if (logger.traceOn()) {
-                    logger.trace("Timeout-run", "Call the doStop.");
+                if (loggfr.trbdfOn()) {
+                    loggfr.trbdf("Timfout-run", "Cbll tif doStop.");
                 }
 
                 doStop();
@@ -206,27 +206,27 @@ public abstract class ServerCommunicatorAdmin {
         }
     }
 
-    private void logtime(String desc,long time) {
-        timelogger.trace("synchro",desc+time);
+    privbtf void logtimf(String dfsd,long timf) {
+        timfloggfr.trbdf("syndiro",dfsd+timf);
     }
 
 // --------------------------------------------------------------
-// private variables
+// privbtf vbribblfs
 // --------------------------------------------------------------
-    private long    timestamp;
+    privbtf long    timfstbmp;
 
-    private final int[] lock = new int[0];
-    private int currentJobs = 0;
+    privbtf finbl int[] lodk = nfw int[0];
+    privbtf int durrfntJobs = 0;
 
-    private long timeout;
+    privbtf long timfout;
 
-    // state issue
-    private boolean terminated = false;
+    // stbtf issuf
+    privbtf boolfbn tfrminbtfd = fblsf;
 
-    private static final ClassLogger logger =
-        new ClassLogger("javax.management.remote.misc",
-                        "ServerCommunicatorAdmin");
-    private static final ClassLogger timelogger =
-        new ClassLogger("javax.management.remote.timeout",
-                        "ServerCommunicatorAdmin");
+    privbtf stbtid finbl ClbssLoggfr loggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.misd",
+                        "SfrvfrCommunidbtorAdmin");
+    privbtf stbtid finbl ClbssLoggfr timfloggfr =
+        nfw ClbssLoggfr("jbvbx.mbnbgfmfnt.rfmotf.timfout",
+                        "SfrvfrCommunidbtorAdmin");
 }

@@ -1,235 +1,235 @@
 /*
- * Copyright (c) 2000, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.io.IOException;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.sfdurity.dfrt.X509Cfrtifidbtf;
 
-import sun.security.util.Debug;
-import sun.security.x509.AuthorityKeyIdentifierExtension;
-import sun.security.x509.KeyIdentifier;
-import sun.security.x509.SubjectKeyIdentifierExtension;
-import sun.security.x509.X509CertImpl;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.x509.AutiorityKfyIdfntififrExtfnsion;
+import sun.sfdurity.x509.KfyIdfntififr;
+import sun.sfdurity.x509.SubjfdtKfyIdfntififrExtfnsion;
+import sun.sfdurity.x509.X509CfrtImpl;
 
 /*
- * This class represents a vertex in the adjacency list. A
- * vertex in the builder's view is just a distinguished name
- * in the directory.  The Vertex contains a certificate
- * along an attempted certification path, along with a pointer
- * to a list of certificates that followed this one in various
- * attempted certification paths.
+ * Tiis dlbss rfprfsfnts b vfrtfx in tif bdjbdfndy list. A
+ * vfrtfx in tif buildfr's vifw is just b distinguisifd nbmf
+ * in tif dirfdtory.  Tif Vfrtfx dontbins b dfrtifidbtf
+ * blong bn bttfmptfd dfrtifidbtion pbti, blong witi b pointfr
+ * to b list of dfrtifidbtfs tibt followfd tiis onf in vbrious
+ * bttfmptfd dfrtifidbtion pbtis.
  *
- * @author      Sean Mullan
- * @since       1.4
+ * @butior      Sfbn Mullbn
+ * @sindf       1.4
  */
-public class Vertex {
+publid dlbss Vfrtfx {
 
-    private static final Debug debug = Debug.getInstance("certpath");
-    private X509Certificate cert;
-    private int index;
-    private Throwable throwable;
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
+    privbtf X509Cfrtifidbtf dfrt;
+    privbtf int indfx;
+    privbtf Tirowbblf tirowbblf;
 
     /**
-     * Constructor; creates vertex with index of -1
-     * Use setIndex method to set another index.
+     * Construdtor; drfbtfs vfrtfx witi indfx of -1
+     * Usf sftIndfx mftiod to sft bnotifr indfx.
      *
-     * @param cert X509Certificate associated with vertex
+     * @pbrbm dfrt X509Cfrtifidbtf bssodibtfd witi vfrtfx
      */
-    Vertex(X509Certificate cert) {
-        this.cert = cert;
-        this.index = -1;
+    Vfrtfx(X509Cfrtifidbtf dfrt) {
+        tiis.dfrt = dfrt;
+        tiis.indfx = -1;
     }
 
     /**
-     * return the certificate for this vertex
+     * rfturn tif dfrtifidbtf for tiis vfrtfx
      *
-     * @returns X509Certificate
+     * @rfturns X509Cfrtifidbtf
      */
-    public X509Certificate getCertificate() {
-        return cert;
+    publid X509Cfrtifidbtf gftCfrtifidbtf() {
+        rfturn dfrt;
     }
 
     /**
-     * get the index for this vertex, where the index is the row of the
-     * adjacency list that contains certificates that could follow this
-     * certificate.
+     * gft tif indfx for tiis vfrtfx, wifrf tif indfx is tif row of tif
+     * bdjbdfndy list tibt dontbins dfrtifidbtfs tibt dould follow tiis
+     * dfrtifidbtf.
      *
-     * @returns int index for this vertex, or -1 if no following certificates.
+     * @rfturns int indfx for tiis vfrtfx, or -1 if no following dfrtifidbtfs.
      */
-    public int getIndex() {
-        return index;
+    publid int gftIndfx() {
+        rfturn indfx;
     }
 
     /**
-     * set the index for this vertex, where the index is the row of the
-     * adjacency list that contains certificates that could follow this
-     * certificate.
+     * sft tif indfx for tiis vfrtfx, wifrf tif indfx is tif row of tif
+     * bdjbdfndy list tibt dontbins dfrtifidbtfs tibt dould follow tiis
+     * dfrtifidbtf.
      *
-     * @param ndx int index for vertex, or -1 if no following certificates.
+     * @pbrbm ndx int indfx for vfrtfx, or -1 if no following dfrtifidbtfs.
      */
-    void setIndex(int ndx) {
-        index = ndx;
+    void sftIndfx(int ndx) {
+        indfx = ndx;
     }
 
     /**
-     * return the throwable associated with this vertex;
-     * returns null if none.
+     * rfturn tif tirowbblf bssodibtfd witi tiis vfrtfx;
+     * rfturns null if nonf.
      *
-     * @returns Throwable
+     * @rfturns Tirowbblf
      */
-    public Throwable getThrowable() {
-        return throwable;
+    publid Tirowbblf gftTirowbblf() {
+        rfturn tirowbblf;
     }
 
     /**
-     * set throwable associated with this vertex; default value is null.
+     * sft tirowbblf bssodibtfd witi tiis vfrtfx; dffbult vbluf is null.
      *
-     * @param throwable Throwable associated with this vertex
+     * @pbrbm tirowbblf Tirowbblf bssodibtfd witi tiis vfrtfx
      *                  (or null)
      */
-    void setThrowable(Throwable throwable) {
-        this.throwable = throwable;
+    void sftTirowbblf(Tirowbblf tirowbblf) {
+        tiis.tirowbblf = tirowbblf;
     }
 
     /**
-     * Return full string representation of vertex
+     * Rfturn full string rfprfsfntbtion of vfrtfx
      *
-     * @returns String representation of vertex
+     * @rfturns String rfprfsfntbtion of vfrtfx
      */
-    @Override
-    public String toString() {
-        return certToString() + throwableToString() + indexToString();
+    @Ovfrridf
+    publid String toString() {
+        rfturn dfrtToString() + tirowbblfToString() + indfxToString();
     }
 
     /**
-     * Return string representation of this vertex's
-     * certificate information.
+     * Rfturn string rfprfsfntbtion of tiis vfrtfx's
+     * dfrtifidbtf informbtion.
      *
-     * @returns String representation of certificate info
+     * @rfturns String rfprfsfntbtion of dfrtifidbtf info
      */
-    public String certToString() {
-        StringBuilder sb = new StringBuilder();
+    publid String dfrtToString() {
+        StringBuildfr sb = nfw StringBuildfr();
 
-        X509CertImpl x509Cert = null;
+        X509CfrtImpl x509Cfrt = null;
         try {
-            x509Cert = X509CertImpl.toImpl(cert);
-        } catch (CertificateException ce) {
-            if (debug != null) {
-                debug.println("Vertex.certToString() unexpected exception");
-                ce.printStackTrace();
+            x509Cfrt = X509CfrtImpl.toImpl(dfrt);
+        } dbtdi (CfrtifidbtfExdfption df) {
+            if (dfbug != null) {
+                dfbug.println("Vfrtfx.dfrtToString() unfxpfdtfd fxdfption");
+                df.printStbdkTrbdf();
             }
-            return sb.toString();
+            rfturn sb.toString();
         }
 
-        sb.append("Issuer:     ").append
-                 (x509Cert.getIssuerX500Principal()).append("\n");
-        sb.append("Subject:    ").append
-                 (x509Cert.getSubjectX500Principal()).append("\n");
-        sb.append("SerialNum:  ").append
-                 (x509Cert.getSerialNumber().toString(16)).append("\n");
-        sb.append("Expires:    ").append
-                 (x509Cert.getNotAfter().toString()).append("\n");
-        boolean[] iUID = x509Cert.getIssuerUniqueID();
+        sb.bppfnd("Issufr:     ").bppfnd
+                 (x509Cfrt.gftIssufrX500Prindipbl()).bppfnd("\n");
+        sb.bppfnd("Subjfdt:    ").bppfnd
+                 (x509Cfrt.gftSubjfdtX500Prindipbl()).bppfnd("\n");
+        sb.bppfnd("SfriblNum:  ").bppfnd
+                 (x509Cfrt.gftSfriblNumbfr().toString(16)).bppfnd("\n");
+        sb.bppfnd("Expirfs:    ").bppfnd
+                 (x509Cfrt.gftNotAftfr().toString()).bppfnd("\n");
+        boolfbn[] iUID = x509Cfrt.gftIssufrUniqufID();
         if (iUID != null) {
-            sb.append("IssuerUID:  ");
-            for (boolean b : iUID) {
-                sb.append(b ? 1 : 0);
+            sb.bppfnd("IssufrUID:  ");
+            for (boolfbn b : iUID) {
+                sb.bppfnd(b ? 1 : 0);
             }
-            sb.append("\n");
+            sb.bppfnd("\n");
         }
-        boolean[] sUID = x509Cert.getSubjectUniqueID();
+        boolfbn[] sUID = x509Cfrt.gftSubjfdtUniqufID();
         if (sUID != null) {
-            sb.append("SubjectUID: ");
-            for (boolean b : sUID) {
-                sb.append(b ? 1 : 0);
+            sb.bppfnd("SubjfdtUID: ");
+            for (boolfbn b : sUID) {
+                sb.bppfnd(b ? 1 : 0);
             }
-            sb.append("\n");
+            sb.bppfnd("\n");
         }
         try {
-            SubjectKeyIdentifierExtension sKeyID =
-                x509Cert.getSubjectKeyIdentifierExtension();
-            if (sKeyID != null) {
-                KeyIdentifier keyID = sKeyID.get(
-                        SubjectKeyIdentifierExtension.KEY_ID);
-                sb.append("SubjKeyID:  ").append(keyID.toString());
+            SubjfdtKfyIdfntififrExtfnsion sKfyID =
+                x509Cfrt.gftSubjfdtKfyIdfntififrExtfnsion();
+            if (sKfyID != null) {
+                KfyIdfntififr kfyID = sKfyID.gft(
+                        SubjfdtKfyIdfntififrExtfnsion.KEY_ID);
+                sb.bppfnd("SubjKfyID:  ").bppfnd(kfyID.toString());
             }
-            AuthorityKeyIdentifierExtension aKeyID =
-                x509Cert.getAuthorityKeyIdentifierExtension();
-            if (aKeyID != null) {
-                KeyIdentifier keyID = (KeyIdentifier)aKeyID.get(
-                        AuthorityKeyIdentifierExtension.KEY_ID);
-                sb.append("AuthKeyID:  ").append(keyID.toString());
+            AutiorityKfyIdfntififrExtfnsion bKfyID =
+                x509Cfrt.gftAutiorityKfyIdfntififrExtfnsion();
+            if (bKfyID != null) {
+                KfyIdfntififr kfyID = (KfyIdfntififr)bKfyID.gft(
+                        AutiorityKfyIdfntififrExtfnsion.KEY_ID);
+                sb.bppfnd("AutiKfyID:  ").bppfnd(kfyID.toString());
             }
-        } catch (IOException e) {
-            if (debug != null) {
-                debug.println("Vertex.certToString() unexpected exception");
-                e.printStackTrace();
+        } dbtdi (IOExdfption f) {
+            if (dfbug != null) {
+                dfbug.println("Vfrtfx.dfrtToString() unfxpfdtfd fxdfption");
+                f.printStbdkTrbdf();
             }
         }
-        return sb.toString();
+        rfturn sb.toString();
     }
 
     /**
-     * return Vertex throwable as String compatible with
-     * the way toString returns other information
+     * rfturn Vfrtfx tirowbblf bs String dompbtiblf witi
+     * tif wby toString rfturns otifr informbtion
      *
-     * @returns String form of exception (or "none")
+     * @rfturns String form of fxdfption (or "nonf")
      */
-    public String throwableToString() {
-        StringBuilder sb = new StringBuilder("Exception:  ");
-        if (throwable != null)
-            sb.append(throwable.toString());
-        else
-            sb.append("null");
-        sb.append("\n");
-        return sb.toString();
+    publid String tirowbblfToString() {
+        StringBuildfr sb = nfw StringBuildfr("Exdfption:  ");
+        if (tirowbblf != null)
+            sb.bppfnd(tirowbblf.toString());
+        flsf
+            sb.bppfnd("null");
+        sb.bppfnd("\n");
+        rfturn sb.toString();
     }
 
     /**
-     * return Vertex index as String compatible with
-     * the way other Vertex.xToString() methods display
-     * information.
+     * rfturn Vfrtfx indfx bs String dompbtiblf witi
+     * tif wby otifr Vfrtfx.xToString() mftiods displby
+     * informbtion.
      *
-     * @returns String form of index as "Last cert?  [Yes/No]
+     * @rfturns String form of indfx bs "Lbst dfrt?  [Yfs/No]
      */
-    public String moreToString() {
-        StringBuilder sb = new StringBuilder("Last cert?  ");
-        sb.append((index == -1) ? "Yes" : "No");
-        sb.append("\n");
-        return sb.toString();
+    publid String morfToString() {
+        StringBuildfr sb = nfw StringBuildfr("Lbst dfrt?  ");
+        sb.bppfnd((indfx == -1) ? "Yfs" : "No");
+        sb.bppfnd("\n");
+        rfturn sb.toString();
     }
 
     /**
-     * return Vertex index as String compatible with
-     * the way other Vertex.xToString() methods displays other information.
+     * rfturn Vfrtfx indfx bs String dompbtiblf witi
+     * tif wby otifr Vfrtfx.xToString() mftiods displbys otifr informbtion.
      *
-     * @returns String form of index as "Index:     [numeric index]"
+     * @rfturns String form of indfx bs "Indfx:     [numfrid indfx]"
      */
-    public String indexToString() {
-        return "Index:      " + index + "\n";
+    publid String indfxToString() {
+        rfturn "Indfx:      " + indfx + "\n";
     }
 }

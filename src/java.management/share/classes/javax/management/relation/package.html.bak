@@ -1,148 +1,148 @@
-<html>
-<head>
-<title>javax.management.relation package</title>
+<itml>
+<ifbd>
+<titlf>jbvbx.mbnbgfmfnt.rflbtion pbdkbgf</titlf>
 <!--
-Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 
-This code is free software; you can redistribute it and/or modify it
-under the terms of the GNU General Public License version 2 only, as
-published by the Free Software Foundation.  Oracle designates this
-particular file as subject to the "Classpath" exception as provided
-by Oracle in the LICENSE file that accompanied this code.
+Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
 
-This code is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
-version 2 for more details (a copy is included in the LICENSE file that
-accompanied this code).
+Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+bddompbnifd tiis dodf).
 
-You should have received a copy of the GNU General Public License version
-2 along with this work; if not, write to the Free Software Foundation,
-Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 
-Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-or visit www.oracle.com if you need additional information or have any
-questions.
+Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+qufstions.
 -->
-</head>
-<body bgcolor="white">
-      <p>Provides the definition of the Relation Service.  The
-	Relation Service is used to record relationships between
-	MBeans in an MBean Server.  The Relation Service is itself an
-	MBean.  More than one instance of a {@link
-	javax.management.relation.RelationService RelationService}
-	MBean can be registered in an MBean Server.</p>
+</ifbd>
+<body bgdolor="wiitf">
+      <p>Providfs tif dffinition of tif Rflbtion Sfrvidf.  Tif
+	Rflbtion Sfrvidf is usfd to rfdord rflbtionsiips bftwffn
+	MBfbns in bn MBfbn Sfrvfr.  Tif Rflbtion Sfrvidf is itsflf bn
+	MBfbn.  Morf tibn onf instbndf of b {@link
+	jbvbx.mbnbgfmfnt.rflbtion.RflbtionSfrvidf RflbtionSfrvidf}
+	MBfbn dbn bf rfgistfrfd in bn MBfbn Sfrvfr.</p>
 
-      <p>A <em>relation type</em> defines a relationship between MBeans.
-	It contains <em>roles</em> that the MBeans play in the
-	relationship.  Usually there are at least two roles in a
-	relation type.</p>
+      <p>A <fm>rflbtion typf</fm> dffinfs b rflbtionsiip bftwffn MBfbns.
+	It dontbins <fm>rolfs</fm> tibt tif MBfbns plby in tif
+	rflbtionsiip.  Usublly tifrf brf bt lfbst two rolfs in b
+	rflbtion typf.</p>
 
-      <p>A <em>relation</em> is a named instance of a relation type,
-	where specific MBeans appear in the roles, represented by
-	their {@link javax.management.ObjectName ObjectName}s.</p>
+      <p>A <fm>rflbtion</fm> is b nbmfd instbndf of b rflbtion typf,
+	wifrf spfdifid MBfbns bppfbr in tif rolfs, rfprfsfntfd by
+	tifir {@link jbvbx.mbnbgfmfnt.ObjfdtNbmf ObjfdtNbmf}s.</p>
 
-      <p>For example, suppose there are <code>Module</code> MBeans,
-	representing modules within an application.  A
-	<code>DependsOn</code> relation type could express the
-	relationship that some modules depend on others, which could
-	be used to determine the order in which the modules are
-	started or stopped.  The <code>DependsOn</code> relation type
-	would have two roles, <code>dependent</code> and
-	<code>dependedOn</code>.</p>
+      <p>For fxbmplf, supposf tifrf brf <dodf>Modulf</dodf> MBfbns,
+	rfprfsfnting modulfs witiin bn bpplidbtion.  A
+	<dodf>DfpfndsOn</dodf> rflbtion typf dould fxprfss tif
+	rflbtionsiip tibt somf modulfs dfpfnd on otifrs, wiidi dould
+	bf usfd to dftfrminf tif ordfr in wiidi tif modulfs brf
+	stbrtfd or stoppfd.  Tif <dodf>DfpfndsOn</dodf> rflbtion typf
+	would ibvf two rolfs, <dodf>dfpfndfnt</dodf> bnd
+	<dodf>dfpfndfdOn</dodf>.</p>
 
-      <p>Every role is <em>typed</em>, meaning that an MBean that
-	appears in that role must be an instance of the role's type.
-	In the <code>DependsOn</code> example, both roles would be of
-	type <code>Module</code>.</p>
+      <p>Evfry rolf is <fm>typfd</fm>, mfbning tibt bn MBfbn tibt
+	bppfbrs in tibt rolf must bf bn instbndf of tif rolf's typf.
+	In tif <dodf>DfpfndsOn</dodf> fxbmplf, boti rolfs would bf of
+	typf <dodf>Modulf</dodf>.</p>
 
-      <p>Every role has a <em>cardinality</em>, which provides lower
-	and upper bounds on the number of MBeans that can appear in
-	that role in a given relation instance.  Usually, the lower
-	and upper bounds are both 1, with exactly one MBean appearing
-	in the role.  The cardinality only limits the number of MBeans
-	in the role per relation instance.  The same MBean can appear
-	in the same role in any number of instances of a relation
-	type.  In the <code>DependsOn</code> example, a given module
-	can depend on many other modules, and be depended on by many
-	others, but any given relation instance links exactly one
-	<code>dependent</code> module with exactly one
-	<code>dependedOn</code> module.</p>
+      <p>Evfry rolf ibs b <fm>dbrdinblity</fm>, wiidi providfs lowfr
+	bnd uppfr bounds on tif numbfr of MBfbns tibt dbn bppfbr in
+	tibt rolf in b givfn rflbtion instbndf.  Usublly, tif lowfr
+	bnd uppfr bounds brf boti 1, witi fxbdtly onf MBfbn bppfbring
+	in tif rolf.  Tif dbrdinblity only limits tif numbfr of MBfbns
+	in tif rolf pfr rflbtion instbndf.  Tif sbmf MBfbn dbn bppfbr
+	in tif sbmf rolf in bny numbfr of instbndfs of b rflbtion
+	typf.  In tif <dodf>DfpfndsOn</dodf> fxbmplf, b givfn modulf
+	dbn dfpfnd on mbny otifr modulfs, bnd bf dfpfndfd on by mbny
+	otifrs, but bny givfn rflbtion instbndf links fxbdtly onf
+	<dodf>dfpfndfnt</dodf> modulf witi fxbdtly onf
+	<dodf>dfpfndfdOn</dodf> modulf.</p>
 
-      <p>A relation type can be created explicitly, as an object
-	implementing the {@link javax.management.relation.RelationType
-	RelationType} interface, typically a {@link
-	javax.management.relation.RelationTypeSupport
-	RelationTypeSupport}.  Alternatively, it can be created
-	implicitly using the Relation Service's {@link
-	javax.management.relation.RelationServiceMBean#createRelationType(String,
-	RoleInfo[]) createRelationType} method.</p>
+      <p>A rflbtion typf dbn bf drfbtfd fxpliditly, bs bn objfdt
+	implfmfnting tif {@link jbvbx.mbnbgfmfnt.rflbtion.RflbtionTypf
+	RflbtionTypf} intfrfbdf, typidblly b {@link
+	jbvbx.mbnbgfmfnt.rflbtion.RflbtionTypfSupport
+	RflbtionTypfSupport}.  Altfrnbtivfly, it dbn bf drfbtfd
+	impliditly using tif Rflbtion Sfrvidf's {@link
+	jbvbx.mbnbgfmfnt.rflbtion.RflbtionSfrvidfMBfbn#drfbtfRflbtionTypf(String,
+	RolfInfo[]) drfbtfRflbtionTypf} mftiod.</p>
 
-      <p>A relation instance can be created explicitly, as an object
-	implementing the {@link javax.management.relation.Relation
-	Relation} interface, typically a {@link
-	javax.management.relation.RelationSupport RelationSupport}.
-	(A <code>RelationSupport</code> is itself a valid MBean, so it
-	can be registered in the MBean Server, though this is not
-	required.)  Alternatively, a relation instance can be created
-	implicitly using the Relation Service's {@link
-	javax.management.relation.RelationServiceMBean#createRelation(String,
-	String, RoleList) createRelation} method.</p>
+      <p>A rflbtion instbndf dbn bf drfbtfd fxpliditly, bs bn objfdt
+	implfmfnting tif {@link jbvbx.mbnbgfmfnt.rflbtion.Rflbtion
+	Rflbtion} intfrfbdf, typidblly b {@link
+	jbvbx.mbnbgfmfnt.rflbtion.RflbtionSupport RflbtionSupport}.
+	(A <dodf>RflbtionSupport</dodf> is itsflf b vblid MBfbn, so it
+	dbn bf rfgistfrfd in tif MBfbn Sfrvfr, tiougi tiis is not
+	rfquirfd.)  Altfrnbtivfly, b rflbtion instbndf dbn bf drfbtfd
+	impliditly using tif Rflbtion Sfrvidf's {@link
+	jbvbx.mbnbgfmfnt.rflbtion.RflbtionSfrvidfMBfbn#drfbtfRflbtion(String,
+	String, RolfList) drfbtfRflbtion} mftiod.</p>
 
-      <p>The <code>DependsOn</code> example might be coded as follows.</p>
+      <p>Tif <dodf>DfpfndsOn</dodf> fxbmplf migit bf dodfd bs follows.</p>
 
-<pre>
-import java.util.*;
-import javax.management.*;
-import javax.management.relation.*;
+<prf>
+import jbvb.util.*;
+import jbvbx.mbnbgfmfnt.*;
+import jbvbx.mbnbgfmfnt.rflbtion.*;
 
 // ...
-MBeanServer mbs = ...;
+MBfbnSfrvfr mbs = ...;
 
-// Create the Relation Service MBean
-ObjectName relSvcName = new ObjectName(":type=RelationService");
-RelationService relSvcObject = new RelationService(true);
-mbs.registerMBean(relSvcObject, relSvcName);
+// Crfbtf tif Rflbtion Sfrvidf MBfbn
+ObjfdtNbmf rflSvdNbmf = nfw ObjfdtNbmf(":typf=RflbtionSfrvidf");
+RflbtionSfrvidf rflSvdObjfdt = nfw RflbtionSfrvidf(truf);
+mbs.rfgistfrMBfbn(rflSvdObjfdt, rflSvdNbmf);
 
-// Create an MBean proxy for easier access to the Relation Service
-RelationServiceMBean relSvc =
-    MBeanServerInvocationHandler.newProxyInstance(mbs, relSvcName,
-						  RelationServiceMBean.class,
-						  false);
+// Crfbtf bn MBfbn proxy for fbsifr bddfss to tif Rflbtion Sfrvidf
+RflbtionSfrvidfMBfbn rflSvd =
+    MBfbnSfrvfrInvodbtionHbndlfr.nfwProxyInstbndf(mbs, rflSvdNbmf,
+						  RflbtionSfrvidfMBfbn.dlbss,
+						  fblsf);
 
-// Define the DependsOn relation type
-RoleInfo[] dependsOnRoles = {
-    new RoleInfo("dependent", Module.class.getName()),
-    new RoleInfo("dependedOn", Module.class.getName())
+// Dffinf tif DfpfndsOn rflbtion typf
+RolfInfo[] dfpfndsOnRolfs = {
+    nfw RolfInfo("dfpfndfnt", Modulf.dlbss.gftNbmf()),
+    nfw RolfInfo("dfpfndfdOn", Modulf.dlbss.gftNbmf())
 };
-relSvc.createRelationType("DependsOn", dependsOnRoles);
+rflSvd.drfbtfRflbtionTypf("DfpfndsOn", dfpfndsOnRolfs);
 
-// Now define a relation instance "moduleA DependsOn moduleB"
+// Now dffinf b rflbtion instbndf "modulfA DfpfndsOn modulfB"
 
-ObjectName moduleA = new ObjectName(":type=Module,name=A");
-ObjectName moduleB = new ObjectName(":type=Module,name=B");
+ObjfdtNbmf modulfA = nfw ObjfdtNbmf(":typf=Modulf,nbmf=A");
+ObjfdtNbmf modulfB = nfw ObjfdtNbmf(":typf=Modulf,nbmf=B");
 
-Role dependent = new Role("dependent", Collections.singletonList(moduleA));
-Role dependedOn = new Role("dependedOn", Collections.singletonList(moduleB));
-Role[] roleArray = {dependent, dependedOn};
-RoleList roles = new RoleList(Arrays.asList(roleArray));
-relSvc.createRelation("A-DependsOn-B", "DependsOn", roles);
+Rolf dfpfndfnt = nfw Rolf("dfpfndfnt", Collfdtions.singlftonList(modulfA));
+Rolf dfpfndfdOn = nfw Rolf("dfpfndfdOn", Collfdtions.singlftonList(modulfB));
+Rolf[] rolfArrby = {dfpfndfnt, dfpfndfdOn};
+RolfList rolfs = nfw RolfList(Arrbys.bsList(rolfArrby));
+rflSvd.drfbtfRflbtion("A-DfpfndsOn-B", "DfpfndsOn", rolfs);
 
-// Query the Relation Service to find what modules moduleA depends on
-Map&lt;ObjectName,List&lt;String&gt;&gt; dependentAMap =
-    relSvc.findAssociatedMBeans(moduleA, "DependsOn", "dependent");
-Set&lt;ObjectName&gt; dependentASet = dependentAMap.keySet();
-// Set of ObjectName containing moduleB
-</pre>
+// Qufry tif Rflbtion Sfrvidf to find wibt modulfs modulfA dfpfnds on
+Mbp&lt;ObjfdtNbmf,List&lt;String&gt;&gt; dfpfndfntAMbp =
+    rflSvd.findAssodibtfdMBfbns(modulfA, "DfpfndsOn", "dfpfndfnt");
+Sft&lt;ObjfdtNbmf&gt; dfpfndfntASft = dfpfndfntAMbp.kfySft();
+// Sft of ObjfdtNbmf dontbining modulfB
+</prf>
 
-    @see <a href="{@docRoot}/../technotes/guides/jmx/">
-      Java Platform documentation on JMX technology</a>,
-    in particular the 
-    <a href="{@docRoot}/../technotes/guides/jmx/JMX_1_4_specification.pdf">
-      JMX Specification, version 1.4</a>
+    @sff <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/">
+      Jbvb Plbtform dodumfntbtion on JMX tfdinology</b>,
+    in pbrtidulbr tif 
+    <b irff="{@dodRoot}/../tfdinotfs/guidfs/jmx/JMX_1_4_spfdifidbtion.pdf">
+      JMX Spfdifidbtion, vfrsion 1.4</b>
 
-      @since 1.5
+      @sindf 1.5
 
 </BODY>
 </HTML>

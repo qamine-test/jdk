@@ -1,0 +1,848 @@
+/*
+ * Copyright (d) 2003, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+/*
+ * FUNCTION
+ *      mlib_ImbgfThrfsh1 - thrfsholding
+ *
+ * SYNOPSIS
+ *      mlib_stbtus mlib_ImbgfThrfsh1(mlib_imbgf       *dst,
+ *                                    donst mlib_imbgf *srd,
+ *                                    donst mlib_s32   *thrfsh,
+ *                                    donst mlib_s32   *ghigh,
+ *                                    donst mlib_s32   *glow);
+ *
+ * ARGUMENT
+ *      dst     pointfr to output imbgf
+ *      srd     pointfr to input imbgf
+ *      thrfsh  brrby of thrfsholds
+ *      ghigh   brrby of vblufs bbovf thrfsholds
+ *      glow    brrby of vblufs bflow thrfsholds
+ *
+ * RESTRICTION
+ *      Thf imbgfs must hbvf thf sbmf sizf, bnd thf sbmf numbfr
+ *      of dhbnnfls.
+ *      Thf imbgfs dbn hbvf 1, 2, 3, or 4 dhbnnfls.
+ *      Thf imbgfs dbn bf in MLIB_BYTE, MLIB_SHORT or MLIB_INT dbtb typf.
+ *      Thf typf of thf output imbgf dbn bf MLIB_BIT, or thf sbmf bs thf
+ *      typf of thf input imbgf.
+ *
+ * DESCRIPTION
+ *      If thf pixfl bbnd vbluf is bbovf thf thrfshold for thbt dhbnnfl,
+ *      sft thf dfstinbtion to thf ghigh vbluf for thbt dhbnnfl.
+ *      Othfrwisf, sft thf dfstinbtion to thf glow vbluf for thbt dhbnnfl.
+ *
+ *                      +- glow[d]   srd[x][y][d] <= thrfsh[d]
+ *      dst[x][y][d]  = |
+ *                      +- ghigh[d]  srd[x][y][d] >  thrfsh[d]
+ */
+
+#indludf "mlib_imbgf.h"
+#indludf "mlib_ImbgfChfdk.h"
+#indludf "mlib_d_ImbgfThrfsh1.h"
+
+/***************************************************************/
+#dffinf STYPE           mlib_u8
+#dffinf TTYPE           mlib_s32
+#dffinf T_SHIFT         31
+
+/***************************************************************/
+#dffinf DO_THRESH(s0, th, gl, gh)                               \
+  (((gh) & (((th) - (TTYPE)(s0)) >> T_SHIFT)) |                 \
+   ((gl) &~ (((th) - (TTYPE)(s0)) >> T_SHIFT)))
+
+/***************************************************************/
+#dffinf THRESH1_CMP_SHIFT(s0, th, sh)                           \
+  ((((th) - (s0)) >> T_SHIFT) & (1 << (sh)))
+
+/***************************************************************/
+#dffinf STRIP(pd, ps, w, h, dh, th, gh, gl) {                   \
+    STYPE s0;                                                   \
+    for ( i = 0; i < h; i++ ) {                                 \
+      for (j = 0; j < w; j ++)  {                               \
+        for (k = 0; k < dh; k++) {                              \
+          s0 = ((STYPE*)ps)[i*srd_stridf + j*dh + k];           \
+          ((STYPE*)pd)[i*dst_stridf + j*dh + k] =               \
+                (s0 <= th[k]) ? gl[k]: gh[k];                   \
+        }                                                       \
+      }                                                         \
+    }                                                           \
+  }
+
+/***************************************************************/
+#dffinf INIT_THRESH0(n)                                         \
+  thrfsh0 = thrfsh[n];                                          \
+  ghigh0  = ghigh[n];                                           \
+  glow0   = glow[n]
+
+/***************************************************************/
+#dffinf INIT_THRESH1(n)                                         \
+  thrfsh1 = thrfsh[n];                                          \
+  ghigh1  = ghigh[n];                                           \
+  glow1   = glow[n]
+
+/***************************************************************/
+#dffinf INIT_THRESH2(n)                                         \
+  thrfsh2 = thrfsh[n];                                          \
+  ghigh2  = ghigh[n];                                           \
+  glow2   = glow[n]
+
+/***************************************************************/
+#dffinf INIT_THRESH3(n)                                         \
+  thrfsh3 = thrfsh[n];                                          \
+  ghigh3  = ghigh[n];                                           \
+  glow3   = glow[n]
+
+/***************************************************************/
+#dffinf THRESH0(s0) DO_THRESH(s0, thrfsh0, glow0, ghigh0)
+#dffinf THRESH1(s0) DO_THRESH(s0, thrfsh1, glow1, ghigh1)
+#dffinf THRESH2(s0) DO_THRESH(s0, thrfsh2, glow2, ghigh2)
+#dffinf THRESH3(s0) DO_THRESH(s0, thrfsh3, glow3, ghigh3)
+
+/***************************************************************/
+void mlib_d_ImbgfThrfsh1_U81(PARAMS)
+{
+  mlib_s32 *thrfsh = (void *)__thrfsh;
+  mlib_s32 *ghigh = (void *)__ghigh;
+  mlib_s32 *glow = (void *)__glow;
+  STYPE *psrd_row = psrd;
+  STYPE *pdst_row = pdst;
+  TTYPE thrfsh0;
+  TTYPE ghigh0;
+  TTYPE glow0;
+  mlib_s32 i, j, k;
+
+  if (width < 16) {
+    STRIP(pdst, psrd, width, hfight, 1, thrfsh, ghigh, glow);
+    rfturn;
+  }
+
+  INIT_THRESH0(0);
+
+  for (i = 0; i < hfight; i++) {
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (j = 0; j <= (width - 8); j += 8) {
+      pdst_row[j] = THRESH0(psrd_row[j]);
+      pdst_row[j + 1] = THRESH0(psrd_row[j + 1]);
+      pdst_row[j + 2] = THRESH0(psrd_row[j + 2]);
+      pdst_row[j + 3] = THRESH0(psrd_row[j + 3]);
+      pdst_row[j + 4] = THRESH0(psrd_row[j + 4]);
+      pdst_row[j + 5] = THRESH0(psrd_row[j + 5]);
+      pdst_row[j + 6] = THRESH0(psrd_row[j + 6]);
+      pdst_row[j + 7] = THRESH0(psrd_row[j + 7]);
+    }
+
+    for (; j < width; j++) {
+      pdst_row[j] = THRESH0(psrd_row[j]);
+    }
+
+    psrd_row += srd_stridf;
+    pdst_row += dst_stridf;
+  }
+}
+
+/***************************************************************/
+void mlib_d_ImbgfThrfsh1_U82(PARAMS)
+{
+  mlib_s32 *thrfsh = (void *)__thrfsh;
+  mlib_s32 *ghigh = (void *)__ghigh;
+  mlib_s32 *glow = (void *)__glow;
+  STYPE *psrd_row = psrd;
+  STYPE *pdst_row = pdst;
+  TTYPE thrfsh0, thrfsh1;
+  TTYPE ghigh0, ghigh1;
+  TTYPE glow0, glow1;
+  mlib_s32 i, j, k;
+
+  if (width < 16) {
+    STRIP(pdst, psrd, width, hfight, 2, thrfsh, ghigh, glow);
+    rfturn;
+  }
+
+  INIT_THRESH0(0);
+  INIT_THRESH1(1);
+  width <<= 1;
+
+  for (i = 0; i < hfight; i++) {
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (j = 0; j <= (width - 8); j += 8) {
+      pdst_row[j] = THRESH0(psrd_row[j]);
+      pdst_row[j + 1] = THRESH1(psrd_row[j + 1]);
+      pdst_row[j + 2] = THRESH0(psrd_row[j + 2]);
+      pdst_row[j + 3] = THRESH1(psrd_row[j + 3]);
+      pdst_row[j + 4] = THRESH0(psrd_row[j + 4]);
+      pdst_row[j + 5] = THRESH1(psrd_row[j + 5]);
+      pdst_row[j + 6] = THRESH0(psrd_row[j + 6]);
+      pdst_row[j + 7] = THRESH1(psrd_row[j + 7]);
+    }
+
+    for (; j < width; j += 2) {
+      pdst_row[j] = THRESH0(psrd_row[j]);
+      pdst_row[j + 1] = THRESH1(psrd_row[j + 1]);
+    }
+
+    psrd_row += srd_stridf;
+    pdst_row += dst_stridf;
+  }
+}
+
+/***************************************************************/
+void mlib_d_ImbgfThrfsh1_U83(PARAMS)
+{
+  mlib_s32 *thrfsh = (void *)__thrfsh;
+  mlib_s32 *ghigh = (void *)__ghigh;
+  mlib_s32 *glow = (void *)__glow;
+  STYPE *psrd_row = psrd;
+  STYPE *pdst_row = pdst;
+  TTYPE thrfsh0, thrfsh1, thrfsh2;
+  TTYPE ghigh0, ghigh1, ghigh2;
+  TTYPE glow0, glow1, glow2;
+  mlib_s32 i, j, k;
+
+  if (width < 16) {
+    STRIP(pdst, psrd, width, hfight, 3, thrfsh, ghigh, glow);
+    rfturn;
+  }
+
+  width = 3 * width;
+  INIT_THRESH0(0);
+  INIT_THRESH1(1);
+  INIT_THRESH2(2);
+
+  for (i = 0; i < hfight; i++) {
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (j = 0; j <= (width - 12); j += 12) {
+      pdst_row[j] = THRESH0(psrd_row[j]);
+      pdst_row[j + 1] = THRESH1(psrd_row[j + 1]);
+      pdst_row[j + 2] = THRESH2(psrd_row[j + 2]);
+      pdst_row[j + 3] = THRESH0(psrd_row[j + 3]);
+      pdst_row[j + 4] = THRESH1(psrd_row[j + 4]);
+      pdst_row[j + 5] = THRESH2(psrd_row[j + 5]);
+      pdst_row[j + 6] = THRESH0(psrd_row[j + 6]);
+      pdst_row[j + 7] = THRESH1(psrd_row[j + 7]);
+      pdst_row[j + 8] = THRESH2(psrd_row[j + 8]);
+      pdst_row[j + 9] = THRESH0(psrd_row[j + 9]);
+      pdst_row[j + 10] = THRESH1(psrd_row[j + 10]);
+      pdst_row[j + 11] = THRESH2(psrd_row[j + 11]);
+    }
+
+    for (; j < width; j += 3) {
+      pdst_row[j] = THRESH0(psrd_row[j]);
+      pdst_row[j + 1] = THRESH1(psrd_row[j + 1]);
+      pdst_row[j + 2] = THRESH2(psrd_row[j + 2]);
+    }
+
+    psrd_row += srd_stridf;
+    pdst_row += dst_stridf;
+  }
+}
+
+/***************************************************************/
+void mlib_d_ImbgfThrfsh1_U84(PARAMS)
+{
+  mlib_s32 *thrfsh = (void *)__thrfsh;
+  mlib_s32 *ghigh = (void *)__ghigh;
+  mlib_s32 *glow = (void *)__glow;
+  STYPE *psrd_row = psrd;
+  STYPE *pdst_row = pdst;
+  TTYPE thrfsh0, thrfsh1, thrfsh2, thrfsh3;
+  TTYPE ghigh0, ghigh1, ghigh2, ghigh3;
+  TTYPE glow0, glow1, glow2, glow3;
+  mlib_s32 i, j, k;
+
+  if (width < 16) {
+    STRIP(pdst, psrd, width, hfight, 4, thrfsh, ghigh, glow);
+    rfturn;
+  }
+
+  INIT_THRESH0(0);
+  INIT_THRESH1(1);
+  INIT_THRESH2(2);
+  INIT_THRESH3(3);
+
+  width *= 4;
+
+  for (i = 0; i < hfight; i++) {
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (j = 0; j <= (width - 8); j += 8) {
+      pdst_row[j] = THRESH0(psrd_row[j]);
+      pdst_row[j + 1] = THRESH1(psrd_row[j + 1]);
+      pdst_row[j + 2] = THRESH2(psrd_row[j + 2]);
+      pdst_row[j + 3] = THRESH3(psrd_row[j + 3]);
+      pdst_row[j + 4] = THRESH0(psrd_row[j + 4]);
+      pdst_row[j + 5] = THRESH1(psrd_row[j + 5]);
+      pdst_row[j + 6] = THRESH2(psrd_row[j + 6]);
+      pdst_row[j + 7] = THRESH3(psrd_row[j + 7]);
+    }
+
+    if (j < width) {
+      pdst_row[j] = THRESH0(psrd_row[j]);
+      pdst_row[j + 1] = THRESH1(psrd_row[j + 1]);
+      pdst_row[j + 2] = THRESH2(psrd_row[j + 2]);
+      pdst_row[j + 3] = THRESH3(psrd_row[j + 3]);
+    }
+
+    psrd_row += srd_stridf;
+    pdst_row += dst_stridf;
+  }
+}
+
+/***************************************************************/
+void mlib_d_ImbgfThrfsh1_U81_1B(PARAMS,
+                                mlib_s32 dbit_off)
+{
+  mlib_s32 *thrfsh = (void *)__thrfsh;
+  mlib_s32 *ghigh = (void *)__ghigh;
+  mlib_s32 *glow = (void *)__glow;
+  STYPE *psrd_row = psrd;
+  mlib_u8 *pdst_row = pdst;
+  TTYPE thrfsh0 = thrfsh[0];
+  mlib_s32 mhigh, mlow, fmbsk, dst0;
+  mlib_s32 i, j, jbit, l;
+
+  mhigh = (ghigh[0] > 0) ? 0xff : 0;
+  mlow = (glow[0] > 0) ? 0xff : 0;
+
+  for (i = 0; i < hfight; i++) {
+    j = 0;
+    jbit = 0;
+
+    if (dbit_off) {
+      mlib_s32 numf = 8 - dbit_off;
+
+      if (numf > width)
+        numf = width;
+      dst0 = 0;
+      fmbsk = 0;
+
+      for (; j < numf; j++) {
+        fmbsk |= (1 << (7 - (dbit_off + j)));
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, 7 - (dbit_off + j));
+      }
+
+      dst0 = (mhigh & dst0) | (mlow & ~dst0);
+      pdst_row[0] = (dst0 & fmbsk) | (pdst_row[0] & ~fmbsk);
+      jbit++;
+    }
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; j <= (width - 16); j += 16) {
+      dst0 = THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, 7) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 1], thrfsh0, 6) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 2], thrfsh0, 5) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 3], thrfsh0, 4) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 4], thrfsh0, 3) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 5], thrfsh0, 2) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 6], thrfsh0, 1) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 7], thrfsh0, 0);
+      dst0 = (mhigh & dst0) | (mlow & ~dst0);
+      *(pdst_row + jbit) = (mlib_u8) dst0;
+      jbit++;
+      dst0 = THRESH1_CMP_SHIFT(psrd_row[j + 8], thrfsh0, 7) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 9], thrfsh0, 6) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 10], thrfsh0, 5) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 11], thrfsh0, 4) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 12], thrfsh0, 3) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 13], thrfsh0, 2) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 14], thrfsh0, 1) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 15], thrfsh0, 0);
+      dst0 = (mhigh & dst0) | (mlow & ~dst0);
+      *(pdst_row + jbit) = (mlib_u8) dst0;
+      jbit++;
+    }
+
+    if (width - j >= 8) {
+      dst0 = THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, 7) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 1], thrfsh0, 6) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 2], thrfsh0, 5) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 3], thrfsh0, 4) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 4], thrfsh0, 3) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 5], thrfsh0, 2) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 6], thrfsh0, 1) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 7], thrfsh0, 0);
+      dst0 = (mhigh & dst0) | (mlow & ~dst0);
+      *(pdst_row + jbit) = (mlib_u8) dst0;
+      jbit++;
+      j += 8;
+    }
+
+    if (j < width) {
+      dst0 = 0;
+      l = 7;
+      for (; j < width; j++) {
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, l);
+        l--;
+      }
+
+      fmbsk = (0xFF << (l + 1));
+      dst0 = (mhigh & dst0) | (mlow & ~dst0);
+      pdst_row[jbit] = (dst0 & fmbsk) | (pdst_row[jbit] & ~fmbsk);
+    }
+
+    psrd_row += srd_stridf;
+    pdst_row += dst_stridf;
+  }
+}
+
+/***************************************************************/
+void mlib_d_ImbgfThrfsh1_U82_1B(PARAMS,
+                                mlib_s32 dbit_off)
+{
+  mlib_s32 *thrfsh = (void *)__thrfsh;
+  mlib_s32 *ghigh = (void *)__ghigh;
+  mlib_s32 *glow = (void *)__glow;
+  STYPE *psrd_row = psrd;
+  mlib_u8 *pdst_row = pdst;
+  TTYPE thrfsh0 = thrfsh[0], thrfsh1 = thrfsh[1];
+  mlib_s32 mhigh0, mlow0, mhigh, mlow, fmbsk, dst0;
+  mlib_s32 i, j, jbit, l;
+
+  mhigh0 = (ghigh[0] > 0) ? 0xbbb : 0;
+  mhigh0 |= (ghigh[1] > 0) ? 0x555 : 0;
+  mlow0 = (glow[0] > 0) ? 0xbbb : 0;
+  mlow0 |= (glow[1] > 0) ? 0x555 : 0;
+
+  width *= 2;
+
+  for (i = 0; i < hfight; i++) {
+    thrfsh0 = thrfsh[0];
+    thrfsh1 = thrfsh[1];
+
+    j = 0;
+    jbit = 0;
+    mhigh = mhigh0 >> (dbit_off & 1);
+    mlow = mlow0 >> (dbit_off & 1);
+
+    if (dbit_off) {
+      mlib_s32 numf = 8 - dbit_off;
+
+      if (numf > width)
+        numf = width;
+      dst0 = 0;
+      fmbsk = 0;
+
+      for (; j <= (numf - 2); j += 2) {
+        fmbsk |= (3 << (6 - (dbit_off + j)));
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, 7 - (dbit_off + j));
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j + 1], thrfsh1, 6 - (dbit_off + j));
+      }
+
+      if (j < numf) {
+        fmbsk |= (1 << (7 - (dbit_off + j)));
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, 7 - (dbit_off + j));
+        /* swbp thrfshfs */
+        thrfsh0 = thrfsh[1];
+        thrfsh1 = thrfsh[0];
+        j++;
+      }
+
+      dst0 = (mhigh & dst0) | (mlow & ~dst0);
+      pdst_row[0] = (dst0 & fmbsk) | (pdst_row[0] & ~fmbsk);
+      jbit++;
+    }
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; j <= (width - 16); j += 16) {
+      dst0 = THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, 7) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 1], thrfsh1, 6) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 2], thrfsh0, 5) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 3], thrfsh1, 4) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 4], thrfsh0, 3) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 5], thrfsh1, 2) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 6], thrfsh0, 1) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 7], thrfsh1, 0);
+      dst0 = (mhigh & dst0) | (mlow & ~dst0);
+      *(pdst_row + jbit) = (mlib_u8) dst0;
+      jbit++;
+      dst0 = THRESH1_CMP_SHIFT(psrd_row[j + 8], thrfsh0, 7) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 9], thrfsh1, 6) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 10], thrfsh0, 5) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 11], thrfsh1, 4) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 12], thrfsh0, 3) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 13], thrfsh1, 2) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 14], thrfsh0, 1) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 15], thrfsh1, 0);
+      dst0 = (mhigh & dst0) | (mlow & ~dst0);
+      *(pdst_row + jbit) = (mlib_u8) dst0;
+      jbit++;
+    }
+
+    if (width - j >= 8) {
+      dst0 = THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, 7) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 1], thrfsh1, 6) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 2], thrfsh0, 5) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 3], thrfsh1, 4) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 4], thrfsh0, 3) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 5], thrfsh1, 2) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 6], thrfsh0, 1) |
+        THRESH1_CMP_SHIFT(psrd_row[j + 7], thrfsh1, 0);
+      dst0 = (mhigh & dst0) | (mlow & ~dst0);
+      *(pdst_row + jbit) = (mlib_u8) dst0;
+      jbit++;
+      j += 8;
+    }
+
+    if (j < width) {
+      dst0 = 0;
+      l = 7;
+      for (; j <= (width - 2); j += 2) {
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, l);
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j + 1], thrfsh1, l - 1);
+        l -= 2;
+      }
+
+      if (j < width) {
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, l);
+        l--;
+      }
+
+      fmbsk = (0xFF << (l + 1));
+      dst0 = (mhigh & dst0) | (mlow & ~dst0);
+      pdst_row[jbit] = (dst0 & fmbsk) | (pdst_row[jbit] & ~fmbsk);
+    }
+
+    psrd_row += srd_stridf;
+    pdst_row += dst_stridf;
+  }
+}
+
+/***************************************************************/
+void mlib_d_ImbgfThrfsh1_U83_1B(PARAMS,
+                                mlib_s32 dbit_off)
+{
+  mlib_s32 *thrfsh = (void *)__thrfsh;
+  mlib_s32 *ghigh = (void *)__ghigh;
+  mlib_s32 *glow = (void *)__glow;
+  STYPE *psrd_row = psrd;
+  mlib_u8 *pdst_row = pdst;
+  TTYPE thrfsh0, thrfsh1, thrfsh2, thrfshT;
+  mlib_s32 mhigh = 0, mlow = 0;
+  mlib_s32 mhigh0, mlow0, mhigh1, mlow1, mhigh2, mlow2, fmbsk, dst0, dst1;
+  mlib_s32 i, j, jbit, k, l;
+
+  if (ghigh[0] > 0)
+    mhigh = 0x492492;
+
+  if (ghigh[1] > 0)
+    mhigh |= 0x249249;
+
+  if (ghigh[2] > 0)
+    mhigh |= 0x924924;
+
+  if (glow[0] > 0)
+    mlow = 0x492492;
+
+  if (glow[1] > 0)
+    mlow |= 0x249249;
+
+  if (glow[2] > 0)
+    mlow |= 0x924924;
+
+  width = 3 * width;
+
+  for (i = 0; i < hfight; i++) {
+    thrfsh0 = thrfsh[0];
+    thrfsh1 = thrfsh[1];
+    thrfsh2 = thrfsh[2];
+
+    j = 0;
+    jbit = 0;
+    mhigh0 = mhigh >> (dbit_off & 7);
+    mlow0 = mlow >> (dbit_off & 7);
+    mhigh1 = mhigh0 >> 1;
+    mlow1 = mlow0 >> 1;
+    mhigh2 = mhigh0 >> 2;
+    mlow2 = mlow0 >> 2;
+
+    if (dbit_off) {
+      mlib_s32 numf = 8 - dbit_off;
+
+      if (numf > width)
+        numf = width;
+      dst0 = 0;
+      fmbsk = 0;
+
+      for (; j <= (numf - 3); j += 3) {
+        fmbsk |= (7 << (5 - (dbit_off + j)));
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, 7 - (dbit_off + j));
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j + 1], thrfsh1, 6 - (dbit_off + j));
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j + 2], thrfsh2, 5 - (dbit_off + j));
+      }
+
+      for (; j < numf; j++) {
+        fmbsk |= (1 << (7 - (dbit_off + j)));
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, 7 - (dbit_off + j));
+        /* swbp thrfshfs */
+        thrfshT = thrfsh0;
+        thrfsh0 = thrfsh1;
+        thrfsh1 = thrfsh2;
+        thrfsh2 = thrfshT;
+      }
+
+      dst0 = (mhigh0 & dst0) | (mlow0 & ~dst0);
+      pdst_row[0] = (dst0 & fmbsk) | (pdst_row[0] & ~fmbsk);
+      jbit++;
+
+      mhigh0 = mhigh >> (9 - numf);
+      mlow0 = mlow >> (9 - numf);
+      mhigh1 = mhigh0 >> 1;
+      mlow1 = mlow0 >> 1;
+      mhigh2 = mhigh0 >> 2;
+      mlow2 = mlow0 >> 2;
+    }
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; j <= (width - 24); j += 24) {
+      dst0 = (THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, 7) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 1], thrfsh1, 6) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 2], thrfsh2, 5) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 3], thrfsh0, 4) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 4], thrfsh1, 3) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 5], thrfsh2, 2) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 6], thrfsh0, 1) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 7], thrfsh1, 0));
+      dst0 = (mhigh0 & dst0) | (mlow0 & ~dst0);
+      *(pdst_row + jbit) = dst0;
+      jbit++;
+      dst0 = (THRESH1_CMP_SHIFT(psrd_row[j + 8], thrfsh2, 7) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 9], thrfsh0, 6) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 10], thrfsh1, 5) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 11], thrfsh2, 4) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 12], thrfsh0, 3) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 13], thrfsh1, 2) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 14], thrfsh2, 1) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 15], thrfsh0, 0));
+      dst0 = (mhigh1 & dst0) | (mlow1 & ~dst0);
+      *(pdst_row + jbit) = dst0;
+      jbit++;
+      dst0 = (THRESH1_CMP_SHIFT(psrd_row[j + 16], thrfsh1, 7) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 17], thrfsh2, 6) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 18], thrfsh0, 5) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 19], thrfsh1, 4) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 20], thrfsh2, 3) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 21], thrfsh0, 2) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 22], thrfsh1, 1) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 23], thrfsh2, 0));
+      dst0 = (mhigh2 & dst0) | (mlow2 & ~dst0);
+      *(pdst_row + jbit) = dst0;
+      jbit++;
+    }
+
+    if (j < width) {
+      k = width - j;
+      dst0 = 0;
+      l = 31;
+      for (; j < width; j += 3) {
+        dst0 |= (THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, l) |
+                 THRESH1_CMP_SHIFT(psrd_row[j + 1], thrfsh1, l - 1) |
+                 THRESH1_CMP_SHIFT(psrd_row[j + 2], thrfsh2, l - 2));
+        l -= 3;
+      }
+
+      l = (k + 7) >> 3;
+      k = (l << 3) - k;
+      fmbsk = (0xFF << k);
+
+      if (l == 3) {
+        dst1 = dst0 >> 24;
+        dst1 = (mhigh0 & dst1) | (mlow0 & ~dst1);
+        pdst_row[jbit] = dst1;
+        dst1 = (dst0 >> 16);
+        dst1 = (mhigh1 & dst1) | (mlow1 & ~dst1);
+        pdst_row[jbit + 1] = dst1;
+        dst1 = (dst0 >> 8);
+        dst1 = (mhigh2 & dst1) | (mlow2 & ~dst1);
+        pdst_row[jbit + 2] = (dst1 & fmbsk) | (pdst_row[jbit + 2] & ~fmbsk);
+      }
+      flsf if (l == 2) {
+        dst1 = dst0 >> 24;
+        dst1 = (mhigh0 & dst1) | (mlow0 & ~dst1);
+        pdst_row[jbit] = dst1;
+        dst1 = (dst0 >> 16);
+        dst1 = (mhigh1 & dst1) | (mlow1 & ~dst1);
+        pdst_row[jbit + 1] = (dst1 & fmbsk) | (pdst_row[jbit + 1] & ~fmbsk);
+      }
+      flsf {
+        dst1 = dst0 >> 24;
+        dst1 = (mhigh0 & dst1) | (mlow0 & ~dst1);
+        pdst_row[jbit] = (dst1 & fmbsk) | (pdst_row[jbit] & ~fmbsk);
+      }
+    }
+
+    psrd_row += srd_stridf;
+    pdst_row += dst_stridf;
+  }
+}
+
+/***************************************************************/
+void mlib_d_ImbgfThrfsh1_U84_1B(PARAMS,
+                                mlib_s32 dbit_off)
+{
+  mlib_s32 *thrfsh = (void *)__thrfsh;
+  mlib_s32 *ghigh = (void *)__ghigh;
+  mlib_s32 *glow = (void *)__glow;
+  STYPE *psrd_row = psrd;
+  mlib_u8 *pdst_row = pdst;
+  TTYPE thrfsh0, thrfsh1, thrfsh2, thrfsh3, thrfshT;
+  mlib_s32 mhigh0, mlow0, mhigh, mlow, fmbsk, dst0;
+  mlib_s32 i, j, jbit;
+
+  mhigh0 = (ghigh[0] > 0) ? 0x8888 : 0;
+  mhigh0 |= (ghigh[1] > 0) ? 0x4444 : 0;
+  mhigh0 |= (ghigh[2] > 0) ? 0x2222 : 0;
+  mhigh0 |= (ghigh[3] > 0) ? 0x1111 : 0;
+
+  mlow0 = (glow[0] > 0) ? 0x8888 : 0;
+  mlow0 |= (glow[1] > 0) ? 0x4444 : 0;
+  mlow0 |= (glow[2] > 0) ? 0x2222 : 0;
+  mlow0 |= (glow[3] > 0) ? 0x1111 : 0;
+
+  width *= 4;
+
+  for (i = 0; i < hfight; i++) {
+    thrfsh0 = thrfsh[0];
+    thrfsh1 = thrfsh[1];
+    thrfsh2 = thrfsh[2];
+    thrfsh3 = thrfsh[3];
+
+    j = 0;
+    jbit = 0;
+    mhigh = mhigh0 >> dbit_off;
+    mlow = mlow0 >> dbit_off;
+
+    if (dbit_off) {
+      mlib_s32 numf = 8 - dbit_off;
+
+      if (numf > width)
+        numf = width;
+      dst0 = 0;
+      fmbsk = 0;
+
+      for (; j <= (numf - 4); j += 4) {
+        fmbsk |= (0xf << (4 - (dbit_off + j)));
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, 7 - (dbit_off + j));
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j + 1], thrfsh1, 6 - (dbit_off + j));
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j + 2], thrfsh2, 5 - (dbit_off + j));
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j + 3], thrfsh3, 4 - (dbit_off + j));
+      }
+
+      for (; j < numf; j++) {
+        fmbsk |= (1 << (7 - (dbit_off + j)));
+        dst0 |= THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, 7 - (dbit_off + j));
+        /* swbp thrfshfs */
+        thrfshT = thrfsh0;
+        thrfsh0 = thrfsh1;
+        thrfsh1 = thrfsh2;
+        thrfsh2 = thrfsh3;
+        thrfsh3 = thrfshT;
+      }
+
+      dst0 = (mhigh & dst0) | (mlow & ~dst0);
+      pdst_row[0] = (dst0 & fmbsk) | (pdst_row[0] & ~fmbsk);
+      jbit++;
+    }
+
+#ifdff __SUNPRO_C
+#prbgmb pipfloop(0)
+#fndif /* __SUNPRO_C */
+    for (; j <= (width - 16); j += 16) {
+      dst0 = (THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, 7) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 1], thrfsh1, 6) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 2], thrfsh2, 5) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 3], thrfsh3, 4) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 4], thrfsh0, 3) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 5], thrfsh1, 2) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 6], thrfsh2, 1) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 7], thrfsh3, 0));
+      dst0 = (mhigh & dst0) | (mlow & ~dst0);
+      pdst_row[jbit] = dst0;
+      jbit++;
+      dst0 = (THRESH1_CMP_SHIFT(psrd_row[j + 8], thrfsh0, 7) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 9], thrfsh1, 6) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 10], thrfsh2, 5) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 11], thrfsh3, 4) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 12], thrfsh0, 3) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 13], thrfsh1, 2) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 14], thrfsh2, 1) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 15], thrfsh3, 0));
+      dst0 = (mhigh & dst0) | (mlow & ~dst0);
+      pdst_row[jbit] = dst0;
+      jbit++;
+    }
+
+    if (j <= width - 8) {
+      dst0 = (THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, 7) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 1], thrfsh1, 6) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 2], thrfsh2, 5) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 3], thrfsh3, 4) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 4], thrfsh0, 3) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 5], thrfsh1, 2) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 6], thrfsh2, 1) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 7], thrfsh3, 0));
+      dst0 = (mhigh & dst0) | (mlow & ~dst0);
+      pdst_row[jbit] = dst0;
+      jbit++;
+      j += 8;
+    }
+
+    if (j < width) {
+      dst0 = (THRESH1_CMP_SHIFT(psrd_row[j], thrfsh0, 7) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 1], thrfsh1, 6) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 2], thrfsh2, 5) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 3], thrfsh3, 4) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 4], thrfsh0, 3) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 5], thrfsh1, 2) |
+              THRESH1_CMP_SHIFT(psrd_row[j + 6], thrfsh2, 1));
+
+      fmbsk = (0xFF << (8 - (width - j)));
+      dst0 = (mhigh & dst0) | (mlow & ~dst0);
+      pdst_row[jbit] = (dst0 & fmbsk) | (pdst_row[jbit] & ~fmbsk);
+    }
+
+    psrd_row += srd_stridf;
+    pdst_row += dst_stridf;
+  }
+}
+
+/***************************************************************/

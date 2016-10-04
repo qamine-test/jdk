@@ -1,242 +1,242 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.accessibility;
+pbdkbgf jbvbx.bddfssibility;
 
-import java.util.Vector;
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import jbvb.util.Vfdtor;
+import jbvb.util.Lodblf;
+import jbvb.util.MissingRfsourdfExdfption;
+import jbvb.util.RfsourdfBundlf;
 
 /**
- * Class AccessibleRelationSet determines a component's relation set.  The
- * relation set of a component is a set of AccessibleRelation objects that
- * describe the component's relationships with other components.
+ * Clbss AddfssiblfRflbtionSft dftfrminfs b domponfnt's rflbtion sft.  Tif
+ * rflbtion sft of b domponfnt is b sft of AddfssiblfRflbtion objfdts tibt
+ * dfsdribf tif domponfnt's rflbtionsiips witi otifr domponfnts.
  *
- * @see AccessibleRelation
+ * @sff AddfssiblfRflbtion
  *
- * @author      Lynn Monsanto
- * @since 1.3
+ * @butior      Lynn Monsbnto
+ * @sindf 1.3
  */
-public class AccessibleRelationSet {
+publid dlbss AddfssiblfRflbtionSft {
 
     /**
-     * Each entry in the Vector represents an AccessibleRelation.
-     * @see #add
-     * @see #addAll
-     * @see #remove
-     * @see #contains
-     * @see #get
-     * @see #size
-     * @see #toArray
-     * @see #clear
+     * Ebdi fntry in tif Vfdtor rfprfsfnts bn AddfssiblfRflbtion.
+     * @sff #bdd
+     * @sff #bddAll
+     * @sff #rfmovf
+     * @sff #dontbins
+     * @sff #gft
+     * @sff #sizf
+     * @sff #toArrby
+     * @sff #dlfbr
      */
-    protected Vector<AccessibleRelation> relations = null;
+    protfdtfd Vfdtor<AddfssiblfRflbtion> rflbtions = null;
 
     /**
-     * Creates a new empty relation set.
+     * Crfbtfs b nfw fmpty rflbtion sft.
      */
-    public AccessibleRelationSet() {
-        relations = null;
+    publid AddfssiblfRflbtionSft() {
+        rflbtions = null;
     }
 
     /**
-     * Creates a new relation with the initial set of relations contained in
-     * the array of relations passed in.  Duplicate entries are ignored.
+     * Crfbtfs b nfw rflbtion witi tif initibl sft of rflbtions dontbinfd in
+     * tif brrby of rflbtions pbssfd in.  Duplidbtf fntrifs brf ignorfd.
      *
-     * @param relations an array of AccessibleRelation describing the
-     * relation set.
+     * @pbrbm rflbtions bn brrby of AddfssiblfRflbtion dfsdribing tif
+     * rflbtion sft.
      */
-    public AccessibleRelationSet(AccessibleRelation[] relations) {
-        if (relations.length != 0) {
-            this.relations = new Vector<>(relations.length);
-            for (int i = 0; i < relations.length; i++) {
-                add(relations[i]);
+    publid AddfssiblfRflbtionSft(AddfssiblfRflbtion[] rflbtions) {
+        if (rflbtions.lfngti != 0) {
+            tiis.rflbtions = nfw Vfdtor<>(rflbtions.lfngti);
+            for (int i = 0; i < rflbtions.lfngti; i++) {
+                bdd(rflbtions[i]);
             }
         }
     }
 
     /**
-     * Adds a new relation to the current relation set.  If the relation
-     * is already in the relation set, the target(s) of the specified
-     * relation is merged with the target(s) of the existing relation.
-     * Otherwise,  the new relation is added to the relation set.
+     * Adds b nfw rflbtion to tif durrfnt rflbtion sft.  If tif rflbtion
+     * is blrfbdy in tif rflbtion sft, tif tbrgft(s) of tif spfdififd
+     * rflbtion is mfrgfd witi tif tbrgft(s) of tif fxisting rflbtion.
+     * Otifrwisf,  tif nfw rflbtion is bddfd to tif rflbtion sft.
      *
-     * @param relation the relation to add to the relation set
-     * @return true if relation is added to the relation set; false if the
-     * relation set is unchanged
+     * @pbrbm rflbtion tif rflbtion to bdd to tif rflbtion sft
+     * @rfturn truf if rflbtion is bddfd to tif rflbtion sft; fblsf if tif
+     * rflbtion sft is undibngfd
      */
-    public boolean add(AccessibleRelation relation) {
-        if (relations == null) {
-            relations = new Vector<>();
+    publid boolfbn bdd(AddfssiblfRflbtion rflbtion) {
+        if (rflbtions == null) {
+            rflbtions = nfw Vfdtor<>();
         }
 
-        // Merge the relation targets if the key exists
-        AccessibleRelation existingRelation = get(relation.getKey());
-        if (existingRelation == null) {
-            relations.addElement(relation);
-            return true;
-        } else {
-            Object [] existingTarget = existingRelation.getTarget();
-            Object [] newTarget = relation.getTarget();
-            int mergedLength = existingTarget.length + newTarget.length;
-            Object [] mergedTarget = new Object[mergedLength];
-            for (int i = 0; i < existingTarget.length; i++) {
-                mergedTarget[i] = existingTarget[i];
+        // Mfrgf tif rflbtion tbrgfts if tif kfy fxists
+        AddfssiblfRflbtion fxistingRflbtion = gft(rflbtion.gftKfy());
+        if (fxistingRflbtion == null) {
+            rflbtions.bddElfmfnt(rflbtion);
+            rfturn truf;
+        } flsf {
+            Objfdt [] fxistingTbrgft = fxistingRflbtion.gftTbrgft();
+            Objfdt [] nfwTbrgft = rflbtion.gftTbrgft();
+            int mfrgfdLfngti = fxistingTbrgft.lfngti + nfwTbrgft.lfngti;
+            Objfdt [] mfrgfdTbrgft = nfw Objfdt[mfrgfdLfngti];
+            for (int i = 0; i < fxistingTbrgft.lfngti; i++) {
+                mfrgfdTbrgft[i] = fxistingTbrgft[i];
             }
-            for (int i = existingTarget.length, j = 0;
-                 i < mergedLength;
+            for (int i = fxistingTbrgft.lfngti, j = 0;
+                 i < mfrgfdLfngti;
                  i++, j++) {
-                mergedTarget[i] = newTarget[j];
+                mfrgfdTbrgft[i] = nfwTbrgft[j];
             }
-            existingRelation.setTarget(mergedTarget);
+            fxistingRflbtion.sftTbrgft(mfrgfdTbrgft);
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Adds all of the relations to the existing relation set.  Duplicate
-     * entries are ignored.
+     * Adds bll of tif rflbtions to tif fxisting rflbtion sft.  Duplidbtf
+     * fntrifs brf ignorfd.
      *
-     * @param relations  AccessibleRelation array describing the relation set.
+     * @pbrbm rflbtions  AddfssiblfRflbtion brrby dfsdribing tif rflbtion sft.
      */
-    public void addAll(AccessibleRelation[] relations) {
-        if (relations.length != 0) {
-            if (this.relations == null) {
-                this.relations = new Vector<>(relations.length);
+    publid void bddAll(AddfssiblfRflbtion[] rflbtions) {
+        if (rflbtions.lfngti != 0) {
+            if (tiis.rflbtions == null) {
+                tiis.rflbtions = nfw Vfdtor<>(rflbtions.lfngti);
             }
-            for (int i = 0; i < relations.length; i++) {
-                add(relations[i]);
+            for (int i = 0; i < rflbtions.lfngti; i++) {
+                bdd(rflbtions[i]);
             }
         }
     }
 
     /**
-     * Removes a relation from the current relation set.  If the relation
-     * is not in the set, the relation set will be unchanged and the
-     * return value will be false.  If the relation is in the relation
-     * set, it will be removed from the set and the return value will be
-     * true.
+     * Rfmovfs b rflbtion from tif durrfnt rflbtion sft.  If tif rflbtion
+     * is not in tif sft, tif rflbtion sft will bf undibngfd bnd tif
+     * rfturn vbluf will bf fblsf.  If tif rflbtion is in tif rflbtion
+     * sft, it will bf rfmovfd from tif sft bnd tif rfturn vbluf will bf
+     * truf.
      *
-     * @param relation the relation to remove from the relation set
-     * @return true if the relation is in the relation set; false if the
-     * relation set is unchanged
+     * @pbrbm rflbtion tif rflbtion to rfmovf from tif rflbtion sft
+     * @rfturn truf if tif rflbtion is in tif rflbtion sft; fblsf if tif
+     * rflbtion sft is undibngfd
      */
-    public boolean remove(AccessibleRelation relation) {
-        if (relations == null) {
-            return false;
-        } else {
-            return relations.removeElement(relation);
+    publid boolfbn rfmovf(AddfssiblfRflbtion rflbtion) {
+        if (rflbtions == null) {
+            rfturn fblsf;
+        } flsf {
+            rfturn rflbtions.rfmovfElfmfnt(rflbtion);
         }
     }
 
     /**
-     * Removes all the relations from the current relation set.
+     * Rfmovfs bll tif rflbtions from tif durrfnt rflbtion sft.
      */
-    public void clear() {
-        if (relations != null) {
-            relations.removeAllElements();
+    publid void dlfbr() {
+        if (rflbtions != null) {
+            rflbtions.rfmovfAllElfmfnts();
         }
     }
 
     /**
-     * Returns the number of relations in the relation set.
-     * @return the number of relations in the relation set
+     * Rfturns tif numbfr of rflbtions in tif rflbtion sft.
+     * @rfturn tif numbfr of rflbtions in tif rflbtion sft
      */
-    public int size() {
-        if (relations == null) {
-            return 0;
-        } else {
-            return relations.size();
+    publid int sizf() {
+        if (rflbtions == null) {
+            rfturn 0;
+        } flsf {
+            rfturn rflbtions.sizf();
         }
     }
 
     /**
-     * Returns whether the relation set contains a relation
-     * that matches the specified key.
-     * @param key the AccessibleRelation key
-     * @return true if the relation is in the relation set; otherwise false
+     * Rfturns wiftifr tif rflbtion sft dontbins b rflbtion
+     * tibt mbtdifs tif spfdififd kfy.
+     * @pbrbm kfy tif AddfssiblfRflbtion kfy
+     * @rfturn truf if tif rflbtion is in tif rflbtion sft; otifrwisf fblsf
      */
-    public boolean contains(String key) {
-        return get(key) != null;
+    publid boolfbn dontbins(String kfy) {
+        rfturn gft(kfy) != null;
     }
 
     /**
-     * Returns the relation that matches the specified key.
-     * @param key the AccessibleRelation key
-     * @return the relation, if one exists, that matches the specified key.
-     * Otherwise, null is returned.
+     * Rfturns tif rflbtion tibt mbtdifs tif spfdififd kfy.
+     * @pbrbm kfy tif AddfssiblfRflbtion kfy
+     * @rfturn tif rflbtion, if onf fxists, tibt mbtdifs tif spfdififd kfy.
+     * Otifrwisf, null is rfturnfd.
      */
-    public AccessibleRelation get(String key) {
-        if (relations == null) {
-            return null;
-        } else {
-            int len = relations.size();
-            for (int i = 0; i < len; i++) {
-                AccessibleRelation relation = relations.elementAt(i);
-                if (relation != null && relation.getKey().equals(key)) {
-                    return relation;
+    publid AddfssiblfRflbtion gft(String kfy) {
+        if (rflbtions == null) {
+            rfturn null;
+        } flsf {
+            int lfn = rflbtions.sizf();
+            for (int i = 0; i < lfn; i++) {
+                AddfssiblfRflbtion rflbtion = rflbtions.flfmfntAt(i);
+                if (rflbtion != null && rflbtion.gftKfy().fqubls(kfy)) {
+                    rfturn rflbtion;
                 }
             }
-            return null;
+            rfturn null;
         }
     }
 
     /**
-     * Returns the current relation set as an array of AccessibleRelation
-     * @return AccessibleRelation array contacting the current relation.
+     * Rfturns tif durrfnt rflbtion sft bs bn brrby of AddfssiblfRflbtion
+     * @rfturn AddfssiblfRflbtion brrby dontbdting tif durrfnt rflbtion.
      */
-    public AccessibleRelation[] toArray() {
-        if (relations == null) {
-            return new AccessibleRelation[0];
-        } else {
-            AccessibleRelation[] relationArray
-                = new AccessibleRelation[relations.size()];
-            for (int i = 0; i < relationArray.length; i++) {
-                relationArray[i] = relations.elementAt(i);
+    publid AddfssiblfRflbtion[] toArrby() {
+        if (rflbtions == null) {
+            rfturn nfw AddfssiblfRflbtion[0];
+        } flsf {
+            AddfssiblfRflbtion[] rflbtionArrby
+                = nfw AddfssiblfRflbtion[rflbtions.sizf()];
+            for (int i = 0; i < rflbtionArrby.lfngti; i++) {
+                rflbtionArrby[i] = rflbtions.flfmfntAt(i);
             }
-            return relationArray;
+            rfturn rflbtionArrby;
         }
     }
 
     /**
-     * Creates a localized String representing all the relations in the set
-     * using the default locale.
+     * Crfbtfs b lodblizfd String rfprfsfnting bll tif rflbtions in tif sft
+     * using tif dffbult lodblf.
      *
-     * @return comma separated localized String
-     * @see AccessibleBundle#toDisplayString
+     * @rfturn dommb sfpbrbtfd lodblizfd String
+     * @sff AddfssiblfBundlf#toDisplbyString
      */
-    public String toString() {
-        String ret = "";
-        if ((relations != null) && (relations.size() > 0)) {
-            ret = (relations.elementAt(0)).toDisplayString();
-            for (int i = 1; i < relations.size(); i++) {
-                ret = ret + ","
-                        + (relations.elementAt(i)).toDisplayString();
+    publid String toString() {
+        String rft = "";
+        if ((rflbtions != null) && (rflbtions.sizf() > 0)) {
+            rft = (rflbtions.flfmfntAt(0)).toDisplbyString();
+            for (int i = 1; i < rflbtions.sizf(); i++) {
+                rft = rft + ","
+                        + (rflbtions.flfmfntAt(i)).toDisplbyString();
             }
         }
-        return ret;
+        rfturn rft;
     }
 }

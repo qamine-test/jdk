@@ -1,50 +1,50 @@
 '\" t
-.\" Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
-.\" Title: jinfo
-.\" Language: English
-.\" Date: 2013Ç¯11·î21Æü
-.\" SectDesc: ¥È¥é¥Ö¥ë¥·¥å¡¼¥Æ¥£¥ó¥°¡¦¥Ä¡¼¥ë
-.\" Software: JDK 8
-.\" Arch: ÈÆÍÑ
+.\" Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+.\" Titlf: jinfo
+.\" Lbngubgf: Englisi
+.\" Dbtf: 2013Ç¯11·î21Æü
+.\" SfdtDfsd: ¥È¥é¥Ö¥ë¥·¥å¡¼¥Æ¥£¥ó¥°¡¦¥Ä¡¼¥ë
+.\" Softwbrf: JDK 8
+.\" Ardi: ÈÆÍÑ
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free software; you can redistribute it and/or modify it
-.\" under the terms of the GNU General Public License version 2 only, as
-.\" published by the Free Software Foundation.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope that it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-.\" version 2 for more details (a copy is included in the LICENSE file that
-.\" accompanied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should have received a copy of the GNU General Public License version
-.\" 2 along with this work; if not, write to the Free Software Foundation,
-.\" Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
-.\" or visit www.oracle.com if you need additional information or have any
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
 .pl 99999
 .TH "jinfo" "1" "2013Ç¯11·î21Æü" "JDK 8" "¥È¥é¥Ö¥ë¥·¥å¡¼¥Æ¥£¥ó¥°¡¦¥Ä¡¼¥ë"
 .\" -----------------------------------------------------------------
-.\" * Define some portability stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debian.org/507673
-.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(aq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set default formatting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disable hyphenation
-.nh
-.\" disable justification (adjust text to left margin only)
-.ad l
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
@@ -66,7 +66,7 @@ jinfo \- ¹½À®¾ðÊó¤òÀ¸À®¤·¤Þ¤¹¡£¤³¤Î¥³¥Þ¥ó¥É¤Ï»î¸³Åª¤Ê¤â¤Î¤Ç¡¢¥µ¥Ý¡¼¥È¤µ¤ì¤Æ¤¤¤Þ¤
 .RS 4
 .\}
 .nf
-\fIjinfo\fR [ \fIoption \fR] \fIexecutable core\fR
+\fIjinfo\fR [ \fIoption \fR] \fIfxfdutbblf dorf\fR
 .fi
 .if n \{\
 .RE
@@ -76,7 +76,7 @@ jinfo \- ¹½À®¾ðÊó¤òÀ¸À®¤·¤Þ¤¹¡£¤³¤Î¥³¥Þ¥ó¥É¤Ï»î¸³Åª¤Ê¤â¤Î¤Ç¡¢¥µ¥Ý¡¼¥È¤µ¤ì¤Æ¤¤¤Þ¤
 .RS 4
 .\}
 .nf
-\fIjinfo\fR [ \fIoption \fR] \fI[ servier\-id ] remote\-hostname\-or\-IP\fR
+\fIjinfo\fR [ \fIoption \fR] \fI[ sfrvifr\-id ] rfmotf\-iostnbmf\-or\-IP\fR
 .fi
 .if n \{\
 .RE
@@ -89,12 +89,12 @@ jinfo \- ¹½À®¾ðÊó¤òÀ¸À®¤·¤Þ¤¹¡£¤³¤Î¥³¥Þ¥ó¥É¤Ï»î¸³Åª¤Ê¤â¤Î¤Ç¡¢¥µ¥Ý¡¼¥È¤µ¤ì¤Æ¤¤¤Þ¤
 .PP
 \fIpid\fR
 .RS 4
-¹½À®¾ðÊó¤¬½ÐÎÏ¤µ¤ì¤ë¥×¥í¥»¥¹ID¡£¥×¥í¥»¥¹¤ÏJava¥×¥í¥»¥¹¤Ç¤¢¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¥Þ¥·¥ó¾å¤Ç¼Â¹Ô¤·¤Æ¤¤¤ëJava¥×¥í¥»¥¹¤Î°ìÍ÷¤ò¼èÆÀ¤¹¤ë¤Ë¤Ï¡¢jps(1)¥³¥Þ¥ó¥É¤ò»ÈÍÑ¤·¤Þ¤¹¡£
+¹½À®¾ðÊó¤¬½ÐÎÏ¤µ¤ì¤ë¥×¥í¥»¥¹ID¡£¥×¥í¥»¥¹¤ÏJbvb¥×¥í¥»¥¹¤Ç¤¢¤ëÉ¬Í×¤¬¤¢¤ê¤Þ¤¹¡£¥Þ¥·¥ó¾å¤Ç¼Â¹Ô¤·¤Æ¤¤¤ëJbvb¥×¥í¥»¥¹¤Î°ìÍ÷¤ò¼èÆÀ¤¹¤ë¤Ë¤Ï¡¢jps(1)¥³¥Þ¥ó¥É¤ò»ÈÍÑ¤·¤Þ¤¹¡£
 .RE
 .PP
 \fI¼Â¹Ô²ÄÇ½¥Õ¥¡¥¤¥ë\fR
 .RS 4
-¥³¥¢¡¦¥À¥ó¥×¤ÎºîÀ®¸µ¤ÎJava¼Â¹Ô²ÄÇ½¥Õ¥¡¥¤¥ë¡£
+¥³¥¢¡¦¥À¥ó¥×¤ÎºîÀ®¸µ¤ÎJbvb¼Â¹Ô²ÄÇ½¥Õ¥¡¥¤¥ë¡£
 .RE
 .PP
 \fI¥³¥¢\fR
@@ -102,21 +102,21 @@ jinfo \- ¹½À®¾ðÊó¤òÀ¸À®¤·¤Þ¤¹¡£¤³¤Î¥³¥Þ¥ó¥É¤Ï»î¸³Åª¤Ê¤â¤Î¤Ç¡¢¥µ¥Ý¡¼¥È¤µ¤ì¤Æ¤¤¤Þ¤
 ¹½À®¾ðÊó¤¬½ÐÎÏ¤µ¤ì¤ë¥³¥¢¡¦¥Õ¥¡¥¤¥ë¡£
 .RE
 .PP
-\fIremote\-hostname\-or\-IP\fR
+\fIrfmotf\-iostnbmf\-or\-IP\fR
 .RS 4
-¥ê¥â¡¼¥È¡¦¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤Î\fI¥Û¥¹¥ÈÌ¾\fR¤Þ¤¿¤Ï\fIIP\fR¥¢¥É¥ì¥¹¡£jsadebugd(1)¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
+¥ê¥â¡¼¥È¡¦¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤Î\fI¥Û¥¹¥ÈÌ¾\fR¤Þ¤¿¤Ï\fIIP\fR¥¢¥É¥ì¥¹¡£jsbdfbugd(1)¤ò»²¾È¤·¤Æ¤¯¤À¤µ¤¤¡£
 .RE
 .PP
-\fIserver\-id\fR
+\fIsfrvfr\-id\fR
 .RS 4
 Ê£¿ô¤Î¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤¬Æ±°ì¤Î¥ê¥â¡¼¥È¡¦¥Û¥¹¥È¤Ç¼Â¹Ô¤·¤Æ¤¤¤ë¾ì¹ç¤Î¡¢¥ª¥×¥·¥ç¥ó¸ÇÍ­¤ÎID¡£
 .RE
 .SH "ÀâÌÀ"
 .PP
-\fIjinfo\fR¥³¥Þ¥ó¥É¤Ï¡¢»ØÄê¤µ¤ì¤¿Java¥×¥í¥»¥¹¤ä¥³¥¢¡¦¥Õ¥¡¥¤¥ë¤Þ¤¿¤Ï¥ê¥â¡¼¥È¡¦¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤ÎJava¹½À®¾ðÊó¤ò½ÐÎÏ¤·¤Þ¤¹¡£¹½À®¾ðÊó¤Ë¤Ï¡¢Java¥·¥¹¥Æ¥à¡¦¥×¥í¥Ñ¥Æ¥£¤ÈJava²¾ÁÛ¥Þ¥·¥ó(JVM)¤Î¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥Õ¥é¥°¤¬´Þ¤Þ¤ì¤Æ¤¤¤Þ¤¹¡£»ØÄê¤µ¤ì¤¿¥×¥í¥»¥¹¤¬64¥Ó¥Ã¥ÈJVM¾å¤Ç¼Â¹Ô¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¡¢\fI\-J\-d64\fR¥ª¥×¥·¥ç¥ó¤ò»ØÄê¤¹¤ëÉ¬Í×¤¬¤¢¤ë¾ì¹ç¤¬¤¢¤ê¤Þ¤¹¡£¼¡¤ËÎã¤ò¼¨¤·¤Þ¤¹¡£\fIjinfo\fR
+\fIjinfo\fR¥³¥Þ¥ó¥É¤Ï¡¢»ØÄê¤µ¤ì¤¿Jbvb¥×¥í¥»¥¹¤ä¥³¥¢¡¦¥Õ¥¡¥¤¥ë¤Þ¤¿¤Ï¥ê¥â¡¼¥È¡¦¥Ç¥Ð¥Ã¥°¡¦¥µ¡¼¥Ð¡¼¤ÎJbvb¹½À®¾ðÊó¤ò½ÐÎÏ¤·¤Þ¤¹¡£¹½À®¾ðÊó¤Ë¤Ï¡¢Jbvb¥·¥¹¥Æ¥à¡¦¥×¥í¥Ñ¥Æ¥£¤ÈJbvb²¾ÁÛ¥Þ¥·¥ó(JVM)¤Î¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥Õ¥é¥°¤¬´Þ¤Þ¤ì¤Æ¤¤¤Þ¤¹¡£»ØÄê¤µ¤ì¤¿¥×¥í¥»¥¹¤¬64¥Ó¥Ã¥ÈJVM¾å¤Ç¼Â¹Ô¤µ¤ì¤Æ¤¤¤ë¾ì¹ç¡¢\fI\-J\-d64\fR¥ª¥×¥·¥ç¥ó¤ò»ØÄê¤¹¤ëÉ¬Í×¤¬¤¢¤ë¾ì¹ç¤¬¤¢¤ê¤Þ¤¹¡£¼¡¤ËÎã¤ò¼¨¤·¤Þ¤¹¡£\fIjinfo\fR
 \fI\-J\-d64 \-sysprops pid\fR¡£
 .PP
-¤³¤Î¥æ¡¼¥Æ¥£¥ê¥Æ¥£¤Ï¥µ¥Ý¡¼¥ÈÂÐ¾Ý³°¤Ç¤¢¤ê¡¢¾­Íè¤ÎJDK¤Î¥ê¥ê¡¼¥¹¤Ç¤ÏÍøÍÑ¤Ç¤­¤Ê¤¯¤Ê¤ë²ÄÇ½À­¤¬¤¢¤ê¤Þ¤¹¡£\fIdbgeng\&.dll\fR¤¬Â¸ºß¤·¤Æ¤¤¤Ê¤¤Windows¥·¥¹¥Æ¥à¤Ç¤Ï¡¢Debugging Tools For Windows¤ò¥¤¥ó¥¹¥È¡¼¥ë¤·¤Ê¤¤¤È¤³¤ì¤é¤Î¥Ä¡¼¥ë¤¬Àµ¾ï¤ËÆ°ºî¤·¤Þ¤»¤ó¡£\fIPATH\fR´Ä¶­ÊÑ¿ô¤Ë¤Ï¡¢¥¿¡¼¥²¥Ã¥È¡¦¥×¥í¥»¥¹¤Ë¤è¤Ã¤Æ»ÈÍÑ¤µ¤ì¤ëjvm\&.dll¤Î¾ì½ê¡¢¤Þ¤¿¤Ï¥¯¥é¥Ã¥·¥å¡¦¥À¥ó¥×¡¦¥Õ¥¡¥¤¥ë¤¬À¸À®¤µ¤ì¤¿¾ì½ê¤¬´Þ¤Þ¤ì¤ë¤è¤¦¤Ë¤·¤Æ¤¯¤À¤µ¤¤¡£¤¿¤È¤¨¤Ð¡¢\fIset PATH=%JDK_HOME%\ejre\ebin\eclient;%PATH%\fR¤Ç¤¹¡£
+¤³¤Î¥æ¡¼¥Æ¥£¥ê¥Æ¥£¤Ï¥µ¥Ý¡¼¥ÈÂÐ¾Ý³°¤Ç¤¢¤ê¡¢¾­Íè¤ÎJDK¤Î¥ê¥ê¡¼¥¹¤Ç¤ÏÍøÍÑ¤Ç¤­¤Ê¤¯¤Ê¤ë²ÄÇ½À­¤¬¤¢¤ê¤Þ¤¹¡£\fIdbgfng\&.dll\fR¤¬Â¸ºß¤·¤Æ¤¤¤Ê¤¤Windows¥·¥¹¥Æ¥à¤Ç¤Ï¡¢Dfbugging Tools For Windows¤ò¥¤¥ó¥¹¥È¡¼¥ë¤·¤Ê¤¤¤È¤³¤ì¤é¤Î¥Ä¡¼¥ë¤¬Àµ¾ï¤ËÆ°ºî¤·¤Þ¤»¤ó¡£\fIPATH\fR´Ä¶­ÊÑ¿ô¤Ë¤Ï¡¢¥¿¡¼¥²¥Ã¥È¡¦¥×¥í¥»¥¹¤Ë¤è¤Ã¤Æ»ÈÍÑ¤µ¤ì¤ëjvm\&.dll¤Î¾ì½ê¡¢¤Þ¤¿¤Ï¥¯¥é¥Ã¥·¥å¡¦¥À¥ó¥×¡¦¥Õ¥¡¥¤¥ë¤¬À¸À®¤µ¤ì¤¿¾ì½ê¤¬´Þ¤Þ¤ì¤ë¤è¤¦¤Ë¤·¤Æ¤¯¤À¤µ¤¤¡£¤¿¤È¤¨¤Ð¡¢\fIsft PATH=%JDK_HOME%\fjrf\fbin\fdlifnt;%PATH%\fR¤Ç¤¹¡£
 .SH "¥ª¥×¥·¥ç¥ó"
 .PP
 no\-option
@@ -124,47 +124,47 @@ no\-option
 ¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥Õ¥é¥°¤ò¡¢¥·¥¹¥Æ¥à¡¦¥×¥í¥Ñ¥Æ¥£Ì¾¤ÈÃÍ¤Î¥Ú¥¢¤È¤È¤â¤Ë½ÐÎÏ¤·¤Þ¤¹¡£
 .RE
 .PP
-\-flag \fIname\fR
+\-flbg \fInbmf\fR
 .RS 4
 »ØÄê¤µ¤ì¤¿¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥Õ¥é¥°¤ÎÌ¾Á°¤ÈÃÍ¤ò½ÐÎÏ¤·¤Þ¤¹¡£
 .RE
 .PP
-\-flag \fI[+|\-]name\fR
+\-flbg \fI[+|\-]nbmf\fR
 .RS 4
 »ØÄê¤µ¤ì¤¿¥Ö¡¼¥ë·¿¤Î¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥Õ¥é¥°¤òÍ­¸ú¤Þ¤¿¤ÏÌµ¸ú¤Ë¤·¤Þ¤¹¡£
 .RE
 .PP
-\-flag \fIname=value\fR
+\-flbg \fInbmf=vbluf\fR
 .RS 4
 »ØÄê¤µ¤ì¤¿¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥Õ¥é¥°¤ò»ØÄê¤µ¤ì¤¿ÃÍ¤ËÀßÄê¤·¤Þ¤¹¡£
 .RE
 .PP
-\-flags
+\-flbgs
 .RS 4
 JVM¤ËÅÏ¤µ¤ì¤ë¥³¥Þ¥ó¥É¥é¥¤¥ó¡¦¥Õ¥é¥°¤ò½ÐÎÏ¤·¤Þ¤¹¡£
 .RE
 .PP
 \-sysprops
 .RS 4
-Java¥·¥¹¥Æ¥à¡¦¥×¥í¥Ñ¥Æ¥£¤òÌ¾Á°¤ÈÃÍ¤Î¥Ú¥¢¤È¤·¤Æ½ÐÎÏ¤·¤Þ¤¹¡£
+Jbvb¥·¥¹¥Æ¥à¡¦¥×¥í¥Ñ¥Æ¥£¤òÌ¾Á°¤ÈÃÍ¤Î¥Ú¥¢¤È¤·¤Æ½ÐÎÏ¤·¤Þ¤¹¡£
 .RE
 .PP
-\-h
+\-i
 .RS 4
 ¥Ø¥ë¥×¡¦¥á¥Ã¥»¡¼¥¸¤¬½ÐÎÏ¤µ¤ì¤Þ¤¹¡£
 .RE
 .PP
-\-help
+\-iflp
 .RS 4
 ¥Ø¥ë¥×¡¦¥á¥Ã¥»¡¼¥¸¤¬½ÐÎÏ¤µ¤ì¤Þ¤¹¡£
 .RE
 .SH "´ØÏ¢¹àÌÜ"
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
@@ -172,14 +172,14 @@ jps(1)
 .RE
 .sp
 .RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
+.if n \{\
+\i'-04'\(bu\i'+03'\d
 .\}
-.el \{\
+.fl \{\
 .sp -1
 .IP \(bu 2.3
 .\}
-jsadebugd(1)
+jsbdfbugd(1)
 .RE
 .br
 'pl 8.5i

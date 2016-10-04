@@ -1,74 +1,74 @@
 /*
- * Copyright (c) 2010, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2010, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d.xr;
+pbdkbgf sun.jbvb2d.xr;
 
 /**
- * Represents a single tile, used to store the rectangles covering the area
- * of the mask where the tile is located.
+ * Rfprfsfnts b singlf tilf, usfd to storf tif rfdtbnglfs dovfring tif brfb
+ * of tif mbsk wifrf tif tilf is lodbtfd.
  *
- * @author Clemens Eisserer
+ * @butior Clfmfns Eissfrfr
  */
-public class MaskTile {
-    GrowableRectArray rects;
-    DirtyRegion dirtyArea;
+publid dlbss MbskTilf {
+    GrowbblfRfdtArrby rfdts;
+    DirtyRfgion dirtyArfb;
 
-    public MaskTile()
+    publid MbskTilf()
     {
-        rects = new GrowableRectArray(128);
-        dirtyArea = new DirtyRegion();
+        rfdts = nfw GrowbblfRfdtArrby(128);
+        dirtyArfb = nfw DirtyRfgion();
     }
 
-    public void calculateDirtyAreas()
+    publid void dbldulbtfDirtyArfbs()
     {
-        for (int i=0; i < rects.getSize(); i++) {
-            int x = rects.getX(i);
-            int y = rects.getY(i);
-            dirtyArea.growDirtyRegion(x, y,
-                                      x + rects.getWidth(i),
-                                      y + rects.getHeight(i));
+        for (int i=0; i < rfdts.gftSizf(); i++) {
+            int x = rfdts.gftX(i);
+            int y = rfdts.gftY(i);
+            dirtyArfb.growDirtyRfgion(x, y,
+                                      x + rfdts.gftWidti(i),
+                                      y + rfdts.gftHfigit(i));
         }
     }
 
-    public void reset() {
-        rects.clear();
-        dirtyArea.clear();
+    publid void rfsft() {
+        rfdts.dlfbr();
+        dirtyArfb.dlfbr();
     }
 
-    public void translate(int x, int y) {
-        if (rects.getSize() > 0) {
-            dirtyArea.translate(x, y);
+    publid void trbnslbtf(int x, int y) {
+        if (rfdts.gftSizf() > 0) {
+            dirtyArfb.trbnslbtf(x, y);
         }
-        rects.translateRects(x, y);
+        rfdts.trbnslbtfRfdts(x, y);
     }
 
-    public GrowableRectArray getRects() {
-        return rects;
+    publid GrowbblfRfdtArrby gftRfdts() {
+        rfturn rfdts;
     }
 
-    public DirtyRegion getDirtyArea() {
-        return dirtyArea;
+    publid DirtyRfgion gftDirtyArfb() {
+        rfturn dirtyArfb;
     }
 }

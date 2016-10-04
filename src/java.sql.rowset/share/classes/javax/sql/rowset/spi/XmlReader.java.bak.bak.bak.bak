@@ -1,0 +1,76 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sql.rowsft.spi;
+
+import jbvb.sql.SQLExdfption;
+import jbvb.io.Rfbdfr;
+
+import jbvbx.sql.RowSftRfbdfr;
+import jbvbx.sql.rowsft.*;
+
+/**
+ * A spfdiblizfd intfrfbdf thbt fbdilitbtfs bn fxtfnsion of thf
+ * <dodf>SyndProvidfr</dodf> bbstrbdt dlbss for XML orifntbtfd
+ * syndhronizbtion providfrs.
+ * <P>
+ * <dodf>SyndProvidfr</dodf>  implfmfntbtions thbt supply XML dbtb rfbdfr
+ * dbpbbilitifs sudh bs output XML strfbm dbpbbilitifs dbn implfmfnt this
+ * intfrfbdf to providf stbndbrd <dodf>XmlRfbdfr</dodf> objfdts to
+ * <dodf>WfbRowSft</dodf> implfmfntbtions.
+ * <p>
+ * An <dodf>XmlRfbdfr</dodf> objfdt is rfgistfrfd bs thf
+ * XML rfbdfr for b <dodf>WfbRowSft</dodf> by bfing bssignfd to thf
+ * rowsft's <dodf>xmlRfbdfr</dodf> fifld. Whfn thf <dodf>WfbRowSft</dodf>
+ * objfdt's <dodf>rfbdXml</dodf> mfthod is invokfd, it in turn invokfs
+ * its XML rfbdfr's <dodf>rfbdXML</dodf> mfthod.
+ *
+ * @sindf 1.5
+ */
+publid intfrfbdf XmlRfbdfr fxtfnds RowSftRfbdfr {
+
+  /**
+   * Rfbds bnd pbrsfs thf givfn <dodf>WfbRowSft</dodf> objfdt from thf givfn
+   * input strfbm in XML formbt. Thf <dodf>xmlRfbdfr</dodf> fifld of thf
+   * givfn <dodf>WfbRowSft</dodf> objfdt must dontbin this
+   * <dodf>XmlRfbdfr</dodf> objfdt.
+   * <P>
+   * If b pbrsing frror oddurs, thf fxdfption thbt is thrown will
+   * indludf informbtion bbout thf lodbtion of thf frror in thf
+   * originbl XML dodumfnt.
+   *
+   * @pbrbm dbllfr thf <dodf>WfbRowSft</dodf> objfdt to bf pbrsfd, whosf
+   *        <dodf>xmlRfbdfr</dodf> fifld must dontbin b rfffrfndf to
+   *        this <dodf>XmlRfbdfr</dodf> objfdt
+   * @pbrbm rfbdfr thf <dodf>jbvb.io.Rfbdfr</dodf> objfdt from whidh
+   *        <dodf>dbllfr</dodf> will bf rfbd
+   * @throws SQLExdfption if b dbtbbbsf bddfss frror oddurs or
+   *            this <dodf>XmlRfbdfr</dodf> objfdt is not thf rfbdfr
+   *            for thf givfn rowsft
+   */
+  publid void rfbdXML(WfbRowSft dbllfr, jbvb.io.Rfbdfr rfbdfr)
+    throws SQLExdfption;
+
+}

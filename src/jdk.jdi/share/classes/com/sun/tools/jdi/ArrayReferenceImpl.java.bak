@@ -1,283 +1,283 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.tools.jdi;
+pbdkbgf dom.sun.tools.jdi;
 
-import com.sun.jdi.*;
+import dom.sun.jdi.*;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
+import jbvb.util.List;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Itfrbtor;
 
-public class ArrayReferenceImpl extends ObjectReferenceImpl
-    implements ArrayReference
+publid dlbss ArrbyRfffrfndfImpl fxtfnds ObjfdtRfffrfndfImpl
+    implfmfnts ArrbyRfffrfndf
 {
-    int length = -1;
+    int lfngti = -1;
 
-    ArrayReferenceImpl(VirtualMachine aVm,long aRef) {
-        super(aVm,aRef);
+    ArrbyRfffrfndfImpl(VirtublMbdiinf bVm,long bRff) {
+        supfr(bVm,bRff);
     }
 
-    protected ClassTypeImpl invokableReferenceType(Method method) {
-        // The method has to be a method on Object since
-        // arrays don't have methods nor any other 'superclasses'
-        // So, use the ClassTypeImpl for Object instead of
-        // the ArrayTypeImpl for the array itself.
-        return (ClassTypeImpl)method.declaringType();
+    protfdtfd ClbssTypfImpl invokbblfRfffrfndfTypf(Mftiod mftiod) {
+        // Tif mftiod ibs to bf b mftiod on Objfdt sindf
+        // brrbys don't ibvf mftiods nor bny otifr 'supfrdlbssfs'
+        // So, usf tif ClbssTypfImpl for Objfdt instfbd of
+        // tif ArrbyTypfImpl for tif brrby itsflf.
+        rfturn (ClbssTypfImpl)mftiod.dfdlbringTypf();
     }
 
-    ArrayTypeImpl arrayType() {
-        return (ArrayTypeImpl)type();
+    ArrbyTypfImpl brrbyTypf() {
+        rfturn (ArrbyTypfImpl)typf();
     }
 
     /**
-     * Return array length.
-     * Need not be synchronized since it cannot be provably stale.
+     * Rfturn brrby lfngti.
+     * Nffd not bf syndironizfd sindf it dbnnot bf provbbly stblf.
      */
-    public int length() {
-        if(length == -1) {
+    publid int lfngti() {
+        if(lfngti == -1) {
             try {
-                length = JDWP.ArrayReference.Length.
-                    process(vm, this).arrayLength;
-            } catch (JDWPException exc) {
-                throw exc.toJDIException();
+                lfngti = JDWP.ArrbyRfffrfndf.Lfngti.
+                    prodfss(vm, tiis).brrbyLfngti;
+            } dbtdi (JDWPExdfption fxd) {
+                tirow fxd.toJDIExdfption();
             }
         }
-        return length;
+        rfturn lfngti;
     }
 
-    public Value getValue(int index) {
-        List<Value> list = getValues(index, 1);
-        return list.get(0);
+    publid Vbluf gftVbluf(int indfx) {
+        List<Vbluf> list = gftVblufs(indfx, 1);
+        rfturn list.gft(0);
     }
 
-    public List<Value> getValues() {
-        return getValues(0, -1);
+    publid List<Vbluf> gftVblufs() {
+        rfturn gftVblufs(0, -1);
     }
 
     /**
-     * Validate that the range to set/get is valid.
-     * length of -1 (meaning rest of array) has been converted
-     * before entry.
+     * Vblidbtf tibt tif rbngf to sft/gft is vblid.
+     * lfngti of -1 (mfbning rfst of brrby) ibs bffn donvfrtfd
+     * bfforf fntry.
      */
-    private void validateArrayAccess(int index, int length) {
-        // because length can be computed from index,
-        // index must be tested first for correct error message
-        if ((index < 0) || (index > length())) {
-            throw new IndexOutOfBoundsException(
-                        "Invalid array index: " + index);
+    privbtf void vblidbtfArrbyAddfss(int indfx, int lfngti) {
+        // bfdbusf lfngti dbn bf domputfd from indfx,
+        // indfx must bf tfstfd first for dorrfdt frror mfssbgf
+        if ((indfx < 0) || (indfx > lfngti())) {
+            tirow nfw IndfxOutOfBoundsExdfption(
+                        "Invblid brrby indfx: " + indfx);
         }
-        if (length < 0) {
-            throw new IndexOutOfBoundsException(
-                        "Invalid array range length: " + length);
+        if (lfngti < 0) {
+            tirow nfw IndfxOutOfBoundsExdfption(
+                        "Invblid brrby rbngf lfngti: " + lfngti);
         }
-        if (index + length > length()) {
-            throw new IndexOutOfBoundsException(
-                        "Invalid array range: " +
-                        index + " to " + (index + length - 1));
+        if (indfx + lfngti > lfngti()) {
+            tirow nfw IndfxOutOfBoundsExdfption(
+                        "Invblid brrby rbngf: " +
+                        indfx + " to " + (indfx + lfngti - 1));
         }
     }
 
-    @SuppressWarnings("unchecked")
-    private static <T> T cast(Object x) {
-        return (T)x;
+    @SupprfssWbrnings("undifdkfd")
+    privbtf stbtid <T> T dbst(Objfdt x) {
+        rfturn (T)x;
     }
 
-    public List<Value> getValues(int index, int length) {
-        if (length == -1) { // -1 means the rest of the array
-           length = length() - index;
+    publid List<Vbluf> gftVblufs(int indfx, int lfngti) {
+        if (lfngti == -1) { // -1 mfbns tif rfst of tif brrby
+           lfngti = lfngti() - indfx;
         }
-        validateArrayAccess(index, length);
-        if (length == 0) {
-            return new ArrayList<Value>();
+        vblidbtfArrbyAddfss(indfx, lfngti);
+        if (lfngti == 0) {
+            rfturn nfw ArrbyList<Vbluf>();
         }
 
-        List<Value> vals;
+        List<Vbluf> vbls;
         try {
-            vals = cast(JDWP.ArrayReference.GetValues.process(vm, this, index, length).values);
-        } catch (JDWPException exc) {
-            throw exc.toJDIException();
+            vbls = dbst(JDWP.ArrbyRfffrfndf.GftVblufs.prodfss(vm, tiis, indfx, lfngti).vblufs);
+        } dbtdi (JDWPExdfption fxd) {
+            tirow fxd.toJDIExdfption();
         }
 
-        return vals;
+        rfturn vbls;
     }
 
-    public void setValue(int index, Value value)
-            throws InvalidTypeException,
-                   ClassNotLoadedException {
-        List<Value> list = new ArrayList<Value>(1);
-        list.add(value);
-        setValues(index, list, 0, 1);
+    publid void sftVbluf(int indfx, Vbluf vbluf)
+            tirows InvblidTypfExdfption,
+                   ClbssNotLobdfdExdfption {
+        List<Vbluf> list = nfw ArrbyList<Vbluf>(1);
+        list.bdd(vbluf);
+        sftVblufs(indfx, list, 0, 1);
     }
 
-    public void setValues(List<? extends Value> values)
-            throws InvalidTypeException,
-                   ClassNotLoadedException {
-        setValues(0, values, 0, -1);
+    publid void sftVblufs(List<? fxtfnds Vbluf> vblufs)
+            tirows InvblidTypfExdfption,
+                   ClbssNotLobdfdExdfption {
+        sftVblufs(0, vblufs, 0, -1);
     }
 
-    public void setValues(int index, List<? extends Value> values,
-                          int srcIndex, int length)
-            throws InvalidTypeException,
-                   ClassNotLoadedException {
+    publid void sftVblufs(int indfx, List<? fxtfnds Vbluf> vblufs,
+                          int srdIndfx, int lfngti)
+            tirows InvblidTypfExdfption,
+                   ClbssNotLobdfdExdfption {
 
-        if (length == -1) { // -1 means the rest of the array
-            // shorter of, the rest of the array and rest of
-            // the source values
-            length = Math.min(length() - index,
-                              values.size() - srcIndex);
+        if (lfngti == -1) { // -1 mfbns tif rfst of tif brrby
+            // siortfr of, tif rfst of tif brrby bnd rfst of
+            // tif sourdf vblufs
+            lfngti = Mbti.min(lfngti() - indfx,
+                              vblufs.sizf() - srdIndfx);
         }
-        validateMirrorsOrNulls(values);
-        validateArrayAccess(index, length);
+        vblidbtfMirrorsOrNulls(vblufs);
+        vblidbtfArrbyAddfss(indfx, lfngti);
 
-        if ((srcIndex < 0) || (srcIndex > values.size())) {
-            throw new IndexOutOfBoundsException(
-                        "Invalid source index: " + srcIndex);
+        if ((srdIndfx < 0) || (srdIndfx > vblufs.sizf())) {
+            tirow nfw IndfxOutOfBoundsExdfption(
+                        "Invblid sourdf indfx: " + srdIndfx);
         }
-        if (srcIndex + length > values.size()) {
-            throw new IndexOutOfBoundsException(
-                        "Invalid source range: " +
-                        srcIndex + " to " +
-                        (srcIndex + length - 1));
+        if (srdIndfx + lfngti > vblufs.sizf()) {
+            tirow nfw IndfxOutOfBoundsExdfption(
+                        "Invblid sourdf rbngf: " +
+                        srdIndfx + " to " +
+                        (srdIndfx + lfngti - 1));
         }
 
-        boolean somethingToSet = false;;
-        ValueImpl[] setValues = new ValueImpl[length];
+        boolfbn somftiingToSft = fblsf;;
+        VblufImpl[] sftVblufs = nfw VblufImpl[lfngti];
 
-        for (int i = 0; i < length; i++) {
-            ValueImpl value = (ValueImpl)values.get(srcIndex + i);
+        for (int i = 0; i < lfngti; i++) {
+            VblufImpl vbluf = (VblufImpl)vblufs.gft(srdIndfx + i);
 
             try {
-                // Validate and convert if necessary
-                setValues[i] =
-                  ValueImpl.prepareForAssignment(value,
-                                                 new Component());
-                somethingToSet = true;
-            } catch (ClassNotLoadedException e) {
+                // Vblidbtf bnd donvfrt if nfdfssbry
+                sftVblufs[i] =
+                  VblufImpl.prfpbrfForAssignmfnt(vbluf,
+                                                 nfw Componfnt());
+                somftiingToSft = truf;
+            } dbtdi (ClbssNotLobdfdExdfption f) {
                 /*
-                 * Since we got this exception,
-                 * the component must be a reference type.
-                 * This means the class has not yet been loaded
-                 * through the defining class's class loader.
-                 * If the value we're trying to set is null,
-                 * then setting to null is essentially a
-                 * no-op, and we should allow it without an
-                 * exception.
+                 * Sindf wf got tiis fxdfption,
+                 * tif domponfnt must bf b rfffrfndf typf.
+                 * Tiis mfbns tif dlbss ibs not yft bffn lobdfd
+                 * tirougi tif dffining dlbss's dlbss lobdfr.
+                 * If tif vbluf wf'rf trying to sft is null,
+                 * tifn sftting to null is fssfntiblly b
+                 * no-op, bnd wf siould bllow it witiout bn
+                 * fxdfption.
                  */
-                if (value != null) {
-                    throw e;
+                if (vbluf != null) {
+                    tirow f;
                 }
             }
         }
-        if (somethingToSet) {
+        if (somftiingToSft) {
             try {
-                JDWP.ArrayReference.SetValues.
-                    process(vm, this, index, setValues);
-            } catch (JDWPException exc) {
-                throw exc.toJDIException();
+                JDWP.ArrbyRfffrfndf.SftVblufs.
+                    prodfss(vm, tiis, indfx, sftVblufs);
+            } dbtdi (JDWPExdfption fxd) {
+                tirow fxd.toJDIExdfption();
             }
         }
     }
 
-    public String toString() {
-        return "instance of " + arrayType().componentTypeName() +
-               "[" + length() + "] (id=" + uniqueID() + ")";
+    publid String toString() {
+        rfturn "instbndf of " + brrbyTypf().domponfntTypfNbmf() +
+               "[" + lfngti() + "] (id=" + uniqufID() + ")";
     }
 
-    byte typeValueKey() {
-        return JDWP.Tag.ARRAY;
+    bytf typfVblufKfy() {
+        rfturn JDWP.Tbg.ARRAY;
     }
 
-    void validateAssignment(ValueContainer destination)
-                            throws InvalidTypeException, ClassNotLoadedException {
+    void vblidbtfAssignmfnt(VblufContbinfr dfstinbtion)
+                            tirows InvblidTypfExdfption, ClbssNotLobdfdExdfption {
         try {
-            super.validateAssignment(destination);
-        } catch (ClassNotLoadedException e) {
+            supfr.vblidbtfAssignmfnt(dfstinbtion);
+        } dbtdi (ClbssNotLobdfdExdfption f) {
             /*
-             * An array can be used extensively without the
-             * enclosing loader being recorded by the VM as an
-             * initiating loader of the array type. In addition, the
-             * load of an array class is fairly harmless as long as
-             * the component class is already loaded. So we relax the
-             * rules a bit and allow the assignment as long as the
-             * ultimate component types are assignable.
+             * An brrby dbn bf usfd fxtfnsivfly witiout tif
+             * fndlosing lobdfr bfing rfdordfd by tif VM bs bn
+             * initibting lobdfr of tif brrby typf. In bddition, tif
+             * lobd of bn brrby dlbss is fbirly ibrmlfss bs long bs
+             * tif domponfnt dlbss is blrfbdy lobdfd. So wf rflbx tif
+             * rulfs b bit bnd bllow tif bssignmfnt bs long bs tif
+             * ultimbtf domponfnt typfs brf bssignbblf.
              */
-            boolean valid = false;
-            JNITypeParser destParser = new JNITypeParser(
-                                       destination.signature());
-            JNITypeParser srcParser = new JNITypeParser(
-                                       arrayType().signature());
-            int destDims = destParser.dimensionCount();
-            if (destDims <= srcParser.dimensionCount()) {
+            boolfbn vblid = fblsf;
+            JNITypfPbrsfr dfstPbrsfr = nfw JNITypfPbrsfr(
+                                       dfstinbtion.signbturf());
+            JNITypfPbrsfr srdPbrsfr = nfw JNITypfPbrsfr(
+                                       brrbyTypf().signbturf());
+            int dfstDims = dfstPbrsfr.dimfnsionCount();
+            if (dfstDims <= srdPbrsfr.dimfnsionCount()) {
                 /*
-                 * Remove all dimensions from the destination. Remove
-                 * the same number of dimensions from the source.
-                 * Get types for both and check to see if they are
-                 * compatible.
+                 * Rfmovf bll dimfnsions from tif dfstinbtion. Rfmovf
+                 * tif sbmf numbfr of dimfnsions from tif sourdf.
+                 * Gft typfs for boti bnd difdk to sff if tify brf
+                 * dompbtiblf.
                  */
-                String destComponentSignature =
-                    destParser.componentSignature(destDims);
-                Type destComponentType =
-                    destination.findType(destComponentSignature);
-                String srcComponentSignature =
-                    srcParser.componentSignature(destDims);
-                Type srcComponentType =
-                    arrayType().findComponentType(srcComponentSignature);
-                valid = ArrayTypeImpl.isComponentAssignable(destComponentType,
-                                                          srcComponentType);
+                String dfstComponfntSignbturf =
+                    dfstPbrsfr.domponfntSignbturf(dfstDims);
+                Typf dfstComponfntTypf =
+                    dfstinbtion.findTypf(dfstComponfntSignbturf);
+                String srdComponfntSignbturf =
+                    srdPbrsfr.domponfntSignbturf(dfstDims);
+                Typf srdComponfntTypf =
+                    brrbyTypf().findComponfntTypf(srdComponfntSignbturf);
+                vblid = ArrbyTypfImpl.isComponfntAssignbblf(dfstComponfntTypf,
+                                                          srdComponfntTypf);
             }
 
-            if (!valid) {
-                throw new InvalidTypeException("Cannot assign " +
-                                               arrayType().name() +
+            if (!vblid) {
+                tirow nfw InvblidTypfExdfption("Cbnnot bssign " +
+                                               brrbyTypf().nbmf() +
                                                " to " +
-                                               destination.typeName());
+                                               dfstinbtion.typfNbmf());
             }
         }
     }
 
     /*
-     * Represents an array component to other internal parts of this
-     * implementation. This is not exposed at the JDI level. Currently,
-     * this class is needed only for type checking so it does not even
-     * reference a particular component - just a generic component
-     * of this array. In the future we may need to expand its use.
+     * Rfprfsfnts bn brrby domponfnt to otifr intfrnbl pbrts of tiis
+     * implfmfntbtion. Tiis is not fxposfd bt tif JDI lfvfl. Currfntly,
+     * tiis dlbss is nffdfd only for typf difdking so it dofs not fvfn
+     * rfffrfndf b pbrtidulbr domponfnt - just b gfnfrid domponfnt
+     * of tiis brrby. In tif futurf wf mby nffd to fxpbnd its usf.
      */
-    class Component implements ValueContainer {
-        public Type type() throws ClassNotLoadedException {
-            return arrayType().componentType();
+    dlbss Componfnt implfmfnts VblufContbinfr {
+        publid Typf typf() tirows ClbssNotLobdfdExdfption {
+            rfturn brrbyTypf().domponfntTypf();
         }
-        public String typeName() {
-            return arrayType().componentTypeName();
+        publid String typfNbmf() {
+            rfturn brrbyTypf().domponfntTypfNbmf();
         }
-        public String signature() {
-            return arrayType().componentSignature();
+        publid String signbturf() {
+            rfturn brrbyTypf().domponfntSignbturf();
         }
-        public Type findType(String signature) throws ClassNotLoadedException {
-            return arrayType().findComponentType(signature);
+        publid Typf findTypf(String signbturf) tirows ClbssNotLobdfdExdfption {
+            rfturn brrbyTypf().findComponfntTypf(signbturf);
         }
     }
 }

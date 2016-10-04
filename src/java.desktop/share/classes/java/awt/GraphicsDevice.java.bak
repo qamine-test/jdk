@@ -1,594 +1,594 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package java.awt;
+pbdkbgf jbvb.bwt;
 
-import java.awt.image.ColorModel;
+import jbvb.bwt.imbgf.ColorModfl;
 
-import sun.awt.AWTAccessor;
-import sun.awt.AppContext;
-import sun.awt.SunToolkit;
+import sun.bwt.AWTAddfssor;
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
 
 /**
- * The <code>GraphicsDevice</code> class describes the graphics devices
- * that might be available in a particular graphics environment.  These
- * include screen and printer devices. Note that there can be many screens
- * and many printers in an instance of {@link GraphicsEnvironment}. Each
- * graphics device has one or more {@link GraphicsConfiguration} objects
- * associated with it.  These objects specify the different configurations
- * in which the <code>GraphicsDevice</code> can be used.
+ * Tif <dodf>GrbpiidsDfvidf</dodf> dlbss dfsdribfs tif grbpiids dfvidfs
+ * tibt migit bf bvbilbblf in b pbrtidulbr grbpiids fnvironmfnt.  Tifsf
+ * indludf sdrffn bnd printfr dfvidfs. Notf tibt tifrf dbn bf mbny sdrffns
+ * bnd mbny printfrs in bn instbndf of {@link GrbpiidsEnvironmfnt}. Ebdi
+ * grbpiids dfvidf ibs onf or morf {@link GrbpiidsConfigurbtion} objfdts
+ * bssodibtfd witi it.  Tifsf objfdts spfdify tif difffrfnt donfigurbtions
+ * in wiidi tif <dodf>GrbpiidsDfvidf</dodf> dbn bf usfd.
  * <p>
- * In a multi-screen environment, the <code>GraphicsConfiguration</code>
- * objects can be used to render components on multiple screens.  The
- * following code sample demonstrates how to create a <code>JFrame</code>
- * object for each <code>GraphicsConfiguration</code> on each screen
- * device in the <code>GraphicsEnvironment</code>:
- * <pre>{@code
- *   GraphicsEnvironment ge = GraphicsEnvironment.
- *   getLocalGraphicsEnvironment();
- *   GraphicsDevice[] gs = ge.getScreenDevices();
- *   for (int j = 0; j < gs.length; j++) {
- *      GraphicsDevice gd = gs[j];
- *      GraphicsConfiguration[] gc =
- *      gd.getConfigurations();
- *      for (int i=0; i < gc.length; i++) {
- *         JFrame f = new
- *         JFrame(gs[j].getDefaultConfiguration());
- *         Canvas c = new Canvas(gc[i]);
- *         Rectangle gcBounds = gc[i].getBounds();
- *         int xoffs = gcBounds.x;
- *         int yoffs = gcBounds.y;
- *         f.getContentPane().add(c);
- *         f.setLocation((i*50)+xoffs, (i*60)+yoffs);
- *         f.show();
+ * In b multi-sdrffn fnvironmfnt, tif <dodf>GrbpiidsConfigurbtion</dodf>
+ * objfdts dbn bf usfd to rfndfr domponfnts on multiplf sdrffns.  Tif
+ * following dodf sbmplf dfmonstrbtfs iow to drfbtf b <dodf>JFrbmf</dodf>
+ * objfdt for fbdi <dodf>GrbpiidsConfigurbtion</dodf> on fbdi sdrffn
+ * dfvidf in tif <dodf>GrbpiidsEnvironmfnt</dodf>:
+ * <prf>{@dodf
+ *   GrbpiidsEnvironmfnt gf = GrbpiidsEnvironmfnt.
+ *   gftLodblGrbpiidsEnvironmfnt();
+ *   GrbpiidsDfvidf[] gs = gf.gftSdrffnDfvidfs();
+ *   for (int j = 0; j < gs.lfngti; j++) {
+ *      GrbpiidsDfvidf gd = gs[j];
+ *      GrbpiidsConfigurbtion[] gd =
+ *      gd.gftConfigurbtions();
+ *      for (int i=0; i < gd.lfngti; i++) {
+ *         JFrbmf f = nfw
+ *         JFrbmf(gs[j].gftDffbultConfigurbtion());
+ *         Cbnvbs d = nfw Cbnvbs(gd[i]);
+ *         Rfdtbnglf gdBounds = gd[i].gftBounds();
+ *         int xoffs = gdBounds.x;
+ *         int yoffs = gdBounds.y;
+ *         f.gftContfntPbnf().bdd(d);
+ *         f.sftLodbtion((i*50)+xoffs, (i*60)+yoffs);
+ *         f.siow();
  *      }
  *   }
- * }</pre>
+ * }</prf>
  * <p>
- * For more information on full-screen exclusive mode API, see the
- * <a href="http://docs.oracle.com/javase/tutorial/extra/fullscreen/index.html">
- * Full-Screen Exclusive Mode API Tutorial</a>.
+ * For morf informbtion on full-sdrffn fxdlusivf modf API, sff tif
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/fxtrb/fullsdrffn/indfx.itml">
+ * Full-Sdrffn Exdlusivf Modf API Tutoribl</b>.
  *
- * @see GraphicsEnvironment
- * @see GraphicsConfiguration
+ * @sff GrbpiidsEnvironmfnt
+ * @sff GrbpiidsConfigurbtion
  */
-public abstract class GraphicsDevice {
+publid bbstrbdt dlbss GrbpiidsDfvidf {
 
-    private Window fullScreenWindow;
-    private AppContext fullScreenAppContext; // tracks which AppContext
-                                             // created the FS window
-    // this lock is used for making synchronous changes to the AppContext's
-    // current full screen window
-    private final Object fsAppContextLock = new Object();
+    privbtf Window fullSdrffnWindow;
+    privbtf AppContfxt fullSdrffnAppContfxt; // trbdks wiidi AppContfxt
+                                             // drfbtfd tif FS window
+    // tiis lodk is usfd for mbking syndironous dibngfs to tif AppContfxt's
+    // durrfnt full sdrffn window
+    privbtf finbl Objfdt fsAppContfxtLodk = nfw Objfdt();
 
-    private Rectangle windowedModeBounds;
+    privbtf Rfdtbnglf windowfdModfBounds;
 
     /**
-     * This is an abstract class that cannot be instantiated directly.
-     * Instances must be obtained from a suitable factory or query method.
-     * @see GraphicsEnvironment#getScreenDevices
-     * @see GraphicsEnvironment#getDefaultScreenDevice
-     * @see GraphicsConfiguration#getDevice
+     * Tiis is bn bbstrbdt dlbss tibt dbnnot bf instbntibtfd dirfdtly.
+     * Instbndfs must bf obtbinfd from b suitbblf fbdtory or qufry mftiod.
+     * @sff GrbpiidsEnvironmfnt#gftSdrffnDfvidfs
+     * @sff GrbpiidsEnvironmfnt#gftDffbultSdrffnDfvidf
+     * @sff GrbpiidsConfigurbtion#gftDfvidf
      */
-    protected GraphicsDevice() {
+    protfdtfd GrbpiidsDfvidf() {
     }
 
     /**
-     * Device is a raster screen.
+     * Dfvidf is b rbstfr sdrffn.
      */
-    public final static int TYPE_RASTER_SCREEN          = 0;
+    publid finbl stbtid int TYPE_RASTER_SCREEN          = 0;
 
     /**
-     * Device is a printer.
+     * Dfvidf is b printfr.
      */
-    public final static int TYPE_PRINTER                = 1;
+    publid finbl stbtid int TYPE_PRINTER                = 1;
 
     /**
-     * Device is an image buffer.  This buffer can reside in device
-     * or system memory but it is not physically viewable by the user.
+     * Dfvidf is bn imbgf bufffr.  Tiis bufffr dbn rfsidf in dfvidf
+     * or systfm mfmory but it is not piysidblly vifwbblf by tif usfr.
      */
-    public final static int TYPE_IMAGE_BUFFER           = 2;
+    publid finbl stbtid int TYPE_IMAGE_BUFFER           = 2;
 
     /**
-     * Kinds of translucency supported by the underlying system.
+     * Kinds of trbnsludfndy supportfd by tif undfrlying systfm.
      *
-     * @see #isWindowTranslucencySupported
+     * @sff #isWindowTrbnsludfndySupportfd
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public static enum WindowTranslucency {
+    publid stbtid fnum WindowTrbnsludfndy {
         /**
-         * Represents support in the underlying system for windows each pixel
-         * of which is guaranteed to be either completely opaque, with
-         * an alpha value of 1.0, or completely transparent, with an alpha
-         * value of 0.0.
+         * Rfprfsfnts support in tif undfrlying systfm for windows fbdi pixfl
+         * of wiidi is gubrbntffd to bf fitifr domplftfly opbquf, witi
+         * bn blpib vbluf of 1.0, or domplftfly trbnspbrfnt, witi bn blpib
+         * vbluf of 0.0.
          */
         PERPIXEL_TRANSPARENT,
         /**
-         * Represents support in the underlying system for windows all of
-         * the pixels of which have the same alpha value between or including
-         * 0.0 and 1.0.
+         * Rfprfsfnts support in tif undfrlying systfm for windows bll of
+         * tif pixfls of wiidi ibvf tif sbmf blpib vbluf bftwffn or indluding
+         * 0.0 bnd 1.0.
          */
         TRANSLUCENT,
         /**
-         * Represents support in the underlying system for windows that
-         * contain or might contain pixels with arbitrary alpha values
-         * between and including 0.0 and 1.0.
+         * Rfprfsfnts support in tif undfrlying systfm for windows tibt
+         * dontbin or migit dontbin pixfls witi brbitrbry blpib vblufs
+         * bftwffn bnd indluding 0.0 bnd 1.0.
          */
         PERPIXEL_TRANSLUCENT;
     }
 
     /**
-     * Returns the type of this <code>GraphicsDevice</code>.
-     * @return the type of this <code>GraphicsDevice</code>, which can
-     * either be TYPE_RASTER_SCREEN, TYPE_PRINTER or TYPE_IMAGE_BUFFER.
-     * @see #TYPE_RASTER_SCREEN
-     * @see #TYPE_PRINTER
-     * @see #TYPE_IMAGE_BUFFER
+     * Rfturns tif typf of tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * @rfturn tif typf of tiis <dodf>GrbpiidsDfvidf</dodf>, wiidi dbn
+     * fitifr bf TYPE_RASTER_SCREEN, TYPE_PRINTER or TYPE_IMAGE_BUFFER.
+     * @sff #TYPE_RASTER_SCREEN
+     * @sff #TYPE_PRINTER
+     * @sff #TYPE_IMAGE_BUFFER
      */
-    public abstract int getType();
+    publid bbstrbdt int gftTypf();
 
     /**
-     * Returns the identification string associated with this
-     * <code>GraphicsDevice</code>.
+     * Rfturns tif idfntifidbtion string bssodibtfd witi tiis
+     * <dodf>GrbpiidsDfvidf</dodf>.
      * <p>
-     * A particular program might use more than one
-     * <code>GraphicsDevice</code> in a <code>GraphicsEnvironment</code>.
-     * This method returns a <code>String</code> identifying a
-     * particular <code>GraphicsDevice</code> in the local
-     * <code>GraphicsEnvironment</code>.  Although there is
-     * no public method to set this <code>String</code>, a programmer can
-     * use the <code>String</code> for debugging purposes.  Vendors of
-     * the Java&trade; Runtime Environment can
-     * format the return value of the <code>String</code>.  To determine
-     * how to interpret the value of the <code>String</code>, contact the
-     * vendor of your Java Runtime.  To find out who the vendor is, from
-     * your program, call the
-     * {@link System#getProperty(String) getProperty} method of the
-     * System class with "java.vendor".
-     * @return a <code>String</code> that is the identification
-     * of this <code>GraphicsDevice</code>.
+     * A pbrtidulbr progrbm migit usf morf tibn onf
+     * <dodf>GrbpiidsDfvidf</dodf> in b <dodf>GrbpiidsEnvironmfnt</dodf>.
+     * Tiis mftiod rfturns b <dodf>String</dodf> idfntifying b
+     * pbrtidulbr <dodf>GrbpiidsDfvidf</dodf> in tif lodbl
+     * <dodf>GrbpiidsEnvironmfnt</dodf>.  Altiougi tifrf is
+     * no publid mftiod to sft tiis <dodf>String</dodf>, b progrbmmfr dbn
+     * usf tif <dodf>String</dodf> for dfbugging purposfs.  Vfndors of
+     * tif Jbvb&trbdf; Runtimf Environmfnt dbn
+     * formbt tif rfturn vbluf of tif <dodf>String</dodf>.  To dftfrminf
+     * iow to intfrprft tif vbluf of tif <dodf>String</dodf>, dontbdt tif
+     * vfndor of your Jbvb Runtimf.  To find out wio tif vfndor is, from
+     * your progrbm, dbll tif
+     * {@link Systfm#gftPropfrty(String) gftPropfrty} mftiod of tif
+     * Systfm dlbss witi "jbvb.vfndor".
+     * @rfturn b <dodf>String</dodf> tibt is tif idfntifidbtion
+     * of tiis <dodf>GrbpiidsDfvidf</dodf>.
      */
-    public abstract String getIDstring();
+    publid bbstrbdt String gftIDstring();
 
     /**
-     * Returns all of the <code>GraphicsConfiguration</code>
-     * objects associated with this <code>GraphicsDevice</code>.
-     * @return an array of <code>GraphicsConfiguration</code>
-     * objects that are associated with this
-     * <code>GraphicsDevice</code>.
+     * Rfturns bll of tif <dodf>GrbpiidsConfigurbtion</dodf>
+     * objfdts bssodibtfd witi tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * @rfturn bn brrby of <dodf>GrbpiidsConfigurbtion</dodf>
+     * objfdts tibt brf bssodibtfd witi tiis
+     * <dodf>GrbpiidsDfvidf</dodf>.
      */
-    public abstract GraphicsConfiguration[] getConfigurations();
+    publid bbstrbdt GrbpiidsConfigurbtion[] gftConfigurbtions();
 
     /**
-     * Returns the default <code>GraphicsConfiguration</code>
-     * associated with this <code>GraphicsDevice</code>.
-     * @return the default <code>GraphicsConfiguration</code>
-     * of this <code>GraphicsDevice</code>.
+     * Rfturns tif dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     * bssodibtfd witi tiis <dodf>GrbpiidsDfvidf</dodf>.
+     * @rfturn tif dffbult <dodf>GrbpiidsConfigurbtion</dodf>
+     * of tiis <dodf>GrbpiidsDfvidf</dodf>.
      */
-    public abstract GraphicsConfiguration getDefaultConfiguration();
+    publid bbstrbdt GrbpiidsConfigurbtion gftDffbultConfigurbtion();
 
     /**
-     * Returns the "best" configuration possible that passes the
-     * criteria defined in the {@link GraphicsConfigTemplate}.
-     * @param gct the <code>GraphicsConfigTemplate</code> object
-     * used to obtain a valid <code>GraphicsConfiguration</code>
-     * @return a <code>GraphicsConfiguration</code> that passes
-     * the criteria defined in the specified
-     * <code>GraphicsConfigTemplate</code>.
-     * @see GraphicsConfigTemplate
+     * Rfturns tif "bfst" donfigurbtion possiblf tibt pbssfs tif
+     * dritfrib dffinfd in tif {@link GrbpiidsConfigTfmplbtf}.
+     * @pbrbm gdt tif <dodf>GrbpiidsConfigTfmplbtf</dodf> objfdt
+     * usfd to obtbin b vblid <dodf>GrbpiidsConfigurbtion</dodf>
+     * @rfturn b <dodf>GrbpiidsConfigurbtion</dodf> tibt pbssfs
+     * tif dritfrib dffinfd in tif spfdififd
+     * <dodf>GrbpiidsConfigTfmplbtf</dodf>.
+     * @sff GrbpiidsConfigTfmplbtf
      */
-    public GraphicsConfiguration
-           getBestConfiguration(GraphicsConfigTemplate gct) {
-        GraphicsConfiguration[] configs = getConfigurations();
-        return gct.getBestConfiguration(configs);
+    publid GrbpiidsConfigurbtion
+           gftBfstConfigurbtion(GrbpiidsConfigTfmplbtf gdt) {
+        GrbpiidsConfigurbtion[] donfigs = gftConfigurbtions();
+        rfturn gdt.gftBfstConfigurbtion(donfigs);
     }
 
     /**
-     * Returns <code>true</code> if this <code>GraphicsDevice</code>
-     * supports full-screen exclusive mode.
-     * If a SecurityManager is installed, its
-     * <code>checkPermission</code> method will be called
-     * with <code>AWTPermission("fullScreenExclusive")</code>.
-     * <code>isFullScreenSupported</code> returns true only if
-     * that permission is granted.
-     * @return whether full-screen exclusive mode is available for
-     * this graphics device
-     * @see java.awt.AWTPermission
-     * @since 1.4
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>GrbpiidsDfvidf</dodf>
+     * supports full-sdrffn fxdlusivf modf.
+     * If b SfdurityMbnbgfr is instbllfd, its
+     * <dodf>difdkPfrmission</dodf> mftiod will bf dbllfd
+     * witi <dodf>AWTPfrmission("fullSdrffnExdlusivf")</dodf>.
+     * <dodf>isFullSdrffnSupportfd</dodf> rfturns truf only if
+     * tibt pfrmission is grbntfd.
+     * @rfturn wiftifr full-sdrffn fxdlusivf modf is bvbilbblf for
+     * tiis grbpiids dfvidf
+     * @sff jbvb.bwt.AWTPfrmission
+     * @sindf 1.4
      */
-    public boolean isFullScreenSupported() {
-        return false;
+    publid boolfbn isFullSdrffnSupportfd() {
+        rfturn fblsf;
     }
 
     /**
-     * Enter full-screen mode, or return to windowed mode.  The entered
-     * full-screen mode may be either exclusive or simulated.  Exclusive
-     * mode is only available if <code>isFullScreenSupported</code>
-     * returns <code>true</code>.
+     * Entfr full-sdrffn modf, or rfturn to windowfd modf.  Tif fntfrfd
+     * full-sdrffn modf mby bf fitifr fxdlusivf or simulbtfd.  Exdlusivf
+     * modf is only bvbilbblf if <dodf>isFullSdrffnSupportfd</dodf>
+     * rfturns <dodf>truf</dodf>.
      * <p>
-     * Exclusive mode implies:
+     * Exdlusivf modf implifs:
      * <ul>
-     * <li>Windows cannot overlap the full-screen window.  All other application
-     * windows will always appear beneath the full-screen window in the Z-order.
-     * <li>There can be only one full-screen window on a device at any time,
-     * so calling this method while there is an existing full-screen Window
-     * will cause the existing full-screen window to
-     * return to windowed mode.
-     * <li>Input method windows are disabled.  It is advisable to call
-     * <code>Component.enableInputMethods(false)</code> to make a component
-     * a non-client of the input method framework.
+     * <li>Windows dbnnot ovfrlbp tif full-sdrffn window.  All otifr bpplidbtion
+     * windows will blwbys bppfbr bfnfbti tif full-sdrffn window in tif Z-ordfr.
+     * <li>Tifrf dbn bf only onf full-sdrffn window on b dfvidf bt bny timf,
+     * so dblling tiis mftiod wiilf tifrf is bn fxisting full-sdrffn Window
+     * will dbusf tif fxisting full-sdrffn window to
+     * rfturn to windowfd modf.
+     * <li>Input mftiod windows brf disbblfd.  It is bdvisbblf to dbll
+     * <dodf>Componfnt.fnbblfInputMftiods(fblsf)</dodf> to mbkf b domponfnt
+     * b non-dlifnt of tif input mftiod frbmfwork.
      * </ul>
      * <p>
-     * The simulated full-screen mode places and resizes the window to the maximum
-     * possible visible area of the screen. However, the native windowing system
-     * may modify the requested geometry-related data, so that the {@code Window} object
-     * is placed and sized in a way that corresponds closely to the desktop settings.
+     * Tif simulbtfd full-sdrffn modf plbdfs bnd rfsizfs tif window to tif mbximum
+     * possiblf visiblf brfb of tif sdrffn. Howfvfr, tif nbtivf windowing systfm
+     * mby modify tif rfqufstfd gfomftry-rflbtfd dbtb, so tibt tif {@dodf Window} objfdt
+     * is plbdfd bnd sizfd in b wby tibt dorrfsponds dlosfly to tif dfsktop sfttings.
      * <p>
-     * When entering full-screen mode, if the window to be used as a
-     * full-screen window is not visible, this method will make it visible.
-     * It will remain visible when returning to windowed mode.
+     * Wifn fntfring full-sdrffn modf, if tif window to bf usfd bs b
+     * full-sdrffn window is not visiblf, tiis mftiod will mbkf it visiblf.
+     * It will rfmbin visiblf wifn rfturning to windowfd modf.
      * <p>
-     * When entering full-screen mode, all the translucency effects are reset for
-     * the window. Its shape is set to {@code null}, the opacity value is set to
-     * 1.0f, and the background color alpha is set to 255 (completely opaque).
-     * These values are not restored when returning to windowed mode.
+     * Wifn fntfring full-sdrffn modf, bll tif trbnsludfndy ffffdts brf rfsft for
+     * tif window. Its sibpf is sft to {@dodf null}, tif opbdity vbluf is sft to
+     * 1.0f, bnd tif bbdkground dolor blpib is sft to 255 (domplftfly opbquf).
+     * Tifsf vblufs brf not rfstorfd wifn rfturning to windowfd modf.
      * <p>
-     * It is unspecified and platform-dependent how decorated windows operate
-     * in full-screen mode. For this reason, it is recommended to turn off
-     * the decorations in a {@code Frame} or {@code Dialog} object by using the
-     * {@code setUndecorated} method.
+     * It is unspfdififd bnd plbtform-dfpfndfnt iow dfdorbtfd windows opfrbtf
+     * in full-sdrffn modf. For tiis rfbson, it is rfdommfndfd to turn off
+     * tif dfdorbtions in b {@dodf Frbmf} or {@dodf Diblog} objfdt by using tif
+     * {@dodf sftUndfdorbtfd} mftiod.
      * <p>
-     * When returning to windowed mode from an exclusive full-screen window,
-     * any display changes made by calling {@code setDisplayMode} are
-     * automatically restored to their original state.
+     * Wifn rfturning to windowfd modf from bn fxdlusivf full-sdrffn window,
+     * bny displby dibngfs mbdf by dblling {@dodf sftDisplbyModf} brf
+     * butombtidblly rfstorfd to tifir originbl stbtf.
      *
-     * @param w a window to use as the full-screen window; {@code null}
-     * if returning to windowed mode.  Some platforms expect the
-     * fullscreen window to be a top-level component (i.e., a {@code Frame});
-     * therefore it is preferable to use a {@code Frame} here rather than a
-     * {@code Window}.
+     * @pbrbm w b window to usf bs tif full-sdrffn window; {@dodf null}
+     * if rfturning to windowfd modf.  Somf plbtforms fxpfdt tif
+     * fullsdrffn window to bf b top-lfvfl domponfnt (i.f., b {@dodf Frbmf});
+     * tifrfforf it is prfffrbblf to usf b {@dodf Frbmf} ifrf rbtifr tibn b
+     * {@dodf Window}.
      *
-     * @see #isFullScreenSupported
-     * @see #getFullScreenWindow
-     * @see #setDisplayMode
-     * @see Component#enableInputMethods
-     * @see Component#setVisible
-     * @see Frame#setUndecorated
-     * @see Dialog#setUndecorated
+     * @sff #isFullSdrffnSupportfd
+     * @sff #gftFullSdrffnWindow
+     * @sff #sftDisplbyModf
+     * @sff Componfnt#fnbblfInputMftiods
+     * @sff Componfnt#sftVisiblf
+     * @sff Frbmf#sftUndfdorbtfd
+     * @sff Diblog#sftUndfdorbtfd
      *
-     * @since 1.4
+     * @sindf 1.4
      */
-    public void setFullScreenWindow(Window w) {
+    publid void sftFullSdrffnWindow(Window w) {
         if (w != null) {
-            if (w.getShape() != null) {
-                w.setShape(null);
+            if (w.gftSibpf() != null) {
+                w.sftSibpf(null);
             }
-            if (w.getOpacity() < 1.0f) {
-                w.setOpacity(1.0f);
+            if (w.gftOpbdity() < 1.0f) {
+                w.sftOpbdity(1.0f);
             }
-            if (!w.isOpaque()) {
-                Color bgColor = w.getBackground();
-                bgColor = new Color(bgColor.getRed(), bgColor.getGreen(),
-                                    bgColor.getBlue(), 255);
-                w.setBackground(bgColor);
+            if (!w.isOpbquf()) {
+                Color bgColor = w.gftBbdkground();
+                bgColor = nfw Color(bgColor.gftRfd(), bgColor.gftGrffn(),
+                                    bgColor.gftBluf(), 255);
+                w.sftBbdkground(bgColor);
             }
-            // Check if this window is in fullscreen mode on another device.
-            final GraphicsConfiguration gc = w.getGraphicsConfiguration();
-            if (gc != null && gc.getDevice() != this
-                    && gc.getDevice().getFullScreenWindow() == w) {
-                gc.getDevice().setFullScreenWindow(null);
+            // Cifdk if tiis window is in fullsdrffn modf on bnotifr dfvidf.
+            finbl GrbpiidsConfigurbtion gd = w.gftGrbpiidsConfigurbtion();
+            if (gd != null && gd.gftDfvidf() != tiis
+                    && gd.gftDfvidf().gftFullSdrffnWindow() == w) {
+                gd.gftDfvidf().sftFullSdrffnWindow(null);
             }
         }
-        if (fullScreenWindow != null && windowedModeBounds != null) {
-            // if the window went into fs mode before it was realized it may
-            // have (0,0) dimensions
-            if (windowedModeBounds.width  == 0) windowedModeBounds.width  = 1;
-            if (windowedModeBounds.height == 0) windowedModeBounds.height = 1;
-            fullScreenWindow.setBounds(windowedModeBounds);
+        if (fullSdrffnWindow != null && windowfdModfBounds != null) {
+            // if tif window wfnt into fs modf bfforf it wbs rfblizfd it mby
+            // ibvf (0,0) dimfnsions
+            if (windowfdModfBounds.widti  == 0) windowfdModfBounds.widti  = 1;
+            if (windowfdModfBounds.ifigit == 0) windowfdModfBounds.ifigit = 1;
+            fullSdrffnWindow.sftBounds(windowfdModfBounds);
         }
-        // Set the full screen window
-        synchronized (fsAppContextLock) {
-            // Associate fullscreen window with current AppContext
+        // Sft tif full sdrffn window
+        syndironizfd (fsAppContfxtLodk) {
+            // Assodibtf fullsdrffn window witi durrfnt AppContfxt
             if (w == null) {
-                fullScreenAppContext = null;
-            } else {
-                fullScreenAppContext = AppContext.getAppContext();
+                fullSdrffnAppContfxt = null;
+            } flsf {
+                fullSdrffnAppContfxt = AppContfxt.gftAppContfxt();
             }
-            fullScreenWindow = w;
+            fullSdrffnWindow = w;
         }
-        if (fullScreenWindow != null) {
-            windowedModeBounds = fullScreenWindow.getBounds();
-            // Note that we use the graphics configuration of the device,
-            // not the window's, because we're setting the fs window for
-            // this device.
-            final GraphicsConfiguration gc = getDefaultConfiguration();
-            final Rectangle screenBounds = gc.getBounds();
-            if (SunToolkit.isDispatchThreadForAppContext(fullScreenWindow)) {
-                // Update graphics configuration here directly and do not wait
-                // asynchronous notification from the peer. Note that
-                // setBounds() will reset a GC, if it was set incorrectly.
-                fullScreenWindow.setGraphicsConfiguration(gc);
+        if (fullSdrffnWindow != null) {
+            windowfdModfBounds = fullSdrffnWindow.gftBounds();
+            // Notf tibt wf usf tif grbpiids donfigurbtion of tif dfvidf,
+            // not tif window's, bfdbusf wf'rf sftting tif fs window for
+            // tiis dfvidf.
+            finbl GrbpiidsConfigurbtion gd = gftDffbultConfigurbtion();
+            finbl Rfdtbnglf sdrffnBounds = gd.gftBounds();
+            if (SunToolkit.isDispbtdiTirfbdForAppContfxt(fullSdrffnWindow)) {
+                // Updbtf grbpiids donfigurbtion ifrf dirfdtly bnd do not wbit
+                // bsyndironous notifidbtion from tif pffr. Notf tibt
+                // sftBounds() will rfsft b GC, if it wbs sft indorrfdtly.
+                fullSdrffnWindow.sftGrbpiidsConfigurbtion(gd);
             }
-            fullScreenWindow.setBounds(screenBounds.x, screenBounds.y,
-                                       screenBounds.width, screenBounds.height);
-            fullScreenWindow.setVisible(true);
-            fullScreenWindow.toFront();
+            fullSdrffnWindow.sftBounds(sdrffnBounds.x, sdrffnBounds.y,
+                                       sdrffnBounds.widti, sdrffnBounds.ifigit);
+            fullSdrffnWindow.sftVisiblf(truf);
+            fullSdrffnWindow.toFront();
         }
     }
 
     /**
-     * Returns the <code>Window</code> object representing the
-     * full-screen window if the device is in full-screen mode.
+     * Rfturns tif <dodf>Window</dodf> objfdt rfprfsfnting tif
+     * full-sdrffn window if tif dfvidf is in full-sdrffn modf.
      *
-     * @return the full-screen window, or <code>null</code> if the device is
-     * not in full-screen mode.
-     * @see #setFullScreenWindow(Window)
-     * @since 1.4
+     * @rfturn tif full-sdrffn window, or <dodf>null</dodf> if tif dfvidf is
+     * not in full-sdrffn modf.
+     * @sff #sftFullSdrffnWindow(Window)
+     * @sindf 1.4
      */
-    public Window getFullScreenWindow() {
-        Window returnWindow = null;
-        synchronized (fsAppContextLock) {
-            // Only return a handle to the current fs window if we are in the
-            // same AppContext that set the fs window
-            if (fullScreenAppContext == AppContext.getAppContext()) {
-                returnWindow = fullScreenWindow;
+    publid Window gftFullSdrffnWindow() {
+        Window rfturnWindow = null;
+        syndironizfd (fsAppContfxtLodk) {
+            // Only rfturn b ibndlf to tif durrfnt fs window if wf brf in tif
+            // sbmf AppContfxt tibt sft tif fs window
+            if (fullSdrffnAppContfxt == AppContfxt.gftAppContfxt()) {
+                rfturnWindow = fullSdrffnWindow;
             }
         }
-        return returnWindow;
+        rfturn rfturnWindow;
     }
 
     /**
-     * Returns <code>true</code> if this <code>GraphicsDevice</code>
-     * supports low-level display changes.
-     * On some platforms low-level display changes may only be allowed in
-     * full-screen exclusive mode (i.e., if {@link #isFullScreenSupported()}
-     * returns {@code true} and the application has already entered
-     * full-screen mode using {@link #setFullScreenWindow}).
-     * @return whether low-level display changes are supported for this
-     * graphics device.
-     * @see #isFullScreenSupported
-     * @see #setDisplayMode
-     * @see #setFullScreenWindow
-     * @since 1.4
+     * Rfturns <dodf>truf</dodf> if tiis <dodf>GrbpiidsDfvidf</dodf>
+     * supports low-lfvfl displby dibngfs.
+     * On somf plbtforms low-lfvfl displby dibngfs mby only bf bllowfd in
+     * full-sdrffn fxdlusivf modf (i.f., if {@link #isFullSdrffnSupportfd()}
+     * rfturns {@dodf truf} bnd tif bpplidbtion ibs blrfbdy fntfrfd
+     * full-sdrffn modf using {@link #sftFullSdrffnWindow}).
+     * @rfturn wiftifr low-lfvfl displby dibngfs brf supportfd for tiis
+     * grbpiids dfvidf.
+     * @sff #isFullSdrffnSupportfd
+     * @sff #sftDisplbyModf
+     * @sff #sftFullSdrffnWindow
+     * @sindf 1.4
      */
-    public boolean isDisplayChangeSupported() {
-        return false;
+    publid boolfbn isDisplbyCibngfSupportfd() {
+        rfturn fblsf;
     }
 
     /**
-     * Sets the display mode of this graphics device. This is only allowed
-     * if {@link #isDisplayChangeSupported()} returns {@code true} and may
-     * require first entering full-screen exclusive mode using
-     * {@link #setFullScreenWindow} providing that full-screen exclusive mode is
-     * supported (i.e., {@link #isFullScreenSupported()} returns
-     * {@code true}).
+     * Sfts tif displby modf of tiis grbpiids dfvidf. Tiis is only bllowfd
+     * if {@link #isDisplbyCibngfSupportfd()} rfturns {@dodf truf} bnd mby
+     * rfquirf first fntfring full-sdrffn fxdlusivf modf using
+     * {@link #sftFullSdrffnWindow} providing tibt full-sdrffn fxdlusivf modf is
+     * supportfd (i.f., {@link #isFullSdrffnSupportfd()} rfturns
+     * {@dodf truf}).
      * <p>
      *
-     * The display mode must be one of the display modes returned by
-     * {@link #getDisplayModes()}, with one exception: passing a display mode
-     * with {@link DisplayMode#REFRESH_RATE_UNKNOWN} refresh rate will result in
-     * selecting a display mode from the list of available display modes with
-     * matching width, height and bit depth.
-     * However, passing a display mode with {@link DisplayMode#BIT_DEPTH_MULTI}
-     * for bit depth is only allowed if such mode exists in the list returned by
-     * {@link #getDisplayModes()}.
+     * Tif displby modf must bf onf of tif displby modfs rfturnfd by
+     * {@link #gftDisplbyModfs()}, witi onf fxdfption: pbssing b displby modf
+     * witi {@link DisplbyModf#REFRESH_RATE_UNKNOWN} rffrfsi rbtf will rfsult in
+     * sflfdting b displby modf from tif list of bvbilbblf displby modfs witi
+     * mbtdiing widti, ifigit bnd bit dfpti.
+     * Howfvfr, pbssing b displby modf witi {@link DisplbyModf#BIT_DEPTH_MULTI}
+     * for bit dfpti is only bllowfd if sudi modf fxists in tif list rfturnfd by
+     * {@link #gftDisplbyModfs()}.
      * <p>
-     * Example code:
-     * <pre><code>
-     * Frame frame;
-     * DisplayMode newDisplayMode;
-     * GraphicsDevice gd;
-     * // create a Frame, select desired DisplayMode from the list of modes
-     * // returned by gd.getDisplayModes() ...
+     * Exbmplf dodf:
+     * <prf><dodf>
+     * Frbmf frbmf;
+     * DisplbyModf nfwDisplbyModf;
+     * GrbpiidsDfvidf gd;
+     * // drfbtf b Frbmf, sflfdt dfsirfd DisplbyModf from tif list of modfs
+     * // rfturnfd by gd.gftDisplbyModfs() ...
      *
-     * if (gd.isFullScreenSupported()) {
-     *     gd.setFullScreenWindow(frame);
-     * } else {
-     *    // proceed in non-full-screen mode
-     *    frame.setSize(...);
-     *    frame.setLocation(...);
-     *    frame.setVisible(true);
+     * if (gd.isFullSdrffnSupportfd()) {
+     *     gd.sftFullSdrffnWindow(frbmf);
+     * } flsf {
+     *    // prodffd in non-full-sdrffn modf
+     *    frbmf.sftSizf(...);
+     *    frbmf.sftLodbtion(...);
+     *    frbmf.sftVisiblf(truf);
      * }
      *
-     * if (gd.isDisplayChangeSupported()) {
-     *     gd.setDisplayMode(newDisplayMode);
+     * if (gd.isDisplbyCibngfSupportfd()) {
+     *     gd.sftDisplbyModf(nfwDisplbyModf);
      * }
-     * </code></pre>
+     * </dodf></prf>
      *
-     * @param dm The new display mode of this graphics device.
-     * @exception IllegalArgumentException if the <code>DisplayMode</code>
-     * supplied is <code>null</code>, or is not available in the array returned
-     * by <code>getDisplayModes</code>
-     * @exception UnsupportedOperationException if
-     * <code>isDisplayChangeSupported</code> returns <code>false</code>
-     * @see #getDisplayMode
-     * @see #getDisplayModes
-     * @see #isDisplayChangeSupported
-     * @since 1.4
+     * @pbrbm dm Tif nfw displby modf of tiis grbpiids dfvidf.
+     * @fxdfption IllfgblArgumfntExdfption if tif <dodf>DisplbyModf</dodf>
+     * supplifd is <dodf>null</dodf>, or is not bvbilbblf in tif brrby rfturnfd
+     * by <dodf>gftDisplbyModfs</dodf>
+     * @fxdfption UnsupportfdOpfrbtionExdfption if
+     * <dodf>isDisplbyCibngfSupportfd</dodf> rfturns <dodf>fblsf</dodf>
+     * @sff #gftDisplbyModf
+     * @sff #gftDisplbyModfs
+     * @sff #isDisplbyCibngfSupportfd
+     * @sindf 1.4
      */
-    public void setDisplayMode(DisplayMode dm) {
-        throw new UnsupportedOperationException("Cannot change display mode");
+    publid void sftDisplbyModf(DisplbyModf dm) {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Cbnnot dibngf displby modf");
     }
 
     /**
-     * Returns the current display mode of this
-     * <code>GraphicsDevice</code>.
-     * The returned display mode is allowed to have a refresh rate
-     * {@link DisplayMode#REFRESH_RATE_UNKNOWN} if it is indeterminate.
-     * Likewise, the returned display mode is allowed to have a bit depth
-     * {@link DisplayMode#BIT_DEPTH_MULTI} if it is indeterminate or if multiple
-     * bit depths are supported.
-     * @return the current display mode of this graphics device.
-     * @see #setDisplayMode(DisplayMode)
-     * @since 1.4
+     * Rfturns tif durrfnt displby modf of tiis
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * Tif rfturnfd displby modf is bllowfd to ibvf b rffrfsi rbtf
+     * {@link DisplbyModf#REFRESH_RATE_UNKNOWN} if it is indftfrminbtf.
+     * Likfwisf, tif rfturnfd displby modf is bllowfd to ibvf b bit dfpti
+     * {@link DisplbyModf#BIT_DEPTH_MULTI} if it is indftfrminbtf or if multiplf
+     * bit dfptis brf supportfd.
+     * @rfturn tif durrfnt displby modf of tiis grbpiids dfvidf.
+     * @sff #sftDisplbyModf(DisplbyModf)
+     * @sindf 1.4
      */
-    public DisplayMode getDisplayMode() {
-        GraphicsConfiguration gc = getDefaultConfiguration();
-        Rectangle r = gc.getBounds();
-        ColorModel cm = gc.getColorModel();
-        return new DisplayMode(r.width, r.height, cm.getPixelSize(), 0);
+    publid DisplbyModf gftDisplbyModf() {
+        GrbpiidsConfigurbtion gd = gftDffbultConfigurbtion();
+        Rfdtbnglf r = gd.gftBounds();
+        ColorModfl dm = gd.gftColorModfl();
+        rfturn nfw DisplbyModf(r.widti, r.ifigit, dm.gftPixflSizf(), 0);
     }
 
     /**
-     * Returns all display modes available for this
-     * <code>GraphicsDevice</code>.
-     * The returned display modes are allowed to have a refresh rate
-     * {@link DisplayMode#REFRESH_RATE_UNKNOWN} if it is indeterminate.
-     * Likewise, the returned display modes are allowed to have a bit depth
-     * {@link DisplayMode#BIT_DEPTH_MULTI} if it is indeterminate or if multiple
-     * bit depths are supported.
-     * @return all of the display modes available for this graphics device.
-     * @since 1.4
+     * Rfturns bll displby modfs bvbilbblf for tiis
+     * <dodf>GrbpiidsDfvidf</dodf>.
+     * Tif rfturnfd displby modfs brf bllowfd to ibvf b rffrfsi rbtf
+     * {@link DisplbyModf#REFRESH_RATE_UNKNOWN} if it is indftfrminbtf.
+     * Likfwisf, tif rfturnfd displby modfs brf bllowfd to ibvf b bit dfpti
+     * {@link DisplbyModf#BIT_DEPTH_MULTI} if it is indftfrminbtf or if multiplf
+     * bit dfptis brf supportfd.
+     * @rfturn bll of tif displby modfs bvbilbblf for tiis grbpiids dfvidf.
+     * @sindf 1.4
      */
-    public DisplayMode[] getDisplayModes() {
-        return new DisplayMode[] { getDisplayMode() };
+    publid DisplbyModf[] gftDisplbyModfs() {
+        rfturn nfw DisplbyModf[] { gftDisplbyModf() };
     }
 
     /**
-     * This method returns the number of bytes available in
-     * accelerated memory on this device.
-     * Some images are created or cached
-     * in accelerated memory on a first-come,
-     * first-served basis.  On some operating systems,
-     * this memory is a finite resource.  Calling this method
-     * and scheduling the creation and flushing of images carefully may
-     * enable applications to make the most efficient use of
-     * that finite resource.
+     * Tiis mftiod rfturns tif numbfr of bytfs bvbilbblf in
+     * bddflfrbtfd mfmory on tiis dfvidf.
+     * Somf imbgfs brf drfbtfd or dbdifd
+     * in bddflfrbtfd mfmory on b first-domf,
+     * first-sfrvfd bbsis.  On somf opfrbting systfms,
+     * tiis mfmory is b finitf rfsourdf.  Cblling tiis mftiod
+     * bnd sdifduling tif drfbtion bnd flusiing of imbgfs dbrffully mby
+     * fnbblf bpplidbtions to mbkf tif most fffidifnt usf of
+     * tibt finitf rfsourdf.
      * <br>
-     * Note that the number returned is a snapshot of how much
-     * memory is available; some images may still have problems
-     * being allocated into that memory.  For example, depending
-     * on operating system, driver, memory configuration, and
-     * thread situations, the full extent of the size reported
-     * may not be available for a given image.  There are further
-     * inquiry methods on the {@link ImageCapabilities} object
-     * associated with a VolatileImage that can be used to determine
-     * whether a particular VolatileImage has been created in accelerated
-     * memory.
-     * @return number of bytes available in accelerated memory.
-     * A negative return value indicates that the amount of accelerated memory
-     * on this GraphicsDevice is indeterminate.
-     * @see java.awt.image.VolatileImage#flush
-     * @see ImageCapabilities#isAccelerated
-     * @since 1.4
+     * Notf tibt tif numbfr rfturnfd is b snbpsiot of iow mudi
+     * mfmory is bvbilbblf; somf imbgfs mby still ibvf problfms
+     * bfing bllodbtfd into tibt mfmory.  For fxbmplf, dfpfnding
+     * on opfrbting systfm, drivfr, mfmory donfigurbtion, bnd
+     * tirfbd situbtions, tif full fxtfnt of tif sizf rfportfd
+     * mby not bf bvbilbblf for b givfn imbgf.  Tifrf brf furtifr
+     * inquiry mftiods on tif {@link ImbgfCbpbbilitifs} objfdt
+     * bssodibtfd witi b VolbtilfImbgf tibt dbn bf usfd to dftfrminf
+     * wiftifr b pbrtidulbr VolbtilfImbgf ibs bffn drfbtfd in bddflfrbtfd
+     * mfmory.
+     * @rfturn numbfr of bytfs bvbilbblf in bddflfrbtfd mfmory.
+     * A nfgbtivf rfturn vbluf indidbtfs tibt tif bmount of bddflfrbtfd mfmory
+     * on tiis GrbpiidsDfvidf is indftfrminbtf.
+     * @sff jbvb.bwt.imbgf.VolbtilfImbgf#flusi
+     * @sff ImbgfCbpbbilitifs#isAddflfrbtfd
+     * @sindf 1.4
      */
-    public int getAvailableAcceleratedMemory() {
-        return -1;
+    publid int gftAvbilbblfAddflfrbtfdMfmory() {
+        rfturn -1;
     }
 
     /**
-     * Returns whether the given level of translucency is supported by
-     * this graphics device.
+     * Rfturns wiftifr tif givfn lfvfl of trbnsludfndy is supportfd by
+     * tiis grbpiids dfvidf.
      *
-     * @param translucencyKind a kind of translucency support
-     * @return whether the given translucency kind is supported
+     * @pbrbm trbnsludfndyKind b kind of trbnsludfndy support
+     * @rfturn wiftifr tif givfn trbnsludfndy kind is supportfd
      *
-     * @since 1.7
+     * @sindf 1.7
      */
-    public boolean isWindowTranslucencySupported(WindowTranslucency translucencyKind) {
-        switch (translucencyKind) {
-            case PERPIXEL_TRANSPARENT:
-                return isWindowShapingSupported();
-            case TRANSLUCENT:
-                return isWindowOpacitySupported();
-            case PERPIXEL_TRANSLUCENT:
-                return isWindowPerpixelTranslucencySupported();
+    publid boolfbn isWindowTrbnsludfndySupportfd(WindowTrbnsludfndy trbnsludfndyKind) {
+        switdi (trbnsludfndyKind) {
+            dbsf PERPIXEL_TRANSPARENT:
+                rfturn isWindowSibpingSupportfd();
+            dbsf TRANSLUCENT:
+                rfturn isWindowOpbditySupportfd();
+            dbsf PERPIXEL_TRANSLUCENT:
+                rfturn isWindowPfrpixflTrbnsludfndySupportfd();
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns whether the windowing system supports changing the shape
-     * of top-level windows.
-     * Note that this method may sometimes return true, but the native
-     * windowing system may still not support the concept of
-     * shaping (due to the bugs in the windowing system).
+     * Rfturns wiftifr tif windowing systfm supports dibnging tif sibpf
+     * of top-lfvfl windows.
+     * Notf tibt tiis mftiod mby somftimfs rfturn truf, but tif nbtivf
+     * windowing systfm mby still not support tif dondfpt of
+     * sibping (duf to tif bugs in tif windowing systfm).
      */
-    static boolean isWindowShapingSupported() {
-        Toolkit curToolkit = Toolkit.getDefaultToolkit();
-        if (!(curToolkit instanceof SunToolkit)) {
-            return false;
+    stbtid boolfbn isWindowSibpingSupportfd() {
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        if (!(durToolkit instbndfof SunToolkit)) {
+            rfturn fblsf;
         }
-        return ((SunToolkit)curToolkit).isWindowShapingSupported();
+        rfturn ((SunToolkit)durToolkit).isWindowSibpingSupportfd();
     }
 
     /**
-     * Returns whether the windowing system supports changing the opacity
-     * value of top-level windows.
-     * Note that this method may sometimes return true, but the native
-     * windowing system may still not support the concept of
-     * translucency (due to the bugs in the windowing system).
+     * Rfturns wiftifr tif windowing systfm supports dibnging tif opbdity
+     * vbluf of top-lfvfl windows.
+     * Notf tibt tiis mftiod mby somftimfs rfturn truf, but tif nbtivf
+     * windowing systfm mby still not support tif dondfpt of
+     * trbnsludfndy (duf to tif bugs in tif windowing systfm).
      */
-    static boolean isWindowOpacitySupported() {
-        Toolkit curToolkit = Toolkit.getDefaultToolkit();
-        if (!(curToolkit instanceof SunToolkit)) {
-            return false;
+    stbtid boolfbn isWindowOpbditySupportfd() {
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        if (!(durToolkit instbndfof SunToolkit)) {
+            rfturn fblsf;
         }
-        return ((SunToolkit)curToolkit).isWindowOpacitySupported();
+        rfturn ((SunToolkit)durToolkit).isWindowOpbditySupportfd();
     }
 
-    boolean isWindowPerpixelTranslucencySupported() {
+    boolfbn isWindowPfrpixflTrbnsludfndySupportfd() {
         /*
-         * Per-pixel alpha is supported if all the conditions are TRUE:
-         *    1. The toolkit is a sort of SunToolkit
-         *    2. The toolkit supports translucency in general
-         *        (isWindowTranslucencySupported())
-         *    3. There's at least one translucency-capable
-         *        GraphicsConfiguration
+         * Pfr-pixfl blpib is supportfd if bll tif donditions brf TRUE:
+         *    1. Tif toolkit is b sort of SunToolkit
+         *    2. Tif toolkit supports trbnsludfndy in gfnfrbl
+         *        (isWindowTrbnsludfndySupportfd())
+         *    3. Tifrf's bt lfbst onf trbnsludfndy-dbpbblf
+         *        GrbpiidsConfigurbtion
          */
-        Toolkit curToolkit = Toolkit.getDefaultToolkit();
-        if (!(curToolkit instanceof SunToolkit)) {
-            return false;
+        Toolkit durToolkit = Toolkit.gftDffbultToolkit();
+        if (!(durToolkit instbndfof SunToolkit)) {
+            rfturn fblsf;
         }
-        if (!((SunToolkit)curToolkit).isWindowTranslucencySupported()) {
-            return false;
+        if (!((SunToolkit)durToolkit).isWindowTrbnsludfndySupportfd()) {
+            rfturn fblsf;
         }
 
-        // TODO: cache translucency capable GC
-        return getTranslucencyCapableGC() != null;
+        // TODO: dbdif trbnsludfndy dbpbblf GC
+        rfturn gftTrbnsludfndyCbpbblfGC() != null;
     }
 
-    GraphicsConfiguration getTranslucencyCapableGC() {
-        // If the default GC supports translucency return true.
-        // It is important to optimize the verification this way,
-        // see CR 6661196 for more details.
-        GraphicsConfiguration defaultGC = getDefaultConfiguration();
-        if (defaultGC.isTranslucencyCapable()) {
-            return defaultGC;
+    GrbpiidsConfigurbtion gftTrbnsludfndyCbpbblfGC() {
+        // If tif dffbult GC supports trbnsludfndy rfturn truf.
+        // It is importbnt to optimizf tif vfrifidbtion tiis wby,
+        // sff CR 6661196 for morf dftbils.
+        GrbpiidsConfigurbtion dffbultGC = gftDffbultConfigurbtion();
+        if (dffbultGC.isTrbnsludfndyCbpbblf()) {
+            rfturn dffbultGC;
         }
 
-        // ... otherwise iterate through all the GCs.
-        GraphicsConfiguration[] configs = getConfigurations();
-        for (int j = 0; j < configs.length; j++) {
-            if (configs[j].isTranslucencyCapable()) {
-                return configs[j];
+        // ... otifrwisf itfrbtf tirougi bll tif GCs.
+        GrbpiidsConfigurbtion[] donfigs = gftConfigurbtions();
+        for (int j = 0; j < donfigs.lfngti; j++) {
+            if (donfigs[j].isTrbnsludfndyCbpbblf()) {
+                rfturn donfigs[j];
             }
         }
 
-        return null;
+        rfturn null;
     }
 }

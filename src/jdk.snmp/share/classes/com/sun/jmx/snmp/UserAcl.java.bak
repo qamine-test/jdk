@@ -1,97 +1,97 @@
 /*
- * Copyright (c) 2001, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.snmp;
+pbdkbgf dom.sun.jmx.snmp;
 
 
-// java import
+// jbvb import
 //
-import java.util.Enumeration;
-import java.net.InetAddress;
+import jbvb.util.Enumfrbtion;
+import jbvb.nft.InftAddrfss;
 
 /**
- * Defines the user based ACL used by the SNMP protocol adaptor.
+ * Dffinfs tif usfr bbsfd ACL usfd by tif SNMP protodol bdbptor.
  * <p>
- * <p><b>This API is a Sun Microsystems internal API  and is subject
- * to change without notice.</b></p>
- * @since 1.5
+ * <p><b>Tiis API is b Sun Midrosystfms intfrnbl API  bnd is subjfdt
+ * to dibngf witiout notidf.</b></p>
+ * @sindf 1.5
  */
 
-public interface UserAcl {
+publid intfrfbdf UsfrAdl {
 
     /**
-     * Returns the name of the ACL.
+     * Rfturns tif nbmf of tif ACL.
      *
-     * @return The name of the ACL.
+     * @rfturn Tif nbmf of tif ACL.
      */
-    public String getName();
+    publid String gftNbmf();
 
     /**
-     * Checks whether or not the specified user has <CODE>READ</CODE> access.
+     * Cifdks wiftifr or not tif spfdififd usfr ibs <CODE>READ</CODE> bddfss.
      *
-     * @param user The user name to check.
+     * @pbrbm usfr Tif usfr nbmf to difdk.
      *
-     * @return <CODE>true</CODE> if the host has read permission, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif iost ibs rfbd pfrmission, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean checkReadPermission(String user);
+    publid boolfbn difdkRfbdPfrmission(String usfr);
 
     /**
-     * Checks whether or not the specified user and context name have <CODE>READ</CODE> access.
+     * Cifdks wiftifr or not tif spfdififd usfr bnd dontfxt nbmf ibvf <CODE>READ</CODE> bddfss.
      *
-     * @param user The user name to check.
-     * @param contextName The context name associated with the user.
-     * @param securityLevel The request security level.
-     * @return <CODE>true</CODE> if the pair (user, context) has read permission, <CODE>false</CODE> otherwise.
+     * @pbrbm usfr Tif usfr nbmf to difdk.
+     * @pbrbm dontfxtNbmf Tif dontfxt nbmf bssodibtfd witi tif usfr.
+     * @pbrbm sfdurityLfvfl Tif rfqufst sfdurity lfvfl.
+     * @rfturn <CODE>truf</CODE> if tif pbir (usfr, dontfxt) ibs rfbd pfrmission, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean checkReadPermission(String user, String contextName, int securityLevel);
+    publid boolfbn difdkRfbdPfrmission(String usfr, String dontfxtNbmf, int sfdurityLfvfl);
 
     /**
-     * Checks whether or not a context name is defined.
+     * Cifdks wiftifr or not b dontfxt nbmf is dffinfd.
      *
-     * @param contextName The context name to check.
+     * @pbrbm dontfxtNbmf Tif dontfxt nbmf to difdk.
      *
-     * @return <CODE>true</CODE> if the context is known, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif dontfxt is known, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean checkContextName(String contextName);
+    publid boolfbn difdkContfxtNbmf(String dontfxtNbmf);
 
     /**
-     * Checks whether or not the specified user has <CODE>WRITE</CODE> access.
+     * Cifdks wiftifr or not tif spfdififd usfr ibs <CODE>WRITE</CODE> bddfss.
      *
-     * @param user The user to check.
+     * @pbrbm usfr Tif usfr to difdk.
      *
-     * @return <CODE>true</CODE> if the user has write permission, <CODE>false</CODE> otherwise.
+     * @rfturn <CODE>truf</CODE> if tif usfr ibs writf pfrmission, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean checkWritePermission(String user);
+    publid boolfbn difdkWritfPfrmission(String usfr);
 
     /**
-     * Checks whether or not the specified user and context name have <CODE>WRITE</CODE> access.
+     * Cifdks wiftifr or not tif spfdififd usfr bnd dontfxt nbmf ibvf <CODE>WRITE</CODE> bddfss.
      *
-     * @param user The user name to check.
-     * @param contextName The context name associated with the user.
-     * @param securityLevel The request security level.
-     * @return <CODE>true</CODE> if the pair (user, context) has write permission, <CODE>false</CODE> otherwise.
+     * @pbrbm usfr Tif usfr nbmf to difdk.
+     * @pbrbm dontfxtNbmf Tif dontfxt nbmf bssodibtfd witi tif usfr.
+     * @pbrbm sfdurityLfvfl Tif rfqufst sfdurity lfvfl.
+     * @rfturn <CODE>truf</CODE> if tif pbir (usfr, dontfxt) ibs writf pfrmission, <CODE>fblsf</CODE> otifrwisf.
      */
-    public boolean checkWritePermission(String user, String contextName, int securityLevel);
+    publid boolfbn difdkWritfPfrmission(String usfr, String dontfxtNbmf, int sfdurityLfvfl);
 }

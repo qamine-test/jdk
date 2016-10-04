@@ -1,1964 +1,1964 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.awt.image;
+pbdkbgf jbvb.bwt.imbgf;
 
-import java.awt.Transparency;
-import java.awt.color.ColorSpace;
-import java.awt.color.ICC_ColorSpace;
-import sun.java2d.cmm.CMSManager;
-import sun.java2d.cmm.ColorTransform;
-import sun.java2d.cmm.PCMM;
-import java.awt.Toolkit;
-import java.util.Collections;
-import java.util.Map;
-import java.util.WeakHashMap;
+import jbvb.bwt.Trbnspbrfndy;
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.dolor.ICC_ColorSpbdf;
+import sun.jbvb2d.dmm.CMSMbnbgfr;
+import sun.jbvb2d.dmm.ColorTrbnsform;
+import sun.jbvb2d.dmm.PCMM;
+import jbvb.bwt.Toolkit;
+import jbvb.util.Collfdtions;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
 
 /**
- * The <code>ColorModel</code> abstract class encapsulates the
- * methods for translating a pixel value to color components
- * (for example, red, green, and blue) and an alpha component.
- * In order to render an image to the screen, a printer, or another
- * image, pixel values must be converted to color and alpha components.
- * As arguments to or return values from methods of this class,
- * pixels are represented as 32-bit ints or as arrays of primitive types.
- * The number, order, and interpretation of color components for a
- * <code>ColorModel</code> is specified by its <code>ColorSpace</code>.
- * A <code>ColorModel</code> used with pixel data that does not include
- * alpha information treats all pixels as opaque, which is an alpha
- * value of 1.0.
+ * Tif <dodf>ColorModfl</dodf> bbstrbdt dlbss fndbpsulbtfs tif
+ * mftiods for trbnslbting b pixfl vbluf to dolor domponfnts
+ * (for fxbmplf, rfd, grffn, bnd bluf) bnd bn blpib domponfnt.
+ * In ordfr to rfndfr bn imbgf to tif sdrffn, b printfr, or bnotifr
+ * imbgf, pixfl vblufs must bf donvfrtfd to dolor bnd blpib domponfnts.
+ * As brgumfnts to or rfturn vblufs from mftiods of tiis dlbss,
+ * pixfls brf rfprfsfntfd bs 32-bit ints or bs brrbys of primitivf typfs.
+ * Tif numbfr, ordfr, bnd intfrprftbtion of dolor domponfnts for b
+ * <dodf>ColorModfl</dodf> is spfdififd by its <dodf>ColorSpbdf</dodf>.
+ * A <dodf>ColorModfl</dodf> usfd witi pixfl dbtb tibt dofs not indludf
+ * blpib informbtion trfbts bll pixfls bs opbquf, wiidi is bn blpib
+ * vbluf of 1.0.
  * <p>
- * This <code>ColorModel</code> class supports two representations of
- * pixel values.  A pixel value can be a single 32-bit int or an
- * array of primitive types.  The Java(tm) Platform 1.0 and 1.1 APIs
- * represented pixels as single <code>byte</code> or single
- * <code>int</code> values.  For purposes of the <code>ColorModel</code>
- * class, pixel value arguments were passed as ints.  The Java(tm) 2
- * Platform API introduced additional classes for representing images.
- * With {@link BufferedImage} or {@link RenderedImage}
- * objects, based on {@link Raster} and {@link SampleModel} classes, pixel
- * values might not be conveniently representable as a single int.
- * Consequently, <code>ColorModel</code> now has methods that accept
- * pixel values represented as arrays of primitive types.  The primitive
- * type used by a particular <code>ColorModel</code> object is called its
- * transfer type.
+ * Tiis <dodf>ColorModfl</dodf> dlbss supports two rfprfsfntbtions of
+ * pixfl vblufs.  A pixfl vbluf dbn bf b singlf 32-bit int or bn
+ * brrby of primitivf typfs.  Tif Jbvb(tm) Plbtform 1.0 bnd 1.1 APIs
+ * rfprfsfntfd pixfls bs singlf <dodf>bytf</dodf> or singlf
+ * <dodf>int</dodf> vblufs.  For purposfs of tif <dodf>ColorModfl</dodf>
+ * dlbss, pixfl vbluf brgumfnts wfrf pbssfd bs ints.  Tif Jbvb(tm) 2
+ * Plbtform API introdudfd bdditionbl dlbssfs for rfprfsfnting imbgfs.
+ * Witi {@link BufffrfdImbgf} or {@link RfndfrfdImbgf}
+ * objfdts, bbsfd on {@link Rbstfr} bnd {@link SbmplfModfl} dlbssfs, pixfl
+ * vblufs migit not bf donvfnifntly rfprfsfntbblf bs b singlf int.
+ * Consfqufntly, <dodf>ColorModfl</dodf> now ibs mftiods tibt bddfpt
+ * pixfl vblufs rfprfsfntfd bs brrbys of primitivf typfs.  Tif primitivf
+ * typf usfd by b pbrtidulbr <dodf>ColorModfl</dodf> objfdt is dbllfd its
+ * trbnsffr typf.
  * <p>
- * <code>ColorModel</code> objects used with images for which pixel values
- * are not conveniently representable as a single int throw an
- * {@link IllegalArgumentException} when methods taking a single int pixel
- * argument are called.  Subclasses of <code>ColorModel</code> must
- * specify the conditions under which this occurs.  This does not
- * occur with {@link DirectColorModel} or {@link IndexColorModel} objects.
+ * <dodf>ColorModfl</dodf> objfdts usfd witi imbgfs for wiidi pixfl vblufs
+ * brf not donvfnifntly rfprfsfntbblf bs b singlf int tirow bn
+ * {@link IllfgblArgumfntExdfption} wifn mftiods tbking b singlf int pixfl
+ * brgumfnt brf dbllfd.  Subdlbssfs of <dodf>ColorModfl</dodf> must
+ * spfdify tif donditions undfr wiidi tiis oddurs.  Tiis dofs not
+ * oddur witi {@link DirfdtColorModfl} or {@link IndfxColorModfl} objfdts.
  * <p>
- * Currently, the transfer types supported by the Java 2D(tm) API are
- * DataBuffer.TYPE_BYTE, DataBuffer.TYPE_USHORT, DataBuffer.TYPE_INT,
- * DataBuffer.TYPE_SHORT, DataBuffer.TYPE_FLOAT, and DataBuffer.TYPE_DOUBLE.
- * Most rendering operations will perform much faster when using ColorModels
- * and images based on the first three of these types.  In addition, some
- * image filtering operations are not supported for ColorModels and
- * images based on the latter three types.
- * The transfer type for a particular <code>ColorModel</code> object is
- * specified when the object is created, either explicitly or by default.
- * All subclasses of <code>ColorModel</code> must specify what the
- * possible transfer types are and how the number of elements in the
- * primitive arrays representing pixels is determined.
+ * Currfntly, tif trbnsffr typfs supportfd by tif Jbvb 2D(tm) API brf
+ * DbtbBufffr.TYPE_BYTE, DbtbBufffr.TYPE_USHORT, DbtbBufffr.TYPE_INT,
+ * DbtbBufffr.TYPE_SHORT, DbtbBufffr.TYPE_FLOAT, bnd DbtbBufffr.TYPE_DOUBLE.
+ * Most rfndfring opfrbtions will pfrform mudi fbstfr wifn using ColorModfls
+ * bnd imbgfs bbsfd on tif first tirff of tifsf typfs.  In bddition, somf
+ * imbgf filtfring opfrbtions brf not supportfd for ColorModfls bnd
+ * imbgfs bbsfd on tif lbttfr tirff typfs.
+ * Tif trbnsffr typf for b pbrtidulbr <dodf>ColorModfl</dodf> objfdt is
+ * spfdififd wifn tif objfdt is drfbtfd, fitifr fxpliditly or by dffbult.
+ * All subdlbssfs of <dodf>ColorModfl</dodf> must spfdify wibt tif
+ * possiblf trbnsffr typfs brf bnd iow tif numbfr of flfmfnts in tif
+ * primitivf brrbys rfprfsfnting pixfls is dftfrminfd.
  * <p>
- * For <code>BufferedImages</code>, the transfer type of its
- * <code>Raster</code> and of the <code>Raster</code> object's
- * <code>SampleModel</code> (available from the
- * <code>getTransferType</code> methods of these classes) must match that
- * of the <code>ColorModel</code>.  The number of elements in an array
- * representing a pixel for the <code>Raster</code> and
- * <code>SampleModel</code> (available from the
- * <code>getNumDataElements</code> methods of these classes) must match
- * that of the <code>ColorModel</code>.
+ * For <dodf>BufffrfdImbgfs</dodf>, tif trbnsffr typf of its
+ * <dodf>Rbstfr</dodf> bnd of tif <dodf>Rbstfr</dodf> objfdt's
+ * <dodf>SbmplfModfl</dodf> (bvbilbblf from tif
+ * <dodf>gftTrbnsffrTypf</dodf> mftiods of tifsf dlbssfs) must mbtdi tibt
+ * of tif <dodf>ColorModfl</dodf>.  Tif numbfr of flfmfnts in bn brrby
+ * rfprfsfnting b pixfl for tif <dodf>Rbstfr</dodf> bnd
+ * <dodf>SbmplfModfl</dodf> (bvbilbblf from tif
+ * <dodf>gftNumDbtbElfmfnts</dodf> mftiods of tifsf dlbssfs) must mbtdi
+ * tibt of tif <dodf>ColorModfl</dodf>.
  * <p>
- * The algorithm used to convert from pixel values to color and alpha
- * components varies by subclass.  For example, there is not necessarily
- * a one-to-one correspondence between samples obtained from the
- * <code>SampleModel</code> of a <code>BufferedImage</code> object's
- * <code>Raster</code> and color/alpha components.  Even when
- * there is such a correspondence, the number of bits in a sample is not
- * necessarily the same as the number of bits in the corresponding color/alpha
- * component.  Each subclass must specify how the translation from
- * pixel values to color/alpha components is done.
+ * Tif blgoritim usfd to donvfrt from pixfl vblufs to dolor bnd blpib
+ * domponfnts vbrifs by subdlbss.  For fxbmplf, tifrf is not nfdfssbrily
+ * b onf-to-onf dorrfspondfndf bftwffn sbmplfs obtbinfd from tif
+ * <dodf>SbmplfModfl</dodf> of b <dodf>BufffrfdImbgf</dodf> objfdt's
+ * <dodf>Rbstfr</dodf> bnd dolor/blpib domponfnts.  Evfn wifn
+ * tifrf is sudi b dorrfspondfndf, tif numbfr of bits in b sbmplf is not
+ * nfdfssbrily tif sbmf bs tif numbfr of bits in tif dorrfsponding dolor/blpib
+ * domponfnt.  Ebdi subdlbss must spfdify iow tif trbnslbtion from
+ * pixfl vblufs to dolor/blpib domponfnts is donf.
  * <p>
- * Methods in the <code>ColorModel</code> class use two different
- * representations of color and alpha components - a normalized form
- * and an unnormalized form.  In the normalized form, each component is a
- * <code>float</code> value between some minimum and maximum values.  For
- * the alpha component, the minimum is 0.0 and the maximum is 1.0.  For
- * color components the minimum and maximum values for each component can
- * be obtained from the <code>ColorSpace</code> object.  These values
- * will often be 0.0 and 1.0 (e.g. normalized component values for the
- * default sRGB color space range from 0.0 to 1.0), but some color spaces
- * have component values with different upper and lower limits.  These
- * limits can be obtained using the <code>getMinValue</code> and
- * <code>getMaxValue</code> methods of the <code>ColorSpace</code>
- * class.  Normalized color component values are not premultiplied.
- * All <code>ColorModels</code> must support the normalized form.
+ * Mftiods in tif <dodf>ColorModfl</dodf> dlbss usf two difffrfnt
+ * rfprfsfntbtions of dolor bnd blpib domponfnts - b normblizfd form
+ * bnd bn unnormblizfd form.  In tif normblizfd form, fbdi domponfnt is b
+ * <dodf>flobt</dodf> vbluf bftwffn somf minimum bnd mbximum vblufs.  For
+ * tif blpib domponfnt, tif minimum is 0.0 bnd tif mbximum is 1.0.  For
+ * dolor domponfnts tif minimum bnd mbximum vblufs for fbdi domponfnt dbn
+ * bf obtbinfd from tif <dodf>ColorSpbdf</dodf> objfdt.  Tifsf vblufs
+ * will oftfn bf 0.0 bnd 1.0 (f.g. normblizfd domponfnt vblufs for tif
+ * dffbult sRGB dolor spbdf rbngf from 0.0 to 1.0), but somf dolor spbdfs
+ * ibvf domponfnt vblufs witi difffrfnt uppfr bnd lowfr limits.  Tifsf
+ * limits dbn bf obtbinfd using tif <dodf>gftMinVbluf</dodf> bnd
+ * <dodf>gftMbxVbluf</dodf> mftiods of tif <dodf>ColorSpbdf</dodf>
+ * dlbss.  Normblizfd dolor domponfnt vblufs brf not prfmultiplifd.
+ * All <dodf>ColorModfls</dodf> must support tif normblizfd form.
  * <p>
- * In the unnormalized
- * form, each component is an unsigned integral value between 0 and
- * 2<sup>n</sup> - 1, where n is the number of significant bits for a
- * particular component.  If pixel values for a particular
- * <code>ColorModel</code> represent color samples premultiplied by
- * the alpha sample, unnormalized color component values are
- * also premultiplied.  The unnormalized form is used only with instances
- * of <code>ColorModel</code> whose <code>ColorSpace</code> has minimum
- * component values of 0.0 for all components and maximum values of
- * 1.0 for all components.
- * The unnormalized form for color and alpha components can be a convenient
- * representation for <code>ColorModels</code> whose normalized component
- * values all lie
- * between 0.0 and 1.0.  In such cases the integral value 0 maps to 0.0 and
- * the value 2<sup>n</sup> - 1 maps to 1.0.  In other cases, such as
- * when the normalized component values can be either negative or positive,
- * the unnormalized form is not convenient.  Such <code>ColorModel</code>
- * objects throw an {@link IllegalArgumentException} when methods involving
- * an unnormalized argument are called.  Subclasses of <code>ColorModel</code>
- * must specify the conditions under which this occurs.
+ * In tif unnormblizfd
+ * form, fbdi domponfnt is bn unsignfd intfgrbl vbluf bftwffn 0 bnd
+ * 2<sup>n</sup> - 1, wifrf n is tif numbfr of signifidbnt bits for b
+ * pbrtidulbr domponfnt.  If pixfl vblufs for b pbrtidulbr
+ * <dodf>ColorModfl</dodf> rfprfsfnt dolor sbmplfs prfmultiplifd by
+ * tif blpib sbmplf, unnormblizfd dolor domponfnt vblufs brf
+ * blso prfmultiplifd.  Tif unnormblizfd form is usfd only witi instbndfs
+ * of <dodf>ColorModfl</dodf> wiosf <dodf>ColorSpbdf</dodf> ibs minimum
+ * domponfnt vblufs of 0.0 for bll domponfnts bnd mbximum vblufs of
+ * 1.0 for bll domponfnts.
+ * Tif unnormblizfd form for dolor bnd blpib domponfnts dbn bf b donvfnifnt
+ * rfprfsfntbtion for <dodf>ColorModfls</dodf> wiosf normblizfd domponfnt
+ * vblufs bll lif
+ * bftwffn 0.0 bnd 1.0.  In sudi dbsfs tif intfgrbl vbluf 0 mbps to 0.0 bnd
+ * tif vbluf 2<sup>n</sup> - 1 mbps to 1.0.  In otifr dbsfs, sudi bs
+ * wifn tif normblizfd domponfnt vblufs dbn bf fitifr nfgbtivf or positivf,
+ * tif unnormblizfd form is not donvfnifnt.  Sudi <dodf>ColorModfl</dodf>
+ * objfdts tirow bn {@link IllfgblArgumfntExdfption} wifn mftiods involving
+ * bn unnormblizfd brgumfnt brf dbllfd.  Subdlbssfs of <dodf>ColorModfl</dodf>
+ * must spfdify tif donditions undfr wiidi tiis oddurs.
  *
- * @see IndexColorModel
- * @see ComponentColorModel
- * @see PackedColorModel
- * @see DirectColorModel
- * @see java.awt.Image
- * @see BufferedImage
- * @see RenderedImage
- * @see java.awt.color.ColorSpace
- * @see SampleModel
- * @see Raster
- * @see DataBuffer
+ * @sff IndfxColorModfl
+ * @sff ComponfntColorModfl
+ * @sff PbdkfdColorModfl
+ * @sff DirfdtColorModfl
+ * @sff jbvb.bwt.Imbgf
+ * @sff BufffrfdImbgf
+ * @sff RfndfrfdImbgf
+ * @sff jbvb.bwt.dolor.ColorSpbdf
+ * @sff SbmplfModfl
+ * @sff Rbstfr
+ * @sff DbtbBufffr
  */
-public abstract class ColorModel implements Transparency{
-    private long pData;         // Placeholder for data for native functions
+publid bbstrbdt dlbss ColorModfl implfmfnts Trbnspbrfndy{
+    privbtf long pDbtb;         // Plbdfioldfr for dbtb for nbtivf fundtions
 
     /**
-     * The total number of bits in the pixel.
+     * Tif totbl numbfr of bits in tif pixfl.
      */
-    protected int pixel_bits;
+    protfdtfd int pixfl_bits;
     int nBits[];
-    int transparency = Transparency.TRANSLUCENT;
-    boolean supportsAlpha = true;
-    boolean isAlphaPremultiplied = false;
-    int numComponents = -1;
-    int numColorComponents = -1;
-    ColorSpace colorSpace = ColorSpace.getInstance(ColorSpace.CS_sRGB);
-    int colorSpaceType = ColorSpace.TYPE_RGB;
-    int maxBits;
-    boolean is_sRGB = true;
+    int trbnspbrfndy = Trbnspbrfndy.TRANSLUCENT;
+    boolfbn supportsAlpib = truf;
+    boolfbn isAlpibPrfmultiplifd = fblsf;
+    int numComponfnts = -1;
+    int numColorComponfnts = -1;
+    ColorSpbdf dolorSpbdf = ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
+    int dolorSpbdfTypf = ColorSpbdf.TYPE_RGB;
+    int mbxBits;
+    boolfbn is_sRGB = truf;
 
     /**
-     * Data type of the array used to represent pixel values.
+     * Dbtb typf of tif brrby usfd to rfprfsfnt pixfl vblufs.
      */
-    protected int transferType;
+    protfdtfd int trbnsffrTypf;
 
     /**
-     * This is copied from java.awt.Toolkit since we need the library
-     * loaded in java.awt.image also:
+     * Tiis is dopifd from jbvb.bwt.Toolkit sindf wf nffd tif librbry
+     * lobdfd in jbvb.bwt.imbgf blso:
      *
-     * WARNING: This is a temporary workaround for a problem in the
-     * way the AWT loads native libraries. A number of classes in the
-     * AWT package have a native method, initIDs(), which initializes
-     * the JNI field and method ids used in the native portion of
-     * their implementation.
+     * WARNING: Tiis is b tfmporbry workbround for b problfm in tif
+     * wby tif AWT lobds nbtivf librbrifs. A numbfr of dlbssfs in tif
+     * AWT pbdkbgf ibvf b nbtivf mftiod, initIDs(), wiidi initiblizfs
+     * tif JNI fifld bnd mftiod ids usfd in tif nbtivf portion of
+     * tifir implfmfntbtion.
      *
-     * Since the use and storage of these ids is done by the
-     * implementation libraries, the implementation of these method is
-     * provided by the particular AWT implementations (for example,
-     * "Toolkit"s/Peer), such as Motif, Microsoft Windows, or Tiny. The
-     * problem is that this means that the native libraries must be
-     * loaded by the java.* classes, which do not necessarily know the
-     * names of the libraries to load. A better way of doing this
-     * would be to provide a separate library which defines java.awt.*
-     * initIDs, and exports the relevant symbols out to the
-     * implementation libraries.
+     * Sindf tif usf bnd storbgf of tifsf ids is donf by tif
+     * implfmfntbtion librbrifs, tif implfmfntbtion of tifsf mftiod is
+     * providfd by tif pbrtidulbr AWT implfmfntbtions (for fxbmplf,
+     * "Toolkit"s/Pffr), sudi bs Motif, Midrosoft Windows, or Tiny. Tif
+     * problfm is tibt tiis mfbns tibt tif nbtivf librbrifs must bf
+     * lobdfd by tif jbvb.* dlbssfs, wiidi do not nfdfssbrily know tif
+     * nbmfs of tif librbrifs to lobd. A bfttfr wby of doing tiis
+     * would bf to providf b sfpbrbtf librbry wiidi dffinfs jbvb.bwt.*
+     * initIDs, bnd fxports tif rflfvbnt symbols out to tif
+     * implfmfntbtion librbrifs.
      *
-     * For now, we know it's done by the implementation, and we assume
-     * that the name of the library is "awt".  -br.
+     * For now, wf know it's donf by tif implfmfntbtion, bnd wf bssumf
+     * tibt tif nbmf of tif librbry is "bwt".  -br.
      */
-    private static boolean loaded = false;
-    static void loadLibraries() {
-        if (!loaded) {
-            java.security.AccessController.doPrivileged(
-                new java.security.PrivilegedAction<Void>() {
-                    public Void run() {
-                        System.loadLibrary("awt");
-                        return null;
+    privbtf stbtid boolfbn lobdfd = fblsf;
+    stbtid void lobdLibrbrifs() {
+        if (!lobdfd) {
+            jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        Systfm.lobdLibrbry("bwt");
+                        rfturn null;
                     }
                 });
-            loaded = true;
+            lobdfd = truf;
         }
     }
-    private static native void initIDs();
-    static {
-        /* ensure that the proper libraries are loaded */
-        loadLibraries();
+    privbtf stbtid nbtivf void initIDs();
+    stbtid {
+        /* fnsurf tibt tif propfr librbrifs brf lobdfd */
+        lobdLibrbrifs();
         initIDs();
     }
-    private static ColorModel RGBdefault;
+    privbtf stbtid ColorModfl RGBdffbult;
 
     /**
-     * Returns a <code>DirectColorModel</code> that describes the default
-     * format for integer RGB values used in many of the methods in the
-     * AWT image interfaces for the convenience of the programmer.
-     * The color space is the default {@link ColorSpace}, sRGB.
-     * The format for the RGB values is an integer with 8 bits
-     * each of alpha, red, green, and blue color components ordered
-     * correspondingly from the most significant byte to the least
-     * significant byte, as in:  0xAARRGGBB.  Color components are
-     * not premultiplied by the alpha component.  This format does not
-     * necessarily represent the native or the most efficient
-     * <code>ColorModel</code> for a particular device or for all images.
-     * It is merely used as a common color model format.
-     * @return a <code>DirectColorModel</code>object describing default
-     *          RGB values.
+     * Rfturns b <dodf>DirfdtColorModfl</dodf> tibt dfsdribfs tif dffbult
+     * formbt for intfgfr RGB vblufs usfd in mbny of tif mftiods in tif
+     * AWT imbgf intfrfbdfs for tif donvfnifndf of tif progrbmmfr.
+     * Tif dolor spbdf is tif dffbult {@link ColorSpbdf}, sRGB.
+     * Tif formbt for tif RGB vblufs is bn intfgfr witi 8 bits
+     * fbdi of blpib, rfd, grffn, bnd bluf dolor domponfnts ordfrfd
+     * dorrfspondingly from tif most signifidbnt bytf to tif lfbst
+     * signifidbnt bytf, bs in:  0xAARRGGBB.  Color domponfnts brf
+     * not prfmultiplifd by tif blpib domponfnt.  Tiis formbt dofs not
+     * nfdfssbrily rfprfsfnt tif nbtivf or tif most fffidifnt
+     * <dodf>ColorModfl</dodf> for b pbrtidulbr dfvidf or for bll imbgfs.
+     * It is mfrfly usfd bs b dommon dolor modfl formbt.
+     * @rfturn b <dodf>DirfdtColorModfl</dodf>objfdt dfsdribing dffbult
+     *          RGB vblufs.
      */
-    public static ColorModel getRGBdefault() {
-        if (RGBdefault == null) {
-            RGBdefault = new DirectColorModel(32,
-                                              0x00ff0000,       // Red
-                                              0x0000ff00,       // Green
-                                              0x000000ff,       // Blue
-                                              0xff000000        // Alpha
+    publid stbtid ColorModfl gftRGBdffbult() {
+        if (RGBdffbult == null) {
+            RGBdffbult = nfw DirfdtColorModfl(32,
+                                              0x00ff0000,       // Rfd
+                                              0x0000ff00,       // Grffn
+                                              0x000000ff,       // Bluf
+                                              0xff000000        // Alpib
                                               );
         }
-        return RGBdefault;
+        rfturn RGBdffbult;
     }
 
     /**
-     * Constructs a <code>ColorModel</code> that translates pixels of the
-     * specified number of bits to color/alpha components.  The color
-     * space is the default RGB <code>ColorSpace</code>, which is sRGB.
-     * Pixel values are assumed to include alpha information.  If color
-     * and alpha information are represented in the pixel value as
-     * separate spatial bands, the color bands are assumed not to be
-     * premultiplied with the alpha value. The transparency type is
-     * java.awt.Transparency.TRANSLUCENT.  The transfer type will be the
-     * smallest of DataBuffer.TYPE_BYTE, DataBuffer.TYPE_USHORT,
-     * or DataBuffer.TYPE_INT that can hold a single pixel
-     * (or DataBuffer.TYPE_UNDEFINED if bits is greater
-     * than 32).  Since this constructor has no information about the
-     * number of bits per color and alpha component, any subclass calling
-     * this constructor should override any method that requires this
-     * information.
-     * @param bits the number of bits of a pixel
-     * @throws IllegalArgumentException if the number
-     *          of bits in <code>bits</code> is less than 1
+     * Construdts b <dodf>ColorModfl</dodf> tibt trbnslbtfs pixfls of tif
+     * spfdififd numbfr of bits to dolor/blpib domponfnts.  Tif dolor
+     * spbdf is tif dffbult RGB <dodf>ColorSpbdf</dodf>, wiidi is sRGB.
+     * Pixfl vblufs brf bssumfd to indludf blpib informbtion.  If dolor
+     * bnd blpib informbtion brf rfprfsfntfd in tif pixfl vbluf bs
+     * sfpbrbtf spbtibl bbnds, tif dolor bbnds brf bssumfd not to bf
+     * prfmultiplifd witi tif blpib vbluf. Tif trbnspbrfndy typf is
+     * jbvb.bwt.Trbnspbrfndy.TRANSLUCENT.  Tif trbnsffr typf will bf tif
+     * smbllfst of DbtbBufffr.TYPE_BYTE, DbtbBufffr.TYPE_USHORT,
+     * or DbtbBufffr.TYPE_INT tibt dbn iold b singlf pixfl
+     * (or DbtbBufffr.TYPE_UNDEFINED if bits is grfbtfr
+     * tibn 32).  Sindf tiis donstrudtor ibs no informbtion bbout tif
+     * numbfr of bits pfr dolor bnd blpib domponfnt, bny subdlbss dblling
+     * tiis donstrudtor siould ovfrridf bny mftiod tibt rfquirfs tiis
+     * informbtion.
+     * @pbrbm bits tif numbfr of bits of b pixfl
+     * @tirows IllfgblArgumfntExdfption if tif numbfr
+     *          of bits in <dodf>bits</dodf> is lfss tibn 1
      */
-    public ColorModel(int bits) {
-        pixel_bits = bits;
+    publid ColorModfl(int bits) {
+        pixfl_bits = bits;
         if (bits < 1) {
-            throw new IllegalArgumentException("Number of bits must be > 0");
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of bits must bf > 0");
         }
-        numComponents = 4;
-        numColorComponents = 3;
-        maxBits = bits;
-        // REMIND: make sure transferType is set correctly
-        transferType = ColorModel.getDefaultTransferType(bits);
+        numComponfnts = 4;
+        numColorComponfnts = 3;
+        mbxBits = bits;
+        // REMIND: mbkf surf trbnsffrTypf is sft dorrfdtly
+        trbnsffrTypf = ColorModfl.gftDffbultTrbnsffrTypf(bits);
     }
 
     /**
-     * Constructs a <code>ColorModel</code> that translates pixel values
-     * to color/alpha components.  Color components will be in the
-     * specified <code>ColorSpace</code>. <code>pixel_bits</code> is the
-     * number of bits in the pixel values.  The bits array
-     * specifies the number of significant bits per color and alpha component.
-     * Its length should be the number of components in the
-     * <code>ColorSpace</code> if there is no alpha information in the
-     * pixel values, or one more than this number if there is alpha
-     * information.  <code>hasAlpha</code> indicates whether or not alpha
-     * information is present.  The <code>boolean</code>
-     * <code>isAlphaPremultiplied</code> specifies how to interpret pixel
-     * values in which color and alpha information are represented as
-     * separate spatial bands.  If the <code>boolean</code>
-     * is <code>true</code>, color samples are assumed to have been
-     * multiplied by the alpha sample.  The <code>transparency</code>
-     * specifies what alpha values can be represented by this color model.
-     * The transfer type is the type of primitive array used to represent
-     * pixel values.  Note that the bits array contains the number of
-     * significant bits per color/alpha component after the translation
-     * from pixel values.  For example, for an
-     * <code>IndexColorModel</code> with <code>pixel_bits</code> equal to
-     * 16, the bits array might have four elements with each element set
+     * Construdts b <dodf>ColorModfl</dodf> tibt trbnslbtfs pixfl vblufs
+     * to dolor/blpib domponfnts.  Color domponfnts will bf in tif
+     * spfdififd <dodf>ColorSpbdf</dodf>. <dodf>pixfl_bits</dodf> is tif
+     * numbfr of bits in tif pixfl vblufs.  Tif bits brrby
+     * spfdififs tif numbfr of signifidbnt bits pfr dolor bnd blpib domponfnt.
+     * Its lfngti siould bf tif numbfr of domponfnts in tif
+     * <dodf>ColorSpbdf</dodf> if tifrf is no blpib informbtion in tif
+     * pixfl vblufs, or onf morf tibn tiis numbfr if tifrf is blpib
+     * informbtion.  <dodf>ibsAlpib</dodf> indidbtfs wiftifr or not blpib
+     * informbtion is prfsfnt.  Tif <dodf>boolfbn</dodf>
+     * <dodf>isAlpibPrfmultiplifd</dodf> spfdififs iow to intfrprft pixfl
+     * vblufs in wiidi dolor bnd blpib informbtion brf rfprfsfntfd bs
+     * sfpbrbtf spbtibl bbnds.  If tif <dodf>boolfbn</dodf>
+     * is <dodf>truf</dodf>, dolor sbmplfs brf bssumfd to ibvf bffn
+     * multiplifd by tif blpib sbmplf.  Tif <dodf>trbnspbrfndy</dodf>
+     * spfdififs wibt blpib vblufs dbn bf rfprfsfntfd by tiis dolor modfl.
+     * Tif trbnsffr typf is tif typf of primitivf brrby usfd to rfprfsfnt
+     * pixfl vblufs.  Notf tibt tif bits brrby dontbins tif numbfr of
+     * signifidbnt bits pfr dolor/blpib domponfnt bftfr tif trbnslbtion
+     * from pixfl vblufs.  For fxbmplf, for bn
+     * <dodf>IndfxColorModfl</dodf> witi <dodf>pixfl_bits</dodf> fqubl to
+     * 16, tif bits brrby migit ibvf four flfmfnts witi fbdi flfmfnt sft
      * to 8.
-     * @param pixel_bits the number of bits in the pixel values
-     * @param bits array that specifies the number of significant bits
-     *          per color and alpha component
-     * @param cspace the specified <code>ColorSpace</code>
-     * @param hasAlpha <code>true</code> if alpha information is present;
-     *          <code>false</code> otherwise
-     * @param isAlphaPremultiplied <code>true</code> if color samples are
-     *          assumed to be premultiplied by the alpha samples;
-     *          <code>false</code> otherwise
-     * @param transparency what alpha values can be represented by this
-     *          color model
-     * @param transferType the type of the array used to represent pixel
-     *          values
-     * @throws IllegalArgumentException if the length of
-     *          the bit array is less than the number of color or alpha
-     *          components in this <code>ColorModel</code>, or if the
-     *          transparency is not a valid value.
-     * @throws IllegalArgumentException if the sum of the number
-     *          of bits in <code>bits</code> is less than 1 or if
-     *          any of the elements in <code>bits</code> is less than 0.
-     * @see java.awt.Transparency
+     * @pbrbm pixfl_bits tif numbfr of bits in tif pixfl vblufs
+     * @pbrbm bits brrby tibt spfdififs tif numbfr of signifidbnt bits
+     *          pfr dolor bnd blpib domponfnt
+     * @pbrbm dspbdf tif spfdififd <dodf>ColorSpbdf</dodf>
+     * @pbrbm ibsAlpib <dodf>truf</dodf> if blpib informbtion is prfsfnt;
+     *          <dodf>fblsf</dodf> otifrwisf
+     * @pbrbm isAlpibPrfmultiplifd <dodf>truf</dodf> if dolor sbmplfs brf
+     *          bssumfd to bf prfmultiplifd by tif blpib sbmplfs;
+     *          <dodf>fblsf</dodf> otifrwisf
+     * @pbrbm trbnspbrfndy wibt blpib vblufs dbn bf rfprfsfntfd by tiis
+     *          dolor modfl
+     * @pbrbm trbnsffrTypf tif typf of tif brrby usfd to rfprfsfnt pixfl
+     *          vblufs
+     * @tirows IllfgblArgumfntExdfption if tif lfngti of
+     *          tif bit brrby is lfss tibn tif numbfr of dolor or blpib
+     *          domponfnts in tiis <dodf>ColorModfl</dodf>, or if tif
+     *          trbnspbrfndy is not b vblid vbluf.
+     * @tirows IllfgblArgumfntExdfption if tif sum of tif numbfr
+     *          of bits in <dodf>bits</dodf> is lfss tibn 1 or if
+     *          bny of tif flfmfnts in <dodf>bits</dodf> is lfss tibn 0.
+     * @sff jbvb.bwt.Trbnspbrfndy
      */
-    protected ColorModel(int pixel_bits, int[] bits, ColorSpace cspace,
-                         boolean hasAlpha,
-                         boolean isAlphaPremultiplied,
-                         int transparency,
-                         int transferType) {
-        colorSpace                = cspace;
-        colorSpaceType            = cspace.getType();
-        numColorComponents        = cspace.getNumComponents();
-        numComponents             = numColorComponents + (hasAlpha ? 1 : 0);
-        supportsAlpha             = hasAlpha;
-        if (bits.length < numComponents) {
-            throw new IllegalArgumentException("Number of color/alpha "+
-                                               "components should be "+
-                                               numComponents+
-                                               " but length of bits array is "+
-                                               bits.length);
+    protfdtfd ColorModfl(int pixfl_bits, int[] bits, ColorSpbdf dspbdf,
+                         boolfbn ibsAlpib,
+                         boolfbn isAlpibPrfmultiplifd,
+                         int trbnspbrfndy,
+                         int trbnsffrTypf) {
+        dolorSpbdf                = dspbdf;
+        dolorSpbdfTypf            = dspbdf.gftTypf();
+        numColorComponfnts        = dspbdf.gftNumComponfnts();
+        numComponfnts             = numColorComponfnts + (ibsAlpib ? 1 : 0);
+        supportsAlpib             = ibsAlpib;
+        if (bits.lfngti < numComponfnts) {
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of dolor/blpib "+
+                                               "domponfnts siould bf "+
+                                               numComponfnts+
+                                               " but lfngti of bits brrby is "+
+                                               bits.lfngti);
         }
 
         // 4186669
-        if (transparency < Transparency.OPAQUE ||
-            transparency > Transparency.TRANSLUCENT)
+        if (trbnspbrfndy < Trbnspbrfndy.OPAQUE ||
+            trbnspbrfndy > Trbnspbrfndy.TRANSLUCENT)
         {
-            throw new IllegalArgumentException("Unknown transparency: "+
-                                               transparency);
+            tirow nfw IllfgblArgumfntExdfption("Unknown trbnspbrfndy: "+
+                                               trbnspbrfndy);
         }
 
-        if (supportsAlpha == false) {
-            this.isAlphaPremultiplied = false;
-            this.transparency = Transparency.OPAQUE;
+        if (supportsAlpib == fblsf) {
+            tiis.isAlpibPrfmultiplifd = fblsf;
+            tiis.trbnspbrfndy = Trbnspbrfndy.OPAQUE;
         }
-        else {
-            this.isAlphaPremultiplied = isAlphaPremultiplied;
-            this.transparency         = transparency;
+        flsf {
+            tiis.isAlpibPrfmultiplifd = isAlpibPrfmultiplifd;
+            tiis.trbnspbrfndy         = trbnspbrfndy;
         }
 
-        nBits = bits.clone();
-        this.pixel_bits = pixel_bits;
-        if (pixel_bits <= 0) {
-            throw new IllegalArgumentException("Number of pixel bits must "+
-                                               "be > 0");
+        nBits = bits.dlonf();
+        tiis.pixfl_bits = pixfl_bits;
+        if (pixfl_bits <= 0) {
+            tirow nfw IllfgblArgumfntExdfption("Numbfr of pixfl bits must "+
+                                               "bf > 0");
         }
-        // Check for bits < 0
-        maxBits = 0;
-        for (int i=0; i < bits.length; i++) {
+        // Cifdk for bits < 0
+        mbxBits = 0;
+        for (int i=0; i < bits.lfngti; i++) {
             // bug 4304697
             if (bits[i] < 0) {
-                throw new
-                    IllegalArgumentException("Number of bits must be >= 0");
+                tirow nfw
+                    IllfgblArgumfntExdfption("Numbfr of bits must bf >= 0");
             }
-            if (maxBits < bits[i]) {
-                maxBits = bits[i];
+            if (mbxBits < bits[i]) {
+                mbxBits = bits[i];
             }
         }
 
-        // Make sure that we don't have all 0-bit components
-        if (maxBits == 0) {
-            throw new IllegalArgumentException("There must be at least "+
-                                               "one component with > 0 "+
-                                              "pixel bits.");
+        // Mbkf surf tibt wf don't ibvf bll 0-bit domponfnts
+        if (mbxBits == 0) {
+            tirow nfw IllfgblArgumfntExdfption("Tifrf must bf bt lfbst "+
+                                               "onf domponfnt witi > 0 "+
+                                              "pixfl bits.");
         }
 
-        // Save this since we always need to check if it is the default CS
-        if (cspace != ColorSpace.getInstance(ColorSpace.CS_sRGB)) {
-            is_sRGB = false;
+        // Sbvf tiis sindf wf blwbys nffd to difdk if it is tif dffbult CS
+        if (dspbdf != ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB)) {
+            is_sRGB = fblsf;
         }
 
-        // Save the transfer type
-        this.transferType = transferType;
+        // Sbvf tif trbnsffr typf
+        tiis.trbnsffrTypf = trbnsffrTypf;
     }
 
     /**
-     * Returns whether or not alpha is supported in this
-     * <code>ColorModel</code>.
-     * @return <code>true</code> if alpha is supported in this
-     * <code>ColorModel</code>; <code>false</code> otherwise.
+     * Rfturns wiftifr or not blpib is supportfd in tiis
+     * <dodf>ColorModfl</dodf>.
+     * @rfturn <dodf>truf</dodf> if blpib is supportfd in tiis
+     * <dodf>ColorModfl</dodf>; <dodf>fblsf</dodf> otifrwisf.
      */
-    final public boolean hasAlpha() {
-        return supportsAlpha;
+    finbl publid boolfbn ibsAlpib() {
+        rfturn supportsAlpib;
     }
 
     /**
-     * Returns whether or not the alpha has been premultiplied in the
-     * pixel values to be translated by this <code>ColorModel</code>.
-     * If the boolean is <code>true</code>, this <code>ColorModel</code>
-     * is to be used to interpret pixel values in which color and alpha
-     * information are represented as separate spatial bands, and color
-     * samples are assumed to have been multiplied by the
-     * alpha sample.
-     * @return <code>true</code> if the alpha values are premultiplied
-     *          in the pixel values to be translated by this
-     *          <code>ColorModel</code>; <code>false</code> otherwise.
+     * Rfturns wiftifr or not tif blpib ibs bffn prfmultiplifd in tif
+     * pixfl vblufs to bf trbnslbtfd by tiis <dodf>ColorModfl</dodf>.
+     * If tif boolfbn is <dodf>truf</dodf>, tiis <dodf>ColorModfl</dodf>
+     * is to bf usfd to intfrprft pixfl vblufs in wiidi dolor bnd blpib
+     * informbtion brf rfprfsfntfd bs sfpbrbtf spbtibl bbnds, bnd dolor
+     * sbmplfs brf bssumfd to ibvf bffn multiplifd by tif
+     * blpib sbmplf.
+     * @rfturn <dodf>truf</dodf> if tif blpib vblufs brf prfmultiplifd
+     *          in tif pixfl vblufs to bf trbnslbtfd by tiis
+     *          <dodf>ColorModfl</dodf>; <dodf>fblsf</dodf> otifrwisf.
      */
-    final public boolean isAlphaPremultiplied() {
-        return isAlphaPremultiplied;
+    finbl publid boolfbn isAlpibPrfmultiplifd() {
+        rfturn isAlpibPrfmultiplifd;
     }
 
     /**
-     * Returns the transfer type of this <code>ColorModel</code>.
-     * The transfer type is the type of primitive array used to represent
-     * pixel values as arrays.
-     * @return the transfer type.
-     * @since 1.3
+     * Rfturns tif trbnsffr typf of tiis <dodf>ColorModfl</dodf>.
+     * Tif trbnsffr typf is tif typf of primitivf brrby usfd to rfprfsfnt
+     * pixfl vblufs bs brrbys.
+     * @rfturn tif trbnsffr typf.
+     * @sindf 1.3
      */
-    final public int getTransferType() {
-        return transferType;
+    finbl publid int gftTrbnsffrTypf() {
+        rfturn trbnsffrTypf;
     }
 
     /**
-     * Returns the number of bits per pixel described by this
-     * <code>ColorModel</code>.
-     * @return the number of bits per pixel.
+     * Rfturns tif numbfr of bits pfr pixfl dfsdribfd by tiis
+     * <dodf>ColorModfl</dodf>.
+     * @rfturn tif numbfr of bits pfr pixfl.
      */
-    public int getPixelSize() {
-        return pixel_bits;
+    publid int gftPixflSizf() {
+        rfturn pixfl_bits;
     }
 
     /**
-     * Returns the number of bits for the specified color/alpha component.
-     * Color components are indexed in the order specified by the
-     * <code>ColorSpace</code>.  Typically, this order reflects the name
-     * of the color space type. For example, for TYPE_RGB, index 0
-     * corresponds to red, index 1 to green, and index 2
-     * to blue.  If this <code>ColorModel</code> supports alpha, the alpha
-     * component corresponds to the index following the last color
-     * component.
-     * @param componentIdx the index of the color/alpha component
-     * @return the number of bits for the color/alpha component at the
-     *          specified index.
-     * @throws ArrayIndexOutOfBoundsException if <code>componentIdx</code>
-     *         is greater than the number of components or
-     *         less than zero
-     * @throws NullPointerException if the number of bits array is
-     *         <code>null</code>
+     * Rfturns tif numbfr of bits for tif spfdififd dolor/blpib domponfnt.
+     * Color domponfnts brf indfxfd in tif ordfr spfdififd by tif
+     * <dodf>ColorSpbdf</dodf>.  Typidblly, tiis ordfr rfflfdts tif nbmf
+     * of tif dolor spbdf typf. For fxbmplf, for TYPE_RGB, indfx 0
+     * dorrfsponds to rfd, indfx 1 to grffn, bnd indfx 2
+     * to bluf.  If tiis <dodf>ColorModfl</dodf> supports blpib, tif blpib
+     * domponfnt dorrfsponds to tif indfx following tif lbst dolor
+     * domponfnt.
+     * @pbrbm domponfntIdx tif indfx of tif dolor/blpib domponfnt
+     * @rfturn tif numbfr of bits for tif dolor/blpib domponfnt bt tif
+     *          spfdififd indfx.
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if <dodf>domponfntIdx</dodf>
+     *         is grfbtfr tibn tif numbfr of domponfnts or
+     *         lfss tibn zfro
+     * @tirows NullPointfrExdfption if tif numbfr of bits brrby is
+     *         <dodf>null</dodf>
      */
-    public int getComponentSize(int componentIdx) {
+    publid int gftComponfntSizf(int domponfntIdx) {
         // REMIND:
         if (nBits == null) {
-            throw new NullPointerException("Number of bits array is null.");
+            tirow nfw NullPointfrExdfption("Numbfr of bits brrby is null.");
         }
 
-        return nBits[componentIdx];
+        rfturn nBits[domponfntIdx];
     }
 
     /**
-     * Returns an array of the number of bits per color/alpha component.
-     * The array contains the color components in the order specified by the
-     * <code>ColorSpace</code>, followed by the alpha component, if
-     * present.
-     * @return an array of the number of bits per color/alpha component
+     * Rfturns bn brrby of tif numbfr of bits pfr dolor/blpib domponfnt.
+     * Tif brrby dontbins tif dolor domponfnts in tif ordfr spfdififd by tif
+     * <dodf>ColorSpbdf</dodf>, followfd by tif blpib domponfnt, if
+     * prfsfnt.
+     * @rfturn bn brrby of tif numbfr of bits pfr dolor/blpib domponfnt
      */
-    public int[] getComponentSize() {
+    publid int[] gftComponfntSizf() {
         if (nBits != null) {
-            return nBits.clone();
+            rfturn nBits.dlonf();
         }
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the transparency.  Returns either OPAQUE, BITMASK,
+     * Rfturns tif trbnspbrfndy.  Rfturns fitifr OPAQUE, BITMASK,
      * or TRANSLUCENT.
-     * @return the transparency of this <code>ColorModel</code>.
-     * @see Transparency#OPAQUE
-     * @see Transparency#BITMASK
-     * @see Transparency#TRANSLUCENT
+     * @rfturn tif trbnspbrfndy of tiis <dodf>ColorModfl</dodf>.
+     * @sff Trbnspbrfndy#OPAQUE
+     * @sff Trbnspbrfndy#BITMASK
+     * @sff Trbnspbrfndy#TRANSLUCENT
      */
-    public int getTransparency() {
-        return transparency;
+    publid int gftTrbnspbrfndy() {
+        rfturn trbnspbrfndy;
     }
 
     /**
-     * Returns the number of components, including alpha, in this
-     * <code>ColorModel</code>.  This is equal to the number of color
-     * components, optionally plus one, if there is an alpha component.
-     * @return the number of components in this <code>ColorModel</code>
+     * Rfturns tif numbfr of domponfnts, indluding blpib, in tiis
+     * <dodf>ColorModfl</dodf>.  Tiis is fqubl to tif numbfr of dolor
+     * domponfnts, optionblly plus onf, if tifrf is bn blpib domponfnt.
+     * @rfturn tif numbfr of domponfnts in tiis <dodf>ColorModfl</dodf>
      */
-    public int getNumComponents() {
-        return numComponents;
+    publid int gftNumComponfnts() {
+        rfturn numComponfnts;
     }
 
     /**
-     * Returns the number of color components in this
-     * <code>ColorModel</code>.
-     * This is the number of components returned by
-     * {@link ColorSpace#getNumComponents}.
-     * @return the number of color components in this
-     * <code>ColorModel</code>.
-     * @see ColorSpace#getNumComponents
+     * Rfturns tif numbfr of dolor domponfnts in tiis
+     * <dodf>ColorModfl</dodf>.
+     * Tiis is tif numbfr of domponfnts rfturnfd by
+     * {@link ColorSpbdf#gftNumComponfnts}.
+     * @rfturn tif numbfr of dolor domponfnts in tiis
+     * <dodf>ColorModfl</dodf>.
+     * @sff ColorSpbdf#gftNumComponfnts
      */
-    public int getNumColorComponents() {
-        return numColorComponents;
+    publid int gftNumColorComponfnts() {
+        rfturn numColorComponfnts;
     }
 
     /**
-     * Returns the red color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB ColorSpace, sRGB.  A color conversion
-     * is done if necessary.  The pixel value is specified as an int.
-     * An <code>IllegalArgumentException</code> is thrown if pixel
-     * values for this <code>ColorModel</code> are not conveniently
-     * representable as a single int.  The returned value is not a
-     * pre-multiplied value.  For example, if the
-     * alpha is premultiplied, this method divides it out before returning
-     * the value.  If the alpha value is 0, the red value is 0.
-     * @param pixel a specified pixel
-     * @return the value of the red component of the specified pixel.
+     * Rfturns tif rfd dolor domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255 in tif dffbult RGB ColorSpbdf, sRGB.  A dolor donvfrsion
+     * is donf if nfdfssbry.  Tif pixfl vbluf is spfdififd bs bn int.
+     * An <dodf>IllfgblArgumfntExdfption</dodf> is tirown if pixfl
+     * vblufs for tiis <dodf>ColorModfl</dodf> brf not donvfnifntly
+     * rfprfsfntbblf bs b singlf int.  Tif rfturnfd vbluf is not b
+     * prf-multiplifd vbluf.  For fxbmplf, if tif
+     * blpib is prfmultiplifd, tiis mftiod dividfs it out bfforf rfturning
+     * tif vbluf.  If tif blpib vbluf is 0, tif rfd vbluf is 0.
+     * @pbrbm pixfl b spfdififd pixfl
+     * @rfturn tif vbluf of tif rfd domponfnt of tif spfdififd pixfl.
      */
-    public abstract int getRed(int pixel);
+    publid bbstrbdt int gftRfd(int pixfl);
 
     /**
-     * Returns the green color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB ColorSpace, sRGB.  A color conversion
-     * is done if necessary.  The pixel value is specified as an int.
-     * An <code>IllegalArgumentException</code> is thrown if pixel
-     * values for this <code>ColorModel</code> are not conveniently
-     * representable as a single int.  The returned value is a non
-     * pre-multiplied value.  For example, if the alpha is premultiplied,
-     * this method divides it out before returning
-     * the value.  If the alpha value is 0, the green value is 0.
-     * @param pixel the specified pixel
-     * @return the value of the green component of the specified pixel.
+     * Rfturns tif grffn dolor domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255 in tif dffbult RGB ColorSpbdf, sRGB.  A dolor donvfrsion
+     * is donf if nfdfssbry.  Tif pixfl vbluf is spfdififd bs bn int.
+     * An <dodf>IllfgblArgumfntExdfption</dodf> is tirown if pixfl
+     * vblufs for tiis <dodf>ColorModfl</dodf> brf not donvfnifntly
+     * rfprfsfntbblf bs b singlf int.  Tif rfturnfd vbluf is b non
+     * prf-multiplifd vbluf.  For fxbmplf, if tif blpib is prfmultiplifd,
+     * tiis mftiod dividfs it out bfforf rfturning
+     * tif vbluf.  If tif blpib vbluf is 0, tif grffn vbluf is 0.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn tif vbluf of tif grffn domponfnt of tif spfdififd pixfl.
      */
-    public abstract int getGreen(int pixel);
+    publid bbstrbdt int gftGrffn(int pixfl);
 
     /**
-     * Returns the blue color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB ColorSpace, sRGB.  A color conversion
-     * is done if necessary.  The pixel value is specified as an int.
-     * An <code>IllegalArgumentException</code> is thrown if pixel values
-     * for this <code>ColorModel</code> are not conveniently representable
-     * as a single int.  The returned value is a non pre-multiplied
-     * value, for example, if the alpha is premultiplied, this method
-     * divides it out before returning the value.  If the alpha value is
-     * 0, the blue value is 0.
-     * @param pixel the specified pixel
-     * @return the value of the blue component of the specified pixel.
+     * Rfturns tif bluf dolor domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255 in tif dffbult RGB ColorSpbdf, sRGB.  A dolor donvfrsion
+     * is donf if nfdfssbry.  Tif pixfl vbluf is spfdififd bs bn int.
+     * An <dodf>IllfgblArgumfntExdfption</dodf> is tirown if pixfl vblufs
+     * for tiis <dodf>ColorModfl</dodf> brf not donvfnifntly rfprfsfntbblf
+     * bs b singlf int.  Tif rfturnfd vbluf is b non prf-multiplifd
+     * vbluf, for fxbmplf, if tif blpib is prfmultiplifd, tiis mftiod
+     * dividfs it out bfforf rfturning tif vbluf.  If tif blpib vbluf is
+     * 0, tif bluf vbluf is 0.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn tif vbluf of tif bluf domponfnt of tif spfdififd pixfl.
      */
-    public abstract int getBlue(int pixel);
+    publid bbstrbdt int gftBluf(int pixfl);
 
     /**
-     * Returns the alpha component for the specified pixel, scaled
-     * from 0 to 255.  The pixel value is specified as an int.
-     * An <code>IllegalArgumentException</code> is thrown if pixel
-     * values for this <code>ColorModel</code> are not conveniently
-     * representable as a single int.
-     * @param pixel the specified pixel
-     * @return the value of alpha component of the specified pixel.
+     * Rfturns tif blpib domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255.  Tif pixfl vbluf is spfdififd bs bn int.
+     * An <dodf>IllfgblArgumfntExdfption</dodf> is tirown if pixfl
+     * vblufs for tiis <dodf>ColorModfl</dodf> brf not donvfnifntly
+     * rfprfsfntbblf bs b singlf int.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn tif vbluf of blpib domponfnt of tif spfdififd pixfl.
      */
-    public abstract int getAlpha(int pixel);
+    publid bbstrbdt int gftAlpib(int pixfl);
 
     /**
-     * Returns the color/alpha components of the pixel in the default
-     * RGB color model format.  A color conversion is done if necessary.
-     * The pixel value is specified as an int.
-     * An <code>IllegalArgumentException</code> thrown if pixel values
-     * for this <code>ColorModel</code> are not conveniently representable
-     * as a single int.  The returned value is in a non
-     * pre-multiplied format. For example, if the alpha is premultiplied,
-     * this method divides it out of the color components.  If the alpha
-     * value is 0, the color values are 0.
-     * @param pixel the specified pixel
-     * @return the RGB value of the color/alpha components of the
-     *          specified pixel.
-     * @see ColorModel#getRGBdefault
+     * Rfturns tif dolor/blpib domponfnts of tif pixfl in tif dffbult
+     * RGB dolor modfl formbt.  A dolor donvfrsion is donf if nfdfssbry.
+     * Tif pixfl vbluf is spfdififd bs bn int.
+     * An <dodf>IllfgblArgumfntExdfption</dodf> tirown if pixfl vblufs
+     * for tiis <dodf>ColorModfl</dodf> brf not donvfnifntly rfprfsfntbblf
+     * bs b singlf int.  Tif rfturnfd vbluf is in b non
+     * prf-multiplifd formbt. For fxbmplf, if tif blpib is prfmultiplifd,
+     * tiis mftiod dividfs it out of tif dolor domponfnts.  If tif blpib
+     * vbluf is 0, tif dolor vblufs brf 0.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn tif RGB vbluf of tif dolor/blpib domponfnts of tif
+     *          spfdififd pixfl.
+     * @sff ColorModfl#gftRGBdffbult
      */
-    public int getRGB(int pixel) {
-        return (getAlpha(pixel) << 24)
-            | (getRed(pixel) << 16)
-            | (getGreen(pixel) << 8)
-            | (getBlue(pixel) << 0);
+    publid int gftRGB(int pixfl) {
+        rfturn (gftAlpib(pixfl) << 24)
+            | (gftRfd(pixfl) << 16)
+            | (gftGrffn(pixfl) << 8)
+            | (gftBluf(pixfl) << 0);
     }
 
     /**
-     * Returns the red color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB <code>ColorSpace</code>, sRGB.  A
-     * color conversion is done if necessary.  The pixel value is
-     * specified by an array of data elements of type transferType passed
-     * in as an object reference.  The returned value is a non
-     * pre-multiplied value.  For example, if alpha is premultiplied,
-     * this method divides it out before returning
-     * the value.  If the alpha value is 0, the red value is 0.
-     * If <code>inData</code> is not a primitive array of type
-     * transferType, a <code>ClassCastException</code> is thrown.  An
-     * <code>ArrayIndexOutOfBoundsException</code> is thrown if
-     * <code>inData</code> is not large enough to hold a pixel value for
-     * this <code>ColorModel</code>.
-     * If this <code>transferType</code> is not supported, a
-     * <code>UnsupportedOperationException</code> will be
-     * thrown.  Since
-     * <code>ColorModel</code> is an abstract class, any instance
-     * must be an instance of a subclass.  Subclasses inherit the
-     * implementation of this method and if they don't override it, this
-     * method throws an exception if the subclass uses a
-     * <code>transferType</code> other than
-     * <code>DataBuffer.TYPE_BYTE</code>,
-     * <code>DataBuffer.TYPE_USHORT</code>, or
-     * <code>DataBuffer.TYPE_INT</code>.
-     * @param inData an array of pixel values
-     * @return the value of the red component of the specified pixel.
-     * @throws ClassCastException if <code>inData</code>
-     *  is not a primitive array of type <code>transferType</code>
-     * @throws ArrayIndexOutOfBoundsException if
-     *  <code>inData</code> is not large enough to hold a pixel value
-     *  for this <code>ColorModel</code>
-     * @throws UnsupportedOperationException if this
-     *  <code>tranferType</code> is not supported by this
-     *  <code>ColorModel</code>
+     * Rfturns tif rfd dolor domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255 in tif dffbult RGB <dodf>ColorSpbdf</dodf>, sRGB.  A
+     * dolor donvfrsion is donf if nfdfssbry.  Tif pixfl vbluf is
+     * spfdififd by bn brrby of dbtb flfmfnts of typf trbnsffrTypf pbssfd
+     * in bs bn objfdt rfffrfndf.  Tif rfturnfd vbluf is b non
+     * prf-multiplifd vbluf.  For fxbmplf, if blpib is prfmultiplifd,
+     * tiis mftiod dividfs it out bfforf rfturning
+     * tif vbluf.  If tif blpib vbluf is 0, tif rfd vbluf is 0.
+     * If <dodf>inDbtb</dodf> is not b primitivf brrby of typf
+     * trbnsffrTypf, b <dodf>ClbssCbstExdfption</dodf> is tirown.  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown if
+     * <dodf>inDbtb</dodf> is not lbrgf fnougi to iold b pixfl vbluf for
+     * tiis <dodf>ColorModfl</dodf>.
+     * If tiis <dodf>trbnsffrTypf</dodf> is not supportfd, b
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf
+     * tirown.  Sindf
+     * <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss, bny instbndf
+     * must bf bn instbndf of b subdlbss.  Subdlbssfs inifrit tif
+     * implfmfntbtion of tiis mftiod bnd if tify don't ovfrridf it, tiis
+     * mftiod tirows bn fxdfption if tif subdlbss usfs b
+     * <dodf>trbnsffrTypf</dodf> otifr tibn
+     * <dodf>DbtbBufffr.TYPE_BYTE</dodf>,
+     * <dodf>DbtbBufffr.TYPE_USHORT</dodf>, or
+     * <dodf>DbtbBufffr.TYPE_INT</dodf>.
+     * @pbrbm inDbtb bn brrby of pixfl vblufs
+     * @rfturn tif vbluf of tif rfd domponfnt of tif spfdififd pixfl.
+     * @tirows ClbssCbstExdfption if <dodf>inDbtb</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>inDbtb</dodf> is not lbrgf fnougi to iold b pixfl vbluf
+     *  for tiis <dodf>ColorModfl</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis
+     *  <dodf>trbnffrTypf</dodf> is not supportfd by tiis
+     *  <dodf>ColorModfl</dodf>
      */
-    public int getRed(Object inData) {
-        int pixel=0,length=0;
-        switch (transferType) {
-            case DataBuffer.TYPE_BYTE:
-               byte bdata[] = (byte[])inData;
-               pixel = bdata[0] & 0xff;
-               length = bdata.length;
-            break;
-            case DataBuffer.TYPE_USHORT:
-               short sdata[] = (short[])inData;
-               pixel = sdata[0] & 0xffff;
-               length = sdata.length;
-            break;
-            case DataBuffer.TYPE_INT:
-               int idata[] = (int[])inData;
-               pixel = idata[0];
-               length = idata.length;
-            break;
-            default:
-               throw new UnsupportedOperationException("This method has not been "+
-                   "implemented for transferType " + transferType);
+    publid int gftRfd(Objfdt inDbtb) {
+        int pixfl=0,lfngti=0;
+        switdi (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])inDbtb;
+               pixfl = bdbtb[0] & 0xff;
+               lfngti = bdbtb.lfngti;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               siort sdbtb[] = (siort[])inDbtb;
+               pixfl = sdbtb[0] & 0xffff;
+               lfngti = sdbtb.lfngti;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               pixfl = idbtb[0];
+               lfngti = idbtb.lfngti;
+            brfbk;
+            dffbult:
+               tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
         }
-        if (length == 1) {
-            return getRed(pixel);
+        if (lfngti == 1) {
+            rfturn gftRfd(pixfl);
         }
-        else {
-            throw new UnsupportedOperationException
-                ("This method is not supported by this color model");
-        }
-    }
-
-    /**
-     * Returns the green color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB <code>ColorSpace</code>, sRGB.  A
-     * color conversion is done if necessary.  The pixel value is
-     * specified by an array of data elements of type transferType passed
-     * in as an object reference.  The returned value will be a non
-     * pre-multiplied value.  For example, if the alpha is premultiplied,
-     * this method divides it out before returning the value.  If the
-     * alpha value is 0, the green value is 0.  If <code>inData</code> is
-     * not a primitive array of type transferType, a
-     * <code>ClassCastException</code> is thrown.  An
-     * <code>ArrayIndexOutOfBoundsException</code> is thrown if
-     * <code>inData</code> is not large enough to hold a pixel value for
-     * this <code>ColorModel</code>.
-     * If this <code>transferType</code> is not supported, a
-     * <code>UnsupportedOperationException</code> will be
-     * thrown.  Since
-     * <code>ColorModel</code> is an abstract class, any instance
-     * must be an instance of a subclass.  Subclasses inherit the
-     * implementation of this method and if they don't override it, this
-     * method throws an exception if the subclass uses a
-     * <code>transferType</code> other than
-     * <code>DataBuffer.TYPE_BYTE</code>,
-     * <code>DataBuffer.TYPE_USHORT</code>, or
-     * <code>DataBuffer.TYPE_INT</code>.
-     * @param inData an array of pixel values
-     * @return the value of the green component of the specified pixel.
-     * @throws ClassCastException if <code>inData</code>
-     *  is not a primitive array of type <code>transferType</code>
-     * @throws ArrayIndexOutOfBoundsException if
-     *  <code>inData</code> is not large enough to hold a pixel value
-     *  for this <code>ColorModel</code>
-     * @throws UnsupportedOperationException if this
-     *  <code>tranferType</code> is not supported by this
-     *  <code>ColorModel</code>
-     */
-    public int getGreen(Object inData) {
-        int pixel=0,length=0;
-        switch (transferType) {
-            case DataBuffer.TYPE_BYTE:
-               byte bdata[] = (byte[])inData;
-               pixel = bdata[0] & 0xff;
-               length = bdata.length;
-            break;
-            case DataBuffer.TYPE_USHORT:
-               short sdata[] = (short[])inData;
-               pixel = sdata[0] & 0xffff;
-               length = sdata.length;
-            break;
-            case DataBuffer.TYPE_INT:
-               int idata[] = (int[])inData;
-               pixel = idata[0];
-               length = idata.length;
-            break;
-            default:
-               throw new UnsupportedOperationException("This method has not been "+
-                   "implemented for transferType " + transferType);
-        }
-        if (length == 1) {
-            return getGreen(pixel);
-        }
-        else {
-            throw new UnsupportedOperationException
-                ("This method is not supported by this color model");
+        flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption
+                ("Tiis mftiod is not supportfd by tiis dolor modfl");
         }
     }
 
     /**
-     * Returns the blue color component for the specified pixel, scaled
-     * from 0 to 255 in the default RGB <code>ColorSpace</code>, sRGB.  A
-     * color conversion is done if necessary.  The pixel value is
-     * specified by an array of data elements of type transferType passed
-     * in as an object reference.  The returned value is a non
-     * pre-multiplied value.  For example, if the alpha is premultiplied,
-     * this method divides it out before returning the value.  If the
-     * alpha value is 0, the blue value will be 0.  If
-     * <code>inData</code> is not a primitive array of type transferType,
-     * a <code>ClassCastException</code> is thrown.  An
-     * <code>ArrayIndexOutOfBoundsException</code> is
-     * thrown if <code>inData</code> is not large enough to hold a pixel
-     * value for this <code>ColorModel</code>.
-     * If this <code>transferType</code> is not supported, a
-     * <code>UnsupportedOperationException</code> will be
-     * thrown.  Since
-     * <code>ColorModel</code> is an abstract class, any instance
-     * must be an instance of a subclass.  Subclasses inherit the
-     * implementation of this method and if they don't override it, this
-     * method throws an exception if the subclass uses a
-     * <code>transferType</code> other than
-     * <code>DataBuffer.TYPE_BYTE</code>,
-     * <code>DataBuffer.TYPE_USHORT</code>, or
-     * <code>DataBuffer.TYPE_INT</code>.
-     * @param inData an array of pixel values
-     * @return the value of the blue component of the specified pixel.
-     * @throws ClassCastException if <code>inData</code>
-     *  is not a primitive array of type <code>transferType</code>
-     * @throws ArrayIndexOutOfBoundsException if
-     *  <code>inData</code> is not large enough to hold a pixel value
-     *  for this <code>ColorModel</code>
-     * @throws UnsupportedOperationException if this
-     *  <code>tranferType</code> is not supported by this
-     *  <code>ColorModel</code>
+     * Rfturns tif grffn dolor domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255 in tif dffbult RGB <dodf>ColorSpbdf</dodf>, sRGB.  A
+     * dolor donvfrsion is donf if nfdfssbry.  Tif pixfl vbluf is
+     * spfdififd by bn brrby of dbtb flfmfnts of typf trbnsffrTypf pbssfd
+     * in bs bn objfdt rfffrfndf.  Tif rfturnfd vbluf will bf b non
+     * prf-multiplifd vbluf.  For fxbmplf, if tif blpib is prfmultiplifd,
+     * tiis mftiod dividfs it out bfforf rfturning tif vbluf.  If tif
+     * blpib vbluf is 0, tif grffn vbluf is 0.  If <dodf>inDbtb</dodf> is
+     * not b primitivf brrby of typf trbnsffrTypf, b
+     * <dodf>ClbssCbstExdfption</dodf> is tirown.  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown if
+     * <dodf>inDbtb</dodf> is not lbrgf fnougi to iold b pixfl vbluf for
+     * tiis <dodf>ColorModfl</dodf>.
+     * If tiis <dodf>trbnsffrTypf</dodf> is not supportfd, b
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf
+     * tirown.  Sindf
+     * <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss, bny instbndf
+     * must bf bn instbndf of b subdlbss.  Subdlbssfs inifrit tif
+     * implfmfntbtion of tiis mftiod bnd if tify don't ovfrridf it, tiis
+     * mftiod tirows bn fxdfption if tif subdlbss usfs b
+     * <dodf>trbnsffrTypf</dodf> otifr tibn
+     * <dodf>DbtbBufffr.TYPE_BYTE</dodf>,
+     * <dodf>DbtbBufffr.TYPE_USHORT</dodf>, or
+     * <dodf>DbtbBufffr.TYPE_INT</dodf>.
+     * @pbrbm inDbtb bn brrby of pixfl vblufs
+     * @rfturn tif vbluf of tif grffn domponfnt of tif spfdififd pixfl.
+     * @tirows ClbssCbstExdfption if <dodf>inDbtb</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>inDbtb</dodf> is not lbrgf fnougi to iold b pixfl vbluf
+     *  for tiis <dodf>ColorModfl</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis
+     *  <dodf>trbnffrTypf</dodf> is not supportfd by tiis
+     *  <dodf>ColorModfl</dodf>
      */
-    public int getBlue(Object inData) {
-        int pixel=0,length=0;
-        switch (transferType) {
-            case DataBuffer.TYPE_BYTE:
-               byte bdata[] = (byte[])inData;
-               pixel = bdata[0] & 0xff;
-               length = bdata.length;
-            break;
-            case DataBuffer.TYPE_USHORT:
-               short sdata[] = (short[])inData;
-               pixel = sdata[0] & 0xffff;
-               length = sdata.length;
-            break;
-            case DataBuffer.TYPE_INT:
-               int idata[] = (int[])inData;
-               pixel = idata[0];
-               length = idata.length;
-            break;
-            default:
-               throw new UnsupportedOperationException("This method has not been "+
-                   "implemented for transferType " + transferType);
+    publid int gftGrffn(Objfdt inDbtb) {
+        int pixfl=0,lfngti=0;
+        switdi (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])inDbtb;
+               pixfl = bdbtb[0] & 0xff;
+               lfngti = bdbtb.lfngti;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               siort sdbtb[] = (siort[])inDbtb;
+               pixfl = sdbtb[0] & 0xffff;
+               lfngti = sdbtb.lfngti;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               pixfl = idbtb[0];
+               lfngti = idbtb.lfngti;
+            brfbk;
+            dffbult:
+               tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
         }
-        if (length == 1) {
-            return getBlue(pixel);
+        if (lfngti == 1) {
+            rfturn gftGrffn(pixfl);
         }
-        else {
-            throw new UnsupportedOperationException
-                ("This method is not supported by this color model");
+        flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption
+                ("Tiis mftiod is not supportfd by tiis dolor modfl");
         }
     }
 
     /**
-     * Returns the alpha component for the specified pixel, scaled
-     * from 0 to 255.  The pixel value is specified by an array of data
-     * elements of type transferType passed in as an object reference.
-     * If inData is not a primitive array of type transferType, a
-     * <code>ClassCastException</code> is thrown.  An
-     * <code>ArrayIndexOutOfBoundsException</code> is thrown if
-     * <code>inData</code> is not large enough to hold a pixel value for
-     * this <code>ColorModel</code>.
-     * If this <code>transferType</code> is not supported, a
-     * <code>UnsupportedOperationException</code> will be
-     * thrown.  Since
-     * <code>ColorModel</code> is an abstract class, any instance
-     * must be an instance of a subclass.  Subclasses inherit the
-     * implementation of this method and if they don't override it, this
-     * method throws an exception if the subclass uses a
-     * <code>transferType</code> other than
-     * <code>DataBuffer.TYPE_BYTE</code>,
-     * <code>DataBuffer.TYPE_USHORT</code>, or
-     * <code>DataBuffer.TYPE_INT</code>.
-     * @param inData the specified pixel
-     * @return the alpha component of the specified pixel, scaled from
+     * Rfturns tif bluf dolor domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255 in tif dffbult RGB <dodf>ColorSpbdf</dodf>, sRGB.  A
+     * dolor donvfrsion is donf if nfdfssbry.  Tif pixfl vbluf is
+     * spfdififd by bn brrby of dbtb flfmfnts of typf trbnsffrTypf pbssfd
+     * in bs bn objfdt rfffrfndf.  Tif rfturnfd vbluf is b non
+     * prf-multiplifd vbluf.  For fxbmplf, if tif blpib is prfmultiplifd,
+     * tiis mftiod dividfs it out bfforf rfturning tif vbluf.  If tif
+     * blpib vbluf is 0, tif bluf vbluf will bf 0.  If
+     * <dodf>inDbtb</dodf> is not b primitivf brrby of typf trbnsffrTypf,
+     * b <dodf>ClbssCbstExdfption</dodf> is tirown.  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * tirown if <dodf>inDbtb</dodf> is not lbrgf fnougi to iold b pixfl
+     * vbluf for tiis <dodf>ColorModfl</dodf>.
+     * If tiis <dodf>trbnsffrTypf</dodf> is not supportfd, b
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf
+     * tirown.  Sindf
+     * <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss, bny instbndf
+     * must bf bn instbndf of b subdlbss.  Subdlbssfs inifrit tif
+     * implfmfntbtion of tiis mftiod bnd if tify don't ovfrridf it, tiis
+     * mftiod tirows bn fxdfption if tif subdlbss usfs b
+     * <dodf>trbnsffrTypf</dodf> otifr tibn
+     * <dodf>DbtbBufffr.TYPE_BYTE</dodf>,
+     * <dodf>DbtbBufffr.TYPE_USHORT</dodf>, or
+     * <dodf>DbtbBufffr.TYPE_INT</dodf>.
+     * @pbrbm inDbtb bn brrby of pixfl vblufs
+     * @rfturn tif vbluf of tif bluf domponfnt of tif spfdififd pixfl.
+     * @tirows ClbssCbstExdfption if <dodf>inDbtb</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>inDbtb</dodf> is not lbrgf fnougi to iold b pixfl vbluf
+     *  for tiis <dodf>ColorModfl</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis
+     *  <dodf>trbnffrTypf</dodf> is not supportfd by tiis
+     *  <dodf>ColorModfl</dodf>
+     */
+    publid int gftBluf(Objfdt inDbtb) {
+        int pixfl=0,lfngti=0;
+        switdi (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])inDbtb;
+               pixfl = bdbtb[0] & 0xff;
+               lfngti = bdbtb.lfngti;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               siort sdbtb[] = (siort[])inDbtb;
+               pixfl = sdbtb[0] & 0xffff;
+               lfngti = sdbtb.lfngti;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               pixfl = idbtb[0];
+               lfngti = idbtb.lfngti;
+            brfbk;
+            dffbult:
+               tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
+        }
+        if (lfngti == 1) {
+            rfturn gftBluf(pixfl);
+        }
+        flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption
+                ("Tiis mftiod is not supportfd by tiis dolor modfl");
+        }
+    }
+
+    /**
+     * Rfturns tif blpib domponfnt for tif spfdififd pixfl, sdblfd
+     * from 0 to 255.  Tif pixfl vbluf is spfdififd by bn brrby of dbtb
+     * flfmfnts of typf trbnsffrTypf pbssfd in bs bn objfdt rfffrfndf.
+     * If inDbtb is not b primitivf brrby of typf trbnsffrTypf, b
+     * <dodf>ClbssCbstExdfption</dodf> is tirown.  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown if
+     * <dodf>inDbtb</dodf> is not lbrgf fnougi to iold b pixfl vbluf for
+     * tiis <dodf>ColorModfl</dodf>.
+     * If tiis <dodf>trbnsffrTypf</dodf> is not supportfd, b
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf
+     * tirown.  Sindf
+     * <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss, bny instbndf
+     * must bf bn instbndf of b subdlbss.  Subdlbssfs inifrit tif
+     * implfmfntbtion of tiis mftiod bnd if tify don't ovfrridf it, tiis
+     * mftiod tirows bn fxdfption if tif subdlbss usfs b
+     * <dodf>trbnsffrTypf</dodf> otifr tibn
+     * <dodf>DbtbBufffr.TYPE_BYTE</dodf>,
+     * <dodf>DbtbBufffr.TYPE_USHORT</dodf>, or
+     * <dodf>DbtbBufffr.TYPE_INT</dodf>.
+     * @pbrbm inDbtb tif spfdififd pixfl
+     * @rfturn tif blpib domponfnt of tif spfdififd pixfl, sdblfd from
      * 0 to 255.
-     * @throws ClassCastException if <code>inData</code>
-     *  is not a primitive array of type <code>transferType</code>
-     * @throws ArrayIndexOutOfBoundsException if
-     *  <code>inData</code> is not large enough to hold a pixel value
-     *  for this <code>ColorModel</code>
-     * @throws UnsupportedOperationException if this
-     *  <code>tranferType</code> is not supported by this
-     *  <code>ColorModel</code>
+     * @tirows ClbssCbstExdfption if <dodf>inDbtb</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>inDbtb</dodf> is not lbrgf fnougi to iold b pixfl vbluf
+     *  for tiis <dodf>ColorModfl</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis
+     *  <dodf>trbnffrTypf</dodf> is not supportfd by tiis
+     *  <dodf>ColorModfl</dodf>
      */
-    public int getAlpha(Object inData) {
-        int pixel=0,length=0;
-        switch (transferType) {
-            case DataBuffer.TYPE_BYTE:
-               byte bdata[] = (byte[])inData;
-               pixel = bdata[0] & 0xff;
-               length = bdata.length;
-            break;
-            case DataBuffer.TYPE_USHORT:
-               short sdata[] = (short[])inData;
-               pixel = sdata[0] & 0xffff;
-               length = sdata.length;
-            break;
-            case DataBuffer.TYPE_INT:
-               int idata[] = (int[])inData;
-               pixel = idata[0];
-               length = idata.length;
-            break;
-            default:
-               throw new UnsupportedOperationException("This method has not been "+
-                   "implemented for transferType " + transferType);
+    publid int gftAlpib(Objfdt inDbtb) {
+        int pixfl=0,lfngti=0;
+        switdi (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])inDbtb;
+               pixfl = bdbtb[0] & 0xff;
+               lfngti = bdbtb.lfngti;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               siort sdbtb[] = (siort[])inDbtb;
+               pixfl = sdbtb[0] & 0xffff;
+               lfngti = sdbtb.lfngti;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               pixfl = idbtb[0];
+               lfngti = idbtb.lfngti;
+            brfbk;
+            dffbult:
+               tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
         }
-        if (length == 1) {
-            return getAlpha(pixel);
+        if (lfngti == 1) {
+            rfturn gftAlpib(pixfl);
         }
-        else {
-            throw new UnsupportedOperationException
-                ("This method is not supported by this color model");
+        flsf {
+            tirow nfw UnsupportfdOpfrbtionExdfption
+                ("Tiis mftiod is not supportfd by tiis dolor modfl");
         }
     }
 
     /**
-     * Returns the color/alpha components for the specified pixel in the
-     * default RGB color model format.  A color conversion is done if
-     * necessary.  The pixel value is specified by an array of data
-     * elements of type transferType passed in as an object reference.
-     * If inData is not a primitive array of type transferType, a
-     * <code>ClassCastException</code> is thrown.  An
-     * <code>ArrayIndexOutOfBoundsException</code> is
-     * thrown if <code>inData</code> is not large enough to hold a pixel
-     * value for this <code>ColorModel</code>.
-     * The returned value will be in a non pre-multiplied format, i.e. if
-     * the alpha is premultiplied, this method will divide it out of the
-     * color components (if the alpha value is 0, the color values will be 0).
-     * @param inData the specified pixel
-     * @return the color and alpha components of the specified pixel.
-     * @see ColorModel#getRGBdefault
+     * Rfturns tif dolor/blpib domponfnts for tif spfdififd pixfl in tif
+     * dffbult RGB dolor modfl formbt.  A dolor donvfrsion is donf if
+     * nfdfssbry.  Tif pixfl vbluf is spfdififd by bn brrby of dbtb
+     * flfmfnts of typf trbnsffrTypf pbssfd in bs bn objfdt rfffrfndf.
+     * If inDbtb is not b primitivf brrby of typf trbnsffrTypf, b
+     * <dodf>ClbssCbstExdfption</dodf> is tirown.  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * tirown if <dodf>inDbtb</dodf> is not lbrgf fnougi to iold b pixfl
+     * vbluf for tiis <dodf>ColorModfl</dodf>.
+     * Tif rfturnfd vbluf will bf in b non prf-multiplifd formbt, i.f. if
+     * tif blpib is prfmultiplifd, tiis mftiod will dividf it out of tif
+     * dolor domponfnts (if tif blpib vbluf is 0, tif dolor vblufs will bf 0).
+     * @pbrbm inDbtb tif spfdififd pixfl
+     * @rfturn tif dolor bnd blpib domponfnts of tif spfdififd pixfl.
+     * @sff ColorModfl#gftRGBdffbult
      */
-    public int getRGB(Object inData) {
-        return (getAlpha(inData) << 24)
-            | (getRed(inData) << 16)
-            | (getGreen(inData) << 8)
-            | (getBlue(inData) << 0);
+    publid int gftRGB(Objfdt inDbtb) {
+        rfturn (gftAlpib(inDbtb) << 24)
+            | (gftRfd(inDbtb) << 16)
+            | (gftGrffn(inDbtb) << 8)
+            | (gftBluf(inDbtb) << 0);
     }
 
     /**
-     * Returns a data element array representation of a pixel in this
-     * <code>ColorModel</code>, given an integer pixel representation in
-     * the default RGB color model.
-     * This array can then be passed to the
-     * {@link WritableRaster#setDataElements} method of
-     * a {@link WritableRaster} object.  If the pixel variable is
-     * <code>null</code>, a new array will be allocated.  If
-     * <code>pixel</code> is not
-     * <code>null</code>, it must be a primitive array of type
-     * <code>transferType</code>; otherwise, a
-     * <code>ClassCastException</code> is thrown.  An
-     * <code>ArrayIndexOutOfBoundsException</code> is thrown if
-     * <code>pixel</code> is
-     * not large enough to hold a pixel value for this
-     * <code>ColorModel</code>. The pixel array is returned.
-     * If this <code>transferType</code> is not supported, a
-     * <code>UnsupportedOperationException</code> will be
-     * thrown.  Since <code>ColorModel</code> is an abstract class,
-     * any instance is an instance of a subclass.  Subclasses must
-     * override this method since the implementation in this abstract
-     * class throws an <code>UnsupportedOperationException</code>.
-     * @param rgb the integer pixel representation in the default RGB
-     * color model
-     * @param pixel the specified pixel
-     * @return an array representation of the specified pixel in this
-     *  <code>ColorModel</code>.
-     * @throws ClassCastException if <code>pixel</code>
-     *  is not a primitive array of type <code>transferType</code>
-     * @throws ArrayIndexOutOfBoundsException if
-     *  <code>pixel</code> is not large enough to hold a pixel value
-     *  for this <code>ColorModel</code>
-     * @throws UnsupportedOperationException if this
-     *  method is not supported by this <code>ColorModel</code>
-     * @see WritableRaster#setDataElements
-     * @see SampleModel#setDataElements
+     * Rfturns b dbtb flfmfnt brrby rfprfsfntbtion of b pixfl in tiis
+     * <dodf>ColorModfl</dodf>, givfn bn intfgfr pixfl rfprfsfntbtion in
+     * tif dffbult RGB dolor modfl.
+     * Tiis brrby dbn tifn bf pbssfd to tif
+     * {@link WritbblfRbstfr#sftDbtbElfmfnts} mftiod of
+     * b {@link WritbblfRbstfr} objfdt.  If tif pixfl vbribblf is
+     * <dodf>null</dodf>, b nfw brrby will bf bllodbtfd.  If
+     * <dodf>pixfl</dodf> is not
+     * <dodf>null</dodf>, it must bf b primitivf brrby of typf
+     * <dodf>trbnsffrTypf</dodf>; otifrwisf, b
+     * <dodf>ClbssCbstExdfption</dodf> is tirown.  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown if
+     * <dodf>pixfl</dodf> is
+     * not lbrgf fnougi to iold b pixfl vbluf for tiis
+     * <dodf>ColorModfl</dodf>. Tif pixfl brrby is rfturnfd.
+     * If tiis <dodf>trbnsffrTypf</dodf> is not supportfd, b
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> will bf
+     * tirown.  Sindf <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss,
+     * bny instbndf is bn instbndf of b subdlbss.  Subdlbssfs must
+     * ovfrridf tiis mftiod sindf tif implfmfntbtion in tiis bbstrbdt
+     * dlbss tirows bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     * @pbrbm rgb tif intfgfr pixfl rfprfsfntbtion in tif dffbult RGB
+     * dolor modfl
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @rfturn bn brrby rfprfsfntbtion of tif spfdififd pixfl in tiis
+     *  <dodf>ColorModfl</dodf>.
+     * @tirows ClbssCbstExdfption if <dodf>pixfl</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>pixfl</dodf> is not lbrgf fnougi to iold b pixfl vbluf
+     *  for tiis <dodf>ColorModfl</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis
+     *  mftiod is not supportfd by tiis <dodf>ColorModfl</dodf>
+     * @sff WritbblfRbstfr#sftDbtbElfmfnts
+     * @sff SbmplfModfl#sftDbtbElfmfnts
      */
-    public Object getDataElements(int rgb, Object pixel) {
-        throw new UnsupportedOperationException
-            ("This method is not supported by this color model.");
+    publid Objfdt gftDbtbElfmfnts(int rgb, Objfdt pixfl) {
+        tirow nfw UnsupportfdOpfrbtionExdfption
+            ("Tiis mftiod is not supportfd by tiis dolor modfl.");
     }
 
     /**
-     * Returns an array of unnormalized color/alpha components given a pixel
-     * in this <code>ColorModel</code>.  The pixel value is specified as
-     * an <code>int</code>.  An <code>IllegalArgumentException</code>
-     * will be thrown if pixel values for this <code>ColorModel</code> are
-     * not conveniently representable as a single <code>int</code> or if
-     * color component values for this <code>ColorModel</code> are not
-     * conveniently representable in the unnormalized form.
-     * For example, this method can be used to retrieve the
-     * components for a specific pixel value in a
-     * <code>DirectColorModel</code>.  If the components array is
-     * <code>null</code>, a new array will be allocated.  The
-     * components array will be returned.  Color/alpha components are
-     * stored in the components array starting at <code>offset</code>
-     * (even if the array is allocated by this method).  An
-     * <code>ArrayIndexOutOfBoundsException</code> is thrown if  the
-     * components array is not <code>null</code> and is not large
-     * enough to hold all the color and alpha components (starting at offset).
-     * Since <code>ColorModel</code> is an abstract class,
-     * any instance is an instance of a subclass.  Subclasses must
-     * override this method since the implementation in this abstract
-     * class throws an <code>UnsupportedOperationException</code>.
-     * @param pixel the specified pixel
-     * @param components the array to receive the color and alpha
-     * components of the specified pixel
-     * @param offset the offset into the <code>components</code> array at
-     * which to start storing the color and alpha components
-     * @return an array containing the color and alpha components of the
-     * specified pixel starting at the specified offset.
-     * @throws UnsupportedOperationException if this
-     *          method is not supported by this <code>ColorModel</code>
+     * Rfturns bn brrby of unnormblizfd dolor/blpib domponfnts givfn b pixfl
+     * in tiis <dodf>ColorModfl</dodf>.  Tif pixfl vbluf is spfdififd bs
+     * bn <dodf>int</dodf>.  An <dodf>IllfgblArgumfntExdfption</dodf>
+     * will bf tirown if pixfl vblufs for tiis <dodf>ColorModfl</dodf> brf
+     * not donvfnifntly rfprfsfntbblf bs b singlf <dodf>int</dodf> or if
+     * dolor domponfnt vblufs for tiis <dodf>ColorModfl</dodf> brf not
+     * donvfnifntly rfprfsfntbblf in tif unnormblizfd form.
+     * For fxbmplf, tiis mftiod dbn bf usfd to rftrifvf tif
+     * domponfnts for b spfdifid pixfl vbluf in b
+     * <dodf>DirfdtColorModfl</dodf>.  If tif domponfnts brrby is
+     * <dodf>null</dodf>, b nfw brrby will bf bllodbtfd.  Tif
+     * domponfnts brrby will bf rfturnfd.  Color/blpib domponfnts brf
+     * storfd in tif domponfnts brrby stbrting bt <dodf>offsft</dodf>
+     * (fvfn if tif brrby is bllodbtfd by tiis mftiod).  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown if  tif
+     * domponfnts brrby is not <dodf>null</dodf> bnd is not lbrgf
+     * fnougi to iold bll tif dolor bnd blpib domponfnts (stbrting bt offsft).
+     * Sindf <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss,
+     * bny instbndf is bn instbndf of b subdlbss.  Subdlbssfs must
+     * ovfrridf tiis mftiod sindf tif implfmfntbtion in tiis bbstrbdt
+     * dlbss tirows bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @pbrbm domponfnts tif brrby to rfdfivf tif dolor bnd blpib
+     * domponfnts of tif spfdififd pixfl
+     * @pbrbm offsft tif offsft into tif <dodf>domponfnts</dodf> brrby bt
+     * wiidi to stbrt storing tif dolor bnd blpib domponfnts
+     * @rfturn bn brrby dontbining tif dolor bnd blpib domponfnts of tif
+     * spfdififd pixfl stbrting bt tif spfdififd offsft.
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis
+     *          mftiod is not supportfd by tiis <dodf>ColorModfl</dodf>
      */
-    public int[] getComponents(int pixel, int[] components, int offset) {
-        throw new UnsupportedOperationException
-            ("This method is not supported by this color model.");
+    publid int[] gftComponfnts(int pixfl, int[] domponfnts, int offsft) {
+        tirow nfw UnsupportfdOpfrbtionExdfption
+            ("Tiis mftiod is not supportfd by tiis dolor modfl.");
     }
 
     /**
-     * Returns an array of unnormalized color/alpha components given a pixel
-     * in this <code>ColorModel</code>.  The pixel value is specified by
-     * an array of data elements of type transferType passed in as an
-     * object reference.  If <code>pixel</code> is not a primitive array
-     * of type transferType, a <code>ClassCastException</code> is thrown.
-     * An <code>IllegalArgumentException</code> will be thrown if color
-     * component values for this <code>ColorModel</code> are not
-     * conveniently representable in the unnormalized form.
-     * An <code>ArrayIndexOutOfBoundsException</code> is
-     * thrown if <code>pixel</code> is not large enough to hold a pixel
-     * value for this <code>ColorModel</code>.
-     * This method can be used to retrieve the components for a specific
-     * pixel value in any <code>ColorModel</code>.  If the components
-     * array is <code>null</code>, a new array will be allocated.  The
-     * components array will be returned.  Color/alpha components are
-     * stored in the <code>components</code> array starting at
-     * <code>offset</code> (even if the array is allocated by this
-     * method).  An <code>ArrayIndexOutOfBoundsException</code>
-     * is thrown if  the components array is not <code>null</code> and is
-     * not large enough to hold all the color and alpha components
-     * (starting at <code>offset</code>).
-     * Since <code>ColorModel</code> is an abstract class,
-     * any instance is an instance of a subclass.  Subclasses must
-     * override this method since the implementation in this abstract
-     * class throws an <code>UnsupportedOperationException</code>.
-     * @param pixel the specified pixel
-     * @param components an array that receives the color and alpha
-     * components of the specified pixel
-     * @param offset the index into the <code>components</code> array at
-     * which to begin storing the color and alpha components of the
-     * specified pixel
-     * @return an array containing the color and alpha components of the
-     * specified pixel starting at the specified offset.
-     * @throws UnsupportedOperationException if this
-     *          method is not supported by this <code>ColorModel</code>
+     * Rfturns bn brrby of unnormblizfd dolor/blpib domponfnts givfn b pixfl
+     * in tiis <dodf>ColorModfl</dodf>.  Tif pixfl vbluf is spfdififd by
+     * bn brrby of dbtb flfmfnts of typf trbnsffrTypf pbssfd in bs bn
+     * objfdt rfffrfndf.  If <dodf>pixfl</dodf> is not b primitivf brrby
+     * of typf trbnsffrTypf, b <dodf>ClbssCbstExdfption</dodf> is tirown.
+     * An <dodf>IllfgblArgumfntExdfption</dodf> will bf tirown if dolor
+     * domponfnt vblufs for tiis <dodf>ColorModfl</dodf> brf not
+     * donvfnifntly rfprfsfntbblf in tif unnormblizfd form.
+     * An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * tirown if <dodf>pixfl</dodf> is not lbrgf fnougi to iold b pixfl
+     * vbluf for tiis <dodf>ColorModfl</dodf>.
+     * Tiis mftiod dbn bf usfd to rftrifvf tif domponfnts for b spfdifid
+     * pixfl vbluf in bny <dodf>ColorModfl</dodf>.  If tif domponfnts
+     * brrby is <dodf>null</dodf>, b nfw brrby will bf bllodbtfd.  Tif
+     * domponfnts brrby will bf rfturnfd.  Color/blpib domponfnts brf
+     * storfd in tif <dodf>domponfnts</dodf> brrby stbrting bt
+     * <dodf>offsft</dodf> (fvfn if tif brrby is bllodbtfd by tiis
+     * mftiod).  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf>
+     * is tirown if  tif domponfnts brrby is not <dodf>null</dodf> bnd is
+     * not lbrgf fnougi to iold bll tif dolor bnd blpib domponfnts
+     * (stbrting bt <dodf>offsft</dodf>).
+     * Sindf <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss,
+     * bny instbndf is bn instbndf of b subdlbss.  Subdlbssfs must
+     * ovfrridf tiis mftiod sindf tif implfmfntbtion in tiis bbstrbdt
+     * dlbss tirows bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @pbrbm domponfnts bn brrby tibt rfdfivfs tif dolor bnd blpib
+     * domponfnts of tif spfdififd pixfl
+     * @pbrbm offsft tif indfx into tif <dodf>domponfnts</dodf> brrby bt
+     * wiidi to bfgin storing tif dolor bnd blpib domponfnts of tif
+     * spfdififd pixfl
+     * @rfturn bn brrby dontbining tif dolor bnd blpib domponfnts of tif
+     * spfdififd pixfl stbrting bt tif spfdififd offsft.
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis
+     *          mftiod is not supportfd by tiis <dodf>ColorModfl</dodf>
      */
-    public int[] getComponents(Object pixel, int[] components, int offset) {
-        throw new UnsupportedOperationException
-            ("This method is not supported by this color model.");
+    publid int[] gftComponfnts(Objfdt pixfl, int[] domponfnts, int offsft) {
+        tirow nfw UnsupportfdOpfrbtionExdfption
+            ("Tiis mftiod is not supportfd by tiis dolor modfl.");
     }
 
     /**
-     * Returns an array of all of the color/alpha components in unnormalized
-     * form, given a normalized component array.  Unnormalized components
-     * are unsigned integral values between 0 and 2<sup>n</sup> - 1, where
-     * n is the number of bits for a particular component.  Normalized
-     * components are float values between a per component minimum and
-     * maximum specified by the <code>ColorSpace</code> object for this
-     * <code>ColorModel</code>.  An <code>IllegalArgumentException</code>
-     * will be thrown if color component values for this
-     * <code>ColorModel</code> are not conveniently representable in the
-     * unnormalized form.  If the
-     * <code>components</code> array is <code>null</code>, a new array
-     * will be allocated.  The <code>components</code> array will
-     * be returned.  Color/alpha components are stored in the
-     * <code>components</code> array starting at <code>offset</code> (even
-     * if the array is allocated by this method). An
-     * <code>ArrayIndexOutOfBoundsException</code> is thrown if the
-     * <code>components</code> array is not <code>null</code> and is not
-     * large enough to hold all the color and alpha
-     * components (starting at <code>offset</code>).  An
-     * <code>IllegalArgumentException</code> is thrown if the
-     * <code>normComponents</code> array is not large enough to hold
-     * all the color and alpha components starting at
-     * <code>normOffset</code>.
-     * @param normComponents an array containing normalized components
-     * @param normOffset the offset into the <code>normComponents</code>
-     * array at which to start retrieving normalized components
-     * @param components an array that receives the components from
-     * <code>normComponents</code>
-     * @param offset the index into <code>components</code> at which to
-     * begin storing normalized components from
-     * <code>normComponents</code>
-     * @return an array containing unnormalized color and alpha
-     * components.
-     * @throws IllegalArgumentException If the component values for this
-     * <CODE>ColorModel</CODE> are not conveniently representable in the
-     * unnormalized form.
-     * @throws IllegalArgumentException if the length of
-     *          <code>normComponents</code> minus <code>normOffset</code>
-     *          is less than <code>numComponents</code>
-     * @throws UnsupportedOperationException if the
-     *          constructor of this <code>ColorModel</code> called the
-     *          <code>super(bits)</code> constructor, but did not
-     *          override this method.  See the constructor,
-     *          {@link #ColorModel(int)}.
+     * Rfturns bn brrby of bll of tif dolor/blpib domponfnts in unnormblizfd
+     * form, givfn b normblizfd domponfnt brrby.  Unnormblizfd domponfnts
+     * brf unsignfd intfgrbl vblufs bftwffn 0 bnd 2<sup>n</sup> - 1, wifrf
+     * n is tif numbfr of bits for b pbrtidulbr domponfnt.  Normblizfd
+     * domponfnts brf flobt vblufs bftwffn b pfr domponfnt minimum bnd
+     * mbximum spfdififd by tif <dodf>ColorSpbdf</dodf> objfdt for tiis
+     * <dodf>ColorModfl</dodf>.  An <dodf>IllfgblArgumfntExdfption</dodf>
+     * will bf tirown if dolor domponfnt vblufs for tiis
+     * <dodf>ColorModfl</dodf> brf not donvfnifntly rfprfsfntbblf in tif
+     * unnormblizfd form.  If tif
+     * <dodf>domponfnts</dodf> brrby is <dodf>null</dodf>, b nfw brrby
+     * will bf bllodbtfd.  Tif <dodf>domponfnts</dodf> brrby will
+     * bf rfturnfd.  Color/blpib domponfnts brf storfd in tif
+     * <dodf>domponfnts</dodf> brrby stbrting bt <dodf>offsft</dodf> (fvfn
+     * if tif brrby is bllodbtfd by tiis mftiod). An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown if tif
+     * <dodf>domponfnts</dodf> brrby is not <dodf>null</dodf> bnd is not
+     * lbrgf fnougi to iold bll tif dolor bnd blpib
+     * domponfnts (stbrting bt <dodf>offsft</dodf>).  An
+     * <dodf>IllfgblArgumfntExdfption</dodf> is tirown if tif
+     * <dodf>normComponfnts</dodf> brrby is not lbrgf fnougi to iold
+     * bll tif dolor bnd blpib domponfnts stbrting bt
+     * <dodf>normOffsft</dodf>.
+     * @pbrbm normComponfnts bn brrby dontbining normblizfd domponfnts
+     * @pbrbm normOffsft tif offsft into tif <dodf>normComponfnts</dodf>
+     * brrby bt wiidi to stbrt rftrifving normblizfd domponfnts
+     * @pbrbm domponfnts bn brrby tibt rfdfivfs tif domponfnts from
+     * <dodf>normComponfnts</dodf>
+     * @pbrbm offsft tif indfx into <dodf>domponfnts</dodf> bt wiidi to
+     * bfgin storing normblizfd domponfnts from
+     * <dodf>normComponfnts</dodf>
+     * @rfturn bn brrby dontbining unnormblizfd dolor bnd blpib
+     * domponfnts.
+     * @tirows IllfgblArgumfntExdfption If tif domponfnt vblufs for tiis
+     * <CODE>ColorModfl</CODE> brf not donvfnifntly rfprfsfntbblf in tif
+     * unnormblizfd form.
+     * @tirows IllfgblArgumfntExdfption if tif lfngti of
+     *          <dodf>normComponfnts</dodf> minus <dodf>normOffsft</dodf>
+     *          is lfss tibn <dodf>numComponfnts</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if tif
+     *          donstrudtor of tiis <dodf>ColorModfl</dodf> dbllfd tif
+     *          <dodf>supfr(bits)</dodf> donstrudtor, but did not
+     *          ovfrridf tiis mftiod.  Sff tif donstrudtor,
+     *          {@link #ColorModfl(int)}.
      */
-    public int[] getUnnormalizedComponents(float[] normComponents,
-                                           int normOffset,
-                                           int[] components, int offset) {
-        // Make sure that someone isn't using a custom color model
-        // that called the super(bits) constructor.
-        if (colorSpace == null) {
-            throw new UnsupportedOperationException("This method is not supported "+
-                                        "by this color model.");
+    publid int[] gftUnnormblizfdComponfnts(flobt[] normComponfnts,
+                                           int normOffsft,
+                                           int[] domponfnts, int offsft) {
+        // Mbkf surf tibt somfonf isn't using b dustom dolor modfl
+        // tibt dbllfd tif supfr(bits) donstrudtor.
+        if (dolorSpbdf == null) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod is not supportfd "+
+                                        "by tiis dolor modfl.");
         }
 
         if (nBits == null) {
-            throw new UnsupportedOperationException ("This method is not supported.  "+
-                                         "Unable to determine #bits per "+
-                                         "component.");
+            tirow nfw UnsupportfdOpfrbtionExdfption ("Tiis mftiod is not supportfd.  "+
+                                         "Unbblf to dftfrminf #bits pfr "+
+                                         "domponfnt.");
         }
-        if ((normComponents.length - normOffset) < numComponents) {
-            throw new
-                IllegalArgumentException(
-                        "Incorrect number of components.  Expecting "+
-                        numComponents);
-        }
-
-        if (components == null) {
-            components = new int[offset+numComponents];
+        if ((normComponfnts.lfngti - normOffsft) < numComponfnts) {
+            tirow nfw
+                IllfgblArgumfntExdfption(
+                        "Indorrfdt numbfr of domponfnts.  Expfdting "+
+                        numComponfnts);
         }
 
-        if (supportsAlpha && isAlphaPremultiplied) {
-            float normAlpha = normComponents[normOffset+numColorComponents];
-            for (int i=0; i < numColorComponents; i++) {
-                components[offset+i] = (int) (normComponents[normOffset+i]
+        if (domponfnts == null) {
+            domponfnts = nfw int[offsft+numComponfnts];
+        }
+
+        if (supportsAlpib && isAlpibPrfmultiplifd) {
+            flobt normAlpib = normComponfnts[normOffsft+numColorComponfnts];
+            for (int i=0; i < numColorComponfnts; i++) {
+                domponfnts[offsft+i] = (int) (normComponfnts[normOffsft+i]
                                               * ((1<<nBits[i]) - 1)
-                                              * normAlpha + 0.5f);
+                                              * normAlpib + 0.5f);
             }
-            components[offset+numColorComponents] = (int)
-                (normAlpha * ((1<<nBits[numColorComponents]) - 1) + 0.5f);
+            domponfnts[offsft+numColorComponfnts] = (int)
+                (normAlpib * ((1<<nBits[numColorComponfnts]) - 1) + 0.5f);
         }
-        else {
-            for (int i=0; i < numComponents; i++) {
-                components[offset+i] = (int) (normComponents[normOffset+i]
+        flsf {
+            for (int i=0; i < numComponfnts; i++) {
+                domponfnts[offsft+i] = (int) (normComponfnts[normOffsft+i]
                                               * ((1<<nBits[i]) - 1) + 0.5f);
             }
         }
 
-        return components;
+        rfturn domponfnts;
     }
 
     /**
-     * Returns an array of all of the color/alpha components in normalized
-     * form, given an unnormalized component array.  Unnormalized components
-     * are unsigned integral values between 0 and 2<sup>n</sup> - 1, where
-     * n is the number of bits for a particular component.  Normalized
-     * components are float values between a per component minimum and
-     * maximum specified by the <code>ColorSpace</code> object for this
-     * <code>ColorModel</code>.  An <code>IllegalArgumentException</code>
-     * will be thrown if color component values for this
-     * <code>ColorModel</code> are not conveniently representable in the
-     * unnormalized form.  If the
-     * <code>normComponents</code> array is <code>null</code>, a new array
-     * will be allocated.  The <code>normComponents</code> array
-     * will be returned.  Color/alpha components are stored in the
-     * <code>normComponents</code> array starting at
-     * <code>normOffset</code> (even if the array is allocated by this
-     * method).  An <code>ArrayIndexOutOfBoundsException</code> is thrown
-     * if the <code>normComponents</code> array is not <code>null</code>
-     * and is not large enough to hold all the color and alpha components
-     * (starting at <code>normOffset</code>).  An
-     * <code>IllegalArgumentException</code> is thrown if the
-     * <code>components</code> array is not large enough to hold all the
-     * color and alpha components starting at <code>offset</code>.
+     * Rfturns bn brrby of bll of tif dolor/blpib domponfnts in normblizfd
+     * form, givfn bn unnormblizfd domponfnt brrby.  Unnormblizfd domponfnts
+     * brf unsignfd intfgrbl vblufs bftwffn 0 bnd 2<sup>n</sup> - 1, wifrf
+     * n is tif numbfr of bits for b pbrtidulbr domponfnt.  Normblizfd
+     * domponfnts brf flobt vblufs bftwffn b pfr domponfnt minimum bnd
+     * mbximum spfdififd by tif <dodf>ColorSpbdf</dodf> objfdt for tiis
+     * <dodf>ColorModfl</dodf>.  An <dodf>IllfgblArgumfntExdfption</dodf>
+     * will bf tirown if dolor domponfnt vblufs for tiis
+     * <dodf>ColorModfl</dodf> brf not donvfnifntly rfprfsfntbblf in tif
+     * unnormblizfd form.  If tif
+     * <dodf>normComponfnts</dodf> brrby is <dodf>null</dodf>, b nfw brrby
+     * will bf bllodbtfd.  Tif <dodf>normComponfnts</dodf> brrby
+     * will bf rfturnfd.  Color/blpib domponfnts brf storfd in tif
+     * <dodf>normComponfnts</dodf> brrby stbrting bt
+     * <dodf>normOffsft</dodf> (fvfn if tif brrby is bllodbtfd by tiis
+     * mftiod).  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown
+     * if tif <dodf>normComponfnts</dodf> brrby is not <dodf>null</dodf>
+     * bnd is not lbrgf fnougi to iold bll tif dolor bnd blpib domponfnts
+     * (stbrting bt <dodf>normOffsft</dodf>).  An
+     * <dodf>IllfgblArgumfntExdfption</dodf> is tirown if tif
+     * <dodf>domponfnts</dodf> brrby is not lbrgf fnougi to iold bll tif
+     * dolor bnd blpib domponfnts stbrting bt <dodf>offsft</dodf>.
      * <p>
-     * Since <code>ColorModel</code> is an abstract class,
-     * any instance is an instance of a subclass.  The default implementation
-     * of this method in this abstract class assumes that component values
-     * for this class are conveniently representable in the unnormalized
-     * form.  Therefore, subclasses which may
-     * have instances which do not support the unnormalized form must
-     * override this method.
-     * @param components an array containing unnormalized components
-     * @param offset the offset into the <code>components</code> array at
-     * which to start retrieving unnormalized components
-     * @param normComponents an array that receives the normalized components
-     * @param normOffset the index into <code>normComponents</code> at
-     * which to begin storing normalized components
-     * @return an array containing normalized color and alpha
-     * components.
-     * @throws IllegalArgumentException If the component values for this
-     * <CODE>ColorModel</CODE> are not conveniently representable in the
-     * unnormalized form.
-     * @throws UnsupportedOperationException if the
-     *          constructor of this <code>ColorModel</code> called the
-     *          <code>super(bits)</code> constructor, but did not
-     *          override this method.  See the constructor,
-     *          {@link #ColorModel(int)}.
-     * @throws UnsupportedOperationException if this method is unable
-     *          to determine the number of bits per component
+     * Sindf <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss,
+     * bny instbndf is bn instbndf of b subdlbss.  Tif dffbult implfmfntbtion
+     * of tiis mftiod in tiis bbstrbdt dlbss bssumfs tibt domponfnt vblufs
+     * for tiis dlbss brf donvfnifntly rfprfsfntbblf in tif unnormblizfd
+     * form.  Tifrfforf, subdlbssfs wiidi mby
+     * ibvf instbndfs wiidi do not support tif unnormblizfd form must
+     * ovfrridf tiis mftiod.
+     * @pbrbm domponfnts bn brrby dontbining unnormblizfd domponfnts
+     * @pbrbm offsft tif offsft into tif <dodf>domponfnts</dodf> brrby bt
+     * wiidi to stbrt rftrifving unnormblizfd domponfnts
+     * @pbrbm normComponfnts bn brrby tibt rfdfivfs tif normblizfd domponfnts
+     * @pbrbm normOffsft tif indfx into <dodf>normComponfnts</dodf> bt
+     * wiidi to bfgin storing normblizfd domponfnts
+     * @rfturn bn brrby dontbining normblizfd dolor bnd blpib
+     * domponfnts.
+     * @tirows IllfgblArgumfntExdfption If tif domponfnt vblufs for tiis
+     * <CODE>ColorModfl</CODE> brf not donvfnifntly rfprfsfntbblf in tif
+     * unnormblizfd form.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif
+     *          donstrudtor of tiis <dodf>ColorModfl</dodf> dbllfd tif
+     *          <dodf>supfr(bits)</dodf> donstrudtor, but did not
+     *          ovfrridf tiis mftiod.  Sff tif donstrudtor,
+     *          {@link #ColorModfl(int)}.
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis mftiod is unbblf
+     *          to dftfrminf tif numbfr of bits pfr domponfnt
      */
-    public float[] getNormalizedComponents(int[] components, int offset,
-                                           float[] normComponents,
-                                           int normOffset) {
-        // Make sure that someone isn't using a custom color model
-        // that called the super(bits) constructor.
-        if (colorSpace == null) {
-            throw new UnsupportedOperationException("This method is not supported by "+
-                                        "this color model.");
+    publid flobt[] gftNormblizfdComponfnts(int[] domponfnts, int offsft,
+                                           flobt[] normComponfnts,
+                                           int normOffsft) {
+        // Mbkf surf tibt somfonf isn't using b dustom dolor modfl
+        // tibt dbllfd tif supfr(bits) donstrudtor.
+        if (dolorSpbdf == null) {
+            tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod is not supportfd by "+
+                                        "tiis dolor modfl.");
         }
         if (nBits == null) {
-            throw new UnsupportedOperationException ("This method is not supported.  "+
-                                         "Unable to determine #bits per "+
-                                         "component.");
+            tirow nfw UnsupportfdOpfrbtionExdfption ("Tiis mftiod is not supportfd.  "+
+                                         "Unbblf to dftfrminf #bits pfr "+
+                                         "domponfnt.");
         }
 
-        if ((components.length - offset) < numComponents) {
-            throw new
-                IllegalArgumentException(
-                        "Incorrect number of components.  Expecting "+
-                        numComponents);
+        if ((domponfnts.lfngti - offsft) < numComponfnts) {
+            tirow nfw
+                IllfgblArgumfntExdfption(
+                        "Indorrfdt numbfr of domponfnts.  Expfdting "+
+                        numComponfnts);
         }
 
-        if (normComponents == null) {
-            normComponents = new float[numComponents+normOffset];
+        if (normComponfnts == null) {
+            normComponfnts = nfw flobt[numComponfnts+normOffsft];
         }
 
-        if (supportsAlpha && isAlphaPremultiplied) {
-            // Normalized coordinates are non premultiplied
-            float normAlpha = (float)components[offset+numColorComponents];
-            normAlpha /= (float) ((1<<nBits[numColorComponents]) - 1);
-            if (normAlpha != 0.0f) {
-                for (int i=0; i < numColorComponents; i++) {
-                    normComponents[normOffset+i] =
-                        ((float) components[offset+i]) /
-                        (normAlpha * ((float) ((1<<nBits[i]) - 1)));
+        if (supportsAlpib && isAlpibPrfmultiplifd) {
+            // Normblizfd doordinbtfs brf non prfmultiplifd
+            flobt normAlpib = (flobt)domponfnts[offsft+numColorComponfnts];
+            normAlpib /= (flobt) ((1<<nBits[numColorComponfnts]) - 1);
+            if (normAlpib != 0.0f) {
+                for (int i=0; i < numColorComponfnts; i++) {
+                    normComponfnts[normOffsft+i] =
+                        ((flobt) domponfnts[offsft+i]) /
+                        (normAlpib * ((flobt) ((1<<nBits[i]) - 1)));
                 }
-            } else {
-                for (int i=0; i < numColorComponents; i++) {
-                    normComponents[normOffset+i] = 0.0f;
+            } flsf {
+                for (int i=0; i < numColorComponfnts; i++) {
+                    normComponfnts[normOffsft+i] = 0.0f;
                 }
             }
-            normComponents[normOffset+numColorComponents] = normAlpha;
+            normComponfnts[normOffsft+numColorComponfnts] = normAlpib;
         }
-        else {
-            for (int i=0; i < numComponents; i++) {
-                normComponents[normOffset+i] = ((float) components[offset+i]) /
-                                               ((float) ((1<<nBits[i]) - 1));
+        flsf {
+            for (int i=0; i < numComponfnts; i++) {
+                normComponfnts[normOffsft+i] = ((flobt) domponfnts[offsft+i]) /
+                                               ((flobt) ((1<<nBits[i]) - 1));
             }
         }
 
-        return normComponents;
+        rfturn normComponfnts;
     }
 
     /**
-     * Returns a pixel value represented as an <code>int</code> in this
-     * <code>ColorModel</code>, given an array of unnormalized color/alpha
-     * components.  This method will throw an
-     * <code>IllegalArgumentException</code> if component values for this
-     * <code>ColorModel</code> are not conveniently representable as a
-     * single <code>int</code> or if color component values for this
-     * <code>ColorModel</code> are not conveniently representable in the
-     * unnormalized form.  An
-     * <code>ArrayIndexOutOfBoundsException</code> is thrown if  the
-     * <code>components</code> array is not large enough to hold all the
-     * color and alpha components (starting at <code>offset</code>).
-     * Since <code>ColorModel</code> is an abstract class,
-     * any instance is an instance of a subclass.  Subclasses must
-     * override this method since the implementation in this abstract
-     * class throws an <code>UnsupportedOperationException</code>.
-     * @param components an array of unnormalized color and alpha
-     * components
-     * @param offset the index into <code>components</code> at which to
-     * begin retrieving the color and alpha components
-     * @return an <code>int</code> pixel value in this
-     * <code>ColorModel</code> corresponding to the specified components.
-     * @throws IllegalArgumentException if
-     *  pixel values for this <code>ColorModel</code> are not
-     *  conveniently representable as a single <code>int</code>
-     * @throws IllegalArgumentException if
-     *  component values for this <code>ColorModel</code> are not
-     *  conveniently representable in the unnormalized form
-     * @throws ArrayIndexOutOfBoundsException if
-     *  the <code>components</code> array is not large enough to
-     *  hold all of the color and alpha components starting at
-     *  <code>offset</code>
-     * @throws UnsupportedOperationException if this
-     *  method is not supported by this <code>ColorModel</code>
+     * Rfturns b pixfl vbluf rfprfsfntfd bs bn <dodf>int</dodf> in tiis
+     * <dodf>ColorModfl</dodf>, givfn bn brrby of unnormblizfd dolor/blpib
+     * domponfnts.  Tiis mftiod will tirow bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if domponfnt vblufs for tiis
+     * <dodf>ColorModfl</dodf> brf not donvfnifntly rfprfsfntbblf bs b
+     * singlf <dodf>int</dodf> or if dolor domponfnt vblufs for tiis
+     * <dodf>ColorModfl</dodf> brf not donvfnifntly rfprfsfntbblf in tif
+     * unnormblizfd form.  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown if  tif
+     * <dodf>domponfnts</dodf> brrby is not lbrgf fnougi to iold bll tif
+     * dolor bnd blpib domponfnts (stbrting bt <dodf>offsft</dodf>).
+     * Sindf <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss,
+     * bny instbndf is bn instbndf of b subdlbss.  Subdlbssfs must
+     * ovfrridf tiis mftiod sindf tif implfmfntbtion in tiis bbstrbdt
+     * dlbss tirows bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     * @pbrbm domponfnts bn brrby of unnormblizfd dolor bnd blpib
+     * domponfnts
+     * @pbrbm offsft tif indfx into <dodf>domponfnts</dodf> bt wiidi to
+     * bfgin rftrifving tif dolor bnd blpib domponfnts
+     * @rfturn bn <dodf>int</dodf> pixfl vbluf in tiis
+     * <dodf>ColorModfl</dodf> dorrfsponding to tif spfdififd domponfnts.
+     * @tirows IllfgblArgumfntExdfption if
+     *  pixfl vblufs for tiis <dodf>ColorModfl</dodf> brf not
+     *  donvfnifntly rfprfsfntbblf bs b singlf <dodf>int</dodf>
+     * @tirows IllfgblArgumfntExdfption if
+     *  domponfnt vblufs for tiis <dodf>ColorModfl</dodf> brf not
+     *  donvfnifntly rfprfsfntbblf in tif unnormblizfd form
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if
+     *  tif <dodf>domponfnts</dodf> brrby is not lbrgf fnougi to
+     *  iold bll of tif dolor bnd blpib domponfnts stbrting bt
+     *  <dodf>offsft</dodf>
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis
+     *  mftiod is not supportfd by tiis <dodf>ColorModfl</dodf>
      */
-    public int getDataElement(int[] components, int offset) {
-        throw new UnsupportedOperationException("This method is not supported "+
-                                    "by this color model.");
+    publid int gftDbtbElfmfnt(int[] domponfnts, int offsft) {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod is not supportfd "+
+                                    "by tiis dolor modfl.");
     }
 
     /**
-     * Returns a data element array representation of a pixel in this
-     * <code>ColorModel</code>, given an array of unnormalized color/alpha
-     * components.  This array can then be passed to the
-     * <code>setDataElements</code> method of a <code>WritableRaster</code>
-     * object.  This method will throw an <code>IllegalArgumentException</code>
-     * if color component values for this <code>ColorModel</code> are not
-     * conveniently representable in the unnormalized form.
-     * An <code>ArrayIndexOutOfBoundsException</code> is thrown
-     * if the <code>components</code> array is not large enough to hold
-     * all the color and alpha components (starting at
-     * <code>offset</code>).  If the <code>obj</code> variable is
-     * <code>null</code>, a new array will be allocated.  If
-     * <code>obj</code> is not <code>null</code>, it must be a primitive
-     * array of type transferType; otherwise, a
-     * <code>ClassCastException</code> is thrown.  An
-     * <code>ArrayIndexOutOfBoundsException</code> is thrown if
-     * <code>obj</code> is not large enough to hold a pixel value for this
-     * <code>ColorModel</code>.
-     * Since <code>ColorModel</code> is an abstract class,
-     * any instance is an instance of a subclass.  Subclasses must
-     * override this method since the implementation in this abstract
-     * class throws an <code>UnsupportedOperationException</code>.
-     * @param components an array of unnormalized color and alpha
-     * components
-     * @param offset the index into <code>components</code> at which to
-     * begin retrieving color and alpha components
-     * @param obj the <code>Object</code> representing an array of color
-     * and alpha components
-     * @return an <code>Object</code> representing an array of color and
-     * alpha components.
-     * @throws ClassCastException if <code>obj</code>
-     *  is not a primitive array of type <code>transferType</code>
-     * @throws ArrayIndexOutOfBoundsException if
-     *  <code>obj</code> is not large enough to hold a pixel value
-     *  for this <code>ColorModel</code> or the <code>components</code>
-     *  array is not large enough to hold all of the color and alpha
-     *  components starting at <code>offset</code>
-     * @throws IllegalArgumentException if
-     *  component values for this <code>ColorModel</code> are not
-     *  conveniently representable in the unnormalized form
-     * @throws UnsupportedOperationException if this
-     *  method is not supported by this <code>ColorModel</code>
-     * @see WritableRaster#setDataElements
-     * @see SampleModel#setDataElements
+     * Rfturns b dbtb flfmfnt brrby rfprfsfntbtion of b pixfl in tiis
+     * <dodf>ColorModfl</dodf>, givfn bn brrby of unnormblizfd dolor/blpib
+     * domponfnts.  Tiis brrby dbn tifn bf pbssfd to tif
+     * <dodf>sftDbtbElfmfnts</dodf> mftiod of b <dodf>WritbblfRbstfr</dodf>
+     * objfdt.  Tiis mftiod will tirow bn <dodf>IllfgblArgumfntExdfption</dodf>
+     * if dolor domponfnt vblufs for tiis <dodf>ColorModfl</dodf> brf not
+     * donvfnifntly rfprfsfntbblf in tif unnormblizfd form.
+     * An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown
+     * if tif <dodf>domponfnts</dodf> brrby is not lbrgf fnougi to iold
+     * bll tif dolor bnd blpib domponfnts (stbrting bt
+     * <dodf>offsft</dodf>).  If tif <dodf>obj</dodf> vbribblf is
+     * <dodf>null</dodf>, b nfw brrby will bf bllodbtfd.  If
+     * <dodf>obj</dodf> is not <dodf>null</dodf>, it must bf b primitivf
+     * brrby of typf trbnsffrTypf; otifrwisf, b
+     * <dodf>ClbssCbstExdfption</dodf> is tirown.  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown if
+     * <dodf>obj</dodf> is not lbrgf fnougi to iold b pixfl vbluf for tiis
+     * <dodf>ColorModfl</dodf>.
+     * Sindf <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss,
+     * bny instbndf is bn instbndf of b subdlbss.  Subdlbssfs must
+     * ovfrridf tiis mftiod sindf tif implfmfntbtion in tiis bbstrbdt
+     * dlbss tirows bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     * @pbrbm domponfnts bn brrby of unnormblizfd dolor bnd blpib
+     * domponfnts
+     * @pbrbm offsft tif indfx into <dodf>domponfnts</dodf> bt wiidi to
+     * bfgin rftrifving dolor bnd blpib domponfnts
+     * @pbrbm obj tif <dodf>Objfdt</dodf> rfprfsfnting bn brrby of dolor
+     * bnd blpib domponfnts
+     * @rfturn bn <dodf>Objfdt</dodf> rfprfsfnting bn brrby of dolor bnd
+     * blpib domponfnts.
+     * @tirows ClbssCbstExdfption if <dodf>obj</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>obj</dodf> is not lbrgf fnougi to iold b pixfl vbluf
+     *  for tiis <dodf>ColorModfl</dodf> or tif <dodf>domponfnts</dodf>
+     *  brrby is not lbrgf fnougi to iold bll of tif dolor bnd blpib
+     *  domponfnts stbrting bt <dodf>offsft</dodf>
+     * @tirows IllfgblArgumfntExdfption if
+     *  domponfnt vblufs for tiis <dodf>ColorModfl</dodf> brf not
+     *  donvfnifntly rfprfsfntbblf in tif unnormblizfd form
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis
+     *  mftiod is not supportfd by tiis <dodf>ColorModfl</dodf>
+     * @sff WritbblfRbstfr#sftDbtbElfmfnts
+     * @sff SbmplfModfl#sftDbtbElfmfnts
      */
-    public Object getDataElements(int[] components, int offset, Object obj) {
-        throw new UnsupportedOperationException("This method has not been implemented "+
-                                    "for this color model.");
+    publid Objfdt gftDbtbElfmfnts(int[] domponfnts, int offsft, Objfdt obj) {
+        tirow nfw UnsupportfdOpfrbtionExdfption("Tiis mftiod ibs not bffn implfmfntfd "+
+                                    "for tiis dolor modfl.");
     }
 
     /**
-     * Returns a pixel value represented as an <code>int</code> in this
-     * <code>ColorModel</code>, given an array of normalized color/alpha
-     * components.  This method will throw an
-     * <code>IllegalArgumentException</code> if pixel values for this
-     * <code>ColorModel</code> are not conveniently representable as a
-     * single <code>int</code>.  An
-     * <code>ArrayIndexOutOfBoundsException</code> is thrown if  the
-     * <code>normComponents</code> array is not large enough to hold all the
-     * color and alpha components (starting at <code>normOffset</code>).
-     * Since <code>ColorModel</code> is an abstract class,
-     * any instance is an instance of a subclass.  The default implementation
-     * of this method in this abstract class first converts from the
-     * normalized form to the unnormalized form and then calls
-     * <code>getDataElement(int[], int)</code>.  Subclasses which may
-     * have instances which do not support the unnormalized form must
-     * override this method.
-     * @param normComponents an array of normalized color and alpha
-     * components
-     * @param normOffset the index into <code>normComponents</code> at which to
-     * begin retrieving the color and alpha components
-     * @return an <code>int</code> pixel value in this
-     * <code>ColorModel</code> corresponding to the specified components.
-     * @throws IllegalArgumentException if
-     *  pixel values for this <code>ColorModel</code> are not
-     *  conveniently representable as a single <code>int</code>
-     * @throws ArrayIndexOutOfBoundsException if
-     *  the <code>normComponents</code> array is not large enough to
-     *  hold all of the color and alpha components starting at
-     *  <code>normOffset</code>
-     * @since 1.4
+     * Rfturns b pixfl vbluf rfprfsfntfd bs bn <dodf>int</dodf> in tiis
+     * <dodf>ColorModfl</dodf>, givfn bn brrby of normblizfd dolor/blpib
+     * domponfnts.  Tiis mftiod will tirow bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> if pixfl vblufs for tiis
+     * <dodf>ColorModfl</dodf> brf not donvfnifntly rfprfsfntbblf bs b
+     * singlf <dodf>int</dodf>.  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown if  tif
+     * <dodf>normComponfnts</dodf> brrby is not lbrgf fnougi to iold bll tif
+     * dolor bnd blpib domponfnts (stbrting bt <dodf>normOffsft</dodf>).
+     * Sindf <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss,
+     * bny instbndf is bn instbndf of b subdlbss.  Tif dffbult implfmfntbtion
+     * of tiis mftiod in tiis bbstrbdt dlbss first donvfrts from tif
+     * normblizfd form to tif unnormblizfd form bnd tifn dblls
+     * <dodf>gftDbtbElfmfnt(int[], int)</dodf>.  Subdlbssfs wiidi mby
+     * ibvf instbndfs wiidi do not support tif unnormblizfd form must
+     * ovfrridf tiis mftiod.
+     * @pbrbm normComponfnts bn brrby of normblizfd dolor bnd blpib
+     * domponfnts
+     * @pbrbm normOffsft tif indfx into <dodf>normComponfnts</dodf> bt wiidi to
+     * bfgin rftrifving tif dolor bnd blpib domponfnts
+     * @rfturn bn <dodf>int</dodf> pixfl vbluf in tiis
+     * <dodf>ColorModfl</dodf> dorrfsponding to tif spfdififd domponfnts.
+     * @tirows IllfgblArgumfntExdfption if
+     *  pixfl vblufs for tiis <dodf>ColorModfl</dodf> brf not
+     *  donvfnifntly rfprfsfntbblf bs b singlf <dodf>int</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if
+     *  tif <dodf>normComponfnts</dodf> brrby is not lbrgf fnougi to
+     *  iold bll of tif dolor bnd blpib domponfnts stbrting bt
+     *  <dodf>normOffsft</dodf>
+     * @sindf 1.4
      */
-    public int getDataElement(float[] normComponents, int normOffset) {
-        int components[] = getUnnormalizedComponents(normComponents,
-                                                     normOffset, null, 0);
-        return getDataElement(components, 0);
+    publid int gftDbtbElfmfnt(flobt[] normComponfnts, int normOffsft) {
+        int domponfnts[] = gftUnnormblizfdComponfnts(normComponfnts,
+                                                     normOffsft, null, 0);
+        rfturn gftDbtbElfmfnt(domponfnts, 0);
     }
 
     /**
-     * Returns a data element array representation of a pixel in this
-     * <code>ColorModel</code>, given an array of normalized color/alpha
-     * components.  This array can then be passed to the
-     * <code>setDataElements</code> method of a <code>WritableRaster</code>
-     * object.  An <code>ArrayIndexOutOfBoundsException</code> is thrown
-     * if the <code>normComponents</code> array is not large enough to hold
-     * all the color and alpha components (starting at
-     * <code>normOffset</code>).  If the <code>obj</code> variable is
-     * <code>null</code>, a new array will be allocated.  If
-     * <code>obj</code> is not <code>null</code>, it must be a primitive
-     * array of type transferType; otherwise, a
-     * <code>ClassCastException</code> is thrown.  An
-     * <code>ArrayIndexOutOfBoundsException</code> is thrown if
-     * <code>obj</code> is not large enough to hold a pixel value for this
-     * <code>ColorModel</code>.
-     * Since <code>ColorModel</code> is an abstract class,
-     * any instance is an instance of a subclass.  The default implementation
-     * of this method in this abstract class first converts from the
-     * normalized form to the unnormalized form and then calls
-     * <code>getDataElement(int[], int, Object)</code>.  Subclasses which may
-     * have instances which do not support the unnormalized form must
-     * override this method.
-     * @param normComponents an array of normalized color and alpha
-     * components
-     * @param normOffset the index into <code>normComponents</code> at which to
-     * begin retrieving color and alpha components
-     * @param obj a primitive data array to hold the returned pixel
-     * @return an <code>Object</code> which is a primitive data array
-     * representation of a pixel
-     * @throws ClassCastException if <code>obj</code>
-     *  is not a primitive array of type <code>transferType</code>
-     * @throws ArrayIndexOutOfBoundsException if
-     *  <code>obj</code> is not large enough to hold a pixel value
-     *  for this <code>ColorModel</code> or the <code>normComponents</code>
-     *  array is not large enough to hold all of the color and alpha
-     *  components starting at <code>normOffset</code>
-     * @see WritableRaster#setDataElements
-     * @see SampleModel#setDataElements
-     * @since 1.4
+     * Rfturns b dbtb flfmfnt brrby rfprfsfntbtion of b pixfl in tiis
+     * <dodf>ColorModfl</dodf>, givfn bn brrby of normblizfd dolor/blpib
+     * domponfnts.  Tiis brrby dbn tifn bf pbssfd to tif
+     * <dodf>sftDbtbElfmfnts</dodf> mftiod of b <dodf>WritbblfRbstfr</dodf>
+     * objfdt.  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown
+     * if tif <dodf>normComponfnts</dodf> brrby is not lbrgf fnougi to iold
+     * bll tif dolor bnd blpib domponfnts (stbrting bt
+     * <dodf>normOffsft</dodf>).  If tif <dodf>obj</dodf> vbribblf is
+     * <dodf>null</dodf>, b nfw brrby will bf bllodbtfd.  If
+     * <dodf>obj</dodf> is not <dodf>null</dodf>, it must bf b primitivf
+     * brrby of typf trbnsffrTypf; otifrwisf, b
+     * <dodf>ClbssCbstExdfption</dodf> is tirown.  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown if
+     * <dodf>obj</dodf> is not lbrgf fnougi to iold b pixfl vbluf for tiis
+     * <dodf>ColorModfl</dodf>.
+     * Sindf <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss,
+     * bny instbndf is bn instbndf of b subdlbss.  Tif dffbult implfmfntbtion
+     * of tiis mftiod in tiis bbstrbdt dlbss first donvfrts from tif
+     * normblizfd form to tif unnormblizfd form bnd tifn dblls
+     * <dodf>gftDbtbElfmfnt(int[], int, Objfdt)</dodf>.  Subdlbssfs wiidi mby
+     * ibvf instbndfs wiidi do not support tif unnormblizfd form must
+     * ovfrridf tiis mftiod.
+     * @pbrbm normComponfnts bn brrby of normblizfd dolor bnd blpib
+     * domponfnts
+     * @pbrbm normOffsft tif indfx into <dodf>normComponfnts</dodf> bt wiidi to
+     * bfgin rftrifving dolor bnd blpib domponfnts
+     * @pbrbm obj b primitivf dbtb brrby to iold tif rfturnfd pixfl
+     * @rfturn bn <dodf>Objfdt</dodf> wiidi is b primitivf dbtb brrby
+     * rfprfsfntbtion of b pixfl
+     * @tirows ClbssCbstExdfption if <dodf>obj</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>obj</dodf> is not lbrgf fnougi to iold b pixfl vbluf
+     *  for tiis <dodf>ColorModfl</dodf> or tif <dodf>normComponfnts</dodf>
+     *  brrby is not lbrgf fnougi to iold bll of tif dolor bnd blpib
+     *  domponfnts stbrting bt <dodf>normOffsft</dodf>
+     * @sff WritbblfRbstfr#sftDbtbElfmfnts
+     * @sff SbmplfModfl#sftDbtbElfmfnts
+     * @sindf 1.4
      */
-    public Object getDataElements(float[] normComponents, int normOffset,
-                                  Object obj) {
-        int components[] = getUnnormalizedComponents(normComponents,
-                                                     normOffset, null, 0);
-        return getDataElements(components, 0, obj);
+    publid Objfdt gftDbtbElfmfnts(flobt[] normComponfnts, int normOffsft,
+                                  Objfdt obj) {
+        int domponfnts[] = gftUnnormblizfdComponfnts(normComponfnts,
+                                                     normOffsft, null, 0);
+        rfturn gftDbtbElfmfnts(domponfnts, 0, obj);
     }
 
     /**
-     * Returns an array of all of the color/alpha components in normalized
-     * form, given a pixel in this <code>ColorModel</code>.  The pixel
-     * value is specified by an array of data elements of type transferType
-     * passed in as an object reference.  If pixel is not a primitive array
-     * of type transferType, a <code>ClassCastException</code> is thrown.
-     * An <code>ArrayIndexOutOfBoundsException</code> is thrown if
-     * <code>pixel</code> is not large enough to hold a pixel value for this
-     * <code>ColorModel</code>.
-     * Normalized components are float values between a per component minimum
-     * and maximum specified by the <code>ColorSpace</code> object for this
-     * <code>ColorModel</code>.  If the
-     * <code>normComponents</code> array is <code>null</code>, a new array
-     * will be allocated.  The <code>normComponents</code> array
-     * will be returned.  Color/alpha components are stored in the
-     * <code>normComponents</code> array starting at
-     * <code>normOffset</code> (even if the array is allocated by this
-     * method).  An <code>ArrayIndexOutOfBoundsException</code> is thrown
-     * if the <code>normComponents</code> array is not <code>null</code>
-     * and is not large enough to hold all the color and alpha components
-     * (starting at <code>normOffset</code>).
-     * Since <code>ColorModel</code> is an abstract class,
-     * any instance is an instance of a subclass.  The default implementation
-     * of this method in this abstract class first retrieves color and alpha
-     * components in the unnormalized form using
-     * <code>getComponents(Object, int[], int)</code> and then calls
-     * <code>getNormalizedComponents(int[], int, float[], int)</code>.
-     * Subclasses which may
-     * have instances which do not support the unnormalized form must
-     * override this method.
-     * @param pixel the specified pixel
-     * @param normComponents an array to receive the normalized components
-     * @param normOffset the offset into the <code>normComponents</code>
-     * array at which to start storing normalized components
-     * @return an array containing normalized color and alpha
-     * components.
-     * @throws ClassCastException if <code>pixel</code> is not a primitive
-     *          array of type transferType
-     * @throws ArrayIndexOutOfBoundsException if
-     *          <code>normComponents</code> is not large enough to hold all
-     *          color and alpha components starting at <code>normOffset</code>
-     * @throws ArrayIndexOutOfBoundsException if
-     *          <code>pixel</code> is not large enough to hold a pixel
-     *          value for this <code>ColorModel</code>.
-     * @throws UnsupportedOperationException if the
-     *          constructor of this <code>ColorModel</code> called the
-     *          <code>super(bits)</code> constructor, but did not
-     *          override this method.  See the constructor,
-     *          {@link #ColorModel(int)}.
-     * @throws UnsupportedOperationException if this method is unable
-     *          to determine the number of bits per component
-     * @since 1.4
+     * Rfturns bn brrby of bll of tif dolor/blpib domponfnts in normblizfd
+     * form, givfn b pixfl in tiis <dodf>ColorModfl</dodf>.  Tif pixfl
+     * vbluf is spfdififd by bn brrby of dbtb flfmfnts of typf trbnsffrTypf
+     * pbssfd in bs bn objfdt rfffrfndf.  If pixfl is not b primitivf brrby
+     * of typf trbnsffrTypf, b <dodf>ClbssCbstExdfption</dodf> is tirown.
+     * An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown if
+     * <dodf>pixfl</dodf> is not lbrgf fnougi to iold b pixfl vbluf for tiis
+     * <dodf>ColorModfl</dodf>.
+     * Normblizfd domponfnts brf flobt vblufs bftwffn b pfr domponfnt minimum
+     * bnd mbximum spfdififd by tif <dodf>ColorSpbdf</dodf> objfdt for tiis
+     * <dodf>ColorModfl</dodf>.  If tif
+     * <dodf>normComponfnts</dodf> brrby is <dodf>null</dodf>, b nfw brrby
+     * will bf bllodbtfd.  Tif <dodf>normComponfnts</dodf> brrby
+     * will bf rfturnfd.  Color/blpib domponfnts brf storfd in tif
+     * <dodf>normComponfnts</dodf> brrby stbrting bt
+     * <dodf>normOffsft</dodf> (fvfn if tif brrby is bllodbtfd by tiis
+     * mftiod).  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is tirown
+     * if tif <dodf>normComponfnts</dodf> brrby is not <dodf>null</dodf>
+     * bnd is not lbrgf fnougi to iold bll tif dolor bnd blpib domponfnts
+     * (stbrting bt <dodf>normOffsft</dodf>).
+     * Sindf <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss,
+     * bny instbndf is bn instbndf of b subdlbss.  Tif dffbult implfmfntbtion
+     * of tiis mftiod in tiis bbstrbdt dlbss first rftrifvfs dolor bnd blpib
+     * domponfnts in tif unnormblizfd form using
+     * <dodf>gftComponfnts(Objfdt, int[], int)</dodf> bnd tifn dblls
+     * <dodf>gftNormblizfdComponfnts(int[], int, flobt[], int)</dodf>.
+     * Subdlbssfs wiidi mby
+     * ibvf instbndfs wiidi do not support tif unnormblizfd form must
+     * ovfrridf tiis mftiod.
+     * @pbrbm pixfl tif spfdififd pixfl
+     * @pbrbm normComponfnts bn brrby to rfdfivf tif normblizfd domponfnts
+     * @pbrbm normOffsft tif offsft into tif <dodf>normComponfnts</dodf>
+     * brrby bt wiidi to stbrt storing normblizfd domponfnts
+     * @rfturn bn brrby dontbining normblizfd dolor bnd blpib
+     * domponfnts.
+     * @tirows ClbssCbstExdfption if <dodf>pixfl</dodf> is not b primitivf
+     *          brrby of typf trbnsffrTypf
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if
+     *          <dodf>normComponfnts</dodf> is not lbrgf fnougi to iold bll
+     *          dolor bnd blpib domponfnts stbrting bt <dodf>normOffsft</dodf>
+     * @tirows ArrbyIndfxOutOfBoundsExdfption if
+     *          <dodf>pixfl</dodf> is not lbrgf fnougi to iold b pixfl
+     *          vbluf for tiis <dodf>ColorModfl</dodf>.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif
+     *          donstrudtor of tiis <dodf>ColorModfl</dodf> dbllfd tif
+     *          <dodf>supfr(bits)</dodf> donstrudtor, but did not
+     *          ovfrridf tiis mftiod.  Sff tif donstrudtor,
+     *          {@link #ColorModfl(int)}.
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis mftiod is unbblf
+     *          to dftfrminf tif numbfr of bits pfr domponfnt
+     * @sindf 1.4
      */
-    public float[] getNormalizedComponents(Object pixel,
-                                           float[] normComponents,
-                                           int normOffset) {
-        int components[] = getComponents(pixel, null, 0);
-        return getNormalizedComponents(components, 0,
-                                       normComponents, normOffset);
+    publid flobt[] gftNormblizfdComponfnts(Objfdt pixfl,
+                                           flobt[] normComponfnts,
+                                           int normOffsft) {
+        int domponfnts[] = gftComponfnts(pixfl, null, 0);
+        rfturn gftNormblizfdComponfnts(domponfnts, 0,
+                                       normComponfnts, normOffsft);
     }
 
     /**
-     * Tests if the specified <code>Object</code> is an instance of
-     * <code>ColorModel</code> and if it equals this
-     * <code>ColorModel</code>.
-     * @param obj the <code>Object</code> to test for equality
-     * @return <code>true</code> if the specified <code>Object</code>
-     * is an instance of <code>ColorModel</code> and equals this
-     * <code>ColorModel</code>; <code>false</code> otherwise.
+     * Tfsts if tif spfdififd <dodf>Objfdt</dodf> is bn instbndf of
+     * <dodf>ColorModfl</dodf> bnd if it fqubls tiis
+     * <dodf>ColorModfl</dodf>.
+     * @pbrbm obj tif <dodf>Objfdt</dodf> to tfst for fqublity
+     * @rfturn <dodf>truf</dodf> if tif spfdififd <dodf>Objfdt</dodf>
+     * is bn instbndf of <dodf>ColorModfl</dodf> bnd fqubls tiis
+     * <dodf>ColorModfl</dodf>; <dodf>fblsf</dodf> otifrwisf.
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof ColorModel)) {
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof ColorModfl)) {
+            rfturn fblsf;
         }
-        ColorModel cm = (ColorModel) obj;
+        ColorModfl dm = (ColorModfl) obj;
 
-        if (this == cm) {
-            return true;
+        if (tiis == dm) {
+            rfturn truf;
         }
-        if (supportsAlpha != cm.hasAlpha() ||
-            isAlphaPremultiplied != cm.isAlphaPremultiplied() ||
-            pixel_bits != cm.getPixelSize() ||
-            transparency != cm.getTransparency() ||
-            numComponents != cm.getNumComponents())
+        if (supportsAlpib != dm.ibsAlpib() ||
+            isAlpibPrfmultiplifd != dm.isAlpibPrfmultiplifd() ||
+            pixfl_bits != dm.gftPixflSizf() ||
+            trbnspbrfndy != dm.gftTrbnspbrfndy() ||
+            numComponfnts != dm.gftNumComponfnts())
         {
-            return false;
+            rfturn fblsf;
         }
 
-        int[] nb = cm.getComponentSize();
+        int[] nb = dm.gftComponfntSizf();
 
         if ((nBits != null) && (nb != null)) {
-            for (int i = 0; i < numComponents; i++) {
+            for (int i = 0; i < numComponfnts; i++) {
                 if (nBits[i] != nb[i]) {
-                    return false;
+                    rfturn fblsf;
                 }
             }
-        } else {
-            return ((nBits == null) && (nb == null));
+        } flsf {
+            rfturn ((nBits == null) && (nb == null));
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns the hash code for this ColorModel.
+     * Rfturns tif ibsi dodf for tiis ColorModfl.
      *
-     * @return    a hash code for this ColorModel.
+     * @rfturn    b ibsi dodf for tiis ColorModfl.
      */
-    public int hashCode() {
+    publid int ibsiCodf() {
 
-        int result = 0;
+        int rfsult = 0;
 
-        result = (supportsAlpha ? 2 : 3) +
-                 (isAlphaPremultiplied ? 4 : 5) +
-                 pixel_bits * 6 +
-                 transparency * 7 +
-                 numComponents * 8;
+        rfsult = (supportsAlpib ? 2 : 3) +
+                 (isAlpibPrfmultiplifd ? 4 : 5) +
+                 pixfl_bits * 6 +
+                 trbnspbrfndy * 7 +
+                 numComponfnts * 8;
 
         if (nBits != null) {
-            for (int i = 0; i < numComponents; i++) {
-                result = result + nBits[i] * (i + 9);
+            for (int i = 0; i < numComponfnts; i++) {
+                rfsult = rfsult + nBits[i] * (i + 9);
             }
         }
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns the <code>ColorSpace</code> associated with this
-     * <code>ColorModel</code>.
-     * @return the <code>ColorSpace</code> of this
-     * <code>ColorModel</code>.
+     * Rfturns tif <dodf>ColorSpbdf</dodf> bssodibtfd witi tiis
+     * <dodf>ColorModfl</dodf>.
+     * @rfturn tif <dodf>ColorSpbdf</dodf> of tiis
+     * <dodf>ColorModfl</dodf>.
      */
-    final public ColorSpace getColorSpace() {
-        return colorSpace;
+    finbl publid ColorSpbdf gftColorSpbdf() {
+        rfturn dolorSpbdf;
     }
 
     /**
-     * Forces the raster data to match the state specified in the
-     * <code>isAlphaPremultiplied</code> variable, assuming the data is
-     * currently correctly described by this <code>ColorModel</code>.  It
-     * may multiply or divide the color raster data by alpha, or do
-     * nothing if the data is in the correct state.  If the data needs to
-     * be coerced, this method will also return an instance of this
-     * <code>ColorModel</code> with the <code>isAlphaPremultiplied</code>
-     * flag set appropriately.  This method will throw a
-     * <code>UnsupportedOperationException</code> if it is not supported
-     * by this <code>ColorModel</code>.
-     * Since <code>ColorModel</code> is an abstract class,
-     * any instance is an instance of a subclass.  Subclasses must
-     * override this method since the implementation in this abstract
-     * class throws an <code>UnsupportedOperationException</code>.
-     * @param raster the <code>WritableRaster</code> data
-     * @param isAlphaPremultiplied <code>true</code> if the alpha is
-     * premultiplied; <code>false</code> otherwise
-     * @return a <code>ColorModel</code> object that represents the
-     * coerced data.
+     * Fordfs tif rbstfr dbtb to mbtdi tif stbtf spfdififd in tif
+     * <dodf>isAlpibPrfmultiplifd</dodf> vbribblf, bssuming tif dbtb is
+     * durrfntly dorrfdtly dfsdribfd by tiis <dodf>ColorModfl</dodf>.  It
+     * mby multiply or dividf tif dolor rbstfr dbtb by blpib, or do
+     * notiing if tif dbtb is in tif dorrfdt stbtf.  If tif dbtb nffds to
+     * bf dofrdfd, tiis mftiod will blso rfturn bn instbndf of tiis
+     * <dodf>ColorModfl</dodf> witi tif <dodf>isAlpibPrfmultiplifd</dodf>
+     * flbg sft bppropribtfly.  Tiis mftiod will tirow b
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> if it is not supportfd
+     * by tiis <dodf>ColorModfl</dodf>.
+     * Sindf <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss,
+     * bny instbndf is bn instbndf of b subdlbss.  Subdlbssfs must
+     * ovfrridf tiis mftiod sindf tif implfmfntbtion in tiis bbstrbdt
+     * dlbss tirows bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     * @pbrbm rbstfr tif <dodf>WritbblfRbstfr</dodf> dbtb
+     * @pbrbm isAlpibPrfmultiplifd <dodf>truf</dodf> if tif blpib is
+     * prfmultiplifd; <dodf>fblsf</dodf> otifrwisf
+     * @rfturn b <dodf>ColorModfl</dodf> objfdt tibt rfprfsfnts tif
+     * dofrdfd dbtb.
      */
-    public ColorModel coerceData (WritableRaster raster,
-                                  boolean isAlphaPremultiplied) {
-        throw new UnsupportedOperationException
-            ("This method is not supported by this color model");
+    publid ColorModfl dofrdfDbtb (WritbblfRbstfr rbstfr,
+                                  boolfbn isAlpibPrfmultiplifd) {
+        tirow nfw UnsupportfdOpfrbtionExdfption
+            ("Tiis mftiod is not supportfd by tiis dolor modfl");
     }
 
     /**
-      * Returns <code>true</code> if <code>raster</code> is compatible
-      * with this <code>ColorModel</code> and <code>false</code> if it is
+      * Rfturns <dodf>truf</dodf> if <dodf>rbstfr</dodf> is dompbtiblf
+      * witi tiis <dodf>ColorModfl</dodf> bnd <dodf>fblsf</dodf> if it is
       * not.
-      * Since <code>ColorModel</code> is an abstract class,
-      * any instance is an instance of a subclass.  Subclasses must
-      * override this method since the implementation in this abstract
-      * class throws an <code>UnsupportedOperationException</code>.
-      * @param raster the {@link Raster} object to test for compatibility
-      * @return <code>true</code> if <code>raster</code> is compatible
-      * with this <code>ColorModel</code>.
-      * @throws UnsupportedOperationException if this
-      *         method has not been implemented for this
-      *         <code>ColorModel</code>
+      * Sindf <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss,
+      * bny instbndf is bn instbndf of b subdlbss.  Subdlbssfs must
+      * ovfrridf tiis mftiod sindf tif implfmfntbtion in tiis bbstrbdt
+      * dlbss tirows bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+      * @pbrbm rbstfr tif {@link Rbstfr} objfdt to tfst for dompbtibility
+      * @rfturn <dodf>truf</dodf> if <dodf>rbstfr</dodf> is dompbtiblf
+      * witi tiis <dodf>ColorModfl</dodf>.
+      * @tirows UnsupportfdOpfrbtionExdfption if tiis
+      *         mftiod ibs not bffn implfmfntfd for tiis
+      *         <dodf>ColorModfl</dodf>
       */
-    public boolean isCompatibleRaster(Raster raster) {
-        throw new UnsupportedOperationException(
-            "This method has not been implemented for this ColorModel.");
+    publid boolfbn isCompbtiblfRbstfr(Rbstfr rbstfr) {
+        tirow nfw UnsupportfdOpfrbtionExdfption(
+            "Tiis mftiod ibs not bffn implfmfntfd for tiis ColorModfl.");
     }
 
     /**
-     * Creates a <code>WritableRaster</code> with the specified width and
-     * height that has a data layout (<code>SampleModel</code>) compatible
-     * with this <code>ColorModel</code>.
-     * Since <code>ColorModel</code> is an abstract class,
-     * any instance is an instance of a subclass.  Subclasses must
-     * override this method since the implementation in this abstract
-     * class throws an <code>UnsupportedOperationException</code>.
-     * @param w the width to apply to the new <code>WritableRaster</code>
-     * @param h the height to apply to the new <code>WritableRaster</code>
-     * @return a <code>WritableRaster</code> object with the specified
-     * width and height.
-     * @throws UnsupportedOperationException if this
-     *          method is not supported by this <code>ColorModel</code>
-     * @see WritableRaster
-     * @see SampleModel
+     * Crfbtfs b <dodf>WritbblfRbstfr</dodf> witi tif spfdififd widti bnd
+     * ifigit tibt ibs b dbtb lbyout (<dodf>SbmplfModfl</dodf>) dompbtiblf
+     * witi tiis <dodf>ColorModfl</dodf>.
+     * Sindf <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss,
+     * bny instbndf is bn instbndf of b subdlbss.  Subdlbssfs must
+     * ovfrridf tiis mftiod sindf tif implfmfntbtion in tiis bbstrbdt
+     * dlbss tirows bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     * @pbrbm w tif widti to bpply to tif nfw <dodf>WritbblfRbstfr</dodf>
+     * @pbrbm i tif ifigit to bpply to tif nfw <dodf>WritbblfRbstfr</dodf>
+     * @rfturn b <dodf>WritbblfRbstfr</dodf> objfdt witi tif spfdififd
+     * widti bnd ifigit.
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis
+     *          mftiod is not supportfd by tiis <dodf>ColorModfl</dodf>
+     * @sff WritbblfRbstfr
+     * @sff SbmplfModfl
      */
-    public WritableRaster createCompatibleWritableRaster(int w, int h) {
-        throw new UnsupportedOperationException
-            ("This method is not supported by this color model");
+    publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr(int w, int i) {
+        tirow nfw UnsupportfdOpfrbtionExdfption
+            ("Tiis mftiod is not supportfd by tiis dolor modfl");
     }
 
     /**
-     * Creates a <code>SampleModel</code> with the specified width and
-     * height that has a data layout compatible with this
-     * <code>ColorModel</code>.
-     * Since <code>ColorModel</code> is an abstract class,
-     * any instance is an instance of a subclass.  Subclasses must
-     * override this method since the implementation in this abstract
-     * class throws an <code>UnsupportedOperationException</code>.
-     * @param w the width to apply to the new <code>SampleModel</code>
-     * @param h the height to apply to the new <code>SampleModel</code>
-     * @return a <code>SampleModel</code> object with the specified
-     * width and height.
-     * @throws UnsupportedOperationException if this
-     *          method is not supported by this <code>ColorModel</code>
-     * @see SampleModel
+     * Crfbtfs b <dodf>SbmplfModfl</dodf> witi tif spfdififd widti bnd
+     * ifigit tibt ibs b dbtb lbyout dompbtiblf witi tiis
+     * <dodf>ColorModfl</dodf>.
+     * Sindf <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss,
+     * bny instbndf is bn instbndf of b subdlbss.  Subdlbssfs must
+     * ovfrridf tiis mftiod sindf tif implfmfntbtion in tiis bbstrbdt
+     * dlbss tirows bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     * @pbrbm w tif widti to bpply to tif nfw <dodf>SbmplfModfl</dodf>
+     * @pbrbm i tif ifigit to bpply to tif nfw <dodf>SbmplfModfl</dodf>
+     * @rfturn b <dodf>SbmplfModfl</dodf> objfdt witi tif spfdififd
+     * widti bnd ifigit.
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis
+     *          mftiod is not supportfd by tiis <dodf>ColorModfl</dodf>
+     * @sff SbmplfModfl
      */
-    public SampleModel createCompatibleSampleModel(int w, int h) {
-        throw new UnsupportedOperationException
-            ("This method is not supported by this color model");
+    publid SbmplfModfl drfbtfCompbtiblfSbmplfModfl(int w, int i) {
+        tirow nfw UnsupportfdOpfrbtionExdfption
+            ("Tiis mftiod is not supportfd by tiis dolor modfl");
     }
 
-    /** Checks if the <code>SampleModel</code> is compatible with this
-     * <code>ColorModel</code>.
-     * Since <code>ColorModel</code> is an abstract class,
-     * any instance is an instance of a subclass.  Subclasses must
-     * override this method since the implementation in this abstract
-     * class throws an <code>UnsupportedOperationException</code>.
-     * @param sm the specified <code>SampleModel</code>
-     * @return <code>true</code> if the specified <code>SampleModel</code>
-     * is compatible with this <code>ColorModel</code>; <code>false</code>
-     * otherwise.
-     * @throws UnsupportedOperationException if this
-     *          method is not supported by this <code>ColorModel</code>
-     * @see SampleModel
+    /** Cifdks if tif <dodf>SbmplfModfl</dodf> is dompbtiblf witi tiis
+     * <dodf>ColorModfl</dodf>.
+     * Sindf <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss,
+     * bny instbndf is bn instbndf of b subdlbss.  Subdlbssfs must
+     * ovfrridf tiis mftiod sindf tif implfmfntbtion in tiis bbstrbdt
+     * dlbss tirows bn <dodf>UnsupportfdOpfrbtionExdfption</dodf>.
+     * @pbrbm sm tif spfdififd <dodf>SbmplfModfl</dodf>
+     * @rfturn <dodf>truf</dodf> if tif spfdififd <dodf>SbmplfModfl</dodf>
+     * is dompbtiblf witi tiis <dodf>ColorModfl</dodf>; <dodf>fblsf</dodf>
+     * otifrwisf.
+     * @tirows UnsupportfdOpfrbtionExdfption if tiis
+     *          mftiod is not supportfd by tiis <dodf>ColorModfl</dodf>
+     * @sff SbmplfModfl
      */
-    public boolean isCompatibleSampleModel(SampleModel sm) {
-        throw new UnsupportedOperationException
-            ("This method is not supported by this color model");
-    }
-
-    /**
-     * Disposes of system resources associated with this
-     * <code>ColorModel</code> once this <code>ColorModel</code> is no
-     * longer referenced.
-     */
-    public void finalize() {
-    }
-
-
-    /**
-     * Returns a <code>Raster</code> representing the alpha channel of an
-     * image, extracted from the input <code>Raster</code>, provided that
-     * pixel values of this <code>ColorModel</code> represent color and
-     * alpha information as separate spatial bands (e.g.
-     * {@link ComponentColorModel} and <code>DirectColorModel</code>).
-     * This method assumes that <code>Raster</code> objects associated
-     * with such a <code>ColorModel</code> store the alpha band, if
-     * present, as the last band of image data.  Returns <code>null</code>
-     * if there is no separate spatial alpha channel associated with this
-     * <code>ColorModel</code>.  If this is an
-     * <code>IndexColorModel</code> which has alpha in the lookup table,
-     * this method will return <code>null</code> since
-     * there is no spatially discrete alpha channel.
-     * This method will create a new <code>Raster</code> (but will share
-     * the data array).
-     * Since <code>ColorModel</code> is an abstract class, any instance
-     * is an instance of a subclass.  Subclasses must override this
-     * method to get any behavior other than returning <code>null</code>
-     * because the implementation in this abstract class returns
-     * <code>null</code>.
-     * @param raster the specified <code>Raster</code>
-     * @return a <code>Raster</code> representing the alpha channel of
-     * an image, obtained from the specified <code>Raster</code>.
-     */
-    public WritableRaster getAlphaRaster(WritableRaster raster) {
-        return null;
+    publid boolfbn isCompbtiblfSbmplfModfl(SbmplfModfl sm) {
+        tirow nfw UnsupportfdOpfrbtionExdfption
+            ("Tiis mftiod is not supportfd by tiis dolor modfl");
     }
 
     /**
-     * Returns the <code>String</code> representation of the contents of
-     * this <code>ColorModel</code>object.
-     * @return a <code>String</code> representing the contents of this
-     * <code>ColorModel</code> object.
+     * Disposfs of systfm rfsourdfs bssodibtfd witi tiis
+     * <dodf>ColorModfl</dodf> ondf tiis <dodf>ColorModfl</dodf> is no
+     * longfr rfffrfndfd.
      */
-    public String toString() {
-       return new String("ColorModel: #pixelBits = "+pixel_bits
-                         + " numComponents = "+numComponents
-                         + " color space = "+colorSpace
-                         + " transparency = "+transparency
-                         + " has alpha = "+supportsAlpha
-                         + " isAlphaPre = "+isAlphaPremultiplied
+    publid void finblizf() {
+    }
+
+
+    /**
+     * Rfturns b <dodf>Rbstfr</dodf> rfprfsfnting tif blpib dibnnfl of bn
+     * imbgf, fxtrbdtfd from tif input <dodf>Rbstfr</dodf>, providfd tibt
+     * pixfl vblufs of tiis <dodf>ColorModfl</dodf> rfprfsfnt dolor bnd
+     * blpib informbtion bs sfpbrbtf spbtibl bbnds (f.g.
+     * {@link ComponfntColorModfl} bnd <dodf>DirfdtColorModfl</dodf>).
+     * Tiis mftiod bssumfs tibt <dodf>Rbstfr</dodf> objfdts bssodibtfd
+     * witi sudi b <dodf>ColorModfl</dodf> storf tif blpib bbnd, if
+     * prfsfnt, bs tif lbst bbnd of imbgf dbtb.  Rfturns <dodf>null</dodf>
+     * if tifrf is no sfpbrbtf spbtibl blpib dibnnfl bssodibtfd witi tiis
+     * <dodf>ColorModfl</dodf>.  If tiis is bn
+     * <dodf>IndfxColorModfl</dodf> wiidi ibs blpib in tif lookup tbblf,
+     * tiis mftiod will rfturn <dodf>null</dodf> sindf
+     * tifrf is no spbtiblly disdrftf blpib dibnnfl.
+     * Tiis mftiod will drfbtf b nfw <dodf>Rbstfr</dodf> (but will sibrf
+     * tif dbtb brrby).
+     * Sindf <dodf>ColorModfl</dodf> is bn bbstrbdt dlbss, bny instbndf
+     * is bn instbndf of b subdlbss.  Subdlbssfs must ovfrridf tiis
+     * mftiod to gft bny bfibvior otifr tibn rfturning <dodf>null</dodf>
+     * bfdbusf tif implfmfntbtion in tiis bbstrbdt dlbss rfturns
+     * <dodf>null</dodf>.
+     * @pbrbm rbstfr tif spfdififd <dodf>Rbstfr</dodf>
+     * @rfturn b <dodf>Rbstfr</dodf> rfprfsfnting tif blpib dibnnfl of
+     * bn imbgf, obtbinfd from tif spfdififd <dodf>Rbstfr</dodf>.
+     */
+    publid WritbblfRbstfr gftAlpibRbstfr(WritbblfRbstfr rbstfr) {
+        rfturn null;
+    }
+
+    /**
+     * Rfturns tif <dodf>String</dodf> rfprfsfntbtion of tif dontfnts of
+     * tiis <dodf>ColorModfl</dodf>objfdt.
+     * @rfturn b <dodf>String</dodf> rfprfsfnting tif dontfnts of tiis
+     * <dodf>ColorModfl</dodf> objfdt.
+     */
+    publid String toString() {
+       rfturn nfw String("ColorModfl: #pixflBits = "+pixfl_bits
+                         + " numComponfnts = "+numComponfnts
+                         + " dolor spbdf = "+dolorSpbdf
+                         + " trbnspbrfndy = "+trbnspbrfndy
+                         + " ibs blpib = "+supportsAlpib
+                         + " isAlpibPrf = "+isAlpibPrfmultiplifd
                          );
     }
 
-    static int getDefaultTransferType(int pixel_bits) {
-        if (pixel_bits <= 8) {
-            return DataBuffer.TYPE_BYTE;
-        } else if (pixel_bits <= 16) {
-            return DataBuffer.TYPE_USHORT;
-        } else if (pixel_bits <= 32) {
-            return DataBuffer.TYPE_INT;
-        } else {
-            return DataBuffer.TYPE_UNDEFINED;
+    stbtid int gftDffbultTrbnsffrTypf(int pixfl_bits) {
+        if (pixfl_bits <= 8) {
+            rfturn DbtbBufffr.TYPE_BYTE;
+        } flsf if (pixfl_bits <= 16) {
+            rfturn DbtbBufffr.TYPE_USHORT;
+        } flsf if (pixfl_bits <= 32) {
+            rfturn DbtbBufffr.TYPE_INT;
+        } flsf {
+            rfturn DbtbBufffr.TYPE_UNDEFINED;
         }
     }
 
-    static byte[] l8Tos8 = null;   // 8-bit linear to 8-bit non-linear sRGB LUT
-    static byte[] s8Tol8 = null;   // 8-bit non-linear sRGB to 8-bit linear LUT
-    static byte[] l16Tos8 = null;  // 16-bit linear to 8-bit non-linear sRGB LUT
-    static short[] s8Tol16 = null; // 8-bit non-linear sRGB to 16-bit linear LUT
+    stbtid bytf[] l8Tos8 = null;   // 8-bit linfbr to 8-bit non-linfbr sRGB LUT
+    stbtid bytf[] s8Tol8 = null;   // 8-bit non-linfbr sRGB to 8-bit linfbr LUT
+    stbtid bytf[] l16Tos8 = null;  // 16-bit linfbr to 8-bit non-linfbr sRGB LUT
+    stbtid siort[] s8Tol16 = null; // 8-bit non-linfbr sRGB to 16-bit linfbr LUT
 
-                                // Maps to hold LUTs for grayscale conversions
-    static Map<ICC_ColorSpace, byte[]> g8Tos8Map = null;     // 8-bit gray values to 8-bit sRGB values
-    static Map<ICC_ColorSpace, byte[]> lg16Toog8Map = null;  // 16-bit linear to 8-bit "other" gray
-    static Map<ICC_ColorSpace, byte[]> g16Tos8Map = null;    // 16-bit gray values to 8-bit sRGB values
-    static Map<ICC_ColorSpace, short[]> lg16Toog16Map = null; // 16-bit linear to 16-bit "other" gray
+                                // Mbps to iold LUTs for grbysdblf donvfrsions
+    stbtid Mbp<ICC_ColorSpbdf, bytf[]> g8Tos8Mbp = null;     // 8-bit grby vblufs to 8-bit sRGB vblufs
+    stbtid Mbp<ICC_ColorSpbdf, bytf[]> lg16Toog8Mbp = null;  // 16-bit linfbr to 8-bit "otifr" grby
+    stbtid Mbp<ICC_ColorSpbdf, bytf[]> g16Tos8Mbp = null;    // 16-bit grby vblufs to 8-bit sRGB vblufs
+    stbtid Mbp<ICC_ColorSpbdf, siort[]> lg16Toog16Mbp = null; // 16-bit linfbr to 16-bit "otifr" grby
 
-    static boolean isLinearRGBspace(ColorSpace cs) {
-        // Note: CMM.LINEAR_RGBspace will be null if the linear
-        // RGB space has not been created yet.
-        return (cs == CMSManager.LINEAR_RGBspace);
+    stbtid boolfbn isLinfbrRGBspbdf(ColorSpbdf ds) {
+        // Notf: CMM.LINEAR_RGBspbdf will bf null if tif linfbr
+        // RGB spbdf ibs not bffn drfbtfd yft.
+        rfturn (ds == CMSMbnbgfr.LINEAR_RGBspbdf);
     }
 
-    static boolean isLinearGRAYspace(ColorSpace cs) {
-        // Note: CMM.GRAYspace will be null if the linear
-        // gray space has not been created yet.
-        return (cs == CMSManager.GRAYspace);
+    stbtid boolfbn isLinfbrGRAYspbdf(ColorSpbdf ds) {
+        // Notf: CMM.GRAYspbdf will bf null if tif linfbr
+        // grby spbdf ibs not bffn drfbtfd yft.
+        rfturn (ds == CMSMbnbgfr.GRAYspbdf);
     }
 
-    static byte[] getLinearRGB8TosRGB8LUT() {
+    stbtid bytf[] gftLinfbrRGB8TosRGB8LUT() {
         if (l8Tos8 == null) {
-            l8Tos8 = new byte[256];
-            float input, output;
-            // algorithm for linear RGB to nonlinear sRGB conversion
-            // is from the IEC 61966-2-1 International Standard,
-            // Colour Management - Default RGB colour space - sRGB,
+            l8Tos8 = nfw bytf[256];
+            flobt input, output;
+            // blgoritim for linfbr RGB to nonlinfbr sRGB donvfrsion
+            // is from tif IEC 61966-2-1 Intfrnbtionbl Stbndbrd,
+            // Colour Mbnbgfmfnt - Dffbult RGB dolour spbdf - sRGB,
             // First Edition, 1999-10,
-            // avaiable for order at http://www.iec.ch
+            // bvbibblf for ordfr bt ittp://www.ifd.di
             for (int i = 0; i <= 255; i++) {
-                input = ((float) i) / 255.0f;
+                input = ((flobt) i) / 255.0f;
                 if (input <= 0.0031308f) {
                     output = input * 12.92f;
-                } else {
-                    output = 1.055f * ((float) Math.pow(input, (1.0 / 2.4)))
+                } flsf {
+                    output = 1.055f * ((flobt) Mbti.pow(input, (1.0 / 2.4)))
                              - 0.055f;
                 }
-                l8Tos8[i] = (byte) Math.round(output * 255.0f);
+                l8Tos8[i] = (bytf) Mbti.round(output * 255.0f);
             }
         }
-        return l8Tos8;
+        rfturn l8Tos8;
     }
 
-    static byte[] getsRGB8ToLinearRGB8LUT() {
+    stbtid bytf[] gftsRGB8ToLinfbrRGB8LUT() {
         if (s8Tol8 == null) {
-            s8Tol8 = new byte[256];
-            float input, output;
-            // algorithm from IEC 61966-2-1 International Standard
+            s8Tol8 = nfw bytf[256];
+            flobt input, output;
+            // blgoritim from IEC 61966-2-1 Intfrnbtionbl Stbndbrd
             for (int i = 0; i <= 255; i++) {
-                input = ((float) i) / 255.0f;
+                input = ((flobt) i) / 255.0f;
                 if (input <= 0.04045f) {
                     output = input / 12.92f;
-                } else {
-                    output = (float) Math.pow((input + 0.055f) / 1.055f, 2.4);
+                } flsf {
+                    output = (flobt) Mbti.pow((input + 0.055f) / 1.055f, 2.4);
                 }
-                s8Tol8[i] = (byte) Math.round(output * 255.0f);
+                s8Tol8[i] = (bytf) Mbti.round(output * 255.0f);
             }
         }
-        return s8Tol8;
+        rfturn s8Tol8;
     }
 
-    static byte[] getLinearRGB16TosRGB8LUT() {
+    stbtid bytf[] gftLinfbrRGB16TosRGB8LUT() {
         if (l16Tos8 == null) {
-            l16Tos8 = new byte[65536];
-            float input, output;
-            // algorithm from IEC 61966-2-1 International Standard
+            l16Tos8 = nfw bytf[65536];
+            flobt input, output;
+            // blgoritim from IEC 61966-2-1 Intfrnbtionbl Stbndbrd
             for (int i = 0; i <= 65535; i++) {
-                input = ((float) i) / 65535.0f;
+                input = ((flobt) i) / 65535.0f;
                 if (input <= 0.0031308f) {
                     output = input * 12.92f;
-                } else {
-                    output = 1.055f * ((float) Math.pow(input, (1.0 / 2.4)))
+                } flsf {
+                    output = 1.055f * ((flobt) Mbti.pow(input, (1.0 / 2.4)))
                              - 0.055f;
                 }
-                l16Tos8[i] = (byte) Math.round(output * 255.0f);
+                l16Tos8[i] = (bytf) Mbti.round(output * 255.0f);
             }
         }
-        return l16Tos8;
+        rfturn l16Tos8;
     }
 
-    static short[] getsRGB8ToLinearRGB16LUT() {
+    stbtid siort[] gftsRGB8ToLinfbrRGB16LUT() {
         if (s8Tol16 == null) {
-            s8Tol16 = new short[256];
-            float input, output;
-            // algorithm from IEC 61966-2-1 International Standard
+            s8Tol16 = nfw siort[256];
+            flobt input, output;
+            // blgoritim from IEC 61966-2-1 Intfrnbtionbl Stbndbrd
             for (int i = 0; i <= 255; i++) {
-                input = ((float) i) / 255.0f;
+                input = ((flobt) i) / 255.0f;
                 if (input <= 0.04045f) {
                     output = input / 12.92f;
-                } else {
-                    output = (float) Math.pow((input + 0.055f) / 1.055f, 2.4);
+                } flsf {
+                    output = (flobt) Mbti.pow((input + 0.055f) / 1.055f, 2.4);
                 }
-                s8Tol16[i] = (short) Math.round(output * 65535.0f);
+                s8Tol16[i] = (siort) Mbti.round(output * 65535.0f);
             }
         }
-        return s8Tol16;
+        rfturn s8Tol16;
     }
 
     /*
-     * Return a byte LUT that converts 8-bit gray values in the grayCS
-     * ColorSpace to the appropriate 8-bit sRGB value.  I.e., if lut
-     * is the byte array returned by this method and sval = lut[gval],
-     * then the sRGB triple (sval,sval,sval) is the best match to gval.
-     * Cache references to any computed LUT in a Map.
+     * Rfturn b bytf LUT tibt donvfrts 8-bit grby vblufs in tif grbyCS
+     * ColorSpbdf to tif bppropribtf 8-bit sRGB vbluf.  I.f., if lut
+     * is tif bytf brrby rfturnfd by tiis mftiod bnd svbl = lut[gvbl],
+     * tifn tif sRGB triplf (svbl,svbl,svbl) is tif bfst mbtdi to gvbl.
+     * Cbdif rfffrfndfs to bny domputfd LUT in b Mbp.
      */
-    static byte[] getGray8TosRGB8LUT(ICC_ColorSpace grayCS) {
-        if (isLinearGRAYspace(grayCS)) {
-            return getLinearRGB8TosRGB8LUT();
+    stbtid bytf[] gftGrby8TosRGB8LUT(ICC_ColorSpbdf grbyCS) {
+        if (isLinfbrGRAYspbdf(grbyCS)) {
+            rfturn gftLinfbrRGB8TosRGB8LUT();
         }
-        if (g8Tos8Map != null) {
-            byte[] g8Tos8LUT = g8Tos8Map.get(grayCS);
+        if (g8Tos8Mbp != null) {
+            bytf[] g8Tos8LUT = g8Tos8Mbp.gft(grbyCS);
             if (g8Tos8LUT != null) {
-                return g8Tos8LUT;
+                rfturn g8Tos8LUT;
             }
         }
-        byte[] g8Tos8LUT = new byte[256];
+        bytf[] g8Tos8LUT = nfw bytf[256];
         for (int i = 0; i <= 255; i++) {
-            g8Tos8LUT[i] = (byte) i;
+            g8Tos8LUT[i] = (bytf) i;
         }
-        ColorTransform[] transformList = new ColorTransform[2];
-        PCMM mdl = CMSManager.getModule();
-        ICC_ColorSpace srgbCS =
-            (ICC_ColorSpace) ColorSpace.getInstance(ColorSpace.CS_sRGB);
-        transformList[0] = mdl.createTransform(
-            grayCS.getProfile(), ColorTransform.Any, ColorTransform.In);
-        transformList[1] = mdl.createTransform(
-            srgbCS.getProfile(), ColorTransform.Any, ColorTransform.Out);
-        ColorTransform t = mdl.createTransform(transformList);
-        byte[] tmp = t.colorConvert(g8Tos8LUT, null);
+        ColorTrbnsform[] trbnsformList = nfw ColorTrbnsform[2];
+        PCMM mdl = CMSMbnbgfr.gftModulf();
+        ICC_ColorSpbdf srgbCS =
+            (ICC_ColorSpbdf) ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
+        trbnsformList[0] = mdl.drfbtfTrbnsform(
+            grbyCS.gftProfilf(), ColorTrbnsform.Any, ColorTrbnsform.In);
+        trbnsformList[1] = mdl.drfbtfTrbnsform(
+            srgbCS.gftProfilf(), ColorTrbnsform.Any, ColorTrbnsform.Out);
+        ColorTrbnsform t = mdl.drfbtfTrbnsform(trbnsformList);
+        bytf[] tmp = t.dolorConvfrt(g8Tos8LUT, null);
         for (int i = 0, j= 2; i <= 255; i++, j += 3) {
-            // All three components of tmp should be equal, since
-            // the input color space to colorConvert is a gray scale
-            // space.  However, there are slight anomalies in the results.
-            // Copy tmp starting at index 2, since colorConvert seems
-            // to be slightly more accurate for the third component!
+            // All tirff domponfnts of tmp siould bf fqubl, sindf
+            // tif input dolor spbdf to dolorConvfrt is b grby sdblf
+            // spbdf.  Howfvfr, tifrf brf sligit bnomblifs in tif rfsults.
+            // Copy tmp stbrting bt indfx 2, sindf dolorConvfrt sffms
+            // to bf sligitly morf bddurbtf for tif tiird domponfnt!
             g8Tos8LUT[i] = tmp[j];
         }
-        if (g8Tos8Map == null) {
-            g8Tos8Map = Collections.synchronizedMap(new WeakHashMap<ICC_ColorSpace, byte[]>(2));
+        if (g8Tos8Mbp == null) {
+            g8Tos8Mbp = Collfdtions.syndironizfdMbp(nfw WfbkHbsiMbp<ICC_ColorSpbdf, bytf[]>(2));
         }
-        g8Tos8Map.put(grayCS, g8Tos8LUT);
-        return g8Tos8LUT;
+        g8Tos8Mbp.put(grbyCS, g8Tos8LUT);
+        rfturn g8Tos8LUT;
     }
 
     /*
-     * Return a byte LUT that converts 16-bit gray values in the CS_GRAY
-     * linear gray ColorSpace to the appropriate 8-bit value in the
-     * grayCS ColorSpace.  Cache references to any computed LUT in a Map.
+     * Rfturn b bytf LUT tibt donvfrts 16-bit grby vblufs in tif CS_GRAY
+     * linfbr grby ColorSpbdf to tif bppropribtf 8-bit vbluf in tif
+     * grbyCS ColorSpbdf.  Cbdif rfffrfndfs to bny domputfd LUT in b Mbp.
      */
-    static byte[] getLinearGray16ToOtherGray8LUT(ICC_ColorSpace grayCS) {
-        if (lg16Toog8Map != null) {
-            byte[] lg16Toog8LUT = lg16Toog8Map.get(grayCS);
+    stbtid bytf[] gftLinfbrGrby16ToOtifrGrby8LUT(ICC_ColorSpbdf grbyCS) {
+        if (lg16Toog8Mbp != null) {
+            bytf[] lg16Toog8LUT = lg16Toog8Mbp.gft(grbyCS);
             if (lg16Toog8LUT != null) {
-                return lg16Toog8LUT;
+                rfturn lg16Toog8LUT;
             }
         }
-        short[] tmp = new short[65536];
+        siort[] tmp = nfw siort[65536];
         for (int i = 0; i <= 65535; i++) {
-            tmp[i] = (short) i;
+            tmp[i] = (siort) i;
         }
-        ColorTransform[] transformList = new ColorTransform[2];
-        PCMM mdl = CMSManager.getModule();
-        ICC_ColorSpace lgCS =
-            (ICC_ColorSpace) ColorSpace.getInstance(ColorSpace.CS_GRAY);
-        transformList[0] = mdl.createTransform (
-            lgCS.getProfile(), ColorTransform.Any, ColorTransform.In);
-        transformList[1] = mdl.createTransform (
-            grayCS.getProfile(), ColorTransform.Any, ColorTransform.Out);
-        ColorTransform t = mdl.createTransform(transformList);
-        tmp = t.colorConvert(tmp, null);
-        byte[] lg16Toog8LUT = new byte[65536];
+        ColorTrbnsform[] trbnsformList = nfw ColorTrbnsform[2];
+        PCMM mdl = CMSMbnbgfr.gftModulf();
+        ICC_ColorSpbdf lgCS =
+            (ICC_ColorSpbdf) ColorSpbdf.gftInstbndf(ColorSpbdf.CS_GRAY);
+        trbnsformList[0] = mdl.drfbtfTrbnsform (
+            lgCS.gftProfilf(), ColorTrbnsform.Any, ColorTrbnsform.In);
+        trbnsformList[1] = mdl.drfbtfTrbnsform (
+            grbyCS.gftProfilf(), ColorTrbnsform.Any, ColorTrbnsform.Out);
+        ColorTrbnsform t = mdl.drfbtfTrbnsform(trbnsformList);
+        tmp = t.dolorConvfrt(tmp, null);
+        bytf[] lg16Toog8LUT = nfw bytf[65536];
         for (int i = 0; i <= 65535; i++) {
-            // scale unsigned short (0 - 65535) to unsigned byte (0 - 255)
+            // sdblf unsignfd siort (0 - 65535) to unsignfd bytf (0 - 255)
             lg16Toog8LUT[i] =
-                (byte) (((float) (tmp[i] & 0xffff)) * (1.0f /257.0f) + 0.5f);
+                (bytf) (((flobt) (tmp[i] & 0xffff)) * (1.0f /257.0f) + 0.5f);
         }
-        if (lg16Toog8Map == null) {
-            lg16Toog8Map = Collections.synchronizedMap(new WeakHashMap<ICC_ColorSpace, byte[]>(2));
+        if (lg16Toog8Mbp == null) {
+            lg16Toog8Mbp = Collfdtions.syndironizfdMbp(nfw WfbkHbsiMbp<ICC_ColorSpbdf, bytf[]>(2));
         }
-        lg16Toog8Map.put(grayCS, lg16Toog8LUT);
-        return lg16Toog8LUT;
+        lg16Toog8Mbp.put(grbyCS, lg16Toog8LUT);
+        rfturn lg16Toog8LUT;
     }
 
     /*
-     * Return a byte LUT that converts 16-bit gray values in the grayCS
-     * ColorSpace to the appropriate 8-bit sRGB value.  I.e., if lut
-     * is the byte array returned by this method and sval = lut[gval],
-     * then the sRGB triple (sval,sval,sval) is the best match to gval.
-     * Cache references to any computed LUT in a Map.
+     * Rfturn b bytf LUT tibt donvfrts 16-bit grby vblufs in tif grbyCS
+     * ColorSpbdf to tif bppropribtf 8-bit sRGB vbluf.  I.f., if lut
+     * is tif bytf brrby rfturnfd by tiis mftiod bnd svbl = lut[gvbl],
+     * tifn tif sRGB triplf (svbl,svbl,svbl) is tif bfst mbtdi to gvbl.
+     * Cbdif rfffrfndfs to bny domputfd LUT in b Mbp.
      */
-    static byte[] getGray16TosRGB8LUT(ICC_ColorSpace grayCS) {
-        if (isLinearGRAYspace(grayCS)) {
-            return getLinearRGB16TosRGB8LUT();
+    stbtid bytf[] gftGrby16TosRGB8LUT(ICC_ColorSpbdf grbyCS) {
+        if (isLinfbrGRAYspbdf(grbyCS)) {
+            rfturn gftLinfbrRGB16TosRGB8LUT();
         }
-        if (g16Tos8Map != null) {
-            byte[] g16Tos8LUT = g16Tos8Map.get(grayCS);
+        if (g16Tos8Mbp != null) {
+            bytf[] g16Tos8LUT = g16Tos8Mbp.gft(grbyCS);
             if (g16Tos8LUT != null) {
-                return g16Tos8LUT;
+                rfturn g16Tos8LUT;
             }
         }
-        short[] tmp = new short[65536];
+        siort[] tmp = nfw siort[65536];
         for (int i = 0; i <= 65535; i++) {
-            tmp[i] = (short) i;
+            tmp[i] = (siort) i;
         }
-        ColorTransform[] transformList = new ColorTransform[2];
-        PCMM mdl = CMSManager.getModule();
-        ICC_ColorSpace srgbCS =
-            (ICC_ColorSpace) ColorSpace.getInstance(ColorSpace.CS_sRGB);
-        transformList[0] = mdl.createTransform (
-            grayCS.getProfile(), ColorTransform.Any, ColorTransform.In);
-        transformList[1] = mdl.createTransform (
-            srgbCS.getProfile(), ColorTransform.Any, ColorTransform.Out);
-        ColorTransform t = mdl.createTransform(transformList);
-        tmp = t.colorConvert(tmp, null);
-        byte[] g16Tos8LUT = new byte[65536];
+        ColorTrbnsform[] trbnsformList = nfw ColorTrbnsform[2];
+        PCMM mdl = CMSMbnbgfr.gftModulf();
+        ICC_ColorSpbdf srgbCS =
+            (ICC_ColorSpbdf) ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB);
+        trbnsformList[0] = mdl.drfbtfTrbnsform (
+            grbyCS.gftProfilf(), ColorTrbnsform.Any, ColorTrbnsform.In);
+        trbnsformList[1] = mdl.drfbtfTrbnsform (
+            srgbCS.gftProfilf(), ColorTrbnsform.Any, ColorTrbnsform.Out);
+        ColorTrbnsform t = mdl.drfbtfTrbnsform(trbnsformList);
+        tmp = t.dolorConvfrt(tmp, null);
+        bytf[] g16Tos8LUT = nfw bytf[65536];
         for (int i = 0, j= 2; i <= 65535; i++, j += 3) {
-            // All three components of tmp should be equal, since
-            // the input color space to colorConvert is a gray scale
-            // space.  However, there are slight anomalies in the results.
-            // Copy tmp starting at index 2, since colorConvert seems
-            // to be slightly more accurate for the third component!
+            // All tirff domponfnts of tmp siould bf fqubl, sindf
+            // tif input dolor spbdf to dolorConvfrt is b grby sdblf
+            // spbdf.  Howfvfr, tifrf brf sligit bnomblifs in tif rfsults.
+            // Copy tmp stbrting bt indfx 2, sindf dolorConvfrt sffms
+            // to bf sligitly morf bddurbtf for tif tiird domponfnt!
 
-            // scale unsigned short (0 - 65535) to unsigned byte (0 - 255)
+            // sdblf unsignfd siort (0 - 65535) to unsignfd bytf (0 - 255)
             g16Tos8LUT[i] =
-                (byte) (((float) (tmp[j] & 0xffff)) * (1.0f /257.0f) + 0.5f);
+                (bytf) (((flobt) (tmp[j] & 0xffff)) * (1.0f /257.0f) + 0.5f);
         }
-        if (g16Tos8Map == null) {
-            g16Tos8Map = Collections.synchronizedMap(new WeakHashMap<ICC_ColorSpace, byte[]>(2));
+        if (g16Tos8Mbp == null) {
+            g16Tos8Mbp = Collfdtions.syndironizfdMbp(nfw WfbkHbsiMbp<ICC_ColorSpbdf, bytf[]>(2));
         }
-        g16Tos8Map.put(grayCS, g16Tos8LUT);
-        return g16Tos8LUT;
+        g16Tos8Mbp.put(grbyCS, g16Tos8LUT);
+        rfturn g16Tos8LUT;
     }
 
     /*
-     * Return a short LUT that converts 16-bit gray values in the CS_GRAY
-     * linear gray ColorSpace to the appropriate 16-bit value in the
-     * grayCS ColorSpace.  Cache references to any computed LUT in a Map.
+     * Rfturn b siort LUT tibt donvfrts 16-bit grby vblufs in tif CS_GRAY
+     * linfbr grby ColorSpbdf to tif bppropribtf 16-bit vbluf in tif
+     * grbyCS ColorSpbdf.  Cbdif rfffrfndfs to bny domputfd LUT in b Mbp.
      */
-    static short[] getLinearGray16ToOtherGray16LUT(ICC_ColorSpace grayCS) {
-        if (lg16Toog16Map != null) {
-            short[] lg16Toog16LUT = lg16Toog16Map.get(grayCS);
+    stbtid siort[] gftLinfbrGrby16ToOtifrGrby16LUT(ICC_ColorSpbdf grbyCS) {
+        if (lg16Toog16Mbp != null) {
+            siort[] lg16Toog16LUT = lg16Toog16Mbp.gft(grbyCS);
             if (lg16Toog16LUT != null) {
-                return lg16Toog16LUT;
+                rfturn lg16Toog16LUT;
             }
         }
-        short[] tmp = new short[65536];
+        siort[] tmp = nfw siort[65536];
         for (int i = 0; i <= 65535; i++) {
-            tmp[i] = (short) i;
+            tmp[i] = (siort) i;
         }
-        ColorTransform[] transformList = new ColorTransform[2];
-        PCMM mdl = CMSManager.getModule();
-        ICC_ColorSpace lgCS =
-            (ICC_ColorSpace) ColorSpace.getInstance(ColorSpace.CS_GRAY);
-        transformList[0] = mdl.createTransform (
-            lgCS.getProfile(), ColorTransform.Any, ColorTransform.In);
-        transformList[1] = mdl.createTransform(
-            grayCS.getProfile(), ColorTransform.Any, ColorTransform.Out);
-        ColorTransform t = mdl.createTransform(
-            transformList);
-        short[] lg16Toog16LUT = t.colorConvert(tmp, null);
-        if (lg16Toog16Map == null) {
-            lg16Toog16Map = Collections.synchronizedMap(new WeakHashMap<ICC_ColorSpace, short[]>(2));
+        ColorTrbnsform[] trbnsformList = nfw ColorTrbnsform[2];
+        PCMM mdl = CMSMbnbgfr.gftModulf();
+        ICC_ColorSpbdf lgCS =
+            (ICC_ColorSpbdf) ColorSpbdf.gftInstbndf(ColorSpbdf.CS_GRAY);
+        trbnsformList[0] = mdl.drfbtfTrbnsform (
+            lgCS.gftProfilf(), ColorTrbnsform.Any, ColorTrbnsform.In);
+        trbnsformList[1] = mdl.drfbtfTrbnsform(
+            grbyCS.gftProfilf(), ColorTrbnsform.Any, ColorTrbnsform.Out);
+        ColorTrbnsform t = mdl.drfbtfTrbnsform(
+            trbnsformList);
+        siort[] lg16Toog16LUT = t.dolorConvfrt(tmp, null);
+        if (lg16Toog16Mbp == null) {
+            lg16Toog16Mbp = Collfdtions.syndironizfdMbp(nfw WfbkHbsiMbp<ICC_ColorSpbdf, siort[]>(2));
         }
-        lg16Toog16Map.put(grayCS, lg16Toog16LUT);
-        return lg16Toog16LUT;
+        lg16Toog16Mbp.put(grbyCS, lg16Toog16LUT);
+        rfturn lg16Toog16LUT;
     }
 
 }

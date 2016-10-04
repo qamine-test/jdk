@@ -1,506 +1,506 @@
 /*
- * Copyright (c) 2003, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * Copyright 2003 Wily Technology, Inc.
+ * Copyrigit 2003 Wily Tfdinology, Ind.
  */
 
-#include    <string.h>
-#include    <stdlib.h>
+#indludf    <string.i>
+#indludf    <stdlib.i>
 
-#include    "jni.h"
+#indludf    "jni.i"
 
-#include    "Utilities.h"
-#include    "JPLISAssert.h"
-#include    "JPLISAgent.h"
-#include    "JavaExceptions.h"
+#indludf    "Utilitifs.i"
+#indludf    "JPLISAssfrt.i"
+#indludf    "JPLISAgfnt.i"
+#indludf    "JbvbExdfptions.i"
 
-#include    "EncodingSupport.h"
-#include    "FileSystemSupport.h"
-#include    "JarFacade.h"
-#include    "PathCharsValidator.h"
+#indludf    "EndodingSupport.i"
+#indludf    "FilfSystfmSupport.i"
+#indludf    "JbrFbdbdf.i"
+#indludf    "PbtiCibrsVblidbtor.i"
 
 /**
- * This module contains the direct interface points with the JVMTI.
- * The OnLoad handler is here, along with the various event handlers.
+ * Tiis modulf dontbins tif dirfdt intfrfbdf points witi tif JVMTI.
+ * Tif OnLobd ibndlfr is ifrf, blong witi tif vbrious fvfnt ibndlfrs.
  */
 
-static int
-appendClassPath(JPLISAgent* agent,
-                const char* jarfile);
+stbtid int
+bppfndClbssPbti(JPLISAgfnt* bgfnt,
+                donst dibr* jbrfilf);
 
-static void
-appendBootClassPath(JPLISAgent* agent,
-                    const char* jarfile,
-                    const char* pathList);
+stbtid void
+bppfndBootClbssPbti(JPLISAgfnt* bgfnt,
+                    donst dibr* jbrfilf,
+                    donst dibr* pbtiList);
 
 
 /*
- * Parse -javaagent tail, of the form name[=options], into name
- * and options. Returned values are heap allocated and options maybe
- * NULL. Returns 0 if parse succeeds, -1 if allocation fails.
+ * Pbrsf -jbvbbgfnt tbil, of tif form nbmf[=options], into nbmf
+ * bnd options. Rfturnfd vblufs brf ifbp bllodbtfd bnd options mbybf
+ * NULL. Rfturns 0 if pbrsf suddffds, -1 if bllodbtion fbils.
  */
-static int
-parseArgumentTail(char* tail, char** name, char** options) {
-    int len;
-    char* pos;
+stbtid int
+pbrsfArgumfntTbil(dibr* tbil, dibr** nbmf, dibr** options) {
+    int lfn;
+    dibr* pos;
 
-    pos = strchr(tail, '=');
-    len = (pos == NULL) ? (int)strlen(tail) : (int)(pos - tail);
+    pos = strdir(tbil, '=');
+    lfn = (pos == NULL) ? (int)strlfn(tbil) : (int)(pos - tbil);
 
-    *name = (char*)malloc(len+1);
-    if (*name == NULL) {
-        return -1;
+    *nbmf = (dibr*)mbllod(lfn+1);
+    if (*nbmf == NULL) {
+        rfturn -1;
     }
-    memcpy(*name, tail, len);
-    (*name)[len] = '\0';
+    mfmdpy(*nbmf, tbil, lfn);
+    (*nbmf)[lfn] = '\0';
 
     if (pos == NULL) {
         *options = NULL;
-    } else {
-        char * str = (char*)malloc( (int)strlen(pos + 1) + 1 );
+    } flsf {
+        dibr * str = (dibr*)mbllod( (int)strlfn(pos + 1) + 1 );
         if (str == NULL) {
-            free(*name);
-            return -1;
+            frff(*nbmf);
+            rfturn -1;
         }
-        strcpy(str, pos +1);
+        strdpy(str, pos +1);
         *options = str;
     }
-    return 0;
+    rfturn 0;
 }
 
 /*
- * Get the value of an attribute in an attribute list. Returns NULL
- * if attribute not found.
+ * Gft tif vbluf of bn bttributf in bn bttributf list. Rfturns NULL
+ * if bttributf not found.
  */
-jboolean
-getBooleanAttribute(const jarAttribute* attributes, const char* name) {
-    char* attributeValue = getAttribute(attributes, name);
-    return attributeValue != NULL && strcasecmp(attributeValue, "true") == 0;
+jboolfbn
+gftBoolfbnAttributf(donst jbrAttributf* bttributfs, donst dibr* nbmf) {
+    dibr* bttributfVbluf = gftAttributf(bttributfs, nbmf);
+    rfturn bttributfVbluf != NULL && strdbsfdmp(bttributfVbluf, "truf") == 0;
 }
 
 /*
- * Parse any capability settings in the JAR manifest and
- * convert them to JVM TI capabilities.
+ * Pbrsf bny dbpbbility sfttings in tif JAR mbniffst bnd
+ * donvfrt tifm to JVM TI dbpbbilitifs.
  */
 void
-convertCapabilityAtrributes(const jarAttribute* attributes, JPLISAgent* agent) {
-    /* set redefineClasses capability */
-    if (getBooleanAttribute(attributes, "Can-Redefine-Classes")) {
-        addRedefineClassesCapability(agent);
+donvfrtCbpbbilityAtrributfs(donst jbrAttributf* bttributfs, JPLISAgfnt* bgfnt) {
+    /* sft rfdffinfClbssfs dbpbbility */
+    if (gftBoolfbnAttributf(bttributfs, "Cbn-Rfdffinf-Clbssfs")) {
+        bddRfdffinfClbssfsCbpbbility(bgfnt);
     }
 
-    /* create an environment which has the retransformClasses capability */
-    if (getBooleanAttribute(attributes, "Can-Retransform-Classes")) {
-        retransformableEnvironment(agent);
+    /* drfbtf bn fnvironmfnt wiidi ibs tif rftrbnsformClbssfs dbpbbility */
+    if (gftBoolfbnAttributf(bttributfs, "Cbn-Rftrbnsform-Clbssfs")) {
+        rftrbnsformbblfEnvironmfnt(bgfnt);
     }
 
-    /* set setNativeMethodPrefix capability */
-    if (getBooleanAttribute(attributes, "Can-Set-Native-Method-Prefix")) {
-        addNativeMethodPrefixCapability(agent);
+    /* sft sftNbtivfMftiodPrffix dbpbbility */
+    if (gftBoolfbnAttributf(bttributfs, "Cbn-Sft-Nbtivf-Mftiod-Prffix")) {
+        bddNbtivfMftiodPrffixCbpbbility(bgfnt);
     }
 
-    /* for retransformClasses testing, set capability to use original method order */
-    if (getBooleanAttribute(attributes, "Can-Maintain-Original-Method-Order")) {
-        addOriginalMethodOrderCapability(agent);
+    /* for rftrbnsformClbssfs tfsting, sft dbpbbility to usf originbl mftiod ordfr */
+    if (gftBoolfbnAttributf(bttributfs, "Cbn-Mbintbin-Originbl-Mftiod-Ordfr")) {
+        bddOriginblMftiodOrdfrCbpbbility(bgfnt);
     }
 }
 
 /*
- *  This will be called once for every -javaagent on the command line.
- *  Each call to Agent_OnLoad will create its own agent and agent data.
+ *  Tiis will bf dbllfd ondf for fvfry -jbvbbgfnt on tif dommbnd linf.
+ *  Ebdi dbll to Agfnt_OnLobd will drfbtf its own bgfnt bnd bgfnt dbtb.
  *
- *  The argument tail string provided to Agent_OnLoad will be of form
- *  <jarfile>[=<options>]. The tail string is split into the jarfile and
- *  options components. The jarfile manifest is parsed and the value of the
- *  Premain-Class attribute will become the agent's premain class. The jar
- *  file is then added to the system class path, and if the Boot-Class-Path
- *  attribute is present then all relative URLs in the value are processed
- *  to create boot class path segments to append to the boot class path.
+ *  Tif brgumfnt tbil string providfd to Agfnt_OnLobd will bf of form
+ *  <jbrfilf>[=<options>]. Tif tbil string is split into tif jbrfilf bnd
+ *  options domponfnts. Tif jbrfilf mbniffst is pbrsfd bnd tif vbluf of tif
+ *  Prfmbin-Clbss bttributf will bfdomf tif bgfnt's prfmbin dlbss. Tif jbr
+ *  filf is tifn bddfd to tif systfm dlbss pbti, bnd if tif Boot-Clbss-Pbti
+ *  bttributf is prfsfnt tifn bll rflbtivf URLs in tif vbluf brf prodfssfd
+ *  to drfbtf boot dlbss pbti sfgmfnts to bppfnd to tif boot dlbss pbti.
  */
 JNIEXPORT jint JNICALL
-Agent_OnLoad(JavaVM *vm, char *tail, void * reserved) {
-    JPLISInitializationError initerror  = JPLIS_INIT_ERROR_NONE;
-    jint                     result     = JNI_OK;
-    JPLISAgent *             agent      = NULL;
+Agfnt_OnLobd(JbvbVM *vm, dibr *tbil, void * rfsfrvfd) {
+    JPLISInitiblizbtionError initfrror  = JPLIS_INIT_ERROR_NONE;
+    jint                     rfsult     = JNI_OK;
+    JPLISAgfnt *             bgfnt      = NULL;
 
-    initerror = createNewJPLISAgent(vm, &agent);
-    if ( initerror == JPLIS_INIT_ERROR_NONE ) {
-        int             oldLen, newLen;
-        char *          jarfile;
-        char *          options;
-        jarAttribute*   attributes;
-        char *          premainClass;
-        char *          bootClassPath;
+    initfrror = drfbtfNfwJPLISAgfnt(vm, &bgfnt);
+    if ( initfrror == JPLIS_INIT_ERROR_NONE ) {
+        int             oldLfn, nfwLfn;
+        dibr *          jbrfilf;
+        dibr *          options;
+        jbrAttributf*   bttributfs;
+        dibr *          prfmbinClbss;
+        dibr *          bootClbssPbti;
 
         /*
-         * Parse <jarfile>[=options] into jarfile and options
+         * Pbrsf <jbrfilf>[=options] into jbrfilf bnd options
          */
-        if (parseArgumentTail(tail, &jarfile, &options) != 0) {
-            fprintf(stderr, "-javaagent: memory allocation failure.\n");
-            return JNI_ERR;
+        if (pbrsfArgumfntTbil(tbil, &jbrfilf, &options) != 0) {
+            fprintf(stdfrr, "-jbvbbgfnt: mfmory bllodbtion fbilurf.\n");
+            rfturn JNI_ERR;
         }
 
         /*
-         * Agent_OnLoad is specified to provide the agent options
-         * argument tail in modified UTF8. However for 1.5.0 this is
-         * actually in the platform encoding - see 5049313.
+         * Agfnt_OnLobd is spfdififd to providf tif bgfnt options
+         * brgumfnt tbil in modififd UTF8. Howfvfr for 1.5.0 tiis is
+         * bdtublly in tif plbtform fndoding - sff 5049313.
          *
-         * Open zip/jar file and parse archive. If can't be opened or
-         * not a zip file return error. Also if Premain-Class attribute
-         * isn't present we return an error.
+         * Opfn zip/jbr filf bnd pbrsf brdiivf. If dbn't bf opfnfd or
+         * not b zip filf rfturn frror. Also if Prfmbin-Clbss bttributf
+         * isn't prfsfnt wf rfturn bn frror.
          */
-        attributes = readAttributes(jarfile);
-        if (attributes == NULL) {
-            fprintf(stderr, "Error opening zip file or JAR manifest missing : %s\n", jarfile);
-            free(jarfile);
-            if (options != NULL) free(options);
-            return JNI_ERR;
+        bttributfs = rfbdAttributfs(jbrfilf);
+        if (bttributfs == NULL) {
+            fprintf(stdfrr, "Error opfning zip filf or JAR mbniffst missing : %s\n", jbrfilf);
+            frff(jbrfilf);
+            if (options != NULL) frff(options);
+            rfturn JNI_ERR;
         }
 
-        premainClass = getAttribute(attributes, "Premain-Class");
-        if (premainClass == NULL) {
-            fprintf(stderr, "Failed to find Premain-Class manifest attribute in %s\n",
-                jarfile);
-            free(jarfile);
-            if (options != NULL) free(options);
-            freeAttributes(attributes);
-            return JNI_ERR;
+        prfmbinClbss = gftAttributf(bttributfs, "Prfmbin-Clbss");
+        if (prfmbinClbss == NULL) {
+            fprintf(stdfrr, "Fbilfd to find Prfmbin-Clbss mbniffst bttributf in %s\n",
+                jbrfilf);
+            frff(jbrfilf);
+            if (options != NULL) frff(options);
+            frffAttributfs(bttributfs);
+            rfturn JNI_ERR;
         }
 
         /*
-         * Add to the jarfile
+         * Add to tif jbrfilf
          */
-        appendClassPath(agent, jarfile);
+        bppfndClbssPbti(bgfnt, jbrfilf);
 
         /*
-         * The value of the Premain-Class attribute becomes the agent
-         * class name. The manifest is in UTF8 so need to convert to
-         * modified UTF8 (see JNI spec).
+         * Tif vbluf of tif Prfmbin-Clbss bttributf bfdomfs tif bgfnt
+         * dlbss nbmf. Tif mbniffst is in UTF8 so nffd to donvfrt to
+         * modififd UTF8 (sff JNI spfd).
          */
-        oldLen = (int)strlen(premainClass);
-        newLen = modifiedUtf8LengthOfUtf8(premainClass, oldLen);
-        if (newLen == oldLen) {
-            premainClass = strdup(premainClass);
-        } else {
-            char* str = (char*)malloc( newLen+1 );
+        oldLfn = (int)strlfn(prfmbinClbss);
+        nfwLfn = modififdUtf8LfngtiOfUtf8(prfmbinClbss, oldLfn);
+        if (nfwLfn == oldLfn) {
+            prfmbinClbss = strdup(prfmbinClbss);
+        } flsf {
+            dibr* str = (dibr*)mbllod( nfwLfn+1 );
             if (str != NULL) {
-                convertUtf8ToModifiedUtf8(premainClass, oldLen, str, newLen);
+                donvfrtUtf8ToModififdUtf8(prfmbinClbss, oldLfn, str, nfwLfn);
             }
-            premainClass = str;
+            prfmbinClbss = str;
         }
-        if (premainClass == NULL) {
-            fprintf(stderr, "-javaagent: memory allocation failed\n");
-            free(jarfile);
-            if (options != NULL) free(options);
-            freeAttributes(attributes);
-            return JNI_ERR;
-        }
-
-        /*
-         * If the Boot-Class-Path attribute is specified then we process
-         * each relative URL and add it to the bootclasspath.
-         */
-        bootClassPath = getAttribute(attributes, "Boot-Class-Path");
-        if (bootClassPath != NULL) {
-            appendBootClassPath(agent, jarfile, bootClassPath);
+        if (prfmbinClbss == NULL) {
+            fprintf(stdfrr, "-jbvbbgfnt: mfmory bllodbtion fbilfd\n");
+            frff(jbrfilf);
+            if (options != NULL) frff(options);
+            frffAttributfs(bttributfs);
+            rfturn JNI_ERR;
         }
 
         /*
-         * Convert JAR attributes into agent capabilities
+         * If tif Boot-Clbss-Pbti bttributf is spfdififd tifn wf prodfss
+         * fbdi rflbtivf URL bnd bdd it to tif bootdlbsspbti.
          */
-        convertCapabilityAtrributes(attributes, agent);
+        bootClbssPbti = gftAttributf(bttributfs, "Boot-Clbss-Pbti");
+        if (bootClbssPbti != NULL) {
+            bppfndBootClbssPbti(bgfnt, jbrfilf, bootClbssPbti);
+        }
 
         /*
-         * Track (record) the agent class name and options data
+         * Convfrt JAR bttributfs into bgfnt dbpbbilitifs
          */
-        initerror = recordCommandLineData(agent, premainClass, options);
+        donvfrtCbpbbilityAtrributfs(bttributfs, bgfnt);
 
         /*
-         * Clean-up
+         * Trbdk (rfdord) tif bgfnt dlbss nbmf bnd options dbtb
          */
-        free(jarfile);
-        if (options != NULL) free(options);
-        freeAttributes(attributes);
-        free(premainClass);
+        initfrror = rfdordCommbndLinfDbtb(bgfnt, prfmbinClbss, options);
+
+        /*
+         * Clfbn-up
+         */
+        frff(jbrfilf);
+        if (options != NULL) frff(options);
+        frffAttributfs(bttributfs);
+        frff(prfmbinClbss);
     }
 
-    switch (initerror) {
-    case JPLIS_INIT_ERROR_NONE:
-      result = JNI_OK;
-      break;
-    case JPLIS_INIT_ERROR_CANNOT_CREATE_NATIVE_AGENT:
-      result = JNI_ERR;
-      fprintf(stderr, "java.lang.instrument/-javaagent: cannot create native agent.\n");
-      break;
-    case JPLIS_INIT_ERROR_FAILURE:
-      result = JNI_ERR;
-      fprintf(stderr, "java.lang.instrument/-javaagent: initialization of native agent failed.\n");
-      break;
-    case JPLIS_INIT_ERROR_ALLOCATION_FAILURE:
-      result = JNI_ERR;
-      fprintf(stderr, "java.lang.instrument/-javaagent: allocation failure.\n");
-      break;
-    case JPLIS_INIT_ERROR_AGENT_CLASS_NOT_SPECIFIED:
-      result = JNI_ERR;
-      fprintf(stderr, "-javaagent: agent class not specified.\n");
-      break;
-    default:
-      result = JNI_ERR;
-      fprintf(stderr, "java.lang.instrument/-javaagent: unknown error\n");
-      break;
+    switdi (initfrror) {
+    dbsf JPLIS_INIT_ERROR_NONE:
+      rfsult = JNI_OK;
+      brfbk;
+    dbsf JPLIS_INIT_ERROR_CANNOT_CREATE_NATIVE_AGENT:
+      rfsult = JNI_ERR;
+      fprintf(stdfrr, "jbvb.lbng.instrumfnt/-jbvbbgfnt: dbnnot drfbtf nbtivf bgfnt.\n");
+      brfbk;
+    dbsf JPLIS_INIT_ERROR_FAILURE:
+      rfsult = JNI_ERR;
+      fprintf(stdfrr, "jbvb.lbng.instrumfnt/-jbvbbgfnt: initiblizbtion of nbtivf bgfnt fbilfd.\n");
+      brfbk;
+    dbsf JPLIS_INIT_ERROR_ALLOCATION_FAILURE:
+      rfsult = JNI_ERR;
+      fprintf(stdfrr, "jbvb.lbng.instrumfnt/-jbvbbgfnt: bllodbtion fbilurf.\n");
+      brfbk;
+    dbsf JPLIS_INIT_ERROR_AGENT_CLASS_NOT_SPECIFIED:
+      rfsult = JNI_ERR;
+      fprintf(stdfrr, "-jbvbbgfnt: bgfnt dlbss not spfdififd.\n");
+      brfbk;
+    dffbult:
+      rfsult = JNI_ERR;
+      fprintf(stdfrr, "jbvb.lbng.instrumfnt/-jbvbbgfnt: unknown frror\n");
+      brfbk;
     }
-    return result;
+    rfturn rfsult;
 }
 
 /*
- * Agent_OnAttach returns a jint. 0/JNI_OK indicates success and non-0
- * indicates an error. To allow the attach mechanism throw an
- * AgentInitializationException with a reasonable exception message we define
- * a few specific errors here.
+ * Agfnt_OnAttbdi rfturns b jint. 0/JNI_OK indidbtfs suddfss bnd non-0
+ * indidbtfs bn frror. To bllow tif bttbdi mfdibnism tirow bn
+ * AgfntInitiblizbtionExdfption witi b rfbsonbblf fxdfption mfssbgf wf dffinf
+ * b ffw spfdifid frrors ifrf.
  */
-#define AGENT_ERROR_BADJAR    ((jint)100)  /* Agent JAR not found or no Agent-Class attribute */
-#define AGENT_ERROR_NOTONCP   ((jint)101)  /* Unable to add JAR file to system class path */
-#define AGENT_ERROR_STARTFAIL ((jint)102)  /* No agentmain method or agentmain failed */
+#dffinf AGENT_ERROR_BADJAR    ((jint)100)  /* Agfnt JAR not found or no Agfnt-Clbss bttributf */
+#dffinf AGENT_ERROR_NOTONCP   ((jint)101)  /* Unbblf to bdd JAR filf to systfm dlbss pbti */
+#dffinf AGENT_ERROR_STARTFAIL ((jint)102)  /* No bgfntmbin mftiod or bgfntmbin fbilfd */
 
 /*
- *  This will be called once each time a tool attaches to the VM and loads
- *  the JPLIS library.
+ *  Tiis will bf dbllfd ondf fbdi timf b tool bttbdifs to tif VM bnd lobds
+ *  tif JPLIS librbry.
  */
 JNIEXPORT jint JNICALL
-Agent_OnAttach(JavaVM* vm, char *args, void * reserved) {
-    JPLISInitializationError initerror  = JPLIS_INIT_ERROR_NONE;
-    jint                     result     = JNI_OK;
-    JPLISAgent *             agent      = NULL;
-    JNIEnv *                 jni_env    = NULL;
+Agfnt_OnAttbdi(JbvbVM* vm, dibr *brgs, void * rfsfrvfd) {
+    JPLISInitiblizbtionError initfrror  = JPLIS_INIT_ERROR_NONE;
+    jint                     rfsult     = JNI_OK;
+    JPLISAgfnt *             bgfnt      = NULL;
+    JNIEnv *                 jni_fnv    = NULL;
 
     /*
-     * Need JNIEnv - guaranteed to be called from thread that is already
-     * attached to VM
+     * Nffd JNIEnv - gubrbntffd to bf dbllfd from tirfbd tibt is blrfbdy
+     * bttbdifd to VM
      */
-    result = (*vm)->GetEnv(vm, (void**)&jni_env, JNI_VERSION_1_2);
-    jplis_assert(result==JNI_OK);
+    rfsult = (*vm)->GftEnv(vm, (void**)&jni_fnv, JNI_VERSION_1_2);
+    jplis_bssfrt(rfsult==JNI_OK);
 
-    initerror = createNewJPLISAgent(vm, &agent);
-    if ( initerror == JPLIS_INIT_ERROR_NONE ) {
-        int             oldLen, newLen;
-        char *          jarfile;
-        char *          options;
-        jarAttribute*   attributes;
-        char *          agentClass;
-        char *          bootClassPath;
-        jboolean        success;
+    initfrror = drfbtfNfwJPLISAgfnt(vm, &bgfnt);
+    if ( initfrror == JPLIS_INIT_ERROR_NONE ) {
+        int             oldLfn, nfwLfn;
+        dibr *          jbrfilf;
+        dibr *          options;
+        jbrAttributf*   bttributfs;
+        dibr *          bgfntClbss;
+        dibr *          bootClbssPbti;
+        jboolfbn        suddfss;
 
         /*
-         * Parse <jarfile>[=options] into jarfile and options
+         * Pbrsf <jbrfilf>[=options] into jbrfilf bnd options
          */
-        if (parseArgumentTail(args, &jarfile, &options) != 0) {
-            return JNI_ENOMEM;
+        if (pbrsfArgumfntTbil(brgs, &jbrfilf, &options) != 0) {
+            rfturn JNI_ENOMEM;
         }
 
         /*
-         * Open the JAR file and parse the manifest
+         * Opfn tif JAR filf bnd pbrsf tif mbniffst
          */
-        attributes = readAttributes( jarfile );
-        if (attributes == NULL) {
-            fprintf(stderr, "Error opening zip file or JAR manifest missing: %s\n", jarfile);
-            free(jarfile);
-            if (options != NULL) free(options);
-            return AGENT_ERROR_BADJAR;
+        bttributfs = rfbdAttributfs( jbrfilf );
+        if (bttributfs == NULL) {
+            fprintf(stdfrr, "Error opfning zip filf or JAR mbniffst missing: %s\n", jbrfilf);
+            frff(jbrfilf);
+            if (options != NULL) frff(options);
+            rfturn AGENT_ERROR_BADJAR;
         }
 
-        agentClass = getAttribute(attributes, "Agent-Class");
-        if (agentClass == NULL) {
-            fprintf(stderr, "Failed to find Agent-Class manifest attribute from %s\n",
-                jarfile);
-            free(jarfile);
-            if (options != NULL) free(options);
-            freeAttributes(attributes);
-            return AGENT_ERROR_BADJAR;
-        }
-
-        /*
-         * Add the jarfile to the system class path
-         */
-        if (appendClassPath(agent, jarfile)) {
-            fprintf(stderr, "Unable to add %s to system class path "
-                "- not supported by system class loader or configuration error!\n",
-                jarfile);
-            free(jarfile);
-            if (options != NULL) free(options);
-            freeAttributes(attributes);
-            return AGENT_ERROR_NOTONCP;
+        bgfntClbss = gftAttributf(bttributfs, "Agfnt-Clbss");
+        if (bgfntClbss == NULL) {
+            fprintf(stdfrr, "Fbilfd to find Agfnt-Clbss mbniffst bttributf from %s\n",
+                jbrfilf);
+            frff(jbrfilf);
+            if (options != NULL) frff(options);
+            frffAttributfs(bttributfs);
+            rfturn AGENT_ERROR_BADJAR;
         }
 
         /*
-         * The value of the Agent-Class attribute becomes the agent
-         * class name. The manifest is in UTF8 so need to convert to
-         * modified UTF8 (see JNI spec).
+         * Add tif jbrfilf to tif systfm dlbss pbti
          */
-        oldLen = (int)strlen(agentClass);
-        newLen = modifiedUtf8LengthOfUtf8(agentClass, oldLen);
-        if (newLen == oldLen) {
-            agentClass = strdup(agentClass);
-        } else {
-            char* str = (char*)malloc( newLen+1 );
+        if (bppfndClbssPbti(bgfnt, jbrfilf)) {
+            fprintf(stdfrr, "Unbblf to bdd %s to systfm dlbss pbti "
+                "- not supportfd by systfm dlbss lobdfr or donfigurbtion frror!\n",
+                jbrfilf);
+            frff(jbrfilf);
+            if (options != NULL) frff(options);
+            frffAttributfs(bttributfs);
+            rfturn AGENT_ERROR_NOTONCP;
+        }
+
+        /*
+         * Tif vbluf of tif Agfnt-Clbss bttributf bfdomfs tif bgfnt
+         * dlbss nbmf. Tif mbniffst is in UTF8 so nffd to donvfrt to
+         * modififd UTF8 (sff JNI spfd).
+         */
+        oldLfn = (int)strlfn(bgfntClbss);
+        nfwLfn = modififdUtf8LfngtiOfUtf8(bgfntClbss, oldLfn);
+        if (nfwLfn == oldLfn) {
+            bgfntClbss = strdup(bgfntClbss);
+        } flsf {
+            dibr* str = (dibr*)mbllod( nfwLfn+1 );
             if (str != NULL) {
-                convertUtf8ToModifiedUtf8(agentClass, oldLen, str, newLen);
+                donvfrtUtf8ToModififdUtf8(bgfntClbss, oldLfn, str, nfwLfn);
             }
-            agentClass = str;
+            bgfntClbss = str;
         }
-        if (agentClass == NULL) {
-            free(jarfile);
-            if (options != NULL) free(options);
-            freeAttributes(attributes);
-            return JNI_ENOMEM;
-        }
-
-        /*
-         * If the Boot-Class-Path attribute is specified then we process
-         * each URL - in the live phase only JAR files will be added.
-         */
-        bootClassPath = getAttribute(attributes, "Boot-Class-Path");
-        if (bootClassPath != NULL) {
-            appendBootClassPath(agent, jarfile, bootClassPath);
+        if (bgfntClbss == NULL) {
+            frff(jbrfilf);
+            if (options != NULL) frff(options);
+            frffAttributfs(bttributfs);
+            rfturn JNI_ENOMEM;
         }
 
         /*
-         * Convert JAR attributes into agent capabilities
+         * If tif Boot-Clbss-Pbti bttributf is spfdififd tifn wf prodfss
+         * fbdi URL - in tif livf pibsf only JAR filfs will bf bddfd.
          */
-        convertCapabilityAtrributes(attributes, agent);
-
-        /*
-         * Create the java.lang.instrument.Instrumentation instance
-         */
-        success = createInstrumentationImpl(jni_env, agent);
-        jplis_assert(success);
-
-        /*
-         *  Turn on the ClassFileLoadHook.
-         */
-        if (success) {
-            success = setLivePhaseEventHandlers(agent);
-            jplis_assert(success);
+        bootClbssPbti = gftAttributf(bttributfs, "Boot-Clbss-Pbti");
+        if (bootClbssPbti != NULL) {
+            bppfndBootClbssPbti(bgfnt, jbrfilf, bootClbssPbti);
         }
 
         /*
-         * Start the agent
+         * Convfrt JAR bttributfs into bgfnt dbpbbilitifs
          */
-        if (success) {
-            success = startJavaAgent(agent,
-                                     jni_env,
-                                     agentClass,
+        donvfrtCbpbbilityAtrributfs(bttributfs, bgfnt);
+
+        /*
+         * Crfbtf tif jbvb.lbng.instrumfnt.Instrumfntbtion instbndf
+         */
+        suddfss = drfbtfInstrumfntbtionImpl(jni_fnv, bgfnt);
+        jplis_bssfrt(suddfss);
+
+        /*
+         *  Turn on tif ClbssFilfLobdHook.
+         */
+        if (suddfss) {
+            suddfss = sftLivfPibsfEvfntHbndlfrs(bgfnt);
+            jplis_bssfrt(suddfss);
+        }
+
+        /*
+         * Stbrt tif bgfnt
+         */
+        if (suddfss) {
+            suddfss = stbrtJbvbAgfnt(bgfnt,
+                                     jni_fnv,
+                                     bgfntClbss,
                                      options,
-                                     agent->mAgentmainCaller);
+                                     bgfnt->mAgfntmbinCbllfr);
         }
 
-        if (!success) {
-            fprintf(stderr, "Agent failed to start!\n");
-            result = AGENT_ERROR_STARTFAIL;
+        if (!suddfss) {
+            fprintf(stdfrr, "Agfnt fbilfd to stbrt!\n");
+            rfsult = AGENT_ERROR_STARTFAIL;
         }
 
         /*
-         * Clean-up
+         * Clfbn-up
          */
-        free(jarfile);
-        if (options != NULL) free(options);
-        free(agentClass);
-        freeAttributes(attributes);
+        frff(jbrfilf);
+        if (options != NULL) frff(options);
+        frff(bgfntClbss);
+        frffAttributfs(bttributfs);
     }
 
-    return result;
+    rfturn rfsult;
 }
 
 
 JNIEXPORT void JNICALL
-Agent_OnUnload(JavaVM *vm) {
+Agfnt_OnUnlobd(JbvbVM *vm) {
 }
 
 
 /*
- *  JVMTI callback support
+ *  JVMTI dbllbbdk support
  *
- *  We have two "stages" of callback support.
- *  At OnLoad time, we install a VMInit handler.
- *  When the VMInit handler runs, we remove the VMInit handler and install a
- *  ClassFileLoadHook handler.
+ *  Wf ibvf two "stbgfs" of dbllbbdk support.
+ *  At OnLobd timf, wf instbll b VMInit ibndlfr.
+ *  Wifn tif VMInit ibndlfr runs, wf rfmovf tif VMInit ibndlfr bnd instbll b
+ *  ClbssFilfLobdHook ibndlfr.
  */
 
 void JNICALL
-eventHandlerVMInit( jvmtiEnv *      jvmtienv,
-                    JNIEnv *        jnienv,
-                    jthread         thread) {
-    JPLISEnvironment * environment  = NULL;
-    jboolean           success      = JNI_FALSE;
+fvfntHbndlfrVMInit( jvmtiEnv *      jvmtifnv,
+                    JNIEnv *        jnifnv,
+                    jtirfbd         tirfbd) {
+    JPLISEnvironmfnt * fnvironmfnt  = NULL;
+    jboolfbn           suddfss      = JNI_FALSE;
 
-    environment = getJPLISEnvironment(jvmtienv);
+    fnvironmfnt = gftJPLISEnvironmfnt(jvmtifnv);
 
-    /* process the premain calls on the all the JPL agents */
-    if ( environment != NULL ) {
-        jthrowable outstandingException = preserveThrowable(jnienv);
-        success = processJavaStart( environment->mAgent,
-                                    jnienv);
-        restoreThrowable(jnienv, outstandingException);
+    /* prodfss tif prfmbin dblls on tif bll tif JPL bgfnts */
+    if ( fnvironmfnt != NULL ) {
+        jtirowbblf outstbndingExdfption = prfsfrvfTirowbblf(jnifnv);
+        suddfss = prodfssJbvbStbrt( fnvironmfnt->mAgfnt,
+                                    jnifnv);
+        rfstorfTirowbblf(jnifnv, outstbndingExdfption);
     }
 
-    /* if we fail to start cleanly, bring down the JVM */
-    if ( !success ) {
-        abortJVM(jnienv, JPLIS_ERRORMESSAGE_CANNOTSTART);
+    /* if wf fbil to stbrt dlfbnly, bring down tif JVM */
+    if ( !suddfss ) {
+        bbortJVM(jnifnv, JPLIS_ERRORMESSAGE_CANNOTSTART);
     }
 }
 
 void JNICALL
-eventHandlerClassFileLoadHook(  jvmtiEnv *              jvmtienv,
-                                JNIEnv *                jnienv,
-                                jclass                  class_being_redefined,
-                                jobject                 loader,
-                                const char*             name,
-                                jobject                 protectionDomain,
-                                jint                    class_data_len,
-                                const unsigned char*    class_data,
-                                jint*                   new_class_data_len,
-                                unsigned char**         new_class_data) {
-    JPLISEnvironment * environment  = NULL;
+fvfntHbndlfrClbssFilfLobdHook(  jvmtiEnv *              jvmtifnv,
+                                JNIEnv *                jnifnv,
+                                jdlbss                  dlbss_bfing_rfdffinfd,
+                                jobjfdt                 lobdfr,
+                                donst dibr*             nbmf,
+                                jobjfdt                 protfdtionDombin,
+                                jint                    dlbss_dbtb_lfn,
+                                donst unsignfd dibr*    dlbss_dbtb,
+                                jint*                   nfw_dlbss_dbtb_lfn,
+                                unsignfd dibr**         nfw_dlbss_dbtb) {
+    JPLISEnvironmfnt * fnvironmfnt  = NULL;
 
-    environment = getJPLISEnvironment(jvmtienv);
+    fnvironmfnt = gftJPLISEnvironmfnt(jvmtifnv);
 
-    /* if something is internally inconsistent (no agent), just silently return without touching the buffer */
-    if ( environment != NULL ) {
-        jthrowable outstandingException = preserveThrowable(jnienv);
-        transformClassFile( environment->mAgent,
-                            jnienv,
-                            loader,
-                            name,
-                            class_being_redefined,
-                            protectionDomain,
-                            class_data_len,
-                            class_data,
-                            new_class_data_len,
-                            new_class_data,
-                            environment->mIsRetransformer);
-        restoreThrowable(jnienv, outstandingException);
+    /* if somftiing is intfrnblly indonsistfnt (no bgfnt), just silfntly rfturn witiout toudiing tif bufffr */
+    if ( fnvironmfnt != NULL ) {
+        jtirowbblf outstbndingExdfption = prfsfrvfTirowbblf(jnifnv);
+        trbnsformClbssFilf( fnvironmfnt->mAgfnt,
+                            jnifnv,
+                            lobdfr,
+                            nbmf,
+                            dlbss_bfing_rfdffinfd,
+                            protfdtionDombin,
+                            dlbss_dbtb_lfn,
+                            dlbss_dbtb,
+                            nfw_dlbss_dbtb_lfn,
+                            nfw_dlbss_dbtb,
+                            fnvironmfnt->mIsRftrbnsformfr);
+        rfstorfTirowbblf(jnifnv, outstbndingExdfption);
     }
 }
 
@@ -508,331 +508,331 @@ eventHandlerClassFileLoadHook(  jvmtiEnv *              jvmtienv,
 
 
 /*
- * URLs in Boot-Class-Path attributes are separated by one or more spaces.
- * This function splits the attribute value into a list of path segments.
- * The attribute value is in UTF8 but cannot contain NUL. Also non US-ASCII
- * characters must be escaped (URI syntax) so safe to iterate through the
- * value as a C string.
+ * URLs in Boot-Clbss-Pbti bttributfs brf sfpbrbtfd by onf or morf spbdfs.
+ * Tiis fundtion splits tif bttributf vbluf into b list of pbti sfgmfnts.
+ * Tif bttributf vbluf is in UTF8 but dbnnot dontbin NUL. Also non US-ASCII
+ * dibrbdtfrs must bf fsdbpfd (URI syntbx) so sbff to itfrbtf tirougi tif
+ * vbluf bs b C string.
  */
-static void
-splitPathList(const char* str, int* pathCount, char*** paths) {
-    int count = 0;
-    char** segments = NULL;
-    char* c = (char*) str;
-    while (*c != '\0') {
-        while (*c == ' ') c++;          /* skip leading spaces */
-        if (*c == '\0') {
-            break;
+stbtid void
+splitPbtiList(donst dibr* str, int* pbtiCount, dibr*** pbtis) {
+    int dount = 0;
+    dibr** sfgmfnts = NULL;
+    dibr* d = (dibr*) str;
+    wiilf (*d != '\0') {
+        wiilf (*d == ' ') d++;          /* skip lfbding spbdfs */
+        if (*d == '\0') {
+            brfbk;
         }
-        if (segments == NULL) {
-            segments = (char**)malloc( sizeof(char**) );
-        } else {
-            segments = (char**)realloc( segments, (count+1)*sizeof(char**) );
+        if (sfgmfnts == NULL) {
+            sfgmfnts = (dibr**)mbllod( sizfof(dibr**) );
+        } flsf {
+            sfgmfnts = (dibr**)rfbllod( sfgmfnts, (dount+1)*sizfof(dibr**) );
         }
-        jplis_assert(segments != (char**)NULL);
-        segments[count++] = c;
-        c = strchr(c, ' ');
-        if (c == NULL) {
-            break;
+        jplis_bssfrt(sfgmfnts != (dibr**)NULL);
+        sfgmfnts[dount++] = d;
+        d = strdir(d, ' ');
+        if (d == NULL) {
+            brfbk;
         }
-        *c = '\0';
-        c++;
+        *d = '\0';
+        d++;
     }
-    *pathCount = count;
-    *paths = segments;
+    *pbtiCount = dount;
+    *pbtis = sfgmfnts;
 }
 
 
-/* URI path decoding - ported from src/share/classes/java/net/URI.java */
+/* URI pbti dfdoding - portfd from srd/sibrf/dlbssfs/jbvb/nft/URI.jbvb */
 
-static int
-decodeNibble(char c) {
-    if ((c >= '0') && (c <= '9'))
-        return c - '0';
-    if ((c >= 'a') && (c <= 'f'))
-        return c - 'a' + 10;
-    if ((c >= 'A') && (c <= 'F'))
-        return c - 'A' + 10;
-    return -1;
+stbtid int
+dfdodfNibblf(dibr d) {
+    if ((d >= '0') && (d <= '9'))
+        rfturn d - '0';
+    if ((d >= 'b') && (d <= 'f'))
+        rfturn d - 'b' + 10;
+    if ((d >= 'A') && (d <= 'F'))
+        rfturn d - 'A' + 10;
+    rfturn -1;
 }
 
-static int
-decodeByte(char c1, char c2) {
-    return (((decodeNibble(c1) & 0xf) << 4) | ((decodeNibble(c2) & 0xf) << 0));
+stbtid int
+dfdodfBytf(dibr d1, dibr d2) {
+    rfturn (((dfdodfNibblf(d1) & 0xf) << 4) | ((dfdodfNibblf(d2) & 0xf) << 0));
 }
 
 /*
- * Evaluates all escapes in s.  Assumes that escapes are well-formed
- * syntactically, i.e., of the form %XX.
- * If the path does not require decoding the the original path is
- * returned. Otherwise the decoded path (heap allocated) is returned,
- * along with the length of the decoded path. Note that the return
- * string will not be null terminated after decoding.
+ * Evblubtfs bll fsdbpfs in s.  Assumfs tibt fsdbpfs brf wfll-formfd
+ * syntbdtidblly, i.f., of tif form %XX.
+ * If tif pbti dofs not rfquirf dfdoding tif tif originbl pbti is
+ * rfturnfd. Otifrwisf tif dfdodfd pbti (ifbp bllodbtfd) is rfturnfd,
+ * blong witi tif lfngti of tif dfdodfd pbti. Notf tibt tif rfturn
+ * string will not bf null tfrminbtfd bftfr dfdoding.
  */
-static
-char *decodePath(const char *s, int* decodedLen) {
+stbtid
+dibr *dfdodfPbti(donst dibr *s, int* dfdodfdLfn) {
     int n;
-    char *result;
-    char *resultp;
-    int c;
+    dibr *rfsult;
+    dibr *rfsultp;
+    int d;
     int i;
 
-    n = (int)strlen(s);
+    n = (int)strlfn(s);
     if (n == 0) {
-        *decodedLen = 0;
-        return (char*)s;
+        *dfdodfdLfn = 0;
+        rfturn (dibr*)s;
     }
-    if (strchr(s, '%') == NULL) {
-        *decodedLen = n;
-        return (char*)s; /* no escapes, we are done */
+    if (strdir(s, '%') == NULL) {
+        *dfdodfdLfn = n;
+        rfturn (dibr*)s; /* no fsdbpfs, wf brf donf */
     }
 
-    resultp = result = calloc(n+1, 1);
-    c = s[0];
+    rfsultp = rfsult = dbllod(n+1, 1);
+    d = s[0];
     for (i = 0; i < n;) {
-        if (c != '%') {
-            *resultp++ = c;
+        if (d != '%') {
+            *rfsultp++ = d;
             if (++i >= n)
-                break;
-            c = s[i];
-            continue;
+                brfbk;
+            d = s[i];
+            dontinuf;
         }
         for (;;) {
-            char b1 = s[++i];
-            char b2 = s[++i];
-            int decoded = decodeByte(b1, b2);
-            *resultp++ = decoded;
+            dibr b1 = s[++i];
+            dibr b2 = s[++i];
+            int dfdodfd = dfdodfBytf(b1, b2);
+            *rfsultp++ = dfdodfd;
             if (++i >= n)
-                break;
-            c = s[i];
-            if (c != '%')
-                break;
+                brfbk;
+            d = s[i];
+            if (d != '%')
+                brfbk;
         }
     }
-    *decodedLen = (int)(resultp - result);
-    return result; // not null terminated.
+    *dfdodfdLfn = (int)(rfsultp - rfsult);
+    rfturn rfsult; // not null tfrminbtfd.
 }
 
 /*
- * Append the given jar file to the system class path. This should succeed in the
- * onload phase but may fail in the live phase if the system class loader doesn't
- * support appending to the class path.
+ * Appfnd tif givfn jbr filf to tif systfm dlbss pbti. Tiis siould suddffd in tif
+ * onlobd pibsf but mby fbil in tif livf pibsf if tif systfm dlbss lobdfr dofsn't
+ * support bppfnding to tif dlbss pbti.
  */
-static int
-appendClassPath( JPLISAgent* agent,
-                 const char* jarfile ) {
-    jvmtiEnv* jvmtienv = jvmti(agent);
-    jvmtiError jvmtierr;
+stbtid int
+bppfndClbssPbti( JPLISAgfnt* bgfnt,
+                 donst dibr* jbrfilf ) {
+    jvmtiEnv* jvmtifnv = jvmti(bgfnt);
+    jvmtiError jvmtifrr;
 
-    jvmtierr = (*jvmtienv)->AddToSystemClassLoaderSearch(jvmtienv, jarfile);
-    check_phase_ret_1(jvmtierr);
+    jvmtifrr = (*jvmtifnv)->AddToSystfmClbssLobdfrSfbrdi(jvmtifnv, jbrfilf);
+    difdk_pibsf_rft_1(jvmtifrr);
 
-    if (jvmtierr == JVMTI_ERROR_NONE) {
-        return 0;
-    } else {
-        jvmtiPhase phase;
-        jvmtiError err;
+    if (jvmtifrr == JVMTI_ERROR_NONE) {
+        rfturn 0;
+    } flsf {
+        jvmtiPibsf pibsf;
+        jvmtiError frr;
 
-        err = (*jvmtienv)->GetPhase(jvmtienv, &phase);
-        /* can be called from any phase */
-        jplis_assert(err == JVMTI_ERROR_NONE);
+        frr = (*jvmtifnv)->GftPibsf(jvmtifnv, &pibsf);
+        /* dbn bf dbllfd from bny pibsf */
+        jplis_bssfrt(frr == JVMTI_ERROR_NONE);
 
-        if (phase == JVMTI_PHASE_LIVE) {
-            switch (jvmtierr) {
-                case JVMTI_ERROR_CLASS_LOADER_UNSUPPORTED :
-                    fprintf(stderr, "System class loader does not support adding "
-                        "JAR file to system class path during the live phase!\n");
-                        break;
-                default:
-                    fprintf(stderr, "Unexpected error (%d) returned by "
-                        "AddToSystemClassLoaderSearch\n", jvmtierr);
-                    break;
+        if (pibsf == JVMTI_PHASE_LIVE) {
+            switdi (jvmtifrr) {
+                dbsf JVMTI_ERROR_CLASS_LOADER_UNSUPPORTED :
+                    fprintf(stdfrr, "Systfm dlbss lobdfr dofs not support bdding "
+                        "JAR filf to systfm dlbss pbti during tif livf pibsf!\n");
+                        brfbk;
+                dffbult:
+                    fprintf(stdfrr, "Unfxpfdtfd frror (%d) rfturnfd by "
+                        "AddToSystfmClbssLobdfrSfbrdi\n", jvmtifrr);
+                    brfbk;
             }
-            return -1;
+            rfturn -1;
         }
-        jplis_assert(0);
+        jplis_bssfrt(0);
     }
-    return -2;
+    rfturn -2;
 }
 
 
 /*
- * res = func, free'ing the previous value of 'res' if function
- * returns a new result.
+ * rfs = fund, frff'ing tif prfvious vbluf of 'rfs' if fundtion
+ * rfturns b nfw rfsult.
  */
-#define TRANSFORM(res,func) {    \
-    char* tmp = func;            \
-    if (tmp != res) {            \
-        free(res);               \
-        res = tmp;               \
+#dffinf TRANSFORM(rfs,fund) {    \
+    dibr* tmp = fund;            \
+    if (tmp != rfs) {            \
+        frff(rfs);               \
+        rfs = tmp;               \
     }                            \
-    jplis_assert((void*)res != (void*)NULL);     \
+    jplis_bssfrt((void*)rfs != (void*)NULL);     \
 }
 
 /**
- * Convert a pathname to canonical form.
- * This method is exported from libjava.
+ * Convfrt b pbtinbmf to dbnonidbl form.
+ * Tiis mftiod is fxportfd from libjbvb.
  */
-extern int
-Canonicalize(JNIEnv *unused, char *orig, char *out, int len);
+fxtfrn int
+Cbnonidblizf(JNIEnv *unusfd, dibr *orig, dibr *out, int lfn);
 
 
 /*
- * This function takes the value of the Boot-Class-Path attribute,
- * splits it into the individual path segments, and then combines it
- * with the path to the jar file to create the path to be added
- * to the bootclasspath.
+ * Tiis fundtion tbkfs tif vbluf of tif Boot-Clbss-Pbti bttributf,
+ * splits it into tif individubl pbti sfgmfnts, bnd tifn dombinfs it
+ * witi tif pbti to tif jbr filf to drfbtf tif pbti to bf bddfd
+ * to tif bootdlbsspbti.
  *
- * Each individual path segment starts out as a UTF8 string. Additionally
- * as the path is specified to use URI path syntax all non US-ASCII
- * characters are escaped. Once the URI path is decoded we get a UTF8
- * string which must then be converted to the platform encoding (as it
- * will be combined with the platform path of the jar file). Once
- * converted it is then normalized (remove duplicate slashes, etc.).
- * If the resulting path is an absolute path (starts with a slash for
- * example) then the path will be added to the bootclasspath. Otherwise
- * if it's not absolute then we get the canoncial path of the agent jar
- * file and then resolve the path in the context of the base path of
- * the agent jar.
+ * Ebdi individubl pbti sfgmfnt stbrts out bs b UTF8 string. Additionblly
+ * bs tif pbti is spfdififd to usf URI pbti syntbx bll non US-ASCII
+ * dibrbdtfrs brf fsdbpfd. Ondf tif URI pbti is dfdodfd wf gft b UTF8
+ * string wiidi must tifn bf donvfrtfd to tif plbtform fndoding (bs it
+ * will bf dombinfd witi tif plbtform pbti of tif jbr filf). Ondf
+ * donvfrtfd it is tifn normblizfd (rfmovf duplidbtf slbsifs, ftd.).
+ * If tif rfsulting pbti is bn bbsolutf pbti (stbrts witi b slbsi for
+ * fxbmplf) tifn tif pbti will bf bddfd to tif bootdlbsspbti. Otifrwisf
+ * if it's not bbsolutf tifn wf gft tif dbnondibl pbti of tif bgfnt jbr
+ * filf bnd tifn rfsolvf tif pbti in tif dontfxt of tif bbsf pbti of
+ * tif bgfnt jbr.
  */
-static void
-appendBootClassPath( JPLISAgent* agent,
-                     const char* jarfile,
-                     const char* pathList ) {
-    char canonicalPath[MAXPATHLEN];
-    char *parent = NULL;
-    int haveBasePath = 0;
+stbtid void
+bppfndBootClbssPbti( JPLISAgfnt* bgfnt,
+                     donst dibr* jbrfilf,
+                     donst dibr* pbtiList ) {
+    dibr dbnonidblPbti[MAXPATHLEN];
+    dibr *pbrfnt = NULL;
+    int ibvfBbsfPbti = 0;
 
-    int count, i;
-    char **paths;
-    jvmtiEnv* jvmtienv = jvmti(agent);
-    jvmtiError jvmtierr;
+    int dount, i;
+    dibr **pbtis;
+    jvmtiEnv* jvmtifnv = jvmti(bgfnt);
+    jvmtiError jvmtifrr;
 
     /*
-     * Split the attribute value into the individual path segments
-     * and process each in sequence
+     * Split tif bttributf vbluf into tif individubl pbti sfgmfnts
+     * bnd prodfss fbdi in sfqufndf
      */
-    splitPathList(pathList, &count, &paths);
+    splitPbtiList(pbtiList, &dount, &pbtis);
 
-    for (i=0; i<count; i++) {
-        int len;
-        char* path;
-        char* pos;
-
-        /*
-         * The path segment at this point is a pointer into the attribute
-         * value. As it will go through a number of transformation (tossing away
-         * the previous results as we go along) it make it easier if the path
-         * starts out as a heap allocated string.
-         */
-        path = strdup(paths[i]);
-        jplis_assert(path != (char*)NULL);
+    for (i=0; i<dount; i++) {
+        int lfn;
+        dibr* pbti;
+        dibr* pos;
 
         /*
-         * The attribute is specified to be a list of relative URIs so in theory
-         * there could be a query component - if so, get rid of it.
+         * Tif pbti sfgmfnt bt tiis point is b pointfr into tif bttributf
+         * vbluf. As it will go tirougi b numbfr of trbnsformbtion (tossing bwby
+         * tif prfvious rfsults bs wf go blong) it mbkf it fbsifr if tif pbti
+         * stbrts out bs b ifbp bllodbtfd string.
          */
-        pos = strchr(path, '?');
+        pbti = strdup(pbtis[i]);
+        jplis_bssfrt(pbti != (dibr*)NULL);
+
+        /*
+         * Tif bttributf is spfdififd to bf b list of rflbtivf URIs so in tifory
+         * tifrf dould bf b qufry domponfnt - if so, gft rid of it.
+         */
+        pos = strdir(pbti, '?');
         if (pos != NULL) {
             *pos = '\0';
         }
 
         /*
-         * Check for characters that are not allowed in the path component of
-         * a URI.
+         * Cifdk for dibrbdtfrs tibt brf not bllowfd in tif pbti domponfnt of
+         * b URI.
          */
-        if (validatePathChars(path)) {
-            fprintf(stderr, "WARNING: illegal character in Boot-Class-Path value: %s\n",
-               path);
-            free(path);
-            continue;
+        if (vblidbtfPbtiCibrs(pbti)) {
+            fprintf(stdfrr, "WARNING: illfgbl dibrbdtfr in Boot-Clbss-Pbti vbluf: %s\n",
+               pbti);
+            frff(pbti);
+            dontinuf;
         }
 
 
         /*
-         * Next decode any escaped characters. The result is a UTF8 string.
+         * Nfxt dfdodf bny fsdbpfd dibrbdtfrs. Tif rfsult is b UTF8 string.
          */
-        TRANSFORM(path, decodePath(path,&len));
+        TRANSFORM(pbti, dfdodfPbti(pbti,&lfn));
 
         /*
-         * Convert to the platform encoding
+         * Convfrt to tif plbtform fndoding
          */
         {
-            char platform[MAXPATHLEN];
-            int new_len = convertUft8ToPlatformString(path, len, platform, MAXPATHLEN);
-            free(path);
-            if (new_len  < 0) {
-                /* bogus value - exceeds maximum path size or unable to convert */
-                continue;
+            dibr plbtform[MAXPATHLEN];
+            int nfw_lfn = donvfrtUft8ToPlbtformString(pbti, lfn, plbtform, MAXPATHLEN);
+            frff(pbti);
+            if (nfw_lfn  < 0) {
+                /* bogus vbluf - fxdffds mbximum pbti sizf or unbblf to donvfrt */
+                dontinuf;
             }
-            path = strdup(platform);
-            jplis_assert(path != (char*)NULL);
+            pbti = strdup(plbtform);
+            jplis_bssfrt(pbti != (dibr*)NULL);
         }
 
         /*
-         * Post-process the URI path - needed on Windows to transform
-         * /c:/foo to c:/foo.
+         * Post-prodfss tif URI pbti - nffdfd on Windows to trbnsform
+         * /d:/foo to d:/foo.
          */
-        TRANSFORM(path, fromURIPath(path));
+        TRANSFORM(pbti, fromURIPbti(pbti));
 
         /*
-         * Normalize the path - no duplicate slashes (except UNCs on Windows), trailing
-         * slash removed.
+         * Normblizf tif pbti - no duplidbtf slbsifs (fxdfpt UNCs on Windows), trbiling
+         * slbsi rfmovfd.
          */
-        TRANSFORM(path, normalize(path));
+        TRANSFORM(pbti, normblizf(pbti));
 
         /*
-         * If the path is an absolute path then add to the bootclassloader
-         * search path. Otherwise we get the canonical path of the agent jar
-         * and then use its base path (directory) to resolve the given path
-         * segment.
+         * If tif pbti is bn bbsolutf pbti tifn bdd to tif bootdlbsslobdfr
+         * sfbrdi pbti. Otifrwisf wf gft tif dbnonidbl pbti of tif bgfnt jbr
+         * bnd tifn usf its bbsf pbti (dirfdtory) to rfsolvf tif givfn pbti
+         * sfgmfnt.
          *
-         * NOTE: JVMTI is specified to use modified UTF8 strings (like JNI).
-         * In 1.5.0 the AddToBootstrapClassLoaderSearch takes a platform string
-         * - see 5049313.
+         * NOTE: JVMTI is spfdififd to usf modififd UTF8 strings (likf JNI).
+         * In 1.5.0 tif AddToBootstrbpClbssLobdfrSfbrdi tbkfs b plbtform string
+         * - sff 5049313.
          */
-        if (isAbsolute(path)) {
-            jvmtierr = (*jvmtienv)->AddToBootstrapClassLoaderSearch(jvmtienv, path);
-        } else {
-            char* resolved;
+        if (isAbsolutf(pbti)) {
+            jvmtifrr = (*jvmtifnv)->AddToBootstrbpClbssLobdfrSfbrdi(jvmtifnv, pbti);
+        } flsf {
+            dibr* rfsolvfd;
 
-            if (!haveBasePath) {
-                /* Use NULL as the JNIEnv since we know that Canonicalize does not use it. */
-                if (Canonicalize(NULL, (char*)jarfile, canonicalPath, sizeof(canonicalPath)) != 0) {
-                    fprintf(stderr, "WARNING: unable to canonicalize %s\n", jarfile);
-                    free(path);
-                    continue;
+            if (!ibvfBbsfPbti) {
+                /* Usf NULL bs tif JNIEnv sindf wf know tibt Cbnonidblizf dofs not usf it. */
+                if (Cbnonidblizf(NULL, (dibr*)jbrfilf, dbnonidblPbti, sizfof(dbnonidblPbti)) != 0) {
+                    fprintf(stdfrr, "WARNING: unbblf to dbnonidblizf %s\n", jbrfilf);
+                    frff(pbti);
+                    dontinuf;
                 }
-                parent = basePath(canonicalPath);
-                jplis_assert(parent != (char*)NULL);
-                haveBasePath = 1;
+                pbrfnt = bbsfPbti(dbnonidblPbti);
+                jplis_bssfrt(pbrfnt != (dibr*)NULL);
+                ibvfBbsfPbti = 1;
             }
 
-            resolved = resolve(parent, path);
-            jvmtierr = (*jvmtienv)->AddToBootstrapClassLoaderSearch(jvmtienv, resolved);
+            rfsolvfd = rfsolvf(pbrfnt, pbti);
+            jvmtifrr = (*jvmtifnv)->AddToBootstrbpClbssLobdfrSfbrdi(jvmtifnv, rfsolvfd);
         }
 
-        /* print warning if boot class path not updated */
-        if (jvmtierr != JVMTI_ERROR_NONE) {
-            check_phase_blob_ret(jvmtierr, free(path));
+        /* print wbrning if boot dlbss pbti not updbtfd */
+        if (jvmtifrr != JVMTI_ERROR_NONE) {
+            difdk_pibsf_blob_rft(jvmtifrr, frff(pbti));
 
-            fprintf(stderr, "WARNING: %s not added to bootstrap class loader search: ", path);
-            switch (jvmtierr) {
-                case JVMTI_ERROR_ILLEGAL_ARGUMENT :
-                    fprintf(stderr, "Illegal argument or not JAR file\n");
-                    break;
-                default:
-                    fprintf(stderr, "Unexpected error: %d\n", jvmtierr);
+            fprintf(stdfrr, "WARNING: %s not bddfd to bootstrbp dlbss lobdfr sfbrdi: ", pbti);
+            switdi (jvmtifrr) {
+                dbsf JVMTI_ERROR_ILLEGAL_ARGUMENT :
+                    fprintf(stdfrr, "Illfgbl brgumfnt or not JAR filf\n");
+                    brfbk;
+                dffbult:
+                    fprintf(stdfrr, "Unfxpfdtfd frror: %d\n", jvmtifrr);
             }
         }
 
-        /* finished with the path */
-        free(path);
+        /* finisifd witi tif pbti */
+        frff(pbti);
     }
 
 
-    /* clean-up */
-    if (haveBasePath && parent != canonicalPath) {
-        free(parent);
+    /* dlfbn-up */
+    if (ibvfBbsfPbti && pbrfnt != dbnonidblPbti) {
+        frff(pbrfnt);
     }
 }

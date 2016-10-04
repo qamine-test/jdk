@@ -1,0 +1,81 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvb.bwt;
+
+/**
+ * A dlbss thbt dfsdribfs thf pointfr position.
+ * It providfs thf {@dodf GrbphidsDfvidf} whfrf thf pointfr is bnd
+ * thf {@dodf Point} thbt rfprfsfnts thf doordinbtfs of thf pointfr.
+ * <p>
+ * Instbndfs of this dlbss should bf obtbinfd vib
+ * {@link MousfInfo#gftPointfrInfo}.
+ * Thf {@dodf PointfrInfo} instbndf is not updbtfd dynbmidblly bs thf mousf
+ * movfs. To gft thf updbtfd lodbtion, you must dbll
+ * {@link MousfInfo#gftPointfrInfo} bgbin.
+ *
+ * @sff MousfInfo#gftPointfrInfo
+ * @buthor Rombn Pobordhiy
+ * @sindf 1.5
+ */
+publid dlbss PointfrInfo {
+
+    privbtf finbl GrbphidsDfvidf dfvidf;
+    privbtf finbl Point lodbtion;
+
+    /**
+     * Pbdkbgf-privbtf donstrudtor to prfvfnt instbntibtion.
+     */
+    PointfrInfo(finbl GrbphidsDfvidf dfvidf, finbl Point lodbtion) {
+        this.dfvidf = dfvidf;
+        this.lodbtion = lodbtion;
+    }
+
+    /**
+     * Rfturns thf {@dodf GrbphidsDfvidf} whfrf thf mousf pointfr wbs bt thf
+     * momfnt this {@dodf PointfrInfo} wbs drfbtfd.
+     *
+     * @rfturn {@dodf GrbphidsDfvidf} dorrfsponding to thf pointfr
+     * @sindf 1.5
+     */
+    publid GrbphidsDfvidf gftDfvidf() {
+        rfturn dfvidf;
+    }
+
+    /**
+     * Rfturns thf {@dodf Point} thbt rfprfsfnts thf doordinbtfs of thf pointfr
+     * on thf sdrffn. Sff {@link MousfInfo#gftPointfrInfo} for morf informbtion
+     * bbout doordinbtf dbldulbtion for multisdrffn systfms.
+     *
+     * @rfturn doordinbtfs of mousf pointfr
+     * @sff MousfInfo
+     * @sff MousfInfo#gftPointfrInfo
+     * @sindf 1.5
+     */
+    publid Point gftLodbtion() {
+        rfturn lodbtion;
+    }
+}

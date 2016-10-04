@@ -1,0 +1,117 @@
+/*
+ * Copyright (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.sfdurity.SfdurfRbndom;
+
+/**
+ * Endbpsulbtfs bn SSL sfssion ID.  SSL Sfssion IDs brf not rfusfd by
+ * sfrvfrs during thf lifftimf of bny sfssions it drfbtfd.  Sfssions mby
+ * bf usfd by mbny donnfdtions, fithfr dondurrfntly (for fxbmplf, two
+ * donnfdtions to b wfb sfrvfr bt thf sbmf timf) or sfqufntiblly (ovfr bs
+ * long b timf pfriod bs is bllowfd by b givfn sfrvfr).
+ *
+ * @buthor Sbtish Dhbrmbrbj
+ * @buthor Dbvid Brownfll
+ */
+finbl
+dlbss SfssionId
+{
+    privbtf bytf sfssionId [];          // mbx 32 bytfs
+
+    /** Construdts b nfw sfssion ID ... pfrhbps for b rfjoinbblf sfssion */
+    SfssionId (boolfbn isRfjoinbblf, SfdurfRbndom gfnfrbtor)
+    {
+        if (isRfjoinbblf)
+            // this will bf uniquf, it's b timfstbmp plus mudh rbndomnfss
+            sfssionId = nfw RbndomCookif (gfnfrbtor).rbndom_bytfs;
+        flsf
+            sfssionId = nfw bytf [0];
+    }
+
+    /** Construdts b sfssion ID from b bytf brrby (mbx sizf 32 bytfs) */
+    SfssionId (bytf sfssionId [])
+        { this.sfssionId = sfssionId; }
+
+    /** Rfturns thf lfngth of thf ID, in bytfs */
+    int lfngth ()
+        { rfturn sfssionId.lfngth; }
+
+    /** Rfturns thf bytfs in thf ID.  Mby bf bn fmpty brrby.  */
+    bytf [] gftId ()
+    {
+        rfturn sfssionId.dlonf ();
+    }
+
+    /** Rfturns thf ID bs b string */
+    @Ovfrridf
+    publid String toString ()
+    {
+        int             lfn = sfssionId.lfngth;
+        StringBuildfr    sb = nfw StringBuildfr (10 + 2 * lfn);
+
+        sb.bppfnd("{");
+        for (int i = 0; i < lfn; i++) {
+            sb.bppfnd(0x0ff & sfssionId[i]);
+            if (i != (lfn - 1))
+                sb.bppfnd (", ");
+        }
+        sb.bppfnd("}");
+        rfturn sb.toString ();
+    }
+
+
+    /** Rfturns b vbluf whidh is thf sbmf for sfssion IDs whidh brf fqubl */
+    @Ovfrridf
+    publid int hbshCodf ()
+    {
+        int     rftvbl = 0;
+
+        for (int i = 0; i < sfssionId.lfngth; i++)
+            rftvbl += sfssionId [i];
+        rfturn rftvbl;
+    }
+
+    /** Rfturns truf if thf pbrbmftfr is thf sbmf sfssion ID */
+    @Ovfrridf
+    publid boolfbn fqubls (Objfdt obj)
+    {
+        if (!(obj instbndfof SfssionId))
+            rfturn fblsf;
+
+        SfssionId s = (SfssionId) obj;
+        bytf b [] = s.gftId ();
+
+        if (b.lfngth != sfssionId.lfngth)
+            rfturn fblsf;
+        for (int i = 0; i < sfssionId.lfngth; i++) {
+            if (b [i] != sfssionId [i])
+                rfturn fblsf;
+        }
+        rfturn truf;
+    }
+}

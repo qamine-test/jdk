@@ -1,510 +1,510 @@
 /*
- * Copyright (c) 1994, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <string.h>
+#indludf <string.i>
 
-#include "jni.h"
-#include "jni_util.h"
-#include "jvm.h"
-#include "java_props.h"
+#indludf "jni.i"
+#indludf "jni_util.i"
+#indludf "jvm.i"
+#indludf "jbvb_props.i"
 
-#include "java_lang_System.h"
+#indludf "jbvb_lbng_Systfm.i"
 
-#define OBJ "Ljava/lang/Object;"
+#dffinf OBJ "Ljbvb/lbng/Objfdt;"
 
-/* Only register the performance-critical methods */
-static JNINativeMethod methods[] = {
-    {"currentTimeMillis", "()J",              (void *)&JVM_CurrentTimeMillis},
-    {"nanoTime",          "()J",              (void *)&JVM_NanoTime},
-    {"arraycopy",     "(" OBJ "I" OBJ "II)V", (void *)&JVM_ArrayCopy},
+/* Only rfgistfr tif pfrformbndf-dritidbl mftiods */
+stbtid JNINbtivfMftiod mftiods[] = {
+    {"durrfntTimfMillis", "()J",              (void *)&JVM_CurrfntTimfMillis},
+    {"nbnoTimf",          "()J",              (void *)&JVM_NbnoTimf},
+    {"brrbydopy",     "(" OBJ "I" OBJ "II)V", (void *)&JVM_ArrbyCopy},
 };
 
-#undef OBJ
+#undff OBJ
 
 JNIEXPORT void JNICALL
-Java_java_lang_System_registerNatives(JNIEnv *env, jclass cls)
+Jbvb_jbvb_lbng_Systfm_rfgistfrNbtivfs(JNIEnv *fnv, jdlbss dls)
 {
-    (*env)->RegisterNatives(env, cls,
-                            methods, sizeof(methods)/sizeof(methods[0]));
+    (*fnv)->RfgistfrNbtivfs(fnv, dls,
+                            mftiods, sizfof(mftiods)/sizfof(mftiods[0]));
 }
 
 JNIEXPORT jint JNICALL
-Java_java_lang_System_identityHashCode(JNIEnv *env, jobject this, jobject x)
+Jbvb_jbvb_lbng_Systfm_idfntityHbsiCodf(JNIEnv *fnv, jobjfdt tiis, jobjfdt x)
 {
-    return JVM_IHashCode(env, x);
+    rfturn JVM_IHbsiCodf(fnv, x);
 }
 
-#define PUTPROP(props, key, val)                                     \
+#dffinf PUTPROP(props, kfy, vbl)                                     \
     if (1) {                                                         \
-        jstring jkey, jval;                                          \
-        jobject r;                                                   \
-        jkey = (*env)->NewStringUTF(env, key);                       \
-        if (jkey == NULL) return NULL;                               \
-        jval = (*env)->NewStringUTF(env, val);                       \
-        if (jval == NULL) return NULL;                               \
-        r = (*env)->CallObjectMethod(env, props, putID, jkey, jval); \
-        if ((*env)->ExceptionOccurred(env)) return NULL;             \
-        (*env)->DeleteLocalRef(env, jkey);                           \
-        (*env)->DeleteLocalRef(env, jval);                           \
-        (*env)->DeleteLocalRef(env, r);                              \
-    } else ((void) 0)
+        jstring jkfy, jvbl;                                          \
+        jobjfdt r;                                                   \
+        jkfy = (*fnv)->NfwStringUTF(fnv, kfy);                       \
+        if (jkfy == NULL) rfturn NULL;                               \
+        jvbl = (*fnv)->NfwStringUTF(fnv, vbl);                       \
+        if (jvbl == NULL) rfturn NULL;                               \
+        r = (*fnv)->CbllObjfdtMftiod(fnv, props, putID, jkfy, jvbl); \
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn NULL;             \
+        (*fnv)->DflftfLodblRff(fnv, jkfy);                           \
+        (*fnv)->DflftfLodblRff(fnv, jvbl);                           \
+        (*fnv)->DflftfLodblRff(fnv, r);                              \
+    } flsf ((void) 0)
 
-/*  "key" is a char type string with only ASCII character in it.
-    "val" is a nchar (typedefed in java_props.h) type string  */
+/*  "kfy" is b dibr typf string witi only ASCII dibrbdtfr in it.
+    "vbl" is b ndibr (typfdfffd in jbvb_props.i) typf string  */
 
-#define PUTPROP_ForPlatformNString(props, key, val)                  \
+#dffinf PUTPROP_ForPlbtformNString(props, kfy, vbl)                  \
     if (1) {                                                         \
-        jstring jkey, jval;                                          \
-        jobject r;                                                   \
-        jkey = (*env)->NewStringUTF(env, key);                       \
-        if (jkey == NULL) return NULL;                               \
-        jval = GetStringPlatform(env, val);                          \
-        if (jval == NULL) return NULL;                               \
-        r = (*env)->CallObjectMethod(env, props, putID, jkey, jval); \
-        if ((*env)->ExceptionOccurred(env)) return NULL;             \
-        (*env)->DeleteLocalRef(env, jkey);                           \
-        (*env)->DeleteLocalRef(env, jval);                           \
-        (*env)->DeleteLocalRef(env, r);                              \
-    } else ((void) 0)
-#define REMOVEPROP(props, key)                                    \
+        jstring jkfy, jvbl;                                          \
+        jobjfdt r;                                                   \
+        jkfy = (*fnv)->NfwStringUTF(fnv, kfy);                       \
+        if (jkfy == NULL) rfturn NULL;                               \
+        jvbl = GftStringPlbtform(fnv, vbl);                          \
+        if (jvbl == NULL) rfturn NULL;                               \
+        r = (*fnv)->CbllObjfdtMftiod(fnv, props, putID, jkfy, jvbl); \
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn NULL;             \
+        (*fnv)->DflftfLodblRff(fnv, jkfy);                           \
+        (*fnv)->DflftfLodblRff(fnv, jvbl);                           \
+        (*fnv)->DflftfLodblRff(fnv, r);                              \
+    } flsf ((void) 0)
+#dffinf REMOVEPROP(props, kfy)                                    \
     if (1) {                                                      \
-        jstring jkey;                                             \
-        jobject r;                                                \
-        jkey = JNU_NewStringPlatform(env, key);                   \
-        if (jkey == NULL) return NULL;                            \
-        r = (*env)->CallObjectMethod(env, props, removeID, jkey); \
-        if ((*env)->ExceptionOccurred(env)) return NULL;          \
-        (*env)->DeleteLocalRef(env, jkey);                        \
-        (*env)->DeleteLocalRef(env, r);                           \
-    } else ((void) 0)
-#define GETPROP(props, key, jret)                                     \
+        jstring jkfy;                                             \
+        jobjfdt r;                                                \
+        jkfy = JNU_NfwStringPlbtform(fnv, kfy);                   \
+        if (jkfy == NULL) rfturn NULL;                            \
+        r = (*fnv)->CbllObjfdtMftiod(fnv, props, rfmovfID, jkfy); \
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn NULL;          \
+        (*fnv)->DflftfLodblRff(fnv, jkfy);                        \
+        (*fnv)->DflftfLodblRff(fnv, r);                           \
+    } flsf ((void) 0)
+#dffinf GETPROP(props, kfy, jrft)                                     \
     if (1) {                                                          \
-        jstring jkey = JNU_NewStringPlatform(env, key);               \
-        if (jkey == NULL) return NULL;                                \
-        jret = (*env)->CallObjectMethod(env, props, getPropID, jkey); \
-        if ((*env)->ExceptionOccurred(env)) return NULL;              \
-        (*env)->DeleteLocalRef(env, jkey);                            \
-    } else ((void) 0)
+        jstring jkfy = JNU_NfwStringPlbtform(fnv, kfy);               \
+        if (jkfy == NULL) rfturn NULL;                                \
+        jrft = (*fnv)->CbllObjfdtMftiod(fnv, props, gftPropID, jkfy); \
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) rfturn NULL;              \
+        (*fnv)->DflftfLodblRff(fnv, jkfy);                            \
+    } flsf ((void) 0)
 
-#ifndef VENDOR /* Third party may overwrite this. */
-#define VENDOR "Oracle Corporation"
-#define VENDOR_URL "http://java.oracle.com/"
-#define VENDOR_URL_BUG "http://bugreport.sun.com/bugreport/"
-#endif
+#ifndff VENDOR /* Tiird pbrty mby ovfrwritf tiis. */
+#dffinf VENDOR "Orbdlf Corporbtion"
+#dffinf VENDOR_URL "ittp://jbvb.orbdlf.dom/"
+#dffinf VENDOR_URL_BUG "ittp://bugrfport.sun.dom/bugrfport/"
+#fndif
 
-#define JAVA_MAX_SUPPORTED_VERSION 52
-#define JAVA_MAX_SUPPORTED_MINOR_VERSION 0
+#dffinf JAVA_MAX_SUPPORTED_VERSION 52
+#dffinf JAVA_MAX_SUPPORTED_MINOR_VERSION 0
 
-#ifdef JAVA_SPECIFICATION_VENDOR /* Third party may NOT overwrite this. */
-  #error "ERROR: No override of JAVA_SPECIFICATION_VENDOR is allowed"
-#else
-  #define JAVA_SPECIFICATION_VENDOR "Oracle Corporation"
-#endif
+#ifdff JAVA_SPECIFICATION_VENDOR /* Tiird pbrty mby NOT ovfrwritf tiis. */
+  #frror "ERROR: No ovfrridf of JAVA_SPECIFICATION_VENDOR is bllowfd"
+#flsf
+  #dffinf JAVA_SPECIFICATION_VENDOR "Orbdlf Corporbtion"
+#fndif
 
-static int fmtdefault; // boolean value
-jobject fillI18nProps(JNIEnv *env, jobject props, char *baseKey,
-                      char *platformDispVal, char *platformFmtVal,
-                      jmethodID putID, jmethodID getPropID) {
-    jstring jVMBaseVal = NULL;
+stbtid int fmtdffbult; // boolfbn vbluf
+jobjfdt fillI18nProps(JNIEnv *fnv, jobjfdt props, dibr *bbsfKfy,
+                      dibr *plbtformDispVbl, dibr *plbtformFmtVbl,
+                      jmftiodID putID, jmftiodID gftPropID) {
+    jstring jVMBbsfVbl = NULL;
 
-    GETPROP(props, baseKey, jVMBaseVal);
-    if (jVMBaseVal) {
-        // user specified the base property.  there's nothing to do here.
-        (*env)->DeleteLocalRef(env, jVMBaseVal);
-    } else {
-        char buf[64];
-        jstring jVMVal = NULL;
-        const char *baseVal = "";
+    GETPROP(props, bbsfKfy, jVMBbsfVbl);
+    if (jVMBbsfVbl) {
+        // usfr spfdififd tif bbsf propfrty.  tifrf's notiing to do ifrf.
+        (*fnv)->DflftfLodblRff(fnv, jVMBbsfVbl);
+    } flsf {
+        dibr buf[64];
+        jstring jVMVbl = NULL;
+        donst dibr *bbsfVbl = "";
 
-        /* user.xxx base property */
-        if (fmtdefault) {
-            if (platformFmtVal) {
-                PUTPROP(props, baseKey, platformFmtVal);
-                baseVal = platformFmtVal;
+        /* usfr.xxx bbsf propfrty */
+        if (fmtdffbult) {
+            if (plbtformFmtVbl) {
+                PUTPROP(props, bbsfKfy, plbtformFmtVbl);
+                bbsfVbl = plbtformFmtVbl;
             }
-        } else {
-            if (platformDispVal) {
-                PUTPROP(props, baseKey, platformDispVal);
-                baseVal = platformDispVal;
+        } flsf {
+            if (plbtformDispVbl) {
+                PUTPROP(props, bbsfKfy, plbtformDispVbl);
+                bbsfVbl = plbtformDispVbl;
             }
         }
 
-        /* user.xxx.display property */
-        jio_snprintf(buf, sizeof(buf), "%s.display", baseKey);
-        GETPROP(props, buf, jVMVal);
-        if (jVMVal == NULL) {
-            if (platformDispVal && (strcmp(baseVal, platformDispVal) != 0)) {
-                PUTPROP(props, buf, platformDispVal);
+        /* usfr.xxx.displby propfrty */
+        jio_snprintf(buf, sizfof(buf), "%s.displby", bbsfKfy);
+        GETPROP(props, buf, jVMVbl);
+        if (jVMVbl == NULL) {
+            if (plbtformDispVbl && (strdmp(bbsfVbl, plbtformDispVbl) != 0)) {
+                PUTPROP(props, buf, plbtformDispVbl);
             }
-        } else {
-            (*env)->DeleteLocalRef(env, jVMVal);
+        } flsf {
+            (*fnv)->DflftfLodblRff(fnv, jVMVbl);
         }
 
-        /* user.xxx.format property */
-        jio_snprintf(buf, sizeof(buf), "%s.format", baseKey);
-        GETPROP(props, buf, jVMVal);
-        if (jVMVal == NULL) {
-            if (platformFmtVal && (strcmp(baseVal, platformFmtVal) != 0)) {
-                PUTPROP(props, buf, platformFmtVal);
+        /* usfr.xxx.formbt propfrty */
+        jio_snprintf(buf, sizfof(buf), "%s.formbt", bbsfKfy);
+        GETPROP(props, buf, jVMVbl);
+        if (jVMVbl == NULL) {
+            if (plbtformFmtVbl && (strdmp(bbsfVbl, plbtformFmtVbl) != 0)) {
+                PUTPROP(props, buf, plbtformFmtVbl);
             }
-        } else {
-            (*env)->DeleteLocalRef(env, jVMVal);
+        } flsf {
+            (*fnv)->DflftfLodblRff(fnv, jVMVbl);
         }
     }
 
-    return NULL;
+    rfturn NULL;
 }
 
-JNIEXPORT jobject JNICALL
-Java_java_lang_System_initProperties(JNIEnv *env, jclass cla, jobject props)
+JNIEXPORT jobjfdt JNICALL
+Jbvb_jbvb_lbng_Systfm_initPropfrtifs(JNIEnv *fnv, jdlbss dlb, jobjfdt props)
 {
-    char buf[128];
-    java_props_t *sprops;
-    jmethodID putID, removeID, getPropID;
-    jobject ret = NULL;
-    jstring jVMVal = NULL;
+    dibr buf[128];
+    jbvb_props_t *sprops;
+    jmftiodID putID, rfmovfID, gftPropID;
+    jobjfdt rft = NULL;
+    jstring jVMVbl = NULL;
 
-    sprops = GetJavaProperties(env);
+    sprops = GftJbvbPropfrtifs(fnv);
     CHECK_NULL_RETURN(sprops, NULL);
 
-    putID = (*env)->GetMethodID(env,
-                                (*env)->GetObjectClass(env, props),
+    putID = (*fnv)->GftMftiodID(fnv,
+                                (*fnv)->GftObjfdtClbss(fnv, props),
                                 "put",
-            "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;");
+            "(Ljbvb/lbng/Objfdt;Ljbvb/lbng/Objfdt;)Ljbvb/lbng/Objfdt;");
     CHECK_NULL_RETURN(putID, NULL);
 
-    removeID = (*env)->GetMethodID(env,
-                                   (*env)->GetObjectClass(env, props),
-                                   "remove",
-            "(Ljava/lang/Object;)Ljava/lang/Object;");
-    CHECK_NULL_RETURN(removeID, NULL);
+    rfmovfID = (*fnv)->GftMftiodID(fnv,
+                                   (*fnv)->GftObjfdtClbss(fnv, props),
+                                   "rfmovf",
+            "(Ljbvb/lbng/Objfdt;)Ljbvb/lbng/Objfdt;");
+    CHECK_NULL_RETURN(rfmovfID, NULL);
 
-    getPropID = (*env)->GetMethodID(env,
-                                    (*env)->GetObjectClass(env, props),
-                                    "getProperty",
-            "(Ljava/lang/String;)Ljava/lang/String;");
-    CHECK_NULL_RETURN(getPropID, NULL);
+    gftPropID = (*fnv)->GftMftiodID(fnv,
+                                    (*fnv)->GftObjfdtClbss(fnv, props),
+                                    "gftPropfrty",
+            "(Ljbvb/lbng/String;)Ljbvb/lbng/String;");
+    CHECK_NULL_RETURN(gftPropID, NULL);
 
-    PUTPROP(props, "java.specification.version",
+    PUTPROP(props, "jbvb.spfdifidbtion.vfrsion",
             JDK_MAJOR_VERSION "." JDK_MINOR_VERSION);
-    PUTPROP(props, "java.specification.name",
-            "Java Platform API Specification");
-    PUTPROP(props, "java.specification.vendor",
+    PUTPROP(props, "jbvb.spfdifidbtion.nbmf",
+            "Jbvb Plbtform API Spfdifidbtion");
+    PUTPROP(props, "jbvb.spfdifidbtion.vfndor",
             JAVA_SPECIFICATION_VENDOR);
 
-    PUTPROP(props, "java.version", RELEASE);
-    PUTPROP(props, "java.vendor", VENDOR);
-    PUTPROP(props, "java.vendor.url", VENDOR_URL);
-    PUTPROP(props, "java.vendor.url.bug", VENDOR_URL_BUG);
+    PUTPROP(props, "jbvb.vfrsion", RELEASE);
+    PUTPROP(props, "jbvb.vfndor", VENDOR);
+    PUTPROP(props, "jbvb.vfndor.url", VENDOR_URL);
+    PUTPROP(props, "jbvb.vfndor.url.bug", VENDOR_URL_BUG);
 
-    jio_snprintf(buf, sizeof(buf), "%d.%d", JAVA_MAX_SUPPORTED_VERSION,
+    jio_snprintf(buf, sizfof(buf), "%d.%d", JAVA_MAX_SUPPORTED_VERSION,
                                             JAVA_MAX_SUPPORTED_MINOR_VERSION);
-    PUTPROP(props, "java.class.version", buf);
+    PUTPROP(props, "jbvb.dlbss.vfrsion", buf);
 
-    if (sprops->awt_toolkit) {
-        PUTPROP(props, "awt.toolkit", sprops->awt_toolkit);
+    if (sprops->bwt_toolkit) {
+        PUTPROP(props, "bwt.toolkit", sprops->bwt_toolkit);
     }
-#ifdef MACOSX
-    if (sprops->awt_headless) {
-        PUTPROP(props, "java.awt.headless", sprops->awt_headless);
+#ifdff MACOSX
+    if (sprops->bwt_ifbdlfss) {
+        PUTPROP(props, "jbvb.bwt.ifbdlfss", sprops->bwt_ifbdlfss);
     }
-#endif
+#fndif
 
-    /* os properties */
-    PUTPROP(props, "os.name", sprops->os_name);
-    PUTPROP(props, "os.version", sprops->os_version);
-    PUTPROP(props, "os.arch", sprops->os_arch);
+    /* os propfrtifs */
+    PUTPROP(props, "os.nbmf", sprops->os_nbmf);
+    PUTPROP(props, "os.vfrsion", sprops->os_vfrsion);
+    PUTPROP(props, "os.brdi", sprops->os_brdi);
 
-#ifdef JDK_ARCH_ABI_PROP_NAME
-    PUTPROP(props, "sun.arch.abi", sprops->sun_arch_abi);
-#endif
+#ifdff JDK_ARCH_ABI_PROP_NAME
+    PUTPROP(props, "sun.brdi.bbi", sprops->sun_brdi_bbi);
+#fndif
 
-    /* file system properties */
-    PUTPROP(props, "file.separator", sprops->file_separator);
-    PUTPROP(props, "path.separator", sprops->path_separator);
-    PUTPROP(props, "line.separator", sprops->line_separator);
+    /* filf systfm propfrtifs */
+    PUTPROP(props, "filf.sfpbrbtor", sprops->filf_sfpbrbtor);
+    PUTPROP(props, "pbti.sfpbrbtor", sprops->pbti_sfpbrbtor);
+    PUTPROP(props, "linf.sfpbrbtor", sprops->linf_sfpbrbtor);
 
     /*
-     *  user.language
-     *  user.script, user.country, user.variant (if user's environment specifies them)
-     *  file.encoding
-     *  file.encoding.pkg
+     *  usfr.lbngubgf
+     *  usfr.sdript, usfr.dountry, usfr.vbribnt (if usfr's fnvironmfnt spfdififs tifm)
+     *  filf.fndoding
+     *  filf.fndoding.pkg
      */
-    PUTPROP(props, "user.language", sprops->language);
-    if (sprops->script) {
-        PUTPROP(props, "user.script", sprops->script);
+    PUTPROP(props, "usfr.lbngubgf", sprops->lbngubgf);
+    if (sprops->sdript) {
+        PUTPROP(props, "usfr.sdript", sprops->sdript);
     }
-    if (sprops->country) {
-        PUTPROP(props, "user.country", sprops->country);
+    if (sprops->dountry) {
+        PUTPROP(props, "usfr.dountry", sprops->dountry);
     }
-    if (sprops->variant) {
-        PUTPROP(props, "user.variant", sprops->variant);
+    if (sprops->vbribnt) {
+        PUTPROP(props, "usfr.vbribnt", sprops->vbribnt);
     }
-    PUTPROP(props, "file.encoding", sprops->encoding);
-    PUTPROP(props, "sun.jnu.encoding", sprops->sun_jnu_encoding);
-    if (sprops->sun_stdout_encoding != NULL) {
-        PUTPROP(props, "sun.stdout.encoding", sprops->sun_stdout_encoding);
+    PUTPROP(props, "filf.fndoding", sprops->fndoding);
+    PUTPROP(props, "sun.jnu.fndoding", sprops->sun_jnu_fndoding);
+    if (sprops->sun_stdout_fndoding != NULL) {
+        PUTPROP(props, "sun.stdout.fndoding", sprops->sun_stdout_fndoding);
     }
-    if (sprops->sun_stderr_encoding != NULL) {
-        PUTPROP(props, "sun.stderr.encoding", sprops->sun_stderr_encoding);
+    if (sprops->sun_stdfrr_fndoding != NULL) {
+        PUTPROP(props, "sun.stdfrr.fndoding", sprops->sun_stdfrr_fndoding);
     }
-    PUTPROP(props, "file.encoding.pkg", "sun.io");
+    PUTPROP(props, "filf.fndoding.pkg", "sun.io");
 
-    /* unicode_encoding specifies the default endianness */
-    PUTPROP(props, "sun.io.unicode.encoding", sprops->unicode_encoding);
-    PUTPROP(props, "sun.cpu.isalist",
-            (sprops->cpu_isalist ? sprops->cpu_isalist : ""));
-    PUTPROP(props, "sun.cpu.endian",  sprops->cpu_endian);
+    /* unidodf_fndoding spfdififs tif dffbult fndibnnfss */
+    PUTPROP(props, "sun.io.unidodf.fndoding", sprops->unidodf_fndoding);
+    PUTPROP(props, "sun.dpu.isblist",
+            (sprops->dpu_isblist ? sprops->dpu_isblist : ""));
+    PUTPROP(props, "sun.dpu.fndibn",  sprops->dpu_fndibn);
 
 
-#ifdef MACOSX
-    /* Proxy setting properties */
-    if (sprops->httpProxyEnabled) {
-        PUTPROP(props, "http.proxyHost", sprops->httpHost);
-        PUTPROP(props, "http.proxyPort", sprops->httpPort);
-    }
-
-    if (sprops->httpsProxyEnabled) {
-        PUTPROP(props, "https.proxyHost", sprops->httpsHost);
-        PUTPROP(props, "https.proxyPort", sprops->httpsPort);
+#ifdff MACOSX
+    /* Proxy sftting propfrtifs */
+    if (sprops->ittpProxyEnbblfd) {
+        PUTPROP(props, "ittp.proxyHost", sprops->ittpHost);
+        PUTPROP(props, "ittp.proxyPort", sprops->ittpPort);
     }
 
-    if (sprops->ftpProxyEnabled) {
+    if (sprops->ittpsProxyEnbblfd) {
+        PUTPROP(props, "ittps.proxyHost", sprops->ittpsHost);
+        PUTPROP(props, "ittps.proxyPort", sprops->ittpsPort);
+    }
+
+    if (sprops->ftpProxyEnbblfd) {
         PUTPROP(props, "ftp.proxyHost", sprops->ftpHost);
         PUTPROP(props, "ftp.proxyPort", sprops->ftpPort);
     }
 
-    if (sprops->socksProxyEnabled) {
-        PUTPROP(props, "socksProxyHost", sprops->socksHost);
-        PUTPROP(props, "socksProxyPort", sprops->socksPort);
+    if (sprops->sodksProxyEnbblfd) {
+        PUTPROP(props, "sodksProxyHost", sprops->sodksHost);
+        PUTPROP(props, "sodksProxyPort", sprops->sodksPort);
     }
 
-    if (sprops->gopherProxyEnabled) {
-        // The gopher client is different in that it expects an 'is this set?' flag that the others don't.
-        PUTPROP(props, "gopherProxySet", "true");
-        PUTPROP(props, "gopherProxyHost", sprops->gopherHost);
-        PUTPROP(props, "gopherProxyPort", sprops->gopherPort);
-    } else {
-        PUTPROP(props, "gopherProxySet", "false");
+    if (sprops->gopifrProxyEnbblfd) {
+        // Tif gopifr dlifnt is difffrfnt in tibt it fxpfdts bn 'is tiis sft?' flbg tibt tif otifrs don't.
+        PUTPROP(props, "gopifrProxySft", "truf");
+        PUTPROP(props, "gopifrProxyHost", sprops->gopifrHost);
+        PUTPROP(props, "gopifrProxyPort", sprops->gopifrPort);
+    } flsf {
+        PUTPROP(props, "gopifrProxySft", "fblsf");
     }
 
-    // Mac OS X only has a single proxy exception list which applies
-    // to all protocols
-    if (sprops->exceptionList) {
-        PUTPROP(props, "http.nonProxyHosts", sprops->exceptionList);
-        // HTTPS: implementation in jsse.jar uses http.nonProxyHosts
-        PUTPROP(props, "ftp.nonProxyHosts", sprops->exceptionList);
-        PUTPROP(props, "socksNonProxyHosts", sprops->exceptionList);
+    // Mbd OS X only ibs b singlf proxy fxdfption list wiidi bpplifs
+    // to bll protodols
+    if (sprops->fxdfptionList) {
+        PUTPROP(props, "ittp.nonProxyHosts", sprops->fxdfptionList);
+        // HTTPS: implfmfntbtion in jssf.jbr usfs ittp.nonProxyHosts
+        PUTPROP(props, "ftp.nonProxyHosts", sprops->fxdfptionList);
+        PUTPROP(props, "sodksNonProxyHosts", sprops->fxdfptionList);
     }
-#endif
+#fndif
 
-    /* !!! DO NOT call PUTPROP_ForPlatformNString before this line !!!
-     * !!! I18n properties have not been set up yet !!!
+    /* !!! DO NOT dbll PUTPROP_ForPlbtformNString bfforf tiis linf !!!
+     * !!! I18n propfrtifs ibvf not bffn sft up yft !!!
      */
 
-    /* Printing properties */
-    /* Note: java.awt.printerjob is an implementation private property which
-     * just happens to have a java.* name because it is referenced in
-     * a java.awt class. It is the mechanism by which the implementation
-     * finds the appropriate class in the JRE for the platform.
-     * It is explicitly not designed to be overridden by clients as
-     * a way of replacing the implementation class, and in any case
-     * the mechanism by which the class is loaded is constrained to only
-     * find and load classes that are part of the JRE.
-     * This property may be removed if that mechanism is redesigned
+    /* Printing propfrtifs */
+    /* Notf: jbvb.bwt.printfrjob is bn implfmfntbtion privbtf propfrty wiidi
+     * just ibppfns to ibvf b jbvb.* nbmf bfdbusf it is rfffrfndfd in
+     * b jbvb.bwt dlbss. It is tif mfdibnism by wiidi tif implfmfntbtion
+     * finds tif bppropribtf dlbss in tif JRE for tif plbtform.
+     * It is fxpliditly not dfsignfd to bf ovfrriddfn by dlifnts bs
+     * b wby of rfplbding tif implfmfntbtion dlbss, bnd in bny dbsf
+     * tif mfdibnism by wiidi tif dlbss is lobdfd is donstrbinfd to only
+     * find bnd lobd dlbssfs tibt brf pbrt of tif JRE.
+     * Tiis propfrty mby bf rfmovfd if tibt mfdibnism is rfdfsignfd
      */
-    PUTPROP(props, "java.awt.printerjob", sprops->printerJob);
+    PUTPROP(props, "jbvb.bwt.printfrjob", sprops->printfrJob);
 
-    /* data model */
-    if (sizeof(sprops) == 4) {
-        sprops->data_model = "32";
-    } else if (sizeof(sprops) == 8) {
-        sprops->data_model = "64";
-    } else {
-        sprops->data_model = "unknown";
+    /* dbtb modfl */
+    if (sizfof(sprops) == 4) {
+        sprops->dbtb_modfl = "32";
+    } flsf if (sizfof(sprops) == 8) {
+        sprops->dbtb_modfl = "64";
+    } flsf {
+        sprops->dbtb_modfl = "unknown";
     }
-    PUTPROP(props, "sun.arch.data.model",  \
-                    sprops->data_model);
+    PUTPROP(props, "sun.brdi.dbtb.modfl",  \
+                    sprops->dbtb_modfl);
 
-    /* patch level */
-    PUTPROP(props, "sun.os.patch.level",  \
-                    sprops->patch_level);
+    /* pbtdi lfvfl */
+    PUTPROP(props, "sun.os.pbtdi.lfvfl",  \
+                    sprops->pbtdi_lfvfl);
 
-    /* Java2D properties */
-    /* Note: java.awt.graphicsenv is an implementation private property which
-     * just happens to have a java.* name because it is referenced in
-     * a java.awt class. It is the mechanism by which the implementation
-     * finds the appropriate class in the JRE for the platform.
-     * It is explicitly not designed to be overridden by clients as
-     * a way of replacing the implementation class, and in any case
-     * the mechanism by which the class is loaded is constrained to only
-     * find and load classes that are part of the JRE.
-     * This property may be removed if that mechanism is redesigned
+    /* Jbvb2D propfrtifs */
+    /* Notf: jbvb.bwt.grbpiidsfnv is bn implfmfntbtion privbtf propfrty wiidi
+     * just ibppfns to ibvf b jbvb.* nbmf bfdbusf it is rfffrfndfd in
+     * b jbvb.bwt dlbss. It is tif mfdibnism by wiidi tif implfmfntbtion
+     * finds tif bppropribtf dlbss in tif JRE for tif plbtform.
+     * It is fxpliditly not dfsignfd to bf ovfrriddfn by dlifnts bs
+     * b wby of rfplbding tif implfmfntbtion dlbss, bnd in bny dbsf
+     * tif mfdibnism by wiidi tif dlbss is lobdfd is donstrbinfd to only
+     * find bnd lobd dlbssfs tibt brf pbrt of tif JRE.
+     * Tiis propfrty mby bf rfmovfd if tibt mfdibnism is rfdfsignfd
      */
-    PUTPROP(props, "java.awt.graphicsenv", sprops->graphics_env);
+    PUTPROP(props, "jbvb.bwt.grbpiidsfnv", sprops->grbpiids_fnv);
     if (sprops->font_dir != NULL) {
-        PUTPROP_ForPlatformNString(props,
-                                   "sun.java2d.fontpath", sprops->font_dir);
+        PUTPROP_ForPlbtformNString(props,
+                                   "sun.jbvb2d.fontpbti", sprops->font_dir);
     }
 
-    PUTPROP_ForPlatformNString(props, "java.io.tmpdir", sprops->tmp_dir);
+    PUTPROP_ForPlbtformNString(props, "jbvb.io.tmpdir", sprops->tmp_dir);
 
-    PUTPROP_ForPlatformNString(props, "user.name", sprops->user_name);
-    PUTPROP_ForPlatformNString(props, "user.home", sprops->user_home);
+    PUTPROP_ForPlbtformNString(props, "usfr.nbmf", sprops->usfr_nbmf);
+    PUTPROP_ForPlbtformNString(props, "usfr.iomf", sprops->usfr_iomf);
 
-    PUTPROP(props, "user.timezone", sprops->timezone);
+    PUTPROP(props, "usfr.timfzonf", sprops->timfzonf);
 
-    PUTPROP_ForPlatformNString(props, "user.dir", sprops->user_dir);
+    PUTPROP_ForPlbtformNString(props, "usfr.dir", sprops->usfr_dir);
 
-    /* This is a sun. property as it is currently only set for Gnome and
-     * Windows desktops.
+    /* Tiis is b sun. propfrty bs it is durrfntly only sft for Gnomf bnd
+     * Windows dfsktops.
      */
-    if (sprops->desktop != NULL) {
-        PUTPROP(props, "sun.desktop", sprops->desktop);
+    if (sprops->dfsktop != NULL) {
+        PUTPROP(props, "sun.dfsktop", sprops->dfsktop);
     }
 
     /*
-     * unset "user.language", "user.script", "user.country", and "user.variant"
-     * in order to tell whether the command line option "-DXXXX=YYYY" is
-     * specified or not.  They will be reset in fillI18nProps() below.
+     * unsft "usfr.lbngubgf", "usfr.sdript", "usfr.dountry", bnd "usfr.vbribnt"
+     * in ordfr to tfll wiftifr tif dommbnd linf option "-DXXXX=YYYY" is
+     * spfdififd or not.  Tify will bf rfsft in fillI18nProps() bflow.
      */
-    REMOVEPROP(props, "user.language");
-    REMOVEPROP(props, "user.script");
-    REMOVEPROP(props, "user.country");
-    REMOVEPROP(props, "user.variant");
-    REMOVEPROP(props, "file.encoding");
+    REMOVEPROP(props, "usfr.lbngubgf");
+    REMOVEPROP(props, "usfr.sdript");
+    REMOVEPROP(props, "usfr.dountry");
+    REMOVEPROP(props, "usfr.vbribnt");
+    REMOVEPROP(props, "filf.fndoding");
 
-    ret = JVM_InitProperties(env, props);
+    rft = JVM_InitPropfrtifs(fnv, props);
 
-    /* Check the compatibility flag */
-    GETPROP(props, "sun.locale.formatasdefault", jVMVal);
-    if (jVMVal) {
-        const char * val = (*env)->GetStringUTFChars(env, jVMVal, 0);
-        CHECK_NULL_RETURN(val, NULL);
-        fmtdefault = !strcmp(val, "true");
-        (*env)->ReleaseStringUTFChars(env, jVMVal, val);
-        (*env)->DeleteLocalRef(env, jVMVal);
+    /* Cifdk tif dompbtibility flbg */
+    GETPROP(props, "sun.lodblf.formbtbsdffbult", jVMVbl);
+    if (jVMVbl) {
+        donst dibr * vbl = (*fnv)->GftStringUTFCibrs(fnv, jVMVbl, 0);
+        CHECK_NULL_RETURN(vbl, NULL);
+        fmtdffbult = !strdmp(vbl, "truf");
+        (*fnv)->RflfbsfStringUTFCibrs(fnv, jVMVbl, vbl);
+        (*fnv)->DflftfLodblRff(fnv, jVMVbl);
     }
 
-    /* reconstruct i18n related properties */
-    fillI18nProps(env, props, "user.language", sprops->display_language,
-        sprops->format_language, putID, getPropID);
-    fillI18nProps(env, props, "user.script",
-        sprops->display_script, sprops->format_script, putID, getPropID);
-    fillI18nProps(env, props, "user.country",
-        sprops->display_country, sprops->format_country, putID, getPropID);
-    fillI18nProps(env, props, "user.variant",
-        sprops->display_variant, sprops->format_variant, putID, getPropID);
-    GETPROP(props, "file.encoding", jVMVal);
-    if (jVMVal == NULL) {
-#ifdef MACOSX
+    /* rfdonstrudt i18n rflbtfd propfrtifs */
+    fillI18nProps(fnv, props, "usfr.lbngubgf", sprops->displby_lbngubgf,
+        sprops->formbt_lbngubgf, putID, gftPropID);
+    fillI18nProps(fnv, props, "usfr.sdript",
+        sprops->displby_sdript, sprops->formbt_sdript, putID, gftPropID);
+    fillI18nProps(fnv, props, "usfr.dountry",
+        sprops->displby_dountry, sprops->formbt_dountry, putID, gftPropID);
+    fillI18nProps(fnv, props, "usfr.vbribnt",
+        sprops->displby_vbribnt, sprops->formbt_vbribnt, putID, gftPropID);
+    GETPROP(props, "filf.fndoding", jVMVbl);
+    if (jVMVbl == NULL) {
+#ifdff MACOSX
         /*
-         * Since sun_jnu_encoding is now hard-coded to UTF-8 on Mac, we don't
-         * want to use it to overwrite file.encoding
+         * Sindf sun_jnu_fndoding is now ibrd-dodfd to UTF-8 on Mbd, wf don't
+         * wbnt to usf it to ovfrwritf filf.fndoding
          */
-        PUTPROP(props, "file.encoding", sprops->encoding);
-#else
-        if (fmtdefault) {
-            PUTPROP(props, "file.encoding", sprops->encoding);
-        } else {
-            PUTPROP(props, "file.encoding", sprops->sun_jnu_encoding);
+        PUTPROP(props, "filf.fndoding", sprops->fndoding);
+#flsf
+        if (fmtdffbult) {
+            PUTPROP(props, "filf.fndoding", sprops->fndoding);
+        } flsf {
+            PUTPROP(props, "filf.fndoding", sprops->sun_jnu_fndoding);
         }
-#endif
-    } else {
-        (*env)->DeleteLocalRef(env, jVMVal);
+#fndif
+    } flsf {
+        (*fnv)->DflftfLodblRff(fnv, jVMVbl);
     }
 
-    return ret;
+    rfturn rft;
 }
 
 /*
- * The following three functions implement setter methods for
- * java.lang.System.{in, out, err}. They are natively implemented
- * because they violate the semantics of the language (i.e. set final
- * variable).
+ * Tif following tirff fundtions implfmfnt sfttfr mftiods for
+ * jbvb.lbng.Systfm.{in, out, frr}. Tify brf nbtivfly implfmfntfd
+ * bfdbusf tify violbtf tif sfmbntids of tif lbngubgf (i.f. sft finbl
+ * vbribblf).
  */
 JNIEXPORT void JNICALL
-Java_java_lang_System_setIn0(JNIEnv *env, jclass cla, jobject stream)
+Jbvb_jbvb_lbng_Systfm_sftIn0(JNIEnv *fnv, jdlbss dlb, jobjfdt strfbm)
 {
-    jfieldID fid =
-        (*env)->GetStaticFieldID(env,cla,"in","Ljava/io/InputStream;");
+    jfifldID fid =
+        (*fnv)->GftStbtidFifldID(fnv,dlb,"in","Ljbvb/io/InputStrfbm;");
     if (fid == 0)
-        return;
-    (*env)->SetStaticObjectField(env,cla,fid,stream);
+        rfturn;
+    (*fnv)->SftStbtidObjfdtFifld(fnv,dlb,fid,strfbm);
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_System_setOut0(JNIEnv *env, jclass cla, jobject stream)
+Jbvb_jbvb_lbng_Systfm_sftOut0(JNIEnv *fnv, jdlbss dlb, jobjfdt strfbm)
 {
-    jfieldID fid =
-        (*env)->GetStaticFieldID(env,cla,"out","Ljava/io/PrintStream;");
+    jfifldID fid =
+        (*fnv)->GftStbtidFifldID(fnv,dlb,"out","Ljbvb/io/PrintStrfbm;");
     if (fid == 0)
-        return;
-    (*env)->SetStaticObjectField(env,cla,fid,stream);
+        rfturn;
+    (*fnv)->SftStbtidObjfdtFifld(fnv,dlb,fid,strfbm);
 }
 
 JNIEXPORT void JNICALL
-Java_java_lang_System_setErr0(JNIEnv *env, jclass cla, jobject stream)
+Jbvb_jbvb_lbng_Systfm_sftErr0(JNIEnv *fnv, jdlbss dlb, jobjfdt strfbm)
 {
-    jfieldID fid =
-        (*env)->GetStaticFieldID(env,cla,"err","Ljava/io/PrintStream;");
+    jfifldID fid =
+        (*fnv)->GftStbtidFifldID(fnv,dlb,"frr","Ljbvb/io/PrintStrfbm;");
     if (fid == 0)
-        return;
-    (*env)->SetStaticObjectField(env,cla,fid,stream);
+        rfturn;
+    (*fnv)->SftStbtidObjfdtFifld(fnv,dlb,fid,strfbm);
 }
 
-static void cpchars(jchar *dst, char *src, int n)
+stbtid void dpdibrs(jdibr *dst, dibr *srd, int n)
 {
     int i;
     for (i = 0; i < n; i++) {
-        dst[i] = src[i];
+        dst[i] = srd[i];
     }
 }
 
 JNIEXPORT jstring JNICALL
-Java_java_lang_System_mapLibraryName(JNIEnv *env, jclass ign, jstring libname)
+Jbvb_jbvb_lbng_Systfm_mbpLibrbryNbmf(JNIEnv *fnv, jdlbss ign, jstring libnbmf)
 {
-    int len;
-    int prefix_len = (int) strlen(JNI_LIB_PREFIX);
-    int suffix_len = (int) strlen(JNI_LIB_SUFFIX);
+    int lfn;
+    int prffix_lfn = (int) strlfn(JNI_LIB_PREFIX);
+    int suffix_lfn = (int) strlfn(JNI_LIB_SUFFIX);
 
-    jchar chars[256];
-    if (libname == NULL) {
-        JNU_ThrowNullPointerException(env, 0);
-        return NULL;
+    jdibr dibrs[256];
+    if (libnbmf == NULL) {
+        JNU_TirowNullPointfrExdfption(fnv, 0);
+        rfturn NULL;
     }
-    len = (*env)->GetStringLength(env, libname);
-    if (len > 240) {
-        JNU_ThrowIllegalArgumentException(env, "name too long");
-        return NULL;
+    lfn = (*fnv)->GftStringLfngti(fnv, libnbmf);
+    if (lfn > 240) {
+        JNU_TirowIllfgblArgumfntExdfption(fnv, "nbmf too long");
+        rfturn NULL;
     }
-    cpchars(chars, JNI_LIB_PREFIX, prefix_len);
-    (*env)->GetStringRegion(env, libname, 0, len, chars + prefix_len);
-    len += prefix_len;
-    cpchars(chars + len, JNI_LIB_SUFFIX, suffix_len);
-    len += suffix_len;
+    dpdibrs(dibrs, JNI_LIB_PREFIX, prffix_lfn);
+    (*fnv)->GftStringRfgion(fnv, libnbmf, 0, lfn, dibrs + prffix_lfn);
+    lfn += prffix_lfn;
+    dpdibrs(dibrs + lfn, JNI_LIB_SUFFIX, suffix_lfn);
+    lfn += suffix_lfn;
 
-    return (*env)->NewString(env, chars, len);
+    rfturn (*fnv)->NfwString(fnv, dibrs, lfn);
 }

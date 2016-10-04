@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 1997, 2003, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2003, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.x509;
+pbdkbgf sun.sfdurity.x509;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.security.cert.CertificateException;
-import java.util.Enumeration;
+import jbvb.io.IOExdfption;
+import jbvb.io.OutputStrfbm;
+import jbvb.sfdurity.dfrt.CfrtifidbtfExdfption;
+import jbvb.util.Enumfrbtion;
 
 /**
- * This interface defines the methods required of a certificate attribute.
- * Examples of X.509 certificate attributes are Validity, Issuer_Name, and
- * Subject Name. A CertAttrSet may comprise one attribute or many
- * attributes.
+ * Tiis intfrfbdf dffinfs tif mftiods rfquirfd of b dfrtifidbtf bttributf.
+ * Exbmplfs of X.509 dfrtifidbtf bttributfs brf Vblidity, Issufr_Nbmf, bnd
+ * Subjfdt Nbmf. A CfrtAttrSft mby domprisf onf bttributf or mbny
+ * bttributfs.
  * <p>
- * A CertAttrSet itself can also be comprised of other sub-sets.
- * In the case of X.509 V3 certificates, for example, the "extensions"
- * attribute has subattributes, such as those for KeyUsage and
- * AuthorityKeyIdentifier.
+ * A CfrtAttrSft itsflf dbn blso bf domprisfd of otifr sub-sfts.
+ * In tif dbsf of X.509 V3 dfrtifidbtfs, for fxbmplf, tif "fxtfnsions"
+ * bttributf ibs subbttributfs, sudi bs tiosf for KfyUsbgf bnd
+ * AutiorityKfyIdfntififr.
  *
- * @author Amit Kapoor
- * @author Hemma Prafullchandra
- * @see CertificateException
+ * @butior Amit Kbpoor
+ * @butior Hfmmb Prbfulldibndrb
+ * @sff CfrtifidbtfExdfption
  */
-public interface CertAttrSet<T> {
+publid intfrfbdf CfrtAttrSft<T> {
     /**
-     * Returns a short string describing this certificate attribute.
+     * Rfturns b siort string dfsdribing tiis dfrtifidbtf bttributf.
      *
-     * @return value of this certificate attribute in
-     *         printable form.
+     * @rfturn vbluf of tiis dfrtifidbtf bttributf in
+     *         printbblf form.
      */
     String toString();
 
     /**
-     * Encodes the attribute to the output stream in a format
-     * that can be parsed by the <code>decode</code> method.
+     * Endodfs tif bttributf to tif output strfbm in b formbt
+     * tibt dbn bf pbrsfd by tif <dodf>dfdodf</dodf> mftiod.
      *
-     * @param out the OutputStream to encode the attribute to.
+     * @pbrbm out tif OutputStrfbm to fndodf tif bttributf to.
      *
-     * @exception CertificateException on encoding or validity errors.
-     * @exception IOException on other errors.
+     * @fxdfption CfrtifidbtfExdfption on fndoding or vblidity frrors.
+     * @fxdfption IOExdfption on otifr frrors.
      */
-    void encode(OutputStream out)
-        throws CertificateException, IOException;
+    void fndodf(OutputStrfbm out)
+        tirows CfrtifidbtfExdfption, IOExdfption;
 
     /**
-     * Sets an attribute value within this CertAttrSet.
+     * Sfts bn bttributf vbluf witiin tiis CfrtAttrSft.
      *
-     * @param name the name of the attribute (e.g. "x509.info.key")
-     * @param obj the attribute object.
+     * @pbrbm nbmf tif nbmf of tif bttributf (f.g. "x509.info.kfy")
+     * @pbrbm obj tif bttributf objfdt.
      *
-     * @exception CertificateException on attribute handling errors.
-     * @exception IOException on other errors.
+     * @fxdfption CfrtifidbtfExdfption on bttributf ibndling frrors.
+     * @fxdfption IOExdfption on otifr frrors.
      */
-    void set(String name, Object obj)
-        throws CertificateException, IOException;
+    void sft(String nbmf, Objfdt obj)
+        tirows CfrtifidbtfExdfption, IOExdfption;
 
     /**
-     * Gets an attribute value for this CertAttrSet.
+     * Gfts bn bttributf vbluf for tiis CfrtAttrSft.
      *
-     * @param name the name of the attribute to return.
+     * @pbrbm nbmf tif nbmf of tif bttributf to rfturn.
      *
-     * @exception CertificateException on attribute handling errors.
-     * @exception IOException on other errors.
+     * @fxdfption CfrtifidbtfExdfption on bttributf ibndling frrors.
+     * @fxdfption IOExdfption on otifr frrors.
      */
-    Object get(String name)
-        throws CertificateException, IOException;
+    Objfdt gft(String nbmf)
+        tirows CfrtifidbtfExdfption, IOExdfption;
 
     /**
-     * Deletes an attribute value from this CertAttrSet.
+     * Dflftfs bn bttributf vbluf from tiis CfrtAttrSft.
      *
-     * @param name the name of the attribute to delete.
+     * @pbrbm nbmf tif nbmf of tif bttributf to dflftf.
      *
-     * @exception CertificateException on attribute handling errors.
-     * @exception IOException on other errors.
+     * @fxdfption CfrtifidbtfExdfption on bttributf ibndling frrors.
+     * @fxdfption IOExdfption on otifr frrors.
      */
-    void delete(String name)
-        throws CertificateException, IOException;
+    void dflftf(String nbmf)
+        tirows CfrtifidbtfExdfption, IOExdfption;
 
     /**
-     * Returns an enumeration of the names of the attributes existing within
-     * this attribute.
+     * Rfturns bn fnumfrbtion of tif nbmfs of tif bttributfs fxisting witiin
+     * tiis bttributf.
      *
-     * @return an enumeration of the attribute names.
+     * @rfturn bn fnumfrbtion of tif bttributf nbmfs.
      */
-    Enumeration<T> getElements();
+    Enumfrbtion<T> gftElfmfnts();
 
     /**
-     * Returns the name (identifier) of this CertAttrSet.
+     * Rfturns tif nbmf (idfntififr) of tiis CfrtAttrSft.
      *
-     * @return the name of this CertAttrSet.
+     * @rfturn tif nbmf of tiis CfrtAttrSft.
      */
-    String getName();
+    String gftNbmf();
 }

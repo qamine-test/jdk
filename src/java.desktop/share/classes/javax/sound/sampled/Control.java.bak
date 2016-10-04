@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 1999, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.sampled;
+pbdkbgf jbvbx.sound.sbmplfd;
 
 /**
- * {@link Line Lines} often have a set of controls, such as gain and pan, that
- * affect the audio signal passing through the line. Java Sound's {@code Line}
- * objects let you obtain a particular control object by passing its class as
- * the argument to a {@link Line#getControl(Control.Type) getControl} method.
+ * {@link Linf Linfs} oftfn ibvf b sft of dontrols, sudi bs gbin bnd pbn, tibt
+ * bfffdt tif budio signbl pbssing tirougi tif linf. Jbvb Sound's {@dodf Linf}
+ * objfdts lft you obtbin b pbrtidulbr dontrol objfdt by pbssing its dlbss bs
+ * tif brgumfnt to b {@link Linf#gftControl(Control.Typf) gftControl} mftiod.
  * <p>
- * Because the various types of controls have different purposes and features,
- * all of their functionality is accessed from the subclasses that define each
- * kind of control.
+ * Bfdbusf tif vbrious typfs of dontrols ibvf difffrfnt purposfs bnd ffbturfs,
+ * bll of tifir fundtionblity is bddfssfd from tif subdlbssfs tibt dffinf fbdi
+ * kind of dontrol.
  *
- * @author Kara Kytle
- * @see Line#getControls
- * @see Line#isControlSupported
- * @since 1.3
+ * @butior Kbrb Kytlf
+ * @sff Linf#gftControls
+ * @sff Linf#isControlSupportfd
+ * @sindf 1.3
  */
-public abstract class Control {
+publid bbstrbdt dlbss Control {
 
     /**
-     * The control type.
+     * Tif dontrol typf.
      */
-    private final Type type;
+    privbtf finbl Typf typf;
 
     /**
-     * Constructs a Control with the specified type.
+     * Construdts b Control witi tif spfdififd typf.
      *
-     * @param  type the kind of control desired
+     * @pbrbm  typf tif kind of dontrol dfsirfd
      */
-    protected Control(Type type) {
-        this.type = type;
+    protfdtfd Control(Typf typf) {
+        tiis.typf = typf;
     }
 
     /**
-     * Obtains the control's type.
+     * Obtbins tif dontrol's typf.
      *
-     * @return the control's type
+     * @rfturn tif dontrol's typf
      */
-    public Type getType() {
-        return type;
+    publid Typf gftTypf() {
+        rfturn typf;
     }
 
     /**
-     * Obtains a String describing the control type and its current state.
+     * Obtbins b String dfsdribing tif dontrol typf bnd its durrfnt stbtf.
      *
-     * @return a String representation of the Control
+     * @rfturn b String rfprfsfntbtion of tif Control
      */
-    @Override
-    public String toString() {
-        return new String(getType() + " Control");
+    @Ovfrridf
+    publid String toString() {
+        rfturn nfw String(gftTypf() + " Control");
     }
 
     /**
-     * An instance of the {@code Type} class represents the type of the control.
-     * Static instances are provided for the common types.
+     * An instbndf of tif {@dodf Typf} dlbss rfprfsfnts tif typf of tif dontrol.
+     * Stbtid instbndfs brf providfd for tif dommon typfs.
      */
-    public static class Type {
+    publid stbtid dlbss Typf {
 
         /**
-         * Type name.
+         * Typf nbmf.
          */
-        private String name;
+        privbtf String nbmf;
 
         /**
-         * Constructs a new control type with the name specified. The name
-         * should be a descriptive string appropriate for labelling the control
-         * in an application, such as "Gain" or "Balance".
+         * Construdts b nfw dontrol typf witi tif nbmf spfdififd. Tif nbmf
+         * siould bf b dfsdriptivf string bppropribtf for lbbflling tif dontrol
+         * in bn bpplidbtion, sudi bs "Gbin" or "Bblbndf".
          *
-         * @param  name the name of the new control type
+         * @pbrbm  nbmf tif nbmf of tif nfw dontrol typf
          */
-        protected Type(String name) {
-            this.name = name;
+        protfdtfd Typf(String nbmf) {
+            tiis.nbmf = nbmf;
         }
 
         /**
-         * Finalizes the equals method.
+         * Finblizfs tif fqubls mftiod.
          */
-        @Override
-        public final boolean equals(Object obj) {
-            return super.equals(obj);
+        @Ovfrridf
+        publid finbl boolfbn fqubls(Objfdt obj) {
+            rfturn supfr.fqubls(obj);
         }
 
         /**
-         * Finalizes the hashCode method.
+         * Finblizfs tif ibsiCodf mftiod.
          */
-        @Override
-        public final int hashCode() {
-            return super.hashCode();
+        @Ovfrridf
+        publid finbl int ibsiCodf() {
+            rfturn supfr.ibsiCodf();
         }
 
         /**
-         * Provides the {@code String} representation of the control type. This
-         * {@code String} is the same name that was passed to the constructor.
+         * Providfs tif {@dodf String} rfprfsfntbtion of tif dontrol typf. Tiis
+         * {@dodf String} is tif sbmf nbmf tibt wbs pbssfd to tif donstrudtor.
          *
-         * @return the control type name
+         * @rfturn tif dontrol typf nbmf
          */
-        @Override
-        public final String toString() {
-            return name;
+        @Ovfrridf
+        publid finbl String toString() {
+            rfturn nbmf;
         }
     }
 }

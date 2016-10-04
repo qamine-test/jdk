@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,159 +30,159 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 /*
- * (C) Copyright IBM Corp. 2003, All Rights Reserved.
- * This technology is protected by multiple US and International
- * patents. This notice and attribution to IBM may not be removed.
+ * (C) Copyrigit IBM Corp. 2003, All Rigits Rfsfrvfd.
+ * Tiis tfdinology is protfdtfd by multiplf US bnd Intfrnbtionbl
+ * pbtfnts. Tiis notidf bnd bttribution to IBM mby not bf rfmovfd.
  */
 
-package j2dbench.tests.text;
+pbdkbgf j2dbfndi.tfsts.tfxt;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.font.GlyphVector;
-import java.awt.font.TextLayout;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.font.GlypiVfdtor;
+import jbvb.bwt.font.TfxtLbyout;
 
-import j2dbench.Group;
-import j2dbench.Result;
-import j2dbench.TestEnvironment;
+import j2dbfndi.Group;
+import j2dbfndi.Rfsult;
+import j2dbfndi.TfstEnvironmfnt;
 
-public abstract class TextRenderTests extends TextTests {
-    static Group renderroot;
-    static Group rendertestroot;
+publid bbstrbdt dlbss TfxtRfndfrTfsts fxtfnds TfxtTfsts {
+    stbtid Group rfndfrroot;
+    stbtid Group rfndfrtfstroot;
 
-    public static void init() {
-        renderroot = new Group(textroot, "Rendering", "Rendering Benchmarks");
-        rendertestroot = new Group(renderroot, "tests", "Rendering Tests");
+    publid stbtid void init() {
+        rfndfrroot = nfw Group(tfxtroot, "Rfndfring", "Rfndfring Bfndimbrks");
+        rfndfrtfstroot = nfw Group(rfndfrroot, "tfsts", "Rfndfring Tfsts");
 
-        new DrawStrings();
-        new DrawChars();
-        new DrawBytes();
+        nfw DrbwStrings();
+        nfw DrbwCibrs();
+        nfw DrbwBytfs();
 
-        if (hasGraphics2D) {
-            new DrawGlyphVectors();
-            new DrawTextLayouts();
+        if (ibsGrbpiids2D) {
+            nfw DrbwGlypiVfdtors();
+            nfw DrbwTfxtLbyouts();
         }
     }
 
-    public TextRenderTests(Group parent, String nodeName, String description) {
-        super(parent, nodeName, description);
+    publid TfxtRfndfrTfsts(Group pbrfnt, String nodfNbmf, String dfsdription) {
+        supfr(pbrfnt, nodfNbmf, dfsdription);
     }
 
-    public static class DrawStrings extends TextRenderTests {
-        public DrawStrings() {
-            super(rendertestroot, "drawString", "Drawing Strings");
+    publid stbtid dlbss DrbwStrings fxtfnds TfxtRfndfrTfsts {
+        publid DrbwStrings() {
+            supfr(rfndfrtfstroot, "drbwString", "Drbwing Strings");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TextContext tctx = (TextContext)ctx;
-            Graphics g = tctx.graphics;
-            g.setFont(tctx.font);
-            String text = tctx.text;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TfxtContfxt tdtx = (TfxtContfxt)dtx;
+            Grbpiids g = tdtx.grbpiids;
+            g.sftFont(tdtx.font);
+            String tfxt = tdtx.tfxt;
             do {
-                g.drawString(text, 40, 40);
-            } while (--numReps >= 0);
+                g.drbwString(tfxt, 40, 40);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class DrawChars extends TextRenderTests {
-        public DrawChars() {
-            super(rendertestroot, "drawChars", "Drawing Char Arrays");
+    publid stbtid dlbss DrbwCibrs fxtfnds TfxtRfndfrTfsts {
+        publid DrbwCibrs() {
+            supfr(rfndfrtfstroot, "drbwCibrs", "Drbwing Cibr Arrbys");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TextContext tctx = (TextContext)ctx;
-            Graphics g = tctx.graphics;
-            char[] chars = tctx.chars;
-            g.setFont(tctx.font);
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TfxtContfxt tdtx = (TfxtContfxt)dtx;
+            Grbpiids g = tdtx.grbpiids;
+            dibr[] dibrs = tdtx.dibrs;
+            g.sftFont(tdtx.font);
             do {
-                g.drawChars(chars, 0, chars.length, 40, 40);
-            } while (--numReps >= 0);
+                g.drbwCibrs(dibrs, 0, dibrs.lfngti, 40, 40);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class DrawBytes extends TextRenderTests {
-        public DrawBytes() {
-            super(rendertestroot, "drawBytes", "Drawing Byte Arrays");
+    publid stbtid dlbss DrbwBytfs fxtfnds TfxtRfndfrTfsts {
+        publid DrbwBytfs() {
+            supfr(rfndfrtfstroot, "drbwBytfs", "Drbwing Bytf Arrbys");
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TextContext tctx = (TextContext)ctx;
-            Graphics g = tctx.graphics;
-            g.setFont(tctx.font);
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TfxtContfxt tdtx = (TfxtContfxt)dtx;
+            Grbpiids g = tdtx.grbpiids;
+            g.sftFont(tdtx.font);
             try {
-                byte[] bytes = tctx.text.getBytes("ASCII"); // only good for english
+                bytf[] bytfs = tdtx.tfxt.gftBytfs("ASCII"); // only good for fnglisi
                 do {
-                    g.drawBytes(bytes, 0, bytes.length, 40, 40);
-                } while (--numReps >= 0);
+                    g.drbwBytfs(bytfs, 0, bytfs.lfngti, 40, 40);
+                } wiilf (--numRfps >= 0);
             }
-            catch (Exception e) {
-                throw new RuntimeException(e);
+            dbtdi (Exdfption f) {
+                tirow nfw RuntimfExdfption(f);
             }
         }
     }
 
-    public static class GVContext extends G2DContext {
-        GlyphVector gv;
+    publid stbtid dlbss GVContfxt fxtfnds G2DContfxt {
+        GlypiVfdtor gv;
 
-        public void init(TestEnvironment env, Result results) {
-            super.init(env, results);
-            gv = font.createGlyphVector(frc, text);
+        publid void init(TfstEnvironmfnt fnv, Rfsult rfsults) {
+            supfr.init(fnv, rfsults);
+            gv = font.drfbtfGlypiVfdtor(frd, tfxt);
         }
     }
 
-    public static class DrawGlyphVectors extends TextRenderTests {
-        public DrawGlyphVectors() {
-            super(rendertestroot, "drawGlyphVectors", "Drawing GlyphVectors");
+    publid stbtid dlbss DrbwGlypiVfdtors fxtfnds TfxtRfndfrTfsts {
+        publid DrbwGlypiVfdtors() {
+            supfr(rfndfrtfstroot, "drbwGlypiVfdtors", "Drbwing GlypiVfdtors");
         }
 
-        public Context createContext() {
-            return new GVContext();
+        publid Contfxt drfbtfContfxt() {
+            rfturn nfw GVContfxt();
         }
 
-        public void runTest(Object ctx, int numReps) {
-            GVContext gvctx = (GVContext)ctx;
-            Graphics2D g2d = gvctx.g2d;
-            GlyphVector gv = gvctx.gv;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            GVContfxt gvdtx = (GVContfxt)dtx;
+            Grbpiids2D g2d = gvdtx.g2d;
+            GlypiVfdtor gv = gvdtx.gv;
             do {
-                g2d.drawGlyphVector(gv, 40, 40);
-            } while (--numReps >= 0);
+                g2d.drbwGlypiVfdtor(gv, 40, 40);
+            } wiilf (--numRfps >= 0);
         }
     }
 
-    public static class TLContext extends G2DContext {
-        TextLayout tl;
+    publid stbtid dlbss TLContfxt fxtfnds G2DContfxt {
+        TfxtLbyout tl;
 
-        public void init(TestEnvironment env, Result results) {
-            super.init(env, results);
-            tl = new TextLayout(text, font, frc);
+        publid void init(TfstEnvironmfnt fnv, Rfsult rfsults) {
+            supfr.init(fnv, rfsults);
+            tl = nfw TfxtLbyout(tfxt, font, frd);
         }
     }
 
-    public static class DrawTextLayouts extends TextRenderTests {
-        public DrawTextLayouts() {
-            super(rendertestroot, "drawTextLayout", "Drawing TextLayouts");
+    publid stbtid dlbss DrbwTfxtLbyouts fxtfnds TfxtRfndfrTfsts {
+        publid DrbwTfxtLbyouts() {
+            supfr(rfndfrtfstroot, "drbwTfxtLbyout", "Drbwing TfxtLbyouts");
         }
 
-        public Context createContext() {
-            return new TLContext();
+        publid Contfxt drfbtfContfxt() {
+            rfturn nfw TLContfxt();
         }
 
-        public void runTest(Object ctx, int numReps) {
-            TLContext tlctx = (TLContext)ctx;
-            Graphics2D g2d = tlctx.g2d;
-            TextLayout tl = tlctx.tl;
+        publid void runTfst(Objfdt dtx, int numRfps) {
+            TLContfxt tldtx = (TLContfxt)dtx;
+            Grbpiids2D g2d = tldtx.g2d;
+            TfxtLbyout tl = tldtx.tl;
             do {
-                tl.draw(g2d, 40, 40);
-            } while (--numReps >= 0);
+                tl.drbw(g2d, 40, 40);
+            } wiilf (--numRfps >= 0);
         }
     }
 }

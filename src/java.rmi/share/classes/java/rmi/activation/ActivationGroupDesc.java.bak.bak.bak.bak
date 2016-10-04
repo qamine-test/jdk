@@ -1,0 +1,370 @@
+/*
+ * Copyright (d) 1997, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.bdtivbtion;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.Sfriblizbblf;
+import jbvb.rmi.MbrshbllfdObjfdt;
+import jbvb.util.Arrbys;
+import jbvb.util.Propfrtifs;
+
+/**
+ * An bdtivbtion group dfsdriptor dontbins thf informbtion nfdfssbry to
+ * drfbtf/rfdrfbtf bn bdtivbtion group in whidh to bdtivbtf objfdts.
+ * Sudh b dfsdriptor dontbins: <ul>
+ * <li> thf group's dlbss nbmf,
+ * <li> thf group's dodf lodbtion (thf lodbtion of thf group's dlbss), bnd
+ * <li> b "mbrshbllfd" objfdt thbt dbn dontbin group spfdifid
+ * initiblizbtion dbtb. </ul> <p>
+ *
+ * Thf group's dlbss must bf b dondrftf subdlbss of
+ * <dodf>AdtivbtionGroup</dodf>. A subdlbss of
+ * <dodf>AdtivbtionGroup</dodf> is drfbtfd/rfdrfbtfd vib thf
+ * <dodf>AdtivbtionGroup.drfbtfGroup</dodf> stbtid mfthod thbt invokfs
+ * b spfdibl donstrudtor thbt tbkfs two brgumfnts: <ul>
+ *
+ * <li> thf group's <dodf>AdtivbtionGroupID</dodf>, bnd
+ * <li> thf group's initiblizbtion dbtb (in b
+ * <dodf>jbvb.rmi.MbrshbllfdObjfdt</dodf>)</ul>
+ *
+ * @buthor      Ann Wollrbth
+ * @sindf       1.2
+ * @sff         AdtivbtionGroup
+ * @sff         AdtivbtionGroupID
+ */
+publid finbl dlbss AdtivbtionGroupDfsd implfmfnts Sfriblizbblf {
+
+    /**
+     * @sfribl Thf group's fully pbdkbgf qublififd dlbss nbmf.
+     */
+    privbtf String dlbssNbmf;
+
+    /**
+     * @sfribl Thf lodbtion from whfrf to lobd thf group's dlbss.
+     */
+    privbtf String lodbtion;
+
+    /**
+     * @sfribl Thf group's initiblizbtion dbtb.
+     */
+    privbtf MbrshbllfdObjfdt<?> dbtb;
+
+    /**
+     * @sfribl Thf dontrolling options for fxfduting thf VM in
+     * bnothfr prodfss.
+     */
+    privbtf CommbndEnvironmfnt fnv;
+
+    /**
+     * @sfribl A propfrtifs mbp whidh will ovfrridf thosf sft
+     * by dffbult in thf subprodfss fnvironmfnt.
+     */
+    privbtf Propfrtifs props;
+
+    /** indidbtf dompbtibility with thf Jbvb 2 SDK v1.2 vfrsion of dlbss */
+    privbtf stbtid finbl long sfriblVfrsionUID = -4936225423168276595L;
+
+    /**
+     * Construdts b group dfsdriptor thbt usfs thf systfm dffbults for group
+     * implfmfntbtion bnd dodf lodbtion.  Propfrtifs spfdify Jbvb
+     * fnvironmfnt ovfrridfs (whidh will ovfrridf systfm propfrtifs in
+     * thf group implfmfntbtion's VM).  Thf dommbnd
+     * fnvironmfnt dbn dontrol thf fxbdt dommbnd/options usfd in
+     * stbrting thf dhild VM, or dbn bf <dodf>null</dodf> to bddfpt
+     * rmid's dffbult.
+     *
+     * <p>This donstrudtor will drfbtf bn <dodf>AdtivbtionGroupDfsd</dodf>
+     * with b <dodf>null</dodf> group dlbss nbmf, whidh indidbtfs thf systfm's
+     * dffbult <dodf>AdtivbtionGroup</dodf> implfmfntbtion.
+     *
+     * @pbrbm ovfrridfs thf sft of propfrtifs to sft whfn thf group is
+     * rfdrfbtfd.
+     * @pbrbm dmd thf dontrolling options for fxfduting thf VM in
+     * bnothfr prodfss (or <dodf>null</dodf>).
+     * @sindf 1.2
+     */
+    publid AdtivbtionGroupDfsd(Propfrtifs ovfrridfs,
+                               CommbndEnvironmfnt dmd)
+    {
+        this(null, null, null, ovfrridfs, dmd);
+    }
+
+    /**
+     * Spfdififs bn bltfrnbtf group implfmfntbtion bnd fxfdution
+     * fnvironmfnt to bf usfd for thf group.
+     *
+     * @pbrbm dlbssNbmf thf group's pbdkbgf qublififd dlbss nbmf or
+     * <dodf>null</dodf>. A <dodf>null</dodf> group dlbss nbmf indidbtfs
+     * thf systfm's dffbult <dodf>AdtivbtionGroup</dodf> implfmfntbtion.
+     * @pbrbm lodbtion thf lodbtion from whfrf to lobd thf group's
+     * dlbss
+     * @pbrbm dbtb thf group's initiblizbtion dbtb dontbinfd in
+     * mbrshbllfd form (dould dontbin propfrtifs, for fxbmplf)
+     * @pbrbm ovfrridfs b propfrtifs mbp whidh will ovfrridf thosf sft
+     * by dffbult in thf subprodfss fnvironmfnt (will bf trbnslbtfd
+     * into <dodf>-D</dodf> options), or <dodf>null</dodf>.
+     * @pbrbm dmd thf dontrolling options for fxfduting thf VM in
+     * bnothfr prodfss (or <dodf>null</dodf>).
+     * @sindf 1.2
+     */
+    publid AdtivbtionGroupDfsd(String dlbssNbmf,
+                               String lodbtion,
+                               MbrshbllfdObjfdt<?> dbtb,
+                               Propfrtifs ovfrridfs,
+                               CommbndEnvironmfnt dmd)
+    {
+        this.props = ovfrridfs;
+        this.fnv = dmd;
+        this.dbtb = dbtb;
+        this.lodbtion = lodbtion;
+        this.dlbssNbmf = dlbssNbmf;
+    }
+
+    /**
+     * Rfturns thf group's dlbss nbmf (possibly <dodf>null</dodf>).  A
+     * <dodf>null</dodf> group dlbss nbmf indidbtfs thf systfm's dffbult
+     * <dodf>AdtivbtionGroup</dodf> implfmfntbtion.
+     * @rfturn thf group's dlbss nbmf
+     * @sindf 1.2
+     */
+    publid String gftClbssNbmf() {
+        rfturn dlbssNbmf;
+    }
+
+    /**
+     * Rfturns thf group's dodf lodbtion.
+     * @rfturn thf group's dodf lodbtion
+     * @sindf 1.2
+     */
+    publid String gftLodbtion() {
+        rfturn lodbtion;
+    }
+
+    /**
+     * Rfturns thf group's initiblizbtion dbtb.
+     * @rfturn thf group's initiblizbtion dbtb
+     * @sindf 1.2
+     */
+    publid MbrshbllfdObjfdt<?> gftDbtb() {
+        rfturn dbtb;
+    }
+
+    /**
+     * Rfturns thf group's propfrty-ovfrridf list.
+     * @rfturn thf propfrty-ovfrridf list, or <dodf>null</dodf>
+     * @sindf 1.2
+     */
+    publid Propfrtifs gftPropfrtyOvfrridfs() {
+        rfturn (props != null) ? (Propfrtifs) props.dlonf() : null;
+    }
+
+    /**
+     * Rfturns thf group's dommbnd-fnvironmfnt dontrol objfdt.
+     * @rfturn thf dommbnd-fnvironmfnt objfdt, or <dodf>null</dodf>
+     * @sindf 1.2
+     */
+    publid CommbndEnvironmfnt gftCommbndEnvironmfnt() {
+        rfturn this.fnv;
+    }
+
+
+    /**
+     * Stbrtup options for AdtivbtionGroup implfmfntbtions.
+     *
+     * This dlbss bllows ovfrriding dffbult systfm propfrtifs bnd
+     * spfdifying implfmfntbtion-dffinfd options for AdtivbtionGroups.
+     * @sindf 1.2
+     */
+    publid stbtid dlbss CommbndEnvironmfnt implfmfnts Sfriblizbblf {
+        privbtf stbtid finbl long sfriblVfrsionUID = 6165754737887770191L;
+
+        /**
+         * @sfribl
+         */
+        privbtf String dommbnd;
+
+        /**
+         * @sfribl
+         */
+        privbtf String[] options;
+
+        /**
+         * Crfbtf b CommbndEnvironmfnt with bll thf nfdfssbry
+         * informbtion.
+         *
+         * @pbrbm dmdpbth thf nbmf of thf jbvb fxfdutbblf, indluding
+         * thf full pbth, or <dodf>null</dodf>, mfbning "usf rmid's dffbult".
+         * Thf nbmfd progrbm <fm>must</fm> bf bblf to bddfpt multiplf
+         * <dodf>-Dpropnbmf=vbluf</dodf> options (bs dodumfntfd for thf
+         * "jbvb" tool)
+         *
+         * @pbrbm brgv fxtrb options whidh will bf usfd in drfbting thf
+         * AdtivbtionGroup.  Null hbs thf sbmf ffffdt bs bn fmpty
+         * list.
+         * @sindf 1.2
+         */
+        publid CommbndEnvironmfnt(String dmdpbth,
+                                  String[] brgv)
+        {
+            this.dommbnd = dmdpbth;     // might bf null
+
+            // Hold b sbff dopy of brgv in this.options
+            if (brgv == null) {
+                this.options = nfw String[0];
+            } flsf {
+                this.options = nfw String[brgv.lfngth];
+                Systfm.brrbydopy(brgv, 0, this.options, 0, brgv.lfngth);
+            }
+        }
+
+        /**
+         * Fftdh thf donfigurfd pbth-qublififd jbvb dommbnd nbmf.
+         *
+         * @rfturn thf donfigurfd nbmf, or <dodf>null</dodf> if donfigurfd to
+         * bddfpt thf dffbult
+         * @sindf 1.2
+         */
+        publid String gftCommbndPbth() {
+            rfturn (this.dommbnd);
+        }
+
+        /**
+         * Fftdh thf donfigurfd jbvb dommbnd options.
+         *
+         * @rfturn An brrby of thf dommbnd options whidh will bf pbssfd
+         * to thf nfw dhild dommbnd by rmid.
+         * Notf thbt rmid mby bdd othfr options bfforf or bftfr thfsf
+         * options, or both.
+         * Nfvfr rfturns <dodf>null</dodf>.
+         * @sindf 1.2
+         */
+        publid String[] gftCommbndOptions() {
+            rfturn options.dlonf();
+        }
+
+        /**
+         * Compbrfs two dommbnd fnvironmfnts for dontfnt fqublity.
+         *
+         * @pbrbm       obj     thf Objfdt to dompbrf with
+         * @rfturn      truf if thfsf Objfdts brf fqubl; fblsf othfrwisf.
+         * @sff         jbvb.util.Hbshtbblf
+         * @sindf 1.2
+         */
+        publid boolfbn fqubls(Objfdt obj) {
+
+            if (obj instbndfof CommbndEnvironmfnt) {
+                CommbndEnvironmfnt fnv = (CommbndEnvironmfnt) obj;
+                rfturn
+                    ((dommbnd == null ? fnv.dommbnd == null :
+                      dommbnd.fqubls(fnv.dommbnd)) &&
+                     Arrbys.fqubls(options, fnv.options));
+            } flsf {
+                rfturn fblsf;
+            }
+        }
+
+        /**
+         * Rfturn idfntidbl vblufs for similbr
+         * <dodf>CommbndEnvironmfnt</dodf>s.
+         * @rfturn bn intfgfr
+         * @sff jbvb.util.Hbshtbblf
+         */
+        publid int hbshCodf()
+        {
+            // hbsh dommbnd bnd ignorf possibly fxpfnsivf options
+            rfturn (dommbnd == null ? 0 : dommbnd.hbshCodf());
+        }
+
+        /**
+         * <dodf>rfbdObjfdt</dodf> for dustom sfriblizbtion.
+         *
+         * <p>This mfthod rfbds this objfdt's sfriblizfd form for this
+         * dlbss bs follows:
+         *
+         * <p>This mfthod first invokfs <dodf>dffbultRfbdObjfdt</dodf> on
+         * thf spfdififd objfdt input strfbm, bnd if <dodf>options</dodf>
+         * is <dodf>null</dodf>, thfn <dodf>options</dodf> is sft to b
+         * zfro-lfngth brrby of <dodf>String</dodf>.
+         */
+        privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            throws IOExdfption, ClbssNotFoundExdfption
+        {
+            in.dffbultRfbdObjfdt();
+            if (options == null) {
+                options = nfw String[0];
+            }
+        }
+    }
+
+    /**
+     * Compbrfs two bdtivbtion group dfsdriptors for dontfnt fqublity.
+     *
+     * @pbrbm   obj     thf Objfdt to dompbrf with
+     * @rfturn  truf if thfsf Objfdts brf fqubl; fblsf othfrwisf.
+     * @sff             jbvb.util.Hbshtbblf
+     * @sindf 1.2
+     */
+    publid boolfbn fqubls(Objfdt obj) {
+
+        if (obj instbndfof AdtivbtionGroupDfsd) {
+            AdtivbtionGroupDfsd dfsd = (AdtivbtionGroupDfsd) obj;
+            rfturn
+                ((dlbssNbmf == null ? dfsd.dlbssNbmf == null :
+                  dlbssNbmf.fqubls(dfsd.dlbssNbmf)) &&
+                 (lodbtion == null ? dfsd.lodbtion == null :
+                  lodbtion.fqubls(dfsd.lodbtion)) &&
+                 (dbtb == null ? dfsd.dbtb == null : dbtb.fqubls(dfsd.dbtb)) &&
+                 (fnv == null ? dfsd.fnv == null : fnv.fqubls(dfsd.fnv)) &&
+                 (props == null ? dfsd.props == null :
+                  props.fqubls(dfsd.props)));
+        } flsf {
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Produdf idfntidbl numbfrs for similbr <dodf>AdtivbtionGroupDfsd</dodf>s.
+     * @rfturn bn intfgfr
+     * @sff jbvb.util.Hbshtbblf
+     */
+    publid int hbshCodf() {
+        // hbsh lodbtion, dlbssNbmf, dbtb, bnd fnv
+        // but omit props (mby bf fxpfnsivf)
+        rfturn ((lodbtion == null
+                    ? 0
+                    : lodbtion.hbshCodf() << 24) ^
+                (fnv == null
+                    ? 0
+                    : fnv.hbshCodf() << 16) ^
+                (dlbssNbmf == null
+                    ? 0
+                    : dlbssNbmf.hbshCodf() << 8) ^
+                (dbtb == null
+                    ? 0
+                    : dbtb.hbshCodf()));
+    }
+}

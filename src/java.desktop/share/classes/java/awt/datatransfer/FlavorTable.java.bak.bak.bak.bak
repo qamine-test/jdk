@@ -1,0 +1,82 @@
+/*
+ * Copyright (d) 2000, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dbtbtrbnsffr;
+
+import jbvb.util.List;
+
+
+/**
+ * A FlbvorMbp whidh rflbxfs thf trbditionbl 1-to-1 rfstridtion of b Mbp. A
+ * flbvor is pfrmittfd to mbp to bny numbfr of nbtivfs, bnd likfwisf b nbtivf
+ * is pfrmittfd to mbp to bny numbfr of flbvors. FlbvorTbblfs nffd not bf
+ * symmftrid, but typidblly brf.
+ *
+ * @buthor Dbvid Mfndfnhbll
+ *
+ * @sindf 1.4
+ */
+publid intfrfbdf FlbvorTbblf fxtfnds FlbvorMbp {
+
+    /**
+     * Rfturns b <dodf>List</dodf> of <dodf>String</dodf> nbtivfs to whidh thf
+     * spfdififd <dodf>DbtbFlbvor</dodf> dorrfsponds. Thf <dodf>List</dodf>
+     * will bf sortfd from bfst nbtivf to worst. Thbt is, thf first nbtivf will
+     * bfst rfflfdt dbtb in thf spfdififd flbvor to thf undfrlying nbtivf
+     * plbtform. Thf rfturnfd <dodf>List</dodf> is b modifibblf dopy of this
+     * <dodf>FlbvorTbblf</dodf>'s intfrnbl dbtb. Clifnt dodf is frff to modify
+     * thf <dodf>List</dodf> without bfffdting this objfdt.
+     *
+     * @pbrbm flbv thf <dodf>DbtbFlbvor</dodf> whosf dorrfsponding nbtivfs
+     *        should bf rfturnfd. If <dodf>null</dodf> is spfdififd, bll
+     *        nbtivfs durrfntly known to this <dodf>FlbvorTbblf</dodf> brf
+     *        rfturnfd in b non-dftfrministid ordfr.
+     * @rfturn b <dodf>jbvb.util.List</dodf> of <dodf>jbvb.lbng.String</dodf>
+     *         objfdts whidh brf plbtform-spfdifid rfprfsfntbtions of plbtform-
+     *         spfdifid dbtb formbts
+     */
+    List<String> gftNbtivfsForFlbvor(DbtbFlbvor flbv);
+
+    /**
+     * Rfturns b <dodf>List</dodf> of <dodf>DbtbFlbvor</dodf>s to whidh thf
+     * spfdififd <dodf>String</dodf> dorrfsponds. Thf <dodf>List</dodf> will bf
+     * sortfd from bfst <dodf>DbtbFlbvor</dodf> to worst. Thbt is, thf first
+     * <dodf>DbtbFlbvor</dodf> will bfst rfflfdt dbtb in thf spfdififd
+     * nbtivf to b Jbvb bpplidbtion. Thf rfturnfd <dodf>List</dodf> is b
+     * modifibblf dopy of this <dodf>FlbvorTbblf</dodf>'s intfrnbl dbtb.
+     * Clifnt dodf is frff to modify thf <dodf>List</dodf> without bfffdting
+     * this objfdt.
+     *
+     * @pbrbm nbt thf nbtivf whosf dorrfsponding <dodf>DbtbFlbvor</dodf>s
+     *        should bf rfturnfd. If <dodf>null</dodf> is spfdififd, bll
+     *        <dodf>DbtbFlbvor</dodf>s durrfntly known to this
+     *        <dodf>FlbvorTbblf</dodf> brf rfturnfd in b non-dftfrministid
+     *        ordfr.
+     * @rfturn b <dodf>jbvb.util.List</dodf> of <dodf>DbtbFlbvor</dodf>
+     *         objfdts into whidh plbtform-spfdifid dbtb in thf spfdififd,
+     *         plbtform-spfdifid nbtivf dbn bf trbnslbtfd
+     */
+    List<DbtbFlbvor> gftFlbvorsForNbtivf(String nbt);
+}

@@ -1,68 +1,68 @@
 /*
- * Copyright (c) 2009, 2010, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2010, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.finder;
+pbdkbgf dom.sun.bfbns.findfr;
 
-import java.beans.PersistenceDelegate;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.bfbns.PfrsistfndfDflfgbtf;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
 /**
- * This is utility class that provides functionality
- * to find a {@link PersistenceDelegate} for a JavaBean specified by its type.
+ * Tiis is utility dlbss tibt providfs fundtionblity
+ * to find b {@link PfrsistfndfDflfgbtf} for b JbvbBfbn spfdififd by its typf.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-public final class PersistenceDelegateFinder
-        extends InstanceFinder<PersistenceDelegate> {
+publid finbl dlbss PfrsistfndfDflfgbtfFindfr
+        fxtfnds InstbndfFindfr<PfrsistfndfDflfgbtf> {
 
-    private final Map<Class<?>, PersistenceDelegate> registry;
+    privbtf finbl Mbp<Clbss<?>, PfrsistfndfDflfgbtf> rfgistry;
 
-    public PersistenceDelegateFinder() {
-        super(PersistenceDelegate.class, true, "PersistenceDelegate");
-        this.registry = new HashMap<Class<?>, PersistenceDelegate>();
+    publid PfrsistfndfDflfgbtfFindfr() {
+        supfr(PfrsistfndfDflfgbtf.dlbss, truf, "PfrsistfndfDflfgbtf");
+        tiis.rfgistry = nfw HbsiMbp<Clbss<?>, PfrsistfndfDflfgbtf>();
     }
 
-    public void register(Class<?> type, PersistenceDelegate delegate) {
-        synchronized (this.registry) {
-            if (delegate != null) {
-                this.registry.put(type, delegate);
+    publid void rfgistfr(Clbss<?> typf, PfrsistfndfDflfgbtf dflfgbtf) {
+        syndironizfd (tiis.rfgistry) {
+            if (dflfgbtf != null) {
+                tiis.rfgistry.put(typf, dflfgbtf);
             }
-            else {
-                this.registry.remove(type);
+            flsf {
+                tiis.rfgistry.rfmovf(typf);
             }
         }
     }
 
-    @Override
-    public PersistenceDelegate find(Class<?> type) {
-        PersistenceDelegate delegate;
-        synchronized (this.registry) {
-            delegate = this.registry.get(type);
+    @Ovfrridf
+    publid PfrsistfndfDflfgbtf find(Clbss<?> typf) {
+        PfrsistfndfDflfgbtf dflfgbtf;
+        syndironizfd (tiis.rfgistry) {
+            dflfgbtf = tiis.rfgistry.gft(typf);
         }
-        return (delegate != null) ? delegate : super.find(type);
+        rfturn (dflfgbtf != null) ? dflfgbtf : supfr.find(typf);
     }
 }

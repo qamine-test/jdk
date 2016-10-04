@@ -1,88 +1,88 @@
 /*
- * Copyright (c) 2004, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include <string.h>
-#include <stdlib.h>
+#indludf <string.i>
+#indludf <stdlib.i>
 
-#include "jni.h"
-#include "manifest_info.h"
-#include "JarFacade.h"
+#indludf "jni.i"
+#indludf "mbniffst_info.i"
+#indludf "JbrFbdbdf.i"
 
-typedef struct {
-    jarAttribute* head;
-    jarAttribute* tail;
-} iterationContext;
+typfdff strudt {
+    jbrAttributf* ifbd;
+    jbrAttributf* tbil;
+} itfrbtionContfxt;
 
-static void
-doAttribute(const char* name, const char* value, void* user_data) {
-    iterationContext* context = (iterationContext*) user_data;
+stbtid void
+doAttributf(donst dibr* nbmf, donst dibr* vbluf, void* usfr_dbtb) {
+    itfrbtionContfxt* dontfxt = (itfrbtionContfxt*) usfr_dbtb;
 
-    jarAttribute* attribute = (jarAttribute*)malloc(sizeof(jarAttribute));
-    if (attribute != NULL) {
-        attribute->name = strdup(name);
-        if (attribute->name == NULL) {
-            free(attribute);
-        } else {
-            char *begin = (char *)value;
-            char *end;
-            size_t value_len;
+    jbrAttributf* bttributf = (jbrAttributf*)mbllod(sizfof(jbrAttributf));
+    if (bttributf != NULL) {
+        bttributf->nbmf = strdup(nbmf);
+        if (bttributf->nbmf == NULL) {
+            frff(bttributf);
+        } flsf {
+            dibr *bfgin = (dibr *)vbluf;
+            dibr *fnd;
+            sizf_t vbluf_lfn;
 
-            /* skip any leading white space */
-            while (*begin == ' ') {
-                begin++;
+            /* skip bny lfbding wiitf spbdf */
+            wiilf (*bfgin == ' ') {
+                bfgin++;
             }
 
-            /* skip any trailing white space */
-            end = &begin[strlen(begin)];
-            while (end > begin && end[-1] == ' ') {
-                end--;
+            /* skip bny trbiling wiitf spbdf */
+            fnd = &bfgin[strlfn(bfgin)];
+            wiilf (fnd > bfgin && fnd[-1] == ' ') {
+                fnd--;
             }
 
-            if (begin == end) {
-                /* no value so skip this attribute */
-                free(attribute->name);
-                free(attribute);
-                return;
+            if (bfgin == fnd) {
+                /* no vbluf so skip tiis bttributf */
+                frff(bttributf->nbmf);
+                frff(bttributf);
+                rfturn;
             }
 
-            value_len = (size_t)(end - begin);
-            attribute->value = malloc(value_len + 1);
-            if (attribute->value == NULL) {
-                free(attribute->name);
-                free(attribute);
-            } else {
-                /* save the value without leading or trailing whitespace */
-                strncpy(attribute->value, begin, value_len);
-                attribute->value[value_len] = '\0';
-                attribute->next = NULL;
-                if (context->head == NULL) {
-                    context->head = attribute;
-                } else {
-                    context->tail->next = attribute;
+            vbluf_lfn = (sizf_t)(fnd - bfgin);
+            bttributf->vbluf = mbllod(vbluf_lfn + 1);
+            if (bttributf->vbluf == NULL) {
+                frff(bttributf->nbmf);
+                frff(bttributf);
+            } flsf {
+                /* sbvf tif vbluf witiout lfbding or trbiling wiitfspbdf */
+                strndpy(bttributf->vbluf, bfgin, vbluf_lfn);
+                bttributf->vbluf[vbluf_lfn] = '\0';
+                bttributf->nfxt = NULL;
+                if (dontfxt->ifbd == NULL) {
+                    dontfxt->ifbd = bttributf;
+                } flsf {
+                    dontfxt->tbil->nfxt = bttributf;
                 }
-                context->tail = attribute;
+                dontfxt->tbil = bttributf;
             }
         }
 
@@ -90,51 +90,51 @@ doAttribute(const char* name, const char* value, void* user_data) {
 }
 
 /*
- * Return a list of attributes from the main section of the given JAR
- * file. Returns NULL if there is an error or there aren't any attributes.
+ * Rfturn b list of bttributfs from tif mbin sfdtion of tif givfn JAR
+ * filf. Rfturns NULL if tifrf is bn frror or tifrf brfn't bny bttributfs.
  */
-jarAttribute*
-readAttributes(const char* jarfile)
+jbrAttributf*
+rfbdAttributfs(donst dibr* jbrfilf)
 {
-    int rc;
-    iterationContext context = { NULL, NULL };
+    int rd;
+    itfrbtionContfxt dontfxt = { NULL, NULL };
 
-    rc = JLI_ManifestIterate(jarfile, doAttribute, (void*)&context);
+    rd = JLI_MbniffstItfrbtf(jbrfilf, doAttributf, (void*)&dontfxt);
 
-    if (rc == 0) {
-        return context.head;
-    } else {
-        freeAttributes(context.head);
-        return NULL;
+    if (rd == 0) {
+        rfturn dontfxt.ifbd;
+    } flsf {
+        frffAttributfs(dontfxt.ifbd);
+        rfturn NULL;
     }
 }
 
 
 /*
- * Free a list of attributes
+ * Frff b list of bttributfs
  */
 void
-freeAttributes(jarAttribute* head) {
-    while (head != NULL) {
-        jarAttribute* next = (jarAttribute*)head->next;
-        free(head->name);
-        free(head->value);
-        free(head);
-        head = next;
+frffAttributfs(jbrAttributf* ifbd) {
+    wiilf (ifbd != NULL) {
+        jbrAttributf* nfxt = (jbrAttributf*)ifbd->nfxt;
+        frff(ifbd->nbmf);
+        frff(ifbd->vbluf);
+        frff(ifbd);
+        ifbd = nfxt;
     }
 }
 
 /*
- * Get the value of an attribute in an attribute list. Returns NULL
- * if attribute not found.
+ * Gft tif vbluf of bn bttributf in bn bttributf list. Rfturns NULL
+ * if bttributf not found.
  */
-char*
-getAttribute(const jarAttribute* attributes, const char* name) {
-    while (attributes != NULL) {
-        if (strcasecmp(attributes->name, name) == 0) {
-            return attributes->value;
+dibr*
+gftAttributf(donst jbrAttributf* bttributfs, donst dibr* nbmf) {
+    wiilf (bttributfs != NULL) {
+        if (strdbsfdmp(bttributfs->nbmf, nbmf) == 0) {
+            rfturn bttributfs->vbluf;
         }
-        attributes = (jarAttribute*)attributes->next;
+        bttributfs = (jbrAttributf*)bttributfs->nfxt;
     }
-    return NULL;
+    rfturn NULL;
 }

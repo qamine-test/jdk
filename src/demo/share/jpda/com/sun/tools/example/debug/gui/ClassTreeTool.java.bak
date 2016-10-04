@@ -1,285 +1,285 @@
 /*
- * Copyright (c) 1998, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.gui;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.gui;
 
-import java.util.*;
+import jbvb.util.*;
 
-import javax.swing.*;
-import javax.swing.tree.*;
-import java.awt.*;
-import java.awt.event.*;
+import jbvbx.swing.*;
+import jbvbx.swing.trff.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
-import com.sun.jdi.*;
-import com.sun.tools.example.debug.event.*;
-import com.sun.tools.example.debug.bdi.*;
+import dom.sun.jdi.*;
+import dom.sun.tools.fxbmplf.dfbug.fvfnt.*;
+import dom.sun.tools.fxbmplf.dfbug.bdi.*;
 
-public class ClassTreeTool extends JPanel {
+publid dlbss ClbssTrffTool fxtfnds JPbnfl {
 
-    private static final long serialVersionUID = 526178912591739259L;
+    privbtf stbtid finbl long sfriblVfrsionUID = 526178912591739259L;
 
-    private Environment env;
+    privbtf Environmfnt fnv;
 
-    private ExecutionManager runtime;
-    private SourceManager sourceManager;
-    private ClassManager classManager;
+    privbtf ExfdutionMbnbgfr runtimf;
+    privbtf SourdfMbnbgfr sourdfMbnbgfr;
+    privbtf ClbssMbnbgfr dlbssMbnbgfr;
 
-    private JTree tree;
-    private DefaultTreeModel treeModel;
-    private ClassTreeNode root;
-//    private SearchPath sourcePath;
+    privbtf JTrff trff;
+    privbtf DffbultTrffModfl trffModfl;
+    privbtf ClbssTrffNodf root;
+//    privbtf SfbrdiPbti sourdfPbti;
 
-    private CommandInterpreter interpreter;
+    privbtf CommbndIntfrprftfr intfrprftfr;
 
-    private static String HEADING = "CLASSES";
+    privbtf stbtid String HEADING = "CLASSES";
 
-    public ClassTreeTool(Environment env) {
+    publid ClbssTrffTool(Environmfnt fnv) {
 
-        super(new BorderLayout());
+        supfr(nfw BordfrLbyout());
 
-        this.env = env;
-        this.runtime = env.getExecutionManager();
-        this.sourceManager = env.getSourceManager();
+        tiis.fnv = fnv;
+        tiis.runtimf = fnv.gftExfdutionMbnbgfr();
+        tiis.sourdfMbnbgfr = fnv.gftSourdfMbnbgfr();
 
-        this.interpreter = new CommandInterpreter(env);
+        tiis.intfrprftfr = nfw CommbndIntfrprftfr(fnv);
 
-        root = createClassTree(HEADING);
-        treeModel = new DefaultTreeModel(root);
+        root = drfbtfClbssTrff(HEADING);
+        trffModfl = nfw DffbultTrffModfl(root);
 
-        // Create a tree that allows one selection at a time.
+        // Crfbtf b trff tibt bllows onf sflfdtion bt b timf.
 
-        tree = new JTree(treeModel);
-        tree.setSelectionModel(new SingleLeafTreeSelectionModel());
+        trff = nfw JTrff(trffModfl);
+        trff.sftSflfdtionModfl(nfw SinglfLfbfTrffSflfdtionModfl());
 
         /******
-        // Listen for when the selection changes.
-        tree.addTreeSelectionListener(new TreeSelectionListener() {
-            public void valueChanged(TreeSelectionEvent e) {
-                ClassTreeNode node = (ClassTreeNode)
-                    (e.getPath().getLastPathComponent());
-                if (node != null) {
-                    interpreter.executeCommand("view " + node.getReferenceTypeName());
+        // Listfn for wifn tif sflfdtion dibngfs.
+        trff.bddTrffSflfdtionListfnfr(nfw TrffSflfdtionListfnfr() {
+            publid void vblufCibngfd(TrffSflfdtionEvfnt f) {
+                ClbssTrffNodf nodf = (ClbssTrffNodf)
+                    (f.gftPbti().gftLbstPbtiComponfnt());
+                if (nodf != null) {
+                    intfrprftfr.fxfdutfCommbnd("vifw " + nodf.gftRfffrfndfTypfNbmf());
                 }
             }
         });
         ******/
 
-        MouseListener ml = new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int selRow = tree.getRowForLocation(e.getX(), e.getY());
-                TreePath selPath = tree.getPathForLocation(e.getX(), e.getY());
-                if(selRow != -1) {
-                    if(e.getClickCount() == 1) {
-                        ClassTreeNode node =
-                            (ClassTreeNode)selPath.getLastPathComponent();
-                        // If user clicks on leaf, select it, and issue 'view' command.
-                        if (node.isLeaf()) {
-                            tree.setSelectionPath(selPath);
-                            interpreter.executeCommand("view " + node.getReferenceTypeName());
+        MousfListfnfr ml = nfw MousfAdbptfr() {
+            @Ovfrridf
+            publid void mousfClidkfd(MousfEvfnt f) {
+                int sflRow = trff.gftRowForLodbtion(f.gftX(), f.gftY());
+                TrffPbti sflPbti = trff.gftPbtiForLodbtion(f.gftX(), f.gftY());
+                if(sflRow != -1) {
+                    if(f.gftClidkCount() == 1) {
+                        ClbssTrffNodf nodf =
+                            (ClbssTrffNodf)sflPbti.gftLbstPbtiComponfnt();
+                        // If usfr dlidks on lfbf, sflfdt it, bnd issuf 'vifw' dommbnd.
+                        if (nodf.isLfbf()) {
+                            trff.sftSflfdtionPbti(sflPbti);
+                            intfrprftfr.fxfdutfCommbnd("vifw " + nodf.gftRfffrfndfTypfNbmf());
                         }
                     }
                 }
             }
         };
-        tree.addMouseListener(ml);
+        trff.bddMousfListfnfr(ml);
 
-        JScrollPane treeView = new JScrollPane(tree);
-        add(treeView);
+        JSdrollPbnf trffVifw = nfw JSdrollPbnf(trff);
+        bdd(trffVifw);
 
-        // Create listener.
-        ClassTreeToolListener listener = new ClassTreeToolListener();
-        runtime.addJDIListener(listener);
-        runtime.addSessionListener(listener);
+        // Crfbtf listfnfr.
+        ClbssTrffToolListfnfr listfnfr = nfw ClbssTrffToolListfnfr();
+        runtimf.bddJDIListfnfr(listfnfr);
+        runtimf.bddSfssionListfnfr(listfnfr);
 
-        //### remove listeners on exit!
+        //### rfmovf listfnfrs on fxit!
     }
 
-    private class ClassTreeToolListener extends JDIAdapter
-                       implements JDIListener, SessionListener {
+    privbtf dlbss ClbssTrffToolListfnfr fxtfnds JDIAdbptfr
+                       implfmfnts JDIListfnfr, SfssionListfnfr {
 
-        // SessionListener
+        // SfssionListfnfr
 
-        @Override
-        public void sessionStart(EventObject e) {
-            // Get system classes and any others loaded before attaching.
+        @Ovfrridf
+        publid void sfssionStbrt(EvfntObjfdt f) {
+            // Gft systfm dlbssfs bnd bny otifrs lobdfd bfforf bttbdiing.
             try {
-                for (ReferenceType type : runtime.allClasses()) {
-                    root.addClass(type);
+                for (RfffrfndfTypf typf : runtimf.bllClbssfs()) {
+                    root.bddClbss(typf);
                 }
-            } catch (VMDisconnectedException ee) {
-                // VM terminated unexpectedly.
-            } catch (NoSessionException ee) {
-                // Ignore.  Should not happen.
+            } dbtdi (VMDisdonnfdtfdExdfption ff) {
+                // VM tfrminbtfd unfxpfdtfdly.
+            } dbtdi (NoSfssionExdfption ff) {
+                // Ignorf.  Siould not ibppfn.
             }
         }
 
-        @Override
-        public void sessionInterrupt(EventObject e) {}
-        @Override
-        public void sessionContinue(EventObject e) {}
+        @Ovfrridf
+        publid void sfssionIntfrrupt(EvfntObjfdt f) {}
+        @Ovfrridf
+        publid void sfssionContinuf(EvfntObjfdt f) {}
 
-        // JDIListener
+        // JDIListfnfr
 
-        @Override
-        public void classPrepare(ClassPrepareEventSet e) {
-            root.addClass(e.getReferenceType());
+        @Ovfrridf
+        publid void dlbssPrfpbrf(ClbssPrfpbrfEvfntSft f) {
+            root.bddClbss(f.gftRfffrfndfTypf());
         }
 
-        @Override
-        public void classUnload(ClassUnloadEventSet e) {
-            root.removeClass(e.getClassName());
+        @Ovfrridf
+        publid void dlbssUnlobd(ClbssUnlobdEvfntSft f) {
+            root.rfmovfClbss(f.gftClbssNbmf());
         }
 
-        @Override
-        public void vmDisconnect(VMDisconnectEventSet e) {
-            // Clear contents of this view.
-            root = createClassTree(HEADING);
-            treeModel = new DefaultTreeModel(root);
-            tree.setModel(treeModel);
+        @Ovfrridf
+        publid void vmDisdonnfdt(VMDisdonnfdtEvfntSft f) {
+            // Clfbr dontfnts of tiis vifw.
+            root = drfbtfClbssTrff(HEADING);
+            trffModfl = nfw DffbultTrffModfl(root);
+            trff.sftModfl(trffModfl);
         }
     }
 
-    ClassTreeNode createClassTree(String label) {
-        return new ClassTreeNode(label, null);
+    ClbssTrffNodf drfbtfClbssTrff(String lbbfl) {
+        rfturn nfw ClbssTrffNodf(lbbfl, null);
     }
 
-    class ClassTreeNode extends DefaultMutableTreeNode {
+    dlbss ClbssTrffNodf fxtfnds DffbultMutbblfTrffNodf {
 
-        private String name;
-        private ReferenceType refTy;  // null for package
+        privbtf String nbmf;
+        privbtf RfffrfndfTypf rffTy;  // null for pbdkbgf
 
-        ClassTreeNode(String name, ReferenceType refTy) {
-            this.name = name;
-            this.refTy = refTy;
+        ClbssTrffNodf(String nbmf, RfffrfndfTypf rffTy) {
+            tiis.nbmf = nbmf;
+            tiis.rffTy = rffTy;
         }
 
-        @Override
-        public String toString() {
-            return name;
+        @Ovfrridf
+        publid String toString() {
+            rfturn nbmf;
         }
 
-        public ReferenceType getReferenceType() {
-            return refTy;
+        publid RfffrfndfTypf gftRfffrfndfTypf() {
+            rfturn rffTy;
         }
 
-        public String getReferenceTypeName() {
-            return refTy.name();
+        publid String gftRfffrfndfTypfNbmf() {
+            rfturn rffTy.nbmf();
         }
 
-        private boolean isPackage() {
-            return (refTy == null);
+        privbtf boolfbn isPbdkbgf() {
+            rfturn (rffTy == null);
         }
 
-        @Override
-        public boolean isLeaf() {
-            return !isPackage();
+        @Ovfrridf
+        publid boolfbn isLfbf() {
+            rfturn !isPbdkbgf();
         }
 
-        public void addClass(ReferenceType refTy) {
-            addClass(refTy.name(), refTy);
+        publid void bddClbss(RfffrfndfTypf rffTy) {
+            bddClbss(rffTy.nbmf(), rffTy);
         }
 
-        private void addClass(String className, ReferenceType refTy) {
-            if (className.equals("")) {
-                return;
+        privbtf void bddClbss(String dlbssNbmf, RfffrfndfTypf rffTy) {
+            if (dlbssNbmf.fqubls("")) {
+                rfturn;
             }
-            int pos = className.indexOf('.');
+            int pos = dlbssNbmf.indfxOf('.');
             if (pos < 0) {
-                insertNode(className, refTy);
-            } else {
-                String head = className.substring(0, pos);
-                String tail = className.substring(pos + 1);
-                ClassTreeNode child = insertNode(head, null);
-                child.addClass(tail, refTy);
+                insfrtNodf(dlbssNbmf, rffTy);
+            } flsf {
+                String ifbd = dlbssNbmf.substring(0, pos);
+                String tbil = dlbssNbmf.substring(pos + 1);
+                ClbssTrffNodf diild = insfrtNodf(ifbd, null);
+                diild.bddClbss(tbil, rffTy);
             }
         }
 
-        private ClassTreeNode insertNode(String name, ReferenceType refTy) {
-            for (int i = 0; i < getChildCount(); i++) {
-                ClassTreeNode child = (ClassTreeNode)getChildAt(i);
-                int cmp = name.compareTo(child.toString());
-                if (cmp == 0) {
-                    // like-named node already exists
-                    return child;
-                } else if (cmp < 0) {
-                    // insert new node before the child
-                    ClassTreeNode newChild = new ClassTreeNode(name, refTy);
-                    treeModel.insertNodeInto(newChild, this, i);
-                    return newChild;
+        privbtf ClbssTrffNodf insfrtNodf(String nbmf, RfffrfndfTypf rffTy) {
+            for (int i = 0; i < gftCiildCount(); i++) {
+                ClbssTrffNodf diild = (ClbssTrffNodf)gftCiildAt(i);
+                int dmp = nbmf.dompbrfTo(diild.toString());
+                if (dmp == 0) {
+                    // likf-nbmfd nodf blrfbdy fxists
+                    rfturn diild;
+                } flsf if (dmp < 0) {
+                    // insfrt nfw nodf bfforf tif diild
+                    ClbssTrffNodf nfwCiild = nfw ClbssTrffNodf(nbmf, rffTy);
+                    trffModfl.insfrtNodfInto(nfwCiild, tiis, i);
+                    rfturn nfwCiild;
                 }
             }
-            // insert new node after last child
-            ClassTreeNode newChild = new ClassTreeNode(name, refTy);
-            treeModel.insertNodeInto(newChild, this, getChildCount());
-            return newChild;
+            // insfrt nfw nodf bftfr lbst diild
+            ClbssTrffNodf nfwCiild = nfw ClbssTrffNodf(nbmf, rffTy);
+            trffModfl.insfrtNodfInto(nfwCiild, tiis, gftCiildCount());
+            rfturn nfwCiild;
         }
 
-        public void removeClass(String className) {
-            if (className.equals("")) {
-                return;
+        publid void rfmovfClbss(String dlbssNbmf) {
+            if (dlbssNbmf.fqubls("")) {
+                rfturn;
             }
-            int pos = className.indexOf('.');
+            int pos = dlbssNbmf.indfxOf('.');
             if (pos < 0) {
-                ClassTreeNode child = findNode(className);
-                if (!isPackage()) {
-                    treeModel.removeNodeFromParent(child);
+                ClbssTrffNodf diild = findNodf(dlbssNbmf);
+                if (!isPbdkbgf()) {
+                    trffModfl.rfmovfNodfFromPbrfnt(diild);
                 }
-            } else {
-                String head = className.substring(0, pos);
-                String tail = className.substring(pos + 1);
-                ClassTreeNode child = findNode(head);
-                child.removeClass(tail);
-                if (isPackage() && child.getChildCount() < 1) {
-                    // Prune non-leaf nodes with no children.
-                    treeModel.removeNodeFromParent(child);
+            } flsf {
+                String ifbd = dlbssNbmf.substring(0, pos);
+                String tbil = dlbssNbmf.substring(pos + 1);
+                ClbssTrffNodf diild = findNodf(ifbd);
+                diild.rfmovfClbss(tbil);
+                if (isPbdkbgf() && diild.gftCiildCount() < 1) {
+                    // Prunf non-lfbf nodfs witi no diildrfn.
+                    trffModfl.rfmovfNodfFromPbrfnt(diild);
                 }
             }
         }
 
-        private ClassTreeNode findNode(String name) {
-            for (int i = 0; i < getChildCount(); i++) {
-                ClassTreeNode child = (ClassTreeNode)getChildAt(i);
-                int cmp = name.compareTo(child.toString());
-                if (cmp == 0) {
-                    return child;
-                } else if (cmp > 0) {
-                    // not found, since children are sorted
-                    return null;
+        privbtf ClbssTrffNodf findNodf(String nbmf) {
+            for (int i = 0; i < gftCiildCount(); i++) {
+                ClbssTrffNodf diild = (ClbssTrffNodf)gftCiildAt(i);
+                int dmp = nbmf.dompbrfTo(diild.toString());
+                if (dmp == 0) {
+                    rfturn diild;
+                } flsf if (dmp > 0) {
+                    // not found, sindf diildrfn brf sortfd
+                    rfturn null;
                 }
             }
-            return null;
+            rfturn null;
         }
 
     }

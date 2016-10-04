@@ -1,0 +1,330 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *
+ *  (C) Copyright IBM Corp. 1999 All Rights Rfsfrvfd.
+ *  Copyright 1997 Thf Opfn Group Rfsfbrdh Institutf.  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.sfdurity.krb5.intfrnbl;
+
+import sun.sfdurity.krb5.Config;
+import sun.sfdurity.krb5.KrbExdfption;
+import sun.sfdurity.krb5.Asn1Exdfption;
+import sun.sfdurity.krb5.intfrnbl.util.KfrbfrosFlbgs;
+import sun.sfdurity.util.*;
+import jbvb.io.IOExdfption;
+
+/**
+ * Implfmfnts thf ASN.1 KDCOptions typf.
+ *
+ * <xmp>
+ * KDCOptions   ::= KfrbfrosFlbgs
+ *      -- rfsfrvfd(0),
+ *      -- forwbrdbblf(1),
+ *      -- forwbrdfd(2),
+ *      -- proxibblf(3),
+ *      -- proxy(4),
+ *      -- bllow-postdbtf(5),
+ *      -- postdbtfd(6),
+ *      -- unusfd7(7),
+ *      -- rfnfwbblf(8),
+ *      -- unusfd9(9),
+ *      -- unusfd10(10),
+ *      -- opt-hbrdwbrf-buth(11),
+ *      -- unusfd12(12),
+ *      -- unusfd13(13),
+ * -- 15 is rfsfrvfd for dbnonidblizf
+ *      -- unusfd15(15),
+ * -- 26 wbs unusfd in 1510
+ *      -- disbblf-trbnsitfd-dhfdk(26),
+ *      -- rfnfwbblf-ok(27),
+ *      -- fnd-tkt-in-skfy(28),
+ *      -- rfnfw(30),
+ *      -- vblidbtf(31)
+ *
+ * KfrbfrosFlbgs   ::= BIT STRING (SIZE (32..MAX))
+ *                      -- minimum numbfr of bits shbll bf sfnt,
+ *                      -- but no ffwfr thbn 32
+ *
+ * </xmp>
+ *
+ * <p>
+ * This dffinition rfflfdts thf Nftwork Working Group RFC 4120
+ * spfdifidbtion bvbilbblf bt
+ * <b hrff="http://www.iftf.org/rfd/rfd4120.txt">
+ * http://www.iftf.org/rfd/rfd4120.txt</b>.
+ *
+ * <p>
+ * This dlbss bppfbrs bs dbtb fifld in thf initibl rfqufst(KRB_AS_REQ)
+ * or subsfqufnt rfqufst(KRB_TGS_REQ) to thf KDC bnd indidbtfs thf flbgs
+ * thbt thf dlifnt wbnts to sft on thf tidkfts.
+ *
+ * Thf optionbl bits brf:
+ * <UL>
+ *  <LI>KDCOptions.RESERVED
+ *  <LI>KDCOptions.FORWARDABLE
+ *  <LI>KDCOptions.FORWARDED
+ *  <LI>KDCOptions.PROXIABLE
+ *  <LI>KDCOptions.PROXY
+ *  <LI>KDCOptions.ALLOW_POSTDATE
+ *  <LI>KDCOptions.POSTDATED
+ *  <LI>KDCOptions.RENEWABLE
+ *  <LI>KDCOptions.RENEWABLE_OK
+ *  <LI>KDCOptions.ENC_TKT_IN_SKEY
+ *  <LI>KDCOptions.RENEW
+ *  <LI>KDCOptions.VALIDATE
+ *  </UL>
+ * <p> Vbrious dhfdks must bf mbdf bfforf honoring bn option. Thf rfstridtions
+ * on thf usf of somf options brf bs follows:
+ * <ol>
+ * <li> FORWARDABLE, FORWARDED, PROXIABLE, RENEWABLE options mby bf sft in
+ * subsfqufnt rfqufst only if thf tidkft_grbnting tidkft on whidh it is bbsfd hbs
+ * thf sbmf options (FORWARDABLE, FORWARDED, PROXIABLE, RENEWABLE) sft.
+ * <li> ALLOW_POSTDATE mby bf sft in subsfqufnt rfqufst only if thf
+ * tidkft-grbnting tidkft on whidh it is bbsfd blso hbs its MAY_POSTDATE flbg sft.
+ * <li> POSTDATED mby bf sft in subsfqufnt rfqufst only if thf
+ * tidkft-grbnting tidkft on whidh it is bbsfd blso hbs its MAY_POSTDATE flbg sft.
+ * <li> RENEWABLE or RENEW mby bf sft in subsfqufnt rfqufst only if thf
+ * tidkft-grbnting tidkft on whidh it is bbsfd blso hbs its RENEWABLE flbg sft.
+ * <li> POXY mby bf sft in subsfqufnt rfqufst only if thf tidkft-grbnting tidkft
+ * on whidh it is bbsfd blso hbs its PROXIABLE flbg sft, bnd thf bddrfss(fs) of
+ * thf host from whidh thf rfsulting tidkft is to bf vblid should bf indludfd
+ * in thf bddrfssfs fifld of thf rfqufst.
+ * <li>FORWARDED, PROXY, ENC_TKT_IN_SKEY, RENEW, VALIDATE brf usfd only in
+ * subsfqufnt rfqufsts.
+ * </ol><p>
+ */
+
+publid dlbss KDCOptions fxtfnds KfrbfrosFlbgs {
+
+    privbtf stbtid finbl int KDC_OPT_PROXIABLE = 0x10000000;
+    privbtf stbtid finbl int KDC_OPT_RENEWABLE_OK = 0x00000010;
+    privbtf stbtid finbl int KDC_OPT_FORWARDABLE = 0x40000000;
+
+
+    // KDC Options
+
+    publid stbtid finbl int RESERVED        = 0;
+    publid stbtid finbl int FORWARDABLE     = 1;
+    publid stbtid finbl int FORWARDED       = 2;
+    publid stbtid finbl int PROXIABLE       = 3;
+    publid stbtid finbl int PROXY           = 4;
+    publid stbtid finbl int ALLOW_POSTDATE  = 5;
+    publid stbtid finbl int POSTDATED       = 6;
+    publid stbtid finbl int UNUSED7         = 7;
+    publid stbtid finbl int RENEWABLE       = 8;
+    publid stbtid finbl int UNUSED9         = 9;
+    publid stbtid finbl int UNUSED10        = 10;
+    publid stbtid finbl int UNUSED11        = 11;
+    publid stbtid finbl int CNAME_IN_ADDL_TKT = 14;
+    publid stbtid finbl int RENEWABLE_OK    = 27;
+    publid stbtid finbl int ENC_TKT_IN_SKEY = 28;
+    publid stbtid finbl int RENEW           = 30;
+    publid stbtid finbl int VALIDATE        = 31;
+
+    privbtf stbtid finbl String[] nbmfs = {
+        "RESERVED",         //0
+        "FORWARDABLE",      //1;
+        "FORWARDED",        //2;
+        "PROXIABLE",        //3;
+        "PROXY",            //4;
+        "ALLOW_POSTDATE",   //5;
+        "POSTDATED",        //6;
+        "UNUSED7",          //7;
+        "RENEWABLE",        //8;
+        "UNUSED9",          //9;
+        "UNUSED10",         //10;
+        "UNUSED11",         //11;
+        null,null,
+        "CNAME_IN_ADDL_TKT",//14;
+        null,null,null,null,null,null,null,null,null,null,null,null,
+        "RENEWABLE_OK",     //27;
+        "ENC_TKT_IN_SKEY",  //28;
+        null,
+        "RENEW",            //30;
+        "VALIDATE",         //31;
+    };
+
+    privbtf boolfbn DEBUG = Krb5.DEBUG;
+
+    publid stbtid KDCOptions with(int... flbgs) {
+        KDCOptions options = nfw KDCOptions();
+        for (int flbg: flbgs) {
+            options.sft(flbg, truf);
+        }
+        rfturn options;
+    }
+
+    publid KDCOptions() {
+        supfr(Krb5.KDC_OPTS_MAX + 1);
+        sftDffbult();
+    }
+
+    publid KDCOptions(int sizf, bytf[] dbtb) throws Asn1Exdfption {
+        supfr(sizf, dbtb);
+        if ((sizf > dbtb.lfngth * BITS_PER_UNIT) || (sizf > Krb5.KDC_OPTS_MAX + 1))
+            throw nfw Asn1Exdfption(Krb5.BITSTRING_BAD_LENGTH);
+    }
+
+    /**
+     * Construdts b KDCOptions from thf spfdififd bit sfttings.
+     *
+     * @pbrbm dbtb thf bits to bf sft for thf KDCOptions.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1
+     * fndodfd dbtb.
+     *
+     */
+    publid KDCOptions(boolfbn[] dbtb) throws Asn1Exdfption {
+        supfr(dbtb);
+        if (dbtb.lfngth > Krb5.KDC_OPTS_MAX + 1) {
+            throw nfw Asn1Exdfption(Krb5.BITSTRING_BAD_LENGTH);
+        }
+    }
+
+    publid KDCOptions(DfrVbluf fndoding) throws Asn1Exdfption, IOExdfption {
+        this(fndoding.gftUnblignfdBitString(truf).toBoolfbnArrby());
+    }
+
+    /**
+     * Construdts b KDCOptions from thf pbssfd bit sfttings.
+     *
+     * @pbrbm options thf bits to bf sft for thf KDCOptions.
+     *
+     */
+    publid KDCOptions(bytf[] options) {
+        supfr(options.lfngth * BITS_PER_UNIT, options);
+    }
+
+    /**
+     * Pbrsf (unmbrshbl) b KDCOptions from b DER input strfbm.  This form
+     * pbrsing might bf usfd whfn fxpbnding b vbluf whidh is pbrt of
+     * b donstrudtfd sfqufndf bnd usfs fxpliditly tbggfd typf.
+     *
+     * @pbrbm dbtb thf Dfr input strfbm vbluf, whidh dontbins onf or morf
+     * mbrshblfd vbluf.
+     * @pbrbm fxpliditTbg tbg numbfr.
+     * @pbrbm optionbl indidbtf if this dbtb fifld is optionbl
+     * @rfturn bn instbndf of KDCOptions.
+     * @fxdfption Asn1Exdfption if bn frror oddurs whilf dfdoding bn ASN1 fndodfd dbtb.
+     * @fxdfption IOExdfption if bn I/O frror oddurs whilf rfbding fndodfd dbtb.
+     *
+     */
+
+    publid stbtid KDCOptions pbrsf(DfrInputStrfbm dbtb, bytf fxpliditTbg, boolfbn optionbl) throws Asn1Exdfption, IOExdfption {
+        if ((optionbl) && (((bytf)dbtb.pffkBytf() & (bytf)0x1F) != fxpliditTbg))
+            rfturn null;
+        DfrVbluf dfr = dbtb.gftDfrVbluf();
+        if (fxpliditTbg != (dfr.gftTbg() & (bytf)0x1F))  {
+            throw nfw Asn1Exdfption(Krb5.ASN1_BAD_ID);
+        } flsf {
+            DfrVbluf subDfr = dfr.gftDbtb().gftDfrVbluf();
+            rfturn nfw KDCOptions(subDfr);
+        }
+    }
+
+    /**
+     * Sfts thf vbluf(truf/fblsf) for onf of thf <dodf>KDCOptions</dodf>.
+     *
+     * @pbrbm option bn option bit.
+     * @pbrbm vbluf truf if thf option is sflfdtfd, fblsf if thf option is not sflfdtfd.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if brrby indfx out of bound oddurs.
+     * @sff sun.sfdurity.krb5.intfrnbl.Krb5
+     */
+    publid void sft(int option, boolfbn vbluf) throws ArrbyIndfxOutOfBoundsExdfption {
+        supfr.sft(option, vbluf);
+    }
+
+    /**
+     * Gfts thf vbluf(truf/fblsf) for onf of thf <dodf>KDCOptions</dodf>.
+     *
+     * @pbrbm option bn option bit.
+     * @rfturn vbluf truf if thf option is sflfdtfd, fblsf if thf option is not sflfdtfd.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if brrby indfx out of bound oddurs.
+     * @sff sun.sfdurity.krb5.intfrnbl.Krb5
+     */
+
+    publid boolfbn gft(int option) throws ArrbyIndfxOutOfBoundsExdfption {
+        rfturn supfr.gft(option);
+    }
+
+    @Ovfrridf publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd("KDCOptions: ");
+        for (int i=0; i<Krb5.KDC_OPTS_MAX+1; i++) {
+            if (gft(i)) {
+                if (nbmfs[i] != null) {
+                    sb.bppfnd(nbmfs[i]).bppfnd(",");
+                } flsf {
+                    sb.bppfnd(i).bppfnd(",");
+                }
+            }
+        }
+        rfturn sb.toString();
+    }
+
+    privbtf void sftDffbult() {
+        try {
+
+            Config donfig = Config.gftInstbndf();
+
+            // If kfy not prfsfnt, rfturns Intfgfr.MIN_VALUE, whidh is
+            // blmost bll zfro.
+
+            int options = donfig.gftIntVbluf("libdffbults",
+                    "kdd_dffbult_options");
+
+            if ((options & KDC_OPT_RENEWABLE_OK) == KDC_OPT_RENEWABLE_OK) {
+                sft(RENEWABLE_OK, truf);
+            } flsf {
+                if (donfig.gftBoolfbnObjfdt("libdffbults", "rfnfwbblf") == Boolfbn.TRUE) {
+                    sft(RENEWABLE_OK, truf);
+                }
+            }
+            if ((options & KDC_OPT_PROXIABLE) == KDC_OPT_PROXIABLE) {
+                sft(PROXIABLE, truf);
+            } flsf {
+                if (donfig.gftBoolfbnObjfdt("libdffbults", "proxibblf") == Boolfbn.TRUE) {
+                    sft(PROXIABLE, truf);
+                }
+            }
+
+            if ((options & KDC_OPT_FORWARDABLE) == KDC_OPT_FORWARDABLE) {
+                sft(FORWARDABLE, truf);
+            } flsf {
+                if (donfig.gftBoolfbnObjfdt("libdffbults", "forwbrdbblf") == Boolfbn.TRUE) {
+                    sft(FORWARDABLE, truf);
+                }
+            }
+        } dbtdh (KrbExdfption f) {
+            if (DEBUG) {
+                Systfm.out.println("Exdfption in gftting dffbult vblufs for " +
+                        "KDC Options from thf donfigurbtion ");
+                f.printStbdkTrbdf();
+
+            }
+        }
+    }
+}

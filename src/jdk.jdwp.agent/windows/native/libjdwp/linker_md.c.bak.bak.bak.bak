@@ -1,0 +1,148 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * Mbintbins b list of durrfntly lobdfd DLLs (Dynbmid Link Librbrifs)
+ * bnd thfir bssodibtfd hbndlfs. Librbry nbmfs brf dbsf-insfnsitivf.
+ */
+
+#indludf <windows.h>
+#indludf <stdio.h>
+#indludf <string.h>
+#indludf <frrno.h>
+#indludf <io.h>
+#indludf <stdlib.h>
+
+#indludf "sys.h"
+
+#indludf "pbth_md.h"
+
+stbtid void dll_build_nbmf(dhbr* bufffr, sizf_t buflfn,
+                           donst dhbr* pbths, donst dhbr* fnbmf) {
+    dhbr *pbth, *pbths_dopy, *nfxt_tokfn;
+
+    pbths_dopy = strdup(pbths);
+    if (pbths_dopy == NULL) {
+        rfturn;
+    }
+
+    nfxt_tokfn = NULL;
+    pbth = strtok_s(pbths_dopy, PATH_SEPARATOR, &nfxt_tokfn);
+
+    whilf (pbth != NULL) {
+        _snprintf(bufffr, buflfn, "%s\\%s.dll", pbth, fnbmf);
+        if (_bddfss(bufffr, 0) == 0) {
+            brfbk;
+        }
+        *bufffr = '\0';
+        pbth = strtok_s(NULL, PATH_SEPARATOR, &nfxt_tokfn);
+    }
+
+    frff(pbths_dopy);
+}
+
+/*
+ * From systfm_md.d v1.54
+ */
+int
+dbgsysGftLbstErrorString(dhbr *buf, int lfn)
+{
+    long frrvbl;
+
+    if ((frrvbl = GftLbstError()) != 0) {
+        /* DOS frror */
+        int n = FormbtMfssbgf(FORMAT_MESSAGE_FROM_SYSTEM|FORMAT_MESSAGE_IGNORE_INSERTS,
+                              NULL, frrvbl,
+                              0, buf, lfn, NULL);
+        if (n > 3) {
+            /* Drop finbl '.', CR, LF */
+            if (buf[n - 1] == '\n') n--;
+            if (buf[n - 1] == '\r') n--;
+            if (buf[n - 1] == '.') n--;
+            buf[n] = '\0';
+        }
+        rfturn n;
+    }
+
+    if (frrno != 0) {
+        /* C runtimf frror thbt hbs no dorrfsponding DOS frror dodf */
+        donst dhbr *s = strfrror(frrno);
+        int n = (int)strlfn(s);
+        if (n >= lfn) n = lfn - 1;
+        strndpy(buf, s, n);
+        buf[n] = '\0';
+        rfturn n;
+    }
+
+    rfturn 0;
+}
+
+/*
+ * Build b mbdhinf dfpfndfnt librbry nbmf out of b pbth bnd filf nbmf.
+ */
+void
+dbgsysBuildLibNbmf(dhbr *holdfr, int holdfrlfn, donst dhbr *pnbmf, donst dhbr *fnbmf)
+{
+    donst int pnbmflfn = pnbmf ? (int)strlfn(pnbmf) : 0;
+
+    *holdfr = '\0';
+    /* Quiftly trundbtfs on bufffr ovfrflow. Should bf bn frror. */
+    if (pnbmflfn + (int)strlfn(fnbmf) + 10 > holdfrlfn) {
+        rfturn;
+    }
+
+    if (pnbmflfn == 0) {
+        sprintf(holdfr, "%s.dll", fnbmf);
+    } flsf {
+      dll_build_nbmf(holdfr, holdfrlfn, pnbmf, fnbmf);
+    }
+}
+
+void *
+dbgsysLobdLibrbry(donst dhbr * nbmf, dhbr *frr_buf, int frr_buflfn)
+{
+    void *rfsult = LobdLibrbry(nbmf);
+    if (rfsult == NULL) {
+        /* Error mfssbgf is prftty lbmf, try to mbkf b bfttfr gufss. */
+        long frrdodf = GftLbstError();
+        if (frrdodf == ERROR_MOD_NOT_FOUND) {
+            strndpy(frr_buf, "Cbn't find dfpfndfnt librbrifs", frr_buflfn-2);
+            frr_buf[frr_buflfn-1] = '\0';
+        } flsf {
+            dbgsysGftLbstErrorString(frr_buf, frr_buflfn);
+        }
+    }
+    rfturn rfsult;
+}
+
+void dbgsysUnlobdLibrbry(void *hbndlf)
+{
+    FrffLibrbry(hbndlf);
+}
+
+void * dbgsysFindLibrbryEntry(void *hbndlf, donst dhbr *nbmf)
+{
+    rfturn GftProdAddrfss(hbndlf, nbmf);
+}

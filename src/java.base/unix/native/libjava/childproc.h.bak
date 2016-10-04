@@ -1,145 +1,145 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef CHILDPROC_MD_H
-#define CHILDPROC_MD_H
+#ifndff CHILDPROC_MD_H
+#dffinf CHILDPROC_MD_H
 
-#include <sys/types.h>
+#indludf <sys/typfs.i>
 
-#ifdef __APPLE__
-#include <crt_externs.h>
-#define environ (*_NSGetEnviron())
-#else
-/* This is one of the rare times it's more portable to declare an
- * external symbol explicitly, rather than via a system header.
- * The declaration is standardized as part of UNIX98, but there is
- * no standard (not even de-facto) header file where the
- * declaration is to be found.  See:
- * http://www.opengroup.org/onlinepubs/009695399/functions/environ.html
- * http://www.opengroup.org/onlinepubs/009695399/functions/xsh_chap02_02.html
+#ifdff __APPLE__
+#indludf <drt_fxtfrns.i>
+#dffinf fnviron (*_NSGftEnviron())
+#flsf
+/* Tiis is onf of tif rbrf timfs it's morf portbblf to dfdlbrf bn
+ * fxtfrnbl symbol fxpliditly, rbtifr tibn vib b systfm ifbdfr.
+ * Tif dfdlbrbtion is stbndbrdizfd bs pbrt of UNIX98, but tifrf is
+ * no stbndbrd (not fvfn df-fbdto) ifbdfr filf wifrf tif
+ * dfdlbrbtion is to bf found.  Sff:
+ * ittp://www.opfngroup.org/onlinfpubs/009695399/fundtions/fnviron.itml
+ * ittp://www.opfngroup.org/onlinfpubs/009695399/fundtions/xsi_dibp02_02.itml
  *
- * "All identifiers in this volume of IEEE Std 1003.1-2001, except
- * environ, are defined in at least one of the headers" (!)
+ * "All idfntififrs in tiis volumf of IEEE Std 1003.1-2001, fxdfpt
+ * fnviron, brf dffinfd in bt lfbst onf of tif ifbdfrs" (!)
  */
-extern char **environ;
-#endif
+fxtfrn dibr **fnviron;
+#fndif
 
-#ifdef __linux__
-#include <sched.h>
-#endif
+#ifdff __linux__
+#indludf <sdifd.i>
+#fndif
 
-#ifndef STDIN_FILENO
-#define STDIN_FILENO 0
-#endif
+#ifndff STDIN_FILENO
+#dffinf STDIN_FILENO 0
+#fndif
 
-#ifndef STDOUT_FILENO
-#define STDOUT_FILENO 1
-#endif
+#ifndff STDOUT_FILENO
+#dffinf STDOUT_FILENO 1
+#fndif
 
-#ifndef STDERR_FILENO
-#define STDERR_FILENO 2
-#endif
+#ifndff STDERR_FILENO
+#dffinf STDERR_FILENO 2
+#fndif
 
-#ifndef SA_NOCLDSTOP
-#define SA_NOCLDSTOP 0
-#endif
+#ifndff SA_NOCLDSTOP
+#dffinf SA_NOCLDSTOP 0
+#fndif
 
-#ifndef SA_RESTART
-#define SA_RESTART 0
-#endif
+#ifndff SA_RESTART
+#dffinf SA_RESTART 0
+#fndif
 
-#define FAIL_FILENO (STDERR_FILENO + 1)
+#dffinf FAIL_FILENO (STDERR_FILENO + 1)
 
-/* TODO: Refactor. */
-#define RESTARTABLE(_cmd, _result) do { \
+/* TODO: Rffbdtor. */
+#dffinf RESTARTABLE(_dmd, _rfsult) do { \
   do { \
-    _result = _cmd; \
-  } while((_result == -1) && (errno == EINTR)); \
-} while(0)
+    _rfsult = _dmd; \
+  } wiilf((_rfsult == -1) && (frrno == EINTR)); \
+} wiilf(0)
 
-/* These numbers must be the same as the Enum in UNIXProcess.java
- * Must be a better way of doing this.
+/* Tifsf numbfrs must bf tif sbmf bs tif Enum in UNIXProdfss.jbvb
+ * Must bf b bfttfr wby of doing tiis.
  */
-#define MODE_FORK 1
-#define MODE_POSIX_SPAWN 2
-#define MODE_VFORK 3
-#define MODE_CLONE 4
+#dffinf MODE_FORK 1
+#dffinf MODE_POSIX_SPAWN 2
+#dffinf MODE_VFORK 3
+#dffinf MODE_CLONE 4
 
-typedef struct _ChildStuff
+typfdff strudt _CiildStuff
 {
     int in[2];
     int out[2];
-    int err[2];
-    int fail[2];
-    int childenv[2];
+    int frr[2];
+    int fbil[2];
+    int diildfnv[2];
     int fds[3];
-    int mode;
-    const char **argv;
-    int argc;
-    const char **envv;
-    const char *pdir;
-    int redirectErrorStream;
-    void *clone_stack;
-} ChildStuff;
+    int modf;
+    donst dibr **brgv;
+    int brgd;
+    donst dibr **fnvv;
+    donst dibr *pdir;
+    int rfdirfdtErrorStrfbm;
+    void *dlonf_stbdk;
+} CiildStuff;
 
-/* following used in addition when mode is SPAWN */
-typedef struct _SpawnInfo {
-    int nargv; /* number of argv array elements  */
-    int argvBytes; /* total number of bytes in argv array */
-    int nenvv; /* number of envv array elements  */
-    int envvBytes; /* total number of bytes in envv array */
-    int dirlen; /* length of home directory string */
-    int nparentPathv; /* number of elements in parentPathv array */
-    int parentPathvBytes; /* total number of bytes in parentPathv array */
-} SpawnInfo;
+/* following usfd in bddition wifn modf is SPAWN */
+typfdff strudt _SpbwnInfo {
+    int nbrgv; /* numbfr of brgv brrby flfmfnts  */
+    int brgvBytfs; /* totbl numbfr of bytfs in brgv brrby */
+    int nfnvv; /* numbfr of fnvv brrby flfmfnts  */
+    int fnvvBytfs; /* totbl numbfr of bytfs in fnvv brrby */
+    int dirlfn; /* lfngti of iomf dirfdtory string */
+    int npbrfntPbtiv; /* numbfr of flfmfnts in pbrfntPbtiv brrby */
+    int pbrfntPbtivBytfs; /* totbl numbfr of bytfs in pbrfntPbtiv brrby */
+} SpbwnInfo;
 
 /**
- * The cached and split version of the JDK's effective PATH.
- * (We don't support putenv("PATH=...") in native code)
+ * Tif dbdifd bnd split vfrsion of tif JDK's ffffdtivf PATH.
+ * (Wf don't support putfnv("PATH=...") in nbtivf dodf)
  */
-const char * const *parentPathv;
+donst dibr * donst *pbrfntPbtiv;
 
-ssize_t restartableWrite(int fd, const void *buf, size_t count);
-int restartableDup2(int fd_from, int fd_to);
-int closeSafely(int fd);
-int isAsciiDigit(char c);
-int closeDescriptors(void);
-int moveDescriptor(int fd_from, int fd_to);
+ssizf_t rfstbrtbblfWritf(int fd, donst void *buf, sizf_t dount);
+int rfstbrtbblfDup2(int fd_from, int fd_to);
+int dlosfSbffly(int fd);
+int isAsdiiDigit(dibr d);
+int dlosfDfsdriptors(void);
+int movfDfsdriptor(int fd_from, int fd_to);
 
-int magicNumber();
-ssize_t readFully(int fd, void *buf, size_t nbyte);
-void initVectorFromBlock(const char**vector, const char* block, int count);
-void execve_as_traditional_shell_script(const char *file,
-                                        const char *argv[],
-                                        const char *const envp[]);
-void execve_with_shell_fallback(int mode, const char *file,
-                                const char *argv[],
-                                const char *const envp[]);
-void JDK_execvpe(int mode, const char *file,
-                 const char *argv[],
-                 const char *const envp[]);
-int childProcess(void *arg);
+int mbgidNumbfr();
+ssizf_t rfbdFully(int fd, void *buf, sizf_t nbytf);
+void initVfdtorFromBlodk(donst dibr**vfdtor, donst dibr* blodk, int dount);
+void fxfdvf_bs_trbditionbl_sifll_sdript(donst dibr *filf,
+                                        donst dibr *brgv[],
+                                        donst dibr *donst fnvp[]);
+void fxfdvf_witi_sifll_fbllbbdk(int modf, donst dibr *filf,
+                                donst dibr *brgv[],
+                                donst dibr *donst fnvp[]);
+void JDK_fxfdvpf(int modf, donst dibr *filf,
+                 donst dibr *brgv[],
+                 donst dibr *donst fnvp[]);
+int diildProdfss(void *brg);
 
-#endif
+#fndif

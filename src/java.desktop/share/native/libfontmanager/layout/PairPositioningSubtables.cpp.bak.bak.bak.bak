@@ -1,0 +1,219 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2005 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEFontInstbndf.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "GlyphPositioningTbblfs.h"
+#indludf "PbirPositioningSubtbblfs.h"
+#indludf "VblufRfdords.h"
+#indludf "GlyphItfrbtor.h"
+#indludf "OpfnTypfUtilitifs.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+lf_uint32 PbirPositioningSubtbblf::prodfss(donst LERfffrfndfTo<PbirPositioningSubtbblf> &bbsf, GlyphItfrbtor *glyphItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst
+{
+    switdh(SWAPW(subtbblfFormbt))
+    {
+    dbsf 0:
+        rfturn 0;
+
+    dbsf 1:
+    {
+      donst LERfffrfndfTo<PbirPositioningFormbt1Subtbblf> subtbblf(bbsf, suddfss, (donst PbirPositioningFormbt1Subtbblf *) this);
+
+      if(LE_SUCCESS(suddfss))
+      rfturn subtbblf->prodfss(subtbblf, glyphItfrbtor, fontInstbndf, suddfss);
+      flsf
+        rfturn 0;
+    }
+
+    dbsf 2:
+    {
+      donst LERfffrfndfTo<PbirPositioningFormbt2Subtbblf> subtbblf(bbsf, suddfss, (donst PbirPositioningFormbt2Subtbblf *) this);
+
+      if(LE_SUCCESS(suddfss))
+      rfturn subtbblf->prodfss(subtbblf, glyphItfrbtor, fontInstbndf, suddfss);
+      flsf
+        rfturn 0;
+    }
+    dffbult:
+      rfturn 0;
+    }
+}
+
+lf_uint32 PbirPositioningFormbt1Subtbblf::prodfss(donst LERfffrfndfTo<PbirPositioningFormbt1Subtbblf> &bbsf, GlyphItfrbtor *glyphItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst
+{
+    LEGlyphID firstGlyph = glyphItfrbtor->gftCurrGlyphID();
+    lf_int32 dovfrbgfIndfx = gftGlyphCovfrbgf(bbsf, firstGlyph, suddfss);
+    GlyphItfrbtor tfmpItfrbtor(*glyphItfrbtor);
+
+    LERfffrfndfToArrbyOf<Offsft> pbirSftTbblfOffsftArrbyRff(bbsf, suddfss, pbirSftTbblfOffsftArrby, SWAPW(pbirSftCount));
+
+    if (LE_SUCCESS(suddfss) && dovfrbgfIndfx >= 0 && glyphItfrbtor->nfxt() && (lf_uint32)dovfrbgfIndfx < pbirSftTbblfOffsftArrbyRff.gftCount()) {
+        Offsft pbirSftTbblfOffsft = SWAPW(pbirSftTbblfOffsftArrby[dovfrbgfIndfx]);
+        LERfffrfndfTo<PbirSftTbblf> pbirSftTbblf(bbsf, suddfss, pbirSftTbblfOffsft);
+        if( LE_FAILURE(suddfss) ) rfturn 0;
+        lf_uint16 pbirVblufCount = SWAPW(pbirSftTbblf->pbirVblufCount);
+        LERfffrfndfTo<PbirVblufRfdord> pbirVblufRfdordArrby(pbirSftTbblf, suddfss, pbirSftTbblf->pbirVblufRfdordArrby);
+        if( LE_FAILURE(suddfss) ) rfturn 0;
+        lf_int16 vblufRfdord1Sizf = VblufRfdord::gftSizf(SWAPW(vblufFormbt1));
+        lf_int16 vblufRfdord2Sizf = VblufRfdord::gftSizf(SWAPW(vblufFormbt2));
+        lf_int16 rfdordSizf = sizfof(PbirVblufRfdord) - sizfof(VblufRfdord) + vblufRfdord1Sizf + vblufRfdord2Sizf;
+        LEGlyphID sfdondGlyph = glyphItfrbtor->gftCurrGlyphID();
+        LERfffrfndfTo<PbirVblufRfdord> pbirVblufRfdord;
+
+        if (pbirVblufCount != 0) {
+          pbirVblufRfdord = findPbirVblufRfdord((TTGlyphID) LE_GET_GLYPH(sfdondGlyph), pbirVblufRfdordArrby, pbirVblufCount, rfdordSizf, suddfss);
+        }
+
+        if (pbirVblufRfdord.isEmpty() || LE_FAILURE(suddfss)) {
+            rfturn 0;
+        }
+
+        if (vblufFormbt1 != 0) {
+          pbirVblufRfdord->vblufRfdord1.bdjustPosition(SWAPW(vblufFormbt1), bbsf, tfmpItfrbtor, fontInstbndf, suddfss);
+        }
+
+        if (vblufFormbt2 != 0) {
+          LERfffrfndfTo<VblufRfdord> vblufRfdord2(bbsf, suddfss, ((dhbr *) &pbirVblufRfdord->vblufRfdord1 + vblufRfdord1Sizf));
+          if(LE_SUCCESS(suddfss)) {
+            vblufRfdord2->bdjustPosition(SWAPW(vblufFormbt2), bbsf, *glyphItfrbtor, fontInstbndf, suddfss);
+          }
+        }
+
+        // bbdk up glyphItfrbtor so sfdond glyph dbn bf
+        // first glyph in thf nfxt pbir
+        glyphItfrbtor->prfv();
+        rfturn 1;
+    }
+
+    rfturn 0;
+}
+
+lf_uint32 PbirPositioningFormbt2Subtbblf::prodfss(donst LERfffrfndfTo<PbirPositioningFormbt2Subtbblf> &bbsf, GlyphItfrbtor *glyphItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst
+{
+    LEGlyphID firstGlyph = glyphItfrbtor->gftCurrGlyphID();
+    lf_int32 dovfrbgfIndfx = gftGlyphCovfrbgf(bbsf, firstGlyph, suddfss);
+
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    GlyphItfrbtor tfmpItfrbtor(*glyphItfrbtor);
+
+    if (dovfrbgfIndfx >= 0 && glyphItfrbtor->nfxt()) {
+        LEGlyphID sfdondGlyph = glyphItfrbtor->gftCurrGlyphID();
+        donst LERfffrfndfTo<ClbssDffinitionTbblf> dlbssDff1(bbsf, suddfss, SWAPW(dlbssDff1Offsft));
+        donst LERfffrfndfTo<ClbssDffinitionTbblf> dlbssDff2(bbsf, suddfss, SWAPW(dlbssDff2Offsft));
+        lf_int32 dlbss1 = dlbssDff1->gftGlyphClbss(dlbssDff1, firstGlyph, suddfss);
+        lf_int32 dlbss2 = dlbssDff2->gftGlyphClbss(dlbssDff2, sfdondGlyph, suddfss);
+        lf_int16 vblufRfdord1Sizf = VblufRfdord::gftSizf(SWAPW(vblufFormbt1));
+        lf_int16 vblufRfdord2Sizf = VblufRfdord::gftSizf(SWAPW(vblufFormbt2));
+        lf_int16 dlbss2RfdordSizf = vblufRfdord1Sizf + vblufRfdord2Sizf;
+        lf_int16 dlbss1RfdordSizf = dlbss2RfdordSizf * SWAPW(dlbss2Count);
+        donst LERfffrfndfTo<Clbss1Rfdord> dlbss1Rfdord(bbsf, suddfss, (donst Clbss1Rfdord *) ((dhbr *) dlbss1RfdordArrby + (dlbss1RfdordSizf * dlbss1)));
+        donst LERfffrfndfTo<Clbss2Rfdord> dlbss2Rfdord(bbsf, suddfss, (donst Clbss2Rfdord *) ((dhbr *) dlbss1Rfdord->dlbss2RfdordArrby + (dlbss2RfdordSizf * dlbss2)));
+
+        if( LE_SUCCESS(suddfss) ) {
+          if (vblufFormbt1 != 0) {
+            dlbss2Rfdord->vblufRfdord1.bdjustPosition(SWAPW(vblufFormbt1), bbsf, tfmpItfrbtor, fontInstbndf, suddfss);
+          }
+          if (vblufFormbt2 != 0) {
+            donst LERfffrfndfTo<VblufRfdord> vblufRfdord2(bbsf, suddfss, ((dhbr *) &dlbss2Rfdord->vblufRfdord1) + vblufRfdord1Sizf);
+            LERfffrfndfTo<PbirPositioningFormbt2Subtbblf> thisRff(bbsf, suddfss, this);
+            if(LE_SUCCESS(suddfss)) {
+              vblufRfdord2->bdjustPosition(SWAPW(vblufFormbt2), thisRff, *glyphItfrbtor, fontInstbndf, suddfss);
+            }
+          }
+        }
+
+        // bbdk up glyphItfrbtor so sfdond glyph dbn bf
+        // first glyph in thf nfxt pbir
+        glyphItfrbtor->prfv();
+        rfturn 1;
+    }
+
+    rfturn 0;
+}
+
+LERfffrfndfTo<PbirVblufRfdord>
+PbirPositioningFormbt1Subtbblf::findPbirVblufRfdord(TTGlyphID glyphID, LERfffrfndfTo<PbirVblufRfdord>& rfdords,
+                                                    lf_uint16 rfdordCount,
+                                                    lf_uint16 rfdordSizf, LEErrorCodf &suddfss) donst
+{
+#if 1
+        // Thf OpfnTypf spfd. sbys thbt thf VblufRfdord tbblf is
+        // sortfd by sfdondGlyph. Unfortunbtfly, thfrf brf fonts
+        // bround thbt hbvf bn unsortfd VblufRfdord tbblf.
+        LERfffrfndfTo<PbirVblufRfdord> rfdord(rfdords);
+
+        for(lf_int32 r = 0; r < rfdordCount; r += 1) {
+          if(LE_FAILURE(suddfss)) rfturn LERfffrfndfTo<PbirVblufRfdord>();
+          if (SWAPW(rfdord->sfdondGlyph) == glyphID) {
+            rfturn rfdord;
+          }
+
+          rfdord.bddOffsft(rfdordSizf, suddfss);
+        }
+#flsf
+  #frror dfbd dodf - not updbtfd.
+    lf_uint8 bit = OpfnTypfUtilitifs::highBit(rfdordCount);
+    lf_uint16 powfr = 1 << bit;
+    lf_uint16 fxtrb = (rfdordCount - powfr) * rfdordSizf;
+    lf_uint16 probf = powfr * rfdordSizf;
+    donst PbirVblufRfdord *rfdord = rfdords;
+    donst PbirVblufRfdord *tribl = (donst PbirVblufRfdord *) ((dhbr *) rfdord + fxtrb);
+
+    if (SWAPW(tribl->sfdondGlyph) <= glyphID) {
+        rfdord = tribl;
+    }
+
+    whilf (probf > rfdordSizf) {
+        probf >>= 1;
+        tribl = (donst PbirVblufRfdord *) ((dhbr *) rfdord + probf);
+
+        if (SWAPW(tribl->sfdondGlyph) <= glyphID) {
+            rfdord = tribl;
+        }
+    }
+
+    if (SWAPW(rfdord->sfdondGlyph) == glyphID) {
+        rfturn rfdord;
+    }
+#fndif
+
+    rfturn LERfffrfndfTo<PbirVblufRfdord>();
+}
+
+U_NAMESPACE_END

@@ -1,769 +1,769 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.*;
-import java.awt.event.*;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
 
-import javax.swing.event.*;
-import javax.swing.text.*;
-import javax.swing.plaf.SpinnerUI;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.plbf.SpinnfrUI;
 
-import java.util.*;
-import java.beans.*;
-import java.text.*;
-import java.io.*;
-import java.text.spi.DateFormatProvider;
-import java.text.spi.NumberFormatProvider;
+import jbvb.util.*;
+import jbvb.bfbns.*;
+import jbvb.tfxt.*;
+import jbvb.io.*;
+import jbvb.tfxt.spi.DbtfFormbtProvidfr;
+import jbvb.tfxt.spi.NumbfrFormbtProvidfr;
 
-import javax.accessibility.*;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.LocaleResources;
-import sun.util.locale.provider.LocaleServiceProviderPool;
+import jbvbx.bddfssibility.*;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.LodblfRfsourdfs;
+import sun.util.lodblf.providfr.LodblfSfrvidfProvidfrPool;
 
 
 /**
- * A single line input field that lets the user select a
- * number or an object value from an ordered sequence. Spinners typically
- * provide a pair of tiny arrow buttons for stepping through the elements
- * of the sequence. The keyboard up/down arrow keys also cycle through the
- * elements. The user may also be allowed to type a (legal) value directly
- * into the spinner. Although combo boxes provide similar functionality,
- * spinners are sometimes preferred because they don't require a drop down list
- * that can obscure important data.
+ * A singlf linf input fifld tibt lfts tif usfr sflfdt b
+ * numbfr or bn objfdt vbluf from bn ordfrfd sfqufndf. Spinnfrs typidblly
+ * providf b pbir of tiny brrow buttons for stfpping tirougi tif flfmfnts
+ * of tif sfqufndf. Tif kfybobrd up/down brrow kfys blso dydlf tirougi tif
+ * flfmfnts. Tif usfr mby blso bf bllowfd to typf b (lfgbl) vbluf dirfdtly
+ * into tif spinnfr. Altiougi dombo boxfs providf similbr fundtionblity,
+ * spinnfrs brf somftimfs prfffrrfd bfdbusf tify don't rfquirf b drop down list
+ * tibt dbn obsdurf importbnt dbtb.
  * <p>
- * A <code>JSpinner</code>'s sequence value is defined by its
- * <code>SpinnerModel</code>.
- * The <code>model</code> can be specified as a constructor argument and
- * changed with the <code>model</code> property.  <code>SpinnerModel</code>
- * classes for some common types are provided: <code>SpinnerListModel</code>,
- * <code>SpinnerNumberModel</code>, and <code>SpinnerDateModel</code>.
+ * A <dodf>JSpinnfr</dodf>'s sfqufndf vbluf is dffinfd by its
+ * <dodf>SpinnfrModfl</dodf>.
+ * Tif <dodf>modfl</dodf> dbn bf spfdififd bs b donstrudtor brgumfnt bnd
+ * dibngfd witi tif <dodf>modfl</dodf> propfrty.  <dodf>SpinnfrModfl</dodf>
+ * dlbssfs for somf dommon typfs brf providfd: <dodf>SpinnfrListModfl</dodf>,
+ * <dodf>SpinnfrNumbfrModfl</dodf>, bnd <dodf>SpinnfrDbtfModfl</dodf>.
  * <p>
- * A <code>JSpinner</code> has a single child component that's
- * responsible for displaying
- * and potentially changing the current element or <i>value</i> of
- * the model, which is called the <code>editor</code>.  The editor is created
- * by the <code>JSpinner</code>'s constructor and can be changed with the
- * <code>editor</code> property.  The <code>JSpinner</code>'s editor stays
- * in sync with the model by listening for <code>ChangeEvent</code>s. If the
- * user has changed the value displayed by the <code>editor</code> it is
- * possible for the <code>model</code>'s value to differ from that of
- * the <code>editor</code>. To make sure the <code>model</code> has the same
- * value as the editor use the <code>commitEdit</code> method, eg:
- * <pre>
+ * A <dodf>JSpinnfr</dodf> ibs b singlf diild domponfnt tibt's
+ * rfsponsiblf for displbying
+ * bnd potfntiblly dibnging tif durrfnt flfmfnt or <i>vbluf</i> of
+ * tif modfl, wiidi is dbllfd tif <dodf>fditor</dodf>.  Tif fditor is drfbtfd
+ * by tif <dodf>JSpinnfr</dodf>'s donstrudtor bnd dbn bf dibngfd witi tif
+ * <dodf>fditor</dodf> propfrty.  Tif <dodf>JSpinnfr</dodf>'s fditor stbys
+ * in synd witi tif modfl by listfning for <dodf>CibngfEvfnt</dodf>s. If tif
+ * usfr ibs dibngfd tif vbluf displbyfd by tif <dodf>fditor</dodf> it is
+ * possiblf for tif <dodf>modfl</dodf>'s vbluf to difffr from tibt of
+ * tif <dodf>fditor</dodf>. To mbkf surf tif <dodf>modfl</dodf> ibs tif sbmf
+ * vbluf bs tif fditor usf tif <dodf>dommitEdit</dodf> mftiod, fg:
+ * <prf>
  *   try {
- *       spinner.commitEdit();
+ *       spinnfr.dommitEdit();
  *   }
- *   catch (ParseException pe) {{
- *       // Edited value is invalid, spinner.getValue() will return
- *       // the last valid value, you could revert the spinner to show that:
- *       JComponent editor = spinner.getEditor()
- *       if (editor instanceof DefaultEditor) {
- *           ((DefaultEditor)editor).getTextField().setValue(spinner.getValue();
+ *   dbtdi (PbrsfExdfption pf) {{
+ *       // Editfd vbluf is invblid, spinnfr.gftVbluf() will rfturn
+ *       // tif lbst vblid vbluf, you dould rfvfrt tif spinnfr to siow tibt:
+ *       JComponfnt fditor = spinnfr.gftEditor()
+ *       if (fditor instbndfof DffbultEditor) {
+ *           ((DffbultEditor)fditor).gftTfxtFifld().sftVbluf(spinnfr.gftVbluf();
  *       }
- *       // reset the value to some known value:
- *       spinner.setValue(fallbackValue);
- *       // or treat the last valid value as the current, in which
- *       // case you don't need to do anything.
+ *       // rfsft tif vbluf to somf known vbluf:
+ *       spinnfr.sftVbluf(fbllbbdkVbluf);
+ *       // or trfbt tif lbst vblid vbluf bs tif durrfnt, in wiidi
+ *       // dbsf you don't nffd to do bnytiing.
  *   }
- *   return spinner.getValue();
- * </pre>
+ *   rfturn spinnfr.gftVbluf();
+ * </prf>
  * <p>
- * For information and examples of using spinner see
- * <a href="http://docs.oracle.com/javase/tutorial/uiswing/components/spinner.html">How to Use Spinners</a>,
- * a section in <em>The Java Tutorial.</em>
+ * For informbtion bnd fxbmplfs of using spinnfr sff
+ * <b irff="ittp://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/spinnfr.itml">How to Usf Spinnfrs</b>,
+ * b sfdtion in <fm>Tif Jbvb Tutoribl.</fm>
  * <p>
- * <strong>Warning:</strong> Swing is not thread safe. For more
- * information see <a
- * href="package-summary.html#threading">Swing's Threading
- * Policy</a>.
+ * <strong>Wbrning:</strong> Swing is not tirfbd sbff. For morf
+ * informbtion sff <b
+ * irff="pbdkbgf-summbry.itml#tirfbding">Swing's Tirfbding
+ * Polidy</b>.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @beaninfo
- *   attribute: isContainer false
- * description: A single line input field that lets the user select a
- *     number or an object value from an ordered set.
+ * @bfbninfo
+ *   bttributf: isContbinfr fblsf
+ * dfsdription: A singlf linf input fifld tibt lfts tif usfr sflfdt b
+ *     numbfr or bn objfdt vbluf from bn ordfrfd sft.
  *
- * @see SpinnerModel
- * @see AbstractSpinnerModel
- * @see SpinnerListModel
- * @see SpinnerNumberModel
- * @see SpinnerDateModel
- * @see JFormattedTextField
+ * @sff SpinnfrModfl
+ * @sff AbstrbdtSpinnfrModfl
+ * @sff SpinnfrListModfl
+ * @sff SpinnfrNumbfrModfl
+ * @sff SpinnfrDbtfModfl
+ * @sff JFormbttfdTfxtFifld
  *
- * @author Hans Muller
- * @author Lynn Monsanto (accessibility)
- * @since 1.4
+ * @butior Hbns Mullfr
+ * @butior Lynn Monsbnto (bddfssibility)
+ * @sindf 1.4
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class JSpinner extends JComponent implements Accessible
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss JSpinnfr fxtfnds JComponfnt implfmfnts Addfssiblf
 {
     /**
-     * @see #getUIClassID
-     * @see #readObject
+     * @sff #gftUIClbssID
+     * @sff #rfbdObjfdt
      */
-    private static final String uiClassID = "SpinnerUI";
+    privbtf stbtid finbl String uiClbssID = "SpinnfrUI";
 
-    private static final Action DISABLED_ACTION = new DisabledAction();
+    privbtf stbtid finbl Adtion DISABLED_ACTION = nfw DisbblfdAdtion();
 
-    private SpinnerModel model;
-    private JComponent editor;
-    private ChangeListener modelListener;
-    private transient ChangeEvent changeEvent;
-    private boolean editorExplicitlySet = false;
+    privbtf SpinnfrModfl modfl;
+    privbtf JComponfnt fditor;
+    privbtf CibngfListfnfr modflListfnfr;
+    privbtf trbnsifnt CibngfEvfnt dibngfEvfnt;
+    privbtf boolfbn fditorExpliditlySft = fblsf;
 
 
     /**
-     * Constructs a spinner for the given model. The spinner has
-     * a set of previous/next buttons, and an editor appropriate
-     * for the model.
+     * Construdts b spinnfr for tif givfn modfl. Tif spinnfr ibs
+     * b sft of prfvious/nfxt buttons, bnd bn fditor bppropribtf
+     * for tif modfl.
      *
-     * @param model  a model for the new spinner
-     * @throws NullPointerException if the model is {@code null}
+     * @pbrbm modfl  b modfl for tif nfw spinnfr
+     * @tirows NullPointfrExdfption if tif modfl is {@dodf null}
      */
-    public JSpinner(SpinnerModel model) {
-        if (model == null) {
-            throw new NullPointerException("model cannot be null");
+    publid JSpinnfr(SpinnfrModfl modfl) {
+        if (modfl == null) {
+            tirow nfw NullPointfrExdfption("modfl dbnnot bf null");
         }
-        this.model = model;
-        this.editor = createEditor(model);
-        setUIProperty("opaque",true);
-        updateUI();
+        tiis.modfl = modfl;
+        tiis.fditor = drfbtfEditor(modfl);
+        sftUIPropfrty("opbquf",truf);
+        updbtfUI();
     }
 
 
     /**
-     * Constructs a spinner with an <code>Integer SpinnerNumberModel</code>
-     * with initial value 0 and no minimum or maximum limits.
+     * Construdts b spinnfr witi bn <dodf>Intfgfr SpinnfrNumbfrModfl</dodf>
+     * witi initibl vbluf 0 bnd no minimum or mbximum limits.
      */
-    public JSpinner() {
-        this(new SpinnerNumberModel());
+    publid JSpinnfr() {
+        tiis(nfw SpinnfrNumbfrModfl());
     }
 
 
     /**
-     * Returns the look and feel (L&amp;F) object that renders this component.
+     * Rfturns tif look bnd fffl (L&bmp;F) objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @return the <code>SpinnerUI</code> object that renders this component
+     * @rfturn tif <dodf>SpinnfrUI</dodf> objfdt tibt rfndfrs tiis domponfnt
      */
-    public SpinnerUI getUI() {
-        return (SpinnerUI)ui;
+    publid SpinnfrUI gftUI() {
+        rfturn (SpinnfrUI)ui;
     }
 
 
     /**
-     * Sets the look and feel (L&amp;F) object that renders this component.
+     * Sfts tif look bnd fffl (L&bmp;F) objfdt tibt rfndfrs tiis domponfnt.
      *
-     * @param ui  the <code>SpinnerUI</code> L&amp;F object
-     * @see UIDefaults#getUI
+     * @pbrbm ui  tif <dodf>SpinnfrUI</dodf> L&bmp;F objfdt
+     * @sff UIDffbults#gftUI
      */
-    public void setUI(SpinnerUI ui) {
-        super.setUI(ui);
+    publid void sftUI(SpinnfrUI ui) {
+        supfr.sftUI(ui);
     }
 
 
     /**
-     * Returns the suffix used to construct the name of the look and feel
-     * (L&amp;F) class used to render this component.
+     * Rfturns tif suffix usfd to donstrudt tif nbmf of tif look bnd fffl
+     * (L&bmp;F) dlbss usfd to rfndfr tiis domponfnt.
      *
-     * @return the string "SpinnerUI"
-     * @see JComponent#getUIClassID
-     * @see UIDefaults#getUI
+     * @rfturn tif string "SpinnfrUI"
+     * @sff JComponfnt#gftUIClbssID
+     * @sff UIDffbults#gftUI
      */
-    public String getUIClassID() {
-        return uiClassID;
+    publid String gftUIClbssID() {
+        rfturn uiClbssID;
     }
 
 
 
     /**
-     * Resets the UI property with the value from the current look and feel.
+     * Rfsfts tif UI propfrty witi tif vbluf from tif durrfnt look bnd fffl.
      *
-     * @see UIManager#getUI
+     * @sff UIMbnbgfr#gftUI
      */
-    public void updateUI() {
-        setUI((SpinnerUI)UIManager.getUI(this));
-        invalidate();
+    publid void updbtfUI() {
+        sftUI((SpinnfrUI)UIMbnbgfr.gftUI(tiis));
+        invblidbtf();
     }
 
 
     /**
-     * This method is called by the constructors to create the
-     * <code>JComponent</code>
-     * that displays the current value of the sequence.  The editor may
-     * also allow the user to enter an element of the sequence directly.
-     * An editor must listen for <code>ChangeEvents</code> on the
-     * <code>model</code> and keep the value it displays
-     * in sync with the value of the model.
+     * Tiis mftiod is dbllfd by tif donstrudtors to drfbtf tif
+     * <dodf>JComponfnt</dodf>
+     * tibt displbys tif durrfnt vbluf of tif sfqufndf.  Tif fditor mby
+     * blso bllow tif usfr to fntfr bn flfmfnt of tif sfqufndf dirfdtly.
+     * An fditor must listfn for <dodf>CibngfEvfnts</dodf> on tif
+     * <dodf>modfl</dodf> bnd kffp tif vbluf it displbys
+     * in synd witi tif vbluf of tif modfl.
      * <p>
-     * Subclasses may override this method to add support for new
-     * <code>SpinnerModel</code> classes.  Alternatively one can just
-     * replace the editor created here with the <code>setEditor</code>
-     * method.  The default mapping from model type to editor is:
+     * Subdlbssfs mby ovfrridf tiis mftiod to bdd support for nfw
+     * <dodf>SpinnfrModfl</dodf> dlbssfs.  Altfrnbtivfly onf dbn just
+     * rfplbdf tif fditor drfbtfd ifrf witi tif <dodf>sftEditor</dodf>
+     * mftiod.  Tif dffbult mbpping from modfl typf to fditor is:
      * <ul>
-     * <li> <code>SpinnerNumberModel =&gt; JSpinner.NumberEditor</code>
-     * <li> <code>SpinnerDateModel =&gt; JSpinner.DateEditor</code>
-     * <li> <code>SpinnerListModel =&gt; JSpinner.ListEditor</code>
-     * <li> <i>all others</i> =&gt; <code>JSpinner.DefaultEditor</code>
+     * <li> <dodf>SpinnfrNumbfrModfl =&gt; JSpinnfr.NumbfrEditor</dodf>
+     * <li> <dodf>SpinnfrDbtfModfl =&gt; JSpinnfr.DbtfEditor</dodf>
+     * <li> <dodf>SpinnfrListModfl =&gt; JSpinnfr.ListEditor</dodf>
+     * <li> <i>bll otifrs</i> =&gt; <dodf>JSpinnfr.DffbultEditor</dodf>
      * </ul>
      *
-     * @return a component that displays the current value of the sequence
-     * @param model the value of getModel
-     * @see #getModel
-     * @see #setEditor
+     * @rfturn b domponfnt tibt displbys tif durrfnt vbluf of tif sfqufndf
+     * @pbrbm modfl tif vbluf of gftModfl
+     * @sff #gftModfl
+     * @sff #sftEditor
      */
-    protected JComponent createEditor(SpinnerModel model) {
-        if (model instanceof SpinnerDateModel) {
-            return new DateEditor(this);
+    protfdtfd JComponfnt drfbtfEditor(SpinnfrModfl modfl) {
+        if (modfl instbndfof SpinnfrDbtfModfl) {
+            rfturn nfw DbtfEditor(tiis);
         }
-        else if (model instanceof SpinnerListModel) {
-            return new ListEditor(this);
+        flsf if (modfl instbndfof SpinnfrListModfl) {
+            rfturn nfw ListEditor(tiis);
         }
-        else if (model instanceof SpinnerNumberModel) {
-            return new NumberEditor(this);
+        flsf if (modfl instbndfof SpinnfrNumbfrModfl) {
+            rfturn nfw NumbfrEditor(tiis);
         }
-        else {
-            return new DefaultEditor(this);
+        flsf {
+            rfturn nfw DffbultEditor(tiis);
         }
     }
 
 
     /**
-     * Changes the model that represents the value of this spinner.
-     * If the editor property has not been explicitly set,
-     * the editor property is (implicitly) set after the <code>"model"</code>
-     * <code>PropertyChangeEvent</code> has been fired.  The editor
-     * property is set to the value returned by <code>createEditor</code>,
-     * as in:
-     * <pre>
-     * setEditor(createEditor(model));
-     * </pre>
+     * Cibngfs tif modfl tibt rfprfsfnts tif vbluf of tiis spinnfr.
+     * If tif fditor propfrty ibs not bffn fxpliditly sft,
+     * tif fditor propfrty is (impliditly) sft bftfr tif <dodf>"modfl"</dodf>
+     * <dodf>PropfrtyCibngfEvfnt</dodf> ibs bffn firfd.  Tif fditor
+     * propfrty is sft to tif vbluf rfturnfd by <dodf>drfbtfEditor</dodf>,
+     * bs in:
+     * <prf>
+     * sftEditor(drfbtfEditor(modfl));
+     * </prf>
      *
-     * @param model the new <code>SpinnerModel</code>
-     * @see #getModel
-     * @see #getEditor
-     * @see #setEditor
-     * @throws IllegalArgumentException if model is <code>null</code>
+     * @pbrbm modfl tif nfw <dodf>SpinnfrModfl</dodf>
+     * @sff #gftModfl
+     * @sff #gftEditor
+     * @sff #sftEditor
+     * @tirows IllfgblArgumfntExdfption if modfl is <dodf>null</dodf>
      *
-     * @beaninfo
-     *        bound: true
-     *    attribute: visualUpdate true
-     *  description: Model that represents the value of this spinner.
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: Modfl tibt rfprfsfnts tif vbluf of tiis spinnfr.
      */
-    public void setModel(SpinnerModel model) {
-        if (model == null) {
-            throw new IllegalArgumentException("null model");
+    publid void sftModfl(SpinnfrModfl modfl) {
+        if (modfl == null) {
+            tirow nfw IllfgblArgumfntExdfption("null modfl");
         }
-        if (!model.equals(this.model)) {
-            SpinnerModel oldModel = this.model;
-            this.model = model;
-            if (modelListener != null) {
-                oldModel.removeChangeListener(modelListener);
-                this.model.addChangeListener(modelListener);
+        if (!modfl.fqubls(tiis.modfl)) {
+            SpinnfrModfl oldModfl = tiis.modfl;
+            tiis.modfl = modfl;
+            if (modflListfnfr != null) {
+                oldModfl.rfmovfCibngfListfnfr(modflListfnfr);
+                tiis.modfl.bddCibngfListfnfr(modflListfnfr);
             }
-            firePropertyChange("model", oldModel, model);
-            if (!editorExplicitlySet) {
-                setEditor(createEditor(model)); // sets editorExplicitlySet true
-                editorExplicitlySet = false;
+            firfPropfrtyCibngf("modfl", oldModfl, modfl);
+            if (!fditorExpliditlySft) {
+                sftEditor(drfbtfEditor(modfl)); // sfts fditorExpliditlySft truf
+                fditorExpliditlySft = fblsf;
             }
-            repaint();
-            revalidate();
+            rfpbint();
+            rfvblidbtf();
         }
     }
 
 
     /**
-     * Returns the <code>SpinnerModel</code> that defines
-     * this spinners sequence of values.
+     * Rfturns tif <dodf>SpinnfrModfl</dodf> tibt dffinfs
+     * tiis spinnfrs sfqufndf of vblufs.
      *
-     * @return the value of the model property
-     * @see #setModel
+     * @rfturn tif vbluf of tif modfl propfrty
+     * @sff #sftModfl
      */
-    public SpinnerModel getModel() {
-        return model;
+    publid SpinnfrModfl gftModfl() {
+        rfturn modfl;
     }
 
 
     /**
-     * Returns the current value of the model, typically
-     * this value is displayed by the <code>editor</code>. If the
-     * user has changed the value displayed by the <code>editor</code> it is
-     * possible for the <code>model</code>'s value to differ from that of
-     * the <code>editor</code>, refer to the class level javadoc for examples
-     * of how to deal with this.
+     * Rfturns tif durrfnt vbluf of tif modfl, typidblly
+     * tiis vbluf is displbyfd by tif <dodf>fditor</dodf>. If tif
+     * usfr ibs dibngfd tif vbluf displbyfd by tif <dodf>fditor</dodf> it is
+     * possiblf for tif <dodf>modfl</dodf>'s vbluf to difffr from tibt of
+     * tif <dodf>fditor</dodf>, rfffr to tif dlbss lfvfl jbvbdod for fxbmplfs
+     * of iow to dfbl witi tiis.
      * <p>
-     * This method simply delegates to the <code>model</code>.
-     * It is equivalent to:
-     * <pre>
-     * getModel().getValue()
-     * </pre>
+     * Tiis mftiod simply dflfgbtfs to tif <dodf>modfl</dodf>.
+     * It is fquivblfnt to:
+     * <prf>
+     * gftModfl().gftVbluf()
+     * </prf>
      *
-     * @return the current value of the model
-     * @see #setValue
-     * @see SpinnerModel#getValue
+     * @rfturn tif durrfnt vbluf of tif modfl
+     * @sff #sftVbluf
+     * @sff SpinnfrModfl#gftVbluf
      */
-    public Object getValue() {
-        return getModel().getValue();
+    publid Objfdt gftVbluf() {
+        rfturn gftModfl().gftVbluf();
     }
 
 
     /**
-     * Changes current value of the model, typically
-     * this value is displayed by the <code>editor</code>.
-     * If the <code>SpinnerModel</code> implementation
-     * doesn't support the specified value then an
-     * <code>IllegalArgumentException</code> is thrown.
+     * Cibngfs durrfnt vbluf of tif modfl, typidblly
+     * tiis vbluf is displbyfd by tif <dodf>fditor</dodf>.
+     * If tif <dodf>SpinnfrModfl</dodf> implfmfntbtion
+     * dofsn't support tif spfdififd vbluf tifn bn
+     * <dodf>IllfgblArgumfntExdfption</dodf> is tirown.
      * <p>
-     * This method simply delegates to the <code>model</code>.
-     * It is equivalent to:
-     * <pre>
-     * getModel().setValue(value)
-     * </pre>
+     * Tiis mftiod simply dflfgbtfs to tif <dodf>modfl</dodf>.
+     * It is fquivblfnt to:
+     * <prf>
+     * gftModfl().sftVbluf(vbluf)
+     * </prf>
      *
-     * @param value  new value for the spinner
-     * @throws IllegalArgumentException if <code>value</code> isn't allowed
-     * @see #getValue
-     * @see SpinnerModel#setValue
+     * @pbrbm vbluf  nfw vbluf for tif spinnfr
+     * @tirows IllfgblArgumfntExdfption if <dodf>vbluf</dodf> isn't bllowfd
+     * @sff #gftVbluf
+     * @sff SpinnfrModfl#sftVbluf
      */
-    public void setValue(Object value) {
-        getModel().setValue(value);
+    publid void sftVbluf(Objfdt vbluf) {
+        gftModfl().sftVbluf(vbluf);
     }
 
 
     /**
-     * Returns the object in the sequence that comes after the object returned
-     * by <code>getValue()</code>. If the end of the sequence has been reached
-     * then return <code>null</code>.
-     * Calling this method does not effect <code>value</code>.
+     * Rfturns tif objfdt in tif sfqufndf tibt domfs bftfr tif objfdt rfturnfd
+     * by <dodf>gftVbluf()</dodf>. If tif fnd of tif sfqufndf ibs bffn rfbdifd
+     * tifn rfturn <dodf>null</dodf>.
+     * Cblling tiis mftiod dofs not ffffdt <dodf>vbluf</dodf>.
      * <p>
-     * This method simply delegates to the <code>model</code>.
-     * It is equivalent to:
-     * <pre>
-     * getModel().getNextValue()
-     * </pre>
+     * Tiis mftiod simply dflfgbtfs to tif <dodf>modfl</dodf>.
+     * It is fquivblfnt to:
+     * <prf>
+     * gftModfl().gftNfxtVbluf()
+     * </prf>
      *
-     * @return the next legal value or <code>null</code> if one doesn't exist
-     * @see #getValue
-     * @see #getPreviousValue
-     * @see SpinnerModel#getNextValue
+     * @rfturn tif nfxt lfgbl vbluf or <dodf>null</dodf> if onf dofsn't fxist
+     * @sff #gftVbluf
+     * @sff #gftPrfviousVbluf
+     * @sff SpinnfrModfl#gftNfxtVbluf
      */
-    public Object getNextValue() {
-        return getModel().getNextValue();
+    publid Objfdt gftNfxtVbluf() {
+        rfturn gftModfl().gftNfxtVbluf();
     }
 
 
     /**
-     * We pass <code>Change</code> events along to the listeners with the
-     * the slider (instead of the model itself) as the event source.
+     * Wf pbss <dodf>Cibngf</dodf> fvfnts blong to tif listfnfrs witi tif
+     * tif slidfr (instfbd of tif modfl itsflf) bs tif fvfnt sourdf.
      */
-    private class ModelListener implements ChangeListener, Serializable {
-        public void stateChanged(ChangeEvent e) {
-            fireStateChanged();
+    privbtf dlbss ModflListfnfr implfmfnts CibngfListfnfr, Sfriblizbblf {
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            firfStbtfCibngfd();
         }
     }
 
 
     /**
-     * Adds a listener to the list that is notified each time a change
-     * to the model occurs.  The source of <code>ChangeEvents</code>
-     * delivered to <code>ChangeListeners</code> will be this
-     * <code>JSpinner</code>.  Note also that replacing the model
-     * will not affect listeners added directly to JSpinner.
-     * Applications can add listeners to  the model directly.  In that
-     * case is that the source of the event would be the
-     * <code>SpinnerModel</code>.
+     * Adds b listfnfr to tif list tibt is notififd fbdi timf b dibngf
+     * to tif modfl oddurs.  Tif sourdf of <dodf>CibngfEvfnts</dodf>
+     * dflivfrfd to <dodf>CibngfListfnfrs</dodf> will bf tiis
+     * <dodf>JSpinnfr</dodf>.  Notf blso tibt rfplbding tif modfl
+     * will not bfffdt listfnfrs bddfd dirfdtly to JSpinnfr.
+     * Applidbtions dbn bdd listfnfrs to  tif modfl dirfdtly.  In tibt
+     * dbsf is tibt tif sourdf of tif fvfnt would bf tif
+     * <dodf>SpinnfrModfl</dodf>.
      *
-     * @param listener the <code>ChangeListener</code> to add
-     * @see #removeChangeListener
-     * @see #getModel
+     * @pbrbm listfnfr tif <dodf>CibngfListfnfr</dodf> to bdd
+     * @sff #rfmovfCibngfListfnfr
+     * @sff #gftModfl
      */
-    public void addChangeListener(ChangeListener listener) {
-        if (modelListener == null) {
-            modelListener = new ModelListener();
-            getModel().addChangeListener(modelListener);
+    publid void bddCibngfListfnfr(CibngfListfnfr listfnfr) {
+        if (modflListfnfr == null) {
+            modflListfnfr = nfw ModflListfnfr();
+            gftModfl().bddCibngfListfnfr(modflListfnfr);
         }
-        listenerList.add(ChangeListener.class, listener);
+        listfnfrList.bdd(CibngfListfnfr.dlbss, listfnfr);
     }
 
 
 
     /**
-     * Removes a <code>ChangeListener</code> from this spinner.
+     * Rfmovfs b <dodf>CibngfListfnfr</dodf> from tiis spinnfr.
      *
-     * @param listener the <code>ChangeListener</code> to remove
-     * @see #fireStateChanged
-     * @see #addChangeListener
+     * @pbrbm listfnfr tif <dodf>CibngfListfnfr</dodf> to rfmovf
+     * @sff #firfStbtfCibngfd
+     * @sff #bddCibngfListfnfr
      */
-    public void removeChangeListener(ChangeListener listener) {
-        listenerList.remove(ChangeListener.class, listener);
+    publid void rfmovfCibngfListfnfr(CibngfListfnfr listfnfr) {
+        listfnfrList.rfmovf(CibngfListfnfr.dlbss, listfnfr);
     }
 
 
     /**
-     * Returns an array of all the <code>ChangeListener</code>s added
-     * to this JSpinner with addChangeListener().
+     * Rfturns bn brrby of bll tif <dodf>CibngfListfnfr</dodf>s bddfd
+     * to tiis JSpinnfr witi bddCibngfListfnfr().
      *
-     * @return all of the <code>ChangeListener</code>s added or an empty
-     *         array if no listeners have been added
-     * @since 1.4
+     * @rfturn bll of tif <dodf>CibngfListfnfr</dodf>s bddfd or bn fmpty
+     *         brrby if no listfnfrs ibvf bffn bddfd
+     * @sindf 1.4
      */
-    public ChangeListener[] getChangeListeners() {
-        return listenerList.getListeners(ChangeListener.class);
+    publid CibngfListfnfr[] gftCibngfListfnfrs() {
+        rfturn listfnfrList.gftListfnfrs(CibngfListfnfr.dlbss);
     }
 
 
     /**
-     * Sends a <code>ChangeEvent</code>, whose source is this
-     * <code>JSpinner</code>, to each <code>ChangeListener</code>.
-     * When a <code>ChangeListener</code> has been added
-     * to the spinner, this method method is called each time
-     * a <code>ChangeEvent</code> is received from the model.
+     * Sfnds b <dodf>CibngfEvfnt</dodf>, wiosf sourdf is tiis
+     * <dodf>JSpinnfr</dodf>, to fbdi <dodf>CibngfListfnfr</dodf>.
+     * Wifn b <dodf>CibngfListfnfr</dodf> ibs bffn bddfd
+     * to tif spinnfr, tiis mftiod mftiod is dbllfd fbdi timf
+     * b <dodf>CibngfEvfnt</dodf> is rfdfivfd from tif modfl.
      *
-     * @see #addChangeListener
-     * @see #removeChangeListener
-     * @see EventListenerList
+     * @sff #bddCibngfListfnfr
+     * @sff #rfmovfCibngfListfnfr
+     * @sff EvfntListfnfrList
      */
-    protected void fireStateChanged() {
-        Object[] listeners = listenerList.getListenerList();
-        for (int i = listeners.length - 2; i >= 0; i -= 2) {
-            if (listeners[i] == ChangeListener.class) {
-                if (changeEvent == null) {
-                    changeEvent = new ChangeEvent(this);
+    protfdtfd void firfStbtfCibngfd() {
+        Objfdt[] listfnfrs = listfnfrList.gftListfnfrList();
+        for (int i = listfnfrs.lfngti - 2; i >= 0; i -= 2) {
+            if (listfnfrs[i] == CibngfListfnfr.dlbss) {
+                if (dibngfEvfnt == null) {
+                    dibngfEvfnt = nfw CibngfEvfnt(tiis);
                 }
-                ((ChangeListener)listeners[i+1]).stateChanged(changeEvent);
+                ((CibngfListfnfr)listfnfrs[i+1]).stbtfCibngfd(dibngfEvfnt);
             }
         }
     }
 
 
     /**
-     * Returns the object in the sequence that comes
-     * before the object returned by <code>getValue()</code>.
-     * If the end of the sequence has been reached then
-     * return <code>null</code>. Calling this method does
-     * not effect <code>value</code>.
+     * Rfturns tif objfdt in tif sfqufndf tibt domfs
+     * bfforf tif objfdt rfturnfd by <dodf>gftVbluf()</dodf>.
+     * If tif fnd of tif sfqufndf ibs bffn rfbdifd tifn
+     * rfturn <dodf>null</dodf>. Cblling tiis mftiod dofs
+     * not ffffdt <dodf>vbluf</dodf>.
      * <p>
-     * This method simply delegates to the <code>model</code>.
-     * It is equivalent to:
-     * <pre>
-     * getModel().getPreviousValue()
-     * </pre>
+     * Tiis mftiod simply dflfgbtfs to tif <dodf>modfl</dodf>.
+     * It is fquivblfnt to:
+     * <prf>
+     * gftModfl().gftPrfviousVbluf()
+     * </prf>
      *
-     * @return the previous legal value or <code>null</code>
-     *   if one doesn't exist
-     * @see #getValue
-     * @see #getNextValue
-     * @see SpinnerModel#getPreviousValue
+     * @rfturn tif prfvious lfgbl vbluf or <dodf>null</dodf>
+     *   if onf dofsn't fxist
+     * @sff #gftVbluf
+     * @sff #gftNfxtVbluf
+     * @sff SpinnfrModfl#gftPrfviousVbluf
      */
-    public Object getPreviousValue() {
-        return getModel().getPreviousValue();
+    publid Objfdt gftPrfviousVbluf() {
+        rfturn gftModfl().gftPrfviousVbluf();
     }
 
 
     /**
-     * Changes the <code>JComponent</code> that displays the current value
-     * of the <code>SpinnerModel</code>.  It is the responsibility of this
-     * method to <i>disconnect</i> the old editor from the model and to
-     * connect the new editor.  This may mean removing the
-     * old editors <code>ChangeListener</code> from the model or the
-     * spinner itself and adding one for the new editor.
+     * Cibngfs tif <dodf>JComponfnt</dodf> tibt displbys tif durrfnt vbluf
+     * of tif <dodf>SpinnfrModfl</dodf>.  It is tif rfsponsibility of tiis
+     * mftiod to <i>disdonnfdt</i> tif old fditor from tif modfl bnd to
+     * donnfdt tif nfw fditor.  Tiis mby mfbn rfmoving tif
+     * old fditors <dodf>CibngfListfnfr</dodf> from tif modfl or tif
+     * spinnfr itsflf bnd bdding onf for tif nfw fditor.
      *
-     * @param editor the new editor
-     * @see #getEditor
-     * @see #createEditor
-     * @see #getModel
-     * @throws IllegalArgumentException if editor is <code>null</code>
+     * @pbrbm fditor tif nfw fditor
+     * @sff #gftEditor
+     * @sff #drfbtfEditor
+     * @sff #gftModfl
+     * @tirows IllfgblArgumfntExdfption if fditor is <dodf>null</dodf>
      *
-     * @beaninfo
-     *        bound: true
-     *    attribute: visualUpdate true
-     *  description: JComponent that displays the current value of the model
+     * @bfbninfo
+     *        bound: truf
+     *    bttributf: visublUpdbtf truf
+     *  dfsdription: JComponfnt tibt displbys tif durrfnt vbluf of tif modfl
      */
-    public void setEditor(JComponent editor) {
-        if (editor == null) {
-            throw new IllegalArgumentException("null editor");
+    publid void sftEditor(JComponfnt fditor) {
+        if (fditor == null) {
+            tirow nfw IllfgblArgumfntExdfption("null fditor");
         }
-        if (!editor.equals(this.editor)) {
-            JComponent oldEditor = this.editor;
-            this.editor = editor;
-            if (oldEditor instanceof DefaultEditor) {
-                ((DefaultEditor)oldEditor).dismiss(this);
+        if (!fditor.fqubls(tiis.fditor)) {
+            JComponfnt oldEditor = tiis.fditor;
+            tiis.fditor = fditor;
+            if (oldEditor instbndfof DffbultEditor) {
+                ((DffbultEditor)oldEditor).dismiss(tiis);
             }
-            editorExplicitlySet = true;
-            firePropertyChange("editor", oldEditor, editor);
-            revalidate();
-            repaint();
+            fditorExpliditlySft = truf;
+            firfPropfrtyCibngf("fditor", oldEditor, fditor);
+            rfvblidbtf();
+            rfpbint();
         }
     }
 
 
     /**
-     * Returns the component that displays and potentially
-     * changes the model's value.
+     * Rfturns tif domponfnt tibt displbys bnd potfntiblly
+     * dibngfs tif modfl's vbluf.
      *
-     * @return the component that displays and potentially
-     *    changes the model's value
-     * @see #setEditor
-     * @see #createEditor
+     * @rfturn tif domponfnt tibt displbys bnd potfntiblly
+     *    dibngfs tif modfl's vbluf
+     * @sff #sftEditor
+     * @sff #drfbtfEditor
      */
-    public JComponent getEditor() {
-        return editor;
+    publid JComponfnt gftEditor() {
+        rfturn fditor;
     }
 
 
     /**
-     * Commits the currently edited value to the <code>SpinnerModel</code>.
+     * Commits tif durrfntly fditfd vbluf to tif <dodf>SpinnfrModfl</dodf>.
      * <p>
-     * If the editor is an instance of <code>DefaultEditor</code>, the
-     * call if forwarded to the editor, otherwise this does nothing.
+     * If tif fditor is bn instbndf of <dodf>DffbultEditor</dodf>, tif
+     * dbll if forwbrdfd to tif fditor, otifrwisf tiis dofs notiing.
      *
-     * @throws ParseException if the currently edited value couldn't
-     *         be committed.
+     * @tirows PbrsfExdfption if tif durrfntly fditfd vbluf douldn't
+     *         bf dommittfd.
      */
-    public void commitEdit() throws ParseException {
-        JComponent editor = getEditor();
-        if (editor instanceof DefaultEditor) {
-            ((DefaultEditor)editor).commitEdit();
+    publid void dommitEdit() tirows PbrsfExdfption {
+        JComponfnt fditor = gftEditor();
+        if (fditor instbndfof DffbultEditor) {
+            ((DffbultEditor)fditor).dommitEdit();
         }
     }
 
 
     /*
-     * See readObject and writeObject in JComponent for more
-     * information about serialization in Swing.
+     * Sff rfbdObjfdt bnd writfObjfdt in JComponfnt for morf
+     * informbtion bbout sfriblizbtion in Swing.
      *
-     * @param s Stream to write to
+     * @pbrbm s Strfbm to writf to
      */
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.defaultWriteObject();
-        if (getUIClassID().equals(uiClassID)) {
-            byte count = JComponent.getWriteObjCounter(this);
-            JComponent.setWriteObjCounter(this, --count);
-            if (count == 0 && ui != null) {
-                ui.installUI(this);
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm s) tirows IOExdfption {
+        s.dffbultWritfObjfdt();
+        if (gftUIClbssID().fqubls(uiClbssID)) {
+            bytf dount = JComponfnt.gftWritfObjCountfr(tiis);
+            JComponfnt.sftWritfObjCountfr(tiis, --dount);
+            if (dount == 0 && ui != null) {
+                ui.instbllUI(tiis);
             }
         }
     }
 
 
     /**
-     * A simple base class for more specialized editors
-     * that displays a read-only view of the model's current
-     * value with a <code>JFormattedTextField</code>.  Subclasses
-     * can configure the <code>JFormattedTextField</code> to create
-     * an editor that's appropriate for the type of model they
-     * support and they may want to override
-     * the <code>stateChanged</code> and <code>propertyChanged</code>
-     * methods, which keep the model and the text field in sync.
+     * A simplf bbsf dlbss for morf spfdiblizfd fditors
+     * tibt displbys b rfbd-only vifw of tif modfl's durrfnt
+     * vbluf witi b <dodf>JFormbttfdTfxtFifld</dodf>.  Subdlbssfs
+     * dbn donfigurf tif <dodf>JFormbttfdTfxtFifld</dodf> to drfbtf
+     * bn fditor tibt's bppropribtf for tif typf of modfl tify
+     * support bnd tify mby wbnt to ovfrridf
+     * tif <dodf>stbtfCibngfd</dodf> bnd <dodf>propfrtyCibngfd</dodf>
+     * mftiods, wiidi kffp tif modfl bnd tif tfxt fifld in synd.
      * <p>
-     * This class defines a <code>dismiss</code> method that removes the
-     * editors <code>ChangeListener</code> from the <code>JSpinner</code>
-     * that it's part of.   The <code>setEditor</code> method knows about
-     * <code>DefaultEditor.dismiss</code>, so if the developer
-     * replaces an editor that's derived from <code>JSpinner.DefaultEditor</code>
-     * its <code>ChangeListener</code> connection back to the
-     * <code>JSpinner</code> will be removed.  However after that,
-     * it's up to the developer to manage their editor listeners.
-     * Similarly, if a subclass overrides <code>createEditor</code>,
-     * it's up to the subclasser to deal with their editor
-     * subsequently being replaced (with <code>setEditor</code>).
-     * We expect that in most cases, and in editor installed
-     * with <code>setEditor</code> or created by a <code>createEditor</code>
-     * override, will not be replaced anyway.
+     * Tiis dlbss dffinfs b <dodf>dismiss</dodf> mftiod tibt rfmovfs tif
+     * fditors <dodf>CibngfListfnfr</dodf> from tif <dodf>JSpinnfr</dodf>
+     * tibt it's pbrt of.   Tif <dodf>sftEditor</dodf> mftiod knows bbout
+     * <dodf>DffbultEditor.dismiss</dodf>, so if tif dfvflopfr
+     * rfplbdfs bn fditor tibt's dfrivfd from <dodf>JSpinnfr.DffbultEditor</dodf>
+     * its <dodf>CibngfListfnfr</dodf> donnfdtion bbdk to tif
+     * <dodf>JSpinnfr</dodf> will bf rfmovfd.  Howfvfr bftfr tibt,
+     * it's up to tif dfvflopfr to mbnbgf tifir fditor listfnfrs.
+     * Similbrly, if b subdlbss ovfrridfs <dodf>drfbtfEditor</dodf>,
+     * it's up to tif subdlbssfr to dfbl witi tifir fditor
+     * subsfqufntly bfing rfplbdfd (witi <dodf>sftEditor</dodf>).
+     * Wf fxpfdt tibt in most dbsfs, bnd in fditor instbllfd
+     * witi <dodf>sftEditor</dodf> or drfbtfd by b <dodf>drfbtfEditor</dodf>
+     * ovfrridf, will not bf rfplbdfd bnywby.
      * <p>
-     * This class is the <code>LayoutManager</code> for it's single
-     * <code>JFormattedTextField</code> child.   By default the
-     * child is just centered with the parents insets.
-     * @since 1.4
+     * Tiis dlbss is tif <dodf>LbyoutMbnbgfr</dodf> for it's singlf
+     * <dodf>JFormbttfdTfxtFifld</dodf> diild.   By dffbult tif
+     * diild is just dfntfrfd witi tif pbrfnts insfts.
+     * @sindf 1.4
      */
-    public static class DefaultEditor extends JPanel
-        implements ChangeListener, PropertyChangeListener, LayoutManager
+    publid stbtid dlbss DffbultEditor fxtfnds JPbnfl
+        implfmfnts CibngfListfnfr, PropfrtyCibngfListfnfr, LbyoutMbnbgfr
     {
         /**
-         * Constructs an editor component for the specified <code>JSpinner</code>.
-         * This <code>DefaultEditor</code> is it's own layout manager and
-         * it is added to the spinner's <code>ChangeListener</code> list.
-         * The constructor creates a single <code>JFormattedTextField</code> child,
-         * initializes it's value to be the spinner model's current value
-         * and adds it to <code>this</code> <code>DefaultEditor</code>.
+         * Construdts bn fditor domponfnt for tif spfdififd <dodf>JSpinnfr</dodf>.
+         * Tiis <dodf>DffbultEditor</dodf> is it's own lbyout mbnbgfr bnd
+         * it is bddfd to tif spinnfr's <dodf>CibngfListfnfr</dodf> list.
+         * Tif donstrudtor drfbtfs b singlf <dodf>JFormbttfdTfxtFifld</dodf> diild,
+         * initiblizfs it's vbluf to bf tif spinnfr modfl's durrfnt vbluf
+         * bnd bdds it to <dodf>tiis</dodf> <dodf>DffbultEditor</dodf>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor will monitor
-         * @see #getTextField
-         * @see JSpinner#addChangeListener
+         * @pbrbm spinnfr tif spinnfr wiosf modfl <dodf>tiis</dodf> fditor will monitor
+         * @sff #gftTfxtFifld
+         * @sff JSpinnfr#bddCibngfListfnfr
          */
-        public DefaultEditor(JSpinner spinner) {
-            super(null);
+        publid DffbultEditor(JSpinnfr spinnfr) {
+            supfr(null);
 
-            JFormattedTextField ftf = new JFormattedTextField();
-            ftf.setName("Spinner.formattedTextField");
-            ftf.setValue(spinner.getValue());
-            ftf.addPropertyChangeListener(this);
-            ftf.setEditable(false);
-            ftf.setInheritsPopupMenu(true);
+            JFormbttfdTfxtFifld ftf = nfw JFormbttfdTfxtFifld();
+            ftf.sftNbmf("Spinnfr.formbttfdTfxtFifld");
+            ftf.sftVbluf(spinnfr.gftVbluf());
+            ftf.bddPropfrtyCibngfListfnfr(tiis);
+            ftf.sftEditbblf(fblsf);
+            ftf.sftInifritsPopupMfnu(truf);
 
-            String toolTipText = spinner.getToolTipText();
-            if (toolTipText != null) {
-                ftf.setToolTipText(toolTipText);
+            String toolTipTfxt = spinnfr.gftToolTipTfxt();
+            if (toolTipTfxt != null) {
+                ftf.sftToolTipTfxt(toolTipTfxt);
             }
 
-            add(ftf);
+            bdd(ftf);
 
-            setLayout(this);
-            spinner.addChangeListener(this);
+            sftLbyout(tiis);
+            spinnfr.bddCibngfListfnfr(tiis);
 
-            // We want the spinner's increment/decrement actions to be
-            // active vs those of the JFormattedTextField. As such we
-            // put disabled actions in the JFormattedTextField's actionmap.
-            // A binding to a disabled action is treated as a nonexistant
+            // Wf wbnt tif spinnfr's indrfmfnt/dfdrfmfnt bdtions to bf
+            // bdtivf vs tiosf of tif JFormbttfdTfxtFifld. As sudi wf
+            // put disbblfd bdtions in tif JFormbttfdTfxtFifld's bdtionmbp.
+            // A binding to b disbblfd bdtion is trfbtfd bs b nonfxistbnt
             // binding.
-            ActionMap ftfMap = ftf.getActionMap();
+            AdtionMbp ftfMbp = ftf.gftAdtionMbp();
 
-            if (ftfMap != null) {
-                ftfMap.put("increment", DISABLED_ACTION);
-                ftfMap.put("decrement", DISABLED_ACTION);
+            if (ftfMbp != null) {
+                ftfMbp.put("indrfmfnt", DISABLED_ACTION);
+                ftfMbp.put("dfdrfmfnt", DISABLED_ACTION);
             }
         }
 
 
         /**
-         * Disconnect <code>this</code> editor from the specified
-         * <code>JSpinner</code>.  By default, this method removes
-         * itself from the spinners <code>ChangeListener</code> list.
+         * Disdonnfdt <dodf>tiis</dodf> fditor from tif spfdififd
+         * <dodf>JSpinnfr</dodf>.  By dffbult, tiis mftiod rfmovfs
+         * itsflf from tif spinnfrs <dodf>CibngfListfnfr</dodf> list.
          *
-         * @param spinner the <code>JSpinner</code> to disconnect this
-         *    editor from; the same spinner as was passed to the constructor.
+         * @pbrbm spinnfr tif <dodf>JSpinnfr</dodf> to disdonnfdt tiis
+         *    fditor from; tif sbmf spinnfr bs wbs pbssfd to tif donstrudtor.
          */
-        public void dismiss(JSpinner spinner) {
-            spinner.removeChangeListener(this);
+        publid void dismiss(JSpinnfr spinnfr) {
+            spinnfr.rfmovfCibngfListfnfr(tiis);
         }
 
 
         /**
-         * Returns the <code>JSpinner</code> ancestor of this editor or
-         * <code>null</code> if none of the ancestors are a
-         * <code>JSpinner</code>.
-         * Typically the editor's parent is a <code>JSpinner</code> however
-         * subclasses of <code>JSpinner</code> may override the
-         * the <code>createEditor</code> method and insert one or more containers
-         * between the <code>JSpinner</code> and it's editor.
+         * Rfturns tif <dodf>JSpinnfr</dodf> bndfstor of tiis fditor or
+         * <dodf>null</dodf> if nonf of tif bndfstors brf b
+         * <dodf>JSpinnfr</dodf>.
+         * Typidblly tif fditor's pbrfnt is b <dodf>JSpinnfr</dodf> iowfvfr
+         * subdlbssfs of <dodf>JSpinnfr</dodf> mby ovfrridf tif
+         * tif <dodf>drfbtfEditor</dodf> mftiod bnd insfrt onf or morf dontbinfrs
+         * bftwffn tif <dodf>JSpinnfr</dodf> bnd it's fditor.
          *
-         * @return <code>JSpinner</code> ancestor; <code>null</code>
-         *         if none of the ancestors are a <code>JSpinner</code>
+         * @rfturn <dodf>JSpinnfr</dodf> bndfstor; <dodf>null</dodf>
+         *         if nonf of tif bndfstors brf b <dodf>JSpinnfr</dodf>
          *
-         * @see JSpinner#createEditor
+         * @sff JSpinnfr#drfbtfEditor
          */
-        public JSpinner getSpinner() {
-            for (Component c = this; c != null; c = c.getParent()) {
-                if (c instanceof JSpinner) {
-                    return (JSpinner)c;
+        publid JSpinnfr gftSpinnfr() {
+            for (Componfnt d = tiis; d != null; d = d.gftPbrfnt()) {
+                if (d instbndfof JSpinnfr) {
+                    rfturn (JSpinnfr)d;
                 }
             }
-            return null;
+            rfturn null;
         }
 
 
         /**
-         * Returns the <code>JFormattedTextField</code> child of this
-         * editor.  By default the text field is the first and only
-         * child of editor.
+         * Rfturns tif <dodf>JFormbttfdTfxtFifld</dodf> diild of tiis
+         * fditor.  By dffbult tif tfxt fifld is tif first bnd only
+         * diild of fditor.
          *
-         * @return the <code>JFormattedTextField</code> that gives the user
-         *     access to the <code>SpinnerDateModel's</code> value.
-         * @see #getSpinner
-         * @see #getModel
+         * @rfturn tif <dodf>JFormbttfdTfxtFifld</dodf> tibt givfs tif usfr
+         *     bddfss to tif <dodf>SpinnfrDbtfModfl's</dodf> vbluf.
+         * @sff #gftSpinnfr
+         * @sff #gftModfl
          */
-        public JFormattedTextField getTextField() {
-            return (JFormattedTextField)getComponent(0);
+        publid JFormbttfdTfxtFifld gftTfxtFifld() {
+            rfturn (JFormbttfdTfxtFifld)gftComponfnt(0);
         }
 
 
         /**
-         * This method is called when the spinner's model's state changes.
-         * It sets the <code>value</code> of the text field to the current
-         * value of the spinners model.
+         * Tiis mftiod is dbllfd wifn tif spinnfr's modfl's stbtf dibngfs.
+         * It sfts tif <dodf>vbluf</dodf> of tif tfxt fifld to tif durrfnt
+         * vbluf of tif spinnfrs modfl.
          *
-         * @param e the <code>ChangeEvent</code> whose source is the
-         * <code>JSpinner</code> whose model has changed.
-         * @see #getTextField
-         * @see JSpinner#getValue
+         * @pbrbm f tif <dodf>CibngfEvfnt</dodf> wiosf sourdf is tif
+         * <dodf>JSpinnfr</dodf> wiosf modfl ibs dibngfd.
+         * @sff #gftTfxtFifld
+         * @sff JSpinnfr#gftVbluf
          */
-        public void stateChanged(ChangeEvent e) {
-            JSpinner spinner = (JSpinner)(e.getSource());
-            getTextField().setValue(spinner.getValue());
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            JSpinnfr spinnfr = (JSpinnfr)(f.gftSourdf());
+            gftTfxtFifld().sftVbluf(spinnfr.gftVbluf());
         }
 
 
         /**
-         * Called by the <code>JFormattedTextField</code>
-         * <code>PropertyChangeListener</code>.  When the <code>"value"</code>
-         * property changes, which implies that the user has typed a new
-         * number, we set the value of the spinners model.
+         * Cbllfd by tif <dodf>JFormbttfdTfxtFifld</dodf>
+         * <dodf>PropfrtyCibngfListfnfr</dodf>.  Wifn tif <dodf>"vbluf"</dodf>
+         * propfrty dibngfs, wiidi implifs tibt tif usfr ibs typfd b nfw
+         * numbfr, wf sft tif vbluf of tif spinnfrs modfl.
          * <p>
-         * This class ignores <code>PropertyChangeEvents</code> whose
-         * source is not the <code>JFormattedTextField</code>, so subclasses
-         * may safely make <code>this</code> <code>DefaultEditor</code> a
-         * <code>PropertyChangeListener</code> on other objects.
+         * Tiis dlbss ignorfs <dodf>PropfrtyCibngfEvfnts</dodf> wiosf
+         * sourdf is not tif <dodf>JFormbttfdTfxtFifld</dodf>, so subdlbssfs
+         * mby sbffly mbkf <dodf>tiis</dodf> <dodf>DffbultEditor</dodf> b
+         * <dodf>PropfrtyCibngfListfnfr</dodf> on otifr objfdts.
          *
-         * @param e the <code>PropertyChangeEvent</code> whose source is
-         *    the <code>JFormattedTextField</code> created by this class.
-         * @see #getTextField
+         * @pbrbm f tif <dodf>PropfrtyCibngfEvfnt</dodf> wiosf sourdf is
+         *    tif <dodf>JFormbttfdTfxtFifld</dodf> drfbtfd by tiis dlbss.
+         * @sff #gftTfxtFifld
          */
-        public void propertyChange(PropertyChangeEvent e)
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f)
         {
-            JSpinner spinner = getSpinner();
+            JSpinnfr spinnfr = gftSpinnfr();
 
-            if (spinner == null) {
-                // Indicates we aren't installed anywhere.
-                return;
+            if (spinnfr == null) {
+                // Indidbtfs wf brfn't instbllfd bnywifrf.
+                rfturn;
             }
 
-            Object source = e.getSource();
-            String name = e.getPropertyName();
-            if ((source instanceof JFormattedTextField) && "value".equals(name)) {
-                Object lastValue = spinner.getValue();
+            Objfdt sourdf = f.gftSourdf();
+            String nbmf = f.gftPropfrtyNbmf();
+            if ((sourdf instbndfof JFormbttfdTfxtFifld) && "vbluf".fqubls(nbmf)) {
+                Objfdt lbstVbluf = spinnfr.gftVbluf();
 
-                // Try to set the new value
+                // Try to sft tif nfw vbluf
                 try {
-                    spinner.setValue(getTextField().getValue());
-                } catch (IllegalArgumentException iae) {
-                    // SpinnerModel didn't like new value, reset
+                    spinnfr.sftVbluf(gftTfxtFifld().gftVbluf());
+                } dbtdi (IllfgblArgumfntExdfption ibf) {
+                    // SpinnfrModfl didn't likf nfw vbluf, rfsft
                     try {
-                        ((JFormattedTextField)source).setValue(lastValue);
-                    } catch (IllegalArgumentException iae2) {
-                        // Still bogus, nothing else we can do, the
-                        // SpinnerModel and JFormattedTextField are now out
-                        // of sync.
+                        ((JFormbttfdTfxtFifld)sourdf).sftVbluf(lbstVbluf);
+                    } dbtdi (IllfgblArgumfntExdfption ibf2) {
+                        // Still bogus, notiing flsf wf dbn do, tif
+                        // SpinnfrModfl bnd JFormbttfdTfxtFifld brf now out
+                        // of synd.
                     }
                 }
             }
@@ -771,137 +771,137 @@ public class JSpinner extends JComponent implements Accessible
 
 
         /**
-         * This <code>LayoutManager</code> method does nothing.  We're
-         * only managing a single child and there's no support
-         * for layout constraints.
+         * Tiis <dodf>LbyoutMbnbgfr</dodf> mftiod dofs notiing.  Wf'rf
+         * only mbnbging b singlf diild bnd tifrf's no support
+         * for lbyout donstrbints.
          *
-         * @param name ignored
-         * @param child ignored
+         * @pbrbm nbmf ignorfd
+         * @pbrbm diild ignorfd
          */
-        public void addLayoutComponent(String name, Component child) {
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt diild) {
         }
 
 
         /**
-         * This <code>LayoutManager</code> method does nothing.  There
-         * isn't any per-child state.
+         * Tiis <dodf>LbyoutMbnbgfr</dodf> mftiod dofs notiing.  Tifrf
+         * isn't bny pfr-diild stbtf.
          *
-         * @param child ignored
+         * @pbrbm diild ignorfd
          */
-        public void removeLayoutComponent(Component child) {
+        publid void rfmovfLbyoutComponfnt(Componfnt diild) {
         }
 
 
         /**
-         * Returns the size of the parents insets.
+         * Rfturns tif sizf of tif pbrfnts insfts.
          */
-        private Dimension insetSize(Container parent) {
-            Insets insets = parent.getInsets();
-            int w = insets.left + insets.right;
-            int h = insets.top + insets.bottom;
-            return new Dimension(w, h);
+        privbtf Dimfnsion insftSizf(Contbinfr pbrfnt) {
+            Insfts insfts = pbrfnt.gftInsfts();
+            int w = insfts.lfft + insfts.rigit;
+            int i = insfts.top + insfts.bottom;
+            rfturn nfw Dimfnsion(w, i);
         }
 
 
         /**
-         * Returns the preferred size of first (and only) child plus the
-         * size of the parents insets.
+         * Rfturns tif prfffrrfd sizf of first (bnd only) diild plus tif
+         * sizf of tif pbrfnts insfts.
          *
-         * @param parent the Container that's managing the layout
-         * @return the preferred dimensions to lay out the subcomponents
-         *          of the specified container.
+         * @pbrbm pbrfnt tif Contbinfr tibt's mbnbging tif lbyout
+         * @rfturn tif prfffrrfd dimfnsions to lby out tif subdomponfnts
+         *          of tif spfdififd dontbinfr.
          */
-        public Dimension preferredLayoutSize(Container parent) {
-            Dimension preferredSize = insetSize(parent);
-            if (parent.getComponentCount() > 0) {
-                Dimension childSize = getComponent(0).getPreferredSize();
-                preferredSize.width += childSize.width;
-                preferredSize.height += childSize.height;
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr pbrfnt) {
+            Dimfnsion prfffrrfdSizf = insftSizf(pbrfnt);
+            if (pbrfnt.gftComponfntCount() > 0) {
+                Dimfnsion diildSizf = gftComponfnt(0).gftPrfffrrfdSizf();
+                prfffrrfdSizf.widti += diildSizf.widti;
+                prfffrrfdSizf.ifigit += diildSizf.ifigit;
             }
-            return preferredSize;
+            rfturn prfffrrfdSizf;
         }
 
 
         /**
-         * Returns the minimum size of first (and only) child plus the
-         * size of the parents insets.
+         * Rfturns tif minimum sizf of first (bnd only) diild plus tif
+         * sizf of tif pbrfnts insfts.
          *
-         * @param parent the Container that's managing the layout
-         * @return  the minimum dimensions needed to lay out the subcomponents
-         *          of the specified container.
+         * @pbrbm pbrfnt tif Contbinfr tibt's mbnbging tif lbyout
+         * @rfturn  tif minimum dimfnsions nffdfd to lby out tif subdomponfnts
+         *          of tif spfdififd dontbinfr.
          */
-        public Dimension minimumLayoutSize(Container parent) {
-            Dimension minimumSize = insetSize(parent);
-            if (parent.getComponentCount() > 0) {
-                Dimension childSize = getComponent(0).getMinimumSize();
-                minimumSize.width += childSize.width;
-                minimumSize.height += childSize.height;
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr pbrfnt) {
+            Dimfnsion minimumSizf = insftSizf(pbrfnt);
+            if (pbrfnt.gftComponfntCount() > 0) {
+                Dimfnsion diildSizf = gftComponfnt(0).gftMinimumSizf();
+                minimumSizf.widti += diildSizf.widti;
+                minimumSizf.ifigit += diildSizf.ifigit;
             }
-            return minimumSize;
+            rfturn minimumSizf;
         }
 
 
         /**
-         * Resize the one (and only) child to completely fill the area
-         * within the parents insets.
+         * Rfsizf tif onf (bnd only) diild to domplftfly fill tif brfb
+         * witiin tif pbrfnts insfts.
          */
-        public void layoutContainer(Container parent) {
-            if (parent.getComponentCount() > 0) {
-                Insets insets = parent.getInsets();
-                int w = parent.getWidth() - (insets.left + insets.right);
-                int h = parent.getHeight() - (insets.top + insets.bottom);
-                getComponent(0).setBounds(insets.left, insets.top, w, h);
+        publid void lbyoutContbinfr(Contbinfr pbrfnt) {
+            if (pbrfnt.gftComponfntCount() > 0) {
+                Insfts insfts = pbrfnt.gftInsfts();
+                int w = pbrfnt.gftWidti() - (insfts.lfft + insfts.rigit);
+                int i = pbrfnt.gftHfigit() - (insfts.top + insfts.bottom);
+                gftComponfnt(0).sftBounds(insfts.lfft, insfts.top, w, i);
             }
         }
 
         /**
-         * Pushes the currently edited value to the <code>SpinnerModel</code>.
+         * Pusifs tif durrfntly fditfd vbluf to tif <dodf>SpinnfrModfl</dodf>.
          * <p>
-         * The default implementation invokes <code>commitEdit</code> on the
-         * <code>JFormattedTextField</code>.
+         * Tif dffbult implfmfntbtion invokfs <dodf>dommitEdit</dodf> on tif
+         * <dodf>JFormbttfdTfxtFifld</dodf>.
          *
-         * @throws ParseException if the edited value is not legal
+         * @tirows PbrsfExdfption if tif fditfd vbluf is not lfgbl
          */
-        public void commitEdit()  throws ParseException {
-            // If the value in the JFormattedTextField is legal, this will have
-            // the result of pushing the value to the SpinnerModel
-            // by way of the <code>propertyChange</code> method.
-            JFormattedTextField ftf = getTextField();
+        publid void dommitEdit()  tirows PbrsfExdfption {
+            // If tif vbluf in tif JFormbttfdTfxtFifld is lfgbl, tiis will ibvf
+            // tif rfsult of pusiing tif vbluf to tif SpinnfrModfl
+            // by wby of tif <dodf>propfrtyCibngf</dodf> mftiod.
+            JFormbttfdTfxtFifld ftf = gftTfxtFifld();
 
-            ftf.commitEdit();
+            ftf.dommitEdit();
         }
 
         /**
-         * Returns the baseline.
+         * Rfturns tif bbsflinf.
          *
-         * @throws IllegalArgumentException {@inheritDoc}
-         * @see javax.swing.JComponent#getBaseline(int,int)
-         * @see javax.swing.JComponent#getBaselineResizeBehavior()
-         * @since 1.6
+         * @tirows IllfgblArgumfntExdfption {@inifritDod}
+         * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int,int)
+         * @sff jbvbx.swing.JComponfnt#gftBbsflinfRfsizfBfibvior()
+         * @sindf 1.6
          */
-        public int getBaseline(int width, int height) {
-            // check size.
-            super.getBaseline(width, height);
-            Insets insets = getInsets();
-            width = width - insets.left - insets.right;
-            height = height - insets.top - insets.bottom;
-            int baseline = getComponent(0).getBaseline(width, height);
-            if (baseline >= 0) {
-                return baseline + insets.top;
+        publid int gftBbsflinf(int widti, int ifigit) {
+            // difdk sizf.
+            supfr.gftBbsflinf(widti, ifigit);
+            Insfts insfts = gftInsfts();
+            widti = widti - insfts.lfft - insfts.rigit;
+            ifigit = ifigit - insfts.top - insfts.bottom;
+            int bbsflinf = gftComponfnt(0).gftBbsflinf(widti, ifigit);
+            if (bbsflinf >= 0) {
+                rfturn bbsflinf + insfts.top;
             }
-            return -1;
+            rfturn -1;
         }
 
         /**
-         * Returns an enum indicating how the baseline of the component
-         * changes as the size changes.
+         * Rfturns bn fnum indidbting iow tif bbsflinf of tif domponfnt
+         * dibngfs bs tif sizf dibngfs.
          *
-         * @throws NullPointerException {@inheritDoc}
-         * @see javax.swing.JComponent#getBaseline(int, int)
-         * @since 1.6
+         * @tirows NullPointfrExdfption {@inifritDod}
+         * @sff jbvbx.swing.JComponfnt#gftBbsflinf(int, int)
+         * @sindf 1.6
          */
-        public BaselineResizeBehavior getBaselineResizeBehavior() {
-            return getComponent(0).getBaselineResizeBehavior();
+        publid BbsflinfRfsizfBfibvior gftBbsflinfRfsizfBfibvior() {
+            rfturn gftComponfnt(0).gftBbsflinfRfsizfBfibvior();
         }
     }
 
@@ -909,488 +909,488 @@ public class JSpinner extends JComponent implements Accessible
 
 
     /**
-     * This subclass of javax.swing.DateFormatter maps the minimum/maximum
-     * properties to the start/end properties of a SpinnerDateModel.
+     * Tiis subdlbss of jbvbx.swing.DbtfFormbttfr mbps tif minimum/mbximum
+     * propfrtifs to tif stbrt/fnd propfrtifs of b SpinnfrDbtfModfl.
      */
-    private static class DateEditorFormatter extends DateFormatter {
-        private final SpinnerDateModel model;
+    privbtf stbtid dlbss DbtfEditorFormbttfr fxtfnds DbtfFormbttfr {
+        privbtf finbl SpinnfrDbtfModfl modfl;
 
-        DateEditorFormatter(SpinnerDateModel model, DateFormat format) {
-            super(format);
-            this.model = model;
+        DbtfEditorFormbttfr(SpinnfrDbtfModfl modfl, DbtfFormbt formbt) {
+            supfr(formbt);
+            tiis.modfl = modfl;
         }
 
-        @Override
-        @SuppressWarnings("unchecked")
-        public void setMinimum(Comparable<?> min) {
-            model.setStart((Comparable<Date>)min);
+        @Ovfrridf
+        @SupprfssWbrnings("undifdkfd")
+        publid void sftMinimum(Compbrbblf<?> min) {
+            modfl.sftStbrt((Compbrbblf<Dbtf>)min);
         }
 
-        @Override
-        public Comparable<Date> getMinimum() {
-            return  model.getStart();
+        @Ovfrridf
+        publid Compbrbblf<Dbtf> gftMinimum() {
+            rfturn  modfl.gftStbrt();
         }
 
-        @Override
-        @SuppressWarnings("unchecked")
-        public void setMaximum(Comparable<?> max) {
-            model.setEnd((Comparable<Date>)max);
+        @Ovfrridf
+        @SupprfssWbrnings("undifdkfd")
+        publid void sftMbximum(Compbrbblf<?> mbx) {
+            modfl.sftEnd((Compbrbblf<Dbtf>)mbx);
         }
 
-        @Override
-        public Comparable<Date> getMaximum() {
-            return model.getEnd();
+        @Ovfrridf
+        publid Compbrbblf<Dbtf> gftMbximum() {
+            rfturn modfl.gftEnd();
         }
     }
 
 
     /**
-     * An editor for a <code>JSpinner</code> whose model is a
-     * <code>SpinnerDateModel</code>.  The value of the editor is
-     * displayed with a <code>JFormattedTextField</code> whose format
-     * is defined by a <code>DateFormatter</code> instance whose
-     * <code>minimum</code> and <code>maximum</code> properties
-     * are mapped to the <code>SpinnerDateModel</code>.
-     * @since 1.4
+     * An fditor for b <dodf>JSpinnfr</dodf> wiosf modfl is b
+     * <dodf>SpinnfrDbtfModfl</dodf>.  Tif vbluf of tif fditor is
+     * displbyfd witi b <dodf>JFormbttfdTfxtFifld</dodf> wiosf formbt
+     * is dffinfd by b <dodf>DbtfFormbttfr</dodf> instbndf wiosf
+     * <dodf>minimum</dodf> bnd <dodf>mbximum</dodf> propfrtifs
+     * brf mbppfd to tif <dodf>SpinnfrDbtfModfl</dodf>.
+     * @sindf 1.4
      */
-    // PENDING(hmuller): more example javadoc
-    public static class DateEditor extends DefaultEditor
+    // PENDING(imullfr): morf fxbmplf jbvbdod
+    publid stbtid dlbss DbtfEditor fxtfnds DffbultEditor
     {
-        // This is here until SimpleDateFormat gets a constructor that
-        // takes a Locale: 4923525
-        private static String getDefaultPattern(Locale loc) {
-            LocaleProviderAdapter adapter = LocaleProviderAdapter.getAdapter(DateFormatProvider.class, loc);
-            LocaleResources lr = adapter.getLocaleResources(loc);
+        // Tiis is ifrf until SimplfDbtfFormbt gfts b donstrudtor tibt
+        // tbkfs b Lodblf: 4923525
+        privbtf stbtid String gftDffbultPbttfrn(Lodblf lod) {
+            LodblfProvidfrAdbptfr bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(DbtfFormbtProvidfr.dlbss, lod);
+            LodblfRfsourdfs lr = bdbptfr.gftLodblfRfsourdfs(lod);
             if (lr == null) {
-                lr = LocaleProviderAdapter.forJRE().getLocaleResources(loc);
+                lr = LodblfProvidfrAdbptfr.forJRE().gftLodblfRfsourdfs(lod);
             }
-            return lr.getDateTimePattern(DateFormat.SHORT, DateFormat.SHORT, null);
+            rfturn lr.gftDbtfTimfPbttfrn(DbtfFormbt.SHORT, DbtfFormbt.SHORT, null);
         }
 
         /**
-         * Construct a <code>JSpinner</code> editor that supports displaying
-         * and editing the value of a <code>SpinnerDateModel</code>
-         * with a <code>JFormattedTextField</code>.  <code>This</code>
-         * <code>DateEditor</code> becomes both a <code>ChangeListener</code>
-         * on the spinners model and a <code>PropertyChangeListener</code>
-         * on the new <code>JFormattedTextField</code>.
+         * Construdt b <dodf>JSpinnfr</dodf> fditor tibt supports displbying
+         * bnd fditing tif vbluf of b <dodf>SpinnfrDbtfModfl</dodf>
+         * witi b <dodf>JFormbttfdTfxtFifld</dodf>.  <dodf>Tiis</dodf>
+         * <dodf>DbtfEditor</dodf> bfdomfs boti b <dodf>CibngfListfnfr</dodf>
+         * on tif spinnfrs modfl bnd b <dodf>PropfrtyCibngfListfnfr</dodf>
+         * on tif nfw <dodf>JFormbttfdTfxtFifld</dodf>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor will monitor
-         * @exception IllegalArgumentException if the spinners model is not
-         *     an instance of <code>SpinnerDateModel</code>
+         * @pbrbm spinnfr tif spinnfr wiosf modfl <dodf>tiis</dodf> fditor will monitor
+         * @fxdfption IllfgblArgumfntExdfption if tif spinnfrs modfl is not
+         *     bn instbndf of <dodf>SpinnfrDbtfModfl</dodf>
          *
-         * @see #getModel
-         * @see #getFormat
-         * @see SpinnerDateModel
+         * @sff #gftModfl
+         * @sff #gftFormbt
+         * @sff SpinnfrDbtfModfl
          */
-        public DateEditor(JSpinner spinner) {
-            this(spinner, getDefaultPattern(spinner.getLocale()));
+        publid DbtfEditor(JSpinnfr spinnfr) {
+            tiis(spinnfr, gftDffbultPbttfrn(spinnfr.gftLodblf()));
         }
 
 
         /**
-         * Construct a <code>JSpinner</code> editor that supports displaying
-         * and editing the value of a <code>SpinnerDateModel</code>
-         * with a <code>JFormattedTextField</code>.  <code>This</code>
-         * <code>DateEditor</code> becomes both a <code>ChangeListener</code>
-         * on the spinner and a <code>PropertyChangeListener</code>
-         * on the new <code>JFormattedTextField</code>.
+         * Construdt b <dodf>JSpinnfr</dodf> fditor tibt supports displbying
+         * bnd fditing tif vbluf of b <dodf>SpinnfrDbtfModfl</dodf>
+         * witi b <dodf>JFormbttfdTfxtFifld</dodf>.  <dodf>Tiis</dodf>
+         * <dodf>DbtfEditor</dodf> bfdomfs boti b <dodf>CibngfListfnfr</dodf>
+         * on tif spinnfr bnd b <dodf>PropfrtyCibngfListfnfr</dodf>
+         * on tif nfw <dodf>JFormbttfdTfxtFifld</dodf>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor will monitor
-         * @param dateFormatPattern the initial pattern for the
-         *     <code>SimpleDateFormat</code> object that's used to display
-         *     and parse the value of the text field.
-         * @exception IllegalArgumentException if the spinners model is not
-         *     an instance of <code>SpinnerDateModel</code>
+         * @pbrbm spinnfr tif spinnfr wiosf modfl <dodf>tiis</dodf> fditor will monitor
+         * @pbrbm dbtfFormbtPbttfrn tif initibl pbttfrn for tif
+         *     <dodf>SimplfDbtfFormbt</dodf> objfdt tibt's usfd to displby
+         *     bnd pbrsf tif vbluf of tif tfxt fifld.
+         * @fxdfption IllfgblArgumfntExdfption if tif spinnfrs modfl is not
+         *     bn instbndf of <dodf>SpinnfrDbtfModfl</dodf>
          *
-         * @see #getModel
-         * @see #getFormat
-         * @see SpinnerDateModel
-         * @see java.text.SimpleDateFormat
+         * @sff #gftModfl
+         * @sff #gftFormbt
+         * @sff SpinnfrDbtfModfl
+         * @sff jbvb.tfxt.SimplfDbtfFormbt
          */
-        public DateEditor(JSpinner spinner, String dateFormatPattern) {
-            this(spinner, new SimpleDateFormat(dateFormatPattern,
-                                               spinner.getLocale()));
+        publid DbtfEditor(JSpinnfr spinnfr, String dbtfFormbtPbttfrn) {
+            tiis(spinnfr, nfw SimplfDbtfFormbt(dbtfFormbtPbttfrn,
+                                               spinnfr.gftLodblf()));
         }
 
         /**
-         * Construct a <code>JSpinner</code> editor that supports displaying
-         * and editing the value of a <code>SpinnerDateModel</code>
-         * with a <code>JFormattedTextField</code>.  <code>This</code>
-         * <code>DateEditor</code> becomes both a <code>ChangeListener</code>
-         * on the spinner and a <code>PropertyChangeListener</code>
-         * on the new <code>JFormattedTextField</code>.
+         * Construdt b <dodf>JSpinnfr</dodf> fditor tibt supports displbying
+         * bnd fditing tif vbluf of b <dodf>SpinnfrDbtfModfl</dodf>
+         * witi b <dodf>JFormbttfdTfxtFifld</dodf>.  <dodf>Tiis</dodf>
+         * <dodf>DbtfEditor</dodf> bfdomfs boti b <dodf>CibngfListfnfr</dodf>
+         * on tif spinnfr bnd b <dodf>PropfrtyCibngfListfnfr</dodf>
+         * on tif nfw <dodf>JFormbttfdTfxtFifld</dodf>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor
+         * @pbrbm spinnfr tif spinnfr wiosf modfl <dodf>tiis</dodf> fditor
          *        will monitor
-         * @param format <code>DateFormat</code> object that's used to display
-         *     and parse the value of the text field.
-         * @exception IllegalArgumentException if the spinners model is not
-         *     an instance of <code>SpinnerDateModel</code>
+         * @pbrbm formbt <dodf>DbtfFormbt</dodf> objfdt tibt's usfd to displby
+         *     bnd pbrsf tif vbluf of tif tfxt fifld.
+         * @fxdfption IllfgblArgumfntExdfption if tif spinnfrs modfl is not
+         *     bn instbndf of <dodf>SpinnfrDbtfModfl</dodf>
          *
-         * @see #getModel
-         * @see #getFormat
-         * @see SpinnerDateModel
-         * @see java.text.SimpleDateFormat
+         * @sff #gftModfl
+         * @sff #gftFormbt
+         * @sff SpinnfrDbtfModfl
+         * @sff jbvb.tfxt.SimplfDbtfFormbt
          */
-        private DateEditor(JSpinner spinner, DateFormat format) {
-            super(spinner);
-            if (!(spinner.getModel() instanceof SpinnerDateModel)) {
-                throw new IllegalArgumentException(
-                                 "model not a SpinnerDateModel");
+        privbtf DbtfEditor(JSpinnfr spinnfr, DbtfFormbt formbt) {
+            supfr(spinnfr);
+            if (!(spinnfr.gftModfl() instbndfof SpinnfrDbtfModfl)) {
+                tirow nfw IllfgblArgumfntExdfption(
+                                 "modfl not b SpinnfrDbtfModfl");
             }
 
-            SpinnerDateModel model = (SpinnerDateModel)spinner.getModel();
-            DateFormatter formatter = new DateEditorFormatter(model, format);
-            DefaultFormatterFactory factory = new DefaultFormatterFactory(
-                                                  formatter);
-            JFormattedTextField ftf = getTextField();
-            ftf.setEditable(true);
-            ftf.setFormatterFactory(factory);
+            SpinnfrDbtfModfl modfl = (SpinnfrDbtfModfl)spinnfr.gftModfl();
+            DbtfFormbttfr formbttfr = nfw DbtfEditorFormbttfr(modfl, formbt);
+            DffbultFormbttfrFbdtory fbdtory = nfw DffbultFormbttfrFbdtory(
+                                                  formbttfr);
+            JFormbttfdTfxtFifld ftf = gftTfxtFifld();
+            ftf.sftEditbblf(truf);
+            ftf.sftFormbttfrFbdtory(fbdtory);
 
-            /* TBD - initializing the column width of the text field
-             * is imprecise and doing it here is tricky because
-             * the developer may configure the formatter later.
+            /* TBD - initiblizing tif dolumn widti of tif tfxt fifld
+             * is imprfdisf bnd doing it ifrf is tridky bfdbusf
+             * tif dfvflopfr mby donfigurf tif formbttfr lbtfr.
              */
             try {
-                String maxString = formatter.valueToString(model.getStart());
-                String minString = formatter.valueToString(model.getEnd());
-                ftf.setColumns(Math.max(maxString.length(),
-                                        minString.length()));
+                String mbxString = formbttfr.vblufToString(modfl.gftStbrt());
+                String minString = formbttfr.vblufToString(modfl.gftEnd());
+                ftf.sftColumns(Mbti.mbx(mbxString.lfngti(),
+                                        minString.lfngti()));
             }
-            catch (ParseException e) {
-                // PENDING: hmuller
+            dbtdi (PbrsfExdfption f) {
+                // PENDING: imullfr
             }
         }
 
         /**
-         * Returns the <code>java.text.SimpleDateFormat</code> object the
-         * <code>JFormattedTextField</code> uses to parse and format
-         * numbers.
+         * Rfturns tif <dodf>jbvb.tfxt.SimplfDbtfFormbt</dodf> objfdt tif
+         * <dodf>JFormbttfdTfxtFifld</dodf> usfs to pbrsf bnd formbt
+         * numbfrs.
          *
-         * @return the value of <code>getTextField().getFormatter().getFormat()</code>.
-         * @see #getTextField
-         * @see java.text.SimpleDateFormat
+         * @rfturn tif vbluf of <dodf>gftTfxtFifld().gftFormbttfr().gftFormbt()</dodf>.
+         * @sff #gftTfxtFifld
+         * @sff jbvb.tfxt.SimplfDbtfFormbt
          */
-        public SimpleDateFormat getFormat() {
-            return (SimpleDateFormat)((DateFormatter)(getTextField().getFormatter())).getFormat();
+        publid SimplfDbtfFormbt gftFormbt() {
+            rfturn (SimplfDbtfFormbt)((DbtfFormbttfr)(gftTfxtFifld().gftFormbttfr())).gftFormbt();
         }
 
 
         /**
-         * Return our spinner ancestor's <code>SpinnerDateModel</code>.
+         * Rfturn our spinnfr bndfstor's <dodf>SpinnfrDbtfModfl</dodf>.
          *
-         * @return <code>getSpinner().getModel()</code>
-         * @see #getSpinner
-         * @see #getTextField
+         * @rfturn <dodf>gftSpinnfr().gftModfl()</dodf>
+         * @sff #gftSpinnfr
+         * @sff #gftTfxtFifld
          */
-        public SpinnerDateModel getModel() {
-            return (SpinnerDateModel)(getSpinner().getModel());
+        publid SpinnfrDbtfModfl gftModfl() {
+            rfturn (SpinnfrDbtfModfl)(gftSpinnfr().gftModfl());
         }
     }
 
 
     /**
-     * This subclass of javax.swing.NumberFormatter maps the minimum/maximum
-     * properties to a SpinnerNumberModel and initializes the valueClass
-     * of the NumberFormatter to match the type of the initial models value.
+     * Tiis subdlbss of jbvbx.swing.NumbfrFormbttfr mbps tif minimum/mbximum
+     * propfrtifs to b SpinnfrNumbfrModfl bnd initiblizfs tif vblufClbss
+     * of tif NumbfrFormbttfr to mbtdi tif typf of tif initibl modfls vbluf.
      */
-    private static class NumberEditorFormatter extends NumberFormatter {
-        private final SpinnerNumberModel model;
+    privbtf stbtid dlbss NumbfrEditorFormbttfr fxtfnds NumbfrFormbttfr {
+        privbtf finbl SpinnfrNumbfrModfl modfl;
 
-        NumberEditorFormatter(SpinnerNumberModel model, NumberFormat format) {
-            super(format);
-            this.model = model;
-            setValueClass(model.getValue().getClass());
+        NumbfrEditorFormbttfr(SpinnfrNumbfrModfl modfl, NumbfrFormbt formbt) {
+            supfr(formbt);
+            tiis.modfl = modfl;
+            sftVblufClbss(modfl.gftVbluf().gftClbss());
         }
 
-        @Override
-        public void setMinimum(Comparable<?> min) {
-            model.setMinimum(min);
+        @Ovfrridf
+        publid void sftMinimum(Compbrbblf<?> min) {
+            modfl.sftMinimum(min);
         }
 
-        @Override
-        public Comparable<?> getMinimum() {
-            return  model.getMinimum();
+        @Ovfrridf
+        publid Compbrbblf<?> gftMinimum() {
+            rfturn  modfl.gftMinimum();
         }
 
-        @Override
-        public void setMaximum(Comparable<?> max) {
-            model.setMaximum(max);
+        @Ovfrridf
+        publid void sftMbximum(Compbrbblf<?> mbx) {
+            modfl.sftMbximum(mbx);
         }
 
-        @Override
-        public Comparable<?> getMaximum() {
-            return model.getMaximum();
+        @Ovfrridf
+        publid Compbrbblf<?> gftMbximum() {
+            rfturn modfl.gftMbximum();
         }
     }
 
 
 
     /**
-     * An editor for a <code>JSpinner</code> whose model is a
-     * <code>SpinnerNumberModel</code>.  The value of the editor is
-     * displayed with a <code>JFormattedTextField</code> whose format
-     * is defined by a <code>NumberFormatter</code> instance whose
-     * <code>minimum</code> and <code>maximum</code> properties
-     * are mapped to the <code>SpinnerNumberModel</code>.
-     * @since 1.4
+     * An fditor for b <dodf>JSpinnfr</dodf> wiosf modfl is b
+     * <dodf>SpinnfrNumbfrModfl</dodf>.  Tif vbluf of tif fditor is
+     * displbyfd witi b <dodf>JFormbttfdTfxtFifld</dodf> wiosf formbt
+     * is dffinfd by b <dodf>NumbfrFormbttfr</dodf> instbndf wiosf
+     * <dodf>minimum</dodf> bnd <dodf>mbximum</dodf> propfrtifs
+     * brf mbppfd to tif <dodf>SpinnfrNumbfrModfl</dodf>.
+     * @sindf 1.4
      */
-    // PENDING(hmuller): more example javadoc
-    public static class NumberEditor extends DefaultEditor
+    // PENDING(imullfr): morf fxbmplf jbvbdod
+    publid stbtid dlbss NumbfrEditor fxtfnds DffbultEditor
     {
-        // This is here until DecimalFormat gets a constructor that
-        // takes a Locale: 4923525
-        private static String getDefaultPattern(Locale locale) {
-            // Get the pattern for the default locale.
-            LocaleProviderAdapter adapter;
-            adapter = LocaleProviderAdapter.getAdapter(NumberFormatProvider.class,
-                                                       locale);
-            LocaleResources lr = adapter.getLocaleResources(locale);
+        // Tiis is ifrf until DfdimblFormbt gfts b donstrudtor tibt
+        // tbkfs b Lodblf: 4923525
+        privbtf stbtid String gftDffbultPbttfrn(Lodblf lodblf) {
+            // Gft tif pbttfrn for tif dffbult lodblf.
+            LodblfProvidfrAdbptfr bdbptfr;
+            bdbptfr = LodblfProvidfrAdbptfr.gftAdbptfr(NumbfrFormbtProvidfr.dlbss,
+                                                       lodblf);
+            LodblfRfsourdfs lr = bdbptfr.gftLodblfRfsourdfs(lodblf);
             if (lr == null) {
-                lr = LocaleProviderAdapter.forJRE().getLocaleResources(locale);
+                lr = LodblfProvidfrAdbptfr.forJRE().gftLodblfRfsourdfs(lodblf);
             }
-            String[] all = lr.getNumberPatterns();
-            return all[0];
+            String[] bll = lr.gftNumbfrPbttfrns();
+            rfturn bll[0];
         }
 
         /**
-         * Construct a <code>JSpinner</code> editor that supports displaying
-         * and editing the value of a <code>SpinnerNumberModel</code>
-         * with a <code>JFormattedTextField</code>.  <code>This</code>
-         * <code>NumberEditor</code> becomes both a <code>ChangeListener</code>
-         * on the spinner and a <code>PropertyChangeListener</code>
-         * on the new <code>JFormattedTextField</code>.
+         * Construdt b <dodf>JSpinnfr</dodf> fditor tibt supports displbying
+         * bnd fditing tif vbluf of b <dodf>SpinnfrNumbfrModfl</dodf>
+         * witi b <dodf>JFormbttfdTfxtFifld</dodf>.  <dodf>Tiis</dodf>
+         * <dodf>NumbfrEditor</dodf> bfdomfs boti b <dodf>CibngfListfnfr</dodf>
+         * on tif spinnfr bnd b <dodf>PropfrtyCibngfListfnfr</dodf>
+         * on tif nfw <dodf>JFormbttfdTfxtFifld</dodf>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor will monitor
-         * @exception IllegalArgumentException if the spinners model is not
-         *     an instance of <code>SpinnerNumberModel</code>
+         * @pbrbm spinnfr tif spinnfr wiosf modfl <dodf>tiis</dodf> fditor will monitor
+         * @fxdfption IllfgblArgumfntExdfption if tif spinnfrs modfl is not
+         *     bn instbndf of <dodf>SpinnfrNumbfrModfl</dodf>
          *
-         * @see #getModel
-         * @see #getFormat
-         * @see SpinnerNumberModel
+         * @sff #gftModfl
+         * @sff #gftFormbt
+         * @sff SpinnfrNumbfrModfl
          */
-        public NumberEditor(JSpinner spinner) {
-            this(spinner, getDefaultPattern(spinner.getLocale()));
+        publid NumbfrEditor(JSpinnfr spinnfr) {
+            tiis(spinnfr, gftDffbultPbttfrn(spinnfr.gftLodblf()));
         }
 
         /**
-         * Construct a <code>JSpinner</code> editor that supports displaying
-         * and editing the value of a <code>SpinnerNumberModel</code>
-         * with a <code>JFormattedTextField</code>.  <code>This</code>
-         * <code>NumberEditor</code> becomes both a <code>ChangeListener</code>
-         * on the spinner and a <code>PropertyChangeListener</code>
-         * on the new <code>JFormattedTextField</code>.
+         * Construdt b <dodf>JSpinnfr</dodf> fditor tibt supports displbying
+         * bnd fditing tif vbluf of b <dodf>SpinnfrNumbfrModfl</dodf>
+         * witi b <dodf>JFormbttfdTfxtFifld</dodf>.  <dodf>Tiis</dodf>
+         * <dodf>NumbfrEditor</dodf> bfdomfs boti b <dodf>CibngfListfnfr</dodf>
+         * on tif spinnfr bnd b <dodf>PropfrtyCibngfListfnfr</dodf>
+         * on tif nfw <dodf>JFormbttfdTfxtFifld</dodf>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor will monitor
-         * @param decimalFormatPattern the initial pattern for the
-         *     <code>DecimalFormat</code> object that's used to display
-         *     and parse the value of the text field.
-         * @exception IllegalArgumentException if the spinners model is not
-         *     an instance of <code>SpinnerNumberModel</code> or if
-         *     <code>decimalFormatPattern</code> is not a legal
-         *     argument to <code>DecimalFormat</code>
+         * @pbrbm spinnfr tif spinnfr wiosf modfl <dodf>tiis</dodf> fditor will monitor
+         * @pbrbm dfdimblFormbtPbttfrn tif initibl pbttfrn for tif
+         *     <dodf>DfdimblFormbt</dodf> objfdt tibt's usfd to displby
+         *     bnd pbrsf tif vbluf of tif tfxt fifld.
+         * @fxdfption IllfgblArgumfntExdfption if tif spinnfrs modfl is not
+         *     bn instbndf of <dodf>SpinnfrNumbfrModfl</dodf> or if
+         *     <dodf>dfdimblFormbtPbttfrn</dodf> is not b lfgbl
+         *     brgumfnt to <dodf>DfdimblFormbt</dodf>
          *
-         * @see #getTextField
-         * @see SpinnerNumberModel
-         * @see java.text.DecimalFormat
+         * @sff #gftTfxtFifld
+         * @sff SpinnfrNumbfrModfl
+         * @sff jbvb.tfxt.DfdimblFormbt
          */
-        public NumberEditor(JSpinner spinner, String decimalFormatPattern) {
-            this(spinner, new DecimalFormat(decimalFormatPattern));
+        publid NumbfrEditor(JSpinnfr spinnfr, String dfdimblFormbtPbttfrn) {
+            tiis(spinnfr, nfw DfdimblFormbt(dfdimblFormbtPbttfrn));
         }
 
 
         /**
-         * Construct a <code>JSpinner</code> editor that supports displaying
-         * and editing the value of a <code>SpinnerNumberModel</code>
-         * with a <code>JFormattedTextField</code>.  <code>This</code>
-         * <code>NumberEditor</code> becomes both a <code>ChangeListener</code>
-         * on the spinner and a <code>PropertyChangeListener</code>
-         * on the new <code>JFormattedTextField</code>.
+         * Construdt b <dodf>JSpinnfr</dodf> fditor tibt supports displbying
+         * bnd fditing tif vbluf of b <dodf>SpinnfrNumbfrModfl</dodf>
+         * witi b <dodf>JFormbttfdTfxtFifld</dodf>.  <dodf>Tiis</dodf>
+         * <dodf>NumbfrEditor</dodf> bfdomfs boti b <dodf>CibngfListfnfr</dodf>
+         * on tif spinnfr bnd b <dodf>PropfrtyCibngfListfnfr</dodf>
+         * on tif nfw <dodf>JFormbttfdTfxtFifld</dodf>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor will monitor
-         * @param decimalFormatPattern the initial pattern for the
-         *     <code>DecimalFormat</code> object that's used to display
-         *     and parse the value of the text field.
-         * @exception IllegalArgumentException if the spinners model is not
-         *     an instance of <code>SpinnerNumberModel</code>
+         * @pbrbm spinnfr tif spinnfr wiosf modfl <dodf>tiis</dodf> fditor will monitor
+         * @pbrbm dfdimblFormbtPbttfrn tif initibl pbttfrn for tif
+         *     <dodf>DfdimblFormbt</dodf> objfdt tibt's usfd to displby
+         *     bnd pbrsf tif vbluf of tif tfxt fifld.
+         * @fxdfption IllfgblArgumfntExdfption if tif spinnfrs modfl is not
+         *     bn instbndf of <dodf>SpinnfrNumbfrModfl</dodf>
          *
-         * @see #getTextField
-         * @see SpinnerNumberModel
-         * @see java.text.DecimalFormat
+         * @sff #gftTfxtFifld
+         * @sff SpinnfrNumbfrModfl
+         * @sff jbvb.tfxt.DfdimblFormbt
          */
-        private NumberEditor(JSpinner spinner, DecimalFormat format) {
-            super(spinner);
-            if (!(spinner.getModel() instanceof SpinnerNumberModel)) {
-                throw new IllegalArgumentException(
-                          "model not a SpinnerNumberModel");
+        privbtf NumbfrEditor(JSpinnfr spinnfr, DfdimblFormbt formbt) {
+            supfr(spinnfr);
+            if (!(spinnfr.gftModfl() instbndfof SpinnfrNumbfrModfl)) {
+                tirow nfw IllfgblArgumfntExdfption(
+                          "modfl not b SpinnfrNumbfrModfl");
             }
 
-            SpinnerNumberModel model = (SpinnerNumberModel)spinner.getModel();
-            NumberFormatter formatter = new NumberEditorFormatter(model,
-                                                                  format);
-            DefaultFormatterFactory factory = new DefaultFormatterFactory(
-                                                  formatter);
-            JFormattedTextField ftf = getTextField();
-            ftf.setEditable(true);
-            ftf.setFormatterFactory(factory);
-            // Change the text orientation for the NumberEditor
-            ftf.setHorizontalAlignment(JTextField.RIGHT);
+            SpinnfrNumbfrModfl modfl = (SpinnfrNumbfrModfl)spinnfr.gftModfl();
+            NumbfrFormbttfr formbttfr = nfw NumbfrEditorFormbttfr(modfl,
+                                                                  formbt);
+            DffbultFormbttfrFbdtory fbdtory = nfw DffbultFormbttfrFbdtory(
+                                                  formbttfr);
+            JFormbttfdTfxtFifld ftf = gftTfxtFifld();
+            ftf.sftEditbblf(truf);
+            ftf.sftFormbttfrFbdtory(fbdtory);
+            // Cibngf tif tfxt orifntbtion for tif NumbfrEditor
+            ftf.sftHorizontblAlignmfnt(JTfxtFifld.RIGHT);
 
-            /* TBD - initializing the column width of the text field
-             * is imprecise and doing it here is tricky because
-             * the developer may configure the formatter later.
+            /* TBD - initiblizing tif dolumn widti of tif tfxt fifld
+             * is imprfdisf bnd doing it ifrf is tridky bfdbusf
+             * tif dfvflopfr mby donfigurf tif formbttfr lbtfr.
              */
             try {
-                String maxString = formatter.valueToString(model.getMinimum());
-                String minString = formatter.valueToString(model.getMaximum());
-                ftf.setColumns(Math.max(maxString.length(),
-                                        minString.length()));
+                String mbxString = formbttfr.vblufToString(modfl.gftMinimum());
+                String minString = formbttfr.vblufToString(modfl.gftMbximum());
+                ftf.sftColumns(Mbti.mbx(mbxString.lfngti(),
+                                        minString.lfngti()));
             }
-            catch (ParseException e) {
-                // TBD should throw a chained error here
+            dbtdi (PbrsfExdfption f) {
+                // TBD siould tirow b dibinfd frror ifrf
             }
 
         }
 
 
         /**
-         * Returns the <code>java.text.DecimalFormat</code> object the
-         * <code>JFormattedTextField</code> uses to parse and format
-         * numbers.
+         * Rfturns tif <dodf>jbvb.tfxt.DfdimblFormbt</dodf> objfdt tif
+         * <dodf>JFormbttfdTfxtFifld</dodf> usfs to pbrsf bnd formbt
+         * numbfrs.
          *
-         * @return the value of <code>getTextField().getFormatter().getFormat()</code>.
-         * @see #getTextField
-         * @see java.text.DecimalFormat
+         * @rfturn tif vbluf of <dodf>gftTfxtFifld().gftFormbttfr().gftFormbt()</dodf>.
+         * @sff #gftTfxtFifld
+         * @sff jbvb.tfxt.DfdimblFormbt
          */
-        public DecimalFormat getFormat() {
-            return (DecimalFormat)((NumberFormatter)(getTextField().getFormatter())).getFormat();
+        publid DfdimblFormbt gftFormbt() {
+            rfturn (DfdimblFormbt)((NumbfrFormbttfr)(gftTfxtFifld().gftFormbttfr())).gftFormbt();
         }
 
 
         /**
-         * Return our spinner ancestor's <code>SpinnerNumberModel</code>.
+         * Rfturn our spinnfr bndfstor's <dodf>SpinnfrNumbfrModfl</dodf>.
          *
-         * @return <code>getSpinner().getModel()</code>
-         * @see #getSpinner
-         * @see #getTextField
+         * @rfturn <dodf>gftSpinnfr().gftModfl()</dodf>
+         * @sff #gftSpinnfr
+         * @sff #gftTfxtFifld
          */
-        public SpinnerNumberModel getModel() {
-            return (SpinnerNumberModel)(getSpinner().getModel());
+        publid SpinnfrNumbfrModfl gftModfl() {
+            rfturn (SpinnfrNumbfrModfl)(gftSpinnfr().gftModfl());
         }
 
         /**
-         * {@inheritDoc}
+         * {@inifritDod}
          */
-        @Override
-        public void setComponentOrientation(ComponentOrientation o) {
-            super.setComponentOrientation(o);
-            getTextField().setHorizontalAlignment(
-                    o.isLeftToRight() ? JTextField.RIGHT : JTextField.LEFT);
+        @Ovfrridf
+        publid void sftComponfntOrifntbtion(ComponfntOrifntbtion o) {
+            supfr.sftComponfntOrifntbtion(o);
+            gftTfxtFifld().sftHorizontblAlignmfnt(
+                    o.isLfftToRigit() ? JTfxtFifld.RIGHT : JTfxtFifld.LEFT);
         }
     }
 
 
     /**
-     * An editor for a <code>JSpinner</code> whose model is a
-     * <code>SpinnerListModel</code>.
-     * @since 1.4
+     * An fditor for b <dodf>JSpinnfr</dodf> wiosf modfl is b
+     * <dodf>SpinnfrListModfl</dodf>.
+     * @sindf 1.4
      */
-    public static class ListEditor extends DefaultEditor
+    publid stbtid dlbss ListEditor fxtfnds DffbultEditor
     {
         /**
-         * Construct a <code>JSpinner</code> editor that supports displaying
-         * and editing the value of a <code>SpinnerListModel</code>
-         * with a <code>JFormattedTextField</code>.  <code>This</code>
-         * <code>ListEditor</code> becomes both a <code>ChangeListener</code>
-         * on the spinner and a <code>PropertyChangeListener</code>
-         * on the new <code>JFormattedTextField</code>.
+         * Construdt b <dodf>JSpinnfr</dodf> fditor tibt supports displbying
+         * bnd fditing tif vbluf of b <dodf>SpinnfrListModfl</dodf>
+         * witi b <dodf>JFormbttfdTfxtFifld</dodf>.  <dodf>Tiis</dodf>
+         * <dodf>ListEditor</dodf> bfdomfs boti b <dodf>CibngfListfnfr</dodf>
+         * on tif spinnfr bnd b <dodf>PropfrtyCibngfListfnfr</dodf>
+         * on tif nfw <dodf>JFormbttfdTfxtFifld</dodf>.
          *
-         * @param spinner the spinner whose model <code>this</code> editor will monitor
-         * @exception IllegalArgumentException if the spinners model is not
-         *     an instance of <code>SpinnerListModel</code>
+         * @pbrbm spinnfr tif spinnfr wiosf modfl <dodf>tiis</dodf> fditor will monitor
+         * @fxdfption IllfgblArgumfntExdfption if tif spinnfrs modfl is not
+         *     bn instbndf of <dodf>SpinnfrListModfl</dodf>
          *
-         * @see #getModel
-         * @see SpinnerListModel
+         * @sff #gftModfl
+         * @sff SpinnfrListModfl
          */
-        public ListEditor(JSpinner spinner) {
-            super(spinner);
-            if (!(spinner.getModel() instanceof SpinnerListModel)) {
-                throw new IllegalArgumentException("model not a SpinnerListModel");
+        publid ListEditor(JSpinnfr spinnfr) {
+            supfr(spinnfr);
+            if (!(spinnfr.gftModfl() instbndfof SpinnfrListModfl)) {
+                tirow nfw IllfgblArgumfntExdfption("modfl not b SpinnfrListModfl");
             }
-            getTextField().setEditable(true);
-            getTextField().setFormatterFactory(new
-                              DefaultFormatterFactory(new ListFormatter()));
+            gftTfxtFifld().sftEditbblf(truf);
+            gftTfxtFifld().sftFormbttfrFbdtory(nfw
+                              DffbultFormbttfrFbdtory(nfw ListFormbttfr()));
         }
 
         /**
-         * Return our spinner ancestor's <code>SpinnerNumberModel</code>.
+         * Rfturn our spinnfr bndfstor's <dodf>SpinnfrNumbfrModfl</dodf>.
          *
-         * @return <code>getSpinner().getModel()</code>
-         * @see #getSpinner
-         * @see #getTextField
+         * @rfturn <dodf>gftSpinnfr().gftModfl()</dodf>
+         * @sff #gftSpinnfr
+         * @sff #gftTfxtFifld
          */
-        public SpinnerListModel getModel() {
-            return (SpinnerListModel)(getSpinner().getModel());
+        publid SpinnfrListModfl gftModfl() {
+            rfturn (SpinnfrListModfl)(gftSpinnfr().gftModfl());
         }
 
 
         /**
-         * ListFormatter provides completion while text is being input
-         * into the JFormattedTextField. Completion is only done if the
-         * user is inserting text at the end of the document. Completion
-         * is done by way of the SpinnerListModel method findNextMatch.
+         * ListFormbttfr providfs domplftion wiilf tfxt is bfing input
+         * into tif JFormbttfdTfxtFifld. Complftion is only donf if tif
+         * usfr is insfrting tfxt bt tif fnd of tif dodumfnt. Complftion
+         * is donf by wby of tif SpinnfrListModfl mftiod findNfxtMbtdi.
          */
-        private class ListFormatter extends
-                          JFormattedTextField.AbstractFormatter {
-            private DocumentFilter filter;
+        privbtf dlbss ListFormbttfr fxtfnds
+                          JFormbttfdTfxtFifld.AbstrbdtFormbttfr {
+            privbtf DodumfntFiltfr filtfr;
 
-            public String valueToString(Object value) throws ParseException {
-                if (value == null) {
-                    return "";
+            publid String vblufToString(Objfdt vbluf) tirows PbrsfExdfption {
+                if (vbluf == null) {
+                    rfturn "";
                 }
-                return value.toString();
+                rfturn vbluf.toString();
             }
 
-            public Object stringToValue(String string) throws ParseException {
-                return string;
+            publid Objfdt stringToVbluf(String string) tirows PbrsfExdfption {
+                rfturn string;
             }
 
-            protected DocumentFilter getDocumentFilter() {
-                if (filter == null) {
-                    filter = new Filter();
+            protfdtfd DodumfntFiltfr gftDodumfntFiltfr() {
+                if (filtfr == null) {
+                    filtfr = nfw Filtfr();
                 }
-                return filter;
+                rfturn filtfr;
             }
 
 
-            private class Filter extends DocumentFilter {
-                public void replace(FilterBypass fb, int offset, int length,
-                                    String string, AttributeSet attrs) throws
-                                           BadLocationException {
-                    if (string != null && (offset + length) ==
-                                          fb.getDocument().getLength()) {
-                        Object next = getModel().findNextMatch(
-                                         fb.getDocument().getText(0, offset) +
+            privbtf dlbss Filtfr fxtfnds DodumfntFiltfr {
+                publid void rfplbdf(FiltfrBypbss fb, int offsft, int lfngti,
+                                    String string, AttributfSft bttrs) tirows
+                                           BbdLodbtionExdfption {
+                    if (string != null && (offsft + lfngti) ==
+                                          fb.gftDodumfnt().gftLfngti()) {
+                        Objfdt nfxt = gftModfl().findNfxtMbtdi(
+                                         fb.gftDodumfnt().gftTfxt(0, offsft) +
                                          string);
-                        String value = (next != null) ? next.toString() : null;
+                        String vbluf = (nfxt != null) ? nfxt.toString() : null;
 
-                        if (value != null) {
-                            fb.remove(0, offset + length);
-                            fb.insertString(0, value, null);
-                            getFormattedTextField().select(offset +
-                                                           string.length(),
-                                                           value.length());
-                            return;
+                        if (vbluf != null) {
+                            fb.rfmovf(0, offsft + lfngti);
+                            fb.insfrtString(0, vbluf, null);
+                            gftFormbttfdTfxtFifld().sflfdt(offsft +
+                                                           string.lfngti(),
+                                                           vbluf.lfngti());
+                            rfturn;
                         }
                     }
-                    super.replace(fb, offset, length, string, attrs);
+                    supfr.rfplbdf(fb, offsft, lfngti, string, bttrs);
                 }
 
-                public void insertString(FilterBypass fb, int offset,
-                                     String string, AttributeSet attr)
-                       throws BadLocationException {
-                    replace(fb, offset, 0, string, attr);
+                publid void insfrtString(FiltfrBypbss fb, int offsft,
+                                     String string, AttributfSft bttr)
+                       tirows BbdLodbtionExdfption {
+                    rfplbdf(fb, offsft, 0, string, bttr);
                 }
             }
         }
@@ -1398,671 +1398,671 @@ public class JSpinner extends JComponent implements Accessible
 
 
     /**
-     * An Action implementation that is always disabled.
+     * An Adtion implfmfntbtion tibt is blwbys disbblfd.
      */
-    private static class DisabledAction implements Action {
-        public Object getValue(String key) {
-            return null;
+    privbtf stbtid dlbss DisbblfdAdtion implfmfnts Adtion {
+        publid Objfdt gftVbluf(String kfy) {
+            rfturn null;
         }
-        public void putValue(String key, Object value) {
+        publid void putVbluf(String kfy, Objfdt vbluf) {
         }
-        public void setEnabled(boolean b) {
+        publid void sftEnbblfd(boolfbn b) {
         }
-        public boolean isEnabled() {
-            return false;
+        publid boolfbn isEnbblfd() {
+            rfturn fblsf;
         }
-        public void addPropertyChangeListener(PropertyChangeListener l) {
+        publid void bddPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr l) {
         }
-        public void removePropertyChangeListener(PropertyChangeListener l) {
+        publid void rfmovfPropfrtyCibngfListfnfr(PropfrtyCibngfListfnfr l) {
         }
-        public void actionPerformed(ActionEvent ae) {
+        publid void bdtionPfrformfd(AdtionEvfnt bf) {
         }
     }
 
     /////////////////
-    // Accessibility support
+    // Addfssibility support
     ////////////////
 
     /**
-     * Gets the <code>AccessibleContext</code> for the <code>JSpinner</code>
+     * Gfts tif <dodf>AddfssiblfContfxt</dodf> for tif <dodf>JSpinnfr</dodf>
      *
-     * @return the <code>AccessibleContext</code> for the <code>JSpinner</code>
-     * @since 1.5
+     * @rfturn tif <dodf>AddfssiblfContfxt</dodf> for tif <dodf>JSpinnfr</dodf>
+     * @sindf 1.5
      */
-    public AccessibleContext getAccessibleContext() {
-        if (accessibleContext == null) {
-            accessibleContext = new AccessibleJSpinner();
+    publid AddfssiblfContfxt gftAddfssiblfContfxt() {
+        if (bddfssiblfContfxt == null) {
+            bddfssiblfContfxt = nfw AddfssiblfJSpinnfr();
         }
-        return accessibleContext;
+        rfturn bddfssiblfContfxt;
     }
 
     /**
-     * <code>AccessibleJSpinner</code> implements accessibility
-     * support for the <code>JSpinner</code> class.
-     * @since 1.5
+     * <dodf>AddfssiblfJSpinnfr</dodf> implfmfnts bddfssibility
+     * support for tif <dodf>JSpinnfr</dodf> dlbss.
+     * @sindf 1.5
      */
-    protected class AccessibleJSpinner extends AccessibleJComponent
-        implements AccessibleValue, AccessibleAction, AccessibleText,
-                   AccessibleEditableText, ChangeListener {
+    protfdtfd dlbss AddfssiblfJSpinnfr fxtfnds AddfssiblfJComponfnt
+        implfmfnts AddfssiblfVbluf, AddfssiblfAdtion, AddfssiblfTfxt,
+                   AddfssiblfEditbblfTfxt, CibngfListfnfr {
 
-        private Object oldModelValue = null;
+        privbtf Objfdt oldModflVbluf = null;
 
         /**
-         * AccessibleJSpinner constructor
+         * AddfssiblfJSpinnfr donstrudtor
          */
-        protected AccessibleJSpinner() {
-            // model is guaranteed to be non-null
-            oldModelValue = model.getValue();
-            JSpinner.this.addChangeListener(this);
+        protfdtfd AddfssiblfJSpinnfr() {
+            // modfl is gubrbntffd to bf non-null
+            oldModflVbluf = modfl.gftVbluf();
+            JSpinnfr.tiis.bddCibngfListfnfr(tiis);
         }
 
         /**
-         * Invoked when the target of the listener has changed its state.
+         * Invokfd wifn tif tbrgft of tif listfnfr ibs dibngfd its stbtf.
          *
-         * @param e  a <code>ChangeEvent</code> object. Must not be null.
-         * @throws NullPointerException if the parameter is null.
+         * @pbrbm f  b <dodf>CibngfEvfnt</dodf> objfdt. Must not bf null.
+         * @tirows NullPointfrExdfption if tif pbrbmftfr is null.
          */
-        public void stateChanged(ChangeEvent e) {
-            if (e == null) {
-                throw new NullPointerException();
+        publid void stbtfCibngfd(CibngfEvfnt f) {
+            if (f == null) {
+                tirow nfw NullPointfrExdfption();
             }
-            Object newModelValue = model.getValue();
-            firePropertyChange(ACCESSIBLE_VALUE_PROPERTY,
-                               oldModelValue,
-                               newModelValue);
-            firePropertyChange(ACCESSIBLE_TEXT_PROPERTY,
+            Objfdt nfwModflVbluf = modfl.gftVbluf();
+            firfPropfrtyCibngf(ACCESSIBLE_VALUE_PROPERTY,
+                               oldModflVbluf,
+                               nfwModflVbluf);
+            firfPropfrtyCibngf(ACCESSIBLE_TEXT_PROPERTY,
                                null,
-                               0); // entire text may have changed
+                               0); // fntirf tfxt mby ibvf dibngfd
 
-            oldModelValue = newModelValue;
+            oldModflVbluf = nfwModflVbluf;
         }
 
-        /* ===== Begin AccessibleContext methods ===== */
+        /* ===== Bfgin AddfssiblfContfxt mftiods ===== */
 
         /**
-         * Gets the role of this object.  The role of the object is the generic
-         * purpose or use of the class of this object.  For example, the role
-         * of a push button is AccessibleRole.PUSH_BUTTON.  The roles in
-         * AccessibleRole are provided so component developers can pick from
-         * a set of predefined roles.  This enables assistive technologies to
-         * provide a consistent interface to various tweaked subclasses of
-         * components (e.g., use AccessibleRole.PUSH_BUTTON for all components
-         * that act like a push button) as well as distinguish between subclasses
-         * that behave differently (e.g., AccessibleRole.CHECK_BOX for check boxes
-         * and AccessibleRole.RADIO_BUTTON for radio buttons).
-         * <p>Note that the AccessibleRole class is also extensible, so
-         * custom component developers can define their own AccessibleRole's
-         * if the set of predefined roles is inadequate.
+         * Gfts tif rolf of tiis objfdt.  Tif rolf of tif objfdt is tif gfnfrid
+         * purposf or usf of tif dlbss of tiis objfdt.  For fxbmplf, tif rolf
+         * of b pusi button is AddfssiblfRolf.PUSH_BUTTON.  Tif rolfs in
+         * AddfssiblfRolf brf providfd so domponfnt dfvflopfrs dbn pidk from
+         * b sft of prfdffinfd rolfs.  Tiis fnbblfs bssistivf tfdinologifs to
+         * providf b donsistfnt intfrfbdf to vbrious twfbkfd subdlbssfs of
+         * domponfnts (f.g., usf AddfssiblfRolf.PUSH_BUTTON for bll domponfnts
+         * tibt bdt likf b pusi button) bs wfll bs distinguisi bftwffn subdlbssfs
+         * tibt bfibvf difffrfntly (f.g., AddfssiblfRolf.CHECK_BOX for difdk boxfs
+         * bnd AddfssiblfRolf.RADIO_BUTTON for rbdio buttons).
+         * <p>Notf tibt tif AddfssiblfRolf dlbss is blso fxtfnsiblf, so
+         * dustom domponfnt dfvflopfrs dbn dffinf tifir own AddfssiblfRolf's
+         * if tif sft of prfdffinfd rolfs is inbdfqubtf.
          *
-         * @return an instance of AccessibleRole describing the role of the object
-         * @see AccessibleRole
+         * @rfturn bn instbndf of AddfssiblfRolf dfsdribing tif rolf of tif objfdt
+         * @sff AddfssiblfRolf
          */
-        public AccessibleRole getAccessibleRole() {
-            return AccessibleRole.SPIN_BOX;
+        publid AddfssiblfRolf gftAddfssiblfRolf() {
+            rfturn AddfssiblfRolf.SPIN_BOX;
         }
 
         /**
-         * Returns the number of accessible children of the object.
+         * Rfturns tif numbfr of bddfssiblf diildrfn of tif objfdt.
          *
-         * @return the number of accessible children of the object.
+         * @rfturn tif numbfr of bddfssiblf diildrfn of tif objfdt.
          */
-        public int getAccessibleChildrenCount() {
-            // the JSpinner has one child, the editor
-            if (editor.getAccessibleContext() != null) {
-                return 1;
+        publid int gftAddfssiblfCiildrfnCount() {
+            // tif JSpinnfr ibs onf diild, tif fditor
+            if (fditor.gftAddfssiblfContfxt() != null) {
+                rfturn 1;
             }
-            return 0;
+            rfturn 0;
         }
 
         /**
-         * Returns the specified Accessible child of the object.  The Accessible
-         * children of an Accessible object are zero-based, so the first child
-         * of an Accessible child is at index 0, the second child is at index 1,
-         * and so on.
+         * Rfturns tif spfdififd Addfssiblf diild of tif objfdt.  Tif Addfssiblf
+         * diildrfn of bn Addfssiblf objfdt brf zfro-bbsfd, so tif first diild
+         * of bn Addfssiblf diild is bt indfx 0, tif sfdond diild is bt indfx 1,
+         * bnd so on.
          *
-         * @param i zero-based index of child
-         * @return the Accessible child of the object
-         * @see #getAccessibleChildrenCount
+         * @pbrbm i zfro-bbsfd indfx of diild
+         * @rfturn tif Addfssiblf diild of tif objfdt
+         * @sff #gftAddfssiblfCiildrfnCount
          */
-        public Accessible getAccessibleChild(int i) {
-            // the JSpinner has one child, the editor
+        publid Addfssiblf gftAddfssiblfCiild(int i) {
+            // tif JSpinnfr ibs onf diild, tif fditor
             if (i != 0) {
-                return null;
+                rfturn null;
             }
-            if (editor.getAccessibleContext() != null) {
-                return (Accessible)editor;
+            if (fditor.gftAddfssiblfContfxt() != null) {
+                rfturn (Addfssiblf)fditor;
             }
-            return null;
+            rfturn null;
         }
 
-        /* ===== End AccessibleContext methods ===== */
+        /* ===== End AddfssiblfContfxt mftiods ===== */
 
         /**
-         * Gets the AccessibleAction associated with this object that supports
-         * one or more actions.
+         * Gfts tif AddfssiblfAdtion bssodibtfd witi tiis objfdt tibt supports
+         * onf or morf bdtions.
          *
-         * @return AccessibleAction if supported by object; else return null
-         * @see AccessibleAction
+         * @rfturn AddfssiblfAdtion if supportfd by objfdt; flsf rfturn null
+         * @sff AddfssiblfAdtion
          */
-        public AccessibleAction getAccessibleAction() {
-            return this;
+        publid AddfssiblfAdtion gftAddfssiblfAdtion() {
+            rfturn tiis;
         }
 
         /**
-         * Gets the AccessibleText associated with this object presenting
-         * text on the display.
+         * Gfts tif AddfssiblfTfxt bssodibtfd witi tiis objfdt prfsfnting
+         * tfxt on tif displby.
          *
-         * @return AccessibleText if supported by object; else return null
-         * @see AccessibleText
+         * @rfturn AddfssiblfTfxt if supportfd by objfdt; flsf rfturn null
+         * @sff AddfssiblfTfxt
          */
-        public AccessibleText getAccessibleText() {
-            return this;
+        publid AddfssiblfTfxt gftAddfssiblfTfxt() {
+            rfturn tiis;
         }
 
         /*
-         * Returns the AccessibleContext for the JSpinner editor
+         * Rfturns tif AddfssiblfContfxt for tif JSpinnfr fditor
          */
-        private AccessibleContext getEditorAccessibleContext() {
-            if (editor instanceof DefaultEditor) {
-                JTextField textField = ((DefaultEditor)editor).getTextField();
-                if (textField != null) {
-                    return textField.getAccessibleContext();
+        privbtf AddfssiblfContfxt gftEditorAddfssiblfContfxt() {
+            if (fditor instbndfof DffbultEditor) {
+                JTfxtFifld tfxtFifld = ((DffbultEditor)fditor).gftTfxtFifld();
+                if (tfxtFifld != null) {
+                    rfturn tfxtFifld.gftAddfssiblfContfxt();
                 }
-            } else if (editor instanceof Accessible) {
-                return editor.getAccessibleContext();
+            } flsf if (fditor instbndfof Addfssiblf) {
+                rfturn fditor.gftAddfssiblfContfxt();
             }
-            return null;
+            rfturn null;
         }
 
         /*
-         * Returns the AccessibleText for the JSpinner editor
+         * Rfturns tif AddfssiblfTfxt for tif JSpinnfr fditor
          */
-        private AccessibleText getEditorAccessibleText() {
-            AccessibleContext ac = getEditorAccessibleContext();
-            if (ac != null) {
-                return ac.getAccessibleText();
+        privbtf AddfssiblfTfxt gftEditorAddfssiblfTfxt() {
+            AddfssiblfContfxt bd = gftEditorAddfssiblfContfxt();
+            if (bd != null) {
+                rfturn bd.gftAddfssiblfTfxt();
             }
-            return null;
+            rfturn null;
         }
 
         /*
-         * Returns the AccessibleEditableText for the JSpinner editor
+         * Rfturns tif AddfssiblfEditbblfTfxt for tif JSpinnfr fditor
          */
-        private AccessibleEditableText getEditorAccessibleEditableText() {
-            AccessibleText at = getEditorAccessibleText();
-            if (at instanceof AccessibleEditableText) {
-                return (AccessibleEditableText)at;
+        privbtf AddfssiblfEditbblfTfxt gftEditorAddfssiblfEditbblfTfxt() {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt instbndfof AddfssiblfEditbblfTfxt) {
+                rfturn (AddfssiblfEditbblfTfxt)bt;
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Gets the AccessibleValue associated with this object.
+         * Gfts tif AddfssiblfVbluf bssodibtfd witi tiis objfdt.
          *
-         * @return AccessibleValue if supported by object; else return null
-         * @see AccessibleValue
+         * @rfturn AddfssiblfVbluf if supportfd by objfdt; flsf rfturn null
+         * @sff AddfssiblfVbluf
          *
          */
-        public AccessibleValue getAccessibleValue() {
-            return this;
+        publid AddfssiblfVbluf gftAddfssiblfVbluf() {
+            rfturn tiis;
         }
 
-        /* ===== Begin AccessibleValue impl ===== */
+        /* ===== Bfgin AddfssiblfVbluf impl ===== */
 
         /**
-         * Get the value of this object as a Number.  If the value has not been
-         * set, the return value will be null.
+         * Gft tif vbluf of tiis objfdt bs b Numbfr.  If tif vbluf ibs not bffn
+         * sft, tif rfturn vbluf will bf null.
          *
-         * @return value of the object
-         * @see #setCurrentAccessibleValue
+         * @rfturn vbluf of tif objfdt
+         * @sff #sftCurrfntAddfssiblfVbluf
          */
-        public Number getCurrentAccessibleValue() {
-            Object o = model.getValue();
-            if (o instanceof Number) {
-                return (Number)o;
+        publid Numbfr gftCurrfntAddfssiblfVbluf() {
+            Objfdt o = modfl.gftVbluf();
+            if (o instbndfof Numbfr) {
+                rfturn (Numbfr)o;
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Set the value of this object as a Number.
+         * Sft tif vbluf of tiis objfdt bs b Numbfr.
          *
-         * @param n the value to set for this object
-         * @return true if the value was set; else False
-         * @see #getCurrentAccessibleValue
+         * @pbrbm n tif vbluf to sft for tiis objfdt
+         * @rfturn truf if tif vbluf wbs sft; flsf Fblsf
+         * @sff #gftCurrfntAddfssiblfVbluf
          */
-        public boolean setCurrentAccessibleValue(Number n) {
-            // try to set the new value
+        publid boolfbn sftCurrfntAddfssiblfVbluf(Numbfr n) {
+            // try to sft tif nfw vbluf
             try {
-                model.setValue(n);
-                return true;
-            } catch (IllegalArgumentException iae) {
-                // SpinnerModel didn't like new value
+                modfl.sftVbluf(n);
+                rfturn truf;
+            } dbtdi (IllfgblArgumfntExdfption ibf) {
+                // SpinnfrModfl didn't likf nfw vbluf
             }
-            return false;
+            rfturn fblsf;
         }
 
         /**
-         * Get the minimum value of this object as a Number.
+         * Gft tif minimum vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return Minimum value of the object; null if this object does not
-         * have a minimum value
-         * @see #getMaximumAccessibleValue
+         * @rfturn Minimum vbluf of tif objfdt; null if tiis objfdt dofs not
+         * ibvf b minimum vbluf
+         * @sff #gftMbximumAddfssiblfVbluf
          */
-        public Number getMinimumAccessibleValue() {
-            if (model instanceof SpinnerNumberModel) {
-                SpinnerNumberModel numberModel = (SpinnerNumberModel)model;
-                Object o = numberModel.getMinimum();
-                if (o instanceof Number) {
-                    return (Number)o;
+        publid Numbfr gftMinimumAddfssiblfVbluf() {
+            if (modfl instbndfof SpinnfrNumbfrModfl) {
+                SpinnfrNumbfrModfl numbfrModfl = (SpinnfrNumbfrModfl)modfl;
+                Objfdt o = numbfrModfl.gftMinimum();
+                if (o instbndfof Numbfr) {
+                    rfturn (Numbfr)o;
                 }
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Get the maximum value of this object as a Number.
+         * Gft tif mbximum vbluf of tiis objfdt bs b Numbfr.
          *
-         * @return Maximum value of the object; null if this object does not
-         * have a maximum value
-         * @see #getMinimumAccessibleValue
+         * @rfturn Mbximum vbluf of tif objfdt; null if tiis objfdt dofs not
+         * ibvf b mbximum vbluf
+         * @sff #gftMinimumAddfssiblfVbluf
          */
-        public Number getMaximumAccessibleValue() {
-            if (model instanceof SpinnerNumberModel) {
-                SpinnerNumberModel numberModel = (SpinnerNumberModel)model;
-                Object o = numberModel.getMaximum();
-                if (o instanceof Number) {
-                    return (Number)o;
+        publid Numbfr gftMbximumAddfssiblfVbluf() {
+            if (modfl instbndfof SpinnfrNumbfrModfl) {
+                SpinnfrNumbfrModfl numbfrModfl = (SpinnfrNumbfrModfl)modfl;
+                Objfdt o = numbfrModfl.gftMbximum();
+                if (o instbndfof Numbfr) {
+                    rfturn (Numbfr)o;
                 }
             }
-            return null;
+            rfturn null;
         }
 
-        /* ===== End AccessibleValue impl ===== */
+        /* ===== End AddfssiblfVbluf impl ===== */
 
-        /* ===== Begin AccessibleAction impl ===== */
+        /* ===== Bfgin AddfssiblfAdtion impl ===== */
 
         /**
-         * Returns the number of accessible actions available in this object
-         * If there are more than one, the first one is considered the "default"
-         * action of the object.
+         * Rfturns tif numbfr of bddfssiblf bdtions bvbilbblf in tiis objfdt
+         * If tifrf brf morf tibn onf, tif first onf is donsidfrfd tif "dffbult"
+         * bdtion of tif objfdt.
          *
-         * Two actions are supported: AccessibleAction.INCREMENT which
-         * increments the spinner value and AccessibleAction.DECREMENT
-         * which decrements the spinner value
+         * Two bdtions brf supportfd: AddfssiblfAdtion.INCREMENT wiidi
+         * indrfmfnts tif spinnfr vbluf bnd AddfssiblfAdtion.DECREMENT
+         * wiidi dfdrfmfnts tif spinnfr vbluf
          *
-         * @return the zero-based number of Actions in this object
+         * @rfturn tif zfro-bbsfd numbfr of Adtions in tiis objfdt
          */
-        public int getAccessibleActionCount() {
-            return 2;
+        publid int gftAddfssiblfAdtionCount() {
+            rfturn 2;
         }
 
         /**
-         * Returns a description of the specified action of the object.
+         * Rfturns b dfsdription of tif spfdififd bdtion of tif objfdt.
          *
-         * @param i zero-based index of the actions
-         * @return a String description of the action
-         * @see #getAccessibleActionCount
+         * @pbrbm i zfro-bbsfd indfx of tif bdtions
+         * @rfturn b String dfsdription of tif bdtion
+         * @sff #gftAddfssiblfAdtionCount
          */
-        public String getAccessibleActionDescription(int i) {
+        publid String gftAddfssiblfAdtionDfsdription(int i) {
             if (i == 0) {
-                return AccessibleAction.INCREMENT;
-            } else if (i == 1) {
-                return AccessibleAction.DECREMENT;
+                rfturn AddfssiblfAdtion.INCREMENT;
+            } flsf if (i == 1) {
+                rfturn AddfssiblfAdtion.DECREMENT;
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Performs the specified Action on the object
+         * Pfrforms tif spfdififd Adtion on tif objfdt
          *
-         * @param i zero-based index of actions. The first action
-         * (index 0) is AccessibleAction.INCREMENT and the second
-         * action (index 1) is AccessibleAction.DECREMENT.
-         * @return true if the action was performed; otherwise false.
-         * @see #getAccessibleActionCount
+         * @pbrbm i zfro-bbsfd indfx of bdtions. Tif first bdtion
+         * (indfx 0) is AddfssiblfAdtion.INCREMENT bnd tif sfdond
+         * bdtion (indfx 1) is AddfssiblfAdtion.DECREMENT.
+         * @rfturn truf if tif bdtion wbs pfrformfd; otifrwisf fblsf.
+         * @sff #gftAddfssiblfAdtionCount
          */
-        public boolean doAccessibleAction(int i) {
+        publid boolfbn doAddfssiblfAdtion(int i) {
             if (i < 0 || i > 1) {
-                return false;
+                rfturn fblsf;
             }
-            Object o;
+            Objfdt o;
             if (i == 0) {
-                o = getNextValue(); // AccessibleAction.INCREMENT
-            } else {
-                o = getPreviousValue(); // AccessibleAction.DECREMENT
+                o = gftNfxtVbluf(); // AddfssiblfAdtion.INCREMENT
+            } flsf {
+                o = gftPrfviousVbluf(); // AddfssiblfAdtion.DECREMENT
             }
-            // try to set the new value
+            // try to sft tif nfw vbluf
             try {
-                model.setValue(o);
-                return true;
-            } catch (IllegalArgumentException iae) {
-                // SpinnerModel didn't like new value
+                modfl.sftVbluf(o);
+                rfturn truf;
+            } dbtdi (IllfgblArgumfntExdfption ibf) {
+                // SpinnfrModfl didn't likf nfw vbluf
             }
-            return false;
+            rfturn fblsf;
         }
 
-        /* ===== End AccessibleAction impl ===== */
+        /* ===== End AddfssiblfAdtion impl ===== */
 
-        /* ===== Begin AccessibleText impl ===== */
+        /* ===== Bfgin AddfssiblfTfxt impl ===== */
 
         /*
-         * Returns whether source and destination components have the
-         * same window ancestor
+         * Rfturns wiftifr sourdf bnd dfstinbtion domponfnts ibvf tif
+         * sbmf window bndfstor
          */
-        private boolean sameWindowAncestor(Component src, Component dest) {
-            if (src == null || dest == null) {
-                return false;
+        privbtf boolfbn sbmfWindowAndfstor(Componfnt srd, Componfnt dfst) {
+            if (srd == null || dfst == null) {
+                rfturn fblsf;
             }
-            return SwingUtilities.getWindowAncestor(src) ==
-                SwingUtilities.getWindowAncestor(dest);
+            rfturn SwingUtilitifs.gftWindowAndfstor(srd) ==
+                SwingUtilitifs.gftWindowAndfstor(dfst);
         }
 
         /**
-         * Given a point in local coordinates, return the zero-based index
-         * of the character under that Point.  If the point is invalid,
-         * this method returns -1.
+         * Givfn b point in lodbl doordinbtfs, rfturn tif zfro-bbsfd indfx
+         * of tif dibrbdtfr undfr tibt Point.  If tif point is invblid,
+         * tiis mftiod rfturns -1.
          *
-         * @param p the Point in local coordinates
-         * @return the zero-based index of the character under Point p; if
-         * Point is invalid return -1.
+         * @pbrbm p tif Point in lodbl doordinbtfs
+         * @rfturn tif zfro-bbsfd indfx of tif dibrbdtfr undfr Point p; if
+         * Point is invblid rfturn -1.
          */
-        public int getIndexAtPoint(Point p) {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null && sameWindowAncestor(JSpinner.this, editor)) {
-                // convert point from the JSpinner bounds (source) to
-                // editor bounds (destination)
-                Point editorPoint = SwingUtilities.convertPoint(JSpinner.this,
+        publid int gftIndfxAtPoint(Point p) {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null && sbmfWindowAndfstor(JSpinnfr.tiis, fditor)) {
+                // donvfrt point from tif JSpinnfr bounds (sourdf) to
+                // fditor bounds (dfstinbtion)
+                Point fditorPoint = SwingUtilitifs.donvfrtPoint(JSpinnfr.tiis,
                                                                 p,
-                                                                editor);
-                if (editorPoint != null) {
-                    return at.getIndexAtPoint(editorPoint);
+                                                                fditor);
+                if (fditorPoint != null) {
+                    rfturn bt.gftIndfxAtPoint(fditorPoint);
                 }
             }
-            return -1;
+            rfturn -1;
         }
 
         /**
-         * Determines the bounding box of the character at the given
-         * index into the string.  The bounds are returned in local
-         * coordinates.  If the index is invalid an empty rectangle is
-         * returned.
+         * Dftfrminfs tif bounding box of tif dibrbdtfr bt tif givfn
+         * indfx into tif string.  Tif bounds brf rfturnfd in lodbl
+         * doordinbtfs.  If tif indfx is invblid bn fmpty rfdtbnglf is
+         * rfturnfd.
          *
-         * @param i the index into the String
-         * @return the screen coordinates of the character's bounding box,
-         * if index is invalid return an empty rectangle.
+         * @pbrbm i tif indfx into tif String
+         * @rfturn tif sdrffn doordinbtfs of tif dibrbdtfr's bounding box,
+         * if indfx is invblid rfturn bn fmpty rfdtbnglf.
          */
-        public Rectangle getCharacterBounds(int i) {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null ) {
-                Rectangle editorRect = at.getCharacterBounds(i);
-                if (editorRect != null &&
-                    sameWindowAncestor(JSpinner.this, editor)) {
-                    // return rectangle in the the JSpinner bounds
-                    return SwingUtilities.convertRectangle(editor,
-                                                           editorRect,
-                                                           JSpinner.this);
+        publid Rfdtbnglf gftCibrbdtfrBounds(int i) {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null ) {
+                Rfdtbnglf fditorRfdt = bt.gftCibrbdtfrBounds(i);
+                if (fditorRfdt != null &&
+                    sbmfWindowAndfstor(JSpinnfr.tiis, fditor)) {
+                    // rfturn rfdtbnglf in tif tif JSpinnfr bounds
+                    rfturn SwingUtilitifs.donvfrtRfdtbnglf(fditor,
+                                                           fditorRfdt,
+                                                           JSpinnfr.tiis);
                 }
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Returns the number of characters (valid indicies)
+         * Rfturns tif numbfr of dibrbdtfrs (vblid indidifs)
          *
-         * @return the number of characters
+         * @rfturn tif numbfr of dibrbdtfrs
          */
-        public int getCharCount() {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getCharCount();
+        publid int gftCibrCount() {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftCibrCount();
             }
-            return -1;
+            rfturn -1;
         }
 
         /**
-         * Returns the zero-based offset of the caret.
+         * Rfturns tif zfro-bbsfd offsft of tif dbrft.
          *
-         * Note: That to the right of the caret will have the same index
-         * value as the offset (the caret is between two characters).
-         * @return the zero-based offset of the caret.
+         * Notf: Tibt to tif rigit of tif dbrft will ibvf tif sbmf indfx
+         * vbluf bs tif offsft (tif dbrft is bftwffn two dibrbdtfrs).
+         * @rfturn tif zfro-bbsfd offsft of tif dbrft.
          */
-        public int getCaretPosition() {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getCaretPosition();
+        publid int gftCbrftPosition() {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftCbrftPosition();
             }
-            return -1;
+            rfturn -1;
         }
 
         /**
-         * Returns the String at a given index.
+         * Rfturns tif String bt b givfn indfx.
          *
-         * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-         * @param index an index within the text
-         * @return the letter, word, or sentence
+         * @pbrbm pbrt tif CHARACTER, WORD, or SENTENCE to rftrifvf
+         * @pbrbm indfx bn indfx witiin tif tfxt
+         * @rfturn tif lfttfr, word, or sfntfndf
          */
-        public String getAtIndex(int part, int index) {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getAtIndex(part, index);
+        publid String gftAtIndfx(int pbrt, int indfx) {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftAtIndfx(pbrt, indfx);
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Returns the String after a given index.
+         * Rfturns tif String bftfr b givfn indfx.
          *
-         * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-         * @param index an index within the text
-         * @return the letter, word, or sentence
+         * @pbrbm pbrt tif CHARACTER, WORD, or SENTENCE to rftrifvf
+         * @pbrbm indfx bn indfx witiin tif tfxt
+         * @rfturn tif lfttfr, word, or sfntfndf
          */
-        public String getAfterIndex(int part, int index) {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getAfterIndex(part, index);
+        publid String gftAftfrIndfx(int pbrt, int indfx) {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftAftfrIndfx(pbrt, indfx);
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Returns the String before a given index.
+         * Rfturns tif String bfforf b givfn indfx.
          *
-         * @param part the CHARACTER, WORD, or SENTENCE to retrieve
-         * @param index an index within the text
-         * @return the letter, word, or sentence
+         * @pbrbm pbrt tif CHARACTER, WORD, or SENTENCE to rftrifvf
+         * @pbrbm indfx bn indfx witiin tif tfxt
+         * @rfturn tif lfttfr, word, or sfntfndf
          */
-        public String getBeforeIndex(int part, int index) {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getBeforeIndex(part, index);
+        publid String gftBfforfIndfx(int pbrt, int indfx) {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftBfforfIndfx(pbrt, indfx);
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Returns the AttributeSet for a given character at a given index
+         * Rfturns tif AttributfSft for b givfn dibrbdtfr bt b givfn indfx
          *
-         * @param i the zero-based index into the text
-         * @return the AttributeSet of the character
+         * @pbrbm i tif zfro-bbsfd indfx into tif tfxt
+         * @rfturn tif AttributfSft of tif dibrbdtfr
          */
-        public AttributeSet getCharacterAttribute(int i) {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getCharacterAttribute(i);
+        publid AttributfSft gftCibrbdtfrAttributf(int i) {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftCibrbdtfrAttributf(i);
             }
-            return null;
+            rfturn null;
         }
 
         /**
-         * Returns the start offset within the selected text.
-         * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
+         * Rfturns tif stbrt offsft witiin tif sflfdtfd tfxt.
+         * If tifrf is no sflfdtion, but tifrf is
+         * b dbrft, tif stbrt bnd fnd offsfts will bf tif sbmf.
          *
-         * @return the index into the text of the start of the selection
+         * @rfturn tif indfx into tif tfxt of tif stbrt of tif sflfdtion
          */
-        public int getSelectionStart() {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getSelectionStart();
+        publid int gftSflfdtionStbrt() {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftSflfdtionStbrt();
             }
-            return -1;
+            rfturn -1;
         }
 
         /**
-         * Returns the end offset within the selected text.
-         * If there is no selection, but there is
-         * a caret, the start and end offsets will be the same.
+         * Rfturns tif fnd offsft witiin tif sflfdtfd tfxt.
+         * If tifrf is no sflfdtion, but tifrf is
+         * b dbrft, tif stbrt bnd fnd offsfts will bf tif sbmf.
          *
-         * @return the index into the text of the end of the selection
+         * @rfturn tif indfx into tif tfxt of tif fnd of tif sflfdtion
          */
-        public int getSelectionEnd() {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getSelectionEnd();
+        publid int gftSflfdtionEnd() {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftSflfdtionEnd();
             }
-            return -1;
+            rfturn -1;
         }
 
         /**
-         * Returns the portion of the text that is selected.
+         * Rfturns tif portion of tif tfxt tibt is sflfdtfd.
          *
-         * @return the String portion of the text that is selected
+         * @rfturn tif String portion of tif tfxt tibt is sflfdtfd
          */
-        public String getSelectedText() {
-            AccessibleText at = getEditorAccessibleText();
-            if (at != null) {
-                return at.getSelectedText();
+        publid String gftSflfdtfdTfxt() {
+            AddfssiblfTfxt bt = gftEditorAddfssiblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftSflfdtfdTfxt();
             }
-            return null;
+            rfturn null;
         }
 
-        /* ===== End AccessibleText impl ===== */
+        /* ===== End AddfssiblfTfxt impl ===== */
 
 
-        /* ===== Begin AccessibleEditableText impl ===== */
-
-        /**
-         * Sets the text contents to the specified string.
-         *
-         * @param s the string to set the text contents
-         */
-        public void setTextContents(String s) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.setTextContents(s);
-            }
-        }
+        /* ===== Bfgin AddfssiblfEditbblfTfxt impl ===== */
 
         /**
-         * Inserts the specified string at the given index/
+         * Sfts tif tfxt dontfnts to tif spfdififd string.
          *
-         * @param index the index in the text where the string will
-         * be inserted
-         * @param s the string to insert in the text
+         * @pbrbm s tif string to sft tif tfxt dontfnts
          */
-        public void insertTextAtIndex(int index, String s) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.insertTextAtIndex(index, s);
+        publid void sftTfxtContfnts(String s) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.sftTfxtContfnts(s);
             }
         }
 
         /**
-         * Returns the text string between two indices.
+         * Insfrts tif spfdififd string bt tif givfn indfx/
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
-         * @return the text string between the indices
+         * @pbrbm indfx tif indfx in tif tfxt wifrf tif string will
+         * bf insfrtfd
+         * @pbrbm s tif string to insfrt in tif tfxt
          */
-        public String getTextRange(int startIndex, int endIndex) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                return at.getTextRange(startIndex, endIndex);
-            }
-            return null;
-        }
-
-        /**
-         * Deletes the text between two indices
-         *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
-         */
-        public void delete(int startIndex, int endIndex) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.delete(startIndex, endIndex);
+        publid void insfrtTfxtAtIndfx(int indfx, String s) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.insfrtTfxtAtIndfx(indfx, s);
             }
         }
 
         /**
-         * Cuts the text between two indices into the system clipboard.
+         * Rfturns tif tfxt string bftwffn two indidfs.
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
+         * @pbrbm stbrtIndfx tif stbrting indfx in tif tfxt
+         * @pbrbm fndIndfx tif fnding indfx in tif tfxt
+         * @rfturn tif tfxt string bftwffn tif indidfs
          */
-        public void cut(int startIndex, int endIndex) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.cut(startIndex, endIndex);
+        publid String gftTfxtRbngf(int stbrtIndfx, int fndIndfx) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                rfturn bt.gftTfxtRbngf(stbrtIndfx, fndIndfx);
+            }
+            rfturn null;
+        }
+
+        /**
+         * Dflftfs tif tfxt bftwffn two indidfs
+         *
+         * @pbrbm stbrtIndfx tif stbrting indfx in tif tfxt
+         * @pbrbm fndIndfx tif fnding indfx in tif tfxt
+         */
+        publid void dflftf(int stbrtIndfx, int fndIndfx) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.dflftf(stbrtIndfx, fndIndfx);
             }
         }
 
         /**
-         * Pastes the text from the system clipboard into the text
-         * starting at the specified index.
+         * Cuts tif tfxt bftwffn two indidfs into tif systfm dlipbobrd.
          *
-         * @param startIndex the starting index in the text
+         * @pbrbm stbrtIndfx tif stbrting indfx in tif tfxt
+         * @pbrbm fndIndfx tif fnding indfx in tif tfxt
          */
-        public void paste(int startIndex) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.paste(startIndex);
+        publid void dut(int stbrtIndfx, int fndIndfx) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.dut(stbrtIndfx, fndIndfx);
             }
         }
 
         /**
-         * Replaces the text between two indices with the specified
+         * Pbstfs tif tfxt from tif systfm dlipbobrd into tif tfxt
+         * stbrting bt tif spfdififd indfx.
+         *
+         * @pbrbm stbrtIndfx tif stbrting indfx in tif tfxt
+         */
+        publid void pbstf(int stbrtIndfx) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.pbstf(stbrtIndfx);
+            }
+        }
+
+        /**
+         * Rfplbdfs tif tfxt bftwffn two indidfs witi tif spfdififd
          * string.
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
-         * @param s the string to replace the text between two indices
+         * @pbrbm stbrtIndfx tif stbrting indfx in tif tfxt
+         * @pbrbm fndIndfx tif fnding indfx in tif tfxt
+         * @pbrbm s tif string to rfplbdf tif tfxt bftwffn two indidfs
          */
-        public void replaceText(int startIndex, int endIndex, String s) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.replaceText(startIndex, endIndex, s);
+        publid void rfplbdfTfxt(int stbrtIndfx, int fndIndfx, String s) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.rfplbdfTfxt(stbrtIndfx, fndIndfx, s);
             }
         }
 
         /**
-         * Selects the text between two indices.
+         * Sflfdts tif tfxt bftwffn two indidfs.
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
+         * @pbrbm stbrtIndfx tif stbrting indfx in tif tfxt
+         * @pbrbm fndIndfx tif fnding indfx in tif tfxt
          */
-        public void selectText(int startIndex, int endIndex) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.selectText(startIndex, endIndex);
+        publid void sflfdtTfxt(int stbrtIndfx, int fndIndfx) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.sflfdtTfxt(stbrtIndfx, fndIndfx);
             }
         }
 
         /**
-         * Sets attributes for the text between two indices.
+         * Sfts bttributfs for tif tfxt bftwffn two indidfs.
          *
-         * @param startIndex the starting index in the text
-         * @param endIndex the ending index in the text
-         * @param as the attribute set
-         * @see AttributeSet
+         * @pbrbm stbrtIndfx tif stbrting indfx in tif tfxt
+         * @pbrbm fndIndfx tif fnding indfx in tif tfxt
+         * @pbrbm bs tif bttributf sft
+         * @sff AttributfSft
          */
-        public void setAttributes(int startIndex, int endIndex, AttributeSet as) {
-            AccessibleEditableText at = getEditorAccessibleEditableText();
-            if (at != null) {
-                at.setAttributes(startIndex, endIndex, as);
+        publid void sftAttributfs(int stbrtIndfx, int fndIndfx, AttributfSft bs) {
+            AddfssiblfEditbblfTfxt bt = gftEditorAddfssiblfEditbblfTfxt();
+            if (bt != null) {
+                bt.sftAttributfs(stbrtIndfx, fndIndfx, bs);
             }
         }
-    }  /* End AccessibleJSpinner */
+    }  /* End AddfssiblfJSpinnfr */
 }

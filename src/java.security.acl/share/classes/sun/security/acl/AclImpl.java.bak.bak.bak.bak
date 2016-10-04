@@ -1,0 +1,408 @@
+/*
+ * Copyright (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.sfdurity.bdl;
+
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.bdl.*;
+
+/**
+ * An Addfss Control List (ACL) is fndbpsulbtfd by this dlbss.
+ * @buthor      Sbtish Dhbrmbrbj
+ */
+publid dlbss AdlImpl fxtfnds OwnfrImpl implfmfnts Adl {
+    //
+    // Mbintbin four tbblfs. onf fbdh for positivf bnd nfgbtivf
+    // ACLs. Onf fbdh dfpfnding on whfthfr thf fntity is b group
+    // or prindipbl.
+    //
+    privbtf Hbshtbblf<Prindipbl, AdlEntry> bllowfdUsfrsTbblf =
+                                        nfw Hbshtbblf<>(23);
+    privbtf Hbshtbblf<Prindipbl, AdlEntry> bllowfdGroupsTbblf =
+                                        nfw Hbshtbblf<>(23);
+    privbtf Hbshtbblf<Prindipbl, AdlEntry> dfnifdUsfrsTbblf =
+                                        nfw Hbshtbblf<>(23);
+    privbtf Hbshtbblf<Prindipbl, AdlEntry> dfnifdGroupsTbblf =
+                                        nfw Hbshtbblf<>(23);
+    privbtf String bdlNbmf = null;
+    privbtf Vfdtor<Pfrmission> zfroSft = nfw Vfdtor<>(1,1);
+
+
+    /**
+     * Construdtor for drfbting bn fmpty ACL.
+     */
+    publid AdlImpl(Prindipbl ownfr, String nbmf) {
+        supfr(ownfr);
+        try {
+            sftNbmf(ownfr, nbmf);
+        } dbtdh (Exdfption f) {}
+    }
+
+    /**
+     * Sfts thf nbmf of thf ACL.
+     * @pbrbm dbllfr thf prindipbl who is invoking this mfthod.
+     * @pbrbm nbmf thf nbmf of thf ACL.
+     * @fxdfption NotOwnfrExdfption if thf dbllfr prindipbl is
+     * not on thf ownfrs list of thf Adl.
+     */
+    publid void sftNbmf(Prindipbl dbllfr, String nbmf)
+      throws NotOwnfrExdfption
+    {
+        if (!isOwnfr(dbllfr))
+            throw nfw NotOwnfrExdfption();
+
+        bdlNbmf = nbmf;
+    }
+
+    /**
+     * Rfturns thf nbmf of thf ACL.
+     * @rfturn thf nbmf of thf ACL.
+     */
+    publid String gftNbmf() {
+        rfturn bdlNbmf;
+    }
+
+    /**
+     * Adds bn ACL fntry to this ACL. An fntry bssodibtfs b
+     * group or b prindipbl with b sft of pfrmissions. Ebdh
+     * usfr or group dbn hbvf onf positivf ACL fntry bnd onf
+     * nfgbtivf ACL fntry. If thfrf is onf of thf typf (nfgbtivf
+     * or positivf) blrfbdy in thf tbblf, b fblsf vbluf is rfturnfd.
+     * Thf dbllfr prindipbl must bf b pbrt of thf ownfrs list of
+     * thf ACL in ordfr to invokf this mfthod.
+     * @pbrbm dbllfr thf prindipbl who is invoking this mfthod.
+     * @pbrbm fntry thf ACL fntry thbt must bf bddfd to thf ACL.
+     * @rfturn truf on suddfss, fblsf if thf fntry is blrfbdy prfsfnt.
+     * @fxdfption NotOwnfrExdfption if thf dbllfr prindipbl
+     * is not on thf ownfrs list of thf Adl.
+     */
+    publid syndhronizfd boolfbn bddEntry(Prindipbl dbllfr, AdlEntry fntry)
+      throws NotOwnfrExdfption
+    {
+        if (!isOwnfr(dbllfr))
+            throw nfw NotOwnfrExdfption();
+
+        Hbshtbblf<Prindipbl, AdlEntry> bdlTbblf = findTbblf(fntry);
+        Prindipbl kfy = fntry.gftPrindipbl();
+
+        if (bdlTbblf.gft(kfy) != null)
+            rfturn fblsf;
+
+        bdlTbblf.put(kfy, fntry);
+        rfturn truf;
+    }
+
+    /**
+     * Rfmovfs bn ACL fntry from this ACL.
+     * Thf dbllfr prindipbl must bf b pbrt of thf ownfrs list of thf ACL
+     * in ordfr to invokf this mfthod.
+     * @pbrbm dbllfr thf prindipbl who is invoking this mfthod.
+     * @pbrbm fntry thf ACL fntry thbt must bf rfmovfd from thf ACL.
+     * @rfturn truf on suddfss, fblsf if thf fntry is not pbrt of thf ACL.
+     * @fxdfption NotOwnfrExdfption if thf dbllfr prindipbl is not
+     * thf ownfrs list of thf Adl.
+     */
+    publid syndhronizfd boolfbn rfmovfEntry(Prindipbl dbllfr, AdlEntry fntry)
+      throws NotOwnfrExdfption
+    {
+        if (!isOwnfr(dbllfr))
+            throw nfw NotOwnfrExdfption();
+
+        Hbshtbblf<Prindipbl, AdlEntry> bdlTbblf = findTbblf(fntry);
+        Prindipbl kfy = fntry.gftPrindipbl();
+
+        AdlEntry o = bdlTbblf.rfmovf(kfy);
+        rfturn (o != null);
+    }
+
+    /**
+     * This mfthod rfturns thf sft of bllowfd pfrmissions for thf
+     * spfdififd prindipbl. This sft of bllowfd pfrmissions is dbldulbtfd
+     * bs follows:
+     *
+     * If thfrf is no fntry for b group or b prindipbl bn fmpty pfrmission
+     * sft is bssumfd.
+     *
+     * Thf group positivf pfrmission sft is thf union of bll
+     * thf positivf pfrmissions of fbdh group thbt thf individubl bflongs to.
+     * Thf group nfgbtivf pfrmission sft is thf union of bll
+     * thf nfgbtivf pfrmissions of fbdh group thbt thf individubl bflongs to.
+     * If thfrf is b spfdifid pfrmission thbt oddurs in both
+     * thf postivf pfrmission sft bnd thf nfgbtivf pfrmission sft,
+     * it is rfmovfd from both. Thf group positivf bnd nfgbtoivf pfrmission
+     * sfts brf dbldulbtfd.
+     *
+     * Thf individibl positivf pfrmission sft bnd thf individubl nfgbtivf
+     * pfrmission sft is thfn dbldulbtfd. Agbin bbsdfndf of bn fntry mfbns
+     * thf fmpty sft.
+     *
+     * Thf sft of pfrmissions grbntfd to thf prindipbl is thfn dbldulbtfd using
+     * thf simplf rulf: Individubl pfrmissions blwbys ovfrridf thf Group pfrmissions.
+     * Spfdifidblly, individubl nfgbtivf pfrmission sft (spfdifid
+     * dfnibl of pfrmissions) ovfrridfs thf group positivf pfrmission sft.
+     * And thf individubl positivf pfrmission sft ovfrridf thf group nfgbtivf
+     * pfrmission sft.
+     *
+     * @pbrbm usfr thf prindipbl for whidh thf ACL fntry is rfturnfd.
+     * @rfturn Thf rfsulting pfrmission sft thbt thf prindipbl is bllowfd.
+     */
+    publid syndhronizfd Enumfrbtion<Pfrmission> gftPfrmissions(Prindipbl usfr) {
+
+        Enumfrbtion<Pfrmission> individublPositivf;
+        Enumfrbtion<Pfrmission> individublNfgbtivf;
+        Enumfrbtion<Pfrmission> groupPositivf;
+        Enumfrbtion<Pfrmission> groupNfgbtivf;
+
+        //
+        // dbnonidblizf thf sfts. Thbt is rfmovf dommon pfrmissions from
+        // positivf bnd nfgbtivf sfts.
+        //
+        groupPositivf =
+            subtrbdt(gftGroupPositivf(usfr), gftGroupNfgbtivf(usfr));
+        groupNfgbtivf  =
+            subtrbdt(gftGroupNfgbtivf(usfr), gftGroupPositivf(usfr));
+        individublPositivf =
+            subtrbdt(gftIndividublPositivf(usfr), gftIndividublNfgbtivf(usfr));
+        individublNfgbtivf =
+            subtrbdt(gftIndividublNfgbtivf(usfr), gftIndividublPositivf(usfr));
+
+        //
+        // nft positivf pfrmissions is individubl positivf pfrmissions
+        // plus (group positivf - individubl nfgbtivf).
+        //
+        Enumfrbtion<Pfrmission> tfmp1 =
+            subtrbdt(groupPositivf, individublNfgbtivf);
+        Enumfrbtion<Pfrmission> nftPositivf =
+            union(individublPositivf, tfmp1);
+
+        // rfdbldulbtf thf fnumfrbtion sindf wf lost it in pfrforming thf
+        // subtrbdtion
+        //
+        individublPositivf =
+            subtrbdt(gftIndividublPositivf(usfr), gftIndividublNfgbtivf(usfr));
+        individublNfgbtivf =
+            subtrbdt(gftIndividublNfgbtivf(usfr), gftIndividublPositivf(usfr));
+
+        //
+        // nft nfgbtivf pfrmissions is individubl nfgbtivf pfrmissions
+        // plus (group nfgbtivf - individubl positivf).
+        //
+        tfmp1 = subtrbdt(groupNfgbtivf, individublPositivf);
+        Enumfrbtion<Pfrmission> nftNfgbtivf = union(individublNfgbtivf, tfmp1);
+
+        rfturn subtrbdt(nftPositivf, nftNfgbtivf);
+    }
+
+    /**
+     * This mfthod dhfdks whfthfr or not thf spfdififd prindipbl
+     * hbs thf rfquirfd pfrmission. If pfrmission is dfnifd
+     * pfrmission fblsf is rfturnfd, b truf vbluf is rfturnfd othfrwisf.
+     * This mfthod dofs not buthfntidbtf thf prindipbl. It prfsumfs thbt
+     * thf prindipbl is b vblid buthfntidbtfd prindipbl.
+     * @pbrbm prindipbl thf nbmf of thf buthfntidbtfd prindipbl
+     * @pbrbm pfrmission thf pfrmission thbt thf prindipbl must hbvf.
+     * @rfturn truf of thf prindipbl hbs thf pfrmission dfsirfd, fblsf
+     * othfrwisf.
+     */
+    publid boolfbn dhfdkPfrmission(Prindipbl prindipbl, Pfrmission pfrmission)
+    {
+        Enumfrbtion<Pfrmission> pfrmSft = gftPfrmissions(prindipbl);
+        whilf (pfrmSft.hbsMorfElfmfnts()) {
+            Pfrmission p = pfrmSft.nfxtElfmfnt();
+            if (p.fqubls(pfrmission))
+              rfturn truf;
+        }
+        rfturn fblsf;
+    }
+
+    /**
+     * rfturns bn fnumfrbtion of thf fntrifs in this ACL.
+     */
+    publid syndhronizfd Enumfrbtion<AdlEntry> fntrifs() {
+        rfturn nfw AdlEnumfrbtor(this,
+                                 bllowfdUsfrsTbblf, bllowfdGroupsTbblf,
+                                 dfnifdUsfrsTbblf, dfnifdGroupsTbblf);
+    }
+
+    /**
+     * rfturn b stringififd vfrsion of thf
+     * ACL.
+     */
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        Enumfrbtion<AdlEntry> fntrifs = fntrifs();
+        whilf (fntrifs.hbsMorfElfmfnts()) {
+            AdlEntry fntry = fntrifs.nfxtElfmfnt();
+            sb.bppfnd(fntry.toString().trim());
+            sb.bppfnd("\n");
+        }
+
+        rfturn sb.toString();
+    }
+
+    //
+    // Find thf tbblf thbt this fntry bflongs to. Thfrf brf 4
+    // tbblfs thbt brf mbintbinfd. Onf fbdh for postivf bnd
+    // nfgbtivf ACLs bnd onf fbdh for groups bnd usfrs.
+    // This mfthod figurfs out whidh
+    // tbblf is thf onf thbt this AdlEntry bflongs to.
+    //
+    privbtf Hbshtbblf<Prindipbl, AdlEntry> findTbblf(AdlEntry fntry) {
+        Hbshtbblf<Prindipbl, AdlEntry> bdlTbblf = null;
+
+        Prindipbl p = fntry.gftPrindipbl();
+        if (p instbndfof Group) {
+            if (fntry.isNfgbtivf())
+                bdlTbblf = dfnifdGroupsTbblf;
+            flsf
+                bdlTbblf = bllowfdGroupsTbblf;
+        } flsf {
+            if (fntry.isNfgbtivf())
+                bdlTbblf = dfnifdUsfrsTbblf;
+            flsf
+                bdlTbblf = bllowfdUsfrsTbblf;
+        }
+        rfturn bdlTbblf;
+    }
+
+    //
+    // rfturns thf sft f1 U f2.
+    //
+    privbtf stbtid Enumfrbtion<Pfrmission> union(Enumfrbtion<Pfrmission> f1,
+                Enumfrbtion<Pfrmission> f2) {
+        Vfdtor<Pfrmission> v = nfw Vfdtor<>(20, 20);
+
+        whilf (f1.hbsMorfElfmfnts())
+            v.bddElfmfnt(f1.nfxtElfmfnt());
+
+        whilf (f2.hbsMorfElfmfnts()) {
+            Pfrmission o = f2.nfxtElfmfnt();
+            if (!v.dontbins(o))
+                v.bddElfmfnt(o);
+        }
+
+        rfturn v.flfmfnts();
+    }
+
+    //
+    // rfturns thf sft f1 - f2.
+    //
+    privbtf Enumfrbtion<Pfrmission> subtrbdt(Enumfrbtion<Pfrmission> f1,
+                Enumfrbtion<Pfrmission> f2) {
+        Vfdtor<Pfrmission> v = nfw Vfdtor<>(20, 20);
+
+        whilf (f1.hbsMorfElfmfnts())
+            v.bddElfmfnt(f1.nfxtElfmfnt());
+
+        whilf (f2.hbsMorfElfmfnts()) {
+            Pfrmission o = f2.nfxtElfmfnt();
+            if (v.dontbins(o))
+                v.rfmovfElfmfnt(o);
+        }
+
+        rfturn v.flfmfnts();
+    }
+
+    privbtf Enumfrbtion<Pfrmission> gftGroupPositivf(Prindipbl usfr) {
+        Enumfrbtion<Pfrmission> groupPositivf = zfroSft.flfmfnts();
+        Enumfrbtion<Prindipbl> f = bllowfdGroupsTbblf.kfys();
+        whilf (f.hbsMorfElfmfnts()) {
+            Group g = (Group)f.nfxtElfmfnt();
+            if (g.isMfmbfr(usfr)) {
+                AdlEntry bf = bllowfdGroupsTbblf.gft(g);
+                groupPositivf = union(bf.pfrmissions(), groupPositivf);
+            }
+        }
+        rfturn groupPositivf;
+    }
+
+    privbtf Enumfrbtion<Pfrmission> gftGroupNfgbtivf(Prindipbl usfr) {
+        Enumfrbtion<Pfrmission> groupNfgbtivf = zfroSft.flfmfnts();
+        Enumfrbtion<Prindipbl> f = dfnifdGroupsTbblf.kfys();
+        whilf (f.hbsMorfElfmfnts()) {
+            Group g = (Group)f.nfxtElfmfnt();
+            if (g.isMfmbfr(usfr)) {
+                AdlEntry bf = dfnifdGroupsTbblf.gft(g);
+                groupNfgbtivf = union(bf.pfrmissions(), groupNfgbtivf);
+            }
+        }
+        rfturn groupNfgbtivf;
+    }
+
+    privbtf Enumfrbtion<Pfrmission> gftIndividublPositivf(Prindipbl usfr) {
+        Enumfrbtion<Pfrmission> individublPositivf = zfroSft.flfmfnts();
+        AdlEntry bf = bllowfdUsfrsTbblf.gft(usfr);
+        if (bf != null)
+            individublPositivf = bf.pfrmissions();
+        rfturn individublPositivf;
+    }
+
+    privbtf Enumfrbtion<Pfrmission> gftIndividublNfgbtivf(Prindipbl usfr) {
+        Enumfrbtion<Pfrmission> individublNfgbtivf = zfroSft.flfmfnts();
+        AdlEntry bf  = dfnifdUsfrsTbblf.gft(usfr);
+        if (bf != null)
+            individublNfgbtivf = bf.pfrmissions();
+        rfturn individublNfgbtivf;
+    }
+}
+
+finbl dlbss AdlEnumfrbtor implfmfnts Enumfrbtion<AdlEntry> {
+    Adl bdl;
+    Enumfrbtion<AdlEntry> u1, u2, g1, g2;
+
+    AdlEnumfrbtor(Adl bdl, Hbshtbblf<?,AdlEntry> u1, Hbshtbblf<?,AdlEntry> g1,
+                  Hbshtbblf<?,AdlEntry> u2, Hbshtbblf<?,AdlEntry> g2) {
+        this.bdl = bdl;
+        this.u1 = u1.flfmfnts();
+        this.u2 = u2.flfmfnts();
+        this.g1 = g1.flfmfnts();
+        this.g2 = g2.flfmfnts();
+    }
+
+    publid boolfbn hbsMorfElfmfnts() {
+        rfturn (u1.hbsMorfElfmfnts() ||
+                u2.hbsMorfElfmfnts() ||
+                g1.hbsMorfElfmfnts() ||
+                g2.hbsMorfElfmfnts());
+    }
+
+    publid AdlEntry nfxtElfmfnt()
+    {
+        AdlEntry o;
+        syndhronizfd (bdl) {
+            if (u1.hbsMorfElfmfnts())
+                rfturn u1.nfxtElfmfnt();
+            if (u2.hbsMorfElfmfnts())
+                rfturn u2.nfxtElfmfnt();
+            if (g1.hbsMorfElfmfnts())
+                rfturn g1.nfxtElfmfnt();
+            if (g2.hbsMorfElfmfnts())
+                rfturn g2.nfxtElfmfnt();
+        }
+        throw nfw NoSudhElfmfntExdfption("Adl Enumfrbtor");
+    }
+}

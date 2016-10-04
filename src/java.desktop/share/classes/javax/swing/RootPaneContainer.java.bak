@@ -1,182 +1,182 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing;
+pbdkbgf jbvbx.swing;
 
-import java.awt.Component;
-import java.awt.Container;
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Contbinfr;
 
 
 /**
- * This interface is implemented by components that have a single
- * JRootPane child: JDialog, JFrame, JWindow, JApplet, JInternalFrame.
- * The methods in  this interface are just <i>covers</i> for the JRootPane
- * properties, e.g. <code>getContentPane()</code> is generally implemented
- * like this:<pre>
- *     public Container getContentPane() {
- *         return getRootPane().getContentPane();
+ * Tiis intfrfbdf is implfmfntfd by domponfnts tibt ibvf b singlf
+ * JRootPbnf diild: JDiblog, JFrbmf, JWindow, JApplft, JIntfrnblFrbmf.
+ * Tif mftiods in  tiis intfrfbdf brf just <i>dovfrs</i> for tif JRootPbnf
+ * propfrtifs, f.g. <dodf>gftContfntPbnf()</dodf> is gfnfrblly implfmfntfd
+ * likf tiis:<prf>
+ *     publid Contbinfr gftContfntPbnf() {
+ *         rfturn gftRootPbnf().gftContfntPbnf();
  *     }
- * </pre>
- * This interface serves as a <i>marker</i> for Swing GUI builders
- * that need to treat components like JFrame, that contain a
- * single JRootPane, specially.  For example in a GUI builder,
- * dropping a component on a RootPaneContainer would be interpreted
- * as <code>frame.getContentPane().add(child)</code>.
+ * </prf>
+ * Tiis intfrfbdf sfrvfs bs b <i>mbrkfr</i> for Swing GUI buildfrs
+ * tibt nffd to trfbt domponfnts likf JFrbmf, tibt dontbin b
+ * singlf JRootPbnf, spfdiblly.  For fxbmplf in b GUI buildfr,
+ * dropping b domponfnt on b RootPbnfContbinfr would bf intfrprftfd
+ * bs <dodf>frbmf.gftContfntPbnf().bdd(diild)</dodf>.
  * <p>
- * As a convenience, the standard classes that implement this interface
- * (such as {@code JFrame}, {@code JDialog}, {@code JWindow}, {@code JApplet},
- * and {@code JInternalFrame}) have their {@code add}, {@code remove},
- * and {@code setLayout} methods overridden, so that they delegate calls
- * to the corresponding methods of the {@code ContentPane}.
- * For example, you can add a child component to a frame as follows:
- * <pre>
- *       frame.add(child);
- * </pre>
- * instead of:
- * <pre>
- *       frame.getContentPane().add(child);
- * </pre>
+ * As b donvfnifndf, tif stbndbrd dlbssfs tibt implfmfnt tiis intfrfbdf
+ * (sudi bs {@dodf JFrbmf}, {@dodf JDiblog}, {@dodf JWindow}, {@dodf JApplft},
+ * bnd {@dodf JIntfrnblFrbmf}) ibvf tifir {@dodf bdd}, {@dodf rfmovf},
+ * bnd {@dodf sftLbyout} mftiods ovfrriddfn, so tibt tify dflfgbtf dblls
+ * to tif dorrfsponding mftiods of tif {@dodf ContfntPbnf}.
+ * For fxbmplf, you dbn bdd b diild domponfnt to b frbmf bs follows:
+ * <prf>
+ *       frbmf.bdd(diild);
+ * </prf>
+ * instfbd of:
+ * <prf>
+ *       frbmf.gftContfntPbnf().bdd(diild);
+ * </prf>
  * <p>
- * The behavior of the <code>add</code> and
- * <code>setLayout</code> methods for
- * <code>JFrame</code>, <code>JDialog</code>, <code>JWindow</code>,
- * <code>JApplet</code> and <code>JInternalFrame</code> is controlled by
- * the <code>rootPaneCheckingEnabled</code> property. If this property is
- * true (the default), then calls to these methods are
-  * forwarded to the <code>contentPane</code>; if false, these
-  * methods operate directly on the <code>RootPaneContainer</code>. This
-  * property is only intended for subclasses, and is therefore protected.
+ * Tif bfibvior of tif <dodf>bdd</dodf> bnd
+ * <dodf>sftLbyout</dodf> mftiods for
+ * <dodf>JFrbmf</dodf>, <dodf>JDiblog</dodf>, <dodf>JWindow</dodf>,
+ * <dodf>JApplft</dodf> bnd <dodf>JIntfrnblFrbmf</dodf> is dontrollfd by
+ * tif <dodf>rootPbnfCifdkingEnbblfd</dodf> propfrty. If tiis propfrty is
+ * truf (tif dffbult), tifn dblls to tifsf mftiods brf
+  * forwbrdfd to tif <dodf>dontfntPbnf</dodf>; if fblsf, tifsf
+  * mftiods opfrbtf dirfdtly on tif <dodf>RootPbnfContbinfr</dodf>. Tiis
+  * propfrty is only intfndfd for subdlbssfs, bnd is tifrfforf protfdtfd.
  *
- * @see JRootPane
- * @see JFrame
- * @see JDialog
- * @see JWindow
- * @see JApplet
- * @see JInternalFrame
+ * @sff JRootPbnf
+ * @sff JFrbmf
+ * @sff JDiblog
+ * @sff JWindow
+ * @sff JApplft
+ * @sff JIntfrnblFrbmf
  *
- * @author Hans Muller
- * @since 1.2
+ * @butior Hbns Mullfr
+ * @sindf 1.2
  */
-public interface RootPaneContainer
+publid intfrfbdf RootPbnfContbinfr
 {
     /**
-     * Return this component's single JRootPane child.  A conventional
-     * implementation of this interface will have all of the other
-     * methods indirect through this one.  The rootPane has two
-     * children: the glassPane and the layeredPane.
+     * Rfturn tiis domponfnt's singlf JRootPbnf diild.  A donvfntionbl
+     * implfmfntbtion of tiis intfrfbdf will ibvf bll of tif otifr
+     * mftiods indirfdt tirougi tiis onf.  Tif rootPbnf ibs two
+     * diildrfn: tif glbssPbnf bnd tif lbyfrfdPbnf.
      *
-     * @return this components single JRootPane child.
-     * @see JRootPane
+     * @rfturn tiis domponfnts singlf JRootPbnf diild.
+     * @sff JRootPbnf
      */
-    JRootPane getRootPane();
+    JRootPbnf gftRootPbnf();
 
 
     /**
-     * The "contentPane" is the primary container for application
-     * specific components.  Applications should add children to
-     * the contentPane, set its layout manager, and so on.
+     * Tif "dontfntPbnf" is tif primbry dontbinfr for bpplidbtion
+     * spfdifid domponfnts.  Applidbtions siould bdd diildrfn to
+     * tif dontfntPbnf, sft its lbyout mbnbgfr, bnd so on.
      * <p>
-     * The contentPane may not be null.
+     * Tif dontfntPbnf mby not bf null.
      * <p>
-     * Generally implemented with
-     * <code>getRootPane().setContentPane(contentPane);</code>
+     * Gfnfrblly implfmfntfd witi
+     * <dodf>gftRootPbnf().sftContfntPbnf(dontfntPbnf);</dodf>
      *
-     * @exception java.awt.IllegalComponentStateException (a runtime
-     *            exception) if the content pane parameter is null
-     * @param contentPane the Container to use for the contents of this
-     *        JRootPane
-     * @see JRootPane#getContentPane
-     * @see #getContentPane
+     * @fxdfption jbvb.bwt.IllfgblComponfntStbtfExdfption (b runtimf
+     *            fxdfption) if tif dontfnt pbnf pbrbmftfr is null
+     * @pbrbm dontfntPbnf tif Contbinfr to usf for tif dontfnts of tiis
+     *        JRootPbnf
+     * @sff JRootPbnf#gftContfntPbnf
+     * @sff #gftContfntPbnf
      */
-    void setContentPane(Container contentPane);
+    void sftContfntPbnf(Contbinfr dontfntPbnf);
 
 
     /**
-     * Returns the contentPane.
+     * Rfturns tif dontfntPbnf.
      *
-     * @return the value of the contentPane property.
-     * @see #setContentPane
+     * @rfturn tif vbluf of tif dontfntPbnf propfrty.
+     * @sff #sftContfntPbnf
      */
-    Container getContentPane();
+    Contbinfr gftContfntPbnf();
 
 
     /**
-     * A Container that manages the contentPane and in some cases a menu bar.
-     * The layeredPane can be used by descendants that want to add a child
-     * to the RootPaneContainer that isn't layout managed.  For example
-     * an internal dialog or a drag and drop effect component.
+     * A Contbinfr tibt mbnbgfs tif dontfntPbnf bnd in somf dbsfs b mfnu bbr.
+     * Tif lbyfrfdPbnf dbn bf usfd by dfsdfndbnts tibt wbnt to bdd b diild
+     * to tif RootPbnfContbinfr tibt isn't lbyout mbnbgfd.  For fxbmplf
+     * bn intfrnbl diblog or b drbg bnd drop ffffdt domponfnt.
      * <p>
-     * The layeredPane may not be null.
+     * Tif lbyfrfdPbnf mby not bf null.
      * <p>
-     * Generally implemented with<pre>
-     *    getRootPane().setLayeredPane(layeredPane);</pre>
+     * Gfnfrblly implfmfntfd witi<prf>
+     *    gftRootPbnf().sftLbyfrfdPbnf(lbyfrfdPbnf);</prf>
      *
-     * @param layeredPane the layered pane
-     * @exception java.awt.IllegalComponentStateException (a runtime
-     *            exception) if the layered pane parameter is null
-     * @see #getLayeredPane
-     * @see JRootPane#getLayeredPane
+     * @pbrbm lbyfrfdPbnf tif lbyfrfd pbnf
+     * @fxdfption jbvb.bwt.IllfgblComponfntStbtfExdfption (b runtimf
+     *            fxdfption) if tif lbyfrfd pbnf pbrbmftfr is null
+     * @sff #gftLbyfrfdPbnf
+     * @sff JRootPbnf#gftLbyfrfdPbnf
      */
-    void setLayeredPane(JLayeredPane layeredPane);
+    void sftLbyfrfdPbnf(JLbyfrfdPbnf lbyfrfdPbnf);
 
 
     /**
-     * Returns the layeredPane.
+     * Rfturns tif lbyfrfdPbnf.
      *
-     * @return the value of the layeredPane property.
-     * @see #setLayeredPane
+     * @rfturn tif vbluf of tif lbyfrfdPbnf propfrty.
+     * @sff #sftLbyfrfdPbnf
      */
-    JLayeredPane getLayeredPane();
+    JLbyfrfdPbnf gftLbyfrfdPbnf();
 
 
     /**
-     * The glassPane is always the first child of the rootPane
-     * and the rootPanes layout manager ensures that it's always
-     * as big as the rootPane.  By default it's transparent and
-     * not visible.  It can be used to temporarily grab all keyboard
-     * and mouse input by adding listeners and then making it visible.
-     * by default it's not visible.
+     * Tif glbssPbnf is blwbys tif first diild of tif rootPbnf
+     * bnd tif rootPbnfs lbyout mbnbgfr fnsurfs tibt it's blwbys
+     * bs big bs tif rootPbnf.  By dffbult it's trbnspbrfnt bnd
+     * not visiblf.  It dbn bf usfd to tfmporbrily grbb bll kfybobrd
+     * bnd mousf input by bdding listfnfrs bnd tifn mbking it visiblf.
+     * by dffbult it's not visiblf.
      * <p>
-     * The glassPane may not be null.
+     * Tif glbssPbnf mby not bf null.
      * <p>
-     * Generally implemented with
-     * <code>getRootPane().setGlassPane(glassPane);</code>
+     * Gfnfrblly implfmfntfd witi
+     * <dodf>gftRootPbnf().sftGlbssPbnf(glbssPbnf);</dodf>
      *
-     * @param glassPane the glass pane
-     * @see #getGlassPane
-     * @see JRootPane#setGlassPane
+     * @pbrbm glbssPbnf tif glbss pbnf
+     * @sff #gftGlbssPbnf
+     * @sff JRootPbnf#sftGlbssPbnf
      */
-    void setGlassPane(Component glassPane);
+    void sftGlbssPbnf(Componfnt glbssPbnf);
 
 
     /**
-     * Returns the glassPane.
+     * Rfturns tif glbssPbnf.
      *
-     * @return the value of the glassPane property.
-     * @see #setGlassPane
+     * @rfturn tif vbluf of tif glbssPbnf propfrty.
+     * @sff #sftGlbssPbnf
      */
-    Component getGlassPane();
+    Componfnt gftGlbssPbnf();
 
 }

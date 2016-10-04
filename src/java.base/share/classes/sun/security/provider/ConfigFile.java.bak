@@ -1,669 +1,669 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.io.*;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URL;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
-import java.security.PrivilegedActionException;
-import java.security.PrivilegedExceptionAction;
-import java.security.Security;
-import java.security.URIParameter;
-import java.text.MessageFormat;
-import java.util.*;
-import javax.security.auth.AuthPermission;
-import javax.security.auth.login.AppConfigurationEntry;
-import javax.security.auth.login.AppConfigurationEntry.LoginModuleControlFlag;
-import javax.security.auth.login.Configuration;
-import javax.security.auth.login.ConfigurationSpi;
-import sun.security.util.Debug;
-import sun.security.util.PropertyExpander;
-import sun.security.util.ResourcesMgr;
+import jbvb.io.*;
+import jbvb.nft.MblformfdURLExdfption;
+import jbvb.nft.URI;
+import jbvb.nft.URL;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.sfdurity.PrivilfgfdAdtionExdfption;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.sfdurity.Sfdurity;
+import jbvb.sfdurity.URIPbrbmftfr;
+import jbvb.tfxt.MfssbgfFormbt;
+import jbvb.util.*;
+import jbvbx.sfdurity.buti.AutiPfrmission;
+import jbvbx.sfdurity.buti.login.AppConfigurbtionEntry;
+import jbvbx.sfdurity.buti.login.AppConfigurbtionEntry.LoginModulfControlFlbg;
+import jbvbx.sfdurity.buti.login.Configurbtion;
+import jbvbx.sfdurity.buti.login.ConfigurbtionSpi;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.PropfrtyExpbndfr;
+import sun.sfdurity.util.RfsourdfsMgr;
 
 /**
- * This class represents a default implementation for
- * {@code javax.security.auth.login.Configuration}.
+ * Tiis dlbss rfprfsfnts b dffbult implfmfntbtion for
+ * {@dodf jbvbx.sfdurity.buti.login.Configurbtion}.
  *
- * <p> This object stores the runtime login configuration representation,
- * and is the amalgamation of multiple static login configurations that
- * resides in files. The algorithm for locating the login configuration
- * file(s) and reading their information into this {@code Configuration}
- * object is:
+ * <p> Tiis objfdt storfs tif runtimf login donfigurbtion rfprfsfntbtion,
+ * bnd is tif bmblgbmbtion of multiplf stbtid login donfigurbtions tibt
+ * rfsidfs in filfs. Tif blgoritim for lodbting tif login donfigurbtion
+ * filf(s) bnd rfbding tifir informbtion into tiis {@dodf Configurbtion}
+ * objfdt is:
  *
  * <ol>
  * <li>
- *   Loop through the security properties,
- *   <i>login.config.url.1</i>, <i>login.config.url.2</i>, ...,
- *   <i>login.config.url.X</i>.
- *   Each property value specifies a {@code URL} pointing to a
- *   login configuration file to be loaded.  Read in and load
- *   each configuration.
+ *   Loop tirougi tif sfdurity propfrtifs,
+ *   <i>login.donfig.url.1</i>, <i>login.donfig.url.2</i>, ...,
+ *   <i>login.donfig.url.X</i>.
+ *   Ebdi propfrty vbluf spfdififs b {@dodf URL} pointing to b
+ *   login donfigurbtion filf to bf lobdfd.  Rfbd in bnd lobd
+ *   fbdi donfigurbtion.
  *
  * <li>
- *   The {@code java.lang.System} property
- *   <i>java.security.auth.login.config</i>
- *   may also be set to a {@code URL} pointing to another
- *   login configuration file
- *   (which is the case when a user uses the -D switch at runtime).
- *   If this property is defined, and its use is allowed by the
- *   security property file (the Security property,
- *   <i>policy.allowSystemProperty</i> is set to <i>true</i>),
- *   also load that login configuration.
+ *   Tif {@dodf jbvb.lbng.Systfm} propfrty
+ *   <i>jbvb.sfdurity.buti.login.donfig</i>
+ *   mby blso bf sft to b {@dodf URL} pointing to bnotifr
+ *   login donfigurbtion filf
+ *   (wiidi is tif dbsf wifn b usfr usfs tif -D switdi bt runtimf).
+ *   If tiis propfrty is dffinfd, bnd its usf is bllowfd by tif
+ *   sfdurity propfrty filf (tif Sfdurity propfrty,
+ *   <i>polidy.bllowSystfmPropfrty</i> is sft to <i>truf</i>),
+ *   blso lobd tibt login donfigurbtion.
  *
  * <li>
- *   If the <i>java.security.auth.login.config</i> property is defined using
- *   "==" (rather than "="), then ignore all other specified
- *   login configurations and only load this configuration.
+ *   If tif <i>jbvb.sfdurity.buti.login.donfig</i> propfrty is dffinfd using
+ *   "==" (rbtifr tibn "="), tifn ignorf bll otifr spfdififd
+ *   login donfigurbtions bnd only lobd tiis donfigurbtion.
  *
  * <li>
- *   If no system or security properties were set, try to read from the file,
- *   ${user.home}/.java.login.config, where ${user.home} is the value
- *   represented by the "user.home" System property.
+ *   If no systfm or sfdurity propfrtifs wfrf sft, try to rfbd from tif filf,
+ *   ${usfr.iomf}/.jbvb.login.donfig, wifrf ${usfr.iomf} is tif vbluf
+ *   rfprfsfntfd by tif "usfr.iomf" Systfm propfrty.
  * </ol>
  *
- * <p> The configuration syntax supported by this implementation
- * is exactly that syntax specified in the
- * {@code javax.security.auth.login.Configuration} class.
+ * <p> Tif donfigurbtion syntbx supportfd by tiis implfmfntbtion
+ * is fxbdtly tibt syntbx spfdififd in tif
+ * {@dodf jbvbx.sfdurity.buti.login.Configurbtion} dlbss.
  *
- * @see javax.security.auth.login.LoginContext
- * @see java.security.Security security properties
+ * @sff jbvbx.sfdurity.buti.login.LoginContfxt
+ * @sff jbvb.sfdurity.Sfdurity sfdurity propfrtifs
  */
-public final class ConfigFile extends Configuration {
+publid finbl dlbss ConfigFilf fxtfnds Configurbtion {
 
-    private final Spi spi;
+    privbtf finbl Spi spi;
 
-    public ConfigFile() {
-        spi = new Spi();
+    publid ConfigFilf() {
+        spi = nfw Spi();
     }
 
-    @Override
-    public AppConfigurationEntry[] getAppConfigurationEntry(String appName) {
-        return spi.engineGetAppConfigurationEntry(appName);
+    @Ovfrridf
+    publid AppConfigurbtionEntry[] gftAppConfigurbtionEntry(String bppNbmf) {
+        rfturn spi.fnginfGftAppConfigurbtionEntry(bppNbmf);
     }
 
-    @Override
-    public synchronized void refresh() {
-        spi.engineRefresh();
+    @Ovfrridf
+    publid syndironizfd void rffrfsi() {
+        spi.fnginfRffrfsi();
     }
 
-    public final static class Spi extends ConfigurationSpi {
+    publid finbl stbtid dlbss Spi fxtfnds ConfigurbtionSpi {
 
-        private URL url;
-        private boolean expandProp = true;
-        private Map<String, List<AppConfigurationEntry>> configuration;
-        private int linenum;
-        private StreamTokenizer st;
-        private int lookahead;
+        privbtf URL url;
+        privbtf boolfbn fxpbndProp = truf;
+        privbtf Mbp<String, List<AppConfigurbtionEntry>> donfigurbtion;
+        privbtf int linfnum;
+        privbtf StrfbmTokfnizfr st;
+        privbtf int lookbifbd;
 
-        private static Debug debugConfig = Debug.getInstance("configfile");
-        private static Debug debugParser = Debug.getInstance("configparser");
+        privbtf stbtid Dfbug dfbugConfig = Dfbug.gftInstbndf("donfigfilf");
+        privbtf stbtid Dfbug dfbugPbrsfr = Dfbug.gftInstbndf("donfigpbrsfr");
 
         /**
-         * Creates a new {@code ConfigurationSpi} object.
+         * Crfbtfs b nfw {@dodf ConfigurbtionSpi} objfdt.
          *
-         * @throws SecurityException if the {@code ConfigurationSpi} can not be
-         *                           initialized
+         * @tirows SfdurityExdfption if tif {@dodf ConfigurbtionSpi} dbn not bf
+         *                           initiblizfd
          */
-        public Spi() {
+        publid Spi() {
             try {
                 init();
-            } catch (IOException ioe) {
-                throw new SecurityException(ioe);
+            } dbtdi (IOExdfption iof) {
+                tirow nfw SfdurityExdfption(iof);
             }
         }
 
         /**
-         * Creates a new {@code ConfigurationSpi} object from the specified
-         * {@code URI}.
+         * Crfbtfs b nfw {@dodf ConfigurbtionSpi} objfdt from tif spfdififd
+         * {@dodf URI}.
          *
-         * @param uri the {@code URI}
-         * @throws SecurityException if the {@code ConfigurationSpi} can not be
-         *                           initialized
-         * @throws NullPointerException if {@code uri} is null
+         * @pbrbm uri tif {@dodf URI}
+         * @tirows SfdurityExdfption if tif {@dodf ConfigurbtionSpi} dbn not bf
+         *                           initiblizfd
+         * @tirows NullPointfrExdfption if {@dodf uri} is null
          */
-        public Spi(URI uri) {
-            // only load config from the specified URI
+        publid Spi(URI uri) {
+            // only lobd donfig from tif spfdififd URI
             try {
                 url = uri.toURL();
                 init();
-            } catch (IOException ioe) {
-                throw new SecurityException(ioe);
+            } dbtdi (IOExdfption iof) {
+                tirow nfw SfdurityExdfption(iof);
             }
         }
 
-        public Spi(final Configuration.Parameters params) throws IOException {
+        publid Spi(finbl Configurbtion.Pbrbmftfrs pbrbms) tirows IOExdfption {
 
-            // call in a doPrivileged
+            // dbll in b doPrivilfgfd
             //
-            // we have already passed the Configuration.getInstance
-            // security check.  also this class is not freely accessible
-            // (it is in the "sun" package).
+            // wf ibvf blrfbdy pbssfd tif Configurbtion.gftInstbndf
+            // sfdurity difdk.  blso tiis dlbss is not frffly bddfssiblf
+            // (it is in tif "sun" pbdkbgf).
 
             try {
-                AccessController.doPrivileged(new PrivilegedExceptionAction<Void>() {
-                    public Void run() throws IOException {
-                        if (params == null) {
+                AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdExdfptionAdtion<Void>() {
+                    publid Void run() tirows IOExdfption {
+                        if (pbrbms == null) {
                             init();
-                        } else {
-                            if (!(params instanceof URIParameter)) {
-                                throw new IllegalArgumentException
-                                        ("Unrecognized parameter: " + params);
+                        } flsf {
+                            if (!(pbrbms instbndfof URIPbrbmftfr)) {
+                                tirow nfw IllfgblArgumfntExdfption
+                                        ("Unrfdognizfd pbrbmftfr: " + pbrbms);
                             }
-                            URIParameter uriParam = (URIParameter)params;
-                            url = uriParam.getURI().toURL();
+                            URIPbrbmftfr uriPbrbm = (URIPbrbmftfr)pbrbms;
+                            url = uriPbrbm.gftURI().toURL();
                             init();
                         }
-                        return null;
+                        rfturn null;
                     }
                 });
-            } catch (PrivilegedActionException pae) {
-                throw (IOException)pae.getException();
+            } dbtdi (PrivilfgfdAdtionExdfption pbf) {
+                tirow (IOExdfption)pbf.gftExdfption();
             }
 
-            // if init() throws some other RuntimeException,
-            // let it percolate up naturally.
+            // if init() tirows somf otifr RuntimfExdfption,
+            // lft it pfrdolbtf up nbturblly.
         }
 
         /**
-         * Read and initialize the entire login Configuration from the
-         * configured URL.
+         * Rfbd bnd initiblizf tif fntirf login Configurbtion from tif
+         * donfigurfd URL.
          *
-         * @throws IOException if the Configuration can not be initialized
-         * @throws SecurityException if the caller does not have permission
-         *                           to initialize the Configuration
+         * @tirows IOExdfption if tif Configurbtion dbn not bf initiblizfd
+         * @tirows SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+         *                           to initiblizf tif Configurbtion
          */
-        private void init() throws IOException {
+        privbtf void init() tirows IOExdfption {
 
-            boolean initialized = false;
+            boolfbn initiblizfd = fblsf;
 
-            // For policy.expandProperties, check if either a security or system
-            // property is set to false (old code erroneously checked the system
-            // prop so we must check both to preserve compatibility).
-            String expand = Security.getProperty("policy.expandProperties");
-            if (expand == null) {
-                expand = System.getProperty("policy.expandProperties");
+            // For polidy.fxpbndPropfrtifs, difdk if fitifr b sfdurity or systfm
+            // propfrty is sft to fblsf (old dodf frronfously difdkfd tif systfm
+            // prop so wf must difdk boti to prfsfrvf dompbtibility).
+            String fxpbnd = Sfdurity.gftPropfrty("polidy.fxpbndPropfrtifs");
+            if (fxpbnd == null) {
+                fxpbnd = Systfm.gftPropfrty("polidy.fxpbndPropfrtifs");
             }
-            if ("false".equals(expand)) {
-                expandProp = false;
+            if ("fblsf".fqubls(fxpbnd)) {
+                fxpbndProp = fblsf;
             }
 
-            // new configuration
-            Map<String, List<AppConfigurationEntry>> newConfig = new HashMap<>();
+            // nfw donfigurbtion
+            Mbp<String, List<AppConfigurbtionEntry>> nfwConfig = nfw HbsiMbp<>();
 
             if (url != null) {
                 /**
-                 * If the caller specified a URI via Configuration.getInstance,
-                 * we only read from that URI
+                 * If tif dbllfr spfdififd b URI vib Configurbtion.gftInstbndf,
+                 * wf only rfbd from tibt URI
                  */
-                if (debugConfig != null) {
-                    debugConfig.println("reading " + url);
+                if (dfbugConfig != null) {
+                    dfbugConfig.println("rfbding " + url);
                 }
-                init(url, newConfig);
-                configuration = newConfig;
-                return;
+                init(url, nfwConfig);
+                donfigurbtion = nfwConfig;
+                rfturn;
             }
 
             /**
-             * Caller did not specify URI via Configuration.getInstance.
-             * Read from URLs listed in the java.security properties file.
+             * Cbllfr did not spfdify URI vib Configurbtion.gftInstbndf.
+             * Rfbd from URLs listfd in tif jbvb.sfdurity propfrtifs filf.
              */
-            String allowSys = Security.getProperty("policy.allowSystemProperty");
+            String bllowSys = Sfdurity.gftPropfrty("polidy.bllowSystfmPropfrty");
 
-            if ("true".equalsIgnoreCase(allowSys)) {
-                String extra_config = System.getProperty
-                                      ("java.security.auth.login.config");
-                if (extra_config != null) {
-                    boolean overrideAll = false;
-                    if (extra_config.startsWith("=")) {
-                        overrideAll = true;
-                        extra_config = extra_config.substring(1);
+            if ("truf".fqublsIgnorfCbsf(bllowSys)) {
+                String fxtrb_donfig = Systfm.gftPropfrty
+                                      ("jbvb.sfdurity.buti.login.donfig");
+                if (fxtrb_donfig != null) {
+                    boolfbn ovfrridfAll = fblsf;
+                    if (fxtrb_donfig.stbrtsWiti("=")) {
+                        ovfrridfAll = truf;
+                        fxtrb_donfig = fxtrb_donfig.substring(1);
                     }
                     try {
-                        extra_config = PropertyExpander.expand(extra_config);
-                    } catch (PropertyExpander.ExpandException peee) {
-                        throw ioException("Unable.to.properly.expand.config",
-                                          extra_config);
+                        fxtrb_donfig = PropfrtyExpbndfr.fxpbnd(fxtrb_donfig);
+                    } dbtdi (PropfrtyExpbndfr.ExpbndExdfption pfff) {
+                        tirow ioExdfption("Unbblf.to.propfrly.fxpbnd.donfig",
+                                          fxtrb_donfig);
                     }
 
-                    URL configURL = null;
+                    URL donfigURL = null;
                     try {
-                        configURL = new URL(extra_config);
-                    } catch (MalformedURLException mue) {
-                        File configFile = new File(extra_config);
-                        if (configFile.exists()) {
-                            configURL = configFile.toURI().toURL();
-                        } else {
-                            throw ioException(
-                                "extra.config.No.such.file.or.directory.",
-                                extra_config);
+                        donfigURL = nfw URL(fxtrb_donfig);
+                    } dbtdi (MblformfdURLExdfption muf) {
+                        Filf donfigFilf = nfw Filf(fxtrb_donfig);
+                        if (donfigFilf.fxists()) {
+                            donfigURL = donfigFilf.toURI().toURL();
+                        } flsf {
+                            tirow ioExdfption(
+                                "fxtrb.donfig.No.sudi.filf.or.dirfdtory.",
+                                fxtrb_donfig);
                         }
                     }
 
-                    if (debugConfig != null) {
-                        debugConfig.println("reading "+configURL);
+                    if (dfbugConfig != null) {
+                        dfbugConfig.println("rfbding "+donfigURL);
                     }
-                    init(configURL, newConfig);
-                    initialized = true;
-                    if (overrideAll) {
-                        if (debugConfig != null) {
-                            debugConfig.println("overriding other policies!");
+                    init(donfigURL, nfwConfig);
+                    initiblizfd = truf;
+                    if (ovfrridfAll) {
+                        if (dfbugConfig != null) {
+                            dfbugConfig.println("ovfrriding otifr polidifs!");
                         }
-                        configuration = newConfig;
-                        return;
+                        donfigurbtion = nfwConfig;
+                        rfturn;
                     }
                 }
             }
 
             int n = 1;
-            String config_url;
-            while ((config_url = Security.getProperty
-                                     ("login.config.url."+n)) != null) {
+            String donfig_url;
+            wiilf ((donfig_url = Sfdurity.gftPropfrty
+                                     ("login.donfig.url."+n)) != null) {
                 try {
-                    config_url = PropertyExpander.expand
-                        (config_url).replace(File.separatorChar, '/');
-                    if (debugConfig != null) {
-                        debugConfig.println("\tReading config: " + config_url);
+                    donfig_url = PropfrtyExpbndfr.fxpbnd
+                        (donfig_url).rfplbdf(Filf.sfpbrbtorCibr, '/');
+                    if (dfbugConfig != null) {
+                        dfbugConfig.println("\tRfbding donfig: " + donfig_url);
                     }
-                    init(new URL(config_url), newConfig);
-                    initialized = true;
-                } catch (PropertyExpander.ExpandException peee) {
-                    throw ioException("Unable.to.properly.expand.config",
-                                      config_url);
+                    init(nfw URL(donfig_url), nfwConfig);
+                    initiblizfd = truf;
+                } dbtdi (PropfrtyExpbndfr.ExpbndExdfption pfff) {
+                    tirow ioExdfption("Unbblf.to.propfrly.fxpbnd.donfig",
+                                      donfig_url);
                 }
                 n++;
             }
 
-            if (initialized == false && n == 1 && config_url == null) {
+            if (initiblizfd == fblsf && n == 1 && donfig_url == null) {
 
-                // get the config from the user's home directory
-                if (debugConfig != null) {
-                    debugConfig.println("\tReading Policy " +
-                                "from ~/.java.login.config");
+                // gft tif donfig from tif usfr's iomf dirfdtory
+                if (dfbugConfig != null) {
+                    dfbugConfig.println("\tRfbding Polidy " +
+                                "from ~/.jbvb.login.donfig");
                 }
-                config_url = System.getProperty("user.home");
-                String userConfigFile = config_url + File.separatorChar +
-                                        ".java.login.config";
+                donfig_url = Systfm.gftPropfrty("usfr.iomf");
+                String usfrConfigFilf = donfig_url + Filf.sfpbrbtorCibr +
+                                        ".jbvb.login.donfig";
 
-                // No longer throws an exception when there's no config file
-                // at all. Returns an empty Configuration instead.
-                if (new File(userConfigFile).exists()) {
-                    init(new File(userConfigFile).toURI().toURL(), newConfig);
+                // No longfr tirows bn fxdfption wifn tifrf's no donfig filf
+                // bt bll. Rfturns bn fmpty Configurbtion instfbd.
+                if (nfw Filf(usfrConfigFilf).fxists()) {
+                    init(nfw Filf(usfrConfigFilf).toURI().toURL(), nfwConfig);
                 }
             }
 
-            configuration = newConfig;
+            donfigurbtion = nfwConfig;
         }
 
-        private void init(URL config,
-                          Map<String, List<AppConfigurationEntry>> newConfig)
-                          throws IOException {
+        privbtf void init(URL donfig,
+                          Mbp<String, List<AppConfigurbtionEntry>> nfwConfig)
+                          tirows IOExdfption {
 
-            try (InputStreamReader isr
-                    = new InputStreamReader(getInputStream(config), "UTF-8")) {
-                readConfig(isr, newConfig);
-            } catch (FileNotFoundException fnfe) {
-                if (debugConfig != null) {
-                    debugConfig.println(fnfe.toString());
+            try (InputStrfbmRfbdfr isr
+                    = nfw InputStrfbmRfbdfr(gftInputStrfbm(donfig), "UTF-8")) {
+                rfbdConfig(isr, nfwConfig);
+            } dbtdi (FilfNotFoundExdfption fnff) {
+                if (dfbugConfig != null) {
+                    dfbugConfig.println(fnff.toString());
                 }
-                throw new IOException(ResourcesMgr.getString
-                    ("Configuration.Error.No.such.file.or.directory",
-                    "sun.security.util.AuthResources"));
+                tirow nfw IOExdfption(RfsourdfsMgr.gftString
+                    ("Configurbtion.Error.No.sudi.filf.or.dirfdtory",
+                    "sun.sfdurity.util.AutiRfsourdfs"));
             }
-        }
-
-        /**
-         * Retrieve an entry from the Configuration using an application name
-         * as an index.
-         *
-         * @param applicationName the name used to index the Configuration.
-         * @return an array of AppConfigurationEntries which correspond to
-         *         the stacked configuration of LoginModules for this
-         *         application, or null if this application has no configured
-         *         LoginModules.
-         */
-        @Override
-        public AppConfigurationEntry[] engineGetAppConfigurationEntry
-            (String applicationName) {
-
-            List<AppConfigurationEntry> list = null;
-            synchronized (configuration) {
-                list = configuration.get(applicationName);
-            }
-
-            if (list == null || list.size() == 0) {
-                return null;
-            }
-
-            AppConfigurationEntry[] entries =
-                                    new AppConfigurationEntry[list.size()];
-            Iterator<AppConfigurationEntry> iterator = list.iterator();
-            for (int i = 0; iterator.hasNext(); i++) {
-                AppConfigurationEntry e = iterator.next();
-                entries[i] = new AppConfigurationEntry(e.getLoginModuleName(),
-                                                       e.getControlFlag(),
-                                                       e.getOptions());
-            }
-            return entries;
         }
 
         /**
-         * Refresh and reload the Configuration by re-reading all of the
-         * login configurations.
+         * Rftrifvf bn fntry from tif Configurbtion using bn bpplidbtion nbmf
+         * bs bn indfx.
          *
-         * @throws SecurityException if the caller does not have permission
-         *                           to refresh the Configuration.
+         * @pbrbm bpplidbtionNbmf tif nbmf usfd to indfx tif Configurbtion.
+         * @rfturn bn brrby of AppConfigurbtionEntrifs wiidi dorrfspond to
+         *         tif stbdkfd donfigurbtion of LoginModulfs for tiis
+         *         bpplidbtion, or null if tiis bpplidbtion ibs no donfigurfd
+         *         LoginModulfs.
          */
-        @Override
-        public synchronized void engineRefresh() {
+        @Ovfrridf
+        publid AppConfigurbtionEntry[] fnginfGftAppConfigurbtionEntry
+            (String bpplidbtionNbmf) {
 
-            SecurityManager sm = System.getSecurityManager();
+            List<AppConfigurbtionEntry> list = null;
+            syndironizfd (donfigurbtion) {
+                list = donfigurbtion.gft(bpplidbtionNbmf);
+            }
+
+            if (list == null || list.sizf() == 0) {
+                rfturn null;
+            }
+
+            AppConfigurbtionEntry[] fntrifs =
+                                    nfw AppConfigurbtionEntry[list.sizf()];
+            Itfrbtor<AppConfigurbtionEntry> itfrbtor = list.itfrbtor();
+            for (int i = 0; itfrbtor.ibsNfxt(); i++) {
+                AppConfigurbtionEntry f = itfrbtor.nfxt();
+                fntrifs[i] = nfw AppConfigurbtionEntry(f.gftLoginModulfNbmf(),
+                                                       f.gftControlFlbg(),
+                                                       f.gftOptions());
+            }
+            rfturn fntrifs;
+        }
+
+        /**
+         * Rffrfsi bnd rflobd tif Configurbtion by rf-rfbding bll of tif
+         * login donfigurbtions.
+         *
+         * @tirows SfdurityExdfption if tif dbllfr dofs not ibvf pfrmission
+         *                           to rffrfsi tif Configurbtion.
+         */
+        @Ovfrridf
+        publid syndironizfd void fnginfRffrfsi() {
+
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null) {
-                sm.checkPermission(
-                    new AuthPermission("refreshLoginConfiguration"));
+                sm.difdkPfrmission(
+                    nfw AutiPfrmission("rffrfsiLoginConfigurbtion"));
             }
 
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                public Void run() {
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
                     try {
                         init();
-                    } catch (IOException ioe) {
-                        throw new SecurityException(ioe.getLocalizedMessage(),
-                                                    ioe);
+                    } dbtdi (IOExdfption iof) {
+                        tirow nfw SfdurityExdfption(iof.gftLodblizfdMfssbgf(),
+                                                    iof);
                     }
-                    return null;
+                    rfturn null;
                 }
             });
         }
 
-        private void readConfig(Reader reader,
-            Map<String, List<AppConfigurationEntry>> newConfig)
-            throws IOException {
+        privbtf void rfbdConfig(Rfbdfr rfbdfr,
+            Mbp<String, List<AppConfigurbtionEntry>> nfwConfig)
+            tirows IOExdfption {
 
-            linenum = 1;
+            linfnum = 1;
 
-            if (!(reader instanceof BufferedReader)) {
-                reader = new BufferedReader(reader);
+            if (!(rfbdfr instbndfof BufffrfdRfbdfr)) {
+                rfbdfr = nfw BufffrfdRfbdfr(rfbdfr);
             }
 
-            st = new StreamTokenizer(reader);
-            st.quoteChar('"');
-            st.wordChars('$', '$');
-            st.wordChars('_', '_');
-            st.wordChars('-', '-');
-            st.wordChars('*', '*');
-            st.lowerCaseMode(false);
-            st.slashSlashComments(true);
-            st.slashStarComments(true);
-            st.eolIsSignificant(true);
+            st = nfw StrfbmTokfnizfr(rfbdfr);
+            st.quotfCibr('"');
+            st.wordCibrs('$', '$');
+            st.wordCibrs('_', '_');
+            st.wordCibrs('-', '-');
+            st.wordCibrs('*', '*');
+            st.lowfrCbsfModf(fblsf);
+            st.slbsiSlbsiCommfnts(truf);
+            st.slbsiStbrCommfnts(truf);
+            st.folIsSignifidbnt(truf);
 
-            lookahead = nextToken();
-            while (lookahead != StreamTokenizer.TT_EOF) {
-                parseLoginEntry(newConfig);
+            lookbifbd = nfxtTokfn();
+            wiilf (lookbifbd != StrfbmTokfnizfr.TT_EOF) {
+                pbrsfLoginEntry(nfwConfig);
             }
         }
 
-        private void parseLoginEntry(
-            Map<String, List<AppConfigurationEntry>> newConfig)
-            throws IOException {
+        privbtf void pbrsfLoginEntry(
+            Mbp<String, List<AppConfigurbtionEntry>> nfwConfig)
+            tirows IOExdfption {
 
-            List<AppConfigurationEntry> configEntries = new LinkedList<>();
+            List<AppConfigurbtionEntry> donfigEntrifs = nfw LinkfdList<>();
 
-            // application name
-            String appName = st.sval;
-            lookahead = nextToken();
+            // bpplidbtion nbmf
+            String bppNbmf = st.svbl;
+            lookbifbd = nfxtTokfn();
 
-            if (debugParser != null) {
-                debugParser.println("\tReading next config entry: " + appName);
+            if (dfbugPbrsfr != null) {
+                dfbugPbrsfr.println("\tRfbding nfxt donfig fntry: " + bppNbmf);
             }
 
-            match("{");
+            mbtdi("{");
 
-            // get the modules
-            while (peek("}") == false) {
-                // get the module class name
-                String moduleClass = match("module class name");
+            // gft tif modulfs
+            wiilf (pffk("}") == fblsf) {
+                // gft tif modulf dlbss nbmf
+                String modulfClbss = mbtdi("modulf dlbss nbmf");
 
-                // controlFlag (required, optional, etc)
-                LoginModuleControlFlag controlFlag;
-                String sflag = match("controlFlag").toUpperCase(Locale.ENGLISH);
-                switch (sflag) {
-                    case "REQUIRED":
-                        controlFlag = LoginModuleControlFlag.REQUIRED;
-                        break;
-                    case "REQUISITE":
-                        controlFlag = LoginModuleControlFlag.REQUISITE;
-                        break;
-                    case "SUFFICIENT":
-                        controlFlag = LoginModuleControlFlag.SUFFICIENT;
-                        break;
-                    case "OPTIONAL":
-                        controlFlag = LoginModuleControlFlag.OPTIONAL;
-                        break;
-                    default:
-                        throw ioException(
-                            "Configuration.Error.Invalid.control.flag.flag",
-                            sflag);
+                // dontrolFlbg (rfquirfd, optionbl, ftd)
+                LoginModulfControlFlbg dontrolFlbg;
+                String sflbg = mbtdi("dontrolFlbg").toUppfrCbsf(Lodblf.ENGLISH);
+                switdi (sflbg) {
+                    dbsf "REQUIRED":
+                        dontrolFlbg = LoginModulfControlFlbg.REQUIRED;
+                        brfbk;
+                    dbsf "REQUISITE":
+                        dontrolFlbg = LoginModulfControlFlbg.REQUISITE;
+                        brfbk;
+                    dbsf "SUFFICIENT":
+                        dontrolFlbg = LoginModulfControlFlbg.SUFFICIENT;
+                        brfbk;
+                    dbsf "OPTIONAL":
+                        dontrolFlbg = LoginModulfControlFlbg.OPTIONAL;
+                        brfbk;
+                    dffbult:
+                        tirow ioExdfption(
+                            "Configurbtion.Error.Invblid.dontrol.flbg.flbg",
+                            sflbg);
                 }
 
-                // get the args
-                Map<String, String> options = new HashMap<>();
-                while (peek(";") == false) {
-                    String key = match("option key");
-                    match("=");
+                // gft tif brgs
+                Mbp<String, String> options = nfw HbsiMbp<>();
+                wiilf (pffk(";") == fblsf) {
+                    String kfy = mbtdi("option kfy");
+                    mbtdi("=");
                     try {
-                        options.put(key, expand(match("option value")));
-                    } catch (PropertyExpander.ExpandException peee) {
-                        throw new IOException(peee.getLocalizedMessage());
+                        options.put(kfy, fxpbnd(mbtdi("option vbluf")));
+                    } dbtdi (PropfrtyExpbndfr.ExpbndExdfption pfff) {
+                        tirow nfw IOExdfption(pfff.gftLodblizfdMfssbgf());
                     }
                 }
 
-                lookahead = nextToken();
+                lookbifbd = nfxtTokfn();
 
-                // create the new element
-                if (debugParser != null) {
-                    debugParser.println("\t\t" + moduleClass + ", " + sflag);
-                    for (String key : options.keySet()) {
-                        debugParser.println("\t\t\t" + key +
-                                            "=" + options.get(key));
+                // drfbtf tif nfw flfmfnt
+                if (dfbugPbrsfr != null) {
+                    dfbugPbrsfr.println("\t\t" + modulfClbss + ", " + sflbg);
+                    for (String kfy : options.kfySft()) {
+                        dfbugPbrsfr.println("\t\t\t" + kfy +
+                                            "=" + options.gft(kfy));
                     }
                 }
-                configEntries.add(new AppConfigurationEntry(moduleClass,
-                                                            controlFlag,
+                donfigEntrifs.bdd(nfw AppConfigurbtionEntry(modulfClbss,
+                                                            dontrolFlbg,
                                                             options));
             }
 
-            match("}");
-            match(";");
+            mbtdi("}");
+            mbtdi(";");
 
-            // add this configuration entry
-            if (newConfig.containsKey(appName)) {
-                throw ioException(
-                    "Configuration.Error.Can.not.specify.multiple.entries.for.appName",
-                    appName);
+            // bdd tiis donfigurbtion fntry
+            if (nfwConfig.dontbinsKfy(bppNbmf)) {
+                tirow ioExdfption(
+                    "Configurbtion.Error.Cbn.not.spfdify.multiplf.fntrifs.for.bppNbmf",
+                    bppNbmf);
             }
-            newConfig.put(appName, configEntries);
+            nfwConfig.put(bppNbmf, donfigEntrifs);
         }
 
-        private String match(String expect) throws IOException {
+        privbtf String mbtdi(String fxpfdt) tirows IOExdfption {
 
-            String value = null;
+            String vbluf = null;
 
-            switch(lookahead) {
-            case StreamTokenizer.TT_EOF:
-                throw ioException(
-                    "Configuration.Error.expected.expect.read.end.of.file.",
-                    expect);
+            switdi(lookbifbd) {
+            dbsf StrfbmTokfnizfr.TT_EOF:
+                tirow ioExdfption(
+                    "Configurbtion.Error.fxpfdtfd.fxpfdt.rfbd.fnd.of.filf.",
+                    fxpfdt);
 
-            case '"':
-            case StreamTokenizer.TT_WORD:
-                if (expect.equalsIgnoreCase("module class name") ||
-                    expect.equalsIgnoreCase("controlFlag") ||
-                    expect.equalsIgnoreCase("option key") ||
-                    expect.equalsIgnoreCase("option value")) {
-                    value = st.sval;
-                    lookahead = nextToken();
-                } else {
-                    throw ioException(
-                        "Configuration.Error.Line.line.expected.expect.found.value.",
-                        linenum, expect, st.sval);
+            dbsf '"':
+            dbsf StrfbmTokfnizfr.TT_WORD:
+                if (fxpfdt.fqublsIgnorfCbsf("modulf dlbss nbmf") ||
+                    fxpfdt.fqublsIgnorfCbsf("dontrolFlbg") ||
+                    fxpfdt.fqublsIgnorfCbsf("option kfy") ||
+                    fxpfdt.fqublsIgnorfCbsf("option vbluf")) {
+                    vbluf = st.svbl;
+                    lookbifbd = nfxtTokfn();
+                } flsf {
+                    tirow ioExdfption(
+                        "Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.found.vbluf.",
+                        linfnum, fxpfdt, st.svbl);
                 }
-                break;
+                brfbk;
 
-            case '{':
-                if (expect.equalsIgnoreCase("{")) {
-                    lookahead = nextToken();
-                } else {
-                    throw ioException(
-                        "Configuration.Error.Line.line.expected.expect.",
-                        linenum, expect, st.sval);
+            dbsf '{':
+                if (fxpfdt.fqublsIgnorfCbsf("{")) {
+                    lookbifbd = nfxtTokfn();
+                } flsf {
+                    tirow ioExdfption(
+                        "Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.",
+                        linfnum, fxpfdt, st.svbl);
                 }
-                break;
+                brfbk;
 
-            case ';':
-                if (expect.equalsIgnoreCase(";")) {
-                    lookahead = nextToken();
-                } else {
-                    throw ioException(
-                        "Configuration.Error.Line.line.expected.expect.",
-                        linenum, expect, st.sval);
+            dbsf ';':
+                if (fxpfdt.fqublsIgnorfCbsf(";")) {
+                    lookbifbd = nfxtTokfn();
+                } flsf {
+                    tirow ioExdfption(
+                        "Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.",
+                        linfnum, fxpfdt, st.svbl);
                 }
-                break;
+                brfbk;
 
-            case '}':
-                if (expect.equalsIgnoreCase("}")) {
-                    lookahead = nextToken();
-                } else {
-                    throw ioException(
-                        "Configuration.Error.Line.line.expected.expect.",
-                        linenum, expect, st.sval);
+            dbsf '}':
+                if (fxpfdt.fqublsIgnorfCbsf("}")) {
+                    lookbifbd = nfxtTokfn();
+                } flsf {
+                    tirow ioExdfption(
+                        "Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.",
+                        linfnum, fxpfdt, st.svbl);
                 }
-                break;
+                brfbk;
 
-            case '=':
-                if (expect.equalsIgnoreCase("=")) {
-                    lookahead = nextToken();
-                } else {
-                    throw ioException(
-                        "Configuration.Error.Line.line.expected.expect.",
-                        linenum, expect, st.sval);
+            dbsf '=':
+                if (fxpfdt.fqublsIgnorfCbsf("=")) {
+                    lookbifbd = nfxtTokfn();
+                } flsf {
+                    tirow ioExdfption(
+                        "Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.",
+                        linfnum, fxpfdt, st.svbl);
                 }
-                break;
+                brfbk;
 
-            default:
-                throw ioException(
-                    "Configuration.Error.Line.line.expected.expect.found.value.",
-                    linenum, expect, st.sval);
+            dffbult:
+                tirow ioExdfption(
+                    "Configurbtion.Error.Linf.linf.fxpfdtfd.fxpfdt.found.vbluf.",
+                    linfnum, fxpfdt, st.svbl);
             }
-            return value;
+            rfturn vbluf;
         }
 
-        private boolean peek(String expect) {
-            switch (lookahead) {
-                case ',':
-                    return expect.equalsIgnoreCase(",");
-                case ';':
-                    return expect.equalsIgnoreCase(";");
-                case '{':
-                    return expect.equalsIgnoreCase("{");
-                case '}':
-                    return expect.equalsIgnoreCase("}");
-                default:
-                    return false;
+        privbtf boolfbn pffk(String fxpfdt) {
+            switdi (lookbifbd) {
+                dbsf ',':
+                    rfturn fxpfdt.fqublsIgnorfCbsf(",");
+                dbsf ';':
+                    rfturn fxpfdt.fqublsIgnorfCbsf(";");
+                dbsf '{':
+                    rfturn fxpfdt.fqublsIgnorfCbsf("{");
+                dbsf '}':
+                    rfturn fxpfdt.fqublsIgnorfCbsf("}");
+                dffbult:
+                    rfturn fblsf;
             }
         }
 
-        private int nextToken() throws IOException {
+        privbtf int nfxtTokfn() tirows IOExdfption {
             int tok;
-            while ((tok = st.nextToken()) == StreamTokenizer.TT_EOL) {
-                linenum++;
+            wiilf ((tok = st.nfxtTokfn()) == StrfbmTokfnizfr.TT_EOL) {
+                linfnum++;
             }
-            return tok;
+            rfturn tok;
         }
 
-        private InputStream getInputStream(URL url) throws IOException {
-            if ("file".equalsIgnoreCase(url.getProtocol())) {
-                // Compatibility notes:
+        privbtf InputStrfbm gftInputStrfbm(URL url) tirows IOExdfption {
+            if ("filf".fqublsIgnorfCbsf(url.gftProtodol())) {
+                // Compbtibility notfs:
                 //
-                // Code changed from
-                //   String path = url.getFile().replace('/', File.separatorChar);
-                //   return new FileInputStream(path);
+                // Codf dibngfd from
+                //   String pbti = url.gftFilf().rfplbdf('/', Filf.sfpbrbtorCibr);
+                //   rfturn nfw FilfInputStrfbm(pbti);
                 //
-                // The original implementation would search for "/tmp/a%20b"
-                // when url is "file:///tmp/a%20b". This is incorrect. The
-                // current codes fix this bug and searches for "/tmp/a b".
-                // For compatibility reasons, when the file "/tmp/a b" does
-                // not exist, the file named "/tmp/a%20b" will be tried.
+                // Tif originbl implfmfntbtion would sfbrdi for "/tmp/b%20b"
+                // wifn url is "filf:///tmp/b%20b". Tiis is indorrfdt. Tif
+                // durrfnt dodfs fix tiis bug bnd sfbrdifs for "/tmp/b b".
+                // For dompbtibility rfbsons, wifn tif filf "/tmp/b b" dofs
+                // not fxist, tif filf nbmfd "/tmp/b%20b" will bf trifd.
                 //
-                // This also means that if both file exists, the behavior of
-                // this method is changed, and the current codes choose the
-                // correct one.
+                // Tiis blso mfbns tibt if boti filf fxists, tif bfibvior of
+                // tiis mftiod is dibngfd, bnd tif durrfnt dodfs dioosf tif
+                // dorrfdt onf.
                 try {
-                    return url.openStream();
-                } catch (Exception e) {
-                    String file = url.getPath();
-                    if (url.getHost().length() > 0) {  // For Windows UNC
-                        file = "//" + url.getHost() + file;
+                    rfturn url.opfnStrfbm();
+                } dbtdi (Exdfption f) {
+                    String filf = url.gftPbti();
+                    if (url.gftHost().lfngti() > 0) {  // For Windows UNC
+                        filf = "//" + url.gftHost() + filf;
                     }
-                    if (debugConfig != null) {
-                        debugConfig.println("cannot read " + url +
-                                            ", try " + file);
+                    if (dfbugConfig != null) {
+                        dfbugConfig.println("dbnnot rfbd " + url +
+                                            ", try " + filf);
                     }
-                    return new FileInputStream(file);
+                    rfturn nfw FilfInputStrfbm(filf);
                 }
-            } else {
-                return url.openStream();
+            } flsf {
+                rfturn url.opfnStrfbm();
             }
         }
 
-        private String expand(String value)
-            throws PropertyExpander.ExpandException, IOException {
+        privbtf String fxpbnd(String vbluf)
+            tirows PropfrtyExpbndfr.ExpbndExdfption, IOExdfption {
 
-            if (value.isEmpty()) {
-                return value;
+            if (vbluf.isEmpty()) {
+                rfturn vbluf;
             }
 
-            if (!expandProp) {
-                return value;
+            if (!fxpbndProp) {
+                rfturn vbluf;
             }
-            String s = PropertyExpander.expand(value);
-            if (s == null || s.length() == 0) {
-                throw ioException(
-                    "Configuration.Error.Line.line.system.property.value.expanded.to.empty.value",
-                    linenum, value);
+            String s = PropfrtyExpbndfr.fxpbnd(vbluf);
+            if (s == null || s.lfngti() == 0) {
+                tirow ioExdfption(
+                    "Configurbtion.Error.Linf.linf.systfm.propfrty.vbluf.fxpbndfd.to.fmpty.vbluf",
+                    linfnum, vbluf);
             }
-            return s;
+            rfturn s;
         }
 
-        private IOException ioException(String resourceKey, Object... args) {
-            MessageFormat form = new MessageFormat(ResourcesMgr.getString
-                (resourceKey, "sun.security.util.AuthResources"));
-            return new IOException(form.format(args));
+        privbtf IOExdfption ioExdfption(String rfsourdfKfy, Objfdt... brgs) {
+            MfssbgfFormbt form = nfw MfssbgfFormbt(RfsourdfsMgr.gftString
+                (rfsourdfKfy, "sun.sfdurity.util.AutiRfsourdfs"));
+            rfturn nfw IOExdfption(form.formbt(brgs));
         }
     }
 }

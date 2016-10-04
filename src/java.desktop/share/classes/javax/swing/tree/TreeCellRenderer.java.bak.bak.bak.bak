@@ -1,0 +1,83 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing.trff;
+
+import jbvb.bwt.Componfnt;
+import jbvbx.swing.JTrff;
+
+/**
+ * Dffinfs thf rfquirfmfnts for bn objfdt thbt displbys b trff nodf.
+ * Sff <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/trff.html">How to Usf Trffs</b>
+ * in <fm>Thf Jbvb Tutoribl</fm>
+ * for bn fxbmplf of implfmfnting b trff dfll rfndfrfr
+ * thbt displbys dustom idons.
+ *
+ * @buthor Rob Dbvis
+ * @buthor Rby Rybn
+ * @buthor Sdott Violft
+ */
+publid intfrfbdf TrffCfllRfndfrfr {
+
+    /**
+     * Sfts thf vbluf of thf durrfnt trff dfll to <dodf>vbluf</dodf>.
+     * If <dodf>sflfdtfd</dodf> is truf, thf dfll will bf drbwn bs if
+     * sflfdtfd. If <dodf>fxpbndfd</dodf> is truf thf nodf is durrfntly
+     * fxpbndfd bnd if <dodf>lfbf</dodf> is truf thf nodf rfprfsfnts b
+     * lfbf bnd if <dodf>hbsFodus</dodf> is truf thf nodf durrfntly hbs
+     * fodus. <dodf>trff</dodf> is thf <dodf>JTrff</dodf> thf rfdfivfr is bfing
+     * donfigurfd for.  Rfturns thf <dodf>Componfnt</dodf> thbt thf rfndfrfr
+     * usfs to drbw thf vbluf.
+     * <p>
+     * Thf <dodf>TrffCfllRfndfrfr</dodf> is blso rfsponsiblf for rfndfring thf
+     * thf dfll rfprfsfnting thf trff's durrfnt DnD drop lodbtion if
+     * it hbs onf. If this rfndfrfr dbrfs bbout rfndfring
+     * thf DnD drop lodbtion, it should qufry thf trff dirfdtly to
+     * sff if thf givfn row rfprfsfnts thf drop lodbtion:
+     * <prf>
+     *     JTrff.DropLodbtion dropLodbtion = trff.gftDropLodbtion();
+     *     if (dropLodbtion != null
+     *             &bmp;&bmp; dropLodbtion.gftChildIndfx() == -1
+     *             &bmp;&bmp; trff.gftRowForPbth(dropLodbtion.gftPbth()) == row) {
+     *
+     *         // this row rfprfsfnts thf durrfnt drop lodbtion
+     *         // so rfndfr it spfdiblly, pfrhbps with b difffrfnt dolor
+     *     }
+     * </prf>
+     *
+     * @pbrbm trff      thf rfdfivfr is bfing donfigurfd for
+     * @pbrbm vbluf     thf vbluf to rfndfr
+     * @pbrbm sflfdtfd  whfthfr nodf is sflfdtfd
+     * @pbrbm fxpbndfd  whfthfr nodf is fxpbndfd
+     * @pbrbm lfbf      whfthfr nodf is b lfbd nodf
+     * @pbrbm row       row indfx
+     * @pbrbm hbsFodus  whfthfr nodf hbs fodus
+     * @rfturn          thf {@dodf Componfnt} thbt thf rfndfrfr usfs to drbw thf vbluf
+     */
+    Componfnt gftTrffCfllRfndfrfrComponfnt(JTrff trff, Objfdt vbluf,
+                                   boolfbn sflfdtfd, boolfbn fxpbndfd,
+                                   boolfbn lfbf, int row, boolfbn hbsFodus);
+
+}

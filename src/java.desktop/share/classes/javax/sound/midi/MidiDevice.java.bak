@@ -1,393 +1,393 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.sound.midi;
+pbdkbgf jbvbx.sound.midi;
 
-import java.util.List;
+import jbvb.util.List;
 
  /**
- * <code>MidiDevice</code> is the base interface for all MIDI devices.
- * Common devices include synthesizers, sequencers, MIDI input ports, and MIDI
+ * <dodf>MidiDfvidf</dodf> is tif bbsf intfrfbdf for bll MIDI dfvidfs.
+ * Common dfvidfs indludf syntifsizfrs, sfqufndfrs, MIDI input ports, bnd MIDI
  * output ports.
  *
- * <p>A <code>MidiDevice</code> can be a transmitter or a receiver of
- * MIDI events, or both. Therefore, it can provide {@link Transmitter}
- * or {@link Receiver} instances (or both). Typically, MIDI IN ports
- * provide transmitters, MIDI OUT ports and synthesizers provide
- * receivers. A Sequencer typically provides transmitters for playback
- * and receivers for recording.
+ * <p>A <dodf>MidiDfvidf</dodf> dbn bf b trbnsmittfr or b rfdfivfr of
+ * MIDI fvfnts, or boti. Tifrfforf, it dbn providf {@link Trbnsmittfr}
+ * or {@link Rfdfivfr} instbndfs (or boti). Typidblly, MIDI IN ports
+ * providf trbnsmittfrs, MIDI OUT ports bnd syntifsizfrs providf
+ * rfdfivfrs. A Sfqufndfr typidblly providfs trbnsmittfrs for plbybbdk
+ * bnd rfdfivfrs for rfdording.
  *
- * <p>A <code>MidiDevice</code> can be opened and closed explicitly as
- * well as implicitly. Explicit opening is accomplished by calling
- * {@link #open}, explicit closing is done by calling {@link
- * #close} on the <code>MidiDevice</code> instance.
- * If an application opens a <code>MidiDevice</code>
- * explicitly, it has to close it explicitly to free system resources
- * and enable the application to exit cleanly. Implicit opening is
- * done by calling {@link javax.sound.midi.MidiSystem#getReceiver
- * MidiSystem.getReceiver} and {@link
- * javax.sound.midi.MidiSystem#getTransmitter
- * MidiSystem.getTransmitter}. The <code>MidiDevice</code> used by
- * <code>MidiSystem.getReceiver</code> and
- * <code>MidiSystem.getTransmitter</code> is implementation-dependant
- * unless the properties <code>javax.sound.midi.Receiver</code>
- * and <code>javax.sound.midi.Transmitter</code> are used (see the
- * description of properties to select default providers in
- * {@link javax.sound.midi.MidiSystem}). A <code>MidiDevice</code>
- * that was opened implicitly, is closed implicitly by closing the
- * <code>Receiver</code> or <code>Transmitter</code> that resulted in
- * opening it. If more than one implicitly opening
- * <code>Receiver</code> or <code>Transmitter</code> were obtained by
- * the application, the device is closed after the last
- * <code>Receiver</code> or <code>Transmitter</code> has been
- * closed. On the other hand, calling <code>getReceiver</code> or
- * <code>getTransmitter</code> on the device instance directly does
- * not open the device implicitly. Closing these
- * <code>Transmitter</code>s and <code>Receiver</code>s does not close
- * the device implicitly. To use a device with <code>Receiver</code>s
- * or <code>Transmitter</code>s obtained this way, the device has to
- * be opened and closed explicitly.
+ * <p>A <dodf>MidiDfvidf</dodf> dbn bf opfnfd bnd dlosfd fxpliditly bs
+ * wfll bs impliditly. Explidit opfning is bddomplisifd by dblling
+ * {@link #opfn}, fxplidit dlosing is donf by dblling {@link
+ * #dlosf} on tif <dodf>MidiDfvidf</dodf> instbndf.
+ * If bn bpplidbtion opfns b <dodf>MidiDfvidf</dodf>
+ * fxpliditly, it ibs to dlosf it fxpliditly to frff systfm rfsourdfs
+ * bnd fnbblf tif bpplidbtion to fxit dlfbnly. Implidit opfning is
+ * donf by dblling {@link jbvbx.sound.midi.MidiSystfm#gftRfdfivfr
+ * MidiSystfm.gftRfdfivfr} bnd {@link
+ * jbvbx.sound.midi.MidiSystfm#gftTrbnsmittfr
+ * MidiSystfm.gftTrbnsmittfr}. Tif <dodf>MidiDfvidf</dodf> usfd by
+ * <dodf>MidiSystfm.gftRfdfivfr</dodf> bnd
+ * <dodf>MidiSystfm.gftTrbnsmittfr</dodf> is implfmfntbtion-dfpfndbnt
+ * unlfss tif propfrtifs <dodf>jbvbx.sound.midi.Rfdfivfr</dodf>
+ * bnd <dodf>jbvbx.sound.midi.Trbnsmittfr</dodf> brf usfd (sff tif
+ * dfsdription of propfrtifs to sflfdt dffbult providfrs in
+ * {@link jbvbx.sound.midi.MidiSystfm}). A <dodf>MidiDfvidf</dodf>
+ * tibt wbs opfnfd impliditly, is dlosfd impliditly by dlosing tif
+ * <dodf>Rfdfivfr</dodf> or <dodf>Trbnsmittfr</dodf> tibt rfsultfd in
+ * opfning it. If morf tibn onf impliditly opfning
+ * <dodf>Rfdfivfr</dodf> or <dodf>Trbnsmittfr</dodf> wfrf obtbinfd by
+ * tif bpplidbtion, tif dfvidf is dlosfd bftfr tif lbst
+ * <dodf>Rfdfivfr</dodf> or <dodf>Trbnsmittfr</dodf> ibs bffn
+ * dlosfd. On tif otifr ibnd, dblling <dodf>gftRfdfivfr</dodf> or
+ * <dodf>gftTrbnsmittfr</dodf> on tif dfvidf instbndf dirfdtly dofs
+ * not opfn tif dfvidf impliditly. Closing tifsf
+ * <dodf>Trbnsmittfr</dodf>s bnd <dodf>Rfdfivfr</dodf>s dofs not dlosf
+ * tif dfvidf impliditly. To usf b dfvidf witi <dodf>Rfdfivfr</dodf>s
+ * or <dodf>Trbnsmittfr</dodf>s obtbinfd tiis wby, tif dfvidf ibs to
+ * bf opfnfd bnd dlosfd fxpliditly.
  *
- * <p>If implicit and explicit opening and closing are mixed on the
- * same <code>MidiDevice</code> instance, the following rules apply:
+ * <p>If implidit bnd fxplidit opfning bnd dlosing brf mixfd on tif
+ * sbmf <dodf>MidiDfvidf</dodf> instbndf, tif following rulfs bpply:
  *
  * <ul>
- * <li>After an explicit open (either before or after implicit
- * opens), the device will not be closed by implicit closing. The only
- * way to close an explicitly opened device is an explicit close.</li>
+ * <li>Aftfr bn fxplidit opfn (fitifr bfforf or bftfr implidit
+ * opfns), tif dfvidf will not bf dlosfd by implidit dlosing. Tif only
+ * wby to dlosf bn fxpliditly opfnfd dfvidf is bn fxplidit dlosf.</li>
  *
- * <li>An explicit close always closes the device, even if it also has
- * been opened implicitly. A subsequent implicit close has no further
- * effect.</li>
+ * <li>An fxplidit dlosf blwbys dlosfs tif dfvidf, fvfn if it blso ibs
+ * bffn opfnfd impliditly. A subsfqufnt implidit dlosf ibs no furtifr
+ * ffffdt.</li>
  * </ul>
  *
- * To detect if a MidiDevice represents a hardware MIDI port, the
- * following programming technique can be used:
+ * To dftfdt if b MidiDfvidf rfprfsfnts b ibrdwbrf MIDI port, tif
+ * following progrbmming tfdiniquf dbn bf usfd:
  *
- * <pre>{@code
- * MidiDevice device = ...;
- * if ( ! (device instanceof Sequencer) && ! (device instanceof Synthesizer)) {
- *   // we're now sure that device represents a MIDI port
+ * <prf>{@dodf
+ * MidiDfvidf dfvidf = ...;
+ * if ( ! (dfvidf instbndfof Sfqufndfr) && ! (dfvidf instbndfof Syntifsizfr)) {
+ *   // wf'rf now surf tibt dfvidf rfprfsfnts b MIDI port
  *   // ...
  * }
- * }</pre>
+ * }</prf>
  *
  * <p>
- * A <code>MidiDevice</code> includes a <code>{@link MidiDevice.Info}</code> object
- * to provide manufacturer information and so on.
+ * A <dodf>MidiDfvidf</dodf> indludfs b <dodf>{@link MidiDfvidf.Info}</dodf> objfdt
+ * to providf mbnufbdturfr informbtion bnd so on.
  *
- * @see Synthesizer
- * @see Sequencer
- * @see Receiver
- * @see Transmitter
+ * @sff Syntifsizfr
+ * @sff Sfqufndfr
+ * @sff Rfdfivfr
+ * @sff Trbnsmittfr
  *
- * @author Kara Kytle
- * @author Florian Bomers
+ * @butior Kbrb Kytlf
+ * @butior Floribn Bomfrs
  */
 
-public interface MidiDevice extends AutoCloseable {
+publid intfrfbdf MidiDfvidf fxtfnds AutoClosfbblf {
 
 
     /**
-     * Obtains information about the device, including its Java class and
-     * <code>Strings</code> containing its name, vendor, and description.
+     * Obtbins informbtion bbout tif dfvidf, indluding its Jbvb dlbss bnd
+     * <dodf>Strings</dodf> dontbining its nbmf, vfndor, bnd dfsdription.
      *
-     * @return device info
+     * @rfturn dfvidf info
      */
-    public Info getDeviceInfo();
+    publid Info gftDfvidfInfo();
 
 
     /**
-     * Opens the device, indicating that it should now acquire any
-     * system resources it requires and become operational.
+     * Opfns tif dfvidf, indidbting tibt it siould now bdquirf bny
+     * systfm rfsourdfs it rfquirfs bnd bfdomf opfrbtionbl.
      *
-     * <p>An application opening a device explicitly with this call
-     * has to close the device by calling {@link #close}. This is
-     * necessary to release system resources and allow applications to
-     * exit cleanly.
+     * <p>An bpplidbtion opfning b dfvidf fxpliditly witi tiis dbll
+     * ibs to dlosf tif dfvidf by dblling {@link #dlosf}. Tiis is
+     * nfdfssbry to rflfbsf systfm rfsourdfs bnd bllow bpplidbtions to
+     * fxit dlfbnly.
      *
      * <p>
-     * Note that some devices, once closed, cannot be reopened.  Attempts
-     * to reopen such a device will always result in a MidiUnavailableException.
+     * Notf tibt somf dfvidfs, ondf dlosfd, dbnnot bf rfopfnfd.  Attfmpts
+     * to rfopfn sudi b dfvidf will blwbys rfsult in b MidiUnbvbilbblfExdfption.
      *
-     * @throws MidiUnavailableException thrown if the device cannot be
-     * opened due to resource restrictions.
-     * @throws SecurityException thrown if the device cannot be
-     * opened due to security restrictions.
+     * @tirows MidiUnbvbilbblfExdfption tirown if tif dfvidf dbnnot bf
+     * opfnfd duf to rfsourdf rfstridtions.
+     * @tirows SfdurityExdfption tirown if tif dfvidf dbnnot bf
+     * opfnfd duf to sfdurity rfstridtions.
      *
-     * @see #close
-     * @see #isOpen
+     * @sff #dlosf
+     * @sff #isOpfn
      */
-    public void open() throws MidiUnavailableException;
+    publid void opfn() tirows MidiUnbvbilbblfExdfption;
 
 
     /**
-     * Closes the device, indicating that the device should now release
-     * any system resources it is using.
+     * Closfs tif dfvidf, indidbting tibt tif dfvidf siould now rflfbsf
+     * bny systfm rfsourdfs it is using.
      *
-     * <p>All <code>Receiver</code> and <code>Transmitter</code> instances
-     * open from this device are closed. This includes instances retrieved
-     * via <code>MidiSystem</code>.
+     * <p>All <dodf>Rfdfivfr</dodf> bnd <dodf>Trbnsmittfr</dodf> instbndfs
+     * opfn from tiis dfvidf brf dlosfd. Tiis indludfs instbndfs rftrifvfd
+     * vib <dodf>MidiSystfm</dodf>.
      *
-     * @see #open
-     * @see #isOpen
+     * @sff #opfn
+     * @sff #isOpfn
      */
-    public void close();
+    publid void dlosf();
 
 
     /**
-     * Reports whether the device is open.
+     * Rfports wiftifr tif dfvidf is opfn.
      *
-     * @return <code>true</code> if the device is open, otherwise
-     * <code>false</code>
-     * @see #open
-     * @see #close
+     * @rfturn <dodf>truf</dodf> if tif dfvidf is opfn, otifrwisf
+     * <dodf>fblsf</dodf>
+     * @sff #opfn
+     * @sff #dlosf
      */
-    public boolean isOpen();
+    publid boolfbn isOpfn();
 
 
     /**
-     * Obtains the current time-stamp of the device, in microseconds.
-     * If a device supports time-stamps, it should start counting at
-     * 0 when the device is opened and continue incrementing its
-     * time-stamp in microseconds until the device is closed.
-     * If it does not support time-stamps, it should always return
+     * Obtbins tif durrfnt timf-stbmp of tif dfvidf, in midrosfdonds.
+     * If b dfvidf supports timf-stbmps, it siould stbrt dounting bt
+     * 0 wifn tif dfvidf is opfnfd bnd dontinuf indrfmfnting its
+     * timf-stbmp in midrosfdonds until tif dfvidf is dlosfd.
+     * If it dofs not support timf-stbmps, it siould blwbys rfturn
      * -1.
-     * @return the current time-stamp of the device in microseconds,
-     * or -1 if time-stamping is not supported by the device.
+     * @rfturn tif durrfnt timf-stbmp of tif dfvidf in midrosfdonds,
+     * or -1 if timf-stbmping is not supportfd by tif dfvidf.
      */
-    public long getMicrosecondPosition();
+    publid long gftMidrosfdondPosition();
 
 
     /**
-     * Obtains the maximum number of MIDI IN connections available on this
-     * MIDI device for receiving MIDI data.
-     * @return maximum number of MIDI IN connections,
-     * or -1 if an unlimited number of connections is available.
+     * Obtbins tif mbximum numbfr of MIDI IN donnfdtions bvbilbblf on tiis
+     * MIDI dfvidf for rfdfiving MIDI dbtb.
+     * @rfturn mbximum numbfr of MIDI IN donnfdtions,
+     * or -1 if bn unlimitfd numbfr of donnfdtions is bvbilbblf.
      */
-    public int getMaxReceivers();
+    publid int gftMbxRfdfivfrs();
 
 
     /**
-     * Obtains the maximum number of MIDI OUT connections available on this
-     * MIDI device for transmitting MIDI data.
-     * @return maximum number of MIDI OUT connections,
-     * or -1 if an unlimited number of connections is available.
+     * Obtbins tif mbximum numbfr of MIDI OUT donnfdtions bvbilbblf on tiis
+     * MIDI dfvidf for trbnsmitting MIDI dbtb.
+     * @rfturn mbximum numbfr of MIDI OUT donnfdtions,
+     * or -1 if bn unlimitfd numbfr of donnfdtions is bvbilbblf.
      */
-    public int getMaxTransmitters();
+    publid int gftMbxTrbnsmittfrs();
 
 
     /**
-     * Obtains a MIDI IN receiver through which the MIDI device may receive
-     * MIDI data.  The returned receiver must be closed when the application
-     * has finished using it.
+     * Obtbins b MIDI IN rfdfivfr tirougi wiidi tif MIDI dfvidf mby rfdfivf
+     * MIDI dbtb.  Tif rfturnfd rfdfivfr must bf dlosfd wifn tif bpplidbtion
+     * ibs finisifd using it.
      *
-     * <p>Usually the returned receiver implements
-     * the {@code MidiDeviceReceiver} interface.
+     * <p>Usublly tif rfturnfd rfdfivfr implfmfnts
+     * tif {@dodf MidiDfvidfRfdfivfr} intfrfbdf.
      *
-     * <p>Obtaining a <code>Receiver</code> with this method does not
-     * open the device. To be able to use the device, it has to be
-     * opened explicitly by calling {@link #open}. Also, closing the
-     * <code>Receiver</code> does not close the device. It has to be
-     * closed explicitly by calling {@link #close}.
+     * <p>Obtbining b <dodf>Rfdfivfr</dodf> witi tiis mftiod dofs not
+     * opfn tif dfvidf. To bf bblf to usf tif dfvidf, it ibs to bf
+     * opfnfd fxpliditly by dblling {@link #opfn}. Also, dlosing tif
+     * <dodf>Rfdfivfr</dodf> dofs not dlosf tif dfvidf. It ibs to bf
+     * dlosfd fxpliditly by dblling {@link #dlosf}.
      *
-     * @return a receiver for the device.
-     * @throws MidiUnavailableException thrown if a receiver is not available
-     * due to resource restrictions
-     * @see Receiver#close()
+     * @rfturn b rfdfivfr for tif dfvidf.
+     * @tirows MidiUnbvbilbblfExdfption tirown if b rfdfivfr is not bvbilbblf
+     * duf to rfsourdf rfstridtions
+     * @sff Rfdfivfr#dlosf()
      */
-    public Receiver getReceiver() throws MidiUnavailableException;
+    publid Rfdfivfr gftRfdfivfr() tirows MidiUnbvbilbblfExdfption;
 
 
     /**
-     * Returns all currently active, non-closed receivers
-     * connected with this MidiDevice.
-     * A receiver can be removed
-     * from the device by closing it.
+     * Rfturns bll durrfntly bdtivf, non-dlosfd rfdfivfrs
+     * donnfdtfd witi tiis MidiDfvidf.
+     * A rfdfivfr dbn bf rfmovfd
+     * from tif dfvidf by dlosing it.
      *
-     * <p>Usually the returned receivers implement
-     * the {@code MidiDeviceReceiver} interface.
+     * <p>Usublly tif rfturnfd rfdfivfrs implfmfnt
+     * tif {@dodf MidiDfvidfRfdfivfr} intfrfbdf.
      *
-     * @return an unmodifiable list of the open receivers
-     * @since 1.5
+     * @rfturn bn unmodifibblf list of tif opfn rfdfivfrs
+     * @sindf 1.5
      */
-    List<Receiver> getReceivers();
+    List<Rfdfivfr> gftRfdfivfrs();
 
 
     /**
-     * Obtains a MIDI OUT connection from which the MIDI device will transmit
-     * MIDI data  The returned transmitter must be closed when the application
-     * has finished using it.
+     * Obtbins b MIDI OUT donnfdtion from wiidi tif MIDI dfvidf will trbnsmit
+     * MIDI dbtb  Tif rfturnfd trbnsmittfr must bf dlosfd wifn tif bpplidbtion
+     * ibs finisifd using it.
      *
-     * <p>Usually the returned transmitter implements
-     * the {@code MidiDeviceTransmitter} interface.
+     * <p>Usublly tif rfturnfd trbnsmittfr implfmfnts
+     * tif {@dodf MidiDfvidfTrbnsmittfr} intfrfbdf.
      *
-     * <p>Obtaining a <code>Transmitter</code> with this method does not
-     * open the device. To be able to use the device, it has to be
-     * opened explicitly by calling {@link #open}. Also, closing the
-     * <code>Transmitter</code> does not close the device. It has to be
-     * closed explicitly by calling {@link #close}.
+     * <p>Obtbining b <dodf>Trbnsmittfr</dodf> witi tiis mftiod dofs not
+     * opfn tif dfvidf. To bf bblf to usf tif dfvidf, it ibs to bf
+     * opfnfd fxpliditly by dblling {@link #opfn}. Also, dlosing tif
+     * <dodf>Trbnsmittfr</dodf> dofs not dlosf tif dfvidf. It ibs to bf
+     * dlosfd fxpliditly by dblling {@link #dlosf}.
      *
-     * @return a MIDI OUT transmitter for the device.
-     * @throws MidiUnavailableException thrown if a transmitter is not available
-     * due to resource restrictions
-     * @see Transmitter#close()
+     * @rfturn b MIDI OUT trbnsmittfr for tif dfvidf.
+     * @tirows MidiUnbvbilbblfExdfption tirown if b trbnsmittfr is not bvbilbblf
+     * duf to rfsourdf rfstridtions
+     * @sff Trbnsmittfr#dlosf()
      */
-    public Transmitter getTransmitter() throws MidiUnavailableException;
+    publid Trbnsmittfr gftTrbnsmittfr() tirows MidiUnbvbilbblfExdfption;
 
 
     /**
-     * Returns all currently active, non-closed transmitters
-     * connected with this MidiDevice.
-     * A transmitter can be removed
-     * from the device by closing it.
+     * Rfturns bll durrfntly bdtivf, non-dlosfd trbnsmittfrs
+     * donnfdtfd witi tiis MidiDfvidf.
+     * A trbnsmittfr dbn bf rfmovfd
+     * from tif dfvidf by dlosing it.
      *
-     * <p>Usually the returned transmitters implement
-     * the {@code MidiDeviceTransmitter} interface.
+     * <p>Usublly tif rfturnfd trbnsmittfrs implfmfnt
+     * tif {@dodf MidiDfvidfTrbnsmittfr} intfrfbdf.
      *
-     * @return an unmodifiable list of the open transmitters
-     * @since 1.5
+     * @rfturn bn unmodifibblf list of tif opfn trbnsmittfrs
+     * @sindf 1.5
      */
-    List<Transmitter> getTransmitters();
+    List<Trbnsmittfr> gftTrbnsmittfrs();
 
 
 
     /**
-     * A <code>MidiDevice.Info</code> object contains assorted
-     * data about a <code>{@link MidiDevice}</code>, including its
-     * name, the company who created it, and descriptive text.
+     * A <dodf>MidiDfvidf.Info</dodf> objfdt dontbins bssortfd
+     * dbtb bbout b <dodf>{@link MidiDfvidf}</dodf>, indluding its
+     * nbmf, tif dompbny wio drfbtfd it, bnd dfsdriptivf tfxt.
      *
-     * @see MidiDevice#getDeviceInfo
+     * @sff MidiDfvidf#gftDfvidfInfo
      */
-    public static class Info {
+    publid stbtid dlbss Info {
 
         /**
-         * The device's name.
+         * Tif dfvidf's nbmf.
          */
-        private String name;
+        privbtf String nbmf;
 
         /**
-         * The name of the company who provides the device.
+         * Tif nbmf of tif dompbny wio providfs tif dfvidf.
          */
-        private String vendor;
+        privbtf String vfndor;
 
         /**
-         * A description of the device.
+         * A dfsdription of tif dfvidf.
          */
-        private String description;
+        privbtf String dfsdription;
 
         /**
-         * Device version.
+         * Dfvidf vfrsion.
          */
-        private String version;
+        privbtf String vfrsion;
 
 
         /**
-         * Constructs a device info object.
+         * Construdts b dfvidf info objfdt.
          *
-         * @param name the name of the device
-         * @param vendor the name of the company who provides the device
-         * @param description a description of the device
-         * @param version version information for the device
+         * @pbrbm nbmf tif nbmf of tif dfvidf
+         * @pbrbm vfndor tif nbmf of tif dompbny wio providfs tif dfvidf
+         * @pbrbm dfsdription b dfsdription of tif dfvidf
+         * @pbrbm vfrsion vfrsion informbtion for tif dfvidf
          */
-        protected Info(String name, String vendor, String description, String version) {
+        protfdtfd Info(String nbmf, String vfndor, String dfsdription, String vfrsion) {
 
-            this.name = name;
-            this.vendor = vendor;
-            this.description = description;
-            this.version = version;
+            tiis.nbmf = nbmf;
+            tiis.vfndor = vfndor;
+            tiis.dfsdription = dfsdription;
+            tiis.vfrsion = vfrsion;
         }
 
 
         /**
-         * Reports whether two objects are equal.
-         * Returns <code>true</code> if the objects are identical.
-         * @param obj the reference object with which to compare this
-         * object
-         * @return <code>true</code> if this object is the same as the
-         * <code>obj</code> argument; <code>false</code> otherwise
+         * Rfports wiftifr two objfdts brf fqubl.
+         * Rfturns <dodf>truf</dodf> if tif objfdts brf idfntidbl.
+         * @pbrbm obj tif rfffrfndf objfdt witi wiidi to dompbrf tiis
+         * objfdt
+         * @rfturn <dodf>truf</dodf> if tiis objfdt is tif sbmf bs tif
+         * <dodf>obj</dodf> brgumfnt; <dodf>fblsf</dodf> otifrwisf
          */
-        public final boolean equals(Object obj) {
-            return super.equals(obj);
+        publid finbl boolfbn fqubls(Objfdt obj) {
+            rfturn supfr.fqubls(obj);
         }
 
 
         /**
-         * Finalizes the hashcode method.
+         * Finblizfs tif ibsidodf mftiod.
          */
-        public final int hashCode() {
-            return super.hashCode();
+        publid finbl int ibsiCodf() {
+            rfturn supfr.ibsiCodf();
         }
 
 
         /**
-         * Obtains the name of the device.
+         * Obtbins tif nbmf of tif dfvidf.
          *
-         * @return a string containing the device's name
+         * @rfturn b string dontbining tif dfvidf's nbmf
          */
-        public final String getName() {
-            return name;
+        publid finbl String gftNbmf() {
+            rfturn nbmf;
         }
 
 
         /**
-         * Obtains the name of the company who supplies the device.
-         * @return device the vendor's name
+         * Obtbins tif nbmf of tif dompbny wio supplifs tif dfvidf.
+         * @rfturn dfvidf tif vfndor's nbmf
          */
-        public final String getVendor() {
-            return vendor;
+        publid finbl String gftVfndor() {
+            rfturn vfndor;
         }
 
 
         /**
-         * Obtains the description of the device.
-         * @return a description of the device
+         * Obtbins tif dfsdription of tif dfvidf.
+         * @rfturn b dfsdription of tif dfvidf
          */
-        public final String getDescription() {
-            return description;
+        publid finbl String gftDfsdription() {
+            rfturn dfsdription;
         }
 
 
         /**
-         * Obtains the version of the device.
-         * @return textual version information for the device.
+         * Obtbins tif vfrsion of tif dfvidf.
+         * @rfturn tfxtubl vfrsion informbtion for tif dfvidf.
          */
-        public final String getVersion() {
-            return version;
+        publid finbl String gftVfrsion() {
+            rfturn vfrsion;
         }
 
 
         /**
-         * Provides a string representation of the device information.
+         * Providfs b string rfprfsfntbtion of tif dfvidf informbtion.
 
-         * @return a description of the info object
+         * @rfturn b dfsdription of tif info objfdt
          */
-        public final String toString() {
-            return name;
+        publid finbl String toString() {
+            rfturn nbmf;
         }
-    } // class Info
+    } // dlbss Info
 
 
 }

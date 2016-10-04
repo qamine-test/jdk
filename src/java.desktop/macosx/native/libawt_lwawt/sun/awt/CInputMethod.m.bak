@@ -1,330 +1,330 @@
 /*
- * Copyright (c) 2011, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#import <Cocoa/Cocoa.h>
-#include <objc/objc-runtime.h>
+#import <Codob/Codob.i>
+#indludf <objd/objd-runtimf.i>
 
-#import "sun_lwawt_macosx_CInputMethod.h"
-#import "sun_lwawt_macosx_CInputMethodDescriptor.h"
-#import "ThreadUtilities.h"
-#import "AWTView.h"
+#import "sun_lwbwt_mbdosx_CInputMftiod.i"
+#import "sun_lwbwt_mbdosx_CInputMftiodDfsdriptor.i"
+#import "TirfbdUtilitifs.i"
+#import "AWTVifw.i"
 
-#import <JavaNativeFoundation/JavaNativeFoundation.h>
-#import <JavaRuntimeSupport/JavaRuntimeSupport.h>
+#import <JbvbNbtivfFoundbtion/JbvbNbtivfFoundbtion.i>
+#import <JbvbRuntimfSupport/JbvbRuntimfSupport.i>
 
-#define JAVA_LIST @"JAVA_LIST"
-#define CURRENT_KB_DESCRIPTION @"CURRENT_KB_DESCRIPTION"
+#dffinf JAVA_LIST @"JAVA_LIST"
+#dffinf CURRENT_KB_DESCRIPTION @"CURRENT_KB_DESCRIPTION"
 
-static JNF_CLASS_CACHE(jc_localeClass, "java/util/Locale");
-static JNF_CTOR_CACHE(jm_localeCons, jc_localeClass, "(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V");
-static JNF_CLASS_CACHE(jc_arrayListClass, "java/util/ArrayList");
-static JNF_CTOR_CACHE(jm_arrayListCons, jc_arrayListClass, "()V");
-static JNF_MEMBER_CACHE(jm_listAdd, jc_arrayListClass, "add", "(Ljava/lang/Object;)Z");
-static JNF_MEMBER_CACHE(jm_listContains, jc_arrayListClass, "contains", "(Ljava/lang/Object;)Z");
+stbtid JNF_CLASS_CACHE(jd_lodblfClbss, "jbvb/util/Lodblf");
+stbtid JNF_CTOR_CACHE(jm_lodblfCons, jd_lodblfClbss, "(Ljbvb/lbng/String;Ljbvb/lbng/String;Ljbvb/lbng/String;)V");
+stbtid JNF_CLASS_CACHE(jd_brrbyListClbss, "jbvb/util/ArrbyList");
+stbtid JNF_CTOR_CACHE(jm_brrbyListCons, jd_brrbyListClbss, "()V");
+stbtid JNF_MEMBER_CACHE(jm_listAdd, jd_brrbyListClbss, "bdd", "(Ljbvb/lbng/Objfdt;)Z");
+stbtid JNF_MEMBER_CACHE(jm_listContbins, jd_brrbyListClbss, "dontbins", "(Ljbvb/lbng/Objfdt;)Z");
 
 
 
 //
-// NOTE: This returns a JNI Local Ref. Any code that calls must call DeleteLocalRef with the return value.
+// NOTE: Tiis rfturns b JNI Lodbl Rff. Any dodf tibt dblls must dbll DflftfLodblRff witi tif rfturn vbluf.
 //
-static jobject CreateLocaleObjectFromNSString(JNIEnv *env, NSString *name)
+stbtid jobjfdt CrfbtfLodblfObjfdtFromNSString(JNIEnv *fnv, NSString *nbmf)
 {
-    // Break apart the string into its components.
-    // First, duplicate the NSString into a C string, since we're going to modify it.
-    char * language = strdup([name UTF8String]);
-    char * country;
-    char * variant;
+    // Brfbk bpbrt tif string into its domponfnts.
+    // First, duplidbtf tif NSString into b C string, sindf wf'rf going to modify it.
+    dibr * lbngubgf = strdup([nbmf UTF8String]);
+    dibr * dountry;
+    dibr * vbribnt;
 
-    // Convert _ to NULL -- this gives us three null terminated strings in place.
-    for (country = language; *country != '_' && *country != '\0'; country++);
-    if (*country == '_') {
-        *country++ = '\0';
-        for (variant = country; *variant != '_' && *variant != '\0'; variant++);
-        if (*variant == '_') {
-            *variant++ = '\0';
+    // Convfrt _ to NULL -- tiis givfs us tirff null tfrminbtfd strings in plbdf.
+    for (dountry = lbngubgf; *dountry != '_' && *dountry != '\0'; dountry++);
+    if (*dountry == '_') {
+        *dountry++ = '\0';
+        for (vbribnt = dountry; *vbribnt != '_' && *vbribnt != '\0'; vbribnt++);
+        if (*vbribnt == '_') {
+            *vbribnt++ = '\0';
         }
-    } else {
-        variant = country;
+    } flsf {
+        vbribnt = dountry;
     }
 
-    // Create the java.util.Locale object
-    jobject localeObj = NULL;
-    jobject langObj = (*env)->NewStringUTF(env, language);
-    if (langObj != NULL) {
-        jobject ctryObj = (*env)->NewStringUTF(env, country);
-        if(ctryObj != NULL) {
-            jobject vrntObj = (*env)->NewStringUTF(env, variant);
+    // Crfbtf tif jbvb.util.Lodblf objfdt
+    jobjfdt lodblfObj = NULL;
+    jobjfdt lbngObj = (*fnv)->NfwStringUTF(fnv, lbngubgf);
+    if (lbngObj != NULL) {
+        jobjfdt dtryObj = (*fnv)->NfwStringUTF(fnv, dountry);
+        if(dtryObj != NULL) {
+            jobjfdt vrntObj = (*fnv)->NfwStringUTF(fnv, vbribnt);
             if (vrntObj != NULL) {
-                localeObj = JNFNewObject(env, jm_localeCons,langObj, ctryObj,
+                lodblfObj = JNFNfwObjfdt(fnv, jm_lodblfCons,lbngObj, dtryObj,
                                          vrntObj);
-                (*env)->DeleteLocalRef(env, vrntObj);
+                (*fnv)->DflftfLodblRff(fnv, vrntObj);
             }
-            (*env)->DeleteLocalRef(env, ctryObj);
+            (*fnv)->DflftfLodblRff(fnv, dtryObj);
         }
-        (*env)->DeleteLocalRef(env, langObj);
+        (*fnv)->DflftfLodblRff(fnv, lbngObj);
     }
-    // Clean up and return.
-    free(language);
-    return localeObj;
+    // Clfbn up bnd rfturn.
+    frff(lbngubgf);
+    rfturn lodblfObj;
 }
 
-static id inputMethodController = nil;
+stbtid id inputMftiodControllfr = nil;
 
-static void initializeInputMethodController() {
-    static BOOL checkedJRSInputMethodController = NO;
-    if (!checkedJRSInputMethodController && (inputMethodController == nil)) {
-        id jrsInputMethodController = objc_lookUpClass("JRSInputMethodController");
-        if (jrsInputMethodController != nil) {
-            inputMethodController = [jrsInputMethodController performSelector:@selector(controller)];
+stbtid void initiblizfInputMftiodControllfr() {
+    stbtid BOOL difdkfdJRSInputMftiodControllfr = NO;
+    if (!difdkfdJRSInputMftiodControllfr && (inputMftiodControllfr == nil)) {
+        id jrsInputMftiodControllfr = objd_lookUpClbss("JRSInputMftiodControllfr");
+        if (jrsInputMftiodControllfr != nil) {
+            inputMftiodControllfr = [jrsInputMftiodControllfr pfrformSflfdtor:@sflfdtor(dontrollfr)];
         }
-        checkedJRSInputMethodController = YES;
+        difdkfdJRSInputMftiodControllfr = YES;
     }
 }
 
 
-@interface CInputMethod : NSObject {}
-@end
+@intfrfbdf CInputMftiod : NSObjfdt {}
+@fnd
 
-@implementation CInputMethod
+@implfmfntbtion CInputMftiod
 
-+ (void) setKeyboardLayout:(NSString *)theLocale
++ (void) sftKfybobrdLbyout:(NSString *)tifLodblf
 {
     AWT_ASSERT_APPKIT_THREAD;
-    if (!inputMethodController) return;
+    if (!inputMftiodControllfr) rfturn;
 
-    [inputMethodController performSelector:@selector(setCurrentInputMethodForLocale) withObject:theLocale];
+    [inputMftiodControllfr pfrformSflfdtor:@sflfdtor(sftCurrfntInputMftiodForLodblf) witiObjfdt:tifLodblf];
 }
 
-+ (void) _nativeNotifyPeerWithView:(AWTView *)view inputMethod:(JNFJObjectWrapper *) inputMethod {
++ (void) _nbtivfNotifyPffrWitiVifw:(AWTVifw *)vifw inputMftiod:(JNFJObjfdtWrbppfr *) inputMftiod {
     AWT_ASSERT_APPKIT_THREAD;
 
-    if (!view) return;
-    if (!inputMethod) return;
+    if (!vifw) rfturn;
+    if (!inputMftiod) rfturn;
 
-    [view setInputMethod:[inputMethod jObject]];
+    [vifw sftInputMftiod:[inputMftiod jObjfdt]];
 }
 
-+ (void) _nativeEndComposition:(AWTView *)view {
-    if (view == nil) return;
++ (void) _nbtivfEndComposition:(AWTVifw *)vifw {
+    if (vifw == nil) rfturn;
 
-    [view abandonInput];
+    [vifw bbbndonInput];
 }
 
 
-@end
+@fnd
 
 /*
- * Class:     sun_lwawt_macosx_CInputMethod
- * Method:    nativeInit
- * Signature: ();
+ * Clbss:     sun_lwbwt_mbdosx_CInputMftiod
+ * Mftiod:    nbtivfInit
+ * Signbturf: ();
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CInputMethod_nativeInit
-(JNIEnv *env, jclass klass)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMftiod_nbtivfInit
+(JNIEnv *fnv, jdlbss klbss)
 {
-    initializeInputMethodController();
+    initiblizfInputMftiodControllfr();
 }
 
 /*
- * Class:     sun_lwawt_macosx_CInputMethod
- * Method:    nativeGetCurrentInputMethodInfo
- * Signature: ()Ljava/lang/String;
+ * Clbss:     sun_lwbwt_mbdosx_CInputMftiod
+ * Mftiod:    nbtivfGftCurrfntInputMftiodInfo
+ * Signbturf: ()Ljbvb/lbng/String;
  */
-JNIEXPORT jobject JNICALL Java_sun_lwawt_macosx_CInputMethod_nativeGetCurrentInputMethodInfo
-(JNIEnv *env, jclass klass)
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMftiod_nbtivfGftCurrfntInputMftiodInfo
+(JNIEnv *fnv, jdlbss klbss)
 {
-    if (!inputMethodController) return NULL;
-    jobject returnValue = 0;
-    __block NSString *keyboardInfo = NULL;
-JNF_COCOA_ENTER(env);
+    if (!inputMftiodControllfr) rfturn NULL;
+    jobjfdt rfturnVbluf = 0;
+    __blodk NSString *kfybobrdInfo = NULL;
+JNF_COCOA_ENTER(fnv);
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        keyboardInfo = [inputMethodController performSelector:@selector(currentInputMethodName)];
-        [keyboardInfo retain];
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
+        kfybobrdInfo = [inputMftiodControllfr pfrformSflfdtor:@sflfdtor(durrfntInputMftiodNbmf)];
+        [kfybobrdInfo rftbin];
     }];
 
-    if (keyboardInfo == nil) return NULL;
-    returnValue = JNFNSToJavaString(env, keyboardInfo);
-    [keyboardInfo release];
+    if (kfybobrdInfo == nil) rfturn NULL;
+    rfturnVbluf = JNFNSToJbvbString(fnv, kfybobrdInfo);
+    [kfybobrdInfo rflfbsf];
 
-JNF_COCOA_EXIT(env);
-    return returnValue;
+JNF_COCOA_EXIT(fnv);
+    rfturn rfturnVbluf;
 }
 
 /*
- * Class:     sun_lwawt_macosx_CInputMethod
- * Method:    nativeActivate
- * Signature: (JLsun/lwawt/macosx/CInputMethod;)V
+ * Clbss:     sun_lwbwt_mbdosx_CInputMftiod
+ * Mftiod:    nbtivfAdtivbtf
+ * Signbturf: (JLsun/lwbwt/mbdosx/CInputMftiod;)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CInputMethod_nativeNotifyPeer
-(JNIEnv *env, jobject this, jlong nativePeer, jobject inputMethod)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMftiod_nbtivfNotifyPffr
+(JNIEnv *fnv, jobjfdt tiis, jlong nbtivfPffr, jobjfdt inputMftiod)
 {
-JNF_COCOA_ENTER(env);
-    AWTView *view = (AWTView *)jlong_to_ptr(nativePeer);
-    JNFJObjectWrapper *inputMethodWrapper = [[JNFJObjectWrapper alloc] initWithJObject:inputMethod withEnv:env];
-    [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        [CInputMethod _nativeNotifyPeerWithView:view inputMethod:inputMethodWrapper];
+JNF_COCOA_ENTER(fnv);
+    AWTVifw *vifw = (AWTVifw *)jlong_to_ptr(nbtivfPffr);
+    JNFJObjfdtWrbppfr *inputMftiodWrbppfr = [[JNFJObjfdtWrbppfr bllod] initWitiJObjfdt:inputMftiod witiEnv:fnv];
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:NO blodk:^(){
+        [CInputMftiod _nbtivfNotifyPffrWitiVifw:vifw inputMftiod:inputMftiodWrbppfr];
     }];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 
 }
 
 /*
- * Class:     sun_lwawt_macosx_CInputMethod
- * Method:    nativeEndComposition
- * Signature: (J)V
+ * Clbss:     sun_lwbwt_mbdosx_CInputMftiod
+ * Mftiod:    nbtivfEndComposition
+ * Signbturf: (J)V
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CInputMethod_nativeEndComposition
-(JNIEnv *env, jobject this, jlong nativePeer)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMftiod_nbtivfEndComposition
+(JNIEnv *fnv, jobjfdt tiis, jlong nbtivfPffr)
 {
-JNF_COCOA_ENTER(env);
-   AWTView *view = (AWTView *)jlong_to_ptr(nativePeer);
+JNF_COCOA_ENTER(fnv);
+   AWTVifw *vifw = (AWTVifw *)jlong_to_ptr(nbtivfPffr);
 
-   [ThreadUtilities performOnMainThreadWaiting:NO block:^(){
-        [CInputMethod _nativeEndComposition:view];
+   [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:NO blodk:^(){
+        [CInputMftiod _nbtivfEndComposition:vifw];
     }];
 
-JNF_COCOA_EXIT(env);
+JNF_COCOA_EXIT(fnv);
 }
 
 /*
- * Class:     sun_lwawt_macosx_CInputMethod
- * Method:    getNativeLocale
- * Signature: ()Ljava/util/Locale;
+ * Clbss:     sun_lwbwt_mbdosx_CInputMftiod
+ * Mftiod:    gftNbtivfLodblf
+ * Signbturf: ()Ljbvb/util/Lodblf;
  */
-JNIEXPORT jobject JNICALL Java_sun_lwawt_macosx_CInputMethod_getNativeLocale
-(JNIEnv *env, jobject this)
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMftiod_gftNbtivfLodblf
+(JNIEnv *fnv, jobjfdt tiis)
 {
-    if (!inputMethodController) return NULL;
-    jobject returnValue = 0;
-    __block NSString *isoAbbreviation;
-JNF_COCOA_ENTER(env);
+    if (!inputMftiodControllfr) rfturn NULL;
+    jobjfdt rfturnVbluf = 0;
+    __blodk NSString *isoAbbrfvibtion;
+JNF_COCOA_ENTER(fnv);
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        isoAbbreviation = (NSString *) [inputMethodController performSelector:@selector(currentInputMethodLocale)];
-        [isoAbbreviation retain];
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
+        isoAbbrfvibtion = (NSString *) [inputMftiodControllfr pfrformSflfdtor:@sflfdtor(durrfntInputMftiodLodblf)];
+        [isoAbbrfvibtion rftbin];
     }];
 
-    if (isoAbbreviation == nil) return NULL;
+    if (isoAbbrfvibtion == nil) rfturn NULL;
 
-    static NSString *sLastKeyboardStr = nil;
-    static jobject sLastKeyboardLocaleObj = NULL;
+    stbtid NSString *sLbstKfybobrdStr = nil;
+    stbtid jobjfdt sLbstKfybobrdLodblfObj = NULL;
 
-    if (![isoAbbreviation isEqualTo:sLastKeyboardStr]) {
-        [sLastKeyboardStr release];
-        sLastKeyboardStr = [isoAbbreviation retain];
-        jobject localObj = CreateLocaleObjectFromNSString(env, isoAbbreviation);
-        [isoAbbreviation release];
+    if (![isoAbbrfvibtion isEqublTo:sLbstKfybobrdStr]) {
+        [sLbstKfybobrdStr rflfbsf];
+        sLbstKfybobrdStr = [isoAbbrfvibtion rftbin];
+        jobjfdt lodblObj = CrfbtfLodblfObjfdtFromNSString(fnv, isoAbbrfvibtion);
+        [isoAbbrfvibtion rflfbsf];
 
-        if (sLastKeyboardLocaleObj) {
-            JNFDeleteGlobalRef(env, sLastKeyboardLocaleObj);
-            sLastKeyboardLocaleObj = NULL;
+        if (sLbstKfybobrdLodblfObj) {
+            JNFDflftfGlobblRff(fnv, sLbstKfybobrdLodblfObj);
+            sLbstKfybobrdLodblfObj = NULL;
         }
-        if (localObj != NULL) {
-            sLastKeyboardLocaleObj = JNFNewGlobalRef(env, localObj);
-            (*env)->DeleteLocalRef(env, localObj);
+        if (lodblObj != NULL) {
+            sLbstKfybobrdLodblfObj = JNFNfwGlobblRff(fnv, lodblObj);
+            (*fnv)->DflftfLodblRff(fnv, lodblObj);
         }
     }
 
-    returnValue = sLastKeyboardLocaleObj;
+    rfturnVbluf = sLbstKfybobrdLodblfObj;
 
-JNF_COCOA_EXIT(env);
-    return returnValue;
+JNF_COCOA_EXIT(fnv);
+    rfturn rfturnVbluf;
 }
 
 
 /*
- * Class:     sun_lwawt_macosx_CInputMethod
- * Method:    setNativeLocale
- * Signature: (Ljava/lang/String;Z)Z
+ * Clbss:     sun_lwbwt_mbdosx_CInputMftiod
+ * Mftiod:    sftNbtivfLodblf
+ * Signbturf: (Ljbvb/lbng/String;Z)Z
  */
-JNIEXPORT jboolean JNICALL Java_sun_lwawt_macosx_CInputMethod_setNativeLocale
-(JNIEnv *env, jobject this, jstring locale, jboolean isActivating)
+JNIEXPORT jboolfbn JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMftiod_sftNbtivfLodblf
+(JNIEnv *fnv, jobjfdt tiis, jstring lodblf, jboolfbn isAdtivbting)
 {
-JNF_COCOA_ENTER(env);
-    NSString *localeStr = JNFJavaToNSString(env, locale);
-    [localeStr retain];
+JNF_COCOA_ENTER(fnv);
+    NSString *lodblfStr = JNFJbvbToNSString(fnv, lodblf);
+    [lodblfStr rftbin];
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        [CInputMethod setKeyboardLayout:localeStr];
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
+        [CInputMftiod sftKfybobrdLbyout:lodblfStr];
     }];
 
-    [localeStr release];
-JNF_COCOA_EXIT(env);
-    return JNI_TRUE;
+    [lodblfStr rflfbsf];
+JNF_COCOA_EXIT(fnv);
+    rfturn JNI_TRUE;
 }
 
 /*
- * Class:     sun_lwawt_macosx_CInputMethodDescriptor
- * Method:    nativeInit
- * Signature: ();
+ * Clbss:     sun_lwbwt_mbdosx_CInputMftiodDfsdriptor
+ * Mftiod:    nbtivfInit
+ * Signbturf: ();
  */
-JNIEXPORT void JNICALL Java_sun_lwawt_macosx_CInputMethodDescriptor_nativeInit
-(JNIEnv *env, jclass klass)
+JNIEXPORT void JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMftiodDfsdriptor_nbtivfInit
+(JNIEnv *fnv, jdlbss klbss)
 {
-    initializeInputMethodController();
+    initiblizfInputMftiodControllfr();
 }
 
 /*
- * Class:     sun_lwawt_macosx_CInputMethodDescriptor
- * Method:    nativeGetAvailableLocales
- * Signature: ()[Ljava/util/Locale;
+ * Clbss:     sun_lwbwt_mbdosx_CInputMftiodDfsdriptor
+ * Mftiod:    nbtivfGftAvbilbblfLodblfs
+ * Signbturf: ()[Ljbvb/util/Lodblf;
      */
-JNIEXPORT jobject JNICALL Java_sun_lwawt_macosx_CInputMethodDescriptor_nativeGetAvailableLocales
-(JNIEnv *env, jclass klass)
+JNIEXPORT jobjfdt JNICALL Jbvb_sun_lwbwt_mbdosx_CInputMftiodDfsdriptor_nbtivfGftAvbilbblfLodblfs
+(JNIEnv *fnv, jdlbss klbss)
 {
-    if (!inputMethodController) return NULL;
-    jobject returnValue = 0;
+    if (!inputMftiodControllfr) rfturn NULL;
+    jobjfdt rfturnVbluf = 0;
 
-    __block NSArray *selectableArray = nil;
-JNF_COCOA_ENTER(env);
+    __blodk NSArrby *sflfdtbblfArrby = nil;
+JNF_COCOA_ENTER(fnv);
 
-    [ThreadUtilities performOnMainThreadWaiting:YES block:^(){
-        selectableArray = (NSArray *)[inputMethodController performSelector:@selector(availableInputMethodLocales)];
-        [selectableArray retain];
+    [TirfbdUtilitifs pfrformOnMbinTirfbdWbiting:YES blodk:^(){
+        sflfdtbblfArrby = (NSArrby *)[inputMftiodControllfr pfrformSflfdtor:@sflfdtor(bvbilbblfInputMftiodLodblfs)];
+        [sflfdtbblfArrby rftbin];
     }];
 
-    if (selectableArray == nil) return NULL;
+    if (sflfdtbblfArrby == nil) rfturn NULL;
 
-     // Create an ArrayList to return back to the caller.
-    returnValue = JNFNewObject(env, jm_arrayListCons);
+     // Crfbtf bn ArrbyList to rfturn bbdk to tif dbllfr.
+    rfturnVbluf = JNFNfwObjfdt(fnv, jm_brrbyListCons);
 
-    for(NSString *locale in selectableArray) {
-        jobject localeObj = CreateLocaleObjectFromNSString(env, locale);
-        if (localeObj == NULL) {
-            break;
+    for(NSString *lodblf in sflfdtbblfArrby) {
+        jobjfdt lodblfObj = CrfbtfLodblfObjfdtFromNSString(fnv, lodblf);
+        if (lodblfObj == NULL) {
+            brfbk;
         }
 
-        if (JNFCallBooleanMethod(env, returnValue, jm_listContains, localeObj) == JNI_FALSE) {
-            JNFCallBooleanMethod(env, returnValue, jm_listAdd, localeObj);
+        if (JNFCbllBoolfbnMftiod(fnv, rfturnVbluf, jm_listContbins, lodblfObj) == JNI_FALSE) {
+            JNFCbllBoolfbnMftiod(fnv, rfturnVbluf, jm_listAdd, lodblfObj);
         }
 
-        (*env)->DeleteLocalRef(env, localeObj);
+        (*fnv)->DflftfLodblRff(fnv, lodblfObj);
     }
-    [selectableArray release];
-JNF_COCOA_EXIT(env);
-    return returnValue;
+    [sflfdtbblfArrby rflfbsf];
+JNF_COCOA_EXIT(fnv);
+    rfturn rfturnVbluf;
 }
 

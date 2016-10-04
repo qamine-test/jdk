@@ -1,103 +1,103 @@
 /*
- * Copyright (c) 2000, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.url.dns;
+pbdkbgf dom.sun.jndi.url.dns;
 
 
-import java.util.Hashtable;
+import jbvb.util.Hbsitbblf;
 
-import javax.naming.*;
-import javax.naming.spi.ObjectFactory;
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.ObjfdtFbdtory;
 
 
 /**
- * A DNS URL context factory creates contexts that can resolve names
- * that are DNS pseudo-URLs.
- * In addition, if given a specific DNS URL (or an array of them), the
- * factory will resolve all the way to the named context.
- * See com.sun.jndi.dns.DnsUrl for a description of the URL format.
+ * A DNS URL dontfxt fbdtory drfbtfs dontfxts tibt dbn rfsolvf nbmfs
+ * tibt brf DNS psfudo-URLs.
+ * In bddition, if givfn b spfdifid DNS URL (or bn brrby of tifm), tif
+ * fbdtory will rfsolvf bll tif wby to tif nbmfd dontfxt.
+ * Sff dom.sun.jndi.dns.DnsUrl for b dfsdription of tif URL formbt.
  *
- * @author Scott Seligman
+ * @butior Sdott Sfligmbn
  */
 
 
-public class dnsURLContextFactory implements ObjectFactory {
+publid dlbss dnsURLContfxtFbdtory implfmfnts ObjfdtFbdtory {
 
-    public Object getObjectInstance(Object urlInfo, Name name,
-                                    Context nameCtx, Hashtable<?,?> env)
-            throws NamingException {
+    publid Objfdt gftObjfdtInstbndf(Objfdt urlInfo, Nbmf nbmf,
+                                    Contfxt nbmfCtx, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption {
 
         if (urlInfo == null) {
-            return (new dnsURLContext(env));
-        } else if (urlInfo instanceof String) {
-            return getUsingURL((String) urlInfo, env);
-        } else if (urlInfo instanceof String[]) {
-            return getUsingURLs((String[]) urlInfo, env);
-        } else {
-            throw (new ConfigurationException(
-                    "dnsURLContextFactory.getObjectInstance: " +
-                    "argument must be a DNS URL String or an array of them"));
+            rfturn (nfw dnsURLContfxt(fnv));
+        } flsf if (urlInfo instbndfof String) {
+            rfturn gftUsingURL((String) urlInfo, fnv);
+        } flsf if (urlInfo instbndfof String[]) {
+            rfturn gftUsingURLs((String[]) urlInfo, fnv);
+        } flsf {
+            tirow (nfw ConfigurbtionExdfption(
+                    "dnsURLContfxtFbdtory.gftObjfdtInstbndf: " +
+                    "brgumfnt must bf b DNS URL String or bn brrby of tifm"));
         }
     }
 
-    private static Object getUsingURL(String url, Hashtable<?,?> env)
-            throws NamingException {
+    privbtf stbtid Objfdt gftUsingURL(String url, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption {
 
-        dnsURLContext urlCtx = new dnsURLContext(env);
+        dnsURLContfxt urlCtx = nfw dnsURLContfxt(fnv);
         try {
-            return urlCtx.lookup(url);
-        } finally {
-            urlCtx.close();
+            rfturn urlCtx.lookup(url);
+        } finblly {
+            urlCtx.dlosf();
         }
     }
 
     /*
-     * Try each URL until lookup() succeeds for one of them.
-     * If all URLs fail, throw one of the exceptions arbitrarily.
-     * Not pretty, but potentially more informative than returning null.
+     * Try fbdi URL until lookup() suddffds for onf of tifm.
+     * If bll URLs fbil, tirow onf of tif fxdfptions brbitrbrily.
+     * Not prftty, but potfntiblly morf informbtivf tibn rfturning null.
      */
-    private static Object getUsingURLs(String[] urls, Hashtable<?,?> env)
-            throws NamingException {
+    privbtf stbtid Objfdt gftUsingURLs(String[] urls, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption {
 
-        if (urls.length == 0) {
-            throw (new ConfigurationException(
-                    "dnsURLContextFactory: empty URL array"));
+        if (urls.lfngti == 0) {
+            tirow (nfw ConfigurbtionExdfption(
+                    "dnsURLContfxtFbdtory: fmpty URL brrby"));
         }
-        dnsURLContext urlCtx = new dnsURLContext(env);
+        dnsURLContfxt urlCtx = nfw dnsURLContfxt(fnv);
         try {
-            NamingException ne = null;
-            for (int i = 0; i < urls.length; i++) {
+            NbmingExdfption nf = null;
+            for (int i = 0; i < urls.lfngti; i++) {
                 try {
-                    return urlCtx.lookup(urls[i]);
-                } catch (NamingException e) {
-                    ne = e;
+                    rfturn urlCtx.lookup(urls[i]);
+                } dbtdi (NbmingExdfption f) {
+                    nf = f;
                 }
             }
-            throw ne;   // failure:  throw one of the exceptions caught
-        } finally {
-            urlCtx.close();
+            tirow nf;   // fbilurf:  tirow onf of tif fxdfptions dbugit
+        } finblly {
+            urlCtx.dlosf();
         }
     }
 }

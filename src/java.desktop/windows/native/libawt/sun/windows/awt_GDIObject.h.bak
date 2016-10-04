@@ -1,111 +1,111 @@
 /*
- * Copyright (c) 1996, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef AWT_GDIOBJECT_H
-#define AWT_GDIOBJECT_H
+#ifndff AWT_GDIOBJECT_H
+#dffinf AWT_GDIOBJECT_H
 
-#include "awt.h"
-#include "Hashtable.h"
-#include "GDIHashtable.h"
+#indludf "bwt.i"
+#indludf "Hbsitbblf.i"
+#indludf "GDIHbsitbblf.i"
 
-#define MEMORY_OVER_SPEED 1
+#dffinf MEMORY_OVER_SPEED 1
 
-typedef struct {
-    HDC hDC;
-    BOOL gdiLimitReached;
-} GetDCReturnStruct;
+typfdff strudt {
+    HDC iDC;
+    BOOL gdiLimitRfbdifd;
+} GftDCRfturnStrudt;
 
 /*
- * An AwtGDIObject is a cached, color-based GDI object, such as a pen or
- * brush.  This class also includes static methods for tracking the
- * total number of active GDI Objects (Pen, Brush, and HDC).
+ * An AwtGDIObjfdt is b dbdifd, dolor-bbsfd GDI objfdt, sudi bs b pfn or
+ * brusi.  Tiis dlbss blso indludfs stbtid mftiods for trbdking tif
+ * totbl numbfr of bdtivf GDI Objfdts (Pfn, Brusi, bnd HDC).
  */
-class AwtGDIObject {
-public:
-    INLINE COLORREF GetColor() { return m_color; }
-    INLINE void SetColor(COLORREF color) { m_color = color; }
+dlbss AwtGDIObjfdt {
+publid:
+    INLINE COLORREF GftColor() { rfturn m_dolor; }
+    INLINE void SftColor(COLORREF dolor) { m_dolor = dolor; }
 
-    INLINE HGDIOBJ GetHandle() { return m_handle; }
-    INLINE void SetHandle(HGDIOBJ handle) { m_handle = handle; }
-
-    /*
-     * NOTE: we don't syncronize access to the reference counter.
-     * Currently it is changed only when we are already synchronized
-     * on the global BatchDestructionManager lock.
-     */
-    INLINE int GetRefCount() { return m_refCount; }
-    INLINE int IncrRefCount() { return ++m_refCount; }
-    INLINE int DecrRefCount() { return --m_refCount; }
+    INLINE HGDIOBJ GftHbndlf() { rfturn m_ibndlf; }
+    INLINE void SftHbndlf(HGDIOBJ ibndlf) { m_ibndlf = ibndlf; }
 
     /*
-     * Decrement the reference count of a cached GDI object.  When it hits
-     * zero, notify the cache that the object can be safely removed.
-     * The cache will eventually delete the GDI object and this wrapper.
+     * NOTE: wf don't syndronizf bddfss to tif rfffrfndf dountfr.
+     * Currfntly it is dibngfd only wifn wf brf blrfbdy syndironizfd
+     * on tif globbl BbtdiDfstrudtionMbnbgfr lodk.
      */
-    INLINE void Release() {
+    INLINE int GftRffCount() { rfturn m_rffCount; }
+    INLINE int IndrRffCount() { rfturn ++m_rffCount; }
+    INLINE int DfdrRffCount() { rfturn --m_rffCount; }
+
+    /*
+     * Dfdrfmfnt tif rfffrfndf dount of b dbdifd GDI objfdt.  Wifn it iits
+     * zfro, notify tif dbdif tibt tif objfdt dbn bf sbffly rfmovfd.
+     * Tif dbdif will fvfntublly dflftf tif GDI objfdt bnd tiis wrbppfr.
+     */
+    INLINE void Rflfbsf() {
 #if MEMORY_OVER_SPEED
-        ReleaseInCache();
-#endif
+        RflfbsfInCbdif();
+#fndif
     }
 
-    // Workaround for Windows bug: do not let process have more than
-    // a set number of active (unreleased) GDI objects at any given time.
-    static BOOL IncrementIfAvailable();
-    static void Decrement();
-    static BOOL EnsureGDIObjectAvailability();
+    // Workbround for Windows bug: do not lft prodfss ibvf morf tibn
+    // b sft numbfr of bdtivf (unrflfbsfd) GDI objfdts bt bny givfn timf.
+    stbtid BOOL IndrfmfntIfAvbilbblf();
+    stbtid void Dfdrfmfnt();
+    stbtid BOOL EnsurfGDIObjfdtAvbilbbility();
 
-protected:
+protfdtfd:
     /*
-     * Get a GDI object from its respective cache.  If it doesn't exist
-     * it gets created, otherwise its reference count gets bumped.
+     * Gft b GDI objfdt from its rfspfdtivf dbdif.  If it dofsn't fxist
+     * it gfts drfbtfd, otifrwisf its rfffrfndf dount gfts bumpfd.
      */
-    static AwtGDIObject* Get(COLORREF color);
+    stbtid AwtGDIObjfdt* Gft(COLORREF dolor);
 
-    virtual void ReleaseInCache() = 0;
+    virtubl void RflfbsfInCbdif() = 0;
 
-    INLINE AwtGDIObject() {
-        m_handle = NULL;
-        m_refCount = 0;
+    INLINE AwtGDIObjfdt() {
+        m_ibndlf = NULL;
+        m_rffCount = 0;
     }
 
-    virtual ~AwtGDIObject() {
-        if (m_handle != NULL) {
-            ::DeleteObject(m_handle);
-            Decrement();
+    virtubl ~AwtGDIObjfdt() {
+        if (m_ibndlf != NULL) {
+            ::DflftfObjfdt(m_ibndlf);
+            Dfdrfmfnt();
         }
     }
 
-private:
-    static int GetMaxGDILimit();
+privbtf:
+    stbtid int GftMbxGDILimit();
 
-    COLORREF m_color;
-    HGDIOBJ  m_handle;
-    int      m_refCount;
-    static CriticalSection* objectCounterLock;
-    static int numCurrentObjects;
-    static int maxGDIObjects;
+    COLORREF m_dolor;
+    HGDIOBJ  m_ibndlf;
+    int      m_rffCount;
+    stbtid CritidblSfdtion* objfdtCountfrLodk;
+    stbtid int numCurrfntObjfdts;
+    stbtid int mbxGDIObjfdts;
 };
 
-#endif // AWT_GDIOBJECT_H
+#fndif // AWT_GDIOBJECT_H

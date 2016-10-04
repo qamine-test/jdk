@@ -1,739 +1,739 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.nio.ch.sctp;
+pbdkbgf sun.nio.di.sdtp;
 
-import java.net.InetAddress;
-import java.net.SocketAddress;
-import java.net.SocketException;
-import java.net.InetSocketAddress;
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Map.Entry;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.HashSet;
-import java.util.HashMap;
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.ClosedChannelException;
-import java.nio.channels.NotYetBoundException;
-import java.nio.channels.spi.SelectorProvider;
-import com.sun.nio.sctp.AbstractNotificationHandler;
-import com.sun.nio.sctp.Association;
-import com.sun.nio.sctp.AssociationChangeNotification;
-import com.sun.nio.sctp.HandlerResult;
-import com.sun.nio.sctp.IllegalReceiveException;
-import com.sun.nio.sctp.InvalidStreamException;
-import com.sun.nio.sctp.IllegalUnbindException;
-import com.sun.nio.sctp.NotificationHandler;
-import com.sun.nio.sctp.MessageInfo;
-import com.sun.nio.sctp.SctpChannel;
-import com.sun.nio.sctp.SctpMultiChannel;
-import com.sun.nio.sctp.SctpSocketOption;
-import sun.nio.ch.DirectBuffer;
-import sun.nio.ch.NativeThread;
-import sun.nio.ch.IOStatus;
-import sun.nio.ch.IOUtil;
-import sun.nio.ch.Net;
-import sun.nio.ch.PollArrayWrapper;
-import sun.nio.ch.SelChImpl;
-import sun.nio.ch.SelectionKeyImpl;
-import sun.nio.ch.Util;
-import static com.sun.nio.sctp.SctpStandardSocketOptions.*;
-import static sun.nio.ch.sctp.ResultContainer.*;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.SodkftAddrfss;
+import jbvb.nft.SodkftExdfption;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
+import jbvb.util.Collfdtions;
+import jbvb.util.Mbp.Entry;
+import jbvb.util.Itfrbtor;
+import jbvb.util.Sft;
+import jbvb.util.HbsiSft;
+import jbvb.util.HbsiMbp;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dibnnfls.SflfdtionKfy;
+import jbvb.nio.dibnnfls.ClosfdCibnnflExdfption;
+import jbvb.nio.dibnnfls.NotYftBoundExdfption;
+import jbvb.nio.dibnnfls.spi.SflfdtorProvidfr;
+import dom.sun.nio.sdtp.AbstrbdtNotifidbtionHbndlfr;
+import dom.sun.nio.sdtp.Assodibtion;
+import dom.sun.nio.sdtp.AssodibtionCibngfNotifidbtion;
+import dom.sun.nio.sdtp.HbndlfrRfsult;
+import dom.sun.nio.sdtp.IllfgblRfdfivfExdfption;
+import dom.sun.nio.sdtp.InvblidStrfbmExdfption;
+import dom.sun.nio.sdtp.IllfgblUnbindExdfption;
+import dom.sun.nio.sdtp.NotifidbtionHbndlfr;
+import dom.sun.nio.sdtp.MfssbgfInfo;
+import dom.sun.nio.sdtp.SdtpCibnnfl;
+import dom.sun.nio.sdtp.SdtpMultiCibnnfl;
+import dom.sun.nio.sdtp.SdtpSodkftOption;
+import sun.nio.di.DirfdtBufffr;
+import sun.nio.di.NbtivfTirfbd;
+import sun.nio.di.IOStbtus;
+import sun.nio.di.IOUtil;
+import sun.nio.di.Nft;
+import sun.nio.di.PollArrbyWrbppfr;
+import sun.nio.di.SflCiImpl;
+import sun.nio.di.SflfdtionKfyImpl;
+import sun.nio.di.Util;
+import stbtid dom.sun.nio.sdtp.SdtpStbndbrdSodkftOptions.*;
+import stbtid sun.nio.di.sdtp.RfsultContbinfr.*;
 
 /**
- * An implementation of SctpMultiChannel
+ * An implfmfntbtion of SdtpMultiCibnnfl
  */
-public class SctpMultiChannelImpl extends SctpMultiChannel
-    implements SelChImpl
+publid dlbss SdtpMultiCibnnflImpl fxtfnds SdtpMultiCibnnfl
+    implfmfnts SflCiImpl
 {
-    private final FileDescriptor fd;
+    privbtf finbl FilfDfsdriptor fd;
 
-    private final int fdVal;
+    privbtf finbl int fdVbl;
 
-    /* IDs of native threads doing send and receives, for signalling */
-    private volatile long receiverThread = 0;
-    private volatile long senderThread = 0;
+    /* IDs of nbtivf tirfbds doing sfnd bnd rfdfivfs, for signblling */
+    privbtf volbtilf long rfdfivfrTirfbd = 0;
+    privbtf volbtilf long sfndfrTirfbd = 0;
 
-    /* Lock held by current receiving thread */
-    private final Object receiveLock = new Object();
+    /* Lodk ifld by durrfnt rfdfiving tirfbd */
+    privbtf finbl Objfdt rfdfivfLodk = nfw Objfdt();
 
-    /* Lock held by current sending thread */
-    private final Object sendLock = new Object();
+    /* Lodk ifld by durrfnt sfnding tirfbd */
+    privbtf finbl Objfdt sfndLodk = nfw Objfdt();
 
-    /* Lock held by any thread that modifies the state fields declared below
-     * DO NOT invoke a blocking I/O operation while holding this lock! */
-    private final Object stateLock = new Object();
+    /* Lodk ifld by bny tirfbd tibt modififs tif stbtf fiflds dfdlbrfd bflow
+     * DO NOT invokf b blodking I/O opfrbtion wiilf iolding tiis lodk! */
+    privbtf finbl Objfdt stbtfLodk = nfw Objfdt();
 
-    private enum ChannelState {
+    privbtf fnum CibnnflStbtf {
         UNINITIALIZED,
         KILLPENDING,
         KILLED,
     }
 
-    /* -- The following fields are protected by stateLock -- */
-    private ChannelState state = ChannelState.UNINITIALIZED;
+    /* -- Tif following fiflds brf protfdtfd by stbtfLodk -- */
+    privbtf CibnnflStbtf stbtf = CibnnflStbtf.UNINITIALIZED;
 
-    /* Binding: Once bound the port will remain constant. */
+    /* Binding: Ondf bound tif port will rfmbin donstbnt. */
     int port = -1;
-    private HashSet<InetSocketAddress> localAddresses = new HashSet<InetSocketAddress>();
-    /* Has the channel been bound to the wildcard address */
-    private boolean wildcard; /* false */
+    privbtf HbsiSft<InftSodkftAddrfss> lodblAddrfssfs = nfw HbsiSft<InftSodkftAddrfss>();
+    /* Hbs tif dibnnfl bffn bound to tif wilddbrd bddrfss */
+    privbtf boolfbn wilddbrd; /* fblsf */
 
-    /* Keeps a map of addresses to association, and visa versa */
-    private HashMap<SocketAddress, Association> addressMap =
-                         new HashMap<SocketAddress, Association>();
-    private HashMap<Association, Set<SocketAddress>> associationMap =
-                         new HashMap<Association, Set<SocketAddress>>();
+    /* Kffps b mbp of bddrfssfs to bssodibtion, bnd visb vfrsb */
+    privbtf HbsiMbp<SodkftAddrfss, Assodibtion> bddrfssMbp =
+                         nfw HbsiMbp<SodkftAddrfss, Assodibtion>();
+    privbtf HbsiMbp<Assodibtion, Sft<SodkftAddrfss>> bssodibtionMbp =
+                         nfw HbsiMbp<Assodibtion, Sft<SodkftAddrfss>>();
 
-    /* -- End of fields protected by stateLock -- */
+    /* -- End of fiflds protfdtfd by stbtfLodk -- */
 
-    /* If an association has been shutdown mark it for removal after
-     * the user handler has been invoked */
-    private final ThreadLocal<Association> associationToRemove =
-        new ThreadLocal<Association>() {
-             @Override protected Association initialValue() {
-                 return null;
+    /* If bn bssodibtion ibs bffn siutdown mbrk it for rfmovbl bftfr
+     * tif usfr ibndlfr ibs bffn invokfd */
+    privbtf finbl TirfbdLodbl<Assodibtion> bssodibtionToRfmovf =
+        nfw TirfbdLodbl<Assodibtion>() {
+             @Ovfrridf protfdtfd Assodibtion initiblVbluf() {
+                 rfturn null;
             }
     };
 
-    /* A notification handler cannot invoke receive */
-    private final ThreadLocal<Boolean> receiveInvoked =
-        new ThreadLocal<Boolean>() {
-             @Override protected Boolean initialValue() {
-                 return Boolean.FALSE;
+    /* A notifidbtion ibndlfr dbnnot invokf rfdfivf */
+    privbtf finbl TirfbdLodbl<Boolfbn> rfdfivfInvokfd =
+        nfw TirfbdLodbl<Boolfbn>() {
+             @Ovfrridf protfdtfd Boolfbn initiblVbluf() {
+                 rfturn Boolfbn.FALSE;
             }
     };
 
-    public SctpMultiChannelImpl(SelectorProvider provider)
-            throws IOException {
-        //TODO: update provider, remove public modifier
-        super(provider);
-        this.fd = SctpNet.socket(false /*one-to-many*/);
-        this.fdVal = IOUtil.fdVal(fd);
+    publid SdtpMultiCibnnflImpl(SflfdtorProvidfr providfr)
+            tirows IOExdfption {
+        //TODO: updbtf providfr, rfmovf publid modififr
+        supfr(providfr);
+        tiis.fd = SdtpNft.sodkft(fblsf /*onf-to-mbny*/);
+        tiis.fdVbl = IOUtil.fdVbl(fd);
     }
 
-    @Override
-    public SctpMultiChannel bind(SocketAddress local, int backlog)
-            throws IOException {
-        synchronized (receiveLock) {
-            synchronized (sendLock) {
-                synchronized (stateLock) {
-                    ensureOpen();
+    @Ovfrridf
+    publid SdtpMultiCibnnfl bind(SodkftAddrfss lodbl, int bbdklog)
+            tirows IOExdfption {
+        syndironizfd (rfdfivfLodk) {
+            syndironizfd (sfndLodk) {
+                syndironizfd (stbtfLodk) {
+                    fnsurfOpfn();
                     if (isBound())
-                        SctpNet.throwAlreadyBoundException();
-                    InetSocketAddress isa = (local == null) ?
-                        new InetSocketAddress(0) : Net.checkAddress(local);
+                        SdtpNft.tirowAlrfbdyBoundExdfption();
+                    InftSodkftAddrfss isb = (lodbl == null) ?
+                        nfw InftSodkftAddrfss(0) : Nft.difdkAddrfss(lodbl);
 
-                    SecurityManager sm = System.getSecurityManager();
+                    SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                     if (sm != null)
-                        sm.checkListen(isa.getPort());
-                    Net.bind(fd, isa.getAddress(), isa.getPort());
+                        sm.difdkListfn(isb.gftPort());
+                    Nft.bind(fd, isb.gftAddrfss(), isb.gftPort());
 
-                    InetSocketAddress boundIsa = Net.localAddress(fd);
-                    port = boundIsa.getPort();
-                    localAddresses.add(isa);
-                    if (isa.getAddress().isAnyLocalAddress())
-                        wildcard = true;
+                    InftSodkftAddrfss boundIsb = Nft.lodblAddrfss(fd);
+                    port = boundIsb.gftPort();
+                    lodblAddrfssfs.bdd(isb);
+                    if (isb.gftAddrfss().isAnyLodblAddrfss())
+                        wilddbrd = truf;
 
-                    SctpNet.listen(fdVal, backlog < 1 ? 50 : backlog);
+                    SdtpNft.listfn(fdVbl, bbdklog < 1 ? 50 : bbdklog);
                 }
             }
         }
-        return this;
+        rfturn tiis;
     }
 
-    @Override
-    public SctpMultiChannel bindAddress(InetAddress address)
-            throws IOException {
-        return bindUnbindAddress(address, true);
+    @Ovfrridf
+    publid SdtpMultiCibnnfl bindAddrfss(InftAddrfss bddrfss)
+            tirows IOExdfption {
+        rfturn bindUnbindAddrfss(bddrfss, truf);
     }
 
-    @Override
-    public SctpMultiChannel unbindAddress(InetAddress address)
-            throws IOException {
-        return bindUnbindAddress(address, false);
+    @Ovfrridf
+    publid SdtpMultiCibnnfl unbindAddrfss(InftAddrfss bddrfss)
+            tirows IOExdfption {
+        rfturn bindUnbindAddrfss(bddrfss, fblsf);
     }
 
-    private SctpMultiChannel bindUnbindAddress(InetAddress address,
-                                               boolean add)
-            throws IOException {
-        if (address == null)
-            throw new IllegalArgumentException();
+    privbtf SdtpMultiCibnnfl bindUnbindAddrfss(InftAddrfss bddrfss,
+                                               boolfbn bdd)
+            tirows IOExdfption {
+        if (bddrfss == null)
+            tirow nfw IllfgblArgumfntExdfption();
 
-        synchronized (receiveLock) {
-            synchronized (sendLock) {
-                synchronized (stateLock) {
-                    if (!isOpen())
-                        throw new ClosedChannelException();
+        syndironizfd (rfdfivfLodk) {
+            syndironizfd (sfndLodk) {
+                syndironizfd (stbtfLodk) {
+                    if (!isOpfn())
+                        tirow nfw ClosfdCibnnflExdfption();
                     if (!isBound())
-                        throw new NotYetBoundException();
-                    if (wildcard)
-                        throw new IllegalStateException(
-                                "Cannot add or remove addresses from a channel that is bound to the wildcard address");
-                    if (address.isAnyLocalAddress())
-                        throw new IllegalArgumentException(
-                                "Cannot add or remove the wildcard address");
-                    if (add) {
-                        for (InetSocketAddress addr : localAddresses) {
-                            if (addr.getAddress().equals(address)) {
-                                SctpNet.throwAlreadyBoundException();
+                        tirow nfw NotYftBoundExdfption();
+                    if (wilddbrd)
+                        tirow nfw IllfgblStbtfExdfption(
+                                "Cbnnot bdd or rfmovf bddrfssfs from b dibnnfl tibt is bound to tif wilddbrd bddrfss");
+                    if (bddrfss.isAnyLodblAddrfss())
+                        tirow nfw IllfgblArgumfntExdfption(
+                                "Cbnnot bdd or rfmovf tif wilddbrd bddrfss");
+                    if (bdd) {
+                        for (InftSodkftAddrfss bddr : lodblAddrfssfs) {
+                            if (bddr.gftAddrfss().fqubls(bddrfss)) {
+                                SdtpNft.tirowAlrfbdyBoundExdfption();
                             }
                         }
-                    } else { /*removing */
-                        /* Verify that there is more than one address
-                         * and that address is already bound */
-                        if (localAddresses.size() <= 1)
-                            throw new IllegalUnbindException("Cannot remove address from a channel with only one address bound");
-                        boolean foundAddress = false;
-                        for (InetSocketAddress addr : localAddresses) {
-                            if (addr.getAddress().equals(address)) {
-                                foundAddress = true;
-                                break;
+                    } flsf { /*rfmoving */
+                        /* Vfrify tibt tifrf is morf tibn onf bddrfss
+                         * bnd tibt bddrfss is blrfbdy bound */
+                        if (lodblAddrfssfs.sizf() <= 1)
+                            tirow nfw IllfgblUnbindExdfption("Cbnnot rfmovf bddrfss from b dibnnfl witi only onf bddrfss bound");
+                        boolfbn foundAddrfss = fblsf;
+                        for (InftSodkftAddrfss bddr : lodblAddrfssfs) {
+                            if (bddr.gftAddrfss().fqubls(bddrfss)) {
+                                foundAddrfss = truf;
+                                brfbk;
                             }
                         }
-                        if (!foundAddress )
-                            throw new IllegalUnbindException("Cannot remove address from a channel that is not bound to that address");
+                        if (!foundAddrfss )
+                            tirow nfw IllfgblUnbindExdfption("Cbnnot rfmovf bddrfss from b dibnnfl tibt is not bound to tibt bddrfss");
                     }
 
-                    SctpNet.bindx(fdVal, new InetAddress[]{address}, port, add);
+                    SdtpNft.bindx(fdVbl, nfw InftAddrfss[]{bddrfss}, port, bdd);
 
-                    /* Update our internal Set to reflect the addition/removal */
-                    if (add)
-                        localAddresses.add(new InetSocketAddress(address, port));
-                    else {
-                        for (InetSocketAddress addr : localAddresses) {
-                            if (addr.getAddress().equals(address)) {
-                                localAddresses.remove(addr);
-                                break;
+                    /* Updbtf our intfrnbl Sft to rfflfdt tif bddition/rfmovbl */
+                    if (bdd)
+                        lodblAddrfssfs.bdd(nfw InftSodkftAddrfss(bddrfss, port));
+                    flsf {
+                        for (InftSodkftAddrfss bddr : lodblAddrfssfs) {
+                            if (bddr.gftAddrfss().fqubls(bddrfss)) {
+                                lodblAddrfssfs.rfmovf(bddr);
+                                brfbk;
                             }
                         }
                     }
                 }
             }
         }
-        return this;
+        rfturn tiis;
     }
 
-    @Override
-    public Set<Association> associations()
-            throws ClosedChannelException, NotYetBoundException {
-        synchronized (stateLock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
+    @Ovfrridf
+    publid Sft<Assodibtion> bssodibtions()
+            tirows ClosfdCibnnflExdfption, NotYftBoundExdfption {
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
             if (!isBound())
-                throw new NotYetBoundException();
+                tirow nfw NotYftBoundExdfption();
 
-            return Collections.unmodifiableSet(associationMap.keySet());
+            rfturn Collfdtions.unmodifibblfSft(bssodibtionMbp.kfySft());
         }
     }
 
-    private boolean isBound() {
-        synchronized (stateLock) {
-            return port == -1 ? false : true;
+    privbtf boolfbn isBound() {
+        syndironizfd (stbtfLodk) {
+            rfturn port == -1 ? fblsf : truf;
         }
     }
 
-    private void ensureOpen() throws IOException {
-        synchronized (stateLock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
+    privbtf void fnsurfOpfn() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
         }
     }
 
-    private void receiverCleanup() throws IOException {
-        synchronized (stateLock) {
-            receiverThread = 0;
-            if (state == ChannelState.KILLPENDING)
+    privbtf void rfdfivfrClfbnup() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            rfdfivfrTirfbd = 0;
+            if (stbtf == CibnnflStbtf.KILLPENDING)
                 kill();
         }
     }
 
-    private void senderCleanup() throws IOException {
-        synchronized (stateLock) {
-            senderThread = 0;
-            if (state == ChannelState.KILLPENDING)
+    privbtf void sfndfrClfbnup() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            sfndfrTirfbd = 0;
+            if (stbtf == CibnnflStbtf.KILLPENDING)
                 kill();
         }
     }
 
-    @Override
-    protected void implConfigureBlocking(boolean block) throws IOException {
-        IOUtil.configureBlocking(fd, block);
+    @Ovfrridf
+    protfdtfd void implConfigurfBlodking(boolfbn blodk) tirows IOExdfption {
+        IOUtil.donfigurfBlodking(fd, blodk);
     }
 
-    @Override
-    public void implCloseSelectableChannel() throws IOException {
-        synchronized (stateLock) {
-            SctpNet.preClose(fdVal);
+    @Ovfrridf
+    publid void implClosfSflfdtbblfCibnnfl() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            SdtpNft.prfClosf(fdVbl);
 
-            if (receiverThread != 0)
-                NativeThread.signal(receiverThread);
+            if (rfdfivfrTirfbd != 0)
+                NbtivfTirfbd.signbl(rfdfivfrTirfbd);
 
-            if (senderThread != 0)
-                NativeThread.signal(senderThread);
+            if (sfndfrTirfbd != 0)
+                NbtivfTirfbd.signbl(sfndfrTirfbd);
 
-            if (!isRegistered())
+            if (!isRfgistfrfd())
                 kill();
         }
     }
 
-    @Override
-    public FileDescriptor getFD() {
-        return fd;
+    @Ovfrridf
+    publid FilfDfsdriptor gftFD() {
+        rfturn fd;
     }
 
-    @Override
-    public int getFDVal() {
-        return fdVal;
+    @Ovfrridf
+    publid int gftFDVbl() {
+        rfturn fdVbl;
     }
 
     /**
-     * Translates native poll revent ops into a ready operation ops
+     * Trbnslbtfs nbtivf poll rfvfnt ops into b rfbdy opfrbtion ops
      */
-    private boolean translateReadyOps(int ops, int initialOps,
-                                      SelectionKeyImpl sk) {
-        int intOps = sk.nioInterestOps();
-        int oldOps = sk.nioReadyOps();
-        int newOps = initialOps;
+    privbtf boolfbn trbnslbtfRfbdyOps(int ops, int initiblOps,
+                                      SflfdtionKfyImpl sk) {
+        int intOps = sk.nioIntfrfstOps();
+        int oldOps = sk.nioRfbdyOps();
+        int nfwOps = initiblOps;
 
-        if ((ops & Net.POLLNVAL) != 0) {
-            /* This should only happen if this channel is pre-closed while a
-             * selection operation is in progress
-             * ## Throw an error if this channel has not been pre-closed */
-            return false;
+        if ((ops & Nft.POLLNVAL) != 0) {
+            /* Tiis siould only ibppfn if tiis dibnnfl is prf-dlosfd wiilf b
+             * sflfdtion opfrbtion is in progrfss
+             * ## Tirow bn frror if tiis dibnnfl ibs not bffn prf-dlosfd */
+            rfturn fblsf;
         }
 
-        if ((ops & (Net.POLLERR | Net.POLLHUP)) != 0) {
-            newOps = intOps;
-            sk.nioReadyOps(newOps);
-            return (newOps & ~oldOps) != 0;
+        if ((ops & (Nft.POLLERR | Nft.POLLHUP)) != 0) {
+            nfwOps = intOps;
+            sk.nioRfbdyOps(nfwOps);
+            rfturn (nfwOps & ~oldOps) != 0;
         }
 
-        if (((ops & Net.POLLIN) != 0) &&
-            ((intOps & SelectionKey.OP_READ) != 0))
-            newOps |= SelectionKey.OP_READ;
+        if (((ops & Nft.POLLIN) != 0) &&
+            ((intOps & SflfdtionKfy.OP_READ) != 0))
+            nfwOps |= SflfdtionKfy.OP_READ;
 
-        if (((ops & Net.POLLOUT) != 0) &&
-            ((intOps & SelectionKey.OP_WRITE) != 0))
-            newOps |= SelectionKey.OP_WRITE;
+        if (((ops & Nft.POLLOUT) != 0) &&
+            ((intOps & SflfdtionKfy.OP_WRITE) != 0))
+            nfwOps |= SflfdtionKfy.OP_WRITE;
 
-        sk.nioReadyOps(newOps);
-        return (newOps & ~oldOps) != 0;
+        sk.nioRfbdyOps(nfwOps);
+        rfturn (nfwOps & ~oldOps) != 0;
     }
 
-    @Override
-    public boolean translateAndUpdateReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, sk.nioReadyOps(), sk);
+    @Ovfrridf
+    publid boolfbn trbnslbtfAndUpdbtfRfbdyOps(int ops, SflfdtionKfyImpl sk) {
+        rfturn trbnslbtfRfbdyOps(ops, sk.nioRfbdyOps(), sk);
     }
 
-    @Override
-    public boolean translateAndSetReadyOps(int ops, SelectionKeyImpl sk) {
-        return translateReadyOps(ops, 0, sk);
+    @Ovfrridf
+    publid boolfbn trbnslbtfAndSftRfbdyOps(int ops, SflfdtionKfyImpl sk) {
+        rfturn trbnslbtfRfbdyOps(ops, 0, sk);
     }
 
-    @Override
-    public void translateAndSetInterestOps(int ops, SelectionKeyImpl sk) {
-        int newOps = 0;
-        if ((ops & SelectionKey.OP_READ) != 0)
-            newOps |= Net.POLLIN;
-        if ((ops & SelectionKey.OP_WRITE) != 0)
-            newOps |= Net.POLLOUT;
-        sk.selector.putEventOps(sk, newOps);
+    @Ovfrridf
+    publid void trbnslbtfAndSftIntfrfstOps(int ops, SflfdtionKfyImpl sk) {
+        int nfwOps = 0;
+        if ((ops & SflfdtionKfy.OP_READ) != 0)
+            nfwOps |= Nft.POLLIN;
+        if ((ops & SflfdtionKfy.OP_WRITE) != 0)
+            nfwOps |= Nft.POLLOUT;
+        sk.sflfdtor.putEvfntOps(sk, nfwOps);
     }
 
-    @Override
-    public void kill() throws IOException {
-        synchronized (stateLock) {
-            if (state == ChannelState.KILLED)
-                return;
-            if (state == ChannelState.UNINITIALIZED) {
-                state = ChannelState.KILLED;
-                return;
+    @Ovfrridf
+    publid void kill() tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            if (stbtf == CibnnflStbtf.KILLED)
+                rfturn;
+            if (stbtf == CibnnflStbtf.UNINITIALIZED) {
+                stbtf = CibnnflStbtf.KILLED;
+                rfturn;
             }
-            assert !isOpen() && !isRegistered();
+            bssfrt !isOpfn() && !isRfgistfrfd();
 
-            /* Postpone the kill if there is a thread sending or receiving. */
-            if (receiverThread == 0 && senderThread == 0) {
-                SctpNet.close(fdVal);
-                state = ChannelState.KILLED;
-            } else {
-                state = ChannelState.KILLPENDING;
+            /* Postponf tif kill if tifrf is b tirfbd sfnding or rfdfiving. */
+            if (rfdfivfrTirfbd == 0 && sfndfrTirfbd == 0) {
+                SdtpNft.dlosf(fdVbl);
+                stbtf = CibnnflStbtf.KILLED;
+            } flsf {
+                stbtf = CibnnflStbtf.KILLPENDING;
             }
         }
     }
 
-    @Override
-    public <T> SctpMultiChannel setOption(SctpSocketOption<T> name,
-                                          T value,
-                                          Association association)
-            throws IOException {
-        if (name == null)
-            throw new NullPointerException();
-        if (!(supportedOptions().contains(name)))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+    @Ovfrridf
+    publid <T> SdtpMultiCibnnfl sftOption(SdtpSodkftOption<T> nbmf,
+                                          T vbluf,
+                                          Assodibtion bssodibtion)
+            tirows IOExdfption {
+        if (nbmf == null)
+            tirow nfw NullPointfrExdfption();
+        if (!(supportfdOptions().dontbins(nbmf)))
+            tirow nfw UnsupportfdOpfrbtionExdfption("'" + nbmf + "' not supportfd");
 
-        synchronized (stateLock) {
-            if (association != null && (name.equals(SCTP_PRIMARY_ADDR) ||
-                    name.equals(SCTP_SET_PEER_PRIMARY_ADDR))) {
-                checkAssociation(association);
+        syndironizfd (stbtfLodk) {
+            if (bssodibtion != null && (nbmf.fqubls(SCTP_PRIMARY_ADDR) ||
+                    nbmf.fqubls(SCTP_SET_PEER_PRIMARY_ADDR))) {
+                difdkAssodibtion(bssodibtion);
             }
-            if (!isOpen())
-                throw new ClosedChannelException();
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
 
-            int assocId = association == null ? 0 : association.associationID();
-            SctpNet.setSocketOption(fdVal, name, value, assocId);
+            int bssodId = bssodibtion == null ? 0 : bssodibtion.bssodibtionID();
+            SdtpNft.sftSodkftOption(fdVbl, nbmf, vbluf, bssodId);
         }
-        return this;
+        rfturn tiis;
     }
 
-    @Override
-    @SuppressWarnings("unchecked")
-    public <T> T getOption(SctpSocketOption<T> name, Association association)
-            throws IOException {
-        if (name == null)
-            throw new NullPointerException();
-        if (!supportedOptions().contains(name))
-            throw new UnsupportedOperationException("'" + name + "' not supported");
+    @Ovfrridf
+    @SupprfssWbrnings("undifdkfd")
+    publid <T> T gftOption(SdtpSodkftOption<T> nbmf, Assodibtion bssodibtion)
+            tirows IOExdfption {
+        if (nbmf == null)
+            tirow nfw NullPointfrExdfption();
+        if (!supportfdOptions().dontbins(nbmf))
+            tirow nfw UnsupportfdOpfrbtionExdfption("'" + nbmf + "' not supportfd");
 
-        synchronized (stateLock) {
-            if (association != null && (name.equals(SCTP_PRIMARY_ADDR) ||
-                    name.equals(SCTP_SET_PEER_PRIMARY_ADDR))) {
-                checkAssociation(association);
+        syndironizfd (stbtfLodk) {
+            if (bssodibtion != null && (nbmf.fqubls(SCTP_PRIMARY_ADDR) ||
+                    nbmf.fqubls(SCTP_SET_PEER_PRIMARY_ADDR))) {
+                difdkAssodibtion(bssodibtion);
             }
-            if (!isOpen())
-                throw new ClosedChannelException();
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
 
-            int assocId = association == null ? 0 : association.associationID();
-            return (T)SctpNet.getSocketOption(fdVal, name, assocId);
+            int bssodId = bssodibtion == null ? 0 : bssodibtion.bssodibtionID();
+            rfturn (T)SdtpNft.gftSodkftOption(fdVbl, nbmf, bssodId);
         }
     }
 
-    private static class DefaultOptionsHolder {
-        static final Set<SctpSocketOption<?>> defaultOptions = defaultOptions();
+    privbtf stbtid dlbss DffbultOptionsHoldfr {
+        stbtid finbl Sft<SdtpSodkftOption<?>> dffbultOptions = dffbultOptions();
 
-        private static Set<SctpSocketOption<?>> defaultOptions() {
-            HashSet<SctpSocketOption<?>> set = new HashSet<SctpSocketOption<?>>(10);
-            set.add(SCTP_DISABLE_FRAGMENTS);
-            set.add(SCTP_EXPLICIT_COMPLETE);
-            set.add(SCTP_FRAGMENT_INTERLEAVE);
-            set.add(SCTP_INIT_MAXSTREAMS);
-            set.add(SCTP_NODELAY);
-            set.add(SCTP_PRIMARY_ADDR);
-            set.add(SCTP_SET_PEER_PRIMARY_ADDR);
-            set.add(SO_SNDBUF);
-            set.add(SO_RCVBUF);
-            set.add(SO_LINGER);
-            return Collections.unmodifiableSet(set);
+        privbtf stbtid Sft<SdtpSodkftOption<?>> dffbultOptions() {
+            HbsiSft<SdtpSodkftOption<?>> sft = nfw HbsiSft<SdtpSodkftOption<?>>(10);
+            sft.bdd(SCTP_DISABLE_FRAGMENTS);
+            sft.bdd(SCTP_EXPLICIT_COMPLETE);
+            sft.bdd(SCTP_FRAGMENT_INTERLEAVE);
+            sft.bdd(SCTP_INIT_MAXSTREAMS);
+            sft.bdd(SCTP_NODELAY);
+            sft.bdd(SCTP_PRIMARY_ADDR);
+            sft.bdd(SCTP_SET_PEER_PRIMARY_ADDR);
+            sft.bdd(SO_SNDBUF);
+            sft.bdd(SO_RCVBUF);
+            sft.bdd(SO_LINGER);
+            rfturn Collfdtions.unmodifibblfSft(sft);
         }
     }
 
-    @Override
-    public final Set<SctpSocketOption<?>> supportedOptions() {
-        return DefaultOptionsHolder.defaultOptions;
+    @Ovfrridf
+    publid finbl Sft<SdtpSodkftOption<?>> supportfdOptions() {
+        rfturn DffbultOptionsHoldfr.dffbultOptions;
     }
 
-    @Override
-    public <T> MessageInfo receive(ByteBuffer buffer,
-                                   T attachment,
-                                   NotificationHandler<T> handler)
-            throws IOException {
-        if (buffer == null)
-            throw new IllegalArgumentException("buffer cannot be null");
+    @Ovfrridf
+    publid <T> MfssbgfInfo rfdfivf(BytfBufffr bufffr,
+                                   T bttbdimfnt,
+                                   NotifidbtionHbndlfr<T> ibndlfr)
+            tirows IOExdfption {
+        if (bufffr == null)
+            tirow nfw IllfgblArgumfntExdfption("bufffr dbnnot bf null");
 
-        if (buffer.isReadOnly())
-            throw new IllegalArgumentException("Read-only buffer");
+        if (bufffr.isRfbdOnly())
+            tirow nfw IllfgblArgumfntExdfption("Rfbd-only bufffr");
 
-        if (receiveInvoked.get())
-            throw new IllegalReceiveException(
-                    "cannot invoke receive from handler");
-        receiveInvoked.set(Boolean.TRUE);
+        if (rfdfivfInvokfd.gft())
+            tirow nfw IllfgblRfdfivfExdfption(
+                    "dbnnot invokf rfdfivf from ibndlfr");
+        rfdfivfInvokfd.sft(Boolfbn.TRUE);
 
         try {
-            ResultContainer resultContainer = new ResultContainer();
+            RfsultContbinfr rfsultContbinfr = nfw RfsultContbinfr();
             do {
-                resultContainer.clear();
-                synchronized (receiveLock) {
-                    ensureOpen();
+                rfsultContbinfr.dlfbr();
+                syndironizfd (rfdfivfLodk) {
+                    fnsurfOpfn();
                     if (!isBound())
-                        throw new NotYetBoundException();
+                        tirow nfw NotYftBoundExdfption();
 
                     int n = 0;
                     try {
-                        begin();
+                        bfgin();
 
-                        synchronized (stateLock) {
-                            if(!isOpen())
-                                return null;
-                            receiverThread = NativeThread.current();
+                        syndironizfd (stbtfLodk) {
+                            if(!isOpfn())
+                                rfturn null;
+                            rfdfivfrTirfbd = NbtivfTirfbd.durrfnt();
                         }
 
                         do {
-                            n = receive(fdVal, buffer, resultContainer);
-                        } while ((n == IOStatus.INTERRUPTED) && isOpen());
+                            n = rfdfivf(fdVbl, bufffr, rfsultContbinfr);
+                        } wiilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
 
-                    } finally {
-                        receiverCleanup();
-                        end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                        assert IOStatus.check(n);
+                    } finblly {
+                        rfdfivfrClfbnup();
+                        fnd((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                        bssfrt IOStbtus.difdk(n);
                     }
 
-                    if (!resultContainer.isNotification()) {
-                        /* message or nothing */
-                        if (resultContainer.hasSomething()) {
-                            /* Set the association before returning */
-                            MessageInfoImpl info =
-                                    resultContainer.getMessageInfo();
-                            info.setAssociation(lookupAssociation(info.
-                                    associationID()));
-                            SecurityManager sm = System.getSecurityManager();
+                    if (!rfsultContbinfr.isNotifidbtion()) {
+                        /* mfssbgf or notiing */
+                        if (rfsultContbinfr.ibsSomftiing()) {
+                            /* Sft tif bssodibtion bfforf rfturning */
+                            MfssbgfInfoImpl info =
+                                    rfsultContbinfr.gftMfssbgfInfo();
+                            info.sftAssodibtion(lookupAssodibtion(info.
+                                    bssodibtionID()));
+                            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                             if (sm != null) {
-                                InetSocketAddress isa  = (InetSocketAddress)info.address();
-                                if (!addressMap.containsKey(isa)) {
-                                    /* must be a new association */
+                                InftSodkftAddrfss isb  = (InftSodkftAddrfss)info.bddrfss();
+                                if (!bddrfssMbp.dontbinsKfy(isb)) {
+                                    /* must bf b nfw bssodibtion */
                                     try {
-                                        sm.checkAccept(isa.getAddress().getHostAddress(),
-                                                       isa.getPort());
-                                    } catch (SecurityException se) {
-                                        buffer.clear();
-                                        throw se;
+                                        sm.difdkAddfpt(isb.gftAddrfss().gftHostAddrfss(),
+                                                       isb.gftPort());
+                                    } dbtdi (SfdurityExdfption sf) {
+                                        bufffr.dlfbr();
+                                        tirow sf;
                                     }
                                 }
                             }
 
-                            assert info.association() != null;
-                            return info;
-                        } else  {
-                          /* Non-blocking may return null if nothing available*/
-                            return null;
+                            bssfrt info.bssodibtion() != null;
+                            rfturn info;
+                        } flsf  {
+                          /* Non-blodking mby rfturn null if notiing bvbilbblf*/
+                            rfturn null;
                         }
-                    } else { /* notification */
-                        synchronized (stateLock) {
-                            handleNotificationInternal(
-                                    resultContainer);
+                    } flsf { /* notifidbtion */
+                        syndironizfd (stbtfLodk) {
+                            ibndlfNotifidbtionIntfrnbl(
+                                    rfsultContbinfr);
                         }
                     }
-                } /* receiveLock */
-            } while (handler == null ? true :
-                (invokeNotificationHandler(resultContainer, handler, attachment)
-                 == HandlerResult.CONTINUE));
-        } finally {
-            receiveInvoked.set(Boolean.FALSE);
+                } /* rfdfivfLodk */
+            } wiilf (ibndlfr == null ? truf :
+                (invokfNotifidbtionHbndlfr(rfsultContbinfr, ibndlfr, bttbdimfnt)
+                 == HbndlfrRfsult.CONTINUE));
+        } finblly {
+            rfdfivfInvokfd.sft(Boolfbn.FALSE);
         }
 
-        return null;
+        rfturn null;
     }
 
-    private int receive(int fd,
-                        ByteBuffer dst,
-                        ResultContainer resultContainer)
-            throws IOException {
+    privbtf int rfdfivf(int fd,
+                        BytfBufffr dst,
+                        RfsultContbinfr rfsultContbinfr)
+            tirows IOExdfption {
         int pos = dst.position();
         int lim = dst.limit();
-        assert (pos <= lim);
-        int rem = (pos <= lim ? lim - pos : 0);
-        if (dst instanceof DirectBuffer && rem > 0)
-            return receiveIntoNativeBuffer(fd, resultContainer, dst, rem, pos);
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
+        if (dst instbndfof DirfdtBufffr && rfm > 0)
+            rfturn rfdfivfIntoNbtivfBufffr(fd, rfsultContbinfr, dst, rfm, pos);
 
-        /* Substitute a native buffer. */
-        int newSize = Math.max(rem, 1);
-        ByteBuffer bb = Util.getTemporaryDirectBuffer(newSize);
+        /* Substitutf b nbtivf bufffr. */
+        int nfwSizf = Mbti.mbx(rfm, 1);
+        BytfBufffr bb = Util.gftTfmporbryDirfdtBufffr(nfwSizf);
         try {
-            int n = receiveIntoNativeBuffer(fd, resultContainer, bb, newSize, 0);
+            int n = rfdfivfIntoNbtivfBufffr(fd, rfsultContbinfr, bb, nfwSizf, 0);
             bb.flip();
-            if (n > 0 && rem > 0)
+            if (n > 0 && rfm > 0)
                 dst.put(bb);
-            return n;
-        } finally {
-            Util.releaseTemporaryDirectBuffer(bb);
+            rfturn n;
+        } finblly {
+            Util.rflfbsfTfmporbryDirfdtBufffr(bb);
         }
     }
 
-    private int receiveIntoNativeBuffer(int fd,
-                                        ResultContainer resultContainer,
-                                        ByteBuffer bb,
-                                        int rem,
+    privbtf int rfdfivfIntoNbtivfBufffr(int fd,
+                                        RfsultContbinfr rfsultContbinfr,
+                                        BytfBufffr bb,
+                                        int rfm,
                                         int pos)
-            throws IOException {
-        int n = receive0(fd, resultContainer, ((DirectBuffer)bb).address() + pos, rem);
+            tirows IOExdfption {
+        int n = rfdfivf0(fd, rfsultContbinfr, ((DirfdtBufffr)bb).bddrfss() + pos, rfm);
         if (n > 0)
             bb.position(pos + n);
-        return n;
+        rfturn n;
     }
 
-    private InternalNotificationHandler internalNotificationHandler =
-            new InternalNotificationHandler();
+    privbtf IntfrnblNotifidbtionHbndlfr intfrnblNotifidbtionHbndlfr =
+            nfw IntfrnblNotifidbtionHbndlfr();
 
-    private void handleNotificationInternal(ResultContainer resultContainer)
+    privbtf void ibndlfNotifidbtionIntfrnbl(RfsultContbinfr rfsultContbinfr)
     {
-        invokeNotificationHandler(resultContainer,
-                internalNotificationHandler, null);
+        invokfNotifidbtionHbndlfr(rfsultContbinfr,
+                intfrnblNotifidbtionHbndlfr, null);
     }
 
-    private class InternalNotificationHandler
-            extends AbstractNotificationHandler<Object>
+    privbtf dlbss IntfrnblNotifidbtionHbndlfr
+            fxtfnds AbstrbdtNotifidbtionHbndlfr<Objfdt>
     {
-        @Override
-        public HandlerResult handleNotification(
-                AssociationChangeNotification not, Object unused) {
-            AssociationChange sac = (AssociationChange) not;
+        @Ovfrridf
+        publid HbndlfrRfsult ibndlfNotifidbtion(
+                AssodibtionCibngfNotifidbtion not, Objfdt unusfd) {
+            AssodibtionCibngf sbd = (AssodibtionCibngf) not;
 
-            /* Update map to reflect change in association */
-            switch (not.event()) {
-                case COMM_UP :
-                    Association newAssociation = new AssociationImpl
-                       (sac.assocId(), sac.maxInStreams(), sac.maxOutStreams());
-                    addAssociation(newAssociation);
-                    break;
-                case SHUTDOWN :
-                case COMM_LOST :
-                //case RESTART: ???
-                    /* mark association for removal after user handler invoked*/
-                    associationToRemove.set(lookupAssociation(sac.assocId()));
+            /* Updbtf mbp to rfflfdt dibngf in bssodibtion */
+            switdi (not.fvfnt()) {
+                dbsf COMM_UP :
+                    Assodibtion nfwAssodibtion = nfw AssodibtionImpl
+                       (sbd.bssodId(), sbd.mbxInStrfbms(), sbd.mbxOutStrfbms());
+                    bddAssodibtion(nfwAssodibtion);
+                    brfbk;
+                dbsf SHUTDOWN :
+                dbsf COMM_LOST :
+                //dbsf RESTART: ???
+                    /* mbrk bssodibtion for rfmovbl bftfr usfr ibndlfr invokfd*/
+                    bssodibtionToRfmovf.sft(lookupAssodibtion(sbd.bssodId()));
             }
-            return HandlerResult.CONTINUE;
+            rfturn HbndlfrRfsult.CONTINUE;
         }
     }
 
-    private <T> HandlerResult invokeNotificationHandler(
-                                   ResultContainer resultContainer,
-                                   NotificationHandler<T> handler,
-                                   T attachment) {
-        HandlerResult result;
-        SctpNotification notification = resultContainer.notification();
-        notification.setAssociation(lookupAssociation(notification.assocId()));
+    privbtf <T> HbndlfrRfsult invokfNotifidbtionHbndlfr(
+                                   RfsultContbinfr rfsultContbinfr,
+                                   NotifidbtionHbndlfr<T> ibndlfr,
+                                   T bttbdimfnt) {
+        HbndlfrRfsult rfsult;
+        SdtpNotifidbtion notifidbtion = rfsultContbinfr.notifidbtion();
+        notifidbtion.sftAssodibtion(lookupAssodibtion(notifidbtion.bssodId()));
 
-        if (!(handler instanceof AbstractNotificationHandler)) {
-            result = handler.handleNotification(notification, attachment);
-        } else { /* AbstractNotificationHandler */
-            AbstractNotificationHandler<T> absHandler =
-                    (AbstractNotificationHandler<T>)handler;
-            switch(resultContainer.type()) {
-                case ASSOCIATION_CHANGED :
-                    result = absHandler.handleNotification(
-                            resultContainer.getAssociationChanged(), attachment);
-                    break;
-                case PEER_ADDRESS_CHANGED :
-                    result = absHandler.handleNotification(
-                            resultContainer.getPeerAddressChanged(), attachment);
-                    break;
-                case SEND_FAILED :
-                    result = absHandler.handleNotification(
-                            resultContainer.getSendFailed(), attachment);
-                    break;
-                case SHUTDOWN :
-                    result =  absHandler.handleNotification(
-                            resultContainer.getShutdown(), attachment);
-                    break;
-                default :
-                    /* implementation specific handlers */
-                    result =  absHandler.handleNotification(
-                            resultContainer.notification(), attachment);
+        if (!(ibndlfr instbndfof AbstrbdtNotifidbtionHbndlfr)) {
+            rfsult = ibndlfr.ibndlfNotifidbtion(notifidbtion, bttbdimfnt);
+        } flsf { /* AbstrbdtNotifidbtionHbndlfr */
+            AbstrbdtNotifidbtionHbndlfr<T> bbsHbndlfr =
+                    (AbstrbdtNotifidbtionHbndlfr<T>)ibndlfr;
+            switdi(rfsultContbinfr.typf()) {
+                dbsf ASSOCIATION_CHANGED :
+                    rfsult = bbsHbndlfr.ibndlfNotifidbtion(
+                            rfsultContbinfr.gftAssodibtionCibngfd(), bttbdimfnt);
+                    brfbk;
+                dbsf PEER_ADDRESS_CHANGED :
+                    rfsult = bbsHbndlfr.ibndlfNotifidbtion(
+                            rfsultContbinfr.gftPffrAddrfssCibngfd(), bttbdimfnt);
+                    brfbk;
+                dbsf SEND_FAILED :
+                    rfsult = bbsHbndlfr.ibndlfNotifidbtion(
+                            rfsultContbinfr.gftSfndFbilfd(), bttbdimfnt);
+                    brfbk;
+                dbsf SHUTDOWN :
+                    rfsult =  bbsHbndlfr.ibndlfNotifidbtion(
+                            rfsultContbinfr.gftSiutdown(), bttbdimfnt);
+                    brfbk;
+                dffbult :
+                    /* implfmfntbtion spfdifid ibndlfrs */
+                    rfsult =  bbsHbndlfr.ibndlfNotifidbtion(
+                            rfsultContbinfr.notifidbtion(), bttbdimfnt);
             }
         }
 
-        if (!(handler instanceof InternalNotificationHandler)) {
-            /* Only remove associations after user handler
-             * has finished with them */
-            Association assoc = associationToRemove.get();
-            if (assoc != null) {
-                removeAssociation(assoc);
-                associationToRemove.set(null);
+        if (!(ibndlfr instbndfof IntfrnblNotifidbtionHbndlfr)) {
+            /* Only rfmovf bssodibtions bftfr usfr ibndlfr
+             * ibs finisifd witi tifm */
+            Assodibtion bssod = bssodibtionToRfmovf.gft();
+            if (bssod != null) {
+                rfmovfAssodibtion(bssod);
+                bssodibtionToRfmovf.sft(null);
             }
 
         }
 
-        return result;
+        rfturn rfsult;
     }
 
-    private Association lookupAssociation(int assocId) {
-        /* Lookup the association in our internal map */
-        synchronized (stateLock) {
-            Set<Association> assocs = associationMap.keySet();
-            for (Association a : assocs) {
-                if (a.associationID() == assocId) {
-                    return a;
+    privbtf Assodibtion lookupAssodibtion(int bssodId) {
+        /* Lookup tif bssodibtion in our intfrnbl mbp */
+        syndironizfd (stbtfLodk) {
+            Sft<Assodibtion> bssods = bssodibtionMbp.kfySft();
+            for (Assodibtion b : bssods) {
+                if (b.bssodibtionID() == bssodId) {
+                    rfturn b;
                 }
             }
         }
-        return null;
+        rfturn null;
     }
 
-    private void addAssociation(Association association) {
-        synchronized (stateLock) {
-            int assocId = association.associationID();
-            Set<SocketAddress> addresses = null;
+    privbtf void bddAssodibtion(Assodibtion bssodibtion) {
+        syndironizfd (stbtfLodk) {
+            int bssodId = bssodibtion.bssodibtionID();
+            Sft<SodkftAddrfss> bddrfssfs = null;
 
             try {
-                addresses = SctpNet.getRemoteAddresses(fdVal, assocId);
-            } catch (IOException unused) {
-                /* OK, determining connected addresses may not be possible
-                 * shutdown, connection lost, etc */
+                bddrfssfs = SdtpNft.gftRfmotfAddrfssfs(fdVbl, bssodId);
+            } dbtdi (IOExdfption unusfd) {
+                /* OK, dftfrmining donnfdtfd bddrfssfs mby not bf possiblf
+                 * siutdown, donnfdtion lost, ftd */
             }
 
-            associationMap.put(association, addresses);
-            if (addresses != null) {
-                for (SocketAddress addr : addresses)
-                    addressMap.put(addr, association);
+            bssodibtionMbp.put(bssodibtion, bddrfssfs);
+            if (bddrfssfs != null) {
+                for (SodkftAddrfss bddr : bddrfssfs)
+                    bddrfssMbp.put(bddr, bssodibtion);
             }
         }
     }
 
-    private void removeAssociation(Association association) {
-        synchronized (stateLock) {
-            int assocId = association.associationID();
-            Set<SocketAddress> addresses = null;
+    privbtf void rfmovfAssodibtion(Assodibtion bssodibtion) {
+        syndironizfd (stbtfLodk) {
+            int bssodId = bssodibtion.bssodibtionID();
+            Sft<SodkftAddrfss> bddrfssfs = null;
 
              try {
-                addresses = SctpNet.getRemoteAddresses(fdVal, assocId);
-            } catch (IOException unused) {
-                /* OK, determining connected addresses may not be possible
-                 * shutdown, connection lost, etc */
+                bddrfssfs = SdtpNft.gftRfmotfAddrfssfs(fdVbl, bssodId);
+            } dbtdi (IOExdfption unusfd) {
+                /* OK, dftfrmining donnfdtfd bddrfssfs mby not bf possiblf
+                 * siutdown, donnfdtion lost, ftd */
             }
 
-            Set<Association> assocs = associationMap.keySet();
-            for (Association a : assocs) {
-                if (a.associationID() == assocId) {
-                    associationMap.remove(a);
-                    break;
+            Sft<Assodibtion> bssods = bssodibtionMbp.kfySft();
+            for (Assodibtion b : bssods) {
+                if (b.bssodibtionID() == bssodId) {
+                    bssodibtionMbp.rfmovf(b);
+                    brfbk;
                 }
             }
-            if (addresses != null) {
-                for (SocketAddress addr : addresses)
-                    addressMap.remove(addr);
-            } else {
-                /* We cannot determine the connected addresses */
-                Set<java.util.Map.Entry<SocketAddress, Association>> addrAssocs =
-                        addressMap.entrySet();
-                Iterator<Entry<SocketAddress, Association>> iterator = addrAssocs.iterator();
-                while (iterator.hasNext()) {
-                    Entry<SocketAddress, Association> entry = iterator.next();
-                    if (entry.getValue().equals(association)) {
-                        iterator.remove();
+            if (bddrfssfs != null) {
+                for (SodkftAddrfss bddr : bddrfssfs)
+                    bddrfssMbp.rfmovf(bddr);
+            } flsf {
+                /* Wf dbnnot dftfrminf tif donnfdtfd bddrfssfs */
+                Sft<jbvb.util.Mbp.Entry<SodkftAddrfss, Assodibtion>> bddrAssods =
+                        bddrfssMbp.fntrySft();
+                Itfrbtor<Entry<SodkftAddrfss, Assodibtion>> itfrbtor = bddrAssods.itfrbtor();
+                wiilf (itfrbtor.ibsNfxt()) {
+                    Entry<SodkftAddrfss, Assodibtion> fntry = itfrbtor.nfxt();
+                    if (fntry.gftVbluf().fqubls(bssodibtion)) {
+                        itfrbtor.rfmovf();
                     }
                 }
             }
@@ -741,265 +741,265 @@ public class SctpMultiChannelImpl extends SctpMultiChannel
     }
 
     /**
-     * @throws  IllegalArgumentException
-     *          If the given association is not controlled by this channel
+     * @tirows  IllfgblArgumfntExdfption
+     *          If tif givfn bssodibtion is not dontrollfd by tiis dibnnfl
      *
-     * @return  {@code true} if, and only if, the given association is one
-     *          of the current associations controlled by this channel
+     * @rfturn  {@dodf truf} if, bnd only if, tif givfn bssodibtion is onf
+     *          of tif durrfnt bssodibtions dontrollfd by tiis dibnnfl
      */
-    private boolean checkAssociation(Association messageAssoc) {
-        synchronized (stateLock) {
-            for (Association association : associationMap.keySet()) {
-                if (messageAssoc.equals(association)) {
-                    return true;
+    privbtf boolfbn difdkAssodibtion(Assodibtion mfssbgfAssod) {
+        syndironizfd (stbtfLodk) {
+            for (Assodibtion bssodibtion : bssodibtionMbp.kfySft()) {
+                if (mfssbgfAssod.fqubls(bssodibtion)) {
+                    rfturn truf;
                 }
             }
         }
-        throw new IllegalArgumentException(
-              "Given Association is not controlled by this channel");
+        tirow nfw IllfgblArgumfntExdfption(
+              "Givfn Assodibtion is not dontrollfd by tiis dibnnfl");
     }
 
-    private void checkStreamNumber(Association assoc, int streamNumber) {
-        synchronized (stateLock) {
-            if (streamNumber < 0 || streamNumber >= assoc.maxOutboundStreams())
-                throw new InvalidStreamException();
+    privbtf void difdkStrfbmNumbfr(Assodibtion bssod, int strfbmNumbfr) {
+        syndironizfd (stbtfLodk) {
+            if (strfbmNumbfr < 0 || strfbmNumbfr >= bssod.mbxOutboundStrfbms())
+                tirow nfw InvblidStrfbmExdfption();
         }
     }
 
-    /* TODO: Add support for ttl and isComplete to both 121 12M
-     *       SCTP_EOR not yet supported on reference platforms
-     *       TTL support limited...
+    /* TODO: Add support for ttl bnd isComplftf to boti 121 12M
+     *       SCTP_EOR not yft supportfd on rfffrfndf plbtforms
+     *       TTL support limitfd...
      */
-    @Override
-    public int send(ByteBuffer buffer, MessageInfo messageInfo)
-            throws IOException {
-        if (buffer == null)
-            throw new IllegalArgumentException("buffer cannot be null");
+    @Ovfrridf
+    publid int sfnd(BytfBufffr bufffr, MfssbgfInfo mfssbgfInfo)
+            tirows IOExdfption {
+        if (bufffr == null)
+            tirow nfw IllfgblArgumfntExdfption("bufffr dbnnot bf null");
 
-        if (messageInfo == null)
-            throw new IllegalArgumentException("messageInfo cannot be null");
+        if (mfssbgfInfo == null)
+            tirow nfw IllfgblArgumfntExdfption("mfssbgfInfo dbnnot bf null");
 
-        synchronized (sendLock) {
-            ensureOpen();
+        syndironizfd (sfndLodk) {
+            fnsurfOpfn();
 
             if (!isBound())
                 bind(null, 0);
 
             int n = 0;
             try {
-                int assocId = -1;
-                SocketAddress address = null;
-                begin();
+                int bssodId = -1;
+                SodkftAddrfss bddrfss = null;
+                bfgin();
 
-                synchronized (stateLock) {
-                    if(!isOpen())
-                        return 0;
-                    senderThread = NativeThread.current();
+                syndironizfd (stbtfLodk) {
+                    if(!isOpfn())
+                        rfturn 0;
+                    sfndfrTirfbd = NbtivfTirfbd.durrfnt();
 
-                    /* Determine what address or association to send to */
-                    Association assoc = messageInfo.association();
-                    InetSocketAddress addr = (InetSocketAddress)messageInfo.address();
-                    if (assoc != null) {
-                        checkAssociation(assoc);
-                        checkStreamNumber(assoc, messageInfo.streamNumber());
-                        assocId = assoc.associationID();
-                        /* have we also got a preferred address */
-                        if (addr != null) {
-                            if (!assoc.equals(addressMap.get(addr)))
-                                throw new IllegalArgumentException("given preferred address is not part of this association");
-                            address = addr;
+                    /* Dftfrminf wibt bddrfss or bssodibtion to sfnd to */
+                    Assodibtion bssod = mfssbgfInfo.bssodibtion();
+                    InftSodkftAddrfss bddr = (InftSodkftAddrfss)mfssbgfInfo.bddrfss();
+                    if (bssod != null) {
+                        difdkAssodibtion(bssod);
+                        difdkStrfbmNumbfr(bssod, mfssbgfInfo.strfbmNumbfr());
+                        bssodId = bssod.bssodibtionID();
+                        /* ibvf wf blso got b prfffrrfd bddrfss */
+                        if (bddr != null) {
+                            if (!bssod.fqubls(bddrfssMbp.gft(bddr)))
+                                tirow nfw IllfgblArgumfntExdfption("givfn prfffrrfd bddrfss is not pbrt of tiis bssodibtion");
+                            bddrfss = bddr;
                         }
-                    } else if (addr != null) {
-                        address = addr;
-                        Association association = addressMap.get(addr);
-                        if (association != null) {
-                            checkStreamNumber(association, messageInfo.streamNumber());
-                            assocId = association.associationID();
+                    } flsf if (bddr != null) {
+                        bddrfss = bddr;
+                        Assodibtion bssodibtion = bddrfssMbp.gft(bddr);
+                        if (bssodibtion != null) {
+                            difdkStrfbmNumbfr(bssodibtion, mfssbgfInfo.strfbmNumbfr());
+                            bssodId = bssodibtion.bssodibtionID();
 
-                        } else { /* must be new association */
-                            SecurityManager sm = System.getSecurityManager();
+                        } flsf { /* must bf nfw bssodibtion */
+                            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
                             if (sm != null)
-                                sm.checkConnect(addr.getAddress().getHostAddress(),
-                                                addr.getPort());
+                                sm.difdkConnfdt(bddr.gftAddrfss().gftHostAddrfss(),
+                                                bddr.gftPort());
                         }
-                    } else {
-                        throw new AssertionError(
-                            "Both association and address cannot be null");
+                    } flsf {
+                        tirow nfw AssfrtionError(
+                            "Boti bssodibtion bnd bddrfss dbnnot bf null");
                     }
                 }
 
                 do {
-                    n = send(fdVal, buffer, assocId, address, messageInfo);
-                } while ((n == IOStatus.INTERRUPTED) && isOpen());
+                    n = sfnd(fdVbl, bufffr, bssodId, bddrfss, mfssbgfInfo);
+                } wiilf ((n == IOStbtus.INTERRUPTED) && isOpfn());
 
-                return IOStatus.normalize(n);
-            } finally {
-                senderCleanup();
-                end((n > 0) || (n == IOStatus.UNAVAILABLE));
-                assert IOStatus.check(n);
+                rfturn IOStbtus.normblizf(n);
+            } finblly {
+                sfndfrClfbnup();
+                fnd((n > 0) || (n == IOStbtus.UNAVAILABLE));
+                bssfrt IOStbtus.difdk(n);
             }
         }
     }
 
-    private int send(int fd,
-                     ByteBuffer src,
-                     int assocId,
-                     SocketAddress target,
-                     MessageInfo messageInfo)
-            throws IOException {
-        int streamNumber = messageInfo.streamNumber();
-        boolean unordered = messageInfo.isUnordered();
-        int ppid = messageInfo.payloadProtocolID();
+    privbtf int sfnd(int fd,
+                     BytfBufffr srd,
+                     int bssodId,
+                     SodkftAddrfss tbrgft,
+                     MfssbgfInfo mfssbgfInfo)
+            tirows IOExdfption {
+        int strfbmNumbfr = mfssbgfInfo.strfbmNumbfr();
+        boolfbn unordfrfd = mfssbgfInfo.isUnordfrfd();
+        int ppid = mfssbgfInfo.pbylobdProtodolID();
 
-        if (src instanceof DirectBuffer)
-            return sendFromNativeBuffer(fd, src, target, assocId,
-                    streamNumber, unordered, ppid);
+        if (srd instbndfof DirfdtBufffr)
+            rfturn sfndFromNbtivfBufffr(fd, srd, tbrgft, bssodId,
+                    strfbmNumbfr, unordfrfd, ppid);
 
-        /* Substitute a native buffer */
-        int pos = src.position();
-        int lim = src.limit();
-        assert (pos <= lim && streamNumber >= 0);
+        /* Substitutf b nbtivf bufffr */
+        int pos = srd.position();
+        int lim = srd.limit();
+        bssfrt (pos <= lim && strfbmNumbfr >= 0);
 
-        int rem = (pos <= lim ? lim - pos : 0);
-        ByteBuffer bb = Util.getTemporaryDirectBuffer(rem);
+        int rfm = (pos <= lim ? lim - pos : 0);
+        BytfBufffr bb = Util.gftTfmporbryDirfdtBufffr(rfm);
         try {
-            bb.put(src);
+            bb.put(srd);
             bb.flip();
-            /* Do not update src until we see how many bytes were written */
-            src.position(pos);
+            /* Do not updbtf srd until wf sff iow mbny bytfs wfrf writtfn */
+            srd.position(pos);
 
-            int n = sendFromNativeBuffer(fd, bb, target, assocId,
-                    streamNumber, unordered, ppid);
+            int n = sfndFromNbtivfBufffr(fd, bb, tbrgft, bssodId,
+                    strfbmNumbfr, unordfrfd, ppid);
             if (n > 0) {
-                /* now update src */
-                src.position(pos + n);
+                /* now updbtf srd */
+                srd.position(pos + n);
             }
-            return n;
-        } finally {
-            Util.releaseTemporaryDirectBuffer(bb);
+            rfturn n;
+        } finblly {
+            Util.rflfbsfTfmporbryDirfdtBufffr(bb);
         }
     }
 
-    private int sendFromNativeBuffer(int fd,
-                                     ByteBuffer bb,
-                                     SocketAddress target,
-                                     int assocId,
-                                     int streamNumber,
-                                     boolean unordered,
+    privbtf int sfndFromNbtivfBufffr(int fd,
+                                     BytfBufffr bb,
+                                     SodkftAddrfss tbrgft,
+                                     int bssodId,
+                                     int strfbmNumbfr,
+                                     boolfbn unordfrfd,
                                      int ppid)
-            throws IOException {
-        InetAddress addr = null;     // no preferred address
+            tirows IOExdfption {
+        InftAddrfss bddr = null;     // no prfffrrfd bddrfss
         int port = 0;
-        if (target != null) {
-            InetSocketAddress isa = Net.checkAddress(target);
-            addr = isa.getAddress();
-            port = isa.getPort();
+        if (tbrgft != null) {
+            InftSodkftAddrfss isb = Nft.difdkAddrfss(tbrgft);
+            bddr = isb.gftAddrfss();
+            port = isb.gftPort();
         }
         int pos = bb.position();
         int lim = bb.limit();
-        assert (pos <= lim);
-        int rem = (pos <= lim ? lim - pos : 0);
+        bssfrt (pos <= lim);
+        int rfm = (pos <= lim ? lim - pos : 0);
 
-        int written = send0(fd, ((DirectBuffer)bb).address() + pos, rem, addr,
-                            port, assocId, streamNumber, unordered, ppid);
-        if (written > 0)
-            bb.position(pos + written);
-        return written;
+        int writtfn = sfnd0(fd, ((DirfdtBufffr)bb).bddrfss() + pos, rfm, bddr,
+                            port, bssodId, strfbmNumbfr, unordfrfd, ppid);
+        if (writtfn > 0)
+            bb.position(pos + writtfn);
+        rfturn writtfn;
     }
 
-    @Override
-    public SctpMultiChannel shutdown(Association association)
-            throws IOException {
-        synchronized (stateLock) {
-            checkAssociation(association);
-            if (!isOpen())
-                throw new ClosedChannelException();
+    @Ovfrridf
+    publid SdtpMultiCibnnfl siutdown(Assodibtion bssodibtion)
+            tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            difdkAssodibtion(bssodibtion);
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
 
-            SctpNet.shutdown(fdVal, association.associationID());
+            SdtpNft.siutdown(fdVbl, bssodibtion.bssodibtionID());
         }
-        return this;
+        rfturn tiis;
     }
 
-    @Override
-    public Set<SocketAddress> getAllLocalAddresses()
-            throws IOException {
-        synchronized (stateLock) {
-            if (!isOpen())
-                throw new ClosedChannelException();
+    @Ovfrridf
+    publid Sft<SodkftAddrfss> gftAllLodblAddrfssfs()
+            tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
             if (!isBound())
-                return Collections.emptySet();
+                rfturn Collfdtions.fmptySft();
 
-            return SctpNet.getLocalAddresses(fdVal);
+            rfturn SdtpNft.gftLodblAddrfssfs(fdVbl);
         }
     }
 
-    @Override
-    public Set<SocketAddress> getRemoteAddresses(Association association)
-            throws IOException {
-        synchronized (stateLock) {
-            checkAssociation(association);
-            if (!isOpen())
-                throw new ClosedChannelException();
+    @Ovfrridf
+    publid Sft<SodkftAddrfss> gftRfmotfAddrfssfs(Assodibtion bssodibtion)
+            tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            difdkAssodibtion(bssodibtion);
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
 
             try {
-                return SctpNet.getRemoteAddresses(fdVal, association.associationID());
-            } catch (SocketException se) {
-                /* a valid association should always have remote addresses */
-                Set<SocketAddress> addrs = associationMap.get(association);
-                return addrs != null ? addrs : Collections.<SocketAddress>emptySet();
+                rfturn SdtpNft.gftRfmotfAddrfssfs(fdVbl, bssodibtion.bssodibtionID());
+            } dbtdi (SodkftExdfption sf) {
+                /* b vblid bssodibtion siould blwbys ibvf rfmotf bddrfssfs */
+                Sft<SodkftAddrfss> bddrs = bssodibtionMbp.gft(bssodibtion);
+                rfturn bddrs != null ? bddrs : Collfdtions.<SodkftAddrfss>fmptySft();
             }
         }
     }
 
-    @Override
-    public SctpChannel branch(Association association)
-            throws IOException {
-        synchronized (stateLock) {
-            checkAssociation(association);
-            if (!isOpen())
-                throw new ClosedChannelException();
+    @Ovfrridf
+    publid SdtpCibnnfl brbndi(Assodibtion bssodibtion)
+            tirows IOExdfption {
+        syndironizfd (stbtfLodk) {
+            difdkAssodibtion(bssodibtion);
+            if (!isOpfn())
+                tirow nfw ClosfdCibnnflExdfption();
 
-            FileDescriptor bFd = SctpNet.branch(fdVal,
-                                                association.associationID());
-            /* successfully branched, we can now remove it from assoc list */
-            removeAssociation(association);
+            FilfDfsdriptor bFd = SdtpNft.brbndi(fdVbl,
+                                                bssodibtion.bssodibtionID());
+            /* suddfssfully brbndifd, wf dbn now rfmovf it from bssod list */
+            rfmovfAssodibtion(bssodibtion);
 
-            return new SctpChannelImpl(provider(), bFd, association);
+            rfturn nfw SdtpCibnnflImpl(providfr(), bFd, bssodibtion);
         }
     }
 
-    /* Use common native implementation shared between
-     * one-to-one and one-to-many */
-    private static int receive0(int fd,
-                                ResultContainer resultContainer,
-                                long address,
-                                int length)
-            throws IOException{
-        return SctpChannelImpl.receive0(fd, resultContainer, address,
-                length, false /*peek */);
+    /* Usf dommon nbtivf implfmfntbtion sibrfd bftwffn
+     * onf-to-onf bnd onf-to-mbny */
+    privbtf stbtid int rfdfivf0(int fd,
+                                RfsultContbinfr rfsultContbinfr,
+                                long bddrfss,
+                                int lfngti)
+            tirows IOExdfption{
+        rfturn SdtpCibnnflImpl.rfdfivf0(fd, rfsultContbinfr, bddrfss,
+                lfngti, fblsf /*pffk */);
     }
 
-    private static int send0(int fd,
-                             long address,
-                             int length,
-                             InetAddress addr,
+    privbtf stbtid int sfnd0(int fd,
+                             long bddrfss,
+                             int lfngti,
+                             InftAddrfss bddr,
                              int port,
-                             int assocId,
-                             int streamNumber,
-                             boolean unordered,
+                             int bssodId,
+                             int strfbmNumbfr,
+                             boolfbn unordfrfd,
                              int ppid)
-            throws IOException {
-        return SctpChannelImpl.send0(fd, address, length, addr, port, assocId,
-                streamNumber, unordered, ppid);
+            tirows IOExdfption {
+        rfturn SdtpCibnnflImpl.sfnd0(fd, bddrfss, lfngti, bddr, port, bssodId,
+                strfbmNumbfr, unordfrfd, ppid);
     }
 
-    static {
-        IOUtil.load();   /* loads nio & net native libraries */
-        java.security.AccessController.doPrivileged(
-            new java.security.PrivilegedAction<Void>() {
-                public Void run() {
-                    System.loadLibrary("sctp");
-                    return null;
+    stbtid {
+        IOUtil.lobd();   /* lobds nio & nft nbtivf librbrifs */
+        jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw jbvb.sfdurity.PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    Systfm.lobdLibrbry("sdtp");
+                    rfturn null;
                 }
             });
     }

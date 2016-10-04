@@ -1,244 +1,244 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package apple.applescript;
+pbdkbgf bpplf.bpplfsdript;
 
-import java.security.*;
-import java.util.*;
-import javax.script.*;
+import jbvb.sfdurity.*;
+import jbvb.util.*;
+import jbvbx.sdript.*;
 
-public class AppleScriptEngineFactory implements ScriptEngineFactory {
-    private static volatile boolean initialized = false;
+publid dlbss ApplfSdriptEnginfFbdtory implfmfnts SdriptEnginfFbdtory {
+    privbtf stbtid volbtilf boolfbn initiblizfd = fblsf;
 
-    private static native void initNative();
+    privbtf stbtid nbtivf void initNbtivf();
 
-    static void TRACE(final String str) {
-//        System.out.println(AppleScriptEngineFactory.class.getName() + "." + str);
+    stbtid void TRACE(finbl String str) {
+//        Systfm.out.println(ApplfSdriptEnginfFbdtory.dlbss.gftNbmf() + "." + str);
     }
 
     /**
-     * The name of this ScriptEngine
+     * Tif nbmf of tiis SdriptEnginf
      */
-    static final String ENGINE_NAME = "AppleScriptEngine";
+    stbtid finbl String ENGINE_NAME = "ApplfSdriptEnginf";
 
     /**
-     * The version of this ScriptEngine
+     * Tif vfrsion of tiis SdriptEnginf
      */
-    static final String ENGINE_VERSION = "1.1";
+    stbtid finbl String ENGINE_VERSION = "1.1";
 
     /**
-     * The name of this ScriptEngine (yes, again)
+     * Tif nbmf of tiis SdriptEnginf (yfs, bgbin)
      */
-    static final String ENGINE_SHORT_NAME = ENGINE_NAME;
+    stbtid finbl String ENGINE_SHORT_NAME = ENGINE_NAME;
 
     /**
-     * The name of the language supported by this ScriptEngine
+     * Tif nbmf of tif lbngubgf supportfd by tiis SdriptEnginf
      */
-    static final String LANGUAGE = "AppleScript";
+    stbtid finbl String LANGUAGE = "ApplfSdript";
 
-    static ScriptEngineFactory getFactory() {
-        TRACE("getFactory()");
-        return new AppleScriptEngineFactory();
+    stbtid SdriptEnginfFbdtory gftFbdtory() {
+        TRACE("gftFbdtory()");
+        rfturn nfw ApplfSdriptEnginfFbdtory();
     }
 
     /**
-     * Initialize a new AppleScriptEngineFactory, replete with a member AppleScriptEngine
+     * Initiblizf b nfw ApplfSdriptEnginfFbdtory, rfplftf witi b mfmbfr ApplfSdriptEnginf
      */
-    public AppleScriptEngineFactory() {
-        TRACE("<ctor>()");
+    publid ApplfSdriptEnginfFbdtory() {
+        TRACE("<dtor>()");
     }
 
     /**
-     * Returns the full name of the ScriptEngine.
+     * Rfturns tif full nbmf of tif SdriptEnginf.
      *
-     * @return full name of the ScriptEngine
+     * @rfturn full nbmf of tif SdriptEnginf
      */
-    @Override
-    public String getEngineName() {
-        TRACE("getEngineName()");
-        return ENGINE_NAME;
+    @Ovfrridf
+    publid String gftEnginfNbmf() {
+        TRACE("gftEnginfNbmf()");
+        rfturn ENGINE_NAME;
     }
 
     /**
-     * Returns the version of the ScriptEngine.
+     * Rfturns tif vfrsion of tif SdriptEnginf.
      *
-     * @return version of the ScriptEngine
+     * @rfturn vfrsion of tif SdriptEnginf
      */
-    @Override
-    public String getEngineVersion() {
-        TRACE("getEngineVersion()");
-        return ENGINE_VERSION;
+    @Ovfrridf
+    publid String gftEnginfVfrsion() {
+        TRACE("gftEnginfVfrsion()");
+        rfturn ENGINE_VERSION;
     }
 
     /**
-     * Returns the name of the scripting language supported by this ScriptEngine.
+     * Rfturns tif nbmf of tif sdripting lbngubgf supportfd by tiis SdriptEnginf.
      *
-     * @return name of the language supported by the ScriptEngine(Factory)
+     * @rfturn nbmf of tif lbngubgf supportfd by tif SdriptEnginf(Fbdtory)
      */
-    @Override
-    public String getLanguageName() {
-        TRACE("getLanguageName()");
-        return LANGUAGE;
+    @Ovfrridf
+    publid String gftLbngubgfNbmf() {
+        TRACE("gftLbngubgfNbmf()");
+        rfturn LANGUAGE;
     }
 
     /**
-     * Returns the version of the scripting language supported by this ScriptEngine(Factory).
+     * Rfturns tif vfrsion of tif sdripting lbngubgf supportfd by tiis SdriptEnginf(Fbdtory).
      *
-     * @return language version supported by the ScriptEngine(Factory)
+     * @rfturn lbngubgf vfrsion supportfd by tif SdriptEnginf(Fbdtory)
      */
-    @Override
-    public String getLanguageVersion() {
-        TRACE("getLanguageVersion()");
-        return AccessController.doPrivileged(new PrivilegedAction<String>() {
-            public String run() {
-                final AppleScriptEngine engine = getScriptEngine();
-                return engine.getLanguageVersion();
+    @Ovfrridf
+    publid String gftLbngubgfVfrsion() {
+        TRACE("gftLbngubgfVfrsion()");
+        rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<String>() {
+            publid String run() {
+                finbl ApplfSdriptEnginf fnginf = gftSdriptEnginf();
+                rfturn fnginf.gftLbngubgfVfrsion();
             }
         });
     }
 
     /**
-     * Returns an immutable list of filename extensions, which generally identify
-     * scripts written in the language supported by this ScriptEngine.
+     * Rfturns bn immutbblf list of filfnbmf fxtfnsions, wiidi gfnfrblly idfntify
+     * sdripts writtfn in tif lbngubgf supportfd by tiis SdriptEnginf.
      *
-     * @return ArrayList of file extensions AppleScript associates with
+     * @rfturn ArrbyList of filf fxtfnsions ApplfSdript bssodibtfs witi
      */
-    @Override
-    public List<String> getExtensions() {
-        TRACE("getExtensions()");
-        return Arrays.asList("scpt", "applescript", "app");
+    @Ovfrridf
+    publid List<String> gftExtfnsions() {
+        TRACE("gftExtfnsions()");
+        rfturn Arrbys.bsList("sdpt", "bpplfsdript", "bpp");
     }
 
     /**
-     * Returns an immutable list of mimetypes, associated with scripts
-     * that can be executed by the engine.
+     * Rfturns bn immutbblf list of mimftypfs, bssodibtfd witi sdripts
+     * tibt dbn bf fxfdutfd by tif fnginf.
      *
-     * @return ArrayList of mimetypes that AppleScript associates with
+     * @rfturn ArrbyList of mimftypfs tibt ApplfSdript bssodibtfs witi
      */
-    @Override
-    public List<String> getMimeTypes() {
-        TRACE("getMimeTypes()");
-        return Arrays.asList("application/x-applescript", "text/plain", "text/applescript");
+    @Ovfrridf
+    publid List<String> gftMimfTypfs() {
+        TRACE("gftMimfTypfs()");
+        rfturn Arrbys.bsList("bpplidbtion/x-bpplfsdript", "tfxt/plbin", "tfxt/bpplfsdript");
     }
 
     /**
-     * Returns an immutable list of short names for the ScriptEngine,
-     * which may be used to identify the ScriptEngine by the ScriptEngineManager.
+     * Rfturns bn immutbblf list of siort nbmfs for tif SdriptEnginf,
+     * wiidi mby bf usfd to idfntify tif SdriptEnginf by tif SdriptEnginfMbnbgfr.
      *
-     * @return
+     * @rfturn
      */
-    @Override
-    public List<String> getNames() {
-        TRACE("getNames()");
-        return Arrays.asList("AppleScriptEngine", "AppleScript", "OSA");
+    @Ovfrridf
+    publid List<String> gftNbmfs() {
+        TRACE("gftNbmfs()");
+        rfturn Arrbys.bsList("ApplfSdriptEnginf", "ApplfSdript", "OSA");
     }
 
     /**
-     * Returns a String which can be used to invoke a method of a Java
-     * object using the syntax of the supported scripting language.
+     * Rfturns b String wiidi dbn bf usfd to invokf b mftiod of b Jbvb
+     * objfdt using tif syntbx of tif supportfd sdripting lbngubgf.
      *
-     * @param obj
-     *            unused -- AppleScript does not support objects
-     * @param m
-     *            function name
-     * @param args
-     *            arguments to the function
-     * @return the AppleScript string calling the method
+     * @pbrbm obj
+     *            unusfd -- ApplfSdript dofs not support objfdts
+     * @pbrbm m
+     *            fundtion nbmf
+     * @pbrbm brgs
+     *            brgumfnts to tif fundtion
+     * @rfturn tif ApplfSdript string dblling tif mftiod
      */
-    @Override
-    public String getMethodCallSyntax(final String obj, final String fname, final String ... args) {
-//        StringBuilder builder = new StringBuilder();
-//        builder.append("my " + fname + "(");
+    @Ovfrridf
+    publid String gftMftiodCbllSyntbx(finbl String obj, finbl String fnbmf, finbl String ... brgs) {
+//        StringBuildfr buildfr = nfw StringBuildfr();
+//        buildfr.bppfnd("my " + fnbmf + "(");
 //        // TODO -- do
-//        builder.append(")\n");
-//        return builder.toString();
+//        buildfr.bppfnd(")\n");
+//        rfturn buildfr.toString();
 
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns a String that can be used as a statement to display the specified String using the syntax of the supported scripting language.
+     * Rfturns b String tibt dbn bf usfd bs b stbtfmfnt to displby tif spfdififd String using tif syntbx of tif supportfd sdripting lbngubgf.
      *
-     * @param toDisplay
-     * @return
+     * @pbrbm toDisplby
+     * @rfturn
      */
-    @Override
-    public String getOutputStatement(final String toDisplay) {
-        // TODO -- this might even be good enough? XD
-        return getMethodCallSyntax(null, "print", toDisplay);
+    @Ovfrridf
+    publid String gftOutputStbtfmfnt(finbl String toDisplby) {
+        // TODO -- tiis migit fvfn bf good fnougi? XD
+        rfturn gftMftiodCbllSyntbx(null, "print", toDisplby);
     }
 
     /**
-     * Returns the value of an attribute whose meaning may be implementation-specific.
+     * Rfturns tif vbluf of bn bttributf wiosf mfbning mby bf implfmfntbtion-spfdifid.
      *
-     * @param key
-     *            the key to look up
-     * @return the static preseeded value for the key in the ScriptEngine, if it exists, otherwise <code>null</code>
+     * @pbrbm kfy
+     *            tif kfy to look up
+     * @rfturn tif stbtid prfsffdfd vbluf for tif kfy in tif SdriptEnginf, if it fxists, otifrwisf <dodf>null</dodf>
      */
-    @Override
-    public Object getParameter(final String key) {
-        final AppleScriptEngine engine = getScriptEngine();
-        if (!engine.getBindings(ScriptContext.ENGINE_SCOPE).containsKey(key)) return null;
-        return engine.getBindings(ScriptContext.ENGINE_SCOPE).get(key);
+    @Ovfrridf
+    publid Objfdt gftPbrbmftfr(finbl String kfy) {
+        finbl ApplfSdriptEnginf fnginf = gftSdriptEnginf();
+        if (!fnginf.gftBindings(SdriptContfxt.ENGINE_SCOPE).dontbinsKfy(kfy)) rfturn null;
+        rfturn fnginf.gftBindings(SdriptContfxt.ENGINE_SCOPE).gft(kfy);
     }
 
     /**
-     * Returns A valid scripting language executable program with given statements.
+     * Rfturns A vblid sdripting lbngubgf fxfdutbblf progrbm witi givfn stbtfmfnts.
      *
-     * @param statements
-     * @return
+     * @pbrbm stbtfmfnts
+     * @rfturn
      */
-    @Override
-    public String getProgram(final String ... statements) {
-        final StringBuilder program = new StringBuilder();
-        for (final String statement : statements) {
-            program.append(statement + "\n");
+    @Ovfrridf
+    publid String gftProgrbm(finbl String ... stbtfmfnts) {
+        finbl StringBuildfr progrbm = nfw StringBuildfr();
+        for (finbl String stbtfmfnt : stbtfmfnts) {
+            progrbm.bppfnd(stbtfmfnt + "\n");
         }
-        return program.toString();
+        rfturn progrbm.toString();
     }
 
     /**
-     * Returns an instance of the ScriptEngine associated with this ScriptEngineFactory.
+     * Rfturns bn instbndf of tif SdriptEnginf bssodibtfd witi tiis SdriptEnginfFbdtory.
      *
-     * @return new AppleScriptEngine with this factory as it's parent
+     * @rfturn nfw ApplfSdriptEnginf witi tiis fbdtory bs it's pbrfnt
      */
-    @Override
-    public AppleScriptEngine getScriptEngine() {
-        AppleScriptEngine.checkSecurity();
-        ensureInitialized();
+    @Ovfrridf
+    publid ApplfSdriptEnginf gftSdriptEnginf() {
+        ApplfSdriptEnginf.difdkSfdurity();
+        fnsurfInitiblizfd();
 
-        return new AppleScriptEngine(this);
+        rfturn nfw ApplfSdriptEnginf(tiis);
     }
 
-    private static synchronized void ensureInitialized() {
-        if (!initialized) {
-            initialized = true;
+    privbtf stbtid syndironizfd void fnsurfInitiblizfd() {
+        if (!initiblizfd) {
+            initiblizfd = truf;
 
-            java.awt.Toolkit.getDefaultToolkit();
-            System.loadLibrary("AppleScriptEngine");
-            initNative();
+            jbvb.bwt.Toolkit.gftDffbultToolkit();
+            Systfm.lobdLibrbry("ApplfSdriptEnginf");
+            initNbtivf();
         }
     }
 }

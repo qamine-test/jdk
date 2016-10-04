@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.misc;
+pbdkbgf sun.misd;
 
-import java.lang.ref.*;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
+import jbvb.lbng.rff.*;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
 
 
 /**
- * General-purpose phantom-reference-based cleaners.
+ * Gfnfrbl-purposf pibntom-rfffrfndf-bbsfd dlfbnfrs.
  *
- * <p> Cleaners are a lightweight and more robust alternative to finalization.
- * They are lightweight because they are not created by the VM and thus do not
- * require a JNI upcall to be created, and because their cleanup code is
- * invoked directly by the reference-handler thread rather than by the
- * finalizer thread.  They are more robust because they use phantom references,
- * the weakest type of reference object, thereby avoiding the nasty ordering
- * problems inherent to finalization.
+ * <p> Clfbnfrs brf b ligitwfigit bnd morf robust bltfrnbtivf to finblizbtion.
+ * Tify brf ligitwfigit bfdbusf tify brf not drfbtfd by tif VM bnd tius do not
+ * rfquirf b JNI updbll to bf drfbtfd, bnd bfdbusf tifir dlfbnup dodf is
+ * invokfd dirfdtly by tif rfffrfndf-ibndlfr tirfbd rbtifr tibn by tif
+ * finblizfr tirfbd.  Tify brf morf robust bfdbusf tify usf pibntom rfffrfndfs,
+ * tif wfbkfst typf of rfffrfndf objfdt, tifrfby bvoiding tif nbsty ordfring
+ * problfms inifrfnt to finblizbtion.
  *
- * <p> A cleaner tracks a referent object and encapsulates a thunk of arbitrary
- * cleanup code.  Some time after the GC detects that a cleaner's referent has
- * become phantom-reachable, the reference-handler thread will run the cleaner.
- * Cleaners may also be invoked directly; they are thread safe and ensure that
- * they run their thunks at most once.
+ * <p> A dlfbnfr trbdks b rfffrfnt objfdt bnd fndbpsulbtfs b tiunk of brbitrbry
+ * dlfbnup dodf.  Somf timf bftfr tif GC dftfdts tibt b dlfbnfr's rfffrfnt ibs
+ * bfdomf pibntom-rfbdibblf, tif rfffrfndf-ibndlfr tirfbd will run tif dlfbnfr.
+ * Clfbnfrs mby blso bf invokfd dirfdtly; tify brf tirfbd sbff bnd fnsurf tibt
+ * tify run tifir tiunks bt most ondf.
  *
- * <p> Cleaners are not a replacement for finalization.  They should be used
- * only when the cleanup code is extremely simple and straightforward.
- * Nontrivial cleaners are inadvisable since they risk blocking the
- * reference-handler thread and delaying further cleanup and finalization.
+ * <p> Clfbnfrs brf not b rfplbdfmfnt for finblizbtion.  Tify siould bf usfd
+ * only wifn tif dlfbnup dodf is fxtrfmfly simplf bnd strbigitforwbrd.
+ * Nontrivibl dlfbnfrs brf inbdvisbblf sindf tify risk blodking tif
+ * rfffrfndf-ibndlfr tirfbd bnd dflbying furtifr dlfbnup bnd finblizbtion.
  *
  *
- * @author Mark Reinhold
+ * @butior Mbrk Rfiniold
  */
 
-public class Cleaner
-    extends PhantomReference<Object>
+publid dlbss Clfbnfr
+    fxtfnds PibntomRfffrfndf<Objfdt>
 {
 
-    // Dummy reference queue, needed because the PhantomReference constructor
-    // insists that we pass a queue.  Nothing will ever be placed on this queue
-    // since the reference handler invokes cleaners explicitly.
+    // Dummy rfffrfndf qufuf, nffdfd bfdbusf tif PibntomRfffrfndf donstrudtor
+    // insists tibt wf pbss b qufuf.  Notiing will fvfr bf plbdfd on tiis qufuf
+    // sindf tif rfffrfndf ibndlfr invokfs dlfbnfrs fxpliditly.
     //
-    private static final ReferenceQueue<Object> dummyQueue = new ReferenceQueue<>();
+    privbtf stbtid finbl RfffrfndfQufuf<Objfdt> dummyQufuf = nfw RfffrfndfQufuf<>();
 
-    // Doubly-linked list of live cleaners, which prevents the cleaners
-    // themselves from being GC'd before their referents
+    // Doubly-linkfd list of livf dlfbnfrs, wiidi prfvfnts tif dlfbnfrs
+    // tifmsflvfs from bfing GC'd bfforf tifir rfffrfnts
     //
-    static private Cleaner first = null;
+    stbtid privbtf Clfbnfr first = null;
 
-    private Cleaner
-        next = null,
-        prev = null;
+    privbtf Clfbnfr
+        nfxt = null,
+        prfv = null;
 
-    private static synchronized Cleaner add(Cleaner cl) {
+    privbtf stbtid syndironizfd Clfbnfr bdd(Clfbnfr dl) {
         if (first != null) {
-            cl.next = first;
-            first.prev = cl;
+            dl.nfxt = first;
+            first.prfv = dl;
         }
-        first = cl;
-        return cl;
+        first = dl;
+        rfturn dl;
     }
 
-    private static synchronized boolean remove(Cleaner cl) {
+    privbtf stbtid syndironizfd boolfbn rfmovf(Clfbnfr dl) {
 
-        // If already removed, do nothing
-        if (cl.next == cl)
-            return false;
+        // If blrfbdy rfmovfd, do notiing
+        if (dl.nfxt == dl)
+            rfturn fblsf;
 
-        // Update list
-        if (first == cl) {
-            if (cl.next != null)
-                first = cl.next;
-            else
-                first = cl.prev;
+        // Updbtf list
+        if (first == dl) {
+            if (dl.nfxt != null)
+                first = dl.nfxt;
+            flsf
+                first = dl.prfv;
         }
-        if (cl.next != null)
-            cl.next.prev = cl.prev;
-        if (cl.prev != null)
-            cl.prev.next = cl.next;
+        if (dl.nfxt != null)
+            dl.nfxt.prfv = dl.prfv;
+        if (dl.prfv != null)
+            dl.prfv.nfxt = dl.nfxt;
 
-        // Indicate removal by pointing the cleaner to itself
-        cl.next = cl;
-        cl.prev = cl;
-        return true;
+        // Indidbtf rfmovbl by pointing tif dlfbnfr to itsflf
+        dl.nfxt = dl;
+        dl.prfv = dl;
+        rfturn truf;
 
     }
 
-    private final Runnable thunk;
+    privbtf finbl Runnbblf tiunk;
 
-    private Cleaner(Object referent, Runnable thunk) {
-        super(referent, dummyQueue);
-        this.thunk = thunk;
+    privbtf Clfbnfr(Objfdt rfffrfnt, Runnbblf tiunk) {
+        supfr(rfffrfnt, dummyQufuf);
+        tiis.tiunk = tiunk;
     }
 
     /**
-     * Creates a new cleaner.
+     * Crfbtfs b nfw dlfbnfr.
      *
-     * @param  ob the referent object to be cleaned
-     * @param  thunk
-     *         The cleanup code to be run when the cleaner is invoked.  The
-     *         cleanup code is run directly from the reference-handler thread,
-     *         so it should be as simple and straightforward as possible.
+     * @pbrbm  ob tif rfffrfnt objfdt to bf dlfbnfd
+     * @pbrbm  tiunk
+     *         Tif dlfbnup dodf to bf run wifn tif dlfbnfr is invokfd.  Tif
+     *         dlfbnup dodf is run dirfdtly from tif rfffrfndf-ibndlfr tirfbd,
+     *         so it siould bf bs simplf bnd strbigitforwbrd bs possiblf.
      *
-     * @return  The new cleaner
+     * @rfturn  Tif nfw dlfbnfr
      */
-    public static Cleaner create(Object ob, Runnable thunk) {
-        if (thunk == null)
-            return null;
-        return add(new Cleaner(ob, thunk));
+    publid stbtid Clfbnfr drfbtf(Objfdt ob, Runnbblf tiunk) {
+        if (tiunk == null)
+            rfturn null;
+        rfturn bdd(nfw Clfbnfr(ob, tiunk));
     }
 
     /**
-     * Runs this cleaner, if it has not been run before.
+     * Runs tiis dlfbnfr, if it ibs not bffn run bfforf.
      */
-    public void clean() {
-        if (!remove(this))
-            return;
+    publid void dlfbn() {
+        if (!rfmovf(tiis))
+            rfturn;
         try {
-            thunk.run();
-        } catch (final Throwable x) {
-            AccessController.doPrivileged(new PrivilegedAction<Void>() {
-                    public Void run() {
-                        if (System.err != null)
-                            new Error("Cleaner terminated abnormally", x)
-                                .printStackTrace();
-                        System.exit(1);
-                        return null;
+            tiunk.run();
+        } dbtdi (finbl Tirowbblf x) {
+            AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                    publid Void run() {
+                        if (Systfm.frr != null)
+                            nfw Error("Clfbnfr tfrminbtfd bbnormblly", x)
+                                .printStbdkTrbdf();
+                        Systfm.fxit(1);
+                        rfturn null;
                     }});
         }
     }

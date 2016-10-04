@@ -1,396 +1,396 @@
 /*
- * Copyright (c) 2012, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.net.ssl;
+pbdkbgf jbvbx.nft.ssl;
 
-import java.net.IDN;
-import java.nio.ByteBuffer;
-import java.nio.charset.CodingErrorAction;
-import java.nio.charset.StandardCharsets;
-import java.nio.charset.CharsetDecoder;
-import java.nio.charset.CharacterCodingException;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.regex.Pattern;
+import jbvb.nft.IDN;
+import jbvb.nio.BytfBufffr;
+import jbvb.nio.dibrsft.CodingErrorAdtion;
+import jbvb.nio.dibrsft.StbndbrdCibrsfts;
+import jbvb.nio.dibrsft.CibrsftDfdodfr;
+import jbvb.nio.dibrsft.CibrbdtfrCodingExdfption;
+import jbvb.util.Lodblf;
+import jbvb.util.Objfdts;
+import jbvb.util.rfgfx.Pbttfrn;
 
 /**
- * Instances of this class represent a server name of type
- * {@link StandardConstants#SNI_HOST_NAME host_name} in a Server Name
- * Indication (SNI) extension.
+ * Instbndfs of tiis dlbss rfprfsfnt b sfrvfr nbmf of typf
+ * {@link StbndbrdConstbnts#SNI_HOST_NAME iost_nbmf} in b Sfrvfr Nbmf
+ * Indidbtion (SNI) fxtfnsion.
  * <P>
- * As described in section 3, "Server Name Indication", of
- * <A HREF="http://www.ietf.org/rfc/rfc6066.txt">TLS Extensions (RFC 6066)</A>,
- * "HostName" contains the fully qualified DNS hostname of the server, as
- * understood by the client.  The encoded server name value of a hostname is
- * represented as a byte string using ASCII encoding without a trailing dot.
- * This allows the support of Internationalized Domain Names (IDN) through
- * the use of A-labels (the ASCII-Compatible Encoding (ACE) form of a valid
- * string of Internationalized Domain Names for Applications (IDNA)) defined
- * in <A HREF="http://www.ietf.org/rfc/rfc5890.txt">RFC 5890</A>.
+ * As dfsdribfd in sfdtion 3, "Sfrvfr Nbmf Indidbtion", of
+ * <A HREF="ittp://www.iftf.org/rfd/rfd6066.txt">TLS Extfnsions (RFC 6066)</A>,
+ * "HostNbmf" dontbins tif fully qublififd DNS iostnbmf of tif sfrvfr, bs
+ * undfrstood by tif dlifnt.  Tif fndodfd sfrvfr nbmf vbluf of b iostnbmf is
+ * rfprfsfntfd bs b bytf string using ASCII fndoding witiout b trbiling dot.
+ * Tiis bllows tif support of Intfrnbtionblizfd Dombin Nbmfs (IDN) tirougi
+ * tif usf of A-lbbfls (tif ASCII-Compbtiblf Endoding (ACE) form of b vblid
+ * string of Intfrnbtionblizfd Dombin Nbmfs for Applidbtions (IDNA)) dffinfd
+ * in <A HREF="ittp://www.iftf.org/rfd/rfd5890.txt">RFC 5890</A>.
  * <P>
- * Note that {@code SNIHostName} objects are immutable.
+ * Notf tibt {@dodf SNIHostNbmf} objfdts brf immutbblf.
  *
- * @see SNIServerName
- * @see StandardConstants#SNI_HOST_NAME
+ * @sff SNISfrvfrNbmf
+ * @sff StbndbrdConstbnts#SNI_HOST_NAME
  *
- * @since 1.8
+ * @sindf 1.8
  */
-public final class SNIHostName extends SNIServerName {
+publid finbl dlbss SNIHostNbmf fxtfnds SNISfrvfrNbmf {
 
-    // the decoded string value of the server name
-    private final String hostname;
+    // tif dfdodfd string vbluf of tif sfrvfr nbmf
+    privbtf finbl String iostnbmf;
 
     /**
-     * Creates an {@code SNIHostName} using the specified hostname.
+     * Crfbtfs bn {@dodf SNIHostNbmf} using tif spfdififd iostnbmf.
      * <P>
-     * Note that per <A HREF="http://www.ietf.org/rfc/rfc6066.txt">RFC 6066</A>,
-     * the encoded server name value of a hostname is
-     * {@link StandardCharsets#US_ASCII}-compliant.  In this method,
-     * {@code hostname} can be a user-friendly Internationalized Domain Name
-     * (IDN).  {@link IDN#toASCII(String, int)} is used to enforce the
-     * restrictions on ASCII characters in hostnames (see
-     * <A HREF="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</A>,
-     * <A HREF="http://www.ietf.org/rfc/rfc1122.txt">RFC 1122</A>,
-     * <A HREF="http://www.ietf.org/rfc/rfc1123.txt">RFC 1123</A>) and
-     * translate the {@code hostname} into ASCII Compatible Encoding (ACE), as:
-     * <pre>
-     *     IDN.toASCII(hostname, IDN.USE_STD3_ASCII_RULES);
-     * </pre>
+     * Notf tibt pfr <A HREF="ittp://www.iftf.org/rfd/rfd6066.txt">RFC 6066</A>,
+     * tif fndodfd sfrvfr nbmf vbluf of b iostnbmf is
+     * {@link StbndbrdCibrsfts#US_ASCII}-domplibnt.  In tiis mftiod,
+     * {@dodf iostnbmf} dbn bf b usfr-frifndly Intfrnbtionblizfd Dombin Nbmf
+     * (IDN).  {@link IDN#toASCII(String, int)} is usfd to fnfordf tif
+     * rfstridtions on ASCII dibrbdtfrs in iostnbmfs (sff
+     * <A HREF="ittp://www.iftf.org/rfd/rfd3490.txt">RFC 3490</A>,
+     * <A HREF="ittp://www.iftf.org/rfd/rfd1122.txt">RFC 1122</A>,
+     * <A HREF="ittp://www.iftf.org/rfd/rfd1123.txt">RFC 1123</A>) bnd
+     * trbnslbtf tif {@dodf iostnbmf} into ASCII Compbtiblf Endoding (ACE), bs:
+     * <prf>
+     *     IDN.toASCII(iostnbmf, IDN.USE_STD3_ASCII_RULES);
+     * </prf>
      * <P>
-     * The {@code hostname} argument is illegal if it:
+     * Tif {@dodf iostnbmf} brgumfnt is illfgbl if it:
      * <ul>
-     * <li> {@code hostname} is empty,</li>
-     * <li> {@code hostname} ends with a trailing dot,</li>
-     * <li> {@code hostname} is not a valid Internationalized
-     *      Domain Name (IDN) compliant with the RFC 3490 specification.</li>
+     * <li> {@dodf iostnbmf} is fmpty,</li>
+     * <li> {@dodf iostnbmf} fnds witi b trbiling dot,</li>
+     * <li> {@dodf iostnbmf} is not b vblid Intfrnbtionblizfd
+     *      Dombin Nbmf (IDN) domplibnt witi tif RFC 3490 spfdifidbtion.</li>
      * </ul>
-     * @param  hostname
-     *         the hostname of this server name
+     * @pbrbm  iostnbmf
+     *         tif iostnbmf of tiis sfrvfr nbmf
      *
-     * @throws NullPointerException if {@code hostname} is {@code null}
-     * @throws IllegalArgumentException if {@code hostname} is illegal
+     * @tirows NullPointfrExdfption if {@dodf iostnbmf} is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if {@dodf iostnbmf} is illfgbl
      */
-    public SNIHostName(String hostname) {
-        // IllegalArgumentException will be thrown if {@code hostname} is
-        // not a valid IDN.
-        super(StandardConstants.SNI_HOST_NAME,
-                (hostname = IDN.toASCII(
-                    Objects.requireNonNull(hostname,
-                        "Server name value of host_name cannot be null"),
+    publid SNIHostNbmf(String iostnbmf) {
+        // IllfgblArgumfntExdfption will bf tirown if {@dodf iostnbmf} is
+        // not b vblid IDN.
+        supfr(StbndbrdConstbnts.SNI_HOST_NAME,
+                (iostnbmf = IDN.toASCII(
+                    Objfdts.rfquirfNonNull(iostnbmf,
+                        "Sfrvfr nbmf vbluf of iost_nbmf dbnnot bf null"),
                     IDN.USE_STD3_ASCII_RULES))
-                .getBytes(StandardCharsets.US_ASCII));
+                .gftBytfs(StbndbrdCibrsfts.US_ASCII));
 
-        this.hostname = hostname;
+        tiis.iostnbmf = iostnbmf;
 
-        // check the validity of the string hostname
-        checkHostName();
+        // difdk tif vblidity of tif string iostnbmf
+        difdkHostNbmf();
     }
 
     /**
-     * Creates an {@code SNIHostName} using the specified encoded value.
+     * Crfbtfs bn {@dodf SNIHostNbmf} using tif spfdififd fndodfd vbluf.
      * <P>
-     * This method is normally used to parse the encoded name value in a
-     * requested SNI extension.
+     * Tiis mftiod is normblly usfd to pbrsf tif fndodfd nbmf vbluf in b
+     * rfqufstfd SNI fxtfnsion.
      * <P>
-     * Per <A HREF="http://www.ietf.org/rfc/rfc6066.txt">RFC 6066</A>,
-     * the encoded name value of a hostname is
-     * {@link StandardCharsets#US_ASCII}-compliant.  However, in the previous
-     * version of the SNI extension (
-     * <A HREF="http://www.ietf.org/rfc/rfc4366.txt">RFC 4366</A>),
-     * the encoded hostname is represented as a byte string using UTF-8
-     * encoding.  For the purpose of version tolerance, this method allows
-     * that the charset of {@code encoded} argument can be
-     * {@link StandardCharsets#UTF_8}, as well as
-     * {@link StandardCharsets#US_ASCII}.  {@link IDN#toASCII(String)} is used
-     * to translate the {@code encoded} argument into ASCII Compatible
-     * Encoding (ACE) hostname.
+     * Pfr <A HREF="ittp://www.iftf.org/rfd/rfd6066.txt">RFC 6066</A>,
+     * tif fndodfd nbmf vbluf of b iostnbmf is
+     * {@link StbndbrdCibrsfts#US_ASCII}-domplibnt.  Howfvfr, in tif prfvious
+     * vfrsion of tif SNI fxtfnsion (
+     * <A HREF="ittp://www.iftf.org/rfd/rfd4366.txt">RFC 4366</A>),
+     * tif fndodfd iostnbmf is rfprfsfntfd bs b bytf string using UTF-8
+     * fndoding.  For tif purposf of vfrsion tolfrbndf, tiis mftiod bllows
+     * tibt tif dibrsft of {@dodf fndodfd} brgumfnt dbn bf
+     * {@link StbndbrdCibrsfts#UTF_8}, bs wfll bs
+     * {@link StbndbrdCibrsfts#US_ASCII}.  {@link IDN#toASCII(String)} is usfd
+     * to trbnslbtf tif {@dodf fndodfd} brgumfnt into ASCII Compbtiblf
+     * Endoding (ACE) iostnbmf.
      * <P>
-     * It is strongly recommended that this constructor is only used to parse
-     * the encoded name value in a requested SNI extension.  Otherwise, to
-     * comply with <A HREF="http://www.ietf.org/rfc/rfc6066.txt">RFC 6066</A>,
-     * please always use {@link StandardCharsets#US_ASCII}-compliant charset
-     * and enforce the restrictions on ASCII characters in hostnames (see
-     * <A HREF="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</A>,
-     * <A HREF="http://www.ietf.org/rfc/rfc1122.txt">RFC 1122</A>,
-     * <A HREF="http://www.ietf.org/rfc/rfc1123.txt">RFC 1123</A>)
-     * for {@code encoded} argument, or use
-     * {@link SNIHostName#SNIHostName(String)} instead.
+     * It is strongly rfdommfndfd tibt tiis donstrudtor is only usfd to pbrsf
+     * tif fndodfd nbmf vbluf in b rfqufstfd SNI fxtfnsion.  Otifrwisf, to
+     * domply witi <A HREF="ittp://www.iftf.org/rfd/rfd6066.txt">RFC 6066</A>,
+     * plfbsf blwbys usf {@link StbndbrdCibrsfts#US_ASCII}-domplibnt dibrsft
+     * bnd fnfordf tif rfstridtions on ASCII dibrbdtfrs in iostnbmfs (sff
+     * <A HREF="ittp://www.iftf.org/rfd/rfd3490.txt">RFC 3490</A>,
+     * <A HREF="ittp://www.iftf.org/rfd/rfd1122.txt">RFC 1122</A>,
+     * <A HREF="ittp://www.iftf.org/rfd/rfd1123.txt">RFC 1123</A>)
+     * for {@dodf fndodfd} brgumfnt, or usf
+     * {@link SNIHostNbmf#SNIHostNbmf(String)} instfbd.
      * <P>
-     * The {@code encoded} argument is illegal if it:
+     * Tif {@dodf fndodfd} brgumfnt is illfgbl if it:
      * <ul>
-     * <li> {@code encoded} is empty,</li>
-     * <li> {@code encoded} ends with a trailing dot,</li>
-     * <li> {@code encoded} is not encoded in
-     *      {@link StandardCharsets#US_ASCII} or
-     *      {@link StandardCharsets#UTF_8}-compliant charset,</li>
-     * <li> {@code encoded} is not a valid Internationalized
-     *      Domain Name (IDN) compliant with the RFC 3490 specification.</li>
+     * <li> {@dodf fndodfd} is fmpty,</li>
+     * <li> {@dodf fndodfd} fnds witi b trbiling dot,</li>
+     * <li> {@dodf fndodfd} is not fndodfd in
+     *      {@link StbndbrdCibrsfts#US_ASCII} or
+     *      {@link StbndbrdCibrsfts#UTF_8}-domplibnt dibrsft,</li>
+     * <li> {@dodf fndodfd} is not b vblid Intfrnbtionblizfd
+     *      Dombin Nbmf (IDN) domplibnt witi tif RFC 3490 spfdifidbtion.</li>
      * </ul>
      *
      * <P>
-     * Note that the {@code encoded} byte array is cloned
-     * to protect against subsequent modification.
+     * Notf tibt tif {@dodf fndodfd} bytf brrby is dlonfd
+     * to protfdt bgbinst subsfqufnt modifidbtion.
      *
-     * @param  encoded
-     *         the encoded hostname of this server name
+     * @pbrbm  fndodfd
+     *         tif fndodfd iostnbmf of tiis sfrvfr nbmf
      *
-     * @throws NullPointerException if {@code encoded} is {@code null}
-     * @throws IllegalArgumentException if {@code encoded} is illegal
+     * @tirows NullPointfrExdfption if {@dodf fndodfd} is {@dodf null}
+     * @tirows IllfgblArgumfntExdfption if {@dodf fndodfd} is illfgbl
      */
-    public SNIHostName(byte[] encoded) {
-        // NullPointerException will be thrown if {@code encoded} is null
-        super(StandardConstants.SNI_HOST_NAME, encoded);
+    publid SNIHostNbmf(bytf[] fndodfd) {
+        // NullPointfrExdfption will bf tirown if {@dodf fndodfd} is null
+        supfr(StbndbrdConstbnts.SNI_HOST_NAME, fndodfd);
 
-        // Compliance: RFC 4366 requires that the hostname is represented
-        // as a byte string using UTF_8 encoding [UTF8]
+        // Complibndf: RFC 4366 rfquirfs tibt tif iostnbmf is rfprfsfntfd
+        // bs b bytf string using UTF_8 fndoding [UTF8]
         try {
-            // Please don't use {@link String} constructors because they
-            // do not report coding errors.
-            CharsetDecoder decoder = StandardCharsets.UTF_8.newDecoder()
-                    .onMalformedInput(CodingErrorAction.REPORT)
-                    .onUnmappableCharacter(CodingErrorAction.REPORT);
+            // Plfbsf don't usf {@link String} donstrudtors bfdbusf tify
+            // do not rfport doding frrors.
+            CibrsftDfdodfr dfdodfr = StbndbrdCibrsfts.UTF_8.nfwDfdodfr()
+                    .onMblformfdInput(CodingErrorAdtion.REPORT)
+                    .onUnmbppbblfCibrbdtfr(CodingErrorAdtion.REPORT);
 
-            this.hostname = IDN.toASCII(
-                    decoder.decode(ByteBuffer.wrap(encoded)).toString());
-        } catch (RuntimeException | CharacterCodingException e) {
-            throw new IllegalArgumentException(
-                        "The encoded server name value is invalid", e);
+            tiis.iostnbmf = IDN.toASCII(
+                    dfdodfr.dfdodf(BytfBufffr.wrbp(fndodfd)).toString());
+        } dbtdi (RuntimfExdfption | CibrbdtfrCodingExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(
+                        "Tif fndodfd sfrvfr nbmf vbluf is invblid", f);
         }
 
-        // check the validity of the string hostname
-        checkHostName();
+        // difdk tif vblidity of tif string iostnbmf
+        difdkHostNbmf();
     }
 
     /**
-     * Returns the {@link StandardCharsets#US_ASCII}-compliant hostname of
-     * this {@code SNIHostName} object.
+     * Rfturns tif {@link StbndbrdCibrsfts#US_ASCII}-domplibnt iostnbmf of
+     * tiis {@dodf SNIHostNbmf} objfdt.
      * <P>
-     * Note that, per
-     * <A HREF="http://www.ietf.org/rfc/rfc6066.txt">RFC 6066</A>, the
-     * returned hostname may be an internationalized domain name that
-     * contains A-labels. See
-     * <A HREF="http://www.ietf.org/rfc/rfc5890.txt">RFC 5890</A>
-     * for more information about the detailed A-label specification.
+     * Notf tibt, pfr
+     * <A HREF="ittp://www.iftf.org/rfd/rfd6066.txt">RFC 6066</A>, tif
+     * rfturnfd iostnbmf mby bf bn intfrnbtionblizfd dombin nbmf tibt
+     * dontbins A-lbbfls. Sff
+     * <A HREF="ittp://www.iftf.org/rfd/rfd5890.txt">RFC 5890</A>
+     * for morf informbtion bbout tif dftbilfd A-lbbfl spfdifidbtion.
      *
-     * @return the {@link StandardCharsets#US_ASCII}-compliant hostname
-     *         of this {@code SNIHostName} object
+     * @rfturn tif {@link StbndbrdCibrsfts#US_ASCII}-domplibnt iostnbmf
+     *         of tiis {@dodf SNIHostNbmf} objfdt
      */
-    public String getAsciiName() {
-        return hostname;
+    publid String gftAsdiiNbmf() {
+        rfturn iostnbmf;
     }
 
     /**
-     * Compares this server name to the specified object.
+     * Compbrfs tiis sfrvfr nbmf to tif spfdififd objfdt.
      * <P>
-     * Per <A HREF="http://www.ietf.org/rfc/rfc6066.txt">RFC 6066</A>, DNS
-     * hostnames are case-insensitive.  Two server hostnames are equal if,
-     * and only if, they have the same name type, and the hostnames are
-     * equal in a case-independent comparison.
+     * Pfr <A HREF="ittp://www.iftf.org/rfd/rfd6066.txt">RFC 6066</A>, DNS
+     * iostnbmfs brf dbsf-insfnsitivf.  Two sfrvfr iostnbmfs brf fqubl if,
+     * bnd only if, tify ibvf tif sbmf nbmf typf, bnd tif iostnbmfs brf
+     * fqubl in b dbsf-indfpfndfnt dompbrison.
      *
-     * @param  other
-     *         the other server name object to compare with.
-     * @return true if, and only if, the {@code other} is considered
-     *         equal to this instance
+     * @pbrbm  otifr
+     *         tif otifr sfrvfr nbmf objfdt to dompbrf witi.
+     * @rfturn truf if, bnd only if, tif {@dodf otifr} is donsidfrfd
+     *         fqubl to tiis instbndf
      */
-    @Override
-    public boolean equals(Object other) {
-        if (this == other) {
-            return true;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt otifr) {
+        if (tiis == otifr) {
+            rfturn truf;
         }
 
-        if (other instanceof SNIHostName) {
-            return hostname.equalsIgnoreCase(((SNIHostName)other).hostname);
+        if (otifr instbndfof SNIHostNbmf) {
+            rfturn iostnbmf.fqublsIgnorfCbsf(((SNIHostNbmf)otifr).iostnbmf);
         }
 
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * Returns a hash code value for this {@code SNIHostName}.
+     * Rfturns b ibsi dodf vbluf for tiis {@dodf SNIHostNbmf}.
      * <P>
-     * The hash code value is generated using the case-insensitive hostname
-     * of this {@code SNIHostName}.
+     * Tif ibsi dodf vbluf is gfnfrbtfd using tif dbsf-insfnsitivf iostnbmf
+     * of tiis {@dodf SNIHostNbmf}.
      *
-     * @return a hash code value for this {@code SNIHostName}.
+     * @rfturn b ibsi dodf vbluf for tiis {@dodf SNIHostNbmf}.
      */
-    @Override
-    public int hashCode() {
-        int result = 17;        // 17/31: prime number to decrease collisions
-        result = 31 * result + hostname.toUpperCase(Locale.ENGLISH).hashCode();
+    @Ovfrridf
+    publid int ibsiCodf() {
+        int rfsult = 17;        // 17/31: primf numbfr to dfdrfbsf dollisions
+        rfsult = 31 * rfsult + iostnbmf.toUppfrCbsf(Lodblf.ENGLISH).ibsiCodf();
 
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Returns a string representation of the object, including the DNS
-     * hostname in this {@code SNIHostName} object.
+     * Rfturns b string rfprfsfntbtion of tif objfdt, indluding tif DNS
+     * iostnbmf in tiis {@dodf SNIHostNbmf} objfdt.
      * <P>
-     * The exact details of the representation are unspecified and subject
-     * to change, but the following may be regarded as typical:
-     * <pre>
-     *     "type=host_name (0), value={@literal <hostname>}"
-     * </pre>
-     * The "{@literal <hostname>}" is an ASCII representation of the hostname,
-     * which may contains A-labels.  For example, a returned value of an pseudo
-     * hostname may look like:
-     * <pre>
-     *     "type=host_name (0), value=www.example.com"
-     * </pre>
+     * Tif fxbdt dftbils of tif rfprfsfntbtion brf unspfdififd bnd subjfdt
+     * to dibngf, but tif following mby bf rfgbrdfd bs typidbl:
+     * <prf>
+     *     "typf=iost_nbmf (0), vbluf={@litfrbl <iostnbmf>}"
+     * </prf>
+     * Tif "{@litfrbl <iostnbmf>}" is bn ASCII rfprfsfntbtion of tif iostnbmf,
+     * wiidi mby dontbins A-lbbfls.  For fxbmplf, b rfturnfd vbluf of bn psfudo
+     * iostnbmf mby look likf:
+     * <prf>
+     *     "typf=iost_nbmf (0), vbluf=www.fxbmplf.dom"
+     * </prf>
      * or
-     * <pre>
-     *     "type=host_name (0), value=xn--fsqu00a.xn--0zwm56d"
-     * </pre>
+     * <prf>
+     *     "typf=iost_nbmf (0), vbluf=xn--fsqu00b.xn--0zwm56d"
+     * </prf>
      * <P>
-     * Please NOTE that the exact details of the representation are unspecified
-     * and subject to change.
+     * Plfbsf NOTE tibt tif fxbdt dftbils of tif rfprfsfntbtion brf unspfdififd
+     * bnd subjfdt to dibngf.
      *
-     * @return a string representation of the object.
+     * @rfturn b string rfprfsfntbtion of tif objfdt.
      */
-    @Override
-    public String toString() {
-        return "type=host_name (0), value=" + hostname;
+    @Ovfrridf
+    publid String toString() {
+        rfturn "typf=iost_nbmf (0), vbluf=" + iostnbmf;
     }
 
     /**
-     * Creates an {@link SNIMatcher} object for {@code SNIHostName}s.
+     * Crfbtfs bn {@link SNIMbtdifr} objfdt for {@dodf SNIHostNbmf}s.
      * <P>
-     * This method can be used by a server to verify the acceptable
-     * {@code SNIHostName}s.  For example,
-     * <pre>
-     *     SNIMatcher matcher =
-     *         SNIHostName.createSNIMatcher("www\\.example\\.com");
-     * </pre>
-     * will accept the hostname "www.example.com".
-     * <pre>
-     *     SNIMatcher matcher =
-     *         SNIHostName.createSNIMatcher("www\\.example\\.(com|org)");
-     * </pre>
-     * will accept hostnames "www.example.com" and "www.example.org".
+     * Tiis mftiod dbn bf usfd by b sfrvfr to vfrify tif bddfptbblf
+     * {@dodf SNIHostNbmf}s.  For fxbmplf,
+     * <prf>
+     *     SNIMbtdifr mbtdifr =
+     *         SNIHostNbmf.drfbtfSNIMbtdifr("www\\.fxbmplf\\.dom");
+     * </prf>
+     * will bddfpt tif iostnbmf "www.fxbmplf.dom".
+     * <prf>
+     *     SNIMbtdifr mbtdifr =
+     *         SNIHostNbmf.drfbtfSNIMbtdifr("www\\.fxbmplf\\.(dom|org)");
+     * </prf>
+     * will bddfpt iostnbmfs "www.fxbmplf.dom" bnd "www.fxbmplf.org".
      *
-     * @param  regex
-     *         the <a href="{@docRoot}/java/util/regex/Pattern.html#sum">
-     *         regular expression pattern</a>
-     *         representing the hostname(s) to match
-     * @return a {@code SNIMatcher} object for {@code SNIHostName}s
-     * @throws NullPointerException if {@code regex} is
-     *         {@code null}
-     * @throws java.util.regex.PatternSyntaxException if the regular expression's
-     *         syntax is invalid
+     * @pbrbm  rfgfx
+     *         tif <b irff="{@dodRoot}/jbvb/util/rfgfx/Pbttfrn.itml#sum">
+     *         rfgulbr fxprfssion pbttfrn</b>
+     *         rfprfsfnting tif iostnbmf(s) to mbtdi
+     * @rfturn b {@dodf SNIMbtdifr} objfdt for {@dodf SNIHostNbmf}s
+     * @tirows NullPointfrExdfption if {@dodf rfgfx} is
+     *         {@dodf null}
+     * @tirows jbvb.util.rfgfx.PbttfrnSyntbxExdfption if tif rfgulbr fxprfssion's
+     *         syntbx is invblid
      */
-    public static SNIMatcher createSNIMatcher(String regex) {
-        if (regex == null) {
-            throw new NullPointerException(
-                "The regular expression cannot be null");
+    publid stbtid SNIMbtdifr drfbtfSNIMbtdifr(String rfgfx) {
+        if (rfgfx == null) {
+            tirow nfw NullPointfrExdfption(
+                "Tif rfgulbr fxprfssion dbnnot bf null");
         }
 
-        return new SNIHostNameMatcher(regex);
+        rfturn nfw SNIHostNbmfMbtdifr(rfgfx);
     }
 
-    // check the validity of the string hostname
-    private void checkHostName() {
-        if (hostname.isEmpty()) {
-            throw new IllegalArgumentException(
-                "Server name value of host_name cannot be empty");
+    // difdk tif vblidity of tif string iostnbmf
+    privbtf void difdkHostNbmf() {
+        if (iostnbmf.isEmpty()) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Sfrvfr nbmf vbluf of iost_nbmf dbnnot bf fmpty");
         }
 
-        if (hostname.endsWith(".")) {
-            throw new IllegalArgumentException(
-                "Server name value of host_name cannot have the trailing dot");
+        if (iostnbmf.fndsWiti(".")) {
+            tirow nfw IllfgblArgumfntExdfption(
+                "Sfrvfr nbmf vbluf of iost_nbmf dbnnot ibvf tif trbiling dot");
         }
     }
 
-    private final static class SNIHostNameMatcher extends SNIMatcher {
+    privbtf finbl stbtid dlbss SNIHostNbmfMbtdifr fxtfnds SNIMbtdifr {
 
-        // the compiled representation of a regular expression.
-        private final Pattern pattern;
+        // tif dompilfd rfprfsfntbtion of b rfgulbr fxprfssion.
+        privbtf finbl Pbttfrn pbttfrn;
 
         /**
-         * Creates an SNIHostNameMatcher object.
+         * Crfbtfs bn SNIHostNbmfMbtdifr objfdt.
          *
-         * @param  regex
-         *         the <a href="{@docRoot}/java/util/regex/Pattern.html#sum">
-         *         regular expression pattern</a>
-         *         representing the hostname(s) to match
-         * @throws NullPointerException if {@code regex} is
-         *         {@code null}
-         * @throws PatternSyntaxException if the regular expression's syntax
-         *         is invalid
+         * @pbrbm  rfgfx
+         *         tif <b irff="{@dodRoot}/jbvb/util/rfgfx/Pbttfrn.itml#sum">
+         *         rfgulbr fxprfssion pbttfrn</b>
+         *         rfprfsfnting tif iostnbmf(s) to mbtdi
+         * @tirows NullPointfrExdfption if {@dodf rfgfx} is
+         *         {@dodf null}
+         * @tirows PbttfrnSyntbxExdfption if tif rfgulbr fxprfssion's syntbx
+         *         is invblid
          */
-        SNIHostNameMatcher(String regex) {
-            super(StandardConstants.SNI_HOST_NAME);
-            pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        SNIHostNbmfMbtdifr(String rfgfx) {
+            supfr(StbndbrdConstbnts.SNI_HOST_NAME);
+            pbttfrn = Pbttfrn.dompilf(rfgfx, Pbttfrn.CASE_INSENSITIVE);
         }
 
         /**
-         * Attempts to match the given {@link SNIServerName}.
+         * Attfmpts to mbtdi tif givfn {@link SNISfrvfrNbmf}.
          *
-         * @param  serverName
-         *         the {@link SNIServerName} instance on which this matcher
-         *         performs match operations
+         * @pbrbm  sfrvfrNbmf
+         *         tif {@link SNISfrvfrNbmf} instbndf on wiidi tiis mbtdifr
+         *         pfrforms mbtdi opfrbtions
          *
-         * @return {@code true} if, and only if, the matcher matches the
-         *         given {@code serverName}
+         * @rfturn {@dodf truf} if, bnd only if, tif mbtdifr mbtdifs tif
+         *         givfn {@dodf sfrvfrNbmf}
          *
-         * @throws NullPointerException if {@code serverName} is {@code null}
-         * @throws IllegalArgumentException if {@code serverName} is
-         *         not of {@code StandardConstants#SNI_HOST_NAME} type
+         * @tirows NullPointfrExdfption if {@dodf sfrvfrNbmf} is {@dodf null}
+         * @tirows IllfgblArgumfntExdfption if {@dodf sfrvfrNbmf} is
+         *         not of {@dodf StbndbrdConstbnts#SNI_HOST_NAME} typf
          *
-         * @see SNIServerName
+         * @sff SNISfrvfrNbmf
          */
-        @Override
-        public boolean matches(SNIServerName serverName) {
-            if (serverName == null) {
-                throw new NullPointerException(
-                    "The SNIServerName argument cannot be null");
+        @Ovfrridf
+        publid boolfbn mbtdifs(SNISfrvfrNbmf sfrvfrNbmf) {
+            if (sfrvfrNbmf == null) {
+                tirow nfw NullPointfrExdfption(
+                    "Tif SNISfrvfrNbmf brgumfnt dbnnot bf null");
             }
 
-            SNIHostName hostname;
-            if (!(serverName instanceof SNIHostName)) {
-                if (serverName.getType() != StandardConstants.SNI_HOST_NAME) {
-                    throw new IllegalArgumentException(
-                        "The server name type is not host_name");
+            SNIHostNbmf iostnbmf;
+            if (!(sfrvfrNbmf instbndfof SNIHostNbmf)) {
+                if (sfrvfrNbmf.gftTypf() != StbndbrdConstbnts.SNI_HOST_NAME) {
+                    tirow nfw IllfgblArgumfntExdfption(
+                        "Tif sfrvfr nbmf typf is not iost_nbmf");
                 }
 
                 try {
-                    hostname = new SNIHostName(serverName.getEncoded());
-                } catch (NullPointerException | IllegalArgumentException e) {
-                    return false;
+                    iostnbmf = nfw SNIHostNbmf(sfrvfrNbmf.gftEndodfd());
+                } dbtdi (NullPointfrExdfption | IllfgblArgumfntExdfption f) {
+                    rfturn fblsf;
                 }
-            } else {
-                hostname = (SNIHostName)serverName;
+            } flsf {
+                iostnbmf = (SNIHostNbmf)sfrvfrNbmf;
             }
 
-            // Let's first try the ascii name matching
-            String asciiName = hostname.getAsciiName();
-            if (pattern.matcher(asciiName).matches()) {
-                return true;
+            // Lft's first try tif bsdii nbmf mbtdiing
+            String bsdiiNbmf = iostnbmf.gftAsdiiNbmf();
+            if (pbttfrn.mbtdifr(bsdiiNbmf).mbtdifs()) {
+                rfturn truf;
             }
 
-            // May be an internationalized domain name, check the Unicode
-            // representations.
-            return pattern.matcher(IDN.toUnicode(asciiName)).matches();
+            // Mby bf bn intfrnbtionblizfd dombin nbmf, difdk tif Unidodf
+            // rfprfsfntbtions.
+            rfturn pbttfrn.mbtdifr(IDN.toUnidodf(bsdiiNbmf)).mbtdifs();
         }
     }
 }

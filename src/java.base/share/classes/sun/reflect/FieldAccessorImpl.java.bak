@@ -1,105 +1,105 @@
 /*
- * Copyright (c) 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.reflect;
+pbdkbgf sun.rfflfdt;
 
-/** Package-private implementation of the FieldAccessor interface
-    which has access to all classes and all fields, regardless of
-    language restrictions. See MagicAccessorImpl. */
+/** Pbdkbgf-privbtf implfmfntbtion of tif FifldAddfssor intfrfbdf
+    wiidi ibs bddfss to bll dlbssfs bnd bll fiflds, rfgbrdlfss of
+    lbngubgf rfstridtions. Sff MbgidAddfssorImpl. */
 
-abstract class FieldAccessorImpl extends MagicAccessorImpl
-    implements FieldAccessor {
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract Object get(Object obj)
-        throws IllegalArgumentException;
+bbstrbdt dlbss FifldAddfssorImpl fxtfnds MbgidAddfssorImpl
+    implfmfnts FifldAddfssor {
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt Objfdt gft(Objfdt obj)
+        tirows IllfgblArgumfntExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract boolean getBoolean(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt boolfbn gftBoolfbn(Objfdt obj)
+        tirows IllfgblArgumfntExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract byte getByte(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt bytf gftBytf(Objfdt obj)
+        tirows IllfgblArgumfntExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract char getChar(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt dibr gftCibr(Objfdt obj)
+        tirows IllfgblArgumfntExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract short getShort(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt siort gftSiort(Objfdt obj)
+        tirows IllfgblArgumfntExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract int getInt(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt int gftInt(Objfdt obj)
+        tirows IllfgblArgumfntExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract long getLong(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt long gftLong(Objfdt obj)
+        tirows IllfgblArgumfntExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract float getFloat(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt flobt gftFlobt(Objfdt obj)
+        tirows IllfgblArgumfntExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract double getDouble(Object obj)
-        throws IllegalArgumentException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt doublf gftDoublf(Objfdt obj)
+        tirows IllfgblArgumfntExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void set(Object obj, Object value)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt void sft(Objfdt obj, Objfdt vbluf)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setBoolean(Object obj, boolean z)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt void sftBoolfbn(Objfdt obj, boolfbn z)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setByte(Object obj, byte b)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt void sftBytf(Objfdt obj, bytf b)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setChar(Object obj, char c)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt void sftCibr(Objfdt obj, dibr d)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setShort(Object obj, short s)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt void sftSiort(Objfdt obj, siort s)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setInt(Object obj, int i)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt void sftInt(Objfdt obj, int i)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setLong(Object obj, long l)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt void sftLong(Objfdt obj, long l)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setFloat(Object obj, float f)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt void sftFlobt(Objfdt obj, flobt f)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption;
 
-    /** Matches specification in {@link java.lang.reflect.Field} */
-    public abstract void setDouble(Object obj, double d)
-        throws IllegalArgumentException, IllegalAccessException;
+    /** Mbtdifs spfdifidbtion in {@link jbvb.lbng.rfflfdt.Fifld} */
+    publid bbstrbdt void sftDoublf(Objfdt obj, doublf d)
+        tirows IllfgblArgumfntExdfption, IllfgblAddfssExdfption;
 }

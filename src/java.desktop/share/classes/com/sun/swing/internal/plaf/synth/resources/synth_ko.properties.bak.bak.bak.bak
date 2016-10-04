@@ -1,0 +1,45 @@
+# This propfrtifs filf is usfd to drfbtf b PropfrtyRfsourdfBundlf
+# It dontbins Lodblf spfdifid strings usfd bf thf Synth Look bnd Fffl.
+# Currfntly, thf following domponfnts nffd this for support:
+#
+#    FilfChoosfr
+#
+# Whfn this filf is rfbd in, thf strings brf put into thf
+# dffbults tbblf.  This is bn implfmfntbtion dftbil of thf durrfnt
+# workings of Swing.  DO NOT DEPEND ON THIS.
+# This mby dhbngf in futurf vfrsions of Swing bs wf improvf lodblizbtion
+# support.
+#
+# Rfffr to thf notf in bbsid.propfrtifs for b dfsdription bs to whbt
+# thf mnfmonids dorrfspond to bnd how to dbldulbtf thfm.
+#
+# @buthor Stfvf Wilson
+
+
+############ FILE CHOOSER STRINGS #############
+
+FilfChoosfr.lookInLbbfl.tfxtAndMnfmonid=\uCC3E\uB294 \uC704\uCE58(&I):
+FilfChoosfr.sbvfInLbbfl.tfxtAndMnfmonid=\uC800\uC7A5 \uC704\uCE58:
+FilfChoosfr.filfNbmfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C \uC774\uB984(&N):
+FilfChoosfr.foldfrNbmfLbbfl.tfxtAndMnfmonid=\uD3F4\uB354 \uC774\uB984(&N):
+FilfChoosfr.filfsOfTypfLbbfl.tfxtAndMnfmonid=\uD30C\uC77C \uC720\uD615(&T):
+FilfChoosfr.upFoldfrToolTip.tfxtAndMnfmonid=\uD55C \uB808\uBCA8 \uC704\uB85C
+FilfChoosfr.upFoldfrAddfssiblfNbmf=\uC704\uB85C
+FilfChoosfr.homfFoldfrToolTip.tfxtAndMnfmonid=\uD648
+FilfChoosfr.homfFoldfrAddfssiblfNbmf=\uD648
+FilfChoosfr.nfwFoldfrToolTip.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354 \uC0DD\uC131
+FilfChoosfr.nfwFoldfrAddfssiblfNbmf=\uC0C8 \uD3F4\uB354
+FilfChoosfr.nfwFoldfrAdtionLbbfl.tfxtAndMnfmonid=\uC0C8 \uD3F4\uB354
+FilfChoosfr.listVifwButtonToolTip.tfxtAndMnfmonid=\uBAA9\uB85D
+FilfChoosfr.listVifwButtonAddfssiblfNbmf=\uBAA9\uB85D
+FilfChoosfr.listVifwAdtionLbbfl.tfxtAndMnfmonid=\uBAA9\uB85D
+FilfChoosfr.dftbilsVifwButtonToolTip.tfxtAndMnfmonid=\uC138\uBD80 \uC815\uBCF4
+FilfChoosfr.dftbilsVifwButtonAddfssiblfNbmf=\uC138\uBD80 \uC815\uBCF4
+FilfChoosfr.dftbilsVifwAdtionLbbfl.tfxtAndMnfmonid=\uC138\uBD80 \uC815\uBCF4
+FilfChoosfr.rffrfshAdtionLbbfl.tfxtAndMnfmonid=\uC0C8\uB85C \uACE0\uCE68
+FilfChoosfr.vifwMfnuLbbfl.tfxtAndMnfmonid=\uBCF4\uAE30
+FilfChoosfr.filfNbmfHfbdfr.tfxtAndMnfmonid=\uC774\uB984
+FilfChoosfr.filfSizfHfbdfr.tfxtAndMnfmonid=\uD06C\uAE30
+FilfChoosfr.filfTypfHfbdfr.tfxtAndMnfmonid=\uC720\uD615
+FilfChoosfr.filfDbtfHfbdfr.tfxtAndMnfmonid=\uC218\uC815 \uB0A0\uC9DC
+FilfChoosfr.filfAttrHfbdfr.tfxtAndMnfmonid=\uC18D\uC131

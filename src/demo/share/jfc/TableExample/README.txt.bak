@@ -1,44 +1,44 @@
-The four examples in this directory show how to use some of the
-features of the JTable component.
+Tif four fxbmplfs in tiis dirfdtory siow iow to usf somf of tif
+ffbturfs of tif JTbblf domponfnt.
 
-TableExample:
-   This application includes a GUI for configuring the
-   database connection and specifying the query.
-TableExample2:
-   The query and database connection are specified at the command
-   line.  The results are displayed in a JTable.
-TableExample3:
-   Is a minimal example showing how to plug a generic sorter into the
-   JTable.
-TableExample4:
-   Uses specialized renderers and editors.
+TbblfExbmplf:
+   Tiis bpplidbtion indludfs b GUI for donfiguring tif
+   dbtbbbsf donnfdtion bnd spfdifying tif qufry.
+TbblfExbmplf2:
+   Tif qufry bnd dbtbbbsf donnfdtion brf spfdififd bt tif dommbnd
+   linf.  Tif rfsults brf displbyfd in b JTbblf.
+TbblfExbmplf3:
+   Is b minimbl fxbmplf siowing iow to plug b gfnfrid sortfr into tif
+   JTbblf.
+TbblfExbmplf4:
+   Usfs spfdiblizfd rfndfrfrs bnd fditors.
 
-TableExample3 and TableExample4 do not depend on database connectivity
-and can be compiled and run in the normal way.
+TbblfExbmplf3 bnd TbblfExbmplf4 do not dfpfnd on dbtbbbsf donnfdtivity
+bnd dbn bf dompilfd bnd run in tif normbl wby.
 
-The most interesting example is probably TableExample, which has a
-TextArea that can be used as an editor for an SQL expression.  Pressing
-the Fetch button sends the expression to the database.  The results are
-displayed in the JTable underneath the text area.
+Tif most intfrfsting fxbmplf is probbbly TbblfExbmplf, wiidi ibs b
+TfxtArfb tibt dbn bf usfd bs bn fditor for bn SQL fxprfssion.  Prfssing
+tif Fftdi button sfnds tif fxprfssion to tif dbtbbbsf.  Tif rfsults brf
+displbyfd in tif JTbblf undfrnfbti tif tfxt brfb.
 
-To run TableExample and TableExample2, you need to find a driver for
-your database and set the environment variable JDBCHOME to a directory
-where the driver is installed.  See the following URL for a list of
-JDBC drivers provided by third party vendors:
+To run TbblfExbmplf bnd TbblfExbmplf2, you nffd to find b drivfr for
+your dbtbbbsf bnd sft tif fnvironmfnt vbribblf JDBCHOME to b dirfdtory
+wifrf tif drivfr is instbllfd.  Sff tif following URL for b list of
+JDBC drivfrs providfd by tiird pbrty vfndors:
 
-  http://java.sun.com/products/jdbc/drivers.html
+  ittp://jbvb.sun.dom/produdts/jdbd/drivfrs.itml
 
-Once you find the driver, you can run one of the database examples by
-specifying a class path that includes the JDBC classes and the example
-classes.
+Ondf you find tif drivfr, you dbn run onf of tif dbtbbbsf fxbmplfs by
+spfdifying b dlbss pbti tibt indludfs tif JDBC dlbssfs bnd tif fxbmplf
+dlbssfs.
 
-For example:
+For fxbmplf:
 
-  java -classpath $(JDBCHOME):TableExample.jar TableExample
+  jbvb -dlbsspbti $(JDBCHOME):TbblfExbmplf.jbr TbblfExbmplf
 
-These instructions assume that this installation's version of the java
-command is in your path.  If it isn't, then you should either
-specify the complete path to the java command or update your
-PATH environment variable as described in the installation
-instructions for the Java(TM) SE Development Kit.
+Tifsf instrudtions bssumf tibt tiis instbllbtion's vfrsion of tif jbvb
+dommbnd is in your pbti.  If it isn't, tifn you siould fitifr
+spfdify tif domplftf pbti to tif jbvb dommbnd or updbtf your
+PATH fnvironmfnt vbribblf bs dfsdribfd in tif instbllbtion
+instrudtions for tif Jbvb(TM) SE Dfvflopmfnt Kit.
 

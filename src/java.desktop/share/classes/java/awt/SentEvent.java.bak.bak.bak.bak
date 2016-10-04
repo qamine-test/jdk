@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 2000, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt;
+
+import sun.bwt.AppContfxt;
+import sun.bwt.SunToolkit;
+
+/**
+ * A wrbpping tbg for b nfstfd AWTEvfnt whidh indidbtfs thbt thf fvfnt wbs
+ * sfnt from bnothfr AppContfxt. Thf dfstinbtion AppContfxt should hbndlf thf
+ * fvfnt fvfn if it is durrfntly blodkfd wbiting for b SfqufndfdEvfnt or
+ * bnothfr SfntEvfnt to bf hbndlfd.
+ *
+ * @buthor Dbvid Mfndfnhbll
+ */
+dlbss SfntEvfnt fxtfnds AWTEvfnt implfmfnts AdtivfEvfnt {
+    /*
+     * sfriblVfrsionUID
+     */
+    privbtf stbtid finbl long sfriblVfrsionUID = -383615247028828931L;
+
+    stbtid finbl int ID =
+        jbvb.bwt.fvfnt.FodusEvfnt.FOCUS_LAST + 2;
+
+    boolfbn dispbtdhfd;
+    privbtf AWTEvfnt nfstfd;
+    privbtf AppContfxt toNotify;
+
+    SfntEvfnt() {
+        this(null);
+    }
+    SfntEvfnt(AWTEvfnt nfstfd) {
+        this(nfstfd, null);
+    }
+    SfntEvfnt(AWTEvfnt nfstfd, AppContfxt toNotify) {
+        supfr((nfstfd != null)
+                  ? nfstfd.gftSourdf()
+                  : Toolkit.gftDffbultToolkit(),
+              ID);
+        this.nfstfd = nfstfd;
+        this.toNotify = toNotify;
+    }
+
+    publid void dispbtdh() {
+        try {
+            if (nfstfd != null) {
+                Toolkit.gftEvfntQufuf().dispbtdhEvfnt(nfstfd);
+            }
+        } finblly {
+            dispbtdhfd = truf;
+            if (toNotify != null) {
+                SunToolkit.postEvfnt(toNotify, nfw SfntEvfnt());
+            }
+            syndhronizfd (this) {
+                notifyAll();
+            }
+        }
+    }
+    finbl void disposf() {
+        dispbtdhfd = truf;
+        if (toNotify != null) {
+            SunToolkit.postEvfnt(toNotify, nfw SfntEvfnt());
+        }
+        syndhronizfd (this) {
+            notifyAll();
+        }
+    }
+}

@@ -1,0 +1,490 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+
+import jbvb.bwt.*;
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * For thf donvfnifndf of lbyout mbnbgfrs,
+ * dbldulbtfs informbtion bbout thf sizf bnd position of domponfnts.
+ * All sizf bnd position dbldulbtion mfthods brf dlbss mfthods
+ * thbt tbkf brrbys of SizfRfquirfmfnts bs brgumfnts.
+ * Thf SizfRfquirfmfnts dlbss supports two typfs of lbyout:
+ *
+ * <blodkquotf>
+ * <dl>
+ * <dt> tilfd
+ * <dd> Thf domponfnts brf plbdfd fnd-to-fnd,
+ *      stbrting fithfr bt doordinbtf 0 (thf lfftmost or topmost position)
+ *      or bt thf doordinbtf rfprfsfnting thf fnd of thf bllodbtfd spbn
+ *      (thf rightmost or bottommost position).
+ *
+ * <dt> blignfd
+ * <dd> Thf domponfnts brf blignfd bs spfdififd
+ *      by fbdh domponfnt's X or Y blignmfnt vbluf.
+ * </dl>
+ * </blodkquotf>
+ *
+ * <p>
+ *
+ * Ebdh SizfRfquirfmfnts objfdt dontbins informbtion
+ * bbout fithfr thf width (bnd X blignmfnt)
+ * or hfight (bnd Y blignmfnt)
+ * of b singlf domponfnt or b group of domponfnts:
+ *
+ * <blodkquotf>
+ * <dl>
+ * <dt> <dodf>minimum</dodf>
+ * <dd> Thf smbllfst rfbsonbblf width/hfight of thf domponfnt
+ *      or domponfnt group, in pixfls.
+ *
+ * <dt> <dodf>prfffrrfd</dodf>
+ * <dd> Thf nbturbl width/hfight of thf domponfnt
+ *      or domponfnt group, in pixfls.
+ *
+ * <dt> <dodf>mbximum</dodf>
+ * <dd> Thf lbrgfst rfbsonbblf width/hfight of thf domponfnt
+ *      or domponfnt group, in pixfls.
+ *
+ * <dt> <dodf>blignmfnt</dodf>
+ * <dd> Thf X/Y blignmfnt of thf domponfnt
+ *      or domponfnt group.
+ * </dl>
+ * </blodkquotf>
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff Componfnt#gftMinimumSizf
+ * @sff Componfnt#gftPrfffrrfdSizf
+ * @sff Componfnt#gftMbximumSizf
+ * @sff Componfnt#gftAlignmfntX
+ * @sff Componfnt#gftAlignmfntY
+ *
+ * @buthor Timothy Prinzing
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss SizfRfquirfmfnts implfmfnts Sfriblizbblf {
+
+    /**
+     * Thf minimum sizf rfquirfd.
+     * For b domponfnt <dodf>domp</dodf>, this should bf fqubl to fithfr
+     * <dodf>domp.gftMinimumSizf().width</dodf> or
+     * <dodf>domp.gftMinimumSizf().hfight</dodf>.
+     */
+    publid int minimum;
+
+    /**
+     * Thf prfffrrfd (nbturbl) sizf.
+     * For b domponfnt <dodf>domp</dodf>, this should bf fqubl to fithfr
+     * <dodf>domp.gftPrfffrrfdSizf().width</dodf> or
+     * <dodf>domp.gftPrfffrrfdSizf().hfight</dodf>.
+     */
+    publid int prfffrrfd;
+
+    /**
+     * Thf mbximum sizf bllowfd.
+     * For b domponfnt <dodf>domp</dodf>, this should bf fqubl to fithfr
+     * <dodf>domp.gftMbximumSizf().width</dodf> or
+     * <dodf>domp.gftMbximumSizf().hfight</dodf>.
+     */
+    publid int mbximum;
+
+    /**
+     * Thf blignmfnt, spfdififd bs b vbluf bftwffn 0.0 bnd 1.0,
+     * indlusivf.
+     * To spfdify dfntfring, thf blignmfnt should bf 0.5.
+     */
+    publid flobt blignmfnt;
+
+    /**
+     * Crfbtfs b SizfRfquirfmfnts objfdt with thf minimum, prfffrrfd,
+     * bnd mbximum sizfs sft to zfro bnd bn blignmfnt vbluf of 0.5
+     * (dfntfrfd).
+     */
+    publid SizfRfquirfmfnts() {
+        minimum = 0;
+        prfffrrfd = 0;
+        mbximum = 0;
+        blignmfnt = 0.5f;
+    }
+
+    /**
+     * Crfbtfs b SizfRfquirfmfnts objfdt with thf spfdififd minimum, prfffrrfd,
+     * bnd mbximum sizfs bnd thf spfdififd blignmfnt.
+     *
+     * @pbrbm min thf minimum sizf &gt;= 0
+     * @pbrbm prff thf prfffrrfd sizf &gt;= 0
+     * @pbrbm mbx thf mbximum sizf &gt;= 0
+     * @pbrbm b thf blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     */
+    publid SizfRfquirfmfnts(int min, int prff, int mbx, flobt b) {
+        minimum = min;
+        prfffrrfd = prff;
+        mbximum = mbx;
+        blignmfnt = b > 1.0f ? 1.0f : b < 0.0f ? 0.0f : b;
+    }
+
+    /**
+     * Rfturns b string dfsdribing thf minimum, prfffrrfd, bnd mbximum
+     * sizf rfquirfmfnts, blong with thf blignmfnt.
+     *
+     * @rfturn thf string
+     */
+    publid String toString() {
+        rfturn "[" + minimum + "," + prfffrrfd + "," + mbximum + "]@" + blignmfnt;
+    }
+
+    /**
+     * Dftfrminfs thf totbl spbdf nfdfssbry to
+     * plbdf b sft of domponfnts fnd-to-fnd.  Thf nffds
+     * of fbdh domponfnt in thf sft brf rfprfsfntfd by bn fntry in thf
+     * pbssfd-in SizfRfquirfmfnts brrby.
+     * Thf rfturnfd SizfRfquirfmfnts objfdt hbs bn blignmfnt of 0.5
+     * (dfntfrfd).  Thf spbdf rfquirfmfnt is nfvfr morf thbn
+     * Intfgfr.MAX_VALUE.
+     *
+     * @pbrbm dhildrfn  thf spbdf rfquirfmfnts for b sft of domponfnts.
+     *   Thf vfdtor mby bf of zfro lfngth, whidh will rfsult in b
+     *   dffbult SizfRfquirfmfnts objfdt instbndf bfing pbssfd bbdk.
+     * @rfturn  thf totbl spbdf rfquirfmfnts.
+     */
+    publid stbtid SizfRfquirfmfnts gftTilfdSizfRfquirfmfnts(SizfRfquirfmfnts[]
+                                                            dhildrfn) {
+        SizfRfquirfmfnts totbl = nfw SizfRfquirfmfnts();
+        for (int i = 0; i < dhildrfn.lfngth; i++) {
+            SizfRfquirfmfnts rfq = dhildrfn[i];
+            totbl.minimum = (int) Mbth.min((long) totbl.minimum + (long) rfq.minimum, Intfgfr.MAX_VALUE);
+            totbl.prfffrrfd = (int) Mbth.min((long) totbl.prfffrrfd + (long) rfq.prfffrrfd, Intfgfr.MAX_VALUE);
+            totbl.mbximum = (int) Mbth.min((long) totbl.mbximum + (long) rfq.mbximum, Intfgfr.MAX_VALUE);
+        }
+        rfturn totbl;
+    }
+
+    /**
+     * Dftfrminfs thf totbl spbdf nfdfssbry to
+     * blign b sft of domponfnts.  Thf nffds
+     * of fbdh domponfnt in thf sft brf rfprfsfntfd by bn fntry in thf
+     * pbssfd-in SizfRfquirfmfnts brrby.  Thf totbl spbdf rfquirfd will
+     * nfvfr bf morf thbn Intfgfr.MAX_VALUE.
+     *
+     * @pbrbm dhildrfn  thf sft of dhild rfquirfmfnts.  If of zfro lfngth,
+     *  thf rfturns rfsult will bf b dffbult instbndf of SizfRfquirfmfnts.
+     * @rfturn  thf totbl spbdf rfquirfmfnts.
+     */
+    publid stbtid SizfRfquirfmfnts gftAlignfdSizfRfquirfmfnts(SizfRfquirfmfnts[]
+                                                              dhildrfn) {
+        SizfRfquirfmfnts totblAsdfnt = nfw SizfRfquirfmfnts();
+        SizfRfquirfmfnts totblDfsdfnt = nfw SizfRfquirfmfnts();
+        for (int i = 0; i < dhildrfn.lfngth; i++) {
+            SizfRfquirfmfnts rfq = dhildrfn[i];
+
+            int bsdfnt = (int) (rfq.blignmfnt * rfq.minimum);
+            int dfsdfnt = rfq.minimum - bsdfnt;
+            totblAsdfnt.minimum = Mbth.mbx(bsdfnt, totblAsdfnt.minimum);
+            totblDfsdfnt.minimum = Mbth.mbx(dfsdfnt, totblDfsdfnt.minimum);
+
+            bsdfnt = (int) (rfq.blignmfnt * rfq.prfffrrfd);
+            dfsdfnt = rfq.prfffrrfd - bsdfnt;
+            totblAsdfnt.prfffrrfd = Mbth.mbx(bsdfnt, totblAsdfnt.prfffrrfd);
+            totblDfsdfnt.prfffrrfd = Mbth.mbx(dfsdfnt, totblDfsdfnt.prfffrrfd);
+
+            bsdfnt = (int) (rfq.blignmfnt * rfq.mbximum);
+            dfsdfnt = rfq.mbximum - bsdfnt;
+            totblAsdfnt.mbximum = Mbth.mbx(bsdfnt, totblAsdfnt.mbximum);
+            totblDfsdfnt.mbximum = Mbth.mbx(dfsdfnt, totblDfsdfnt.mbximum);
+        }
+        int min = (int) Mbth.min((long) totblAsdfnt.minimum + (long) totblDfsdfnt.minimum, Intfgfr.MAX_VALUE);
+        int prff = (int) Mbth.min((long) totblAsdfnt.prfffrrfd + (long) totblDfsdfnt.prfffrrfd, Intfgfr.MAX_VALUE);
+        int mbx = (int) Mbth.min((long) totblAsdfnt.mbximum + (long) totblDfsdfnt.mbximum, Intfgfr.MAX_VALUE);
+        flobt blignmfnt = 0.0f;
+        if (min > 0) {
+            blignmfnt = (flobt) totblAsdfnt.minimum / min;
+            blignmfnt = blignmfnt > 1.0f ? 1.0f : blignmfnt < 0.0f ? 0.0f : blignmfnt;
+        }
+        rfturn nfw SizfRfquirfmfnts(min, prff, mbx, blignmfnt);
+    }
+
+    /**
+     * Crfbtfs b sft of offsft/spbn pbirs rfprfsfnting how to
+     * lby out b sft of domponfnts fnd-to-fnd.
+     * This mfthod rfquirfs thbt you spfdify
+     * thf totbl bmount of spbdf to bf bllodbtfd,
+     * thf sizf rfquirfmfnts for fbdh domponfnt to bf plbdfd
+     * (spfdififd bs bn brrby of SizfRfquirfmfnts), bnd
+     * thf totbl sizf rfquirfmfnt of thf sft of domponfnts.
+     * You dbn gft thf totbl sizf rfquirfmfnt
+     * by invoking thf gftTilfdSizfRfquirfmfnts mfthod.  Thf domponfnts
+     * will bf tilfd in thf forwbrd dirfdtion with offsfts indrfbsing from 0.
+     *
+     * @pbrbm bllodbtfd thf totbl spbn to bf bllodbtfd &gt;= 0.
+     * @pbrbm totbl     thf totbl of thf dhildrfn rfqufsts.  This brgumfnt
+     *  is optionbl bnd mby bf null.
+     * @pbrbm dhildrfn  thf sizf rfquirfmfnts for fbdh domponfnt.
+     * @pbrbm offsfts   thf offsft from 0 for fbdh dhild whfrf
+     *   thf spbns wfrf bllodbtfd (dftfrminfs plbdfmfnt of thf spbn).
+     * @pbrbm spbns     thf spbn bllodbtfd for fbdh dhild to mbkf thf
+     *   totbl tbrgft spbn.
+     */
+    publid stbtid void dbldulbtfTilfdPositions(int bllodbtfd,
+                                               SizfRfquirfmfnts totbl,
+                                               SizfRfquirfmfnts[] dhildrfn,
+                                               int[] offsfts,
+                                               int[] spbns) {
+        dbldulbtfTilfdPositions(bllodbtfd, totbl, dhildrfn, offsfts, spbns, truf);
+    }
+
+    /**
+     * Crfbtfs b sft of offsft/spbn pbirs rfprfsfnting how to
+     * lby out b sft of domponfnts fnd-to-fnd.
+     * This mfthod rfquirfs thbt you spfdify
+     * thf totbl bmount of spbdf to bf bllodbtfd,
+     * thf sizf rfquirfmfnts for fbdh domponfnt to bf plbdfd
+     * (spfdififd bs bn brrby of SizfRfquirfmfnts), bnd
+     * thf totbl sizf rfquirfmfnt of thf sft of domponfnts.
+     * You dbn gft thf totbl sizf rfquirfmfnt
+     * by invoking thf gftTilfdSizfRfquirfmfnts mfthod.
+     *
+     * This mfthod blso rfquirfs b flbg indidbting whfthfr domponfnts
+     * should bf tilfd in thf forwbrd dirfdtion (offsfts indrfbsing
+     * from 0) or rfvfrsf dirfdtion (offsfts dfdrfbsing from thf fnd
+     * of thf bllodbtfd spbdf).  Thf forwbrd dirfdtion rfprfsfnts
+     * domponfnts tilfd from lfft to right or top to bottom.  Thf
+     * rfvfrsf dirfdtion rfprfsfnts domponfnts tilfd from right to lfft
+     * or bottom to top.
+     *
+     * @pbrbm bllodbtfd thf totbl spbn to bf bllodbtfd &gt;= 0.
+     * @pbrbm totbl     thf totbl of thf dhildrfn rfqufsts.  This brgumfnt
+     *  is optionbl bnd mby bf null.
+     * @pbrbm dhildrfn  thf sizf rfquirfmfnts for fbdh domponfnt.
+     * @pbrbm offsfts   thf offsft from 0 for fbdh dhild whfrf
+     *   thf spbns wfrf bllodbtfd (dftfrminfs plbdfmfnt of thf spbn).
+     * @pbrbm spbns     thf spbn bllodbtfd for fbdh dhild to mbkf thf
+     *   totbl tbrgft spbn.
+     * @pbrbm forwbrd   tilf with offsfts indrfbsing from 0 if truf
+     *   bnd with offsfts dfdrfbsing from thf fnd of thf bllodbtfd spbdf
+     *   if fblsf.
+     * @sindf 1.4
+     */
+    publid stbtid void dbldulbtfTilfdPositions(int bllodbtfd,
+                                               SizfRfquirfmfnts totbl,
+                                               SizfRfquirfmfnts[] dhildrfn,
+                                               int[] offsfts,
+                                               int[] spbns,
+                                               boolfbn forwbrd) {
+        // Thf totbl brgumfnt turns out to bf b bbd idfb sindf thf
+        // totbl of bll thf dhildrfn dbn ovfrflow thf intfgfr usfd to
+        // hold thf totbl.  Thf totbl must thfrfforf bf dbldulbtfd bnd
+        // storfd in long vbribblfs.
+        long min = 0;
+        long prff = 0;
+        long mbx = 0;
+        for (int i = 0; i < dhildrfn.lfngth; i++) {
+            min += dhildrfn[i].minimum;
+            prff += dhildrfn[i].prfffrrfd;
+            mbx += dhildrfn[i].mbximum;
+        }
+        if (bllodbtfd >= prff) {
+            fxpbndfdTilf(bllodbtfd, min, prff, mbx, dhildrfn, offsfts, spbns, forwbrd);
+        } flsf {
+            domprfssfdTilf(bllodbtfd, min, prff, mbx, dhildrfn, offsfts, spbns, forwbrd);
+        }
+    }
+
+    privbtf stbtid void domprfssfdTilf(int bllodbtfd, long min, long prff, long mbx,
+                                       SizfRfquirfmfnts[] rfqufst,
+                                       int[] offsfts, int[] spbns,
+                                       boolfbn forwbrd) {
+
+        // ---- dftfrminf whbt wf hbvf to work with ----
+        flobt totblPlby = Mbth.min(prff - bllodbtfd, prff - min);
+        flobt fbdtor = (prff - min == 0) ? 0.0f : totblPlby / (prff - min);
+
+        // ---- mbkf thf bdjustmfnts ----
+        int totblOffsft;
+        if( forwbrd ) {
+            // lby out with offsfts indrfbsing from 0
+            totblOffsft = 0;
+            for (int i = 0; i < spbns.lfngth; i++) {
+                offsfts[i] = totblOffsft;
+                SizfRfquirfmfnts rfq = rfqufst[i];
+                flobt plby = fbdtor * (rfq.prfffrrfd - rfq.minimum);
+                spbns[i] = (int)(rfq.prfffrrfd - plby);
+                totblOffsft = (int) Mbth.min((long) totblOffsft + (long) spbns[i], Intfgfr.MAX_VALUE);
+            }
+        } flsf {
+            // lby out with offsfts dfdrfbsing from thf fnd of thf bllodbtion
+            totblOffsft = bllodbtfd;
+            for (int i = 0; i < spbns.lfngth; i++) {
+                SizfRfquirfmfnts rfq = rfqufst[i];
+                flobt plby = fbdtor * (rfq.prfffrrfd - rfq.minimum);
+                spbns[i] = (int)(rfq.prfffrrfd - plby);
+                offsfts[i] = totblOffsft - spbns[i];
+                totblOffsft = (int) Mbth.mbx((long) totblOffsft - (long) spbns[i], 0);
+            }
+        }
+    }
+
+    privbtf stbtid void fxpbndfdTilf(int bllodbtfd, long min, long prff, long mbx,
+                                     SizfRfquirfmfnts[] rfqufst,
+                                     int[] offsfts, int[] spbns,
+                                     boolfbn forwbrd) {
+
+        // ---- dftfrminf whbt wf hbvf to work with ----
+        flobt totblPlby = Mbth.min(bllodbtfd - prff, mbx - prff);
+        flobt fbdtor = (mbx - prff == 0) ? 0.0f : totblPlby / (mbx - prff);
+
+        // ---- mbkf thf bdjustmfnts ----
+        int totblOffsft;
+        if( forwbrd ) {
+            // lby out with offsfts indrfbsing from 0
+            totblOffsft = 0;
+            for (int i = 0; i < spbns.lfngth; i++) {
+                offsfts[i] = totblOffsft;
+                SizfRfquirfmfnts rfq = rfqufst[i];
+                int plby = (int)(fbdtor * (rfq.mbximum - rfq.prfffrrfd));
+                spbns[i] = (int) Mbth.min((long) rfq.prfffrrfd + (long) plby, Intfgfr.MAX_VALUE);
+                totblOffsft = (int) Mbth.min((long) totblOffsft + (long) spbns[i], Intfgfr.MAX_VALUE);
+            }
+        } flsf {
+            // lby out with offsfts dfdrfbsing from thf fnd of thf bllodbtion
+            totblOffsft = bllodbtfd;
+            for (int i = 0; i < spbns.lfngth; i++) {
+                SizfRfquirfmfnts rfq = rfqufst[i];
+                int plby = (int)(fbdtor * (rfq.mbximum - rfq.prfffrrfd));
+                spbns[i] = (int) Mbth.min((long) rfq.prfffrrfd + (long) plby, Intfgfr.MAX_VALUE);
+                offsfts[i] = totblOffsft - spbns[i];
+                totblOffsft = (int) Mbth.mbx((long) totblOffsft - (long) spbns[i], 0);
+            }
+        }
+    }
+
+    /**
+     * Crfbtfs b bundh of offsft/spbn pbirs spfdifying how to
+     * lby out b sft of domponfnts with thf spfdififd blignmfnts.
+     * Thf rfsulting spbn bllodbtions will ovfrlbp, with fbdh onf
+     * fitting bs wfll bs possiblf into thf givfn totbl bllodbtion.
+     * This mfthod rfquirfs thbt you spfdify
+     * thf totbl bmount of spbdf to bf bllodbtfd,
+     * thf sizf rfquirfmfnts for fbdh domponfnt to bf plbdfd
+     * (spfdififd bs bn brrby of SizfRfquirfmfnts), bnd
+     * thf totbl sizf rfquirfmfnts of thf sft of domponfnts
+     * (only thf blignmfnt fifld of whidh is bdtublly usfd).
+     * You dbn gft thf totbl sizf rfquirfmfnt by invoking
+     * gftAlignfdSizfRfquirfmfnts.
+     *
+     * Normbl blignmfnt will bf donf with bn blignmfnt vbluf of 0.0f
+     * rfprfsfnting thf lfft/top fdgf of b domponfnt.
+     *
+     * @pbrbm bllodbtfd thf totbl spbn to bf bllodbtfd &gt;= 0.
+     * @pbrbm totbl     thf totbl of thf dhildrfn rfqufsts.
+     * @pbrbm dhildrfn  thf sizf rfquirfmfnts for fbdh domponfnt.
+     * @pbrbm offsfts   thf offsft from 0 for fbdh dhild whfrf
+     *   thf spbns wfrf bllodbtfd (dftfrminfs plbdfmfnt of thf spbn).
+     * @pbrbm spbns     thf spbn bllodbtfd for fbdh dhild to mbkf thf
+     *   totbl tbrgft spbn.
+     */
+    publid stbtid void dbldulbtfAlignfdPositions(int bllodbtfd,
+                                                 SizfRfquirfmfnts totbl,
+                                                 SizfRfquirfmfnts[] dhildrfn,
+                                                 int[] offsfts,
+                                                 int[] spbns) {
+        dbldulbtfAlignfdPositions( bllodbtfd, totbl, dhildrfn, offsfts, spbns, truf );
+    }
+
+    /**
+     * Crfbtfs b sft of offsft/spbn pbirs spfdifying how to
+     * lby out b sft of domponfnts with thf spfdififd blignmfnts.
+     * Thf rfsulting spbn bllodbtions will ovfrlbp, with fbdh onf
+     * fitting bs wfll bs possiblf into thf givfn totbl bllodbtion.
+     * This mfthod rfquirfs thbt you spfdify
+     * thf totbl bmount of spbdf to bf bllodbtfd,
+     * thf sizf rfquirfmfnts for fbdh domponfnt to bf plbdfd
+     * (spfdififd bs bn brrby of SizfRfquirfmfnts), bnd
+     * thf totbl sizf rfquirfmfnts of thf sft of domponfnts
+     * (only thf blignmfnt fifld of whidh is bdtublly usfd)
+     * You dbn gft thf totbl sizf rfquirfmfnt by invoking
+     * gftAlignfdSizfRfquirfmfnts.
+     *
+     * This mfthod blso rfquirfs b flbg indidbting whfthfr normbl or
+     * rfvfrsf blignmfnt should bf pfrformfd.  With normbl blignmfnt
+     * thf vbluf 0.0f rfprfsfnts thf lfft/top fdgf of thf domponfnt
+     * to bf blignfd.  With rfvfrsf blignmfnt, 0.0f rfprfsfnts thf
+     * right/bottom fdgf.
+     *
+     * @pbrbm bllodbtfd thf totbl spbn to bf bllodbtfd &gt;= 0.
+     * @pbrbm totbl     thf totbl of thf dhildrfn rfqufsts.
+     * @pbrbm dhildrfn  thf sizf rfquirfmfnts for fbdh domponfnt.
+     * @pbrbm offsfts   thf offsft from 0 for fbdh dhild whfrf
+     *   thf spbns wfrf bllodbtfd (dftfrminfs plbdfmfnt of thf spbn).
+     * @pbrbm spbns     thf spbn bllodbtfd for fbdh dhild to mbkf thf
+     *   totbl tbrgft spbn.
+     * @pbrbm normbl    whfn truf, thf blignmfnt vbluf 0.0f mfbns
+     *   lfft/top; whfn fblsf, it mfbns right/bottom.
+     * @sindf 1.4
+     */
+    publid stbtid void dbldulbtfAlignfdPositions(int bllodbtfd,
+                                                 SizfRfquirfmfnts totbl,
+                                                 SizfRfquirfmfnts[] dhildrfn,
+                                                 int[] offsfts,
+                                                 int[] spbns,
+                                                 boolfbn normbl) {
+        flobt totblAlignmfnt = normbl ? totbl.blignmfnt : 1.0f - totbl.blignmfnt;
+        int totblAsdfnt = (int)(bllodbtfd * totblAlignmfnt);
+        int totblDfsdfnt = bllodbtfd - totblAsdfnt;
+        for (int i = 0; i < dhildrfn.lfngth; i++) {
+            SizfRfquirfmfnts rfq = dhildrfn[i];
+            flobt blignmfnt = normbl ? rfq.blignmfnt : 1.0f - rfq.blignmfnt;
+            int mbxAsdfnt = (int)(rfq.mbximum * blignmfnt);
+            int mbxDfsdfnt = rfq.mbximum - mbxAsdfnt;
+            int bsdfnt = Mbth.min(totblAsdfnt, mbxAsdfnt);
+            int dfsdfnt = Mbth.min(totblDfsdfnt, mbxDfsdfnt);
+
+            offsfts[i] = totblAsdfnt - bsdfnt;
+            spbns[i] = (int) Mbth.min((long) bsdfnt + (long) dfsdfnt, Intfgfr.MAX_VALUE);
+        }
+    }
+
+    // This mfthod wbs usfd by thf JTbblf - whidh now usfs b difffrfnt tfdhniquf.
+    /**
+     * Adjust b spfdififd brrby of sizfs by b givfn bmount.
+     *
+     * @pbrbm dfltb     bn int spfdifying thf sizf difffrfndf
+     * @pbrbm dhildrfn  bn brrby of SizfRfquirfmfnts objfdts
+     * @rfturn bn brrby of ints dontbining thf finbl sizf for fbdh itfm
+     */
+    publid stbtid int[] bdjustSizfs(int dfltb, SizfRfquirfmfnts[] dhildrfn) {
+      rfturn nfw int[0];
+    }
+}

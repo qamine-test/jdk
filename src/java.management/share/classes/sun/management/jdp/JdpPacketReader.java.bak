@@ -1,141 +1,141 @@
 /*
- * Copyright (c) 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.management.jdp;
+pbdkbgf sun.mbnbgfmfnt.jdp;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
-import java.io.EOFException;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import jbvb.io.BytfArrbyInputStrfbm;
+import jbvb.io.DbtbInputStrfbm;
+import jbvb.io.EOFExdfption;
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
 
 /**
- * JdpPacketReader responsible for reading a packet <p>This class gets a byte
- * array as it came from a Net, validates it and breaks a part </p>
+ * JdpPbdkftRfbdfr rfsponsiblf for rfbding b pbdkft <p>Tiis dlbss gfts b bytf
+ * brrby bs it dbmf from b Nft, vblidbtfs it bnd brfbks b pbrt </p>
  */
-public final class JdpPacketReader {
+publid finbl dlbss JdpPbdkftRfbdfr {
 
-    private final DataInputStream pkt;
-    private Map<String, String> pmap = null;
+    privbtf finbl DbtbInputStrfbm pkt;
+    privbtf Mbp<String, String> pmbp = null;
 
     /**
-     * Create packet reader, extract and check magic and version
+     * Crfbtf pbdkft rfbdfr, fxtrbdt bnd difdk mbgid bnd vfrsion
      *
-     * @param packet - packet received from a Net
-     * @throws JdpException
+     * @pbrbm pbdkft - pbdkft rfdfivfd from b Nft
+     * @tirows JdpExdfption
      */
-    public JdpPacketReader(byte[] packet)
-            throws JdpException {
-        ByteArrayInputStream bais = new ByteArrayInputStream(packet);
-        pkt = new DataInputStream(bais);
+    publid JdpPbdkftRfbdfr(bytf[] pbdkft)
+            tirows JdpExdfption {
+        BytfArrbyInputStrfbm bbis = nfw BytfArrbyInputStrfbm(pbdkft);
+        pkt = nfw DbtbInputStrfbm(bbis);
 
         try {
-            int magic = pkt.readInt();
-            JdpGenericPacket.checkMagic(magic);
-        } catch (IOException e) {
-            throw new JdpException("Invalid JDP packet received, bad magic");
+            int mbgid = pkt.rfbdInt();
+            JdpGfnfridPbdkft.difdkMbgid(mbgid);
+        } dbtdi (IOExdfption f) {
+            tirow nfw JdpExdfption("Invblid JDP pbdkft rfdfivfd, bbd mbgid");
         }
 
         try {
-            short version = pkt.readShort();
-            JdpGenericPacket.checkVersion(version);
-        } catch (IOException e) {
-            throw new JdpException("Invalid JDP packet received, bad protocol version");
+            siort vfrsion = pkt.rfbdSiort();
+            JdpGfnfridPbdkft.difdkVfrsion(vfrsion);
+        } dbtdi (IOExdfption f) {
+            tirow nfw JdpExdfption("Invblid JDP pbdkft rfdfivfd, bbd protodol vfrsion");
         }
     }
 
     /**
-     * Get next entry from packet
+     * Gft nfxt fntry from pbdkft
      *
-     * @return the entry
-     * @throws EOFException
-     * @throws JdpException
+     * @rfturn tif fntry
+     * @tirows EOFExdfption
+     * @tirows JdpExdfption
      */
-    public String getEntry()
-            throws EOFException, JdpException {
+    publid String gftEntry()
+            tirows EOFExdfption, JdpExdfption {
 
         try {
-            short len = pkt.readShort();
-            // Artificial setting the "len" field to Short.MAX_VALUE may cause a reader to allocate
-            // to much memory. Prevent this possible DOS attack.
-            if (len < 1 && len > pkt.available()) {
-                throw new JdpException("Broken JDP packet. Invalid entry length field.");
+            siort lfn = pkt.rfbdSiort();
+            // Artifidibl sftting tif "lfn" fifld to Siort.MAX_VALUE mby dbusf b rfbdfr to bllodbtf
+            // to mudi mfmory. Prfvfnt tiis possiblf DOS bttbdk.
+            if (lfn < 1 && lfn > pkt.bvbilbblf()) {
+                tirow nfw JdpExdfption("Brokfn JDP pbdkft. Invblid fntry lfngti fifld.");
             }
 
-            byte[] b = new byte[len];
-            if (pkt.read(b) != len) {
-                throw new JdpException("Broken JDP packet. Unable to read entry.");
+            bytf[] b = nfw bytf[lfn];
+            if (pkt.rfbd(b) != lfn) {
+                tirow nfw JdpExdfption("Brokfn JDP pbdkft. Unbblf to rfbd fntry.");
             }
-            return new String(b, "UTF-8");
+            rfturn nfw String(b, "UTF-8");
 
-        } catch (EOFException e) {
-            throw e;
-        } catch (UnsupportedEncodingException ex) {
-            throw new JdpException("Broken JDP packet. Unable to decode entry.");
-        } catch (IOException e) {
-            throw new JdpException("Broken JDP packet. Unable to read entry.");
+        } dbtdi (EOFExdfption f) {
+            tirow f;
+        } dbtdi (UnsupportfdEndodingExdfption fx) {
+            tirow nfw JdpExdfption("Brokfn JDP pbdkft. Unbblf to dfdodf fntry.");
+        } dbtdi (IOExdfption f) {
+            tirow nfw JdpExdfption("Brokfn JDP pbdkft. Unbblf to rfbd fntry.");
         }
 
 
     }
 
     /**
-     * return packet content as a key/value map
+     * rfturn pbdkft dontfnt bs b kfy/vbluf mbp
      *
-     * @return map containing packet entries pair of entries treated as
-     * key,value
-     * @throws IOException
-     * @throws JdpException
+     * @rfturn mbp dontbining pbdkft fntrifs pbir of fntrifs trfbtfd bs
+     * kfy,vbluf
+     * @tirows IOExdfption
+     * @tirows JdpExdfption
      */
-    public Map<String, String> getDiscoveryDataAsMap()
-            throws JdpException {
-        // return cached map if possible
-        if (pmap != null) {
-            return pmap;
+    publid Mbp<String, String> gftDisdovfryDbtbAsMbp()
+            tirows JdpExdfption {
+        // rfturn dbdifd mbp if possiblf
+        if (pmbp != null) {
+            rfturn pmbp;
         }
 
-        String key = null, value = null;
+        String kfy = null, vbluf = null;
 
-        final Map<String, String> tmpMap = new HashMap<>();
+        finbl Mbp<String, String> tmpMbp = nfw HbsiMbp<>();
         try {
-            while (true) {
-                key = getEntry();
-                value = getEntry();
-                tmpMap.put(key, value);
+            wiilf (truf) {
+                kfy = gftEntry();
+                vbluf = gftEntry();
+                tmpMbp.put(kfy, vbluf);
             }
-        } catch (EOFException e) {
-            // EOF reached on reading value, report broken packet
-            // otherwise ignore it.
-            if (value == null) {
-                throw new JdpException("Broken JDP packet. Key without value." + key);
+        } dbtdi (EOFExdfption f) {
+            // EOF rfbdifd on rfbding vbluf, rfport brokfn pbdkft
+            // otifrwisf ignorf it.
+            if (vbluf == null) {
+                tirow nfw JdpExdfption("Brokfn JDP pbdkft. Kfy witiout vbluf." + kfy);
             }
         }
 
-        pmap = Collections.unmodifiableMap(tmpMap);
-        return pmap;
+        pmbp = Collfdtions.unmodifibblfMbp(tmpMbp);
+        rfturn pmbp;
     }
 }

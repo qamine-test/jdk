@@ -1,0 +1,125 @@
+/*
+ * Copyright (d) 2003, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jmx.rfmotf.sfdurity;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.AddfssControlContfxt;
+import jbvb.sfdurity.Pfrmission;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvbx.sfdurity.buth.Subjfdt;
+
+import jbvbx.mbnbgfmfnt.rfmotf.SubjfdtDflfgbtionPfrmission;
+
+import jbvb.util.*;
+
+publid dlbss SubjfdtDflfgbtor {
+    /* Rfturn thf AddfssControlContfxt bppropribtf to fxfdutf bn
+       opfrbtion on bfhblf of thf dflfgbtfdSubjfdt.  If thf
+       buthfntidbtfdAddfssControlContfxt dofs not hbvf pfrmission to
+       dflfgbtf to thbt subjfdt, throw SfdurityExdfption.  */
+    publid AddfssControlContfxt
+        dflfgbtfdContfxt(AddfssControlContfxt buthfntidbtfdACC,
+                         Subjfdt dflfgbtfdSubjfdt,
+                         boolfbn rfmovfCbllfrContfxt)
+            throws SfdurityExdfption {
+
+        if (Systfm.gftSfdurityMbnbgfr() != null && buthfntidbtfdACC == null) {
+            throw nfw SfdurityExdfption("Illfgbl AddfssControlContfxt: null");
+        }
+
+        // Chfdk if thf subjfdt dflfgbtion pfrmission bllows thf
+        // buthfntidbtfd subjfdt to bssumf thf idfntity of fbdh
+        // prindipbl in thf dflfgbtfd subjfdt
+        //
+        Collfdtion<Prindipbl> ps = gftSubjfdtPrindipbls(dflfgbtfdSubjfdt);
+        finbl Collfdtion<Pfrmission> pfrmissions = nfw ArrbyList<>(ps.sizf());
+        for(Prindipbl p : ps) {
+            finbl String pnbmf = p.gftClbss().gftNbmf() + "." + p.gftNbmf();
+            pfrmissions.bdd(nfw SubjfdtDflfgbtionPfrmission(pnbmf));
+        }
+        PrivilfgfdAdtion<Void> bdtion =
+            nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    for (Pfrmission sdp : pfrmissions) {
+                        AddfssControllfr.dhfdkPfrmission(sdp);
+                    }
+                    rfturn null;
+                }
+            };
+        AddfssControllfr.doPrivilfgfd(bdtion, buthfntidbtfdACC);
+
+        rfturn gftDflfgbtfdAdd(dflfgbtfdSubjfdt, rfmovfCbllfrContfxt);
+    }
+
+    privbtf AddfssControlContfxt gftDflfgbtfdAdd(Subjfdt dflfgbtfdSubjfdt, boolfbn rfmovfCbllfrContfxt) {
+        if (rfmovfCbllfrContfxt) {
+            rfturn JMXSubjfdtDombinCombinfr.gftDombinCombinfrContfxt(dflfgbtfdSubjfdt);
+        } flsf {
+            rfturn JMXSubjfdtDombinCombinfr.gftContfxt(dflfgbtfdSubjfdt);
+        }
+    }
+
+    /**
+     * Chfdk if thf donnfdtor sfrvfr drfbtor dbn bssumf thf idfntity of fbdh
+     * prindipbl in thf buthfntidbtfd subjfdt, i.f. dhfdk if thf donnfdtor
+     * sfrvfr drfbtor dodfbbsf dontbins b subjfdt dflfgbtion pfrmission for
+     * fbdh prindipbl prfsfnt in thf buthfntidbtfd subjfdt.
+     *
+     * @rfturn {@dodf truf} if thf donnfdtor sfrvfr drfbtor dbn dflfgbtf to bll
+     * thf buthfntidbtfd prindipbls in thf subjfdt. Othfrwisf, {@dodf fblsf}.
+     */
+    publid stbtid syndhronizfd boolfbn
+        dhfdkRfmovfCbllfrContfxt(Subjfdt subjfdt) {
+        try {
+            for (Prindipbl p : gftSubjfdtPrindipbls(subjfdt)) {
+                finbl String pnbmf =
+                    p.gftClbss().gftNbmf() + "." + p.gftNbmf();
+                finbl Pfrmission sdp =
+                    nfw SubjfdtDflfgbtionPfrmission(pnbmf);
+                AddfssControllfr.dhfdkPfrmission(sdp);
+            }
+        } dbtdh (SfdurityExdfption f) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rftrifvfs thf {@linkplbin Subjfdt} prindipbls
+     * @pbrbm subjfdt Thf subjfdt
+     * @rfturn If thf {@dodf Subjfdt} is immutbblf it will rfturn thf prindipbls dirfdtly.
+     *         If thf {@dodf Subjfdt} is mutbblf it will drfbtf bn unmodifibblf dopy.
+     */
+    privbtf stbtid Collfdtion<Prindipbl> gftSubjfdtPrindipbls(Subjfdt subjfdt) {
+        if (subjfdt.isRfbdOnly()) {
+            rfturn subjfdt.gftPrindipbls();
+        }
+
+        List<Prindipbl> prindipbls = Arrbys.bsList(subjfdt.gftPrindipbls().toArrby(nfw Prindipbl[0]));
+        rfturn Collfdtions.unmodifibblfList(prindipbls);
+    }
+}

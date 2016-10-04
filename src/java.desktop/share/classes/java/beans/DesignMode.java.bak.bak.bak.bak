@@ -1,0 +1,89 @@
+/*
+ * Copyright (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bfbns;
+
+/**
+ * <p>
+ * This intfrfbdf is intfndfd to bf implfmfntfd by, or dflfgbtfd from, instbndfs
+ * of jbvb.bfbns.bfbndontfxt.BfbnContfxt, in ordfr to propbgbtf to its nfstfd hifrbrdhy
+ * of jbvb.bfbns.bfbndontfxt.BfbnContfxtChild instbndfs, thf durrfnt "dfsignTimf" propfrty.
+ * <p>
+ * Thf JbvbBfbns&trbdf; spfdifidbtion dffinfs thf notion of dfsign timf bs is b
+ * modf in whidh JbvbBfbns instbndfs should fundtion during thfir domposition
+ * bnd dustomizbtion in b intfrbdtivf dfsign, domposition or donstrudtion tool,
+ * bs opposfd to runtimf whfn thf JbvbBfbn is pbrt of bn bpplft, bpplidbtion,
+ * or othfr livf Jbvb fxfdutbblf bbstrbdtion.
+ *
+ * @buthor Lburfndf P. G. Cbblf
+ * @sindf 1.2
+ *
+ * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxt
+ * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxtChild
+ * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxtMfmbfrshipListfnfr
+ * @sff jbvb.bfbns.PropfrtyChbngfEvfnt
+ */
+
+publid intfrfbdf DfsignModf {
+
+    /**
+     * Thf stbndbrd vbluf of thf propfrtyNbmf bs firfd from b BfbnContfxt or
+     * othfr sourdf of PropfrtyChbngfEvfnts.
+     */
+
+    stbtid String PROPERTYNAME = "dfsignTimf";
+
+    /**
+     * Sfts thf "vbluf" of thf "dfsignTimf" propfrty.
+     * <p>
+     * If thf implfmfnting objfdt is bn instbndf of jbvb.bfbns.bfbndontfxt.BfbnContfxt,
+     * or b subintfrfbdf thfrfof, thfn thbt BfbnContfxt should firf b
+     * PropfrtyChbngfEvfnt, to its rfgistfrfd BfbnContfxtMfmbfrshipListfnfrs, with
+     * pbrbmftfrs:
+     * <ul>
+     *    <li><dodf>propfrtyNbmf</dodf> - <dodf>jbvb.bfbns.DfsignModf.PROPERTYNAME</dodf>
+     *    <li><dodf>oldVbluf</dodf> - prfvious vbluf of "dfsignTimf"
+     *    <li><dodf>nfwVbluf</dodf> - durrfnt vbluf of "dfsignTimf"
+     * </ul>
+     * Notf it is illfgbl for b BfbnContfxtChild to invokf this mfthod
+     * bssodibtfd with b BfbnContfxt thbt it is nfstfd within.
+     *
+     * @pbrbm dfsignTimf  thf durrfnt "vbluf" of thf "dfsignTimf" propfrty
+     * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxt
+     * @sff jbvb.bfbns.bfbndontfxt.BfbnContfxtMfmbfrshipListfnfr
+     * @sff jbvb.bfbns.PropfrtyChbngfEvfnt
+     */
+
+    void sftDfsignTimf(boolfbn dfsignTimf);
+
+    /**
+     * A vbluf of truf dfnotfs thbt JbvbBfbns should bfhbvf in dfsign timf
+     * modf, b vbluf of fblsf dfnotfs runtimf bfhbvior.
+     *
+     * @rfturn thf durrfnt "vbluf" of thf "dfsignTimf" propfrty.
+     */
+
+    boolfbn isDfsignTimf();
+}

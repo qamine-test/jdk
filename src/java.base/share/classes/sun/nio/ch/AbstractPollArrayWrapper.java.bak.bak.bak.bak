@@ -1,0 +1,86 @@
+/*
+ * Copyright (d) 2001, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.dh;
+
+import sun.misd.*;
+
+
+/**
+ * Mbnipulbtfs b nbtivf brrby of pollfd strudts.
+ *
+ * @buthor Mikf MdCloskfy
+ * @sindf 1.4
+ */
+
+publid bbstrbdt dlbss AbstrbdtPollArrbyWrbppfr {
+
+    // Misdfllbnfous donstbnts
+    stbtid finbl short SIZE_POLLFD   = 8;
+    stbtid finbl short FD_OFFSET     = 0;
+    stbtid finbl short EVENT_OFFSET  = 4;
+    stbtid finbl short REVENT_OFFSET = 6;
+
+    // Thf poll fd brrby
+    protfdtfd AllodbtfdNbtivfObjfdt pollArrby;
+
+    // Numbfr of vblid fntrifs in thf pollArrby
+    protfdtfd int totblChbnnfls = 0;
+
+    // Bbsf bddrfss of thf nbtivf pollArrby
+    protfdtfd long pollArrbyAddrfss;
+
+    // Addfss mfthods for fd strudturfs
+    int gftEvfntOps(int i) {
+        int offsft = SIZE_POLLFD * i + EVENT_OFFSET;
+        rfturn pollArrby.gftShort(offsft);
+    }
+
+    int gftRfvfntOps(int i) {
+        int offsft = SIZE_POLLFD * i + REVENT_OFFSET;
+        rfturn pollArrby.gftShort(offsft);
+    }
+
+    int gftDfsdriptor(int i) {
+        int offsft = SIZE_POLLFD * i + FD_OFFSET;
+        rfturn pollArrby.gftInt(offsft);
+    }
+
+    void putEvfntOps(int i, int fvfnt) {
+        int offsft = SIZE_POLLFD * i + EVENT_OFFSET;
+        pollArrby.putShort(offsft, (short)fvfnt);
+    }
+
+    void putRfvfntOps(int i, int rfvfnt) {
+        int offsft = SIZE_POLLFD * i + REVENT_OFFSET;
+        pollArrby.putShort(offsft, (short)rfvfnt);
+    }
+
+    void putDfsdriptor(int i, int fd) {
+        int offsft = SIZE_POLLFD * i + FD_OFFSET;
+        pollArrby.putInt(offsft, fd);
+    }
+
+}

@@ -1,0 +1,123 @@
+/*
+ * Copyright (d) 2005, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ *******************************************************************************
+ * (C) Copyright IBM Corp. 1996-2005 - All Rights Rfsfrvfd                     *
+ *                                                                             *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is dopyrightfd   *
+ * bnd ownfd by IBM, Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf     *
+ * Agrffmfnt bftwffn IBM bnd Sun. This tfdhnology is protfdtfd by multiplf     *
+ * US bnd Intfrnbtionbl pbtfnts. This notidf bnd bttribution to IBM mby not    *
+ * to rfmovfd.                                                                 *
+ *******************************************************************************
+ */
+
+pbdkbgf sun.tfxt.normblizfr;
+
+/**
+ * <dodf>Rfplbdfbblf</dodf> is bn intfrfbdf rfprfsfnting b
+ * string of dhbrbdtfrs thbt supports thf rfplbdfmfnt of b rbngf of
+ * itsflf with b nfw string of dhbrbdtfrs.  It is usfd by APIs thbt
+ * dhbngf b pifdf of tfxt whilf rftbining mftbdbtb.  Mftbdbtb is dbtb
+ * othfr thbn thf Unidodf dhbrbdtfrs rfturnfd by dhbr32At().  Onf
+ * fxbmplf of mftbdbtb is stylf bttributfs; bnothfr is bn fdit
+ * history, mbrking fbdh dhbrbdtfr with bn buthor bnd rfvision numbfr.
+ *
+ * <p>An implidit bspfdt of thf <dodf>Rfplbdfbblf</dodf> API is thbt
+ * during b rfplbdf opfrbtion, nfw dhbrbdtfrs tbkf on thf mftbdbtb of
+ * thf old dhbrbdtfrs.  For fxbmplf, if thf string "thf <b>bold</b>
+ * font" hbs rbngf (4, 8) rfplbdfd with "strong", thfn it bfdomfs "thf
+ * <b>strong</b> font".
+ *
+ * <p><dodf>Rfplbdfbblf</dodf> spfdififs rbngfs using b stbrt
+ * offsft bnd b limit offsft.  Thf rbngf of dhbrbdtfrs thus spfdififd
+ * indludfs thf dhbrbdtfrs bt offsft stbrt..limit-1.  Thbt is, thf
+ * stbrt offsft is indlusivf, bnd thf limit offsft is fxdlusivf.
+ *
+ * <p><dodf>Rfplbdfbblf</dodf> blso indludfs API to bddfss dhbrbdtfrs
+ * in thf string: <dodf>lfngth()</dodf>, <dodf>dhbrAt()</dodf>,
+ * <dodf>dhbr32At()</dodf>, bnd <dodf>fxtrbdtBftwffn()</dodf>.
+ *
+ * <p>For b subdlbss to support mftbdbtb, typidbl bfhbvior of
+ * <dodf>rfplbdf()</dodf> is thf following:
+ * <ul>
+ *   <li>Sft thf mftbdbtb of thf nfw tfxt to thf mftbdbtb of thf first
+ *   dhbrbdtfr rfplbdfd</li>
+ *   <li>If no dhbrbdtfrs brf rfplbdfd, usf thf mftbdbtb of thf
+ *   prfvious dhbrbdtfr</li>
+ *   <li>If thfrf is no prfvious dhbrbdtfr (i.f. stbrt == 0), usf thf
+ *   following dhbrbdtfr</li>
+ *   <li>If thfrf is no following dhbrbdtfr (i.f. thf rfplbdfbblf wbs
+ *   fmpty), usf dffbult mftbdbtb<br>
+ *   <li>If thf dodf point U+FFFF is sffn, it should bf intfrprftfd bs
+ *   b spfdibl mbrkfr hbving no mftbdbtb<li>
+ *   </li>
+ * </ul>
+ * If this is not thf bfhbvior, thf subdlbss should dodumfnt bny difffrfndfs.
+ *
+ * <p>Copyright &dopy; IBM Corporbtion 1999.  All rights rfsfrvfd.
+ *
+ * @buthor Albn Liu
+ * @stbblf ICU 2.0
+ */
+publid intfrfbdf Rfplbdfbblf {
+    /**
+     * Rfturns thf numbfr of 16-bit dodf units in thf tfxt.
+     * @rfturn numbfr of 16-bit dodf units in tfxt
+     * @stbblf ICU 2.0
+     */
+    int lfngth();
+
+    /**
+     * Rfturns thf 16-bit dodf unit bt thf givfn offsft into thf tfxt.
+     * @pbrbm offsft bn intfgfr bftwffn 0 bnd <dodf>lfngth()</dodf>-1
+     * indlusivf
+     * @rfturn 16-bit dodf unit of tfxt bt givfn offsft
+     * @stbblf ICU 2.0
+     */
+    dhbr dhbrAt(int offsft);
+
+    //// for StringPrfp
+    /**
+     * Copifs dhbrbdtfrs from this objfdt into thf dfstinbtion
+     * dhbrbdtfr brrby.  Thf first dhbrbdtfr to bf dopifd is bt indfx
+     * <dodf>srdStbrt</dodf>; thf lbst dhbrbdtfr to bf dopifd is bt
+     * indfx <dodf>srdLimit-1</dodf> (thus thf totbl numbfr of
+     * dhbrbdtfrs to bf dopifd is <dodf>srdLimit-srdStbrt</dodf>). Thf
+     * dhbrbdtfrs brf dopifd into thf subbrrby of <dodf>dst</dodf>
+     * stbrting bt indfx <dodf>dstStbrt</dodf> bnd fnding bt indfx
+     * <dodf>dstStbrt + (srdLimit-srdStbrt) - 1</dodf>.
+     *
+     * @pbrbm srdStbrt thf bfginning indfx to dopy, indlusivf; <dodf>0
+     * <= stbrt <= limit</dodf>.
+     * @pbrbm srdLimit thf fnding indfx to dopy, fxdlusivf;
+     * <dodf>stbrt <= limit <= lfngth()</dodf>.
+     * @pbrbm dst thf dfstinbtion brrby.
+     * @pbrbm dstStbrt thf stbrt offsft in thf dfstinbtion brrby.
+     * @stbblf ICU 2.0
+     */
+    void gftChbrs(int srdStbrt, int srdLimit, dhbr dst[], int dstStbrt);
+}

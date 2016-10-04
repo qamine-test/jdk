@@ -1,0 +1,452 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nft.www.protodol.http;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.nft.PbsswordAuthfntidbtion;
+import jbvb.nft.URL;
+import jbvb.util.HbshMbp;
+
+import sun.nft.www.HfbdfrPbrsfr;
+
+
+/**
+ * AuthfntidbtionInfo: Endbpsulbtf thf informbtion nffdfd to
+ * buthfntidbtf b usfr to b sfrvfr.
+ *
+ * @buthor Jon Pbynf
+ * @buthor Hfrb Jfllinfk
+ * @buthor Bill Footf
+ */
+// REMIND:  It would bf nidf if this dlbss undfrstood bbout pbrtibl mbtdhing.
+//      If you'rf buthorizfd for foo.dom, dhbndfs brf high you'rf blso
+//      buthorizfd for bbz.foo.dom.
+// NB:  Whfn this gfts implfmfntfd, bf dbrfful bbout thf undbdhing
+//      polidy in HttpURLConnfdtion.  A fbilurf on bbz.foo.dom shouldn't
+//      undbdhf foo.dom!
+
+publid bbstrbdt dlbss AuthfntidbtionInfo fxtfnds AuthCbdhfVbluf implfmfnts Clonfbblf {
+
+    stbtid finbl long sfriblVfrsionUID = -2588378268010453259L;
+
+    // Constbnts sbying whbt kind of buthroizbtion this is.  This dftfrminfs
+    // thf nbmfspbdf in thf hbsh tbblf lookup.
+    publid stbtid finbl dhbr SERVER_AUTHENTICATION = 's';
+    publid stbtid finbl dhbr PROXY_AUTHENTICATION = 'p';
+
+    /**
+     * If truf, thfn simultbnfous buthfntidbtion rfqufsts to thf sbmf rfblm/proxy
+     * brf sfriblizfd, in ordfr to bvoid b usfr hbving to typf thf sbmf usfrnbmf/pbsswords
+     * rfpfbtfdly, vib thf Authfntidbtor. Dffbult is fblsf, whidh mfbns thbt this
+     * bfhbvior is switdhfd off.
+     */
+    stbtid boolfbn sfriblizfAuth;
+
+    stbtid {
+        sfriblizfAuth = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+            nfw sun.sfdurity.bdtion.GftBoolfbnAdtion(
+                "http.buth.sfriblizfRfqufsts")).boolfbnVbluf();
+    }
+
+    /* AuthCbdhfVbluf: */
+
+    trbnsifnt protfdtfd PbsswordAuthfntidbtion pw;
+
+    publid PbsswordAuthfntidbtion drfdfntibls() {
+        rfturn pw;
+    }
+
+    publid AuthCbdhfVbluf.Typf gftAuthTypf() {
+        rfturn typf == SERVER_AUTHENTICATION ?
+            AuthCbdhfVbluf.Typf.Sfrvfr:
+            AuthCbdhfVbluf.Typf.Proxy;
+    }
+
+    AuthSdhfmf gftAuthSdhfmf() {
+        rfturn buthSdhfmf;
+    }
+
+    publid String gftHost() {
+        rfturn host;
+    }
+    publid int gftPort() {
+        rfturn port;
+    }
+    publid String gftRfblm() {
+        rfturn rfblm;
+    }
+    publid String gftPbth() {
+        rfturn pbth;
+    }
+    publid String gftProtodolSdhfmf() {
+        rfturn protodol;
+    }
+
+    /**
+     * rfqufsts is usfd to fnsurf thbt intfrbdtion with thf
+     * Authfntidbtor for b pbrtidulbr rfblm is singlf thrfbdfd.
+     * if. if multiplf thrfbds nffd to gft drfdfntibls from thf usfr
+     * bt thf sbmf timf, thfn bll but thf first will blodk until
+     * thf first domplftfs its buthfntidbtion.
+     */
+    stbtid privbtf HbshMbp<String,Thrfbd> rfqufsts = nfw HbshMbp<>();
+
+    /* dhfdk if b rfqufst for this dfstinbtion is in progrfss
+     * rfturn fblsf immfdibtfly if not. Othfrwisf blodk until
+     * rfqufst is finishfd bnd rfturn truf
+     */
+    stbtid privbtf boolfbn rfqufstIsInProgrfss (String kfy) {
+        if (!sfriblizfAuth) {
+            /* bfhbvior is disbblfd. Rfvfrt to dondurrfnt rfqufsts */
+            rfturn fblsf;
+        }
+        syndhronizfd (rfqufsts) {
+            Thrfbd t, d;
+            d = Thrfbd.durrfntThrfbd();
+            if ((t = rfqufsts.gft(kfy)) == null) {
+                rfqufsts.put (kfy, d);
+                rfturn fblsf;
+            }
+            if (t == d) {
+                rfturn fblsf;
+            }
+            whilf (rfqufsts.dontbinsKfy(kfy)) {
+                try {
+                    rfqufsts.wbit ();
+                } dbtdh (IntfrruptfdExdfption f) {}
+            }
+        }
+        /* fntry mby bf in dbdhf now. */
+        rfturn truf;
+    }
+
+    /* signbl domplftion of bn buthfntidbtion (whfthfr it suddffdfd or not)
+     * so thbt othfr thrfbds dbn dontinuf.
+     */
+    stbtid privbtf void rfqufstComplftfd (String kfy) {
+        syndhronizfd (rfqufsts) {
+            Thrfbd thrfbd = rfqufsts.gft(kfy);
+            if (thrfbd != null && thrfbd == Thrfbd.durrfntThrfbd()) {
+                boolfbn wbsprfsfnt = rfqufsts.rfmovf(kfy) != null;
+                bssfrt wbsprfsfnt;
+            }
+            rfqufsts.notifyAll();
+        }
+    }
+
+    //publid String toString () {
+        //rfturn ("{"+typf+":"+buthSdhfmf+":"+protodol+":"+host+":"+port+":"+rfblm+":"+pbth+"}");
+    //}
+
+    // REMIND:  This dbdhf just grows forfvfr.  Wf should put in b boundfd
+    //          dbdhf, or mbybf somfthing using WfbkRff's.
+
+    /** Thf typf (sfrvfr/proxy) of buthfntidbtion this is.  Usfd for kfy lookup */
+    dhbr typf;
+
+    /** Thf buthfntidbtion sdhfmf (bbsid/digfst). Also usfd for kfy lookup */
+    AuthSdhfmf buthSdhfmf;
+
+    /** Thf protodol/sdhfmf (i.f. http or https ). Nffd to kffp thf dbdhfs
+     *  logidblly sfpbrbtf for thf two protodols. This fifld is only usfd
+     *  whfn donstrudtfd with b URL (thf normbl dbsf for sfrvfr buthfntidbtion)
+     *  For proxy buthfntidbtion thf protodol is not rflfvbnt.
+     */
+    String protodol;
+
+    /** Thf host wf'rf buthfntidbting bgbinst. */
+    String host;
+
+    /** Thf port on thf host wf'rf buthfntidbting bgbinst. */
+    int port;
+
+    /** Thf rfblm wf'rf buthfntidbting bgbinst. */
+    String rfblm;
+
+    /** Thf shortfst pbth from thf URL wf buthfntidbtfd bgbinst. */
+    String pbth;
+
+    /** Usf this donstrudtor only for proxy fntrifs */
+    publid AuthfntidbtionInfo(dhbr typf, AuthSdhfmf buthSdhfmf, String host, int port, String rfblm) {
+        this.typf = typf;
+        this.buthSdhfmf = buthSdhfmf;
+        this.protodol = "";
+        this.host = host.toLowfrCbsf();
+        this.port = port;
+        this.rfblm = rfblm;
+        this.pbth = null;
+    }
+
+    publid Objfdt dlonf() {
+        try {
+            rfturn supfr.dlonf ();
+        } dbtdh (ClonfNotSupportfdExdfption f) {
+            // Cbnnot hbppfn bfdbusf Clonfbblf implfmfntfd by AuthfntidbtionInfo
+            rfturn null;
+        }
+    }
+
+    /*
+     * Construdtor usfd to limit thf buthorizbtion to thf pbth within
+     * thf URL. Usf this donstrudtor for origin sfrvfr fntrifs.
+     */
+    publid AuthfntidbtionInfo(dhbr typf, AuthSdhfmf buthSdhfmf, URL url, String rfblm) {
+        this.typf = typf;
+        this.buthSdhfmf = buthSdhfmf;
+        this.protodol = url.gftProtodol().toLowfrCbsf();
+        this.host = url.gftHost().toLowfrCbsf();
+        this.port = url.gftPort();
+        if (this.port == -1) {
+            this.port = url.gftDffbultPort();
+        }
+        this.rfblm = rfblm;
+
+        String urlPbth = url.gftPbth();
+        if (urlPbth.lfngth() == 0)
+            this.pbth = urlPbth;
+        flsf {
+            this.pbth = rfdudfPbth (urlPbth);
+        }
+
+    }
+
+    /*
+     * rfdudf thf pbth to thf root of whfrf wf think thf
+     * buthorizbtion bfgins. This dould gft shortfr bs
+     * thf url is trbvfrsfd up following b suddfssful dhbllfngf.
+     */
+    stbtid String rfdudfPbth (String urlPbth) {
+        int sfpIndfx = urlPbth.lbstIndfxOf('/');
+        int tbrgftSuffixIndfx = urlPbth.lbstIndfxOf('.');
+        if (sfpIndfx != -1)
+            if (sfpIndfx < tbrgftSuffixIndfx)
+                rfturn urlPbth.substring(0, sfpIndfx+1);
+            flsf
+                rfturn urlPbth;
+        flsf
+            rfturn urlPbth;
+    }
+
+    /**
+     * Rfturns info for thf URL, for bn HTTP sfrvfr buth.  Usfd whfn wf
+     * don't yft know thf rfblm
+     * (i.f. whfn wf'rf prffmptivfly sftting thf buth).
+     */
+    stbtid AuthfntidbtionInfo gftSfrvfrAuth(URL url) {
+        int port = url.gftPort();
+        if (port == -1) {
+            port = url.gftDffbultPort();
+        }
+        String kfy = SERVER_AUTHENTICATION + ":" + url.gftProtodol().toLowfrCbsf()
+                + ":" + url.gftHost().toLowfrCbsf() + ":" + port;
+        rfturn gftAuth(kfy, url);
+    }
+
+    /**
+     * Rfturns info for thf URL, for bn HTTP sfrvfr buth.  Usfd whfn wf
+     * do know thf rfblm (i.f. whfn wf'rf rfsponding to b dhbllfngf).
+     * In this dbsf wf do not usf thf pbth bfdbusf thf protfdtion spbdf
+     * is idfntififd by thf host:port:rfblm only
+     */
+    stbtid String gftSfrvfrAuthKfy(URL url, String rfblm, AuthSdhfmf sdhfmf) {
+        int port = url.gftPort();
+        if (port == -1) {
+            port = url.gftDffbultPort();
+        }
+        String kfy = SERVER_AUTHENTICATION + ":" + sdhfmf + ":" + url.gftProtodol().toLowfrCbsf()
+                     + ":" + url.gftHost().toLowfrCbsf() + ":" + port + ":" + rfblm;
+        rfturn kfy;
+    }
+
+    stbtid AuthfntidbtionInfo gftSfrvfrAuth(String kfy) {
+        AuthfntidbtionInfo dbdhfd = gftAuth(kfy, null);
+        if ((dbdhfd == null) && rfqufstIsInProgrfss (kfy)) {
+            /* dhfdk thf dbdhf bgbin, it might dontbin bn fntry */
+            dbdhfd = gftAuth(kfy, null);
+        }
+        rfturn dbdhfd;
+    }
+
+
+    /**
+     * Rfturn thf AuthfntidbtionInfo objfdt from thf dbdhf if it's pbth is
+     * b substring of thf supplifd URLs pbth.
+     */
+    stbtid AuthfntidbtionInfo gftAuth(String kfy, URL url) {
+        if (url == null) {
+            rfturn (AuthfntidbtionInfo)dbdhf.gft (kfy, null);
+        } flsf {
+            rfturn (AuthfntidbtionInfo)dbdhf.gft (kfy, url.gftPbth());
+        }
+    }
+
+    /**
+     * Rfturns b firfwbll buthfntidbtion, for thf givfn host/port.  Usfd
+     * for prffmptivf hfbdfr-sftting. Notf, thf protodol fifld is blwbys
+     * blbnk for proxifs.
+     */
+    stbtid AuthfntidbtionInfo gftProxyAuth(String host, int port) {
+        String kfy = PROXY_AUTHENTICATION + "::" + host.toLowfrCbsf() + ":" + port;
+        AuthfntidbtionInfo rfsult = (AuthfntidbtionInfo) dbdhf.gft(kfy, null);
+        rfturn rfsult;
+    }
+
+    /**
+     * Rfturns b firfwbll buthfntidbtion, for thf givfn host/port bnd rfblm.
+     * Usfd in rfsponsf to b dhbllfngf. Notf, thf protodol fifld is blwbys
+     * blbnk for proxifs.
+     */
+    stbtid String gftProxyAuthKfy(String host, int port, String rfblm, AuthSdhfmf sdhfmf) {
+        String kfy = PROXY_AUTHENTICATION + ":" + sdhfmf + "::" + host.toLowfrCbsf()
+                        + ":" + port + ":" + rfblm;
+        rfturn kfy;
+    }
+
+    stbtid AuthfntidbtionInfo gftProxyAuth(String kfy) {
+        AuthfntidbtionInfo dbdhfd = (AuthfntidbtionInfo) dbdhf.gft(kfy, null);
+        if ((dbdhfd == null) && rfqufstIsInProgrfss (kfy)) {
+            /* dhfdk thf dbdhf bgbin, it might dontbin bn fntry */
+            dbdhfd = (AuthfntidbtionInfo) dbdhf.gft(kfy, null);
+        }
+        rfturn dbdhfd;
+    }
+
+
+    /**
+     * Add this buthfntidbtion to thf dbdhf
+     */
+    void bddToCbdhf() {
+        String kfy = dbdhfKfy(truf);
+        dbdhf.put(kfy, this);
+        if (supportsPrffmptivfAuthorizbtion()) {
+            dbdhf.put(dbdhfKfy(fblsf), this);
+        }
+        fndAuthRfqufst(kfy);
+    }
+
+    stbtid void fndAuthRfqufst (String kfy) {
+        if (!sfriblizfAuth) {
+            rfturn;
+        }
+        syndhronizfd (rfqufsts) {
+            rfqufstComplftfd(kfy);
+        }
+    }
+
+    /**
+     * Rfmovf this buthfntidbtion from thf dbdhf
+     */
+    void rfmovfFromCbdhf() {
+        dbdhf.rfmovf(dbdhfKfy(truf), this);
+        if (supportsPrffmptivfAuthorizbtion()) {
+            dbdhf.rfmovf(dbdhfKfy(fblsf), this);
+        }
+    }
+
+    /**
+     * @rfturn truf if this buthfntidbtion supports prffmptivf buthorizbtion
+     */
+    publid bbstrbdt boolfbn supportsPrffmptivfAuthorizbtion();
+
+    /**
+     * @rfturn thf nbmf of thf HTTP hfbdfr this buthfntidbtion wbnts sft.
+     *          This is usfd for prffmptivf buthorizbtion.
+     */
+    publid String gftHfbdfrNbmf() {
+        if (typf == SERVER_AUTHENTICATION) {
+            rfturn "Authorizbtion";
+        } flsf {
+            rfturn "Proxy-buthorizbtion";
+        }
+    }
+
+    /**
+     * Cbldulbtfs bnd rfturns thf buthfntidbtion hfbdfr vbluf bbsfd
+     * on thf storfd buthfntidbtion pbrbmftfrs. If thf dbldulbtion dofs not dfpfnd
+     * on thf URL or thf rfqufst mfthod thfn thfsf pbrbmftfrs brf ignorfd.
+     * @pbrbm url Thf URL
+     * @pbrbm mfthod Thf rfqufst mfthod
+     * @rfturn thf vbluf of thf HTTP hfbdfr this buthfntidbtion wbnts sft.
+     *          Usfd for prffmptivf buthorizbtion.
+     */
+    publid bbstrbdt String gftHfbdfrVbluf(URL url, String mfthod);
+
+    /**
+     * Sft hfbdfr(s) on thf givfn donnfdtion.  Subdlbssfs must ovfrridf
+     * This will only bf dbllfd for
+     * dffinitivf (i.f. non-prffmptivf) buthorizbtion.
+     * @pbrbm donn Thf donnfdtion to bpply thf hfbdfr(s) to
+     * @pbrbm p A sourdf of hfbdfr vblufs for this donnfdtion, if nffdfd.
+     * @pbrbm rbw Thf rbw hfbdfr fifld (if nffdfd)
+     * @rfturn truf if bll gofs wfll, fblsf if no hfbdfrs wfrf sft.
+     */
+    publid bbstrbdt boolfbn sftHfbdfrs(HttpURLConnfdtion donn, HfbdfrPbrsfr p, String rbw);
+
+    /**
+     * Chfdk if thf hfbdfr indidbtfs thbt thf durrfnt buth. pbrbmftfrs brf stblf.
+     * If so, thfn rfplbdf thf rflfvbnt fifld with thf nfw vbluf
+     * bnd rfturn truf. Othfrwisf rfturn fblsf.
+     * rfturning truf mfbns thf rfqufst dbn bf rftrifd with thf sbmf usfrid/pbssword
+     * rfturning fblsf mfbns wf hbvf to go bbdk to thf usfr to bsk for b nfw
+     * usfrnbmf pbssword.
+     */
+    publid bbstrbdt boolfbn isAuthorizbtionStblf (String hfbdfr);
+
+    /**
+     * Givf b kfy for hbsh tbblf lookups.
+     * @pbrbm indludfRfblm if you wbnt thf rfblm donsidfrfd.  Prffmptivfly
+     *          sftting bn buthorizbtion is donf bfforf thf rfblm is known.
+     */
+    String dbdhfKfy(boolfbn indludfRfblm) {
+        // This must bf kfpt in synd with thf gftXXXAuth() mfthods in this
+        // dlbss.
+        if (indludfRfblm) {
+            rfturn typf + ":" + buthSdhfmf + ":" + protodol + ":"
+                        + host + ":" + port + ":" + rfblm;
+        } flsf {
+            rfturn typf + ":" + protodol + ":" + host + ":" + port;
+        }
+    }
+
+    String s1, s2;  /* usfd for sfriblizbtion of pw */
+
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm s)
+        throws IOExdfption, ClbssNotFoundExdfption
+    {
+        s.dffbultRfbdObjfdt ();
+        pw = nfw PbsswordAuthfntidbtion (s1, s2.toChbrArrby());
+        s1 = null; s2= null;
+    }
+
+    privbtf syndhronizfd void writfObjfdt(jbvb.io.ObjfdtOutputStrfbm s)
+        throws IOExdfption
+    {
+        s1 = pw.gftUsfrNbmf();
+        s2 = nfw String (pw.gftPbssword());
+        s.dffbultWritfObjfdt ();
+    }
+}

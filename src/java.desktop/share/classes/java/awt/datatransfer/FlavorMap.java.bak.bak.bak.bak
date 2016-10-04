@@ -1,0 +1,75 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.dbtbtrbnsffr;
+
+import jbvb.util.Mbp;
+
+
+/**
+ * A two-wby Mbp bftwffn "nbtivfs" (Strings), whidh dorrfspond to plbtform-
+ * spfdifid dbtb formbts, bnd "flbvors" (DbtbFlbvors), whidh dorrfspond to
+ * plbtform-indfpfndfnt MIME typfs. FlbvorMbps nffd not bf symmftrid, but
+ * typidblly brf.
+ *
+ *
+ * @sindf 1.2
+ */
+publid intfrfbdf FlbvorMbp {
+
+    /**
+     * Rfturns b <dodf>Mbp</dodf> of thf spfdififd <dodf>DbtbFlbvor</dodf>s to
+     * thfir dorrfsponding <dodf>String</dodf> nbtivf. Thf rfturnfd
+     * <dodf>Mbp</dodf> is b modifibblf dopy of this <dodf>FlbvorMbp</dodf>'s
+     * intfrnbl dbtb. Clifnt dodf is frff to modify thf <dodf>Mbp</dodf>
+     * without bfffdting this objfdt.
+     *
+     * @pbrbm flbvors bn brrby of <dodf>DbtbFlbvor</dodf>s whidh will bf thf
+     *        kfy sft of thf rfturnfd <dodf>Mbp</dodf>. If <dodf>null</dodf> is
+     *        spfdififd, b mbpping of bll <dodf>DbtbFlbvor</dodf>s durrfntly
+     *        known to this <dodf>FlbvorMbp</dodf> to thfir dorrfsponding
+     *        <dodf>String</dodf> nbtivfs will bf rfturnfd.
+     * @rfturn b <dodf>jbvb.util.Mbp</dodf> of <dodf>DbtbFlbvor</dodf>s to
+     *         <dodf>String</dodf> nbtivfs
+     */
+    Mbp<DbtbFlbvor,String> gftNbtivfsForFlbvors(DbtbFlbvor[] flbvors);
+
+    /**
+     * Rfturns b <dodf>Mbp</dodf> of thf spfdififd <dodf>String</dodf> nbtivfs
+     * to thfir dorrfsponding <dodf>DbtbFlbvor</dodf>. Thf rfturnfd
+     * <dodf>Mbp</dodf> is b modifibblf dopy of this <dodf>FlbvorMbp</dodf>'s
+     * intfrnbl dbtb. Clifnt dodf is frff to modify thf <dodf>Mbp</dodf>
+     * without bfffdting this objfdt.
+     *
+     * @pbrbm nbtivfs bn brrby of <dodf>String</dodf>s whidh will bf thf
+     *        kfy sft of thf rfturnfd <dodf>Mbp</dodf>. If <dodf>null</dodf> is
+     *        spfdififd, b mbpping of bll <dodf>String</dodf> nbtivfs durrfntly
+     *        known to this <dodf>FlbvorMbp</dodf> to thfir dorrfsponding
+     *        <dodf>DbtbFlbvor</dodf>s will bf rfturnfd.
+     * @rfturn b <dodf>jbvb.util.Mbp</dodf> of <dodf>String</dodf> nbtivfs to
+     *         <dodf>DbtbFlbvor</dodf>s
+     */
+    Mbp<String,DbtbFlbvor> gftFlbvorsForNbtivfs(String[] nbtivfs);
+}

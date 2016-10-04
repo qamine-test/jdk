@@ -1,2501 +1,2501 @@
 /*
- * Copyright (c) 1998, 2007, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2007, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "util.h"
-#include "eventHandler.h"
-#include "threadControl.h"
-#include "commonRef.h"
-#include "eventHelper.h"
-#include "stepControl.h"
-#include "invoker.h"
-#include "bag.h"
+#indludf "util.i"
+#indludf "fvfntHbndlfr.i"
+#indludf "tirfbdControl.i"
+#indludf "dommonRff.i"
+#indludf "fvfntHflpfr.i"
+#indludf "stfpControl.i"
+#indludf "invokfr.i"
+#indludf "bbg.i"
 
-#define HANDLING_EVENT(node) ((node)->current_ei != 0)
+#dffinf HANDLING_EVENT(nodf) ((nodf)->durrfnt_fi != 0)
 
 /*
- * Collection of info for properly handling co-located events.
- * If the ei field is non-zero, then one of the possible
- * co-located events has been posted and the other fields describe
- * the event's location.
+ * Collfdtion of info for propfrly ibndling do-lodbtfd fvfnts.
+ * If tif fi fifld is non-zfro, tifn onf of tif possiblf
+ * do-lodbtfd fvfnts ibs bffn postfd bnd tif otifr fiflds dfsdribf
+ * tif fvfnt's lodbtion.
  */
-typedef struct CoLocatedEventInfo_ {
-    EventIndex ei;
-    jclass    clazz;
-    jmethodID method;
-    jlocation location;
-} CoLocatedEventInfo;
+typfdff strudt CoLodbtfdEvfntInfo_ {
+    EvfntIndfx fi;
+    jdlbss    dlbzz;
+    jmftiodID mftiod;
+    jlodbtion lodbtion;
+} CoLodbtfdEvfntInfo;
 
 /**
- * The main data structure in threadControl is the ThreadNode.
- * This is a per-thread structure that is allocated on the
- * first event that occurs in a thread. It is freed after the
- * thread's thread end event has completed processing. The
- * structure contains state information on its thread including
- * suspend counts. It also acts as a repository for other
- * per-thread state such as the current method invocation or
- * current step.
+ * Tif mbin dbtb strudturf in tirfbdControl is tif TirfbdNodf.
+ * Tiis is b pfr-tirfbd strudturf tibt is bllodbtfd on tif
+ * first fvfnt tibt oddurs in b tirfbd. It is frffd bftfr tif
+ * tirfbd's tirfbd fnd fvfnt ibs domplftfd prodfssing. Tif
+ * strudturf dontbins stbtf informbtion on its tirfbd indluding
+ * suspfnd dounts. It blso bdts bs b rfpository for otifr
+ * pfr-tirfbd stbtf sudi bs tif durrfnt mftiod invodbtion or
+ * durrfnt stfp.
  *
- * suspendCount is the number of outstanding suspends
- * from the debugger. suspends from the app itself are
- * not included in this count.
+ * suspfndCount is tif numbfr of outstbnding suspfnds
+ * from tif dfbuggfr. suspfnds from tif bpp itsflf brf
+ * not indludfd in tiis dount.
  */
-typedef struct ThreadNode {
-    jthread thread;
-    unsigned int toBeResumed : 1;
-    unsigned int pendingInterrupt : 1;
-    unsigned int isDebugThread : 1;
-    unsigned int suspendOnStart : 1;
-    unsigned int isStarted : 1;
-    unsigned int popFrameEvent : 1;
-    unsigned int popFrameProceed : 1;
-    unsigned int popFrameThread : 1;
-    EventIndex current_ei;
-    jobject pendingStop;
-    jint suspendCount;
-    jint resumeFrameDepth; /* !=0 => This thread is in a call to Thread.resume() */
-    jvmtiEventMode instructionStepMode;
-    StepRequest currentStep;
-    InvokeRequest currentInvoke;
-    struct bag *eventBag;
-    CoLocatedEventInfo cleInfo;
-    struct ThreadNode *next;
-    struct ThreadNode *prev;
-    jlong frameGeneration;
-    struct ThreadList *list;  /* Tells us what list this thread is in */
-} ThreadNode;
+typfdff strudt TirfbdNodf {
+    jtirfbd tirfbd;
+    unsignfd int toBfRfsumfd : 1;
+    unsignfd int pfndingIntfrrupt : 1;
+    unsignfd int isDfbugTirfbd : 1;
+    unsignfd int suspfndOnStbrt : 1;
+    unsignfd int isStbrtfd : 1;
+    unsignfd int popFrbmfEvfnt : 1;
+    unsignfd int popFrbmfProdffd : 1;
+    unsignfd int popFrbmfTirfbd : 1;
+    EvfntIndfx durrfnt_fi;
+    jobjfdt pfndingStop;
+    jint suspfndCount;
+    jint rfsumfFrbmfDfpti; /* !=0 => Tiis tirfbd is in b dbll to Tirfbd.rfsumf() */
+    jvmtiEvfntModf instrudtionStfpModf;
+    StfpRfqufst durrfntStfp;
+    InvokfRfqufst durrfntInvokf;
+    strudt bbg *fvfntBbg;
+    CoLodbtfdEvfntInfo dlfInfo;
+    strudt TirfbdNodf *nfxt;
+    strudt TirfbdNodf *prfv;
+    jlong frbmfGfnfrbtion;
+    strudt TirfbdList *list;  /* Tflls us wibt list tiis tirfbd is in */
+} TirfbdNodf;
 
-static jint suspendAllCount;
+stbtid jint suspfndAllCount;
 
-typedef struct ThreadList {
-    ThreadNode *first;
-} ThreadList;
+typfdff strudt TirfbdList {
+    TirfbdNodf *first;
+} TirfbdList;
 
 /*
- * popFrameEventLock is used to notify that the event has been received
+ * popFrbmfEvfntLodk is usfd to notify tibt tif fvfnt ibs bffn rfdfivfd
  */
-static jrawMonitorID popFrameEventLock = NULL;
+stbtid jrbwMonitorID popFrbmfEvfntLodk = NULL;
 
 /*
- * popFrameProceedLock is used to assure that the event thread is
- * re-suspended immediately after the event is acknowledged.
+ * popFrbmfProdffdLodk is usfd to bssurf tibt tif fvfnt tirfbd is
+ * rf-suspfndfd immfdibtfly bftfr tif fvfnt is bdknowlfdgfd.
  */
-static jrawMonitorID popFrameProceedLock = NULL;
+stbtid jrbwMonitorID popFrbmfProdffdLodk = NULL;
 
-static jrawMonitorID threadLock;
-static jlocation resumeLocation;
-static HandlerNode *breakpointHandlerNode;
-static HandlerNode *framePopHandlerNode;
-static HandlerNode *catchHandlerNode;
+stbtid jrbwMonitorID tirfbdLodk;
+stbtid jlodbtion rfsumfLodbtion;
+stbtid HbndlfrNodf *brfbkpointHbndlfrNodf;
+stbtid HbndlfrNodf *frbmfPopHbndlfrNodf;
+stbtid HbndlfrNodf *dbtdiHbndlfrNodf;
 
-static jvmtiError threadControl_removeDebugThread(jthread thread);
+stbtid jvmtiError tirfbdControl_rfmovfDfbugTirfbd(jtirfbd tirfbd);
 
 /*
- * Threads which have issued thread start events and not yet issued thread
- * end events are maintained in the "runningThreads" list. All other threads known
- * to this module are kept in the "otherThreads" list.
+ * Tirfbds wiidi ibvf issufd tirfbd stbrt fvfnts bnd not yft issufd tirfbd
+ * fnd fvfnts brf mbintbinfd in tif "runningTirfbds" list. All otifr tirfbds known
+ * to tiis modulf brf kfpt in tif "otifrTirfbds" list.
  */
-static ThreadList runningThreads;
-static ThreadList otherThreads;
+stbtid TirfbdList runningTirfbds;
+stbtid TirfbdList otifrTirfbds;
 
-#define MAX_DEBUG_THREADS 10
-static int debugThreadCount;
-static jthread debugThreads[MAX_DEBUG_THREADS];
+#dffinf MAX_DEBUG_THREADS 10
+stbtid int dfbugTirfbdCount;
+stbtid jtirfbd dfbugTirfbds[MAX_DEBUG_THREADS];
 
-typedef struct DeferredEventMode {
-    EventIndex ei;
-    jvmtiEventMode mode;
-    jthread thread;
-    struct DeferredEventMode *next;
-} DeferredEventMode;
+typfdff strudt DfffrrfdEvfntModf {
+    EvfntIndfx fi;
+    jvmtiEvfntModf modf;
+    jtirfbd tirfbd;
+    strudt DfffrrfdEvfntModf *nfxt;
+} DfffrrfdEvfntModf;
 
-typedef struct {
-    DeferredEventMode *first;
-    DeferredEventMode *last;
-} DeferredEventModeList;
+typfdff strudt {
+    DfffrrfdEvfntModf *first;
+    DfffrrfdEvfntModf *lbst;
+} DfffrrfdEvfntModfList;
 
-static DeferredEventModeList deferredEventModes;
+stbtid DfffrrfdEvfntModfList dfffrrfdEvfntModfs;
 
-static jint
-getStackDepth(jthread thread)
+stbtid jint
+gftStbdkDfpti(jtirfbd tirfbd)
 {
-    jint count = 0;
-    jvmtiError error;
+    jint dount = 0;
+    jvmtiError frror;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetFrameCount)
-                        (gdata->jvmti, thread, &count);
-    if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "getting frame count");
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftFrbmfCount)
+                        (gdbtb->jvmti, tirfbd, &dount);
+    if (frror != JVMTI_ERROR_NONE) {
+        EXIT_ERROR(frror, "gftting frbmf dount");
     }
-    return count;
+    rfturn dount;
 }
 
-/* Get the state of the thread direct from JVMTI */
-static jvmtiError
-threadState(jthread thread, jint *pstate)
+/* Gft tif stbtf of tif tirfbd dirfdt from JVMTI */
+stbtid jvmtiError
+tirfbdStbtf(jtirfbd tirfbd, jint *pstbtf)
 {
-    *pstate = 0;
-    return JVMTI_FUNC_PTR(gdata->jvmti,GetThreadState)
-                        (gdata->jvmti, thread, pstate);
+    *pstbtf = 0;
+    rfturn JVMTI_FUNC_PTR(gdbtb->jvmti,GftTirfbdStbtf)
+                        (gdbtb->jvmti, tirfbd, pstbtf);
 }
 
-/* Set TLS on a specific jthread to the ThreadNode* */
-static void
-setThreadLocalStorage(jthread thread, ThreadNode *node)
+/* Sft TLS on b spfdifid jtirfbd to tif TirfbdNodf* */
+stbtid void
+sftTirfbdLodblStorbgf(jtirfbd tirfbd, TirfbdNodf *nodf)
 {
-    jvmtiError  error;
+    jvmtiError  frror;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,SetThreadLocalStorage)
-            (gdata->jvmti, thread, (void*)node);
-    if ( error == JVMTI_ERROR_THREAD_NOT_ALIVE ) {
-        /* Just return, thread hasn't started yet */
-        return;
-    } else if ( error != JVMTI_ERROR_NONE ) {
-        /* The jthread object must be valid, so this must be a fatal error */
-        EXIT_ERROR(error, "cannot set thread local storage");
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftTirfbdLodblStorbgf)
+            (gdbtb->jvmti, tirfbd, (void*)nodf);
+    if ( frror == JVMTI_ERROR_THREAD_NOT_ALIVE ) {
+        /* Just rfturn, tirfbd ibsn't stbrtfd yft */
+        rfturn;
+    } flsf if ( frror != JVMTI_ERROR_NONE ) {
+        /* Tif jtirfbd objfdt must bf vblid, so tiis must bf b fbtbl frror */
+        EXIT_ERROR(frror, "dbnnot sft tirfbd lodbl storbgf");
     }
 }
 
-/* Get TLS on a specific jthread, which is the ThreadNode* */
-static ThreadNode *
-getThreadLocalStorage(jthread thread)
+/* Gft TLS on b spfdifid jtirfbd, wiidi is tif TirfbdNodf* */
+stbtid TirfbdNodf *
+gftTirfbdLodblStorbgf(jtirfbd tirfbd)
 {
-    jvmtiError  error;
-    ThreadNode *node;
+    jvmtiError  frror;
+    TirfbdNodf *nodf;
 
-    node = NULL;
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetThreadLocalStorage)
-            (gdata->jvmti, thread, (void**)&node);
-    if ( error == JVMTI_ERROR_THREAD_NOT_ALIVE ) {
-        /* Just return NULL, thread hasn't started yet */
-        return NULL;
-    } else if ( error != JVMTI_ERROR_NONE ) {
-        /* The jthread object must be valid, so this must be a fatal error */
-        EXIT_ERROR(error, "cannot get thread local storage");
+    nodf = NULL;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftTirfbdLodblStorbgf)
+            (gdbtb->jvmti, tirfbd, (void**)&nodf);
+    if ( frror == JVMTI_ERROR_THREAD_NOT_ALIVE ) {
+        /* Just rfturn NULL, tirfbd ibsn't stbrtfd yft */
+        rfturn NULL;
+    } flsf if ( frror != JVMTI_ERROR_NONE ) {
+        /* Tif jtirfbd objfdt must bf vblid, so tiis must bf b fbtbl frror */
+        EXIT_ERROR(frror, "dbnnot gft tirfbd lodbl storbgf");
     }
-    return node;
+    rfturn nodf;
 }
 
-/* Search list for nodes that don't have TLS set and match this thread.
- *   It assumed that this logic is never dealing with terminated threads,
- *   since the ThreadEnd events always delete the ThreadNode while the
- *   jthread is still alive.  So we can only look at the ThreadNode's that
- *   have never had their TLS set, making the search much faster.
- *   But keep in mind, this kind of search should rarely be needed.
+/* Sfbrdi list for nodfs tibt don't ibvf TLS sft bnd mbtdi tiis tirfbd.
+ *   It bssumfd tibt tiis logid is nfvfr dfbling witi tfrminbtfd tirfbds,
+ *   sindf tif TirfbdEnd fvfnts blwbys dflftf tif TirfbdNodf wiilf tif
+ *   jtirfbd is still blivf.  So wf dbn only look bt tif TirfbdNodf's tibt
+ *   ibvf nfvfr ibd tifir TLS sft, mbking tif sfbrdi mudi fbstfr.
+ *   But kffp in mind, tiis kind of sfbrdi siould rbrfly bf nffdfd.
  */
-static ThreadNode *
-nonTlsSearch(JNIEnv *env, ThreadList *list, jthread thread)
+stbtid TirfbdNodf *
+nonTlsSfbrdi(JNIEnv *fnv, TirfbdList *list, jtirfbd tirfbd)
 {
-    ThreadNode *node;
+    TirfbdNodf *nodf;
 
-    for (node = list->first; node != NULL; node = node->next) {
-        if (isSameObject(env, node->thread, thread)) {
-            break;
+    for (nodf = list->first; nodf != NULL; nodf = nodf->nfxt) {
+        if (isSbmfObjfdt(fnv, nodf->tirfbd, tirfbd)) {
+            brfbk;
         }
     }
-    return node;
+    rfturn nodf;
 }
 
 /*
- * These functions maintain the linked list of currently running threads.
- * All assume that the threadLock is held before calling.
- * If list==NULL, search both lists.
+ * Tifsf fundtions mbintbin tif linkfd list of durrfntly running tirfbds.
+ * All bssumf tibt tif tirfbdLodk is ifld bfforf dblling.
+ * If list==NULL, sfbrdi boti lists.
  */
-static ThreadNode *
-findThread(ThreadList *list, jthread thread)
+stbtid TirfbdNodf *
+findTirfbd(TirfbdList *list, jtirfbd tirfbd)
 {
-    ThreadNode *node;
+    TirfbdNodf *nodf;
 
-    /* Get thread local storage for quick thread -> node access */
-    node = getThreadLocalStorage(thread);
+    /* Gft tirfbd lodbl storbgf for quidk tirfbd -> nodf bddfss */
+    nodf = gftTirfbdLodblStorbgf(tirfbd);
 
-    /* In some rare cases we might get NULL, so we check the list manually for
-     *   any threads that we could match.
+    /* In somf rbrf dbsfs wf migit gft NULL, so wf difdk tif list mbnublly for
+     *   bny tirfbds tibt wf dould mbtdi.
      */
-    if ( node == NULL ) {
-        JNIEnv *env;
+    if ( nodf == NULL ) {
+        JNIEnv *fnv;
 
-        env = getEnv();
+        fnv = gftEnv();
         if ( list != NULL ) {
-            node = nonTlsSearch(env, list, thread);
-        } else {
-            node = nonTlsSearch(env, &runningThreads, thread);
-            if ( node == NULL ) {
-                node = nonTlsSearch(env, &otherThreads, thread);
+            nodf = nonTlsSfbrdi(fnv, list, tirfbd);
+        } flsf {
+            nodf = nonTlsSfbrdi(fnv, &runningTirfbds, tirfbd);
+            if ( nodf == NULL ) {
+                nodf = nonTlsSfbrdi(fnv, &otifrTirfbds, tirfbd);
             }
         }
-        if ( node != NULL ) {
-            /* Here we make another attempt to set TLS, it's ok if this fails */
-            setThreadLocalStorage(thread, (void*)node);
+        if ( nodf != NULL ) {
+            /* Hfrf wf mbkf bnotifr bttfmpt to sft TLS, it's ok if tiis fbils */
+            sftTirfbdLodblStorbgf(tirfbd, (void*)nodf);
         }
     }
 
-    /* If a list is supplied, only return ones in this list */
-    if ( node != NULL && list != NULL && node->list != list ) {
-        return NULL;
+    /* If b list is supplifd, only rfturn onfs in tiis list */
+    if ( nodf != NULL && list != NULL && nodf->list != list ) {
+        rfturn NULL;
     }
-    return node;
+    rfturn nodf;
 }
 
-/* Remove a ThreadNode from a ThreadList */
-static void
-removeNode(ThreadList *list, ThreadNode *node)
+/* Rfmovf b TirfbdNodf from b TirfbdList */
+stbtid void
+rfmovfNodf(TirfbdList *list, TirfbdNodf *nodf)
 {
-    ThreadNode *prev;
-    ThreadNode *next;
+    TirfbdNodf *prfv;
+    TirfbdNodf *nfxt;
 
-    prev = node->prev;
-    next = node->next;
-    if ( prev != NULL ) {
-        prev->next = next;
+    prfv = nodf->prfv;
+    nfxt = nodf->nfxt;
+    if ( prfv != NULL ) {
+        prfv->nfxt = nfxt;
     }
-    if ( next != NULL ) {
-        next->prev = prev;
+    if ( nfxt != NULL ) {
+        nfxt->prfv = prfv;
     }
-    if ( prev == NULL ) {
-        list->first = next;
+    if ( prfv == NULL ) {
+        list->first = nfxt;
     }
-    node->next = NULL;
-    node->prev = NULL;
-    node->list = NULL;
+    nodf->nfxt = NULL;
+    nodf->prfv = NULL;
+    nodf->list = NULL;
 }
 
-/* Add a ThreadNode to a ThreadList */
-static void
-addNode(ThreadList *list, ThreadNode *node)
+/* Add b TirfbdNodf to b TirfbdList */
+stbtid void
+bddNodf(TirfbdList *list, TirfbdNodf *nodf)
 {
-    node->next = NULL;
-    node->prev = NULL;
-    node->list = NULL;
+    nodf->nfxt = NULL;
+    nodf->prfv = NULL;
+    nodf->list = NULL;
     if ( list->first == NULL ) {
-        list->first = node;
-    } else {
-        list->first->prev = node;
-        node->next = list->first;
-        list->first = node;
+        list->first = nodf;
+    } flsf {
+        list->first->prfv = nodf;
+        nodf->nfxt = list->first;
+        list->first = nodf;
     }
-    node->list = list;
+    nodf->list = list;
 }
 
-static ThreadNode *
-insertThread(JNIEnv *env, ThreadList *list, jthread thread)
+stbtid TirfbdNodf *
+insfrtTirfbd(JNIEnv *fnv, TirfbdList *list, jtirfbd tirfbd)
 {
-    ThreadNode *node;
-    struct bag *eventBag;
+    TirfbdNodf *nodf;
+    strudt bbg *fvfntBbg;
 
-    node = findThread(list, thread);
-    if (node == NULL) {
-        node = jvmtiAllocate(sizeof(*node));
-        if (node == NULL) {
-            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"thread table entry");
-            return NULL;
+    nodf = findTirfbd(list, tirfbd);
+    if (nodf == NULL) {
+        nodf = jvmtiAllodbtf(sizfof(*nodf));
+        if (nodf == NULL) {
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"tirfbd tbblf fntry");
+            rfturn NULL;
         }
-        (void)memset(node, 0, sizeof(*node));
-        eventBag = eventHelper_createEventBag();
-        if (eventBag == NULL) {
-            jvmtiDeallocate(node);
-            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"thread table entry");
-            return NULL;
+        (void)mfmsft(nodf, 0, sizfof(*nodf));
+        fvfntBbg = fvfntHflpfr_drfbtfEvfntBbg();
+        if (fvfntBbg == NULL) {
+            jvmtiDfbllodbtf(nodf);
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"tirfbd tbblf fntry");
+            rfturn NULL;
         }
 
         /*
-         * Init all flags false, all refs NULL, all counts 0
+         * Init bll flbgs fblsf, bll rffs NULL, bll dounts 0
          */
 
-        saveGlobalRef(env, thread, &(node->thread));
-        if (node->thread == NULL) {
-            jvmtiDeallocate(node);
-            bagDestroyBag(eventBag);
-            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"thread table entry");
-            return NULL;
+        sbvfGlobblRff(fnv, tirfbd, &(nodf->tirfbd));
+        if (nodf->tirfbd == NULL) {
+            jvmtiDfbllodbtf(nodf);
+            bbgDfstroyBbg(fvfntBbg);
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"tirfbd tbblf fntry");
+            rfturn NULL;
         }
         /*
-         * Remember if it is a debug thread
+         * Rfmfmbfr if it is b dfbug tirfbd
          */
-        if (threadControl_isDebugThread(node->thread)) {
-            node->isDebugThread = JNI_TRUE;
-        } else if (suspendAllCount > 0){
+        if (tirfbdControl_isDfbugTirfbd(nodf->tirfbd)) {
+            nodf->isDfbugTirfbd = JNI_TRUE;
+        } flsf if (suspfndAllCount > 0){
             /*
-             * If there is a pending suspendAll, all new threads should
-             * be initialized as if they were suspended by the suspendAll,
-             * and the thread will need to be suspended when it starts.
+             * If tifrf is b pfnding suspfndAll, bll nfw tirfbds siould
+             * bf initiblizfd bs if tify wfrf suspfndfd by tif suspfndAll,
+             * bnd tif tirfbd will nffd to bf suspfndfd wifn it stbrts.
              */
-            node->suspendCount = suspendAllCount;
-            node->suspendOnStart = JNI_TRUE;
+            nodf->suspfndCount = suspfndAllCount;
+            nodf->suspfndOnStbrt = JNI_TRUE;
         }
-        node->current_ei = 0;
-        node->instructionStepMode = JVMTI_DISABLE;
-        node->eventBag = eventBag;
-        addNode(list, node);
+        nodf->durrfnt_fi = 0;
+        nodf->instrudtionStfpModf = JVMTI_DISABLE;
+        nodf->fvfntBbg = fvfntBbg;
+        bddNodf(list, nodf);
 
-        /* Set thread local storage for quick thread -> node access.
-         *   Some threads may not be in a state that allows setting of TLS,
-         *   which is ok, see findThread, it deals with threads without TLS set.
+        /* Sft tirfbd lodbl storbgf for quidk tirfbd -> nodf bddfss.
+         *   Somf tirfbds mby not bf in b stbtf tibt bllows sftting of TLS,
+         *   wiidi is ok, sff findTirfbd, it dfbls witi tirfbds witiout TLS sft.
          */
-        setThreadLocalStorage(node->thread, (void*)node);
+        sftTirfbdLodblStorbgf(nodf->tirfbd, (void*)nodf);
     }
 
-    return node;
+    rfturn nodf;
 }
 
-static void
-clearThread(JNIEnv *env, ThreadNode *node)
+stbtid void
+dlfbrTirfbd(JNIEnv *fnv, TirfbdNodf *nodf)
 {
-    if (node->pendingStop != NULL) {
-        tossGlobalRef(env, &(node->pendingStop));
+    if (nodf->pfndingStop != NULL) {
+        tossGlobblRff(fnv, &(nodf->pfndingStop));
     }
-    stepControl_clearRequest(node->thread, &node->currentStep);
-    if (node->isDebugThread) {
-        (void)threadControl_removeDebugThread(node->thread);
+    stfpControl_dlfbrRfqufst(nodf->tirfbd, &nodf->durrfntStfp);
+    if (nodf->isDfbugTirfbd) {
+        (void)tirfbdControl_rfmovfDfbugTirfbd(nodf->tirfbd);
     }
-    /* Clear out TLS on this thread (just a cleanup action) */
-    setThreadLocalStorage(node->thread, NULL);
-    tossGlobalRef(env, &(node->thread));
-    bagDestroyBag(node->eventBag);
-    jvmtiDeallocate(node);
+    /* Clfbr out TLS on tiis tirfbd (just b dlfbnup bdtion) */
+    sftTirfbdLodblStorbgf(nodf->tirfbd, NULL);
+    tossGlobblRff(fnv, &(nodf->tirfbd));
+    bbgDfstroyBbg(nodf->fvfntBbg);
+    jvmtiDfbllodbtf(nodf);
 }
 
-static void
-removeThread(JNIEnv *env, ThreadList *list, jthread thread)
+stbtid void
+rfmovfTirfbd(JNIEnv *fnv, TirfbdList *list, jtirfbd tirfbd)
 {
-    ThreadNode *node;
+    TirfbdNodf *nodf;
 
-    node = findThread(list, thread);
-    if (node != NULL) {
-        removeNode(list, node);
-        clearThread(env, node);
+    nodf = findTirfbd(list, tirfbd);
+    if (nodf != NULL) {
+        rfmovfNodf(list, nodf);
+        dlfbrTirfbd(fnv, nodf);
     }
 }
 
-static void
-removeResumed(JNIEnv *env, ThreadList *list)
+stbtid void
+rfmovfRfsumfd(JNIEnv *fnv, TirfbdList *list)
 {
-    ThreadNode *node;
+    TirfbdNodf *nodf;
 
-    node = list->first;
-    while (node != NULL) {
-        ThreadNode *temp = node->next;
-        if (node->suspendCount == 0) {
-            removeThread(env, list, node->thread);
+    nodf = list->first;
+    wiilf (nodf != NULL) {
+        TirfbdNodf *tfmp = nodf->nfxt;
+        if (nodf->suspfndCount == 0) {
+            rfmovfTirfbd(fnv, list, nodf->tirfbd);
         }
-        node = temp;
+        nodf = tfmp;
     }
 }
 
-static void
-moveNode(ThreadList *source, ThreadList *dest, ThreadNode *node)
+stbtid void
+movfNodf(TirfbdList *sourdf, TirfbdList *dfst, TirfbdNodf *nodf)
 {
-    removeNode(source, node);
-    JDI_ASSERT(findThread(dest, node->thread) == NULL);
-    addNode(dest, node);
+    rfmovfNodf(sourdf, nodf);
+    JDI_ASSERT(findTirfbd(dfst, nodf->tirfbd) == NULL);
+    bddNodf(dfst, nodf);
 }
 
-typedef jvmtiError (*ThreadEnumerateFunction)(JNIEnv *, ThreadNode *, void *);
+typfdff jvmtiError (*TirfbdEnumfrbtfFundtion)(JNIEnv *, TirfbdNodf *, void *);
 
-static jvmtiError
-enumerateOverThreadList(JNIEnv *env, ThreadList *list,
-                        ThreadEnumerateFunction function, void *arg)
+stbtid jvmtiError
+fnumfrbtfOvfrTirfbdList(JNIEnv *fnv, TirfbdList *list,
+                        TirfbdEnumfrbtfFundtion fundtion, void *brg)
 {
-    ThreadNode *node;
-    jvmtiError error = JVMTI_ERROR_NONE;
+    TirfbdNodf *nodf;
+    jvmtiError frror = JVMTI_ERROR_NONE;
 
-    for (node = list->first; node != NULL; node = node->next) {
-        error = (*function)(env, node, arg);
-        if ( error != JVMTI_ERROR_NONE ) {
-            break;
+    for (nodf = list->first; nodf != NULL; nodf = nodf->nfxt) {
+        frror = (*fundtion)(fnv, nodf, brg);
+        if ( frror != JVMTI_ERROR_NONE ) {
+            brfbk;
         }
     }
-    return error;
+    rfturn frror;
 }
 
-static void
-insertEventMode(DeferredEventModeList *list, DeferredEventMode *eventMode)
+stbtid void
+insfrtEvfntModf(DfffrrfdEvfntModfList *list, DfffrrfdEvfntModf *fvfntModf)
 {
-    if (list->last != NULL) {
-        list->last->next = eventMode;
-    } else {
-        list->first = eventMode;
+    if (list->lbst != NULL) {
+        list->lbst->nfxt = fvfntModf;
+    } flsf {
+        list->first = fvfntModf;
     }
-    list->last = eventMode;
+    list->lbst = fvfntModf;
 }
 
-static void
-removeEventMode(DeferredEventModeList *list, DeferredEventMode *eventMode, DeferredEventMode *prev)
+stbtid void
+rfmovfEvfntModf(DfffrrfdEvfntModfList *list, DfffrrfdEvfntModf *fvfntModf, DfffrrfdEvfntModf *prfv)
 {
-    if (prev == NULL) {
-        list->first = eventMode->next;
-    } else {
-        prev->next = eventMode->next;
+    if (prfv == NULL) {
+        list->first = fvfntModf->nfxt;
+    } flsf {
+        prfv->nfxt = fvfntModf->nfxt;
     }
-    if (eventMode->next == NULL) {
-        list->last = prev;
+    if (fvfntModf->nfxt == NULL) {
+        list->lbst = prfv;
     }
 }
 
-static jvmtiError
-addDeferredEventMode(JNIEnv *env, jvmtiEventMode mode, EventIndex ei, jthread thread)
+stbtid jvmtiError
+bddDfffrrfdEvfntModf(JNIEnv *fnv, jvmtiEvfntModf modf, EvfntIndfx fi, jtirfbd tirfbd)
 {
-    DeferredEventMode *eventMode;
+    DfffrrfdEvfntModf *fvfntModf;
 
     /*LINTED*/
-    eventMode = jvmtiAllocate((jint)sizeof(DeferredEventMode));
-    if (eventMode == NULL) {
-        return AGENT_ERROR_OUT_OF_MEMORY;
+    fvfntModf = jvmtiAllodbtf((jint)sizfof(DfffrrfdEvfntModf));
+    if (fvfntModf == NULL) {
+        rfturn AGENT_ERROR_OUT_OF_MEMORY;
     }
-    eventMode->thread = NULL;
-    saveGlobalRef(env, thread, &(eventMode->thread));
-    eventMode->mode = mode;
-    eventMode->ei = ei;
-    eventMode->next = NULL;
-    insertEventMode(&deferredEventModes, eventMode);
-    return JVMTI_ERROR_NONE;
+    fvfntModf->tirfbd = NULL;
+    sbvfGlobblRff(fnv, tirfbd, &(fvfntModf->tirfbd));
+    fvfntModf->modf = modf;
+    fvfntModf->fi = fi;
+    fvfntModf->nfxt = NULL;
+    insfrtEvfntModf(&dfffrrfdEvfntModfs, fvfntModf);
+    rfturn JVMTI_ERROR_NONE;
 }
 
-static void
-freeDeferredEventModes(JNIEnv *env)
+stbtid void
+frffDfffrrfdEvfntModfs(JNIEnv *fnv)
 {
-    DeferredEventMode *eventMode;
-    eventMode = deferredEventModes.first;
-    while (eventMode != NULL) {
-        DeferredEventMode *next;
-        next = eventMode->next;
-        tossGlobalRef(env, &(eventMode->thread));
-        jvmtiDeallocate(eventMode);
-        eventMode = next;
+    DfffrrfdEvfntModf *fvfntModf;
+    fvfntModf = dfffrrfdEvfntModfs.first;
+    wiilf (fvfntModf != NULL) {
+        DfffrrfdEvfntModf *nfxt;
+        nfxt = fvfntModf->nfxt;
+        tossGlobblRff(fnv, &(fvfntModf->tirfbd));
+        jvmtiDfbllodbtf(fvfntModf);
+        fvfntModf = nfxt;
     }
-    deferredEventModes.first = NULL;
-    deferredEventModes.last = NULL;
+    dfffrrfdEvfntModfs.first = NULL;
+    dfffrrfdEvfntModfs.lbst = NULL;
 }
 
-static jvmtiError
-threadSetEventNotificationMode(ThreadNode *node,
-        jvmtiEventMode mode, EventIndex ei, jthread thread)
+stbtid jvmtiError
+tirfbdSftEvfntNotifidbtionModf(TirfbdNodf *nodf,
+        jvmtiEvfntModf modf, EvfntIndfx fi, jtirfbd tirfbd)
 {
-    jvmtiError error;
+    jvmtiError frror;
 
-    /* record single step mode */
-    if (ei == EI_SINGLE_STEP) {
-        node->instructionStepMode = mode;
+    /* rfdord singlf stfp modf */
+    if (fi == EI_SINGLE_STEP) {
+        nodf->instrudtionStfpModf = modf;
     }
-    error = JVMTI_FUNC_PTR(gdata->jvmti,SetEventNotificationMode)
-        (gdata->jvmti, mode, eventIndex2jvmti(ei), thread);
-    return error;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftEvfntNotifidbtionModf)
+        (gdbtb->jvmti, modf, fvfntIndfx2jvmti(fi), tirfbd);
+    rfturn frror;
 }
 
-static void
-processDeferredEventModes(JNIEnv *env, jthread thread, ThreadNode *node)
+stbtid void
+prodfssDfffrrfdEvfntModfs(JNIEnv *fnv, jtirfbd tirfbd, TirfbdNodf *nodf)
 {
-    jvmtiError error;
-    DeferredEventMode *eventMode;
-    DeferredEventMode *prev;
+    jvmtiError frror;
+    DfffrrfdEvfntModf *fvfntModf;
+    DfffrrfdEvfntModf *prfv;
 
-    prev = NULL;
-    eventMode = deferredEventModes.first;
-    while (eventMode != NULL) {
-        DeferredEventMode *next = eventMode->next;
-        if (isSameObject(env, thread, eventMode->thread)) {
-            error = threadSetEventNotificationMode(node,
-                    eventMode->mode, eventMode->ei, eventMode->thread);
-            if (error != JVMTI_ERROR_NONE) {
-                EXIT_ERROR(error, "cannot process deferred thread event notifications at thread start");
+    prfv = NULL;
+    fvfntModf = dfffrrfdEvfntModfs.first;
+    wiilf (fvfntModf != NULL) {
+        DfffrrfdEvfntModf *nfxt = fvfntModf->nfxt;
+        if (isSbmfObjfdt(fnv, tirfbd, fvfntModf->tirfbd)) {
+            frror = tirfbdSftEvfntNotifidbtionModf(nodf,
+                    fvfntModf->modf, fvfntModf->fi, fvfntModf->tirfbd);
+            if (frror != JVMTI_ERROR_NONE) {
+                EXIT_ERROR(frror, "dbnnot prodfss dfffrrfd tirfbd fvfnt notifidbtions bt tirfbd stbrt");
             }
-            removeEventMode(&deferredEventModes, eventMode, prev);
-            tossGlobalRef(env, &(eventMode->thread));
-            jvmtiDeallocate(eventMode);
-        } else {
-            prev = eventMode;
+            rfmovfEvfntModf(&dfffrrfdEvfntModfs, fvfntModf, prfv);
+            tossGlobblRff(fnv, &(fvfntModf->tirfbd));
+            jvmtiDfbllodbtf(fvfntModf);
+        } flsf {
+            prfv = fvfntModf;
         }
-        eventMode = next;
+        fvfntModf = nfxt;
     }
 }
 
-static void
-getLocks(void)
+stbtid void
+gftLodks(void)
 {
     /*
-     * Anything which might be locked as part of the handling of
-     * a JVMTI event (which means: might be locked by an application
-     * thread) needs to be grabbed here. This allows thread control
-     * code to safely suspend and resume the application threads
-     * while ensuring they don't hold a critical lock.
+     * Anytiing wiidi migit bf lodkfd bs pbrt of tif ibndling of
+     * b JVMTI fvfnt (wiidi mfbns: migit bf lodkfd by bn bpplidbtion
+     * tirfbd) nffds to bf grbbbfd ifrf. Tiis bllows tirfbd dontrol
+     * dodf to sbffly suspfnd bnd rfsumf tif bpplidbtion tirfbds
+     * wiilf fnsuring tify don't iold b dritidbl lodk.
      */
 
-    eventHandler_lock();
-    invoker_lock();
-    eventHelper_lock();
-    stepControl_lock();
-    commonRef_lock();
-    debugMonitorEnter(threadLock);
+    fvfntHbndlfr_lodk();
+    invokfr_lodk();
+    fvfntHflpfr_lodk();
+    stfpControl_lodk();
+    dommonRff_lodk();
+    dfbugMonitorEntfr(tirfbdLodk);
 
 }
 
-static void
-releaseLocks(void)
+stbtid void
+rflfbsfLodks(void)
 {
-    debugMonitorExit(threadLock);
-    commonRef_unlock();
-    stepControl_unlock();
-    eventHelper_unlock();
-    invoker_unlock();
-    eventHandler_unlock();
+    dfbugMonitorExit(tirfbdLodk);
+    dommonRff_unlodk();
+    stfpControl_unlodk();
+    fvfntHflpfr_unlodk();
+    invokfr_unlodk();
+    fvfntHbndlfr_unlodk();
 }
 
 void
-threadControl_initialize(void)
+tirfbdControl_initiblizf(void)
 {
-    jlocation unused;
-    jvmtiError error;
+    jlodbtion unusfd;
+    jvmtiError frror;
 
-    suspendAllCount = 0;
-    runningThreads.first = NULL;
-    otherThreads.first = NULL;
-    debugThreadCount = 0;
-    threadLock = debugMonitorCreate("JDWP Thread Lock");
-    if (gdata->threadClass==NULL) {
-        EXIT_ERROR(AGENT_ERROR_NULL_POINTER, "no java.lang.thread class");
+    suspfndAllCount = 0;
+    runningTirfbds.first = NULL;
+    otifrTirfbds.first = NULL;
+    dfbugTirfbdCount = 0;
+    tirfbdLodk = dfbugMonitorCrfbtf("JDWP Tirfbd Lodk");
+    if (gdbtb->tirfbdClbss==NULL) {
+        EXIT_ERROR(AGENT_ERROR_NULL_POINTER, "no jbvb.lbng.tirfbd dlbss");
     }
-    if (gdata->threadResume==0) {
-        EXIT_ERROR(AGENT_ERROR_NULL_POINTER, "cannot resume thread");
+    if (gdbtb->tirfbdRfsumf==0) {
+        EXIT_ERROR(AGENT_ERROR_NULL_POINTER, "dbnnot rfsumf tirfbd");
     }
-    /* Get the java.lang.Thread.resume() method beginning location */
-    error = methodLocation(gdata->threadResume, &resumeLocation, &unused);
-    if (error != JVMTI_ERROR_NONE) {
-        EXIT_ERROR(error, "getting method location");
+    /* Gft tif jbvb.lbng.Tirfbd.rfsumf() mftiod bfginning lodbtion */
+    frror = mftiodLodbtion(gdbtb->tirfbdRfsumf, &rfsumfLodbtion, &unusfd);
+    if (frror != JVMTI_ERROR_NONE) {
+        EXIT_ERROR(frror, "gftting mftiod lodbtion");
     }
 }
 
-static jthread
-getResumee(jthread resumingThread)
+stbtid jtirfbd
+gftRfsumff(jtirfbd rfsumingTirfbd)
 {
-    jthread resumee = NULL;
-    jvmtiError error;
-    jobject object;
-    FrameNumber fnum = 0;
+    jtirfbd rfsumff = NULL;
+    jvmtiError frror;
+    jobjfdt objfdt;
+    FrbmfNumbfr fnum = 0;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,GetLocalObject)
-                    (gdata->jvmti, resumingThread, fnum, 0, &object);
-    if (error == JVMTI_ERROR_NONE) {
-        resumee = object;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftLodblObjfdt)
+                    (gdbtb->jvmti, rfsumingTirfbd, fnum, 0, &objfdt);
+    if (frror == JVMTI_ERROR_NONE) {
+        rfsumff = objfdt;
     }
-    return resumee;
+    rfturn rfsumff;
 }
 
 
-static jboolean
-pendingAppResume(jboolean includeSuspended)
+stbtid jboolfbn
+pfndingAppRfsumf(jboolfbn indludfSuspfndfd)
 {
-    ThreadList *list;
-    ThreadNode *node;
+    TirfbdList *list;
+    TirfbdNodf *nodf;
 
-    list = &runningThreads;
-    node = list->first;
-    while (node != NULL) {
-        if (node->resumeFrameDepth > 0) {
-            if (includeSuspended) {
-                return JNI_TRUE;
-            } else {
-                jvmtiError error;
-                jint       state;
+    list = &runningTirfbds;
+    nodf = list->first;
+    wiilf (nodf != NULL) {
+        if (nodf->rfsumfFrbmfDfpti > 0) {
+            if (indludfSuspfndfd) {
+                rfturn JNI_TRUE;
+            } flsf {
+                jvmtiError frror;
+                jint       stbtf;
 
-                error = threadState(node->thread, &state);
-                if (error != JVMTI_ERROR_NONE) {
-                    EXIT_ERROR(error, "getting thread state");
+                frror = tirfbdStbtf(nodf->tirfbd, &stbtf);
+                if (frror != JVMTI_ERROR_NONE) {
+                    EXIT_ERROR(frror, "gftting tirfbd stbtf");
                 }
-                if (!(state & JVMTI_THREAD_STATE_SUSPENDED)) {
-                    return JNI_TRUE;
+                if (!(stbtf & JVMTI_THREAD_STATE_SUSPENDED)) {
+                    rfturn JNI_TRUE;
                 }
             }
         }
-        node = node->next;
+        nodf = nodf->nfxt;
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
-static void
-notifyAppResumeComplete(void)
+stbtid void
+notifyAppRfsumfComplftf(void)
 {
-    debugMonitorNotifyAll(threadLock);
-    if (!pendingAppResume(JNI_TRUE)) {
-        if (framePopHandlerNode != NULL) {
-            (void)eventHandler_free(framePopHandlerNode);
-            framePopHandlerNode = NULL;
+    dfbugMonitorNotifyAll(tirfbdLodk);
+    if (!pfndingAppRfsumf(JNI_TRUE)) {
+        if (frbmfPopHbndlfrNodf != NULL) {
+            (void)fvfntHbndlfr_frff(frbmfPopHbndlfrNodf);
+            frbmfPopHbndlfrNodf = NULL;
         }
-        if (catchHandlerNode != NULL) {
-            (void)eventHandler_free(catchHandlerNode);
-            catchHandlerNode = NULL;
+        if (dbtdiHbndlfrNodf != NULL) {
+            (void)fvfntHbndlfr_frff(dbtdiHbndlfrNodf);
+            dbtdiHbndlfrNodf = NULL;
         }
     }
 }
 
-static void
-handleAppResumeCompletion(JNIEnv *env, EventInfo *evinfo,
-                          HandlerNode *handlerNode,
-                          struct bag *eventBag)
+stbtid void
+ibndlfAppRfsumfComplftion(JNIEnv *fnv, EvfntInfo *fvinfo,
+                          HbndlfrNodf *ibndlfrNodf,
+                          strudt bbg *fvfntBbg)
 {
-    ThreadNode *node;
-    jthread     thread;
+    TirfbdNodf *nodf;
+    jtirfbd     tirfbd;
 
-    thread = evinfo->thread;
+    tirfbd = fvinfo->tirfbd;
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
 
-    node = findThread(&runningThreads, thread);
-    if (node != NULL) {
-        if (node->resumeFrameDepth > 0) {
-            jint compareDepth = getStackDepth(thread);
-            if (evinfo->ei == EI_FRAME_POP) {
-                compareDepth--;
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+        if (nodf->rfsumfFrbmfDfpti > 0) {
+            jint dompbrfDfpti = gftStbdkDfpti(tirfbd);
+            if (fvinfo->fi == EI_FRAME_POP) {
+                dompbrfDfpti--;
             }
-            if (compareDepth < node->resumeFrameDepth) {
-                node->resumeFrameDepth = 0;
-                notifyAppResumeComplete();
+            if (dompbrfDfpti < nodf->rfsumfFrbmfDfpti) {
+                nodf->rfsumfFrbmfDfpti = 0;
+                notifyAppRfsumfComplftf();
             }
         }
     }
 
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 }
 
-static void
-blockOnDebuggerSuspend(jthread thread)
+stbtid void
+blodkOnDfbuggfrSuspfnd(jtirfbd tirfbd)
 {
-    ThreadNode *node;
+    TirfbdNodf *nodf;
 
-    node = findThread(NULL, thread);
-    if (node != NULL) {
-        while (node && node->suspendCount > 0) {
-            debugMonitorWait(threadLock);
-            node = findThread(NULL, thread);
+    nodf = findTirfbd(NULL, tirfbd);
+    if (nodf != NULL) {
+        wiilf (nodf && nodf->suspfndCount > 0) {
+            dfbugMonitorWbit(tirfbdLodk);
+            nodf = findTirfbd(NULL, tirfbd);
         }
     }
 }
 
-static void
-trackAppResume(jthread thread)
+stbtid void
+trbdkAppRfsumf(jtirfbd tirfbd)
 {
-    jvmtiError  error;
-    FrameNumber fnum;
-    ThreadNode *node;
+    jvmtiError  frror;
+    FrbmfNumbfr fnum;
+    TirfbdNodf *nodf;
 
     fnum = 0;
-    node = findThread(&runningThreads, thread);
-    if (node != NULL) {
-        JDI_ASSERT(node->resumeFrameDepth == 0);
-        error = JVMTI_FUNC_PTR(gdata->jvmti,NotifyFramePop)
-                        (gdata->jvmti, thread, fnum);
-        if (error == JVMTI_ERROR_NONE) {
-            jint frameDepth = getStackDepth(thread);
-            if ((frameDepth > 0) && (framePopHandlerNode == NULL)) {
-                framePopHandlerNode = eventHandler_createInternalThreadOnly(
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+        JDI_ASSERT(nodf->rfsumfFrbmfDfpti == 0);
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,NotifyFrbmfPop)
+                        (gdbtb->jvmti, tirfbd, fnum);
+        if (frror == JVMTI_ERROR_NONE) {
+            jint frbmfDfpti = gftStbdkDfpti(tirfbd);
+            if ((frbmfDfpti > 0) && (frbmfPopHbndlfrNodf == NULL)) {
+                frbmfPopHbndlfrNodf = fvfntHbndlfr_drfbtfIntfrnblTirfbdOnly(
                                            EI_FRAME_POP,
-                                           handleAppResumeCompletion,
-                                           thread);
-                catchHandlerNode = eventHandler_createInternalThreadOnly(
+                                           ibndlfAppRfsumfComplftion,
+                                           tirfbd);
+                dbtdiHbndlfrNodf = fvfntHbndlfr_drfbtfIntfrnblTirfbdOnly(
                                            EI_EXCEPTION_CATCH,
-                                           handleAppResumeCompletion,
-                                           thread);
-                if ((framePopHandlerNode == NULL) ||
-                    (catchHandlerNode == NULL)) {
-                    (void)eventHandler_free(framePopHandlerNode);
-                    framePopHandlerNode = NULL;
-                    (void)eventHandler_free(catchHandlerNode);
-                    catchHandlerNode = NULL;
+                                           ibndlfAppRfsumfComplftion,
+                                           tirfbd);
+                if ((frbmfPopHbndlfrNodf == NULL) ||
+                    (dbtdiHbndlfrNodf == NULL)) {
+                    (void)fvfntHbndlfr_frff(frbmfPopHbndlfrNodf);
+                    frbmfPopHbndlfrNodf = NULL;
+                    (void)fvfntHbndlfr_frff(dbtdiHbndlfrNodf);
+                    dbtdiHbndlfrNodf = NULL;
                 }
             }
-            if ((framePopHandlerNode != NULL) &&
-                (catchHandlerNode != NULL) &&
-                (frameDepth > 0)) {
-                node->resumeFrameDepth = frameDepth;
+            if ((frbmfPopHbndlfrNodf != NULL) &&
+                (dbtdiHbndlfrNodf != NULL) &&
+                (frbmfDfpti > 0)) {
+                nodf->rfsumfFrbmfDfpti = frbmfDfpti;
             }
         }
     }
 }
 
-static void
-handleAppResumeBreakpoint(JNIEnv *env, EventInfo *evinfo,
-                          HandlerNode *handlerNode,
-                          struct bag *eventBag)
+stbtid void
+ibndlfAppRfsumfBrfbkpoint(JNIEnv *fnv, EvfntInfo *fvinfo,
+                          HbndlfrNodf *ibndlfrNodf,
+                          strudt bbg *fvfntBbg)
 {
-    jthread resumer = evinfo->thread;
-    jthread resumee = getResumee(resumer);
+    jtirfbd rfsumfr = fvinfo->tirfbd;
+    jtirfbd rfsumff = gftRfsumff(rfsumfr);
 
-    debugMonitorEnter(threadLock);
-    if (resumee != NULL) {
+    dfbugMonitorEntfr(tirfbdLodk);
+    if (rfsumff != NULL) {
         /*
-         * Hold up any attempt to resume as long as the debugger
-         * has suspended the resumee.
+         * Hold up bny bttfmpt to rfsumf bs long bs tif dfbuggfr
+         * ibs suspfndfd tif rfsumff.
          */
-        blockOnDebuggerSuspend(resumee);
+        blodkOnDfbuggfrSuspfnd(rfsumff);
     }
 
-    if (resumer != NULL) {
+    if (rfsumfr != NULL) {
         /*
-         * Track the resuming thread by marking it as being within
-         * a resume and by setting up for notification on
-         * a frame pop or exception. We won't allow the debugger
-         * to suspend threads while any thread is within a
-         * call to resume. This (along with the block above)
-         * ensures that when the debugger
-         * suspends a thread it will remain suspended.
+         * Trbdk tif rfsuming tirfbd by mbrking it bs bfing witiin
+         * b rfsumf bnd by sftting up for notifidbtion on
+         * b frbmf pop or fxdfption. Wf won't bllow tif dfbuggfr
+         * to suspfnd tirfbds wiilf bny tirfbd is witiin b
+         * dbll to rfsumf. Tiis (blong witi tif blodk bbovf)
+         * fnsurfs tibt wifn tif dfbuggfr
+         * suspfnds b tirfbd it will rfmbin suspfndfd.
          */
-        trackAppResume(resumer);
+        trbdkAppRfsumf(rfsumfr);
     }
 
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 }
 
 void
-threadControl_onConnect(void)
+tirfbdControl_onConnfdt(void)
 {
-    breakpointHandlerNode = eventHandler_createInternalBreakpoint(
-                 handleAppResumeBreakpoint, NULL,
-                 gdata->threadClass, gdata->threadResume, resumeLocation);
+    brfbkpointHbndlfrNodf = fvfntHbndlfr_drfbtfIntfrnblBrfbkpoint(
+                 ibndlfAppRfsumfBrfbkpoint, NULL,
+                 gdbtb->tirfbdClbss, gdbtb->tirfbdRfsumf, rfsumfLodbtion);
 }
 
 void
-threadControl_onDisconnect(void)
+tirfbdControl_onDisdonnfdt(void)
 {
-    if (breakpointHandlerNode != NULL) {
-        (void)eventHandler_free(breakpointHandlerNode);
-        breakpointHandlerNode = NULL;
+    if (brfbkpointHbndlfrNodf != NULL) {
+        (void)fvfntHbndlfr_frff(brfbkpointHbndlfrNodf);
+        brfbkpointHbndlfrNodf = NULL;
     }
-    if (framePopHandlerNode != NULL) {
-        (void)eventHandler_free(framePopHandlerNode);
-        framePopHandlerNode = NULL;
+    if (frbmfPopHbndlfrNodf != NULL) {
+        (void)fvfntHbndlfr_frff(frbmfPopHbndlfrNodf);
+        frbmfPopHbndlfrNodf = NULL;
     }
-    if (catchHandlerNode != NULL) {
-        (void)eventHandler_free(catchHandlerNode);
-        catchHandlerNode = NULL;
+    if (dbtdiHbndlfrNodf != NULL) {
+        (void)fvfntHbndlfr_frff(dbtdiHbndlfrNodf);
+        dbtdiHbndlfrNodf = NULL;
     }
 }
 
 void
-threadControl_onHook(void)
+tirfbdControl_onHook(void)
 {
     /*
-     * As soon as the event hook is in place, we need to initialize
-     * the thread list with already-existing threads. The threadLock
-     * has been held since initialize, so we don't need to worry about
-     * insertions or deletions from the event handlers while we do this
+     * As soon bs tif fvfnt iook is in plbdf, wf nffd to initiblizf
+     * tif tirfbd list witi blrfbdy-fxisting tirfbds. Tif tirfbdLodk
+     * ibs bffn ifld sindf initiblizf, so wf don't nffd to worry bbout
+     * insfrtions or dflftions from tif fvfnt ibndlfrs wiilf wf do tiis
      */
-    JNIEnv *env;
+    JNIEnv *fnv;
 
-    env = getEnv();
+    fnv = gftEnv();
 
     /*
-     * Prevent any event processing until OnHook has been called
+     * Prfvfnt bny fvfnt prodfssing until OnHook ibs bffn dbllfd
      */
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
 
-    WITH_LOCAL_REFS(env, 1) {
+    WITH_LOCAL_REFS(fnv, 1) {
 
-        jint threadCount;
-        jthread *threads;
+        jint tirfbdCount;
+        jtirfbd *tirfbds;
 
-        threads = allThreads(&threadCount);
-        if (threads == NULL) {
-            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"thread table");
-        } else {
+        tirfbds = bllTirfbds(&tirfbdCount);
+        if (tirfbds == NULL) {
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"tirfbd tbblf");
+        } flsf {
 
             int i;
 
-            for (i = 0; i < threadCount; i++) {
-                ThreadNode *node;
-                jthread thread = threads[i];
-                node = insertThread(env, &runningThreads, thread);
+            for (i = 0; i < tirfbdCount; i++) {
+                TirfbdNodf *nodf;
+                jtirfbd tirfbd = tirfbds[i];
+                nodf = insfrtTirfbd(fnv, &runningTirfbds, tirfbd);
 
                 /*
-                 * This is a tiny bit risky. We have to assume that the
-                 * pre-existing threads have been started because we
-                 * can't rely on a thread start event for them. The chances
-                 * of a problem related to this are pretty slim though, and
-                 * there's really no choice because without setting this flag
-                 * there is no way to enable stepping and other events on
-                 * the threads that already exist (e.g. the finalizer thread).
+                 * Tiis is b tiny bit risky. Wf ibvf to bssumf tibt tif
+                 * prf-fxisting tirfbds ibvf bffn stbrtfd bfdbusf wf
+                 * dbn't rfly on b tirfbd stbrt fvfnt for tifm. Tif dibndfs
+                 * of b problfm rflbtfd to tiis brf prftty slim tiougi, bnd
+                 * tifrf's rfblly no dioidf bfdbusf witiout sftting tiis flbg
+                 * tifrf is no wby to fnbblf stfpping bnd otifr fvfnts on
+                 * tif tirfbds tibt blrfbdy fxist (f.g. tif finblizfr tirfbd).
                  */
-                node->isStarted = JNI_TRUE;
+                nodf->isStbrtfd = JNI_TRUE;
             }
         }
 
-    } END_WITH_LOCAL_REFS(env)
+    } END_WITH_LOCAL_REFS(fnv)
 
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 }
 
-static jvmtiError
-commonSuspendByNode(ThreadNode *node)
+stbtid jvmtiError
+dommonSuspfndByNodf(TirfbdNodf *nodf)
 {
-    jvmtiError error;
+    jvmtiError frror;
 
-    LOG_MISC(("thread=%p suspended", node->thread));
-    error = JVMTI_FUNC_PTR(gdata->jvmti,SuspendThread)
-                (gdata->jvmti, node->thread);
+    LOG_MISC(("tirfbd=%p suspfndfd", nodf->tirfbd));
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SuspfndTirfbd)
+                (gdbtb->jvmti, nodf->tirfbd);
 
     /*
-     * Mark for resume only if suspend succeeded
+     * Mbrk for rfsumf only if suspfnd suddffdfd
      */
-    if (error == JVMTI_ERROR_NONE) {
-        node->toBeResumed = JNI_TRUE;
+    if (frror == JVMTI_ERROR_NONE) {
+        nodf->toBfRfsumfd = JNI_TRUE;
     }
 
     /*
-     * If the thread was suspended by another app thread,
-     * do nothing and report no error (we won't resume it later).
+     * If tif tirfbd wbs suspfndfd by bnotifr bpp tirfbd,
+     * do notiing bnd rfport no frror (wf won't rfsumf it lbtfr).
      */
-     if (error == JVMTI_ERROR_THREAD_SUSPENDED) {
-        error = JVMTI_ERROR_NONE;
+     if (frror == JVMTI_ERROR_THREAD_SUSPENDED) {
+        frror = JVMTI_ERROR_NONE;
      }
 
-     return error;
+     rfturn frror;
 }
 
 /*
- * Deferred suspends happen when the suspend is attempted on a thread
- * that is not started. Bookkeeping (suspendCount,etc.)
- * is handled by the original request, and once the thread actually
- * starts, an actual suspend is attempted. This function does the
- * deferred suspend without changing the bookkeeping that is already
- * in place.
+ * Dfffrrfd suspfnds ibppfn wifn tif suspfnd is bttfmptfd on b tirfbd
+ * tibt is not stbrtfd. Bookkffping (suspfndCount,ftd.)
+ * is ibndlfd by tif originbl rfqufst, bnd ondf tif tirfbd bdtublly
+ * stbrts, bn bdtubl suspfnd is bttfmptfd. Tiis fundtion dofs tif
+ * dfffrrfd suspfnd witiout dibnging tif bookkffping tibt is blrfbdy
+ * in plbdf.
  */
-static jint
-deferredSuspendThreadByNode(ThreadNode *node)
+stbtid jint
+dfffrrfdSuspfndTirfbdByNodf(TirfbdNodf *nodf)
 {
-    jvmtiError error;
+    jvmtiError frror;
 
-    error = JVMTI_ERROR_NONE;
-    if (node->isDebugThread) {
-        /* Ignore requests for suspending debugger threads */
-        return JVMTI_ERROR_NONE;
+    frror = JVMTI_ERROR_NONE;
+    if (nodf->isDfbugTirfbd) {
+        /* Ignorf rfqufsts for suspfnding dfbuggfr tirfbds */
+        rfturn JVMTI_ERROR_NONE;
     }
 
     /*
-     * Do the actual suspend only if a subsequent resume hasn't
-     * made it irrelevant.
+     * Do tif bdtubl suspfnd only if b subsfqufnt rfsumf ibsn't
+     * mbdf it irrflfvbnt.
      */
-    if (node->suspendCount > 0) {
-        error = commonSuspendByNode(node);
+    if (nodf->suspfndCount > 0) {
+        frror = dommonSuspfndByNodf(nodf);
 
         /*
-         * Attempt to clean up from any error by decrementing the
-         * suspend count. This compensates for the increment that
-         * happens when suspendOnStart is set to true.
+         * Attfmpt to dlfbn up from bny frror by dfdrfmfnting tif
+         * suspfnd dount. Tiis dompfnsbtfs for tif indrfmfnt tibt
+         * ibppfns wifn suspfndOnStbrt is sft to truf.
          */
-        if (error != JVMTI_ERROR_NONE) {
-          node->suspendCount--;
+        if (frror != JVMTI_ERROR_NONE) {
+          nodf->suspfndCount--;
         }
     }
 
-    node->suspendOnStart = JNI_FALSE;
+    nodf->suspfndOnStbrt = JNI_FALSE;
 
-    debugMonitorNotifyAll(threadLock);
+    dfbugMonitorNotifyAll(tirfbdLodk);
 
-    return error;
+    rfturn frror;
 }
 
-static jvmtiError
-suspendThreadByNode(ThreadNode *node)
+stbtid jvmtiError
+suspfndTirfbdByNodf(TirfbdNodf *nodf)
 {
-    jvmtiError error = JVMTI_ERROR_NONE;
-    if (node->isDebugThread) {
-        /* Ignore requests for suspending debugger threads */
-        return JVMTI_ERROR_NONE;
+    jvmtiError frror = JVMTI_ERROR_NONE;
+    if (nodf->isDfbugTirfbd) {
+        /* Ignorf rfqufsts for suspfnding dfbuggfr tirfbds */
+        rfturn JVMTI_ERROR_NONE;
     }
 
     /*
-     * Just increment the suspend count if we are waiting
-     * for a deferred suspend.
+     * Just indrfmfnt tif suspfnd dount if wf brf wbiting
+     * for b dfffrrfd suspfnd.
      */
-    if (node->suspendOnStart) {
-        node->suspendCount++;
-        return JVMTI_ERROR_NONE;
+    if (nodf->suspfndOnStbrt) {
+        nodf->suspfndCount++;
+        rfturn JVMTI_ERROR_NONE;
     }
 
-    if (node->suspendCount == 0) {
-        error = commonSuspendByNode(node);
+    if (nodf->suspfndCount == 0) {
+        frror = dommonSuspfndByNodf(nodf);
 
-        if (error == JVMTI_ERROR_THREAD_NOT_ALIVE) {
+        if (frror == JVMTI_ERROR_THREAD_NOT_ALIVE) {
             /*
-             * This error means that the thread is either a zombie or not yet
-             * started. In either case, we ignore the error. If the thread
-             * is a zombie, suspend/resume are no-ops. If the thread is not
-             * started, it will be suspended for real during the processing
-             * of its thread start event.
+             * Tiis frror mfbns tibt tif tirfbd is fitifr b zombif or not yft
+             * stbrtfd. In fitifr dbsf, wf ignorf tif frror. If tif tirfbd
+             * is b zombif, suspfnd/rfsumf brf no-ops. If tif tirfbd is not
+             * stbrtfd, it will bf suspfndfd for rfbl during tif prodfssing
+             * of its tirfbd stbrt fvfnt.
              */
-            node->suspendOnStart = JNI_TRUE;
-            error = JVMTI_ERROR_NONE;
+            nodf->suspfndOnStbrt = JNI_TRUE;
+            frror = JVMTI_ERROR_NONE;
         }
     }
 
-    if (error == JVMTI_ERROR_NONE) {
-        node->suspendCount++;
+    if (frror == JVMTI_ERROR_NONE) {
+        nodf->suspfndCount++;
     }
 
-    debugMonitorNotifyAll(threadLock);
+    dfbugMonitorNotifyAll(tirfbdLodk);
 
-    return error;
+    rfturn frror;
 }
 
-static jvmtiError
-resumeThreadByNode(ThreadNode *node)
+stbtid jvmtiError
+rfsumfTirfbdByNodf(TirfbdNodf *nodf)
 {
-    jvmtiError error = JVMTI_ERROR_NONE;
+    jvmtiError frror = JVMTI_ERROR_NONE;
 
-    if (node->isDebugThread) {
-        /* never suspended by debugger => don't ever try to resume */
-        return JVMTI_ERROR_NONE;
+    if (nodf->isDfbugTirfbd) {
+        /* nfvfr suspfndfd by dfbuggfr => don't fvfr try to rfsumf */
+        rfturn JVMTI_ERROR_NONE;
     }
-    if (node->suspendCount > 0) {
-        node->suspendCount--;
-        debugMonitorNotifyAll(threadLock);
-        if ((node->suspendCount == 0) && node->toBeResumed &&
-            !node->suspendOnStart) {
-            LOG_MISC(("thread=%p resumed", node->thread));
-            error = JVMTI_FUNC_PTR(gdata->jvmti,ResumeThread)
-                        (gdata->jvmti, node->thread);
-            node->frameGeneration++; /* Increment on each resume */
-            node->toBeResumed = JNI_FALSE;
-            if (error == JVMTI_ERROR_THREAD_NOT_ALIVE && !node->isStarted) {
+    if (nodf->suspfndCount > 0) {
+        nodf->suspfndCount--;
+        dfbugMonitorNotifyAll(tirfbdLodk);
+        if ((nodf->suspfndCount == 0) && nodf->toBfRfsumfd &&
+            !nodf->suspfndOnStbrt) {
+            LOG_MISC(("tirfbd=%p rfsumfd", nodf->tirfbd));
+            frror = JVMTI_FUNC_PTR(gdbtb->jvmti,RfsumfTirfbd)
+                        (gdbtb->jvmti, nodf->tirfbd);
+            nodf->frbmfGfnfrbtion++; /* Indrfmfnt on fbdi rfsumf */
+            nodf->toBfRfsumfd = JNI_FALSE;
+            if (frror == JVMTI_ERROR_THREAD_NOT_ALIVE && !nodf->isStbrtfd) {
                 /*
-                 * We successfully "suspended" this thread, but
-                 * we never received a THREAD_START event for it.
-                 * Since the thread never ran, we can ignore our
-                 * failure to resume the thread.
+                 * Wf suddfssfully "suspfndfd" tiis tirfbd, but
+                 * wf nfvfr rfdfivfd b THREAD_START fvfnt for it.
+                 * Sindf tif tirfbd nfvfr rbn, wf dbn ignorf our
+                 * fbilurf to rfsumf tif tirfbd.
                  */
-                error = JVMTI_ERROR_NONE;
+                frror = JVMTI_ERROR_NONE;
             }
         }
     }
 
-    return error;
+    rfturn frror;
 }
 
 /*
- * Functions which respond to user requests to suspend/resume
- * threads.
- * Suspends and resumes add and subtract from a count respectively.
- * The thread is only suspended when the count goes from 0 to 1 and
- * resumed only when the count goes from 1 to 0.
+ * Fundtions wiidi rfspond to usfr rfqufsts to suspfnd/rfsumf
+ * tirfbds.
+ * Suspfnds bnd rfsumfs bdd bnd subtrbdt from b dount rfspfdtivfly.
+ * Tif tirfbd is only suspfndfd wifn tif dount gofs from 0 to 1 bnd
+ * rfsumfd only wifn tif dount gofs from 1 to 0.
  *
- * These functions suspend and resume application threads
- * without changing the
- * state of threads that were already suspended beforehand.
- * They must not be called from an application thread because
- * that thread may be suspended somewhere in the  middle of things.
+ * Tifsf fundtions suspfnd bnd rfsumf bpplidbtion tirfbds
+ * witiout dibnging tif
+ * stbtf of tirfbds tibt wfrf blrfbdy suspfndfd bfforfibnd.
+ * Tify must not bf dbllfd from bn bpplidbtion tirfbd bfdbusf
+ * tibt tirfbd mby bf suspfndfd somfwifrf in tif  middlf of tiings.
  */
-static void
-preSuspend(void)
+stbtid void
+prfSuspfnd(void)
 {
-    getLocks();                     /* Avoid debugger deadlocks */
+    gftLodks();                     /* Avoid dfbuggfr dfbdlodks */
 
     /*
-     * Delay any suspend while a call to java.lang.Thread.resume is in
-     * progress (not including those in suspended threads). The wait is
-     * timed because the threads suspended through
-     * java.lang.Thread.suspend won't result in a notify even though
-     * it may change the result of pendingAppResume()
+     * Dflby bny suspfnd wiilf b dbll to jbvb.lbng.Tirfbd.rfsumf is in
+     * progrfss (not indluding tiosf in suspfndfd tirfbds). Tif wbit is
+     * timfd bfdbusf tif tirfbds suspfndfd tirougi
+     * jbvb.lbng.Tirfbd.suspfnd won't rfsult in b notify fvfn tiougi
+     * it mby dibngf tif rfsult of pfndingAppRfsumf()
      */
-    while (pendingAppResume(JNI_FALSE)) {
+    wiilf (pfndingAppRfsumf(JNI_FALSE)) {
         /*
-         * This is ugly but we need to release the locks from getLocks
-         * or else the notify will never happen. The locks must be
-         * released and reacquired in the right order. else deadlocks
-         * can happen. It is possible that, during this dance, the
-         * notify will be missed, but since the wait needs to be timed
-         * anyway, it won't be a disaster. Note that this code will
-         * execute only on very rare occasions anyway.
+         * Tiis is ugly but wf nffd to rflfbsf tif lodks from gftLodks
+         * or flsf tif notify will nfvfr ibppfn. Tif lodks must bf
+         * rflfbsfd bnd rfbdquirfd in tif rigit ordfr. flsf dfbdlodks
+         * dbn ibppfn. It is possiblf tibt, during tiis dbndf, tif
+         * notify will bf missfd, but sindf tif wbit nffds to bf timfd
+         * bnywby, it won't bf b disbstfr. Notf tibt tiis dodf will
+         * fxfdutf only on vfry rbrf oddbsions bnywby.
          */
-        releaseLocks();
+        rflfbsfLodks();
 
-        debugMonitorEnter(threadLock);
-        debugMonitorTimedWait(threadLock, 1000);
-        debugMonitorExit(threadLock);
+        dfbugMonitorEntfr(tirfbdLodk);
+        dfbugMonitorTimfdWbit(tirfbdLodk, 1000);
+        dfbugMonitorExit(tirfbdLodk);
 
-        getLocks();
+        gftLodks();
     }
 }
 
-static void
-postSuspend(void)
+stbtid void
+postSuspfnd(void)
 {
-    releaseLocks();
+    rflfbsfLodks();
 }
 
 /*
- * This function must be called after preSuspend and before postSuspend.
+ * Tiis fundtion must bf dbllfd bftfr prfSuspfnd bnd bfforf postSuspfnd.
  */
-static jvmtiError
-commonSuspend(JNIEnv *env, jthread thread, jboolean deferred)
+stbtid jvmtiError
+dommonSuspfnd(JNIEnv *fnv, jtirfbd tirfbd, jboolfbn dfffrrfd)
 {
-    ThreadNode *node;
+    TirfbdNodf *nodf;
 
     /*
-     * If the thread is not between its start and end events, we should
-     * still suspend it. To keep track of things, add the thread
-     * to a separate list of threads so that we'll resume it later.
+     * If tif tirfbd is not bftwffn its stbrt bnd fnd fvfnts, wf siould
+     * still suspfnd it. To kffp trbdk of tiings, bdd tif tirfbd
+     * to b sfpbrbtf list of tirfbds so tibt wf'll rfsumf it lbtfr.
      */
-    node = findThread(&runningThreads, thread);
-    if (node == NULL) {
-        node = insertThread(env, &otherThreads, thread);
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf == NULL) {
+        nodf = insfrtTirfbd(fnv, &otifrTirfbds, tirfbd);
     }
 
-    if ( deferred ) {
-        return deferredSuspendThreadByNode(node);
-    } else {
-        return suspendThreadByNode(node);
+    if ( dfffrrfd ) {
+        rfturn dfffrrfdSuspfndTirfbdByNodf(nodf);
+    } flsf {
+        rfturn suspfndTirfbdByNodf(nodf);
     }
 }
 
 
-static jvmtiError
-resumeCopyHelper(JNIEnv *env, ThreadNode *node, void *arg)
+stbtid jvmtiError
+rfsumfCopyHflpfr(JNIEnv *fnv, TirfbdNodf *nodf, void *brg)
 {
-    if (node->isDebugThread) {
-        /* never suspended by debugger => don't ever try to resume */
-        return JVMTI_ERROR_NONE;
+    if (nodf->isDfbugTirfbd) {
+        /* nfvfr suspfndfd by dfbuggfr => don't fvfr try to rfsumf */
+        rfturn JVMTI_ERROR_NONE;
     }
 
-    if (node->suspendCount > 1) {
-        node->suspendCount--;
-        /* nested suspend so just undo one level */
-        return JVMTI_ERROR_NONE;
-    }
-
-    /*
-     * This thread was marked for suspension since its THREAD_START
-     * event came in during a suspendAll, but the helper hasn't
-     * completed the job yet. We decrement the count so the helper
-     * won't suspend this thread after we are done with the resumeAll.
-     * Another case to be handled here is when the debugger suspends
-     * the thread while the app has it suspended. In this case,
-     * the toBeResumed flag has been cleared indicating that
-     * the thread should not be resumed when the debugger does a resume.
-     * In this case, we also have to decrement the suspend count.
-     * If we don't then when the app resumes the thread and our Thread.resume
-     * bkpt handler is called, blockOnDebuggerSuspend will not resume
-     * the thread because suspendCount will be 1 meaning that the
-     * debugger has the thread suspended.  See bug 6224859.
-     */
-    if (node->suspendCount == 1 && (!node->toBeResumed || node->suspendOnStart)) {
-        node->suspendCount--;
-        return JVMTI_ERROR_NONE;
-    }
-
-    if (arg == NULL) {
-        /* nothing to hard resume so we're done */
-        return JVMTI_ERROR_NONE;
+    if (nodf->suspfndCount > 1) {
+        nodf->suspfndCount--;
+        /* nfstfd suspfnd so just undo onf lfvfl */
+        rfturn JVMTI_ERROR_NONE;
     }
 
     /*
-     * This is tricky. A suspendCount of 1 and toBeResumed means that
-     * JVM/DI SuspendThread() or JVM/DI SuspendThreadList() was called
-     * on this thread. The check for !suspendOnStart is paranoia that
-     * we inherited from resumeThreadByNode().
+     * Tiis tirfbd wbs mbrkfd for suspfnsion sindf its THREAD_START
+     * fvfnt dbmf in during b suspfndAll, but tif iflpfr ibsn't
+     * domplftfd tif job yft. Wf dfdrfmfnt tif dount so tif iflpfr
+     * won't suspfnd tiis tirfbd bftfr wf brf donf witi tif rfsumfAll.
+     * Anotifr dbsf to bf ibndlfd ifrf is wifn tif dfbuggfr suspfnds
+     * tif tirfbd wiilf tif bpp ibs it suspfndfd. In tiis dbsf,
+     * tif toBfRfsumfd flbg ibs bffn dlfbrfd indidbting tibt
+     * tif tirfbd siould not bf rfsumfd wifn tif dfbuggfr dofs b rfsumf.
+     * In tiis dbsf, wf blso ibvf to dfdrfmfnt tif suspfnd dount.
+     * If wf don't tifn wifn tif bpp rfsumfs tif tirfbd bnd our Tirfbd.rfsumf
+     * bkpt ibndlfr is dbllfd, blodkOnDfbuggfrSuspfnd will not rfsumf
+     * tif tirfbd bfdbusf suspfndCount will bf 1 mfbning tibt tif
+     * dfbuggfr ibs tif tirfbd suspfndfd.  Sff bug 6224859.
      */
-    if (node->suspendCount == 1 && node->toBeResumed && !node->suspendOnStart) {
-        jthread **listPtr = (jthread **)arg;
+    if (nodf->suspfndCount == 1 && (!nodf->toBfRfsumfd || nodf->suspfndOnStbrt)) {
+        nodf->suspfndCount--;
+        rfturn JVMTI_ERROR_NONE;
+    }
 
-        **listPtr = node->thread;
+    if (brg == NULL) {
+        /* notiing to ibrd rfsumf so wf'rf donf */
+        rfturn JVMTI_ERROR_NONE;
+    }
+
+    /*
+     * Tiis is tridky. A suspfndCount of 1 bnd toBfRfsumfd mfbns tibt
+     * JVM/DI SuspfndTirfbd() or JVM/DI SuspfndTirfbdList() wbs dbllfd
+     * on tiis tirfbd. Tif difdk for !suspfndOnStbrt is pbrbnoib tibt
+     * wf inifritfd from rfsumfTirfbdByNodf().
+     */
+    if (nodf->suspfndCount == 1 && nodf->toBfRfsumfd && !nodf->suspfndOnStbrt) {
+        jtirfbd **listPtr = (jtirfbd **)brg;
+
+        **listPtr = nodf->tirfbd;
         (*listPtr)++;
     }
-    return JVMTI_ERROR_NONE;
+    rfturn JVMTI_ERROR_NONE;
 }
 
 
-static jvmtiError
-resumeCountHelper(JNIEnv *env, ThreadNode *node, void *arg)
+stbtid jvmtiError
+rfsumfCountHflpfr(JNIEnv *fnv, TirfbdNodf *nodf, void *brg)
 {
-    if (node->isDebugThread) {
-        /* never suspended by debugger => don't ever try to resume */
-        return JVMTI_ERROR_NONE;
+    if (nodf->isDfbugTirfbd) {
+        /* nfvfr suspfndfd by dfbuggfr => don't fvfr try to rfsumf */
+        rfturn JVMTI_ERROR_NONE;
     }
 
     /*
-     * This is tricky. A suspendCount of 1 and toBeResumed means that
-     * JVM/DI SuspendThread() or JVM/DI SuspendThreadList() was called
-     * on this thread. The check for !suspendOnStart is paranoia that
-     * we inherited from resumeThreadByNode().
+     * Tiis is tridky. A suspfndCount of 1 bnd toBfRfsumfd mfbns tibt
+     * JVM/DI SuspfndTirfbd() or JVM/DI SuspfndTirfbdList() wbs dbllfd
+     * on tiis tirfbd. Tif difdk for !suspfndOnStbrt is pbrbnoib tibt
+     * wf inifritfd from rfsumfTirfbdByNodf().
      */
-    if (node->suspendCount == 1 && node->toBeResumed && !node->suspendOnStart) {
-        jint *counter = (jint *)arg;
+    if (nodf->suspfndCount == 1 && nodf->toBfRfsumfd && !nodf->suspfndOnStbrt) {
+        jint *dountfr = (jint *)brg;
 
-        (*counter)++;
+        (*dountfr)++;
     }
-    return JVMTI_ERROR_NONE;
+    rfturn JVMTI_ERROR_NONE;
 }
 
-static void *
-newArray(jint length, size_t nbytes)
+stbtid void *
+nfwArrby(jint lfngti, sizf_t nbytfs)
 {
     void *ptr;
-    ptr = jvmtiAllocate(length*(jint)nbytes);
+    ptr = jvmtiAllodbtf(lfngti*(jint)nbytfs);
     if ( ptr != NULL ) {
-        (void)memset(ptr, 0, length*nbytes);
+        (void)mfmsft(ptr, 0, lfngti*nbytfs);
     }
-    return ptr;
+    rfturn ptr;
 }
 
-static void
-deleteArray(void *ptr)
+stbtid void
+dflftfArrby(void *ptr)
 {
-    jvmtiDeallocate(ptr);
+    jvmtiDfbllodbtf(ptr);
 }
 
 /*
- * This function must be called with the threadLock held.
+ * Tiis fundtion must bf dbllfd witi tif tirfbdLodk ifld.
  *
- * Two facts conspire to make this routine complicated:
+ * Two fbdts donspirf to mbkf tiis routinf domplidbtfd:
  *
- * 1) the VM doesn't support nested external suspend
- * 2) the original resumeAll code structure doesn't retrieve the
- *    entire thread list from JVMTI so we use the runningThreads
- *    list and two helpers to get the job done.
+ * 1) tif VM dofsn't support nfstfd fxtfrnbl suspfnd
+ * 2) tif originbl rfsumfAll dodf strudturf dofsn't rftrifvf tif
+ *    fntirf tirfbd list from JVMTI so wf usf tif runningTirfbds
+ *    list bnd two iflpfrs to gft tif job donf.
  *
- * Because we hold the threadLock, state seen by resumeCountHelper()
- * is the same state seen in resumeCopyHelper(). resumeCountHelper()
- * just counts up the number of threads to be hard resumed.
- * resumeCopyHelper() does the accounting for nested suspends and
- * special cases and, finally, populates the list of hard resume
- * threads to be passed to ResumeThreadList().
+ * Bfdbusf wf iold tif tirfbdLodk, stbtf sffn by rfsumfCountHflpfr()
+ * is tif sbmf stbtf sffn in rfsumfCopyHflpfr(). rfsumfCountHflpfr()
+ * just dounts up tif numbfr of tirfbds to bf ibrd rfsumfd.
+ * rfsumfCopyHflpfr() dofs tif bddounting for nfstfd suspfnds bnd
+ * spfdibl dbsfs bnd, finblly, populbtfs tif list of ibrd rfsumf
+ * tirfbds to bf pbssfd to RfsumfTirfbdList().
  *
- * At first glance, you might think that the accounting could be done
- * in resumeCountHelper(), but then resumeCopyHelper() would see
- * "post-resume" state in the accounting values (suspendCount and
- * toBeResumed) and would not be able to distinguish between a thread
- * that needs a hard resume versus a thread that is already running.
+ * At first glbndf, you migit tiink tibt tif bddounting dould bf donf
+ * in rfsumfCountHflpfr(), but tifn rfsumfCopyHflpfr() would sff
+ * "post-rfsumf" stbtf in tif bddounting vblufs (suspfndCount bnd
+ * toBfRfsumfd) bnd would not bf bblf to distinguisi bftwffn b tirfbd
+ * tibt nffds b ibrd rfsumf vfrsus b tirfbd tibt is blrfbdy running.
  */
-static jvmtiError
-commonResumeList(JNIEnv *env)
+stbtid jvmtiError
+dommonRfsumfList(JNIEnv *fnv)
 {
-    jvmtiError   error;
+    jvmtiError   frror;
     jint         i;
-    jint         reqCnt;
-    jthread     *reqList;
-    jthread     *reqPtr;
-    jvmtiError  *results;
+    jint         rfqCnt;
+    jtirfbd     *rfqList;
+    jtirfbd     *rfqPtr;
+    jvmtiError  *rfsults;
 
-    reqCnt = 0;
+    rfqCnt = 0;
 
-    /* count number of threads to hard resume */
-    (void) enumerateOverThreadList(env, &runningThreads, resumeCountHelper,
-                                   &reqCnt);
-    if (reqCnt == 0) {
-        /* nothing to hard resume so do just the accounting part */
-        (void) enumerateOverThreadList(env, &runningThreads, resumeCopyHelper,
+    /* dount numbfr of tirfbds to ibrd rfsumf */
+    (void) fnumfrbtfOvfrTirfbdList(fnv, &runningTirfbds, rfsumfCountHflpfr,
+                                   &rfqCnt);
+    if (rfqCnt == 0) {
+        /* notiing to ibrd rfsumf so do just tif bddounting pbrt */
+        (void) fnumfrbtfOvfrTirfbdList(fnv, &runningTirfbds, rfsumfCopyHflpfr,
                                        NULL);
-        return JVMTI_ERROR_NONE;
+        rfturn JVMTI_ERROR_NONE;
     }
 
     /*LINTED*/
-    reqList = newArray(reqCnt, sizeof(jthread));
-    if (reqList == NULL) {
-        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"resume request list");
+    rfqList = nfwArrby(rfqCnt, sizfof(jtirfbd));
+    if (rfqList == NULL) {
+        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"rfsumf rfqufst list");
     }
     /*LINTED*/
-    results = newArray(reqCnt, sizeof(jvmtiError));
-    if (results == NULL) {
-        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"resume list");
+    rfsults = nfwArrby(rfqCnt, sizfof(jvmtiError));
+    if (rfsults == NULL) {
+        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"rfsumf list");
     }
 
-    /* copy the jthread values for threads to hard resume */
-    reqPtr = reqList;
-    (void) enumerateOverThreadList(env, &runningThreads, resumeCopyHelper,
-                                   &reqPtr);
+    /* dopy tif jtirfbd vblufs for tirfbds to ibrd rfsumf */
+    rfqPtr = rfqList;
+    (void) fnumfrbtfOvfrTirfbdList(fnv, &runningTirfbds, rfsumfCopyHflpfr,
+                                   &rfqPtr);
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,ResumeThreadList)
-                (gdata->jvmti, reqCnt, reqList, results);
-    for (i = 0; i < reqCnt; i++) {
-        ThreadNode *node;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,RfsumfTirfbdList)
+                (gdbtb->jvmti, rfqCnt, rfqList, rfsults);
+    for (i = 0; i < rfqCnt; i++) {
+        TirfbdNodf *nodf;
 
-        node = findThread(&runningThreads, reqList[i]);
-        if (node == NULL) {
-            EXIT_ERROR(AGENT_ERROR_INVALID_THREAD,"missing entry in running thread table");
+        nodf = findTirfbd(&runningTirfbds, rfqList[i]);
+        if (nodf == NULL) {
+            EXIT_ERROR(AGENT_ERROR_INVALID_THREAD,"missing fntry in running tirfbd tbblf");
         }
-        LOG_MISC(("thread=%p resumed as part of list", node->thread));
+        LOG_MISC(("tirfbd=%p rfsumfd bs pbrt of list", nodf->tirfbd));
 
         /*
-         * resumeThreadByNode() assumes that JVM/DI ResumeThread()
-         * always works and does all the accounting updates. We do
-         * the same here. We also don't clear the error.
+         * rfsumfTirfbdByNodf() bssumfs tibt JVM/DI RfsumfTirfbd()
+         * blwbys works bnd dofs bll tif bddounting updbtfs. Wf do
+         * tif sbmf ifrf. Wf blso don't dlfbr tif frror.
          */
-        node->suspendCount--;
-        node->toBeResumed = JNI_FALSE;
-        node->frameGeneration++; /* Increment on each resume */
+        nodf->suspfndCount--;
+        nodf->toBfRfsumfd = JNI_FALSE;
+        nodf->frbmfGfnfrbtion++; /* Indrfmfnt on fbdi rfsumf */
     }
-    deleteArray(results);
-    deleteArray(reqList);
+    dflftfArrby(rfsults);
+    dflftfArrby(rfqList);
 
-    debugMonitorNotifyAll(threadLock);
+    dfbugMonitorNotifyAll(tirfbdLodk);
 
-    return error;
+    rfturn frror;
 }
 
 
 /*
- * This function must be called after preSuspend and before postSuspend.
+ * Tiis fundtion must bf dbllfd bftfr prfSuspfnd bnd bfforf postSuspfnd.
  */
-static jvmtiError
-commonSuspendList(JNIEnv *env, jint initCount, jthread *initList)
+stbtid jvmtiError
+dommonSuspfndList(JNIEnv *fnv, jint initCount, jtirfbd *initList)
 {
-    jvmtiError  error;
+    jvmtiError  frror;
     jint        i;
-    jint        reqCnt;
-    jthread    *reqList;
+    jint        rfqCnt;
+    jtirfbd    *rfqList;
 
-    error   = JVMTI_ERROR_NONE;
-    reqCnt  = 0;
-    reqList = newArray(initCount, sizeof(jthread));
-    if (reqList == NULL) {
-        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"request list");
+    frror   = JVMTI_ERROR_NONE;
+    rfqCnt  = 0;
+    rfqList = nfwArrby(initCount, sizfof(jtirfbd));
+    if (rfqList == NULL) {
+        EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"rfqufst list");
     }
 
     /*
-     * Go through the initial list and see if we have anything to suspend.
+     * Go tirougi tif initibl list bnd sff if wf ibvf bnytiing to suspfnd.
      */
     for (i = 0; i < initCount; i++) {
-        ThreadNode *node;
+        TirfbdNodf *nodf;
 
         /*
-         * If the thread is not between its start and end events, we should
-         * still suspend it. To keep track of things, add the thread
-         * to a separate list of threads so that we'll resume it later.
+         * If tif tirfbd is not bftwffn its stbrt bnd fnd fvfnts, wf siould
+         * still suspfnd it. To kffp trbdk of tiings, bdd tif tirfbd
+         * to b sfpbrbtf list of tirfbds so tibt wf'll rfsumf it lbtfr.
          */
-        node = findThread(&runningThreads, initList[i]);
-        if (node == NULL) {
-            node = insertThread(env, &otherThreads, initList[i]);
+        nodf = findTirfbd(&runningTirfbds, initList[i]);
+        if (nodf == NULL) {
+            nodf = insfrtTirfbd(fnv, &otifrTirfbds, initList[i]);
         }
 
-        if (node->isDebugThread) {
-            /* Ignore requests for suspending debugger threads */
-            continue;
+        if (nodf->isDfbugTirfbd) {
+            /* Ignorf rfqufsts for suspfnding dfbuggfr tirfbds */
+            dontinuf;
         }
 
         /*
-         * Just increment the suspend count if we are waiting
-         * for a deferred suspend or if this is a nested suspend.
+         * Just indrfmfnt tif suspfnd dount if wf brf wbiting
+         * for b dfffrrfd suspfnd or if tiis is b nfstfd suspfnd.
          */
-        if (node->suspendOnStart || node->suspendCount > 0) {
-            node->suspendCount++;
-            continue;
+        if (nodf->suspfndOnStbrt || nodf->suspfndCount > 0) {
+            nodf->suspfndCount++;
+            dontinuf;
         }
 
-        if (node->suspendCount == 0) {
-            /* thread is not suspended yet so put it on the request list */
-            reqList[reqCnt++] = initList[i];
+        if (nodf->suspfndCount == 0) {
+            /* tirfbd is not suspfndfd yft so put it on tif rfqufst list */
+            rfqList[rfqCnt++] = initList[i];
         }
     }
 
-    if (reqCnt > 0) {
-        jvmtiError *results = newArray(reqCnt, sizeof(jvmtiError));
+    if (rfqCnt > 0) {
+        jvmtiError *rfsults = nfwArrby(rfqCnt, sizfof(jvmtiError));
 
-        if (results == NULL) {
-            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"suspend list results");
+        if (rfsults == NULL) {
+            EXIT_ERROR(AGENT_ERROR_OUT_OF_MEMORY,"suspfnd list rfsults");
         }
 
         /*
-         * We have something to suspend so try to do it.
+         * Wf ibvf somftiing to suspfnd so try to do it.
          */
-        error = JVMTI_FUNC_PTR(gdata->jvmti,SuspendThreadList)
-                        (gdata->jvmti, reqCnt, reqList, results);
-        for (i = 0; i < reqCnt; i++) {
-            ThreadNode *node;
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SuspfndTirfbdList)
+                        (gdbtb->jvmti, rfqCnt, rfqList, rfsults);
+        for (i = 0; i < rfqCnt; i++) {
+            TirfbdNodf *nodf;
 
-            node = findThread(NULL, reqList[i]);
-            if (node == NULL) {
-                EXIT_ERROR(AGENT_ERROR_INVALID_THREAD,"missing entry in thread tables");
+            nodf = findTirfbd(NULL, rfqList[i]);
+            if (nodf == NULL) {
+                EXIT_ERROR(AGENT_ERROR_INVALID_THREAD,"missing fntry in tirfbd tbblfs");
             }
-            LOG_MISC(("thread=%p suspended as part of list", node->thread));
+            LOG_MISC(("tirfbd=%p suspfndfd bs pbrt of list", nodf->tirfbd));
 
-            if (results[i] == JVMTI_ERROR_NONE) {
-                /* thread was suspended as requested */
-                node->toBeResumed = JNI_TRUE;
-            } else if (results[i] == JVMTI_ERROR_THREAD_SUSPENDED) {
+            if (rfsults[i] == JVMTI_ERROR_NONE) {
+                /* tirfbd wbs suspfndfd bs rfqufstfd */
+                nodf->toBfRfsumfd = JNI_TRUE;
+            } flsf if (rfsults[i] == JVMTI_ERROR_THREAD_SUSPENDED) {
                 /*
-                 * If the thread was suspended by another app thread,
-                 * do nothing and report no error (we won't resume it later).
+                 * If tif tirfbd wbs suspfndfd by bnotifr bpp tirfbd,
+                 * do notiing bnd rfport no frror (wf won't rfsumf it lbtfr).
                  */
-                results[i] = JVMTI_ERROR_NONE;
-            } else if (results[i] == JVMTI_ERROR_THREAD_NOT_ALIVE) {
+                rfsults[i] = JVMTI_ERROR_NONE;
+            } flsf if (rfsults[i] == JVMTI_ERROR_THREAD_NOT_ALIVE) {
                 /*
-                 * This error means that the suspend request failed
-                 * because the thread is either a zombie or not yet
-                 * started. In either case, we ignore the error. If the
-                 * thread is a zombie, suspend/resume are no-ops. If the
-                 * thread is not started, it will be suspended for real
-                 * during the processing of its thread start event.
+                 * Tiis frror mfbns tibt tif suspfnd rfqufst fbilfd
+                 * bfdbusf tif tirfbd is fitifr b zombif or not yft
+                 * stbrtfd. In fitifr dbsf, wf ignorf tif frror. If tif
+                 * tirfbd is b zombif, suspfnd/rfsumf brf no-ops. If tif
+                 * tirfbd is not stbrtfd, it will bf suspfndfd for rfbl
+                 * during tif prodfssing of its tirfbd stbrt fvfnt.
                  */
-                node->suspendOnStart = JNI_TRUE;
-                results[i] = JVMTI_ERROR_NONE;
+                nodf->suspfndOnStbrt = JNI_TRUE;
+                rfsults[i] = JVMTI_ERROR_NONE;
             }
 
-            /* count real, app and deferred (suspendOnStart) suspensions */
-            if (results[i] == JVMTI_ERROR_NONE) {
-                node->suspendCount++;
+            /* dount rfbl, bpp bnd dfffrrfd (suspfndOnStbrt) suspfnsions */
+            if (rfsults[i] == JVMTI_ERROR_NONE) {
+                nodf->suspfndCount++;
             }
         }
-        deleteArray(results);
+        dflftfArrby(rfsults);
     }
-    deleteArray(reqList);
+    dflftfArrby(rfqList);
 
-    debugMonitorNotifyAll(threadLock);
+    dfbugMonitorNotifyAll(tirfbdLodk);
 
-    return error;
+    rfturn frror;
 }
 
 
-static jvmtiError
-commonResume(jthread thread)
+stbtid jvmtiError
+dommonRfsumf(jtirfbd tirfbd)
 {
-    jvmtiError  error;
-    ThreadNode *node;
+    jvmtiError  frror;
+    TirfbdNodf *nodf;
 
     /*
-     * The thread is normally between its start and end events, but if
-     * not, check the auxiliary list used by threadControl_suspendThread.
+     * Tif tirfbd is normblly bftwffn its stbrt bnd fnd fvfnts, but if
+     * not, difdk tif buxilibry list usfd by tirfbdControl_suspfndTirfbd.
      */
-    node = findThread(NULL, thread);
+    nodf = findTirfbd(NULL, tirfbd);
 
     /*
-     * If the node is in neither list, the debugger never suspended
-     * this thread, so do nothing.
+     * If tif nodf is in nfitifr list, tif dfbuggfr nfvfr suspfndfd
+     * tiis tirfbd, so do notiing.
      */
-    error = JVMTI_ERROR_NONE;
-    if (node != NULL) {
-        error = resumeThreadByNode(node);
+    frror = JVMTI_ERROR_NONE;
+    if (nodf != NULL) {
+        frror = rfsumfTirfbdByNodf(nodf);
     }
-    return error;
+    rfturn frror;
 }
 
 
 jvmtiError
-threadControl_suspendThread(jthread thread, jboolean deferred)
+tirfbdControl_suspfndTirfbd(jtirfbd tirfbd, jboolfbn dfffrrfd)
 {
-    jvmtiError error;
-    JNIEnv    *env;
+    jvmtiError frror;
+    JNIEnv    *fnv;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    log_debugee_location("threadControl_suspendThread()", thread, NULL, 0);
+    log_dfbugff_lodbtion("tirfbdControl_suspfndTirfbd()", tirfbd, NULL, 0);
 
-    preSuspend();
-    error = commonSuspend(env, thread, deferred);
-    postSuspend();
+    prfSuspfnd();
+    frror = dommonSuspfnd(fnv, tirfbd, dfffrrfd);
+    postSuspfnd();
 
-    return error;
+    rfturn frror;
 }
 
 jvmtiError
-threadControl_resumeThread(jthread thread, jboolean do_unblock)
+tirfbdControl_rfsumfTirfbd(jtirfbd tirfbd, jboolfbn do_unblodk)
 {
-    jvmtiError error;
-    JNIEnv    *env;
+    jvmtiError frror;
+    JNIEnv    *fnv;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    log_debugee_location("threadControl_resumeThread()", thread, NULL, 0);
+    log_dfbugff_lodbtion("tirfbdControl_rfsumfTirfbd()", tirfbd, NULL, 0);
 
-    eventHandler_lock(); /* for proper lock order */
-    debugMonitorEnter(threadLock);
-    error = commonResume(thread);
-    removeResumed(env, &otherThreads);
-    debugMonitorExit(threadLock);
-    eventHandler_unlock();
+    fvfntHbndlfr_lodk(); /* for propfr lodk ordfr */
+    dfbugMonitorEntfr(tirfbdLodk);
+    frror = dommonRfsumf(tirfbd);
+    rfmovfRfsumfd(fnv, &otifrTirfbds);
+    dfbugMonitorExit(tirfbdLodk);
+    fvfntHbndlfr_unlodk();
 
-    if (do_unblock) {
-        /* let eventHelper.c: commandLoop() know we resumed one thread */
-        unblockCommandLoop();
+    if (do_unblodk) {
+        /* lft fvfntHflpfr.d: dommbndLoop() know wf rfsumfd onf tirfbd */
+        unblodkCommbndLoop();
     }
 
-    return error;
+    rfturn frror;
 }
 
 jvmtiError
-threadControl_suspendCount(jthread thread, jint *count)
+tirfbdControl_suspfndCount(jtirfbd tirfbd, jint *dount)
 {
-    jvmtiError  error;
-    ThreadNode *node;
+    jvmtiError  frror;
+    TirfbdNodf *nodf;
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
 
-    node = findThread(&runningThreads, thread);
-    if (node == NULL) {
-        node = findThread(&otherThreads, thread);
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf == NULL) {
+        nodf = findTirfbd(&otifrTirfbds, tirfbd);
     }
 
-    error = JVMTI_ERROR_NONE;
-    if (node != NULL) {
-        *count = node->suspendCount;
-    } else {
+    frror = JVMTI_ERROR_NONE;
+    if (nodf != NULL) {
+        *dount = nodf->suspfndCount;
+    } flsf {
         /*
-         * If the node is in neither list, the debugger never suspended
-         * this thread, so the suspend count is 0.
+         * If tif nodf is in nfitifr list, tif dfbuggfr nfvfr suspfndfd
+         * tiis tirfbd, so tif suspfnd dount is 0.
          */
-        *count = 0;
+        *dount = 0;
     }
 
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 
-    return error;
+    rfturn frror;
 }
 
-static jboolean
-contains(JNIEnv *env, jthread *list, jint count, jthread item)
+stbtid jboolfbn
+dontbins(JNIEnv *fnv, jtirfbd *list, jint dount, jtirfbd itfm)
 {
     int i;
 
-    for (i = 0; i < count; i++) {
-        if (isSameObject(env, list[i], item)) {
-            return JNI_TRUE;
+    for (i = 0; i < dount; i++) {
+        if (isSbmfObjfdt(fnv, list[i], itfm)) {
+            rfturn JNI_TRUE;
         }
     }
-    return JNI_FALSE;
+    rfturn JNI_FALSE;
 }
 
 
-typedef struct {
-    jthread *list;
-    jint count;
-} SuspendAllArg;
+typfdff strudt {
+    jtirfbd *list;
+    jint dount;
+} SuspfndAllArg;
 
-static jvmtiError
-suspendAllHelper(JNIEnv *env, ThreadNode *node, void *arg)
+stbtid jvmtiError
+suspfndAllHflpfr(JNIEnv *fnv, TirfbdNodf *nodf, void *brg)
 {
-    SuspendAllArg *saArg = (SuspendAllArg *)arg;
-    jvmtiError error = JVMTI_ERROR_NONE;
-    jthread *list = saArg->list;
-    jint count = saArg->count;
-    if (!contains(env, list, count, node->thread)) {
-        error = commonSuspend(env, node->thread, JNI_FALSE);
+    SuspfndAllArg *sbArg = (SuspfndAllArg *)brg;
+    jvmtiError frror = JVMTI_ERROR_NONE;
+    jtirfbd *list = sbArg->list;
+    jint dount = sbArg->dount;
+    if (!dontbins(fnv, list, dount, nodf->tirfbd)) {
+        frror = dommonSuspfnd(fnv, nodf->tirfbd, JNI_FALSE);
     }
-    return error;
+    rfturn frror;
 }
 
 jvmtiError
-threadControl_suspendAll(void)
+tirfbdControl_suspfndAll(void)
 {
-    jvmtiError error;
-    JNIEnv    *env;
+    jvmtiError frror;
+    JNIEnv    *fnv;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    log_debugee_location("threadControl_suspendAll()", NULL, NULL, 0);
+    log_dfbugff_lodbtion("tirfbdControl_suspfndAll()", NULL, NULL, 0);
 
-    preSuspend();
+    prfSuspfnd();
 
     /*
-     * Get a list of all threads and suspend them.
+     * Gft b list of bll tirfbds bnd suspfnd tifm.
      */
-    WITH_LOCAL_REFS(env, 1) {
+    WITH_LOCAL_REFS(fnv, 1) {
 
-        jthread *threads;
-        jint count;
+        jtirfbd *tirfbds;
+        jint dount;
 
-        threads = allThreads(&count);
-        if (threads == NULL) {
-            error = AGENT_ERROR_OUT_OF_MEMORY;
-            goto err;
+        tirfbds = bllTirfbds(&dount);
+        if (tirfbds == NULL) {
+            frror = AGENT_ERROR_OUT_OF_MEMORY;
+            goto frr;
         }
-        if (canSuspendResumeThreadLists()) {
-            error = commonSuspendList(env, count, threads);
-            if (error != JVMTI_ERROR_NONE) {
-                goto err;
+        if (dbnSuspfndRfsumfTirfbdLists()) {
+            frror = dommonSuspfndList(fnv, dount, tirfbds);
+            if (frror != JVMTI_ERROR_NONE) {
+                goto frr;
             }
-        } else {
+        } flsf {
 
             int i;
 
-            for (i = 0; i < count; i++) {
-                error = commonSuspend(env, threads[i], JNI_FALSE);
+            for (i = 0; i < dount; i++) {
+                frror = dommonSuspfnd(fnv, tirfbds[i], JNI_FALSE);
 
-                if (error != JVMTI_ERROR_NONE) {
-                    goto err;
+                if (frror != JVMTI_ERROR_NONE) {
+                    goto frr;
                 }
             }
         }
 
         /*
-         * Update the suspend count of any threads not yet (or no longer)
-         * in the thread list above.
+         * Updbtf tif suspfnd dount of bny tirfbds not yft (or no longfr)
+         * in tif tirfbd list bbovf.
          */
         {
-            SuspendAllArg arg;
-            arg.list = threads;
-            arg.count = count;
-            error = enumerateOverThreadList(env, &otherThreads,
-                                            suspendAllHelper, &arg);
+            SuspfndAllArg brg;
+            brg.list = tirfbds;
+            brg.dount = dount;
+            frror = fnumfrbtfOvfrTirfbdList(fnv, &otifrTirfbds,
+                                            suspfndAllHflpfr, &brg);
         }
 
-        if (error == JVMTI_ERROR_NONE) {
-            suspendAllCount++;
+        if (frror == JVMTI_ERROR_NONE) {
+            suspfndAllCount++;
         }
 
-    err: ;
+    frr: ;
 
-    } END_WITH_LOCAL_REFS(env)
+    } END_WITH_LOCAL_REFS(fnv)
 
-    postSuspend();
+    postSuspfnd();
 
-    return error;
+    rfturn frror;
 }
 
-static jvmtiError
-resumeHelper(JNIEnv *env, ThreadNode *node, void *ignored)
+stbtid jvmtiError
+rfsumfHflpfr(JNIEnv *fnv, TirfbdNodf *nodf, void *ignorfd)
 {
     /*
-     * Since this helper is called with the threadLock held, we
-     * don't need to recheck to see if the node is still on one
-     * of the two thread lists.
+     * Sindf tiis iflpfr is dbllfd witi tif tirfbdLodk ifld, wf
+     * don't nffd to rfdifdk to sff if tif nodf is still on onf
+     * of tif two tirfbd lists.
      */
-    return resumeThreadByNode(node);
+    rfturn rfsumfTirfbdByNodf(nodf);
 }
 
 jvmtiError
-threadControl_resumeAll(void)
+tirfbdControl_rfsumfAll(void)
 {
-    jvmtiError error;
-    JNIEnv    *env;
+    jvmtiError frror;
+    JNIEnv    *fnv;
 
-    env = getEnv();
+    fnv = gftEnv();
 
-    log_debugee_location("threadControl_resumeAll()", NULL, NULL, 0);
+    log_dfbugff_lodbtion("tirfbdControl_rfsumfAll()", NULL, NULL, 0);
 
-    eventHandler_lock(); /* for proper lock order */
-    debugMonitorEnter(threadLock);
+    fvfntHbndlfr_lodk(); /* for propfr lodk ordfr */
+    dfbugMonitorEntfr(tirfbdLodk);
 
     /*
-     * Resume only those threads that the debugger has suspended. All
-     * such threads must have a node in one of the thread lists, so there's
-     * no need to get the whole thread list from JVMTI (unlike
-     * suspendAll).
+     * Rfsumf only tiosf tirfbds tibt tif dfbuggfr ibs suspfndfd. All
+     * sudi tirfbds must ibvf b nodf in onf of tif tirfbd lists, so tifrf's
+     * no nffd to gft tif wiolf tirfbd list from JVMTI (unlikf
+     * suspfndAll).
      */
-    if (canSuspendResumeThreadLists()) {
-        error = commonResumeList(env);
-    } else {
-        error = enumerateOverThreadList(env, &runningThreads,
-                                        resumeHelper, NULL);
+    if (dbnSuspfndRfsumfTirfbdLists()) {
+        frror = dommonRfsumfList(fnv);
+    } flsf {
+        frror = fnumfrbtfOvfrTirfbdList(fnv, &runningTirfbds,
+                                        rfsumfHflpfr, NULL);
     }
-    if ((error == JVMTI_ERROR_NONE) && (otherThreads.first != NULL)) {
-        error = enumerateOverThreadList(env, &otherThreads,
-                                        resumeHelper, NULL);
-        removeResumed(env, &otherThreads);
-    }
-
-    if (suspendAllCount > 0) {
-        suspendAllCount--;
+    if ((frror == JVMTI_ERROR_NONE) && (otifrTirfbds.first != NULL)) {
+        frror = fnumfrbtfOvfrTirfbdList(fnv, &otifrTirfbds,
+                                        rfsumfHflpfr, NULL);
+        rfmovfRfsumfd(fnv, &otifrTirfbds);
     }
 
-    debugMonitorExit(threadLock);
-    eventHandler_unlock();
-    /* let eventHelper.c: commandLoop() know we are resuming */
-    unblockCommandLoop();
+    if (suspfndAllCount > 0) {
+        suspfndAllCount--;
+    }
 
-    return error;
+    dfbugMonitorExit(tirfbdLodk);
+    fvfntHbndlfr_unlodk();
+    /* lft fvfntHflpfr.d: dommbndLoop() know wf brf rfsuming */
+    unblodkCommbndLoop();
+
+    rfturn frror;
 }
 
 
-StepRequest *
-threadControl_getStepRequest(jthread thread)
+StfpRfqufst *
+tirfbdControl_gftStfpRfqufst(jtirfbd tirfbd)
 {
-    ThreadNode  *node;
-    StepRequest *step;
+    TirfbdNodf  *nodf;
+    StfpRfqufst *stfp;
 
-    step = NULL;
+    stfp = NULL;
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
 
-    node = findThread(&runningThreads, thread);
-    if (node != NULL) {
-        step = &node->currentStep;
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+        stfp = &nodf->durrfntStfp;
     }
 
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 
-    return step;
+    rfturn stfp;
 }
 
-InvokeRequest *
-threadControl_getInvokeRequest(jthread thread)
+InvokfRfqufst *
+tirfbdControl_gftInvokfRfqufst(jtirfbd tirfbd)
 {
-    ThreadNode    *node;
-    InvokeRequest *request;
+    TirfbdNodf    *nodf;
+    InvokfRfqufst *rfqufst;
 
-    request = NULL;
+    rfqufst = NULL;
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
 
-    node = findThread(&runningThreads, thread);
-    if (node != NULL) {
-         request = &node->currentInvoke;
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+         rfqufst = &nodf->durrfntInvokf;
     }
 
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 
-    return request;
+    rfturn rfqufst;
 }
 
 jvmtiError
-threadControl_addDebugThread(jthread thread)
+tirfbdControl_bddDfbugTirfbd(jtirfbd tirfbd)
 {
-    jvmtiError error;
+    jvmtiError frror;
 
-    debugMonitorEnter(threadLock);
-    if (debugThreadCount >= MAX_DEBUG_THREADS) {
-        error = AGENT_ERROR_OUT_OF_MEMORY;
-    } else {
-        JNIEnv    *env;
+    dfbugMonitorEntfr(tirfbdLodk);
+    if (dfbugTirfbdCount >= MAX_DEBUG_THREADS) {
+        frror = AGENT_ERROR_OUT_OF_MEMORY;
+    } flsf {
+        JNIEnv    *fnv;
 
-        env = getEnv();
-        debugThreads[debugThreadCount] = NULL;
-        saveGlobalRef(env, thread, &(debugThreads[debugThreadCount]));
-        if (debugThreads[debugThreadCount] == NULL) {
-            error = AGENT_ERROR_OUT_OF_MEMORY;
-        } else {
-            debugThreadCount++;
-            error = JVMTI_ERROR_NONE;
+        fnv = gftEnv();
+        dfbugTirfbds[dfbugTirfbdCount] = NULL;
+        sbvfGlobblRff(fnv, tirfbd, &(dfbugTirfbds[dfbugTirfbdCount]));
+        if (dfbugTirfbds[dfbugTirfbdCount] == NULL) {
+            frror = AGENT_ERROR_OUT_OF_MEMORY;
+        } flsf {
+            dfbugTirfbdCount++;
+            frror = JVMTI_ERROR_NONE;
         }
     }
-    debugMonitorExit(threadLock);
-    return error;
+    dfbugMonitorExit(tirfbdLodk);
+    rfturn frror;
 }
 
-static jvmtiError
-threadControl_removeDebugThread(jthread thread)
+stbtid jvmtiError
+tirfbdControl_rfmovfDfbugTirfbd(jtirfbd tirfbd)
 {
-    jvmtiError error;
-    JNIEnv    *env;
+    jvmtiError frror;
+    JNIEnv    *fnv;
     int        i;
 
-    error = AGENT_ERROR_INVALID_THREAD;
-    env   = getEnv();
+    frror = AGENT_ERROR_INVALID_THREAD;
+    fnv   = gftEnv();
 
-    debugMonitorEnter(threadLock);
-    for (i = 0; i< debugThreadCount; i++) {
-        if (isSameObject(env, thread, debugThreads[i])) {
+    dfbugMonitorEntfr(tirfbdLodk);
+    for (i = 0; i< dfbugTirfbdCount; i++) {
+        if (isSbmfObjfdt(fnv, tirfbd, dfbugTirfbds[i])) {
             int j;
 
-            tossGlobalRef(env, &(debugThreads[i]));
-            for (j = i+1; j < debugThreadCount; j++) {
-                debugThreads[j-1] = debugThreads[j];
+            tossGlobblRff(fnv, &(dfbugTirfbds[i]));
+            for (j = i+1; j < dfbugTirfbdCount; j++) {
+                dfbugTirfbds[j-1] = dfbugTirfbds[j];
             }
-            debugThreadCount--;
-            error = JVMTI_ERROR_NONE;
-            break;
+            dfbugTirfbdCount--;
+            frror = JVMTI_ERROR_NONE;
+            brfbk;
         }
     }
-    debugMonitorExit(threadLock);
-    return error;
+    dfbugMonitorExit(tirfbdLodk);
+    rfturn frror;
 }
 
-jboolean
-threadControl_isDebugThread(jthread thread)
+jboolfbn
+tirfbdControl_isDfbugTirfbd(jtirfbd tirfbd)
 {
     int      i;
-    jboolean rc;
-    JNIEnv  *env;
+    jboolfbn rd;
+    JNIEnv  *fnv;
 
-    rc  = JNI_FALSE;
-    env = getEnv();
+    rd  = JNI_FALSE;
+    fnv = gftEnv();
 
-    debugMonitorEnter(threadLock);
-    for (i = 0; i < debugThreadCount; i++) {
-        if (isSameObject(env, thread, debugThreads[i])) {
-            rc = JNI_TRUE;
-            break;
+    dfbugMonitorEntfr(tirfbdLodk);
+    for (i = 0; i < dfbugTirfbdCount; i++) {
+        if (isSbmfObjfdt(fnv, tirfbd, dfbugTirfbds[i])) {
+            rd = JNI_TRUE;
+            brfbk;
         }
     }
-    debugMonitorExit(threadLock);
-    return rc;
+    dfbugMonitorExit(tirfbdLodk);
+    rfturn rd;
 }
 
-static void
-initLocks(void)
+stbtid void
+initLodks(void)
 {
-    if (popFrameEventLock == NULL) {
-        popFrameEventLock = debugMonitorCreate("JDWP PopFrame Event Lock");
-        popFrameProceedLock = debugMonitorCreate("JDWP PopFrame Proceed Lock");
+    if (popFrbmfEvfntLodk == NULL) {
+        popFrbmfEvfntLodk = dfbugMonitorCrfbtf("JDWP PopFrbmf Evfnt Lodk");
+        popFrbmfProdffdLodk = dfbugMonitorCrfbtf("JDWP PopFrbmf Prodffd Lodk");
     }
 }
 
-static jboolean
-getPopFrameThread(jthread thread)
+stbtid jboolfbn
+gftPopFrbmfTirfbd(jtirfbd tirfbd)
 {
-    jboolean popFrameThread;
+    jboolfbn popFrbmfTirfbd;
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
     {
-        ThreadNode *node;
+        TirfbdNodf *nodf;
 
-        node = findThread(NULL, thread);
-        if (node == NULL) {
-            popFrameThread = JNI_FALSE;
-        } else {
-            popFrameThread = node->popFrameThread;
+        nodf = findTirfbd(NULL, tirfbd);
+        if (nodf == NULL) {
+            popFrbmfTirfbd = JNI_FALSE;
+        } flsf {
+            popFrbmfTirfbd = nodf->popFrbmfTirfbd;
         }
     }
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 
-    return popFrameThread;
+    rfturn popFrbmfTirfbd;
 }
 
-static void
-setPopFrameThread(jthread thread, jboolean value)
+stbtid void
+sftPopFrbmfTirfbd(jtirfbd tirfbd, jboolfbn vbluf)
 {
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
     {
-        ThreadNode *node;
+        TirfbdNodf *nodf;
 
-        node = findThread(NULL, thread);
-        if (node == NULL) {
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"entry in thread table");
-        } else {
-            node->popFrameThread = value;
+        nodf = findTirfbd(NULL, tirfbd);
+        if (nodf == NULL) {
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"fntry in tirfbd tbblf");
+        } flsf {
+            nodf->popFrbmfTirfbd = vbluf;
         }
     }
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 }
 
-static jboolean
-getPopFrameEvent(jthread thread)
+stbtid jboolfbn
+gftPopFrbmfEvfnt(jtirfbd tirfbd)
 {
-    jboolean popFrameEvent;
+    jboolfbn popFrbmfEvfnt;
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
     {
-        ThreadNode *node;
+        TirfbdNodf *nodf;
 
-        node = findThread(NULL, thread);
-        if (node == NULL) {
-            popFrameEvent = JNI_FALSE;
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"entry in thread table");
-        } else {
-            popFrameEvent = node->popFrameEvent;
+        nodf = findTirfbd(NULL, tirfbd);
+        if (nodf == NULL) {
+            popFrbmfEvfnt = JNI_FALSE;
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"fntry in tirfbd tbblf");
+        } flsf {
+            popFrbmfEvfnt = nodf->popFrbmfEvfnt;
         }
     }
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 
-    return popFrameEvent;
+    rfturn popFrbmfEvfnt;
 }
 
-static void
-setPopFrameEvent(jthread thread, jboolean value)
+stbtid void
+sftPopFrbmfEvfnt(jtirfbd tirfbd, jboolfbn vbluf)
 {
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
     {
-        ThreadNode *node;
+        TirfbdNodf *nodf;
 
-        node = findThread(NULL, thread);
-        if (node == NULL) {
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"entry in thread table");
-        } else {
-            node->popFrameEvent = value;
-            node->frameGeneration++; /* Increment on each resume */
+        nodf = findTirfbd(NULL, tirfbd);
+        if (nodf == NULL) {
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"fntry in tirfbd tbblf");
+        } flsf {
+            nodf->popFrbmfEvfnt = vbluf;
+            nodf->frbmfGfnfrbtion++; /* Indrfmfnt on fbdi rfsumf */
         }
     }
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 }
 
-static jboolean
-getPopFrameProceed(jthread thread)
+stbtid jboolfbn
+gftPopFrbmfProdffd(jtirfbd tirfbd)
 {
-    jboolean popFrameProceed;
+    jboolfbn popFrbmfProdffd;
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
     {
-        ThreadNode *node;
+        TirfbdNodf *nodf;
 
-        node = findThread(NULL, thread);
-        if (node == NULL) {
-            popFrameProceed = JNI_FALSE;
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"entry in thread table");
-        } else {
-            popFrameProceed = node->popFrameProceed;
+        nodf = findTirfbd(NULL, tirfbd);
+        if (nodf == NULL) {
+            popFrbmfProdffd = JNI_FALSE;
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"fntry in tirfbd tbblf");
+        } flsf {
+            popFrbmfProdffd = nodf->popFrbmfProdffd;
         }
     }
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 
-    return popFrameProceed;
+    rfturn popFrbmfProdffd;
 }
 
-static void
-setPopFrameProceed(jthread thread, jboolean value)
+stbtid void
+sftPopFrbmfProdffd(jtirfbd tirfbd, jboolfbn vbluf)
 {
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
     {
-        ThreadNode *node;
+        TirfbdNodf *nodf;
 
-        node = findThread(NULL, thread);
-        if (node == NULL) {
-            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"entry in thread table");
-        } else {
-            node->popFrameProceed = value;
+        nodf = findTirfbd(NULL, tirfbd);
+        if (nodf == NULL) {
+            EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"fntry in tirfbd tbblf");
+        } flsf {
+            nodf->popFrbmfProdffd = vbluf;
         }
     }
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 }
 
 /**
- * Special event handler for events on the popped thread
- * that occur during the pop operation.
+ * Spfdibl fvfnt ibndlfr for fvfnts on tif poppfd tirfbd
+ * tibt oddur during tif pop opfrbtion.
  */
-static void
-popFrameCompleteEvent(jthread thread)
+stbtid void
+popFrbmfComplftfEvfnt(jtirfbd tirfbd)
 {
-      debugMonitorEnter(popFrameProceedLock);
+      dfbugMonitorEntfr(popFrbmfProdffdLodk);
       {
-          /* notify that we got the event */
-          debugMonitorEnter(popFrameEventLock);
+          /* notify tibt wf got tif fvfnt */
+          dfbugMonitorEntfr(popFrbmfEvfntLodk);
           {
-              setPopFrameEvent(thread, JNI_TRUE);
-              debugMonitorNotify(popFrameEventLock);
+              sftPopFrbmfEvfnt(tirfbd, JNI_TRUE);
+              dfbugMonitorNotify(popFrbmfEvfntLodk);
           }
-          debugMonitorExit(popFrameEventLock);
+          dfbugMonitorExit(popFrbmfEvfntLodk);
 
-          /* make sure we get suspended again */
-          setPopFrameProceed(thread, JNI_FALSE);
-          while (getPopFrameProceed(thread) == JNI_FALSE) {
-              debugMonitorWait(popFrameProceedLock);
+          /* mbkf surf wf gft suspfndfd bgbin */
+          sftPopFrbmfProdffd(tirfbd, JNI_FALSE);
+          wiilf (gftPopFrbmfProdffd(tirfbd) == JNI_FALSE) {
+              dfbugMonitorWbit(popFrbmfProdffdLodk);
           }
       }
-      debugMonitorExit(popFrameProceedLock);
+      dfbugMonitorExit(popFrbmfProdffdLodk);
 }
 
 /**
- * Pop one frame off the stack of thread.
- * popFrameEventLock is already held
+ * Pop onf frbmf off tif stbdk of tirfbd.
+ * popFrbmfEvfntLodk is blrfbdy ifld
  */
-static jvmtiError
-popOneFrame(jthread thread)
+stbtid jvmtiError
+popOnfFrbmf(jtirfbd tirfbd)
 {
-    jvmtiError error;
+    jvmtiError frror;
 
-    error = JVMTI_FUNC_PTR(gdata->jvmti,PopFrame)(gdata->jvmti, thread);
-    if (error != JVMTI_ERROR_NONE) {
-        return error;
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,PopFrbmf)(gdbtb->jvmti, tirfbd);
+    if (frror != JVMTI_ERROR_NONE) {
+        rfturn frror;
     }
 
-    /* resume the popped thread so that the pop occurs and so we */
-    /* will get the event (step or method entry) after the pop */
-    LOG_MISC(("thread=%p resumed in popOneFrame", thread));
-    error = JVMTI_FUNC_PTR(gdata->jvmti,ResumeThread)(gdata->jvmti, thread);
-    if (error != JVMTI_ERROR_NONE) {
-        return error;
+    /* rfsumf tif poppfd tirfbd so tibt tif pop oddurs bnd so wf */
+    /* will gft tif fvfnt (stfp or mftiod fntry) bftfr tif pop */
+    LOG_MISC(("tirfbd=%p rfsumfd in popOnfFrbmf", tirfbd));
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,RfsumfTirfbd)(gdbtb->jvmti, tirfbd);
+    if (frror != JVMTI_ERROR_NONE) {
+        rfturn frror;
     }
 
-    /* wait for the event to occur */
-    setPopFrameEvent(thread, JNI_FALSE);
-    while (getPopFrameEvent(thread) == JNI_FALSE) {
-        debugMonitorWait(popFrameEventLock);
+    /* wbit for tif fvfnt to oddur */
+    sftPopFrbmfEvfnt(tirfbd, JNI_FALSE);
+    wiilf (gftPopFrbmfEvfnt(tirfbd) == JNI_FALSE) {
+        dfbugMonitorWbit(popFrbmfEvfntLodk);
     }
 
-    /* make sure not to suspend until the popped thread is on the wait */
-    debugMonitorEnter(popFrameProceedLock);
+    /* mbkf surf not to suspfnd until tif poppfd tirfbd is on tif wbit */
+    dfbugMonitorEntfr(popFrbmfProdffdLodk);
     {
-        /* return popped thread to suspended state */
-        LOG_MISC(("thread=%p suspended in popOneFrame", thread));
-        error = JVMTI_FUNC_PTR(gdata->jvmti,SuspendThread)(gdata->jvmti, thread);
+        /* rfturn poppfd tirfbd to suspfndfd stbtf */
+        LOG_MISC(("tirfbd=%p suspfndfd in popOnfFrbmf", tirfbd));
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SuspfndTirfbd)(gdbtb->jvmti, tirfbd);
 
-        /* notify popped thread so it can proceed when resumed */
-        setPopFrameProceed(thread, JNI_TRUE);
-        debugMonitorNotify(popFrameProceedLock);
+        /* notify poppfd tirfbd so it dbn prodffd wifn rfsumfd */
+        sftPopFrbmfProdffd(tirfbd, JNI_TRUE);
+        dfbugMonitorNotify(popFrbmfProdffdLodk);
     }
-    debugMonitorExit(popFrameProceedLock);
+    dfbugMonitorExit(popFrbmfProdffdLodk);
 
-    return error;
+    rfturn frror;
 }
 
 /**
- * pop frames of the stack of 'thread' until 'frame' is popped.
+ * pop frbmfs of tif stbdk of 'tirfbd' until 'frbmf' is poppfd.
  */
 jvmtiError
-threadControl_popFrames(jthread thread, FrameNumber fnum)
+tirfbdControl_popFrbmfs(jtirfbd tirfbd, FrbmfNumbfr fnum)
 {
-    jvmtiError error;
-    jvmtiEventMode prevStepMode;
-    jint framesPopped = 0;
+    jvmtiError frror;
+    jvmtiEvfntModf prfvStfpModf;
+    jint frbmfsPoppfd = 0;
     jint popCount;
-    jboolean prevInvokeRequestMode;
+    jboolfbn prfvInvokfRfqufstModf;
 
-    log_debugee_location("threadControl_popFrames()", thread, NULL, 0);
+    log_dfbugff_lodbtion("tirfbdControl_popFrbmfs()", tirfbd, NULL, 0);
 
-    initLocks();
+    initLodks();
 
-    /* compute the number of frames to pop */
+    /* domputf tif numbfr of frbmfs to pop */
     popCount = fnum+1;
     if (popCount < 1) {
-        return AGENT_ERROR_NO_MORE_FRAMES;
+        rfturn AGENT_ERROR_NO_MORE_FRAMES;
     }
 
-    /* enable instruction level single step, but first note prev value */
-    prevStepMode = threadControl_getInstructionStepMode(thread);
+    /* fnbblf instrudtion lfvfl singlf stfp, but first notf prfv vbluf */
+    prfvStfpModf = tirfbdControl_gftInstrudtionStfpModf(tirfbd);
 
     /*
-     * Fix bug 6517249.  The pop processing will disable invokes,
-     * so remember if invokes are enabled now and restore
-     * that state after we finish popping.
+     * Fix bug 6517249.  Tif pop prodfssing will disbblf invokfs,
+     * so rfmfmbfr if invokfs brf fnbblfd now bnd rfstorf
+     * tibt stbtf bftfr wf finisi popping.
      */
-    prevInvokeRequestMode = invoker_isEnabled(thread);
+    prfvInvokfRfqufstModf = invokfr_isEnbblfd(tirfbd);
 
-    error = threadControl_setEventMode(JVMTI_ENABLE,
-                                       EI_SINGLE_STEP, thread);
-    if (error != JVMTI_ERROR_NONE) {
-        return error;
+    frror = tirfbdControl_sftEvfntModf(JVMTI_ENABLE,
+                                       EI_SINGLE_STEP, tirfbd);
+    if (frror != JVMTI_ERROR_NONE) {
+        rfturn frror;
     }
 
-    /* Inform eventHandler logic we are in a popFrame for this thread */
-    debugMonitorEnter(popFrameEventLock);
+    /* Inform fvfntHbndlfr logid wf brf in b popFrbmf for tiis tirfbd */
+    dfbugMonitorEntfr(popFrbmfEvfntLodk);
     {
-        setPopFrameThread(thread, JNI_TRUE);
-        /* pop frames using single step */
-        while (framesPopped++ < popCount) {
-            error = popOneFrame(thread);
-            if (error != JVMTI_ERROR_NONE) {
-                break;
+        sftPopFrbmfTirfbd(tirfbd, JNI_TRUE);
+        /* pop frbmfs using singlf stfp */
+        wiilf (frbmfsPoppfd++ < popCount) {
+            frror = popOnfFrbmf(tirfbd);
+            if (frror != JVMTI_ERROR_NONE) {
+                brfbk;
             }
         }
-        setPopFrameThread(thread, JNI_FALSE);
+        sftPopFrbmfTirfbd(tirfbd, JNI_FALSE);
     }
-    debugMonitorExit(popFrameEventLock);
+    dfbugMonitorExit(popFrbmfEvfntLodk);
 
-    /*  Reset StepRequest info (fromLine and stackDepth) after popframes
-     *  only if stepping is enabled.
+    /*  Rfsft StfpRfqufst info (fromLinf bnd stbdkDfpti) bftfr popfrbmfs
+     *  only if stfpping is fnbblfd.
      */
-    if (prevStepMode == JVMTI_ENABLE) {
-        stepControl_resetRequest(thread);
+    if (prfvStfpModf == JVMTI_ENABLE) {
+        stfpControl_rfsftRfqufst(tirfbd);
     }
 
-    if (prevInvokeRequestMode) {
-        invoker_enableInvokeRequests(thread);
+    if (prfvInvokfRfqufstModf) {
+        invokfr_fnbblfInvokfRfqufsts(tirfbd);
     }
 
-    /* restore state */
-    (void)threadControl_setEventMode(prevStepMode,
-                               EI_SINGLE_STEP, thread);
+    /* rfstorf stbtf */
+    (void)tirfbdControl_sftEvfntModf(prfvStfpModf,
+                               EI_SINGLE_STEP, tirfbd);
 
-    return error;
+    rfturn frror;
 }
 
-/* Check to see if any events are being consumed by a popFrame(). */
-static jboolean
-checkForPopFrameEvents(JNIEnv *env, EventIndex ei, jthread thread)
+/* Cifdk to sff if bny fvfnts brf bfing donsumfd by b popFrbmf(). */
+stbtid jboolfbn
+difdkForPopFrbmfEvfnts(JNIEnv *fnv, EvfntIndfx fi, jtirfbd tirfbd)
 {
-    if ( getPopFrameThread(thread) ) {
-        switch (ei) {
-            case EI_THREAD_START:
-                /* Excuse me? */
-                EXIT_ERROR(AGENT_ERROR_INTERNAL, "thread start during pop frame");
-                break;
-            case EI_THREAD_END:
-                /* Thread wants to end? let it. */
-                setPopFrameThread(thread, JNI_FALSE);
-                popFrameCompleteEvent(thread);
-                break;
-            case EI_SINGLE_STEP:
-                /* This is an event we requested to mark the */
-                /*        completion of the pop frame */
-                popFrameCompleteEvent(thread);
-                return JNI_TRUE;
-            case EI_BREAKPOINT:
-            case EI_EXCEPTION:
-            case EI_FIELD_ACCESS:
-            case EI_FIELD_MODIFICATION:
-            case EI_METHOD_ENTRY:
-            case EI_METHOD_EXIT:
-                /* Tell event handler to assume event has been consumed. */
-                return JNI_TRUE;
-            default:
-                break;
+    if ( gftPopFrbmfTirfbd(tirfbd) ) {
+        switdi (fi) {
+            dbsf EI_THREAD_START:
+                /* Exdusf mf? */
+                EXIT_ERROR(AGENT_ERROR_INTERNAL, "tirfbd stbrt during pop frbmf");
+                brfbk;
+            dbsf EI_THREAD_END:
+                /* Tirfbd wbnts to fnd? lft it. */
+                sftPopFrbmfTirfbd(tirfbd, JNI_FALSE);
+                popFrbmfComplftfEvfnt(tirfbd);
+                brfbk;
+            dbsf EI_SINGLE_STEP:
+                /* Tiis is bn fvfnt wf rfqufstfd to mbrk tif */
+                /*        domplftion of tif pop frbmf */
+                popFrbmfComplftfEvfnt(tirfbd);
+                rfturn JNI_TRUE;
+            dbsf EI_BREAKPOINT:
+            dbsf EI_EXCEPTION:
+            dbsf EI_FIELD_ACCESS:
+            dbsf EI_FIELD_MODIFICATION:
+            dbsf EI_METHOD_ENTRY:
+            dbsf EI_METHOD_EXIT:
+                /* Tfll fvfnt ibndlfr to bssumf fvfnt ibs bffn donsumfd. */
+                rfturn JNI_TRUE;
+            dffbult:
+                brfbk;
         }
     }
-    /* Pretend we were never called */
-    return JNI_FALSE;
+    /* Prftfnd wf wfrf nfvfr dbllfd */
+    rfturn JNI_FALSE;
 }
 
-struct bag *
-threadControl_onEventHandlerEntry(jbyte sessionID, EventIndex ei, jthread thread, jobject currentException)
+strudt bbg *
+tirfbdControl_onEvfntHbndlfrEntry(jbytf sfssionID, EvfntIndfx fi, jtirfbd tirfbd, jobjfdt durrfntExdfption)
 {
-    ThreadNode *node;
-    JNIEnv     *env;
-    struct bag *eventBag;
-    jthread     threadToSuspend;
-    jboolean    consumed;
+    TirfbdNodf *nodf;
+    JNIEnv     *fnv;
+    strudt bbg *fvfntBbg;
+    jtirfbd     tirfbdToSuspfnd;
+    jboolfbn    donsumfd;
 
-    env             = getEnv();
-    threadToSuspend = NULL;
+    fnv             = gftEnv();
+    tirfbdToSuspfnd = NULL;
 
-    log_debugee_location("threadControl_onEventHandlerEntry()", thread, NULL, 0);
+    log_dfbugff_lodbtion("tirfbdControl_onEvfntHbndlfrEntry()", tirfbd, NULL, 0);
 
-    /* Events during pop commands may need to be ignored here. */
-    consumed = checkForPopFrameEvents(env, ei, thread);
-    if ( consumed ) {
-        /* Always restore any exception (see below). */
-        if (currentException != NULL) {
-            JNI_FUNC_PTR(env,Throw)(env, currentException);
-        } else {
-            JNI_FUNC_PTR(env,ExceptionClear)(env);
+    /* Evfnts during pop dommbnds mby nffd to bf ignorfd ifrf. */
+    donsumfd = difdkForPopFrbmfEvfnts(fnv, fi, tirfbd);
+    if ( donsumfd ) {
+        /* Alwbys rfstorf bny fxdfption (sff bflow). */
+        if (durrfntExdfption != NULL) {
+            JNI_FUNC_PTR(fnv,Tirow)(fnv, durrfntExdfption);
+        } flsf {
+            JNI_FUNC_PTR(fnv,ExdfptionClfbr)(fnv);
         }
-        return NULL;
+        rfturn NULL;
     }
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
 
     /*
-     * Check the list of unknown threads maintained by suspend
-     * and resume. If this thread is currently present in the
-     * list, it should be
-     * moved to the runningThreads list, since it is a
-     * well-known thread now.
+     * Cifdk tif list of unknown tirfbds mbintbinfd by suspfnd
+     * bnd rfsumf. If tiis tirfbd is durrfntly prfsfnt in tif
+     * list, it siould bf
+     * movfd to tif runningTirfbds list, sindf it is b
+     * wfll-known tirfbd now.
      */
-    node = findThread(&otherThreads, thread);
-    if (node != NULL) {
-        moveNode(&otherThreads, &runningThreads, node);
-    } else {
+    nodf = findTirfbd(&otifrTirfbds, tirfbd);
+    if (nodf != NULL) {
+        movfNodf(&otifrTirfbds, &runningTirfbds, nodf);
+    } flsf {
         /*
-         * Get a thread node for the reporting thread. For thread start
-         * events, or if this event precedes a thread start event,
-         * the thread node may need to be created.
+         * Gft b tirfbd nodf for tif rfporting tirfbd. For tirfbd stbrt
+         * fvfnts, or if tiis fvfnt prfdfdfs b tirfbd stbrt fvfnt,
+         * tif tirfbd nodf mby nffd to bf drfbtfd.
          *
-         * It is possible for certain events (notably method entry/exit)
-         * to precede thread start for some VM implementations.
+         * It is possiblf for dfrtbin fvfnts (notbbly mftiod fntry/fxit)
+         * to prfdfdf tirfbd stbrt for somf VM implfmfntbtions.
          */
-        node = insertThread(env, &runningThreads, thread);
+        nodf = insfrtTirfbd(fnv, &runningTirfbds, tirfbd);
     }
 
-    if (ei == EI_THREAD_START) {
-        node->isStarted = JNI_TRUE;
-        processDeferredEventModes(env, thread, node);
+    if (fi == EI_THREAD_START) {
+        nodf->isStbrtfd = JNI_TRUE;
+        prodfssDfffrrfdEvfntModfs(fnv, tirfbd, nodf);
     }
 
-    node->current_ei = ei;
-    eventBag = node->eventBag;
-    if (node->suspendOnStart) {
-        threadToSuspend = node->thread;
+    nodf->durrfnt_fi = fi;
+    fvfntBbg = nodf->fvfntBbg;
+    if (nodf->suspfndOnStbrt) {
+        tirfbdToSuspfnd = nodf->tirfbd;
     }
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 
-    if (threadToSuspend != NULL) {
+    if (tirfbdToSuspfnd != NULL) {
         /*
-         * An attempt was made to suspend this thread before it started.
-         * We must suspend it now, before it starts to run. This must
-         * be done with no locks held.
+         * An bttfmpt wbs mbdf to suspfnd tiis tirfbd bfforf it stbrtfd.
+         * Wf must suspfnd it now, bfforf it stbrts to run. Tiis must
+         * bf donf witi no lodks ifld.
          */
-        eventHelper_suspendThread(sessionID, threadToSuspend);
+        fvfntHflpfr_suspfndTirfbd(sfssionID, tirfbdToSuspfnd);
     }
 
-    return eventBag;
+    rfturn fvfntBbg;
 }
 
-static void
-doPendingTasks(JNIEnv *env, ThreadNode *node)
+stbtid void
+doPfndingTbsks(JNIEnv *fnv, TirfbdNodf *nodf)
 {
     /*
-     * Take care of any pending interrupts/stops, and clear out
-     * info on pending interrupts/stops.
+     * Tbkf dbrf of bny pfnding intfrrupts/stops, bnd dlfbr out
+     * info on pfnding intfrrupts/stops.
      */
-    if (node->pendingInterrupt) {
-        JVMTI_FUNC_PTR(gdata->jvmti,InterruptThread)
-                        (gdata->jvmti, node->thread);
+    if (nodf->pfndingIntfrrupt) {
+        JVMTI_FUNC_PTR(gdbtb->jvmti,IntfrruptTirfbd)
+                        (gdbtb->jvmti, nodf->tirfbd);
         /*
-         * TO DO: Log error
+         * TO DO: Log frror
          */
-        node->pendingInterrupt = JNI_FALSE;
+        nodf->pfndingIntfrrupt = JNI_FALSE;
     }
 
-    if (node->pendingStop != NULL) {
-        JVMTI_FUNC_PTR(gdata->jvmti,StopThread)
-                        (gdata->jvmti, node->thread, node->pendingStop);
+    if (nodf->pfndingStop != NULL) {
+        JVMTI_FUNC_PTR(gdbtb->jvmti,StopTirfbd)
+                        (gdbtb->jvmti, nodf->tirfbd, nodf->pfndingStop);
         /*
-         * TO DO: Log error
+         * TO DO: Log frror
          */
-        tossGlobalRef(env, &(node->pendingStop));
+        tossGlobblRff(fnv, &(nodf->pfndingStop));
     }
 }
 
 void
-threadControl_onEventHandlerExit(EventIndex ei, jthread thread,
-                                 struct bag *eventBag)
+tirfbdControl_onEvfntHbndlfrExit(EvfntIndfx fi, jtirfbd tirfbd,
+                                 strudt bbg *fvfntBbg)
 {
-    ThreadNode *node;
+    TirfbdNodf *nodf;
 
-    log_debugee_location("threadControl_onEventHandlerExit()", thread, NULL, 0);
+    log_dfbugff_lodbtion("tirfbdControl_onEvfntHbndlfrExit()", tirfbd, NULL, 0);
 
-    if (ei == EI_THREAD_END) {
-        eventHandler_lock(); /* for proper lock order */
+    if (fi == EI_THREAD_END) {
+        fvfntHbndlfr_lodk(); /* for propfr lodk ordfr */
     }
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
 
-    node = findThread(&runningThreads, thread);
-    if (node == NULL) {
-        EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"thread list corrupted");
-    } else {
-        JNIEnv *env;
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf == NULL) {
+        EXIT_ERROR(AGENT_ERROR_NULL_POINTER,"tirfbd list dorruptfd");
+    } flsf {
+        JNIEnv *fnv;
 
-        env = getEnv();
-        if (ei == EI_THREAD_END) {
-            jboolean inResume = (node->resumeFrameDepth > 0);
-            removeThread(env, &runningThreads, thread);
-            node = NULL;   /* has been freed */
+        fnv = gftEnv();
+        if (fi == EI_THREAD_END) {
+            jboolfbn inRfsumf = (nodf->rfsumfFrbmfDfpti > 0);
+            rfmovfTirfbd(fnv, &runningTirfbds, tirfbd);
+            nodf = NULL;   /* ibs bffn frffd */
 
             /*
-             * Clean up mechanism used to detect end of
-             * resume.
+             * Clfbn up mfdibnism usfd to dftfdt fnd of
+             * rfsumf.
              */
-            if (inResume) {
-                notifyAppResumeComplete();
+            if (inRfsumf) {
+                notifyAppRfsumfComplftf();
             }
-        } else {
-            /* No point in doing this if the thread is about to die.*/
-            doPendingTasks(env, node);
-            node->eventBag = eventBag;
-            node->current_ei = 0;
+        } flsf {
+            /* No point in doing tiis if tif tirfbd is bbout to dif.*/
+            doPfndingTbsks(fnv, nodf);
+            nodf->fvfntBbg = fvfntBbg;
+            nodf->durrfnt_fi = 0;
         }
     }
 
-    debugMonitorExit(threadLock);
-    if (ei == EI_THREAD_END) {
-        eventHandler_unlock();
+    dfbugMonitorExit(tirfbdLodk);
+    if (fi == EI_THREAD_END) {
+        fvfntHbndlfr_unlodk();
     }
 }
 
-/* Returns JDWP flavored status and status flags. */
+/* Rfturns JDWP flbvorfd stbtus bnd stbtus flbgs. */
 jvmtiError
-threadControl_applicationThreadStatus(jthread thread,
-                        jdwpThreadStatus *pstatus, jint *statusFlags)
+tirfbdControl_bpplidbtionTirfbdStbtus(jtirfbd tirfbd,
+                        jdwpTirfbdStbtus *pstbtus, jint *stbtusFlbgs)
 {
-    ThreadNode *node;
-    jvmtiError  error;
-    jint        state;
+    TirfbdNodf *nodf;
+    jvmtiError  frror;
+    jint        stbtf;
 
-    log_debugee_location("threadControl_applicationThreadStatus()", thread, NULL, 0);
+    log_dfbugff_lodbtion("tirfbdControl_bpplidbtionTirfbdStbtus()", tirfbd, NULL, 0);
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
 
-    error = threadState(thread, &state);
-    *pstatus = map2jdwpThreadStatus(state);
-    *statusFlags = map2jdwpSuspendStatus(state);
+    frror = tirfbdStbtf(tirfbd, &stbtf);
+    *pstbtus = mbp2jdwpTirfbdStbtus(stbtf);
+    *stbtusFlbgs = mbp2jdwpSuspfndStbtus(stbtf);
 
-    if (error == JVMTI_ERROR_NONE) {
-        node = findThread(&runningThreads, thread);
-        if ((node != NULL) && HANDLING_EVENT(node)) {
+    if (frror == JVMTI_ERROR_NONE) {
+        nodf = findTirfbd(&runningTirfbds, tirfbd);
+        if ((nodf != NULL) && HANDLING_EVENT(nodf)) {
             /*
-             * While processing an event, an application thread is always
-             * considered to be running even if its handler happens to be
-             * cond waiting on an internal debugger monitor, etc.
+             * Wiilf prodfssing bn fvfnt, bn bpplidbtion tirfbd is blwbys
+             * donsidfrfd to bf running fvfn if its ibndlfr ibppfns to bf
+             * dond wbiting on bn intfrnbl dfbuggfr monitor, ftd.
              *
-             * Leave suspend status untouched since it is not possible
-             * to distinguish debugger suspends from app suspends.
+             * Lfbvf suspfnd stbtus untoudifd sindf it is not possiblf
+             * to distinguisi dfbuggfr suspfnds from bpp suspfnds.
              */
-            *pstatus = JDWP_THREAD_STATUS(RUNNING);
+            *pstbtus = JDWP_THREAD_STATUS(RUNNING);
         }
     }
 
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 
-    return error;
+    rfturn frror;
 }
 
 jvmtiError
-threadControl_interrupt(jthread thread)
+tirfbdControl_intfrrupt(jtirfbd tirfbd)
 {
-    ThreadNode *node;
-    jvmtiError  error;
+    TirfbdNodf *nodf;
+    jvmtiError  frror;
 
-    error = JVMTI_ERROR_NONE;
+    frror = JVMTI_ERROR_NONE;
 
-    log_debugee_location("threadControl_interrupt()", thread, NULL, 0);
+    log_dfbugff_lodbtion("tirfbdControl_intfrrupt()", tirfbd, NULL, 0);
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
 
-    node = findThread(&runningThreads, thread);
-    if ((node == NULL) || !HANDLING_EVENT(node)) {
-        error = JVMTI_FUNC_PTR(gdata->jvmti,InterruptThread)
-                        (gdata->jvmti, thread);
-    } else {
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if ((nodf == NULL) || !HANDLING_EVENT(nodf)) {
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,IntfrruptTirfbd)
+                        (gdbtb->jvmti, tirfbd);
+    } flsf {
         /*
-         * Hold any interrupts until after the event is processed.
+         * Hold bny intfrrupts until bftfr tif fvfnt is prodfssfd.
          */
-        node->pendingInterrupt = JNI_TRUE;
+        nodf->pfndingIntfrrupt = JNI_TRUE;
     }
 
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 
-    return error;
+    rfturn frror;
 }
 
 void
-threadControl_clearCLEInfo(JNIEnv *env, jthread thread)
+tirfbdControl_dlfbrCLEInfo(JNIEnv *fnv, jtirfbd tirfbd)
 {
-    ThreadNode *node;
+    TirfbdNodf *nodf;
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
 
-    node = findThread(&runningThreads, thread);
-    if (node != NULL) {
-        node->cleInfo.ei = 0;
-        if (node->cleInfo.clazz != NULL) {
-            tossGlobalRef(env, &(node->cleInfo.clazz));
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+        nodf->dlfInfo.fi = 0;
+        if (nodf->dlfInfo.dlbzz != NULL) {
+            tossGlobblRff(fnv, &(nodf->dlfInfo.dlbzz));
         }
     }
 
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 }
 
-jboolean
-threadControl_cmpCLEInfo(JNIEnv *env, jthread thread, jclass clazz,
-                         jmethodID method, jlocation location)
+jboolfbn
+tirfbdControl_dmpCLEInfo(JNIEnv *fnv, jtirfbd tirfbd, jdlbss dlbzz,
+                         jmftiodID mftiod, jlodbtion lodbtion)
 {
-    ThreadNode *node;
-    jboolean    result;
+    TirfbdNodf *nodf;
+    jboolfbn    rfsult;
 
-    result = JNI_FALSE;
+    rfsult = JNI_FALSE;
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
 
-    node = findThread(&runningThreads, thread);
-    if (node != NULL && node->cleInfo.ei != 0 &&
-        node->cleInfo.method == method &&
-        node->cleInfo.location == location &&
-        (isSameObject(env, node->cleInfo.clazz, clazz))) {
-        result = JNI_TRUE; /* we have a match */
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL && nodf->dlfInfo.fi != 0 &&
+        nodf->dlfInfo.mftiod == mftiod &&
+        nodf->dlfInfo.lodbtion == lodbtion &&
+        (isSbmfObjfdt(fnv, nodf->dlfInfo.dlbzz, dlbzz))) {
+        rfsult = JNI_TRUE; /* wf ibvf b mbtdi */
     }
 
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 
-    return result;
-}
-
-void
-threadControl_saveCLEInfo(JNIEnv *env, jthread thread, EventIndex ei,
-                          jclass clazz, jmethodID method, jlocation location)
-{
-    ThreadNode *node;
-
-    debugMonitorEnter(threadLock);
-
-    node = findThread(&runningThreads, thread);
-    if (node != NULL) {
-        node->cleInfo.ei = ei;
-        /* Create a class ref that will live beyond */
-        /* the end of this call */
-        saveGlobalRef(env, clazz, &(node->cleInfo.clazz));
-        /* if returned clazz is NULL, we just won't match */
-        node->cleInfo.method    = method;
-        node->cleInfo.location  = location;
-    }
-
-    debugMonitorExit(threadLock);
+    rfturn rfsult;
 }
 
 void
-threadControl_setPendingInterrupt(jthread thread)
+tirfbdControl_sbvfCLEInfo(JNIEnv *fnv, jtirfbd tirfbd, EvfntIndfx fi,
+                          jdlbss dlbzz, jmftiodID mftiod, jlodbtion lodbtion)
 {
-    ThreadNode *node;
+    TirfbdNodf *nodf;
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
 
-    node = findThread(&runningThreads, thread);
-    if (node != NULL) {
-        node->pendingInterrupt = JNI_TRUE;
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+        nodf->dlfInfo.fi = fi;
+        /* Crfbtf b dlbss rff tibt will livf bfyond */
+        /* tif fnd of tiis dbll */
+        sbvfGlobblRff(fnv, dlbzz, &(nodf->dlfInfo.dlbzz));
+        /* if rfturnfd dlbzz is NULL, wf just won't mbtdi */
+        nodf->dlfInfo.mftiod    = mftiod;
+        nodf->dlfInfo.lodbtion  = lodbtion;
     }
 
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
+}
+
+void
+tirfbdControl_sftPfndingIntfrrupt(jtirfbd tirfbd)
+{
+    TirfbdNodf *nodf;
+
+    dfbugMonitorEntfr(tirfbdLodk);
+
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+        nodf->pfndingIntfrrupt = JNI_TRUE;
+    }
+
+    dfbugMonitorExit(tirfbdLodk);
 }
 
 jvmtiError
-threadControl_stop(jthread thread, jobject throwable)
+tirfbdControl_stop(jtirfbd tirfbd, jobjfdt tirowbblf)
 {
-    ThreadNode *node;
-    jvmtiError  error;
+    TirfbdNodf *nodf;
+    jvmtiError  frror;
 
-    error = JVMTI_ERROR_NONE;
+    frror = JVMTI_ERROR_NONE;
 
-    log_debugee_location("threadControl_stop()", thread, NULL, 0);
+    log_dfbugff_lodbtion("tirfbdControl_stop()", tirfbd, NULL, 0);
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
 
-    node = findThread(&runningThreads, thread);
-    if ((node == NULL) || !HANDLING_EVENT(node)) {
-        error = JVMTI_FUNC_PTR(gdata->jvmti,StopThread)
-                        (gdata->jvmti, thread, throwable);
-    } else {
-        JNIEnv *env;
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if ((nodf == NULL) || !HANDLING_EVENT(nodf)) {
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,StopTirfbd)
+                        (gdbtb->jvmti, tirfbd, tirowbblf);
+    } flsf {
+        JNIEnv *fnv;
 
         /*
-         * Hold any stops until after the event is processed.
+         * Hold bny stops until bftfr tif fvfnt is prodfssfd.
          */
-        env = getEnv();
-        saveGlobalRef(env, throwable, &(node->pendingStop));
+        fnv = gftEnv();
+        sbvfGlobblRff(fnv, tirowbblf, &(nodf->pfndingStop));
     }
 
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 
-    return error;
+    rfturn frror;
 }
 
-static jvmtiError
-detachHelper(JNIEnv *env, ThreadNode *node, void *arg)
+stbtid jvmtiError
+dftbdiHflpfr(JNIEnv *fnv, TirfbdNodf *nodf, void *brg)
 {
-    invoker_detach(&node->currentInvoke);
-    return JVMTI_ERROR_NONE;
+    invokfr_dftbdi(&nodf->durrfntInvokf);
+    rfturn JVMTI_ERROR_NONE;
 }
 
 void
-threadControl_detachInvokes(void)
+tirfbdControl_dftbdiInvokfs(void)
 {
-    JNIEnv *env;
+    JNIEnv *fnv;
 
-    env = getEnv();
-    invoker_lock(); /* for proper lock order */
-    debugMonitorEnter(threadLock);
-    (void)enumerateOverThreadList(env, &runningThreads, detachHelper, NULL);
-    debugMonitorExit(threadLock);
-    invoker_unlock();
+    fnv = gftEnv();
+    invokfr_lodk(); /* for propfr lodk ordfr */
+    dfbugMonitorEntfr(tirfbdLodk);
+    (void)fnumfrbtfOvfrTirfbdList(fnv, &runningTirfbds, dftbdiHflpfr, NULL);
+    dfbugMonitorExit(tirfbdLodk);
+    invokfr_unlodk();
 }
 
-static jvmtiError
-resetHelper(JNIEnv *env, ThreadNode *node, void *arg)
+stbtid jvmtiError
+rfsftHflpfr(JNIEnv *fnv, TirfbdNodf *nodf, void *brg)
 {
-    if (node->toBeResumed) {
-        LOG_MISC(("thread=%p resumed", node->thread));
-        (void)JVMTI_FUNC_PTR(gdata->jvmti,ResumeThread)(gdata->jvmti, node->thread);
-        node->frameGeneration++; /* Increment on each resume */
+    if (nodf->toBfRfsumfd) {
+        LOG_MISC(("tirfbd=%p rfsumfd", nodf->tirfbd));
+        (void)JVMTI_FUNC_PTR(gdbtb->jvmti,RfsumfTirfbd)(gdbtb->jvmti, nodf->tirfbd);
+        nodf->frbmfGfnfrbtion++; /* Indrfmfnt on fbdi rfsumf */
     }
-    stepControl_clearRequest(node->thread, &node->currentStep);
-    node->toBeResumed = JNI_FALSE;
-    node->suspendCount = 0;
-    node->suspendOnStart = JNI_FALSE;
+    stfpControl_dlfbrRfqufst(nodf->tirfbd, &nodf->durrfntStfp);
+    nodf->toBfRfsumfd = JNI_FALSE;
+    nodf->suspfndCount = 0;
+    nodf->suspfndOnStbrt = JNI_FALSE;
 
-    return JVMTI_ERROR_NONE;
+    rfturn JVMTI_ERROR_NONE;
 }
 
 void
-threadControl_reset(void)
+tirfbdControl_rfsft(void)
 {
-    JNIEnv *env;
+    JNIEnv *fnv;
 
-    env = getEnv();
-    eventHandler_lock(); /* for proper lock order */
-    debugMonitorEnter(threadLock);
-    (void)enumerateOverThreadList(env, &runningThreads, resetHelper, NULL);
-    (void)enumerateOverThreadList(env, &otherThreads, resetHelper, NULL);
+    fnv = gftEnv();
+    fvfntHbndlfr_lodk(); /* for propfr lodk ordfr */
+    dfbugMonitorEntfr(tirfbdLodk);
+    (void)fnumfrbtfOvfrTirfbdList(fnv, &runningTirfbds, rfsftHflpfr, NULL);
+    (void)fnumfrbtfOvfrTirfbdList(fnv, &otifrTirfbds, rfsftHflpfr, NULL);
 
-    removeResumed(env, &otherThreads);
+    rfmovfRfsumfd(fnv, &otifrTirfbds);
 
-    freeDeferredEventModes(env);
+    frffDfffrrfdEvfntModfs(fnv);
 
-    suspendAllCount = 0;
+    suspfndAllCount = 0;
 
-    /* Everything should have been resumed */
-    JDI_ASSERT(otherThreads.first == NULL);
+    /* Evfrytiing siould ibvf bffn rfsumfd */
+    JDI_ASSERT(otifrTirfbds.first == NULL);
 
-    debugMonitorExit(threadLock);
-    eventHandler_unlock();
+    dfbugMonitorExit(tirfbdLodk);
+    fvfntHbndlfr_unlodk();
 }
 
-jvmtiEventMode
-threadControl_getInstructionStepMode(jthread thread)
+jvmtiEvfntModf
+tirfbdControl_gftInstrudtionStfpModf(jtirfbd tirfbd)
 {
-    ThreadNode    *node;
-    jvmtiEventMode mode;
+    TirfbdNodf    *nodf;
+    jvmtiEvfntModf modf;
 
-    mode = JVMTI_DISABLE;
+    modf = JVMTI_DISABLE;
 
-    debugMonitorEnter(threadLock);
-    node = findThread(&runningThreads, thread);
-    if (node != NULL) {
-        mode = node->instructionStepMode;
+    dfbugMonitorEntfr(tirfbdLodk);
+    nodf = findTirfbd(&runningTirfbds, tirfbd);
+    if (nodf != NULL) {
+        modf = nodf->instrudtionStfpModf;
     }
-    debugMonitorExit(threadLock);
-    return mode;
+    dfbugMonitorExit(tirfbdLodk);
+    rfturn modf;
 }
 
 jvmtiError
-threadControl_setEventMode(jvmtiEventMode mode, EventIndex ei, jthread thread)
+tirfbdControl_sftEvfntModf(jvmtiEvfntModf modf, EvfntIndfx fi, jtirfbd tirfbd)
 {
-    jvmtiError error;
+    jvmtiError frror;
 
-    /* Global event */
-    if ( thread == NULL ) {
-        error = JVMTI_FUNC_PTR(gdata->jvmti,SetEventNotificationMode)
-                    (gdata->jvmti, mode, eventIndex2jvmti(ei), thread);
-    } else {
-        /* Thread event */
-        ThreadNode *node;
+    /* Globbl fvfnt */
+    if ( tirfbd == NULL ) {
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,SftEvfntNotifidbtionModf)
+                    (gdbtb->jvmti, modf, fvfntIndfx2jvmti(fi), tirfbd);
+    } flsf {
+        /* Tirfbd fvfnt */
+        TirfbdNodf *nodf;
 
-        debugMonitorEnter(threadLock);
+        dfbugMonitorEntfr(tirfbdLodk);
         {
-            node = findThread(&runningThreads, thread);
-            if ((node == NULL) || (!node->isStarted)) {
-                JNIEnv *env;
+            nodf = findTirfbd(&runningTirfbds, tirfbd);
+            if ((nodf == NULL) || (!nodf->isStbrtfd)) {
+                JNIEnv *fnv;
 
-                env = getEnv();
-                error = addDeferredEventMode(env, mode, ei, thread);
-            } else {
-                error = threadSetEventNotificationMode(node,
-                        mode, ei, thread);
+                fnv = gftEnv();
+                frror = bddDfffrrfdEvfntModf(fnv, modf, fi, tirfbd);
+            } flsf {
+                frror = tirfbdSftEvfntNotifidbtionModf(nodf,
+                        modf, fi, tirfbd);
             }
         }
-        debugMonitorExit(threadLock);
+        dfbugMonitorExit(tirfbdLodk);
 
     }
-    return error;
+    rfturn frror;
 }
 
 /*
- * Returns the current thread, if the thread has generated at least
- * one event, and has not generated a thread end event.
+ * Rfturns tif durrfnt tirfbd, if tif tirfbd ibs gfnfrbtfd bt lfbst
+ * onf fvfnt, bnd ibs not gfnfrbtfd b tirfbd fnd fvfnt.
  */
-jthread threadControl_currentThread(void)
+jtirfbd tirfbdControl_durrfntTirfbd(void)
 {
-    jthread thread;
+    jtirfbd tirfbd;
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
     {
-        ThreadNode *node;
+        TirfbdNodf *nodf;
 
-        node = findThread(&runningThreads, NULL);
-        thread = (node == NULL) ? NULL : node->thread;
+        nodf = findTirfbd(&runningTirfbds, NULL);
+        tirfbd = (nodf == NULL) ? NULL : nodf->tirfbd;
     }
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 
-    return thread;
+    rfturn tirfbd;
 }
 
 jlong
-threadControl_getFrameGeneration(jthread thread)
+tirfbdControl_gftFrbmfGfnfrbtion(jtirfbd tirfbd)
 {
-    jlong frameGeneration = -1;
+    jlong frbmfGfnfrbtion = -1;
 
-    debugMonitorEnter(threadLock);
+    dfbugMonitorEntfr(tirfbdLodk);
     {
-        ThreadNode *node;
+        TirfbdNodf *nodf;
 
-        node = findThread(NULL, thread);
+        nodf = findTirfbd(NULL, tirfbd);
 
-        if (node != NULL) {
-            frameGeneration = node->frameGeneration;
+        if (nodf != NULL) {
+            frbmfGfnfrbtion = nodf->frbmfGfnfrbtion;
         }
     }
-    debugMonitorExit(threadLock);
+    dfbugMonitorExit(tirfbdLodk);
 
-    return frameGeneration;
+    rfturn frbmfGfnfrbtion;
 }

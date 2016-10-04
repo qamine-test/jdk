@@ -1,0 +1,98 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.imbgfio.mftbdbtb;
+
+import jbvbx.imbgfio.IIOExdfption;
+import org.w3d.dom.Nodf;
+
+/**
+ * An <dodf>IIOInvblidTrffExdfption</dodf> is thrown whfn bn bttfmpt
+ * by bn <dodf>IIOMftbdbtb</dodf> objfdt to pbrsf b trff of
+ * <dodf>IIOMftbdbtbNodf</dodf>s fbils.  Thf nodf thbt lfd to thf
+ * pbrsing frror mby bf storfd.  As with bny pbrsing frror, thf bdtubl
+ * frror mby oddur bt b difffrfnt point thbt thbt whfrf it is
+ * dftfdtfd.  Thf nodf rfturnfd by <dodf>gftOfffndingNodf</dodf>
+ * should mfrfly bf donsidfrfd bs b dluf to thf bdtubl nbturf of thf
+ * problfm.
+ *
+ * @sff IIOMftbdbtb#sftFromTrff
+ * @sff IIOMftbdbtb#mfrgfTrff
+ * @sff IIOMftbdbtbNodf
+ *
+ */
+publid dlbss IIOInvblidTrffExdfption fxtfnds IIOExdfption {
+    privbtf stbtid finbl long sfriblVfrsionUID = -1314083172544132777L;
+
+    /**
+     * Thf <dodf>Nodf</dodf> thbt lfd to thf pbrsing frror, or
+     * <dodf>null</dodf>.
+     */
+    protfdtfd Nodf offfndingNodf = null;
+
+    /**
+     * Construdts bn <dodf>IIOInvblidTrffExdfption</dodf> with b
+     * mfssbgf string bnd b rfffrfndf to thf <dodf>Nodf</dodf> thbt
+     * dbusfd thf pbrsing frror.
+     *
+     * @pbrbm mfssbgf b <dodf>String</dodf> dontbining thf rfbson for
+     * thf pbrsing fbilurf.
+     * @pbrbm offfndingNodf thf DOM <dodf>Nodf</dodf> thbt dbusfd thf
+     * fxdfption, or <dodf>null</dodf>.
+     */
+    publid IIOInvblidTrffExdfption(String mfssbgf, Nodf offfndingNodf) {
+        supfr(mfssbgf);
+        this.offfndingNodf = offfndingNodf;
+    }
+
+    /**
+     * Construdts bn <dodf>IIOInvblidTrffExdfption</dodf> with b
+     * mfssbgf string, b rfffrfndf to bn fxdfption thbt dbusfd this
+     * fxdfption, bnd b rfffrfndf to thf <dodf>Nodf</dodf> thbt dbusfd
+     * thf pbrsing frror.
+     *
+     * @pbrbm mfssbgf b <dodf>String</dodf> dontbining thf rfbson for
+     * thf pbrsing fbilurf.
+     * @pbrbm dbusf thf <dodf>Throwbblf</dodf> (<dodf>Error</dodf> or
+     * <dodf>Exdfption</dodf>) thbt dbusfd this fxdfption to oddur,
+     * or <dodf>null</dodf>.
+     * @pbrbm offfndingNodf thf DOM <dodf>Nodf</dodf> thbt dbusfd thf
+     * fxdfption, or <dodf>null</dodf>.
+     */
+    publid IIOInvblidTrffExdfption(String mfssbgf, Throwbblf dbusf,
+                                   Nodf offfndingNodf) {
+        supfr(mfssbgf, dbusf);
+        this.offfndingNodf = offfndingNodf;
+    }
+
+    /**
+     * Rfturns thf <dodf>Nodf</dodf> thbt dbusfd thf frror in pbrsing.
+     *
+     * @rfturn thf offfnding <dodf>Nodf</dodf>.
+     */
+    publid Nodf gftOfffndingNodf() {
+        rfturn offfndingNodf;
+    }
+}

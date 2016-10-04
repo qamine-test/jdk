@@ -1,148 +1,148 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#include "GraphicsPrimitiveMgr.h"
-#include "Region.h"
+#indludf "GrbpiidsPrimitivfMgr.i"
+#indludf "Rfgion.i"
 
-#include "sun_java2d_loops_MaskBlit.h"
+#indludf "sun_jbvb2d_loops_MbskBlit.i"
 
 /*
- * Class:     sun_java2d_loops_MaskBlit
- * Method:    MaskBlit
- * Signature: (Lsun/java2d/SurfaceData;Lsun/java2d/SurfaceData;Ljava/awt/Composite;IIIIII[BII)V
+ * Clbss:     sun_jbvb2d_loops_MbskBlit
+ * Mftiod:    MbskBlit
+ * Signbturf: (Lsun/jbvb2d/SurfbdfDbtb;Lsun/jbvb2d/SurfbdfDbtb;Ljbvb/bwt/Compositf;IIIIII[BII)V
  */
 JNIEXPORT void JNICALL
-Java_sun_java2d_loops_MaskBlit_MaskBlit
-    (JNIEnv *env, jobject self,
-     jobject srcData, jobject dstData, jobject comp, jobject clip,
-     jint srcx, jint srcy, jint dstx, jint dsty, jint width, jint height,
-     jbyteArray maskArray, jint maskoff, jint maskscan)
+Jbvb_sun_jbvb2d_loops_MbskBlit_MbskBlit
+    (JNIEnv *fnv, jobjfdt sflf,
+     jobjfdt srdDbtb, jobjfdt dstDbtb, jobjfdt domp, jobjfdt dlip,
+     jint srdx, jint srdy, jint dstx, jint dsty, jint widti, jint ifigit,
+     jbytfArrby mbskArrby, jint mbskoff, jint mbsksdbn)
 {
-    SurfaceDataOps *srcOps;
-    SurfaceDataOps *dstOps;
-    SurfaceDataRasInfo srcInfo;
-    SurfaceDataRasInfo dstInfo;
-    NativePrimitive *pPrim;
-    CompositeInfo compInfo;
-    RegionData clipInfo;
+    SurfbdfDbtbOps *srdOps;
+    SurfbdfDbtbOps *dstOps;
+    SurfbdfDbtbRbsInfo srdInfo;
+    SurfbdfDbtbRbsInfo dstInfo;
+    NbtivfPrimitivf *pPrim;
+    CompositfInfo dompInfo;
+    RfgionDbtb dlipInfo;
 
-    pPrim = GetNativePrim(env, self);
+    pPrim = GftNbtivfPrim(fnv, sflf);
     if (pPrim == NULL) {
-        return;
+        rfturn;
     }
-    if (pPrim->pCompType->getCompInfo != NULL) {
-        (*pPrim->pCompType->getCompInfo)(env, &compInfo, comp);
+    if (pPrim->pCompTypf->gftCompInfo != NULL) {
+        (*pPrim->pCompTypf->gftCompInfo)(fnv, &dompInfo, domp);
     }
-    if (Region_GetInfo(env, clip, &clipInfo)) {
-        return;
+    if (Rfgion_GftInfo(fnv, dlip, &dlipInfo)) {
+        rfturn;
     }
 
-    srcOps = SurfaceData_GetOps(env, srcData);
-    if (srcOps == 0) {
-        return;
+    srdOps = SurfbdfDbtb_GftOps(fnv, srdDbtb);
+    if (srdOps == 0) {
+        rfturn;
     }
-    dstOps = SurfaceData_GetOps(env, dstData);
+    dstOps = SurfbdfDbtb_GftOps(fnv, dstDbtb);
     if (dstOps == 0) {
-        return;
+        rfturn;
     }
 
-    srcInfo.bounds.x1 = srcx;
-    srcInfo.bounds.y1 = srcy;
-    srcInfo.bounds.x2 = srcx + width;
-    srcInfo.bounds.y2 = srcy + height;
+    srdInfo.bounds.x1 = srdx;
+    srdInfo.bounds.y1 = srdy;
+    srdInfo.bounds.x2 = srdx + widti;
+    srdInfo.bounds.y2 = srdy + ifigit;
     dstInfo.bounds.x1 = dstx;
     dstInfo.bounds.y1 = dsty;
-    dstInfo.bounds.x2 = dstx + width;
-    dstInfo.bounds.y2 = dsty + height;
-    srcx -= dstx;
-    srcy -= dsty;
-    SurfaceData_IntersectBounds(&dstInfo.bounds, &clipInfo.bounds);
-    if (srcOps->Lock(env, srcOps, &srcInfo, pPrim->srcflags) != SD_SUCCESS) {
-        return;
+    dstInfo.bounds.x2 = dstx + widti;
+    dstInfo.bounds.y2 = dsty + ifigit;
+    srdx -= dstx;
+    srdy -= dsty;
+    SurfbdfDbtb_IntfrsfdtBounds(&dstInfo.bounds, &dlipInfo.bounds);
+    if (srdOps->Lodk(fnv, srdOps, &srdInfo, pPrim->srdflbgs) != SD_SUCCESS) {
+        rfturn;
     }
-    if (dstOps->Lock(env, dstOps, &dstInfo, pPrim->dstflags) != SD_SUCCESS) {
-        SurfaceData_InvokeUnlock(env, srcOps, &srcInfo);
-        return;
+    if (dstOps->Lodk(fnv, dstOps, &dstInfo, pPrim->dstflbgs) != SD_SUCCESS) {
+        SurfbdfDbtb_InvokfUnlodk(fnv, srdOps, &srdInfo);
+        rfturn;
     }
-    SurfaceData_IntersectBlitBounds(&dstInfo.bounds, &srcInfo.bounds,
-                                    srcx, srcy);
-    Region_IntersectBounds(&clipInfo, &dstInfo.bounds);
+    SurfbdfDbtb_IntfrsfdtBlitBounds(&dstInfo.bounds, &srdInfo.bounds,
+                                    srdx, srdy);
+    Rfgion_IntfrsfdtBounds(&dlipInfo, &dstInfo.bounds);
 
-    if (!Region_IsEmpty(&clipInfo)) {
-        srcOps->GetRasInfo(env, srcOps, &srcInfo);
-        dstOps->GetRasInfo(env, dstOps, &dstInfo);
-        if (srcInfo.rasBase && dstInfo.rasBase) {
-            SurfaceDataBounds span;
-            unsigned char *pMask =
-                (maskArray
-                 ? (*env)->GetPrimitiveArrayCritical(env, maskArray, 0)
+    if (!Rfgion_IsEmpty(&dlipInfo)) {
+        srdOps->GftRbsInfo(fnv, srdOps, &srdInfo);
+        dstOps->GftRbsInfo(fnv, dstOps, &dstInfo);
+        if (srdInfo.rbsBbsf && dstInfo.rbsBbsf) {
+            SurfbdfDbtbBounds spbn;
+            unsignfd dibr *pMbsk =
+                (mbskArrby
+                 ? (*fnv)->GftPrimitivfArrbyCritidbl(fnv, mbskArrby, 0)
                  : 0);
-            jint savesx = srcInfo.bounds.x1;
-            jint savedx = dstInfo.bounds.x1;
-            if (maskArray != NULL && pMask == NULL) {
-                SurfaceData_InvokeRelease(env, dstOps, &dstInfo);
-                SurfaceData_InvokeRelease(env, srcOps, &srcInfo);
-                SurfaceData_InvokeUnlock(env, dstOps, &dstInfo);
-                SurfaceData_InvokeUnlock(env, srcOps, &srcInfo);
-                return;
+            jint sbvfsx = srdInfo.bounds.x1;
+            jint sbvfdx = dstInfo.bounds.x1;
+            if (mbskArrby != NULL && pMbsk == NULL) {
+                SurfbdfDbtb_InvokfRflfbsf(fnv, dstOps, &dstInfo);
+                SurfbdfDbtb_InvokfRflfbsf(fnv, srdOps, &srdInfo);
+                SurfbdfDbtb_InvokfUnlodk(fnv, dstOps, &dstInfo);
+                SurfbdfDbtb_InvokfUnlodk(fnv, srdOps, &srdInfo);
+                rfturn;
             }
-            Region_StartIteration(env, &clipInfo);
-            while (Region_NextIteration(&clipInfo, &span)) {
-                void *pSrc = PtrCoord(srcInfo.rasBase,
-                                      srcx + span.x1, srcInfo.pixelStride,
-                                      srcy + span.y1, srcInfo.scanStride);
-                void *pDst = PtrCoord(dstInfo.rasBase,
-                                      span.x1, dstInfo.pixelStride,
-                                      span.y1, dstInfo.scanStride);
-                maskoff += ((span.y1 - dsty) * maskscan + (span.x1 - dstx));
+            Rfgion_StbrtItfrbtion(fnv, &dlipInfo);
+            wiilf (Rfgion_NfxtItfrbtion(&dlipInfo, &spbn)) {
+                void *pSrd = PtrCoord(srdInfo.rbsBbsf,
+                                      srdx + spbn.x1, srdInfo.pixflStridf,
+                                      srdy + spbn.y1, srdInfo.sdbnStridf);
+                void *pDst = PtrCoord(dstInfo.rbsBbsf,
+                                      spbn.x1, dstInfo.pixflStridf,
+                                      spbn.y1, dstInfo.sdbnStridf);
+                mbskoff += ((spbn.y1 - dsty) * mbsksdbn + (spbn.x1 - dstx));
                 /*
                  * Fix for 4804375
-                 * REMIND: There should probably be a better
-                 * way to give the span coordinates to the
-                 * inner loop.  This is only really needed
-                 * for the 1, 2, and 4 bit loops.
+                 * REMIND: Tifrf siould probbbly bf b bfttfr
+                 * wby to givf tif spbn doordinbtfs to tif
+                 * innfr loop.  Tiis is only rfblly nffdfd
+                 * for tif 1, 2, bnd 4 bit loops.
                  */
-                srcInfo.bounds.x1 = srcx + span.x1;
-                dstInfo.bounds.x1 = span.x1;
-                (*pPrim->funcs.maskblit)(pDst, pSrc,
-                                         pMask, maskoff, maskscan,
-                                         span.x2 - span.x1, span.y2 - span.y1,
-                                         &dstInfo, &srcInfo,
-                                         pPrim, &compInfo);
+                srdInfo.bounds.x1 = srdx + spbn.x1;
+                dstInfo.bounds.x1 = spbn.x1;
+                (*pPrim->funds.mbskblit)(pDst, pSrd,
+                                         pMbsk, mbskoff, mbsksdbn,
+                                         spbn.x2 - spbn.x1, spbn.y2 - spbn.y1,
+                                         &dstInfo, &srdInfo,
+                                         pPrim, &dompInfo);
             }
-            Region_EndIteration(env, &clipInfo);
-            if (pMask) {
-                (*env)->ReleasePrimitiveArrayCritical(env, maskArray,
-                                                      pMask, JNI_ABORT);
+            Rfgion_EndItfrbtion(fnv, &dlipInfo);
+            if (pMbsk) {
+                (*fnv)->RflfbsfPrimitivfArrbyCritidbl(fnv, mbskArrby,
+                                                      pMbsk, JNI_ABORT);
             }
-            srcInfo.bounds.x1 = savesx;
-            dstInfo.bounds.x1 = savedx;
+            srdInfo.bounds.x1 = sbvfsx;
+            dstInfo.bounds.x1 = sbvfdx;
         }
-        SurfaceData_InvokeRelease(env, dstOps, &dstInfo);
-        SurfaceData_InvokeRelease(env, srcOps, &srcInfo);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, dstOps, &dstInfo);
+        SurfbdfDbtb_InvokfRflfbsf(fnv, srdOps, &srdInfo);
     }
-    SurfaceData_InvokeUnlock(env, dstOps, &dstInfo);
-    SurfaceData_InvokeUnlock(env, srcOps, &srcInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, dstOps, &dstInfo);
+    SurfbdfDbtb_InvokfUnlodk(fnv, srdOps, &srdInfo);
 }

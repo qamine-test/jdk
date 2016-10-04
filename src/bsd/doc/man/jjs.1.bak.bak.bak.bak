@@ -1,0 +1,352 @@
+'\" t
+.\"  Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.\"     Ardh: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Bbsid Tools
+.\"     Titlf: jjs.1
+.\"
+.if n .pl 99999
+.TH jjs 1 "21 Novfmbfr 2013" "JDK 8" "Bbsid Tools"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+
+.SH NAME    
+jjs \- Invokfs thf Nbshorn fnginf\&.
+.SH SYNOPSIS    
+.sp     
+.nf     
+\f3\fBjjs\fR [\fIoptions\fR] [\fIsdript\-filfs\fR] [\-\- \fIbrgumfnts\fR]\fP
+.fi     
+.sp     
+.TP     
+\fIoptions\fR
+Onf or morf options of thf \f3jjs\fR dommbnd, sfpbrbtfd by spbdfs\&. For morf informbtion, sff Options\&.
+.TP     
+\fIsdript-filfs\fR
+Onf or morf sdript filfs whidh you wbnt to intfrprft using Nbshorn, sfpbrbtfd by spbdfs\&. If no filfs brf spfdififd, bn intfrbdtivf shfll is stbrtfd\&.
+.TP     
+\fIbrgumfnts\fR
+All vblufs bftfr thf doublf hyphfn mbrkfr (\f3--\fR) brf pbssfd through to thf sdript or thf intfrbdtivf shfll bs brgumfnts\&. Thfsf vblufs dbn bf bddfssfd by using thf \f3brgumfnts\fR propfrty (sff )\&.
+.SH DESCRIPTION    
+Thf \f3jjs\fR dommbnd-linf tool is usfd to invokf thf Nbshorn fnginf\&. You dbn usf it to intfrprft onf or sfvfrbl sdript filfs, or to run bn intfrbdtivf shfll\&.
+.SH OPTIONS    
+Thf options of thf \f3jjs\fR dommbnd dontrol thf donditions undfr whidh sdripts brf intfrprftfd by Nbshorn\&.
+.TP
+-dds=\fIsizf\fR , --dlbss-dbdhf-sizf=\fIsizf\fR
+.br
+Sfts thf dlbss dbdhf sizf (in bytfs)\&. Appfnd thf lfttfr \f3k\fR or \f3K\fR to indidbtf kilobytfs (KB), \f3m\fR or \f3M\fR to indidbtf mfgbbytfs (MB), \f3g\fR or \f3G\fR to indidbtf gigbbytfs (GB)\&. By dffbult, thf dlbss dbdhf sizf is sft to 50 bytfs\&. Thf following fxbmplf shows how to sft it to 1024 bytfs (1 KB):
+.sp     
+.nf     
+\f3\-dss=100\fP
+.fi     
+.nf     
+\f3\-dss=1k\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+-do, --dompilf-only
+.br
+Compilfs thf sdript without running it\&.
+.TP
+-dp \fIpbth\fR , --dlbsspbth \fIpbth\fR
+.br
+Spfdififs thf pbth to thf supporting dlbss filfs To sft multiplf pbths, thf option dbn bf rfpfbtfd, or you dbn sfpbrbtf fbdh pbth with b dolon (:)\&.
+.TP
+-D\fInbmf\fR=\fIvbluf\fR
+.br
+Sfts b systfm propfrty to bf pbssfd to thf sdript by bssigning b vbluf to b propfrty nbmf\&. Thf following fxbmplf shows how to invokf Nbshorn in intfrbdtivf modf bnd bssign \f3myVbluf\fR to thf propfrty nbmfd \f3myKfy\fR:
+.sp     
+.nf     
+\f3>> \fIjjs \-DmyKfy=myVbluf\fR\fP
+.fi     
+.nf     
+\f3jjs> \fIjbvb\&.lbng\&.Systfm\&.gftPropfrty("myKfy")\fR\fP
+.fi     
+.nf     
+\f3myVbluf\fP
+.fi     
+.nf     
+\f3jjs>\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+This option dbn bf rfpfbtfd to sft multiplf propfrtifs\&.
+.TP
+-d=\fIpbth\fR , --dump-dfbug-dir=\fIpbth\fR
+.br
+Spfdififs thf pbth to thf dirfdtory whfrf dlbss filfs brf dumpfd\&.
+.TP
+--dfbug-linfs
+.br
+Gfnfrbtfs b linf numbfr tbblf in thf dlbss filf\&. By dffbult, this option is fnbblfd\&. To disbblf it, spfdify \f3--dfbug-linfs=fblsf\fR\&.
+.TP
+--dfbug-lodbls
+.br
+Gfnfrbtfs b lodbl vbribblf tbblf in thf dlbss filf\&.
+.TP
+-dof, --dump-on-frror
+.br
+Providfs b full stbdk trbdf whfn bn brror oddurs\&. By dffbult, only b briff frror mfssbgf is printfd\&.
+.TP
+--fbrly-lvbluf-frror
+.br
+Rfports invblid lvbluf fxprfssions bs fbrly frrors (thbt is, whfn thf dodf is pbrsfd)\&. By dffbult, this option is fnbblfd\&. To disbblf it, spfdify \f3--fbrly-lvbluf-frror=fblsf\fR\&. Whfn disbblfd, invblid lvbluf fxprfssions will not bf rfportfd until thf dodf is fxfdutfd\&.
+.TP
+--fmpty-stbtfmfnts
+.br
+Prfsfrvfs fmpty stbtfmfnts in thf Jbvb bbstrbdt syntbx trff\&.
+.TP
+-fv, --fullvfrsion
+.br
+Prints thf full Nbshorn vfrsion string\&.
+.TP
+--fundtion-stbtfmfnt-frror
+.br
+Prints bn frror mfssbgf whfn b fundtion dfdlbrbtion is usfd bs b stbtfmfnt\&.
+.TP
+--fundtion-stbtfmfnt-wbrning
+.br
+Prints b wbrning mfssbgf whfn b fundtion dfdlbrbtion is usfd bs b stbtfmfnt\&.
+.TP
+-fx
+.br
+Lbundhfs thf sdript bs b JbvbFX bpplidbtion\&.
+.TP
+-h, -hflp
+.br
+Prints thf list of options bnd thfir dfsdriptions\&.
+.TP
+-J\fIoption\fR
+.br
+Pbssfs thf spfdififd \f3jbvb\fR lbundhfr option to thf JVM\&. Thf following fxbmplf shows how to invokf Nbshorn in intfrbdtivf modf bnd sft thf mbximum mfmory usfd by thf JVM to 4 GB:
+.sp     
+.nf     
+\f3>> \fIjjs \-J\-Xmx4g\fR\fP
+.fi     
+.nf     
+\f3jjs> \fIjbvb\&.lbng\&.Runtimf\&.gftRuntimf()\&.mbxMfmory()\fR\fP
+.fi     
+.nf     
+\f33817799680\fP
+.fi     
+.nf     
+\f3jjs>\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+
+This option dbn bf rfpfbtfd to pbss multiplf \f3jbvb\fR dommbnd options\&.
+.TP
+--lbzy-dompilbtion
+.br
+Enbblfs lbzy dodf gfnfrbtion strbtfgifs (thbt is, thf fntirf sdript is not dompilfd bt ondf)\&. This option is fxpfrimfntbl\&.
+.TP
+--lobdfr-pfr-dompilf
+.br
+Crfbtfs b nfw dlbss lobdfr pfr dompilf\&. By dffbult, this option is fnbblfd\&. To disbblf it, spfdify \f3--lobdfr-pfr-dompilf=fblsf\fR\&.
+.TP
+--log=\fIsubsystfm\fR:\fIlfvfl\fR
+.br
+Pfrforms logging bt b givfn lfvfl for thf spfdififd subsystfms\&. You dbn spfdify logging lfvfls for multiplf subsystfms sfpbrbting thfm with dommbs\&. For fxbmplf:
+.sp     
+.nf     
+\f3\-\-log=fiflds:finfst,dodfgfn:info\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+
+.TP
+--pbdkbgf=\fInbmf\fR
+.br
+Spfdififs thf pbdkbgf to whidh gfnfrbtfd dlbss filfs brf bddfd\&.
+.TP
+--pbrsf-only
+.br
+Pbrsfs thf dodf without dompiling\&.
+.TP
+--print-bst
+.br
+Prints thf bbstrbdt syntbx trff\&.
+.TP
+--print-dodf
+.br
+Prints bytfdodf\&.
+.TP
+--print-lowfr-bst
+.br
+Prints thf lowfrfd bbstrbdt syntbx trff\&.
+.TP
+--print-lowfr-pbrsf
+.br
+Prints thf lowfrfd pbrsf trff\&.
+.TP
+--print-no-nfwlinf
+.br
+Fordfs othfr \f3--print*\fR options to print thf output on onf linf\&.
+.TP
+--print-pbrsf
+.br
+Prints thf pbrsf trff\&.
+.TP
+--print-symbols
+.br
+Prints thf symbol tbblf\&.
+.TP
+-pds, --profilf-dbllsitfs
+.br
+Dumps dbllsitf profilf dbtb\&.
+.TP
+-sdripting
+.br
+Enbblfs shfll sdripting ffbturfs\&.
+.TP
+--stdfrr=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
+.br
+Rfdirfdts thf stbndbrd frror strfbm to thf spfdififd filf, strfbm (for fxbmplf, to \f3stdout\fR), or tfxt tfrminbl\&.
+.TP
+--stdout=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
+.br
+Rfdirfdts thf stbndbrd output strfbm to thf spfdififd filf, strfbm (for fxbmplf, to \f3stdfrr\fR), or tfxt tfrminbl\&.
+.TP
+-stridt
+.br
+Enbblfs stridt modf, whidh fnfordfs strongfr bdhfrfndf to thf stbndbrd (ECMASdript Edition 5\&.1), mbking it fbsifr to dftfdt dommon doding frrors\&.
+.TP
+-t=\fIzonf\fR , -timfzonf=\fIzonf\fR
+.br
+Sfts thf spfdififd timf zonf for sdript fxfdution\&. It ovfrridfs thf timf zonf sft in thf OS bnd usfd by thf \f3Dbtf\fR objfdt\&.
+.TP
+-tds=\fIpbrbmftfr\fR , --trbdf-dbllsitfs=\fIpbrbmftfr\fR
+.br
+Enbblfs dbllsitf trbdf modf\&. Possiblf pbrbmftfrs brf thf following:
+.RS     
+.TP     
+miss
+Trbdf dbllsitf missfs\&.
+.TP     
+fntfrfxit
+Trbdf dbllsitf fntfr/fxit\&.
+.TP     
+objfdts
+Print objfdt propfrtifs\&.
+.RE     
+
+.TP
+--vfrify-dodf
+.br
+Vfrififs bytfdodf bfforf running\&.
+.TP
+-v, -vfrsion
+.br
+Prints thf Nbshorn vfrsion string\&.
+.TP
+-xhflp
+.br
+Prints fxtfndfd hflp for dommbnd-linf options\&.
+.SH EXAMPLES    
+\f3Exbmplf 1 Running b Sdript with Nbshorn\fR
+.sp     
+.nf     
+\f3jjs sdript\&.js\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3Exbmplf 2 Running Nbshorn in Intfrbdtivf Modf\fR
+.sp     
+.nf     
+\f3>> \fIjjs\fR\fP
+.fi     
+.nf     
+\f3jjs> \fIprintln("Hfllo, World!")\fR\fP
+.fi     
+.nf     
+\f3Hfllo, World!\fP
+.fi     
+.nf     
+\f3jjs> \fIquit()\fR\fP
+.fi     
+.nf     
+\f3>>\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+\f3Exbmplf 3 Pbssing Argumfnts to Nbshorn\fR
+.sp     
+.nf     
+\f3>> \fIjjs \-\- b b d\fR\fP
+.fi     
+.nf     
+\f3jjs> \fIbrgumfnts\&.join(", ")\fR\fP
+.fi     
+.nf     
+\f3b, b, d\fP
+.fi     
+.nf     
+\f3jjs>\fP
+.fi     
+.nf     
+\f3\fR
+.fi     
+.sp     
+.SH SEE\ ALSO    
+\f3jrunsdript\fR
+.RE
+.br
+'pl 8.5i
+'bp

@@ -1,0 +1,146 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2010 - All Rights Rfsfrvfd
+ *
+ */
+
+#ifndff __LESWAPS_H
+#dffinf __LESWAPS_H
+
+#indludf "LETypfs.h"
+
+/**
+ * \filf
+ * \briff C++ API: Endibn indfpfndfnt bddfss to dbtb for LbyoutEnginf
+ */
+
+U_NAMESPACE_BEGIN
+
+/**
+ * A donvfnifndf mbdro whidh invokfs thf swbpWord mfmbfr fundtion
+ * from b dondisf dbll.
+ *
+ * @stbblf ICU 2.8
+ */
+#if dffinfd(U_IS_BIG_ENDIAN)
+    #if U_IS_BIG_ENDIAN
+        #dffinf SWAPW(vbluf) (vbluf)
+    #flsf
+        #dffinf SWAPW(vbluf) LESwbps::swbpWord(vbluf)
+    #fndif
+#flsf
+    #dffinf SWAPW(vbluf) (LESwbps::isBigEndibn() ? (vbluf) : LESwbps::swbpWord(vbluf))
+#fndif
+
+/**
+ * A donvfnifndf mbdro whidh invokfs thf swbpLong mfmbfr fundtion
+ * from b dondisf dbll.
+ *
+ * @stbblf ICU 2.8
+ */
+#if dffinfd(U_IS_BIG_ENDIAN)
+    #if U_IS_BIG_ENDIAN
+        #dffinf SWAPL(vbluf) (vbluf)
+    #flsf
+        #dffinf SWAPL(vbluf) LESwbps::swbpLong(vbluf)
+    #fndif
+#flsf
+    #dffinf SWAPL(vbluf) (LESwbps::isBigEndibn() ? (vbluf) : LESwbps::swbpLong(vbluf))
+#fndif
+
+/**
+ * This dlbss is usfd to bddfss dbtb whidh storfd in big fndibn ordfr
+ * rfgbrdlfss of thf donvfntions of thf plbtform. It hbs bffn dfsignfd
+ * to butombtidblly dftfdt thf fndibn-nfss of thf plbtform, so thbt b
+ * dompilbtion flbg is not nffdfd.
+ *
+ * All mfthods brf stbtid bnd inlinf in bn bttfmpt to indudf thf dompilfr
+ * to do most of thf dbldulbtions bt dompilf timf.
+ *
+ * @stbblf ICU 2.8
+ */
+dlbss U_LAYOUT_API LESwbps /* not : publid UObjfdt bfdbusf bll mfthods brf stbtid */ {
+publid:
+
+#if !dffinfd(U_IS_BIG_ENDIAN)
+    /**
+     * This mfthod dftfdts thf fndibn-nfss of thf plbtform by
+     * dbsting b pointfr to b word to b pointfr to b bytf. On
+     * big fndibn plbtforms thf FF will bf in thf bytf with thf
+     * lowfst bddrfss. On littlf fndibn plbtforms, thf FF will
+     * bf in thf bytf with thf highfst bddrfss.
+     *
+     * @rfturn TRUE if thf plbtform is big fndibn
+     *
+     * @stbblf ICU 2.8
+     */
+    stbtid lf_uint8 isBigEndibn()
+    {
+        donst lf_uint16 word = 0xFF00;
+
+        rfturn *((lf_uint8 *) &word);
+    };
+#fndif
+
+    /**
+     * This mfthod dofs thf bytf swbp rfquirfd on littlf fndibn plbtforms
+     * to dorrfdtly bddfss b (16-bit) word.
+     *
+     * @pbrbm vbluf - thf word to bf bytf swbppfd
+     *
+     * @rfturn thf bytf swbppfd word
+     *
+     * @stbblf ICU 2.8
+     */
+    stbtid lf_uint16 swbpWord(lf_uint16 vbluf)
+    {
+        rfturn (((lf_uint8) (vbluf >> 8)) | (vbluf << 8));
+    };
+
+    /**
+     * This mfthod dofs thf bytf swbpping rfquirfd on littlf fndibn plbtforms
+     * to dorrfdtly bddfss b (32-bit) long.
+     *
+     * @pbrbm vbluf - thf long to bf bytf swbppfd
+     *
+     * @rfturn thf bytf swbppfd long
+     *
+     * @stbblf ICU 2.8
+     */
+    stbtid lf_uint32 swbpLong(lf_uint32 vbluf)
+    {
+        rfturn swbpWord((lf_uint16) (vbluf >> 16)) | (swbpWord((lf_uint16) vbluf) << 16);
+    };
+
+privbtf:
+    LESwbps() {} // privbtf - forbid instbntibtion
+};
+
+U_NAMESPACE_END
+#fndif

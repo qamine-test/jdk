@@ -1,1323 +1,1323 @@
 /*
- * Copyright (c) 2002, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2002, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.swing;
+pbdkbgf sun.swing;
 
-import static sun.swing.SwingUtilities2.BASICMENUITEMUI_MAX_TEXT_OFFSET;
+import stbtid sun.swing.SwingUtilitifs2.BASICMENUITEMUI_MAX_TEXT_OFFSET;
 
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicHTML;
-import javax.swing.text.View;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.Map;
-import java.util.HashMap;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.bbsid.BbsidHTML;
+import jbvbx.swing.tfxt.Vifw;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.KfyEvfnt;
+import jbvb.util.Mbp;
+import jbvb.util.HbsiMbp;
 
 /**
- * Calculates preferred size and layouts menu items.
+ * Cbldulbtfs prfffrrfd sizf bnd lbyouts mfnu itfms.
  */
-public class MenuItemLayoutHelper {
+publid dlbss MfnuItfmLbyoutHflpfr {
 
-    /* Client Property keys for calculation of maximal widths */
-    public static final StringUIClientPropertyKey MAX_ARROW_WIDTH =
-                        new StringUIClientPropertyKey("maxArrowWidth");
-    public static final StringUIClientPropertyKey MAX_CHECK_WIDTH =
-                        new StringUIClientPropertyKey("maxCheckWidth");
-    public static final StringUIClientPropertyKey MAX_ICON_WIDTH =
-                        new StringUIClientPropertyKey("maxIconWidth");
-    public static final StringUIClientPropertyKey MAX_TEXT_WIDTH =
-                        new StringUIClientPropertyKey("maxTextWidth");
-    public static final StringUIClientPropertyKey MAX_ACC_WIDTH =
-                        new StringUIClientPropertyKey("maxAccWidth");
-    public static final StringUIClientPropertyKey MAX_LABEL_WIDTH =
-                        new StringUIClientPropertyKey("maxLabelWidth");
+    /* Clifnt Propfrty kfys for dbldulbtion of mbximbl widtis */
+    publid stbtid finbl StringUIClifntPropfrtyKfy MAX_ARROW_WIDTH =
+                        nfw StringUIClifntPropfrtyKfy("mbxArrowWidti");
+    publid stbtid finbl StringUIClifntPropfrtyKfy MAX_CHECK_WIDTH =
+                        nfw StringUIClifntPropfrtyKfy("mbxCifdkWidti");
+    publid stbtid finbl StringUIClifntPropfrtyKfy MAX_ICON_WIDTH =
+                        nfw StringUIClifntPropfrtyKfy("mbxIdonWidti");
+    publid stbtid finbl StringUIClifntPropfrtyKfy MAX_TEXT_WIDTH =
+                        nfw StringUIClifntPropfrtyKfy("mbxTfxtWidti");
+    publid stbtid finbl StringUIClifntPropfrtyKfy MAX_ACC_WIDTH =
+                        nfw StringUIClifntPropfrtyKfy("mbxAddWidti");
+    publid stbtid finbl StringUIClifntPropfrtyKfy MAX_LABEL_WIDTH =
+                        nfw StringUIClifntPropfrtyKfy("mbxLbbflWidti");
 
-    private JMenuItem mi;
-    private JComponent miParent;
+    privbtf JMfnuItfm mi;
+    privbtf JComponfnt miPbrfnt;
 
-    private Font font;
-    private Font accFont;
-    private FontMetrics fm;
-    private FontMetrics accFm;
+    privbtf Font font;
+    privbtf Font bddFont;
+    privbtf FontMftrids fm;
+    privbtf FontMftrids bddFm;
 
-    private Icon icon;
-    private Icon checkIcon;
-    private Icon arrowIcon;
-    private String text;
-    private String accText;
+    privbtf Idon idon;
+    privbtf Idon difdkIdon;
+    privbtf Idon brrowIdon;
+    privbtf String tfxt;
+    privbtf String bddTfxt;
 
-    private boolean isColumnLayout;
-    private boolean useCheckAndArrow;
-    private boolean isLeftToRight;
-    private boolean isTopLevelMenu;
-    private View htmlView;
+    privbtf boolfbn isColumnLbyout;
+    privbtf boolfbn usfCifdkAndArrow;
+    privbtf boolfbn isLfftToRigit;
+    privbtf boolfbn isTopLfvflMfnu;
+    privbtf Vifw itmlVifw;
 
-    private int verticalAlignment;
-    private int horizontalAlignment;
-    private int verticalTextPosition;
-    private int horizontalTextPosition;
-    private int gap;
-    private int leadingGap;
-    private int afterCheckIconGap;
-    private int minTextOffset;
+    privbtf int vfrtidblAlignmfnt;
+    privbtf int iorizontblAlignmfnt;
+    privbtf int vfrtidblTfxtPosition;
+    privbtf int iorizontblTfxtPosition;
+    privbtf int gbp;
+    privbtf int lfbdingGbp;
+    privbtf int bftfrCifdkIdonGbp;
+    privbtf int minTfxtOffsft;
 
-    private int leftTextExtraWidth;
+    privbtf int lfftTfxtExtrbWidti;
 
-    private Rectangle viewRect;
+    privbtf Rfdtbnglf vifwRfdt;
 
-    private RectSize iconSize;
-    private RectSize textSize;
-    private RectSize accSize;
-    private RectSize checkSize;
-    private RectSize arrowSize;
-    private RectSize labelSize;
+    privbtf RfdtSizf idonSizf;
+    privbtf RfdtSizf tfxtSizf;
+    privbtf RfdtSizf bddSizf;
+    privbtf RfdtSizf difdkSizf;
+    privbtf RfdtSizf brrowSizf;
+    privbtf RfdtSizf lbbflSizf;
 
     /**
-     * The empty protected constructor is necessary for derived classes.
+     * Tif fmpty protfdtfd donstrudtor is nfdfssbry for dfrivfd dlbssfs.
      */
-    protected MenuItemLayoutHelper() {
+    protfdtfd MfnuItfmLbyoutHflpfr() {
     }
 
-    public MenuItemLayoutHelper(JMenuItem mi, Icon checkIcon, Icon arrowIcon,
-                      Rectangle viewRect, int gap, String accDelimiter,
-                      boolean isLeftToRight, Font font, Font accFont,
-                      boolean useCheckAndArrow, String propertyPrefix) {
-        reset(mi, checkIcon, arrowIcon, viewRect, gap, accDelimiter,
-              isLeftToRight, font, accFont, useCheckAndArrow, propertyPrefix);
+    publid MfnuItfmLbyoutHflpfr(JMfnuItfm mi, Idon difdkIdon, Idon brrowIdon,
+                      Rfdtbnglf vifwRfdt, int gbp, String bddDflimitfr,
+                      boolfbn isLfftToRigit, Font font, Font bddFont,
+                      boolfbn usfCifdkAndArrow, String propfrtyPrffix) {
+        rfsft(mi, difdkIdon, brrowIdon, vifwRfdt, gbp, bddDflimitfr,
+              isLfftToRigit, font, bddFont, usfCifdkAndArrow, propfrtyPrffix);
     }
 
-    protected void reset(JMenuItem mi, Icon checkIcon, Icon arrowIcon,
-                      Rectangle viewRect, int gap, String accDelimiter,
-                      boolean isLeftToRight, Font font, Font accFont,
-                      boolean useCheckAndArrow, String propertyPrefix) {
-        this.mi = mi;
-        this.miParent = getMenuItemParent(mi);
-        this.accText = getAccText(accDelimiter);
-        this.verticalAlignment = mi.getVerticalAlignment();
-        this.horizontalAlignment = mi.getHorizontalAlignment();
-        this.verticalTextPosition = mi.getVerticalTextPosition();
-        this.horizontalTextPosition = mi.getHorizontalTextPosition();
-        this.useCheckAndArrow = useCheckAndArrow;
-        this.font = font;
-        this.accFont = accFont;
-        this.fm = mi.getFontMetrics(font);
-        this.accFm = mi.getFontMetrics(accFont);
-        this.isLeftToRight = isLeftToRight;
-        this.isColumnLayout = isColumnLayout(isLeftToRight,
-                horizontalAlignment, horizontalTextPosition,
-                verticalTextPosition);
-        this.isTopLevelMenu = (this.miParent == null) ? true : false;
-        this.checkIcon = checkIcon;
-        this.icon = getIcon(propertyPrefix);
-        this.arrowIcon = arrowIcon;
-        this.text = mi.getText();
-        this.gap = gap;
-        this.afterCheckIconGap = getAfterCheckIconGap(propertyPrefix);
-        this.minTextOffset = getMinTextOffset(propertyPrefix);
-        this.htmlView = (View) mi.getClientProperty(BasicHTML.propertyKey);
-        this.viewRect = viewRect;
+    protfdtfd void rfsft(JMfnuItfm mi, Idon difdkIdon, Idon brrowIdon,
+                      Rfdtbnglf vifwRfdt, int gbp, String bddDflimitfr,
+                      boolfbn isLfftToRigit, Font font, Font bddFont,
+                      boolfbn usfCifdkAndArrow, String propfrtyPrffix) {
+        tiis.mi = mi;
+        tiis.miPbrfnt = gftMfnuItfmPbrfnt(mi);
+        tiis.bddTfxt = gftAddTfxt(bddDflimitfr);
+        tiis.vfrtidblAlignmfnt = mi.gftVfrtidblAlignmfnt();
+        tiis.iorizontblAlignmfnt = mi.gftHorizontblAlignmfnt();
+        tiis.vfrtidblTfxtPosition = mi.gftVfrtidblTfxtPosition();
+        tiis.iorizontblTfxtPosition = mi.gftHorizontblTfxtPosition();
+        tiis.usfCifdkAndArrow = usfCifdkAndArrow;
+        tiis.font = font;
+        tiis.bddFont = bddFont;
+        tiis.fm = mi.gftFontMftrids(font);
+        tiis.bddFm = mi.gftFontMftrids(bddFont);
+        tiis.isLfftToRigit = isLfftToRigit;
+        tiis.isColumnLbyout = isColumnLbyout(isLfftToRigit,
+                iorizontblAlignmfnt, iorizontblTfxtPosition,
+                vfrtidblTfxtPosition);
+        tiis.isTopLfvflMfnu = (tiis.miPbrfnt == null) ? truf : fblsf;
+        tiis.difdkIdon = difdkIdon;
+        tiis.idon = gftIdon(propfrtyPrffix);
+        tiis.brrowIdon = brrowIdon;
+        tiis.tfxt = mi.gftTfxt();
+        tiis.gbp = gbp;
+        tiis.bftfrCifdkIdonGbp = gftAftfrCifdkIdonGbp(propfrtyPrffix);
+        tiis.minTfxtOffsft = gftMinTfxtOffsft(propfrtyPrffix);
+        tiis.itmlVifw = (Vifw) mi.gftClifntPropfrty(BbsidHTML.propfrtyKfy);
+        tiis.vifwRfdt = vifwRfdt;
 
-        this.iconSize = new RectSize();
-        this.textSize = new RectSize();
-        this.accSize = new RectSize();
-        this.checkSize = new RectSize();
-        this.arrowSize = new RectSize();
-        this.labelSize = new RectSize();
-        calcExtraWidths();
-        calcWidthsAndHeights();
-        setOriginalWidths();
-        calcMaxWidths();
+        tiis.idonSizf = nfw RfdtSizf();
+        tiis.tfxtSizf = nfw RfdtSizf();
+        tiis.bddSizf = nfw RfdtSizf();
+        tiis.difdkSizf = nfw RfdtSizf();
+        tiis.brrowSizf = nfw RfdtSizf();
+        tiis.lbbflSizf = nfw RfdtSizf();
+        dbldExtrbWidtis();
+        dbldWidtisAndHfigits();
+        sftOriginblWidtis();
+        dbldMbxWidtis();
 
-        this.leadingGap = getLeadingGap(propertyPrefix);
-        calcMaxTextOffset(viewRect);
+        tiis.lfbdingGbp = gftLfbdingGbp(propfrtyPrffix);
+        dbldMbxTfxtOffsft(vifwRfdt);
     }
 
-    private void calcExtraWidths() {
-        leftTextExtraWidth = getLeftExtraWidth(text);
+    privbtf void dbldExtrbWidtis() {
+        lfftTfxtExtrbWidti = gftLfftExtrbWidti(tfxt);
     }
 
-    private int getLeftExtraWidth(String str) {
-        int lsb = SwingUtilities2.getLeftSideBearing(mi, fm, str);
+    privbtf int gftLfftExtrbWidti(String str) {
+        int lsb = SwingUtilitifs2.gftLfftSidfBfbring(mi, fm, str);
         if (lsb < 0) {
-            return -lsb;
-        } else {
-            return 0;
+            rfturn -lsb;
+        } flsf {
+            rfturn 0;
         }
     }
 
-    private void setOriginalWidths() {
-        iconSize.origWidth = iconSize.width;
-        textSize.origWidth = textSize.width;
-        accSize.origWidth = accSize.width;
-        checkSize.origWidth = checkSize.width;
-        arrowSize.origWidth = arrowSize.width;
+    privbtf void sftOriginblWidtis() {
+        idonSizf.origWidti = idonSizf.widti;
+        tfxtSizf.origWidti = tfxtSizf.widti;
+        bddSizf.origWidti = bddSizf.widti;
+        difdkSizf.origWidti = difdkSizf.widti;
+        brrowSizf.origWidti = brrowSizf.widti;
     }
 
-    private String getAccText(String acceleratorDelimiter) {
-        String accText = "";
-        KeyStroke accelerator = mi.getAccelerator();
-        if (accelerator != null) {
-            int modifiers = accelerator.getModifiers();
-            if (modifiers > 0) {
-                accText = KeyEvent.getKeyModifiersText(modifiers);
-                accText += acceleratorDelimiter;
+    privbtf String gftAddTfxt(String bddflfrbtorDflimitfr) {
+        String bddTfxt = "";
+        KfyStrokf bddflfrbtor = mi.gftAddflfrbtor();
+        if (bddflfrbtor != null) {
+            int modififrs = bddflfrbtor.gftModififrs();
+            if (modififrs > 0) {
+                bddTfxt = KfyEvfnt.gftKfyModififrsTfxt(modififrs);
+                bddTfxt += bddflfrbtorDflimitfr;
             }
-            int keyCode = accelerator.getKeyCode();
-            if (keyCode != 0) {
-                accText += KeyEvent.getKeyText(keyCode);
-            } else {
-                accText += accelerator.getKeyChar();
-            }
-        }
-        return accText;
-    }
-
-    private Icon getIcon(String propertyPrefix) {
-        // In case of column layout, .checkIconFactory is defined for this UI,
-        // the icon is compatible with it and useCheckAndArrow() is true,
-        // then the icon is handled by the checkIcon.
-        Icon icon = null;
-        MenuItemCheckIconFactory iconFactory =
-                (MenuItemCheckIconFactory) UIManager.get(propertyPrefix
-                        + ".checkIconFactory");
-        if (!isColumnLayout || !useCheckAndArrow || iconFactory == null
-                || !iconFactory.isCompatible(checkIcon, propertyPrefix)) {
-            icon = mi.getIcon();
-        }
-        return icon;
-    }
-
-    private int getMinTextOffset(String propertyPrefix) {
-        int minimumTextOffset = 0;
-        Object minimumTextOffsetObject =
-                UIManager.get(propertyPrefix + ".minimumTextOffset");
-        if (minimumTextOffsetObject instanceof Integer) {
-            minimumTextOffset = (Integer) minimumTextOffsetObject;
-        }
-        return minimumTextOffset;
-    }
-
-    private int getAfterCheckIconGap(String propertyPrefix) {
-        int afterCheckIconGap = gap;
-        Object afterCheckIconGapObject =
-                UIManager.get(propertyPrefix + ".afterCheckIconGap");
-        if (afterCheckIconGapObject instanceof Integer) {
-            afterCheckIconGap = (Integer) afterCheckIconGapObject;
-        }
-        return afterCheckIconGap;
-    }
-
-    private int getLeadingGap(String propertyPrefix) {
-        if (checkSize.getMaxWidth() > 0) {
-            return getCheckOffset(propertyPrefix);
-        } else {
-            return gap; // There is no any check icon
-        }
-    }
-
-    private int getCheckOffset(String propertyPrefix) {
-        int checkIconOffset = gap;
-        Object checkIconOffsetObject =
-                UIManager.get(propertyPrefix + ".checkIconOffset");
-        if (checkIconOffsetObject instanceof Integer) {
-            checkIconOffset = (Integer) checkIconOffsetObject;
-        }
-        return checkIconOffset;
-    }
-
-    protected void calcWidthsAndHeights() {
-        // iconRect
-        if (icon != null) {
-            iconSize.width = icon.getIconWidth();
-            iconSize.height = icon.getIconHeight();
-        }
-
-        // accRect
-        if (!accText.equals("")) {
-            accSize.width = SwingUtilities2.stringWidth(mi, accFm, accText);
-            accSize.height = accFm.getHeight();
-        }
-
-        // textRect
-        if (text == null) {
-            text = "";
-        } else if (!text.equals("")) {
-            if (htmlView != null) {
-                // Text is HTML
-                textSize.width =
-                        (int) htmlView.getPreferredSpan(View.X_AXIS);
-                textSize.height =
-                        (int) htmlView.getPreferredSpan(View.Y_AXIS);
-            } else {
-                // Text isn't HTML
-                textSize.width = SwingUtilities2.stringWidth(mi, fm, text);
-                textSize.height = fm.getHeight();
+            int kfyCodf = bddflfrbtor.gftKfyCodf();
+            if (kfyCodf != 0) {
+                bddTfxt += KfyEvfnt.gftKfyTfxt(kfyCodf);
+            } flsf {
+                bddTfxt += bddflfrbtor.gftKfyCibr();
             }
         }
+        rfturn bddTfxt;
+    }
 
-        if (useCheckAndArrow) {
-            // checkIcon
-            if (checkIcon != null) {
-                checkSize.width = checkIcon.getIconWidth();
-                checkSize.height = checkIcon.getIconHeight();
-            }
-            // arrowRect
-            if (arrowIcon != null) {
-                arrowSize.width = arrowIcon.getIconWidth();
-                arrowSize.height = arrowIcon.getIconHeight();
+    privbtf Idon gftIdon(String propfrtyPrffix) {
+        // In dbsf of dolumn lbyout, .difdkIdonFbdtory is dffinfd for tiis UI,
+        // tif idon is dompbtiblf witi it bnd usfCifdkAndArrow() is truf,
+        // tifn tif idon is ibndlfd by tif difdkIdon.
+        Idon idon = null;
+        MfnuItfmCifdkIdonFbdtory idonFbdtory =
+                (MfnuItfmCifdkIdonFbdtory) UIMbnbgfr.gft(propfrtyPrffix
+                        + ".difdkIdonFbdtory");
+        if (!isColumnLbyout || !usfCifdkAndArrow || idonFbdtory == null
+                || !idonFbdtory.isCompbtiblf(difdkIdon, propfrtyPrffix)) {
+            idon = mi.gftIdon();
+        }
+        rfturn idon;
+    }
+
+    privbtf int gftMinTfxtOffsft(String propfrtyPrffix) {
+        int minimumTfxtOffsft = 0;
+        Objfdt minimumTfxtOffsftObjfdt =
+                UIMbnbgfr.gft(propfrtyPrffix + ".minimumTfxtOffsft");
+        if (minimumTfxtOffsftObjfdt instbndfof Intfgfr) {
+            minimumTfxtOffsft = (Intfgfr) minimumTfxtOffsftObjfdt;
+        }
+        rfturn minimumTfxtOffsft;
+    }
+
+    privbtf int gftAftfrCifdkIdonGbp(String propfrtyPrffix) {
+        int bftfrCifdkIdonGbp = gbp;
+        Objfdt bftfrCifdkIdonGbpObjfdt =
+                UIMbnbgfr.gft(propfrtyPrffix + ".bftfrCifdkIdonGbp");
+        if (bftfrCifdkIdonGbpObjfdt instbndfof Intfgfr) {
+            bftfrCifdkIdonGbp = (Intfgfr) bftfrCifdkIdonGbpObjfdt;
+        }
+        rfturn bftfrCifdkIdonGbp;
+    }
+
+    privbtf int gftLfbdingGbp(String propfrtyPrffix) {
+        if (difdkSizf.gftMbxWidti() > 0) {
+            rfturn gftCifdkOffsft(propfrtyPrffix);
+        } flsf {
+            rfturn gbp; // Tifrf is no bny difdk idon
+        }
+    }
+
+    privbtf int gftCifdkOffsft(String propfrtyPrffix) {
+        int difdkIdonOffsft = gbp;
+        Objfdt difdkIdonOffsftObjfdt =
+                UIMbnbgfr.gft(propfrtyPrffix + ".difdkIdonOffsft");
+        if (difdkIdonOffsftObjfdt instbndfof Intfgfr) {
+            difdkIdonOffsft = (Intfgfr) difdkIdonOffsftObjfdt;
+        }
+        rfturn difdkIdonOffsft;
+    }
+
+    protfdtfd void dbldWidtisAndHfigits() {
+        // idonRfdt
+        if (idon != null) {
+            idonSizf.widti = idon.gftIdonWidti();
+            idonSizf.ifigit = idon.gftIdonHfigit();
+        }
+
+        // bddRfdt
+        if (!bddTfxt.fqubls("")) {
+            bddSizf.widti = SwingUtilitifs2.stringWidti(mi, bddFm, bddTfxt);
+            bddSizf.ifigit = bddFm.gftHfigit();
+        }
+
+        // tfxtRfdt
+        if (tfxt == null) {
+            tfxt = "";
+        } flsf if (!tfxt.fqubls("")) {
+            if (itmlVifw != null) {
+                // Tfxt is HTML
+                tfxtSizf.widti =
+                        (int) itmlVifw.gftPrfffrrfdSpbn(Vifw.X_AXIS);
+                tfxtSizf.ifigit =
+                        (int) itmlVifw.gftPrfffrrfdSpbn(Vifw.Y_AXIS);
+            } flsf {
+                // Tfxt isn't HTML
+                tfxtSizf.widti = SwingUtilitifs2.stringWidti(mi, fm, tfxt);
+                tfxtSizf.ifigit = fm.gftHfigit();
             }
         }
 
-        // labelRect
-        if (isColumnLayout) {
-            labelSize.width = iconSize.width + textSize.width + gap;
-            labelSize.height = max(checkSize.height, iconSize.height,
-                    textSize.height, accSize.height, arrowSize.height);
-        } else {
-            Rectangle textRect = new Rectangle();
-            Rectangle iconRect = new Rectangle();
-            SwingUtilities.layoutCompoundLabel(mi, fm, text, icon,
-                    verticalAlignment, horizontalAlignment,
-                    verticalTextPosition, horizontalTextPosition,
-                    viewRect, iconRect, textRect, gap);
-            textRect.width += leftTextExtraWidth;
-            Rectangle labelRect = iconRect.union(textRect);
-            labelSize.height = labelRect.height;
-            labelSize.width = labelRect.width;
+        if (usfCifdkAndArrow) {
+            // difdkIdon
+            if (difdkIdon != null) {
+                difdkSizf.widti = difdkIdon.gftIdonWidti();
+                difdkSizf.ifigit = difdkIdon.gftIdonHfigit();
+            }
+            // brrowRfdt
+            if (brrowIdon != null) {
+                brrowSizf.widti = brrowIdon.gftIdonWidti();
+                brrowSizf.ifigit = brrowIdon.gftIdonHfigit();
+            }
+        }
+
+        // lbbflRfdt
+        if (isColumnLbyout) {
+            lbbflSizf.widti = idonSizf.widti + tfxtSizf.widti + gbp;
+            lbbflSizf.ifigit = mbx(difdkSizf.ifigit, idonSizf.ifigit,
+                    tfxtSizf.ifigit, bddSizf.ifigit, brrowSizf.ifigit);
+        } flsf {
+            Rfdtbnglf tfxtRfdt = nfw Rfdtbnglf();
+            Rfdtbnglf idonRfdt = nfw Rfdtbnglf();
+            SwingUtilitifs.lbyoutCompoundLbbfl(mi, fm, tfxt, idon,
+                    vfrtidblAlignmfnt, iorizontblAlignmfnt,
+                    vfrtidblTfxtPosition, iorizontblTfxtPosition,
+                    vifwRfdt, idonRfdt, tfxtRfdt, gbp);
+            tfxtRfdt.widti += lfftTfxtExtrbWidti;
+            Rfdtbnglf lbbflRfdt = idonRfdt.union(tfxtRfdt);
+            lbbflSizf.ifigit = lbbflRfdt.ifigit;
+            lbbflSizf.widti = lbbflRfdt.widti;
         }
     }
 
-    protected void calcMaxWidths() {
-        calcMaxWidth(checkSize, MAX_CHECK_WIDTH);
-        calcMaxWidth(arrowSize, MAX_ARROW_WIDTH);
-        calcMaxWidth(accSize, MAX_ACC_WIDTH);
+    protfdtfd void dbldMbxWidtis() {
+        dbldMbxWidti(difdkSizf, MAX_CHECK_WIDTH);
+        dbldMbxWidti(brrowSizf, MAX_ARROW_WIDTH);
+        dbldMbxWidti(bddSizf, MAX_ACC_WIDTH);
 
-        if (isColumnLayout) {
-            calcMaxWidth(iconSize, MAX_ICON_WIDTH);
-            calcMaxWidth(textSize, MAX_TEXT_WIDTH);
-            int curGap = gap;
-            if ((iconSize.getMaxWidth() == 0)
-                    || (textSize.getMaxWidth() == 0)) {
-                curGap = 0;
+        if (isColumnLbyout) {
+            dbldMbxWidti(idonSizf, MAX_ICON_WIDTH);
+            dbldMbxWidti(tfxtSizf, MAX_TEXT_WIDTH);
+            int durGbp = gbp;
+            if ((idonSizf.gftMbxWidti() == 0)
+                    || (tfxtSizf.gftMbxWidti() == 0)) {
+                durGbp = 0;
             }
-            labelSize.maxWidth =
-                    calcMaxValue(MAX_LABEL_WIDTH, iconSize.maxWidth
-                            + textSize.maxWidth + curGap);
-        } else {
-            // We shouldn't use current icon and text widths
-            // in maximal widths calculation for complex layout.
-            iconSize.maxWidth = getParentIntProperty(MAX_ICON_WIDTH);
-            calcMaxWidth(labelSize, MAX_LABEL_WIDTH);
-            // If maxLabelWidth is wider
-            // than the widest icon + the widest text + gap,
-            // we should update the maximal text witdh
-            int candidateTextWidth = labelSize.maxWidth - iconSize.maxWidth;
-            if (iconSize.maxWidth > 0) {
-                candidateTextWidth -= gap;
+            lbbflSizf.mbxWidti =
+                    dbldMbxVbluf(MAX_LABEL_WIDTH, idonSizf.mbxWidti
+                            + tfxtSizf.mbxWidti + durGbp);
+        } flsf {
+            // Wf siouldn't usf durrfnt idon bnd tfxt widtis
+            // in mbximbl widtis dbldulbtion for domplfx lbyout.
+            idonSizf.mbxWidti = gftPbrfntIntPropfrty(MAX_ICON_WIDTH);
+            dbldMbxWidti(lbbflSizf, MAX_LABEL_WIDTH);
+            // If mbxLbbflWidti is widfr
+            // tibn tif widfst idon + tif widfst tfxt + gbp,
+            // wf siould updbtf tif mbximbl tfxt witdi
+            int dbndidbtfTfxtWidti = lbbflSizf.mbxWidti - idonSizf.mbxWidti;
+            if (idonSizf.mbxWidti > 0) {
+                dbndidbtfTfxtWidti -= gbp;
             }
-            textSize.maxWidth = calcMaxValue(MAX_TEXT_WIDTH, candidateTextWidth);
+            tfxtSizf.mbxWidti = dbldMbxVbluf(MAX_TEXT_WIDTH, dbndidbtfTfxtWidti);
         }
     }
 
-    protected void calcMaxWidth(RectSize rs, Object key) {
-        rs.maxWidth = calcMaxValue(key, rs.width);
+    protfdtfd void dbldMbxWidti(RfdtSizf rs, Objfdt kfy) {
+        rs.mbxWidti = dbldMbxVbluf(kfy, rs.widti);
     }
 
     /**
-     * Calculates and returns maximal value through specified parent component
-     * client property.
+     * Cbldulbtfs bnd rfturns mbximbl vbluf tirougi spfdififd pbrfnt domponfnt
+     * dlifnt propfrty.
      *
-     * @param propertyName name of the property, which stores the maximal value.
-     * @param value a value which pretends to be maximal
-     * @return maximal value among the parent property and the value.
+     * @pbrbm propfrtyNbmf nbmf of tif propfrty, wiidi storfs tif mbximbl vbluf.
+     * @pbrbm vbluf b vbluf wiidi prftfnds to bf mbximbl
+     * @rfturn mbximbl vbluf bmong tif pbrfnt propfrty bnd tif vbluf.
      */
-    protected int calcMaxValue(Object propertyName, int value) {
-        // Get maximal value from parent client property
-        int maxValue = getParentIntProperty(propertyName);
-        // Store new maximal width in parent client property
-        if (value > maxValue) {
-            if (miParent != null) {
-                miParent.putClientProperty(propertyName, value);
+    protfdtfd int dbldMbxVbluf(Objfdt propfrtyNbmf, int vbluf) {
+        // Gft mbximbl vbluf from pbrfnt dlifnt propfrty
+        int mbxVbluf = gftPbrfntIntPropfrty(propfrtyNbmf);
+        // Storf nfw mbximbl widti in pbrfnt dlifnt propfrty
+        if (vbluf > mbxVbluf) {
+            if (miPbrfnt != null) {
+                miPbrfnt.putClifntPropfrty(propfrtyNbmf, vbluf);
             }
-            return value;
-        } else {
-            return maxValue;
+            rfturn vbluf;
+        } flsf {
+            rfturn mbxVbluf;
         }
     }
 
     /**
-     * Returns parent client property as int.
-     * @param propertyName name of the parent property.
-     * @return value of the property as int.
+     * Rfturns pbrfnt dlifnt propfrty bs int.
+     * @pbrbm propfrtyNbmf nbmf of tif pbrfnt propfrty.
+     * @rfturn vbluf of tif propfrty bs int.
      */
-    protected int getParentIntProperty(Object propertyName) {
-        Object value = null;
-        if (miParent != null) {
-            value = miParent.getClientProperty(propertyName);
+    protfdtfd int gftPbrfntIntPropfrty(Objfdt propfrtyNbmf) {
+        Objfdt vbluf = null;
+        if (miPbrfnt != null) {
+            vbluf = miPbrfnt.gftClifntPropfrty(propfrtyNbmf);
         }
-        if ((value == null) || !(value instanceof Integer)) {
-            value = 0;
+        if ((vbluf == null) || !(vbluf instbndfof Intfgfr)) {
+            vbluf = 0;
         }
-        return (Integer) value;
+        rfturn (Intfgfr) vbluf;
     }
 
-    public static boolean isColumnLayout(boolean isLeftToRight,
-                                         JMenuItem mi) {
-        assert(mi != null);
-        return isColumnLayout(isLeftToRight, mi.getHorizontalAlignment(),
-                mi.getHorizontalTextPosition(), mi.getVerticalTextPosition());
+    publid stbtid boolfbn isColumnLbyout(boolfbn isLfftToRigit,
+                                         JMfnuItfm mi) {
+        bssfrt(mi != null);
+        rfturn isColumnLbyout(isLfftToRigit, mi.gftHorizontblAlignmfnt(),
+                mi.gftHorizontblTfxtPosition(), mi.gftVfrtidblTfxtPosition());
     }
 
     /**
-     * Answers should we do column layout for a menu item or not.
-     * We do it when a user doesn't set any alignments
-     * and text positions manually, except the vertical alignment.
+     * Answfrs siould wf do dolumn lbyout for b mfnu itfm or not.
+     * Wf do it wifn b usfr dofsn't sft bny blignmfnts
+     * bnd tfxt positions mbnublly, fxdfpt tif vfrtidbl blignmfnt.
      */
-    public static boolean isColumnLayout(boolean isLeftToRight,
-                                         int horizontalAlignment,
-                                         int horizontalTextPosition,
-                                         int verticalTextPosition) {
-        if (verticalTextPosition != SwingConstants.CENTER) {
-            return false;
+    publid stbtid boolfbn isColumnLbyout(boolfbn isLfftToRigit,
+                                         int iorizontblAlignmfnt,
+                                         int iorizontblTfxtPosition,
+                                         int vfrtidblTfxtPosition) {
+        if (vfrtidblTfxtPosition != SwingConstbnts.CENTER) {
+            rfturn fblsf;
         }
-        if (isLeftToRight) {
-            if (horizontalAlignment != SwingConstants.LEADING
-                    && horizontalAlignment != SwingConstants.LEFT) {
-                return false;
+        if (isLfftToRigit) {
+            if (iorizontblAlignmfnt != SwingConstbnts.LEADING
+                    && iorizontblAlignmfnt != SwingConstbnts.LEFT) {
+                rfturn fblsf;
             }
-            if (horizontalTextPosition != SwingConstants.TRAILING
-                    && horizontalTextPosition != SwingConstants.RIGHT) {
-                return false;
+            if (iorizontblTfxtPosition != SwingConstbnts.TRAILING
+                    && iorizontblTfxtPosition != SwingConstbnts.RIGHT) {
+                rfturn fblsf;
             }
-        } else {
-            if (horizontalAlignment != SwingConstants.LEADING
-                    && horizontalAlignment != SwingConstants.RIGHT) {
-                return false;
+        } flsf {
+            if (iorizontblAlignmfnt != SwingConstbnts.LEADING
+                    && iorizontblAlignmfnt != SwingConstbnts.RIGHT) {
+                rfturn fblsf;
             }
-            if (horizontalTextPosition != SwingConstants.TRAILING
-                    && horizontalTextPosition != SwingConstants.LEFT) {
-                return false;
+            if (iorizontblTfxtPosition != SwingConstbnts.TRAILING
+                    && iorizontblTfxtPosition != SwingConstbnts.LEFT) {
+                rfturn fblsf;
             }
         }
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Calculates maximal text offset.
-     * It is required for some L&Fs (ex: Vista L&F).
-     * The offset is meaningful only for L2R column layout.
+     * Cbldulbtfs mbximbl tfxt offsft.
+     * It is rfquirfd for somf L&Fs (fx: Vistb L&F).
+     * Tif offsft is mfbningful only for L2R dolumn lbyout.
      *
-     * @param viewRect the rectangle, the maximal text offset
-     * will be calculated for.
+     * @pbrbm vifwRfdt tif rfdtbnglf, tif mbximbl tfxt offsft
+     * will bf dbldulbtfd for.
      */
-    private void calcMaxTextOffset(Rectangle viewRect) {
-        if (!isColumnLayout || !isLeftToRight) {
-            return;
+    privbtf void dbldMbxTfxtOffsft(Rfdtbnglf vifwRfdt) {
+        if (!isColumnLbyout || !isLfftToRigit) {
+            rfturn;
         }
 
-        // Calculate the current text offset
-        int offset = viewRect.x + leadingGap + checkSize.maxWidth
-                + afterCheckIconGap + iconSize.maxWidth + gap;
-        if (checkSize.maxWidth == 0) {
-            offset -= afterCheckIconGap;
+        // Cbldulbtf tif durrfnt tfxt offsft
+        int offsft = vifwRfdt.x + lfbdingGbp + difdkSizf.mbxWidti
+                + bftfrCifdkIdonGbp + idonSizf.mbxWidti + gbp;
+        if (difdkSizf.mbxWidti == 0) {
+            offsft -= bftfrCifdkIdonGbp;
         }
-        if (iconSize.maxWidth == 0) {
-            offset -= gap;
-        }
-
-        // maximal text offset shouldn't be less than minimal text offset;
-        if (offset < minTextOffset) {
-            offset = minTextOffset;
+        if (idonSizf.mbxWidti == 0) {
+            offsft -= gbp;
         }
 
-        // Calculate and store the maximal text offset
-        calcMaxValue(SwingUtilities2.BASICMENUITEMUI_MAX_TEXT_OFFSET, offset);
+        // mbximbl tfxt offsft siouldn't bf lfss tibn minimbl tfxt offsft;
+        if (offsft < minTfxtOffsft) {
+            offsft = minTfxtOffsft;
+        }
+
+        // Cbldulbtf bnd storf tif mbximbl tfxt offsft
+        dbldMbxVbluf(SwingUtilitifs2.BASICMENUITEMUI_MAX_TEXT_OFFSET, offsft);
     }
 
     /**
-     * Layout icon, text, check icon, accelerator text and arrow icon
-     * in the viewRect and return their positions.
+     * Lbyout idon, tfxt, difdk idon, bddflfrbtor tfxt bnd brrow idon
+     * in tif vifwRfdt bnd rfturn tifir positions.
      *
-     * If horizontalAlignment, verticalTextPosition and horizontalTextPosition
-     * are default (user doesn't set any manually) the layouting algorithm is:
-     * Elements are layouted in the five columns:
-     * check icon + icon + text + accelerator text + arrow icon
+     * If iorizontblAlignmfnt, vfrtidblTfxtPosition bnd iorizontblTfxtPosition
+     * brf dffbult (usfr dofsn't sft bny mbnublly) tif lbyouting blgoritim is:
+     * Elfmfnts brf lbyoutfd in tif fivf dolumns:
+     * difdk idon + idon + tfxt + bddflfrbtor tfxt + brrow idon
      *
-     * In the other case elements are layouted in the four columns:
-     * check icon + label + accelerator text + arrow icon
-     * Label is union of icon and text.
+     * In tif otifr dbsf flfmfnts brf lbyoutfd in tif four dolumns:
+     * difdk idon + lbbfl + bddflfrbtor tfxt + brrow idon
+     * Lbbfl is union of idon bnd tfxt.
      *
-     * The order of columns can be reversed.
-     * It depends on the menu item orientation.
+     * Tif ordfr of dolumns dbn bf rfvfrsfd.
+     * It dfpfnds on tif mfnu itfm orifntbtion.
      */
-    public LayoutResult layoutMenuItem() {
-        LayoutResult lr = createLayoutResult();
-        prepareForLayout(lr);
+    publid LbyoutRfsult lbyoutMfnuItfm() {
+        LbyoutRfsult lr = drfbtfLbyoutRfsult();
+        prfpbrfForLbyout(lr);
 
-        if (isColumnLayout()) {
-            if (isLeftToRight()) {
-                doLTRColumnLayout(lr, getLTRColumnAlignment());
-            } else {
-                doRTLColumnLayout(lr, getRTLColumnAlignment());
+        if (isColumnLbyout()) {
+            if (isLfftToRigit()) {
+                doLTRColumnLbyout(lr, gftLTRColumnAlignmfnt());
+            } flsf {
+                doRTLColumnLbyout(lr, gftRTLColumnAlignmfnt());
             }
-        } else {
-            if (isLeftToRight()) {
-                doLTRComplexLayout(lr, getLTRColumnAlignment());
-            } else {
-                doRTLComplexLayout(lr, getRTLColumnAlignment());
+        } flsf {
+            if (isLfftToRigit()) {
+                doLTRComplfxLbyout(lr, gftLTRColumnAlignmfnt());
+            } flsf {
+                doRTLComplfxLbyout(lr, gftRTLColumnAlignmfnt());
             }
         }
 
-        alignAccCheckAndArrowVertically(lr);
-        return lr;
+        blignAddCifdkAndArrowVfrtidblly(lr);
+        rfturn lr;
     }
 
-    private LayoutResult createLayoutResult() {
-        return new LayoutResult(
-                new Rectangle(iconSize.width, iconSize.height),
-                new Rectangle(textSize.width, textSize.height),
-                new Rectangle(accSize.width,  accSize.height),
-                new Rectangle(checkSize.width, checkSize.height),
-                new Rectangle(arrowSize.width, arrowSize.height),
-                new Rectangle(labelSize.width, labelSize.height)
+    privbtf LbyoutRfsult drfbtfLbyoutRfsult() {
+        rfturn nfw LbyoutRfsult(
+                nfw Rfdtbnglf(idonSizf.widti, idonSizf.ifigit),
+                nfw Rfdtbnglf(tfxtSizf.widti, tfxtSizf.ifigit),
+                nfw Rfdtbnglf(bddSizf.widti,  bddSizf.ifigit),
+                nfw Rfdtbnglf(difdkSizf.widti, difdkSizf.ifigit),
+                nfw Rfdtbnglf(brrowSizf.widti, brrowSizf.ifigit),
+                nfw Rfdtbnglf(lbbflSizf.widti, lbbflSizf.ifigit)
         );
     }
 
-    public ColumnAlignment getLTRColumnAlignment() {
-        return ColumnAlignment.LEFT_ALIGNMENT;
+    publid ColumnAlignmfnt gftLTRColumnAlignmfnt() {
+        rfturn ColumnAlignmfnt.LEFT_ALIGNMENT;
     }
 
-    public ColumnAlignment getRTLColumnAlignment() {
-        return ColumnAlignment.RIGHT_ALIGNMENT;
+    publid ColumnAlignmfnt gftRTLColumnAlignmfnt() {
+        rfturn ColumnAlignmfnt.RIGHT_ALIGNMENT;
     }
 
-    protected void prepareForLayout(LayoutResult lr) {
-        lr.checkRect.width = checkSize.maxWidth;
-        lr.accRect.width = accSize.maxWidth;
-        lr.arrowRect.width = arrowSize.maxWidth;
-    }
-
-    /**
-     * Aligns the accelertor text and the check and arrow icons vertically
-     * with the center of the label rect.
-     */
-    private void alignAccCheckAndArrowVertically(LayoutResult lr) {
-        lr.accRect.y = (int)(lr.labelRect.y
-                + (float)lr.labelRect.height/2
-                - (float)lr.accRect.height/2);
-        fixVerticalAlignment(lr, lr.accRect);
-        if (useCheckAndArrow) {
-            lr.arrowRect.y = (int)(lr.labelRect.y
-                    + (float)lr.labelRect.height/2
-                    - (float)lr.arrowRect.height/2);
-            lr.checkRect.y = (int)(lr.labelRect.y
-                    + (float)lr.labelRect.height/2
-                    - (float)lr.checkRect.height/2);
-            fixVerticalAlignment(lr, lr.arrowRect);
-            fixVerticalAlignment(lr, lr.checkRect);
-        }
+    protfdtfd void prfpbrfForLbyout(LbyoutRfsult lr) {
+        lr.difdkRfdt.widti = difdkSizf.mbxWidti;
+        lr.bddRfdt.widti = bddSizf.mbxWidti;
+        lr.brrowRfdt.widti = brrowSizf.mbxWidti;
     }
 
     /**
-     * Fixes vertical alignment of all menu item elements if rect.y
-     * or (rect.y + rect.height) is out of viewRect bounds
+     * Aligns tif bddflfrtor tfxt bnd tif difdk bnd brrow idons vfrtidblly
+     * witi tif dfntfr of tif lbbfl rfdt.
      */
-    private void fixVerticalAlignment(LayoutResult lr, Rectangle r) {
-        int delta = 0;
-        if (r.y < viewRect.y) {
-            delta = viewRect.y - r.y;
-        } else if (r.y + r.height > viewRect.y + viewRect.height) {
-            delta = viewRect.y + viewRect.height - r.y - r.height;
-        }
-        if (delta != 0) {
-            lr.checkRect.y += delta;
-            lr.iconRect.y += delta;
-            lr.textRect.y += delta;
-            lr.accRect.y += delta;
-            lr.arrowRect.y += delta;
-            lr.labelRect.y += delta;
+    privbtf void blignAddCifdkAndArrowVfrtidblly(LbyoutRfsult lr) {
+        lr.bddRfdt.y = (int)(lr.lbbflRfdt.y
+                + (flobt)lr.lbbflRfdt.ifigit/2
+                - (flobt)lr.bddRfdt.ifigit/2);
+        fixVfrtidblAlignmfnt(lr, lr.bddRfdt);
+        if (usfCifdkAndArrow) {
+            lr.brrowRfdt.y = (int)(lr.lbbflRfdt.y
+                    + (flobt)lr.lbbflRfdt.ifigit/2
+                    - (flobt)lr.brrowRfdt.ifigit/2);
+            lr.difdkRfdt.y = (int)(lr.lbbflRfdt.y
+                    + (flobt)lr.lbbflRfdt.ifigit/2
+                    - (flobt)lr.difdkRfdt.ifigit/2);
+            fixVfrtidblAlignmfnt(lr, lr.brrowRfdt);
+            fixVfrtidblAlignmfnt(lr, lr.difdkRfdt);
         }
     }
 
-    private void doLTRColumnLayout(LayoutResult lr, ColumnAlignment alignment) {
-        // Set maximal width for all the five basic rects
-        // (three other ones are already maximal)
-        lr.iconRect.width = iconSize.maxWidth;
-        lr.textRect.width = textSize.maxWidth;
-
-        // Set X coordinates
-        // All rects will be aligned at the left side
-        calcXPositionsLTR(viewRect.x, leadingGap, gap, lr.checkRect,
-                lr.iconRect, lr.textRect);
-
-        // Tune afterCheckIconGap
-        if (lr.checkRect.width > 0) { // there is the afterCheckIconGap
-            lr.iconRect.x += afterCheckIconGap - gap;
-            lr.textRect.x += afterCheckIconGap - gap;
+    /**
+     * Fixfs vfrtidbl blignmfnt of bll mfnu itfm flfmfnts if rfdt.y
+     * or (rfdt.y + rfdt.ifigit) is out of vifwRfdt bounds
+     */
+    privbtf void fixVfrtidblAlignmfnt(LbyoutRfsult lr, Rfdtbnglf r) {
+        int dfltb = 0;
+        if (r.y < vifwRfdt.y) {
+            dfltb = vifwRfdt.y - r.y;
+        } flsf if (r.y + r.ifigit > vifwRfdt.y + vifwRfdt.ifigit) {
+            dfltb = vifwRfdt.y + vifwRfdt.ifigit - r.y - r.ifigit;
         }
-
-        calcXPositionsRTL(viewRect.x + viewRect.width, leadingGap, gap,
-                lr.arrowRect, lr.accRect);
-
-        // Take into account minimal text offset
-        int textOffset = lr.textRect.x - viewRect.x;
-        if (!isTopLevelMenu && (textOffset < minTextOffset)) {
-            lr.textRect.x += minTextOffset - textOffset;
+        if (dfltb != 0) {
+            lr.difdkRfdt.y += dfltb;
+            lr.idonRfdt.y += dfltb;
+            lr.tfxtRfdt.y += dfltb;
+            lr.bddRfdt.y += dfltb;
+            lr.brrowRfdt.y += dfltb;
+            lr.lbbflRfdt.y += dfltb;
         }
-
-        alignRects(lr, alignment);
-
-        // Set Y coordinate for text and icon.
-        // Y coordinates for other rects
-        // will be calculated later in layoutMenuItem.
-        calcTextAndIconYPositions(lr);
-
-        // Calculate valid X and Y coordinates for labelRect
-        lr.setLabelRect(lr.textRect.union(lr.iconRect));
     }
 
-    private void doLTRComplexLayout(LayoutResult lr, ColumnAlignment alignment) {
-        lr.labelRect.width = labelSize.maxWidth;
+    privbtf void doLTRColumnLbyout(LbyoutRfsult lr, ColumnAlignmfnt blignmfnt) {
+        // Sft mbximbl widti for bll tif fivf bbsid rfdts
+        // (tirff otifr onfs brf blrfbdy mbximbl)
+        lr.idonRfdt.widti = idonSizf.mbxWidti;
+        lr.tfxtRfdt.widti = tfxtSizf.mbxWidti;
 
-        // Set X coordinates
-        calcXPositionsLTR(viewRect.x, leadingGap, gap, lr.checkRect,
-                lr.labelRect);
+        // Sft X doordinbtfs
+        // All rfdts will bf blignfd bt tif lfft sidf
+        dbldXPositionsLTR(vifwRfdt.x, lfbdingGbp, gbp, lr.difdkRfdt,
+                lr.idonRfdt, lr.tfxtRfdt);
 
-        // Tune afterCheckIconGap
-        if (lr.checkRect.width > 0) { // there is the afterCheckIconGap
-            lr.labelRect.x += afterCheckIconGap - gap;
+        // Tunf bftfrCifdkIdonGbp
+        if (lr.difdkRfdt.widti > 0) { // tifrf is tif bftfrCifdkIdonGbp
+            lr.idonRfdt.x += bftfrCifdkIdonGbp - gbp;
+            lr.tfxtRfdt.x += bftfrCifdkIdonGbp - gbp;
         }
 
-        calcXPositionsRTL(viewRect.x + viewRect.width,
-                leadingGap, gap, lr.arrowRect, lr.accRect);
+        dbldXPositionsRTL(vifwRfdt.x + vifwRfdt.widti, lfbdingGbp, gbp,
+                lr.brrowRfdt, lr.bddRfdt);
 
-        // Take into account minimal text offset
-        int labelOffset = lr.labelRect.x - viewRect.x;
-        if (!isTopLevelMenu && (labelOffset < minTextOffset)) {
-            lr.labelRect.x += minTextOffset - labelOffset;
+        // Tbkf into bddount minimbl tfxt offsft
+        int tfxtOffsft = lr.tfxtRfdt.x - vifwRfdt.x;
+        if (!isTopLfvflMfnu && (tfxtOffsft < minTfxtOffsft)) {
+            lr.tfxtRfdt.x += minTfxtOffsft - tfxtOffsft;
         }
 
-        alignRects(lr, alignment);
+        blignRfdts(lr, blignmfnt);
 
-        // Center labelRect vertically
-        calcLabelYPosition(lr);
+        // Sft Y doordinbtf for tfxt bnd idon.
+        // Y doordinbtfs for otifr rfdts
+        // will bf dbldulbtfd lbtfr in lbyoutMfnuItfm.
+        dbldTfxtAndIdonYPositions(lr);
 
-        layoutIconAndTextInLabelRect(lr);
+        // Cbldulbtf vblid X bnd Y doordinbtfs for lbbflRfdt
+        lr.sftLbbflRfdt(lr.tfxtRfdt.union(lr.idonRfdt));
     }
 
-    private void doRTLColumnLayout(LayoutResult lr, ColumnAlignment alignment) {
-        // Set maximal width for all the five basic rects
-        // (three other ones are already maximal)
-        lr.iconRect.width = iconSize.maxWidth;
-        lr.textRect.width = textSize.maxWidth;
+    privbtf void doLTRComplfxLbyout(LbyoutRfsult lr, ColumnAlignmfnt blignmfnt) {
+        lr.lbbflRfdt.widti = lbbflSizf.mbxWidti;
 
-        // Set X coordinates
-        calcXPositionsRTL(viewRect.x + viewRect.width, leadingGap, gap,
-                lr.checkRect, lr.iconRect, lr.textRect);
+        // Sft X doordinbtfs
+        dbldXPositionsLTR(vifwRfdt.x, lfbdingGbp, gbp, lr.difdkRfdt,
+                lr.lbbflRfdt);
 
-        // Tune the gap after check icon
-        if (lr.checkRect.width > 0) { // there is the gap after check icon
-            lr.iconRect.x -= afterCheckIconGap - gap;
-            lr.textRect.x -= afterCheckIconGap - gap;
+        // Tunf bftfrCifdkIdonGbp
+        if (lr.difdkRfdt.widti > 0) { // tifrf is tif bftfrCifdkIdonGbp
+            lr.lbbflRfdt.x += bftfrCifdkIdonGbp - gbp;
         }
 
-        calcXPositionsLTR(viewRect.x, leadingGap, gap, lr.arrowRect,
-                lr.accRect);
+        dbldXPositionsRTL(vifwRfdt.x + vifwRfdt.widti,
+                lfbdingGbp, gbp, lr.brrowRfdt, lr.bddRfdt);
 
-        // Take into account minimal text offset
-        int textOffset = (viewRect.x + viewRect.width)
-                       - (lr.textRect.x + lr.textRect.width);
-        if (!isTopLevelMenu && (textOffset < minTextOffset)) {
-            lr.textRect.x -= minTextOffset - textOffset;
+        // Tbkf into bddount minimbl tfxt offsft
+        int lbbflOffsft = lr.lbbflRfdt.x - vifwRfdt.x;
+        if (!isTopLfvflMfnu && (lbbflOffsft < minTfxtOffsft)) {
+            lr.lbbflRfdt.x += minTfxtOffsft - lbbflOffsft;
         }
 
-        alignRects(lr, alignment);
+        blignRfdts(lr, blignmfnt);
 
-        // Set Y coordinates for text and icon.
-        // Y coordinates for other rects
-        // will be calculated later in layoutMenuItem.
-        calcTextAndIconYPositions(lr);
+        // Cfntfr lbbflRfdt vfrtidblly
+        dbldLbbflYPosition(lr);
 
-        // Calculate valid X and Y coordinate for labelRect
-        lr.setLabelRect(lr.textRect.union(lr.iconRect));
+        lbyoutIdonAndTfxtInLbbflRfdt(lr);
     }
 
-    private void doRTLComplexLayout(LayoutResult lr, ColumnAlignment alignment) {
-        lr.labelRect.width = labelSize.maxWidth;
+    privbtf void doRTLColumnLbyout(LbyoutRfsult lr, ColumnAlignmfnt blignmfnt) {
+        // Sft mbximbl widti for bll tif fivf bbsid rfdts
+        // (tirff otifr onfs brf blrfbdy mbximbl)
+        lr.idonRfdt.widti = idonSizf.mbxWidti;
+        lr.tfxtRfdt.widti = tfxtSizf.mbxWidti;
 
-        // Set X coordinates
-        calcXPositionsRTL(viewRect.x + viewRect.width, leadingGap, gap,
-                lr.checkRect, lr.labelRect);
+        // Sft X doordinbtfs
+        dbldXPositionsRTL(vifwRfdt.x + vifwRfdt.widti, lfbdingGbp, gbp,
+                lr.difdkRfdt, lr.idonRfdt, lr.tfxtRfdt);
 
-        // Tune the gap after check icon
-        if (lr.checkRect.width > 0) { // there is the gap after check icon
-            lr.labelRect.x -= afterCheckIconGap - gap;
+        // Tunf tif gbp bftfr difdk idon
+        if (lr.difdkRfdt.widti > 0) { // tifrf is tif gbp bftfr difdk idon
+            lr.idonRfdt.x -= bftfrCifdkIdonGbp - gbp;
+            lr.tfxtRfdt.x -= bftfrCifdkIdonGbp - gbp;
         }
 
-        calcXPositionsLTR(viewRect.x, leadingGap, gap, lr.arrowRect, lr.accRect);
+        dbldXPositionsLTR(vifwRfdt.x, lfbdingGbp, gbp, lr.brrowRfdt,
+                lr.bddRfdt);
 
-        // Take into account minimal text offset
-        int labelOffset = (viewRect.x + viewRect.width)
-                        - (lr.labelRect.x + lr.labelRect.width);
-        if (!isTopLevelMenu && (labelOffset < minTextOffset)) {
-            lr.labelRect.x -= minTextOffset - labelOffset;
+        // Tbkf into bddount minimbl tfxt offsft
+        int tfxtOffsft = (vifwRfdt.x + vifwRfdt.widti)
+                       - (lr.tfxtRfdt.x + lr.tfxtRfdt.widti);
+        if (!isTopLfvflMfnu && (tfxtOffsft < minTfxtOffsft)) {
+            lr.tfxtRfdt.x -= minTfxtOffsft - tfxtOffsft;
         }
 
-        alignRects(lr, alignment);
+        blignRfdts(lr, blignmfnt);
 
-        // Center labelRect vertically
-        calcLabelYPosition(lr);
+        // Sft Y doordinbtfs for tfxt bnd idon.
+        // Y doordinbtfs for otifr rfdts
+        // will bf dbldulbtfd lbtfr in lbyoutMfnuItfm.
+        dbldTfxtAndIdonYPositions(lr);
 
-        layoutIconAndTextInLabelRect(lr);
+        // Cbldulbtf vblid X bnd Y doordinbtf for lbbflRfdt
+        lr.sftLbbflRfdt(lr.tfxtRfdt.union(lr.idonRfdt));
     }
 
-    private void alignRects(LayoutResult lr, ColumnAlignment alignment) {
-        alignRect(lr.checkRect, alignment.getCheckAlignment(),
-                  checkSize.getOrigWidth());
-        alignRect(lr.iconRect, alignment.getIconAlignment(),
-                  iconSize.getOrigWidth());
-        alignRect(lr.textRect, alignment.getTextAlignment(),
-                  textSize.getOrigWidth());
-        alignRect(lr.accRect, alignment.getAccAlignment(),
-                  accSize.getOrigWidth());
-        alignRect(lr.arrowRect, alignment.getArrowAlignment(),
-                  arrowSize.getOrigWidth());
-    }
+    privbtf void doRTLComplfxLbyout(LbyoutRfsult lr, ColumnAlignmfnt blignmfnt) {
+        lr.lbbflRfdt.widti = lbbflSizf.mbxWidti;
 
-    private void alignRect(Rectangle rect, int alignment, int origWidth) {
-        if (alignment == SwingConstants.RIGHT) {
-            rect.x = rect.x + rect.width - origWidth;
+        // Sft X doordinbtfs
+        dbldXPositionsRTL(vifwRfdt.x + vifwRfdt.widti, lfbdingGbp, gbp,
+                lr.difdkRfdt, lr.lbbflRfdt);
+
+        // Tunf tif gbp bftfr difdk idon
+        if (lr.difdkRfdt.widti > 0) { // tifrf is tif gbp bftfr difdk idon
+            lr.lbbflRfdt.x -= bftfrCifdkIdonGbp - gbp;
         }
-        rect.width = origWidth;
+
+        dbldXPositionsLTR(vifwRfdt.x, lfbdingGbp, gbp, lr.brrowRfdt, lr.bddRfdt);
+
+        // Tbkf into bddount minimbl tfxt offsft
+        int lbbflOffsft = (vifwRfdt.x + vifwRfdt.widti)
+                        - (lr.lbbflRfdt.x + lr.lbbflRfdt.widti);
+        if (!isTopLfvflMfnu && (lbbflOffsft < minTfxtOffsft)) {
+            lr.lbbflRfdt.x -= minTfxtOffsft - lbbflOffsft;
+        }
+
+        blignRfdts(lr, blignmfnt);
+
+        // Cfntfr lbbflRfdt vfrtidblly
+        dbldLbbflYPosition(lr);
+
+        lbyoutIdonAndTfxtInLbbflRfdt(lr);
     }
 
-    protected void layoutIconAndTextInLabelRect(LayoutResult lr) {
-        lr.setTextRect(new Rectangle());
-        lr.setIconRect(new Rectangle());
-        SwingUtilities.layoutCompoundLabel(
-                mi, fm, text,icon, verticalAlignment, horizontalAlignment,
-                verticalTextPosition, horizontalTextPosition, lr.labelRect,
-                lr.iconRect, lr.textRect, gap);
+    privbtf void blignRfdts(LbyoutRfsult lr, ColumnAlignmfnt blignmfnt) {
+        blignRfdt(lr.difdkRfdt, blignmfnt.gftCifdkAlignmfnt(),
+                  difdkSizf.gftOrigWidti());
+        blignRfdt(lr.idonRfdt, blignmfnt.gftIdonAlignmfnt(),
+                  idonSizf.gftOrigWidti());
+        blignRfdt(lr.tfxtRfdt, blignmfnt.gftTfxtAlignmfnt(),
+                  tfxtSizf.gftOrigWidti());
+        blignRfdt(lr.bddRfdt, blignmfnt.gftAddAlignmfnt(),
+                  bddSizf.gftOrigWidti());
+        blignRfdt(lr.brrowRfdt, blignmfnt.gftArrowAlignmfnt(),
+                  brrowSizf.gftOrigWidti());
     }
 
-    private void calcXPositionsLTR(int startXPos, int leadingGap,
-                                   int gap, Rectangle... rects) {
-        int curXPos = startXPos + leadingGap;
-        for (Rectangle rect : rects) {
-            rect.x = curXPos;
-            if (rect.width > 0) {
-                curXPos += rect.width + gap;
+    privbtf void blignRfdt(Rfdtbnglf rfdt, int blignmfnt, int origWidti) {
+        if (blignmfnt == SwingConstbnts.RIGHT) {
+            rfdt.x = rfdt.x + rfdt.widti - origWidti;
+        }
+        rfdt.widti = origWidti;
+    }
+
+    protfdtfd void lbyoutIdonAndTfxtInLbbflRfdt(LbyoutRfsult lr) {
+        lr.sftTfxtRfdt(nfw Rfdtbnglf());
+        lr.sftIdonRfdt(nfw Rfdtbnglf());
+        SwingUtilitifs.lbyoutCompoundLbbfl(
+                mi, fm, tfxt,idon, vfrtidblAlignmfnt, iorizontblAlignmfnt,
+                vfrtidblTfxtPosition, iorizontblTfxtPosition, lr.lbbflRfdt,
+                lr.idonRfdt, lr.tfxtRfdt, gbp);
+    }
+
+    privbtf void dbldXPositionsLTR(int stbrtXPos, int lfbdingGbp,
+                                   int gbp, Rfdtbnglf... rfdts) {
+        int durXPos = stbrtXPos + lfbdingGbp;
+        for (Rfdtbnglf rfdt : rfdts) {
+            rfdt.x = durXPos;
+            if (rfdt.widti > 0) {
+                durXPos += rfdt.widti + gbp;
             }
         }
     }
 
-    private void calcXPositionsRTL(int startXPos, int leadingGap,
-                                   int gap, Rectangle... rects) {
-        int curXPos = startXPos - leadingGap;
-        for (Rectangle rect : rects) {
-            rect.x = curXPos - rect.width;
-            if (rect.width > 0) {
-                curXPos -= rect.width + gap;
+    privbtf void dbldXPositionsRTL(int stbrtXPos, int lfbdingGbp,
+                                   int gbp, Rfdtbnglf... rfdts) {
+        int durXPos = stbrtXPos - lfbdingGbp;
+        for (Rfdtbnglf rfdt : rfdts) {
+            rfdt.x = durXPos - rfdt.widti;
+            if (rfdt.widti > 0) {
+                durXPos -= rfdt.widti + gbp;
             }
         }
     }
 
    /**
-     * Sets Y coordinates of text and icon
-     * taking into account the vertical alignment
+     * Sfts Y doordinbtfs of tfxt bnd idon
+     * tbking into bddount tif vfrtidbl blignmfnt
      */
-    private void calcTextAndIconYPositions(LayoutResult lr) {
-        if (verticalAlignment == SwingUtilities.TOP) {
-            lr.textRect.y  = (int)(viewRect.y
-                    + (float)lr.labelRect.height/2
-                    - (float)lr.textRect.height/2);
-            lr.iconRect.y  = (int)(viewRect.y
-                    + (float)lr.labelRect.height/2
-                    - (float)lr.iconRect.height/2);
-        } else if (verticalAlignment == SwingUtilities.CENTER) {
-            lr.textRect.y = (int)(viewRect.y
-                    + (float)viewRect.height/2
-                    - (float)lr.textRect.height/2);
-            lr.iconRect.y = (int)(viewRect.y
-                    + (float)viewRect.height/2
-                    - (float)lr.iconRect.height/2);
+    privbtf void dbldTfxtAndIdonYPositions(LbyoutRfsult lr) {
+        if (vfrtidblAlignmfnt == SwingUtilitifs.TOP) {
+            lr.tfxtRfdt.y  = (int)(vifwRfdt.y
+                    + (flobt)lr.lbbflRfdt.ifigit/2
+                    - (flobt)lr.tfxtRfdt.ifigit/2);
+            lr.idonRfdt.y  = (int)(vifwRfdt.y
+                    + (flobt)lr.lbbflRfdt.ifigit/2
+                    - (flobt)lr.idonRfdt.ifigit/2);
+        } flsf if (vfrtidblAlignmfnt == SwingUtilitifs.CENTER) {
+            lr.tfxtRfdt.y = (int)(vifwRfdt.y
+                    + (flobt)vifwRfdt.ifigit/2
+                    - (flobt)lr.tfxtRfdt.ifigit/2);
+            lr.idonRfdt.y = (int)(vifwRfdt.y
+                    + (flobt)vifwRfdt.ifigit/2
+                    - (flobt)lr.idonRfdt.ifigit/2);
         }
-        else if (verticalAlignment == SwingUtilities.BOTTOM) {
-            lr.textRect.y = (int)(viewRect.y
-                    + viewRect.height
-                    - (float)lr.labelRect.height/2
-                    - (float)lr.textRect.height/2);
-            lr.iconRect.y = (int)(viewRect.y
-                    + viewRect.height
-                    - (float)lr.labelRect.height/2
-                    - (float)lr.iconRect.height/2);
+        flsf if (vfrtidblAlignmfnt == SwingUtilitifs.BOTTOM) {
+            lr.tfxtRfdt.y = (int)(vifwRfdt.y
+                    + vifwRfdt.ifigit
+                    - (flobt)lr.lbbflRfdt.ifigit/2
+                    - (flobt)lr.tfxtRfdt.ifigit/2);
+            lr.idonRfdt.y = (int)(vifwRfdt.y
+                    + vifwRfdt.ifigit
+                    - (flobt)lr.lbbflRfdt.ifigit/2
+                    - (flobt)lr.idonRfdt.ifigit/2);
         }
     }
 
     /**
-     * Sets labelRect Y coordinate
-     * taking into account the vertical alignment
+     * Sfts lbbflRfdt Y doordinbtf
+     * tbking into bddount tif vfrtidbl blignmfnt
      */
-    private void calcLabelYPosition(LayoutResult lr) {
-        if (verticalAlignment == SwingUtilities.TOP) {
-            lr.labelRect.y  = viewRect.y;
-        } else if (verticalAlignment == SwingUtilities.CENTER) {
-            lr.labelRect.y = (int)(viewRect.y
-                    + (float)viewRect.height/2
-                    - (float)lr.labelRect.height/2);
-        } else if (verticalAlignment == SwingUtilities.BOTTOM) {
-            lr.labelRect.y  = viewRect.y + viewRect.height
-                    - lr.labelRect.height;
+    privbtf void dbldLbbflYPosition(LbyoutRfsult lr) {
+        if (vfrtidblAlignmfnt == SwingUtilitifs.TOP) {
+            lr.lbbflRfdt.y  = vifwRfdt.y;
+        } flsf if (vfrtidblAlignmfnt == SwingUtilitifs.CENTER) {
+            lr.lbbflRfdt.y = (int)(vifwRfdt.y
+                    + (flobt)vifwRfdt.ifigit/2
+                    - (flobt)lr.lbbflRfdt.ifigit/2);
+        } flsf if (vfrtidblAlignmfnt == SwingUtilitifs.BOTTOM) {
+            lr.lbbflRfdt.y  = vifwRfdt.y + vifwRfdt.ifigit
+                    - lr.lbbflRfdt.ifigit;
         }
     }
 
     /**
-     * Returns parent of this component if it is not a top-level menu
-     * Otherwise returns null.
-     * @param menuItem the menu item whose parent will be returned.
-     * @return parent of this component if it is not a top-level menu
-     * Otherwise returns null.
+     * Rfturns pbrfnt of tiis domponfnt if it is not b top-lfvfl mfnu
+     * Otifrwisf rfturns null.
+     * @pbrbm mfnuItfm tif mfnu itfm wiosf pbrfnt will bf rfturnfd.
+     * @rfturn pbrfnt of tiis domponfnt if it is not b top-lfvfl mfnu
+     * Otifrwisf rfturns null.
      */
-    public static JComponent getMenuItemParent(JMenuItem menuItem) {
-        Container parent = menuItem.getParent();
-        if ((parent instanceof JComponent) &&
-             (!(menuItem instanceof JMenu) ||
-               !((JMenu)menuItem).isTopLevelMenu())) {
-            return (JComponent) parent;
-        } else {
-            return null;
+    publid stbtid JComponfnt gftMfnuItfmPbrfnt(JMfnuItfm mfnuItfm) {
+        Contbinfr pbrfnt = mfnuItfm.gftPbrfnt();
+        if ((pbrfnt instbndfof JComponfnt) &&
+             (!(mfnuItfm instbndfof JMfnu) ||
+               !((JMfnu)mfnuItfm).isTopLfvflMfnu())) {
+            rfturn (JComponfnt) pbrfnt;
+        } flsf {
+            rfturn null;
         }
     }
 
-    public static void clearUsedParentClientProperties(JMenuItem menuItem) {
-        clearUsedClientProperties(getMenuItemParent(menuItem));
+    publid stbtid void dlfbrUsfdPbrfntClifntPropfrtifs(JMfnuItfm mfnuItfm) {
+        dlfbrUsfdClifntPropfrtifs(gftMfnuItfmPbrfnt(mfnuItfm));
     }
 
-    public static void clearUsedClientProperties(JComponent c) {
-        if (c != null) {
-            c.putClientProperty(MAX_ARROW_WIDTH, null);
-            c.putClientProperty(MAX_CHECK_WIDTH, null);
-            c.putClientProperty(MAX_ACC_WIDTH, null);
-            c.putClientProperty(MAX_TEXT_WIDTH, null);
-            c.putClientProperty(MAX_ICON_WIDTH, null);
-            c.putClientProperty(MAX_LABEL_WIDTH, null);
-            c.putClientProperty(BASICMENUITEMUI_MAX_TEXT_OFFSET, null);
+    publid stbtid void dlfbrUsfdClifntPropfrtifs(JComponfnt d) {
+        if (d != null) {
+            d.putClifntPropfrty(MAX_ARROW_WIDTH, null);
+            d.putClifntPropfrty(MAX_CHECK_WIDTH, null);
+            d.putClifntPropfrty(MAX_ACC_WIDTH, null);
+            d.putClifntPropfrty(MAX_TEXT_WIDTH, null);
+            d.putClifntPropfrty(MAX_ICON_WIDTH, null);
+            d.putClifntPropfrty(MAX_LABEL_WIDTH, null);
+            d.putClifntPropfrty(BASICMENUITEMUI_MAX_TEXT_OFFSET, null);
         }
     }
 
     /**
-     * Finds and returns maximal integer value in the given array.
-     * @param values array where the search will be performed.
-     * @return maximal vaule.
+     * Finds bnd rfturns mbximbl intfgfr vbluf in tif givfn brrby.
+     * @pbrbm vblufs brrby wifrf tif sfbrdi will bf pfrformfd.
+     * @rfturn mbximbl vbulf.
      */
-    public static int max(int... values) {
-        int maxValue = Integer.MIN_VALUE;
-        for (int i : values) {
-            if (i > maxValue) {
-                maxValue = i;
+    publid stbtid int mbx(int... vblufs) {
+        int mbxVbluf = Intfgfr.MIN_VALUE;
+        for (int i : vblufs) {
+            if (i > mbxVbluf) {
+                mbxVbluf = i;
             }
         }
-        return maxValue;
+        rfturn mbxVbluf;
     }
 
-    public static Rectangle createMaxRect() {
-        return new Rectangle(0, 0, Integer.MAX_VALUE, Integer.MAX_VALUE);
+    publid stbtid Rfdtbnglf drfbtfMbxRfdt() {
+        rfturn nfw Rfdtbnglf(0, 0, Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
     }
 
-    public static void addMaxWidth(RectSize size, int gap, Dimension result) {
-        if (size.maxWidth > 0) {
-            result.width += size.maxWidth + gap;
+    publid stbtid void bddMbxWidti(RfdtSizf sizf, int gbp, Dimfnsion rfsult) {
+        if (sizf.mbxWidti > 0) {
+            rfsult.widti += sizf.mbxWidti + gbp;
         }
     }
 
-    public static void addWidth(int width, int gap, Dimension result) {
-        if (width > 0) {
-            result.width += width + gap;
+    publid stbtid void bddWidti(int widti, int gbp, Dimfnsion rfsult) {
+        if (widti > 0) {
+            rfsult.widti += widti + gbp;
         }
     }
 
-    public JMenuItem getMenuItem() {
-        return mi;
+    publid JMfnuItfm gftMfnuItfm() {
+        rfturn mi;
     }
 
-    public JComponent getMenuItemParent() {
-        return miParent;
+    publid JComponfnt gftMfnuItfmPbrfnt() {
+        rfturn miPbrfnt;
     }
 
-    public Font getFont() {
-        return font;
+    publid Font gftFont() {
+        rfturn font;
     }
 
-    public Font getAccFont() {
-        return accFont;
+    publid Font gftAddFont() {
+        rfturn bddFont;
     }
 
-    public FontMetrics getFontMetrics() {
-        return fm;
+    publid FontMftrids gftFontMftrids() {
+        rfturn fm;
     }
 
-    public FontMetrics getAccFontMetrics() {
-        return accFm;
+    publid FontMftrids gftAddFontMftrids() {
+        rfturn bddFm;
     }
 
-    public Icon getIcon() {
-        return icon;
+    publid Idon gftIdon() {
+        rfturn idon;
     }
 
-    public Icon getCheckIcon() {
-        return checkIcon;
+    publid Idon gftCifdkIdon() {
+        rfturn difdkIdon;
     }
 
-    public Icon getArrowIcon() {
-        return arrowIcon;
+    publid Idon gftArrowIdon() {
+        rfturn brrowIdon;
     }
 
-    public String getText() {
-        return text;
+    publid String gftTfxt() {
+        rfturn tfxt;
     }
 
-    public String getAccText() {
-        return accText;
+    publid String gftAddTfxt() {
+        rfturn bddTfxt;
     }
 
-    public boolean isColumnLayout() {
-        return isColumnLayout;
+    publid boolfbn isColumnLbyout() {
+        rfturn isColumnLbyout;
     }
 
-    public boolean useCheckAndArrow() {
-        return useCheckAndArrow;
+    publid boolfbn usfCifdkAndArrow() {
+        rfturn usfCifdkAndArrow;
     }
 
-    public boolean isLeftToRight() {
-        return isLeftToRight;
+    publid boolfbn isLfftToRigit() {
+        rfturn isLfftToRigit;
     }
 
-    public boolean isTopLevelMenu() {
-        return isTopLevelMenu;
+    publid boolfbn isTopLfvflMfnu() {
+        rfturn isTopLfvflMfnu;
     }
 
-    public View getHtmlView() {
-        return htmlView;
+    publid Vifw gftHtmlVifw() {
+        rfturn itmlVifw;
     }
 
-    public int getVerticalAlignment() {
-        return verticalAlignment;
+    publid int gftVfrtidblAlignmfnt() {
+        rfturn vfrtidblAlignmfnt;
     }
 
-    public int getHorizontalAlignment() {
-        return horizontalAlignment;
+    publid int gftHorizontblAlignmfnt() {
+        rfturn iorizontblAlignmfnt;
     }
 
-    public int getVerticalTextPosition() {
-        return verticalTextPosition;
+    publid int gftVfrtidblTfxtPosition() {
+        rfturn vfrtidblTfxtPosition;
     }
 
-    public int getHorizontalTextPosition() {
-        return horizontalTextPosition;
+    publid int gftHorizontblTfxtPosition() {
+        rfturn iorizontblTfxtPosition;
     }
 
-    public int getGap() {
-        return gap;
+    publid int gftGbp() {
+        rfturn gbp;
     }
 
-    public int getLeadingGap() {
-        return leadingGap;
+    publid int gftLfbdingGbp() {
+        rfturn lfbdingGbp;
     }
 
-    public int getAfterCheckIconGap() {
-        return afterCheckIconGap;
+    publid int gftAftfrCifdkIdonGbp() {
+        rfturn bftfrCifdkIdonGbp;
     }
 
-    public int getMinTextOffset() {
-        return minTextOffset;
+    publid int gftMinTfxtOffsft() {
+        rfturn minTfxtOffsft;
     }
 
-    public Rectangle getViewRect() {
-        return viewRect;
+    publid Rfdtbnglf gftVifwRfdt() {
+        rfturn vifwRfdt;
     }
 
-    public RectSize getIconSize() {
-        return iconSize;
+    publid RfdtSizf gftIdonSizf() {
+        rfturn idonSizf;
     }
 
-    public RectSize getTextSize() {
-        return textSize;
+    publid RfdtSizf gftTfxtSizf() {
+        rfturn tfxtSizf;
     }
 
-    public RectSize getAccSize() {
-        return accSize;
+    publid RfdtSizf gftAddSizf() {
+        rfturn bddSizf;
     }
 
-    public RectSize getCheckSize() {
-        return checkSize;
+    publid RfdtSizf gftCifdkSizf() {
+        rfturn difdkSizf;
     }
 
-    public RectSize getArrowSize() {
-        return arrowSize;
+    publid RfdtSizf gftArrowSizf() {
+        rfturn brrowSizf;
     }
 
-    public RectSize getLabelSize() {
-        return labelSize;
+    publid RfdtSizf gftLbbflSizf() {
+        rfturn lbbflSizf;
     }
 
-    protected void setMenuItem(JMenuItem mi) {
-        this.mi = mi;
+    protfdtfd void sftMfnuItfm(JMfnuItfm mi) {
+        tiis.mi = mi;
     }
 
-    protected void setMenuItemParent(JComponent miParent) {
-        this.miParent = miParent;
+    protfdtfd void sftMfnuItfmPbrfnt(JComponfnt miPbrfnt) {
+        tiis.miPbrfnt = miPbrfnt;
     }
 
-    protected void setFont(Font font) {
-        this.font = font;
+    protfdtfd void sftFont(Font font) {
+        tiis.font = font;
     }
 
-    protected void setAccFont(Font accFont) {
-        this.accFont = accFont;
+    protfdtfd void sftAddFont(Font bddFont) {
+        tiis.bddFont = bddFont;
     }
 
-    protected void setFontMetrics(FontMetrics fm) {
-        this.fm = fm;
+    protfdtfd void sftFontMftrids(FontMftrids fm) {
+        tiis.fm = fm;
     }
 
-    protected void setAccFontMetrics(FontMetrics accFm) {
-        this.accFm = accFm;
+    protfdtfd void sftAddFontMftrids(FontMftrids bddFm) {
+        tiis.bddFm = bddFm;
     }
 
-    protected void setIcon(Icon icon) {
-        this.icon = icon;
+    protfdtfd void sftIdon(Idon idon) {
+        tiis.idon = idon;
     }
 
-    protected void setCheckIcon(Icon checkIcon) {
-        this.checkIcon = checkIcon;
+    protfdtfd void sftCifdkIdon(Idon difdkIdon) {
+        tiis.difdkIdon = difdkIdon;
     }
 
-    protected void setArrowIcon(Icon arrowIcon) {
-        this.arrowIcon = arrowIcon;
+    protfdtfd void sftArrowIdon(Idon brrowIdon) {
+        tiis.brrowIdon = brrowIdon;
     }
 
-    protected void setText(String text) {
-        this.text = text;
+    protfdtfd void sftTfxt(String tfxt) {
+        tiis.tfxt = tfxt;
     }
 
-    protected void setAccText(String accText) {
-        this.accText = accText;
+    protfdtfd void sftAddTfxt(String bddTfxt) {
+        tiis.bddTfxt = bddTfxt;
     }
 
-    protected void setColumnLayout(boolean columnLayout) {
-        isColumnLayout = columnLayout;
+    protfdtfd void sftColumnLbyout(boolfbn dolumnLbyout) {
+        isColumnLbyout = dolumnLbyout;
     }
 
-    protected void setUseCheckAndArrow(boolean useCheckAndArrow) {
-        this.useCheckAndArrow = useCheckAndArrow;
+    protfdtfd void sftUsfCifdkAndArrow(boolfbn usfCifdkAndArrow) {
+        tiis.usfCifdkAndArrow = usfCifdkAndArrow;
     }
 
-    protected void setLeftToRight(boolean leftToRight) {
-        isLeftToRight = leftToRight;
+    protfdtfd void sftLfftToRigit(boolfbn lfftToRigit) {
+        isLfftToRigit = lfftToRigit;
     }
 
-    protected void setTopLevelMenu(boolean topLevelMenu) {
-        isTopLevelMenu = topLevelMenu;
+    protfdtfd void sftTopLfvflMfnu(boolfbn topLfvflMfnu) {
+        isTopLfvflMfnu = topLfvflMfnu;
     }
 
-    protected void setHtmlView(View htmlView) {
-        this.htmlView = htmlView;
+    protfdtfd void sftHtmlVifw(Vifw itmlVifw) {
+        tiis.itmlVifw = itmlVifw;
     }
 
-    protected void setVerticalAlignment(int verticalAlignment) {
-        this.verticalAlignment = verticalAlignment;
+    protfdtfd void sftVfrtidblAlignmfnt(int vfrtidblAlignmfnt) {
+        tiis.vfrtidblAlignmfnt = vfrtidblAlignmfnt;
     }
 
-    protected void setHorizontalAlignment(int horizontalAlignment) {
-        this.horizontalAlignment = horizontalAlignment;
+    protfdtfd void sftHorizontblAlignmfnt(int iorizontblAlignmfnt) {
+        tiis.iorizontblAlignmfnt = iorizontblAlignmfnt;
     }
 
-    protected void setVerticalTextPosition(int verticalTextPosition) {
-        this.verticalTextPosition = verticalTextPosition;
+    protfdtfd void sftVfrtidblTfxtPosition(int vfrtidblTfxtPosition) {
+        tiis.vfrtidblTfxtPosition = vfrtidblTfxtPosition;
     }
 
-    protected void setHorizontalTextPosition(int horizontalTextPosition) {
-        this.horizontalTextPosition = horizontalTextPosition;
+    protfdtfd void sftHorizontblTfxtPosition(int iorizontblTfxtPosition) {
+        tiis.iorizontblTfxtPosition = iorizontblTfxtPosition;
     }
 
-    protected void setGap(int gap) {
-        this.gap = gap;
+    protfdtfd void sftGbp(int gbp) {
+        tiis.gbp = gbp;
     }
 
-    protected void setLeadingGap(int leadingGap) {
-        this.leadingGap = leadingGap;
+    protfdtfd void sftLfbdingGbp(int lfbdingGbp) {
+        tiis.lfbdingGbp = lfbdingGbp;
     }
 
-    protected void setAfterCheckIconGap(int afterCheckIconGap) {
-        this.afterCheckIconGap = afterCheckIconGap;
+    protfdtfd void sftAftfrCifdkIdonGbp(int bftfrCifdkIdonGbp) {
+        tiis.bftfrCifdkIdonGbp = bftfrCifdkIdonGbp;
     }
 
-    protected void setMinTextOffset(int minTextOffset) {
-        this.minTextOffset = minTextOffset;
+    protfdtfd void sftMinTfxtOffsft(int minTfxtOffsft) {
+        tiis.minTfxtOffsft = minTfxtOffsft;
     }
 
-    protected void setViewRect(Rectangle viewRect) {
-        this.viewRect = viewRect;
+    protfdtfd void sftVifwRfdt(Rfdtbnglf vifwRfdt) {
+        tiis.vifwRfdt = vifwRfdt;
     }
 
-    protected void setIconSize(RectSize iconSize) {
-        this.iconSize = iconSize;
+    protfdtfd void sftIdonSizf(RfdtSizf idonSizf) {
+        tiis.idonSizf = idonSizf;
     }
 
-    protected void setTextSize(RectSize textSize) {
-        this.textSize = textSize;
+    protfdtfd void sftTfxtSizf(RfdtSizf tfxtSizf) {
+        tiis.tfxtSizf = tfxtSizf;
     }
 
-    protected void setAccSize(RectSize accSize) {
-        this.accSize = accSize;
+    protfdtfd void sftAddSizf(RfdtSizf bddSizf) {
+        tiis.bddSizf = bddSizf;
     }
 
-    protected void setCheckSize(RectSize checkSize) {
-        this.checkSize = checkSize;
+    protfdtfd void sftCifdkSizf(RfdtSizf difdkSizf) {
+        tiis.difdkSizf = difdkSizf;
     }
 
-    protected void setArrowSize(RectSize arrowSize) {
-        this.arrowSize = arrowSize;
+    protfdtfd void sftArrowSizf(RfdtSizf brrowSizf) {
+        tiis.brrowSizf = brrowSizf;
     }
 
-    protected void setLabelSize(RectSize labelSize) {
-        this.labelSize = labelSize;
+    protfdtfd void sftLbbflSizf(RfdtSizf lbbflSizf) {
+        tiis.lbbflSizf = lbbflSizf;
     }
 
-    public int getLeftTextExtraWidth() {
-        return leftTextExtraWidth;
+    publid int gftLfftTfxtExtrbWidti() {
+        rfturn lfftTfxtExtrbWidti;
     }
 
     /**
-     * Returns false if the component is a JMenu and it is a top
-     * level menu (on the menubar).
+     * Rfturns fblsf if tif domponfnt is b JMfnu bnd it is b top
+     * lfvfl mfnu (on tif mfnubbr).
      */
-    public static boolean useCheckAndArrow(JMenuItem menuItem) {
-        boolean b = true;
-        if ((menuItem instanceof JMenu) &&
-                (((JMenu) menuItem).isTopLevelMenu())) {
-            b = false;
+    publid stbtid boolfbn usfCifdkAndArrow(JMfnuItfm mfnuItfm) {
+        boolfbn b = truf;
+        if ((mfnuItfm instbndfof JMfnu) &&
+                (((JMfnu) mfnuItfm).isTopLfvflMfnu())) {
+            b = fblsf;
         }
-        return b;
+        rfturn b;
     }
 
-    public static class LayoutResult {
-        private Rectangle iconRect;
-        private Rectangle textRect;
-        private Rectangle accRect;
-        private Rectangle checkRect;
-        private Rectangle arrowRect;
-        private Rectangle labelRect;
+    publid stbtid dlbss LbyoutRfsult {
+        privbtf Rfdtbnglf idonRfdt;
+        privbtf Rfdtbnglf tfxtRfdt;
+        privbtf Rfdtbnglf bddRfdt;
+        privbtf Rfdtbnglf difdkRfdt;
+        privbtf Rfdtbnglf brrowRfdt;
+        privbtf Rfdtbnglf lbbflRfdt;
 
-        public LayoutResult() {
-            iconRect = new Rectangle();
-            textRect = new Rectangle();
-            accRect = new Rectangle();
-            checkRect = new Rectangle();
-            arrowRect = new Rectangle();
-            labelRect = new Rectangle();
+        publid LbyoutRfsult() {
+            idonRfdt = nfw Rfdtbnglf();
+            tfxtRfdt = nfw Rfdtbnglf();
+            bddRfdt = nfw Rfdtbnglf();
+            difdkRfdt = nfw Rfdtbnglf();
+            brrowRfdt = nfw Rfdtbnglf();
+            lbbflRfdt = nfw Rfdtbnglf();
         }
 
-        public LayoutResult(Rectangle iconRect, Rectangle textRect,
-                            Rectangle accRect, Rectangle checkRect,
-                            Rectangle arrowRect, Rectangle labelRect) {
-            this.iconRect = iconRect;
-            this.textRect = textRect;
-            this.accRect = accRect;
-            this.checkRect = checkRect;
-            this.arrowRect = arrowRect;
-            this.labelRect = labelRect;
+        publid LbyoutRfsult(Rfdtbnglf idonRfdt, Rfdtbnglf tfxtRfdt,
+                            Rfdtbnglf bddRfdt, Rfdtbnglf difdkRfdt,
+                            Rfdtbnglf brrowRfdt, Rfdtbnglf lbbflRfdt) {
+            tiis.idonRfdt = idonRfdt;
+            tiis.tfxtRfdt = tfxtRfdt;
+            tiis.bddRfdt = bddRfdt;
+            tiis.difdkRfdt = difdkRfdt;
+            tiis.brrowRfdt = brrowRfdt;
+            tiis.lbbflRfdt = lbbflRfdt;
         }
 
-        public Rectangle getIconRect() {
-            return iconRect;
+        publid Rfdtbnglf gftIdonRfdt() {
+            rfturn idonRfdt;
         }
 
-        public void setIconRect(Rectangle iconRect) {
-            this.iconRect = iconRect;
+        publid void sftIdonRfdt(Rfdtbnglf idonRfdt) {
+            tiis.idonRfdt = idonRfdt;
         }
 
-        public Rectangle getTextRect() {
-            return textRect;
+        publid Rfdtbnglf gftTfxtRfdt() {
+            rfturn tfxtRfdt;
         }
 
-        public void setTextRect(Rectangle textRect) {
-            this.textRect = textRect;
+        publid void sftTfxtRfdt(Rfdtbnglf tfxtRfdt) {
+            tiis.tfxtRfdt = tfxtRfdt;
         }
 
-        public Rectangle getAccRect() {
-            return accRect;
+        publid Rfdtbnglf gftAddRfdt() {
+            rfturn bddRfdt;
         }
 
-        public void setAccRect(Rectangle accRect) {
-            this.accRect = accRect;
+        publid void sftAddRfdt(Rfdtbnglf bddRfdt) {
+            tiis.bddRfdt = bddRfdt;
         }
 
-        public Rectangle getCheckRect() {
-            return checkRect;
+        publid Rfdtbnglf gftCifdkRfdt() {
+            rfturn difdkRfdt;
         }
 
-        public void setCheckRect(Rectangle checkRect) {
-            this.checkRect = checkRect;
+        publid void sftCifdkRfdt(Rfdtbnglf difdkRfdt) {
+            tiis.difdkRfdt = difdkRfdt;
         }
 
-        public Rectangle getArrowRect() {
-            return arrowRect;
+        publid Rfdtbnglf gftArrowRfdt() {
+            rfturn brrowRfdt;
         }
 
-        public void setArrowRect(Rectangle arrowRect) {
-            this.arrowRect = arrowRect;
+        publid void sftArrowRfdt(Rfdtbnglf brrowRfdt) {
+            tiis.brrowRfdt = brrowRfdt;
         }
 
-        public Rectangle getLabelRect() {
-            return labelRect;
+        publid Rfdtbnglf gftLbbflRfdt() {
+            rfturn lbbflRfdt;
         }
 
-        public void setLabelRect(Rectangle labelRect) {
-            this.labelRect = labelRect;
+        publid void sftLbbflRfdt(Rfdtbnglf lbbflRfdt) {
+            tiis.lbbflRfdt = lbbflRfdt;
         }
 
-        public Map<String, Rectangle> getAllRects() {
-            Map<String, Rectangle> result = new HashMap<String, Rectangle>();
-            result.put("checkRect", checkRect);
-            result.put("iconRect", iconRect);
-            result.put("textRect", textRect);
-            result.put("accRect", accRect);
-            result.put("arrowRect", arrowRect);
-            result.put("labelRect", labelRect);
-            return result;
+        publid Mbp<String, Rfdtbnglf> gftAllRfdts() {
+            Mbp<String, Rfdtbnglf> rfsult = nfw HbsiMbp<String, Rfdtbnglf>();
+            rfsult.put("difdkRfdt", difdkRfdt);
+            rfsult.put("idonRfdt", idonRfdt);
+            rfsult.put("tfxtRfdt", tfxtRfdt);
+            rfsult.put("bddRfdt", bddRfdt);
+            rfsult.put("brrowRfdt", brrowRfdt);
+            rfsult.put("lbbflRfdt", lbbflRfdt);
+            rfturn rfsult;
         }
     }
 
-    public static class ColumnAlignment {
-        private int checkAlignment;
-        private int iconAlignment;
-        private int textAlignment;
-        private int accAlignment;
-        private int arrowAlignment;
+    publid stbtid dlbss ColumnAlignmfnt {
+        privbtf int difdkAlignmfnt;
+        privbtf int idonAlignmfnt;
+        privbtf int tfxtAlignmfnt;
+        privbtf int bddAlignmfnt;
+        privbtf int brrowAlignmfnt;
 
-        public static final ColumnAlignment LEFT_ALIGNMENT =
-                new ColumnAlignment(
-                        SwingConstants.LEFT,
-                        SwingConstants.LEFT,
-                        SwingConstants.LEFT,
-                        SwingConstants.LEFT,
-                        SwingConstants.LEFT
+        publid stbtid finbl ColumnAlignmfnt LEFT_ALIGNMENT =
+                nfw ColumnAlignmfnt(
+                        SwingConstbnts.LEFT,
+                        SwingConstbnts.LEFT,
+                        SwingConstbnts.LEFT,
+                        SwingConstbnts.LEFT,
+                        SwingConstbnts.LEFT
                 );
 
-        public static final ColumnAlignment RIGHT_ALIGNMENT =
-                new ColumnAlignment(
-                        SwingConstants.RIGHT,
-                        SwingConstants.RIGHT,
-                        SwingConstants.RIGHT,
-                        SwingConstants.RIGHT,
-                        SwingConstants.RIGHT
+        publid stbtid finbl ColumnAlignmfnt RIGHT_ALIGNMENT =
+                nfw ColumnAlignmfnt(
+                        SwingConstbnts.RIGHT,
+                        SwingConstbnts.RIGHT,
+                        SwingConstbnts.RIGHT,
+                        SwingConstbnts.RIGHT,
+                        SwingConstbnts.RIGHT
                 );
 
-        public ColumnAlignment(int checkAlignment, int iconAlignment,
-                               int textAlignment, int accAlignment,
-                               int arrowAlignment) {
-            this.checkAlignment = checkAlignment;
-            this.iconAlignment = iconAlignment;
-            this.textAlignment = textAlignment;
-            this.accAlignment = accAlignment;
-            this.arrowAlignment = arrowAlignment;
+        publid ColumnAlignmfnt(int difdkAlignmfnt, int idonAlignmfnt,
+                               int tfxtAlignmfnt, int bddAlignmfnt,
+                               int brrowAlignmfnt) {
+            tiis.difdkAlignmfnt = difdkAlignmfnt;
+            tiis.idonAlignmfnt = idonAlignmfnt;
+            tiis.tfxtAlignmfnt = tfxtAlignmfnt;
+            tiis.bddAlignmfnt = bddAlignmfnt;
+            tiis.brrowAlignmfnt = brrowAlignmfnt;
         }
 
-        public int getCheckAlignment() {
-            return checkAlignment;
+        publid int gftCifdkAlignmfnt() {
+            rfturn difdkAlignmfnt;
         }
 
-        public int getIconAlignment() {
-            return iconAlignment;
+        publid int gftIdonAlignmfnt() {
+            rfturn idonAlignmfnt;
         }
 
-        public int getTextAlignment() {
-            return textAlignment;
+        publid int gftTfxtAlignmfnt() {
+            rfturn tfxtAlignmfnt;
         }
 
-        public int getAccAlignment() {
-            return accAlignment;
+        publid int gftAddAlignmfnt() {
+            rfturn bddAlignmfnt;
         }
 
-        public int getArrowAlignment() {
-            return arrowAlignment;
+        publid int gftArrowAlignmfnt() {
+            rfturn brrowAlignmfnt;
         }
     }
 
-    public static class RectSize {
-        private int width;
-        private int height;
-        private int origWidth;
-        private int maxWidth;
+    publid stbtid dlbss RfdtSizf {
+        privbtf int widti;
+        privbtf int ifigit;
+        privbtf int origWidti;
+        privbtf int mbxWidti;
 
-        public RectSize() {
+        publid RfdtSizf() {
         }
 
-        public RectSize(int width, int height, int origWidth, int maxWidth) {
-            this.width = width;
-            this.height = height;
-            this.origWidth = origWidth;
-            this.maxWidth = maxWidth;
+        publid RfdtSizf(int widti, int ifigit, int origWidti, int mbxWidti) {
+            tiis.widti = widti;
+            tiis.ifigit = ifigit;
+            tiis.origWidti = origWidti;
+            tiis.mbxWidti = mbxWidti;
         }
 
-        public int getWidth() {
-            return width;
+        publid int gftWidti() {
+            rfturn widti;
         }
 
-        public int getHeight() {
-            return height;
+        publid int gftHfigit() {
+            rfturn ifigit;
         }
 
-        public int getOrigWidth() {
-            return origWidth;
+        publid int gftOrigWidti() {
+            rfturn origWidti;
         }
 
-        public int getMaxWidth() {
-            return maxWidth;
+        publid int gftMbxWidti() {
+            rfturn mbxWidti;
         }
 
-        public void setWidth(int width) {
-            this.width = width;
+        publid void sftWidti(int widti) {
+            tiis.widti = widti;
         }
 
-        public void setHeight(int height) {
-            this.height = height;
+        publid void sftHfigit(int ifigit) {
+            tiis.ifigit = ifigit;
         }
 
-        public void setOrigWidth(int origWidth) {
-            this.origWidth = origWidth;
+        publid void sftOrigWidti(int origWidti) {
+            tiis.origWidti = origWidti;
         }
 
-        public void setMaxWidth(int maxWidth) {
-            this.maxWidth = maxWidth;
+        publid void sftMbxWidti(int mbxWidti) {
+            tiis.mbxWidti = mbxWidti;
         }
 
-        public String toString() {
-            return "[w=" + width + ",h=" + height + ",ow="
-                    + origWidth + ",mw=" + maxWidth + "]";
+        publid String toString() {
+            rfturn "[w=" + widti + ",i=" + ifigit + ",ow="
+                    + origWidti + ",mw=" + mbxWidti + "]";
         }
     }
 }

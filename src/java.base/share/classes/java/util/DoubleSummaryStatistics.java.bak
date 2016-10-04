@@ -1,262 +1,262 @@
 /*
- * Copyright (c) 2012, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2012, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package java.util;
+pbdkbgf jbvb.util;
 
-import java.util.function.DoubleConsumer;
-import java.util.stream.Collector;
+import jbvb.util.fundtion.DoublfConsumfr;
+import jbvb.util.strfbm.Collfdtor;
 
 /**
- * A state object for collecting statistics such as count, min, max, sum, and
- * average.
+ * A stbtf objfdt for dollfdting stbtistids sudi bs dount, min, mbx, sum, bnd
+ * bvfrbgf.
  *
- * <p>This class is designed to work with (though does not require)
- * {@linkplain java.util.stream streams}. For example, you can compute
- * summary statistics on a stream of doubles with:
- * <pre> {@code
- * DoubleSummaryStatistics stats = doubleStream.collect(DoubleSummaryStatistics::new,
- *                                                      DoubleSummaryStatistics::accept,
- *                                                      DoubleSummaryStatistics::combine);
- * }</pre>
+ * <p>Tiis dlbss is dfsignfd to work witi (tiougi dofs not rfquirf)
+ * {@linkplbin jbvb.util.strfbm strfbms}. For fxbmplf, you dbn domputf
+ * summbry stbtistids on b strfbm of doublfs witi:
+ * <prf> {@dodf
+ * DoublfSummbryStbtistids stbts = doublfStrfbm.dollfdt(DoublfSummbryStbtistids::nfw,
+ *                                                      DoublfSummbryStbtistids::bddfpt,
+ *                                                      DoublfSummbryStbtistids::dombinf);
+ * }</prf>
  *
- * <p>{@code DoubleSummaryStatistics} can be used as a
- * {@linkplain java.util.stream.Stream#collect(Collector) reduction}
- * target for a {@linkplain java.util.stream.Stream stream}. For example:
+ * <p>{@dodf DoublfSummbryStbtistids} dbn bf usfd bs b
+ * {@linkplbin jbvb.util.strfbm.Strfbm#dollfdt(Collfdtor) rfdudtion}
+ * tbrgft for b {@linkplbin jbvb.util.strfbm.Strfbm strfbm}. For fxbmplf:
  *
- * <pre> {@code
- * DoubleSummaryStatistics stats = people.stream()
- *     .collect(Collectors.summarizingDouble(Person::getWeight));
- *}</pre>
+ * <prf> {@dodf
+ * DoublfSummbryStbtistids stbts = pfoplf.strfbm()
+ *     .dollfdt(Collfdtors.summbrizingDoublf(Pfrson::gftWfigit));
+ *}</prf>
  *
- * This computes, in a single pass, the count of people, as well as the minimum,
- * maximum, sum, and average of their weights.
+ * Tiis domputfs, in b singlf pbss, tif dount of pfoplf, bs wfll bs tif minimum,
+ * mbximum, sum, bnd bvfrbgf of tifir wfigits.
  *
- * @implNote This implementation is not thread safe. However, it is safe to use
- * {@link java.util.stream.Collectors#summarizingDouble(java.util.function.ToDoubleFunction)
- * Collectors.summarizingDouble()} on a parallel stream, because the parallel
- * implementation of {@link java.util.stream.Stream#collect Stream.collect()}
- * provides the necessary partitioning, isolation, and merging of results for
- * safe and efficient parallel execution.
- * @since 1.8
+ * @implNotf Tiis implfmfntbtion is not tirfbd sbff. Howfvfr, it is sbff to usf
+ * {@link jbvb.util.strfbm.Collfdtors#summbrizingDoublf(jbvb.util.fundtion.ToDoublfFundtion)
+ * Collfdtors.summbrizingDoublf()} on b pbrbllfl strfbm, bfdbusf tif pbrbllfl
+ * implfmfntbtion of {@link jbvb.util.strfbm.Strfbm#dollfdt Strfbm.dollfdt()}
+ * providfs tif nfdfssbry pbrtitioning, isolbtion, bnd mfrging of rfsults for
+ * sbff bnd fffidifnt pbrbllfl fxfdution.
+ * @sindf 1.8
  */
-public class DoubleSummaryStatistics implements DoubleConsumer {
-    private long count;
-    private double sum;
-    private double sumCompensation; // Low order bits of sum
-    private double simpleSum; // Used to compute right sum for non-finite inputs
-    private double min = Double.POSITIVE_INFINITY;
-    private double max = Double.NEGATIVE_INFINITY;
+publid dlbss DoublfSummbryStbtistids implfmfnts DoublfConsumfr {
+    privbtf long dount;
+    privbtf doublf sum;
+    privbtf doublf sumCompfnsbtion; // Low ordfr bits of sum
+    privbtf doublf simplfSum; // Usfd to domputf rigit sum for non-finitf inputs
+    privbtf doublf min = Doublf.POSITIVE_INFINITY;
+    privbtf doublf mbx = Doublf.NEGATIVE_INFINITY;
 
     /**
-     * Construct an empty instance with zero count, zero sum,
-     * {@code Double.POSITIVE_INFINITY} min, {@code Double.NEGATIVE_INFINITY}
-     * max and zero average.
+     * Construdt bn fmpty instbndf witi zfro dount, zfro sum,
+     * {@dodf Doublf.POSITIVE_INFINITY} min, {@dodf Doublf.NEGATIVE_INFINITY}
+     * mbx bnd zfro bvfrbgf.
      */
-    public DoubleSummaryStatistics() { }
+    publid DoublfSummbryStbtistids() { }
 
     /**
-     * Records another value into the summary information.
+     * Rfdords bnotifr vbluf into tif summbry informbtion.
      *
-     * @param value the input value
+     * @pbrbm vbluf tif input vbluf
      */
-    @Override
-    public void accept(double value) {
-        ++count;
-        simpleSum += value;
-        sumWithCompensation(value);
-        min = Math.min(min, value);
-        max = Math.max(max, value);
+    @Ovfrridf
+    publid void bddfpt(doublf vbluf) {
+        ++dount;
+        simplfSum += vbluf;
+        sumWitiCompfnsbtion(vbluf);
+        min = Mbti.min(min, vbluf);
+        mbx = Mbti.mbx(mbx, vbluf);
     }
 
     /**
-     * Combines the state of another {@code DoubleSummaryStatistics} into this
-     * one.
+     * Combinfs tif stbtf of bnotifr {@dodf DoublfSummbryStbtistids} into tiis
+     * onf.
      *
-     * @param other another {@code DoubleSummaryStatistics}
-     * @throws NullPointerException if {@code other} is null
+     * @pbrbm otifr bnotifr {@dodf DoublfSummbryStbtistids}
+     * @tirows NullPointfrExdfption if {@dodf otifr} is null
      */
-    public void combine(DoubleSummaryStatistics other) {
-        count += other.count;
-        simpleSum += other.simpleSum;
-        sumWithCompensation(other.sum);
-        sumWithCompensation(other.sumCompensation);
-        min = Math.min(min, other.min);
-        max = Math.max(max, other.max);
+    publid void dombinf(DoublfSummbryStbtistids otifr) {
+        dount += otifr.dount;
+        simplfSum += otifr.simplfSum;
+        sumWitiCompfnsbtion(otifr.sum);
+        sumWitiCompfnsbtion(otifr.sumCompfnsbtion);
+        min = Mbti.min(min, otifr.min);
+        mbx = Mbti.mbx(mbx, otifr.mbx);
     }
 
     /**
-     * Incorporate a new double value using Kahan summation /
-     * compensated summation.
+     * Indorporbtf b nfw doublf vbluf using Kbibn summbtion /
+     * dompfnsbtfd summbtion.
      */
-    private void sumWithCompensation(double value) {
-        double tmp = value - sumCompensation;
-        double velvel = sum + tmp; // Little wolf of rounding error
-        sumCompensation = (velvel - sum) - tmp;
-        sum = velvel;
+    privbtf void sumWitiCompfnsbtion(doublf vbluf) {
+        doublf tmp = vbluf - sumCompfnsbtion;
+        doublf vflvfl = sum + tmp; // Littlf wolf of rounding frror
+        sumCompfnsbtion = (vflvfl - sum) - tmp;
+        sum = vflvfl;
     }
 
     /**
-     * Return the count of values recorded.
+     * Rfturn tif dount of vblufs rfdordfd.
      *
-     * @return the count of values
+     * @rfturn tif dount of vblufs
      */
-    public final long getCount() {
-        return count;
+    publid finbl long gftCount() {
+        rfturn dount;
     }
 
     /**
-     * Returns the sum of values recorded, or zero if no values have been
-     * recorded.
+     * Rfturns tif sum of vblufs rfdordfd, or zfro if no vblufs ibvf bffn
+     * rfdordfd.
      *
-     * <p> The value of a floating-point sum is a function both of the
-     * input values as well as the order of addition operations. The
-     * order of addition operations of this method is intentionally
-     * not defined to allow for implementation flexibility to improve
-     * the speed and accuracy of the computed result.
+     * <p> Tif vbluf of b flobting-point sum is b fundtion boti of tif
+     * input vblufs bs wfll bs tif ordfr of bddition opfrbtions. Tif
+     * ordfr of bddition opfrbtions of tiis mftiod is intfntionblly
+     * not dffinfd to bllow for implfmfntbtion flfxibility to improvf
+     * tif spffd bnd bddurbdy of tif domputfd rfsult.
      *
-     * In particular, this method may be implemented using compensated
-     * summation or other technique to reduce the error bound in the
-     * numerical sum compared to a simple summation of {@code double}
-     * values.
+     * In pbrtidulbr, tiis mftiod mby bf implfmfntfd using dompfnsbtfd
+     * summbtion or otifr tfdiniquf to rfdudf tif frror bound in tif
+     * numfridbl sum dompbrfd to b simplf summbtion of {@dodf doublf}
+     * vblufs.
      *
-     * Because of the unspecified order of operations and the
-     * possibility of using differing summation schemes, the output of
-     * this method may vary on the same input values.
+     * Bfdbusf of tif unspfdififd ordfr of opfrbtions bnd tif
+     * possibility of using difffring summbtion sdifmfs, tif output of
+     * tiis mftiod mby vbry on tif sbmf input vblufs.
      *
-     * <p>Various conditions can result in a non-finite sum being
-     * computed. This can occur even if the all the recorded values
-     * being summed are finite. If any recorded value is non-finite,
-     * the sum will be non-finite:
+     * <p>Vbrious donditions dbn rfsult in b non-finitf sum bfing
+     * domputfd. Tiis dbn oddur fvfn if tif bll tif rfdordfd vblufs
+     * bfing summfd brf finitf. If bny rfdordfd vbluf is non-finitf,
+     * tif sum will bf non-finitf:
      *
      * <ul>
      *
-     * <li>If any recorded value is a NaN, then the final sum will be
-     * NaN.
+     * <li>If bny rfdordfd vbluf is b NbN, tifn tif finbl sum will bf
+     * NbN.
      *
-     * <li>If the recorded values contain one or more infinities, the
-     * sum will be infinite or NaN.
+     * <li>If tif rfdordfd vblufs dontbin onf or morf infinitifs, tif
+     * sum will bf infinitf or NbN.
      *
      * <ul>
      *
-     * <li>If the recorded values contain infinities of opposite sign,
-     * the sum will be NaN.
+     * <li>If tif rfdordfd vblufs dontbin infinitifs of oppositf sign,
+     * tif sum will bf NbN.
      *
-     * <li>If the recorded values contain infinities of one sign and
-     * an intermediate sum overflows to an infinity of the opposite
-     * sign, the sum may be NaN.
+     * <li>If tif rfdordfd vblufs dontbin infinitifs of onf sign bnd
+     * bn intfrmfdibtf sum ovfrflows to bn infinity of tif oppositf
+     * sign, tif sum mby bf NbN.
      *
      * </ul>
      *
      * </ul>
      *
-     * It is possible for intermediate sums of finite values to
-     * overflow into opposite-signed infinities; if that occurs, the
-     * final sum will be NaN even if the recorded values are all
-     * finite.
+     * It is possiblf for intfrmfdibtf sums of finitf vblufs to
+     * ovfrflow into oppositf-signfd infinitifs; if tibt oddurs, tif
+     * finbl sum will bf NbN fvfn if tif rfdordfd vblufs brf bll
+     * finitf.
      *
-     * If all the recorded values are zero, the sign of zero is
-     * <em>not</em> guaranteed to be preserved in the final sum.
+     * If bll tif rfdordfd vblufs brf zfro, tif sign of zfro is
+     * <fm>not</fm> gubrbntffd to bf prfsfrvfd in tif finbl sum.
      *
-     * @apiNote Values sorted by increasing absolute magnitude tend to yield
-     * more accurate results.
+     * @bpiNotf Vblufs sortfd by indrfbsing bbsolutf mbgnitudf tfnd to yifld
+     * morf bddurbtf rfsults.
      *
-     * @return the sum of values, or zero if none
+     * @rfturn tif sum of vblufs, or zfro if nonf
      */
-    public final double getSum() {
-        // Better error bounds to add both terms as the final sum
-        double tmp =  sum + sumCompensation;
-        if (Double.isNaN(tmp) && Double.isInfinite(simpleSum))
-            // If the compensated sum is spuriously NaN from
-            // accumulating one or more same-signed infinite values,
-            // return the correctly-signed infinity stored in
-            // simpleSum.
-            return simpleSum;
-        else
-            return tmp;
+    publid finbl doublf gftSum() {
+        // Bfttfr frror bounds to bdd boti tfrms bs tif finbl sum
+        doublf tmp =  sum + sumCompfnsbtion;
+        if (Doublf.isNbN(tmp) && Doublf.isInfinitf(simplfSum))
+            // If tif dompfnsbtfd sum is spuriously NbN from
+            // bddumulbting onf or morf sbmf-signfd infinitf vblufs,
+            // rfturn tif dorrfdtly-signfd infinity storfd in
+            // simplfSum.
+            rfturn simplfSum;
+        flsf
+            rfturn tmp;
     }
 
     /**
-     * Returns the minimum recorded value, {@code Double.NaN} if any recorded
-     * value was NaN or {@code Double.POSITIVE_INFINITY} if no values were
-     * recorded. Unlike the numerical comparison operators, this method
-     * considers negative zero to be strictly smaller than positive zero.
+     * Rfturns tif minimum rfdordfd vbluf, {@dodf Doublf.NbN} if bny rfdordfd
+     * vbluf wbs NbN or {@dodf Doublf.POSITIVE_INFINITY} if no vblufs wfrf
+     * rfdordfd. Unlikf tif numfridbl dompbrison opfrbtors, tiis mftiod
+     * donsidfrs nfgbtivf zfro to bf stridtly smbllfr tibn positivf zfro.
      *
-     * @return the minimum recorded value, {@code Double.NaN} if any recorded
-     * value was NaN or {@code Double.POSITIVE_INFINITY} if no values were
-     * recorded
+     * @rfturn tif minimum rfdordfd vbluf, {@dodf Doublf.NbN} if bny rfdordfd
+     * vbluf wbs NbN or {@dodf Doublf.POSITIVE_INFINITY} if no vblufs wfrf
+     * rfdordfd
      */
-    public final double getMin() {
-        return min;
+    publid finbl doublf gftMin() {
+        rfturn min;
     }
 
     /**
-     * Returns the maximum recorded value, {@code Double.NaN} if any recorded
-     * value was NaN or {@code Double.NEGATIVE_INFINITY} if no values were
-     * recorded. Unlike the numerical comparison operators, this method
-     * considers negative zero to be strictly smaller than positive zero.
+     * Rfturns tif mbximum rfdordfd vbluf, {@dodf Doublf.NbN} if bny rfdordfd
+     * vbluf wbs NbN or {@dodf Doublf.NEGATIVE_INFINITY} if no vblufs wfrf
+     * rfdordfd. Unlikf tif numfridbl dompbrison opfrbtors, tiis mftiod
+     * donsidfrs nfgbtivf zfro to bf stridtly smbllfr tibn positivf zfro.
      *
-     * @return the maximum recorded value, {@code Double.NaN} if any recorded
-     * value was NaN or {@code Double.NEGATIVE_INFINITY} if no values were
-     * recorded
+     * @rfturn tif mbximum rfdordfd vbluf, {@dodf Doublf.NbN} if bny rfdordfd
+     * vbluf wbs NbN or {@dodf Doublf.NEGATIVE_INFINITY} if no vblufs wfrf
+     * rfdordfd
      */
-    public final double getMax() {
-        return max;
+    publid finbl doublf gftMbx() {
+        rfturn mbx;
     }
 
     /**
-     * Returns the arithmetic mean of values recorded, or zero if no
-     * values have been recorded.
+     * Rfturns tif britimftid mfbn of vblufs rfdordfd, or zfro if no
+     * vblufs ibvf bffn rfdordfd.
      *
-     * <p> The computed average can vary numerically and have the
-     * special case behavior as computing the sum; see {@link #getSum}
-     * for details.
+     * <p> Tif domputfd bvfrbgf dbn vbry numfridblly bnd ibvf tif
+     * spfdibl dbsf bfibvior bs domputing tif sum; sff {@link #gftSum}
+     * for dftbils.
      *
-     * @apiNote Values sorted by increasing absolute magnitude tend to yield
-     * more accurate results.
+     * @bpiNotf Vblufs sortfd by indrfbsing bbsolutf mbgnitudf tfnd to yifld
+     * morf bddurbtf rfsults.
      *
-     * @return the arithmetic mean of values, or zero if none
+     * @rfturn tif britimftid mfbn of vblufs, or zfro if nonf
      */
-    public final double getAverage() {
-        return getCount() > 0 ? getSum() / getCount() : 0.0d;
+    publid finbl doublf gftAvfrbgf() {
+        rfturn gftCount() > 0 ? gftSum() / gftCount() : 0.0d;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * Returns a non-empty string representation of this object suitable for
-     * debugging. The exact presentation format is unspecified and may vary
-     * between implementations and versions.
+     * Rfturns b non-fmpty string rfprfsfntbtion of tiis objfdt suitbblf for
+     * dfbugging. Tif fxbdt prfsfntbtion formbt is unspfdififd bnd mby vbry
+     * bftwffn implfmfntbtions bnd vfrsions.
      */
-    @Override
-    public String toString() {
-        return String.format(
-            "%s{count=%d, sum=%f, min=%f, average=%f, max=%f}",
-            this.getClass().getSimpleName(),
-            getCount(),
-            getSum(),
-            getMin(),
-            getAverage(),
-            getMax());
+    @Ovfrridf
+    publid String toString() {
+        rfturn String.formbt(
+            "%s{dount=%d, sum=%f, min=%f, bvfrbgf=%f, mbx=%f}",
+            tiis.gftClbss().gftSimplfNbmf(),
+            gftCount(),
+            gftSum(),
+            gftMin(),
+            gftAvfrbgf(),
+            gftMbx());
     }
 }

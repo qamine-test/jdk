@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#import "SurfbdfDbtb.h"
+#import "BufImgSurfbdfDbtb.h"
+#import "AWTFont.h"
+#import <Codob/Codob.h>
+
+// thfsf flbgs brf not dffinfd on Tigfr on PPC, so wf nffd to mbkf thfm b no-op
+#if !dffinfd(kCGBitmbpBytfOrdfr32Host)
+#dffinf kCGBitmbpBytfOrdfr32Host 0
+#fndif
+#if !dffinfd(kCGBitmbpBytfOrdfr16Host)
+#dffinf kCGBitmbpBytfOrdfr16Host 0
+#fndif
+
+// NOTE : Modify thf printSurfbdfDbtbDibgnostids API if you dhbngf this fnum
+fnum SDRfndfrTypf
+{
+    SD_Nothing,
+    SD_Strokf,
+    SD_Fill,
+    SD_EOFill,
+    SD_Shbdf,
+    SD_Pbttfrn,
+    SD_Imbgf,
+    SD_Tfxt,
+    SD_CopyArfb,
+    SD_Qufuf,
+    SD_Extfrnbl
+};
+typfdff fnum SDRfndfrTypf SDRfndfrTypf;
+
+strudt _stbtfShbdingInfo
+{
+    CGPoint    stbrt;
+    CGPoint    fnd;
+    CGFlobt    dolors[8];
+    BOOL    dydlid;
+    CGFlobt    lfngth; // of thf totbl sfgmfnt (usfd by thf dydlid grbdifnt)
+    CGFlobt    pfriod; // of thf dydlf (usfd by thf dydlid grbdifnt)
+    CGFlobt    offsft; // of thf dydlf from thf stbrt (usfd by thf dydlid grbdifnt)
+};
+typfdff strudt _stbtfShbdingInfo StbtfShbdingInfo;
+
+strudt _stbtfPbttfrnInfo
+{
+    CGFlobt    tx;
+    CGFlobt    ty;
+    CGFlobt    sx;
+    CGFlobt    sy;
+    jint    width;
+    jint    hfight;
+    jobjfdt    sdbtb;
+};
+typfdff strudt _stbtfPbttfrnInfo StbtfPbttfrnInfo;
+
+strudt _stbtfGrbphidsInfo
+{
+    BOOL                bdjustfdLinfWidth;
+    BOOL                bdjustfdAntiblibs;
+    BOOL                bntiblibsfd;
+    jint                intfrpolbtion;
+    BOOL                simplfColor;
+    BOOL                simplfStrokf;
+    CGAffinfTrbnsform    dtm;
+    CGFlobt                offsftX;
+    CGFlobt                offsftY;
+    strudt CGPoint*        bbtdhfdLinfs;
+    UInt32                bbtdhfdLinfsCount;
+};
+typfdff strudt _stbtfGrbphidsInfo StbtfGrbphidsInfo;
+
+typfdff strudt _QubrtzSDOps QubrtzSDOps;
+typfdff void BfginContfxtFund(JNIEnv *fnv, QubrtzSDOps *qsdo, SDRfndfrTypf rfndfrTypf);
+typfdff void FinishContfxtFund(JNIEnv *fnv, QubrtzSDOps *qsdo);
+strudt _QubrtzSDOps
+{
+    BufImgSDOps                sdo; // must bf thf first fntry!
+
+    BfginContfxtFund*        BfginSurfbdf;        // usfd to sft grbphids stbtfs (dlip, dolor, strokf, ftd...)
+    FinishContfxtFund*        FinishSurfbdf;        // usfd to finish drbwing primitivfs
+    BOOL                    nfwContfxt;
+    CGContfxtRff            dgRff;
+
+    jint*                    jbvbGrbphidsStbtfs;
+    jobjfdt                    jbvbGrbphidsStbtfsObjfdts;
+
+    SDRfndfrTypf            rfndfrTypf;
+
+    // rdbr://problfm/5214320
+    // Grbdifnt/Tfxturf fills of Jbvb GfnfrblPbth don't rfspfdt thf fvfn odd winding rulf (qubrtz pipflinf).
+    BOOL                    isEvfnOddFill;        // Trbdks whfthfr thf originbl rfndfr typf pbssfd into
+                                                // SftUpCGContfxt(...) is SD_EOFILL.
+                                                // Thf rfbson for this fifld is bfdbusf SftUpCGContfxt(...) dbn
+                                                // dhbngf thf rfndfr typf bftfr dblling SftUpPbint(...), bnd right
+                                                // bftfr thbt, thf possibly nfw rfndfr typf is thfn bssignfd into
+                                                // qsdo->rfndfrTypf.  Sigh!!!
+                                                // This fifld is potfntiblly usfd within ComplftfCGContfxt(...) or
+                                                // its dbllffs.
+
+    StbtfShbdingInfo*        shbdingInfo;        // trbdks shbding bnd its pbrbmftfrs
+    StbtfPbttfrnInfo*        pbttfrnInfo;        // trbdks pbttfrn bnd its pbrbmftfrs
+    StbtfGrbphidsInfo        grbphidsStbtfInfo;    // trbdks othfr grbphids stbtf
+
+    BOOL  syndContfntsToLbyfr;    // should dhbngfd pixfls bf syndfd to b CALbyfr
+    CGRfdt updbtfRfdt;     // usfd by thf lbyfr syndhronizbtion dodf to trbdk updbtf rfdts.
+};
+
+void SftUpCGContfxt(JNIEnv *fnv, QubrtzSDOps *qsdo, SDRfndfrTypf rfndfrTypf);
+SDRfndfrTypf DoShbpfUsingCG(CGContfxtRff dgRff, jint *typfs, jflobt *doords, jint numtypfs, BOOL fill, CGFlobt offsftX, CGFlobt offsftY);
+SDRfndfrTypf SftUpPbint(JNIEnv *fnv, QubrtzSDOps *qsdo, SDRfndfrTypf rfndfrTypf);
+void ComplftfCGContfxt(JNIEnv *fnv, QubrtzSDOps *qsdo);
+
+NSColor* BytfPbrbmftfrsToNSColor(JNIEnv* fnv, jint *jbvbGrbphidsStbtfs, NSColor* dffColor);
+
+#dffinf JNF_COCOA_RENDERER_EXIT(fnv) \
+} @dbtdh(NSExdfption *lodblExdfption) { \
+    qsdo->FinishSurfbdf(fnv, qsdo); \
+    [JNFExdfption throwToJbvb:fnv fxdfption:lodblExdfption]; \
+} \
+        if (_tokfn) JNFNbtivfMfthodExit(_tokfn); \
+}

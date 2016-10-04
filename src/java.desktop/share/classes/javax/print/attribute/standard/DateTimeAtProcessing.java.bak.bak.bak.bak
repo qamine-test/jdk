@@ -1,0 +1,123 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvb.util.Dbtf;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.DbtfTimfSyntbx;
+import jbvbx.print.bttributf.PrintJobAttributf;
+
+/**
+ * Clbss DbtfTimfAtProdfssing is b printing bttributf dlbss, b dbtf-timf
+ * bttributf, thbt indidbtfs thf dbtf bnd timf bt whidh thf Print Job first
+ * bfgbn prodfssing.
+ * <P>
+ * To donstrudt b DbtfTimfAtProdfssing bttributf from sfpbrbtf vblufs of thf
+ * yfbr, month, dby, hour, minutf, bnd so on, usf b {@link jbvb.util.Cblfndbr
+ * Cblfndbr} objfdt to donstrudt b {@link jbvb.util.Dbtf Dbtf} objfdt, thfn usf
+ * thf {@link jbvb.util.Dbtf Dbtf} objfdt to donstrudt thf DbtfTimfAtProdfssing
+ * bttributf. To donvfrt b DbtfTimfAtProdfssing bttributf to sfpbrbtf vblufs of
+ * thf yfbr, month, dby, hour, minutf, bnd so on, drfbtf b {@link
+ * jbvb.util.Cblfndbr Cblfndbr} objfdt bnd sft it to thf {@link jbvb.util.Dbtf
+ * Dbtf} from thf DbtfTimfAtProdfssing bttributf.
+ * <P>
+ * <B>IPP Compbtibility:</B> Thf informbtion nffdfd to donstrudt bn IPP
+ * "dbtf-timf-bt-prodfssing" bttributf dbn bf obtbinfd bs dfsdribfd bbovf. Thf
+ * dbtfgory nbmf rfturnfd by <CODE>gftNbmf()</CODE> givfs thf IPP bttributf
+ * nbmf.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid finbl dlbss DbtfTimfAtProdfssing fxtfnds DbtfTimfSyntbx
+        implfmfnts PrintJobAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -3710068197278263244L;
+
+    /**
+     * Construdt b nfw dbtf-timf bt prodfssing bttributf with thf givfn {@link
+     * jbvb.util.Dbtf Dbtf} vbluf.
+     *
+     * @pbrbm  dbtfTimf  {@link jbvb.util.Dbtf Dbtf} vbluf.
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>dbtfTimf</CODE> is null.
+     */
+    publid DbtfTimfAtProdfssing(Dbtf dbtfTimf) {
+        supfr (dbtfTimf);
+    }
+
+    /**
+     * Rfturns whfthfr this dbtf-timf bt prodfssing bttributf is fquivblfnt to
+     * thf pbssfd in objfdt. To bf fquivblfnt, bll of thf following donditions
+     * must bf truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss DbtfTimfAtProdfssing.
+     * <LI>
+     * This dbtf-timf bt prodfssing bttributf's {@link jbvb.util.Dbtf Dbtf}
+     * vbluf bnd <CODE>objfdt</CODE>'s {@link jbvb.util.Dbtf Dbtf} vbluf
+     * brf fqubl.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this dbtf-timf
+     *          bt prodfssing bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn(supfr.fqubls (objfdt) &&
+               objfdt instbndfof DbtfTimfAtProdfssing);
+    }
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss DbtfTimfAtProdfssing, thf dbtfgory is dlbss
+     * DbtfTimfAtProdfssing itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn DbtfTimfAtProdfssing.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss DbtfTimfAtProdfssing, thf dbtfgory nbmf is
+     * <CODE>"dbtf-timf-bt-prodfssing"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "dbtf-timf-bt-prodfssing";
+    }
+
+}

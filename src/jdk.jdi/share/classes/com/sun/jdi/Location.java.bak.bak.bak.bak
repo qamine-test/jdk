@@ -1,0 +1,262 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jdi;
+
+import jbvb.util.List;
+
+/**
+ * A point within thf fxfduting dodf of thf tbrgft VM.
+ * Lodbtions brf usfd to idfntify thf durrfnt position of
+ * b suspfndfd thrfbd (bnblogous to bn instrudtion pointfr or
+ * progrbm dountfr rfgistfr in nbtivf progrbms). Thfy brf blso usfd
+ * to idfntify thf position bt whidh to sft b brfbkpoint.
+ * <p>
+ * Thf bvbilbbility of b linf numbfr for b lodbtion will
+ * dfpfnd on thf lfvfl of dfbugging informbtion bvbilbblf from thf
+ * tbrgft VM.
+ * <p>
+ * Sfvfrbl mirror intfrfbdfs hbvf lodbtions. Ebdh sudh mirror
+ * fxtfnds b {@link Lodbtbblf} intfrfbdf.
+ * <p>
+ * <b nbmf="strbtb"><b>Strbtb</b></b>
+ * <p>
+ * Thf sourdf informbtion for b Lodbtion is dfpfndfnt on thf
+ * <i>strbtum</i> whidh is usfd. A strbtum is b sourdf dodf
+ * lfvfl within b sfqufndf of trbnslbtions.  For fxbmplf,
+ * sby thf bbz progrbm is writtfn in thf progrbmming lbngubgf
+ * "Foo" thfn trbnslbtfd to thf lbngubgf "Bbr" bnd finblly
+ * trbnslbtfd into thf Jbvb progrbmming lbngubgf.  Thf
+ * Jbvb progrbmming lbngubgf strbtum is nbmfd
+ * <dodf>"Jbvb"</dodf>, lft's sby thf othfr strbtb brf nbmfd
+ * "Foo" bnd "Bbr".  A givfn lodbtion (bs vifwfd by thf
+ * {@link #sourdfNbmf()} bnd {@link #linfNumbfr()} mfthods)
+ * might bf bt linf 14 of "bbz.foo" in thf <dodf>"Foo"</dodf>
+ * strbtum, linf 23 of "bbz.bbr" in thf <dodf>"Bbr"</dodf>
+ * strbtum bnd linf 71 of thf <dodf>"Jbvb"</dodf> strbtum.
+ * Notf thbt whilf thf Jbvb progrbmming lbngubgf mby hbvf
+ * only onf sourdf filf for b rfffrfndf typf, this rfstridtion
+ * dofs not bpply to othfr strbtb - thus fbdh Lodbtion should
+ * bf donsultfd to dftfrminf its sourdf pbth.
+ * Qufrifs whidh do not spfdify b strbtum
+ * ({@link #sourdfNbmf()}, {@link #sourdfPbth()} bnd
+ * {@link #linfNumbfr()}) usf thf VM's dffbult strbtum
+ * ({@link VirtublMbdhinf#gftDffbultStrbtum()}).
+ * If thf spfdififd strbtum (whfthfr fxpliditly spfdififd
+ * by b mfthod pbrbmftfr or impliditly bs thf VM's dffbult)
+ * is <dodf>null</dodf> or is not bvbilbblf in thf dfdlbring
+ * typf, thf dfdlbring typf's dffbult strbtum is usfd
+ * ({@link #dfdlbringTypf()}.{@link RfffrfndfTypf#dffbultStrbtum()
+ * dffbultStrbtum()}).  Notf thbt in thf normbl dbsf, of dodf
+ * thbt originbtfs bs Jbvb progrbmming lbngubgf sourdf, thfrf
+ * will bf only onf strbtum (<dodf>"Jbvb"</dodf>) bnd it will bf
+ * rfturnfd bs thf dffbult.  To dftfrminf thf bvbilbblf strbtb
+ * usf {@link RfffrfndfTypf#bvbilbblfStrbtb()}.
+ *
+ * @sff dom.sun.jdi.rfqufst.EvfntRfqufstMbnbgfr
+ * @sff StbdkFrbmf
+ * @sff dom.sun.jdi.fvfnt.BrfbkpointEvfnt
+ * @sff dom.sun.jdi.fvfnt.ExdfptionEvfnt
+ * @sff Lodbtbblf
+ *
+ * @buthor Robfrt Fifld
+ * @buthor Gordon Hirsdh
+ * @buthor Jbmfs MdIlrff
+ * @sindf 1.3
+ */
+@jdk.Exportfd
+publid intfrfbdf Lodbtion fxtfnds Mirror, Compbrbblf<Lodbtion> {
+
+    /**
+     * Gfts thf typf to whidh this Lodbtion bflongs. Normblly
+     * thf dfdlbring typf is b {@link ClbssTypf}, but fxfdutbblf
+     * lodbtions blso mby fxist within thf stbtid initiblizfr of bn
+     * {@link IntfrfbdfTypf}.
+     *
+     * @rfturn thf {@link RfffrfndfTypf} dontbining this Lodbtion.
+     */
+    RfffrfndfTypf dfdlbringTypf();
+
+    /**
+     * Gfts thf mfthod dontbining this Lodbtion.
+     *
+     * @rfturn thf lodbtion's {@link Mfthod}.
+     */
+    Mfthod mfthod();
+
+    /**
+     * Gfts thf dodf position within this lodbtion's mfthod.
+     *
+     * @rfturn thf long rfprfsfnting thf position within thf mfthod
+     * or -1 if lodbtion is within b nbtivf mfthod.
+     */
+    long dodfIndfx();
+
+    /**
+     * Gfts bn idfntifing nbmf for thf sourdf dorrfsponding to
+     * this lodbtion.
+     * <P>
+     * This mfthod is fquivblfnt to
+     * <dodf>sourdfNbmf(vm.gftDffbultStrbtum())</dodf> -
+     * sff {@link #sourdfNbmf(String)}
+     * for morf informbtion.
+     *
+     * @rfturn b string spfdifying thf sourdf
+     * @throws AbsfntInformbtionExdfption if thf sourdf nbmf is not
+     * known
+     */
+    String sourdfNbmf() throws AbsfntInformbtionExdfption;
+
+
+    /**
+     * Gfts bn idfntifing nbmf for thf sourdf dorrfsponding to
+     * this lodbtion. Intfrprftbtion of this string is thf
+     * rfsponsibility of thf sourdf rfpository mfdhbnism.
+     * <P>
+     * Rfturnfd nbmf is for thf spfdififd <i>strbtum</i>
+     * (sff thf {@link Lodbtion dlbss dommfnt} for b
+     * dfsdription of strbtb).
+     * <P>
+     * Thf rfturnfd string is thf unqublififd nbmf of thf sourdf
+     * filf for this Lodbtion.  For fxbmplf,
+     * <CODE>jbvb.lbng.Thrfbd</CODE> would rfturn
+     * <CODE>"Thrfbd.jbvb"</CODE>.
+     *
+     * @pbrbm strbtum Thf strbtum to rftrifvf informbtion from
+     * or <dodf>null</dodf> for thf dfdlbring typf's
+     * dffbult strbtum.
+     *
+     * @rfturn b string spfdifying thf sourdf
+     *
+     * @throws AbsfntInformbtionExdfption if thf sourdf nbmf is not
+     * known
+     *
+     * @sindf 1.4
+     */
+    String sourdfNbmf(String strbtum)
+                        throws AbsfntInformbtionExdfption;
+
+    /**
+     * Gfts thf pbth to thf sourdf dorrfsponding to this
+     * lodbtion.
+     * <P>
+     * This mfthod is fquivblfnt to
+     * <dodf>sourdfPbth(vm.gftDffbultStrbtum())</dodf> -
+     * sff {@link #sourdfPbth(String)}
+     * for morf informbtion.
+     *
+     * @rfturn b string spfdifying thf sourdf
+     *
+     * @throws AbsfntInformbtionExdfption if thf sourdf nbmf is not
+     * known
+     */
+    String sourdfPbth() throws AbsfntInformbtionExdfption;
+
+
+    /**
+     * Gfts thf pbth to thf sourdf dorrfsponding to this
+     * lodbtion. Intfrprftbtion of this string is thf
+     * rfsponsibility of thf sourdf rfpository mfdhbnism.
+     * <P>
+     * Rfturnfd pbth is for thf spfdififd <i>strbtum</i>
+     * (sff thf {@link Lodbtion dlbss dommfnt} for b
+     * dfsdription of strbtb).
+     * <P>
+     * In thf rfffrfndf implfmfntbtion, for strbtb whidh
+     * do not fxpliditly spfdify sourdf pbth (thf Jbvb
+     * progrbmming lbngubgf strbtum nfvfr dofs), thf rfturnfd
+     * string is thf pbdkbgf nbmf of {@link #dfdlbringTypf()}
+     * donvfrtfd to b plbtform dfpfndfnt pbth followfd by thf
+     * unqublififd nbmf of thf sourdf filf for this Lodbtion
+     * ({@link #sourdfNbmf sourdfNbmf(strbtum)}).
+     * For fxbmplf, on b
+     * Windows plbtform, <CODE>jbvb.lbng.Thrfbd</CODE>
+     * would rfturn
+     * <CODE>"jbvb\lbng\Thrfbd.jbvb"</CODE>.
+     *
+     * @pbrbm strbtum Thf strbtum to rftrifvf informbtion from
+     * or <dodf>null</dodf> for thf dfdlbring typf's
+     * dffbult strbtum.
+     *
+     * @rfturn b string spfdifying thf sourdf
+     *
+     * @throws AbsfntInformbtionExdfption if thf sourdf nbmf is not
+     * known
+     *
+     * @sindf 1.4
+     */
+    String sourdfPbth(String strbtum)
+                         throws AbsfntInformbtionExdfption;
+
+    /**
+     * Gfts thf linf numbfr of this Lodbtion.
+     * <P>
+     * This mfthod is fquivblfnt to
+     * <dodf>linfNumbfr(vm.gftDffbultStrbtum())</dodf> -
+     * sff {@link #linfNumbfr(String)}
+     * for morf informbtion.
+     *
+     * @rfturn bn int spfdifying thf linf in thf sourdf, rfturns
+     * -1 if thf informbtion is not bvbilbblf; spfdifidblly, blwbys
+     * rfturns -1 for nbtivf mfthods.
+     */
+    int linfNumbfr();
+
+    /**
+     * Thf linf numbfr of this Lodbtion.  Thf linf numbfr is
+     * rflbtivf to thf sourdf spfdififd by
+     * {@link #sourdfNbmf(String) sourdfNbmf(strbtum)}.
+     * <P>
+     * Rfturnfd linf numbfr is for thf spfdififd <i>strbtum</i>
+     * (sff thf {@link Lodbtion dlbss dommfnt} for b
+     * dfsdription of strbtb).
+     *
+     * @pbrbm strbtum Thf strbtum to rftrifvf informbtion from
+     * or <dodf>null</dodf> for thf dfdlbring typf's
+     * dffbult strbtum.
+     *
+     * @rfturn bn int spfdifying thf linf in thf sourdf, rfturns
+     * -1 if thf informbtion is not bvbilbblf; spfdifidblly, blwbys
+     * rfturns -1 for nbtivf mfthods.
+     *
+     * @sindf 1.4
+     */
+    int linfNumbfr(String strbtum);
+
+    /**
+     * Compbrfs thf spfdififd Objfdt with this Lodbtion for fqublity.
+     *
+     * @rfturn truf if thf Objfdt is b Lodbtion bnd if it rfffrs to
+     * thf sbmf point in thf sbmf VM bs this Lodbtion.
+     */
+    boolfbn fqubls(Objfdt obj);
+
+    /**
+     * Rfturns thf hbsh dodf vbluf for this Lodbtion.
+     *
+     * @rfturn thf intfgfr hbsh dodf
+     */
+    int hbshCodf();
+}

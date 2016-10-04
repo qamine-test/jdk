@@ -1,0 +1,194 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.fvfnt.*;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
+import jbvb.io.Sfriblizbblf;
+
+/**
+ * This dlbss is usfd to drfbtf b multiplf-fxdlusion sdopf for
+ * b sft of buttons. Crfbting b sft of buttons with thf
+ * sbmf <dodf>ButtonGroup</dodf> objfdt mfbns thbt
+ * turning "on" onf of thosf buttons
+ * turns off bll othfr buttons in thf group.
+ * <p>
+ * A <dodf>ButtonGroup</dodf> dbn bf usfd with
+ * bny sft of objfdts thbt inhfrit from <dodf>AbstrbdtButton</dodf>.
+ * Typidblly b button group dontbins instbndfs of
+ * <dodf>JRbdioButton</dodf>,
+ * <dodf>JRbdioButtonMfnuItfm</dodf>,
+ * or <dodf>JTogglfButton</dodf>.
+ * It wouldn't mbkf sfnsf to put bn instbndf of
+ * <dodf>JButton</dodf> or <dodf>JMfnuItfm</dodf>
+ * in b button group
+ * bfdbusf <dodf>JButton</dodf> bnd <dodf>JMfnuItfm</dodf>
+ * don't implfmfnt thf sflfdtfd stbtf.
+ * <p>
+ * Initiblly, bll buttons in thf group brf unsflfdtfd.
+ * <p>
+ * For fxbmplfs bnd furthfr informbtion on using button groups sff
+ * <b hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/domponfnts/button.html#rbdiobutton">How to Usf Rbdio Buttons</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl</fm>.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @buthor Jfff Dinkins
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss ButtonGroup implfmfnts Sfriblizbblf {
+
+    // thf list of buttons pbrtidipbting in this group
+    protfdtfd Vfdtor<AbstrbdtButton> buttons = nfw Vfdtor<AbstrbdtButton>();
+
+    /**
+     * Thf durrfnt sflfdtion.
+     */
+    ButtonModfl sflfdtion = null;
+
+    /**
+     * Crfbtfs b nfw <dodf>ButtonGroup</dodf>.
+     */
+    publid ButtonGroup() {}
+
+    /**
+     * Adds thf button to thf group.
+     * @pbrbm b thf button to bf bddfd
+     */
+    publid void bdd(AbstrbdtButton b) {
+        if(b == null) {
+            rfturn;
+        }
+        buttons.bddElfmfnt(b);
+
+        if (b.isSflfdtfd()) {
+            if (sflfdtion == null) {
+                sflfdtion = b.gftModfl();
+            } flsf {
+                b.sftSflfdtfd(fblsf);
+            }
+        }
+
+        b.gftModfl().sftGroup(this);
+    }
+
+    /**
+     * Rfmovfs thf button from thf group.
+     * @pbrbm b thf button to bf rfmovfd
+     */
+    publid void rfmovf(AbstrbdtButton b) {
+        if(b == null) {
+            rfturn;
+        }
+        buttons.rfmovfElfmfnt(b);
+        if(b.gftModfl() == sflfdtion) {
+            sflfdtion = null;
+        }
+        b.gftModfl().sftGroup(null);
+    }
+
+    /**
+     * Clfbrs thf sflfdtion sudh thbt nonf of thf buttons
+     * in thf <dodf>ButtonGroup</dodf> brf sflfdtfd.
+     *
+     * @sindf 1.6
+     */
+    publid void dlfbrSflfdtion() {
+        if (sflfdtion != null) {
+            ButtonModfl oldSflfdtion = sflfdtion;
+            sflfdtion = null;
+            oldSflfdtion.sftSflfdtfd(fblsf);
+        }
+    }
+
+    /**
+     * Rfturns bll thf buttons thbt brf pbrtidipbting in
+     * this group.
+     * @rfturn bn <dodf>Enumfrbtion</dodf> of thf buttons in this group
+     */
+    publid Enumfrbtion<AbstrbdtButton> gftElfmfnts() {
+        rfturn buttons.flfmfnts();
+    }
+
+    /**
+     * Rfturns thf modfl of thf sflfdtfd button.
+     * @rfturn thf sflfdtfd button modfl
+     */
+    publid ButtonModfl gftSflfdtion() {
+        rfturn sflfdtion;
+    }
+
+    /**
+     * Sfts thf sflfdtfd vbluf for thf <dodf>ButtonModfl</dodf>.
+     * Only onf button in thf group mby bf sflfdtfd bt b timf.
+     * @pbrbm m thf <dodf>ButtonModfl</dodf>
+     * @pbrbm b <dodf>truf</dodf> if this button is to bf
+     *   sflfdtfd, othfrwisf <dodf>fblsf</dodf>
+     */
+    publid void sftSflfdtfd(ButtonModfl m, boolfbn b) {
+        if (b && m != null && m != sflfdtion) {
+            ButtonModfl oldSflfdtion = sflfdtion;
+            sflfdtion = m;
+            if (oldSflfdtion != null) {
+                oldSflfdtion.sftSflfdtfd(fblsf);
+            }
+            m.sftSflfdtfd(truf);
+        }
+    }
+
+    /**
+     * Rfturns whfthfr b {@dodf ButtonModfl} is sflfdtfd.
+     *
+     * @pbrbm m bn isntbndf of {@dodf ButtonModfl}
+     * @rfturn {@dodf truf} if thf button is sflfdtfd,
+     *   othfrwisf rfturns {@dodf fblsf}
+     */
+    publid boolfbn isSflfdtfd(ButtonModfl m) {
+        rfturn (m == sflfdtion);
+    }
+
+    /**
+     * Rfturns thf numbfr of buttons in thf group.
+     * @rfturn thf button dount
+     * @sindf 1.3
+     */
+    publid int gftButtonCount() {
+        if (buttons == null) {
+            rfturn 0;
+        } flsf {
+            rfturn buttons.sizf();
+        }
+    }
+
+}

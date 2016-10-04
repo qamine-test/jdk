@@ -1,77 +1,77 @@
 /*
- * Copyright (c) 1999, 2013 Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013 Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef _JAVASOFT_JAWT_MD_H_
-#define _JAVASOFT_JAWT_MD_H_
+#ifndff _JAVASOFT_JAWT_MD_H_
+#dffinf _JAVASOFT_JAWT_MD_H_
 
-#include "jawt.h"
+#indludf "jbwt.i"
 
-#ifdef __OBJC__
-#import <QuartzCore/CALayer.h>
-#endif
+#ifdff __OBJC__
+#import <QubrtzCorf/CALbyfr.i>
+#fndif
 
-#ifdef __cplusplus
-extern "C" {
-#endif
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
 
 /*
- * Mac OS X specific declarations for AWT native interface.
- * See notes in jawt.h for an example of use.
+ * Mbd OS X spfdifid dfdlbrbtions for AWT nbtivf intfrfbdf.
+ * Sff notfs in jbwt.i for bn fxbmplf of usf.
  */
 
 /*
- * When calling JAWT_GetAWT with a JAWT version less than 1.7, you must pass this
- * flag or you will not be able to get a valid drawing surface and JAWT_GetAWT will
- * return false. This is to maintain compatibility with applications that used the
- * interface with Java 6 which had multiple rendering models. This flag is not necessary
- * when JAWT version 1.7 or greater is used as this is the only supported rendering mode.
+ * Wifn dblling JAWT_GftAWT witi b JAWT vfrsion lfss tibn 1.7, you must pbss tiis
+ * flbg or you will not bf bblf to gft b vblid drbwing surfbdf bnd JAWT_GftAWT will
+ * rfturn fblsf. Tiis is to mbintbin dompbtibility witi bpplidbtions tibt usfd tif
+ * intfrfbdf witi Jbvb 6 wiidi ibd multiplf rfndfring modfls. Tiis flbg is not nfdfssbry
+ * wifn JAWT vfrsion 1.7 or grfbtfr is usfd bs tiis is tif only supportfd rfndfring modf.
  *
- * Example:
- *   JAWT awt;
- *   awt.version = JAWT_VERSION_1_4 | JAWT_MACOSX_USE_CALAYER;
- *   jboolean success = JAWT_GetAWT(env, &awt);
+ * Exbmplf:
+ *   JAWT bwt;
+ *   bwt.vfrsion = JAWT_VERSION_1_4 | JAWT_MACOSX_USE_CALAYER;
+ *   jboolfbn suddfss = JAWT_GftAWT(fnv, &bwt);
  */
-#define JAWT_MACOSX_USE_CALAYER 0x80000000
+#dffinf JAWT_MACOSX_USE_CALAYER 0x80000000
 
 /*
- * When the native Cocoa toolkit is in use, the pointer stored in
- * JAWT_DrawingSurfaceInfo->platformInfo points to a NSObject that conforms to the
- * JAWT_SurfaceLayers protocol. Setting the layer property of this object will cause the
- * specified layer to be overlaid on the Components rectangle. If the window the
- * Component belongs to has a CALayer attached to it, this layer will be accessible via
- * the windowLayer property.
+ * Wifn tif nbtivf Codob toolkit is in usf, tif pointfr storfd in
+ * JAWT_DrbwingSurfbdfInfo->plbtformInfo points to b NSObjfdt tibt donforms to tif
+ * JAWT_SurfbdfLbyfrs protodol. Sftting tif lbyfr propfrty of tiis objfdt will dbusf tif
+ * spfdififd lbyfr to bf ovfrlbid on tif Componfnts rfdtbnglf. If tif window tif
+ * Componfnt bflongs to ibs b CALbyfr bttbdifd to it, tiis lbyfr will bf bddfssiblf vib
+ * tif windowLbyfr propfrty.
  */
-#ifdef __OBJC__
-@protocol JAWT_SurfaceLayers
-@property (readwrite, retain) CALayer *layer;
-@property (readonly) CALayer *windowLayer;
-@end
-#endif
+#ifdff __OBJC__
+@protodol JAWT_SurfbdfLbyfrs
+@propfrty (rfbdwritf, rftbin) CALbyfr *lbyfr;
+@propfrty (rfbdonly) CALbyfr *windowLbyfr;
+@fnd
+#fndif
 
-#ifdef __cplusplus
+#ifdff __dplusplus
 }
-#endif
+#fndif
 
-#endif /* !_JAVASOFT_JAWT_MD_H_ */
+#fndif /* !_JAVASOFT_JAWT_MD_H_ */

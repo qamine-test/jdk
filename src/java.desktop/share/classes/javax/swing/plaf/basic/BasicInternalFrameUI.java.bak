@@ -1,1455 +1,1455 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.plaf.basic;
+pbdkbgf jbvbx.swing.plbf.bbsid;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-import javax.swing.plaf.*;
-import javax.swing.event.*;
-import java.beans.*;
-import sun.swing.DefaultLookup;
-import sun.swing.UIAction;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bfbns.*;
+import sun.swing.DffbultLookup;
+import sun.swing.UIAdtion;
 
 /**
- * A basic L&amp;F implementation of JInternalFrame.
+ * A bbsid L&bmp;F implfmfntbtion of JIntfrnblFrbmf.
  *
- * @author David Kloba
- * @author Rich Schiavi
+ * @butior Dbvid Klobb
+ * @butior Ridi Sdiibvi
  */
-public class BasicInternalFrameUI extends InternalFrameUI
+publid dlbss BbsidIntfrnblFrbmfUI fxtfnds IntfrnblFrbmfUI
 {
 
-    protected JInternalFrame frame;
+    protfdtfd JIntfrnblFrbmf frbmf;
 
-    private Handler handler;
-    protected MouseInputAdapter          borderListener;
-    protected PropertyChangeListener     propertyChangeListener;
-    protected LayoutManager              internalFrameLayout;
-    protected ComponentListener          componentListener;
-    protected MouseInputListener         glassPaneDispatcher;
-    private InternalFrameListener        internalFrameListener;
+    privbtf Hbndlfr ibndlfr;
+    protfdtfd MousfInputAdbptfr          bordfrListfnfr;
+    protfdtfd PropfrtyCibngfListfnfr     propfrtyCibngfListfnfr;
+    protfdtfd LbyoutMbnbgfr              intfrnblFrbmfLbyout;
+    protfdtfd ComponfntListfnfr          domponfntListfnfr;
+    protfdtfd MousfInputListfnfr         glbssPbnfDispbtdifr;
+    privbtf IntfrnblFrbmfListfnfr        intfrnblFrbmfListfnfr;
 
-    protected JComponent northPane;
-    protected JComponent southPane;
-    protected JComponent westPane;
-    protected JComponent eastPane;
+    protfdtfd JComponfnt nortiPbnf;
+    protfdtfd JComponfnt soutiPbnf;
+    protfdtfd JComponfnt wfstPbnf;
+    protfdtfd JComponfnt fbstPbnf;
 
-    protected BasicInternalFrameTitlePane titlePane; // access needs this
+    protfdtfd BbsidIntfrnblFrbmfTitlfPbnf titlfPbnf; // bddfss nffds tiis
 
-    private static DesktopManager sharedDesktopManager;
-    private boolean componentListenerAdded = false;
+    privbtf stbtid DfsktopMbnbgfr sibrfdDfsktopMbnbgfr;
+    privbtf boolfbn domponfntListfnfrAddfd = fblsf;
 
-    private Rectangle parentBounds;
+    privbtf Rfdtbnglf pbrfntBounds;
 
-    private boolean dragging = false;
-    private boolean resizing = false;
+    privbtf boolfbn drbgging = fblsf;
+    privbtf boolfbn rfsizing = fblsf;
 
     /**
-     * As of Java 2 platform v1.3 this previously undocumented field is no
-     * longer used.
-     * Key bindings are now defined by the LookAndFeel, please refer to
-     * the key bindings specification for further details.
+     * As of Jbvb 2 plbtform v1.3 tiis prfviously undodumfntfd fifld is no
+     * longfr usfd.
+     * Kfy bindings brf now dffinfd by tif LookAndFffl, plfbsf rfffr to
+     * tif kfy bindings spfdifidbtion for furtifr dftbils.
      *
-     * @deprecated As of Java 2 platform v1.3.
+     * @dfprfdbtfd As of Jbvb 2 plbtform v1.3.
      */
-    @Deprecated
-    protected KeyStroke openMenuKey;
+    @Dfprfdbtfd
+    protfdtfd KfyStrokf opfnMfnuKfy;
 
-    private boolean keyBindingRegistered = false;
-    private boolean keyBindingActive = false;
+    privbtf boolfbn kfyBindingRfgistfrfd = fblsf;
+    privbtf boolfbn kfyBindingAdtivf = fblsf;
 
 /////////////////////////////////////////////////////////////////////////////
-// ComponentUI Interface Implementation methods
+// ComponfntUI Intfrfbdf Implfmfntbtion mftiods
 /////////////////////////////////////////////////////////////////////////////
-    public static ComponentUI createUI(JComponent b)    {
-        return new BasicInternalFrameUI((JInternalFrame)b);
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt b)    {
+        rfturn nfw BbsidIntfrnblFrbmfUI((JIntfrnblFrbmf)b);
     }
 
-    public BasicInternalFrameUI(JInternalFrame b)   {
-        LookAndFeel laf = UIManager.getLookAndFeel();
-        if (laf instanceof BasicLookAndFeel) {
-            ((BasicLookAndFeel)laf).installAWTEventListener();
+    publid BbsidIntfrnblFrbmfUI(JIntfrnblFrbmf b)   {
+        LookAndFffl lbf = UIMbnbgfr.gftLookAndFffl();
+        if (lbf instbndfof BbsidLookAndFffl) {
+            ((BbsidLookAndFffl)lbf).instbllAWTEvfntListfnfr();
         }
     }
 
-    public void installUI(JComponent c)   {
+    publid void instbllUI(JComponfnt d)   {
 
-        frame = (JInternalFrame)c;
+        frbmf = (JIntfrnblFrbmf)d;
 
-        installDefaults();
-        installListeners();
-        installComponents();
-        installKeyboardActions();
+        instbllDffbults();
+        instbllListfnfrs();
+        instbllComponfnts();
+        instbllKfybobrdAdtions();
 
-        LookAndFeel.installProperty(frame, "opaque", Boolean.TRUE);
+        LookAndFffl.instbllPropfrty(frbmf, "opbquf", Boolfbn.TRUE);
     }
 
-    public void uninstallUI(JComponent c) {
-        if(c != frame)
-            throw new IllegalComponentStateException(
-                this + " was asked to deinstall() "
-                + c + " when it only knows about "
-                + frame + ".");
+    publid void uninstbllUI(JComponfnt d) {
+        if(d != frbmf)
+            tirow nfw IllfgblComponfntStbtfExdfption(
+                tiis + " wbs bskfd to dfinstbll() "
+                + d + " wifn it only knows bbout "
+                + frbmf + ".");
 
-        uninstallKeyboardActions();
-        uninstallComponents();
-        uninstallListeners();
-        uninstallDefaults();
-        updateFrameCursor();
-        handler = null;
-        frame = null;
+        uninstbllKfybobrdAdtions();
+        uninstbllComponfnts();
+        uninstbllListfnfrs();
+        uninstbllDffbults();
+        updbtfFrbmfCursor();
+        ibndlfr = null;
+        frbmf = null;
     }
 
-    protected void installDefaults(){
-        Icon frameIcon = frame.getFrameIcon();
-        if (frameIcon == null || frameIcon instanceof UIResource) {
-            frame.setFrameIcon(UIManager.getIcon("InternalFrame.icon"));
+    protfdtfd void instbllDffbults(){
+        Idon frbmfIdon = frbmf.gftFrbmfIdon();
+        if (frbmfIdon == null || frbmfIdon instbndfof UIRfsourdf) {
+            frbmf.sftFrbmfIdon(UIMbnbgfr.gftIdon("IntfrnblFrbmf.idon"));
         }
 
-        // Enable the content pane to inherit background color from its
-        // parent by setting its background color to null.
-        Container contentPane = frame.getContentPane();
-        if (contentPane != null) {
-          Color bg = contentPane.getBackground();
-          if (bg instanceof UIResource)
-            contentPane.setBackground(null);
+        // Enbblf tif dontfnt pbnf to inifrit bbdkground dolor from its
+        // pbrfnt by sftting its bbdkground dolor to null.
+        Contbinfr dontfntPbnf = frbmf.gftContfntPbnf();
+        if (dontfntPbnf != null) {
+          Color bg = dontfntPbnf.gftBbdkground();
+          if (bg instbndfof UIRfsourdf)
+            dontfntPbnf.sftBbdkground(null);
         }
-        frame.setLayout(internalFrameLayout = createLayoutManager());
-        frame.setBackground(UIManager.getLookAndFeelDefaults().getColor("control"));
+        frbmf.sftLbyout(intfrnblFrbmfLbyout = drfbtfLbyoutMbnbgfr());
+        frbmf.sftBbdkground(UIMbnbgfr.gftLookAndFfflDffbults().gftColor("dontrol"));
 
-        LookAndFeel.installBorder(frame, "InternalFrame.border");
+        LookAndFffl.instbllBordfr(frbmf, "IntfrnblFrbmf.bordfr");
 
     }
-    protected void installKeyboardActions(){
-        createInternalFrameListener();
-        if (internalFrameListener != null) {
-            frame.addInternalFrameListener(internalFrameListener);
+    protfdtfd void instbllKfybobrdAdtions(){
+        drfbtfIntfrnblFrbmfListfnfr();
+        if (intfrnblFrbmfListfnfr != null) {
+            frbmf.bddIntfrnblFrbmfListfnfr(intfrnblFrbmfListfnfr);
         }
 
-        LazyActionMap.installLazyActionMap(frame, BasicInternalFrameUI.class,
-            "InternalFrame.actionMap");
+        LbzyAdtionMbp.instbllLbzyAdtionMbp(frbmf, BbsidIntfrnblFrbmfUI.dlbss,
+            "IntfrnblFrbmf.bdtionMbp");
     }
 
-    static void loadActionMap(LazyActionMap map) {
-        map.put(new UIAction("showSystemMenu") {
-            public void actionPerformed(ActionEvent evt) {
-                JInternalFrame iFrame = (JInternalFrame)evt.getSource();
-                if (iFrame.getUI() instanceof BasicInternalFrameUI) {
-                    JComponent comp = ((BasicInternalFrameUI)
-                        iFrame.getUI()).getNorthPane();
-                    if (comp instanceof BasicInternalFrameTitlePane) {
-                        ((BasicInternalFrameTitlePane)comp).
-                            showSystemMenu();
+    stbtid void lobdAdtionMbp(LbzyAdtionMbp mbp) {
+        mbp.put(nfw UIAdtion("siowSystfmMfnu") {
+            publid void bdtionPfrformfd(AdtionEvfnt fvt) {
+                JIntfrnblFrbmf iFrbmf = (JIntfrnblFrbmf)fvt.gftSourdf();
+                if (iFrbmf.gftUI() instbndfof BbsidIntfrnblFrbmfUI) {
+                    JComponfnt domp = ((BbsidIntfrnblFrbmfUI)
+                        iFrbmf.gftUI()).gftNortiPbnf();
+                    if (domp instbndfof BbsidIntfrnblFrbmfTitlfPbnf) {
+                        ((BbsidIntfrnblFrbmfTitlfPbnf)domp).
+                            siowSystfmMfnu();
                     }
                 }
             }
 
-            public boolean isEnabled(Object sender){
-                if (sender instanceof JInternalFrame) {
-                    JInternalFrame iFrame = (JInternalFrame)sender;
-                    if (iFrame.getUI() instanceof BasicInternalFrameUI) {
-                        return ((BasicInternalFrameUI)iFrame.getUI()).
-                            isKeyBindingActive();
+            publid boolfbn isEnbblfd(Objfdt sfndfr){
+                if (sfndfr instbndfof JIntfrnblFrbmf) {
+                    JIntfrnblFrbmf iFrbmf = (JIntfrnblFrbmf)sfndfr;
+                    if (iFrbmf.gftUI() instbndfof BbsidIntfrnblFrbmfUI) {
+                        rfturn ((BbsidIntfrnblFrbmfUI)iFrbmf.gftUI()).
+                            isKfyBindingAdtivf();
                     }
                 }
-                return false;
+                rfturn fblsf;
             }
         });
 
-        // Set the ActionMap's parent to the Auditory Feedback Action Map
-        BasicLookAndFeel.installAudioActionMap(map);
+        // Sft tif AdtionMbp's pbrfnt to tif Auditory Fffdbbdk Adtion Mbp
+        BbsidLookAndFffl.instbllAudioAdtionMbp(mbp);
     }
 
-    protected void installComponents(){
-        setNorthPane(createNorthPane(frame));
-        setSouthPane(createSouthPane(frame));
-        setEastPane(createEastPane(frame));
-        setWestPane(createWestPane(frame));
+    protfdtfd void instbllComponfnts(){
+        sftNortiPbnf(drfbtfNortiPbnf(frbmf));
+        sftSoutiPbnf(drfbtfSoutiPbnf(frbmf));
+        sftEbstPbnf(drfbtfEbstPbnf(frbmf));
+        sftWfstPbnf(drfbtfWfstPbnf(frbmf));
     }
 
     /**
-     * @since 1.3
+     * @sindf 1.3
      */
-    protected void installListeners() {
-        borderListener = createBorderListener(frame);
-        propertyChangeListener = createPropertyChangeListener();
-        frame.addPropertyChangeListener(propertyChangeListener);
-        installMouseHandlers(frame);
-        glassPaneDispatcher = createGlassPaneDispatcher();
-        if (glassPaneDispatcher != null) {
-            frame.getGlassPane().addMouseListener(glassPaneDispatcher);
-            frame.getGlassPane().addMouseMotionListener(glassPaneDispatcher);
+    protfdtfd void instbllListfnfrs() {
+        bordfrListfnfr = drfbtfBordfrListfnfr(frbmf);
+        propfrtyCibngfListfnfr = drfbtfPropfrtyCibngfListfnfr();
+        frbmf.bddPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
+        instbllMousfHbndlfrs(frbmf);
+        glbssPbnfDispbtdifr = drfbtfGlbssPbnfDispbtdifr();
+        if (glbssPbnfDispbtdifr != null) {
+            frbmf.gftGlbssPbnf().bddMousfListfnfr(glbssPbnfDispbtdifr);
+            frbmf.gftGlbssPbnf().bddMousfMotionListfnfr(glbssPbnfDispbtdifr);
         }
-        componentListener =  createComponentListener();
-        if (frame.getParent() != null) {
-          parentBounds = frame.getParent().getBounds();
+        domponfntListfnfr =  drfbtfComponfntListfnfr();
+        if (frbmf.gftPbrfnt() != null) {
+          pbrfntBounds = frbmf.gftPbrfnt().gftBounds();
         }
-        if ((frame.getParent() != null) && !componentListenerAdded) {
-            frame.getParent().addComponentListener(componentListener);
-            componentListenerAdded = true;
+        if ((frbmf.gftPbrfnt() != null) && !domponfntListfnfrAddfd) {
+            frbmf.gftPbrfnt().bddComponfntListfnfr(domponfntListfnfr);
+            domponfntListfnfrAddfd = truf;
         }
     }
 
-    // Provide a FocusListener to listen for a WINDOW_LOST_FOCUS event,
-    // so that a resize can be cancelled if the focus is lost while resizing
-    // when an Alt-Tab, modal dialog popup, iconify, dispose, or remove
-    // of the internal frame occurs.
-    private WindowFocusListener getWindowFocusListener(){
-        return getHandler();
+    // Providf b FodusListfnfr to listfn for b WINDOW_LOST_FOCUS fvfnt,
+    // so tibt b rfsizf dbn bf dbndfllfd if tif fodus is lost wiilf rfsizing
+    // wifn bn Alt-Tbb, modbl diblog popup, idonify, disposf, or rfmovf
+    // of tif intfrnbl frbmf oddurs.
+    privbtf WindowFodusListfnfr gftWindowFodusListfnfr(){
+        rfturn gftHbndlfr();
     }
 
-    // Cancel a resize in progress by calling finishMouseReleased().
-    private void cancelResize() {
-        if (resizing) {
-            if (borderListener instanceof BorderListener) {
-                ((BorderListener)borderListener).finishMouseReleased();
+    // Cbndfl b rfsizf in progrfss by dblling finisiMousfRflfbsfd().
+    privbtf void dbndflRfsizf() {
+        if (rfsizing) {
+            if (bordfrListfnfr instbndfof BordfrListfnfr) {
+                ((BordfrListfnfr)bordfrListfnfr).finisiMousfRflfbsfd();
             }
         }
     }
 
-    private Handler getHandler() {
-        if (handler == null) {
-            handler = new Handler();
+    privbtf Hbndlfr gftHbndlfr() {
+        if (ibndlfr == null) {
+            ibndlfr = nfw Hbndlfr();
         }
-        return handler;
+        rfturn ibndlfr;
     }
 
-    InputMap getInputMap(int condition) {
-        if (condition == JComponent.WHEN_IN_FOCUSED_WINDOW) {
-            return createInputMap(condition);
+    InputMbp gftInputMbp(int dondition) {
+        if (dondition == JComponfnt.WHEN_IN_FOCUSED_WINDOW) {
+            rfturn drfbtfInputMbp(dondition);
         }
-        return null;
+        rfturn null;
     }
 
-    InputMap createInputMap(int condition) {
-        if (condition == JComponent.WHEN_IN_FOCUSED_WINDOW) {
-            Object[] bindings = (Object[])DefaultLookup.get(
-                    frame, this, "InternalFrame.windowBindings");
+    InputMbp drfbtfInputMbp(int dondition) {
+        if (dondition == JComponfnt.WHEN_IN_FOCUSED_WINDOW) {
+            Objfdt[] bindings = (Objfdt[])DffbultLookup.gft(
+                    frbmf, tiis, "IntfrnblFrbmf.windowBindings");
 
             if (bindings != null) {
-                return LookAndFeel.makeComponentInputMap(frame, bindings);
+                rfturn LookAndFffl.mbkfComponfntInputMbp(frbmf, bindings);
             }
         }
-        return null;
+        rfturn null;
     }
 
-    protected void uninstallDefaults() {
-        Icon frameIcon = frame.getFrameIcon();
-        if (frameIcon instanceof UIResource) {
-            frame.setFrameIcon(null);
+    protfdtfd void uninstbllDffbults() {
+        Idon frbmfIdon = frbmf.gftFrbmfIdon();
+        if (frbmfIdon instbndfof UIRfsourdf) {
+            frbmf.sftFrbmfIdon(null);
         }
-        internalFrameLayout = null;
-        frame.setLayout(null);
-        LookAndFeel.uninstallBorder(frame);
+        intfrnblFrbmfLbyout = null;
+        frbmf.sftLbyout(null);
+        LookAndFffl.uninstbllBordfr(frbmf);
     }
 
-    protected void uninstallComponents(){
-        setNorthPane(null);
-        setSouthPane(null);
-        setEastPane(null);
-        setWestPane(null);
-        if(titlePane != null) {
-            titlePane.uninstallDefaults();
+    protfdtfd void uninstbllComponfnts(){
+        sftNortiPbnf(null);
+        sftSoutiPbnf(null);
+        sftEbstPbnf(null);
+        sftWfstPbnf(null);
+        if(titlfPbnf != null) {
+            titlfPbnf.uninstbllDffbults();
         }
-        titlePane = null;
+        titlfPbnf = null;
     }
 
     /**
-     * @since 1.3
+     * @sindf 1.3
      */
-    protected void uninstallListeners() {
-        if ((frame.getParent() != null) && componentListenerAdded) {
-            frame.getParent().removeComponentListener(componentListener);
-            componentListenerAdded = false;
+    protfdtfd void uninstbllListfnfrs() {
+        if ((frbmf.gftPbrfnt() != null) && domponfntListfnfrAddfd) {
+            frbmf.gftPbrfnt().rfmovfComponfntListfnfr(domponfntListfnfr);
+            domponfntListfnfrAddfd = fblsf;
         }
-        componentListener = null;
-      if (glassPaneDispatcher != null) {
-          frame.getGlassPane().removeMouseListener(glassPaneDispatcher);
-          frame.getGlassPane().removeMouseMotionListener(glassPaneDispatcher);
-          glassPaneDispatcher = null;
+        domponfntListfnfr = null;
+      if (glbssPbnfDispbtdifr != null) {
+          frbmf.gftGlbssPbnf().rfmovfMousfListfnfr(glbssPbnfDispbtdifr);
+          frbmf.gftGlbssPbnf().rfmovfMousfMotionListfnfr(glbssPbnfDispbtdifr);
+          glbssPbnfDispbtdifr = null;
       }
-      deinstallMouseHandlers(frame);
-      frame.removePropertyChangeListener(propertyChangeListener);
-      propertyChangeListener = null;
-      borderListener = null;
+      dfinstbllMousfHbndlfrs(frbmf);
+      frbmf.rfmovfPropfrtyCibngfListfnfr(propfrtyCibngfListfnfr);
+      propfrtyCibngfListfnfr = null;
+      bordfrListfnfr = null;
     }
 
-    protected void uninstallKeyboardActions(){
-        if (internalFrameListener != null) {
-            frame.removeInternalFrameListener(internalFrameListener);
+    protfdtfd void uninstbllKfybobrdAdtions(){
+        if (intfrnblFrbmfListfnfr != null) {
+            frbmf.rfmovfIntfrnblFrbmfListfnfr(intfrnblFrbmfListfnfr);
         }
-        internalFrameListener = null;
+        intfrnblFrbmfListfnfr = null;
 
-        SwingUtilities.replaceUIInputMap(frame, JComponent.
+        SwingUtilitifs.rfplbdfUIInputMbp(frbmf, JComponfnt.
                                          WHEN_IN_FOCUSED_WINDOW, null);
-        SwingUtilities.replaceUIActionMap(frame, null);
+        SwingUtilitifs.rfplbdfUIAdtionMbp(frbmf, null);
 
     }
 
-    void updateFrameCursor() {
-        if (resizing) {
-            return;
+    void updbtfFrbmfCursor() {
+        if (rfsizing) {
+            rfturn;
         }
-        Cursor s = frame.getLastCursor();
+        Cursor s = frbmf.gftLbstCursor();
         if (s == null) {
-            s = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+            s = Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR);
         }
-        frame.setCursor(s);
+        frbmf.sftCursor(s);
     }
 
-    protected LayoutManager createLayoutManager(){
-        return getHandler();
+    protfdtfd LbyoutMbnbgfr drfbtfLbyoutMbnbgfr(){
+        rfturn gftHbndlfr();
     }
 
-    protected PropertyChangeListener createPropertyChangeListener(){
-        return getHandler();
+    protfdtfd PropfrtyCibngfListfnfr drfbtfPropfrtyCibngfListfnfr(){
+        rfturn gftHbndlfr();
     }
 
 
 
-    public Dimension getPreferredSize(JComponent x)    {
-        if(frame == x)
-            return frame.getLayout().preferredLayoutSize(x);
-        return new Dimension(100, 100);
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt x)    {
+        if(frbmf == x)
+            rfturn frbmf.gftLbyout().prfffrrfdLbyoutSizf(x);
+        rfturn nfw Dimfnsion(100, 100);
     }
 
-    public Dimension getMinimumSize(JComponent x)  {
-        if(frame == x) {
-            return frame.getLayout().minimumLayoutSize(x);
+    publid Dimfnsion gftMinimumSizf(JComponfnt x)  {
+        if(frbmf == x) {
+            rfturn frbmf.gftLbyout().minimumLbyoutSizf(x);
         }
-        return new Dimension(0, 0);
+        rfturn nfw Dimfnsion(0, 0);
     }
 
-    public Dimension getMaximumSize(JComponent x) {
-        return new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE);
+    publid Dimfnsion gftMbximumSizf(JComponfnt x) {
+        rfturn nfw Dimfnsion(Intfgfr.MAX_VALUE, Intfgfr.MAX_VALUE);
     }
 
 
 
     /**
-      * Installs necessary mouse handlers on <code>newPane</code>
-      * and adds it to the frame.
-      * Reverse process for the <code>currentPane</code>.
+      * Instblls nfdfssbry mousf ibndlfrs on <dodf>nfwPbnf</dodf>
+      * bnd bdds it to tif frbmf.
+      * Rfvfrsf prodfss for tif <dodf>durrfntPbnf</dodf>.
       */
-    protected void replacePane(JComponent currentPane, JComponent newPane) {
-        if(currentPane != null) {
-            deinstallMouseHandlers(currentPane);
-            frame.remove(currentPane);
+    protfdtfd void rfplbdfPbnf(JComponfnt durrfntPbnf, JComponfnt nfwPbnf) {
+        if(durrfntPbnf != null) {
+            dfinstbllMousfHbndlfrs(durrfntPbnf);
+            frbmf.rfmovf(durrfntPbnf);
         }
-        if(newPane != null) {
-           frame.add(newPane);
-           installMouseHandlers(newPane);
-        }
-    }
-
-    protected void deinstallMouseHandlers(JComponent c) {
-      c.removeMouseListener(borderListener);
-      c.removeMouseMotionListener(borderListener);
-    }
-
-    protected void installMouseHandlers(JComponent c) {
-      c.addMouseListener(borderListener);
-      c.addMouseMotionListener(borderListener);
-    }
-
-    protected JComponent createNorthPane(JInternalFrame w) {
-      titlePane = new BasicInternalFrameTitlePane(w);
-      return titlePane;
-    }
-
-
-    protected JComponent createSouthPane(JInternalFrame w) {
-        return null;
-    }
-
-    protected JComponent createWestPane(JInternalFrame w) {
-        return null;
-    }
-
-    protected JComponent createEastPane(JInternalFrame w) {
-        return null;
-    }
-
-
-    protected MouseInputAdapter createBorderListener(JInternalFrame w) {
-        return new BorderListener();
-    }
-
-    protected void createInternalFrameListener(){
-        internalFrameListener = getHandler();
-    }
-
-    protected final boolean isKeyBindingRegistered(){
-      return keyBindingRegistered;
-    }
-
-    protected final void setKeyBindingRegistered(boolean b){
-      keyBindingRegistered = b;
-    }
-
-    public final boolean isKeyBindingActive(){
-      return keyBindingActive;
-    }
-
-    protected final void setKeyBindingActive(boolean b){
-      keyBindingActive = b;
-    }
-
-
-    protected void setupMenuOpenKey(){
-        // PENDING(hania): Why are these WHEN_IN_FOCUSED_WINDOWs? Shouldn't
-        // they be WHEN_ANCESTOR_OF_FOCUSED_COMPONENT?
-        // Also, no longer registering on the desktopicon, the previous
-        // action did nothing.
-        InputMap map = getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
-        SwingUtilities.replaceUIInputMap(frame,
-                                      JComponent.WHEN_IN_FOCUSED_WINDOW, map);
-        //ActionMap actionMap = getActionMap();
-        //SwingUtilities.replaceUIActionMap(frame, actionMap);
-    }
-
-    protected void setupMenuCloseKey(){
-    }
-
-    public JComponent getNorthPane() {
-        return northPane;
-    }
-
-    public void setNorthPane(JComponent c) {
-        if (northPane != null &&
-                northPane instanceof BasicInternalFrameTitlePane) {
-            ((BasicInternalFrameTitlePane)northPane).uninstallListeners();
-        }
-        replacePane(northPane, c);
-        northPane = c;
-        if (c instanceof BasicInternalFrameTitlePane) {
-          titlePane = (BasicInternalFrameTitlePane)c;
+        if(nfwPbnf != null) {
+           frbmf.bdd(nfwPbnf);
+           instbllMousfHbndlfrs(nfwPbnf);
         }
     }
 
-    public JComponent getSouthPane() {
-        return southPane;
+    protfdtfd void dfinstbllMousfHbndlfrs(JComponfnt d) {
+      d.rfmovfMousfListfnfr(bordfrListfnfr);
+      d.rfmovfMousfMotionListfnfr(bordfrListfnfr);
     }
 
-    public void setSouthPane(JComponent c) {
-        southPane = c;
+    protfdtfd void instbllMousfHbndlfrs(JComponfnt d) {
+      d.bddMousfListfnfr(bordfrListfnfr);
+      d.bddMousfMotionListfnfr(bordfrListfnfr);
     }
 
-    public JComponent getWestPane() {
-        return westPane;
+    protfdtfd JComponfnt drfbtfNortiPbnf(JIntfrnblFrbmf w) {
+      titlfPbnf = nfw BbsidIntfrnblFrbmfTitlfPbnf(w);
+      rfturn titlfPbnf;
     }
 
-    public void setWestPane(JComponent c) {
-        westPane = c;
+
+    protfdtfd JComponfnt drfbtfSoutiPbnf(JIntfrnblFrbmf w) {
+        rfturn null;
     }
 
-    public JComponent getEastPane() {
-        return eastPane;
+    protfdtfd JComponfnt drfbtfWfstPbnf(JIntfrnblFrbmf w) {
+        rfturn null;
     }
 
-    public void setEastPane(JComponent c) {
-        eastPane = c;
+    protfdtfd JComponfnt drfbtfEbstPbnf(JIntfrnblFrbmf w) {
+        rfturn null;
     }
 
-    public class InternalFramePropertyChangeListener implements
-        PropertyChangeListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
+
+    protfdtfd MousfInputAdbptfr drfbtfBordfrListfnfr(JIntfrnblFrbmf w) {
+        rfturn nfw BordfrListfnfr();
+    }
+
+    protfdtfd void drfbtfIntfrnblFrbmfListfnfr(){
+        intfrnblFrbmfListfnfr = gftHbndlfr();
+    }
+
+    protfdtfd finbl boolfbn isKfyBindingRfgistfrfd(){
+      rfturn kfyBindingRfgistfrfd;
+    }
+
+    protfdtfd finbl void sftKfyBindingRfgistfrfd(boolfbn b){
+      kfyBindingRfgistfrfd = b;
+    }
+
+    publid finbl boolfbn isKfyBindingAdtivf(){
+      rfturn kfyBindingAdtivf;
+    }
+
+    protfdtfd finbl void sftKfyBindingAdtivf(boolfbn b){
+      kfyBindingAdtivf = b;
+    }
+
+
+    protfdtfd void sftupMfnuOpfnKfy(){
+        // PENDING(ibnib): Wiy brf tifsf WHEN_IN_FOCUSED_WINDOWs? Siouldn't
+        // tify bf WHEN_ANCESTOR_OF_FOCUSED_COMPONENT?
+        // Also, no longfr rfgistfring on tif dfsktopidon, tif prfvious
+        // bdtion did notiing.
+        InputMbp mbp = gftInputMbp(JComponfnt.WHEN_IN_FOCUSED_WINDOW);
+        SwingUtilitifs.rfplbdfUIInputMbp(frbmf,
+                                      JComponfnt.WHEN_IN_FOCUSED_WINDOW, mbp);
+        //AdtionMbp bdtionMbp = gftAdtionMbp();
+        //SwingUtilitifs.rfplbdfUIAdtionMbp(frbmf, bdtionMbp);
+    }
+
+    protfdtfd void sftupMfnuClosfKfy(){
+    }
+
+    publid JComponfnt gftNortiPbnf() {
+        rfturn nortiPbnf;
+    }
+
+    publid void sftNortiPbnf(JComponfnt d) {
+        if (nortiPbnf != null &&
+                nortiPbnf instbndfof BbsidIntfrnblFrbmfTitlfPbnf) {
+            ((BbsidIntfrnblFrbmfTitlfPbnf)nortiPbnf).uninstbllListfnfrs();
+        }
+        rfplbdfPbnf(nortiPbnf, d);
+        nortiPbnf = d;
+        if (d instbndfof BbsidIntfrnblFrbmfTitlfPbnf) {
+          titlfPbnf = (BbsidIntfrnblFrbmfTitlfPbnf)d;
+        }
+    }
+
+    publid JComponfnt gftSoutiPbnf() {
+        rfturn soutiPbnf;
+    }
+
+    publid void sftSoutiPbnf(JComponfnt d) {
+        soutiPbnf = d;
+    }
+
+    publid JComponfnt gftWfstPbnf() {
+        rfturn wfstPbnf;
+    }
+
+    publid void sftWfstPbnf(JComponfnt d) {
+        wfstPbnf = d;
+    }
+
+    publid JComponfnt gftEbstPbnf() {
+        rfturn fbstPbnf;
+    }
+
+    publid void sftEbstPbnf(JComponfnt d) {
+        fbstPbnf = d;
+    }
+
+    publid dlbss IntfrnblFrbmfPropfrtyCibngfListfnfr implfmfnts
+        PropfrtyCibngfListfnfr {
+        // NOTE: Tiis dlbss fxists only for bbdkwbrd dompbtibility. All
+        // its fundtionblity ibs bffn movfd into Hbndlfr. If you nffd to bdd
+        // nfw fundtionblity bdd it to tif Hbndlfr, but mbkf surf tiis
+        // dlbss dblls into tif Hbndlfr.
         /**
-         * Detects changes in state from the JInternalFrame and handles
-         * actions.
+         * Dftfdts dibngfs in stbtf from tif JIntfrnblFrbmf bnd ibndlfs
+         * bdtions.
          */
-        public void propertyChange(PropertyChangeEvent evt) {
-            getHandler().propertyChange(evt);
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+            gftHbndlfr().propfrtyCibngf(fvt);
         }
     }
 
-  public class InternalFrameLayout implements LayoutManager {
-    // NOTE: This class exists only for backward compatibility. All
-    // its functionality has been moved into Handler. If you need to add
-    // new functionality add it to the Handler, but make sure this
-    // class calls into the Handler.
-    public void addLayoutComponent(String name, Component c) {
-        getHandler().addLayoutComponent(name, c);
+  publid dlbss IntfrnblFrbmfLbyout implfmfnts LbyoutMbnbgfr {
+    // NOTE: Tiis dlbss fxists only for bbdkwbrd dompbtibility. All
+    // its fundtionblity ibs bffn movfd into Hbndlfr. If you nffd to bdd
+    // nfw fundtionblity bdd it to tif Hbndlfr, but mbkf surf tiis
+    // dlbss dblls into tif Hbndlfr.
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt d) {
+        gftHbndlfr().bddLbyoutComponfnt(nbmf, d);
     }
 
-    public void removeLayoutComponent(Component c) {
-        getHandler().removeLayoutComponent(c);
+    publid void rfmovfLbyoutComponfnt(Componfnt d) {
+        gftHbndlfr().rfmovfLbyoutComponfnt(d);
     }
 
-    public Dimension preferredLayoutSize(Container c)  {
-        return getHandler().preferredLayoutSize(c);
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d)  {
+        rfturn gftHbndlfr().prfffrrfdLbyoutSizf(d);
     }
 
-    public Dimension minimumLayoutSize(Container c) {
-        return getHandler().minimumLayoutSize(c);
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+        rfturn gftHbndlfr().minimumLbyoutSizf(d);
     }
 
-    public void layoutContainer(Container c) {
-        getHandler().layoutContainer(c);
+    publid void lbyoutContbinfr(Contbinfr d) {
+        gftHbndlfr().lbyoutContbinfr(d);
     }
   }
 
-/// DesktopManager methods
-    /** Returns the proper DesktopManager. Calls getDesktopPane() to
-      * find the JDesktop component and returns the desktopManager from
-      * it. If this fails, it will return a default DesktopManager that
-      * should work in arbitrary parents.
+/// DfsktopMbnbgfr mftiods
+    /** Rfturns tif propfr DfsktopMbnbgfr. Cblls gftDfsktopPbnf() to
+      * find tif JDfsktop domponfnt bnd rfturns tif dfsktopMbnbgfr from
+      * it. If tiis fbils, it will rfturn b dffbult DfsktopMbnbgfr tibt
+      * siould work in brbitrbry pbrfnts.
       */
-    protected DesktopManager getDesktopManager() {
-        if(frame.getDesktopPane() != null
-           && frame.getDesktopPane().getDesktopManager() != null)
-            return frame.getDesktopPane().getDesktopManager();
-        if(sharedDesktopManager == null)
-          sharedDesktopManager = createDesktopManager();
-        return sharedDesktopManager;
+    protfdtfd DfsktopMbnbgfr gftDfsktopMbnbgfr() {
+        if(frbmf.gftDfsktopPbnf() != null
+           && frbmf.gftDfsktopPbnf().gftDfsktopMbnbgfr() != null)
+            rfturn frbmf.gftDfsktopPbnf().gftDfsktopMbnbgfr();
+        if(sibrfdDfsktopMbnbgfr == null)
+          sibrfdDfsktopMbnbgfr = drfbtfDfsktopMbnbgfr();
+        rfturn sibrfdDfsktopMbnbgfr;
     }
 
-    protected DesktopManager createDesktopManager(){
-      return new DefaultDesktopManager();
-    }
-
-    /**
-     * This method is called when the user wants to close the frame.
-     * The <code>playCloseSound</code> Action is fired.
-     * This action is delegated to the desktopManager.
-     */
-    protected void closeFrame(JInternalFrame f) {
-        // Internal Frame Auditory Cue Activation
-        BasicLookAndFeel.playSound(frame,"InternalFrame.closeSound");
-        // delegate to desktop manager
-        getDesktopManager().closeFrame(f);
+    protfdtfd DfsktopMbnbgfr drfbtfDfsktopMbnbgfr(){
+      rfturn nfw DffbultDfsktopMbnbgfr();
     }
 
     /**
-     * This method is called when the user wants to maximize the frame.
-     * The <code>playMaximizeSound</code> Action is fired.
-     * This action is delegated to the desktopManager.
+     * Tiis mftiod is dbllfd wifn tif usfr wbnts to dlosf tif frbmf.
+     * Tif <dodf>plbyClosfSound</dodf> Adtion is firfd.
+     * Tiis bdtion is dflfgbtfd to tif dfsktopMbnbgfr.
      */
-    protected void maximizeFrame(JInternalFrame f) {
-        // Internal Frame Auditory Cue Activation
-        BasicLookAndFeel.playSound(frame,"InternalFrame.maximizeSound");
-        // delegate to desktop manager
-        getDesktopManager().maximizeFrame(f);
+    protfdtfd void dlosfFrbmf(JIntfrnblFrbmf f) {
+        // Intfrnbl Frbmf Auditory Cuf Adtivbtion
+        BbsidLookAndFffl.plbySound(frbmf,"IntfrnblFrbmf.dlosfSound");
+        // dflfgbtf to dfsktop mbnbgfr
+        gftDfsktopMbnbgfr().dlosfFrbmf(f);
     }
 
     /**
-     * This method is called when the user wants to minimize the frame.
-     * The <code>playRestoreDownSound</code> Action is fired.
-     * This action is delegated to the desktopManager.
+     * Tiis mftiod is dbllfd wifn tif usfr wbnts to mbximizf tif frbmf.
+     * Tif <dodf>plbyMbximizfSound</dodf> Adtion is firfd.
+     * Tiis bdtion is dflfgbtfd to tif dfsktopMbnbgfr.
      */
-    protected void minimizeFrame(JInternalFrame f) {
-        // Internal Frame Auditory Cue Activation
-        if ( ! f.isIcon() ) {
-            // This method seems to regularly get called after an
-            // internal frame is iconified. Don't play this sound then.
-            BasicLookAndFeel.playSound(frame,"InternalFrame.restoreDownSound");
+    protfdtfd void mbximizfFrbmf(JIntfrnblFrbmf f) {
+        // Intfrnbl Frbmf Auditory Cuf Adtivbtion
+        BbsidLookAndFffl.plbySound(frbmf,"IntfrnblFrbmf.mbximizfSound");
+        // dflfgbtf to dfsktop mbnbgfr
+        gftDfsktopMbnbgfr().mbximizfFrbmf(f);
+    }
+
+    /**
+     * Tiis mftiod is dbllfd wifn tif usfr wbnts to minimizf tif frbmf.
+     * Tif <dodf>plbyRfstorfDownSound</dodf> Adtion is firfd.
+     * Tiis bdtion is dflfgbtfd to tif dfsktopMbnbgfr.
+     */
+    protfdtfd void minimizfFrbmf(JIntfrnblFrbmf f) {
+        // Intfrnbl Frbmf Auditory Cuf Adtivbtion
+        if ( ! f.isIdon() ) {
+            // Tiis mftiod sffms to rfgulbrly gft dbllfd bftfr bn
+            // intfrnbl frbmf is idonififd. Don't plby tiis sound tifn.
+            BbsidLookAndFffl.plbySound(frbmf,"IntfrnblFrbmf.rfstorfDownSound");
         }
-        // delegate to desktop manager
-        getDesktopManager().minimizeFrame(f);
+        // dflfgbtf to dfsktop mbnbgfr
+        gftDfsktopMbnbgfr().minimizfFrbmf(f);
     }
 
     /**
-     * This method is called when the user wants to iconify the frame.
-     * The <code>playMinimizeSound</code> Action is fired.
-     * This action is delegated to the desktopManager.
+     * Tiis mftiod is dbllfd wifn tif usfr wbnts to idonify tif frbmf.
+     * Tif <dodf>plbyMinimizfSound</dodf> Adtion is firfd.
+     * Tiis bdtion is dflfgbtfd to tif dfsktopMbnbgfr.
      */
-    protected void iconifyFrame(JInternalFrame f) {
-        // Internal Frame Auditory Cue Activation
-        BasicLookAndFeel.playSound(frame, "InternalFrame.minimizeSound");
-        // delegate to desktop manager
-        getDesktopManager().iconifyFrame(f);
+    protfdtfd void idonifyFrbmf(JIntfrnblFrbmf f) {
+        // Intfrnbl Frbmf Auditory Cuf Adtivbtion
+        BbsidLookAndFffl.plbySound(frbmf, "IntfrnblFrbmf.minimizfSound");
+        // dflfgbtf to dfsktop mbnbgfr
+        gftDfsktopMbnbgfr().idonifyFrbmf(f);
     }
 
     /**
-     * This method is called when the user wants to deiconify the frame.
-     * The <code>playRestoreUpSound</code> Action is fired.
-     * This action is delegated to the desktopManager.
+     * Tiis mftiod is dbllfd wifn tif usfr wbnts to dfidonify tif frbmf.
+     * Tif <dodf>plbyRfstorfUpSound</dodf> Adtion is firfd.
+     * Tiis bdtion is dflfgbtfd to tif dfsktopMbnbgfr.
      */
-    protected void deiconifyFrame(JInternalFrame f) {
-        // Internal Frame Auditory Cue Activation
-        if ( ! f.isMaximum() ) {
-            // This method seems to regularly get called after an
-            // internal frame is maximized. Don't play this sound then.
-            BasicLookAndFeel.playSound(frame, "InternalFrame.restoreUpSound");
+    protfdtfd void dfidonifyFrbmf(JIntfrnblFrbmf f) {
+        // Intfrnbl Frbmf Auditory Cuf Adtivbtion
+        if ( ! f.isMbximum() ) {
+            // Tiis mftiod sffms to rfgulbrly gft dbllfd bftfr bn
+            // intfrnbl frbmf is mbximizfd. Don't plby tiis sound tifn.
+            BbsidLookAndFffl.plbySound(frbmf, "IntfrnblFrbmf.rfstorfUpSound");
         }
-        // delegate to desktop manager
-        getDesktopManager().deiconifyFrame(f);
+        // dflfgbtf to dfsktop mbnbgfr
+        gftDfsktopMbnbgfr().dfidonifyFrbmf(f);
     }
 
-    /** This method is called when the frame becomes selected.
-      * This action is delegated to the desktopManager.
+    /** Tiis mftiod is dbllfd wifn tif frbmf bfdomfs sflfdtfd.
+      * Tiis bdtion is dflfgbtfd to tif dfsktopMbnbgfr.
       */
-    protected void activateFrame(JInternalFrame f) {
-        getDesktopManager().activateFrame(f);
+    protfdtfd void bdtivbtfFrbmf(JIntfrnblFrbmf f) {
+        gftDfsktopMbnbgfr().bdtivbtfFrbmf(f);
     }
-    /** This method is called when the frame is no longer selected.
-      * This action is delegated to the desktopManager.
+    /** Tiis mftiod is dbllfd wifn tif frbmf is no longfr sflfdtfd.
+      * Tiis bdtion is dflfgbtfd to tif dfsktopMbnbgfr.
       */
-    protected void deactivateFrame(JInternalFrame f) {
-        getDesktopManager().deactivateFrame(f);
+    protfdtfd void dfbdtivbtfFrbmf(JIntfrnblFrbmf f) {
+        gftDfsktopMbnbgfr().dfbdtivbtfFrbmf(f);
     }
 
     /////////////////////////////////////////////////////////////////////////
-    /// Border Listener Class
+    /// Bordfr Listfnfr Clbss
     /////////////////////////////////////////////////////////////////////////
     /**
-     * Listens for border adjustments.
+     * Listfns for bordfr bdjustmfnts.
      */
-    protected class BorderListener extends MouseInputAdapter implements SwingConstants
+    protfdtfd dlbss BordfrListfnfr fxtfnds MousfInputAdbptfr implfmfnts SwingConstbnts
     {
-        // _x & _y are the mousePressed location in absolute coordinate system
+        // _x & _y brf tif mousfPrfssfd lodbtion in bbsolutf doordinbtf systfm
         int _x, _y;
-        // __x & __y are the mousePressed location in source view's coordinate system
+        // __x & __y brf tif mousfPrfssfd lodbtion in sourdf vifw's doordinbtf systfm
         int __x, __y;
-        Rectangle startingBounds;
-        int resizeDir;
+        Rfdtbnglf stbrtingBounds;
+        int rfsizfDir;
 
 
-        protected final int RESIZE_NONE  = 0;
-        private boolean discardRelease = false;
+        protfdtfd finbl int RESIZE_NONE  = 0;
+        privbtf boolfbn disdbrdRflfbsf = fblsf;
 
-        int resizeCornerSize = 16;
+        int rfsizfCornfrSizf = 16;
 
-        public void mouseClicked(MouseEvent e) {
-            if(e.getClickCount() > 1 && e.getSource() == getNorthPane()) {
-                if(frame.isIconifiable() && frame.isIcon()) {
-                    try { frame.setIcon(false); } catch (PropertyVetoException e2) { }
-                } else if(frame.isMaximizable()) {
-                    if(!frame.isMaximum())
-                        try { frame.setMaximum(true); } catch (PropertyVetoException e2) { }
-                    else
-                        try { frame.setMaximum(false); } catch (PropertyVetoException e3) { }
+        publid void mousfClidkfd(MousfEvfnt f) {
+            if(f.gftClidkCount() > 1 && f.gftSourdf() == gftNortiPbnf()) {
+                if(frbmf.isIdonifibblf() && frbmf.isIdon()) {
+                    try { frbmf.sftIdon(fblsf); } dbtdi (PropfrtyVftoExdfption f2) { }
+                } flsf if(frbmf.isMbximizbblf()) {
+                    if(!frbmf.isMbximum())
+                        try { frbmf.sftMbximum(truf); } dbtdi (PropfrtyVftoExdfption f2) { }
+                    flsf
+                        try { frbmf.sftMbximum(fblsf); } dbtdi (PropfrtyVftoExdfption f3) { }
                 }
             }
         }
 
-        // Factor out finishMouseReleased() from mouseReleased(), so that
-        // it can be called by cancelResize() without passing it a null
-        // MouseEvent.
-        void finishMouseReleased() {
-           if (discardRelease) {
-             discardRelease = false;
-             return;
+        // Fbdtor out finisiMousfRflfbsfd() from mousfRflfbsfd(), so tibt
+        // it dbn bf dbllfd by dbndflRfsizf() witiout pbssing it b null
+        // MousfEvfnt.
+        void finisiMousfRflfbsfd() {
+           if (disdbrdRflfbsf) {
+             disdbrdRflfbsf = fblsf;
+             rfturn;
           }
-            if (resizeDir == RESIZE_NONE) {
-                getDesktopManager().endDraggingFrame(frame);
-                dragging = false;
-            } else {
-                // Remove the WindowFocusListener for handling a
-                // WINDOW_LOST_FOCUS event with a cancelResize().
-                Window windowAncestor =
-                    SwingUtilities.getWindowAncestor(frame);
-                if (windowAncestor != null) {
-                    windowAncestor.removeWindowFocusListener(
-                        getWindowFocusListener());
+            if (rfsizfDir == RESIZE_NONE) {
+                gftDfsktopMbnbgfr().fndDrbggingFrbmf(frbmf);
+                drbgging = fblsf;
+            } flsf {
+                // Rfmovf tif WindowFodusListfnfr for ibndling b
+                // WINDOW_LOST_FOCUS fvfnt witi b dbndflRfsizf().
+                Window windowAndfstor =
+                    SwingUtilitifs.gftWindowAndfstor(frbmf);
+                if (windowAndfstor != null) {
+                    windowAndfstor.rfmovfWindowFodusListfnfr(
+                        gftWindowFodusListfnfr());
                 }
-                Container c = frame.getTopLevelAncestor();
-                if (c instanceof RootPaneContainer) {
-                    Component glassPane = ((RootPaneContainer)c).getGlassPane();
-                    glassPane.setCursor(Cursor.getPredefinedCursor(
+                Contbinfr d = frbmf.gftTopLfvflAndfstor();
+                if (d instbndfof RootPbnfContbinfr) {
+                    Componfnt glbssPbnf = ((RootPbnfContbinfr)d).gftGlbssPbnf();
+                    glbssPbnf.sftCursor(Cursor.gftPrfdffinfdCursor(
                         Cursor.DEFAULT_CURSOR));
-                    glassPane.setVisible(false);
+                    glbssPbnf.sftVisiblf(fblsf);
                 }
-                getDesktopManager().endResizingFrame(frame);
-                resizing = false;
-                updateFrameCursor();
+                gftDfsktopMbnbgfr().fndRfsizingFrbmf(frbmf);
+                rfsizing = fblsf;
+                updbtfFrbmfCursor();
             }
             _x = 0;
             _y = 0;
             __x = 0;
             __y = 0;
-            startingBounds = null;
-            resizeDir = RESIZE_NONE;
-            // Set discardRelease to true, so that only a mousePressed()
-            // which sets it to false, will allow entry to the above code
-            // for finishing a resize.
-            discardRelease = true;
+            stbrtingBounds = null;
+            rfsizfDir = RESIZE_NONE;
+            // Sft disdbrdRflfbsf to truf, so tibt only b mousfPrfssfd()
+            // wiidi sfts it to fblsf, will bllow fntry to tif bbovf dodf
+            // for finisiing b rfsizf.
+            disdbrdRflfbsf = truf;
         }
 
-        public void mouseReleased(MouseEvent e) {
-            finishMouseReleased();
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            finisiMousfRflfbsfd();
         }
 
-        public void mousePressed(MouseEvent e) {
-            Point p = SwingUtilities.convertPoint((Component)e.getSource(),
-                        e.getX(), e.getY(), null);
-            __x = e.getX();
-            __y = e.getY();
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            Point p = SwingUtilitifs.donvfrtPoint((Componfnt)f.gftSourdf(),
+                        f.gftX(), f.gftY(), null);
+            __x = f.gftX();
+            __y = f.gftY();
             _x = p.x;
             _y = p.y;
-            startingBounds = frame.getBounds();
-            resizeDir = RESIZE_NONE;
-            discardRelease = false;
+            stbrtingBounds = frbmf.gftBounds();
+            rfsizfDir = RESIZE_NONE;
+            disdbrdRflfbsf = fblsf;
 
-            try { frame.setSelected(true); }
-            catch (PropertyVetoException e1) { }
+            try { frbmf.sftSflfdtfd(truf); }
+            dbtdi (PropfrtyVftoExdfption f1) { }
 
-            Insets i = frame.getInsets();
+            Insfts i = frbmf.gftInsfts();
 
-            Point ep = new Point(__x, __y);
-            if (e.getSource() == getNorthPane()) {
-                Point np = getNorthPane().getLocation();
-                ep.x += np.x;
-                ep.y += np.y;
+            Point fp = nfw Point(__x, __y);
+            if (f.gftSourdf() == gftNortiPbnf()) {
+                Point np = gftNortiPbnf().gftLodbtion();
+                fp.x += np.x;
+                fp.y += np.y;
             }
 
-            if (e.getSource() == getNorthPane()) {
-                if (ep.x > i.left && ep.y > i.top && ep.x < frame.getWidth() - i.right) {
-                    getDesktopManager().beginDraggingFrame(frame);
-                    dragging = true;
-                    return;
+            if (f.gftSourdf() == gftNortiPbnf()) {
+                if (fp.x > i.lfft && fp.y > i.top && fp.x < frbmf.gftWidti() - i.rigit) {
+                    gftDfsktopMbnbgfr().bfginDrbggingFrbmf(frbmf);
+                    drbgging = truf;
+                    rfturn;
                 }
             }
-            if (!frame.isResizable()) {
-              return;
+            if (!frbmf.isRfsizbblf()) {
+              rfturn;
             }
 
-            if (e.getSource() == frame || e.getSource() == getNorthPane()) {
-                if (ep.x <= i.left) {
-                    if (ep.y < resizeCornerSize + i.top) {
-                        resizeDir = NORTH_WEST;
-                    } else if (ep.y > frame.getHeight()
-                              - resizeCornerSize - i.bottom) {
-                        resizeDir = SOUTH_WEST;
-                    } else {
-                        resizeDir = WEST;
+            if (f.gftSourdf() == frbmf || f.gftSourdf() == gftNortiPbnf()) {
+                if (fp.x <= i.lfft) {
+                    if (fp.y < rfsizfCornfrSizf + i.top) {
+                        rfsizfDir = NORTH_WEST;
+                    } flsf if (fp.y > frbmf.gftHfigit()
+                              - rfsizfCornfrSizf - i.bottom) {
+                        rfsizfDir = SOUTH_WEST;
+                    } flsf {
+                        rfsizfDir = WEST;
 }
-                } else if (ep.x >= frame.getWidth() - i.right) {
-                    if (ep.y < resizeCornerSize + i.top) {
-                        resizeDir = NORTH_EAST;
-                    } else if (ep.y > frame.getHeight()
-                              - resizeCornerSize - i.bottom) {
-                        resizeDir = SOUTH_EAST;
-                    } else {
-                        resizeDir = EAST;
+                } flsf if (fp.x >= frbmf.gftWidti() - i.rigit) {
+                    if (fp.y < rfsizfCornfrSizf + i.top) {
+                        rfsizfDir = NORTH_EAST;
+                    } flsf if (fp.y > frbmf.gftHfigit()
+                              - rfsizfCornfrSizf - i.bottom) {
+                        rfsizfDir = SOUTH_EAST;
+                    } flsf {
+                        rfsizfDir = EAST;
                     }
-                } else if (ep.y <= i.top) {
-                    if (ep.x < resizeCornerSize + i.left) {
-                        resizeDir = NORTH_WEST;
-                    } else if (ep.x > frame.getWidth()
-                              - resizeCornerSize - i.right) {
-                        resizeDir = NORTH_EAST;
-                    } else {
-                        resizeDir = NORTH;
+                } flsf if (fp.y <= i.top) {
+                    if (fp.x < rfsizfCornfrSizf + i.lfft) {
+                        rfsizfDir = NORTH_WEST;
+                    } flsf if (fp.x > frbmf.gftWidti()
+                              - rfsizfCornfrSizf - i.rigit) {
+                        rfsizfDir = NORTH_EAST;
+                    } flsf {
+                        rfsizfDir = NORTH;
                     }
-                } else if (ep.y >= frame.getHeight() - i.bottom) {
-                    if (ep.x < resizeCornerSize + i.left) {
-                        resizeDir = SOUTH_WEST;
-                    } else if (ep.x > frame.getWidth()
-                              - resizeCornerSize - i.right) {
-                        resizeDir = SOUTH_EAST;
-                    } else {
-                      resizeDir = SOUTH;
+                } flsf if (fp.y >= frbmf.gftHfigit() - i.bottom) {
+                    if (fp.x < rfsizfCornfrSizf + i.lfft) {
+                        rfsizfDir = SOUTH_WEST;
+                    } flsf if (fp.x > frbmf.gftWidti()
+                              - rfsizfCornfrSizf - i.rigit) {
+                        rfsizfDir = SOUTH_EAST;
+                    } flsf {
+                      rfsizfDir = SOUTH;
                     }
-                } else {
-                  /* the mouse press happened inside the frame, not in the
-                     border */
-                  discardRelease = true;
-                  return;
+                } flsf {
+                  /* tif mousf prfss ibppfnfd insidf tif frbmf, not in tif
+                     bordfr */
+                  disdbrdRflfbsf = truf;
+                  rfturn;
                 }
-                Cursor s = Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
-                switch (resizeDir) {
-                case SOUTH:
-                  s = Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR);
-                  break;
-                case NORTH:
-                  s = Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR);
-                  break;
-                case WEST:
-                  s = Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR);
-                  break;
-                case EAST:
-                  s = Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR);
-                  break;
-                case SOUTH_EAST:
-                  s = Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR);
-                  break;
-                case SOUTH_WEST:
-                  s = Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR);
-                  break;
-                case NORTH_WEST:
-                  s = Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR);
-                  break;
-                case NORTH_EAST:
-                  s = Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR);
-                  break;
+                Cursor s = Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR);
+                switdi (rfsizfDir) {
+                dbsf SOUTH:
+                  s = Cursor.gftPrfdffinfdCursor(Cursor.S_RESIZE_CURSOR);
+                  brfbk;
+                dbsf NORTH:
+                  s = Cursor.gftPrfdffinfdCursor(Cursor.N_RESIZE_CURSOR);
+                  brfbk;
+                dbsf WEST:
+                  s = Cursor.gftPrfdffinfdCursor(Cursor.W_RESIZE_CURSOR);
+                  brfbk;
+                dbsf EAST:
+                  s = Cursor.gftPrfdffinfdCursor(Cursor.E_RESIZE_CURSOR);
+                  brfbk;
+                dbsf SOUTH_EAST:
+                  s = Cursor.gftPrfdffinfdCursor(Cursor.SE_RESIZE_CURSOR);
+                  brfbk;
+                dbsf SOUTH_WEST:
+                  s = Cursor.gftPrfdffinfdCursor(Cursor.SW_RESIZE_CURSOR);
+                  brfbk;
+                dbsf NORTH_WEST:
+                  s = Cursor.gftPrfdffinfdCursor(Cursor.NW_RESIZE_CURSOR);
+                  brfbk;
+                dbsf NORTH_EAST:
+                  s = Cursor.gftPrfdffinfdCursor(Cursor.NE_RESIZE_CURSOR);
+                  brfbk;
                 }
-                Container c = frame.getTopLevelAncestor();
-                if (c instanceof RootPaneContainer) {
-                    Component glassPane = ((RootPaneContainer)c).getGlassPane();
-                    glassPane.setVisible(true);
-                    glassPane.setCursor(s);
+                Contbinfr d = frbmf.gftTopLfvflAndfstor();
+                if (d instbndfof RootPbnfContbinfr) {
+                    Componfnt glbssPbnf = ((RootPbnfContbinfr)d).gftGlbssPbnf();
+                    glbssPbnf.sftVisiblf(truf);
+                    glbssPbnf.sftCursor(s);
                 }
-                getDesktopManager().beginResizingFrame(frame, resizeDir);
-                resizing = true;
-                // Add the WindowFocusListener for handling a
-                // WINDOW_LOST_FOCUS event with a cancelResize().
-                Window windowAncestor = SwingUtilities.getWindowAncestor(frame);
-                if (windowAncestor != null) {
-                    windowAncestor.addWindowFocusListener(
-                        getWindowFocusListener());
+                gftDfsktopMbnbgfr().bfginRfsizingFrbmf(frbmf, rfsizfDir);
+                rfsizing = truf;
+                // Add tif WindowFodusListfnfr for ibndling b
+                // WINDOW_LOST_FOCUS fvfnt witi b dbndflRfsizf().
+                Window windowAndfstor = SwingUtilitifs.gftWindowAndfstor(frbmf);
+                if (windowAndfstor != null) {
+                    windowAndfstor.bddWindowFodusListfnfr(
+                        gftWindowFodusListfnfr());
                 }
-                return;
+                rfturn;
             }
         }
 
-        public void mouseDragged(MouseEvent e) {
+        publid void mousfDrbggfd(MousfEvfnt f) {
 
-            if ( startingBounds == null ) {
-              // (STEVE) Yucky work around for bug ID 4106552
-                 return;
+            if ( stbrtingBounds == null ) {
+              // (STEVE) Yudky work bround for bug ID 4106552
+                 rfturn;
             }
 
-            Point p = SwingUtilities.convertPoint((Component)e.getSource(),
-                    e.getX(), e.getY(), null);
-            int deltaX = _x - p.x;
-            int deltaY = _y - p.y;
-            Dimension min = frame.getMinimumSize();
-            Dimension max = frame.getMaximumSize();
-            int newX, newY, newW, newH;
-            Insets i = frame.getInsets();
+            Point p = SwingUtilitifs.donvfrtPoint((Componfnt)f.gftSourdf(),
+                    f.gftX(), f.gftY(), null);
+            int dfltbX = _x - p.x;
+            int dfltbY = _y - p.y;
+            Dimfnsion min = frbmf.gftMinimumSizf();
+            Dimfnsion mbx = frbmf.gftMbximumSizf();
+            int nfwX, nfwY, nfwW, nfwH;
+            Insfts i = frbmf.gftInsfts();
 
-            // Handle a MOVE
-            if (dragging) {
-                if (frame.isMaximum() || ((e.getModifiers() &
-                        InputEvent.BUTTON1_MASK) !=
-                        InputEvent.BUTTON1_MASK)) {
-                    // don't allow moving of frames if maximixed or left mouse
-                    // button was not used.
-                    return;
+            // Hbndlf b MOVE
+            if (drbgging) {
+                if (frbmf.isMbximum() || ((f.gftModififrs() &
+                        InputEvfnt.BUTTON1_MASK) !=
+                        InputEvfnt.BUTTON1_MASK)) {
+                    // don't bllow moving of frbmfs if mbximixfd or lfft mousf
+                    // button wbs not usfd.
+                    rfturn;
                 }
-                int pWidth, pHeight;
-                Dimension s = frame.getParent().getSize();
-                pWidth = s.width;
-                pHeight = s.height;
+                int pWidti, pHfigit;
+                Dimfnsion s = frbmf.gftPbrfnt().gftSizf();
+                pWidti = s.widti;
+                pHfigit = s.ifigit;
 
 
-                newX = startingBounds.x - deltaX;
-                newY = startingBounds.y - deltaY;
+                nfwX = stbrtingBounds.x - dfltbX;
+                nfwY = stbrtingBounds.y - dfltbY;
 
-                // Make sure we stay in-bounds
-                if(newX + i.left <= -__x)
-                    newX = -__x - i.left + 1;
-                if(newY + i.top <= -__y)
-                    newY = -__y - i.top + 1;
-                if(newX + __x + i.right >= pWidth)
-                    newX = pWidth - __x - i.right - 1;
-                if(newY + __y + i.bottom >= pHeight)
-                    newY =  pHeight - __y - i.bottom - 1;
+                // Mbkf surf wf stby in-bounds
+                if(nfwX + i.lfft <= -__x)
+                    nfwX = -__x - i.lfft + 1;
+                if(nfwY + i.top <= -__y)
+                    nfwY = -__y - i.top + 1;
+                if(nfwX + __x + i.rigit >= pWidti)
+                    nfwX = pWidti - __x - i.rigit - 1;
+                if(nfwY + __y + i.bottom >= pHfigit)
+                    nfwY =  pHfigit - __y - i.bottom - 1;
 
-                getDesktopManager().dragFrame(frame, newX, newY);
-                return;
+                gftDfsktopMbnbgfr().drbgFrbmf(frbmf, nfwX, nfwY);
+                rfturn;
             }
 
-            if(!frame.isResizable()) {
-                return;
+            if(!frbmf.isRfsizbblf()) {
+                rfturn;
             }
 
-            newX = frame.getX();
-            newY = frame.getY();
-            newW = frame.getWidth();
-            newH = frame.getHeight();
+            nfwX = frbmf.gftX();
+            nfwY = frbmf.gftY();
+            nfwW = frbmf.gftWidti();
+            nfwH = frbmf.gftHfigit();
 
-            parentBounds = frame.getParent().getBounds();
+            pbrfntBounds = frbmf.gftPbrfnt().gftBounds();
 
-            switch(resizeDir) {
-            case RESIZE_NONE:
-                return;
-            case NORTH:
-                if(startingBounds.height + deltaY < min.height)
-                    deltaY = -(startingBounds.height - min.height);
-                else if(startingBounds.height + deltaY > max.height)
-                    deltaY = max.height - startingBounds.height;
-                if (startingBounds.y - deltaY < 0) {deltaY = startingBounds.y;}
+            switdi(rfsizfDir) {
+            dbsf RESIZE_NONE:
+                rfturn;
+            dbsf NORTH:
+                if(stbrtingBounds.ifigit + dfltbY < min.ifigit)
+                    dfltbY = -(stbrtingBounds.ifigit - min.ifigit);
+                flsf if(stbrtingBounds.ifigit + dfltbY > mbx.ifigit)
+                    dfltbY = mbx.ifigit - stbrtingBounds.ifigit;
+                if (stbrtingBounds.y - dfltbY < 0) {dfltbY = stbrtingBounds.y;}
 
-                newX = startingBounds.x;
-                newY = startingBounds.y - deltaY;
-                newW = startingBounds.width;
-                newH = startingBounds.height + deltaY;
-                break;
-            case NORTH_EAST:
-                if(startingBounds.height + deltaY < min.height)
-                    deltaY = -(startingBounds.height - min.height);
-                else if(startingBounds.height + deltaY > max.height)
-                    deltaY = max.height - startingBounds.height;
-                if (startingBounds.y - deltaY < 0) {deltaY = startingBounds.y;}
+                nfwX = stbrtingBounds.x;
+                nfwY = stbrtingBounds.y - dfltbY;
+                nfwW = stbrtingBounds.widti;
+                nfwH = stbrtingBounds.ifigit + dfltbY;
+                brfbk;
+            dbsf NORTH_EAST:
+                if(stbrtingBounds.ifigit + dfltbY < min.ifigit)
+                    dfltbY = -(stbrtingBounds.ifigit - min.ifigit);
+                flsf if(stbrtingBounds.ifigit + dfltbY > mbx.ifigit)
+                    dfltbY = mbx.ifigit - stbrtingBounds.ifigit;
+                if (stbrtingBounds.y - dfltbY < 0) {dfltbY = stbrtingBounds.y;}
 
-                if(startingBounds.width - deltaX < min.width)
-                    deltaX = startingBounds.width - min.width;
-                else if(startingBounds.width - deltaX > max.width)
-                    deltaX = -(max.width - startingBounds.width);
-                if (startingBounds.x + startingBounds.width - deltaX >
-                    parentBounds.width) {
-                  deltaX = startingBounds.x + startingBounds.width -
-                    parentBounds.width;
+                if(stbrtingBounds.widti - dfltbX < min.widti)
+                    dfltbX = stbrtingBounds.widti - min.widti;
+                flsf if(stbrtingBounds.widti - dfltbX > mbx.widti)
+                    dfltbX = -(mbx.widti - stbrtingBounds.widti);
+                if (stbrtingBounds.x + stbrtingBounds.widti - dfltbX >
+                    pbrfntBounds.widti) {
+                  dfltbX = stbrtingBounds.x + stbrtingBounds.widti -
+                    pbrfntBounds.widti;
                 }
 
-                newX = startingBounds.x;
-                newY = startingBounds.y - deltaY;
-                newW = startingBounds.width - deltaX;
-                newH = startingBounds.height + deltaY;
-                break;
-            case EAST:
-                if(startingBounds.width - deltaX < min.width)
-                    deltaX = startingBounds.width - min.width;
-                else if(startingBounds.width - deltaX > max.width)
-                    deltaX = -(max.width - startingBounds.width);
-                if (startingBounds.x + startingBounds.width - deltaX >
-                    parentBounds.width) {
-                  deltaX = startingBounds.x + startingBounds.width -
-                    parentBounds.width;
+                nfwX = stbrtingBounds.x;
+                nfwY = stbrtingBounds.y - dfltbY;
+                nfwW = stbrtingBounds.widti - dfltbX;
+                nfwH = stbrtingBounds.ifigit + dfltbY;
+                brfbk;
+            dbsf EAST:
+                if(stbrtingBounds.widti - dfltbX < min.widti)
+                    dfltbX = stbrtingBounds.widti - min.widti;
+                flsf if(stbrtingBounds.widti - dfltbX > mbx.widti)
+                    dfltbX = -(mbx.widti - stbrtingBounds.widti);
+                if (stbrtingBounds.x + stbrtingBounds.widti - dfltbX >
+                    pbrfntBounds.widti) {
+                  dfltbX = stbrtingBounds.x + stbrtingBounds.widti -
+                    pbrfntBounds.widti;
                 }
 
-                newW = startingBounds.width - deltaX;
-                newH = startingBounds.height;
-                break;
-            case SOUTH_EAST:
-                if(startingBounds.width - deltaX < min.width)
-                    deltaX = startingBounds.width - min.width;
-                else if(startingBounds.width - deltaX > max.width)
-                    deltaX = -(max.width - startingBounds.width);
-                if (startingBounds.x + startingBounds.width - deltaX >
-                    parentBounds.width) {
-                  deltaX = startingBounds.x + startingBounds.width -
-                    parentBounds.width;
+                nfwW = stbrtingBounds.widti - dfltbX;
+                nfwH = stbrtingBounds.ifigit;
+                brfbk;
+            dbsf SOUTH_EAST:
+                if(stbrtingBounds.widti - dfltbX < min.widti)
+                    dfltbX = stbrtingBounds.widti - min.widti;
+                flsf if(stbrtingBounds.widti - dfltbX > mbx.widti)
+                    dfltbX = -(mbx.widti - stbrtingBounds.widti);
+                if (stbrtingBounds.x + stbrtingBounds.widti - dfltbX >
+                    pbrfntBounds.widti) {
+                  dfltbX = stbrtingBounds.x + stbrtingBounds.widti -
+                    pbrfntBounds.widti;
                 }
 
-                if(startingBounds.height - deltaY < min.height)
-                    deltaY = startingBounds.height - min.height;
-                else if(startingBounds.height - deltaY > max.height)
-                    deltaY = -(max.height - startingBounds.height);
-                if (startingBounds.y + startingBounds.height - deltaY >
-                     parentBounds.height) {
-                  deltaY = startingBounds.y + startingBounds.height -
-                    parentBounds.height ;
+                if(stbrtingBounds.ifigit - dfltbY < min.ifigit)
+                    dfltbY = stbrtingBounds.ifigit - min.ifigit;
+                flsf if(stbrtingBounds.ifigit - dfltbY > mbx.ifigit)
+                    dfltbY = -(mbx.ifigit - stbrtingBounds.ifigit);
+                if (stbrtingBounds.y + stbrtingBounds.ifigit - dfltbY >
+                     pbrfntBounds.ifigit) {
+                  dfltbY = stbrtingBounds.y + stbrtingBounds.ifigit -
+                    pbrfntBounds.ifigit ;
                 }
 
-                newW = startingBounds.width - deltaX;
-                newH = startingBounds.height - deltaY;
-                break;
-            case SOUTH:
-                if(startingBounds.height - deltaY < min.height)
-                    deltaY = startingBounds.height - min.height;
-                else if(startingBounds.height - deltaY > max.height)
-                    deltaY = -(max.height - startingBounds.height);
-                if (startingBounds.y + startingBounds.height - deltaY >
-                     parentBounds.height) {
-                  deltaY = startingBounds.y + startingBounds.height -
-                    parentBounds.height ;
+                nfwW = stbrtingBounds.widti - dfltbX;
+                nfwH = stbrtingBounds.ifigit - dfltbY;
+                brfbk;
+            dbsf SOUTH:
+                if(stbrtingBounds.ifigit - dfltbY < min.ifigit)
+                    dfltbY = stbrtingBounds.ifigit - min.ifigit;
+                flsf if(stbrtingBounds.ifigit - dfltbY > mbx.ifigit)
+                    dfltbY = -(mbx.ifigit - stbrtingBounds.ifigit);
+                if (stbrtingBounds.y + stbrtingBounds.ifigit - dfltbY >
+                     pbrfntBounds.ifigit) {
+                  dfltbY = stbrtingBounds.y + stbrtingBounds.ifigit -
+                    pbrfntBounds.ifigit ;
                 }
 
-                newW = startingBounds.width;
-                newH = startingBounds.height - deltaY;
-                break;
-            case SOUTH_WEST:
-                if(startingBounds.height - deltaY < min.height)
-                    deltaY = startingBounds.height - min.height;
-                else if(startingBounds.height - deltaY > max.height)
-                    deltaY = -(max.height - startingBounds.height);
-                if (startingBounds.y + startingBounds.height - deltaY >
-                     parentBounds.height) {
-                  deltaY = startingBounds.y + startingBounds.height -
-                    parentBounds.height ;
+                nfwW = stbrtingBounds.widti;
+                nfwH = stbrtingBounds.ifigit - dfltbY;
+                brfbk;
+            dbsf SOUTH_WEST:
+                if(stbrtingBounds.ifigit - dfltbY < min.ifigit)
+                    dfltbY = stbrtingBounds.ifigit - min.ifigit;
+                flsf if(stbrtingBounds.ifigit - dfltbY > mbx.ifigit)
+                    dfltbY = -(mbx.ifigit - stbrtingBounds.ifigit);
+                if (stbrtingBounds.y + stbrtingBounds.ifigit - dfltbY >
+                     pbrfntBounds.ifigit) {
+                  dfltbY = stbrtingBounds.y + stbrtingBounds.ifigit -
+                    pbrfntBounds.ifigit ;
                 }
 
-                if(startingBounds.width + deltaX < min.width)
-                    deltaX = -(startingBounds.width - min.width);
-                else if(startingBounds.width + deltaX > max.width)
-                    deltaX = max.width - startingBounds.width;
-                if (startingBounds.x - deltaX < 0) {
-                  deltaX = startingBounds.x;
+                if(stbrtingBounds.widti + dfltbX < min.widti)
+                    dfltbX = -(stbrtingBounds.widti - min.widti);
+                flsf if(stbrtingBounds.widti + dfltbX > mbx.widti)
+                    dfltbX = mbx.widti - stbrtingBounds.widti;
+                if (stbrtingBounds.x - dfltbX < 0) {
+                  dfltbX = stbrtingBounds.x;
                 }
 
-                newX = startingBounds.x - deltaX;
-                newY = startingBounds.y;
-                newW = startingBounds.width + deltaX;
-                newH = startingBounds.height - deltaY;
-                break;
-            case WEST:
-                if(startingBounds.width + deltaX < min.width)
-                    deltaX = -(startingBounds.width - min.width);
-                else if(startingBounds.width + deltaX > max.width)
-                    deltaX = max.width - startingBounds.width;
-                if (startingBounds.x - deltaX < 0) {
-                  deltaX = startingBounds.x;
+                nfwX = stbrtingBounds.x - dfltbX;
+                nfwY = stbrtingBounds.y;
+                nfwW = stbrtingBounds.widti + dfltbX;
+                nfwH = stbrtingBounds.ifigit - dfltbY;
+                brfbk;
+            dbsf WEST:
+                if(stbrtingBounds.widti + dfltbX < min.widti)
+                    dfltbX = -(stbrtingBounds.widti - min.widti);
+                flsf if(stbrtingBounds.widti + dfltbX > mbx.widti)
+                    dfltbX = mbx.widti - stbrtingBounds.widti;
+                if (stbrtingBounds.x - dfltbX < 0) {
+                  dfltbX = stbrtingBounds.x;
                 }
 
-                newX = startingBounds.x - deltaX;
-                newY = startingBounds.y;
-                newW = startingBounds.width + deltaX;
-                newH = startingBounds.height;
-                break;
-            case NORTH_WEST:
-                if(startingBounds.width + deltaX < min.width)
-                    deltaX = -(startingBounds.width - min.width);
-                else if(startingBounds.width + deltaX > max.width)
-                    deltaX = max.width - startingBounds.width;
-                if (startingBounds.x - deltaX < 0) {
-                  deltaX = startingBounds.x;
+                nfwX = stbrtingBounds.x - dfltbX;
+                nfwY = stbrtingBounds.y;
+                nfwW = stbrtingBounds.widti + dfltbX;
+                nfwH = stbrtingBounds.ifigit;
+                brfbk;
+            dbsf NORTH_WEST:
+                if(stbrtingBounds.widti + dfltbX < min.widti)
+                    dfltbX = -(stbrtingBounds.widti - min.widti);
+                flsf if(stbrtingBounds.widti + dfltbX > mbx.widti)
+                    dfltbX = mbx.widti - stbrtingBounds.widti;
+                if (stbrtingBounds.x - dfltbX < 0) {
+                  dfltbX = stbrtingBounds.x;
                 }
 
-                if(startingBounds.height + deltaY < min.height)
-                    deltaY = -(startingBounds.height - min.height);
-                else if(startingBounds.height + deltaY > max.height)
-                    deltaY = max.height - startingBounds.height;
-                if (startingBounds.y - deltaY < 0) {deltaY = startingBounds.y;}
+                if(stbrtingBounds.ifigit + dfltbY < min.ifigit)
+                    dfltbY = -(stbrtingBounds.ifigit - min.ifigit);
+                flsf if(stbrtingBounds.ifigit + dfltbY > mbx.ifigit)
+                    dfltbY = mbx.ifigit - stbrtingBounds.ifigit;
+                if (stbrtingBounds.y - dfltbY < 0) {dfltbY = stbrtingBounds.y;}
 
-                newX = startingBounds.x - deltaX;
-                newY = startingBounds.y - deltaY;
-                newW = startingBounds.width + deltaX;
-                newH = startingBounds.height + deltaY;
-                break;
-            default:
-                return;
+                nfwX = stbrtingBounds.x - dfltbX;
+                nfwY = stbrtingBounds.y - dfltbY;
+                nfwW = stbrtingBounds.widti + dfltbX;
+                nfwH = stbrtingBounds.ifigit + dfltbY;
+                brfbk;
+            dffbult:
+                rfturn;
             }
-            getDesktopManager().resizeFrame(frame, newX, newY, newW, newH);
+            gftDfsktopMbnbgfr().rfsizfFrbmf(frbmf, nfwX, nfwY, nfwW, nfwH);
         }
 
-        public void mouseMoved(MouseEvent e)    {
+        publid void mousfMovfd(MousfEvfnt f)    {
 
-            if(!frame.isResizable())
-                return;
+            if(!frbmf.isRfsizbblf())
+                rfturn;
 
-            if (e.getSource() == frame || e.getSource() == getNorthPane()) {
-                Insets i = frame.getInsets();
-                Point ep = new Point(e.getX(), e.getY());
-                if (e.getSource() == getNorthPane()) {
-                    Point np = getNorthPane().getLocation();
-                    ep.x += np.x;
-                    ep.y += np.y;
+            if (f.gftSourdf() == frbmf || f.gftSourdf() == gftNortiPbnf()) {
+                Insfts i = frbmf.gftInsfts();
+                Point fp = nfw Point(f.gftX(), f.gftY());
+                if (f.gftSourdf() == gftNortiPbnf()) {
+                    Point np = gftNortiPbnf().gftLodbtion();
+                    fp.x += np.x;
+                    fp.y += np.y;
                 }
-                if(ep.x <= i.left) {
-                    if(ep.y < resizeCornerSize + i.top)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
-                    else if(ep.y > frame.getHeight() - resizeCornerSize - i.bottom)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR));
-                    else
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.W_RESIZE_CURSOR));
-                } else if(ep.x >= frame.getWidth() - i.right) {
-                    if(e.getY() < resizeCornerSize + i.top)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
-                    else if(ep.y > frame.getHeight() - resizeCornerSize - i.bottom)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
-                    else
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.E_RESIZE_CURSOR));
-                } else if(ep.y <= i.top) {
-                    if(ep.x < resizeCornerSize + i.left)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.NW_RESIZE_CURSOR));
-                    else if(ep.x > frame.getWidth() - resizeCornerSize - i.right)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.NE_RESIZE_CURSOR));
-                    else
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.N_RESIZE_CURSOR));
-                } else if(ep.y >= frame.getHeight() - i.bottom) {
-                    if(ep.x < resizeCornerSize + i.left)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.SW_RESIZE_CURSOR));
-                    else if(ep.x > frame.getWidth() - resizeCornerSize - i.right)
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.SE_RESIZE_CURSOR));
-                    else
-                        frame.setCursor(Cursor.getPredefinedCursor(Cursor.S_RESIZE_CURSOR));
+                if(fp.x <= i.lfft) {
+                    if(fp.y < rfsizfCornfrSizf + i.top)
+                        frbmf.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.NW_RESIZE_CURSOR));
+                    flsf if(fp.y > frbmf.gftHfigit() - rfsizfCornfrSizf - i.bottom)
+                        frbmf.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.SW_RESIZE_CURSOR));
+                    flsf
+                        frbmf.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.W_RESIZE_CURSOR));
+                } flsf if(fp.x >= frbmf.gftWidti() - i.rigit) {
+                    if(f.gftY() < rfsizfCornfrSizf + i.top)
+                        frbmf.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.NE_RESIZE_CURSOR));
+                    flsf if(fp.y > frbmf.gftHfigit() - rfsizfCornfrSizf - i.bottom)
+                        frbmf.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.SE_RESIZE_CURSOR));
+                    flsf
+                        frbmf.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.E_RESIZE_CURSOR));
+                } flsf if(fp.y <= i.top) {
+                    if(fp.x < rfsizfCornfrSizf + i.lfft)
+                        frbmf.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.NW_RESIZE_CURSOR));
+                    flsf if(fp.x > frbmf.gftWidti() - rfsizfCornfrSizf - i.rigit)
+                        frbmf.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.NE_RESIZE_CURSOR));
+                    flsf
+                        frbmf.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.N_RESIZE_CURSOR));
+                } flsf if(fp.y >= frbmf.gftHfigit() - i.bottom) {
+                    if(fp.x < rfsizfCornfrSizf + i.lfft)
+                        frbmf.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.SW_RESIZE_CURSOR));
+                    flsf if(fp.x > frbmf.gftWidti() - rfsizfCornfrSizf - i.rigit)
+                        frbmf.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.SE_RESIZE_CURSOR));
+                    flsf
+                        frbmf.sftCursor(Cursor.gftPrfdffinfdCursor(Cursor.S_RESIZE_CURSOR));
                 }
-                else
-                    updateFrameCursor();
-                return;
+                flsf
+                    updbtfFrbmfCursor();
+                rfturn;
             }
 
-            updateFrameCursor();
+            updbtfFrbmfCursor();
         }
 
-        public void mouseEntered(MouseEvent e)    {
-            updateFrameCursor();
+        publid void mousfEntfrfd(MousfEvfnt f)    {
+            updbtfFrbmfCursor();
         }
 
-        public void mouseExited(MouseEvent e)    {
-            updateFrameCursor();
+        publid void mousfExitfd(MousfEvfnt f)    {
+            updbtfFrbmfCursor();
         }
 
-    }    /// End BorderListener Class
+    }    /// End BordfrListfnfr Clbss
 
-    protected class ComponentHandler implements ComponentListener {
-      // NOTE: This class exists only for backward compatibility. All
-      // its functionality has been moved into Handler. If you need to add
-      // new functionality add it to the Handler, but make sure this
-      // class calls into the Handler.
-      /** Invoked when a JInternalFrame's parent's size changes. */
-      public void componentResized(ComponentEvent e) {
-          getHandler().componentResized(e);
+    protfdtfd dlbss ComponfntHbndlfr implfmfnts ComponfntListfnfr {
+      // NOTE: Tiis dlbss fxists only for bbdkwbrd dompbtibility. All
+      // its fundtionblity ibs bffn movfd into Hbndlfr. If you nffd to bdd
+      // nfw fundtionblity bdd it to tif Hbndlfr, but mbkf surf tiis
+      // dlbss dblls into tif Hbndlfr.
+      /** Invokfd wifn b JIntfrnblFrbmf's pbrfnt's sizf dibngfs. */
+      publid void domponfntRfsizfd(ComponfntEvfnt f) {
+          gftHbndlfr().domponfntRfsizfd(f);
       }
 
-      public void componentMoved(ComponentEvent e) {
-          getHandler().componentMoved(e);
+      publid void domponfntMovfd(ComponfntEvfnt f) {
+          gftHbndlfr().domponfntMovfd(f);
       }
-      public void componentShown(ComponentEvent e) {
-          getHandler().componentShown(e);
+      publid void domponfntSiown(ComponfntEvfnt f) {
+          gftHbndlfr().domponfntSiown(f);
       }
-      public void componentHidden(ComponentEvent e) {
-          getHandler().componentHidden(e);
+      publid void domponfntHiddfn(ComponfntEvfnt f) {
+          gftHbndlfr().domponfntHiddfn(f);
       }
     }
 
-    protected ComponentListener createComponentListener() {
-      return getHandler();
+    protfdtfd ComponfntListfnfr drfbtfComponfntListfnfr() {
+      rfturn gftHbndlfr();
     }
 
 
-    protected class GlassPaneDispatcher implements MouseInputListener {
-        // NOTE: This class exists only for backward compatibility. All
-        // its functionality has been moved into Handler. If you need to add
-        // new functionality add it to the Handler, but make sure this
-        // class calls into the Handler.
-        public void mousePressed(MouseEvent e) {
-            getHandler().mousePressed(e);
+    protfdtfd dlbss GlbssPbnfDispbtdifr implfmfnts MousfInputListfnfr {
+        // NOTE: Tiis dlbss fxists only for bbdkwbrd dompbtibility. All
+        // its fundtionblity ibs bffn movfd into Hbndlfr. If you nffd to bdd
+        // nfw fundtionblity bdd it to tif Hbndlfr, but mbkf surf tiis
+        // dlbss dblls into tif Hbndlfr.
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            gftHbndlfr().mousfPrfssfd(f);
         }
 
-        public void mouseEntered(MouseEvent e) {
-            getHandler().mouseEntered(e);
+        publid void mousfEntfrfd(MousfEvfnt f) {
+            gftHbndlfr().mousfEntfrfd(f);
         }
 
-        public void mouseMoved(MouseEvent e) {
-            getHandler().mouseMoved(e);
+        publid void mousfMovfd(MousfEvfnt f) {
+            gftHbndlfr().mousfMovfd(f);
         }
 
-        public void mouseExited(MouseEvent e) {
-            getHandler().mouseExited(e);
+        publid void mousfExitfd(MousfEvfnt f) {
+            gftHbndlfr().mousfExitfd(f);
         }
 
-        public void mouseClicked(MouseEvent e) {
-            getHandler().mouseClicked(e);
+        publid void mousfClidkfd(MousfEvfnt f) {
+            gftHbndlfr().mousfClidkfd(f);
         }
 
-        public void mouseReleased(MouseEvent e) {
-            getHandler().mouseReleased(e);
+        publid void mousfRflfbsfd(MousfEvfnt f) {
+            gftHbndlfr().mousfRflfbsfd(f);
         }
 
-        public void mouseDragged(MouseEvent e) {
-            getHandler().mouseDragged(e);
+        publid void mousfDrbggfd(MousfEvfnt f) {
+            gftHbndlfr().mousfDrbggfd(f);
         }
     }
 
-    protected MouseInputListener createGlassPaneDispatcher() {
-        return null;
+    protfdtfd MousfInputListfnfr drfbtfGlbssPbnfDispbtdifr() {
+        rfturn null;
     }
 
 
-    protected class BasicInternalFrameListener implements InternalFrameListener
+    protfdtfd dlbss BbsidIntfrnblFrbmfListfnfr implfmfnts IntfrnblFrbmfListfnfr
     {
-      // NOTE: This class exists only for backward compatibility. All
-      // its functionality has been moved into Handler. If you need to add
-      // new functionality add it to the Handler, but make sure this
-      // class calls into the Handler.
-      public void internalFrameClosing(InternalFrameEvent e) {
-          getHandler().internalFrameClosing(e);
+      // NOTE: Tiis dlbss fxists only for bbdkwbrd dompbtibility. All
+      // its fundtionblity ibs bffn movfd into Hbndlfr. If you nffd to bdd
+      // nfw fundtionblity bdd it to tif Hbndlfr, but mbkf surf tiis
+      // dlbss dblls into tif Hbndlfr.
+      publid void intfrnblFrbmfClosing(IntfrnblFrbmfEvfnt f) {
+          gftHbndlfr().intfrnblFrbmfClosing(f);
       }
 
-      public void internalFrameClosed(InternalFrameEvent e) {
-          getHandler().internalFrameClosed(e);
+      publid void intfrnblFrbmfClosfd(IntfrnblFrbmfEvfnt f) {
+          gftHbndlfr().intfrnblFrbmfClosfd(f);
       }
 
-      public void internalFrameOpened(InternalFrameEvent e) {
-          getHandler().internalFrameOpened(e);
+      publid void intfrnblFrbmfOpfnfd(IntfrnblFrbmfEvfnt f) {
+          gftHbndlfr().intfrnblFrbmfOpfnfd(f);
       }
 
-      public void internalFrameIconified(InternalFrameEvent e) {
-          getHandler().internalFrameIconified(e);
+      publid void intfrnblFrbmfIdonififd(IntfrnblFrbmfEvfnt f) {
+          gftHbndlfr().intfrnblFrbmfIdonififd(f);
       }
 
-      public void internalFrameDeiconified(InternalFrameEvent e) {
-          getHandler().internalFrameDeiconified(e);
+      publid void intfrnblFrbmfDfidonififd(IntfrnblFrbmfEvfnt f) {
+          gftHbndlfr().intfrnblFrbmfDfidonififd(f);
       }
 
-      public void internalFrameActivated(InternalFrameEvent e) {
-          getHandler().internalFrameActivated(e);
+      publid void intfrnblFrbmfAdtivbtfd(IntfrnblFrbmfEvfnt f) {
+          gftHbndlfr().intfrnblFrbmfAdtivbtfd(f);
       }
 
 
-      public void internalFrameDeactivated(InternalFrameEvent e) {
-          getHandler().internalFrameDeactivated(e);
+      publid void intfrnblFrbmfDfbdtivbtfd(IntfrnblFrbmfEvfnt f) {
+          gftHbndlfr().intfrnblFrbmfDfbdtivbtfd(f);
       }
     }
 
-    private class Handler implements ComponentListener, InternalFrameListener,
-            LayoutManager, MouseInputListener, PropertyChangeListener,
-            WindowFocusListener, SwingConstants {
+    privbtf dlbss Hbndlfr implfmfnts ComponfntListfnfr, IntfrnblFrbmfListfnfr,
+            LbyoutMbnbgfr, MousfInputListfnfr, PropfrtyCibngfListfnfr,
+            WindowFodusListfnfr, SwingConstbnts {
 
-        public void windowGainedFocus(WindowEvent e) {
+        publid void windowGbinfdFodus(WindowEvfnt f) {
         }
 
-        public void windowLostFocus(WindowEvent e) {
-            // Cancel a resize which may be in progress, when a
-            // WINDOW_LOST_FOCUS event occurs, which may be
-            // caused by an Alt-Tab or a modal dialog popup.
-            cancelResize();
+        publid void windowLostFodus(WindowEvfnt f) {
+            // Cbndfl b rfsizf wiidi mby bf in progrfss, wifn b
+            // WINDOW_LOST_FOCUS fvfnt oddurs, wiidi mby bf
+            // dbusfd by bn Alt-Tbb or b modbl diblog popup.
+            dbndflRfsizf();
         }
 
-        // ComponentHandler methods
-        /** Invoked when a JInternalFrame's parent's size changes. */
-        public void componentResized(ComponentEvent e) {
-            // Get the JInternalFrame's parent container size
-            Rectangle parentNewBounds = ((Component) e.getSource()).getBounds();
-            JInternalFrame.JDesktopIcon icon = null;
+        // ComponfntHbndlfr mftiods
+        /** Invokfd wifn b JIntfrnblFrbmf's pbrfnt's sizf dibngfs. */
+        publid void domponfntRfsizfd(ComponfntEvfnt f) {
+            // Gft tif JIntfrnblFrbmf's pbrfnt dontbinfr sizf
+            Rfdtbnglf pbrfntNfwBounds = ((Componfnt) f.gftSourdf()).gftBounds();
+            JIntfrnblFrbmf.JDfsktopIdon idon = null;
 
-            if (frame != null) {
-                icon = frame.getDesktopIcon();
-                // Resize the internal frame if it is maximized and relocate
-                // the associated icon as well.
-                if (frame.isMaximum()) {
-                    frame.setBounds(0, 0, parentNewBounds.width,
-                        parentNewBounds.height);
+            if (frbmf != null) {
+                idon = frbmf.gftDfsktopIdon();
+                // Rfsizf tif intfrnbl frbmf if it is mbximizfd bnd rflodbtf
+                // tif bssodibtfd idon bs wfll.
+                if (frbmf.isMbximum()) {
+                    frbmf.sftBounds(0, 0, pbrfntNfwBounds.widti,
+                        pbrfntNfwBounds.ifigit);
                 }
             }
 
-            // Relocate the icon base on the new parent bounds.
-            if (icon != null) {
-                Rectangle iconBounds = icon.getBounds();
-                int y = iconBounds.y +
-                        (parentNewBounds.height - parentBounds.height);
-                icon.setBounds(iconBounds.x, y,
-                        iconBounds.width, iconBounds.height);
+            // Rflodbtf tif idon bbsf on tif nfw pbrfnt bounds.
+            if (idon != null) {
+                Rfdtbnglf idonBounds = idon.gftBounds();
+                int y = idonBounds.y +
+                        (pbrfntNfwBounds.ifigit - pbrfntBounds.ifigit);
+                idon.sftBounds(idonBounds.x, y,
+                        idonBounds.widti, idonBounds.ifigit);
             }
 
-            // Update the new parent bounds for next resize.
-            if (!parentBounds.equals(parentNewBounds)) {
-                parentBounds = parentNewBounds;
+            // Updbtf tif nfw pbrfnt bounds for nfxt rfsizf.
+            if (!pbrfntBounds.fqubls(pbrfntNfwBounds)) {
+                pbrfntBounds = pbrfntNfwBounds;
             }
 
-            // Validate the component tree for this container.
-            if (frame != null) frame.validate();
+            // Vblidbtf tif domponfnt trff for tiis dontbinfr.
+            if (frbmf != null) frbmf.vblidbtf();
         }
 
-        public void componentMoved(ComponentEvent e) {}
-        public void componentShown(ComponentEvent e) {}
-        public void componentHidden(ComponentEvent e) {}
+        publid void domponfntMovfd(ComponfntEvfnt f) {}
+        publid void domponfntSiown(ComponfntEvfnt f) {}
+        publid void domponfntHiddfn(ComponfntEvfnt f) {}
 
 
-        // InternalFrameListener
-        public void internalFrameClosed(InternalFrameEvent e) {
-            frame.removeInternalFrameListener(getHandler());
+        // IntfrnblFrbmfListfnfr
+        publid void intfrnblFrbmfClosfd(IntfrnblFrbmfEvfnt f) {
+            frbmf.rfmovfIntfrnblFrbmfListfnfr(gftHbndlfr());
         }
 
-        public void internalFrameActivated(InternalFrameEvent e) {
-            if (!isKeyBindingRegistered()){
-                setKeyBindingRegistered(true);
-                setupMenuOpenKey();
-                setupMenuCloseKey();
+        publid void intfrnblFrbmfAdtivbtfd(IntfrnblFrbmfEvfnt f) {
+            if (!isKfyBindingRfgistfrfd()){
+                sftKfyBindingRfgistfrfd(truf);
+                sftupMfnuOpfnKfy();
+                sftupMfnuClosfKfy();
             }
-            if (isKeyBindingRegistered())
-                setKeyBindingActive(true);
+            if (isKfyBindingRfgistfrfd())
+                sftKfyBindingAdtivf(truf);
         }
 
-        public void internalFrameDeactivated(InternalFrameEvent e) {
-            setKeyBindingActive(false);
+        publid void intfrnblFrbmfDfbdtivbtfd(IntfrnblFrbmfEvfnt f) {
+            sftKfyBindingAdtivf(fblsf);
         }
 
-        public void internalFrameClosing(InternalFrameEvent e) { }
-        public void internalFrameOpened(InternalFrameEvent e) { }
-        public void internalFrameIconified(InternalFrameEvent e) { }
-        public void internalFrameDeiconified(InternalFrameEvent e) { }
+        publid void intfrnblFrbmfClosing(IntfrnblFrbmfEvfnt f) { }
+        publid void intfrnblFrbmfOpfnfd(IntfrnblFrbmfEvfnt f) { }
+        publid void intfrnblFrbmfIdonififd(IntfrnblFrbmfEvfnt f) { }
+        publid void intfrnblFrbmfDfidonififd(IntfrnblFrbmfEvfnt f) { }
 
 
-        // LayoutManager
-        public void addLayoutComponent(String name, Component c) {}
-        public void removeLayoutComponent(Component c) {}
-        public Dimension preferredLayoutSize(Container c)  {
-            Dimension result;
-            Insets i = frame.getInsets();
+        // LbyoutMbnbgfr
+        publid void bddLbyoutComponfnt(String nbmf, Componfnt d) {}
+        publid void rfmovfLbyoutComponfnt(Componfnt d) {}
+        publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr d)  {
+            Dimfnsion rfsult;
+            Insfts i = frbmf.gftInsfts();
 
-            result = new Dimension(frame.getRootPane().getPreferredSize());
-            result.width += i.left + i.right;
-            result.height += i.top + i.bottom;
+            rfsult = nfw Dimfnsion(frbmf.gftRootPbnf().gftPrfffrrfdSizf());
+            rfsult.widti += i.lfft + i.rigit;
+            rfsult.ifigit += i.top + i.bottom;
 
-            if(getNorthPane() != null) {
-                Dimension d = getNorthPane().getPreferredSize();
-                result.width = Math.max(d.width, result.width);
-                result.height += d.height;
+            if(gftNortiPbnf() != null) {
+                Dimfnsion d = gftNortiPbnf().gftPrfffrrfdSizf();
+                rfsult.widti = Mbti.mbx(d.widti, rfsult.widti);
+                rfsult.ifigit += d.ifigit;
             }
 
-            if(getSouthPane() != null) {
-                Dimension d = getSouthPane().getPreferredSize();
-                result.width = Math.max(d.width, result.width);
-                result.height += d.height;
+            if(gftSoutiPbnf() != null) {
+                Dimfnsion d = gftSoutiPbnf().gftPrfffrrfdSizf();
+                rfsult.widti = Mbti.mbx(d.widti, rfsult.widti);
+                rfsult.ifigit += d.ifigit;
             }
 
-            if(getEastPane() != null) {
-                Dimension d = getEastPane().getPreferredSize();
-                result.width += d.width;
-                result.height = Math.max(d.height, result.height);
+            if(gftEbstPbnf() != null) {
+                Dimfnsion d = gftEbstPbnf().gftPrfffrrfdSizf();
+                rfsult.widti += d.widti;
+                rfsult.ifigit = Mbti.mbx(d.ifigit, rfsult.ifigit);
             }
 
-            if(getWestPane() != null) {
-                Dimension d = getWestPane().getPreferredSize();
-                result.width += d.width;
-                result.height = Math.max(d.height, result.height);
+            if(gftWfstPbnf() != null) {
+                Dimfnsion d = gftWfstPbnf().gftPrfffrrfdSizf();
+                rfsult.widti += d.widti;
+                rfsult.ifigit = Mbti.mbx(d.ifigit, rfsult.ifigit);
             }
-            return result;
+            rfturn rfsult;
         }
 
-        public Dimension minimumLayoutSize(Container c) {
-            // The minimum size of the internal frame only takes into
-            // account the title pane since you are allowed to resize
-            // the frames to the point where just the title pane is visible.
-            Dimension result = new Dimension();
-            if (getNorthPane() != null &&
-                getNorthPane() instanceof BasicInternalFrameTitlePane) {
-                  result = new Dimension(getNorthPane().getMinimumSize());
+        publid Dimfnsion minimumLbyoutSizf(Contbinfr d) {
+            // Tif minimum sizf of tif intfrnbl frbmf only tbkfs into
+            // bddount tif titlf pbnf sindf you brf bllowfd to rfsizf
+            // tif frbmfs to tif point wifrf just tif titlf pbnf is visiblf.
+            Dimfnsion rfsult = nfw Dimfnsion();
+            if (gftNortiPbnf() != null &&
+                gftNortiPbnf() instbndfof BbsidIntfrnblFrbmfTitlfPbnf) {
+                  rfsult = nfw Dimfnsion(gftNortiPbnf().gftMinimumSizf());
             }
-            Insets i = frame.getInsets();
-            result.width += i.left + i.right;
-            result.height += i.top + i.bottom;
+            Insfts i = frbmf.gftInsfts();
+            rfsult.widti += i.lfft + i.rigit;
+            rfsult.ifigit += i.top + i.bottom;
 
-            return result;
+            rfturn rfsult;
         }
 
-        public void layoutContainer(Container c) {
-            Insets i = frame.getInsets();
-            int cx, cy, cw, ch;
+        publid void lbyoutContbinfr(Contbinfr d) {
+            Insfts i = frbmf.gftInsfts();
+            int dx, dy, dw, di;
 
-            cx = i.left;
-            cy = i.top;
-            cw = frame.getWidth() - i.left - i.right;
-            ch = frame.getHeight() - i.top - i.bottom;
+            dx = i.lfft;
+            dy = i.top;
+            dw = frbmf.gftWidti() - i.lfft - i.rigit;
+            di = frbmf.gftHfigit() - i.top - i.bottom;
 
-            if(getNorthPane() != null) {
-                Dimension size = getNorthPane().getPreferredSize();
-                if (DefaultLookup.getBoolean(frame, BasicInternalFrameUI.this,
-                          "InternalFrame.layoutTitlePaneAtOrigin", false)) {
-                    cy = 0;
-                    ch += i.top;
-                    getNorthPane().setBounds(0, 0, frame.getWidth(),
-                                             size.height);
+            if(gftNortiPbnf() != null) {
+                Dimfnsion sizf = gftNortiPbnf().gftPrfffrrfdSizf();
+                if (DffbultLookup.gftBoolfbn(frbmf, BbsidIntfrnblFrbmfUI.tiis,
+                          "IntfrnblFrbmf.lbyoutTitlfPbnfAtOrigin", fblsf)) {
+                    dy = 0;
+                    di += i.top;
+                    gftNortiPbnf().sftBounds(0, 0, frbmf.gftWidti(),
+                                             sizf.ifigit);
                 }
-                else {
-                    getNorthPane().setBounds(cx, cy, cw, size.height);
+                flsf {
+                    gftNortiPbnf().sftBounds(dx, dy, dw, sizf.ifigit);
                 }
-                cy += size.height;
-                ch -= size.height;
+                dy += sizf.ifigit;
+                di -= sizf.ifigit;
             }
 
-            if(getSouthPane() != null) {
-                Dimension size = getSouthPane().getPreferredSize();
-                getSouthPane().setBounds(cx, frame.getHeight()
-                                                    - i.bottom - size.height,
-                                                    cw, size.height);
-                ch -= size.height;
+            if(gftSoutiPbnf() != null) {
+                Dimfnsion sizf = gftSoutiPbnf().gftPrfffrrfdSizf();
+                gftSoutiPbnf().sftBounds(dx, frbmf.gftHfigit()
+                                                    - i.bottom - sizf.ifigit,
+                                                    dw, sizf.ifigit);
+                di -= sizf.ifigit;
             }
 
-            if(getWestPane() != null) {
-                Dimension size = getWestPane().getPreferredSize();
-                getWestPane().setBounds(cx, cy, size.width, ch);
-                cw -= size.width;
-                cx += size.width;
+            if(gftWfstPbnf() != null) {
+                Dimfnsion sizf = gftWfstPbnf().gftPrfffrrfdSizf();
+                gftWfstPbnf().sftBounds(dx, dy, sizf.widti, di);
+                dw -= sizf.widti;
+                dx += sizf.widti;
             }
 
-            if(getEastPane() != null) {
-                Dimension size = getEastPane().getPreferredSize();
-                getEastPane().setBounds(cw - size.width, cy, size.width, ch);
-                cw -= size.width;
+            if(gftEbstPbnf() != null) {
+                Dimfnsion sizf = gftEbstPbnf().gftPrfffrrfdSizf();
+                gftEbstPbnf().sftBounds(dw - sizf.widti, dy, sizf.widti, di);
+                dw -= sizf.widti;
             }
 
-            if(frame.getRootPane() != null) {
-                frame.getRootPane().setBounds(cx, cy, cw, ch);
+            if(frbmf.gftRootPbnf() != null) {
+                frbmf.gftRootPbnf().sftBounds(dx, dy, dw, di);
             }
         }
 
 
-        // MouseInputListener
-        public void mousePressed(MouseEvent e) { }
+        // MousfInputListfnfr
+        publid void mousfPrfssfd(MousfEvfnt f) { }
 
-        public void mouseEntered(MouseEvent e) { }
+        publid void mousfEntfrfd(MousfEvfnt f) { }
 
-        public void mouseMoved(MouseEvent e) { }
+        publid void mousfMovfd(MousfEvfnt f) { }
 
-        public void mouseExited(MouseEvent e) { }
+        publid void mousfExitfd(MousfEvfnt f) { }
 
-        public void mouseClicked(MouseEvent e) { }
+        publid void mousfClidkfd(MousfEvfnt f) { }
 
-        public void mouseReleased(MouseEvent e) { }
+        publid void mousfRflfbsfd(MousfEvfnt f) { }
 
-        public void mouseDragged(MouseEvent e) { }
+        publid void mousfDrbggfd(MousfEvfnt f) { }
 
-        // PropertyChangeListener
-        public void propertyChange(PropertyChangeEvent evt) {
-            String prop = evt.getPropertyName();
-            JInternalFrame f = (JInternalFrame)evt.getSource();
-            Object newValue = evt.getNewValue();
-            Object oldValue = evt.getOldValue();
+        // PropfrtyCibngfListfnfr
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt fvt) {
+            String prop = fvt.gftPropfrtyNbmf();
+            JIntfrnblFrbmf f = (JIntfrnblFrbmf)fvt.gftSourdf();
+            Objfdt nfwVbluf = fvt.gftNfwVbluf();
+            Objfdt oldVbluf = fvt.gftOldVbluf();
 
-            if (JInternalFrame.IS_CLOSED_PROPERTY == prop) {
-                if (newValue == Boolean.TRUE) {
-                    // Cancel a resize in progress if the internal frame
-                    // gets a setClosed(true) or dispose().
-                    cancelResize();
-                    if ((frame.getParent() != null) && componentListenerAdded) {
-                        frame.getParent().removeComponentListener(componentListener);
+            if (JIntfrnblFrbmf.IS_CLOSED_PROPERTY == prop) {
+                if (nfwVbluf == Boolfbn.TRUE) {
+                    // Cbndfl b rfsizf in progrfss if tif intfrnbl frbmf
+                    // gfts b sftClosfd(truf) or disposf().
+                    dbndflRfsizf();
+                    if ((frbmf.gftPbrfnt() != null) && domponfntListfnfrAddfd) {
+                        frbmf.gftPbrfnt().rfmovfComponfntListfnfr(domponfntListfnfr);
                     }
-                    closeFrame(f);
+                    dlosfFrbmf(f);
                 }
-            } else if (JInternalFrame.IS_MAXIMUM_PROPERTY == prop) {
-                if(newValue == Boolean.TRUE) {
-                    maximizeFrame(f);
-                } else {
-                    minimizeFrame(f);
+            } flsf if (JIntfrnblFrbmf.IS_MAXIMUM_PROPERTY == prop) {
+                if(nfwVbluf == Boolfbn.TRUE) {
+                    mbximizfFrbmf(f);
+                } flsf {
+                    minimizfFrbmf(f);
                 }
-            } else if(JInternalFrame.IS_ICON_PROPERTY == prop) {
-                if (newValue == Boolean.TRUE) {
-                    iconifyFrame(f);
-                } else {
-                    deiconifyFrame(f);
+            } flsf if(JIntfrnblFrbmf.IS_ICON_PROPERTY == prop) {
+                if (nfwVbluf == Boolfbn.TRUE) {
+                    idonifyFrbmf(f);
+                } flsf {
+                    dfidonifyFrbmf(f);
                 }
-            } else if (JInternalFrame.IS_SELECTED_PROPERTY == prop) {
-                if (newValue == Boolean.TRUE && oldValue == Boolean.FALSE) {
-                    activateFrame(f);
-                } else if (newValue == Boolean.FALSE &&
-                           oldValue == Boolean.TRUE) {
-                    deactivateFrame(f);
+            } flsf if (JIntfrnblFrbmf.IS_SELECTED_PROPERTY == prop) {
+                if (nfwVbluf == Boolfbn.TRUE && oldVbluf == Boolfbn.FALSE) {
+                    bdtivbtfFrbmf(f);
+                } flsf if (nfwVbluf == Boolfbn.FALSE &&
+                           oldVbluf == Boolfbn.TRUE) {
+                    dfbdtivbtfFrbmf(f);
                 }
-            } else if (prop == "ancestor") {
-                if (newValue == null) {
-                    // Cancel a resize in progress, if the internal frame
-                    // gets a remove(), removeNotify() or setIcon(true).
-                    cancelResize();
+            } flsf if (prop == "bndfstor") {
+                if (nfwVbluf == null) {
+                    // Cbndfl b rfsizf in progrfss, if tif intfrnbl frbmf
+                    // gfts b rfmovf(), rfmovfNotify() or sftIdon(truf).
+                    dbndflRfsizf();
                 }
-                if (frame.getParent() != null) {
-                    parentBounds = f.getParent().getBounds();
-                } else {
-                    parentBounds = null;
+                if (frbmf.gftPbrfnt() != null) {
+                    pbrfntBounds = f.gftPbrfnt().gftBounds();
+                } flsf {
+                    pbrfntBounds = null;
                 }
-                if ((frame.getParent() != null) && !componentListenerAdded) {
-                    f.getParent().addComponentListener(componentListener);
-                    componentListenerAdded = true;
+                if ((frbmf.gftPbrfnt() != null) && !domponfntListfnfrAddfd) {
+                    f.gftPbrfnt().bddComponfntListfnfr(domponfntListfnfr);
+                    domponfntListfnfrAddfd = truf;
                 }
-            } else if (JInternalFrame.TITLE_PROPERTY == prop ||
-                    prop == "closable" || prop == "iconable" ||
-                    prop == "maximizable") {
-                Dimension dim = frame.getMinimumSize();
-                Dimension frame_dim = frame.getSize();
-                if (dim.width > frame_dim.width) {
-                    frame.setSize(dim.width, frame_dim.height);
+            } flsf if (JIntfrnblFrbmf.TITLE_PROPERTY == prop ||
+                    prop == "dlosbblf" || prop == "idonbblf" ||
+                    prop == "mbximizbblf") {
+                Dimfnsion dim = frbmf.gftMinimumSizf();
+                Dimfnsion frbmf_dim = frbmf.gftSizf();
+                if (dim.widti > frbmf_dim.widti) {
+                    frbmf.sftSizf(dim.widti, frbmf_dim.ifigit);
                 }
             }
         }

@@ -1,140 +1,140 @@
 /*
- * Copyright (c) 1998, 2000, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2000, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.accessibility;
+pbdkbgf jbvbx.bddfssibility;
 
 
-import java.util.*;
-import java.awt.*;
-import javax.swing.text.*;
+import jbvb.util.*;
+import jbvb.bwt.*;
+import jbvbx.swing.tfxt.*;
 
 
 /**
- * Encapsulation of a link, or set of links (e.g. client side imagemap)
- * in a Hypertext document
+ * Endbpsulbtion of b link, or sft of links (f.g. dlifnt sidf imbgfmbp)
+ * in b Hypfrtfxt dodumfnt
  *
- * @see Accessible
- * @see Accessible#getAccessibleContext
- * @see AccessibleContext
- * @see AccessibleText
- * @see AccessibleContext#getAccessibleText
+ * @sff Addfssiblf
+ * @sff Addfssiblf#gftAddfssiblfContfxt
+ * @sff AddfssiblfContfxt
+ * @sff AddfssiblfTfxt
+ * @sff AddfssiblfContfxt#gftAddfssiblfTfxt
  *
- * @author      Peter Korn
+ * @butior      Pftfr Korn
  */
-public abstract class AccessibleHyperlink implements AccessibleAction {
+publid bbstrbdt dlbss AddfssiblfHypfrlink implfmfnts AddfssiblfAdtion {
 
         /**
-         * Since the document a link is associated with may have
-         * changed, this method returns whether or not this Link is still valid
-         * (with respect to the document it references).
+         * Sindf tif dodumfnt b link is bssodibtfd witi mby ibvf
+         * dibngfd, tiis mftiod rfturns wiftifr or not tiis Link is still vblid
+         * (witi rfspfdt to tif dodumfnt it rfffrfndfs).
          *
-         * @return a flag indicating whether this link is still valid with
-         *         respect to the AccessibleHypertext it belongs to
+         * @rfturn b flbg indidbting wiftifr tiis link is still vblid witi
+         *         rfspfdt to tif AddfssiblfHypfrtfxt it bflongs to
          */
-        public abstract boolean isValid();
+        publid bbstrbdt boolfbn isVblid();
 
         /**
-         * Returns the number of accessible actions available in this Link
-         * If there are more than one, the first one is NOT considered the
-         * "default" action of this LINK object (e.g. in an HTML imagemap).
-         * In general, links will have only one AccessibleAction in them.
+         * Rfturns tif numbfr of bddfssiblf bdtions bvbilbblf in tiis Link
+         * If tifrf brf morf tibn onf, tif first onf is NOT donsidfrfd tif
+         * "dffbult" bdtion of tiis LINK objfdt (f.g. in bn HTML imbgfmbp).
+         * In gfnfrbl, links will ibvf only onf AddfssiblfAdtion in tifm.
          *
-         * @return the zero-based number of Actions in this object
+         * @rfturn tif zfro-bbsfd numbfr of Adtions in tiis objfdt
          */
-        public abstract int getAccessibleActionCount();
+        publid bbstrbdt int gftAddfssiblfAdtionCount();
 
         /**
-         * Performs the specified Action on the object
+         * Pfrforms tif spfdififd Adtion on tif objfdt
          *
-         * @param i zero-based index of actions
-         * @return true if the action was performed; otherwise false.
-         * @see #getAccessibleActionCount
+         * @pbrbm i zfro-bbsfd indfx of bdtions
+         * @rfturn truf if tif bdtion wbs pfrformfd; otifrwisf fblsf.
+         * @sff #gftAddfssiblfAdtionCount
          */
-        public abstract boolean doAccessibleAction(int i);
+        publid bbstrbdt boolfbn doAddfssiblfAdtion(int i);
 
         /**
-         * Returns a String description of this particular
-         * link action.  This should be a text string
-         * associated with anchoring text, this should be the
-         * anchor text.  E.g. from HTML:
-         *   &lt;a HREF="http://www.sun.com/access"&gt;Accessibility&lt;/a&gt;
-         * this method would return "Accessibility".
+         * Rfturns b String dfsdription of tiis pbrtidulbr
+         * link bdtion.  Tiis siould bf b tfxt string
+         * bssodibtfd witi bndioring tfxt, tiis siould bf tif
+         * bndior tfxt.  E.g. from HTML:
+         *   &lt;b HREF="ittp://www.sun.dom/bddfss"&gt;Addfssibility&lt;/b&gt;
+         * tiis mftiod would rfturn "Addfssibility".
          *
-         * Similarly, from this HTML:
-         *   &lt;a HREF="#top"&gt;&lt;img src="top-hat.gif" alt="top hat"&gt;&lt;/a&gt;
-         * this method would return "top hat"
+         * Similbrly, from tiis HTML:
+         *   &lt;b HREF="#top"&gt;&lt;img srd="top-ibt.gif" blt="top ibt"&gt;&lt;/b&gt;
+         * tiis mftiod would rfturn "top ibt"
          *
-         * @param i zero-based index of the actions
-         * @return a String description of the action
-         * @see #getAccessibleActionCount
+         * @pbrbm i zfro-bbsfd indfx of tif bdtions
+         * @rfturn b String dfsdription of tif bdtion
+         * @sff #gftAddfssiblfAdtionCount
          */
-        public abstract String getAccessibleActionDescription(int i);
+        publid bbstrbdt String gftAddfssiblfAdtionDfsdription(int i);
 
         /**
-         * Returns an object that represents the link action,
-         * as appropriate for that link.  E.g. from HTML:
-         *   &lt;a HREF="http://www.sun.com/access"&gt;Accessibility&lt;/a&gt;
-         * this method would return a
-         * java.net.URL("http://www.sun.com/access.html");
+         * Rfturns bn objfdt tibt rfprfsfnts tif link bdtion,
+         * bs bppropribtf for tibt link.  E.g. from HTML:
+         *   &lt;b HREF="ittp://www.sun.dom/bddfss"&gt;Addfssibility&lt;/b&gt;
+         * tiis mftiod would rfturn b
+         * jbvb.nft.URL("ittp://www.sun.dom/bddfss.itml");
          *
-         * @param i zero-based index of the actions
-         * @return an Object representing the hypertext link itself
-         * @see #getAccessibleActionCount
+         * @pbrbm i zfro-bbsfd indfx of tif bdtions
+         * @rfturn bn Objfdt rfprfsfnting tif iypfrtfxt link itsflf
+         * @sff #gftAddfssiblfAdtionCount
          */
-        public abstract Object getAccessibleActionObject(int i);
+        publid bbstrbdt Objfdt gftAddfssiblfAdtionObjfdt(int i);
 
         /**
-         * Returns an object that represents the link anchor,
-         * as appropriate for that link.  E.g. from HTML:
-         *   &lt;a href="http://www.sun.com/access"&gt;Accessibility&lt;/a&gt;
-         * this method would return a String containing the text:
-         * "Accessibility".
+         * Rfturns bn objfdt tibt rfprfsfnts tif link bndior,
+         * bs bppropribtf for tibt link.  E.g. from HTML:
+         *   &lt;b irff="ittp://www.sun.dom/bddfss"&gt;Addfssibility&lt;/b&gt;
+         * tiis mftiod would rfturn b String dontbining tif tfxt:
+         * "Addfssibility".
          *
-         * Similarly, from this HTML:
-         *   &lt;a HREF="#top"&gt;&lt;img src="top-hat.gif" alt="top hat"&gt;&lt;/a&gt;
-         * this might return the object ImageIcon("top-hat.gif", "top hat");
+         * Similbrly, from tiis HTML:
+         *   &lt;b HREF="#top"&gt;&lt;img srd="top-ibt.gif" blt="top ibt"&gt;&lt;/b&gt;
+         * tiis migit rfturn tif objfdt ImbgfIdon("top-ibt.gif", "top ibt");
          *
-         * @param i zero-based index of the actions
-         * @return an Object representing the hypertext anchor
-         * @see #getAccessibleActionCount
+         * @pbrbm i zfro-bbsfd indfx of tif bdtions
+         * @rfturn bn Objfdt rfprfsfnting tif iypfrtfxt bndior
+         * @sff #gftAddfssiblfAdtionCount
          */
-        public abstract Object getAccessibleActionAnchor(int i);
+        publid bbstrbdt Objfdt gftAddfssiblfAdtionAndior(int i);
 
         /**
-         * Gets the index with the hypertext document at which this
-         * link begins
+         * Gfts tif indfx witi tif iypfrtfxt dodumfnt bt wiidi tiis
+         * link bfgins
          *
-         * @return index of start of link
+         * @rfturn indfx of stbrt of link
          */
-        public abstract int getStartIndex();
+        publid bbstrbdt int gftStbrtIndfx();
 
         /**
-         * Gets the index with the hypertext document at which this
-         * link ends
+         * Gfts tif indfx witi tif iypfrtfxt dodumfnt bt wiidi tiis
+         * link fnds
          *
-         * @return index of end of link
+         * @rfturn indfx of fnd of link
          */
-        public abstract int getEndIndex();
+        publid bbstrbdt int gftEndIndfx();
 }

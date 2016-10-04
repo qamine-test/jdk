@@ -1,264 +1,264 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jndi.ldap;
+pbdkbgf dom.sun.jndi.ldbp;
 
-import java.util.Hashtable;
-import java.util.Vector;
-import java.util.Enumeration;
+import jbvb.util.Hbsitbblf;
+import jbvb.util.Vfdtor;
+import jbvb.util.Enumfrbtion;
 
-import javax.naming.*;
-import javax.naming.directory.*;
-import javax.naming.spi.ObjectFactory;
-import javax.naming.spi.InitialContextFactory;
-import javax.naming.ldap.Control;
+import jbvbx.nbming.*;
+import jbvbx.nbming.dirfdtory.*;
+import jbvbx.nbming.spi.ObjfdtFbdtory;
+import jbvbx.nbming.spi.InitiblContfxtFbdtory;
+import jbvbx.nbming.ldbp.Control;
 
-import com.sun.jndi.url.ldap.ldapURLContextFactory;
+import dom.sun.jndi.url.ldbp.ldbpURLContfxtFbdtory;
 
-final public class LdapCtxFactory implements ObjectFactory, InitialContextFactory {
+finbl publid dlbss LdbpCtxFbdtory implfmfnts ObjfdtFbdtory, InitiblContfxtFbdtory {
     /**
-     * The type of each address in an LDAP reference.
+     * Tif typf of fbdi bddrfss in bn LDAP rfffrfndf.
      */
-    public final static String ADDRESS_TYPE = "URL";
+    publid finbl stbtid String ADDRESS_TYPE = "URL";
 
-    // ----------------- ObjectFactory interface --------------------
+    // ----------------- ObjfdtFbdtory intfrfbdf --------------------
 
-    public Object getObjectInstance(Object ref, Name name, Context nameCtx,
-        Hashtable<?,?> env) throws Exception {
+    publid Objfdt gftObjfdtInstbndf(Objfdt rff, Nbmf nbmf, Contfxt nbmfCtx,
+        Hbsitbblf<?,?> fnv) tirows Exdfption {
 
-        if (!isLdapRef(ref)) {
-            return null;
+        if (!isLdbpRff(rff)) {
+            rfturn null;
         }
-        ObjectFactory factory = new ldapURLContextFactory();
-        String[] urls = getURLs((Reference)ref);
-        return factory.getObjectInstance(urls, name, nameCtx, env);
+        ObjfdtFbdtory fbdtory = nfw ldbpURLContfxtFbdtory();
+        String[] urls = gftURLs((Rfffrfndf)rff);
+        rfturn fbdtory.gftObjfdtInstbndf(urls, nbmf, nbmfCtx, fnv);
     }
 
-    // ----------------- InitialContext interface  --------------------
+    // ----------------- InitiblContfxt intfrfbdf  --------------------
 
-    public Context getInitialContext(Hashtable<?,?> envprops)
-        throws NamingException {
+    publid Contfxt gftInitiblContfxt(Hbsitbblf<?,?> fnvprops)
+        tirows NbmingExdfption {
 
         try {
-            String providerUrl = (envprops != null) ?
-                (String)envprops.get(Context.PROVIDER_URL) : null;
+            String providfrUrl = (fnvprops != null) ?
+                (String)fnvprops.gft(Contfxt.PROVIDER_URL) : null;
 
-            // If URL not in environment, use defaults
-            if (providerUrl == null) {
-                return new LdapCtx("", LdapCtx.DEFAULT_HOST,
-                    LdapCtx.DEFAULT_PORT, envprops, false);
+            // If URL not in fnvironmfnt, usf dffbults
+            if (providfrUrl == null) {
+                rfturn nfw LdbpCtx("", LdbpCtx.DEFAULT_HOST,
+                    LdbpCtx.DEFAULT_PORT, fnvprops, fblsf);
             }
 
-            // Extract URL(s)
-            String[] urls = LdapURL.fromList(providerUrl);
+            // Extrbdt URL(s)
+            String[] urls = LdbpURL.fromList(providfrUrl);
 
-            if (urls.length == 0) {
-                throw new ConfigurationException(Context.PROVIDER_URL +
-                    " property does not contain a URL");
+            if (urls.lfngti == 0) {
+                tirow nfw ConfigurbtionExdfption(Contfxt.PROVIDER_URL +
+                    " propfrty dofs not dontbin b URL");
             }
 
-            // Generate an LDAP context
-            return getLdapCtxInstance(urls, envprops);
+            // Gfnfrbtf bn LDAP dontfxt
+            rfturn gftLdbpCtxInstbndf(urls, fnvprops);
 
-        } catch (LdapReferralException e) {
+        } dbtdi (LdbpRfffrrblExdfption f) {
 
-            if (envprops != null &&
-                "throw".equals(envprops.get(Context.REFERRAL))) {
-                throw e;
+            if (fnvprops != null &&
+                "tirow".fqubls(fnvprops.gft(Contfxt.REFERRAL))) {
+                tirow f;
             }
 
-            Control[] bindCtls = (envprops != null)?
-                (Control[])envprops.get(LdapCtx.BIND_CONTROLS) : null;
+            Control[] bindCtls = (fnvprops != null)?
+                (Control[])fnvprops.gft(LdbpCtx.BIND_CONTROLS) : null;
 
-            return (LdapCtx)e.getReferralContext(envprops, bindCtls);
+            rfturn (LdbpCtx)f.gftRfffrrblContfxt(fnvprops, bindCtls);
         }
     }
 
     /**
-     * Returns true if argument is an LDAP reference.
+     * Rfturns truf if brgumfnt is bn LDAP rfffrfndf.
      */
-    private static boolean isLdapRef(Object obj) {
+    privbtf stbtid boolfbn isLdbpRff(Objfdt obj) {
 
-        if (!(obj instanceof Reference)) {
-            return false;
+        if (!(obj instbndfof Rfffrfndf)) {
+            rfturn fblsf;
         }
-        String thisClassName = LdapCtxFactory.class.getName();
-        Reference ref = (Reference)obj;
+        String tiisClbssNbmf = LdbpCtxFbdtory.dlbss.gftNbmf();
+        Rfffrfndf rff = (Rfffrfndf)obj;
 
-        return thisClassName.equals(ref.getFactoryClassName());
+        rfturn tiisClbssNbmf.fqubls(rff.gftFbdtoryClbssNbmf());
     }
 
     /**
-     * Returns the URLs contained within an LDAP reference.
+     * Rfturns tif URLs dontbinfd witiin bn LDAP rfffrfndf.
      */
-    private static String[] getURLs(Reference ref) throws NamingException {
+    privbtf stbtid String[] gftURLs(Rfffrfndf rff) tirows NbmingExdfption {
 
-        int size = 0;   // number of URLs
-        String[] urls = new String[ref.size()];
+        int sizf = 0;   // numbfr of URLs
+        String[] urls = nfw String[rff.sizf()];
 
-        Enumeration<RefAddr> addrs = ref.getAll();
-        while (addrs.hasMoreElements()) {
-            RefAddr addr = addrs.nextElement();
+        Enumfrbtion<RffAddr> bddrs = rff.gftAll();
+        wiilf (bddrs.ibsMorfElfmfnts()) {
+            RffAddr bddr = bddrs.nfxtElfmfnt();
 
-            if ((addr instanceof StringRefAddr) &&
-                addr.getType().equals(ADDRESS_TYPE)) {
+            if ((bddr instbndfof StringRffAddr) &&
+                bddr.gftTypf().fqubls(ADDRESS_TYPE)) {
 
-                urls[size++] = (String)addr.getContent();
+                urls[sizf++] = (String)bddr.gftContfnt();
             }
         }
-        if (size == 0) {
-            throw (new ConfigurationException(
-                    "Reference contains no valid addresses"));
+        if (sizf == 0) {
+            tirow (nfw ConfigurbtionExdfption(
+                    "Rfffrfndf dontbins no vblid bddrfssfs"));
         }
 
-        // Trim URL array down to size.
-        if (size == ref.size()) {
-            return urls;
+        // Trim URL brrby down to sizf.
+        if (sizf == rff.sizf()) {
+            rfturn urls;
         }
-        String[] urls2 = new String[size];
-        System.arraycopy(urls, 0, urls2, 0, size);
-        return urls2;
+        String[] urls2 = nfw String[sizf];
+        Systfm.brrbydopy(urls, 0, urls2, 0, sizf);
+        rfturn urls2;
     }
 
-    // ------------ Utilities used by other classes ----------------
+    // ------------ Utilitifs usfd by otifr dlbssfs ----------------
 
-    public static DirContext getLdapCtxInstance(Object urlInfo, Hashtable<?,?> env)
-            throws NamingException {
+    publid stbtid DirContfxt gftLdbpCtxInstbndf(Objfdt urlInfo, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption {
 
-        if (urlInfo instanceof String) {
-            return getUsingURL((String)urlInfo, env);
-        } else if (urlInfo instanceof String[]) {
-            return getUsingURLs((String[])urlInfo, env);
-        } else {
-            throw new IllegalArgumentException(
-                "argument must be an LDAP URL String or array of them");
+        if (urlInfo instbndfof String) {
+            rfturn gftUsingURL((String)urlInfo, fnv);
+        } flsf if (urlInfo instbndfof String[]) {
+            rfturn gftUsingURLs((String[])urlInfo, fnv);
+        } flsf {
+            tirow nfw IllfgblArgumfntExdfption(
+                "brgumfnt must bf bn LDAP URL String or brrby of tifm");
         }
     }
 
-    private static DirContext getUsingURL(String url, Hashtable<?,?> env)
-            throws NamingException {
-        DirContext ctx = null;
-        LdapURL ldapUrl = new LdapURL(url);
-        String dn = ldapUrl.getDN();
-        String host = ldapUrl.getHost();
-        int port = ldapUrl.getPort();
-        String[] hostports;
-        String domainName = null;
+    privbtf stbtid DirContfxt gftUsingURL(String url, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption {
+        DirContfxt dtx = null;
+        LdbpURL ldbpUrl = nfw LdbpURL(url);
+        String dn = ldbpUrl.gftDN();
+        String iost = ldbpUrl.gftHost();
+        int port = ldbpUrl.gftPort();
+        String[] iostports;
+        String dombinNbmf = null;
 
-        // handle a URL with no hostport (ldap:/// or ldaps:///)
-        // locate the LDAP service using the URL's distinguished name
-        if (host == null &&
+        // ibndlf b URL witi no iostport (ldbp:/// or ldbps:///)
+        // lodbtf tif LDAP sfrvidf using tif URL's distinguisifd nbmf
+        if (iost == null &&
             port == -1 &&
             dn != null &&
-            (domainName = ServiceLocator.mapDnToDomainName(dn)) != null &&
-            (hostports = ServiceLocator.getLdapService(domainName, env))
+            (dombinNbmf = SfrvidfLodbtor.mbpDnToDombinNbmf(dn)) != null &&
+            (iostports = SfrvidfLodbtor.gftLdbpSfrvidf(dombinNbmf, fnv))
                 != null) {
-            // Generate new URLs that include the discovered hostports.
-            // Reuse the original URL scheme.
-            String scheme = ldapUrl.getScheme() + "://";
-            String[] newUrls = new String[hostports.length];
-            String query = ldapUrl.getQuery();
-            String urlSuffix = ldapUrl.getPath() + (query != null ? query : "");
-            for (int i = 0; i < hostports.length; i++) {
-                newUrls[i] = scheme + hostports[i] + urlSuffix;
+            // Gfnfrbtf nfw URLs tibt indludf tif disdovfrfd iostports.
+            // Rfusf tif originbl URL sdifmf.
+            String sdifmf = ldbpUrl.gftSdifmf() + "://";
+            String[] nfwUrls = nfw String[iostports.lfngti];
+            String qufry = ldbpUrl.gftQufry();
+            String urlSuffix = ldbpUrl.gftPbti() + (qufry != null ? qufry : "");
+            for (int i = 0; i < iostports.lfngti; i++) {
+                nfwUrls[i] = sdifmf + iostports[i] + urlSuffix;
             }
-            ctx = getUsingURLs(newUrls, env);
-            // Associate the derived domain name with the context
-            ((LdapCtx)ctx).setDomainName(domainName);
+            dtx = gftUsingURLs(nfwUrls, fnv);
+            // Assodibtf tif dfrivfd dombin nbmf witi tif dontfxt
+            ((LdbpCtx)dtx).sftDombinNbmf(dombinNbmf);
 
-        } else {
-            ctx = new LdapCtx(dn, host, port, env, ldapUrl.useSsl());
-            // Record the URL that created the context
-            ((LdapCtx)ctx).setProviderUrl(url);
+        } flsf {
+            dtx = nfw LdbpCtx(dn, iost, port, fnv, ldbpUrl.usfSsl());
+            // Rfdord tif URL tibt drfbtfd tif dontfxt
+            ((LdbpCtx)dtx).sftProvidfrUrl(url);
         }
-        return ctx;
+        rfturn dtx;
     }
 
     /*
-     * Try each URL until one of them succeeds.
-     * If all URLs fail, throw one of the exceptions arbitrarily.
-     * Not pretty, but potentially more informative than returning null.
+     * Try fbdi URL until onf of tifm suddffds.
+     * If bll URLs fbil, tirow onf of tif fxdfptions brbitrbrily.
+     * Not prftty, but potfntiblly morf informbtivf tibn rfturning null.
      */
-    private static DirContext getUsingURLs(String[] urls, Hashtable<?,?> env)
-            throws NamingException {
-        NamingException ne = null;
-        DirContext ctx = null;
-        for (int i = 0; i < urls.length; i++) {
+    privbtf stbtid DirContfxt gftUsingURLs(String[] urls, Hbsitbblf<?,?> fnv)
+            tirows NbmingExdfption {
+        NbmingExdfption nf = null;
+        DirContfxt dtx = null;
+        for (int i = 0; i < urls.lfngti; i++) {
             try {
-                return getUsingURL(urls[i], env);
-            } catch (AuthenticationException e) {
-                throw e;
-            } catch (NamingException e) {
-                ne = e;
+                rfturn gftUsingURL(urls[i], fnv);
+            } dbtdi (AutifntidbtionExdfption f) {
+                tirow f;
+            } dbtdi (NbmingExdfption f) {
+                nf = f;
             }
         }
-        throw ne;
+        tirow nf;
     }
 
     /**
-     * Used by Obj and obj/RemoteToAttrs too so must be public
+     * Usfd by Obj bnd obj/RfmotfToAttrs too so must bf publid
      */
-    public static Attribute createTypeNameAttr(Class<?> cl) {
-        Vector<String> v = new Vector<>(10);
-        String[] types = getTypeNames(cl, v);
-        if (types.length > 0) {
-            BasicAttribute tAttr =
-                new BasicAttribute(Obj.JAVA_ATTRIBUTES[Obj.TYPENAME]);
-            for (int i = 0; i < types.length; i++) {
-                tAttr.add(types[i]);
+    publid stbtid Attributf drfbtfTypfNbmfAttr(Clbss<?> dl) {
+        Vfdtor<String> v = nfw Vfdtor<>(10);
+        String[] typfs = gftTypfNbmfs(dl, v);
+        if (typfs.lfngti > 0) {
+            BbsidAttributf tAttr =
+                nfw BbsidAttributf(Obj.JAVA_ATTRIBUTES[Obj.TYPENAME]);
+            for (int i = 0; i < typfs.lfngti; i++) {
+                tAttr.bdd(typfs[i]);
             }
-            return tAttr;
+            rfturn tAttr;
         }
-        return null;
+        rfturn null;
     }
 
-    private static String[] getTypeNames(Class<?> currentClass, Vector<String> v) {
+    privbtf stbtid String[] gftTypfNbmfs(Clbss<?> durrfntClbss, Vfdtor<String> v) {
 
-        getClassesAux(currentClass, v);
-        Class<?>[] members = currentClass.getInterfaces();
-        for (int i = 0; i < members.length; i++) {
-            getClassesAux(members[i], v);
+        gftClbssfsAux(durrfntClbss, v);
+        Clbss<?>[] mfmbfrs = durrfntClbss.gftIntfrfbdfs();
+        for (int i = 0; i < mfmbfrs.lfngti; i++) {
+            gftClbssfsAux(mfmbfrs[i], v);
         }
-        String[] ret = new String[v.size()];
+        String[] rft = nfw String[v.sizf()];
         int i = 0;
 
-        for (String name : v) {
-            ret[i++] = name;
+        for (String nbmf : v) {
+            rft[i++] = nbmf;
         }
-        return ret;
+        rfturn rft;
     }
 
-    private static void getClassesAux(Class<?> currentClass, Vector<String> v) {
-        if (!v.contains(currentClass.getName())) {
-            v.addElement(currentClass.getName());
+    privbtf stbtid void gftClbssfsAux(Clbss<?> durrfntClbss, Vfdtor<String> v) {
+        if (!v.dontbins(durrfntClbss.gftNbmf())) {
+            v.bddElfmfnt(durrfntClbss.gftNbmf());
         }
-        currentClass = currentClass.getSuperclass();
+        durrfntClbss = durrfntClbss.gftSupfrdlbss();
 
-        while (currentClass != null) {
-            getTypeNames(currentClass, v);
-            currentClass = currentClass.getSuperclass();
+        wiilf (durrfntClbss != null) {
+            gftTypfNbmfs(durrfntClbss, v);
+            durrfntClbss = durrfntClbss.gftSupfrdlbss();
         }
     }
 }

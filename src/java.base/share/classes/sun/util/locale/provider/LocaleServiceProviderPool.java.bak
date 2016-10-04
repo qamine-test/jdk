@@ -1,419 +1,419 @@
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.util.locale.provider;
+pbdkbgf sun.util.lodblf.providfr;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.IllformedLocaleException;
-import java.util.List;
-import java.util.Locale;
-import java.util.Locale.Builder;
-import java.util.ResourceBundle.Control;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
-import java.util.spi.LocaleServiceProvider;
-import sun.util.logging.PlatformLogger;
+import jbvb.util.ArrbyList;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiSft;
+import jbvb.util.IllformfdLodblfExdfption;
+import jbvb.util.List;
+import jbvb.util.Lodblf;
+import jbvb.util.Lodblf.Buildfr;
+import jbvb.util.RfsourdfBundlf.Control;
+import jbvb.util.Sft;
+import jbvb.util.dondurrfnt.CondurrfntHbsiMbp;
+import jbvb.util.dondurrfnt.CondurrfntMbp;
+import jbvb.util.spi.LodblfSfrvidfProvidfr;
+import sun.util.logging.PlbtformLoggfr;
 
 /**
- * An instance of this class holds a set of the third party implementations of a particular
- * locale sensitive service, such as {@link java.util.spi.LocaleNameProvider}.
+ * An instbndf of tiis dlbss iolds b sft of tif tiird pbrty implfmfntbtions of b pbrtidulbr
+ * lodblf sfnsitivf sfrvidf, sudi bs {@link jbvb.util.spi.LodblfNbmfProvidfr}.
  *
- * @author Naoto Sato
- * @author Masayoshi Okutsu
+ * @butior Nboto Sbto
+ * @butior Mbsbyosii Okutsu
  */
-public final class LocaleServiceProviderPool {
+publid finbl dlbss LodblfSfrvidfProvidfrPool {
 
     /**
-     * A Map that holds singleton instances of this class.  Each instance holds a
-     * set of provider implementations of a particular locale sensitive service.
+     * A Mbp tibt iolds singlfton instbndfs of tiis dlbss.  Ebdi instbndf iolds b
+     * sft of providfr implfmfntbtions of b pbrtidulbr lodblf sfnsitivf sfrvidf.
      */
-    private static ConcurrentMap<Class<? extends LocaleServiceProvider>, LocaleServiceProviderPool> poolOfPools =
-        new ConcurrentHashMap<>();
+    privbtf stbtid CondurrfntMbp<Clbss<? fxtfnds LodblfSfrvidfProvidfr>, LodblfSfrvidfProvidfrPool> poolOfPools =
+        nfw CondurrfntHbsiMbp<>();
 
     /**
-     * A Map containing locale service providers that implement the
-     * specified provider SPI, keyed by a LocaleProviderAdapter.Type
+     * A Mbp dontbining lodblf sfrvidf providfrs tibt implfmfnt tif
+     * spfdififd providfr SPI, kfyfd by b LodblfProvidfrAdbptfr.Typf
      */
-    private ConcurrentMap<LocaleProviderAdapter.Type, LocaleServiceProvider> providers =
-        new ConcurrentHashMap<>();
+    privbtf CondurrfntMbp<LodblfProvidfrAdbptfr.Typf, LodblfSfrvidfProvidfr> providfrs =
+        nfw CondurrfntHbsiMbp<>();
 
     /**
-     * A Map that retains Locale->provider mapping
+     * A Mbp tibt rftbins Lodblf->providfr mbpping
      */
-    private ConcurrentMap<Locale, List<LocaleProviderAdapter.Type>> providersCache =
-        new ConcurrentHashMap<>();
+    privbtf CondurrfntMbp<Lodblf, List<LodblfProvidfrAdbptfr.Typf>> providfrsCbdif =
+        nfw CondurrfntHbsiMbp<>();
 
     /**
-     * Available locales for this locale sensitive service.  This also contains
-     * JRE's available locales
+     * Avbilbblf lodblfs for tiis lodblf sfnsitivf sfrvidf.  Tiis blso dontbins
+     * JRE's bvbilbblf lodblfs
      */
-    private Set<Locale> availableLocales = null;
+    privbtf Sft<Lodblf> bvbilbblfLodblfs = null;
 
     /**
-     * Provider class
+     * Providfr dlbss
      */
-    private Class<? extends LocaleServiceProvider> providerClass;
+    privbtf Clbss<? fxtfnds LodblfSfrvidfProvidfr> providfrClbss;
 
     /**
-     * Array of all Locale Sensitive SPI classes.
+     * Arrby of bll Lodblf Sfnsitivf SPI dlbssfs.
      *
-     * We know "spiClasses" contains classes that extends LocaleServiceProvider,
-     * but generic array creation is not allowed, thus the "unchecked" warning
-     * is suppressed here.
+     * Wf know "spiClbssfs" dontbins dlbssfs tibt fxtfnds LodblfSfrvidfProvidfr,
+     * but gfnfrid brrby drfbtion is not bllowfd, tius tif "undifdkfd" wbrning
+     * is supprfssfd ifrf.
      */
-    @SuppressWarnings("unchecked")
-    static final Class<LocaleServiceProvider>[] spiClasses =
-                (Class<LocaleServiceProvider>[]) new Class<?>[] {
-        java.text.spi.BreakIteratorProvider.class,
-        java.text.spi.CollatorProvider.class,
-        java.text.spi.DateFormatProvider.class,
-        java.text.spi.DateFormatSymbolsProvider.class,
-        java.text.spi.DecimalFormatSymbolsProvider.class,
-        java.text.spi.NumberFormatProvider.class,
-        java.util.spi.CurrencyNameProvider.class,
-        java.util.spi.LocaleNameProvider.class,
-        java.util.spi.TimeZoneNameProvider.class,
-        java.util.spi.CalendarDataProvider.class
+    @SupprfssWbrnings("undifdkfd")
+    stbtid finbl Clbss<LodblfSfrvidfProvidfr>[] spiClbssfs =
+                (Clbss<LodblfSfrvidfProvidfr>[]) nfw Clbss<?>[] {
+        jbvb.tfxt.spi.BrfbkItfrbtorProvidfr.dlbss,
+        jbvb.tfxt.spi.CollbtorProvidfr.dlbss,
+        jbvb.tfxt.spi.DbtfFormbtProvidfr.dlbss,
+        jbvb.tfxt.spi.DbtfFormbtSymbolsProvidfr.dlbss,
+        jbvb.tfxt.spi.DfdimblFormbtSymbolsProvidfr.dlbss,
+        jbvb.tfxt.spi.NumbfrFormbtProvidfr.dlbss,
+        jbvb.util.spi.CurrfndyNbmfProvidfr.dlbss,
+        jbvb.util.spi.LodblfNbmfProvidfr.dlbss,
+        jbvb.util.spi.TimfZonfNbmfProvidfr.dlbss,
+        jbvb.util.spi.CblfndbrDbtbProvidfr.dlbss
     };
 
     /**
-     * A factory method that returns a singleton instance
+     * A fbdtory mftiod tibt rfturns b singlfton instbndf
      */
-    public static LocaleServiceProviderPool getPool(Class<? extends LocaleServiceProvider> providerClass) {
-        LocaleServiceProviderPool pool = poolOfPools.get(providerClass);
+    publid stbtid LodblfSfrvidfProvidfrPool gftPool(Clbss<? fxtfnds LodblfSfrvidfProvidfr> providfrClbss) {
+        LodblfSfrvidfProvidfrPool pool = poolOfPools.gft(providfrClbss);
         if (pool == null) {
-            LocaleServiceProviderPool newPool =
-                new LocaleServiceProviderPool(providerClass);
-            pool = poolOfPools.putIfAbsent(providerClass, newPool);
+            LodblfSfrvidfProvidfrPool nfwPool =
+                nfw LodblfSfrvidfProvidfrPool(providfrClbss);
+            pool = poolOfPools.putIfAbsfnt(providfrClbss, nfwPool);
             if (pool == null) {
-                pool = newPool;
+                pool = nfwPool;
             }
         }
 
-        return pool;
+        rfturn pool;
     }
 
     /**
-     * The sole constructor.
+     * Tif solf donstrudtor.
      *
-     * @param c class of the locale sensitive service
+     * @pbrbm d dlbss of tif lodblf sfnsitivf sfrvidf
      */
-    private LocaleServiceProviderPool (final Class<? extends LocaleServiceProvider> c) {
-        providerClass = c;
+    privbtf LodblfSfrvidfProvidfrPool (finbl Clbss<? fxtfnds LodblfSfrvidfProvidfr> d) {
+        providfrClbss = d;
 
-        for (LocaleProviderAdapter.Type type : LocaleProviderAdapter.getAdapterPreference()) {
-            LocaleProviderAdapter lda = LocaleProviderAdapter.forType(type);
-            if (lda != null) {
-                LocaleServiceProvider provider = lda.getLocaleServiceProvider(c);
-                if (provider != null) {
-                    providers.putIfAbsent(type, provider);
+        for (LodblfProvidfrAdbptfr.Typf typf : LodblfProvidfrAdbptfr.gftAdbptfrPrfffrfndf()) {
+            LodblfProvidfrAdbptfr ldb = LodblfProvidfrAdbptfr.forTypf(typf);
+            if (ldb != null) {
+                LodblfSfrvidfProvidfr providfr = ldb.gftLodblfSfrvidfProvidfr(d);
+                if (providfr != null) {
+                    providfrs.putIfAbsfnt(typf, providfr);
                 }
             }
         }
     }
 
-    static void config(Class<? extends Object> caller, String message) {
-        PlatformLogger logger = PlatformLogger.getLogger(caller.getCanonicalName());
-        logger.config(message);
+    stbtid void donfig(Clbss<? fxtfnds Objfdt> dbllfr, String mfssbgf) {
+        PlbtformLoggfr loggfr = PlbtformLoggfr.gftLoggfr(dbllfr.gftCbnonidblNbmf());
+        loggfr.donfig(mfssbgf);
     }
 
     /**
-     * Lazy loaded set of available locales.
-     * Loading all locales is a very long operation.
+     * Lbzy lobdfd sft of bvbilbblf lodblfs.
+     * Lobding bll lodblfs is b vfry long opfrbtion.
      */
-    private static class AllAvailableLocales {
+    privbtf stbtid dlbss AllAvbilbblfLodblfs {
         /**
-         * Available locales for all locale sensitive services.
-         * This also contains JRE's available locales
+         * Avbilbblf lodblfs for bll lodblf sfnsitivf sfrvidfs.
+         * Tiis blso dontbins JRE's bvbilbblf lodblfs
          */
-        static final Locale[] allAvailableLocales;
+        stbtid finbl Lodblf[] bllAvbilbblfLodblfs;
 
-        static {
-            Set<Locale> all = new HashSet<>();
-            for (Class<? extends LocaleServiceProvider> c : spiClasses) {
-                LocaleServiceProviderPool pool =
-                    LocaleServiceProviderPool.getPool(c);
-                all.addAll(pool.getAvailableLocaleSet());
+        stbtid {
+            Sft<Lodblf> bll = nfw HbsiSft<>();
+            for (Clbss<? fxtfnds LodblfSfrvidfProvidfr> d : spiClbssfs) {
+                LodblfSfrvidfProvidfrPool pool =
+                    LodblfSfrvidfProvidfrPool.gftPool(d);
+                bll.bddAll(pool.gftAvbilbblfLodblfSft());
             }
 
-            allAvailableLocales = all.toArray(new Locale[0]);
+            bllAvbilbblfLodblfs = bll.toArrby(nfw Lodblf[0]);
         }
 
-        // No instantiation
-        private AllAvailableLocales() {
+        // No instbntibtion
+        privbtf AllAvbilbblfLodblfs() {
         }
     }
 
     /**
-     * Returns an array of available locales for all the provider classes.
-     * This array is a merged array of all the locales that are provided by each
-     * provider, including the JRE.
+     * Rfturns bn brrby of bvbilbblf lodblfs for bll tif providfr dlbssfs.
+     * Tiis brrby is b mfrgfd brrby of bll tif lodblfs tibt brf providfd by fbdi
+     * providfr, indluding tif JRE.
      *
-     * @return an array of the available locales for all provider classes
+     * @rfturn bn brrby of tif bvbilbblf lodblfs for bll providfr dlbssfs
      */
-    public static Locale[] getAllAvailableLocales() {
-        return AllAvailableLocales.allAvailableLocales.clone();
+    publid stbtid Lodblf[] gftAllAvbilbblfLodblfs() {
+        rfturn AllAvbilbblfLodblfs.bllAvbilbblfLodblfs.dlonf();
     }
 
     /**
-     * Returns an array of available locales.  This array is a
-     * merged array of all the locales that are provided by each
-     * provider, including the JRE.
+     * Rfturns bn brrby of bvbilbblf lodblfs.  Tiis brrby is b
+     * mfrgfd brrby of bll tif lodblfs tibt brf providfd by fbdi
+     * providfr, indluding tif JRE.
      *
-     * @return an array of the available locales
+     * @rfturn bn brrby of tif bvbilbblf lodblfs
      */
-    public Locale[] getAvailableLocales() {
-        Set<Locale> locList = new HashSet<>();
-        locList.addAll(getAvailableLocaleSet());
-        // Make sure it all contains JRE's locales for compatibility.
-        locList.addAll(Arrays.asList(LocaleProviderAdapter.forJRE().getAvailableLocales()));
-        Locale[] tmp = new Locale[locList.size()];
-        locList.toArray(tmp);
-        return tmp;
+    publid Lodblf[] gftAvbilbblfLodblfs() {
+        Sft<Lodblf> lodList = nfw HbsiSft<>();
+        lodList.bddAll(gftAvbilbblfLodblfSft());
+        // Mbkf surf it bll dontbins JRE's lodblfs for dompbtibility.
+        lodList.bddAll(Arrbys.bsList(LodblfProvidfrAdbptfr.forJRE().gftAvbilbblfLodblfs()));
+        Lodblf[] tmp = nfw Lodblf[lodList.sizf()];
+        lodList.toArrby(tmp);
+        rfturn tmp;
     }
 
     /**
-     * Returns the union of locale sets that are available from
-     * each service provider. This method does NOT return the
-     * defensive copy.
+     * Rfturns tif union of lodblf sfts tibt brf bvbilbblf from
+     * fbdi sfrvidf providfr. Tiis mftiod dofs NOT rfturn tif
+     * dfffnsivf dopy.
      *
-     * @return a set of available locales
+     * @rfturn b sft of bvbilbblf lodblfs
      */
-    private synchronized Set<Locale> getAvailableLocaleSet() {
-        if (availableLocales == null) {
-            availableLocales = new HashSet<>();
-            for (LocaleServiceProvider lsp : providers.values()) {
-                Locale[] locales = lsp.getAvailableLocales();
-                for (Locale locale: locales) {
-                    availableLocales.add(getLookupLocale(locale));
+    privbtf syndironizfd Sft<Lodblf> gftAvbilbblfLodblfSft() {
+        if (bvbilbblfLodblfs == null) {
+            bvbilbblfLodblfs = nfw HbsiSft<>();
+            for (LodblfSfrvidfProvidfr lsp : providfrs.vblufs()) {
+                Lodblf[] lodblfs = lsp.gftAvbilbblfLodblfs();
+                for (Lodblf lodblf: lodblfs) {
+                    bvbilbblfLodblfs.bdd(gftLookupLodblf(lodblf));
                 }
             }
         }
 
-        return availableLocales;
+        rfturn bvbilbblfLodblfs;
     }
 
     /**
-     * Returns whether any provider for this locale sensitive
-     * service is available or not, excluding JRE's one.
+     * Rfturns wiftifr bny providfr for tiis lodblf sfnsitivf
+     * sfrvidf is bvbilbblf or not, fxdluding JRE's onf.
      *
-     * @return true if any provider (other than JRE) is available
+     * @rfturn truf if bny providfr (otifr tibn JRE) is bvbilbblf
      */
-    boolean hasProviders() {
-        return providers.size() != 1 ||
-               (providers.get(LocaleProviderAdapter.Type.JRE) == null &&
-                providers.get(LocaleProviderAdapter.Type.FALLBACK) == null);
+    boolfbn ibsProvidfrs() {
+        rfturn providfrs.sizf() != 1 ||
+               (providfrs.gft(LodblfProvidfrAdbptfr.Typf.JRE) == null &&
+                providfrs.gft(LodblfProvidfrAdbptfr.Typf.FALLBACK) == null);
     }
 
     /**
-     * Returns the provider's localized object for the specified
-     * locale.
+     * Rfturns tif providfr's lodblizfd objfdt for tif spfdififd
+     * lodblf.
      *
-     * @param getter an object on which getObject() method
-     *     is called to obtain the provider's instance.
-     * @param locale the given locale that is used as the starting one
-     * @param params provider specific parameters
-     * @return provider's instance, or null.
+     * @pbrbm gfttfr bn objfdt on wiidi gftObjfdt() mftiod
+     *     is dbllfd to obtbin tif providfr's instbndf.
+     * @pbrbm lodblf tif givfn lodblf tibt is usfd bs tif stbrting onf
+     * @pbrbm pbrbms providfr spfdifid pbrbmftfrs
+     * @rfturn providfr's instbndf, or null.
      */
-    public <P extends LocaleServiceProvider, S> S getLocalizedObject(LocalizedObjectGetter<P, S> getter,
-                                     Locale locale,
-                                     Object... params) {
-        return getLocalizedObjectImpl(getter, locale, true, null, params);
+    publid <P fxtfnds LodblfSfrvidfProvidfr, S> S gftLodblizfdObjfdt(LodblizfdObjfdtGfttfr<P, S> gfttfr,
+                                     Lodblf lodblf,
+                                     Objfdt... pbrbms) {
+        rfturn gftLodblizfdObjfdtImpl(gfttfr, lodblf, truf, null, pbrbms);
     }
 
     /**
-     * Returns the provider's localized name for the specified
-     * locale.
+     * Rfturns tif providfr's lodblizfd nbmf for tif spfdififd
+     * lodblf.
      *
-     * @param getter an object on which getObject() method
-     *     is called to obtain the provider's instance.
-     * @param locale the given locale that is used as the starting one
-     * @param key the key string for name providers
-     * @param params provider specific parameters
-     * @return provider's instance, or null.
+     * @pbrbm gfttfr bn objfdt on wiidi gftObjfdt() mftiod
+     *     is dbllfd to obtbin tif providfr's instbndf.
+     * @pbrbm lodblf tif givfn lodblf tibt is usfd bs tif stbrting onf
+     * @pbrbm kfy tif kfy string for nbmf providfrs
+     * @pbrbm pbrbms providfr spfdifid pbrbmftfrs
+     * @rfturn providfr's instbndf, or null.
      */
-    public <P extends LocaleServiceProvider, S> S getLocalizedObject(LocalizedObjectGetter<P, S> getter,
-                                     Locale locale,
-                                     String key,
-                                     Object... params) {
-        return getLocalizedObjectImpl(getter, locale, false, key, params);
+    publid <P fxtfnds LodblfSfrvidfProvidfr, S> S gftLodblizfdObjfdt(LodblizfdObjfdtGfttfr<P, S> gfttfr,
+                                     Lodblf lodblf,
+                                     String kfy,
+                                     Objfdt... pbrbms) {
+        rfturn gftLodblizfdObjfdtImpl(gfttfr, lodblf, fblsf, kfy, pbrbms);
     }
 
-    @SuppressWarnings("unchecked")
-    private <P extends LocaleServiceProvider, S> S getLocalizedObjectImpl(LocalizedObjectGetter<P, S> getter,
-                                     Locale locale,
-                                     boolean isObjectProvider,
-                                     String key,
-                                     Object... params) {
-        if (locale == null) {
-            throw new NullPointerException();
+    @SupprfssWbrnings("undifdkfd")
+    privbtf <P fxtfnds LodblfSfrvidfProvidfr, S> S gftLodblizfdObjfdtImpl(LodblizfdObjfdtGfttfr<P, S> gfttfr,
+                                     Lodblf lodblf,
+                                     boolfbn isObjfdtProvidfr,
+                                     String kfy,
+                                     Objfdt... pbrbms) {
+        if (lodblf == null) {
+            tirow nfw NullPointfrExdfption();
         }
 
-        // Check whether JRE is the sole locale data provider or not,
-        // and directly call it if it is.
-        if (!hasProviders()) {
-            return getter.getObject((P)providers.get(LocaleProviderAdapter.defaultLocaleProviderAdapter),
-                                    locale, key, params);
+        // Cifdk wiftifr JRE is tif solf lodblf dbtb providfr or not,
+        // bnd dirfdtly dbll it if it is.
+        if (!ibsProvidfrs()) {
+            rfturn gfttfr.gftObjfdt((P)providfrs.gft(LodblfProvidfrAdbptfr.dffbultLodblfProvidfrAdbptfr),
+                                    lodblf, kfy, pbrbms);
         }
 
-        List<Locale> lookupLocales = getLookupLocales(locale);
+        List<Lodblf> lookupLodblfs = gftLookupLodblfs(lodblf);
 
-        Set<Locale> available = getAvailableLocaleSet();
-        for (Locale current : lookupLocales) {
-            if (available.contains(current)) {
-                S providersObj;
+        Sft<Lodblf> bvbilbblf = gftAvbilbblfLodblfSft();
+        for (Lodblf durrfnt : lookupLodblfs) {
+            if (bvbilbblf.dontbins(durrfnt)) {
+                S providfrsObj;
 
-                for (LocaleProviderAdapter.Type type: findProviders(current)) {
-                    LocaleServiceProvider lsp = providers.get(type);
-                    providersObj = getter.getObject((P)lsp, locale, key, params);
-                    if (providersObj != null) {
-                        return providersObj;
-                    } else if (isObjectProvider) {
-                        config(LocaleServiceProviderPool.class,
-                            "A locale sensitive service provider returned null for a localized objects,  which should not happen.  provider: "
-                                + lsp + " locale: " + locale);
+                for (LodblfProvidfrAdbptfr.Typf typf: findProvidfrs(durrfnt)) {
+                    LodblfSfrvidfProvidfr lsp = providfrs.gft(typf);
+                    providfrsObj = gfttfr.gftObjfdt((P)lsp, lodblf, kfy, pbrbms);
+                    if (providfrsObj != null) {
+                        rfturn providfrsObj;
+                    } flsf if (isObjfdtProvidfr) {
+                        donfig(LodblfSfrvidfProvidfrPool.dlbss,
+                            "A lodblf sfnsitivf sfrvidf providfr rfturnfd null for b lodblizfd objfdts,  wiidi siould not ibppfn.  providfr: "
+                                + lsp + " lodblf: " + lodblf);
                     }
                 }
             }
         }
 
         // not found.
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the list of locale service provider instances that support
-     * the specified locale.
+     * Rfturns tif list of lodblf sfrvidf providfr instbndfs tibt support
+     * tif spfdififd lodblf.
      *
-     * @param locale the given locale
-     * @return the list of locale data adapter types
+     * @pbrbm lodblf tif givfn lodblf
+     * @rfturn tif list of lodblf dbtb bdbptfr typfs
      */
-    private List<LocaleProviderAdapter.Type> findProviders(Locale locale) {
-        List<LocaleProviderAdapter.Type> providersList = providersCache.get(locale);
-        if (providersList == null) {
-            for (LocaleProviderAdapter.Type type : LocaleProviderAdapter.getAdapterPreference()) {
-                LocaleServiceProvider lsp = providers.get(type);
+    privbtf List<LodblfProvidfrAdbptfr.Typf> findProvidfrs(Lodblf lodblf) {
+        List<LodblfProvidfrAdbptfr.Typf> providfrsList = providfrsCbdif.gft(lodblf);
+        if (providfrsList == null) {
+            for (LodblfProvidfrAdbptfr.Typf typf : LodblfProvidfrAdbptfr.gftAdbptfrPrfffrfndf()) {
+                LodblfSfrvidfProvidfr lsp = providfrs.gft(typf);
                 if (lsp != null) {
-                    if (lsp.isSupportedLocale(locale)) {
-                        if (providersList == null) {
-                            providersList = new ArrayList<>(2);
+                    if (lsp.isSupportfdLodblf(lodblf)) {
+                        if (providfrsList == null) {
+                            providfrsList = nfw ArrbyList<>(2);
                         }
-                        providersList.add(type);
+                        providfrsList.bdd(typf);
 
                     }
                 }
             }
-            if (providersList == null) {
-                providersList = NULL_LIST;
+            if (providfrsList == null) {
+                providfrsList = NULL_LIST;
             }
-            List<LocaleProviderAdapter.Type> val = providersCache.putIfAbsent(locale, providersList);
-            if (val != null) {
-                providersList = val;
+            List<LodblfProvidfrAdbptfr.Typf> vbl = providfrsCbdif.putIfAbsfnt(lodblf, providfrsList);
+            if (vbl != null) {
+                providfrsList = vbl;
             }
         }
-            return providersList;
+            rfturn providfrsList;
         }
 
     /**
-     * Returns a list of candidate locales for service look up.
-     * @param locale the input locale
-     * @return the list of candidate locales for the given locale
+     * Rfturns b list of dbndidbtf lodblfs for sfrvidf look up.
+     * @pbrbm lodblf tif input lodblf
+     * @rfturn tif list of dbndidbtf lodblfs for tif givfn lodblf
      */
-    static List<Locale> getLookupLocales(Locale locale) {
-        // Note: We currently use the default implementation of
-        // ResourceBundle.Control.getCandidateLocales. The result
-        // returned by getCandidateLocales are already normalized
-        // (no extensions) for service look up.
-        List<Locale> lookupLocales = Control.getNoFallbackControl(Control.FORMAT_DEFAULT)
-                                            .getCandidateLocales("", locale);
-        return lookupLocales;
+    stbtid List<Lodblf> gftLookupLodblfs(Lodblf lodblf) {
+        // Notf: Wf durrfntly usf tif dffbult implfmfntbtion of
+        // RfsourdfBundlf.Control.gftCbndidbtfLodblfs. Tif rfsult
+        // rfturnfd by gftCbndidbtfLodblfs brf blrfbdy normblizfd
+        // (no fxtfnsions) for sfrvidf look up.
+        List<Lodblf> lookupLodblfs = Control.gftNoFbllbbdkControl(Control.FORMAT_DEFAULT)
+                                            .gftCbndidbtfLodblfs("", lodblf);
+        rfturn lookupLodblfs;
     }
 
     /**
-     * Returns an instance of Locale used for service look up.
-     * The result Locale has no extensions except for ja_JP_JP
-     * and th_TH_TH
+     * Rfturns bn instbndf of Lodblf usfd for sfrvidf look up.
+     * Tif rfsult Lodblf ibs no fxtfnsions fxdfpt for jb_JP_JP
+     * bnd ti_TH_TH
      *
-     * @param locale the locale
-     * @return the locale used for service look up
+     * @pbrbm lodblf tif lodblf
+     * @rfturn tif lodblf usfd for sfrvidf look up
      */
-    static Locale getLookupLocale(Locale locale) {
-        Locale lookupLocale = locale;
-        if (locale.hasExtensions()
-                && !locale.equals(JRELocaleConstants.JA_JP_JP)
-                && !locale.equals(JRELocaleConstants.TH_TH_TH)) {
-            // remove extensions
-            Builder locbld = new Builder();
+    stbtid Lodblf gftLookupLodblf(Lodblf lodblf) {
+        Lodblf lookupLodblf = lodblf;
+        if (lodblf.ibsExtfnsions()
+                && !lodblf.fqubls(JRELodblfConstbnts.JA_JP_JP)
+                && !lodblf.fqubls(JRELodblfConstbnts.TH_TH_TH)) {
+            // rfmovf fxtfnsions
+            Buildfr lodbld = nfw Buildfr();
             try {
-                locbld.setLocale(locale);
-                locbld.clearExtensions();
-                lookupLocale = locbld.build();
-            } catch (IllformedLocaleException e) {
-                // A Locale with non-empty extensions
-                // should have well-formed fields except
-                // for ja_JP_JP and th_TH_TH. Therefore,
-                // it should never enter in this catch clause.
-                config(LocaleServiceProviderPool.class,
-                       "A locale(" + locale + ") has non-empty extensions, but has illformed fields.");
+                lodbld.sftLodblf(lodblf);
+                lodbld.dlfbrExtfnsions();
+                lookupLodblf = lodbld.build();
+            } dbtdi (IllformfdLodblfExdfption f) {
+                // A Lodblf witi non-fmpty fxtfnsions
+                // siould ibvf wfll-formfd fiflds fxdfpt
+                // for jb_JP_JP bnd ti_TH_TH. Tifrfforf,
+                // it siould nfvfr fntfr in tiis dbtdi dlbusf.
+                donfig(LodblfSfrvidfProvidfrPool.dlbss,
+                       "A lodblf(" + lodblf + ") ibs non-fmpty fxtfnsions, but ibs illformfd fiflds.");
 
-                // Fallback - script field will be lost.
-                lookupLocale = new Locale(locale.getLanguage(), locale.getCountry(), locale.getVariant());
+                // Fbllbbdk - sdript fifld will bf lost.
+                lookupLodblf = nfw Lodblf(lodblf.gftLbngubgf(), lodblf.gftCountry(), lodblf.gftVbribnt());
             }
         }
-        return lookupLocale;
+        rfturn lookupLodblf;
     }
 
     /**
-     * A dummy locale service provider list that indicates there is no
-     * provider available
+     * A dummy lodblf sfrvidf providfr list tibt indidbtfs tifrf is no
+     * providfr bvbilbblf
      */
-    private static List<LocaleProviderAdapter.Type> NULL_LIST =
-        Collections.emptyList();
+    privbtf stbtid List<LodblfProvidfrAdbptfr.Typf> NULL_LIST =
+        Collfdtions.fmptyList();
 
     /**
-     * An interface to get a localized object for each locale sensitive
-     * service class.
+     * An intfrfbdf to gft b lodblizfd objfdt for fbdi lodblf sfnsitivf
+     * sfrvidf dlbss.
      */
-    public interface LocalizedObjectGetter<P extends LocaleServiceProvider, S> {
+    publid intfrfbdf LodblizfdObjfdtGfttfr<P fxtfnds LodblfSfrvidfProvidfr, S> {
         /**
-         * Returns an object from the provider
+         * Rfturns bn objfdt from tif providfr
          *
-         * @param lsp the provider
-         * @param locale the locale
-         * @param key key string to localize, or null if the provider is not
-         *     a name provider
-         * @param params provider specific params
-         * @return localized object from the provider
+         * @pbrbm lsp tif providfr
+         * @pbrbm lodblf tif lodblf
+         * @pbrbm kfy kfy string to lodblizf, or null if tif providfr is not
+         *     b nbmf providfr
+         * @pbrbm pbrbms providfr spfdifid pbrbms
+         * @rfturn lodblizfd objfdt from tif providfr
          */
-        public S getObject(P lsp,
-                           Locale locale,
-                           String key,
-                           Object... params);
+        publid S gftObjfdt(P lsp,
+                           Lodblf lodblf,
+                           String kfy,
+                           Objfdt... pbrbms);
     }
 }

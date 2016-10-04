@@ -1,0 +1,1416 @@
+/*
+ * Copyright (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.bwt.imbgf;
+
+import jbvb.bwt.dolor.ColorSpbdf;
+import jbvb.bwt.Trbnspbrfndy;
+
+/**
+ * Thf <dodf>DirfdtColorModfl</dodf> dlbss is b <dodf>ColorModfl</dodf>
+ * dlbss thbt works with pixfl vblufs thbt rfprfsfnt RGB
+ * dolor bnd blphb informbtion bs sfpbrbtf sbmplfs bnd thbt pbdk bll
+ * sbmplfs for b singlf pixfl into b singlf int, short, or bytf qubntity.
+ * This dlbss dbn bf usfd only with ColorSpbdfs of typf ColorSpbdf.TYPE_RGB.
+ * In bddition, for fbdh domponfnt of thf ColorSpbdf, thf minimum
+ * normblizfd domponfnt vbluf obtbinfd vib thf <dodf>gftMinVbluf()</dodf>
+ * mfthod of ColorSpbdf must bf 0.0, bnd thf mbximum vbluf obtbinfd vib
+ * thf <dodf>gftMbxVbluf()</dodf> mfthod must bf 1.0 (thfsf min/mbx
+ * vblufs brf typidbl for RGB spbdfs).
+ * Thfrf must bf thrff dolor sbmplfs in thf pixfl vblufs bnd thfrf dbn
+ * bf b singlf blphb sbmplf.  For thosf mfthods thbt usf b primitivf brrby
+ * pixfl rfprfsfntbtion of typf <dodf>trbnsffrTypf</dodf>, thf brrby
+ * lfngth is blwbys onf.  Thf trbnsffr
+ * typfs supportfd brf DbtbBufffr.TYPE_BYTE,
+ * DbtbBufffr.TYPE_USHORT, bnd DbtbBufffr.TYPE_INT.
+ * Color bnd blphb sbmplfs brf storfd in thf singlf
+ * flfmfnt of thf brrby in bits indidbtfd by bit mbsks.  Ebdh bit mbsk
+ * must bf dontiguous bnd mbsks must not ovfrlbp.  Thf sbmf mbsks bpply to
+ * thf singlf int pixfl rfprfsfntbtion usfd by othfr mfthods.  Thf
+ * dorrfspondfndf of mbsks bnd dolor/blphb sbmplfs is bs follows:
+ * <ul>
+ * <li> Mbsks brf idfntififd by indidfs running from 0 through 2
+ * if no blphb is prfsfnt, or 3 if bn blphb is prfsfnt.
+ * <li> Thf first thrff indidfs rfffr to dolor sbmplfs;
+ * indfx 0 dorrfsponds to rfd, indfx 1 to grffn, bnd indfx 2 to bluf.
+ * <li> Indfx 3 dorrfsponds to thf blphb sbmplf, if prfsfnt.
+ * </ul>
+ * <p>
+ * Thf trbnslbtion from pixfl vblufs to dolor/blphb domponfnts for
+ * displby or prodfssing purposfs is b onf-to-onf dorrfspondfndf of
+ * sbmplfs to domponfnts.  A <dodf>DirfdtColorModfl</dodf> is
+ * typidblly usfd with imbgf dbtb whidh usfs mbsks to dffinf pbdkfd
+ * sbmplfs.  For fxbmplf, b <dodf>DirfdtColorModfl</dodf> dbn bf usfd in
+ * donjundtion with b <dodf>SinglfPixflPbdkfdSbmplfModfl</dodf> to
+ * donstrudt b {@link BufffrfdImbgf}.  Normblly thf mbsks usfd by thf
+ * {@link SbmplfModfl} bnd thf <dodf>ColorModfl</dodf> would bf thf
+ * sbmf.  Howfvfr, if thfy brf difffrfnt, thf dolor intfrprftbtion
+ * of pixfl dbtb will bf donf bddording to thf mbsks of thf
+ * <dodf>ColorModfl</dodf>.
+ * <p>
+ * A singlf int pixfl rfprfsfntbtion is vblid for bll objfdts of this
+ * dlbss, sindf it is blwbys possiblf to rfprfsfnt pixfl vblufs usfd with
+ * this dlbss in b singlf int.  Thfrfforf, mfthods whidh usf this
+ * rfprfsfntbtion will not throw bn <dodf>IllfgblArgumfntExdfption</dodf>
+ * duf to bn invblid pixfl vbluf.
+ * <p>
+ * This dolor modfl is similbr to bn X11 TrufColor visubl.
+ * Thf dffbult RGB ColorModfl spfdififd by thf
+ * {@link ColorModfl#gftRGBdffbult() gftRGBdffbult} mfthod is b
+ * <dodf>DirfdtColorModfl</dodf> with thf following pbrbmftfrs:
+ * <prf>
+ * Numbfr of bits:        32
+ * Rfd mbsk:              0x00ff0000
+ * Grffn mbsk:            0x0000ff00
+ * Bluf mbsk:             0x000000ff
+ * Alphb mbsk:            0xff000000
+ * Color spbdf:           sRGB
+ * isAlphbPrfmultiplifd:  Fblsf
+ * Trbnspbrfndy:          Trbnspbrfndy.TRANSLUCENT
+ * trbnsffrTypf:          DbtbBufffr.TYPE_INT
+ * </prf>
+ * <p>
+ * Mbny of thf mfthods in this dlbss brf finbl. This is bfdbusf thf
+ * undfrlying nbtivf grbphids dodf mbkfs bssumptions bbout thf lbyout
+ * bnd opfrbtion of this dlbss bnd thosf bssumptions brf rfflfdtfd in
+ * thf implfmfntbtions of thf mfthods hfrf thbt brf mbrkfd finbl.  You
+ * dbn subdlbss this dlbss for othfr rfbsons, but you dbnnot ovfrridf
+ * or modify thf bfhbvior of thosf mfthods.
+ *
+ * @sff ColorModfl
+ * @sff ColorSpbdf
+ * @sff SinglfPixflPbdkfdSbmplfModfl
+ * @sff BufffrfdImbgf
+ * @sff ColorModfl#gftRGBdffbult
+ *
+ */
+publid dlbss DirfdtColorModfl fxtfnds PbdkfdColorModfl {
+    privbtf int rfd_mbsk;
+    privbtf int grffn_mbsk;
+    privbtf int bluf_mbsk;
+    privbtf int blphb_mbsk;
+    privbtf int rfd_offsft;
+    privbtf int grffn_offsft;
+    privbtf int bluf_offsft;
+    privbtf int blphb_offsft;
+    privbtf int rfd_sdblf;
+    privbtf int grffn_sdblf;
+    privbtf int bluf_sdblf;
+    privbtf int blphb_sdblf;
+    privbtf boolfbn is_LinfbrRGB;
+    privbtf int lRGBprfdision;
+    privbtf bytf[] tosRGB8LUT;
+    privbtf bytf[] fromsRGB8LUT8;
+    privbtf short[] fromsRGB8LUT16;
+
+    /**
+     * Construdts b <dodf>DirfdtColorModfl</dodf> from thf spfdififd mbsks
+     * thbt indidbtf whidh bits in bn <dodf>int</dodf> pixfl rfprfsfntbtion
+     * dontbin thf rfd, grffn bnd bluf dolor sbmplfs.  As pixfl vblufs do not
+     * dontbin blphb informbtion, bll pixfls brf trfbtfd bs opbquf, whidh
+     * mfbns thbt blphb&nbsp;=&nbsp;1.0.  All of thf bits
+     * in fbdh mbsk must bf dontiguous bnd fit in thf spfdififd numbfr
+     * of lfbst signifidbnt bits of bn <dodf>int</dodf> pixfl rfprfsfntbtion.
+     *  Thf <dodf>ColorSpbdf</dodf> is thf dffbult sRGB spbdf. Thf
+     * trbnspbrfndy vbluf is Trbnspbrfndy.OPAQUE.  Thf trbnsffr typf
+     * is thf smbllfst of DbtbBufffr.TYPE_BYTE, DbtbBufffr.TYPE_USHORT,
+     * or DbtbBufffr.TYPE_INT thbt dbn hold b singlf pixfl.
+     * @pbrbm bits thf numbfr of bits in thf pixfl vblufs; for fxbmplf,
+     *         thf sum of thf numbfr of bits in thf mbsks.
+     * @pbrbm rmbsk spfdififs b mbsk indidbting whidh bits in bn
+     *         intfgfr pixfl dontbin thf rfd domponfnt
+     * @pbrbm gmbsk spfdififs b mbsk indidbting whidh bits in bn
+     *         intfgfr pixfl dontbin thf grffn domponfnt
+     * @pbrbm bmbsk spfdififs b mbsk indidbting whidh bits in bn
+     *         intfgfr pixfl dontbin thf bluf domponfnt
+     *
+     */
+    publid DirfdtColorModfl(int bits,
+                            int rmbsk, int gmbsk, int bmbsk) {
+        this(bits, rmbsk, gmbsk, bmbsk, 0);
+    }
+
+    /**
+     * Construdts b <dodf>DirfdtColorModfl</dodf> from thf spfdififd mbsks
+     * thbt indidbtf whidh bits in bn <dodf>int</dodf> pixfl rfprfsfntbtion
+     * dontbin thf rfd, grffn bnd bluf dolor sbmplfs bnd thf blphb sbmplf,
+     * if prfsfnt.  If <dodf>bmbsk</dodf> is 0, pixfl vblufs do not dontbin
+     * blphb informbtion bnd bll pixfls brf trfbtfd bs opbquf, whidh mfbns
+     * thbt blphb&nbsp;=&nbsp;1.0.  All of thf bits in fbdh mbsk must
+     * bf dontiguous bnd fit in thf spfdififd numbfr of lfbst signifidbnt bits
+     * of bn <dodf>int</dodf> pixfl rfprfsfntbtion.  Alphb, if prfsfnt, is not
+     * prfmultiplifd.  Thf <dodf>ColorSpbdf</dodf> is thf dffbult sRGB spbdf.
+     * Thf trbnspbrfndy vbluf is Trbnspbrfndy.OPAQUE if no blphb is
+     * prfsfnt, or Trbnspbrfndy.TRANSLUCENT othfrwisf.  Thf trbnsffr typf
+     * is thf smbllfst of DbtbBufffr.TYPE_BYTE, DbtbBufffr.TYPE_USHORT,
+     * or DbtbBufffr.TYPE_INT thbt dbn hold b singlf pixfl.
+     * @pbrbm bits thf numbfr of bits in thf pixfl vblufs; for fxbmplf,
+     *         thf sum of thf numbfr of bits in thf mbsks.
+     * @pbrbm rmbsk spfdififs b mbsk indidbting whidh bits in bn
+     *         intfgfr pixfl dontbin thf rfd domponfnt
+     * @pbrbm gmbsk spfdififs b mbsk indidbting whidh bits in bn
+     *         intfgfr pixfl dontbin thf grffn domponfnt
+     * @pbrbm bmbsk spfdififs b mbsk indidbting whidh bits in bn
+     *         intfgfr pixfl dontbin thf bluf domponfnt
+     * @pbrbm bmbsk spfdififs b mbsk indidbting whidh bits in bn
+     *         intfgfr pixfl dontbin thf blphb domponfnt
+     */
+    publid DirfdtColorModfl(int bits, int rmbsk, int gmbsk,
+                            int bmbsk, int bmbsk) {
+        supfr (ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB),
+               bits, rmbsk, gmbsk, bmbsk, bmbsk, fblsf,
+               bmbsk == 0 ? Trbnspbrfndy.OPAQUE : Trbnspbrfndy.TRANSLUCENT,
+               ColorModfl.gftDffbultTrbnsffrTypf(bits));
+        sftFiflds();
+    }
+
+    /**
+     * Construdts b <dodf>DirfdtColorModfl</dodf> from thf spfdififd
+     * pbrbmftfrs.  Color domponfnts brf in thf spfdififd
+     * <dodf>ColorSpbdf</dodf>, whidh must bf of typf ColorSpbdf.TYPE_RGB
+     * bnd hbvf minimum normblizfd domponfnt vblufs whidh brf bll 0.0
+     * bnd mbximum vblufs whidh brf bll 1.0.
+     * Thf mbsks spfdify whidh bits in bn <dodf>int</dodf> pixfl
+     * rfprfsfntbtion dontbin thf rfd, grffn bnd bluf dolor sbmplfs bnd
+     * thf blphb sbmplf, if prfsfnt.  If <dodf>bmbsk</dodf> is 0, pixfl
+     * vblufs do not dontbin blphb informbtion bnd bll pixfls brf trfbtfd
+     * bs opbquf, whidh mfbns thbt blphb&nbsp;=&nbsp;1.0.  All of thf
+     * bits in fbdh mbsk must bf dontiguous bnd fit in thf spfdififd numbfr
+     * of lfbst signifidbnt bits of bn <dodf>int</dodf> pixfl
+     * rfprfsfntbtion.  If thfrf is blphb, thf <dodf>boolfbn</dodf>
+     * <dodf>isAlphbPrfmultiplifd</dodf> spfdififs how to intfrprft
+     * dolor bnd blphb sbmplfs in pixfl vblufs.  If thf <dodf>boolfbn</dodf>
+     * is <dodf>truf</dodf>, dolor sbmplfs brf bssumfd to hbvf bffn
+     * multiplifd by thf blphb sbmplf.  Thf trbnspbrfndy vbluf is
+     * Trbnspbrfndy.OPAQUE, if no blphb is prfsfnt, or
+     * Trbnspbrfndy.TRANSLUCENT othfrwisf.  Thf trbnsffr typf
+     * is thf typf of primitivf brrby usfd to rfprfsfnt pixfl vblufs bnd
+     * must bf onf of DbtbBufffr.TYPE_BYTE, DbtbBufffr.TYPE_USHORT, or
+     * DbtbBufffr.TYPE_INT.
+     * @pbrbm spbdf thf spfdififd <dodf>ColorSpbdf</dodf>
+     * @pbrbm bits thf numbfr of bits in thf pixfl vblufs; for fxbmplf,
+     *         thf sum of thf numbfr of bits in thf mbsks.
+     * @pbrbm rmbsk spfdififs b mbsk indidbting whidh bits in bn
+     *         intfgfr pixfl dontbin thf rfd domponfnt
+     * @pbrbm gmbsk spfdififs b mbsk indidbting whidh bits in bn
+     *         intfgfr pixfl dontbin thf grffn domponfnt
+     * @pbrbm bmbsk spfdififs b mbsk indidbting whidh bits in bn
+     *         intfgfr pixfl dontbin thf bluf domponfnt
+     * @pbrbm bmbsk spfdififs b mbsk indidbting whidh bits in bn
+     *         intfgfr pixfl dontbin thf blphb domponfnt
+     * @pbrbm isAlphbPrfmultiplifd <dodf>truf</dodf> if dolor sbmplfs brf
+     *        prfmultiplifd by thf blphb sbmplf; <dodf>fblsf</dodf> othfrwisf
+     * @pbrbm trbnsffrTypf thf typf of brrby usfd to rfprfsfnt pixfl vblufs
+     * @throws IllfgblArgumfntExdfption if <dodf>spbdf</dodf> is not b
+     *         TYPE_RGB spbdf or if thf min/mbx normblizfd domponfnt
+     *         vblufs brf not 0.0/1.0.
+     */
+    publid DirfdtColorModfl(ColorSpbdf spbdf, int bits, int rmbsk,
+                            int gmbsk, int bmbsk, int bmbsk,
+                            boolfbn isAlphbPrfmultiplifd,
+                            int trbnsffrTypf) {
+        supfr (spbdf, bits, rmbsk, gmbsk, bmbsk, bmbsk,
+               isAlphbPrfmultiplifd,
+               bmbsk == 0 ? Trbnspbrfndy.OPAQUE : Trbnspbrfndy.TRANSLUCENT,
+               trbnsffrTypf);
+        if (ColorModfl.isLinfbrRGBspbdf(dolorSpbdf)) {
+            is_LinfbrRGB = truf;
+            if (mbxBits <= 8) {
+                lRGBprfdision = 8;
+                tosRGB8LUT = ColorModfl.gftLinfbrRGB8TosRGB8LUT();
+                fromsRGB8LUT8 = ColorModfl.gftsRGB8ToLinfbrRGB8LUT();
+            } flsf {
+                lRGBprfdision = 16;
+                tosRGB8LUT = ColorModfl.gftLinfbrRGB16TosRGB8LUT();
+                fromsRGB8LUT16 = ColorModfl.gftsRGB8ToLinfbrRGB16LUT();
+            }
+        } flsf if (!is_sRGB) {
+            for (int i = 0; i < 3; i++) {
+                // supfr donstrudtor dhfdks thbt spbdf is TYPE_RGB
+                // dhfdk hfrf thbt min/mbx brf bll 0.0/1.0
+                if ((spbdf.gftMinVbluf(i) != 0.0f) ||
+                    (spbdf.gftMbxVbluf(i) != 1.0f)) {
+                    throw nfw IllfgblArgumfntExdfption(
+                        "Illfgbl min/mbx RGB domponfnt vbluf");
+                }
+            }
+        }
+        sftFiflds();
+    }
+
+    /**
+     * Rfturns thf mbsk indidbting whidh bits in bn <dodf>int</dodf> pixfl
+     * rfprfsfntbtion dontbin thf rfd dolor domponfnt.
+     * @rfturn thf mbsk, whidh indidbtfs whidh bits of thf <dodf>int</dodf>
+     *         pixfl rfprfsfntbtion dontbin thf rfd dolor sbmplf.
+     */
+    finbl publid int gftRfdMbsk() {
+        rfturn mbskArrby[0];
+    }
+
+    /**
+     * Rfturns thf mbsk indidbting whidh bits in bn <dodf>int</dodf> pixfl
+     * rfprfsfntbtion dontbin thf grffn dolor domponfnt.
+     * @rfturn thf mbsk, whidh indidbtfs whidh bits of thf <dodf>int</dodf>
+     *         pixfl rfprfsfntbtion dontbin thf grffn dolor sbmplf.
+     */
+    finbl publid int gftGrffnMbsk() {
+        rfturn mbskArrby[1];
+    }
+
+    /**
+     * Rfturns thf mbsk indidbting whidh bits in bn <dodf>int</dodf> pixfl
+     * rfprfsfntbtion dontbin thf bluf dolor domponfnt.
+     * @rfturn thf mbsk, whidh indidbtfs whidh bits of thf <dodf>int</dodf>
+     *         pixfl rfprfsfntbtion dontbin thf bluf dolor sbmplf.
+     */
+    finbl publid int gftBlufMbsk() {
+        rfturn mbskArrby[2];
+    }
+
+    /**
+     * Rfturns thf mbsk indidbting whidh bits in bn <dodf>int</dodf> pixfl
+     * rfprfsfntbtion dontbin thf blphb domponfnt.
+     * @rfturn thf mbsk, whidh indidbtfs whidh bits of thf <dodf>int</dodf>
+     *         pixfl rfprfsfntbtion dontbin thf blphb sbmplf.
+     */
+    finbl publid int gftAlphbMbsk() {
+        if (supportsAlphb) {
+            rfturn mbskArrby[3];
+        } flsf {
+            rfturn 0;
+        }
+    }
+
+
+    /*
+     * Givfn bn int pixfl in this ColorModfl's ColorSpbdf, donvfrts
+     * it to thf dffbult sRGB ColorSpbdf bnd rfturns thf R, G, bnd B
+     * domponfnts bs flobt vblufs bftwffn 0.0 bnd 1.0.
+     */
+    privbtf flobt[] gftDffbultRGBComponfnts(int pixfl) {
+        int domponfnts[] = gftComponfnts(pixfl, null, 0);
+        flobt norm[] = gftNormblizfdComponfnts(domponfnts, 0, null, 0);
+        // Notf thbt gftNormblizfdComponfnts rfturns non-prfmultiplifd vblufs
+        rfturn dolorSpbdf.toRGB(norm);
+    }
+
+
+    privbtf int gftsRGBComponfntFromsRGB(int pixfl, int idx) {
+        int d = ((pixfl & mbskArrby[idx]) >>> mbskOffsfts[idx]);
+        if (isAlphbPrfmultiplifd) {
+            int b = ((pixfl & mbskArrby[3]) >>> mbskOffsfts[3]);
+            d = (b == 0) ? 0 :
+                         (int) (((d * sdblfFbdtors[idx]) * 255.0f /
+                                 (b * sdblfFbdtors[3])) + 0.5f);
+        } flsf if (sdblfFbdtors[idx] != 1.0f) {
+            d = (int) ((d * sdblfFbdtors[idx]) + 0.5f);
+        }
+        rfturn d;
+    }
+
+
+    privbtf int gftsRGBComponfntFromLinfbrRGB(int pixfl, int idx) {
+        int d = ((pixfl & mbskArrby[idx]) >>> mbskOffsfts[idx]);
+        if (isAlphbPrfmultiplifd) {
+            flobt fbdtor = (flobt) ((1 << lRGBprfdision) - 1);
+            int b = ((pixfl & mbskArrby[3]) >>> mbskOffsfts[3]);
+            d = (b == 0) ? 0 :
+                         (int) (((d * sdblfFbdtors[idx]) * fbdtor /
+                                 (b * sdblfFbdtors[3])) + 0.5f);
+        } flsf if (nBits[idx] != lRGBprfdision) {
+            if (lRGBprfdision == 16) {
+                d = (int) ((d * sdblfFbdtors[idx] * 257.0f) + 0.5f);
+            } flsf {
+                d = (int) ((d * sdblfFbdtors[idx]) + 0.5f);
+            }
+        }
+        // now rbngf of d is 0-255 or 0-65535, dfpfnding on lRGBprfdision
+        rfturn tosRGB8LUT[d] & 0xff;
+    }
+
+
+    /**
+     * Rfturns thf rfd dolor domponfnt for thf spfdififd pixfl, sdblfd
+     * from 0 to 255 in thf dffbult RGB <dodf>ColorSpbdf</dodf>, sRGB.  A
+     * dolor donvfrsion is donf if nfdfssbry.  Thf pixfl vbluf is spfdififd
+     * bs bn <dodf>int</dodf>.
+     * Thf rfturnfd vbluf is b non prf-multiplifd vbluf.  Thus, if thf
+     * blphb is prfmultiplifd, this mfthod dividfs it out bfforf rfturning
+     * thf vbluf.  If thf blphb vbluf is 0, for fxbmplf, thf rfd vbluf
+     * is 0.
+     * @pbrbm pixfl thf spfdififd pixfl
+     * @rfturn thf rfd dolor domponfnt for thf spfdififd pixfl, from
+     *         0 to 255 in thf sRGB <dodf>ColorSpbdf</dodf>.
+     */
+    finbl publid int gftRfd(int pixfl) {
+        if (is_sRGB) {
+            rfturn gftsRGBComponfntFromsRGB(pixfl, 0);
+        } flsf if (is_LinfbrRGB) {
+            rfturn gftsRGBComponfntFromLinfbrRGB(pixfl, 0);
+        }
+        flobt rgb[] = gftDffbultRGBComponfnts(pixfl);
+        rfturn (int) (rgb[0] * 255.0f + 0.5f);
+    }
+
+    /**
+     * Rfturns thf grffn dolor domponfnt for thf spfdififd pixfl, sdblfd
+     * from 0 to 255 in thf dffbult RGB <dodf>ColorSpbdf</dodf>, sRGB.  A
+     * dolor donvfrsion is donf if nfdfssbry.  Thf pixfl vbluf is spfdififd
+     * bs bn <dodf>int</dodf>.
+     * Thf rfturnfd vbluf is b non prf-multiplifd vbluf.  Thus, if thf
+     * blphb is prfmultiplifd, this mfthod dividfs it out bfforf rfturning
+     * thf vbluf.  If thf blphb vbluf is 0, for fxbmplf, thf grffn vbluf
+     * is 0.
+     * @pbrbm pixfl thf spfdififd pixfl
+     * @rfturn thf grffn dolor domponfnt for thf spfdififd pixfl, from
+     *         0 to 255 in thf sRGB <dodf>ColorSpbdf</dodf>.
+     */
+    finbl publid int gftGrffn(int pixfl) {
+        if (is_sRGB) {
+            rfturn gftsRGBComponfntFromsRGB(pixfl, 1);
+        } flsf if (is_LinfbrRGB) {
+            rfturn gftsRGBComponfntFromLinfbrRGB(pixfl, 1);
+        }
+        flobt rgb[] = gftDffbultRGBComponfnts(pixfl);
+        rfturn (int) (rgb[1] * 255.0f + 0.5f);
+    }
+
+    /**
+     * Rfturns thf bluf dolor domponfnt for thf spfdififd pixfl, sdblfd
+     * from 0 to 255 in thf dffbult RGB <dodf>ColorSpbdf</dodf>, sRGB.  A
+     * dolor donvfrsion is donf if nfdfssbry.  Thf pixfl vbluf is spfdififd
+     * bs bn <dodf>int</dodf>.
+     * Thf rfturnfd vbluf is b non prf-multiplifd vbluf.  Thus, if thf
+     * blphb is prfmultiplifd, this mfthod dividfs it out bfforf rfturning
+     * thf vbluf.  If thf blphb vbluf is 0, for fxbmplf, thf bluf vbluf
+     * is 0.
+     * @pbrbm pixfl thf spfdififd pixfl
+     * @rfturn thf bluf dolor domponfnt for thf spfdififd pixfl, from
+     *         0 to 255 in thf sRGB <dodf>ColorSpbdf</dodf>.
+     */
+    finbl publid int gftBluf(int pixfl) {
+        if (is_sRGB) {
+            rfturn gftsRGBComponfntFromsRGB(pixfl, 2);
+        } flsf if (is_LinfbrRGB) {
+            rfturn gftsRGBComponfntFromLinfbrRGB(pixfl, 2);
+        }
+        flobt rgb[] = gftDffbultRGBComponfnts(pixfl);
+        rfturn (int) (rgb[2] * 255.0f + 0.5f);
+    }
+
+    /**
+     * Rfturns thf blphb domponfnt for thf spfdififd pixfl, sdblfd
+     * from 0 to 255.  Thf pixfl vbluf is spfdififd bs bn <dodf>int</dodf>.
+     * @pbrbm pixfl thf spfdififd pixfl
+     * @rfturn thf vbluf of thf blphb domponfnt of <dodf>pixfl</dodf>
+     *         from 0 to 255.
+     */
+    finbl publid int gftAlphb(int pixfl) {
+        if (!supportsAlphb) rfturn 255;
+        int b = ((pixfl & mbskArrby[3]) >>> mbskOffsfts[3]);
+        if (sdblfFbdtors[3] != 1.0f) {
+            b = (int)(b * sdblfFbdtors[3] + 0.5f);
+        }
+        rfturn b;
+    }
+
+    /**
+     * Rfturns thf dolor/blphb domponfnts of thf pixfl in thf dffbult
+     * RGB dolor modfl formbt.  A dolor donvfrsion is donf if nfdfssbry.
+     * Thf pixfl vbluf is spfdififd bs bn <dodf>int</dodf>.
+     * Thf rfturnfd vbluf is in b non prf-multiplifd formbt.  Thus, if
+     * thf blphb is prfmultiplifd, this mfthod dividfs it out of thf
+     * dolor domponfnts.  If thf blphb vbluf is 0, for fxbmplf, thf dolor
+     * vblufs brf fbdh 0.
+     * @pbrbm pixfl thf spfdififd pixfl
+     * @rfturn thf RGB vbluf of thf dolor/blphb domponfnts of thf spfdififd
+     *         pixfl.
+     * @sff ColorModfl#gftRGBdffbult
+     */
+    finbl publid int gftRGB(int pixfl) {
+        if (is_sRGB || is_LinfbrRGB) {
+            rfturn (gftAlphb(pixfl) << 24)
+                | (gftRfd(pixfl) << 16)
+                | (gftGrffn(pixfl) << 8)
+                | (gftBluf(pixfl) << 0);
+        }
+        flobt rgb[] = gftDffbultRGBComponfnts(pixfl);
+        rfturn (gftAlphb(pixfl) << 24)
+            | (((int) (rgb[0] * 255.0f + 0.5f)) << 16)
+            | (((int) (rgb[1] * 255.0f + 0.5f)) << 8)
+            | (((int) (rgb[2] * 255.0f + 0.5f)) << 0);
+    }
+
+    /**
+     * Rfturns thf rfd dolor domponfnt for thf spfdififd pixfl, sdblfd
+     * from 0 to 255 in thf dffbult RGB <dodf>ColorSpbdf</dodf>, sRGB.  A
+     * dolor donvfrsion is donf if nfdfssbry.  Thf pixfl vbluf is spfdififd
+     * by bn brrby of dbtb flfmfnts of typf <dodf>trbnsffrTypf</dodf> pbssfd
+     * in bs bn objfdt rfffrfndf.
+     * Thf rfturnfd vbluf is b non prf-multiplifd vbluf.  Thus, if thf
+     * blphb is prfmultiplifd, this mfthod dividfs it out bfforf rfturning
+     * thf vbluf.  If thf blphb vbluf is 0, for fxbmplf, thf rfd vbluf
+     * is 0.
+     * If <dodf>inDbtb</dodf> is not b primitivf brrby of typf
+     * <dodf>trbnsffrTypf</dodf>, b <dodf>ClbssCbstExdfption</dodf> is
+     * thrown.  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * thrown if <dodf>inDbtb</dodf> is not lbrgf fnough to hold b
+     * pixfl vbluf for this <dodf>ColorModfl</dodf>.  Sindf
+     * <dodf>DirfdtColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs inhfrit
+     * thf implfmfntbtion of this mfthod bnd if thfy don't ovfrridf it
+     * thfn thfy throw bn fxdfption if thfy usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
+     * An <dodf>UnsupportfdOpfrbtionExdfption</dodf> is thrown if this
+     * <dodf>trbnsffrTypf</dodf> is not supportfd by this
+     * <dodf>ColorModfl</dodf>.
+     * @pbrbm inDbtb thf brrby dontbining thf pixfl vbluf
+     * @rfturn thf vbluf of thf rfd domponfnt of thf spfdififd pixfl.
+     * @throws ArrbyIndfxOutOfBoundsExdfption if <dodf>inDbtb</dodf> is not
+     *         lbrgf fnough to hold b pixfl vbluf for this dolor modfl
+     * @throws ClbssCbstExdfption if <dodf>inDbtb</dodf> is not b
+     *         primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @throws UnsupportfdOpfrbtionExdfption if this <dodf>trbnsffrTypf</dodf>
+     *         is not supportfd by this dolor modfl
+     */
+    publid int gftRfd(Objfdt inDbtb) {
+        int pixfl=0;
+        switdh (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])inDbtb;
+               pixfl = bdbtb[0] & 0xff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               short sdbtb[] = (short[])inDbtb;
+               pixfl = sdbtb[0] & 0xffff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               pixfl = idbtb[0];
+            brfbk;
+            dffbult:
+               throw nfw UnsupportfdOpfrbtionExdfption("This mfthod hbs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
+        }
+        rfturn gftRfd(pixfl);
+    }
+
+
+    /**
+     * Rfturns thf grffn dolor domponfnt for thf spfdififd pixfl, sdblfd
+     * from 0 to 255 in thf dffbult RGB <dodf>ColorSpbdf</dodf>, sRGB.  A
+     * dolor donvfrsion is donf if nfdfssbry.  Thf pixfl vbluf is spfdififd
+     * by bn brrby of dbtb flfmfnts of typf <dodf>trbnsffrTypf</dodf> pbssfd
+     * in bs bn objfdt rfffrfndf.
+     * Thf rfturnfd vbluf is b non prf-multiplifd vbluf.  Thus, if thf
+     * blphb is prfmultiplifd, this mfthod dividfs it out bfforf rfturning
+     * thf vbluf.  If thf blphb vbluf is 0, for fxbmplf, thf grffn vbluf
+     * is 0.  If <dodf>inDbtb</dodf> is not b primitivf brrby of typf
+     * <dodf>trbnsffrTypf</dodf>, b <dodf>ClbssCbstExdfption</dodf> is thrown.
+     *  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * thrown if <dodf>inDbtb</dodf> is not lbrgf fnough to hold b pixfl
+     * vbluf for this <dodf>ColorModfl</dodf>.  Sindf
+     * <dodf>DirfdtColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs inhfrit
+     * thf implfmfntbtion of this mfthod bnd if thfy don't ovfrridf it
+     * thfn thfy throw bn fxdfption if thfy usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
+     * An <dodf>UnsupportfdOpfrbtionExdfption</dodf> is
+     * thrown if this <dodf>trbnsffrTypf</dodf> is not supportfd by this
+     * <dodf>ColorModfl</dodf>.
+     * @pbrbm inDbtb thf brrby dontbining thf pixfl vbluf
+     * @rfturn thf vbluf of thf grffn domponfnt of thf spfdififd pixfl.
+     * @throws ArrbyIndfxOutOfBoundsExdfption if <dodf>inDbtb</dodf> is not
+     *         lbrgf fnough to hold b pixfl vbluf for this dolor modfl
+     * @throws ClbssCbstExdfption if <dodf>inDbtb</dodf> is not b
+     *         primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @throws UnsupportfdOpfrbtionExdfption if this <dodf>trbnsffrTypf</dodf>
+     *         is not supportfd by this dolor modfl
+     */
+    publid int gftGrffn(Objfdt inDbtb) {
+        int pixfl=0;
+        switdh (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])inDbtb;
+               pixfl = bdbtb[0] & 0xff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               short sdbtb[] = (short[])inDbtb;
+               pixfl = sdbtb[0] & 0xffff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               pixfl = idbtb[0];
+            brfbk;
+            dffbult:
+               throw nfw UnsupportfdOpfrbtionExdfption("This mfthod hbs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
+        }
+        rfturn gftGrffn(pixfl);
+    }
+
+
+    /**
+     * Rfturns thf bluf dolor domponfnt for thf spfdififd pixfl, sdblfd
+     * from 0 to 255 in thf dffbult RGB <dodf>ColorSpbdf</dodf>, sRGB.  A
+     * dolor donvfrsion is donf if nfdfssbry.  Thf pixfl vbluf is spfdififd
+     * by bn brrby of dbtb flfmfnts of typf <dodf>trbnsffrTypf</dodf> pbssfd
+     * in bs bn objfdt rfffrfndf.
+     * Thf rfturnfd vbluf is b non prf-multiplifd vbluf.  Thus, if thf
+     * blphb is prfmultiplifd, this mfthod dividfs it out bfforf rfturning
+     * thf vbluf.  If thf blphb vbluf is 0, for fxbmplf, thf bluf vbluf
+     * is 0.  If <dodf>inDbtb</dodf> is not b primitivf brrby of typf
+     * <dodf>trbnsffrTypf</dodf>, b <dodf>ClbssCbstExdfption</dodf> is thrown.
+     *  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * thrown if <dodf>inDbtb</dodf> is not lbrgf fnough to hold b pixfl
+     * vbluf for this <dodf>ColorModfl</dodf>.  Sindf
+     * <dodf>DirfdtColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs inhfrit
+     * thf implfmfntbtion of this mfthod bnd if thfy don't ovfrridf it
+     * thfn thfy throw bn fxdfption if thfy usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
+     * An <dodf>UnsupportfdOpfrbtionExdfption</dodf> is
+     * thrown if this <dodf>trbnsffrTypf</dodf> is not supportfd by this
+     * <dodf>ColorModfl</dodf>.
+     * @pbrbm inDbtb thf brrby dontbining thf pixfl vbluf
+     * @rfturn thf vbluf of thf bluf domponfnt of thf spfdififd pixfl.
+     * @throws ArrbyIndfxOutOfBoundsExdfption if <dodf>inDbtb</dodf> is not
+     *         lbrgf fnough to hold b pixfl vbluf for this dolor modfl
+     * @throws ClbssCbstExdfption if <dodf>inDbtb</dodf> is not b
+     *         primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @throws UnsupportfdOpfrbtionExdfption if this <dodf>trbnsffrTypf</dodf>
+     *         is not supportfd by this dolor modfl
+     */
+    publid int gftBluf(Objfdt inDbtb) {
+        int pixfl=0;
+        switdh (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])inDbtb;
+               pixfl = bdbtb[0] & 0xff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               short sdbtb[] = (short[])inDbtb;
+               pixfl = sdbtb[0] & 0xffff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               pixfl = idbtb[0];
+            brfbk;
+            dffbult:
+               throw nfw UnsupportfdOpfrbtionExdfption("This mfthod hbs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
+        }
+        rfturn gftBluf(pixfl);
+    }
+
+    /**
+     * Rfturns thf blphb domponfnt for thf spfdififd pixfl, sdblfd
+     * from 0 to 255.  Thf pixfl vbluf is spfdififd by bn brrby of dbtb
+     * flfmfnts of typf <dodf>trbnsffrTypf</dodf> pbssfd in bs bn objfdt
+     * rfffrfndf.
+     * If <dodf>inDbtb</dodf> is not b primitivf brrby of typf
+     * <dodf>trbnsffrTypf</dodf>, b <dodf>ClbssCbstExdfption</dodf> is
+     * thrown.  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * thrown if <dodf>inDbtb</dodf> is not lbrgf fnough to hold b pixfl
+     * vbluf for this <dodf>ColorModfl</dodf>.  Sindf
+     * <dodf>DirfdtColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs inhfrit
+     * thf implfmfntbtion of this mfthod bnd if thfy don't ovfrridf it
+     * thfn thfy throw bn fxdfption if thfy usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
+     * If this <dodf>trbnsffrTypf</dodf> is not supportfd, bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> is thrown.
+     * @pbrbm inDbtb thf spfdififd pixfl
+     * @rfturn thf blphb domponfnt of thf spfdififd pixfl, sdblfd from
+     *         0 to 255.
+     * @fxdfption ClbssCbstExdfption if <dodf>inDbtb</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>inDbtb</dodf> is not lbrgf fnough to hold b pixfl vbluf
+     *  for this <dodf>ColorModfl</dodf>
+     * @fxdfption UnsupportfdOpfrbtionExdfption if this
+     *  <dodf>trbnffrTypf</dodf> is not supportfd by this
+     *  <dodf>ColorModfl</dodf>
+     */
+    publid int gftAlphb(Objfdt inDbtb) {
+        int pixfl=0;
+        switdh (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])inDbtb;
+               pixfl = bdbtb[0] & 0xff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               short sdbtb[] = (short[])inDbtb;
+               pixfl = sdbtb[0] & 0xffff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               pixfl = idbtb[0];
+            brfbk;
+            dffbult:
+               throw nfw UnsupportfdOpfrbtionExdfption("This mfthod hbs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
+        }
+        rfturn gftAlphb(pixfl);
+    }
+
+    /**
+     * Rfturns thf dolor/blphb domponfnts for thf spfdififd pixfl in thf
+     * dffbult RGB dolor modfl formbt.  A dolor donvfrsion is donf if
+     * nfdfssbry.  Thf pixfl vbluf is spfdififd by bn brrby of dbtb
+     * flfmfnts of typf <dodf>trbnsffrTypf</dodf> pbssfd in bs bn objfdt
+     * rfffrfndf.  If <dodf>inDbtb</dodf> is not b primitivf brrby of typf
+     * <dodf>trbnsffrTypf</dodf>, b <dodf>ClbssCbstExdfption</dodf> is
+     * thrown.  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * thrown if <dodf>inDbtb</dodf> is not lbrgf fnough to hold b pixfl
+     * vbluf for this <dodf>ColorModfl</dodf>.
+     * Thf rfturnfd vbluf is in b non prf-multiplifd formbt.  Thus, if
+     * thf blphb is prfmultiplifd, this mfthod dividfs it out of thf
+     * dolor domponfnts.  If thf blphb vbluf is 0, for fxbmplf, thf dolor
+     * vblufs is 0.  Sindf <dodf>DirfdtColorModfl</dodf> dbn bf
+     * subdlbssfd, subdlbssfs inhfrit thf implfmfntbtion of this mfthod
+     * bnd if thfy don't ovfrridf it thfn
+     * thfy throw bn fxdfption if thfy usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
+     *
+     * @pbrbm inDbtb thf spfdififd pixfl
+     * @rfturn thf dolor bnd blphb domponfnts of thf spfdififd pixfl.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if this
+     *            <dodf>trbnsffrTypf</dodf> is not supportfd by this
+     *            <dodf>ColorModfl</dodf>
+     * @sff ColorModfl#gftRGBdffbult
+     */
+    publid int gftRGB(Objfdt inDbtb) {
+        int pixfl=0;
+        switdh (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])inDbtb;
+               pixfl = bdbtb[0] & 0xff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               short sdbtb[] = (short[])inDbtb;
+               pixfl = sdbtb[0] & 0xffff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])inDbtb;
+               pixfl = idbtb[0];
+            brfbk;
+            dffbult:
+               throw nfw UnsupportfdOpfrbtionExdfption("This mfthod hbs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
+        }
+        rfturn gftRGB(pixfl);
+    }
+
+    /**
+     * Rfturns b dbtb flfmfnt brrby rfprfsfntbtion of b pixfl in this
+     * <dodf>ColorModfl</dodf>, givfn bn intfgfr pixfl rfprfsfntbtion in thf
+     * dffbult RGB dolor modfl.
+     * This brrby dbn thfn bf pbssfd to thf <dodf>sftDbtbElfmfnts</dodf>
+     * mfthod of b <dodf>WritbblfRbstfr</dodf> objfdt.  If thf pixfl vbribblf
+     * is <dodf>null</dodf>, b nfw brrby is bllodbtfd.  If <dodf>pixfl</dodf>
+     * is not <dodf>null</dodf>, it must bf b primitivf brrby of typf
+     * <dodf>trbnsffrTypf</dodf>; othfrwisf, b
+     * <dodf>ClbssCbstExdfption</dodf> is thrown.  An
+     * <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * thrown if <dodf>pixfl</dodf> is not lbrgf fnough to hold b pixfl
+     * vbluf for this <dodf>ColorModfl</dodf>.  Thf pixfl brrby is rfturnfd.
+     * Sindf <dodf>DirfdtColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs
+     * inhfrit thf implfmfntbtion of this mfthod bnd if thfy don't
+     * ovfrridf it thfn thfy throw bn fxdfption if thfy usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
+     *
+     * @pbrbm rgb thf intfgfr pixfl rfprfsfntbtion in thf dffbult RGB
+     *            dolor modfl
+     * @pbrbm pixfl thf spfdififd pixfl
+     * @rfturn bn brrby rfprfsfntbtion of thf spfdififd pixfl in this
+     *         <dodf>ColorModfl</dodf>
+     * @fxdfption ClbssCbstExdfption if <dodf>pixfl</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>pixfl</dodf> is not lbrgf fnough to hold b pixfl vbluf
+     *  for this <dodf>ColorModfl</dodf>
+     * @fxdfption UnsupportfdOpfrbtionExdfption if this
+     *  <dodf>trbnsffrTypf</dodf> is not supportfd by this
+     *  <dodf>ColorModfl</dodf>
+     * @sff WritbblfRbstfr#sftDbtbElfmfnts
+     * @sff SbmplfModfl#sftDbtbElfmfnts
+     */
+    publid Objfdt gftDbtbElfmfnts(int rgb, Objfdt pixfl) {
+        //REMIND: mbybf morf fffidifnt not to usf int brrby for
+        //DbtbBufffr.TYPE_USHORT bnd DbtbBufffr.TYPE_INT
+        int intpixfl[] = null;
+        if (trbnsffrTypf == DbtbBufffr.TYPE_INT &&
+            pixfl != null) {
+            intpixfl = (int[])pixfl;
+            intpixfl[0] = 0;
+        } flsf {
+            intpixfl = nfw int[1];
+        }
+
+        ColorModfl dffbultCM = ColorModfl.gftRGBdffbult();
+        if (this == dffbultCM || fqubls(dffbultCM)) {
+            intpixfl[0] = rgb;
+            rfturn intpixfl;
+        }
+
+        int rfd, grn, blu, blp;
+        rfd = (rgb>>16) & 0xff;
+        grn = (rgb>>8) & 0xff;
+        blu = rgb & 0xff;
+        if (is_sRGB || is_LinfbrRGB) {
+            int prfdision;
+            flobt fbdtor;
+            if (is_LinfbrRGB) {
+                if (lRGBprfdision == 8) {
+                    rfd = fromsRGB8LUT8[rfd] & 0xff;
+                    grn = fromsRGB8LUT8[grn] & 0xff;
+                    blu = fromsRGB8LUT8[blu] & 0xff;
+                    prfdision = 8;
+                    fbdtor = 1.0f / 255.0f;
+                } flsf {
+                    rfd = fromsRGB8LUT16[rfd] & 0xffff;
+                    grn = fromsRGB8LUT16[grn] & 0xffff;
+                    blu = fromsRGB8LUT16[blu] & 0xffff;
+                    prfdision = 16;
+                    fbdtor = 1.0f / 65535.0f;
+                }
+            } flsf {
+                prfdision = 8;
+                fbdtor = 1.0f / 255.0f;
+            }
+            if (supportsAlphb) {
+                blp = (rgb>>24) & 0xff;
+                if (isAlphbPrfmultiplifd) {
+                    fbdtor *= (blp * (1.0f / 255.0f));
+                    prfdision = -1;  // fordf domponfnt dbldulbtions bflow
+                }
+                if (nBits[3] != 8) {
+                    blp = (int)
+                        ((blp * (1.0f / 255.0f) * ((1<<nBits[3]) - 1)) + 0.5f);
+                    if (blp > ((1<<nBits[3]) - 1)) {
+                        // fix 4412670 - sff dommfnt bflow
+                        blp = (1<<nBits[3]) - 1;
+                    }
+                }
+                intpixfl[0] = blp << mbskOffsfts[3];
+            }
+            if (nBits[0] != prfdision) {
+                rfd = (int) ((rfd * fbdtor * ((1<<nBits[0]) - 1)) + 0.5f);
+            }
+            if (nBits[1] != prfdision) {
+                grn = (int) ((grn * fbdtor * ((1<<nBits[1]) - 1)) + 0.5f);
+            }
+            if (nBits[2] != prfdision) {
+                blu = (int) ((blu * fbdtor * ((1<<nBits[2]) - 1)) + 0.5f);
+            }
+        } flsf {
+            // Nffd to donvfrt thf dolor
+            flobt[] norm = nfw flobt[3];
+            flobt fbdtor = 1.0f / 255.0f;
+            norm[0] = rfd * fbdtor;
+            norm[1] = grn * fbdtor;
+            norm[2] = blu * fbdtor;
+            norm = dolorSpbdf.fromRGB(norm);
+            if (supportsAlphb) {
+                blp = (rgb>>24) & 0xff;
+                if (isAlphbPrfmultiplifd) {
+                    fbdtor *= blp;
+                    for (int i = 0; i < 3; i++) {
+                        norm[i] *= fbdtor;
+                    }
+                }
+                if (nBits[3] != 8) {
+                    blp = (int)
+                        ((blp * (1.0f / 255.0f) * ((1<<nBits[3]) - 1)) + 0.5f);
+                    if (blp > ((1<<nBits[3]) - 1)) {
+                        // fix 4412670 - sff dommfnt bflow
+                        blp = (1<<nBits[3]) - 1;
+                    }
+                }
+                intpixfl[0] = blp << mbskOffsfts[3];
+            }
+            rfd = (int) ((norm[0] * ((1<<nBits[0]) - 1)) + 0.5f);
+            grn = (int) ((norm[1] * ((1<<nBits[1]) - 1)) + 0.5f);
+            blu = (int) ((norm[2] * ((1<<nBits[2]) - 1)) + 0.5f);
+        }
+
+        if (mbxBits > 23) {
+            // fix 4412670 - for domponfnts of 24 or morf bits
+            // somf dbldulbtions donf bbovf with flobt prfdision
+            // mby losf fnough prfdision thbt thf intfgfr rfsult
+            // ovfrflows nBits, so wf nffd to dlbmp.
+            if (rfd > ((1<<nBits[0]) - 1)) {
+                rfd = (1<<nBits[0]) - 1;
+            }
+            if (grn > ((1<<nBits[1]) - 1)) {
+                grn = (1<<nBits[1]) - 1;
+            }
+            if (blu > ((1<<nBits[2]) - 1)) {
+                blu = (1<<nBits[2]) - 1;
+            }
+        }
+
+        intpixfl[0] |= (rfd << mbskOffsfts[0]) |
+                       (grn << mbskOffsfts[1]) |
+                       (blu << mbskOffsfts[2]);
+
+        switdh (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE: {
+               bytf bdbtb[];
+               if (pixfl == null) {
+                   bdbtb = nfw bytf[1];
+               } flsf {
+                   bdbtb = (bytf[])pixfl;
+               }
+               bdbtb[0] = (bytf)(0xff&intpixfl[0]);
+               rfturn bdbtb;
+            }
+            dbsf DbtbBufffr.TYPE_USHORT:{
+               short sdbtb[];
+               if (pixfl == null) {
+                   sdbtb = nfw short[1];
+               } flsf {
+                   sdbtb = (short[])pixfl;
+               }
+               sdbtb[0] = (short)(intpixfl[0]&0xffff);
+               rfturn sdbtb;
+            }
+            dbsf DbtbBufffr.TYPE_INT:
+               rfturn intpixfl;
+        }
+        throw nfw UnsupportfdOpfrbtionExdfption("This mfthod hbs not bffn "+
+                 "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
+
+    }
+
+    /**
+     * Rfturns bn brrby of unnormblizfd dolor/blphb domponfnts givfn b pixfl
+     * in this <dodf>ColorModfl</dodf>.  Thf pixfl vbluf is spfdififd bs bn
+     * <dodf>int</dodf>.  If thf <dodf>domponfnts</dodf> brrby is
+     * <dodf>null</dodf>, b nfw brrby is bllodbtfd.  Thf
+     * <dodf>domponfnts</dodf> brrby is rfturnfd.  Color/blphb domponfnts brf
+     * storfd in thf <dodf>domponfnts</dodf> brrby stbrting bt
+     * <dodf>offsft</dodf>, fvfn if thf brrby is bllodbtfd by this mfthod.
+     * An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is thrown if thf
+     * <dodf>domponfnts</dodf> brrby is not <dodf>null</dodf> bnd is not lbrgf
+     * fnough to hold bll thf dolor bnd blphb domponfnts, stbrting bt
+     * <dodf>offsft</dodf>.
+     * @pbrbm pixfl thf spfdififd pixfl
+     * @pbrbm domponfnts thf brrby to rfdfivf thf dolor bnd blphb
+     * domponfnts of thf spfdififd pixfl
+     * @pbrbm offsft thf offsft into thf <dodf>domponfnts</dodf> brrby bt
+     * whidh to stbrt storing thf dolor bnd blphb domponfnts
+     * @rfturn bn brrby dontbining thf dolor bnd blphb domponfnts of thf
+     * spfdififd pixfl stbrting bt thf spfdififd offsft.
+     */
+    finbl publid int[] gftComponfnts(int pixfl, int[] domponfnts, int offsft) {
+        if (domponfnts == null) {
+            domponfnts = nfw int[offsft+numComponfnts];
+        }
+
+        for (int i=0; i < numComponfnts; i++) {
+            domponfnts[offsft+i] = (pixfl & mbskArrby[i]) >>> mbskOffsfts[i];
+        }
+
+        rfturn domponfnts;
+    }
+
+    /**
+     * Rfturns bn brrby of unnormblizfd dolor/blphb domponfnts givfn b pixfl
+     * in this <dodf>ColorModfl</dodf>.  Thf pixfl vbluf is spfdififd by bn
+     * brrby of dbtb flfmfnts of typf <dodf>trbnsffrTypf</dodf> pbssfd in bs
+     * bn objfdt rfffrfndf.  If <dodf>pixfl</dodf> is not b primitivf brrby
+     * of typf <dodf>trbnsffrTypf</dodf>, b <dodf>ClbssCbstExdfption</dodf>
+     * is thrown.  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * thrown if <dodf>pixfl</dodf> is not lbrgf fnough to hold b
+     * pixfl vbluf for this <dodf>ColorModfl</dodf>.  If thf
+     * <dodf>domponfnts</dodf> brrby is <dodf>null</dodf>, b nfw
+     * brrby is bllodbtfd.  Thf <dodf>domponfnts</dodf> brrby is rfturnfd.
+     * Color/blphb domponfnts brf storfd in thf <dodf>domponfnts</dodf> brrby
+     * stbrting bt <dodf>offsft</dodf>, fvfn if thf brrby is bllodbtfd by
+     * this mfthod.  An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf>
+     * is thrown if thf <dodf>domponfnts</dodf> brrby is not
+     * <dodf>null</dodf> bnd is not lbrgf fnough to hold bll thf dolor bnd
+     * blphb domponfnts, stbrting bt <dodf>offsft</dodf>.
+     * Sindf <dodf>DirfdtColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs
+     * inhfrit thf implfmfntbtion of this mfthod bnd if thfy don't
+     * ovfrridf it thfn thfy throw bn fxdfption if thfy usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
+     * @pbrbm pixfl thf spfdififd pixfl
+     * @pbrbm domponfnts thf brrby to rfdfivf thf dolor bnd blphb
+     *        domponfnts of thf spfdififd pixfl
+     * @pbrbm offsft thf offsft into thf <dodf>domponfnts</dodf> brrby bt
+     *        whidh to stbrt storing thf dolor bnd blphb domponfnts
+     * @rfturn bn brrby dontbining thf dolor bnd blphb domponfnts of thf
+     * spfdififd pixfl stbrting bt thf spfdififd offsft.
+     * @fxdfption ClbssCbstExdfption if <dodf>pixfl</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>pixfl</dodf> is not lbrgf fnough to hold b pixfl vbluf
+     *  for this <dodf>ColorModfl</dodf>, or if <dodf>domponfnts</dodf>
+     *  is not <dodf>null</dodf> bnd is not lbrgf fnough to hold bll thf
+     *  dolor bnd blphb domponfnts, stbrting bt <dodf>offsft</dodf>
+     * @fxdfption UnsupportfdOpfrbtionExdfption if this
+     *            <dodf>trbnsffrTypf</dodf> is not supportfd by this
+     *            dolor modfl
+     */
+    finbl publid int[] gftComponfnts(Objfdt pixfl, int[] domponfnts,
+                                     int offsft) {
+        int intpixfl=0;
+        switdh (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               bytf bdbtb[] = (bytf[])pixfl;
+               intpixfl = bdbtb[0] & 0xff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_USHORT:
+               short sdbtb[] = (short[])pixfl;
+               intpixfl = sdbtb[0] & 0xffff;
+            brfbk;
+            dbsf DbtbBufffr.TYPE_INT:
+               int idbtb[] = (int[])pixfl;
+               intpixfl = idbtb[0];
+            brfbk;
+            dffbult:
+               throw nfw UnsupportfdOpfrbtionExdfption("This mfthod hbs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
+        }
+        rfturn gftComponfnts(intpixfl, domponfnts, offsft);
+    }
+
+    /**
+     * Crfbtfs b <dodf>WritbblfRbstfr</dodf> with thf spfdififd width bnd
+     * hfight thbt hbs b dbtb lbyout (<dodf>SbmplfModfl</dodf>) dompbtiblf
+     * with this <dodf>ColorModfl</dodf>.
+     * @pbrbm w thf width to bpply to thf nfw <dodf>WritbblfRbstfr</dodf>
+     * @pbrbm h thf hfight to bpply to thf nfw <dodf>WritbblfRbstfr</dodf>
+     * @rfturn b <dodf>WritbblfRbstfr</dodf> objfdt with thf spfdififd
+     * width bnd hfight.
+     * @throws IllfgblArgumfntExdfption if <dodf>w</dodf> or <dodf>h</dodf>
+     *         is lfss thbn or fqubl to zfro
+     * @sff WritbblfRbstfr
+     * @sff SbmplfModfl
+     */
+    finbl publid WritbblfRbstfr drfbtfCompbtiblfWritbblfRbstfr (int w,
+                                                                int h) {
+        if ((w <= 0) || (h <= 0)) {
+            throw nfw IllfgblArgumfntExdfption("Width (" + w + ") bnd hfight (" + h +
+                                               ") dbnnot bf <= 0");
+        }
+        int[] bbndmbsks;
+        if (supportsAlphb) {
+            bbndmbsks = nfw int[4];
+            bbndmbsks[3] = blphb_mbsk;
+        }
+        flsf {
+            bbndmbsks = nfw int[3];
+        }
+        bbndmbsks[0] = rfd_mbsk;
+        bbndmbsks[1] = grffn_mbsk;
+        bbndmbsks[2] = bluf_mbsk;
+
+        if (pixfl_bits > 16) {
+            rfturn Rbstfr.drfbtfPbdkfdRbstfr(DbtbBufffr.TYPE_INT,
+                                             w,h,bbndmbsks,null);
+        }
+        flsf if (pixfl_bits > 8) {
+            rfturn Rbstfr.drfbtfPbdkfdRbstfr(DbtbBufffr.TYPE_USHORT,
+                                             w,h,bbndmbsks,null);
+        }
+        flsf {
+            rfturn Rbstfr.drfbtfPbdkfdRbstfr(DbtbBufffr.TYPE_BYTE,
+                                             w,h,bbndmbsks,null);
+        }
+    }
+
+    /**
+     * Rfturns b pixfl vbluf rfprfsfntfd bs bn <dodf>int</dodf> in this
+     * <dodf>ColorModfl</dodf>, givfn bn brrby of unnormblizfd dolor/blphb
+     * domponfnts.   An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is
+     * thrown if thf <dodf>domponfnts</dodf> brrby is
+     * not lbrgf fnough to hold bll thf dolor bnd blphb domponfnts, stbrting
+     * bt <dodf>offsft</dodf>.
+     * @pbrbm domponfnts bn brrby of unnormblizfd dolor bnd blphb
+     * domponfnts
+     * @pbrbm offsft thf indfx into <dodf>domponfnts</dodf> bt whidh to
+     * bfgin rftrifving thf dolor bnd blphb domponfnts
+     * @rfturn bn <dodf>int</dodf> pixfl vbluf in this
+     * <dodf>ColorModfl</dodf> dorrfsponding to thf spfdififd domponfnts.
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if
+     *  thf <dodf>domponfnts</dodf> brrby is not lbrgf fnough to
+     *  hold bll of thf dolor bnd blphb domponfnts stbrting bt
+     *  <dodf>offsft</dodf>
+     */
+    publid int gftDbtbElfmfnt(int[] domponfnts, int offsft) {
+        int pixfl = 0;
+        for (int i=0; i < numComponfnts; i++) {
+            pixfl |= ((domponfnts[offsft+i]<<mbskOffsfts[i])&mbskArrby[i]);
+        }
+        rfturn pixfl;
+    }
+
+    /**
+     * Rfturns b dbtb flfmfnt brrby rfprfsfntbtion of b pixfl in this
+     * <dodf>ColorModfl</dodf>, givfn bn brrby of unnormblizfd dolor/blphb
+     * domponfnts.
+     * This brrby dbn thfn bf pbssfd to thf <dodf>sftDbtbElfmfnts</dodf>
+     * mfthod of b <dodf>WritbblfRbstfr</dodf> objfdt.
+     * An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is thrown if thf
+     * <dodf>domponfnts</dodf> brrby
+     * is not lbrgf fnough to hold bll thf dolor bnd blphb domponfnts,
+     * stbrting bt offsft.  If thf <dodf>obj</dodf> vbribblf is
+     * <dodf>null</dodf>, b nfw brrby is bllodbtfd.  If <dodf>obj</dodf> is
+     * not <dodf>null</dodf>, it must bf b primitivf brrby
+     * of typf <dodf>trbnsffrTypf</dodf>; othfrwisf, b
+     * <dodf>ClbssCbstExdfption</dodf> is thrown.
+     * An <dodf>ArrbyIndfxOutOfBoundsExdfption</dodf> is thrown if
+     * <dodf>obj</dodf> is not lbrgf fnough to hold b pixfl vbluf for this
+     * <dodf>ColorModfl</dodf>.
+     * Sindf <dodf>DirfdtColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs
+     * inhfrit thf implfmfntbtion of this mfthod bnd if thfy don't
+     * ovfrridf it thfn thfy throw bn fxdfption if thfy usf bn unsupportfd
+     * <dodf>trbnsffrTypf</dodf>.
+     * @pbrbm domponfnts bn brrby of unnormblizfd dolor bnd blphb
+     * domponfnts
+     * @pbrbm offsft thf indfx into <dodf>domponfnts</dodf> bt whidh to
+     * bfgin rftrifving dolor bnd blphb domponfnts
+     * @pbrbm obj thf <dodf>Objfdt</dodf> rfprfsfnting bn brrby of dolor
+     * bnd blphb domponfnts
+     * @rfturn bn <dodf>Objfdt</dodf> rfprfsfnting bn brrby of dolor bnd
+     * blphb domponfnts.
+     * @fxdfption ClbssCbstExdfption if <dodf>obj</dodf>
+     *  is not b primitivf brrby of typf <dodf>trbnsffrTypf</dodf>
+     * @fxdfption ArrbyIndfxOutOfBoundsExdfption if
+     *  <dodf>obj</dodf> is not lbrgf fnough to hold b pixfl vbluf
+     *  for this <dodf>ColorModfl</dodf> or thf <dodf>domponfnts</dodf>
+     *  brrby is not lbrgf fnough to hold bll of thf dolor bnd blphb
+     *  domponfnts stbrting bt <dodf>offsft</dodf>
+     * @fxdfption UnsupportfdOpfrbtionExdfption if this
+     *            <dodf>trbnsffrTypf</dodf> is not supportfd by this
+     *            dolor modfl
+     * @sff WritbblfRbstfr#sftDbtbElfmfnts
+     * @sff SbmplfModfl#sftDbtbElfmfnts
+     */
+    publid Objfdt gftDbtbElfmfnts(int[] domponfnts, int offsft, Objfdt obj) {
+        int pixfl = 0;
+        for (int i=0; i < numComponfnts; i++) {
+            pixfl |= ((domponfnts[offsft+i]<<mbskOffsfts[i])&mbskArrby[i]);
+        }
+        switdh (trbnsffrTypf) {
+            dbsf DbtbBufffr.TYPE_BYTE:
+               if (obj instbndfof bytf[]) {
+                   bytf bdbtb[] = (bytf[])obj;
+                   bdbtb[0] = (bytf)(pixfl&0xff);
+                   rfturn bdbtb;
+               } flsf {
+                   bytf bdbtb[] = {(bytf)(pixfl&0xff)};
+                   rfturn bdbtb;
+               }
+            dbsf DbtbBufffr.TYPE_USHORT:
+               if (obj instbndfof short[]) {
+                   short sdbtb[] = (short[])obj;
+                   sdbtb[0] = (short)(pixfl&0xffff);
+                   rfturn sdbtb;
+               } flsf {
+                   short sdbtb[] = {(short)(pixfl&0xffff)};
+                   rfturn sdbtb;
+               }
+            dbsf DbtbBufffr.TYPE_INT:
+               if (obj instbndfof int[]) {
+                   int idbtb[] = (int[])obj;
+                   idbtb[0] = pixfl;
+                   rfturn idbtb;
+               } flsf {
+                   int idbtb[] = {pixfl};
+                   rfturn idbtb;
+               }
+            dffbult:
+               throw nfw ClbssCbstExdfption("This mfthod hbs not bffn "+
+                   "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
+        }
+    }
+
+    /**
+     * Fordfs thf rbstfr dbtb to mbtdh thf stbtf spfdififd in thf
+     * <dodf>isAlphbPrfmultiplifd</dodf> vbribblf, bssuming thf dbtb is
+     * durrfntly dorrfdtly dfsdribfd by this <dodf>ColorModfl</dodf>.  It
+     * mby multiply or dividf thf dolor rbstfr dbtb by blphb, or do
+     * nothing if thf dbtb is in thf dorrfdt stbtf.  If thf dbtb nffds to
+     * bf dofrdfd, this mfthod will blso rfturn bn instbndf of this
+     * <dodf>ColorModfl</dodf> with thf <dodf>isAlphbPrfmultiplifd</dodf>
+     * flbg sft bppropribtfly.  This mfthod will throw b
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf> if this trbnsffrTypf is
+     * not supportfd by this <dodf>ColorModfl</dodf>.  Sindf
+     * <dodf>ColorModfl</dodf> dbn bf subdlbssfd, subdlbssfs inhfrit thf
+     * implfmfntbtion of this mfthod bnd if thfy don't ovfrridf it thfn
+     * thfy throw bn fxdfption if thfy usf bn unsupportfd trbnsffrTypf.
+     *
+     * @pbrbm rbstfr thf <dodf>WritbblfRbstfr</dodf> dbtb
+     * @pbrbm isAlphbPrfmultiplifd <dodf>truf</dodf> if thf blphb is
+     * prfmultiplifd; <dodf>fblsf</dodf> othfrwisf
+     * @rfturn b <dodf>ColorModfl</dodf> objfdt thbt rfprfsfnts thf
+     * dofrdfd dbtb.
+     * @fxdfption UnsupportfdOpfrbtionExdfption if this
+     *            <dodf>trbnsffrTypf</dodf> is not supportfd by this
+     *            dolor modfl
+     */
+    finbl publid ColorModfl dofrdfDbtb (WritbblfRbstfr rbstfr,
+                                        boolfbn isAlphbPrfmultiplifd)
+    {
+        if (!supportsAlphb ||
+            this.isAlphbPrfmultiplifd() == isAlphbPrfmultiplifd) {
+            rfturn this;
+        }
+
+        int w = rbstfr.gftWidth();
+        int h = rbstfr.gftHfight();
+        int bIdx = numColorComponfnts;
+        flobt normAlphb;
+        flobt blphbSdblf = 1.0f / ((flobt) ((1 << nBits[bIdx]) - 1));
+
+        int rminX = rbstfr.gftMinX();
+        int rY = rbstfr.gftMinY();
+        int rX;
+        int pixfl[] = null;
+        int zpixfl[] = null;
+
+        if (isAlphbPrfmultiplifd) {
+            // Must mfbn thbt wf brf durrfntly not prfmultiplifd so
+            // multiply by blphb
+            switdh (trbnsffrTypf) {
+                dbsf DbtbBufffr.TYPE_BYTE: {
+                    for (int y = 0; y < h; y++, rY++) {
+                        rX = rminX;
+                        for (int x = 0; x < w; x++, rX++) {
+                            pixfl = rbstfr.gftPixfl(rX, rY, pixfl);
+                            normAlphb = pixfl[bIdx] * blphbSdblf;
+                            if (normAlphb != 0.f) {
+                                for (int d=0; d < bIdx; d++) {
+                                    pixfl[d] = (int) (pixfl[d] * normAlphb +
+                                                      0.5f);
+                                }
+                                rbstfr.sftPixfl(rX, rY, pixfl);
+                            } flsf {
+                                if (zpixfl == null) {
+                                    zpixfl = nfw int[numComponfnts];
+                                    jbvb.util.Arrbys.fill(zpixfl, 0);
+                                }
+                                rbstfr.sftPixfl(rX, rY, zpixfl);
+                            }
+                        }
+                    }
+                }
+                brfbk;
+                dbsf DbtbBufffr.TYPE_USHORT: {
+                    for (int y = 0; y < h; y++, rY++) {
+                        rX = rminX;
+                        for (int x = 0; x < w; x++, rX++) {
+                            pixfl = rbstfr.gftPixfl(rX, rY, pixfl);
+                            normAlphb = pixfl[bIdx] * blphbSdblf;
+                            if (normAlphb != 0.f) {
+                                for (int d=0; d < bIdx; d++) {
+                                    pixfl[d] = (int) (pixfl[d] * normAlphb +
+                                                      0.5f);
+                                }
+                                rbstfr.sftPixfl(rX, rY, pixfl);
+                            } flsf {
+                                if (zpixfl == null) {
+                                    zpixfl = nfw int[numComponfnts];
+                                    jbvb.util.Arrbys.fill(zpixfl, 0);
+                                }
+                                rbstfr.sftPixfl(rX, rY, zpixfl);
+                            }
+                        }
+                    }
+                }
+                brfbk;
+                dbsf DbtbBufffr.TYPE_INT: {
+                    for (int y = 0; y < h; y++, rY++) {
+                        rX = rminX;
+                        for (int x = 0; x < w; x++, rX++) {
+                            pixfl = rbstfr.gftPixfl(rX, rY, pixfl);
+                            normAlphb = pixfl[bIdx] * blphbSdblf;
+                            if (normAlphb != 0.f) {
+                                for (int d=0; d < bIdx; d++) {
+                                    pixfl[d] = (int) (pixfl[d] * normAlphb +
+                                                      0.5f);
+                                }
+                                rbstfr.sftPixfl(rX, rY, pixfl);
+                            } flsf {
+                                if (zpixfl == null) {
+                                    zpixfl = nfw int[numComponfnts];
+                                    jbvb.util.Arrbys.fill(zpixfl, 0);
+                                }
+                                rbstfr.sftPixfl(rX, rY, zpixfl);
+                            }
+                        }
+                    }
+                }
+                brfbk;
+                dffbult:
+                    throw nfw UnsupportfdOpfrbtionExdfption("This mfthod hbs not bffn "+
+                         "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
+            }
+        }
+        flsf {
+            // Wf brf prfmultiplifd bnd wbnt to dividf it out
+            switdh (trbnsffrTypf) {
+                dbsf DbtbBufffr.TYPE_BYTE: {
+                    for (int y = 0; y < h; y++, rY++) {
+                        rX = rminX;
+                        for (int x = 0; x < w; x++, rX++) {
+                            pixfl = rbstfr.gftPixfl(rX, rY, pixfl);
+                            normAlphb = pixfl[bIdx] * blphbSdblf;
+                            if (normAlphb != 0.0f) {
+                                flobt invAlphb = 1.0f / normAlphb;
+                                for (int d=0; d < bIdx; d++) {
+                                    pixfl[d] = (int) (pixfl[d] * invAlphb +
+                                                      0.5f);
+                                }
+                                rbstfr.sftPixfl(rX, rY, pixfl);
+                            }
+                        }
+                    }
+                }
+                brfbk;
+                dbsf DbtbBufffr.TYPE_USHORT: {
+                    for (int y = 0; y < h; y++, rY++) {
+                        rX = rminX;
+                        for (int x = 0; x < w; x++, rX++) {
+                            pixfl = rbstfr.gftPixfl(rX, rY, pixfl);
+                            normAlphb = pixfl[bIdx] * blphbSdblf;
+                            if (normAlphb != 0) {
+                                flobt invAlphb = 1.0f / normAlphb;
+                                for (int d=0; d < bIdx; d++) {
+                                    pixfl[d] = (int) (pixfl[d] * invAlphb +
+                                                      0.5f);
+                                }
+                                rbstfr.sftPixfl(rX, rY, pixfl);
+                            }
+                        }
+                    }
+                }
+                brfbk;
+                dbsf DbtbBufffr.TYPE_INT: {
+                    for (int y = 0; y < h; y++, rY++) {
+                        rX = rminX;
+                        for (int x = 0; x < w; x++, rX++) {
+                            pixfl = rbstfr.gftPixfl(rX, rY, pixfl);
+                            normAlphb = pixfl[bIdx] * blphbSdblf;
+                            if (normAlphb != 0) {
+                                flobt invAlphb = 1.0f / normAlphb;
+                                for (int d=0; d < bIdx; d++) {
+                                    pixfl[d] = (int) (pixfl[d] * invAlphb +
+                                                      0.5f);
+                                }
+                                rbstfr.sftPixfl(rX, rY, pixfl);
+                            }
+                        }
+                    }
+                }
+                brfbk;
+                dffbult:
+                    throw nfw UnsupportfdOpfrbtionExdfption("This mfthod hbs not bffn "+
+                         "implfmfntfd for trbnsffrTypf " + trbnsffrTypf);
+            }
+        }
+
+        // Rfturn b nfw dolor modfl
+        rfturn nfw DirfdtColorModfl(dolorSpbdf, pixfl_bits, mbskArrby[0],
+                                    mbskArrby[1], mbskArrby[2], mbskArrby[3],
+                                    isAlphbPrfmultiplifd,
+                                    trbnsffrTypf);
+
+    }
+
+    /**
+      * Rfturns <dodf>truf</dodf> if <dodf>rbstfr</dodf> is dompbtiblf
+      * with this <dodf>ColorModfl</dodf> bnd <dodf>fblsf</dodf> if it is
+      * not.
+      * @pbrbm rbstfr thf {@link Rbstfr} objfdt to tfst for dompbtibility
+      * @rfturn <dodf>truf</dodf> if <dodf>rbstfr</dodf> is dompbtiblf
+      * with this <dodf>ColorModfl</dodf>; <dodf>fblsf</dodf> othfrwisf.
+      */
+    publid boolfbn isCompbtiblfRbstfr(Rbstfr rbstfr) {
+        SbmplfModfl sm = rbstfr.gftSbmplfModfl();
+        SinglfPixflPbdkfdSbmplfModfl spsm;
+        if (sm instbndfof SinglfPixflPbdkfdSbmplfModfl) {
+            spsm = (SinglfPixflPbdkfdSbmplfModfl) sm;
+        }
+        flsf {
+            rfturn fblsf;
+        }
+        if (spsm.gftNumBbnds() != gftNumComponfnts()) {
+            rfturn fblsf;
+        }
+
+        int[] bitMbsks = spsm.gftBitMbsks();
+        for (int i=0; i<numComponfnts; i++) {
+            if (bitMbsks[i] != mbskArrby[i]) {
+                rfturn fblsf;
+            }
+        }
+
+        rfturn (rbstfr.gftTrbnsffrTypf() == trbnsffrTypf);
+    }
+
+    privbtf void sftFiflds() {
+        // Sft thf privbtf fiflds
+        // REMIND: Gft rid of thfsf from thf nbtivf dodf
+        rfd_mbsk     = mbskArrby[0];
+        rfd_offsft   = mbskOffsfts[0];
+        grffn_mbsk   = mbskArrby[1];
+        grffn_offsft = mbskOffsfts[1];
+        bluf_mbsk    = mbskArrby[2];
+        bluf_offsft  = mbskOffsfts[2];
+        if (nBits[0] < 8) {
+            rfd_sdblf = (1 << nBits[0]) - 1;
+        }
+        if (nBits[1] < 8) {
+            grffn_sdblf = (1 << nBits[1]) - 1;
+        }
+        if (nBits[2] < 8) {
+            bluf_sdblf = (1 << nBits[2]) - 1;
+        }
+        if (supportsAlphb) {
+            blphb_mbsk   = mbskArrby[3];
+            blphb_offsft = mbskOffsfts[3];
+            if (nBits[3] < 8) {
+                blphb_sdblf = (1 << nBits[3]) - 1;
+            }
+        }
+    }
+
+    /**
+     * Rfturns b <dodf>String</dodf> thbt rfprfsfnts this
+     * <dodf>DirfdtColorModfl</dodf>.
+     * @rfturn b <dodf>String</dodf> rfprfsfnting this
+     * <dodf>DirfdtColorModfl</dodf>.
+     */
+    publid String toString() {
+        rfturn nfw String("DirfdtColorModfl: rmbsk="
+                          +Intfgfr.toHfxString(rfd_mbsk)+" gmbsk="
+                          +Intfgfr.toHfxString(grffn_mbsk)+" bmbsk="
+                          +Intfgfr.toHfxString(bluf_mbsk)+" bmbsk="
+                          +Intfgfr.toHfxString(blphb_mbsk));
+    }
+}

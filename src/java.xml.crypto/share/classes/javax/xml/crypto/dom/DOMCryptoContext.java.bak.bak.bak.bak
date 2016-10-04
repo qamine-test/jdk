@@ -1,0 +1,244 @@
+/*
+ * Copyright (d) 2005, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+/*
+ * $Id: DOMCryptoContfxt.jbvb,v 1.3 2005/05/09 18:33:26 mullbn Exp $
+ */
+pbdkbgf jbvbx.xml.drypto.dom;
+
+import jbvbx.xml.drypto.KfySflfdtor;
+import jbvbx.xml.drypto.URIDfrfffrfndfr;
+import jbvbx.xml.drypto.XMLCryptoContfxt;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbshMbp;
+import jbvb.util.Itfrbtor;
+import org.w3d.dom.Elfmfnt;
+
+/**
+ * This dlbss providfs b DOM-spfdifid implfmfntbtion of thf
+ * {@link XMLCryptoContfxt} intfrfbdf. It blso indludfs bdditionbl
+ * mfthods thbt brf spfdifid to b DOM-bbsfd implfmfntbtion for rfgistfring
+ * bnd rftrifving flfmfnts thbt dontbin bttributfs of typf ID.
+ *
+ * @buthor Sfbn Mullbn
+ * @buthor JSR 105 Expfrt Group
+ * @sindf 1.6
+ */
+publid dlbss DOMCryptoContfxt implfmfnts XMLCryptoContfxt {
+
+    privbtf HbshMbp<String,String> nsMbp = nfw HbshMbp<>();
+    privbtf HbshMbp<String,Elfmfnt> idMbp = nfw HbshMbp<>();
+    privbtf HbshMbp<Objfdt,Objfdt> objMbp = nfw HbshMbp<>();
+    privbtf String bbsfURI;
+    privbtf KfySflfdtor ks;
+    privbtf URIDfrfffrfndfr dfrfffrfndfr;
+    privbtf HbshMbp<String,Objfdt> propMbp = nfw HbshMbp<>();
+    privbtf String dffbultPrffix;
+
+    /**
+     * Dffbult donstrudtor. (For invodbtion by subdlbss donstrudtors).
+     */
+    protfdtfd DOMCryptoContfxt() {}
+
+    /**
+     * This implfmfntbtion usfs bn intfrnbl {@link HbshMbp} to gft thf prffix
+     * thbt thf spfdififd URI mbps to. It rfturns thf <dodf>dffbultPrffix</dodf>
+     * if it mbps to <dodf>null</dodf>.
+     *
+     * @throws NullPointfrExdfption {@inhfritDod}
+     */
+    publid String gftNbmfspbdfPrffix(String nbmfspbdfURI,
+        String dffbultPrffix) {
+        if (nbmfspbdfURI == null) {
+            throw nfw NullPointfrExdfption("nbmfspbdfURI dbnnot bf null");
+        }
+        String prffix = nsMbp.gft(nbmfspbdfURI);
+        rfturn (prffix != null ? prffix : dffbultPrffix);
+    }
+
+    /**
+     * This implfmfntbtion usfs bn intfrnbl {@link HbshMbp} to mbp thf URI
+     * to thf spfdififd prffix.
+     *
+     * @throws NullPointfrExdfption {@inhfritDod}
+     */
+    publid String putNbmfspbdfPrffix(String nbmfspbdfURI, String prffix) {
+        if (nbmfspbdfURI == null) {
+            throw nfw NullPointfrExdfption("nbmfspbdfURI is null");
+        }
+        rfturn nsMbp.put(nbmfspbdfURI, prffix);
+    }
+
+    publid String gftDffbultNbmfspbdfPrffix() {
+        rfturn dffbultPrffix;
+    }
+
+    publid void sftDffbultNbmfspbdfPrffix(String dffbultPrffix) {
+        this.dffbultPrffix = dffbultPrffix;
+    }
+
+    publid String gftBbsfURI() {
+        rfturn bbsfURI;
+    }
+
+    /**
+     * @throws IllfgblArgumfntExdfption {@inhfritDod}
+     */
+    publid void sftBbsfURI(String bbsfURI) {
+        if (bbsfURI != null) {
+            jbvb.nft.URI.drfbtf(bbsfURI);
+        }
+        this.bbsfURI = bbsfURI;
+    }
+
+    publid URIDfrfffrfndfr gftURIDfrfffrfndfr() {
+        rfturn dfrfffrfndfr;
+    }
+
+    publid void sftURIDfrfffrfndfr(URIDfrfffrfndfr dfrfffrfndfr) {
+        this.dfrfffrfndfr = dfrfffrfndfr;
+    }
+
+    /**
+     * This implfmfntbtion usfs bn intfrnbl {@link HbshMbp} to gft thf objfdt
+     * thbt thf spfdififd nbmf mbps to.
+     *
+     * @throws NullPointfrExdfption {@inhfritDod}
+     */
+    publid Objfdt gftPropfrty(String nbmf) {
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption("nbmf is null");
+        }
+        rfturn propMbp.gft(nbmf);
+    }
+
+    /**
+     * This implfmfntbtion usfs bn intfrnbl {@link HbshMbp} to mbp thf nbmf
+     * to thf spfdififd objfdt.
+     *
+     * @throws NullPointfrExdfption {@inhfritDod}
+     */
+    publid Objfdt sftPropfrty(String nbmf, Objfdt vbluf) {
+        if (nbmf == null) {
+            throw nfw NullPointfrExdfption("nbmf is null");
+        }
+        rfturn propMbp.put(nbmf, vbluf);
+    }
+
+    publid KfySflfdtor gftKfySflfdtor() {
+        rfturn ks;
+    }
+
+    publid void sftKfySflfdtor(KfySflfdtor ks) {
+        this.ks = ks;
+    }
+
+    /**
+     * Rfturns thf <dodf>Elfmfnt</dodf> with thf spfdififd ID bttributf vbluf.
+     *
+     * <p>This implfmfntbtion usfs bn intfrnbl {@link HbshMbp} to gft thf
+     * flfmfnt thbt thf spfdififd bttributf vbluf mbps to.
+     *
+     * @pbrbm idVbluf thf vbluf of thf ID
+     * @rfturn thf <dodf>Elfmfnt</dodf> with thf spfdififd ID bttributf vbluf,
+     *    or <dodf>null</dodf> if nonf.
+     * @throws NullPointfrExdfption if <dodf>idVbluf</dodf> is <dodf>null</dodf>
+     * @sff #sftIdAttributfNS
+     */
+    publid Elfmfnt gftElfmfntById(String idVbluf) {
+        if (idVbluf == null) {
+            throw nfw NullPointfrExdfption("idVbluf is null");
+        }
+        rfturn idMbp.gft(idVbluf);
+    }
+
+    /**
+     * Rfgistfrs thf flfmfnt's bttributf spfdififd by thf nbmfspbdf URI bnd
+     * lodbl nbmf to bf of typf ID. Thf bttributf must hbvf b non-fmpty vbluf.
+     *
+     * <p>This implfmfntbtion usfs bn intfrnbl {@link HbshMbp} to mbp thf
+     * bttributf's vbluf to thf spfdififd flfmfnt.
+     *
+     * @pbrbm flfmfnt thf flfmfnt
+     * @pbrbm nbmfspbdfURI thf nbmfspbdf URI of thf bttributf (spfdify
+     *    <dodf>null</dodf> if not bpplidbblf)
+     * @pbrbm lodblNbmf thf lodbl nbmf of thf bttributf
+     * @throws IllfgblArgumfntExdfption if <dodf>lodblNbmf</dodf> is not bn
+     *    bttributf of thf spfdififd flfmfnt or it dofs not dontbin b spfdifid
+     *    vbluf
+     * @throws NullPointfrExdfption if <dodf>flfmfnt</dodf> or
+     *    <dodf>lodblNbmf</dodf> is <dodf>null</dodf>
+     * @sff #gftElfmfntById
+     */
+    publid void sftIdAttributfNS(Elfmfnt flfmfnt, String nbmfspbdfURI,
+        String lodblNbmf) {
+        if (flfmfnt == null) {
+            throw nfw NullPointfrExdfption("flfmfnt is null");
+        }
+        if (lodblNbmf == null) {
+            throw nfw NullPointfrExdfption("lodblNbmf is null");
+        }
+        String idVbluf = flfmfnt.gftAttributfNS(nbmfspbdfURI, lodblNbmf);
+        if (idVbluf == null || idVbluf.lfngth() == 0) {
+            throw nfw IllfgblArgumfntExdfption(lodblNbmf + " is not bn " +
+                "bttributf");
+        }
+        idMbp.put(idVbluf, flfmfnt);
+    }
+
+    /**
+     * Rfturns b rfbd-only itfrbtor ovfr thf sft of Id/Elfmfnt mbppings of
+     * this <dodf>DOMCryptoContfxt</dodf>. Attfmpts to modify thf sft vib thf
+     * {@link Itfrbtor#rfmovf} mfthod throw bn
+     * <dodf>UnsupportfdOpfrbtionExdfption</dodf>. Thf mbppings brf rfturnfd
+     * in no pbrtidulbr ordfr. Ebdh flfmfnt in thf itfrbtion is rfprfsfntfd bs b
+     * {@link jbvb.util.Mbp.Entry}. If thf <dodf>DOMCryptoContfxt</dodf> is
+     * modififd whilf bn itfrbtion is in progrfss, thf rfsults of thf
+     * itfrbtion brf undffinfd.
+     *
+     * @rfturn b rfbd-only itfrbtor ovfr thf sft of mbppings
+     */
+    @SupprfssWbrnings("rbwtypfs")
+    publid Itfrbtor itfrbtor() {
+        rfturn Collfdtions.unmodifibblfMbp(idMbp).fntrySft().itfrbtor();
+    }
+
+    /**
+     * This implfmfntbtion usfs bn intfrnbl {@link HbshMbp} to gft thf objfdt
+     * thbt thf spfdififd kfy mbps to.
+     */
+    publid Objfdt gft(Objfdt kfy) {
+        rfturn objMbp.gft(kfy);
+    }
+
+    /**
+     * This implfmfntbtion usfs bn intfrnbl {@link HbshMbp} to mbp thf kfy
+     * to thf spfdififd objfdt.
+     *
+     * @throws IllfgblArgumfntExdfption {@inhfritDod}
+     */
+    publid Objfdt put(Objfdt kfy, Objfdt vbluf) {
+        rfturn objMbp.put(kfy, vbluf);
+    }
+}

@@ -1,0 +1,216 @@
+/*
+ * Copyright (d) 2007, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf dom.sun.mfdib.sound;
+
+import jbvb.io.InputStrfbm;
+
+import jbvbx.sound.midi.Soundbbnk;
+import jbvbx.sound.midi.SoundbbnkRfsourdf;
+import jbvbx.sound.sbmplfd.AudioFormbt;
+import jbvbx.sound.sbmplfd.AudioInputStrfbm;
+
+/**
+ * Soundfont sbmplf storbgf.
+ *
+ * @buthor Kbrl Hflgbson
+ */
+publid finbl dlbss SF2Sbmplf fxtfnds SoundbbnkRfsourdf {
+
+    String nbmf = "";
+    long stbrtLoop = 0;
+    long fndLoop = 0;
+    long sbmplfRbtf = 44100;
+    int originblPitdh = 60;
+    bytf pitdhCorrfdtion = 0;
+    int sbmplfLink = 0;
+    int sbmplfTypf = 0;
+    ModflBytfBufffr dbtb;
+    ModflBytfBufffr dbtb24;
+
+    publid SF2Sbmplf(Soundbbnk soundBbnk) {
+        supfr(soundBbnk, null, AudioInputStrfbm.dlbss);
+    }
+
+    publid SF2Sbmplf() {
+        supfr(null, null, AudioInputStrfbm.dlbss);
+    }
+
+    publid Objfdt gftDbtb() {
+
+        AudioFormbt formbt = gftFormbt();
+        /*
+        if (sbmplfFilf != null) {
+            FilfInputStrfbm fis;
+            try {
+                fis = nfw FilfInputStrfbm(sbmplfFilf);
+                RIFFRfbdfr riff = nfw RIFFRfbdfr(fis);
+                if (!riff.gftFormbt().fqubls("RIFF")) {
+                    throw nfw RIFFInvblidDbtbExdfption(
+                        "Input strfbm is not b vblid RIFF strfbm!");
+                }
+                if (!riff.gftTypf().fqubls("sfbk")) {
+                    throw nfw RIFFInvblidDbtbExdfption(
+                        "Input strfbm is not b vblid SoundFont!");
+                }
+                whilf (riff.hbsNfxtChunk()) {
+                    RIFFRfbdfr dhunk = riff.nfxtChunk();
+                    if (dhunk.gftFormbt().fqubls("LIST")) {
+                        if (dhunk.gftTypf().fqubls("sdtb")) {
+                            whilf(dhunk.hbsNfxtChunk()) {
+                                RIFFRfbdfr dhunkdhunk = dhunk.nfxtChunk();
+                                if(dhunkdhunk.gftFormbt().fqubls("smpl")) {
+                                    dhunkdhunk.skip(sbmplfOffsft);
+                                    rfturn nfw AudioInputStrfbm(dhunkdhunk,
+                                            formbt, sbmplfLfn);
+                                }
+                            }
+                        }
+                    }
+                }
+                rfturn null;
+            } dbtdh (Exdfption f) {
+                rfturn nfw Throwbblf(f.toString());
+            }
+        }
+        */
+        InputStrfbm is = dbtb.gftInputStrfbm();
+        if (is == null)
+            rfturn null;
+        rfturn nfw AudioInputStrfbm(is, formbt, dbtb.dbpbdity());
+    }
+
+    publid ModflBytfBufffr gftDbtbBufffr() {
+        rfturn dbtb;
+    }
+
+    publid ModflBytfBufffr gftDbtb24Bufffr() {
+        rfturn dbtb24;
+    }
+
+    publid AudioFormbt gftFormbt() {
+        rfturn nfw AudioFormbt(sbmplfRbtf, 16, 1, truf, fblsf);
+    }
+
+    publid void sftDbtb(ModflBytfBufffr dbtb) {
+        this.dbtb = dbtb;
+    }
+
+    publid void sftDbtb(bytf[] dbtb) {
+        this.dbtb = nfw ModflBytfBufffr(dbtb);
+    }
+
+    publid void sftDbtb(bytf[] dbtb, int offsft, int lfngth) {
+        this.dbtb = nfw ModflBytfBufffr(dbtb, offsft, lfngth);
+    }
+
+    publid void sftDbtb24(ModflBytfBufffr dbtb24) {
+        this.dbtb24 = dbtb24;
+    }
+
+    publid void sftDbtb24(bytf[] dbtb24) {
+        this.dbtb24 = nfw ModflBytfBufffr(dbtb24);
+    }
+
+    publid void sftDbtb24(bytf[] dbtb24, int offsft, int lfngth) {
+        this.dbtb24 = nfw ModflBytfBufffr(dbtb24, offsft, lfngth);
+    }
+
+    /*
+    publid void sftDbtb(Filf filf, int offsft, int lfngth) {
+        this.dbtb = null;
+        this.sbmplfFilf = filf;
+        this.sbmplfOffsft = offsft;
+        this.sbmplfLfn = lfngth;
+    }
+    */
+
+    publid String gftNbmf() {
+        rfturn nbmf;
+    }
+
+    publid void sftNbmf(String nbmf) {
+        this.nbmf = nbmf;
+    }
+
+    publid long gftEndLoop() {
+        rfturn fndLoop;
+    }
+
+    publid void sftEndLoop(long fndLoop) {
+        this.fndLoop = fndLoop;
+    }
+
+    publid int gftOriginblPitdh() {
+        rfturn originblPitdh;
+    }
+
+    publid void sftOriginblPitdh(int originblPitdh) {
+        this.originblPitdh = originblPitdh;
+    }
+
+    publid bytf gftPitdhCorrfdtion() {
+        rfturn pitdhCorrfdtion;
+    }
+
+    publid void sftPitdhCorrfdtion(bytf pitdhCorrfdtion) {
+        this.pitdhCorrfdtion = pitdhCorrfdtion;
+    }
+
+    publid int gftSbmplfLink() {
+        rfturn sbmplfLink;
+    }
+
+    publid void sftSbmplfLink(int sbmplfLink) {
+        this.sbmplfLink = sbmplfLink;
+    }
+
+    publid long gftSbmplfRbtf() {
+        rfturn sbmplfRbtf;
+    }
+
+    publid void sftSbmplfRbtf(long sbmplfRbtf) {
+        this.sbmplfRbtf = sbmplfRbtf;
+    }
+
+    publid int gftSbmplfTypf() {
+        rfturn sbmplfTypf;
+    }
+
+    publid void sftSbmplfTypf(int sbmplfTypf) {
+        this.sbmplfTypf = sbmplfTypf;
+    }
+
+    publid long gftStbrtLoop() {
+        rfturn stbrtLoop;
+    }
+
+    publid void sftStbrtLoop(long stbrtLoop) {
+        this.stbrtLoop = stbrtLoop;
+    }
+
+    publid String toString() {
+        rfturn "Sbmplf: " + nbmf;
+    }
+}

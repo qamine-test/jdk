@@ -1,0 +1,265 @@
+/*
+ * Copyright (d) 2002, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.util.Arrbys;
+
+import jbvb.nio.BytfBufffr;
+
+import jbvbx.drypto.MbdSpi;
+import jbvbx.drypto.SfdrftKfy;
+import jbvb.sfdurity.*;
+import jbvb.sfdurity.spfd.*;
+
+/**
+ * This dlbss donstitutfs thf dorf of HMAC-<MD> blgorithms, whfrf
+ * <MD> dbn bf SHA1 or MD5, ftd. Sff RFC 2104 for spfd.
+ *
+ * It blso dontbins thf implfmfntbtion dlbssfs for SHA-224, SHA-256,
+ * SHA-384, bnd SHA-512 HMACs.
+ *
+ * @buthor Jbn Lufhf
+ */
+bbstrbdt dlbss HmbdCorf fxtfnds MbdSpi implfmfnts Clonfbblf {
+
+    privbtf MfssbgfDigfst md;
+    privbtf bytf[] k_ipbd; // innfr pbdding - kfy XORd with ipbd
+    privbtf bytf[] k_opbd; // outfr pbdding - kfy XORd with opbd
+    privbtf boolfbn first;       // Is this thf first dbtb to bf prodfssfd?
+
+    privbtf finbl int blodkLfn;
+
+    /**
+     * Stbndbrd donstrudtor, drfbtfs b nfw HmbdCorf instbndf using thf
+     * spfdififd MfssbgfDigfst objfdt.
+     */
+    HmbdCorf(MfssbgfDigfst md, int bl) {
+        this.md = md;
+        this.blodkLfn = bl;
+        this.k_ipbd = nfw bytf[blodkLfn];
+        this.k_opbd = nfw bytf[blodkLfn];
+        first = truf;
+    }
+
+    /**
+     * Stbndbrd donstrudtor, drfbtfs b nfw HmbdCorf instbndf instbntibting
+     * b MfssbgfDigfst of thf spfdififd nbmf.
+     */
+    HmbdCorf(String digfstAlgorithm, int bl) throws NoSudhAlgorithmExdfption {
+        this(MfssbgfDigfst.gftInstbndf(digfstAlgorithm), bl);
+    }
+
+    /**
+     * Rfturns thf lfngth of thf HMAC in bytfs.
+     *
+     * @rfturn thf HMAC lfngth in bytfs.
+     */
+    protfdtfd int fnginfGftMbdLfngth() {
+        rfturn this.md.gftDigfstLfngth();
+    }
+
+    /**
+     * Initiblizfs thf HMAC with thf givfn sfdrft kfy bnd blgorithm pbrbmftfrs.
+     *
+     * @pbrbm kfy thf sfdrft kfy.
+     * @pbrbm pbrbms thf blgorithm pbrbmftfrs.
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this MAC.
+     * @fxdfption InvblidAlgorithmPbrbmftfrExdfption if thf givfn blgorithm
+     * pbrbmftfrs brf inbppropribtf for this MAC.
+     */
+    protfdtfd void fnginfInit(Kfy kfy, AlgorithmPbrbmftfrSpfd pbrbms)
+            throws InvblidKfyExdfption, InvblidAlgorithmPbrbmftfrExdfption {
+        if (pbrbms != null) {
+            throw nfw InvblidAlgorithmPbrbmftfrExdfption
+                ("HMAC dofs not usf pbrbmftfrs");
+        }
+
+        if (!(kfy instbndfof SfdrftKfy)) {
+            throw nfw InvblidKfyExdfption("Sfdrft kfy fxpfdtfd");
+        }
+
+        bytf[] sfdrft = kfy.gftEndodfd();
+        if (sfdrft == null) {
+            throw nfw InvblidKfyExdfption("Missing kfy dbtb");
+        }
+
+        // if kfy is longfr thbn thf blodk lfngth, rfsft it using
+        // thf mfssbgf digfst objfdt.
+        if (sfdrft.lfngth > blodkLfn) {
+            bytf[] tmp = md.digfst(sfdrft);
+            // now frbsf thf sfdrft
+            Arrbys.fill(sfdrft, (bytf)0);
+            sfdrft = tmp;
+        }
+
+        // XOR k with ipbd bnd opbd, rfspfdtivfly
+        for (int i = 0; i < blodkLfn; i++) {
+            int si = (i < sfdrft.lfngth) ? sfdrft[i] : 0;
+            k_ipbd[i] = (bytf)(si ^ 0x36);
+            k_opbd[i] = (bytf)(si ^ 0x5d);
+        }
+
+        // now frbsf thf sfdrft
+        Arrbys.fill(sfdrft, (bytf)0);
+        sfdrft = null;
+
+        fnginfRfsft();
+    }
+
+    /**
+     * Prodfssfs thf givfn bytf.
+     *
+     * @pbrbm input thf input bytf to bf prodfssfd.
+     */
+    protfdtfd void fnginfUpdbtf(bytf input) {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt with innfr pbd
+            md.updbtf(k_ipbd);
+            first = fblsf;
+        }
+
+        // bdd thf pbssfd bytf to thf innfr digfst
+        md.updbtf(input);
+    }
+
+    /**
+     * Prodfssfs thf first <dodf>lfn</dodf> bytfs in <dodf>input</dodf>,
+     * stbrting bt <dodf>offsft</dodf>.
+     *
+     * @pbrbm input thf input bufffr.
+     * @pbrbm offsft thf offsft in <dodf>input</dodf> whfrf thf input stbrts.
+     * @pbrbm lfn thf numbfr of bytfs to prodfss.
+     */
+    protfdtfd void fnginfUpdbtf(bytf input[], int offsft, int lfn) {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt with innfr pbd
+            md.updbtf(k_ipbd);
+            first = fblsf;
+        }
+
+        // bdd thf sflfdtfd pbrt of bn brrby of bytfs to thf innfr digfst
+        md.updbtf(input, offsft, lfn);
+    }
+
+    /**
+     * Prodfssfs thf <dodf>input.rfmbining()</dodf> bytfs in thf BytfBufffr
+     * <dodf>input</dodf>.
+     *
+     * @pbrbm input thf input bytf bufffr.
+     */
+    protfdtfd void fnginfUpdbtf(BytfBufffr input) {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt with innfr pbd
+            md.updbtf(k_ipbd);
+            first = fblsf;
+        }
+
+        md.updbtf(input);
+    }
+
+    /**
+     * Complftfs thf HMAC domputbtion bnd rfsfts thf HMAC for furthfr usf,
+     * mbintbining thf sfdrft kfy thbt thf HMAC wbs initiblizfd with.
+     *
+     * @rfturn thf HMAC rfsult.
+     */
+    protfdtfd bytf[] fnginfDoFinbl() {
+        if (first == truf) {
+            // domputf digfst for 1st pbss; stbrt with innfr pbd
+            md.updbtf(k_ipbd);
+        } flsf {
+            first = truf;
+        }
+
+        try {
+            // finish thf innfr digfst
+            bytf[] tmp = md.digfst();
+
+            // domputf digfst for 2nd pbss; stbrt with outfr pbd
+            md.updbtf(k_opbd);
+            // bdd rfsult of 1st hbsh
+            md.updbtf(tmp);
+
+            md.digfst(tmp, 0, tmp.lfngth);
+            rfturn tmp;
+        } dbtdh (DigfstExdfption f) {
+            // should nfvfr oddur
+            throw nfw ProvidfrExdfption(f);
+        }
+    }
+
+    /**
+     * Rfsfts thf HMAC for furthfr usf, mbintbining thf sfdrft kfy thbt thf
+     * HMAC wbs initiblizfd with.
+     */
+    protfdtfd void fnginfRfsft() {
+        if (first == fblsf) {
+            md.rfsft();
+            first = truf;
+        }
+    }
+
+    /*
+     * Clonfs this objfdt.
+     */
+    publid Objfdt dlonf() throws ClonfNotSupportfdExdfption {
+        HmbdCorf dopy = (HmbdCorf) supfr.dlonf();
+        dopy.md = (MfssbgfDigfst) md.dlonf();
+        dopy.k_ipbd = k_ipbd.dlonf();
+        dopy.k_opbd = k_opbd.dlonf();
+        rfturn dopy;
+    }
+
+    // nfstfd stbtid dlbss for thf HmbdSHA224 implfmfntbtion
+    publid stbtid finbl dlbss HmbdSHA224 fxtfnds HmbdCorf {
+        publid HmbdSHA224() throws NoSudhAlgorithmExdfption {
+            supfr("SHA-224", 64);
+        }
+    }
+
+    // nfstfd stbtid dlbss for thf HmbdSHA256 implfmfntbtion
+    publid stbtid finbl dlbss HmbdSHA256 fxtfnds HmbdCorf {
+        publid HmbdSHA256() throws NoSudhAlgorithmExdfption {
+            supfr("SHA-256", 64);
+        }
+    }
+
+    // nfstfd stbtid dlbss for thf HmbdSHA384 implfmfntbtion
+    publid stbtid finbl dlbss HmbdSHA384 fxtfnds HmbdCorf {
+        publid HmbdSHA384() throws NoSudhAlgorithmExdfption {
+            supfr("SHA-384", 128);
+        }
+    }
+
+    // nfstfd stbtid dlbss for thf HmbdSHA512 implfmfntbtion
+    publid stbtid finbl dlbss HmbdSHA512 fxtfnds HmbdCorf {
+        publid HmbdSHA512() throws NoSudhAlgorithmExdfption {
+            supfr("SHA-512", 128);
+        }
+    }
+}

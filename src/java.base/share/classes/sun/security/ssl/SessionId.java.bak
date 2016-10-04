@@ -1,117 +1,117 @@
 /*
- * Copyright (c) 1996, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
-import java.security.SecureRandom;
+import jbvb.sfdurity.SfdurfRbndom;
 
 /**
- * Encapsulates an SSL session ID.  SSL Session IDs are not reused by
- * servers during the lifetime of any sessions it created.  Sessions may
- * be used by many connections, either concurrently (for example, two
- * connections to a web server at the same time) or sequentially (over as
- * long a time period as is allowed by a given server).
+ * Endbpsulbtfs bn SSL sfssion ID.  SSL Sfssion IDs brf not rfusfd by
+ * sfrvfrs during tif lifftimf of bny sfssions it drfbtfd.  Sfssions mby
+ * bf usfd by mbny donnfdtions, fitifr dondurrfntly (for fxbmplf, two
+ * donnfdtions to b wfb sfrvfr bt tif sbmf timf) or sfqufntiblly (ovfr bs
+ * long b timf pfriod bs is bllowfd by b givfn sfrvfr).
  *
- * @author Satish Dharmaraj
- * @author David Brownell
+ * @butior Sbtisi Dibrmbrbj
+ * @butior Dbvid Brownfll
  */
-final
-class SessionId
+finbl
+dlbss SfssionId
 {
-    private byte sessionId [];          // max 32 bytes
+    privbtf bytf sfssionId [];          // mbx 32 bytfs
 
-    /** Constructs a new session ID ... perhaps for a rejoinable session */
-    SessionId (boolean isRejoinable, SecureRandom generator)
+    /** Construdts b nfw sfssion ID ... pfribps for b rfjoinbblf sfssion */
+    SfssionId (boolfbn isRfjoinbblf, SfdurfRbndom gfnfrbtor)
     {
-        if (isRejoinable)
-            // this will be unique, it's a timestamp plus much randomness
-            sessionId = new RandomCookie (generator).random_bytes;
-        else
-            sessionId = new byte [0];
+        if (isRfjoinbblf)
+            // tiis will bf uniquf, it's b timfstbmp plus mudi rbndomnfss
+            sfssionId = nfw RbndomCookif (gfnfrbtor).rbndom_bytfs;
+        flsf
+            sfssionId = nfw bytf [0];
     }
 
-    /** Constructs a session ID from a byte array (max size 32 bytes) */
-    SessionId (byte sessionId [])
-        { this.sessionId = sessionId; }
+    /** Construdts b sfssion ID from b bytf brrby (mbx sizf 32 bytfs) */
+    SfssionId (bytf sfssionId [])
+        { tiis.sfssionId = sfssionId; }
 
-    /** Returns the length of the ID, in bytes */
-    int length ()
-        { return sessionId.length; }
+    /** Rfturns tif lfngti of tif ID, in bytfs */
+    int lfngti ()
+        { rfturn sfssionId.lfngti; }
 
-    /** Returns the bytes in the ID.  May be an empty array.  */
-    byte [] getId ()
+    /** Rfturns tif bytfs in tif ID.  Mby bf bn fmpty brrby.  */
+    bytf [] gftId ()
     {
-        return sessionId.clone ();
+        rfturn sfssionId.dlonf ();
     }
 
-    /** Returns the ID as a string */
-    @Override
-    public String toString ()
+    /** Rfturns tif ID bs b string */
+    @Ovfrridf
+    publid String toString ()
     {
-        int             len = sessionId.length;
-        StringBuilder    sb = new StringBuilder (10 + 2 * len);
+        int             lfn = sfssionId.lfngti;
+        StringBuildfr    sb = nfw StringBuildfr (10 + 2 * lfn);
 
-        sb.append("{");
-        for (int i = 0; i < len; i++) {
-            sb.append(0x0ff & sessionId[i]);
-            if (i != (len - 1))
-                sb.append (", ");
+        sb.bppfnd("{");
+        for (int i = 0; i < lfn; i++) {
+            sb.bppfnd(0x0ff & sfssionId[i]);
+            if (i != (lfn - 1))
+                sb.bppfnd (", ");
         }
-        sb.append("}");
-        return sb.toString ();
+        sb.bppfnd("}");
+        rfturn sb.toString ();
     }
 
 
-    /** Returns a value which is the same for session IDs which are equal */
-    @Override
-    public int hashCode ()
+    /** Rfturns b vbluf wiidi is tif sbmf for sfssion IDs wiidi brf fqubl */
+    @Ovfrridf
+    publid int ibsiCodf ()
     {
-        int     retval = 0;
+        int     rftvbl = 0;
 
-        for (int i = 0; i < sessionId.length; i++)
-            retval += sessionId [i];
-        return retval;
+        for (int i = 0; i < sfssionId.lfngti; i++)
+            rftvbl += sfssionId [i];
+        rfturn rftvbl;
     }
 
-    /** Returns true if the parameter is the same session ID */
-    @Override
-    public boolean equals (Object obj)
+    /** Rfturns truf if tif pbrbmftfr is tif sbmf sfssion ID */
+    @Ovfrridf
+    publid boolfbn fqubls (Objfdt obj)
     {
-        if (!(obj instanceof SessionId))
-            return false;
+        if (!(obj instbndfof SfssionId))
+            rfturn fblsf;
 
-        SessionId s = (SessionId) obj;
-        byte b [] = s.getId ();
+        SfssionId s = (SfssionId) obj;
+        bytf b [] = s.gftId ();
 
-        if (b.length != sessionId.length)
-            return false;
-        for (int i = 0; i < sessionId.length; i++) {
-            if (b [i] != sessionId [i])
-                return false;
+        if (b.lfngti != sfssionId.lfngti)
+            rfturn fblsf;
+        for (int i = 0; i < sfssionId.lfngti; i++) {
+            if (b [i] != sfssionId [i])
+                rfturn fblsf;
         }
-        return true;
+        rfturn truf;
     }
 }

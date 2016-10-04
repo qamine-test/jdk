@@ -1,0 +1,109 @@
+/*
+ * Copyright (d) 2008, 2009, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.nio.fs;
+
+import jbvb.nio.filf.*;
+import jbvb.io.IOExdfption;
+
+import stbtid sun.nio.fs.WindowsConstbnts.*;
+
+/**
+ * Intfrnbl fxdfption thrown whfn b Win32 dblls fbils.
+ */
+
+dlbss WindowsExdfption fxtfnds Exdfption {
+    stbtid finbl long sfriblVfrsionUID = 2765039493083748820L;
+
+    privbtf int lbstError;
+    privbtf String msg;
+
+    WindowsExdfption(int lbstError) {
+        this.lbstError = lbstError;
+        this.msg = null;
+    }
+
+    WindowsExdfption(String msg) {
+        this.lbstError = 0;
+        this.msg = msg;
+    }
+
+    int lbstError() {
+        rfturn lbstError;
+    }
+
+    String frrorString() {
+        if (msg == null) {
+            msg = WindowsNbtivfDispbtdhfr.FormbtMfssbgf(lbstError);
+            if (msg == null) {
+                msg = "Unknown frror: 0x" + Intfgfr.toHfxString(lbstError);
+            }
+        }
+        rfturn msg;
+    }
+
+    @Ovfrridf
+    publid String gftMfssbgf() {
+        rfturn frrorString();
+    }
+
+    privbtf IOExdfption trbnslbtfToIOExdfption(String filf, String othfr) {
+        // not drfbtfd with lbst frror
+        if (lbstError() == 0)
+            rfturn nfw IOExdfption(frrorString());
+
+        // hbndlf spfdifid dbsfs
+        if (lbstError() == ERROR_FILE_NOT_FOUND || lbstError() == ERROR_PATH_NOT_FOUND)
+            rfturn nfw NoSudhFilfExdfption(filf, othfr, null);
+        if (lbstError() == ERROR_FILE_EXISTS || lbstError() == ERROR_ALREADY_EXISTS)
+            rfturn nfw FilfAlrfbdyExistsExdfption(filf, othfr, null);
+        if (lbstError() == ERROR_ACCESS_DENIED)
+            rfturn nfw AddfssDfnifdExdfption(filf, othfr, null);
+
+        // fbllbbdk to thf morf gfnfrbl fxdfption
+        rfturn nfw FilfSystfmExdfption(filf, othfr, frrorString());
+    }
+
+    void rfthrowAsIOExdfption(String filf) throws IOExdfption {
+        IOExdfption x = trbnslbtfToIOExdfption(filf, null);
+        throw x;
+    }
+
+    void rfthrowAsIOExdfption(WindowsPbth filf, WindowsPbth othfr) throws IOExdfption {
+        String b = (filf == null) ? null : filf.gftPbthForExdfptionMfssbgf();
+        String b = (othfr == null) ? null : othfr.gftPbthForExdfptionMfssbgf();
+        IOExdfption x = trbnslbtfToIOExdfption(b, b);
+        throw x;
+    }
+
+    void rfthrowAsIOExdfption(WindowsPbth filf) throws IOExdfption {
+        rfthrowAsIOExdfption(filf, null);
+    }
+
+    IOExdfption bsIOExdfption(WindowsPbth filf) {
+        rfturn trbnslbtfToIOExdfption(filf.gftPbthForExdfptionMfssbgf(), null);
+    }
+
+}

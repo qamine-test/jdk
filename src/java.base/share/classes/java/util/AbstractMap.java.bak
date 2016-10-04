@@ -1,832 +1,832 @@
 /*
- * Copyright (c) 1997, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.util;
-import java.util.Map.Entry;
+pbdkbgf jbvb.util;
+import jbvb.util.Mbp.Entry;
 
 /**
- * This class provides a skeletal implementation of the <tt>Map</tt>
- * interface, to minimize the effort required to implement this interface.
+ * Tiis dlbss providfs b skflftbl implfmfntbtion of tif <tt>Mbp</tt>
+ * intfrfbdf, to minimizf tif fffort rfquirfd to implfmfnt tiis intfrfbdf.
  *
- * <p>To implement an unmodifiable map, the programmer needs only to extend this
- * class and provide an implementation for the <tt>entrySet</tt> method, which
- * returns a set-view of the map's mappings.  Typically, the returned set
- * will, in turn, be implemented atop <tt>AbstractSet</tt>.  This set should
- * not support the <tt>add</tt> or <tt>remove</tt> methods, and its iterator
- * should not support the <tt>remove</tt> method.
+ * <p>To implfmfnt bn unmodifibblf mbp, tif progrbmmfr nffds only to fxtfnd tiis
+ * dlbss bnd providf bn implfmfntbtion for tif <tt>fntrySft</tt> mftiod, wiidi
+ * rfturns b sft-vifw of tif mbp's mbppings.  Typidblly, tif rfturnfd sft
+ * will, in turn, bf implfmfntfd btop <tt>AbstrbdtSft</tt>.  Tiis sft siould
+ * not support tif <tt>bdd</tt> or <tt>rfmovf</tt> mftiods, bnd its itfrbtor
+ * siould not support tif <tt>rfmovf</tt> mftiod.
  *
- * <p>To implement a modifiable map, the programmer must additionally override
- * this class's <tt>put</tt> method (which otherwise throws an
- * <tt>UnsupportedOperationException</tt>), and the iterator returned by
- * <tt>entrySet().iterator()</tt> must additionally implement its
- * <tt>remove</tt> method.
+ * <p>To implfmfnt b modifibblf mbp, tif progrbmmfr must bdditionblly ovfrridf
+ * tiis dlbss's <tt>put</tt> mftiod (wiidi otifrwisf tirows bn
+ * <tt>UnsupportfdOpfrbtionExdfption</tt>), bnd tif itfrbtor rfturnfd by
+ * <tt>fntrySft().itfrbtor()</tt> must bdditionblly implfmfnt its
+ * <tt>rfmovf</tt> mftiod.
  *
- * <p>The programmer should generally provide a void (no argument) and map
- * constructor, as per the recommendation in the <tt>Map</tt> interface
- * specification.
+ * <p>Tif progrbmmfr siould gfnfrblly providf b void (no brgumfnt) bnd mbp
+ * donstrudtor, bs pfr tif rfdommfndbtion in tif <tt>Mbp</tt> intfrfbdf
+ * spfdifidbtion.
  *
- * <p>The documentation for each non-abstract method in this class describes its
- * implementation in detail.  Each of these methods may be overridden if the
- * map being implemented admits a more efficient implementation.
+ * <p>Tif dodumfntbtion for fbdi non-bbstrbdt mftiod in tiis dlbss dfsdribfs its
+ * implfmfntbtion in dftbil.  Ebdi of tifsf mftiods mby bf ovfrriddfn if tif
+ * mbp bfing implfmfntfd bdmits b morf fffidifnt implfmfntbtion.
  *
- * <p>This class is a member of the
- * <a href="{@docRoot}/../technotes/guides/collections/index.html">
- * Java Collections Framework</a>.
+ * <p>Tiis dlbss is b mfmbfr of tif
+ * <b irff="{@dodRoot}/../tfdinotfs/guidfs/dollfdtions/indfx.itml">
+ * Jbvb Collfdtions Frbmfwork</b>.
  *
- * @param <K> the type of keys maintained by this map
- * @param <V> the type of mapped values
+ * @pbrbm <K> tif typf of kfys mbintbinfd by tiis mbp
+ * @pbrbm <V> tif typf of mbppfd vblufs
  *
- * @author  Josh Bloch
- * @author  Neal Gafter
- * @see Map
- * @see Collection
- * @since 1.2
+ * @butior  Josi Blodi
+ * @butior  Nfbl Gbftfr
+ * @sff Mbp
+ * @sff Collfdtion
+ * @sindf 1.2
  */
 
-public abstract class AbstractMap<K,V> implements Map<K,V> {
+publid bbstrbdt dlbss AbstrbdtMbp<K,V> implfmfnts Mbp<K,V> {
     /**
-     * Sole constructor.  (For invocation by subclass constructors, typically
-     * implicit.)
+     * Solf donstrudtor.  (For invodbtion by subdlbss donstrudtors, typidblly
+     * implidit.)
      */
-    protected AbstractMap() {
+    protfdtfd AbstrbdtMbp() {
     }
 
-    // Query Operations
+    // Qufry Opfrbtions
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @implSpec
-     * This implementation returns <tt>entrySet().size()</tt>.
+     * @implSpfd
+     * Tiis implfmfntbtion rfturns <tt>fntrySft().sizf()</tt>.
      */
-    public int size() {
-        return entrySet().size();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @implSpec
-     * This implementation returns <tt>size() == 0</tt>.
-     */
-    public boolean isEmpty() {
-        return size() == 0;
+    publid int sizf() {
+        rfturn fntrySft().sizf();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @implSpec
-     * This implementation iterates over <tt>entrySet()</tt> searching
-     * for an entry with the specified value.  If such an entry is found,
-     * <tt>true</tt> is returned.  If the iteration terminates without
-     * finding such an entry, <tt>false</tt> is returned.  Note that this
-     * implementation requires linear time in the size of the map.
-     *
-     * @throws ClassCastException   {@inheritDoc}
-     * @throws NullPointerException {@inheritDoc}
+     * @implSpfd
+     * Tiis implfmfntbtion rfturns <tt>sizf() == 0</tt>.
      */
-    public boolean containsValue(Object value) {
-        Iterator<Entry<K,V>> i = entrySet().iterator();
-        if (value==null) {
-            while (i.hasNext()) {
-                Entry<K,V> e = i.next();
-                if (e.getValue()==null)
-                    return true;
+    publid boolfbn isEmpty() {
+        rfturn sizf() == 0;
+    }
+
+    /**
+     * {@inifritDod}
+     *
+     * @implSpfd
+     * Tiis implfmfntbtion itfrbtfs ovfr <tt>fntrySft()</tt> sfbrdiing
+     * for bn fntry witi tif spfdififd vbluf.  If sudi bn fntry is found,
+     * <tt>truf</tt> is rfturnfd.  If tif itfrbtion tfrminbtfs witiout
+     * finding sudi bn fntry, <tt>fblsf</tt> is rfturnfd.  Notf tibt tiis
+     * implfmfntbtion rfquirfs linfbr timf in tif sizf of tif mbp.
+     *
+     * @tirows ClbssCbstExdfption   {@inifritDod}
+     * @tirows NullPointfrExdfption {@inifritDod}
+     */
+    publid boolfbn dontbinsVbluf(Objfdt vbluf) {
+        Itfrbtor<Entry<K,V>> i = fntrySft().itfrbtor();
+        if (vbluf==null) {
+            wiilf (i.ibsNfxt()) {
+                Entry<K,V> f = i.nfxt();
+                if (f.gftVbluf()==null)
+                    rfturn truf;
             }
-        } else {
-            while (i.hasNext()) {
-                Entry<K,V> e = i.next();
-                if (value.equals(e.getValue()))
-                    return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @implSpec
-     * This implementation iterates over <tt>entrySet()</tt> searching
-     * for an entry with the specified key.  If such an entry is found,
-     * <tt>true</tt> is returned.  If the iteration terminates without
-     * finding such an entry, <tt>false</tt> is returned.  Note that this
-     * implementation requires linear time in the size of the map; many
-     * implementations will override this method.
-     *
-     * @throws ClassCastException   {@inheritDoc}
-     * @throws NullPointerException {@inheritDoc}
-     */
-    public boolean containsKey(Object key) {
-        Iterator<Map.Entry<K,V>> i = entrySet().iterator();
-        if (key==null) {
-            while (i.hasNext()) {
-                Entry<K,V> e = i.next();
-                if (e.getKey()==null)
-                    return true;
-            }
-        } else {
-            while (i.hasNext()) {
-                Entry<K,V> e = i.next();
-                if (key.equals(e.getKey()))
-                    return true;
+        } flsf {
+            wiilf (i.ibsNfxt()) {
+                Entry<K,V> f = i.nfxt();
+                if (vbluf.fqubls(f.gftVbluf()))
+                    rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @implSpec
-     * This implementation iterates over <tt>entrySet()</tt> searching
-     * for an entry with the specified key.  If such an entry is found,
-     * the entry's value is returned.  If the iteration terminates without
-     * finding such an entry, <tt>null</tt> is returned.  Note that this
-     * implementation requires linear time in the size of the map; many
-     * implementations will override this method.
+     * @implSpfd
+     * Tiis implfmfntbtion itfrbtfs ovfr <tt>fntrySft()</tt> sfbrdiing
+     * for bn fntry witi tif spfdififd kfy.  If sudi bn fntry is found,
+     * <tt>truf</tt> is rfturnfd.  If tif itfrbtion tfrminbtfs witiout
+     * finding sudi bn fntry, <tt>fblsf</tt> is rfturnfd.  Notf tibt tiis
+     * implfmfntbtion rfquirfs linfbr timf in tif sizf of tif mbp; mbny
+     * implfmfntbtions will ovfrridf tiis mftiod.
      *
-     * @throws ClassCastException            {@inheritDoc}
-     * @throws NullPointerException          {@inheritDoc}
+     * @tirows ClbssCbstExdfption   {@inifritDod}
+     * @tirows NullPointfrExdfption {@inifritDod}
      */
-    public V get(Object key) {
-        Iterator<Entry<K,V>> i = entrySet().iterator();
-        if (key==null) {
-            while (i.hasNext()) {
-                Entry<K,V> e = i.next();
-                if (e.getKey()==null)
-                    return e.getValue();
+    publid boolfbn dontbinsKfy(Objfdt kfy) {
+        Itfrbtor<Mbp.Entry<K,V>> i = fntrySft().itfrbtor();
+        if (kfy==null) {
+            wiilf (i.ibsNfxt()) {
+                Entry<K,V> f = i.nfxt();
+                if (f.gftKfy()==null)
+                    rfturn truf;
             }
-        } else {
-            while (i.hasNext()) {
-                Entry<K,V> e = i.next();
-                if (key.equals(e.getKey()))
-                    return e.getValue();
-            }
-        }
-        return null;
-    }
-
-
-    // Modification Operations
-
-    /**
-     * {@inheritDoc}
-     *
-     * @implSpec
-     * This implementation always throws an
-     * <tt>UnsupportedOperationException</tt>.
-     *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
-     * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
-     */
-    public V put(K key, V value) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @implSpec
-     * This implementation iterates over <tt>entrySet()</tt> searching for an
-     * entry with the specified key.  If such an entry is found, its value is
-     * obtained with its <tt>getValue</tt> operation, the entry is removed
-     * from the collection (and the backing map) with the iterator's
-     * <tt>remove</tt> operation, and the saved value is returned.  If the
-     * iteration terminates without finding such an entry, <tt>null</tt> is
-     * returned.  Note that this implementation requires linear time in the
-     * size of the map; many implementations will override this method.
-     *
-     * <p>Note that this implementation throws an
-     * <tt>UnsupportedOperationException</tt> if the <tt>entrySet</tt>
-     * iterator does not support the <tt>remove</tt> method and this map
-     * contains a mapping for the specified key.
-     *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
-     * @throws NullPointerException          {@inheritDoc}
-     */
-    public V remove(Object key) {
-        Iterator<Entry<K,V>> i = entrySet().iterator();
-        Entry<K,V> correctEntry = null;
-        if (key==null) {
-            while (correctEntry==null && i.hasNext()) {
-                Entry<K,V> e = i.next();
-                if (e.getKey()==null)
-                    correctEntry = e;
-            }
-        } else {
-            while (correctEntry==null && i.hasNext()) {
-                Entry<K,V> e = i.next();
-                if (key.equals(e.getKey()))
-                    correctEntry = e;
+        } flsf {
+            wiilf (i.ibsNfxt()) {
+                Entry<K,V> f = i.nfxt();
+                if (kfy.fqubls(f.gftKfy()))
+                    rfturn truf;
             }
         }
+        rfturn fblsf;
+    }
 
-        V oldValue = null;
-        if (correctEntry !=null) {
-            oldValue = correctEntry.getValue();
-            i.remove();
+    /**
+     * {@inifritDod}
+     *
+     * @implSpfd
+     * Tiis implfmfntbtion itfrbtfs ovfr <tt>fntrySft()</tt> sfbrdiing
+     * for bn fntry witi tif spfdififd kfy.  If sudi bn fntry is found,
+     * tif fntry's vbluf is rfturnfd.  If tif itfrbtion tfrminbtfs witiout
+     * finding sudi bn fntry, <tt>null</tt> is rfturnfd.  Notf tibt tiis
+     * implfmfntbtion rfquirfs linfbr timf in tif sizf of tif mbp; mbny
+     * implfmfntbtions will ovfrridf tiis mftiod.
+     *
+     * @tirows ClbssCbstExdfption            {@inifritDod}
+     * @tirows NullPointfrExdfption          {@inifritDod}
+     */
+    publid V gft(Objfdt kfy) {
+        Itfrbtor<Entry<K,V>> i = fntrySft().itfrbtor();
+        if (kfy==null) {
+            wiilf (i.ibsNfxt()) {
+                Entry<K,V> f = i.nfxt();
+                if (f.gftKfy()==null)
+                    rfturn f.gftVbluf();
+            }
+        } flsf {
+            wiilf (i.ibsNfxt()) {
+                Entry<K,V> f = i.nfxt();
+                if (kfy.fqubls(f.gftKfy()))
+                    rfturn f.gftVbluf();
+            }
         }
-        return oldValue;
+        rfturn null;
     }
 
 
-    // Bulk Operations
+    // Modifidbtion Opfrbtions
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @implSpec
-     * This implementation iterates over the specified map's
-     * <tt>entrySet()</tt> collection, and calls this map's <tt>put</tt>
-     * operation once for each entry returned by the iteration.
+     * @implSpfd
+     * Tiis implfmfntbtion blwbys tirows bn
+     * <tt>UnsupportfdOpfrbtionExdfption</tt>.
      *
-     * <p>Note that this implementation throws an
-     * <tt>UnsupportedOperationException</tt> if this map does not support
-     * the <tt>put</tt> operation and the specified map is nonempty.
-     *
-     * @throws UnsupportedOperationException {@inheritDoc}
-     * @throws ClassCastException            {@inheritDoc}
-     * @throws NullPointerException          {@inheritDoc}
-     * @throws IllegalArgumentException      {@inheritDoc}
+     * @tirows UnsupportfdOpfrbtionExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption            {@inifritDod}
+     * @tirows NullPointfrExdfption          {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption      {@inifritDod}
      */
-    public void putAll(Map<? extends K, ? extends V> m) {
-        for (Map.Entry<? extends K, ? extends V> e : m.entrySet())
-            put(e.getKey(), e.getValue());
+    publid V put(K kfy, V vbluf) {
+        tirow nfw UnsupportfdOpfrbtionExdfption();
     }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @implSpec
-     * This implementation calls <tt>entrySet().clear()</tt>.
+     * @implSpfd
+     * Tiis implfmfntbtion itfrbtfs ovfr <tt>fntrySft()</tt> sfbrdiing for bn
+     * fntry witi tif spfdififd kfy.  If sudi bn fntry is found, its vbluf is
+     * obtbinfd witi its <tt>gftVbluf</tt> opfrbtion, tif fntry is rfmovfd
+     * from tif dollfdtion (bnd tif bbdking mbp) witi tif itfrbtor's
+     * <tt>rfmovf</tt> opfrbtion, bnd tif sbvfd vbluf is rfturnfd.  If tif
+     * itfrbtion tfrminbtfs witiout finding sudi bn fntry, <tt>null</tt> is
+     * rfturnfd.  Notf tibt tiis implfmfntbtion rfquirfs linfbr timf in tif
+     * sizf of tif mbp; mbny implfmfntbtions will ovfrridf tiis mftiod.
      *
-     * <p>Note that this implementation throws an
-     * <tt>UnsupportedOperationException</tt> if the <tt>entrySet</tt>
-     * does not support the <tt>clear</tt> operation.
+     * <p>Notf tibt tiis implfmfntbtion tirows bn
+     * <tt>UnsupportfdOpfrbtionExdfption</tt> if tif <tt>fntrySft</tt>
+     * itfrbtor dofs not support tif <tt>rfmovf</tt> mftiod bnd tiis mbp
+     * dontbins b mbpping for tif spfdififd kfy.
      *
-     * @throws UnsupportedOperationException {@inheritDoc}
+     * @tirows UnsupportfdOpfrbtionExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption            {@inifritDod}
+     * @tirows NullPointfrExdfption          {@inifritDod}
      */
-    public void clear() {
-        entrySet().clear();
+    publid V rfmovf(Objfdt kfy) {
+        Itfrbtor<Entry<K,V>> i = fntrySft().itfrbtor();
+        Entry<K,V> dorrfdtEntry = null;
+        if (kfy==null) {
+            wiilf (dorrfdtEntry==null && i.ibsNfxt()) {
+                Entry<K,V> f = i.nfxt();
+                if (f.gftKfy()==null)
+                    dorrfdtEntry = f;
+            }
+        } flsf {
+            wiilf (dorrfdtEntry==null && i.ibsNfxt()) {
+                Entry<K,V> f = i.nfxt();
+                if (kfy.fqubls(f.gftKfy()))
+                    dorrfdtEntry = f;
+            }
+        }
+
+        V oldVbluf = null;
+        if (dorrfdtEntry !=null) {
+            oldVbluf = dorrfdtEntry.gftVbluf();
+            i.rfmovf();
+        }
+        rfturn oldVbluf;
     }
 
 
-    // Views
+    // Bulk Opfrbtions
 
     /**
-     * Each of these fields are initialized to contain an instance of the
-     * appropriate view the first time this view is requested.  The views are
-     * stateless, so there's no reason to create more than one of each.
+     * {@inifritDod}
+     *
+     * @implSpfd
+     * Tiis implfmfntbtion itfrbtfs ovfr tif spfdififd mbp's
+     * <tt>fntrySft()</tt> dollfdtion, bnd dblls tiis mbp's <tt>put</tt>
+     * opfrbtion ondf for fbdi fntry rfturnfd by tif itfrbtion.
+     *
+     * <p>Notf tibt tiis implfmfntbtion tirows bn
+     * <tt>UnsupportfdOpfrbtionExdfption</tt> if tiis mbp dofs not support
+     * tif <tt>put</tt> opfrbtion bnd tif spfdififd mbp is nonfmpty.
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption {@inifritDod}
+     * @tirows ClbssCbstExdfption            {@inifritDod}
+     * @tirows NullPointfrExdfption          {@inifritDod}
+     * @tirows IllfgblArgumfntExdfption      {@inifritDod}
      */
-    transient volatile Set<K>        keySet;
-    transient volatile Collection<V> values;
+    publid void putAll(Mbp<? fxtfnds K, ? fxtfnds V> m) {
+        for (Mbp.Entry<? fxtfnds K, ? fxtfnds V> f : m.fntrySft())
+            put(f.gftKfy(), f.gftVbluf());
+    }
 
     /**
-     * {@inheritDoc}
+     * {@inifritDod}
      *
-     * @implSpec
-     * This implementation returns a set that subclasses {@link AbstractSet}.
-     * The subclass's iterator method returns a "wrapper object" over this
-     * map's <tt>entrySet()</tt> iterator.  The <tt>size</tt> method
-     * delegates to this map's <tt>size</tt> method and the
-     * <tt>contains</tt> method delegates to this map's
-     * <tt>containsKey</tt> method.
+     * @implSpfd
+     * Tiis implfmfntbtion dblls <tt>fntrySft().dlfbr()</tt>.
      *
-     * <p>The set is created the first time this method is called,
-     * and returned in response to all subsequent calls.  No synchronization
-     * is performed, so there is a slight chance that multiple calls to this
-     * method will not all return the same set.
+     * <p>Notf tibt tiis implfmfntbtion tirows bn
+     * <tt>UnsupportfdOpfrbtionExdfption</tt> if tif <tt>fntrySft</tt>
+     * dofs not support tif <tt>dlfbr</tt> opfrbtion.
+     *
+     * @tirows UnsupportfdOpfrbtionExdfption {@inifritDod}
      */
-    public Set<K> keySet() {
-        if (keySet == null) {
-            keySet = new AbstractSet<K>() {
-                public Iterator<K> iterator() {
-                    return new Iterator<K>() {
-                        private Iterator<Entry<K,V>> i = entrySet().iterator();
+    publid void dlfbr() {
+        fntrySft().dlfbr();
+    }
 
-                        public boolean hasNext() {
-                            return i.hasNext();
+
+    // Vifws
+
+    /**
+     * Ebdi of tifsf fiflds brf initiblizfd to dontbin bn instbndf of tif
+     * bppropribtf vifw tif first timf tiis vifw is rfqufstfd.  Tif vifws brf
+     * stbtflfss, so tifrf's no rfbson to drfbtf morf tibn onf of fbdi.
+     */
+    trbnsifnt volbtilf Sft<K>        kfySft;
+    trbnsifnt volbtilf Collfdtion<V> vblufs;
+
+    /**
+     * {@inifritDod}
+     *
+     * @implSpfd
+     * Tiis implfmfntbtion rfturns b sft tibt subdlbssfs {@link AbstrbdtSft}.
+     * Tif subdlbss's itfrbtor mftiod rfturns b "wrbppfr objfdt" ovfr tiis
+     * mbp's <tt>fntrySft()</tt> itfrbtor.  Tif <tt>sizf</tt> mftiod
+     * dflfgbtfs to tiis mbp's <tt>sizf</tt> mftiod bnd tif
+     * <tt>dontbins</tt> mftiod dflfgbtfs to tiis mbp's
+     * <tt>dontbinsKfy</tt> mftiod.
+     *
+     * <p>Tif sft is drfbtfd tif first timf tiis mftiod is dbllfd,
+     * bnd rfturnfd in rfsponsf to bll subsfqufnt dblls.  No syndironizbtion
+     * is pfrformfd, so tifrf is b sligit dibndf tibt multiplf dblls to tiis
+     * mftiod will not bll rfturn tif sbmf sft.
+     */
+    publid Sft<K> kfySft() {
+        if (kfySft == null) {
+            kfySft = nfw AbstrbdtSft<K>() {
+                publid Itfrbtor<K> itfrbtor() {
+                    rfturn nfw Itfrbtor<K>() {
+                        privbtf Itfrbtor<Entry<K,V>> i = fntrySft().itfrbtor();
+
+                        publid boolfbn ibsNfxt() {
+                            rfturn i.ibsNfxt();
                         }
 
-                        public K next() {
-                            return i.next().getKey();
+                        publid K nfxt() {
+                            rfturn i.nfxt().gftKfy();
                         }
 
-                        public void remove() {
-                            i.remove();
-                        }
-                    };
-                }
-
-                public int size() {
-                    return AbstractMap.this.size();
-                }
-
-                public boolean isEmpty() {
-                    return AbstractMap.this.isEmpty();
-                }
-
-                public void clear() {
-                    AbstractMap.this.clear();
-                }
-
-                public boolean contains(Object k) {
-                    return AbstractMap.this.containsKey(k);
-                }
-            };
-        }
-        return keySet;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @implSpec
-     * This implementation returns a collection that subclasses {@link
-     * AbstractCollection}.  The subclass's iterator method returns a
-     * "wrapper object" over this map's <tt>entrySet()</tt> iterator.
-     * The <tt>size</tt> method delegates to this map's <tt>size</tt>
-     * method and the <tt>contains</tt> method delegates to this map's
-     * <tt>containsValue</tt> method.
-     *
-     * <p>The collection is created the first time this method is called, and
-     * returned in response to all subsequent calls.  No synchronization is
-     * performed, so there is a slight chance that multiple calls to this
-     * method will not all return the same collection.
-     */
-    public Collection<V> values() {
-        if (values == null) {
-            values = new AbstractCollection<V>() {
-                public Iterator<V> iterator() {
-                    return new Iterator<V>() {
-                        private Iterator<Entry<K,V>> i = entrySet().iterator();
-
-                        public boolean hasNext() {
-                            return i.hasNext();
-                        }
-
-                        public V next() {
-                            return i.next().getValue();
-                        }
-
-                        public void remove() {
-                            i.remove();
+                        publid void rfmovf() {
+                            i.rfmovf();
                         }
                     };
                 }
 
-                public int size() {
-                    return AbstractMap.this.size();
+                publid int sizf() {
+                    rfturn AbstrbdtMbp.tiis.sizf();
                 }
 
-                public boolean isEmpty() {
-                    return AbstractMap.this.isEmpty();
+                publid boolfbn isEmpty() {
+                    rfturn AbstrbdtMbp.tiis.isEmpty();
                 }
 
-                public void clear() {
-                    AbstractMap.this.clear();
+                publid void dlfbr() {
+                    AbstrbdtMbp.tiis.dlfbr();
                 }
 
-                public boolean contains(Object v) {
-                    return AbstractMap.this.containsValue(v);
+                publid boolfbn dontbins(Objfdt k) {
+                    rfturn AbstrbdtMbp.tiis.dontbinsKfy(k);
                 }
             };
         }
-        return values;
+        rfturn kfySft;
     }
 
-    public abstract Set<Entry<K,V>> entrySet();
+    /**
+     * {@inifritDod}
+     *
+     * @implSpfd
+     * Tiis implfmfntbtion rfturns b dollfdtion tibt subdlbssfs {@link
+     * AbstrbdtCollfdtion}.  Tif subdlbss's itfrbtor mftiod rfturns b
+     * "wrbppfr objfdt" ovfr tiis mbp's <tt>fntrySft()</tt> itfrbtor.
+     * Tif <tt>sizf</tt> mftiod dflfgbtfs to tiis mbp's <tt>sizf</tt>
+     * mftiod bnd tif <tt>dontbins</tt> mftiod dflfgbtfs to tiis mbp's
+     * <tt>dontbinsVbluf</tt> mftiod.
+     *
+     * <p>Tif dollfdtion is drfbtfd tif first timf tiis mftiod is dbllfd, bnd
+     * rfturnfd in rfsponsf to bll subsfqufnt dblls.  No syndironizbtion is
+     * pfrformfd, so tifrf is b sligit dibndf tibt multiplf dblls to tiis
+     * mftiod will not bll rfturn tif sbmf dollfdtion.
+     */
+    publid Collfdtion<V> vblufs() {
+        if (vblufs == null) {
+            vblufs = nfw AbstrbdtCollfdtion<V>() {
+                publid Itfrbtor<V> itfrbtor() {
+                    rfturn nfw Itfrbtor<V>() {
+                        privbtf Itfrbtor<Entry<K,V>> i = fntrySft().itfrbtor();
+
+                        publid boolfbn ibsNfxt() {
+                            rfturn i.ibsNfxt();
+                        }
+
+                        publid V nfxt() {
+                            rfturn i.nfxt().gftVbluf();
+                        }
+
+                        publid void rfmovf() {
+                            i.rfmovf();
+                        }
+                    };
+                }
+
+                publid int sizf() {
+                    rfturn AbstrbdtMbp.tiis.sizf();
+                }
+
+                publid boolfbn isEmpty() {
+                    rfturn AbstrbdtMbp.tiis.isEmpty();
+                }
+
+                publid void dlfbr() {
+                    AbstrbdtMbp.tiis.dlfbr();
+                }
+
+                publid boolfbn dontbins(Objfdt v) {
+                    rfturn AbstrbdtMbp.tiis.dontbinsVbluf(v);
+                }
+            };
+        }
+        rfturn vblufs;
+    }
+
+    publid bbstrbdt Sft<Entry<K,V>> fntrySft();
 
 
-    // Comparison and hashing
+    // Compbrison bnd ibsiing
 
     /**
-     * Compares the specified object with this map for equality.  Returns
-     * <tt>true</tt> if the given object is also a map and the two maps
-     * represent the same mappings.  More formally, two maps <tt>m1</tt> and
-     * <tt>m2</tt> represent the same mappings if
-     * <tt>m1.entrySet().equals(m2.entrySet())</tt>.  This ensures that the
-     * <tt>equals</tt> method works properly across different implementations
-     * of the <tt>Map</tt> interface.
+     * Compbrfs tif spfdififd objfdt witi tiis mbp for fqublity.  Rfturns
+     * <tt>truf</tt> if tif givfn objfdt is blso b mbp bnd tif two mbps
+     * rfprfsfnt tif sbmf mbppings.  Morf formblly, two mbps <tt>m1</tt> bnd
+     * <tt>m2</tt> rfprfsfnt tif sbmf mbppings if
+     * <tt>m1.fntrySft().fqubls(m2.fntrySft())</tt>.  Tiis fnsurfs tibt tif
+     * <tt>fqubls</tt> mftiod works propfrly bdross difffrfnt implfmfntbtions
+     * of tif <tt>Mbp</tt> intfrfbdf.
      *
-     * @implSpec
-     * This implementation first checks if the specified object is this map;
-     * if so it returns <tt>true</tt>.  Then, it checks if the specified
-     * object is a map whose size is identical to the size of this map; if
-     * not, it returns <tt>false</tt>.  If so, it iterates over this map's
-     * <tt>entrySet</tt> collection, and checks that the specified map
-     * contains each mapping that this map contains.  If the specified map
-     * fails to contain such a mapping, <tt>false</tt> is returned.  If the
-     * iteration completes, <tt>true</tt> is returned.
+     * @implSpfd
+     * Tiis implfmfntbtion first difdks if tif spfdififd objfdt is tiis mbp;
+     * if so it rfturns <tt>truf</tt>.  Tifn, it difdks if tif spfdififd
+     * objfdt is b mbp wiosf sizf is idfntidbl to tif sizf of tiis mbp; if
+     * not, it rfturns <tt>fblsf</tt>.  If so, it itfrbtfs ovfr tiis mbp's
+     * <tt>fntrySft</tt> dollfdtion, bnd difdks tibt tif spfdififd mbp
+     * dontbins fbdi mbpping tibt tiis mbp dontbins.  If tif spfdififd mbp
+     * fbils to dontbin sudi b mbpping, <tt>fblsf</tt> is rfturnfd.  If tif
+     * itfrbtion domplftfs, <tt>truf</tt> is rfturnfd.
      *
-     * @param o object to be compared for equality with this map
-     * @return <tt>true</tt> if the specified object is equal to this map
+     * @pbrbm o objfdt to bf dompbrfd for fqublity witi tiis mbp
+     * @rfturn <tt>truf</tt> if tif spfdififd objfdt is fqubl to tiis mbp
      */
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == tiis)
+            rfturn truf;
 
-        if (!(o instanceof Map))
-            return false;
-        Map<?,?> m = (Map<?,?>) o;
-        if (m.size() != size())
-            return false;
+        if (!(o instbndfof Mbp))
+            rfturn fblsf;
+        Mbp<?,?> m = (Mbp<?,?>) o;
+        if (m.sizf() != sizf())
+            rfturn fblsf;
 
         try {
-            for (Entry<K, V> e : entrySet()) {
-                K key = e.getKey();
-                V value = e.getValue();
-                if (value == null) {
-                    if (!(m.get(key) == null && m.containsKey(key)))
-                        return false;
-                } else {
-                    if (!value.equals(m.get(key)))
-                        return false;
+            for (Entry<K, V> f : fntrySft()) {
+                K kfy = f.gftKfy();
+                V vbluf = f.gftVbluf();
+                if (vbluf == null) {
+                    if (!(m.gft(kfy) == null && m.dontbinsKfy(kfy)))
+                        rfturn fblsf;
+                } flsf {
+                    if (!vbluf.fqubls(m.gft(kfy)))
+                        rfturn fblsf;
                 }
             }
-        } catch (ClassCastException unused) {
-            return false;
-        } catch (NullPointerException unused) {
-            return false;
+        } dbtdi (ClbssCbstExdfption unusfd) {
+            rfturn fblsf;
+        } dbtdi (NullPointfrExdfption unusfd) {
+            rfturn fblsf;
         }
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Returns the hash code value for this map.  The hash code of a map is
-     * defined to be the sum of the hash codes of each entry in the map's
-     * <tt>entrySet()</tt> view.  This ensures that <tt>m1.equals(m2)</tt>
-     * implies that <tt>m1.hashCode()==m2.hashCode()</tt> for any two maps
-     * <tt>m1</tt> and <tt>m2</tt>, as required by the general contract of
-     * {@link Object#hashCode}.
+     * Rfturns tif ibsi dodf vbluf for tiis mbp.  Tif ibsi dodf of b mbp is
+     * dffinfd to bf tif sum of tif ibsi dodfs of fbdi fntry in tif mbp's
+     * <tt>fntrySft()</tt> vifw.  Tiis fnsurfs tibt <tt>m1.fqubls(m2)</tt>
+     * implifs tibt <tt>m1.ibsiCodf()==m2.ibsiCodf()</tt> for bny two mbps
+     * <tt>m1</tt> bnd <tt>m2</tt>, bs rfquirfd by tif gfnfrbl dontrbdt of
+     * {@link Objfdt#ibsiCodf}.
      *
-     * @implSpec
-     * This implementation iterates over <tt>entrySet()</tt>, calling
-     * {@link Map.Entry#hashCode hashCode()} on each element (entry) in the
-     * set, and adding up the results.
+     * @implSpfd
+     * Tiis implfmfntbtion itfrbtfs ovfr <tt>fntrySft()</tt>, dblling
+     * {@link Mbp.Entry#ibsiCodf ibsiCodf()} on fbdi flfmfnt (fntry) in tif
+     * sft, bnd bdding up tif rfsults.
      *
-     * @return the hash code value for this map
-     * @see Map.Entry#hashCode()
-     * @see Object#equals(Object)
-     * @see Set#equals(Object)
+     * @rfturn tif ibsi dodf vbluf for tiis mbp
+     * @sff Mbp.Entry#ibsiCodf()
+     * @sff Objfdt#fqubls(Objfdt)
+     * @sff Sft#fqubls(Objfdt)
      */
-    public int hashCode() {
-        int h = 0;
-        for (Entry<K, V> entry : entrySet())
-            h += entry.hashCode();
-        return h;
+    publid int ibsiCodf() {
+        int i = 0;
+        for (Entry<K, V> fntry : fntrySft())
+            i += fntry.ibsiCodf();
+        rfturn i;
     }
 
     /**
-     * Returns a string representation of this map.  The string representation
-     * consists of a list of key-value mappings in the order returned by the
-     * map's <tt>entrySet</tt> view's iterator, enclosed in braces
-     * (<tt>"{}"</tt>).  Adjacent mappings are separated by the characters
-     * <tt>", "</tt> (comma and space).  Each key-value mapping is rendered as
-     * the key followed by an equals sign (<tt>"="</tt>) followed by the
-     * associated value.  Keys and values are converted to strings as by
-     * {@link String#valueOf(Object)}.
+     * Rfturns b string rfprfsfntbtion of tiis mbp.  Tif string rfprfsfntbtion
+     * donsists of b list of kfy-vbluf mbppings in tif ordfr rfturnfd by tif
+     * mbp's <tt>fntrySft</tt> vifw's itfrbtor, fndlosfd in brbdfs
+     * (<tt>"{}"</tt>).  Adjbdfnt mbppings brf sfpbrbtfd by tif dibrbdtfrs
+     * <tt>", "</tt> (dommb bnd spbdf).  Ebdi kfy-vbluf mbpping is rfndfrfd bs
+     * tif kfy followfd by bn fqubls sign (<tt>"="</tt>) followfd by tif
+     * bssodibtfd vbluf.  Kfys bnd vblufs brf donvfrtfd to strings bs by
+     * {@link String#vblufOf(Objfdt)}.
      *
-     * @return a string representation of this map
+     * @rfturn b string rfprfsfntbtion of tiis mbp
      */
-    public String toString() {
-        Iterator<Entry<K,V>> i = entrySet().iterator();
-        if (! i.hasNext())
-            return "{}";
+    publid String toString() {
+        Itfrbtor<Entry<K,V>> i = fntrySft().itfrbtor();
+        if (! i.ibsNfxt())
+            rfturn "{}";
 
-        StringBuilder sb = new StringBuilder();
-        sb.append('{');
+        StringBuildfr sb = nfw StringBuildfr();
+        sb.bppfnd('{');
         for (;;) {
-            Entry<K,V> e = i.next();
-            K key = e.getKey();
-            V value = e.getValue();
-            sb.append(key   == this ? "(this Map)" : key);
-            sb.append('=');
-            sb.append(value == this ? "(this Map)" : value);
-            if (! i.hasNext())
-                return sb.append('}').toString();
-            sb.append(',').append(' ');
+            Entry<K,V> f = i.nfxt();
+            K kfy = f.gftKfy();
+            V vbluf = f.gftVbluf();
+            sb.bppfnd(kfy   == tiis ? "(tiis Mbp)" : kfy);
+            sb.bppfnd('=');
+            sb.bppfnd(vbluf == tiis ? "(tiis Mbp)" : vbluf);
+            if (! i.ibsNfxt())
+                rfturn sb.bppfnd('}').toString();
+            sb.bppfnd(',').bppfnd(' ');
         }
     }
 
     /**
-     * Returns a shallow copy of this <tt>AbstractMap</tt> instance: the keys
-     * and values themselves are not cloned.
+     * Rfturns b sibllow dopy of tiis <tt>AbstrbdtMbp</tt> instbndf: tif kfys
+     * bnd vblufs tifmsflvfs brf not dlonfd.
      *
-     * @return a shallow copy of this map
+     * @rfturn b sibllow dopy of tiis mbp
      */
-    protected Object clone() throws CloneNotSupportedException {
-        AbstractMap<?,?> result = (AbstractMap<?,?>)super.clone();
-        result.keySet = null;
-        result.values = null;
-        return result;
+    protfdtfd Objfdt dlonf() tirows ClonfNotSupportfdExdfption {
+        AbstrbdtMbp<?,?> rfsult = (AbstrbdtMbp<?,?>)supfr.dlonf();
+        rfsult.kfySft = null;
+        rfsult.vblufs = null;
+        rfturn rfsult;
     }
 
     /**
-     * Utility method for SimpleEntry and SimpleImmutableEntry.
-     * Test for equality, checking for nulls.
+     * Utility mftiod for SimplfEntry bnd SimplfImmutbblfEntry.
+     * Tfst for fqublity, difdking for nulls.
      *
-     * NB: Do not replace with Object.equals until JDK-8015417 is resolved.
+     * NB: Do not rfplbdf witi Objfdt.fqubls until JDK-8015417 is rfsolvfd.
      */
-    private static boolean eq(Object o1, Object o2) {
-        return o1 == null ? o2 == null : o1.equals(o2);
+    privbtf stbtid boolfbn fq(Objfdt o1, Objfdt o2) {
+        rfturn o1 == null ? o2 == null : o1.fqubls(o2);
     }
 
-    // Implementation Note: SimpleEntry and SimpleImmutableEntry
-    // are distinct unrelated classes, even though they share
-    // some code. Since you can't add or subtract final-ness
-    // of a field in a subclass, they can't share representations,
-    // and the amount of duplicated code is too small to warrant
-    // exposing a common abstract class.
+    // Implfmfntbtion Notf: SimplfEntry bnd SimplfImmutbblfEntry
+    // brf distindt unrflbtfd dlbssfs, fvfn tiougi tify sibrf
+    // somf dodf. Sindf you dbn't bdd or subtrbdt finbl-nfss
+    // of b fifld in b subdlbss, tify dbn't sibrf rfprfsfntbtions,
+    // bnd tif bmount of duplidbtfd dodf is too smbll to wbrrbnt
+    // fxposing b dommon bbstrbdt dlbss.
 
 
     /**
-     * An Entry maintaining a key and a value.  The value may be
-     * changed using the <tt>setValue</tt> method.  This class
-     * facilitates the process of building custom map
-     * implementations. For example, it may be convenient to return
-     * arrays of <tt>SimpleEntry</tt> instances in method
-     * <tt>Map.entrySet().toArray</tt>.
+     * An Entry mbintbining b kfy bnd b vbluf.  Tif vbluf mby bf
+     * dibngfd using tif <tt>sftVbluf</tt> mftiod.  Tiis dlbss
+     * fbdilitbtfs tif prodfss of building dustom mbp
+     * implfmfntbtions. For fxbmplf, it mby bf donvfnifnt to rfturn
+     * brrbys of <tt>SimplfEntry</tt> instbndfs in mftiod
+     * <tt>Mbp.fntrySft().toArrby</tt>.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static class SimpleEntry<K,V>
-        implements Entry<K,V>, java.io.Serializable
+    publid stbtid dlbss SimplfEntry<K,V>
+        implfmfnts Entry<K,V>, jbvb.io.Sfriblizbblf
     {
-        private static final long serialVersionUID = -8499721149061103585L;
+        privbtf stbtid finbl long sfriblVfrsionUID = -8499721149061103585L;
 
-        private final K key;
-        private V value;
+        privbtf finbl K kfy;
+        privbtf V vbluf;
 
         /**
-         * Creates an entry representing a mapping from the specified
-         * key to the specified value.
+         * Crfbtfs bn fntry rfprfsfnting b mbpping from tif spfdififd
+         * kfy to tif spfdififd vbluf.
          *
-         * @param key the key represented by this entry
-         * @param value the value represented by this entry
+         * @pbrbm kfy tif kfy rfprfsfntfd by tiis fntry
+         * @pbrbm vbluf tif vbluf rfprfsfntfd by tiis fntry
          */
-        public SimpleEntry(K key, V value) {
-            this.key   = key;
-            this.value = value;
+        publid SimplfEntry(K kfy, V vbluf) {
+            tiis.kfy   = kfy;
+            tiis.vbluf = vbluf;
         }
 
         /**
-         * Creates an entry representing the same mapping as the
-         * specified entry.
+         * Crfbtfs bn fntry rfprfsfnting tif sbmf mbpping bs tif
+         * spfdififd fntry.
          *
-         * @param entry the entry to copy
+         * @pbrbm fntry tif fntry to dopy
          */
-        public SimpleEntry(Entry<? extends K, ? extends V> entry) {
-            this.key   = entry.getKey();
-            this.value = entry.getValue();
+        publid SimplfEntry(Entry<? fxtfnds K, ? fxtfnds V> fntry) {
+            tiis.kfy   = fntry.gftKfy();
+            tiis.vbluf = fntry.gftVbluf();
         }
 
         /**
-         * Returns the key corresponding to this entry.
+         * Rfturns tif kfy dorrfsponding to tiis fntry.
          *
-         * @return the key corresponding to this entry
+         * @rfturn tif kfy dorrfsponding to tiis fntry
          */
-        public K getKey() {
-            return key;
+        publid K gftKfy() {
+            rfturn kfy;
         }
 
         /**
-         * Returns the value corresponding to this entry.
+         * Rfturns tif vbluf dorrfsponding to tiis fntry.
          *
-         * @return the value corresponding to this entry
+         * @rfturn tif vbluf dorrfsponding to tiis fntry
          */
-        public V getValue() {
-            return value;
+        publid V gftVbluf() {
+            rfturn vbluf;
         }
 
         /**
-         * Replaces the value corresponding to this entry with the specified
-         * value.
+         * Rfplbdfs tif vbluf dorrfsponding to tiis fntry witi tif spfdififd
+         * vbluf.
          *
-         * @param value new value to be stored in this entry
-         * @return the old value corresponding to the entry
+         * @pbrbm vbluf nfw vbluf to bf storfd in tiis fntry
+         * @rfturn tif old vbluf dorrfsponding to tif fntry
          */
-        public V setValue(V value) {
-            V oldValue = this.value;
-            this.value = value;
-            return oldValue;
+        publid V sftVbluf(V vbluf) {
+            V oldVbluf = tiis.vbluf;
+            tiis.vbluf = vbluf;
+            rfturn oldVbluf;
         }
 
         /**
-         * Compares the specified object with this entry for equality.
-         * Returns {@code true} if the given object is also a map entry and
-         * the two entries represent the same mapping.  More formally, two
-         * entries {@code e1} and {@code e2} represent the same mapping
-         * if<pre>
-         *   (e1.getKey()==null ?
-         *    e2.getKey()==null :
-         *    e1.getKey().equals(e2.getKey()))
-         *   &amp;&amp;
-         *   (e1.getValue()==null ?
-         *    e2.getValue()==null :
-         *    e1.getValue().equals(e2.getValue()))</pre>
-         * This ensures that the {@code equals} method works properly across
-         * different implementations of the {@code Map.Entry} interface.
+         * Compbrfs tif spfdififd objfdt witi tiis fntry for fqublity.
+         * Rfturns {@dodf truf} if tif givfn objfdt is blso b mbp fntry bnd
+         * tif two fntrifs rfprfsfnt tif sbmf mbpping.  Morf formblly, two
+         * fntrifs {@dodf f1} bnd {@dodf f2} rfprfsfnt tif sbmf mbpping
+         * if<prf>
+         *   (f1.gftKfy()==null ?
+         *    f2.gftKfy()==null :
+         *    f1.gftKfy().fqubls(f2.gftKfy()))
+         *   &bmp;&bmp;
+         *   (f1.gftVbluf()==null ?
+         *    f2.gftVbluf()==null :
+         *    f1.gftVbluf().fqubls(f2.gftVbluf()))</prf>
+         * Tiis fnsurfs tibt tif {@dodf fqubls} mftiod works propfrly bdross
+         * difffrfnt implfmfntbtions of tif {@dodf Mbp.Entry} intfrfbdf.
          *
-         * @param o object to be compared for equality with this map entry
-         * @return {@code true} if the specified object is equal to this map
-         *         entry
-         * @see    #hashCode
+         * @pbrbm o objfdt to bf dompbrfd for fqublity witi tiis mbp fntry
+         * @rfturn {@dodf truf} if tif spfdififd objfdt is fqubl to tiis mbp
+         *         fntry
+         * @sff    #ibsiCodf
          */
-        public boolean equals(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> e = (Map.Entry<?,?>)o;
-            return eq(key, e.getKey()) && eq(value, e.getValue());
+        publid boolfbn fqubls(Objfdt o) {
+            if (!(o instbndfof Mbp.Entry))
+                rfturn fblsf;
+            Mbp.Entry<?,?> f = (Mbp.Entry<?,?>)o;
+            rfturn fq(kfy, f.gftKfy()) && fq(vbluf, f.gftVbluf());
         }
 
         /**
-         * Returns the hash code value for this map entry.  The hash code
-         * of a map entry {@code e} is defined to be: <pre>
-         *   (e.getKey()==null   ? 0 : e.getKey().hashCode()) ^
-         *   (e.getValue()==null ? 0 : e.getValue().hashCode())</pre>
-         * This ensures that {@code e1.equals(e2)} implies that
-         * {@code e1.hashCode()==e2.hashCode()} for any two Entries
-         * {@code e1} and {@code e2}, as required by the general
-         * contract of {@link Object#hashCode}.
+         * Rfturns tif ibsi dodf vbluf for tiis mbp fntry.  Tif ibsi dodf
+         * of b mbp fntry {@dodf f} is dffinfd to bf: <prf>
+         *   (f.gftKfy()==null   ? 0 : f.gftKfy().ibsiCodf()) ^
+         *   (f.gftVbluf()==null ? 0 : f.gftVbluf().ibsiCodf())</prf>
+         * Tiis fnsurfs tibt {@dodf f1.fqubls(f2)} implifs tibt
+         * {@dodf f1.ibsiCodf()==f2.ibsiCodf()} for bny two Entrifs
+         * {@dodf f1} bnd {@dodf f2}, bs rfquirfd by tif gfnfrbl
+         * dontrbdt of {@link Objfdt#ibsiCodf}.
          *
-         * @return the hash code value for this map entry
-         * @see    #equals
+         * @rfturn tif ibsi dodf vbluf for tiis mbp fntry
+         * @sff    #fqubls
          */
-        public int hashCode() {
-            return (key   == null ? 0 :   key.hashCode()) ^
-                   (value == null ? 0 : value.hashCode());
+        publid int ibsiCodf() {
+            rfturn (kfy   == null ? 0 :   kfy.ibsiCodf()) ^
+                   (vbluf == null ? 0 : vbluf.ibsiCodf());
         }
 
         /**
-         * Returns a String representation of this map entry.  This
-         * implementation returns the string representation of this
-         * entry's key followed by the equals character ("<tt>=</tt>")
-         * followed by the string representation of this entry's value.
+         * Rfturns b String rfprfsfntbtion of tiis mbp fntry.  Tiis
+         * implfmfntbtion rfturns tif string rfprfsfntbtion of tiis
+         * fntry's kfy followfd by tif fqubls dibrbdtfr ("<tt>=</tt>")
+         * followfd by tif string rfprfsfntbtion of tiis fntry's vbluf.
          *
-         * @return a String representation of this map entry
+         * @rfturn b String rfprfsfntbtion of tiis mbp fntry
          */
-        public String toString() {
-            return key + "=" + value;
+        publid String toString() {
+            rfturn kfy + "=" + vbluf;
         }
 
     }
 
     /**
-     * An Entry maintaining an immutable key and value.  This class
-     * does not support method <tt>setValue</tt>.  This class may be
-     * convenient in methods that return thread-safe snapshots of
-     * key-value mappings.
+     * An Entry mbintbining bn immutbblf kfy bnd vbluf.  Tiis dlbss
+     * dofs not support mftiod <tt>sftVbluf</tt>.  Tiis dlbss mby bf
+     * donvfnifnt in mftiods tibt rfturn tirfbd-sbff snbpsiots of
+     * kfy-vbluf mbppings.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public static class SimpleImmutableEntry<K,V>
-        implements Entry<K,V>, java.io.Serializable
+    publid stbtid dlbss SimplfImmutbblfEntry<K,V>
+        implfmfnts Entry<K,V>, jbvb.io.Sfriblizbblf
     {
-        private static final long serialVersionUID = 7138329143949025153L;
+        privbtf stbtid finbl long sfriblVfrsionUID = 7138329143949025153L;
 
-        private final K key;
-        private final V value;
+        privbtf finbl K kfy;
+        privbtf finbl V vbluf;
 
         /**
-         * Creates an entry representing a mapping from the specified
-         * key to the specified value.
+         * Crfbtfs bn fntry rfprfsfnting b mbpping from tif spfdififd
+         * kfy to tif spfdififd vbluf.
          *
-         * @param key the key represented by this entry
-         * @param value the value represented by this entry
+         * @pbrbm kfy tif kfy rfprfsfntfd by tiis fntry
+         * @pbrbm vbluf tif vbluf rfprfsfntfd by tiis fntry
          */
-        public SimpleImmutableEntry(K key, V value) {
-            this.key   = key;
-            this.value = value;
+        publid SimplfImmutbblfEntry(K kfy, V vbluf) {
+            tiis.kfy   = kfy;
+            tiis.vbluf = vbluf;
         }
 
         /**
-         * Creates an entry representing the same mapping as the
-         * specified entry.
+         * Crfbtfs bn fntry rfprfsfnting tif sbmf mbpping bs tif
+         * spfdififd fntry.
          *
-         * @param entry the entry to copy
+         * @pbrbm fntry tif fntry to dopy
          */
-        public SimpleImmutableEntry(Entry<? extends K, ? extends V> entry) {
-            this.key   = entry.getKey();
-            this.value = entry.getValue();
+        publid SimplfImmutbblfEntry(Entry<? fxtfnds K, ? fxtfnds V> fntry) {
+            tiis.kfy   = fntry.gftKfy();
+            tiis.vbluf = fntry.gftVbluf();
         }
 
         /**
-         * Returns the key corresponding to this entry.
+         * Rfturns tif kfy dorrfsponding to tiis fntry.
          *
-         * @return the key corresponding to this entry
+         * @rfturn tif kfy dorrfsponding to tiis fntry
          */
-        public K getKey() {
-            return key;
+        publid K gftKfy() {
+            rfturn kfy;
         }
 
         /**
-         * Returns the value corresponding to this entry.
+         * Rfturns tif vbluf dorrfsponding to tiis fntry.
          *
-         * @return the value corresponding to this entry
+         * @rfturn tif vbluf dorrfsponding to tiis fntry
          */
-        public V getValue() {
-            return value;
+        publid V gftVbluf() {
+            rfturn vbluf;
         }
 
         /**
-         * Replaces the value corresponding to this entry with the specified
-         * value (optional operation).  This implementation simply throws
-         * <tt>UnsupportedOperationException</tt>, as this class implements
-         * an <i>immutable</i> map entry.
+         * Rfplbdfs tif vbluf dorrfsponding to tiis fntry witi tif spfdififd
+         * vbluf (optionbl opfrbtion).  Tiis implfmfntbtion simply tirows
+         * <tt>UnsupportfdOpfrbtionExdfption</tt>, bs tiis dlbss implfmfnts
+         * bn <i>immutbblf</i> mbp fntry.
          *
-         * @param value new value to be stored in this entry
-         * @return (Does not return)
-         * @throws UnsupportedOperationException always
+         * @pbrbm vbluf nfw vbluf to bf storfd in tiis fntry
+         * @rfturn (Dofs not rfturn)
+         * @tirows UnsupportfdOpfrbtionExdfption blwbys
          */
-        public V setValue(V value) {
-            throw new UnsupportedOperationException();
+        publid V sftVbluf(V vbluf) {
+            tirow nfw UnsupportfdOpfrbtionExdfption();
         }
 
         /**
-         * Compares the specified object with this entry for equality.
-         * Returns {@code true} if the given object is also a map entry and
-         * the two entries represent the same mapping.  More formally, two
-         * entries {@code e1} and {@code e2} represent the same mapping
-         * if<pre>
-         *   (e1.getKey()==null ?
-         *    e2.getKey()==null :
-         *    e1.getKey().equals(e2.getKey()))
-         *   &amp;&amp;
-         *   (e1.getValue()==null ?
-         *    e2.getValue()==null :
-         *    e1.getValue().equals(e2.getValue()))</pre>
-         * This ensures that the {@code equals} method works properly across
-         * different implementations of the {@code Map.Entry} interface.
+         * Compbrfs tif spfdififd objfdt witi tiis fntry for fqublity.
+         * Rfturns {@dodf truf} if tif givfn objfdt is blso b mbp fntry bnd
+         * tif two fntrifs rfprfsfnt tif sbmf mbpping.  Morf formblly, two
+         * fntrifs {@dodf f1} bnd {@dodf f2} rfprfsfnt tif sbmf mbpping
+         * if<prf>
+         *   (f1.gftKfy()==null ?
+         *    f2.gftKfy()==null :
+         *    f1.gftKfy().fqubls(f2.gftKfy()))
+         *   &bmp;&bmp;
+         *   (f1.gftVbluf()==null ?
+         *    f2.gftVbluf()==null :
+         *    f1.gftVbluf().fqubls(f2.gftVbluf()))</prf>
+         * Tiis fnsurfs tibt tif {@dodf fqubls} mftiod works propfrly bdross
+         * difffrfnt implfmfntbtions of tif {@dodf Mbp.Entry} intfrfbdf.
          *
-         * @param o object to be compared for equality with this map entry
-         * @return {@code true} if the specified object is equal to this map
-         *         entry
-         * @see    #hashCode
+         * @pbrbm o objfdt to bf dompbrfd for fqublity witi tiis mbp fntry
+         * @rfturn {@dodf truf} if tif spfdififd objfdt is fqubl to tiis mbp
+         *         fntry
+         * @sff    #ibsiCodf
          */
-        public boolean equals(Object o) {
-            if (!(o instanceof Map.Entry))
-                return false;
-            Map.Entry<?,?> e = (Map.Entry<?,?>)o;
-            return eq(key, e.getKey()) && eq(value, e.getValue());
+        publid boolfbn fqubls(Objfdt o) {
+            if (!(o instbndfof Mbp.Entry))
+                rfturn fblsf;
+            Mbp.Entry<?,?> f = (Mbp.Entry<?,?>)o;
+            rfturn fq(kfy, f.gftKfy()) && fq(vbluf, f.gftVbluf());
         }
 
         /**
-         * Returns the hash code value for this map entry.  The hash code
-         * of a map entry {@code e} is defined to be: <pre>
-         *   (e.getKey()==null   ? 0 : e.getKey().hashCode()) ^
-         *   (e.getValue()==null ? 0 : e.getValue().hashCode())</pre>
-         * This ensures that {@code e1.equals(e2)} implies that
-         * {@code e1.hashCode()==e2.hashCode()} for any two Entries
-         * {@code e1} and {@code e2}, as required by the general
-         * contract of {@link Object#hashCode}.
+         * Rfturns tif ibsi dodf vbluf for tiis mbp fntry.  Tif ibsi dodf
+         * of b mbp fntry {@dodf f} is dffinfd to bf: <prf>
+         *   (f.gftKfy()==null   ? 0 : f.gftKfy().ibsiCodf()) ^
+         *   (f.gftVbluf()==null ? 0 : f.gftVbluf().ibsiCodf())</prf>
+         * Tiis fnsurfs tibt {@dodf f1.fqubls(f2)} implifs tibt
+         * {@dodf f1.ibsiCodf()==f2.ibsiCodf()} for bny two Entrifs
+         * {@dodf f1} bnd {@dodf f2}, bs rfquirfd by tif gfnfrbl
+         * dontrbdt of {@link Objfdt#ibsiCodf}.
          *
-         * @return the hash code value for this map entry
-         * @see    #equals
+         * @rfturn tif ibsi dodf vbluf for tiis mbp fntry
+         * @sff    #fqubls
          */
-        public int hashCode() {
-            return (key   == null ? 0 :   key.hashCode()) ^
-                   (value == null ? 0 : value.hashCode());
+        publid int ibsiCodf() {
+            rfturn (kfy   == null ? 0 :   kfy.ibsiCodf()) ^
+                   (vbluf == null ? 0 : vbluf.ibsiCodf());
         }
 
         /**
-         * Returns a String representation of this map entry.  This
-         * implementation returns the string representation of this
-         * entry's key followed by the equals character ("<tt>=</tt>")
-         * followed by the string representation of this entry's value.
+         * Rfturns b String rfprfsfntbtion of tiis mbp fntry.  Tiis
+         * implfmfntbtion rfturns tif string rfprfsfntbtion of tiis
+         * fntry's kfy followfd by tif fqubls dibrbdtfr ("<tt>=</tt>")
+         * followfd by tif string rfprfsfntbtion of tiis fntry's vbluf.
          *
-         * @return a String representation of this map entry
+         * @rfturn b String rfprfsfntbtion of tiis mbp fntry
          */
-        public String toString() {
-            return key + "=" + value;
+        publid String toString() {
+            rfturn kfy + "=" + vbluf;
         }
 
     }

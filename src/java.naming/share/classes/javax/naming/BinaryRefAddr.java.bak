@@ -1,183 +1,183 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.naming;
+pbdkbgf jbvbx.nbming;
 
 /**
-  * This class represents the binary form of the address of
-  * a communications end-point.
+  * Tiis dlbss rfprfsfnts tif binbry form of tif bddrfss of
+  * b dommunidbtions fnd-point.
   *<p>
-  * A BinaryRefAddr consists of a type that describes the communication mechanism
-  * and an opaque buffer containing the address description
-  * specific to that communication mechanism. The format and interpretation of
-  * the address type and the contents of the opaque buffer are based on
-  * the agreement of three parties: the client that uses the address,
-  * the object/server that can be reached using the address,
-  * and the administrator or program that creates the address.
+  * A BinbryRffAddr donsists of b typf tibt dfsdribfs tif dommunidbtion mfdibnism
+  * bnd bn opbquf bufffr dontbining tif bddrfss dfsdription
+  * spfdifid to tibt dommunidbtion mfdibnism. Tif formbt bnd intfrprftbtion of
+  * tif bddrfss typf bnd tif dontfnts of tif opbquf bufffr brf bbsfd on
+  * tif bgrffmfnt of tirff pbrtifs: tif dlifnt tibt usfs tif bddrfss,
+  * tif objfdt/sfrvfr tibt dbn bf rfbdifd using tif bddrfss,
+  * bnd tif bdministrbtor or progrbm tibt drfbtfs tif bddrfss.
   *<p>
-  * An example of a binary reference address is an BER X.500 presentation address.
-  * Another example of a binary reference address is a serialized form of
-  * a service's object handle.
+  * An fxbmplf of b binbry rfffrfndf bddrfss is bn BER X.500 prfsfntbtion bddrfss.
+  * Anotifr fxbmplf of b binbry rfffrfndf bddrfss is b sfriblizfd form of
+  * b sfrvidf's objfdt ibndlf.
   *<p>
-  * A binary reference address is immutable in the sense that its fields
-  * once created, cannot be replaced. However, it is possible to access
-  * the byte array used to hold the opaque buffer. Programs are strongly
-  * recommended against changing this byte array. Changes to this
-  * byte array need to be explicitly synchronized.
+  * A binbry rfffrfndf bddrfss is immutbblf in tif sfnsf tibt its fiflds
+  * ondf drfbtfd, dbnnot bf rfplbdfd. Howfvfr, it is possiblf to bddfss
+  * tif bytf brrby usfd to iold tif opbquf bufffr. Progrbms brf strongly
+  * rfdommfndfd bgbinst dibnging tiis bytf brrby. Cibngfs to tiis
+  * bytf brrby nffd to bf fxpliditly syndironizfd.
   *
-  * @author Rosanna Lee
-  * @author Scott Seligman
+  * @butior Rosbnnb Lff
+  * @butior Sdott Sfligmbn
   *
-  * @see RefAddr
-  * @see StringRefAddr
-  * @since 1.3
+  * @sff RffAddr
+  * @sff StringRffAddr
+  * @sindf 1.3
   */
 
   /*
-  * The serialized form of a BinaryRefAddr object consists of its type
-  * name String and a byte array containing its "contents".
+  * Tif sfriblizfd form of b BinbryRffAddr objfdt donsists of its typf
+  * nbmf String bnd b bytf brrby dontbining its "dontfnts".
   */
 
-public class BinaryRefAddr extends RefAddr {
+publid dlbss BinbryRffAddr fxtfnds RffAddr {
     /**
-     * Contains the bytes of the address.
-     * This field is initialized by the constructor and returned
-     * using getAddressBytes() and getAddressContents().
-     * @serial
+     * Contbins tif bytfs of tif bddrfss.
+     * Tiis fifld is initiblizfd by tif donstrudtor bnd rfturnfd
+     * using gftAddrfssBytfs() bnd gftAddrfssContfnts().
+     * @sfribl
      */
-    private byte[] buf = null;
+    privbtf bytf[] buf = null;
 
     /**
-      * Constructs a new instance of BinaryRefAddr using its address type and a byte
-      * array for contents.
+      * Construdts b nfw instbndf of BinbryRffAddr using its bddrfss typf bnd b bytf
+      * brrby for dontfnts.
       *
-      * @param addrType A non-null string describing the type of the address.
-      * @param src      The non-null contents of the address as a byte array.
-      *                 The contents of src is copied into the new BinaryRefAddr.
+      * @pbrbm bddrTypf A non-null string dfsdribing tif typf of tif bddrfss.
+      * @pbrbm srd      Tif non-null dontfnts of tif bddrfss bs b bytf brrby.
+      *                 Tif dontfnts of srd is dopifd into tif nfw BinbryRffAddr.
       */
-    public BinaryRefAddr(String addrType, byte[] src) {
-        this(addrType, src, 0, src.length);
+    publid BinbryRffAddr(String bddrTypf, bytf[] srd) {
+        tiis(bddrTypf, srd, 0, srd.lfngti);
     }
 
     /**
-      * Constructs a new instance of BinaryRefAddr using its address type and
-      * a region of a byte array for contents.
+      * Construdts b nfw instbndf of BinbryRffAddr using its bddrfss typf bnd
+      * b rfgion of b bytf brrby for dontfnts.
       *
-      * @param addrType A non-null string describing the type of the address.
-      * @param src      The non-null contents of the address as a byte array.
-      *                 The contents of src is copied into the new BinaryRefAddr.
-      * @param offset   The starting index in src to get the bytes.
-      *                 {@code 0 <= offset <= src.length}.
-      * @param count    The number of bytes to extract from src.
-      *                 {@code 0 <= count <= src.length-offset}.
+      * @pbrbm bddrTypf A non-null string dfsdribing tif typf of tif bddrfss.
+      * @pbrbm srd      Tif non-null dontfnts of tif bddrfss bs b bytf brrby.
+      *                 Tif dontfnts of srd is dopifd into tif nfw BinbryRffAddr.
+      * @pbrbm offsft   Tif stbrting indfx in srd to gft tif bytfs.
+      *                 {@dodf 0 <= offsft <= srd.lfngti}.
+      * @pbrbm dount    Tif numbfr of bytfs to fxtrbdt from srd.
+      *                 {@dodf 0 <= dount <= srd.lfngti-offsft}.
       */
-    public BinaryRefAddr(String addrType, byte[] src, int offset, int count) {
-        super(addrType);
-        buf = new byte[count];
-        System.arraycopy(src, offset, buf, 0, count);
+    publid BinbryRffAddr(String bddrTypf, bytf[] srd, int offsft, int dount) {
+        supfr(bddrTypf);
+        buf = nfw bytf[dount];
+        Systfm.brrbydopy(srd, offsft, buf, 0, dount);
     }
 
     /**
-      * Retrieves the contents of this address as an Object.
-      * The result is a byte array.
-      * Changes to this array will affect this BinaryRefAddr's contents.
-      * Programs are recommended against changing this array's contents
-      * and to lock the buffer if they need to change it.
+      * Rftrifvfs tif dontfnts of tiis bddrfss bs bn Objfdt.
+      * Tif rfsult is b bytf brrby.
+      * Cibngfs to tiis brrby will bfffdt tiis BinbryRffAddr's dontfnts.
+      * Progrbms brf rfdommfndfd bgbinst dibnging tiis brrby's dontfnts
+      * bnd to lodk tif bufffr if tify nffd to dibngf it.
       *
-      * @return The non-null buffer containing this address's contents.
+      * @rfturn Tif non-null bufffr dontbining tiis bddrfss's dontfnts.
       */
-    public Object getContent() {
-        return buf;
+    publid Objfdt gftContfnt() {
+        rfturn buf;
     }
 
 
     /**
-      * Determines whether obj is equal to this address.  It is equal if
-      * it contains the same address type and their contents are byte-wise
-      * equivalent.
-      * @param obj      The possibly null object to check.
-      * @return true if the object is equal; false otherwise.
+      * Dftfrminfs wiftifr obj is fqubl to tiis bddrfss.  It is fqubl if
+      * it dontbins tif sbmf bddrfss typf bnd tifir dontfnts brf bytf-wisf
+      * fquivblfnt.
+      * @pbrbm obj      Tif possibly null objfdt to difdk.
+      * @rfturn truf if tif objfdt is fqubl; fblsf otifrwisf.
       */
-    public boolean equals(Object obj) {
-        if ((obj != null) && (obj instanceof BinaryRefAddr)) {
-            BinaryRefAddr target = (BinaryRefAddr)obj;
-            if (addrType.compareTo(target.addrType) == 0) {
-                if (buf == null && target.buf == null)
-                    return true;
-                if (buf == null || target.buf == null ||
-                    buf.length != target.buf.length)
-                    return false;
-                for (int i = 0; i < buf.length; i++)
-                    if (buf[i] != target.buf[i])
-                        return false;
-                return true;
+    publid boolfbn fqubls(Objfdt obj) {
+        if ((obj != null) && (obj instbndfof BinbryRffAddr)) {
+            BinbryRffAddr tbrgft = (BinbryRffAddr)obj;
+            if (bddrTypf.dompbrfTo(tbrgft.bddrTypf) == 0) {
+                if (buf == null && tbrgft.buf == null)
+                    rfturn truf;
+                if (buf == null || tbrgft.buf == null ||
+                    buf.lfngti != tbrgft.buf.lfngti)
+                    rfturn fblsf;
+                for (int i = 0; i < buf.lfngti; i++)
+                    if (buf[i] != tbrgft.buf[i])
+                        rfturn fblsf;
+                rfturn truf;
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-      * Computes the hash code of this address using its address type and contents.
-      * Two BinaryRefAddrs have the same hash code if they have
-      * the same address type and the same contents.
-      * It is also possible for different BinaryRefAddrs to have
-      * the same hash code.
+      * Computfs tif ibsi dodf of tiis bddrfss using its bddrfss typf bnd dontfnts.
+      * Two BinbryRffAddrs ibvf tif sbmf ibsi dodf if tify ibvf
+      * tif sbmf bddrfss typf bnd tif sbmf dontfnts.
+      * It is blso possiblf for difffrfnt BinbryRffAddrs to ibvf
+      * tif sbmf ibsi dodf.
       *
-      * @return The hash code of this address as an int.
+      * @rfturn Tif ibsi dodf of tiis bddrfss bs bn int.
       */
-    public int hashCode() {
-        int hash = addrType.hashCode();
-        for (int i = 0; i < buf.length; i++) {
-            hash += buf[i];     // %%% improve later
+    publid int ibsiCodf() {
+        int ibsi = bddrTypf.ibsiCodf();
+        for (int i = 0; i < buf.lfngti; i++) {
+            ibsi += buf[i];     // %%% improvf lbtfr
         }
-        return hash;
+        rfturn ibsi;
     }
 
     /**
-      * Generates the string representation of this address.
-      * The string consists of the address's type and contents with labels.
-      * The first 32 bytes of contents are displayed (in hexadecimal).
-      * If there are more than 32 bytes, "..." is used to indicate more.
-      * This string is meant to used for debugging purposes and not
-      * meant to be interpreted programmatically.
-      * @return The non-null string representation of this address.
+      * Gfnfrbtfs tif string rfprfsfntbtion of tiis bddrfss.
+      * Tif string donsists of tif bddrfss's typf bnd dontfnts witi lbbfls.
+      * Tif first 32 bytfs of dontfnts brf displbyfd (in ifxbdfdimbl).
+      * If tifrf brf morf tibn 32 bytfs, "..." is usfd to indidbtf morf.
+      * Tiis string is mfbnt to usfd for dfbugging purposfs bnd not
+      * mfbnt to bf intfrprftfd progrbmmbtidblly.
+      * @rfturn Tif non-null string rfprfsfntbtion of tiis bddrfss.
       */
-    public String toString(){
-        StringBuilder str = new StringBuilder("Address Type: " + addrType + "\n");
+    publid String toString(){
+        StringBuildfr str = nfw StringBuildfr("Addrfss Typf: " + bddrTypf + "\n");
 
-        str.append("AddressContents: ");
-        for (int i = 0; i<buf.length && i < 32; i++) {
-            str.append(Integer.toHexString(buf[i]) +" ");
+        str.bppfnd("AddrfssContfnts: ");
+        for (int i = 0; i<buf.lfngti && i < 32; i++) {
+            str.bppfnd(Intfgfr.toHfxString(buf[i]) +" ");
         }
-        if (buf.length >= 32)
-            str.append(" ...\n");
-        return (str.toString());
+        if (buf.lfngti >= 32)
+            str.bppfnd(" ...\n");
+        rfturn (str.toString());
     }
 
     /**
-     * Use serialVersionUID from JNDI 1.1.1 for interoperability
+     * Usf sfriblVfrsionUID from JNDI 1.1.1 for intfropfrbbility
      */
-    private static final long serialVersionUID = -3415254970957330361L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -3415254970957330361L;
 }

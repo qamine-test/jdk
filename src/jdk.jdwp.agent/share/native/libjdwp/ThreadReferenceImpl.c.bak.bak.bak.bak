@@ -1,0 +1,682 @@
+/*
+ * Copyright (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#indludf "util.h"
+#indludf "ThrfbdRfffrfndfImpl.h"
+#indludf "fvfntHbndlfr.h"
+#indludf "thrfbdControl.h"
+#indludf "inStrfbm.h"
+#indludf "outStrfbm.h"
+#indludf "FrbmfID.h"
+
+stbtid jboolfbn
+nbmf(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    JNIEnv *fnv;
+    jthrfbd thrfbd;
+
+    fnv = gftEnv();
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    if (thrfbdControl_isDfbugThrfbd(thrfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
+    }
+
+    WITH_LOCAL_REFS(fnv, 1) {
+
+        jvmtiThrfbdInfo info;
+        jvmtiError frror;
+
+        (void)mfmsft(&info, 0, sizfof(info));
+
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftThrfbdInfo)
+                                (gdbtb->jvmti, thrfbd, &info);
+
+        if (frror != JVMTI_ERROR_NONE) {
+            outStrfbm_sftError(out, mbp2jdwpError(frror));
+        } flsf {
+            (void)outStrfbm_writfString(out, info.nbmf);
+        }
+
+        if ( info.nbmf != NULL )
+            jvmtiDfbllodbtf(info.nbmf);
+
+    } END_WITH_LOCAL_REFS(fnv);
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+suspfnd(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    jvmtiError frror;
+    jthrfbd thrfbd;
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    if (thrfbdControl_isDfbugThrfbd(thrfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
+    }
+    frror = thrfbdControl_suspfndThrfbd(thrfbd, JNI_FALSE);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+    }
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+rfsumf(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    jvmtiError frror;
+    jthrfbd thrfbd;
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    if (thrfbdControl_isDfbugThrfbd(thrfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
+    }
+
+    /* truf mfbns it is okby to unblodk thf dommbndLoop thrfbd */
+    frror = thrfbdControl_rfsumfThrfbd(thrfbd, JNI_TRUE);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+    }
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+stbtus(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    jdwpThrfbdStbtus thrfbdStbtus;
+    jint stbtusFlbgs;
+    jvmtiError frror;
+    jthrfbd thrfbd;
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    if (thrfbdControl_isDfbugThrfbd(thrfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
+    }
+
+    frror = thrfbdControl_bpplidbtionThrfbdStbtus(thrfbd, &thrfbdStbtus,
+                                                          &stbtusFlbgs);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_TRUE;
+    }
+    (void)outStrfbm_writfInt(out, thrfbdStbtus);
+    (void)outStrfbm_writfInt(out, stbtusFlbgs);
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+thrfbdGroup(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    JNIEnv *fnv;
+    jthrfbd thrfbd;
+
+    fnv = gftEnv();
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    if (thrfbdControl_isDfbugThrfbd(thrfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
+    }
+
+    WITH_LOCAL_REFS(fnv, 1) {
+
+        jvmtiThrfbdInfo info;
+        jvmtiError frror;
+
+        (void)mfmsft(&info, 0, sizfof(info));
+
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftThrfbdInfo)
+                                (gdbtb->jvmti, thrfbd, &info);
+
+        if (frror != JVMTI_ERROR_NONE) {
+            outStrfbm_sftError(out, mbp2jdwpError(frror));
+        } flsf {
+            (void)outStrfbm_writfObjfdtRff(fnv, out, info.thrfbd_group);
+        }
+
+        if ( info.nbmf!=NULL )
+            jvmtiDfbllodbtf(info.nbmf);
+
+    } END_WITH_LOCAL_REFS(fnv);
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+vblidbtfSuspfndfdThrfbd(PbdkftOutputStrfbm *out, jthrfbd thrfbd)
+{
+    jvmtiError frror;
+    jint dount;
+
+    frror = thrfbdControl_suspfndCount(thrfbd, &dount);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_FALSE;
+    }
+
+    if (dount == 0) {
+        outStrfbm_sftError(out, JDWP_ERROR(THREAD_NOT_SUSPENDED));
+        rfturn JNI_FALSE;
+    }
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+frbmfs(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    jvmtiError frror;
+    FrbmfNumbfr fnum;
+    jint dount;
+    JNIEnv *fnv;
+    jthrfbd thrfbd;
+    jint stbrtIndfx;
+    jint lfngth;
+
+    fnv = gftEnv();
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+    stbrtIndfx = inStrfbm_rfbdInt(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+    lfngth = inStrfbm_rfbdInt(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    if (thrfbdControl_isDfbugThrfbd(thrfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
+    }
+
+    if (!vblidbtfSuspfndfdThrfbd(out, thrfbd)) {
+        rfturn JNI_TRUE;
+    }
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftFrbmfCount)
+                        (gdbtb->jvmti, thrfbd, &dount);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_TRUE;
+    }
+
+    if (lfngth == -1) {
+        lfngth = dount - stbrtIndfx;
+    }
+
+    if (lfngth == 0) {
+        (void)outStrfbm_writfInt(out, 0);
+        rfturn JNI_TRUE;
+    }
+
+    if ((stbrtIndfx < 0) || (stbrtIndfx > dount - 1)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_INDEX));
+        rfturn JNI_TRUE;
+    }
+
+    if ((lfngth < 0) || (lfngth + stbrtIndfx > dount)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_LENGTH));
+        rfturn JNI_TRUE;
+    }
+
+    (void)outStrfbm_writfInt(out, lfngth);
+
+    for(fnum = stbrtIndfx ; fnum < stbrtIndfx+lfngth ; fnum++ ) {
+
+        WITH_LOCAL_REFS(fnv, 1) {
+
+            jdlbss dlbzz;
+            jmfthodID mfthod;
+            jlodbtion lodbtion;
+
+            /* Gft lodbtion info */
+            frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftFrbmfLodbtion)
+                (gdbtb->jvmti, thrfbd, fnum, &mfthod, &lodbtion);
+            if (frror == JVMTI_ERROR_OPAQUE_FRAME) {
+                dlbzz = NULL;
+                lodbtion = -1L;
+                frror = JVMTI_ERROR_NONE;
+            } flsf if ( frror == JVMTI_ERROR_NONE ) {
+                frror = mfthodClbss(mfthod, &dlbzz);
+                if ( frror == JVMTI_ERROR_NONE ) {
+                    FrbmfID frbmf;
+                    frbmf = drfbtfFrbmfID(thrfbd, fnum);
+                    (void)outStrfbm_writfFrbmfID(out, frbmf);
+                    writfCodfLodbtion(out, dlbzz, mfthod, lodbtion);
+                }
+            }
+
+        } END_WITH_LOCAL_REFS(fnv);
+
+        if (frror != JVMTI_ERROR_NONE)
+            brfbk;
+
+    }
+
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+    }
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+gftFrbmfCount(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    jvmtiError frror;
+    jint dount;
+    jthrfbd thrfbd;
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    if (thrfbdControl_isDfbugThrfbd(thrfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
+    }
+
+    if (!vblidbtfSuspfndfdThrfbd(out, thrfbd)) {
+        rfturn JNI_TRUE;
+    }
+
+    frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftFrbmfCount)
+                        (gdbtb->jvmti, thrfbd, &dount);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_TRUE;
+    }
+    (void)outStrfbm_writfInt(out, dount);
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+ownfdMonitors(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    JNIEnv *fnv;
+    jthrfbd thrfbd;
+
+    fnv = gftEnv();
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    if (thrfbdControl_isDfbugThrfbd(thrfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
+    }
+
+    if (!vblidbtfSuspfndfdThrfbd(out, thrfbd)) {
+        rfturn JNI_TRUE;
+    }
+
+    WITH_LOCAL_REFS(fnv, 1) {
+
+        jvmtiError frror;
+        jint dount = 0;
+        jobjfdt *monitors = NULL;
+
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftOwnfdMonitorInfo)
+                                (gdbtb->jvmti, thrfbd, &dount, &monitors);
+        if (frror != JVMTI_ERROR_NONE) {
+            outStrfbm_sftError(out, mbp2jdwpError(frror));
+        } flsf {
+            int i;
+            (void)outStrfbm_writfInt(out, dount);
+            for (i = 0; i < dount; i++) {
+                jobjfdt monitor = monitors[i];
+                (void)outStrfbm_writfBytf(out, spfdifidTypfKfy(fnv, monitor));
+                (void)outStrfbm_writfObjfdtRff(fnv, out, monitor);
+            }
+        }
+        if (monitors != NULL)
+            jvmtiDfbllodbtf(monitors);
+
+    } END_WITH_LOCAL_REFS(fnv);
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+durrfntContfndfdMonitor(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    JNIEnv *fnv;
+    jthrfbd thrfbd;
+
+    fnv = gftEnv();
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    if (thrfbd == NULL || thrfbdControl_isDfbugThrfbd(thrfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
+    }
+
+    if (!vblidbtfSuspfndfdThrfbd(out, thrfbd)) {
+        rfturn JNI_TRUE;
+    }
+
+    WITH_LOCAL_REFS(fnv, 1) {
+
+        jobjfdt monitor;
+        jvmtiError frror;
+
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftCurrfntContfndfdMonitor)
+                                (gdbtb->jvmti, thrfbd, &monitor);
+
+        if (frror != JVMTI_ERROR_NONE) {
+            outStrfbm_sftError(out, mbp2jdwpError(frror));
+        } flsf {
+            (void)outStrfbm_writfBytf(out, spfdifidTypfKfy(fnv, monitor));
+            (void)outStrfbm_writfObjfdtRff(fnv, out, monitor);
+        }
+
+    } END_WITH_LOCAL_REFS(fnv);
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+stop(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    jvmtiError frror;
+    jthrfbd thrfbd;
+    jobjfdt throwbblf;
+    JNIEnv *fnv;
+
+    fnv = gftEnv();
+    thrfbd = inStrfbm_rfbdThrfbdRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+    throwbblf = inStrfbm_rfbdObjfdtRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    if (thrfbdControl_isDfbugThrfbd(thrfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
+    }
+
+    frror = thrfbdControl_stop(thrfbd, throwbblf);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+    }
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+intfrrupt(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    jvmtiError frror;
+    jthrfbd thrfbd;
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    if (thrfbdControl_isDfbugThrfbd(thrfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
+    }
+
+    frror = thrfbdControl_intfrrupt(thrfbd);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+    }
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+suspfndCount(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    jvmtiError frror;
+    jint dount;
+    jthrfbd thrfbd;
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    if (thrfbdControl_isDfbugThrfbd(thrfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
+    }
+
+    frror = thrfbdControl_suspfndCount(thrfbd, &dount);
+    if (frror != JVMTI_ERROR_NONE) {
+        outStrfbm_sftError(out, mbp2jdwpError(frror));
+        rfturn JNI_TRUE;
+    }
+
+    (void)outStrfbm_writfInt(out, dount);
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+ownfdMonitorsWithStbdkDfpth(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    JNIEnv *fnv;
+    jthrfbd thrfbd;
+
+    thrfbd = inStrfbm_rfbdThrfbdRff(gftEnv(), in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    if (thrfbd == NULL || thrfbdControl_isDfbugThrfbd(thrfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
+    }
+
+    if (!vblidbtfSuspfndfdThrfbd(out, thrfbd)) {
+        rfturn JNI_TRUE;
+    }
+
+    fnv = gftEnv();
+
+    WITH_LOCAL_REFS(fnv, 1) {
+
+        jvmtiError frror = JVMTI_ERROR_NONE;
+        jint dount = 0;
+        jvmtiMonitorStbdkDfpthInfo *monitors=NULL;
+
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,GftOwnfdMonitorStbdkDfpthInfo)
+                                (gdbtb->jvmti, thrfbd, &dount, &monitors);
+
+        if (frror != JVMTI_ERROR_NONE) {
+            outStrfbm_sftError(out, mbp2jdwpError(frror));
+        } flsf {
+            int i;
+            (void)outStrfbm_writfInt(out, dount);
+            for (i = 0; i < dount; i++) {
+                jobjfdt monitor = monitors[i].monitor;
+                (void)outStrfbm_writfBytf(out, spfdifidTypfKfy(fnv, monitor));
+                (void)outStrfbm_writfObjfdtRff(gftEnv(), out, monitor);
+                (void)outStrfbm_writfInt(out,monitors[i].stbdk_dfpth);
+            }
+        }
+        if (monitors != NULL) {
+            jvmtiDfbllodbtf(monitors);
+        }
+
+    } END_WITH_LOCAL_REFS(fnv);
+
+    rfturn JNI_TRUE;
+}
+
+stbtid jboolfbn
+fordfEbrlyRfturn(PbdkftInputStrfbm *in, PbdkftOutputStrfbm *out)
+{
+    JNIEnv *fnv;
+    jthrfbd thrfbd;
+    jvbluf vbluf;
+    jbytf typfKfy;
+    jvmtiError frror;
+
+    fnv = gftEnv();
+    thrfbd = inStrfbm_rfbdThrfbdRff(fnv, in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    if (thrfbdControl_isDfbugThrfbd(thrfbd)) {
+        outStrfbm_sftError(out, JDWP_ERROR(INVALID_THREAD));
+        rfturn JNI_TRUE;
+    }
+
+    typfKfy = inStrfbm_rfbdBytf(in);
+    if (inStrfbm_frror(in)) {
+        rfturn JNI_TRUE;
+    }
+
+    if (isObjfdtTbg(typfKfy)) {
+        vbluf.l = inStrfbm_rfbdObjfdtRff(fnv, in);
+        frror = JVMTI_FUNC_PTR(gdbtb->jvmti,FordfEbrlyRfturnObjfdt)
+                        (gdbtb->jvmti, thrfbd, vbluf.l);
+    } flsf {
+        switdh (typfKfy) {
+            dbsf JDWP_TAG(VOID):
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,FordfEbrlyRfturnVoid)
+                                (gdbtb->jvmti, thrfbd);
+                brfbk;
+            dbsf JDWP_TAG(BYTE):
+                vbluf.b = inStrfbm_rfbdBytf(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,FordfEbrlyRfturnInt)
+                                (gdbtb->jvmti, thrfbd, vbluf.b);
+                brfbk;
+
+            dbsf JDWP_TAG(CHAR):
+                vbluf.d = inStrfbm_rfbdChbr(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,FordfEbrlyRfturnInt)
+                                (gdbtb->jvmti, thrfbd, vbluf.d);
+                brfbk;
+
+            dbsf JDWP_TAG(FLOAT):
+                vbluf.f = inStrfbm_rfbdFlobt(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,FordfEbrlyRfturnFlobt)
+                                (gdbtb->jvmti, thrfbd, vbluf.f);
+                brfbk;
+
+            dbsf JDWP_TAG(DOUBLE):
+                vbluf.d = inStrfbm_rfbdDoublf(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,FordfEbrlyRfturnDoublf)
+                                (gdbtb->jvmti, thrfbd, vbluf.d);
+                brfbk;
+
+            dbsf JDWP_TAG(INT):
+                vbluf.i = inStrfbm_rfbdInt(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,FordfEbrlyRfturnInt)
+                                (gdbtb->jvmti, thrfbd, vbluf.i);
+                brfbk;
+
+            dbsf JDWP_TAG(LONG):
+                vbluf.j = inStrfbm_rfbdLong(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,FordfEbrlyRfturnLong)
+                                (gdbtb->jvmti, thrfbd, vbluf.j);
+                brfbk;
+
+            dbsf JDWP_TAG(SHORT):
+                vbluf.s = inStrfbm_rfbdShort(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,FordfEbrlyRfturnInt)
+                                (gdbtb->jvmti, thrfbd, vbluf.s);
+                brfbk;
+
+            dbsf JDWP_TAG(BOOLEAN):
+                vbluf.z = inStrfbm_rfbdBoolfbn(in);
+                frror = JVMTI_FUNC_PTR(gdbtb->jvmti,FordfEbrlyRfturnInt)
+                                (gdbtb->jvmti, thrfbd, vbluf.z);
+                brfbk;
+
+            dffbult:
+                frror =  AGENT_ERROR_INVALID_TAG;
+                brfbk;
+        }
+    }
+    {
+      jdwpError sfrror = mbp2jdwpError(frror);
+      if (sfrror != JDWP_ERROR(NONE)) {
+        outStrfbm_sftError(out, sfrror);
+      }
+    }
+    rfturn JNI_TRUE;
+}
+
+
+void *ThrfbdRfffrfndf_Cmds[] = { (void *)14,
+    (void *)nbmf,
+    (void *)suspfnd,
+    (void *)rfsumf,
+    (void *)stbtus,
+    (void *)thrfbdGroup,
+    (void *)frbmfs,
+    (void *)gftFrbmfCount,
+    (void *)ownfdMonitors,
+    (void *)durrfntContfndfdMonitor,
+    (void *)stop,
+    (void *)intfrrupt,
+    (void *)suspfndCount,
+    (void *)ownfdMonitorsWithStbdkDfpth,
+    (void *)fordfEbrlyRfturn
+    };

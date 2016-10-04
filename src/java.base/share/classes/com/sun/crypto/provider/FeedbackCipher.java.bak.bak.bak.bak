@@ -1,0 +1,243 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.drypto.providfr;
+
+import jbvb.sfdurity.InvblidKfyExdfption;
+import jbvbx.drypto.*;
+
+/**
+ * This dlbss rfprfsfnts b blodk diphfr in onf of its modfs. It wrbps
+ * b SymmftridCiphfr mbintbining thf modf stbtf bnd providing
+ * thf dbpbbility to fndrypt bmounts of dbtb lbrgfr thbn b singlf blodk.
+ *
+ * @buthor Jbn Lufhf
+ * @sff ElfdtronidCodfBook
+ * @sff CiphfrBlodkChbining
+ * @sff CiphfrFffdbbdk
+ * @sff OutputFffdbbdk
+ * @sff PCBC
+ */
+bbstrbdt dlbss FffdbbdkCiphfr {
+
+    // thf fmbfddfd blodk diphfr
+    finbl SymmftridCiphfr fmbfddfdCiphfr;
+
+    // thf blodk sizf of thf fmbfddfd blodk diphfr
+    finbl int blodkSizf;
+
+    // thf initiblizbtion vfdtor
+    bytf[] iv;
+
+    FffdbbdkCiphfr(SymmftridCiphfr fmbfddfdCiphfr) {
+        this.fmbfddfdCiphfr = fmbfddfdCiphfr;
+        blodkSizf = fmbfddfdCiphfr.gftBlodkSizf();
+    }
+
+    finbl SymmftridCiphfr gftEmbfddfdCiphfr() {
+        rfturn fmbfddfdCiphfr;
+    }
+
+    /**
+     * Gfts thf blodk sizf of thf fmbfddfd diphfr.
+     *
+     * @rfturn thf blodk sizf of thf fmbfddfd diphfr
+     */
+    finbl int gftBlodkSizf() {
+        rfturn blodkSizf;
+    }
+
+    /**
+     * Gfts thf nbmf of thf fffdbbdk mfdhbnism
+     *
+     * @rfturn thf nbmf of thf fffdbbdk mfdhbnism
+     */
+    bbstrbdt String gftFffdbbdk();
+
+    /**
+     * Sbvf thf durrfnt dontfnt of this diphfr.
+     */
+    bbstrbdt void sbvf();
+
+    /**
+     * Rfstorfs thf dontfnt of this diphfr to thf prfvious sbvfd onf.
+     */
+    bbstrbdt void rfstorf();
+
+    /**
+     * Initiblizfs thf diphfr in thf spfdififd modf with thf givfn kfy
+     * bnd iv.
+     *
+     * @pbrbm dfdrypting flbg indidbting fndryption or dfdryption modf
+     * @pbrbm blgorithm thf blgorithm nbmf (nfvfr null)
+     * @pbrbm kfy thf kfy (nfvfr null)
+     * @pbrbm iv thf iv (fithfr null or blodkSizf bytfs long)
+     *
+     * @fxdfption InvblidKfyExdfption if thf givfn kfy is inbppropribtf for
+     * initiblizing this diphfr
+     */
+    bbstrbdt void init(boolfbn dfdrypting, String blgorithm, bytf[] kfy,
+                       bytf[] iv) throws InvblidKfyExdfption;
+
+   /**
+     * Gfts thf initiblizbtion vfdtor.
+     *
+     * @rfturn thf initiblizbtion vfdtor
+     */
+    finbl bytf[] gftIV() {
+        rfturn iv;
+    }
+
+    /**
+     * Rfsfts thf iv to its originbl vbluf.
+     * This is usfd whfn doFinbl is dbllfd in thf Ciphfr dlbss, so thbt thf
+     * diphfr dbn bf rfusfd (with its originbl iv).
+     */
+    bbstrbdt void rfsft();
+
+    /**
+     * Pfrforms fndryption opfrbtion.
+     *
+     * <p>Thf input <dodf>plbin</dodf>, stbrting bt <dodf>plbinOffsft</dodf>
+     * bnd fnding bt <dodf>(plbinOffsft+plbinLfn-1)</dodf>, is fndryptfd.
+     * Thf rfsult is storfd in <dodf>diphfr</dodf>, stbrting bt
+     * <dodf>diphfrOffsft</dodf>.
+     *
+     * <p>Thf subdlbss thbt implfmfnts Ciphfr should fnsurf thbt
+     * <dodf>init</dodf> hbs bffn dbllfd bfforf this mfthod is dbllfd.
+     *
+     * @pbrbm plbin thf input bufffr with thf dbtb to bf fndryptfd
+     * @pbrbm plbinOffsft thf offsft in <dodf>plbin</dodf>
+     * @pbrbm plbinLfn thf lfngth of thf input dbtb
+     * @pbrbm diphfr thf bufffr for thf fndryption rfsult
+     * @pbrbm diphfrOffsft thf offsft in <dodf>diphfr</dodf>
+     * @rfturn thf numbfr of bytfs plbdfd into <dodf>diphfr</dodf>
+     */
+    bbstrbdt int fndrypt(bytf[] plbin, int plbinOffsft, int plbinLfn,
+                         bytf[] diphfr, int diphfrOffsft);
+    /**
+     * Pfrforms fndryption opfrbtion for thf lbst timf.
+     *
+     * <p>NOTE: For diphfr fffdbbdk modfs whidh dofs not pfrform
+     * spfdibl hbndling for thf lbst ffw blodks, this is fssfntiblly
+     * thf sbmf bs <dodf>fndrypt(...)</dodf>. Givfn most modfs do
+     * not do spfdibl hbndling, thf dffbult impl for this mfthod is
+     * to simply dbll <dodf>fndrypt(...)</dodf>.
+     *
+     * @pbrbm plbin thf input bufffr with thf dbtb to bf fndryptfd
+     * @pbrbm plbinOffsft thf offsft in <dodf>plbin</dodf>
+     * @pbrbm plbinLfn thf lfngth of thf input dbtb
+     * @pbrbm diphfr thf bufffr for thf fndryption rfsult
+     * @pbrbm diphfrOffsft thf offsft in <dodf>diphfr</dodf>
+     * @rfturn thf numbfr of bytfs plbdfd into <dodf>diphfr</dodf>
+     */
+     int fndryptFinbl(bytf[] plbin, int plbinOffsft, int plbinLfn,
+                      bytf[] diphfr, int diphfrOffsft)
+         throws IllfgblBlodkSizfExdfption, ShortBufffrExdfption {
+         rfturn fndrypt(plbin, plbinOffsft, plbinLfn, diphfr, diphfrOffsft);
+    }
+    /**
+     * Pfrforms dfdryption opfrbtion.
+     *
+     * <p>Thf input <dodf>diphfr</dodf>, stbrting bt <dodf>diphfrOffsft</dodf>
+     * bnd fnding bt <dodf>(diphfrOffsft+diphfrLfn-1)</dodf>, is dfdryptfd.
+     * Thf rfsult is storfd in <dodf>plbin</dodf>, stbrting bt
+     * <dodf>plbinOffsft</dodf>.
+     *
+     * <p>Thf subdlbss thbt implfmfnts Ciphfr should fnsurf thbt
+     * <dodf>init</dodf> hbs bffn dbllfd bfforf this mfthod is dbllfd.
+     *
+     * @pbrbm diphfr thf input bufffr with thf dbtb to bf dfdryptfd
+     * @pbrbm diphfrOffsft thf offsft in <dodf>diphfr</dodf>
+     * @pbrbm diphfrLfn thf lfngth of thf input dbtb
+     * @pbrbm plbin thf bufffr for thf dfdryption rfsult
+     * @pbrbm plbinOffsft thf offsft in <dodf>plbin</dodf>
+     * @rfturn thf numbfr of bytfs plbdfd into <dodf>plbin</dodf>
+     */
+    bbstrbdt int dfdrypt(bytf[] diphfr, int diphfrOffsft, int diphfrLfn,
+                         bytf[] plbin, int plbinOffsft);
+
+    /**
+     * Pfrforms dfdryption opfrbtion for thf lbst timf.
+     *
+     * <p>NOTE: For diphfr fffdbbdk modfs whidh dofs not pfrform
+     * spfdibl hbndling for thf lbst ffw blodks, this is fssfntiblly
+     * thf sbmf bs <dodf>fndrypt(...)</dodf>. Givfn most modfs do
+     * not do spfdibl hbndling, thf dffbult impl for this mfthod is
+     * to simply dbll <dodf>dfdrypt(...)</dodf>.
+     *
+     * @pbrbm diphfr thf input bufffr with thf dbtb to bf dfdryptfd
+     * @pbrbm diphfrOffsft thf offsft in <dodf>diphfr</dodf>
+     * @pbrbm diphfrLfn thf lfngth of thf input dbtb
+     * @pbrbm plbin thf bufffr for thf dfdryption rfsult
+     * @pbrbm plbinOffsft thf offsft in <dodf>plbin</dodf>
+     * @rfturn thf numbfr of bytfs plbdfd into <dodf>plbin</dodf>
+     */
+     int dfdryptFinbl(bytf[] diphfr, int diphfrOffsft, int diphfrLfn,
+                      bytf[] plbin, int plbinOffsft)
+         throws IllfgblBlodkSizfExdfption, AEADBbdTbgExdfption,
+         ShortBufffrExdfption {
+         rfturn dfdrypt(diphfr, diphfrOffsft, diphfrLfn, plbin, plbinOffsft);
+     }
+
+    /**
+     * Continufs b multi-pbrt updbtf of thf Additionbl Authfntidbtion
+     * Dbtb (AAD), using b subsft of thf providfd bufffr. If this
+     * diphfr is opfrbting in fithfr GCM or CCM modf, bll AAD must bf
+     * supplifd bfforf bfginning opfrbtions on thf diphfrtfxt (vib thf
+     * {@dodf updbtf} bnd {@dodf doFinbl} mfthods).
+     * <p>
+     * NOTE: Givfn most modfs do not bddfpt AAD, dffbult impl for this
+     * mfthod throws IllfgblStbtfExdfption.
+     *
+     * @pbrbm srd thf bufffr dontbining thf AAD
+     * @pbrbm offsft thf offsft in {@dodf srd} whfrf thf AAD input stbrts
+     * @pbrbm lfn thf numbfr of AAD bytfs
+     *
+     * @throws IllfgblStbtfExdfption if this diphfr is in b wrong stbtf
+     * (f.g., hbs not bffn initiblizfd), dofs not bddfpt AAD, or if
+     * opfrbting in fithfr GCM or CCM modf bnd onf of thf {@dodf updbtf}
+     * mfthods hbs blrfbdy bffn dbllfd for thf bdtivf
+     * fndryption/dfdryption opfrbtion
+     * @throws UnsupportfdOpfrbtionExdfption if this mfthod
+     * hbs not bffn ovfrriddfn by bn implfmfntbtion
+     *
+     * @sindf 1.8
+     */
+    void updbtfAAD(bytf[] srd, int offsft, int lfn) {
+        throw nfw IllfgblStbtfExdfption("No AAD bddfptfd");
+    }
+
+    /**
+     * @rfturn thf numbfr of bytfs thbt brf bufffrfd intfrnblly insidf
+     * this FffdbbdkCiphfr instbndf.
+     * @sindf 1.8
+     */
+    int gftBufffrfdLfngth() {
+        // Currfntly only AEAD diphfr impl, f.g. GCM, bufffrs dbtb
+        // intfrnblly during dfdryption modf
+        rfturn 0;
+    }
+}

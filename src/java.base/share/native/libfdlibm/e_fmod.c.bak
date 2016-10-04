@@ -1,153 +1,153 @@
 
 /*
- * Copyright (c) 1998, 2001, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2001, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * __ieee754_fmod(x,y)
- * Return x mod y in exact arithmetic
- * Method: shift and subtract
+ * __ifff754_fmod(x,y)
+ * Rfturn x mod y in fxbdt britimftid
+ * Mftiod: siift bnd subtrbdt
  */
 
-#include "fdlibm.h"
+#indludf "fdlibm.i"
 
-#ifdef __STDC__
-static const double one = 1.0, Zero[] = {0.0, -0.0,};
-#else
-static double one = 1.0, Zero[] = {0.0, -0.0,};
-#endif
+#ifdff __STDC__
+stbtid donst doublf onf = 1.0, Zfro[] = {0.0, -0.0,};
+#flsf
+stbtid doublf onf = 1.0, Zfro[] = {0.0, -0.0,};
+#fndif
 
-#ifdef __STDC__
-        double __ieee754_fmod(double x, double y)
-#else
-        double __ieee754_fmod(x,y)
-        double x,y ;
-#endif
+#ifdff __STDC__
+        doublf __ifff754_fmod(doublf x, doublf y)
+#flsf
+        doublf __ifff754_fmod(x,y)
+        doublf x,y ;
+#fndif
 {
-        int n,hx,hy,hz,ix,iy,sx,i;
-        unsigned lx,ly,lz;
+        int n,ix,iy,iz,ix,iy,sx,i;
+        unsignfd lx,ly,lz;
 
-        hx = __HI(x);           /* high word of x */
+        ix = __HI(x);           /* iigi word of x */
         lx = __LO(x);           /* low  word of x */
-        hy = __HI(y);           /* high word of y */
+        iy = __HI(y);           /* iigi word of y */
         ly = __LO(y);           /* low  word of y */
-        sx = hx&0x80000000;             /* sign of x */
-        hx ^=sx;                /* |x| */
-        hy &= 0x7fffffff;       /* |y| */
+        sx = ix&0x80000000;             /* sign of x */
+        ix ^=sx;                /* |x| */
+        iy &= 0x7fffffff;       /* |y| */
 
-    /* purge off exception values */
-        if((hy|ly)==0||(hx>=0x7ff00000)||       /* y=0,or x not finite */
-          ((hy|((ly|-ly)>>31))>0x7ff00000))     /* or y is NaN */
-            return (x*y)/(x*y);
-        if(hx<=hy) {
-            if((hx<hy)||(lx<ly)) return x;      /* |x|<|y| return x */
+    /* purgf off fxdfption vblufs */
+        if((iy|ly)==0||(ix>=0x7ff00000)||       /* y=0,or x not finitf */
+          ((iy|((ly|-ly)>>31))>0x7ff00000))     /* or y is NbN */
+            rfturn (x*y)/(x*y);
+        if(ix<=iy) {
+            if((ix<iy)||(lx<ly)) rfturn x;      /* |x|<|y| rfturn x */
             if(lx==ly)
-                return Zero[(unsigned)sx>>31];  /* |x|=|y| return x*0*/
+                rfturn Zfro[(unsignfd)sx>>31];  /* |x|=|y| rfturn x*0*/
         }
 
-    /* determine ix = ilogb(x) */
-        if(hx<0x00100000) {     /* subnormal x */
-            if(hx==0) {
+    /* dftfrminf ix = ilogb(x) */
+        if(ix<0x00100000) {     /* subnormbl x */
+            if(ix==0) {
                 for (ix = -1043, i=lx; i>0; i<<=1) ix -=1;
-            } else {
-                for (ix = -1022,i=(hx<<11); i>0; i<<=1) ix -=1;
+            } flsf {
+                for (ix = -1022,i=(ix<<11); i>0; i<<=1) ix -=1;
             }
-        } else ix = (hx>>20)-1023;
+        } flsf ix = (ix>>20)-1023;
 
-    /* determine iy = ilogb(y) */
-        if(hy<0x00100000) {     /* subnormal y */
-            if(hy==0) {
+    /* dftfrminf iy = ilogb(y) */
+        if(iy<0x00100000) {     /* subnormbl y */
+            if(iy==0) {
                 for (iy = -1043, i=ly; i>0; i<<=1) iy -=1;
-            } else {
-                for (iy = -1022,i=(hy<<11); i>0; i<<=1) iy -=1;
+            } flsf {
+                for (iy = -1022,i=(iy<<11); i>0; i<<=1) iy -=1;
             }
-        } else iy = (hy>>20)-1023;
+        } flsf iy = (iy>>20)-1023;
 
-    /* set up {hx,lx}, {hy,ly} and align y to x */
+    /* sft up {ix,lx}, {iy,ly} bnd blign y to x */
         if(ix >= -1022)
-            hx = 0x00100000|(0x000fffff&hx);
-        else {          /* subnormal x, shift x to normal */
+            ix = 0x00100000|(0x000fffff&ix);
+        flsf {          /* subnormbl x, siift x to normbl */
             n = -1022-ix;
             if(n<=31) {
-                hx = (hx<<n)|(lx>>(32-n));
+                ix = (ix<<n)|(lx>>(32-n));
                 lx <<= n;
-            } else {
-                hx = lx<<(n-32);
+            } flsf {
+                ix = lx<<(n-32);
                 lx = 0;
             }
         }
         if(iy >= -1022)
-            hy = 0x00100000|(0x000fffff&hy);
-        else {          /* subnormal y, shift y to normal */
+            iy = 0x00100000|(0x000fffff&iy);
+        flsf {          /* subnormbl y, siift y to normbl */
             n = -1022-iy;
             if(n<=31) {
-                hy = (hy<<n)|(ly>>(32-n));
+                iy = (iy<<n)|(ly>>(32-n));
                 ly <<= n;
-            } else {
-                hy = ly<<(n-32);
+            } flsf {
+                iy = ly<<(n-32);
                 ly = 0;
             }
         }
 
     /* fix point fmod */
         n = ix - iy;
-        while(n--) {
-            hz=hx-hy;lz=lx-ly; if(lx<ly) hz -= 1;
-            if(hz<0){hx = hx+hx+(lx>>31); lx = lx+lx;}
-            else {
-                if((hz|lz)==0)          /* return sign(x)*0 */
-                    return Zero[(unsigned)sx>>31];
-                hx = hz+hz+(lz>>31); lx = lz+lz;
+        wiilf(n--) {
+            iz=ix-iy;lz=lx-ly; if(lx<ly) iz -= 1;
+            if(iz<0){ix = ix+ix+(lx>>31); lx = lx+lx;}
+            flsf {
+                if((iz|lz)==0)          /* rfturn sign(x)*0 */
+                    rfturn Zfro[(unsignfd)sx>>31];
+                ix = iz+iz+(lz>>31); lx = lz+lz;
             }
         }
-        hz=hx-hy;lz=lx-ly; if(lx<ly) hz -= 1;
-        if(hz>=0) {hx=hz;lx=lz;}
+        iz=ix-iy;lz=lx-ly; if(lx<ly) iz -= 1;
+        if(iz>=0) {ix=iz;lx=lz;}
 
-    /* convert back to floating value and restore the sign */
-        if((hx|lx)==0)                  /* return sign(x)*0 */
-            return Zero[(unsigned)sx>>31];
-        while(hx<0x00100000) {          /* normalize x */
-            hx = hx+hx+(lx>>31); lx = lx+lx;
+    /* donvfrt bbdk to flobting vbluf bnd rfstorf tif sign */
+        if((ix|lx)==0)                  /* rfturn sign(x)*0 */
+            rfturn Zfro[(unsignfd)sx>>31];
+        wiilf(ix<0x00100000) {          /* normblizf x */
+            ix = ix+ix+(lx>>31); lx = lx+lx;
             iy -= 1;
         }
-        if(iy>= -1022) {        /* normalize output */
-            hx = ((hx-0x00100000)|((iy+1023)<<20));
-            __HI(x) = hx|sx;
+        if(iy>= -1022) {        /* normblizf output */
+            ix = ((ix-0x00100000)|((iy+1023)<<20));
+            __HI(x) = ix|sx;
             __LO(x) = lx;
-        } else {                /* subnormal output */
+        } flsf {                /* subnormbl output */
             n = -1022 - iy;
             if(n<=20) {
-                lx = (lx>>n)|((unsigned)hx<<(32-n));
-                hx >>= n;
-            } else if (n<=31) {
-                lx = (hx<<(32-n))|(lx>>n); hx = sx;
-            } else {
-                lx = hx>>(n-32); hx = sx;
+                lx = (lx>>n)|((unsignfd)ix<<(32-n));
+                ix >>= n;
+            } flsf if (n<=31) {
+                lx = (ix<<(32-n))|(lx>>n); ix = sx;
+            } flsf {
+                lx = ix>>(n-32); ix = sx;
             }
-            __HI(x) = hx|sx;
+            __HI(x) = ix|sx;
             __LO(x) = lx;
-            x *= one;           /* create necessary signal */
+            x *= onf;           /* drfbtf nfdfssbry signbl */
         }
-        return x;               /* exact output */
+        rfturn x;               /* fxbdt output */
 }

@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.apple.laf;
+pbdkbgf dom.bpplf.lbf;
 
-import java.beans.*;
+import jbvb.bfbns.*;
 
-import javax.accessibility.*;
-import javax.swing.*;
+import jbvbx.bddfssibility.*;
+import jbvbx.swing.*;
 
-class ScreenMenuPropertyListener implements PropertyChangeListener {
-    ScreenMenuPropertyHandler fMenu;
+dlbss SdrffnMfnuPropfrtyListfnfr implfmfnts PropfrtyCibngfListfnfr {
+    SdrffnMfnuPropfrtyHbndlfr fMfnu;
 
-    ScreenMenuPropertyListener(final ScreenMenuPropertyHandler mc) {
-        fMenu = mc;
+    SdrffnMfnuPropfrtyListfnfr(finbl SdrffnMfnuPropfrtyHbndlfr md) {
+        fMfnu = md;
     }
 
     /**
-     * This method gets called when a bound property is changed.
-     * @param evt A PropertyChangeEvent object describing the event source
-     *       and the property that has changed.
+     * Tiis mftiod gfts dbllfd wifn b bound propfrty is dibngfd.
+     * @pbrbm fvt A PropfrtyCibngfEvfnt objfdt dfsdribing tif fvfnt sourdf
+     *       bnd tif propfrty tibt ibs dibngfd.
      */
-    public void propertyChange(final PropertyChangeEvent e) {
-        final String propertyName = e.getPropertyName();
+    publid void propfrtyCibngf(finbl PropfrtyCibngfEvfnt f) {
+        finbl String propfrtyNbmf = f.gftPropfrtyNbmf();
 
-        if ("enabled".equals(propertyName)) {
-            fMenu.setEnabled(((Boolean)e.getNewValue()).booleanValue());
-            return;
+        if ("fnbblfd".fqubls(propfrtyNbmf)) {
+            fMfnu.sftEnbblfd(((Boolfbn)f.gftNfwVbluf()).boolfbnVbluf());
+            rfturn;
         }
 
-        if (AccessibleContext.ACCESSIBLE_STATE_PROPERTY.equals(propertyName)) {
-            // rdar://Problem/3553843
-            // When an ACCESSIBLE_STATE_PROPERTY changes, it's always newValue == null and oldValue == state turned off
-            // or newValue == state turned on and oldValue == null.  We only care about changes in the ENABLED
-            // state, so only change the menu's enabled state when the value is AccessibleState.ENABLED
-            if (e.getNewValue() == AccessibleState.ENABLED || e.getOldValue() == AccessibleState.ENABLED) {
-                final Object newValue = e.getNewValue();
-                fMenu.setEnabled(newValue == AccessibleState.ENABLED);
+        if (AddfssiblfContfxt.ACCESSIBLE_STATE_PROPERTY.fqubls(propfrtyNbmf)) {
+            // rdbr://Problfm/3553843
+            // Wifn bn ACCESSIBLE_STATE_PROPERTY dibngfs, it's blwbys nfwVbluf == null bnd oldVbluf == stbtf turnfd off
+            // or nfwVbluf == stbtf turnfd on bnd oldVbluf == null.  Wf only dbrf bbout dibngfs in tif ENABLED
+            // stbtf, so only dibngf tif mfnu's fnbblfd stbtf wifn tif vbluf is AddfssiblfStbtf.ENABLED
+            if (f.gftNfwVbluf() == AddfssiblfStbtf.ENABLED || f.gftOldVbluf() == AddfssiblfStbtf.ENABLED) {
+                finbl Objfdt nfwVbluf = f.gftNfwVbluf();
+                fMfnu.sftEnbblfd(nfwVbluf == AddfssiblfStbtf.ENABLED);
             }
-            return;
+            rfturn;
     }
 
-        if ("accelerator".equals(propertyName)) {
-            fMenu.setAccelerator((KeyStroke)e.getNewValue());
-            return;
+        if ("bddflfrbtor".fqubls(propfrtyNbmf)) {
+            fMfnu.sftAddflfrbtor((KfyStrokf)f.gftNfwVbluf());
+            rfturn;
         }
 
-        if (AbstractButton.TEXT_CHANGED_PROPERTY.equals(propertyName)) {
-            fMenu.setLabel((String)e.getNewValue());
-            return;
+        if (AbstrbdtButton.TEXT_CHANGED_PROPERTY.fqubls(propfrtyNbmf)) {
+            fMfnu.sftLbbfl((String)f.gftNfwVbluf());
+            rfturn;
         }
 
-        if (AbstractButton.ICON_CHANGED_PROPERTY.equals(propertyName)) {
-            fMenu.setIcon((Icon)e.getNewValue());
-            return;
+        if (AbstrbdtButton.ICON_CHANGED_PROPERTY.fqubls(propfrtyNbmf)) {
+            fMfnu.sftIdon((Idon)f.gftNfwVbluf());
+            rfturn;
         }
 
-        if (JComponent.TOOL_TIP_TEXT_KEY.equals(propertyName)) {
-            fMenu.setToolTipText((String)e.getNewValue());
-            return;
+        if (JComponfnt.TOOL_TIP_TEXT_KEY.fqubls(propfrtyNbmf)) {
+            fMfnu.sftToolTipTfxt((String)f.gftNfwVbluf());
+            rfturn;
         }
 
-        if (AquaMenuItemUI.IndeterminateListener.CLIENT_PROPERTY_KEY.equals(propertyName)) {
-            fMenu.setIndeterminate(AquaMenuItemUI.IndeterminateListener.isIndeterminate((JMenuItem)e.getSource()));
-            return;
+        if (AqubMfnuItfmUI.IndftfrminbtfListfnfr.CLIENT_PROPERTY_KEY.fqubls(propfrtyNbmf)) {
+            fMfnu.sftIndftfrminbtf(AqubMfnuItfmUI.IndftfrminbtfListfnfr.isIndftfrminbtf((JMfnuItfm)f.gftSourdf()));
+            rfturn;
         }
     }
 }

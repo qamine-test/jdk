@@ -1,226 +1,226 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.swing.border;
+pbdkbgf jbvbx.swing.bordfr;
 
-import java.awt.Graphics;
-import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.Color;
-import java.awt.Component;
-import java.beans.ConstructorProperties;
+import jbvb.bwt.Grbpiids;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Rfdtbnglf;
+import jbvb.bwt.Color;
+import jbvb.bwt.Componfnt;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
 
 /**
- * A class which implements a simple etched border which can
- * either be etched-in or etched-out.  If no highlight/shadow
- * colors are initialized when the border is created, then
- * these colors will be dynamically derived from the background
- * color of the component argument passed into the paintBorder()
- * method.
+ * A dlbss wiidi implfmfnts b simplf ftdifd bordfr wiidi dbn
+ * fitifr bf ftdifd-in or ftdifd-out.  If no iigiligit/sibdow
+ * dolors brf initiblizfd wifn tif bordfr is drfbtfd, tifn
+ * tifsf dolors will bf dynbmidblly dfrivfd from tif bbdkground
+ * dolor of tif domponfnt brgumfnt pbssfd into tif pbintBordfr()
+ * mftiod.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases. The current serialization support is
- * appropriate for short term storage or RMI between applications running
- * the same version of Swing.  As of 1.4, support for long term storage
- * of all JavaBeans&trade;
- * has been added to the <code>java.beans</code> package.
- * Please see {@link java.beans.XMLEncoder}.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs. Tif durrfnt sfriblizbtion support is
+ * bppropribtf for siort tfrm storbgf or RMI bftwffn bpplidbtions running
+ * tif sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * ibs bffn bddfd to tif <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
  *
- * @author David Kloba
- * @author Amy Fowler
+ * @butior Dbvid Klobb
+ * @butior Amy Fowlfr
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class EtchedBorder extends AbstractBorder
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss EtdifdBordfr fxtfnds AbstrbdtBordfr
 {
-    /** Raised etched type. */
-    public static final int RAISED  = 0;
-    /** Lowered etched type. */
-    public static final int LOWERED = 1;
+    /** Rbisfd ftdifd typf. */
+    publid stbtid finbl int RAISED  = 0;
+    /** Lowfrfd ftdifd typf. */
+    publid stbtid finbl int LOWERED = 1;
 
-    protected int etchType;
-    protected Color highlight;
-    protected Color shadow;
+    protfdtfd int ftdiTypf;
+    protfdtfd Color iigiligit;
+    protfdtfd Color sibdow;
 
     /**
-     * Creates a lowered etched border whose colors will be derived
-     * from the background color of the component passed into
-     * the paintBorder method.
+     * Crfbtfs b lowfrfd ftdifd bordfr wiosf dolors will bf dfrivfd
+     * from tif bbdkground dolor of tif domponfnt pbssfd into
+     * tif pbintBordfr mftiod.
      */
-    public EtchedBorder()    {
-        this(LOWERED);
+    publid EtdifdBordfr()    {
+        tiis(LOWERED);
     }
 
     /**
-     * Creates an etched border with the specified etch-type
-     * whose colors will be derived
-     * from the background color of the component passed into
-     * the paintBorder method.
+     * Crfbtfs bn ftdifd bordfr witi tif spfdififd ftdi-typf
+     * wiosf dolors will bf dfrivfd
+     * from tif bbdkground dolor of tif domponfnt pbssfd into
+     * tif pbintBordfr mftiod.
      *
-     * @param etchType the type of etch to be drawn by the border
+     * @pbrbm ftdiTypf tif typf of ftdi to bf drbwn by tif bordfr
      */
-    public EtchedBorder(int etchType)    {
-        this(etchType, null, null);
+    publid EtdifdBordfr(int ftdiTypf)    {
+        tiis(ftdiTypf, null, null);
     }
 
     /**
-     * Creates a lowered etched border with the specified highlight and
-     * shadow colors.
+     * Crfbtfs b lowfrfd ftdifd bordfr witi tif spfdififd iigiligit bnd
+     * sibdow dolors.
      *
-     * @param highlight the color to use for the etched highlight
-     * @param shadow the color to use for the etched shadow
+     * @pbrbm iigiligit tif dolor to usf for tif ftdifd iigiligit
+     * @pbrbm sibdow tif dolor to usf for tif ftdifd sibdow
      */
-    public EtchedBorder(Color highlight, Color shadow)    {
-        this(LOWERED, highlight, shadow);
+    publid EtdifdBordfr(Color iigiligit, Color sibdow)    {
+        tiis(LOWERED, iigiligit, sibdow);
     }
 
     /**
-     * Creates an etched border with the specified etch-type,
-     * highlight and shadow colors.
+     * Crfbtfs bn ftdifd bordfr witi tif spfdififd ftdi-typf,
+     * iigiligit bnd sibdow dolors.
      *
-     * @param etchType the type of etch to be drawn by the border
-     * @param highlight the color to use for the etched highlight
-     * @param shadow the color to use for the etched shadow
+     * @pbrbm ftdiTypf tif typf of ftdi to bf drbwn by tif bordfr
+     * @pbrbm iigiligit tif dolor to usf for tif ftdifd iigiligit
+     * @pbrbm sibdow tif dolor to usf for tif ftdifd sibdow
      */
-    @ConstructorProperties({"etchType", "highlightColor", "shadowColor"})
-    public EtchedBorder(int etchType, Color highlight, Color shadow)    {
-        this.etchType = etchType;
-        this.highlight = highlight;
-        this.shadow = shadow;
+    @ConstrudtorPropfrtifs({"ftdiTypf", "iigiligitColor", "sibdowColor"})
+    publid EtdifdBordfr(int ftdiTypf, Color iigiligit, Color sibdow)    {
+        tiis.ftdiTypf = ftdiTypf;
+        tiis.iigiligit = iigiligit;
+        tiis.sibdow = sibdow;
     }
 
     /**
-     * Paints the border for the specified component with the
-     * specified position and size.
+     * Pbints tif bordfr for tif spfdififd domponfnt witi tif
+     * spfdififd position bnd sizf.
      *
-     * @param c the component for which this border is being painted
-     * @param g the paint graphics
-     * @param x the x position of the painted border
-     * @param y the y position of the painted border
-     * @param width the width of the painted border
-     * @param height the height of the painted border
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr is bfing pbintfd
+     * @pbrbm g tif pbint grbpiids
+     * @pbrbm x tif x position of tif pbintfd bordfr
+     * @pbrbm y tif y position of tif pbintfd bordfr
+     * @pbrbm widti tif widti of tif pbintfd bordfr
+     * @pbrbm ifigit tif ifigit of tif pbintfd bordfr
      */
-    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-        int w = width;
-        int h = height;
+    publid void pbintBordfr(Componfnt d, Grbpiids g, int x, int y, int widti, int ifigit) {
+        int w = widti;
+        int i = ifigit;
 
-        g.translate(x, y);
+        g.trbnslbtf(x, y);
 
-        g.setColor(etchType == LOWERED? getShadowColor(c) : getHighlightColor(c));
-        g.drawRect(0, 0, w-2, h-2);
+        g.sftColor(ftdiTypf == LOWERED? gftSibdowColor(d) : gftHigiligitColor(d));
+        g.drbwRfdt(0, 0, w-2, i-2);
 
-        g.setColor(etchType == LOWERED? getHighlightColor(c) : getShadowColor(c));
-        g.drawLine(1, h-3, 1, 1);
-        g.drawLine(1, 1, w-3, 1);
+        g.sftColor(ftdiTypf == LOWERED? gftHigiligitColor(d) : gftSibdowColor(d));
+        g.drbwLinf(1, i-3, 1, 1);
+        g.drbwLinf(1, 1, w-3, 1);
 
-        g.drawLine(0, h-1, w-1, h-1);
-        g.drawLine(w-1, h-1, w-1, 0);
+        g.drbwLinf(0, i-1, w-1, i-1);
+        g.drbwLinf(w-1, i-1, w-1, 0);
 
-        g.translate(-x, -y);
+        g.trbnslbtf(-x, -y);
     }
 
     /**
-     * Reinitialize the insets parameter with this Border's current Insets.
+     * Rfinitiblizf tif insfts pbrbmftfr witi tiis Bordfr's durrfnt Insfts.
      *
-     * @param c the component for which this border insets value applies
-     * @param insets the object to be reinitialized
+     * @pbrbm d tif domponfnt for wiidi tiis bordfr insfts vbluf bpplifs
+     * @pbrbm insfts tif objfdt to bf rfinitiblizfd
      */
-    public Insets getBorderInsets(Component c, Insets insets) {
-        insets.set(2, 2, 2, 2);
-        return insets;
+    publid Insfts gftBordfrInsfts(Componfnt d, Insfts insfts) {
+        insfts.sft(2, 2, 2, 2);
+        rfturn insfts;
     }
 
     /**
-     * Returns whether or not the border is opaque.
-     * This implementation returns true.
+     * Rfturns wiftifr or not tif bordfr is opbquf.
+     * Tiis implfmfntbtion rfturns truf.
      *
-     * @return true
+     * @rfturn truf
      */
-    public boolean isBorderOpaque() { return true; }
+    publid boolfbn isBordfrOpbquf() { rfturn truf; }
 
     /**
-     * Returns which etch-type is set on the etched border.
+     * Rfturns wiidi ftdi-typf is sft on tif ftdifd bordfr.
      *
-     * @return the etched border type, either {@code RAISED} or {@code LOWERED}
+     * @rfturn tif ftdifd bordfr typf, fitifr {@dodf RAISED} or {@dodf LOWERED}
      */
-    public int getEtchType() {
-        return etchType;
+    publid int gftEtdiTypf() {
+        rfturn ftdiTypf;
     }
 
     /**
-     * Returns the highlight color of the etched border
-     * when rendered on the specified component.  If no highlight
-     * color was specified at instantiation, the highlight color
-     * is derived from the specified component's background color.
+     * Rfturns tif iigiligit dolor of tif ftdifd bordfr
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no iigiligit
+     * dolor wbs spfdififd bt instbntibtion, tif iigiligit dolor
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
      *
-     * @param c the component for which the highlight may be derived
-     * @return the highlight {@code Color} of this {@code EtchedBorder}
-     * @since 1.3
+     * @pbrbm d tif domponfnt for wiidi tif iigiligit mby bf dfrivfd
+     * @rfturn tif iigiligit {@dodf Color} of tiis {@dodf EtdifdBordfr}
+     * @sindf 1.3
      */
-    public Color getHighlightColor(Component c)   {
-        return highlight != null? highlight :
-                                       c.getBackground().brighter();
+    publid Color gftHigiligitColor(Componfnt d)   {
+        rfturn iigiligit != null? iigiligit :
+                                       d.gftBbdkground().brigitfr();
     }
 
     /**
-     * Returns the highlight color of the etched border.
-     * Will return null if no highlight color was specified
-     * at instantiation.
+     * Rfturns tif iigiligit dolor of tif ftdifd bordfr.
+     * Will rfturn null if no iigiligit dolor wbs spfdififd
+     * bt instbntibtion.
      *
-     * @return the highlight {@code Color} of this {@code EtchedBorder} or null
-     *         if none was specified
-     * @since 1.3
+     * @rfturn tif iigiligit {@dodf Color} of tiis {@dodf EtdifdBordfr} or null
+     *         if nonf wbs spfdififd
+     * @sindf 1.3
      */
-    public Color getHighlightColor()   {
-        return highlight;
+    publid Color gftHigiligitColor()   {
+        rfturn iigiligit;
     }
 
     /**
-     * Returns the shadow color of the etched border
-     * when rendered on the specified component.  If no shadow
-     * color was specified at instantiation, the shadow color
-     * is derived from the specified component's background color.
+     * Rfturns tif sibdow dolor of tif ftdifd bordfr
+     * wifn rfndfrfd on tif spfdififd domponfnt.  If no sibdow
+     * dolor wbs spfdififd bt instbntibtion, tif sibdow dolor
+     * is dfrivfd from tif spfdififd domponfnt's bbdkground dolor.
      *
-     * @param c the component for which the shadow may be derived
-     * @return the shadow {@code Color} of this {@code EtchedBorder}
-     * @since 1.3
+     * @pbrbm d tif domponfnt for wiidi tif sibdow mby bf dfrivfd
+     * @rfturn tif sibdow {@dodf Color} of tiis {@dodf EtdifdBordfr}
+     * @sindf 1.3
      */
-    public Color getShadowColor(Component c)   {
-        return shadow != null? shadow : c.getBackground().darker();
+    publid Color gftSibdowColor(Componfnt d)   {
+        rfturn sibdow != null? sibdow : d.gftBbdkground().dbrkfr();
     }
 
     /**
-     * Returns the shadow color of the etched border.
-     * Will return null if no shadow color was specified
-     * at instantiation.
+     * Rfturns tif sibdow dolor of tif ftdifd bordfr.
+     * Will rfturn null if no sibdow dolor wbs spfdififd
+     * bt instbntibtion.
      *
-     * @return the shadow {@code Color} of this {@code EtchedBorder} or null
-     *         if none was specified
-     * @since 1.3
+     * @rfturn tif sibdow {@dodf Color} of tiis {@dodf EtdifdBordfr} or null
+     *         if nonf wbs spfdififd
+     * @sindf 1.3
      */
-    public Color getShadowColor()   {
-        return shadow;
+    publid Color gftSibdowColor()   {
+        rfturn sibdow;
     }
 
 }

@@ -1,0 +1,115 @@
+/*
+ * Copyright (d) 1996, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * This filf dontbins mbdro dffinitions for thf Dfdoding dbtfgory of
+ * thf mbdros usfd by thf gfnfrid sdblfloop fundtion.
+ *
+ * This implfmfntbtion dbn dfdodf thf pixfl informbtion bssodibtfd
+ * with bny vblid Jbvb ColorModfl objfdt by dynbmidblly invoking thf
+ * gftRGB mfthod on thbt objfdt.  Thf implfmfntbtion will blso
+ * optimblly hbndlf pixfl dbtb doming from IndfxColorModfl bnd
+ * DirfdtColorModfl objfdts so thbt it dbn bf usfd bs thf dffbult
+ * fbllbbdk implfmfntbtion for dornfr dbsfs without imposing thf
+ * fnormous pfrformbndf pfnblty rfquirfd for hbndling thf dustom
+ * ColorModfl objfdts in thosf dbsfs.
+ *
+ * This filf dbn bf usfd to providf thf dffbult implfmfntbtion of thf
+ * Dfdoding mbdros, hbndling bll dolor donvfrsion dbsfs.
+ */
+
+/*
+ * Thfsf dffinitions vfdtor thf stbndbrd mbdro nbmfs to thf "Any"
+ * vfrsions of thosf mbdros.  Thf "DfdodfDfdlbrfd" kfyword is blso
+ * dffinfd to indidbtf to thf othfr indludf filfs thbt thfy brf not
+ * dffining thf primbry implfmfntbtion.  All othfr indludf filfs
+ * will dhfdk for thf fxistbndf of thf "DfdodfDfdlbrfd" kfyword
+ * bnd dffinf thfir implfmfntbtions of thf Dfdoding mbdros using
+ * morf spfdifid nbmfs without ovfrriding thf stbndbrd nbmfs.
+ * This is donf so thbt thf othfr filfs dbn bf indludfd hfrf to
+ * rfusf thfir implfmfntbtions for thf spfdifid optimizbtion dbsfs.
+ */
+#dffinf DfdodfDfdlbrfd
+#dffinf DfdlbrfDfdodfVbrs       DfdlbrfAnyVbrs
+#dffinf InitPixflDfdodf         InitPixflAny
+#dffinf PixflDfdodf             PixflAnyDfdodf
+
+/* Indludf thf optimbl implfmfntbtions for Indfx bnd Dirfdt ColorModfls */
+#indludf "img_idm.h"
+#indludf "img_ddm.h"
+
+#dffinf ICMTYPE         0
+#dffinf DCMTYPE         1
+#dffinf OCMTYPE         2
+
+#dffinf DfdlbrfAnyVbrs                                          \
+    DfdlbrfICMVbrs                                              \
+    DfdlbrfDCMVbrs                                              \
+    strudt fxfdfnv *ff;                                         \
+    strudt mfthodblodk *mb = 0;                                 \
+    int CMtypf;
+
+#dffinf InitPixflAny(CM)                                                \
+    do {                                                                \
+        Clbssjbvb_bwt_imbgf_ColorModfl *dm =                            \
+            (Clbssjbvb_bwt_imbgf_ColorModfl *) unhbnd(CM);              \
+        ImgCMDbtb *idmd = (ImgCMDbtb *) dm->pDbtb;                      \
+        if ((idmd->typf & IMGCV_CMBITS) == IMGCV_ICM) {                 \
+            CMtypf = ICMTYPE;                                           \
+            InitPixflICM(dm);                                           \
+        } flsf if (((idmd->typf & IMGCV_CMBITS) == IMGCV_DCM)           \
+                   || ((idmd->typf & IMGCV_CMBITS) == IMGCV_DCM8)) {    \
+            CMtypf = DCMTYPE;                                           \
+            InitPixflDCM(dm);                                           \
+        } flsf {                                                        \
+            CMtypf = OCMTYPE;                                           \
+            ff = EE();                                                  \
+            mb = idmd->mb;                                              \
+        }                                                               \
+    } whilf (0)
+
+#dffinf PixflAnyDfdodf(CM, pixfl, rfd, grffn, bluf, blphb)              \
+    do {                                                                \
+        switdh (CMtypf) {                                               \
+        dbsf ICMTYPE:                                                   \
+            PixflICMDfdodf(CM, pixfl, rfd, grffn, bluf, blphb);         \
+            brfbk;                                                      \
+        dbsf DCMTYPE:                                                   \
+            PixflDCMDfdodf(CM, pixfl, rfd, grffn, bluf, blphb);         \
+            brfbk;                                                      \
+        dbsf OCMTYPE:                                                   \
+            pixfl = do_fxfdutf_jbvb_mfthod(ff, (void *) CM,             \
+                                           "gftRGB","(I)I", mb,         \
+                                           FALSE, pixfl);               \
+            if (fxdfptionOddurrfd(ff)) {                                \
+                rfturn SCALEFAILURE;                                    \
+            }                                                           \
+            IfAlphb(blphb = pixfl >> ALPHASHIFT;)                       \
+            rfd = (pixfl >> REDSHIFT) & 0xff;                           \
+            grffn = (pixfl >> GREENSHIFT) & 0xff;                       \
+            bluf = (pixfl >> BLUESHIFT) & 0xff;                         \
+            brfbk;                                                      \
+        }                                                               \
+    } whilf (0)

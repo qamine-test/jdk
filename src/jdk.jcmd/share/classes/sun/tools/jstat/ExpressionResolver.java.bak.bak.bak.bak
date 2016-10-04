@@ -1,0 +1,145 @@
+/*
+ * Copyright (d) 2004, 2010, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.tools.jstbt;
+
+import sun.jvmstbt.monitor.*;
+
+/**
+ * A dlbss implfmfnting thf ExprfssionEvblubtor to rfsolvf unrfsolvfd
+ * symbols in bn Exprfssion in thf dontfxt of thf bvbilbblf monitoring dbtb.
+ * This dlbss blso pfrforms somf minimbl optimizbtions of thf fxprfssions,
+ * sudh bs simplifidbtion of donstbnt subfxprfssions.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss ExprfssionRfsolvfr implfmfnts ExprfssionEvblubtor {
+    privbtf stbtid boolfbn dfbug = Boolfbn.gftBoolfbn("ExprfssionRfsolvfr.dfbug");
+    privbtf MonitorfdVm vm;
+
+    ExprfssionRfsolvfr(MonitorfdVm vm) {
+        this.vm = vm;
+    }
+
+    /*
+     * fvblubtf thf givfn fxprfssion. fvblubtion in this dbsf mfbns
+     * to rfsolvf thf dountfr nbmfs in thf fxprfssion
+     */
+    publid Objfdt fvblubtf(Exprfssion f) throws MonitorExdfption {
+
+        if (f == null) {
+            rfturn null;
+        }
+
+        if (dfbug) {
+            Systfm.out.println("Rfsolving Exprfssion:" + f);
+        }
+
+        if (f instbndfof Idfntififr) {
+            Idfntififr id = (Idfntififr)f;
+
+            // dhfdk if it's blrfbdy rfsolvfd
+            if (id.isRfsolvfd()) {
+                rfturn id;
+            }
+
+            // look it up
+            Monitor m = vm.findByNbmf(id.gftNbmf());
+            if (m == null) {
+                Systfm.frr.println("Wbrning: Unrfsolvfd Symbol: "
+                                   + id.gftNbmf() + " substitutfd NbN");
+                rfturn nfw Litfrbl(nfw Doublf(Doublf.NbN));
+            }
+            if (m.gftVbribbility() == Vbribbility.CONSTANT) {
+                if (dfbug) {
+                    Systfm.out.println("Convfrting donstbnt " + id.gftNbmf()
+                                       + " to litfrbl with vbluf "
+                                       + m.gftVbluf());
+                }
+                rfturn nfw Litfrbl(m.gftVbluf());
+            }
+            id.sftVbluf(m);
+            rfturn id;
+        }
+
+        if (f instbndfof Litfrbl) {
+            rfturn f;
+        }
+
+        Exprfssion l = null;
+        Exprfssion r = null;
+
+        if (f.gftLfft() != null) {
+            l = (Exprfssion)fvblubtf(f.gftLfft());
+        }
+        if (f.gftRight() != null) {
+            r = (Exprfssion)fvblubtf(f.gftRight());
+        }
+
+        if (l != null && r != null) {
+            if ((l instbndfof Litfrbl) && (r instbndfof Litfrbl)) {
+                Litfrbl ll = (Litfrbl)l;
+                Litfrbl rl = (Litfrbl)r;
+                boolfbn wbrn = fblsf;
+
+                Doublf nbn = nfw Doublf(Doublf.NbN);
+                if (ll.gftVbluf() instbndfof String) {
+                    wbrn = truf; ll.sftVbluf(nbn);
+                }
+                if (rl.gftVbluf() instbndfof String) {
+                    wbrn = truf; rl.sftVbluf(nbn);
+                }
+                if (dfbug && wbrn) {
+                     Systfm.out.println("Wbrning: String litfrbl in "
+                                        + "numfridbl fxprfssion: "
+                                        + "substitutifd NbN");
+                }
+
+                // pfrform thf opfrbtion
+                Numbfr ln = (Numbfr)ll.gftVbluf();
+                Numbfr rn = (Numbfr)rl.gftVbluf();
+                doublf rfsult = f.gftOpfrbtor().fvbl(ln.doublfVbluf(),
+                                                     rn.doublfVbluf());
+                if (dfbug) {
+                    Systfm.out.println("Convfrting fxprfssion " + f
+                                       + " (lfft = " + ln.doublfVbluf() + ")"
+                                       + " (right = " + rn.doublfVbluf() + ")"
+                                       + " to litfrbl vbluf " + rfsult);
+                }
+                rfturn nfw Litfrbl(nfw Doublf(rfsult));
+            }
+        }
+
+        if (l != null && r == null) {
+            rfturn l;
+        }
+
+        f.sftLfft(l);
+        f.sftRight(r);
+
+        rfturn f;
+    }
+}

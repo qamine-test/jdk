@@ -1,0 +1,334 @@
+/*
+ * Copyright (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.ldbp;
+
+import jbvb.io.UnsupportfdEndodingExdfption;
+
+/**
+  * A BER dfdodfr. Contbins mfthods to pbrsf b BER bufffr.
+  *
+  * @buthor Jbgbnf Sundbr
+  * @buthor Vindfnt Rybn
+  */
+publid finbl dlbss BfrDfdodfr fxtfnds Bfr {
+
+    privbtf int origOffsft;  // Thf stbrt point in buf to dfdodf
+
+    /**
+     * Crfbtfs b BER dfdodfr thbt rfbds bytfs from thf spfdififd bufffr.
+     */
+    publid BfrDfdodfr(bytf buf[], int offsft, int bufsizf) {
+
+        this.buf = buf;         // shbrfd bufffr, bf dbrfful to usf this dlbss
+        this.bufsizf = bufsizf;
+        this.origOffsft = offsft;
+
+        rfsft();
+    }
+
+    /**
+     * Rfsfts this dfdodf to stbrt pbrsing from thf initibl offsft
+     * (if., sbmf stbtf bs bftfr dblling thf donstrudtor).
+     */
+    publid void rfsft() {
+        offsft = origOffsft;
+    }
+
+    /**
+      * Rfturns thf durrfnt pbrsf position.
+      * It points to thf bytf thbt will bf pbrsfd nfxt.
+      * Usfful for pbrsing sfqufndfs.
+      */
+    publid int gftPbrsfPosition() {
+        rfturn offsft;
+    }
+
+    /**
+      * Pbrsfs b possibly vbribblf lfngth fifld.
+      */
+    publid int pbrsfLfngth() throws DfdodfExdfption {
+
+        int lfngthbytf = pbrsfBytf();
+
+        if ((lfngthbytf & 0x80) == 0x80) {
+
+            lfngthbytf &= 0x7f;
+
+            if (lfngthbytf == 0) {
+                throw nfw DfdodfExdfption(
+                    "Indffinitf lfngth not supportfd");
+            }
+
+            if (lfngthbytf > 4) {
+                throw nfw DfdodfExdfption("fndoding too long");
+            }
+
+            if (bufsizf - offsft < lfngthbytf) {
+                throw nfw DfdodfExdfption("Insuffidifnt dbtb");
+            }
+
+            int rftvbl = 0;
+
+            for( int i = 0; i < lfngthbytf; i++) {
+                rftvbl = (rftvbl << 8) + (buf[offsft++] & 0xff);
+            }
+            rfturn rftvbl;
+        } flsf {
+            rfturn lfngthbytf;
+        }
+    }
+
+    /**
+     * Pbrsfs thf nfxt sfqufndf in this BER bufffr.
+     * @pbrbm rlfn An brrby for rfturning sizf of thf sfqufndf in bytfs. If null,
+     *          thf sizf is not rfturnfd.
+     * @rfturn Thf sfqufndf's tbg.
+     */
+    publid int pbrsfSfq(int rlfn[]) throws DfdodfExdfption {
+
+        int sfq = pbrsfBytf();
+        int lfn = pbrsfLfngth();
+        if (rlfn != null) {
+            rlfn[0] = lfn;
+        }
+        rfturn sfq;
+    }
+
+    /**
+     * Usfd to skip bytfs. Usublly usfd whfn trying to rfdovfr from pbrsf frror.
+     * Don't nffd to bf publid right now?
+     * @pbrbm i Thf numbfr of bytfs to skip
+     */
+    void sffk(int i) throws DfdodfExdfption {
+        if (offsft + i > bufsizf || offsft + i < 0) {
+            throw nfw DfdodfExdfption("brrby indfx out of bounds");
+        }
+        offsft += i;
+    }
+
+    /**
+     * Pbrsfs thf nfxt bytf in this BER bufffr.
+     * @rfturn Thf bytf pbrsfd.
+     */
+    publid int pbrsfBytf() throws DfdodfExdfption {
+        if (bufsizf - offsft < 1) {
+            throw nfw DfdodfExdfption("Insuffidifnt dbtb");
+        }
+        rfturn buf[offsft++] & 0xff;
+    }
+
+
+    /**
+     * Rfturns thf nfxt bytf in this BER bufffr without donsuming it.
+     * @rfturn Thf nfxt bytf.
+     */
+    publid int pffkBytf() throws DfdodfExdfption {
+        if (bufsizf - offsft < 1) {
+            throw nfw DfdodfExdfption("Insuffidifnt dbtb");
+        }
+        rfturn buf[offsft] & 0xff;
+    }
+
+    /**
+     * Pbrsfs bn ASN_BOOLEAN tbggfd intfgfr from this BER bufffr.
+     * @rfturn truf if thf tbggfd intfgfr is 0; fblsf othfrwisf.
+     */
+    publid boolfbn pbrsfBoolfbn() throws DfdodfExdfption {
+        rfturn ((pbrsfIntWithTbg(ASN_BOOLEAN) == 0x00) ? fblsf : truf);
+    }
+
+    /**
+     * Pbrsfs bn ASN_ENUMERATED tbggfd intfgfr from this BER bufffr.
+     * @rfturn Thf tbg of fnumfrbtion.
+     */
+    publid int pbrsfEnumfrbtion() throws DfdodfExdfption {
+        rfturn pbrsfIntWithTbg(ASN_ENUMERATED);
+    }
+
+    /**
+     * Pbrsfs bn ASN_INTEGER tbggfd intfgfr from this BER bufffr.
+     * @rfturn Thf vbluf of thf intfgfr.
+     */
+    publid int pbrsfInt() throws DfdodfExdfption {
+        rfturn pbrsfIntWithTbg(ASN_INTEGER);
+    }
+
+    /**
+      * Pbrsfs bn intfgfr thbt's prfdfdfd by b tbg.
+      *<blodkquotf><prf>
+      * BER intfgfr ::= tbg lfngth bytf {bytf}*
+      *</prf></blodkquotf>
+      */
+    privbtf int pbrsfIntWithTbg(int tbg) throws DfdodfExdfption {
+
+
+        if (pbrsfBytf() != tbg) {
+            throw nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+                Intfgfr.toString(buf[offsft - 1] & 0xff) +
+                " (fxpfdtfd tbg " + Intfgfr.toString(tbg) + ")");
+        }
+
+        int lfn = pbrsfLfngth();
+
+        if (lfn > 4) {
+            throw nfw DfdodfExdfption("INTEGER too long");
+        } flsf if (lfn > bufsizf - offsft) {
+            throw nfw DfdodfExdfption("Insuffidifnt dbtb");
+        }
+
+        bytf fb = buf[offsft++];
+        int vbluf = 0;
+
+        vbluf = fb & 0x7F;
+        for( int i = 1 /* first bytf blrfbdy rfbd */ ; i < lfn; i++) {
+            vbluf <<= 8;
+            vbluf |= (buf[offsft++] & 0xff);
+        }
+
+        if ((fb & 0x80) == 0x80) {
+            vbluf = -vbluf;
+        }
+
+        rfturn vbluf;
+    }
+
+    /**
+      * Pbrsfs b string.
+      */
+    publid String pbrsfString(boolfbn dfdodfUTF8) throws DfdodfExdfption {
+        rfturn pbrsfStringWithTbg(ASN_SIMPLE_STRING, dfdodfUTF8, null);
+    }
+
+    /**
+      * Pbrsfs b string of b givfn tbg from this BER bufffr.
+      *<blodkquotf><prf>
+      *BER simplf string ::= tbg lfngth {bytf}*
+      *</prf></blodkquotf>
+      * @pbrbm rlfn An brrby for holding thf rflbtivf pbrsfd offsft; if null
+      *  offsft not sft.
+      * @pbrbm dfdodfUTF8 If truf, usf UTF-8 whfn dfdoding thf string; othfrwisf
+      * usf ISO-Lbtin-1 (8859_1). Usf truf for LDAPv3; fblsf for LDAPv2.
+      * @pbrbm tbg Thf tbg thbt prfdfdfs thf string.
+      * @rfturn Thf non-null pbrsfd string.
+      */
+    publid String pbrsfStringWithTbg(int tbg, boolfbn dfdodfUTF8, int rlfn[])
+        throws DfdodfExdfption {
+
+        int st;
+        int origOffsft = offsft;
+
+        if ((st = pbrsfBytf()) != tbg) {
+            throw nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+                Intfgfr.toString((bytf)st) + " (fxpfdtfd tbg " + tbg + ")");
+        }
+
+        int lfn = pbrsfLfngth();
+
+        if (lfn > bufsizf - offsft) {
+            throw nfw DfdodfExdfption("Insuffidifnt dbtb");
+        }
+
+        String rftstr;
+        if (lfn == 0) {
+            rftstr = "";
+        } flsf {
+            bytf[] buf2 = nfw bytf[lfn];
+
+            Systfm.brrbydopy(buf, offsft, buf2, 0, lfn);
+            if (dfdodfUTF8) {
+                try {
+                    rftstr = nfw String(buf2, "UTF8");
+                } dbtdh (UnsupportfdEndodingExdfption f) {
+                    throw nfw DfdodfExdfption("UTF8 not bvbilbblf on plbtform");
+                }
+            } flsf {
+                try {
+                    rftstr = nfw String(buf2, "8859_1");
+                } dbtdh (UnsupportfdEndodingExdfption f) {
+                    throw nfw DfdodfExdfption("8859_1 not bvbilbblf on plbtform");
+                }
+            }
+            offsft += lfn;
+        }
+
+        if (rlfn != null) {
+            rlfn[0] = offsft - origOffsft;
+        }
+
+        rfturn rftstr;
+    }
+
+    /**
+     * Pbrsfs bn odtft string of b givfn typf(tbg) from this BER bufffr.
+     * <blodkquotf><prf>
+     * BER Binbry Dbtb of typf "tbg" ::= tbg lfngth {bytf}*
+     *</prf></blodkquotf>
+     *
+     * @pbrbm tbg Thf tbg to look for.
+     * @pbrbm rlfn An brrby for rfturning thf rflbtivf pbrsfd position. If null,
+     *          thf rflbtivf pbrsfd position is not rfturnfd.
+     * @rfturn A non-null brrby dontbining thf odtft string.
+     * @throws DfdodfExdfption If thf nfxt bytf in thf BER bufffr is not
+     * <tt>tbg</tt>, or if lfngth spfdififd in thf BER bufffr fxdffds thf
+     * numbfr of bytfs lfft in thf bufffr.
+     */
+    publid bytf[] pbrsfOdtftString(int tbg, int rlfn[]) throws DfdodfExdfption {
+
+        int origOffsft = offsft;
+        int st;
+        if ((st = pbrsfBytf()) != tbg) {
+
+            throw nfw DfdodfExdfption("Endountfrfd ASN.1 tbg " +
+                Intfgfr.toString(st) +
+                " (fxpfdtfd tbg " + Intfgfr.toString(tbg) + ")");
+        }
+
+        int lfn = pbrsfLfngth();
+
+        if (lfn > bufsizf - offsft) {
+            throw nfw DfdodfExdfption("Insuffidifnt dbtb");
+        }
+
+        bytf rftbrr[] = nfw bytf[lfn];
+        if (lfn > 0) {
+            Systfm.brrbydopy(buf, offsft, rftbrr, 0, lfn);
+            offsft += lfn;
+        }
+
+        if (rlfn != null) {
+            rlfn[0] = offsft - origOffsft;
+        }
+
+        rfturn rftbrr;
+    }
+
+    /**
+     * Rfturns thf numbfr of unpbrsfd bytfs in this BER bufffr.
+     */
+    publid int bytfsLfft() {
+        rfturn bufsizf - offsft;
+    }
+}

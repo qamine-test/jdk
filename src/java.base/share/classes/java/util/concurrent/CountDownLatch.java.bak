@@ -1,315 +1,315 @@
 /*
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This file is available under and governed by the GNU General Public
- * License version 2 only, as published by the Free Software Foundation.
- * However, the following notice accompanied the original version of this
- * file:
+ * Tiis filf is bvbilbblf undfr bnd govfrnfd by tif GNU Gfnfrbl Publid
+ * Lidfnsf vfrsion 2 only, bs publisifd by tif Frff Softwbrf Foundbtion.
+ * Howfvfr, tif following notidf bddompbnifd tif originbl vfrsion of tiis
+ * filf:
  *
- * Written by Doug Lea with assistance from members of JCP JSR-166
- * Expert Group and released to the public domain, as explained at
- * http://creativecommons.org/publicdomain/zero/1.0/
+ * Writtfn by Doug Lfb witi bssistbndf from mfmbfrs of JCP JSR-166
+ * Expfrt Group bnd rflfbsfd to tif publid dombin, bs fxplbinfd bt
+ * ittp://drfbtivfdommons.org/publiddombin/zfro/1.0/
  */
 
-package java.util.concurrent;
-import java.util.concurrent.locks.AbstractQueuedSynchronizer;
+pbdkbgf jbvb.util.dondurrfnt;
+import jbvb.util.dondurrfnt.lodks.AbstrbdtQufufdSyndironizfr;
 
 /**
- * A synchronization aid that allows one or more threads to wait until
- * a set of operations being performed in other threads completes.
+ * A syndironizbtion bid tibt bllows onf or morf tirfbds to wbit until
+ * b sft of opfrbtions bfing pfrformfd in otifr tirfbds domplftfs.
  *
- * <p>A {@code CountDownLatch} is initialized with a given <em>count</em>.
- * The {@link #await await} methods block until the current count reaches
- * zero due to invocations of the {@link #countDown} method, after which
- * all waiting threads are released and any subsequent invocations of
- * {@link #await await} return immediately.  This is a one-shot phenomenon
- * -- the count cannot be reset.  If you need a version that resets the
- * count, consider using a {@link CyclicBarrier}.
+ * <p>A {@dodf CountDownLbtdi} is initiblizfd witi b givfn <fm>dount</fm>.
+ * Tif {@link #bwbit bwbit} mftiods blodk until tif durrfnt dount rfbdifs
+ * zfro duf to invodbtions of tif {@link #dountDown} mftiod, bftfr wiidi
+ * bll wbiting tirfbds brf rflfbsfd bnd bny subsfqufnt invodbtions of
+ * {@link #bwbit bwbit} rfturn immfdibtfly.  Tiis is b onf-siot pifnomfnon
+ * -- tif dount dbnnot bf rfsft.  If you nffd b vfrsion tibt rfsfts tif
+ * dount, donsidfr using b {@link CydlidBbrrifr}.
  *
- * <p>A {@code CountDownLatch} is a versatile synchronization tool
- * and can be used for a number of purposes.  A
- * {@code CountDownLatch} initialized with a count of one serves as a
- * simple on/off latch, or gate: all threads invoking {@link #await await}
- * wait at the gate until it is opened by a thread invoking {@link
- * #countDown}.  A {@code CountDownLatch} initialized to <em>N</em>
- * can be used to make one thread wait until <em>N</em> threads have
- * completed some action, or some action has been completed N times.
+ * <p>A {@dodf CountDownLbtdi} is b vfrsbtilf syndironizbtion tool
+ * bnd dbn bf usfd for b numbfr of purposfs.  A
+ * {@dodf CountDownLbtdi} initiblizfd witi b dount of onf sfrvfs bs b
+ * simplf on/off lbtdi, or gbtf: bll tirfbds invoking {@link #bwbit bwbit}
+ * wbit bt tif gbtf until it is opfnfd by b tirfbd invoking {@link
+ * #dountDown}.  A {@dodf CountDownLbtdi} initiblizfd to <fm>N</fm>
+ * dbn bf usfd to mbkf onf tirfbd wbit until <fm>N</fm> tirfbds ibvf
+ * domplftfd somf bdtion, or somf bdtion ibs bffn domplftfd N timfs.
  *
- * <p>A useful property of a {@code CountDownLatch} is that it
- * doesn't require that threads calling {@code countDown} wait for
- * the count to reach zero before proceeding, it simply prevents any
- * thread from proceeding past an {@link #await await} until all
- * threads could pass.
+ * <p>A usfful propfrty of b {@dodf CountDownLbtdi} is tibt it
+ * dofsn't rfquirf tibt tirfbds dblling {@dodf dountDown} wbit for
+ * tif dount to rfbdi zfro bfforf prodffding, it simply prfvfnts bny
+ * tirfbd from prodffding pbst bn {@link #bwbit bwbit} until bll
+ * tirfbds dould pbss.
  *
- * <p><b>Sample usage:</b> Here is a pair of classes in which a group
- * of worker threads use two countdown latches:
+ * <p><b>Sbmplf usbgf:</b> Hfrf is b pbir of dlbssfs in wiidi b group
+ * of workfr tirfbds usf two dountdown lbtdifs:
  * <ul>
- * <li>The first is a start signal that prevents any worker from proceeding
- * until the driver is ready for them to proceed;
- * <li>The second is a completion signal that allows the driver to wait
- * until all workers have completed.
+ * <li>Tif first is b stbrt signbl tibt prfvfnts bny workfr from prodffding
+ * until tif drivfr is rfbdy for tifm to prodffd;
+ * <li>Tif sfdond is b domplftion signbl tibt bllows tif drivfr to wbit
+ * until bll workfrs ibvf domplftfd.
  * </ul>
  *
- *  <pre> {@code
- * class Driver { // ...
- *   void main() throws InterruptedException {
- *     CountDownLatch startSignal = new CountDownLatch(1);
- *     CountDownLatch doneSignal = new CountDownLatch(N);
+ *  <prf> {@dodf
+ * dlbss Drivfr { // ...
+ *   void mbin() tirows IntfrruptfdExdfption {
+ *     CountDownLbtdi stbrtSignbl = nfw CountDownLbtdi(1);
+ *     CountDownLbtdi donfSignbl = nfw CountDownLbtdi(N);
  *
- *     for (int i = 0; i < N; ++i) // create and start threads
- *       new Thread(new Worker(startSignal, doneSignal)).start();
+ *     for (int i = 0; i < N; ++i) // drfbtf bnd stbrt tirfbds
+ *       nfw Tirfbd(nfw Workfr(stbrtSignbl, donfSignbl)).stbrt();
  *
- *     doSomethingElse();            // don't let run yet
- *     startSignal.countDown();      // let all threads proceed
- *     doSomethingElse();
- *     doneSignal.await();           // wait for all to finish
+ *     doSomftiingElsf();            // don't lft run yft
+ *     stbrtSignbl.dountDown();      // lft bll tirfbds prodffd
+ *     doSomftiingElsf();
+ *     donfSignbl.bwbit();           // wbit for bll to finisi
  *   }
  * }
  *
- * class Worker implements Runnable {
- *   private final CountDownLatch startSignal;
- *   private final CountDownLatch doneSignal;
- *   Worker(CountDownLatch startSignal, CountDownLatch doneSignal) {
- *     this.startSignal = startSignal;
- *     this.doneSignal = doneSignal;
+ * dlbss Workfr implfmfnts Runnbblf {
+ *   privbtf finbl CountDownLbtdi stbrtSignbl;
+ *   privbtf finbl CountDownLbtdi donfSignbl;
+ *   Workfr(CountDownLbtdi stbrtSignbl, CountDownLbtdi donfSignbl) {
+ *     tiis.stbrtSignbl = stbrtSignbl;
+ *     tiis.donfSignbl = donfSignbl;
  *   }
- *   public void run() {
+ *   publid void run() {
  *     try {
- *       startSignal.await();
+ *       stbrtSignbl.bwbit();
  *       doWork();
- *       doneSignal.countDown();
- *     } catch (InterruptedException ex) {} // return;
+ *       donfSignbl.dountDown();
+ *     } dbtdi (IntfrruptfdExdfption fx) {} // rfturn;
  *   }
  *
  *   void doWork() { ... }
- * }}</pre>
+ * }}</prf>
  *
- * <p>Another typical usage would be to divide a problem into N parts,
- * describe each part with a Runnable that executes that portion and
- * counts down on the latch, and queue all the Runnables to an
- * Executor.  When all sub-parts are complete, the coordinating thread
- * will be able to pass through await. (When threads must repeatedly
- * count down in this way, instead use a {@link CyclicBarrier}.)
+ * <p>Anotifr typidbl usbgf would bf to dividf b problfm into N pbrts,
+ * dfsdribf fbdi pbrt witi b Runnbblf tibt fxfdutfs tibt portion bnd
+ * dounts down on tif lbtdi, bnd qufuf bll tif Runnbblfs to bn
+ * Exfdutor.  Wifn bll sub-pbrts brf domplftf, tif doordinbting tirfbd
+ * will bf bblf to pbss tirougi bwbit. (Wifn tirfbds must rfpfbtfdly
+ * dount down in tiis wby, instfbd usf b {@link CydlidBbrrifr}.)
  *
- *  <pre> {@code
- * class Driver2 { // ...
- *   void main() throws InterruptedException {
- *     CountDownLatch doneSignal = new CountDownLatch(N);
- *     Executor e = ...
+ *  <prf> {@dodf
+ * dlbss Drivfr2 { // ...
+ *   void mbin() tirows IntfrruptfdExdfption {
+ *     CountDownLbtdi donfSignbl = nfw CountDownLbtdi(N);
+ *     Exfdutor f = ...
  *
- *     for (int i = 0; i < N; ++i) // create and start threads
- *       e.execute(new WorkerRunnable(doneSignal, i));
+ *     for (int i = 0; i < N; ++i) // drfbtf bnd stbrt tirfbds
+ *       f.fxfdutf(nfw WorkfrRunnbblf(donfSignbl, i));
  *
- *     doneSignal.await();           // wait for all to finish
+ *     donfSignbl.bwbit();           // wbit for bll to finisi
  *   }
  * }
  *
- * class WorkerRunnable implements Runnable {
- *   private final CountDownLatch doneSignal;
- *   private final int i;
- *   WorkerRunnable(CountDownLatch doneSignal, int i) {
- *     this.doneSignal = doneSignal;
- *     this.i = i;
+ * dlbss WorkfrRunnbblf implfmfnts Runnbblf {
+ *   privbtf finbl CountDownLbtdi donfSignbl;
+ *   privbtf finbl int i;
+ *   WorkfrRunnbblf(CountDownLbtdi donfSignbl, int i) {
+ *     tiis.donfSignbl = donfSignbl;
+ *     tiis.i = i;
  *   }
- *   public void run() {
+ *   publid void run() {
  *     try {
  *       doWork(i);
- *       doneSignal.countDown();
- *     } catch (InterruptedException ex) {} // return;
+ *       donfSignbl.dountDown();
+ *     } dbtdi (IntfrruptfdExdfption fx) {} // rfturn;
  *   }
  *
  *   void doWork() { ... }
- * }}</pre>
+ * }}</prf>
  *
- * <p>Memory consistency effects: Until the count reaches
- * zero, actions in a thread prior to calling
- * {@code countDown()}
- * <a href="package-summary.html#MemoryVisibility"><i>happen-before</i></a>
- * actions following a successful return from a corresponding
- * {@code await()} in another thread.
+ * <p>Mfmory donsistfndy ffffdts: Until tif dount rfbdifs
+ * zfro, bdtions in b tirfbd prior to dblling
+ * {@dodf dountDown()}
+ * <b irff="pbdkbgf-summbry.itml#MfmoryVisibility"><i>ibppfn-bfforf</i></b>
+ * bdtions following b suddfssful rfturn from b dorrfsponding
+ * {@dodf bwbit()} in bnotifr tirfbd.
  *
- * @since 1.5
- * @author Doug Lea
+ * @sindf 1.5
+ * @butior Doug Lfb
  */
-public class CountDownLatch {
+publid dlbss CountDownLbtdi {
     /**
-     * Synchronization control For CountDownLatch.
-     * Uses AQS state to represent count.
+     * Syndironizbtion dontrol For CountDownLbtdi.
+     * Usfs AQS stbtf to rfprfsfnt dount.
      */
-    private static final class Sync extends AbstractQueuedSynchronizer {
-        private static final long serialVersionUID = 4982264981922014374L;
+    privbtf stbtid finbl dlbss Synd fxtfnds AbstrbdtQufufdSyndironizfr {
+        privbtf stbtid finbl long sfriblVfrsionUID = 4982264981922014374L;
 
-        Sync(int count) {
-            setState(count);
+        Synd(int dount) {
+            sftStbtf(dount);
         }
 
-        int getCount() {
-            return getState();
+        int gftCount() {
+            rfturn gftStbtf();
         }
 
-        protected int tryAcquireShared(int acquires) {
-            return (getState() == 0) ? 1 : -1;
+        protfdtfd int tryAdquirfSibrfd(int bdquirfs) {
+            rfturn (gftStbtf() == 0) ? 1 : -1;
         }
 
-        protected boolean tryReleaseShared(int releases) {
-            // Decrement count; signal when transition to zero
+        protfdtfd boolfbn tryRflfbsfSibrfd(int rflfbsfs) {
+            // Dfdrfmfnt dount; signbl wifn trbnsition to zfro
             for (;;) {
-                int c = getState();
-                if (c == 0)
-                    return false;
-                int nextc = c-1;
-                if (compareAndSetState(c, nextc))
-                    return nextc == 0;
+                int d = gftStbtf();
+                if (d == 0)
+                    rfturn fblsf;
+                int nfxtd = d-1;
+                if (dompbrfAndSftStbtf(d, nfxtd))
+                    rfturn nfxtd == 0;
             }
         }
     }
 
-    private final Sync sync;
+    privbtf finbl Synd synd;
 
     /**
-     * Constructs a {@code CountDownLatch} initialized with the given count.
+     * Construdts b {@dodf CountDownLbtdi} initiblizfd witi tif givfn dount.
      *
-     * @param count the number of times {@link #countDown} must be invoked
-     *        before threads can pass through {@link #await}
-     * @throws IllegalArgumentException if {@code count} is negative
+     * @pbrbm dount tif numbfr of timfs {@link #dountDown} must bf invokfd
+     *        bfforf tirfbds dbn pbss tirougi {@link #bwbit}
+     * @tirows IllfgblArgumfntExdfption if {@dodf dount} is nfgbtivf
      */
-    public CountDownLatch(int count) {
-        if (count < 0) throw new IllegalArgumentException("count < 0");
-        this.sync = new Sync(count);
+    publid CountDownLbtdi(int dount) {
+        if (dount < 0) tirow nfw IllfgblArgumfntExdfption("dount < 0");
+        tiis.synd = nfw Synd(dount);
     }
 
     /**
-     * Causes the current thread to wait until the latch has counted down to
-     * zero, unless the thread is {@linkplain Thread#interrupt interrupted}.
+     * Cbusfs tif durrfnt tirfbd to wbit until tif lbtdi ibs dountfd down to
+     * zfro, unlfss tif tirfbd is {@linkplbin Tirfbd#intfrrupt intfrruptfd}.
      *
-     * <p>If the current count is zero then this method returns immediately.
+     * <p>If tif durrfnt dount is zfro tifn tiis mftiod rfturns immfdibtfly.
      *
-     * <p>If the current count is greater than zero then the current
-     * thread becomes disabled for thread scheduling purposes and lies
-     * dormant until one of two things happen:
+     * <p>If tif durrfnt dount is grfbtfr tibn zfro tifn tif durrfnt
+     * tirfbd bfdomfs disbblfd for tirfbd sdifduling purposfs bnd lifs
+     * dormbnt until onf of two tiings ibppfn:
      * <ul>
-     * <li>The count reaches zero due to invocations of the
-     * {@link #countDown} method; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread.
+     * <li>Tif dount rfbdifs zfro duf to invodbtions of tif
+     * {@link #dountDown} mftiod; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts}
+     * tif durrfnt tirfbd.
      * </ul>
      *
-     * <p>If the current thread:
+     * <p>If tif durrfnt tirfbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting,
+     * <li>ibs its intfrruptfd stbtus sft on fntry to tiis mftiod; or
+     * <li>is {@linkplbin Tirfbd#intfrrupt intfrruptfd} wiilf wbiting,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * tifn {@link IntfrruptfdExdfption} is tirown bnd tif durrfnt tirfbd's
+     * intfrruptfd stbtus is dlfbrfd.
      *
-     * @throws InterruptedException if the current thread is interrupted
-     *         while waiting
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     *         wiilf wbiting
      */
-    public void await() throws InterruptedException {
-        sync.acquireSharedInterruptibly(1);
+    publid void bwbit() tirows IntfrruptfdExdfption {
+        synd.bdquirfSibrfdIntfrruptibly(1);
     }
 
     /**
-     * Causes the current thread to wait until the latch has counted down to
-     * zero, unless the thread is {@linkplain Thread#interrupt interrupted},
-     * or the specified waiting time elapses.
+     * Cbusfs tif durrfnt tirfbd to wbit until tif lbtdi ibs dountfd down to
+     * zfro, unlfss tif tirfbd is {@linkplbin Tirfbd#intfrrupt intfrruptfd},
+     * or tif spfdififd wbiting timf flbpsfs.
      *
-     * <p>If the current count is zero then this method returns immediately
-     * with the value {@code true}.
+     * <p>If tif durrfnt dount is zfro tifn tiis mftiod rfturns immfdibtfly
+     * witi tif vbluf {@dodf truf}.
      *
-     * <p>If the current count is greater than zero then the current
-     * thread becomes disabled for thread scheduling purposes and lies
-     * dormant until one of three things happen:
+     * <p>If tif durrfnt dount is grfbtfr tibn zfro tifn tif durrfnt
+     * tirfbd bfdomfs disbblfd for tirfbd sdifduling purposfs bnd lifs
+     * dormbnt until onf of tirff tiings ibppfn:
      * <ul>
-     * <li>The count reaches zero due to invocations of the
-     * {@link #countDown} method; or
-     * <li>Some other thread {@linkplain Thread#interrupt interrupts}
-     * the current thread; or
-     * <li>The specified waiting time elapses.
+     * <li>Tif dount rfbdifs zfro duf to invodbtions of tif
+     * {@link #dountDown} mftiod; or
+     * <li>Somf otifr tirfbd {@linkplbin Tirfbd#intfrrupt intfrrupts}
+     * tif durrfnt tirfbd; or
+     * <li>Tif spfdififd wbiting timf flbpsfs.
      * </ul>
      *
-     * <p>If the count reaches zero then the method returns with the
-     * value {@code true}.
+     * <p>If tif dount rfbdifs zfro tifn tif mftiod rfturns witi tif
+     * vbluf {@dodf truf}.
      *
-     * <p>If the current thread:
+     * <p>If tif durrfnt tirfbd:
      * <ul>
-     * <li>has its interrupted status set on entry to this method; or
-     * <li>is {@linkplain Thread#interrupt interrupted} while waiting,
+     * <li>ibs its intfrruptfd stbtus sft on fntry to tiis mftiod; or
+     * <li>is {@linkplbin Tirfbd#intfrrupt intfrruptfd} wiilf wbiting,
      * </ul>
-     * then {@link InterruptedException} is thrown and the current thread's
-     * interrupted status is cleared.
+     * tifn {@link IntfrruptfdExdfption} is tirown bnd tif durrfnt tirfbd's
+     * intfrruptfd stbtus is dlfbrfd.
      *
-     * <p>If the specified waiting time elapses then the value {@code false}
-     * is returned.  If the time is less than or equal to zero, the method
-     * will not wait at all.
+     * <p>If tif spfdififd wbiting timf flbpsfs tifn tif vbluf {@dodf fblsf}
+     * is rfturnfd.  If tif timf is lfss tibn or fqubl to zfro, tif mftiod
+     * will not wbit bt bll.
      *
-     * @param timeout the maximum time to wait
-     * @param unit the time unit of the {@code timeout} argument
-     * @return {@code true} if the count reached zero and {@code false}
-     *         if the waiting time elapsed before the count reached zero
-     * @throws InterruptedException if the current thread is interrupted
-     *         while waiting
+     * @pbrbm timfout tif mbximum timf to wbit
+     * @pbrbm unit tif timf unit of tif {@dodf timfout} brgumfnt
+     * @rfturn {@dodf truf} if tif dount rfbdifd zfro bnd {@dodf fblsf}
+     *         if tif wbiting timf flbpsfd bfforf tif dount rfbdifd zfro
+     * @tirows IntfrruptfdExdfption if tif durrfnt tirfbd is intfrruptfd
+     *         wiilf wbiting
      */
-    public boolean await(long timeout, TimeUnit unit)
-        throws InterruptedException {
-        return sync.tryAcquireSharedNanos(1, unit.toNanos(timeout));
+    publid boolfbn bwbit(long timfout, TimfUnit unit)
+        tirows IntfrruptfdExdfption {
+        rfturn synd.tryAdquirfSibrfdNbnos(1, unit.toNbnos(timfout));
     }
 
     /**
-     * Decrements the count of the latch, releasing all waiting threads if
-     * the count reaches zero.
+     * Dfdrfmfnts tif dount of tif lbtdi, rflfbsing bll wbiting tirfbds if
+     * tif dount rfbdifs zfro.
      *
-     * <p>If the current count is greater than zero then it is decremented.
-     * If the new count is zero then all waiting threads are re-enabled for
-     * thread scheduling purposes.
+     * <p>If tif durrfnt dount is grfbtfr tibn zfro tifn it is dfdrfmfntfd.
+     * If tif nfw dount is zfro tifn bll wbiting tirfbds brf rf-fnbblfd for
+     * tirfbd sdifduling purposfs.
      *
-     * <p>If the current count equals zero then nothing happens.
+     * <p>If tif durrfnt dount fqubls zfro tifn notiing ibppfns.
      */
-    public void countDown() {
-        sync.releaseShared(1);
+    publid void dountDown() {
+        synd.rflfbsfSibrfd(1);
     }
 
     /**
-     * Returns the current count.
+     * Rfturns tif durrfnt dount.
      *
-     * <p>This method is typically used for debugging and testing purposes.
+     * <p>Tiis mftiod is typidblly usfd for dfbugging bnd tfsting purposfs.
      *
-     * @return the current count
+     * @rfturn tif durrfnt dount
      */
-    public long getCount() {
-        return sync.getCount();
+    publid long gftCount() {
+        rfturn synd.gftCount();
     }
 
     /**
-     * Returns a string identifying this latch, as well as its state.
-     * The state, in brackets, includes the String {@code "Count ="}
-     * followed by the current count.
+     * Rfturns b string idfntifying tiis lbtdi, bs wfll bs its stbtf.
+     * Tif stbtf, in brbdkfts, indludfs tif String {@dodf "Count ="}
+     * followfd by tif durrfnt dount.
      *
-     * @return a string identifying this latch, as well as its state
+     * @rfturn b string idfntifying tiis lbtdi, bs wfll bs its stbtf
      */
-    public String toString() {
-        return super.toString() + "[Count = " + sync.getCount() + "]";
+    publid String toString() {
+        rfturn supfr.toString() + "[Count = " + synd.gftCount() + "]";
     }
 }

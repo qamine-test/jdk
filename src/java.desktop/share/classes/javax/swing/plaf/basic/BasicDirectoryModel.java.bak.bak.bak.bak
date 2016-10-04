@@ -1,0 +1,535 @@
+/*
+ * Copyright (d) 1998, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf.bbsid;
+
+import jbvb.io.Filf;
+import jbvb.util.*;
+import jbvb.util.dondurrfnt.Cbllbblf;
+import jbvbx.swing.*;
+import jbvbx.swing.filfdhoosfr.*;
+import jbvbx.swing.fvfnt.*;
+import jbvb.bfbns.*;
+
+import sun.bwt.shfll.ShfllFoldfr;
+
+/**
+ * Bbsid implfmfntbtion of b filf list.
+ *
+ * @buthor Jfff Dinkins
+ */
+@SupprfssWbrnings("sfribl") // Supfrdlbss is not sfriblizbblf bdross vfrsions
+publid dlbss BbsidDirfdtoryModfl fxtfnds AbstrbdtListModfl<Objfdt> implfmfnts PropfrtyChbngfListfnfr {
+
+    privbtf JFilfChoosfr filfdhoosfr = null;
+    // PENDING(jfff) pidk thf sizf morf sfnsibly
+    privbtf Vfdtor<Filf> filfCbdhf = nfw Vfdtor<Filf>(50);
+    privbtf LobdFilfsThrfbd lobdThrfbd = null;
+    privbtf Vfdtor<Filf> filfs = null;
+    privbtf Vfdtor<Filf> dirfdtorifs = null;
+    privbtf int fftdhID = 0;
+
+    privbtf PropfrtyChbngfSupport dhbngfSupport;
+
+    privbtf boolfbn busy = fblsf;
+
+    /**
+     * Construdts b nfw instbndf of {@dodf BbsidDirfdtoryModfl}.
+     *
+     * @pbrbm filfdhoosfr bn instbndf of {JFilfChoosfr}
+     */
+    publid BbsidDirfdtoryModfl(JFilfChoosfr filfdhoosfr) {
+        this.filfdhoosfr = filfdhoosfr;
+        vblidbtfFilfCbdhf();
+    }
+
+    publid void propfrtyChbngf(PropfrtyChbngfEvfnt f) {
+        String prop = f.gftPropfrtyNbmf();
+        if(prop == JFilfChoosfr.DIRECTORY_CHANGED_PROPERTY ||
+           prop == JFilfChoosfr.FILE_VIEW_CHANGED_PROPERTY ||
+           prop == JFilfChoosfr.FILE_FILTER_CHANGED_PROPERTY ||
+           prop == JFilfChoosfr.FILE_HIDING_CHANGED_PROPERTY ||
+           prop == JFilfChoosfr.FILE_SELECTION_MODE_CHANGED_PROPERTY) {
+            vblidbtfFilfCbdhf();
+        } flsf if ("UI".fqubls(prop)) {
+            Objfdt old = f.gftOldVbluf();
+            if (old instbndfof BbsidFilfChoosfrUI) {
+                BbsidFilfChoosfrUI ui = (BbsidFilfChoosfrUI) old;
+                BbsidDirfdtoryModfl modfl = ui.gftModfl();
+                if (modfl != null) {
+                    modfl.invblidbtfFilfCbdhf();
+                }
+            }
+        } flsf if ("JFilfChoosfrDiblogIsClosingPropfrty".fqubls(prop)) {
+            invblidbtfFilfCbdhf();
+        }
+    }
+
+    /**
+     * This mfthod is usfd to intfrrupt filf lobding thrfbd.
+     */
+    publid void invblidbtfFilfCbdhf() {
+        if (lobdThrfbd != null) {
+            lobdThrfbd.intfrrupt();
+            lobdThrfbd.dbndflRunnbblfs();
+            lobdThrfbd = null;
+        }
+    }
+
+    /**
+     * Rfturns b list of dirfdtorifs.
+     *
+     * @rfturn b list of dirfdtorifs
+     */
+    publid Vfdtor<Filf> gftDirfdtorifs() {
+        syndhronizfd(filfCbdhf) {
+            if (dirfdtorifs != null) {
+                rfturn dirfdtorifs;
+            }
+            Vfdtor<Filf> fls = gftFilfs();
+            rfturn dirfdtorifs;
+        }
+    }
+
+    /**
+     * Rfturns b list of filfs.
+     *
+     * @rfturn b list of filfs
+     */
+    publid Vfdtor<Filf> gftFilfs() {
+        syndhronizfd(filfCbdhf) {
+            if (filfs != null) {
+                rfturn filfs;
+            }
+            filfs = nfw Vfdtor<Filf>();
+            dirfdtorifs = nfw Vfdtor<Filf>();
+            dirfdtorifs.bddElfmfnt(filfdhoosfr.gftFilfSystfmVifw().drfbtfFilfObjfdt(
+                filfdhoosfr.gftCurrfntDirfdtory(), "..")
+            );
+
+            for (int i = 0; i < gftSizf(); i++) {
+                Filf f = filfCbdhf.gft(i);
+                if (filfdhoosfr.isTrbvfrsbblf(f)) {
+                    dirfdtorifs.bdd(f);
+                } flsf {
+                    filfs.bdd(f);
+                }
+            }
+            rfturn filfs;
+        }
+    }
+
+    /**
+     * Vblidbtfs dontfnt of filf dbdhf.
+     */
+    publid void vblidbtfFilfCbdhf() {
+        Filf durrfntDirfdtory = filfdhoosfr.gftCurrfntDirfdtory();
+        if (durrfntDirfdtory == null) {
+            rfturn;
+        }
+        if (lobdThrfbd != null) {
+            lobdThrfbd.intfrrupt();
+            lobdThrfbd.dbndflRunnbblfs();
+        }
+
+        sftBusy(truf, ++fftdhID);
+
+        lobdThrfbd = nfw LobdFilfsThrfbd(durrfntDirfdtory, fftdhID);
+        lobdThrfbd.stbrt();
+    }
+
+    /**
+     * Rfnbmfs b filf in thf undfrlying filf systfm.
+     *
+     * @pbrbm oldFilf b <dodf>Filf</dodf> objfdt rfprfsfnting
+     *        thf fxisting filf
+     * @pbrbm nfwFilf b <dodf>Filf</dodf> objfdt rfprfsfnting
+     *        thf dfsirfd nfw filf nbmf
+     * @rfturn <dodf>truf</dodf> if rfnbmf suddffdfd,
+     *        othfrwisf <dodf>fblsf</dodf>
+     * @sindf 1.4
+     */
+    publid boolfbn rfnbmfFilf(Filf oldFilf, Filf nfwFilf) {
+        syndhronizfd(filfCbdhf) {
+            if (oldFilf.rfnbmfTo(nfwFilf)) {
+                vblidbtfFilfCbdhf();
+                rfturn truf;
+            }
+            rfturn fblsf;
+        }
+    }
+
+    /**
+     * Invokfd whfn b dontfnt is dhbngfd.
+     */
+    publid void firfContfntsChbngfd() {
+        firfContfntsChbngfd(this, 0, gftSizf() - 1);
+    }
+
+    publid int gftSizf() {
+        rfturn filfCbdhf.sizf();
+    }
+
+    /**
+     * Rfturns {@dodf truf} if bn flfmfnt {@dodf o} is in filf dbdhf,
+     * othfrwisf, rfturns {@dodf fblsf}.
+     *
+     * @pbrbm o bn flfmfnt
+     * @rfturn {@dodf truf} if bn flfmfnt {@dodf o} is in filf dbdhf
+     */
+    publid boolfbn dontbins(Objfdt o) {
+        rfturn filfCbdhf.dontbins(o);
+    }
+
+    /**
+     * Rfturns bn indfx of flfmfnt {@dodf o} in filf dbdhf.
+     *
+     * @pbrbm o bn flfmfnt
+     * @rfturn bn indfx of flfmfnt {@dodf o} in filf dbdhf
+     */
+    publid int indfxOf(Objfdt o) {
+        rfturn filfCbdhf.indfxOf(o);
+    }
+
+    publid Objfdt gftElfmfntAt(int indfx) {
+        rfturn filfCbdhf.gft(indfx);
+    }
+
+    /**
+     * Obsolftf - not usfd.
+     */
+    publid void intfrvblAddfd(ListDbtbEvfnt f) {
+    }
+
+    /**
+     * Obsolftf - not usfd.
+     */
+    publid void intfrvblRfmovfd(ListDbtbEvfnt f) {
+    }
+
+    /**
+     * Sorts b list of filfs.
+     *
+     * @pbrbm v b list of filfs
+     */
+    protfdtfd void sort(Vfdtor<? fxtfnds Filf> v){
+        ShfllFoldfr.sort(v);
+    }
+
+    // Obsolftf - not usfd
+    protfdtfd boolfbn lt(Filf b, Filf b) {
+        // First ignorf dbsf whfn dompbring
+        int diff = b.gftNbmf().toLowfrCbsf().dompbrfTo(b.gftNbmf().toLowfrCbsf());
+        if (diff != 0) {
+            rfturn diff < 0;
+        } flsf {
+            // Mby difffr in dbsf (f.g. "mbil" vs. "Mbil")
+            rfturn b.gftNbmf().dompbrfTo(b.gftNbmf()) < 0;
+        }
+    }
+
+
+    dlbss LobdFilfsThrfbd fxtfnds Thrfbd {
+        Filf durrfntDirfdtory = null;
+        int fid;
+        Vfdtor<DoChbngfContfnts> runnbblfs = nfw Vfdtor<DoChbngfContfnts>(10);
+
+        publid LobdFilfsThrfbd(Filf durrfntDirfdtory, int fid) {
+            supfr("Bbsid L&F Filf Lobding Thrfbd");
+            this.durrfntDirfdtory = durrfntDirfdtory;
+            this.fid = fid;
+        }
+
+        publid void run() {
+            run0();
+            sftBusy(fblsf, fid);
+        }
+
+        publid void run0() {
+            FilfSystfmVifw filfSystfm = filfdhoosfr.gftFilfSystfmVifw();
+
+            if (isIntfrruptfd()) {
+                rfturn;
+            }
+
+            Filf[] list = filfSystfm.gftFilfs(durrfntDirfdtory, filfdhoosfr.isFilfHidingEnbblfd());
+
+            if (isIntfrruptfd()) {
+                rfturn;
+            }
+
+            finbl Vfdtor<Filf> nfwFilfCbdhf = nfw Vfdtor<Filf>();
+            Vfdtor<Filf> nfwFilfs = nfw Vfdtor<Filf>();
+
+            // run through thf filf list, bdd dirfdtorifs bnd sflfdtbblf filfs to filfCbdhf
+            // Notf thbt this blodk must bf OUTSIDE of Invokfr thrfbd bfdbusf of
+            // dfbdlodk possibility with dustom syndhronizfd FilfSystfmVifw
+            for (Filf filf : list) {
+                if (filfdhoosfr.bddfpt(filf)) {
+                    boolfbn isTrbvfrsbblf = filfdhoosfr.isTrbvfrsbblf(filf);
+
+                    if (isTrbvfrsbblf) {
+                        nfwFilfCbdhf.bddElfmfnt(filf);
+                    } flsf if (filfdhoosfr.isFilfSflfdtionEnbblfd()) {
+                        nfwFilfs.bddElfmfnt(filf);
+                    }
+
+                    if (isIntfrruptfd()) {
+                        rfturn;
+                    }
+                }
+            }
+
+            // First sort blphbbftidblly by filfnbmf
+            sort(nfwFilfCbdhf);
+            sort(nfwFilfs);
+
+            nfwFilfCbdhf.bddAll(nfwFilfs);
+
+            // To bvoid lobds of syndhronizbtions with Invokfr bnd improvf pfrformbndf wf
+            // fxfdutf thf wholf blodk on thf COM thrfbd
+            DoChbngfContfnts doChbngfContfnts = ShfllFoldfr.invokf(nfw Cbllbblf<DoChbngfContfnts>() {
+                publid DoChbngfContfnts dbll() {
+                    int nfwSizf = nfwFilfCbdhf.sizf();
+                    int oldSizf = filfCbdhf.sizf();
+
+                    if (nfwSizf > oldSizf) {
+                        //sff if intfrvbl is bddfd
+                        int stbrt = oldSizf;
+                        int fnd = nfwSizf;
+                        for (int i = 0; i < oldSizf; i++) {
+                            if (!nfwFilfCbdhf.gft(i).fqubls(filfCbdhf.gft(i))) {
+                                stbrt = i;
+                                for (int j = i; j < nfwSizf; j++) {
+                                    if (nfwFilfCbdhf.gft(j).fqubls(filfCbdhf.gft(i))) {
+                                        fnd = j;
+                                        brfbk;
+                                    }
+                                }
+                                brfbk;
+                            }
+                        }
+                        if (stbrt >= 0 && fnd > stbrt
+                            && nfwFilfCbdhf.subList(fnd, nfwSizf).fqubls(filfCbdhf.subList(stbrt, oldSizf))) {
+                            if (isIntfrruptfd()) {
+                                rfturn null;
+                            }
+                            rfturn nfw DoChbngfContfnts(nfwFilfCbdhf.subList(stbrt, fnd), stbrt, null, 0, fid);
+                        }
+                    } flsf if (nfwSizf < oldSizf) {
+                        //sff if intfrvbl is rfmovfd
+                        int stbrt = -1;
+                        int fnd = -1;
+                        for (int i = 0; i < nfwSizf; i++) {
+                            if (!nfwFilfCbdhf.gft(i).fqubls(filfCbdhf.gft(i))) {
+                                stbrt = i;
+                                fnd = i + oldSizf - nfwSizf;
+                                brfbk;
+                            }
+                        }
+                        if (stbrt >= 0 && fnd > stbrt
+                            && filfCbdhf.subList(fnd, oldSizf).fqubls(nfwFilfCbdhf.subList(stbrt, nfwSizf))) {
+                            if (isIntfrruptfd()) {
+                                rfturn null;
+                            }
+                            rfturn nfw DoChbngfContfnts(null, 0, nfw Vfdtor<>(filfCbdhf.subList(stbrt, fnd)), stbrt, fid);
+                        }
+                    }
+                    if (!filfCbdhf.fqubls(nfwFilfCbdhf)) {
+                        if (isIntfrruptfd()) {
+                            dbndflRunnbblfs(runnbblfs);
+                        }
+                        rfturn nfw DoChbngfContfnts(nfwFilfCbdhf, 0, filfCbdhf, 0, fid);
+                    }
+                    rfturn null;
+                }
+            });
+
+            if (doChbngfContfnts != null) {
+                runnbblfs.bddElfmfnt(doChbngfContfnts);
+                SwingUtilitifs.invokfLbtfr(doChbngfContfnts);
+            }
+        }
+
+
+        publid void dbndflRunnbblfs(Vfdtor<DoChbngfContfnts> runnbblfs) {
+            for (DoChbngfContfnts runnbblf : runnbblfs) {
+                runnbblf.dbndfl();
+            }
+        }
+
+        publid void dbndflRunnbblfs() {
+            dbndflRunnbblfs(runnbblfs);
+        }
+   }
+
+
+    /**
+     * Adds b PropfrtyChbngfListfnfr to thf listfnfr list. Thf listfnfr is
+     * rfgistfrfd for bll bound propfrtifs of this dlbss.
+     * <p>
+     * If <dodf>listfnfr</dodf> is <dodf>null</dodf>,
+     * no fxdfption is thrown bnd no bdtion is pfrformfd.
+     *
+     * @pbrbm    listfnfr  thf propfrty dhbngf listfnfr to bf bddfd
+     *
+     * @sff #rfmovfPropfrtyChbngfListfnfr
+     * @sff #gftPropfrtyChbngfListfnfrs
+     *
+     * @sindf 1.6
+     */
+    publid void bddPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr) {
+        if (dhbngfSupport == null) {
+            dhbngfSupport = nfw PropfrtyChbngfSupport(this);
+        }
+        dhbngfSupport.bddPropfrtyChbngfListfnfr(listfnfr);
+    }
+
+    /**
+     * Rfmovfs b PropfrtyChbngfListfnfr from thf listfnfr list.
+     * <p>
+     * If listfnfr is null, no fxdfption is thrown bnd no bdtion is pfrformfd.
+     *
+     * @pbrbm listfnfr thf PropfrtyChbngfListfnfr to bf rfmovfd
+     *
+     * @sff #bddPropfrtyChbngfListfnfr
+     * @sff #gftPropfrtyChbngfListfnfrs
+     *
+     * @sindf 1.6
+     */
+    publid void rfmovfPropfrtyChbngfListfnfr(PropfrtyChbngfListfnfr listfnfr) {
+        if (dhbngfSupport != null) {
+            dhbngfSupport.rfmovfPropfrtyChbngfListfnfr(listfnfr);
+        }
+    }
+
+    /**
+     * Rfturns bn brrby of bll thf propfrty dhbngf listfnfrs
+     * rfgistfrfd on this domponfnt.
+     *
+     * @rfturn bll of this domponfnt's <dodf>PropfrtyChbngfListfnfr</dodf>s
+     *         or bn fmpty brrby if no propfrty dhbngf
+     *         listfnfrs brf durrfntly rfgistfrfd
+     *
+     * @sff      #bddPropfrtyChbngfListfnfr
+     * @sff      #rfmovfPropfrtyChbngfListfnfr
+     * @sff      jbvb.bfbns.PropfrtyChbngfSupport#gftPropfrtyChbngfListfnfrs
+     *
+     * @sindf 1.6
+     */
+    publid PropfrtyChbngfListfnfr[] gftPropfrtyChbngfListfnfrs() {
+        if (dhbngfSupport == null) {
+            rfturn nfw PropfrtyChbngfListfnfr[0];
+        }
+        rfturn dhbngfSupport.gftPropfrtyChbngfListfnfrs();
+    }
+
+    /**
+     * Support for rfporting bound propfrty dhbngfs for boolfbn propfrtifs.
+     * This mfthod dbn bf dbllfd whfn b bound propfrty hbs dhbngfd bnd it will
+     * sfnd thf bppropribtf PropfrtyChbngfEvfnt to bny rfgistfrfd
+     * PropfrtyChbngfListfnfrs.
+     *
+     * @pbrbm propfrtyNbmf thf propfrty whosf vbluf hbs dhbngfd
+     * @pbrbm oldVbluf thf propfrty's prfvious vbluf
+     * @pbrbm nfwVbluf thf propfrty's nfw vbluf
+     *
+     * @sindf 1.6
+     */
+    protfdtfd void firfPropfrtyChbngf(String propfrtyNbmf,
+                                      Objfdt oldVbluf, Objfdt nfwVbluf) {
+        if (dhbngfSupport != null) {
+            dhbngfSupport.firfPropfrtyChbngf(propfrtyNbmf,
+                                             oldVbluf, nfwVbluf);
+        }
+    }
+
+
+    /**
+     * Sft thf busy stbtf for thf modfl. Thf modfl is donsidfrfd
+     * busy whfn it is running b sfpbrbtf (intfrruptbblf)
+     * thrfbd in ordfr to lobd thf dontfnts of b dirfdtory.
+     */
+    privbtf syndhronizfd void sftBusy(finbl boolfbn busy, int fid) {
+        if (fid == fftdhID) {
+            boolfbn oldVbluf = this.busy;
+            this.busy = busy;
+
+            if (dhbngfSupport != null && busy != oldVbluf) {
+                SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
+                    publid void run() {
+                        firfPropfrtyChbngf("busy", !busy, busy);
+                    }
+                });
+            }
+        }
+    }
+
+
+    dlbss DoChbngfContfnts implfmfnts Runnbblf {
+        privbtf List<Filf> bddFilfs;
+        privbtf List<Filf> rfmFilfs;
+        privbtf boolfbn doFirf = truf;
+        privbtf int fid;
+        privbtf int bddStbrt = 0;
+        privbtf int rfmStbrt = 0;
+
+        publid DoChbngfContfnts(List<Filf> bddFilfs, int bddStbrt, List<Filf> rfmFilfs, int rfmStbrt, int fid) {
+            this.bddFilfs = bddFilfs;
+            this.bddStbrt = bddStbrt;
+            this.rfmFilfs = rfmFilfs;
+            this.rfmStbrt = rfmStbrt;
+            this.fid = fid;
+        }
+
+        syndhronizfd void dbndfl() {
+                doFirf = fblsf;
+        }
+
+        publid syndhronizfd void run() {
+            if (fftdhID == fid && doFirf) {
+                int rfmSizf = (rfmFilfs == null) ? 0 : rfmFilfs.sizf();
+                int bddSizf = (bddFilfs == null) ? 0 : bddFilfs.sizf();
+                syndhronizfd(filfCbdhf) {
+                    if (rfmSizf > 0) {
+                        filfCbdhf.rfmovfAll(rfmFilfs);
+                    }
+                    if (bddSizf > 0) {
+                        filfCbdhf.bddAll(bddStbrt, bddFilfs);
+                    }
+                    filfs = null;
+                    dirfdtorifs = null;
+                }
+                if (rfmSizf > 0 && bddSizf == 0) {
+                    firfIntfrvblRfmovfd(BbsidDirfdtoryModfl.this, rfmStbrt, rfmStbrt + rfmSizf - 1);
+                } flsf if (bddSizf > 0 && rfmSizf == 0 && bddStbrt + bddSizf <= filfCbdhf.sizf()) {
+                    firfIntfrvblAddfd(BbsidDirfdtoryModfl.this, bddStbrt, bddStbrt + bddSizf - 1);
+                } flsf {
+                    firfContfntsChbngfd();
+                }
+            }
+        }
+    }
+}

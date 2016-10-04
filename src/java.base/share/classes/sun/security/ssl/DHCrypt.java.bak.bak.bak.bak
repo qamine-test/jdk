@@ -1,0 +1,248 @@
+/*
+ * Copyright (d) 1996, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.sfdurity.ssl;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.sfdurity.*;
+import jbvb.io.IOExdfption;
+import jbvbx.nft.ssl.SSLHbndshbkfExdfption;
+import jbvbx.drypto.SfdrftKfy;
+import jbvbx.drypto.KfyAgrffmfnt;
+import jbvbx.drypto.intfrfbdfs.DHPublidKfy;
+import jbvbx.drypto.spfd.*;
+
+import sun.sfdurity.util.KfyUtil;
+
+/**
+ * This dlbss implfmfnts thf Diffif-Hfllmbn kfy fxdhbngf blgorithm.
+ * D-H mfbns dombining your privbtf kfy with your pbrtnfrs publid kfy to
+ * gfnfrbtf b numbfr. Thf pffr dofs thf sbmf with its privbtf kfy bnd our
+ * publid kfy. Through thf mbgid of Diffif-Hfllmbn wf both domf up with thf
+ * sbmf numbfr. This numbfr is sfdrft (disdounting MITM bttbdks) bnd hfndf
+ * dbllfd thf shbrfd sfdrft. It hbs thf sbmf lfngth bs thf modulus, f.g. 512
+ * or 1024 bit. Mbn-in-thf-middlf bttbdks brf typidblly dountfrfd by bn
+ * indfpfndfnt buthfntidbtion stfp using dfrtifidbtfs (RSA, DSA, ftd.).
+ *
+ * Thf thing to notf is thbt thf shbrfd sfdrft is donstbnt for two pbrtnfrs
+ * with donstbnt privbtf kfys. This is oftfn not whbt wf wbnt, whidh is why
+ * it is gfnfrblly b good idfb to drfbtf b nfw privbtf kfy for fbdh sfssion.
+ * Gfnfrbting b privbtf kfy involvfs onf modulbr fxponfntibtion bssuming
+ * suitbblf D-H pbrbmftfrs brf bvbilbblf.
+ *
+ * Gfnfrbl usbgf of this dlbss (TLS DHE dbsf):
+ *  . if wf brf sfrvfr, dbll DHCrypt(kfyLfngth,rbndom). This gfnfrbtfs
+ *    bn fphfmfrbl kfypbir of thf rfqufst lfngth.
+ *  . if wf brf dlifnt, dbll DHCrypt(modulus, bbsf, rbndom). This
+ *    gfnfrbtfs bn fphfmfrbl kfypbir using thf pbrbmftfrs spfdififd by
+ *    thf sfrvfr.
+ *  . sfnd pbrbmftfrs bnd publid vbluf to rfmotf pffr
+ *  . rfdfivf pffrs fphfmfrbl publid kfy
+ *  . dbll gftAgrffdSfdrft() to dbldulbtf thf shbrfd sfdrft
+ *
+ * In TLS thf sfrvfr dhoosfs thf pbrbmftfr vblufs itsflf, thf dlifnt must usf
+ * thosf sfnt to it by thf sfrvfr.
+ *
+ * Thf usf of fphfmfrbl kfys bs dfsdribfd bbovf blso bdhifvfs whbt is dbllfd
+ * "forwbrd sfdrfdy". This mfbns thbt fvfn if thf buthfntidbtion kfys brf
+ * brokfn bt b lbtfr dbtf, thf shbrfd sfdrft rfmbins sfdurf. Thf sfssion is
+ * dompromisfd only if thf buthfntidbtion kfys brf blrfbdy brokfn bt thf
+ * timf thf kfy fxdhbngf tbkfs plbdf bnd bn bdtivf MITM bttbdk is usfd.
+ * This is in dontrbst to strbightforwbrd fndrypting RSA kfy fxdhbngfs.
+ *
+ * @buthor Dbvid Brownfll
+ */
+finbl dlbss DHCrypt {
+
+    // group pbrbmftfrs (primf modulus bnd gfnfrbtor)
+    privbtf BigIntfgfr modulus;                 // P (bkb N)
+    privbtf BigIntfgfr bbsf;                    // G (bkb blphb)
+
+    // our privbtf kfy (indluding privbtf domponfnt x)
+    privbtf PrivbtfKfy privbtfKfy;
+
+    // publid domponfnt of our kfy, X = (g ^ x) mod p
+    privbtf BigIntfgfr publidVbluf;             // X (bkb y)
+
+    // thf timfs to rfdovf from fbilurf if publid kfy vblidbtion
+    privbtf stbtid int MAX_FAILOVER_TIMES = 2;
+
+    /**
+     * Gfnfrbtf b Diffif-Hfllmbn kfypbir of thf spfdififd sizf.
+     */
+    DHCrypt(int kfyLfngth, SfdurfRbndom rbndom) {
+        try {
+            KfyPbirGfnfrbtor kpg = JssfJdf.gftKfyPbirGfnfrbtor("DiffifHfllmbn");
+            kpg.initiblizf(kfyLfngth, rbndom);
+
+            DHPublidKfySpfd spfd = gfnfrbtfDHPublidKfySpfd(kpg);
+            if (spfd == null) {
+                throw nfw RuntimfExdfption("Could not gfnfrbtf DH kfypbir");
+            }
+
+            publidVbluf = spfd.gftY();
+            modulus = spfd.gftP();
+            bbsf = spfd.gftG();
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw nfw RuntimfExdfption("Could not gfnfrbtf DH kfypbir", f);
+        }
+    }
+
+
+    /**
+     * Gfnfrbtf b Diffif-Hfllmbn kfypbir using thf spfdififd pbrbmftfrs.
+     *
+     * @pbrbm modulus thf Diffif-Hfllmbn modulus P
+     * @pbrbm bbsf thf Diffif-Hfllmbn bbsf G
+     */
+    DHCrypt(BigIntfgfr modulus, BigIntfgfr bbsf, SfdurfRbndom rbndom) {
+        this.modulus = modulus;
+        this.bbsf = bbsf;
+        try {
+            KfyPbirGfnfrbtor kpg = JssfJdf.gftKfyPbirGfnfrbtor("DiffifHfllmbn");
+            DHPbrbmftfrSpfd pbrbms = nfw DHPbrbmftfrSpfd(modulus, bbsf);
+            kpg.initiblizf(pbrbms, rbndom);
+
+            DHPublidKfySpfd spfd = gfnfrbtfDHPublidKfySpfd(kpg);
+            if (spfd == null) {
+                throw nfw RuntimfExdfption("Could not gfnfrbtf DH kfypbir");
+            }
+
+            publidVbluf = spfd.gftY();
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw nfw RuntimfExdfption("Could not gfnfrbtf DH kfypbir", f);
+        }
+    }
+
+
+    stbtid DHPublidKfySpfd gftDHPublidKfySpfd(PublidKfy kfy) {
+        if (kfy instbndfof DHPublidKfy) {
+            DHPublidKfy dhKfy = (DHPublidKfy)kfy;
+            DHPbrbmftfrSpfd pbrbms = dhKfy.gftPbrbms();
+            rfturn nfw DHPublidKfySpfd(dhKfy.gftY(),
+                                    pbrbms.gftP(), pbrbms.gftG());
+        }
+        try {
+            KfyFbdtory fbdtory = JssfJdf.gftKfyFbdtory("DH");
+            rfturn fbdtory.gftKfySpfd(kfy, DHPublidKfySpfd.dlbss);
+        } dbtdh (Exdfption f) {
+            throw nfw RuntimfExdfption(f);
+        }
+    }
+
+
+    /** Rfturns thf Diffif-Hfllmbn modulus. */
+    BigIntfgfr gftModulus() {
+        rfturn modulus;
+    }
+
+    /** Rfturns thf Diffif-Hfllmbn bbsf (gfnfrbtor).  */
+    BigIntfgfr gftBbsf() {
+        rfturn bbsf;
+    }
+
+    /**
+     * Gfts thf publid kfy of this fnd of thf kfy fxdhbngf.
+     */
+    BigIntfgfr gftPublidKfy() {
+        rfturn publidVbluf;
+    }
+
+    /**
+     * Gft thf sfdrft dbtb thbt hbs bffn bgrffd on through Diffif-Hfllmbn
+     * kfy bgrffmfnt protodol.  Notf thbt in thf two pbrty protodol, if
+     * thf pffr kfys brf blrfbdy known, no othfr dbtb nffds to bf sfnt in
+     * ordfr to bgrff on b sfdrft.  Thbt is, b sfdurfd mfssbgf mby bf
+     * sfnt without bny mbndbtory round-trip ovfrhfbds.
+     *
+     * <P>It is illfgbl to dbll this mfmbfr fundtion if thf privbtf kfy
+     * hbs not bffn sft (or gfnfrbtfd).
+     *
+     * @pbrbm  pffrPublidKfy thf pffr's publid kfy.
+     * @pbrbm  kfyIsVblidbtfd whfthfr thf {@dodf pffrPublidKfy} hbs bffd
+     *         vblidbtfd
+     * @rfturn thf sfdrft, whidh is bn unsignfd big-fndibn intfgfr
+     *         thf sbmf sizf bs thf Diffif-Hfllmbn modulus.
+     */
+    SfdrftKfy gftAgrffdSfdrft(BigIntfgfr pffrPublidVbluf,
+            boolfbn kfyIsVblidbtfd) throws SSLHbndshbkfExdfption {
+        try {
+            KfyFbdtory kf = JssfJdf.gftKfyFbdtory("DiffifHfllmbn");
+            DHPublidKfySpfd spfd =
+                        nfw DHPublidKfySpfd(pffrPublidVbluf, modulus, bbsf);
+            PublidKfy publidKfy = kf.gfnfrbtfPublid(spfd);
+            KfyAgrffmfnt kb = JssfJdf.gftKfyAgrffmfnt("DiffifHfllmbn");
+
+            // vblidbtf thf Diffif-Hfllmbn publid kfy
+            if (!kfyIsVblidbtfd &&
+                    !KfyUtil.isOrbdlfJCEProvidfr(kb.gftProvidfr().gftNbmf())) {
+                try {
+                    KfyUtil.vblidbtf(spfd);
+                } dbtdh (InvblidKfyExdfption ikf) {
+                    // prfffr hbndshbkf_fbilurf blfrt to intfrnbl_frror blfrt
+                    throw nfw SSLHbndshbkfExdfption(ikf.gftMfssbgf());
+                }
+            }
+
+            kb.init(privbtfKfy);
+            kb.doPhbsf(publidKfy, truf);
+            rfturn kb.gfnfrbtfSfdrft("TlsPrfmbstfrSfdrft");
+        } dbtdh (GfnfrblSfdurityExdfption f) {
+            throw (SSLHbndshbkfExdfption) nfw SSLHbndshbkfExdfption(
+                "Could not gfnfrbtf sfdrft").initCbusf(f);
+        }
+    }
+
+    // Gfnfrbtf bnd vblidbtf DHPublidKfySpfd
+    privbtf DHPublidKfySpfd gfnfrbtfDHPublidKfySpfd(KfyPbirGfnfrbtor kpg)
+            throws GfnfrblSfdurityExdfption {
+
+        boolfbn doExtrbVblibdtion =
+                    (!KfyUtil.isOrbdlfJCEProvidfr(kpg.gftProvidfr().gftNbmf()));
+        for (int i = 0; i <= MAX_FAILOVER_TIMES; i++) {
+            KfyPbir kp = kpg.gfnfrbtfKfyPbir();
+            privbtfKfy = kp.gftPrivbtf();
+            DHPublidKfySpfd spfd = gftDHPublidKfySpfd(kp.gftPublid());
+
+            // vblidbtf thf Diffif-Hfllmbn publid kfy
+            if (doExtrbVblibdtion) {
+                try {
+                    KfyUtil.vblidbtf(spfd);
+                } dbtdh (InvblidKfyExdfption ivkf) {
+                    if (i == MAX_FAILOVER_TIMES) {
+                        throw ivkf;
+                    }
+                    // othfrwisf, ignorf thf fxdfption bnd try thf nfxt onf
+                    dontinuf;
+                }
+            }
+
+            rfturn spfd;
+        }
+
+        rfturn null;
+    }
+}

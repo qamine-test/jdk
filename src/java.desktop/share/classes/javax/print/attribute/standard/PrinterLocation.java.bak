@@ -1,118 +1,118 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import java.util.Locale;
+import jbvb.util.Lodblf;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.TextSyntax;
-import javax.print.attribute.PrintServiceAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.TfxtSyntbx;
+import jbvbx.print.bttributf.PrintSfrvidfAttributf;
 
 /**
- * Class PrinterLocation is a printing attribute class, a text attribute, that
- * identifies the location of the device. This could include things like:
- * <CODE>"in Room 123A, second floor of building XYZ"</CODE>.
+ * Clbss PrintfrLodbtion is b printing bttributf dlbss, b tfxt bttributf, tibt
+ * idfntififs tif lodbtion of tif dfvidf. Tiis dould indludf tiings likf:
+ * <CODE>"in Room 123A, sfdond floor of building XYZ"</CODE>.
  * <P>
- * <B>IPP Compatibility:</B> The string value gives the IPP name value. The
- * locale gives the IPP natural language. The category name returned by
- * <CODE>getName()</CODE> gives the IPP attribute name.
+ * <B>IPP Compbtibility:</B> Tif string vbluf givfs tif IPP nbmf vbluf. Tif
+ * lodblf givfs tif IPP nbturbl lbngubgf. Tif dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> givfs tif IPP bttributf nbmf.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public final class PrinterLocation extends TextSyntax
-    implements PrintServiceAttribute {
+publid finbl dlbss PrintfrLodbtion fxtfnds TfxtSyntbx
+    implfmfnts PrintSfrvidfAttributf {
 
-    private static final long serialVersionUID = -1598610039865566337L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -1598610039865566337L;
 
     /**
-     * Constructs a new printer location attribute with the given location and
-     * locale.
+     * Construdts b nfw printfr lodbtion bttributf witi tif givfn lodbtion bnd
+     * lodblf.
      *
-     * @param  location  Printer location.
-     * @param  locale    Natural language of the text string. null
-     * is interpreted to mean the default locale as returned
-     * by <code>Locale.getDefault()</code>
+     * @pbrbm  lodbtion  Printfr lodbtion.
+     * @pbrbm  lodblf    Nbturbl lbngubgf of tif tfxt string. null
+     * is intfrprftfd to mfbn tif dffbult lodblf bs rfturnfd
+     * by <dodf>Lodblf.gftDffbult()</dodf>
      *
-     * @exception  NullPointerException
-     *     (unchecked exception) Thrown if <CODE>location</CODE> is null.
+     * @fxdfption  NullPointfrExdfption
+     *     (undifdkfd fxdfption) Tirown if <CODE>lodbtion</CODE> is null.
      */
-    public PrinterLocation(String location, Locale locale) {
-        super (location, locale);
+    publid PrintfrLodbtion(String lodbtion, Lodblf lodblf) {
+        supfr (lodbtion, lodblf);
     }
 
     /**
-     * Returns whether this printer location attribute is equivalent to the
-     * passed in object. To be equivalent, all of the following conditions
-     * must be true:
+     * Rfturns wiftifr tiis printfr lodbtion bttributf is fquivblfnt to tif
+     * pbssfd in objfdt. To bf fquivblfnt, bll of tif following donditions
+     * must bf truf:
      * <OL TYPE=1>
      * <LI>
-     * <CODE>object</CODE> is not null.
+     * <CODE>objfdt</CODE> is not null.
      * <LI>
-     * <CODE>object</CODE> is an instance of class PrinterLocation.
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss PrintfrLodbtion.
      * <LI>
-     * This printer location attribute's underlying string and
-     * <CODE>object</CODE>'s underlying string are equal.
+     * Tiis printfr lodbtion bttributf's undfrlying string bnd
+     * <CODE>objfdt</CODE>'s undfrlying string brf fqubl.
      * <LI>
-     * This printer location attribute's locale and <CODE>object</CODE>'s
-     * locale are equal.
+     * Tiis printfr lodbtion bttributf's lodblf bnd <CODE>objfdt</CODE>'s
+     * lodblf brf fqubl.
      * </OL>
      *
-     * @param  object  Object to compare to.
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
      *
-     * @return  True if <CODE>object</CODE> is equivalent to this printer
-     *          location attribute, false otherwise.
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to tiis printfr
+     *          lodbtion bttributf, fblsf otifrwisf.
      */
-    public boolean equals(Object object) {
-        return (super.equals(object) && object instanceof PrinterLocation);
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (supfr.fqubls(objfdt) && objfdt instbndfof PrintfrLodbtion);
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class PrinterLocation, the
-     * category is class PrinterLocation itself.
+     * For dlbss PrintfrLodbtion, tif
+     * dbtfgory is dlbss PrintfrLodbtion itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return PrinterLocation.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn PrintfrLodbtion.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class PrinterLocation, the
-     * category name is <CODE>"printer-location"</CODE>.
+     * For dlbss PrintfrLodbtion, tif
+     * dbtfgory nbmf is <CODE>"printfr-lodbtion"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "printer-location";
+    publid finbl String gftNbmf() {
+        rfturn "printfr-lodbtion";
     }
 
 }

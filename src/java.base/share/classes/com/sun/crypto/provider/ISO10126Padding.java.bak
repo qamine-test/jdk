@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.crypto.provider;
+pbdkbgf dom.sun.drypto.providfr;
 
-import javax.crypto.ShortBufferException;
+import jbvbx.drypto.SiortBufffrExdfption;
 
 /**
- * This class implements padding as specified in the W3 XML ENC standard.
+ * Tiis dlbss implfmfnts pbdding bs spfdififd in tif W3 XML ENC stbndbrd.
  *
- * @author Valerie Peng
+ * @butior Vblfrif Pfng
  *
  *
- * @see Padding
+ * @sff Pbdding
  */
-final class ISO10126Padding implements Padding {
+finbl dlbss ISO10126Pbdding implfmfnts Pbdding {
 
-    private int blockSize;
+    privbtf int blodkSizf;
 
-    ISO10126Padding(int blockSize) {
-        this.blockSize = blockSize;
+    ISO10126Pbdding(int blodkSizf) {
+        tiis.blodkSizf = blodkSizf;
     }
 
     /**
-     * Adds the given number of padding bytes to the data input.
-     * The value of the padding bytes is determined
-     * by the specific padding mechanism that implements this
-     * interface.
+     * Adds tif givfn numbfr of pbdding bytfs to tif dbtb input.
+     * Tif vbluf of tif pbdding bytfs is dftfrminfd
+     * by tif spfdifid pbdding mfdibnism tibt implfmfnts tiis
+     * intfrfbdf.
      *
-     * @param in the input buffer with the data to pad
-     * @param off the offset in <code>in</code> where the padding bytes
-     * are appended
-     * @param len the number of padding bytes to add
+     * @pbrbm in tif input bufffr witi tif dbtb to pbd
+     * @pbrbm off tif offsft in <dodf>in</dodf> wifrf tif pbdding bytfs
+     * brf bppfndfd
+     * @pbrbm lfn tif numbfr of pbdding bytfs to bdd
      *
-     * @exception ShortBufferException if <code>in</code> is too small to hold
-     * the padding bytes
+     * @fxdfption SiortBufffrExdfption if <dodf>in</dodf> is too smbll to iold
+     * tif pbdding bytfs
      */
-    public void padWithLen(byte[] in, int off, int len)
-        throws ShortBufferException
+    publid void pbdWitiLfn(bytf[] in, int off, int lfn)
+        tirows SiortBufffrExdfption
     {
         if (in == null)
-            return;
+            rfturn;
 
-        if ((off + len) > in.length) {
-            throw new ShortBufferException("Buffer too small to hold padding");
+        if ((off + lfn) > in.lfngti) {
+            tirow nfw SiortBufffrExdfption("Bufffr too smbll to iold pbdding");
         }
 
-        byte paddingOctet = (byte) (len & 0xff);
-        byte[] padding = new byte[len];
-        SunJCE.getRandom().nextBytes(padding);
-        padding[len-1] = paddingOctet;
-        System.arraycopy(padding, 0, in, off, len);
-        return;
+        bytf pbddingOdtft = (bytf) (lfn & 0xff);
+        bytf[] pbdding = nfw bytf[lfn];
+        SunJCE.gftRbndom().nfxtBytfs(pbdding);
+        pbdding[lfn-1] = pbddingOdtft;
+        Systfm.brrbydopy(pbdding, 0, in, off, lfn);
+        rfturn;
     }
 
     /**
-     * Returns the index where the padding starts.
+     * Rfturns tif indfx wifrf tif pbdding stbrts.
      *
-     * <p>Given a buffer with padded data, this method returns the
-     * index where the padding starts.
+     * <p>Givfn b bufffr witi pbddfd dbtb, tiis mftiod rfturns tif
+     * indfx wifrf tif pbdding stbrts.
      *
-     * @param in the buffer with the padded data
-     * @param off the offset in <code>in</code> where the padded data starts
-     * @param len the length of the padded data
+     * @pbrbm in tif bufffr witi tif pbddfd dbtb
+     * @pbrbm off tif offsft in <dodf>in</dodf> wifrf tif pbddfd dbtb stbrts
+     * @pbrbm lfn tif lfngti of tif pbddfd dbtb
      *
-     * @return the index where the padding starts, or -1 if the input is
-     * not properly padded
+     * @rfturn tif indfx wifrf tif pbdding stbrts, or -1 if tif input is
+     * not propfrly pbddfd
      */
-    public int unpad(byte[] in, int off, int len) {
+    publid int unpbd(bytf[] in, int off, int lfn) {
         if ((in == null) ||
-            (len == 0)) { // this can happen if input is really a padded buffer
-            return 0;
+            (lfn == 0)) { // tiis dbn ibppfn if input is rfblly b pbddfd bufffr
+            rfturn 0;
         }
 
-        byte lastByte = in[off + len - 1];
-        int padValue = (int)lastByte & 0x0ff;
-        if ((padValue < 0x01)
-            || (padValue > blockSize)) {
-            return -1;
+        bytf lbstBytf = in[off + lfn - 1];
+        int pbdVbluf = (int)lbstBytf & 0x0ff;
+        if ((pbdVbluf < 0x01)
+            || (pbdVbluf > blodkSizf)) {
+            rfturn -1;
         }
 
-        int start = off + len - ((int)lastByte & 0x0ff);
-        if (start < off) {
-            return -1;
+        int stbrt = off + lfn - ((int)lbstBytf & 0x0ff);
+        if (stbrt < off) {
+            rfturn -1;
         }
 
-        return start;
+        rfturn stbrt;
     }
 
     /**
-     * Determines how long the padding will be for a given input length.
+     * Dftfrminfs iow long tif pbdding will bf for b givfn input lfngti.
      *
-     * @param len the length of the data to pad
+     * @pbrbm lfn tif lfngti of tif dbtb to pbd
      *
-     * @return the length of the padding
+     * @rfturn tif lfngti of tif pbdding
      */
-    public int padLength(int len) {
-        int paddingOctet = blockSize - (len % blockSize);
-        return paddingOctet;
+    publid int pbdLfngti(int lfn) {
+        int pbddingOdtft = blodkSizf - (lfn % blodkSizf);
+        rfturn pbddingOdtft;
     }
 }

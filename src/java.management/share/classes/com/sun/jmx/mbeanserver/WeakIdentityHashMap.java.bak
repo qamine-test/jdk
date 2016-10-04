@@ -1,137 +1,137 @@
 /*
- * Copyright (c) 2005, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jmx.mbeanserver;
+pbdkbgf dom.sun.jmx.mbfbnsfrvfr;
 
-import static com.sun.jmx.mbeanserver.Util.*;
+import stbtid dom.sun.jmx.mbfbnsfrvfr.Util.*;
 
-import java.lang.ref.Reference;
-import java.lang.ref.ReferenceQueue;
-import java.lang.ref.WeakReference;
+import jbvb.lbng.rff.Rfffrfndf;
+import jbvb.lbng.rff.RfffrfndfQufuf;
+import jbvb.lbng.rff.WfbkRfffrfndf;
 
-import java.util.Map;
+import jbvb.util.Mbp;
 
 
 /**
- * <p>A map where keys are compared using identity comparison (like
- * IdentityHashMap) but where the presence of an object as a key in
- * the map does not prevent it being garbage collected (like
- * WeakHashMap).  This class does not implement the Map interface
- * because it is difficult to ensure correct semantics for iterators
- * over the entrySet().</p>
+ * <p>A mbp wifrf kfys brf dompbrfd using idfntity dompbrison (likf
+ * IdfntityHbsiMbp) but wifrf tif prfsfndf of bn objfdt bs b kfy in
+ * tif mbp dofs not prfvfnt it bfing gbrbbgf dollfdtfd (likf
+ * WfbkHbsiMbp).  Tiis dlbss dofs not implfmfnt tif Mbp intfrfbdf
+ * bfdbusf it is diffidult to fnsurf dorrfdt sfmbntids for itfrbtors
+ * ovfr tif fntrySft().</p>
  *
- * <p>Because we do not implement Map, we do not copy the questionable
- * interface where you can call get(k) or remove(k) for any type of k,
- * which of course can only have an effect if k is of type K.</p>
+ * <p>Bfdbusf wf do not implfmfnt Mbp, wf do not dopy tif qufstionbblf
+ * intfrfbdf wifrf you dbn dbll gft(k) or rfmovf(k) for bny typf of k,
+ * wiidi of doursf dbn only ibvf bn ffffdt if k is of typf K.</p>
  *
- * <p>This map does not support null keys.</p>
+ * <p>Tiis mbp dofs not support null kfys.</p>
  */
 /*
- * The approach
- * is to wrap each key in a WeakReference and use the wrapped value as
- * a key in an ordinary HashMap.  The WeakReference has to be a
- * subclass IdentityWeakReference (IWR) where two IWRs are equal if
- * they refer to the same object.  This enables us to find the entry
- * again.
+ * Tif bpprobdi
+ * is to wrbp fbdi kfy in b WfbkRfffrfndf bnd usf tif wrbppfd vbluf bs
+ * b kfy in bn ordinbry HbsiMbp.  Tif WfbkRfffrfndf ibs to bf b
+ * subdlbss IdfntityWfbkRfffrfndf (IWR) wifrf two IWRs brf fqubl if
+ * tify rfffr to tif sbmf objfdt.  Tiis fnbblfs us to find tif fntry
+ * bgbin.
  */
-class WeakIdentityHashMap<K, V> {
-    private WeakIdentityHashMap() {}
+dlbss WfbkIdfntityHbsiMbp<K, V> {
+    privbtf WfbkIdfntityHbsiMbp() {}
 
-    static <K, V> WeakIdentityHashMap<K, V> make() {
-        return new WeakIdentityHashMap<K, V>();
+    stbtid <K, V> WfbkIdfntityHbsiMbp<K, V> mbkf() {
+        rfturn nfw WfbkIdfntityHbsiMbp<K, V>();
     }
 
-    V get(K key) {
-        expunge();
-        WeakReference<K> keyref = makeReference(key);
-        return map.get(keyref);
+    V gft(K kfy) {
+        fxpungf();
+        WfbkRfffrfndf<K> kfyrff = mbkfRfffrfndf(kfy);
+        rfturn mbp.gft(kfyrff);
     }
 
-    public V put(K key, V value) {
-        expunge();
-        if (key == null)
-            throw new IllegalArgumentException("Null key");
-        WeakReference<K> keyref = makeReference(key, refQueue);
-        return map.put(keyref, value);
+    publid V put(K kfy, V vbluf) {
+        fxpungf();
+        if (kfy == null)
+            tirow nfw IllfgblArgumfntExdfption("Null kfy");
+        WfbkRfffrfndf<K> kfyrff = mbkfRfffrfndf(kfy, rffQufuf);
+        rfturn mbp.put(kfyrff, vbluf);
     }
 
-    public V remove(K key) {
-        expunge();
-        WeakReference<K> keyref = makeReference(key);
-        return map.remove(keyref);
+    publid V rfmovf(K kfy) {
+        fxpungf();
+        WfbkRfffrfndf<K> kfyrff = mbkfRfffrfndf(kfy);
+        rfturn mbp.rfmovf(kfyrff);
     }
 
-    private void expunge() {
-        Reference<? extends K> ref;
-        while ((ref = refQueue.poll()) != null)
-            map.remove(ref);
+    privbtf void fxpungf() {
+        Rfffrfndf<? fxtfnds K> rff;
+        wiilf ((rff = rffQufuf.poll()) != null)
+            mbp.rfmovf(rff);
     }
 
-    private WeakReference<K> makeReference(K referent) {
-        return new IdentityWeakReference<K>(referent);
+    privbtf WfbkRfffrfndf<K> mbkfRfffrfndf(K rfffrfnt) {
+        rfturn nfw IdfntityWfbkRfffrfndf<K>(rfffrfnt);
     }
 
-    private WeakReference<K> makeReference(K referent, ReferenceQueue<K> q) {
-        return new IdentityWeakReference<K>(referent, q);
+    privbtf WfbkRfffrfndf<K> mbkfRfffrfndf(K rfffrfnt, RfffrfndfQufuf<K> q) {
+        rfturn nfw IdfntityWfbkRfffrfndf<K>(rfffrfnt, q);
     }
 
     /**
-     * WeakReference where equals and hashCode are based on the
-     * referent.  More precisely, two objects are equal if they are
-     * identical or if they both have the same non-null referent.  The
-     * hashCode is the value the original referent had.  Even if the
-     * referent is cleared, the hashCode remains.  Thus, objects of
-     * this class can be used as keys in hash-based maps and sets.
+     * WfbkRfffrfndf wifrf fqubls bnd ibsiCodf brf bbsfd on tif
+     * rfffrfnt.  Morf prfdisfly, two objfdts brf fqubl if tify brf
+     * idfntidbl or if tify boti ibvf tif sbmf non-null rfffrfnt.  Tif
+     * ibsiCodf is tif vbluf tif originbl rfffrfnt ibd.  Evfn if tif
+     * rfffrfnt is dlfbrfd, tif ibsiCodf rfmbins.  Tius, objfdts of
+     * tiis dlbss dbn bf usfd bs kfys in ibsi-bbsfd mbps bnd sfts.
      */
-    private static class IdentityWeakReference<T> extends WeakReference<T> {
-        IdentityWeakReference(T o) {
-            this(o, null);
+    privbtf stbtid dlbss IdfntityWfbkRfffrfndf<T> fxtfnds WfbkRfffrfndf<T> {
+        IdfntityWfbkRfffrfndf(T o) {
+            tiis(o, null);
         }
 
-        IdentityWeakReference(T o, ReferenceQueue<T> q) {
-            super(o, q);
-            this.hashCode = (o == null) ? 0 : System.identityHashCode(o);
+        IdfntityWfbkRfffrfndf(T o, RfffrfndfQufuf<T> q) {
+            supfr(o, q);
+            tiis.ibsiCodf = (o == null) ? 0 : Systfm.idfntityHbsiCodf(o);
         }
 
-        public boolean equals(Object o) {
-            if (this == o)
-                return true;
-            if (!(o instanceof IdentityWeakReference<?>))
-                return false;
-            IdentityWeakReference<?> wr = (IdentityWeakReference<?>) o;
-            Object got = get();
-            return (got != null && got == wr.get());
+        publid boolfbn fqubls(Objfdt o) {
+            if (tiis == o)
+                rfturn truf;
+            if (!(o instbndfof IdfntityWfbkRfffrfndf<?>))
+                rfturn fblsf;
+            IdfntityWfbkRfffrfndf<?> wr = (IdfntityWfbkRfffrfndf<?>) o;
+            Objfdt got = gft();
+            rfturn (got != null && got == wr.gft());
         }
 
-        public int hashCode() {
-            return hashCode;
+        publid int ibsiCodf() {
+            rfturn ibsiCodf;
         }
 
-        private final int hashCode;
+        privbtf finbl int ibsiCodf;
     }
 
-    private Map<WeakReference<K>, V> map = newMap();
-    private ReferenceQueue<K> refQueue = new ReferenceQueue<K>();
+    privbtf Mbp<WfbkRfffrfndf<K>, V> mbp = nfwMbp();
+    privbtf RfffrfndfQufuf<K> rffQufuf = nfw RfffrfndfQufuf<K>();
 }

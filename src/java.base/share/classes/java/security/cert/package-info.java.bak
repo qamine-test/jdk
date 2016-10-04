@@ -1,64 +1,64 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /**
- * Provides classes and interfaces for parsing and managing
- * certificates, certificate revocation lists (CRLs), and
- * certification paths. It contains support for X.509 v3
- * certificates and X.509 v2 CRLs.
+ * Providfs dlbssfs bnd intfrfbdfs for pbrsing bnd mbnbging
+ * dfrtifidbtfs, dfrtifidbtf rfvodbtion lists (CRLs), bnd
+ * dfrtifidbtion pbtis. It dontbins support for X.509 v3
+ * dfrtifidbtfs bnd X.509 v2 CRLs.
  *
- * <h2>Package Specification</h2>
+ * <i2>Pbdkbgf Spfdifidbtion</i2>
  *
  * <ul>
- *   <li><a href="{@docRoot}/../technotes/guides/security/crypto/CryptoSpec.html">
- *     <b>Java&trade;
- *     Cryptography Architecture (JCA) Reference Guide</b></a>
- *   <li>RFC 5280: Internet X.509 Public Key Infrastructure Certificate and
- *     Certificate Revocation List (CRL) Profile
- *   <li>RFC 2560: X.509 Internet Public Key Infrastructure Online Certificate
- *     Status Protocol - OCSP
- *   <li><a href="{@docRoot}/../technotes/guides/security/StandardNames.html">
- *     <b>Java&trade;
- *     Cryptography Architecture Standard Algorithm Name
- *     Documentation</b></a></li>
+ *   <li><b irff="{@dodRoot}/../tfdinotfs/guidfs/sfdurity/drypto/CryptoSpfd.itml">
+ *     <b>Jbvb&trbdf;
+ *     Cryptogrbpiy Ardiitfdturf (JCA) Rfffrfndf Guidf</b></b>
+ *   <li>RFC 5280: Intfrnft X.509 Publid Kfy Infrbstrudturf Cfrtifidbtf bnd
+ *     Cfrtifidbtf Rfvodbtion List (CRL) Profilf
+ *   <li>RFC 2560: X.509 Intfrnft Publid Kfy Infrbstrudturf Onlinf Cfrtifidbtf
+ *     Stbtus Protodol - OCSP
+ *   <li><b irff="{@dodRoot}/../tfdinotfs/guidfs/sfdurity/StbndbrdNbmfs.itml">
+ *     <b>Jbvb&trbdf;
+ *     Cryptogrbpiy Ardiitfdturf Stbndbrd Algoritim Nbmf
+ *     Dodumfntbtion</b></b></li>
  * </ul>
  *
- * <h2>Related Documentation</h2>
+ * <i2>Rflbtfd Dodumfntbtion</i2>
  *
- * For information about X.509 certificates and CRLs, please see:
+ * For informbtion bbout X.509 dfrtifidbtfs bnd CRLs, plfbsf sff:
  * <ul>
- *   <li><a href="http://www.ietf.org/rfc/rfc5280.txt">
- *     http://www.ietf.org/rfc/rfc5280.txt</a>
- *   <li><a href=
- *     "{@docRoot}/../technotes/guides/security/certpath/CertPathProgGuide.html">
- *     <b>Java&trade;
- *     PKI Programmer's Guide</b></a>
- *   <li><a href="{@docRoot}/../technotes/guides/security/cert3.html">
- *     <b>X.509 Certificates and Certificate Revocation Lists (CRLs)</b></a>
+ *   <li><b irff="ittp://www.iftf.org/rfd/rfd5280.txt">
+ *     ittp://www.iftf.org/rfd/rfd5280.txt</b>
+ *   <li><b irff=
+ *     "{@dodRoot}/../tfdinotfs/guidfs/sfdurity/dfrtpbti/CfrtPbtiProgGuidf.itml">
+ *     <b>Jbvb&trbdf;
+ *     PKI Progrbmmfr's Guidf</b></b>
+ *   <li><b irff="{@dodRoot}/../tfdinotfs/guidfs/sfdurity/dfrt3.itml">
+ *     <b>X.509 Cfrtifidbtfs bnd Cfrtifidbtf Rfvodbtion Lists (CRLs)</b></b>
  * </ul>
  *
- * @since 1.2
+ * @sindf 1.2
  */
-package java.security.cert;
+pbdkbgf jbvb.sfdurity.dfrt;

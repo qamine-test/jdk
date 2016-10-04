@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
 /*
- * The Original Code is HAT. The Initial Developer of the
- * Original Code is Bill Foote, with contributions from others
- * at JavaSoft/Sun.
+ * Tif Originbl Codf is HAT. Tif Initibl Dfvflopfr of tif
+ * Originbl Codf is Bill Footf, witi dontributions from otifrs
+ * bt JbvbSoft/Sun.
  */
 
-package com.sun.tools.hat.internal.model;
+pbdkbgf dom.sun.tools.ibt.intfrnbl.modfl;
 
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
-import com.sun.tools.hat.internal.util.Misc;
+import jbvb.util.Enumfrbtion;
+import jbvb.util.HbsiMbp;
+import jbvb.util.Mbp;
+import dom.sun.tools.ibt.intfrnbl.util.Misd;
 
 
 /**
  *
- * @author      Bill Foote
+ * @butior      Bill Footf
  */
 
 /**
- * Represents an object that's allocated out of the Java heap.  It occupies
- * memory in the VM, and is the sort of thing that in a JDK 1.1 VM had
- * a handle.  It can be a
- * JavaClass, a JavaObjectArray, a JavaValueArray or a JavaObject.
+ * Rfprfsfnts bn objfdt tibt's bllodbtfd out of tif Jbvb ifbp.  It oddupifs
+ * mfmory in tif VM, bnd is tif sort of tiing tibt in b JDK 1.1 VM ibd
+ * b ibndlf.  It dbn bf b
+ * JbvbClbss, b JbvbObjfdtArrby, b JbvbVblufArrby or b JbvbObjfdt.
  */
 
-public abstract class JavaHeapObject extends JavaThing {
+publid bbstrbdt dlbss JbvbHfbpObjfdt fxtfnds JbvbTiing {
 
     //
-    // Who we refer to.  This is heavily optimized for space, because it's
-    // well worth trading a bit of speed for less swapping.
-    // referers and referersLen go through two phases:  Building and
-    // resolved.  When building, referers might have duplicates, but can
-    // be appended to.  When resolved, referers has no duplicates or
-    // empty slots.
+    // Wio wf rfffr to.  Tiis is ifbvily optimizfd for spbdf, bfdbusf it's
+    // wfll worti trbding b bit of spffd for lfss swbpping.
+    // rfffrfrs bnd rfffrfrsLfn go tirougi two pibsfs:  Building bnd
+    // rfsolvfd.  Wifn building, rfffrfrs migit ibvf duplidbtfs, but dbn
+    // bf bppfndfd to.  Wifn rfsolvfd, rfffrfrs ibs no duplidbtfs or
+    // fmpty slots.
     //
-    private JavaThing[] referers = null;
-    private int referersLen = 0;        // -1 when resolved
+    privbtf JbvbTiing[] rfffrfrs = null;
+    privbtf int rfffrfrsLfn = 0;        // -1 wifn rfsolvfd
 
-    public abstract JavaClass getClazz();
-    public abstract int getSize();
-    public abstract long getId();
+    publid bbstrbdt JbvbClbss gftClbzz();
+    publid bbstrbdt int gftSizf();
+    publid bbstrbdt long gftId();
 
     /**
-     * Do any initialization this thing needs after its data is read in.
-     * Subclasses that override this should call super.resolve().
+     * Do bny initiblizbtion tiis tiing nffds bftfr its dbtb is rfbd in.
+     * Subdlbssfs tibt ovfrridf tiis siould dbll supfr.rfsolvf().
      */
-    public void resolve(Snapshot snapshot) {
-        StackTrace trace = snapshot.getSiteTrace(this);
-        if (trace != null) {
-            trace.resolve(snapshot);
+    publid void rfsolvf(Snbpsiot snbpsiot) {
+        StbdkTrbdf trbdf = snbpsiot.gftSitfTrbdf(tiis);
+        if (trbdf != null) {
+            trbdf.rfsolvf(snbpsiot);
         }
     }
 
     //
-    //  Eliminate duplicates from referers, and size the array exactly.
-    // This sets us up to answer queries.  See the comments around the
-    // referers data member for details.
+    //  Eliminbtf duplidbtfs from rfffrfrs, bnd sizf tif brrby fxbdtly.
+    // Tiis sfts us up to bnswfr qufrifs.  Sff tif dommfnts bround tif
+    // rfffrfrs dbtb mfmbfr for dftbils.
     //
-    void setupReferers() {
-        if (referersLen > 1) {
-            // Copy referers to map, screening out duplicates
-            Map<JavaThing, JavaThing> map = new HashMap<JavaThing, JavaThing>();
-            for (int i = 0; i < referersLen; i++) {
-                if (map.get(referers[i]) == null) {
-                    map.put(referers[i], referers[i]);
+    void sftupRfffrfrs() {
+        if (rfffrfrsLfn > 1) {
+            // Copy rfffrfrs to mbp, sdrffning out duplidbtfs
+            Mbp<JbvbTiing, JbvbTiing> mbp = nfw HbsiMbp<JbvbTiing, JbvbTiing>();
+            for (int i = 0; i < rfffrfrsLfn; i++) {
+                if (mbp.gft(rfffrfrs[i]) == null) {
+                    mbp.put(rfffrfrs[i], rfffrfrs[i]);
                 }
             }
 
-            // Now copy into the array
-            referers = new JavaThing[map.size()];
-            map.keySet().toArray(referers);
+            // Now dopy into tif brrby
+            rfffrfrs = nfw JbvbTiing[mbp.sizf()];
+            mbp.kfySft().toArrby(rfffrfrs);
         }
-        referersLen = -1;
+        rfffrfrsLfn = -1;
     }
 
 
     /**
-     * @return the id of this thing as hex string
+     * @rfturn tif id of tiis tiing bs ifx string
      */
-    public String getIdString() {
-        return Misc.toHex(getId());
+    publid String gftIdString() {
+        rfturn Misd.toHfx(gftId());
     }
 
-    public String toString() {
-        return getClazz().getName() + "@" + getIdString();
+    publid String toString() {
+        rfturn gftClbzz().gftNbmf() + "@" + gftIdString();
     }
 
     /**
-     * @return the StackTrace of the point of allocation of this object,
+     * @rfturn tif StbdkTrbdf of tif point of bllodbtion of tiis objfdt,
      *          or null if unknown
      */
-    public StackTrace getAllocatedFrom() {
-        return getClazz().getSiteTrace(this);
+    publid StbdkTrbdf gftAllodbtfdFrom() {
+        rfturn gftClbzz().gftSitfTrbdf(tiis);
     }
 
-    public boolean isNew() {
-        return getClazz().isNew(this);
+    publid boolfbn isNfw() {
+        rfturn gftClbzz().isNfw(tiis);
     }
 
-    void setNew(boolean flag) {
-        getClazz().setNew(this, flag);
+    void sftNfw(boolfbn flbg) {
+        gftClbzz().sftNfw(tiis, flbg);
     }
 
     /**
-     * Tell the visitor about all of the objects we refer to
+     * Tfll tif visitor bbout bll of tif objfdts wf rfffr to
      */
-    public void visitReferencedObjects(JavaHeapObjectVisitor v) {
-        v.visit(getClazz());
+    publid void visitRfffrfndfdObjfdts(JbvbHfbpObjfdtVisitor v) {
+        v.visit(gftClbzz());
     }
 
-    void addReferenceFrom(JavaHeapObject other) {
-        if (referersLen == 0) {
-            referers = new JavaThing[1];        // It was null
-        } else if (referersLen == referers.length) {
-            JavaThing[] copy = new JavaThing[(3 * (referersLen + 1)) / 2];
-            System.arraycopy(referers, 0, copy, 0, referersLen);
-            referers = copy;
+    void bddRfffrfndfFrom(JbvbHfbpObjfdt otifr) {
+        if (rfffrfrsLfn == 0) {
+            rfffrfrs = nfw JbvbTiing[1];        // It wbs null
+        } flsf if (rfffrfrsLfn == rfffrfrs.lfngti) {
+            JbvbTiing[] dopy = nfw JbvbTiing[(3 * (rfffrfrsLfn + 1)) / 2];
+            Systfm.brrbydopy(rfffrfrs, 0, dopy, 0, rfffrfrsLfn);
+            rfffrfrs = dopy;
         }
-        referers[referersLen++] = other;
-        // We just append to referers here.  Measurements have shown that
-        // around 10% to 30% are duplicates, so it's better to just append
-        // blindly and screen out all the duplicates at once.
+        rfffrfrs[rfffrfrsLfn++] = otifr;
+        // Wf just bppfnd to rfffrfrs ifrf.  Mfbsurfmfnts ibvf siown tibt
+        // bround 10% to 30% brf duplidbtfs, so it's bfttfr to just bppfnd
+        // blindly bnd sdrffn out bll tif duplidbtfs bt ondf.
     }
 
-    void addReferenceFromRoot(Root r) {
-        getClazz().addReferenceFromRoot(r, this);
+    void bddRfffrfndfFromRoot(Root r) {
+        gftClbzz().bddRfffrfndfFromRoot(r, tiis);
     }
 
     /**
-     * If the rootset includes this object, return a Root describing one
-     * of the reasons why.
+     * If tif rootsft indludfs tiis objfdt, rfturn b Root dfsdribing onf
+     * of tif rfbsons wiy.
      */
-    public Root getRoot() {
-        return getClazz().getRoot(this);
+    publid Root gftRoot() {
+        rfturn gftClbzz().gftRoot(tiis);
     }
 
     /**
-     * Tell who refers to us.
+     * Tfll wio rfffrs to us.
      *
-     * @return an Enumeration of JavaHeapObject instances
+     * @rfturn bn Enumfrbtion of JbvbHfbpObjfdt instbndfs
      */
-    public Enumeration<JavaThing> getReferers() {
-        if (referersLen != -1) {
-            throw new RuntimeException("not resolved: " + getIdString());
+    publid Enumfrbtion<JbvbTiing> gftRfffrfrs() {
+        if (rfffrfrsLfn != -1) {
+            tirow nfw RuntimfExdfption("not rfsolvfd: " + gftIdString());
         }
-        return new Enumeration<JavaThing>() {
+        rfturn nfw Enumfrbtion<JbvbTiing>() {
 
-            private int num = 0;
+            privbtf int num = 0;
 
-            public boolean hasMoreElements() {
-                return referers != null && num < referers.length;
+            publid boolfbn ibsMorfElfmfnts() {
+                rfturn rfffrfrs != null && num < rfffrfrs.lfngti;
             }
 
-            public JavaThing nextElement() {
-                return referers[num++];
+            publid JbvbTiing nfxtElfmfnt() {
+                rfturn rfffrfrs[num++];
             }
         };
     }
 
     /**
-     * Given other, which the caller promises is in referers, determines if
-     * the reference is only a weak reference.
+     * Givfn otifr, wiidi tif dbllfr promisfs is in rfffrfrs, dftfrminfs if
+     * tif rfffrfndf is only b wfbk rfffrfndf.
      */
-    public boolean refersOnlyWeaklyTo(Snapshot ss, JavaThing other) {
-        return false;
+    publid boolfbn rfffrsOnlyWfbklyTo(Snbpsiot ss, JbvbTiing otifr) {
+        rfturn fblsf;
     }
 
     /**
-     * Describe the reference that this thing has to target.  This will only
-     * be called if target is in the array returned by getChildrenForRootset.
+     * Dfsdribf tif rfffrfndf tibt tiis tiing ibs to tbrgft.  Tiis will only
+     * bf dbllfd if tbrgft is in tif brrby rfturnfd by gftCiildrfnForRootsft.
      */
-    public String describeReferenceTo(JavaThing target, Snapshot ss) {
-        return "??";
+    publid String dfsdribfRfffrfndfTo(JbvbTiing tbrgft, Snbpsiot ss) {
+        rfturn "??";
     }
 
-    public boolean isHeapAllocated() {
-        return true;
+    publid boolfbn isHfbpAllodbtfd() {
+        rfturn truf;
     }
 
 }

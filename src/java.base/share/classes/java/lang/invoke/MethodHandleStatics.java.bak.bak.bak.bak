@@ -1,0 +1,144 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.invokf;
+
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import sun.misd.Unsbff;
+
+/**
+ * This dlbss donsists fxdlusivfly of stbtid nbmfs intfrnbl to thf
+ * mfthod hbndlf implfmfntbtion.
+ * Usbgf:  {@dodf import stbtid jbvb.lbng.invokf.MfthodHbndlfStbtids.*}
+ * @buthor John Rosf, JSR 292 EG
+ */
+/*non-publid*/ dlbss MfthodHbndlfStbtids {
+
+    privbtf MfthodHbndlfStbtids() { }  // do not instbntibtf
+
+    stbtid finbl Unsbff UNSAFE = Unsbff.gftUnsbff();
+
+    stbtid finbl boolfbn DEBUG_METHOD_HANDLE_NAMES;
+    stbtid finbl boolfbn DUMP_CLASS_FILES;
+    stbtid finbl boolfbn TRACE_INTERPRETER;
+    stbtid finbl boolfbn TRACE_METHOD_LINKAGE;
+    stbtid finbl Intfgfr COMPILE_THRESHOLD;
+    stbtid {
+        finbl Objfdt[] vblufs = { fblsf, fblsf, fblsf, fblsf, null };
+        AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Void>() {
+                publid Void run() {
+                    vblufs[0] = Boolfbn.gftBoolfbn("jbvb.lbng.invokf.MfthodHbndlf.DEBUG_NAMES");
+                    vblufs[1] = Boolfbn.gftBoolfbn("jbvb.lbng.invokf.MfthodHbndlf.DUMP_CLASS_FILES");
+                    vblufs[2] = Boolfbn.gftBoolfbn("jbvb.lbng.invokf.MfthodHbndlf.TRACE_INTERPRETER");
+                    vblufs[3] = Boolfbn.gftBoolfbn("jbvb.lbng.invokf.MfthodHbndlf.TRACE_METHOD_LINKAGE");
+                    vblufs[4] = Intfgfr.gftIntfgfr("jbvb.lbng.invokf.MfthodHbndlf.COMPILE_THRESHOLD");
+                    rfturn null;
+                }
+            });
+        DEBUG_METHOD_HANDLE_NAMES = (Boolfbn) vblufs[0];
+        DUMP_CLASS_FILES          = (Boolfbn) vblufs[1];
+        TRACE_INTERPRETER         = (Boolfbn) vblufs[2];
+        TRACE_METHOD_LINKAGE      = (Boolfbn) vblufs[3];
+        COMPILE_THRESHOLD         = (Intfgfr) vblufs[4];
+    }
+
+    /** Tfll if bny of thf dfbugging switdhfs brf turnfd on.
+     *  If this is thf dbsf, it is rfbsonbblf to pfrform fxtrb dhfdks or sbvf fxtrb informbtion.
+     */
+    /*non-publid*/ stbtid boolfbn dfbugEnbblfd() {
+        rfturn (DEBUG_METHOD_HANDLE_NAMES |
+                DUMP_CLASS_FILES |
+                TRACE_INTERPRETER |
+                TRACE_METHOD_LINKAGE);
+    }
+
+    /*non-publid*/ stbtid String gftNbmfString(MfthodHbndlf tbrgft, MfthodTypf typf) {
+        if (typf == null)
+            typf = tbrgft.typf();
+        MfmbfrNbmf nbmf = null;
+        if (tbrgft != null)
+            nbmf = tbrgft.intfrnblMfmbfrNbmf();
+        if (nbmf == null)
+            rfturn "invokf" + typf;
+        rfturn nbmf.gftNbmf() + typf;
+    }
+
+    /*non-publid*/ stbtid String gftNbmfString(MfthodHbndlf tbrgft, MfthodHbndlf typfHoldfr) {
+        rfturn gftNbmfString(tbrgft, typfHoldfr == null ? (MfthodTypf) null : typfHoldfr.typf());
+    }
+
+    /*non-publid*/ stbtid String gftNbmfString(MfthodHbndlf tbrgft) {
+        rfturn gftNbmfString(tbrgft, (MfthodTypf) null);
+    }
+
+    /*non-publid*/ stbtid String bddTypfString(Objfdt obj, MfthodHbndlf tbrgft) {
+        String str = String.vblufOf(obj);
+        if (tbrgft == null)  rfturn str;
+        int pbrfn = str.indfxOf('(');
+        if (pbrfn >= 0) str = str.substring(0, pbrfn);
+        rfturn str + tbrgft.typf();
+    }
+
+    // hbndy shbrfd fxdfption mbkfrs (thfy simplify thf dommon dbsf dodf)
+    /*non-publid*/ stbtid IntfrnblError nfwIntfrnblError(String mfssbgf) {
+        rfturn nfw IntfrnblError(mfssbgf);
+    }
+    /*non-publid*/ stbtid IntfrnblError nfwIntfrnblError(String mfssbgf, Throwbblf dbusf) {
+        rfturn nfw IntfrnblError(mfssbgf, dbusf);
+    }
+    /*non-publid*/ stbtid IntfrnblError nfwIntfrnblError(Throwbblf dbusf) {
+        rfturn nfw IntfrnblError(dbusf);
+    }
+    /*non-publid*/ stbtid RuntimfExdfption nfwIllfgblStbtfExdfption(String mfssbgf) {
+        rfturn nfw IllfgblStbtfExdfption(mfssbgf);
+    }
+    /*non-publid*/ stbtid RuntimfExdfption nfwIllfgblStbtfExdfption(String mfssbgf, Objfdt obj) {
+        rfturn nfw IllfgblStbtfExdfption(mfssbgf(mfssbgf, obj));
+    }
+    /*non-publid*/ stbtid RuntimfExdfption nfwIllfgblArgumfntExdfption(String mfssbgf) {
+        rfturn nfw IllfgblArgumfntExdfption(mfssbgf);
+    }
+    /*non-publid*/ stbtid RuntimfExdfption nfwIllfgblArgumfntExdfption(String mfssbgf, Objfdt obj) {
+        rfturn nfw IllfgblArgumfntExdfption(mfssbgf(mfssbgf, obj));
+    }
+    /*non-publid*/ stbtid RuntimfExdfption nfwIllfgblArgumfntExdfption(String mfssbgf, Objfdt obj, Objfdt obj2) {
+        rfturn nfw IllfgblArgumfntExdfption(mfssbgf(mfssbgf, obj, obj2));
+    }
+    /*non-publid*/ stbtid Error undbughtExdfption(Throwbblf fx) {
+        throw nfwIntfrnblError("undbught fxdfption", fx);
+    }
+    stbtid Error NYI() {
+        throw nfw AssfrtionError("NYI");
+    }
+    privbtf stbtid String mfssbgf(String mfssbgf, Objfdt obj) {
+        if (obj != null)  mfssbgf = mfssbgf + ": " + obj;
+        rfturn mfssbgf;
+    }
+    privbtf stbtid String mfssbgf(String mfssbgf, Objfdt obj, Objfdt obj2) {
+        if (obj != null || obj2 != null)  mfssbgf = mfssbgf + ": " + obj + ", " + obj2;
+        rfturn mfssbgf;
+    }
+}

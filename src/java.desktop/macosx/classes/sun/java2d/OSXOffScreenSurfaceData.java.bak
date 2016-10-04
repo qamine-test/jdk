@@ -1,654 +1,654 @@
 /*
- * Copyright (c) 2011, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.java2d;
+pbdkbgf sun.jbvb2d;
 
-import java.awt.*;
-import java.awt.color.*;
-import java.awt.image.*;
-import java.nio.*;
+import jbvb.bwt.*;
+import jbvb.bwt.dolor.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.nio.*;
 
-import sun.awt.image.*;
-import sun.java2d.loops.*;
+import sun.bwt.imbgf.*;
+import sun.jbvb2d.loops.*;
 
-public class OSXOffScreenSurfaceData extends OSXSurfaceData // implements RasterListener
+publid dlbss OSXOffSdrffnSurfbdfDbtb fxtfnds OSXSurfbdfDbtb // implfmfnts RbstfrListfnfr
 {
-    private static native void initIDs();
+    privbtf stbtid nbtivf void initIDs();
 
-    static {
+    stbtid {
         initIDs();
     }
 
-    // the image associated with this surface
-    BufferedImage bim;
-    // the image associated with this custom surface
-    BufferedImage bimBackup;
-    // <rdar://problem/4177639> nio based images use ARGB_PRE
-    static DirectColorModel dcmBackup = new DirectColorModel(ColorSpace.getInstance(ColorSpace.CS_sRGB), 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000, true, DataBuffer.TYPE_INT);
+    // tif imbgf bssodibtfd witi tiis surfbdf
+    BufffrfdImbgf bim;
+    // tif imbgf bssodibtfd witi tiis dustom surfbdf
+    BufffrfdImbgf bimBbdkup;
+    // <rdbr://problfm/4177639> nio bbsfd imbgfs usf ARGB_PRE
+    stbtid DirfdtColorModfl ddmBbdkup = nfw DirfdtColorModfl(ColorSpbdf.gftInstbndf(ColorSpbdf.CS_sRGB), 32, 0x00ff0000, 0x0000ff00, 0x000000ff, 0xff000000, truf, DbtbBufffr.TYPE_INT);
 
-    Object lock;
+    Objfdt lodk;
 
-    // cached rasters for easy access
-    WritableRaster bufImgRaster;
-    SunWritableRaster bufImgSunRaster;
+    // dbdifd rbstfrs for fbsy bddfss
+    WritbblfRbstfr bufImgRbstfr;
+    SunWritbblfRbstfr bufImgSunRbstfr;
 
-    // these are extra image types we can handle
-    private static final int TYPE_3BYTE_RGB = BufferedImage.TYPE_BYTE_INDEXED + 1;
+    // tifsf brf fxtrb imbgf typfs wf dbn ibndlf
+    privbtf stbtid finbl int TYPE_3BYTE_RGB = BufffrfdImbgf.TYPE_BYTE_INDEXED + 1;
 
-    // these are for callbacks when pixes have been touched
-    protected ByteBuffer fImageInfo;
-    IntBuffer fImageInfoInt;
-    private static final int kNeedToSyncFromJavaPixelsIndex = 0;
-    private static final int kNativePixelsChangedIndex = 1;
-    private static final int kImageStolenIndex = 2;
-    private static final int kSizeOfParameters = kImageStolenIndex + 1;
+    // tifsf brf for dbllbbdks wifn pixfs ibvf bffn toudifd
+    protfdtfd BytfBufffr fImbgfInfo;
+    IntBufffr fImbgfInfoInt;
+    privbtf stbtid finbl int kNffdToSyndFromJbvbPixflsIndfx = 0;
+    privbtf stbtid finbl int kNbtivfPixflsCibngfdIndfx = 1;
+    privbtf stbtid finbl int kImbgfStolfnIndfx = 2;
+    privbtf stbtid finbl int kSizfOfPbrbmftfrs = kImbgfStolfnIndfx + 1;
 
-    public static native SurfaceData getSurfaceData(BufferedImage bufImg);
+    publid stbtid nbtivf SurfbdfDbtb gftSurfbdfDbtb(BufffrfdImbgf bufImg);
 
-    protected static native void setSurfaceData(BufferedImage bufImg, SurfaceData sData);
+    protfdtfd stbtid nbtivf void sftSurfbdfDbtb(BufffrfdImbgf bufImg, SurfbdfDbtb sDbtb);
 
-    public static SurfaceData createData(BufferedImage bufImg) {
+    publid stbtid SurfbdfDbtb drfbtfDbtb(BufffrfdImbgf bufImg) {
         /*
-         * if ((bufImg.getWidth() == 32) && (bufImg.getHeight() == 32)) { Thread.dumpStack(); }
+         * if ((bufImg.gftWidti() == 32) && (bufImg.gftHfigit() == 32)) { Tirfbd.dumpStbdk(); }
          */
-        // This could be called from multiple threads. We need to synchronized on the image so that
-        // we can ensure that only one surface data is created per image. (<rdar://4564873>)
-        // Note: Eventually, we should switch to using the same mechanism (CachingSurfaceManager) that Sun uses
-        // <rdar://4563741>
-        synchronized (bufImg) {
-            SurfaceData sData = getSurfaceData(bufImg);
-            if (sData != null) { return sData; }
+        // Tiis dould bf dbllfd from multiplf tirfbds. Wf nffd to syndironizfd on tif imbgf so tibt
+        // wf dbn fnsurf tibt only onf surfbdf dbtb is drfbtfd pfr imbgf. (<rdbr://4564873>)
+        // Notf: Evfntublly, wf siould switdi to using tif sbmf mfdibnism (CbdiingSurfbdfMbnbgfr) tibt Sun usfs
+        // <rdbr://4563741>
+        syndironizfd (bufImg) {
+            SurfbdfDbtb sDbtb = gftSurfbdfDbtb(bufImg);
+            if (sDbtb != null) { rfturn sDbtb; }
 
-            OSXOffScreenSurfaceData osData = OSXOffScreenSurfaceData.createNewSurface(bufImg);
+            OSXOffSdrffnSurfbdfDbtb osDbtb = OSXOffSdrffnSurfbdfDbtb.drfbtfNfwSurfbdf(bufImg);
 
-            OSXOffScreenSurfaceData.setSurfaceData(bufImg, osData);
-            osData.cacheRasters(bufImg);
-//            osData.setRasterListener();
+            OSXOffSdrffnSurfbdfDbtb.sftSurfbdfDbtb(bufImg, osDbtb);
+            osDbtb.dbdifRbstfrs(bufImg);
+//            osDbtb.sftRbstfrListfnfr();
 
-            return osData;
+            rfturn osDbtb;
         }
     }
 
-    public static SurfaceData createData(Raster ras, ColorModel cm) {
-        throw new InternalError("SurfaceData not implemented for Raster/CM");
+    publid stbtid SurfbdfDbtb drfbtfDbtb(Rbstfr rbs, ColorModfl dm) {
+        tirow nfw IntfrnblError("SurfbdfDbtb not implfmfntfd for Rbstfr/CM");
     }
 
-    static OSXOffScreenSurfaceData createNewSurface(BufferedImage bufImg) {
-        SurfaceData sData = null;
+    stbtid OSXOffSdrffnSurfbdfDbtb drfbtfNfwSurfbdf(BufffrfdImbgf bufImg) {
+        SurfbdfDbtb sDbtb = null;
 
-        ColorModel cm = bufImg.getColorModel();
-        int type = bufImg.getType();
-        // REMIND: Check the image type and pick an appropriate subclass
-        switch (type) {
-            case BufferedImage.TYPE_INT_BGR:
-                sData = createDataIC(bufImg, SurfaceType.IntBgr);
-                break;
-            case BufferedImage.TYPE_INT_RGB:
-                sData = createDataIC(bufImg, SurfaceType.IntRgb);
-                break;
-            case BufferedImage.TYPE_INT_ARGB:
-                sData = createDataIC(bufImg, SurfaceType.IntArgb);
-                break;
-            case BufferedImage.TYPE_INT_ARGB_PRE:
-                sData = createDataIC(bufImg, SurfaceType.IntArgbPre);
-                break;
-            case BufferedImage.TYPE_3BYTE_BGR:
-                sData = createDataBC(bufImg, SurfaceType.ThreeByteBgr, 2);
-                break;
-            case BufferedImage.TYPE_4BYTE_ABGR:
-                sData = createDataBC(bufImg, SurfaceType.FourByteAbgr, 3);
-                break;
-            case BufferedImage.TYPE_4BYTE_ABGR_PRE:
-                sData = createDataBC(bufImg, SurfaceType.FourByteAbgrPre, 3);
-                break;
-            case BufferedImage.TYPE_USHORT_565_RGB:
-                sData = createDataSC(bufImg, SurfaceType.Ushort565Rgb, null);
-                break;
-            case BufferedImage.TYPE_USHORT_555_RGB:
-                sData = createDataSC(bufImg, SurfaceType.Ushort555Rgb, null);
-                break;
-            case BufferedImage.TYPE_BYTE_INDEXED: {
-                SurfaceType sType;
-                switch (cm.getTransparency()) {
-                    case OPAQUE:
-                        if (isOpaqueGray((IndexColorModel) cm)) {
-                            sType = SurfaceType.Index8Gray;
-                        } else {
-                            sType = SurfaceType.ByteIndexedOpaque;
+        ColorModfl dm = bufImg.gftColorModfl();
+        int typf = bufImg.gftTypf();
+        // REMIND: Cifdk tif imbgf typf bnd pidk bn bppropribtf subdlbss
+        switdi (typf) {
+            dbsf BufffrfdImbgf.TYPE_INT_BGR:
+                sDbtb = drfbtfDbtbIC(bufImg, SurfbdfTypf.IntBgr);
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_INT_RGB:
+                sDbtb = drfbtfDbtbIC(bufImg, SurfbdfTypf.IntRgb);
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_INT_ARGB:
+                sDbtb = drfbtfDbtbIC(bufImg, SurfbdfTypf.IntArgb);
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_INT_ARGB_PRE:
+                sDbtb = drfbtfDbtbIC(bufImg, SurfbdfTypf.IntArgbPrf);
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_3BYTE_BGR:
+                sDbtb = drfbtfDbtbBC(bufImg, SurfbdfTypf.TirffBytfBgr, 2);
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_4BYTE_ABGR:
+                sDbtb = drfbtfDbtbBC(bufImg, SurfbdfTypf.FourBytfAbgr, 3);
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_4BYTE_ABGR_PRE:
+                sDbtb = drfbtfDbtbBC(bufImg, SurfbdfTypf.FourBytfAbgrPrf, 3);
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_USHORT_565_RGB:
+                sDbtb = drfbtfDbtbSC(bufImg, SurfbdfTypf.Usiort565Rgb, null);
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_USHORT_555_RGB:
+                sDbtb = drfbtfDbtbSC(bufImg, SurfbdfTypf.Usiort555Rgb, null);
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_BYTE_INDEXED: {
+                SurfbdfTypf sTypf;
+                switdi (dm.gftTrbnspbrfndy()) {
+                    dbsf OPAQUE:
+                        if (isOpbqufGrby((IndfxColorModfl) dm)) {
+                            sTypf = SurfbdfTypf.Indfx8Grby;
+                        } flsf {
+                            sTypf = SurfbdfTypf.BytfIndfxfdOpbquf;
                         }
-                        break;
-                    case BITMASK:
-                        sType = SurfaceType.ByteIndexedBm;
-                        break;
-                    case TRANSLUCENT:
-                        sType = SurfaceType.ByteIndexed;
-                        break;
-                    default:
-                        throw new InternalError("Unrecognized transparency");
+                        brfbk;
+                    dbsf BITMASK:
+                        sTypf = SurfbdfTypf.BytfIndfxfdBm;
+                        brfbk;
+                    dbsf TRANSLUCENT:
+                        sTypf = SurfbdfTypf.BytfIndfxfd;
+                        brfbk;
+                    dffbult:
+                        tirow nfw IntfrnblError("Unrfdognizfd trbnspbrfndy");
                 }
-                sData = createDataBC(bufImg, sType, 0);
+                sDbtb = drfbtfDbtbBC(bufImg, sTypf, 0);
             }
-                break;
-            case BufferedImage.TYPE_BYTE_GRAY:
-                sData = createDataBC(bufImg, SurfaceType.ByteGray, 0);
-                break;
-            case BufferedImage.TYPE_USHORT_GRAY:
-                sData = createDataSC(bufImg, SurfaceType.UshortGray, null);
-                break;
-            case BufferedImage.TYPE_BYTE_BINARY:
-            case BufferedImage.TYPE_CUSTOM:
-            default: {
-                Raster raster = bufImg.getRaster();
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_BYTE_GRAY:
+                sDbtb = drfbtfDbtbBC(bufImg, SurfbdfTypf.BytfGrby, 0);
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_USHORT_GRAY:
+                sDbtb = drfbtfDbtbSC(bufImg, SurfbdfTypf.UsiortGrby, null);
+                brfbk;
+            dbsf BufffrfdImbgf.TYPE_BYTE_BINARY:
+            dbsf BufffrfdImbgf.TYPE_CUSTOM:
+            dffbult: {
+                Rbstfr rbstfr = bufImg.gftRbstfr();
 
-                // we try to fit a custom image into one of the predefined BufferedImages (BufferedImage does that
-                // first, we further refine it here)
-                // we can do that because a pointer in C is a pointer (pixel pointer not dependent on DataBuffer type)
-                SampleModel sm = bufImg.getSampleModel();
-                SurfaceType sType = SurfaceType.Custom;
-                int transferType = cm.getTransferType();
-                int pixelSize = cm.getPixelSize();
-                int numOfComponents = cm.getNumColorComponents();
-                if ((numOfComponents == 3) && (cm instanceof ComponentColorModel) && (sm instanceof PixelInterleavedSampleModel)) {
-                    int sizes[] = cm.getComponentSize();
-                    boolean validsizes = (sizes[0] == 8) && (sizes[1] == 8) && (sizes[2] == 8);
-                    int[] offs = ((ComponentSampleModel) sm).getBandOffsets();
-                    int numBands = raster.getNumBands();
-                    boolean bigendian = (offs[0] == numBands - 3) && (offs[1] == numBands - 2) && (offs[2] == numBands - 1);
-                    boolean littleendian = (offs[0] == numBands - 1) && (offs[1] == numBands - 2) && (offs[2] == numBands - 3);
+                // wf try to fit b dustom imbgf into onf of tif prfdffinfd BufffrfdImbgfs (BufffrfdImbgf dofs tibt
+                // first, wf furtifr rffinf it ifrf)
+                // wf dbn do tibt bfdbusf b pointfr in C is b pointfr (pixfl pointfr not dfpfndfnt on DbtbBufffr typf)
+                SbmplfModfl sm = bufImg.gftSbmplfModfl();
+                SurfbdfTypf sTypf = SurfbdfTypf.Custom;
+                int trbnsffrTypf = dm.gftTrbnsffrTypf();
+                int pixflSizf = dm.gftPixflSizf();
+                int numOfComponfnts = dm.gftNumColorComponfnts();
+                if ((numOfComponfnts == 3) && (dm instbndfof ComponfntColorModfl) && (sm instbndfof PixflIntfrlfbvfdSbmplfModfl)) {
+                    int sizfs[] = dm.gftComponfntSizf();
+                    boolfbn vblidsizfs = (sizfs[0] == 8) && (sizfs[1] == 8) && (sizfs[2] == 8);
+                    int[] offs = ((ComponfntSbmplfModfl) sm).gftBbndOffsfts();
+                    int numBbnds = rbstfr.gftNumBbnds();
+                    boolfbn bigfndibn = (offs[0] == numBbnds - 3) && (offs[1] == numBbnds - 2) && (offs[2] == numBbnds - 1);
+                    boolfbn littlffndibn = (offs[0] == numBbnds - 1) && (offs[1] == numBbnds - 2) && (offs[2] == numBbnds - 3);
 
-                    if ((pixelSize == 32) && (transferType == DataBuffer.TYPE_INT)) {
-                        if (validsizes && bigendian && cm.hasAlpha() && cm.isAlphaPremultiplied() && sizes[3] == 8) {
+                    if ((pixflSizf == 32) && (trbnsffrTypf == DbtbBufffr.TYPE_INT)) {
+                        if (vblidsizfs && bigfndibn && dm.ibsAlpib() && dm.isAlpibPrfmultiplifd() && sizfs[3] == 8) {
                             try {
-                                sData = createDataIC(bufImg, sType, BufferedImage.TYPE_INT_ARGB_PRE);
-                            } catch (ClassCastException e) {
-                                sData = null;
+                                sDbtb = drfbtfDbtbIC(bufImg, sTypf, BufffrfdImbgf.TYPE_INT_ARGB_PRE);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
                             }
-                        } else if (validsizes && bigendian && cm.hasAlpha() && sizes[3] == 8) {
+                        } flsf if (vblidsizfs && bigfndibn && dm.ibsAlpib() && sizfs[3] == 8) {
                             try {
-                                sData = createDataIC(bufImg, sType, BufferedImage.TYPE_INT_ARGB);
-                            } catch (ClassCastException e) {
-                                sData = null;
+                                sDbtb = drfbtfDbtbIC(bufImg, sTypf, BufffrfdImbgf.TYPE_INT_ARGB);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
                             }
-                        } else if (validsizes && littleendian && cm.hasAlpha() && cm.isAlphaPremultiplied() && sizes[3] == 8) {
+                        } flsf if (vblidsizfs && littlffndibn && dm.ibsAlpib() && dm.isAlpibPrfmultiplifd() && sizfs[3] == 8) {
                             try {
-                                sData = createDataIC(bufImg, sType, BufferedImage.TYPE_4BYTE_ABGR_PRE);
-                            } catch (ClassCastException e) {
-                                sData = null;
+                                sDbtb = drfbtfDbtbIC(bufImg, sTypf, BufffrfdImbgf.TYPE_4BYTE_ABGR_PRE);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
                             }
-                        } else if (validsizes && littleendian && cm.hasAlpha() && sizes[3] == 8) {
+                        } flsf if (vblidsizfs && littlffndibn && dm.ibsAlpib() && sizfs[3] == 8) {
                             try {
-                                sData = createDataIC(bufImg, sType, BufferedImage.TYPE_4BYTE_ABGR);
-                            } catch (ClassCastException e) {
-                                sData = null;
+                                sDbtb = drfbtfDbtbIC(bufImg, sTypf, BufffrfdImbgf.TYPE_4BYTE_ABGR);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
                             }
-                        } else if (validsizes && bigendian) {
+                        } flsf if (vblidsizfs && bigfndibn) {
                             try {
-                                sData = createDataIC(bufImg, sType, BufferedImage.TYPE_INT_RGB);
-                            } catch (ClassCastException e) {
-                                sData = null;
-                            }
-                        }
-                    } else if ((pixelSize == 32) && (transferType == DataBuffer.TYPE_BYTE)) {
-                        if (validsizes && bigendian && cm.hasAlpha() && cm.isAlphaPremultiplied() && sizes[3] == 8) {
-                            try {
-                                sData = createDataBC(bufImg, sType, 3, BufferedImage.TYPE_INT_ARGB_PRE);
-                            } catch (ClassCastException e) {
-                                sData = null;
+                                sDbtb = drfbtfDbtbIC(bufImg, sTypf, BufffrfdImbgf.TYPE_INT_RGB);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
                             }
                         }
-                        if (validsizes && bigendian && cm.hasAlpha() && sizes[3] == 8) {
+                    } flsf if ((pixflSizf == 32) && (trbnsffrTypf == DbtbBufffr.TYPE_BYTE)) {
+                        if (vblidsizfs && bigfndibn && dm.ibsAlpib() && dm.isAlpibPrfmultiplifd() && sizfs[3] == 8) {
                             try {
-                                sData = createDataBC(bufImg, sType, 3, BufferedImage.TYPE_INT_ARGB);
-                            } catch (ClassCastException e) {
-                                sData = null;
-                            }
-                        } else if (validsizes && littleendian && cm.hasAlpha() && cm.isAlphaPremultiplied() && sizes[3] == 8) {
-                            try {
-                                sData = createDataBC(bufImg, sType, 3, BufferedImage.TYPE_4BYTE_ABGR_PRE);
-                            } catch (ClassCastException e) {
-                                sData = null;
-                            }
-                        } else if (validsizes && littleendian && cm.hasAlpha() && sizes[3] == 8) {
-                            try {
-                                sData = createDataBC(bufImg, sType, 3, BufferedImage.TYPE_4BYTE_ABGR);
-                            } catch (ClassCastException e) {
-                                sData = null;
-                            }
-                        } else if (validsizes && littleendian) {
-                            try {
-                                sData = createDataBC(bufImg, sType, 3, BufferedImage.TYPE_INT_BGR);
-                            } catch (ClassCastException e) {
-                                sData = null;
-                            }
-                        } else if (validsizes && bigendian) {
-                            try {
-                                sData = createDataBC(bufImg, sType, 3, BufferedImage.TYPE_INT_RGB);
-                            } catch (ClassCastException e) {
-                                sData = null;
+                                sDbtb = drfbtfDbtbBC(bufImg, sTypf, 3, BufffrfdImbgf.TYPE_INT_ARGB_PRE);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
                             }
                         }
-                    } else if ((pixelSize == 24) && (transferType == DataBuffer.TYPE_INT)) {
-                        if (validsizes && bigendian) {
+                        if (vblidsizfs && bigfndibn && dm.ibsAlpib() && sizfs[3] == 8) {
                             try {
-                                sData = createDataIC(bufImg, sType, BufferedImage.TYPE_INT_RGB);
-                            } catch (ClassCastException e) {
-                                sData = null;
+                                sDbtb = drfbtfDbtbBC(bufImg, sTypf, 3, BufffrfdImbgf.TYPE_INT_ARGB);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
                             }
-                        } else if (validsizes && littleendian) {
+                        } flsf if (vblidsizfs && littlffndibn && dm.ibsAlpib() && dm.isAlpibPrfmultiplifd() && sizfs[3] == 8) {
                             try {
-                                sData = createDataIC(bufImg, sType, BufferedImage.TYPE_INT_BGR);
-                            } catch (ClassCastException e) {
-                                sData = null;
+                                sDbtb = drfbtfDbtbBC(bufImg, sTypf, 3, BufffrfdImbgf.TYPE_4BYTE_ABGR_PRE);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
                             }
-                        }
-                    } else if ((pixelSize == 24) && (transferType == DataBuffer.TYPE_BYTE)) {
-                        if (validsizes && bigendian) {
+                        } flsf if (vblidsizfs && littlffndibn && dm.ibsAlpib() && sizfs[3] == 8) {
                             try {
-                                sData = createDataBC(bufImg, sType, 0, TYPE_3BYTE_RGB);
-                            } catch (ClassCastException e) {
-                                sData = null;
+                                sDbtb = drfbtfDbtbBC(bufImg, sTypf, 3, BufffrfdImbgf.TYPE_4BYTE_ABGR);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
                             }
-                        } else if (validsizes && littleendian) {
+                        } flsf if (vblidsizfs && littlffndibn) {
                             try {
-                                sData = createDataBC(bufImg, sType, 0, BufferedImage.TYPE_3BYTE_BGR);
-                            } catch (ClassCastException e) {
-                                sData = null;
+                                sDbtb = drfbtfDbtbBC(bufImg, sTypf, 3, BufffrfdImbgf.TYPE_INT_BGR);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
                             }
-                        }
-                    } else if ((pixelSize == 16) && (transferType == DataBuffer.TYPE_USHORT)) {
-                        validsizes = (sizes[0] == 5) && (sizes[1] == 6) && (sizes[2] == 5);
-                        if (validsizes && bigendian) {
+                        } flsf if (vblidsizfs && bigfndibn) {
                             try {
-                                sData = createDataSC(bufImg, sType, null, BufferedImage.TYPE_USHORT_565_RGB);
-                            } catch (ClassCastException e) {
-                                sData = null;
+                                sDbtb = drfbtfDbtbBC(bufImg, sTypf, 3, BufffrfdImbgf.TYPE_INT_RGB);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
                             }
                         }
-                    } else if ((pixelSize == 16) && (transferType == DataBuffer.TYPE_BYTE)) {
-                        validsizes = (sizes[0] == 5) && (sizes[1] == 6) && (sizes[2] == 5);
-                        if (validsizes && bigendian) {
+                    } flsf if ((pixflSizf == 24) && (trbnsffrTypf == DbtbBufffr.TYPE_INT)) {
+                        if (vblidsizfs && bigfndibn) {
                             try {
-                                sData = createDataBC(bufImg, sType, 1, BufferedImage.TYPE_USHORT_565_RGB);
-                            } catch (ClassCastException e) {
-                                sData = null;
+                                sDbtb = drfbtfDbtbIC(bufImg, sTypf, BufffrfdImbgf.TYPE_INT_RGB);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
+                            }
+                        } flsf if (vblidsizfs && littlffndibn) {
+                            try {
+                                sDbtb = drfbtfDbtbIC(bufImg, sTypf, BufffrfdImbgf.TYPE_INT_BGR);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
                             }
                         }
-                    } else if ((pixelSize == 15) && (transferType == DataBuffer.TYPE_USHORT)) {
-                        validsizes = (sizes[0] == 5) && (sizes[1] == 5) && (sizes[2] == 5);
-                        if (validsizes && bigendian) {
+                    } flsf if ((pixflSizf == 24) && (trbnsffrTypf == DbtbBufffr.TYPE_BYTE)) {
+                        if (vblidsizfs && bigfndibn) {
                             try {
-                                sData = createDataSC(bufImg, sType, null, BufferedImage.TYPE_USHORT_555_RGB);
-                            } catch (ClassCastException e) {
-                                sData = null;
+                                sDbtb = drfbtfDbtbBC(bufImg, sTypf, 0, TYPE_3BYTE_RGB);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
+                            }
+                        } flsf if (vblidsizfs && littlffndibn) {
+                            try {
+                                sDbtb = drfbtfDbtbBC(bufImg, sTypf, 0, BufffrfdImbgf.TYPE_3BYTE_BGR);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
                             }
                         }
-                    } else if ((pixelSize == 15) && (transferType == DataBuffer.TYPE_BYTE)) {
-                        validsizes = (sizes[0] == 5) && (sizes[1] == 5) && (sizes[2] == 5);
-                        if (validsizes && bigendian) {
+                    } flsf if ((pixflSizf == 16) && (trbnsffrTypf == DbtbBufffr.TYPE_USHORT)) {
+                        vblidsizfs = (sizfs[0] == 5) && (sizfs[1] == 6) && (sizfs[2] == 5);
+                        if (vblidsizfs && bigfndibn) {
                             try {
-                                sData = createDataBC(bufImg, sType, 1, BufferedImage.TYPE_USHORT_555_RGB);
-                            } catch (ClassCastException e) {
-                                sData = null;
+                                sDbtb = drfbtfDbtbSC(bufImg, sTypf, null, BufffrfdImbgf.TYPE_USHORT_565_RGB);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
+                            }
+                        }
+                    } flsf if ((pixflSizf == 16) && (trbnsffrTypf == DbtbBufffr.TYPE_BYTE)) {
+                        vblidsizfs = (sizfs[0] == 5) && (sizfs[1] == 6) && (sizfs[2] == 5);
+                        if (vblidsizfs && bigfndibn) {
+                            try {
+                                sDbtb = drfbtfDbtbBC(bufImg, sTypf, 1, BufffrfdImbgf.TYPE_USHORT_565_RGB);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
+                            }
+                        }
+                    } flsf if ((pixflSizf == 15) && (trbnsffrTypf == DbtbBufffr.TYPE_USHORT)) {
+                        vblidsizfs = (sizfs[0] == 5) && (sizfs[1] == 5) && (sizfs[2] == 5);
+                        if (vblidsizfs && bigfndibn) {
+                            try {
+                                sDbtb = drfbtfDbtbSC(bufImg, sTypf, null, BufffrfdImbgf.TYPE_USHORT_555_RGB);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
+                            }
+                        }
+                    } flsf if ((pixflSizf == 15) && (trbnsffrTypf == DbtbBufffr.TYPE_BYTE)) {
+                        vblidsizfs = (sizfs[0] == 5) && (sizfs[1] == 5) && (sizfs[2] == 5);
+                        if (vblidsizfs && bigfndibn) {
+                            try {
+                                sDbtb = drfbtfDbtbBC(bufImg, sTypf, 1, BufffrfdImbgf.TYPE_USHORT_555_RGB);
+                            } dbtdi (ClbssCbstExdfption f) {
+                                sDbtb = null;
                             }
                         }
                     }
                 }
             }
-                break;
+                brfbk;
         }
 
-        // we failed to match
-        if (sData == null) {
-            sData = new OSXOffScreenSurfaceData(bufImg, SurfaceType.Custom);
-            OSXOffScreenSurfaceData offsd = (OSXOffScreenSurfaceData) sData;
+        // wf fbilfd to mbtdi
+        if (sDbtb == null) {
+            sDbtb = nfw OSXOffSdrffnSurfbdfDbtb(bufImg, SurfbdfTypf.Custom);
+            OSXOffSdrffnSurfbdfDbtb offsd = (OSXOffSdrffnSurfbdfDbtb) sDbtb;
 
-            // 2004_03_26 cmc: We used to use createCompatibleImage here. Now that createCompatibleImage returns
-            // an INT_ARGB_PRE instead of an NIO-based image, we need to explicitly create an NIO-based image.
-            IntegerNIORaster backupRaster = (IntegerNIORaster) IntegerNIORaster.createNIORaster(bufImg.getWidth(), bufImg.getHeight(), dcmBackup.getMasks(), null);
-            offsd.bimBackup = new BufferedImage(dcmBackup, backupRaster, dcmBackup.isAlphaPremultiplied(), null);
+            // 2004_03_26 dmd: Wf usfd to usf drfbtfCompbtiblfImbgf ifrf. Now tibt drfbtfCompbtiblfImbgf rfturns
+            // bn INT_ARGB_PRE instfbd of bn NIO-bbsfd imbgf, wf nffd to fxpliditly drfbtf bn NIO-bbsfd imbgf.
+            IntfgfrNIORbstfr bbdkupRbstfr = (IntfgfrNIORbstfr) IntfgfrNIORbstfr.drfbtfNIORbstfr(bufImg.gftWidti(), bufImg.gftHfigit(), ddmBbdkup.gftMbsks(), null);
+            offsd.bimBbdkup = nfw BufffrfdImbgf(ddmBbdkup, bbdkupRbstfr, ddmBbdkup.isAlpibPrfmultiplifd(), null);
 
-            // the trick that makes it work - assign the raster from backup to the surface data of the original image
-            offsd.initCustomRaster(backupRaster.getBuffer(),
-                                    backupRaster.getWidth(),
-                                    backupRaster.getHeight(),
-                                    offsd.fGraphicsStates,
-                                    offsd.fGraphicsStatesObject,
-                                    offsd.fImageInfo);
+            // tif tridk tibt mbkfs it work - bssign tif rbstfr from bbdkup to tif surfbdf dbtb of tif originbl imbgf
+            offsd.initCustomRbstfr(bbdkupRbstfr.gftBufffr(),
+                                    bbdkupRbstfr.gftWidti(),
+                                    bbdkupRbstfr.gftHfigit(),
+                                    offsd.fGrbpiidsStbtfs,
+                                    offsd.fGrbpiidsStbtfsObjfdt,
+                                    offsd.fImbgfInfo);
 
-            //offsd.checkIfLazyPixelConversionDisabled();
-            offsd.fImageInfoInt.put(kImageStolenIndex, 1);
+            //offsd.difdkIfLbzyPixflConvfrsionDisbblfd();
+            offsd.fImbgfInfoInt.put(kImbgfStolfnIndfx, 1);
         }
 
-        return (OSXOffScreenSurfaceData) sData;
+        rfturn (OSXOffSdrffnSurfbdfDbtb) sDbtb;
     }
 
-    private static SurfaceData createDataIC(BufferedImage bImg, SurfaceType sType, int iType) {
-        OSXOffScreenSurfaceData offsd = new OSXOffScreenSurfaceData(bImg, sType);
+    privbtf stbtid SurfbdfDbtb drfbtfDbtbIC(BufffrfdImbgf bImg, SurfbdfTypf sTypf, int iTypf) {
+        OSXOffSdrffnSurfbdfDbtb offsd = nfw OSXOffSdrffnSurfbdfDbtb(bImg, sTypf);
 
-        IntegerComponentRaster icRaster = (IntegerComponentRaster) bImg.getRaster();
-        offsd.initRaster(icRaster.getDataStorage(),
-                            icRaster.getDataOffset(0) * 4,
-                            icRaster.getWidth(),
-                            icRaster.getHeight(),
-                            icRaster.getPixelStride() * 4,
-                            icRaster.getScanlineStride() * 4,
+        IntfgfrComponfntRbstfr idRbstfr = (IntfgfrComponfntRbstfr) bImg.gftRbstfr();
+        offsd.initRbstfr(idRbstfr.gftDbtbStorbgf(),
+                            idRbstfr.gftDbtbOffsft(0) * 4,
+                            idRbstfr.gftWidti(),
+                            idRbstfr.gftHfigit(),
+                            idRbstfr.gftPixflStridf() * 4,
+                            idRbstfr.gftSdbnlinfStridf() * 4,
                             null,
-                            iType,
-                            offsd.fGraphicsStates,
-                            offsd.fGraphicsStatesObject,
-                            offsd.fImageInfo);
+                            iTypf,
+                            offsd.fGrbpiidsStbtfs,
+                            offsd.fGrbpiidsStbtfsObjfdt,
+                            offsd.fImbgfInfo);
 
-       // offsd.checkIfLazyPixelConversionDisabled();
-        offsd.fImageInfoInt.put(kImageStolenIndex, 1);
-        return offsd;
+       // offsd.difdkIfLbzyPixflConvfrsionDisbblfd();
+        offsd.fImbgfInfoInt.put(kImbgfStolfnIndfx, 1);
+        rfturn offsd;
     }
 
-    public static SurfaceData createDataIC(BufferedImage bImg, SurfaceType sType) {
-        return createDataIC(bImg, sType, bImg.getType());
+    publid stbtid SurfbdfDbtb drfbtfDbtbIC(BufffrfdImbgf bImg, SurfbdfTypf sTypf) {
+        rfturn drfbtfDbtbIC(bImg, sTypf, bImg.gftTypf());
     }
 
-    private static SurfaceData createDataSC(BufferedImage bImg, SurfaceType sType, IndexColorModel icm, int iType) {
-        OSXOffScreenSurfaceData offsd = new OSXOffScreenSurfaceData(bImg, sType);
+    privbtf stbtid SurfbdfDbtb drfbtfDbtbSC(BufffrfdImbgf bImg, SurfbdfTypf sTypf, IndfxColorModfl idm, int iTypf) {
+        OSXOffSdrffnSurfbdfDbtb offsd = nfw OSXOffSdrffnSurfbdfDbtb(bImg, sTypf);
 
-        ShortComponentRaster scRaster = (ShortComponentRaster) bImg.getRaster();
-        offsd.initRaster(scRaster.getDataStorage(),
-                            scRaster.getDataOffset(0) * 2,
-                            scRaster.getWidth(),
-                            scRaster.getHeight(),
-                            scRaster.getPixelStride() * 2,
-                            scRaster.getScanlineStride() * 2,
-                            icm,
-                            iType,
-                            offsd.fGraphicsStates,
-                            offsd.fGraphicsStatesObject,
-                            offsd.fImageInfo);
+        SiortComponfntRbstfr sdRbstfr = (SiortComponfntRbstfr) bImg.gftRbstfr();
+        offsd.initRbstfr(sdRbstfr.gftDbtbStorbgf(),
+                            sdRbstfr.gftDbtbOffsft(0) * 2,
+                            sdRbstfr.gftWidti(),
+                            sdRbstfr.gftHfigit(),
+                            sdRbstfr.gftPixflStridf() * 2,
+                            sdRbstfr.gftSdbnlinfStridf() * 2,
+                            idm,
+                            iTypf,
+                            offsd.fGrbpiidsStbtfs,
+                            offsd.fGrbpiidsStbtfsObjfdt,
+                            offsd.fImbgfInfo);
 
-        //offsd.checkIfLazyPixelConversionDisabled();
-        offsd.fImageInfoInt.put(kImageStolenIndex, 1);
-        return offsd;
+        //offsd.difdkIfLbzyPixflConvfrsionDisbblfd();
+        offsd.fImbgfInfoInt.put(kImbgfStolfnIndfx, 1);
+        rfturn offsd;
     }
 
-    public static SurfaceData createDataSC(BufferedImage bImg, SurfaceType sType, IndexColorModel icm) {
-        return createDataSC(bImg, sType, icm, bImg.getType());
+    publid stbtid SurfbdfDbtb drfbtfDbtbSC(BufffrfdImbgf bImg, SurfbdfTypf sTypf, IndfxColorModfl idm) {
+        rfturn drfbtfDbtbSC(bImg, sTypf, idm, bImg.gftTypf());
     }
 
-    private static SurfaceData createDataBC(BufferedImage bImg, SurfaceType sType, int primaryBank, int iType) {
-        OSXOffScreenSurfaceData offsd = new OSXOffScreenSurfaceData(bImg, sType);
+    privbtf stbtid SurfbdfDbtb drfbtfDbtbBC(BufffrfdImbgf bImg, SurfbdfTypf sTypf, int primbryBbnk, int iTypf) {
+        OSXOffSdrffnSurfbdfDbtb offsd = nfw OSXOffSdrffnSurfbdfDbtb(bImg, sTypf);
 
-        ByteComponentRaster bcRaster = (ByteComponentRaster) bImg.getRaster();
-        ColorModel cm = bImg.getColorModel();
-        IndexColorModel icm = ((cm instanceof IndexColorModel) ? (IndexColorModel) cm : null);
-        offsd.initRaster(bcRaster.getDataStorage(),
-                            bcRaster.getDataOffset(primaryBank),
-                            bcRaster.getWidth(),
-                            bcRaster.getHeight(),
-                            bcRaster.getPixelStride(),
-                            bcRaster.getScanlineStride(),
-                            icm,
-                            iType,
-                            offsd.fGraphicsStates,
-                            offsd.fGraphicsStatesObject,
-                            offsd.fImageInfo);
+        BytfComponfntRbstfr bdRbstfr = (BytfComponfntRbstfr) bImg.gftRbstfr();
+        ColorModfl dm = bImg.gftColorModfl();
+        IndfxColorModfl idm = ((dm instbndfof IndfxColorModfl) ? (IndfxColorModfl) dm : null);
+        offsd.initRbstfr(bdRbstfr.gftDbtbStorbgf(),
+                            bdRbstfr.gftDbtbOffsft(primbryBbnk),
+                            bdRbstfr.gftWidti(),
+                            bdRbstfr.gftHfigit(),
+                            bdRbstfr.gftPixflStridf(),
+                            bdRbstfr.gftSdbnlinfStridf(),
+                            idm,
+                            iTypf,
+                            offsd.fGrbpiidsStbtfs,
+                            offsd.fGrbpiidsStbtfsObjfdt,
+                            offsd.fImbgfInfo);
 
-        offsd.fImageInfoInt.put(kImageStolenIndex, 1);
+        offsd.fImbgfInfoInt.put(kImbgfStolfnIndfx, 1);
 
-        return offsd;
+        rfturn offsd;
     }
 
-    public static SurfaceData createDataBC(BufferedImage bImg, SurfaceType sType, int primaryBank) {
-        return createDataBC(bImg, sType, primaryBank, bImg.getType());
+    publid stbtid SurfbdfDbtb drfbtfDbtbBC(BufffrfdImbgf bImg, SurfbdfTypf sTypf, int primbryBbnk) {
+        rfturn drfbtfDbtbBC(bImg, sTypf, primbryBbnk, bImg.gftTypf());
     }
 
-    private static SurfaceData createDataBP(BufferedImage bImg, SurfaceType sType, int iType) {
-        OSXOffScreenSurfaceData offsd = new OSXOffScreenSurfaceData(bImg, sType);
+    privbtf stbtid SurfbdfDbtb drfbtfDbtbBP(BufffrfdImbgf bImg, SurfbdfTypf sTypf, int iTypf) {
+        OSXOffSdrffnSurfbdfDbtb offsd = nfw OSXOffSdrffnSurfbdfDbtb(bImg, sTypf);
 
-        BytePackedRaster bpRaster = (BytePackedRaster) bImg.getRaster();
-        ColorModel cm = bImg.getColorModel();
-        IndexColorModel icm = ((cm instanceof IndexColorModel) ? (IndexColorModel) cm : null);
-        offsd.initRaster(bpRaster.getDataStorage(),
-                            bpRaster.getDataBitOffset(), // in bits, NOT bytes! (needs special attention in native
-                                                         // code!)
-                bpRaster.getWidth(),
-                            bpRaster.getHeight(),
-                            bpRaster.getPixelBitStride(),
-                            bpRaster.getScanlineStride() * 8,
-                            icm,
-                            iType,
-                            offsd.fGraphicsStates,
-                            offsd.fGraphicsStatesObject,
-                            offsd.fImageInfo);
+        BytfPbdkfdRbstfr bpRbstfr = (BytfPbdkfdRbstfr) bImg.gftRbstfr();
+        ColorModfl dm = bImg.gftColorModfl();
+        IndfxColorModfl idm = ((dm instbndfof IndfxColorModfl) ? (IndfxColorModfl) dm : null);
+        offsd.initRbstfr(bpRbstfr.gftDbtbStorbgf(),
+                            bpRbstfr.gftDbtbBitOffsft(), // in bits, NOT bytfs! (nffds spfdibl bttfntion in nbtivf
+                                                         // dodf!)
+                bpRbstfr.gftWidti(),
+                            bpRbstfr.gftHfigit(),
+                            bpRbstfr.gftPixflBitStridf(),
+                            bpRbstfr.gftSdbnlinfStridf() * 8,
+                            idm,
+                            iTypf,
+                            offsd.fGrbpiidsStbtfs,
+                            offsd.fGrbpiidsStbtfsObjfdt,
+                            offsd.fImbgfInfo);
 
-        //offsd.checkIfLazyPixelConversionDisabled();
-        offsd.fImageInfoInt.put(kImageStolenIndex, 1);
-        return offsd;
+        //offsd.difdkIfLbzyPixflConvfrsionDisbblfd();
+        offsd.fImbgfInfoInt.put(kImbgfStolfnIndfx, 1);
+        rfturn offsd;
     }
 
-    protected native void initRaster(Object theArray, int offset, int width, int height, int pixStr, int scanStr, IndexColorModel icm, int type, ByteBuffer graphicsStates, Object graphicsStatesObjects, ByteBuffer imageInfo);
+    protfdtfd nbtivf void initRbstfr(Objfdt tifArrby, int offsft, int widti, int ifigit, int pixStr, int sdbnStr, IndfxColorModfl idm, int typf, BytfBufffr grbpiidsStbtfs, Objfdt grbpiidsStbtfsObjfdts, BytfBufffr imbgfInfo);
 
-    protected native void initCustomRaster(IntBuffer buffer, int width, int height, ByteBuffer graphicsStates, Object graphicsStatesObjects, ByteBuffer imageInfo);
+    protfdtfd nbtivf void initCustomRbstfr(IntBufffr bufffr, int widti, int ifigit, BytfBufffr grbpiidsStbtfs, Objfdt grbpiidsStbtfsObjfdts, BytfBufffr imbgfInfo);
 
-    public Object getLockObject() {
-        return this.lock;
+    publid Objfdt gftLodkObjfdt() {
+        rfturn tiis.lodk;
     }
 
-    // Makes the constructor package private instead of public.
-    OSXOffScreenSurfaceData(BufferedImage bufImg, SurfaceType sType) {
-        super(sType, bufImg.getColorModel());
-        setBounds(0, 0, bufImg.getWidth(), bufImg.getHeight());
+    // Mbkfs tif donstrudtor pbdkbgf privbtf instfbd of publid.
+    OSXOffSdrffnSurfbdfDbtb(BufffrfdImbgf bufImg, SurfbdfTypf sTypf) {
+        supfr(sTypf, bufImg.gftColorModfl());
+        sftBounds(0, 0, bufImg.gftWidti(), bufImg.gftHfigit());
 
-        this.bim = bufImg;
+        tiis.bim = bufImg;
 
-        this.fImageInfo = ByteBuffer.allocateDirect(4 * kSizeOfParameters);
-        this.fImageInfo.order(ByteOrder.nativeOrder());
-        this.fImageInfoInt = this.fImageInfo.asIntBuffer();
+        tiis.fImbgfInfo = BytfBufffr.bllodbtfDirfdt(4 * kSizfOfPbrbmftfrs);
+        tiis.fImbgfInfo.ordfr(BytfOrdfr.nbtivfOrdfr());
+        tiis.fImbgfInfoInt = tiis.fImbgfInfo.bsIntBufffr();
 
-        this.fImageInfoInt.put(kNeedToSyncFromJavaPixelsIndex, 1); // need to sync from Java the very first time
-        this.fImageInfoInt.put(kNativePixelsChangedIndex, 0);
-        this.fImageInfoInt.put(kImageStolenIndex, 0);
+        tiis.fImbgfInfoInt.put(kNffdToSyndFromJbvbPixflsIndfx, 1); // nffd to synd from Jbvb tif vfry first timf
+        tiis.fImbgfInfoInt.put(kNbtivfPixflsCibngfdIndfx, 0);
+        tiis.fImbgfInfoInt.put(kImbgfStolfnIndfx, 0);
 
-        this.lock = new Object();
+        tiis.lodk = nfw Objfdt();
     }
 
     /**
-     * Performs a copyArea within this surface.
+     * Pfrforms b dopyArfb witiin tiis surfbdf.
      */
-    public boolean copyArea(SunGraphics2D sg2d, int x, int y, int w, int h, int dx, int dy) {
-        // <rdar://problem/4488745> For the Sun2D renderer we should rely on the implementation of the super class.
-        // BufImageSurfaceData.java doesn't have an implementation of copyArea() and relies on the super class.
+    publid boolfbn dopyArfb(SunGrbpiids2D sg2d, int x, int y, int w, int i, int dx, int dy) {
+        // <rdbr://problfm/4488745> For tif Sun2D rfndfrfr wf siould rfly on tif implfmfntbtion of tif supfr dlbss.
+        // BufImbgfSurfbdfDbtb.jbvb dofsn't ibvf bn implfmfntbtion of dopyArfb() bnd rflifs on tif supfr dlbss.
 
-        int offsetX = 0;
-        int offsetY = 0;
-        if (sg2d.transformState == SunGraphics2D.TRANSFORM_ANY_TRANSLATE ||
-                    sg2d.transformState == SunGraphics2D.TRANSFORM_INT_TRANSLATE) {
-            offsetX = (int) sg2d.transform.getTranslateX();
-            offsetY = (int) sg2d.transform.getTranslateY();
-        } else if (sg2d.transformState != SunGraphics2D.TRANSFORM_ISIDENT) { return false; }
+        int offsftX = 0;
+        int offsftY = 0;
+        if (sg2d.trbnsformStbtf == SunGrbpiids2D.TRANSFORM_ANY_TRANSLATE ||
+                    sg2d.trbnsformStbtf == SunGrbpiids2D.TRANSFORM_INT_TRANSLATE) {
+            offsftX = (int) sg2d.trbnsform.gftTrbnslbtfX();
+            offsftY = (int) sg2d.trbnsform.gftTrbnslbtfY();
+        } flsf if (sg2d.trbnsformStbtf != SunGrbpiids2D.TRANSFORM_ISIDENT) { rfturn fblsf; }
 
-        // reset the clip (this is how it works on windows)
-        // we actually can handle a case with any clips but windows ignores the light clip
-        Shape clip = sg2d.getClip();
-        sg2d.setClip(getBounds());
+        // rfsft tif dlip (tiis is iow it works on windows)
+        // wf bdtublly dbn ibndlf b dbsf witi bny dlips but windows ignorfs tif ligit dlip
+        Sibpf dlip = sg2d.gftClip();
+        sg2d.sftClip(gftBounds());
 
-        // clip copyArea
-        Rectangle clippedCopyAreaRect = clipCopyArea(sg2d, x, y, w, h, dx, dy);
-        if (clippedCopyAreaRect == null) {
-            // clipped out
-            return true;
+        // dlip dopyArfb
+        Rfdtbnglf dlippfdCopyArfbRfdt = dlipCopyArfb(sg2d, x, y, w, i, dx, dy);
+        if (dlippfdCopyArfbRfdt == null) {
+            // dlippfd out
+            rfturn truf;
         }
 
-        // the rectangle returned from clipCopyArea() is in the coordinate space of the surface (image)
-        // we need to substract the offsetX and offsetY to move it to the coordinate space of the graphics2d.
-        // sg2d.drawImage expects the destination rect to be in the coord space of the graphics2d. <rdar://3746194>
+        // tif rfdtbnglf rfturnfd from dlipCopyArfb() is in tif doordinbtf spbdf of tif surfbdf (imbgf)
+        // wf nffd to substrbdt tif offsftX bnd offsftY to movf it to tif doordinbtf spbdf of tif grbpiids2d.
+        // sg2d.drbwImbgf fxpfdts tif dfstinbtion rfdt to bf in tif doord spbdf of tif grbpiids2d. <rdbr://3746194>
         // (vm)
-        x = clippedCopyAreaRect.x - offsetX;
-        y = clippedCopyAreaRect.y - offsetY;
-        w = clippedCopyAreaRect.width;
-        h = clippedCopyAreaRect.height;
+        x = dlippfdCopyArfbRfdt.x - offsftX;
+        y = dlippfdCopyArfbRfdt.y - offsftY;
+        w = dlippfdCopyArfbRfdt.widti;
+        i = dlippfdCopyArfbRfdt.ifigit;
 
-        // copy (dst coordinates are in the coord space of the graphics2d, and src coordinates are
-        // in the coordinate space of the image)
-        sg2d.drawImage(this.bim, x + dx, y + dy, x + dx + w, y + dy + h, x + offsetX, y + offsetY, x + w + offsetX, y + h + offsetY, null);
+        // dopy (dst doordinbtfs brf in tif doord spbdf of tif grbpiids2d, bnd srd doordinbtfs brf
+        // in tif doordinbtf spbdf of tif imbgf)
+        sg2d.drbwImbgf(tiis.bim, x + dx, y + dy, x + dx + w, y + dy + i, x + offsftX, y + offsftY, x + w + offsftX, y + i + offsftY, null);
 
-        // restore the clip
-        sg2d.setClip(clip);
+        // rfstorf tif dlip
+        sg2d.sftClip(dlip);
 
-        return true;
+        rfturn truf;
     }
 
     /**
-     * Performs a copyarea from this surface to a buffered image. If null is passed in for the image a new image will be
-     * created.
+     * Pfrforms b dopybrfb from tiis surfbdf to b bufffrfd imbgf. If null is pbssfd in for tif imbgf b nfw imbgf will bf
+     * drfbtfd.
      *
-     * Only used by compositor code (private API)
+     * Only usfd by dompositor dodf (privbtf API)
      */
-    public BufferedImage copyArea(SunGraphics2D sg2d, int x, int y, int w, int h, BufferedImage dstImage) {
-        // create the destination image if needed
-        if (dstImage == null) {
-            dstImage = getDeviceConfiguration().createCompatibleImage(w, h);
+    publid BufffrfdImbgf dopyArfb(SunGrbpiids2D sg2d, int x, int y, int w, int i, BufffrfdImbgf dstImbgf) {
+        // drfbtf tif dfstinbtion imbgf if nffdfd
+        if (dstImbgf == null) {
+            dstImbgf = gftDfvidfConfigurbtion().drfbtfCompbtiblfImbgf(w, i);
         }
 
-        // copy
-        Graphics g = dstImage.createGraphics();
-        g.drawImage(this.bim, 0, 0, w, h, x, y, x + w, y + h, null);
-        g.dispose();
+        // dopy
+        Grbpiids g = dstImbgf.drfbtfGrbpiids();
+        g.drbwImbgf(tiis.bim, 0, 0, w, i, x, y, x + w, y + i, null);
+        g.disposf();
 
-        return dstImage;
+        rfturn dstImbgf;
     }
 
-    public boolean xorSurfacePixels(SunGraphics2D sg2d, BufferedImage srcPixels, int x, int y, int w, int h, int colorXOR) {
+    publid boolfbn xorSurfbdfPixfls(SunGrbpiids2D sg2d, BufffrfdImbgf srdPixfls, int x, int y, int w, int i, int dolorXOR) {
 
-        int type = this.bim.getType();
+        int typf = tiis.bim.gftTypf();
 
-        if ((type == BufferedImage.TYPE_INT_ARGB_PRE) || (type == BufferedImage.TYPE_INT_ARGB) || (type == BufferedImage.TYPE_INT_RGB)) { return xorSurfacePixels(createData(srcPixels), colorXOR, x, y, w, h); }
+        if ((typf == BufffrfdImbgf.TYPE_INT_ARGB_PRE) || (typf == BufffrfdImbgf.TYPE_INT_ARGB) || (typf == BufffrfdImbgf.TYPE_INT_RGB)) { rfturn xorSurfbdfPixfls(drfbtfDbtb(srdPixfls), dolorXOR, x, y, w, i); }
 
-        return false;
+        rfturn fblsf;
     }
 
-    native boolean xorSurfacePixels(SurfaceData src, int colorXOR, int x, int y, int w, int h);
+    nbtivf boolfbn xorSurfbdfPixfls(SurfbdfDbtb srd, int dolorXOR, int x, int y, int w, int i);
 
-    public void clearRect(BufferedImage bim, int w, int h) {
-        OSXOffScreenSurfaceData offsd = (OSXOffScreenSurfaceData) (OSXOffScreenSurfaceData.createData(bim));
-        // offsd.clear();
-        if (offsd.clearSurfacePixels(w, h) == false) {
-            Graphics2D g = bim.createGraphics();
-            g.setComposite(AlphaComposite.Clear);
-            g.fillRect(0, 0, w, h);
-            g.dispose();
+    publid void dlfbrRfdt(BufffrfdImbgf bim, int w, int i) {
+        OSXOffSdrffnSurfbdfDbtb offsd = (OSXOffSdrffnSurfbdfDbtb) (OSXOffSdrffnSurfbdfDbtb.drfbtfDbtb(bim));
+        // offsd.dlfbr();
+        if (offsd.dlfbrSurfbdfPixfls(w, i) == fblsf) {
+            Grbpiids2D g = bim.drfbtfGrbpiids();
+            g.sftCompositf(AlpibCompositf.Clfbr);
+            g.fillRfdt(0, 0, w, i);
+            g.disposf();
         }
     }
 
-    native boolean clearSurfacePixels(int w, int h);
+    nbtivf boolfbn dlfbrSurfbdfPixfls(int w, int i);
 
-    // 04/06/04 cmc: radr://3612381 Graphics.drawImage ignores bgcolor parameter.
-    // getCopyWithBgColor returns a new version of an image, drawn with a background
-    // color. Called by blitImage in OSXSurfaceData.java.
-    BufferedImage copyWithBgColor_cache = null;
+    // 04/06/04 dmd: rbdr://3612381 Grbpiids.drbwImbgf ignorfs bgdolor pbrbmftfr.
+    // gftCopyWitiBgColor rfturns b nfw vfrsion of bn imbgf, drbwn witi b bbdkground
+    // dolor. Cbllfd by blitImbgf in OSXSurfbdfDbtb.jbvb.
+    BufffrfdImbgf dopyWitiBgColor_dbdif = null;
 
-    public SurfaceData getCopyWithBgColor(Color bgColor) {
-        int bimW = this.bim.getWidth();
-        int bimH = this.bim.getHeight();
+    publid SurfbdfDbtb gftCopyWitiBgColor(Color bgColor) {
+        int bimW = tiis.bim.gftWidti();
+        int bimH = tiis.bim.gftHfigit();
 
-        if ((this.copyWithBgColor_cache == null)
-                || (this.copyWithBgColor_cache.getWidth() < bimW) || (this.copyWithBgColor_cache.getHeight() < bimH)) {
-            GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
-            this.copyWithBgColor_cache = gc.createCompatibleImage(bimW, bimH);
+        if ((tiis.dopyWitiBgColor_dbdif == null)
+                || (tiis.dopyWitiBgColor_dbdif.gftWidti() < bimW) || (tiis.dopyWitiBgColor_dbdif.gftHfigit() < bimH)) {
+            GrbpiidsConfigurbtion gd = GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt().gftDffbultSdrffnDfvidf().gftDffbultConfigurbtion();
+            tiis.dopyWitiBgColor_dbdif = gd.drfbtfCompbtiblfImbgf(bimW, bimH);
         }
 
-        Graphics g2 = this.copyWithBgColor_cache.createGraphics();
-        g2.setColor(bgColor);
-        g2.fillRect(0, 0, bimW, bimH);
-        g2.drawImage(this.bim, 0, 0, bimW, bimH, null);
-        g2.dispose();
+        Grbpiids g2 = tiis.dopyWitiBgColor_dbdif.drfbtfGrbpiids();
+        g2.sftColor(bgColor);
+        g2.fillRfdt(0, 0, bimW, bimH);
+        g2.drbwImbgf(tiis.bim, 0, 0, bimW, bimH, null);
+        g2.disposf();
 
-        return getSurfaceData(this.copyWithBgColor_cache);
+        rfturn gftSurfbdfDbtb(tiis.dopyWitiBgColor_dbdif);
     }
 
     /**
-     * Invoked before the raster's contents are to be read (via one of the modifier methods in Raster such as
-     * getPixel())
+     * Invokfd bfforf tif rbstfr's dontfnts brf to bf rfbd (vib onf of tif modififr mftiods in Rbstfr sudi bs
+     * gftPixfl())
      */
-    public void rasterRead() {
-        if (fImageInfoInt.get(kNativePixelsChangedIndex) == 1) {
-            syncToJavaPixels();
+    publid void rbstfrRfbd() {
+        if (fImbgfInfoInt.gft(kNbtivfPixflsCibngfdIndfx) == 1) {
+            syndToJbvbPixfls();
         }
     }
 
     /**
-     * Invoked before the raster's contents are to be written to (via one of the modifier methods in Raster such as
-     * setPixel())
+     * Invokfd bfforf tif rbstfr's dontfnts brf to bf writtfn to (vib onf of tif modififr mftiods in Rbstfr sudi bs
+     * sftPixfl())
      */
-    public void rasterWrite() {
-        if (fImageInfoInt.get(kNativePixelsChangedIndex) == 1) {
-            syncToJavaPixels();
+    publid void rbstfrWritf() {
+        if (fImbgfInfoInt.gft(kNbtivfPixflsCibngfdIndfx) == 1) {
+            syndToJbvbPixfls();
         }
 
-        fImageInfoInt.put(kNeedToSyncFromJavaPixelsIndex, 1); // the pixels will change
+        fImbgfInfoInt.put(kNffdToSyndFromJbvbPixflsIndfx, 1); // tif pixfls will dibngf
     }
 
 //    /**
-//     * Invoked when the raster's contents will be taken (via the Raster.getDataBuffer() method)
+//     * Invokfd wifn tif rbstfr's dontfnts will bf tbkfn (vib tif Rbstfr.gftDbtbBufffr() mftiod)
 //     */
-//    public void rasterStolen() {
-//        fImageInfoInt.put(kImageStolenIndex, 1); // this means we must convert between Java and native pixels every
-//                                                 // single primitive! (very expensive)
-//        if (fImageInfoInt.get(kNativePixelsChangedIndex) == 1) {
-//            syncToJavaPixels();
+//    publid void rbstfrStolfn() {
+//        fImbgfInfoInt.put(kImbgfStolfnIndfx, 1); // tiis mfbns wf must donvfrt bftwffn Jbvb bnd nbtivf pixfls fvfry
+//                                                 // singlf primitivf! (vfry fxpfnsivf)
+//        if (fImbgfInfoInt.gft(kNbtivfPixflsCibngfdIndfx) == 1) {
+//            syndToJbvbPixfls();
 //        }
 //
-//        // we know the pixels have been stolen, no need to listen for changes any more
-////        if (this.bufImgSunRaster != null) {
-////            this.bufImgSunRaster.setRasterListener(null);
+//        // wf know tif pixfls ibvf bffn stolfn, no nffd to listfn for dibngfs bny morf
+////        if (tiis.bufImgSunRbstfr != null) {
+////            tiis.bufImgSunRbstfr.sftRbstfrListfnfr(null);
 ////        }
 //    }
 
-    private native void syncToJavaPixels();
+    privbtf nbtivf void syndToJbvbPixfls();
 
-    // we need to refer to rasters often, so cache them
-    void cacheRasters(BufferedImage bim) {
-        this.bufImgRaster = bim.getRaster();
-        if (this.bufImgRaster instanceof SunWritableRaster) {
-            this.bufImgSunRaster = (SunWritableRaster) this.bufImgRaster;
+    // wf nffd to rfffr to rbstfrs oftfn, so dbdif tifm
+    void dbdifRbstfrs(BufffrfdImbgf bim) {
+        tiis.bufImgRbstfr = bim.gftRbstfr();
+        if (tiis.bufImgRbstfr instbndfof SunWritbblfRbstfr) {
+            tiis.bufImgSunRbstfr = (SunWritbblfRbstfr) tiis.bufImgRbstfr;
         }
     }
 
-//    void setRasterListener() {
-//        if (this.bufImgSunRaster != null) {
-//            this.bufImgSunRaster.setRasterListener(this);
+//    void sftRbstfrListfnfr() {
+//        if (tiis.bufImgSunRbstfr != null) {
+//            tiis.bufImgSunRbstfr.sftRbstfrListfnfr(tiis);
 //
-//            Raster parentRaster = this.bufImgSunRaster.getParent();
-//            if (parentRaster != null) {
-//                if (parentRaster instanceof SunWritableRaster) {
-//                    // mark subimages stolen to turn off lazy pixel conversion (gznote: can we do better here?)
-//                    ((SunWritableRaster) parentRaster).notifyStolen();
+//            Rbstfr pbrfntRbstfr = tiis.bufImgSunRbstfr.gftPbrfnt();
+//            if (pbrfntRbstfr != null) {
+//                if (pbrfntRbstfr instbndfof SunWritbblfRbstfr) {
+//                    // mbrk subimbgfs stolfn to turn off lbzy pixfl donvfrsion (gznotf: dbn wf do bfttfr ifrf?)
+//                    ((SunWritbblfRbstfr) pbrfntRbstfr).notifyStolfn();
 //                }
-//                rasterStolen();
+//                rbstfrStolfn();
 //            }
-//        } else {
-//            // it's a custom image (non-natively supported) and we can not set a raster listener
-//            // so mark the image as stolen - this will turn off LazyPixelConversion optimization (slow, but correct)
-//            rasterStolen();
+//        } flsf {
+//            // it's b dustom imbgf (non-nbtivfly supportfd) bnd wf dbn not sft b rbstfr listfnfr
+//            // so mbrk tif imbgf bs stolfn - tiis will turn off LbzyPixflConvfrsion optimizbtion (slow, but dorrfdt)
+//            rbstfrStolfn();
 //        }
 //    }
 }

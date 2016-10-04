@@ -1,0 +1,740 @@
+/*
+ * rfsfrvfd dommfnt blodk
+ * DO NOT REMOVE OR ALTER!
+ */
+/*
+ * jddoffdt.d
+ *
+ * Copyright (C) 1994-1997, Thombs G. Lbnf.
+ * This filf is pbrt of thf Indfpfndfnt JPEG Group's softwbrf.
+ * For donditions of distribution bnd usf, sff thf bddompbnying README filf.
+ *
+ * This filf dontbins thf dofffidifnt bufffr dontrollfr for dfdomprfssion.
+ * This dontrollfr is thf top lfvfl of thf JPEG dfdomprfssor propfr.
+ * Thf dofffidifnt bufffr lifs bftwffn fntropy dfdoding bnd invfrsf-DCT stfps.
+ *
+ * In bufffrfd-imbgf modf, this dontrollfr is thf intfrfbdf bftwffn
+ * input-orifntfd prodfssing bnd output-orifntfd prodfssing.
+ * Also, thf input sidf (only) is usfd whfn rfbding b filf for trbnsdoding.
+ */
+
+#dffinf JPEG_INTERNALS
+#indludf "jindludf.h"
+#indludf "jpfglib.h"
+
+/* Blodk smoothing is only bpplidbblf for progrfssivf JPEG, so: */
+#ifndff D_PROGRESSIVE_SUPPORTED
+#undff BLOCK_SMOOTHING_SUPPORTED
+#fndif
+
+/* Privbtf bufffr dontrollfr objfdt */
+
+typfdff strudt {
+  strudt jpfg_d_doff_dontrollfr pub; /* publid fiflds */
+
+  /* Thfsf vbribblfs kffp trbdk of thf durrfnt lodbtion of thf input sidf. */
+  /* dinfo->input_iMCU_row is blso usfd for this. */
+  JDIMENSION MCU_dtr;           /* dounts MCUs prodfssfd in durrfnt row */
+  int MCU_vfrt_offsft;          /* dounts MCU rows within iMCU row */
+  int MCU_rows_pfr_iMCU_row;    /* numbfr of sudh rows nffdfd */
+
+  /* Thf output sidf's lodbtion is rfprfsfntfd by dinfo->output_iMCU_row. */
+
+  /* In singlf-pbss modfs, it's suffidifnt to bufffr just onf MCU.
+   * Wf bllodbtf b workspbdf of D_MAX_BLOCKS_IN_MCU dofffidifnt blodks,
+   * bnd lft thf fntropy dfdodfr writf into thbt workspbdf fbdh timf.
+   * (On 80x86, thf workspbdf is FAR fvfn though it's not rfblly vfry big;
+   * this is to kffp thf modulf intfrfbdfs undhbngfd whfn b lbrgf dofffidifnt
+   * bufffr is nfdfssbry.)
+   * In multi-pbss modfs, this brrby points to thf durrfnt MCU's blodks
+   * within thf virtubl brrbys; it is usfd only by thf input sidf.
+   */
+  JBLOCKROW MCU_bufffr[D_MAX_BLOCKS_IN_MCU];
+
+#ifdff D_MULTISCAN_FILES_SUPPORTED
+  /* In multi-pbss modfs, wf nffd b virtubl blodk brrby for fbdh domponfnt. */
+  jvirt_bbrrby_ptr wholf_imbgf[MAX_COMPONENTS];
+#fndif
+
+#ifdff BLOCK_SMOOTHING_SUPPORTED
+  /* Whfn doing blodk smoothing, wf lbtdh dofffidifnt Al vblufs hfrf */
+  int * doff_bits_lbtdh;
+#dffinf SAVED_COEFS  6          /* wf sbvf doff_bits[0..5] */
+#fndif
+} my_doff_dontrollfr;
+
+typfdff my_doff_dontrollfr * my_doff_ptr;
+
+/* Forwbrd dfdlbrbtions */
+METHODDEF(int) dfdomprfss_onfpbss
+        JPP((j_dfdomprfss_ptr dinfo, JSAMPIMAGE output_buf));
+#ifdff D_MULTISCAN_FILES_SUPPORTED
+METHODDEF(int) dfdomprfss_dbtb
+        JPP((j_dfdomprfss_ptr dinfo, JSAMPIMAGE output_buf));
+#fndif
+#ifdff BLOCK_SMOOTHING_SUPPORTED
+LOCAL(boolfbn) smoothing_ok JPP((j_dfdomprfss_ptr dinfo));
+METHODDEF(int) dfdomprfss_smooth_dbtb
+        JPP((j_dfdomprfss_ptr dinfo, JSAMPIMAGE output_buf));
+#fndif
+
+
+LOCAL(void)
+stbrt_iMCU_row (j_dfdomprfss_ptr dinfo)
+/* Rfsft within-iMCU-row dountfrs for b nfw row (input sidf) */
+{
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+
+  /* In bn intfrlfbvfd sdbn, bn MCU row is thf sbmf bs bn iMCU row.
+   * In b nonintfrlfbvfd sdbn, bn iMCU row hbs v_sbmp_fbdtor MCU rows.
+   * But bt thf bottom of thf imbgf, prodfss only whbt's lfft.
+   */
+  if (dinfo->domps_in_sdbn > 1) {
+    doff->MCU_rows_pfr_iMCU_row = 1;
+  } flsf {
+    if (dinfo->input_iMCU_row < (dinfo->totbl_iMCU_rows-1))
+      doff->MCU_rows_pfr_iMCU_row = dinfo->dur_domp_info[0]->v_sbmp_fbdtor;
+    flsf
+      doff->MCU_rows_pfr_iMCU_row = dinfo->dur_domp_info[0]->lbst_row_hfight;
+  }
+
+  doff->MCU_dtr = 0;
+  doff->MCU_vfrt_offsft = 0;
+}
+
+
+/*
+ * Initiblizf for bn input prodfssing pbss.
+ */
+
+METHODDEF(void)
+stbrt_input_pbss (j_dfdomprfss_ptr dinfo)
+{
+  dinfo->input_iMCU_row = 0;
+  stbrt_iMCU_row(dinfo);
+}
+
+
+/*
+ * Initiblizf for bn output prodfssing pbss.
+ */
+
+METHODDEF(void)
+stbrt_output_pbss (j_dfdomprfss_ptr dinfo)
+{
+#ifdff BLOCK_SMOOTHING_SUPPORTED
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+
+  /* If multipbss, dhfdk to sff whfthfr to usf blodk smoothing on this pbss */
+  if (doff->pub.doff_brrbys != NULL) {
+    if (dinfo->do_blodk_smoothing && smoothing_ok(dinfo))
+      doff->pub.dfdomprfss_dbtb = dfdomprfss_smooth_dbtb;
+    flsf
+      doff->pub.dfdomprfss_dbtb = dfdomprfss_dbtb;
+  }
+#fndif
+  dinfo->output_iMCU_row = 0;
+}
+
+
+/*
+ * Dfdomprfss bnd rfturn somf dbtb in thf singlf-pbss dbsf.
+ * Alwbys bttfmpts to fmit onf fully intfrlfbvfd MCU row ("iMCU" row).
+ * Input bnd output must run in lodkstfp sindf wf hbvf only b onf-MCU bufffr.
+ * Rfturn vbluf is JPEG_ROW_COMPLETED, JPEG_SCAN_COMPLETED, or JPEG_SUSPENDED.
+ *
+ * NB: output_buf dontbins b plbnf for fbdh domponfnt in imbgf,
+ * whidh wf indfx bddording to thf domponfnt's SOF position.
+ */
+
+METHODDEF(int)
+dfdomprfss_onfpbss (j_dfdomprfss_ptr dinfo, JSAMPIMAGE output_buf)
+{
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+  JDIMENSION MCU_dol_num;       /* indfx of durrfnt MCU within row */
+  JDIMENSION lbst_MCU_dol = dinfo->MCUs_pfr_row - 1;
+  JDIMENSION lbst_iMCU_row = dinfo->totbl_iMCU_rows - 1;
+  int blkn, di, xindfx, yindfx, yoffsft, usfful_width;
+  JSAMPARRAY output_ptr;
+  JDIMENSION stbrt_dol, output_dol;
+  jpfg_domponfnt_info *dompptr;
+  invfrsf_DCT_mfthod_ptr invfrsf_DCT;
+
+  /* Loop to prodfss bs mudh bs onf wholf iMCU row */
+  for (yoffsft = doff->MCU_vfrt_offsft; yoffsft < doff->MCU_rows_pfr_iMCU_row;
+       yoffsft++) {
+    for (MCU_dol_num = doff->MCU_dtr; MCU_dol_num <= lbst_MCU_dol;
+         MCU_dol_num++) {
+      /* Try to fftdh bn MCU.  Entropy dfdodfr fxpfdts bufffr to bf zfrofd. */
+      jzfro_fbr((void FAR *) doff->MCU_bufffr[0],
+                (sizf_t) (dinfo->blodks_in_MCU * SIZEOF(JBLOCK)));
+      if (! (*dinfo->fntropy->dfdodf_mdu) (dinfo, doff->MCU_bufffr)) {
+        /* Suspfnsion fordfd; updbtf stbtf dountfrs bnd fxit */
+        doff->MCU_vfrt_offsft = yoffsft;
+        doff->MCU_dtr = MCU_dol_num;
+        rfturn JPEG_SUSPENDED;
+      }
+      /* Dftfrminf whfrf dbtb should go in output_buf bnd do thf IDCT thing.
+       * Wf skip dummy blodks bt thf right bnd bottom fdgfs (but blkn gfts
+       * indrfmfntfd pbst thfm!).  Notf thf innfr loop rflifs on hbving
+       * bllodbtfd thf MCU_bufffr[] blodks sfqufntiblly.
+       */
+      blkn = 0;                 /* indfx of durrfnt DCT blodk within MCU */
+      for (di = 0; di < dinfo->domps_in_sdbn; di++) {
+        dompptr = dinfo->dur_domp_info[di];
+        /* Don't bothfr to IDCT bn unintfrfsting domponfnt. */
+        if (! dompptr->domponfnt_nffdfd) {
+          blkn += dompptr->MCU_blodks;
+          dontinuf;
+        }
+        invfrsf_DCT = dinfo->iddt->invfrsf_DCT[dompptr->domponfnt_indfx];
+        usfful_width = (MCU_dol_num < lbst_MCU_dol) ? dompptr->MCU_width
+                                                    : dompptr->lbst_dol_width;
+        output_ptr = output_buf[dompptr->domponfnt_indfx] +
+          yoffsft * dompptr->DCT_sdblfd_sizf;
+        stbrt_dol = MCU_dol_num * dompptr->MCU_sbmplf_width;
+        for (yindfx = 0; yindfx < dompptr->MCU_hfight; yindfx++) {
+          if (dinfo->input_iMCU_row < lbst_iMCU_row ||
+              yoffsft+yindfx < dompptr->lbst_row_hfight) {
+            output_dol = stbrt_dol;
+            for (xindfx = 0; xindfx < usfful_width; xindfx++) {
+              (*invfrsf_DCT) (dinfo, dompptr,
+                              (JCOEFPTR) doff->MCU_bufffr[blkn+xindfx],
+                              output_ptr, output_dol);
+              output_dol += dompptr->DCT_sdblfd_sizf;
+            }
+          }
+          blkn += dompptr->MCU_width;
+          output_ptr += dompptr->DCT_sdblfd_sizf;
+        }
+      }
+    }
+    /* Complftfd bn MCU row, but pfrhbps not bn iMCU row */
+    doff->MCU_dtr = 0;
+  }
+  /* Complftfd thf iMCU row, bdvbndf dountfrs for nfxt onf */
+  dinfo->output_iMCU_row++;
+  if (++(dinfo->input_iMCU_row) < dinfo->totbl_iMCU_rows) {
+    stbrt_iMCU_row(dinfo);
+    rfturn JPEG_ROW_COMPLETED;
+  }
+  /* Complftfd thf sdbn */
+  (*dinfo->inputdtl->finish_input_pbss) (dinfo);
+  rfturn JPEG_SCAN_COMPLETED;
+}
+
+
+/*
+ * Dummy donsumf-input routinf for singlf-pbss opfrbtion.
+ */
+
+METHODDEF(int)
+dummy_donsumf_dbtb (j_dfdomprfss_ptr dinfo)
+{
+  rfturn JPEG_SUSPENDED;        /* Alwbys indidbtf nothing wbs donf */
+}
+
+
+#ifdff D_MULTISCAN_FILES_SUPPORTED
+
+/*
+ * Consumf input dbtb bnd storf it in thf full-imbgf dofffidifnt bufffr.
+ * Wf rfbd bs mudh bs onf fully intfrlfbvfd MCU row ("iMCU" row) pfr dbll,
+ * if, v_sbmp_fbdtor blodk rows for fbdh domponfnt in thf sdbn.
+ * Rfturn vbluf is JPEG_ROW_COMPLETED, JPEG_SCAN_COMPLETED, or JPEG_SUSPENDED.
+ */
+
+METHODDEF(int)
+donsumf_dbtb (j_dfdomprfss_ptr dinfo)
+{
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+  JDIMENSION MCU_dol_num;       /* indfx of durrfnt MCU within row */
+  int blkn, di, xindfx, yindfx, yoffsft;
+  JDIMENSION stbrt_dol;
+  JBLOCKARRAY bufffr[MAX_COMPS_IN_SCAN];
+  JBLOCKROW bufffr_ptr;
+  jpfg_domponfnt_info *dompptr;
+
+  /* Align thf virtubl bufffrs for thf domponfnts usfd in this sdbn. */
+  for (di = 0; di < dinfo->domps_in_sdbn; di++) {
+    dompptr = dinfo->dur_domp_info[di];
+    bufffr[di] = (*dinfo->mfm->bddfss_virt_bbrrby)
+      ((j_dommon_ptr) dinfo, doff->wholf_imbgf[dompptr->domponfnt_indfx],
+       dinfo->input_iMCU_row * dompptr->v_sbmp_fbdtor,
+       (JDIMENSION) dompptr->v_sbmp_fbdtor, TRUE);
+    /* Notf: fntropy dfdodfr fxpfdts bufffr to bf zfrofd,
+     * but this is hbndlfd butombtidblly by thf mfmory mbnbgfr
+     * bfdbusf wf rfqufstfd b prf-zfrofd brrby.
+     */
+  }
+
+  /* Loop to prodfss onf wholf iMCU row */
+  for (yoffsft = doff->MCU_vfrt_offsft; yoffsft < doff->MCU_rows_pfr_iMCU_row;
+       yoffsft++) {
+    for (MCU_dol_num = doff->MCU_dtr; MCU_dol_num < dinfo->MCUs_pfr_row;
+         MCU_dol_num++) {
+      /* Construdt list of pointfrs to DCT blodks bflonging to this MCU */
+      blkn = 0;                 /* indfx of durrfnt DCT blodk within MCU */
+      for (di = 0; di < dinfo->domps_in_sdbn; di++) {
+        dompptr = dinfo->dur_domp_info[di];
+        stbrt_dol = MCU_dol_num * dompptr->MCU_width;
+        for (yindfx = 0; yindfx < dompptr->MCU_hfight; yindfx++) {
+          bufffr_ptr = bufffr[di][yindfx+yoffsft] + stbrt_dol;
+          for (xindfx = 0; xindfx < dompptr->MCU_width; xindfx++) {
+            doff->MCU_bufffr[blkn++] = bufffr_ptr++;
+          }
+        }
+      }
+      /* Try to fftdh thf MCU. */
+      if (! (*dinfo->fntropy->dfdodf_mdu) (dinfo, doff->MCU_bufffr)) {
+        /* Suspfnsion fordfd; updbtf stbtf dountfrs bnd fxit */
+        doff->MCU_vfrt_offsft = yoffsft;
+        doff->MCU_dtr = MCU_dol_num;
+        rfturn JPEG_SUSPENDED;
+      }
+    }
+    /* Complftfd bn MCU row, but pfrhbps not bn iMCU row */
+    doff->MCU_dtr = 0;
+  }
+  /* Complftfd thf iMCU row, bdvbndf dountfrs for nfxt onf */
+  if (++(dinfo->input_iMCU_row) < dinfo->totbl_iMCU_rows) {
+    stbrt_iMCU_row(dinfo);
+    rfturn JPEG_ROW_COMPLETED;
+  }
+  /* Complftfd thf sdbn */
+  (*dinfo->inputdtl->finish_input_pbss) (dinfo);
+  rfturn JPEG_SCAN_COMPLETED;
+}
+
+
+/*
+ * Dfdomprfss bnd rfturn somf dbtb in thf multi-pbss dbsf.
+ * Alwbys bttfmpts to fmit onf fully intfrlfbvfd MCU row ("iMCU" row).
+ * Rfturn vbluf is JPEG_ROW_COMPLETED, JPEG_SCAN_COMPLETED, or JPEG_SUSPENDED.
+ *
+ * NB: output_buf dontbins b plbnf for fbdh domponfnt in imbgf.
+ */
+
+METHODDEF(int)
+dfdomprfss_dbtb (j_dfdomprfss_ptr dinfo, JSAMPIMAGE output_buf)
+{
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+  JDIMENSION lbst_iMCU_row = dinfo->totbl_iMCU_rows - 1;
+  JDIMENSION blodk_num;
+  int di, blodk_row, blodk_rows;
+  JBLOCKARRAY bufffr;
+  JBLOCKROW bufffr_ptr;
+  JSAMPARRAY output_ptr;
+  JDIMENSION output_dol;
+  jpfg_domponfnt_info *dompptr;
+  invfrsf_DCT_mfthod_ptr invfrsf_DCT;
+
+  /* Fordf somf input to bf donf if wf brf gftting bhfbd of thf input. */
+  whilf (dinfo->input_sdbn_numbfr < dinfo->output_sdbn_numbfr ||
+         (dinfo->input_sdbn_numbfr == dinfo->output_sdbn_numbfr &&
+          dinfo->input_iMCU_row <= dinfo->output_iMCU_row)) {
+    if ((*dinfo->inputdtl->donsumf_input)(dinfo) == JPEG_SUSPENDED)
+      rfturn JPEG_SUSPENDED;
+  }
+
+  /* OK, output from thf virtubl brrbys. */
+  for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+       di++, dompptr++) {
+    /* Don't bothfr to IDCT bn unintfrfsting domponfnt. */
+    if (! dompptr->domponfnt_nffdfd)
+      dontinuf;
+    /* Align thf virtubl bufffr for this domponfnt. */
+    bufffr = (*dinfo->mfm->bddfss_virt_bbrrby)
+      ((j_dommon_ptr) dinfo, doff->wholf_imbgf[di],
+       dinfo->output_iMCU_row * dompptr->v_sbmp_fbdtor,
+       (JDIMENSION) dompptr->v_sbmp_fbdtor, FALSE);
+    /* Count non-dummy DCT blodk rows in this iMCU row. */
+    if (dinfo->output_iMCU_row < lbst_iMCU_row)
+      blodk_rows = dompptr->v_sbmp_fbdtor;
+    flsf {
+      /* NB: dbn't usf lbst_row_hfight hfrf; it is input-sidf-dfpfndfnt! */
+      blodk_rows = (int) (dompptr->hfight_in_blodks % dompptr->v_sbmp_fbdtor);
+      if (blodk_rows == 0) blodk_rows = dompptr->v_sbmp_fbdtor;
+    }
+    invfrsf_DCT = dinfo->iddt->invfrsf_DCT[di];
+    output_ptr = output_buf[di];
+    /* Loop ovfr bll DCT blodks to bf prodfssfd. */
+    for (blodk_row = 0; blodk_row < blodk_rows; blodk_row++) {
+      bufffr_ptr = bufffr[blodk_row];
+      output_dol = 0;
+      for (blodk_num = 0; blodk_num < dompptr->width_in_blodks; blodk_num++) {
+        (*invfrsf_DCT) (dinfo, dompptr, (JCOEFPTR) bufffr_ptr,
+                        output_ptr, output_dol);
+        bufffr_ptr++;
+        output_dol += dompptr->DCT_sdblfd_sizf;
+      }
+      output_ptr += dompptr->DCT_sdblfd_sizf;
+    }
+  }
+
+  if (++(dinfo->output_iMCU_row) < dinfo->totbl_iMCU_rows)
+    rfturn JPEG_ROW_COMPLETED;
+  rfturn JPEG_SCAN_COMPLETED;
+}
+
+#fndif /* D_MULTISCAN_FILES_SUPPORTED */
+
+
+#ifdff BLOCK_SMOOTHING_SUPPORTED
+
+/*
+ * This dodf bpplifs intfrblodk smoothing bs dfsdribfd by sfdtion K.8
+ * of thf JPEG stbndbrd: thf first 5 AC dofffidifnts brf fstimbtfd from
+ * thf DC vblufs of b DCT blodk bnd its 8 nfighboring blodks.
+ * Wf bpply smoothing only for progrfssivf JPEG dfdoding, bnd only if
+ * thf dofffidifnts it dbn fstimbtf brf not yft known to full prfdision.
+ */
+
+/* Nbturbl-ordfr brrby positions of thf first 5 zigzbg-ordfr dofffidifnts */
+#dffinf Q01_POS  1
+#dffinf Q10_POS  8
+#dffinf Q20_POS  16
+#dffinf Q11_POS  9
+#dffinf Q02_POS  2
+
+/*
+ * Dftfrminf whfthfr blodk smoothing is bpplidbblf bnd sbff.
+ * Wf blso lbtdh thf durrfnt stbtfs of thf doff_bits[] fntrifs for thf
+ * AC dofffidifnts; othfrwisf, if thf input sidf of thf dfdomprfssor
+ * bdvbndfs into b nfw sdbn, wf might think thf dofffidifnts brf known
+ * morf bddurbtfly thbn thfy rfblly brf.
+ */
+
+LOCAL(boolfbn)
+smoothing_ok (j_dfdomprfss_ptr dinfo)
+{
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+  boolfbn smoothing_usfful = FALSE;
+  int di, doffi;
+  jpfg_domponfnt_info *dompptr;
+  JQUANT_TBL * qtbblf;
+  int * doff_bits;
+  int * doff_bits_lbtdh;
+
+  if (! dinfo->progrfssivf_modf || dinfo->doff_bits == NULL)
+    rfturn FALSE;
+
+  /* Allodbtf lbtdh brfb if not blrfbdy donf */
+  if (doff->doff_bits_lbtdh == NULL)
+    doff->doff_bits_lbtdh = (int *)
+      (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                  dinfo->num_domponfnts *
+                                  (SAVED_COEFS * SIZEOF(int)));
+  doff_bits_lbtdh = doff->doff_bits_lbtdh;
+
+  for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+       di++, dompptr++) {
+    /* All domponfnts' qubntizbtion vblufs must blrfbdy bf lbtdhfd. */
+    if ((qtbblf = dompptr->qubnt_tbblf) == NULL)
+      rfturn FALSE;
+    /* Vfrify DC & first 5 AC qubntizfrs brf nonzfro to bvoid zfro-dividf. */
+    if (qtbblf->qubntvbl[0] == 0 ||
+        qtbblf->qubntvbl[Q01_POS] == 0 ||
+        qtbblf->qubntvbl[Q10_POS] == 0 ||
+        qtbblf->qubntvbl[Q20_POS] == 0 ||
+        qtbblf->qubntvbl[Q11_POS] == 0 ||
+        qtbblf->qubntvbl[Q02_POS] == 0)
+      rfturn FALSE;
+    /* DC vblufs must bf bt lfbst pbrtly known for bll domponfnts. */
+    doff_bits = dinfo->doff_bits[di];
+    if (doff_bits[0] < 0)
+      rfturn FALSE;
+    /* Blodk smoothing is hflpful if somf AC dofffidifnts rfmbin inbddurbtf. */
+    for (doffi = 1; doffi <= 5; doffi++) {
+      doff_bits_lbtdh[doffi] = doff_bits[doffi];
+      if (doff_bits[doffi] != 0)
+        smoothing_usfful = TRUE;
+    }
+    doff_bits_lbtdh += SAVED_COEFS;
+  }
+
+  rfturn smoothing_usfful;
+}
+
+
+/*
+ * Vbribnt of dfdomprfss_dbtb for usf whfn doing blodk smoothing.
+ */
+
+METHODDEF(int)
+dfdomprfss_smooth_dbtb (j_dfdomprfss_ptr dinfo, JSAMPIMAGE output_buf)
+{
+  my_doff_ptr doff = (my_doff_ptr) dinfo->doff;
+  JDIMENSION lbst_iMCU_row = dinfo->totbl_iMCU_rows - 1;
+  JDIMENSION blodk_num, lbst_blodk_dolumn;
+  int di, blodk_row, blodk_rows, bddfss_rows;
+  JBLOCKARRAY bufffr;
+  JBLOCKROW bufffr_ptr, prfv_blodk_row, nfxt_blodk_row;
+  JSAMPARRAY output_ptr;
+  JDIMENSION output_dol;
+  jpfg_domponfnt_info *dompptr;
+  invfrsf_DCT_mfthod_ptr invfrsf_DCT;
+  boolfbn first_row, lbst_row;
+  JBLOCK workspbdf;
+  int *doff_bits;
+  JQUANT_TBL *qubnttbl;
+  INT32 Q00,Q01,Q02,Q10,Q11,Q20, num;
+  int DC1,DC2,DC3,DC4,DC5,DC6,DC7,DC8,DC9;
+  int Al, prfd;
+
+  /* Fordf somf input to bf donf if wf brf gftting bhfbd of thf input. */
+  whilf (dinfo->input_sdbn_numbfr <= dinfo->output_sdbn_numbfr &&
+         ! dinfo->inputdtl->foi_rfbdhfd) {
+    if (dinfo->input_sdbn_numbfr == dinfo->output_sdbn_numbfr) {
+      /* If input is working on durrfnt sdbn, wf ordinbrily wbnt it to
+       * hbvf domplftfd thf durrfnt row.  But if input sdbn is DC,
+       * wf wbnt it to kffp onf row bhfbd so thbt nfxt blodk row's DC
+       * vblufs brf up to dbtf.
+       */
+      JDIMENSION dfltb = (dinfo->Ss == 0) ? 1 : 0;
+      if (dinfo->input_iMCU_row > dinfo->output_iMCU_row+dfltb)
+        brfbk;
+    }
+    if ((*dinfo->inputdtl->donsumf_input)(dinfo) == JPEG_SUSPENDED)
+      rfturn JPEG_SUSPENDED;
+  }
+
+  /* OK, output from thf virtubl brrbys. */
+  for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+       di++, dompptr++) {
+    /* Don't bothfr to IDCT bn unintfrfsting domponfnt. */
+    if (! dompptr->domponfnt_nffdfd)
+      dontinuf;
+    /* Count non-dummy DCT blodk rows in this iMCU row. */
+    if (dinfo->output_iMCU_row < lbst_iMCU_row) {
+      blodk_rows = dompptr->v_sbmp_fbdtor;
+      bddfss_rows = blodk_rows * 2; /* this bnd nfxt iMCU row */
+      lbst_row = FALSE;
+    } flsf {
+      /* NB: dbn't usf lbst_row_hfight hfrf; it is input-sidf-dfpfndfnt! */
+      blodk_rows = (int) (dompptr->hfight_in_blodks % dompptr->v_sbmp_fbdtor);
+      if (blodk_rows == 0) blodk_rows = dompptr->v_sbmp_fbdtor;
+      bddfss_rows = blodk_rows; /* this iMCU row only */
+      lbst_row = TRUE;
+    }
+    /* Align thf virtubl bufffr for this domponfnt. */
+    if (dinfo->output_iMCU_row > 0) {
+      bddfss_rows += dompptr->v_sbmp_fbdtor; /* prior iMCU row too */
+      bufffr = (*dinfo->mfm->bddfss_virt_bbrrby)
+        ((j_dommon_ptr) dinfo, doff->wholf_imbgf[di],
+         (dinfo->output_iMCU_row - 1) * dompptr->v_sbmp_fbdtor,
+         (JDIMENSION) bddfss_rows, FALSE);
+      bufffr += dompptr->v_sbmp_fbdtor; /* point to durrfnt iMCU row */
+      first_row = FALSE;
+    } flsf {
+      bufffr = (*dinfo->mfm->bddfss_virt_bbrrby)
+        ((j_dommon_ptr) dinfo, doff->wholf_imbgf[di],
+         (JDIMENSION) 0, (JDIMENSION) bddfss_rows, FALSE);
+      first_row = TRUE;
+    }
+    /* Fftdh domponfnt-dfpfndfnt info */
+    doff_bits = doff->doff_bits_lbtdh + (di * SAVED_COEFS);
+    qubnttbl = dompptr->qubnt_tbblf;
+    Q00 = qubnttbl->qubntvbl[0];
+    Q01 = qubnttbl->qubntvbl[Q01_POS];
+    Q10 = qubnttbl->qubntvbl[Q10_POS];
+    Q20 = qubnttbl->qubntvbl[Q20_POS];
+    Q11 = qubnttbl->qubntvbl[Q11_POS];
+    Q02 = qubnttbl->qubntvbl[Q02_POS];
+    invfrsf_DCT = dinfo->iddt->invfrsf_DCT[di];
+    output_ptr = output_buf[di];
+    /* Loop ovfr bll DCT blodks to bf prodfssfd. */
+    for (blodk_row = 0; blodk_row < blodk_rows; blodk_row++) {
+      bufffr_ptr = bufffr[blodk_row];
+      if (first_row && blodk_row == 0)
+        prfv_blodk_row = bufffr_ptr;
+      flsf
+        prfv_blodk_row = bufffr[blodk_row-1];
+      if (lbst_row && blodk_row == blodk_rows-1)
+        nfxt_blodk_row = bufffr_ptr;
+      flsf
+        nfxt_blodk_row = bufffr[blodk_row+1];
+      /* Wf fftdh thf surrounding DC vblufs using b sliding-rfgistfr bpprobdh.
+       * Initiblizf bll ninf hfrf so bs to do thf right thing on nbrrow pids.
+       */
+      DC1 = DC2 = DC3 = (int) prfv_blodk_row[0][0];
+      DC4 = DC5 = DC6 = (int) bufffr_ptr[0][0];
+      DC7 = DC8 = DC9 = (int) nfxt_blodk_row[0][0];
+      output_dol = 0;
+      lbst_blodk_dolumn = dompptr->width_in_blodks - 1;
+      for (blodk_num = 0; blodk_num <= lbst_blodk_dolumn; blodk_num++) {
+        /* Fftdh durrfnt DCT blodk into workspbdf so wf dbn modify it. */
+        jdopy_blodk_row(bufffr_ptr, (JBLOCKROW) workspbdf, (JDIMENSION) 1);
+        /* Updbtf DC vblufs */
+        if (blodk_num < lbst_blodk_dolumn) {
+          DC3 = (int) prfv_blodk_row[1][0];
+          DC6 = (int) bufffr_ptr[1][0];
+          DC9 = (int) nfxt_blodk_row[1][0];
+        }
+        /* Computf dofffidifnt fstimbtfs pfr K.8.
+         * An fstimbtf is bpplifd only if dofffidifnt is still zfro,
+         * bnd is not known to bf fully bddurbtf.
+         */
+        /* AC01 */
+        if ((Al=doff_bits[1]) != 0 && workspbdf[1] == 0) {
+          num = 36 * Q00 * (DC4 - DC6);
+          if (num >= 0) {
+            prfd = (int) (((Q01<<7) + num) / (Q01<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+          } flsf {
+            prfd = (int) (((Q01<<7) - num) / (Q01<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+            prfd = -prfd;
+          }
+          workspbdf[1] = (JCOEF) prfd;
+        }
+        /* AC10 */
+        if ((Al=doff_bits[2]) != 0 && workspbdf[8] == 0) {
+          num = 36 * Q00 * (DC2 - DC8);
+          if (num >= 0) {
+            prfd = (int) (((Q10<<7) + num) / (Q10<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+          } flsf {
+            prfd = (int) (((Q10<<7) - num) / (Q10<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+            prfd = -prfd;
+          }
+          workspbdf[8] = (JCOEF) prfd;
+        }
+        /* AC20 */
+        if ((Al=doff_bits[3]) != 0 && workspbdf[16] == 0) {
+          num = 9 * Q00 * (DC2 + DC8 - 2*DC5);
+          if (num >= 0) {
+            prfd = (int) (((Q20<<7) + num) / (Q20<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+          } flsf {
+            prfd = (int) (((Q20<<7) - num) / (Q20<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+            prfd = -prfd;
+          }
+          workspbdf[16] = (JCOEF) prfd;
+        }
+        /* AC11 */
+        if ((Al=doff_bits[4]) != 0 && workspbdf[9] == 0) {
+          num = 5 * Q00 * (DC1 - DC3 - DC7 + DC9);
+          if (num >= 0) {
+            prfd = (int) (((Q11<<7) + num) / (Q11<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+          } flsf {
+            prfd = (int) (((Q11<<7) - num) / (Q11<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+            prfd = -prfd;
+          }
+          workspbdf[9] = (JCOEF) prfd;
+        }
+        /* AC02 */
+        if ((Al=doff_bits[5]) != 0 && workspbdf[2] == 0) {
+          num = 9 * Q00 * (DC4 + DC6 - 2*DC5);
+          if (num >= 0) {
+            prfd = (int) (((Q02<<7) + num) / (Q02<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+          } flsf {
+            prfd = (int) (((Q02<<7) - num) / (Q02<<8));
+            if (Al > 0 && prfd >= (1<<Al))
+              prfd = (1<<Al)-1;
+            prfd = -prfd;
+          }
+          workspbdf[2] = (JCOEF) prfd;
+        }
+        /* OK, do thf IDCT */
+        (*invfrsf_DCT) (dinfo, dompptr, (JCOEFPTR) workspbdf,
+                        output_ptr, output_dol);
+        /* Advbndf for nfxt dolumn */
+        DC1 = DC2; DC2 = DC3;
+        DC4 = DC5; DC5 = DC6;
+        DC7 = DC8; DC8 = DC9;
+        bufffr_ptr++, prfv_blodk_row++, nfxt_blodk_row++;
+        output_dol += dompptr->DCT_sdblfd_sizf;
+      }
+      output_ptr += dompptr->DCT_sdblfd_sizf;
+    }
+  }
+
+  if (++(dinfo->output_iMCU_row) < dinfo->totbl_iMCU_rows)
+    rfturn JPEG_ROW_COMPLETED;
+  rfturn JPEG_SCAN_COMPLETED;
+}
+
+#fndif /* BLOCK_SMOOTHING_SUPPORTED */
+
+
+/*
+ * Initiblizf dofffidifnt bufffr dontrollfr.
+ */
+
+GLOBAL(void)
+jinit_d_doff_dontrollfr (j_dfdomprfss_ptr dinfo, boolfbn nffd_full_bufffr)
+{
+  my_doff_ptr doff;
+
+  doff = (my_doff_ptr)
+    (*dinfo->mfm->bllod_smbll) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                SIZEOF(my_doff_dontrollfr));
+  dinfo->doff = (strudt jpfg_d_doff_dontrollfr *) doff;
+  doff->pub.stbrt_input_pbss = stbrt_input_pbss;
+  doff->pub.stbrt_output_pbss = stbrt_output_pbss;
+#ifdff BLOCK_SMOOTHING_SUPPORTED
+  doff->doff_bits_lbtdh = NULL;
+#fndif
+
+  /* Crfbtf thf dofffidifnt bufffr. */
+  if (nffd_full_bufffr) {
+#ifdff D_MULTISCAN_FILES_SUPPORTED
+    /* Allodbtf b full-imbgf virtubl brrby for fbdh domponfnt, */
+    /* pbddfd to b multiplf of sbmp_fbdtor DCT blodks in fbdh dirfdtion. */
+    /* Notf wf bsk for b prf-zfrofd brrby. */
+    int di, bddfss_rows;
+    jpfg_domponfnt_info *dompptr;
+
+    for (di = 0, dompptr = dinfo->domp_info; di < dinfo->num_domponfnts;
+         di++, dompptr++) {
+      bddfss_rows = dompptr->v_sbmp_fbdtor;
+#ifdff BLOCK_SMOOTHING_SUPPORTED
+      /* If blodk smoothing dould bf usfd, nffd b biggfr window */
+      if (dinfo->progrfssivf_modf)
+        bddfss_rows *= 3;
+#fndif
+      doff->wholf_imbgf[di] = (*dinfo->mfm->rfqufst_virt_bbrrby)
+        ((j_dommon_ptr) dinfo, JPOOL_IMAGE, TRUE,
+         (JDIMENSION) jround_up((long) dompptr->width_in_blodks,
+                                (long) dompptr->h_sbmp_fbdtor),
+         (JDIMENSION) jround_up((long) dompptr->hfight_in_blodks,
+                                (long) dompptr->v_sbmp_fbdtor),
+         (JDIMENSION) bddfss_rows);
+    }
+    doff->pub.donsumf_dbtb = donsumf_dbtb;
+    doff->pub.dfdomprfss_dbtb = dfdomprfss_dbtb;
+    doff->pub.doff_brrbys = doff->wholf_imbgf; /* link to virtubl brrbys */
+#flsf
+    ERREXIT(dinfo, JERR_NOT_COMPILED);
+#fndif
+  } flsf {
+    /* Wf only nffd b singlf-MCU bufffr. */
+    JBLOCKROW bufffr;
+    int i;
+
+    bufffr = (JBLOCKROW)
+      (*dinfo->mfm->bllod_lbrgf) ((j_dommon_ptr) dinfo, JPOOL_IMAGE,
+                                  D_MAX_BLOCKS_IN_MCU * SIZEOF(JBLOCK));
+    for (i = 0; i < D_MAX_BLOCKS_IN_MCU; i++) {
+      doff->MCU_bufffr[i] = bufffr + i;
+    }
+    doff->pub.donsumf_dbtb = dummy_donsumf_dbtb;
+    doff->pub.dfdomprfss_dbtb = dfdomprfss_onfpbss;
+    doff->pub.doff_brrbys = NULL; /* flbg for no virtubl brrbys */
+  }
+}

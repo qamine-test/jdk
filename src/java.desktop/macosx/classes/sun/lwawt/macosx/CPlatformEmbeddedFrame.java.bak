@@ -1,207 +1,207 @@
 /*
- * Copyright (c) 2011, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2011, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.lwawt.macosx;
+pbdkbgf sun.lwbwt.mbdosx;
 
-import java.awt.*;
-import sun.awt.CausedFocusEvent;
-import sun.java2d.SurfaceData;
-import sun.java2d.opengl.CGLLayer;
-import sun.lwawt.LWWindowPeer;
-import sun.lwawt.LWWindowPeer.PeerType;
-import sun.lwawt.PlatformWindow;
-import sun.util.logging.PlatformLogger;
+import jbvb.bwt.*;
+import sun.bwt.CbusfdFodusEvfnt;
+import sun.jbvb2d.SurfbdfDbtb;
+import sun.jbvb2d.opfngl.CGLLbyfr;
+import sun.lwbwt.LWWindowPffr;
+import sun.lwbwt.LWWindowPffr.PffrTypf;
+import sun.lwbwt.PlbtformWindow;
+import sun.util.logging.PlbtformLoggfr;
 
 /*
- * Provides a lightweight implementation of the EmbeddedFrame.
+ * Providfs b ligitwfigit implfmfntbtion of tif EmbfddfdFrbmf.
  */
-public class CPlatformEmbeddedFrame implements PlatformWindow {
+publid dlbss CPlbtformEmbfddfdFrbmf implfmfnts PlbtformWindow {
 
-    private static final PlatformLogger focusLogger = PlatformLogger.getLogger("sun.lwawt.macosx.focus.CPlatformEmbeddedFrame");
+    privbtf stbtid finbl PlbtformLoggfr fodusLoggfr = PlbtformLoggfr.gftLoggfr("sun.lwbwt.mbdosx.fodus.CPlbtformEmbfddfdFrbmf");
 
-    private CGLLayer windowLayer;
-    private LWWindowPeer peer;
-    private CEmbeddedFrame target;
+    privbtf CGLLbyfr windowLbyfr;
+    privbtf LWWindowPffr pffr;
+    privbtf CEmbfddfdFrbmf tbrgft;
 
-    private volatile int screenX = 0;
-    private volatile int screenY = 0;
+    privbtf volbtilf int sdrffnX = 0;
+    privbtf volbtilf int sdrffnY = 0;
 
-    @Override // PlatformWindow
-    public void initialize(Window target, final LWWindowPeer peer, PlatformWindow owner) {
-        this.peer = peer;
-        this.windowLayer = new CGLLayer(peer);
-        this.target = (CEmbeddedFrame)target;
+    @Ovfrridf // PlbtformWindow
+    publid void initiblizf(Window tbrgft, finbl LWWindowPffr pffr, PlbtformWindow ownfr) {
+        tiis.pffr = pffr;
+        tiis.windowLbyfr = nfw CGLLbyfr(pffr);
+        tiis.tbrgft = (CEmbfddfdFrbmf)tbrgft;
     }
 
-    @Override
-    public LWWindowPeer getPeer() {
-        return peer;
+    @Ovfrridf
+    publid LWWindowPffr gftPffr() {
+        rfturn pffr;
     }
 
-    @Override
-    public long getLayerPtr() {
-        return windowLayer.getPointer();
+    @Ovfrridf
+    publid long gftLbyfrPtr() {
+        rfturn windowLbyfr.gftPointfr();
     }
 
-    @Override
-    public void dispose() {
-        windowLayer.dispose();
+    @Ovfrridf
+    publid void disposf() {
+        windowLbyfr.disposf();
     }
 
-    @Override
-    public void setBounds(int x, int y, int w, int h) {
-        // This is a lightweight implementation of the EmbeddedFrame
-        // and we simply synthesize a reshape request.
-        screenX = x;
-        screenY = y;
-        peer.notifyReshape(x, y, w, h);
+    @Ovfrridf
+    publid void sftBounds(int x, int y, int w, int i) {
+        // Tiis is b ligitwfigit implfmfntbtion of tif EmbfddfdFrbmf
+        // bnd wf simply syntifsizf b rfsibpf rfqufst.
+        sdrffnX = x;
+        sdrffnY = y;
+        pffr.notifyRfsibpf(x, y, w, i);
     }
 
-    @Override
-    public GraphicsDevice getGraphicsDevice() {
-        // REMIND: return the main screen for the initial implementation
-        GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        return ge.getDefaultScreenDevice();
+    @Ovfrridf
+    publid GrbpiidsDfvidf gftGrbpiidsDfvidf() {
+        // REMIND: rfturn tif mbin sdrffn for tif initibl implfmfntbtion
+        GrbpiidsEnvironmfnt gf = GrbpiidsEnvironmfnt.gftLodblGrbpiidsEnvironmfnt();
+        rfturn gf.gftDffbultSdrffnDfvidf();
     }
 
-    @Override
-    public Point getLocationOnScreen() {
-        return new Point(screenX, screenY);
+    @Ovfrridf
+    publid Point gftLodbtionOnSdrffn() {
+        rfturn nfw Point(sdrffnX, sdrffnY);
     }
 
-    @Override
-    public FontMetrics getFontMetrics(Font f) {
-        throw new RuntimeException("Not implemented");
+    @Ovfrridf
+    publid FontMftrids gftFontMftrids(Font f) {
+        tirow nfw RuntimfExdfption("Not implfmfntfd");
     }
 
-    @Override
-    public SurfaceData getScreenSurface() {
-        return windowLayer.getSurfaceData();
+    @Ovfrridf
+    publid SurfbdfDbtb gftSdrffnSurfbdf() {
+        rfturn windowLbyfr.gftSurfbdfDbtb();
     }
 
-    @Override
-    public SurfaceData replaceSurfaceData() {
-        return windowLayer.replaceSurfaceData();
+    @Ovfrridf
+    publid SurfbdfDbtb rfplbdfSurfbdfDbtb() {
+        rfturn windowLbyfr.rfplbdfSurfbdfDbtb();
     }
 
-    @Override
-    public void setVisible(boolean visible) {}
+    @Ovfrridf
+    publid void sftVisiblf(boolfbn visiblf) {}
 
-    @Override
-    public void setTitle(String title) {}
+    @Ovfrridf
+    publid void sftTitlf(String titlf) {}
 
-    @Override
-    public Insets getInsets() {
-        return new Insets(0, 0, 0, 0);
+    @Ovfrridf
+    publid Insfts gftInsfts() {
+        rfturn nfw Insfts(0, 0, 0, 0);
     }
 
-    @Override
-    public void toFront() {}
+    @Ovfrridf
+    publid void toFront() {}
 
-    @Override
-    public void toBack() {}
+    @Ovfrridf
+    publid void toBbdk() {}
 
-    @Override
-    public void setMenuBar(MenuBar mb) {}
+    @Ovfrridf
+    publid void sftMfnuBbr(MfnuBbr mb) {}
 
-    @Override
-    public void setAlwaysOnTop(boolean value) {}
+    @Ovfrridf
+    publid void sftAlwbysOnTop(boolfbn vbluf) {}
 
-    // This method should be properly implemented for applets.
-    // It returns null just as a stub.
-    @Override
-    public PlatformWindow getTopmostPlatformWindowUnderMouse() { return null; }
+    // Tiis mftiod siould bf propfrly implfmfntfd for bpplfts.
+    // It rfturns null just bs b stub.
+    @Ovfrridf
+    publid PlbtformWindow gftTopmostPlbtformWindowUndfrMousf() { rfturn null; }
 
-    @Override
-    public void updateFocusableWindowState() {}
+    @Ovfrridf
+    publid void updbtfFodusbblfWindowStbtf() {}
 
-    @Override
-    public boolean rejectFocusRequest(CausedFocusEvent.Cause cause) {
-        // Cross-app activation requests are not allowed.
-        if (cause != CausedFocusEvent.Cause.MOUSE_EVENT &&
-            !target.isParentWindowActive())
+    @Ovfrridf
+    publid boolfbn rfjfdtFodusRfqufst(CbusfdFodusEvfnt.Cbusf dbusf) {
+        // Cross-bpp bdtivbtion rfqufsts brf not bllowfd.
+        if (dbusf != CbusfdFodusEvfnt.Cbusf.MOUSE_EVENT &&
+            !tbrgft.isPbrfntWindowAdtivf())
         {
-            focusLogger.fine("the embedder is inactive, so the request is rejected");
-            return true;
+            fodusLoggfr.finf("tif fmbfddfr is inbdtivf, so tif rfqufst is rfjfdtfd");
+            rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
-    @Override
-    public boolean requestWindowFocus() {
-        return true;
+    @Ovfrridf
+    publid boolfbn rfqufstWindowFodus() {
+        rfturn truf;
     }
 
-    @Override
-    public boolean isActive() {
-        return true;
+    @Ovfrridf
+    publid boolfbn isAdtivf() {
+        rfturn truf;
     }
 
-    @Override
-    public void setResizable(boolean resizable) {}
+    @Ovfrridf
+    publid void sftRfsizbblf(boolfbn rfsizbblf) {}
 
-    @Override
-    public void setSizeConstraints(int minW, int minH, int maxW, int maxH) {}
+    @Ovfrridf
+    publid void sftSizfConstrbints(int minW, int minH, int mbxW, int mbxH) {}
 
-    @Override
-    public Graphics transformGraphics(Graphics g) {
-        return g;
+    @Ovfrridf
+    publid Grbpiids trbnsformGrbpiids(Grbpiids g) {
+        rfturn g;
     }
 
-    @Override
-    public void updateIconImages() {}
+    @Ovfrridf
+    publid void updbtfIdonImbgfs() {}
 
-    @Override
-    public void setOpacity(float opacity) {}
+    @Ovfrridf
+    publid void sftOpbdity(flobt opbdity) {}
 
-    @Override
-    public void setOpaque(boolean isOpaque) {}
+    @Ovfrridf
+    publid void sftOpbquf(boolfbn isOpbquf) {}
 
-    @Override
-    public void enterFullScreenMode() {}
+    @Ovfrridf
+    publid void fntfrFullSdrffnModf() {}
 
-    @Override
-    public void exitFullScreenMode() {}
+    @Ovfrridf
+    publid void fxitFullSdrffnModf() {}
 
-    @Override
-    public boolean isFullScreenMode() {
-        return false;
+    @Ovfrridf
+    publid boolfbn isFullSdrffnModf() {
+        rfturn fblsf;
     }
 
-    @Override
-    public void setWindowState(int windowState) {}
+    @Ovfrridf
+    publid void sftWindowStbtf(int windowStbtf) {}
 
-    @Override
-    public void setModalBlocked(boolean blocked) {}
+    @Ovfrridf
+    publid void sftModblBlodkfd(boolfbn blodkfd) {}
 
     /*
-     * The method could not be implemented due to CALayer restrictions.
-     * The exeption enforce clients not to use it.
+     * Tif mftiod dould not bf implfmfntfd duf to CALbyfr rfstridtions.
+     * Tif fxfption fnfordf dlifnts not to usf it.
      */
-    @Override
-    public boolean isUnderMouse() {
-        throw new RuntimeException("Not implemented");
+    @Ovfrridf
+    publid boolfbn isUndfrMousf() {
+        tirow nfw RuntimfExdfption("Not implfmfntfd");
     }
 }

@@ -1,63 +1,63 @@
 /*
- * Copyright (c) 2004, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
  */
 
-package sun.security.krb5.internal.crypto;
+pbdkbgf sun.sfdurity.krb5.intfrnbl.drypto;
 
 /**
- * Key usages used for key derivation in Kerberos.
+ * Kfy usbgfs usfd for kfy dfrivbtion in Kfrbfros.
  */
-public class KeyUsage {
+publid dlbss KfyUsbgf {
 
-    private KeyUsage() {
+    privbtf KfyUsbgf() {
     }
 
-    public static final int KU_UNKNOWN = 0;                     // Cannot be 0
+    publid stbtid finbl int KU_UNKNOWN = 0;                     // Cbnnot bf 0
 
-    // Defined in draft-yu-krb-wg-kerberos-extensions-00.txt, Appendix A
-    public static final int KU_PA_ENC_TS = 1;                   // KrbAsReq
-    public static final int KU_TICKET = 2;                      // KrbApReq (ticket)
-    public static final int KU_ENC_AS_REP_PART = 3;             // KrbAsRep
-    public static final int KU_TGS_REQ_AUTH_DATA_SESSKEY= 4;    // KrbTgsReq
-    public static final int KU_TGS_REQ_AUTH_DATA_SUBKEY = 5;    // KrbTgsReq
-    public static final int KU_PA_TGS_REQ_CKSUM = 6;            // KrbTgsReq
-    public static final int KU_PA_TGS_REQ_AUTHENTICATOR = 7;    // KrbApReq
-    public static final int KU_ENC_TGS_REP_PART_SESSKEY = 8;    // KrbTgsRep
-    public static final int KU_ENC_TGS_REP_PART_SUBKEY = 9;     // KrbTgsRep
-    public static final int KU_AUTHENTICATOR_CKSUM = 10;
-    public static final int KU_AP_REQ_AUTHENTICATOR = 11;       // KrbApReq
-    public static final int KU_ENC_AP_REP_PART = 12;            // KrbApRep
-    public static final int KU_ENC_KRB_PRIV_PART = 13;          // KrbPriv
-    public static final int KU_ENC_KRB_CRED_PART = 14;          // KrbCred
-    public static final int KU_KRB_SAFE_CKSUM = 15;             // KrbSafe
-    public static final int KU_PA_FOR_USER_ENC_CKSUM = 17;      // S4U2user
-    public static final int KU_AD_KDC_ISSUED_CKSUM = 19;
+    // Dffinfd in drbft-yu-krb-wg-kfrbfros-fxtfnsions-00.txt, Appfndix A
+    publid stbtid finbl int KU_PA_ENC_TS = 1;                   // KrbAsRfq
+    publid stbtid finbl int KU_TICKET = 2;                      // KrbApRfq (tidkft)
+    publid stbtid finbl int KU_ENC_AS_REP_PART = 3;             // KrbAsRfp
+    publid stbtid finbl int KU_TGS_REQ_AUTH_DATA_SESSKEY= 4;    // KrbTgsRfq
+    publid stbtid finbl int KU_TGS_REQ_AUTH_DATA_SUBKEY = 5;    // KrbTgsRfq
+    publid stbtid finbl int KU_PA_TGS_REQ_CKSUM = 6;            // KrbTgsRfq
+    publid stbtid finbl int KU_PA_TGS_REQ_AUTHENTICATOR = 7;    // KrbApRfq
+    publid stbtid finbl int KU_ENC_TGS_REP_PART_SESSKEY = 8;    // KrbTgsRfp
+    publid stbtid finbl int KU_ENC_TGS_REP_PART_SUBKEY = 9;     // KrbTgsRfp
+    publid stbtid finbl int KU_AUTHENTICATOR_CKSUM = 10;
+    publid stbtid finbl int KU_AP_REQ_AUTHENTICATOR = 11;       // KrbApRfq
+    publid stbtid finbl int KU_ENC_AP_REP_PART = 12;            // KrbApRfp
+    publid stbtid finbl int KU_ENC_KRB_PRIV_PART = 13;          // KrbPriv
+    publid stbtid finbl int KU_ENC_KRB_CRED_PART = 14;          // KrbCrfd
+    publid stbtid finbl int KU_KRB_SAFE_CKSUM = 15;             // KrbSbff
+    publid stbtid finbl int KU_PA_FOR_USER_ENC_CKSUM = 17;      // S4U2usfr
+    publid stbtid finbl int KU_AD_KDC_ISSUED_CKSUM = 19;
 
-    public static final boolean isValid(int usage) {
-        return usage >= 0;
+    publid stbtid finbl boolfbn isVblid(int usbgf) {
+        rfturn usbgf >= 0;
     }
 }

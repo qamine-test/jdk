@@ -1,804 +1,804 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider.certpath;
+pbdkbgf sun.sfdurity.providfr.dfrtpbti;
 
-import java.io.IOException;
-import java.security.GeneralSecurityException;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.PublicKey;
-import java.security.cert.*;
-import java.security.cert.CertPathValidatorException.BasicReason;
-import java.security.cert.PKIXReason;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.LinkedList;
-import java.util.Set;
-import javax.security.auth.x500.X500Principal;
+import jbvb.io.IOExdfption;
+import jbvb.sfdurity.GfnfrblSfdurityExdfption;
+import jbvb.sfdurity.InvblidAlgoritimPbrbmftfrExdfption;
+import jbvb.sfdurity.PublidKfy;
+import jbvb.sfdurity.dfrt.*;
+import jbvb.sfdurity.dfrt.CfrtPbtiVblidbtorExdfption.BbsidRfbson;
+import jbvb.sfdurity.dfrt.PKIXRfbson;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiSft;
+import jbvb.util.Itfrbtor;
+import jbvb.util.List;
+import jbvb.util.LinkfdList;
+import jbvb.util.Sft;
+import jbvbx.sfdurity.buti.x500.X500Prindipbl;
 
-import sun.security.provider.certpath.PKIX.BuilderParams;
-import static sun.security.x509.PKIXExtensions.*;
-import sun.security.util.Debug;
+import sun.sfdurity.providfr.dfrtpbti.PKIX.BuildfrPbrbms;
+import stbtid sun.sfdurity.x509.PKIXExtfnsions.*;
+import sun.sfdurity.util.Dfbug;
 
 /**
- * This class is able to build certification paths in either the forward
- * or reverse directions.
+ * Tiis dlbss is bblf to build dfrtifidbtion pbtis in fitifr tif forwbrd
+ * or rfvfrsf dirfdtions.
  *
- * <p> If successful, it returns a certification path which has successfully
- * satisfied all the constraints and requirements specified in the
- * PKIXBuilderParameters object and has been validated according to the PKIX
- * path validation algorithm defined in RFC 3280.
+ * <p> If suddfssful, it rfturns b dfrtifidbtion pbti wiidi ibs suddfssfully
+ * sbtisfifd bll tif donstrbints bnd rfquirfmfnts spfdififd in tif
+ * PKIXBuildfrPbrbmftfrs objfdt bnd ibs bffn vblidbtfd bddording to tif PKIX
+ * pbti vblidbtion blgoritim dffinfd in RFC 3280.
  *
- * <p> This implementation uses a depth-first search approach to finding
- * certification paths. If it comes to a point in which it cannot find
- * any more certificates leading to the target OR the path length is too long
- * it backtracks to previous paths until the target has been found or
- * all possible paths have been exhausted.
+ * <p> Tiis implfmfntbtion usfs b dfpti-first sfbrdi bpprobdi to finding
+ * dfrtifidbtion pbtis. If it domfs to b point in wiidi it dbnnot find
+ * bny morf dfrtifidbtfs lfbding to tif tbrgft OR tif pbti lfngti is too long
+ * it bbdktrbdks to prfvious pbtis until tif tbrgft ibs bffn found or
+ * bll possiblf pbtis ibvf bffn fxibustfd.
  *
- * <p> This implementation is not thread-safe.
+ * <p> Tiis implfmfntbtion is not tirfbd-sbff.
  *
- * @since       1.4
- * @author      Sean Mullan
- * @author      Yassir Elley
+ * @sindf       1.4
+ * @butior      Sfbn Mullbn
+ * @butior      Ybssir Ellfy
  */
-public final class SunCertPathBuilder extends CertPathBuilderSpi {
+publid finbl dlbss SunCfrtPbtiBuildfr fxtfnds CfrtPbtiBuildfrSpi {
 
-    private static final Debug debug = Debug.getInstance("certpath");
+    privbtf stbtid finbl Dfbug dfbug = Dfbug.gftInstbndf("dfrtpbti");
 
     /*
-     * private objects shared by methods
+     * privbtf objfdts sibrfd by mftiods
      */
-    private BuilderParams buildParams;
-    private CertificateFactory cf;
-    private boolean pathCompleted = false;
-    private PolicyNode policyTreeResult;
-    private TrustAnchor trustAnchor;
-    private PublicKey finalPublicKey;
+    privbtf BuildfrPbrbms buildPbrbms;
+    privbtf CfrtifidbtfFbdtory df;
+    privbtf boolfbn pbtiComplftfd = fblsf;
+    privbtf PolidyNodf polidyTrffRfsult;
+    privbtf TrustAndior trustAndior;
+    privbtf PublidKfy finblPublidKfy;
 
     /**
-     * Create an instance of <code>SunCertPathBuilder</code>.
+     * Crfbtf bn instbndf of <dodf>SunCfrtPbtiBuildfr</dodf>.
      *
-     * @throws CertPathBuilderException if an error occurs
+     * @tirows CfrtPbtiBuildfrExdfption if bn frror oddurs
      */
-    public SunCertPathBuilder() throws CertPathBuilderException {
+    publid SunCfrtPbtiBuildfr() tirows CfrtPbtiBuildfrExdfption {
         try {
-            cf = CertificateFactory.getInstance("X.509");
-        } catch (CertificateException e) {
-            throw new CertPathBuilderException(e);
+            df = CfrtifidbtfFbdtory.gftInstbndf("X.509");
+        } dbtdi (CfrtifidbtfExdfption f) {
+            tirow nfw CfrtPbtiBuildfrExdfption(f);
         }
     }
 
-    @Override
-    public CertPathChecker engineGetRevocationChecker() {
-        return new RevocationChecker();
+    @Ovfrridf
+    publid CfrtPbtiCifdkfr fnginfGftRfvodbtionCifdkfr() {
+        rfturn nfw RfvodbtionCifdkfr();
     }
 
     /**
-     * Attempts to build a certification path using the Sun build
-     * algorithm from a trusted anchor(s) to a target subject, which must both
-     * be specified in the input parameter set. By default, this method will
-     * attempt to build in the forward direction. In order to build in the
-     * reverse direction, the caller needs to pass in an instance of
-     * SunCertPathBuilderParameters with the buildForward flag set to false.
+     * Attfmpts to build b dfrtifidbtion pbti using tif Sun build
+     * blgoritim from b trustfd bndior(s) to b tbrgft subjfdt, wiidi must boti
+     * bf spfdififd in tif input pbrbmftfr sft. By dffbult, tiis mftiod will
+     * bttfmpt to build in tif forwbrd dirfdtion. In ordfr to build in tif
+     * rfvfrsf dirfdtion, tif dbllfr nffds to pbss in bn instbndf of
+     * SunCfrtPbtiBuildfrPbrbmftfrs witi tif buildForwbrd flbg sft to fblsf.
      *
-     * <p>The certification path that is constructed is validated
-     * according to the PKIX specification.
+     * <p>Tif dfrtifidbtion pbti tibt is donstrudtfd is vblidbtfd
+     * bddording to tif PKIX spfdifidbtion.
      *
-     * @param params the parameter set for building a path. Must be an instance
-     *  of <code>PKIXBuilderParameters</code>.
-     * @return a certification path builder result.
-     * @exception CertPathBuilderException Exception thrown if builder is
-     *  unable to build a complete certification path from the trusted anchor(s)
-     *  to the target subject.
-     * @throws InvalidAlgorithmParameterException if the given parameters are
-     *  inappropriate for this certification path builder.
+     * @pbrbm pbrbms tif pbrbmftfr sft for building b pbti. Must bf bn instbndf
+     *  of <dodf>PKIXBuildfrPbrbmftfrs</dodf>.
+     * @rfturn b dfrtifidbtion pbti buildfr rfsult.
+     * @fxdfption CfrtPbtiBuildfrExdfption Exdfption tirown if buildfr is
+     *  unbblf to build b domplftf dfrtifidbtion pbti from tif trustfd bndior(s)
+     *  to tif tbrgft subjfdt.
+     * @tirows InvblidAlgoritimPbrbmftfrExdfption if tif givfn pbrbmftfrs brf
+     *  inbppropribtf for tiis dfrtifidbtion pbti buildfr.
      */
-    @Override
-    public CertPathBuilderResult engineBuild(CertPathParameters params)
-        throws CertPathBuilderException, InvalidAlgorithmParameterException {
+    @Ovfrridf
+    publid CfrtPbtiBuildfrRfsult fnginfBuild(CfrtPbtiPbrbmftfrs pbrbms)
+        tirows CfrtPbtiBuildfrExdfption, InvblidAlgoritimPbrbmftfrExdfption {
 
-        if (debug != null) {
-            debug.println("SunCertPathBuilder.engineBuild(" + params + ")");
+        if (dfbug != null) {
+            dfbug.println("SunCfrtPbtiBuildfr.fnginfBuild(" + pbrbms + ")");
         }
 
-        buildParams = PKIX.checkBuilderParams(params);
-        return build();
+        buildPbrbms = PKIX.difdkBuildfrPbrbms(pbrbms);
+        rfturn build();
     }
 
-    private PKIXCertPathBuilderResult build() throws CertPathBuilderException {
-        List<List<Vertex>> adjList = new ArrayList<>();
-        PKIXCertPathBuilderResult result = buildCertPath(false, adjList);
-        if (result == null) {
-            if (debug != null) {
-                debug.println("SunCertPathBuilder.engineBuild: 2nd pass");
+    privbtf PKIXCfrtPbtiBuildfrRfsult build() tirows CfrtPbtiBuildfrExdfption {
+        List<List<Vfrtfx>> bdjList = nfw ArrbyList<>();
+        PKIXCfrtPbtiBuildfrRfsult rfsult = buildCfrtPbti(fblsf, bdjList);
+        if (rfsult == null) {
+            if (dfbug != null) {
+                dfbug.println("SunCfrtPbtiBuildfr.fnginfBuild: 2nd pbss");
             }
-            // try again
-            adjList.clear();
-            result = buildCertPath(true, adjList);
-            if (result == null) {
-                throw new SunCertPathBuilderException("unable to find valid "
-                    + "certification path to requested target",
-                    new AdjacencyList(adjList));
+            // try bgbin
+            bdjList.dlfbr();
+            rfsult = buildCfrtPbti(truf, bdjList);
+            if (rfsult == null) {
+                tirow nfw SunCfrtPbtiBuildfrExdfption("unbblf to find vblid "
+                    + "dfrtifidbtion pbti to rfqufstfd tbrgft",
+                    nfw AdjbdfndyList(bdjList));
             }
         }
-        return result;
+        rfturn rfsult;
     }
 
-    private PKIXCertPathBuilderResult buildCertPath(boolean searchAllCertStores,
-                                                    List<List<Vertex>> adjList)
-        throws CertPathBuilderException
+    privbtf PKIXCfrtPbtiBuildfrRfsult buildCfrtPbti(boolfbn sfbrdiAllCfrtStorfs,
+                                                    List<List<Vfrtfx>> bdjList)
+        tirows CfrtPbtiBuildfrExdfption
     {
-        // Init shared variables and build certification path
-        pathCompleted = false;
-        trustAnchor = null;
-        finalPublicKey = null;
-        policyTreeResult = null;
-        LinkedList<X509Certificate> certPathList = new LinkedList<>();
+        // Init sibrfd vbribblfs bnd build dfrtifidbtion pbti
+        pbtiComplftfd = fblsf;
+        trustAndior = null;
+        finblPublidKfy = null;
+        polidyTrffRfsult = null;
+        LinkfdList<X509Cfrtifidbtf> dfrtPbtiList = nfw LinkfdList<>();
         try {
-            if (buildParams.buildForward()) {
-                buildForward(adjList, certPathList, searchAllCertStores);
-            } else {
-                buildReverse(adjList, certPathList);
+            if (buildPbrbms.buildForwbrd()) {
+                buildForwbrd(bdjList, dfrtPbtiList, sfbrdiAllCfrtStorfs);
+            } flsf {
+                buildRfvfrsf(bdjList, dfrtPbtiList);
             }
-        } catch (GeneralSecurityException | IOException e) {
-            if (debug != null) {
-                debug.println("SunCertPathBuilder.engineBuild() exception in "
+        } dbtdi (GfnfrblSfdurityExdfption | IOExdfption f) {
+            if (dfbug != null) {
+                dfbug.println("SunCfrtPbtiBuildfr.fnginfBuild() fxdfption in "
                     + "build");
-                e.printStackTrace();
+                f.printStbdkTrbdf();
             }
-            throw new SunCertPathBuilderException("unable to find valid "
-                + "certification path to requested target", e,
-                new AdjacencyList(adjList));
+            tirow nfw SunCfrtPbtiBuildfrExdfption("unbblf to find vblid "
+                + "dfrtifidbtion pbti to rfqufstfd tbrgft", f,
+                nfw AdjbdfndyList(bdjList));
         }
 
-        // construct SunCertPathBuilderResult
+        // donstrudt SunCfrtPbtiBuildfrRfsult
         try {
-            if (pathCompleted) {
-                if (debug != null)
-                    debug.println("SunCertPathBuilder.engineBuild() "
-                                  + "pathCompleted");
+            if (pbtiComplftfd) {
+                if (dfbug != null)
+                    dfbug.println("SunCfrtPbtiBuildfr.fnginfBuild() "
+                                  + "pbtiComplftfd");
 
-                // we must return a certpath which has the target
-                // as the first cert in the certpath - i.e. reverse
-                // the certPathList
-                Collections.reverse(certPathList);
+                // wf must rfturn b dfrtpbti wiidi ibs tif tbrgft
+                // bs tif first dfrt in tif dfrtpbti - i.f. rfvfrsf
+                // tif dfrtPbtiList
+                Collfdtions.rfvfrsf(dfrtPbtiList);
 
-                return new SunCertPathBuilderResult(
-                    cf.generateCertPath(certPathList), trustAnchor,
-                    policyTreeResult, finalPublicKey,
-                    new AdjacencyList(adjList));
+                rfturn nfw SunCfrtPbtiBuildfrRfsult(
+                    df.gfnfrbtfCfrtPbti(dfrtPbtiList), trustAndior,
+                    polidyTrffRfsult, finblPublidKfy,
+                    nfw AdjbdfndyList(bdjList));
             }
-        } catch (CertificateException e) {
-            if (debug != null) {
-                debug.println("SunCertPathBuilder.engineBuild() exception "
-                              + "in wrap-up");
-                e.printStackTrace();
+        } dbtdi (CfrtifidbtfExdfption f) {
+            if (dfbug != null) {
+                dfbug.println("SunCfrtPbtiBuildfr.fnginfBuild() fxdfption "
+                              + "in wrbp-up");
+                f.printStbdkTrbdf();
             }
-            throw new SunCertPathBuilderException("unable to find valid "
-                + "certification path to requested target", e,
-                new AdjacencyList(adjList));
+            tirow nfw SunCfrtPbtiBuildfrExdfption("unbblf to find vblid "
+                + "dfrtifidbtion pbti to rfqufstfd tbrgft", f,
+                nfw AdjbdfndyList(bdjList));
         }
 
-        return null;
+        rfturn null;
     }
 
     /*
-     * Private build reverse method.
+     * Privbtf build rfvfrsf mftiod.
      */
-    private void buildReverse(List<List<Vertex>> adjacencyList,
-                              LinkedList<X509Certificate> certPathList)
-        throws GeneralSecurityException, IOException
+    privbtf void buildRfvfrsf(List<List<Vfrtfx>> bdjbdfndyList,
+                              LinkfdList<X509Cfrtifidbtf> dfrtPbtiList)
+        tirows GfnfrblSfdurityExdfption, IOExdfption
     {
-        if (debug != null) {
-            debug.println("SunCertPathBuilder.buildReverse()...");
-            debug.println("SunCertPathBuilder.buildReverse() InitialPolicies: "
-                + buildParams.initialPolicies());
+        if (dfbug != null) {
+            dfbug.println("SunCfrtPbtiBuildfr.buildRfvfrsf()...");
+            dfbug.println("SunCfrtPbtiBuildfr.buildRfvfrsf() InitiblPolidifs: "
+                + buildPbrbms.initiblPolidifs());
         }
 
-        ReverseState currentState = new ReverseState();
-        /* Initialize adjacency list */
-        adjacencyList.clear();
-        adjacencyList.add(new LinkedList<Vertex>());
+        RfvfrsfStbtf durrfntStbtf = nfw RfvfrsfStbtf();
+        /* Initiblizf bdjbdfndy list */
+        bdjbdfndyList.dlfbr();
+        bdjbdfndyList.bdd(nfw LinkfdList<Vfrtfx>());
 
         /*
-         * Perform a search using each trust anchor, until a valid
-         * path is found
+         * Pfrform b sfbrdi using fbdi trust bndior, until b vblid
+         * pbti is found
          */
-        Iterator<TrustAnchor> iter = buildParams.trustAnchors().iterator();
-        while (iter.hasNext()) {
-            TrustAnchor anchor = iter.next();
+        Itfrbtor<TrustAndior> itfr = buildPbrbms.trustAndiors().itfrbtor();
+        wiilf (itfr.ibsNfxt()) {
+            TrustAndior bndior = itfr.nfxt();
 
-            /* check if anchor satisfies target constraints */
-            if (anchorIsTarget(anchor, buildParams.targetCertConstraints())) {
-                this.trustAnchor = anchor;
-                this.pathCompleted = true;
-                this.finalPublicKey = anchor.getTrustedCert().getPublicKey();
-                break;
+            /* difdk if bndior sbtisfifs tbrgft donstrbints */
+            if (bndiorIsTbrgft(bndior, buildPbrbms.tbrgftCfrtConstrbints())) {
+                tiis.trustAndior = bndior;
+                tiis.pbtiComplftfd = truf;
+                tiis.finblPublidKfy = bndior.gftTrustfdCfrt().gftPublidKfy();
+                brfbk;
             }
 
-            // skip anchor if it contains a DSA key with no DSA params
-            X509Certificate trustedCert = anchor.getTrustedCert();
-            PublicKey pubKey = trustedCert != null ? trustedCert.getPublicKey()
-                                                   : anchor.getCAPublicKey();
+            // skip bndior if it dontbins b DSA kfy witi no DSA pbrbms
+            X509Cfrtifidbtf trustfdCfrt = bndior.gftTrustfdCfrt();
+            PublidKfy pubKfy = trustfdCfrt != null ? trustfdCfrt.gftPublidKfy()
+                                                   : bndior.gftCAPublidKfy();
 
-            if (PKIX.isDSAPublicKeyWithoutParams(pubKey)) {
-                continue;
+            if (PKIX.isDSAPublidKfyWitioutPbrbms(pubKfy)) {
+                dontinuf;
             }
 
-            /* Initialize current state */
-            currentState.initState(buildParams);
-            currentState.updateState(anchor, buildParams);
+            /* Initiblizf durrfnt stbtf */
+            durrfntStbtf.initStbtf(buildPbrbms);
+            durrfntStbtf.updbtfStbtf(bndior, buildPbrbms);
 
-            currentState.algorithmChecker = new AlgorithmChecker(anchor);
-            currentState.untrustedChecker = new UntrustedChecker();
+            durrfntStbtf.blgoritimCifdkfr = nfw AlgoritimCifdkfr(bndior);
+            durrfntStbtf.untrustfdCifdkfr = nfw UntrustfdCifdkfr();
             try {
-                depthFirstSearchReverse(null, currentState,
-                                        new ReverseBuilder(buildParams),
-                                        adjacencyList, certPathList);
-            } catch (GeneralSecurityException | IOException e) {
-                // continue on error if more anchors to try
-                if (iter.hasNext())
-                    continue;
-                else
-                    throw e;
+                dfptiFirstSfbrdiRfvfrsf(null, durrfntStbtf,
+                                        nfw RfvfrsfBuildfr(buildPbrbms),
+                                        bdjbdfndyList, dfrtPbtiList);
+            } dbtdi (GfnfrblSfdurityExdfption | IOExdfption f) {
+                // dontinuf on frror if morf bndiors to try
+                if (itfr.ibsNfxt())
+                    dontinuf;
+                flsf
+                    tirow f;
             }
 
-            // break out of loop if search is successful
-            if (pathCompleted) {
-                break;
+            // brfbk out of loop if sfbrdi is suddfssful
+            if (pbtiComplftfd) {
+                brfbk;
             }
         }
 
-        if (debug != null) {
-            debug.println("SunCertPathBuilder.buildReverse() returned from "
-                + "depthFirstSearchReverse()");
-            debug.println("SunCertPathBuilder.buildReverse() "
-                + "certPathList.size: " + certPathList.size());
+        if (dfbug != null) {
+            dfbug.println("SunCfrtPbtiBuildfr.buildRfvfrsf() rfturnfd from "
+                + "dfptiFirstSfbrdiRfvfrsf()");
+            dfbug.println("SunCfrtPbtiBuildfr.buildRfvfrsf() "
+                + "dfrtPbtiList.sizf: " + dfrtPbtiList.sizf());
         }
     }
 
     /*
-     * Private build forward method.
+     * Privbtf build forwbrd mftiod.
      */
-    private void buildForward(List<List<Vertex>> adjacencyList,
-                              LinkedList<X509Certificate> certPathList,
-                              boolean searchAllCertStores)
-        throws GeneralSecurityException, IOException
+    privbtf void buildForwbrd(List<List<Vfrtfx>> bdjbdfndyList,
+                              LinkfdList<X509Cfrtifidbtf> dfrtPbtiList,
+                              boolfbn sfbrdiAllCfrtStorfs)
+        tirows GfnfrblSfdurityExdfption, IOExdfption
     {
-        if (debug != null) {
-            debug.println("SunCertPathBuilder.buildForward()...");
+        if (dfbug != null) {
+            dfbug.println("SunCfrtPbtiBuildfr.buildForwbrd()...");
         }
 
-        /* Initialize current state */
-        ForwardState currentState = new ForwardState();
-        currentState.initState(buildParams.certPathCheckers());
+        /* Initiblizf durrfnt stbtf */
+        ForwbrdStbtf durrfntStbtf = nfw ForwbrdStbtf();
+        durrfntStbtf.initStbtf(buildPbrbms.dfrtPbtiCifdkfrs());
 
-        /* Initialize adjacency list */
-        adjacencyList.clear();
-        adjacencyList.add(new LinkedList<Vertex>());
+        /* Initiblizf bdjbdfndy list */
+        bdjbdfndyList.dlfbr();
+        bdjbdfndyList.bdd(nfw LinkfdList<Vfrtfx>());
 
-        currentState.untrustedChecker = new UntrustedChecker();
+        durrfntStbtf.untrustfdCifdkfr = nfw UntrustfdCifdkfr();
 
-        depthFirstSearchForward(buildParams.targetSubject(), currentState,
-                                new ForwardBuilder(buildParams,
-                                                   searchAllCertStores),
-                                adjacencyList, certPathList);
+        dfptiFirstSfbrdiForwbrd(buildPbrbms.tbrgftSubjfdt(), durrfntStbtf,
+                                nfw ForwbrdBuildfr(buildPbrbms,
+                                                   sfbrdiAllCfrtStorfs),
+                                bdjbdfndyList, dfrtPbtiList);
     }
 
     /*
-     * This method performs a depth first search for a certification
-     * path while building forward which meets the requirements set in
-     * the parameters object.
-     * It uses an adjacency list to store all certificates which were
-     * tried (i.e. at one time added to the path - they may not end up in
-     * the final path if backtracking occurs). This information can
-     * be used later to debug or demo the build.
+     * Tiis mftiod pfrforms b dfpti first sfbrdi for b dfrtifidbtion
+     * pbti wiilf building forwbrd wiidi mffts tif rfquirfmfnts sft in
+     * tif pbrbmftfrs objfdt.
+     * It usfs bn bdjbdfndy list to storf bll dfrtifidbtfs wiidi wfrf
+     * trifd (i.f. bt onf timf bddfd to tif pbti - tify mby not fnd up in
+     * tif finbl pbti if bbdktrbdking oddurs). Tiis informbtion dbn
+     * bf usfd lbtfr to dfbug or dfmo tif build.
      *
-     * See "Data Structure and Algorithms, by Aho, Hopcroft, and Ullman"
-     * for an explanation of the DFS algorithm.
+     * Sff "Dbtb Strudturf bnd Algoritims, by Aio, Hopdroft, bnd Ullmbn"
+     * for bn fxplbnbtion of tif DFS blgoritim.
      *
-     * @param dN the distinguished name being currently searched for certs
-     * @param currentState the current PKIX validation state
+     * @pbrbm dN tif distinguisifd nbmf bfing durrfntly sfbrdifd for dfrts
+     * @pbrbm durrfntStbtf tif durrfnt PKIX vblidbtion stbtf
      */
-    private void depthFirstSearchForward(X500Principal dN,
-                                         ForwardState currentState,
-                                         ForwardBuilder builder,
-                                         List<List<Vertex>> adjList,
-                                         LinkedList<X509Certificate> cpList)
-        throws GeneralSecurityException, IOException
+    privbtf void dfptiFirstSfbrdiForwbrd(X500Prindipbl dN,
+                                         ForwbrdStbtf durrfntStbtf,
+                                         ForwbrdBuildfr buildfr,
+                                         List<List<Vfrtfx>> bdjList,
+                                         LinkfdList<X509Cfrtifidbtf> dpList)
+        tirows GfnfrblSfdurityExdfption, IOExdfption
     {
-        if (debug != null) {
-            debug.println("SunCertPathBuilder.depthFirstSearchForward(" + dN
-                          + ", " + currentState.toString() + ")");
+        if (dfbug != null) {
+            dfbug.println("SunCfrtPbtiBuildfr.dfptiFirstSfbrdiForwbrd(" + dN
+                          + ", " + durrfntStbtf.toString() + ")");
         }
 
         /*
-         * Find all the certificates issued to dN which
-         * satisfy the PKIX certification path constraints.
+         * Find bll tif dfrtifidbtfs issufd to dN wiidi
+         * sbtisfy tif PKIX dfrtifidbtion pbti donstrbints.
          */
-        Collection<X509Certificate> certs =
-            builder.getMatchingCerts(currentState, buildParams.certStores());
-        List<Vertex> vertices = addVertices(certs, adjList);
-        if (debug != null) {
-            debug.println("SunCertPathBuilder.depthFirstSearchForward(): "
-                          + "certs.size=" + vertices.size());
+        Collfdtion<X509Cfrtifidbtf> dfrts =
+            buildfr.gftMbtdiingCfrts(durrfntStbtf, buildPbrbms.dfrtStorfs());
+        List<Vfrtfx> vfrtidfs = bddVfrtidfs(dfrts, bdjList);
+        if (dfbug != null) {
+            dfbug.println("SunCfrtPbtiBuildfr.dfptiFirstSfbrdiForwbrd(): "
+                          + "dfrts.sizf=" + vfrtidfs.sizf());
         }
 
         /*
-         * For each cert in the collection, verify anything
-         * that hasn't been checked yet (signature, revocation, etc)
-         * and check for loops. Call depthFirstSearchForward()
-         * recursively for each good cert.
+         * For fbdi dfrt in tif dollfdtion, vfrify bnytiing
+         * tibt ibsn't bffn difdkfd yft (signbturf, rfvodbtion, ftd)
+         * bnd difdk for loops. Cbll dfptiFirstSfbrdiForwbrd()
+         * rfdursivfly for fbdi good dfrt.
          */
 
-               vertices:
-        for (Vertex vertex : vertices) {
+               vfrtidfs:
+        for (Vfrtfx vfrtfx : vfrtidfs) {
             /**
-             * Restore state to currentState each time through the loop.
-             * This is important because some of the user-defined
-             * checkers modify the state, which MUST be restored if
-             * the cert eventually fails to lead to the target and
-             * the next matching cert is tried.
+             * Rfstorf stbtf to durrfntStbtf fbdi timf tirougi tif loop.
+             * Tiis is importbnt bfdbusf somf of tif usfr-dffinfd
+             * difdkfrs modify tif stbtf, wiidi MUST bf rfstorfd if
+             * tif dfrt fvfntublly fbils to lfbd to tif tbrgft bnd
+             * tif nfxt mbtdiing dfrt is trifd.
              */
-            ForwardState nextState = (ForwardState) currentState.clone();
-            X509Certificate cert = vertex.getCertificate();
+            ForwbrdStbtf nfxtStbtf = (ForwbrdStbtf) durrfntStbtf.dlonf();
+            X509Cfrtifidbtf dfrt = vfrtfx.gftCfrtifidbtf();
 
             try {
-                builder.verifyCert(cert, nextState, cpList);
-            } catch (GeneralSecurityException gse) {
-                if (debug != null) {
-                    debug.println("SunCertPathBuilder.depthFirstSearchForward()"
-                                  + ": validation failed: " + gse);
-                    gse.printStackTrace();
+                buildfr.vfrifyCfrt(dfrt, nfxtStbtf, dpList);
+            } dbtdi (GfnfrblSfdurityExdfption gsf) {
+                if (dfbug != null) {
+                    dfbug.println("SunCfrtPbtiBuildfr.dfptiFirstSfbrdiForwbrd()"
+                                  + ": vblidbtion fbilfd: " + gsf);
+                    gsf.printStbdkTrbdf();
                 }
-                vertex.setThrowable(gse);
-                continue;
+                vfrtfx.sftTirowbblf(gsf);
+                dontinuf;
             }
 
             /*
-             * Certificate is good.
-             * If cert completes the path,
-             *    process userCheckers that don't support forward checking
-             *    and process policies over whole path
-             *    and backtrack appropriately if there is a failure
-             * else if cert does not complete the path,
-             *    add it to the path
+             * Cfrtifidbtf is good.
+             * If dfrt domplftfs tif pbti,
+             *    prodfss usfrCifdkfrs tibt don't support forwbrd difdking
+             *    bnd prodfss polidifs ovfr wiolf pbti
+             *    bnd bbdktrbdk bppropribtfly if tifrf is b fbilurf
+             * flsf if dfrt dofs not domplftf tif pbti,
+             *    bdd it to tif pbti
              */
-            if (builder.isPathCompleted(cert)) {
+            if (buildfr.isPbtiComplftfd(dfrt)) {
 
-                if (debug != null)
-                    debug.println("SunCertPathBuilder.depthFirstSearchForward()"
-                                  + ": commencing final verification");
+                if (dfbug != null)
+                    dfbug.println("SunCfrtPbtiBuildfr.dfptiFirstSfbrdiForwbrd()"
+                                  + ": dommfnding finbl vfrifidbtion");
 
-                List<X509Certificate> appendedCerts = new ArrayList<>(cpList);
+                List<X509Cfrtifidbtf> bppfndfdCfrts = nfw ArrbyList<>(dpList);
 
                 /*
-                 * if the trust anchor selected is specified as a trusted
-                 * public key rather than a trusted cert, then verify this
-                 * cert (which is signed by the trusted public key), but
-                 * don't add it yet to the cpList
+                 * if tif trust bndior sflfdtfd is spfdififd bs b trustfd
+                 * publid kfy rbtifr tibn b trustfd dfrt, tifn vfrify tiis
+                 * dfrt (wiidi is signfd by tif trustfd publid kfy), but
+                 * don't bdd it yft to tif dpList
                  */
-                if (builder.trustAnchor.getTrustedCert() == null) {
-                    appendedCerts.add(0, cert);
+                if (buildfr.trustAndior.gftTrustfdCfrt() == null) {
+                    bppfndfdCfrts.bdd(0, dfrt);
                 }
 
-                Set<String> initExpPolSet =
-                    Collections.singleton(PolicyChecker.ANY_POLICY);
+                Sft<String> initExpPolSft =
+                    Collfdtions.singlfton(PolidyCifdkfr.ANY_POLICY);
 
-                PolicyNodeImpl rootNode = new PolicyNodeImpl(null,
-                    PolicyChecker.ANY_POLICY, null, false, initExpPolSet, false);
+                PolidyNodfImpl rootNodf = nfw PolidyNodfImpl(null,
+                    PolidyCifdkfr.ANY_POLICY, null, fblsf, initExpPolSft, fblsf);
 
-                List<PKIXCertPathChecker> checkers = new ArrayList<>();
-                PolicyChecker policyChecker
-                    = new PolicyChecker(buildParams.initialPolicies(),
-                                        appendedCerts.size(),
-                                        buildParams.explicitPolicyRequired(),
-                                        buildParams.policyMappingInhibited(),
-                                        buildParams.anyPolicyInhibited(),
-                                        buildParams.policyQualifiersRejected(),
-                                        rootNode);
-                checkers.add(policyChecker);
+                List<PKIXCfrtPbtiCifdkfr> difdkfrs = nfw ArrbyList<>();
+                PolidyCifdkfr polidyCifdkfr
+                    = nfw PolidyCifdkfr(buildPbrbms.initiblPolidifs(),
+                                        bppfndfdCfrts.sizf(),
+                                        buildPbrbms.fxpliditPolidyRfquirfd(),
+                                        buildPbrbms.polidyMbppingIniibitfd(),
+                                        buildPbrbms.bnyPolidyIniibitfd(),
+                                        buildPbrbms.polidyQublififrsRfjfdtfd(),
+                                        rootNodf);
+                difdkfrs.bdd(polidyCifdkfr);
 
-                // add the algorithm checker
-                checkers.add(new AlgorithmChecker(builder.trustAnchor));
+                // bdd tif blgoritim difdkfr
+                difdkfrs.bdd(nfw AlgoritimCifdkfr(buildfr.trustAndior));
 
-                BasicChecker basicChecker = null;
-                if (nextState.keyParamsNeeded()) {
-                    PublicKey rootKey = cert.getPublicKey();
-                    if (builder.trustAnchor.getTrustedCert() == null) {
-                        rootKey = builder.trustAnchor.getCAPublicKey();
-                        if (debug != null)
-                            debug.println(
-                                "SunCertPathBuilder.depthFirstSearchForward " +
-                                "using buildParams public key: " +
-                                rootKey.toString());
+                BbsidCifdkfr bbsidCifdkfr = null;
+                if (nfxtStbtf.kfyPbrbmsNffdfd()) {
+                    PublidKfy rootKfy = dfrt.gftPublidKfy();
+                    if (buildfr.trustAndior.gftTrustfdCfrt() == null) {
+                        rootKfy = buildfr.trustAndior.gftCAPublidKfy();
+                        if (dfbug != null)
+                            dfbug.println(
+                                "SunCfrtPbtiBuildfr.dfptiFirstSfbrdiForwbrd " +
+                                "using buildPbrbms publid kfy: " +
+                                rootKfy.toString());
                     }
-                    TrustAnchor anchor = new TrustAnchor
-                        (cert.getSubjectX500Principal(), rootKey, null);
+                    TrustAndior bndior = nfw TrustAndior
+                        (dfrt.gftSubjfdtX500Prindipbl(), rootKfy, null);
 
-                    // add the basic checker
-                    basicChecker = new BasicChecker(anchor, buildParams.date(),
-                                                    buildParams.sigProvider(),
-                                                    true);
-                    checkers.add(basicChecker);
+                    // bdd tif bbsid difdkfr
+                    bbsidCifdkfr = nfw BbsidCifdkfr(bndior, buildPbrbms.dbtf(),
+                                                    buildPbrbms.sigProvidfr(),
+                                                    truf);
+                    difdkfrs.bdd(bbsidCifdkfr);
                 }
 
-                buildParams.setCertPath(cf.generateCertPath(appendedCerts));
+                buildPbrbms.sftCfrtPbti(df.gfnfrbtfCfrtPbti(bppfndfdCfrts));
 
-                boolean revCheckerAdded = false;
-                List<PKIXCertPathChecker> ckrs = buildParams.certPathCheckers();
-                for (PKIXCertPathChecker ckr : ckrs) {
-                    if (ckr instanceof PKIXRevocationChecker) {
-                        if (revCheckerAdded) {
-                            throw new CertPathValidatorException(
-                                "Only one PKIXRevocationChecker can be specified");
+                boolfbn rfvCifdkfrAddfd = fblsf;
+                List<PKIXCfrtPbtiCifdkfr> dkrs = buildPbrbms.dfrtPbtiCifdkfrs();
+                for (PKIXCfrtPbtiCifdkfr dkr : dkrs) {
+                    if (dkr instbndfof PKIXRfvodbtionCifdkfr) {
+                        if (rfvCifdkfrAddfd) {
+                            tirow nfw CfrtPbtiVblidbtorExdfption(
+                                "Only onf PKIXRfvodbtionCifdkfr dbn bf spfdififd");
                         }
-                        revCheckerAdded = true;
-                        // if it's our own, initialize it
-                        if (ckr instanceof RevocationChecker) {
-                            ((RevocationChecker)ckr).init(builder.trustAnchor,
-                                                          buildParams);
+                        rfvCifdkfrAddfd = truf;
+                        // if it's our own, initiblizf it
+                        if (dkr instbndfof RfvodbtionCifdkfr) {
+                            ((RfvodbtionCifdkfr)dkr).init(buildfr.trustAndior,
+                                                          buildPbrbms);
                         }
                     }
                 }
-                // only add a RevocationChecker if revocation is enabled and
-                // a PKIXRevocationChecker has not already been added
-                if (buildParams.revocationEnabled() && !revCheckerAdded) {
-                    checkers.add(new RevocationChecker(builder.trustAnchor,
-                                                       buildParams));
+                // only bdd b RfvodbtionCifdkfr if rfvodbtion is fnbblfd bnd
+                // b PKIXRfvodbtionCifdkfr ibs not blrfbdy bffn bddfd
+                if (buildPbrbms.rfvodbtionEnbblfd() && !rfvCifdkfrAddfd) {
+                    difdkfrs.bdd(nfw RfvodbtionCifdkfr(buildfr.trustAndior,
+                                                       buildPbrbms));
                 }
 
-                checkers.addAll(ckrs);
+                difdkfrs.bddAll(dkrs);
 
-                // Why we don't need BasicChecker and RevocationChecker
-                // if nextState.keyParamsNeeded() is false?
+                // Wiy wf don't nffd BbsidCifdkfr bnd RfvodbtionCifdkfr
+                // if nfxtStbtf.kfyPbrbmsNffdfd() is fblsf?
 
-                for (int i = 0; i < appendedCerts.size(); i++) {
-                    X509Certificate currCert = appendedCerts.get(i);
-                    if (debug != null)
-                        debug.println("current subject = "
-                                      + currCert.getSubjectX500Principal());
-                    Set<String> unresCritExts =
-                        currCert.getCriticalExtensionOIDs();
-                    if (unresCritExts == null) {
-                        unresCritExts = Collections.<String>emptySet();
+                for (int i = 0; i < bppfndfdCfrts.sizf(); i++) {
+                    X509Cfrtifidbtf durrCfrt = bppfndfdCfrts.gft(i);
+                    if (dfbug != null)
+                        dfbug.println("durrfnt subjfdt = "
+                                      + durrCfrt.gftSubjfdtX500Prindipbl());
+                    Sft<String> unrfsCritExts =
+                        durrCfrt.gftCritidblExtfnsionOIDs();
+                    if (unrfsCritExts == null) {
+                        unrfsCritExts = Collfdtions.<String>fmptySft();
                     }
 
-                    for (PKIXCertPathChecker currChecker : checkers) {
-                        if (!currChecker.isForwardCheckingSupported()) {
+                    for (PKIXCfrtPbtiCifdkfr durrCifdkfr : difdkfrs) {
+                        if (!durrCifdkfr.isForwbrdCifdkingSupportfd()) {
                             if (i == 0) {
-                                currChecker.init(false);
+                                durrCifdkfr.init(fblsf);
 
-                                // The user specified
-                                // AlgorithmChecker may not be
-                                // able to set the trust anchor until now.
-                                if (currChecker instanceof AlgorithmChecker) {
-                                    ((AlgorithmChecker)currChecker).
-                                        trySetTrustAnchor(builder.trustAnchor);
+                                // Tif usfr spfdififd
+                                // AlgoritimCifdkfr mby not bf
+                                // bblf to sft tif trust bndior until now.
+                                if (durrCifdkfr instbndfof AlgoritimCifdkfr) {
+                                    ((AlgoritimCifdkfr)durrCifdkfr).
+                                        trySftTrustAndior(buildfr.trustAndior);
                                 }
                             }
 
                             try {
-                                currChecker.check(currCert, unresCritExts);
-                            } catch (CertPathValidatorException cpve) {
-                                if (debug != null)
-                                    debug.println
-                                    ("SunCertPathBuilder.depthFirstSearchForward(): " +
-                                    "final verification failed: " + cpve);
-                                // If the target cert itself is revoked, we
-                                // cannot trust it. We can bail out here.
-                                if (buildParams.targetCertConstraints().match(currCert)
-                                        && cpve.getReason() == BasicReason.REVOKED) {
-                                    throw cpve;
+                                durrCifdkfr.difdk(durrCfrt, unrfsCritExts);
+                            } dbtdi (CfrtPbtiVblidbtorExdfption dpvf) {
+                                if (dfbug != null)
+                                    dfbug.println
+                                    ("SunCfrtPbtiBuildfr.dfptiFirstSfbrdiForwbrd(): " +
+                                    "finbl vfrifidbtion fbilfd: " + dpvf);
+                                // If tif tbrgft dfrt itsflf is rfvokfd, wf
+                                // dbnnot trust it. Wf dbn bbil out ifrf.
+                                if (buildPbrbms.tbrgftCfrtConstrbints().mbtdi(durrCfrt)
+                                        && dpvf.gftRfbson() == BbsidRfbson.REVOKED) {
+                                    tirow dpvf;
                                 }
-                                vertex.setThrowable(cpve);
-                                continue vertices;
+                                vfrtfx.sftTirowbblf(dpvf);
+                                dontinuf vfrtidfs;
                             }
                         }
                     }
 
                     /*
-                     * Remove extensions from user checkers that support
-                     * forward checking. After this step, we will have
-                     * removed all extensions that all user checkers
-                     * are capable of processing.
+                     * Rfmovf fxtfnsions from usfr difdkfrs tibt support
+                     * forwbrd difdking. Aftfr tiis stfp, wf will ibvf
+                     * rfmovfd bll fxtfnsions tibt bll usfr difdkfrs
+                     * brf dbpbblf of prodfssing.
                      */
-                    for (PKIXCertPathChecker checker :
-                         buildParams.certPathCheckers())
+                    for (PKIXCfrtPbtiCifdkfr difdkfr :
+                         buildPbrbms.dfrtPbtiCifdkfrs())
                     {
-                        if (checker.isForwardCheckingSupported()) {
-                            Set<String> suppExts =
-                                checker.getSupportedExtensions();
+                        if (difdkfr.isForwbrdCifdkingSupportfd()) {
+                            Sft<String> suppExts =
+                                difdkfr.gftSupportfdExtfnsions();
                             if (suppExts != null) {
-                                unresCritExts.removeAll(suppExts);
+                                unrfsCritExts.rfmovfAll(suppExts);
                             }
                         }
                     }
 
-                    if (!unresCritExts.isEmpty()) {
-                        unresCritExts.remove(BasicConstraints_Id.toString());
-                        unresCritExts.remove(NameConstraints_Id.toString());
-                        unresCritExts.remove(CertificatePolicies_Id.toString());
-                        unresCritExts.remove(PolicyMappings_Id.toString());
-                        unresCritExts.remove(PolicyConstraints_Id.toString());
-                        unresCritExts.remove(InhibitAnyPolicy_Id.toString());
-                        unresCritExts.remove(
-                            SubjectAlternativeName_Id.toString());
-                        unresCritExts.remove(KeyUsage_Id.toString());
-                        unresCritExts.remove(ExtendedKeyUsage_Id.toString());
+                    if (!unrfsCritExts.isEmpty()) {
+                        unrfsCritExts.rfmovf(BbsidConstrbints_Id.toString());
+                        unrfsCritExts.rfmovf(NbmfConstrbints_Id.toString());
+                        unrfsCritExts.rfmovf(CfrtifidbtfPolidifs_Id.toString());
+                        unrfsCritExts.rfmovf(PolidyMbppings_Id.toString());
+                        unrfsCritExts.rfmovf(PolidyConstrbints_Id.toString());
+                        unrfsCritExts.rfmovf(IniibitAnyPolidy_Id.toString());
+                        unrfsCritExts.rfmovf(
+                            SubjfdtAltfrnbtivfNbmf_Id.toString());
+                        unrfsCritExts.rfmovf(KfyUsbgf_Id.toString());
+                        unrfsCritExts.rfmovf(ExtfndfdKfyUsbgf_Id.toString());
 
-                        if (!unresCritExts.isEmpty()) {
-                            throw new CertPathValidatorException
-                                ("unrecognized critical extension(s)", null,
-                                 null, -1, PKIXReason.UNRECOGNIZED_CRIT_EXT);
+                        if (!unrfsCritExts.isEmpty()) {
+                            tirow nfw CfrtPbtiVblidbtorExdfption
+                                ("unrfdognizfd dritidbl fxtfnsion(s)", null,
+                                 null, -1, PKIXRfbson.UNRECOGNIZED_CRIT_EXT);
                         }
                     }
                 }
-                if (debug != null)
-                    debug.println("SunCertPathBuilder.depthFirstSearchForward()"
-                        + ": final verification succeeded - path completed!");
-                pathCompleted = true;
+                if (dfbug != null)
+                    dfbug.println("SunCfrtPbtiBuildfr.dfptiFirstSfbrdiForwbrd()"
+                        + ": finbl vfrifidbtion suddffdfd - pbti domplftfd!");
+                pbtiComplftfd = truf;
 
                 /*
-                 * if the user specified a trusted public key rather than
-                 * trusted certs, then add this cert (which is signed by
-                 * the trusted public key) to the cpList
+                 * if tif usfr spfdififd b trustfd publid kfy rbtifr tibn
+                 * trustfd dfrts, tifn bdd tiis dfrt (wiidi is signfd by
+                 * tif trustfd publid kfy) to tif dpList
                  */
-                if (builder.trustAnchor.getTrustedCert() == null)
-                    builder.addCertToPath(cert, cpList);
-                // Save the trust anchor
-                this.trustAnchor = builder.trustAnchor;
+                if (buildfr.trustAndior.gftTrustfdCfrt() == null)
+                    buildfr.bddCfrtToPbti(dfrt, dpList);
+                // Sbvf tif trust bndior
+                tiis.trustAndior = buildfr.trustAndior;
 
                 /*
-                 * Extract and save the final target public key
+                 * Extrbdt bnd sbvf tif finbl tbrgft publid kfy
                  */
-                if (basicChecker != null) {
-                    finalPublicKey = basicChecker.getPublicKey();
-                } else {
-                    Certificate finalCert;
-                    if (cpList.isEmpty()) {
-                        finalCert = builder.trustAnchor.getTrustedCert();
-                    } else {
-                        finalCert = cpList.getLast();
+                if (bbsidCifdkfr != null) {
+                    finblPublidKfy = bbsidCifdkfr.gftPublidKfy();
+                } flsf {
+                    Cfrtifidbtf finblCfrt;
+                    if (dpList.isEmpty()) {
+                        finblCfrt = buildfr.trustAndior.gftTrustfdCfrt();
+                    } flsf {
+                        finblCfrt = dpList.gftLbst();
                     }
-                    finalPublicKey = finalCert.getPublicKey();
+                    finblPublidKfy = finblCfrt.gftPublidKfy();
                 }
 
-                policyTreeResult = policyChecker.getPolicyTree();
-                return;
-            } else {
-                builder.addCertToPath(cert, cpList);
+                polidyTrffRfsult = polidyCifdkfr.gftPolidyTrff();
+                rfturn;
+            } flsf {
+                buildfr.bddCfrtToPbti(dfrt, dpList);
             }
 
-            /* Update the PKIX state */
-            nextState.updateState(cert);
+            /* Updbtf tif PKIX stbtf */
+            nfxtStbtf.updbtfStbtf(dfrt);
 
             /*
-             * Append an entry for cert in adjacency list and
-             * set index for current vertex.
+             * Appfnd bn fntry for dfrt in bdjbdfndy list bnd
+             * sft indfx for durrfnt vfrtfx.
              */
-            adjList.add(new LinkedList<Vertex>());
-            vertex.setIndex(adjList.size() - 1);
+            bdjList.bdd(nfw LinkfdList<Vfrtfx>());
+            vfrtfx.sftIndfx(bdjList.sizf() - 1);
 
-            /* recursively search for matching certs at next dN */
-            depthFirstSearchForward(cert.getIssuerX500Principal(), nextState,
-                                    builder, adjList, cpList);
+            /* rfdursivfly sfbrdi for mbtdiing dfrts bt nfxt dN */
+            dfptiFirstSfbrdiForwbrd(dfrt.gftIssufrX500Prindipbl(), nfxtStbtf,
+                                    buildfr, bdjList, dpList);
 
             /*
-             * If path has been completed, return ASAP!
+             * If pbti ibs bffn domplftfd, rfturn ASAP!
              */
-            if (pathCompleted) {
-                return;
-            } else {
+            if (pbtiComplftfd) {
+                rfturn;
+            } flsf {
                 /*
-                 * If we get here, it means we have searched all possible
-                 * certs issued by the dN w/o finding any matching certs.
-                 * This means we have to backtrack to the previous cert in
-                 * the path and try some other paths.
+                 * If wf gft ifrf, it mfbns wf ibvf sfbrdifd bll possiblf
+                 * dfrts issufd by tif dN w/o finding bny mbtdiing dfrts.
+                 * Tiis mfbns wf ibvf to bbdktrbdk to tif prfvious dfrt in
+                 * tif pbti bnd try somf otifr pbtis.
                  */
-                if (debug != null)
-                    debug.println("SunCertPathBuilder.depthFirstSearchForward()"
-                                  + ": backtracking");
-                builder.removeFinalCertFromPath(cpList);
+                if (dfbug != null)
+                    dfbug.println("SunCfrtPbtiBuildfr.dfptiFirstSfbrdiForwbrd()"
+                                  + ": bbdktrbdking");
+                buildfr.rfmovfFinblCfrtFromPbti(dpList);
             }
         }
     }
 
     /*
-     * This method performs a depth first search for a certification
-     * path while building reverse which meets the requirements set in
-     * the parameters object.
-     * It uses an adjacency list to store all certificates which were
-     * tried (i.e. at one time added to the path - they may not end up in
-     * the final path if backtracking occurs). This information can
-     * be used later to debug or demo the build.
+     * Tiis mftiod pfrforms b dfpti first sfbrdi for b dfrtifidbtion
+     * pbti wiilf building rfvfrsf wiidi mffts tif rfquirfmfnts sft in
+     * tif pbrbmftfrs objfdt.
+     * It usfs bn bdjbdfndy list to storf bll dfrtifidbtfs wiidi wfrf
+     * trifd (i.f. bt onf timf bddfd to tif pbti - tify mby not fnd up in
+     * tif finbl pbti if bbdktrbdking oddurs). Tiis informbtion dbn
+     * bf usfd lbtfr to dfbug or dfmo tif build.
      *
-     * See "Data Structure and Algorithms, by Aho, Hopcroft, and Ullman"
-     * for an explanation of the DFS algorithm.
+     * Sff "Dbtb Strudturf bnd Algoritims, by Aio, Hopdroft, bnd Ullmbn"
+     * for bn fxplbnbtion of tif DFS blgoritim.
      *
-     * @param dN the distinguished name being currently searched for certs
-     * @param currentState the current PKIX validation state
+     * @pbrbm dN tif distinguisifd nbmf bfing durrfntly sfbrdifd for dfrts
+     * @pbrbm durrfntStbtf tif durrfnt PKIX vblidbtion stbtf
      */
-    private void depthFirstSearchReverse(X500Principal dN,
-                                         ReverseState currentState,
-                                         ReverseBuilder builder,
-                                         List<List<Vertex>> adjList,
-                                         LinkedList<X509Certificate> cpList)
-        throws GeneralSecurityException, IOException
+    privbtf void dfptiFirstSfbrdiRfvfrsf(X500Prindipbl dN,
+                                         RfvfrsfStbtf durrfntStbtf,
+                                         RfvfrsfBuildfr buildfr,
+                                         List<List<Vfrtfx>> bdjList,
+                                         LinkfdList<X509Cfrtifidbtf> dpList)
+        tirows GfnfrblSfdurityExdfption, IOExdfption
     {
-        if (debug != null)
-            debug.println("SunCertPathBuilder.depthFirstSearchReverse(" + dN
-                + ", " + currentState.toString() + ")");
+        if (dfbug != null)
+            dfbug.println("SunCfrtPbtiBuildfr.dfptiFirstSfbrdiRfvfrsf(" + dN
+                + ", " + durrfntStbtf.toString() + ")");
 
         /*
-         * Find all the certificates issued by dN which
-         * satisfy the PKIX certification path constraints.
+         * Find bll tif dfrtifidbtfs issufd by dN wiidi
+         * sbtisfy tif PKIX dfrtifidbtion pbti donstrbints.
          */
-        Collection<X509Certificate> certs =
-            builder.getMatchingCerts(currentState, buildParams.certStores());
-        List<Vertex> vertices = addVertices(certs, adjList);
-        if (debug != null)
-            debug.println("SunCertPathBuilder.depthFirstSearchReverse(): "
-                + "certs.size=" + vertices.size());
+        Collfdtion<X509Cfrtifidbtf> dfrts =
+            buildfr.gftMbtdiingCfrts(durrfntStbtf, buildPbrbms.dfrtStorfs());
+        List<Vfrtfx> vfrtidfs = bddVfrtidfs(dfrts, bdjList);
+        if (dfbug != null)
+            dfbug.println("SunCfrtPbtiBuildfr.dfptiFirstSfbrdiRfvfrsf(): "
+                + "dfrts.sizf=" + vfrtidfs.sizf());
 
         /*
-         * For each cert in the collection, verify anything
-         * that hasn't been checked yet (signature, revocation, etc)
-         * and check for loops. Call depthFirstSearchReverse()
-         * recursively for each good cert.
+         * For fbdi dfrt in tif dollfdtion, vfrify bnytiing
+         * tibt ibsn't bffn difdkfd yft (signbturf, rfvodbtion, ftd)
+         * bnd difdk for loops. Cbll dfptiFirstSfbrdiRfvfrsf()
+         * rfdursivfly for fbdi good dfrt.
          */
-        for (Vertex vertex : vertices) {
+        for (Vfrtfx vfrtfx : vfrtidfs) {
             /**
-             * Restore state to currentState each time through the loop.
-             * This is important because some of the user-defined
-             * checkers modify the state, which MUST be restored if
-             * the cert eventually fails to lead to the target and
-             * the next matching cert is tried.
+             * Rfstorf stbtf to durrfntStbtf fbdi timf tirougi tif loop.
+             * Tiis is importbnt bfdbusf somf of tif usfr-dffinfd
+             * difdkfrs modify tif stbtf, wiidi MUST bf rfstorfd if
+             * tif dfrt fvfntublly fbils to lfbd to tif tbrgft bnd
+             * tif nfxt mbtdiing dfrt is trifd.
              */
-            ReverseState nextState = (ReverseState) currentState.clone();
-            X509Certificate cert = vertex.getCertificate();
+            RfvfrsfStbtf nfxtStbtf = (RfvfrsfStbtf) durrfntStbtf.dlonf();
+            X509Cfrtifidbtf dfrt = vfrtfx.gftCfrtifidbtf();
             try {
-                builder.verifyCert(cert, nextState, cpList);
-            } catch (GeneralSecurityException gse) {
-                if (debug != null)
-                    debug.println("SunCertPathBuilder.depthFirstSearchReverse()"
-                        + ": validation failed: " + gse);
-                vertex.setThrowable(gse);
-                continue;
+                buildfr.vfrifyCfrt(dfrt, nfxtStbtf, dpList);
+            } dbtdi (GfnfrblSfdurityExdfption gsf) {
+                if (dfbug != null)
+                    dfbug.println("SunCfrtPbtiBuildfr.dfptiFirstSfbrdiRfvfrsf()"
+                        + ": vblidbtion fbilfd: " + gsf);
+                vfrtfx.sftTirowbblf(gsf);
+                dontinuf;
             }
 
             /*
-             * Certificate is good, add it to the path (if it isn't a
-             * self-signed cert) and update state
+             * Cfrtifidbtf is good, bdd it to tif pbti (if it isn't b
+             * sflf-signfd dfrt) bnd updbtf stbtf
              */
-            if (!currentState.isInitial())
-                builder.addCertToPath(cert, cpList);
-            // save trust anchor
-            this.trustAnchor = currentState.trustAnchor;
+            if (!durrfntStbtf.isInitibl())
+                buildfr.bddCfrtToPbti(dfrt, dpList);
+            // sbvf trust bndior
+            tiis.trustAndior = durrfntStbtf.trustAndior;
 
             /*
-             * Check if path is completed, return ASAP if so.
+             * Cifdk if pbti is domplftfd, rfturn ASAP if so.
              */
-            if (builder.isPathCompleted(cert)) {
-                if (debug != null)
-                    debug.println("SunCertPathBuilder.depthFirstSearchReverse()"
-                        + ": path completed!");
-                pathCompleted = true;
+            if (buildfr.isPbtiComplftfd(dfrt)) {
+                if (dfbug != null)
+                    dfbug.println("SunCfrtPbtiBuildfr.dfptiFirstSfbrdiRfvfrsf()"
+                        + ": pbti domplftfd!");
+                pbtiComplftfd = truf;
 
-                PolicyNodeImpl rootNode = nextState.rootNode;
+                PolidyNodfImpl rootNodf = nfxtStbtf.rootNodf;
 
-                if (rootNode == null)
-                    policyTreeResult = null;
-                else {
-                    policyTreeResult = rootNode.copyTree();
-                    ((PolicyNodeImpl)policyTreeResult).setImmutable();
+                if (rootNodf == null)
+                    polidyTrffRfsult = null;
+                flsf {
+                    polidyTrffRfsult = rootNodf.dopyTrff();
+                    ((PolidyNodfImpl)polidyTrffRfsult).sftImmutbblf();
                 }
 
                 /*
-                 * Extract and save the final target public key
+                 * Extrbdt bnd sbvf tif finbl tbrgft publid kfy
                  */
-                finalPublicKey = cert.getPublicKey();
-                if (PKIX.isDSAPublicKeyWithoutParams(finalPublicKey)) {
-                    finalPublicKey =
-                        BasicChecker.makeInheritedParamsKey
-                            (finalPublicKey, currentState.pubKey);
+                finblPublidKfy = dfrt.gftPublidKfy();
+                if (PKIX.isDSAPublidKfyWitioutPbrbms(finblPublidKfy)) {
+                    finblPublidKfy =
+                        BbsidCifdkfr.mbkfInifritfdPbrbmsKfy
+                            (finblPublidKfy, durrfntStbtf.pubKfy);
                 }
 
-                return;
+                rfturn;
             }
 
-            /* Update the PKIX state */
-            nextState.updateState(cert);
+            /* Updbtf tif PKIX stbtf */
+            nfxtStbtf.updbtfStbtf(dfrt);
 
             /*
-             * Append an entry for cert in adjacency list and
-             * set index for current vertex.
+             * Appfnd bn fntry for dfrt in bdjbdfndy list bnd
+             * sft indfx for durrfnt vfrtfx.
              */
-            adjList.add(new LinkedList<Vertex>());
-            vertex.setIndex(adjList.size() - 1);
+            bdjList.bdd(nfw LinkfdList<Vfrtfx>());
+            vfrtfx.sftIndfx(bdjList.sizf() - 1);
 
-            /* recursively search for matching certs at next dN */
-            depthFirstSearchReverse(cert.getSubjectX500Principal(), nextState,
-                                    builder, adjList, cpList);
+            /* rfdursivfly sfbrdi for mbtdiing dfrts bt nfxt dN */
+            dfptiFirstSfbrdiRfvfrsf(dfrt.gftSubjfdtX500Prindipbl(), nfxtStbtf,
+                                    buildfr, bdjList, dpList);
 
             /*
-             * If path has been completed, return ASAP!
+             * If pbti ibs bffn domplftfd, rfturn ASAP!
              */
-            if (pathCompleted) {
-                return;
-            } else {
+            if (pbtiComplftfd) {
+                rfturn;
+            } flsf {
                 /*
-                 * If we get here, it means we have searched all possible
-                 * certs issued by the dN w/o finding any matching certs. This
-                 * means we have to backtrack to the previous cert in the path
-                 * and try some other paths.
+                 * If wf gft ifrf, it mfbns wf ibvf sfbrdifd bll possiblf
+                 * dfrts issufd by tif dN w/o finding bny mbtdiing dfrts. Tiis
+                 * mfbns wf ibvf to bbdktrbdk to tif prfvious dfrt in tif pbti
+                 * bnd try somf otifr pbtis.
                  */
-                if (debug != null)
-                    debug.println("SunCertPathBuilder.depthFirstSearchReverse()"
-                        + ": backtracking");
-                if (!currentState.isInitial())
-                    builder.removeFinalCertFromPath(cpList);
+                if (dfbug != null)
+                    dfbug.println("SunCfrtPbtiBuildfr.dfptiFirstSfbrdiRfvfrsf()"
+                        + ": bbdktrbdking");
+                if (!durrfntStbtf.isInitibl())
+                    buildfr.rfmovfFinblCfrtFromPbti(dpList);
             }
         }
-        if (debug != null)
-            debug.println("SunCertPathBuilder.depthFirstSearchReverse() all "
-                + "certs in this adjacency list checked");
+        if (dfbug != null)
+            dfbug.println("SunCfrtPbtiBuildfr.dfptiFirstSfbrdiRfvfrsf() bll "
+                + "dfrts in tiis bdjbdfndy list difdkfd");
     }
 
     /*
-     * Adds a collection of matching certificates to the
-     * adjacency list.
+     * Adds b dollfdtion of mbtdiing dfrtifidbtfs to tif
+     * bdjbdfndy list.
      */
-    private static List<Vertex> addVertices(Collection<X509Certificate> certs,
-                                            List<List<Vertex>> adjList)
+    privbtf stbtid List<Vfrtfx> bddVfrtidfs(Collfdtion<X509Cfrtifidbtf> dfrts,
+                                            List<List<Vfrtfx>> bdjList)
     {
-        List<Vertex> l = adjList.get(adjList.size() - 1);
+        List<Vfrtfx> l = bdjList.gft(bdjList.sizf() - 1);
 
-        for (X509Certificate cert : certs) {
-            Vertex v = new Vertex(cert);
-            l.add(v);
+        for (X509Cfrtifidbtf dfrt : dfrts) {
+            Vfrtfx v = nfw Vfrtfx(dfrt);
+            l.bdd(v);
         }
 
-        return l;
+        rfturn l;
     }
 
     /**
-     * Returns true if trust anchor certificate matches specified
-     * certificate constraints.
+     * Rfturns truf if trust bndior dfrtifidbtf mbtdifs spfdififd
+     * dfrtifidbtf donstrbints.
      */
-    private static boolean anchorIsTarget(TrustAnchor anchor,
-                                          CertSelector sel)
+    privbtf stbtid boolfbn bndiorIsTbrgft(TrustAndior bndior,
+                                          CfrtSflfdtor sfl)
     {
-        X509Certificate anchorCert = anchor.getTrustedCert();
-        if (anchorCert != null) {
-            return sel.match(anchorCert);
+        X509Cfrtifidbtf bndiorCfrt = bndior.gftTrustfdCfrt();
+        if (bndiorCfrt != null) {
+            rfturn sfl.mbtdi(bndiorCfrt);
         }
-        return false;
+        rfturn fblsf;
     }
 }

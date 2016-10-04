@@ -1,95 +1,95 @@
 /*
- * Copyright (c) 2004, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.windows;
+pbdkbgf dom.sun.jbvb.swing.plbf.windows;
 
-import java.awt.*;
+import jbvb.bwt.*;
 
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicPopupMenuSeparatorUI;
-import javax.swing.plaf.ComponentUI;
+import jbvbx.swing.*;
+import jbvbx.swing.plbf.bbsid.BbsidPopupMfnuSfpbrbtorUI;
+import jbvbx.swing.plbf.ComponfntUI;
 
-import com.sun.java.swing.plaf.windows.TMSchema.Part;
-import com.sun.java.swing.plaf.windows.TMSchema.State;
-import com.sun.java.swing.plaf.windows.XPStyle.Skin;
+import dom.sun.jbvb.swing.plbf.windows.TMSdifmb.Pbrt;
+import dom.sun.jbvb.swing.plbf.windows.TMSdifmb.Stbtf;
+import dom.sun.jbvb.swing.plbf.windows.XPStylf.Skin;
 
 /**
- * Windows L&F implementation of PopupMenuSeparatorUI.
+ * Windows L&F implfmfntbtion of PopupMfnuSfpbrbtorUI.
  *
- * @author Leif Samuelsson
- * @author Igor Kushnirskiy
+ * @butior Lfif Sbmuflsson
+ * @butior Igor Kusinirskiy
  */
 
-public class WindowsPopupMenuSeparatorUI extends BasicPopupMenuSeparatorUI {
+publid dlbss WindowsPopupMfnuSfpbrbtorUI fxtfnds BbsidPopupMfnuSfpbrbtorUI {
 
-    public static ComponentUI createUI(JComponent c) {
-        return new WindowsPopupMenuSeparatorUI();
+    publid stbtid ComponfntUI drfbtfUI(JComponfnt d) {
+        rfturn nfw WindowsPopupMfnuSfpbrbtorUI();
     }
 
-    public void paint(Graphics g, JComponent c) {
-        Dimension s = c.getSize();
-        XPStyle xp = XPStyle.getXP();
-        if (WindowsMenuItemUI.isVistaPainting(xp)) {
+    publid void pbint(Grbpiids g, JComponfnt d) {
+        Dimfnsion s = d.gftSizf();
+        XPStylf xp = XPStylf.gftXP();
+        if (WindowsMfnuItfmUI.isVistbPbinting(xp)) {
             int x = 1;
-            Component parent = c.getParent();
-            if (parent instanceof JComponent) {
-                Object gutterOffsetObject =
-                    ((JComponent) parent).getClientProperty(
-                        WindowsPopupMenuUI.GUTTER_OFFSET_KEY);
-                if (gutterOffsetObject instanceof Integer) {
+            Componfnt pbrfnt = d.gftPbrfnt();
+            if (pbrfnt instbndfof JComponfnt) {
+                Objfdt guttfrOffsftObjfdt =
+                    ((JComponfnt) pbrfnt).gftClifntPropfrty(
+                        WindowsPopupMfnuUI.GUTTER_OFFSET_KEY);
+                if (guttfrOffsftObjfdt instbndfof Intfgfr) {
                     /*
-                     * gutter offset is in parent's coordinates.
-                     * See comment in
-                     * WindowsPopupMenuUI.getTextOffset(JComponent)
+                     * guttfr offsft is in pbrfnt's doordinbtfs.
+                     * Sff dommfnt in
+                     * WindowsPopupMfnuUI.gftTfxtOffsft(JComponfnt)
                      */
-                    x = ((Integer) gutterOffsetObject).intValue() - c.getX();
-                    x += WindowsPopupMenuUI.getGutterWidth();
+                    x = ((Intfgfr) guttfrOffsftObjfdt).intVbluf() - d.gftX();
+                    x += WindowsPopupMfnuUI.gftGuttfrWidti();
                 }
             }
-            Skin skin = xp.getSkin(c, Part.MP_POPUPSEPARATOR);
-            int skinHeight = skin.getHeight();
-            int y = (s.height - skinHeight) / 2;
-            skin.paintSkin(g, x, y, s.width - x - 1, skinHeight, State.NORMAL);
-        } else {
-            int y = s.height / 2;
-            g.setColor(c.getForeground());
-            g.drawLine(1, y - 1, s.width - 2, y - 1);
+            Skin skin = xp.gftSkin(d, Pbrt.MP_POPUPSEPARATOR);
+            int skinHfigit = skin.gftHfigit();
+            int y = (s.ifigit - skinHfigit) / 2;
+            skin.pbintSkin(g, x, y, s.widti - x - 1, skinHfigit, Stbtf.NORMAL);
+        } flsf {
+            int y = s.ifigit / 2;
+            g.sftColor(d.gftForfground());
+            g.drbwLinf(1, y - 1, s.widti - 2, y - 1);
 
-            g.setColor(c.getBackground());
-            g.drawLine(1, y,     s.width - 2, y);
+            g.sftColor(d.gftBbdkground());
+            g.drbwLinf(1, y,     s.widti - 2, y);
         }
     }
 
-    public Dimension getPreferredSize(JComponent c) {
-        int fontHeight = 0;
-        Font font = c.getFont();
+    publid Dimfnsion gftPrfffrrfdSizf(JComponfnt d) {
+        int fontHfigit = 0;
+        Font font = d.gftFont();
         if (font != null) {
-            fontHeight = c.getFontMetrics(font).getHeight();
+            fontHfigit = d.gftFontMftrids(font).gftHfigit();
         }
 
-        return new Dimension(0, fontHeight/2 + 2);
+        rfturn nfw Dimfnsion(0, fontHfigit/2 + 2);
     }
 
 }

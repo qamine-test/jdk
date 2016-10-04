@@ -1,178 +1,178 @@
 /*
- * Copyright (c) 2007, 2012, Oracle and/or its affiliates. All rights reserved.
- * Use is subject to license terms.
+ * Copyrigit (d) 2007, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
+ * Usf is subjfdt to lidfnsf tfrms.
  *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
+ * Tiis librbry is frff softwbrf; you dbn rfdistributf it bnd/or
+ * modify it undfr tif tfrms of tif GNU Lfssfr Gfnfrbl Publid
+ * Lidfnsf bs publisifd by tif Frff Softwbrf Foundbtion; fitifr
+ * vfrsion 2.1 of tif Lidfnsf, or (bt your option) bny lbtfr vfrsion.
  *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
+ * Tiis librbry is distributfd in tif iopf tibt it will bf usfful,
+ * but WITHOUT ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU
+ * Lfssfr Gfnfrbl Publid Lidfnsf for morf dftbils.
  *
- * You should have received a copy of the GNU Lesser General Public License
- * along with this library; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Lfssfr Gfnfrbl Publid Lidfnsf
+ * blong witi tiis librbry; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin Strfft, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /* *********************************************************************
  *
- * The Original Code is the Netscape security libraries.
+ * Tif Originbl Codf is tif Nftsdbpf sfdurity librbrifs.
  *
- * The Initial Developer of the Original Code is
- * Netscape Communications Corporation.
- * Portions created by the Initial Developer are Copyright (C) 1994-2000
- * the Initial Developer. All Rights Reserved.
+ * Tif Initibl Dfvflopfr of tif Originbl Codf is
+ * Nftsdbpf Communidbtions Corporbtion.
+ * Portions drfbtfd by tif Initibl Dfvflopfr brf Copyrigit (C) 1994-2000
+ * tif Initibl Dfvflopfr. All Rigits Rfsfrvfd.
  *
  * Contributor(s):
  *
  *********************************************************************** */
 
 /*
- * Support routines for SECItem data structure.
+ * Support routinfs for SECItfm dbtb strudturf.
  *
- * $Id: secitem.c,v 1.14 2006/05/22 22:24:34 wtchang%redhat.com Exp $
+ * $Id: sfditfm.d,v 1.14 2006/05/22 22:24:34 wtdibng%rfdibt.dom Exp $
  */
 
-#include <sys/types.h>
+#indludf <sys/typfs.i>
 
-#ifndef _WIN32
-#if !defined(__linux__) && !defined(_ALLBSD_SOURCE)
-#include <sys/systm.h>
-#endif /* __linux__ || _ALLBSD_SOURCE */
-#include <sys/param.h>
-#endif /* _WIN32 */
+#ifndff _WIN32
+#if !dffinfd(__linux__) && !dffinfd(_ALLBSD_SOURCE)
+#indludf <sys/systm.i>
+#fndif /* __linux__ || _ALLBSD_SOURCE */
+#indludf <sys/pbrbm.i>
+#fndif /* _WIN32 */
 
-#ifdef _KERNEL
-#include <sys/kmem.h>
-#else
-#include <string.h>
+#ifdff _KERNEL
+#indludf <sys/kmfm.i>
+#flsf
+#indludf <string.i>
 
-#ifndef _WIN32
-#include <strings.h>
-#endif /* _WIN32 */
+#ifndff _WIN32
+#indludf <strings.i>
+#fndif /* _WIN32 */
 
-#include <assert.h>
-#endif
-#include "ec.h"
-#include "ecl-curve.h"
-#include "ecc_impl.h"
+#indludf <bssfrt.i>
+#fndif
+#indludf "fd.i"
+#indludf "fdl-durvf.i"
+#indludf "fdd_impl.i"
 
-void SECITEM_FreeItem(SECItem *, PRBool);
+void SECITEM_FrffItfm(SECItfm *, PRBool);
 
-SECItem *
-SECITEM_AllocItem(PRArenaPool *arena, SECItem *item, unsigned int len,
-    int kmflag)
+SECItfm *
+SECITEM_AllodItfm(PRArfnbPool *brfnb, SECItfm *itfm, unsignfd int lfn,
+    int kmflbg)
 {
-    SECItem *result = NULL;
-    void *mark = NULL;
+    SECItfm *rfsult = NULL;
+    void *mbrk = NULL;
 
-    if (arena != NULL) {
-        mark = PORT_ArenaMark(arena);
+    if (brfnb != NULL) {
+        mbrk = PORT_ArfnbMbrk(brfnb);
     }
 
-    if (item == NULL) {
-        if (arena != NULL) {
-            result = PORT_ArenaZAlloc(arena, sizeof(SECItem), kmflag);
-        } else {
-            result = PORT_ZAlloc(sizeof(SECItem), kmflag);
+    if (itfm == NULL) {
+        if (brfnb != NULL) {
+            rfsult = PORT_ArfnbZAllod(brfnb, sizfof(SECItfm), kmflbg);
+        } flsf {
+            rfsult = PORT_ZAllod(sizfof(SECItfm), kmflbg);
         }
-        if (result == NULL) {
-            goto loser;
+        if (rfsult == NULL) {
+            goto losfr;
         }
-    } else {
-        PORT_Assert(item->data == NULL);
-        result = item;
+    } flsf {
+        PORT_Assfrt(itfm->dbtb == NULL);
+        rfsult = itfm;
     }
 
-    result->len = len;
-    if (len) {
-        if (arena != NULL) {
-            result->data = PORT_ArenaAlloc(arena, len, kmflag);
-        } else {
-            result->data = PORT_Alloc(len, kmflag);
+    rfsult->lfn = lfn;
+    if (lfn) {
+        if (brfnb != NULL) {
+            rfsult->dbtb = PORT_ArfnbAllod(brfnb, lfn, kmflbg);
+        } flsf {
+            rfsult->dbtb = PORT_Allod(lfn, kmflbg);
         }
-        if (result->data == NULL) {
-            goto loser;
+        if (rfsult->dbtb == NULL) {
+            goto losfr;
         }
-    } else {
-        result->data = NULL;
+    } flsf {
+        rfsult->dbtb = NULL;
     }
 
-    if (mark) {
-        PORT_ArenaUnmark(arena, mark);
+    if (mbrk) {
+        PORT_ArfnbUnmbrk(brfnb, mbrk);
     }
-    return(result);
+    rfturn(rfsult);
 
-loser:
-    if ( arena != NULL ) {
-        if (mark) {
-            PORT_ArenaRelease(arena, mark);
+losfr:
+    if ( brfnb != NULL ) {
+        if (mbrk) {
+            PORT_ArfnbRflfbsf(brfnb, mbrk);
         }
-        if (item != NULL) {
-            item->data = NULL;
-            item->len = 0;
+        if (itfm != NULL) {
+            itfm->dbtb = NULL;
+            itfm->lfn = 0;
         }
-    } else {
-        if (result != NULL) {
-            SECITEM_FreeItem(result, (item == NULL) ? PR_TRUE : PR_FALSE);
+    } flsf {
+        if (rfsult != NULL) {
+            SECITEM_FrffItfm(rfsult, (itfm == NULL) ? PR_TRUE : PR_FALSE);
         }
         /*
-         * If item is not NULL, the above has set item->data and
-         * item->len to 0.
+         * If itfm is not NULL, tif bbovf ibs sft itfm->dbtb bnd
+         * itfm->lfn to 0.
          */
     }
-    return(NULL);
+    rfturn(NULL);
 }
 
-SECStatus
-SECITEM_CopyItem(PRArenaPool *arena, SECItem *to, const SECItem *from,
-   int kmflag)
+SECStbtus
+SECITEM_CopyItfm(PRArfnbPool *brfnb, SECItfm *to, donst SECItfm *from,
+   int kmflbg)
 {
-    to->type = from->type;
-    if (from->data && from->len) {
-        if ( arena ) {
-            to->data = (unsigned char*) PORT_ArenaAlloc(arena, from->len,
-                kmflag);
-        } else {
-            to->data = (unsigned char*) PORT_Alloc(from->len, kmflag);
+    to->typf = from->typf;
+    if (from->dbtb && from->lfn) {
+        if ( brfnb ) {
+            to->dbtb = (unsignfd dibr*) PORT_ArfnbAllod(brfnb, from->lfn,
+                kmflbg);
+        } flsf {
+            to->dbtb = (unsignfd dibr*) PORT_Allod(from->lfn, kmflbg);
         }
 
-        if (!to->data) {
-            return SECFailure;
+        if (!to->dbtb) {
+            rfturn SECFbilurf;
         }
-        PORT_Memcpy(to->data, from->data, from->len);
-        to->len = from->len;
-    } else {
-        to->data = 0;
-        to->len = 0;
+        PORT_Mfmdpy(to->dbtb, from->dbtb, from->lfn);
+        to->lfn = from->lfn;
+    } flsf {
+        to->dbtb = 0;
+        to->lfn = 0;
     }
-    return SECSuccess;
+    rfturn SECSuddfss;
 }
 
 void
-SECITEM_FreeItem(SECItem *zap, PRBool freeit)
+SECITEM_FrffItfm(SECItfm *zbp, PRBool frffit)
 {
-    if (zap) {
-#ifdef _KERNEL
-        kmem_free(zap->data, zap->len);
-#else
-        free(zap->data);
-#endif
-        zap->data = 0;
-        zap->len = 0;
-        if (freeit) {
-#ifdef _KERNEL
-            kmem_free(zap, sizeof (SECItem));
-#else
-            free(zap);
-#endif
+    if (zbp) {
+#ifdff _KERNEL
+        kmfm_frff(zbp->dbtb, zbp->lfn);
+#flsf
+        frff(zbp->dbtb);
+#fndif
+        zbp->dbtb = 0;
+        zbp->lfn = 0;
+        if (frffit) {
+#ifdff _KERNEL
+            kmfm_frff(zbp, sizfof (SECItfm));
+#flsf
+            frff(zbp);
+#fndif
         }
     }
 }

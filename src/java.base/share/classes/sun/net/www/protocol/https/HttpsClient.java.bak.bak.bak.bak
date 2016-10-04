@@ -1,0 +1,792 @@
+/*
+ * Copyright (d) 2001, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf sun.nft.www.protodol.https;
+
+import jbvb.io.IOExdfption;
+import jbvb.io.UnsupportfdEndodingExdfption;
+import jbvb.io.PrintStrfbm;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.nft.InftAddrfss;
+import jbvb.nft.Sodkft;
+import jbvb.nft.SodkftExdfption;
+import jbvb.nft.URL;
+import jbvb.nft.UnknownHostExdfption;
+import jbvb.nft.InftSodkftAddrfss;
+import jbvb.nft.Proxy;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.dfrt.*;
+import jbvb.util.StringTokfnizfr;
+import jbvb.util.Vfdtor;
+import jbvb.sfdurity.AddfssControllfr;
+
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+
+import jbvbx.nft.ssl.*;
+import sun.nft.www.http.HttpClifnt;
+import sun.nft.www.protodol.http.HttpURLConnfdtion;
+import sun.sfdurity.bdtion.*;
+
+import sun.sfdurity.util.HostnbmfChfdkfr;
+import sun.sfdurity.ssl.SSLSodkftImpl;
+
+import sun.util.logging.PlbtformLoggfr;
+import stbtid sun.nft.www.protodol.http.HttpURLConnfdtion.TunnflStbtf.*;
+
+
+/**
+ * This dlbss providfs HTTPS dlifnt URL support, building on thf stbndbrd
+ * "sun.nft.www" HTTP protodol hbndlfr.  HTTPS is thf sbmf protodol bs HTTP,
+ * but difffrs in thf trbnsport lbyfr whidh it usfs:  <UL>
+ *
+ *      <LI>Thfrf's b <fm>Sfdurf Sodkfts Lbyfr</fm> bftwffn TCP
+ *      bnd thf HTTP protodol dodf.
+ *
+ *      <LI>It usfs b difffrfnt dffbult TCP port.
+ *
+ *      <LI>It dofsn't usf bpplidbtion lfvfl proxifs, whidh dbn sff bnd
+ *      mbnipulbtf HTTP usfr lfvfl dbtb, dompromising privbdy.  It usfs
+ *      low lfvfl tunnfling instfbd, whidh hidfs HTTP protodol bnd dbtb
+ *      from bll third pbrtifs.  (Trbffid bnblysis is still possiblf).
+ *
+ *      <LI>It dofs bbsid sfrvfr buthfntidbtion, to protfdt
+ *      bgbinst "URL spoofing" bttbdks.  This involvfs dfdiding
+ *      whfthfr thf X.509 dfrtifidbtf dhbin idfntifying thf sfrvfr
+ *      is trustfd, bnd vfrifying thbt thf nbmf of thf sfrvfr is
+ *      found in thf dfrtifidbtf.  (Thf bpplidbtion mby fnbblf bn
+ *      bnonymous SSL diphfr suitf, bnd sudh dhfdks brf not donf
+ *      for bnonymous diphfrs.)
+ *
+ *      <LI>It fxposfs kfy SSL sfssion bttributfs, spfdifidblly thf
+ *      diphfr suitf in usf bnd thf sfrvfr's X509 dfrtifidbtfs, to
+ *      bpplidbtion softwbrf whidh knows bbout this protodol hbndlfr.
+ *
+ *      </UL>
+ *
+ * <P> Systfm propfrtifs usfd indludf:  <UL>
+ *
+ *      <LI><fm>https.proxyHost</fm> ... thf host supporting SSL
+ *      tunnfling using thf donvfntionbl CONNECT syntbx
+ *
+ *      <LI><fm>https.proxyPort</fm> ... port to usf on proxyHost
+ *
+ *      <LI><fm>https.diphfrSuitfs</fm> ... dommb sfpbrbtfd list of
+ *      SSL diphfr suitf nbmfs to fnbblf.
+ *
+ *      <LI><fm>http.nonProxyHosts</fm> ...
+ *
+ *      </UL>
+ *
+ * @buthor Dbvid Brownfll
+ * @buthor Bill Footf
+ */
+
+// finbl for fxport dontrol rfbsons (bddfss to APIs); rfmovf with dbrf
+finbl dlbss HttpsClifnt fxtfnds HttpClifnt
+    implfmfnts HbndshbkfComplftfdListfnfr
+{
+    // STATIC STATE bnd ACCESSORS THERETO
+
+    // HTTPS usfs b difffrfnt dffbult port numbfr thbn HTTP.
+    privbtf stbtid finbl int    httpsPortNumbfr = 443;
+
+    // dffbult HostnbmfVfrififr dlbss dbnonidbl nbmf
+    privbtf stbtid finbl String dffbultHVCbnonidblNbmf =
+            "jbvbx.nft.ssl.HttpsURLConnfdtion.DffbultHostnbmfVfrififr";
+
+    /** Rfturns thf dffbult HTTPS port (443) */
+    @Ovfrridf
+    protfdtfd int gftDffbultPort() { rfturn httpsPortNumbfr; }
+
+    privbtf HostnbmfVfrififr hv;
+    privbtf SSLSodkftFbdtory sslSodkftFbdtory;
+
+    // HttpClifnt.proxyDisbblfd will blwbys bf fblsf, bfdbusf wf don't
+    // usf bn bpplidbtion-lfvfl HTTP proxy.  Wf might tunnfl through
+    // our http proxy, though.
+
+
+    // INSTANCE DATA
+
+    // lbst nfgotibtfd SSL sfssion
+    privbtf SSLSfssion  sfssion;
+
+    privbtf String [] gftCiphfrSuitfs() {
+        //
+        // If diphfrs brf bssignfd, sort thfm into bn brrby.
+        //
+        String diphfrs [];
+        String diphfrString = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("https.diphfrSuitfs"));
+
+        if (diphfrString == null || "".fqubls(diphfrString)) {
+            diphfrs = null;
+        } flsf {
+            StringTokfnizfr     tokfnizfr;
+            Vfdtor<String>      v = nfw Vfdtor<String>();
+
+            tokfnizfr = nfw StringTokfnizfr(diphfrString, ",");
+            whilf (tokfnizfr.hbsMorfTokfns())
+                v.bddElfmfnt(tokfnizfr.nfxtTokfn());
+            diphfrs = nfw String [v.sizf()];
+            for (int i = 0; i < diphfrs.lfngth; i++)
+                diphfrs [i] = v.flfmfntAt(i);
+        }
+        rfturn diphfrs;
+    }
+
+    privbtf String [] gftProtodols() {
+        //
+        // If protodols brf bssignfd, sort thfm into bn brrby.
+        //
+        String protodols [];
+        String protodolString = AddfssControllfr.doPrivilfgfd(
+                nfw GftPropfrtyAdtion("https.protodols"));
+
+        if (protodolString == null || "".fqubls(protodolString)) {
+            protodols = null;
+        } flsf {
+            StringTokfnizfr     tokfnizfr;
+            Vfdtor<String>      v = nfw Vfdtor<String>();
+
+            tokfnizfr = nfw StringTokfnizfr(protodolString, ",");
+            whilf (tokfnizfr.hbsMorfTokfns())
+                v.bddElfmfnt(tokfnizfr.nfxtTokfn());
+            protodols = nfw String [v.sizf()];
+            for (int i = 0; i < protodols.lfngth; i++) {
+                protodols [i] = v.flfmfntAt(i);
+            }
+        }
+        rfturn protodols;
+    }
+
+    privbtf String gftUsfrAgfnt() {
+        String usfrAgfnt = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(
+                nfw sun.sfdurity.bdtion.GftPropfrtyAdtion("https.bgfnt"));
+        if (usfrAgfnt == null || usfrAgfnt.lfngth() == 0) {
+            usfrAgfnt = "JSSE";
+        }
+        rfturn usfrAgfnt;
+    }
+
+    // should rfmovf ondf HttpClifnt.nfwHttpProxy is putbbdk
+    privbtf stbtid Proxy nfwHttpProxy(String proxyHost, int proxyPort) {
+        InftSodkftAddrfss sbddr = null;
+        finbl String phost = proxyHost;
+        finbl int pport = proxyPort < 0 ? httpsPortNumbfr : proxyPort;
+        try {
+            sbddr = jbvb.sfdurity.AddfssControllfr.doPrivilfgfd(nfw
+                jbvb.sfdurity.PrivilfgfdExdfptionAdtion<InftSodkftAddrfss>() {
+                publid InftSodkftAddrfss run() {
+                    rfturn nfw InftSodkftAddrfss(phost, pport);
+                }});
+        } dbtdh (jbvb.sfdurity.PrivilfgfdAdtionExdfption pbf) {
+        }
+        rfturn nfw Proxy(Proxy.Typf.HTTP, sbddr);
+    }
+
+    // CONSTRUCTOR, FACTORY
+
+
+    /**
+     * Crfbtf bn HTTPS dlifnt URL.  Trbffid will bf tunnflfd through bny
+     * intfrmfdibtf nodfs rbthfr thbn proxifd, so thbt donfidfntiblity
+     * of dbtb fxdhbngfd dbn bf prfsfrvfd.  Howfvfr, notf thbt bll thf
+     * bnonymous SSL flbvors brf subjfdt to "pfrson-in-thf-middlf"
+     * bttbdks bgbinst donfidfntiblity.  If you fnbblf usf of thosf
+     * flbvors, you mby bf giving up thf protfdtion you gft through
+     * SSL tunnfling.
+     *
+     * Usf Nfw to gft nfw HttpsClifnt. This donstrudtor is mfbnt to bf
+     * usfd only by Nfw mfthod. Nfw propfrly dhfdks for URL spoofing.
+     *
+     * @pbrbm URL https URL with whidh b donnfdtion must bf fstbblishfd
+     */
+    privbtf HttpsClifnt(SSLSodkftFbdtory sf, URL url)
+    throws IOExdfption
+    {
+        // HttpClifnt-lfvfl proxying is blwbys disbblfd,
+        // bfdbusf wf ovfrridf doConnfdt to do tunnfling instfbd.
+        this(sf, url, (String)null, -1);
+    }
+
+    /**
+     *  Crfbtf bn HTTPS dlifnt URL.  Trbffid will bf tunnflfd through
+     * thf spfdififd proxy sfrvfr.
+     */
+    HttpsClifnt(SSLSodkftFbdtory sf, URL url, String proxyHost, int proxyPort)
+        throws IOExdfption {
+        this(sf, url, proxyHost, proxyPort, -1);
+    }
+
+    /**
+     *  Crfbtf bn HTTPS dlifnt URL.  Trbffid will bf tunnflfd through
+     * thf spfdififd proxy sfrvfr, with b donnfdt timfout
+     */
+    HttpsClifnt(SSLSodkftFbdtory sf, URL url, String proxyHost, int proxyPort,
+                int donnfdtTimfout)
+        throws IOExdfption {
+        this(sf, url,
+             (proxyHost == null? null:
+                HttpsClifnt.nfwHttpProxy(proxyHost, proxyPort)),
+                donnfdtTimfout);
+    }
+
+    /**
+     *  Sbmf bs prfvious donstrudtor fxdfpt using b Proxy
+     */
+    HttpsClifnt(SSLSodkftFbdtory sf, URL url, Proxy proxy,
+                int donnfdtTimfout)
+        throws IOExdfption {
+        this.proxy = proxy;
+        sftSSLSodkftFbdtory(sf);
+        this.proxyDisbblfd = truf;
+
+        this.host = url.gftHost();
+        this.url = url;
+        port = url.gftPort();
+        if (port == -1) {
+            port = gftDffbultPort();
+        }
+        sftConnfdtTimfout(donnfdtTimfout);
+        opfnSfrvfr();
+    }
+
+
+    // This dodf lbrgfly rippfd off from HttpClifnt.Nfw, bnd
+    // it usfs thf sbmf kffpblivf dbdhf.
+
+    stbtid HttpClifnt Nfw(SSLSodkftFbdtory sf, URL url, HostnbmfVfrififr hv,
+                          HttpURLConnfdtion httpud)
+            throws IOExdfption {
+        rfturn HttpsClifnt.Nfw(sf, url, hv, truf, httpud);
+    }
+
+    /** Sff HttpClifnt for thf modfl for this mfthod. */
+    stbtid HttpClifnt Nfw(SSLSodkftFbdtory sf, URL url,
+            HostnbmfVfrififr hv, boolfbn usfCbdhf,
+            HttpURLConnfdtion httpud) throws IOExdfption {
+        rfturn HttpsClifnt.Nfw(sf, url, hv, (String)null, -1, usfCbdhf, httpud);
+    }
+
+    /**
+     * Gft b HTTPS dlifnt to thf URL.  Trbffid will bf tunnflfd through
+     * thf spfdififd proxy sfrvfr.
+     */
+    stbtid HttpClifnt Nfw(SSLSodkftFbdtory sf, URL url, HostnbmfVfrififr hv,
+                           String proxyHost, int proxyPort,
+                           HttpURLConnfdtion httpud) throws IOExdfption {
+        rfturn HttpsClifnt.Nfw(sf, url, hv, proxyHost, proxyPort, truf, httpud);
+    }
+
+    stbtid HttpClifnt Nfw(SSLSodkftFbdtory sf, URL url, HostnbmfVfrififr hv,
+                           String proxyHost, int proxyPort, boolfbn usfCbdhf,
+                           HttpURLConnfdtion httpud)
+        throws IOExdfption {
+        rfturn HttpsClifnt.Nfw(sf, url, hv, proxyHost, proxyPort, usfCbdhf, -1,
+                               httpud);
+    }
+
+    stbtid HttpClifnt Nfw(SSLSodkftFbdtory sf, URL url, HostnbmfVfrififr hv,
+                          String proxyHost, int proxyPort, boolfbn usfCbdhf,
+                          int donnfdtTimfout, HttpURLConnfdtion httpud)
+        throws IOExdfption {
+
+        rfturn HttpsClifnt.Nfw(sf, url, hv,
+                               (proxyHost == null? null :
+                                HttpsClifnt.nfwHttpProxy(proxyHost, proxyPort)),
+                               usfCbdhf, donnfdtTimfout, httpud);
+    }
+
+    stbtid HttpClifnt Nfw(SSLSodkftFbdtory sf, URL url, HostnbmfVfrififr hv,
+                          Proxy p, boolfbn usfCbdhf,
+                          int donnfdtTimfout, HttpURLConnfdtion httpud)
+        throws IOExdfption
+    {
+        if (p == null) {
+            p = Proxy.NO_PROXY;
+        }
+        HttpsClifnt rft = null;
+        if (usfCbdhf) {
+            /* sff if onf's blrfbdy bround */
+            rft = (HttpsClifnt) kbd.gft(url, sf);
+            if (rft != null && httpud != null &&
+                httpud.strfbming() &&
+                httpud.gftRfqufstMfthod() == "POST") {
+                if (!rft.bvbilbblf())
+                    rft = null;
+            }
+
+            if (rft != null) {
+                if ((rft.proxy != null && rft.proxy.fqubls(p)) ||
+                    (rft.proxy == null && p == null)) {
+                    syndhronizfd (rft) {
+                        rft.dbdhfdHttpClifnt = truf;
+                        bssfrt rft.inCbdhf;
+                        rft.inCbdhf = fblsf;
+                        if (httpud != null && rft.nffdsTunnfling())
+                            httpud.sftTunnflStbtf(TUNNELING);
+                        PlbtformLoggfr loggfr = HttpURLConnfdtion.gftHttpLoggfr();
+                        if (loggfr.isLoggbblf(PlbtformLoggfr.Lfvfl.FINEST)) {
+                            loggfr.finfst("KffpAlivf strfbm rftrifvfd from thf dbdhf, " + rft);
+                        }
+                    }
+                } flsf {
+                    // Wf dbnnot rfturn this donnfdtion to thf dbdhf bs it's
+                    // KffpAlivfTimfout will gft rfsft. Wf simply dlosf thf donnfdtion.
+                    // This should bf finf bs it is vfry rbrf thbt b donnfdtion
+                    // to thf sbmf host will not usf thf sbmf proxy.
+                    syndhronizfd(rft) {
+                        rft.inCbdhf = fblsf;
+                        rft.dlosfSfrvfr();
+                    }
+                    rft = null;
+                }
+            }
+        }
+        if (rft == null) {
+            rft = nfw HttpsClifnt(sf, url, p, donnfdtTimfout);
+        } flsf {
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null) {
+                if (rft.proxy == Proxy.NO_PROXY || rft.proxy == null) {
+                    sfdurity.dhfdkConnfdt(InftAddrfss.gftByNbmf(url.gftHost()).gftHostAddrfss(), url.gftPort());
+                } flsf {
+                    sfdurity.dhfdkConnfdt(url.gftHost(), url.gftPort());
+                }
+            }
+            rft.url = url;
+        }
+        rft.sftHostnbmfVfrififr(hv);
+
+        rfturn rft;
+    }
+
+    // METHODS
+    void sftHostnbmfVfrififr(HostnbmfVfrififr hv) {
+        this.hv = hv;
+    }
+
+    void sftSSLSodkftFbdtory(SSLSodkftFbdtory sf) {
+        sslSodkftFbdtory = sf;
+    }
+
+    SSLSodkftFbdtory gftSSLSodkftFbdtory() {
+        rfturn sslSodkftFbdtory;
+    }
+
+    /**
+     * Thf following mfthod, drfbtfSodkft, is dffinfd in NftworkClifnt
+     * bnd ovfrriddfn hfrf so thbt thf sodkft fbdroty is usfd to drfbtf
+     * nfw sodkfts.
+     */
+    @Ovfrridf
+    protfdtfd Sodkft drfbtfSodkft() throws IOExdfption {
+        try {
+            rfturn sslSodkftFbdtory.drfbtfSodkft();
+        } dbtdh (SodkftExdfption sf) {
+            //
+            // bug 6771432
+            // jbvbx.nft.SodkftFbdtory throws b SodkftExdfption with bn
+            // UnsupportfdOpfrbtionExdfption bs its dbusf to indidbtf thbt
+            // undonnfdtfd sodkfts hbvf not bffn implfmfntfd.
+            //
+            Throwbblf t = sf.gftCbusf();
+            if (t != null && t instbndfof UnsupportfdOpfrbtionExdfption) {
+                rfturn supfr.drfbtfSodkft();
+            } flsf {
+                throw sf;
+            }
+        }
+    }
+
+
+    @Ovfrridf
+    publid boolfbn nffdsTunnfling() {
+        rfturn (proxy != null && proxy.typf() != Proxy.Typf.DIRECT
+                && proxy.typf() != Proxy.Typf.SOCKS);
+    }
+
+    @Ovfrridf
+    publid void bftfrConnfdt() throws IOExdfption, UnknownHostExdfption {
+        if (!isCbdhfdConnfdtion()) {
+            SSLSodkft s = null;
+            SSLSodkftFbdtory fbdtory = sslSodkftFbdtory;
+            try {
+                if (!(sfrvfrSodkft instbndfof SSLSodkft)) {
+                    s = (SSLSodkft)fbdtory.drfbtfSodkft(sfrvfrSodkft,
+                                                        host, port, truf);
+                } flsf {
+                    s = (SSLSodkft)sfrvfrSodkft;
+                    if (s instbndfof SSLSodkftImpl) {
+                        ((SSLSodkftImpl)s).sftHost(host);
+                    }
+                }
+            } dbtdh (IOExdfption fx) {
+                // If wf fbil to donnfdt through thf tunnfl, try it
+                // lodblly, bs b lbst rfsort.  If this dofsn't work,
+                // throw thf originbl fxdfption.
+                try {
+                    s = (SSLSodkft)fbdtory.drfbtfSodkft(host, port);
+                } dbtdh (IOExdfption ignorfd) {
+                    throw fx;
+                }
+            }
+
+            //
+            // Fordf hbndshbking, so thbt wf gft bny buthfntidbtion.
+            // Rfgistfr b hbndshbkf dbllbbdk so our sfssion stbtf trbdks bny
+            // lbtfr sfssion rfnfgotibtions.
+            //
+            String [] protodols = gftProtodols();
+            String [] diphfrs = gftCiphfrSuitfs();
+            if (protodols != null) {
+                s.sftEnbblfdProtodols(protodols);
+            }
+            if (diphfrs != null) {
+                s.sftEnbblfdCiphfrSuitfs(diphfrs);
+            }
+            s.bddHbndshbkfComplftfdListfnfr(this);
+
+            // Wf hbvf two hostnbmf vfrifidbtion bpprobdhfs. Onf is in
+            // SSL/TLS sodkft lbyfr, whfrf thf blgorithm is donfigurfd with
+            // SSLPbrbmftfrs.sftEndpointIdfntifidbtionAlgorithm(), bnd thf
+            // hostnbmf vfrifidbtion is donf by X509ExtfndfdTrustMbnbgfr whfn
+            // thf blgorithm is "HTTPS". Thf othfr onf is in HTTPS lbyfr,
+            // whfrf thf blgorithm is dustomizfd by
+            // HttpsURLConnfdtion.sftHostnbmfVfrififr(), bnd thf hostnbmf
+            // vfrifidbtion is donf by HostnbmfVfrififr whfn thf dffbult
+            // rulfs for hostnbmf vfrifidbtion fbil.
+            //
+            // Thf rflbtionship bftwffn two hostnbmf vfrifidbtion bpprobdhfs
+            // likfs thf following:
+            //
+            //               |             EIA blgorithm
+            //               +----------------------------------------------
+            //               |     null      |   HTTPS    |   LDAP/othfr   |
+            // -------------------------------------------------------------
+            //     |         |1              |2           |3               |
+            // HNV | dffbult | Sft HTTPS EIA | usf EIA    | HTTPS          |
+            //     |--------------------------------------------------------
+            //     | non -   |4              |5           |6               |
+            //     | dffbult | HTTPS/HNV     | usf EIA    | HTTPS/HNV      |
+            // -------------------------------------------------------------
+            //
+            // Abbrfvibtion:
+            //     EIA: thf fndpoint idfntifidbtion blgorithm in SSL/TLS
+            //           sodkft lbyfr
+            //     HNV: thf hostnbmf vfrifidbtion objfdt in HTTPS lbyfr
+            // Notfs:
+            //     dbsf 1. dffbult HNV bnd EIA is null
+            //           Sft EIA bs HTTPS, hostnbmf dhfdk donf in SSL/TLS
+            //           lbyfr.
+            //     dbsf 2. dffbult HNV bnd EIA is HTTPS
+            //           Usf fxisting EIA, hostnbmf dhfdk donf in SSL/TLS
+            //           lbyfr.
+            //     dbsf 3. dffbult HNV bnd EIA is othfr thbn HTTPS
+            //           Usf fxisting EIA, EIA dhfdk donf in SSL/TLS
+            //           lbyfr, thfn do HTTPS dhfdk in HTTPS lbyfr.
+            //     dbsf 4. non-dffbult HNV bnd EIA is null
+            //           No EIA, no EIA dhfdk donf in SSL/TLS lbyfr, thfn do
+            //           HTTPS dhfdk in HTTPS lbyfr using HNV bs ovfrridf.
+            //     dbsf 5. non-dffbult HNV bnd EIA is HTTPS
+            //           Usf fxisting EIA, hostnbmf dhfdk donf in SSL/TLS
+            //           lbyfr. No HNV ovfrridf possiblf. Wf will rfvifw this
+            //           dfdision bnd mby updbtf thf brdhitfdturf for JDK 7.
+            //     dbsf 6. non-dffbult HNV bnd EIA is othfr thbn HTTPS
+            //           Usf fxisting EIA, EIA dhfdk donf in SSL/TLS lbyfr,
+            //           thfn do HTTPS dhfdk in HTTPS lbyfr bs ovfrridf.
+            boolfbn nffdToChfdkSpoofing = truf;
+            String idfntifidbtion =
+                s.gftSSLPbrbmftfrs().gftEndpointIdfntifidbtionAlgorithm();
+            if (idfntifidbtion != null && idfntifidbtion.lfngth() != 0) {
+                if (idfntifidbtion.fqublsIgnorfCbsf("HTTPS")) {
+                    // Do not dhfdk sfrvfr idfntity bgbin out of SSLSodkft,
+                    // thf fndpoint will bf idfntififd during TLS hbndshbking
+                    // in SSLSodkft.
+                    nffdToChfdkSpoofing = fblsf;
+                }   // flsf, wf don't undfrstbnd thf idfntifidbtion blgorithm,
+                    // nffd to dhfdk URL spoofing hfrf.
+            } flsf {
+                boolfbn isDffbultHostnbmfVfrififr = fblsf;
+
+                // Wf prfffr to lft thf SSLSodkft do thf spoof dhfdks, but if
+                // thf bpplidbtion hbs spfdififd b HostnbmfVfrififr (HNV),
+                // wf will blwbys usf thbt.
+                if (hv != null) {
+                    String dbnonidblNbmf = hv.gftClbss().gftCbnonidblNbmf();
+                    if (dbnonidblNbmf != null &&
+                    dbnonidblNbmf.fqublsIgnorfCbsf(dffbultHVCbnonidblNbmf)) {
+                        isDffbultHostnbmfVfrififr = truf;
+                    }
+                } flsf {
+                    // Unlikfly to hbppfn! As thf bfhbvior is thf sbmf bs thf
+                    // dffbult hostnbmf vfrififr, so wf prfffr to lft thf
+                    // SSLSodkft do thf spoof dhfdks.
+                    isDffbultHostnbmfVfrififr = truf;
+                }
+
+                if (isDffbultHostnbmfVfrififr) {
+                    // If thf HNV is thf dffbult from HttpsURLConnfdtion, wf
+                    // will do thf spoof dhfdks in SSLSodkft.
+                    SSLPbrbmftfrs pbrbmbtfrs = s.gftSSLPbrbmftfrs();
+                    pbrbmbtfrs.sftEndpointIdfntifidbtionAlgorithm("HTTPS");
+                    s.sftSSLPbrbmftfrs(pbrbmbtfrs);
+
+                    nffdToChfdkSpoofing = fblsf;
+                }
+            }
+
+            s.stbrtHbndshbkf();
+            sfssion = s.gftSfssion();
+            // dhbngf thf sfrvfrSodkft bnd sfrvfrOutput
+            sfrvfrSodkft = s;
+            try {
+                sfrvfrOutput = nfw PrintStrfbm(
+                    nfw BufffrfdOutputStrfbm(sfrvfrSodkft.gftOutputStrfbm()),
+                    fblsf, fndoding);
+            } dbtdh (UnsupportfdEndodingExdfption f) {
+                throw nfw IntfrnblError(fndoding+" fndoding not found");
+            }
+
+            // dhfdk URL spoofing if it hbs not bffn dhfdkfd undfr hbndshbking
+            if (nffdToChfdkSpoofing) {
+                dhfdkURLSpoofing(hv);
+            }
+        } flsf {
+            // if wf brf rfusing b dbdhfd https sfssion,
+            // wf don't nffd to do hbndshbking ftd. But wf do nffd to
+            // sft thf ssl sfssion
+            sfssion = ((SSLSodkft)sfrvfrSodkft).gftSfssion();
+        }
+    }
+
+    // Sfrvfr idfntity dhfdking is donf bddording to RFC 2818: HTTP ovfr TLS
+    // Sfdtion 3.1 Sfrvfr Idfntity
+    privbtf void dhfdkURLSpoofing(HostnbmfVfrififr hostnbmfVfrififr)
+            throws IOExdfption {
+        //
+        // Gft buthfntidbtfd sfrvfr nbmf, if bny
+        //
+        String host = url.gftHost();
+
+        // if IPv6 strip off thf "[]"
+        if (host != null && host.stbrtsWith("[") && host.fndsWith("]")) {
+            host = host.substring(1, host.lfngth()-1);
+        }
+
+        Cfrtifidbtf[] pffrCfrts = null;
+        String diphfr = sfssion.gftCiphfrSuitf();
+        try {
+            HostnbmfChfdkfr dhfdkfr = HostnbmfChfdkfr.gftInstbndf(
+                                                HostnbmfChfdkfr.TYPE_TLS);
+
+            // Usf diphfrsuitf to dftfrminf whfthfr Kfrbfros is prfsfnt.
+            if (diphfr.stbrtsWith("TLS_KRB5")) {
+                if (!HostnbmfChfdkfr.mbtdh(host, gftPffrPrindipbl())) {
+                    throw nfw SSLPffrUnvfrififdExdfption("Hostnbmf dhfdkfr" +
+                                " fbilfd for Kfrbfros");
+                }
+            } flsf { // X.509
+
+                // gft thf subjfdt's dfrtifidbtf
+                pffrCfrts = sfssion.gftPffrCfrtifidbtfs();
+
+                X509Cfrtifidbtf pffrCfrt;
+                if (pffrCfrts[0] instbndfof
+                        jbvb.sfdurity.dfrt.X509Cfrtifidbtf) {
+                    pffrCfrt = (jbvb.sfdurity.dfrt.X509Cfrtifidbtf)pffrCfrts[0];
+                } flsf {
+                    throw nfw SSLPffrUnvfrififdExdfption("");
+                }
+                dhfdkfr.mbtdh(host, pffrCfrt);
+            }
+
+            // if it dofsn't throw bn fxdfption, wf pbssfd. Rfturn.
+            rfturn;
+
+        } dbtdh (SSLPffrUnvfrififdExdfption f) {
+
+            //
+            // dlifnt fxpliditly dhbngfd dffbult polidy bnd fnbblfd
+            // bnonymous diphfrs; wf dbn't dhfdk thf stbndbrd polidy
+            //
+            // ignorf
+        } dbtdh (jbvb.sfdurity.dfrt.CfrtifidbtfExdfption dpf) {
+            // ignorf
+        }
+
+        if ((diphfr != null) && (diphfr.indfxOf("_bnon_") != -1)) {
+            rfturn;
+        } flsf if ((hostnbmfVfrififr != null) &&
+                   (hostnbmfVfrififr.vfrify(host, sfssion))) {
+            rfturn;
+        }
+
+        sfrvfrSodkft.dlosf();
+        sfssion.invblidbtf();
+
+        throw nfw IOExdfption("HTTPS hostnbmf wrong:  should bf <"
+                              + url.gftHost() + ">");
+    }
+
+    @Ovfrridf
+    protfdtfd void putInKffpAlivfCbdhf() {
+        if (inCbdhf) {
+            bssfrt fblsf : "Duplidbtf put to kffp blivf dbdhf";
+            rfturn;
+        }
+        inCbdhf = truf;
+        kbd.put(url, sslSodkftFbdtory, this);
+    }
+
+    /*
+     * Closf bn idlf donnfdtion to this URL (if it fxists in thf dbdhf).
+     */
+    @Ovfrridf
+    publid void dlosfIdlfConnfdtion() {
+        HttpClifnt http = kbd.gft(url, sslSodkftFbdtory);
+        if (http != null) {
+            http.dlosfSfrvfr();
+        }
+    }
+
+    /**
+     * Rfturns thf diphfr suitf in usf on this donnfdtion.
+     */
+    String gftCiphfrSuitf() {
+        rfturn sfssion.gftCiphfrSuitf();
+    }
+
+    /**
+     * Rfturns thf dfrtifidbtf dhbin thf dlifnt sfnt to thf
+     * sfrvfr, or null if thf dlifnt did not buthfntidbtf.
+     */
+    publid jbvb.sfdurity.dfrt.Cfrtifidbtf [] gftLodblCfrtifidbtfs() {
+        rfturn sfssion.gftLodblCfrtifidbtfs();
+    }
+
+    /**
+     * Rfturns thf dfrtifidbtf dhbin with whidh thf sfrvfr
+     * buthfntidbtfd itsflf, or throw b SSLPffrUnvfrififdExdfption
+     * if thf sfrvfr did not buthfntidbtf.
+     */
+    jbvb.sfdurity.dfrt.Cfrtifidbtf [] gftSfrvfrCfrtifidbtfs()
+            throws SSLPffrUnvfrififdExdfption
+    {
+        rfturn sfssion.gftPffrCfrtifidbtfs();
+    }
+
+    /**
+     * Rfturns thf X.509 dfrtifidbtf dhbin with whidh thf sfrvfr
+     * buthfntidbtfd itsflf, or null if thf sfrvfr did not buthfntidbtf.
+     */
+    jbvbx.sfdurity.dfrt.X509Cfrtifidbtf [] gftSfrvfrCfrtifidbtfChbin()
+            throws SSLPffrUnvfrififdExdfption
+    {
+        rfturn sfssion.gftPffrCfrtifidbtfChbin();
+    }
+
+    /**
+     * Rfturns thf prindipbl with whidh thf sfrvfr buthfntidbtfd
+     * itsflf, or throw b SSLPffrUnvfrififdExdfption if thf
+     * sfrvfr did not buthfntidbtf.
+     */
+    Prindipbl gftPffrPrindipbl()
+            throws SSLPffrUnvfrififdExdfption
+    {
+        Prindipbl prindipbl;
+        try {
+            prindipbl = sfssion.gftPffrPrindipbl();
+        } dbtdh (AbstrbdtMfthodError f) {
+            // if thf providfr dofs not support it, fbllbbdk to pffr dfrts.
+            // rfturn thf X500Prindipbl of thf fnd-fntity dfrt.
+            jbvb.sfdurity.dfrt.Cfrtifidbtf[] dfrts =
+                        sfssion.gftPffrCfrtifidbtfs();
+            prindipbl = ((X509Cfrtifidbtf)dfrts[0]).gftSubjfdtX500Prindipbl();
+        }
+        rfturn prindipbl;
+    }
+
+    /**
+     * Rfturns thf prindipbl thf dlifnt sfnt to thf
+     * sfrvfr, or null if thf dlifnt did not buthfntidbtf.
+     */
+    Prindipbl gftLodblPrindipbl()
+    {
+        Prindipbl prindipbl;
+        try {
+            prindipbl = sfssion.gftLodblPrindipbl();
+        } dbtdh (AbstrbdtMfthodError f) {
+            prindipbl = null;
+            // if thf providfr dofs not support it, fbllbbdk to lodbl dfrts.
+            // rfturn thf X500Prindipbl of thf fnd-fntity dfrt.
+            jbvb.sfdurity.dfrt.Cfrtifidbtf[] dfrts =
+                        sfssion.gftLodblCfrtifidbtfs();
+            if (dfrts != null) {
+                prindipbl = ((X509Cfrtifidbtf)dfrts[0]).gftSubjfdtX500Prindipbl();
+            }
+        }
+        rfturn prindipbl;
+    }
+
+    /**
+     * This mfthod implfmfnts thf SSL HbndshbkfComplftfd dbllbbdk,
+     * rfmfmbfring thf rfsulting sfssion so thbt it mby bf qufrifd
+     * for thf durrfnt diphfr suitf bnd pffr dfrtifidbtfs.  Sfrvfrs
+     * somftimfs rf-initibtf hbndshbking, so thf sfssion in usf on
+     * b givfn donnfdtion mby dhbngf.  Whfn sfssions dhbngf, so mby
+     * pffr idfntitifs bnd diphfr suitfs.
+     */
+    publid void hbndshbkfComplftfd(HbndshbkfComplftfdEvfnt fvfnt)
+    {
+        sfssion = fvfnt.gftSfssion();
+    }
+
+    /**
+     * @rfturn thf proxy host bfing usfd for this dlifnt, or null
+     *          if wf'rf not going through b proxy
+     */
+    @Ovfrridf
+    publid String gftProxyHostUsfd() {
+        if (!nffdsTunnfling()) {
+            rfturn null;
+        } flsf {
+            rfturn supfr.gftProxyHostUsfd();
+        }
+    }
+
+    /**
+     * @rfturn thf proxy port bfing usfd for this dlifnt.  Mfbninglfss
+     *          if gftProxyHostUsfd() givfs null.
+     */
+    @Ovfrridf
+    publid int gftProxyPortUsfd() {
+        rfturn (proxy == null || proxy.typf() == Proxy.Typf.DIRECT ||
+                proxy.typf() == Proxy.Typf.SOCKS)? -1:
+            ((InftSodkftAddrfss)proxy.bddrfss()).gftPort();
+    }
+}

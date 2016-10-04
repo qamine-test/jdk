@@ -1,127 +1,127 @@
 /*
- * Copyright (c) 2000, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package javax.print.attribute.standard;
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
 
-import javax.print.attribute.Attribute;
-import javax.print.attribute.EnumSyntax;
-import javax.print.attribute.PrintServiceAttribute;
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.EnumSyntbx;
+import jbvbx.print.bttributf.PrintSfrvidfAttributf;
 
 /**
- * Class PDLOverrideSupported is a printing attribute class, an enumeration,
- * that expresses the printer's ability to attempt to override processing
- * instructions embedded in documents' print data with processing instructions
- * specified as attributes outside the print data.
+ * Clbss PDLOvfrridfSupportfd is b printing bttributf dlbss, bn fnumfrbtion,
+ * tibt fxprfssfs tif printfr's bbility to bttfmpt to ovfrridf prodfssing
+ * instrudtions fmbfddfd in dodumfnts' print dbtb witi prodfssing instrudtions
+ * spfdififd bs bttributfs outsidf tif print dbtb.
  * <P>
- * <B>IPP Compatibility:</B> The category name returned by
- * <CODE>getName()</CODE> is the IPP attribute name.  The enumeration's
- * integer value is the IPP enum value.  The <code>toString()</code> method
- * returns the IPP string representation of the attribute value.
+ * <B>IPP Compbtibility:</B> Tif dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> is tif IPP bttributf nbmf.  Tif fnumfrbtion's
+ * intfgfr vbluf is tif IPP fnum vbluf.  Tif <dodf>toString()</dodf> mftiod
+ * rfturns tif IPP string rfprfsfntbtion of tif bttributf vbluf.
  *
- * @author  Alan Kaminsky
+ * @butior  Albn Kbminsky
  */
-public class PDLOverrideSupported extends EnumSyntax
-    implements PrintServiceAttribute {
+publid dlbss PDLOvfrridfSupportfd fxtfnds EnumSyntbx
+    implfmfnts PrintSfrvidfAttributf {
 
-    private static final long serialVersionUID = -4393264467928463934L;
+    privbtf stbtid finbl long sfriblVfrsionUID = -4393264467928463934L;
 
     /**
-     * The printer makes no attempt to make the external job attribute values
-     * take precedence over embedded instructions in the documents' print
-     * data.
+     * Tif printfr mbkfs no bttfmpt to mbkf tif fxtfrnbl job bttributf vblufs
+     * tbkf prfdfdfndf ovfr fmbfddfd instrudtions in tif dodumfnts' print
+     * dbtb.
      */
-    public static final PDLOverrideSupported
-        NOT_ATTEMPTED = new PDLOverrideSupported(0);
+    publid stbtid finbl PDLOvfrridfSupportfd
+        NOT_ATTEMPTED = nfw PDLOvfrridfSupportfd(0);
 
     /**
-     * The printer attempts to make the external job attribute values take
-     * precedence over embedded instructions in the documents' print data,
-     * however there is no guarantee.
+     * Tif printfr bttfmpts to mbkf tif fxtfrnbl job bttributf vblufs tbkf
+     * prfdfdfndf ovfr fmbfddfd instrudtions in tif dodumfnts' print dbtb,
+     * iowfvfr tifrf is no gubrbntff.
      */
-    public static final PDLOverrideSupported
-        ATTEMPTED = new PDLOverrideSupported(1);
+    publid stbtid finbl PDLOvfrridfSupportfd
+        ATTEMPTED = nfw PDLOvfrridfSupportfd(1);
 
 
     /**
-     * Construct a new PDL override supported enumeration value with the given
-     * integer value.
+     * Construdt b nfw PDL ovfrridf supportfd fnumfrbtion vbluf witi tif givfn
+     * intfgfr vbluf.
      *
-     * @param  value  Integer value.
+     * @pbrbm  vbluf  Intfgfr vbluf.
      */
-    protected PDLOverrideSupported(int value) {
-        super (value);
+    protfdtfd PDLOvfrridfSupportfd(int vbluf) {
+        supfr (vbluf);
     }
 
-    private static final String[] myStringTable = {
-        "not-attempted",
-        "attempted"
+    privbtf stbtid finbl String[] myStringTbblf = {
+        "not-bttfmptfd",
+        "bttfmptfd"
     };
 
-    private static final PDLOverrideSupported[] myEnumValueTable = {
+    privbtf stbtid finbl PDLOvfrridfSupportfd[] myEnumVblufTbblf = {
         NOT_ATTEMPTED,
         ATTEMPTED
     };
 
     /**
-     * Returns the string table for class PDLOverrideSupported.
+     * Rfturns tif string tbblf for dlbss PDLOvfrridfSupportfd.
      */
-    protected String[] getStringTable() {
-        return myStringTable.clone();
+    protfdtfd String[] gftStringTbblf() {
+        rfturn myStringTbblf.dlonf();
     }
 
     /**
-     * Returns the enumeration value table for class PDLOverrideSupported.
+     * Rfturns tif fnumfrbtion vbluf tbblf for dlbss PDLOvfrridfSupportfd.
      */
-    protected EnumSyntax[] getEnumValueTable() {
-        return (EnumSyntax[])myEnumValueTable.clone();
+    protfdtfd EnumSyntbx[] gftEnumVblufTbblf() {
+        rfturn (EnumSyntbx[])myEnumVblufTbblf.dlonf();
     }
 
     /**
-     * Get the printing attribute class which is to be used as the "category"
-     * for this printing attribute value.
+     * Gft tif printing bttributf dlbss wiidi is to bf usfd bs tif "dbtfgory"
+     * for tiis printing bttributf vbluf.
      * <P>
-     * For class PDLOverrideSupported and any vendor-defined subclasses, the
-     * category is class PDLOverrideSupported itself.
+     * For dlbss PDLOvfrridfSupportfd bnd bny vfndor-dffinfd subdlbssfs, tif
+     * dbtfgory is dlbss PDLOvfrridfSupportfd itsflf.
      *
-     * @return  Printing attribute class (category), an instance of class
-     *          {@link java.lang.Class java.lang.Class}.
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
      */
-    public final Class<? extends Attribute> getCategory() {
-        return PDLOverrideSupported.class;
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn PDLOvfrridfSupportfd.dlbss;
     }
 
     /**
-     * Get the name of the category of which this attribute value is an
-     * instance.
+     * Gft tif nbmf of tif dbtfgory of wiidi tiis bttributf vbluf is bn
+     * instbndf.
      * <P>
-     * For class PDLOverrideSupported and any vendor-defined subclasses, the
-     * category name is <CODE>"pdl-override-supported"</CODE>.
+     * For dlbss PDLOvfrridfSupportfd bnd bny vfndor-dffinfd subdlbssfs, tif
+     * dbtfgory nbmf is <CODE>"pdl-ovfrridf-supportfd"</CODE>.
      *
-     * @return  Attribute category name.
+     * @rfturn  Attributf dbtfgory nbmf.
      */
-    public final String getName() {
-        return "pdl-override-supported";
+    publid finbl String gftNbmf() {
+        rfturn "pdl-ovfrridf-supportfd";
     }
 
 }

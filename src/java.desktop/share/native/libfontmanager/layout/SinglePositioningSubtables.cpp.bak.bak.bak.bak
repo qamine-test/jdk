@@ -1,0 +1,103 @@
+/*
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ *
+ * (C) Copyright IBM Corp. 1998-2005 - All Rights Rfsfrvfd
+ *
+ */
+
+#indludf "LETypfs.h"
+#indludf "LEFontInstbndf.h"
+#indludf "OpfnTypfTbblfs.h"
+#indludf "GlyphPositioningTbblfs.h"
+#indludf "SinglfPositioningSubtbblfs.h"
+#indludf "VblufRfdords.h"
+#indludf "GlyphItfrbtor.h"
+#indludf "LESwbps.h"
+
+U_NAMESPACE_BEGIN
+
+lf_uint32 SinglfPositioningSubtbblf::prodfss(donst LERfffrfndfTo<SinglfPositioningSubtbblf> &bbsf, GlyphItfrbtor *glyphItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst
+{
+    switdh(SWAPW(subtbblfFormbt))
+    {
+    dbsf 0:
+        rfturn 0;
+
+    dbsf 1:
+    {
+      donst LERfffrfndfTo<SinglfPositioningFormbt1Subtbblf> subtbblf(bbsf, suddfss, (donst SinglfPositioningFormbt1Subtbblf *) this);
+
+      rfturn subtbblf->prodfss(subtbblf, glyphItfrbtor, fontInstbndf, suddfss);
+    }
+
+    dbsf 2:
+    {
+      donst LERfffrfndfTo<SinglfPositioningFormbt2Subtbblf> subtbblf(bbsf, suddfss, (donst SinglfPositioningFormbt2Subtbblf *) this);
+
+      rfturn subtbblf->prodfss(subtbblf, glyphItfrbtor, fontInstbndf, suddfss);
+    }
+
+    dffbult:
+        rfturn 0;
+    }
+}
+
+lf_uint32 SinglfPositioningFormbt1Subtbblf::prodfss(donst LERfffrfndfTo<SinglfPositioningFormbt1Subtbblf> &bbsf, GlyphItfrbtor *glyphItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst
+{
+    LEGlyphID glyph = glyphItfrbtor->gftCurrGlyphID();
+    lf_int32 dovfrbgfIndfx = gftGlyphCovfrbgf(bbsf, glyph, suddfss);
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    if (dovfrbgfIndfx >= 0) {
+      vblufRfdord.bdjustPosition(SWAPW(vblufFormbt), bbsf, *glyphItfrbtor, fontInstbndf, suddfss);
+
+        rfturn 1;
+    }
+
+    rfturn 0;
+}
+
+lf_uint32 SinglfPositioningFormbt2Subtbblf::prodfss(donst LERfffrfndfTo<SinglfPositioningFormbt2Subtbblf> &bbsf, GlyphItfrbtor *glyphItfrbtor, donst LEFontInstbndf *fontInstbndf, LEErrorCodf &suddfss) donst
+{
+    LEGlyphID glyph = glyphItfrbtor->gftCurrGlyphID();
+    lf_int16 dovfrbgfIndfx = (lf_int16) gftGlyphCovfrbgf(bbsf, glyph, suddfss);
+    if (LE_FAILURE(suddfss)) {
+        rfturn 0;
+    }
+
+    if (dovfrbgfIndfx >= 0) {
+      vblufRfdordArrby[0].bdjustPosition(dovfrbgfIndfx, SWAPW(vblufFormbt), bbsf, *glyphItfrbtor, fontInstbndf, suddfss);
+
+        rfturn 1;
+    }
+
+    rfturn 0;
+}
+
+U_NAMESPACE_END

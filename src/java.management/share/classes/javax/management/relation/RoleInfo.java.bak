@@ -1,608 +1,608 @@
 /*
- * Copyright (c) 2000, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management.relation;
+pbdkbgf jbvbx.mbnbgfmfnt.rflbtion;
 
 
-import com.sun.jmx.mbeanserver.GetPropertyAction;
+import dom.sun.jmx.mbfbnsfrvfr.GftPropfrtyAdtion;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.ObjectStreamField;
-import java.io.Serializable;
-import java.security.AccessController;
+import jbvb.io.IOExdfption;
+import jbvb.io.ObjfdtInputStrfbm;
+import jbvb.io.ObjfdtOutputStrfbm;
+import jbvb.io.ObjfdtStrfbmFifld;
+import jbvb.io.Sfriblizbblf;
+import jbvb.sfdurity.AddfssControllfr;
 
-import javax.management.MBeanServer;
+import jbvbx.mbnbgfmfnt.MBfbnSfrvfr;
 
-import javax.management.NotCompliantMBeanException;
+import jbvbx.mbnbgfmfnt.NotComplibntMBfbnExdfption;
 
 /**
- * A RoleInfo object summarises a role in a relation type.
+ * A RolfInfo objfdt summbrisfs b rolf in b rflbtion typf.
  *
- * <p>The <b>serialVersionUID</b> of this class is <code>2504952983494636987L</code>.
+ * <p>Tif <b>sfriblVfrsionUID</b> of tiis dlbss is <dodf>2504952983494636987L</dodf>.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-@SuppressWarnings("serial")  // serialVersionUID not constant
-public class RoleInfo implements Serializable {
+@SupprfssWbrnings("sfribl")  // sfriblVfrsionUID not donstbnt
+publid dlbss RolfInfo implfmfnts Sfriblizbblf {
 
-    // Serialization compatibility stuff:
-    // Two serial forms are supported in this class. The selected form depends
-    // on system property "jmx.serial.form":
+    // Sfriblizbtion dompbtibility stuff:
+    // Two sfribl forms brf supportfd in tiis dlbss. Tif sflfdtfd form dfpfnds
+    // on systfm propfrty "jmx.sfribl.form":
     //  - "1.0" for JMX 1.0
-    //  - any other value for JMX 1.1 and higher
+    //  - bny otifr vbluf for JMX 1.1 bnd iigifr
     //
-    // Serial version for old serial form
-    private static final long oldSerialVersionUID = 7227256952085334351L;
+    // Sfribl vfrsion for old sfribl form
+    privbtf stbtid finbl long oldSfriblVfrsionUID = 7227256952085334351L;
     //
-    // Serial version for new serial form
-    private static final long newSerialVersionUID = 2504952983494636987L;
+    // Sfribl vfrsion for nfw sfribl form
+    privbtf stbtid finbl long nfwSfriblVfrsionUID = 2504952983494636987L;
     //
-    // Serializable fields in old serial form
-    private static final ObjectStreamField[] oldSerialPersistentFields =
+    // Sfriblizbblf fiflds in old sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] oldSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("myName", String.class),
-      new ObjectStreamField("myIsReadableFlg", boolean.class),
-      new ObjectStreamField("myIsWritableFlg", boolean.class),
-      new ObjectStreamField("myDescription", String.class),
-      new ObjectStreamField("myMinDegree", int.class),
-      new ObjectStreamField("myMaxDegree", int.class),
-      new ObjectStreamField("myRefMBeanClassName", String.class)
+      nfw ObjfdtStrfbmFifld("myNbmf", String.dlbss),
+      nfw ObjfdtStrfbmFifld("myIsRfbdbblfFlg", boolfbn.dlbss),
+      nfw ObjfdtStrfbmFifld("myIsWritbblfFlg", boolfbn.dlbss),
+      nfw ObjfdtStrfbmFifld("myDfsdription", String.dlbss),
+      nfw ObjfdtStrfbmFifld("myMinDfgrff", int.dlbss),
+      nfw ObjfdtStrfbmFifld("myMbxDfgrff", int.dlbss),
+      nfw ObjfdtStrfbmFifld("myRffMBfbnClbssNbmf", String.dlbss)
     };
     //
-    // Serializable fields in new serial form
-    private static final ObjectStreamField[] newSerialPersistentFields =
+    // Sfriblizbblf fiflds in nfw sfribl form
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] nfwSfriblPfrsistfntFiflds =
     {
-      new ObjectStreamField("name", String.class),
-      new ObjectStreamField("isReadable", boolean.class),
-      new ObjectStreamField("isWritable", boolean.class),
-      new ObjectStreamField("description", String.class),
-      new ObjectStreamField("minDegree", int.class),
-      new ObjectStreamField("maxDegree", int.class),
-      new ObjectStreamField("referencedMBeanClassName", String.class)
+      nfw ObjfdtStrfbmFifld("nbmf", String.dlbss),
+      nfw ObjfdtStrfbmFifld("isRfbdbblf", boolfbn.dlbss),
+      nfw ObjfdtStrfbmFifld("isWritbblf", boolfbn.dlbss),
+      nfw ObjfdtStrfbmFifld("dfsdription", String.dlbss),
+      nfw ObjfdtStrfbmFifld("minDfgrff", int.dlbss),
+      nfw ObjfdtStrfbmFifld("mbxDfgrff", int.dlbss),
+      nfw ObjfdtStrfbmFifld("rfffrfndfdMBfbnClbssNbmf", String.dlbss)
     };
     //
-    // Actual serial version and serial form
-    private static final long serialVersionUID;
+    // Adtubl sfribl vfrsion bnd sfribl form
+    privbtf stbtid finbl long sfriblVfrsionUID;
     /**
-     * @serialField name String Role name
-     * @serialField isReadable boolean Read access mode: <code>true</code> if role is readable
-     * @serialField isWritable boolean Write access mode: <code>true</code> if role is writable
-     * @serialField description String Role description
-     * @serialField minDegree int Minimum degree (i.e. minimum number of referenced MBeans in corresponding role)
-     * @serialField maxDegree int Maximum degree (i.e. maximum number of referenced MBeans in corresponding role)
-     * @serialField referencedMBeanClassName String Name of class of MBean(s) expected to be referenced in corresponding role
+     * @sfriblFifld nbmf String Rolf nbmf
+     * @sfriblFifld isRfbdbblf boolfbn Rfbd bddfss modf: <dodf>truf</dodf> if rolf is rfbdbblf
+     * @sfriblFifld isWritbblf boolfbn Writf bddfss modf: <dodf>truf</dodf> if rolf is writbblf
+     * @sfriblFifld dfsdription String Rolf dfsdription
+     * @sfriblFifld minDfgrff int Minimum dfgrff (i.f. minimum numbfr of rfffrfndfd MBfbns in dorrfsponding rolf)
+     * @sfriblFifld mbxDfgrff int Mbximum dfgrff (i.f. mbximum numbfr of rfffrfndfd MBfbns in dorrfsponding rolf)
+     * @sfriblFifld rfffrfndfdMBfbnClbssNbmf String Nbmf of dlbss of MBfbn(s) fxpfdtfd to bf rfffrfndfd in dorrfsponding rolf
      */
-    private static final ObjectStreamField[] serialPersistentFields;
-    private static boolean compat = false;
-    static {
+    privbtf stbtid finbl ObjfdtStrfbmFifld[] sfriblPfrsistfntFiflds;
+    privbtf stbtid boolfbn dompbt = fblsf;
+    stbtid {
         try {
-            GetPropertyAction act = new GetPropertyAction("jmx.serial.form");
-            String form = AccessController.doPrivileged(act);
-            compat = (form != null && form.equals("1.0"));
-        } catch (Exception e) {
-            // OK : Too bad, no compat with 1.0
+            GftPropfrtyAdtion bdt = nfw GftPropfrtyAdtion("jmx.sfribl.form");
+            String form = AddfssControllfr.doPrivilfgfd(bdt);
+            dompbt = (form != null && form.fqubls("1.0"));
+        } dbtdi (Exdfption f) {
+            // OK : Too bbd, no dompbt witi 1.0
         }
-        if (compat) {
-            serialPersistentFields = oldSerialPersistentFields;
-            serialVersionUID = oldSerialVersionUID;
-        } else {
-            serialPersistentFields = newSerialPersistentFields;
-            serialVersionUID = newSerialVersionUID;
+        if (dompbt) {
+            sfriblPfrsistfntFiflds = oldSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = oldSfriblVfrsionUID;
+        } flsf {
+            sfriblPfrsistfntFiflds = nfwSfriblPfrsistfntFiflds;
+            sfriblVfrsionUID = nfwSfriblVfrsionUID;
         }
     }
     //
-    // END Serialization compatibility stuff
+    // END Sfriblizbtion dompbtibility stuff
 
     //
-    // Public constants
-    //
-
-    /**
-     * To specify an unlimited cardinality.
-     */
-    public static final int ROLE_CARDINALITY_INFINITY = -1;
-
-    //
-    // Private members
+    // Publid donstbnts
     //
 
     /**
-     * @serial Role name
+     * To spfdify bn unlimitfd dbrdinblity.
      */
-    private String name = null;
-
-    /**
-     * @serial Read access mode: <code>true</code> if role is readable
-     */
-    private boolean isReadable;
-
-    /**
-     * @serial Write access mode: <code>true</code> if role is writable
-     */
-    private boolean isWritable;
-
-    /**
-     * @serial Role description
-     */
-    private String description = null;
-
-    /**
-     * @serial Minimum degree (i.e. minimum number of referenced MBeans in corresponding role)
-     */
-    private int minDegree;
-
-    /**
-     * @serial Maximum degree (i.e. maximum number of referenced MBeans in corresponding role)
-     */
-    private int maxDegree;
-
-    /**
-     * @serial Name of class of MBean(s) expected to be referenced in corresponding role
-     */
-    private String referencedMBeanClassName = null;
+    publid stbtid finbl int ROLE_CARDINALITY_INFINITY = -1;
 
     //
-    // Constructors
+    // Privbtf mfmbfrs
     //
 
     /**
-     * Constructor.
+     * @sfribl Rolf nbmf
+     */
+    privbtf String nbmf = null;
+
+    /**
+     * @sfribl Rfbd bddfss modf: <dodf>truf</dodf> if rolf is rfbdbblf
+     */
+    privbtf boolfbn isRfbdbblf;
+
+    /**
+     * @sfribl Writf bddfss modf: <dodf>truf</dodf> if rolf is writbblf
+     */
+    privbtf boolfbn isWritbblf;
+
+    /**
+     * @sfribl Rolf dfsdription
+     */
+    privbtf String dfsdription = null;
+
+    /**
+     * @sfribl Minimum dfgrff (i.f. minimum numbfr of rfffrfndfd MBfbns in dorrfsponding rolf)
+     */
+    privbtf int minDfgrff;
+
+    /**
+     * @sfribl Mbximum dfgrff (i.f. mbximum numbfr of rfffrfndfd MBfbns in dorrfsponding rolf)
+     */
+    privbtf int mbxDfgrff;
+
+    /**
+     * @sfribl Nbmf of dlbss of MBfbn(s) fxpfdtfd to bf rfffrfndfd in dorrfsponding rolf
+     */
+    privbtf String rfffrfndfdMBfbnClbssNbmf = null;
+
+    //
+    // Construdtors
+    //
+
+    /**
+     * Construdtor.
      *
-     * @param roleName  name of the role.
-     * @param mbeanClassName  name of the class of MBean(s) expected to
-     * be referenced in corresponding role.  If an MBean <em>M</em> is in
-     * this role, then the MBean server must return true for
-     * {@link MBeanServer#isInstanceOf isInstanceOf(M, mbeanClassName)}.
-     * @param read  flag to indicate if the corresponding role
-     * can be read
-     * @param write  flag to indicate if the corresponding role
-     * can be set
-     * @param min  minimum degree for role, i.e. minimum number of
-     * MBeans to provide in corresponding role
-     * Must be less than or equal to <tt>max</tt>.
-     * (ROLE_CARDINALITY_INFINITY for unlimited)
-     * @param max  maximum degree for role, i.e. maximum number of
-     * MBeans to provide in corresponding role
-     * Must be greater than or equal to <tt>min</tt>
-     * (ROLE_CARDINALITY_INFINITY for unlimited)
-     * @param descr  description of the role (can be null)
+     * @pbrbm rolfNbmf  nbmf of tif rolf.
+     * @pbrbm mbfbnClbssNbmf  nbmf of tif dlbss of MBfbn(s) fxpfdtfd to
+     * bf rfffrfndfd in dorrfsponding rolf.  If bn MBfbn <fm>M</fm> is in
+     * tiis rolf, tifn tif MBfbn sfrvfr must rfturn truf for
+     * {@link MBfbnSfrvfr#isInstbndfOf isInstbndfOf(M, mbfbnClbssNbmf)}.
+     * @pbrbm rfbd  flbg to indidbtf if tif dorrfsponding rolf
+     * dbn bf rfbd
+     * @pbrbm writf  flbg to indidbtf if tif dorrfsponding rolf
+     * dbn bf sft
+     * @pbrbm min  minimum dfgrff for rolf, i.f. minimum numbfr of
+     * MBfbns to providf in dorrfsponding rolf
+     * Must bf lfss tibn or fqubl to <tt>mbx</tt>.
+     * (ROLE_CARDINALITY_INFINITY for unlimitfd)
+     * @pbrbm mbx  mbximum dfgrff for rolf, i.f. mbximum numbfr of
+     * MBfbns to providf in dorrfsponding rolf
+     * Must bf grfbtfr tibn or fqubl to <tt>min</tt>
+     * (ROLE_CARDINALITY_INFINITY for unlimitfd)
+     * @pbrbm dfsdr  dfsdription of tif rolf (dbn bf null)
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception InvalidRoleInfoException  if the minimum degree is
-     * greater than the maximum degree.
-     * @exception ClassNotFoundException As of JMX 1.2, this exception
-     * can no longer be thrown.  It is retained in the declaration of
-     * this class for compatibility with existing code.
-     * @exception NotCompliantMBeanException  if the class mbeanClassName
-     * is not a MBean class.
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption InvblidRolfInfoExdfption  if tif minimum dfgrff is
+     * grfbtfr tibn tif mbximum dfgrff.
+     * @fxdfption ClbssNotFoundExdfption As of JMX 1.2, tiis fxdfption
+     * dbn no longfr bf tirown.  It is rftbinfd in tif dfdlbrbtion of
+     * tiis dlbss for dompbtibility witi fxisting dodf.
+     * @fxdfption NotComplibntMBfbnExdfption  if tif dlbss mbfbnClbssNbmf
+     * is not b MBfbn dlbss.
      */
-    public RoleInfo(String roleName,
-                    String mbeanClassName,
-                    boolean read,
-                    boolean write,
+    publid RolfInfo(String rolfNbmf,
+                    String mbfbnClbssNbmf,
+                    boolfbn rfbd,
+                    boolfbn writf,
                     int min,
-                    int max,
-                    String descr)
-    throws IllegalArgumentException,
-           InvalidRoleInfoException,
-           ClassNotFoundException,
-           NotCompliantMBeanException {
+                    int mbx,
+                    String dfsdr)
+    tirows IllfgblArgumfntExdfption,
+           InvblidRolfInfoExdfption,
+           ClbssNotFoundExdfption,
+           NotComplibntMBfbnExdfption {
 
-        init(roleName,
-             mbeanClassName,
-             read,
-             write,
+        init(rolfNbmf,
+             mbfbnClbssNbmf,
+             rfbd,
+             writf,
              min,
-             max,
-             descr);
-        return;
+             mbx,
+             dfsdr);
+        rfturn;
     }
 
     /**
-     * Constructor.
+     * Construdtor.
      *
-     * @param roleName  name of the role
-     * @param mbeanClassName  name of the class of MBean(s) expected to
-     * be referenced in corresponding role.  If an MBean <em>M</em> is in
-     * this role, then the MBean server must return true for
-     * {@link MBeanServer#isInstanceOf isInstanceOf(M, mbeanClassName)}.
-     * @param read  flag to indicate if the corresponding role
-     * can be read
-     * @param write  flag to indicate if the corresponding role
-     * can be set
+     * @pbrbm rolfNbmf  nbmf of tif rolf
+     * @pbrbm mbfbnClbssNbmf  nbmf of tif dlbss of MBfbn(s) fxpfdtfd to
+     * bf rfffrfndfd in dorrfsponding rolf.  If bn MBfbn <fm>M</fm> is in
+     * tiis rolf, tifn tif MBfbn sfrvfr must rfturn truf for
+     * {@link MBfbnSfrvfr#isInstbndfOf isInstbndfOf(M, mbfbnClbssNbmf)}.
+     * @pbrbm rfbd  flbg to indidbtf if tif dorrfsponding rolf
+     * dbn bf rfbd
+     * @pbrbm writf  flbg to indidbtf if tif dorrfsponding rolf
+     * dbn bf sft
      *
-     * <P>Minimum and maximum degrees defaulted to 1.
-     * <P>Description of role defaulted to null.
+     * <P>Minimum bnd mbximum dfgrffs dffbultfd to 1.
+     * <P>Dfsdription of rolf dffbultfd to null.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception ClassNotFoundException As of JMX 1.2, this exception
-     * can no longer be thrown.  It is retained in the declaration of
-     * this class for compatibility with existing code.
-     * @exception NotCompliantMBeanException As of JMX 1.2, this
-     * exception can no longer be thrown.  It is retained in the
-     * declaration of this class for compatibility with existing code.
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption ClbssNotFoundExdfption As of JMX 1.2, tiis fxdfption
+     * dbn no longfr bf tirown.  It is rftbinfd in tif dfdlbrbtion of
+     * tiis dlbss for dompbtibility witi fxisting dodf.
+     * @fxdfption NotComplibntMBfbnExdfption As of JMX 1.2, tiis
+     * fxdfption dbn no longfr bf tirown.  It is rftbinfd in tif
+     * dfdlbrbtion of tiis dlbss for dompbtibility witi fxisting dodf.
      */
-    public RoleInfo(String roleName,
-                    String mbeanClassName,
-                    boolean read,
-                    boolean write)
-    throws IllegalArgumentException,
-           ClassNotFoundException,
-           NotCompliantMBeanException {
+    publid RolfInfo(String rolfNbmf,
+                    String mbfbnClbssNbmf,
+                    boolfbn rfbd,
+                    boolfbn writf)
+    tirows IllfgblArgumfntExdfption,
+           ClbssNotFoundExdfption,
+           NotComplibntMBfbnExdfption {
 
         try {
-            init(roleName,
-                 mbeanClassName,
-                 read,
-                 write,
+            init(rolfNbmf,
+                 mbfbnClbssNbmf,
+                 rfbd,
+                 writf,
                  1,
                  1,
                  null);
-        } catch (InvalidRoleInfoException exc) {
-            // OK : Can never happen as the minimum
-            //      degree equals the maximum degree.
+        } dbtdi (InvblidRolfInfoExdfption fxd) {
+            // OK : Cbn nfvfr ibppfn bs tif minimum
+            //      dfgrff fqubls tif mbximum dfgrff.
         }
 
-        return;
+        rfturn;
     }
 
     /**
-     * Constructor.
+     * Construdtor.
      *
-     * @param roleName  name of the role
-     * @param mbeanClassName  name of the class of MBean(s) expected to
-     * be referenced in corresponding role.  If an MBean <em>M</em> is in
-     * this role, then the MBean server must return true for
-     * {@link MBeanServer#isInstanceOf isInstanceOf(M, mbeanClassName)}.
+     * @pbrbm rolfNbmf  nbmf of tif rolf
+     * @pbrbm mbfbnClbssNbmf  nbmf of tif dlbss of MBfbn(s) fxpfdtfd to
+     * bf rfffrfndfd in dorrfsponding rolf.  If bn MBfbn <fm>M</fm> is in
+     * tiis rolf, tifn tif MBfbn sfrvfr must rfturn truf for
+     * {@link MBfbnSfrvfr#isInstbndfOf isInstbndfOf(M, mbfbnClbssNbmf)}.
      *
-     * <P>IsReadable and IsWritable defaulted to true.
-     * <P>Minimum and maximum degrees defaulted to 1.
-     * <P>Description of role defaulted to null.
+     * <P>IsRfbdbblf bnd IsWritbblf dffbultfd to truf.
+     * <P>Minimum bnd mbximum dfgrffs dffbultfd to 1.
+     * <P>Dfsdription of rolf dffbultfd to null.
      *
-     * @exception IllegalArgumentException  if null parameter
-     * @exception ClassNotFoundException As of JMX 1.2, this exception
-     * can no longer be thrown.  It is retained in the declaration of
-     * this class for compatibility with existing code.
-     * @exception NotCompliantMBeanException As of JMX 1.2, this
-     * exception can no longer be thrown.  It is retained in the
-     * declaration of this class for compatibility with existing code.
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
+     * @fxdfption ClbssNotFoundExdfption As of JMX 1.2, tiis fxdfption
+     * dbn no longfr bf tirown.  It is rftbinfd in tif dfdlbrbtion of
+     * tiis dlbss for dompbtibility witi fxisting dodf.
+     * @fxdfption NotComplibntMBfbnExdfption As of JMX 1.2, tiis
+     * fxdfption dbn no longfr bf tirown.  It is rftbinfd in tif
+     * dfdlbrbtion of tiis dlbss for dompbtibility witi fxisting dodf.
       */
-    public RoleInfo(String roleName,
-                    String mbeanClassName)
-    throws IllegalArgumentException,
-           ClassNotFoundException,
-           NotCompliantMBeanException {
+    publid RolfInfo(String rolfNbmf,
+                    String mbfbnClbssNbmf)
+    tirows IllfgblArgumfntExdfption,
+           ClbssNotFoundExdfption,
+           NotComplibntMBfbnExdfption {
 
         try {
-            init(roleName,
-                 mbeanClassName,
-                 true,
-                 true,
+            init(rolfNbmf,
+                 mbfbnClbssNbmf,
+                 truf,
+                 truf,
                  1,
                  1,
                  null);
-        } catch (InvalidRoleInfoException exc) {
-            // OK : Can never happen as the minimum
-            //      degree equals the maximum degree.
+        } dbtdi (InvblidRolfInfoExdfption fxd) {
+            // OK : Cbn nfvfr ibppfn bs tif minimum
+            //      dfgrff fqubls tif mbximum dfgrff.
         }
 
-        return;
+        rfturn;
     }
 
     /**
-     * Copy constructor.
+     * Copy donstrudtor.
      *
-     * @param roleInfo the <tt>RoleInfo</tt> instance to be copied.
+     * @pbrbm rolfInfo tif <tt>RolfInfo</tt> instbndf to bf dopifd.
      *
-     * @exception IllegalArgumentException  if null parameter
+     * @fxdfption IllfgblArgumfntExdfption  if null pbrbmftfr
      */
-    public RoleInfo(RoleInfo roleInfo)
-        throws IllegalArgumentException {
+    publid RolfInfo(RolfInfo rolfInfo)
+        tirows IllfgblArgumfntExdfption {
 
-        if (roleInfo == null) {
-            // Revisit [cebro] Localize message
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (rolfInfo == null) {
+            // Rfvisit [dfbro] Lodblizf mfssbgf
+            String fxdMsg = "Invblid pbrbmftfr.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
 
         try {
-            init(roleInfo.getName(),
-                 roleInfo.getRefMBeanClassName(),
-                 roleInfo.isReadable(),
-                 roleInfo.isWritable(),
-                 roleInfo.getMinDegree(),
-                 roleInfo.getMaxDegree(),
-                 roleInfo.getDescription());
-        } catch (InvalidRoleInfoException exc3) {
-            // OK : Can never happen as the minimum degree and the maximum
-            //      degree were already checked at the time the roleInfo
-            //      instance was created.
+            init(rolfInfo.gftNbmf(),
+                 rolfInfo.gftRffMBfbnClbssNbmf(),
+                 rolfInfo.isRfbdbblf(),
+                 rolfInfo.isWritbblf(),
+                 rolfInfo.gftMinDfgrff(),
+                 rolfInfo.gftMbxDfgrff(),
+                 rolfInfo.gftDfsdription());
+        } dbtdi (InvblidRolfInfoExdfption fxd3) {
+            // OK : Cbn nfvfr ibppfn bs tif minimum dfgrff bnd tif mbximum
+            //      dfgrff wfrf blrfbdy difdkfd bt tif timf tif rolfInfo
+            //      instbndf wbs drfbtfd.
         }
     }
 
     //
-    // Accessors
+    // Addfssors
     //
 
     /**
-     * Returns the name of the role.
+     * Rfturns tif nbmf of tif rolf.
      *
-     * @return the name of the role.
+     * @rfturn tif nbmf of tif rolf.
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Returns read access mode for the role (true if it is readable).
+     * Rfturns rfbd bddfss modf for tif rolf (truf if it is rfbdbblf).
      *
-     * @return true if the role is readable.
+     * @rfturn truf if tif rolf is rfbdbblf.
      */
-    public boolean isReadable() {
-        return isReadable;
+    publid boolfbn isRfbdbblf() {
+        rfturn isRfbdbblf;
     }
 
     /**
-     * Returns write access mode for the role (true if it is writable).
+     * Rfturns writf bddfss modf for tif rolf (truf if it is writbblf).
      *
-     * @return true if the role is writable.
+     * @rfturn truf if tif rolf is writbblf.
      */
-    public boolean isWritable() {
-        return isWritable;
+    publid boolfbn isWritbblf() {
+        rfturn isWritbblf;
     }
 
     /**
-     * Returns description text for the role.
+     * Rfturns dfsdription tfxt for tif rolf.
      *
-     * @return the description of the role.
+     * @rfturn tif dfsdription of tif rolf.
      */
-    public String getDescription() {
-        return description;
+    publid String gftDfsdription() {
+        rfturn dfsdription;
     }
 
     /**
-     * Returns minimum degree for corresponding role reference.
+     * Rfturns minimum dfgrff for dorrfsponding rolf rfffrfndf.
      *
-     * @return the minimum degree.
+     * @rfturn tif minimum dfgrff.
      */
-    public int getMinDegree() {
-        return minDegree;
+    publid int gftMinDfgrff() {
+        rfturn minDfgrff;
     }
 
     /**
-     * Returns maximum degree for corresponding role reference.
+     * Rfturns mbximum dfgrff for dorrfsponding rolf rfffrfndf.
      *
-     * @return the maximum degree.
+     * @rfturn tif mbximum dfgrff.
      */
-    public int getMaxDegree() {
-        return maxDegree;
+    publid int gftMbxDfgrff() {
+        rfturn mbxDfgrff;
     }
 
     /**
-     * <p>Returns name of type of MBean expected to be referenced in
-     * corresponding role.</p>
+     * <p>Rfturns nbmf of typf of MBfbn fxpfdtfd to bf rfffrfndfd in
+     * dorrfsponding rolf.</p>
      *
-     * @return the name of the referenced type.
+     * @rfturn tif nbmf of tif rfffrfndfd typf.
      */
-    public String getRefMBeanClassName() {
-        return referencedMBeanClassName;
+    publid String gftRffMBfbnClbssNbmf() {
+        rfturn rfffrfndfdMBfbnClbssNbmf;
     }
 
     /**
-     * Returns true if the <tt>value</tt> parameter is greater than or equal to
-     * the expected minimum degree, false otherwise.
+     * Rfturns truf if tif <tt>vbluf</tt> pbrbmftfr is grfbtfr tibn or fqubl to
+     * tif fxpfdtfd minimum dfgrff, fblsf otifrwisf.
      *
-     * @param value  the value to be checked
+     * @pbrbm vbluf  tif vbluf to bf difdkfd
      *
-     * @return true if greater than or equal to minimum degree, false otherwise.
+     * @rfturn truf if grfbtfr tibn or fqubl to minimum dfgrff, fblsf otifrwisf.
      */
-    public boolean checkMinDegree(int value) {
-        if (value >= ROLE_CARDINALITY_INFINITY &&
-            (minDegree == ROLE_CARDINALITY_INFINITY
-             || value >= minDegree)) {
-            return true;
-        } else {
-            return false;
+    publid boolfbn difdkMinDfgrff(int vbluf) {
+        if (vbluf >= ROLE_CARDINALITY_INFINITY &&
+            (minDfgrff == ROLE_CARDINALITY_INFINITY
+             || vbluf >= minDfgrff)) {
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Returns true if the <tt>value</tt> parameter is lower than or equal to
-     * the expected maximum degree, false otherwise.
+     * Rfturns truf if tif <tt>vbluf</tt> pbrbmftfr is lowfr tibn or fqubl to
+     * tif fxpfdtfd mbximum dfgrff, fblsf otifrwisf.
      *
-     * @param value  the value to be checked
+     * @pbrbm vbluf  tif vbluf to bf difdkfd
      *
-     * @return true if lower than or equal to maximum degree, false otherwise.
+     * @rfturn truf if lowfr tibn or fqubl to mbximum dfgrff, fblsf otifrwisf.
      */
-    public boolean checkMaxDegree(int value) {
-        if (value >= ROLE_CARDINALITY_INFINITY &&
-            (maxDegree == ROLE_CARDINALITY_INFINITY ||
-             (value != ROLE_CARDINALITY_INFINITY &&
-              value <= maxDegree))) {
-            return true;
-        } else {
-            return false;
+    publid boolfbn difdkMbxDfgrff(int vbluf) {
+        if (vbluf >= ROLE_CARDINALITY_INFINITY &&
+            (mbxDfgrff == ROLE_CARDINALITY_INFINITY ||
+             (vbluf != ROLE_CARDINALITY_INFINITY &&
+              vbluf <= mbxDfgrff))) {
+            rfturn truf;
+        } flsf {
+            rfturn fblsf;
         }
     }
 
     /**
-     * Returns a string describing the role info.
+     * Rfturns b string dfsdribing tif rolf info.
      *
-     * @return a description of the role info.
+     * @rfturn b dfsdription of tif rolf info.
      */
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        result.append("role info name: " + name);
-        result.append("; isReadable: " + isReadable);
-        result.append("; isWritable: " + isWritable);
-        result.append("; description: " + description);
-        result.append("; minimum degree: " + minDegree);
-        result.append("; maximum degree: " + maxDegree);
-        result.append("; MBean class: " + referencedMBeanClassName);
-        return result.toString();
+    publid String toString() {
+        StringBuildfr rfsult = nfw StringBuildfr();
+        rfsult.bppfnd("rolf info nbmf: " + nbmf);
+        rfsult.bppfnd("; isRfbdbblf: " + isRfbdbblf);
+        rfsult.bppfnd("; isWritbblf: " + isWritbblf);
+        rfsult.bppfnd("; dfsdription: " + dfsdription);
+        rfsult.bppfnd("; minimum dfgrff: " + minDfgrff);
+        rfsult.bppfnd("; mbximum dfgrff: " + mbxDfgrff);
+        rfsult.bppfnd("; MBfbn dlbss: " + rfffrfndfdMBfbnClbssNbmf);
+        rfturn rfsult.toString();
     }
 
     //
-    // Misc
+    // Misd
     //
 
-    // Initialization
-    private void init(String roleName,
-                      String mbeanClassName,
-                      boolean read,
-                      boolean write,
+    // Initiblizbtion
+    privbtf void init(String rolfNbmf,
+                      String mbfbnClbssNbmf,
+                      boolfbn rfbd,
+                      boolfbn writf,
                       int min,
-                      int max,
-                      String descr)
-            throws IllegalArgumentException,
-                   InvalidRoleInfoException {
+                      int mbx,
+                      String dfsdr)
+            tirows IllfgblArgumfntExdfption,
+                   InvblidRolfInfoExdfption {
 
-        if (roleName == null ||
-            mbeanClassName == null) {
-            // Revisit [cebro] Localize message
-            String excMsg = "Invalid parameter.";
-            throw new IllegalArgumentException(excMsg);
+        if (rolfNbmf == null ||
+            mbfbnClbssNbmf == null) {
+            // Rfvisit [dfbro] Lodblizf mfssbgf
+            String fxdMsg = "Invblid pbrbmftfr.";
+            tirow nfw IllfgblArgumfntExdfption(fxdMsg);
         }
 
-        name = roleName;
-        isReadable = read;
-        isWritable = write;
-        if (descr != null) {
-            description = descr;
+        nbmf = rolfNbmf;
+        isRfbdbblf = rfbd;
+        isWritbblf = writf;
+        if (dfsdr != null) {
+            dfsdription = dfsdr;
         }
 
-        boolean invalidRoleInfoFlg = false;
-        StringBuilder excMsgStrB = new StringBuilder();
-        if (max != ROLE_CARDINALITY_INFINITY &&
+        boolfbn invblidRolfInfoFlg = fblsf;
+        StringBuildfr fxdMsgStrB = nfw StringBuildfr();
+        if (mbx != ROLE_CARDINALITY_INFINITY &&
             (min == ROLE_CARDINALITY_INFINITY ||
-             min > max)) {
-            // Revisit [cebro] Localize message
-            excMsgStrB.append("Minimum degree ");
-            excMsgStrB.append(min);
-            excMsgStrB.append(" is greater than maximum degree ");
-            excMsgStrB.append(max);
-            invalidRoleInfoFlg = true;
+             min > mbx)) {
+            // Rfvisit [dfbro] Lodblizf mfssbgf
+            fxdMsgStrB.bppfnd("Minimum dfgrff ");
+            fxdMsgStrB.bppfnd(min);
+            fxdMsgStrB.bppfnd(" is grfbtfr tibn mbximum dfgrff ");
+            fxdMsgStrB.bppfnd(mbx);
+            invblidRolfInfoFlg = truf;
 
-        } else if (min < ROLE_CARDINALITY_INFINITY ||
-                   max < ROLE_CARDINALITY_INFINITY) {
-            // Revisit [cebro] Localize message
-            excMsgStrB.append("Minimum or maximum degree has an illegal value, must be [0, ROLE_CARDINALITY_INFINITY].");
-            invalidRoleInfoFlg = true;
+        } flsf if (min < ROLE_CARDINALITY_INFINITY ||
+                   mbx < ROLE_CARDINALITY_INFINITY) {
+            // Rfvisit [dfbro] Lodblizf mfssbgf
+            fxdMsgStrB.bppfnd("Minimum or mbximum dfgrff ibs bn illfgbl vbluf, must bf [0, ROLE_CARDINALITY_INFINITY].");
+            invblidRolfInfoFlg = truf;
         }
-        if (invalidRoleInfoFlg) {
-            throw new InvalidRoleInfoException(excMsgStrB.toString());
+        if (invblidRolfInfoFlg) {
+            tirow nfw InvblidRolfInfoExdfption(fxdMsgStrB.toString());
         }
-        minDegree = min;
-        maxDegree = max;
+        minDfgrff = min;
+        mbxDfgrff = mbx;
 
-        referencedMBeanClassName = mbeanClassName;
+        rfffrfndfdMBfbnClbssNbmf = mbfbnClbssNbmf;
 
-        return;
+        rfturn;
     }
 
     /**
-     * Deserializes a {@link RoleInfo} from an {@link ObjectInputStream}.
+     * Dfsfriblizfs b {@link RolfInfo} from bn {@link ObjfdtInputStrfbm}.
      */
-    private void readObject(ObjectInputStream in)
-            throws IOException, ClassNotFoundException {
-      if (compat)
+    privbtf void rfbdObjfdt(ObjfdtInputStrfbm in)
+            tirows IOExdfption, ClbssNotFoundExdfption {
+      if (dompbt)
       {
-        // Read an object serialized in the old serial form
+        // Rfbd bn objfdt sfriblizfd in tif old sfribl form
         //
-        ObjectInputStream.GetField fields = in.readFields();
-        name = (String) fields.get("myName", null);
-        if (fields.defaulted("myName"))
+        ObjfdtInputStrfbm.GftFifld fiflds = in.rfbdFiflds();
+        nbmf = (String) fiflds.gft("myNbmf", null);
+        if (fiflds.dffbultfd("myNbmf"))
         {
-          throw new NullPointerException("myName");
+          tirow nfw NullPointfrExdfption("myNbmf");
         }
-        isReadable = fields.get("myIsReadableFlg", false);
-        if (fields.defaulted("myIsReadableFlg"))
+        isRfbdbblf = fiflds.gft("myIsRfbdbblfFlg", fblsf);
+        if (fiflds.dffbultfd("myIsRfbdbblfFlg"))
         {
-          throw new NullPointerException("myIsReadableFlg");
+          tirow nfw NullPointfrExdfption("myIsRfbdbblfFlg");
         }
-        isWritable = fields.get("myIsWritableFlg", false);
-        if (fields.defaulted("myIsWritableFlg"))
+        isWritbblf = fiflds.gft("myIsWritbblfFlg", fblsf);
+        if (fiflds.dffbultfd("myIsWritbblfFlg"))
         {
-          throw new NullPointerException("myIsWritableFlg");
+          tirow nfw NullPointfrExdfption("myIsWritbblfFlg");
         }
-        description = (String) fields.get("myDescription", null);
-        if (fields.defaulted("myDescription"))
+        dfsdription = (String) fiflds.gft("myDfsdription", null);
+        if (fiflds.dffbultfd("myDfsdription"))
         {
-          throw new NullPointerException("myDescription");
+          tirow nfw NullPointfrExdfption("myDfsdription");
         }
-        minDegree = fields.get("myMinDegree", 0);
-        if (fields.defaulted("myMinDegree"))
+        minDfgrff = fiflds.gft("myMinDfgrff", 0);
+        if (fiflds.dffbultfd("myMinDfgrff"))
         {
-          throw new NullPointerException("myMinDegree");
+          tirow nfw NullPointfrExdfption("myMinDfgrff");
         }
-        maxDegree = fields.get("myMaxDegree", 0);
-        if (fields.defaulted("myMaxDegree"))
+        mbxDfgrff = fiflds.gft("myMbxDfgrff", 0);
+        if (fiflds.dffbultfd("myMbxDfgrff"))
         {
-          throw new NullPointerException("myMaxDegree");
+          tirow nfw NullPointfrExdfption("myMbxDfgrff");
         }
-        referencedMBeanClassName = (String) fields.get("myRefMBeanClassName", null);
-        if (fields.defaulted("myRefMBeanClassName"))
+        rfffrfndfdMBfbnClbssNbmf = (String) fiflds.gft("myRffMBfbnClbssNbmf", null);
+        if (fiflds.dffbultfd("myRffMBfbnClbssNbmf"))
         {
-          throw new NullPointerException("myRefMBeanClassName");
+          tirow nfw NullPointfrExdfption("myRffMBfbnClbssNbmf");
         }
       }
-      else
+      flsf
       {
-        // Read an object serialized in the new serial form
+        // Rfbd bn objfdt sfriblizfd in tif nfw sfribl form
         //
-        in.defaultReadObject();
+        in.dffbultRfbdObjfdt();
       }
     }
 
 
     /**
-     * Serializes a {@link RoleInfo} to an {@link ObjectOutputStream}.
+     * Sfriblizfs b {@link RolfInfo} to bn {@link ObjfdtOutputStrfbm}.
      */
-    private void writeObject(ObjectOutputStream out)
-            throws IOException {
-      if (compat)
+    privbtf void writfObjfdt(ObjfdtOutputStrfbm out)
+            tirows IOExdfption {
+      if (dompbt)
       {
-        // Serializes this instance in the old serial form
+        // Sfriblizfs tiis instbndf in tif old sfribl form
         //
-        ObjectOutputStream.PutField fields = out.putFields();
-        fields.put("myName", name);
-        fields.put("myIsReadableFlg", isReadable);
-        fields.put("myIsWritableFlg", isWritable);
-        fields.put("myDescription", description);
-        fields.put("myMinDegree", minDegree);
-        fields.put("myMaxDegree", maxDegree);
-        fields.put("myRefMBeanClassName", referencedMBeanClassName);
-        out.writeFields();
+        ObjfdtOutputStrfbm.PutFifld fiflds = out.putFiflds();
+        fiflds.put("myNbmf", nbmf);
+        fiflds.put("myIsRfbdbblfFlg", isRfbdbblf);
+        fiflds.put("myIsWritbblfFlg", isWritbblf);
+        fiflds.put("myDfsdription", dfsdription);
+        fiflds.put("myMinDfgrff", minDfgrff);
+        fiflds.put("myMbxDfgrff", mbxDfgrff);
+        fiflds.put("myRffMBfbnClbssNbmf", rfffrfndfdMBfbnClbssNbmf);
+        out.writfFiflds();
       }
-      else
+      flsf
       {
-        // Serializes this instance in the new serial form
+        // Sfriblizfs tiis instbndf in tif nfw sfribl form
         //
-        out.defaultWriteObject();
+        out.dffbultWritfObjfdt();
       }
     }
 

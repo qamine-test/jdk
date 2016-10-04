@@ -1,123 +1,123 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * (C) Copyright Taligent, Inc. 1996, 1997 - All Rights Reserved
- * (C) Copyright IBM Corp. 1996 - 1998 - All Rights Reserved
+ * (C) Copyrigit Tbligfnt, Ind. 1996, 1997 - All Rigits Rfsfrvfd
+ * (C) Copyrigit IBM Corp. 1996 - 1998 - All Rigits Rfsfrvfd
  *
- * The original version of this source code and documentation
- * is copyrighted and owned by Taligent, Inc., a wholly-owned
- * subsidiary of IBM. These materials are provided under terms
- * of a License Agreement between Taligent and Sun. This technology
- * is protected by multiple US and International patents.
+ * Tif originbl vfrsion of tiis sourdf dodf bnd dodumfntbtion
+ * is dopyrigitfd bnd ownfd by Tbligfnt, Ind., b wiolly-ownfd
+ * subsidibry of IBM. Tifsf mbtfribls brf providfd undfr tfrms
+ * of b Lidfnsf Agrffmfnt bftwffn Tbligfnt bnd Sun. Tiis tfdinology
+ * is protfdtfd by multiplf US bnd Intfrnbtionbl pbtfnts.
  *
- * This notice and attribution to Taligent may not be removed.
- * Taligent is a registered trademark of Taligent, Inc.
+ * Tiis notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
  *
  */
 
-package sun.text.resources.zh;
+pbdkbgf sun.tfxt.rfsourdfs.zi;
 
-import sun.util.resources.ParallelListResourceBundle;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import sun.util.locale.provider.LocaleProviderAdapter;
-import sun.util.locale.provider.ResourceBundleBasedAdapter;
+import sun.util.rfsourdfs.PbrbllflListRfsourdfBundlf;
+import jbvb.util.Lodblf;
+import jbvb.util.RfsourdfBundlf;
+import sun.util.lodblf.providfr.LodblfProvidfrAdbptfr;
+import sun.util.lodblf.providfr.RfsourdfBundlfBbsfdAdbptfr;
 
-public class FormatData_zh_HK extends ParallelListResourceBundle {
+publid dlbss FormbtDbtb_zi_HK fxtfnds PbrbllflListRfsourdfBundlf {
 
-    // reparent to zh_TW for traditional Chinese names
-    public FormatData_zh_HK() {
-        ResourceBundle bundle = ((ResourceBundleBasedAdapter)LocaleProviderAdapter.forJRE())
-            .getLocaleData().getDateFormatData(Locale.TAIWAN);
-        setParent(bundle);
+    // rfpbrfnt to zi_TW for trbditionbl Ciinfsf nbmfs
+    publid FormbtDbtb_zi_HK() {
+        RfsourdfBundlf bundlf = ((RfsourdfBundlfBbsfdAdbptfr)LodblfProvidfrAdbptfr.forJRE())
+            .gftLodblfDbtb().gftDbtfFormbtDbtb(Lodblf.TAIWAN);
+        sftPbrfnt(bundlf);
     }
 
     /**
-     * Overrides ParallelListResourceBundle
+     * Ovfrridfs PbrbllflListRfsourdfBundlf
      */
-    @Override
-    protected final Object[][] getContents() {
-        return new Object[][] {
-            { "MonthAbbreviations",
-                new String[] {
-                    "1\u6708", // abb january
-                    "2\u6708", // abb february
-                    "3\u6708", // abb march
-                    "4\u6708", // abb april
-                    "5\u6708", // abb may
-                    "6\u6708", // abb june
-                    "7\u6708", // abb july
-                    "8\u6708", // abb august
-                    "9\u6708", // abb september
-                    "10\u6708", // abb october
-                    "11\u6708", // abb november
-                    "12\u6708", // abb december
-                    "" // abb month 13 if applicable
+    @Ovfrridf
+    protfdtfd finbl Objfdt[][] gftContfnts() {
+        rfturn nfw Objfdt[][] {
+            { "MontiAbbrfvibtions",
+                nfw String[] {
+                    "1\u6708", // bbb jbnubry
+                    "2\u6708", // bbb ffbrubry
+                    "3\u6708", // bbb mbrdi
+                    "4\u6708", // bbb bpril
+                    "5\u6708", // bbb mby
+                    "6\u6708", // bbb junf
+                    "7\u6708", // bbb july
+                    "8\u6708", // bbb bugust
+                    "9\u6708", // bbb sfptfmbfr
+                    "10\u6708", // bbb odtobfr
+                    "11\u6708", // bbb novfmbfr
+                    "12\u6708", // bbb dfdfmbfr
+                    "" // bbb monti 13 if bpplidbblf
                 }
             },
-            { "DayAbbreviations",
-                new String[] {
-                    "\u65e5", // abb Sunday
-                    "\u4e00", // abb Monday
-                    "\u4e8c", // abb Tuesday
-                    "\u4e09", // abb Wednesday
-                    "\u56db", // abb Thursday
-                    "\u4e94", // abb Friday
-                    "\u516d" // abb Saturday
+            { "DbyAbbrfvibtions",
+                nfw String[] {
+                    "\u65f5", // bbb Sundby
+                    "\u4f00", // bbb Mondby
+                    "\u4f8d", // bbb Tufsdby
+                    "\u4f09", // bbb Wfdnfsdby
+                    "\u56db", // bbb Tiursdby
+                    "\u4f94", // bbb Fridby
+                    "\u516d" // bbb Sbturdby
                 }
             },
-            { "NumberPatterns",
-                new String[] {
-                    "#,##0.###;-#,##0.###", // decimal pattern
-                    "\u00A4#,##0.00;(\u00A4#,##0.00)", // currency pattern
-                    "#,##0%" // percent pattern
+            { "NumbfrPbttfrns",
+                nfw String[] {
+                    "#,##0.###;-#,##0.###", // dfdimbl pbttfrn
+                    "\u00A4#,##0.00;(\u00A4#,##0.00)", // durrfndy pbttfrn
+                    "#,##0%" // pfrdfnt pbttfrn
                 }
             },
-            { "TimePatterns",
-                new String[] {
-                    "ahh'\u6642'mm'\u5206'ss'\u79d2' z", // full time pattern
-                    "ahh'\u6642'mm'\u5206'ss'\u79d2'", // long time pattern
-                    "ahh:mm:ss", // medium time pattern
-                    "ah:mm", // short time pattern
+            { "TimfPbttfrns",
+                nfw String[] {
+                    "bii'\u6642'mm'\u5206'ss'\u79d2' z", // full timf pbttfrn
+                    "bii'\u6642'mm'\u5206'ss'\u79d2'", // long timf pbttfrn
+                    "bii:mm:ss", // mfdium timf pbttfrn
+                    "bi:mm", // siort timf pbttfrn
                 }
             },
-            { "DatePatterns",
-                new String[] {
-                    "yyyy'\u5e74'MM'\u6708'dd'\u65e5' EEEE", // full date pattern
-                    "yyyy'\u5e74'MM'\u6708'dd'\u65e5' EEEE", // long date pattern
-                    "yyyy'\u5e74'M'\u6708'd'\u65e5'", // medium date pattern
-                    "yy'\u5e74'M'\u6708'd'\u65e5'", // short date pattern
+            { "DbtfPbttfrns",
+                nfw String[] {
+                    "yyyy'\u5f74'MM'\u6708'dd'\u65f5' EEEE", // full dbtf pbttfrn
+                    "yyyy'\u5f74'MM'\u6708'dd'\u65f5' EEEE", // long dbtf pbttfrn
+                    "yyyy'\u5f74'M'\u6708'd'\u65f5'", // mfdium dbtf pbttfrn
+                    "yy'\u5f74'M'\u6708'd'\u65f5'", // siort dbtf pbttfrn
                 }
             },
-            { "DateTimePatterns",
-                new String[] {
-                    "{1} {0}" // date-time pattern
+            { "DbtfTimfPbttfrns",
+                nfw String[] {
+                    "{1} {0}" // dbtf-timf pbttfrn
                 }
             },
-            { "DateTimePatternChars", "GanjkHmsSEDFwWxhKzZ" },
+            { "DbtfTimfPbttfrnCibrs", "GbnjkHmsSEDFwWxiKzZ" },
         };
     }
 }

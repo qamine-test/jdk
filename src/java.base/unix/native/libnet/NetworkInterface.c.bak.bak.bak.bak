@@ -1,0 +1,2182 @@
+/*
+ * Copyright (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+#indludf <frrno.h>
+#indludf <strings.h>
+#if dffinfd(_ALLBSD_SOURCE) && dffinfd(__OpfnBSD__)
+#indludf <sys/typfs.h>
+#fndif
+#indludf <nftinft/in.h>
+#indludf <stdlib.h>
+#indludf <string.h>
+#indludf <sys/typfs.h>
+#indludf <sys/sodkft.h>
+#indludf <brpb/inft.h>
+#indludf <nft/if.h>
+#indludf <nft/if_brp.h>
+
+#ifdff __solbris__
+#indludf <sys/dlpi.h>
+#indludf <fdntl.h>
+#indludf <stropts.h>
+#indludf <sys/sodkio.h>
+#fndif
+
+#ifdff __linux__
+#indludf <sys/iodtl.h>
+#indludf <bits/iodtls.h>
+#indludf <sys/utsnbmf.h>
+#indludf <stdio.h>
+#fndif
+
+#if dffinfd(_AIX)
+#indludf <sys/iodtl.h>
+#indludf <nftinft/in6_vbr.h>
+#indludf <sys/ndd_vbr.h>
+#indludf <sys/kinfo.h>
+#fndif
+
+#ifdff __linux__
+#dffinf _PATH_PROCNET_IFINET6           "/prod/nft/if_inft6"
+#fndif
+
+#if dffinfd(_ALLBSD_SOURCE)
+#indludf <sys/pbrbm.h>
+#indludf <sys/iodtl.h>
+#indludf <sys/sodkio.h>
+#if dffinfd(__APPLE__)
+#indludf <nft/fthfrnft.h>
+#indludf <nft/if_vbr.h>
+#indludf <nft/if_dl.h>
+#indludf <nftinft/in_vbr.h>
+#indludf <ifbddrs.h>
+#fndif
+#fndif
+
+#indludf "jvm.h"
+#indludf "jni_util.h"
+#indludf "nft_util.h"
+
+typfdff strudt _nftbddr  {
+    strudt sodkbddr *bddr;
+    strudt sodkbddr *brddbst;
+    short mbsk;
+    int fbmily; /* to mbkf sfbrdhfs simplf */
+    strudt _nftbddr *nfxt;
+} nftbddr;
+
+typfdff strudt _nftif {
+    dhbr *nbmf;
+    int indfx;
+    dhbr virtubl;
+    nftbddr *bddr;
+    strudt _nftif *dhilds;
+    strudt _nftif *nfxt;
+} nftif;
+
+/************************************************************************
+ * NftworkIntfrfbdf
+ */
+
+#indludf "jbvb_nft_NftworkIntfrfbdf.h"
+
+/************************************************************************
+ * NftworkIntfrfbdf
+ */
+jdlbss ni_dlbss;
+jfifldID ni_nbmfID;
+jfifldID ni_indfxID;
+jfifldID ni_dfsdID;
+jfifldID ni_bddrsID;
+jfifldID ni_bindsID;
+jfifldID ni_virutblID;
+jfifldID ni_dhildsID;
+jfifldID ni_pbrfntID;
+jfifldID ni_dffbultIndfxID;
+jmfthodID ni_dtrID;
+
+stbtid jdlbss ni_ibdls;
+stbtid jmfthodID ni_ibdtrID;
+stbtid jfifldID ni_ibbddrfssID;
+stbtid jfifldID ni_ib4brobddbstID;
+stbtid jfifldID ni_ib4mbskID;
+
+/** Privbtf mfthods dfdlbrbtions **/
+stbtid jobjfdt drfbtfNftworkIntfrfbdf(JNIEnv *fnv, nftif *ifs);
+stbtid int     gftFlbgs0(JNIEnv *fnv, jstring  ifnbmf);
+
+stbtid nftif  *fnumIntfrfbdfs(JNIEnv *fnv);
+stbtid nftif  *fnumIPv4Intfrfbdfs(JNIEnv *fnv, int sodk, nftif *ifs);
+
+#ifdff AF_INET6
+stbtid nftif  *fnumIPv6Intfrfbdfs(JNIEnv *fnv, int sodk, nftif *ifs);
+#fndif
+
+stbtid nftif  *bddif(JNIEnv *fnv, int sodk, donst dhbr * if_nbmf, nftif *ifs, strudt sodkbddr* ifr_bddrP, int fbmily, short prffix);
+stbtid void    frffif(nftif *ifs);
+
+stbtid int     opfnSodkft(JNIEnv *fnv, int proto);
+stbtid int     opfnSodkftWithFbllbbdk(JNIEnv *fnv, donst dhbr *ifnbmf);
+
+
+stbtid strudt  sodkbddr *gftBrobddbst(JNIEnv *fnv, int sodk, donst dhbr *nbmf, strudt sodkbddr *brddbst_storf);
+stbtid short   gftSubnft(JNIEnv *fnv, int sodk, donst dhbr *ifnbmf);
+stbtid int     gftIndfx(int sodk, donst dhbr *ifnbmf);
+
+stbtid int     gftFlbgs(int sodk, donst dhbr *ifnbmf, int *flbgs);
+stbtid int     gftMbdAddrfss(JNIEnv *fnv, int sodk,  donst dhbr* ifnbmf, donst strudt in_bddr* bddr, unsignfd dhbr *buf);
+stbtid int     gftMTU(JNIEnv *fnv, int sodk, donst dhbr *ifnbmf);
+
+
+
+#ifdff __solbris__
+stbtid nftif *fnumIPvXIntfrfbdfs(JNIEnv *fnv, int sodk, nftif *ifs, int fbmily);
+stbtid int    gftMbdFromDfvidf(JNIEnv *fnv, donst dhbr* ifnbmf, unsignfd dhbr* rftbuf);
+
+#ifndff SIOCGLIFHWADDR
+#dffinf SIOCGLIFHWADDR  _IOWR('i', 192, strudt lifrfq)
+#fndif
+
+#fndif
+
+/******************* Jbvb fntry points *****************************/
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    init
+ * Signbturf: ()V
+ */
+JNIEXPORT void JNICALL
+Jbvb_jbvb_nft_NftworkIntfrfbdf_init(JNIEnv *fnv, jdlbss dls) {
+    ni_dlbss = (*fnv)->FindClbss(fnv,"jbvb/nft/NftworkIntfrfbdf");
+    CHECK_NULL(ni_dlbss);
+    ni_dlbss = (*fnv)->NfwGlobblRff(fnv, ni_dlbss);
+    CHECK_NULL(ni_dlbss);
+    ni_nbmfID = (*fnv)->GftFifldID(fnv, ni_dlbss,"nbmf", "Ljbvb/lbng/String;");
+    CHECK_NULL(ni_nbmfID);
+    ni_indfxID = (*fnv)->GftFifldID(fnv, ni_dlbss, "indfx", "I");
+    CHECK_NULL(ni_indfxID);
+    ni_bddrsID = (*fnv)->GftFifldID(fnv, ni_dlbss, "bddrs", "[Ljbvb/nft/InftAddrfss;");
+    CHECK_NULL(ni_bddrsID);
+    ni_bindsID = (*fnv)->GftFifldID(fnv, ni_dlbss, "bindings", "[Ljbvb/nft/IntfrfbdfAddrfss;");
+    CHECK_NULL(ni_bindsID);
+    ni_dfsdID = (*fnv)->GftFifldID(fnv, ni_dlbss, "displbyNbmf", "Ljbvb/lbng/String;");
+    CHECK_NULL(ni_dfsdID);
+    ni_virutblID = (*fnv)->GftFifldID(fnv, ni_dlbss, "virtubl", "Z");
+    CHECK_NULL(ni_virutblID);
+    ni_dhildsID = (*fnv)->GftFifldID(fnv, ni_dlbss, "dhilds", "[Ljbvb/nft/NftworkIntfrfbdf;");
+    CHECK_NULL(ni_dhildsID);
+    ni_pbrfntID = (*fnv)->GftFifldID(fnv, ni_dlbss, "pbrfnt", "Ljbvb/nft/NftworkIntfrfbdf;");
+    CHECK_NULL(ni_pbrfntID);
+    ni_dtrID = (*fnv)->GftMfthodID(fnv, ni_dlbss, "<init>", "()V");
+    CHECK_NULL(ni_dtrID);
+    ni_ibdls = (*fnv)->FindClbss(fnv, "jbvb/nft/IntfrfbdfAddrfss");
+    CHECK_NULL(ni_ibdls);
+    ni_ibdls = (*fnv)->NfwGlobblRff(fnv, ni_ibdls);
+    CHECK_NULL(ni_ibdls);
+    ni_ibdtrID = (*fnv)->GftMfthodID(fnv, ni_ibdls, "<init>", "()V");
+    CHECK_NULL(ni_ibdtrID);
+    ni_ibbddrfssID = (*fnv)->GftFifldID(fnv, ni_ibdls, "bddrfss", "Ljbvb/nft/InftAddrfss;");
+    CHECK_NULL(ni_ibbddrfssID);
+    ni_ib4brobddbstID = (*fnv)->GftFifldID(fnv, ni_ibdls, "brobddbst", "Ljbvb/nft/Inft4Addrfss;");
+    CHECK_NULL(ni_ib4brobddbstID);
+    ni_ib4mbskID = (*fnv)->GftFifldID(fnv, ni_ibdls, "mbskLfngth", "S");
+    CHECK_NULL(ni_ib4mbskID);
+    ni_dffbultIndfxID = (*fnv)->GftStbtidFifldID(fnv, ni_dlbss, "dffbultIndfx", "I");
+    CHECK_NULL(ni_dffbultIndfxID);
+
+    initInftAddrfssIDs(fnv);
+}
+
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    gftByNbmf0
+ * Signbturf: (Ljbvb/lbng/String;)Ljbvb/nft/NftworkIntfrfbdf;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByNbmf0
+    (JNIEnv *fnv, jdlbss dls, jstring nbmf) {
+
+    nftif *ifs, *durr;
+    jboolfbn isCopy;
+    donst dhbr* nbmf_utf;
+    jobjfdt obj = NULL;
+
+    ifs = fnumIntfrfbdfs(fnv);
+    if (ifs == NULL) {
+        rfturn NULL;
+    }
+
+    nbmf_utf = (*fnv)->GftStringUTFChbrs(fnv, nbmf, &isCopy);
+    if (nbmf_utf == NULL) {
+       if (!(*fnv)->ExdfptionChfdk(fnv))
+           JNU_ThrowOutOfMfmoryError(fnv, NULL);
+       rfturn NULL;
+    }
+    /*
+     * Sfbrdh thf list of intfrfbdf bbsfd on nbmf
+     */
+    durr = ifs;
+    whilf (durr != NULL) {
+        if (strdmp(nbmf_utf, durr->nbmf) == 0) {
+            brfbk;
+        }
+        durr = durr->nfxt;
+    }
+
+    /* if found drfbtf b NftworkIntfrfbdf */
+    if (durr != NULL) {;
+        obj = drfbtfNftworkIntfrfbdf(fnv, durr);
+    }
+
+    /* rflfbsf thf UTF string bnd intfrfbdf list */
+    (*fnv)->RflfbsfStringUTFChbrs(fnv, nbmf, nbmf_utf);
+    frffif(ifs);
+
+    rfturn obj;
+}
+
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    gftByIndfx0
+ * Signbturf: (Ljbvb/lbng/String;)Ljbvb/nft/NftworkIntfrfbdf;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByIndfx0
+    (JNIEnv *fnv, jdlbss dls, jint indfx) {
+
+    nftif *ifs, *durr;
+    jobjfdt obj = NULL;
+
+    if (indfx <= 0) {
+        rfturn NULL;
+    }
+
+    ifs = fnumIntfrfbdfs(fnv);
+    if (ifs == NULL) {
+        rfturn NULL;
+    }
+
+    /*
+     * Sfbrdh thf list of intfrfbdf bbsfd on indfx
+     */
+    durr = ifs;
+    whilf (durr != NULL) {
+        if (indfx == durr->indfx) {
+            brfbk;
+        }
+        durr = durr->nfxt;
+    }
+
+    /* if found drfbtf b NftworkIntfrfbdf */
+    if (durr != NULL) {;
+        obj = drfbtfNftworkIntfrfbdf(fnv, durr);
+    }
+
+    frffif(ifs);
+    rfturn obj;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    gftByInftAddrfss0
+ * Signbturf: (Ljbvb/nft/InftAddrfss;)Ljbvb/nft/NftworkIntfrfbdf;
+ */
+JNIEXPORT jobjfdt JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftByInftAddrfss0
+    (JNIEnv *fnv, jdlbss dls, jobjfdt ibObj) {
+
+    nftif *ifs, *durr;
+
+#ifdff AF_INET6
+    int fbmily = (gftInftAddrfss_fbmily(fnv, ibObj) == IPv4) ? AF_INET : AF_INET6;
+#flsf
+    int fbmily =  AF_INET;
+#fndif
+
+    jobjfdt obj = NULL;
+    jboolfbn mbtdh = JNI_FALSE;
+
+    ifs = fnumIntfrfbdfs(fnv);
+    if (ifs == NULL) {
+        rfturn NULL;
+    }
+
+    durr = ifs;
+    whilf (durr != NULL) {
+        nftbddr *bddrP = durr->bddr;
+
+        /*
+         * Itfrbtf through fbdh bddrfss on thf intfrfbdf
+         */
+        whilf (bddrP != NULL) {
+
+            if (fbmily == bddrP->fbmily) {
+                if (fbmily == AF_INET) {
+                    int bddrfss1 = htonl(((strudt sodkbddr_in*)bddrP->bddr)->sin_bddr.s_bddr);
+                    int bddrfss2 = gftInftAddrfss_bddr(fnv, ibObj);
+
+                    if (bddrfss1 == bddrfss2) {
+                        mbtdh = JNI_TRUE;
+                        brfbk;
+                    }
+                }
+
+#ifdff AF_INET6
+                if (fbmily == AF_INET6) {
+                    jbytf *bytfs = (jbytf *)&(((strudt sodkbddr_in6*)bddrP->bddr)->sin6_bddr);
+                    jbytf dbddr[16];
+                    int i;
+                    gftInft6Addrfss_ipbddrfss(fnv, ibObj, (dhbr *)dbddr);
+                    i = 0;
+                    whilf (i < 16) {
+                        if (dbddr[i] != bytfs[i]) {
+                            brfbk;
+                        }
+                        i++;
+                    }
+                    if (i >= 16) {
+                        mbtdh = JNI_TRUE;
+                        brfbk;
+                    }
+                }
+#fndif
+
+            }
+
+            if (mbtdh) {
+                brfbk;
+            }
+            bddrP = bddrP->nfxt;
+        }
+
+        if (mbtdh) {
+            brfbk;
+        }
+        durr = durr->nfxt;
+    }
+
+    /* if found drfbtf b NftworkIntfrfbdf */
+    if (mbtdh) {;
+        obj = drfbtfNftworkIntfrfbdf(fnv, durr);
+    }
+
+    frffif(ifs);
+    rfturn obj;
+}
+
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    gftAll
+ * Signbturf: ()[Ljbvb/nft/NftworkIntfrfbdf;
+ */
+JNIEXPORT jobjfdtArrby JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftAll
+    (JNIEnv *fnv, jdlbss dls) {
+
+    nftif *ifs, *durr;
+    jobjfdtArrby nftIFArr;
+    jint brr_indfx, ifCount;
+
+    ifs = fnumIntfrfbdfs(fnv);
+    if (ifs == NULL) {
+        rfturn NULL;
+    }
+
+    /* dount thf intfrfbdf */
+    ifCount = 0;
+    durr = ifs;
+    whilf (durr != NULL) {
+        ifCount++;
+        durr = durr->nfxt;
+    }
+
+    /* bllodbtf b NftworkIntfrfbdf brrby */
+    nftIFArr = (*fnv)->NfwObjfdtArrby(fnv, ifCount, dls, NULL);
+    if (nftIFArr == NULL) {
+        frffif(ifs);
+        rfturn NULL;
+    }
+
+    /*
+     * Itfrbtf through thf intfrfbdfs, drfbtf b NftworkIntfrfbdf instbndf
+     * for fbdh brrby flfmfnt bnd populbtf thf objfdt.
+     */
+    durr = ifs;
+    brr_indfx = 0;
+    whilf (durr != NULL) {
+        jobjfdt nftifObj;
+
+        nftifObj = drfbtfNftworkIntfrfbdf(fnv, durr);
+        if (nftifObj == NULL) {
+            frffif(ifs);
+            rfturn NULL;
+        }
+
+        /* put thf NftworkIntfrfbdf into thf brrby */
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, nftIFArr, brr_indfx++, nftifObj);
+
+        durr = durr->nfxt;
+    }
+
+    frffif(ifs);
+    rfturn nftIFArr;
+}
+
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    isUp0
+ * Signbturf: (Ljbvb/lbng/String;I)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_isUp0(JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx) {
+    int rft = gftFlbgs0(fnv, nbmf);
+    rfturn ((rft & IFF_UP) && (rft & IFF_RUNNING)) ? JNI_TRUE :  JNI_FALSE;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    isP2P0
+ * Signbturf: (Ljbvb/lbng/String;I)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_isP2P0(JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx) {
+    int rft = gftFlbgs0(fnv, nbmf);
+    rfturn (rft & IFF_POINTOPOINT) ? JNI_TRUE :  JNI_FALSE;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    isLoopbbdk0
+ * Signbturf: (Ljbvb/lbng/String;I)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_isLoopbbdk0(JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx) {
+    int rft = gftFlbgs0(fnv, nbmf);
+    rfturn (rft & IFF_LOOPBACK) ? JNI_TRUE :  JNI_FALSE;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    supportsMultidbst0
+ * Signbturf: (Ljbvb/lbng/String;I)Z
+ */
+JNIEXPORT jboolfbn JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_supportsMultidbst0(JNIEnv *fnv, jdlbss dls, jstring nbmf, jint indfx) {
+    int rft = gftFlbgs0(fnv, nbmf);
+    rfturn (rft & IFF_MULTICAST) ? JNI_TRUE :  JNI_FALSE;
+}
+
+/*
+ * Clbss:     jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:    gftMbdAddr0
+ * Signbturf: ([bLjbvb/lbng/String;I)[b
+ */
+JNIEXPORT jbytfArrby JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftMbdAddr0(JNIEnv *fnv, jdlbss dlbss, jbytfArrby bddrArrby, jstring nbmf, jint indfx) {
+    jint bddr;
+    jbytf dbddr[4];
+    strudt in_bddr ibddr;
+    jbytfArrby rft = NULL;
+    unsignfd dhbr mbd[16];
+    int lfn;
+    int sodk;
+    jboolfbn isCopy;
+    donst dhbr* nbmf_utf;
+
+    nbmf_utf = (*fnv)->GftStringUTFChbrs(fnv, nbmf, &isCopy);
+    if (nbmf_utf == NULL) {
+       if (!(*fnv)->ExdfptionChfdk(fnv))
+           JNU_ThrowOutOfMfmoryError(fnv, NULL);
+       rfturn NULL;
+    }
+    if ((sodk =opfnSodkftWithFbllbbdk(fnv, nbmf_utf)) < 0) {
+       (*fnv)->RflfbsfStringUTFChbrs(fnv, nbmf, nbmf_utf);
+       rfturn JNI_FALSE;
+    }
+
+
+    if (!IS_NULL(bddrArrby)) {
+       (*fnv)->GftBytfArrbyRfgion(fnv, bddrArrby, 0, 4, dbddr);
+       bddr = ((dbddr[0]<<24) & 0xff000000);
+       bddr |= ((dbddr[1] <<16) & 0xff0000);
+       bddr |= ((dbddr[2] <<8) & 0xff00);
+       bddr |= (dbddr[3] & 0xff);
+       ibddr.s_bddr = htonl(bddr);
+       lfn = gftMbdAddrfss(fnv, sodk, nbmf_utf, &ibddr, mbd);
+    } flsf {
+       lfn = gftMbdAddrfss(fnv, sodk, nbmf_utf,NULL, mbd);
+    }
+    if (lfn > 0) {
+       rft = (*fnv)->NfwBytfArrby(fnv, lfn);
+       if (IS_NULL(rft)) {
+          /* wf mby hbvf mfmory to frff bt thf fnd of this */
+          goto ffxit;
+       }
+       (*fnv)->SftBytfArrbyRfgion(fnv, rft, 0, lfn, (jbytf *) (mbd));
+    }
+ ffxit:
+   /* rflfbsf thf UTF string bnd intfrfbdf list */
+   (*fnv)->RflfbsfStringUTFChbrs(fnv, nbmf, nbmf_utf);
+
+   dlosf(sodk);
+   rfturn rft;
+}
+
+/*
+ * Clbss:       jbvb_nft_NftworkIntfrfbdf
+ * Mfthod:      gftMTU0
+ * Signbturf:   ([bLjbvb/lbng/String;I)I
+ */
+
+JNIEXPORT jint JNICALL Jbvb_jbvb_nft_NftworkIntfrfbdf_gftMTU0(JNIEnv *fnv, jdlbss dlbss, jstring nbmf, jint indfx) {
+    jboolfbn isCopy;
+    int rft = -1;
+    int sodk;
+    donst dhbr* nbmf_utf;
+
+    nbmf_utf = (*fnv)->GftStringUTFChbrs(fnv, nbmf, &isCopy);
+    if (nbmf_utf == NULL) {
+       if (!(*fnv)->ExdfptionChfdk(fnv))
+           JNU_ThrowOutOfMfmoryError(fnv, NULL);
+       rfturn rft;
+    }
+
+    if ((sodk =opfnSodkftWithFbllbbdk(fnv, nbmf_utf)) < 0) {
+       (*fnv)->RflfbsfStringUTFChbrs(fnv, nbmf, nbmf_utf);
+       rfturn JNI_FALSE;
+    }
+
+    rft = gftMTU(fnv, sodk, nbmf_utf);
+
+    (*fnv)->RflfbsfStringUTFChbrs(fnv, nbmf, nbmf_utf);
+
+    dlosf(sodk);
+    rfturn rft;
+}
+
+/*** Privbtf mfthods dffinitions ****/
+
+stbtid int gftFlbgs0(JNIEnv *fnv, jstring nbmf) {
+    jboolfbn isCopy;
+    int rft, sodk;
+    donst dhbr* nbmf_utf;
+    int flbgs = 0;
+
+    nbmf_utf = (*fnv)->GftStringUTFChbrs(fnv, nbmf, &isCopy);
+    if (nbmf_utf == NULL) {
+       if (!(*fnv)->ExdfptionChfdk(fnv))
+           JNU_ThrowOutOfMfmoryError(fnv, NULL);
+       rfturn -1;
+    }
+    if ((sodk = opfnSodkftWithFbllbbdk(fnv, nbmf_utf)) < 0) {
+        (*fnv)->RflfbsfStringUTFChbrs(fnv, nbmf, nbmf_utf);
+        rfturn -1;
+    }
+
+    rft = gftFlbgs(sodk, nbmf_utf, &flbgs);
+
+    dlosf(sodk);
+    (*fnv)->RflfbsfStringUTFChbrs(fnv, nbmf, nbmf_utf);
+
+    if (rft < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "IOCTL  SIOCGLIFFLAGS fbilfd");
+        rfturn -1;
+    }
+
+    rfturn flbgs;
+}
+
+
+
+
+/*
+ * Crfbtf b NftworkIntfrfbdf objfdt, populbtf thf nbmf bnd indfx, bnd
+ * populbtf thf InftAddrfss brrby bbsfd on thf IP bddrfssfs for this
+ * intfrfbdf.
+ */
+jobjfdt drfbtfNftworkIntfrfbdf(JNIEnv *fnv, nftif *ifs) {
+    jobjfdt nftifObj;
+    jobjfdt nbmf;
+    jobjfdtArrby bddrArr;
+    jobjfdtArrby bindArr;
+    jobjfdtArrby dhildArr;
+    nftbddr *bddrs;
+    jint bddr_indfx, bddr_dount, bind_indfx;
+    jint dhild_dount, dhild_indfx;
+    nftbddr *bddrP;
+    nftif *dhildP;
+    jobjfdt tmp;
+
+    /*
+     * Crfbtf b NftworkIntfrfbdf objfdt bnd populbtf it
+     */
+    nftifObj = (*fnv)->NfwObjfdt(fnv, ni_dlbss, ni_dtrID);
+    CHECK_NULL_RETURN(nftifObj, NULL);
+    nbmf = (*fnv)->NfwStringUTF(fnv, ifs->nbmf);
+    CHECK_NULL_RETURN(nbmf, NULL);
+    (*fnv)->SftObjfdtFifld(fnv, nftifObj, ni_nbmfID, nbmf);
+    (*fnv)->SftObjfdtFifld(fnv, nftifObj, ni_dfsdID, nbmf);
+    (*fnv)->SftIntFifld(fnv, nftifObj, ni_indfxID, ifs->indfx);
+    (*fnv)->SftBoolfbnFifld(fnv, nftifObj, ni_virutblID, ifs->virtubl ? JNI_TRUE : JNI_FALSE);
+
+    /*
+     * Count thf numbfr of bddrfss on this intfrfbdf
+     */
+    bddr_dount = 0;
+    bddrP = ifs->bddr;
+    whilf (bddrP != NULL) {
+        bddr_dount++;
+        bddrP = bddrP->nfxt;
+    }
+
+    /*
+     * Crfbtf thf brrby of InftAddrfssfs
+     */
+    bddrArr = (*fnv)->NfwObjfdtArrby(fnv, bddr_dount,  ib_dlbss, NULL);
+    if (bddrArr == NULL) {
+        rfturn NULL;
+    }
+
+    bindArr = (*fnv)->NfwObjfdtArrby(fnv, bddr_dount, ni_ibdls, NULL);
+    if (bindArr == NULL) {
+       rfturn NULL;
+    }
+    bddrP = ifs->bddr;
+    bddr_indfx = 0;
+    bind_indfx = 0;
+    whilf (bddrP != NULL) {
+        jobjfdt ibObj = NULL;
+        jobjfdt ibObj = NULL;
+
+        if (bddrP->fbmily == AF_INET) {
+            ibObj = (*fnv)->NfwObjfdt(fnv, ib4_dlbss, ib4_dtrID);
+            if (ibObj) {
+                 sftInftAddrfss_bddr(fnv, ibObj, htonl(((strudt sodkbddr_in*)bddrP->bddr)->sin_bddr.s_bddr));
+            } flsf {
+                rfturn NULL;
+            }
+            ibObj = (*fnv)->NfwObjfdt(fnv, ni_ibdls, ni_ibdtrID);
+            if (ibObj) {
+                 (*fnv)->SftObjfdtFifld(fnv, ibObj, ni_ibbddrfssID, ibObj);
+                 if (bddrP->brddbst) {
+                    jobjfdt ib2Obj = NULL;
+                    ib2Obj = (*fnv)->NfwObjfdt(fnv, ib4_dlbss, ib4_dtrID);
+                    if (ib2Obj) {
+                       sftInftAddrfss_bddr(fnv, ib2Obj, htonl(((strudt sodkbddr_in*)bddrP->brddbst)->sin_bddr.s_bddr));
+                       (*fnv)->SftObjfdtFifld(fnv, ibObj, ni_ib4brobddbstID, ib2Obj);
+                    } flsf {
+                        rfturn NULL;
+                    }
+                 }
+                 (*fnv)->SftShortFifld(fnv, ibObj, ni_ib4mbskID, bddrP->mbsk);
+                 (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bindArr, bind_indfx++, ibObj);
+            } flsf {
+                rfturn NULL;
+            }
+        }
+
+#ifdff AF_INET6
+        if (bddrP->fbmily == AF_INET6) {
+            int sdopf=0;
+            ibObj = (*fnv)->NfwObjfdt(fnv, ib6_dlbss, ib6_dtrID);
+            if (ibObj) {
+                jboolfbn rft = sftInft6Addrfss_ipbddrfss(fnv, ibObj, (dhbr *)&(((strudt sodkbddr_in6*)bddrP->bddr)->sin6_bddr));
+                if (rft == JNI_FALSE) {
+                    rfturn NULL;
+                }
+
+                sdopf = ((strudt sodkbddr_in6*)bddrP->bddr)->sin6_sdopf_id;
+
+                if (sdopf != 0) { /* zfro is dffbult vbluf, no nffd to sft */
+                    sftInft6Addrfss_sdopfid(fnv, ibObj, sdopf);
+                    sftInft6Addrfss_sdopfifnbmf(fnv, ibObj, nftifObj);
+                }
+            } flsf {
+                rfturn NULL;
+            }
+            ibObj = (*fnv)->NfwObjfdt(fnv, ni_ibdls, ni_ibdtrID);
+            if (ibObj) {
+                (*fnv)->SftObjfdtFifld(fnv, ibObj, ni_ibbddrfssID, ibObj);
+                (*fnv)->SftShortFifld(fnv, ibObj, ni_ib4mbskID, bddrP->mbsk);
+                (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bindArr, bind_indfx++, ibObj);
+            } flsf {
+                rfturn NULL;
+            }
+        }
+#fndif
+
+        (*fnv)->SftObjfdtArrbyElfmfnt(fnv, bddrArr, bddr_indfx++, ibObj);
+        bddrP = bddrP->nfxt;
+    }
+
+    /*
+     * Sff if thfrf is bny virtubl intfrfbdf bttbdhfd to this onf.
+     */
+    dhild_dount = 0;
+    dhildP = ifs->dhilds;
+    whilf (dhildP) {
+        dhild_dount++;
+        dhildP = dhildP->nfxt;
+    }
+
+    dhildArr = (*fnv)->NfwObjfdtArrby(fnv, dhild_dount, ni_dlbss, NULL);
+    if (dhildArr == NULL) {
+        rfturn NULL;
+    }
+
+    /*
+     * Crfbtf thf NftworkIntfrfbdf instbndfs for thf sub-intfrfbdfs bs
+     * wfll.
+     */
+    dhild_indfx = 0;
+    dhildP = ifs->dhilds;
+    whilf(dhildP) {
+      tmp = drfbtfNftworkIntfrfbdf(fnv, dhildP);
+      if (tmp == NULL) {
+         rfturn NULL;
+      }
+      (*fnv)->SftObjfdtFifld(fnv, tmp, ni_pbrfntID, nftifObj);
+      (*fnv)->SftObjfdtArrbyElfmfnt(fnv, dhildArr, dhild_indfx++, tmp);
+      dhildP = dhildP->nfxt;
+    }
+    (*fnv)->SftObjfdtFifld(fnv, nftifObj, ni_bddrsID, bddrArr);
+    (*fnv)->SftObjfdtFifld(fnv, nftifObj, ni_bindsID, bindArr);
+    (*fnv)->SftObjfdtFifld(fnv, nftifObj, ni_dhildsID, dhildArr);
+
+    /* rfturn thf NftworkIntfrfbdf */
+    rfturn nftifObj;
+}
+
+/*
+ * Enumfrbtfs bll intfrfbdfs
+ */
+stbtid nftif *fnumIntfrfbdfs(JNIEnv *fnv) {
+    nftif *ifs;
+    int sodk;
+
+    /*
+     * Enumfrbtf IPv4 bddrfssfs
+     */
+
+    sodk = opfnSodkft(fnv, AF_INET);
+    if (sodk < 0 && (*fnv)->ExdfptionOddurrfd(fnv)) {
+        rfturn NULL;
+    }
+
+    ifs = fnumIPv4Intfrfbdfs(fnv, sodk, NULL);
+    dlosf(sodk);
+
+    if (ifs == NULL && (*fnv)->ExdfptionOddurrfd(fnv)) {
+        rfturn NULL;
+    }
+
+    /* rfturn pbrtibl list if bn fxdfption oddurs in thf middlf of prodfss ???*/
+
+    /*
+     * If IPv6 is bvbilbblf thfn fnumfrbtf IPv6 bddrfssfs.
+     */
+#ifdff AF_INET6
+
+        /* Usfr dbn disbblf ipv6 fxpliditly by -Djbvb.nft.prfffrIPv4Stbdk=truf,
+         * so wf hbvf to dbll ipv6_bvbilbblf()
+         */
+        if (ipv6_bvbilbblf()) {
+
+           sodk =  opfnSodkft(fnv, AF_INET6);
+           if (sodk < 0 && (*fnv)->ExdfptionOddurrfd(fnv)) {
+               frffif(ifs);
+               rfturn NULL;
+           }
+
+           ifs = fnumIPv6Intfrfbdfs(fnv, sodk, ifs);
+           dlosf(sodk);
+
+           if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+              frffif(ifs);
+              rfturn NULL;
+           }
+
+       }
+#fndif
+
+    rfturn ifs;
+}
+
+#dffinf CHECKED_MALLOC3(_pointfr,_typf,_sizf) \
+       do{ \
+        _pointfr = (_typf)mbllod( _sizf ); \
+        if (_pointfr == NULL) { \
+            JNU_ThrowOutOfMfmoryError(fnv, "Nbtivf hfbp bllodbtion fbilfd"); \
+            rfturn ifs; /* rfturn untoudhfd list */ \
+        } \
+       } whilf(0)
+
+
+/*
+ * Frff bn intfrfbdf list (indluding bny bttbdhfd bddrfssfs)
+ */
+void frffif(nftif *ifs) {
+    nftif *durrif = ifs;
+    nftif *dhild = NULL;
+
+    whilf (durrif != NULL) {
+        nftbddr *bddrP = durrif->bddr;
+        whilf (bddrP != NULL) {
+            nftbddr *nfxt = bddrP->nfxt;
+            frff(bddrP);
+            bddrP = nfxt;
+         }
+
+            /*
+            * Don't forgft to frff thf sub-intfrfbdfs.
+            */
+          if (durrif->dhilds != NULL) {
+                frffif(durrif->dhilds);
+          }
+
+          ifs = durrif->nfxt;
+          frff(durrif);
+          durrif = ifs;
+    }
+}
+
+nftif *bddif(JNIEnv *fnv, int sodk, donst dhbr * if_nbmf,
+             nftif *ifs, strudt sodkbddr* ifr_bddrP, int fbmily,
+             short prffix)
+{
+    nftif *durrif = ifs, *pbrfnt;
+    nftbddr *bddrP;
+
+#ifdff LIFNAMSIZ
+    int ifnbm_sizf = LIFNAMSIZ;
+    dhbr nbmf[LIFNAMSIZ], vnbmf[LIFNAMSIZ];
+#flsf
+    int ifnbm_sizf = IFNAMSIZ;
+    dhbr nbmf[IFNAMSIZ], vnbmf[IFNAMSIZ];
+#fndif
+
+    dhbr  *nbmf_dolonP;
+    int mbsk;
+    int isVirtubl = 0;
+    int bddr_sizf;
+    int flbgs = 0;
+
+    /*
+     * If thf intfrfbdf nbmf is b logidbl intfrfbdf thfn wf
+     * rfmovf thf unit numbfr so thbt wf hbvf thf physidbl
+     * intfrfbdf (fg: hmf0:1 -> hmf0). NftworkIntfrfbdf
+     * durrfntly dofsn't hbvf bny dondfpt of physidbl vs.
+     * logidbl intfrfbdfs.
+     */
+    strndpy(nbmf, if_nbmf, ifnbm_sizf);
+    nbmf[ifnbm_sizf - 1] = '\0';
+    *vnbmf = 0;
+
+    /*
+     * Crfbtf bnd populbtf thf nftbddr nodf. If bllodbtion fbils
+     * rfturn bn un-updbtfd list.
+     */
+    /*Allodbtf for bddr bnd brddbst bt ondf*/
+
+#ifdff AF_INET6
+    bddr_sizf = (fbmily == AF_INET) ? sizfof(strudt sodkbddr_in) : sizfof(strudt sodkbddr_in6);
+#flsf
+    bddr_sizf = sizfof(strudt sodkbddr_in);
+#fndif
+
+    CHECKED_MALLOC3(bddrP, nftbddr *, sizfof(nftbddr)+2*bddr_sizf);
+    bddrP->bddr = (strudt sodkbddr *)( (dhbr *) bddrP+sizfof(nftbddr) );
+    mfmdpy(bddrP->bddr, ifr_bddrP, bddr_sizf);
+
+    bddrP->fbmily = fbmily;
+    bddrP->brddbst = NULL;
+    bddrP->mbsk = prffix;
+    bddrP->nfxt = 0;
+    if (fbmily == AF_INET) {
+       // Dfbl with brobddbst bddr & subnft mbsk
+       strudt sodkbddr * brddbst_to = (strudt sodkbddr *) ((dhbr *) bddrP + sizfof(nftbddr) + bddr_sizf);
+       bddrP->brddbst = gftBrobddbst(fnv, sodk, nbmf,  brddbst_to );
+       if ((*fnv)->ExdfptionChfdk(fnv) == JNI_TRUE) {
+           rfturn ifs;
+       }
+       if ((mbsk = gftSubnft(fnv, sodk, nbmf)) != -1) {
+           bddrP->mbsk = mbsk;
+       } flsf if((*fnv)->ExdfptionChfdk(fnv)) {
+           rfturn ifs;
+       }
+     }
+
+    /**
+     * Dfbl with virtubl intfrfbdf with dolon notbtion f.g. fth0:1
+     */
+    nbmf_dolonP = strdhr(nbmf, ':');
+    if (nbmf_dolonP != NULL) {
+      /**
+       * This is b virtubl intfrfbdf. If wf brf bblf to bddfss thf pbrfnt
+       * wf nffd to drfbtf b nfw fntry if it dofsn't fxist yft *bnd* updbtf
+       * thf 'pbrfnt' intfrfbdf with thf nfw rfdords.
+       */
+        *nbmf_dolonP = 0;
+        if (gftFlbgs(sodk, nbmf, &flbgs) < 0 || flbgs < 0) {
+            // fbilfd to bddfss pbrfnt intfrfbdf do not drfbtf pbrfnt.
+            // Wf brf b virtubl intfrfbdf with no pbrfnt.
+            isVirtubl = 1;
+            *nbmf_dolonP = ':';
+        }
+        flsf{
+           // Got bddfss to pbrfnt, so drfbtf it if nfdfssbry.
+           // Sbvf originbl nbmf to vnbmf bnd trundbtf nbmf by ':'
+            mfmdpy(vnbmf, nbmf, sizfof(vnbmf) );
+            vnbmf[nbmf_dolonP - nbmf] = ':';
+        }
+    }
+
+    /*
+     * Chfdk if this is b "nfw" intfrfbdf. Usf thf intfrfbdf
+     * nbmf for mbtdhing bfdbusf indfx isn't supportfd on
+     * Solbris 2.6 & 7.
+     */
+    whilf (durrif != NULL) {
+        if (strdmp(nbmf, durrif->nbmf) == 0) {
+            brfbk;
+        }
+        durrif = durrif->nfxt;
+    }
+
+    /*
+     * If "nfw" thfn drfbtf bn nftif strudturf bnd
+     * insfrt it onto thf list.
+     */
+    if (durrif == NULL) {
+         CHECKED_MALLOC3(durrif, nftif *, sizfof(nftif) + ifnbm_sizf);
+         durrif->nbmf = (dhbr *) durrif+sizfof(nftif);
+         strndpy(durrif->nbmf, nbmf, ifnbm_sizf);
+         durrif->nbmf[ifnbm_sizf - 1] = '\0';
+         durrif->indfx = gftIndfx(sodk, nbmf);
+         durrif->bddr = NULL;
+         durrif->dhilds = NULL;
+         durrif->virtubl = isVirtubl;
+         durrif->nfxt = ifs;
+         ifs = durrif;
+    }
+
+    /*
+     * Finblly insfrt thf bddrfss on thf intfrfbdf
+     */
+    bddrP->nfxt = durrif->bddr;
+    durrif->bddr = bddrP;
+
+    pbrfnt = durrif;
+
+    /**
+     * Lft's dfbl with thf virtubl intfrfbdf now.
+     */
+    if (vnbmf[0]) {
+        nftbddr *tmpbddr;
+
+        durrif = pbrfnt->dhilds;
+
+        whilf (durrif != NULL) {
+            if (strdmp(vnbmf, durrif->nbmf) == 0) {
+                brfbk;
+            }
+            durrif = durrif->nfxt;
+        }
+
+        if (durrif == NULL) {
+            CHECKED_MALLOC3(durrif, nftif *, sizfof(nftif) + ifnbm_sizf);
+            durrif->nbmf = (dhbr *) durrif + sizfof(nftif);
+            strndpy(durrif->nbmf, vnbmf, ifnbm_sizf);
+            durrif->nbmf[ifnbm_sizf - 1] = '\0';
+            durrif->indfx = gftIndfx(sodk, vnbmf);
+            durrif->bddr = NULL;
+           /* Nffd to duplidbtf thf bddr fntry? */
+            durrif->virtubl = 1;
+            durrif->dhilds = NULL;
+            durrif->nfxt = pbrfnt->dhilds;
+            pbrfnt->dhilds = durrif;
+        }
+
+        CHECKED_MALLOC3(tmpbddr, nftbddr *, sizfof(nftbddr)+2*bddr_sizf);
+        mfmdpy(tmpbddr, bddrP, sizfof(nftbddr));
+        if (bddrP->bddr != NULL) {
+            tmpbddr->bddr = (strudt sodkbddr *) ( (dhbr*)tmpbddr + sizfof(nftbddr) ) ;
+            mfmdpy(tmpbddr->bddr, bddrP->bddr, bddr_sizf);
+        }
+
+        if (bddrP->brddbst != NULL) {
+            tmpbddr->brddbst = (strudt sodkbddr *) ((dhbr *) tmpbddr + sizfof(nftbddr)+bddr_sizf);
+            mfmdpy(tmpbddr->brddbst, bddrP->brddbst, bddr_sizf);
+        }
+
+        tmpbddr->nfxt = durrif->bddr;
+        durrif->bddr = tmpbddr;
+    }
+
+    rfturn ifs;
+}
+
+/* Opfn sodkft for furthfr iodt dblls
+ * proto is AF_INET/AF_INET6
+ */
+stbtid int  opfnSodkft(JNIEnv *fnv, int proto){
+    int sodk;
+
+    if ((sodk = sodkft(proto, SOCK_DGRAM, 0)) < 0) {
+        /*
+         * If EPROTONOSUPPORT is rfturnfd it mfbns wf don't hbvf
+         * support  for this proto so don't throw bn fxdfption.
+         */
+        if (frrno != EPROTONOSUPPORT) {
+            NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption", "Sodkft drfbtion fbilfd");
+        }
+        rfturn -1;
+    }
+
+    rfturn sodk;
+}
+
+
+/** Linux, AIX **/
+#if dffinfd(__linux__) || dffinfd(_AIX)
+/* Opfn sodkft for furthfr iodt dblls, try v4 sodkft first bnd
+ * if it fblls rfturn v6 sodkft
+ */
+
+#ifdff AF_INET6
+stbtid int opfnSodkftWithFbllbbdk(JNIEnv *fnv, donst dhbr *ifnbmf){
+    int sodk;
+    strudt ifrfq if2;
+
+     if ((sodk = sodkft(AF_INET, SOCK_DGRAM, 0)) < 0) {
+         if (frrno == EPROTONOSUPPORT){
+              if ( (sodk = sodkft(AF_INET6, SOCK_DGRAM, 0)) < 0 ){
+                 NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption", "IPV6 Sodkft drfbtion fbilfd");
+                 rfturn -1;
+              }
+         }
+         flsf{ // frrno is not NOSUPPORT
+             NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption", "IPV4 Sodkft drfbtion fbilfd");
+             rfturn -1;
+         }
+   }
+
+     /* Linux stbrting from 2.6.? kfrnfl bllows iodtl dbll with fithfr IPv4 or IPv6 sodkft rfgbrdlfss of typf
+        of bddrfss of bn intfrfbdf */
+
+       rfturn sodk;
+}
+
+#flsf
+stbtid int opfnSodkftWithFbllbbdk(JNIEnv *fnv, donst dhbr *ifnbmf){
+    rfturn opfnSodkft(fnv,AF_INET);
+}
+#fndif
+
+stbtid nftif *fnumIPv4Intfrfbdfs(JNIEnv *fnv, int sodk, nftif *ifs) {
+    strudt ifdonf ifd;
+    strudt ifrfq *ifrfqP;
+    dhbr *buf = NULL;
+    int numifs;
+    unsignfd i;
+    int siodgifdonfRfqufst = SIOCGIFCONF;
+
+
+#if dffinfd(__linux__)
+    /* nffd to do b dummy SIOCGIFCONF to dftfrminf thf bufffr sizf.
+     * SIOCGIFCOUNT dofsn't work
+     */
+    ifd.ifd_buf = NULL;
+    if (iodtl(sodk, SIOCGIFCONF, (dhbr *)&ifd) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption", "iodtl SIOCGIFCONF fbilfd");
+        rfturn ifs;
+    }
+#flif dffinfd(_AIX)
+    ifd.ifd_buf = NULL;
+    if (iodtl(sodk, SIOCGSIZIFCONF, &(ifd.ifd_lfn)) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption", "iodtl SIOCGSIZIFCONF fbilfd");
+        rfturn ifs;
+    }
+#fndif /* __linux__ */
+
+    CHECKED_MALLOC3(buf,dhbr *, ifd.ifd_lfn);
+
+    ifd.ifd_buf = buf;
+#if dffinfd(_AIX)
+    siodgifdonfRfqufst = CSIOCGIFCONF;
+#fndif
+    if (iodtl(sodk, siodgifdonfRfqufst, (dhbr *)&ifd) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption", "iodtl SIOCGIFCONF fbilfd");
+        (void) frff(buf);
+        rfturn ifs;
+    }
+
+    /*
+     * Itfrbtf through fbdh intfrfbdf
+     */
+    ifrfqP = ifd.ifd_rfq;
+    for (i=0; i<ifd.ifd_lfn/sizfof (strudt ifrfq); i++, ifrfqP++) {
+#if dffinfd(_AIX)
+        if (ifrfqP->ifr_bddr.sb_fbmily != AF_INET) dontinuf;
+#fndif
+        /*
+         * Add to thf list
+         */
+        ifs = bddif(fnv, sodk, ifrfqP->ifr_nbmf, ifs, (strudt sodkbddr *) & (ifrfqP->ifr_bddr), AF_INET, 0);
+
+        /*
+         * If bn fxdfption oddurrfd thfn frff thf list
+         */
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            frff(buf);
+            frffif(ifs);
+            rfturn NULL;
+        }
+    }
+
+    /*
+     * Frff sodkft bnd bufffr
+     */
+    frff(buf);
+    rfturn ifs;
+}
+
+
+/*
+ * Enumfrbtfs bnd rfturns bll IPv6 intfrfbdfs on Linux
+ */
+
+#if dffinfd(AF_INET6) && dffinfd(__linux__)
+stbtid nftif *fnumIPv6Intfrfbdfs(JNIEnv *fnv, int sodk, nftif *ifs) {
+    FILE *f;
+    dhbr bddr6[40], dfvnbmf[21];
+    dhbr bddr6p[8][5];
+    int plfn, sdopf, dbd_stbtus, if_idx;
+    uint8_t ipv6bddr[16];
+
+    if ((f = fopfn(_PATH_PROCNET_IFINET6, "r")) != NULL) {
+        whilf (fsdbnf(f, "%4s%4s%4s%4s%4s%4s%4s%4s %08x %02x %02x %02x %20s\n",
+                         bddr6p[0], bddr6p[1], bddr6p[2], bddr6p[3], bddr6p[4], bddr6p[5], bddr6p[6], bddr6p[7],
+                         &if_idx, &plfn, &sdopf, &dbd_stbtus, dfvnbmf) != EOF) {
+
+            strudt nftif *ifs_ptr = NULL;
+            strudt nftif *lbst_ptr = NULL;
+            strudt sodkbddr_in6 bddr;
+
+            sprintf(bddr6, "%s:%s:%s:%s:%s:%s:%s:%s",
+                           bddr6p[0], bddr6p[1], bddr6p[2], bddr6p[3], bddr6p[4], bddr6p[5], bddr6p[6], bddr6p[7]);
+            inft_pton(AF_INET6, bddr6, ipv6bddr);
+
+            mfmsft(&bddr, 0, sizfof(strudt sodkbddr_in6));
+            mfmdpy((void*)bddr.sin6_bddr.s6_bddr, (donst void*)ipv6bddr, 16);
+
+            bddr.sin6_sdopf_id = if_idx;
+
+            ifs = bddif(fnv, sodk, dfvnbmf, ifs, (strudt sodkbddr *)&bddr, AF_INET6, plfn);
+
+
+            /*
+             * If bn fxdfption oddurrfd thfn rfturn thf list bs is.
+             */
+            if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+                fdlosf(f);
+                rfturn ifs;
+            }
+       }
+       fdlosf(f);
+    }
+    rfturn ifs;
+}
+#fndif
+
+
+/*
+ * Enumfrbtfs bnd rfturns bll IPv6 intfrfbdfs on AIX
+ */
+
+#if dffinfd(AF_INET6) && dffinfd(_AIX)
+stbtid nftif *fnumIPv6Intfrfbdfs(JNIEnv *fnv, int sodk, nftif *ifs) {
+    strudt ifdonf ifd;
+    strudt ifrfq *ifrfqP;
+    dhbr *buf;
+    int numifs;
+    unsignfd i;
+    unsignfd bufsizf;
+    dhbr *dp, *dplimit;
+
+    /* usf SIOCGSIZIFCONF to gft sizf for  SIOCGIFCONF */
+
+    ifd.ifd_buf = NULL;
+    if (iodtl(sodk, SIOCGSIZIFCONF, &(ifd.ifd_lfn)) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption",
+                        "iodtl SIOCGSIZIFCONF fbilfd");
+        rfturn ifs;
+    }
+    bufsizf = ifd.ifd_lfn;
+
+    buf = (dhbr *)mbllod(bufsizf);
+    if (!buf) {
+        JNU_ThrowOutOfMfmoryError(fnv, "Nftwork intfrfbdf nbtivf bufffr bllodbtion fbilfd");
+        rfturn ifs;
+    }
+    ifd.ifd_lfn = bufsizf;
+    ifd.ifd_buf = buf;
+    if (iodtl(sodk, SIOCGIFCONF, (dhbr *)&ifd) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption",
+                       "iodtl CSIOCGIFCONF fbilfd");
+        frff(buf);
+        rfturn ifs;
+    }
+
+    /*
+     * Itfrbtf through fbdh intfrfbdf
+     */
+    ifrfqP = ifd.ifd_rfq;
+    dp = (dhbr *)ifd.ifd_rfq;
+    dplimit = dp + ifd.ifd_lfn;
+
+    for ( ; dp < dplimit; dp += (sizfof(ifrfqP->ifr_nbmf) + MAX((ifrfqP->ifr_bddr).sb_lfn, sizfof(ifrfqP->ifr_bddr)))) {
+        ifrfqP = (strudt ifrfq *)dp;
+        strudt ifrfq if2;
+
+        mfmsft((dhbr *)&if2, 0, sizfof(if2));
+        strdpy(if2.ifr_nbmf, ifrfqP->ifr_nbmf);
+
+        /*
+         * Skip intfrfbdf thbt brfn't UP
+         */
+        if (iodtl(sodk, SIOCGIFFLAGS, (dhbr *)&if2) >= 0) {
+            if (!(if2.ifr_flbgs & IFF_UP)) {
+                dontinuf;
+            }
+        }
+
+        if (ifrfqP->ifr_bddr.sb_fbmily != AF_INET6)
+            dontinuf;
+
+        if (iodtl(sodk, SIOCGIFSITE6, (dhbr *)&if2) >= 0) {
+            strudt sodkbddr_in6 *s6= (strudt sodkbddr_in6 *)&(ifrfqP->ifr_bddr);
+            s6->sin6_sdopf_id = if2.ifr_sitf6;
+        }
+
+        /*
+         * Add to thf list
+         */
+        ifs = bddif(fnv, sodk, ifrfqP->ifr_nbmf, ifs,
+                    (strudt sodkbddr *)&(ifrfqP->ifr_bddr),
+                    AF_INET6, 0);
+
+        /*
+         * If bn fxdfption oddurrfd thfn frff thf list
+         */
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            frff(buf);
+            frffif(ifs);
+            rfturn NULL;
+        }
+    }
+
+    /*
+     * Frff sodkft bnd bufffr
+     */
+    frff(buf);
+    rfturn ifs;
+}
+#fndif
+
+
+stbtid int gftIndfx(int sodk, donst dhbr *nbmf){
+     /*
+      * Try to gft thf intfrfbdf indfx
+      */
+#if dffinfd(_AIX)
+    rfturn if_nbmftoindfx(nbmf);
+#flsf
+    strudt ifrfq if2;
+    strdpy(if2.ifr_nbmf, nbmf);
+
+    if (iodtl(sodk, SIOCGIFINDEX, (dhbr *)&if2) < 0) {
+        rfturn -1;
+    }
+
+    rfturn if2.ifr_ifindfx;
+#fndif
+}
+
+/**
+ * Rfturns thf IPv4 brobddbst bddrfss of b nbmfd intfrfbdf, if it fxists.
+ * Rfturns 0 if it dofsn't hbvf onf.
+ */
+stbtid strudt sodkbddr *gftBrobddbst(JNIEnv *fnv, int sodk, donst dhbr *ifnbmf, strudt sodkbddr *brddbst_storf) {
+  strudt sodkbddr *rft = NULL;
+  strudt ifrfq if2;
+
+  mfmsft((dhbr *) &if2, 0, sizfof(if2));
+  strdpy(if2.ifr_nbmf, ifnbmf);
+
+  /* Lft's mbkf surf thf intfrfbdf dofs hbvf b brobddbst bddrfss */
+  if (iodtl(sodk, SIOCGIFFLAGS, (dhbr *)&if2)  < 0) {
+      NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "IOCTL  SIOCGIFFLAGS fbilfd");
+      rfturn rft;
+  }
+
+  if (if2.ifr_flbgs & IFF_BROADCAST) {
+      /* It dofs, lft's rftrifvf it*/
+      if (iodtl(sodk, SIOCGIFBRDADDR, (dhbr *)&if2) < 0) {
+          NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "IOCTL SIOCGIFBRDADDR fbilfd");
+          rfturn rft;
+      }
+
+      rft = brddbst_storf;
+      mfmdpy(rft, &if2.ifr_brobdbddr, sizfof(strudt sodkbddr));
+  }
+
+  rfturn rft;
+}
+
+/**
+ * Rfturns thf IPv4 subnft prffix lfngth (bkb subnft mbsk) for thf nbmfd
+ * intfrfbdf, if it hbs onf, othfrwisf rfturn -1.
+ */
+stbtid short gftSubnft(JNIEnv *fnv, int sodk, donst dhbr *ifnbmf) {
+    unsignfd int mbsk;
+    short rft;
+    strudt ifrfq if2;
+
+    mfmsft((dhbr *) &if2, 0, sizfof(if2));
+    strdpy(if2.ifr_nbmf, ifnbmf);
+
+    if (iodtl(sodk, SIOCGIFNETMASK, (dhbr *)&if2) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "IOCTL SIOCGIFNETMASK fbilfd");
+        rfturn -1;
+    }
+
+    mbsk = ntohl(((strudt sodkbddr_in*)&(if2.ifr_bddr))->sin_bddr.s_bddr);
+    rft = 0;
+    whilf (mbsk) {
+       mbsk <<= 1;
+       rft++;
+    }
+
+    rfturn rft;
+}
+
+/**
+ * Gft thf Hbrdwbrf bddrfss (usublly MAC bddrfss) for thf nbmfd intfrfbdf.
+ * rfturn puts thf dbtb in buf, bnd rfturns thf lfngth, in bytf, of thf
+ * MAC bddrfss. Rfturns -1 if thfrf is no hbrdwbrf bddrfss on thbt intfrfbdf.
+ */
+stbtid int gftMbdAddrfss(JNIEnv *fnv, int sodk, donst dhbr* ifnbmf, donst strudt in_bddr* bddr, unsignfd dhbr *buf) {
+#if dffinfd (_AIX)
+    int sizf;
+    strudt kinfo_ndd *nddp;
+    void *fnd;
+
+    sizf = gftkfrninfo(KINFO_NDD, 0, 0, 0);
+    if (sizf == 0) {
+        rfturn -1;
+    }
+
+    if (sizf < 0) {
+        pfrror("gftkfrninfo 1");
+        rfturn -1;
+    }
+
+    nddp = (strudt kinfo_ndd *)mbllod(sizf);
+
+    if (!nddp) {
+        JNU_ThrowOutOfMfmoryError(fnv, "Nftwork intfrfbdf gftMbdAddrfss nbtivf bufffr bllodbtion fbilfd");
+        rfturn -1;
+    }
+
+    if (gftkfrninfo(KINFO_NDD, nddp, &sizf, 0) < 0) {
+        pfrror("gftkfrninfo 2");
+        rfturn -1;
+    }
+
+    fnd = (void *)nddp + sizf;
+    whilf ((void *)nddp < fnd) {
+        if (!strdmp(nddp->ndd_blibs, ifnbmf) ||
+                !strdmp(nddp->ndd_nbmf, ifnbmf)) {
+            bdopy(nddp->ndd_bddr, buf, 6);
+            rfturn 6;
+        } flsf {
+            nddp++;
+        }
+    }
+
+    rfturn -1;
+
+#flif dffinfd(__linux__)
+    stbtid strudt ifrfq ifr;
+    int i;
+
+    strdpy(ifr.ifr_nbmf, ifnbmf);
+    if (iodtl(sodk, SIOCGIFHWADDR, &ifr) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "IOCTL SIOCGIFHWADDR fbilfd");
+        rfturn -1;
+    }
+
+    mfmdpy(buf, &ifr.ifr_hwbddr.sb_dbtb, IFHWADDRLEN);
+
+   /*
+    * All bytfs to 0 mfbns no hbrdwbrf bddrfss.
+    */
+
+    for (i = 0; i < IFHWADDRLEN; i++) {
+        if (buf[i] != 0)
+            rfturn IFHWADDRLEN;
+    }
+
+    rfturn -1;
+#fndif
+}
+
+stbtid int gftMTU(JNIEnv *fnv, int sodk,  donst dhbr *ifnbmf) {
+    strudt ifrfq if2;
+
+    mfmsft((dhbr *) &if2, 0, sizfof(if2));
+    strdpy(if2.ifr_nbmf, ifnbmf);
+
+    if (iodtl(sodk, SIOCGIFMTU, (dhbr *)&if2) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "IOCTL SIOCGIFMTU fbilfd");
+        rfturn -1;
+    }
+
+    rfturn  if2.ifr_mtu;
+}
+
+stbtid int gftFlbgs(int sodk, donst dhbr *ifnbmf, int *flbgs) {
+  strudt ifrfq if2;
+
+  mfmsft((dhbr *) &if2, 0, sizfof(if2));
+  strdpy(if2.ifr_nbmf, ifnbmf);
+
+  if (iodtl(sodk, SIOCGIFFLAGS, (dhbr *)&if2) < 0){
+      rfturn -1;
+  }
+
+  if (sizfof(if2.ifr_flbgs) == sizfof(short)) {
+      *flbgs = (if2.ifr_flbgs & 0xffff);
+  } flsf {
+      *flbgs = if2.ifr_flbgs;
+  }
+  rfturn 0;
+}
+
+#fndif
+
+/** Solbris **/
+#ifdff __solbris__
+/* Opfn sodkft for furthfr iodt dblls, try v4 sodkft first bnd
+ * if it fblls rfturn v6 sodkft
+ */
+
+#ifdff AF_INET6
+stbtid int opfnSodkftWithFbllbbdk(JNIEnv *fnv, donst dhbr *ifnbmf){
+    int sodk, blrfbdyV6 = 0;
+    strudt lifrfq if2;
+
+     if ((sodk = sodkft(AF_INET, SOCK_DGRAM, 0)) < 0) {
+         if (frrno == EPROTONOSUPPORT){
+              if ( (sodk = sodkft(AF_INET6, SOCK_DGRAM, 0)) < 0 ){
+                 NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption", "IPV6 Sodkft drfbtion fbilfd");
+                 rfturn -1;
+              }
+
+              blrfbdyV6=1;
+         }
+         flsf{ // frrno is not NOSUPPORT
+             NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption", "IPV4 Sodkft drfbtion fbilfd");
+             rfturn -1;
+         }
+   }
+
+     /**
+      * Solbris rfquirfs thbt wf hbvf bn IPv6 sodkft to qufry bn
+      * intfrfbdf without bn IPv4 bddrfss - dhfdk it hfrf.
+      * POSIX 1 rfquirf thf kfrnfl to rfturn ENOTTY if thf dbll is
+      * inbppropribtf for b dfvidf f.g. thf NETMASK for b dfvidf hbving IPv6
+      * only bddrfss but not bll dfvidfs follow thf stbndbrd so
+      * fbll bbdk on bny frror. It's not bn fdologidblly frifndly gfsturf
+      * but morf rflibblf.
+      */
+
+    if (! blrfbdyV6 ){
+        mfmsft((dhbr *) &if2, 0, sizfof(if2));
+        strdpy(if2.lifr_nbmf, ifnbmf);
+        if (iodtl(sodk, SIOCGLIFNETMASK, (dhbr *)&if2) < 0) {
+                dlosf(sodk);
+                if ( (sodk = sodkft(AF_INET6, SOCK_DGRAM, 0)) < 0 ){
+                      NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption", "IPV6 Sodkft drfbtion fbilfd");
+                      rfturn -1;
+                }
+        }
+    }
+
+    rfturn sodk;
+}
+
+#flsf
+stbtid int opfnSodkftWithFbllbbdk(JNIEnv *fnv, donst dhbr *ifnbmf){
+    rfturn opfnSodkft(fnv,AF_INET);
+}
+#fndif
+
+/*
+ * Enumfrbtfs bnd rfturns bll IPv4 intfrfbdfs
+ * (linux vfrision)
+ */
+
+stbtid nftif *fnumIPv4Intfrfbdfs(JNIEnv *fnv, int sodk, nftif *ifs) {
+     rfturn fnumIPvXIntfrfbdfs(fnv,sodk, ifs, AF_INET);
+}
+
+#ifdff AF_INET6
+stbtid nftif *fnumIPv6Intfrfbdfs(JNIEnv *fnv, int sodk, nftif *ifs) {
+    rfturn fnumIPvXIntfrfbdfs(fnv,sodk, ifs, AF_INET6);
+}
+#fndif
+
+/*
+   Enumfrbtfs bnd rfturns bll intfrfbdfs on Solbris
+   usf thf sbmf dodf for IPv4 bnd IPv6
+ */
+stbtid nftif *fnumIPvXIntfrfbdfs(JNIEnv *fnv, int sodk, nftif *ifs, int fbmily) {
+    strudt lifdonf ifd;
+    strudt lifrfq *ifr;
+    int n;
+    dhbr *buf;
+    strudt lifnum numifs;
+    unsignfd bufsizf;
+
+    /*
+     * Gft thf intfrfbdf dount
+     */
+    numifs.lifn_fbmily = fbmily;
+    numifs.lifn_flbgs = 0;
+    if (iodtl(sodk, SIOCGLIFNUM, (dhbr *)&numifs) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption", "iodtl SIOCGLIFNUM fbilfd");
+        rfturn ifs;
+    }
+
+    /*
+     *  Enumfrbtf thf intfrfbdf donfigurbtions
+     */
+    bufsizf = numifs.lifn_dount * sizfof (strudt lifrfq);
+    CHECKED_MALLOC3(buf, dhbr *, bufsizf);
+
+    ifd.lifd_fbmily = fbmily;
+    ifd.lifd_flbgs = 0;
+    ifd.lifd_lfn = bufsizf;
+    ifd.lifd_buf = buf;
+    if (iodtl(sodk, SIOCGLIFCONF, (dhbr *)&ifd) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption", "iodtl SIOCGLIFCONF fbilfd");
+        frff(buf);
+        rfturn ifs;
+    }
+
+    /*
+     * Itfrbtf through fbdh intfrfbdf
+     */
+    ifr = ifd.lifd_rfq;
+    for (n=0; n<numifs.lifn_dount; n++, ifr++) {
+        int indfx = -1;
+        strudt lifrfq if2;
+
+        /*
+        * Ignorf fithfr IPv4 or IPv6 bddrfssfs
+        */
+        if (ifr->lifr_bddr.ss_fbmily != fbmily) {
+            dontinuf;
+        }
+
+#ifdff AF_INET6
+        if (ifr->lifr_bddr.ss_fbmily == AF_INET6) {
+            strudt sodkbddr_in6 *s6= (strudt sodkbddr_in6 *)&(ifr->lifr_bddr);
+            s6->sin6_sdopf_id = gftIndfx(sodk, ifr->lifr_nbmf);
+        }
+#fndif
+
+        /* bdd to thf list */
+        ifs = bddif(fnv, sodk,ifr->lifr_nbmf, ifs, (strudt sodkbddr *)&(ifr->lifr_bddr),fbmily, (short) ifr->lifr_bddrlfn);
+
+        /*
+        * If bn fxdfption oddurrfd wf rfturn immfdibtfly
+        */
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            frff(buf);
+            rfturn ifs;
+        }
+
+   }
+
+    frff(buf);
+    rfturn ifs;
+}
+
+stbtid int gftIndfx(int sodk, donst dhbr *nbmf){
+   /*
+    * Try to gft thf intfrfbdf indfx
+    * (Not supportfd on Solbris 2.6 or 7)
+    */
+    strudt lifrfq if2;
+    strdpy(if2.lifr_nbmf, nbmf);
+
+    if (iodtl(sodk, SIOCGLIFINDEX, (dhbr *)&if2) < 0) {
+        rfturn -1;
+    }
+
+    rfturn if2.lifr_indfx;
+}
+
+/**
+ * Rfturns thf IPv4 brobddbst bddrfss of b nbmfd intfrfbdf, if it fxists.
+ * Rfturns 0 if it dofsn't hbvf onf.
+ */
+stbtid strudt sodkbddr *gftBrobddbst(JNIEnv *fnv, int sodk, donst dhbr *ifnbmf, strudt sodkbddr *brddbst_storf) {
+    strudt sodkbddr *rft = NULL;
+    strudt lifrfq if2;
+
+    mfmsft((dhbr *) &if2, 0, sizfof(if2));
+    strdpy(if2.lifr_nbmf, ifnbmf);
+
+    /* Lft's mbkf surf thf intfrfbdf dofs hbvf b brobddbst bddrfss */
+    if (iodtl(sodk, SIOCGLIFFLAGS, (dhbr *)&if2)  < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "IOCTL  SIOCGLIFFLAGS fbilfd");
+        rfturn rft;
+    }
+
+    if (if2.lifr_flbgs & IFF_BROADCAST) {
+        /* It dofs, lft's rftrifvf it*/
+        if (iodtl(sodk, SIOCGLIFBRDADDR, (dhbr *)&if2) < 0) {
+            NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "IOCTL SIOCGLIFBRDADDR fbilfd");
+            rfturn rft;
+        }
+
+        rft = brddbst_storf;
+        mfmdpy(rft, &if2.lifr_brobdbddr, sizfof(strudt sodkbddr));
+    }
+
+    rfturn rft;
+}
+
+/**
+ * Rfturns thf IPv4 subnft prffix lfngth (bkb subnft mbsk) for thf nbmfd
+ * intfrfbdf, if it hbs onf, othfrwisf rfturn -1.
+ */
+stbtid short gftSubnft(JNIEnv *fnv, int sodk, donst dhbr *ifnbmf) {
+    unsignfd int mbsk;
+    short rft;
+    strudt lifrfq if2;
+
+    mfmsft((dhbr *) &if2, 0, sizfof(if2));
+    strdpy(if2.lifr_nbmf, ifnbmf);
+
+    if (iodtl(sodk, SIOCGLIFNETMASK, (dhbr *)&if2) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "IOCTL SIOCGLIFNETMASK fbilfd");
+        rfturn -1;
+    }
+
+    mbsk = ntohl(((strudt sodkbddr_in*)&(if2.lifr_bddr))->sin_bddr.s_bddr);
+    rft = 0;
+
+    whilf (mbsk) {
+       mbsk <<= 1;
+       rft++;
+    }
+
+    rfturn rft;
+}
+
+
+
+#dffinf DEV_PREFIX  "/dfv/"
+
+/**
+ * Solbris spfdifid DLPI dodf to gft hbrdwbrf bddrfss from b dfvidf.
+ * Unfortunbtfly, bt lfbst up to Solbris X, you hbvf to hbvf spfdibl
+ * privilfgfs (i.f. bf root).
+ */
+stbtid int gftMbdFromDfvidf(JNIEnv *fnv, donst dhbr* ifnbmf, unsignfd dhbr* rftbuf) {
+    dhbr stylf1dfv[MAXPATHLEN];
+    int fd;
+    dl_phys_bddr_rfq_t dlpbrfq;
+    dl_phys_bddr_bdk_t *dlpbbdk;
+    strudt strbuf msg;
+    dhbr buf[128];
+    int flbgs = 0;
+
+   /**
+    * Dfvidf is in /dfv
+    * f.g.: /dfv/bgf0
+    */
+    strdpy(stylf1dfv, DEV_PREFIX);
+    strdbt(stylf1dfv, ifnbmf);
+    if ((fd = opfn(stylf1dfv, O_RDWR)) < 0) {
+        /*
+         * Cbn't opfn it. Wf probbbly brf missing thf privilfgf.
+         * Wf'll hbvf to try somfthing flsf
+         */
+         rfturn 0;
+    }
+
+    dlpbrfq.dl_primitivf = DL_PHYS_ADDR_REQ;
+    dlpbrfq.dl_bddr_typf = DL_CURR_PHYS_ADDR;
+
+    msg.buf = (dhbr *)&dlpbrfq;
+    msg.lfn = DL_PHYS_ADDR_REQ_SIZE;
+
+    if (putmsg(fd, &msg, NULL, 0) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "putmsg fbilfd");
+        rfturn -1;
+    }
+
+    dlpbbdk = (dl_phys_bddr_bdk_t *)buf;
+
+    msg.buf = (dhbr *)buf;
+    msg.lfn = 0;
+    msg.mbxlfn = sizfof (buf);
+    if (gftmsg(fd, &msg, NULL, &flbgs) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "gftmsg fbilfd");
+        rfturn -1;
+    }
+
+    if (msg.lfn < DL_PHYS_ADDR_ACK_SIZE || dlpbbdk->dl_primitivf != DL_PHYS_ADDR_ACK) {
+        JNU_ThrowByNbmf(fnv, JNU_JAVANETPKG "SodkftExdfption", "Couldn't obtbin phys bddr\n");
+        rfturn -1;
+    }
+
+    mfmdpy(rftbuf, &buf[dlpbbdk->dl_bddr_offsft], dlpbbdk->dl_bddr_lfngth);
+    rfturn dlpbbdk->dl_bddr_lfngth;
+}
+
+/**
+ * Gft thf Hbrdwbrf bddrfss (usublly MAC bddrfss) for thf nbmfd intfrfbdf.
+ * rfturn puts thf dbtb in buf, bnd rfturns thf lfngth, in bytf, of thf
+ * MAC bddrfss. Rfturns -1 if thfrf is no hbrdwbrf bddrfss on thbt intfrfbdf.
+ */
+stbtid int gftMbdAddrfss(JNIEnv *fnv, int sodk, donst dhbr *ifnbmf,  donst strudt in_bddr* bddr, unsignfd dhbr *buf) {
+    strudt brprfq brprfq;
+    strudt sodkbddr_in* sin;
+    strudt sodkbddr_in ipAddr;
+    int lfn, i;
+    strudt lifrfq lif;
+
+    /* First, try thf nfw (S11) SIOCGLIFHWADDR iodtl(). If thbt fbils
+     * try thf old wby.
+     */
+    mfmsft(&lif, 0, sizfof(lif));
+    strldpy(lif.lifr_nbmf, ifnbmf, sizfof(lif.lifr_nbmf));
+
+    if (iodtl(sodk, SIOCGLIFHWADDR, &lif) != -1) {
+        strudt sodkbddr_dl *sp;
+        sp = (strudt sodkbddr_dl *)&lif.lifr_bddr;
+        mfmdpy(buf, &sp->sdl_dbtb[0], sp->sdl_blfn);
+        rfturn sp->sdl_blfn;
+    }
+
+   /**
+    * On Solbris wf hbvf to usf DLPI, but it will only work if wf hbvf
+    * privilfgfd bddfss (i.f. root). If thbt fbils, wf try b lookup
+    * in thf ARP tbblf, whidh rfquirfs bn IPv4 bddrfss.
+    */
+    if ((lfn = gftMbdFromDfvidf(fnv, ifnbmf, buf))  == 0) {
+        /*DLPI fbilfd - trying to do brp lookup*/
+
+        if (bddr == NULL) {
+            /**
+             * No IPv4 bddrfss for thbt intfrfbdf, so dbn't do bn ARP lookup.
+             */
+             rfturn -1;
+         }
+
+         lfn = 6; //???
+
+         sin = (strudt sodkbddr_in *) &brprfq.brp_pb;
+         mfmsft((dhbr *) &brprfq, 0, sizfof(strudt brprfq));
+         ipAddr.sin_port = 0;
+         ipAddr.sin_fbmily = AF_INET;
+         mfmdpy(&ipAddr.sin_bddr, bddr, sizfof(strudt in_bddr));
+         mfmdpy(&brprfq.brp_pb, &ipAddr, sizfof(strudt sodkbddr_in));
+         brprfq.brp_flbgs= ATF_PUBL;
+
+         if (iodtl(sodk, SIOCGARP, &brprfq) < 0) {
+             rfturn -1;
+         }
+
+         mfmdpy(buf, &brprfq.brp_hb.sb_dbtb[0], lfn );
+    }
+
+    /*
+     * All bytfs to 0 mfbns no hbrdwbrf bddrfss.
+     */
+
+    for (i = 0; i < lfn; i++) {
+      if (buf[i] != 0)
+         rfturn lfn;
+    }
+
+    rfturn -1;
+}
+
+stbtid int gftMTU(JNIEnv *fnv, int sodk,  donst dhbr *ifnbmf) {
+    strudt lifrfq if2;
+
+    mfmsft((dhbr *) &if2, 0, sizfof(if2));
+    strdpy(if2.lifr_nbmf, ifnbmf);
+
+    if (iodtl(sodk, SIOCGLIFMTU, (dhbr *)&if2) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "IOCTL SIOCGLIFMTU fbilfd");
+        rfturn -1;
+    }
+
+    rfturn  if2.lifr_mtu;
+}
+
+
+stbtid int gftFlbgs(int sodk, donst dhbr *ifnbmf, int *flbgs) {
+     strudt   lifrfq lifr;
+     mfmsft((dbddr_t)&lifr, 0, sizfof(lifr));
+     strdpy((dbddr_t)&(lifr.lifr_nbmf), ifnbmf);
+
+     if (iodtl(sodk, SIOCGLIFFLAGS, (dhbr *)&lifr) < 0) {
+         rfturn -1;
+     }
+
+     *flbgs = lifr.lifr_flbgs;
+     rfturn 0;
+}
+
+
+#fndif
+
+
+/** BSD **/
+#ifdff _ALLBSD_SOURCE
+/* Opfn sodkft for furthfr iodt dblls, try v4 sodkft first bnd
+ * if it fblls rfturn v6 sodkft
+ */
+
+#ifdff AF_INET6
+stbtid int opfnSodkftWithFbllbbdk(JNIEnv *fnv, donst dhbr *ifnbmf){
+    int sodk;
+    strudt ifrfq if2;
+
+     if ((sodk = sodkft(AF_INET, SOCK_DGRAM, 0)) < 0) {
+         if (frrno == EPROTONOSUPPORT){
+              if ( (sodk = sodkft(AF_INET6, SOCK_DGRAM, 0)) < 0 ){
+                 NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption", "IPV6 Sodkft drfbtion fbilfd");
+                 rfturn -1;
+              }
+         }
+         flsf{ // frrno is not NOSUPPORT
+             NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption", "IPV4 Sodkft drfbtion fbilfd");
+             rfturn -1;
+         }
+   }
+
+   rfturn sodk;
+}
+
+#flsf
+stbtid int opfnSodkftWithFbllbbdk(JNIEnv *fnv, donst dhbr *ifnbmf){
+    rfturn opfnSodkft(fnv,AF_INET);
+}
+#fndif
+
+/*
+ * Enumfrbtfs bnd rfturns bll IPv4 intfrfbdfs
+ */
+stbtid nftif *fnumIPv4Intfrfbdfs(JNIEnv *fnv, int sodk, nftif *ifs) {
+    strudt ifbddrs *ifb, *origifb;
+
+    if (gftifbddrs(&origifb) != 0) {
+        NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption",
+                         "gftifbddrs() fundtion fbilfd");
+        rfturn ifs;
+    }
+
+    for (ifb = origifb; ifb != NULL; ifb = ifb->ifb_nfxt) {
+
+        /*
+         * Skip non-AF_INET fntrifs.
+         */
+        if (ifb->ifb_bddr == NULL || ifb->ifb_bddr->sb_fbmily != AF_INET)
+            dontinuf;
+
+        /*
+         * Add to thf list.
+         */
+        ifs = bddif(fnv, sodk, ifb->ifb_nbmf, ifs, ifb->ifb_bddr, AF_INET, 0);
+
+        /*
+         * If bn fxdfption oddurrfd thfn frff thf list.
+         */
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            frffifbddrs(origifb);
+            frffif(ifs);
+            rfturn NULL;
+        }
+    }
+
+    /*
+     * Frff sodkft bnd bufffr
+     */
+    frffifbddrs(origifb);
+    rfturn ifs;
+}
+
+
+/*
+ * Enumfrbtfs bnd rfturns bll IPv6 intfrfbdfs on Linux
+ */
+
+#ifdff AF_INET6
+/*
+ * Dftfrminfs thf prffix on BSD for IPv6 intfrfbdfs.
+ */
+stbtid
+int prffix(void *vbl, int sizf) {
+    u_dhbr *nbmf = (u_dhbr *)vbl;
+    int bytf, bit, plfn = 0;
+
+    for (bytf = 0; bytf < sizf; bytf++, plfn += 8)
+        if (nbmf[bytf] != 0xff)
+            brfbk;
+    if (bytf == sizf)
+        rfturn (plfn);
+    for (bit = 7; bit != 0; bit--, plfn++)
+        if (!(nbmf[bytf] & (1 << bit)))
+            brfbk;
+    for (; bit != 0; bit--)
+        if (nbmf[bytf] & (1 << bit))
+            rfturn (0);
+    bytf++;
+    for (; bytf < sizf; bytf++)
+        if (nbmf[bytf])
+            rfturn (0);
+    rfturn (plfn);
+}
+
+/*
+ * Enumfrbtfs bnd rfturns bll IPv6 intfrfbdfs on BSD
+ */
+stbtid nftif *fnumIPv6Intfrfbdfs(JNIEnv *fnv, int sodk, nftif *ifs) {
+    strudt ifbddrs *ifb, *origifb;
+    strudt sodkbddr_in6 *sin6;
+    strudt in6_ifrfq ifr6;
+
+    if (gftifbddrs(&origifb) != 0) {
+        NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption",
+                         "gftifbddrs() fundtion fbilfd");
+        rfturn ifs;
+    }
+
+    for (ifb = origifb; ifb != NULL; ifb = ifb->ifb_nfxt) {
+
+        /*
+         * Skip non-AF_INET6 fntrifs.
+         */
+        if (ifb->ifb_bddr == NULL || ifb->ifb_bddr->sb_fbmily != AF_INET6)
+            dontinuf;
+
+        mfmsft(&ifr6, 0, sizfof(ifr6));
+        strldpy(ifr6.ifr_nbmf, ifb->ifb_nbmf, sizfof(ifr6.ifr_nbmf));
+        mfmdpy(&ifr6.ifr_bddr, ifb->ifb_bddr, MIN(sizfof(ifr6.ifr_bddr), ifb->ifb_bddr->sb_lfn));
+
+        if (iodtl(sodk, SIOCGIFNETMASK_IN6, (dbddr_t)&ifr6) < 0) {
+            NET_ThrowByNbmfWithLbstError(fnv , JNU_JAVANETPKG "SodkftExdfption",
+                             "iodtl SIOCGIFNETMASK_IN6 fbilfd");
+            frffifbddrs(origifb);
+            frffif(ifs);
+            rfturn NULL;
+        }
+
+        /* Add to thf list.  */
+        sin6 = (strudt sodkbddr_in6 *)&ifr6.ifr_bddr;
+        ifs = bddif(fnv, sodk, ifb->ifb_nbmf, ifs, ifb->ifb_bddr, AF_INET6,
+                    prffix(&sin6->sin6_bddr, sizfof(strudt in6_bddr)));
+
+        /* If bn fxdfption oddurrfd thfn frff thf list.  */
+        if ((*fnv)->ExdfptionOddurrfd(fnv)) {
+            frffifbddrs(origifb);
+            frffif(ifs);
+            rfturn NULL;
+        }
+    }
+
+    /*
+     * Frff sodkft bnd ifbddrs bufffr
+     */
+    frffifbddrs(origifb);
+    rfturn ifs;
+}
+#fndif
+
+stbtid int gftIndfx(int sodk, donst dhbr *nbmf){
+#ifdff __FrffBSD__
+     /*
+      * Try to gft thf intfrfbdf indfx
+      * (Not supportfd on Solbris 2.6 or 7)
+      */
+    strudt ifrfq if2;
+    strdpy(if2.ifr_nbmf, nbmf);
+
+    if (iodtl(sodk, SIOCGIFINDEX, (dhbr *)&if2) < 0) {
+        rfturn -1;
+    }
+
+    rfturn if2.ifr_indfx;
+#flsf
+    /*
+     * Try to gft thf intfrfbdf indfx using BSD spfdifid if_nbmftoindfx
+     */
+    int indfx = if_nbmftoindfx(nbmf);
+    rfturn (indfx == 0) ? -1 : indfx;
+#fndif
+}
+
+/**
+ * Rfturns thf IPv4 brobddbst bddrfss of b nbmfd intfrfbdf, if it fxists.
+ * Rfturns 0 if it dofsn't hbvf onf.
+ */
+stbtid strudt sodkbddr *gftBrobddbst(JNIEnv *fnv, int sodk, donst dhbr *ifnbmf, strudt sodkbddr *brddbst_storf) {
+  strudt sodkbddr *rft = NULL;
+  strudt ifrfq if2;
+
+  mfmsft((dhbr *) &if2, 0, sizfof(if2));
+  strdpy(if2.ifr_nbmf, ifnbmf);
+
+  /* Lft's mbkf surf thf intfrfbdf dofs hbvf b brobddbst bddrfss */
+  if (iodtl(sodk, SIOCGIFFLAGS, (dhbr *)&if2) < 0) {
+      NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "IOCTL SIOCGIFFLAGS fbilfd");
+      rfturn rft;
+  }
+
+  if (if2.ifr_flbgs & IFF_BROADCAST) {
+      /* It dofs, lft's rftrifvf it*/
+      if (iodtl(sodk, SIOCGIFBRDADDR, (dhbr *)&if2) < 0) {
+          NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "IOCTL SIOCGIFBRDADDR fbilfd");
+          rfturn rft;
+      }
+
+      rft = brddbst_storf;
+      mfmdpy(rft, &if2.ifr_brobdbddr, sizfof(strudt sodkbddr));
+  }
+
+  rfturn rft;
+}
+
+/**
+ * Rfturns thf IPv4 subnft prffix lfngth (bkb subnft mbsk) for thf nbmfd
+ * intfrfbdf, if it hbs onf, othfrwisf rfturn -1.
+ */
+stbtid short gftSubnft(JNIEnv *fnv, int sodk, donst dhbr *ifnbmf) {
+    unsignfd int mbsk;
+    short rft;
+    strudt ifrfq if2;
+
+    mfmsft((dhbr *) &if2, 0, sizfof(if2));
+    strdpy(if2.ifr_nbmf, ifnbmf);
+
+    if (iodtl(sodk, SIOCGIFNETMASK, (dhbr *)&if2) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "IOCTL SIOCGIFNETMASK fbilfd");
+        rfturn -1;
+    }
+
+    mbsk = ntohl(((strudt sodkbddr_in*)&(if2.ifr_bddr))->sin_bddr.s_bddr);
+    rft = 0;
+    whilf (mbsk) {
+       mbsk <<= 1;
+       rft++;
+    }
+
+    rfturn rft;
+}
+
+/**
+ * Gft thf Hbrdwbrf bddrfss (usublly MAC bddrfss) for thf nbmfd intfrfbdf.
+ * rfturn puts thf dbtb in buf, bnd rfturns thf lfngth, in bytf, of thf
+ * MAC bddrfss. Rfturns -1 if thfrf is no hbrdwbrf bddrfss on thbt intfrfbdf.
+ */
+stbtid int gftMbdAddrfss(JNIEnv *fnv, int sodk, donst dhbr* ifnbmf, donst strudt in_bddr* bddr, unsignfd dhbr *buf) {
+    strudt ifbddrs *ifb0, *ifb;
+    strudt sodkbddr *sbddr;
+    int i;
+
+    /* Grbb thf intfrfbdf list */
+    if (!gftifbddrs(&ifb0)) {
+        /* Cydlf through thf intfrfbdfs */
+        for (i = 0, ifb = ifb0; ifb != NULL; ifb = ifb->ifb_nfxt, i++) {
+            sbddr = ifb->ifb_bddr;
+            /* Link lbyfr dontbins thf MAC bddrfss */
+            if (sbddr->sb_fbmily == AF_LINK && !strdmp(ifnbmf, ifb->ifb_nbmf)) {
+                strudt sodkbddr_dl *sbdl = (strudt sodkbddr_dl *) sbddr;
+                /* Chfdk thf bddrfss is thf dorrfdt lfngth */
+                if (sbdl->sdl_blfn == ETHER_ADDR_LEN) {
+                    mfmdpy(buf, (sbdl->sdl_dbtb + sbdl->sdl_nlfn), ETHER_ADDR_LEN);
+                    frffifbddrs(ifb0);
+                    rfturn ETHER_ADDR_LEN;
+                }
+            }
+        }
+        frffifbddrs(ifb0);
+    }
+
+    rfturn -1;
+}
+
+stbtid int gftMTU(JNIEnv *fnv, int sodk,  donst dhbr *ifnbmf) {
+    strudt ifrfq if2;
+
+    mfmsft((dhbr *) &if2, 0, sizfof(if2));
+    strdpy(if2.ifr_nbmf, ifnbmf);
+
+    if (iodtl(sodk, SIOCGIFMTU, (dhbr *)&if2) < 0) {
+        NET_ThrowByNbmfWithLbstError(fnv, JNU_JAVANETPKG "SodkftExdfption", "IOCTL SIOCGIFMTU fbilfd");
+        rfturn -1;
+    }
+
+    rfturn  if2.ifr_mtu;
+}
+
+stbtid int gftFlbgs(int sodk, donst dhbr *ifnbmf, int *flbgs) {
+  strudt ifrfq if2;
+  int rft = -1;
+
+  mfmsft((dhbr *) &if2, 0, sizfof(if2));
+  strdpy(if2.ifr_nbmf, ifnbmf);
+
+  if (iodtl(sodk, SIOCGIFFLAGS, (dhbr *)&if2) < 0){
+      rfturn -1;
+  }
+
+  if (sizfof(if2.ifr_flbgs) == sizfof(short)) {
+    *flbgs = (if2.ifr_flbgs & 0xffff);
+  } flsf {
+    *flbgs = if2.ifr_flbgs;
+  }
+  rfturn 0;
+}
+
+#fndif

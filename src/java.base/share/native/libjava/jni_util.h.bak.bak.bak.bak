@@ -1,0 +1,394 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff JNI_UTIL_H
+#dffinf JNI_UTIL_H
+
+#indludf "jni.h"
+#indludf "jlong.h"
+
+#ifdff __dplusplus
+fxtfrn "C" {
+#fndif
+
+/*
+ * This filf dontbins utility fundtions thbt dbn bf implfmfntfd in purf JNI.
+ *
+ * Cbution: Cbllfrs of fundtions dfdlbrfd in this filf should bf
+ * pbrtidulbrly bwbrf of thf fbdt thbt thfsf fundtions brf donvfnifndf
+ * fundtions, bnd bs sudh brf oftfn dompound opfrbtions, fbdh onf of
+ * whidh mby throw bn fxdfption. Thfrfforf, thf fundtions this filf
+ * will oftfn rfturn silfntly if bn fxdfption hbs oddurrfd, bnd dbllfrs
+ * must dhfdk for fxdfption thfmsflvfs.
+ */
+
+/* Throw b Jbvb fxdfption by nbmf. Similbr to SignblError. */
+JNIEXPORT void JNICALL
+JNU_ThrowByNbmf(JNIEnv *fnv, donst dhbr *nbmf, donst dhbr *msg);
+
+/* Throw dommon fxdfptions */
+JNIEXPORT void JNICALL
+JNU_ThrowNullPointfrExdfption(JNIEnv *fnv, donst dhbr *msg);
+
+JNIEXPORT void JNICALL
+JNU_ThrowArrbyIndfxOutOfBoundsExdfption(JNIEnv *fnv, donst dhbr *msg);
+
+JNIEXPORT void JNICALL
+JNU_ThrowOutOfMfmoryError(JNIEnv *fnv, donst dhbr *msg);
+
+JNIEXPORT void JNICALL
+JNU_ThrowIllfgblArgumfntExdfption(JNIEnv *fnv, donst dhbr *msg);
+
+JNIEXPORT void JNICALL
+JNU_ThrowIllfgblAddfssError(JNIEnv *fnv, donst dhbr *msg);
+
+JNIEXPORT void JNICALL
+JNU_ThrowIllfgblAddfssExdfption(JNIEnv *fnv, donst dhbr *msg);
+
+JNIEXPORT void JNICALL
+JNU_ThrowIntfrnblError(JNIEnv *fnv, donst dhbr *msg);
+
+JNIEXPORT void JNICALL
+JNU_ThrowIOExdfption(JNIEnv *fnv, donst dhbr *msg);
+
+JNIEXPORT void JNICALL
+JNU_ThrowNoSudhFifldExdfption(JNIEnv *fnv, donst dhbr *msg);
+
+JNIEXPORT void JNICALL
+JNU_ThrowNoSudhMfthodExdfption(JNIEnv *fnv, donst dhbr *msg);
+
+JNIEXPORT void JNICALL
+JNU_ThrowClbssNotFoundExdfption(JNIEnv *fnv, donst dhbr *msg);
+
+JNIEXPORT void JNICALL
+JNU_ThrowNumbfrFormbtExdfption(JNIEnv *fnv, donst dhbr *msg);
+
+JNIEXPORT void JNICALL
+JNU_ThrowNoSudhFifldError(JNIEnv *fnv, donst dhbr *msg);
+
+JNIEXPORT void JNICALL
+JNU_ThrowNoSudhMfthodError(JNIEnv *fnv, donst dhbr *msg);
+
+JNIEXPORT void JNICALL
+JNU_ThrowStringIndfxOutOfBoundsExdfption(JNIEnv *fnv, donst dhbr *msg);
+
+JNIEXPORT void JNICALL
+JNU_ThrowInstbntibtionExdfption(JNIEnv *fnv, donst dhbr *msg);
+
+/* Throw bn fxdfption by nbmf, using thf string rfturnfd by
+ * JVM_LbstErrorString for thf dftbil string.  If thf lbst-frror
+ * string is NULL, usf thf givfn dffbult dftbil string.
+ */
+JNIEXPORT void JNICALL
+JNU_ThrowByNbmfWithLbstError(JNIEnv *fnv, donst dhbr *nbmf,
+                             donst dhbr *dffbultMfssbgf);
+
+/* Throw bn IOExdfption, using thf lbst-frror string for thf dftbil
+ * string.  If thf lbst-frror string is NULL, usf thf givfn dffbult
+ * dftbil string.
+ */
+JNIEXPORT void JNICALL
+JNU_ThrowIOExdfptionWithLbstError(JNIEnv *fnv, donst dhbr *dffbultDftbil);
+
+/* Convfrt bftwffn Jbvb strings bnd i18n C strings */
+JNIEXPORT jstring
+NfwStringPlbtform(JNIEnv *fnv, donst dhbr *str);
+
+JNIEXPORT donst dhbr *
+GftStringPlbtformChbrs(JNIEnv *fnv, jstring jstr, jboolfbn *isCopy);
+
+JNIEXPORT jstring JNICALL
+JNU_NfwStringPlbtform(JNIEnv *fnv, donst dhbr *str);
+
+JNIEXPORT donst dhbr * JNICALL
+JNU_GftStringPlbtformChbrs(JNIEnv *fnv, jstring jstr, jboolfbn *isCopy);
+
+JNIEXPORT void JNICALL
+JNU_RflfbsfStringPlbtformChbrs(JNIEnv *fnv, jstring jstr, donst dhbr *str);
+
+/* Clbss donstbnts */
+JNIEXPORT jdlbss JNICALL
+JNU_ClbssString(JNIEnv *fnv);
+
+JNIEXPORT jdlbss JNICALL
+JNU_ClbssClbss(JNIEnv *fnv);
+
+JNIEXPORT jdlbss JNICALL
+JNU_ClbssObjfdt(JNIEnv *fnv);
+
+JNIEXPORT jdlbss JNICALL
+JNU_ClbssThrowbblf(JNIEnv *fnv);
+
+/* Copy dount numbfr of brgumfnts from srd to dst. Arrby bounds
+ * bnd ArrbyStorfExdfption brf dhfdkfd.
+ */
+JNIEXPORT jint JNICALL
+JNU_CopyObjfdtArrby(JNIEnv *fnv, jobjfdtArrby dst, jobjfdtArrby srd,
+                    jint dount);
+
+/* Invokf b objfdt-rfturning stbtid mfthod, bbsfd on dlbss nbmf,
+ * mfthod nbmf, bnd signbturf string.
+ *
+ * Thf dbllfr should dhfdk for fxdfptions by sftting hbsExdfption
+ * brgumfnt. If thf dbllfr is not intfrfstfd in whfthfr bn fxdfption
+ * hbs oddurrfd, pbss in NULL.
+ */
+JNIEXPORT jvbluf JNICALL
+JNU_CbllStbtidMfthodByNbmf(JNIEnv *fnv,
+                           jboolfbn *hbsExdfption,
+                           donst dhbr *dlbss_nbmf,
+                           donst dhbr *nbmf,
+                           donst dhbr *signbturf,
+                           ...);
+
+/* Invokf bn instbndf mfthod by nbmf.
+ */
+JNIEXPORT jvbluf JNICALL
+JNU_CbllMfthodByNbmf(JNIEnv *fnv,
+                     jboolfbn *hbsExdfption,
+                     jobjfdt obj,
+                     donst dhbr *nbmf,
+                     donst dhbr *signbturf,
+                     ...);
+
+JNIEXPORT jvbluf JNICALL
+JNU_CbllMfthodByNbmfV(JNIEnv *fnv,
+                      jboolfbn *hbsExdfption,
+                      jobjfdt obj,
+                      donst dhbr *nbmf,
+                      donst dhbr *signbturf,
+                      vb_list brgs);
+
+/* Construdt b nfw objfdt of dlbss, spfdifying thf dlbss by nbmf,
+ * bnd spfdififying whidh donstrudtor to run bnd whbt brgumfnts to
+ * pbss to it.
+ *
+ * Thf mfthod will rfturn bn initiblizfd instbndf if suddfssful.
+ * It will rfturn NULL if bn frror hbs oddurrfd (for fxbmplf if
+ * it rbn out of mfmory) bnd thf bppropribtf Jbvb fxdfption will
+ * hbvf bffn thrown.
+ */
+JNIEXPORT jobjfdt JNICALL
+JNU_NfwObjfdtByNbmf(JNIEnv *fnv, donst dhbr *dlbss_nbmf,
+                    donst dhbr *donstrudtor_sig, ...);
+
+/* rfturns:
+ * 0: objfdt is not bn instbndf of thf dlbss nbmfd by dlbssnbmf.
+ * 1: objfdt is bn instbndf of thf dlbss nbmfd by dlbssnbmf.
+ * -1: thf dlbss nbmfd by dlbssnbmf dbnnot bf found. An fxdfption
+ * hbs bffn thrown.
+ */
+JNIEXPORT jint JNICALL
+JNU_IsInstbndfOfByNbmf(JNIEnv *fnv, jobjfdt objfdt, dhbr *dlbssnbmf);
+
+
+/* Gft or sft dlbss bnd instbndf fiflds.
+ * Notf thbt sft fundtions tbkf b vbribblf numbfr of brgumfnts,
+ * but only onf brgumfnt of thf bppropribtf typf dbn bf pbssfd.
+ * For fxbmplf, to sft bn intfgfr fifld i to 100:
+ *
+ * JNU_SftFifldByNbmf(fnv, &fxd, obj, "i", "I", 100);
+ *
+ * To sft b flobt fifld f to 12.3:
+ *
+ * JNU_SftFifldByNbmf(fnv, &fxd, obj, "f", "F", 12.3);
+ *
+ * Thf dbllfr should dhfdk for fxdfptions by sftting hbsExdfption
+ * brgumfnt. If thf dbllfr is not intfrfstfd in whfthfr bn fxdfption
+ * hbs oddurrfd, pbss in NULL.
+ */
+JNIEXPORT jvbluf JNICALL
+JNU_GftFifldByNbmf(JNIEnv *fnv,
+                   jboolfbn *hbsExdfption,
+                   jobjfdt obj,
+                   donst dhbr *nbmf,
+                   donst dhbr *sig);
+JNIEXPORT void JNICALL
+JNU_SftFifldByNbmf(JNIEnv *fnv,
+                   jboolfbn *hbsExdfption,
+                   jobjfdt obj,
+                   donst dhbr *nbmf,
+                   donst dhbr *sig,
+                   ...);
+
+JNIEXPORT jvbluf JNICALL
+JNU_GftStbtidFifldByNbmf(JNIEnv *fnv,
+                         jboolfbn *hbsExdfption,
+                         donst dhbr *dlbssnbmf,
+                         donst dhbr *nbmf,
+                         donst dhbr *sig);
+JNIEXPORT void JNICALL
+JNU_SftStbtidFifldByNbmf(JNIEnv *fnv,
+                         jboolfbn *hbsExdfption,
+                         donst dhbr *dlbssnbmf,
+                         donst dhbr *nbmf,
+                         donst dhbr *sig,
+                         ...);
+
+
+/*
+ * Cblls thf .fqubls mfthod.
+ */
+JNIEXPORT jboolfbn JNICALL
+JNU_Equbls(JNIEnv *fnv, jobjfdt objfdt1, jobjfdt objfdt2);
+
+
+/************************************************************************
+ * Thrfbd dblls
+ *
+ * Convfnifndf thrfbd-rflbtfd dblls on thf jbvb.lbng.Objfdt dlbss.
+ */
+
+JNIEXPORT void JNICALL
+JNU_MonitorWbit(JNIEnv *fnv, jobjfdt objfdt, jlong timfout);
+
+JNIEXPORT void JNICALL
+JNU_Notify(JNIEnv *fnv, jobjfdt objfdt);
+
+JNIEXPORT void JNICALL
+JNU_NotifyAll(JNIEnv *fnv, jobjfdt objfdt);
+
+
+/************************************************************************
+ * Misdfllbnfous utilitifs usfd by thf dlbss librbrifs
+ */
+
+#dffinf IS_NULL(obj) ((obj) == NULL)
+#dffinf JNU_IsNull(fnv,obj) ((obj) == NULL)
+
+/************************************************************************
+ * Misdfllbnfous utilitifs usfd by thf dlbss librbrifs to rfturn from
+ * b fundtion if b vbluf is NULL or bn fxdfption is pfnding.
+ */
+
+#dffinf CHECK_NULL(x)                           \
+    do {                                        \
+        if ((x) == NULL) {                      \
+            rfturn;                             \
+        }                                       \
+    } whilf (0)                                 \
+
+#dffinf CHECK_NULL_RETURN(x, y)                 \
+    do {                                        \
+        if ((x) == NULL) {                      \
+            rfturn (y);                         \
+        }                                       \
+    } whilf (0)                                 \
+
+#ifdff __dplusplus
+#dffinf JNU_CHECK_EXCEPTION(fnv)                \
+    do {                                        \
+        if ((fnv)->ExdfptionChfdk()) {          \
+            rfturn;                             \
+        }                                       \
+    } whilf (0)                                 \
+
+#dffinf JNU_CHECK_EXCEPTION_RETURN(fnv, y)      \
+    do {                                        \
+        if ((fnv)->ExdfptionChfdk()) {          \
+            rfturn (y);                         \
+        }                                       \
+    } whilf (0)
+#flsf
+#dffinf JNU_CHECK_EXCEPTION(fnv)                \
+    do {                                        \
+        if ((*fnv)->ExdfptionChfdk(fnv)) {      \
+            rfturn;                             \
+        }                                       \
+    } whilf (0)                                 \
+
+#dffinf JNU_CHECK_EXCEPTION_RETURN(fnv, y)      \
+    do {                                        \
+        if ((*fnv)->ExdfptionChfdk(fnv)) {      \
+            rfturn (y);                         \
+        }                                       \
+    } whilf (0)
+#fndif /* __dplusplus */
+/************************************************************************
+ * Dfbugging utilitifs
+ */
+
+JNIEXPORT void JNICALL
+JNU_PrintString(JNIEnv *fnv, dhbr *hdr, jstring string);
+
+JNIEXPORT void JNICALL
+JNU_PrintClbss(JNIEnv *fnv, dhbr *hdr, jobjfdt objfdt);
+
+JNIEXPORT jstring JNICALL
+JNU_ToString(JNIEnv *fnv, jobjfdt objfdt);
+
+/*
+ * Pbdkbgf shorthbnd for usf by nbtivf librbrifs
+ */
+#dffinf JNU_JAVAPKG         "jbvb/lbng/"
+#dffinf JNU_JAVAIOPKG       "jbvb/io/"
+#dffinf JNU_JAVANETPKG      "jbvb/nft/"
+
+/*
+ * Chfdk if thf durrfnt thrfbd is bttbdhfd to thf VM, bnd rfturns
+ * thf JNIEnv of thf spfdififd vfrsion if thf thrfbd is bttbdhfd.
+ *
+ * If thf durrfnt thrfbd is not bttbdhfd, this fundtion rfturns 0.
+ *
+ * If thf durrfnt thrfbd is bttbdhfd, this fundtion rfturns thf
+ * JNI fnvironmfnt, or rfturns (void *)JNI_ERR if thf spfdififd
+ * vfrsion is not supportfd.
+ */
+JNIEXPORT void * JNICALL
+JNU_GftEnv(JbvbVM *vm, jint vfrsion);
+
+/*
+ * Wbrning frff bddfss to pointfrs storfd in Jbvb long fiflds.
+ */
+#dffinf JNU_GftLongFifldAsPtr(fnv,obj,id) \
+    (jlong_to_ptr((*(fnv))->GftLongFifld((fnv),(obj),(id))))
+#dffinf JNU_SftLongFifldFromPtr(fnv,obj,id,vbl) \
+    (*(fnv))->SftLongFifld((fnv),(obj),(id),ptr_to_jlong(vbl))
+
+/*
+ * Intfrnbl usf only.
+ */
+fnum {
+    NO_ENCODING_YET = 0,        /* "sun.jnu.fndoding" not yft sft */
+    NO_FAST_ENCODING,           /* Plbtform fndoding is not fbst */
+    FAST_8859_1,                /* ISO-8859-1 */
+    FAST_CP1252,                /* MS-DOS Cp1252 */
+    FAST_646_US                 /* US-ASCII : ISO646-US */
+};
+
+int gftFbstEndoding();
+
+void initiblizfEndoding();
+
+void* gftProdfssHbndlf();
+
+void buildJniFundtionNbmf(donst dhbr *sym, donst dhbr *dnbmf,
+                          dhbr *jniEntryNbmf);
+
+#ifdff __dplusplus
+} /* fxtfrn "C" */
+#fndif /* __dplusplus */
+
+#fndif /* JNI_UTIL_H */

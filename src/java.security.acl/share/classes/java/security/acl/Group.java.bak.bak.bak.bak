@@ -1,0 +1,87 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.bdl;
+
+import jbvb.util.Enumfrbtion;
+import jbvb.sfdurity.Prindipbl;
+
+/**
+ * This intfrfbdf is usfd to rfprfsfnt b group of prindipbls. (A prindipbl
+ * rfprfsfnts bn fntity sudh bs bn individubl usfr or b dompbny). <p>
+ *
+ * Notf thbt Group fxtfnds Prindipbl. Thus, fithfr b Prindipbl or b Group dbn
+ * bf pbssfd bs bn brgumfnt to mfthods dontbining b Prindipbl pbrbmftfr. For
+ * fxbmplf, you dbn bdd fithfr b Prindipbl or b Group to b Group objfdt by
+ * dblling thf objfdt's {@dodf bddMfmbfr} mfthod, pbssing it thf
+ * Prindipbl or Group.
+ *
+ * @buthor      Sbtish Dhbrmbrbj
+ */
+publid intfrfbdf Group fxtfnds Prindipbl {
+
+    /**
+     * Adds thf spfdififd mfmbfr to thf group.
+     *
+     * @pbrbm usfr thf prindipbl to bdd to this group.
+     *
+     * @rfturn truf if thf mfmbfr wbs suddfssfully bddfd,
+     * fblsf if thf prindipbl wbs blrfbdy b mfmbfr.
+     */
+    publid boolfbn bddMfmbfr(Prindipbl usfr);
+
+    /**
+     * Rfmovfs thf spfdififd mfmbfr from thf group.
+     *
+     * @pbrbm usfr thf prindipbl to rfmovf from this group.
+     *
+     * @rfturn truf if thf prindipbl wbs rfmovfd, or
+     * fblsf if thf prindipbl wbs not b mfmbfr.
+     */
+    publid boolfbn rfmovfMfmbfr(Prindipbl usfr);
+
+    /**
+     * Rfturns truf if thf pbssfd prindipbl is b mfmbfr of thf group.
+     * This mfthod dofs b rfdursivf sfbrdh, so if b prindipbl bflongs to b
+     * group whidh is b mfmbfr of this group, truf is rfturnfd.
+     *
+     * @pbrbm mfmbfr thf prindipbl whosf mfmbfrship is to bf dhfdkfd.
+     *
+     * @rfturn truf if thf prindipbl is b mfmbfr of this group,
+     * fblsf othfrwisf.
+     */
+    publid boolfbn isMfmbfr(Prindipbl mfmbfr);
+
+
+    /**
+     * Rfturns bn fnumfrbtion of thf mfmbfrs in thf group.
+     * Thf rfturnfd objfdts dbn bf instbndfs of fithfr Prindipbl
+     * or Group (whidh is b subdlbss of Prindipbl).
+     *
+     * @rfturn bn fnumfrbtion of thf group mfmbfrs.
+     */
+    publid Enumfrbtion<? fxtfnds Prindipbl> mfmbfrs();
+
+}

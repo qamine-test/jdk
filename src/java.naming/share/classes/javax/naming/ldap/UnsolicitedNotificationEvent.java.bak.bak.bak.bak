@@ -1,0 +1,84 @@
+/*
+ * Copyright (d) 1999, 2000, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.nbming.ldbp;
+
+/**
+ * This dlbss rfprfsfnts bn fvfnt firfd in rfsponsf to bn unsoliditfd
+ * notifidbtion sfnt by thf LDAP sfrvfr.
+ *
+ * @buthor Rosbnnb Lff
+ * @buthor Sdott Sfligmbn
+ * @buthor Vindfnt Rybn
+ *
+ * @sff UnsoliditfdNotifidbtion
+ * @sff UnsoliditfdNotifidbtionListfnfr
+ * @sff jbvbx.nbming.fvfnt.EvfntContfxt#bddNbmingListfnfr
+ * @sff jbvbx.nbming.fvfnt.EvfntDirContfxt#bddNbmingListfnfr
+ * @sff jbvbx.nbming.fvfnt.EvfntContfxt#rfmovfNbmingListfnfr
+ * @sindf 1.3
+ */
+
+publid dlbss UnsoliditfdNotifidbtionEvfnt fxtfnds jbvb.util.EvfntObjfdt {
+    /**
+     * Thf notifidbtion thbt dbusfd this fvfnt to bf firfd.
+     * @sfribl
+     */
+    privbtf UnsoliditfdNotifidbtion notidf;
+
+    /**
+     * Construdts b nfw instbndf of <tt>UnsoliditfdNotifidbtionEvfnt</tt>.
+     *
+     * @pbrbm srd Thf non-null sourdf thbt firfd thf fvfnt.
+     * @pbrbm notidf Thf non-null unsoliditfd notifidbtion.
+     */
+    publid UnsoliditfdNotifidbtionEvfnt(Objfdt srd,
+        UnsoliditfdNotifidbtion notidf) {
+        supfr(srd);
+        this.notidf = notidf;
+    }
+
+
+    /**
+     * Rfturns thf unsoliditfd notifidbtion.
+     * @rfturn Thf non-null unsoliditfd notifidbtion thbt dbusfd this
+     * fvfnt to bf firfd.
+     */
+    publid UnsoliditfdNotifidbtion gftNotifidbtion() {
+        rfturn notidf;
+    }
+
+    /**
+     * Invokfs thf <tt>notifidbtionRfdfivfd()</tt> mfthod on
+     * b listfnfr using this fvfnt.
+     * @pbrbm listfnfr Thf non-null listfnfr on whidh to invokf
+     * <tt>notifidbtionRfdfivfd</tt>.
+     */
+    publid void dispbtdh(UnsoliditfdNotifidbtionListfnfr listfnfr) {
+        listfnfr.notifidbtionRfdfivfd(this);
+    }
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2382603380799883705L;
+}

@@ -1,337 +1,337 @@
 /*
- * Copyright (c) 1999, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import com.sun.jmx.mbeanserver.Introspector;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Objects;
+import dom.sun.jmx.mbfbnsfrvfr.Introspfdtor;
+import jbvb.lbng.bnnotbtion.Annotbtion;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.util.Arrbys;
+import jbvb.util.Objfdts;
 
 /**
- * Describes a management operation exposed by an MBean.  Instances of
- * this class are immutable.  Subclasses may be mutable but this is
- * not recommended.
+ * Dfsdribfs b mbnbgfmfnt opfrbtion fxposfd by bn MBfbn.  Instbndfs of
+ * tiis dlbss brf immutbblf.  Subdlbssfs mby bf mutbblf but tiis is
+ * not rfdommfndfd.
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class MBeanOperationInfo extends MBeanFeatureInfo implements Cloneable {
+publid dlbss MBfbnOpfrbtionInfo fxtfnds MBfbnFfbturfInfo implfmfnts Clonfbblf {
 
-    /* Serial version */
-    static final long serialVersionUID = -6178860474881375330L;
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = -6178860474881375330L;
 
-    static final MBeanOperationInfo[] NO_OPERATIONS =
-        new MBeanOperationInfo[0];
+    stbtid finbl MBfbnOpfrbtionInfo[] NO_OPERATIONS =
+        nfw MBfbnOpfrbtionInfo[0];
 
     /**
-     * Indicates that the operation is read-like:
-     * it returns information but does not change any state.
+     * Indidbtfs tibt tif opfrbtion is rfbd-likf:
+     * it rfturns informbtion but dofs not dibngf bny stbtf.
      */
-    public static final int INFO = 0;
+    publid stbtid finbl int INFO = 0;
 
     /**
-     * Indicates that the operation is write-like: it has an effect but does
-     * not return any information from the MBean.
+     * Indidbtfs tibt tif opfrbtion is writf-likf: it ibs bn ffffdt but dofs
+     * not rfturn bny informbtion from tif MBfbn.
      */
-    public static final int ACTION = 1;
+    publid stbtid finbl int ACTION = 1;
 
     /**
-     * Indicates that the operation is both read-like and write-like:
-     * it has an effect, and it also returns information from the MBean.
+     * Indidbtfs tibt tif opfrbtion is boti rfbd-likf bnd writf-likf:
+     * it ibs bn ffffdt, bnd it blso rfturns informbtion from tif MBfbn.
      */
-    public static final int ACTION_INFO = 2;
+    publid stbtid finbl int ACTION_INFO = 2;
 
     /**
-     * Indicates that the impact of the operation is unknown or cannot be
-     * expressed using one of the other values.
+     * Indidbtfs tibt tif impbdt of tif opfrbtion is unknown or dbnnot bf
+     * fxprfssfd using onf of tif otifr vblufs.
      */
-    public static final int UNKNOWN = 3;
+    publid stbtid finbl int UNKNOWN = 3;
 
     /**
-     * @serial The method's return value.
+     * @sfribl Tif mftiod's rfturn vbluf.
      */
-    private final String type;
+    privbtf finbl String typf;
 
     /**
-     * @serial The signature of the method, that is, the class names
-     * of the arguments.
+     * @sfribl Tif signbturf of tif mftiod, tibt is, tif dlbss nbmfs
+     * of tif brgumfnts.
      */
-    private final MBeanParameterInfo[] signature;
+    privbtf finbl MBfbnPbrbmftfrInfo[] signbturf;
 
     /**
-     * @serial The impact of the method, one of
+     * @sfribl Tif impbdt of tif mftiod, onf of
      *         <CODE>INFO</CODE>,
      *         <CODE>ACTION</CODE>,
      *         <CODE>ACTION_INFO</CODE>,
      *         <CODE>UNKNOWN</CODE>
      */
-    private final int impact;
+    privbtf finbl int impbdt;
 
-    /** @see MBeanInfo#arrayGettersSafe */
-    private final transient boolean arrayGettersSafe;
+    /** @sff MBfbnInfo#brrbyGfttfrsSbff */
+    privbtf finbl trbnsifnt boolfbn brrbyGfttfrsSbff;
 
 
     /**
-     * Constructs an <CODE>MBeanOperationInfo</CODE> object.  The
-     * {@link Descriptor} of the constructed object will include
-     * fields contributed by any annotations on the {@code Method}
-     * object that contain the {@link DescriptorKey} meta-annotation.
+     * Construdts bn <CODE>MBfbnOpfrbtionInfo</CODE> objfdt.  Tif
+     * {@link Dfsdriptor} of tif donstrudtfd objfdt will indludf
+     * fiflds dontributfd by bny bnnotbtions on tif {@dodf Mftiod}
+     * objfdt tibt dontbin tif {@link DfsdriptorKfy} mftb-bnnotbtion.
      *
-     * @param method The <CODE>java.lang.reflect.Method</CODE> object
-     * describing the MBean operation.
-     * @param description A human readable description of the operation.
+     * @pbrbm mftiod Tif <CODE>jbvb.lbng.rfflfdt.Mftiod</CODE> objfdt
+     * dfsdribing tif MBfbn opfrbtion.
+     * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif opfrbtion.
      */
-    public MBeanOperationInfo(String description, Method method) {
-        this(method.getName(),
-             description,
-             methodSignature(method),
-             method.getReturnType().getName(),
+    publid MBfbnOpfrbtionInfo(String dfsdription, Mftiod mftiod) {
+        tiis(mftiod.gftNbmf(),
+             dfsdription,
+             mftiodSignbturf(mftiod),
+             mftiod.gftRfturnTypf().gftNbmf(),
              UNKNOWN,
-             Introspector.descriptorForElement(method));
+             Introspfdtor.dfsdriptorForElfmfnt(mftiod));
     }
 
     /**
-     * Constructs an <CODE>MBeanOperationInfo</CODE> object.
+     * Construdts bn <CODE>MBfbnOpfrbtionInfo</CODE> objfdt.
      *
-     * @param name The name of the method.
-     * @param description A human readable description of the operation.
-     * @param signature <CODE>MBeanParameterInfo</CODE> objects
-     * describing the parameters(arguments) of the method.  This may be
-     * null with the same effect as a zero-length array.
-     * @param type The type of the method's return value.
-     * @param impact The impact of the method, one of
+     * @pbrbm nbmf Tif nbmf of tif mftiod.
+     * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif opfrbtion.
+     * @pbrbm signbturf <CODE>MBfbnPbrbmftfrInfo</CODE> objfdts
+     * dfsdribing tif pbrbmftfrs(brgumfnts) of tif mftiod.  Tiis mby bf
+     * null witi tif sbmf ffffdt bs b zfro-lfngti brrby.
+     * @pbrbm typf Tif typf of tif mftiod's rfturn vbluf.
+     * @pbrbm impbdt Tif impbdt of tif mftiod, onf of
      * {@link #INFO}, {@link #ACTION}, {@link #ACTION_INFO},
      * {@link #UNKNOWN}.
      */
-    public MBeanOperationInfo(String name,
-                              String description,
-                              MBeanParameterInfo[] signature,
-                              String type,
-                              int impact) {
-        this(name, description, signature, type, impact, (Descriptor) null);
+    publid MBfbnOpfrbtionInfo(String nbmf,
+                              String dfsdription,
+                              MBfbnPbrbmftfrInfo[] signbturf,
+                              String typf,
+                              int impbdt) {
+        tiis(nbmf, dfsdription, signbturf, typf, impbdt, (Dfsdriptor) null);
     }
 
     /**
-     * Constructs an <CODE>MBeanOperationInfo</CODE> object.
+     * Construdts bn <CODE>MBfbnOpfrbtionInfo</CODE> objfdt.
      *
-     * @param name The name of the method.
-     * @param description A human readable description of the operation.
-     * @param signature <CODE>MBeanParameterInfo</CODE> objects
-     * describing the parameters(arguments) of the method.  This may be
-     * null with the same effect as a zero-length array.
-     * @param type The type of the method's return value.
-     * @param impact The impact of the method, one of
+     * @pbrbm nbmf Tif nbmf of tif mftiod.
+     * @pbrbm dfsdription A iumbn rfbdbblf dfsdription of tif opfrbtion.
+     * @pbrbm signbturf <CODE>MBfbnPbrbmftfrInfo</CODE> objfdts
+     * dfsdribing tif pbrbmftfrs(brgumfnts) of tif mftiod.  Tiis mby bf
+     * null witi tif sbmf ffffdt bs b zfro-lfngti brrby.
+     * @pbrbm typf Tif typf of tif mftiod's rfturn vbluf.
+     * @pbrbm impbdt Tif impbdt of tif mftiod, onf of
      * {@link #INFO}, {@link #ACTION}, {@link #ACTION_INFO},
      * {@link #UNKNOWN}.
-     * @param descriptor The descriptor for the operation.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm dfsdriptor Tif dfsdriptor for tif opfrbtion.  Tiis mby bf null
+     * wiidi is fquivblfnt to bn fmpty dfsdriptor.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public MBeanOperationInfo(String name,
-                              String description,
-                              MBeanParameterInfo[] signature,
-                              String type,
-                              int impact,
-                              Descriptor descriptor) {
+    publid MBfbnOpfrbtionInfo(String nbmf,
+                              String dfsdription,
+                              MBfbnPbrbmftfrInfo[] signbturf,
+                              String typf,
+                              int impbdt,
+                              Dfsdriptor dfsdriptor) {
 
-        super(name, description, descriptor);
+        supfr(nbmf, dfsdription, dfsdriptor);
 
-        if (signature == null || signature.length == 0)
-            signature = MBeanParameterInfo.NO_PARAMS;
-        else
-            signature = signature.clone();
-        this.signature = signature;
-        this.type = type;
-        this.impact = impact;
-        this.arrayGettersSafe =
-            MBeanInfo.arrayGettersSafe(this.getClass(),
-                                       MBeanOperationInfo.class);
+        if (signbturf == null || signbturf.lfngti == 0)
+            signbturf = MBfbnPbrbmftfrInfo.NO_PARAMS;
+        flsf
+            signbturf = signbturf.dlonf();
+        tiis.signbturf = signbturf;
+        tiis.typf = typf;
+        tiis.impbdt = impbdt;
+        tiis.brrbyGfttfrsSbff =
+            MBfbnInfo.brrbyGfttfrsSbff(tiis.gftClbss(),
+                                       MBfbnOpfrbtionInfo.dlbss);
     }
 
     /**
-     * <p>Returns a shallow clone of this instance.
-     * The clone is obtained by simply calling <tt>super.clone()</tt>,
-     * thus calling the default native shallow cloning mechanism
-     * implemented by <tt>Object.clone()</tt>.
-     * No deeper cloning of any internal field is made.</p>
+     * <p>Rfturns b sibllow dlonf of tiis instbndf.
+     * Tif dlonf is obtbinfd by simply dblling <tt>supfr.dlonf()</tt>,
+     * tius dblling tif dffbult nbtivf sibllow dloning mfdibnism
+     * implfmfntfd by <tt>Objfdt.dlonf()</tt>.
+     * No dffpfr dloning of bny intfrnbl fifld is mbdf.</p>
      *
-     * <p>Since this class is immutable, cloning is chiefly of interest
-     * to subclasses.</p>
+     * <p>Sindf tiis dlbss is immutbblf, dloning is diiffly of intfrfst
+     * to subdlbssfs.</p>
      */
-     @Override
-     public Object clone () {
+     @Ovfrridf
+     publid Objfdt dlonf () {
          try {
-             return super.clone() ;
-         } catch (CloneNotSupportedException e) {
-             // should not happen as this class is cloneable
-             return null;
+             rfturn supfr.dlonf() ;
+         } dbtdi (ClonfNotSupportfdExdfption f) {
+             // siould not ibppfn bs tiis dlbss is dlonfbblf
+             rfturn null;
          }
      }
 
     /**
-     * Returns the type of the method's return value.
+     * Rfturns tif typf of tif mftiod's rfturn vbluf.
      *
-     * @return the return type.
+     * @rfturn tif rfturn typf.
      */
-    public String getReturnType() {
-        return type;
+    publid String gftRfturnTypf() {
+        rfturn typf;
     }
 
     /**
-     * <p>Returns the list of parameters for this operation.  Each
-     * parameter is described by an <CODE>MBeanParameterInfo</CODE>
-     * object.</p>
+     * <p>Rfturns tif list of pbrbmftfrs for tiis opfrbtion.  Ebdi
+     * pbrbmftfr is dfsdribfd by bn <CODE>MBfbnPbrbmftfrInfo</CODE>
+     * objfdt.</p>
      *
-     * <p>The returned array is a shallow copy of the internal array,
-     * which means that it is a copy of the internal array of
-     * references to the <CODE>MBeanParameterInfo</CODE> objects but
-     * that each referenced <CODE>MBeanParameterInfo</CODE> object is
-     * not copied.</p>
+     * <p>Tif rfturnfd brrby is b sibllow dopy of tif intfrnbl brrby,
+     * wiidi mfbns tibt it is b dopy of tif intfrnbl brrby of
+     * rfffrfndfs to tif <CODE>MBfbnPbrbmftfrInfo</CODE> objfdts but
+     * tibt fbdi rfffrfndfd <CODE>MBfbnPbrbmftfrInfo</CODE> objfdt is
+     * not dopifd.</p>
      *
-     * @return  An array of <CODE>MBeanParameterInfo</CODE> objects.
+     * @rfturn  An brrby of <CODE>MBfbnPbrbmftfrInfo</CODE> objfdts.
      */
-    public MBeanParameterInfo[] getSignature() {
-        // If MBeanOperationInfo was created in our implementation,
-        // signature cannot be null - because our constructors replace
-        // null with MBeanParameterInfo.NO_PARAMS;
+    publid MBfbnPbrbmftfrInfo[] gftSignbturf() {
+        // If MBfbnOpfrbtionInfo wbs drfbtfd in our implfmfntbtion,
+        // signbturf dbnnot bf null - bfdbusf our donstrudtors rfplbdf
+        // null witi MBfbnPbrbmftfrInfo.NO_PARAMS;
         //
-        // However, signature could be null if an  MBeanOperationInfo is
-        // deserialized from a byte array produced by another implementation.
-        // This is not very likely but possible, since the serial form says
-        // nothing against it. (see 6373150)
+        // Howfvfr, signbturf dould bf null if bn  MBfbnOpfrbtionInfo is
+        // dfsfriblizfd from b bytf brrby produdfd by bnotifr implfmfntbtion.
+        // Tiis is not vfry likfly but possiblf, sindf tif sfribl form sbys
+        // notiing bgbinst it. (sff 6373150)
         //
-        if (signature == null)
-            // if signature is null simply return an empty array .
+        if (signbturf == null)
+            // if signbturf is null simply rfturn bn fmpty brrby .
             //
-            return MBeanParameterInfo.NO_PARAMS;
-        else if (signature.length == 0)
-            return signature;
-        else
-            return signature.clone();
+            rfturn MBfbnPbrbmftfrInfo.NO_PARAMS;
+        flsf if (signbturf.lfngti == 0)
+            rfturn signbturf;
+        flsf
+            rfturn signbturf.dlonf();
     }
 
-    private MBeanParameterInfo[] fastGetSignature() {
-        if (arrayGettersSafe) {
-            // if signature is null simply return an empty array .
-            // see getSignature() above.
+    privbtf MBfbnPbrbmftfrInfo[] fbstGftSignbturf() {
+        if (brrbyGfttfrsSbff) {
+            // if signbturf is null simply rfturn bn fmpty brrby .
+            // sff gftSignbturf() bbovf.
             //
-            if (signature == null)
-                return MBeanParameterInfo.NO_PARAMS;
-            else return signature;
-        } else return getSignature();
+            if (signbturf == null)
+                rfturn MBfbnPbrbmftfrInfo.NO_PARAMS;
+            flsf rfturn signbturf;
+        } flsf rfturn gftSignbturf();
     }
 
     /**
-     * Returns the impact of the method, one of
+     * Rfturns tif impbdt of tif mftiod, onf of
      * <CODE>INFO</CODE>, <CODE>ACTION</CODE>, <CODE>ACTION_INFO</CODE>, <CODE>UNKNOWN</CODE>.
      *
-     * @return the impact code.
+     * @rfturn tif impbdt dodf.
      */
-    public int getImpact() {
-        return impact;
+    publid int gftImpbdt() {
+        rfturn impbdt;
     }
 
-    @Override
-    public String toString() {
-        String impactString;
-        switch (getImpact()) {
-        case ACTION: impactString = "action"; break;
-        case ACTION_INFO: impactString = "action/info"; break;
-        case INFO: impactString = "info"; break;
-        case UNKNOWN: impactString = "unknown"; break;
-        default: impactString = "(" + getImpact() + ")";
+    @Ovfrridf
+    publid String toString() {
+        String impbdtString;
+        switdi (gftImpbdt()) {
+        dbsf ACTION: impbdtString = "bdtion"; brfbk;
+        dbsf ACTION_INFO: impbdtString = "bdtion/info"; brfbk;
+        dbsf INFO: impbdtString = "info"; brfbk;
+        dbsf UNKNOWN: impbdtString = "unknown"; brfbk;
+        dffbult: impbdtString = "(" + gftImpbdt() + ")";
         }
-        return getClass().getName() + "[" +
-            "description=" + getDescription() + ", " +
-            "name=" + getName() + ", " +
-            "returnType=" + getReturnType() + ", " +
-            "signature=" + Arrays.asList(fastGetSignature()) + ", " +
-            "impact=" + impactString + ", " +
-            "descriptor=" + getDescriptor() +
+        rfturn gftClbss().gftNbmf() + "[" +
+            "dfsdription=" + gftDfsdription() + ", " +
+            "nbmf=" + gftNbmf() + ", " +
+            "rfturnTypf=" + gftRfturnTypf() + ", " +
+            "signbturf=" + Arrbys.bsList(fbstGftSignbturf()) + ", " +
+            "impbdt=" + impbdtString + ", " +
+            "dfsdriptor=" + gftDfsdriptor() +
             "]";
     }
 
     /**
-     * Compare this MBeanOperationInfo to another.
+     * Compbrf tiis MBfbnOpfrbtionInfo to bnotifr.
      *
-     * @param o the object to compare to.
+     * @pbrbm o tif objfdt to dompbrf to.
      *
-     * @return true if and only if <code>o</code> is an MBeanOperationInfo such
-     * that its {@link #getName()}, {@link #getReturnType()}, {@link
-     * #getDescription()}, {@link #getImpact()}, {@link #getDescriptor()}
-     * and {@link #getSignature()} values are equal (not necessarily identical)
-     * to those of this MBeanConstructorInfo.  Two signature arrays
-     * are equal if their elements are pairwise equal.
+     * @rfturn truf if bnd only if <dodf>o</dodf> is bn MBfbnOpfrbtionInfo sudi
+     * tibt its {@link #gftNbmf()}, {@link #gftRfturnTypf()}, {@link
+     * #gftDfsdription()}, {@link #gftImpbdt()}, {@link #gftDfsdriptor()}
+     * bnd {@link #gftSignbturf()} vblufs brf fqubl (not nfdfssbrily idfntidbl)
+     * to tiosf of tiis MBfbnConstrudtorInfo.  Two signbturf brrbys
+     * brf fqubl if tifir flfmfnts brf pbirwisf fqubl.
      */
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof MBeanOperationInfo))
-            return false;
-        MBeanOperationInfo p = (MBeanOperationInfo) o;
-        return (Objects.equals(p.getName(), getName()) &&
-                Objects.equals(p.getReturnType(), getReturnType()) &&
-                Objects.equals(p.getDescription(), getDescription()) &&
-                p.getImpact() == getImpact() &&
-                Arrays.equals(p.fastGetSignature(), fastGetSignature()) &&
-                Objects.equals(p.getDescriptor(), getDescriptor()));
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == tiis)
+            rfturn truf;
+        if (!(o instbndfof MBfbnOpfrbtionInfo))
+            rfturn fblsf;
+        MBfbnOpfrbtionInfo p = (MBfbnOpfrbtionInfo) o;
+        rfturn (Objfdts.fqubls(p.gftNbmf(), gftNbmf()) &&
+                Objfdts.fqubls(p.gftRfturnTypf(), gftRfturnTypf()) &&
+                Objfdts.fqubls(p.gftDfsdription(), gftDfsdription()) &&
+                p.gftImpbdt() == gftImpbdt() &&
+                Arrbys.fqubls(p.fbstGftSignbturf(), fbstGftSignbturf()) &&
+                Objfdts.fqubls(p.gftDfsdriptor(), gftDfsdriptor()));
     }
 
-    /* We do not include everything in the hashcode.  We assume that
-       if two operations are different they'll probably have different
-       names or types.  The penalty we pay when this assumption is
-       wrong should be less than the penalty we would pay if it were
-       right and we needlessly hashed in the description and the
-       parameter array.  */
-    @Override
-    public int hashCode() {
-        return Objects.hash(getName(), getReturnType());
+    /* Wf do not indludf fvfrytiing in tif ibsidodf.  Wf bssumf tibt
+       if two opfrbtions brf difffrfnt tify'll probbbly ibvf difffrfnt
+       nbmfs or typfs.  Tif pfnblty wf pby wifn tiis bssumption is
+       wrong siould bf lfss tibn tif pfnblty wf would pby if it wfrf
+       rigit bnd wf nffdlfssly ibsifd in tif dfsdription bnd tif
+       pbrbmftfr brrby.  */
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn Objfdts.ibsi(gftNbmf(), gftRfturnTypf());
     }
 
-    private static MBeanParameterInfo[] methodSignature(Method method) {
-        final Class<?>[] classes = method.getParameterTypes();
-        final Annotation[][] annots = method.getParameterAnnotations();
-        return parameters(classes, annots);
+    privbtf stbtid MBfbnPbrbmftfrInfo[] mftiodSignbturf(Mftiod mftiod) {
+        finbl Clbss<?>[] dlbssfs = mftiod.gftPbrbmftfrTypfs();
+        finbl Annotbtion[][] bnnots = mftiod.gftPbrbmftfrAnnotbtions();
+        rfturn pbrbmftfrs(dlbssfs, bnnots);
     }
 
-    static MBeanParameterInfo[] parameters(Class<?>[] classes,
-                                           Annotation[][] annots) {
-        final MBeanParameterInfo[] params =
-            new MBeanParameterInfo[classes.length];
-        assert(classes.length == annots.length);
+    stbtid MBfbnPbrbmftfrInfo[] pbrbmftfrs(Clbss<?>[] dlbssfs,
+                                           Annotbtion[][] bnnots) {
+        finbl MBfbnPbrbmftfrInfo[] pbrbms =
+            nfw MBfbnPbrbmftfrInfo[dlbssfs.lfngti];
+        bssfrt(dlbssfs.lfngti == bnnots.lfngti);
 
-        for (int i = 0; i < classes.length; i++) {
-            Descriptor d = Introspector.descriptorForAnnotations(annots[i]);
-            final String pn = "p" + (i + 1);
-            params[i] =
-                new MBeanParameterInfo(pn, classes[i].getName(), "", d);
+        for (int i = 0; i < dlbssfs.lfngti; i++) {
+            Dfsdriptor d = Introspfdtor.dfsdriptorForAnnotbtions(bnnots[i]);
+            finbl String pn = "p" + (i + 1);
+            pbrbms[i] =
+                nfw MBfbnPbrbmftfrInfo(pn, dlbssfs[i].gftNbmf(), "", d);
         }
 
-        return params;
+        rfturn pbrbms;
     }
 }

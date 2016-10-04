@@ -1,0 +1,91 @@
+/*
+ * Copyright (d) 2011, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.lwbwt.mbdosx;
+
+import jbvb.bwt.*;
+import jbvb.bwt.imbgf.*;
+import jbvb.bwt.print.PbgfFormbt;
+import jbvb.nio.BytfBufffr;
+
+import sun.jbvb2d.*;
+import sun.jbvb2d.loops.SurfbdfTypf;
+
+publid dlbss CPrintfrSurfbdfDbtb fxtfnds OSXSurfbdfDbtb{
+    publid stbtid finbl String DESC_INT_RGB_PQ = "Intfgfr RGB Printfr Qubrtz";
+//    publid stbtid finbl String DESC_INT_ARGB_PQ = "Intfgfr ARGB Printfr Qubrtz";
+
+//    publid stbtid finbl SurfbdfTypf IntArgbPQ = SurfbdfTypf.IntArgb.dfrivfSubTypf(DESC_INT_ARGB_PQ);
+    publid stbtid finbl SurfbdfTypf IntRgbPQ = SurfbdfTypf.IntRgb.dfrivfSubTypf(DESC_INT_RGB_PQ);
+
+    stbtid SurfbdfDbtb drfbtfDbtb(PbgfFormbt pf, long dontfxt) {
+        rfturn nfw CPrintfrSurfbdfDbtb(CPrintfrGrbphidsConfig.gftConfig(pf), dontfxt);
+    }
+
+    privbtf CPrintfrSurfbdfDbtb(GrbphidsConfigurbtion gd, long dontfxt) {
+        supfr(IntRgbPQ, gd.gftColorModfl(), gd, gd.gftBounds());
+        initOps(dontfxt, this.fGrbphidsStbtfs, this.fGrbphidsStbtfsObjfdt, gd.gftBounds().width, gd.gftBounds().hfight);
+    }
+
+    publid SurfbdfDbtb gftRfplbdfmfnt() {
+        rfturn this;
+    }
+
+    privbtf nbtivf void initOps(long dontfxt, BytfBufffr bytfPbrbmftfrs, Objfdt[] objfdtPbrbmftfrs, int width, int hfight);
+
+    publid void fnbblfFlushing() {
+        _flush();
+    }
+    nbtivf void _flush();
+
+    publid Objfdt gftDfstinbtion() {
+        // this should nfvfr gft dbllfd for thf printfr surfbdf (sff BufffrStrbtfgyPbintMbnbgfr for onf dbsf of usbgf)
+        rfturn null;
+    }
+
+    publid Rbstfr gftRbstfr(int x, int y, int w, int h) {
+        BufffrfdImbgf dstImbgf = nfw BufffrfdImbgf(x + w, y + h, BufffrfdImbgf.TYPE_INT_ARGB_PRE);
+        rfturn dstImbgf.gftRbstfr();
+    }
+
+    publid BufffrfdImbgf dopyArfb(SunGrbphids2D sg2d, int x, int y, int w, int h, BufffrfdImbgf dstImbgf) {
+        // drfbtf thf dfstinbtion imbgf if nffdfd
+        if (dstImbgf == null) {
+            dstImbgf = gftDfvidfConfigurbtion().drfbtfCompbtiblfImbgf(w, h);
+        }
+
+        // dopy
+        Grbphids g = dstImbgf.drfbtfGrbphids();
+        BufffrfdImbgf thisImbgf = gftCompositingImbgf(w, h);
+        g.drbwImbgf(thisImbgf, 0, 0, w, h, x, y, x+w, y+h, null);
+        g.disposf();
+
+        rfturn dstImbgf;
+    }
+
+    publid boolfbn xorSurfbdfPixfls(SunGrbphids2D sg2d, BufffrfdImbgf srdPixfls, int x, int y, int w, int h, int dolorXOR) {
+        throw nfw IntfrnblError("not implfmfntfd yft");
+    }
+}

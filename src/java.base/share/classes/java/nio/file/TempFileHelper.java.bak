@@ -1,175 +1,175 @@
 /*
- * Copyright (c) 2009, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2009, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.nio.file;
+pbdkbgf jbvb.nio.filf;
 
-import java.util.Set;
-import java.util.EnumSet;
-import java.security.SecureRandom;
-import static java.security.AccessController.*;
-import java.io.IOException;
-import java.nio.file.attribute.FileAttribute;
-import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.PosixFilePermissions;
-import static java.nio.file.attribute.PosixFilePermission.*;
-import sun.security.action.GetPropertyAction;
+import jbvb.util.Sft;
+import jbvb.util.EnumSft;
+import jbvb.sfdurity.SfdurfRbndom;
+import stbtid jbvb.sfdurity.AddfssControllfr.*;
+import jbvb.io.IOExdfption;
+import jbvb.nio.filf.bttributf.FilfAttributf;
+import jbvb.nio.filf.bttributf.PosixFilfPfrmission;
+import jbvb.nio.filf.bttributf.PosixFilfPfrmissions;
+import stbtid jbvb.nio.filf.bttributf.PosixFilfPfrmission.*;
+import sun.sfdurity.bdtion.GftPropfrtyAdtion;
 
 
 /**
- * Helper class to support creation of temporary files and directories with
- * initial attributes.
+ * Hflpfr dlbss to support drfbtion of tfmporbry filfs bnd dirfdtorifs witi
+ * initibl bttributfs.
  */
 
-class TempFileHelper {
-    private TempFileHelper() { }
+dlbss TfmpFilfHflpfr {
+    privbtf TfmpFilfHflpfr() { }
 
-    // temporary directory location
-    private static final Path tmpdir =
-        Paths.get(doPrivileged(new GetPropertyAction("java.io.tmpdir")));
+    // tfmporbry dirfdtory lodbtion
+    privbtf stbtid finbl Pbti tmpdir =
+        Pbtis.gft(doPrivilfgfd(nfw GftPropfrtyAdtion("jbvb.io.tmpdir")));
 
-    private static final boolean isPosix =
-        FileSystems.getDefault().supportedFileAttributeViews().contains("posix");
+    privbtf stbtid finbl boolfbn isPosix =
+        FilfSystfms.gftDffbult().supportfdFilfAttributfVifws().dontbins("posix");
 
-    // file name generation, same as java.io.File for now
-    private static final SecureRandom random = new SecureRandom();
-    private static Path generatePath(String prefix, String suffix, Path dir) {
-        long n = random.nextLong();
-        n = (n == Long.MIN_VALUE) ? 0 : Math.abs(n);
-        Path name = dir.getFileSystem().getPath(prefix + Long.toString(n) + suffix);
-        // the generated name should be a simple file name
-        if (name.getParent() != null)
-            throw new IllegalArgumentException("Invalid prefix or suffix");
-        return dir.resolve(name);
+    // filf nbmf gfnfrbtion, sbmf bs jbvb.io.Filf for now
+    privbtf stbtid finbl SfdurfRbndom rbndom = nfw SfdurfRbndom();
+    privbtf stbtid Pbti gfnfrbtfPbti(String prffix, String suffix, Pbti dir) {
+        long n = rbndom.nfxtLong();
+        n = (n == Long.MIN_VALUE) ? 0 : Mbti.bbs(n);
+        Pbti nbmf = dir.gftFilfSystfm().gftPbti(prffix + Long.toString(n) + suffix);
+        // tif gfnfrbtfd nbmf siould bf b simplf filf nbmf
+        if (nbmf.gftPbrfnt() != null)
+            tirow nfw IllfgblArgumfntExdfption("Invblid prffix or suffix");
+        rfturn dir.rfsolvf(nbmf);
     }
 
-    // default file and directory permissions (lazily initialized)
-    private static class PosixPermissions {
-        static final FileAttribute<Set<PosixFilePermission>> filePermissions =
-            PosixFilePermissions.asFileAttribute(EnumSet.of(OWNER_READ, OWNER_WRITE));
-        static final FileAttribute<Set<PosixFilePermission>> dirPermissions =
-            PosixFilePermissions.asFileAttribute(EnumSet
+    // dffbult filf bnd dirfdtory pfrmissions (lbzily initiblizfd)
+    privbtf stbtid dlbss PosixPfrmissions {
+        stbtid finbl FilfAttributf<Sft<PosixFilfPfrmission>> filfPfrmissions =
+            PosixFilfPfrmissions.bsFilfAttributf(EnumSft.of(OWNER_READ, OWNER_WRITE));
+        stbtid finbl FilfAttributf<Sft<PosixFilfPfrmission>> dirPfrmissions =
+            PosixFilfPfrmissions.bsFilfAttributf(EnumSft
                 .of(OWNER_READ, OWNER_WRITE, OWNER_EXECUTE));
     }
 
     /**
-     * Creates a file or directory in in the given given directory (or in the
-     * temporary directory if dir is {@code null}).
+     * Crfbtfs b filf or dirfdtory in in tif givfn givfn dirfdtory (or in tif
+     * tfmporbry dirfdtory if dir is {@dodf null}).
      */
-    private static Path create(Path dir,
-                               String prefix,
+    privbtf stbtid Pbti drfbtf(Pbti dir,
+                               String prffix,
                                String suffix,
-                               boolean createDirectory,
-                               FileAttribute<?>[] attrs)
-        throws IOException
+                               boolfbn drfbtfDirfdtory,
+                               FilfAttributf<?>[] bttrs)
+        tirows IOExdfption
     {
-        if (prefix == null)
-            prefix = "";
+        if (prffix == null)
+            prffix = "";
         if (suffix == null)
-            suffix = (createDirectory) ? "" : ".tmp";
+            suffix = (drfbtfDirfdtory) ? "" : ".tmp";
         if (dir == null)
             dir = tmpdir;
 
-        // in POSIX environments use default file and directory permissions
-        // if initial permissions not given by caller.
-        if (isPosix && (dir.getFileSystem() == FileSystems.getDefault())) {
-            if (attrs.length == 0) {
-                // no attributes so use default permissions
-                attrs = new FileAttribute<?>[1];
-                attrs[0] = (createDirectory) ? PosixPermissions.dirPermissions :
-                                               PosixPermissions.filePermissions;
-            } else {
-                // check if posix permissions given; if not use default
-                boolean hasPermissions = false;
-                for (int i=0; i<attrs.length; i++) {
-                    if (attrs[i].name().equals("posix:permissions")) {
-                        hasPermissions = true;
-                        break;
+        // in POSIX fnvironmfnts usf dffbult filf bnd dirfdtory pfrmissions
+        // if initibl pfrmissions not givfn by dbllfr.
+        if (isPosix && (dir.gftFilfSystfm() == FilfSystfms.gftDffbult())) {
+            if (bttrs.lfngti == 0) {
+                // no bttributfs so usf dffbult pfrmissions
+                bttrs = nfw FilfAttributf<?>[1];
+                bttrs[0] = (drfbtfDirfdtory) ? PosixPfrmissions.dirPfrmissions :
+                                               PosixPfrmissions.filfPfrmissions;
+            } flsf {
+                // difdk if posix pfrmissions givfn; if not usf dffbult
+                boolfbn ibsPfrmissions = fblsf;
+                for (int i=0; i<bttrs.lfngti; i++) {
+                    if (bttrs[i].nbmf().fqubls("posix:pfrmissions")) {
+                        ibsPfrmissions = truf;
+                        brfbk;
                     }
                 }
-                if (!hasPermissions) {
-                    FileAttribute<?>[] copy = new FileAttribute<?>[attrs.length+1];
-                    System.arraycopy(attrs, 0, copy, 0, attrs.length);
-                    attrs = copy;
-                    attrs[attrs.length-1] = (createDirectory) ?
-                        PosixPermissions.dirPermissions :
-                        PosixPermissions.filePermissions;
+                if (!ibsPfrmissions) {
+                    FilfAttributf<?>[] dopy = nfw FilfAttributf<?>[bttrs.lfngti+1];
+                    Systfm.brrbydopy(bttrs, 0, dopy, 0, bttrs.lfngti);
+                    bttrs = dopy;
+                    bttrs[bttrs.lfngti-1] = (drfbtfDirfdtory) ?
+                        PosixPfrmissions.dirPfrmissions :
+                        PosixPfrmissions.filfPfrmissions;
                 }
             }
         }
 
-        // loop generating random names until file or directory can be created
-        SecurityManager sm = System.getSecurityManager();
+        // loop gfnfrbting rbndom nbmfs until filf or dirfdtory dbn bf drfbtfd
+        SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
         for (;;) {
-            Path f;
+            Pbti f;
             try {
-                f = generatePath(prefix, suffix, dir);
-            } catch (InvalidPathException e) {
-                // don't reveal temporary directory location
+                f = gfnfrbtfPbti(prffix, suffix, dir);
+            } dbtdi (InvblidPbtiExdfption f) {
+                // don't rfvfbl tfmporbry dirfdtory lodbtion
                 if (sm != null)
-                    throw new IllegalArgumentException("Invalid prefix or suffix");
-                throw e;
+                    tirow nfw IllfgblArgumfntExdfption("Invblid prffix or suffix");
+                tirow f;
             }
             try {
-                if (createDirectory) {
-                    return Files.createDirectory(f, attrs);
-                } else {
-                    return Files.createFile(f, attrs);
+                if (drfbtfDirfdtory) {
+                    rfturn Filfs.drfbtfDirfdtory(f, bttrs);
+                } flsf {
+                    rfturn Filfs.drfbtfFilf(f, bttrs);
                 }
-            } catch (SecurityException e) {
-                // don't reveal temporary directory location
+            } dbtdi (SfdurityExdfption f) {
+                // don't rfvfbl tfmporbry dirfdtory lodbtion
                 if (dir == tmpdir && sm != null)
-                    throw new SecurityException("Unable to create temporary file or directory");
-                throw e;
-            } catch (FileAlreadyExistsException e) {
-                // ignore
+                    tirow nfw SfdurityExdfption("Unbblf to drfbtf tfmporbry filf or dirfdtory");
+                tirow f;
+            } dbtdi (FilfAlrfbdyExistsExdfption f) {
+                // ignorf
             }
         }
     }
 
     /**
-     * Creates a temporary file in the given directory, or in in the
-     * temporary directory if dir is {@code null}.
+     * Crfbtfs b tfmporbry filf in tif givfn dirfdtory, or in in tif
+     * tfmporbry dirfdtory if dir is {@dodf null}.
      */
-    static Path createTempFile(Path dir,
-                               String prefix,
+    stbtid Pbti drfbtfTfmpFilf(Pbti dir,
+                               String prffix,
                                String suffix,
-                               FileAttribute<?>[] attrs)
-        throws IOException
+                               FilfAttributf<?>[] bttrs)
+        tirows IOExdfption
     {
-        return create(dir, prefix, suffix, false, attrs);
+        rfturn drfbtf(dir, prffix, suffix, fblsf, bttrs);
     }
 
     /**
-     * Creates a temporary directory in the given directory, or in in the
-     * temporary directory if dir is {@code null}.
+     * Crfbtfs b tfmporbry dirfdtory in tif givfn dirfdtory, or in in tif
+     * tfmporbry dirfdtory if dir is {@dodf null}.
      */
-    static Path createTempDirectory(Path dir,
-                                    String prefix,
-                                    FileAttribute<?>[] attrs)
-        throws IOException
+    stbtid Pbti drfbtfTfmpDirfdtory(Pbti dir,
+                                    String prffix,
+                                    FilfAttributf<?>[] bttrs)
+        tirows IOExdfption
     {
-        return create(dir, prefix, null, true, attrs);
+        rfturn drfbtf(dir, prffix, null, truf, bttrs);
     }
 }

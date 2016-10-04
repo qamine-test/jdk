@@ -1,0 +1,111 @@
+/*
+ * Copyright (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.lbng.bnnotbtion;
+
+/**
+ * Thf donstbnts of this fnumfrbtfd typf providf b simplf dlbssifidbtion of thf
+ * syntbdtid lodbtions whfrf bnnotbtions mby bppfbr in b Jbvb progrbm. Thfsf
+ * donstbnts brf usfd in {@link Tbrgft jbvb.lbng.bnnotbtion.Tbrgft}
+ * mftb-bnnotbtions to spfdify whfrf it is lfgbl to writf bnnotbtions of b
+ * givfn typf.
+ *
+ * <p>Thf syntbdtid lodbtions whfrf bnnotbtions mby bppfbr brf split into
+ * <fm>dfdlbrbtion dontfxts</fm> , whfrf bnnotbtions bpply to dfdlbrbtions, bnd
+ * <fm>typf dontfxts</fm> , whfrf bnnotbtions bpply to typfs usfd in
+ * dfdlbrbtions bnd fxprfssions.
+ *
+ * <p>Thf donstbnts {@link #ANNOTATION_TYPE} , {@link #CONSTRUCTOR} , {@link
+ * #FIELD} , {@link #LOCAL_VARIABLE} , {@link #METHOD} , {@link #PACKAGE} ,
+ * {@link #PARAMETER} , {@link #TYPE} , bnd {@link #TYPE_PARAMETER} dorrfspond
+ * to thf dfdlbrbtion dontfxts in JLS 9.6.4.1.
+ *
+ * <p>For fxbmplf, bn bnnotbtion whosf typf is mftb-bnnotbtfd with
+ * {@dodf @Tbrgft(ElfmfntTypf.FIELD)} mby only bf writtfn bs b modififr for b
+ * fifld dfdlbrbtion.
+ *
+ * <p>Thf donstbnt {@link #TYPE_USE} dorrfsponds to thf 15 typf dontfxts in JLS
+ * 4.11, bs wfll bs to two dfdlbrbtion dontfxts: typf dfdlbrbtions (indluding
+ * bnnotbtion typf dfdlbrbtions) bnd typf pbrbmftfr dfdlbrbtions.
+ *
+ * <p>For fxbmplf, bn bnnotbtion whosf typf is mftb-bnnotbtfd with
+ * {@dodf @Tbrgft(ElfmfntTypf.TYPE_USE)} mby bf writtfn on thf typf of b fifld
+ * (or within thf typf of thf fifld, if it is b nfstfd, pbrbmftfrizfd, or brrby
+ * typf), bnd mby blso bppfbr bs b modififr for, sby, b dlbss dfdlbrbtion.
+ *
+ * <p>Thf {@dodf TYPE_USE} donstbnt indludfs typf dfdlbrbtions bnd typf
+ * pbrbmftfr dfdlbrbtions bs b donvfnifndf for dfsignfrs of typf dhfdkfrs whidh
+ * givf sfmbntids to bnnotbtion typfs. For fxbmplf, if thf bnnotbtion typf
+ * {@dodf NonNull} is mftb-bnnotbtfd with
+ * {@dodf @Tbrgft(ElfmfntTypf.TYPE_USE)}, thfn {@dodf @NonNull}
+ * {@dodf dlbss C {...}} dould bf trfbtfd by b typf dhfdkfr bs indidbting thbt
+ * bll vbribblfs of dlbss {@dodf C} brf non-null, whilf still bllowing
+ * vbribblfs of othfr dlbssfs to bf non-null or not non-null bbsfd on whfthfr
+ * {@dodf @NonNull} bppfbrs bt thf vbribblf's dfdlbrbtion.
+ *
+ * @buthor  Joshub Blodh
+ * @sindf 1.5
+ * @jls 9.6.4.1 @Tbrgft
+ * @jls 4.1 Thf Kinds of Typfs bnd Vblufs
+ */
+publid fnum ElfmfntTypf {
+    /** Clbss, intfrfbdf (indluding bnnotbtion typf), or fnum dfdlbrbtion */
+    TYPE,
+
+    /** Fifld dfdlbrbtion (indludfs fnum donstbnts) */
+    FIELD,
+
+    /** Mfthod dfdlbrbtion */
+    METHOD,
+
+    /** Formbl pbrbmftfr dfdlbrbtion */
+    PARAMETER,
+
+    /** Construdtor dfdlbrbtion */
+    CONSTRUCTOR,
+
+    /** Lodbl vbribblf dfdlbrbtion */
+    LOCAL_VARIABLE,
+
+    /** Annotbtion typf dfdlbrbtion */
+    ANNOTATION_TYPE,
+
+    /** Pbdkbgf dfdlbrbtion */
+    PACKAGE,
+
+    /**
+     * Typf pbrbmftfr dfdlbrbtion
+     *
+     * @sindf 1.8
+     */
+    TYPE_PARAMETER,
+
+    /**
+     * Usf of b typf
+     *
+     * @sindf 1.8
+     */
+    TYPE_USE
+}

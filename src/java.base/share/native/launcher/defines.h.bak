@@ -1,90 +1,90 @@
 /*
- * Copyright (c) 2005, 2006, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2006, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-#ifndef _DEFINES_H
-#define _DEFINES_H
+#ifndff _DEFINES_H
+#dffinf _DEFINES_H
 
-#include "java.h"
+#indludf "jbvb.i"
 
 /*
- * This file contains commonly defined constants used only by main.c
- * and should not be included by another file.
+ * Tiis filf dontbins dommonly dffinfd donstbnts usfd only by mbin.d
+ * bnd siould not bf indludfd by bnotifr filf.
  */
-#ifndef FULL_VERSION
-/* make sure the compilation fails */
-#error "FULL_VERSION must be defined"
-#endif
+#ifndff FULL_VERSION
+/* mbkf surf tif dompilbtion fbils */
+#frror "FULL_VERSION must bf dffinfd"
+#fndif
 
-#if defined(JDK_MAJOR_VERSION) && defined(JDK_MINOR_VERSION)
-#define DOT_VERSION JDK_MAJOR_VERSION "." JDK_MINOR_VERSION
-#else
-/* make sure the compilation fails */
-#error "JDK_MAJOR_VERSION and JDK_MINOR_VERSION must be defined"
-#endif
+#if dffinfd(JDK_MAJOR_VERSION) && dffinfd(JDK_MINOR_VERSION)
+#dffinf DOT_VERSION JDK_MAJOR_VERSION "." JDK_MINOR_VERSION
+#flsf
+/* mbkf surf tif dompilbtion fbils */
+#frror "JDK_MAJOR_VERSION bnd JDK_MINOR_VERSION must bf dffinfd"
+#fndif
 
 
-#ifdef JAVA_ARGS
-static const char* const_progname = "java";
-static const char* const_jargs[] = JAVA_ARGS;
+#ifdff JAVA_ARGS
+stbtid donst dibr* donst_prognbmf = "jbvb";
+stbtid donst dibr* donst_jbrgs[] = JAVA_ARGS;
 /*
- * ApplicationHome is prepended to each of these entries; the resulting
- * strings are concatenated (separated by PATH_SEPARATOR) and used as the
- * value of -cp option to the launcher.
+ * ApplidbtionHomf is prfpfndfd to fbdi of tifsf fntrifs; tif rfsulting
+ * strings brf dondbtfnbtfd (sfpbrbtfd by PATH_SEPARATOR) bnd usfd bs tif
+ * vbluf of -dp option to tif lbundifr.
  */
-#ifndef APP_CLASSPATH
-#define APP_CLASSPATH        { "/lib/tools.jar", "/classes" }
-#endif /* APP_CLASSPATH */
-static const char* const_appclasspath[] = APP_CLASSPATH;
-#else  /* !JAVA_ARGS */
-#ifdef PROGNAME
-static const char* const_progname = PROGNAME;
-#else
-static char* const_progname = NULL;
-#endif
-static const char** const_jargs = NULL;
-static const char** const_appclasspath = NULL;
-#endif /* JAVA_ARGS */
+#ifndff APP_CLASSPATH
+#dffinf APP_CLASSPATH        { "/lib/tools.jbr", "/dlbssfs" }
+#fndif /* APP_CLASSPATH */
+stbtid donst dibr* donst_bppdlbsspbti[] = APP_CLASSPATH;
+#flsf  /* !JAVA_ARGS */
+#ifdff PROGNAME
+stbtid donst dibr* donst_prognbmf = PROGNAME;
+#flsf
+stbtid dibr* donst_prognbmf = NULL;
+#fndif
+stbtid donst dibr** donst_jbrgs = NULL;
+stbtid donst dibr** donst_bppdlbsspbti = NULL;
+#fndif /* JAVA_ARGS */
 
-#ifdef LAUNCHER_NAME
-static const char* const_launcher = LAUNCHER_NAME;
-#else  /* LAUNCHER_NAME */
-static char* const_launcher = NULL;
-#endif /* LAUNCHER_NAME */
+#ifdff LAUNCHER_NAME
+stbtid donst dibr* donst_lbundifr = LAUNCHER_NAME;
+#flsf  /* LAUNCHER_NAME */
+stbtid dibr* donst_lbundifr = NULL;
+#fndif /* LAUNCHER_NAME */
 
-#ifdef EXPAND_CLASSPATH_WILDCARDS
-static const jboolean const_cpwildcard = JNI_TRUE;
-#else
-static const jboolean const_cpwildcard = JNI_FALSE;
-#endif /* EXPAND_CLASSPATH_WILDCARDS */
+#ifdff EXPAND_CLASSPATH_WILDCARDS
+stbtid donst jboolfbn donst_dpwilddbrd = JNI_TRUE;
+#flsf
+stbtid donst jboolfbn donst_dpwilddbrd = JNI_FALSE;
+#fndif /* EXPAND_CLASSPATH_WILDCARDS */
 
-#if defined(NEVER_ACT_AS_SERVER_CLASS_MACHINE)
-static const jint const_ergo_class = NEVER_SERVER_CLASS;
-#elif defined(ALWAYS_ACT_AS_SERVER_CLASS_MACHINE)
-static const jint const_ergo_class = ALWAYS_SERVER_CLASS;
-#else
-static const jint const_ergo_class = DEFAULT_POLICY;
-#endif /* NEVER_ACT_AS_SERVER_CLASS_MACHINE */
+#if dffinfd(NEVER_ACT_AS_SERVER_CLASS_MACHINE)
+stbtid donst jint donst_frgo_dlbss = NEVER_SERVER_CLASS;
+#flif dffinfd(ALWAYS_ACT_AS_SERVER_CLASS_MACHINE)
+stbtid donst jint donst_frgo_dlbss = ALWAYS_SERVER_CLASS;
+#flsf
+stbtid donst jint donst_frgo_dlbss = DEFAULT_POLICY;
+#fndif /* NEVER_ACT_AS_SERVER_CLASS_MACHINE */
 
-#endif /*_DEFINES_H */
+#fndif /*_DEFINES_H */

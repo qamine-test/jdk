@@ -1,1012 +1,1012 @@
 /*
- * Copyright (c) 1995, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1995, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package java.net;
+pbdkbgf jbvb.nft;
 
-import java.io.FileDescriptor;
-import java.io.IOException;
-import java.nio.channels.ServerSocketChannel;
-import java.security.AccessController;
-import java.security.PrivilegedExceptionAction;
-import java.util.Set;
-import java.util.Collections;
+import jbvb.io.FilfDfsdriptor;
+import jbvb.io.IOExdfption;
+import jbvb.nio.dibnnfls.SfrvfrSodkftCibnnfl;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.PrivilfgfdExdfptionAdtion;
+import jbvb.util.Sft;
+import jbvb.util.Collfdtions;
 
 /**
- * This class implements server sockets. A server socket waits for
- * requests to come in over the network. It performs some operation
- * based on that request, and then possibly returns a result to the requester.
+ * Tiis dlbss implfmfnts sfrvfr sodkfts. A sfrvfr sodkft wbits for
+ * rfqufsts to domf in ovfr tif nftwork. It pfrforms somf opfrbtion
+ * bbsfd on tibt rfqufst, bnd tifn possibly rfturns b rfsult to tif rfqufstfr.
  * <p>
- * The actual work of the server socket is performed by an instance
- * of the {@code SocketImpl} class. An application can
- * change the socket factory that creates the socket
- * implementation to configure itself to create sockets
- * appropriate to the local firewall.
+ * Tif bdtubl work of tif sfrvfr sodkft is pfrformfd by bn instbndf
+ * of tif {@dodf SodkftImpl} dlbss. An bpplidbtion dbn
+ * dibngf tif sodkft fbdtory tibt drfbtfs tif sodkft
+ * implfmfntbtion to donfigurf itsflf to drfbtf sodkfts
+ * bppropribtf to tif lodbl firfwbll.
  *
- * @author  unascribed
- * @see     java.net.SocketImpl
- * @see     java.net.ServerSocket#setSocketFactory(java.net.SocketImplFactory)
- * @see     java.nio.channels.ServerSocketChannel
- * @since   1.0
+ * @butior  unbsdribfd
+ * @sff     jbvb.nft.SodkftImpl
+ * @sff     jbvb.nft.SfrvfrSodkft#sftSodkftFbdtory(jbvb.nft.SodkftImplFbdtory)
+ * @sff     jbvb.nio.dibnnfls.SfrvfrSodkftCibnnfl
+ * @sindf   1.0
  */
-public
-class ServerSocket implements java.io.Closeable {
+publid
+dlbss SfrvfrSodkft implfmfnts jbvb.io.Closfbblf {
     /**
-     * Various states of this socket.
+     * Vbrious stbtfs of tiis sodkft.
      */
-    private boolean created = false;
-    private boolean bound = false;
-    private boolean closed = false;
-    private Object closeLock = new Object();
+    privbtf boolfbn drfbtfd = fblsf;
+    privbtf boolfbn bound = fblsf;
+    privbtf boolfbn dlosfd = fblsf;
+    privbtf Objfdt dlosfLodk = nfw Objfdt();
 
     /**
-     * The implementation of this Socket.
+     * Tif implfmfntbtion of tiis Sodkft.
      */
-    private SocketImpl impl;
+    privbtf SodkftImpl impl;
 
     /**
-     * Are we using an older SocketImpl?
+     * Arf wf using bn oldfr SodkftImpl?
      */
-    private boolean oldImpl = false;
+    privbtf boolfbn oldImpl = fblsf;
 
     /**
-     * Package-private constructor to create a ServerSocket associated with
-     * the given SocketImpl.
+     * Pbdkbgf-privbtf donstrudtor to drfbtf b SfrvfrSodkft bssodibtfd witi
+     * tif givfn SodkftImpl.
      */
-    ServerSocket(SocketImpl impl) {
-        this.impl = impl;
-        impl.setServerSocket(this);
+    SfrvfrSodkft(SodkftImpl impl) {
+        tiis.impl = impl;
+        impl.sftSfrvfrSodkft(tiis);
     }
 
     /**
-     * Creates an unbound server socket.
+     * Crfbtfs bn unbound sfrvfr sodkft.
      *
-     * @exception IOException IO error when opening the socket.
-     * @revised 1.4
+     * @fxdfption IOExdfption IO frror wifn opfning tif sodkft.
+     * @rfvisfd 1.4
      */
-    public ServerSocket() throws IOException {
-        setImpl();
+    publid SfrvfrSodkft() tirows IOExdfption {
+        sftImpl();
     }
 
     /**
-     * Creates a server socket, bound to the specified port. A port number
-     * of {@code 0} means that the port number is automatically
-     * allocated, typically from an ephemeral port range. This port
-     * number can then be retrieved by calling {@link #getLocalPort getLocalPort}.
+     * Crfbtfs b sfrvfr sodkft, bound to tif spfdififd port. A port numbfr
+     * of {@dodf 0} mfbns tibt tif port numbfr is butombtidblly
+     * bllodbtfd, typidblly from bn fpifmfrbl port rbngf. Tiis port
+     * numbfr dbn tifn bf rftrifvfd by dblling {@link #gftLodblPort gftLodblPort}.
      * <p>
-     * The maximum queue length for incoming connection indications (a
-     * request to connect) is set to {@code 50}. If a connection
-     * indication arrives when the queue is full, the connection is refused.
+     * Tif mbximum qufuf lfngti for indoming donnfdtion indidbtions (b
+     * rfqufst to donnfdt) is sft to {@dodf 50}. If b donnfdtion
+     * indidbtion brrivfs wifn tif qufuf is full, tif donnfdtion is rffusfd.
      * <p>
-     * If the application has specified a server socket factory, that
-     * factory's {@code createSocketImpl} method is called to create
-     * the actual socket implementation. Otherwise a "plain" socket is created.
+     * If tif bpplidbtion ibs spfdififd b sfrvfr sodkft fbdtory, tibt
+     * fbdtory's {@dodf drfbtfSodkftImpl} mftiod is dbllfd to drfbtf
+     * tif bdtubl sodkft implfmfntbtion. Otifrwisf b "plbin" sodkft is drfbtfd.
      * <p>
-     * If there is a security manager,
-     * its {@code checkListen} method is called
-     * with the {@code port} argument
-     * as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr,
+     * its {@dodf difdkListfn} mftiod is dbllfd
+     * witi tif {@dodf port} brgumfnt
+     * bs its brgumfnt to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      *
      *
-     * @param      port  the port number, or {@code 0} to use a port
-     *                   number that is automatically allocated.
+     * @pbrbm      port  tif port numbfr, or {@dodf 0} to usf b port
+     *                   numbfr tibt is butombtidblly bllodbtfd.
      *
-     * @exception  IOException  if an I/O error occurs when opening the socket.
-     * @exception  SecurityException
-     * if a security manager exists and its {@code checkListen}
-     * method doesn't allow the operation.
-     * @exception  IllegalArgumentException if the port parameter is outside
-     *             the specified range of valid port values, which is between
-     *             0 and 65535, inclusive.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn opfning tif sodkft.
+     * @fxdfption  SfdurityExdfption
+     * if b sfdurity mbnbgfr fxists bnd its {@dodf difdkListfn}
+     * mftiod dofsn't bllow tif opfrbtion.
+     * @fxdfption  IllfgblArgumfntExdfption if tif port pbrbmftfr is outsidf
+     *             tif spfdififd rbngf of vblid port vblufs, wiidi is bftwffn
+     *             0 bnd 65535, indlusivf.
      *
-     * @see        java.net.SocketImpl
-     * @see        java.net.SocketImplFactory#createSocketImpl()
-     * @see        java.net.ServerSocket#setSocketFactory(java.net.SocketImplFactory)
-     * @see        SecurityManager#checkListen
+     * @sff        jbvb.nft.SodkftImpl
+     * @sff        jbvb.nft.SodkftImplFbdtory#drfbtfSodkftImpl()
+     * @sff        jbvb.nft.SfrvfrSodkft#sftSodkftFbdtory(jbvb.nft.SodkftImplFbdtory)
+     * @sff        SfdurityMbnbgfr#difdkListfn
      */
-    public ServerSocket(int port) throws IOException {
-        this(port, 50, null);
+    publid SfrvfrSodkft(int port) tirows IOExdfption {
+        tiis(port, 50, null);
     }
 
     /**
-     * Creates a server socket and binds it to the specified local port
-     * number, with the specified backlog.
-     * A port number of {@code 0} means that the port number is
-     * automatically allocated, typically from an ephemeral port range.
-     * This port number can then be retrieved by calling
-     * {@link #getLocalPort getLocalPort}.
+     * Crfbtfs b sfrvfr sodkft bnd binds it to tif spfdififd lodbl port
+     * numbfr, witi tif spfdififd bbdklog.
+     * A port numbfr of {@dodf 0} mfbns tibt tif port numbfr is
+     * butombtidblly bllodbtfd, typidblly from bn fpifmfrbl port rbngf.
+     * Tiis port numbfr dbn tifn bf rftrifvfd by dblling
+     * {@link #gftLodblPort gftLodblPort}.
      * <p>
-     * The maximum queue length for incoming connection indications (a
-     * request to connect) is set to the {@code backlog} parameter. If
-     * a connection indication arrives when the queue is full, the
-     * connection is refused.
+     * Tif mbximum qufuf lfngti for indoming donnfdtion indidbtions (b
+     * rfqufst to donnfdt) is sft to tif {@dodf bbdklog} pbrbmftfr. If
+     * b donnfdtion indidbtion brrivfs wifn tif qufuf is full, tif
+     * donnfdtion is rffusfd.
      * <p>
-     * If the application has specified a server socket factory, that
-     * factory's {@code createSocketImpl} method is called to create
-     * the actual socket implementation. Otherwise a "plain" socket is created.
+     * If tif bpplidbtion ibs spfdififd b sfrvfr sodkft fbdtory, tibt
+     * fbdtory's {@dodf drfbtfSodkftImpl} mftiod is dbllfd to drfbtf
+     * tif bdtubl sodkft implfmfntbtion. Otifrwisf b "plbin" sodkft is drfbtfd.
      * <p>
-     * If there is a security manager,
-     * its {@code checkListen} method is called
-     * with the {@code port} argument
-     * as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr,
+     * its {@dodf difdkListfn} mftiod is dbllfd
+     * witi tif {@dodf port} brgumfnt
+     * bs its brgumfnt to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      *
-     * The {@code backlog} argument is the requested maximum number of
-     * pending connections on the socket. Its exact semantics are implementation
-     * specific. In particular, an implementation may impose a maximum length
-     * or may choose to ignore the parameter altogther. The value provided
-     * should be greater than {@code 0}. If it is less than or equal to
-     * {@code 0}, then an implementation specific default will be used.
+     * Tif {@dodf bbdklog} brgumfnt is tif rfqufstfd mbximum numbfr of
+     * pfnding donnfdtions on tif sodkft. Its fxbdt sfmbntids brf implfmfntbtion
+     * spfdifid. In pbrtidulbr, bn implfmfntbtion mby imposf b mbximum lfngti
+     * or mby dioosf to ignorf tif pbrbmftfr bltogtifr. Tif vbluf providfd
+     * siould bf grfbtfr tibn {@dodf 0}. If it is lfss tibn or fqubl to
+     * {@dodf 0}, tifn bn implfmfntbtion spfdifid dffbult will bf usfd.
      *
-     * @param      port     the port number, or {@code 0} to use a port
-     *                      number that is automatically allocated.
-     * @param      backlog  requested maximum length of the queue of incoming
-     *                      connections.
+     * @pbrbm      port     tif port numbfr, or {@dodf 0} to usf b port
+     *                      numbfr tibt is butombtidblly bllodbtfd.
+     * @pbrbm      bbdklog  rfqufstfd mbximum lfngti of tif qufuf of indoming
+     *                      donnfdtions.
      *
-     * @exception  IOException  if an I/O error occurs when opening the socket.
-     * @exception  SecurityException
-     * if a security manager exists and its {@code checkListen}
-     * method doesn't allow the operation.
-     * @exception  IllegalArgumentException if the port parameter is outside
-     *             the specified range of valid port values, which is between
-     *             0 and 65535, inclusive.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn opfning tif sodkft.
+     * @fxdfption  SfdurityExdfption
+     * if b sfdurity mbnbgfr fxists bnd its {@dodf difdkListfn}
+     * mftiod dofsn't bllow tif opfrbtion.
+     * @fxdfption  IllfgblArgumfntExdfption if tif port pbrbmftfr is outsidf
+     *             tif spfdififd rbngf of vblid port vblufs, wiidi is bftwffn
+     *             0 bnd 65535, indlusivf.
      *
-     * @see        java.net.SocketImpl
-     * @see        java.net.SocketImplFactory#createSocketImpl()
-     * @see        java.net.ServerSocket#setSocketFactory(java.net.SocketImplFactory)
-     * @see        SecurityManager#checkListen
+     * @sff        jbvb.nft.SodkftImpl
+     * @sff        jbvb.nft.SodkftImplFbdtory#drfbtfSodkftImpl()
+     * @sff        jbvb.nft.SfrvfrSodkft#sftSodkftFbdtory(jbvb.nft.SodkftImplFbdtory)
+     * @sff        SfdurityMbnbgfr#difdkListfn
      */
-    public ServerSocket(int port, int backlog) throws IOException {
-        this(port, backlog, null);
+    publid SfrvfrSodkft(int port, int bbdklog) tirows IOExdfption {
+        tiis(port, bbdklog, null);
     }
 
     /**
-     * Create a server with the specified port, listen backlog, and
-     * local IP address to bind to.  The <i>bindAddr</i> argument
-     * can be used on a multi-homed host for a ServerSocket that
-     * will only accept connect requests to one of its addresses.
-     * If <i>bindAddr</i> is null, it will default accepting
-     * connections on any/all local addresses.
-     * The port must be between 0 and 65535, inclusive.
-     * A port number of {@code 0} means that the port number is
-     * automatically allocated, typically from an ephemeral port range.
-     * This port number can then be retrieved by calling
-     * {@link #getLocalPort getLocalPort}.
+     * Crfbtf b sfrvfr witi tif spfdififd port, listfn bbdklog, bnd
+     * lodbl IP bddrfss to bind to.  Tif <i>bindAddr</i> brgumfnt
+     * dbn bf usfd on b multi-iomfd iost for b SfrvfrSodkft tibt
+     * will only bddfpt donnfdt rfqufsts to onf of its bddrfssfs.
+     * If <i>bindAddr</i> is null, it will dffbult bddfpting
+     * donnfdtions on bny/bll lodbl bddrfssfs.
+     * Tif port must bf bftwffn 0 bnd 65535, indlusivf.
+     * A port numbfr of {@dodf 0} mfbns tibt tif port numbfr is
+     * butombtidblly bllodbtfd, typidblly from bn fpifmfrbl port rbngf.
+     * Tiis port numbfr dbn tifn bf rftrifvfd by dblling
+     * {@link #gftLodblPort gftLodblPort}.
      *
-     * <P>If there is a security manager, this method
-     * calls its {@code checkListen} method
-     * with the {@code port} argument
-     * as its argument to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <P>If tifrf is b sfdurity mbnbgfr, tiis mftiod
+     * dblls its {@dodf difdkListfn} mftiod
+     * witi tif {@dodf port} brgumfnt
+     * bs its brgumfnt to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      *
-     * The {@code backlog} argument is the requested maximum number of
-     * pending connections on the socket. Its exact semantics are implementation
-     * specific. In particular, an implementation may impose a maximum length
-     * or may choose to ignore the parameter altogther. The value provided
-     * should be greater than {@code 0}. If it is less than or equal to
-     * {@code 0}, then an implementation specific default will be used.
+     * Tif {@dodf bbdklog} brgumfnt is tif rfqufstfd mbximum numbfr of
+     * pfnding donnfdtions on tif sodkft. Its fxbdt sfmbntids brf implfmfntbtion
+     * spfdifid. In pbrtidulbr, bn implfmfntbtion mby imposf b mbximum lfngti
+     * or mby dioosf to ignorf tif pbrbmftfr bltogtifr. Tif vbluf providfd
+     * siould bf grfbtfr tibn {@dodf 0}. If it is lfss tibn or fqubl to
+     * {@dodf 0}, tifn bn implfmfntbtion spfdifid dffbult will bf usfd.
      *
-     * @param port  the port number, or {@code 0} to use a port
-     *              number that is automatically allocated.
-     * @param backlog requested maximum length of the queue of incoming
-     *                connections.
-     * @param bindAddr the local InetAddress the server will bind to
+     * @pbrbm port  tif port numbfr, or {@dodf 0} to usf b port
+     *              numbfr tibt is butombtidblly bllodbtfd.
+     * @pbrbm bbdklog rfqufstfd mbximum lfngti of tif qufuf of indoming
+     *                donnfdtions.
+     * @pbrbm bindAddr tif lodbl InftAddrfss tif sfrvfr will bind to
      *
-     * @throws  SecurityException if a security manager exists and
-     * its {@code checkListen} method doesn't allow the operation.
+     * @tirows  SfdurityExdfption if b sfdurity mbnbgfr fxists bnd
+     * its {@dodf difdkListfn} mftiod dofsn't bllow tif opfrbtion.
      *
-     * @throws  IOException if an I/O error occurs when opening the socket.
-     * @exception  IllegalArgumentException if the port parameter is outside
-     *             the specified range of valid port values, which is between
-     *             0 and 65535, inclusive.
+     * @tirows  IOExdfption if bn I/O frror oddurs wifn opfning tif sodkft.
+     * @fxdfption  IllfgblArgumfntExdfption if tif port pbrbmftfr is outsidf
+     *             tif spfdififd rbngf of vblid port vblufs, wiidi is bftwffn
+     *             0 bnd 65535, indlusivf.
      *
-     * @see SocketOptions
-     * @see SocketImpl
-     * @see SecurityManager#checkListen
-     * @since   1.1
+     * @sff SodkftOptions
+     * @sff SodkftImpl
+     * @sff SfdurityMbnbgfr#difdkListfn
+     * @sindf   1.1
      */
-    public ServerSocket(int port, int backlog, InetAddress bindAddr) throws IOException {
-        setImpl();
+    publid SfrvfrSodkft(int port, int bbdklog, InftAddrfss bindAddr) tirows IOExdfption {
+        sftImpl();
         if (port < 0 || port > 0xFFFF)
-            throw new IllegalArgumentException(
-                       "Port value out of range: " + port);
-        if (backlog < 1)
-          backlog = 50;
+            tirow nfw IllfgblArgumfntExdfption(
+                       "Port vbluf out of rbngf: " + port);
+        if (bbdklog < 1)
+          bbdklog = 50;
         try {
-            bind(new InetSocketAddress(bindAddr, port), backlog);
-        } catch(SecurityException e) {
-            close();
-            throw e;
-        } catch(IOException e) {
-            close();
-            throw e;
+            bind(nfw InftSodkftAddrfss(bindAddr, port), bbdklog);
+        } dbtdi(SfdurityExdfption f) {
+            dlosf();
+            tirow f;
+        } dbtdi(IOExdfption f) {
+            dlosf();
+            tirow f;
         }
     }
 
     /**
-     * Get the {@code SocketImpl} attached to this socket, creating
-     * it if necessary.
+     * Gft tif {@dodf SodkftImpl} bttbdifd to tiis sodkft, drfbting
+     * it if nfdfssbry.
      *
-     * @return  the {@code SocketImpl} attached to that ServerSocket.
-     * @throws SocketException if creation fails.
-     * @since 1.4
+     * @rfturn  tif {@dodf SodkftImpl} bttbdifd to tibt SfrvfrSodkft.
+     * @tirows SodkftExdfption if drfbtion fbils.
+     * @sindf 1.4
      */
-    SocketImpl getImpl() throws SocketException {
-        if (!created)
-            createImpl();
-        return impl;
+    SodkftImpl gftImpl() tirows SodkftExdfption {
+        if (!drfbtfd)
+            drfbtfImpl();
+        rfturn impl;
     }
 
-    private void checkOldImpl() {
+    privbtf void difdkOldImpl() {
         if (impl == null)
-            return;
-        // SocketImpl.connect() is a protected method, therefore we need to use
-        // getDeclaredMethod, therefore we need permission to access the member
+            rfturn;
+        // SodkftImpl.donnfdt() is b protfdtfd mftiod, tifrfforf wf nffd to usf
+        // gftDfdlbrfdMftiod, tifrfforf wf nffd pfrmission to bddfss tif mfmbfr
         try {
-            AccessController.doPrivileged(
-                new PrivilegedExceptionAction<Void>() {
-                    public Void run() throws NoSuchMethodException {
-                        impl.getClass().getDeclaredMethod("connect",
-                                                          SocketAddress.class,
-                                                          int.class);
-                        return null;
+            AddfssControllfr.doPrivilfgfd(
+                nfw PrivilfgfdExdfptionAdtion<Void>() {
+                    publid Void run() tirows NoSudiMftiodExdfption {
+                        impl.gftClbss().gftDfdlbrfdMftiod("donnfdt",
+                                                          SodkftAddrfss.dlbss,
+                                                          int.dlbss);
+                        rfturn null;
                     }
                 });
-        } catch (java.security.PrivilegedActionException e) {
-            oldImpl = true;
+        } dbtdi (jbvb.sfdurity.PrivilfgfdAdtionExdfption f) {
+            oldImpl = truf;
         }
     }
 
-    private void setImpl() {
-        if (factory != null) {
-            impl = factory.createSocketImpl();
-            checkOldImpl();
-        } else {
-            // No need to do a checkOldImpl() here, we know it's an up to date
-            // SocketImpl!
-            impl = new SocksSocketImpl();
+    privbtf void sftImpl() {
+        if (fbdtory != null) {
+            impl = fbdtory.drfbtfSodkftImpl();
+            difdkOldImpl();
+        } flsf {
+            // No nffd to do b difdkOldImpl() ifrf, wf know it's bn up to dbtf
+            // SodkftImpl!
+            impl = nfw SodksSodkftImpl();
         }
         if (impl != null)
-            impl.setServerSocket(this);
+            impl.sftSfrvfrSodkft(tiis);
     }
 
     /**
-     * Creates the socket implementation.
+     * Crfbtfs tif sodkft implfmfntbtion.
      *
-     * @throws IOException if creation fails
-     * @since 1.4
+     * @tirows IOExdfption if drfbtion fbils
+     * @sindf 1.4
      */
-    void createImpl() throws SocketException {
+    void drfbtfImpl() tirows SodkftExdfption {
         if (impl == null)
-            setImpl();
+            sftImpl();
         try {
-            impl.create(true);
-            created = true;
-        } catch (IOException e) {
-            throw new SocketException(e.getMessage());
+            impl.drfbtf(truf);
+            drfbtfd = truf;
+        } dbtdi (IOExdfption f) {
+            tirow nfw SodkftExdfption(f.gftMfssbgf());
         }
     }
 
     /**
      *
-     * Binds the {@code ServerSocket} to a specific address
-     * (IP address and port number).
+     * Binds tif {@dodf SfrvfrSodkft} to b spfdifid bddrfss
+     * (IP bddrfss bnd port numbfr).
      * <p>
-     * If the address is {@code null}, then the system will pick up
-     * an ephemeral port and a valid local address to bind the socket.
+     * If tif bddrfss is {@dodf null}, tifn tif systfm will pidk up
+     * bn fpifmfrbl port bnd b vblid lodbl bddrfss to bind tif sodkft.
      *
-     * @param   endpoint        The IP address and port number to bind to.
-     * @throws  IOException if the bind operation fails, or if the socket
-     *                     is already bound.
-     * @throws  SecurityException       if a {@code SecurityManager} is present and
-     * its {@code checkListen} method doesn't allow the operation.
-     * @throws  IllegalArgumentException if endpoint is a
-     *          SocketAddress subclass not supported by this socket
-     * @since 1.4
+     * @pbrbm   fndpoint        Tif IP bddrfss bnd port numbfr to bind to.
+     * @tirows  IOExdfption if tif bind opfrbtion fbils, or if tif sodkft
+     *                     is blrfbdy bound.
+     * @tirows  SfdurityExdfption       if b {@dodf SfdurityMbnbgfr} is prfsfnt bnd
+     * its {@dodf difdkListfn} mftiod dofsn't bllow tif opfrbtion.
+     * @tirows  IllfgblArgumfntExdfption if fndpoint is b
+     *          SodkftAddrfss subdlbss not supportfd by tiis sodkft
+     * @sindf 1.4
      */
-    public void bind(SocketAddress endpoint) throws IOException {
-        bind(endpoint, 50);
+    publid void bind(SodkftAddrfss fndpoint) tirows IOExdfption {
+        bind(fndpoint, 50);
     }
 
     /**
      *
-     * Binds the {@code ServerSocket} to a specific address
-     * (IP address and port number).
+     * Binds tif {@dodf SfrvfrSodkft} to b spfdifid bddrfss
+     * (IP bddrfss bnd port numbfr).
      * <p>
-     * If the address is {@code null}, then the system will pick up
-     * an ephemeral port and a valid local address to bind the socket.
+     * If tif bddrfss is {@dodf null}, tifn tif systfm will pidk up
+     * bn fpifmfrbl port bnd b vblid lodbl bddrfss to bind tif sodkft.
      * <P>
-     * The {@code backlog} argument is the requested maximum number of
-     * pending connections on the socket. Its exact semantics are implementation
-     * specific. In particular, an implementation may impose a maximum length
-     * or may choose to ignore the parameter altogther. The value provided
-     * should be greater than {@code 0}. If it is less than or equal to
-     * {@code 0}, then an implementation specific default will be used.
-     * @param   endpoint        The IP address and port number to bind to.
-     * @param   backlog         requested maximum length of the queue of
-     *                          incoming connections.
-     * @throws  IOException if the bind operation fails, or if the socket
-     *                     is already bound.
-     * @throws  SecurityException       if a {@code SecurityManager} is present and
-     * its {@code checkListen} method doesn't allow the operation.
-     * @throws  IllegalArgumentException if endpoint is a
-     *          SocketAddress subclass not supported by this socket
-     * @since 1.4
+     * Tif {@dodf bbdklog} brgumfnt is tif rfqufstfd mbximum numbfr of
+     * pfnding donnfdtions on tif sodkft. Its fxbdt sfmbntids brf implfmfntbtion
+     * spfdifid. In pbrtidulbr, bn implfmfntbtion mby imposf b mbximum lfngti
+     * or mby dioosf to ignorf tif pbrbmftfr bltogtifr. Tif vbluf providfd
+     * siould bf grfbtfr tibn {@dodf 0}. If it is lfss tibn or fqubl to
+     * {@dodf 0}, tifn bn implfmfntbtion spfdifid dffbult will bf usfd.
+     * @pbrbm   fndpoint        Tif IP bddrfss bnd port numbfr to bind to.
+     * @pbrbm   bbdklog         rfqufstfd mbximum lfngti of tif qufuf of
+     *                          indoming donnfdtions.
+     * @tirows  IOExdfption if tif bind opfrbtion fbils, or if tif sodkft
+     *                     is blrfbdy bound.
+     * @tirows  SfdurityExdfption       if b {@dodf SfdurityMbnbgfr} is prfsfnt bnd
+     * its {@dodf difdkListfn} mftiod dofsn't bllow tif opfrbtion.
+     * @tirows  IllfgblArgumfntExdfption if fndpoint is b
+     *          SodkftAddrfss subdlbss not supportfd by tiis sodkft
+     * @sindf 1.4
      */
-    public void bind(SocketAddress endpoint, int backlog) throws IOException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
+    publid void bind(SodkftAddrfss fndpoint, int bbdklog) tirows IOExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
         if (!oldImpl && isBound())
-            throw new SocketException("Already bound");
-        if (endpoint == null)
-            endpoint = new InetSocketAddress(0);
-        if (!(endpoint instanceof InetSocketAddress))
-            throw new IllegalArgumentException("Unsupported address type");
-        InetSocketAddress epoint = (InetSocketAddress) endpoint;
-        if (epoint.isUnresolved())
-            throw new SocketException("Unresolved address");
-        if (backlog < 1)
-          backlog = 50;
+            tirow nfw SodkftExdfption("Alrfbdy bound");
+        if (fndpoint == null)
+            fndpoint = nfw InftSodkftAddrfss(0);
+        if (!(fndpoint instbndfof InftSodkftAddrfss))
+            tirow nfw IllfgblArgumfntExdfption("Unsupportfd bddrfss typf");
+        InftSodkftAddrfss fpoint = (InftSodkftAddrfss) fndpoint;
+        if (fpoint.isUnrfsolvfd())
+            tirow nfw SodkftExdfption("Unrfsolvfd bddrfss");
+        if (bbdklog < 1)
+          bbdklog = 50;
         try {
-            SecurityManager security = System.getSecurityManager();
-            if (security != null)
-                security.checkListen(epoint.getPort());
-            getImpl().bind(epoint.getAddress(), epoint.getPort());
-            getImpl().listen(backlog);
-            bound = true;
-        } catch(SecurityException e) {
-            bound = false;
-            throw e;
-        } catch(IOException e) {
-            bound = false;
-            throw e;
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null)
+                sfdurity.difdkListfn(fpoint.gftPort());
+            gftImpl().bind(fpoint.gftAddrfss(), fpoint.gftPort());
+            gftImpl().listfn(bbdklog);
+            bound = truf;
+        } dbtdi(SfdurityExdfption f) {
+            bound = fblsf;
+            tirow f;
+        } dbtdi(IOExdfption f) {
+            bound = fblsf;
+            tirow f;
         }
     }
 
     /**
-     * Returns the local address of this server socket.
+     * Rfturns tif lodbl bddrfss of tiis sfrvfr sodkft.
      * <p>
-     * If the socket was bound prior to being {@link #close closed},
-     * then this method will continue to return the local address
-     * after the socket is closed.
+     * If tif sodkft wbs bound prior to bfing {@link #dlosf dlosfd},
+     * tifn tiis mftiod will dontinuf to rfturn tif lodbl bddrfss
+     * bftfr tif sodkft is dlosfd.
      * <p>
-     * If there is a security manager set, its {@code checkConnect} method is
-     * called with the local address and {@code -1} as its arguments to see
-     * if the operation is allowed. If the operation is not allowed,
-     * the {@link InetAddress#getLoopbackAddress loopback} address is returned.
+     * If tifrf is b sfdurity mbnbgfr sft, its {@dodf difdkConnfdt} mftiod is
+     * dbllfd witi tif lodbl bddrfss bnd {@dodf -1} bs its brgumfnts to sff
+     * if tif opfrbtion is bllowfd. If tif opfrbtion is not bllowfd,
+     * tif {@link InftAddrfss#gftLoopbbdkAddrfss loopbbdk} bddrfss is rfturnfd.
      *
-     * @return  the address to which this socket is bound,
-     *          or the loopback address if denied by the security manager,
-     *          or {@code null} if the socket is unbound.
+     * @rfturn  tif bddrfss to wiidi tiis sodkft is bound,
+     *          or tif loopbbdk bddrfss if dfnifd by tif sfdurity mbnbgfr,
+     *          or {@dodf null} if tif sodkft is unbound.
      *
-     * @see SecurityManager#checkConnect
+     * @sff SfdurityMbnbgfr#difdkConnfdt
      */
-    public InetAddress getInetAddress() {
+    publid InftAddrfss gftInftAddrfss() {
         if (!isBound())
-            return null;
+            rfturn null;
         try {
-            InetAddress in = getImpl().getInetAddress();
-            SecurityManager sm = System.getSecurityManager();
+            InftAddrfss in = gftImpl().gftInftAddrfss();
+            SfdurityMbnbgfr sm = Systfm.gftSfdurityMbnbgfr();
             if (sm != null)
-                sm.checkConnect(in.getHostAddress(), -1);
-            return in;
-        } catch (SecurityException e) {
-            return InetAddress.getLoopbackAddress();
-        } catch (SocketException e) {
-            // nothing
-            // If we're bound, the impl has been created
-            // so we shouldn't get here
+                sm.difdkConnfdt(in.gftHostAddrfss(), -1);
+            rfturn in;
+        } dbtdi (SfdurityExdfption f) {
+            rfturn InftAddrfss.gftLoopbbdkAddrfss();
+        } dbtdi (SodkftExdfption f) {
+            // notiing
+            // If wf'rf bound, tif impl ibs bffn drfbtfd
+            // so wf siouldn't gft ifrf
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Returns the port number on which this socket is listening.
+     * Rfturns tif port numbfr on wiidi tiis sodkft is listfning.
      * <p>
-     * If the socket was bound prior to being {@link #close closed},
-     * then this method will continue to return the port number
-     * after the socket is closed.
+     * If tif sodkft wbs bound prior to bfing {@link #dlosf dlosfd},
+     * tifn tiis mftiod will dontinuf to rfturn tif port numbfr
+     * bftfr tif sodkft is dlosfd.
      *
-     * @return  the port number to which this socket is listening or
-     *          -1 if the socket is not bound yet.
+     * @rfturn  tif port numbfr to wiidi tiis sodkft is listfning or
+     *          -1 if tif sodkft is not bound yft.
      */
-    public int getLocalPort() {
+    publid int gftLodblPort() {
         if (!isBound())
-            return -1;
+            rfturn -1;
         try {
-            return getImpl().getLocalPort();
-        } catch (SocketException e) {
-            // nothing
-            // If we're bound, the impl has been created
-            // so we shouldn't get here
+            rfturn gftImpl().gftLodblPort();
+        } dbtdi (SodkftExdfption f) {
+            // notiing
+            // If wf'rf bound, tif impl ibs bffn drfbtfd
+            // so wf siouldn't gft ifrf
         }
-        return -1;
+        rfturn -1;
     }
 
     /**
-     * Returns the address of the endpoint this socket is bound to.
+     * Rfturns tif bddrfss of tif fndpoint tiis sodkft is bound to.
      * <p>
-     * If the socket was bound prior to being {@link #close closed},
-     * then this method will continue to return the address of the endpoint
-     * after the socket is closed.
+     * If tif sodkft wbs bound prior to bfing {@link #dlosf dlosfd},
+     * tifn tiis mftiod will dontinuf to rfturn tif bddrfss of tif fndpoint
+     * bftfr tif sodkft is dlosfd.
      * <p>
-     * If there is a security manager set, its {@code checkConnect} method is
-     * called with the local address and {@code -1} as its arguments to see
-     * if the operation is allowed. If the operation is not allowed,
-     * a {@code SocketAddress} representing the
-     * {@link InetAddress#getLoopbackAddress loopback} address and the local
-     * port to which the socket is bound is returned.
+     * If tifrf is b sfdurity mbnbgfr sft, its {@dodf difdkConnfdt} mftiod is
+     * dbllfd witi tif lodbl bddrfss bnd {@dodf -1} bs its brgumfnts to sff
+     * if tif opfrbtion is bllowfd. If tif opfrbtion is not bllowfd,
+     * b {@dodf SodkftAddrfss} rfprfsfnting tif
+     * {@link InftAddrfss#gftLoopbbdkAddrfss loopbbdk} bddrfss bnd tif lodbl
+     * port to wiidi tif sodkft is bound is rfturnfd.
      *
-     * @return a {@code SocketAddress} representing the local endpoint of
-     *         this socket, or a {@code SocketAddress} representing the
-     *         loopback address if denied by the security manager,
-     *         or {@code null} if the socket is not bound yet.
+     * @rfturn b {@dodf SodkftAddrfss} rfprfsfnting tif lodbl fndpoint of
+     *         tiis sodkft, or b {@dodf SodkftAddrfss} rfprfsfnting tif
+     *         loopbbdk bddrfss if dfnifd by tif sfdurity mbnbgfr,
+     *         or {@dodf null} if tif sodkft is not bound yft.
      *
-     * @see #getInetAddress()
-     * @see #getLocalPort()
-     * @see #bind(SocketAddress)
-     * @see SecurityManager#checkConnect
-     * @since 1.4
+     * @sff #gftInftAddrfss()
+     * @sff #gftLodblPort()
+     * @sff #bind(SodkftAddrfss)
+     * @sff SfdurityMbnbgfr#difdkConnfdt
+     * @sindf 1.4
      */
 
-    public SocketAddress getLocalSocketAddress() {
+    publid SodkftAddrfss gftLodblSodkftAddrfss() {
         if (!isBound())
-            return null;
-        return new InetSocketAddress(getInetAddress(), getLocalPort());
+            rfturn null;
+        rfturn nfw InftSodkftAddrfss(gftInftAddrfss(), gftLodblPort());
     }
 
     /**
-     * Listens for a connection to be made to this socket and accepts
-     * it. The method blocks until a connection is made.
+     * Listfns for b donnfdtion to bf mbdf to tiis sodkft bnd bddfpts
+     * it. Tif mftiod blodks until b donnfdtion is mbdf.
      *
-     * <p>A new Socket {@code s} is created and, if there
-     * is a security manager,
-     * the security manager's {@code checkAccept} method is called
-     * with {@code s.getInetAddress().getHostAddress()} and
-     * {@code s.getPort()}
-     * as its arguments to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * <p>A nfw Sodkft {@dodf s} is drfbtfd bnd, if tifrf
+     * is b sfdurity mbnbgfr,
+     * tif sfdurity mbnbgfr's {@dodf difdkAddfpt} mftiod is dbllfd
+     * witi {@dodf s.gftInftAddrfss().gftHostAddrfss()} bnd
+     * {@dodf s.gftPort()}
+     * bs its brgumfnts to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @exception  IOException  if an I/O error occurs when waiting for a
-     *               connection.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkAccept} method doesn't allow the operation.
-     * @exception  SocketTimeoutException if a timeout was previously set with setSoTimeout and
-     *             the timeout has been reached.
-     * @exception  java.nio.channels.IllegalBlockingModeException
-     *             if this socket has an associated channel, the channel is in
-     *             non-blocking mode, and there is no connection ready to be
-     *             accepted
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn wbiting for b
+     *               donnfdtion.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkAddfpt} mftiod dofsn't bllow tif opfrbtion.
+     * @fxdfption  SodkftTimfoutExdfption if b timfout wbs prfviously sft witi sftSoTimfout bnd
+     *             tif timfout ibs bffn rfbdifd.
+     * @fxdfption  jbvb.nio.dibnnfls.IllfgblBlodkingModfExdfption
+     *             if tiis sodkft ibs bn bssodibtfd dibnnfl, tif dibnnfl is in
+     *             non-blodking modf, bnd tifrf is no donnfdtion rfbdy to bf
+     *             bddfptfd
      *
-     * @return the new Socket
-     * @see SecurityManager#checkAccept
-     * @revised 1.4
-     * @spec JSR-51
+     * @rfturn tif nfw Sodkft
+     * @sff SfdurityMbnbgfr#difdkAddfpt
+     * @rfvisfd 1.4
+     * @spfd JSR-51
      */
-    public Socket accept() throws IOException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
+    publid Sodkft bddfpt() tirows IOExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
         if (!isBound())
-            throw new SocketException("Socket is not bound yet");
-        Socket s = new Socket((SocketImpl) null);
-        implAccept(s);
-        return s;
+            tirow nfw SodkftExdfption("Sodkft is not bound yft");
+        Sodkft s = nfw Sodkft((SodkftImpl) null);
+        implAddfpt(s);
+        rfturn s;
     }
 
     /**
-     * Subclasses of ServerSocket use this method to override accept()
-     * to return their own subclass of socket.  So a FooServerSocket
-     * will typically hand this method an <i>empty</i> FooSocket.  On
-     * return from implAccept the FooSocket will be connected to a client.
+     * Subdlbssfs of SfrvfrSodkft usf tiis mftiod to ovfrridf bddfpt()
+     * to rfturn tifir own subdlbss of sodkft.  So b FooSfrvfrSodkft
+     * will typidblly ibnd tiis mftiod bn <i>fmpty</i> FooSodkft.  On
+     * rfturn from implAddfpt tif FooSodkft will bf donnfdtfd to b dlifnt.
      *
-     * @param s the Socket
-     * @throws java.nio.channels.IllegalBlockingModeException
-     *         if this socket has an associated channel,
-     *         and the channel is in non-blocking mode
-     * @throws IOException if an I/O error occurs when waiting
-     * for a connection.
-     * @since   1.1
-     * @revised 1.4
-     * @spec JSR-51
+     * @pbrbm s tif Sodkft
+     * @tirows jbvb.nio.dibnnfls.IllfgblBlodkingModfExdfption
+     *         if tiis sodkft ibs bn bssodibtfd dibnnfl,
+     *         bnd tif dibnnfl is in non-blodking modf
+     * @tirows IOExdfption if bn I/O frror oddurs wifn wbiting
+     * for b donnfdtion.
+     * @sindf   1.1
+     * @rfvisfd 1.4
+     * @spfd JSR-51
      */
-    protected final void implAccept(Socket s) throws IOException {
-        SocketImpl si = null;
+    protfdtfd finbl void implAddfpt(Sodkft s) tirows IOExdfption {
+        SodkftImpl si = null;
         try {
             if (s.impl == null)
-              s.setImpl();
-            else {
-                s.impl.reset();
+              s.sftImpl();
+            flsf {
+                s.impl.rfsft();
             }
             si = s.impl;
             s.impl = null;
-            si.address = new InetAddress();
-            si.fd = new FileDescriptor();
-            getImpl().accept(si);
+            si.bddrfss = nfw InftAddrfss();
+            si.fd = nfw FilfDfsdriptor();
+            gftImpl().bddfpt(si);
 
-            SecurityManager security = System.getSecurityManager();
-            if (security != null) {
-                security.checkAccept(si.getInetAddress().getHostAddress(),
-                                     si.getPort());
+            SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+            if (sfdurity != null) {
+                sfdurity.difdkAddfpt(si.gftInftAddrfss().gftHostAddrfss(),
+                                     si.gftPort());
             }
-        } catch (IOException e) {
+        } dbtdi (IOExdfption f) {
             if (si != null)
-                si.reset();
+                si.rfsft();
             s.impl = si;
-            throw e;
-        } catch (SecurityException e) {
+            tirow f;
+        } dbtdi (SfdurityExdfption f) {
             if (si != null)
-                si.reset();
+                si.rfsft();
             s.impl = si;
-            throw e;
+            tirow f;
         }
         s.impl = si;
-        s.postAccept();
+        s.postAddfpt();
     }
 
     /**
-     * Closes this socket.
+     * Closfs tiis sodkft.
      *
-     * Any thread currently blocked in {@link #accept()} will throw
-     * a {@link SocketException}.
+     * Any tirfbd durrfntly blodkfd in {@link #bddfpt()} will tirow
+     * b {@link SodkftExdfption}.
      *
-     * <p> If this socket has an associated channel then the channel is closed
-     * as well.
+     * <p> If tiis sodkft ibs bn bssodibtfd dibnnfl tifn tif dibnnfl is dlosfd
+     * bs wfll.
      *
-     * @exception  IOException  if an I/O error occurs when closing the socket.
-     * @revised 1.4
-     * @spec JSR-51
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn dlosing tif sodkft.
+     * @rfvisfd 1.4
+     * @spfd JSR-51
      */
-    public void close() throws IOException {
-        synchronized(closeLock) {
-            if (isClosed())
-                return;
-            if (created)
-                impl.close();
-            closed = true;
+    publid void dlosf() tirows IOExdfption {
+        syndironizfd(dlosfLodk) {
+            if (isClosfd())
+                rfturn;
+            if (drfbtfd)
+                impl.dlosf();
+            dlosfd = truf;
         }
     }
 
     /**
-     * Returns the unique {@link java.nio.channels.ServerSocketChannel} object
-     * associated with this socket, if any.
+     * Rfturns tif uniquf {@link jbvb.nio.dibnnfls.SfrvfrSodkftCibnnfl} objfdt
+     * bssodibtfd witi tiis sodkft, if bny.
      *
-     * <p> A server socket will have a channel if, and only if, the channel
-     * itself was created via the {@link
-     * java.nio.channels.ServerSocketChannel#open ServerSocketChannel.open}
-     * method.
+     * <p> A sfrvfr sodkft will ibvf b dibnnfl if, bnd only if, tif dibnnfl
+     * itsflf wbs drfbtfd vib tif {@link
+     * jbvb.nio.dibnnfls.SfrvfrSodkftCibnnfl#opfn SfrvfrSodkftCibnnfl.opfn}
+     * mftiod.
      *
-     * @return  the server-socket channel associated with this socket,
-     *          or {@code null} if this socket was not created
-     *          for a channel
+     * @rfturn  tif sfrvfr-sodkft dibnnfl bssodibtfd witi tiis sodkft,
+     *          or {@dodf null} if tiis sodkft wbs not drfbtfd
+     *          for b dibnnfl
      *
-     * @since 1.4
-     * @spec JSR-51
+     * @sindf 1.4
+     * @spfd JSR-51
      */
-    public ServerSocketChannel getChannel() {
-        return null;
+    publid SfrvfrSodkftCibnnfl gftCibnnfl() {
+        rfturn null;
     }
 
     /**
-     * Returns the binding state of the ServerSocket.
+     * Rfturns tif binding stbtf of tif SfrvfrSodkft.
      *
-     * @return true if the ServerSocket successfully bound to an address
-     * @since 1.4
+     * @rfturn truf if tif SfrvfrSodkft suddfssfully bound to bn bddrfss
+     * @sindf 1.4
      */
-    public boolean isBound() {
-        // Before 1.3 ServerSockets were always bound during creation
-        return bound || oldImpl;
+    publid boolfbn isBound() {
+        // Bfforf 1.3 SfrvfrSodkfts wfrf blwbys bound during drfbtion
+        rfturn bound || oldImpl;
     }
 
     /**
-     * Returns the closed state of the ServerSocket.
+     * Rfturns tif dlosfd stbtf of tif SfrvfrSodkft.
      *
-     * @return true if the socket has been closed
-     * @since 1.4
+     * @rfturn truf if tif sodkft ibs bffn dlosfd
+     * @sindf 1.4
      */
-    public boolean isClosed() {
-        synchronized(closeLock) {
-            return closed;
+    publid boolfbn isClosfd() {
+        syndironizfd(dlosfLodk) {
+            rfturn dlosfd;
         }
     }
 
     /**
-     * Enable/disable {@link SocketOptions#SO_TIMEOUT SO_TIMEOUT} with the
-     * specified timeout, in milliseconds.  With this option set to a non-zero
-     * timeout, a call to accept() for this ServerSocket
-     * will block for only this amount of time.  If the timeout expires,
-     * a <B>java.net.SocketTimeoutException</B> is raised, though the
-     * ServerSocket is still valid.  The option <B>must</B> be enabled
-     * prior to entering the blocking operation to have effect.  The
-     * timeout must be {@code > 0}.
-     * A timeout of zero is interpreted as an infinite timeout.
-     * @param timeout the specified timeout, in milliseconds
-     * @exception SocketException if there is an error in
-     * the underlying protocol, such as a TCP error.
-     * @since   1.1
-     * @see #getSoTimeout()
+     * Enbblf/disbblf {@link SodkftOptions#SO_TIMEOUT SO_TIMEOUT} witi tif
+     * spfdififd timfout, in millisfdonds.  Witi tiis option sft to b non-zfro
+     * timfout, b dbll to bddfpt() for tiis SfrvfrSodkft
+     * will blodk for only tiis bmount of timf.  If tif timfout fxpirfs,
+     * b <B>jbvb.nft.SodkftTimfoutExdfption</B> is rbisfd, tiougi tif
+     * SfrvfrSodkft is still vblid.  Tif option <B>must</B> bf fnbblfd
+     * prior to fntfring tif blodking opfrbtion to ibvf ffffdt.  Tif
+     * timfout must bf {@dodf > 0}.
+     * A timfout of zfro is intfrprftfd bs bn infinitf timfout.
+     * @pbrbm timfout tif spfdififd timfout, in millisfdonds
+     * @fxdfption SodkftExdfption if tifrf is bn frror in
+     * tif undfrlying protodol, sudi bs b TCP frror.
+     * @sindf   1.1
+     * @sff #gftSoTimfout()
      */
-    public synchronized void setSoTimeout(int timeout) throws SocketException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        getImpl().setOption(SocketOptions.SO_TIMEOUT, timeout);
+    publid syndironizfd void sftSoTimfout(int timfout) tirows SodkftExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftOption(SodkftOptions.SO_TIMEOUT, timfout);
     }
 
     /**
-     * Retrieve setting for {@link SocketOptions#SO_TIMEOUT SO_TIMEOUT}.
-     * 0 returns implies that the option is disabled (i.e., timeout of infinity).
-     * @return the {@link SocketOptions#SO_TIMEOUT SO_TIMEOUT} value
-     * @exception IOException if an I/O error occurs
-     * @since   1.1
-     * @see #setSoTimeout(int)
+     * Rftrifvf sftting for {@link SodkftOptions#SO_TIMEOUT SO_TIMEOUT}.
+     * 0 rfturns implifs tibt tif option is disbblfd (i.f., timfout of infinity).
+     * @rfturn tif {@link SodkftOptions#SO_TIMEOUT SO_TIMEOUT} vbluf
+     * @fxdfption IOExdfption if bn I/O frror oddurs
+     * @sindf   1.1
+     * @sff #sftSoTimfout(int)
      */
-    public synchronized int getSoTimeout() throws IOException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        Object o = getImpl().getOption(SocketOptions.SO_TIMEOUT);
-        /* extra type safety */
-        if (o instanceof Integer) {
-            return ((Integer) o).intValue();
-        } else {
-            return 0;
+    publid syndironizfd int gftSoTimfout() tirows IOExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        Objfdt o = gftImpl().gftOption(SodkftOptions.SO_TIMEOUT);
+        /* fxtrb typf sbffty */
+        if (o instbndfof Intfgfr) {
+            rfturn ((Intfgfr) o).intVbluf();
+        } flsf {
+            rfturn 0;
         }
     }
 
     /**
-     * Enable/disable the {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR}
-     * socket option.
+     * Enbblf/disbblf tif {@link SodkftOptions#SO_REUSEADDR SO_REUSEADDR}
+     * sodkft option.
      * <p>
-     * When a TCP connection is closed the connection may remain
-     * in a timeout state for a period of time after the connection
-     * is closed (typically known as the {@code TIME_WAIT} state
-     * or {@code 2MSL} wait state).
-     * For applications using a well known socket address or port
-     * it may not be possible to bind a socket to the required
-     * {@code SocketAddress} if there is a connection in the
-     * timeout state involving the socket address or port.
+     * Wifn b TCP donnfdtion is dlosfd tif donnfdtion mby rfmbin
+     * in b timfout stbtf for b pfriod of timf bftfr tif donnfdtion
+     * is dlosfd (typidblly known bs tif {@dodf TIME_WAIT} stbtf
+     * or {@dodf 2MSL} wbit stbtf).
+     * For bpplidbtions using b wfll known sodkft bddrfss or port
+     * it mby not bf possiblf to bind b sodkft to tif rfquirfd
+     * {@dodf SodkftAddrfss} if tifrf is b donnfdtion in tif
+     * timfout stbtf involving tif sodkft bddrfss or port.
      * <p>
-     * Enabling {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR} prior to
-     * binding the socket using {@link #bind(SocketAddress)} allows the socket
-     * to be bound even though a previous connection is in a timeout state.
+     * Enbbling {@link SodkftOptions#SO_REUSEADDR SO_REUSEADDR} prior to
+     * binding tif sodkft using {@link #bind(SodkftAddrfss)} bllows tif sodkft
+     * to bf bound fvfn tiougi b prfvious donnfdtion is in b timfout stbtf.
      * <p>
-     * When a {@code ServerSocket} is created the initial setting
-     * of {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR} is not defined.
-     * Applications can use {@link #getReuseAddress()} to determine the initial
-     * setting of {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR}.
+     * Wifn b {@dodf SfrvfrSodkft} is drfbtfd tif initibl sftting
+     * of {@link SodkftOptions#SO_REUSEADDR SO_REUSEADDR} is not dffinfd.
+     * Applidbtions dbn usf {@link #gftRfusfAddrfss()} to dftfrminf tif initibl
+     * sftting of {@link SodkftOptions#SO_REUSEADDR SO_REUSEADDR}.
      * <p>
-     * The behaviour when {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR} is
-     * enabled or disabled after a socket is bound (See {@link #isBound()})
-     * is not defined.
+     * Tif bfibviour wifn {@link SodkftOptions#SO_REUSEADDR SO_REUSEADDR} is
+     * fnbblfd or disbblfd bftfr b sodkft is bound (Sff {@link #isBound()})
+     * is not dffinfd.
      *
-     * @param on  whether to enable or disable the socket option
-     * @exception SocketException if an error occurs enabling or
-     *            disabling the {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR}
-     *            socket option, or the socket is closed.
-     * @since 1.4
-     * @see #getReuseAddress()
-     * @see #bind(SocketAddress)
-     * @see #isBound()
-     * @see #isClosed()
+     * @pbrbm on  wiftifr to fnbblf or disbblf tif sodkft option
+     * @fxdfption SodkftExdfption if bn frror oddurs fnbbling or
+     *            disbbling tif {@link SodkftOptions#SO_REUSEADDR SO_REUSEADDR}
+     *            sodkft option, or tif sodkft is dlosfd.
+     * @sindf 1.4
+     * @sff #gftRfusfAddrfss()
+     * @sff #bind(SodkftAddrfss)
+     * @sff #isBound()
+     * @sff #isClosfd()
      */
-    public void setReuseAddress(boolean on) throws SocketException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        getImpl().setOption(SocketOptions.SO_REUSEADDR, Boolean.valueOf(on));
+    publid void sftRfusfAddrfss(boolfbn on) tirows SodkftExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftOption(SodkftOptions.SO_REUSEADDR, Boolfbn.vblufOf(on));
     }
 
     /**
-     * Tests if {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR} is enabled.
+     * Tfsts if {@link SodkftOptions#SO_REUSEADDR SO_REUSEADDR} is fnbblfd.
      *
-     * @return a {@code boolean} indicating whether or not
-     *         {@link SocketOptions#SO_REUSEADDR SO_REUSEADDR} is enabled.
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
-     * @since   1.4
-     * @see #setReuseAddress(boolean)
+     * @rfturn b {@dodf boolfbn} indidbting wiftifr or not
+     *         {@link SodkftOptions#SO_REUSEADDR SO_REUSEADDR} is fnbblfd.
+     * @fxdfption SodkftExdfption if tifrf is bn frror
+     * in tif undfrlying protodol, sudi bs b TCP frror.
+     * @sindf   1.4
+     * @sff #sftRfusfAddrfss(boolfbn)
      */
-    public boolean getReuseAddress() throws SocketException {
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        return ((Boolean) (getImpl().getOption(SocketOptions.SO_REUSEADDR))).booleanValue();
+    publid boolfbn gftRfusfAddrfss() tirows SodkftExdfption {
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        rfturn ((Boolfbn) (gftImpl().gftOption(SodkftOptions.SO_REUSEADDR))).boolfbnVbluf();
     }
 
     /**
-     * Returns the implementation address and implementation port of
-     * this socket as a {@code String}.
+     * Rfturns tif implfmfntbtion bddrfss bnd implfmfntbtion port of
+     * tiis sodkft bs b {@dodf String}.
      * <p>
-     * If there is a security manager set, its {@code checkConnect} method is
-     * called with the local address and {@code -1} as its arguments to see
-     * if the operation is allowed. If the operation is not allowed,
-     * an {@code InetAddress} representing the
-     * {@link InetAddress#getLoopbackAddress loopback} address is returned as
-     * the implementation address.
+     * If tifrf is b sfdurity mbnbgfr sft, its {@dodf difdkConnfdt} mftiod is
+     * dbllfd witi tif lodbl bddrfss bnd {@dodf -1} bs its brgumfnts to sff
+     * if tif opfrbtion is bllowfd. If tif opfrbtion is not bllowfd,
+     * bn {@dodf InftAddrfss} rfprfsfnting tif
+     * {@link InftAddrfss#gftLoopbbdkAddrfss loopbbdk} bddrfss is rfturnfd bs
+     * tif implfmfntbtion bddrfss.
      *
-     * @return  a string representation of this socket.
+     * @rfturn  b string rfprfsfntbtion of tiis sodkft.
      */
-    public String toString() {
+    publid String toString() {
         if (!isBound())
-            return "ServerSocket[unbound]";
-        InetAddress in;
-        if (System.getSecurityManager() != null)
-            in = InetAddress.getLoopbackAddress();
-        else
-            in = impl.getInetAddress();
-        return "ServerSocket[addr=" + in +
-                ",localport=" + impl.getLocalPort()  + "]";
+            rfturn "SfrvfrSodkft[unbound]";
+        InftAddrfss in;
+        if (Systfm.gftSfdurityMbnbgfr() != null)
+            in = InftAddrfss.gftLoopbbdkAddrfss();
+        flsf
+            in = impl.gftInftAddrfss();
+        rfturn "SfrvfrSodkft[bddr=" + in +
+                ",lodblport=" + impl.gftLodblPort()  + "]";
     }
 
-    void setBound() {
-        bound = true;
+    void sftBound() {
+        bound = truf;
     }
 
-    void setCreated() {
-        created = true;
+    void sftCrfbtfd() {
+        drfbtfd = truf;
     }
 
     /**
-     * The factory for all server sockets.
+     * Tif fbdtory for bll sfrvfr sodkfts.
      */
-    private static SocketImplFactory factory = null;
+    privbtf stbtid SodkftImplFbdtory fbdtory = null;
 
     /**
-     * Sets the server socket implementation factory for the
-     * application. The factory can be specified only once.
+     * Sfts tif sfrvfr sodkft implfmfntbtion fbdtory for tif
+     * bpplidbtion. Tif fbdtory dbn bf spfdififd only ondf.
      * <p>
-     * When an application creates a new server socket, the socket
-     * implementation factory's {@code createSocketImpl} method is
-     * called to create the actual socket implementation.
+     * Wifn bn bpplidbtion drfbtfs b nfw sfrvfr sodkft, tif sodkft
+     * implfmfntbtion fbdtory's {@dodf drfbtfSodkftImpl} mftiod is
+     * dbllfd to drfbtf tif bdtubl sodkft implfmfntbtion.
      * <p>
-     * Passing {@code null} to the method is a no-op unless the factory
-     * was already set.
+     * Pbssing {@dodf null} to tif mftiod is b no-op unlfss tif fbdtory
+     * wbs blrfbdy sft.
      * <p>
-     * If there is a security manager, this method first calls
-     * the security manager's {@code checkSetFactory} method
-     * to ensure the operation is allowed.
-     * This could result in a SecurityException.
+     * If tifrf is b sfdurity mbnbgfr, tiis mftiod first dblls
+     * tif sfdurity mbnbgfr's {@dodf difdkSftFbdtory} mftiod
+     * to fnsurf tif opfrbtion is bllowfd.
+     * Tiis dould rfsult in b SfdurityExdfption.
      *
-     * @param      fac   the desired factory.
-     * @exception  IOException  if an I/O error occurs when setting the
-     *               socket factory.
-     * @exception  SocketException  if the factory has already been defined.
-     * @exception  SecurityException  if a security manager exists and its
-     *             {@code checkSetFactory} method doesn't allow the operation.
-     * @see        java.net.SocketImplFactory#createSocketImpl()
-     * @see        SecurityManager#checkSetFactory
+     * @pbrbm      fbd   tif dfsirfd fbdtory.
+     * @fxdfption  IOExdfption  if bn I/O frror oddurs wifn sftting tif
+     *               sodkft fbdtory.
+     * @fxdfption  SodkftExdfption  if tif fbdtory ibs blrfbdy bffn dffinfd.
+     * @fxdfption  SfdurityExdfption  if b sfdurity mbnbgfr fxists bnd its
+     *             {@dodf difdkSftFbdtory} mftiod dofsn't bllow tif opfrbtion.
+     * @sff        jbvb.nft.SodkftImplFbdtory#drfbtfSodkftImpl()
+     * @sff        SfdurityMbnbgfr#difdkSftFbdtory
      */
-    public static synchronized void setSocketFactory(SocketImplFactory fac) throws IOException {
-        if (factory != null) {
-            throw new SocketException("factory already defined");
+    publid stbtid syndironizfd void sftSodkftFbdtory(SodkftImplFbdtory fbd) tirows IOExdfption {
+        if (fbdtory != null) {
+            tirow nfw SodkftExdfption("fbdtory blrfbdy dffinfd");
         }
-        SecurityManager security = System.getSecurityManager();
-        if (security != null) {
-            security.checkSetFactory();
+        SfdurityMbnbgfr sfdurity = Systfm.gftSfdurityMbnbgfr();
+        if (sfdurity != null) {
+            sfdurity.difdkSftFbdtory();
         }
-        factory = fac;
+        fbdtory = fbd;
     }
 
     /**
-     * Sets a default proposed value for the
-     * {@link SocketOptions#SO_RCVBUF SO_RCVBUF} option for sockets
-     * accepted from this {@code ServerSocket}. The value actually set
-     * in the accepted socket must be determined by calling
-     * {@link Socket#getReceiveBufferSize()} after the socket
-     * is returned by {@link #accept()}.
+     * Sfts b dffbult proposfd vbluf for tif
+     * {@link SodkftOptions#SO_RCVBUF SO_RCVBUF} option for sodkfts
+     * bddfptfd from tiis {@dodf SfrvfrSodkft}. Tif vbluf bdtublly sft
+     * in tif bddfptfd sodkft must bf dftfrminfd by dblling
+     * {@link Sodkft#gftRfdfivfBufffrSizf()} bftfr tif sodkft
+     * is rfturnfd by {@link #bddfpt()}.
      * <p>
-     * The value of {@link SocketOptions#SO_RCVBUF SO_RCVBUF} is used both to
-     * set the size of the internal socket receive buffer, and to set the size
-     * of the TCP receive window that is advertized to the remote peer.
+     * Tif vbluf of {@link SodkftOptions#SO_RCVBUF SO_RCVBUF} is usfd boti to
+     * sft tif sizf of tif intfrnbl sodkft rfdfivf bufffr, bnd to sft tif sizf
+     * of tif TCP rfdfivf window tibt is bdvfrtizfd to tif rfmotf pffr.
      * <p>
-     * It is possible to change the value subsequently, by calling
-     * {@link Socket#setReceiveBufferSize(int)}. However, if the application
-     * wishes to allow a receive window larger than 64K bytes, as defined by RFC1323
-     * then the proposed value must be set in the ServerSocket <B>before</B>
-     * it is bound to a local address. This implies, that the ServerSocket must be
-     * created with the no-argument constructor, then setReceiveBufferSize() must
-     * be called and lastly the ServerSocket is bound to an address by calling bind().
+     * It is possiblf to dibngf tif vbluf subsfqufntly, by dblling
+     * {@link Sodkft#sftRfdfivfBufffrSizf(int)}. Howfvfr, if tif bpplidbtion
+     * wisifs to bllow b rfdfivf window lbrgfr tibn 64K bytfs, bs dffinfd by RFC1323
+     * tifn tif proposfd vbluf must bf sft in tif SfrvfrSodkft <B>bfforf</B>
+     * it is bound to b lodbl bddrfss. Tiis implifs, tibt tif SfrvfrSodkft must bf
+     * drfbtfd witi tif no-brgumfnt donstrudtor, tifn sftRfdfivfBufffrSizf() must
+     * bf dbllfd bnd lbstly tif SfrvfrSodkft is bound to bn bddrfss by dblling bind().
      * <p>
-     * Failure to do this will not cause an error, and the buffer size may be set to the
-     * requested value but the TCP receive window in sockets accepted from
-     * this ServerSocket will be no larger than 64K bytes.
+     * Fbilurf to do tiis will not dbusf bn frror, bnd tif bufffr sizf mby bf sft to tif
+     * rfqufstfd vbluf but tif TCP rfdfivf window in sodkfts bddfptfd from
+     * tiis SfrvfrSodkft will bf no lbrgfr tibn 64K bytfs.
      *
-     * @exception SocketException if there is an error
-     * in the underlying protocol, such as a TCP error.
+     * @fxdfption SodkftExdfption if tifrf is bn frror
+     * in tif undfrlying protodol, sudi bs b TCP frror.
      *
-     * @param size the size to which to set the receive buffer
-     * size. This value must be greater than 0.
+     * @pbrbm sizf tif sizf to wiidi to sft tif rfdfivf bufffr
+     * sizf. Tiis vbluf must bf grfbtfr tibn 0.
      *
-     * @exception IllegalArgumentException if the
-     * value is 0 or is negative.
+     * @fxdfption IllfgblArgumfntExdfption if tif
+     * vbluf is 0 or is nfgbtivf.
      *
-     * @since 1.4
-     * @see #getReceiveBufferSize
+     * @sindf 1.4
+     * @sff #gftRfdfivfBufffrSizf
      */
-     public synchronized void setReceiveBufferSize (int size) throws SocketException {
-        if (!(size > 0)) {
-            throw new IllegalArgumentException("negative receive size");
+     publid syndironizfd void sftRfdfivfBufffrSizf (int sizf) tirows SodkftExdfption {
+        if (!(sizf > 0)) {
+            tirow nfw IllfgblArgumfntExdfption("nfgbtivf rfdfivf sizf");
         }
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        getImpl().setOption(SocketOptions.SO_RCVBUF, size);
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        gftImpl().sftOption(SodkftOptions.SO_RCVBUF, sizf);
     }
 
     /**
-     * Gets the value of the {@link SocketOptions#SO_RCVBUF SO_RCVBUF} option
-     * for this {@code ServerSocket}, that is the proposed buffer size that
-     * will be used for Sockets accepted from this {@code ServerSocket}.
+     * Gfts tif vbluf of tif {@link SodkftOptions#SO_RCVBUF SO_RCVBUF} option
+     * for tiis {@dodf SfrvfrSodkft}, tibt is tif proposfd bufffr sizf tibt
+     * will bf usfd for Sodkfts bddfptfd from tiis {@dodf SfrvfrSodkft}.
      *
-     * <p>Note, the value actually set in the accepted socket is determined by
-     * calling {@link Socket#getReceiveBufferSize()}.
-     * @return the value of the {@link SocketOptions#SO_RCVBUF SO_RCVBUF}
-     *         option for this {@code Socket}.
-     * @exception SocketException if there is an error
-     *            in the underlying protocol, such as a TCP error.
-     * @see #setReceiveBufferSize(int)
-     * @since 1.4
+     * <p>Notf, tif vbluf bdtublly sft in tif bddfptfd sodkft is dftfrminfd by
+     * dblling {@link Sodkft#gftRfdfivfBufffrSizf()}.
+     * @rfturn tif vbluf of tif {@link SodkftOptions#SO_RCVBUF SO_RCVBUF}
+     *         option for tiis {@dodf Sodkft}.
+     * @fxdfption SodkftExdfption if tifrf is bn frror
+     *            in tif undfrlying protodol, sudi bs b TCP frror.
+     * @sff #sftRfdfivfBufffrSizf(int)
+     * @sindf 1.4
      */
-    public synchronized int getReceiveBufferSize()
-    throws SocketException{
-        if (isClosed())
-            throw new SocketException("Socket is closed");
-        int result = 0;
-        Object o = getImpl().getOption(SocketOptions.SO_RCVBUF);
-        if (o instanceof Integer) {
-            result = ((Integer)o).intValue();
+    publid syndironizfd int gftRfdfivfBufffrSizf()
+    tirows SodkftExdfption{
+        if (isClosfd())
+            tirow nfw SodkftExdfption("Sodkft is dlosfd");
+        int rfsult = 0;
+        Objfdt o = gftImpl().gftOption(SodkftOptions.SO_RCVBUF);
+        if (o instbndfof Intfgfr) {
+            rfsult = ((Intfgfr)o).intVbluf();
         }
-        return result;
+        rfturn rfsult;
     }
 
     /**
-     * Sets performance preferences for this ServerSocket.
+     * Sfts pfrformbndf prfffrfndfs for tiis SfrvfrSodkft.
      *
-     * <p> Sockets use the TCP/IP protocol by default.  Some implementations
-     * may offer alternative protocols which have different performance
-     * characteristics than TCP/IP.  This method allows the application to
-     * express its own preferences as to how these tradeoffs should be made
-     * when the implementation chooses from the available protocols.
+     * <p> Sodkfts usf tif TCP/IP protodol by dffbult.  Somf implfmfntbtions
+     * mby offfr bltfrnbtivf protodols wiidi ibvf difffrfnt pfrformbndf
+     * dibrbdtfristids tibn TCP/IP.  Tiis mftiod bllows tif bpplidbtion to
+     * fxprfss its own prfffrfndfs bs to iow tifsf trbdfoffs siould bf mbdf
+     * wifn tif implfmfntbtion dioosfs from tif bvbilbblf protodols.
      *
-     * <p> Performance preferences are described by three integers
-     * whose values indicate the relative importance of short connection time,
-     * low latency, and high bandwidth.  The absolute values of the integers
-     * are irrelevant; in order to choose a protocol the values are simply
-     * compared, with larger values indicating stronger preferences.  If the
-     * application prefers short connection time over both low latency and high
-     * bandwidth, for example, then it could invoke this method with the values
-     * {@code (1, 0, 0)}.  If the application prefers high bandwidth above low
-     * latency, and low latency above short connection time, then it could
-     * invoke this method with the values {@code (0, 1, 2)}.
+     * <p> Pfrformbndf prfffrfndfs brf dfsdribfd by tirff intfgfrs
+     * wiosf vblufs indidbtf tif rflbtivf importbndf of siort donnfdtion timf,
+     * low lbtfndy, bnd iigi bbndwidti.  Tif bbsolutf vblufs of tif intfgfrs
+     * brf irrflfvbnt; in ordfr to dioosf b protodol tif vblufs brf simply
+     * dompbrfd, witi lbrgfr vblufs indidbting strongfr prfffrfndfs.  If tif
+     * bpplidbtion prfffrs siort donnfdtion timf ovfr boti low lbtfndy bnd iigi
+     * bbndwidti, for fxbmplf, tifn it dould invokf tiis mftiod witi tif vblufs
+     * {@dodf (1, 0, 0)}.  If tif bpplidbtion prfffrs iigi bbndwidti bbovf low
+     * lbtfndy, bnd low lbtfndy bbovf siort donnfdtion timf, tifn it dould
+     * invokf tiis mftiod witi tif vblufs {@dodf (0, 1, 2)}.
      *
-     * <p> Invoking this method after this socket has been bound
-     * will have no effect. This implies that in order to use this capability
-     * requires the socket to be created with the no-argument constructor.
+     * <p> Invoking tiis mftiod bftfr tiis sodkft ibs bffn bound
+     * will ibvf no ffffdt. Tiis implifs tibt in ordfr to usf tiis dbpbbility
+     * rfquirfs tif sodkft to bf drfbtfd witi tif no-brgumfnt donstrudtor.
      *
-     * @param  connectionTime
-     *         An {@code int} expressing the relative importance of a short
-     *         connection time
+     * @pbrbm  donnfdtionTimf
+     *         An {@dodf int} fxprfssing tif rflbtivf importbndf of b siort
+     *         donnfdtion timf
      *
-     * @param  latency
-     *         An {@code int} expressing the relative importance of low
-     *         latency
+     * @pbrbm  lbtfndy
+     *         An {@dodf int} fxprfssing tif rflbtivf importbndf of low
+     *         lbtfndy
      *
-     * @param  bandwidth
-     *         An {@code int} expressing the relative importance of high
-     *         bandwidth
+     * @pbrbm  bbndwidti
+     *         An {@dodf int} fxprfssing tif rflbtivf importbndf of iigi
+     *         bbndwidti
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    public void setPerformancePreferences(int connectionTime,
-                                          int latency,
-                                          int bandwidth)
+    publid void sftPfrformbndfPrfffrfndfs(int donnfdtionTimf,
+                                          int lbtfndy,
+                                          int bbndwidti)
     {
-        /* Not implemented yet */
+        /* Not implfmfntfd yft */
     }
 
     /**
-     * Sets the value of a socket option.
+     * Sfts tif vbluf of b sodkft option.
      *
-     * @param name The socket option
-     * @param value The value of the socket option. A value of {@code null}
-     *              may be valid for some options.
-     * @return this ServerSocket
+     * @pbrbm nbmf Tif sodkft option
+     * @pbrbm vbluf Tif vbluf of tif sodkft option. A vbluf of {@dodf null}
+     *              mby bf vblid for somf options.
+     * @rfturn tiis SfrvfrSodkft
      *
-     * @throws UnsupportedOperationException if the server socket does not
-     *         support the option.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif sfrvfr sodkft dofs not
+     *         support tif option.
      *
-     * @throws IllegalArgumentException if the value is not valid for
-     *         the option.
+     * @tirows IllfgblArgumfntExdfption if tif vbluf is not vblid for
+     *         tif option.
      *
-     * @throws IOException if an I/O error occurs, or if the socket is closed.
+     * @tirows IOExdfption if bn I/O frror oddurs, or if tif sodkft is dlosfd.
      *
-     * @throws NullPointerException if name is {@code null}
+     * @tirows NullPointfrExdfption if nbmf is {@dodf null}
      *
-     * @throws SecurityException if a security manager is set and if the socket
-     *         option requires a security permission and if the caller does
-     *         not have the required permission.
-     *         {@link java.net.StandardSocketOptions StandardSocketOptions}
-     *         do not require any security permission.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr is sft bnd if tif sodkft
+     *         option rfquirfs b sfdurity pfrmission bnd if tif dbllfr dofs
+     *         not ibvf tif rfquirfd pfrmission.
+     *         {@link jbvb.nft.StbndbrdSodkftOptions StbndbrdSodkftOptions}
+     *         do not rfquirf bny sfdurity pfrmission.
      *
-     * @since 1.9
+     * @sindf 1.9
      */
-    public <T> ServerSocket setOption(SocketOption<T> name, T value)
-        throws IOException
+    publid <T> SfrvfrSodkft sftOption(SodkftOption<T> nbmf, T vbluf)
+        tirows IOExdfption
     {
-        getImpl().setOption(name, value);
-        return this;
+        gftImpl().sftOption(nbmf, vbluf);
+        rfturn tiis;
     }
 
     /**
-     * Returns the value of a socket option.
+     * Rfturns tif vbluf of b sodkft option.
      *
-     * @param name The socket option
+     * @pbrbm nbmf Tif sodkft option
      *
-     * @return The value of the socket option.
+     * @rfturn Tif vbluf of tif sodkft option.
      *
-     * @throws UnsupportedOperationException if the server socket does not
-     *         support the option.
+     * @tirows UnsupportfdOpfrbtionExdfption if tif sfrvfr sodkft dofs not
+     *         support tif option.
      *
-     * @throws IOException if an I/O error occurs, or if the socket is closed.
+     * @tirows IOExdfption if bn I/O frror oddurs, or if tif sodkft is dlosfd.
      *
-     * @throws NullPointerException if name is {@code null}
+     * @tirows NullPointfrExdfption if nbmf is {@dodf null}
      *
-     * @throws SecurityException if a security manager is set and if the socket
-     *         option requires a security permission and if the caller does
-     *         not have the required permission.
-     *         {@link java.net.StandardSocketOptions StandardSocketOptions}
-     *         do not require any security permission.
+     * @tirows SfdurityExdfption if b sfdurity mbnbgfr is sft bnd if tif sodkft
+     *         option rfquirfs b sfdurity pfrmission bnd if tif dbllfr dofs
+     *         not ibvf tif rfquirfd pfrmission.
+     *         {@link jbvb.nft.StbndbrdSodkftOptions StbndbrdSodkftOptions}
+     *         do not rfquirf bny sfdurity pfrmission.
      *
-     * @since 1.9
+     * @sindf 1.9
      */
-    public <T> T getOption(SocketOption<T> name) throws IOException {
-        return getImpl().getOption(name);
+    publid <T> T gftOption(SodkftOption<T> nbmf) tirows IOExdfption {
+        rfturn gftImpl().gftOption(nbmf);
     }
 
-    private static Set<SocketOption<?>> options;
-    private static boolean optionsSet = false;
+    privbtf stbtid Sft<SodkftOption<?>> options;
+    privbtf stbtid boolfbn optionsSft = fblsf;
 
     /**
-     * Returns a set of the socket options supported by this server socket.
+     * Rfturns b sft of tif sodkft options supportfd by tiis sfrvfr sodkft.
      *
-     * This method will continue to return the set of options even after
-     * the socket has been closed.
+     * Tiis mftiod will dontinuf to rfturn tif sft of options fvfn bftfr
+     * tif sodkft ibs bffn dlosfd.
      *
-     * @return A set of the socket options supported by this socket. This set
-     *         may be empty if the socket's SocketImpl cannot be created.
+     * @rfturn A sft of tif sodkft options supportfd by tiis sodkft. Tiis sft
+     *         mby bf fmpty if tif sodkft's SodkftImpl dbnnot bf drfbtfd.
      *
-     * @since 1.9
+     * @sindf 1.9
      */
-    public Set<SocketOption<?>> supportedOptions() {
-        synchronized (ServerSocket.class) {
-            if (optionsSet) {
-                return options;
+    publid Sft<SodkftOption<?>> supportfdOptions() {
+        syndironizfd (SfrvfrSodkft.dlbss) {
+            if (optionsSft) {
+                rfturn options;
             }
             try {
-                SocketImpl impl = getImpl();
-                options = Collections.unmodifiableSet(impl.supportedOptions());
-            } catch (IOException e) {
-                options = Collections.emptySet();
+                SodkftImpl impl = gftImpl();
+                options = Collfdtions.unmodifibblfSft(impl.supportfdOptions());
+            } dbtdi (IOExdfption f) {
+                options = Collfdtions.fmptySft();
             }
-            optionsSet = true;
-            return options;
+            optionsSft = truf;
+            rfturn options;
         }
     }
 }

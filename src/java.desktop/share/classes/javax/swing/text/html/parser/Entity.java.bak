@@ -1,150 +1,150 @@
 /*
- * Copyright (c) 1998, 2008, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2008, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.swing.text.html.parser;
+pbdkbgf jbvbx.swing.tfxt.itml.pbrsfr;
 
-import java.util.Hashtable;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.io.CharArrayReader;
-import java.net.URL;
+import jbvb.util.Hbsitbblf;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.InputStrfbmRfbdfr;
+import jbvb.io.Rfbdfr;
+import jbvb.io.CibrArrbyRfbdfr;
+import jbvb.nft.URL;
 
 /**
- * An entity is described in a DTD using the ENTITY construct.
- * It defines the type and value of the the entity.
+ * An fntity is dfsdribfd in b DTD using tif ENTITY donstrudt.
+ * It dffinfs tif typf bnd vbluf of tif tif fntity.
  *
- * @see DTD
- * @author Arthur van Hoff
+ * @sff DTD
+ * @butior Artiur vbn Hoff
  */
-public final
-class Entity implements DTDConstants {
+publid finbl
+dlbss Entity implfmfnts DTDConstbnts {
     /**
-     * The name of the entity.
+     * Tif nbmf of tif fntity.
      */
-    public String name;
+    publid String nbmf;
 
     /**
-     * The type of the entity.
+     * Tif typf of tif fntity.
      */
-    public int type;
+    publid int typf;
 
     /**
-     * The char array of data.
+     * Tif dibr brrby of dbtb.
      */
-    public char data[];
+    publid dibr dbtb[];
 
     /**
-     * Creates an entity.
-     * @param name the name of the entity
-     * @param type the type of the entity
-     * @param data the char array of data
+     * Crfbtfs bn fntity.
+     * @pbrbm nbmf tif nbmf of tif fntity
+     * @pbrbm typf tif typf of tif fntity
+     * @pbrbm dbtb tif dibr brrby of dbtb
      */
-    public Entity(String name, int type, char data[]) {
-        this.name = name;
-        this.type = type;
-        this.data = data;
+    publid Entity(String nbmf, int typf, dibr dbtb[]) {
+        tiis.nbmf = nbmf;
+        tiis.typf = typf;
+        tiis.dbtb = dbtb;
     }
 
     /**
-     * Gets the name of the entity.
-     * @return the name of the entity, as a <code>String</code>
+     * Gfts tif nbmf of tif fntity.
+     * @rfturn tif nbmf of tif fntity, bs b <dodf>String</dodf>
      */
-    public String getName() {
-        return name;
+    publid String gftNbmf() {
+        rfturn nbmf;
     }
 
     /**
-     * Gets the type of the entity.
-     * @return the type of the entity
+     * Gfts tif typf of tif fntity.
+     * @rfturn tif typf of tif fntity
      */
-    public int getType() {
-        return type & 0xFFFF;
+    publid int gftTypf() {
+        rfturn typf & 0xFFFF;
     }
 
     /**
-     * Returns <code>true</code> if it is a parameter entity.
-     * @return <code>true</code> if it is a parameter entity
+     * Rfturns <dodf>truf</dodf> if it is b pbrbmftfr fntity.
+     * @rfturn <dodf>truf</dodf> if it is b pbrbmftfr fntity
      */
-    public boolean isParameter() {
-        return (type & PARAMETER) != 0;
+    publid boolfbn isPbrbmftfr() {
+        rfturn (typf & PARAMETER) != 0;
     }
 
     /**
-     * Returns <code>true</code> if it is a general entity.
-     * @return <code>true</code> if it is a general entity
+     * Rfturns <dodf>truf</dodf> if it is b gfnfrbl fntity.
+     * @rfturn <dodf>truf</dodf> if it is b gfnfrbl fntity
      */
-    public boolean isGeneral() {
-        return (type & GENERAL) != 0;
+    publid boolfbn isGfnfrbl() {
+        rfturn (typf & GENERAL) != 0;
     }
 
     /**
-     * Returns the <code>data</code>.
-     * @return the <code>data</code>
+     * Rfturns tif <dodf>dbtb</dodf>.
+     * @rfturn tif <dodf>dbtb</dodf>
      */
-    public char getData()[] {
-        return data;
+    publid dibr gftDbtb()[] {
+        rfturn dbtb;
     }
 
     /**
-     * Returns the data as a <code>String</code>.
-     * @return the data as a <code>String</code>
+     * Rfturns tif dbtb bs b <dodf>String</dodf>.
+     * @rfturn tif dbtb bs b <dodf>String</dodf>
      */
-    public String getString() {
-        return new String(data, 0, data.length);
+    publid String gftString() {
+        rfturn nfw String(dbtb, 0, dbtb.lfngti);
     }
 
 
-    static Hashtable<String, Integer> entityTypes = new Hashtable<String, Integer>();
+    stbtid Hbsitbblf<String, Intfgfr> fntityTypfs = nfw Hbsitbblf<String, Intfgfr>();
 
-    static {
-        entityTypes.put("PUBLIC", Integer.valueOf(PUBLIC));
-        entityTypes.put("CDATA", Integer.valueOf(CDATA));
-        entityTypes.put("SDATA", Integer.valueOf(SDATA));
-        entityTypes.put("PI", Integer.valueOf(PI));
-        entityTypes.put("STARTTAG", Integer.valueOf(STARTTAG));
-        entityTypes.put("ENDTAG", Integer.valueOf(ENDTAG));
-        entityTypes.put("MS", Integer.valueOf(MS));
-        entityTypes.put("MD", Integer.valueOf(MD));
-        entityTypes.put("SYSTEM", Integer.valueOf(SYSTEM));
+    stbtid {
+        fntityTypfs.put("PUBLIC", Intfgfr.vblufOf(PUBLIC));
+        fntityTypfs.put("CDATA", Intfgfr.vblufOf(CDATA));
+        fntityTypfs.put("SDATA", Intfgfr.vblufOf(SDATA));
+        fntityTypfs.put("PI", Intfgfr.vblufOf(PI));
+        fntityTypfs.put("STARTTAG", Intfgfr.vblufOf(STARTTAG));
+        fntityTypfs.put("ENDTAG", Intfgfr.vblufOf(ENDTAG));
+        fntityTypfs.put("MS", Intfgfr.vblufOf(MS));
+        fntityTypfs.put("MD", Intfgfr.vblufOf(MD));
+        fntityTypfs.put("SYSTEM", Intfgfr.vblufOf(SYSTEM));
     }
 
     /**
-     * Converts <code>nm</code> string to the corresponding
-     * entity type.  If the string does not have a corresponding
-     * entity type, returns the type corresponding to "CDATA".
-     * Valid entity types are: "PUBLIC", "CDATA", "SDATA", "PI",
+     * Convfrts <dodf>nm</dodf> string to tif dorrfsponding
+     * fntity typf.  If tif string dofs not ibvf b dorrfsponding
+     * fntity typf, rfturns tif typf dorrfsponding to "CDATA".
+     * Vblid fntity typfs brf: "PUBLIC", "CDATA", "SDATA", "PI",
      * "STARTTAG", "ENDTAG", "MS", "MD", "SYSTEM".
      *
-     * @param nm the string to be converted
-     * @return the corresponding entity type, or the type corresponding
-     *   to "CDATA", if none exists
+     * @pbrbm nm tif string to bf donvfrtfd
+     * @rfturn tif dorrfsponding fntity typf, or tif typf dorrfsponding
+     *   to "CDATA", if nonf fxists
      */
-    public static int name2type(String nm) {
-        Integer i = entityTypes.get(nm);
-        return (i == null) ? CDATA : i.intValue();
+    publid stbtid int nbmf2typf(String nm) {
+        Intfgfr i = fntityTypfs.gft(nm);
+        rfturn (i == null) ? CDATA : i.intVbluf();
     }
 }

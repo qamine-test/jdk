@@ -1,0 +1,540 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+
+pbdkbgf jbvbx.swing;
+
+import jbvb.bwt.*;
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvb.io.Sfriblizbblf;
+import jbvb.io.PrintStrfbm;
+
+/**
+ * A lbyout mbnbgfr thbt bllows multiplf domponfnts to bf lbid out fithfr
+ * vfrtidblly or horizontblly. Thf domponfnts will not wrbp so, for
+ * fxbmplf, b vfrtidbl brrbngfmfnt of domponfnts will stby vfrtidblly
+ * brrbngfd whfn thf frbmf is rfsizfd.
+ * <TABLE STYLE="FLOAT:RIGHT" BORDER="0" SUMMARY="lbyout">
+ *    <TR>
+ *      <TD ALIGN="CENTER">
+ *         <P STYLE="TEXT-ALIGN:CENTER"><IMG SRC="dod-filfs/BoxLbyout-1.gif"
+ *          blt="Thf following tfxt dfsdribfs this grbphid."
+ *          WIDTH="191" HEIGHT="201" STYLE="FLOAT:BOTTOM; BORDER:0">
+ *      </TD>
+ *    </TR>
+ * </TABLE>
+ * <p>
+ * Nfsting multiplf pbnfls with difffrfnt dombinbtions of horizontbl bnd
+ * vfrtidbl givfs bn ffffdt similbr to GridBbgLbyout, without thf
+ * domplfxity. Thf dibgrbm shows two pbnfls brrbngfd horizontblly, fbdh
+ * of whidh dontbins 3 domponfnts brrbngfd vfrtidblly.
+ *
+ * <p> Thf BoxLbyout mbnbgfr is donstrudtfd with bn bxis pbrbmftfr thbt
+ * spfdififs thf typf of lbyout thbt will bf donf. Thfrf brf four dhoidfs:
+ *
+ * <blodkquotf><b><tt>X_AXIS</tt></b> - Componfnts brf lbid out horizontblly
+ * from lfft to right.</blodkquotf>
+ *
+ * <blodkquotf><b><tt>Y_AXIS</tt></b> - Componfnts brf lbid out vfrtidblly
+ * from top to bottom.</blodkquotf>
+ *
+ * <blodkquotf><b><tt>LINE_AXIS</tt></b> - Componfnts brf lbid out thf wby
+ * words brf lbid out in b linf, bbsfd on thf dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> propfrty. If thf dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> is horizontbl thfn domponfnts brf lbid out
+ * horizontblly, othfrwisf thfy brf lbid out vfrtidblly.  For horizontbl
+ * orifntbtions, if thf dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
+ * right thfn domponfnts brf lbid out lfft to right, othfrwisf thfy brf lbid
+ * out right to lfft. For vfrtidbl orifntbtions domponfnts brf blwbys lbid out
+ * from top to bottom.</blodkquotf>
+ *
+ * <blodkquotf><b><tt>PAGE_AXIS</tt></b> - Componfnts brf lbid out thf wby
+ * tfxt linfs brf lbid out on b pbgf, bbsfd on thf dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> propfrty. If thf dontbinfr's
+ * <tt>ComponfntOrifntbtion</tt> is horizontbl thfn domponfnts brf lbid out
+ * vfrtidblly, othfrwisf thfy brf lbid out horizontblly.  For horizontbl
+ * orifntbtions, if thf dontbinfr's <tt>ComponfntOrifntbtion</tt> is lfft to
+ * right thfn domponfnts brf lbid out lfft to right, othfrwisf thfy brf lbid
+ * out right to lfft.&nbsp; For vfrtidbl orifntbtions domponfnts brf blwbys
+ * lbid out from top to bottom.</blodkquotf>
+ * <p>
+ * For bll dirfdtions, domponfnts brf brrbngfd in thf sbmf ordfr bs thfy wfrf
+ * bddfd to thf dontbinfr.
+ * <p>
+ * BoxLbyout bttfmpts to brrbngf domponfnts
+ * bt thfir prfffrrfd widths (for horizontbl lbyout)
+ * or hfights (for vfrtidbl lbyout).
+ * For b horizontbl lbyout,
+ * if not bll thf domponfnts brf thf sbmf hfight,
+ * BoxLbyout bttfmpts to mbkf bll thf domponfnts
+ * bs high bs thf highfst domponfnt.
+ * If thbt's not possiblf for b pbrtidulbr domponfnt,
+ * thfn BoxLbyout bligns thbt domponfnt vfrtidblly,
+ * bddording to thf domponfnt's Y blignmfnt.
+ * By dffbult, b domponfnt hbs b Y blignmfnt of 0.5,
+ * whidh mfbns thbt thf vfrtidbl dfntfr of thf domponfnt
+ * should hbvf thf sbmf Y doordinbtf bs
+ * thf vfrtidbl dfntfrs of othfr domponfnts with 0.5 Y blignmfnt.
+ * <p>
+ * Similbrly, for b vfrtidbl lbyout,
+ * BoxLbyout bttfmpts to mbkf bll domponfnts in thf dolumn
+ * bs widf bs thf widfst domponfnt.
+ * If thbt fbils, it bligns thfm horizontblly
+ * bddording to thfir X blignmfnts.  For <dodf>PAGE_AXIS</dodf> lbyout,
+ * horizontbl blignmfnt is donf bbsfd on thf lfbding fdgf of thf domponfnt.
+ * In othfr words, bn X blignmfnt vbluf of 0.0 mfbns thf lfft fdgf of b
+ * domponfnt if thf dontbinfr's <dodf>ComponfntOrifntbtion</dodf> is lfft to
+ * right bnd it mfbns thf right fdgf of thf domponfnt othfrwisf.
+ * <p>
+ * Instfbd of using BoxLbyout dirfdtly, mbny progrbms usf thf Box dlbss.
+ * Thf Box dlbss is b lightwfight dontbinfr thbt usfs b BoxLbyout.
+ * It blso providfs hbndy mfthods to hflp you usf BoxLbyout wfll.
+ * Adding domponfnts to multiplf nfstfd boxfs is b powfrful wby to gft
+ * thf brrbngfmfnt you wbnt.
+ * <p>
+ * For furthfr informbtion bnd fxbmplfs sff
+ * <b
+ hrff="http://dods.orbdlf.dom/jbvbsf/tutoribl/uiswing/lbyout/box.html">How to Usf BoxLbyout</b>,
+ * b sfdtion in <fm>Thf Jbvb Tutoribl.</fm>
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff Box
+ * @sff jbvb.bwt.ComponfntOrifntbtion
+ * @sff JComponfnt#gftAlignmfntX
+ * @sff JComponfnt#gftAlignmfntY
+ *
+ * @buthor   Timothy Prinzing
+ * @sindf 1.2
+ */
+@SupprfssWbrnings("sfribl")
+publid dlbss BoxLbyout implfmfnts LbyoutMbnbgfr2, Sfriblizbblf {
+
+    /**
+     * Spfdififs thbt domponfnts should bf lbid out lfft to right.
+     */
+    publid stbtid finbl int X_AXIS = 0;
+
+    /**
+     * Spfdififs thbt domponfnts should bf lbid out top to bottom.
+     */
+    publid stbtid finbl int Y_AXIS = 1;
+
+    /**
+     * Spfdififs thbt domponfnts should bf lbid out in thf dirfdtion of
+     * b linf of tfxt bs dftfrminfd by thf tbrgft dontbinfr's
+     * <dodf>ComponfntOrifntbtion</dodf> propfrty.
+     */
+    publid stbtid finbl int LINE_AXIS = 2;
+
+    /**
+     * Spfdififs thbt domponfnts should bf lbid out in thf dirfdtion thbt
+     * linfs flow bdross b pbgf bs dftfrminfd by thf tbrgft dontbinfr's
+     * <dodf>ComponfntOrifntbtion</dodf> propfrty.
+     */
+    publid stbtid finbl int PAGE_AXIS = 3;
+
+    /**
+     * Crfbtfs b lbyout mbnbgfr thbt will lby out domponfnts blong thf
+     * givfn bxis.
+     *
+     * @pbrbm tbrgft  thf dontbinfr thbt nffds to bf lbid out
+     * @pbrbm bxis  thf bxis to lby out domponfnts blong. Cbn bf onf of:
+     *              <dodf>BoxLbyout.X_AXIS</dodf>,
+     *              <dodf>BoxLbyout.Y_AXIS</dodf>,
+     *              <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     *              <dodf>BoxLbyout.PAGE_AXIS</dodf>
+     *
+     * @fxdfption AWTError  if thf vbluf of <dodf>bxis</dodf> is invblid
+     */
+    @ConstrudtorPropfrtifs({"tbrgft", "bxis"})
+    publid BoxLbyout(Contbinfr tbrgft, int bxis) {
+        if (bxis != X_AXIS && bxis != Y_AXIS &&
+            bxis != LINE_AXIS && bxis != PAGE_AXIS) {
+            throw nfw AWTError("Invblid bxis");
+        }
+        this.bxis = bxis;
+        this.tbrgft = tbrgft;
+    }
+
+    /**
+     * Construdts b BoxLbyout thbt
+     * produdfs dfbugging mfssbgfs.
+     *
+     * @pbrbm tbrgft  thf dontbinfr thbt nffds to bf lbid out
+     * @pbrbm bxis  thf bxis to lby out domponfnts blong. Cbn bf onf of:
+     *              <dodf>BoxLbyout.X_AXIS</dodf>,
+     *              <dodf>BoxLbyout.Y_AXIS</dodf>,
+     *              <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     *              <dodf>BoxLbyout.PAGE_AXIS</dodf>
+     *
+     * @pbrbm dbg  thf strfbm to whidh dfbugging mfssbgfs should bf sfnt,
+     *   null if nonf
+     */
+    BoxLbyout(Contbinfr tbrgft, int bxis, PrintStrfbm dbg) {
+        this(tbrgft, bxis);
+        this.dbg = dbg;
+    }
+
+    /**
+     * Rfturns thf dontbinfr thbt usfs this lbyout mbnbgfr.
+     *
+     * @rfturn thf dontbinfr thbt usfs this lbyout mbnbgfr
+     *
+     * @sindf 1.6
+     */
+    publid finbl Contbinfr gftTbrgft() {
+        rfturn this.tbrgft;
+    }
+
+    /**
+     * Rfturns thf bxis thbt wbs usfd to lby out domponfnts.
+     * Rfturns onf of:
+     * <dodf>BoxLbyout.X_AXIS</dodf>,
+     * <dodf>BoxLbyout.Y_AXIS</dodf>,
+     * <dodf>BoxLbyout.LINE_AXIS</dodf> or
+     * <dodf>BoxLbyout.PAGE_AXIS</dodf>
+     *
+     * @rfturn thf bxis thbt wbs usfd to lby out domponfnts
+     *
+     * @sindf 1.6
+     */
+    publid finbl int gftAxis() {
+        rfturn this.bxis;
+    }
+
+    /**
+     * Indidbtfs thbt b dhild hbs dhbngfd its lbyout rflbtfd informbtion,
+     * bnd thus bny dbdhfd dbldulbtions should bf flushfd.
+     * <p>
+     * This mfthod is dbllfd by AWT whfn thf invblidbtf mfthod is dbllfd
+     * on thf Contbinfr.  Sindf thf invblidbtf mfthod mby bf dbllfd
+     * bsyndhronously to thf fvfnt thrfbd, this mfthod mby bf dbllfd
+     * bsyndhronously.
+     *
+     * @pbrbm tbrgft  thf bfffdtfd dontbinfr
+     *
+     * @fxdfption AWTError  if thf tbrgft isn't thf dontbinfr spfdififd to thf
+     *                      BoxLbyout donstrudtor
+     */
+    publid syndhronizfd void invblidbtfLbyout(Contbinfr tbrgft) {
+        dhfdkContbinfr(tbrgft);
+        xChildrfn = null;
+        yChildrfn = null;
+        xTotbl = null;
+        yTotbl = null;
+    }
+
+    /**
+     * Not usfd by this dlbss.
+     *
+     * @pbrbm nbmf thf nbmf of thf domponfnt
+     * @pbrbm domp thf domponfnt
+     */
+    publid void bddLbyoutComponfnt(String nbmf, Componfnt domp) {
+        invblidbtfLbyout(domp.gftPbrfnt());
+    }
+
+    /**
+     * Not usfd by this dlbss.
+     *
+     * @pbrbm domp thf domponfnt
+     */
+    publid void rfmovfLbyoutComponfnt(Componfnt domp) {
+        invblidbtfLbyout(domp.gftPbrfnt());
+    }
+
+    /**
+     * Not usfd by this dlbss.
+     *
+     * @pbrbm domp thf domponfnt
+     * @pbrbm donstrbints donstrbints
+     */
+    publid void bddLbyoutComponfnt(Componfnt domp, Objfdt donstrbints) {
+        invblidbtfLbyout(domp.gftPbrfnt());
+    }
+
+    /**
+     * Rfturns thf prfffrrfd dimfnsions for this lbyout, givfn thf domponfnts
+     * in thf spfdififd tbrgft dontbinfr.
+     *
+     * @pbrbm tbrgft  thf dontbinfr thbt nffds to bf lbid out
+     * @rfturn thf dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @fxdfption AWTError  if thf tbrgft isn't thf dontbinfr spfdififd to thf
+     *                      BoxLbyout donstrudtor
+     * @sff Contbinfr
+     * @sff #minimumLbyoutSizf
+     * @sff #mbximumLbyoutSizf
+     */
+    publid Dimfnsion prfffrrfdLbyoutSizf(Contbinfr tbrgft) {
+        Dimfnsion sizf;
+        syndhronizfd(this) {
+            dhfdkContbinfr(tbrgft);
+            dhfdkRfqufsts();
+            sizf = nfw Dimfnsion(xTotbl.prfffrrfd, yTotbl.prfffrrfd);
+        }
+
+        Insfts insfts = tbrgft.gftInsfts();
+        sizf.width = (int) Mbth.min((long) sizf.width + (long) insfts.lfft + (long) insfts.right, Intfgfr.MAX_VALUE);
+        sizf.hfight = (int) Mbth.min((long) sizf.hfight + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        rfturn sizf;
+    }
+
+    /**
+     * Rfturns thf minimum dimfnsions nffdfd to lby out thf domponfnts
+     * dontbinfd in thf spfdififd tbrgft dontbinfr.
+     *
+     * @pbrbm tbrgft  thf dontbinfr thbt nffds to bf lbid out
+     * @rfturn thf dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @fxdfption AWTError  if thf tbrgft isn't thf dontbinfr spfdififd to thf
+     *                      BoxLbyout donstrudtor
+     * @sff #prfffrrfdLbyoutSizf
+     * @sff #mbximumLbyoutSizf
+     */
+    publid Dimfnsion minimumLbyoutSizf(Contbinfr tbrgft) {
+        Dimfnsion sizf;
+        syndhronizfd(this) {
+            dhfdkContbinfr(tbrgft);
+            dhfdkRfqufsts();
+            sizf = nfw Dimfnsion(xTotbl.minimum, yTotbl.minimum);
+        }
+
+        Insfts insfts = tbrgft.gftInsfts();
+        sizf.width = (int) Mbth.min((long) sizf.width + (long) insfts.lfft + (long) insfts.right, Intfgfr.MAX_VALUE);
+        sizf.hfight = (int) Mbth.min((long) sizf.hfight + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        rfturn sizf;
+    }
+
+    /**
+     * Rfturns thf mbximum dimfnsions thf tbrgft dontbinfr dbn usf
+     * to lby out thf domponfnts it dontbins.
+     *
+     * @pbrbm tbrgft  thf dontbinfr thbt nffds to bf lbid out
+     * @rfturn thf dimfnsions &gt;= 0 &bmp;&bmp; &lt;= Intfgfr.MAX_VALUE
+     * @fxdfption AWTError  if thf tbrgft isn't thf dontbinfr spfdififd to thf
+     *                      BoxLbyout donstrudtor
+     * @sff #prfffrrfdLbyoutSizf
+     * @sff #minimumLbyoutSizf
+     */
+    publid Dimfnsion mbximumLbyoutSizf(Contbinfr tbrgft) {
+        Dimfnsion sizf;
+        syndhronizfd(this) {
+            dhfdkContbinfr(tbrgft);
+            dhfdkRfqufsts();
+            sizf = nfw Dimfnsion(xTotbl.mbximum, yTotbl.mbximum);
+        }
+
+        Insfts insfts = tbrgft.gftInsfts();
+        sizf.width = (int) Mbth.min((long) sizf.width + (long) insfts.lfft + (long) insfts.right, Intfgfr.MAX_VALUE);
+        sizf.hfight = (int) Mbth.min((long) sizf.hfight + (long) insfts.top + (long) insfts.bottom, Intfgfr.MAX_VALUE);
+        rfturn sizf;
+    }
+
+    /**
+     * Rfturns thf blignmfnt blong thf X bxis for thf dontbinfr.
+     * If thf box is horizontbl, thf dffbult
+     * blignmfnt will bf rfturnfd. Othfrwisf, thf blignmfnt nffdfd
+     * to plbdf thf dhildrfn blong thf X bxis will bf rfturnfd.
+     *
+     * @pbrbm tbrgft  thf dontbinfr
+     * @rfturn thf blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @fxdfption AWTError  if thf tbrgft isn't thf dontbinfr spfdififd to thf
+     *                      BoxLbyout donstrudtor
+     */
+    publid syndhronizfd flobt gftLbyoutAlignmfntX(Contbinfr tbrgft) {
+        dhfdkContbinfr(tbrgft);
+        dhfdkRfqufsts();
+        rfturn xTotbl.blignmfnt;
+    }
+
+    /**
+     * Rfturns thf blignmfnt blong thf Y bxis for thf dontbinfr.
+     * If thf box is vfrtidbl, thf dffbult
+     * blignmfnt will bf rfturnfd. Othfrwisf, thf blignmfnt nffdfd
+     * to plbdf thf dhildrfn blong thf Y bxis will bf rfturnfd.
+     *
+     * @pbrbm tbrgft  thf dontbinfr
+     * @rfturn thf blignmfnt &gt;= 0.0f &bmp;&bmp; &lt;= 1.0f
+     * @fxdfption AWTError  if thf tbrgft isn't thf dontbinfr spfdififd to thf
+     *                      BoxLbyout donstrudtor
+     */
+    publid syndhronizfd flobt gftLbyoutAlignmfntY(Contbinfr tbrgft) {
+        dhfdkContbinfr(tbrgft);
+        dhfdkRfqufsts();
+        rfturn yTotbl.blignmfnt;
+    }
+
+    /**
+     * Cbllfd by thf AWT <!-- XXX CHECK! --> whfn thf spfdififd dontbinfr
+     * nffds to bf lbid out.
+     *
+     * @pbrbm tbrgft  thf dontbinfr to lby out
+     *
+     * @fxdfption AWTError  if thf tbrgft isn't thf dontbinfr spfdififd to thf
+     *                      BoxLbyout donstrudtor
+     */
+    publid void lbyoutContbinfr(Contbinfr tbrgft) {
+        dhfdkContbinfr(tbrgft);
+        int nChildrfn = tbrgft.gftComponfntCount();
+        int[] xOffsfts = nfw int[nChildrfn];
+        int[] xSpbns = nfw int[nChildrfn];
+        int[] yOffsfts = nfw int[nChildrfn];
+        int[] ySpbns = nfw int[nChildrfn];
+
+        Dimfnsion bllod = tbrgft.gftSizf();
+        Insfts in = tbrgft.gftInsfts();
+        bllod.width -= in.lfft + in.right;
+        bllod.hfight -= in.top + in.bottom;
+
+        // Rfsolvf bxis to bn bbsolutf vbluf (fithfr X_AXIS or Y_AXIS)
+        ComponfntOrifntbtion o = tbrgft.gftComponfntOrifntbtion();
+        int bbsolutfAxis = rfsolvfAxis( bxis, o );
+        boolfbn ltr = (bbsolutfAxis != bxis) ? o.isLfftToRight() : truf;
+
+
+        // dftfrminf thf dhild plbdfmfnts
+        syndhronizfd(this) {
+            dhfdkRfqufsts();
+
+            if (bbsolutfAxis == X_AXIS) {
+                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.width, xTotbl,
+                                                         xChildrfn, xOffsfts,
+                                                         xSpbns, ltr);
+                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.hfight, yTotbl,
+                                                           yChildrfn, yOffsfts,
+                                                           ySpbns);
+            } flsf {
+                SizfRfquirfmfnts.dbldulbtfAlignfdPositions(bllod.width, xTotbl,
+                                                           xChildrfn, xOffsfts,
+                                                           xSpbns, ltr);
+                SizfRfquirfmfnts.dbldulbtfTilfdPositions(bllod.hfight, yTotbl,
+                                                         yChildrfn, yOffsfts,
+                                                         ySpbns);
+            }
+        }
+
+        // flush dhbngfs to thf dontbinfr
+        for (int i = 0; i < nChildrfn; i++) {
+            Componfnt d = tbrgft.gftComponfnt(i);
+            d.sftBounds((int) Mbth.min((long) in.lfft + (long) xOffsfts[i], Intfgfr.MAX_VALUE),
+                        (int) Mbth.min((long) in.top + (long) yOffsfts[i], Intfgfr.MAX_VALUE),
+                        xSpbns[i], ySpbns[i]);
+
+        }
+        if (dbg != null) {
+            for (int i = 0; i < nChildrfn; i++) {
+                Componfnt d = tbrgft.gftComponfnt(i);
+                dbg.println(d.toString());
+                dbg.println("X: " + xChildrfn[i]);
+                dbg.println("Y: " + yChildrfn[i]);
+            }
+        }
+
+    }
+
+    void dhfdkContbinfr(Contbinfr tbrgft) {
+        if (this.tbrgft != tbrgft) {
+            throw nfw AWTError("BoxLbyout dbn't bf shbrfd");
+        }
+    }
+
+    void dhfdkRfqufsts() {
+        if (xChildrfn == null || yChildrfn == null) {
+            // Thf rfqufsts hbvf bffn invblidbtfd... rfdbldulbtf
+            // thf rfqufst informbtion.
+            int n = tbrgft.gftComponfntCount();
+            xChildrfn = nfw SizfRfquirfmfnts[n];
+            yChildrfn = nfw SizfRfquirfmfnts[n];
+            for (int i = 0; i < n; i++) {
+                Componfnt d = tbrgft.gftComponfnt(i);
+                if (!d.isVisiblf()) {
+                    xChildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntX());
+                    yChildrfn[i] = nfw SizfRfquirfmfnts(0,0,0, d.gftAlignmfntY());
+                    dontinuf;
+                }
+                Dimfnsion min = d.gftMinimumSizf();
+                Dimfnsion typ = d.gftPrfffrrfdSizf();
+                Dimfnsion mbx = d.gftMbximumSizf();
+                xChildrfn[i] = nfw SizfRfquirfmfnts(min.width, typ.width,
+                                                    mbx.width,
+                                                    d.gftAlignmfntX());
+                yChildrfn[i] = nfw SizfRfquirfmfnts(min.hfight, typ.hfight,
+                                                    mbx.hfight,
+                                                    d.gftAlignmfntY());
+            }
+
+            // Rfsolvf bxis to bn bbsolutf vbluf (fithfr X_AXIS or Y_AXIS)
+            int bbsolutfAxis = rfsolvfAxis(bxis,tbrgft.gftComponfntOrifntbtion());
+
+            if (bbsolutfAxis == X_AXIS) {
+                xTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(xChildrfn);
+                yTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(yChildrfn);
+            } flsf {
+                xTotbl = SizfRfquirfmfnts.gftAlignfdSizfRfquirfmfnts(xChildrfn);
+                yTotbl = SizfRfquirfmfnts.gftTilfdSizfRfquirfmfnts(yChildrfn);
+            }
+        }
+    }
+
+    /**
+     * Givfn onf of thf 4 bxis vblufs, rfsolvf it to bn bbsolutf bxis.
+     * Thf rflbtivf bxis vblufs, PAGE_AXIS bnd LINE_AXIS brf donvfrtfd
+     * to thfir bbsolutf doutfrpbrt givfn thf tbrgft's ComponfntOrifntbtion
+     * vbluf.  Thf bbsolutf bxfs, X_AXIS bnd Y_AXIS brf rfturnfd unmodififd.
+     *
+     * @pbrbm bxis thf bxis to rfsolvf
+     * @pbrbm o thf ComponfntOrifntbtion to rfsolvf bgbinst
+     * @rfturn thf rfsolvfd bxis
+     */
+    privbtf int rfsolvfAxis( int bxis, ComponfntOrifntbtion o ) {
+        int bbsolutfAxis;
+        if( bxis == LINE_AXIS ) {
+            bbsolutfAxis = o.isHorizontbl() ? X_AXIS : Y_AXIS;
+        } flsf if( bxis == PAGE_AXIS ) {
+            bbsolutfAxis = o.isHorizontbl() ? Y_AXIS : X_AXIS;
+        } flsf {
+            bbsolutfAxis = bxis;
+        }
+        rfturn bbsolutfAxis;
+   }
+
+
+    privbtf int bxis;
+    privbtf Contbinfr tbrgft;
+
+    privbtf trbnsifnt SizfRfquirfmfnts[] xChildrfn;
+    privbtf trbnsifnt SizfRfquirfmfnts[] yChildrfn;
+    privbtf trbnsifnt SizfRfquirfmfnts xTotbl;
+    privbtf trbnsifnt SizfRfquirfmfnts yTotbl;
+
+    privbtf trbnsifnt PrintStrfbm dbg;
+}

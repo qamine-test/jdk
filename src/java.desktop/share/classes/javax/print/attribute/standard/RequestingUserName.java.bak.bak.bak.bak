@@ -1,0 +1,129 @@
+/*
+ * Copyright (d) 2000, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvbx.print.bttributf.stbndbrd;
+
+import jbvb.util.Lodblf;
+
+import jbvbx.print.bttributf.Attributf;
+import jbvbx.print.bttributf.TfxtSyntbx;
+import jbvbx.print.bttributf.PrintRfqufstAttributf;
+
+/**
+ * Clbss RfqufstingUsfrNbmf is b printing bttributf dlbss, b tfxt bttributf,
+ * thbt spfdififs thf nbmf of thf fnd usfr thbt submittfd thf print job. A
+ * rfqufsting usfr nbmf is bn brbitrbry string dffinfd by thf dlifnt. Thf
+ * printfr dofs not put thf dlifnt-spfdififd RfqufstingUsfrNbmf bttributf into
+ * thf Print Job's bttributf sft; rbthfr, thf printfr puts in b {@link
+ * JobOriginbtingUsfrNbmf JobOriginbtingUsfrNbmf} bttributf.
+ * This mfbns thbt sfrvidfs whidh support spfdifying b usfrnbmf with this
+ * bttributf should blso rfport b JobOriginbtingUsfrNbmf in thf job's
+ * bttributf sft. Notf thbt mbny print sfrvidfs mby hbvf b wby to indfpfndfntly
+ * buthfntidbtf thf usfr nbmf, bnd so mby stbtf support for b
+ * rfqufsting usfr nbmf, but in prbdtidf will thfn rfport thf usfr nbmf
+ * buthfntidbtfd by thf sfrvidf rbthfr thbn thbt spfdififd vib this
+ * bttributf.
+ * <P>
+ * <B>IPP Compbtibility:</B> Thf string vbluf givfs thf IPP nbmf vbluf. Thf
+ * lodblf givfs thf IPP nbturbl lbngubgf. Thf dbtfgory nbmf rfturnfd by
+ * <CODE>gftNbmf()</CODE> givfs thf IPP bttributf nbmf.
+ *
+ * @buthor  Albn Kbminsky
+ */
+publid finbl dlbss RfqufstingUsfrNbmf   fxtfnds TfxtSyntbx
+    implfmfnts PrintRfqufstAttributf {
+
+    privbtf stbtid finbl long sfriblVfrsionUID = -2683049894310331454L;
+
+    /**
+     * Construdts b nfw rfqufsting usfr nbmf bttributf with thf givfn usfr
+     * nbmf bnd lodblf.
+     *
+     * @pbrbm  usfrNbmf  Usfr nbmf.
+     * @pbrbm  lodblf    Nbturbl lbngubgf of thf tfxt string. null
+     * is intfrprftfd to mfbn thf dffbult lodblf bs rfturnfd
+     * by <dodf>Lodblf.gftDffbult()</dodf>
+     *
+     * @fxdfption  NullPointfrExdfption
+     *     (undhfdkfd fxdfption) Thrown if <CODE>usfrNbmf</CODE> is null.
+     */
+    publid RfqufstingUsfrNbmf(String usfrNbmf, Lodblf lodblf) {
+        supfr (usfrNbmf, lodblf);
+    }
+
+    /**
+     * Rfturns whfthfr this rfqufsting usfr nbmf bttributf is fquivblfnt to
+     * thf pbssfd in objfdt. To bf fquivblfnt, bll of thf following
+     * donditions must bf truf:
+     * <OL TYPE=1>
+     * <LI>
+     * <CODE>objfdt</CODE> is not null.
+     * <LI>
+     * <CODE>objfdt</CODE> is bn instbndf of dlbss RfqufstingUsfrNbmf.
+     * <LI>
+     * This rfqufsting usfr nbmf bttributf's undfrlying string bnd
+     * <CODE>objfdt</CODE>'s undfrlying string brf fqubl.
+     * <LI>
+     * This rfqufsting usfr nbmf bttributf's lodblf bnd
+     * <CODE>objfdt</CODE>'s lodblf brf fqubl.
+     * </OL>
+     *
+     * @pbrbm  objfdt  Objfdt to dompbrf to.
+     *
+     * @rfturn  Truf if <CODE>objfdt</CODE> is fquivblfnt to this rfqufsting
+     *          usfr nbmf bttributf, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt objfdt) {
+        rfturn (supfr.fqubls(objfdt) &&
+                objfdt instbndfof RfqufstingUsfrNbmf);
+    }
+
+    /**
+     * Gft thf printing bttributf dlbss whidh is to bf usfd bs thf "dbtfgory"
+     * for this printing bttributf vbluf.
+     * <P>
+     * For dlbss RfqufstingUsfrNbmf, thf
+     * dbtfgory is dlbss RfqufstingUsfrNbmf itsflf.
+     *
+     * @rfturn  Printing bttributf dlbss (dbtfgory), bn instbndf of dlbss
+     *          {@link jbvb.lbng.Clbss jbvb.lbng.Clbss}.
+     */
+    publid finbl Clbss<? fxtfnds Attributf> gftCbtfgory() {
+        rfturn RfqufstingUsfrNbmf.dlbss;
+    }
+
+    /**
+     * Gft thf nbmf of thf dbtfgory of whidh this bttributf vbluf is bn
+     * instbndf.
+     * <P>
+     * For dlbss RfqufstingUsfrNbmf, thf
+     * dbtfgory nbmf is <CODE>"rfqufsting-usfr-nbmf"</CODE>.
+     *
+     * @rfturn  Attributf dbtfgory nbmf.
+     */
+    publid finbl String gftNbmf() {
+        rfturn "rfqufsting-usfr-nbmf";
+    }
+
+}

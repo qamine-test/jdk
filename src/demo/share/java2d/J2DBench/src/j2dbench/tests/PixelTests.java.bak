@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2007, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2007, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,369 +30,369 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package j2dbench.tests;
+pbdkbgf j2dbfndi.tfsts;
 
-import j2dbench.Destinations;
-import j2dbench.Group;
-import j2dbench.Modifier;
-import j2dbench.Option;
-import j2dbench.Test;
-import j2dbench.Result;
-import j2dbench.TestEnvironment;
-import java.awt.Graphics2D;
-import java.awt.Color;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.image.VolatileImage;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
-import java.awt.image.DataBufferByte;
-import java.awt.image.DataBufferShort;
-import java.awt.image.DataBufferInt;
-import java.awt.image.Raster;
-import java.awt.image.WritableRaster;
-import java.awt.image.IndexColorModel;
+import j2dbfndi.Dfstinbtions;
+import j2dbfndi.Group;
+import j2dbfndi.Modififr;
+import j2dbfndi.Option;
+import j2dbfndi.Tfst;
+import j2dbfndi.Rfsult;
+import j2dbfndi.TfstEnvironmfnt;
+import jbvb.bwt.Grbpiids2D;
+import jbvb.bwt.Color;
+import jbvb.bwt.GrbpiidsConfigurbtion;
+import jbvb.bwt.GrbpiidsEnvironmfnt;
+import jbvb.bwt.imbgf.VolbtilfImbgf;
+import jbvb.bwt.imbgf.BufffrfdImbgf;
+import jbvb.bwt.imbgf.DbtbBufffr;
+import jbvb.bwt.imbgf.DbtbBufffrBytf;
+import jbvb.bwt.imbgf.DbtbBufffrSiort;
+import jbvb.bwt.imbgf.DbtbBufffrInt;
+import jbvb.bwt.imbgf.Rbstfr;
+import jbvb.bwt.imbgf.WritbblfRbstfr;
+import jbvb.bwt.imbgf.IndfxColorModfl;
 
-public abstract class PixelTests extends Test {
-    static Group pixelroot;
+publid bbstrbdt dlbss PixflTfsts fxtfnds Tfst {
+    stbtid Group pixflroot;
 
-    static Group pixeloptroot;
-    static Group.EnableSet bufimgsrcroot;
+    stbtid Group pixfloptroot;
+    stbtid Group.EnbblfSft bufimgsrdroot;
 
-    static Option doRenderTo;
-    static Option doRenderFrom;
+    stbtid Option doRfndfrTo;
+    stbtid Option doRfndfrFrom;
 
-    static Group bufimgtestroot;
-    static Group rastertestroot;
-    static Group dbtestroot;
+    stbtid Group bufimgtfstroot;
+    stbtid Group rbstfrtfstroot;
+    stbtid Group dbtfstroot;
 
-    public static void init() {
-        pixelroot = new Group("pixel", "Pixel Access Benchmarks");
+    publid stbtid void init() {
+        pixflroot = nfw Group("pixfl", "Pixfl Addfss Bfndimbrks");
 
-        pixeloptroot = new Group(pixelroot, "opts", "Pixel Access Options");
-        doRenderTo = new Option.Toggle(pixeloptroot, "renderto",
-                                       "Render to Image before test",
-                                       Option.Toggle.Off);
-        doRenderFrom = new Option.Toggle(pixeloptroot, "renderfrom",
-                                         "Render from Image before test",
-                                         Option.Toggle.Off);
+        pixfloptroot = nfw Group(pixflroot, "opts", "Pixfl Addfss Options");
+        doRfndfrTo = nfw Option.Togglf(pixfloptroot, "rfndfrto",
+                                       "Rfndfr to Imbgf bfforf tfst",
+                                       Option.Togglf.Off);
+        doRfndfrFrom = nfw Option.Togglf(pixfloptroot, "rfndfrfrom",
+                                         "Rfndfr from Imbgf bfforf tfst",
+                                         Option.Togglf.Off);
 
-        // BufferedImage Sources
-        bufimgsrcroot = new Group.EnableSet(pixelroot, "src",
-                                            "BufferedImage Sources");
-        new BufImg(BufferedImage.TYPE_BYTE_BINARY, 1);
-        new BufImg(BufferedImage.TYPE_BYTE_BINARY, 2);
-        new BufImg(BufferedImage.TYPE_BYTE_BINARY, 4);
-        new BufImg(BufferedImage.TYPE_BYTE_INDEXED);
-        new BufImg(BufferedImage.TYPE_BYTE_GRAY);
-        new BufImg(BufferedImage.TYPE_USHORT_555_RGB);
-        new BufImg(BufferedImage.TYPE_USHORT_565_RGB);
-        new BufImg(BufferedImage.TYPE_USHORT_GRAY);
-        new BufImg(BufferedImage.TYPE_3BYTE_BGR);
-        new BufImg(BufferedImage.TYPE_4BYTE_ABGR);
-        new BufImg(BufferedImage.TYPE_INT_RGB);
-        new BufImg(BufferedImage.TYPE_INT_BGR);
-        new BufImg(BufferedImage.TYPE_INT_ARGB);
+        // BufffrfdImbgf Sourdfs
+        bufimgsrdroot = nfw Group.EnbblfSft(pixflroot, "srd",
+                                            "BufffrfdImbgf Sourdfs");
+        nfw BufImg(BufffrfdImbgf.TYPE_BYTE_BINARY, 1);
+        nfw BufImg(BufffrfdImbgf.TYPE_BYTE_BINARY, 2);
+        nfw BufImg(BufffrfdImbgf.TYPE_BYTE_BINARY, 4);
+        nfw BufImg(BufffrfdImbgf.TYPE_BYTE_INDEXED);
+        nfw BufImg(BufffrfdImbgf.TYPE_BYTE_GRAY);
+        nfw BufImg(BufffrfdImbgf.TYPE_USHORT_555_RGB);
+        nfw BufImg(BufffrfdImbgf.TYPE_USHORT_565_RGB);
+        nfw BufImg(BufffrfdImbgf.TYPE_USHORT_GRAY);
+        nfw BufImg(BufffrfdImbgf.TYPE_3BYTE_BGR);
+        nfw BufImg(BufffrfdImbgf.TYPE_4BYTE_ABGR);
+        nfw BufImg(BufffrfdImbgf.TYPE_INT_RGB);
+        nfw BufImg(BufffrfdImbgf.TYPE_INT_BGR);
+        nfw BufImg(BufffrfdImbgf.TYPE_INT_ARGB);
 
-        // BufferedImage Tests
-        bufimgtestroot = new Group(pixelroot, "bimgtests",
-                                   "BufferedImage Tests");
-        new BufImgTest.GetRGB();
-        new BufImgTest.SetRGB();
+        // BufffrfdImbgf Tfsts
+        bufimgtfstroot = nfw Group(pixflroot, "bimgtfsts",
+                                   "BufffrfdImbgf Tfsts");
+        nfw BufImgTfst.GftRGB();
+        nfw BufImgTfst.SftRGB();
 
-        // Raster Tests
-        rastertestroot = new Group(pixelroot, "rastests",
-                                   "Raster Tests");
-        new RasTest.GetDataElements();
-        new RasTest.SetDataElements();
-        new RasTest.GetPixel();
-        new RasTest.SetPixel();
+        // Rbstfr Tfsts
+        rbstfrtfstroot = nfw Group(pixflroot, "rbstfsts",
+                                   "Rbstfr Tfsts");
+        nfw RbsTfst.GftDbtbElfmfnts();
+        nfw RbsTfst.SftDbtbElfmfnts();
+        nfw RbsTfst.GftPixfl();
+        nfw RbsTfst.SftPixfl();
 
-        // DataBuffer Tests
-        dbtestroot = new Group(pixelroot, "dbtests",
-                               "DataBuffer Tests");
-        new DataBufTest.GetElem();
-        new DataBufTest.SetElem();
+        // DbtbBufffr Tfsts
+        dbtfstroot = nfw Group(pixflroot, "dbtfsts",
+                               "DbtbBufffr Tfsts");
+        nfw DbtbBufTfst.GftElfm();
+        nfw DbtbBufTfst.SftElfm();
     }
 
-    public PixelTests(Group root, String nodeName, String description) {
-        super(root, nodeName, description);
-        addDependency(bufimgsrcroot);
-        addDependencies(pixeloptroot, false);
+    publid PixflTfsts(Group root, String nodfNbmf, String dfsdription) {
+        supfr(root, nodfNbmf, dfsdription);
+        bddDfpfndfndy(bufimgsrdroot);
+        bddDfpfndfndifs(pixfloptroot, fblsf);
     }
 
-    public static class Context {
-        BufferedImage bimg;
-        WritableRaster ras;
-        DataBuffer db;
-        int pixeldata[];
-        Object elemdata;
+    publid stbtid dlbss Contfxt {
+        BufffrfdImbgf bimg;
+        WritbblfRbstfr rbs;
+        DbtbBufffr db;
+        int pixfldbtb[];
+        Objfdt flfmdbtb;
     }
 
-    public Object initTest(TestEnvironment env, Result result) {
-        Context ctx = new Context();
-        ctx.bimg = ((BufImg) env.getModifier(bufimgsrcroot)).getImage();
-        if (env.isEnabled(doRenderTo)) {
-            Graphics2D g2d = ctx.bimg.createGraphics();
-            g2d.setColor(Color.white);
-            g2d.fillRect(3, 0, 1, 1);
-            g2d.dispose();
+    publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+        Contfxt dtx = nfw Contfxt();
+        dtx.bimg = ((BufImg) fnv.gftModififr(bufimgsrdroot)).gftImbgf();
+        if (fnv.isEnbblfd(doRfndfrTo)) {
+            Grbpiids2D g2d = dtx.bimg.drfbtfGrbpiids();
+            g2d.sftColor(Color.wiitf);
+            g2d.fillRfdt(3, 0, 1, 1);
+            g2d.disposf();
         }
-        if (env.isEnabled(doRenderFrom)) {
-            GraphicsConfiguration cfg =
-                GraphicsEnvironment
-                .getLocalGraphicsEnvironment()
-                .getDefaultScreenDevice()
-                .getDefaultConfiguration();
-            VolatileImage vimg = cfg.createCompatibleVolatileImage(8, 1);
-            vimg.validate(cfg);
-            Graphics2D g2d = vimg.createGraphics();
+        if (fnv.isEnbblfd(doRfndfrFrom)) {
+            GrbpiidsConfigurbtion dfg =
+                GrbpiidsEnvironmfnt
+                .gftLodblGrbpiidsEnvironmfnt()
+                .gftDffbultSdrffnDfvidf()
+                .gftDffbultConfigurbtion();
+            VolbtilfImbgf vimg = dfg.drfbtfCompbtiblfVolbtilfImbgf(8, 1);
+            vimg.vblidbtf(dfg);
+            Grbpiids2D g2d = vimg.drfbtfGrbpiids();
             for (int i = 0; i < 100; i++) {
-                g2d.drawImage(ctx.bimg, 0, 0, null);
+                g2d.drbwImbgf(dtx.bimg, 0, 0, null);
             }
-            g2d.dispose();
-            vimg.flush();
+            g2d.disposf();
+            vimg.flusi();
         }
-        result.setUnits(1);
-        result.setUnitName(getUnitName());
-        return ctx;
+        rfsult.sftUnits(1);
+        rfsult.sftUnitNbmf(gftUnitNbmf());
+        rfturn dtx;
     }
 
-    public abstract String getUnitName();
+    publid bbstrbdt String gftUnitNbmf();
 
-    public void cleanupTest(TestEnvironment env, Object context) {
+    publid void dlfbnupTfst(TfstEnvironmfnt fnv, Objfdt dontfxt) {
     }
 
-    public static class BufImg extends Option.Enable {
-        public static int rgbvals[] = {
+    publid stbtid dlbss BufImg fxtfnds Option.Enbblf {
+        publid stbtid int rgbvbls[] = {
             0x00000000,
             0xff0000ff,
             0x8000ff00,
             0xffffffff
         };
 
-        static int cmap[] = {
-            0xff000000,  // 0: opaque black
-            0xffffffff,  // 1: opaque white
+        stbtid int dmbp[] = {
+            0xff000000,  // 0: opbquf blbdk
+            0xffffffff,  // 1: opbquf wiitf
 
-            0x00000000,  // 2: transparent black
-            0x80ffffff,  // 3: translucent white
+            0x00000000,  // 2: trbnspbrfnt blbdk
+            0x80ffffff,  // 3: trbnsludfnt wiitf
 
-            0x00ffffff,  // 4: transparent white
-            0x80000000,  // 5: translucent black
-            0xff333333,  // 6: opaque dark gray
-            0xff666666,  // 7: opaque medium gray
-            0xff999999,  // 8: opaque gray
-            0xffcccccc,  // 9: opaque light gray
-            0xff0000ff,  // A: opaque blue
-            0xff00ff00,  // B: opaque green
-            0xff00ffff,  // C: opaque cyan
-            0xffff0000,  // D: opaque red
-            0xffff00ff,  // E: opaque magenta
-            0xffffff00,  // F: opaque yellow
+            0x00ffffff,  // 4: trbnspbrfnt wiitf
+            0x80000000,  // 5: trbnsludfnt blbdk
+            0xff333333,  // 6: opbquf dbrk grby
+            0xff666666,  // 7: opbquf mfdium grby
+            0xff999999,  // 8: opbquf grby
+            0xffdddddd,  // 9: opbquf ligit grby
+            0xff0000ff,  // A: opbquf bluf
+            0xff00ff00,  // B: opbquf grffn
+            0xff00ffff,  // C: opbquf dybn
+            0xffff0000,  // D: opbquf rfd
+            0xffff00ff,  // E: opbquf mbgfntb
+            0xffffff00,  // F: opbquf yfllow
         };
 
-        int type;
+        int typf;
         int nbits;
 
-        public BufImg(int type) {
-            super(bufimgsrcroot,
-                  Destinations.BufImg.ShortNames[type],
-                  Destinations.BufImg.Descriptions[type], false);
-            this.type = type;
-            this.nbits = 0;
+        publid BufImg(int typf) {
+            supfr(bufimgsrdroot,
+                  Dfstinbtions.BufImg.SiortNbmfs[typf],
+                  Dfstinbtions.BufImg.Dfsdriptions[typf], fblsf);
+            tiis.typf = typf;
+            tiis.nbits = 0;
         }
 
-        public BufImg(int type, int nbits) {
-            super(bufimgsrcroot,
-                  nbits+"BitBinary",
-                  nbits+"-bit Binary Image", false);
-            this.type = type;
-            this.nbits = nbits;
+        publid BufImg(int typf, int nbits) {
+            supfr(bufimgsrdroot,
+                  nbits+"BitBinbry",
+                  nbits+"-bit Binbry Imbgf", fblsf);
+            tiis.typf = typf;
+            tiis.nbits = nbits;
         }
 
-        public String getModifierValueName(Object val) {
-            return "BufImg("+getNodeName()+")";
+        publid String gftModififrVblufNbmf(Objfdt vbl) {
+            rfturn "BufImg("+gftNodfNbmf()+")";
         }
 
-        public BufferedImage getImage() {
-            BufferedImage bimg;
+        publid BufffrfdImbgf gftImbgf() {
+            BufffrfdImbgf bimg;
             if (nbits == 0) {
-                bimg = new BufferedImage(8, 1, type);
-            } else {
-                IndexColorModel icm =
-                    new IndexColorModel(nbits, (1 << nbits),
-                                        cmap, 0, (nbits > 1), -1,
-                                        DataBuffer.TYPE_BYTE);
-                // Note that this constructor has bugs pre 1.4...
-                // bimg = new BufferedImage(64/nbits, 1, type, icm);
-                WritableRaster wr =
-                    icm.createCompatibleWritableRaster(64/nbits, 1);
-                bimg = new BufferedImage(icm, wr, false, null);
+                bimg = nfw BufffrfdImbgf(8, 1, typf);
+            } flsf {
+                IndfxColorModfl idm =
+                    nfw IndfxColorModfl(nbits, (1 << nbits),
+                                        dmbp, 0, (nbits > 1), -1,
+                                        DbtbBufffr.TYPE_BYTE);
+                // Notf tibt tiis donstrudtor ibs bugs prf 1.4...
+                // bimg = nfw BufffrfdImbgf(64/nbits, 1, typf, idm);
+                WritbblfRbstfr wr =
+                    idm.drfbtfCompbtiblfWritbblfRbstfr(64/nbits, 1);
+                bimg = nfw BufffrfdImbgf(idm, wr, fblsf, null);
             }
-            for (int i = 0; i < bimg.getWidth(); i++) {
-                bimg.setRGB(i, 0, rgbvals[i&3]);
+            for (int i = 0; i < bimg.gftWidti(); i++) {
+                bimg.sftRGB(i, 0, rgbvbls[i&3]);
             }
-            return bimg;
+            rfturn bimg;
         }
     }
 
-    public static abstract class BufImgTest extends PixelTests {
-        public BufImgTest(String nodeName, String description) {
-            super(bufimgtestroot, nodeName, description);
+    publid stbtid bbstrbdt dlbss BufImgTfst fxtfnds PixflTfsts {
+        publid BufImgTfst(String nodfNbmf, String dfsdription) {
+            supfr(bufimgtfstroot, nodfNbmf, dfsdription);
         }
 
-        public String getUnitName() {
-            return "pixel";
+        publid String gftUnitNbmf() {
+            rfturn "pixfl";
         }
 
-        public static class GetRGB extends BufImgTest {
-            public GetRGB() {
-                super("getrgb", "BufferedImage.getRGB(x, y)");
+        publid stbtid dlbss GftRGB fxtfnds BufImgTfst {
+            publid GftRGB() {
+                supfr("gftrgb", "BufffrfdImbgf.gftRGB(x, y)");
             }
 
-            public void runTest(Object context, int numReps) {
-                BufferedImage bimg = ((Context) context).bimg;
+            publid void runTfst(Objfdt dontfxt, int numRfps) {
+                BufffrfdImbgf bimg = ((Contfxt) dontfxt).bimg;
                 do {
-                    bimg.getRGB(numReps&7, 0);
-                } while (--numReps > 0);
+                    bimg.gftRGB(numRfps&7, 0);
+                } wiilf (--numRfps > 0);
             }
         }
 
-        public static class SetRGB extends BufImgTest {
-            public SetRGB() {
-                super("setrgb", "BufferedImage.setRGB(x, y, rgb)");
+        publid stbtid dlbss SftRGB fxtfnds BufImgTfst {
+            publid SftRGB() {
+                supfr("sftrgb", "BufffrfdImbgf.sftRGB(x, y, rgb)");
             }
 
-            public void runTest(Object context, int numReps) {
-                BufferedImage bimg = ((Context) context).bimg;
+            publid void runTfst(Objfdt dontfxt, int numRfps) {
+                BufffrfdImbgf bimg = ((Contfxt) dontfxt).bimg;
                 do {
-                    bimg.setRGB(numReps&7, 0, BufImg.rgbvals[numReps&3]);
-                } while (--numReps > 0);
-            }
-        }
-    }
-
-    public static abstract class RasTest extends PixelTests {
-        public RasTest(String nodeName, String description) {
-            super(rastertestroot, nodeName, description);
-        }
-
-        public String getUnitName() {
-            return "pixel";
-        }
-
-        public Object initTest(TestEnvironment env, Result result) {
-            Context ctx = (Context) super.initTest(env, result);
-            ctx.ras = ctx.bimg.getRaster();
-            ctx.pixeldata = ctx.ras.getPixel(0, 0, (int[]) null);
-            ctx.elemdata = ctx.ras.getDataElements(0, 0, null);
-            return ctx;
-        }
-
-        public static class GetDataElements extends RasTest {
-            public GetDataElements() {
-                super("getdataelem", "Raster.getDataElements(x, y, o)");
-            }
-
-            public void runTest(Object context, int numReps) {
-                Raster ras = ((Context) context).ras;
-                Object elemdata = ((Context) context).elemdata;
-                do {
-                    ras.getDataElements(numReps&7, 0, elemdata);
-                } while (--numReps > 0);
-            }
-        }
-
-        public static class SetDataElements extends RasTest {
-            public SetDataElements() {
-                super("setdataelem", "WritableRaster.setDataElements(x, y, o)");
-            }
-
-            public void runTest(Object context, int numReps) {
-                WritableRaster ras = ((Context) context).ras;
-                Object elemdata = ((Context) context).elemdata;
-                do {
-                    ras.setDataElements(numReps&7, 0, elemdata);
-                } while (--numReps > 0);
-            }
-        }
-
-        public static class GetPixel extends RasTest {
-            public GetPixel() {
-                super("getpixel", "Raster.getPixel(x, y, v[])");
-            }
-
-            public void runTest(Object context, int numReps) {
-                Raster ras = ((Context) context).ras;
-                int pixeldata[] = ((Context) context).pixeldata;
-                do {
-                    ras.getPixel(numReps&7, 0, pixeldata);
-                } while (--numReps > 0);
-            }
-        }
-
-        public static class SetPixel extends RasTest {
-            public SetPixel() {
-                super("setpixel", "WritableRaster.setPixel(x, y, v[])");
-            }
-
-            public void runTest(Object context, int numReps) {
-                WritableRaster ras = ((Context) context).ras;
-                int pixeldata[] = ((Context) context).pixeldata;
-                do {
-                    ras.setPixel(numReps&7, 0, pixeldata);
-                } while (--numReps > 0);
+                    bimg.sftRGB(numRfps&7, 0, BufImg.rgbvbls[numRfps&3]);
+                } wiilf (--numRfps > 0);
             }
         }
     }
 
-    public static abstract class DataBufTest extends PixelTests {
-        public DataBufTest(String nodeName, String description) {
-            super(dbtestroot, nodeName, description);
+    publid stbtid bbstrbdt dlbss RbsTfst fxtfnds PixflTfsts {
+        publid RbsTfst(String nodfNbmf, String dfsdription) {
+            supfr(rbstfrtfstroot, nodfNbmf, dfsdription);
         }
 
-        public String getUnitName() {
-            return "element";
+        publid String gftUnitNbmf() {
+            rfturn "pixfl";
         }
 
-        public Object initTest(TestEnvironment env, Result result) {
-            Context ctx = (Context) super.initTest(env, result);
-            ctx.db = ctx.bimg.getRaster().getDataBuffer();
-            return ctx;
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = (Contfxt) supfr.initTfst(fnv, rfsult);
+            dtx.rbs = dtx.bimg.gftRbstfr();
+            dtx.pixfldbtb = dtx.rbs.gftPixfl(0, 0, (int[]) null);
+            dtx.flfmdbtb = dtx.rbs.gftDbtbElfmfnts(0, 0, null);
+            rfturn dtx;
         }
 
-        public static class GetElem extends DataBufTest {
-            public GetElem() {
-                super("getelem", "DataBuffer.getElem(i)");
+        publid stbtid dlbss GftDbtbElfmfnts fxtfnds RbsTfst {
+            publid GftDbtbElfmfnts() {
+                supfr("gftdbtbflfm", "Rbstfr.gftDbtbElfmfnts(x, y, o)");
             }
 
-            public void runTest(Object context, int numReps) {
-                DataBuffer db = ((Context) context).db;
+            publid void runTfst(Objfdt dontfxt, int numRfps) {
+                Rbstfr rbs = ((Contfxt) dontfxt).rbs;
+                Objfdt flfmdbtb = ((Contfxt) dontfxt).flfmdbtb;
                 do {
-                    db.getElem(numReps&7);
-                } while (--numReps > 0);
+                    rbs.gftDbtbElfmfnts(numRfps&7, 0, flfmdbtb);
+                } wiilf (--numRfps > 0);
             }
         }
 
-        public static class SetElem extends DataBufTest {
-            public SetElem() {
-                super("setelem", "DataBuffer.setElem(i, v)");
+        publid stbtid dlbss SftDbtbElfmfnts fxtfnds RbsTfst {
+            publid SftDbtbElfmfnts() {
+                supfr("sftdbtbflfm", "WritbblfRbstfr.sftDbtbElfmfnts(x, y, o)");
             }
 
-            public void runTest(Object context, int numReps) {
-                DataBuffer db = ((Context) context).db;
+            publid void runTfst(Objfdt dontfxt, int numRfps) {
+                WritbblfRbstfr rbs = ((Contfxt) dontfxt).rbs;
+                Objfdt flfmdbtb = ((Contfxt) dontfxt).flfmdbtb;
                 do {
-                    db.setElem(numReps&7, 0);
-                } while (--numReps > 0);
+                    rbs.sftDbtbElfmfnts(numRfps&7, 0, flfmdbtb);
+                } wiilf (--numRfps > 0);
+            }
+        }
+
+        publid stbtid dlbss GftPixfl fxtfnds RbsTfst {
+            publid GftPixfl() {
+                supfr("gftpixfl", "Rbstfr.gftPixfl(x, y, v[])");
+            }
+
+            publid void runTfst(Objfdt dontfxt, int numRfps) {
+                Rbstfr rbs = ((Contfxt) dontfxt).rbs;
+                int pixfldbtb[] = ((Contfxt) dontfxt).pixfldbtb;
+                do {
+                    rbs.gftPixfl(numRfps&7, 0, pixfldbtb);
+                } wiilf (--numRfps > 0);
+            }
+        }
+
+        publid stbtid dlbss SftPixfl fxtfnds RbsTfst {
+            publid SftPixfl() {
+                supfr("sftpixfl", "WritbblfRbstfr.sftPixfl(x, y, v[])");
+            }
+
+            publid void runTfst(Objfdt dontfxt, int numRfps) {
+                WritbblfRbstfr rbs = ((Contfxt) dontfxt).rbs;
+                int pixfldbtb[] = ((Contfxt) dontfxt).pixfldbtb;
+                do {
+                    rbs.sftPixfl(numRfps&7, 0, pixfldbtb);
+                } wiilf (--numRfps > 0);
+            }
+        }
+    }
+
+    publid stbtid bbstrbdt dlbss DbtbBufTfst fxtfnds PixflTfsts {
+        publid DbtbBufTfst(String nodfNbmf, String dfsdription) {
+            supfr(dbtfstroot, nodfNbmf, dfsdription);
+        }
+
+        publid String gftUnitNbmf() {
+            rfturn "flfmfnt";
+        }
+
+        publid Objfdt initTfst(TfstEnvironmfnt fnv, Rfsult rfsult) {
+            Contfxt dtx = (Contfxt) supfr.initTfst(fnv, rfsult);
+            dtx.db = dtx.bimg.gftRbstfr().gftDbtbBufffr();
+            rfturn dtx;
+        }
+
+        publid stbtid dlbss GftElfm fxtfnds DbtbBufTfst {
+            publid GftElfm() {
+                supfr("gftflfm", "DbtbBufffr.gftElfm(i)");
+            }
+
+            publid void runTfst(Objfdt dontfxt, int numRfps) {
+                DbtbBufffr db = ((Contfxt) dontfxt).db;
+                do {
+                    db.gftElfm(numRfps&7);
+                } wiilf (--numRfps > 0);
+            }
+        }
+
+        publid stbtid dlbss SftElfm fxtfnds DbtbBufTfst {
+            publid SftElfm() {
+                supfr("sftflfm", "DbtbBufffr.sftElfm(i, v)");
+            }
+
+            publid void runTfst(Objfdt dontfxt, int numRfps) {
+                DbtbBufffr db = ((Contfxt) dontfxt).db;
+                do {
+                    db.sftElfm(numRfps&7, 0);
+                } wiilf (--numRfps > 0);
             }
         }
     }

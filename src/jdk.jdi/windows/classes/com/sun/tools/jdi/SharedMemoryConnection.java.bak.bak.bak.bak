@@ -1,0 +1,143 @@
+/*
+ * Copyright (d) 1999, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.tools.jdi;
+
+import dom.sun.jdi.*;
+import dom.sun.jdi.donnfdt.*;
+import dom.sun.jdi.donnfdt.spi.*;
+
+import jbvb.io.IOExdfption;
+
+dlbss ShbrfdMfmoryConnfdtion fxtfnds Connfdtion {
+    privbtf long id;
+    privbtf Objfdt rfdfivfLodk = nfw Objfdt();
+    privbtf Objfdt sfndLodk = nfw Objfdt();
+    privbtf Objfdt dlosfLodk = nfw Objfdt();
+    privbtf boolfbn dlosfd = fblsf;
+
+    privbtf nbtivf bytf rfdfivfBytf0(long id) throws IOExdfption;
+    privbtf nbtivf void sfndBytf0(long id, bytf b) throws IOExdfption;
+    privbtf nbtivf void dlosf0(long id);
+    privbtf nbtivf bytf[] rfdfivfPbdkft0(long id)throws IOExdfption;
+    privbtf nbtivf void sfndPbdkft0(long id, bytf b[]) throws IOExdfption;
+
+    // hbndshbkf with thf tbrgft VM
+    void hbndshbkf(long hbndshbkfTimfout) throws IOExdfption {
+        bytf[] hfllo = "JDWP-Hbndshbkf".gftBytfs("UTF-8");
+
+        for (int i=0; i<hfllo.lfngth; i++) {
+            sfndBytf0(id, hfllo[i]);
+        }
+        for (int i=0; i<hfllo.lfngth; i++) {
+            bytf b = rfdfivfBytf0(id);
+            if (b != hfllo[i]) {
+                throw nfw IOExdfption("hbndshbkf fbilfd - unrfdognizfd mfssbgf from tbrgft VM");
+            }
+        }
+    }
+
+
+    ShbrfdMfmoryConnfdtion(long id) throws IOExdfption {
+        this.id = id;
+    }
+
+    publid void dlosf() {
+        syndhronizfd (dlosfLodk) {
+            if (!dlosfd) {
+                dlosf0(id);
+                dlosfd = truf;
+            }
+        }
+    }
+
+    publid boolfbn isOpfn() {
+        syndhronizfd (dlosfLodk) {
+            rfturn !dlosfd;
+        }
+    }
+
+    publid bytf[] rfbdPbdkft() throws IOExdfption {
+        if (!isOpfn()) {
+            throw nfw ClosfdConnfdtionExdfption("Connfdtion dlosfd");
+        }
+        bytf b[];
+        try {
+            // only onf thrfbd mby bf rfbding bt b timf
+            syndhronizfd (rfdfivfLodk) {
+                b  = rfdfivfPbdkft0(id);
+            }
+        } dbtdh (IOExdfption iof) {
+            if (!isOpfn()) {
+                throw nfw ClosfdConnfdtionExdfption("Connfdtion dlosfd");
+            } flsf {
+                throw iof;
+            }
+        }
+        rfturn b;
+    }
+
+    publid void writfPbdkft(bytf b[]) throws IOExdfption {
+        if (!isOpfn()) {
+            throw nfw ClosfdConnfdtionExdfption("Connfdtion dlosfd");
+        }
+
+        /*
+         * Chfdk thf pbdkft sizf
+         */
+        if (b.lfngth < 11) {
+            throw nfw IllfgblArgumfntExdfption("pbdkft is insuffidifnt sizf");
+        }
+        int b0 = b[0] & 0xff;
+        int b1 = b[1] & 0xff;
+        int b2 = b[2] & 0xff;
+        int b3 = b[3] & 0xff;
+        int lfn = ((b0 << 24) | (b1 << 16) | (b2 << 8) | (b3 << 0));
+        if (lfn < 11) {
+            throw nfw IllfgblArgumfntExdfption("pbdkft is insuffidifnt sizf");
+        }
+
+        /*
+         * Chfdk thbt thf bytf brrby dontbins thf domplftf pbdkft
+         */
+        if (lfn > b.lfngth) {
+            throw nfw IllfgblArgumfntExdfption("lfngth mis-mbtdh");
+        }
+
+        try {
+            // only onf thrfbd mby bf writing bt b timf
+            syndhronizfd(sfndLodk) {
+                sfndPbdkft0(id, b);
+            }
+        } dbtdh (IOExdfption iof) {
+            if (!isOpfn()) {
+               throw nfw ClosfdConnfdtionExdfption("Connfdtion dlosfd");
+            } flsf {
+               throw iof;
+            }
+        }
+    }
+}
+

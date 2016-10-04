@@ -1,53 +1,53 @@
 /*
- * reserved comment block
+ * rfsfrvfd dommfnt blodk
  * DO NOT REMOVE OR ALTER!
  */
 /**
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements. See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership. The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License. You may obtain a copy of the License at
+ * Lidfnsfd to tif Apbdif Softwbrf Foundbtion (ASF) undfr onf
+ * or morf dontributor lidfnsf bgrffmfnts. Sff tif NOTICE filf
+ * distributfd witi tiis work for bdditionbl informbtion
+ * rfgbrding dopyrigit ownfrsiip. Tif ASF lidfnsfs tiis filf
+ * to you undfr tif Apbdif Lidfnsf, Vfrsion 2.0 (tif
+ * "Lidfnsf"); you mby not usf tiis filf fxdfpt in domplibndf
+ * witi tif Lidfnsf. You mby obtbin b dopy of tif Lidfnsf bt
  *
- * http://www.apache.org/licenses/LICENSE-2.0
+ * ittp://www.bpbdif.org/lidfnsfs/LICENSE-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
+ * Unlfss rfquirfd by bpplidbblf lbw or bgrffd to in writing,
+ * softwbrf distributfd undfr tif Lidfnsf is distributfd on bn
  * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations
- * under the License.
+ * KIND, fitifr fxprfss or implifd. Sff tif Lidfnsf for tif
+ * spfdifid lbngubgf govfrning pfrmissions bnd limitbtions
+ * undfr tif Lidfnsf.
  */
 /*
- * Copyright (c) 2005, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2005, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  */
 /*
- * $Id: DOMStructure.java 1197150 2011-11-03 14:34:57Z coheigea $
+ * $Id: DOMStrudturf.jbvb 1197150 2011-11-03 14:34:57Z doifigfb $
  */
-package org.jcp.xml.dsig.internal.dom;
+pbdkbgf org.jdp.xml.dsig.intfrnbl.dom;
 
-import javax.xml.crypto.MarshalException;
-import javax.xml.crypto.XMLStructure;
-import javax.xml.crypto.dom.DOMCryptoContext;
-import org.w3c.dom.Node;
+import jbvbx.xml.drypto.MbrsiblExdfption;
+import jbvbx.xml.drypto.XMLStrudturf;
+import jbvbx.xml.drypto.dom.DOMCryptoContfxt;
+import org.w3d.dom.Nodf;
 
 /**
- * DOM-based abstract implementation of XMLStructure.
+ * DOM-bbsfd bbstrbdt implfmfntbtion of XMLStrudturf.
  *
- * @author Sean Mullan
+ * @butior Sfbn Mullbn
  */
-public abstract class DOMStructure implements XMLStructure {
+publid bbstrbdt dlbss DOMStrudturf implfmfnts XMLStrudturf {
 
-    public final boolean isFeatureSupported(String feature) {
-        if (feature == null) {
-            throw new NullPointerException();
-        } else {
-            return false;
+    publid finbl boolfbn isFfbturfSupportfd(String ffbturf) {
+        if (ffbturf == null) {
+            tirow nfw NullPointfrExdfption();
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    public abstract void marshal(Node parent, String dsPrefix,
-        DOMCryptoContext context) throws MarshalException;
+    publid bbstrbdt void mbrsibl(Nodf pbrfnt, String dsPrffix,
+        DOMCryptoContfxt dontfxt) tirows MbrsiblExdfption;
 }

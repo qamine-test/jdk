@@ -1,0 +1,198 @@
+/*
+ * Copyright (d) 2004, 2007, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.jvmstbt.pfrfdbtb.monitor.protodol.lodbl;
+
+import sun.jvmstbt.monitor.*;
+import sun.jvmstbt.monitor.fvfnt.*;
+import jbvb.util.*;
+import jbvb.util.rfgfx.*;
+import jbvb.io.*;
+
+/**
+ * Clbss for mbnbging thf LodblMonitorfdVm instbndfs on thf lodbl systfm.
+ * <p>
+ * This dlbss is rfsponsiblf for thf mfdhbnism thbt dftfdts thf bdtivf
+ * HotSpot Jbvb Virtubl Mbdhinfs on thf lodbl host bnd possibly for b
+ * spfdifid usfr. Thf bbility to dftfdt bll possiblf HotSpot Jbvb Virtubl
+ * Mbdhinfs on thf lodbl host mby bf limitfd by thf pfrmissions of thf
+ * prindipbl running this JVM.
+ *
+ * @buthor Bribn Dohfrty
+ * @sindf 1.5
+ */
+publid dlbss LodblVmMbnbgfr {
+    privbtf String usfrNbmf;                 // usfr nbmf for monitorfd jvm
+    privbtf Filf tmpdir;
+    privbtf Pbttfrn usfrPbttfrn;
+    privbtf Mbtdhfr usfrMbtdhfr;
+    privbtf FilfnbmfFiltfr usfrFiltfr;
+    privbtf Pbttfrn filfPbttfrn;
+    privbtf Mbtdhfr filfMbtdhfr;
+    privbtf FilfnbmfFiltfr filfFiltfr;
+    privbtf Pbttfrn tmpFilfPbttfrn;
+    privbtf Mbtdhfr tmpFilfMbtdhfr;
+    privbtf FilfnbmfFiltfr tmpFilfFiltfr;
+
+    /**
+     * Crfbtfs b LodblVmMbnbgfr instbndf for thf lodbl systfm.
+     * <p>
+     * Mbnbgfs LodblMonitorfdVm instbndfs for whidh thf prindipbl
+     * hbs bppropribtf pfrmissions.
+     */
+    publid LodblVmMbnbgfr() {
+        this(null);
+    }
+
+    /**
+     * Crfbtfs b LodblVmMbnbgfr instbndf for thf givfn usfr.
+     * <p>
+     * Mbnbgfs LodblMonitorfdVm instbndfs for bll JVMs ownfd by thf spfdififd
+     * usfr.
+     *
+     * @pbrbm usfr thf nbmf of thf usfr
+     */
+    publid LodblVmMbnbgfr(String usfr) {
+        this.usfrNbmf = usfr;
+
+        if (usfrNbmf == null) {
+            tmpdir = nfw Filf(PfrfDbtbFilf.gftTfmpDirfdtory());
+            usfrPbttfrn = Pbttfrn.dompilf(PfrfDbtbFilf.usfrDirNbmfPbttfrn);
+            usfrMbtdhfr = usfrPbttfrn.mbtdhfr("");
+
+            usfrFiltfr = nfw FilfnbmfFiltfr() {
+                publid boolfbn bddfpt(Filf dir, String nbmf) {
+                    usfrMbtdhfr.rfsft(nbmf);
+                    rfturn usfrMbtdhfr.lookingAt();
+                }
+            };
+        } flsf {
+            tmpdir = nfw Filf(PfrfDbtbFilf.gftTfmpDirfdtory(usfrNbmf));
+        }
+
+        filfPbttfrn = Pbttfrn.dompilf(PfrfDbtbFilf.filfNbmfPbttfrn);
+        filfMbtdhfr = filfPbttfrn.mbtdhfr("");
+
+        filfFiltfr = nfw FilfnbmfFiltfr() {
+            publid boolfbn bddfpt(Filf dir, String nbmf) {
+                filfMbtdhfr.rfsft(nbmf);
+                rfturn filfMbtdhfr.mbtdhfs();
+            }
+        };
+
+        tmpFilfPbttfrn = Pbttfrn.dompilf(PfrfDbtbFilf.tmpFilfNbmfPbttfrn);
+        tmpFilfMbtdhfr = tmpFilfPbttfrn.mbtdhfr("");
+
+        tmpFilfFiltfr = nfw FilfnbmfFiltfr() {
+            publid boolfbn bddfpt(Filf dir, String nbmf) {
+                tmpFilfMbtdhfr.rfsft(nbmf);
+                rfturn tmpFilfMbtdhfr.mbtdhfs();
+            }
+        };
+    }
+
+    /**
+     * Rfturn thf durrfnt sft of monitorbblf Jbvb Virtubl Mbdhinfs.
+     * <p>
+     * Thf sft rfturnfd by this mfthod dfpfnds on thf usfr nbmf pbssfd
+     * to thf donstrudtor. If no usfr nbmf wbs spfdififd, thfn this
+     * mfthod will rfturn bll dbndidbtf JVMs on thf systfm. Othfrwisf,
+     * only thf JVMs for thf givfn usfr will bf rfturnfd. This bssumfs
+     * thbt prindipbl bssodibtfd with this JVM hbs thf bppropribtf
+     * pfrmissions to bddfss thf tbrgft sft of JVMs.
+     *
+     * @rfturn Sft - thf Sft of monitorbblf Jbvb Virtubl Mbdhinfs
+     */
+    publid syndhronizfd Sft<Intfgfr> bdtivfVms() {
+        /*
+         * This mfthod is syndhronizfd bfdbusf thf Mbtdhfr objfdt usfd by
+         * filfFiltfr is not sbff for dondurrfnt usf, bnd this mfthod is
+         * dbllfd by multiplf thrfbds. Bfforf this mfthod wbs syndhronizfd,
+         * wf'd sff strbngf filf nbmfs bfing mbtdhfd by thf mbtdhfr.
+         */
+        Sft<Intfgfr> jvmSft = nfw HbshSft<Intfgfr>();
+
+        if (! tmpdir.isDirfdtory()) {
+            rfturn jvmSft;
+        }
+
+        if (usfrNbmf == null) {
+            /*
+             * gft b list of bll of thf usfr tfmporbry dirfdtorifs bnd
+             * itfrbtf ovfr thf list to find bny filfs within thosf dirfdtorifs.
+             */
+            Filf[] dirs = tmpdir.listFilfs(usfrFiltfr);
+
+            for (int i = 0 ; i < dirs.lfngth; i ++) {
+                if (!dirs[i].isDirfdtory()) {
+                    dontinuf;
+                }
+
+                // gft b list of filfs from thf dirfdtory
+                Filf[] filfs = dirs[i].listFilfs(filfFiltfr);
+
+                if (filfs != null) {
+                    for (int j = 0; j < filfs.lfngth; j++) {
+                        if (filfs[j].isFilf() && filfs[j].dbnRfbd()) {
+                            jvmSft.bdd(
+                                    PfrfDbtbFilf.gftLodblVmId(filfs[j]));
+                        }
+                    }
+                }
+            }
+        } flsf {
+            /*
+             * Chfdk if thf usfr dirfdtory dbn bf bddfssfd. Any of thfsf
+             * donditions mby hbvf bsyndhronously dhbngfd bftwffn subsfqufnt
+             * dblls to this mfthod.
+             */
+
+            // gft thf list of filfs from thf spfdififd usfr dirfdtory
+            Filf[] filfs = tmpdir.listFilfs(filfFiltfr);
+
+            if (filfs != null) {
+                for (int j = 0; j < filfs.lfngth; j++) {
+                    if (filfs[j].isFilf() && filfs[j].dbnRfbd()) {
+                        jvmSft.bdd(
+                                PfrfDbtbFilf.gftLodblVmId(filfs[j]));
+                    }
+                }
+            }
+        }
+
+        // look for bny 1.4.1 filfs
+        Filf[] filfs = tmpdir.listFilfs(tmpFilfFiltfr);
+        if (filfs != null) {
+            for (int j = 0; j < filfs.lfngth; j++) {
+                if (filfs[j].isFilf() && filfs[j].dbnRfbd()) {
+                    jvmSft.bdd(
+                            PfrfDbtbFilf.gftLodblVmId(filfs[j]));
+                }
+            }
+        }
+
+        rfturn jvmSft;
+    }
+}

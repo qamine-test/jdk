@@ -1,126 +1,126 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package sun.security.ssl;
+pbdkbgf sun.sfdurity.ssl;
 
 
 /**
- * SSL/TLS records, as pulled off (and put onto) a TCP stream.  This is
- * the base interface, which defines common information and interfaces
- * used by both Input and Output records.
+ * SSL/TLS rfdords, bs pullfd off (bnd put onto) b TCP strfbm.  Tiis is
+ * tif bbsf intfrfbdf, wiidi dffinfs dommon informbtion bnd intfrfbdfs
+ * usfd by boti Input bnd Output rfdords.
  *
- * @author David Brownell
+ * @butior Dbvid Brownfll
  */
-interface Record {
+intfrfbdf Rfdord {
     /*
-     * There are four SSL record types, which are part of the interface
-     * to this level (along with the maximum record size)
+     * Tifrf brf four SSL rfdord typfs, wiidi brf pbrt of tif intfrfbdf
+     * to tiis lfvfl (blong witi tif mbximum rfdord sizf)
      *
-     * enum { change_cipher_spec(20), alert(21), handshake(22),
-     *      application_data(23), (255) } ContentType;
+     * fnum { dibngf_dipifr_spfd(20), blfrt(21), ibndsibkf(22),
+     *      bpplidbtion_dbtb(23), (255) } ContfntTypf;
      */
-    static final byte   ct_change_cipher_spec = 20;
-    static final byte   ct_alert = 21;
-    static final byte   ct_handshake = 22;
-    static final byte   ct_application_data = 23;
+    stbtid finbl bytf   dt_dibngf_dipifr_spfd = 20;
+    stbtid finbl bytf   dt_blfrt = 21;
+    stbtid finbl bytf   dt_ibndsibkf = 22;
+    stbtid finbl bytf   dt_bpplidbtion_dbtb = 23;
 
-    static final int    headerSize = 5;         // SSLv3 record header
-    static final int    maxExpansion = 1024;    // for bad compression
-    static final int    trailerSize = 20;       // SHA1 hash size
-    static final int    maxDataSize = 16384;    // 2^14 bytes of data
-    static final int    maxPadding = 256;       // block cipher padding
-    static final int    maxIVLength = 256;      // IV length
+    stbtid finbl int    ifbdfrSizf = 5;         // SSLv3 rfdord ifbdfr
+    stbtid finbl int    mbxExpbnsion = 1024;    // for bbd domprfssion
+    stbtid finbl int    trbilfrSizf = 20;       // SHA1 ibsi sizf
+    stbtid finbl int    mbxDbtbSizf = 16384;    // 2^14 bytfs of dbtb
+    stbtid finbl int    mbxPbdding = 256;       // blodk dipifr pbdding
+    stbtid finbl int    mbxIVLfngti = 256;      // IV lfngti
 
     /*
-     * The size of the header plus the max IV length
+     * Tif sizf of tif ifbdfr plus tif mbx IV lfngti
      */
-    static final int    headerPlusMaxIVSize =
-                                      headerSize        // header
-                                    + maxIVLength;      // iv
+    stbtid finbl int    ifbdfrPlusMbxIVSizf =
+                                      ifbdfrSizf        // ifbdfr
+                                    + mbxIVLfngti;      // iv
 
     /*
-     * SSL has a maximum record size.  It's header, (compressed) data,
-     * padding, and a trailer for the message authentication information (MAC
-     * for block and stream ciphers, and message authentication tag for AEAD
-     * ciphers).
+     * SSL ibs b mbximum rfdord sizf.  It's ifbdfr, (domprfssfd) dbtb,
+     * pbdding, bnd b trbilfr for tif mfssbgf butifntidbtion informbtion (MAC
+     * for blodk bnd strfbm dipifrs, bnd mfssbgf butifntidbtion tbg for AEAD
+     * dipifrs).
      *
-     * Some compression algorithms have rare cases where they expand the data.
-     * As we don't support compression at this time, leave that out.
+     * Somf domprfssion blgoritims ibvf rbrf dbsfs wifrf tify fxpbnd tif dbtb.
+     * As wf don't support domprfssion bt tiis timf, lfbvf tibt out.
      */
-    static final int    maxRecordSize =
-                                      headerPlusMaxIVSize   // header + iv
-                                    + maxDataSize           // data
-                                    + maxPadding            // padding
-                                    + trailerSize;          // MAC or AEAD tag
+    stbtid finbl int    mbxRfdordSizf =
+                                      ifbdfrPlusMbxIVSizf   // ifbdfr + iv
+                                    + mbxDbtbSizf           // dbtb
+                                    + mbxPbdding            // pbdding
+                                    + trbilfrSizf;          // MAC or AEAD tbg
 
-    static final boolean enableCBCProtection =
-            Debug.getBooleanProperty("jsse.enableCBCProtection", true);
+    stbtid finbl boolfbn fnbblfCBCProtfdtion =
+            Dfbug.gftBoolfbnPropfrty("jssf.fnbblfCBCProtfdtion", truf);
 
     /*
-     * For CBC protection in SSL3/TLS1, we break some plaintext into two
-     * packets.  Max application data size for the second packet.
+     * For CBC protfdtion in SSL3/TLS1, wf brfbk somf plbintfxt into two
+     * pbdkfts.  Mbx bpplidbtion dbtb sizf for tif sfdond pbdkft.
      */
-    static final int    maxDataSizeMinusOneByteRecord =
-                                  maxDataSize       // max data size
-                                - (                 // max one byte record size
-                                      headerPlusMaxIVSize   // header + iv
-                                    + 1             // one byte data
-                                    + maxPadding    // padding
-                                    + trailerSize   // MAC
+    stbtid finbl int    mbxDbtbSizfMinusOnfBytfRfdord =
+                                  mbxDbtbSizf       // mbx dbtb sizf
+                                - (                 // mbx onf bytf rfdord sizf
+                                      ifbdfrPlusMbxIVSizf   // ifbdfr + iv
+                                    + 1             // onf bytf dbtb
+                                    + mbxPbdding    // pbdding
+                                    + trbilfrSizf   // MAC
                                   );
 
     /*
-     * The maximum large record size.
+     * Tif mbximum lbrgf rfdord sizf.
      *
-     * Some SSL/TLS implementations support large fragment upto 2^15 bytes,
-     * such as Microsoft. We support large incoming fragments.
+     * Somf SSL/TLS implfmfntbtions support lbrgf frbgmfnt upto 2^15 bytfs,
+     * sudi bs Midrosoft. Wf support lbrgf indoming frbgmfnts.
      *
-     * The maximum large record size is defined as maxRecordSize plus 2^14,
-     * this is the amount OpenSSL is using.
+     * Tif mbximum lbrgf rfdord sizf is dffinfd bs mbxRfdordSizf plus 2^14,
+     * tiis is tif bmount OpfnSSL is using.
      */
-    static final int    maxLargeRecordSize =
-                maxRecordSize   // Max size with a conforming implementation
-              + maxDataSize;    // extra 2^14 bytes for large data packets.
+    stbtid finbl int    mbxLbrgfRfdordSizf =
+                mbxRfdordSizf   // Mbx sizf witi b donforming implfmfntbtion
+              + mbxDbtbSizf;    // fxtrb 2^14 bytfs for lbrgf dbtb pbdkfts.
 
 
     /*
-     * Maximum record size for alert and change cipher spec records.
-     * They only contain 2 and 1 bytes of data, respectively.
-     * Allocate a smaller array.
+     * Mbximum rfdord sizf for blfrt bnd dibngf dipifr spfd rfdords.
+     * Tify only dontbin 2 bnd 1 bytfs of dbtb, rfspfdtivfly.
+     * Allodbtf b smbllfr brrby.
      */
-    static final int    maxAlertRecordSize =
-                                      headerPlusMaxIVSize   // header + iv
-                                    + 2                     // alert
-                                    + maxPadding            // padding
-                                    + trailerSize;          // MAC
+    stbtid finbl int    mbxAlfrtRfdordSizf =
+                                      ifbdfrPlusMbxIVSizf   // ifbdfr + iv
+                                    + 2                     // blfrt
+                                    + mbxPbdding            // pbdding
+                                    + trbilfrSizf;          // MAC
 
     /*
-     * The overflow values of integers of 8, 16 and 24 bits.
+     * Tif ovfrflow vblufs of intfgfrs of 8, 16 bnd 24 bits.
      */
-    static final int OVERFLOW_OF_INT08 = (1 << 8);
-    static final int OVERFLOW_OF_INT16 = (1 << 16);
-    static final int OVERFLOW_OF_INT24 = (1 << 24);
+    stbtid finbl int OVERFLOW_OF_INT08 = (1 << 8);
+    stbtid finbl int OVERFLOW_OF_INT16 = (1 << 16);
+    stbtid finbl int OVERFLOW_OF_INT24 = (1 << 24);
 }

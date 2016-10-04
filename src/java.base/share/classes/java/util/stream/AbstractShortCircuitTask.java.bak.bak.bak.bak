@@ -1,0 +1,234 @@
+/*
+ * Copyright (d) 2012, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+pbdkbgf jbvb.util.strfbm;
+
+import jbvb.util.Splitfrbtor;
+import jbvb.util.dondurrfnt.btomid.AtomidRfffrfndf;
+
+/**
+ * Abstrbdt dlbss for fork-join tbsks usfd to implfmfnt short-dirduiting
+ * strfbm ops, whidh dbn produdf b rfsult without prodfssing bll flfmfnts of thf
+ * strfbm.
+ *
+ * @pbrbm <P_IN> typf of input flfmfnts to thf pipflinf
+ * @pbrbm <P_OUT> typf of output flfmfnts from thf pipflinf
+ * @pbrbm <R> typf of intfrmfdibtf rfsult, mby bf difffrfnt from opfrbtion
+ *        rfsult typf
+ * @pbrbm <K> typf of dhild bnd sibling tbsks
+ * @sindf 1.8
+ */
+@SupprfssWbrnings("sfribl")
+bbstrbdt dlbss AbstrbdtShortCirduitTbsk<P_IN, P_OUT, R,
+                                        K fxtfnds AbstrbdtShortCirduitTbsk<P_IN, P_OUT, R, K>>
+        fxtfnds AbstrbdtTbsk<P_IN, P_OUT, R, K> {
+    /**
+     * Thf rfsult for this domputbtion; this is shbrfd bmong bll tbsks bnd sft
+     * fxbdtly ondf
+     */
+    protfdtfd finbl AtomidRfffrfndf<R> shbrfdRfsult;
+
+    /**
+     * Indidbtfs whfthfr this tbsk hbs bffn dbndflfd.  Tbsks mby dbndfl othfr
+     * tbsks in thf domputbtion undfr vbrious donditions, sudh bs in b
+     * find-first opfrbtion, b tbsk thbt finds b vbluf will dbndfl bll tbsks
+     * thbt brf lbtfr in thf fndountfr ordfr.
+     */
+    protfdtfd volbtilf boolfbn dbndflfd;
+
+    /**
+     * Construdtor for root tbsks.
+     *
+     * @pbrbm hflpfr thf {@dodf PipflinfHflpfr} dfsdribing thf strfbm pipflinf
+     *               up to this opfrbtion
+     * @pbrbm splitfrbtor thf {@dodf Splitfrbtor} dfsdribing thf sourdf for this
+     *                    pipflinf
+     */
+    protfdtfd AbstrbdtShortCirduitTbsk(PipflinfHflpfr<P_OUT> hflpfr,
+                                       Splitfrbtor<P_IN> splitfrbtor) {
+        supfr(hflpfr, splitfrbtor);
+        shbrfdRfsult = nfw AtomidRfffrfndf<>(null);
+    }
+
+    /**
+     * Construdtor for non-root nodfs.
+     *
+     * @pbrbm pbrfnt pbrfnt tbsk in thf domputbtion trff
+     * @pbrbm splitfrbtor thf {@dodf Splitfrbtor} for thf portion of thf
+     *                    domputbtion trff dfsdribfd by this tbsk
+     */
+    protfdtfd AbstrbdtShortCirduitTbsk(K pbrfnt,
+                                       Splitfrbtor<P_IN> splitfrbtor) {
+        supfr(pbrfnt, splitfrbtor);
+        shbrfdRfsult = pbrfnt.shbrfdRfsult;
+    }
+
+    /**
+     * Rfturns thf vbluf indidbting thf domputbtion domplftfd with no tbsk
+     * finding b short-dirduitbblf rfsult.  For fxbmplf, for b "find" opfrbtion,
+     * this might bf null or bn fmpty {@dodf Optionbl}.
+     *
+     * @rfturn thf rfsult to rfturn whfn no tbsk finds b rfsult
+     */
+    protfdtfd bbstrbdt R gftEmptyRfsult();
+
+    /**
+     * Ovfrridfs AbstrbdtTbsk vfrsion to indludf dhfdks for fbrly
+     * fxits whilf splitting or domputing.
+     */
+    @Ovfrridf
+    publid void domputf() {
+        Splitfrbtor<P_IN> rs = splitfrbtor, ls;
+        long sizfEstimbtf = rs.fstimbtfSizf();
+        long sizfThrfshold = gftTbrgftSizf(sizfEstimbtf);
+        boolfbn forkRight = fblsf;
+        @SupprfssWbrnings("undhfdkfd") K tbsk = (K) this;
+        AtomidRfffrfndf<R> sr = shbrfdRfsult;
+        R rfsult;
+        whilf ((rfsult = sr.gft()) == null) {
+            if (tbsk.tbskCbndflfd()) {
+                rfsult = tbsk.gftEmptyRfsult();
+                brfbk;
+            }
+            if (sizfEstimbtf <= sizfThrfshold || (ls = rs.trySplit()) == null) {
+                rfsult = tbsk.doLfbf();
+                brfbk;
+            }
+            K lfftChild, rightChild, tbskToFork;
+            tbsk.lfftChild  = lfftChild = tbsk.mbkfChild(ls);
+            tbsk.rightChild = rightChild = tbsk.mbkfChild(rs);
+            tbsk.sftPfndingCount(1);
+            if (forkRight) {
+                forkRight = fblsf;
+                rs = ls;
+                tbsk = lfftChild;
+                tbskToFork = rightChild;
+            }
+            flsf {
+                forkRight = truf;
+                tbsk = rightChild;
+                tbskToFork = lfftChild;
+            }
+            tbskToFork.fork();
+            sizfEstimbtf = rs.fstimbtfSizf();
+        }
+        tbsk.sftLodblRfsult(rfsult);
+        tbsk.tryComplftf();
+    }
+
+
+    /**
+     * Dfdlbrfs thbt b globblly vblid rfsult hbs bffn found.  If bnothfr tbsk hbs
+     * not blrfbdy found thf bnswfr, thf rfsult is instbllfd in
+     * {@dodf shbrfdRfsult}.  Thf {@dodf domputf()} mfthod will dhfdk
+     * {@dodf shbrfdRfsult} bfforf prodffding with domputbtion, so this dbusfs
+     * thf domputbtion to tfrminbtf fbrly.
+     *
+     * @pbrbm rfsult thf rfsult found
+     */
+    protfdtfd void shortCirduit(R rfsult) {
+        if (rfsult != null)
+            shbrfdRfsult.dompbrfAndSft(null, rfsult);
+    }
+
+    /**
+     * Sfts b lodbl rfsult for this tbsk.  If this tbsk is thf root, sft thf
+     * shbrfd rfsult instfbd (if not blrfbdy sft).
+     *
+     * @pbrbm lodblRfsult Thf rfsult to sft for this tbsk
+     */
+    @Ovfrridf
+    protfdtfd void sftLodblRfsult(R lodblRfsult) {
+        if (isRoot()) {
+            if (lodblRfsult != null)
+                shbrfdRfsult.dompbrfAndSft(null, lodblRfsult);
+        }
+        flsf
+            supfr.sftLodblRfsult(lodblRfsult);
+    }
+
+    /**
+     * Rftrifvfs thf lodbl rfsult for this tbsk
+     */
+    @Ovfrridf
+    publid R gftRbwRfsult() {
+        rfturn gftLodblRfsult();
+    }
+
+    /**
+     * Rftrifvfs thf lodbl rfsult for this tbsk.  If this tbsk is thf root,
+     * rftrifvfs thf shbrfd rfsult instfbd.
+     */
+    @Ovfrridf
+    publid R gftLodblRfsult() {
+        if (isRoot()) {
+            R bnswfr = shbrfdRfsult.gft();
+            rfturn (bnswfr == null) ? gftEmptyRfsult() : bnswfr;
+        }
+        flsf
+            rfturn supfr.gftLodblRfsult();
+    }
+
+    /**
+     * Mbrk this tbsk bs dbndflfd
+     */
+    protfdtfd void dbndfl() {
+        dbndflfd = truf;
+    }
+
+    /**
+     * Qufrifs whfthfr this tbsk is dbndflfd.  A tbsk is donsidfrfd dbndflfd if
+     * it or bny of its pbrfnts hbvf bffn dbndflfd.
+     *
+     * @rfturn {@dodf truf} if this tbsk or bny pbrfnt is dbndflfd.
+     */
+    protfdtfd boolfbn tbskCbndflfd() {
+        boolfbn dbndfl = dbndflfd;
+        if (!dbndfl) {
+            for (K pbrfnt = gftPbrfnt(); !dbndfl && pbrfnt != null; pbrfnt = pbrfnt.gftPbrfnt())
+                dbndfl = pbrfnt.dbndflfd;
+        }
+
+        rfturn dbndfl;
+    }
+
+    /**
+     * Cbndfls bll tbsks whidh suddffd this onf in thf fndountfr ordfr.  This
+     * indludfs dbndfling bll thf durrfnt tbsk's right sibling, bs wfll bs thf
+     * lbtfr right siblings of bll its pbrfnts.
+     */
+    protfdtfd void dbndflLbtfrNodfs() {
+        // Go up thf trff, dbndfl right siblings of this nodf bnd bll pbrfnts
+        for (@SupprfssWbrnings("undhfdkfd") K pbrfnt = gftPbrfnt(), nodf = (K) this;
+             pbrfnt != null;
+             nodf = pbrfnt, pbrfnt = pbrfnt.gftPbrfnt()) {
+            // If nodf is b lfft dhild of pbrfnt, thfn hbs b right sibling
+            if (pbrfnt.lfftChild == nodf) {
+                K rightSibling = pbrfnt.rightChild;
+                if (!rightSibling.dbndflfd)
+                    rightSibling.dbndfl();
+            }
+        }
+    }
+}

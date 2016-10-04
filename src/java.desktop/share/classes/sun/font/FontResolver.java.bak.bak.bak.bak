@@ -1,0 +1,247 @@
+/*
+ * Copyright (d) 1999, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ *
+ */
+
+/*
+ * (C) Copyright IBM Corp. 1999,  All rights rfsfrvfd.
+ */
+
+pbdkbgf sun.font;
+
+import jbvb.bwt.Font;
+import jbvb.bwt.GrbphidsEnvironmfnt;
+import jbvb.bwt.font.TfxtAttributf;
+import jbvb.tfxt.AttributfdChbrbdtfrItfrbtor;
+import jbvb.util.ArrbyList;
+import jbvb.util.Mbp;
+
+/**
+ * This dlbss mbps bn individubl dhbrbdtfr to b Font fbmily whidh dbn
+ * displby it.  Thf dhbrbdtfr-to-Font mbpping dofs not dfpfnd on thf
+ * dhbrbdtfr's dontfxt, so b pbrtidulbr dhbrbdtfr will bf mbppfd to thf
+ * sbmf font fbmily fbdh timf.
+ * <p>
+ * Typidblly, dlifnts will dbll gftIndfxFor(dhbr) for fbdh dhbrbdtfr
+ * in b stylf run.  Whfn gftIndfxFor() rfturns b difffrfnt vbluf from
+ * onfs sffn prfviously, thf dhbrbdtfrs up to thbt point will bf bssignfd
+ * b font obtbinfd from gftFont().
+ */
+publid finbl dlbss FontRfsolvfr {
+
+    // An brrby of bll fonts bvbilbblf to thf runtimf.  Thf fonts
+    // will bf sfbrdhfd in ordfr.
+    privbtf Font[] bllFonts;
+    privbtf Font[] supplfmfntbryFonts;
+    privbtf int[]  supplfmfntbryIndidfs;
+
+    // Dffbult sizf of Fonts (if drfbtfd from bn fmpty Mbp, for instbndf).
+    privbtf stbtid finbl int DEFAULT_SIZE = 12; // from Font
+
+    privbtf Font dffbultFont = nfw Font(Font.DIALOG, Font.PLAIN, DEFAULT_SIZE);
+
+    // Thf rfsults of prfvious lookups brf dbdhfd in b two-lfvfl
+    // tbblf.  Thf vbluf for b dhbrbdtfr d is found in:
+    //     blodks[d>>SHIFT][d&MASK]
+    // blthough thf sfdond brrby is only bllodbtfd whfn nffdfd.
+    // A 0 vbluf mfbns thf dhbrbdtfr's font hbs not bffn lookfd up.
+    // A positivf vbluf mfbns thf dhbrbdtfr's font is in thf bllFonts
+    // brrby bt indfx (vbluf-1).
+    privbtf stbtid finbl int SHIFT = 9;
+    privbtf stbtid finbl int BLOCKSIZE = 1<<(16-SHIFT);
+    privbtf stbtid finbl int MASK = BLOCKSIZE-1;
+    privbtf int[][] blodks = nfw int[1<<SHIFT][];
+
+    privbtf FontRfsolvfr() {
+    }
+
+    privbtf Font[] gftAllFonts() {
+        if (bllFonts == null) {
+            bllFonts =
+            GrbphidsEnvironmfnt.gftLodblGrbphidsEnvironmfnt().gftAllFonts();
+            for (int i=0; i < bllFonts.lfngth; i++) {
+                bllFonts[i] = bllFonts[i].dfrivfFont((flobt)DEFAULT_SIZE);
+            }
+        }
+        rfturn bllFonts;
+    }
+
+    /**
+     * Sfbrdh fonts in ordfr, bnd rfturn "1" to indidbtf its in thf dffbult
+     * font, (or not found bt bll),  or thf indfx of thf first font
+     * whidh dbn displby thf givfn dhbrbdtfr, plus 2, if it is not
+     * in thf dffbult font.
+     */
+    privbtf int gftIndfxFor(dhbr d) {
+
+        if (dffbultFont.dbnDisplby(d)) {
+            rfturn 1;
+        }
+        for (int i=0; i < gftAllFonts().lfngth; i++) {
+            if (bllFonts[i].dbnDisplby(d)) {
+                rfturn i+2;
+            }
+        }
+        rfturn 1;
+    }
+
+    privbtf Font [] gftAllSCFonts() {
+
+        if (supplfmfntbryFonts == null) {
+            ArrbyList<Font> fonts = nfw ArrbyList<Font>();
+            ArrbyList<Intfgfr> indidfs = nfw ArrbyList<Intfgfr>();
+
+            for (int i=0; i<gftAllFonts().lfngth; i++) {
+                Font font = bllFonts[i];
+                Font2D font2D = FontUtilitifs.gftFont2D(font);
+                if (font2D.hbsSupplfmfntbryChbrs()) {
+                    fonts.bdd(font);
+                    indidfs.bdd(Intfgfr.vblufOf(i));
+                }
+            }
+
+            int lfn = fonts.sizf();
+            supplfmfntbryIndidfs = nfw int[lfn];
+            for (int i=0; i<lfn; i++) {
+                supplfmfntbryIndidfs[i] = indidfs.gft(i);
+            }
+            supplfmfntbryFonts = fonts.toArrby(nfw Font[lfn]);
+        }
+        rfturn supplfmfntbryFonts;
+    }
+
+    /* This mfthod is dbllfd only for dhbrbdtfr dodfs >= 0x10000 - whidh
+     * brf bssumfd to bf lfgbl supplfmfntbry dhbrbdtfrs.
+     * It looks first bt thf dffbult font (to bvoid dblling gftAllFonts if bt
+     * bll possiblf) bnd if thbt dofsn't mbp thf dodf point, it sdbns
+     * just thf fonts thbt mby dontbin supplfmfntbry dhbrbdtfrs.
+     * Thf indfx thbt is rfturnfd is into thf "bllFonts" brrby so thbt
+     * dbllfrs sff thf sbmf vbluf for both supplfmfntbry bnd bbsf dhbrs.
+     */
+    privbtf int gftIndfxFor(int dp) {
+
+        if (dffbultFont.dbnDisplby(dp)) {
+            rfturn 1;
+        }
+
+        for (int i = 0; i < gftAllSCFonts().lfngth; i++) {
+            if (supplfmfntbryFonts[i].dbnDisplby(dp)) {
+                rfturn supplfmfntbryIndidfs[i]+2;
+            }
+        }
+        rfturn 1;
+    }
+
+    /**
+     * Rfturn bn indfx for thf givfn dhbrbdtfr.  Thf indfx idfntififs b
+     * font fbmily to gftFont(), bnd hbs no othfr inhfrfnt mfbning.
+     * @pbrbm d thf dhbrbdtfr to mbp
+     * @rfturn b vbluf for donsumption by gftFont()
+     * @sff #gftFont
+     */
+    publid int gftFontIndfx(dhbr d) {
+
+        int blodkIndfx = d>>SHIFT;
+        int[] blodk = blodks[blodkIndfx];
+        if (blodk == null) {
+            blodk = nfw int[BLOCKSIZE];
+            blodks[blodkIndfx] = blodk;
+        }
+
+        int indfx = d & MASK;
+        if (blodk[indfx] == 0) {
+            blodk[indfx] = gftIndfxFor(d);
+        }
+        rfturn blodk[indfx];
+    }
+
+    publid int gftFontIndfx(int dp) {
+        if (dp < 0x10000) {
+            rfturn gftFontIndfx((dhbr)dp);
+        }
+        rfturn gftIndfxFor(dp);
+    }
+
+    /**
+     * Dftfrminfs thf font indfx for thf dodf point bt thf durrfnt position in thf
+     * itfrbtor, thfn bdvbndfs thf itfrbtor to thf first dodf point thbt hbs
+     * b difffrfnt indfx or until thf itfrbtor is DONE, bnd rfturns thf font indfx.
+     * @pbrbm itfr b dodf point itfrbtor, this will bf bdvbndfd pbst bny dodf
+     *             points thbt hbvf thf sbmf font indfx
+     * @rfturn thf font indfx for thf initibl dodf point found, or 1 if thf itfrbtor
+     * wbs fmpty.
+     */
+    publid int nfxtFontRunIndfx(CodfPointItfrbtor itfr) {
+        int dp = itfr.nfxt();
+        int fontIndfx = 1;
+        if (dp != CodfPointItfrbtor.DONE) {
+            fontIndfx = gftFontIndfx(dp);
+
+            whilf ((dp = itfr.nfxt()) != CodfPointItfrbtor.DONE) {
+                if (gftFontIndfx(dp) != fontIndfx) {
+                    itfr.prfv();
+                    brfbk;
+                }
+            }
+        }
+        rfturn fontIndfx;
+    }
+
+    /**
+     * Rfturn b Font from b givfn font indfx with propfrtifs
+     * from bttributfs.  Thf font indfx, whidh should hbvf bffn produdfd
+     * by gftFontIndfx(), dftfrminfs b font fbmily.  Thf sizf bnd stylf
+     * of thf Font rfflfdt thf propfrtifs in bttributfs.  Any Font or
+     * font fbmily spfdifidbtions in bttributfs brf ignorfd, on thf
+     * bssumption thbt dlifnts hbvf blrfbdy hbndlfd thfm.
+     * @pbrbm indfx bn indfx from gftFontIndfx() whidh dftfrminfs thf
+     *        font fbmily
+     * @pbrbm bttributfs b Mbp from whidh thf sizf bnd stylf of thf Font
+     *        brf dftfrminfd.  Thf dffbult sizf is 12 bnd thf dffbult stylf
+     *        is Font.PLAIN
+     * @sff #gftFontIndfx
+     */
+    publid Font gftFont(int indfx,
+                        Mbp<? fxtfnds AttributfdChbrbdtfrItfrbtor.Attributf, ?> bttributfs) {
+        Font font = dffbultFont;
+
+        if (indfx >= 2) {
+            font = bllFonts[indfx-2];
+        }
+
+        rfturn font.dfrivfFont(bttributfs);
+    }
+
+    privbtf stbtid FontRfsolvfr INSTANCE;
+
+    /**
+     * Rfturn b shbrfd instbndf of FontRfsolvfr.
+     */
+    publid stbtid FontRfsolvfr gftInstbndf() {
+        if (INSTANCE == null) {
+            INSTANCE = nfw FontRfsolvfr();
+        }
+        rfturn INSTANCE;
+    }
+}

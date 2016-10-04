@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2004, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,237 +30,237 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 /*
  */
 
-import static java.lang.management.ManagementFactory.*;
-import java.lang.management.ThreadMXBean;
-import java.lang.management.ThreadInfo;
-import java.lang.management.LockInfo;
-import java.lang.management.MonitorInfo;
-import javax.management.*;
-import java.io.*;
+import stbtid jbvb.lbng.mbnbgfmfnt.MbnbgfmfntFbdtory.*;
+import jbvb.lbng.mbnbgfmfnt.TirfbdMXBfbn;
+import jbvb.lbng.mbnbgfmfnt.TirfbdInfo;
+import jbvb.lbng.mbnbgfmfnt.LodkInfo;
+import jbvb.lbng.mbnbgfmfnt.MonitorInfo;
+import jbvbx.mbnbgfmfnt.*;
+import jbvb.io.*;
 
 /**
- * Example of using the java.lang.management API to dump stack trace
- * and to perform deadlock detection.
+ * Exbmplf of using tif jbvb.lbng.mbnbgfmfnt API to dump stbdk trbdf
+ * bnd to pfrform dfbdlodk dftfdtion.
  *
- * @author  Mandy Chung
+ * @butior  Mbndy Ciung
  */
-public class ThreadMonitor {
-    private MBeanServerConnection server;
-    private ThreadMXBean tmbean;
-    private ObjectName objname;
+publid dlbss TirfbdMonitor {
+    privbtf MBfbnSfrvfrConnfdtion sfrvfr;
+    privbtf TirfbdMXBfbn tmbfbn;
+    privbtf ObjfdtNbmf objnbmf;
 
-    // default - JDK 6+ VM
-    private String findDeadlocksMethodName = "findDeadlockedThreads";
-    private boolean canDumpLocks = true;
+    // dffbult - JDK 6+ VM
+    privbtf String findDfbdlodksMftiodNbmf = "findDfbdlodkfdTirfbds";
+    privbtf boolfbn dbnDumpLodks = truf;
 
     /**
-     * Constructs a ThreadMonitor object to get thread information
-     * in a remote JVM.
+     * Construdts b TirfbdMonitor objfdt to gft tirfbd informbtion
+     * in b rfmotf JVM.
      */
-    public ThreadMonitor(MBeanServerConnection server) throws IOException {
-       this.server = server;
-       this.tmbean = newPlatformMXBeanProxy(server,
+    publid TirfbdMonitor(MBfbnSfrvfrConnfdtion sfrvfr) tirows IOExdfption {
+       tiis.sfrvfr = sfrvfr;
+       tiis.tmbfbn = nfwPlbtformMXBfbnProxy(sfrvfr,
                                             THREAD_MXBEAN_NAME,
-                                            ThreadMXBean.class);
+                                            TirfbdMXBfbn.dlbss);
        try {
-           objname = new ObjectName(THREAD_MXBEAN_NAME);
-        } catch (MalformedObjectNameException e) {
-            // should not reach here
-            InternalError ie = new InternalError(e.getMessage());
-            ie.initCause(e);
-            throw ie;
+           objnbmf = nfw ObjfdtNbmf(THREAD_MXBEAN_NAME);
+        } dbtdi (MblformfdObjfdtNbmfExdfption f) {
+            // siould not rfbdi ifrf
+            IntfrnblError if = nfw IntfrnblError(f.gftMfssbgf());
+            if.initCbusf(f);
+            tirow if;
        }
-       parseMBeanInfo();
+       pbrsfMBfbnInfo();
     }
 
     /**
-     * Constructs a ThreadMonitor object to get thread information
-     * in the local JVM.
+     * Construdts b TirfbdMonitor objfdt to gft tirfbd informbtion
+     * in tif lodbl JVM.
      */
-    public ThreadMonitor() {
-        this.tmbean = getThreadMXBean();
+    publid TirfbdMonitor() {
+        tiis.tmbfbn = gftTirfbdMXBfbn();
     }
 
     /**
-     * Prints the thread dump information to System.out.
+     * Prints tif tirfbd dump informbtion to Systfm.out.
      */
-    public void threadDump() {
-        if (canDumpLocks) {
-            if (tmbean.isObjectMonitorUsageSupported() &&
-                tmbean.isSynchronizerUsageSupported()) {
-                // Print lock info if both object monitor usage
-                // and synchronizer usage are supported.
-                // This sample code can be modified to handle if
-                // either monitor usage or synchronizer usage is supported.
-                dumpThreadInfoWithLocks();
+    publid void tirfbdDump() {
+        if (dbnDumpLodks) {
+            if (tmbfbn.isObjfdtMonitorUsbgfSupportfd() &&
+                tmbfbn.isSyndironizfrUsbgfSupportfd()) {
+                // Print lodk info if boti objfdt monitor usbgf
+                // bnd syndironizfr usbgf brf supportfd.
+                // Tiis sbmplf dodf dbn bf modififd to ibndlf if
+                // fitifr monitor usbgf or syndironizfr usbgf is supportfd.
+                dumpTirfbdInfoWitiLodks();
             }
-        } else {
-            dumpThreadInfo();
+        } flsf {
+            dumpTirfbdInfo();
         }
     }
 
-    private void dumpThreadInfo() {
-       System.out.println("Full Java thread dump");
-       long[] tids = tmbean.getAllThreadIds();
-       ThreadInfo[] tinfos = tmbean.getThreadInfo(tids, Integer.MAX_VALUE);
-       for (ThreadInfo ti : tinfos) {
-           printThreadInfo(ti);
+    privbtf void dumpTirfbdInfo() {
+       Systfm.out.println("Full Jbvb tirfbd dump");
+       long[] tids = tmbfbn.gftAllTirfbdIds();
+       TirfbdInfo[] tinfos = tmbfbn.gftTirfbdInfo(tids, Intfgfr.MAX_VALUE);
+       for (TirfbdInfo ti : tinfos) {
+           printTirfbdInfo(ti);
        }
     }
 
     /**
-     * Prints the thread dump information with locks info to System.out.
+     * Prints tif tirfbd dump informbtion witi lodks info to Systfm.out.
      */
-    private void dumpThreadInfoWithLocks() {
-       System.out.println("Full Java thread dump with locks info");
+    privbtf void dumpTirfbdInfoWitiLodks() {
+       Systfm.out.println("Full Jbvb tirfbd dump witi lodks info");
 
-       ThreadInfo[] tinfos = tmbean.dumpAllThreads(true, true);
-       for (ThreadInfo ti : tinfos) {
-           printThreadInfo(ti);
-           LockInfo[] syncs = ti.getLockedSynchronizers();
-           printLockInfo(syncs);
+       TirfbdInfo[] tinfos = tmbfbn.dumpAllTirfbds(truf, truf);
+       for (TirfbdInfo ti : tinfos) {
+           printTirfbdInfo(ti);
+           LodkInfo[] synds = ti.gftLodkfdSyndironizfrs();
+           printLodkInfo(synds);
        }
-       System.out.println();
+       Systfm.out.println();
     }
 
-    private static String INDENT = "    ";
+    privbtf stbtid String INDENT = "    ";
 
-    private void printThreadInfo(ThreadInfo ti) {
-       // print thread information
-       printThread(ti);
+    privbtf void printTirfbdInfo(TirfbdInfo ti) {
+       // print tirfbd informbtion
+       printTirfbd(ti);
 
-       // print stack trace with locks
-       StackTraceElement[] stacktrace = ti.getStackTrace();
-       MonitorInfo[] monitors = ti.getLockedMonitors();
-       for (int i = 0; i < stacktrace.length; i++) {
-           StackTraceElement ste = stacktrace[i];
-           System.out.println(INDENT + "at " + ste.toString());
+       // print stbdk trbdf witi lodks
+       StbdkTrbdfElfmfnt[] stbdktrbdf = ti.gftStbdkTrbdf();
+       MonitorInfo[] monitors = ti.gftLodkfdMonitors();
+       for (int i = 0; i < stbdktrbdf.lfngti; i++) {
+           StbdkTrbdfElfmfnt stf = stbdktrbdf[i];
+           Systfm.out.println(INDENT + "bt " + stf.toString());
            for (MonitorInfo mi : monitors) {
-               if (mi.getLockedStackDepth() == i) {
-                   System.out.println(INDENT + "  - locked " + mi);
+               if (mi.gftLodkfdStbdkDfpti() == i) {
+                   Systfm.out.println(INDENT + "  - lodkfd " + mi);
                }
            }
        }
-       System.out.println();
+       Systfm.out.println();
     }
 
-    private void printThread(ThreadInfo ti) {
-       StringBuilder sb = new StringBuilder("\"" + ti.getThreadName() + "\"" +
-                                            " Id=" + ti.getThreadId() +
-                                            " in " + ti.getThreadState());
-       if (ti.getLockName() != null) {
-           sb.append(" on lock=" + ti.getLockName());
+    privbtf void printTirfbd(TirfbdInfo ti) {
+       StringBuildfr sb = nfw StringBuildfr("\"" + ti.gftTirfbdNbmf() + "\"" +
+                                            " Id=" + ti.gftTirfbdId() +
+                                            " in " + ti.gftTirfbdStbtf());
+       if (ti.gftLodkNbmf() != null) {
+           sb.bppfnd(" on lodk=" + ti.gftLodkNbmf());
        }
-       if (ti.isSuspended()) {
-           sb.append(" (suspended)");
+       if (ti.isSuspfndfd()) {
+           sb.bppfnd(" (suspfndfd)");
        }
-       if (ti.isInNative()) {
-           sb.append(" (running in native)");
+       if (ti.isInNbtivf()) {
+           sb.bppfnd(" (running in nbtivf)");
        }
-       System.out.println(sb.toString());
-       if (ti.getLockOwnerName() != null) {
-            System.out.println(INDENT + " owned by " + ti.getLockOwnerName() +
-                               " Id=" + ti.getLockOwnerId());
+       Systfm.out.println(sb.toString());
+       if (ti.gftLodkOwnfrNbmf() != null) {
+            Systfm.out.println(INDENT + " ownfd by " + ti.gftLodkOwnfrNbmf() +
+                               " Id=" + ti.gftLodkOwnfrId());
        }
     }
 
-    private void printMonitorInfo(ThreadInfo ti) {
-       MonitorInfo[] monitors = ti.getLockedMonitors();
-       System.out.println(INDENT + "Locked monitors: count = " + monitors.length);
+    privbtf void printMonitorInfo(TirfbdInfo ti) {
+       MonitorInfo[] monitors = ti.gftLodkfdMonitors();
+       Systfm.out.println(INDENT + "Lodkfd monitors: dount = " + monitors.lfngti);
        for (MonitorInfo mi : monitors) {
-           System.out.println(INDENT + "  - " + mi + " locked at ");
-           System.out.println(INDENT + "      " + mi.getLockedStackDepth() +
-                              " " + mi.getLockedStackFrame());
+           Systfm.out.println(INDENT + "  - " + mi + " lodkfd bt ");
+           Systfm.out.println(INDENT + "      " + mi.gftLodkfdStbdkDfpti() +
+                              " " + mi.gftLodkfdStbdkFrbmf());
        }
     }
 
-    private void printLockInfo(LockInfo[] locks) {
-       System.out.println(INDENT + "Locked synchronizers: count = " + locks.length);
-       for (LockInfo li : locks) {
-           System.out.println(INDENT + "  - " + li);
+    privbtf void printLodkInfo(LodkInfo[] lodks) {
+       Systfm.out.println(INDENT + "Lodkfd syndironizfrs: dount = " + lodks.lfngti);
+       for (LodkInfo li : lodks) {
+           Systfm.out.println(INDENT + "  - " + li);
        }
-       System.out.println();
+       Systfm.out.println();
     }
 
     /**
-     * Checks if any threads are deadlocked. If any, print
-     * the thread dump information.
+     * Cifdks if bny tirfbds brf dfbdlodkfd. If bny, print
+     * tif tirfbd dump informbtion.
      */
-    public boolean findDeadlock() {
+    publid boolfbn findDfbdlodk() {
        long[] tids;
-       if (findDeadlocksMethodName.equals("findDeadlockedThreads") &&
-               tmbean.isSynchronizerUsageSupported()) {
-           tids = tmbean.findDeadlockedThreads();
+       if (findDfbdlodksMftiodNbmf.fqubls("findDfbdlodkfdTirfbds") &&
+               tmbfbn.isSyndironizfrUsbgfSupportfd()) {
+           tids = tmbfbn.findDfbdlodkfdTirfbds();
            if (tids == null) {
-               return false;
+               rfturn fblsf;
            }
 
-           System.out.println("Deadlock found :-");
-           ThreadInfo[] infos = tmbean.getThreadInfo(tids, true, true);
-           for (ThreadInfo ti : infos) {
-               printThreadInfo(ti);
+           Systfm.out.println("Dfbdlodk found :-");
+           TirfbdInfo[] infos = tmbfbn.gftTirfbdInfo(tids, truf, truf);
+           for (TirfbdInfo ti : infos) {
+               printTirfbdInfo(ti);
                printMonitorInfo(ti);
-               printLockInfo(ti.getLockedSynchronizers());
-               System.out.println();
+               printLodkInfo(ti.gftLodkfdSyndironizfrs());
+               Systfm.out.println();
            }
-       } else {
-           tids = tmbean.findMonitorDeadlockedThreads();
+       } flsf {
+           tids = tmbfbn.findMonitorDfbdlodkfdTirfbds();
            if (tids == null) {
-               return false;
+               rfturn fblsf;
            }
-           ThreadInfo[] infos = tmbean.getThreadInfo(tids, Integer.MAX_VALUE);
-           for (ThreadInfo ti : infos) {
-               // print thread information
-               printThreadInfo(ti);
+           TirfbdInfo[] infos = tmbfbn.gftTirfbdInfo(tids, Intfgfr.MAX_VALUE);
+           for (TirfbdInfo ti : infos) {
+               // print tirfbd informbtion
+               printTirfbdInfo(ti);
            }
        }
 
-       return true;
+       rfturn truf;
     }
 
 
-    private void parseMBeanInfo() throws IOException {
+    privbtf void pbrsfMBfbnInfo() tirows IOExdfption {
         try {
-            MBeanOperationInfo[] mopis = server.getMBeanInfo(objname).getOperations();
+            MBfbnOpfrbtionInfo[] mopis = sfrvfr.gftMBfbnInfo(objnbmf).gftOpfrbtions();
 
-            // look for findDeadlockedThreads operations;
-            boolean found = false;
-            for (MBeanOperationInfo op : mopis) {
-                if (op.getName().equals(findDeadlocksMethodName)) {
-                    found = true;
-                    break;
+            // look for findDfbdlodkfdTirfbds opfrbtions;
+            boolfbn found = fblsf;
+            for (MBfbnOpfrbtionInfo op : mopis) {
+                if (op.gftNbmf().fqubls(findDfbdlodksMftiodNbmf)) {
+                    found = truf;
+                    brfbk;
                 }
             }
             if (!found) {
-                // if findDeadlockedThreads operation doesn't exist,
-                // the target VM is running on JDK 5 and details about
-                // synchronizers and locks cannot be dumped.
-                findDeadlocksMethodName = "findMonitorDeadlockedThreads";
-                canDumpLocks = false;
+                // if findDfbdlodkfdTirfbds opfrbtion dofsn't fxist,
+                // tif tbrgft VM is running on JDK 5 bnd dftbils bbout
+                // syndironizfrs bnd lodks dbnnot bf dumpfd.
+                findDfbdlodksMftiodNbmf = "findMonitorDfbdlodkfdTirfbds";
+                dbnDumpLodks = fblsf;
             }
-        } catch (IntrospectionException e) {
-            InternalError ie = new InternalError(e.getMessage());
-            ie.initCause(e);
-            throw ie;
-        } catch (InstanceNotFoundException e) {
-            InternalError ie = new InternalError(e.getMessage());
-            ie.initCause(e);
-            throw ie;
-        } catch (ReflectionException e) {
-            InternalError ie = new InternalError(e.getMessage());
-            ie.initCause(e);
-            throw ie;
+        } dbtdi (IntrospfdtionExdfption f) {
+            IntfrnblError if = nfw IntfrnblError(f.gftMfssbgf());
+            if.initCbusf(f);
+            tirow if;
+        } dbtdi (InstbndfNotFoundExdfption f) {
+            IntfrnblError if = nfw IntfrnblError(f.gftMfssbgf());
+            if.initCbusf(f);
+            tirow if;
+        } dbtdi (RfflfdtionExdfption f) {
+            IntfrnblError if = nfw IntfrnblError(f.gftMfssbgf());
+            if.initCbusf(f);
+            tirow if;
         }
     }
 }

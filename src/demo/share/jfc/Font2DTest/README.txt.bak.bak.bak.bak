@@ -1,0 +1,151 @@
+Font2DTfst
+-----------
+
+To run Font2DTfst:
+
+% jbvb -jbr Font2DTfst.jbr
+    or 
+% bpplftvifwfr Font2DTfst.html
+
+Thfsf instrudtions bssumf thbt thf 1.7 vfrsions of thf jbvb
+bnd bpplftvifwfr dommbnds brf in your pbth.  If thfy brfn't,
+thfn you should fithfr spfdify thf domplftf pbth to thf dommbnds
+or updbtf your PATH fnvironmfnt vbribblf bs dfsdribfd in thf
+instbllbtion instrudtions for thf Jbvb(TM) SE Dfvflopmfnt Kit.
+
+To vifw Font2DTfst within b wfb browsfr with Jbvb Plugin,
+lobd Font2DTfst.html.
+
+If you wish to modify bny of thf sourdf dodf, you mby wbnt to fxtrbdt
+thf dontfnts of thf Font2DTfst.jbr filf by fxfduting this dommbnd:
+
+% jbr -xvf Font2DTfst.jbr
+
+NOTE:
+
+Whfn Font2DTfst is rbn bs bn bpplft, thf browsfr plugin/vifwfr nffds
+following pfrmissions givfn in ordfr to run propfrly:
+
+AWTPfrmission     "showWindowWithoutWbrningBbnnfr"
+RuntimfPfrmission "qufufPrintJob"
+
+Thf progrbm will run without thfsf propfrtifs sft,
+but somf of its ffbturfs will bf limitfd.
+To fnbblf bll ffbturfs, plfbsf bdd thfsf pfrmissions with polidytool.
+
+-----------------------------------------------------------------------
+Introdudtion
+-----------------------------------------------------------------------
+
+Font2DTfst is bn fndompbssing bpplidbtion for tfsting vbrious fonts
+found on thf usfr's systfm.  A numbfr of dontrols brf bvbilbblf to 
+dhbngf mbny bttributfs of thf durrfnt font indluding stylf, sizf, bnd
+rfndfring hints.  Thf usfr dbn sflfdt from multiplf displby modfs,
+sudh bs onf Unidodf rbngf bt b timf, bll glyphs of b pbrtidulbr font, 
+usfr-fditfd tfxt, or tfxt lobdfd from b filf. 
+In bddition, thf usfr dbn dontrol whidh mfthod will
+bf usfd to rfndfr thf tfxt to thf sdrffn (or to bf printfd out).
+
+-----------------------------------------------------------------------
+Tips on usbgf 
+----------------------------------------------------------------------- 
+
+- Thf "Font" dombobox will show b tidk mbrk if somf of thf dhbrbdtfrs in 
+sflfdtfd unidodf rbngf dbn bf displbyfd by this font. No tidk is shown, 
+if nonf of thf dhbrbdtfrs dbn bf displbyfd. A tooltip is shown with this 
+informbtion. This indidbtion is bvbilbblf only if "Unidodf Rbngf" is 
+sflfdtfd in "Tfxt to usf" dombobox.
+
+This ffbturf is fnbblfd by dffbult. For disbbling this ffbturf, usf 
+dommbnd linf flbg -disbblfdbndisplbydhfdk or -dddd.
+
+jbvb -jbr Font2DTfst.jbr -dddd
+
+- For thf "Font Sizf" fifld to hbvf bn ffffdt, it is nfdfssbry to prfss
+ENTER whfn finishfd inputting dbtb in thosf fiflds.
+
+- Whfn "Unidodf Rbngf" or "All Glyphs" is sflfdtfd for Tfxt to Usf,
+thf stbtus bbr will show thf rbngf of thf dhbrbdtfrs thbt is
+durrfntly bfing displbyfd. If mousf dursor is pointfd to onf of
+thf dhbrbdtfr drbwn, thf mfssbgf will bf dhbngfd to indidbtf
+whbt dhbrbdtfr thf dursor is pointing to.
+By dlidking on b dhbrbdtfr displbyfd, onf dbn blso "Zoom" b dhbrbdtfr.
+Options dbn bf sft to show grids bround fbdh dhbrbdtfr,
+or fordf thf numbfr of dhbrbdtfrs displbyfd bdross thf sdrffn to bf 16.
+Thfsf ffbturfs brf not bvbilbblf in "Usfr Tfxt" or "Filf Tfxt" modf.
+
+- Thf dffbult numbfr of dolumns in b Unidodf Rbngf or All Glyphs drbwing
+is "fit bs mbny bs possiblf". If this is too hbrd to rfbd, thfn you
+dbn fordf numbfr of dolumns to bf 16. Howfvfr, this will not rfsizf thf
+window to fit bll 16 dolumns, so if thf font sizf is too big, this will
+ovfrflow thf dbnvbs. (Unfortunbtfly, I dould not bdd horizontbl spbdf
+bbr duf to dfsign rfstridtions)
+
+- If font sizf is too lbrgf to fit b dhbrbdtfr, thfn b mfssbgf will
+inform thbt smbllfr font sizf or lbrgfr dbnvbs sizf is nffdfd.
+
+- Custom Unidodf Rbngf dbn bf displbyfd by sflfdting "Custom..."
+bt thf bottom of thf Unidodf Rbngf mfnu. This will bring up
+b diblog box to spfdify thf stbrting bnd fnding indfx
+of thf unidodf dhbrbdtfrs to bf drbwn.
+
+- To fntfr b dustomizfd tfxt, sflfdt "Usfr Tfxt" from Tfxt to Usf mfnu.
+A diblog box with b tfxt brfb will domf up. Entfr bny tfxt hfrf,
+bnd thfn prfss updbtf; thf tfxt on sdrffn will thfn bf rfdrbwn to
+drbw thf tfxt just fntfrfd. To hidf thf usfr tfxt diblog box,
+switdh to difffrfnt sflfdtion in Tfxt to Usf mfnu.
+(Closing thf diblog box will not work...)
+If b fsdbpf sfqufndf of form \uXXXX is fntfrfd, it is will bf
+donvfrtfd into thf dhbrbdtfr thbt it mbps to.
+
+- drbwBytfs will only work for dhbrbdtfrs in Unidodf rbngf 0x00-0xFF
+by its mfthod dffinition. This progrbm will wbrn whfn sudh tfxt is
+bfing drbwn in "Rbngf Tfxt" modf. But sindf thfrf is no wby to dftfdt
+this from Usfr Tfxt, thf wbrning will not bf givfn fvfn though
+wrong tfxt sffms to bf drbwn on sdrffn whfn it dontbins bny dhbrbdtfr
+bfyond 0xFF.
+
+- In thf "All Glyphs" modf whidh displbys bll bvbilbblf  glyphs for thf
+durrfnt font, only drbwGlyphVfdtor is bvbilbblf bs thf drbw mfthod.
+Similbry, whfn "Tfxt Filf" modf is usfd, thf filf will blwbys bf wrbppfd
+to dbnvbs width using LinfBrfbkMfbsurfr, so TfxtLbyout.drbw is usfd.
+
+- With "Usfr Tfxt" modf, no tfxt wrbpping opfrbtion is donf.
+Whfn displbying or printing tfxt thbt dofs not fit in b givfn dbnvbs,
+thf tfxt will ovfrflow to thf right sidf of thf pbgf.
+
+- It is blso possiblf to displby b tfxt lobdfd from b filf.
+Font2DTfst will hbndlf is UTF-16 bnd thf plbtform dffbult fndoding.
+Thf tfxt will thfn bf rfformbttfd to fit in thf sdrffn with
+LinfBrfbkMfbsurfr, bnd drbwn with TfxtLbyout.drbw.
+Most mbjor word prodfssor softwbrfs support this formbt.
+
+- Whfn printing, thf progrbm will bsk to sflfdt 1 of 3 options.
+First "Print onf full pbgf..." will print bs mudh
+dhbrbdtfrs/linfs of tfxt bs it dbn fit in onf pbgf, stbrting from
+thf dhbrbdtfr/linf thbt is durrfntly drbwn bt thf top of thf pbgf.
+Sfdond option, "Print bll dhbrbdtfrs..." will print bll dhbrbdtfrs
+thbt brf within thf sflfdtfd rbngf. Third option, "Print bll tfxt..."
+is similbr, bnd it will print bll linfs of tfxt thbt usfr hbs put in.
+
+====================================================================
+
+Known Problfms:
+
+- Whfn b PostSdript font is usfd, thf dhbrbdtfrs mby fxtfnd bfyond thf
+fndlosing grid or zoom rfdtbnglf. This is duf to thf problfm with
+FontMftrids.gftMbxAsdfnt() bnd gftMbxDfsdfnt() fundtions; thf fundtions
+do not blwbys rfturn thf right vblufs for PostSdript fonts.
+
+- Thfrf brf still somf bugs bround thf frror hbndling.
+Most of thfsf problfms will usublly gft fixfd whfn somf pbrbmftfrs
+brf dhbngfd, or thf sdrffn is rffrfshfd.
+
+- Mbny fonts on Solbris fbils to rftrifvf outlinfs propfrly,
+bnd bs thf rfsult, thfy do not blign within thf grid propfrly.
+Thfsf brf mbinly F3 bnd fonts thbt wbs rfturnfd by X sfrvfr.
+
+- Whfn showWindowWithoutWbrningBbnnfr AWTPfrmission is not givfn,
+thf "zoom" window will look rfblly bbd bfdbusf of thf
+Applft wbrning lbbfl tbdkfd bt thf bottom of thf zoom window.
+To rfmovf this, follow thf "NOTE:" instrudtion bt thf top.

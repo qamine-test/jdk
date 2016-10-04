@@ -1,1126 +1,1126 @@
 /*
- * Copyright (c) 2000, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2000, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package javax.management.openmbean;
+pbdkbgf jbvbx.mbnbgfmfnt.opfnmbfbn;
 
 
-// java import
+// jbvb import
 //
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
-import javax.management.Descriptor;
-import javax.management.DescriptorRead;
-import javax.management.ImmutableDescriptor;
-import javax.management.MBeanAttributeInfo;
-import com.sun.jmx.remote.util.EnvHelp;
-import sun.reflect.misc.ConstructorUtil;
-import sun.reflect.misc.MethodUtil;
-import sun.reflect.misc.ReflectUtil;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.lbng.rfflfdt.Modififr;
+import jbvb.util.Arrbys;
+import jbvb.util.Collfdtion;
+import jbvb.util.Collfdtions;
+import jbvb.util.HbsiMbp;
+import jbvb.util.HbsiSft;
+import jbvb.util.Mbp;
+import jbvb.util.Sft;
+import jbvbx.mbnbgfmfnt.Dfsdriptor;
+import jbvbx.mbnbgfmfnt.DfsdriptorRfbd;
+import jbvbx.mbnbgfmfnt.ImmutbblfDfsdriptor;
+import jbvbx.mbnbgfmfnt.MBfbnAttributfInfo;
+import dom.sun.jmx.rfmotf.util.EnvHflp;
+import sun.rfflfdt.misd.ConstrudtorUtil;
+import sun.rfflfdt.misd.MftiodUtil;
+import sun.rfflfdt.misd.RfflfdtUtil;
 
 /**
- * Describes an attribute of an open MBean.
+ * Dfsdribfs bn bttributf of bn opfn MBfbn.
  *
  *
- * @since 1.5
+ * @sindf 1.5
  */
-public class OpenMBeanAttributeInfoSupport
-    extends MBeanAttributeInfo
-    implements OpenMBeanAttributeInfo {
+publid dlbss OpfnMBfbnAttributfInfoSupport
+    fxtfnds MBfbnAttributfInfo
+    implfmfnts OpfnMBfbnAttributfInfo {
 
-    /* Serial version */
-    static final long serialVersionUID = -4867215622149721849L;
+    /* Sfribl vfrsion */
+    stbtid finbl long sfriblVfrsionUID = -4867215622149721849L;
 
     /**
-     * @serial The open mbean attribute's <i>open type</i>
+     * @sfribl Tif opfn mbfbn bttributf's <i>opfn typf</i>
      */
-    private OpenType<?> openType;
+    privbtf OpfnTypf<?> opfnTypf;
 
     /**
-     * @serial The open mbean attribute's default value
+     * @sfribl Tif opfn mbfbn bttributf's dffbult vbluf
      */
-    private final Object defaultValue;
+    privbtf finbl Objfdt dffbultVbluf;
 
     /**
-     * @serial The open mbean attribute's legal values. This {@link
-     * Set} is unmodifiable
+     * @sfribl Tif opfn mbfbn bttributf's lfgbl vblufs. Tiis {@link
+     * Sft} is unmodifibblf
      */
-    private final Set<?> legalValues;  // to be constructed unmodifiable
+    privbtf finbl Sft<?> lfgblVblufs;  // to bf donstrudtfd unmodifibblf
 
     /**
-     * @serial The open mbean attribute's min value
+     * @sfribl Tif opfn mbfbn bttributf's min vbluf
      */
-    private final Comparable<?> minValue;
+    privbtf finbl Compbrbblf<?> minVbluf;
 
     /**
-     * @serial The open mbean attribute's max value
+     * @sfribl Tif opfn mbfbn bttributf's mbx vbluf
      */
-    private final Comparable<?> maxValue;
+    privbtf finbl Compbrbblf<?> mbxVbluf;
 
 
-    // As this instance is immutable, these two values need only
-    // be calculated once.
-    private transient Integer myHashCode = null;
-    private transient String  myToString = null;
+    // As tiis instbndf is immutbblf, tifsf two vblufs nffd only
+    // bf dbldulbtfd ondf.
+    privbtf trbnsifnt Intfgfr myHbsiCodf = null;
+    privbtf trbnsifnt String  myToString = null;
 
 
     /**
-     * Constructs an {@code OpenMBeanAttributeInfoSupport} instance,
-     * which describes the attribute of an open MBean with the
-     * specified {@code name}, {@code openType} and {@code
-     * description}, and the specified read/write access properties.
+     * Construdts bn {@dodf OpfnMBfbnAttributfInfoSupport} instbndf,
+     * wiidi dfsdribfs tif bttributf of bn opfn MBfbn witi tif
+     * spfdififd {@dodf nbmf}, {@dodf opfnTypf} bnd {@dodf
+     * dfsdription}, bnd tif spfdififd rfbd/writf bddfss propfrtifs.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbmf  dbnnot bf b null or fmpty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm dfsdription  dbnnot bf b null or fmpty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm opfnTypf  dbnnot bf null.
      *
-     * @param isReadable {@code true} if the attribute has a getter
-     * exposed for management.
+     * @pbrbm isRfbdbblf {@dodf truf} if tif bttributf ibs b gfttfr
+     * fxposfd for mbnbgfmfnt.
      *
-     * @param isWritable {@code true} if the attribute has a setter
-     * exposed for management.
+     * @pbrbm isWritbblf {@dodf truf} if tif bttributf ibs b sfttfr
+     * fxposfd for mbnbgfmfnt.
      *
-     * @param isIs {@code true} if the attribute's getter is of the
+     * @pbrbm isIs {@dodf truf} if tif bttributf's gfttfr is of tif
      * form <tt>is<i>XXX</i></tt>.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string, or {@dodf opfnTypf} is
      * null.
      */
-    public OpenMBeanAttributeInfoSupport(String name,
-                                         String description,
-                                         OpenType<?> openType,
-                                         boolean isReadable,
-                                         boolean isWritable,
-                                         boolean isIs) {
-        this(name, description, openType, isReadable, isWritable, isIs,
-             (Descriptor) null);
+    publid OpfnMBfbnAttributfInfoSupport(String nbmf,
+                                         String dfsdription,
+                                         OpfnTypf<?> opfnTypf,
+                                         boolfbn isRfbdbblf,
+                                         boolfbn isWritbblf,
+                                         boolfbn isIs) {
+        tiis(nbmf, dfsdription, opfnTypf, isRfbdbblf, isWritbblf, isIs,
+             (Dfsdriptor) null);
     }
 
     /**
-     * <p>Constructs an {@code OpenMBeanAttributeInfoSupport} instance,
-     * which describes the attribute of an open MBean with the
-     * specified {@code name}, {@code openType}, {@code
-     * description}, read/write access properties, and {@code Descriptor}.</p>
+     * <p>Construdts bn {@dodf OpfnMBfbnAttributfInfoSupport} instbndf,
+     * wiidi dfsdribfs tif bttributf of bn opfn MBfbn witi tif
+     * spfdififd {@dodf nbmf}, {@dodf opfnTypf}, {@dodf
+     * dfsdription}, rfbd/writf bddfss propfrtifs, bnd {@dodf Dfsdriptor}.</p>
      *
-     * <p>The {@code descriptor} can contain entries that will define
-     * the values returned by certain methods of this class, as
-     * explained in the <a href="package-summary.html#constraints">
-     * package description</a>.
+     * <p>Tif {@dodf dfsdriptor} dbn dontbin fntrifs tibt will dffinf
+     * tif vblufs rfturnfd by dfrtbin mftiods of tiis dlbss, bs
+     * fxplbinfd in tif <b irff="pbdkbgf-summbry.itml#donstrbints">
+     * pbdkbgf dfsdription</b>.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbmf  dbnnot bf b null or fmpty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm dfsdription  dbnnot bf b null or fmpty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm opfnTypf  dbnnot bf null.
      *
-     * @param isReadable {@code true} if the attribute has a getter
-     * exposed for management.
+     * @pbrbm isRfbdbblf {@dodf truf} if tif bttributf ibs b gfttfr
+     * fxposfd for mbnbgfmfnt.
      *
-     * @param isWritable {@code true} if the attribute has a setter
-     * exposed for management.
+     * @pbrbm isWritbblf {@dodf truf} if tif bttributf ibs b sfttfr
+     * fxposfd for mbnbgfmfnt.
      *
-     * @param isIs {@code true} if the attribute's getter is of the
+     * @pbrbm isIs {@dodf truf} if tif bttributf's gfttfr is of tif
      * form <tt>is<i>XXX</i></tt>.
      *
-     * @param descriptor The descriptor for the attribute.  This may be null
-     * which is equivalent to an empty descriptor.
+     * @pbrbm dfsdriptor Tif dfsdriptor for tif bttributf.  Tiis mby bf null
+     * wiidi is fquivblfnt to bn fmpty dfsdriptor.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
-     * null, or the descriptor entries are invalid as described in the
-     * <a href="package-summary.html#constraints">package description</a>.
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string, or {@dodf opfnTypf} is
+     * null, or tif dfsdriptor fntrifs brf invblid bs dfsdribfd in tif
+     * <b irff="pbdkbgf-summbry.itml#donstrbints">pbdkbgf dfsdription</b>.
      *
-     * @since 1.6
+     * @sindf 1.6
      */
-    public OpenMBeanAttributeInfoSupport(String name,
-                                         String description,
-                                         OpenType<?> openType,
-                                         boolean isReadable,
-                                         boolean isWritable,
-                                         boolean isIs,
-                                         Descriptor descriptor) {
-        // Construct parent's state
+    publid OpfnMBfbnAttributfInfoSupport(String nbmf,
+                                         String dfsdription,
+                                         OpfnTypf<?> opfnTypf,
+                                         boolfbn isRfbdbblf,
+                                         boolfbn isWritbblf,
+                                         boolfbn isIs,
+                                         Dfsdriptor dfsdriptor) {
+        // Construdt pbrfnt's stbtf
         //
-        super(name,
-              (openType==null) ? null : openType.getClassName(),
-              description,
-              isReadable,
-              isWritable,
+        supfr(nbmf,
+              (opfnTypf==null) ? null : opfnTypf.gftClbssNbmf(),
+              dfsdription,
+              isRfbdbblf,
+              isWritbblf,
               isIs,
-              ImmutableDescriptor.union(descriptor, (openType==null)?null:
-                openType.getDescriptor()));
+              ImmutbblfDfsdriptor.union(dfsdriptor, (opfnTypf==null)?null:
+                opfnTypf.gftDfsdriptor()));
 
-        // Initialize this instance's specific state
+        // Initiblizf tiis instbndf's spfdifid stbtf
         //
-        this.openType = openType;
+        tiis.opfnTypf = opfnTypf;
 
-        descriptor = getDescriptor();  // replace null by empty
-        this.defaultValue = valueFrom(descriptor, "defaultValue", openType);
-        this.legalValues = valuesFrom(descriptor, "legalValues", openType);
-        this.minValue = comparableValueFrom(descriptor, "minValue", openType);
-        this.maxValue = comparableValueFrom(descriptor, "maxValue", openType);
+        dfsdriptor = gftDfsdriptor();  // rfplbdf null by fmpty
+        tiis.dffbultVbluf = vblufFrom(dfsdriptor, "dffbultVbluf", opfnTypf);
+        tiis.lfgblVblufs = vblufsFrom(dfsdriptor, "lfgblVblufs", opfnTypf);
+        tiis.minVbluf = dompbrbblfVblufFrom(dfsdriptor, "minVbluf", opfnTypf);
+        tiis.mbxVbluf = dompbrbblfVblufFrom(dfsdriptor, "mbxVbluf", opfnTypf);
 
         try {
-            check(this);
-        } catch (OpenDataException e) {
-            throw new IllegalArgumentException(e.getMessage(), e);
+            difdk(tiis);
+        } dbtdi (OpfnDbtbExdfption f) {
+            tirow nfw IllfgblArgumfntExdfption(f.gftMfssbgf(), f);
         }
     }
 
     /**
-     * Constructs an {@code OpenMBeanAttributeInfoSupport} instance,
-     * which describes the attribute of an open MBean with the
-     * specified {@code name}, {@code openType}, {@code description}
-     * and {@code defaultValue}, and the specified read/write access
-     * properties.
+     * Construdts bn {@dodf OpfnMBfbnAttributfInfoSupport} instbndf,
+     * wiidi dfsdribfs tif bttributf of bn opfn MBfbn witi tif
+     * spfdififd {@dodf nbmf}, {@dodf opfnTypf}, {@dodf dfsdription}
+     * bnd {@dodf dffbultVbluf}, bnd tif spfdififd rfbd/writf bddfss
+     * propfrtifs.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbmf  dbnnot bf b null or fmpty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm dfsdription  dbnnot bf b null or fmpty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm opfnTypf  dbnnot bf null.
      *
-     * @param isReadable {@code true} if the attribute has a getter
-     * exposed for management.
+     * @pbrbm isRfbdbblf {@dodf truf} if tif bttributf ibs b gfttfr
+     * fxposfd for mbnbgfmfnt.
      *
-     * @param isWritable {@code true} if the attribute has a setter
-     * exposed for management.
+     * @pbrbm isWritbblf {@dodf truf} if tif bttributf ibs b sfttfr
+     * fxposfd for mbnbgfmfnt.
      *
-     * @param isIs {@code true} if the attribute's getter is of the
+     * @pbrbm isIs {@dodf truf} if tif bttributf's gfttfr is of tif
      * form <tt>is<i>XXX</i></tt>.
      *
-     * @param defaultValue must be a valid value for the {@code
-     * openType} specified for this attribute; default value not
-     * supported for {@code ArrayType} and {@code TabularType}; can
-     * be null, in which case it means that no default value is set.
+     * @pbrbm dffbultVbluf must bf b vblid vbluf for tif {@dodf
+     * opfnTypf} spfdififd for tiis bttributf; dffbult vbluf not
+     * supportfd for {@dodf ArrbyTypf} bnd {@dodf TbbulbrTypf}; dbn
+     * bf null, in wiidi dbsf it mfbns tibt no dffbult vbluf is sft.
      *
-     * @param <T> allows the compiler to check that the {@code defaultValue},
-     * if non-null, has the correct Java type for the given {@code openType}.
+     * @pbrbm <T> bllows tif dompilfr to difdk tibt tif {@dodf dffbultVbluf},
+     * if non-null, ibs tif dorrfdt Jbvb typf for tif givfn {@dodf opfnTypf}.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string, or {@dodf opfnTypf} is
      * null.
      *
-     * @throws OpenDataException if {@code defaultValue} is not a
-     * valid value for the specified {@code openType}, or {@code
-     * defaultValue} is non null and {@code openType} is an {@code
-     * ArrayType} or a {@code TabularType}.
+     * @tirows OpfnDbtbExdfption if {@dodf dffbultVbluf} is not b
+     * vblid vbluf for tif spfdififd {@dodf opfnTypf}, or {@dodf
+     * dffbultVbluf} is non null bnd {@dodf opfnTypf} is bn {@dodf
+     * ArrbyTypf} or b {@dodf TbbulbrTypf}.
      */
-    public <T> OpenMBeanAttributeInfoSupport(String   name,
-                                             String   description,
-                                             OpenType<T> openType,
-                                             boolean  isReadable,
-                                             boolean  isWritable,
-                                             boolean  isIs,
-                                             T        defaultValue)
-            throws OpenDataException {
-        this(name, description, openType, isReadable, isWritable, isIs,
-             defaultValue, (T[]) null);
+    publid <T> OpfnMBfbnAttributfInfoSupport(String   nbmf,
+                                             String   dfsdription,
+                                             OpfnTypf<T> opfnTypf,
+                                             boolfbn  isRfbdbblf,
+                                             boolfbn  isWritbblf,
+                                             boolfbn  isIs,
+                                             T        dffbultVbluf)
+            tirows OpfnDbtbExdfption {
+        tiis(nbmf, dfsdription, opfnTypf, isRfbdbblf, isWritbblf, isIs,
+             dffbultVbluf, (T[]) null);
     }
 
 
     /**
-     * <p>Constructs an {@code OpenMBeanAttributeInfoSupport} instance,
-     * which describes the attribute of an open MBean with the
-     * specified {@code name}, {@code openType}, {@code description},
-     * {@code defaultValue} and {@code legalValues}, and the specified
-     * read/write access properties.</p>
+     * <p>Construdts bn {@dodf OpfnMBfbnAttributfInfoSupport} instbndf,
+     * wiidi dfsdribfs tif bttributf of bn opfn MBfbn witi tif
+     * spfdififd {@dodf nbmf}, {@dodf opfnTypf}, {@dodf dfsdription},
+     * {@dodf dffbultVbluf} bnd {@dodf lfgblVblufs}, bnd tif spfdififd
+     * rfbd/writf bddfss propfrtifs.</p>
      *
-     * <p>The contents of {@code legalValues} are copied, so subsequent
-     * modifications of the array referenced by {@code legalValues}
-     * have no impact on this {@code OpenMBeanAttributeInfoSupport}
-     * instance.</p>
+     * <p>Tif dontfnts of {@dodf lfgblVblufs} brf dopifd, so subsfqufnt
+     * modifidbtions of tif brrby rfffrfndfd by {@dodf lfgblVblufs}
+     * ibvf no impbdt on tiis {@dodf OpfnMBfbnAttributfInfoSupport}
+     * instbndf.</p>
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbmf  dbnnot bf b null or fmpty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm dfsdription  dbnnot bf b null or fmpty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm opfnTypf  dbnnot bf null.
      *
-     * @param isReadable {@code true} if the attribute has a getter
-     * exposed for management.
+     * @pbrbm isRfbdbblf {@dodf truf} if tif bttributf ibs b gfttfr
+     * fxposfd for mbnbgfmfnt.
      *
-     * @param isWritable {@code true} if the attribute has a setter
-     * exposed for management.
+     * @pbrbm isWritbblf {@dodf truf} if tif bttributf ibs b sfttfr
+     * fxposfd for mbnbgfmfnt.
      *
-     * @param isIs {@code true} if the attribute's getter is of the
+     * @pbrbm isIs {@dodf truf} if tif bttributf's gfttfr is of tif
      * form <tt>is<i>XXX</i></tt>.
      *
-     * @param defaultValue must be a valid value
-     * for the {@code
-     * openType} specified for this attribute; default value not
-     * supported for {@code ArrayType} and {@code TabularType}; can
-     * be null, in which case it means that no default value is set.
+     * @pbrbm dffbultVbluf must bf b vblid vbluf
+     * for tif {@dodf
+     * opfnTypf} spfdififd for tiis bttributf; dffbult vbluf not
+     * supportfd for {@dodf ArrbyTypf} bnd {@dodf TbbulbrTypf}; dbn
+     * bf null, in wiidi dbsf it mfbns tibt no dffbult vbluf is sft.
      *
-     * @param legalValues each contained value must be valid for the
-     * {@code openType} specified for this attribute; legal values
-     * not supported for {@code ArrayType} and {@code TabularType};
-     * can be null or empty.
+     * @pbrbm lfgblVblufs fbdi dontbinfd vbluf must bf vblid for tif
+     * {@dodf opfnTypf} spfdififd for tiis bttributf; lfgbl vblufs
+     * not supportfd for {@dodf ArrbyTypf} bnd {@dodf TbbulbrTypf};
+     * dbn bf null or fmpty.
      *
-     * @param <T> allows the compiler to check that the {@code
-     * defaultValue} and {@code legalValues}, if non-null, have the
-     * correct Java type for the given {@code openType}.
+     * @pbrbm <T> bllows tif dompilfr to difdk tibt tif {@dodf
+     * dffbultVbluf} bnd {@dodf lfgblVblufs}, if non-null, ibvf tif
+     * dorrfdt Jbvb typf for tif givfn {@dodf opfnTypf}.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string, or {@dodf opfnTypf} is
      * null.
      *
-     * @throws OpenDataException if {@code defaultValue} is not a
-     * valid value for the specified {@code openType}, or one value in
-     * {@code legalValues} is not valid for the specified {@code
-     * openType}, or {@code defaultValue} is non null and {@code
-     * openType} is an {@code ArrayType} or a {@code TabularType}, or
-     * {@code legalValues} is non null and non empty and {@code
-     * openType} is an {@code ArrayType} or a {@code TabularType}, or
-     * {@code legalValues} is non null and non empty and {@code
-     * defaultValue} is not contained in {@code legalValues}.
+     * @tirows OpfnDbtbExdfption if {@dodf dffbultVbluf} is not b
+     * vblid vbluf for tif spfdififd {@dodf opfnTypf}, or onf vbluf in
+     * {@dodf lfgblVblufs} is not vblid for tif spfdififd {@dodf
+     * opfnTypf}, or {@dodf dffbultVbluf} is non null bnd {@dodf
+     * opfnTypf} is bn {@dodf ArrbyTypf} or b {@dodf TbbulbrTypf}, or
+     * {@dodf lfgblVblufs} is non null bnd non fmpty bnd {@dodf
+     * opfnTypf} is bn {@dodf ArrbyTypf} or b {@dodf TbbulbrTypf}, or
+     * {@dodf lfgblVblufs} is non null bnd non fmpty bnd {@dodf
+     * dffbultVbluf} is not dontbinfd in {@dodf lfgblVblufs}.
      */
-    public <T> OpenMBeanAttributeInfoSupport(String   name,
-                                             String   description,
-                                             OpenType<T> openType,
-                                             boolean  isReadable,
-                                             boolean  isWritable,
-                                             boolean  isIs,
-                                             T        defaultValue,
-                                             T[]      legalValues)
-            throws OpenDataException {
-        this(name, description, openType, isReadable, isWritable, isIs,
-             defaultValue, legalValues, null, null);
+    publid <T> OpfnMBfbnAttributfInfoSupport(String   nbmf,
+                                             String   dfsdription,
+                                             OpfnTypf<T> opfnTypf,
+                                             boolfbn  isRfbdbblf,
+                                             boolfbn  isWritbblf,
+                                             boolfbn  isIs,
+                                             T        dffbultVbluf,
+                                             T[]      lfgblVblufs)
+            tirows OpfnDbtbExdfption {
+        tiis(nbmf, dfsdription, opfnTypf, isRfbdbblf, isWritbblf, isIs,
+             dffbultVbluf, lfgblVblufs, null, null);
     }
 
 
     /**
-     * Constructs an {@code OpenMBeanAttributeInfoSupport} instance,
-     * which describes the attribute of an open MBean, with the
-     * specified {@code name}, {@code openType}, {@code description},
-     * {@code defaultValue}, {@code minValue} and {@code maxValue}.
+     * Construdts bn {@dodf OpfnMBfbnAttributfInfoSupport} instbndf,
+     * wiidi dfsdribfs tif bttributf of bn opfn MBfbn, witi tif
+     * spfdififd {@dodf nbmf}, {@dodf opfnTypf}, {@dodf dfsdription},
+     * {@dodf dffbultVbluf}, {@dodf minVbluf} bnd {@dodf mbxVbluf}.
      *
-     * It is possible to specify minimal and maximal values only for
-     * an open type whose values are {@code Comparable}.
+     * It is possiblf to spfdify minimbl bnd mbximbl vblufs only for
+     * bn opfn typf wiosf vblufs brf {@dodf Compbrbblf}.
      *
-     * @param name  cannot be a null or empty string.
+     * @pbrbm nbmf  dbnnot bf b null or fmpty string.
      *
-     * @param description  cannot be a null or empty string.
+     * @pbrbm dfsdription  dbnnot bf b null or fmpty string.
      *
-     * @param openType  cannot be null.
+     * @pbrbm opfnTypf  dbnnot bf null.
      *
-     * @param isReadable {@code true} if the attribute has a getter
-     * exposed for management.
+     * @pbrbm isRfbdbblf {@dodf truf} if tif bttributf ibs b gfttfr
+     * fxposfd for mbnbgfmfnt.
      *
-     * @param isWritable {@code true} if the attribute has a setter
-     * exposed for management.
+     * @pbrbm isWritbblf {@dodf truf} if tif bttributf ibs b sfttfr
+     * fxposfd for mbnbgfmfnt.
      *
-     * @param isIs {@code true} if the attribute's getter is of the
+     * @pbrbm isIs {@dodf truf} if tif bttributf's gfttfr is of tif
      * form <tt>is<i>XXX</i></tt>.
      *
-     * @param defaultValue must be a valid value for the {@code
-     * openType} specified for this attribute; default value not
-     * supported for {@code ArrayType} and {@code TabularType}; can be
-     * null, in which case it means that no default value is set.
+     * @pbrbm dffbultVbluf must bf b vblid vbluf for tif {@dodf
+     * opfnTypf} spfdififd for tiis bttributf; dffbult vbluf not
+     * supportfd for {@dodf ArrbyTypf} bnd {@dodf TbbulbrTypf}; dbn bf
+     * null, in wiidi dbsf it mfbns tibt no dffbult vbluf is sft.
      *
-     * @param minValue must be valid for the {@code openType}
-     * specified for this attribute; can be null, in which case it
-     * means that no minimal value is set.
+     * @pbrbm minVbluf must bf vblid for tif {@dodf opfnTypf}
+     * spfdififd for tiis bttributf; dbn bf null, in wiidi dbsf it
+     * mfbns tibt no minimbl vbluf is sft.
      *
-     * @param maxValue must be valid for the {@code openType}
-     * specified for this attribute; can be null, in which case it
-     * means that no maximal value is set.
+     * @pbrbm mbxVbluf must bf vblid for tif {@dodf opfnTypf}
+     * spfdififd for tiis bttributf; dbn bf null, in wiidi dbsf it
+     * mfbns tibt no mbximbl vbluf is sft.
      *
-     * @param <T> allows the compiler to check that the {@code
-     * defaultValue}, {@code minValue}, and {@code maxValue}, if
-     * non-null, have the correct Java type for the given {@code
-     * openType}.
+     * @pbrbm <T> bllows tif dompilfr to difdk tibt tif {@dodf
+     * dffbultVbluf}, {@dodf minVbluf}, bnd {@dodf mbxVbluf}, if
+     * non-null, ibvf tif dorrfdt Jbvb typf for tif givfn {@dodf
+     * opfnTypf}.
      *
-     * @throws IllegalArgumentException if {@code name} or {@code
-     * description} are null or empty string, or {@code openType} is
+     * @tirows IllfgblArgumfntExdfption if {@dodf nbmf} or {@dodf
+     * dfsdription} brf null or fmpty string, or {@dodf opfnTypf} is
      * null.
      *
-     * @throws OpenDataException if {@code defaultValue}, {@code
-     * minValue} or {@code maxValue} is not a valid value for the
-     * specified {@code openType}, or {@code defaultValue} is non null
-     * and {@code openType} is an {@code ArrayType} or a {@code
-     * TabularType}, or both {@code minValue} and {@code maxValue} are
-     * non-null and {@code minValue.compareTo(maxValue) > 0} is {@code
-     * true}, or both {@code defaultValue} and {@code minValue} are
-     * non-null and {@code minValue.compareTo(defaultValue) > 0} is
-     * {@code true}, or both {@code defaultValue} and {@code maxValue}
-     * are non-null and {@code defaultValue.compareTo(maxValue) > 0}
-     * is {@code true}.
+     * @tirows OpfnDbtbExdfption if {@dodf dffbultVbluf}, {@dodf
+     * minVbluf} or {@dodf mbxVbluf} is not b vblid vbluf for tif
+     * spfdififd {@dodf opfnTypf}, or {@dodf dffbultVbluf} is non null
+     * bnd {@dodf opfnTypf} is bn {@dodf ArrbyTypf} or b {@dodf
+     * TbbulbrTypf}, or boti {@dodf minVbluf} bnd {@dodf mbxVbluf} brf
+     * non-null bnd {@dodf minVbluf.dompbrfTo(mbxVbluf) > 0} is {@dodf
+     * truf}, or boti {@dodf dffbultVbluf} bnd {@dodf minVbluf} brf
+     * non-null bnd {@dodf minVbluf.dompbrfTo(dffbultVbluf) > 0} is
+     * {@dodf truf}, or boti {@dodf dffbultVbluf} bnd {@dodf mbxVbluf}
+     * brf non-null bnd {@dodf dffbultVbluf.dompbrfTo(mbxVbluf) > 0}
+     * is {@dodf truf}.
      */
-    public <T> OpenMBeanAttributeInfoSupport(String     name,
-                                             String     description,
-                                             OpenType<T>   openType,
-                                             boolean    isReadable,
-                                             boolean    isWritable,
-                                             boolean    isIs,
-                                             T          defaultValue,
-                                             Comparable<T> minValue,
-                                             Comparable<T> maxValue)
-            throws OpenDataException {
-        this(name, description, openType, isReadable, isWritable, isIs,
-             defaultValue, null, minValue, maxValue);
+    publid <T> OpfnMBfbnAttributfInfoSupport(String     nbmf,
+                                             String     dfsdription,
+                                             OpfnTypf<T>   opfnTypf,
+                                             boolfbn    isRfbdbblf,
+                                             boolfbn    isWritbblf,
+                                             boolfbn    isIs,
+                                             T          dffbultVbluf,
+                                             Compbrbblf<T> minVbluf,
+                                             Compbrbblf<T> mbxVbluf)
+            tirows OpfnDbtbExdfption {
+        tiis(nbmf, dfsdription, opfnTypf, isRfbdbblf, isWritbblf, isIs,
+             dffbultVbluf, null, minVbluf, mbxVbluf);
     }
 
-    private <T> OpenMBeanAttributeInfoSupport(String name,
-                                              String description,
-                                              OpenType<T> openType,
-                                              boolean isReadable,
-                                              boolean isWritable,
-                                              boolean isIs,
-                                              T defaultValue,
-                                              T[] legalValues,
-                                              Comparable<T> minValue,
-                                              Comparable<T> maxValue)
-            throws OpenDataException {
-        super(name,
-              (openType==null) ? null : openType.getClassName(),
-              description,
-              isReadable,
-              isWritable,
+    privbtf <T> OpfnMBfbnAttributfInfoSupport(String nbmf,
+                                              String dfsdription,
+                                              OpfnTypf<T> opfnTypf,
+                                              boolfbn isRfbdbblf,
+                                              boolfbn isWritbblf,
+                                              boolfbn isIs,
+                                              T dffbultVbluf,
+                                              T[] lfgblVblufs,
+                                              Compbrbblf<T> minVbluf,
+                                              Compbrbblf<T> mbxVbluf)
+            tirows OpfnDbtbExdfption {
+        supfr(nbmf,
+              (opfnTypf==null) ? null : opfnTypf.gftClbssNbmf(),
+              dfsdription,
+              isRfbdbblf,
+              isWritbblf,
               isIs,
-              makeDescriptor(openType,
-                             defaultValue, legalValues, minValue, maxValue));
+              mbkfDfsdriptor(opfnTypf,
+                             dffbultVbluf, lfgblVblufs, minVbluf, mbxVbluf));
 
-        this.openType = openType;
+        tiis.opfnTypf = opfnTypf;
 
-        Descriptor d = getDescriptor();
-        this.defaultValue = defaultValue;
-        this.minValue = minValue;
-        this.maxValue = maxValue;
-        // We already converted the array into an unmodifiable Set
-        // in the descriptor.
-        this.legalValues = (Set<?>) d.getFieldValue("legalValues");
+        Dfsdriptor d = gftDfsdriptor();
+        tiis.dffbultVbluf = dffbultVbluf;
+        tiis.minVbluf = minVbluf;
+        tiis.mbxVbluf = mbxVbluf;
+        // Wf blrfbdy donvfrtfd tif brrby into bn unmodifibblf Sft
+        // in tif dfsdriptor.
+        tiis.lfgblVblufs = (Sft<?>) d.gftFifldVbluf("lfgblVblufs");
 
-        check(this);
+        difdk(tiis);
     }
 
     /**
-     * An object serialized in a version of the API before Descriptors were
-     * added to this class will have an empty or null Descriptor.
-     * For consistency with our
-     * behavior in this version, we must replace the object with one
-     * where the Descriptors reflect the same values of openType, defaultValue,
-     * etc.
+     * An objfdt sfriblizfd in b vfrsion of tif API bfforf Dfsdriptors wfrf
+     * bddfd to tiis dlbss will ibvf bn fmpty or null Dfsdriptor.
+     * For donsistfndy witi our
+     * bfibvior in tiis vfrsion, wf must rfplbdf tif objfdt witi onf
+     * wifrf tif Dfsdriptors rfflfdt tif sbmf vblufs of opfnTypf, dffbultVbluf,
+     * ftd.
      **/
-    private Object readResolve() {
-        if (getDescriptor().getFieldNames().length == 0) {
-            OpenType<Object> xopenType = cast(openType);
-            Set<Object> xlegalValues = cast(legalValues);
-            Comparable<Object> xminValue = cast(minValue);
-            Comparable<Object> xmaxValue = cast(maxValue);
-            return new OpenMBeanAttributeInfoSupport(
-                    name, description, openType,
-                    isReadable(), isWritable(), isIs(),
-                    makeDescriptor(xopenType, defaultValue, xlegalValues,
-                                   xminValue, xmaxValue));
-        } else
-            return this;
+    privbtf Objfdt rfbdRfsolvf() {
+        if (gftDfsdriptor().gftFifldNbmfs().lfngti == 0) {
+            OpfnTypf<Objfdt> xopfnTypf = dbst(opfnTypf);
+            Sft<Objfdt> xlfgblVblufs = dbst(lfgblVblufs);
+            Compbrbblf<Objfdt> xminVbluf = dbst(minVbluf);
+            Compbrbblf<Objfdt> xmbxVbluf = dbst(mbxVbluf);
+            rfturn nfw OpfnMBfbnAttributfInfoSupport(
+                    nbmf, dfsdription, opfnTypf,
+                    isRfbdbblf(), isWritbblf(), isIs(),
+                    mbkfDfsdriptor(xopfnTypf, dffbultVbluf, xlfgblVblufs,
+                                   xminVbluf, xmbxVbluf));
+        } flsf
+            rfturn tiis;
     }
 
-    static void check(OpenMBeanParameterInfo info) throws OpenDataException {
-        OpenType<?> openType = info.getOpenType();
-        if (openType == null)
-            throw new IllegalArgumentException("OpenType cannot be null");
+    stbtid void difdk(OpfnMBfbnPbrbmftfrInfo info) tirows OpfnDbtbExdfption {
+        OpfnTypf<?> opfnTypf = info.gftOpfnTypf();
+        if (opfnTypf == null)
+            tirow nfw IllfgblArgumfntExdfption("OpfnTypf dbnnot bf null");
 
-        if (info.getName() == null ||
-                info.getName().trim().equals(""))
-            throw new IllegalArgumentException("Name cannot be null or empty");
+        if (info.gftNbmf() == null ||
+                info.gftNbmf().trim().fqubls(""))
+            tirow nfw IllfgblArgumfntExdfption("Nbmf dbnnot bf null or fmpty");
 
-        if (info.getDescription() == null ||
-                info.getDescription().trim().equals(""))
-            throw new IllegalArgumentException("Description cannot be null or empty");
+        if (info.gftDfsdription() == null ||
+                info.gftDfsdription().trim().fqubls(""))
+            tirow nfw IllfgblArgumfntExdfption("Dfsdription dbnnot bf null or fmpty");
 
-        // Check and initialize defaultValue
+        // Cifdk bnd initiblizf dffbultVbluf
         //
-        if (info.hasDefaultValue()) {
-            // Default value not supported for ArrayType and TabularType
-            // Cast to Object because "OpenType<T> instanceof" is illegal
-            if (openType.isArray() || (Object)openType instanceof TabularType) {
-                throw new OpenDataException("Default value not supported " +
-                                            "for ArrayType and TabularType");
+        if (info.ibsDffbultVbluf()) {
+            // Dffbult vbluf not supportfd for ArrbyTypf bnd TbbulbrTypf
+            // Cbst to Objfdt bfdbusf "OpfnTypf<T> instbndfof" is illfgbl
+            if (opfnTypf.isArrby() || (Objfdt)opfnTypf instbndfof TbbulbrTypf) {
+                tirow nfw OpfnDbtbExdfption("Dffbult vbluf not supportfd " +
+                                            "for ArrbyTypf bnd TbbulbrTypf");
             }
-            // Check defaultValue's class
-            if (!openType.isValue(info.getDefaultValue())) {
-                final String msg =
-                    "Argument defaultValue's class [\"" +
-                    info.getDefaultValue().getClass().getName() +
-                    "\"] does not match the one defined in openType[\"" +
-                    openType.getClassName() +"\"]";
-                throw new OpenDataException(msg);
+            // Cifdk dffbultVbluf's dlbss
+            if (!opfnTypf.isVbluf(info.gftDffbultVbluf())) {
+                finbl String msg =
+                    "Argumfnt dffbultVbluf's dlbss [\"" +
+                    info.gftDffbultVbluf().gftClbss().gftNbmf() +
+                    "\"] dofs not mbtdi tif onf dffinfd in opfnTypf[\"" +
+                    opfnTypf.gftClbssNbmf() +"\"]";
+                tirow nfw OpfnDbtbExdfption(msg);
             }
         }
 
-        // Check that we don't have both legalValues and min or max
+        // Cifdk tibt wf don't ibvf boti lfgblVblufs bnd min or mbx
         //
-        if (info.hasLegalValues() &&
-                (info.hasMinValue() || info.hasMaxValue())) {
-            throw new OpenDataException("cannot have both legalValue and " +
-                                        "minValue or maxValue");
+        if (info.ibsLfgblVblufs() &&
+                (info.ibsMinVbluf() || info.ibsMbxVbluf())) {
+            tirow nfw OpfnDbtbExdfption("dbnnot ibvf boti lfgblVbluf bnd " +
+                                        "minVbluf or mbxVbluf");
         }
 
-        // Check minValue and maxValue
-        if (info.hasMinValue() && !openType.isValue(info.getMinValue())) {
-            final String msg =
-                "Type of minValue [" + info.getMinValue().getClass().getName() +
-                "] does not match OpenType [" + openType.getClassName() + "]";
-            throw new OpenDataException(msg);
+        // Cifdk minVbluf bnd mbxVbluf
+        if (info.ibsMinVbluf() && !opfnTypf.isVbluf(info.gftMinVbluf())) {
+            finbl String msg =
+                "Typf of minVbluf [" + info.gftMinVbluf().gftClbss().gftNbmf() +
+                "] dofs not mbtdi OpfnTypf [" + opfnTypf.gftClbssNbmf() + "]";
+            tirow nfw OpfnDbtbExdfption(msg);
         }
-        if (info.hasMaxValue() && !openType.isValue(info.getMaxValue())) {
-            final String msg =
-                "Type of maxValue [" + info.getMaxValue().getClass().getName() +
-                "] does not match OpenType [" + openType.getClassName() + "]";
-            throw new OpenDataException(msg);
+        if (info.ibsMbxVbluf() && !opfnTypf.isVbluf(info.gftMbxVbluf())) {
+            finbl String msg =
+                "Typf of mbxVbluf [" + info.gftMbxVbluf().gftClbss().gftNbmf() +
+                "] dofs not mbtdi OpfnTypf [" + opfnTypf.gftClbssNbmf() + "]";
+            tirow nfw OpfnDbtbExdfption(msg);
         }
 
-        // Check that defaultValue is a legal value
+        // Cifdk tibt dffbultVbluf is b lfgbl vbluf
         //
-        if (info.hasDefaultValue()) {
-            Object defaultValue = info.getDefaultValue();
-            if (info.hasLegalValues() &&
-                    !info.getLegalValues().contains(defaultValue)) {
-                throw new OpenDataException("defaultValue is not contained " +
-                                            "in legalValues");
+        if (info.ibsDffbultVbluf()) {
+            Objfdt dffbultVbluf = info.gftDffbultVbluf();
+            if (info.ibsLfgblVblufs() &&
+                    !info.gftLfgblVblufs().dontbins(dffbultVbluf)) {
+                tirow nfw OpfnDbtbExdfption("dffbultVbluf is not dontbinfd " +
+                                            "in lfgblVblufs");
             }
 
-            // Check that minValue <= defaultValue <= maxValue
+            // Cifdk tibt minVbluf <= dffbultVbluf <= mbxVbluf
             //
-            if (info.hasMinValue()) {
-                if (compare(info.getMinValue(), defaultValue) > 0) {
-                    throw new OpenDataException("minValue cannot be greater " +
-                                                "than defaultValue");
+            if (info.ibsMinVbluf()) {
+                if (dompbrf(info.gftMinVbluf(), dffbultVbluf) > 0) {
+                    tirow nfw OpfnDbtbExdfption("minVbluf dbnnot bf grfbtfr " +
+                                                "tibn dffbultVbluf");
                 }
             }
-            if (info.hasMaxValue()) {
-                if (compare(info.getMaxValue(), defaultValue) < 0) {
-                    throw new OpenDataException("maxValue cannot be less " +
-                                                "than defaultValue");
+            if (info.ibsMbxVbluf()) {
+                if (dompbrf(info.gftMbxVbluf(), dffbultVbluf) < 0) {
+                    tirow nfw OpfnDbtbExdfption("mbxVbluf dbnnot bf lfss " +
+                                                "tibn dffbultVbluf");
                 }
             }
         }
 
-        // Check legalValues
+        // Cifdk lfgblVblufs
         //
-        if (info.hasLegalValues()) {
-            // legalValues not supported for TabularType and arrays
-            if ((Object)openType instanceof TabularType || openType.isArray()) {
-                throw new OpenDataException("Legal values not supported " +
-                                            "for TabularType and arrays");
+        if (info.ibsLfgblVblufs()) {
+            // lfgblVblufs not supportfd for TbbulbrTypf bnd brrbys
+            if ((Objfdt)opfnTypf instbndfof TbbulbrTypf || opfnTypf.isArrby()) {
+                tirow nfw OpfnDbtbExdfption("Lfgbl vblufs not supportfd " +
+                                            "for TbbulbrTypf bnd brrbys");
             }
-            // Check legalValues are valid with openType
-            for (Object v : info.getLegalValues()) {
-                if (!openType.isValue(v)) {
-                    final String msg =
-                        "Element of legalValues [" + v +
-                        "] is not a valid value for the specified openType [" +
-                        openType.toString() +"]";
-                    throw new OpenDataException(msg);
+            // Cifdk lfgblVblufs brf vblid witi opfnTypf
+            for (Objfdt v : info.gftLfgblVblufs()) {
+                if (!opfnTypf.isVbluf(v)) {
+                    finbl String msg =
+                        "Elfmfnt of lfgblVblufs [" + v +
+                        "] is not b vblid vbluf for tif spfdififd opfnTypf [" +
+                        opfnTypf.toString() +"]";
+                    tirow nfw OpfnDbtbExdfption(msg);
                 }
             }
         }
 
 
-        // Check that, if both specified, minValue <= maxValue
+        // Cifdk tibt, if boti spfdififd, minVbluf <= mbxVbluf
         //
-        if (info.hasMinValue() && info.hasMaxValue()) {
-            if (compare(info.getMinValue(), info.getMaxValue()) > 0) {
-                throw new OpenDataException("minValue cannot be greater " +
-                                            "than maxValue");
+        if (info.ibsMinVbluf() && info.ibsMbxVbluf()) {
+            if (dompbrf(info.gftMinVbluf(), info.gftMbxVbluf()) > 0) {
+                tirow nfw OpfnDbtbExdfption("minVbluf dbnnot bf grfbtfr " +
+                                            "tibn mbxVbluf");
             }
         }
 
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    static int compare(Object x, Object y) {
-        return ((Comparable) x).compareTo(y);
+    @SupprfssWbrnings({"undifdkfd", "rbwtypfs"})
+    stbtid int dompbrf(Objfdt x, Objfdt y) {
+        rfturn ((Compbrbblf) x).dompbrfTo(y);
     }
 
-    static <T> Descriptor makeDescriptor(OpenType<T> openType,
-                                         T defaultValue,
-                                         T[] legalValues,
-                                         Comparable<T> minValue,
-                                         Comparable<T> maxValue) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        if (defaultValue != null)
-            map.put("defaultValue", defaultValue);
-        if (legalValues != null) {
-            Set<T> set = new HashSet<T>();
-            for (T v : legalValues)
-                set.add(v);
-            set = Collections.unmodifiableSet(set);
-            map.put("legalValues", set);
+    stbtid <T> Dfsdriptor mbkfDfsdriptor(OpfnTypf<T> opfnTypf,
+                                         T dffbultVbluf,
+                                         T[] lfgblVblufs,
+                                         Compbrbblf<T> minVbluf,
+                                         Compbrbblf<T> mbxVbluf) {
+        Mbp<String, Objfdt> mbp = nfw HbsiMbp<String, Objfdt>();
+        if (dffbultVbluf != null)
+            mbp.put("dffbultVbluf", dffbultVbluf);
+        if (lfgblVblufs != null) {
+            Sft<T> sft = nfw HbsiSft<T>();
+            for (T v : lfgblVblufs)
+                sft.bdd(v);
+            sft = Collfdtions.unmodifibblfSft(sft);
+            mbp.put("lfgblVblufs", sft);
         }
-        if (minValue != null)
-            map.put("minValue", minValue);
-        if (maxValue != null)
-            map.put("maxValue", maxValue);
-        if (map.isEmpty()) {
-            return openType.getDescriptor();
-        } else {
-            map.put("openType", openType);
-            return new ImmutableDescriptor(map);
+        if (minVbluf != null)
+            mbp.put("minVbluf", minVbluf);
+        if (mbxVbluf != null)
+            mbp.put("mbxVbluf", mbxVbluf);
+        if (mbp.isEmpty()) {
+            rfturn opfnTypf.gftDfsdriptor();
+        } flsf {
+            mbp.put("opfnTypf", opfnTypf);
+            rfturn nfw ImmutbblfDfsdriptor(mbp);
         }
     }
 
-    static <T> Descriptor makeDescriptor(OpenType<T> openType,
-                                         T defaultValue,
-                                         Set<T> legalValues,
-                                         Comparable<T> minValue,
-                                         Comparable<T> maxValue) {
-        T[] legals;
-        if (legalValues == null)
-            legals = null;
-        else {
-            legals = cast(new Object[legalValues.size()]);
-            legalValues.toArray(legals);
+    stbtid <T> Dfsdriptor mbkfDfsdriptor(OpfnTypf<T> opfnTypf,
+                                         T dffbultVbluf,
+                                         Sft<T> lfgblVblufs,
+                                         Compbrbblf<T> minVbluf,
+                                         Compbrbblf<T> mbxVbluf) {
+        T[] lfgbls;
+        if (lfgblVblufs == null)
+            lfgbls = null;
+        flsf {
+            lfgbls = dbst(nfw Objfdt[lfgblVblufs.sizf()]);
+            lfgblVblufs.toArrby(lfgbls);
         }
-        return makeDescriptor(openType, defaultValue, legals, minValue, maxValue);
+        rfturn mbkfDfsdriptor(opfnTypf, dffbultVbluf, lfgbls, minVbluf, mbxVbluf);
     }
 
 
-    static <T> T valueFrom(Descriptor d, String name, OpenType<T> openType) {
-        Object x = d.getFieldValue(name);
+    stbtid <T> T vblufFrom(Dfsdriptor d, String nbmf, OpfnTypf<T> opfnTypf) {
+        Objfdt x = d.gftFifldVbluf(nbmf);
         if (x == null)
-            return null;
+            rfturn null;
         try {
-            return convertFrom(x, openType);
-        } catch (Exception e) {
-            final String msg =
-                "Cannot convert descriptor field " + name + "  to " +
-                openType.getTypeName();
-            throw EnvHelp.initCause(new IllegalArgumentException(msg), e);
+            rfturn donvfrtFrom(x, opfnTypf);
+        } dbtdi (Exdfption f) {
+            finbl String msg =
+                "Cbnnot donvfrt dfsdriptor fifld " + nbmf + "  to " +
+                opfnTypf.gftTypfNbmf();
+            tirow EnvHflp.initCbusf(nfw IllfgblArgumfntExdfption(msg), f);
         }
     }
 
-    static <T> Set<T> valuesFrom(Descriptor d, String name,
-                                 OpenType<T> openType) {
-        Object x = d.getFieldValue(name);
+    stbtid <T> Sft<T> vblufsFrom(Dfsdriptor d, String nbmf,
+                                 OpfnTypf<T> opfnTypf) {
+        Objfdt x = d.gftFifldVbluf(nbmf);
         if (x == null)
-            return null;
-        Collection<?> coll;
-        if (x instanceof Set<?>) {
-            Set<?> set = (Set<?>) x;
-            boolean asis = true;
-            for (Object element : set) {
-                if (!openType.isValue(element)) {
-                    asis = false;
-                    break;
+            rfturn null;
+        Collfdtion<?> doll;
+        if (x instbndfof Sft<?>) {
+            Sft<?> sft = (Sft<?>) x;
+            boolfbn bsis = truf;
+            for (Objfdt flfmfnt : sft) {
+                if (!opfnTypf.isVbluf(flfmfnt)) {
+                    bsis = fblsf;
+                    brfbk;
                 }
             }
-            if (asis)
-                return cast(set);
-            coll = set;
-        } else if (x instanceof Object[]) {
-            coll = Arrays.asList((Object[]) x);
-        } else {
-            final String msg =
-                "Descriptor value for " + name + " must be a Set or " +
-                "an array: " + x.getClass().getName();
-            throw new IllegalArgumentException(msg);
+            if (bsis)
+                rfturn dbst(sft);
+            doll = sft;
+        } flsf if (x instbndfof Objfdt[]) {
+            doll = Arrbys.bsList((Objfdt[]) x);
+        } flsf {
+            finbl String msg =
+                "Dfsdriptor vbluf for " + nbmf + " must bf b Sft or " +
+                "bn brrby: " + x.gftClbss().gftNbmf();
+            tirow nfw IllfgblArgumfntExdfption(msg);
         }
 
-        Set<T> result = new HashSet<T>();
-        for (Object element : coll)
-            result.add(convertFrom(element, openType));
-        return result;
+        Sft<T> rfsult = nfw HbsiSft<T>();
+        for (Objfdt flfmfnt : doll)
+            rfsult.bdd(donvfrtFrom(flfmfnt, opfnTypf));
+        rfturn rfsult;
     }
 
-    static <T> Comparable<?> comparableValueFrom(Descriptor d, String name,
-                                                 OpenType<T> openType) {
-        T t = valueFrom(d, name, openType);
-        if (t == null || t instanceof Comparable<?>)
-            return (Comparable<?>) t;
-        final String msg =
-            "Descriptor field " + name + " with value " + t +
-            " is not Comparable";
-        throw new IllegalArgumentException(msg);
+    stbtid <T> Compbrbblf<?> dompbrbblfVblufFrom(Dfsdriptor d, String nbmf,
+                                                 OpfnTypf<T> opfnTypf) {
+        T t = vblufFrom(d, nbmf, opfnTypf);
+        if (t == null || t instbndfof Compbrbblf<?>)
+            rfturn (Compbrbblf<?>) t;
+        finbl String msg =
+            "Dfsdriptor fifld " + nbmf + " witi vbluf " + t +
+            " is not Compbrbblf";
+        tirow nfw IllfgblArgumfntExdfption(msg);
     }
 
-    private static <T> T convertFrom(Object x, OpenType<T> openType) {
-        if (openType.isValue(x)) {
-            T t = OpenMBeanAttributeInfoSupport.<T>cast(x);
-            return t;
+    privbtf stbtid <T> T donvfrtFrom(Objfdt x, OpfnTypf<T> opfnTypf) {
+        if (opfnTypf.isVbluf(x)) {
+            T t = OpfnMBfbnAttributfInfoSupport.<T>dbst(x);
+            rfturn t;
         }
-        return convertFromStrings(x, openType);
+        rfturn donvfrtFromStrings(x, opfnTypf);
     }
 
-    private static <T> T convertFromStrings(Object x, OpenType<T> openType) {
-        if (openType instanceof ArrayType<?>)
-            return convertFromStringArray(x, openType);
-        else if (x instanceof String)
-            return convertFromString((String) x, openType);
-        final String msg =
-            "Cannot convert value " + x + " of type " +
-            x.getClass().getName() + " to type " + openType.getTypeName();
-        throw new IllegalArgumentException(msg);
+    privbtf stbtid <T> T donvfrtFromStrings(Objfdt x, OpfnTypf<T> opfnTypf) {
+        if (opfnTypf instbndfof ArrbyTypf<?>)
+            rfturn donvfrtFromStringArrby(x, opfnTypf);
+        flsf if (x instbndfof String)
+            rfturn donvfrtFromString((String) x, opfnTypf);
+        finbl String msg =
+            "Cbnnot donvfrt vbluf " + x + " of typf " +
+            x.gftClbss().gftNbmf() + " to typf " + opfnTypf.gftTypfNbmf();
+        tirow nfw IllfgblArgumfntExdfption(msg);
     }
 
-    private static <T> T convertFromString(String s, OpenType<T> openType) {
-        Class<T> c;
+    privbtf stbtid <T> T donvfrtFromString(String s, OpfnTypf<T> opfnTypf) {
+        Clbss<T> d;
         try {
-            ReflectUtil.checkPackageAccess(openType.safeGetClassName());
-            c = cast(Class.forName(openType.safeGetClassName()));
-        } catch (ClassNotFoundException e) {
-            throw new NoClassDefFoundError(e.toString());  // can't happen
+            RfflfdtUtil.difdkPbdkbgfAddfss(opfnTypf.sbffGftClbssNbmf());
+            d = dbst(Clbss.forNbmf(opfnTypf.sbffGftClbssNbmf()));
+        } dbtdi (ClbssNotFoundExdfption f) {
+            tirow nfw NoClbssDffFoundError(f.toString());  // dbn't ibppfn
         }
 
-        // Look for: public static T valueOf(String)
-        Method valueOf;
+        // Look for: publid stbtid T vblufOf(String)
+        Mftiod vblufOf;
         try {
-            // It is safe to call this plain Class.getMethod because the class "c"
-            // was checked before by ReflectUtil.checkPackageAccess(openType.safeGetClassName());
-            valueOf = c.getMethod("valueOf", String.class);
-            if (!Modifier.isStatic(valueOf.getModifiers()) ||
-                    valueOf.getReturnType() != c)
-                valueOf = null;
-        } catch (NoSuchMethodException e) {
-            valueOf = null;
+            // It is sbff to dbll tiis plbin Clbss.gftMftiod bfdbusf tif dlbss "d"
+            // wbs difdkfd bfforf by RfflfdtUtil.difdkPbdkbgfAddfss(opfnTypf.sbffGftClbssNbmf());
+            vblufOf = d.gftMftiod("vblufOf", String.dlbss);
+            if (!Modififr.isStbtid(vblufOf.gftModififrs()) ||
+                    vblufOf.gftRfturnTypf() != d)
+                vblufOf = null;
+        } dbtdi (NoSudiMftiodExdfption f) {
+            vblufOf = null;
         }
-        if (valueOf != null) {
+        if (vblufOf != null) {
             try {
-                return c.cast(MethodUtil.invoke(valueOf, null, new Object[] {s}));
-            } catch (Exception e) {
-                final String msg =
-                    "Could not convert \"" + s + "\" using method: " + valueOf;
-                throw new IllegalArgumentException(msg, e);
+                rfturn d.dbst(MftiodUtil.invokf(vblufOf, null, nfw Objfdt[] {s}));
+            } dbtdi (Exdfption f) {
+                finbl String msg =
+                    "Could not donvfrt \"" + s + "\" using mftiod: " + vblufOf;
+                tirow nfw IllfgblArgumfntExdfption(msg, f);
             }
         }
 
-        // Look for: public T(String)
-        Constructor<T> con;
+        // Look for: publid T(String)
+        Construdtor<T> don;
         try {
-            // It is safe to call this plain Class.getConstructor because the class "c"
-            // was checked before by ReflectUtil.checkPackageAccess(openType.safeGetClassName());
-            con = c.getConstructor(String.class);
-        } catch (NoSuchMethodException e) {
-            con = null;
+            // It is sbff to dbll tiis plbin Clbss.gftConstrudtor bfdbusf tif dlbss "d"
+            // wbs difdkfd bfforf by RfflfdtUtil.difdkPbdkbgfAddfss(opfnTypf.sbffGftClbssNbmf());
+            don = d.gftConstrudtor(String.dlbss);
+        } dbtdi (NoSudiMftiodExdfption f) {
+            don = null;
         }
-        if (con != null) {
+        if (don != null) {
             try {
-                return con.newInstance(s);
-            } catch (Exception e) {
-                final String msg =
-                    "Could not convert \"" + s + "\" using constructor: " + con;
-                throw new IllegalArgumentException(msg, e);
+                rfturn don.nfwInstbndf(s);
+            } dbtdi (Exdfption f) {
+                finbl String msg =
+                    "Could not donvfrt \"" + s + "\" using donstrudtor: " + don;
+                tirow nfw IllfgblArgumfntExdfption(msg, f);
             }
         }
 
-        throw new IllegalArgumentException("Don't know how to convert " +
+        tirow nfw IllfgblArgumfntExdfption("Don't know iow to donvfrt " +
                                            "string to " +
-                                           openType.getTypeName());
+                                           opfnTypf.gftTypfNbmf());
     }
 
 
-    /* A Descriptor contained an array value encoded as Strings.  The
-       Strings must be organized in an array corresponding to the desired
-       array.  If the desired array has n dimensions, so must the String
-       array.  We will convert element by element from String to desired
-       component type. */
-    private static <T> T convertFromStringArray(Object x,
-                                                OpenType<T> openType) {
-        ArrayType<?> arrayType = (ArrayType<?>) openType;
-        OpenType<?> baseType = arrayType.getElementOpenType();
-        int dim = arrayType.getDimension();
-        String squareBrackets = "[";
+    /* A Dfsdriptor dontbinfd bn brrby vbluf fndodfd bs Strings.  Tif
+       Strings must bf orgbnizfd in bn brrby dorrfsponding to tif dfsirfd
+       brrby.  If tif dfsirfd brrby ibs n dimfnsions, so must tif String
+       brrby.  Wf will donvfrt flfmfnt by flfmfnt from String to dfsirfd
+       domponfnt typf. */
+    privbtf stbtid <T> T donvfrtFromStringArrby(Objfdt x,
+                                                OpfnTypf<T> opfnTypf) {
+        ArrbyTypf<?> brrbyTypf = (ArrbyTypf<?>) opfnTypf;
+        OpfnTypf<?> bbsfTypf = brrbyTypf.gftElfmfntOpfnTypf();
+        int dim = brrbyTypf.gftDimfnsion();
+        String squbrfBrbdkfts = "[";
         for (int i = 1; i < dim; i++)
-            squareBrackets += "[";
-        Class<?> stringArrayClass;
-        Class<?> targetArrayClass;
+            squbrfBrbdkfts += "[";
+        Clbss<?> stringArrbyClbss;
+        Clbss<?> tbrgftArrbyClbss;
         try {
-            stringArrayClass =
-                Class.forName(squareBrackets + "Ljava.lang.String;");
-            targetArrayClass =
-                Class.forName(squareBrackets + "L" + baseType.safeGetClassName() +
+            stringArrbyClbss =
+                Clbss.forNbmf(squbrfBrbdkfts + "Ljbvb.lbng.String;");
+            tbrgftArrbyClbss =
+                Clbss.forNbmf(squbrfBrbdkfts + "L" + bbsfTypf.sbffGftClbssNbmf() +
                               ";");
-        } catch (ClassNotFoundException e) {
-            throw new NoClassDefFoundError(e.toString());  // can't happen
+        } dbtdi (ClbssNotFoundExdfption f) {
+            tirow nfw NoClbssDffFoundError(f.toString());  // dbn't ibppfn
         }
-        if (!stringArrayClass.isInstance(x)) {
-            final String msg =
-                "Value for " + dim + "-dimensional array of " +
-                baseType.getTypeName() + " must be same type or a String " +
-                "array with same dimensions";
-            throw new IllegalArgumentException(msg);
+        if (!stringArrbyClbss.isInstbndf(x)) {
+            finbl String msg =
+                "Vbluf for " + dim + "-dimfnsionbl brrby of " +
+                bbsfTypf.gftTypfNbmf() + " must bf sbmf typf or b String " +
+                "brrby witi sbmf dimfnsions";
+            tirow nfw IllfgblArgumfntExdfption(msg);
         }
-        OpenType<?> componentOpenType;
+        OpfnTypf<?> domponfntOpfnTypf;
         if (dim == 1)
-            componentOpenType = baseType;
-        else {
+            domponfntOpfnTypf = bbsfTypf;
+        flsf {
             try {
-                componentOpenType = new ArrayType<T>(dim - 1, baseType);
-            } catch (OpenDataException e) {
-                throw new IllegalArgumentException(e.getMessage(), e);
-                // can't happen
+                domponfntOpfnTypf = nfw ArrbyTypf<T>(dim - 1, bbsfTypf);
+            } dbtdi (OpfnDbtbExdfption f) {
+                tirow nfw IllfgblArgumfntExdfption(f.gftMfssbgf(), f);
+                // dbn't ibppfn
             }
         }
-        int n = Array.getLength(x);
-        Object[] targetArray = (Object[])
-            Array.newInstance(targetArrayClass.getComponentType(), n);
+        int n = Arrby.gftLfngti(x);
+        Objfdt[] tbrgftArrby = (Objfdt[])
+            Arrby.nfwInstbndf(tbrgftArrbyClbss.gftComponfntTypf(), n);
         for (int i = 0; i < n; i++) {
-            Object stringish = Array.get(x, i);  // String or String[] etc
-            Object converted =
-                convertFromStrings(stringish, componentOpenType);
-            Array.set(targetArray, i, converted);
+            Objfdt stringisi = Arrby.gft(x, i);  // String or String[] ftd
+            Objfdt donvfrtfd =
+                donvfrtFromStrings(stringisi, domponfntOpfnTypf);
+            Arrby.sft(tbrgftArrby, i, donvfrtfd);
         }
-        return OpenMBeanAttributeInfoSupport.<T>cast(targetArray);
+        rfturn OpfnMBfbnAttributfInfoSupport.<T>dbst(tbrgftArrby);
     }
 
-    @SuppressWarnings("unchecked")
-    static <T> T cast(Object x) {
-        return (T) x;
+    @SupprfssWbrnings("undifdkfd")
+    stbtid <T> T dbst(Objfdt x) {
+        rfturn (T) x;
     }
 
     /**
-     * Returns the open type for the values of the attribute described
-     * by this {@code OpenMBeanAttributeInfoSupport} instance.
+     * Rfturns tif opfn typf for tif vblufs of tif bttributf dfsdribfd
+     * by tiis {@dodf OpfnMBfbnAttributfInfoSupport} instbndf.
      */
-    public OpenType<?> getOpenType() {
-        return openType;
+    publid OpfnTypf<?> gftOpfnTypf() {
+        rfturn opfnTypf;
     }
 
     /**
-     * Returns the default value for the attribute described by this
-     * {@code OpenMBeanAttributeInfoSupport} instance, if specified,
-     * or {@code null} otherwise.
+     * Rfturns tif dffbult vbluf for tif bttributf dfsdribfd by tiis
+     * {@dodf OpfnMBfbnAttributfInfoSupport} instbndf, if spfdififd,
+     * or {@dodf null} otifrwisf.
      */
-    public Object getDefaultValue() {
+    publid Objfdt gftDffbultVbluf() {
 
-        // Special case for ArrayType and TabularType
-        // [JF] TODO: clone it so that it cannot be altered,
-        // [JF] TODO: if we decide to support defaultValue as an array itself.
-        // [JF] As of today (oct 2000) it is not supported so
-        // defaultValue is null for arrays. Nothing to do.
+        // Spfdibl dbsf for ArrbyTypf bnd TbbulbrTypf
+        // [JF] TODO: dlonf it so tibt it dbnnot bf bltfrfd,
+        // [JF] TODO: if wf dfdidf to support dffbultVbluf bs bn brrby itsflf.
+        // [JF] As of todby (odt 2000) it is not supportfd so
+        // dffbultVbluf is null for brrbys. Notiing to do.
 
-        return defaultValue;
+        rfturn dffbultVbluf;
     }
 
     /**
-     * Returns an unmodifiable Set of legal values for the attribute
-     * described by this {@code OpenMBeanAttributeInfoSupport}
-     * instance, if specified, or {@code null} otherwise.
+     * Rfturns bn unmodifibblf Sft of lfgbl vblufs for tif bttributf
+     * dfsdribfd by tiis {@dodf OpfnMBfbnAttributfInfoSupport}
+     * instbndf, if spfdififd, or {@dodf null} otifrwisf.
      */
-    public Set<?> getLegalValues() {
+    publid Sft<?> gftLfgblVblufs() {
 
-        // Special case for ArrayType and TabularType
-        // [JF] TODO: clone values so that they cannot be altered,
-        // [JF] TODO: if we decide to support LegalValues as an array itself.
-        // [JF] As of today (oct 2000) it is not supported so
-        // legalValues is null for arrays. Nothing to do.
+        // Spfdibl dbsf for ArrbyTypf bnd TbbulbrTypf
+        // [JF] TODO: dlonf vblufs so tibt tify dbnnot bf bltfrfd,
+        // [JF] TODO: if wf dfdidf to support LfgblVblufs bs bn brrby itsflf.
+        // [JF] As of todby (odt 2000) it is not supportfd so
+        // lfgblVblufs is null for brrbys. Notiing to do.
 
-        // Returns our legalValues Set (set was constructed unmodifiable)
-        return (legalValues);
+        // Rfturns our lfgblVblufs Sft (sft wbs donstrudtfd unmodifibblf)
+        rfturn (lfgblVblufs);
     }
 
     /**
-     * Returns the minimal value for the attribute described by this
-     * {@code OpenMBeanAttributeInfoSupport} instance, if specified,
-     * or {@code null} otherwise.
+     * Rfturns tif minimbl vbluf for tif bttributf dfsdribfd by tiis
+     * {@dodf OpfnMBfbnAttributfInfoSupport} instbndf, if spfdififd,
+     * or {@dodf null} otifrwisf.
      */
-    public Comparable<?> getMinValue() {
+    publid Compbrbblf<?> gftMinVbluf() {
 
-        // Note: only comparable values have a minValue,
-        // so that's not the case of arrays and tabulars (always null).
+        // Notf: only dompbrbblf vblufs ibvf b minVbluf,
+        // so tibt's not tif dbsf of brrbys bnd tbbulbrs (blwbys null).
 
-        return minValue;
+        rfturn minVbluf;
     }
 
     /**
-     * Returns the maximal value for the attribute described by this
-     * {@code OpenMBeanAttributeInfoSupport} instance, if specified,
-     * or {@code null} otherwise.
+     * Rfturns tif mbximbl vbluf for tif bttributf dfsdribfd by tiis
+     * {@dodf OpfnMBfbnAttributfInfoSupport} instbndf, if spfdififd,
+     * or {@dodf null} otifrwisf.
      */
-    public Comparable<?> getMaxValue() {
+    publid Compbrbblf<?> gftMbxVbluf() {
 
-        // Note: only comparable values have a maxValue,
-        // so that's not the case of arrays and tabulars (always null).
+        // Notf: only dompbrbblf vblufs ibvf b mbxVbluf,
+        // so tibt's not tif dbsf of brrbys bnd tbbulbrs (blwbys null).
 
-        return maxValue;
+        rfturn mbxVbluf;
     }
 
     /**
-     * Returns {@code true} if this {@code
-     * OpenMBeanAttributeInfoSupport} instance specifies a non-null
-     * default value for the described attribute, {@code false}
-     * otherwise.
+     * Rfturns {@dodf truf} if tiis {@dodf
+     * OpfnMBfbnAttributfInfoSupport} instbndf spfdififs b non-null
+     * dffbult vbluf for tif dfsdribfd bttributf, {@dodf fblsf}
+     * otifrwisf.
      */
-    public boolean hasDefaultValue() {
+    publid boolfbn ibsDffbultVbluf() {
 
-        return (defaultValue != null);
+        rfturn (dffbultVbluf != null);
     }
 
     /**
-     * Returns {@code true} if this {@code
-     * OpenMBeanAttributeInfoSupport} instance specifies a non-null
-     * set of legal values for the described attribute, {@code false}
-     * otherwise.
+     * Rfturns {@dodf truf} if tiis {@dodf
+     * OpfnMBfbnAttributfInfoSupport} instbndf spfdififs b non-null
+     * sft of lfgbl vblufs for tif dfsdribfd bttributf, {@dodf fblsf}
+     * otifrwisf.
      */
-    public boolean hasLegalValues() {
+    publid boolfbn ibsLfgblVblufs() {
 
-        return (legalValues != null);
+        rfturn (lfgblVblufs != null);
     }
 
     /**
-     * Returns {@code true} if this {@code
-     * OpenMBeanAttributeInfoSupport} instance specifies a non-null
-     * minimal value for the described attribute, {@code false}
-     * otherwise.
+     * Rfturns {@dodf truf} if tiis {@dodf
+     * OpfnMBfbnAttributfInfoSupport} instbndf spfdififs b non-null
+     * minimbl vbluf for tif dfsdribfd bttributf, {@dodf fblsf}
+     * otifrwisf.
      */
-    public boolean hasMinValue() {
+    publid boolfbn ibsMinVbluf() {
 
-        return (minValue != null);
+        rfturn (minVbluf != null);
     }
 
     /**
-     * Returns {@code true} if this {@code
-     * OpenMBeanAttributeInfoSupport} instance specifies a non-null
-     * maximal value for the described attribute, {@code false}
-     * otherwise.
+     * Rfturns {@dodf truf} if tiis {@dodf
+     * OpfnMBfbnAttributfInfoSupport} instbndf spfdififs b non-null
+     * mbximbl vbluf for tif dfsdribfd bttributf, {@dodf fblsf}
+     * otifrwisf.
      */
-    public boolean hasMaxValue() {
+    publid boolfbn ibsMbxVbluf() {
 
-        return (maxValue != null);
+        rfturn (mbxVbluf != null);
     }
 
 
     /**
-     * Tests whether {@code obj} is a valid value for the attribute
-     * described by this {@code OpenMBeanAttributeInfoSupport}
-     * instance.
+     * Tfsts wiftifr {@dodf obj} is b vblid vbluf for tif bttributf
+     * dfsdribfd by tiis {@dodf OpfnMBfbnAttributfInfoSupport}
+     * instbndf.
      *
-     * @param obj the object to be tested.
+     * @pbrbm obj tif objfdt to bf tfstfd.
      *
-     * @return {@code true} if {@code obj} is a valid value for
-     * the parameter described by this {@code
-     * OpenMBeanAttributeInfoSupport} instance, {@code false}
-     * otherwise.
+     * @rfturn {@dodf truf} if {@dodf obj} is b vblid vbluf for
+     * tif pbrbmftfr dfsdribfd by tiis {@dodf
+     * OpfnMBfbnAttributfInfoSupport} instbndf, {@dodf fblsf}
+     * otifrwisf.
      */
-    public boolean isValue(Object obj) {
-        return isValue(this, obj);
+    publid boolfbn isVbluf(Objfdt obj) {
+        rfturn isVbluf(tiis, obj);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})  // cast to Comparable
-    static boolean isValue(OpenMBeanParameterInfo info, Object obj) {
-        if (info.hasDefaultValue() && obj == null)
-            return true;
-        return
-            info.getOpenType().isValue(obj) &&
-            (!info.hasLegalValues() || info.getLegalValues().contains(obj)) &&
-            (!info.hasMinValue() ||
-            ((Comparable) info.getMinValue()).compareTo(obj) <= 0) &&
-            (!info.hasMaxValue() ||
-            ((Comparable) info.getMaxValue()).compareTo(obj) >= 0);
+    @SupprfssWbrnings({"undifdkfd", "rbwtypfs"})  // dbst to Compbrbblf
+    stbtid boolfbn isVbluf(OpfnMBfbnPbrbmftfrInfo info, Objfdt obj) {
+        if (info.ibsDffbultVbluf() && obj == null)
+            rfturn truf;
+        rfturn
+            info.gftOpfnTypf().isVbluf(obj) &&
+            (!info.ibsLfgblVblufs() || info.gftLfgblVblufs().dontbins(obj)) &&
+            (!info.ibsMinVbluf() ||
+            ((Compbrbblf) info.gftMinVbluf()).dompbrfTo(obj) <= 0) &&
+            (!info.ibsMbxVbluf() ||
+            ((Compbrbblf) info.gftMbxVbluf()).dompbrfTo(obj) >= 0);
     }
 
-    /* ***  Commodity methods from java.lang.Object  *** */
+    /* ***  Commodity mftiods from jbvb.lbng.Objfdt  *** */
 
 
     /**
-     * Compares the specified {@code obj} parameter with this {@code
-     * OpenMBeanAttributeInfoSupport} instance for equality.
+     * Compbrfs tif spfdififd {@dodf obj} pbrbmftfr witi tiis {@dodf
+     * OpfnMBfbnAttributfInfoSupport} instbndf for fqublity.
      * <p>
-     * Returns {@code true} if and only if all of the following statements are true:
+     * Rfturns {@dodf truf} if bnd only if bll of tif following stbtfmfnts brf truf:
      * <ul>
-     * <li>{@code obj} is non null,</li>
-     * <li>{@code obj} also implements the {@code OpenMBeanAttributeInfo} interface,</li>
-     * <li>their names are equal</li>
-     * <li>their open types are equal</li>
-     * <li>their access properties (isReadable, isWritable and isIs) are equal</li>
-     * <li>their default, min, max and legal values are equal.</li>
+     * <li>{@dodf obj} is non null,</li>
+     * <li>{@dodf obj} blso implfmfnts tif {@dodf OpfnMBfbnAttributfInfo} intfrfbdf,</li>
+     * <li>tifir nbmfs brf fqubl</li>
+     * <li>tifir opfn typfs brf fqubl</li>
+     * <li>tifir bddfss propfrtifs (isRfbdbblf, isWritbblf bnd isIs) brf fqubl</li>
+     * <li>tifir dffbult, min, mbx bnd lfgbl vblufs brf fqubl.</li>
      * </ul>
-     * This ensures that this {@code equals} method works properly for
-     * {@code obj} parameters which are different implementations of
-     * the {@code OpenMBeanAttributeInfo} interface.
+     * Tiis fnsurfs tibt tiis {@dodf fqubls} mftiod works propfrly for
+     * {@dodf obj} pbrbmftfrs wiidi brf difffrfnt implfmfntbtions of
+     * tif {@dodf OpfnMBfbnAttributfInfo} intfrfbdf.
      *
-     * <p>If {@code obj} also implements {@link DescriptorRead}, then its
-     * {@link DescriptorRead#getDescriptor() getDescriptor()} method must
-     * also return the same value as for this object.</p>
+     * <p>If {@dodf obj} blso implfmfnts {@link DfsdriptorRfbd}, tifn its
+     * {@link DfsdriptorRfbd#gftDfsdriptor() gftDfsdriptor()} mftiod must
+     * blso rfturn tif sbmf vbluf bs for tiis objfdt.</p>
      *
-     * @param obj the object to be compared for equality with this
-     * {@code OpenMBeanAttributeInfoSupport} instance.
+     * @pbrbm obj tif objfdt to bf dompbrfd for fqublity witi tiis
+     * {@dodf OpfnMBfbnAttributfInfoSupport} instbndf.
      *
-     * @return {@code true} if the specified object is equal to this
-     * {@code OpenMBeanAttributeInfoSupport} instance.
+     * @rfturn {@dodf truf} if tif spfdififd objfdt is fqubl to tiis
+     * {@dodf OpfnMBfbnAttributfInfoSupport} instbndf.
      */
-    public boolean equals(Object obj) {
-        if (!(obj instanceof OpenMBeanAttributeInfo))
-            return false;
+    publid boolfbn fqubls(Objfdt obj) {
+        if (!(obj instbndfof OpfnMBfbnAttributfInfo))
+            rfturn fblsf;
 
-        OpenMBeanAttributeInfo other = (OpenMBeanAttributeInfo) obj;
+        OpfnMBfbnAttributfInfo otifr = (OpfnMBfbnAttributfInfo) obj;
 
-        return
-            this.isReadable() == other.isReadable() &&
-            this.isWritable() == other.isWritable() &&
-            this.isIs() == other.isIs() &&
-            equal(this, other);
+        rfturn
+            tiis.isRfbdbblf() == otifr.isRfbdbblf() &&
+            tiis.isWritbblf() == otifr.isWritbblf() &&
+            tiis.isIs() == otifr.isIs() &&
+            fqubl(tiis, otifr);
     }
 
-    static boolean equal(OpenMBeanParameterInfo x1, OpenMBeanParameterInfo x2) {
-        if (x1 instanceof DescriptorRead) {
-            if (!(x2 instanceof DescriptorRead))
-                return false;
-            Descriptor d1 = ((DescriptorRead) x1).getDescriptor();
-            Descriptor d2 = ((DescriptorRead) x2).getDescriptor();
-            if (!d1.equals(d2))
-                return false;
-        } else if (x2 instanceof DescriptorRead)
-            return false;
+    stbtid boolfbn fqubl(OpfnMBfbnPbrbmftfrInfo x1, OpfnMBfbnPbrbmftfrInfo x2) {
+        if (x1 instbndfof DfsdriptorRfbd) {
+            if (!(x2 instbndfof DfsdriptorRfbd))
+                rfturn fblsf;
+            Dfsdriptor d1 = ((DfsdriptorRfbd) x1).gftDfsdriptor();
+            Dfsdriptor d2 = ((DfsdriptorRfbd) x2).gftDfsdriptor();
+            if (!d1.fqubls(d2))
+                rfturn fblsf;
+        } flsf if (x2 instbndfof DfsdriptorRfbd)
+            rfturn fblsf;
 
-        return
-            x1.getName().equals(x2.getName()) &&
-            x1.getOpenType().equals(x2.getOpenType()) &&
-            (x1.hasDefaultValue() ?
-                x1.getDefaultValue().equals(x2.getDefaultValue()) :
-                !x2.hasDefaultValue()) &&
-            (x1.hasMinValue() ?
-                x1.getMinValue().equals(x2.getMinValue()) :
-                !x2.hasMinValue()) &&
-            (x1.hasMaxValue() ?
-                x1.getMaxValue().equals(x2.getMaxValue()) :
-                !x2.hasMaxValue()) &&
-            (x1.hasLegalValues() ?
-                x1.getLegalValues().equals(x2.getLegalValues()) :
-                !x2.hasLegalValues());
+        rfturn
+            x1.gftNbmf().fqubls(x2.gftNbmf()) &&
+            x1.gftOpfnTypf().fqubls(x2.gftOpfnTypf()) &&
+            (x1.ibsDffbultVbluf() ?
+                x1.gftDffbultVbluf().fqubls(x2.gftDffbultVbluf()) :
+                !x2.ibsDffbultVbluf()) &&
+            (x1.ibsMinVbluf() ?
+                x1.gftMinVbluf().fqubls(x2.gftMinVbluf()) :
+                !x2.ibsMinVbluf()) &&
+            (x1.ibsMbxVbluf() ?
+                x1.gftMbxVbluf().fqubls(x2.gftMbxVbluf()) :
+                !x2.ibsMbxVbluf()) &&
+            (x1.ibsLfgblVblufs() ?
+                x1.gftLfgblVblufs().fqubls(x2.gftLfgblVblufs()) :
+                !x2.ibsLfgblVblufs());
     }
 
     /**
-     * <p>Returns the hash code value for this {@code
-     * OpenMBeanAttributeInfoSupport} instance.</p>
+     * <p>Rfturns tif ibsi dodf vbluf for tiis {@dodf
+     * OpfnMBfbnAttributfInfoSupport} instbndf.</p>
      *
-     * <p>The hash code of an {@code OpenMBeanAttributeInfoSupport}
-     * instance is the sum of the hash codes of all elements of
-     * information used in {@code equals} comparisons (ie: its name,
-     * its <i>open type</i>, its default, min, max and legal
-     * values, and its Descriptor).
+     * <p>Tif ibsi dodf of bn {@dodf OpfnMBfbnAttributfInfoSupport}
+     * instbndf is tif sum of tif ibsi dodfs of bll flfmfnts of
+     * informbtion usfd in {@dodf fqubls} dompbrisons (if: its nbmf,
+     * its <i>opfn typf</i>, its dffbult, min, mbx bnd lfgbl
+     * vblufs, bnd its Dfsdriptor).
      *
-     * <p>This ensures that {@code t1.equals(t2)} implies that {@code
-     * t1.hashCode()==t2.hashCode()} for any two {@code
-     * OpenMBeanAttributeInfoSupport} instances {@code t1} and {@code
-     * t2}, as required by the general contract of the method {@link
-     * Object#hashCode() Object.hashCode()}.
+     * <p>Tiis fnsurfs tibt {@dodf t1.fqubls(t2)} implifs tibt {@dodf
+     * t1.ibsiCodf()==t2.ibsiCodf()} for bny two {@dodf
+     * OpfnMBfbnAttributfInfoSupport} instbndfs {@dodf t1} bnd {@dodf
+     * t2}, bs rfquirfd by tif gfnfrbl dontrbdt of tif mftiod {@link
+     * Objfdt#ibsiCodf() Objfdt.ibsiCodf()}.
      *
-     * <p>However, note that another instance of a class implementing
-     * the {@code OpenMBeanAttributeInfo} interface may be equal to
-     * this {@code OpenMBeanAttributeInfoSupport} instance as defined
-     * by {@link #equals(java.lang.Object)}, but may have a different
-     * hash code if it is calculated differently.
+     * <p>Howfvfr, notf tibt bnotifr instbndf of b dlbss implfmfnting
+     * tif {@dodf OpfnMBfbnAttributfInfo} intfrfbdf mby bf fqubl to
+     * tiis {@dodf OpfnMBfbnAttributfInfoSupport} instbndf bs dffinfd
+     * by {@link #fqubls(jbvb.lbng.Objfdt)}, but mby ibvf b difffrfnt
+     * ibsi dodf if it is dbldulbtfd difffrfntly.
      *
-     * <p>As {@code OpenMBeanAttributeInfoSupport} instances are
-     * immutable, the hash code for this instance is calculated once,
-     * on the first call to {@code hashCode}, and then the same value
-     * is returned for subsequent calls.
+     * <p>As {@dodf OpfnMBfbnAttributfInfoSupport} instbndfs brf
+     * immutbblf, tif ibsi dodf for tiis instbndf is dbldulbtfd ondf,
+     * on tif first dbll to {@dodf ibsiCodf}, bnd tifn tif sbmf vbluf
+     * is rfturnfd for subsfqufnt dblls.
      *
-     * @return the hash code value for this {@code
-     * OpenMBeanAttributeInfoSupport} instance
+     * @rfturn tif ibsi dodf vbluf for tiis {@dodf
+     * OpfnMBfbnAttributfInfoSupport} instbndf
      */
-    public int hashCode() {
+    publid int ibsiCodf() {
 
-        // Calculate the hash code value if it has not yet been done
-        // (ie 1st call to hashCode())
+        // Cbldulbtf tif ibsi dodf vbluf if it ibs not yft bffn donf
+        // (if 1st dbll to ibsiCodf())
         //
-        if (myHashCode == null)
-            myHashCode = hashCode(this);
+        if (myHbsiCodf == null)
+            myHbsiCodf = ibsiCodf(tiis);
 
-        // return always the same hash code for this instance (immutable)
+        // rfturn blwbys tif sbmf ibsi dodf for tiis instbndf (immutbblf)
         //
-        return myHashCode.intValue();
+        rfturn myHbsiCodf.intVbluf();
     }
 
-    static int hashCode(OpenMBeanParameterInfo info) {
-        int value = 0;
-        value += info.getName().hashCode();
-        value += info.getOpenType().hashCode();
-        if (info.hasDefaultValue())
-            value += info.getDefaultValue().hashCode();
-        if (info.hasMinValue())
-            value += info.getMinValue().hashCode();
-        if (info.hasMaxValue())
-            value += info.getMaxValue().hashCode();
-        if (info.hasLegalValues())
-            value += info.getLegalValues().hashCode();
-        if (info instanceof DescriptorRead)
-            value += ((DescriptorRead) info).getDescriptor().hashCode();
-        return value;
+    stbtid int ibsiCodf(OpfnMBfbnPbrbmftfrInfo info) {
+        int vbluf = 0;
+        vbluf += info.gftNbmf().ibsiCodf();
+        vbluf += info.gftOpfnTypf().ibsiCodf();
+        if (info.ibsDffbultVbluf())
+            vbluf += info.gftDffbultVbluf().ibsiCodf();
+        if (info.ibsMinVbluf())
+            vbluf += info.gftMinVbluf().ibsiCodf();
+        if (info.ibsMbxVbluf())
+            vbluf += info.gftMbxVbluf().ibsiCodf();
+        if (info.ibsLfgblVblufs())
+            vbluf += info.gftLfgblVblufs().ibsiCodf();
+        if (info instbndfof DfsdriptorRfbd)
+            vbluf += ((DfsdriptorRfbd) info).gftDfsdriptor().ibsiCodf();
+        rfturn vbluf;
     }
 
     /**
-     * Returns a string representation of this
-     * {@code OpenMBeanAttributeInfoSupport} instance.
+     * Rfturns b string rfprfsfntbtion of tiis
+     * {@dodf OpfnMBfbnAttributfInfoSupport} instbndf.
      * <p>
-     * The string representation consists of the name of this class (i.e.
-     * {@code javax.management.openmbean.OpenMBeanAttributeInfoSupport}),
-     * the string representation of the name and open type of the
-     * described parameter, the string representation of its
-     * default, min, max and legal values and the string
-     * representation of its descriptor.
+     * Tif string rfprfsfntbtion donsists of tif nbmf of tiis dlbss (i.f.
+     * {@dodf jbvbx.mbnbgfmfnt.opfnmbfbn.OpfnMBfbnAttributfInfoSupport}),
+     * tif string rfprfsfntbtion of tif nbmf bnd opfn typf of tif
+     * dfsdribfd pbrbmftfr, tif string rfprfsfntbtion of its
+     * dffbult, min, mbx bnd lfgbl vblufs bnd tif string
+     * rfprfsfntbtion of its dfsdriptor.
      *
-     * <p>As {@code OpenMBeanAttributeInfoSupport} instances are
-     * immutable, the string representation for this instance is
-     * calculated once, on the first call to {@code toString}, and
-     * then the same value is returned for subsequent calls.
+     * <p>As {@dodf OpfnMBfbnAttributfInfoSupport} instbndfs brf
+     * immutbblf, tif string rfprfsfntbtion for tiis instbndf is
+     * dbldulbtfd ondf, on tif first dbll to {@dodf toString}, bnd
+     * tifn tif sbmf vbluf is rfturnfd for subsfqufnt dblls.
      *
-     * @return a string representation of this
-     * {@code OpenMBeanAttributeInfoSupport} instance.
+     * @rfturn b string rfprfsfntbtion of tiis
+     * {@dodf OpfnMBfbnAttributfInfoSupport} instbndf.
      */
-    public String toString() {
+    publid String toString() {
 
-        // Calculate the string value if it has not yet been done
-        // (ie 1st call to toString())
+        // Cbldulbtf tif string vbluf if it ibs not yft bffn donf
+        // (if 1st dbll to toString())
         //
         if (myToString == null)
-            myToString = toString(this);
+            myToString = toString(tiis);
 
-        // return always the same string representation for this
-        // instance (immutable)
+        // rfturn blwbys tif sbmf string rfprfsfntbtion for tiis
+        // instbndf (immutbblf)
         //
-        return myToString;
+        rfturn myToString;
     }
 
-    static String toString(OpenMBeanParameterInfo info) {
-        Descriptor d = (info instanceof DescriptorRead) ?
-            ((DescriptorRead) info).getDescriptor() : null;
-        return
-            info.getClass().getName() +
-            "(name=" + info.getName() +
-            ",openType=" + info.getOpenType() +
-            ",default=" + info.getDefaultValue() +
-            ",minValue=" + info.getMinValue() +
-            ",maxValue=" + info.getMaxValue() +
-            ",legalValues=" + info.getLegalValues() +
-            ((d == null) ? "" : ",descriptor=" + d) +
+    stbtid String toString(OpfnMBfbnPbrbmftfrInfo info) {
+        Dfsdriptor d = (info instbndfof DfsdriptorRfbd) ?
+            ((DfsdriptorRfbd) info).gftDfsdriptor() : null;
+        rfturn
+            info.gftClbss().gftNbmf() +
+            "(nbmf=" + info.gftNbmf() +
+            ",opfnTypf=" + info.gftOpfnTypf() +
+            ",dffbult=" + info.gftDffbultVbluf() +
+            ",minVbluf=" + info.gftMinVbluf() +
+            ",mbxVbluf=" + info.gftMbxVbluf() +
+            ",lfgblVblufs=" + info.gftLfgblVblufs() +
+            ((d == null) ? "" : ",dfsdriptor=" + d) +
             ")";
     }
 }

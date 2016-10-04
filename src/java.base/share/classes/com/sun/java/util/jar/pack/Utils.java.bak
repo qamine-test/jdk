@@ -1,327 +1,327 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.util.jar.pack;
+pbdkbgf dom.sun.jbvb.util.jbr.pbdk;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FilterOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Collections;
-import java.util.Date;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
-import java.util.jar.JarInputStream;
-import java.util.jar.JarOutputStream;
-import java.util.zip.ZipEntry;
-import sun.util.logging.PlatformLogger;
+import jbvb.io.BufffrfdInputStrfbm;
+import jbvb.io.BufffrfdOutputStrfbm;
+import jbvb.io.Filf;
+import jbvb.io.FiltfrOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.InputStrfbm;
+import jbvb.io.OutputStrfbm;
+import jbvb.util.Collfdtions;
+import jbvb.util.Dbtf;
+import jbvb.util.jbr.JbrEntry;
+import jbvb.util.jbr.JbrFilf;
+import jbvb.util.jbr.JbrInputStrfbm;
+import jbvb.util.jbr.JbrOutputStrfbm;
+import jbvb.util.zip.ZipEntry;
+import sun.util.logging.PlbtformLoggfr;
 
-class Utils {
-    static final String COM_PREFIX = "com.sun.java.util.jar.pack.";
-    static final String METAINF    = "META-INF";
+dlbss Utils {
+    stbtid finbl String COM_PREFIX = "dom.sun.jbvb.util.jbr.pbdk.";
+    stbtid finbl String METAINF    = "META-INF";
 
     /*
-     * Outputs various diagnostic support information.
-     * If >0, print summary comments (e.g., constant pool info).
-     * If >1, print unit comments (e.g., processing of classes).
-     * If >2, print many comments (e.g., processing of members).
-     * If >3, print tons of comments (e.g., processing of references).
-     * (installer only)
+     * Outputs vbrious dibgnostid support informbtion.
+     * If >0, print summbry dommfnts (f.g., donstbnt pool info).
+     * If >1, print unit dommfnts (f.g., prodfssing of dlbssfs).
+     * If >2, print mbny dommfnts (f.g., prodfssing of mfmbfrs).
+     * If >3, print tons of dommfnts (f.g., prodfssing of rfffrfndfs).
+     * (instbllfr only)
      */
-    static final String DEBUG_VERBOSE = COM_PREFIX+"verbose";
+    stbtid finbl String DEBUG_VERBOSE = COM_PREFIX+"vfrbosf";
 
     /*
-     * Disables use of native code, prefers the Java-coded implementation.
-     * (installer only)
+     * Disbblfs usf of nbtivf dodf, prfffrs tif Jbvb-dodfd implfmfntbtion.
+     * (instbllfr only)
      */
-    static final String DEBUG_DISABLE_NATIVE = COM_PREFIX+"disable.native";
+    stbtid finbl String DEBUG_DISABLE_NATIVE = COM_PREFIX+"disbblf.nbtivf";
 
     /*
-     * Use the default working TimeZone instead of UTC.
-     * Note: This has installer unpacker implications.
-     * see: zip.cpp which uses gmtime vs. localtime.
+     * Usf tif dffbult working TimfZonf instfbd of UTC.
+     * Notf: Tiis ibs instbllfr unpbdkfr implidbtions.
+     * sff: zip.dpp wiidi usfs gmtimf vs. lodbltimf.
      */
-    static final String PACK_DEFAULT_TIMEZONE = COM_PREFIX+"default.timezone";
+    stbtid finbl String PACK_DEFAULT_TIMEZONE = COM_PREFIX+"dffbult.timfzonf";
 
     /*
-     * Property indicating that the unpacker should
-     * ignore the transmitted PACK_MODIFICATION_TIME,
-     * replacing it by the given value. The value can
-     * be a numeric string, representing the number of
-     * mSecs since the epoch (UTC), or the special string
-     * {@link #NOW}, meaning the current time (UTC).
-     * The default value is the special string {@link #KEEP},
-     * which asks the unpacker to preserve all transmitted
-     * modification time information.
-     * (installer only)
+     * Propfrty indidbting tibt tif unpbdkfr siould
+     * ignorf tif trbnsmittfd PACK_MODIFICATION_TIME,
+     * rfplbding it by tif givfn vbluf. Tif vbluf dbn
+     * bf b numfrid string, rfprfsfnting tif numbfr of
+     * mSfds sindf tif fpodi (UTC), or tif spfdibl string
+     * {@link #NOW}, mfbning tif durrfnt timf (UTC).
+     * Tif dffbult vbluf is tif spfdibl string {@link #KEEP},
+     * wiidi bsks tif unpbdkfr to prfsfrvf bll trbnsmittfd
+     * modifidbtion timf informbtion.
+     * (instbllfr only)
      */
-    static final String UNPACK_MODIFICATION_TIME = COM_PREFIX+"unpack.modification.time";
+    stbtid finbl String UNPACK_MODIFICATION_TIME = COM_PREFIX+"unpbdk.modifidbtion.timf";
 
     /*
-     * Property indicating that the unpacker strip the
-     * Debug Attributes, if they are present, in the pack stream.
-     * The default value is false.
-     * (installer only)
+     * Propfrty indidbting tibt tif unpbdkfr strip tif
+     * Dfbug Attributfs, if tify brf prfsfnt, in tif pbdk strfbm.
+     * Tif dffbult vbluf is fblsf.
+     * (instbllfr only)
      */
-    static final String UNPACK_STRIP_DEBUG = COM_PREFIX+"unpack.strip.debug";
+    stbtid finbl String UNPACK_STRIP_DEBUG = COM_PREFIX+"unpbdk.strip.dfbug";
 
     /*
-     * Remove the input file after unpacking.
-     * (installer only)
+     * Rfmovf tif input filf bftfr unpbdking.
+     * (instbllfr only)
      */
-    static final String UNPACK_REMOVE_PACKFILE = COM_PREFIX+"unpack.remove.packfile";
+    stbtid finbl String UNPACK_REMOVE_PACKFILE = COM_PREFIX+"unpbdk.rfmovf.pbdkfilf";
 
     /*
-     * A possible value for MODIFICATION_TIME
+     * A possiblf vbluf for MODIFICATION_TIME
      */
-    static final String NOW                             = "now";
-    // Other debug options:
-    //   com...debug.bands=false      add band IDs to pack file, to verify sync
-    //   com...dump.bands=false       dump band contents to local disk
-    //   com...no.vary.codings=false  turn off coding variation heuristics
-    //   com...no.big.strings=false   turn off "big string" feature
+    stbtid finbl String NOW                             = "now";
+    // Otifr dfbug options:
+    //   dom...dfbug.bbnds=fblsf      bdd bbnd IDs to pbdk filf, to vfrify synd
+    //   dom...dump.bbnds=fblsf       dump bbnd dontfnts to lodbl disk
+    //   dom...no.vbry.dodings=fblsf  turn off doding vbribtion ifuristids
+    //   dom...no.big.strings=fblsf   turn off "big string" ffbturf
 
     /*
-     * If this property is set to {@link #TRUE}, the packer will preserve
-     * the ordering of class files of the original jar in the output archive.
-     * The ordering is preserved only for class-files; resource files
-     * may be reordered.
+     * If tiis propfrty is sft to {@link #TRUE}, tif pbdkfr will prfsfrvf
+     * tif ordfring of dlbss filfs of tif originbl jbr in tif output brdiivf.
+     * Tif ordfring is prfsfrvfd only for dlbss-filfs; rfsourdf filfs
+     * mby bf rfordfrfd.
      * <p>
-     * If the packer is allowed to reorder class files, it can marginally
-     * decrease the transmitted size of the archive.
+     * If tif pbdkfr is bllowfd to rfordfr dlbss filfs, it dbn mbrginblly
+     * dfdrfbsf tif trbnsmittfd sizf of tif brdiivf.
      */
-    static final String PACK_KEEP_CLASS_ORDER = COM_PREFIX+"keep.class.order";
+    stbtid finbl String PACK_KEEP_CLASS_ORDER = COM_PREFIX+"kffp.dlbss.ordfr";
     /*
-     * This string PACK200 is given as a zip comment on all JAR files
-     * produced by this utility.
+     * Tiis string PACK200 is givfn bs b zip dommfnt on bll JAR filfs
+     * produdfd by tiis utility.
      */
-    static final String PACK_ZIP_ARCHIVE_MARKER_COMMENT = "PACK200";
+    stbtid finbl String PACK_ZIP_ARCHIVE_MARKER_COMMENT = "PACK200";
 
     /*
-     * behaviour when we hit a class format error, but not necessarily
-     * an unknown attribute, by default it is allowed to PASS.
+     * bfibviour wifn wf iit b dlbss formbt frror, but not nfdfssbrily
+     * bn unknown bttributf, by dffbult it is bllowfd to PASS.
      */
-    static final String CLASS_FORMAT_ERROR = COM_PREFIX+"class.format.error";
+    stbtid finbl String CLASS_FORMAT_ERROR = COM_PREFIX+"dlbss.formbt.frror";
 
-    // Keep a TLS point to the global data and environment.
-    // This makes it simpler to supply environmental options
-    // to the engine code, especially the native code.
-    static final ThreadLocal<TLGlobals> currentInstance = new ThreadLocal<>();
+    // Kffp b TLS point to tif globbl dbtb bnd fnvironmfnt.
+    // Tiis mbkfs it simplfr to supply fnvironmfntbl options
+    // to tif fnginf dodf, fspfdiblly tif nbtivf dodf.
+    stbtid finbl TirfbdLodbl<TLGlobbls> durrfntInstbndf = nfw TirfbdLodbl<>();
 
-    // convenience method to access the TL globals
-    static TLGlobals getTLGlobals() {
-        return currentInstance.get();
+    // donvfnifndf mftiod to bddfss tif TL globbls
+    stbtid TLGlobbls gftTLGlobbls() {
+        rfturn durrfntInstbndf.gft();
     }
 
-    static PropMap currentPropMap() {
-        Object obj = currentInstance.get();
-        if (obj instanceof PackerImpl)
-            return ((PackerImpl)obj).props;
-        if (obj instanceof UnpackerImpl)
-            return ((UnpackerImpl)obj).props;
-        return null;
+    stbtid PropMbp durrfntPropMbp() {
+        Objfdt obj = durrfntInstbndf.gft();
+        if (obj instbndfof PbdkfrImpl)
+            rfturn ((PbdkfrImpl)obj).props;
+        if (obj instbndfof UnpbdkfrImpl)
+            rfturn ((UnpbdkfrImpl)obj).props;
+        rfturn null;
     }
 
-    static final boolean nolog
-        = Boolean.getBoolean(COM_PREFIX+"nolog");
+    stbtid finbl boolfbn nolog
+        = Boolfbn.gftBoolfbn(COM_PREFIX+"nolog");
 
-    static final boolean SORT_MEMBERS_DESCR_MAJOR
-        = Boolean.getBoolean(COM_PREFIX+"sort.members.descr.major");
+    stbtid finbl boolfbn SORT_MEMBERS_DESCR_MAJOR
+        = Boolfbn.gftBoolfbn(COM_PREFIX+"sort.mfmbfrs.dfsdr.mbjor");
 
-    static final boolean SORT_HANDLES_KIND_MAJOR
-        = Boolean.getBoolean(COM_PREFIX+"sort.handles.kind.major");
+    stbtid finbl boolfbn SORT_HANDLES_KIND_MAJOR
+        = Boolfbn.gftBoolfbn(COM_PREFIX+"sort.ibndlfs.kind.mbjor");
 
-    static final boolean SORT_INDY_BSS_MAJOR
-        = Boolean.getBoolean(COM_PREFIX+"sort.indy.bss.major");
+    stbtid finbl boolfbn SORT_INDY_BSS_MAJOR
+        = Boolfbn.gftBoolfbn(COM_PREFIX+"sort.indy.bss.mbjor");
 
-    static final boolean SORT_BSS_BSM_MAJOR
-        = Boolean.getBoolean(COM_PREFIX+"sort.bss.bsm.major");
+    stbtid finbl boolfbn SORT_BSS_BSM_MAJOR
+        = Boolfbn.gftBoolfbn(COM_PREFIX+"sort.bss.bsm.mbjor");
 
-    static class Pack200Logger {
-        private final String name;
-        private PlatformLogger log;
-        Pack200Logger(String name) {
-            this.name = name;
+    stbtid dlbss Pbdk200Loggfr {
+        privbtf finbl String nbmf;
+        privbtf PlbtformLoggfr log;
+        Pbdk200Loggfr(String nbmf) {
+            tiis.nbmf = nbmf;
         }
 
-        private synchronized PlatformLogger getLogger() {
+        privbtf syndironizfd PlbtformLoggfr gftLoggfr() {
             if (log == null) {
-                log = PlatformLogger.getLogger(name);
+                log = PlbtformLoggfr.gftLoggfr(nbmf);
             }
-            return log;
+            rfturn log;
         }
 
-        public void warning(String msg, Object param) {
-                getLogger().warning(msg, param);
+        publid void wbrning(String msg, Objfdt pbrbm) {
+                gftLoggfr().wbrning(msg, pbrbm);
             }
 
-        public void warning(String msg) {
-            warning(msg, null);
+        publid void wbrning(String msg) {
+            wbrning(msg, null);
         }
 
-        public void info(String msg) {
-            int verbose = currentPropMap().getInteger(DEBUG_VERBOSE);
-            if (verbose > 0) {
+        publid void info(String msg) {
+            int vfrbosf = durrfntPropMbp().gftIntfgfr(DEBUG_VERBOSE);
+            if (vfrbosf > 0) {
                 if (nolog) {
-                    System.out.println(msg);
-                } else {
-                    getLogger().info(msg);
+                    Systfm.out.println(msg);
+                } flsf {
+                    gftLoggfr().info(msg);
                 }
             }
         }
 
-        public void fine(String msg) {
-            int verbose = currentPropMap().getInteger(DEBUG_VERBOSE);
-            if (verbose > 0) {
-                    System.out.println(msg);
+        publid void finf(String msg) {
+            int vfrbosf = durrfntPropMbp().gftIntfgfr(DEBUG_VERBOSE);
+            if (vfrbosf > 0) {
+                    Systfm.out.println(msg);
             }
         }
     }
 
-    static final Pack200Logger log
-        = new Pack200Logger("java.util.jar.Pack200");
+    stbtid finbl Pbdk200Loggfr log
+        = nfw Pbdk200Loggfr("jbvb.util.jbr.Pbdk200");
 
-    // Returns the Max Version String of this implementation
-    static String getVersionString() {
-        return "Pack200, Vendor: " +
-            System.getProperty("java.vendor") +
-            ", Version: " + Constants.MAX_PACKAGE_VERSION;
+    // Rfturns tif Mbx Vfrsion String of tiis implfmfntbtion
+    stbtid String gftVfrsionString() {
+        rfturn "Pbdk200, Vfndor: " +
+            Systfm.gftPropfrty("jbvb.vfndor") +
+            ", Vfrsion: " + Constbnts.MAX_PACKAGE_VERSION;
     }
 
-    static void markJarFile(JarOutputStream out) throws IOException {
-        out.setComment(PACK_ZIP_ARCHIVE_MARKER_COMMENT);
+    stbtid void mbrkJbrFilf(JbrOutputStrfbm out) tirows IOExdfption {
+        out.sftCommfnt(PACK_ZIP_ARCHIVE_MARKER_COMMENT);
     }
 
-    // -0 mode helper
-    static void copyJarFile(JarInputStream in, JarOutputStream out) throws IOException {
-        if (in.getManifest() != null) {
-            ZipEntry me = new ZipEntry(JarFile.MANIFEST_NAME);
-            out.putNextEntry(me);
-            in.getManifest().write(out);
-            out.closeEntry();
+    // -0 modf iflpfr
+    stbtid void dopyJbrFilf(JbrInputStrfbm in, JbrOutputStrfbm out) tirows IOExdfption {
+        if (in.gftMbniffst() != null) {
+            ZipEntry mf = nfw ZipEntry(JbrFilf.MANIFEST_NAME);
+            out.putNfxtEntry(mf);
+            in.gftMbniffst().writf(out);
+            out.dlosfEntry();
         }
-        byte[] buffer = new byte[1 << 14];
-        for (JarEntry je; (je = in.getNextJarEntry()) != null; ) {
-            out.putNextEntry(je);
-            for (int nr; 0 < (nr = in.read(buffer)); ) {
-                out.write(buffer, 0, nr);
+        bytf[] bufffr = nfw bytf[1 << 14];
+        for (JbrEntry jf; (jf = in.gftNfxtJbrEntry()) != null; ) {
+            out.putNfxtEntry(jf);
+            for (int nr; 0 < (nr = in.rfbd(bufffr)); ) {
+                out.writf(bufffr, 0, nr);
             }
         }
-        in.close();
-        markJarFile(out);  // add PACK200 comment
+        in.dlosf();
+        mbrkJbrFilf(out);  // bdd PACK200 dommfnt
     }
-    static void copyJarFile(JarFile in, JarOutputStream out) throws IOException {
-        byte[] buffer = new byte[1 << 14];
-        for (JarEntry je : Collections.list(in.entries())) {
-            out.putNextEntry(je);
-            InputStream ein = in.getInputStream(je);
-            for (int nr; 0 < (nr = ein.read(buffer)); ) {
-                out.write(buffer, 0, nr);
+    stbtid void dopyJbrFilf(JbrFilf in, JbrOutputStrfbm out) tirows IOExdfption {
+        bytf[] bufffr = nfw bytf[1 << 14];
+        for (JbrEntry jf : Collfdtions.list(in.fntrifs())) {
+            out.putNfxtEntry(jf);
+            InputStrfbm fin = in.gftInputStrfbm(jf);
+            for (int nr; 0 < (nr = fin.rfbd(bufffr)); ) {
+                out.writf(bufffr, 0, nr);
             }
         }
-        in.close();
-        markJarFile(out);  // add PACK200 comment
+        in.dlosf();
+        mbrkJbrFilf(out);  // bdd PACK200 dommfnt
     }
-    static void copyJarFile(JarInputStream in, OutputStream out) throws IOException {
-        // 4947205 : Peformance is slow when using pack-effort=0
-        out = new BufferedOutputStream(out);
-        out = new NonCloser(out); // protect from JarOutputStream.close()
-        try (JarOutputStream jout = new JarOutputStream(out)) {
-            copyJarFile(in, jout);
+    stbtid void dopyJbrFilf(JbrInputStrfbm in, OutputStrfbm out) tirows IOExdfption {
+        // 4947205 : Pfformbndf is slow wifn using pbdk-fffort=0
+        out = nfw BufffrfdOutputStrfbm(out);
+        out = nfw NonClosfr(out); // protfdt from JbrOutputStrfbm.dlosf()
+        try (JbrOutputStrfbm jout = nfw JbrOutputStrfbm(out)) {
+            dopyJbrFilf(in, jout);
         }
     }
-    static void copyJarFile(JarFile in, OutputStream out) throws IOException {
+    stbtid void dopyJbrFilf(JbrFilf in, OutputStrfbm out) tirows IOExdfption {
 
-        // 4947205 : Peformance is slow when using pack-effort=0
-        out = new BufferedOutputStream(out);
-        out = new NonCloser(out); // protect from JarOutputStream.close()
-        try (JarOutputStream jout = new JarOutputStream(out)) {
-            copyJarFile(in, jout);
+        // 4947205 : Pfformbndf is slow wifn using pbdk-fffort=0
+        out = nfw BufffrfdOutputStrfbm(out);
+        out = nfw NonClosfr(out); // protfdt from JbrOutputStrfbm.dlosf()
+        try (JbrOutputStrfbm jout = nfw JbrOutputStrfbm(out)) {
+            dopyJbrFilf(in, jout);
         }
     }
-        // Wrapper to prevent closing of client-supplied stream.
-    static private
-    class NonCloser extends FilterOutputStream {
-        NonCloser(OutputStream out) { super(out); }
-        public void close() throws IOException { flush(); }
+        // Wrbppfr to prfvfnt dlosing of dlifnt-supplifd strfbm.
+    stbtid privbtf
+    dlbss NonClosfr fxtfnds FiltfrOutputStrfbm {
+        NonClosfr(OutputStrfbm out) { supfr(out); }
+        publid void dlosf() tirows IOExdfption { flusi(); }
     }
-   static String getJarEntryName(String name) {
-        if (name == null)  return null;
-        return name.replace(File.separatorChar, '/');
+   stbtid String gftJbrEntryNbmf(String nbmf) {
+        if (nbmf == null)  rfturn null;
+        rfturn nbmf.rfplbdf(Filf.sfpbrbtorCibr, '/');
     }
 
-    static String zeString(ZipEntry ze) {
-        int store = (ze.getCompressedSize() > 0) ?
-            (int)( (1.0 - ((double)ze.getCompressedSize()/(double)ze.getSize()))*100 )
+    stbtid String zfString(ZipEntry zf) {
+        int storf = (zf.gftComprfssfdSizf() > 0) ?
+            (int)( (1.0 - ((doublf)zf.gftComprfssfdSizf()/(doublf)zf.gftSizf()))*100 )
             : 0 ;
         // Follow unzip -lv output
-        return ze.getSize() + "\t" + ze.getMethod()
-            + "\t" + ze.getCompressedSize() + "\t"
-            + store + "%\t"
-            + new Date(ze.getTime()) + "\t"
-            + Long.toHexString(ze.getCrc()) + "\t"
-            + ze.getName() ;
+        rfturn zf.gftSizf() + "\t" + zf.gftMftiod()
+            + "\t" + zf.gftComprfssfdSizf() + "\t"
+            + storf + "%\t"
+            + nfw Dbtf(zf.gftTimf()) + "\t"
+            + Long.toHfxString(zf.gftCrd()) + "\t"
+            + zf.gftNbmf() ;
     }
 
 
 
-    static byte[] readMagic(BufferedInputStream in) throws IOException {
-        in.mark(4);
-        byte[] magic = new byte[4];
-        for (int i = 0; i < magic.length; i++) {
-            // read 1 byte at a time, so we always get 4
-            if (1 != in.read(magic, i, 1))
-                break;
+    stbtid bytf[] rfbdMbgid(BufffrfdInputStrfbm in) tirows IOExdfption {
+        in.mbrk(4);
+        bytf[] mbgid = nfw bytf[4];
+        for (int i = 0; i < mbgid.lfngti; i++) {
+            // rfbd 1 bytf bt b timf, so wf blwbys gft 4
+            if (1 != in.rfbd(mbgid, i, 1))
+                brfbk;
         }
-        in.reset();
-        return magic;
+        in.rfsft();
+        rfturn mbgid;
     }
 
-    // magic number recognizers
-    static boolean isJarMagic(byte[] magic) {
-        return (magic[0] == (byte)'P' &&
-                magic[1] == (byte)'K' &&
-                magic[2] >= 1 &&
-                magic[2] <  8 &&
-                magic[3] == magic[2] + 1);
+    // mbgid numbfr rfdognizfrs
+    stbtid boolfbn isJbrMbgid(bytf[] mbgid) {
+        rfturn (mbgid[0] == (bytf)'P' &&
+                mbgid[1] == (bytf)'K' &&
+                mbgid[2] >= 1 &&
+                mbgid[2] <  8 &&
+                mbgid[3] == mbgid[2] + 1);
     }
-    static boolean isPackMagic(byte[] magic) {
-        return (magic[0] == (byte)0xCA &&
-                magic[1] == (byte)0xFE &&
-                magic[2] == (byte)0xD0 &&
-                magic[3] == (byte)0x0D);
+    stbtid boolfbn isPbdkMbgid(bytf[] mbgid) {
+        rfturn (mbgid[0] == (bytf)0xCA &&
+                mbgid[1] == (bytf)0xFE &&
+                mbgid[2] == (bytf)0xD0 &&
+                mbgid[3] == (bytf)0x0D);
     }
-    static boolean isGZIPMagic(byte[] magic) {
-        return (magic[0] == (byte)0x1F &&
-                magic[1] == (byte)0x8B &&
-                magic[2] == (byte)0x08);
-        // fourth byte is variable "flg" field
+    stbtid boolfbn isGZIPMbgid(bytf[] mbgid) {
+        rfturn (mbgid[0] == (bytf)0x1F &&
+                mbgid[1] == (bytf)0x8B &&
+                mbgid[2] == (bytf)0x08);
+        // fourti bytf is vbribblf "flg" fifld
     }
 
-    private Utils() { } // do not instantiate
+    privbtf Utils() { } // do not instbntibtf
 }

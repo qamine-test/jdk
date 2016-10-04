@@ -1,296 +1,296 @@
 /*
- * Copyright (c) 1997, 2014, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.java.swing.plaf.motif;
+pbdkbgf dom.sun.jbvb.swing.plbf.motif;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.JSplitPane;
-import javax.swing.UIManager;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
-import javax.swing.plaf.basic.BasicSplitPaneDivider;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvbx.swing.JSplitPbnf;
+import jbvbx.swing.UIMbnbgfr;
+import jbvbx.swing.plbf.bbsid.BbsidSplitPbnfUI;
+import jbvbx.swing.plbf.bbsid.BbsidSplitPbnfDividfr;
 
 
 /**
- * Divider used for Motif split pane.
+ * Dividfr usfd for Motif split pbnf.
  * <p>
- * <strong>Warning:</strong>
- * Serialized objects of this class will not be compatible with
- * future Swing releases.  The current serialization support is appropriate
- * for short term storage or RMI between applications running the same
- * version of Swing.  A future release of Swing will provide support for
- * long term persistence.
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of tiis dlbss will not bf dompbtiblf witi
+ * futurf Swing rflfbsfs.  Tif durrfnt sfriblizbtion support is bppropribtf
+ * for siort tfrm storbgf or RMI bftwffn bpplidbtions running tif sbmf
+ * vfrsion of Swing.  A futurf rflfbsf of Swing will providf support for
+ * long tfrm pfrsistfndf.
  *
- * @author Jeff Dinkins
+ * @butior Jfff Dinkins
  */
-@SuppressWarnings("serial") // Same-version serialization only
-public class MotifSplitPaneDivider extends BasicSplitPaneDivider
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss MotifSplitPbnfDividfr fxtfnds BbsidSplitPbnfDividfr
 {
     /**
-     * Default cursor, supers is package private, so we have to have one
+     * Dffbult dursor, supfrs is pbdkbgf privbtf, so wf ibvf to ibvf onf
      * too.
      */
-    private static final Cursor defaultCursor =
-                            Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR);
+    privbtf stbtid finbl Cursor dffbultCursor =
+                            Cursor.gftPrfdffinfdCursor(Cursor.DEFAULT_CURSOR);
 
 
-    public static final int minimumThumbSize = 6;
-    public static final int defaultDividerSize = 18;
+    publid stbtid finbl int minimumTiumbSizf = 6;
+    publid stbtid finbl int dffbultDividfrSizf = 18;
 
-    protected  static final int pad = 6;
+    protfdtfd  stbtid finbl int pbd = 6;
 
-    private int hThumbOffset = 30;
-    private int vThumbOffset = 40;
-    protected int hThumbWidth = 12;
-    protected int hThumbHeight = 18;
-    protected int vThumbWidth = 18;
-    protected int vThumbHeight = 12;
+    privbtf int iTiumbOffsft = 30;
+    privbtf int vTiumbOffsft = 40;
+    protfdtfd int iTiumbWidti = 12;
+    protfdtfd int iTiumbHfigit = 18;
+    protfdtfd int vTiumbWidti = 18;
+    protfdtfd int vTiumbHfigit = 12;
 
-    protected Color highlightColor;
-    protected Color shadowColor;
-    protected Color focusedColor;
+    protfdtfd Color iigiligitColor;
+    protfdtfd Color sibdowColor;
+    protfdtfd Color fodusfdColor;
 
     /**
-     * Creates a new Motif SplitPaneDivider
+     * Crfbtfs b nfw Motif SplitPbnfDividfr
      */
-    public MotifSplitPaneDivider(BasicSplitPaneUI ui) {
-        super(ui);
-        highlightColor = UIManager.getColor("SplitPane.highlight");
-        shadowColor = UIManager.getColor("SplitPane.shadow");
-        focusedColor = UIManager.getColor("SplitPane.activeThumb");
-        setDividerSize(hThumbWidth + pad);
+    publid MotifSplitPbnfDividfr(BbsidSplitPbnfUI ui) {
+        supfr(ui);
+        iigiligitColor = UIMbnbgfr.gftColor("SplitPbnf.iigiligit");
+        sibdowColor = UIMbnbgfr.gftColor("SplitPbnf.sibdow");
+        fodusfdColor = UIMbnbgfr.gftColor("SplitPbnf.bdtivfTiumb");
+        sftDividfrSizf(iTiumbWidti + pbd);
     }
 
     /**
-     * overrides to hardcode the size of the divider
-     * PENDING(jeff) - rewrite JSplitPane so that this ins't needed
+     * ovfrridfs to ibrddodf tif sizf of tif dividfr
+     * PENDING(jfff) - rfwritf JSplitPbnf so tibt tiis ins't nffdfd
      */
-    public void setDividerSize(int newSize) {
-        Insets          insets = getInsets();
-        int             borderSize = 0;
-        if (getBasicSplitPaneUI().getOrientation() ==
-            JSplitPane.HORIZONTAL_SPLIT) {
-            if (insets != null) {
-                borderSize = insets.left + insets.right;
+    publid void sftDividfrSizf(int nfwSizf) {
+        Insfts          insfts = gftInsfts();
+        int             bordfrSizf = 0;
+        if (gftBbsidSplitPbnfUI().gftOrifntbtion() ==
+            JSplitPbnf.HORIZONTAL_SPLIT) {
+            if (insfts != null) {
+                bordfrSizf = insfts.lfft + insfts.rigit;
             }
         }
-        else if (insets != null) {
-            borderSize = insets.top + insets.bottom;
+        flsf if (insfts != null) {
+            bordfrSizf = insfts.top + insfts.bottom;
         }
-        if (newSize < pad + minimumThumbSize + borderSize) {
-            setDividerSize(pad + minimumThumbSize + borderSize);
-        } else {
-            vThumbHeight = hThumbWidth = newSize - pad - borderSize;
-            super.setDividerSize(newSize);
+        if (nfwSizf < pbd + minimumTiumbSizf + bordfrSizf) {
+            sftDividfrSizf(pbd + minimumTiumbSizf + bordfrSizf);
+        } flsf {
+            vTiumbHfigit = iTiumbWidti = nfwSizf - pbd - bordfrSizf;
+            supfr.sftDividfrSizf(nfwSizf);
         }
     }
 
     /**
-      * Paints the divider.
+      * Pbints tif dividfr.
       */
-    // PENDING(jeff) - the thumb's location and size is currently hard coded.
-    // It should be dynamic.
-    public void paint(Graphics g) {
-        Color               bgColor = getBackground();
-        Dimension           size = getSize();
+    // PENDING(jfff) - tif tiumb's lodbtion bnd sizf is durrfntly ibrd dodfd.
+    // It siould bf dynbmid.
+    publid void pbint(Grbpiids g) {
+        Color               bgColor = gftBbdkground();
+        Dimfnsion           sizf = gftSizf();
 
         // fill
-        g.setColor(getBackground());
-        g.fillRect(0, 0, size.width, size.height);
+        g.sftColor(gftBbdkground());
+        g.fillRfdt(0, 0, sizf.widti, sizf.ifigit);
 
-        if(getBasicSplitPaneUI().getOrientation() ==
-           JSplitPane.HORIZONTAL_SPLIT) {
-            int center = size.width/2;
-            int x = center - hThumbWidth/2;
-            int y = hThumbOffset;
+        if(gftBbsidSplitPbnfUI().gftOrifntbtion() ==
+           JSplitPbnf.HORIZONTAL_SPLIT) {
+            int dfntfr = sizf.widti/2;
+            int x = dfntfr - iTiumbWidti/2;
+            int y = iTiumbOffsft;
 
-            // split line
-            g.setColor(shadowColor);
-            g.drawLine(center-1, 0, center-1, size.height);
+            // split linf
+            g.sftColor(sibdowColor);
+            g.drbwLinf(dfntfr-1, 0, dfntfr-1, sizf.ifigit);
 
-            g.setColor(highlightColor);
-            g.drawLine(center, 0, center, size.height);
+            g.sftColor(iigiligitColor);
+            g.drbwLinf(dfntfr, 0, dfntfr, sizf.ifigit);
 
-            // draw thumb
-            g.setColor((splitPane.hasFocus()) ? focusedColor :
-                                                getBackground());
-            g.fillRect(x+1, y+1, hThumbWidth-2, hThumbHeight-1);
+            // drbw tiumb
+            g.sftColor((splitPbnf.ibsFodus()) ? fodusfdColor :
+                                                gftBbdkground());
+            g.fillRfdt(x+1, y+1, iTiumbWidti-2, iTiumbHfigit-1);
 
-            g.setColor(highlightColor);
-            g.drawLine(x, y, x+hThumbWidth-1, y);       // top
-            g.drawLine(x, y+1, x, y+hThumbHeight-1);    // left
+            g.sftColor(iigiligitColor);
+            g.drbwLinf(x, y, x+iTiumbWidti-1, y);       // top
+            g.drbwLinf(x, y+1, x, y+iTiumbHfigit-1);    // lfft
 
-            g.setColor(shadowColor);
-            g.drawLine(x+1, y+hThumbHeight-1,
-                       x+hThumbWidth-1, y+hThumbHeight-1);      // bottom
-            g.drawLine(x+hThumbWidth-1, y+1,
-                       x+hThumbWidth-1, y+hThumbHeight-2);      // right
+            g.sftColor(sibdowColor);
+            g.drbwLinf(x+1, y+iTiumbHfigit-1,
+                       x+iTiumbWidti-1, y+iTiumbHfigit-1);      // bottom
+            g.drbwLinf(x+iTiumbWidti-1, y+1,
+                       x+iTiumbWidti-1, y+iTiumbHfigit-2);      // rigit
 
-        } else {
-            int center = size.height/2;
-            int x = size.width - vThumbOffset;
-            int y = size.height/2 - vThumbHeight/2;
+        } flsf {
+            int dfntfr = sizf.ifigit/2;
+            int x = sizf.widti - vTiumbOffsft;
+            int y = sizf.ifigit/2 - vTiumbHfigit/2;
 
-            // split line
-            g.setColor(shadowColor);
-            g.drawLine(0, center-1, size.width, center-1);
+            // split linf
+            g.sftColor(sibdowColor);
+            g.drbwLinf(0, dfntfr-1, sizf.widti, dfntfr-1);
 
-            g.setColor(highlightColor);
-            g.drawLine(0, center, size.width, center);
+            g.sftColor(iigiligitColor);
+            g.drbwLinf(0, dfntfr, sizf.widti, dfntfr);
 
-            // draw thumb
-            g.setColor((splitPane.hasFocus()) ? focusedColor :
-                                                getBackground());
-            g.fillRect(x+1, y+1, vThumbWidth-1, vThumbHeight-1);
+            // drbw tiumb
+            g.sftColor((splitPbnf.ibsFodus()) ? fodusfdColor :
+                                                gftBbdkground());
+            g.fillRfdt(x+1, y+1, vTiumbWidti-1, vTiumbHfigit-1);
 
-            g.setColor(highlightColor);
-            g.drawLine(x, y, x+vThumbWidth, y);    // top
-            g.drawLine(x, y+1, x, y+vThumbHeight); // left
+            g.sftColor(iigiligitColor);
+            g.drbwLinf(x, y, x+vTiumbWidti, y);    // top
+            g.drbwLinf(x, y+1, x, y+vTiumbHfigit); // lfft
 
-            g.setColor(shadowColor);
-            g.drawLine(x+1, y+vThumbHeight,
-                       x+vThumbWidth, y+vThumbHeight);          // bottom
-            g.drawLine(x+vThumbWidth, y+1,
-                       x+vThumbWidth, y+vThumbHeight-1);        // right
+            g.sftColor(sibdowColor);
+            g.drbwLinf(x+1, y+vTiumbHfigit,
+                       x+vTiumbWidti, y+vTiumbHfigit);          // bottom
+            g.drbwLinf(x+vTiumbWidti, y+1,
+                       x+vTiumbWidti, y+vTiumbHfigit-1);        // rigit
         }
-        super.paint(g);
+        supfr.pbint(g);
 
     }
 
     /**
-      * The minimums size is the same as the preferredSize
+      * Tif minimums sizf is tif sbmf bs tif prfffrrfdSizf
       */
-    public Dimension getMinimumSize() {
-        return getPreferredSize();
+    publid Dimfnsion gftMinimumSizf() {
+        rfturn gftPrfffrrfdSizf();
     }
 
     /**
-     * Sets the SplitPaneUI that is using the receiver. This is completely
-     * overriden from super to create a different MouseHandler.
+     * Sfts tif SplitPbnfUI tibt is using tif rfdfivfr. Tiis is domplftfly
+     * ovfrridfn from supfr to drfbtf b difffrfnt MousfHbndlfr.
      */
-    public void setBasicSplitPaneUI(BasicSplitPaneUI newUI) {
-        if (splitPane != null) {
-            splitPane.removePropertyChangeListener(this);
-           if (mouseHandler != null) {
-               splitPane.removeMouseListener(mouseHandler);
-               splitPane.removeMouseMotionListener(mouseHandler);
-               removeMouseListener(mouseHandler);
-               removeMouseMotionListener(mouseHandler);
-               mouseHandler = null;
+    publid void sftBbsidSplitPbnfUI(BbsidSplitPbnfUI nfwUI) {
+        if (splitPbnf != null) {
+            splitPbnf.rfmovfPropfrtyCibngfListfnfr(tiis);
+           if (mousfHbndlfr != null) {
+               splitPbnf.rfmovfMousfListfnfr(mousfHbndlfr);
+               splitPbnf.rfmovfMousfMotionListfnfr(mousfHbndlfr);
+               rfmovfMousfListfnfr(mousfHbndlfr);
+               rfmovfMousfMotionListfnfr(mousfHbndlfr);
+               mousfHbndlfr = null;
            }
         }
-        splitPaneUI = newUI;
-        if (newUI != null) {
-            splitPane = newUI.getSplitPane();
-            if (splitPane != null) {
-                if (mouseHandler == null) mouseHandler=new MotifMouseHandler();
-                splitPane.addMouseListener(mouseHandler);
-                splitPane.addMouseMotionListener(mouseHandler);
-                addMouseListener(mouseHandler);
-                addMouseMotionListener(mouseHandler);
-                splitPane.addPropertyChangeListener(this);
-                if (splitPane.isOneTouchExpandable()) {
-                    oneTouchExpandableChanged();
+        splitPbnfUI = nfwUI;
+        if (nfwUI != null) {
+            splitPbnf = nfwUI.gftSplitPbnf();
+            if (splitPbnf != null) {
+                if (mousfHbndlfr == null) mousfHbndlfr=nfw MotifMousfHbndlfr();
+                splitPbnf.bddMousfListfnfr(mousfHbndlfr);
+                splitPbnf.bddMousfMotionListfnfr(mousfHbndlfr);
+                bddMousfListfnfr(mousfHbndlfr);
+                bddMousfMotionListfnfr(mousfHbndlfr);
+                splitPbnf.bddPropfrtyCibngfListfnfr(tiis);
+                if (splitPbnf.isOnfToudiExpbndbblf()) {
+                    onfToudiExpbndbblfCibngfd();
                 }
             }
         }
-        else {
-            splitPane = null;
+        flsf {
+            splitPbnf = null;
         }
     }
 
     /**
-     * Returns true if the point at <code>x</code>, <code>y</code>
-     * is inside the thumb.
+     * Rfturns truf if tif point bt <dodf>x</dodf>, <dodf>y</dodf>
+     * is insidf tif tiumb.
      */
-    private boolean isInThumb(int x, int y) {
-        Dimension           size = getSize();
-        int                 thumbX;
-        int                 thumbY;
-        int                 thumbWidth;
-        int                 thumbHeight;
+    privbtf boolfbn isInTiumb(int x, int y) {
+        Dimfnsion           sizf = gftSizf();
+        int                 tiumbX;
+        int                 tiumbY;
+        int                 tiumbWidti;
+        int                 tiumbHfigit;
 
-        if (getBasicSplitPaneUI().getOrientation() ==
-            JSplitPane.HORIZONTAL_SPLIT) {
-            int center = size.width/2;
-            thumbX = center - hThumbWidth/2;
-            thumbY = hThumbOffset;
-            thumbWidth = hThumbWidth;
-            thumbHeight = hThumbHeight;
+        if (gftBbsidSplitPbnfUI().gftOrifntbtion() ==
+            JSplitPbnf.HORIZONTAL_SPLIT) {
+            int dfntfr = sizf.widti/2;
+            tiumbX = dfntfr - iTiumbWidti/2;
+            tiumbY = iTiumbOffsft;
+            tiumbWidti = iTiumbWidti;
+            tiumbHfigit = iTiumbHfigit;
         }
-        else {
-            int center = size.height/2;
-            thumbX = size.width - vThumbOffset;
-            thumbY = size.height/2 - vThumbHeight/2;
-            thumbWidth = vThumbWidth;
-            thumbHeight = vThumbHeight;
+        flsf {
+            int dfntfr = sizf.ifigit/2;
+            tiumbX = sizf.widti - vTiumbOffsft;
+            tiumbY = sizf.ifigit/2 - vTiumbHfigit/2;
+            tiumbWidti = vTiumbWidti;
+            tiumbHfigit = vTiumbHfigit;
         }
-        return (x >= thumbX && x < (thumbX + thumbWidth) &&
-                y >= thumbY && y < (thumbY + thumbHeight));
+        rfturn (x >= tiumbX && x < (tiumbX + tiumbWidti) &&
+                y >= tiumbY && y < (tiumbY + tiumbHfigit));
     }
 
     //
-    // Two methods are exposed so that MotifMouseHandler can see the
-    // superclass protected ivars
+    // Two mftiods brf fxposfd so tibt MotifMousfHbndlfr dbn sff tif
+    // supfrdlbss protfdtfd ivbrs
     //
 
-    private DragController getDragger() {
-        return dragger;
+    privbtf DrbgControllfr gftDrbggfr() {
+        rfturn drbggfr;
     }
 
-    private JSplitPane getSplitPane() {
-        return splitPane;
+    privbtf JSplitPbnf gftSplitPbnf() {
+        rfturn splitPbnf;
     }
 
 
     /**
-     * MouseHandler is subclassed to only pass off to super if the mouse
-     * is in the thumb. Motif only allows dragging when the thumb is clicked
+     * MousfHbndlfr is subdlbssfd to only pbss off to supfr if tif mousf
+     * is in tif tiumb. Motif only bllows drbgging wifn tif tiumb is dlidkfd
      * in.
      */
-    private class MotifMouseHandler extends MouseHandler {
-        public void mousePressed(MouseEvent e) {
-            // Constrain the mouse pressed to the thumb.
-            if (e.getSource() == MotifSplitPaneDivider.this &&
-                getDragger() == null && getSplitPane().isEnabled() &&
-                isInThumb(e.getX(), e.getY())) {
-                super.mousePressed(e);
+    privbtf dlbss MotifMousfHbndlfr fxtfnds MousfHbndlfr {
+        publid void mousfPrfssfd(MousfEvfnt f) {
+            // Constrbin tif mousf prfssfd to tif tiumb.
+            if (f.gftSourdf() == MotifSplitPbnfDividfr.tiis &&
+                gftDrbggfr() == null && gftSplitPbnf().isEnbblfd() &&
+                isInTiumb(f.gftX(), f.gftY())) {
+                supfr.mousfPrfssfd(f);
             }
         }
 
-        public void mouseMoved(MouseEvent e) {
-            if (getDragger() != null) {
-                return;
+        publid void mousfMovfd(MousfEvfnt f) {
+            if (gftDrbggfr() != null) {
+                rfturn;
             }
-            if (!isInThumb(e.getX(), e.getY())) {
-                if (getCursor() != defaultCursor) {
-                    setCursor(defaultCursor);
+            if (!isInTiumb(f.gftX(), f.gftY())) {
+                if (gftCursor() != dffbultCursor) {
+                    sftCursor(dffbultCursor);
                 }
-                return;
+                rfturn;
             }
-            super.mouseMoved(e);
+            supfr.mousfMovfd(f);
         }
     }
 }

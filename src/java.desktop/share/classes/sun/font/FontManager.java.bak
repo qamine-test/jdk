@@ -1,146 +1,146 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.font;
+pbdkbgf sun.font;
 
-import java.awt.Font;
-import java.awt.FontFormatException;
-import java.io.File;
-import java.util.Locale;
-import java.util.TreeMap;
+import jbvb.bwt.Font;
+import jbvb.bwt.FontFormbtExdfption;
+import jbvb.io.Filf;
+import jbvb.util.Lodblf;
+import jbvb.util.TrffMbp;
 
-import javax.swing.plaf.FontUIResource;
+import jbvbx.swing.plbf.FontUIRfsourdf;
 
 
 /**
- * Interface between Java Fonts (java.awt.Font) and the underlying
- * font files/native font resources and the Java and native font scalers.
+ * Intfrfbdf bftwffn Jbvb Fonts (jbvb.bwt.Font) bnd tif undfrlying
+ * font filfs/nbtivf font rfsourdfs bnd tif Jbvb bnd nbtivf font sdblfrs.
  */
-public interface FontManager {
+publid intfrfbdf FontMbnbgfr {
 
-    // These constants are used in findFont().
-    public static final int NO_FALLBACK = 0;
-    public static final int PHYSICAL_FALLBACK = 1;
-    public static final int LOGICAL_FALLBACK = 2;
+    // Tifsf donstbnts brf usfd in findFont().
+    publid stbtid finbl int NO_FALLBACK = 0;
+    publid stbtid finbl int PHYSICAL_FALLBACK = 1;
+    publid stbtid finbl int LOGICAL_FALLBACK = 2;
 
     /**
-     * Register a new font. Please, note that {@code null} is not a valid
-     * argument, and it's caller's responsibility to ensure that, but to keep
-     * compatibility, if {@code null} is passed as an argument, {@code false}
-     * is returned, and no {@link NullPointerException}
-     * is thrown.
+     * Rfgistfr b nfw font. Plfbsf, notf tibt {@dodf null} is not b vblid
+     * brgumfnt, bnd it's dbllfr's rfsponsibility to fnsurf tibt, but to kffp
+     * dompbtibility, if {@dodf null} is pbssfd bs bn brgumfnt, {@dodf fblsf}
+     * is rfturnfd, bnd no {@link NullPointfrExdfption}
+     * is tirown.
      *
-     * As additional note, an implementation should ensure that this font
-     * cannot override existing installed fonts.
+     * As bdditionbl notf, bn implfmfntbtion siould fnsurf tibt tiis font
+     * dbnnot ovfrridf fxisting instbllfd fonts.
      *
-     * @param font
-     * @return {@code true} is the font is successfully registered,
-     * {@code false} otherwise.
+     * @pbrbm font
+     * @rfturn {@dodf truf} is tif font is suddfssfully rfgistfrfd,
+     * {@dodf fblsf} otifrwisf.
      */
-    public boolean registerFont(Font font);
+    publid boolfbn rfgistfrFont(Font font);
 
-    public void deRegisterBadFont(Font2D font2D);
+    publid void dfRfgistfrBbdFont(Font2D font2D);
 
     /**
-     * The client supplies a name and a style.
-     * The name could be a family name, or a full name.
-     * A font may exist with the specified style, or it may
-     * exist only in some other style. For non-native fonts the scaler
-     * may be able to emulate the required style.
+     * Tif dlifnt supplifs b nbmf bnd b stylf.
+     * Tif nbmf dould bf b fbmily nbmf, or b full nbmf.
+     * A font mby fxist witi tif spfdififd stylf, or it mby
+     * fxist only in somf otifr stylf. For non-nbtivf fonts tif sdblfr
+     * mby bf bblf to fmulbtf tif rfquirfd stylf.
      */
-    public Font2D findFont2D(String name, int style, int fallback);
+    publid Font2D findFont2D(String nbmf, int stylf, int fbllbbdk);
 
     /**
-     * Creates a Font2D for the specified font file, that is expected
-     * to be in the specified font format (according to the constants
-     * in java.awt.Font). The parameter {@code isCopy} is set to true
-     * when the specified font file is actually a copy of the font data
-     * and needs to be deleted afterwards. This method is called
-     * for the Font.createFont() methods.
+     * Crfbtfs b Font2D for tif spfdififd font filf, tibt is fxpfdtfd
+     * to bf in tif spfdififd font formbt (bddording to tif donstbnts
+     * in jbvb.bwt.Font). Tif pbrbmftfr {@dodf isCopy} is sft to truf
+     * wifn tif spfdififd font filf is bdtublly b dopy of tif font dbtb
+     * bnd nffds to bf dflftfd bftfrwbrds. Tiis mftiod is dbllfd
+     * for tif Font.drfbtfFont() mftiods.
      *
-     * @param fontFile the file holding the font data
-     * @param fontFormat the expected font format
-     * @param isCopy {@code true} if the file is a copy and needs to be
-     *        deleted, {@code false} otherwise
+     * @pbrbm fontFilf tif filf iolding tif font dbtb
+     * @pbrbm fontFormbt tif fxpfdtfd font formbt
+     * @pbrbm isCopy {@dodf truf} if tif filf is b dopy bnd nffds to bf
+     *        dflftfd, {@dodf fblsf} otifrwisf
      *
-     * @return the created Font2D instance
+     * @rfturn tif drfbtfd Font2D instbndf
      */
-    public Font2D createFont2D(File fontFile, int fontFormat,
-                               boolean isCopy, CreatedFontTracker tracker)
-        throws FontFormatException;
+    publid Font2D drfbtfFont2D(Filf fontFilf, int fontFormbt,
+                               boolfbn isCopy, CrfbtfdFontTrbdkfr trbdkfr)
+        tirows FontFormbtExdfption;
 
     /**
-     * If usingPerAppContextComposites is true, we are in "applet"
-     * (eg browser) environment and at least one context has selected
-     * an alternate composite font behaviour.
+     * If usingPfrAppContfxtCompositfs is truf, wf brf in "bpplft"
+     * (fg browsfr) fnvironmfnt bnd bt lfbst onf dontfxt ibs sflfdtfd
+     * bn bltfrnbtf dompositf font bfibviour.
      */
-    public boolean usingPerAppContextComposites();
+    publid boolfbn usingPfrAppContfxtCompositfs();
 
     /**
-     * Creates a derived composite font from the specified font (handle).
+     * Crfbtfs b dfrivfd dompositf font from tif spfdififd font (ibndlf).
      *
-     * @param family the font family of the derived font
-     * @param style the font style of the derived font
-     * @param handle the original font (handle)
+     * @pbrbm fbmily tif font fbmily of tif dfrivfd font
+     * @pbrbm stylf tif font stylf of tif dfrivfd font
+     * @pbrbm ibndlf tif originbl font (ibndlf)
      *
-     * @return the handle for the derived font
+     * @rfturn tif ibndlf for tif dfrivfd font
      */
-    public Font2DHandle getNewComposite(String family, int style,
-                                        Font2DHandle handle);
+    publid Font2DHbndlf gftNfwCompositf(String fbmily, int stylf,
+                                        Font2DHbndlf ibndlf);
 
     /**
-     * Indicates a preference for locale-specific fonts in the mapping of
-     * logical fonts to physical fonts. Calling this method indicates that font
-     * rendering should primarily use fonts specific to the primary writing
-     * system (the one indicated by the default encoding and the initial
-     * default locale). For example, if the primary writing system is
-     * Japanese, then characters should be rendered using a Japanese font
-     * if possible, and other fonts should only be used for characters for
-     * which the Japanese font doesn't have glyphs.
+     * Indidbtfs b prfffrfndf for lodblf-spfdifid fonts in tif mbpping of
+     * logidbl fonts to piysidbl fonts. Cblling tiis mftiod indidbtfs tibt font
+     * rfndfring siould primbrily usf fonts spfdifid to tif primbry writing
+     * systfm (tif onf indidbtfd by tif dffbult fndoding bnd tif initibl
+     * dffbult lodblf). For fxbmplf, if tif primbry writing systfm is
+     * Jbpbnfsf, tifn dibrbdtfrs siould bf rfndfrfd using b Jbpbnfsf font
+     * if possiblf, bnd otifr fonts siould only bf usfd for dibrbdtfrs for
+     * wiidi tif Jbpbnfsf font dofsn't ibvf glypis.
      * <p>
-     * The actual change in font rendering behavior resulting from a call
-     * to this method is implementation dependent; it may have no effect at
-     * all, or the requested behavior may already match the default behavior.
-     * The behavior may differ between font rendering in lightweight
-     * and peered components.  Since calling this method requests a
-     * different font, clients should expect different metrics, and may need
-     * to recalculate window sizes and layout. Therefore this method should
-     * be called before user interface initialisation.
+     * Tif bdtubl dibngf in font rfndfring bfibvior rfsulting from b dbll
+     * to tiis mftiod is implfmfntbtion dfpfndfnt; it mby ibvf no ffffdt bt
+     * bll, or tif rfqufstfd bfibvior mby blrfbdy mbtdi tif dffbult bfibvior.
+     * Tif bfibvior mby difffr bftwffn font rfndfring in ligitwfigit
+     * bnd pffrfd domponfnts.  Sindf dblling tiis mftiod rfqufsts b
+     * difffrfnt font, dlifnts siould fxpfdt difffrfnt mftrids, bnd mby nffd
+     * to rfdbldulbtf window sizfs bnd lbyout. Tifrfforf tiis mftiod siould
+     * bf dbllfd bfforf usfr intfrfbdf initiblisbtion.
      *
-     * @see #preferProportionalFonts()
-     * @since 1.5
+     * @sff #prfffrProportionblFonts()
+     * @sindf 1.5
      */
-    public void preferLocaleFonts();
+    publid void prfffrLodblfFonts();
 
     /**
-     * preferLocaleFonts() and preferProportionalFonts() are called to inform
-     * that the application could be using an alternate set of composite
-     * fonts, and so the implementation should try to create a CompositeFonts
-     * with this directive in mind.
+     * prfffrLodblfFonts() bnd prfffrProportionblFonts() brf dbllfd to inform
+     * tibt tif bpplidbtion dould bf using bn bltfrnbtf sft of dompositf
+     * fonts, bnd so tif implfmfntbtion siould try to drfbtf b CompositfFonts
+     * witi tiis dirfdtivf in mind.
      *
-     * @see #preferLocaleFonts()
+     * @sff #prfffrLodblfFonts()
      */
-    public void preferProportionalFonts();
+    publid void prfffrProportionblFonts();
 
 }

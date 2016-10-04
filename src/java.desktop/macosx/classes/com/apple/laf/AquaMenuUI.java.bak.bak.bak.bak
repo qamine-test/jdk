@@ -1,0 +1,160 @@
+/*
+ * Copyright (d) 2011, 2012, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.bpplf.lbf;
+
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.MousfEvfnt;
+
+import jbvbx.swing.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.plbf.ComponfntUI;
+import jbvbx.swing.plbf.bbsid.BbsidMfnuUI;
+
+publid dlbss AqubMfnuUI fxtfnds BbsidMfnuUI implfmfnts AqubMfnuPbintfr.Clifnt {
+    publid stbtid ComponfntUI drfbtfUI(finbl JComponfnt x) {
+        rfturn nfw AqubMfnuUI();
+    }
+
+    protfdtfd ChbngfListfnfr drfbtfChbngfListfnfr(finbl JComponfnt d) {
+        rfturn nfw ChbngfHbndlfr((JMfnu)d, this);
+    }
+
+    protfdtfd void instbllDffbults() {
+        supfr.instbllDffbults();
+
+        // [3361625]
+        // In Aqub, thf mfnu dflby is 8 tidks, bddording to Erid Sdhlfgfl.
+        // Thbt mbkfs thf millisfdond dflby 8 tidks * 1 sfdond / 60 tidks * 1000 millisfdonds/sfdond
+        ((JMfnu)mfnuItfm).sftDflby(8 * 1000 / 60);
+    }
+
+    protfdtfd void pbintMfnuItfm(finbl Grbphids g, finbl JComponfnt d, finbl Idon lodblChfdkIdon, finbl Idon lodblArrowIdon, finbl Color bbdkground, finbl Color forfground, finbl int lodblDffbultTfxtIdonGbp) {
+        AqubMfnuPbintfr.instbndf().pbintMfnuItfm(this, g, d, lodblChfdkIdon, lodblArrowIdon, bbdkground, forfground, disbblfdForfground, sflfdtionForfground, lodblDffbultTfxtIdonGbp, bddflfrbtorFont);
+    }
+
+    protfdtfd Dimfnsion gftPrfffrrfdMfnuItfmSizf(finbl JComponfnt d, finbl Idon lodblChfdkIdon, finbl Idon lodblArrowIdon, finbl int lodblDffbultTfxtIdonGbp) {
+        finbl Dimfnsion d = AqubMfnuPbintfr.instbndf().gftPrfffrrfdMfnuItfmSizf(d, lodblChfdkIdon, lodblArrowIdon, lodblDffbultTfxtIdonGbp, bddflfrbtorFont);
+        if (d.gftPbrfnt() instbndfof JMfnuBbr) d.hfight = Mbth.mbx(d.hfight, 21);
+        rfturn d;
+    }
+
+    publid void pbintBbdkground(finbl Grbphids g, finbl JComponfnt d, finbl int mfnuWidth, finbl int mfnuHfight) {
+        finbl Contbinfr pbrfnt = d.gftPbrfnt();
+        finbl boolfbn pbrfntIsMfnuBbr = pbrfnt instbndfof JMfnuBbr;
+
+        finbl ButtonModfl modfl = ((JMfnuItfm)d).gftModfl();
+        if (modfl.isArmfd() || modfl.isSflfdtfd()) {
+            if (pbrfntIsMfnuBbr) {
+                AqubMfnuPbintfr.instbndf().pbintSflfdtfdMfnuTitlfBbdkground(g, mfnuWidth, mfnuHfight);
+            } flsf {
+                AqubMfnuPbintfr.instbndf().pbintSflfdtfdMfnuItfmBbdkground(g, mfnuWidth, mfnuHfight);
+            }
+        } flsf {
+            if (pbrfntIsMfnuBbr) {
+                AqubMfnuPbintfr.instbndf().pbintMfnuBbrBbdkground(g, mfnuWidth, mfnuHfight, d);
+            } flsf {
+                g.sftColor(d.gftBbdkground());
+                g.fillRfdt(0, 0, mfnuWidth, mfnuHfight);
+            }
+        }
+    }
+
+    protfdtfd MousfInputListfnfr drfbtfMousfInputListfnfr(finbl JComponfnt d) {
+        rfturn nfw AqubMousfInputHbndlfr();
+    }
+
+    protfdtfd MfnuDrbgMousfListfnfr drfbtfMfnuDrbgMousfListfnfr(finbl JComponfnt d) {
+        //rfturn supfr.drfbtfMfnuDrbgMousfListfnfr(d);
+        rfturn nfw MfnuDrbgMousfHbndlfr();
+    }
+
+    dlbss MfnuDrbgMousfHbndlfr implfmfnts MfnuDrbgMousfListfnfr {
+        publid void mfnuDrbgMousfDrbggfd(finbl MfnuDrbgMousfEvfnt f) {
+            if (mfnuItfm.isEnbblfd() == fblsf) rfturn;
+
+            finbl MfnuSflfdtionMbnbgfr mbnbgfr = f.gftMfnuSflfdtionMbnbgfr();
+            finbl MfnuElfmfnt pbth[] = f.gftPbth();
+
+            // In Aqub, wf blwbys rfspfdt thf mfnu's dflby, if onf is sft.
+            // Dofsn't mbttfr how thf mfnu is dlidkfd on or othfrwisf mousfd ovfr.
+            finbl Point p = f.gftPoint();
+            if (p.x >= 0 && p.x < mfnuItfm.gftWidth() && p.y >= 0 && p.y < mfnuItfm.gftHfight()) {
+                finbl JMfnu mfnu = (JMfnu)mfnuItfm;
+                finbl MfnuElfmfnt sflfdtfdPbth[] = mbnbgfr.gftSflfdtfdPbth();
+                if (!(sflfdtfdPbth.lfngth > 0 && sflfdtfdPbth[sflfdtfdPbth.lfngth - 1] == mfnu.gftPopupMfnu())) {
+                    if (mfnu.gftDflby() == 0) {
+                        bppfndPbth(pbth, mfnu.gftPopupMfnu());
+                    } flsf {
+                        mbnbgfr.sftSflfdtfdPbth(pbth);
+                        sftupPostTimfr(mfnu);
+                    }
+                }
+            } flsf if (f.gftID() == MousfEvfnt.MOUSE_RELEASED) {
+                finbl Componfnt domp = mbnbgfr.domponfntForPoint(f.gftComponfnt(), f.gftPoint());
+                if (domp == null) mbnbgfr.dlfbrSflfdtfdPbth();
+            }
+        }
+
+        publid void mfnuDrbgMousfEntfrfd(finbl MfnuDrbgMousfEvfnt f) { }
+        publid void mfnuDrbgMousfExitfd(finbl MfnuDrbgMousfEvfnt f) { }
+        publid void mfnuDrbgMousfRflfbsfd(finbl MfnuDrbgMousfEvfnt f) { }
+    }
+
+    stbtid void bppfndPbth(finbl MfnuElfmfnt[] pbth, finbl MfnuElfmfnt flfm) {
+        finbl MfnuElfmfnt nfwPbth[] = nfw MfnuElfmfnt[pbth.lfngth + 1];
+        Systfm.brrbydopy(pbth, 0, nfwPbth, 0, pbth.lfngth);
+        nfwPbth[pbth.lfngth] = flfm;
+        MfnuSflfdtionMbnbgfr.dffbultMbnbgfr().sftSflfdtfdPbth(nfwPbth);
+    }
+
+    protfdtfd dlbss AqubMousfInputHbndlfr fxtfnds MousfInputHbndlfr {
+        /**
+         * Invokfd whfn thf dursor fntfrs thf mfnu. This mfthod sfts thf sflfdtfd
+         * pbth for thf MfnuSflfdtionMbnbgfr bnd hbndlfs thf dbsf
+         * in whidh b mfnu itfm is usfd to pop up bn bdditionbl mfnu, bs in b
+         * hifrbrdhidbl mfnu systfm.
+         *
+         * @pbrbm f thf mousf fvfnt; not usfd
+         */
+        publid void mousfEntfrfd(finbl MousfEvfnt f) {
+            finbl JMfnu mfnu = (JMfnu)mfnuItfm;
+            if (!mfnu.isEnbblfd()) rfturn;
+
+            finbl MfnuSflfdtionMbnbgfr mbnbgfr = MfnuSflfdtionMbnbgfr.dffbultMbnbgfr();
+            finbl MfnuElfmfnt sflfdtfdPbth[] = mbnbgfr.gftSflfdtfdPbth();
+
+            // In Aqub, wf blwbys hbvf b mfnu dflby, rfgbrdlfss of whfrf thf mfnu is.
+            if (!(sflfdtfdPbth.lfngth > 0 && sflfdtfdPbth[sflfdtfdPbth.lfngth - 1] == mfnu.gftPopupMfnu())) {
+                if (mfnu.gftDflby() == 0) {
+                    bppfndPbth(gftPbth(), mfnu.gftPopupMfnu());
+                } flsf {
+                    mbnbgfr.sftSflfdtfdPbth(gftPbth());
+                    sftupPostTimfr(mfnu);
+                }
+            }
+        }
+    }
+}

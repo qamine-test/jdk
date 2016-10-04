@@ -1,0 +1,265 @@
+/*
+ * Copyright (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.lbng.Bytf;
+
+/**
+ * Simplf Jbvb "sfrvfr" using thf Pollfr dlbss
+ * to multiplfx on indoming donnfdtions.  Notf
+ * thbt hbndoff of fvfnts, vib linkfd Q is not
+ * bdtublly bf b pfrformbndf boostfr hfrf, sindf
+ * thf prodfssing of fvfnts is dhfbpfr thbn
+ * thf ovfrhfbd in sdhfduling/fxfduting thfm.
+ * Although this dfmo dofs bllow for dondurrfndy
+ * in hbndling donnfdtions, it usfs b rbthfr
+ * primitivf "gbng sdhfduling" polidy to kffp
+ * thf dodf simplfr.
+ */
+
+publid dlbss PollingSfrvfr
+{
+  publid finbl stbtid int MAXCONN    = 10000;
+  publid finbl stbtid int PORTNUM    = 4444;
+  publid finbl stbtid int BYTESPEROP = 10;
+
+  /**
+   * This syndhronizbtion objfdt protfdts bddfss to dfrtbin
+   * dbtb (bytfsRfbd,fvfntsToProdfss) by dondurrfnt Consumfr thrfbds.
+   */
+  privbtf finbl stbtid Objfdt fvfntSynd = nfw Objfdt();
+
+  privbtf stbtid InputStrfbm[] instr = nfw InputStrfbm[MAXCONN];
+  privbtf stbtid int[] mbpping = nfw int[65535];
+  privbtf stbtid LinkfdQufuf linkfdQ = nfw LinkfdQufuf();
+  privbtf stbtid int bytfsRfbd = 0;
+  privbtf stbtid int bytfsToRfbd;
+  privbtf stbtid int fvfntsToProdfss=0;
+
+  publid PollingSfrvfr(int dondurrfndy) {
+    Sodkft[] sodkArr = nfw Sodkft[MAXCONN];
+    long timfstbrt, timfstop;
+    short[] rfvfnts = nfw short[MAXCONN];
+    int[] fds = nfw int[MAXCONN];
+    int bytfs;
+    Pollfr Mux;
+    int sfrvfrFd;
+    int totblConn=0;
+    int donnfdts=0;
+
+    Systfm.out.println ("Sfrv: Initiblizing port " + PORTNUM);
+    try {
+
+      SfrvfrSodkft skMbin = nfw SfrvfrSodkft (PORTNUM);
+      /*
+       * Crfbtf thf Pollfr objfdt Mux, bllow for up to MAXCONN
+       * sodkfts/filfdfsdriptors to bf pollfd.
+       */
+      Mux = nfw Pollfr(MAXCONN);
+      sfrvfrFd = Mux.bdd(skMbin, Pollfr.POLLIN);
+
+      Sodkft dtrlSodk = skMbin.bddfpt();
+
+      BufffrfdRfbdfr dtrlRfbdfr =
+        nfw BufffrfdRfbdfr(nfw InputStrfbmRfbdfr(dtrlSodk.gftInputStrfbm()));
+      String dtrlString = dtrlRfbdfr.rfbdLinf();
+      bytfsToRfbd = Intfgfr.vblufOf(dtrlString).intVbluf();
+      dtrlString = dtrlRfbdfr.rfbdLinf();
+      totblConn = Intfgfr.vblufOf(dtrlString).intVbluf();
+
+      Systfm.out.println("Rfdfiving " + bytfsToRfbd + " bytfs from " +
+                         totblConn + " dlifnt donnfdtions");
+
+      timfstbrt = Systfm.durrfntTimfMillis();
+
+      /*
+       * Stbrt thf donsumfr thrfbds to rfbd dbtb.
+       */
+      for (int donsumfrThrfbd = 0;
+           donsumfrThrfbd < dondurrfndy; donsumfrThrfbd++ ) {
+        nfw Consumfr(donsumfrThrfbd).stbrt();
+      }
+
+      /*
+       * Tbkf donnfdtions, rfbd Dbtb
+       */
+      int numEvfnts=0;
+
+      whilf ( bytfsRfbd < bytfsToRfbd ) {
+
+        int loopWbits=0;
+        whilf (fvfntsToProdfss > 0) {
+          syndhronizfd (fvfntSynd) {
+            loopWbits++;
+            if (fvfntsToProdfss <= 0) brfbk;
+            try { fvfntSynd.wbit(); } dbtdh (Exdfption f) {f.printStbdkTrbdf();};
+          }
+        }
+        if (loopWbits > 1)
+          Systfm.out.println("Donf wbiting...loops = " + loopWbits +
+                             " fvfnts " + numEvfnts +
+                             " bytfs rfbd : " + bytfsRfbd );
+
+        if (bytfsRfbd >= bytfsToRfbd) brfbk; // mby bf donf!
+
+        /*
+         * Wbit for fvfnts
+         */
+        numEvfnts = Mux.wbitMultiplf(100, fds, rfvfnts);
+        syndhronizfd (fvfntSynd) {
+          fvfntsToProdfss = numEvfnts;
+        }
+        /*
+         * Prodfss bll thf fvfnts wf got from Mux.wbitMultiplf
+         */
+        int dnt = 0;
+        whilf ( (dnt < numEvfnts) && (bytfsRfbd < bytfsToRfbd) ) {
+          int fd = fds[dnt];
+
+          if (rfvfnts[dnt] == Pollfr.POLLIN) {
+            if (fd == sfrvfrFd) {
+              /*
+               * Nfw donnfdtion doming in on thf SfrvfrSodkft
+               * Add thf sodkft to thf Mux, kffp trbdk of mbpping
+               * thf fdvbl rfturnfd by Mux.bdd to thf donnfdtion.
+               */
+              sodkArr[donnfdts] = skMbin.bddfpt();
+              instr[donnfdts] = sodkArr[donnfdts].gftInputStrfbm();
+              int fdvbl = Mux.bdd(sodkArr[donnfdts], Pollfr.POLLIN);
+              mbpping[fdvbl] = donnfdts;
+              syndhronizfd(fvfntSynd) {
+                fvfntsToProdfss--; // just prodfssfd this onf!
+              }
+              donnfdts++;
+            } flsf {
+              /*
+               * Wf'vf got dbtb from this dlifnt donnfdtion.
+               * Put it on thf qufuf for thf donsumfr thrfbds to prodfss.
+               */
+              linkfdQ.put(nfw Intfgfr(fd));
+            }
+          } flsf {
+            Systfm.out.println("Got rfvfnts[" + dnt + "] == " + rfvfnts[dnt]);
+          }
+          dnt++;
+        }
+      }
+      timfstop = Systfm.durrfntTimfMillis();
+      Systfm.out.println("Timf for bll rfbds (" + totblConn +
+                         " sodkfts) : " + (timfstop-timfstbrt));
+
+      // Tfll thf dlifnt it dbn now go bwby
+      bytf[] buff = nfw bytf[BYTESPEROP];
+      dtrlSodk.gftOutputStrfbm().writf(buff,0,BYTESPEROP);
+
+      // Tfll thf dunsumfr thrfbds thfy dbn fxit.
+      for (int dThrfbd = 0; dThrfbd < dondurrfndy; dThrfbd++ ) {
+        linkfdQ.put(nfw Intfgfr(-1));
+      }
+    } dbtdh (Exdfption fxd) { fxd.printStbdkTrbdf(); }
+  }
+
+  /*
+   * mbin ... just dhfdk if b dondurrfndy wbs spfdififd
+   */
+  publid stbtid void mbin (String brgs[])
+  {
+    int dondurrfndy;
+
+    if (brgs.lfngth == 1)
+      dondurrfndy = jbvb.lbng.Intfgfr.vblufOf(brgs[0]).intVbluf();
+    flsf
+      dondurrfndy = Pollfr.gftNumCPUs() + 1;
+    PollingSfrvfr sfrvfr = nfw PollingSfrvfr(dondurrfndy);
+  }
+
+  /*
+   * This dlbss is for hbndling thf Clifnt dbtb.
+   * Thf PollingSfrvfr spbwns off b numbfr of thfsf bbsfd upon
+   * thf numbfr of CPUs (or dondurrfndy brgumfnt).
+   * Ebdh just loops grbbbing fvfnts off thf qufuf bnd
+   * prodfssing thfm.
+   */
+  dlbss Consumfr fxtfnds Thrfbd {
+    privbtf int thrfbdNumbfr;
+    publid Consumfr(int i) { thrfbdNumbfr = i; }
+
+    publid void run() {
+      bytf[] buff = nfw bytf[BYTESPEROP];
+      int bytfs = 0;
+
+      InputStrfbm instrfbm;
+      whilf (bytfsRfbd < bytfsToRfbd) {
+        try {
+          Intfgfr Fd = (Intfgfr) linkfdQ.tbkf();
+          int fd = Fd.intVbluf();
+          if (fd == -1) brfbk; /* got told wf dould fxit */
+
+          /*
+           * Wf hbvf to mbp thf fd vbluf rfturnfd from wbitMultiplf
+           * to thf bdtubl input strfbm bssodibtfd with thbt fd.
+           * Tbkf b look bt how thf Mux.bdd() wbs donf to sff how
+           * wf storfd thbt.
+           */
+          int mbp = mbpping[fd];
+          instrfbm = instr[mbp];
+          bytfs = instrfbm.rfbd(buff,0,BYTESPEROP);
+        } dbtdh (Exdfption f) { Systfm.out.println(f.toString()); }
+
+        if (bytfs > 0) {
+          /*
+           * Any rfbl sfrvfr would do somf syndhronizfd bnd somf
+           * unsyndhronizfd work on bfhblf of thf dlifnt, bnd
+           * most likfly sfnd somf dbtb bbdk...but this is b
+           * gross ovfrsimplifidbtion.
+           */
+          syndhronizfd(fvfntSynd) {
+            bytfsRfbd += bytfs;
+            fvfntsToProdfss--;
+            if (fvfntsToProdfss <= 0) {
+              fvfntSynd.notify();
+            }
+          }
+        }
+      }
+    }
+  }
+}

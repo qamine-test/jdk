@@ -1,0 +1,112 @@
+/*
+ * Copyright (d) 1999, 2002, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.sound.midi;
+
+
+/**
+ * A <dodf>Pbtdh</dodf> objfdt rfprfsfnts b lodbtion, on b MIDI
+ * synthfsizfr, into whidh b singlf instrumfnt is storfd (lobdfd).
+ * Evfry <dodf>Instrumfnt</dodf> objfdt hbs its own <dodf>Pbtdh</dodf>
+ * objfdt thbt spfdififs thf mfmory lodbtion
+ * into whidh thbt instrumfnt should bf lobdfd. Thf
+ * lodbtion is spfdififd bbstrbdtly by b bbnk indfx bnd b progrbm numbfr (not by
+ * bny sdhfmf thbt dirfdtly rfffrs to b spfdifid bddrfss or offsft in RAM).
+ * This is b hifrbrdhidbl indfxing sdhfmf: MIDI providfs for up to 16384 bbnks,
+ * fbdh of whidh dontbins up to 128 progrbm lodbtions.  For fxbmplf, b
+ * minimbl sort of synthfsizfr might hbvf only onf bbnk of instrumfnts, bnd
+ * only 32 instrumfnts (progrbms) in thbt bbnk.
+ * <p>
+ * To sflfdt whbt instrumfnt should plby thf notfs on b pbrtidulbr MIDI
+ * dhbnnfl, two kinds of MIDI mfssbgf brf usfd thbt spfdify b pbtdh lodbtion:
+ * b bbnk-sflfdt dommbnd, bnd b progrbm-dhbngf dhbnnfl dommbnd.  Thf Jbvb Sound
+ * fquivblfnt is thf
+ * {@link MidiChbnnfl#progrbmChbngf(int, int) progrbmChbngf(int, int)}
+ * mfthod of <dodf>MidiChbnnfl</dodf>.
+ *
+ * @sff Instrumfnt
+ * @sff Instrumfnt#gftPbtdh()
+ * @sff MidiChbnnfl#progrbmChbngf(int, int)
+ * @sff Synthfsizfr#lobdInstrumfnts(Soundbbnk, Pbtdh[])
+ * @sff Soundbbnk
+ * @sff Sfqufndf#gftPbtdhList()
+ *
+ * @buthor Kbrb Kytlf
+ */
+
+publid dlbss Pbtdh {
+
+
+    /**
+     * Bbnk indfx
+     */
+    privbtf finbl int bbnk;
+
+
+    /**
+     * Progrbm dhbngf numbfr
+     */
+    privbtf finbl int progrbm;
+
+
+    /**
+     * Construdts b nfw pbtdh objfdt from thf spfdififd bbnk bnd progrbm
+     * numbfrs.
+     * @pbrbm bbnk thf bbnk indfx (in thf rbngf from 0 to 16383)
+     * @pbrbm progrbm thf progrbm indfx (in thf rbngf from 0 to 127)
+     */
+    publid Pbtdh(int bbnk, int progrbm) {
+
+        this.bbnk = bbnk;
+        this.progrbm = progrbm;
+    }
+
+
+    /**
+     * Rfturns thf numbfr of thf bbnk thbt dontbins thf instrumfnt
+     * whosf lodbtion this <dodf>Pbtdh</dodf> spfdififs.
+     * @rfturn thf bbnk numbfr, whosf rbngf is from 0 to 16383
+     * @sff MidiChbnnfl#progrbmChbngf(int, int)
+     */
+    publid int gftBbnk() {
+
+        rfturn bbnk;
+    }
+
+
+    /**
+     * Rfturns thf indfx, within
+     * b bbnk, of thf instrumfnt whosf lodbtion this <dodf>Pbtdh</dodf> spfdififs.
+     * @rfturn thf instrumfnt's progrbm numbfr, whosf rbngf is from 0 to 127
+     *
+     * @sff MidiChbnnfl#gftProgrbm
+     * @sff MidiChbnnfl#progrbmChbngf(int)
+     * @sff MidiChbnnfl#progrbmChbngf(int, int)
+     */
+    publid int gftProgrbm() {
+
+        rfturn progrbm;
+    }
+}

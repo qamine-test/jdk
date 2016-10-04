@@ -1,556 +1,556 @@
 /*
- * Copyright (c) 2004, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package javax.management;
+pbdkbgf jbvbx.mbnbgfmfnt;
 
-import com.sun.jmx.mbeanserver.Util;
-import java.io.InvalidObjectException;
-import java.lang.reflect.Array;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
+import dom.sun.jmx.mbfbnsfrvfr.Util;
+import jbvb.io.InvblidObjfdtExdfption;
+import jbvb.lbng.rfflfdt.Arrby;
+import jbvb.util.Arrbys;
+import jbvb.util.Compbrbtor;
+import jbvb.util.Mbp;
+import jbvb.util.SortfdMbp;
+import jbvb.util.TrffMbp;
 
 /**
- * An immutable descriptor.
- * @since 1.6
+ * An immutbblf dfsdriptor.
+ * @sindf 1.6
  */
-public class ImmutableDescriptor implements Descriptor {
-    private static final long serialVersionUID = 8853308591080540165L;
+publid dlbss ImmutbblfDfsdriptor implfmfnts Dfsdriptor {
+    privbtf stbtid finbl long sfriblVfrsionUID = 8853308591080540165L;
 
     /**
-     * The names of the fields in this ImmutableDescriptor with their
-     * original case.  The names must be in alphabetical order as determined
+     * Tif nbmfs of tif fiflds in tiis ImmutbblfDfsdriptor witi tifir
+     * originbl dbsf.  Tif nbmfs must bf in blpibbftidbl ordfr bs dftfrminfd
      * by {@link String#CASE_INSENSITIVE_ORDER}.
      */
-    private final String[] names;
+    privbtf finbl String[] nbmfs;
     /**
-     * The values of the fields in this ImmutableDescriptor.  The
-     * elements in this array match the corresponding elements in the
-     * {@code names} array.
+     * Tif vblufs of tif fiflds in tiis ImmutbblfDfsdriptor.  Tif
+     * flfmfnts in tiis brrby mbtdi tif dorrfsponding flfmfnts in tif
+     * {@dodf nbmfs} brrby.
      */
-    private final Object[] values;
+    privbtf finbl Objfdt[] vblufs;
 
-    private transient int hashCode = -1;
+    privbtf trbnsifnt int ibsiCodf = -1;
 
     /**
-     * An empty descriptor.
+     * An fmpty dfsdriptor.
      */
-    public static final ImmutableDescriptor EMPTY_DESCRIPTOR =
-            new ImmutableDescriptor();
+    publid stbtid finbl ImmutbblfDfsdriptor EMPTY_DESCRIPTOR =
+            nfw ImmutbblfDfsdriptor();
 
     /**
-     * Construct a descriptor containing the given fields and values.
+     * Construdt b dfsdriptor dontbining tif givfn fiflds bnd vblufs.
      *
-     * @throws IllegalArgumentException if either array is null, or
-     * if the arrays have different sizes, or
-     * if a field name is null or empty, or if the same field name
-     * appears more than once.
+     * @tirows IllfgblArgumfntExdfption if fitifr brrby is null, or
+     * if tif brrbys ibvf difffrfnt sizfs, or
+     * if b fifld nbmf is null or fmpty, or if tif sbmf fifld nbmf
+     * bppfbrs morf tibn ondf.
      */
-    public ImmutableDescriptor(String[] fieldNames, Object[] fieldValues) {
-        this(makeMap(fieldNames, fieldValues));
+    publid ImmutbblfDfsdriptor(String[] fifldNbmfs, Objfdt[] fifldVblufs) {
+        tiis(mbkfMbp(fifldNbmfs, fifldVblufs));
     }
 
     /**
-     * Construct a descriptor containing the given fields.  Each String
-     * must be of the form {@code fieldName=fieldValue}.  The field name
-     * ends at the first {@code =} character; for example if the String
-     * is {@code a=b=c} then the field name is {@code a} and its value
-     * is {@code b=c}.
+     * Construdt b dfsdriptor dontbining tif givfn fiflds.  Ebdi String
+     * must bf of tif form {@dodf fifldNbmf=fifldVbluf}.  Tif fifld nbmf
+     * fnds bt tif first {@dodf =} dibrbdtfr; for fxbmplf if tif String
+     * is {@dodf b=b=d} tifn tif fifld nbmf is {@dodf b} bnd its vbluf
+     * is {@dodf b=d}.
      *
-     * @throws IllegalArgumentException if the parameter is null, or
-     * if a field name is empty, or if the same field name appears
-     * more than once, or if one of the strings does not contain
-     * an {@code =} character.
+     * @tirows IllfgblArgumfntExdfption if tif pbrbmftfr is null, or
+     * if b fifld nbmf is fmpty, or if tif sbmf fifld nbmf bppfbrs
+     * morf tibn ondf, or if onf of tif strings dofs not dontbin
+     * bn {@dodf =} dibrbdtfr.
      */
-    public ImmutableDescriptor(String... fields) {
-        this(makeMap(fields));
+    publid ImmutbblfDfsdriptor(String... fiflds) {
+        tiis(mbkfMbp(fiflds));
     }
 
     /**
-     * <p>Construct a descriptor where the names and values of the fields
-     * are the keys and values of the given Map.</p>
+     * <p>Construdt b dfsdriptor wifrf tif nbmfs bnd vblufs of tif fiflds
+     * brf tif kfys bnd vblufs of tif givfn Mbp.</p>
      *
-     * @throws IllegalArgumentException if the parameter is null, or
-     * if a field name is null or empty, or if the same field name appears
-     * more than once (which can happen because field names are not case
-     * sensitive).
+     * @tirows IllfgblArgumfntExdfption if tif pbrbmftfr is null, or
+     * if b fifld nbmf is null or fmpty, or if tif sbmf fifld nbmf bppfbrs
+     * morf tibn ondf (wiidi dbn ibppfn bfdbusf fifld nbmfs brf not dbsf
+     * sfnsitivf).
      */
-    public ImmutableDescriptor(Map<String, ?> fields) {
-        if (fields == null)
-            throw new IllegalArgumentException("Null Map");
-        SortedMap<String, Object> map =
-                new TreeMap<String, Object>(String.CASE_INSENSITIVE_ORDER);
-        for (Map.Entry<String, ?> entry : fields.entrySet()) {
-            String name = entry.getKey();
-            if (name == null || name.equals(""))
-                throw new IllegalArgumentException("Empty or null field name");
-            if (map.containsKey(name))
-                throw new IllegalArgumentException("Duplicate name: " + name);
-            map.put(name, entry.getValue());
+    publid ImmutbblfDfsdriptor(Mbp<String, ?> fiflds) {
+        if (fiflds == null)
+            tirow nfw IllfgblArgumfntExdfption("Null Mbp");
+        SortfdMbp<String, Objfdt> mbp =
+                nfw TrffMbp<String, Objfdt>(String.CASE_INSENSITIVE_ORDER);
+        for (Mbp.Entry<String, ?> fntry : fiflds.fntrySft()) {
+            String nbmf = fntry.gftKfy();
+            if (nbmf == null || nbmf.fqubls(""))
+                tirow nfw IllfgblArgumfntExdfption("Empty or null fifld nbmf");
+            if (mbp.dontbinsKfy(nbmf))
+                tirow nfw IllfgblArgumfntExdfption("Duplidbtf nbmf: " + nbmf);
+            mbp.put(nbmf, fntry.gftVbluf());
         }
-        int size = map.size();
-        this.names = map.keySet().toArray(new String[size]);
-        this.values = map.values().toArray(new Object[size]);
+        int sizf = mbp.sizf();
+        tiis.nbmfs = mbp.kfySft().toArrby(nfw String[sizf]);
+        tiis.vblufs = mbp.vblufs().toArrby(nfw Objfdt[sizf]);
     }
 
     /**
-     * This method can replace a deserialized instance of this
-     * class with another instance.  For example, it might replace
-     * a deserialized empty ImmutableDescriptor with
+     * Tiis mftiod dbn rfplbdf b dfsfriblizfd instbndf of tiis
+     * dlbss witi bnotifr instbndf.  For fxbmplf, it migit rfplbdf
+     * b dfsfriblizfd fmpty ImmutbblfDfsdriptor witi
      * {@link #EMPTY_DESCRIPTOR}.
      *
-     * @return the replacement object, which may be {@code this}.
+     * @rfturn tif rfplbdfmfnt objfdt, wiidi mby bf {@dodf tiis}.
      *
-     * @throws InvalidObjectException if the read object has invalid fields.
+     * @tirows InvblidObjfdtExdfption if tif rfbd objfdt ibs invblid fiflds.
      */
-    private Object readResolve() throws InvalidObjectException {
+    privbtf Objfdt rfbdRfsolvf() tirows InvblidObjfdtExdfption {
 
-        boolean bad = false;
-        if (names == null || values == null || names.length != values.length)
-            bad = true;
-        if (!bad) {
-            if (names.length == 0 && getClass() == ImmutableDescriptor.class)
-                return EMPTY_DESCRIPTOR;
-            final Comparator<String> compare = String.CASE_INSENSITIVE_ORDER;
-            String lastName = ""; // also catches illegal null name
-            for (int i = 0; i < names.length; i++) {
-                if (names[i] == null ||
-                        compare.compare(lastName, names[i]) >= 0) {
-                    bad = true;
-                    break;
+        boolfbn bbd = fblsf;
+        if (nbmfs == null || vblufs == null || nbmfs.lfngti != vblufs.lfngti)
+            bbd = truf;
+        if (!bbd) {
+            if (nbmfs.lfngti == 0 && gftClbss() == ImmutbblfDfsdriptor.dlbss)
+                rfturn EMPTY_DESCRIPTOR;
+            finbl Compbrbtor<String> dompbrf = String.CASE_INSENSITIVE_ORDER;
+            String lbstNbmf = ""; // blso dbtdifs illfgbl null nbmf
+            for (int i = 0; i < nbmfs.lfngti; i++) {
+                if (nbmfs[i] == null ||
+                        dompbrf.dompbrf(lbstNbmf, nbmfs[i]) >= 0) {
+                    bbd = truf;
+                    brfbk;
                 }
-                lastName = names[i];
+                lbstNbmf = nbmfs[i];
             }
         }
-        if (bad)
-            throw new InvalidObjectException("Bad names or values");
+        if (bbd)
+            tirow nfw InvblidObjfdtExdfption("Bbd nbmfs or vblufs");
 
-        return this;
+        rfturn tiis;
     }
 
-    private static SortedMap<String, ?> makeMap(String[] fieldNames,
-                                                Object[] fieldValues) {
-        if (fieldNames == null || fieldValues == null)
-            throw new IllegalArgumentException("Null array parameter");
-        if (fieldNames.length != fieldValues.length)
-            throw new IllegalArgumentException("Different size arrays");
-        SortedMap<String, Object> map =
-                new TreeMap<String, Object>(String.CASE_INSENSITIVE_ORDER);
-        for (int i = 0; i < fieldNames.length; i++) {
-            String name = fieldNames[i];
-            if (name == null || name.equals(""))
-                throw new IllegalArgumentException("Empty or null field name");
-            Object old = map.put(name, fieldValues[i]);
+    privbtf stbtid SortfdMbp<String, ?> mbkfMbp(String[] fifldNbmfs,
+                                                Objfdt[] fifldVblufs) {
+        if (fifldNbmfs == null || fifldVblufs == null)
+            tirow nfw IllfgblArgumfntExdfption("Null brrby pbrbmftfr");
+        if (fifldNbmfs.lfngti != fifldVblufs.lfngti)
+            tirow nfw IllfgblArgumfntExdfption("Difffrfnt sizf brrbys");
+        SortfdMbp<String, Objfdt> mbp =
+                nfw TrffMbp<String, Objfdt>(String.CASE_INSENSITIVE_ORDER);
+        for (int i = 0; i < fifldNbmfs.lfngti; i++) {
+            String nbmf = fifldNbmfs[i];
+            if (nbmf == null || nbmf.fqubls(""))
+                tirow nfw IllfgblArgumfntExdfption("Empty or null fifld nbmf");
+            Objfdt old = mbp.put(nbmf, fifldVblufs[i]);
             if (old != null) {
-                throw new IllegalArgumentException("Duplicate field name: " +
-                                                   name);
+                tirow nfw IllfgblArgumfntExdfption("Duplidbtf fifld nbmf: " +
+                                                   nbmf);
             }
         }
-        return map;
+        rfturn mbp;
     }
 
-    private static SortedMap<String, ?> makeMap(String[] fields) {
-        if (fields == null)
-            throw new IllegalArgumentException("Null fields parameter");
-        String[] fieldNames = new String[fields.length];
-        String[] fieldValues = new String[fields.length];
-        for (int i = 0; i < fields.length; i++) {
-            String field = fields[i];
-            int eq = field.indexOf('=');
-            if (eq < 0) {
-                throw new IllegalArgumentException("Missing = character: " +
-                                                   field);
+    privbtf stbtid SortfdMbp<String, ?> mbkfMbp(String[] fiflds) {
+        if (fiflds == null)
+            tirow nfw IllfgblArgumfntExdfption("Null fiflds pbrbmftfr");
+        String[] fifldNbmfs = nfw String[fiflds.lfngti];
+        String[] fifldVblufs = nfw String[fiflds.lfngti];
+        for (int i = 0; i < fiflds.lfngti; i++) {
+            String fifld = fiflds[i];
+            int fq = fifld.indfxOf('=');
+            if (fq < 0) {
+                tirow nfw IllfgblArgumfntExdfption("Missing = dibrbdtfr: " +
+                                                   fifld);
             }
-            fieldNames[i] = field.substring(0, eq);
-            // makeMap will catch the case where the name is empty
-            fieldValues[i] = field.substring(eq + 1);
+            fifldNbmfs[i] = fifld.substring(0, fq);
+            // mbkfMbp will dbtdi tif dbsf wifrf tif nbmf is fmpty
+            fifldVblufs[i] = fifld.substring(fq + 1);
         }
-        return makeMap(fieldNames, fieldValues);
+        rfturn mbkfMbp(fifldNbmfs, fifldVblufs);
     }
 
     /**
-     * <p>Return an {@code ImmutableDescriptor} whose contents are the union of
-     * the given descriptors.  Every field name that appears in any of
-     * the descriptors will appear in the result with the
-     * value that it has when the method is called.  Subsequent changes
-     * to any of the descriptors do not affect the ImmutableDescriptor
-     * returned here.</p>
+     * <p>Rfturn bn {@dodf ImmutbblfDfsdriptor} wiosf dontfnts brf tif union of
+     * tif givfn dfsdriptors.  Evfry fifld nbmf tibt bppfbrs in bny of
+     * tif dfsdriptors will bppfbr in tif rfsult witi tif
+     * vbluf tibt it ibs wifn tif mftiod is dbllfd.  Subsfqufnt dibngfs
+     * to bny of tif dfsdriptors do not bfffdt tif ImmutbblfDfsdriptor
+     * rfturnfd ifrf.</p>
      *
-     * <p>In the simplest case, there is only one descriptor and the
-     * returned {@code ImmutableDescriptor} is a copy of its fields at the
-     * time this method is called:</p>
+     * <p>In tif simplfst dbsf, tifrf is only onf dfsdriptor bnd tif
+     * rfturnfd {@dodf ImmutbblfDfsdriptor} is b dopy of its fiflds bt tif
+     * timf tiis mftiod is dbllfd:</p>
      *
-     * <pre>
-     * Descriptor d = something();
-     * ImmutableDescriptor copy = ImmutableDescriptor.union(d);
-     * </pre>
+     * <prf>
+     * Dfsdriptor d = somftiing();
+     * ImmutbblfDfsdriptor dopy = ImmutbblfDfsdriptor.union(d);
+     * </prf>
      *
-     * @param descriptors the descriptors to be combined.  Any of the
-     * descriptors can be null, in which case it is skipped.
+     * @pbrbm dfsdriptors tif dfsdriptors to bf dombinfd.  Any of tif
+     * dfsdriptors dbn bf null, in wiidi dbsf it is skippfd.
      *
-     * @return an {@code ImmutableDescriptor} that is the union of the given
-     * descriptors.  The returned object may be identical to one of the
-     * input descriptors if it is an ImmutableDescriptor that contains all of
-     * the required fields.
+     * @rfturn bn {@dodf ImmutbblfDfsdriptor} tibt is tif union of tif givfn
+     * dfsdriptors.  Tif rfturnfd objfdt mby bf idfntidbl to onf of tif
+     * input dfsdriptors if it is bn ImmutbblfDfsdriptor tibt dontbins bll of
+     * tif rfquirfd fiflds.
      *
-     * @throws IllegalArgumentException if two Descriptors contain the
-     * same field name with different associated values.  Primitive array
-     * values are considered the same if they are of the same type with
-     * the same elements.  Object array values are considered the same if
-     * {@link Arrays#deepEquals(Object[],Object[])} returns true.
+     * @tirows IllfgblArgumfntExdfption if two Dfsdriptors dontbin tif
+     * sbmf fifld nbmf witi difffrfnt bssodibtfd vblufs.  Primitivf brrby
+     * vblufs brf donsidfrfd tif sbmf if tify brf of tif sbmf typf witi
+     * tif sbmf flfmfnts.  Objfdt brrby vblufs brf donsidfrfd tif sbmf if
+     * {@link Arrbys#dffpEqubls(Objfdt[],Objfdt[])} rfturns truf.
      */
-    public static ImmutableDescriptor union(Descriptor... descriptors) {
-        // Optimize the case where exactly one Descriptor is non-Empty
-        // and it is immutable - we can just return it.
-        int index = findNonEmpty(descriptors, 0);
-        if (index < 0)
-            return EMPTY_DESCRIPTOR;
-        if (descriptors[index] instanceof ImmutableDescriptor
-                && findNonEmpty(descriptors, index + 1) < 0)
-            return (ImmutableDescriptor) descriptors[index];
+    publid stbtid ImmutbblfDfsdriptor union(Dfsdriptor... dfsdriptors) {
+        // Optimizf tif dbsf wifrf fxbdtly onf Dfsdriptor is non-Empty
+        // bnd it is immutbblf - wf dbn just rfturn it.
+        int indfx = findNonEmpty(dfsdriptors, 0);
+        if (indfx < 0)
+            rfturn EMPTY_DESCRIPTOR;
+        if (dfsdriptors[indfx] instbndfof ImmutbblfDfsdriptor
+                && findNonEmpty(dfsdriptors, indfx + 1) < 0)
+            rfturn (ImmutbblfDfsdriptor) dfsdriptors[indfx];
 
-        Map<String, Object> map =
-            new TreeMap<String, Object>(String.CASE_INSENSITIVE_ORDER);
-        ImmutableDescriptor biggestImmutable = EMPTY_DESCRIPTOR;
-        for (Descriptor d : descriptors) {
+        Mbp<String, Objfdt> mbp =
+            nfw TrffMbp<String, Objfdt>(String.CASE_INSENSITIVE_ORDER);
+        ImmutbblfDfsdriptor biggfstImmutbblf = EMPTY_DESCRIPTOR;
+        for (Dfsdriptor d : dfsdriptors) {
             if (d != null) {
-                String[] names;
-                if (d instanceof ImmutableDescriptor) {
-                    ImmutableDescriptor id = (ImmutableDescriptor) d;
-                    names = id.names;
-                    if (id.getClass() == ImmutableDescriptor.class
-                            && names.length > biggestImmutable.names.length)
-                        biggestImmutable = id;
-                } else
-                    names = d.getFieldNames();
-                for (String n : names) {
-                    Object v = d.getFieldValue(n);
-                    Object old = map.put(n, v);
+                String[] nbmfs;
+                if (d instbndfof ImmutbblfDfsdriptor) {
+                    ImmutbblfDfsdriptor id = (ImmutbblfDfsdriptor) d;
+                    nbmfs = id.nbmfs;
+                    if (id.gftClbss() == ImmutbblfDfsdriptor.dlbss
+                            && nbmfs.lfngti > biggfstImmutbblf.nbmfs.lfngti)
+                        biggfstImmutbblf = id;
+                } flsf
+                    nbmfs = d.gftFifldNbmfs();
+                for (String n : nbmfs) {
+                    Objfdt v = d.gftFifldVbluf(n);
+                    Objfdt old = mbp.put(n, v);
                     if (old != null) {
-                        boolean equal;
-                        if (old.getClass().isArray()) {
-                            equal = Arrays.deepEquals(new Object[] {old},
-                                                      new Object[] {v});
-                        } else
-                            equal = old.equals(v);
-                        if (!equal) {
-                            final String msg =
-                                "Inconsistent values for descriptor field " +
+                        boolfbn fqubl;
+                        if (old.gftClbss().isArrby()) {
+                            fqubl = Arrbys.dffpEqubls(nfw Objfdt[] {old},
+                                                      nfw Objfdt[] {v});
+                        } flsf
+                            fqubl = old.fqubls(v);
+                        if (!fqubl) {
+                            finbl String msg =
+                                "Indonsistfnt vblufs for dfsdriptor fifld " +
                                 n + ": " + old + " :: " + v;
-                            throw new IllegalArgumentException(msg);
+                            tirow nfw IllfgblArgumfntExdfption(msg);
                         }
                     }
                 }
             }
         }
-        if (biggestImmutable.names.length == map.size())
-            return biggestImmutable;
-        return new ImmutableDescriptor(map);
+        if (biggfstImmutbblf.nbmfs.lfngti == mbp.sizf())
+            rfturn biggfstImmutbblf;
+        rfturn nfw ImmutbblfDfsdriptor(mbp);
     }
 
-    private static boolean isEmpty(Descriptor d) {
+    privbtf stbtid boolfbn isEmpty(Dfsdriptor d) {
         if (d == null)
-            return true;
-        else if (d instanceof ImmutableDescriptor)
-            return ((ImmutableDescriptor) d).names.length == 0;
-        else
-            return (d.getFieldNames().length == 0);
+            rfturn truf;
+        flsf if (d instbndfof ImmutbblfDfsdriptor)
+            rfturn ((ImmutbblfDfsdriptor) d).nbmfs.lfngti == 0;
+        flsf
+            rfturn (d.gftFifldNbmfs().lfngti == 0);
     }
 
-    private static int findNonEmpty(Descriptor[] ds, int start) {
-        for (int i = start; i < ds.length; i++) {
+    privbtf stbtid int findNonEmpty(Dfsdriptor[] ds, int stbrt) {
+        for (int i = stbrt; i < ds.lfngti; i++) {
             if (!isEmpty(ds[i]))
-                return i;
+                rfturn i;
         }
-        return -1;
+        rfturn -1;
     }
 
-    private int fieldIndex(String name) {
-        return Arrays.binarySearch(names, name, String.CASE_INSENSITIVE_ORDER);
+    privbtf int fifldIndfx(String nbmf) {
+        rfturn Arrbys.binbrySfbrdi(nbmfs, nbmf, String.CASE_INSENSITIVE_ORDER);
     }
 
-    public final Object getFieldValue(String fieldName) {
-        checkIllegalFieldName(fieldName);
-        int i = fieldIndex(fieldName);
+    publid finbl Objfdt gftFifldVbluf(String fifldNbmf) {
+        difdkIllfgblFifldNbmf(fifldNbmf);
+        int i = fifldIndfx(fifldNbmf);
         if (i < 0)
-            return null;
-        Object v = values[i];
-        if (v == null || !v.getClass().isArray())
-            return v;
-        if (v instanceof Object[])
-            return ((Object[]) v).clone();
-        // clone the primitive array, could use an 8-way if/else here
-        int len = Array.getLength(v);
-        Object a = Array.newInstance(v.getClass().getComponentType(), len);
-        System.arraycopy(v, 0, a, 0, len);
-        return a;
+            rfturn null;
+        Objfdt v = vblufs[i];
+        if (v == null || !v.gftClbss().isArrby())
+            rfturn v;
+        if (v instbndfof Objfdt[])
+            rfturn ((Objfdt[]) v).dlonf();
+        // dlonf tif primitivf brrby, dould usf bn 8-wby if/flsf ifrf
+        int lfn = Arrby.gftLfngti(v);
+        Objfdt b = Arrby.nfwInstbndf(v.gftClbss().gftComponfntTypf(), lfn);
+        Systfm.brrbydopy(v, 0, b, 0, lfn);
+        rfturn b;
     }
 
-    public final String[] getFields() {
-        String[] result = new String[names.length];
-        for (int i = 0; i < result.length; i++) {
-            Object value = values[i];
-            if (value == null)
-                value = "";
-            else if (!(value instanceof String))
-                value = "(" + value + ")";
-            result[i] = names[i] + "=" + value;
+    publid finbl String[] gftFiflds() {
+        String[] rfsult = nfw String[nbmfs.lfngti];
+        for (int i = 0; i < rfsult.lfngti; i++) {
+            Objfdt vbluf = vblufs[i];
+            if (vbluf == null)
+                vbluf = "";
+            flsf if (!(vbluf instbndfof String))
+                vbluf = "(" + vbluf + ")";
+            rfsult[i] = nbmfs[i] + "=" + vbluf;
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public final Object[] getFieldValues(String... fieldNames) {
-        if (fieldNames == null)
-            return values.clone();
-        Object[] result = new Object[fieldNames.length];
-        for (int i = 0; i < fieldNames.length; i++) {
-            String name = fieldNames[i];
-            if (name != null && !name.equals(""))
-                result[i] = getFieldValue(name);
+    publid finbl Objfdt[] gftFifldVblufs(String... fifldNbmfs) {
+        if (fifldNbmfs == null)
+            rfturn vblufs.dlonf();
+        Objfdt[] rfsult = nfw Objfdt[fifldNbmfs.lfngti];
+        for (int i = 0; i < fifldNbmfs.lfngti; i++) {
+            String nbmf = fifldNbmfs[i];
+            if (nbmf != null && !nbmf.fqubls(""))
+                rfsult[i] = gftFifldVbluf(nbmf);
         }
-        return result;
+        rfturn rfsult;
     }
 
-    public final String[] getFieldNames() {
-        return names.clone();
+    publid finbl String[] gftFifldNbmfs() {
+        rfturn nbmfs.dlonf();
     }
 
     /**
-     * Compares this descriptor to the given object.  The objects are equal if
-     * the given object is also a Descriptor, and if the two Descriptors have
-     * the same field names (possibly differing in case) and the same
-     * associated values.  The respective values for a field in the two
-     * Descriptors are equal if the following conditions hold:
+     * Compbrfs tiis dfsdriptor to tif givfn objfdt.  Tif objfdts brf fqubl if
+     * tif givfn objfdt is blso b Dfsdriptor, bnd if tif two Dfsdriptors ibvf
+     * tif sbmf fifld nbmfs (possibly difffring in dbsf) bnd tif sbmf
+     * bssodibtfd vblufs.  Tif rfspfdtivf vblufs for b fifld in tif two
+     * Dfsdriptors brf fqubl if tif following donditions iold:
      *
      * <ul>
-     * <li>If one value is null then the other must be too.</li>
-     * <li>If one value is a primitive array then the other must be a primitive
-     * array of the same type with the same elements.</li>
-     * <li>If one value is an object array then the other must be too and
-     * {@link Arrays#deepEquals(Object[],Object[])} must return true.</li>
-     * <li>Otherwise {@link Object#equals(Object)} must return true.</li>
+     * <li>If onf vbluf is null tifn tif otifr must bf too.</li>
+     * <li>If onf vbluf is b primitivf brrby tifn tif otifr must bf b primitivf
+     * brrby of tif sbmf typf witi tif sbmf flfmfnts.</li>
+     * <li>If onf vbluf is bn objfdt brrby tifn tif otifr must bf too bnd
+     * {@link Arrbys#dffpEqubls(Objfdt[],Objfdt[])} must rfturn truf.</li>
+     * <li>Otifrwisf {@link Objfdt#fqubls(Objfdt)} must rfturn truf.</li>
      * </ul>
      *
-     * @param o the object to compare with.
+     * @pbrbm o tif objfdt to dompbrf witi.
      *
-     * @return {@code true} if the objects are the same; {@code false}
-     * otherwise.
+     * @rfturn {@dodf truf} if tif objfdts brf tif sbmf; {@dodf fblsf}
+     * otifrwisf.
      *
      */
-    // Note: this Javadoc is copied from javax.management.Descriptor
-    //       due to 6369229.
-    @Override
-    public boolean equals(Object o) {
-        if (o == this)
-            return true;
-        if (!(o instanceof Descriptor))
-            return false;
-        String[] onames;
-        if (o instanceof ImmutableDescriptor) {
-            onames = ((ImmutableDescriptor) o).names;
-        } else {
-            onames = ((Descriptor) o).getFieldNames();
-            Arrays.sort(onames, String.CASE_INSENSITIVE_ORDER);
+    // Notf: tiis Jbvbdod is dopifd from jbvbx.mbnbgfmfnt.Dfsdriptor
+    //       duf to 6369229.
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt o) {
+        if (o == tiis)
+            rfturn truf;
+        if (!(o instbndfof Dfsdriptor))
+            rfturn fblsf;
+        String[] onbmfs;
+        if (o instbndfof ImmutbblfDfsdriptor) {
+            onbmfs = ((ImmutbblfDfsdriptor) o).nbmfs;
+        } flsf {
+            onbmfs = ((Dfsdriptor) o).gftFifldNbmfs();
+            Arrbys.sort(onbmfs, String.CASE_INSENSITIVE_ORDER);
         }
-        if (names.length != onames.length)
-            return false;
-        for (int i = 0; i < names.length; i++) {
-            if (!names[i].equalsIgnoreCase(onames[i]))
-                return false;
+        if (nbmfs.lfngti != onbmfs.lfngti)
+            rfturn fblsf;
+        for (int i = 0; i < nbmfs.lfngti; i++) {
+            if (!nbmfs[i].fqublsIgnorfCbsf(onbmfs[i]))
+                rfturn fblsf;
         }
-        Object[] ovalues;
-        if (o instanceof ImmutableDescriptor)
-            ovalues = ((ImmutableDescriptor) o).values;
-        else
-            ovalues = ((Descriptor) o).getFieldValues(onames);
-        return Arrays.deepEquals(values, ovalues);
+        Objfdt[] ovblufs;
+        if (o instbndfof ImmutbblfDfsdriptor)
+            ovblufs = ((ImmutbblfDfsdriptor) o).vblufs;
+        flsf
+            ovblufs = ((Dfsdriptor) o).gftFifldVblufs(onbmfs);
+        rfturn Arrbys.dffpEqubls(vblufs, ovblufs);
     }
 
     /**
-     * <p>Returns the hash code value for this descriptor.  The hash
-     * code is computed as the sum of the hash codes for each field in
-     * the descriptor.  The hash code of a field with name {@code n}
-     * and value {@code v} is {@code n.toLowerCase().hashCode() ^ h}.
-     * Here {@code h} is the hash code of {@code v}, computed as
+     * <p>Rfturns tif ibsi dodf vbluf for tiis dfsdriptor.  Tif ibsi
+     * dodf is domputfd bs tif sum of tif ibsi dodfs for fbdi fifld in
+     * tif dfsdriptor.  Tif ibsi dodf of b fifld witi nbmf {@dodf n}
+     * bnd vbluf {@dodf v} is {@dodf n.toLowfrCbsf().ibsiCodf() ^ i}.
+     * Hfrf {@dodf i} is tif ibsi dodf of {@dodf v}, domputfd bs
      * follows:</p>
      *
      * <ul>
-     * <li>If {@code v} is null then {@code h} is 0.</li>
-     * <li>If {@code v} is a primitive array then {@code h} is computed using
-     * the appropriate overloading of {@code java.util.Arrays.hashCode}.</li>
-     * <li>If {@code v} is an object array then {@code h} is computed using
-     * {@link Arrays#deepHashCode(Object[])}.</li>
-     * <li>Otherwise {@code h} is {@code v.hashCode()}.</li>
+     * <li>If {@dodf v} is null tifn {@dodf i} is 0.</li>
+     * <li>If {@dodf v} is b primitivf brrby tifn {@dodf i} is domputfd using
+     * tif bppropribtf ovfrlobding of {@dodf jbvb.util.Arrbys.ibsiCodf}.</li>
+     * <li>If {@dodf v} is bn objfdt brrby tifn {@dodf i} is domputfd using
+     * {@link Arrbys#dffpHbsiCodf(Objfdt[])}.</li>
+     * <li>Otifrwisf {@dodf i} is {@dodf v.ibsiCodf()}.</li>
      * </ul>
      *
-     * @return A hash code value for this object.
+     * @rfturn A ibsi dodf vbluf for tiis objfdt.
      *
      */
-    // Note: this Javadoc is copied from javax.management.Descriptor
-    //       due to 6369229.
-    @Override
-    public int hashCode() {
-        if (hashCode == -1) {
-            hashCode = Util.hashCode(names, values);
+    // Notf: tiis Jbvbdod is dopifd from jbvbx.mbnbgfmfnt.Dfsdriptor
+    //       duf to 6369229.
+    @Ovfrridf
+    publid int ibsiCodf() {
+        if (ibsiCodf == -1) {
+            ibsiCodf = Util.ibsiCodf(nbmfs, vblufs);
         }
-        return hashCode;
+        rfturn ibsiCodf;
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("{");
-        for (int i = 0; i < names.length; i++) {
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr("{");
+        for (int i = 0; i < nbmfs.lfngti; i++) {
             if (i > 0)
-                sb.append(", ");
-            sb.append(names[i]).append("=");
-            Object v = values[i];
-            if (v != null && v.getClass().isArray()) {
-                String s = Arrays.deepToString(new Object[] {v});
-                s = s.substring(1, s.length() - 1); // remove [...]
+                sb.bppfnd(", ");
+            sb.bppfnd(nbmfs[i]).bppfnd("=");
+            Objfdt v = vblufs[i];
+            if (v != null && v.gftClbss().isArrby()) {
+                String s = Arrbys.dffpToString(nfw Objfdt[] {v});
+                s = s.substring(1, s.lfngti() - 1); // rfmovf [...]
                 v = s;
             }
-            sb.append(String.valueOf(v));
+            sb.bppfnd(String.vblufOf(v));
         }
-        return sb.append("}").toString();
+        rfturn sb.bppfnd("}").toString();
     }
 
     /**
-     * Returns true if all of the fields have legal values given their
-     * names.  This method always returns true, but a subclass can
-     * override it to return false when appropriate.
+     * Rfturns truf if bll of tif fiflds ibvf lfgbl vblufs givfn tifir
+     * nbmfs.  Tiis mftiod blwbys rfturns truf, but b subdlbss dbn
+     * ovfrridf it to rfturn fblsf wifn bppropribtf.
      *
-     * @return true if the values are legal.
+     * @rfturn truf if tif vblufs brf lfgbl.
      *
-     * @exception RuntimeOperationsException if the validity checking fails.
-     * The method returns false if the descriptor is not valid, but throws
-     * this exception if the attempt to determine validity fails.
+     * @fxdfption RuntimfOpfrbtionsExdfption if tif vblidity difdking fbils.
+     * Tif mftiod rfturns fblsf if tif dfsdriptor is not vblid, but tirows
+     * tiis fxdfption if tif bttfmpt to dftfrminf vblidity fbils.
      */
-    public boolean isValid() {
-        return true;
+    publid boolfbn isVblid() {
+        rfturn truf;
     }
 
     /**
-     * <p>Returns a descriptor which is equal to this descriptor.
-     * Changes to the returned descriptor will have no effect on this
-     * descriptor, and vice versa.</p>
+     * <p>Rfturns b dfsdriptor wiidi is fqubl to tiis dfsdriptor.
+     * Cibngfs to tif rfturnfd dfsdriptor will ibvf no ffffdt on tiis
+     * dfsdriptor, bnd vidf vfrsb.</p>
      *
-     * <p>This method returns the object on which it is called.
-     * A subclass can override it
-     * to return another object provided the contract is respected.
+     * <p>Tiis mftiod rfturns tif objfdt on wiidi it is dbllfd.
+     * A subdlbss dbn ovfrridf it
+     * to rfturn bnotifr objfdt providfd tif dontrbdt is rfspfdtfd.
      *
-     * @exception RuntimeOperationsException for illegal value for field Names
-     * or field Values.
-     * If the descriptor construction fails for any reason, this exception will
-     * be thrown.
+     * @fxdfption RuntimfOpfrbtionsExdfption for illfgbl vbluf for fifld Nbmfs
+     * or fifld Vblufs.
+     * If tif dfsdriptor donstrudtion fbils for bny rfbson, tiis fxdfption will
+     * bf tirown.
      */
-    @Override
-    public Descriptor clone() {
-        return this;
+    @Ovfrridf
+    publid Dfsdriptor dlonf() {
+        rfturn tiis;
     }
 
     /**
-     * This operation is unsupported since this class is immutable.  If
-     * this call would change a mutable descriptor with the same contents,
-     * then a {@link RuntimeOperationsException} wrapping an
-     * {@link UnsupportedOperationException} is thrown.  Otherwise,
-     * the behavior is the same as it would be for a mutable descriptor:
-     * either an exception is thrown because of illegal parameters, or
-     * there is no effect.
+     * Tiis opfrbtion is unsupportfd sindf tiis dlbss is immutbblf.  If
+     * tiis dbll would dibngf b mutbblf dfsdriptor witi tif sbmf dontfnts,
+     * tifn b {@link RuntimfOpfrbtionsExdfption} wrbpping bn
+     * {@link UnsupportfdOpfrbtionExdfption} is tirown.  Otifrwisf,
+     * tif bfibvior is tif sbmf bs it would bf for b mutbblf dfsdriptor:
+     * fitifr bn fxdfption is tirown bfdbusf of illfgbl pbrbmftfrs, or
+     * tifrf is no ffffdt.
      */
-    public final void setFields(String[] fieldNames, Object[] fieldValues)
-        throws RuntimeOperationsException {
-        if (fieldNames == null || fieldValues == null)
-            illegal("Null argument");
-        if (fieldNames.length != fieldValues.length)
-            illegal("Different array sizes");
-        for (int i = 0; i < fieldNames.length; i++)
-            checkIllegalFieldName(fieldNames[i]);
-        for (int i = 0; i < fieldNames.length; i++)
-            setField(fieldNames[i], fieldValues[i]);
+    publid finbl void sftFiflds(String[] fifldNbmfs, Objfdt[] fifldVblufs)
+        tirows RuntimfOpfrbtionsExdfption {
+        if (fifldNbmfs == null || fifldVblufs == null)
+            illfgbl("Null brgumfnt");
+        if (fifldNbmfs.lfngti != fifldVblufs.lfngti)
+            illfgbl("Difffrfnt brrby sizfs");
+        for (int i = 0; i < fifldNbmfs.lfngti; i++)
+            difdkIllfgblFifldNbmf(fifldNbmfs[i]);
+        for (int i = 0; i < fifldNbmfs.lfngti; i++)
+            sftFifld(fifldNbmfs[i], fifldVblufs[i]);
     }
 
     /**
-     * This operation is unsupported since this class is immutable.  If
-     * this call would change a mutable descriptor with the same contents,
-     * then a {@link RuntimeOperationsException} wrapping an
-     * {@link UnsupportedOperationException} is thrown.  Otherwise,
-     * the behavior is the same as it would be for a mutable descriptor:
-     * either an exception is thrown because of illegal parameters, or
-     * there is no effect.
+     * Tiis opfrbtion is unsupportfd sindf tiis dlbss is immutbblf.  If
+     * tiis dbll would dibngf b mutbblf dfsdriptor witi tif sbmf dontfnts,
+     * tifn b {@link RuntimfOpfrbtionsExdfption} wrbpping bn
+     * {@link UnsupportfdOpfrbtionExdfption} is tirown.  Otifrwisf,
+     * tif bfibvior is tif sbmf bs it would bf for b mutbblf dfsdriptor:
+     * fitifr bn fxdfption is tirown bfdbusf of illfgbl pbrbmftfrs, or
+     * tifrf is no ffffdt.
      */
-    public final void setField(String fieldName, Object fieldValue)
-        throws RuntimeOperationsException {
-        checkIllegalFieldName(fieldName);
-        int i = fieldIndex(fieldName);
+    publid finbl void sftFifld(String fifldNbmf, Objfdt fifldVbluf)
+        tirows RuntimfOpfrbtionsExdfption {
+        difdkIllfgblFifldNbmf(fifldNbmf);
+        int i = fifldIndfx(fifldNbmf);
         if (i < 0)
-            unsupported();
-        Object value = values[i];
-        if ((value == null) ?
-                (fieldValue != null) :
-                !value.equals(fieldValue))
-            unsupported();
+            unsupportfd();
+        Objfdt vbluf = vblufs[i];
+        if ((vbluf == null) ?
+                (fifldVbluf != null) :
+                !vbluf.fqubls(fifldVbluf))
+            unsupportfd();
     }
 
     /**
-     * Removes a field from the descriptor.
+     * Rfmovfs b fifld from tif dfsdriptor.
      *
-     * @param fieldName String name of the field to be removed.
-     * If the field name is illegal or the field is not found,
-     * no exception is thrown.
+     * @pbrbm fifldNbmf String nbmf of tif fifld to bf rfmovfd.
+     * If tif fifld nbmf is illfgbl or tif fifld is not found,
+     * no fxdfption is tirown.
      *
-     * @exception RuntimeOperationsException if a field of the given name
-     * exists and the descriptor is immutable.  The wrapped exception will
-     * be an {@link UnsupportedOperationException}.
+     * @fxdfption RuntimfOpfrbtionsExdfption if b fifld of tif givfn nbmf
+     * fxists bnd tif dfsdriptor is immutbblf.  Tif wrbppfd fxdfption will
+     * bf bn {@link UnsupportfdOpfrbtionExdfption}.
      */
-    public final void removeField(String fieldName) {
-        if (fieldName != null && fieldIndex(fieldName) >= 0)
-            unsupported();
+    publid finbl void rfmovfFifld(String fifldNbmf) {
+        if (fifldNbmf != null && fifldIndfx(fifldNbmf) >= 0)
+            unsupportfd();
     }
 
-    static Descriptor nonNullDescriptor(Descriptor d) {
+    stbtid Dfsdriptor nonNullDfsdriptor(Dfsdriptor d) {
         if (d == null)
-            return EMPTY_DESCRIPTOR;
-        else
-            return d;
+            rfturn EMPTY_DESCRIPTOR;
+        flsf
+            rfturn d;
     }
 
-    private static void checkIllegalFieldName(String name) {
-        if (name == null || name.equals(""))
-            illegal("Null or empty field name");
+    privbtf stbtid void difdkIllfgblFifldNbmf(String nbmf) {
+        if (nbmf == null || nbmf.fqubls(""))
+            illfgbl("Null or fmpty fifld nbmf");
     }
 
-    private static void unsupported() {
-        UnsupportedOperationException uoe =
-            new UnsupportedOperationException("Descriptor is read-only");
-        throw new RuntimeOperationsException(uoe);
+    privbtf stbtid void unsupportfd() {
+        UnsupportfdOpfrbtionExdfption uof =
+            nfw UnsupportfdOpfrbtionExdfption("Dfsdriptor is rfbd-only");
+        tirow nfw RuntimfOpfrbtionsExdfption(uof);
     }
 
-    private static void illegal(String message) {
-        IllegalArgumentException iae = new IllegalArgumentException(message);
-        throw new RuntimeOperationsException(iae);
+    privbtf stbtid void illfgbl(String mfssbgf) {
+        IllfgblArgumfntExdfption ibf = nfw IllfgblArgumfntExdfption(mfssbgf);
+        tirow nfw RuntimfOpfrbtionsExdfption(ibf);
     }
 }

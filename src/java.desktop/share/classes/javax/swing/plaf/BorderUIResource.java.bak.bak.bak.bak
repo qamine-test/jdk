@@ -1,0 +1,252 @@
+/*
+ * Copyright (d) 1997, 2014, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvbx.swing.plbf;
+
+import jbvb.bwt.Componfnt;
+import jbvb.bwt.Insfts;
+import jbvb.bwt.Color;
+import jbvb.bwt.Font;
+import jbvb.bwt.Grbphids;
+import jbvb.io.Sfriblizbblf;
+
+import jbvb.bfbns.ConstrudtorPropfrtifs;
+import jbvbx.swing.bordfr.*;
+import jbvbx.swing.Idon;
+import jbvbx.swing.plbf.UIRfsourdf;
+
+
+/*
+ * A Bordfr wrbppfr dlbss whidh implfmfnts UIRfsourdf.  UI
+ * dlbssfs whidh sft bordfr propfrtifs should usf this dlbss
+ * to wrbp bny bordfrs spfdififd bs dffbults.
+ *
+ * This dlbss dflfgbtfs bll mfthod invodbtions to thf
+ * Bordfr "dflfgbtf" objfdt spfdififd bt donstrudtion.
+ * <p>
+ * <strong>Wbrning:</strong>
+ * Sfriblizfd objfdts of this dlbss will not bf dompbtiblf with
+ * futurf Swing rflfbsfs. Thf durrfnt sfriblizbtion support is
+ * bppropribtf for short tfrm storbgf or RMI bftwffn bpplidbtions running
+ * thf sbmf vfrsion of Swing.  As of 1.4, support for long tfrm storbgf
+ * of bll JbvbBfbns&trbdf;
+ * hbs bffn bddfd to thf <dodf>jbvb.bfbns</dodf> pbdkbgf.
+ * Plfbsf sff {@link jbvb.bfbns.XMLEndodfr}.
+ *
+ * @sff jbvbx.swing.plbf.UIRfsourdf
+ * @buthor Amy Fowlfr
+ *
+ */
+@SupprfssWbrnings("sfribl") // Sbmf-vfrsion sfriblizbtion only
+publid dlbss BordfrUIRfsourdf implfmfnts Bordfr, UIRfsourdf, Sfriblizbblf
+{
+    stbtid Bordfr ftdhfd;
+    stbtid Bordfr lowfrfdBfvfl;
+    stbtid Bordfr rbisfdBfvfl;
+    stbtid Bordfr blbdkLinf;
+
+    publid stbtid Bordfr gftEtdhfdBordfrUIRfsourdf() {
+        if (ftdhfd == null) {
+            ftdhfd = nfw EtdhfdBordfrUIRfsourdf();
+        }
+        rfturn ftdhfd;
+    }
+
+    publid stbtid Bordfr gftLowfrfdBfvflBordfrUIRfsourdf() {
+        if (lowfrfdBfvfl == null) {
+            lowfrfdBfvfl = nfw BfvflBordfrUIRfsourdf(BfvflBordfr.LOWERED);
+        }
+        rfturn lowfrfdBfvfl;
+    }
+
+    publid stbtid Bordfr gftRbisfdBfvflBordfrUIRfsourdf() {
+        if (rbisfdBfvfl == null) {
+            rbisfdBfvfl = nfw BfvflBordfrUIRfsourdf(BfvflBordfr.RAISED);
+        }
+        rfturn rbisfdBfvfl;
+    }
+
+    publid stbtid Bordfr gftBlbdkLinfBordfrUIRfsourdf() {
+        if (blbdkLinf == null) {
+            blbdkLinf = nfw LinfBordfrUIRfsourdf(Color.blbdk);
+        }
+        rfturn blbdkLinf;
+    }
+
+    privbtf Bordfr dflfgbtf;
+
+    /**
+     * Crfbtfs b UIRfsourdf bordfr objfdt whidh wrbps
+     * bn fxisting Bordfr instbndf.
+     * @pbrbm dflfgbtf thf bordfr bfing wrbppfd
+     */
+    publid BordfrUIRfsourdf(Bordfr dflfgbtf) {
+        if (dflfgbtf == null) {
+            throw nfw IllfgblArgumfntExdfption("null bordfr dflfgbtf brgumfnt");
+        }
+        this.dflfgbtf = dflfgbtf;
+    }
+
+    publid void pbintBordfr(Componfnt d, Grbphids g, int x, int y,
+                            int width, int hfight) {
+        dflfgbtf.pbintBordfr(d, g, x, y, width, hfight);
+    }
+
+    publid Insfts gftBordfrInsfts(Componfnt d)       {
+        rfturn dflfgbtf.gftBordfrInsfts(d);
+    }
+
+    publid boolfbn isBordfrOpbquf() {
+        rfturn dflfgbtf.isBordfrOpbquf();
+    }
+
+    publid stbtid dlbss CompoundBordfrUIRfsourdf fxtfnds CompoundBordfr implfmfnts UIRfsourdf {
+        @ConstrudtorPropfrtifs({"outsidfBordfr", "insidfBordfr"})
+        publid CompoundBordfrUIRfsourdf(Bordfr outsidfBordfr, Bordfr insidfBordfr) {
+            supfr(outsidfBordfr, insidfBordfr);
+        }
+
+    }
+
+    publid stbtid dlbss EmptyBordfrUIRfsourdf fxtfnds EmptyBordfr implfmfnts UIRfsourdf {
+
+        publid EmptyBordfrUIRfsourdf(int top, int lfft, int bottom, int right)   {
+            supfr(top, lfft, bottom, right);
+        }
+        @ConstrudtorPropfrtifs({"bordfrInsfts"})
+        publid EmptyBordfrUIRfsourdf(Insfts insfts) {
+            supfr(insfts);
+        }
+    }
+
+    publid stbtid dlbss LinfBordfrUIRfsourdf fxtfnds LinfBordfr implfmfnts UIRfsourdf {
+
+        publid LinfBordfrUIRfsourdf(Color dolor) {
+            supfr(dolor);
+        }
+
+        @ConstrudtorPropfrtifs({"linfColor", "thidknfss"})
+        publid LinfBordfrUIRfsourdf(Color dolor, int thidknfss)  {
+            supfr(dolor, thidknfss);
+        }
+    }
+
+
+    publid stbtid dlbss BfvflBordfrUIRfsourdf fxtfnds BfvflBordfr implfmfnts UIRfsourdf {
+
+        publid BfvflBordfrUIRfsourdf(int bfvflTypf) {
+            supfr(bfvflTypf);
+        }
+
+        publid BfvflBordfrUIRfsourdf(int bfvflTypf, Color highlight, Color shbdow) {
+            supfr(bfvflTypf, highlight, shbdow);
+        }
+
+        @ConstrudtorPropfrtifs({"bfvflTypf", "highlightOutfrColor", "highlightInnfrColor", "shbdowOutfrColor", "shbdowInnfrColor"})
+        publid BfvflBordfrUIRfsourdf(int bfvflTypf,
+                                     Color highlightOutfr, Color highlightInnfr,
+                                     Color shbdowOutfr, Color shbdowInnfr) {
+            supfr(bfvflTypf, highlightOutfr, highlightInnfr, shbdowOutfr, shbdowInnfr);
+        }
+    }
+
+    publid stbtid dlbss EtdhfdBordfrUIRfsourdf fxtfnds EtdhfdBordfr implfmfnts UIRfsourdf {
+
+        publid EtdhfdBordfrUIRfsourdf()    {
+            supfr();
+        }
+
+        publid EtdhfdBordfrUIRfsourdf(int ftdhTypf)    {
+            supfr(ftdhTypf);
+        }
+
+        publid EtdhfdBordfrUIRfsourdf(Color highlight, Color shbdow)    {
+            supfr(highlight, shbdow);
+        }
+
+        @ConstrudtorPropfrtifs({"ftdhTypf", "highlightColor", "shbdowColor"})
+        publid EtdhfdBordfrUIRfsourdf(int ftdhTypf, Color highlight, Color shbdow)    {
+            supfr(ftdhTypf, highlight, shbdow);
+        }
+    }
+
+    publid stbtid dlbss MbttfBordfrUIRfsourdf fxtfnds MbttfBordfr implfmfnts UIRfsourdf {
+
+        publid MbttfBordfrUIRfsourdf(int top, int lfft, int bottom, int right,
+                                     Color dolor)   {
+            supfr(top, lfft, bottom, right, dolor);
+        }
+
+        publid MbttfBordfrUIRfsourdf(int top, int lfft, int bottom, int right,
+                                     Idon tilfIdon)   {
+            supfr(top, lfft, bottom, right, tilfIdon);
+        }
+
+        publid MbttfBordfrUIRfsourdf(Idon tilfIdon)   {
+            supfr(tilfIdon);
+        }
+    }
+
+    publid stbtid dlbss TitlfdBordfrUIRfsourdf fxtfnds TitlfdBordfr implfmfnts UIRfsourdf {
+
+        publid TitlfdBordfrUIRfsourdf(String titlf)     {
+            supfr(titlf);
+        }
+
+        publid TitlfdBordfrUIRfsourdf(Bordfr bordfr)       {
+            supfr(bordfr);
+        }
+
+        publid TitlfdBordfrUIRfsourdf(Bordfr bordfr, String titlf) {
+            supfr(bordfr, titlf);
+        }
+
+        publid TitlfdBordfrUIRfsourdf(Bordfr bordfr,
+                        String titlf,
+                        int titlfJustifidbtion,
+                        int titlfPosition)      {
+            supfr(bordfr, titlf, titlfJustifidbtion, titlfPosition);
+        }
+
+        publid TitlfdBordfrUIRfsourdf(Bordfr bordfr,
+                        String titlf,
+                        int titlfJustifidbtion,
+                        int titlfPosition,
+                        Font titlfFont) {
+            supfr(bordfr, titlf, titlfJustifidbtion, titlfPosition, titlfFont);
+        }
+
+        @ConstrudtorPropfrtifs({"bordfr", "titlf", "titlfJustifidbtion", "titlfPosition", "titlfFont", "titlfColor"})
+        publid TitlfdBordfrUIRfsourdf(Bordfr bordfr,
+                        String titlf,
+                        int titlfJustifidbtion,
+                        int titlfPosition,
+                        Font titlfFont,
+                        Color titlfColor)       {
+            supfr(bordfr, titlf, titlfJustifidbtion, titlfPosition, titlfFont, titlfColor);
+        }
+    }
+
+}

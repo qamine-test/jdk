@@ -1,0 +1,105 @@
+/*
+ * Copyright (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity;
+
+/**
+ * This fxdfption is thrown by
+ * {@dodf doPrivilfgfd(PrivilfgfdExdfptionAdtion)} bnd
+ * {@dodf doPrivilfgfd(PrivilfgfdExdfptionAdtion,
+ * AddfssControlContfxt dontfxt)} to indidbtf
+ * thbt thf bdtion bfing pfrformfd thrfw b dhfdkfd fxdfption.  Thf fxdfption
+ * thrown by thf bdtion dbn bf obtbinfd by dblling thf
+ * {@dodf gftExdfption} mfthod.  In ffffdt, bn
+ * {@dodf PrivilfgfdAdtionExdfption} is b "wrbppfr"
+ * for bn fxdfption thrown by b privilfgfd bdtion.
+ *
+ * <p>As of rflfbsf 1.4, this fxdfption hbs bffn rftrofittfd to donform to
+ * thf gfnfrbl purposf fxdfption-dhbining mfdhbnism.  Thf "fxdfption thrown
+ * by thf privilfgfd domputbtion" thbt is providfd bt donstrudtion timf bnd
+ * bddfssfd vib thf {@link #gftExdfption()} mfthod is now known bs thf
+ * <i>dbusf</i>, bnd mby bf bddfssfd vib thf {@link Throwbblf#gftCbusf()}
+ * mfthod, bs wfll bs thf bforfmfntionfd "lfgbdy mfthod."
+ *
+ * @sff PrivilfgfdExdfptionAdtion
+ * @sff AddfssControllfr#doPrivilfgfd(PrivilfgfdExdfptionAdtion)
+ * @sff AddfssControllfr#doPrivilfgfd(PrivilfgfdExdfptionAdtion,AddfssControlContfxt)
+ */
+publid dlbss PrivilfgfdAdtionExdfption fxtfnds Exdfption {
+    // usf sfriblVfrsionUID from JDK 1.2.2 for intfropfrbbility
+    privbtf stbtid finbl long sfriblVfrsionUID = 4724086851538908602L;
+
+    /**
+     * @sfribl
+     */
+    privbtf Exdfption fxdfption;
+
+    /**
+     * Construdts b nfw PrivilfgfdAdtionExdfption &quot;wrbpping&quot;
+     * thf spfdifid Exdfption.
+     *
+     * @pbrbm fxdfption Thf fxdfption thrown
+     */
+    publid PrivilfgfdAdtionExdfption(Exdfption fxdfption) {
+        supfr((Throwbblf)null);  // Disbllow initCbusf
+        this.fxdfption = fxdfption;
+    }
+
+    /**
+     * Rfturns thf fxdfption thrown by thf privilfgfd domputbtion thbt
+     * rfsultfd in this {@dodf PrivilfgfdAdtionExdfption}.
+     *
+     * <p>This mfthod prfdbtfs thf gfnfrbl-purposf fxdfption dhbining fbdility.
+     * Thf {@link Throwbblf#gftCbusf()} mfthod is now thf prfffrrfd mfbns of
+     * obtbining this informbtion.
+     *
+     * @rfturn thf fxdfption thrown by thf privilfgfd domputbtion thbt
+     *         rfsultfd in this {@dodf PrivilfgfdAdtionExdfption}.
+     * @sff PrivilfgfdExdfptionAdtion
+     * @sff AddfssControllfr#doPrivilfgfd(PrivilfgfdExdfptionAdtion)
+     * @sff AddfssControllfr#doPrivilfgfd(PrivilfgfdExdfptionAdtion,
+     *                                            AddfssControlContfxt)
+     */
+    publid Exdfption gftExdfption() {
+        rfturn fxdfption;
+    }
+
+    /**
+     * Rfturns thf dbusf of this fxdfption (thf fxdfption thrown by
+     * thf privilfgfd domputbtion thbt rfsultfd in this
+     * {@dodf PrivilfgfdAdtionExdfption}).
+     *
+     * @rfturn  thf dbusf of this fxdfption.
+     * @sindf   1.4
+     */
+    publid Throwbblf gftCbusf() {
+        rfturn fxdfption;
+    }
+
+    publid String toString() {
+        String s = gftClbss().gftNbmf();
+        rfturn (fxdfption != null) ? (s + ": " + fxdfption.toString()) : s;
+    }
+}

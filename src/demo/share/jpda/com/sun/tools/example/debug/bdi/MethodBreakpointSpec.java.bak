@@ -1,346 +1,346 @@
 /*
- * Copyright (c) 1999, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1999, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-package com.sun.tools.example.debug.bdi;
+pbdkbgf dom.sun.tools.fxbmplf.dfbug.bdi;
 
-import com.sun.jdi.*;
-import java.util.ArrayList;
-import java.util.List;
+import dom.sun.jdi.*;
+import jbvb.util.ArrbyList;
+import jbvb.util.List;
 
-public class MethodBreakpointSpec extends BreakpointSpec {
-    String methodId;
-    List<String> methodArgs;
+publid dlbss MftiodBrfbkpointSpfd fxtfnds BrfbkpointSpfd {
+    String mftiodId;
+    List<String> mftiodArgs;
 
-    MethodBreakpointSpec(EventRequestSpecList specs,
-                         ReferenceTypeSpec refSpec,
-                         String methodId, List<String> methodArgs) {
-        super(specs, refSpec);
-        this.methodId = methodId;
-        this.methodArgs = methodArgs;
+    MftiodBrfbkpointSpfd(EvfntRfqufstSpfdList spfds,
+                         RfffrfndfTypfSpfd rffSpfd,
+                         String mftiodId, List<String> mftiodArgs) {
+        supfr(spfds, rffSpfd);
+        tiis.mftiodId = mftiodId;
+        tiis.mftiodArgs = mftiodArgs;
     }
 
     /**
-     * The 'refType' is known to match.
+     * Tif 'rffTypf' is known to mbtdi.
      */
-    @Override
-    void resolve(ReferenceType refType) throws MalformedMemberNameException,
-                                             AmbiguousMethodException,
-                                             InvalidTypeException,
-                                             NoSuchMethodException,
-                                             NoSessionException {
-        if (!isValidMethodName(methodId)) {
-            throw new MalformedMemberNameException(methodId);
+    @Ovfrridf
+    void rfsolvf(RfffrfndfTypf rffTypf) tirows MblformfdMfmbfrNbmfExdfption,
+                                             AmbiguousMftiodExdfption,
+                                             InvblidTypfExdfption,
+                                             NoSudiMftiodExdfption,
+                                             NoSfssionExdfption {
+        if (!isVblidMftiodNbmf(mftiodId)) {
+            tirow nfw MblformfdMfmbfrNbmfExdfption(mftiodId);
         }
-        if (!(refType instanceof ClassType)) {
-            throw new InvalidTypeException();
+        if (!(rffTypf instbndfof ClbssTypf)) {
+            tirow nfw InvblidTypfExdfption();
         }
-        Location location = location((ClassType)refType);
-        setRequest(refType.virtualMachine().eventRequestManager()
-                   .createBreakpointRequest(location));
+        Lodbtion lodbtion = lodbtion((ClbssTypf)rffTypf);
+        sftRfqufst(rffTypf.virtublMbdiinf().fvfntRfqufstMbnbgfr()
+                   .drfbtfBrfbkpointRfqufst(lodbtion));
     }
 
-    private Location location(ClassType clazz) throws
-                                               AmbiguousMethodException,
-                                               NoSuchMethodException,
-                                               NoSessionException {
-        Method method = findMatchingMethod(clazz);
-        Location location = method.location();
-        return location;
+    privbtf Lodbtion lodbtion(ClbssTypf dlbzz) tirows
+                                               AmbiguousMftiodExdfption,
+                                               NoSudiMftiodExdfption,
+                                               NoSfssionExdfption {
+        Mftiod mftiod = findMbtdiingMftiod(dlbzz);
+        Lodbtion lodbtion = mftiod.lodbtion();
+        rfturn lodbtion;
     }
 
-    public String methodName() {
-        return methodId;
+    publid String mftiodNbmf() {
+        rfturn mftiodId;
     }
 
-    public List<String> methodArgs() {
-        return methodArgs;
+    publid List<String> mftiodArgs() {
+        rfturn mftiodArgs;
     }
 
-    @Override
-    public int hashCode() {
-        return refSpec.hashCode() +
-            ((methodId != null) ? methodId.hashCode() : 0) +
-            ((methodArgs != null) ? methodArgs.hashCode() : 0);
+    @Ovfrridf
+    publid int ibsiCodf() {
+        rfturn rffSpfd.ibsiCodf() +
+            ((mftiodId != null) ? mftiodId.ibsiCodf() : 0) +
+            ((mftiodArgs != null) ? mftiodArgs.ibsiCodf() : 0);
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj instanceof MethodBreakpointSpec) {
-            MethodBreakpointSpec breakpoint = (MethodBreakpointSpec)obj;
+    @Ovfrridf
+    publid boolfbn fqubls(Objfdt obj) {
+        if (obj instbndfof MftiodBrfbkpointSpfd) {
+            MftiodBrfbkpointSpfd brfbkpoint = (MftiodBrfbkpointSpfd)obj;
 
-            return methodId.equals(breakpoint.methodId) &&
-                   methodArgs.equals(breakpoint.methodArgs) &&
-                   refSpec.equals(breakpoint.refSpec);
-        } else {
-            return false;
+            rfturn mftiodId.fqubls(brfbkpoint.mftiodId) &&
+                   mftiodArgs.fqubls(brfbkpoint.mftiodArgs) &&
+                   rffSpfd.fqubls(brfbkpoint.rffSpfd);
+        } flsf {
+            rfturn fblsf;
         }
     }
 
-    @Override
-    public String errorMessageFor(Exception e) {
-        if (e instanceof AmbiguousMethodException) {
-            return ("Method " + methodName() + " is overloaded; specify arguments");
+    @Ovfrridf
+    publid String frrorMfssbgfFor(Exdfption f) {
+        if (f instbndfof AmbiguousMftiodExdfption) {
+            rfturn ("Mftiod " + mftiodNbmf() + " is ovfrlobdfd; spfdify brgumfnts");
             /*
-             * TO DO: list the methods here
+             * TO DO: list tif mftiods ifrf
              */
-        } else if (e instanceof NoSuchMethodException) {
-            return ("No method " + methodName() + " in " + refSpec);
-        } else if (e instanceof InvalidTypeException) {
-            return ("Breakpoints can be located only in classes. " +
-                        refSpec + " is an interface or array");
-        } else {
-            return super.errorMessageFor( e);
+        } flsf if (f instbndfof NoSudiMftiodExdfption) {
+            rfturn ("No mftiod " + mftiodNbmf() + " in " + rffSpfd);
+        } flsf if (f instbndfof InvblidTypfExdfption) {
+            rfturn ("Brfbkpoints dbn bf lodbtfd only in dlbssfs. " +
+                        rffSpfd + " is bn intfrfbdf or brrby");
+        } flsf {
+            rfturn supfr.frrorMfssbgfFor( f);
         }
     }
 
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("breakpoint ");
-        sb.append(refSpec.toString());
-        sb.append('.');
-        sb.append(methodId);
-        if (methodArgs != null) {
-            boolean first = true;
-            sb.append('(');
-            for (String name : methodArgs) {
+    @Ovfrridf
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr("brfbkpoint ");
+        sb.bppfnd(rffSpfd.toString());
+        sb.bppfnd('.');
+        sb.bppfnd(mftiodId);
+        if (mftiodArgs != null) {
+            boolfbn first = truf;
+            sb.bppfnd('(');
+            for (String nbmf : mftiodArgs) {
                 if (!first) {
-                    sb.append(',');
+                    sb.bppfnd(',');
                 }
-                sb.append(name);
-                first = false;
+                sb.bppfnd(nbmf);
+                first = fblsf;
             }
-            sb.append(")");
+            sb.bppfnd(")");
         }
-        sb.append(" (");
-        sb.append(getStatusString());
-        sb.append(')');
-        return sb.toString();
+        sb.bppfnd(" (");
+        sb.bppfnd(gftStbtusString());
+        sb.bppfnd(')');
+        rfturn sb.toString();
     }
 
-    private boolean isValidMethodName(String s) {
-        return isJavaIdentifier(s) ||
-               s.equals("<init>") ||
-               s.equals("<clinit>");
+    privbtf boolfbn isVblidMftiodNbmf(String s) {
+        rfturn isJbvbIdfntififr(s) ||
+               s.fqubls("<init>") ||
+               s.fqubls("<dlinit>");
     }
 
     /*
-     * Compare a method's argument types with a Vector of type names.
-     * Return true if each argument type has a name identical to the
-     * corresponding string in the vector (allowing for varargs)
-     * and if the number of arguments in the method matches the
-     * number of names passed
+     * Compbrf b mftiod's brgumfnt typfs witi b Vfdtor of typf nbmfs.
+     * Rfturn truf if fbdi brgumfnt typf ibs b nbmf idfntidbl to tif
+     * dorrfsponding string in tif vfdtor (bllowing for vbrbrgs)
+     * bnd if tif numbfr of brgumfnts in tif mftiod mbtdifs tif
+     * numbfr of nbmfs pbssfd
      */
-    private boolean compareArgTypes(Method method, List<String> nameList) {
-        List<String> argTypeNames = method.argumentTypeNames();
+    privbtf boolfbn dompbrfArgTypfs(Mftiod mftiod, List<String> nbmfList) {
+        List<String> brgTypfNbmfs = mftiod.brgumfntTypfNbmfs();
 
-        // If argument counts differ, we can stop here
-        if (argTypeNames.size() != nameList.size()) {
-            return false;
+        // If brgumfnt dounts difffr, wf dbn stop ifrf
+        if (brgTypfNbmfs.sizf() != nbmfList.sizf()) {
+            rfturn fblsf;
         }
 
-        // Compare each argument type's name
-        int nTypes = argTypeNames.size();
-        for (int i = 0; i < nTypes; ++i) {
-            String comp1 = argTypeNames.get(i);
-            String comp2 = nameList.get(i);
-            if (! comp1.equals(comp2)) {
+        // Compbrf fbdi brgumfnt typf's nbmf
+        int nTypfs = brgTypfNbmfs.sizf();
+        for (int i = 0; i < nTypfs; ++i) {
+            String domp1 = brgTypfNbmfs.gft(i);
+            String domp2 = nbmfList.gft(i);
+            if (! domp1.fqubls(domp2)) {
                 /*
-                 * We have to handle varargs.  EG, the
-                 * method's last arg type is xxx[]
-                 * while the nameList contains xxx...
-                 * Note that the nameList can also contain
-                 * xxx[] in which case we don't get here.
+                 * Wf ibvf to ibndlf vbrbrgs.  EG, tif
+                 * mftiod's lbst brg typf is xxx[]
+                 * wiilf tif nbmfList dontbins xxx...
+                 * Notf tibt tif nbmfList dbn blso dontbin
+                 * xxx[] in wiidi dbsf wf don't gft ifrf.
                  */
-                if (i != nTypes - 1 ||
-                    !method.isVarArgs()  ||
-                    !comp2.endsWith("...")) {
-                    return false;
+                if (i != nTypfs - 1 ||
+                    !mftiod.isVbrArgs()  ||
+                    !domp2.fndsWiti("...")) {
+                    rfturn fblsf;
                 }
                 /*
-                 * The last types differ, it is a varargs
-                 * method and the nameList item is varargs.
-                 * We just have to compare the type names, eg,
-                 * make sure we don't have xxx[] for the method
-                 * arg type and yyy... for the nameList item.
+                 * Tif lbst typfs difffr, it is b vbrbrgs
+                 * mftiod bnd tif nbmfList itfm is vbrbrgs.
+                 * Wf just ibvf to dompbrf tif typf nbmfs, fg,
+                 * mbkf surf wf don't ibvf xxx[] for tif mftiod
+                 * brg typf bnd yyy... for tif nbmfList itfm.
                  */
-                int comp1Length = comp1.length();
-                if (comp1Length + 1 != comp2.length()) {
-                    // The type names are different lengths
-                    return false;
+                int domp1Lfngti = domp1.lfngti();
+                if (domp1Lfngti + 1 != domp2.lfngti()) {
+                    // Tif typf nbmfs brf difffrfnt lfngtis
+                    rfturn fblsf;
                 }
-                // We know the two type names are the same length
-                if (!comp1.regionMatches(0, comp2, 0, comp1Length - 2)) {
-                    return false;
+                // Wf know tif two typf nbmfs brf tif sbmf lfngti
+                if (!domp1.rfgionMbtdifs(0, domp2, 0, domp1Lfngti - 2)) {
+                    rfturn fblsf;
                 }
-                // We do have xxx[] and xxx... as the last param type
-                return true;
+                // Wf do ibvf xxx[] bnd xxx... bs tif lbst pbrbm typf
+                rfturn truf;
             }
         }
 
-        return true;
+        rfturn truf;
     }
 
-  private VirtualMachine vm() {
-    return request.virtualMachine();
+  privbtf VirtublMbdiinf vm() {
+    rfturn rfqufst.virtublMbdiinf();
   }
 
   /**
-     * Remove unneeded spaces and expand class names to fully
-     * qualified names, if necessary and possible.
+     * Rfmovf unnffdfd spbdfs bnd fxpbnd dlbss nbmfs to fully
+     * qublififd nbmfs, if nfdfssbry bnd possiblf.
      */
-    private String normalizeArgTypeName(String name) throws NoSessionException {
+    privbtf String normblizfArgTypfNbmf(String nbmf) tirows NoSfssionExdfption {
         /*
-         * Separate the type name from any array modifiers,
-         * stripping whitespace after the name ends.
+         * Sfpbrbtf tif typf nbmf from bny brrby modififrs,
+         * stripping wiitfspbdf bftfr tif nbmf fnds.
          */
         int i = 0;
-        StringBuilder typePart = new StringBuilder();
-        StringBuilder arrayPart = new StringBuilder();
-        name = name.trim();
-        int nameLength = name.length();
+        StringBuildfr typfPbrt = nfw StringBuildfr();
+        StringBuildfr brrbyPbrt = nfw StringBuildfr();
+        nbmf = nbmf.trim();
+        int nbmfLfngti = nbmf.lfngti();
         /*
-         * For varargs, there can be spaces before the ... but not
-         * within the ...  So, we will just ignore the ...
-         * while stripping blanks.
+         * For vbrbrgs, tifrf dbn bf spbdfs bfforf tif ... but not
+         * witiin tif ...  So, wf will just ignorf tif ...
+         * wiilf stripping blbnks.
          */
-        boolean isVarArgs = name.endsWith("...");
-        if (isVarArgs) {
-            nameLength -= 3;
+        boolfbn isVbrArgs = nbmf.fndsWiti("...");
+        if (isVbrArgs) {
+            nbmfLfngti -= 3;
         }
 
-        while (i < nameLength) {
-            char c = name.charAt(i);
-            if (Character.isWhitespace(c) || c == '[') {
-                break;      // name is complete
+        wiilf (i < nbmfLfngti) {
+            dibr d = nbmf.dibrAt(i);
+            if (Cibrbdtfr.isWiitfspbdf(d) || d == '[') {
+                brfbk;      // nbmf is domplftf
             }
-            typePart.append(c);
+            typfPbrt.bppfnd(d);
             i++;
         }
-        while (i < nameLength) {
-            char c = name.charAt(i);
-            if ( (c == '[') || (c == ']')) {
-                arrayPart.append(c);
-            } else if (!Character.isWhitespace(c)) {
-                throw new IllegalArgumentException(
-                                                "Invalid argument type name");
+        wiilf (i < nbmfLfngti) {
+            dibr d = nbmf.dibrAt(i);
+            if ( (d == '[') || (d == ']')) {
+                brrbyPbrt.bppfnd(d);
+            } flsf if (!Cibrbdtfr.isWiitfspbdf(d)) {
+                tirow nfw IllfgblArgumfntExdfption(
+                                                "Invblid brgumfnt typf nbmf");
 
             }
             i++;
         }
 
-        name = typePart.toString();
+        nbmf = typfPbrt.toString();
 
         /*
-         * When there's no sign of a package name already,
-         * try to expand the
-         * the name to a fully qualified class name
+         * Wifn tifrf's no sign of b pbdkbgf nbmf blrfbdy,
+         * try to fxpbnd tif
+         * tif nbmf to b fully qublififd dlbss nbmf
          */
-        if ((name.indexOf('.') == -1) || name.startsWith("*.")) {
+        if ((nbmf.indfxOf('.') == -1) || nbmf.stbrtsWiti("*.")) {
             try {
-                List<?> refs = specs.runtime.findClassesMatchingPattern(name);
-                if (refs.size() > 0) {  //### ambiguity???
-                    name = ((ReferenceType)(refs.get(0))).name();
+                List<?> rffs = spfds.runtimf.findClbssfsMbtdiingPbttfrn(nbmf);
+                if (rffs.sizf() > 0) {  //### bmbiguity???
+                    nbmf = ((RfffrfndfTypf)(rffs.gft(0))).nbmf();
                 }
-            } catch (IllegalArgumentException e) {
-                // We'll try the name as is
+            } dbtdi (IllfgblArgumfntExdfption f) {
+                // Wf'll try tif nbmf bs is
             }
         }
-        name += arrayPart.toString();
-        if (isVarArgs) {
-            name += "...";
+        nbmf += brrbyPbrt.toString();
+        if (isVbrArgs) {
+            nbmf += "...";
         }
-        return name;
+        rfturn nbmf;
     }
 
     /*
-     * Attempt an unambiguous match of the method name and
-     * argument specification to a method. If no arguments
-     * are specified, the method must not be overloaded.
-     * Otherwise, the argument types much match exactly
+     * Attfmpt bn unbmbiguous mbtdi of tif mftiod nbmf bnd
+     * brgumfnt spfdifidbtion to b mftiod. If no brgumfnts
+     * brf spfdififd, tif mftiod must not bf ovfrlobdfd.
+     * Otifrwisf, tif brgumfnt typfs mudi mbtdi fxbdtly
      */
-    private Method findMatchingMethod(ClassType clazz)
-                                        throws AmbiguousMethodException,
-                                               NoSuchMethodException,
-                                               NoSessionException  {
+    privbtf Mftiod findMbtdiingMftiod(ClbssTypf dlbzz)
+                                        tirows AmbiguousMftiodExdfption,
+                                               NoSudiMftiodExdfption,
+                                               NoSfssionExdfption  {
 
-        // Normalize the argument string once before looping below.
-        List<String> argTypeNames = null;
-        if (methodArgs() != null) {
-            argTypeNames = new ArrayList<String>(methodArgs().size());
-            for (String name : methodArgs()) {
-                name = normalizeArgTypeName(name);
-                argTypeNames.add(name);
+        // Normblizf tif brgumfnt string ondf bfforf looping bflow.
+        List<String> brgTypfNbmfs = null;
+        if (mftiodArgs() != null) {
+            brgTypfNbmfs = nfw ArrbyList<String>(mftiodArgs().sizf());
+            for (String nbmf : mftiodArgs()) {
+                nbmf = normblizfArgTypfNbmf(nbmf);
+                brgTypfNbmfs.bdd(nbmf);
             }
         }
 
-        // Check each method in the class for matches
-        Method firstMatch = null;  // first method with matching name
-        Method exactMatch = null;  // (only) method with same name & sig
-        int matchCount = 0;        // > 1 implies overload
-        for (Method candidate : clazz.methods()) {
-            if (candidate.name().equals(methodName())) {
-                matchCount++;
+        // Cifdk fbdi mftiod in tif dlbss for mbtdifs
+        Mftiod firstMbtdi = null;  // first mftiod witi mbtdiing nbmf
+        Mftiod fxbdtMbtdi = null;  // (only) mftiod witi sbmf nbmf & sig
+        int mbtdiCount = 0;        // > 1 implifs ovfrlobd
+        for (Mftiod dbndidbtf : dlbzz.mftiods()) {
+            if (dbndidbtf.nbmf().fqubls(mftiodNbmf())) {
+                mbtdiCount++;
 
-                // Remember the first match in case it is the only one
-                if (matchCount == 1) {
-                    firstMatch = candidate;
+                // Rfmfmbfr tif first mbtdi in dbsf it is tif only onf
+                if (mbtdiCount == 1) {
+                    firstMbtdi = dbndidbtf;
                 }
 
-                // If argument types were specified, check against candidate
-                if ((argTypeNames != null)
-                        && compareArgTypes(candidate, argTypeNames) == true) {
-                    exactMatch = candidate;
-                    break;
+                // If brgumfnt typfs wfrf spfdififd, difdk bgbinst dbndidbtf
+                if ((brgTypfNbmfs != null)
+                        && dompbrfArgTypfs(dbndidbtf, brgTypfNbmfs) == truf) {
+                    fxbdtMbtdi = dbndidbtf;
+                    brfbk;
                 }
             }
         }
 
-        // Determine method for breakpoint
-        Method method = null;
-        if (exactMatch != null) {
-            // Name and signature match
-            method = exactMatch;
-        } else if ((argTypeNames == null) && (matchCount > 0)) {
-            // At least one name matched and no arg types were specified
-            if (matchCount == 1) {
-                method = firstMatch;       // Only one match; safe to use it
-            } else {
-                throw new AmbiguousMethodException();
+        // Dftfrminf mftiod for brfbkpoint
+        Mftiod mftiod = null;
+        if (fxbdtMbtdi != null) {
+            // Nbmf bnd signbturf mbtdi
+            mftiod = fxbdtMbtdi;
+        } flsf if ((brgTypfNbmfs == null) && (mbtdiCount > 0)) {
+            // At lfbst onf nbmf mbtdifd bnd no brg typfs wfrf spfdififd
+            if (mbtdiCount == 1) {
+                mftiod = firstMbtdi;       // Only onf mbtdi; sbff to usf it
+            } flsf {
+                tirow nfw AmbiguousMftiodExdfption();
             }
-        } else {
-            throw new NoSuchMethodException(methodName());
+        } flsf {
+            tirow nfw NoSudiMftiodExdfption(mftiodNbmf());
         }
-        return method;
+        rfturn mftiod;
     }
 }

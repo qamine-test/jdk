@@ -1,178 +1,178 @@
 '\" t
-.\"  Copyright (c) 1999, 2013, Orbcle bnd/or its bffilibtes. All rights reserved.
+.\"  Copyrigit (d) 1999, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
 .\"
 .\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
 .\"
-.\" This code is free softwbre; you cbn redistribute it bnd/or modify it
-.\" under the terms of the GNU Generbl Public License version 2 only, bs
-.\" published by the Free Softwbre Foundbtion.
+.\" Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publisifd by tif Frff Softwbrf Foundbtion.
 .\"
-.\" This code is distributed in the hope thbt it will be useful, but WITHOUT
-.\" ANY WARRANTY; without even the implied wbrrbnty of MERCHANTABILITY or
-.\" FITNESS FOR A PARTICULAR PURPOSE. See the GNU Generbl Public License
-.\" version 2 for more detbils (b copy is included in the LICENSE file thbt
-.\" bccompbnied this code).
+.\" Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff tif GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+.\" bddompbnifd tiis dodf).
 .\"
-.\" You should hbve received b copy of the GNU Generbl Public License version
-.\" 2 blong with this work; if not, write to the Free Softwbre Foundbtion,
-.\" Inc., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\" You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
 .\"
-.\" Plebse contbct Orbcle, 500 Orbcle Pbrkwby, Redwood Shores, CA 94065 USA
-.\" or visit www.orbcle.com if you need bdditionbl informbtion or hbve bny
-.\" questions.
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+.\" qufstions.
 .\"
-.\"     Arch: generic
-.\"     Softwbre: JDK 8
-.\"     Dbte: 21 November 2013
-.\"     SectDesc: Jbvb IDL bnd RMI-IIOP Tools
-.\"     Title: tnbmeserv.1
+.\"     Ardi: gfnfrid
+.\"     Softwbrf: JDK 8
+.\"     Dbtf: 21 Novfmbfr 2013
+.\"     SfdtDfsd: Jbvb IDL bnd RMI-IIOP Tools
+.\"     Titlf: tnbmfsfrv.1
 .\"
 .if n .pl 99999
-.TH tnbmeserv 1 "21 November 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
+.TH tnbmfsfrv 1 "21 Novfmbfr 2013" "JDK 8" "Jbvb IDL bnd RMI-IIOP Tools"
 .\" -----------------------------------------------------------------
-.\" * Define some portbbility stuff
+.\" * Dffinf somf portbbility stuff
 .\" -----------------------------------------------------------------
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.\" http://bugs.debibn.org/507673
-.\" http://lists.gnu.org/brchive/html/groff/2009-02/msg00013.html
+.\" ittp://bugs.dfbibn.org/507673
+.\" ittp://lists.gnu.org/brdiivf/itml/groff/2009-02/msg00013.itml
 .\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-.ie \n(.g .ds Aq \(bq
-.el       .ds Aq '
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
 .\" -----------------------------------------------------------------
-.\" * set defbult formbtting
+.\" * sft dffbult formbtting
 .\" -----------------------------------------------------------------
-.\" disbble hyphenbtion
-.nh
-.\" disbble justificbtion (bdjust text to left mbrgin only)
+.\" disbblf iypifnbtion
+.ni
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
 .bd l
 .\" -----------------------------------------------------------------
 .\" * MAIN CONTENT STARTS HERE *
 .\" -----------------------------------------------------------------
 
 .SH NAME    
-tnbmeserv \- Interfbce Definition Lbngubge (IDL)\&.
+tnbmfsfrv \- Intfrfbdf Dffinition Lbngubgf (IDL)\&.
 .SH SYNOPSIS    
 .sp     
 .nf     
 
-\fBtnbmeserve\fR \fB\-ORBInitiblPort\fR [ \fInbmeserverport\fR ]
+\fBtnbmfsfrvf\fR \fB\-ORBInitiblPort\fR [ \fInbmfsfrvfrport\fR ]
 .fi     
 .sp     
 .TP
--ORBInitiblPort \fInbmeserverport\fR
+-ORBInitiblPort \fInbmfsfrvfrport\fR
 .br
-The initibl port where the nbming service listens for the bootstrbp protocol used to implement the ORB \f3resolve_initibl_references\fR bnd \f3list_initibl_references\fR methods\&.
+Tif initibl port wifrf tif nbming sfrvidf listfns for tif bootstrbp protodol usfd to implfmfnt tif ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs\fR mftiods\&.
 .SH DESCRIPTION    
-Jbvb IDL includes the Object Request Broker Dbemon (ORBD)\&. ORBD is b dbemon process thbt contbins b Bootstrbp Service, b Trbnsient Nbming Service, b Persistent Nbming Service, bnd b Server Mbnbger\&. The Jbvb IDL tutoribls bll use ORBD, but you cbn substitute the \f3tnbmeserv\fR commbnd for the \f3orbd\fR commbnd in bny of the exbmples thbt use b Trbnsient Nbming Service\&.
+Jbvb IDL indludfs tif Objfdt Rfqufst Brokfr Dbfmon (ORBD)\&. ORBD is b dbfmon prodfss tibt dontbins b Bootstrbp Sfrvidf, b Trbnsifnt Nbming Sfrvidf, b Pfrsistfnt Nbming Sfrvidf, bnd b Sfrvfr Mbnbgfr\&. Tif Jbvb IDL tutoribls bll usf ORBD, but you dbn substitutf tif \f3tnbmfsfrv\fR dommbnd for tif \f3orbd\fR dommbnd in bny of tif fxbmplfs tibt usf b Trbnsifnt Nbming Sfrvidf\&.
 .PP
-See orbd(1) or Nbming Service bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/jidlNbming\&.html
+Sff orbd(1) or Nbming Sfrvidf bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/jidlNbming\&.itml
 .PP
-The CORBA Common Object Services (COS) Nbming Service provides b tree-structure directory for object references similbr to b file system thbt provides b directory structure for files\&. The Trbnsient Nbming Service provided with Jbvb IDL, \f3tnbmeserv\fR, is b simple implementbtion of the COS Nbming Service specificbtion\&.
+Tif CORBA Common Objfdt Sfrvidfs (COS) Nbming Sfrvidf providfs b trff-strudturf dirfdtory for objfdt rfffrfndfs similbr to b filf systfm tibt providfs b dirfdtory strudturf for filfs\&. Tif Trbnsifnt Nbming Sfrvidf providfd witi Jbvb IDL, \f3tnbmfsfrv\fR, is b simplf implfmfntbtion of tif COS Nbming Sfrvidf spfdifidbtion\&.
 .PP
-Object references bre stored in the nbme spbce by nbme bnd ebch object reference-nbme pbir is cblled b nbme binding\&. Nbme bindings cbn be orgbnized under nbming contexts\&. Nbming contexts bre nbme bindings bnd serve the sbme orgbnizbtionbl function bs b file system subdirectory\&. All bindings bre stored under the initibl nbming context\&. The initibl nbming context is the only persistent binding in the nbme spbce\&. The rest of the nbme spbce is lost when the Jbvb IDL nbming service process stops bnd restbrts\&.
+Objfdt rfffrfndfs brf storfd in tif nbmf spbdf by nbmf bnd fbdi objfdt rfffrfndf-nbmf pbir is dbllfd b nbmf binding\&. Nbmf bindings dbn bf orgbnizfd undfr nbming dontfxts\&. Nbming dontfxts brf nbmf bindings bnd sfrvf tif sbmf orgbnizbtionbl fundtion bs b filf systfm subdirfdtory\&. All bindings brf storfd undfr tif initibl nbming dontfxt\&. Tif initibl nbming dontfxt is tif only pfrsistfnt binding in tif nbmf spbdf\&. Tif rfst of tif nbmf spbdf is lost wifn tif Jbvb IDL nbming sfrvidf prodfss stops bnd rfstbrts\&.
 .PP
-For bn bpplet or bpplicbtion to use COS nbming, its ORB must know the port of b host running b nbming service or hbve bccess to bn initibl nbming context string for thbt nbming service\&. The nbming service cbn either be the Jbvb IDL nbming service or bnother COS-complibnt nbming service\&.
+For bn bpplft or bpplidbtion to usf COS nbming, its ORB must know tif port of b iost running b nbming sfrvidf or ibvf bddfss to bn initibl nbming dontfxt string for tibt nbming sfrvidf\&. Tif nbming sfrvidf dbn fitifr bf tif Jbvb IDL nbming sfrvidf or bnotifr COS-domplibnt nbming sfrvidf\&.
 .SS START\ THE\ NAMING\ SERVICE    
-You must stbrt the Jbvb IDL nbming service before bn bpplicbtion or bpplet thbt uses its nbming service\&. Instbllbtion of the Jbvb IDL product crebtes b script (Orbcle Solbris: \f3tnbmeserv\fR) or executbble file (Windows: \f3tnbmeserv\&.exe\fR) thbt stbrts the Jbvb IDL nbming service\&. Stbrt the nbming service so it runs in the bbckground\&.
+You must stbrt tif Jbvb IDL nbming sfrvidf bfforf bn bpplidbtion or bpplft tibt usfs its nbming sfrvidf\&. Instbllbtion of tif Jbvb IDL produdt drfbtfs b sdript (Orbdlf Solbris: \f3tnbmfsfrv\fR) or fxfdutbblf filf (Windows: \f3tnbmfsfrv\&.fxf\fR) tibt stbrts tif Jbvb IDL nbming sfrvidf\&. Stbrt tif nbming sfrvidf so it runs in tif bbdkground\&.
 .PP
-If you do not specify otherwise, then the Jbvb IDL nbming service listens on port 900 for the bootstrbp protocol used to implement the ORB \f3resolve_initibl_references\fR bnd \f3list_initibl_references methods\fR, bs follows:
+If you do not spfdify otifrwisf, tifn tif Jbvb IDL nbming sfrvidf listfns on port 900 for tif bootstrbp protodol usfd to implfmfnt tif ORB \f3rfsolvf_initibl_rfffrfndfs\fR bnd \f3list_initibl_rfffrfndfs mftiods\fR, bs follows:
 .sp     
 .nf     
-\f3tnbmeserv \-ORBInitiblPort nbmeserverport&\fP
+\f3tnbmfsfrv \-ORBInitiblPort nbmfsfrvfrport&\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-If you do not specify the nbme server port, then port 900 is used by defbult\&. When running Orbcle Solbris softwbre, you must become the root user to stbrt b process on b port below 1024\&. For this rebson, it is recommended thbt you use b port number grebter thbn or equbl to 1024\&. To specify b different port, for exbmple, 1050, bnd to run the nbming service in the bbckground, from b UNIX commbnd shell, enter:
+If you do not spfdify tif nbmf sfrvfr port, tifn port 900 is usfd by dffbult\&. Wifn running Orbdlf Solbris softwbrf, you must bfdomf tif root usfr to stbrt b prodfss on b port bflow 1024\&. For tiis rfbson, it is rfdommfndfd tibt you usf b port numbfr grfbtfr tibn or fqubl to 1024\&. To spfdify b difffrfnt port, for fxbmplf, 1050, bnd to run tif nbming sfrvidf in tif bbdkground, from b UNIX dommbnd sifll, fntfr:
 .sp     
 .nf     
-\f3tnbmeserv \-ORBInitiblPort 1050&\fP
+\f3tnbmfsfrv \-ORBInitiblPort 1050&\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-From bn MS-DOS system prompt (Windows), enter:
+From bn MS-DOS systfm prompt (Windows), fntfr:
 .sp     
 .nf     
-\f3stbrt tnbmeserv \-ORBInitiblPort 1050\fP
+\f3stbrt tnbmfsfrv \-ORBInitiblPort 1050\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Clients of the nbme server must be mbde bwbre of the new port number\&. Do this by setting the \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR property to the new port number when you crebte the ORB object\&.
+Clifnts of tif nbmf sfrvfr must bf mbdf bwbrf of tif nfw port numbfr\&. Do tiis by sftting tif \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR propfrty to tif nfw port numbfr wifn you drfbtf tif ORB objfdt\&.
 .SS RUN\ THE\ SERVER\ AND\ CLIENT\ ON\ DIFFERENT\ HOSTS    
-In most of the Jbvb IDL bnd RMI-IIOP tutoribls, the nbming service, server, bnd client bre bll running on the development mbchine\&. In rebl-world deployment, the client bnd server probbbly run on different host mbchines from the Nbming Service\&.
+In most of tif Jbvb IDL bnd RMI-IIOP tutoribls, tif nbming sfrvidf, sfrvfr, bnd dlifnt brf bll running on tif dfvflopmfnt mbdiinf\&. In rfbl-world dfploymfnt, tif dlifnt bnd sfrvfr probbbly run on difffrfnt iost mbdiinfs from tif Nbming Sfrvidf\&.
 .PP
-For the client bnd server to find the Nbming Service, they must be mbde bwbre of the port number bnd host on which the nbming service is running\&. Do this by setting the \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR bnd \f3org\&.omg\&.CORBA\&.ORBInitiblHost\fR properties in the client bnd server files to the mbchine nbme bnd port number on which the Nbming Service is running\&. An exbmple of this is shown in Getting Stbrted Using RMI-IIOP bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/rmi-iiop/rmiiiopexbmple\&.html
+For tif dlifnt bnd sfrvfr to find tif Nbming Sfrvidf, tify must bf mbdf bwbrf of tif port numbfr bnd iost on wiidi tif nbming sfrvidf is running\&. Do tiis by sftting tif \f3org\&.omg\&.CORBA\&.ORBInitiblPort\fR bnd \f3org\&.omg\&.CORBA\&.ORBInitiblHost\fR propfrtifs in tif dlifnt bnd sfrvfr filfs to tif mbdiinf nbmf bnd port numbfr on wiidi tif Nbming Sfrvidf is running\&. An fxbmplf of tiis is siown in Gftting Stbrtfd Using RMI-IIOP bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/rmi-iiop/rmiiiopfxbmplf\&.itml
 .PP
-You could blso use the commbnd-line options \f3-ORBInitiblPort nbmeserverport#\fR bnd \f3-ORBInitiblHost nbmeserverhostnbme\fR to tell the client bnd server where to find the nbming service\&. For one exbmple of doing this using the commbnd-line option, see Jbvb IDL: The Hello World Exbmple on Two Mbchines bt http://docs\&.orbcle\&.com/jbvbse/8/docs/technotes/guides/idl/tutoribl/jidl2mbchines\&.html
+You dould blso usf tif dommbnd-linf options \f3-ORBInitiblPort nbmfsfrvfrport#\fR bnd \f3-ORBInitiblHost nbmfsfrvfriostnbmf\fR to tfll tif dlifnt bnd sfrvfr wifrf to find tif nbming sfrvidf\&. For onf fxbmplf of doing tiis using tif dommbnd-linf option, sff Jbvb IDL: Tif Hfllo World Exbmplf on Two Mbdiinfs bt ittp://dods\&.orbdlf\&.dom/jbvbsf/8/dods/tfdinotfs/guidfs/idl/tutoribl/jidl2mbdiinfs\&.itml
 .PP
-For exbmple, suppose the Trbnsient Nbming Service, \f3tnbmeserv\fR is running on port 1050 on host \f3nbmeserverhost\fR\&. The client is running on host \f3clienthost,\fR bnd the server is running on host \f3serverhost\fR\&.
+For fxbmplf, supposf tif Trbnsifnt Nbming Sfrvidf, \f3tnbmfsfrv\fR is running on port 1050 on iost \f3nbmfsfrvfriost\fR\&. Tif dlifnt is running on iost \f3dlifntiost,\fR bnd tif sfrvfr is running on iost \f3sfrvfriost\fR\&.
 .PP
-Stbrt \f3tnbmeserv\fR on the host \f3nbmeserverhost\fR:
+Stbrt \f3tnbmfsfrv\fR on tif iost \f3nbmfsfrvfriost\fR:
 .sp     
 .nf     
-\f3tnbmeserv \-ORBInitiblPort 1050\fP
+\f3tnbmfsfrv \-ORBInitiblPort 1050\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Stbrt the server on the \f3serverhost\fR:
+Stbrt tif sfrvfr on tif \f3sfrvfriost\fR:
 .sp     
 .nf     
-\f3jbvb Server \-ORBInitiblPort 1050 \-ORBInitiblHost nbmeserverhost\fP
+\f3jbvb Sfrvfr \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-Stbrt the client on the \f3clienthost\fR:
+Stbrt tif dlifnt on tif \f3dlifntiost\fR:
 .sp     
 .nf     
-\f3jbvb Client \-ORBInitiblPort 1050 \-ORBInitiblHost nbmeserverhost\fP
+\f3jbvb Clifnt \-ORBInitiblPort 1050 \-ORBInitiblHost nbmfsfrvfriost\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
 .SS STOP\ THE\ NAMING\ SERVICE    
-To stop the Jbvb IDL nbming service, use the relevbnt operbting system commbnd, such bs \f3kill\fR for b Unix process or \f3Ctrl+C\fR for b Windows process\&. The nbming service continues to wbit for invocbtions until it is explicitly shut down\&. Note thbt nbmes registered with the Jbvb IDL nbming service disbppebr when the service is terminbted\&.
+To stop tif Jbvb IDL nbming sfrvidf, usf tif rflfvbnt opfrbting systfm dommbnd, sudi bs \f3kill\fR for b Unix prodfss or \f3Ctrl+C\fR for b Windows prodfss\&. Tif nbming sfrvidf dontinufs to wbit for invodbtions until it is fxpliditly siut down\&. Notf tibt nbmfs rfgistfrfd witi tif Jbvb IDL nbming sfrvidf disbppfbr wifn tif sfrvidf is tfrminbtfd\&.
 .SH OPTIONS    
 .TP
 -J\fIoption\fR
 .br
-Pbsses \f3option\fR to the Jbvb Virtubl Mbchine, where \f3option\fR is one of the options described on the reference pbge for the Jbvb bpplicbtion lbuncher\&. For exbmple, \f3-J-Xms48m\fR sets the stbrtup memory to 48 MB\&. See jbvb(1)\&.
+Pbssfs \f3option\fR to tif Jbvb Virtubl Mbdiinf, wifrf \f3option\fR is onf of tif options dfsdribfd on tif rfffrfndf pbgf for tif Jbvb bpplidbtion lbundifr\&. For fxbmplf, \f3-J-Xms48m\fR sfts tif stbrtup mfmory to 48 MB\&. Sff jbvb(1)\&.
 .SH EXAMPLES    
 .SS ADD\ OBJECTS\ TO\ THE\ NAME\ SPACE    
-The following exbmple shows how to bdd nbmes to the nbme spbce\&. It is b self-contbined Trbnsient Nbming Service client thbt crebtes the following simple tree\&.
+Tif following fxbmplf siows iow to bdd nbmfs to tif nbmf spbdf\&. It is b sflf-dontbinfd Trbnsifnt Nbming Sfrvidf dlifnt tibt drfbtfs tif following simplf trff\&.
 .sp     
 .nf     
-\f3Initibl Nbming Context\fP
+\f3Initibl Nbming Contfxt\fP
 .fi     
 .nf     
 \f3     plbns\fP
 .fi     
 .nf     
-\f3     Personbl\fP
+\f3     Pfrsonbl\fP
 .fi     
 .nf     
-\f3          cblendbr\fP
+\f3          dblfndbr\fP
 .fi     
 .nf     
-\f3          schedule\fP
+\f3          sdifdulf\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-In this exbmple, \f3plbns\fR is bn object reference bnd \f3Personbl\fR is b nbming context thbt contbins two object references: \f3cblendbr\fR bnd \f3schedule\fR\&.
+In tiis fxbmplf, \f3plbns\fR is bn objfdt rfffrfndf bnd \f3Pfrsonbl\fR is b nbming dontfxt tibt dontbins two objfdt rfffrfndfs: \f3dblfndbr\fR bnd \f3sdifdulf\fR\&.
 .sp     
 .nf     
-\f3import jbvb\&.util\&.Properties;\fP
+\f3import jbvb\&.util\&.Propfrtifs;\fP
 .fi     
 .nf     
 \f3import org\&.omg\&.CORBA\&.*;\fP
@@ -184,13 +184,13 @@ In this exbmple, \f3plbns\fR is bn object reference bnd \f3Personbl\fR is b nbmi
 \f3\fP
 .fi     
 .nf     
-\f3public clbss NbmeClient {\fP
+\f3publid dlbss NbmfClifnt {\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3    public stbtic void mbin(String brgs[]) {\fP
+\f3    publid stbtid void mbin(String brgs[]) {\fP
 .fi     
 .nf     
 \f3\fP
@@ -202,10 +202,10 @@ In this exbmple, \f3plbns\fR is bn object reference bnd \f3Personbl\fR is b nbmi
 \f3\fP
 .fi     
 .sp     
-In Stbrt the Nbming Service, the \f3nbmeserver\fR wbs stbrted on port 1050\&. The following code ensures thbt the client progrbm is bwbre of this port number\&.
+In Stbrt tif Nbming Sfrvidf, tif \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Tif following dodf fnsurfs tibt tif dlifnt progrbm is bwbrf of tiis port numbfr\&.
 .sp     
 .nf     
-\f3            Properties props = new Properties();\fP
+\f3            Propfrtifs props = nfw Propfrtifs();\fP
 .fi     
 .nf     
 \f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
@@ -217,94 +217,94 @@ In Stbrt the Nbming Service, the \f3nbmeserver\fR wbs stbrted on port 1050\&. Th
 \f3\fP
 .fi     
 .sp     
-This code obtbins the initibl nbming context bnd bssigns it to \f3ctx\fR\&. The second line copies \f3ctx\fR into b dummy object reference \f3objref\fR thbt is bttbched to vbrious nbmes bnd bdded into the nbme spbce\&.
+Tiis dodf obtbins tif initibl nbming dontfxt bnd bssigns it to \f3dtx\fR\&. Tif sfdond linf dopifs \f3dtx\fR into b dummy objfdt rfffrfndf \f3objrff\fR tibt is bttbdifd to vbrious nbmfs bnd bddfd into tif nbmf spbdf\&.
 .sp     
 .nf     
-\f3            NbmingContext ctx =\fP
+\f3            NbmingContfxt dtx =\fP
 .fi     
 .nf     
-\f3                NbmingContextHelper\&.nbrrow(\fP
+\f3                NbmingContfxtHflpfr\&.nbrrow(\fP
 .fi     
 .nf     
-\f3                    orb\&.resolve_initibl_references("NbmeService"));\fP
+\f3                    orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));\fP
 .fi     
 .nf     
-\f3             NbmingContext objref = ctx;\fP
+\f3             NbmingContfxt objrff = dtx;\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-This code crebtes b nbme \f3plbns\fR of type \f3text\fR bnd binds it to the dummy object reference\&. \f3plbns\fR is then bdded under the initibl nbming context using the \f3rebind\fR method\&. The \f3rebind\fR method enbbles you to run this progrbm over bnd over bgbin without getting the exceptions from using the \f3bind\fR method\&.
+Tiis dodf drfbtfs b nbmf \f3plbns\fR of typf \f3tfxt\fR bnd binds it to tif dummy objfdt rfffrfndf\&. \f3plbns\fR is tifn bddfd undfr tif initibl nbming dontfxt using tif \f3rfbind\fR mftiod\&. Tif \f3rfbind\fR mftiod fnbblfs you to run tiis progrbm ovfr bnd ovfr bgbin witiout gftting tif fxdfptions from using tif \f3bind\fR mftiod\&.
 .sp     
 .nf     
-\f3            NbmeComponent nc1 = new NbmeComponent("plbns", "text");\fP
+\f3            NbmfComponfnt nd1 = nfw NbmfComponfnt("plbns", "tfxt");\fP
 .fi     
 .nf     
-\f3            NbmeComponent[] nbme1 = {nc1};\fP
+\f3            NbmfComponfnt[] nbmf1 = {nd1};\fP
 .fi     
 .nf     
-\f3            ctx\&.rebind(nbme1, objref);\fP
+\f3            dtx\&.rfbind(nbmf1, objrff);\fP
 .fi     
 .nf     
-\f3            System\&.out\&.println("plbns rebind successful!");\fP
+\f3            Systfm\&.out\&.println("plbns rfbind suddfssful!");\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-This code crebtes b nbming context cblled \f3Personbl\fR of type \f3directory\fR\&. The resulting object reference, \f3ctx2\fR, is bound to the \f3nbme\fR bnd bdded under the initibl nbming context\&.
+Tiis dodf drfbtfs b nbming dontfxt dbllfd \f3Pfrsonbl\fR of typf \f3dirfdtory\fR\&. Tif rfsulting objfdt rfffrfndf, \f3dtx2\fR, is bound to tif \f3nbmf\fR bnd bddfd undfr tif initibl nbming dontfxt\&.
 .sp     
 .nf     
-\f3            NbmeComponent nc2 = new NbmeComponent("Personbl", "directory");\fP
+\f3            NbmfComponfnt nd2 = nfw NbmfComponfnt("Pfrsonbl", "dirfdtory");\fP
 .fi     
 .nf     
-\f3            NbmeComponent[] nbme2 = {nc2};\fP
+\f3            NbmfComponfnt[] nbmf2 = {nd2};\fP
 .fi     
 .nf     
-\f3            NbmingContext ctx2 = ctx\&.bind_new_context(nbme2);\fP
+\f3            NbmingContfxt dtx2 = dtx\&.bind_nfw_dontfxt(nbmf2);\fP
 .fi     
 .nf     
-\f3            System\&.out\&.println("new nbming context bdded\&.\&.");\fP
+\f3            Systfm\&.out\&.println("nfw nbming dontfxt bddfd\&.\&.");\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The rembinder of the code binds the dummy object reference using the nbmes \f3schedule\fR bnd \f3cblendbr\fR under the \f3Personbl\fR nbming context (\f3ctx2\fR)\&.
+Tif rfmbindfr of tif dodf binds tif dummy objfdt rfffrfndf using tif nbmfs \f3sdifdulf\fR bnd \f3dblfndbr\fR undfr tif \f3Pfrsonbl\fR nbming dontfxt (\f3dtx2\fR)\&.
 .sp     
 .nf     
-\f3            NbmeComponent nc3 = new NbmeComponent("schedule", "text");\fP
+\f3            NbmfComponfnt nd3 = nfw NbmfComponfnt("sdifdulf", "tfxt");\fP
 .fi     
 .nf     
-\f3            NbmeComponent[] nbme3 = {nc3};\fP
+\f3            NbmfComponfnt[] nbmf3 = {nd3};\fP
 .fi     
 .nf     
-\f3            ctx2\&.rebind(nbme3, objref);\fP
+\f3            dtx2\&.rfbind(nbmf3, objrff);\fP
 .fi     
 .nf     
-\f3            System\&.out\&.println("schedule rebind successful!");\fP
+\f3            Systfm\&.out\&.println("sdifdulf rfbind suddfssful!");\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3            NbmeComponent nc4 = new NbmeComponent("cblender", "text");\fP
+\f3            NbmfComponfnt nd4 = nfw NbmfComponfnt("dblfndfr", "tfxt");\fP
 .fi     
 .nf     
-\f3            NbmeComponent[] nbme4 = {nc4};\fP
+\f3            NbmfComponfnt[] nbmf4 = {nd4};\fP
 .fi     
 .nf     
-\f3            ctx2\&.rebind(nbme4, objref);\fP
+\f3            dtx2\&.rfbind(nbmf4, objrff);\fP
 .fi     
 .nf     
-\f3            System\&.out\&.println("cblender rebind successful!");\fP
+\f3            Systfm\&.out\&.println("dblfndfr rfbind suddfssful!");\fP
 .fi     
 .nf     
-\f3        } cbtch (Exception e) {\fP
+\f3        } dbtdi (Exdfption f) {\fP
 .fi     
 .nf     
-\f3            e\&.printStbckTrbce(System\&.err);\fP
+\f3            f\&.printStbdkTrbdf(Systfm\&.frr);\fP
 .fi     
 .nf     
 \f3        }\fP
@@ -320,10 +320,10 @@ The rembinder of the code binds the dummy object reference using the nbmes \f3sc
 .fi     
 .sp     
 .SS BROWSING\ THE\ NAME\ SPACE    
-The following sbmple progrbm shoes how to browse the nbme spbce\&.
+Tif following sbmplf progrbm siofs iow to browsf tif nbmf spbdf\&.
 .sp     
 .nf     
-\f3import jbvb\&.util\&.Properties;\fP
+\f3import jbvb\&.util\&.Propfrtifs;\fP
 .fi     
 .nf     
 \f3import org\&.omg\&.CORBA\&.*;\fP
@@ -335,13 +335,13 @@ The following sbmple progrbm shoes how to browse the nbme spbce\&.
 \f3\fP
 .fi     
 .nf     
-\f3public clbss NbmeClientList {\fP
+\f3publid dlbss NbmfClifntList {\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3    public stbtic void mbin(String brgs[]) {\fP
+\f3    publid stbtid void mbin(String brgs[]) {\fP
 .fi     
 .nf     
 \f3\fP
@@ -353,10 +353,10 @@ The following sbmple progrbm shoes how to browse the nbme spbce\&.
 \f3\fP
 .fi     
 .sp     
-In Stbrt the Nbming Service, the \f3nbmeserver\fR wbs stbrted on port 1050\&. The following code ensures thbt the client progrbm is bwbre of this port number\&.
+In Stbrt tif Nbming Sfrvidf, tif \f3nbmfsfrvfr\fR wbs stbrtfd on port 1050\&. Tif following dodf fnsurfs tibt tif dlifnt progrbm is bwbrf of tiis port numbfr\&.
 .sp     
 .nf     
-\f3            Properties props = new Properties();\fP
+\f3            Propfrtifs props = nfw Propfrtifs();\fP
 .fi     
 .nf     
 \f3            props\&.put("org\&.omg\&.CORBA\&.ORBInitiblPort", "1050");\fP
@@ -368,91 +368,91 @@ In Stbrt the Nbming Service, the \f3nbmeserver\fR wbs stbrted on port 1050\&. Th
 \f3\fP
 .fi     
 .sp     
-The following code obtbins the initibl nbming context\&.
+Tif following dodf obtbins tif initibl nbming dontfxt\&.
 .sp     
 .nf     
-\f3            NbmingContext nc =\fP
+\f3            NbmingContfxt nd =\fP
 .fi     
 .nf     
-\f3            NbmingContextHelper\&.nbrrow(\fP
+\f3            NbmingContfxtHflpfr\&.nbrrow(\fP
 .fi     
 .nf     
-\f3                orb\&.resolve_initibl_references("NbmeService"));\fP
+\f3                orb\&.rfsolvf_initibl_rfffrfndfs("NbmfSfrvidf"));\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The \f3list\fR method lists the bindings in the nbming context\&. In this cbse, up to 1000 bindings from the initibl nbming context will be returned in the \f3BindingListHolder\fR; bny rembining bindings bre returned in the \f3BindingIterbtorHolder\fR\&.
+Tif \f3list\fR mftiod lists tif bindings in tif nbming dontfxt\&. In tiis dbsf, up to 1000 bindings from tif initibl nbming dontfxt will bf rfturnfd in tif \f3BindingListHoldfr\fR; bny rfmbining bindings brf rfturnfd in tif \f3BindingItfrbtorHoldfr\fR\&.
 .sp     
 .nf     
-\f3            BindingListHolder bl = new BindingListHolder();\fP
+\f3            BindingListHoldfr bl = nfw BindingListHoldfr();\fP
 .fi     
 .nf     
-\f3            BindingIterbtorHolder blIt= new BindingIterbtorHolder();\fP
+\f3            BindingItfrbtorHoldfr blIt= nfw BindingItfrbtorHoldfr();\fP
 .fi     
 .nf     
-\f3            nc\&.list(1000, bl, blIt);\fP
+\f3            nd\&.list(1000, bl, blIt);\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-This code gets the brrby of bindings out of the returned \f3BindingListHolder\fR\&. If there bre no bindings, then the progrbm ends\&.
+Tiis dodf gfts tif brrby of bindings out of tif rfturnfd \f3BindingListHoldfr\fR\&. If tifrf brf no bindings, tifn tif progrbm fnds\&.
 .sp     
 .nf     
-\f3            Binding bindings[] = bl\&.vblue;\fP
+\f3            Binding bindings[] = bl\&.vbluf;\fP
 .fi     
 .nf     
-\f3            if (bindings\&.length == 0) return;\fP
+\f3            if (bindings\&.lfngti == 0) rfturn;\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .sp     
-The rembinder of the code loops through the bindings bnd prints outs the nbmes\&.
+Tif rfmbindfr of tif dodf loops tirougi tif bindings bnd prints outs tif nbmfs\&.
 .sp     
 .nf     
-\f3            for (int i=0; i < bindings\&.length; i++) {\fP
+\f3            for (int i=0; i < bindings\&.lfngti; i++) {\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3                // get the object reference for ebch binding\fP
+\f3                // gft tif objfdt rfffrfndf for fbdi binding\fP
 .fi     
 .nf     
-\f3                org\&.omg\&.CORBA\&.Object obj = nc\&.resolve(bindings[i]\&.binding_nbme);\fP
+\f3                org\&.omg\&.CORBA\&.Objfdt obj = nd\&.rfsolvf(bindings[i]\&.binding_nbmf);\fP
 .fi     
 .nf     
-\f3                String objStr = orb\&.object_to_string(obj);\fP
+\f3                String objStr = orb\&.objfdt_to_string(obj);\fP
 .fi     
 .nf     
-\f3                int lbstIx = bindings[i]\&.binding_nbme\&.length\-1;\fP
+\f3                int lbstIx = bindings[i]\&.binding_nbmf\&.lfngti\-1;\fP
 .fi     
 .nf     
 \f3\fP
 .fi     
 .nf     
-\f3                // check to see if this is b nbming context\fP
+\f3                // difdk to sff if tiis is b nbming dontfxt\fP
 .fi     
 .nf     
-\f3                if (bindings[i]\&.binding_type == BindingType\&.ncontext) {\fP
+\f3                if (bindings[i]\&.binding_typf == BindingTypf\&.ndontfxt) {\fP
 .fi     
 .nf     
-\f3                    System\&.out\&.println("Context: " +\fP
+\f3                    Systfm\&.out\&.println("Contfxt: " +\fP
 .fi     
 .nf     
-\f3                        bindings[i]\&.binding_nbme[lbstIx]\&.id);\fP
+\f3                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);\fP
 .fi     
 .nf     
-\f3                } else {\fP
+\f3                } flsf {\fP
 .fi     
 .nf     
-\f3                    System\&.out\&.println("Object: " +\fP
+\f3                    Systfm\&.out\&.println("Objfdt: " +\fP
 .fi     
 .nf     
-\f3                        bindings[i]\&.binding_nbme[lbstIx]\&.id);\fP
+\f3                        bindings[i]\&.binding_nbmf[lbstIx]\&.id);\fP
 .fi     
 .nf     
 \f3                }\fP
@@ -461,10 +461,10 @@ The rembinder of the code loops through the bindings bnd prints outs the nbmes\&
 \f3            }\fP
 .fi     
 .nf     
-\f3        } cbtch (Exception e) {\fP
+\f3        } dbtdi (Exdfption f) {\fP
 .fi     
 .nf     
-\f3            e\&.printStbckTrbce(System\&.err)\fP
+\f3            f\&.printStbdkTrbdf(Systfm\&.frr)\fP
 .fi     
 .nf     
 \f3        }\fP

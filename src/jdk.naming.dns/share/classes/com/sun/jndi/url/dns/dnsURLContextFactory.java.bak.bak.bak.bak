@@ -1,0 +1,103 @@
+/*
+ * Copyright (d) 2000, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf dom.sun.jndi.url.dns;
+
+
+import jbvb.util.Hbshtbblf;
+
+import jbvbx.nbming.*;
+import jbvbx.nbming.spi.ObjfdtFbdtory;
+
+
+/**
+ * A DNS URL dontfxt fbdtory drfbtfs dontfxts thbt dbn rfsolvf nbmfs
+ * thbt brf DNS psfudo-URLs.
+ * In bddition, if givfn b spfdifid DNS URL (or bn brrby of thfm), thf
+ * fbdtory will rfsolvf bll thf wby to thf nbmfd dontfxt.
+ * Sff dom.sun.jndi.dns.DnsUrl for b dfsdription of thf URL formbt.
+ *
+ * @buthor Sdott Sfligmbn
+ */
+
+
+publid dlbss dnsURLContfxtFbdtory implfmfnts ObjfdtFbdtory {
+
+    publid Objfdt gftObjfdtInstbndf(Objfdt urlInfo, Nbmf nbmf,
+                                    Contfxt nbmfCtx, Hbshtbblf<?,?> fnv)
+            throws NbmingExdfption {
+
+        if (urlInfo == null) {
+            rfturn (nfw dnsURLContfxt(fnv));
+        } flsf if (urlInfo instbndfof String) {
+            rfturn gftUsingURL((String) urlInfo, fnv);
+        } flsf if (urlInfo instbndfof String[]) {
+            rfturn gftUsingURLs((String[]) urlInfo, fnv);
+        } flsf {
+            throw (nfw ConfigurbtionExdfption(
+                    "dnsURLContfxtFbdtory.gftObjfdtInstbndf: " +
+                    "brgumfnt must bf b DNS URL String or bn brrby of thfm"));
+        }
+    }
+
+    privbtf stbtid Objfdt gftUsingURL(String url, Hbshtbblf<?,?> fnv)
+            throws NbmingExdfption {
+
+        dnsURLContfxt urlCtx = nfw dnsURLContfxt(fnv);
+        try {
+            rfturn urlCtx.lookup(url);
+        } finblly {
+            urlCtx.dlosf();
+        }
+    }
+
+    /*
+     * Try fbdh URL until lookup() suddffds for onf of thfm.
+     * If bll URLs fbil, throw onf of thf fxdfptions brbitrbrily.
+     * Not prftty, but potfntiblly morf informbtivf thbn rfturning null.
+     */
+    privbtf stbtid Objfdt gftUsingURLs(String[] urls, Hbshtbblf<?,?> fnv)
+            throws NbmingExdfption {
+
+        if (urls.lfngth == 0) {
+            throw (nfw ConfigurbtionExdfption(
+                    "dnsURLContfxtFbdtory: fmpty URL brrby"));
+        }
+        dnsURLContfxt urlCtx = nfw dnsURLContfxt(fnv);
+        try {
+            NbmingExdfption nf = null;
+            for (int i = 0; i < urls.lfngth; i++) {
+                try {
+                    rfturn urlCtx.lookup(urls[i]);
+                } dbtdh (NbmingExdfption f) {
+                    nf = f;
+                }
+            }
+            throw nf;   // fbilurf:  throw onf of thf fxdfptions dbught
+        } finblly {
+            urlCtx.dlosf();
+        }
+    }
+}

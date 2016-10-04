@@ -1,463 +1,463 @@
 /*
- * Copyright (c) 1996, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package sun.rmi.server;
+pbdkbgf sun.rmi.sfrvfr;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.DataOutputStream;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Proxy;
-import java.lang.reflect.Method;
-import java.rmi.Remote;
-import java.rmi.RemoteException;
-import java.rmi.StubNotFoundException;
-import java.rmi.registry.Registry;
-import java.rmi.server.LogStream;
-import java.rmi.server.ObjID;
-import java.rmi.server.RMIClientSocketFactory;
-import java.rmi.server.RemoteObjectInvocationHandler;
-import java.rmi.server.RemoteRef;
-import java.rmi.server.RemoteStub;
-import java.rmi.server.Skeleton;
-import java.rmi.server.SkeletonNotFoundException;
-import java.security.AccessController;
-import java.security.MessageDigest;
-import java.security.DigestOutputStream;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivilegedAction;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Map;
-import java.util.WeakHashMap;
-import sun.rmi.registry.RegistryImpl;
-import sun.rmi.runtime.Log;
-import sun.rmi.transport.LiveRef;
-import sun.rmi.transport.tcp.TCPEndpoint;
+import jbvb.io.BytfArrbyOutputStrfbm;
+import jbvb.io.IOExdfption;
+import jbvb.io.DbtbOutputStrfbm;
+import jbvb.lbng.rfflfdt.Construdtor;
+import jbvb.lbng.rfflfdt.InvodbtionHbndlfr;
+import jbvb.lbng.rfflfdt.InvodbtionTbrgftExdfption;
+import jbvb.lbng.rfflfdt.Proxy;
+import jbvb.lbng.rfflfdt.Mftiod;
+import jbvb.rmi.Rfmotf;
+import jbvb.rmi.RfmotfExdfption;
+import jbvb.rmi.StubNotFoundExdfption;
+import jbvb.rmi.rfgistry.Rfgistry;
+import jbvb.rmi.sfrvfr.LogStrfbm;
+import jbvb.rmi.sfrvfr.ObjID;
+import jbvb.rmi.sfrvfr.RMIClifntSodkftFbdtory;
+import jbvb.rmi.sfrvfr.RfmotfObjfdtInvodbtionHbndlfr;
+import jbvb.rmi.sfrvfr.RfmotfRff;
+import jbvb.rmi.sfrvfr.RfmotfStub;
+import jbvb.rmi.sfrvfr.Skflfton;
+import jbvb.rmi.sfrvfr.SkflftonNotFoundExdfption;
+import jbvb.sfdurity.AddfssControllfr;
+import jbvb.sfdurity.MfssbgfDigfst;
+import jbvb.sfdurity.DigfstOutputStrfbm;
+import jbvb.sfdurity.NoSudiAlgoritimExdfption;
+import jbvb.sfdurity.PrivilfgfdAdtion;
+import jbvb.util.ArrbyList;
+import jbvb.util.Collfdtions;
+import jbvb.util.Mbp;
+import jbvb.util.WfbkHbsiMbp;
+import sun.rmi.rfgistry.RfgistryImpl;
+import sun.rmi.runtimf.Log;
+import sun.rmi.trbnsport.LivfRff;
+import sun.rmi.trbnsport.tdp.TCPEndpoint;
 
 /**
- * A utility class with static methods for creating stubs/proxies and
- * skeletons for remote objects.
+ * A utility dlbss witi stbtid mftiods for drfbting stubs/proxifs bnd
+ * skflftons for rfmotf objfdts.
  */
-@SuppressWarnings("deprecation")
-public final class Util {
+@SupprfssWbrnings("dfprfdbtion")
+publid finbl dlbss Util {
 
-    /** "server" package log level */
-    static final int logLevel = LogStream.parseLevel(
-        AccessController.doPrivileged(
-            (PrivilegedAction<String>) () -> System.getProperty("sun.rmi.server.logLevel")));
+    /** "sfrvfr" pbdkbgf log lfvfl */
+    stbtid finbl int logLfvfl = LogStrfbm.pbrsfLfvfl(
+        AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<String>) () -> Systfm.gftPropfrty("sun.rmi.sfrvfr.logLfvfl")));
 
-    /** server reference log */
-    public static final Log serverRefLog =
-        Log.getLog("sun.rmi.server.ref", "transport", Util.logLevel);
+    /** sfrvfr rfffrfndf log */
+    publid stbtid finbl Log sfrvfrRffLog =
+        Log.gftLog("sun.rmi.sfrvfr.rff", "trbnsport", Util.logLfvfl);
 
-    /** cached value of property java.rmi.server.ignoreStubClasses */
-    private static final boolean ignoreStubClasses =
-        AccessController.doPrivileged(
-            (PrivilegedAction<Boolean>) () -> Boolean.getBoolean("java.rmi.server.ignoreStubClasses"));
+    /** dbdifd vbluf of propfrty jbvb.rmi.sfrvfr.ignorfStubClbssfs */
+    privbtf stbtid finbl boolfbn ignorfStubClbssfs =
+        AddfssControllfr.doPrivilfgfd(
+            (PrivilfgfdAdtion<Boolfbn>) () -> Boolfbn.gftBoolfbn("jbvb.rmi.sfrvfr.ignorfStubClbssfs"));
 
-    /** cache of  impl classes that have no corresponding stub class */
-    private static final Map<Class<?>, Void> withoutStubs =
-        Collections.synchronizedMap(new WeakHashMap<Class<?>, Void>(11));
+    /** dbdif of  impl dlbssfs tibt ibvf no dorrfsponding stub dlbss */
+    privbtf stbtid finbl Mbp<Clbss<?>, Void> witioutStubs =
+        Collfdtions.syndironizfdMbp(nfw WfbkHbsiMbp<Clbss<?>, Void>(11));
 
-    /** parameter types for stub constructor */
-    private static final Class<?>[] stubConsParamTypes = { RemoteRef.class };
+    /** pbrbmftfr typfs for stub donstrudtor */
+    privbtf stbtid finbl Clbss<?>[] stubConsPbrbmTypfs = { RfmotfRff.dlbss };
 
-    private Util() {
+    privbtf Util() {
     }
 
     /**
-     * Returns a proxy for the specified implClass.
+     * Rfturns b proxy for tif spfdififd implClbss.
      *
-     * If both of the following criteria is satisfied, a dynamic proxy for
-     * the specified implClass is returned (otherwise a RemoteStub instance
-     * for the specified implClass is returned):
+     * If boti of tif following dritfrib is sbtisfifd, b dynbmid proxy for
+     * tif spfdififd implClbss is rfturnfd (otifrwisf b RfmotfStub instbndf
+     * for tif spfdififd implClbss is rfturnfd):
      *
-     *    a) either the property java.rmi.server.ignoreStubClasses is true or
-     *       a pregenerated stub class does not exist for the impl class, and
-     *    b) forceStubUse is false.
+     *    b) fitifr tif propfrty jbvb.rmi.sfrvfr.ignorfStubClbssfs is truf or
+     *       b prfgfnfrbtfd stub dlbss dofs not fxist for tif impl dlbss, bnd
+     *    b) fordfStubUsf is fblsf.
      *
-     * If the above criteria are satisfied, this method constructs a
-     * dynamic proxy instance (that implements the remote interfaces of
-     * implClass) constructed with a RemoteObjectInvocationHandler instance
-     * constructed with the clientRef.
+     * If tif bbovf dritfrib brf sbtisfifd, tiis mftiod donstrudts b
+     * dynbmid proxy instbndf (tibt implfmfnts tif rfmotf intfrfbdfs of
+     * implClbss) donstrudtfd witi b RfmotfObjfdtInvodbtionHbndlfr instbndf
+     * donstrudtfd witi tif dlifntRff.
      *
-     * Otherwise, this method loads the pregenerated stub class (which
-     * extends RemoteStub and implements the remote interfaces of
-     * implClass) and constructs an instance of the pregenerated stub
-     * class with the clientRef.
+     * Otifrwisf, tiis mftiod lobds tif prfgfnfrbtfd stub dlbss (wiidi
+     * fxtfnds RfmotfStub bnd implfmfnts tif rfmotf intfrfbdfs of
+     * implClbss) bnd donstrudts bn instbndf of tif prfgfnfrbtfd stub
+     * dlbss witi tif dlifntRff.
      *
-     * @param implClass the class to obtain remote interfaces from
-     * @param clientRef the remote ref to use in the invocation handler
-     * @param forceStubUse if true, forces creation of a RemoteStub
-     * @throws IllegalArgumentException if implClass implements illegal
-     * remote interfaces
-     * @throws StubNotFoundException if problem locating/creating stub or
-     * creating the dynamic proxy instance
+     * @pbrbm implClbss tif dlbss to obtbin rfmotf intfrfbdfs from
+     * @pbrbm dlifntRff tif rfmotf rff to usf in tif invodbtion ibndlfr
+     * @pbrbm fordfStubUsf if truf, fordfs drfbtion of b RfmotfStub
+     * @tirows IllfgblArgumfntExdfption if implClbss implfmfnts illfgbl
+     * rfmotf intfrfbdfs
+     * @tirows StubNotFoundExdfption if problfm lodbting/drfbting stub or
+     * drfbting tif dynbmid proxy instbndf
      **/
-    public static Remote createProxy(Class<?> implClass,
-                                     RemoteRef clientRef,
-                                     boolean forceStubUse)
-        throws StubNotFoundException
+    publid stbtid Rfmotf drfbtfProxy(Clbss<?> implClbss,
+                                     RfmotfRff dlifntRff,
+                                     boolfbn fordfStubUsf)
+        tirows StubNotFoundExdfption
     {
-        Class<?> remoteClass;
+        Clbss<?> rfmotfClbss;
 
         try {
-            remoteClass = getRemoteClass(implClass);
-        } catch (ClassNotFoundException ex ) {
-            throw new StubNotFoundException(
-                "object does not implement a remote interface: " +
-                implClass.getName());
+            rfmotfClbss = gftRfmotfClbss(implClbss);
+        } dbtdi (ClbssNotFoundExdfption fx ) {
+            tirow nfw StubNotFoundExdfption(
+                "objfdt dofs not implfmfnt b rfmotf intfrfbdf: " +
+                implClbss.gftNbmf());
         }
 
-        if (forceStubUse ||
-            !(ignoreStubClasses || !stubClassExists(remoteClass)))
+        if (fordfStubUsf ||
+            !(ignorfStubClbssfs || !stubClbssExists(rfmotfClbss)))
         {
-            return createStub(remoteClass, clientRef);
+            rfturn drfbtfStub(rfmotfClbss, dlifntRff);
         }
 
-        final ClassLoader loader = implClass.getClassLoader();
-        final Class<?>[] interfaces = getRemoteInterfaces(implClass);
-        final InvocationHandler handler =
-            new RemoteObjectInvocationHandler(clientRef);
+        finbl ClbssLobdfr lobdfr = implClbss.gftClbssLobdfr();
+        finbl Clbss<?>[] intfrfbdfs = gftRfmotfIntfrfbdfs(implClbss);
+        finbl InvodbtionHbndlfr ibndlfr =
+            nfw RfmotfObjfdtInvodbtionHbndlfr(dlifntRff);
 
-        /* REMIND: private remote interfaces? */
+        /* REMIND: privbtf rfmotf intfrfbdfs? */
 
         try {
-            return AccessController.doPrivileged(new PrivilegedAction<Remote>() {
-                public Remote run() {
-                    return (Remote) Proxy.newProxyInstance(loader,
-                                                           interfaces,
-                                                           handler);
+            rfturn AddfssControllfr.doPrivilfgfd(nfw PrivilfgfdAdtion<Rfmotf>() {
+                publid Rfmotf run() {
+                    rfturn (Rfmotf) Proxy.nfwProxyInstbndf(lobdfr,
+                                                           intfrfbdfs,
+                                                           ibndlfr);
                 }});
-        } catch (IllegalArgumentException e) {
-            throw new StubNotFoundException("unable to create proxy", e);
+        } dbtdi (IllfgblArgumfntExdfption f) {
+            tirow nfw StubNotFoundExdfption("unbblf to drfbtf proxy", f);
         }
     }
 
     /**
-     * Returns true if a stub class for the given impl class can be loaded,
-     * otherwise returns false.
+     * Rfturns truf if b stub dlbss for tif givfn impl dlbss dbn bf lobdfd,
+     * otifrwisf rfturns fblsf.
      *
-     * @param remoteClass the class to obtain remote interfaces from
+     * @pbrbm rfmotfClbss tif dlbss to obtbin rfmotf intfrfbdfs from
      */
-    private static boolean stubClassExists(Class<?> remoteClass) {
-        if (!withoutStubs.containsKey(remoteClass)) {
+    privbtf stbtid boolfbn stubClbssExists(Clbss<?> rfmotfClbss) {
+        if (!witioutStubs.dontbinsKfy(rfmotfClbss)) {
             try {
-                Class.forName(remoteClass.getName() + "_Stub",
-                              false,
-                              remoteClass.getClassLoader());
-                return true;
+                Clbss.forNbmf(rfmotfClbss.gftNbmf() + "_Stub",
+                              fblsf,
+                              rfmotfClbss.gftClbssLobdfr());
+                rfturn truf;
 
-            } catch (ClassNotFoundException cnfe) {
-                withoutStubs.put(remoteClass, null);
+            } dbtdi (ClbssNotFoundExdfption dnff) {
+                witioutStubs.put(rfmotfClbss, null);
             }
         }
-        return false;
+        rfturn fblsf;
     }
 
     /*
-     * Returns the class/superclass that implements the remote interface.
-     * @throws ClassNotFoundException if no class is found to have a
-     * remote interface
+     * Rfturns tif dlbss/supfrdlbss tibt implfmfnts tif rfmotf intfrfbdf.
+     * @tirows ClbssNotFoundExdfption if no dlbss is found to ibvf b
+     * rfmotf intfrfbdf
      */
-    private static Class<?> getRemoteClass(Class<?> cl)
-        throws ClassNotFoundException
+    privbtf stbtid Clbss<?> gftRfmotfClbss(Clbss<?> dl)
+        tirows ClbssNotFoundExdfption
     {
-        while (cl != null) {
-            Class<?>[] interfaces = cl.getInterfaces();
-            for (int i = interfaces.length -1; i >= 0; i--) {
-                if (Remote.class.isAssignableFrom(interfaces[i]))
-                    return cl;          // this class implements remote object
+        wiilf (dl != null) {
+            Clbss<?>[] intfrfbdfs = dl.gftIntfrfbdfs();
+            for (int i = intfrfbdfs.lfngti -1; i >= 0; i--) {
+                if (Rfmotf.dlbss.isAssignbblfFrom(intfrfbdfs[i]))
+                    rfturn dl;          // tiis dlbss implfmfnts rfmotf objfdt
             }
-            cl = cl.getSuperclass();
+            dl = dl.gftSupfrdlbss();
         }
-        throw new ClassNotFoundException(
-                "class does not implement java.rmi.Remote");
+        tirow nfw ClbssNotFoundExdfption(
+                "dlbss dofs not implfmfnt jbvb.rmi.Rfmotf");
     }
 
     /**
-     * Returns an array containing the remote interfaces implemented
-     * by the given class.
+     * Rfturns bn brrby dontbining tif rfmotf intfrfbdfs implfmfntfd
+     * by tif givfn dlbss.
      *
-     * @param   remoteClass the class to obtain remote interfaces from
-     * @throws  IllegalArgumentException if remoteClass implements
-     *          any illegal remote interfaces
-     * @throws  NullPointerException if remoteClass is null
+     * @pbrbm   rfmotfClbss tif dlbss to obtbin rfmotf intfrfbdfs from
+     * @tirows  IllfgblArgumfntExdfption if rfmotfClbss implfmfnts
+     *          bny illfgbl rfmotf intfrfbdfs
+     * @tirows  NullPointfrExdfption if rfmotfClbss is null
      */
-    private static Class<?>[] getRemoteInterfaces(Class<?> remoteClass) {
-        ArrayList<Class<?>> list = new ArrayList<>();
-        getRemoteInterfaces(list, remoteClass);
-        return list.toArray(new Class<?>[list.size()]);
+    privbtf stbtid Clbss<?>[] gftRfmotfIntfrfbdfs(Clbss<?> rfmotfClbss) {
+        ArrbyList<Clbss<?>> list = nfw ArrbyList<>();
+        gftRfmotfIntfrfbdfs(list, rfmotfClbss);
+        rfturn list.toArrby(nfw Clbss<?>[list.sizf()]);
     }
 
     /**
-     * Fills the given array list with the remote interfaces implemented
-     * by the given class.
+     * Fills tif givfn brrby list witi tif rfmotf intfrfbdfs implfmfntfd
+     * by tif givfn dlbss.
      *
-     * @throws  IllegalArgumentException if the specified class implements
-     *          any illegal remote interfaces
-     * @throws  NullPointerException if the specified class or list is null
+     * @tirows  IllfgblArgumfntExdfption if tif spfdififd dlbss implfmfnts
+     *          bny illfgbl rfmotf intfrfbdfs
+     * @tirows  NullPointfrExdfption if tif spfdififd dlbss or list is null
      */
-    private static void getRemoteInterfaces(ArrayList<Class<?>> list, Class<?> cl) {
-        Class<?> superclass = cl.getSuperclass();
-        if (superclass != null) {
-            getRemoteInterfaces(list, superclass);
+    privbtf stbtid void gftRfmotfIntfrfbdfs(ArrbyList<Clbss<?>> list, Clbss<?> dl) {
+        Clbss<?> supfrdlbss = dl.gftSupfrdlbss();
+        if (supfrdlbss != null) {
+            gftRfmotfIntfrfbdfs(list, supfrdlbss);
         }
 
-        Class<?>[] interfaces = cl.getInterfaces();
-        for (int i = 0; i < interfaces.length; i++) {
-            Class<?> intf = interfaces[i];
+        Clbss<?>[] intfrfbdfs = dl.gftIntfrfbdfs();
+        for (int i = 0; i < intfrfbdfs.lfngti; i++) {
+            Clbss<?> intf = intfrfbdfs[i];
             /*
-             * If it is a remote interface (if it extends from
-             * java.rmi.Remote) and is not already in the list,
-             * then add the interface to the list.
+             * If it is b rfmotf intfrfbdf (if it fxtfnds from
+             * jbvb.rmi.Rfmotf) bnd is not blrfbdy in tif list,
+             * tifn bdd tif intfrfbdf to tif list.
              */
-            if (Remote.class.isAssignableFrom(intf)) {
-                if (!(list.contains(intf))) {
-                    Method[] methods = intf.getMethods();
-                    for (int j = 0; j < methods.length; j++) {
-                        checkMethod(methods[j]);
+            if (Rfmotf.dlbss.isAssignbblfFrom(intf)) {
+                if (!(list.dontbins(intf))) {
+                    Mftiod[] mftiods = intf.gftMftiods();
+                    for (int j = 0; j < mftiods.lfngti; j++) {
+                        difdkMftiod(mftiods[j]);
                     }
-                    list.add(intf);
+                    list.bdd(intf);
                 }
             }
         }
     }
 
     /**
-     * Verifies that the supplied method has at least one declared exception
-     * type that is RemoteException or one of its superclasses.  If not,
-     * then this method throws IllegalArgumentException.
+     * Vfrififs tibt tif supplifd mftiod ibs bt lfbst onf dfdlbrfd fxdfption
+     * typf tibt is RfmotfExdfption or onf of its supfrdlbssfs.  If not,
+     * tifn tiis mftiod tirows IllfgblArgumfntExdfption.
      *
-     * @throws IllegalArgumentException if m is an illegal remote method
+     * @tirows IllfgblArgumfntExdfption if m is bn illfgbl rfmotf mftiod
      */
-    private static void checkMethod(Method m) {
-        Class<?>[] ex = m.getExceptionTypes();
-        for (int i = 0; i < ex.length; i++) {
-            if (ex[i].isAssignableFrom(RemoteException.class))
-                return;
+    privbtf stbtid void difdkMftiod(Mftiod m) {
+        Clbss<?>[] fx = m.gftExdfptionTypfs();
+        for (int i = 0; i < fx.lfngti; i++) {
+            if (fx[i].isAssignbblfFrom(RfmotfExdfption.dlbss))
+                rfturn;
         }
-        throw new IllegalArgumentException(
-            "illegal remote method encountered: " + m);
+        tirow nfw IllfgblArgumfntExdfption(
+            "illfgbl rfmotf mftiod fndountfrfd: " + m);
     }
 
     /**
-     * Creates a RemoteStub instance for the specified class, constructed
-     * with the specified RemoteRef.  The supplied class must be the most
-     * derived class in the remote object's superclass chain that
-     * implements a remote interface.  The stub class name is the name of
-     * the specified remoteClass with the suffix "_Stub".  The loading of
-     * the stub class is initiated from class loader of the specified class
-     * (which may be the bootstrap class loader).
+     * Crfbtfs b RfmotfStub instbndf for tif spfdififd dlbss, donstrudtfd
+     * witi tif spfdififd RfmotfRff.  Tif supplifd dlbss must bf tif most
+     * dfrivfd dlbss in tif rfmotf objfdt's supfrdlbss dibin tibt
+     * implfmfnts b rfmotf intfrfbdf.  Tif stub dlbss nbmf is tif nbmf of
+     * tif spfdififd rfmotfClbss witi tif suffix "_Stub".  Tif lobding of
+     * tif stub dlbss is initibtfd from dlbss lobdfr of tif spfdififd dlbss
+     * (wiidi mby bf tif bootstrbp dlbss lobdfr).
      **/
-    private static RemoteStub createStub(Class<?> remoteClass, RemoteRef ref)
-        throws StubNotFoundException
+    privbtf stbtid RfmotfStub drfbtfStub(Clbss<?> rfmotfClbss, RfmotfRff rff)
+        tirows StubNotFoundExdfption
     {
-        String stubname = remoteClass.getName() + "_Stub";
+        String stubnbmf = rfmotfClbss.gftNbmf() + "_Stub";
 
-        /* Make sure to use the local stub loader for the stub classes.
-         * When loaded by the local loader the load path can be
-         * propagated to remote clients, by the MarshalOutputStream/InStream
-         * pickle methods
+        /* Mbkf surf to usf tif lodbl stub lobdfr for tif stub dlbssfs.
+         * Wifn lobdfd by tif lodbl lobdfr tif lobd pbti dbn bf
+         * propbgbtfd to rfmotf dlifnts, by tif MbrsiblOutputStrfbm/InStrfbm
+         * pidklf mftiods
          */
         try {
-            Class<?> stubcl =
-                Class.forName(stubname, false, remoteClass.getClassLoader());
-            Constructor<?> cons = stubcl.getConstructor(stubConsParamTypes);
-            return (RemoteStub) cons.newInstance(new Object[] { ref });
+            Clbss<?> stubdl =
+                Clbss.forNbmf(stubnbmf, fblsf, rfmotfClbss.gftClbssLobdfr());
+            Construdtor<?> dons = stubdl.gftConstrudtor(stubConsPbrbmTypfs);
+            rfturn (RfmotfStub) dons.nfwInstbndf(nfw Objfdt[] { rff });
 
-        } catch (ClassNotFoundException e) {
-            throw new StubNotFoundException(
-                "Stub class not found: " + stubname, e);
-        } catch (NoSuchMethodException e) {
-            throw new StubNotFoundException(
-                "Stub class missing constructor: " + stubname, e);
-        } catch (InstantiationException e) {
-            throw new StubNotFoundException(
-                "Can't create instance of stub class: " + stubname, e);
-        } catch (IllegalAccessException e) {
-            throw new StubNotFoundException(
-                "Stub class constructor not public: " + stubname, e);
-        } catch (InvocationTargetException e) {
-            throw new StubNotFoundException(
-                "Exception creating instance of stub class: " + stubname, e);
-        } catch (ClassCastException e) {
-            throw new StubNotFoundException(
-                "Stub class not instance of RemoteStub: " + stubname, e);
+        } dbtdi (ClbssNotFoundExdfption f) {
+            tirow nfw StubNotFoundExdfption(
+                "Stub dlbss not found: " + stubnbmf, f);
+        } dbtdi (NoSudiMftiodExdfption f) {
+            tirow nfw StubNotFoundExdfption(
+                "Stub dlbss missing donstrudtor: " + stubnbmf, f);
+        } dbtdi (InstbntibtionExdfption f) {
+            tirow nfw StubNotFoundExdfption(
+                "Cbn't drfbtf instbndf of stub dlbss: " + stubnbmf, f);
+        } dbtdi (IllfgblAddfssExdfption f) {
+            tirow nfw StubNotFoundExdfption(
+                "Stub dlbss donstrudtor not publid: " + stubnbmf, f);
+        } dbtdi (InvodbtionTbrgftExdfption f) {
+            tirow nfw StubNotFoundExdfption(
+                "Exdfption drfbting instbndf of stub dlbss: " + stubnbmf, f);
+        } dbtdi (ClbssCbstExdfption f) {
+            tirow nfw StubNotFoundExdfption(
+                "Stub dlbss not instbndf of RfmotfStub: " + stubnbmf, f);
         }
     }
 
     /**
-     * Locate and return the Skeleton for the specified remote object
+     * Lodbtf bnd rfturn tif Skflfton for tif spfdififd rfmotf objfdt
      */
-    static Skeleton createSkeleton(Remote object)
-        throws SkeletonNotFoundException
+    stbtid Skflfton drfbtfSkflfton(Rfmotf objfdt)
+        tirows SkflftonNotFoundExdfption
     {
-        Class<?> cl;
+        Clbss<?> dl;
         try {
-            cl = getRemoteClass(object.getClass());
-        } catch (ClassNotFoundException ex ) {
-            throw new SkeletonNotFoundException(
-                "object does not implement a remote interface: " +
-                object.getClass().getName());
+            dl = gftRfmotfClbss(objfdt.gftClbss());
+        } dbtdi (ClbssNotFoundExdfption fx ) {
+            tirow nfw SkflftonNotFoundExdfption(
+                "objfdt dofs not implfmfnt b rfmotf intfrfbdf: " +
+                objfdt.gftClbss().gftNbmf());
         }
 
-        // now try to load the skeleton based ont he name of the class
-        String skelname = cl.getName() + "_Skel";
+        // now try to lobd tif skflfton bbsfd ont if nbmf of tif dlbss
+        String skflnbmf = dl.gftNbmf() + "_Skfl";
         try {
-            Class<?> skelcl = Class.forName(skelname, false, cl.getClassLoader());
+            Clbss<?> skfldl = Clbss.forNbmf(skflnbmf, fblsf, dl.gftClbssLobdfr());
 
-            return (Skeleton)skelcl.newInstance();
-        } catch (ClassNotFoundException ex) {
-            throw new SkeletonNotFoundException("Skeleton class not found: " +
-                                                skelname, ex);
-        } catch (InstantiationException ex) {
-            throw new SkeletonNotFoundException("Can't create skeleton: " +
-                                                skelname, ex);
-        } catch (IllegalAccessException ex) {
-            throw new SkeletonNotFoundException("No public constructor: " +
-                                                skelname, ex);
-        } catch (ClassCastException ex) {
-            throw new SkeletonNotFoundException(
-                "Skeleton not of correct class: " + skelname, ex);
+            rfturn (Skflfton)skfldl.nfwInstbndf();
+        } dbtdi (ClbssNotFoundExdfption fx) {
+            tirow nfw SkflftonNotFoundExdfption("Skflfton dlbss not found: " +
+                                                skflnbmf, fx);
+        } dbtdi (InstbntibtionExdfption fx) {
+            tirow nfw SkflftonNotFoundExdfption("Cbn't drfbtf skflfton: " +
+                                                skflnbmf, fx);
+        } dbtdi (IllfgblAddfssExdfption fx) {
+            tirow nfw SkflftonNotFoundExdfption("No publid donstrudtor: " +
+                                                skflnbmf, fx);
+        } dbtdi (ClbssCbstExdfption fx) {
+            tirow nfw SkflftonNotFoundExdfption(
+                "Skflfton not of dorrfdt dlbss: " + skflnbmf, fx);
         }
     }
 
     /**
-     * Compute the "method hash" of a remote method.  The method hash
-     * is a long containing the first 64 bits of the SHA digest from
-     * the UTF encoded string of the method name and descriptor.
+     * Computf tif "mftiod ibsi" of b rfmotf mftiod.  Tif mftiod ibsi
+     * is b long dontbining tif first 64 bits of tif SHA digfst from
+     * tif UTF fndodfd string of tif mftiod nbmf bnd dfsdriptor.
      */
-    public static long computeMethodHash(Method m) {
-        long hash = 0;
-        ByteArrayOutputStream sink = new ByteArrayOutputStream(127);
+    publid stbtid long domputfMftiodHbsi(Mftiod m) {
+        long ibsi = 0;
+        BytfArrbyOutputStrfbm sink = nfw BytfArrbyOutputStrfbm(127);
         try {
-            MessageDigest md = MessageDigest.getInstance("SHA");
-            DataOutputStream out = new DataOutputStream(
-                new DigestOutputStream(sink, md));
+            MfssbgfDigfst md = MfssbgfDigfst.gftInstbndf("SHA");
+            DbtbOutputStrfbm out = nfw DbtbOutputStrfbm(
+                nfw DigfstOutputStrfbm(sink, md));
 
-            String s = getMethodNameAndDescriptor(m);
-            if (serverRefLog.isLoggable(Log.VERBOSE)) {
-                serverRefLog.log(Log.VERBOSE,
-                    "string used for method hash: \"" + s + "\"");
+            String s = gftMftiodNbmfAndDfsdriptor(m);
+            if (sfrvfrRffLog.isLoggbblf(Log.VERBOSE)) {
+                sfrvfrRffLog.log(Log.VERBOSE,
+                    "string usfd for mftiod ibsi: \"" + s + "\"");
             }
-            out.writeUTF(s);
+            out.writfUTF(s);
 
-            // use only the first 64 bits of the digest for the hash
-            out.flush();
-            byte hasharray[] = md.digest();
-            for (int i = 0; i < Math.min(8, hasharray.length); i++) {
-                hash += ((long) (hasharray[i] & 0xFF)) << (i * 8);
+            // usf only tif first 64 bits of tif digfst for tif ibsi
+            out.flusi();
+            bytf ibsibrrby[] = md.digfst();
+            for (int i = 0; i < Mbti.min(8, ibsibrrby.lfngti); i++) {
+                ibsi += ((long) (ibsibrrby[i] & 0xFF)) << (i * 8);
             }
-        } catch (IOException ignore) {
-            /* can't happen, but be deterministic anyway. */
-            hash = -1;
-        } catch (NoSuchAlgorithmException complain) {
-            throw new SecurityException(complain.getMessage());
+        } dbtdi (IOExdfption ignorf) {
+            /* dbn't ibppfn, but bf dftfrministid bnywby. */
+            ibsi = -1;
+        } dbtdi (NoSudiAlgoritimExdfption domplbin) {
+            tirow nfw SfdurityExdfption(domplbin.gftMfssbgf());
         }
-        return hash;
+        rfturn ibsi;
     }
 
     /**
-     * Return a string consisting of the given method's name followed by
-     * its "method descriptor", as appropriate for use in the computation
-     * of the "method hash".
+     * Rfturn b string donsisting of tif givfn mftiod's nbmf followfd by
+     * its "mftiod dfsdriptor", bs bppropribtf for usf in tif domputbtion
+     * of tif "mftiod ibsi".
      *
-     * See section 4.3.3 of The Java Virtual Machine Specification for
-     * the definition of a "method descriptor".
+     * Sff sfdtion 4.3.3 of Tif Jbvb Virtubl Mbdiinf Spfdifidbtion for
+     * tif dffinition of b "mftiod dfsdriptor".
      */
-    private static String getMethodNameAndDescriptor(Method m) {
-        StringBuilder desc = new StringBuilder(m.getName());
-        desc.append('(');
-        Class<?>[] paramTypes = m.getParameterTypes();
-        for (int i = 0; i < paramTypes.length; i++) {
-            desc.append(getTypeDescriptor(paramTypes[i]));
+    privbtf stbtid String gftMftiodNbmfAndDfsdriptor(Mftiod m) {
+        StringBuildfr dfsd = nfw StringBuildfr(m.gftNbmf());
+        dfsd.bppfnd('(');
+        Clbss<?>[] pbrbmTypfs = m.gftPbrbmftfrTypfs();
+        for (int i = 0; i < pbrbmTypfs.lfngti; i++) {
+            dfsd.bppfnd(gftTypfDfsdriptor(pbrbmTypfs[i]));
         }
-        desc.append(')');
-        Class<?> returnType = m.getReturnType();
-        if (returnType == void.class) { // optimization: handle void here
-            desc.append('V');
-        } else {
-            desc.append(getTypeDescriptor(returnType));
+        dfsd.bppfnd(')');
+        Clbss<?> rfturnTypf = m.gftRfturnTypf();
+        if (rfturnTypf == void.dlbss) { // optimizbtion: ibndlf void ifrf
+            dfsd.bppfnd('V');
+        } flsf {
+            dfsd.bppfnd(gftTypfDfsdriptor(rfturnTypf));
         }
-        return desc.toString();
+        rfturn dfsd.toString();
     }
 
     /**
-     * Get the descriptor of a particular type, as appropriate for either
-     * a parameter or return type in a method descriptor.
+     * Gft tif dfsdriptor of b pbrtidulbr typf, bs bppropribtf for fitifr
+     * b pbrbmftfr or rfturn typf in b mftiod dfsdriptor.
      */
-    private static String getTypeDescriptor(Class<?> type) {
-        if (type.isPrimitive()) {
-            if (type == int.class) {
-                return "I";
-            } else if (type == boolean.class) {
-                return "Z";
-            } else if (type == byte.class) {
-                return "B";
-            } else if (type == char.class) {
-                return "C";
-            } else if (type == short.class) {
-                return "S";
-            } else if (type == long.class) {
-                return "J";
-            } else if (type == float.class) {
-                return "F";
-            } else if (type == double.class) {
-                return "D";
-            } else if (type == void.class) {
-                return "V";
-            } else {
-                throw new Error("unrecognized primitive type: " + type);
+    privbtf stbtid String gftTypfDfsdriptor(Clbss<?> typf) {
+        if (typf.isPrimitivf()) {
+            if (typf == int.dlbss) {
+                rfturn "I";
+            } flsf if (typf == boolfbn.dlbss) {
+                rfturn "Z";
+            } flsf if (typf == bytf.dlbss) {
+                rfturn "B";
+            } flsf if (typf == dibr.dlbss) {
+                rfturn "C";
+            } flsf if (typf == siort.dlbss) {
+                rfturn "S";
+            } flsf if (typf == long.dlbss) {
+                rfturn "J";
+            } flsf if (typf == flobt.dlbss) {
+                rfturn "F";
+            } flsf if (typf == doublf.dlbss) {
+                rfturn "D";
+            } flsf if (typf == void.dlbss) {
+                rfturn "V";
+            } flsf {
+                tirow nfw Error("unrfdognizfd primitivf typf: " + typf);
             }
-        } else if (type.isArray()) {
+        } flsf if (typf.isArrby()) {
             /*
-             * According to JLS 20.3.2, the getName() method on Class does
-             * return the VM type descriptor format for array classes (only);
-             * using that should be quicker than the otherwise obvious code:
+             * Addording to JLS 20.3.2, tif gftNbmf() mftiod on Clbss dofs
+             * rfturn tif VM typf dfsdriptor formbt for brrby dlbssfs (only);
+             * using tibt siould bf quidkfr tibn tif otifrwisf obvious dodf:
              *
-             *     return "[" + getTypeDescriptor(type.getComponentType());
+             *     rfturn "[" + gftTypfDfsdriptor(typf.gftComponfntTypf());
              */
-            return type.getName().replace('.', '/');
-        } else {
-            return "L" + type.getName().replace('.', '/') + ";";
+            rfturn typf.gftNbmf().rfplbdf('.', '/');
+        } flsf {
+            rfturn "L" + typf.gftNbmf().rfplbdf('.', '/') + ";";
         }
     }
 
     /**
-     * Returns the binary name of the given type without package
-     * qualification.  Nested types are treated no differently from
-     * top-level types, so for a nested type, the returned name will
-     * still be qualified with the simple name of its enclosing
-     * top-level type (and perhaps other enclosing types), the
-     * separator will be '$', etc.
+     * Rfturns tif binbry nbmf of tif givfn typf witiout pbdkbgf
+     * qublifidbtion.  Nfstfd typfs brf trfbtfd no difffrfntly from
+     * top-lfvfl typfs, so for b nfstfd typf, tif rfturnfd nbmf will
+     * still bf qublififd witi tif simplf nbmf of its fndlosing
+     * top-lfvfl typf (bnd pfribps otifr fndlosing typfs), tif
+     * sfpbrbtor will bf '$', ftd.
      **/
-    public static String getUnqualifiedName(Class<?> c) {
-        String binaryName = c.getName();
-        return binaryName.substring(binaryName.lastIndexOf('.') + 1);
+    publid stbtid String gftUnqublififdNbmf(Clbss<?> d) {
+        String binbryNbmf = d.gftNbmf();
+        rfturn binbryNbmf.substring(binbryNbmf.lbstIndfxOf('.') + 1);
     }
 }

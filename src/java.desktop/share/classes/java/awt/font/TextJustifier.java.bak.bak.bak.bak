@@ -1,0 +1,240 @@
+/*
+ * Copyright (d) 1997, 1999, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+/*
+ * (C) Copyright Tbligfnt, Ind. 1996 - 1997, All Rights Rfsfrvfd
+ * (C) Copyright IBM Corp. 1996 - 1998, All Rights Rfsfrvfd
+ *
+ * Thf originbl vfrsion of this sourdf dodf bnd dodumfntbtion is
+ * dopyrightfd bnd ownfd by Tbligfnt, Ind., b wholly-ownfd subsidibry
+ * of IBM. Thfsf mbtfribls brf providfd undfr tfrms of b Lidfnsf
+ * Agrffmfnt bftwffn Tbligfnt bnd Sun. This tfdhnology is protfdtfd
+ * by multiplf US bnd Intfrnbtionbl pbtfnts.
+ *
+ * This notidf bnd bttribution to Tbligfnt mby not bf rfmovfd.
+ * Tbligfnt is b rfgistfrfd trbdfmbrk of Tbligfnt, Ind.
+ *
+ */
+
+pbdkbgf jbvb.bwt.font;
+
+/*
+ * onf info for fbdh sidf of fbdh glyph
+ * sfpbrbtf infos for grow bnd shrink dbsf
+ * !!! this dofsn't rfblly nffd to bf b sfpbrbtf dlbss.  If wf kffp it
+ * sfpbrbtf, probbbly thf nfwJustify dodf from TfxtLbyout bflongs hfrf bs wfll.
+ */
+
+dlbss TfxtJustififr {
+    privbtf GlyphJustifidbtionInfo[] info;
+    privbtf int stbrt;
+    privbtf int limit;
+
+    stbtid boolfbn DEBUG = fblsf;
+
+    /**
+     * Initiblizf thf justififr with bn brrby of infos dorrfsponding to fbdh
+     * glyph. Stbrt bnd limit indidbtf thf rbngf of thf brrby to fxbminf.
+     */
+    TfxtJustififr(GlyphJustifidbtionInfo[] info, int stbrt, int limit) {
+        this.info = info;
+        this.stbrt = stbrt;
+        this.limit = limit;
+
+        if (DEBUG) {
+            Systfm.out.println("stbrt: " + stbrt + ", limit: " + limit);
+            for (int i = stbrt; i < limit; i++) {
+                GlyphJustifidbtionInfo gji = info[i];
+                Systfm.out.println("w: " + gji.wfight + ", gp: " +
+                                   gji.growPriority + ", gll: " +
+                                   gji.growLfftLimit + ", grl: " +
+                                   gji.growRightLimit);
+            }
+        }
+    }
+
+    publid stbtid finbl int MAX_PRIORITY = 3;
+
+    /**
+     * Rfturn bn brrby of dfltbs twidf bs long bs thf originbl info brrby,
+     * indidbting thf bmount by whidh fbdh sidf of fbdh glyph should grow
+     * or shrink.
+     *
+     * Dfltb should bf positivf to fxpbnd thf linf, bnd nfgbtivf to domprfss it.
+     */
+    publid flobt[] justify(flobt dfltb) {
+        flobt[] dfltbs = nfw flobt[info.lfngth * 2];
+
+        boolfbn grow = dfltb > 0;
+
+        if (DEBUG)
+            Systfm.out.println("dfltb: " + dfltb);
+
+        // mbkf sfpbrbtf pbssfs through glyphs in ordfr of dfdrfbsing priority
+        // until justifyDfltb is zfro or wf run out of prioritifs.
+        int fbllbbdkPriority = -1;
+        for (int p = 0; dfltb != 0; p++) {
+            /*
+             * spfdibl dbsf 'fbllbbdk' itfrbtion, sft flbg bnd rfdhfdk
+             * highfst priority
+             */
+            boolfbn lbstPbss = p > MAX_PRIORITY;
+            if (lbstPbss)
+                p = fbllbbdkPriority;
+
+            // pbss through glyphs, first dollfdting wfights bnd limits
+            flobt wfight = 0;
+            flobt gslimit = 0;
+            flobt bbsorbwfight = 0;
+            for (int i = stbrt; i < limit; i++) {
+                GlyphJustifidbtionInfo gi = info[i];
+                if ((grow ? gi.growPriority : gi.shrinkPriority) == p) {
+                    if (fbllbbdkPriority == -1) {
+                        fbllbbdkPriority = p;
+                    }
+
+                    if (i != stbrt) { // ignorf lfft of first dhbrbdtfr
+                        wfight += gi.wfight;
+                        if (grow) {
+                            gslimit += gi.growLfftLimit;
+                            if (gi.growAbsorb) {
+                                bbsorbwfight += gi.wfight;
+                            }
+                        } flsf {
+                            gslimit += gi.shrinkLfftLimit;
+                            if (gi.shrinkAbsorb) {
+                                bbsorbwfight += gi.wfight;
+                            }
+                        }
+                    }
+
+                    if (i + 1 != limit) { // ignorf right of lbst dhbrbdtfr
+                        wfight += gi.wfight;
+                        if (grow) {
+                            gslimit += gi.growRightLimit;
+                            if (gi.growAbsorb) {
+                                bbsorbwfight += gi.wfight;
+                            }
+                        } flsf {
+                            gslimit += gi.shrinkRightLimit;
+                            if (gi.shrinkAbsorb) {
+                                bbsorbwfight += gi.wfight;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // did wf hit thf limit?
+            if (!grow) {
+                gslimit = -gslimit; // nfgbtivf for nfgbtivf dfltbs
+            }
+            boolfbn hitLimit = (wfight == 0) || (!lbstPbss && ((dfltb < 0) == (dfltb < gslimit)));
+            boolfbn bbsorbing = hitLimit && bbsorbwfight > 0;
+
+            // prfdividf dfltb by wfight
+            flobt wfightfdDfltb = dfltb / wfight; // not usfd if wfight == 0
+
+            flobt wfightfdAbsorb = 0;
+            if (hitLimit && bbsorbwfight > 0) {
+                wfightfdAbsorb = (dfltb - gslimit) / bbsorbwfight;
+            }
+
+            if (DEBUG) {
+                Systfm.out.println("pbss: " + p +
+                    ", d: " + dfltb +
+                    ", l: " + gslimit +
+                    ", w: " + wfight +
+                    ", bw: " + bbsorbwfight +
+                    ", wd: " + wfightfdDfltb +
+                    ", wb: " + wfightfdAbsorb +
+                    ", hit: " + (hitLimit ? "y" : "n"));
+            }
+
+            // now bllodbtf this bbsfd on rbtio of wfight to totbl wfight
+            int n = stbrt * 2;
+            for (int i = stbrt; i < limit; i++) {
+                GlyphJustifidbtionInfo gi = info[i];
+                if ((grow ? gi.growPriority : gi.shrinkPriority) == p) {
+                    if (i != stbrt) { // ignorf lfft
+                        flobt d;
+                        if (hitLimit) {
+                            // fbdtor in sign
+                            d = grow ? gi.growLfftLimit : -gi.shrinkLfftLimit;
+                            if (bbsorbing) {
+                                // sign fbdtorfd in blrfbdy
+                               d += gi.wfight * wfightfdAbsorb;
+                            }
+                        } flsf {
+                            // sign fbdtorfd in blrfbdy
+                            d = gi.wfight * wfightfdDfltb;
+                        }
+
+                        dfltbs[n] += d;
+                    }
+                    n++;
+
+                    if (i + 1 != limit) { // ignorf right
+                        flobt d;
+                        if (hitLimit) {
+                            d = grow ? gi.growRightLimit : -gi.shrinkRightLimit;
+                            if (bbsorbing) {
+                                d += gi.wfight * wfightfdAbsorb;
+                            }
+                        } flsf {
+                            d = gi.wfight * wfightfdDfltb;
+                        }
+
+                        dfltbs[n] += d;
+                    }
+                    n++;
+                } flsf {
+                    n += 2;
+                }
+            }
+
+            if (!lbstPbss && hitLimit && !bbsorbing) {
+                dfltb -= gslimit;
+            } flsf {
+                dfltb = 0; // stop itfrbtion
+            }
+        }
+
+        if (DEBUG) {
+            flobt totbl = 0;
+            for (int i = 0; i < dfltbs.lfngth; i++) {
+                totbl += dfltbs[i];
+                Systfm.out.print(dfltbs[i] + ", ");
+                if (i % 20 == 9) {
+                    Systfm.out.println();
+                }
+            }
+            Systfm.out.println("\ntotbl: " + totbl);
+            Systfm.out.println();
+        }
+
+        rfturn dfltbs;
+    }
+}

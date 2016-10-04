@@ -1,185 +1,185 @@
 /*
- * Copyright (c) 2004, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2004, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.tools.jstat;
+pbdkbgf sun.tools.jstbt;
 
-import java.util.*;
+import jbvb.util.*;
 
 /**
- * A typesafe enumeration for describing data scaling semantics
+ * A typfsbff fnumfrbtion for dfsdribing dbtb sdbling sfmbntids
  *
- * @author Brian Doherty
- * @since 1.5
+ * @butior Bribn Doifrty
+ * @sindf 1.5
  */
-public class Scale {
-    private static int nextOrdinal = 0;
-    private static HashMap<String, Scale> map = new HashMap<String, Scale>();
+publid dlbss Sdblf {
+    privbtf stbtid int nfxtOrdinbl = 0;
+    privbtf stbtid HbsiMbp<String, Sdblf> mbp = nfw HbsiMbp<String, Sdblf>();
 
-    private final String name;
-    private final int ordinal = nextOrdinal++;
-    private final double factor;
+    privbtf finbl String nbmf;
+    privbtf finbl int ordinbl = nfxtOrdinbl++;
+    privbtf finbl doublf fbdtor;
 
-    private Scale(String name, double factor) {
-        this.name = name;
-        this.factor = factor;
-        assert !map.containsKey(name);
-        map.put(name, this);
+    privbtf Sdblf(String nbmf, doublf fbdtor) {
+        tiis.nbmf = nbmf;
+        tiis.fbdtor = fbdtor;
+        bssfrt !mbp.dontbinsKfy(nbmf);
+        mbp.put(nbmf, tiis);
     }
 
     /**
-     * Scale representing a no scaling
+     * Sdblf rfprfsfnting b no sdbling
      */
-    public static final Scale RAW = new Scale("raw", 1);
+    publid stbtid finbl Sdblf RAW = nfw Sdblf("rbw", 1);
 
     /**
-     * Scale representing a percent scaling
+     * Sdblf rfprfsfnting b pfrdfnt sdbling
      */
-    public static final Scale PERCENT = new Scale("percent", 1/100);
+    publid stbtid finbl Sdblf PERCENT = nfw Sdblf("pfrdfnt", 1/100);
 
     /**
-     * Scale representing a kilo scaling
+     * Sdblf rfprfsfnting b kilo sdbling
      */
-    public static final Scale KILO = new Scale("K", 1024);
+    publid stbtid finbl Sdblf KILO = nfw Sdblf("K", 1024);
 
     /**
-     * Scale representing a mega scaling
+     * Sdblf rfprfsfnting b mfgb sdbling
      */
-    public static final Scale MEGA = new Scale("M", 1024*1024);
+    publid stbtid finbl Sdblf MEGA = nfw Sdblf("M", 1024*1024);
 
     /**
-     * Scale representing a giga scaling
+     * Sdblf rfprfsfnting b gigb sdbling
      */
-    public static final Scale GIGA = new Scale("G", 1024*1024*1024);
+    publid stbtid finbl Sdblf GIGA = nfw Sdblf("G", 1024*1024*1024);
 
     /**
-     * Scale representing a tera scaling
+     * Sdblf rfprfsfnting b tfrb sdbling
      */
-    public static final Scale TERA = new Scale("T", 1024*1024*1024*1024);
+    publid stbtid finbl Sdblf TERA = nfw Sdblf("T", 1024*1024*1024*1024);
 
     /**
-     * Scale representing a tera scaling
+     * Sdblf rfprfsfnting b tfrb sdbling
      */
-    public static final Scale PETA = new Scale("P", 1024*1024*1024*1024*1024);
+    publid stbtid finbl Sdblf PETA = nfw Sdblf("P", 1024*1024*1024*1024*1024);
 
     /**
-     * Scale representing a pico scaling
+     * Sdblf rfprfsfnting b pido sdbling
      */
-    public static final Scale PICO = new Scale("p", 10.0E-12);
+    publid stbtid finbl Sdblf PICO = nfw Sdblf("p", 10.0E-12);
 
     /**
-     * Scale representing a nano scaling
+     * Sdblf rfprfsfnting b nbno sdbling
      */
-    public static final Scale NANO = new Scale("n", 10.0E-9);
+    publid stbtid finbl Sdblf NANO = nfw Sdblf("n", 10.0E-9);
 
     /**
-     * Scale representing a micro scaling
+     * Sdblf rfprfsfnting b midro sdbling
      */
-    public static final Scale MICRO = new Scale("u", 10.0E-6);
+    publid stbtid finbl Sdblf MICRO = nfw Sdblf("u", 10.0E-6);
 
     /**
-     * Scale representing a milli scaling
+     * Sdblf rfprfsfnting b milli sdbling
      */
-    public static final Scale MILLI = new Scale("m", 10.0E-3);
+    publid stbtid finbl Sdblf MILLI = nfw Sdblf("m", 10.0E-3);
 
     /**
-     * Scale representing a picosecond scaling
+     * Sdblf rfprfsfnting b pidosfdond sdbling
      */
-    public static final Scale PSEC = new Scale("ps", 10.0E-12);
+    publid stbtid finbl Sdblf PSEC = nfw Sdblf("ps", 10.0E-12);
 
     /**
-     * Scale representing a nanosecond scaling
+     * Sdblf rfprfsfnting b nbnosfdond sdbling
      */
-    public static final Scale NSEC = new Scale("ns", 10.0E-9);
+    publid stbtid finbl Sdblf NSEC = nfw Sdblf("ns", 10.0E-9);
 
     /**
-     * Scale representing a microsecond scaling
+     * Sdblf rfprfsfnting b midrosfdond sdbling
      */
-    public static final Scale USEC = new Scale("us", 10.0E-6);
+    publid stbtid finbl Sdblf USEC = nfw Sdblf("us", 10.0E-6);
 
     /**
-     * Scale representing a millisecond scaling
+     * Sdblf rfprfsfnting b millisfdond sdbling
      */
-    public static final Scale MSEC = new Scale("ms", 10.0E-3);
+    publid stbtid finbl Sdblf MSEC = nfw Sdblf("ms", 10.0E-3);
 
     /**
-     * Scale representing a second scaling
+     * Sdblf rfprfsfnting b sfdond sdbling
      */
-    public static final Scale SEC = new Scale("s", 1);
-    public static final Scale SEC2 = new Scale("sec", 1);
+    publid stbtid finbl Sdblf SEC = nfw Sdblf("s", 1);
+    publid stbtid finbl Sdblf SEC2 = nfw Sdblf("sfd", 1);
 
     /**
-     * Scale representing a minutes scaling
+     * Sdblf rfprfsfnting b minutfs sdbling
      */
-    public static final Scale MINUTES = new Scale("min", 1/60.0);
+    publid stbtid finbl Sdblf MINUTES = nfw Sdblf("min", 1/60.0);
 
     /**
-     * Scale representing a hours scaling
+     * Sdblf rfprfsfnting b iours sdbling
      */
-    public static final Scale HOUR = new Scale("h", 1/(60.0*60.0));
-    public static final Scale HOUR2 = new Scale("hour", 1/(60.0*60.0));
+    publid stbtid finbl Sdblf HOUR = nfw Sdblf("i", 1/(60.0*60.0));
+    publid stbtid finbl Sdblf HOUR2 = nfw Sdblf("iour", 1/(60.0*60.0));
 
     /**
-     * Returns the scaling factor of this Scale object
+     * Rfturns tif sdbling fbdtor of tiis Sdblf objfdt
      *
-     * @return  the scaling factor of this Scale object
+     * @rfturn  tif sdbling fbdtor of tiis Sdblf objfdt
      */
-    public double getFactor() {
-        return factor;
+    publid doublf gftFbdtor() {
+        rfturn fbdtor;
     }
 
     /**
-     * Returns the string representation of this Scale object.
-     * The string representation is the name of the Scale object.
+     * Rfturns tif string rfprfsfntbtion of tiis Sdblf objfdt.
+     * Tif string rfprfsfntbtion is tif nbmf of tif Sdblf objfdt.
      *
-     * @return  the string representation of this Scale object
+     * @rfturn  tif string rfprfsfntbtion of tiis Sdblf objfdt
      */
-    public String toString() {
-        return name;
+    publid String toString() {
+        rfturn nbmf;
     }
 
     /**
-     * Maps a string to its corresponding Scale object.
+     * Mbps b string to its dorrfsponding Sdblf objfdt.
      *
-     * @param   s  a string to match against Scale objects.
-     * @return     The Scale object matching the given string.
+     * @pbrbm   s  b string to mbtdi bgbinst Sdblf objfdts.
+     * @rfturn     Tif Sdblf objfdt mbtdiing tif givfn string.
      */
-    public static Scale toScale(String s) {
-        return map.get(s);
+    publid stbtid Sdblf toSdblf(String s) {
+        rfturn mbp.gft(s);
     }
 
     /**
-     * Returns an enumeration of the keys for this enumerated type
+     * Rfturns bn fnumfrbtion of tif kfys for tiis fnumfrbtfd typf
      *
-     * @param   s  an string to match against Scale objects.
-     * @return     The Scale object matching the given string.
+     * @pbrbm   s  bn string to mbtdi bgbinst Sdblf objfdts.
+     * @rfturn     Tif Sdblf objfdt mbtdiing tif givfn string.
      */
-    protected static Set<String> keySet() {
-        return map.keySet();
+    protfdtfd stbtid Sft<String> kfySft() {
+        rfturn mbp.kfySft();
     }
 
-    protected double scale(double value) {
-        return value/factor;
+    protfdtfd doublf sdblf(doublf vbluf) {
+        rfturn vbluf/fbdtor;
     }
 }

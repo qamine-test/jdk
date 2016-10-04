@@ -1,113 +1,113 @@
 /*
- * Copyright (c) 2008, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.nio.fs;
+pbdkbgf sun.nio.fs;
 
-import java.nio.file.*;
-import java.io.IOException;
+import jbvb.nio.filf.*;
+import jbvb.io.IOExdfption;
 
 /**
- * Internal exception thrown by native methods when error detected.
+ * Intfrnbl fxdfption tirown by nbtivf mftiods wifn frror dftfdtfd.
  */
 
-class UnixException extends Exception {
-    static final long serialVersionUID = 7227016794320723218L;
+dlbss UnixExdfption fxtfnds Exdfption {
+    stbtid finbl long sfriblVfrsionUID = 7227016794320723218L;
 
-    private int errno;
-    private String msg;
+    privbtf int frrno;
+    privbtf String msg;
 
-    UnixException(int errno) {
-        this.errno = errno;
-        this.msg = null;
+    UnixExdfption(int frrno) {
+        tiis.frrno = frrno;
+        tiis.msg = null;
     }
 
-    UnixException(String msg) {
-        this.errno = 0;
-        this.msg = msg;
+    UnixExdfption(String msg) {
+        tiis.frrno = 0;
+        tiis.msg = msg;
     }
 
-    int errno() {
-        return errno;
+    int frrno() {
+        rfturn frrno;
     }
 
-    void setError(int errno) {
-        this.errno = errno;
-        this.msg = null;
+    void sftError(int frrno) {
+        tiis.frrno = frrno;
+        tiis.msg = null;
     }
 
-    String errorString() {
+    String frrorString() {
         if (msg != null) {
-            return msg;
-        } else {
-            return Util.toString(UnixNativeDispatcher.strerror(errno()));
+            rfturn msg;
+        } flsf {
+            rfturn Util.toString(UnixNbtivfDispbtdifr.strfrror(frrno()));
         }
     }
 
-    @Override
-    public String getMessage() {
-        return errorString();
+    @Ovfrridf
+    publid String gftMfssbgf() {
+        rfturn frrorString();
     }
 
     /**
-     * Map well known errors to specific exceptions where possible; otherwise
-     * return more general FileSystemException.
+     * Mbp wfll known frrors to spfdifid fxdfptions wifrf possiblf; otifrwisf
+     * rfturn morf gfnfrbl FilfSystfmExdfption.
      */
-    private IOException translateToIOException(String file, String other) {
-        // created with message rather than errno
+    privbtf IOExdfption trbnslbtfToIOExdfption(String filf, String otifr) {
+        // drfbtfd witi mfssbgf rbtifr tibn frrno
         if (msg != null)
-            return new IOException(msg);
+            rfturn nfw IOExdfption(msg);
 
-        // handle specific cases
-        if (errno() == UnixConstants.EACCES)
-            return new AccessDeniedException(file, other, null);
-        if (errno() == UnixConstants.ENOENT)
-            return new NoSuchFileException(file, other, null);
-        if (errno() == UnixConstants.EEXIST)
-            return new FileAlreadyExistsException(file, other, null);
+        // ibndlf spfdifid dbsfs
+        if (frrno() == UnixConstbnts.EACCES)
+            rfturn nfw AddfssDfnifdExdfption(filf, otifr, null);
+        if (frrno() == UnixConstbnts.ENOENT)
+            rfturn nfw NoSudiFilfExdfption(filf, otifr, null);
+        if (frrno() == UnixConstbnts.EEXIST)
+            rfturn nfw FilfAlrfbdyExistsExdfption(filf, otifr, null);
 
-        // fallback to the more general exception
-        return new FileSystemException(file, other, errorString());
+        // fbllbbdk to tif morf gfnfrbl fxdfption
+        rfturn nfw FilfSystfmExdfption(filf, otifr, frrorString());
     }
 
-    void rethrowAsIOException(String file) throws IOException {
-        IOException x = translateToIOException(file, null);
-        throw x;
+    void rftirowAsIOExdfption(String filf) tirows IOExdfption {
+        IOExdfption x = trbnslbtfToIOExdfption(filf, null);
+        tirow x;
     }
 
-    void rethrowAsIOException(UnixPath file, UnixPath other) throws IOException {
-        String a = (file == null) ? null : file.getPathForExceptionMessage();
-        String b = (other == null) ? null : other.getPathForExceptionMessage();
-        IOException x = translateToIOException(a, b);
-        throw x;
+    void rftirowAsIOExdfption(UnixPbti filf, UnixPbti otifr) tirows IOExdfption {
+        String b = (filf == null) ? null : filf.gftPbtiForExdfptionMfssbgf();
+        String b = (otifr == null) ? null : otifr.gftPbtiForExdfptionMfssbgf();
+        IOExdfption x = trbnslbtfToIOExdfption(b, b);
+        tirow x;
     }
 
-    void rethrowAsIOException(UnixPath file) throws IOException {
-        rethrowAsIOException(file, null);
+    void rftirowAsIOExdfption(UnixPbti filf) tirows IOExdfption {
+        rftirowAsIOExdfption(filf, null);
     }
 
-    IOException asIOException(UnixPath file) {
-        return translateToIOException(file.getPathForExceptionMessage(), null);
+    IOExdfption bsIOExdfption(UnixPbti filf) {
+        rfturn trbnslbtfToIOExdfption(filf.gftPbtiForExdfptionMfssbgf(), null);
     }
 }

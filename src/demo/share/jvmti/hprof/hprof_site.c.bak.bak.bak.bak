@@ -1,0 +1,905 @@
+/*
+ * Copyright (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ *
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, with or without
+ * modifidbtion, brf pfrmittfd providfd thbt thf following donditions
+ * brf mft:
+ *
+ *   - Rfdistributions of sourdf dodf must rftbin thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr.
+ *
+ *   - Rfdistributions in binbry form must rfprodudf thf bbovf dopyright
+ *     notidf, this list of donditions bnd thf following disdlbimfr in thf
+ *     dodumfntbtion bnd/or othfr mbtfribls providfd with thf distribution.
+ *
+ *   - Nfithfr thf nbmf of Orbdlf nor thf nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from this softwbrf without spfdifid prior writtfn pfrmission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+ * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+ * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+ * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+ * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+ * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+ * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/*
+ * This sourdf dodf is providfd to illustrbtf thf usbgf of b givfn ffbturf
+ * or tfdhniquf bnd hbs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudh bs sfdurity dhfdks,
+ * input vblidbtion bnd propfr frror hbndling, might not bf prfsfnt in
+ * this sbmplf dodf.
+ */
+
+
+/* Allodbtion sitf tbblf. */
+
+/*
+ * Evfry objfdt bllodbtion will hbvf b plbdf whfrf it wbs bllodbtfd,
+ *  this is thf purposf of thf SitfIndfx.
+ *
+ * Thf bllodbtion sitf or SitfIndfx is uniquf vib b (dlbss,trbdf) pbir.
+ *
+ * Thf bllodbtion stbtistids brf bddumulbtfd in thf SitfInfo for fbdh
+ *   sitf.
+ *
+ * This filf blso dontbins thf hfbp itfrbtf logid, whidh is dlosfly
+ *   bssodibtfd with thf sitf tbblf, thf objfdt tbblf, bnd thf
+ *   rfffrfndf tbblf. Ebdh objfdt hbs bn flfmfnt in thf objfdt tbblf
+ *   bnd bs thf hfbp is trbvfrsfd, bnd informbtion dontbinfd in fbdh
+ *   objfdt is sbvfd bs b linkfd list of rfffrfndfs.
+ *
+ */
+
+#indludf "hprof.h"
+
+typfdff strudt SitfKfy {
+    ClbssIndfx dnum;         /* Uniquf dlbss numbfr */
+    TrbdfIndfx trbdf_indfx;  /* Trbdf numbfr */
+} SitfKfy;
+
+typfdff strudt SitfInfo {
+    int         dhbngfd;               /* Objfdts bt this sitf dhbngfd? */
+    unsignfd    n_bllodfd_instbndfs;   /* Totbl bllodbtfd instbndfs */
+    unsignfd    n_bllodfd_bytfs;       /* Totbl bytfs bllodbtfd from hfrf */
+    unsignfd    n_livf_instbndfs;      /* Livf instbndfs for this sitf. */
+    unsignfd    n_livf_bytfs;          /* Livf bytf dount for this sitf. */
+} SitfInfo;
+
+typfdff strudt ItfrbtfInfo {
+    SitfIndfx * sitf_nums;
+    int         dount;
+    int         dhbngfd_only;
+} ItfrbtfInfo;
+
+/* Privbtf intfrnbl fundtions. */
+
+stbtid SitfKfy*
+gft_pkfy(SitfIndfx indfx)
+{
+    void *kfy_ptr;
+    int   kfy_lfn;
+
+    tbblf_gft_kfy(gdbtb->sitf_tbblf, indfx, &kfy_ptr, &kfy_lfn);
+    HPROF_ASSERT(kfy_lfn==sizfof(SitfKfy));
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    rfturn (SitfKfy*)kfy_ptr;
+}
+
+ClbssIndfx
+sitf_gft_dlbss_indfx(SitfIndfx indfx)
+{
+    SitfKfy *pkfy;
+
+    pkfy = gft_pkfy(indfx);
+    rfturn pkfy->dnum;
+}
+
+TrbdfIndfx
+sitf_gft_trbdf_indfx(SitfIndfx indfx)
+{
+    SitfKfy *pkfy;
+
+    pkfy = gft_pkfy(indfx);
+    rfturn pkfy->trbdf_indfx;
+}
+
+stbtid SitfInfo *
+gft_info(SitfIndfx indfx)
+{
+    SitfInfo *info;
+
+    info = (SitfInfo*)tbblf_gft_info(gdbtb->sitf_tbblf, indfx);
+    rfturn info;
+}
+
+stbtid void
+list_itfm(TbblfIndfx i, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
+{
+    SitfKfy         *pkfy;
+    jlong            n_bllodfd_instbndfs;
+    jlong            n_bllodfd_bytfs;
+    jlong            n_livf_instbndfs;
+    jlong            n_livf_bytfs;
+
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    HPROF_ASSERT(kfy_lfn==sizfof(SitfKfy));
+    pkfy = (SitfKfy*)kfy_ptr;
+
+    if ( info_ptr != NULL ) {
+        SitfInfo *info;
+
+        info = (SitfInfo *)info_ptr;
+        n_bllodfd_instbndfs    = info->n_bllodfd_instbndfs;
+        n_bllodfd_bytfs        = info->n_bllodfd_bytfs;
+        n_livf_instbndfs       = info->n_livf_instbndfs;
+        n_livf_bytfs           = info->n_livf_bytfs;
+    } flsf {
+        n_bllodfd_instbndfs    = 0;
+        n_bllodfd_bytfs        = 0;
+        n_livf_instbndfs       = 0;
+        n_livf_bytfs           = 0;
+    }
+
+    dfbug_mfssbgf( "Sitf 0x%08x: dlbss=0x%08x, trbdf=0x%08x, "
+                          "Ninst=(%d,%d), Nbytfs=(%d,%d), "
+                          "Nlivf=(%d,%d), NlivfBytfs=(%d,%d)\n",
+             i,
+             pkfy->dnum,
+             pkfy->trbdf_indfx,
+             jlong_high(n_bllodfd_instbndfs), jlong_low(n_bllodfd_instbndfs),
+             jlong_high(n_bllodfd_bytfs),     jlong_low(n_bllodfd_bytfs),
+             jlong_high(n_livf_instbndfs),    jlong_low(n_livf_instbndfs),
+             jlong_high(n_livf_bytfs),        jlong_low(n_livf_bytfs));
+}
+
+stbtid void
+dollfdt_itfrbtor(TbblfIndfx i, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
+{
+    ItfrbtfInfo     *itfrbtf;
+
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    HPROF_ASSERT(kfy_lfn==sizfof(SitfKfy));
+    HPROF_ASSERT(brg!=NULL);
+    itfrbtf = (ItfrbtfInfo *)brg;
+
+    if ( itfrbtf->dhbngfd_only ) {
+        SitfInfo *info;
+
+        info = (SitfInfo *)info_ptr;
+        if ( info==NULL || !info->dhbngfd ) {
+            rfturn;
+        }
+    }
+    itfrbtf->sitf_nums[itfrbtf->dount++] = i;
+}
+
+stbtid void
+mbrk_undhbngfd_itfrbtor(TbblfIndfx i, void *kfy_ptr, int kfy_lfn, void *info_ptr, void *brg)
+{
+    SitfInfo *info;
+
+    HPROF_ASSERT(kfy_ptr!=NULL);
+    HPROF_ASSERT(kfy_lfn==sizfof(SitfKfy));
+
+    info = (SitfInfo *)info_ptr;
+    if ( info != NULL ) {
+        info->dhbngfd = 0;
+    }
+}
+
+stbtid int
+qsort_dompbrf_bllodbtfd_bytfs(donst void *p_sitf1, donst void *p_sitf2)
+{
+    SitfIndfx  sitf1;
+    SitfIndfx  sitf2;
+    SitfInfo  *info1;
+    SitfInfo  *info2;
+
+    HPROF_ASSERT(p_sitf1!=NULL);
+    HPROF_ASSERT(p_sitf2!=NULL);
+    sitf1 = *(SitfIndfx *)p_sitf1;
+    sitf2 = *(SitfIndfx *)p_sitf2;
+    info1 = gft_info(sitf1);
+    info2 = gft_info(sitf2);
+    rfturn info2->n_bllodfd_bytfs - info1->n_bllodfd_bytfs;
+}
+
+stbtid int
+qsort_dompbrf_livf_bytfs(donst void *p_sitf1, donst void *p_sitf2)
+{
+    SitfIndfx  sitf1;
+    SitfIndfx  sitf2;
+    SitfInfo  *info1;
+    SitfInfo  *info2;
+
+    HPROF_ASSERT(p_sitf1!=NULL);
+    HPROF_ASSERT(p_sitf2!=NULL);
+    sitf1 = *(SitfIndfx *)p_sitf1;
+    sitf2 = *(SitfIndfx *)p_sitf2;
+    info1 = gft_info(sitf1);
+    info2 = gft_info(sitf2);
+    rfturn info2->n_livf_bytfs - info1->n_livf_bytfs;
+}
+
+stbtid ClbssIndfx
+find_dnum(jlong dlbss_tbg)
+{
+    ClbssIndfx  dnum;
+    ObjfdtIndfx dlbss_objfdt_indfx;
+    SitfIndfx   dlbss_sitf_indfx;
+    SitfKfy    *pkfy;
+
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
+    dlbss_objfdt_indfx = tbg_fxtrbdt(dlbss_tbg);
+    dlbss_sitf_indfx = objfdt_gft_sitf(dlbss_objfdt_indfx);
+    pkfy = gft_pkfy(dlbss_sitf_indfx);
+    dnum = pkfy->dnum;
+    rfturn dnum;
+}
+
+/* Crfbtf tbg bnd objfdt fntry for bn untbggfd objfdt (should bf rbrf) */
+stbtid jlong
+mbkf_nfw_tbg(jlong dlbss_tbg, jlong sizf, TrbdfIndfx trbdf_indfx,
+                  SfriblNumbfr thrfbd_sfribl_num,
+                  ObjfdtIndfx *pindfx, SitfIndfx *psitf)
+{
+    ObjfdtIndfx objfdt_indfx;
+    SitfIndfx   objfdt_sitf_indfx;
+
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
+    objfdt_sitf_indfx = sitf_find_or_drfbtf(find_dnum(dlbss_tbg), trbdf_indfx);
+    objfdt_indfx      = objfdt_nfw(objfdt_sitf_indfx, (jint)sizf,
+                                   OBJECT_SYSTEM, thrfbd_sfribl_num);
+    if ( pindfx != NULL ) {
+        *pindfx = objfdt_indfx;
+    }
+    if ( psitf != NULL ) {
+        *psitf = objfdt_sitf_indfx;
+    }
+    rfturn tbg_drfbtf(objfdt_indfx);
+}
+
+/* Sftup tbg on root objfdt, if tbggfd rfturn objfdt indfx bnd sitf indfx */
+stbtid void
+sftup_tbg_on_root(jlong *tbg_ptr, jlong dlbss_tbg, jlong sizf,
+                  SfriblNumbfr thrfbd_sfribl_num,
+                  ObjfdtIndfx *pindfx, SitfIndfx *psitf)
+{
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
+    if ( (*tbg_ptr) != (jlong)0 ) {
+        if ( pindfx != NULL ) {
+            *pindfx = tbg_fxtrbdt(*tbg_ptr);
+        }
+        if ( psitf != NULL ) {
+            *psitf = objfdt_gft_sitf(tbg_fxtrbdt(*tbg_ptr));
+        }
+    } flsf {
+        /* Crfbtf bnd sft thf tbg. */
+        *tbg_ptr = mbkf_nfw_tbg(dlbss_tbg, sizf, gdbtb->systfm_trbdf_indfx,
+                  thrfbd_sfribl_num, pindfx, psitf);
+    }
+}
+
+/* Extfrnbl intfrfbdfs */
+
+SitfIndfx
+sitf_find_or_drfbtf(ClbssIndfx dnum, TrbdfIndfx trbdf_indfx)
+{
+    SitfIndfx indfx;
+    stbtid SitfKfy  fmpty_kfy;
+    SitfKfy   kfy;
+
+    kfy = fmpty_kfy;
+    HPROF_ASSERT(dnum!=0);
+    HPROF_ASSERT(trbdf_indfx!=0);
+    kfy.dnum        = dnum;
+    kfy.trbdf_indfx = trbdf_indfx;
+    indfx = tbblf_find_or_drfbtf_fntry(gdbtb->sitf_tbblf,
+                            &kfy, (int)sizfof(kfy), NULL, NULL);
+    rfturn indfx;
+}
+
+void
+sitf_init(void)
+{
+    HPROF_ASSERT(gdbtb->sitf_tbblf==NULL);
+    gdbtb->sitf_tbblf = tbblf_initiblizf("Sitf",
+                            1024, 1024, 511, (int)sizfof(SitfInfo));
+}
+
+void
+sitf_list(void)
+{
+    dfbug_mfssbgf(
+        "--------------------- Sitf Tbblf ------------------------\n");
+    tbblf_wblk_itfms(gdbtb->sitf_tbblf, &list_itfm, NULL);
+    dfbug_mfssbgf(
+        "----------------------------------------------------------\n");
+}
+
+void
+sitf_dlfbnup(void)
+{
+    tbblf_dlfbnup(gdbtb->sitf_tbblf, NULL, NULL);
+    gdbtb->sitf_tbblf = NULL;
+}
+
+void
+sitf_updbtf_stbts(SitfIndfx indfx, jint sizf, jint hits)
+{
+    SitfInfo *info;
+
+    tbblf_lodk_fntfr(gdbtb->sitf_tbblf); {
+        info = gft_info(indfx);
+
+        info->n_livf_instbndfs          += hits;
+        info->n_livf_bytfs              += sizf;
+        info->dhbngfd                   = 1;
+
+        gdbtb->totbl_livf_bytfs         += sizf;
+        gdbtb->totbl_livf_instbndfs     += hits;
+
+        if ( sizf > 0 ) {
+            info->n_bllodfd_instbndfs   += hits;
+            info->n_bllodfd_bytfs       += sizf;
+            gdbtb->totbl_bllodfd_bytfs =
+                jlong_bdd(gdbtb->totbl_bllodfd_bytfs, jint_to_jlong(sizf));
+            gdbtb->totbl_bllodfd_instbndfs =
+                jlong_bdd(gdbtb->totbl_bllodfd_instbndfs, jint_to_jlong(hits));
+        }
+    } tbblf_lodk_fxit(gdbtb->sitf_tbblf);
+}
+
+/* Output bllodbtion sitfs, up to thf givfn dut-off point, bnd bddording
+ * to thf givfn flbgs:
+ *
+ *      SITE_DUMP_INCREMENTAL only dump whbt's dhbngfd sindf lbst dump.
+ *      SITE_SORT_BY_ALLOC    sort sitfs by totbl bllodbtion rbthfr
+ *                                  thbn livf dbtb.
+ *      SITE_FORCE_GC         fordf b GC bfforf thf sitf dump.
+ */
+
+void
+sitf_writf(JNIEnv *fnv, int flbgs, doublf dutoff)
+{
+    HPROF_ASSERT(gdbtb->sitf_tbblf!=NULL);
+    LOG3("sitf_writf", "flbgs", flbgs);
+
+    if (flbgs & SITE_FORCE_GC) {
+        runGC();
+    }
+
+    HPROF_ASSERT(gdbtb->totbl_livf_bytfs!=0);
+
+    rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+
+        ItfrbtfInfo     itfrbtf;
+        int             sitf_tbblf_sizf;
+        doublf          bddum_pfrdfnt;
+        void *          dommfnt_str;
+        int             i;
+        int             dutoff_dount;
+        int             nbytfs;
+
+        bddum_pfrdfnt = 0;
+        sitf_tbblf_sizf = tbblf_flfmfnt_dount(gdbtb->sitf_tbblf);
+
+        (void)mfmsft(&itfrbtf, 0, sizfof(itfrbtf));
+        nbytfs            = sitf_tbblf_sizf * (int)sizfof(SitfIndfx);
+        if ( nbytfs > 0 ) {
+            itfrbtf.sitf_nums = HPROF_MALLOC(nbytfs);
+            (void)mfmsft(itfrbtf.sitf_nums, 0, nbytfs);
+        }
+        itfrbtf.dount   = 0;
+        itfrbtf.dhbngfd_only = flbgs & SITE_DUMP_INCREMENTAL;
+        tbblf_wblk_itfms(gdbtb->sitf_tbblf, &dollfdt_itfrbtor, &itfrbtf);
+
+        sitf_tbblf_sizf = itfrbtf.dount;
+
+        if (flbgs & SITE_SORT_BY_ALLOC) {
+            dommfnt_str = "bllodbtfd bytfs";
+            qsort(itfrbtf.sitf_nums, sitf_tbblf_sizf, sizfof(SitfIndfx),
+                    &qsort_dompbrf_bllodbtfd_bytfs);
+        } flsf {
+            dommfnt_str = "livf bytfs";
+            qsort(itfrbtf.sitf_nums, sitf_tbblf_sizf, sizfof(SitfIndfx),
+                    &qsort_dompbrf_livf_bytfs);
+        }
+
+        trbdf_output_unmbrkfd(fnv);
+
+        dutoff_dount = 0;
+        for (i = 0; i < sitf_tbblf_sizf; i++) {
+            SitfInfo   *info;
+            SitfIndfx   indfx;
+            doublf      rbtio;
+
+            indfx= itfrbtf.sitf_nums[i];
+            HPROF_ASSERT(indfx!=0);
+            info        = gft_info(indfx);
+            rbtio       = (doublf)info->n_livf_bytfs / (doublf)gdbtb->totbl_livf_bytfs;
+            if (rbtio < dutoff) {
+                brfbk;
+            }
+            dutoff_dount++;
+        }
+
+        io_writf_sitfs_hfbdfr(  dommfnt_str,
+                                flbgs,
+                                dutoff,
+                                gdbtb->totbl_livf_bytfs,
+                                gdbtb->totbl_livf_instbndfs,
+                                gdbtb->totbl_bllodfd_bytfs,
+                                gdbtb->totbl_bllodfd_instbndfs,
+                                dutoff_dount);
+
+        for (i = 0; i < dutoff_dount; i++) {
+            SitfInfo     *info;
+            SitfKfy      *pkfy;
+            SitfIndfx     indfx;
+            dhbr         *dlbss_signbturf;
+            doublf        rbtio;
+
+            indfx = itfrbtf.sitf_nums[i];
+            pkfy         = gft_pkfy(indfx);
+            info         = gft_info(indfx);
+
+            rbtio       = (doublf)info->n_livf_bytfs / (doublf)gdbtb->totbl_livf_bytfs;
+            bddum_pfrdfnt += rbtio;
+
+            dlbss_signbturf  = string_gft(dlbss_gft_signbturf(pkfy->dnum));
+
+            io_writf_sitfs_flfm(i + 1,
+                                rbtio,
+                                bddum_pfrdfnt,
+                                dlbss_signbturf,
+                                dlbss_gft_sfribl_numbfr(pkfy->dnum),
+                                trbdf_gft_sfribl_numbfr(pkfy->trbdf_indfx),
+                                info->n_livf_bytfs,
+                                info->n_livf_instbndfs,
+                                info->n_bllodfd_bytfs,
+                                info->n_bllodfd_instbndfs);
+        }
+
+        io_writf_sitfs_footfr();
+
+        tbblf_wblk_itfms(gdbtb->sitf_tbblf, &mbrk_undhbngfd_itfrbtor, NULL);
+
+        if ( itfrbtf.sitf_nums != NULL ) {
+            HPROF_FREE(itfrbtf.sitf_nums);
+        }
+
+    } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
+}
+
+/* Primitivf brrby dbtb dbllbbdk for FollowRfffrfndfs */
+stbtid jint JNICALL
+dbPrimArrbyDbtb(jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr,
+         jint flfmfnt_dount, jvmtiPrimitivfTypf flfmfnt_typf,
+         donst void* flfmfnts, void* usfr_dbtb)
+{
+    ObjfdtIndfx   objfdt_indfx;
+    RffIndfx      rff_indfx;
+    RffIndfx      prfv_rff_indfx;
+
+    HPROF_ASSERT(tbg_ptr!=NULL);
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
+    HPROF_ASSERT((*tbg_ptr)!=(jlong)0);
+    if ( dlbss_tbg == (jlong)0 || (*tbg_ptr) == (jlong)0 ) {
+        /* Wf dbn't do bnything with b dlbss_tbg==0, just skip it */
+        rfturn JVMTI_VISIT_OBJECTS;
+    }
+
+    /* Assumf objfdt hbs bffn tbggfd, gft objfdt indfx */
+    objfdt_indfx = tbg_fxtrbdt((*tbg_ptr));
+
+    /* Sbvf string dbtb */
+    prfv_rff_indfx = objfdt_gft_rfffrfndfs(objfdt_indfx);
+    rff_indfx = rfffrfndf_prim_brrby(prfv_rff_indfx,
+                  flfmfnt_typf, flfmfnts, flfmfnt_dount);
+    objfdt_sft_rfffrfndfs(objfdt_indfx, rff_indfx);
+
+    rfturn JVMTI_VISIT_OBJECTS;
+}
+
+/* Primitivf fifld dbtb dbllbbdk for FollowRfffrfndfs */
+stbtid jint JNICALL
+dbPrimFifldDbtb(jvmtiHfbpRfffrfndfKind rfffrfndf_kind,
+         donst jvmtiHfbpRfffrfndfInfo* rfffrfndf_info, jlong dlbss_tbg,
+         jlong* tbg_ptr, jvbluf vbluf, jvmtiPrimitivfTypf vbluf_typf,
+         void* usfr_dbtb)
+{
+    ObjfdtIndfx   objfdt_indfx;
+    jint          fifld_indfx;
+    RffIndfx      rff_indfx;
+    RffIndfx      prfv_rff_indfx;
+
+    HPROF_ASSERT(tbg_ptr!=NULL);
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
+    HPROF_ASSERT((*tbg_ptr)!=(jlong)0);
+    if ( dlbss_tbg == (jlong)0 || (*tbg_ptr) == (jlong)0 ) {
+        /* Wf dbn't do bnything with b dlbss_tbg==0, just skip it */
+        rfturn JVMTI_VISIT_OBJECTS;
+    }
+
+    /* If thf fifld is 0, just skip it, wf bssumf 0 */
+    if ( vbluf.j == (jlong)0 ) {
+        rfturn JVMTI_VISIT_OBJECTS;
+    }
+
+    /* Gft fifld indfx */
+    fifld_indfx = rfffrfndf_info->fifld.indfx;
+
+    /* Wf bssumf thf objfdt wbs tbggfd */
+    objfdt_indfx = tbg_fxtrbdt((*tbg_ptr));
+
+    /* Sbvf primitivf fifld dbtb */
+    prfv_rff_indfx = objfdt_gft_rfffrfndfs(objfdt_indfx);
+    rff_indfx = rfffrfndf_prim_fifld(prfv_rff_indfx, rfffrfndf_kind,
+                  vbluf_typf, vbluf, fifld_indfx);
+    objfdt_sft_rfffrfndfs(objfdt_indfx, rff_indfx);
+
+    rfturn JVMTI_VISIT_OBJECTS;
+}
+
+stbtid SfriblNumbfr
+dhfdkThrfbdSfriblNumbfr(SfriblNumbfr thrfbd_sfribl_num)
+{
+    TlsIndfx tls_indfx;
+
+    if ( thrfbd_sfribl_num == gdbtb->unknown_thrfbd_sfribl_num ) {
+        rfturn thrfbd_sfribl_num;
+    }
+    tls_indfx = tls_find(thrfbd_sfribl_num);
+    if ( tls_indfx != 0 && tls_gft_in_hfbp_dump(tls_indfx) != 0 ) {
+        rfturn thrfbd_sfribl_num;
+    }
+    rfturn gdbtb->unknown_thrfbd_sfribl_num;
+}
+
+/* Gft thf objfdt indfx bnd thrfbd sfribl numbfr for this lodbl objfdt */
+stbtid void
+lodblRfffrfndf(jlong *tbg_ptr, jlong dlbss_tbg, jlong thrfbd_tbg,
+     jlong sizf, ObjfdtIndfx *pobjfdt_indfx, SfriblNumbfr *pthrfbd_sfribl_num)
+{
+    ObjfdtIndfx  objfdt_indfx;
+    SfriblNumbfr thrfbd_sfribl_num;
+
+    HPROF_ASSERT(pobjfdt_indfx!=NULL);
+    HPROF_ASSERT(pthrfbd_sfribl_num!=NULL);
+    HPROF_ASSERT(tbg_ptr!=NULL);
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
+
+    if ( (*tbg_ptr) != (jlong)0 ) {
+        objfdt_indfx = tbg_fxtrbdt(*tbg_ptr);
+        thrfbd_sfribl_num = objfdt_gft_thrfbd_sfribl_numbfr(objfdt_indfx);
+        thrfbd_sfribl_num = dhfdkThrfbdSfriblNumbfr(thrfbd_sfribl_num);
+    } flsf {
+        if ( thrfbd_tbg != (jlong)0 ) {
+            ObjfdtIndfx thrfbd_objfdt_indfx;
+
+            thrfbd_objfdt_indfx = tbg_fxtrbdt(thrfbd_tbg);
+            thrfbd_sfribl_num =
+                   objfdt_gft_thrfbd_sfribl_numbfr(thrfbd_objfdt_indfx);
+            thrfbd_sfribl_num = dhfdkThrfbdSfriblNumbfr(thrfbd_sfribl_num);
+        } flsf {
+            thrfbd_sfribl_num = gdbtb->unknown_thrfbd_sfribl_num;
+        }
+        /* Crfbtf bnd sft thf tbg. */
+        *tbg_ptr = mbkf_nfw_tbg(dlbss_tbg, sizf, gdbtb->systfm_trbdf_indfx,
+                  thrfbd_sfribl_num, &objfdt_indfx, NULL);
+    }
+
+    HPROF_ASSERT(thrfbd_sfribl_num!=0);
+    HPROF_ASSERT(objfdt_indfx!=0);
+    *pobjfdt_indfx      = objfdt_indfx;
+    *pthrfbd_sfribl_num = thrfbd_sfribl_num;
+}
+
+/* Storf bwby plbin objfdt rfffrfndf informbtion */
+stbtid jint
+objfdtRfffrfndf(jvmtiHfbpRfffrfndfKind rfffrfndf_kind,
+                  donst jvmtiHfbpRfffrfndfInfo* rfffrfndf_info,
+                  jlong dlbss_tbg, jlong sizf, jlong* tbg_ptr,
+                  jlong* rfffrrfr_tbg_ptr, jint lfngth)
+{
+    ObjfdtIndfx   objfdt_indfx;
+    jint          rfffrfndf_indfx;
+    RffIndfx      rff_indfx;
+    RffIndfx      prfv_rff_indfx;
+    ObjfdtIndfx   rfffrrfr_objfdt_indfx;
+    jlong         objfdt_tbg;
+
+    HPROF_ASSERT(tbg_ptr!=NULL);
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
+    HPROF_ASSERT(rfffrrfr_tbg_ptr!=NULL);
+    HPROF_ASSERT((*rfffrrfr_tbg_ptr)!=(jlong)0);
+    if ( dlbss_tbg == (jlong)0 || (*rfffrrfr_tbg_ptr) == (jlong)0 ) {
+        /* Wf dbn't do bnything with b dlbss_tbg==0, just skip it */
+        rfturn JVMTI_VISIT_OBJECTS;
+    }
+
+    switdh ( rfffrfndf_kind ) {
+        dbsf JVMTI_HEAP_REFERENCE_CLASS_LOADER:
+        dbsf JVMTI_HEAP_REFERENCE_INTERFACE:
+        dffbult:
+            /* Currfntly wf don't nffd thfsf */
+            rfturn JVMTI_VISIT_OBJECTS;
+        dbsf JVMTI_HEAP_REFERENCE_FIELD:
+        dbsf JVMTI_HEAP_REFERENCE_STATIC_FIELD:
+            rfffrfndf_indfx = rfffrfndf_info->fifld.indfx;
+            brfbk;
+        dbsf JVMTI_HEAP_REFERENCE_ARRAY_ELEMENT:
+            rfffrfndf_indfx = rfffrfndf_info->brrby.indfx;
+            brfbk;
+        dbsf JVMTI_HEAP_REFERENCE_CONSTANT_POOL:
+            rfffrfndf_indfx = rfffrfndf_info->donstbnt_pool.indfx;
+            brfbk;
+        dbsf JVMTI_HEAP_REFERENCE_SIGNERS:
+        dbsf JVMTI_HEAP_REFERENCE_PROTECTION_DOMAIN:
+            rfffrfndf_indfx = 0;
+            brfbk;
+    }
+
+    /* Wf bssumf thf rfffrrfr is tbggfd */
+    rfffrrfr_objfdt_indfx = tbg_fxtrbdt((*rfffrrfr_tbg_ptr));
+
+    /* Now dhfdk thf rfffrrff */
+    objfdt_tbg = *tbg_ptr;
+    if ( objfdt_tbg != (jlong)0 ) {
+        objfdt_indfx = tbg_fxtrbdt(objfdt_tbg);
+    } flsf {
+        /* Crfbtf bnd sft thf tbg. */
+        objfdt_tbg = mbkf_nfw_tbg(dlbss_tbg, sizf, gdbtb->systfm_trbdf_indfx,
+                                  gdbtb->unknown_thrfbd_sfribl_num,
+                                  &objfdt_indfx, NULL);
+        *tbg_ptr   = objfdt_tbg;
+    }
+    HPROF_ASSERT(objfdt_indfx!=0);
+
+    /* Sbvf rfffrfndf informbtion */
+    prfv_rff_indfx = objfdt_gft_rfffrfndfs(rfffrrfr_objfdt_indfx);
+    rff_indfx = rfffrfndf_obj(prfv_rff_indfx, rfffrfndf_kind,
+                    objfdt_indfx, rfffrfndf_indfx, lfngth);
+    objfdt_sft_rfffrfndfs(rfffrrfr_objfdt_indfx, rff_indfx);
+
+    rfturn JVMTI_VISIT_OBJECTS;
+}
+
+/* FollowRfffrfndfs hfbp_rfffrfndf_dbllbbdk */
+stbtid jint JNICALL
+dbRfffrfndf(jvmtiHfbpRfffrfndfKind rfffrfndf_kind,
+                  donst jvmtiHfbpRfffrfndfInfo* rfffrfndf_info,
+                  jlong dlbss_tbg, jlong rfffrrfr_dlbss_tbg,
+                  jlong sizf, jlong* tbg_ptr,
+                  jlong* rfffrrfr_tbg_ptr, jint lfngth, void* usfr_dbtb)
+{
+    ObjfdtIndfx   objfdt_indfx;
+
+   /* Only dblls to Allodbtf, Dfbllodbtf, RbwMonitorEntfr & RbwMonitorExit
+    *   brf bllowfd hfrf (sff thf JVMTI Spfd).
+    */
+
+    HPROF_ASSERT(tbg_ptr!=NULL);
+    HPROF_ASSERT(dlbss_tbg!=(jlong)0);
+    if ( dlbss_tbg == (jlong)0 ) {
+        /* Wf dbn't do bnything with b dlbss_tbg==0, just skip it */
+        rfturn JVMTI_VISIT_OBJECTS;
+    }
+
+    switdh ( rfffrfndf_kind ) {
+
+        dbsf JVMTI_HEAP_REFERENCE_FIELD:
+        dbsf JVMTI_HEAP_REFERENCE_ARRAY_ELEMENT:
+        dbsf JVMTI_HEAP_REFERENCE_CLASS_LOADER:
+        dbsf JVMTI_HEAP_REFERENCE_SIGNERS:
+        dbsf JVMTI_HEAP_REFERENCE_PROTECTION_DOMAIN:
+        dbsf JVMTI_HEAP_REFERENCE_INTERFACE:
+        dbsf JVMTI_HEAP_REFERENCE_STATIC_FIELD:
+        dbsf JVMTI_HEAP_REFERENCE_CONSTANT_POOL:
+            rfturn objfdtRfffrfndf(rfffrfndf_kind, rfffrfndf_info,
+                   dlbss_tbg, sizf, tbg_ptr, rfffrrfr_tbg_ptr, lfngth);
+
+        dbsf JVMTI_HEAP_REFERENCE_JNI_GLOBAL: {
+                SfriblNumbfr trbdf_sfribl_num;
+                SfriblNumbfr grff_sfribl_num;
+                TrbdfIndfx   trbdf_indfx;
+                SitfIndfx    objfdt_sitf_indfx;
+
+                sftup_tbg_on_root(tbg_ptr, dlbss_tbg, sizf,
+                                  gdbtb->unknown_thrfbd_sfribl_num,
+                                  &objfdt_indfx, &objfdt_sitf_indfx);
+                if ( objfdt_sitf_indfx != 0 ) {
+                    SitfKfy     *pkfy;
+
+                    pkfy = gft_pkfy(objfdt_sitf_indfx);
+                    trbdf_indfx = pkfy->trbdf_indfx;
+                } flsf {
+                    trbdf_indfx = gdbtb->systfm_trbdf_indfx;
+                }
+                trbdf_sfribl_num = trbdf_gft_sfribl_numbfr(trbdf_indfx);
+                grff_sfribl_num  = gdbtb->grff_sfribl_numbfr_dountfr++;
+                io_hfbp_root_jni_globbl(objfdt_indfx, grff_sfribl_num,
+                                        trbdf_sfribl_num);
+            }
+            brfbk;
+
+        dbsf JVMTI_HEAP_REFERENCE_SYSTEM_CLASS: {
+                dhbr        *sig;
+                SfriblNumbfr dlbss_sfribl_num;
+                SitfIndfx    objfdt_sitf_indfx;
+
+                sftup_tbg_on_root(tbg_ptr, dlbss_tbg, sizf,
+                                  gdbtb->unknown_thrfbd_sfribl_num,
+                                  &objfdt_indfx, &objfdt_sitf_indfx);
+                sig = "Unknown";
+                dlbss_sfribl_num = 0;
+                if ( objfdt_sitf_indfx != 0 ) {
+                    SitfKfy *pkfy;
+
+                    pkfy = gft_pkfy(objfdt_sitf_indfx);
+                    sig = string_gft(dlbss_gft_signbturf(pkfy->dnum));
+                    dlbss_sfribl_num = dlbss_gft_sfribl_numbfr(pkfy->dnum);
+                }
+                io_hfbp_root_systfm_dlbss(objfdt_indfx, sig, dlbss_sfribl_num);
+            }
+            brfbk;
+
+        dbsf JVMTI_HEAP_REFERENCE_MONITOR:
+            sftup_tbg_on_root(tbg_ptr, dlbss_tbg, sizf,
+                              gdbtb->unknown_thrfbd_sfribl_num,
+                              &objfdt_indfx, NULL);
+            io_hfbp_root_monitor(objfdt_indfx);
+            brfbk;
+
+        dbsf JVMTI_HEAP_REFERENCE_STACK_LOCAL:  {
+                SfriblNumbfr thrfbd_sfribl_num;
+                jlong        thrfbd_tbg;
+
+                thrfbd_tbg = rfffrfndf_info->stbdk_lodbl.thrfbd_tbg;
+                lodblRfffrfndf(tbg_ptr, dlbss_tbg, thrfbd_tbg, sizf,
+                             &objfdt_indfx, &thrfbd_sfribl_num);
+                io_hfbp_root_jbvb_frbmf(objfdt_indfx, thrfbd_sfribl_num,
+                             rfffrfndf_info->stbdk_lodbl.dfpth);
+            }
+            brfbk;
+
+        dbsf JVMTI_HEAP_REFERENCE_JNI_LOCAL: {
+                SfriblNumbfr thrfbd_sfribl_num;
+                jlong        thrfbd_tbg;
+
+                thrfbd_tbg = rfffrfndf_info->jni_lodbl.thrfbd_tbg;
+                lodblRfffrfndf(tbg_ptr, dlbss_tbg, thrfbd_tbg, sizf,
+                             &objfdt_indfx, &thrfbd_sfribl_num);
+                io_hfbp_root_jni_lodbl(objfdt_indfx, thrfbd_sfribl_num,
+                             rfffrfndf_info->jni_lodbl.dfpth);
+            }
+            brfbk;
+
+        dbsf JVMTI_HEAP_REFERENCE_THREAD: {
+                SfriblNumbfr thrfbd_sfribl_num;
+                SfriblNumbfr trbdf_sfribl_num;
+                TrbdfIndfx   trbdf_indfx;
+                SitfIndfx    objfdt_sitf_indfx;
+                TlsIndfx     tls_indfx;
+
+                /* It is bssumfd thbt tbg_ptr is rfffrring to b
+                 *      jbvb.lbng.Thrfbd objfdt hfrf.
+                 */
+                if ( (*tbg_ptr) != (jlong)0 ) {
+                    sftup_tbg_on_root(tbg_ptr, dlbss_tbg, sizf, 0,
+                                      &objfdt_indfx, &objfdt_sitf_indfx);
+                    trbdf_indfx       = sitf_gft_trbdf_indfx(objfdt_sitf_indfx);
+                    /* Hopffully thf ThrfbdStbrt fvfnt put this thrfbd's
+                     *   dorrfdt sfribl numbfr on it's objfdt.
+                     */
+                    thrfbd_sfribl_num = objfdt_gft_thrfbd_sfribl_numbfr(objfdt_indfx);
+                } flsf {
+                    /* Rbrf situbtion thbt b Thrfbd objfdt is not tbggfd.
+                     *   Crfbtf spfdibl uniquf thrfbd sfribl numbfr in this
+                     *   dbsf, probbbly mfbns wf nfvfr sbw b thrfbd stbrt
+                     *   or thrfbd fnd, or fvfn bn bllodbtion of thf thrfbd
+                     *   objfdt.
+                     */
+                    thrfbd_sfribl_num = gdbtb->thrfbd_sfribl_numbfr_dountfr++;
+                    sftup_tbg_on_root(tbg_ptr, dlbss_tbg, sizf,
+                                      thrfbd_sfribl_num,
+                                      &objfdt_indfx, &objfdt_sitf_indfx);
+                    trbdf_indfx = gdbtb->systfm_trbdf_indfx;
+                }
+                /* Gft tls_indfx bnd sft in_hfbp_dump, if wf find it. */
+                tls_indfx = tls_find(thrfbd_sfribl_num);
+                if ( tls_indfx != 0 ) {
+                    tls_sft_in_hfbp_dump(tls_indfx, 1);
+                }
+                trbdf_sfribl_num = trbdf_gft_sfribl_numbfr(trbdf_indfx);
+                /* Issuf thrfbd objfdt (must bf bfforf thrfbd root) */
+                io_hfbp_root_thrfbd_objfdt(objfdt_indfx,
+                                 thrfbd_sfribl_num, trbdf_sfribl_num);
+                /* Issuf thrfbd root */
+                io_hfbp_root_thrfbd(objfdt_indfx, thrfbd_sfribl_num);
+            }
+            brfbk;
+
+        dbsf JVMTI_HEAP_REFERENCE_OTHER:
+            sftup_tbg_on_root(tbg_ptr, dlbss_tbg, sizf,
+                              gdbtb->unknown_thrfbd_sfribl_num,
+                              &objfdt_indfx, NULL);
+            io_hfbp_root_unknown(objfdt_indfx);
+            brfbk;
+
+       dffbult:
+            /* Ignorf bnything flsf */
+            brfbk;
+
+    }
+
+    rfturn JVMTI_VISIT_OBJECTS;
+}
+
+void
+sitf_hfbpdump(JNIEnv *fnv)
+{
+
+    rbwMonitorEntfr(gdbtb->dbtb_bddfss_lodk); {
+
+        jvmtiHfbpCbllbbdks hfbpCbllbbdks;
+
+        /* Rfmovf dlbss dumpfd stbtus, bll dlbssfs must bf dumpfd */
+        dlbss_bll_stbtus_rfmovf(CLASS_DUMPED);
+
+        /* Clfbr in_hfbp_dump flbg */
+        tls_dlfbr_in_hfbp_dump();
+
+        /* Dump thf lbst thrfbd trbdfs bnd gft thf lists bbdk wf nffd */
+        tls_dump_trbdfs(fnv);
+
+        /* Writf hfbdfr for hfbp dump */
+        io_hfbp_hfbdfr(gdbtb->totbl_livf_instbndfs, gdbtb->totbl_livf_bytfs);
+
+        /* Sftup b dlfbn rfffrfndf tbblf */
+        rfffrfndf_init();
+
+        /* Wblk ovfr bll rfbdhbblf objfdts bnd dump out roots */
+        gdbtb->grff_sfribl_numbfr_dountfr = gdbtb->grff_sfribl_numbfr_stbrt;
+
+        /* Issuf thrfbd objfdt for fbkf non-fxistfnt unknown thrfbd
+         *   just in dbsf somfonf rfffrs to it. Rfbl thrfbds brf hbndlfd
+         *   during itfrbtf ovfr rfbdhbblf objfdts.
+         */
+        io_hfbp_root_thrfbd_objfdt(0, gdbtb->unknown_thrfbd_sfribl_num,
+                        trbdf_gft_sfribl_numbfr(gdbtb->systfm_trbdf_indfx));
+
+        /* Itfrbtf ovfr hfbp bnd gft thf rfbl stuff */
+        (void)mfmsft(&hfbpCbllbbdks, 0, sizfof(hfbpCbllbbdks));
+
+        /* Sflfdt dbllbbdks */
+        hfbpCbllbbdks.hfbp_rfffrfndf_dbllbbdk       = &dbRfffrfndf;
+        if ( gdbtb->primfiflds == JNI_TRUE ) {
+            hfbpCbllbbdks.primitivf_fifld_dbllbbdk  = &dbPrimFifldDbtb;
+        }
+        if ( gdbtb->primbrrbys == JNI_TRUE ) {
+            hfbpCbllbbdks.brrby_primitivf_vbluf_dbllbbdk  = &dbPrimArrbyDbtb;
+        }
+        followRfffrfndfs(&hfbpCbllbbdks, (void*)NULL);
+
+        /* Prodfss rfffrfndf informbtion. */
+        objfdt_rfffrfndf_dump(fnv);
+        objfdt_dlfbr_rfffrfndfs();
+        rfffrfndf_dlfbnup();
+
+        /* Dump thf lbst thrfbd trbdfs bnd gft thf lists bbdk wf nffd */
+        tls_dump_trbdfs(fnv);
+
+        /* Writf out footfr for hfbp dump */
+        io_hfbp_footfr();
+
+    } rbwMonitorExit(gdbtb->dbtb_bddfss_lodk);
+}

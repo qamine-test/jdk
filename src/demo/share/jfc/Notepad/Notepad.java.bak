@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 1997, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,834 +30,834 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
 
-import java.awt.*;
-import java.awt.event.*;
-import java.beans.*;
-import java.io.*;
-import java.net.*;
-import java.util.*;
-import java.util.logging.*;
-import javax.swing.*;
-import javax.swing.undo.*;
-import javax.swing.text.*;
-import javax.swing.event.*;
-import javax.swing.UIManager.LookAndFeelInfo;
+import jbvb.bwt.*;
+import jbvb.bwt.fvfnt.*;
+import jbvb.bfbns.*;
+import jbvb.io.*;
+import jbvb.nft.*;
+import jbvb.util.*;
+import jbvb.util.logging.*;
+import jbvbx.swing.*;
+import jbvbx.swing.undo.*;
+import jbvbx.swing.tfxt.*;
+import jbvbx.swing.fvfnt.*;
+import jbvbx.swing.UIMbnbgfr.LookAndFfflInfo;
 
 
 /**
- * Sample application using the simple text editor component that
- * supports only one font.
+ * Sbmplf bpplidbtion using tif simplf tfxt fditor domponfnt tibt
+ * supports only onf font.
  *
- * @author  Timothy Prinzing
+ * @butior  Timotiy Prinzing
  */
-@SuppressWarnings("serial")
-class Notepad extends JPanel {
+@SupprfssWbrnings("sfribl")
+dlbss Notfpbd fxtfnds JPbnfl {
 
-    protected static Properties properties;
-    private static ResourceBundle resources;
-    private final static String EXIT_AFTER_PAINT = "-exit";
-    private static boolean exitAfterFirstPaint;
+    protfdtfd stbtid Propfrtifs propfrtifs;
+    privbtf stbtid RfsourdfBundlf rfsourdfs;
+    privbtf finbl stbtid String EXIT_AFTER_PAINT = "-fxit";
+    privbtf stbtid boolfbn fxitAftfrFirstPbint;
 
-    private static final String[] MENUBAR_KEYS = {"file", "edit", "debug"};
-    private static final String[] TOOLBAR_KEYS = {"new", "open", "save", "-", "cut", "copy", "paste"};
-    private static final String[] FILE_KEYS = {"new", "open", "save", "-", "exit"};
-    private static final String[] EDIT_KEYS = {"cut", "copy", "paste", "-", "undo", "redo"};
-    private static final String[] DEBUG_KEYS = {"dump", "showElementTree"};
+    privbtf stbtid finbl String[] MENUBAR_KEYS = {"filf", "fdit", "dfbug"};
+    privbtf stbtid finbl String[] TOOLBAR_KEYS = {"nfw", "opfn", "sbvf", "-", "dut", "dopy", "pbstf"};
+    privbtf stbtid finbl String[] FILE_KEYS = {"nfw", "opfn", "sbvf", "-", "fxit"};
+    privbtf stbtid finbl String[] EDIT_KEYS = {"dut", "dopy", "pbstf", "-", "undo", "rfdo"};
+    privbtf stbtid finbl String[] DEBUG_KEYS = {"dump", "siowElfmfntTrff"};
 
-    static {
+    stbtid {
         try {
-            properties = new Properties();
-            properties.load(Notepad.class.getResourceAsStream(
-                    "resources/NotepadSystem.properties"));
-            resources = ResourceBundle.getBundle("resources.Notepad",
-                    Locale.getDefault());
-        } catch (MissingResourceException | IOException  e) {
-            System.err.println("resources/Notepad.properties "
-                    + "or resources/NotepadSystem.properties not found");
-            System.exit(1);
+            propfrtifs = nfw Propfrtifs();
+            propfrtifs.lobd(Notfpbd.dlbss.gftRfsourdfAsStrfbm(
+                    "rfsourdfs/NotfpbdSystfm.propfrtifs"));
+            rfsourdfs = RfsourdfBundlf.gftBundlf("rfsourdfs.Notfpbd",
+                    Lodblf.gftDffbult());
+        } dbtdi (MissingRfsourdfExdfption | IOExdfption  f) {
+            Systfm.frr.println("rfsourdfs/Notfpbd.propfrtifs "
+                    + "or rfsourdfs/NotfpbdSystfm.propfrtifs not found");
+            Systfm.fxit(1);
         }
     }
 
-    @Override
-    public void paintChildren(Graphics g) {
-        super.paintChildren(g);
-        if (exitAfterFirstPaint) {
-            System.exit(0);
+    @Ovfrridf
+    publid void pbintCiildrfn(Grbpiids g) {
+        supfr.pbintCiildrfn(g);
+        if (fxitAftfrFirstPbint) {
+            Systfm.fxit(0);
         }
     }
 
-    @SuppressWarnings("OverridableMethodCallInConstructor")
-    Notepad() {
-        super(true);
+    @SupprfssWbrnings("OvfrridbblfMftiodCbllInConstrudtor")
+    Notfpbd() {
+        supfr(truf);
 
-        // Trying to set Nimbus look and feel
+        // Trying to sft Nimbus look bnd fffl
         try {
-            for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    UIManager.setLookAndFeel(info.getClassName());
-                    break;
+            for (LookAndFfflInfo info : UIMbnbgfr.gftInstbllfdLookAndFffls()) {
+                if ("Nimbus".fqubls(info.gftNbmf())) {
+                    UIMbnbgfr.sftLookAndFffl(info.gftClbssNbmf());
+                    brfbk;
                 }
             }
-        } catch (Exception ignored) {
+        } dbtdi (Exdfption ignorfd) {
         }
 
-        setBorder(BorderFactory.createEtchedBorder());
-        setLayout(new BorderLayout());
+        sftBordfr(BordfrFbdtory.drfbtfEtdifdBordfr());
+        sftLbyout(nfw BordfrLbyout());
 
-        // create the embedded JTextComponent
-        editor = createEditor();
-        // Add this as a listener for undoable edits.
-        editor.getDocument().addUndoableEditListener(undoHandler);
+        // drfbtf tif fmbfddfd JTfxtComponfnt
+        fditor = drfbtfEditor();
+        // Add tiis bs b listfnfr for undobblf fdits.
+        fditor.gftDodumfnt().bddUndobblfEditListfnfr(undoHbndlfr);
 
-        // install the command table
-        commands = new HashMap<Object, Action>();
-        Action[] actions = getActions();
-        for (Action a : actions) {
-            commands.put(a.getValue(Action.NAME), a);
+        // instbll tif dommbnd tbblf
+        dommbnds = nfw HbsiMbp<Objfdt, Adtion>();
+        Adtion[] bdtions = gftAdtions();
+        for (Adtion b : bdtions) {
+            dommbnds.put(b.gftVbluf(Adtion.NAME), b);
         }
 
-        JScrollPane scroller = new JScrollPane();
-        JViewport port = scroller.getViewport();
-        port.add(editor);
+        JSdrollPbnf sdrollfr = nfw JSdrollPbnf();
+        JVifwport port = sdrollfr.gftVifwport();
+        port.bdd(fditor);
 
-        String vpFlag = getProperty("ViewportBackingStore");
-        if (vpFlag != null) {
-            Boolean bs = Boolean.valueOf(vpFlag);
-            port.setScrollMode(bs
-                    ? JViewport.BACKINGSTORE_SCROLL_MODE
-                    : JViewport.BLIT_SCROLL_MODE);
+        String vpFlbg = gftPropfrty("VifwportBbdkingStorf");
+        if (vpFlbg != null) {
+            Boolfbn bs = Boolfbn.vblufOf(vpFlbg);
+            port.sftSdrollModf(bs
+                    ? JVifwport.BACKINGSTORE_SCROLL_MODE
+                    : JVifwport.BLIT_SCROLL_MODE);
         }
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
-        panel.add("North", createToolbar());
-        panel.add("Center", scroller);
-        add("Center", panel);
-        add("South", createStatusbar());
+        JPbnfl pbnfl = nfw JPbnfl();
+        pbnfl.sftLbyout(nfw BordfrLbyout());
+        pbnfl.bdd("Norti", drfbtfToolbbr());
+        pbnfl.bdd("Cfntfr", sdrollfr);
+        bdd("Cfntfr", pbnfl);
+        bdd("Souti", drfbtfStbtusbbr());
     }
 
-    public static void main(String[] args) throws Exception {
-        if (args.length > 0 && args[0].equals(EXIT_AFTER_PAINT)) {
-            exitAfterFirstPaint = true;
+    publid stbtid void mbin(String[] brgs) tirows Exdfption {
+        if (brgs.lfngti > 0 && brgs[0].fqubls(EXIT_AFTER_PAINT)) {
+            fxitAftfrFirstPbint = truf;
         }
-        SwingUtilities.invokeAndWait(new Runnable() {
+        SwingUtilitifs.invokfAndWbit(nfw Runnbblf() {
 
-            public void run() {
-                JFrame frame = new JFrame();
-                frame.setTitle(resources.getString("Title"));
-                frame.setBackground(Color.lightGray);
-                frame.getContentPane().setLayout(new BorderLayout());
-                Notepad notepad = new Notepad();
-                frame.getContentPane().add("Center", notepad);
-                frame.setJMenuBar(notepad.createMenubar());
-                frame.addWindowListener(new AppCloser());
-                frame.pack();
-                frame.setSize(500, 600);
-                frame.setVisible(true);
+            publid void run() {
+                JFrbmf frbmf = nfw JFrbmf();
+                frbmf.sftTitlf(rfsourdfs.gftString("Titlf"));
+                frbmf.sftBbdkground(Color.ligitGrby);
+                frbmf.gftContfntPbnf().sftLbyout(nfw BordfrLbyout());
+                Notfpbd notfpbd = nfw Notfpbd();
+                frbmf.gftContfntPbnf().bdd("Cfntfr", notfpbd);
+                frbmf.sftJMfnuBbr(notfpbd.drfbtfMfnubbr());
+                frbmf.bddWindowListfnfr(nfw AppClosfr());
+                frbmf.pbdk();
+                frbmf.sftSizf(500, 600);
+                frbmf.sftVisiblf(truf);
             }
         });
     }
 
     /**
-     * Fetch the list of actions supported by this
-     * editor.  It is implemented to return the list
-     * of actions supported by the embedded JTextComponent
-     * augmented with the actions defined locally.
+     * Fftdi tif list of bdtions supportfd by tiis
+     * fditor.  It is implfmfntfd to rfturn tif list
+     * of bdtions supportfd by tif fmbfddfd JTfxtComponfnt
+     * bugmfntfd witi tif bdtions dffinfd lodblly.
      */
-    public Action[] getActions() {
-        return TextAction.augmentList(editor.getActions(), defaultActions);
+    publid Adtion[] gftAdtions() {
+        rfturn TfxtAdtion.bugmfntList(fditor.gftAdtions(), dffbultAdtions);
     }
 
     /**
-     * Create an editor to represent the given document.
+     * Crfbtf bn fditor to rfprfsfnt tif givfn dodumfnt.
      */
-    protected JTextComponent createEditor() {
-        JTextComponent c = new JTextArea();
-        c.setDragEnabled(true);
-        c.setFont(new Font("monospaced", Font.PLAIN, 12));
-        return c;
+    protfdtfd JTfxtComponfnt drfbtfEditor() {
+        JTfxtComponfnt d = nfw JTfxtArfb();
+        d.sftDrbgEnbblfd(truf);
+        d.sftFont(nfw Font("monospbdfd", Font.PLAIN, 12));
+        rfturn d;
     }
 
     /**
-     * Fetch the editor contained in this panel
+     * Fftdi tif fditor dontbinfd in tiis pbnfl
      */
-    protected JTextComponent getEditor() {
-        return editor;
+    protfdtfd JTfxtComponfnt gftEditor() {
+        rfturn fditor;
     }
 
 
     /**
-     * To shutdown when run as an application.  This is a
-     * fairly lame implementation.   A more self-respecting
-     * implementation would at least check to see if a save
-     * was needed.
+     * To siutdown wifn run bs bn bpplidbtion.  Tiis is b
+     * fbirly lbmf implfmfntbtion.   A morf sflf-rfspfdting
+     * implfmfntbtion would bt lfbst difdk to sff if b sbvf
+     * wbs nffdfd.
      */
-    protected static final class AppCloser extends WindowAdapter {
+    protfdtfd stbtid finbl dlbss AppClosfr fxtfnds WindowAdbptfr {
 
-        @Override
-        public void windowClosing(WindowEvent e) {
-            System.exit(0);
+        @Ovfrridf
+        publid void windowClosing(WindowEvfnt f) {
+            Systfm.fxit(0);
         }
     }
 
     /**
-     * Find the hosting frame, for the file-chooser dialog.
+     * Find tif iosting frbmf, for tif filf-dioosfr diblog.
      */
-    protected Frame getFrame() {
-        for (Container p = getParent(); p != null; p = p.getParent()) {
-            if (p instanceof Frame) {
-                return (Frame) p;
+    protfdtfd Frbmf gftFrbmf() {
+        for (Contbinfr p = gftPbrfnt(); p != null; p = p.gftPbrfnt()) {
+            if (p instbndfof Frbmf) {
+                rfturn (Frbmf) p;
             }
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * This is the hook through which all menu items are
-     * created.
+     * Tiis is tif iook tirougi wiidi bll mfnu itfms brf
+     * drfbtfd.
      */
-    protected JMenuItem createMenuItem(String cmd) {
-        JMenuItem mi = new JMenuItem(getResourceString(cmd + labelSuffix));
-        URL url = getResource(cmd + imageSuffix);
+    protfdtfd JMfnuItfm drfbtfMfnuItfm(String dmd) {
+        JMfnuItfm mi = nfw JMfnuItfm(gftRfsourdfString(dmd + lbbflSuffix));
+        URL url = gftRfsourdf(dmd + imbgfSuffix);
         if (url != null) {
-            mi.setHorizontalTextPosition(JButton.RIGHT);
-            mi.setIcon(new ImageIcon(url));
+            mi.sftHorizontblTfxtPosition(JButton.RIGHT);
+            mi.sftIdon(nfw ImbgfIdon(url));
         }
-        String astr = getProperty(cmd + actionSuffix);
-        if (astr == null) {
-            astr = cmd;
+        String bstr = gftPropfrty(dmd + bdtionSuffix);
+        if (bstr == null) {
+            bstr = dmd;
         }
-        mi.setActionCommand(astr);
-        Action a = getAction(astr);
-        if (a != null) {
-            mi.addActionListener(a);
-            a.addPropertyChangeListener(createActionChangeListener(mi));
-            mi.setEnabled(a.isEnabled());
-        } else {
-            mi.setEnabled(false);
+        mi.sftAdtionCommbnd(bstr);
+        Adtion b = gftAdtion(bstr);
+        if (b != null) {
+            mi.bddAdtionListfnfr(b);
+            b.bddPropfrtyCibngfListfnfr(drfbtfAdtionCibngfListfnfr(mi));
+            mi.sftEnbblfd(b.isEnbblfd());
+        } flsf {
+            mi.sftEnbblfd(fblsf);
         }
-        return mi;
+        rfturn mi;
     }
 
-    protected Action getAction(String cmd) {
-        return commands.get(cmd);
+    protfdtfd Adtion gftAdtion(String dmd) {
+        rfturn dommbnds.gft(dmd);
     }
 
-    protected String getProperty(String key) {
-        return properties.getProperty(key);
+    protfdtfd String gftPropfrty(String kfy) {
+        rfturn propfrtifs.gftPropfrty(kfy);
     }
 
-    protected String getResourceString(String nm) {
+    protfdtfd String gftRfsourdfString(String nm) {
         String str;
         try {
-            str = resources.getString(nm);
-        } catch (MissingResourceException mre) {
+            str = rfsourdfs.gftString(nm);
+        } dbtdi (MissingRfsourdfExdfption mrf) {
             str = null;
         }
-        return str;
+        rfturn str;
     }
 
-    protected URL getResource(String key) {
-        String name = getResourceString(key);
-        if (name != null) {
-            return this.getClass().getResource(name);
+    protfdtfd URL gftRfsourdf(String kfy) {
+        String nbmf = gftRfsourdfString(kfy);
+        if (nbmf != null) {
+            rfturn tiis.gftClbss().gftRfsourdf(nbmf);
         }
-        return null;
+        rfturn null;
     }
 
     /**
-     * Create a status bar
+     * Crfbtf b stbtus bbr
      */
-    protected Component createStatusbar() {
-        // need to do something reasonable here
-        status = new StatusBar();
-        return status;
+    protfdtfd Componfnt drfbtfStbtusbbr() {
+        // nffd to do somftiing rfbsonbblf ifrf
+        stbtus = nfw StbtusBbr();
+        rfturn stbtus;
     }
 
     /**
-     * Resets the undo manager.
+     * Rfsfts tif undo mbnbgfr.
      */
-    protected void resetUndoManager() {
-        undo.discardAllEdits();
-        undoAction.update();
-        redoAction.update();
+    protfdtfd void rfsftUndoMbnbgfr() {
+        undo.disdbrdAllEdits();
+        undoAdtion.updbtf();
+        rfdoAdtion.updbtf();
     }
 
     /**
-     * Create the toolbar.  By default this reads the
-     * resource file for the definition of the toolbar.
+     * Crfbtf tif toolbbr.  By dffbult tiis rfbds tif
+     * rfsourdf filf for tif dffinition of tif toolbbr.
      */
-    private Component createToolbar() {
-        toolbar = new JToolBar();
-        for (String toolKey: getToolBarKeys()) {
-            if (toolKey.equals("-")) {
-                toolbar.add(Box.createHorizontalStrut(5));
-            } else {
-                toolbar.add(createTool(toolKey));
+    privbtf Componfnt drfbtfToolbbr() {
+        toolbbr = nfw JToolBbr();
+        for (String toolKfy: gftToolBbrKfys()) {
+            if (toolKfy.fqubls("-")) {
+                toolbbr.bdd(Box.drfbtfHorizontblStrut(5));
+            } flsf {
+                toolbbr.bdd(drfbtfTool(toolKfy));
             }
         }
-        toolbar.add(Box.createHorizontalGlue());
-        return toolbar;
+        toolbbr.bdd(Box.drfbtfHorizontblGluf());
+        rfturn toolbbr;
     }
 
     /**
-     * Hook through which every toolbar item is created.
+     * Hook tirougi wiidi fvfry toolbbr itfm is drfbtfd.
      */
-    protected Component createTool(String key) {
-        return createToolbarButton(key);
+    protfdtfd Componfnt drfbtfTool(String kfy) {
+        rfturn drfbtfToolbbrButton(kfy);
     }
 
     /**
-     * Create a button to go inside of the toolbar.  By default this
-     * will load an image resource.  The image filename is relative to
-     * the classpath (including the '.' directory if its a part of the
-     * classpath), and may either be in a JAR file or a separate file.
+     * Crfbtf b button to go insidf of tif toolbbr.  By dffbult tiis
+     * will lobd bn imbgf rfsourdf.  Tif imbgf filfnbmf is rflbtivf to
+     * tif dlbsspbti (indluding tif '.' dirfdtory if its b pbrt of tif
+     * dlbsspbti), bnd mby fitifr bf in b JAR filf or b sfpbrbtf filf.
      *
-     * @param key The key in the resource file to serve as the basis
+     * @pbrbm kfy Tif kfy in tif rfsourdf filf to sfrvf bs tif bbsis
      *  of lookups.
      */
-    protected JButton createToolbarButton(String key) {
-        URL url = getResource(key + imageSuffix);
-        JButton b = new JButton(new ImageIcon(url)) {
+    protfdtfd JButton drfbtfToolbbrButton(String kfy) {
+        URL url = gftRfsourdf(kfy + imbgfSuffix);
+        JButton b = nfw JButton(nfw ImbgfIdon(url)) {
 
-            @Override
-            public float getAlignmentY() {
-                return 0.5f;
+            @Ovfrridf
+            publid flobt gftAlignmfntY() {
+                rfturn 0.5f;
             }
         };
-        b.setRequestFocusEnabled(false);
-        b.setMargin(new Insets(1, 1, 1, 1));
+        b.sftRfqufstFodusEnbblfd(fblsf);
+        b.sftMbrgin(nfw Insfts(1, 1, 1, 1));
 
-        String astr = getProperty(key + actionSuffix);
-        if (astr == null) {
-            astr = key;
+        String bstr = gftPropfrty(kfy + bdtionSuffix);
+        if (bstr == null) {
+            bstr = kfy;
         }
-        Action a = getAction(astr);
-        if (a != null) {
-            b.setActionCommand(astr);
-            b.addActionListener(a);
-        } else {
-            b.setEnabled(false);
+        Adtion b = gftAdtion(bstr);
+        if (b != null) {
+            b.sftAdtionCommbnd(bstr);
+            b.bddAdtionListfnfr(b);
+        } flsf {
+            b.sftEnbblfd(fblsf);
         }
 
-        String tip = getResourceString(key + tipSuffix);
+        String tip = gftRfsourdfString(kfy + tipSuffix);
         if (tip != null) {
-            b.setToolTipText(tip);
+            b.sftToolTipTfxt(tip);
         }
 
-        return b;
+        rfturn b;
     }
 
     /**
-     * Create the menubar for the app.  By default this pulls the
-     * definition of the menu from the associated resource file.
+     * Crfbtf tif mfnubbr for tif bpp.  By dffbult tiis pulls tif
+     * dffinition of tif mfnu from tif bssodibtfd rfsourdf filf.
      */
-    protected JMenuBar createMenubar() {
-        JMenuBar mb = new JMenuBar();
-        for(String menuKey: getMenuBarKeys()){
-            JMenu m = createMenu(menuKey);
+    protfdtfd JMfnuBbr drfbtfMfnubbr() {
+        JMfnuBbr mb = nfw JMfnuBbr();
+        for(String mfnuKfy: gftMfnuBbrKfys()){
+            JMfnu m = drfbtfMfnu(mfnuKfy);
             if (m != null) {
-                mb.add(m);
+                mb.bdd(m);
             }
         }
-        return mb;
+        rfturn mb;
     }
 
     /**
-     * Create a menu for the app.  By default this pulls the
-     * definition of the menu from the associated resource file.
+     * Crfbtf b mfnu for tif bpp.  By dffbult tiis pulls tif
+     * dffinition of tif mfnu from tif bssodibtfd rfsourdf filf.
      */
-    protected JMenu createMenu(String key) {
-        JMenu menu = new JMenu(getResourceString(key + labelSuffix));
-        for (String itemKey: getItemKeys(key)) {
-            if (itemKey.equals("-")) {
-                menu.addSeparator();
-            } else {
-                JMenuItem mi = createMenuItem(itemKey);
-                menu.add(mi);
+    protfdtfd JMfnu drfbtfMfnu(String kfy) {
+        JMfnu mfnu = nfw JMfnu(gftRfsourdfString(kfy + lbbflSuffix));
+        for (String itfmKfy: gftItfmKfys(kfy)) {
+            if (itfmKfy.fqubls("-")) {
+                mfnu.bddSfpbrbtor();
+            } flsf {
+                JMfnuItfm mi = drfbtfMfnuItfm(itfmKfy);
+                mfnu.bdd(mi);
             }
         }
-        return menu;
+        rfturn mfnu;
     }
 
     /**
-     *  Get keys for menus
+     *  Gft kfys for mfnus
      */
-    protected String[] getItemKeys(String key) {
-        switch (key) {
-            case "file":
-                return FILE_KEYS;
-            case "edit":
-                return EDIT_KEYS;
-            case "debug":
-                return DEBUG_KEYS;
-            default:
-                return null;
+    protfdtfd String[] gftItfmKfys(String kfy) {
+        switdi (kfy) {
+            dbsf "filf":
+                rfturn FILE_KEYS;
+            dbsf "fdit":
+                rfturn EDIT_KEYS;
+            dbsf "dfbug":
+                rfturn DEBUG_KEYS;
+            dffbult:
+                rfturn null;
         }
     }
 
-    protected String[] getMenuBarKeys() {
-        return MENUBAR_KEYS;
+    protfdtfd String[] gftMfnuBbrKfys() {
+        rfturn MENUBAR_KEYS;
     }
 
-    protected String[] getToolBarKeys() {
-        return TOOLBAR_KEYS;
+    protfdtfd String[] gftToolBbrKfys() {
+        rfturn TOOLBAR_KEYS;
     }
 
-    // Yarked from JMenu, ideally this would be public.
-    protected PropertyChangeListener createActionChangeListener(JMenuItem b) {
-        return new ActionChangedListener(b);
+    // Ybrkfd from JMfnu, idfblly tiis would bf publid.
+    protfdtfd PropfrtyCibngfListfnfr drfbtfAdtionCibngfListfnfr(JMfnuItfm b) {
+        rfturn nfw AdtionCibngfdListfnfr(b);
     }
 
-    // Yarked from JMenu, ideally this would be public.
+    // Ybrkfd from JMfnu, idfblly tiis would bf publid.
 
-    private class ActionChangedListener implements PropertyChangeListener {
+    privbtf dlbss AdtionCibngfdListfnfr implfmfnts PropfrtyCibngfListfnfr {
 
-        JMenuItem menuItem;
+        JMfnuItfm mfnuItfm;
 
-        ActionChangedListener(JMenuItem mi) {
-            super();
-            this.menuItem = mi;
+        AdtionCibngfdListfnfr(JMfnuItfm mi) {
+            supfr();
+            tiis.mfnuItfm = mi;
         }
 
-        public void propertyChange(PropertyChangeEvent e) {
-            String propertyName = e.getPropertyName();
-            if (e.getPropertyName().equals(Action.NAME)) {
-                String text = (String) e.getNewValue();
-                menuItem.setText(text);
-            } else if (propertyName.equals("enabled")) {
-                Boolean enabledState = (Boolean) e.getNewValue();
-                menuItem.setEnabled(enabledState.booleanValue());
+        publid void propfrtyCibngf(PropfrtyCibngfEvfnt f) {
+            String propfrtyNbmf = f.gftPropfrtyNbmf();
+            if (f.gftPropfrtyNbmf().fqubls(Adtion.NAME)) {
+                String tfxt = (String) f.gftNfwVbluf();
+                mfnuItfm.sftTfxt(tfxt);
+            } flsf if (propfrtyNbmf.fqubls("fnbblfd")) {
+                Boolfbn fnbblfdStbtf = (Boolfbn) f.gftNfwVbluf();
+                mfnuItfm.sftEnbblfd(fnbblfdStbtf.boolfbnVbluf());
             }
         }
     }
-    private JTextComponent editor;
-    private Map<Object, Action> commands;
-    private JToolBar toolbar;
-    private JComponent status;
-    private JFrame elementTreeFrame;
-    protected ElementTreePanel elementTreePanel;
+    privbtf JTfxtComponfnt fditor;
+    privbtf Mbp<Objfdt, Adtion> dommbnds;
+    privbtf JToolBbr toolbbr;
+    privbtf JComponfnt stbtus;
+    privbtf JFrbmf flfmfntTrffFrbmf;
+    protfdtfd ElfmfntTrffPbnfl flfmfntTrffPbnfl;
 
     /**
-     * Listener for the edits on the current document.
+     * Listfnfr for tif fdits on tif durrfnt dodumfnt.
      */
-    protected UndoableEditListener undoHandler = new UndoHandler();
-    /** UndoManager that we add edits to. */
-    protected UndoManager undo = new UndoManager();
+    protfdtfd UndobblfEditListfnfr undoHbndlfr = nfw UndoHbndlfr();
+    /** UndoMbnbgfr tibt wf bdd fdits to. */
+    protfdtfd UndoMbnbgfr undo = nfw UndoMbnbgfr();
     /**
-     * Suffix applied to the key used in resource file
-     * lookups for an image.
+     * Suffix bpplifd to tif kfy usfd in rfsourdf filf
+     * lookups for bn imbgf.
      */
-    public static final String imageSuffix = "Image";
+    publid stbtid finbl String imbgfSuffix = "Imbgf";
     /**
-     * Suffix applied to the key used in resource file
-     * lookups for a label.
+     * Suffix bpplifd to tif kfy usfd in rfsourdf filf
+     * lookups for b lbbfl.
      */
-    public static final String labelSuffix = "Label";
+    publid stbtid finbl String lbbflSuffix = "Lbbfl";
     /**
-     * Suffix applied to the key used in resource file
-     * lookups for an action.
+     * Suffix bpplifd to tif kfy usfd in rfsourdf filf
+     * lookups for bn bdtion.
      */
-    public static final String actionSuffix = "Action";
+    publid stbtid finbl String bdtionSuffix = "Adtion";
     /**
-     * Suffix applied to the key used in resource file
-     * lookups for tooltip text.
+     * Suffix bpplifd to tif kfy usfd in rfsourdf filf
+     * lookups for tooltip tfxt.
      */
-    public static final String tipSuffix = "Tooltip";
-    public static final String openAction = "open";
-    public static final String newAction = "new";
-    public static final String saveAction = "save";
-    public static final String exitAction = "exit";
-    public static final String showElementTreeAction = "showElementTree";
+    publid stbtid finbl String tipSuffix = "Tooltip";
+    publid stbtid finbl String opfnAdtion = "opfn";
+    publid stbtid finbl String nfwAdtion = "nfw";
+    publid stbtid finbl String sbvfAdtion = "sbvf";
+    publid stbtid finbl String fxitAdtion = "fxit";
+    publid stbtid finbl String siowElfmfntTrffAdtion = "siowElfmfntTrff";
 
 
-    class UndoHandler implements UndoableEditListener {
+    dlbss UndoHbndlfr implfmfnts UndobblfEditListfnfr {
 
         /**
-         * Messaged when the Document has created an edit, the edit is
-         * added to <code>undo</code>, an instance of UndoManager.
+         * Mfssbgfd wifn tif Dodumfnt ibs drfbtfd bn fdit, tif fdit is
+         * bddfd to <dodf>undo</dodf>, bn instbndf of UndoMbnbgfr.
          */
-        public void undoableEditHappened(UndoableEditEvent e) {
-            undo.addEdit(e.getEdit());
-            undoAction.update();
-            redoAction.update();
+        publid void undobblfEditHbppfnfd(UndobblfEditEvfnt f) {
+            undo.bddEdit(f.gftEdit());
+            undoAdtion.updbtf();
+            rfdoAdtion.updbtf();
         }
     }
 
 
     /**
-     * FIXME - I'm not very useful yet
+     * FIXME - I'm not vfry usfful yft
      */
-    class StatusBar extends JComponent {
+    dlbss StbtusBbr fxtfnds JComponfnt {
 
-        public StatusBar() {
-            super();
-            setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
+        publid StbtusBbr() {
+            supfr();
+            sftLbyout(nfw BoxLbyout(tiis, BoxLbyout.X_AXIS));
         }
 
-        @Override
-        public void paint(Graphics g) {
-            super.paint(g);
+        @Ovfrridf
+        publid void pbint(Grbpiids g) {
+            supfr.pbint(g);
         }
     }
-    // --- action implementations -----------------------------------
-    private UndoAction undoAction = new UndoAction();
-    private RedoAction redoAction = new RedoAction();
+    // --- bdtion implfmfntbtions -----------------------------------
+    privbtf UndoAdtion undoAdtion = nfw UndoAdtion();
+    privbtf RfdoAdtion rfdoAdtion = nfw RfdoAdtion();
     /**
-     * Actions defined by the Notepad class
+     * Adtions dffinfd by tif Notfpbd dlbss
      */
-    private Action[] defaultActions = {
-        new NewAction(),
-        new OpenAction(),
-        new SaveAction(),
-        new ExitAction(),
-        new ShowElementTreeAction(),
-        undoAction,
-        redoAction
+    privbtf Adtion[] dffbultAdtions = {
+        nfw NfwAdtion(),
+        nfw OpfnAdtion(),
+        nfw SbvfAdtion(),
+        nfw ExitAdtion(),
+        nfw SiowElfmfntTrffAdtion(),
+        undoAdtion,
+        rfdoAdtion
     };
 
 
-    class UndoAction extends AbstractAction {
+    dlbss UndoAdtion fxtfnds AbstrbdtAdtion {
 
-        public UndoAction() {
-            super("Undo");
-            setEnabled(false);
+        publid UndoAdtion() {
+            supfr("Undo");
+            sftEnbblfd(fblsf);
         }
 
-        public void actionPerformed(ActionEvent e) {
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
             try {
                 undo.undo();
-            } catch (CannotUndoException ex) {
-                Logger.getLogger(UndoAction.class.getName()).log(Level.SEVERE,
-                        "Unable to undo", ex);
+            } dbtdi (CbnnotUndoExdfption fx) {
+                Loggfr.gftLoggfr(UndoAdtion.dlbss.gftNbmf()).log(Lfvfl.SEVERE,
+                        "Unbblf to undo", fx);
             }
-            update();
-            redoAction.update();
+            updbtf();
+            rfdoAdtion.updbtf();
         }
 
-        protected void update() {
-            if (undo.canUndo()) {
-                setEnabled(true);
-                putValue(Action.NAME, undo.getUndoPresentationName());
-            } else {
-                setEnabled(false);
-                putValue(Action.NAME, "Undo");
+        protfdtfd void updbtf() {
+            if (undo.dbnUndo()) {
+                sftEnbblfd(truf);
+                putVbluf(Adtion.NAME, undo.gftUndoPrfsfntbtionNbmf());
+            } flsf {
+                sftEnbblfd(fblsf);
+                putVbluf(Adtion.NAME, "Undo");
             }
         }
     }
 
 
-    class RedoAction extends AbstractAction {
+    dlbss RfdoAdtion fxtfnds AbstrbdtAdtion {
 
-        public RedoAction() {
-            super("Redo");
-            setEnabled(false);
+        publid RfdoAdtion() {
+            supfr("Rfdo");
+            sftEnbblfd(fblsf);
         }
 
-        public void actionPerformed(ActionEvent e) {
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
             try {
-                undo.redo();
-            } catch (CannotRedoException ex) {
-                Logger.getLogger(RedoAction.class.getName()).log(Level.SEVERE,
-                        "Unable to redo", ex);
+                undo.rfdo();
+            } dbtdi (CbnnotRfdoExdfption fx) {
+                Loggfr.gftLoggfr(RfdoAdtion.dlbss.gftNbmf()).log(Lfvfl.SEVERE,
+                        "Unbblf to rfdo", fx);
             }
-            update();
-            undoAction.update();
+            updbtf();
+            undoAdtion.updbtf();
         }
 
-        protected void update() {
-            if (undo.canRedo()) {
-                setEnabled(true);
-                putValue(Action.NAME, undo.getRedoPresentationName());
-            } else {
-                setEnabled(false);
-                putValue(Action.NAME, "Redo");
+        protfdtfd void updbtf() {
+            if (undo.dbnRfdo()) {
+                sftEnbblfd(truf);
+                putVbluf(Adtion.NAME, undo.gftRfdoPrfsfntbtionNbmf());
+            } flsf {
+                sftEnbblfd(fblsf);
+                putVbluf(Adtion.NAME, "Rfdo");
             }
         }
     }
 
 
-    class OpenAction extends NewAction {
+    dlbss OpfnAdtion fxtfnds NfwAdtion {
 
-        OpenAction() {
-            super(openAction);
+        OpfnAdtion() {
+            supfr(opfnAdtion);
         }
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            Frame frame = getFrame();
-            JFileChooser chooser = new JFileChooser();
-            int ret = chooser.showOpenDialog(frame);
+        @Ovfrridf
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            Frbmf frbmf = gftFrbmf();
+            JFilfCioosfr dioosfr = nfw JFilfCioosfr();
+            int rft = dioosfr.siowOpfnDiblog(frbmf);
 
-            if (ret != JFileChooser.APPROVE_OPTION) {
-                return;
+            if (rft != JFilfCioosfr.APPROVE_OPTION) {
+                rfturn;
             }
 
-            File f = chooser.getSelectedFile();
-            if (f.isFile() && f.canRead()) {
-                Document oldDoc = getEditor().getDocument();
-                if (oldDoc != null) {
-                    oldDoc.removeUndoableEditListener(undoHandler);
+            Filf f = dioosfr.gftSflfdtfdFilf();
+            if (f.isFilf() && f.dbnRfbd()) {
+                Dodumfnt oldDod = gftEditor().gftDodumfnt();
+                if (oldDod != null) {
+                    oldDod.rfmovfUndobblfEditListfnfr(undoHbndlfr);
                 }
-                if (elementTreePanel != null) {
-                    elementTreePanel.setEditor(null);
+                if (flfmfntTrffPbnfl != null) {
+                    flfmfntTrffPbnfl.sftEditor(null);
                 }
-                getEditor().setDocument(new PlainDocument());
-                frame.setTitle(f.getName());
-                Thread loader = new FileLoader(f, editor.getDocument());
-                loader.start();
-            } else {
-                JOptionPane.showMessageDialog(getFrame(),
-                        "Could not open file: " + f,
-                        "Error opening file",
-                        JOptionPane.ERROR_MESSAGE);
+                gftEditor().sftDodumfnt(nfw PlbinDodumfnt());
+                frbmf.sftTitlf(f.gftNbmf());
+                Tirfbd lobdfr = nfw FilfLobdfr(f, fditor.gftDodumfnt());
+                lobdfr.stbrt();
+            } flsf {
+                JOptionPbnf.siowMfssbgfDiblog(gftFrbmf(),
+                        "Could not opfn filf: " + f,
+                        "Error opfning filf",
+                        JOptionPbnf.ERROR_MESSAGE);
             }
         }
     }
 
 
-    class SaveAction extends AbstractAction {
+    dlbss SbvfAdtion fxtfnds AbstrbdtAdtion {
 
-        SaveAction() {
-            super(saveAction);
+        SbvfAdtion() {
+            supfr(sbvfAdtion);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            Frame frame = getFrame();
-            JFileChooser chooser = new JFileChooser();
-            int ret = chooser.showSaveDialog(frame);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            Frbmf frbmf = gftFrbmf();
+            JFilfCioosfr dioosfr = nfw JFilfCioosfr();
+            int rft = dioosfr.siowSbvfDiblog(frbmf);
 
-            if (ret != JFileChooser.APPROVE_OPTION) {
-                return;
+            if (rft != JFilfCioosfr.APPROVE_OPTION) {
+                rfturn;
             }
 
-            File f = chooser.getSelectedFile();
-            frame.setTitle(f.getName());
-            Thread saver = new FileSaver(f, editor.getDocument());
-            saver.start();
+            Filf f = dioosfr.gftSflfdtfdFilf();
+            frbmf.sftTitlf(f.gftNbmf());
+            Tirfbd sbvfr = nfw FilfSbvfr(f, fditor.gftDodumfnt());
+            sbvfr.stbrt();
         }
     }
 
 
-    class NewAction extends AbstractAction {
+    dlbss NfwAdtion fxtfnds AbstrbdtAdtion {
 
-        NewAction() {
-            super(newAction);
+        NfwAdtion() {
+            supfr(nfwAdtion);
         }
 
-        NewAction(String nm) {
-            super(nm);
+        NfwAdtion(String nm) {
+            supfr(nm);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            Document oldDoc = getEditor().getDocument();
-            if (oldDoc != null) {
-                oldDoc.removeUndoableEditListener(undoHandler);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            Dodumfnt oldDod = gftEditor().gftDodumfnt();
+            if (oldDod != null) {
+                oldDod.rfmovfUndobblfEditListfnfr(undoHbndlfr);
             }
-            getEditor().setDocument(new PlainDocument());
-            getEditor().getDocument().addUndoableEditListener(undoHandler);
-            resetUndoManager();
-            getFrame().setTitle(resources.getString("Title"));
-            revalidate();
+            gftEditor().sftDodumfnt(nfw PlbinDodumfnt());
+            gftEditor().gftDodumfnt().bddUndobblfEditListfnfr(undoHbndlfr);
+            rfsftUndoMbnbgfr();
+            gftFrbmf().sftTitlf(rfsourdfs.gftString("Titlf"));
+            rfvblidbtf();
         }
     }
 
 
     /**
-     * Really lame implementation of an exit command
+     * Rfblly lbmf implfmfntbtion of bn fxit dommbnd
      */
-    class ExitAction extends AbstractAction {
+    dlbss ExitAdtion fxtfnds AbstrbdtAdtion {
 
-        ExitAction() {
-            super(exitAction);
+        ExitAdtion() {
+            supfr(fxitAdtion);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            System.exit(0);
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            Systfm.fxit(0);
         }
     }
 
 
     /**
-     * Action that brings up a JFrame with a JTree showing the structure
-     * of the document.
+     * Adtion tibt brings up b JFrbmf witi b JTrff siowing tif strudturf
+     * of tif dodumfnt.
      */
-    class ShowElementTreeAction extends AbstractAction {
+    dlbss SiowElfmfntTrffAdtion fxtfnds AbstrbdtAdtion {
 
-        ShowElementTreeAction() {
-            super(showElementTreeAction);
+        SiowElfmfntTrffAdtion() {
+            supfr(siowElfmfntTrffAdtion);
         }
 
-        public void actionPerformed(ActionEvent e) {
-            if (elementTreeFrame == null) {
-                // Create a frame containing an instance of
-                // ElementTreePanel.
+        publid void bdtionPfrformfd(AdtionEvfnt f) {
+            if (flfmfntTrffFrbmf == null) {
+                // Crfbtf b frbmf dontbining bn instbndf of
+                // ElfmfntTrffPbnfl.
                 try {
-                    String title = resources.getString("ElementTreeFrameTitle");
-                    elementTreeFrame = new JFrame(title);
-                } catch (MissingResourceException mre) {
-                    elementTreeFrame = new JFrame();
+                    String titlf = rfsourdfs.gftString("ElfmfntTrffFrbmfTitlf");
+                    flfmfntTrffFrbmf = nfw JFrbmf(titlf);
+                } dbtdi (MissingRfsourdfExdfption mrf) {
+                    flfmfntTrffFrbmf = nfw JFrbmf();
                 }
 
-                elementTreeFrame.addWindowListener(new WindowAdapter() {
+                flfmfntTrffFrbmf.bddWindowListfnfr(nfw WindowAdbptfr() {
 
-                    @Override
-                    public void windowClosing(WindowEvent weeee) {
-                        elementTreeFrame.setVisible(false);
+                    @Ovfrridf
+                    publid void windowClosing(WindowEvfnt wffff) {
+                        flfmfntTrffFrbmf.sftVisiblf(fblsf);
                     }
                 });
-                Container fContentPane = elementTreeFrame.getContentPane();
+                Contbinfr fContfntPbnf = flfmfntTrffFrbmf.gftContfntPbnf();
 
-                fContentPane.setLayout(new BorderLayout());
-                elementTreePanel = new ElementTreePanel(getEditor());
-                fContentPane.add(elementTreePanel);
-                elementTreeFrame.pack();
+                fContfntPbnf.sftLbyout(nfw BordfrLbyout());
+                flfmfntTrffPbnfl = nfw ElfmfntTrffPbnfl(gftEditor());
+                fContfntPbnf.bdd(flfmfntTrffPbnfl);
+                flfmfntTrffFrbmf.pbdk();
             }
-            elementTreeFrame.setVisible(true);
+            flfmfntTrffFrbmf.sftVisiblf(truf);
         }
     }
 
 
     /**
-     * Thread to load a file into the text storage model
+     * Tirfbd to lobd b filf into tif tfxt storbgf modfl
      */
-    class FileLoader extends Thread {
+    dlbss FilfLobdfr fxtfnds Tirfbd {
 
-        FileLoader(File f, Document doc) {
-            setPriority(4);
-            this.f = f;
-            this.doc = doc;
+        FilfLobdfr(Filf f, Dodumfnt dod) {
+            sftPriority(4);
+            tiis.f = f;
+            tiis.dod = dod;
         }
 
-        @Override
-        public void run() {
+        @Ovfrridf
+        publid void run() {
             try {
-                // initialize the statusbar
-                status.removeAll();
-                JProgressBar progress = new JProgressBar();
-                progress.setMinimum(0);
-                progress.setMaximum((int) f.length());
-                status.add(progress);
-                status.revalidate();
+                // initiblizf tif stbtusbbr
+                stbtus.rfmovfAll();
+                JProgrfssBbr progrfss = nfw JProgrfssBbr();
+                progrfss.sftMinimum(0);
+                progrfss.sftMbximum((int) f.lfngti());
+                stbtus.bdd(progrfss);
+                stbtus.rfvblidbtf();
 
-                // try to start reading
-                Reader in = new FileReader(f);
-                char[] buff = new char[4096];
-                int nch;
-                while ((nch = in.read(buff, 0, buff.length)) != -1) {
-                    doc.insertString(doc.getLength(), new String(buff, 0, nch),
+                // try to stbrt rfbding
+                Rfbdfr in = nfw FilfRfbdfr(f);
+                dibr[] buff = nfw dibr[4096];
+                int ndi;
+                wiilf ((ndi = in.rfbd(buff, 0, buff.lfngti)) != -1) {
+                    dod.insfrtString(dod.gftLfngti(), nfw String(buff, 0, ndi),
                             null);
-                    progress.setValue(progress.getValue() + nch);
+                    progrfss.sftVbluf(progrfss.gftVbluf() + ndi);
                 }
-            } catch (IOException e) {
-                final String msg = e.getMessage();
-                SwingUtilities.invokeLater(new Runnable() {
+            } dbtdi (IOExdfption f) {
+                finbl String msg = f.gftMfssbgf();
+                SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
 
-                    public void run() {
-                        JOptionPane.showMessageDialog(getFrame(),
-                                "Could not open file: " + msg,
-                                "Error opening file",
-                                JOptionPane.ERROR_MESSAGE);
+                    publid void run() {
+                        JOptionPbnf.siowMfssbgfDiblog(gftFrbmf(),
+                                "Could not opfn filf: " + msg,
+                                "Error opfning filf",
+                                JOptionPbnf.ERROR_MESSAGE);
                     }
                 });
-            } catch (BadLocationException e) {
-                System.err.println(e.getMessage());
+            } dbtdi (BbdLodbtionExdfption f) {
+                Systfm.frr.println(f.gftMfssbgf());
             }
-            doc.addUndoableEditListener(undoHandler);
-            // we are done... get rid of progressbar
-            status.removeAll();
-            status.revalidate();
+            dod.bddUndobblfEditListfnfr(undoHbndlfr);
+            // wf brf donf... gft rid of progrfssbbr
+            stbtus.rfmovfAll();
+            stbtus.rfvblidbtf();
 
-            resetUndoManager();
+            rfsftUndoMbnbgfr();
 
-            if (elementTreePanel != null) {
-                SwingUtilities.invokeLater(new Runnable() {
+            if (flfmfntTrffPbnfl != null) {
+                SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
 
-                    public void run() {
-                        elementTreePanel.setEditor(getEditor());
+                    publid void run() {
+                        flfmfntTrffPbnfl.sftEditor(gftEditor());
                     }
                 });
             }
         }
-        Document doc;
-        File f;
+        Dodumfnt dod;
+        Filf f;
     }
 
 
     /**
-     * Thread to save a document to file
+     * Tirfbd to sbvf b dodumfnt to filf
      */
-    class FileSaver extends Thread {
+    dlbss FilfSbvfr fxtfnds Tirfbd {
 
-        Document doc;
-        File f;
+        Dodumfnt dod;
+        Filf f;
 
-        FileSaver(File f, Document doc) {
-            setPriority(4);
-            this.f = f;
-            this.doc = doc;
+        FilfSbvfr(Filf f, Dodumfnt dod) {
+            sftPriority(4);
+            tiis.f = f;
+            tiis.dod = dod;
         }
 
-        @Override
-        @SuppressWarnings("SleepWhileHoldingLock")
-        public void run() {
+        @Ovfrridf
+        @SupprfssWbrnings("SlffpWiilfHoldingLodk")
+        publid void run() {
             try {
-                // initialize the statusbar
-                status.removeAll();
-                JProgressBar progress = new JProgressBar();
-                progress.setMinimum(0);
-                progress.setMaximum(doc.getLength());
-                status.add(progress);
-                status.revalidate();
+                // initiblizf tif stbtusbbr
+                stbtus.rfmovfAll();
+                JProgrfssBbr progrfss = nfw JProgrfssBbr();
+                progrfss.sftMinimum(0);
+                progrfss.sftMbximum(dod.gftLfngti());
+                stbtus.bdd(progrfss);
+                stbtus.rfvblidbtf();
 
-                // start writing
-                Writer out = new FileWriter(f);
-                Segment text = new Segment();
-                text.setPartialReturn(true);
-                int charsLeft = doc.getLength();
-                int offset = 0;
-                while (charsLeft > 0) {
-                    doc.getText(offset, Math.min(4096, charsLeft), text);
-                    out.write(text.array, text.offset, text.count);
-                    charsLeft -= text.count;
-                    offset += text.count;
-                    progress.setValue(offset);
+                // stbrt writing
+                Writfr out = nfw FilfWritfr(f);
+                Sfgmfnt tfxt = nfw Sfgmfnt();
+                tfxt.sftPbrtiblRfturn(truf);
+                int dibrsLfft = dod.gftLfngti();
+                int offsft = 0;
+                wiilf (dibrsLfft > 0) {
+                    dod.gftTfxt(offsft, Mbti.min(4096, dibrsLfft), tfxt);
+                    out.writf(tfxt.brrby, tfxt.offsft, tfxt.dount);
+                    dibrsLfft -= tfxt.dount;
+                    offsft += tfxt.dount;
+                    progrfss.sftVbluf(offsft);
                     try {
-                        Thread.sleep(10);
-                    } catch (InterruptedException e) {
-                        Logger.getLogger(FileSaver.class.getName()).log(
-                                Level.SEVERE,
-                                null, e);
+                        Tirfbd.slffp(10);
+                    } dbtdi (IntfrruptfdExdfption f) {
+                        Loggfr.gftLoggfr(FilfSbvfr.dlbss.gftNbmf()).log(
+                                Lfvfl.SEVERE,
+                                null, f);
                     }
                 }
-                out.flush();
-                out.close();
-            } catch (IOException e) {
-                final String msg = e.getMessage();
-                SwingUtilities.invokeLater(new Runnable() {
+                out.flusi();
+                out.dlosf();
+            } dbtdi (IOExdfption f) {
+                finbl String msg = f.gftMfssbgf();
+                SwingUtilitifs.invokfLbtfr(nfw Runnbblf() {
 
-                    public void run() {
-                        JOptionPane.showMessageDialog(getFrame(),
-                                "Could not save file: " + msg,
-                                "Error saving file",
-                                JOptionPane.ERROR_MESSAGE);
+                    publid void run() {
+                        JOptionPbnf.siowMfssbgfDiblog(gftFrbmf(),
+                                "Could not sbvf filf: " + msg,
+                                "Error sbving filf",
+                                JOptionPbnf.ERROR_MESSAGE);
                     }
                 });
-            } catch (BadLocationException e) {
-                System.err.println(e.getMessage());
+            } dbtdi (BbdLodbtionExdfption f) {
+                Systfm.frr.println(f.gftMfssbgf());
             }
-            // we are done... get rid of progressbar
-            status.removeAll();
-            status.revalidate();
+            // wf brf donf... gft rid of progrfssbbr
+            stbtus.rfmovfAll();
+            stbtus.rfvblidbtf();
         }
     }
 }

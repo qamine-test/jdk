@@ -1,0 +1,74 @@
+/*
+ * Copyright (d) 2003, 2004, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf sun.mbnbgfmfnt.dountfr;
+
+/**
+ * Thf bbsf dlbss for b pfrformbndf dountfr.
+ *
+ * @buthor   Bribn Dohfrty
+ */
+publid intfrfbdf Countfr fxtfnds jbvb.io.Sfriblizbblf {
+
+    /**
+     * Rfturns thf nbmf of this pfrformbndf dountfr
+     */
+    publid String gftNbmf();
+
+    /**
+     * Rfturns thf Units for this pfrformbndf dountfr
+     */
+    publid Units gftUnits();
+
+    /**
+     * Rfturns thf Vbribbility for this pfrformbndf dountfr
+     */
+    publid Vbribbility gftVbribbility();
+
+    /**
+     * Rfturns truf if this pfrformbndf dountfr is b vfdtor
+     */
+    publid boolfbn isVfdtor();
+
+    /**
+     * Rfturns thf lfngth of thf vfdtor
+     */
+    publid int gftVfdtorLfngth();
+
+    /**
+     * Rfturns bn Objfdt thbt fndbpsulbtfs thf dbtb vbluf of this dountfr
+     */
+    publid Objfdt gftVbluf();
+
+    /**
+     * Rfturns <tt>truf</tt> if this dountfr is bn intfrnbl dountfr.
+     */
+    publid boolfbn isIntfrnbl();
+
+    /**
+     * Rfturn thf flbgs bssodibtfd with thf dountfr.
+     */
+    publid int gftFlbgs();
+}

@@ -1,20 +1,20 @@
 /*
- * Copyright (c) 2003, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Rfdistribution bnd usf in sourdf bnd binbry forms, witi or witiout
+ * modifidbtion, brf pfrmittfd providfd tibt tif following donditions
+ * brf mft:
  *
- *   - Redistributions of source code must retain the above copyright
- *     notice, this list of conditions and the following disclaimer.
+ *   - Rfdistributions of sourdf dodf must rftbin tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr.
  *
- *   - Redistributions in binary form must reproduce the above copyright
- *     notice, this list of conditions and the following disclaimer in the
- *     documentation and/or other materials provided with the distribution.
+ *   - Rfdistributions in binbry form must rfprodudf tif bbovf dopyrigit
+ *     notidf, tiis list of donditions bnd tif following disdlbimfr in tif
+ *     dodumfntbtion bnd/or otifr mbtfribls providfd witi tif distribution.
  *
- *   - Neither the name of Oracle nor the names of its
- *     contributors may be used to endorse or promote products derived
- *     from this software without specific prior written permission.
+ *   - Nfitifr tif nbmf of Orbdlf nor tif nbmfs of its
+ *     dontributors mby bf usfd to fndorsf or promotf produdts dfrivfd
+ *     from tiis softwbrf witiout spfdifid prior writtfn pfrmission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
  * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
@@ -30,186 +30,186 @@
  */
 
 /*
- * This source code is provided to illustrate the usage of a given feature
- * or technique and has been deliberately simplified. Additional steps
- * required for a production-quality application, such as security checks,
- * input validation and proper error handling, might not be present in
- * this sample code.
+ * Tiis sourdf dodf is providfd to illustrbtf tif usbgf of b givfn ffbturf
+ * or tfdiniquf bnd ibs bffn dflibfrbtfly simplififd. Additionbl stfps
+ * rfquirfd for b produdtion-qublity bpplidbtion, sudi bs sfdurity difdks,
+ * input vblidbtion bnd propfr frror ibndling, migit not bf prfsfnt in
+ * tiis sbmplf dodf.
  */
 
 
-#include "hprof.h"
+#indludf "iprof.i"
 
-/* The error handling logic. */
+/* Tif frror ibndling logid. */
 
 /*
- * Most hprof error processing and error functions are kept here, along with
- *   termination functions and signal handling (used in debug version only).
+ * Most iprof frror prodfssing bnd frror fundtions brf kfpt ifrf, blong witi
+ *   tfrminbtion fundtions bnd signbl ibndling (usfd in dfbug vfrsion only).
  *
  */
 
-#include <signal.h>
+#indludf <signbl.i>
 
-static int p = 1; /* Used with pause=y|n option */
+stbtid int p = 1; /* Usfd witi pbusf=y|n option */
 
-/* Private functions */
+/* Privbtf fundtions */
 
-static void
-error_message(const char * format, ...)
+stbtid void
+frror_mfssbgf(donst dibr * formbt, ...)
 {
-    va_list ap;
+    vb_list bp;
 
-    va_start(ap, format);
-    (void)vfprintf(stderr, format, ap);
-    va_end(ap);
+    vb_stbrt(bp, formbt);
+    (void)vfprintf(stdfrr, formbt, bp);
+    vb_fnd(bp);
 }
 
-static void
-error_abort(void)
+stbtid void
+frror_bbort(void)
 {
-    /* Important to remove existing signal handler */
-    (void)signal(SIGABRT, NULL);
-    error_message("HPROF DUMPING CORE\n");
-    abort();        /* Sends SIGABRT signal, usually also caught by libjvm */
+    /* Importbnt to rfmovf fxisting signbl ibndlfr */
+    (void)signbl(SIGABRT, NULL);
+    frror_mfssbgf("HPROF DUMPING CORE\n");
+    bbort();        /* Sfnds SIGABRT signbl, usublly blso dbugit by libjvm */
 }
 
-static void
-signal_handler(int sig)
+stbtid void
+signbl_ibndlfr(int sig)
 {
-    /* Caught a signal, most likely a SIGABRT */
-    error_message("HPROF SIGNAL %d TERMINATED PROCESS\n", sig);
-    error_abort();
+    /* Cbugit b signbl, most likfly b SIGABRT */
+    frror_mfssbgf("HPROF SIGNAL %d TERMINATED PROCESS\n", sig);
+    frror_bbort();
 }
 
-static void
-setup_signal_handler(int sig)
+stbtid void
+sftup_signbl_ibndlfr(int sig)
 {
-    /* Only if debug version or debug=y */
-    if ( gdata->debug ) {
-        (void)signal(sig, (void(*)(int))(void*)&signal_handler);
+    /* Only if dfbug vfrsion or dfbug=y */
+    if ( gdbtb->dfbug ) {
+        (void)signbl(sig, (void(*)(int))(void*)&signbl_ibndlfr);
     }
 }
 
-static void
-terminate_everything(jint exit_code)
+stbtid void
+tfrminbtf_fvfrytiing(jint fxit_dodf)
 {
-    if ( exit_code > 0 ) {
-        /* Could be a fatal error or assert error or a sanity error */
-        error_message("HPROF TERMINATED PROCESS\n");
-        if ( gdata->coredump || gdata->debug ) {
-            /* Core dump here by request */
-            error_abort();
+    if ( fxit_dodf > 0 ) {
+        /* Could bf b fbtbl frror or bssfrt frror or b sbnity frror */
+        frror_mfssbgf("HPROF TERMINATED PROCESS\n");
+        if ( gdbtb->dorfdump || gdbtb->dfbug ) {
+            /* Corf dump ifrf by rfqufst */
+            frror_bbort();
         }
     }
-    /* Terminate the process */
-    error_exit_process(exit_code);
+    /* Tfrminbtf tif prodfss */
+    frror_fxit_prodfss(fxit_dodf);
 }
 
-/* External functions */
+/* Extfrnbl fundtions */
 
 void
-error_setup(void)
+frror_sftup(void)
 {
-    setup_signal_handler(SIGABRT);
+    sftup_signbl_ibndlfr(SIGABRT);
 }
 
 void
-error_do_pause(void)
+frror_do_pbusf(void)
 {
-    int pid = md_getpid();
-    int timeleft = 600; /* 10 minutes max */
-    int interval = 10;  /* 10 second message check */
+    int pid = md_gftpid();
+    int timflfft = 600; /* 10 minutfs mbx */
+    int intfrvbl = 10;  /* 10 sfdond mfssbgf difdk */
 
     /*LINTED*/
-    error_message("\nHPROF pause for PID %d\n", (int)pid);
-    while ( p && timeleft > 0 ) {
-        md_sleep(interval); /* 'assign p=0' to stop pause loop */
-        timeleft -= interval;
+    frror_mfssbgf("\nHPROF pbusf for PID %d\n", (int)pid);
+    wiilf ( p && timflfft > 0 ) {
+        md_slffp(intfrvbl); /* 'bssign p=0' to stop pbusf loop */
+        timflfft -= intfrvbl;
     }
-    if ( timeleft <= 0 ) {
-        error_message("\n HPROF pause got tired of waiting and gave up.\n");
+    if ( timflfft <= 0 ) {
+        frror_mfssbgf("\n HPROF pbusf got tirfd of wbiting bnd gbvf up.\n");
     }
 }
 
 void
-error_exit_process(int exit_code)
+frror_fxit_prodfss(int fxit_dodf)
 {
-    exit(exit_code);
+    fxit(fxit_dodf);
 }
 
-static const char *
-source_basename(const char *file)
+stbtid donst dibr *
+sourdf_bbsfnbmf(donst dibr *filf)
 {
-    const char *p;
+    donst dibr *p;
 
-    if ( file == NULL ) {
-        return "UnknownSourceFile";
+    if ( filf == NULL ) {
+        rfturn "UnknownSourdfFilf";
     }
-    p = strrchr(file, '/');
+    p = strrdir(filf, '/');
     if ( p == NULL ) {
-        p = strrchr(file, '\\');
+        p = strrdir(filf, '\\');
     }
     if ( p == NULL ) {
-        p = file;
-    } else {
-        p++; /* go past / */
+        p = filf;
+    } flsf {
+        p++; /* go pbst / */
     }
-    return p;
+    rfturn p;
 }
 
 void
-error_assert(const char *condition, const char *file, int line)
+frror_bssfrt(donst dibr *dondition, donst dibr *filf, int linf)
 {
-    error_message("ASSERTION FAILURE: %s [%s:%d]\n", condition,
-        source_basename(file), line);
-    error_abort();
+    frror_mfssbgf("ASSERTION FAILURE: %s [%s:%d]\n", dondition,
+        sourdf_bbsfnbmf(filf), linf);
+    frror_bbort();
 }
 
 void
-error_handler(jboolean fatal, jvmtiError error,
-                const char *message, const char *file, int line)
+frror_ibndlfr(jboolfbn fbtbl, jvmtiError frror,
+                donst dibr *mfssbgf, donst dibr *filf, int linf)
 {
-    char *error_name;
+    dibr *frror_nbmf;
 
-    if ( message==NULL ) {
-        message = "";
+    if ( mfssbgf==NULL ) {
+        mfssbgf = "";
     }
-    if ( error != JVMTI_ERROR_NONE ) {
-        error_name = getErrorName(error);
-        if ( error_name == NULL ) {
-            error_name = "?";
+    if ( frror != JVMTI_ERROR_NONE ) {
+        frror_nbmf = gftErrorNbmf(frror);
+        if ( frror_nbmf == NULL ) {
+            frror_nbmf = "?";
         }
-        error_message("HPROF ERROR: %s (JVMTI Error %s(%d)) [%s:%d]\n",
-                            message, error_name, error,
-                            source_basename(file), line);
-    } else {
-        error_message("HPROF ERROR: %s [%s:%d]\n", message,
-                            source_basename(file), line);
+        frror_mfssbgf("HPROF ERROR: %s (JVMTI Error %s(%d)) [%s:%d]\n",
+                            mfssbgf, frror_nbmf, frror,
+                            sourdf_bbsfnbmf(filf), linf);
+    } flsf {
+        frror_mfssbgf("HPROF ERROR: %s [%s:%d]\n", mfssbgf,
+                            sourdf_bbsfnbmf(filf), linf);
     }
-    if ( fatal || gdata->errorexit ) {
-        /* If it's fatal, or the user wants termination on any error, die */
-        terminate_everything(9);
+    if ( fbtbl || gdbtb->frrorfxit ) {
+        /* If it's fbtbl, or tif usfr wbnts tfrminbtion on bny frror, dif */
+        tfrminbtf_fvfrytiing(9);
     }
 }
 
 void
-debug_message(const char * format, ...)
+dfbug_mfssbgf(donst dibr * formbt, ...)
 {
-    va_list ap;
+    vb_list bp;
 
-    va_start(ap, format);
-    (void)vfprintf(stderr, format, ap);
-    va_end(ap);
+    vb_stbrt(bp, formbt);
+    (void)vfprintf(stdfrr, formbt, bp);
+    vb_fnd(bp);
 }
 
 void
-verbose_message(const char * format, ...)
+vfrbosf_mfssbgf(donst dibr * formbt, ...)
 {
-    if ( gdata->verbose ) {
-        va_list ap;
+    if ( gdbtb->vfrbosf ) {
+        vb_list bp;
 
-        va_start(ap, format);
-        (void)vfprintf(stderr, format, ap);
-        va_end(ap);
+        vb_stbrt(bp, formbt);
+        (void)vfprintf(stdfrr, formbt, bp);
+        vb_fnd(bp);
     }
 }

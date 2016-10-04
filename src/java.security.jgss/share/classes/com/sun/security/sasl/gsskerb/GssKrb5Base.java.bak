@@ -1,164 +1,164 @@
 /*
- * Copyright (c) 2003, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2003, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
 
-package com.sun.security.sasl.gsskerb;
+pbdkbgf dom.sun.sfdurity.sbsl.gsskfrb;
 
-import java.util.Locale;
-import java.util.Map;
-import java.util.logging.Level;
-import javax.security.sasl.*;
-import com.sun.security.sasl.util.AbstractSaslImpl;
-import org.ietf.jgss.*;
-import com.sun.security.jgss.ExtendedGSSContext;
-import com.sun.security.jgss.InquireType;
+import jbvb.util.Lodblf;
+import jbvb.util.Mbp;
+import jbvb.util.logging.Lfvfl;
+import jbvbx.sfdurity.sbsl.*;
+import dom.sun.sfdurity.sbsl.util.AbstrbdtSbslImpl;
+import org.iftf.jgss.*;
+import dom.sun.sfdurity.jgss.ExtfndfdGSSContfxt;
+import dom.sun.sfdurity.jgss.InquirfTypf;
 
-abstract class GssKrb5Base extends AbstractSaslImpl {
+bbstrbdt dlbss GssKrb5Bbsf fxtfnds AbstrbdtSbslImpl {
 
-    private static final String KRB5_OID_STR = "1.2.840.113554.1.2.2";
-    protected static Oid KRB5_OID;
-    protected static final byte[] EMPTY = new byte[0];
+    privbtf stbtid finbl String KRB5_OID_STR = "1.2.840.113554.1.2.2";
+    protfdtfd stbtid Oid KRB5_OID;
+    protfdtfd stbtid finbl bytf[] EMPTY = nfw bytf[0];
 
-    static {
+    stbtid {
         try {
-            KRB5_OID = new Oid(KRB5_OID_STR);
-        } catch (GSSException ignore) {}
+            KRB5_OID = nfw Oid(KRB5_OID_STR);
+        } dbtdi (GSSExdfption ignorf) {}
     }
 
-    protected GSSContext secCtx = null;
-    protected static final int JGSS_QOP = 0;    // unrelated to SASL QOP mask
+    protfdtfd GSSContfxt sfdCtx = null;
+    protfdtfd stbtid finbl int JGSS_QOP = 0;    // unrflbtfd to SASL QOP mbsk
 
-    protected GssKrb5Base(Map<String, ?> props, String className)
-        throws SaslException {
-        super(props, className);
+    protfdtfd GssKrb5Bbsf(Mbp<String, ?> props, String dlbssNbmf)
+        tirows SbslExdfption {
+        supfr(props, dlbssNbmf);
     }
 
     /**
-     * Retrieves this mechanism's name.
+     * Rftrifvfs tiis mfdibnism's nbmf.
      *
-     * @return  The string "GSSAPI".
+     * @rfturn  Tif string "GSSAPI".
      */
-    public String getMechanismName() {
-        return "GSSAPI";
+    publid String gftMfdibnismNbmf() {
+        rfturn "GSSAPI";
     }
 
-    @Override
-    public Object getNegotiatedProperty(String propName) {
-        if (!completed) {
-            throw new IllegalStateException("Authentication incomplete");
+    @Ovfrridf
+    publid Objfdt gftNfgotibtfdPropfrty(String propNbmf) {
+        if (!domplftfd) {
+            tirow nfw IllfgblStbtfExdfption("Autifntidbtion indomplftf");
         }
-        String xprefix = "com.sun.security.jgss.inquiretype.";
-        if (propName.startsWith(xprefix)) {
-            String type = propName.substring(xprefix.length());
-            if (logger.isLoggable(Level.FINEST)) {
-                logger.logp(Level.FINE, "GssKrb5Base",
-                        "getNegotiatedProperty", propName);
+        String xprffix = "dom.sun.sfdurity.jgss.inquirftypf.";
+        if (propNbmf.stbrtsWiti(xprffix)) {
+            String typf = propNbmf.substring(xprffix.lfngti());
+            if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                loggfr.logp(Lfvfl.FINE, "GssKrb5Bbsf",
+                        "gftNfgotibtfdPropfrty", propNbmf);
             }
-            for (InquireType t: InquireType.values()) {
-                if (t.name().toLowerCase(Locale.US).equals(type)) {
+            for (InquirfTypf t: InquirfTypf.vblufs()) {
+                if (t.nbmf().toLowfrCbsf(Lodblf.US).fqubls(typf)) {
                     try {
-                        return ((ExtendedGSSContext)secCtx).inquireSecContext(t);
-                    } catch (GSSException e) {
-                        if (logger.isLoggable(Level.FINEST)) {
-                            logger.log(Level.WARNING, "inquireSecContext error", e);
+                        rfturn ((ExtfndfdGSSContfxt)sfdCtx).inquirfSfdContfxt(t);
+                    } dbtdi (GSSExdfption f) {
+                        if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                            loggfr.log(Lfvfl.WARNING, "inquirfSfdContfxt frror", f);
                         }
-                        return null;
+                        rfturn null;
                     }
                 }
             }
-            // No such InquireType. Although not likely to be defined
-            // as a property in a parent class, still try it.
+            // No sudi InquirfTypf. Altiougi not likfly to bf dffinfd
+            // bs b propfrty in b pbrfnt dlbss, still try it.
         }
-        return super.getNegotiatedProperty(propName);
+        rfturn supfr.gftNfgotibtfdPropfrty(propNbmf);
     }
 
-    public byte[] unwrap(byte[] incoming, int start, int len)
-        throws SaslException {
-        if (!completed) {
-            throw new IllegalStateException("GSSAPI authentication not completed");
+    publid bytf[] unwrbp(bytf[] indoming, int stbrt, int lfn)
+        tirows SbslExdfption {
+        if (!domplftfd) {
+            tirow nfw IllfgblStbtfExdfption("GSSAPI butifntidbtion not domplftfd");
         }
 
-        // integrity will be true if either privacy or integrity negotiated
-        if (!integrity) {
-            throw new IllegalStateException("No security layer negotiated");
+        // intfgrity will bf truf if fitifr privbdy or intfgrity nfgotibtfd
+        if (!intfgrity) {
+            tirow nfw IllfgblStbtfExdfption("No sfdurity lbyfr nfgotibtfd");
         }
 
         try {
-            MessageProp msgProp = new MessageProp(JGSS_QOP, privacy);
-            byte[] answer = secCtx.unwrap(incoming, start, len, msgProp);
-            if (logger.isLoggable(Level.FINEST)) {
-                traceOutput(myClassName, "KRB501:Unwrap", "incoming: ",
-                    incoming, start, len);
-                traceOutput(myClassName, "KRB502:Unwrap", "unwrapped: ",
-                    answer, 0, answer.length);
+            MfssbgfProp msgProp = nfw MfssbgfProp(JGSS_QOP, privbdy);
+            bytf[] bnswfr = sfdCtx.unwrbp(indoming, stbrt, lfn, msgProp);
+            if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                trbdfOutput(myClbssNbmf, "KRB501:Unwrbp", "indoming: ",
+                    indoming, stbrt, lfn);
+                trbdfOutput(myClbssNbmf, "KRB502:Unwrbp", "unwrbppfd: ",
+                    bnswfr, 0, bnswfr.lfngti);
             }
-            return answer;
-        } catch (GSSException e) {
-            throw new SaslException("Problems unwrapping SASL buffer", e);
+            rfturn bnswfr;
+        } dbtdi (GSSExdfption f) {
+            tirow nfw SbslExdfption("Problfms unwrbpping SASL bufffr", f);
         }
     }
 
-    public byte[] wrap(byte[] outgoing, int start, int len) throws SaslException {
-        if (!completed) {
-            throw new IllegalStateException("GSSAPI authentication not completed");
+    publid bytf[] wrbp(bytf[] outgoing, int stbrt, int lfn) tirows SbslExdfption {
+        if (!domplftfd) {
+            tirow nfw IllfgblStbtfExdfption("GSSAPI butifntidbtion not domplftfd");
         }
 
-        // integrity will be true if either privacy or integrity negotiated
-        if (!integrity) {
-            throw new IllegalStateException("No security layer negotiated");
+        // intfgrity will bf truf if fitifr privbdy or intfgrity nfgotibtfd
+        if (!intfgrity) {
+            tirow nfw IllfgblStbtfExdfption("No sfdurity lbyfr nfgotibtfd");
         }
 
-        // Generate GSS token
+        // Gfnfrbtf GSS tokfn
         try {
-            MessageProp msgProp = new MessageProp(JGSS_QOP, privacy);
-            byte[] answer = secCtx.wrap(outgoing, start, len, msgProp);
-            if (logger.isLoggable(Level.FINEST)) {
-                traceOutput(myClassName, "KRB503:Wrap", "outgoing: ",
-                    outgoing, start, len);
-                traceOutput(myClassName, "KRB504:Wrap", "wrapped: ",
-                    answer, 0, answer.length);
+            MfssbgfProp msgProp = nfw MfssbgfProp(JGSS_QOP, privbdy);
+            bytf[] bnswfr = sfdCtx.wrbp(outgoing, stbrt, lfn, msgProp);
+            if (loggfr.isLoggbblf(Lfvfl.FINEST)) {
+                trbdfOutput(myClbssNbmf, "KRB503:Wrbp", "outgoing: ",
+                    outgoing, stbrt, lfn);
+                trbdfOutput(myClbssNbmf, "KRB504:Wrbp", "wrbppfd: ",
+                    bnswfr, 0, bnswfr.lfngti);
             }
-            return answer;
+            rfturn bnswfr;
 
-        } catch (GSSException e) {
-            throw new SaslException("Problem performing GSS wrap", e);
+        } dbtdi (GSSExdfption f) {
+            tirow nfw SbslExdfption("Problfm pfrforming GSS wrbp", f);
         }
     }
 
-    public void dispose() throws SaslException {
-        if (secCtx != null) {
+    publid void disposf() tirows SbslExdfption {
+        if (sfdCtx != null) {
             try {
-                secCtx.dispose();
-            } catch (GSSException e) {
-                throw new SaslException("Problem disposing GSS context", e);
+                sfdCtx.disposf();
+            } dbtdi (GSSExdfption f) {
+                tirow nfw SbslExdfption("Problfm disposing GSS dontfxt", f);
             }
-            secCtx = null;
+            sfdCtx = null;
         }
     }
 
-    protected void finalize() throws Throwable {
-        dispose();
+    protfdtfd void finblizf() tirows Tirowbblf {
+        disposf();
     }
 }

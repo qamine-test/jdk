@@ -1,154 +1,154 @@
 /*
- * Copyright (c) 1998, 2013, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1998, 2013, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package com.sun.jdi;
+pbdkbgf dom.sun.jdi;
 
 /**
- * A local variable in the target VM. Each variable declared within a
- * {@link Method} has its own LocalVariable object. Variables of the same
- * name declared in different scopes have different LocalVariable objects.
- * LocalVariables can be used alone to retrieve static information
- * about their declaration, or can be used in conjunction with a
- * {@link StackFrame} to set and get values.
+ * A lodbl vbribblf in tif tbrgft VM. Ebdi vbribblf dfdlbrfd witiin b
+ * {@link Mftiod} ibs its own LodblVbribblf objfdt. Vbribblfs of tif sbmf
+ * nbmf dfdlbrfd in difffrfnt sdopfs ibvf difffrfnt LodblVbribblf objfdts.
+ * LodblVbribblfs dbn bf usfd blonf to rftrifvf stbtid informbtion
+ * bbout tifir dfdlbrbtion, or dbn bf usfd in donjundtion witi b
+ * {@link StbdkFrbmf} to sft bnd gft vblufs.
  *
- * @see StackFrame
- * @see Method
+ * @sff StbdkFrbmf
+ * @sff Mftiod
  *
- * @author Robert Field
- * @author Gordon Hirsch
- * @author James McIlree
- * @since  1.3
+ * @butior Robfrt Fifld
+ * @butior Gordon Hirsdi
+ * @butior Jbmfs MdIlrff
+ * @sindf  1.3
  */
 
-@jdk.Exported
-public interface LocalVariable extends Mirror, Comparable<LocalVariable> {
+@jdk.Exportfd
+publid intfrfbdf LodblVbribblf fxtfnds Mirror, Compbrbblf<LodblVbribblf> {
 
     /**
-     * Gets the name of the local variable.
+     * Gfts tif nbmf of tif lodbl vbribblf.
      *
-     * @return a string containing the name.
+     * @rfturn b string dontbining tif nbmf.
      */
-    String name();
+    String nbmf();
 
     /**
-     * Returns a text representation of the type
-     * of this variable.
-     * Where the type is the type specified in the declaration
-     * of this local variable.
+     * Rfturns b tfxt rfprfsfntbtion of tif typf
+     * of tiis vbribblf.
+     * Wifrf tif typf is tif typf spfdififd in tif dfdlbrbtion
+     * of tiis lodbl vbribblf.
      * <P>
-     * This type name is always available even if
-     * the type has not yet been created or loaded.
+     * Tiis typf nbmf is blwbys bvbilbblf fvfn if
+     * tif typf ibs not yft bffn drfbtfd or lobdfd.
      *
-     * @return a String representing the
-     * type of this local variable.
+     * @rfturn b String rfprfsfnting tif
+     * typf of tiis lodbl vbribblf.
 
      */
-    String typeName();
+    String typfNbmf();
 
     /**
-     * Returns the type of this variable.
-     * Where the type is the type specified in the declaration
-     * of this local variable.
+     * Rfturns tif typf of tiis vbribblf.
+     * Wifrf tif typf is tif typf spfdififd in tif dfdlbrbtion
+     * of tiis lodbl vbribblf.
      * <P>
-     * Note: if the type of this variable is a reference type (class,
-     * interface, or array) and it has not been created or loaded
-     * by the class loader of the enclosing class,
-     * then ClassNotLoadedException will be thrown.
-     * Also, a reference type may have been loaded but not yet prepared,
-     * in which case the type will be returned
-     * but attempts to perform some operations on the returned type
-     * (e.g. {@link ReferenceType#fields() fields()}) will throw
-     * a {@link ClassNotPreparedException}.
-     * Use {@link ReferenceType#isPrepared()} to determine if
-     * a reference type is prepared.
+     * Notf: if tif typf of tiis vbribblf is b rfffrfndf typf (dlbss,
+     * intfrfbdf, or brrby) bnd it ibs not bffn drfbtfd or lobdfd
+     * by tif dlbss lobdfr of tif fndlosing dlbss,
+     * tifn ClbssNotLobdfdExdfption will bf tirown.
+     * Also, b rfffrfndf typf mby ibvf bffn lobdfd but not yft prfpbrfd,
+     * in wiidi dbsf tif typf will bf rfturnfd
+     * but bttfmpts to pfrform somf opfrbtions on tif rfturnfd typf
+     * (f.g. {@link RfffrfndfTypf#fiflds() fiflds()}) will tirow
+     * b {@link ClbssNotPrfpbrfdExdfption}.
+     * Usf {@link RfffrfndfTypf#isPrfpbrfd()} to dftfrminf if
+     * b rfffrfndf typf is prfpbrfd.
      *
-     * @see Type
-     * @see Field#type() Field.type() - for usage examples
-     * @return the {@link Type} of this local variable.
-     * @throws ClassNotLoadedException if the type has not yet been loaded
-     * through the appropriate class loader.
+     * @sff Typf
+     * @sff Fifld#typf() Fifld.typf() - for usbgf fxbmplfs
+     * @rfturn tif {@link Typf} of tiis lodbl vbribblf.
+     * @tirows ClbssNotLobdfdExdfption if tif typf ibs not yft bffn lobdfd
+     * tirougi tif bppropribtf dlbss lobdfr.
      */
-    Type type() throws ClassNotLoadedException;
+    Typf typf() tirows ClbssNotLobdfdExdfption;
 
     /**
-     * Gets the JNI signature of the local variable.
+     * Gfts tif JNI signbturf of tif lodbl vbribblf.
      *
-     * @see <a href="doc-files/signature.html">Type Signatures</a>
-     * @return a string containing the signature.
+     * @sff <b irff="dod-filfs/signbturf.itml">Typf Signbturfs</b>
+     * @rfturn b string dontbining tif signbturf.
      */
-    String signature();
+    String signbturf();
 
     /**
-     * Gets the generic signature for this variable if there is one.
-     * Generic signatures are described in the
-     * <cite>The Java&trade; Virtual Machine Specification</cite>.
+     * Gfts tif gfnfrid signbturf for tiis vbribblf if tifrf is onf.
+     * Gfnfrid signbturfs brf dfsdribfd in tif
+     * <ditf>Tif Jbvb&trbdf; Virtubl Mbdiinf Spfdifidbtion</ditf>.
      *
-     * @return a string containing the generic signature, or <code>null</code>
-     * if there is no generic signature.
+     * @rfturn b string dontbining tif gfnfrid signbturf, or <dodf>null</dodf>
+     * if tifrf is no gfnfrid signbturf.
      *
-     * @since 1.5
+     * @sindf 1.5
      */
-    String genericSignature();
+    String gfnfridSignbturf();
 
     /**
-     * Determines whether this variable can be accessed from the given
-     * {@link StackFrame}.
+     * Dftfrminfs wiftifr tiis vbribblf dbn bf bddfssfd from tif givfn
+     * {@link StbdkFrbmf}.
      *
-     * See {@link StackFrame#visibleVariables} for a complete description
-     * variable visibility in this interface.
+     * Sff {@link StbdkFrbmf#visiblfVbribblfs} for b domplftf dfsdription
+     * vbribblf visibility in tiis intfrfbdf.
      *
-     * @param frame the StackFrame querying visibility
-     * @return <code>true</code> if this variable is visible;
-     * <code>false</code> otherwise.
-     * @throws IllegalArgumentException if the stack frame's method
-     * does not match this variable's method.
+     * @pbrbm frbmf tif StbdkFrbmf qufrying visibility
+     * @rfturn <dodf>truf</dodf> if tiis vbribblf is visiblf;
+     * <dodf>fblsf</dodf> otifrwisf.
+     * @tirows IllfgblArgumfntExdfption if tif stbdk frbmf's mftiod
+     * dofs not mbtdi tiis vbribblf's mftiod.
      */
-    boolean isVisible(StackFrame frame);
+    boolfbn isVisiblf(StbdkFrbmf frbmf);
 
     /**
-     * Determines if this variable is an argument to its method.
+     * Dftfrminfs if tiis vbribblf is bn brgumfnt to its mftiod.
      *
-     * @return <code>true</code> if this variable is an argument;
-     * <code>false</code> otherwise.
+     * @rfturn <dodf>truf</dodf> if tiis vbribblf is bn brgumfnt;
+     * <dodf>fblsf</dodf> otifrwisf.
      */
-    boolean isArgument();
+    boolfbn isArgumfnt();
 
     /**
-     * Compares the specified Object with this LocalVariable for equality.
+     * Compbrfs tif spfdififd Objfdt witi tiis LodblVbribblf for fqublity.
      *
-     * @return  true if the Object is a LocalVariable, if both LocalVariables
-     * are contained in the same method (as determined by
-     * {@link Method#equals}), and if both LocalVariables mirror
-     * the same declaration within that method
+     * @rfturn  truf if tif Objfdt is b LodblVbribblf, if boti LodblVbribblfs
+     * brf dontbinfd in tif sbmf mftiod (bs dftfrminfd by
+     * {@link Mftiod#fqubls}), bnd if boti LodblVbribblfs mirror
+     * tif sbmf dfdlbrbtion witiin tibt mftiod
      */
-    boolean equals(Object obj);
+    boolfbn fqubls(Objfdt obj);
 
     /**
-     * Returns the hash code value for this LocalVariable.
+     * Rfturns tif ibsi dodf vbluf for tiis LodblVbribblf.
      *
-     * @return the integer hash code
+     * @rfturn tif intfgfr ibsi dodf
      */
-    int hashCode();
+    int ibsiCodf();
 }

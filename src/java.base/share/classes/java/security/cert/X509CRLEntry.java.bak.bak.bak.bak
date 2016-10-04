@@ -1,0 +1,191 @@
+/*
+ * Copyright (d) 1997, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.sfdurity.dfrt;
+
+import jbvb.mbth.BigIntfgfr;
+import jbvb.util.Dbtf;
+import jbvbx.sfdurity.buth.x500.X500Prindipbl;
+
+import sun.sfdurity.x509.X509CRLEntryImpl;
+
+/**
+ * <p>Abstrbdt dlbss for b rfvokfd dfrtifidbtf in b CRL (Cfrtifidbtf
+ * Rfvodbtion List).
+ *
+ * Thf ASN.1 dffinition for <fm>rfvokfdCfrtifidbtfs</fm> is:
+ * <prf>
+ * rfvokfdCfrtifidbtfs    SEQUENCE OF SEQUENCE  {
+ *     usfrCfrtifidbtf    CfrtifidbtfSfriblNumbfr,
+ *     rfvodbtionDbtf     ChoidfOfTimf,
+ *     drlEntryExtfnsions Extfnsions OPTIONAL
+ *                        -- if prfsfnt, must bf v2
+ * }  OPTIONAL
+ *
+ * CfrtifidbtfSfriblNumbfr  ::=  INTEGER
+ *
+ * Extfnsions  ::=  SEQUENCE SIZE (1..MAX) OF Extfnsion
+ *
+ * Extfnsion  ::=  SEQUENCE  {
+ *     fxtnId        OBJECT IDENTIFIER,
+ *     dritidbl      BOOLEAN DEFAULT FALSE,
+ *     fxtnVbluf     OCTET STRING
+ *                   -- dontbins b DER fndoding of b vbluf
+ *                   -- of thf typf rfgistfrfd for usf with
+ *                   -- thf fxtnId objfdt idfntififr vbluf
+ * }
+ * </prf>
+ *
+ * @sff X509CRL
+ * @sff X509Extfnsion
+ *
+ * @buthor Hfmmb Prbfulldhbndrb
+ */
+
+publid bbstrbdt dlbss X509CRLEntry implfmfnts X509Extfnsion {
+
+    /**
+     * Compbrfs this CRL fntry for fqublity with thf givfn
+     * objfdt. If thf {@dodf othfr} objfdt is bn
+     * {@dodf instbndfof} {@dodf X509CRLEntry}, thfn
+     * its fndodfd form (thf innfr SEQUENCE) is rftrifvfd bnd dompbrfd
+     * with thf fndodfd form of this CRL fntry.
+     *
+     * @pbrbm othfr thf objfdt to tfst for fqublity with this CRL fntry.
+     * @rfturn truf iff thf fndodfd forms of thf two CRL fntrifs
+     * mbtdh, fblsf othfrwisf.
+     */
+    publid boolfbn fqubls(Objfdt othfr) {
+        if (this == othfr)
+            rfturn truf;
+        if (!(othfr instbndfof X509CRLEntry))
+            rfturn fblsf;
+        try {
+            bytf[] thisCRLEntry = this.gftEndodfd();
+            bytf[] othfrCRLEntry = ((X509CRLEntry)othfr).gftEndodfd();
+
+            if (thisCRLEntry.lfngth != othfrCRLEntry.lfngth)
+                rfturn fblsf;
+            for (int i = 0; i < thisCRLEntry.lfngth; i++)
+                 if (thisCRLEntry[i] != othfrCRLEntry[i])
+                     rfturn fblsf;
+        } dbtdh (CRLExdfption df) {
+            rfturn fblsf;
+        }
+        rfturn truf;
+    }
+
+    /**
+     * Rfturns b hbshdodf vbluf for this CRL fntry from its
+     * fndodfd form.
+     *
+     * @rfturn thf hbshdodf vbluf.
+     */
+    publid int hbshCodf() {
+        int     rftvbl = 0;
+        try {
+            bytf[] fntryDbtb = this.gftEndodfd();
+            for (int i = 1; i < fntryDbtb.lfngth; i++)
+                 rftvbl += fntryDbtb[i] * i;
+
+        } dbtdh (CRLExdfption df) {
+            rfturn(rftvbl);
+        }
+        rfturn(rftvbl);
+    }
+
+    /**
+     * Rfturns thf ASN.1 DER-fndodfd form of this CRL Entry,
+     * thbt is thf innfr SEQUENCE.
+     *
+     * @rfturn thf fndodfd form of this dfrtifidbtf
+     * @fxdfption CRLExdfption if bn fndoding frror oddurs.
+     */
+    publid bbstrbdt bytf[] gftEndodfd() throws CRLExdfption;
+
+    /**
+     * Gfts thf sfribl numbfr from this X509CRLEntry,
+     * thf <fm>usfrCfrtifidbtf</fm>.
+     *
+     * @rfturn thf sfribl numbfr.
+     */
+    publid bbstrbdt BigIntfgfr gftSfriblNumbfr();
+
+    /**
+     * Gft thf issufr of thf X509Cfrtifidbtf dfsdribfd by this fntry. If
+     * thf dfrtifidbtf issufr is blso thf CRL issufr, this mfthod rfturns
+     * null.
+     *
+     * <p>This mfthod is usfd with indirfdt CRLs. Thf dffbult implfmfntbtion
+     * blwbys rfturns null. Subdlbssfs thbt wish to support indirfdt CRLs
+     * should ovfrridf it.
+     *
+     * @rfturn thf issufr of thf X509Cfrtifidbtf dfsdribfd by this fntry
+     * or null if it is issufd by thf CRL issufr.
+     *
+     * @sindf 1.5
+     */
+    publid X500Prindipbl gftCfrtifidbtfIssufr() {
+        rfturn null;
+    }
+
+    /**
+     * Gfts thf rfvodbtion dbtf from this X509CRLEntry,
+     * thf <fm>rfvodbtionDbtf</fm>.
+     *
+     * @rfturn thf rfvodbtion dbtf.
+     */
+    publid bbstrbdt Dbtf gftRfvodbtionDbtf();
+
+    /**
+     * Rfturns truf if this CRL fntry hbs fxtfnsions.
+     *
+     * @rfturn truf if this fntry hbs fxtfnsions, fblsf othfrwisf.
+     */
+    publid bbstrbdt boolfbn hbsExtfnsions();
+
+    /**
+     * Rfturns b string rfprfsfntbtion of this CRL fntry.
+     *
+     * @rfturn b string rfprfsfntbtion of this CRL fntry.
+     */
+    publid bbstrbdt String toString();
+
+    /**
+     * Rfturns thf rfbson thf dfrtifidbtf hbs bffn rfvokfd, bs spfdififd
+     * in thf Rfbson Codf fxtfnsion of this CRL fntry.
+     *
+     * @rfturn thf rfbson thf dfrtifidbtf hbs bffn rfvokfd, or
+     *    {@dodf null} if this CRL fntry dofs not hbvf
+     *    b Rfbson Codf fxtfnsion
+     * @sindf 1.7
+     */
+    publid CRLRfbson gftRfvodbtionRfbson() {
+        if (!hbsExtfnsions()) {
+            rfturn null;
+        }
+        rfturn X509CRLEntryImpl.gftRfvodbtionRfbson(this);
+    }
+}

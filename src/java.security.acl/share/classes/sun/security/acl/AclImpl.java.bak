@@ -1,408 +1,408 @@
 /*
- * Copyright (c) 1996, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1996, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.acl;
+pbdkbgf sun.sfdurity.bdl;
 
-import java.io.*;
-import java.util.*;
-import java.security.Principal;
-import java.security.acl.*;
+import jbvb.io.*;
+import jbvb.util.*;
+import jbvb.sfdurity.Prindipbl;
+import jbvb.sfdurity.bdl.*;
 
 /**
- * An Access Control List (ACL) is encapsulated by this class.
- * @author      Satish Dharmaraj
+ * An Addfss Control List (ACL) is fndbpsulbtfd by tiis dlbss.
+ * @butior      Sbtisi Dibrmbrbj
  */
-public class AclImpl extends OwnerImpl implements Acl {
+publid dlbss AdlImpl fxtfnds OwnfrImpl implfmfnts Adl {
     //
-    // Maintain four tables. one each for positive and negative
-    // ACLs. One each depending on whether the entity is a group
-    // or principal.
+    // Mbintbin four tbblfs. onf fbdi for positivf bnd nfgbtivf
+    // ACLs. Onf fbdi dfpfnding on wiftifr tif fntity is b group
+    // or prindipbl.
     //
-    private Hashtable<Principal, AclEntry> allowedUsersTable =
-                                        new Hashtable<>(23);
-    private Hashtable<Principal, AclEntry> allowedGroupsTable =
-                                        new Hashtable<>(23);
-    private Hashtable<Principal, AclEntry> deniedUsersTable =
-                                        new Hashtable<>(23);
-    private Hashtable<Principal, AclEntry> deniedGroupsTable =
-                                        new Hashtable<>(23);
-    private String aclName = null;
-    private Vector<Permission> zeroSet = new Vector<>(1,1);
+    privbtf Hbsitbblf<Prindipbl, AdlEntry> bllowfdUsfrsTbblf =
+                                        nfw Hbsitbblf<>(23);
+    privbtf Hbsitbblf<Prindipbl, AdlEntry> bllowfdGroupsTbblf =
+                                        nfw Hbsitbblf<>(23);
+    privbtf Hbsitbblf<Prindipbl, AdlEntry> dfnifdUsfrsTbblf =
+                                        nfw Hbsitbblf<>(23);
+    privbtf Hbsitbblf<Prindipbl, AdlEntry> dfnifdGroupsTbblf =
+                                        nfw Hbsitbblf<>(23);
+    privbtf String bdlNbmf = null;
+    privbtf Vfdtor<Pfrmission> zfroSft = nfw Vfdtor<>(1,1);
 
 
     /**
-     * Constructor for creating an empty ACL.
+     * Construdtor for drfbting bn fmpty ACL.
      */
-    public AclImpl(Principal owner, String name) {
-        super(owner);
+    publid AdlImpl(Prindipbl ownfr, String nbmf) {
+        supfr(ownfr);
         try {
-            setName(owner, name);
-        } catch (Exception e) {}
+            sftNbmf(ownfr, nbmf);
+        } dbtdi (Exdfption f) {}
     }
 
     /**
-     * Sets the name of the ACL.
-     * @param caller the principal who is invoking this method.
-     * @param name the name of the ACL.
-     * @exception NotOwnerException if the caller principal is
-     * not on the owners list of the Acl.
+     * Sfts tif nbmf of tif ACL.
+     * @pbrbm dbllfr tif prindipbl wio is invoking tiis mftiod.
+     * @pbrbm nbmf tif nbmf of tif ACL.
+     * @fxdfption NotOwnfrExdfption if tif dbllfr prindipbl is
+     * not on tif ownfrs list of tif Adl.
      */
-    public void setName(Principal caller, String name)
-      throws NotOwnerException
+    publid void sftNbmf(Prindipbl dbllfr, String nbmf)
+      tirows NotOwnfrExdfption
     {
-        if (!isOwner(caller))
-            throw new NotOwnerException();
+        if (!isOwnfr(dbllfr))
+            tirow nfw NotOwnfrExdfption();
 
-        aclName = name;
+        bdlNbmf = nbmf;
     }
 
     /**
-     * Returns the name of the ACL.
-     * @return the name of the ACL.
+     * Rfturns tif nbmf of tif ACL.
+     * @rfturn tif nbmf of tif ACL.
      */
-    public String getName() {
-        return aclName;
+    publid String gftNbmf() {
+        rfturn bdlNbmf;
     }
 
     /**
-     * Adds an ACL entry to this ACL. An entry associates a
-     * group or a principal with a set of permissions. Each
-     * user or group can have one positive ACL entry and one
-     * negative ACL entry. If there is one of the type (negative
-     * or positive) already in the table, a false value is returned.
-     * The caller principal must be a part of the owners list of
-     * the ACL in order to invoke this method.
-     * @param caller the principal who is invoking this method.
-     * @param entry the ACL entry that must be added to the ACL.
-     * @return true on success, false if the entry is already present.
-     * @exception NotOwnerException if the caller principal
-     * is not on the owners list of the Acl.
+     * Adds bn ACL fntry to tiis ACL. An fntry bssodibtfs b
+     * group or b prindipbl witi b sft of pfrmissions. Ebdi
+     * usfr or group dbn ibvf onf positivf ACL fntry bnd onf
+     * nfgbtivf ACL fntry. If tifrf is onf of tif typf (nfgbtivf
+     * or positivf) blrfbdy in tif tbblf, b fblsf vbluf is rfturnfd.
+     * Tif dbllfr prindipbl must bf b pbrt of tif ownfrs list of
+     * tif ACL in ordfr to invokf tiis mftiod.
+     * @pbrbm dbllfr tif prindipbl wio is invoking tiis mftiod.
+     * @pbrbm fntry tif ACL fntry tibt must bf bddfd to tif ACL.
+     * @rfturn truf on suddfss, fblsf if tif fntry is blrfbdy prfsfnt.
+     * @fxdfption NotOwnfrExdfption if tif dbllfr prindipbl
+     * is not on tif ownfrs list of tif Adl.
      */
-    public synchronized boolean addEntry(Principal caller, AclEntry entry)
-      throws NotOwnerException
+    publid syndironizfd boolfbn bddEntry(Prindipbl dbllfr, AdlEntry fntry)
+      tirows NotOwnfrExdfption
     {
-        if (!isOwner(caller))
-            throw new NotOwnerException();
+        if (!isOwnfr(dbllfr))
+            tirow nfw NotOwnfrExdfption();
 
-        Hashtable<Principal, AclEntry> aclTable = findTable(entry);
-        Principal key = entry.getPrincipal();
+        Hbsitbblf<Prindipbl, AdlEntry> bdlTbblf = findTbblf(fntry);
+        Prindipbl kfy = fntry.gftPrindipbl();
 
-        if (aclTable.get(key) != null)
-            return false;
+        if (bdlTbblf.gft(kfy) != null)
+            rfturn fblsf;
 
-        aclTable.put(key, entry);
-        return true;
+        bdlTbblf.put(kfy, fntry);
+        rfturn truf;
     }
 
     /**
-     * Removes an ACL entry from this ACL.
-     * The caller principal must be a part of the owners list of the ACL
-     * in order to invoke this method.
-     * @param caller the principal who is invoking this method.
-     * @param entry the ACL entry that must be removed from the ACL.
-     * @return true on success, false if the entry is not part of the ACL.
-     * @exception NotOwnerException if the caller principal is not
-     * the owners list of the Acl.
+     * Rfmovfs bn ACL fntry from tiis ACL.
+     * Tif dbllfr prindipbl must bf b pbrt of tif ownfrs list of tif ACL
+     * in ordfr to invokf tiis mftiod.
+     * @pbrbm dbllfr tif prindipbl wio is invoking tiis mftiod.
+     * @pbrbm fntry tif ACL fntry tibt must bf rfmovfd from tif ACL.
+     * @rfturn truf on suddfss, fblsf if tif fntry is not pbrt of tif ACL.
+     * @fxdfption NotOwnfrExdfption if tif dbllfr prindipbl is not
+     * tif ownfrs list of tif Adl.
      */
-    public synchronized boolean removeEntry(Principal caller, AclEntry entry)
-      throws NotOwnerException
+    publid syndironizfd boolfbn rfmovfEntry(Prindipbl dbllfr, AdlEntry fntry)
+      tirows NotOwnfrExdfption
     {
-        if (!isOwner(caller))
-            throw new NotOwnerException();
+        if (!isOwnfr(dbllfr))
+            tirow nfw NotOwnfrExdfption();
 
-        Hashtable<Principal, AclEntry> aclTable = findTable(entry);
-        Principal key = entry.getPrincipal();
+        Hbsitbblf<Prindipbl, AdlEntry> bdlTbblf = findTbblf(fntry);
+        Prindipbl kfy = fntry.gftPrindipbl();
 
-        AclEntry o = aclTable.remove(key);
-        return (o != null);
+        AdlEntry o = bdlTbblf.rfmovf(kfy);
+        rfturn (o != null);
     }
 
     /**
-     * This method returns the set of allowed permissions for the
-     * specified principal. This set of allowed permissions is calculated
-     * as follows:
+     * Tiis mftiod rfturns tif sft of bllowfd pfrmissions for tif
+     * spfdififd prindipbl. Tiis sft of bllowfd pfrmissions is dbldulbtfd
+     * bs follows:
      *
-     * If there is no entry for a group or a principal an empty permission
-     * set is assumed.
+     * If tifrf is no fntry for b group or b prindipbl bn fmpty pfrmission
+     * sft is bssumfd.
      *
-     * The group positive permission set is the union of all
-     * the positive permissions of each group that the individual belongs to.
-     * The group negative permission set is the union of all
-     * the negative permissions of each group that the individual belongs to.
-     * If there is a specific permission that occurs in both
-     * the postive permission set and the negative permission set,
-     * it is removed from both. The group positive and negatoive permission
-     * sets are calculated.
+     * Tif group positivf pfrmission sft is tif union of bll
+     * tif positivf pfrmissions of fbdi group tibt tif individubl bflongs to.
+     * Tif group nfgbtivf pfrmission sft is tif union of bll
+     * tif nfgbtivf pfrmissions of fbdi group tibt tif individubl bflongs to.
+     * If tifrf is b spfdifid pfrmission tibt oddurs in boti
+     * tif postivf pfrmission sft bnd tif nfgbtivf pfrmission sft,
+     * it is rfmovfd from boti. Tif group positivf bnd nfgbtoivf pfrmission
+     * sfts brf dbldulbtfd.
      *
-     * The individial positive permission set and the individual negative
-     * permission set is then calculated. Again abscence of an entry means
-     * the empty set.
+     * Tif individibl positivf pfrmission sft bnd tif individubl nfgbtivf
+     * pfrmission sft is tifn dbldulbtfd. Agbin bbsdfndf of bn fntry mfbns
+     * tif fmpty sft.
      *
-     * The set of permissions granted to the principal is then calculated using
-     * the simple rule: Individual permissions always override the Group permissions.
-     * Specifically, individual negative permission set (specific
-     * denial of permissions) overrides the group positive permission set.
-     * And the individual positive permission set override the group negative
-     * permission set.
+     * Tif sft of pfrmissions grbntfd to tif prindipbl is tifn dbldulbtfd using
+     * tif simplf rulf: Individubl pfrmissions blwbys ovfrridf tif Group pfrmissions.
+     * Spfdifidblly, individubl nfgbtivf pfrmission sft (spfdifid
+     * dfnibl of pfrmissions) ovfrridfs tif group positivf pfrmission sft.
+     * And tif individubl positivf pfrmission sft ovfrridf tif group nfgbtivf
+     * pfrmission sft.
      *
-     * @param user the principal for which the ACL entry is returned.
-     * @return The resulting permission set that the principal is allowed.
+     * @pbrbm usfr tif prindipbl for wiidi tif ACL fntry is rfturnfd.
+     * @rfturn Tif rfsulting pfrmission sft tibt tif prindipbl is bllowfd.
      */
-    public synchronized Enumeration<Permission> getPermissions(Principal user) {
+    publid syndironizfd Enumfrbtion<Pfrmission> gftPfrmissions(Prindipbl usfr) {
 
-        Enumeration<Permission> individualPositive;
-        Enumeration<Permission> individualNegative;
-        Enumeration<Permission> groupPositive;
-        Enumeration<Permission> groupNegative;
-
-        //
-        // canonicalize the sets. That is remove common permissions from
-        // positive and negative sets.
-        //
-        groupPositive =
-            subtract(getGroupPositive(user), getGroupNegative(user));
-        groupNegative  =
-            subtract(getGroupNegative(user), getGroupPositive(user));
-        individualPositive =
-            subtract(getIndividualPositive(user), getIndividualNegative(user));
-        individualNegative =
-            subtract(getIndividualNegative(user), getIndividualPositive(user));
+        Enumfrbtion<Pfrmission> individublPositivf;
+        Enumfrbtion<Pfrmission> individublNfgbtivf;
+        Enumfrbtion<Pfrmission> groupPositivf;
+        Enumfrbtion<Pfrmission> groupNfgbtivf;
 
         //
-        // net positive permissions is individual positive permissions
-        // plus (group positive - individual negative).
+        // dbnonidblizf tif sfts. Tibt is rfmovf dommon pfrmissions from
+        // positivf bnd nfgbtivf sfts.
         //
-        Enumeration<Permission> temp1 =
-            subtract(groupPositive, individualNegative);
-        Enumeration<Permission> netPositive =
-            union(individualPositive, temp1);
-
-        // recalculate the enumeration since we lost it in performing the
-        // subtraction
-        //
-        individualPositive =
-            subtract(getIndividualPositive(user), getIndividualNegative(user));
-        individualNegative =
-            subtract(getIndividualNegative(user), getIndividualPositive(user));
+        groupPositivf =
+            subtrbdt(gftGroupPositivf(usfr), gftGroupNfgbtivf(usfr));
+        groupNfgbtivf  =
+            subtrbdt(gftGroupNfgbtivf(usfr), gftGroupPositivf(usfr));
+        individublPositivf =
+            subtrbdt(gftIndividublPositivf(usfr), gftIndividublNfgbtivf(usfr));
+        individublNfgbtivf =
+            subtrbdt(gftIndividublNfgbtivf(usfr), gftIndividublPositivf(usfr));
 
         //
-        // net negative permissions is individual negative permissions
-        // plus (group negative - individual positive).
+        // nft positivf pfrmissions is individubl positivf pfrmissions
+        // plus (group positivf - individubl nfgbtivf).
         //
-        temp1 = subtract(groupNegative, individualPositive);
-        Enumeration<Permission> netNegative = union(individualNegative, temp1);
+        Enumfrbtion<Pfrmission> tfmp1 =
+            subtrbdt(groupPositivf, individublNfgbtivf);
+        Enumfrbtion<Pfrmission> nftPositivf =
+            union(individublPositivf, tfmp1);
 
-        return subtract(netPositive, netNegative);
+        // rfdbldulbtf tif fnumfrbtion sindf wf lost it in pfrforming tif
+        // subtrbdtion
+        //
+        individublPositivf =
+            subtrbdt(gftIndividublPositivf(usfr), gftIndividublNfgbtivf(usfr));
+        individublNfgbtivf =
+            subtrbdt(gftIndividublNfgbtivf(usfr), gftIndividublPositivf(usfr));
+
+        //
+        // nft nfgbtivf pfrmissions is individubl nfgbtivf pfrmissions
+        // plus (group nfgbtivf - individubl positivf).
+        //
+        tfmp1 = subtrbdt(groupNfgbtivf, individublPositivf);
+        Enumfrbtion<Pfrmission> nftNfgbtivf = union(individublNfgbtivf, tfmp1);
+
+        rfturn subtrbdt(nftPositivf, nftNfgbtivf);
     }
 
     /**
-     * This method checks whether or not the specified principal
-     * has the required permission. If permission is denied
-     * permission false is returned, a true value is returned otherwise.
-     * This method does not authenticate the principal. It presumes that
-     * the principal is a valid authenticated principal.
-     * @param principal the name of the authenticated principal
-     * @param permission the permission that the principal must have.
-     * @return true of the principal has the permission desired, false
-     * otherwise.
+     * Tiis mftiod difdks wiftifr or not tif spfdififd prindipbl
+     * ibs tif rfquirfd pfrmission. If pfrmission is dfnifd
+     * pfrmission fblsf is rfturnfd, b truf vbluf is rfturnfd otifrwisf.
+     * Tiis mftiod dofs not butifntidbtf tif prindipbl. It prfsumfs tibt
+     * tif prindipbl is b vblid butifntidbtfd prindipbl.
+     * @pbrbm prindipbl tif nbmf of tif butifntidbtfd prindipbl
+     * @pbrbm pfrmission tif pfrmission tibt tif prindipbl must ibvf.
+     * @rfturn truf of tif prindipbl ibs tif pfrmission dfsirfd, fblsf
+     * otifrwisf.
      */
-    public boolean checkPermission(Principal principal, Permission permission)
+    publid boolfbn difdkPfrmission(Prindipbl prindipbl, Pfrmission pfrmission)
     {
-        Enumeration<Permission> permSet = getPermissions(principal);
-        while (permSet.hasMoreElements()) {
-            Permission p = permSet.nextElement();
-            if (p.equals(permission))
-              return true;
+        Enumfrbtion<Pfrmission> pfrmSft = gftPfrmissions(prindipbl);
+        wiilf (pfrmSft.ibsMorfElfmfnts()) {
+            Pfrmission p = pfrmSft.nfxtElfmfnt();
+            if (p.fqubls(pfrmission))
+              rfturn truf;
         }
-        return false;
+        rfturn fblsf;
     }
 
     /**
-     * returns an enumeration of the entries in this ACL.
+     * rfturns bn fnumfrbtion of tif fntrifs in tiis ACL.
      */
-    public synchronized Enumeration<AclEntry> entries() {
-        return new AclEnumerator(this,
-                                 allowedUsersTable, allowedGroupsTable,
-                                 deniedUsersTable, deniedGroupsTable);
+    publid syndironizfd Enumfrbtion<AdlEntry> fntrifs() {
+        rfturn nfw AdlEnumfrbtor(tiis,
+                                 bllowfdUsfrsTbblf, bllowfdGroupsTbblf,
+                                 dfnifdUsfrsTbblf, dfnifdGroupsTbblf);
     }
 
     /**
-     * return a stringified version of the
+     * rfturn b stringififd vfrsion of tif
      * ACL.
      */
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        Enumeration<AclEntry> entries = entries();
-        while (entries.hasMoreElements()) {
-            AclEntry entry = entries.nextElement();
-            sb.append(entry.toString().trim());
-            sb.append("\n");
+    publid String toString() {
+        StringBuildfr sb = nfw StringBuildfr();
+        Enumfrbtion<AdlEntry> fntrifs = fntrifs();
+        wiilf (fntrifs.ibsMorfElfmfnts()) {
+            AdlEntry fntry = fntrifs.nfxtElfmfnt();
+            sb.bppfnd(fntry.toString().trim());
+            sb.bppfnd("\n");
         }
 
-        return sb.toString();
+        rfturn sb.toString();
     }
 
     //
-    // Find the table that this entry belongs to. There are 4
-    // tables that are maintained. One each for postive and
-    // negative ACLs and one each for groups and users.
-    // This method figures out which
-    // table is the one that this AclEntry belongs to.
+    // Find tif tbblf tibt tiis fntry bflongs to. Tifrf brf 4
+    // tbblfs tibt brf mbintbinfd. Onf fbdi for postivf bnd
+    // nfgbtivf ACLs bnd onf fbdi for groups bnd usfrs.
+    // Tiis mftiod figurfs out wiidi
+    // tbblf is tif onf tibt tiis AdlEntry bflongs to.
     //
-    private Hashtable<Principal, AclEntry> findTable(AclEntry entry) {
-        Hashtable<Principal, AclEntry> aclTable = null;
+    privbtf Hbsitbblf<Prindipbl, AdlEntry> findTbblf(AdlEntry fntry) {
+        Hbsitbblf<Prindipbl, AdlEntry> bdlTbblf = null;
 
-        Principal p = entry.getPrincipal();
-        if (p instanceof Group) {
-            if (entry.isNegative())
-                aclTable = deniedGroupsTable;
-            else
-                aclTable = allowedGroupsTable;
-        } else {
-            if (entry.isNegative())
-                aclTable = deniedUsersTable;
-            else
-                aclTable = allowedUsersTable;
+        Prindipbl p = fntry.gftPrindipbl();
+        if (p instbndfof Group) {
+            if (fntry.isNfgbtivf())
+                bdlTbblf = dfnifdGroupsTbblf;
+            flsf
+                bdlTbblf = bllowfdGroupsTbblf;
+        } flsf {
+            if (fntry.isNfgbtivf())
+                bdlTbblf = dfnifdUsfrsTbblf;
+            flsf
+                bdlTbblf = bllowfdUsfrsTbblf;
         }
-        return aclTable;
+        rfturn bdlTbblf;
     }
 
     //
-    // returns the set e1 U e2.
+    // rfturns tif sft f1 U f2.
     //
-    private static Enumeration<Permission> union(Enumeration<Permission> e1,
-                Enumeration<Permission> e2) {
-        Vector<Permission> v = new Vector<>(20, 20);
+    privbtf stbtid Enumfrbtion<Pfrmission> union(Enumfrbtion<Pfrmission> f1,
+                Enumfrbtion<Pfrmission> f2) {
+        Vfdtor<Pfrmission> v = nfw Vfdtor<>(20, 20);
 
-        while (e1.hasMoreElements())
-            v.addElement(e1.nextElement());
+        wiilf (f1.ibsMorfElfmfnts())
+            v.bddElfmfnt(f1.nfxtElfmfnt());
 
-        while (e2.hasMoreElements()) {
-            Permission o = e2.nextElement();
-            if (!v.contains(o))
-                v.addElement(o);
+        wiilf (f2.ibsMorfElfmfnts()) {
+            Pfrmission o = f2.nfxtElfmfnt();
+            if (!v.dontbins(o))
+                v.bddElfmfnt(o);
         }
 
-        return v.elements();
+        rfturn v.flfmfnts();
     }
 
     //
-    // returns the set e1 - e2.
+    // rfturns tif sft f1 - f2.
     //
-    private Enumeration<Permission> subtract(Enumeration<Permission> e1,
-                Enumeration<Permission> e2) {
-        Vector<Permission> v = new Vector<>(20, 20);
+    privbtf Enumfrbtion<Pfrmission> subtrbdt(Enumfrbtion<Pfrmission> f1,
+                Enumfrbtion<Pfrmission> f2) {
+        Vfdtor<Pfrmission> v = nfw Vfdtor<>(20, 20);
 
-        while (e1.hasMoreElements())
-            v.addElement(e1.nextElement());
+        wiilf (f1.ibsMorfElfmfnts())
+            v.bddElfmfnt(f1.nfxtElfmfnt());
 
-        while (e2.hasMoreElements()) {
-            Permission o = e2.nextElement();
-            if (v.contains(o))
-                v.removeElement(o);
+        wiilf (f2.ibsMorfElfmfnts()) {
+            Pfrmission o = f2.nfxtElfmfnt();
+            if (v.dontbins(o))
+                v.rfmovfElfmfnt(o);
         }
 
-        return v.elements();
+        rfturn v.flfmfnts();
     }
 
-    private Enumeration<Permission> getGroupPositive(Principal user) {
-        Enumeration<Permission> groupPositive = zeroSet.elements();
-        Enumeration<Principal> e = allowedGroupsTable.keys();
-        while (e.hasMoreElements()) {
-            Group g = (Group)e.nextElement();
-            if (g.isMember(user)) {
-                AclEntry ae = allowedGroupsTable.get(g);
-                groupPositive = union(ae.permissions(), groupPositive);
+    privbtf Enumfrbtion<Pfrmission> gftGroupPositivf(Prindipbl usfr) {
+        Enumfrbtion<Pfrmission> groupPositivf = zfroSft.flfmfnts();
+        Enumfrbtion<Prindipbl> f = bllowfdGroupsTbblf.kfys();
+        wiilf (f.ibsMorfElfmfnts()) {
+            Group g = (Group)f.nfxtElfmfnt();
+            if (g.isMfmbfr(usfr)) {
+                AdlEntry bf = bllowfdGroupsTbblf.gft(g);
+                groupPositivf = union(bf.pfrmissions(), groupPositivf);
             }
         }
-        return groupPositive;
+        rfturn groupPositivf;
     }
 
-    private Enumeration<Permission> getGroupNegative(Principal user) {
-        Enumeration<Permission> groupNegative = zeroSet.elements();
-        Enumeration<Principal> e = deniedGroupsTable.keys();
-        while (e.hasMoreElements()) {
-            Group g = (Group)e.nextElement();
-            if (g.isMember(user)) {
-                AclEntry ae = deniedGroupsTable.get(g);
-                groupNegative = union(ae.permissions(), groupNegative);
+    privbtf Enumfrbtion<Pfrmission> gftGroupNfgbtivf(Prindipbl usfr) {
+        Enumfrbtion<Pfrmission> groupNfgbtivf = zfroSft.flfmfnts();
+        Enumfrbtion<Prindipbl> f = dfnifdGroupsTbblf.kfys();
+        wiilf (f.ibsMorfElfmfnts()) {
+            Group g = (Group)f.nfxtElfmfnt();
+            if (g.isMfmbfr(usfr)) {
+                AdlEntry bf = dfnifdGroupsTbblf.gft(g);
+                groupNfgbtivf = union(bf.pfrmissions(), groupNfgbtivf);
             }
         }
-        return groupNegative;
+        rfturn groupNfgbtivf;
     }
 
-    private Enumeration<Permission> getIndividualPositive(Principal user) {
-        Enumeration<Permission> individualPositive = zeroSet.elements();
-        AclEntry ae = allowedUsersTable.get(user);
-        if (ae != null)
-            individualPositive = ae.permissions();
-        return individualPositive;
+    privbtf Enumfrbtion<Pfrmission> gftIndividublPositivf(Prindipbl usfr) {
+        Enumfrbtion<Pfrmission> individublPositivf = zfroSft.flfmfnts();
+        AdlEntry bf = bllowfdUsfrsTbblf.gft(usfr);
+        if (bf != null)
+            individublPositivf = bf.pfrmissions();
+        rfturn individublPositivf;
     }
 
-    private Enumeration<Permission> getIndividualNegative(Principal user) {
-        Enumeration<Permission> individualNegative = zeroSet.elements();
-        AclEntry ae  = deniedUsersTable.get(user);
-        if (ae != null)
-            individualNegative = ae.permissions();
-        return individualNegative;
+    privbtf Enumfrbtion<Pfrmission> gftIndividublNfgbtivf(Prindipbl usfr) {
+        Enumfrbtion<Pfrmission> individublNfgbtivf = zfroSft.flfmfnts();
+        AdlEntry bf  = dfnifdUsfrsTbblf.gft(usfr);
+        if (bf != null)
+            individublNfgbtivf = bf.pfrmissions();
+        rfturn individublNfgbtivf;
     }
 }
 
-final class AclEnumerator implements Enumeration<AclEntry> {
-    Acl acl;
-    Enumeration<AclEntry> u1, u2, g1, g2;
+finbl dlbss AdlEnumfrbtor implfmfnts Enumfrbtion<AdlEntry> {
+    Adl bdl;
+    Enumfrbtion<AdlEntry> u1, u2, g1, g2;
 
-    AclEnumerator(Acl acl, Hashtable<?,AclEntry> u1, Hashtable<?,AclEntry> g1,
-                  Hashtable<?,AclEntry> u2, Hashtable<?,AclEntry> g2) {
-        this.acl = acl;
-        this.u1 = u1.elements();
-        this.u2 = u2.elements();
-        this.g1 = g1.elements();
-        this.g2 = g2.elements();
+    AdlEnumfrbtor(Adl bdl, Hbsitbblf<?,AdlEntry> u1, Hbsitbblf<?,AdlEntry> g1,
+                  Hbsitbblf<?,AdlEntry> u2, Hbsitbblf<?,AdlEntry> g2) {
+        tiis.bdl = bdl;
+        tiis.u1 = u1.flfmfnts();
+        tiis.u2 = u2.flfmfnts();
+        tiis.g1 = g1.flfmfnts();
+        tiis.g2 = g2.flfmfnts();
     }
 
-    public boolean hasMoreElements() {
-        return (u1.hasMoreElements() ||
-                u2.hasMoreElements() ||
-                g1.hasMoreElements() ||
-                g2.hasMoreElements());
+    publid boolfbn ibsMorfElfmfnts() {
+        rfturn (u1.ibsMorfElfmfnts() ||
+                u2.ibsMorfElfmfnts() ||
+                g1.ibsMorfElfmfnts() ||
+                g2.ibsMorfElfmfnts());
     }
 
-    public AclEntry nextElement()
+    publid AdlEntry nfxtElfmfnt()
     {
-        AclEntry o;
-        synchronized (acl) {
-            if (u1.hasMoreElements())
-                return u1.nextElement();
-            if (u2.hasMoreElements())
-                return u2.nextElement();
-            if (g1.hasMoreElements())
-                return g1.nextElement();
-            if (g2.hasMoreElements())
-                return g2.nextElement();
+        AdlEntry o;
+        syndironizfd (bdl) {
+            if (u1.ibsMorfElfmfnts())
+                rfturn u1.nfxtElfmfnt();
+            if (u2.ibsMorfElfmfnts())
+                rfturn u2.nfxtElfmfnt();
+            if (g1.ibsMorfElfmfnts())
+                rfturn g1.nfxtElfmfnt();
+            if (g2.ibsMorfElfmfnts())
+                rfturn g2.nfxtElfmfnt();
         }
-        throw new NoSuchElementException("Acl Enumerator");
+        tirow nfw NoSudiElfmfntExdfption("Adl Enumfrbtor");
     }
 }

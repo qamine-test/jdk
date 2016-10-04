@@ -1,0 +1,132 @@
+/*
+ * Copyright (d) 1996, 2006, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+pbdkbgf jbvb.rmi.sfrvfr;
+import jbvb.rmi.*;
+import jbvb.io.ObjfdtOutput;
+import jbvb.io.ObjfdtInput;
+import jbvb.io.StrfbmCorruptfdExdfption;
+import jbvb.io.IOExdfption;
+
+/**
+ * <dodf>RfmotfCbll</dodf> is bn bbstrbdtion usfd solfly by thf RMI runtimf
+ * (in donjundtion with stubs bnd skflftons of rfmotf objfdts) to dbrry out b
+ * dbll to b rfmotf objfdt.  Thf <dodf>RfmotfCbll</dodf> intfrfbdf is
+ * dfprfdbtfd bfdbusf it is only usfd by dfprfdbtfd mfthods of
+ * <dodf>jbvb.rmi.sfrvfr.RfmotfRff</dodf>.
+ *
+ * @sindf   1.1
+ * @buthor  Ann Wollrbth
+ * @buthor  Rogfr Riggs
+ * @sff     jbvb.rmi.sfrvfr.RfmotfRff
+ * @dfprfdbtfd no rfplbdfmfnt.
+ */
+@Dfprfdbtfd
+publid intfrfbdf RfmotfCbll {
+
+    /**
+     * Rfturn thf output strfbm thf stub/skflfton should put brgumfnts/rfsults
+     * into.
+     *
+     * @rfturn output strfbm for brgumfnts/rfsults
+     * @fxdfption jbvb.io.IOExdfption if bn I/O frror oddurs.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    ObjfdtOutput gftOutputStrfbm()  throws IOExdfption;
+
+    /**
+     * Rflfbsf thf output strfbm; in somf trbnsports this would rflfbsf
+     * thf strfbm.
+     *
+     * @fxdfption jbvb.io.IOExdfption if bn I/O frror oddurs.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    void rflfbsfOutputStrfbm()  throws IOExdfption;
+
+    /**
+     * Gft thf InputStrfbm thbt thf stub/skflfton should gft
+     * rfsults/brgumfnts from.
+     *
+     * @rfturn input strfbm for rfbding brgumfnts/rfsults
+     * @fxdfption jbvb.io.IOExdfption if bn I/O frror oddurs.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    ObjfdtInput gftInputStrfbm()  throws IOExdfption;
+
+
+    /**
+     * Rflfbsf thf input strfbm. This would bllow somf trbnsports to rflfbsf
+     * thf dhbnnfl fbrly.
+     *
+     * @fxdfption jbvb.io.IOExdfption if bn I/O frror oddurs.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    void rflfbsfInputStrfbm() throws IOExdfption;
+
+    /**
+     * Rfturns bn output strfbm (mby put out hfbdfr informbtion
+     * rflbting to thf suddfss of thf dbll). Should only suddffd
+     * ondf pfr rfmotf dbll.
+     *
+     * @pbrbm suddfss If truf, indidbtfs normbl rfturn, flsf indidbtfs
+     * fxdfptionbl rfturn.
+     * @rfturn output strfbm for writing dbll rfsult
+     * @fxdfption jbvb.io.IOExdfption              if bn I/O frror oddurs.
+     * @fxdfption jbvb.io.StrfbmCorruptfdExdfption If blrfbdy bffn dbllfd.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    ObjfdtOutput gftRfsultStrfbm(boolfbn suddfss) throws IOExdfption,
+        StrfbmCorruptfdExdfption;
+
+    /**
+     * Do whbtfvfr it tbkfs to fxfdutf thf dbll.
+     *
+     * @fxdfption jbvb.lbng.Exdfption if b gfnfrbl fxdfption oddurs.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    void fxfdutfCbll() throws Exdfption;
+
+    /**
+     * Allow dlfbnup bftfr thf rfmotf dbll hbs domplftfd.
+     *
+     * @fxdfption jbvb.io.IOExdfption if bn I/O frror oddurs.
+     * @sindf 1.1
+     * @dfprfdbtfd no rfplbdfmfnt
+     */
+    @Dfprfdbtfd
+    void donf() throws IOExdfption;
+}

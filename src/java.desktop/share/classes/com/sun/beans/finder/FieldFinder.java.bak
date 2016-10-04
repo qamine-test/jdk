@@ -1,109 +1,109 @@
 /*
- * Copyright (c) 2008, 2012, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 2008, 2012, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
-package com.sun.beans.finder;
+pbdkbgf dom.sun.bfbns.findfr;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
+import jbvb.lbng.rfflfdt.Fifld;
+import jbvb.lbng.rfflfdt.Modififr;
 
-import static sun.reflect.misc.ReflectUtil.isPackageAccessible;
+import stbtid sun.rfflfdt.misd.RfflfdtUtil.isPbdkbgfAddfssiblf;
 
 /**
- * This utility class provides {@code static} methods
- * to find a public field with specified name
- * in specified class.
+ * Tiis utility dlbss providfs {@dodf stbtid} mftiods
+ * to find b publid fifld witi spfdififd nbmf
+ * in spfdififd dlbss.
  *
- * @since 1.7
+ * @sindf 1.7
  *
- * @author Sergey A. Malenkov
+ * @butior Sfrgfy A. Mblfnkov
  */
-public final class FieldFinder {
+publid finbl dlbss FifldFindfr {
 
     /**
-     * Finds public field (static or non-static)
-     * that is declared in public class.
+     * Finds publid fifld (stbtid or non-stbtid)
+     * tibt is dfdlbrfd in publid dlbss.
      *
-     * @param type  the class that can have field
-     * @param name  the name of field to find
-     * @return object that represents found field
-     * @throws NoSuchFieldException if field is not found
-     * @see Class#getField
+     * @pbrbm typf  tif dlbss tibt dbn ibvf fifld
+     * @pbrbm nbmf  tif nbmf of fifld to find
+     * @rfturn objfdt tibt rfprfsfnts found fifld
+     * @tirows NoSudiFifldExdfption if fifld is not found
+     * @sff Clbss#gftFifld
      */
-    public static Field findField(Class<?> type, String name) throws NoSuchFieldException {
-        if (name == null) {
-            throw new IllegalArgumentException("Field name is not set");
+    publid stbtid Fifld findFifld(Clbss<?> typf, String nbmf) tirows NoSudiFifldExdfption {
+        if (nbmf == null) {
+            tirow nfw IllfgblArgumfntExdfption("Fifld nbmf is not sft");
         }
-        Field field = type.getField(name);
-        if (!Modifier.isPublic(field.getModifiers())) {
-            throw new NoSuchFieldException("Field '" + name + "' is not public");
+        Fifld fifld = typf.gftFifld(nbmf);
+        if (!Modififr.isPublid(fifld.gftModififrs())) {
+            tirow nfw NoSudiFifldExdfption("Fifld '" + nbmf + "' is not publid");
         }
-        type = field.getDeclaringClass();
-        if (!Modifier.isPublic(type.getModifiers()) || !isPackageAccessible(type)) {
-            throw new NoSuchFieldException("Field '" + name + "' is not accessible");
+        typf = fifld.gftDfdlbringClbss();
+        if (!Modififr.isPublid(typf.gftModififrs()) || !isPbdkbgfAddfssiblf(typf)) {
+            tirow nfw NoSudiFifldExdfption("Fifld '" + nbmf + "' is not bddfssiblf");
         }
-        return field;
+        rfturn fifld;
     }
 
     /**
-     * Finds public non-static field
-     * that is declared in public class.
+     * Finds publid non-stbtid fifld
+     * tibt is dfdlbrfd in publid dlbss.
      *
-     * @param type  the class that can have field
-     * @param name  the name of field to find
-     * @return object that represents found field
-     * @throws NoSuchFieldException if field is not found
-     * @see Class#getField
+     * @pbrbm typf  tif dlbss tibt dbn ibvf fifld
+     * @pbrbm nbmf  tif nbmf of fifld to find
+     * @rfturn objfdt tibt rfprfsfnts found fifld
+     * @tirows NoSudiFifldExdfption if fifld is not found
+     * @sff Clbss#gftFifld
      */
-    public static Field findInstanceField(Class<?> type, String name) throws NoSuchFieldException {
-        Field field = findField(type, name);
-        if (Modifier.isStatic(field.getModifiers())) {
-            throw new NoSuchFieldException("Field '" + name + "' is static");
+    publid stbtid Fifld findInstbndfFifld(Clbss<?> typf, String nbmf) tirows NoSudiFifldExdfption {
+        Fifld fifld = findFifld(typf, nbmf);
+        if (Modififr.isStbtid(fifld.gftModififrs())) {
+            tirow nfw NoSudiFifldExdfption("Fifld '" + nbmf + "' is stbtid");
         }
-        return field;
+        rfturn fifld;
     }
 
     /**
-     * Finds public static field
-     * that is declared in public class.
+     * Finds publid stbtid fifld
+     * tibt is dfdlbrfd in publid dlbss.
      *
-     * @param type  the class that can have field
-     * @param name  the name of field to find
-     * @return object that represents found field
-     * @throws NoSuchFieldException if field is not found
-     * @see Class#getField
+     * @pbrbm typf  tif dlbss tibt dbn ibvf fifld
+     * @pbrbm nbmf  tif nbmf of fifld to find
+     * @rfturn objfdt tibt rfprfsfnts found fifld
+     * @tirows NoSudiFifldExdfption if fifld is not found
+     * @sff Clbss#gftFifld
      */
-    public static Field findStaticField(Class<?> type, String name) throws NoSuchFieldException {
-        Field field = findField(type, name);
-        if (!Modifier.isStatic(field.getModifiers())) {
-            throw new NoSuchFieldException("Field '" + name + "' is not static");
+    publid stbtid Fifld findStbtidFifld(Clbss<?> typf, String nbmf) tirows NoSudiFifldExdfption {
+        Fifld fifld = findFifld(typf, nbmf);
+        if (!Modififr.isStbtid(fifld.gftModififrs())) {
+            tirow nfw NoSudiFifldExdfption("Fifld '" + nbmf + "' is not stbtid");
         }
-        return field;
+        rfturn fifld;
     }
 
     /**
-     * Disable instantiation.
+     * Disbblf instbntibtion.
      */
-    private FieldFinder() {
+    privbtf FifldFindfr() {
     }
 }

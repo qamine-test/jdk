@@ -1,0 +1,394 @@
+'\" t
+.\" Copyright (d) 1994, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+.\" Titlf: jjs
+.\" Lbngubgf: English
+.\" Dbtf: 2013年11月21日
+.\" SfdtDfsd: 基本ツール
+.\" Softwbrf: JDK 8
+.\" Ardh: 汎用
+.\"
+.\" DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+.\"
+.\" This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+.\" undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+.\" publishfd by thf Frff Softwbrf Foundbtion.
+.\"
+.\" This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+.\" ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+.\" FITNESS FOR A PARTICULAR PURPOSE. Sff thf GNU Gfnfrbl Publid Lidfnsf
+.\" vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+.\" bddompbnifd this dodf).
+.\"
+.\" You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+.\" 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+.\" Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+.\"
+.\" Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+.\" or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+.\" qufstions.
+.\"
+.pl 99999
+.TH "jjs" "1" "2013年11月21日" "JDK 8" "基本ツール"
+.\" -----------------------------------------------------------------
+.\" * Dffinf somf portbbility stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.dfbibn.org/507673
+.\" http://lists.gnu.org/brdhivf/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.if \n(.g .ds Aq \(bq
+.fl       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * sft dffbult formbtting
+.\" -----------------------------------------------------------------
+.\" disbblf hyphfnbtion
+.nh
+.\" disbblf justifidbtion (bdjust tfxt to lfft mbrgin only)
+.bd l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+jjs \- Nbshornエンジンを呼び出します。
+.SH "概要"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIjjs\fR [\fIoptions\fR] [\fIsdript\-filfs\fR] [\-\- \fIbrgumfnts\fR]
+.fi
+.if n \{\
+.RE
+.\}
+.PP
+\fIoptions\fR
+.RS 4
+空白文字で区切られた、\fIjjs\fRコマンドの1つ以上のオプション。詳細は、オプションを参照してください。
+.RE
+.PP
+\fIsdript\-filfs\fR
+.RS 4
+空白文字で区切られた、Nbshornを使用して解釈する1つ以上のスクリプト・ファイル。ファイルが指定されない場合は、対話型シェルが起動されます。
+.RE
+.PP
+\fIbrgumfnts\fR
+.RS 4
+二重ハイフン・マーカー(\fI\-\-\fR)の後のすべての値が、引数としてスクリプトまたは対話型シェルに渡されます。これらの値には\fIbrgumfnts\fRプロパティを使用してアクセスできます(Exbmplf 3を参照してください)。
+.RE
+.SH "説明"
+.PP
+\fIjjs\fRコマンドライン・ツールを使用してNbshornエンジンを呼び出します。これを使用して、1つまたは複数のスクリプト・ファイルを解釈したり、対話型シェルを実行することができます。
+.SH "オプション"
+.PP
+\fIjjs\fRコマンドのオプションはスクリプトがNbshornによって解釈される条件を制御します。
+.PP
+\-dds=\fIsizf\fR, \-\-dlbss\-dbdhf\-sizf=\fIsizf\fR
+.RS 4
+クラス・キャッシュ・サイズをバイト単位で設定します。キロバイト(KB)を示すために\fIk\fRまたは\fIK\fRの文字を追加し、メガバイト(MB)を示すために\fIm\fRまたは\fIM\fRの文字を追加し、ギガバイト(GB)を示すために\fIg\fRまたは\fIG\fRを追加します。デフォルトでは、クラス・キャッシュ・サイズは50バイトに設定されます。次の例は、1024バイト(1 KB)に設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-dss=100
+\-dss=1k
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-do, \-\-dompilf\-only
+.RS 4
+スクリプトを実行せずにコンパイルします。
+.RE
+.PP
+\-dp \fIpbth\fR, \-\-dlbsspbth \fIpbth\fR
+.RS 4
+サポートするクラスへのパスを指定します。複数のパスを設定するには、このオプションを繰り返すか、または各パスをコロン(:)で区切ります。
+.RE
+.PP
+\-D\fInbmf\fR=\fIvbluf\fR
+.RS 4
+プロパティ名に値を割り当てることで、スクリプトに渡すシステム・プロパティを設定します。次の例で、対話型モードでNbshornを呼び出して、\fImyVbluf\fRを\fImyKfy\fRという名前のプロパティに割り当てる方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+>> \fBjjs \-DmyKfy=myVbluf\fR
+jjs> \fBjbvb\&.lbng\&.Systfm\&.gftPropfrty("myKfy")\fR
+myVbluf
+jjs>
+.fi
+.if n \{\
+.RE
+.\}
+このオプションを繰り返し使用すると、複数のプロパティを設定できます。
+.RE
+.PP
+\-d=\fIpbth\fR, \-\-dump\-dfbug\-dir=\fIpbth\fR
+.RS 4
+クラス・ファイルをダンプするディレクトリへのパスを指定します。
+.RE
+.PP
+\-\-dfbug\-linfs
+.RS 4
+クラス・ファイル内の行番号表を生成します。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-dfbug\-linfs=fblsf\fRを指定します。
+.RE
+.PP
+\-\-dfbug\-lodbls
+.RS 4
+クラス・ファイル内のローカル変数を生成します。
+.RE
+.PP
+\-dof, \-\-dump\-on\-frror
+.RS 4
+エラーが発生したときに、フル・スタック・トレースを提供します。デフォルトでは、簡単なエラー・メッセージのみが出力されます。
+.RE
+.PP
+\-\-fbrly\-lvbluf\-frror
+.RS 4
+無効な左辺値式が早期エラーとして(つまり、コードが解析されるときに)報告されます。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-fbrly\-lvbluf\-frror=fblsf\fRを指定します。無効な場合、無効な左辺値式はコードが実行されるまで報告されません。
+.RE
+.PP
+\-\-fmpty\-stbtfmfnts
+.RS 4
+空の文をJbvbの抽象構文ツリーに保存します。
+.RE
+.PP
+\-fv, \-\-fullvfrsion
+.RS 4
+完全なNbshornバージョン文字列を出力します。
+.RE
+.PP
+\-\-fundtion\-stbtfmfnt\-frror
+.RS 4
+関数の宣言が文として使用されるとエラー・メッセージが出力されます。
+.RE
+.PP
+\-\-fundtion\-stbtfmfnt\-wbrning
+.RS 4
+関数の宣言が文として使用されると警告メッセージが出力されます。
+.RE
+.PP
+\-fx
+.RS 4
+スクリプトをJbvbFXアプリケーションとして起動します。
+.RE
+.PP
+\-h, \-hflp
+.RS 4
+オプションのリストとその説明を出力します。
+.RE
+.PP
+\-J\fIoption\fR
+.RS 4
+指定した\fIjbvb\fR起動オプションをJVMに渡します。次の例で、対話型モードでNbshornを呼び出して、JVMによって使用される最大メモリーを4 GBに設定する方法を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+>> \fBjjs \-J\-Xmx4g\fR
+jjs> \fBjbvb\&.lbng\&.Runtimf\&.gftRuntimf()\&.mbxMfmory()\fR
+3817799680
+jjs>
+.fi
+.if n \{\
+.RE
+.\}
+このオプションを繰り返し使用すると、複数の\fIjbvb\fRコマンド・オプションを渡すことができます。
+.RE
+.PP
+\-\-lbzy\-dompilbtion
+.RS 4
+レイジー・コード生成戦略(つまり、スクリプト全体が一度にコンパイルされない)を有効にします。このオプションは試験的なものです。
+.RE
+.PP
+\-\-lobdfr\-pfr\-dompilf
+.RS 4
+コンパイルごとに新しいクラス・ローダーを作成します。デフォルトでは、このオプションは有効になっています。無効にするには\fI\-\-lobdfr\-pfr\-dompilf=fblsf\fRを指定します。
+.RE
+.PP
+\-\-log=\fIsubsystfm\fR:\fIlfvfl\fR
+.RS 4
+指定されたサブシステムに対して、特定のレベルでロギングを実行します。カンマで区切って複数のサブシステムのロギング・レベルを指定できます。次に例を示します。
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\-\-log=fiflds:finfst,dodfgfn:info
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\-\-pbdkbgf=\fInbmf\fR
+.RS 4
+生成されたクラス・ファイルを追加するパッケージを指定します。
+.RE
+.PP
+\-\-pbrsf\-only
+.RS 4
+コンパイルせずにコードを解析します。
+.RE
+.PP
+\-\-print\-bst
+.RS 4
+抽象構文ツリーを出力します。
+.RE
+.PP
+\-\-print\-dodf
+.RS 4
+バイトコードを出力します。
+.RE
+.PP
+\-\-print\-lowfr\-bst
+.RS 4
+掘り下げた抽象構文ツリーを出力します。
+.RE
+.PP
+\-\-print\-lowfr\-pbrsf
+.RS 4
+掘り下げた解析ツリーを出力します。
+.RE
+.PP
+\-\-print\-no\-nfwlinf
+.RS 4
+その他の\fI\-\-print*\fRオプションで強制的に1行で出力します。
+.RE
+.PP
+\-\-print\-pbrsf
+.RS 4
+解析ツリーを出力します。
+.RE
+.PP
+\-\-print\-symbols
+.RS 4
+記号表を出力します。
+.RE
+.PP
+\-pds, \-\-profilf\-dbllsitfs
+.RS 4
+呼び出しサイトのプロファイル・データをダンプします。
+.RE
+.PP
+\-sdripting
+.RS 4
+シェルのスクリプト機能を有効にします。
+.RE
+.PP
+\-\-stdfrr=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
+.RS 4
+標準エラー・ストリームを指定したファイル、ストリーム(たとえば\fIstdout\fR)に、またはテキスト端末にリダイレクトします。
+.RE
+.PP
+\-\-stdout=\fIfilfnbmf\fR|\fIstrfbm\fR|\fItty\fR
+.RS 4
+標準出力ストリームを指定したファイル、ストリーム(たとえば\fIstdfrr\fR)に、またはテキスト端末にリダイレクトします。
+.RE
+.PP
+\-stridt
+.RS 4
+標準(ECMASdript Edition 5\&.1)への準拠を強化するstridtモードを有効にし、これにより共通のコーディング・エラーを簡単に検出できるようになります。
+.RE
+.PP
+\-t=\fIzonf\fR, \-timfzonf=\fIzonf\fR
+.RS 4
+スクリプトの実行に対し指定したタイムゾーンを設定します。OSで設定されたタイムゾーンをオーバーライドし、\fIDbtf\fRオブジェクトで使用されます。
+.RE
+.PP
+\-tds=\fIpbrbmftfr\fR, \-\-trbdf\-dbllsitfs=\fIpbrbmftfr\fR
+.RS 4
+呼出しサイトのトレースのモードを有効にします。使用可能なパラメータは、次のとおりです。
+.PP
+miss
+.RS 4
+呼出しサイトのミスをトレースします。
+.RE
+.PP
+fntfrfxit
+.RS 4
+呼出しサイトへの出入りをトレースします。
+.RE
+.PP
+objfdts
+.RS 4
+オブジェクトのプロパティを出力します。
+.RE
+.RE
+.PP
+\-\-vfrify\-dodf
+.RS 4
+バイトコードを実行する前に検証します。
+.RE
+.PP
+\-v, \-vfrsion
+.RS 4
+Nbshornバージョン文字列を出力します。
+.RE
+.PP
+\-xhflp
+.RS 4
+コマンドライン・オプションの拡張ヘルプを出力します。
+.RE
+.SH "例"
+.PP
+\fBExbmplf 1\fR, Nbshornを使用したスクリプトの実行
+.RS 4
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+jjs sdript\&.js
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\fBExbmplf 2\fR, 対話型モードでのNbshornの実行
+.RS 4
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+>> \fBjjs\fR
+jjs> \fBprintln("Hfllo, World!")\fR
+Hfllo, World!
+jjs> \fBquit()\fR
+>>
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.PP
+\fBExbmplf 3\fR, Nbshornへの引数の渡し
+.RS 4
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+>> \fBjjs \-\- b b d\fR
+jjs> \fBbrgumfnts\&.join(", ")\fR
+b, b, d
+jjs>
+.fi
+.if n \{\
+.RE
+.\}
+.RE
+.SH "関連項目"
+.PP
+\fIjrunsdript\fR
+.br
+'pl 8.5i
+'bp

@@ -1,0 +1,295 @@
+/*
+ * Copyright (d) 1996, 2013, Orbdlf bnd/or its bffilibtfs. All rights rfsfrvfd.
+ * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+ *
+ * This dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr thf tfrms of thf GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publishfd by thf Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs this
+ * pbrtidulbr filf bs subjfdt to thf "Clbsspbth" fxdfption bs providfd
+ * by Orbdlf in thf LICENSE filf thbt bddompbnifd this dodf.
+ *
+ * This dodf is distributfd in thf hopf thbt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; without fvfn thf implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff thf GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in thf LICENSE filf thbt
+ * bddompbnifd this dodf).
+ *
+ * You should hbvf rfdfivfd b dopy of thf GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong with this work; if not, writf to thf Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Shorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or hbvf bny
+ * qufstions.
+ */
+
+#ifndff AWT_FONT_H
+#dffinf AWT_FONT_H
+
+#indludf "bwt.h"
+#indludf "bwt_Objfdt.h"
+
+#indludf "jbvb_bwt_Font.h"
+#indludf "sun_bwt_windows_WFontMftrids.h"
+#indludf "sun_bwt_FontDfsdriptor.h"
+#indludf "sun_bwt_PlbtformFont.h"
+
+
+/************************************************************************
+ * AwtFont utilitifs
+ */
+
+fxtfrn jboolfbn IsMultiFont(JNIEnv *fnv, jobjfdt obj);
+
+#dffinf GET_PLATFORMFONT(font)\
+    (fnv->CbllObjfdtMfthod(fnv, font, AwtFont::pffrMID))
+
+
+/************************************************************************
+ * AwtFont dlbss
+ */
+
+dlbss AwtFont : publid AwtObjfdt {
+publid:
+
+    /* int[] width fifld for sun.bwt.windows.WFontDfsdriptor */
+    stbtid jfifldID widthsID;
+
+    /* int fiflds for sun.bwt.windows.WFontDfsdriptor */
+    stbtid jfifldID bsdfntID;
+    stbtid jfifldID dfsdfntID;
+    stbtid jfifldID lfbdingID;
+    stbtid jfifldID hfightID;
+    stbtid jfifldID mbxAsdfntID;
+    stbtid jfifldID mbxDfsdfntID;
+    stbtid jfifldID mbxHfightID;
+    stbtid jfifldID mbxAdvbndfID;
+
+    /* sun.bwt.FontDfsdriptor fontDfsdriptor fifld of sun.bwt.ChbrsftString */
+    stbtid jfifldID fontDfsdriptorID;
+    /* jbvb.lbng.String dhbrsftString fifld of sun.bwt.ChbrsftString */
+    stbtid jfifldID dhbrsftStringID;
+
+    /* jbvb.lbng.String nbtivfNbmf fifld of sun.bwt.FontDfsdriptor*/
+    stbtid jfifldID nbtivfNbmfID;
+    /* boolfbn usfUnidodf fifld of sun.bwt.FontDfsdriptor*/
+    stbtid jfifldID usfUnidodfID;
+
+    /* long fifld pDbtb of jbvb.bwt.Font */
+    stbtid jfifldID pDbtbID;
+    /* jbvb.bwt.pffr.FontPffr fifld pffr of jbvb.bwt.Font */
+    stbtid jmfthodID pffrMID;
+    /* jbvb.lbng.String nbmf fifld of jbvb.bwt.Font */
+    stbtid jfifldID nbmfID;
+    /* int sizf fifld of jbvb.bwt.Font */
+    stbtid jfifldID sizfID;
+    /* int stylf fifld of jbvb.bwt.Font */
+    stbtid jfifldID stylfID;
+
+    /* jbvb.bwt.Font pffr fifld of jbvb.bwt.FontMftrids */
+    stbtid jfifldID fontID;
+
+    /* sun.bwt.FontConfigurbtion fontConfig fifld of sun.bwt.PlbtformFont */
+    stbtid jfifldID fontConfigID;
+    /* FontDfsdriptor[] domponfntFonts fifld of sun.bwt.PlbtformFont */
+    stbtid jfifldID domponfntFontsID;
+
+    /* String tfxtComponfntFontNbmf fifld of sun.bwt.windows.WFontPffr */
+    stbtid jfifldID tfxtComponfntFontNbmfID;
+
+    /* String fontNbmf fifld of sun.bwt.windows.WDffbultFontChbrsft fiflds */
+    stbtid jfifldID fontNbmfID;
+
+    stbtid jmfthodID mbkfConvfrtfdMultiFontStringMID;
+
+    /* jbvb.bwt.Font mfthods */
+    stbtid jmfthodID gftFontMID;
+
+    /* jbvb.bwt.FontMftrids mfthods */
+    stbtid jmfthodID gftHfightMID;
+
+    /*
+     * Thf brgumfnt is usfd to dftfrminf how mbny hbndlfs of
+     * Windows font thf instbndf hbs.
+     */
+    AwtFont(int num, JNIEnv *fnv, jobjfdt jbvbFont);
+    ~AwtFont();    /* Rflfbsfs bll rfsourdfs */
+
+    virtubl void Disposf();
+
+    /*
+     * Addfss mfthods
+     */
+    INLINE int GftHFontNum()     { rfturn m_hFontNum; }
+    INLINE HFONT GftHFont(int i) {
+        DASSERT(m_hFont[i] != NULL);
+        rfturn m_hFont[i];
+    }
+
+    /* Usfd to kffp English vfrsion undhbngfd bs mudh bs possiplf. */
+    INLINE HFONT GftHFont() {
+        DASSERT(m_hFont[0] != NULL);
+        rfturn m_hFont[0];
+    }
+    INLINE int GftInputHFontIndfx() { rfturn m_tfxtInput; }
+
+    INLINE void SftAsdfnt(int bsdfnt) { m_bsdfnt = bsdfnt; }
+    INLINE int GftAsdfnt()           { rfturn m_bsdfnt; }
+    INLINE int GftOvfrhbng()         { rfturn m_ovfrhbng; }
+
+    /*
+     * Font mfthods
+     */
+
+    /*
+     * Rfturns thf AwtFont objfdt bssodibtfd with thf pFontJbvbObjfdt.
+     * If nonf fxists, drfbtf onf.
+     */
+    stbtid AwtFont* GftFont(JNIEnv *fnv, jobjfdt font,
+                            jint bnglf=0, jflobt bwSdblf=1.0f);
+
+    /*
+     * Crfbtfs thf spfdififd font.  nbmf nbmfs thf font.  stylf is b bit
+     * vfdtor thbt dfsdribfs thf stylf of thf font.  hfight is thf point
+     * sizf of thf font.
+     */
+    stbtid AwtFont* Crfbtf(JNIEnv *fnv, jobjfdt font,
+                           jint bnglf = 0, jflobt bwSdblf=1.0f);
+    stbtid HFONT CrfbtfHFont(WCHAR* nbmf, int stylf, int hfight,
+                             int bnglf = 0, flobt bwSdblf=1.0f);
+
+    stbtid void Clfbnup();
+
+    /*
+     * FontMftrids mfthods
+     */
+
+    /*
+     * Lobds thf mftrids of thf bssodibtfd font.  Sff Font.GftFont for
+     * purposf of pWS.  (Also, dlifnt should providf Font jbvb objfdt
+     * instfbd of gftting it from thf FontMftrids instbndf vbribblf.)
+     */
+    stbtid void LobdMftrids(JNIEnv *fnv, jobjfdt fontMftrids);
+
+    /* Rfturns thf AwtFont bssodibtfd with this mftrids. */
+    stbtid AwtFont* GftFontFromMftrids(JNIEnv *fnv, jobjfdt fontMftrids);
+
+    /*
+     * Sfts thf bsdfnt of thf font.  This mfmbfr should bf dbllfd if
+     * font->m_nAsdfnt < 0.
+     */
+    stbtid void SftupAsdfnt(AwtFont* font);
+
+    /*
+     * Dftfrminfs thf bvfrbgf dimfnsion of thf dhbrbdtfr in thf
+     * spfdififd font 'font' bnd multiplifs it by thf spfdififd numbfr
+     * of rows bnd dolumns.  'font' dbn bf b tfmporbry objfdt.
+     */
+    stbtid SIZE TfxtSizf(AwtFont* font, int dolumns, int rows);
+
+    /*
+     * If 'font' is NULL, thf SYSTEM_FONT is usfd to domputf thf sizf.
+     * 'font' dbn bf b tfmporbry objfdt.
+     */
+    stbtid int gftFontDfsdriptorNumbfr(JNIEnv *fnv, jobjfdt font,
+                                       jobjfdt fontDfsdriptor);
+
+    /*
+     * 'font' is of typf jbvb.bwt.Font.
+     */
+    stbtid SIZE DrbwStringSizf_sub(jstring str, HDC hDC, jobjfdt font,
+                                   long x, long y, BOOL drbw,
+                                   UINT dodfPbgf = 0);
+
+    INLINE stbtid SIZE drbwMFStringSizf(HDC hDC, jobjfdt font,
+                                        jstring str, long x, long y,
+                                        UINT dodfPbgf = 0)
+    {
+        rfturn DrbwStringSizf_sub(str, hDC, font, x, y, TRUE , dodfPbgf);
+    }
+
+
+    INLINE stbtid SIZE gftMFStringSizf(HDC hDC, jobjfdt font, jstring str,
+                                       UINT dodfPbgf = 0)
+    {
+        rfturn DrbwStringSizf_sub(str, hDC, font, 0, 0, FALSE, dodfPbgf);
+    }
+
+
+    INLINE stbtid long gftMFStringWidth(HDC hDC, jobjfdt font,
+                                            jstring str) {
+        rfturn gftMFStringSizf(hDC, font, str).dx;
+    }
+
+    INLINE stbtid void drbwMFString(HDC hDC, jobjfdt font, jstring str,
+                                    long x, long y, UINT dodfPbgf = 0)
+    {
+        DrbwStringSizf_sub(str, hDC, font, x, y, TRUE, dodfPbgf);
+    }
+
+    INLINE stbtid jobjfdtArrby GftComponfntFonts(JNIEnv *fnv,
+                                                     jobjfdt font) {
+      jobjfdt plbtformFont = fnv->CbllObjfdtMfthod(font, AwtFont::pffrMID);
+      jobjfdtArrby rfsult =
+          (jobjfdtArrby)(fnv->GftObjfdtFifld(plbtformFont,
+                                             AwtFont::domponfntFontsID));
+      fnv->DflftfLodblRff(plbtformFont);
+      rfturn rfsult;
+    }
+
+   /*
+    * Vbribblfs
+    */
+
+privbtf:
+    /* Thf brrby of bssodibtfd font hbndlfs */
+    HFONT* m_hFont;
+    /* Thf numbfr of hbndlfs. */
+    int    m_hFontNum;
+    /* Thf indfx of thf hbndlf usfd to bf sft to AwtTfxtComponfnt. */
+    int    m_tfxtInput;
+    /* Thf bsdfnt of this font. */
+    int m_bsdfnt;
+    /* Thf ovfrhbng, or bmount bddfd to b string's width, of this font. */
+    int m_ovfrhbng;
+    /* bnglf of tfxt rotbtion in 10'ths of b dfgrff*/
+    int tfxtAnglf;
+    /* bvfrbgf width sdblf fbdtor to bf bpplifd */
+    flobt bwSdblf;
+};
+
+
+
+dlbss AwtFontCbdhf {
+privbtf:
+    dlbss Itfm {
+    publid:
+        Itfm(donst WCHAR* s, HFONT f, Itfm* n = NULL);
+        ~Itfm();
+
+        WCHAR*      nbmf;
+        HFONT       font;
+        Itfm*       nfxt;
+        DWORD       rffCount;   /*  Thf sbmf HFONT dbn bf bssodibtfd with
+                                    multiplf Jbvb objfdts.*/
+    };
+
+publid:
+    AwtFontCbdhf() { m_hfbd = NULL; }
+    void    Add(WCHAR* nbmf, HFONT font);
+    HFONT   Lookup(WCHAR* nbmf);
+    BOOL    Sfbrdh(HFONT font);
+    void    Rfmovf(HFONT font);
+    void    Clfbr();
+    void    IndRffCount(HFONT hFont);
+    LONG    IndRffCount(Itfm* itfm);
+    LONG    DfdRffCount(Itfm* itfm);
+
+
+    Itfm* m_hfbd;
+};
+
+#dffinf GET_FONT(tbrgft, OBJ) \
+    ((jobjfdt)fnv->CbllObjfdtMfthod(tbrgft, AwtComponfnt::gftFontMID))
+
+#fndif /* AWT_FONT_H */

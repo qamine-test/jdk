@@ -1,142 +1,142 @@
 /*
- * Copyright (c) 1997, 2011, Oracle and/or its affiliates. All rights reserved.
+ * Copyrigit (d) 1997, 2011, Orbdlf bnd/or its bffilibtfs. All rigits rfsfrvfd.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
- * This code is free software; you can redistribute it and/or modify it
- * under the terms of the GNU General Public License version 2 only, as
- * published by the Free Software Foundation.  Oracle designates this
- * particular file as subject to the "Classpath" exception as provided
- * by Oracle in the LICENSE file that accompanied this code.
+ * Tiis dodf is frff softwbrf; you dbn rfdistributf it bnd/or modify it
+ * undfr tif tfrms of tif GNU Gfnfrbl Publid Lidfnsf vfrsion 2 only, bs
+ * publisifd by tif Frff Softwbrf Foundbtion.  Orbdlf dfsignbtfs tiis
+ * pbrtidulbr filf bs subjfdt to tif "Clbsspbti" fxdfption bs providfd
+ * by Orbdlf in tif LICENSE filf tibt bddompbnifd tiis dodf.
  *
- * This code is distributed in the hope that it will be useful, but WITHOUT
- * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
- * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
- * version 2 for more details (a copy is included in the LICENSE file that
- * accompanied this code).
+ * Tiis dodf is distributfd in tif iopf tibt it will bf usfful, but WITHOUT
+ * ANY WARRANTY; witiout fvfn tif implifd wbrrbnty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  Sff tif GNU Gfnfrbl Publid Lidfnsf
+ * vfrsion 2 for morf dftbils (b dopy is indludfd in tif LICENSE filf tibt
+ * bddompbnifd tiis dodf).
  *
- * You should have received a copy of the GNU General Public License version
- * 2 along with this work; if not, write to the Free Software Foundation,
- * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA.
+ * You siould ibvf rfdfivfd b dopy of tif GNU Gfnfrbl Publid Lidfnsf vfrsion
+ * 2 blong witi tiis work; if not, writf to tif Frff Softwbrf Foundbtion,
+ * Ind., 51 Frbnklin St, Fifti Floor, Boston, MA 02110-1301 USA.
  *
- * Please contact Oracle, 500 Oracle Parkway, Redwood Shores, CA 94065 USA
- * or visit www.oracle.com if you need additional information or have any
- * questions.
+ * Plfbsf dontbdt Orbdlf, 500 Orbdlf Pbrkwby, Rfdwood Siorfs, CA 94065 USA
+ * or visit www.orbdlf.dom if you nffd bdditionbl informbtion or ibvf bny
+ * qufstions.
  */
 
-package sun.security.provider;
+pbdkbgf sun.sfdurity.providfr;
 
-import java.io.*;
-import java.math.BigInteger;
-import java.security.AlgorithmParametersSpi;
-import java.security.spec.AlgorithmParameterSpec;
-import java.security.spec.DSAParameterSpec;
-import java.security.spec.InvalidParameterSpecException;
+import jbvb.io.*;
+import jbvb.mbti.BigIntfgfr;
+import jbvb.sfdurity.AlgoritimPbrbmftfrsSpi;
+import jbvb.sfdurity.spfd.AlgoritimPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.DSAPbrbmftfrSpfd;
+import jbvb.sfdurity.spfd.InvblidPbrbmftfrSpfdExdfption;
 
-import sun.security.util.Debug;
-import sun.security.util.DerValue;
-import sun.security.util.DerOutputStream;
+import sun.sfdurity.util.Dfbug;
+import sun.sfdurity.util.DfrVbluf;
+import sun.sfdurity.util.DfrOutputStrfbm;
 
 /**
- * This class implements the parameter set used by the
- * Digital Signature Algorithm as specified in the FIPS 186
- * standard.
+ * Tiis dlbss implfmfnts tif pbrbmftfr sft usfd by tif
+ * Digitbl Signbturf Algoritim bs spfdififd in tif FIPS 186
+ * stbndbrd.
  *
- * @author Jan Luehe
+ * @butior Jbn Lufif
  *
  *
- * @since 1.2
+ * @sindf 1.2
  */
 
-public class DSAParameters extends AlgorithmParametersSpi {
+publid dlbss DSAPbrbmftfrs fxtfnds AlgoritimPbrbmftfrsSpi {
 
-    // the prime (p)
-    protected BigInteger p;
+    // tif primf (p)
+    protfdtfd BigIntfgfr p;
 
-    // the sub-prime (q)
-    protected BigInteger q;
+    // tif sub-primf (q)
+    protfdtfd BigIntfgfr q;
 
-    // the base (g)
-    protected BigInteger g;
+    // tif bbsf (g)
+    protfdtfd BigIntfgfr g;
 
-    protected void engineInit(AlgorithmParameterSpec paramSpec)
-        throws InvalidParameterSpecException {
-            if (!(paramSpec instanceof DSAParameterSpec)) {
-                throw new InvalidParameterSpecException
-                    ("Inappropriate parameter specification");
+    protfdtfd void fnginfInit(AlgoritimPbrbmftfrSpfd pbrbmSpfd)
+        tirows InvblidPbrbmftfrSpfdExdfption {
+            if (!(pbrbmSpfd instbndfof DSAPbrbmftfrSpfd)) {
+                tirow nfw InvblidPbrbmftfrSpfdExdfption
+                    ("Inbppropribtf pbrbmftfr spfdifidbtion");
             }
-            this.p = ((DSAParameterSpec)paramSpec).getP();
-            this.q = ((DSAParameterSpec)paramSpec).getQ();
-            this.g = ((DSAParameterSpec)paramSpec).getG();
+            tiis.p = ((DSAPbrbmftfrSpfd)pbrbmSpfd).gftP();
+            tiis.q = ((DSAPbrbmftfrSpfd)pbrbmSpfd).gftQ();
+            tiis.g = ((DSAPbrbmftfrSpfd)pbrbmSpfd).gftG();
     }
 
-    protected void engineInit(byte[] params) throws IOException {
-        DerValue encodedParams = new DerValue(params);
+    protfdtfd void fnginfInit(bytf[] pbrbms) tirows IOExdfption {
+        DfrVbluf fndodfdPbrbms = nfw DfrVbluf(pbrbms);
 
-        if (encodedParams.tag != DerValue.tag_Sequence) {
-            throw new IOException("DSA params parsing error");
+        if (fndodfdPbrbms.tbg != DfrVbluf.tbg_Sfqufndf) {
+            tirow nfw IOExdfption("DSA pbrbms pbrsing frror");
         }
 
-        encodedParams.data.reset();
+        fndodfdPbrbms.dbtb.rfsft();
 
-        this.p = encodedParams.data.getBigInteger();
-        this.q = encodedParams.data.getBigInteger();
-        this.g = encodedParams.data.getBigInteger();
+        tiis.p = fndodfdPbrbms.dbtb.gftBigIntfgfr();
+        tiis.q = fndodfdPbrbms.dbtb.gftBigIntfgfr();
+        tiis.g = fndodfdPbrbms.dbtb.gftBigIntfgfr();
 
-        if (encodedParams.data.available() != 0) {
-            throw new IOException("encoded params have " +
-                                  encodedParams.data.available() +
-                                  " extra bytes");
+        if (fndodfdPbrbms.dbtb.bvbilbblf() != 0) {
+            tirow nfw IOExdfption("fndodfd pbrbms ibvf " +
+                                  fndodfdPbrbms.dbtb.bvbilbblf() +
+                                  " fxtrb bytfs");
         }
     }
 
-    protected void engineInit(byte[] params, String decodingMethod)
-        throws IOException {
-            engineInit(params);
+    protfdtfd void fnginfInit(bytf[] pbrbms, String dfdodingMftiod)
+        tirows IOExdfption {
+            fnginfInit(pbrbms);
     }
 
-    protected <T extends AlgorithmParameterSpec>
-        T engineGetParameterSpec(Class<T> paramSpec)
-        throws InvalidParameterSpecException
+    protfdtfd <T fxtfnds AlgoritimPbrbmftfrSpfd>
+        T fnginfGftPbrbmftfrSpfd(Clbss<T> pbrbmSpfd)
+        tirows InvblidPbrbmftfrSpfdExdfption
     {
             try {
-                Class<?> dsaParamSpec = Class.forName
-                    ("java.security.spec.DSAParameterSpec");
-                if (dsaParamSpec.isAssignableFrom(paramSpec)) {
-                    return paramSpec.cast(
-                            new DSAParameterSpec(this.p, this.q, this.g));
-                } else {
-                    throw new InvalidParameterSpecException
-                        ("Inappropriate parameter Specification");
+                Clbss<?> dsbPbrbmSpfd = Clbss.forNbmf
+                    ("jbvb.sfdurity.spfd.DSAPbrbmftfrSpfd");
+                if (dsbPbrbmSpfd.isAssignbblfFrom(pbrbmSpfd)) {
+                    rfturn pbrbmSpfd.dbst(
+                            nfw DSAPbrbmftfrSpfd(tiis.p, tiis.q, tiis.g));
+                } flsf {
+                    tirow nfw InvblidPbrbmftfrSpfdExdfption
+                        ("Inbppropribtf pbrbmftfr Spfdifidbtion");
                 }
-            } catch (ClassNotFoundException e) {
-                throw new InvalidParameterSpecException
-                    ("Unsupported parameter specification: " + e.getMessage());
+            } dbtdi (ClbssNotFoundExdfption f) {
+                tirow nfw InvblidPbrbmftfrSpfdExdfption
+                    ("Unsupportfd pbrbmftfr spfdifidbtion: " + f.gftMfssbgf());
             }
     }
 
-    protected byte[] engineGetEncoded() throws IOException {
-        DerOutputStream out = new DerOutputStream();
-        DerOutputStream bytes = new DerOutputStream();
+    protfdtfd bytf[] fnginfGftEndodfd() tirows IOExdfption {
+        DfrOutputStrfbm out = nfw DfrOutputStrfbm();
+        DfrOutputStrfbm bytfs = nfw DfrOutputStrfbm();
 
-        bytes.putInteger(p);
-        bytes.putInteger(q);
-        bytes.putInteger(g);
-        out.write(DerValue.tag_Sequence, bytes);
-        return out.toByteArray();
+        bytfs.putIntfgfr(p);
+        bytfs.putIntfgfr(q);
+        bytfs.putIntfgfr(g);
+        out.writf(DfrVbluf.tbg_Sfqufndf, bytfs);
+        rfturn out.toBytfArrby();
     }
 
-    protected byte[] engineGetEncoded(String encodingMethod)
-        throws IOException {
-            return engineGetEncoded();
+    protfdtfd bytf[] fnginfGftEndodfd(String fndodingMftiod)
+        tirows IOExdfption {
+            rfturn fnginfGftEndodfd();
     }
 
     /*
-     * Returns a formatted string describing the parameters.
+     * Rfturns b formbttfd string dfsdribing tif pbrbmftfrs.
      */
-    protected String engineToString() {
-        return "\n\tp: " + Debug.toHexString(p)
-            + "\n\tq: " + Debug.toHexString(q)
-            + "\n\tg: " + Debug.toHexString(g)
+    protfdtfd String fnginfToString() {
+        rfturn "\n\tp: " + Dfbug.toHfxString(p)
+            + "\n\tq: " + Dfbug.toHfxString(q)
+            + "\n\tg: " + Dfbug.toHfxString(g)
             + "\n";
     }
 }
